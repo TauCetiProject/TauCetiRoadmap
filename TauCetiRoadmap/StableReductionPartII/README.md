@@ -291,7 +291,7 @@ A marking permutation is a separately specified arrow, not an equality of ordere
 
 ([stacks-noetherian-valuative-KKjBS6](#references), Lemmas 32.10.1 (01ZM), pp. 25–27; 32.10.2 (01ZR), pp. 27–28; 32.4.15 (09MT), p. 9. Finite-presentation objects, arrows and equalities admit finite-stage models; ampleness can be detected at a later stage.; [mc0-stacks-curves](#references), Lemmas 53.20.1 (0C59), 53.20.9–53.20.10 (0C5E–0C5F), pp. 49–51. Nodality is described by finitely presented local conditions, is fpqc local and spreads through affine-transition limits.; [knudsen2](#references), Definition 1.1, pp. 162–163; Definition 1.2, p. 164. The curve, section and fibrewise stability conditions being spread are those of the pointed moduli problem.)
 
-*Needs:* SchemeAndStackFoundations §0.9, SchemeAndStackFoundations §0.8, StableReduction Layer 0, StableReduction Layer 1, StableReduction Layer 2, StableReduction Layer 3.
+*Needs:* SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, StableReduction Layer 0, StableReduction Layer 1, StableReduction Layer 2, StableReduction Layer 3.
 
 ### 0.2 Genus and cohomology over arbitrary bases
 
@@ -376,7 +376,7 @@ The construction has the following API.
 
 ### 0.5 Effective descent of the geometric pointed moduli problem
 
-For an fppf covering of any scheme S, restriction of either the stable or the smooth pointed genus-(g,n) groupoid to its descent-data category is an equivalence. In the stable case, a family isomorphism cocycle induces a specified cocycle of isomorphisms on L=ω(ΣD_i), using rigidity/base-change coherence; this is a lift of the cocycle to line-bundle data, not merely invariance of a line-bundle isomorphism class. Apply polarized descent to obtain a scheme family and descend the marking sections and their equalities. The descended geometric predicates and fixed genus are the ones of [geometric realization of the pointed moduli pseudofunctor](#04-geometric-realization-of-the-pointed-moduli-pseudofunctor). These equivalences give the native Pseudofunctor.IsStack instance for Scheme.fppfTopology and the specified groupoid fibres separately. On the locally Noetherian étale subsite the descended family and log line agree, by a uniquely determined isomorphism compatible with the chosen descent identifications, with the polarized descent by StableReduction Layer 2. The same uniqueness compares with the polarized descent comparison of AlgebraicModuliForArithmeticGeometry §§3.1–3.5 on their common domain.
+For an fppf covering of any scheme S, restriction of either the stable or the smooth pointed genus-(g,n) groupoid to its descent-data category is an equivalence. In the stable case, a family isomorphism cocycle induces a specified cocycle of isomorphisms on L=ω(ΣD_i), using rigidity/base-change coherence; this is a lift of the cocycle to line-bundle data, not merely invariance of a line-bundle isomorphism class. Apply polarized descent to obtain a scheme family and descend the marking sections and their equalities. The descended geometric predicates and fixed genus are the ones of [geometric realization of the pointed moduli pseudofunctor](#04-geometric-realization-of-the-pointed-moduli-pseudofunctor). These equivalences give the native Pseudofunctor.IsStack instance for Scheme.fppfTopology and the specified groupoid fibres separately. On the locally Noetherian étale subsite the descended family and log line agree, by a uniquely determined isomorphism compatible with the chosen descent identifications, with the polarized descent by StableReduction Layer 2. The same uniqueness compares with the polarized descent comparison of AlgebraicModuliForArithmeticGeometry §3.5 on their common domain.
 
 Use AlgebraicModuliForArithmeticGeometry §3.5 `ModuliDescent.polarizedDescentComparison`, including actual cocycle isomorphisms, arrows and marking maps; descend flatness separately along the fppf cover. The stable log line is relatively ample by gap:cm-duality-arbitrary-base. The smooth groupoid is the full subcategory satisfying smoothness, an fppf-local condition.
 
@@ -446,7 +446,7 @@ For (0,3) the family is (ℙ¹;0,1,∞), with trivial automorphism group. For (1
 
 ### Dependencies
 
-StableReduction Layers 0–3; SchemeAndStackFoundations §§0.8–0.9, 1.1–1.2, 1.18–1.23, 2.1–2.2, 2.6, 2.18–2.22, 4.15; AlgebraicVectorBundles L0A–L0C; AlgebraicModuliForArithmeticGeometry §§3.5, 7.2. The finite-diagram and arbitrary-base duality contracts precede effective descent.
+StableReduction Layers 0–3; SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, 1.1–1.2, 1.18–1.23, 2.1–2.2, 2.6, 2.18–2.22, 4.15; AlgebraicVectorBundles L0A–L0C; AlgebraicModuliForArithmeticGeometry §§3.5, 7.2. The finite-diagram and arbitrary-base duality contracts precede effective descent.
 
 ## Layer 1: the unpointed Deligne–Mumford comparison
 
@@ -499,13 +499,13 @@ Apply the pluricanonical vanishing and cohomology and base change of StableReduc
 
 Here g≥2; every curve family is stable, unpointed, proper, flat and finitely presented with geometrically connected nodal genus-g fibres. The base-general conclusion requires the stated foundational and arbitrary-base approximation inputs; the cohomology and duality results of StableReduction Layer 2 have locally Noetherian base scope.
 
-One proof uses the following inputs and comparisons. Use the m≥2 vanishing of StableReduction Layer 8, very ampleness of ω³ from gap:stable-tricanonical-embedding, and the arbitrary-base extension gap:cm-duality-arbitrary-base, to obtain locally free direct images and their compatible evaluation embedding. Compute the degree of ω³ from deg ω=2g−2 and its Hilbert polynomial and rank by Riemann–Roch on the curve (AlgebraicCurves, StableReduction Layer 2).
+One proof uses the following inputs and comparisons. Use the m≥2 vanishing of StableReduction Layer 8, very ampleness of ω³ from gap:stable-tricanonical-embedding, and the arbitrary-base extension gap:cm-duality-arbitrary-base, to obtain locally free direct images and their compatible evaluation embedding. Compute the degree of ω³ from deg ω=2g−2 and its Hilbert polynomial and rank by Riemann–Roch on the curve (StableReduction Layer 2).
 
 For m=3 the rank is 5g−5 and the projective dimension is 5g−6.
 
 ([dm](#references), Theorem 1.2 and its corollary, printed pp. 77–78 (PDF pp. 4–5).)
 
-*Needs:* gap:stable-tricanonical-embedding, AlgebraicModuliForArithmeticGeometry §§1.1–1.7, StableReduction Layer 2, StableReduction Layer 3, [arbitrary-base tricanonical comparison](#12-arbitrary-base-tricanonical-comparison).
+*Needs:* gap:stable-tricanonical-embedding, gap:cm-duality-arbitrary-base, AlgebraicModuliForArithmeticGeometry §§1.1–1.7, StableReduction Layer 2, StableReduction Layer 3, StableReduction Layer 8, [arbitrary-base tricanonical comparison](#12-arbitrary-base-tricanonical-comparison).
 
 ### 1.4 The universal relative polarization locus
 
@@ -562,7 +562,7 @@ The construction has the following API.
 
 ([dm](#references), §1, pp. 77–78, tricanonical Hilbert scheme. A tricanonical embedding uses all r sections; the determinant condition enforces this over every base.)
 
-*Needs:* AlgebraicModuliForArithmeticGeometry §§1.1–1.7, [the universal relative polarization locus](#14-the-universal-relative-polarization-locus), [arbitrary-base tricanonical comparison](#12-arbitrary-base-tricanonical-comparison).
+*Needs:* AlgebraicModuliForArithmeticGeometry §§1.1–1.7, SchemeAndStackFoundations §4.15, [the universal relative polarization locus](#14-the-universal-relative-polarization-locus), [arbitrary-base tricanonical comparison](#12-arbitrary-base-tricanonical-comparison).
 
 ### 1.6 Projective frames and the base-line twist
 
@@ -603,7 +603,7 @@ The construction has the following API.
 
 ([dm](#references), Printed p. 78 (PDF p. 5), displayed isomorphism of the H_g functor; Proposition 5.1 proof p. 104 (PDF p. 31); [stacks-projective-bundles-review](#references), Definition 27.21.1 and rank-one quotient representing property; [stacks-projective-picard-review](#references), Lemma 31.29.5, complete statement and proof; [stacks-projective-picard-review](#references), Lemma 31.29.3, complete statement and proof.)
 
-*Needs:* [tricanonical hilbert polynomial and frame rank](#13-tricanonical-hilbert-polynomial-and-frame-rank), AlgebraicModuliForArithmeticGeometry §§2.1–2.2, StableReduction Layer 3, AlgebraicModuliForArithmeticGeometry §§3.1–3.5, [the universal relative polarization locus](#14-the-universal-relative-polarization-locus), [the complete tricanonical hilbert locus](#15-the-complete-tricanonical-hilbert-locus), [projective frames and the base-line twist](#16-projective-frames-and-the-base-line-twist).
+*Needs:* [tricanonical hilbert polynomial and frame rank](#13-tricanonical-hilbert-polynomial-and-frame-rank), gap:cm-duality-arbitrary-base, AlgebraicModuliForArithmeticGeometry §§2.1–2.2, StableReduction Layer 2, StableReduction Layer 3, AlgebraicModuliForArithmeticGeometry §§3.1–3.5, [the universal relative polarization locus](#14-the-universal-relative-polarization-locus), [the complete tricanonical hilbert locus](#15-the-complete-tricanonical-hilbert-locus), [projective frames and the base-line twist](#16-projective-frames-and-the-base-line-twist).
 
 ### 1.8 The projective-frame torsor
 
@@ -660,7 +660,7 @@ The construction has the following API.
 
 ([dm](#references), §1, pp. 82–83, projective action; §5, Proposition 5.1, p. 104. The projective action gives the moduli presentation; this target supplies the all-test-scheme relation identification.)
 
-*Needs:* SchemeAndStackFoundations §1.21, SchemeAndStackFoundations §1.20, SchemeAndStackFoundations §4.15, [projective frames and the base-line twist](#16-projective-frames-and-the-base-line-twist), [a single graph polynomial for stable-curve isomorphisms](#19-a-single-graph-polynomial-for-stable-curve-isomorphisms).
+*Needs:* SchemeAndStackFoundations §§1.18–1.23, SchemeAndStackFoundations §4.15, [projective frames and the base-line twist](#16-projective-frames-and-the-base-line-twist), [a single graph polynomial for stable-curve isomorphisms](#19-a-single-graph-polynomial-for-stable-curve-isomorphisms).
 
 ### 1.11 Hilbert quotient presentation
 
@@ -702,7 +702,7 @@ For genus two the miniversal curve deformation has 3 variables; the P⁴ Hilbert
 
 ([dm](#references), Deformation argument, pp. 78–83; Theorem 1.6 and Corollary 1.7, p. 83. Supplies the smooth deformation picture, embedding directions and local node equations.; [mc1-def](#references), Lemmas 93.16.3–93.16.4 (0DZP, 0DZQ), pp. 28–29. The smooth global-to-local map, local-to-completed comparisons and lci unobstructedness justify using the continuous completed-node hull; these are not the gluing statement of Lemma 93.16.2.; [mc0-stacks-moduli](#references), §109.15, Lemma 109.15.1, pp. 15–16; Lemmas 109.22.6 and 109.22.8, pp. 26–27. Explains the Cohen-coefficient lifting argument for smoothness over Z and density of smooth curves.; [mc1-stackdim](#references), Definition 107.5.7 (0DRL) and Lemma 107.5.10 (0DRP), pp. 11–13 (mc1-stackdim lines 508–536). The relative dimension of the smooth Hilbert atlas at a point adds to the dimension of the stack: 27=3+24 at genus two.)
 
-*Needs:* gap:coefficient-completion-smoothness, SchemeAndStackFoundations §4.6, SchemeAndStackFoundations §4.4, SchemeAndStackFoundations §4.10, SchemeAndStackFoundations §4.1, AlgebraicModuliForArithmeticGeometry §§8.1–8.3, [the normalization sequence and the deformation dimension](#112-the-normalization-sequence-and-the-deformation-dimension), [projective frames and the base-line twist](#16-projective-frames-and-the-base-line-twist).
+*Needs:* gap:coefficient-completion-smoothness, SchemeAndStackFoundations §§4.1–4.10, 4.14–4.15, AlgebraicModuliForArithmeticGeometry §§8.1–8.3, [the normalization sequence and the deformation dimension](#112-the-normalization-sequence-and-the-deformation-dimension), [projective frames and the base-line twist](#16-projective-frames-and-the-base-line-twist).
 
 ### 1.14 Algebraic labelled boundary branches
 
@@ -766,7 +766,7 @@ At g=2 the Hilbert polynomial is 6T−1. A frame is projective: tensoring all fi
 
 ### Dependencies
 
-Layer 0; StableReduction Layers 1–3, 8–9; SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, 1.1, 1.15, 1.18–1.23, 2.1–2.2, 2.6, 2.18–2.22, 4.1–4.10, 4.14–4.15, 4.18, 5.4; AlgebraicModuliForArithmeticGeometry §§1.1–1.7, 2.1–2.2, 3.1–3.5, 7.2–7.3, 7.6, 8.1–8.3; EnhancedDerivedSheaves §E1.9. Hilbert quotient identification uses the family object, not terminal algebraicity or properness as its own premise.
+Layer 0; StableReduction Layers 1–3 and 8; SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, 1.1, 1.15, 1.18–1.23, 2.1–2.2, 2.6, 2.18–2.22, 4.1–4.10, 4.14–4.15, 4.18, 5.4; AlgebraicModuliForArithmeticGeometry §§1.1–1.7, 2.1–2.2, 3.1–3.5, 7.2–7.3, 7.6, 8.1–8.3; EnhancedDerivedSheaves §E1.9. Hilbert quotient identification uses the family object, not terminal algebraicity or properness as its own premise.
 
 ## Layer 2: universal curves and the full pointed stable range
 
@@ -5954,7 +5954,7 @@ There can be two distinct separating preimages for two elliptic tails. For xy=t 
 
 ([knudsen2](#references), Corollary 3.9(a) and its singular-locus factorization proof, printed p. 190 (PDF p. 30).)
 
-*Needs:* gap:relative-node-branch-data, SchemeAndStackFoundations §§1.18–1.23, [separating clutching morphism](#31-separating-clutching-morphism), [nonseparating clutching morphism](#32-nonseparating-clutching-morphism), SchemeAndStackFoundations §4.15, AlgebraicModuliForArithmeticGeometry §§7.3, 8.1–8.3, StableReduction Layer 1, [the stack of persistent nodes](#34-the-stack-of-persistent-nodes), [clutching fibres as decorated node choices](#36-clutching-fibres-as-decorated-node-choices).
+*Needs:* gap:relative-node-branch-data, SchemeAndStackFoundations §§1.18–1.23, [separating clutching morphism](#31-separating-clutching-morphism), [nonseparating clutching morphism](#32-nonseparating-clutching-morphism), SchemeAndStackFoundations §4.15, AlgebraicModuliForArithmeticGeometry §§7.3, 8.1–8.3, StableReduction Layer 1, StableReduction Layer 3, [the stack of persistent nodes](#34-the-stack-of-persistent-nodes), [clutching fibres as decorated node choices](#36-clutching-fibres-as-decorated-node-choices).
 
 ### 3.8 Node incidence on pointed boundary charts
 
@@ -6174,7 +6174,7 @@ For the blowup of a smooth genus≥2 family at a special-fibre point, a section 
 
 ([clm](#references), Corollary 6.6, printed/PDF p. 25 (statement and proof).)
 
-*Needs:* [nefness with smooth generic fibre](#43-nefness-with-smooth-generic-fibre), StableReduction Layer 2, SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21.
+*Needs:* [nefness with smooth generic fibre](#43-nefness-with-smooth-generic-fibre), StableReduction Layer 2, StableReduction Layer 8, SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, SchemeAndStackFoundations §4.15.
 
 ### 4.6 Nefness on pointed normalization components
 
@@ -6192,7 +6192,7 @@ This is a positivity statement for vector bundles, not just numerical degree of 
 
 ([clm](#references), Proposition 6.7, printed/PDF pp. 25–27, statement p. 25 and three genus cases pp. 26–27.)
 
-*Needs:* gap:weighted-collision-transport, gap:surface-low-genus-positivity, gap:surface-pluricanonical-comparison, K3SurfacesAndSymplecticBoundedness §6.0b, [nefness with smooth generic fibre](#43-nefness-with-smooth-generic-fibre), [nonnegative dualizing degree along a section](#45-nonnegative-dualizing-degree-along-a-section), SchemeAndStackFoundations §§5.1–5.10, StableReduction Layer 2.
+*Needs:* gap:weighted-collision-transport, gap:surface-low-genus-positivity, gap:surface-pluricanonical-comparison, K3SurfacesAndSymplecticBoundedness §6.0b, [nefness with smooth generic fibre](#43-nefness-with-smooth-generic-fibre), [nonnegative dualizing degree along a section](#45-nonnegative-dualizing-degree-along-a-section), SchemeAndStackFoundations §§5.1–5.10, SchemeAndStackFoundations §4.15, StableReduction Layer 2.
 
 ### 4.7 Direct-image sequence at persistent nodes
 
@@ -6208,7 +6208,7 @@ The residue sequence concerns a persistently nodal generic fibre; isolated speci
 
 ### 4.8 The fine smooth full-level curve scheme
 
-The fixed symplectic component M_g[N] over Z[1/N,ζ_N] is a smooth quasi-projective scheme of relative dimension 3g−3, carrying a smooth projective universal curve of genus g. Forgetting level to M_g is representable finite étale. It is regular; geometric irreducibility is the separate connectedness theorem.
+The fixed symplectic component M_g[N] over Z[1/N,ζ_N] is a smooth quasi-projective scheme of relative dimension 3g−3, carrying a smooth projective universal curve C_g[N]→M_g[N] of genus g. Forgetting level to M_g is representable finite étale. It is regular; geometric irreducibility is the separate connectedness theorem.
 
 One proof uses the following inputs and comparisons. The torsion-frame functor is finite étale; pulling back the smooth-curve stack gives the level stack. Trivial inertia makes it an algebraic space; identify its finite coarse map to the smooth coarse space to deduce quasi-projectivity and therefore schemeness. Use the tricanonical universal embedding for projectivity of its curve. Geometric irreducibility requires the distinct connectedness argument below.
 
@@ -6303,7 +6303,7 @@ The primitive rootζ_N is fixed for the DGH component.
 
 ([dm](#references), Theorems 5.9,5.13,5.15;Lemma 5.16, pp. 106–109.)
 
-*Needs:* gap:level-tame-components, [the fine smooth full-level curve scheme](#48-the-fine-smooth-full-level-curve-scheme), SchemeAndStackFoundations §4.15, AbelianSchemesAndArithmeticModuli §§A3.1–A3.8, AlgebraicModuliForArithmeticGeometry §§5.1–5.4, [the complex fixed-pairing orbit calculation](#411-the-complex-fixed-pairing-orbit-calculation).
+*Needs:* gap:level-tame-components, gap:stack-topology-boundary, ComplexComparisonPartII §§C3.2d.1–C3.2d.4, [the fine smooth full-level curve scheme](#48-the-fine-smooth-full-level-curve-scheme), SchemeAndStackFoundations §4.15, AbelianSchemesAndArithmeticModuli §§A3.1–A3.8, AlgebraicModuliForArithmeticGeometry §§5.1–5.4, [the complex fixed-pairing orbit calculation](#411-the-complex-fixed-pairing-orbit-calculation).
 
 ### 4.13 Geometric irreducibility of stable moduli
 
@@ -6347,7 +6347,7 @@ For a constant genus-two family E₃ has rank five and degree zero; its determin
 
 ### Dependencies
 
-Layers 0–3; StableReduction Layers 1–5; SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, 1.18–1.23, 3.3–3.7, 4.15, 5.1–5.10; AlgebraicModuliForArithmeticGeometry §§1.1–1.7, 2.1–2.2, 5.1–5.4, 7.3, 8.1–8.3; JacobianChallenge Layer D; JacobianChallengePartII §§1.1–1.4; AbelianSchemesAndArithmeticModuli §§A3.1–A3.8, A6.18; AbelianSchemesAndArithmeticModuliPartII §B4.1; ComplexComparisonPartII §§C3.2d.1–C3.2d.4. The single ample determinant on the integral level cover is SchemeAndStackFoundations §4.15 `level_structure_cover_ample`.
+Layers 0–3; StableReduction Layers 1–5 and 8; SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, 1.18–1.23, 3.3–3.7, 4.15, 5.1–5.10; AlgebraicModuliForArithmeticGeometry §§1.1–1.7, 2.1–2.2, 5.1–5.4, 7.3, 8.1–8.3; JacobianChallenge Layer D; JacobianChallengePartII §§1.1–1.4; AbelianSchemesAndArithmeticModuli §§A3.1–A3.8, A6.18; AbelianSchemesAndArithmeticModuliPartII §B4.1; PELModuli §§M6.9–M6.10; K3SurfacesAndSymplecticBoundedness §6.0b; ComplexComparisonPartII §§C3.2d.1–C3.2d.4. The single ample determinant on the integral level cover is SchemeAndStackFoundations §4.15 `level_structure_cover_ample`.
 
 ## Layer 5: Hodge determinant and integral Noether comparison
 
@@ -6479,7 +6479,7 @@ Negative coefficients are allowed; the correcting scalar belongs to Q×, not nec
 
 ([mumford1977](#references), Integral descent after Lemma 5.14, printed pp. 102–103. Removes vertical zeros or poles by whole-prime-fibre principal divisors, proving the needed integral restriction injectivity.)
 
-*Needs:* SchemeAndStackFoundations §1.1, SchemeAndStackFoundations §3.4, SchemeAndStackFoundations §4.15, [geometric irreducibility of stable moduli](#413-geometric-irreducibility-of-stable-moduli).
+*Needs:* SchemeAndStackFoundations §1.1, SchemeAndStackFoundations §§3.3–3.7, SchemeAndStackFoundations §4.15, [geometric irreducibility of stable moduli](#413-geometric-irreducibility-of-stable-moduli).
 
 ### 5.8 Integral-to-complex Picard injection
 
@@ -6581,7 +6581,7 @@ The construction has the following API.
 
 ([yuan-author-http](#references), Theorem 3.3, §3.1.1, p. 42; §3.1.2, pp. 42–43. Uses the universal relative-dualizing pairing and its classifying pullback.; [mc5-erikssonfreixas2024](#references), (6.3), Proposition 6.1, pp. 310–312. Supplies the actual line-valued chart construction and coherent arbitrary base change, permitting effective descent.)
 
-*Needs:* gap:graded-perfect-stack-descent, gap:cm-duality-arbitrary-base, gap:integral-deligne-pairing, SchemeAndStackFoundations §1.21, SchemeAndStackFoundations §1.1, SchemeAndStackFoundations §3.4, StableReduction Layer 2, [the hodge bundle of stable pointed curves](#51-the-hodge-bundle-of-stable-pointed-curves), SchemeAndStackFoundations §4.15.
+*Needs:* gap:graded-perfect-stack-descent, gap:cm-duality-arbitrary-base, gap:integral-deligne-pairing, SchemeAndStackFoundations §§1.18–1.23, SchemeAndStackFoundations §1.1, SchemeAndStackFoundations §3.4, StableReduction Layer 2, [the hodge bundle of stable pointed curves](#51-the-hodge-bundle-of-stable-pointed-curves), SchemeAndStackFoundations §4.15.
 
 ### 5.15 Chern class of the dualizing pairing
 
@@ -6637,7 +6637,7 @@ The construction has the following API.
 
 ([yuan-author-http](#references), Theorem 3.3 and §3.1.2, p. 42. The three lines and the universal-choice convention yield this obstruction line by tensor cancellation.; [mumford1977](#references), Theorem 5.10 and its proof, pp. 100–103. Separates the rational computation, torsion-freeness step and integral descent; the defect packages precisely those steps.)
 
-*Needs:* SchemeAndStackFoundations §1.21, SchemeAndStackFoundations §3.4, `TauCeti.AlgebraicGeometry.InvertibleSheaf.tensorProduct`, `TauCeti.AlgebraicGeometry.LineBundleClass.mk_eq_mk_iff`, AlgebraicVectorBundles L0C and the Hodge descent comparison in Layer 5, [the universal boundary cartier divisor](#52-the-universal-boundary-cartier-divisor), [dualizing deligne pairing](#514-dualizing-deligne-pairing).
+*Needs:* SchemeAndStackFoundations §§1.18–1.23, SchemeAndStackFoundations §§3.3–3.7, `TauCeti.AlgebraicGeometry.InvertibleSheaf.tensorProduct`, `TauCeti.AlgebraicGeometry.LineBundleClass.mk_eq_mk_iff`, AlgebraicVectorBundles L0C and the Hodge descent comparison in Layer 5, [the universal boundary cartier divisor](#52-the-universal-boundary-cartier-divisor), [dualizing deligne pairing](#514-dualizing-deligne-pairing).
 
 ### 5.18 Rational Noether computation gives a torsion defect
 
@@ -6903,7 +6903,7 @@ For C=C₀×A¹ with fixed stable C₀, S̄′ has dimension 1. Closing only the
 
 ([yuan-author-http](#references), §3.1.4, p. 45. Stable extension after a finite cover; use the correction retaining the base and the finite-cover function field, rather than closing only the moduli image.)
 
-*Needs:* SchemeAndStackFoundations §§0.20–0.21, `AlgebraicGeometry.IsFinite.of_comp`, `CategoryTheory.Limits.pullback.lift`, [graph-closure compactification after a finite cover](#65-graph-closure-compactification-after-a-finite-cover), SchemeAndStackFoundations §4.15.
+*Needs:* SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, `AlgebraicGeometry.IsFinite.of_comp`, `CategoryTheory.Limits.pullback.lift`, [graph-closure compactification after a finite cover](#65-graph-closure-compactification-after-a-finite-cover), SchemeAndStackFoundations §4.15.
 
 ### 6.12 Full-level Torelli by the relative Jacobian
 
@@ -6945,7 +6945,7 @@ On two disconnected integral components the maps glue componentwise, without ass
 
 ([blr-relative-picard-LwkQQl](#references), §8.4, Theorem 1(a), pp. 231–232; §9.4, Theorem 1 and Proposition 4, pp. 259–261. The Lie–R¹O comparison, semiabelian Picard identity of a semistable curve and canonical Jacobian polarization; the stable-curve total space need not be regular.; [dgh](#references), §6.1, pp. 23–25, diagram(6.1). The smooth fine-level Jacobian and its Cartesian universal family over a characteristic-zero component. The integral construction here is supplied by JacobianChallengePartII §§1.1–1.4 and PELModuli, not inferred from this complex-geometric passage.; [mc6-stacksregular](#references), Lemmas28.7.5–6 and 28.9.4. Regularity supplies normal local domains; quasi-compact Noetherian normal schemes split into finitely many integral components.)
 
-*Needs:* SchemeAndStackFoundations §0.30, JacobianChallengePartII §§6.1–6.3, [full-level torelli by the relative jacobian](#612-full-level-torelli-by-the-relative-jacobian), [hodge pullback along smooth full-level torelli](#67-hodge-pullback-along-smooth-full-level-torelli), [the fine smooth full-level curve scheme](#48-the-fine-smooth-full-level-curve-scheme), [the hodge bundle of stable pointed curves](#51-the-hodge-bundle-of-stable-pointed-curves), AlgebraicVectorBundles L0C and the Hodge descent comparison in Layer 5.
+*Needs:* SchemeAndStackFoundations §0.30, SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, JacobianChallengePartII §§6.1–6.3, [full-level torelli by the relative jacobian](#612-full-level-torelli-by-the-relative-jacobian), [hodge pullback along smooth full-level torelli](#67-hodge-pullback-along-smooth-full-level-torelli), [the fine smooth full-level curve scheme](#48-the-fine-smooth-full-level-curve-scheme), [the hodge bundle of stable pointed curves](#51-the-hodge-bundle-of-stable-pointed-curves), AlgebraicVectorBundles L0C and the Hodge descent comparison in Layer 5.
 
 ### 6.14 The sign ambiguity in geometric Torelli fibres
 
@@ -6973,7 +6973,7 @@ For a stable one-node irreducible genus 2 curve with elliptic normalization, the
 
 ([blr-relative-picard-LwkQQl](#references), §8.4, Theorem 1(a), pp. 231–232; §9.4, Theorem 1 and Proposition 4, pp. 259–261. The Lie–R¹O comparison, semiabelian Picard identity of a semistable curve and canonical Jacobian polarization; the stable-curve total space need not be regular.; [yuan-author-http](#references), Lemma 3.4, pp. 43–44. Uses BLR9.4/1 for stable Picard and the Lie–cohomology/duality comparison; integral Noetherian scope is not a regular-total-space hypothesis.)
 
-*Needs:* gap:stable-picard-arbitrary-base, SchemeAndStackFoundations §0.30, SchemeAndStackFoundations §1.2, SchemeAndStackFoundations §1.1, NeronModelsAndSemistableAbelianVarieties §4.13, JacobianChallengePartII §§6.1–6.3, [hilbert quotient presentation](#111-hilbert-quotient-presentation), SchemeAndStackFoundations §4.15, [the hodge bundle of stable pointed curves](#51-the-hodge-bundle-of-stable-pointed-curves).
+*Needs:* gap:stable-picard-arbitrary-base, SchemeAndStackFoundations §0.30, SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, SchemeAndStackFoundations §1.2, SchemeAndStackFoundations §1.1, NeronModelsAndSemistableAbelianVarieties §4.1, NeronModelsAndSemistableAbelianVarieties §4.13, JacobianChallengePartII §§6.1–6.3, [hilbert quotient presentation](#111-hilbert-quotient-presentation), SchemeAndStackFoundations §4.15, [the hodge bundle of stable pointed curves](#51-the-hodge-bundle-of-stable-pointed-curves).
 
 ### 6.16 The abelian part of a stable Jacobian
 
@@ -7017,7 +7017,7 @@ The construction has the following API.
 
 ([mc6-fc1990](#references), IV Proposition 5.1, Remark 5.3, Theorem 5.7, pp. 113–117; V Theorem 2.3, pp. 150–151. Toroidal extension has a cone condition; minimal compactification exists over Z and records the abelian part. A normal-base extension and Hodge comparison independent of a chosen cone is part of gap:minimal-siegel-all-characteristics, not a statement of these theorems.; [knudsen3](#references), §6, printed pp. 210–211 (PDF11–12). Characteristic-zero map from a finite stable-family cover to the Satake compactification and identification of a positive Hodge power. It alone does not prove the all-characteristic target.; [yuan-author-http](#references), §3.4, p. 56, proof of Hodge nefness and bigness. Uses compactified Torelli, Hodge pullback and generic finiteness. The smooth Torelli step is read as quasi-finiteness, not proper finiteness.)
 
-*Needs:* gap:minimal-siegel-all-characteristics, SchemeAndStackFoundations §1.23, ShimuraCompactifications §§7.13–7.17, [the compactified torelli and hodge comparison](#64-the-compactified-torelli-and-hodge-comparison), [full-level torelli by the relative jacobian](#612-full-level-torelli-by-the-relative-jacobian), [stable picard and hodge comparison along a moduli atlas](#615-stable-picard-and-hodge-comparison-along-a-moduli-atlas), [the abelian part of a stable jacobian](#616-the-abelian-part-of-a-stable-jacobian), SchemeAndStackFoundations §4.15, [coarse spaces of pointed curve stacks](#41-coarse-spaces-of-pointed-curve-stacks).
+*Needs:* gap:minimal-siegel-all-characteristics, SchemeAndStackFoundations §1.23, ShimuraCompactifications §§7.13–7.17, JacobianChallengePartII §§1.1–1.4, [the compactified torelli and hodge comparison](#64-the-compactified-torelli-and-hodge-comparison), [full-level torelli by the relative jacobian](#612-full-level-torelli-by-the-relative-jacobian), [stable picard and hodge comparison along a moduli atlas](#615-stable-picard-and-hodge-comparison-along-a-moduli-atlas), [the abelian part of a stable jacobian](#616-the-abelian-part-of-a-stable-jacobian), SchemeAndStackFoundations §4.15, [coarse spaces of pointed curve stacks](#41-coarse-spaces-of-pointed-curve-stacks).
 
 ### 6.18 Stable Hodge as a minimal Hodge pullback
 
@@ -7045,7 +7045,7 @@ An isotrivial family over a positive-dimensional X fails maximal variation; its 
 
 ([yuan-author-http](#references), §3.4, p. 56, proof of Hodge nefness and bigness. Uses compactified Torelli, Hodge pullback and generic finiteness. The smooth Torelli step is read as quasi-finiteness, not proper finiteness.; [milne](#references), Theorem 12.1, pp. 38–39. Strong Torelli implies finiteness of smooth geometric fibres; no properness theorem is supplied.)
 
-*Needs:* gap:numerical-nef-big-transfer, [maximal variation of a curve family](#61-maximal-variation-of-a-curve-family), [the sign ambiguity in geometric torelli fibres](#614-the-sign-ambiguity-in-geometric-torelli-fibres), [compactified torelli in every characteristic](#617-compactified-torelli-in-every-characteristic), [coarse spaces of pointed curve stacks](#41-coarse-spaces-of-pointed-curve-stacks).
+*Needs:* gap:numerical-nef-big-transfer, JacobianChallengePartII §§1.1–1.4, [maximal variation of a curve family](#61-maximal-variation-of-a-curve-family), [the sign ambiguity in geometric torelli fibres](#614-the-sign-ambiguity-in-geometric-torelli-fibres), [compactified torelli in every characteristic](#617-compactified-torelli-in-every-characteristic), [coarse spaces of pointed curve stacks](#41-coarse-spaces-of-pointed-curve-stacks).
 
 ### 6.20 Nefness and bigness of the Hodge line under maximal variation
 
@@ -7187,7 +7187,7 @@ The construction has the following API.
 
 ([blr-relative-picard-LwkQQl](#references), §8.1 pp. 203–205, Picard functor and rigidification discussion. Relative classes forget line-bundle automorphisms and base twists.; [stacks-moduli-stacks](#references), Moduli Stacks, Lemma 9.1 (tag 0DME). The Picard stack maps to its sheaf of classes with local lifts and local isomorphisms.; [yuan-author-http](#references), §4.3.2 pp. 73–75. The triples motivating the parameter space contain actual line bundles; the geometric-field qualification must be preserved.)
 
-*Needs:* SchemeAndStackFoundations §1.21, AlgebraicModuliForArithmeticGeometry §§3.1–3.5, `CategoryTheory.Core`, `TauCeti.AlgebraicGeometry.InvertibleSheaf`, `TauCeti.AlgebraicGeometry.LineBundleClass`, `TauCeti.AlgebraicGeometry.LineBundleClass.mk_eq_mk_iff`, `TauCeti.AlgebraicGeometry.LineBundleClass.mk_tensorProduct`, JacobianChallenge Layer A, [the fine smooth full-level curve scheme](#48-the-fine-smooth-full-level-curve-scheme), [rigidity of full curve level](#44-rigidity-of-full-curve-level), [full symplectic level on smooth curves](#42-full-symplectic-level-on-smooth-curves), [all-base comparison for degree-picard parameters](#73-all-base-comparison-for-degree-picard-parameters).
+*Needs:* SchemeAndStackFoundations §§1.18–1.23, AlgebraicModuliForArithmeticGeometry §§3.1–3.5, AlgebraicVectorBundles L0A–L0C, JacobianChallengePartII §§0.1–0.4, `CategoryTheory.Core`, `TauCeti.AlgebraicGeometry.InvertibleSheaf`, `TauCeti.AlgebraicGeometry.LineBundleClass`, `TauCeti.AlgebraicGeometry.LineBundleClass.mk_eq_mk_iff`, `TauCeti.AlgebraicGeometry.LineBundleClass.mk_tensorProduct`, JacobianChallenge Layer A, [the fine smooth full-level curve scheme](#48-the-fine-smooth-full-level-curve-scheme), [rigidity of full curve level](#44-rigidity-of-full-curve-level), [full symplectic level on smooth curves](#42-full-symplectic-level-on-smooth-curves), [all-base comparison for degree-picard parameters](#73-all-base-comparison-for-degree-picard-parameters).
 
 ### 7.5 The groupoid of lifts of a relative class
 
@@ -7228,7 +7228,7 @@ State every sheaf and cohomology site in the exact sequence and check naturality
 
 ([blr-relative-picard-LwkQQl](#references), §8.1 Proposition 4 pp. 204–205 and preceding Leray sequence p. 203. The obstruction is the low-degree cohomological boundary under universal global functions.)
 
-*Needs:* JacobianChallengePartII §4.4, AlgebraicModuliForArithmeticGeometry §§7.2–7.3, 7.6, SchemeAndStackFoundations §§1.15, 2.3, SchemeAndStackFoundations §2.2, SchemeAndStackFoundations §2.11, [universal global functions for the level family](#72-universal-global-functions-for-the-level-family), [all-base comparison for degree-picard parameters](#73-all-base-comparison-for-degree-picard-parameters), [the groupoid of lifts of a relative class](#75-the-groupoid-of-lifts-of-a-relative-class).
+*Needs:* JacobianChallengePartII §4.4, AlgebraicModuliForArithmeticGeometry §§7.2–7.3, 7.6, SchemeAndStackFoundations §§1.15, 1.18–1.23, 2.3, SchemeAndStackFoundations §2.2, SchemeAndStackFoundations §2.11, [universal global functions for the level family](#72-universal-global-functions-for-the-level-family), [all-base comparison for degree-picard parameters](#73-all-base-comparison-for-degree-picard-parameters), [the groupoid of lifts of a relative class](#75-the-groupoid-of-lifts-of-a-relative-class).
 
 ### 7.7 Picard torsor of global lifts
 
@@ -7259,7 +7259,7 @@ The construction has the following API.
 
 ([blr-relative-picard-LwkQQl](#references), §8.1 Proposition 4 and rigidification/descent discussion pp. 204–205. Kernel and scalar descent give the ambiguity of a global representative by a line bundle from the base.; [stacks-moduli-stacks](#references), Moduli Stacks, Lemma 9.1 (tag 0DME). Local equality of lifts retains their invertible-sheaf isomorphisms.)
 
-*Needs:* AlgebraicModuliForArithmeticGeometry §§7.2–7.3, 7.6, AlgebraicModuliForArithmeticGeometry §§3.1–3.5, SchemeAndStackFoundations §1.21, JacobianChallenge Layer A, [the obstruction to a global line-bundle lift](#76-the-obstruction-to-a-global-line-bundle-lift), [the groupoid of lifts of a relative class](#75-the-groupoid-of-lifts-of-a-relative-class).
+*Needs:* AlgebraicModuliForArithmeticGeometry §§7.2–7.3, 7.6, AlgebraicModuliForArithmeticGeometry §§3.1–3.5, AlgebraicVectorBundles L0A–L0C, SchemeAndStackFoundations §1.21, JacobianChallenge Layer A, [the obstruction to a global line-bundle lift](#76-the-obstruction-to-a-global-line-bundle-lift), [the groupoid of lifts of a relative class](#75-the-groupoid-of-lifts-of-a-relative-class).
 
 ### 7.8 Geometric triples and the Picard sheaf
 
@@ -7315,7 +7315,7 @@ One proof uses the following inputs and comparisons. Use the definition of Schem
 
 ([clp-normalized-boundary-review](#references), Introduction pp. 1–2; §2.1 pp. 4–5. The tautological extensions are defined through relabelling, forgetting and gluing operations on pointed moduli stacks.)
 
-*Needs:* SchemeAndStackFoundations §4.15, [separating clutching morphism](#31-separating-clutching-morphism), [nonseparating clutching morphism](#32-nonseparating-clutching-morphism), [normalization of the boundary](#310-normalization-of-the-boundary).
+*Needs:* SchemeAndStackFoundations §4.15, StableReduction Layer 3, [separating clutching morphism](#31-separating-clutching-morphism), [nonseparating clutching morphism](#32-nonseparating-clutching-morphism), [normalization of the boundary](#310-normalization-of-the-boundary).
 
 ### 7.12 Elliptic-stack and coarse-scheme comparison
 
@@ -7329,7 +7329,7 @@ Over k of characteristic 2 or 3 use the coefficient-ring theorem `coarseJLine` o
 
 ([chen-moduli-consumer-LwkQQl](#references), Introduction pp. 2–3, notation M(1). The consumer distinguishes the elliptic moduli stack from its coarse scheme.; ModularCurves §§1C, 1D, 2D, 4A, 4B, 9D and 9E, with `coarseJLine_int` and `coarseJLine`. The elliptic-family category and the coarse j-line are owned there; only their comparison with the stack of SchemeAndStackFoundations §4.15 is added.)
 
-*Needs:* AlgebraicModuliForArithmeticGeometry §§5.1–5.4, SchemeAndStackFoundations §1.23, ModularCurves §§1C–1D, 2D, 4A–4C, 9D–9E, SchemeAndStackFoundations §4.15, [the one-pointed genus-one base stack](#2255-the-one-pointed-genus-one-base-stack), [coarse spaces of pointed curve stacks](#41-coarse-spaces-of-pointed-curve-stacks).
+*Needs:* AlgebraicModuliForArithmeticGeometry §§5.1–5.4, SchemeAndStackFoundations §§1.18–1.23, ModularCurves §§1C–1D, 2D, 4A–4C, 9D–9E, SchemeAndStackFoundations §4.15, [the one-pointed genus-one base stack](#2255-the-one-pointed-genus-one-base-stack), [coarse spaces of pointed curve stacks](#41-coarse-spaces-of-pointed-curve-stacks).
 
 ### 7.13 Fine-level and Picard export for DGH
 
@@ -7343,7 +7343,7 @@ The Jacobian square commutes after dual-number base change and identifies the sa
 
 ([dgh](#references), §6.1 pp. 23–24, diagram(6.1) and degree-Picard discussion. The exact inputs are regular irreducible level moduli, the cartesian Jacobian square, finite-to-one Torelli, and the section-free Pic¹ difference construction.)
 
-*Needs:* AbelianSchemesAndArithmeticModuliPartII §B4.1, JacobianChallengePartII §§2.1–2.3, [full symplectic level on smooth curves](#42-full-symplectic-level-on-smooth-curves), [the fine smooth full-level curve scheme](#48-the-fine-smooth-full-level-curve-scheme), [connectedness of a pairing component](#412-connectedness-of-a-pairing-component), [the smooth full-level torelli morphism](#63-the-smooth-full-level-torelli-morphism), [finite torelli fibres and the sign ambiguity](#66-finite-torelli-fibres-and-the-sign-ambiguity), [hodge pullback along smooth full-level torelli](#67-hodge-pullback-along-smooth-full-level-torelli), [all-base comparison for degree-picard parameters](#73-all-base-comparison-for-degree-picard-parameters).
+*Needs:* AbelianSchemesAndArithmeticModuliPartII §B4.1, JacobianChallengePartII §§0.1–0.4, JacobianChallengePartII §§2.1–2.3, [full symplectic level on smooth curves](#42-full-symplectic-level-on-smooth-curves), [the fine smooth full-level curve scheme](#48-the-fine-smooth-full-level-curve-scheme), [connectedness of a pairing component](#412-connectedness-of-a-pairing-component), [the smooth full-level torelli morphism](#63-the-smooth-full-level-torelli-morphism), [finite torelli fibres and the sign ambiguity](#66-finite-torelli-fibres-and-the-sign-ambiguity), [hodge pullback along smooth full-level torelli](#67-hodge-pullback-along-smooth-full-level-torelli), [all-base comparison for degree-picard parameters](#73-all-base-comparison-for-degree-picard-parameters).
 
 ### 7.14 Pointed-family export for canonical representations
 
@@ -7379,7 +7379,7 @@ Over an algebraically closed field Pic(k)=0, so a nonempty lift-class fibre is a
 
 ### Dependencies
 
-Layers 0–6; StableReduction Layers 2–3; AlgebraicVectorBundles L0A–L0C; SchemeAndStackFoundations §§1.15, 1.21, 1.23, 2.2–2.3, 2.11, 4.15; JacobianChallenge Layers A–F and JacobianChallengePartII §§0.1–0.4, 2.1–2.3, 4.4, 6.1–6.3; AlgebraicModuliForArithmeticGeometry §§3.1–3.5, 5.1–5.4, 7.2–7.3, 7.6; ModularCurves §§1C–1D, 2D, 4A–4C, 9D–9E; AbelianSchemesAndArithmeticModuliPartII §B4.1. Relative Picard is imported without using its later full-level application to construct curve level.
+Layers 0–6; StableReduction Layers 2–3; AlgebraicVectorBundles L0A–L0C; SchemeAndStackFoundations §§1.15, 1.18–1.23, 2.2–2.3, 2.11, 4.15; JacobianChallenge Layers A–F and JacobianChallengePartII §§0.1–0.4, 2.1–2.3, 4.4, 6.1–6.3; AlgebraicModuliForArithmeticGeometry §§3.1–3.5, 5.1–5.4, 7.2–7.3, 7.6; ModularCurves §§1C–1D, 2D, 4A–4C, 9D–9E; AbelianSchemesAndArithmeticModuliPartII §B4.1. Relative Picard is imported without using its later full-level application to construct curve level.
 
 ## Downstream consumers
 
