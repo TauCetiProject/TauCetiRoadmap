@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # High-dimensional differential topology and homotopy spheres: target signatures
@@ -17,17 +19,19 @@ The targets below use Mathlib's smooth manifolds, homotopy groups, spheres and m
   The algebraic computations use the additive presentations of the form and formation groups.
 -/
 
+public section
+
 open ContinuousMap Manifold Topology
 open scoped ContDiff Manifold Topology
 
 namespace TauCetiRoadmap.HomotopySpheres
 
-private abbrev ModelSpace (n : ℕ) := EuclideanSpace ℝ (Fin n)
+abbrev ModelSpace (n : ℕ) := EuclideanSpace ℝ (Fin n)
 
-private noncomputable abbrev SmoothModel (n : ℕ) :=
+noncomputable abbrev SmoothModel (n : ℕ) :=
   modelWithCornersSelf ℝ (ModelSpace n)
 
-private abbrev Sphere (n : ℕ) :=
+noncomputable abbrev Sphere (n : ℕ) :=
   Metric.sphere (0 : ModelSpace (n + 1)) 1
 
 /-- A finite lawful smooth atlas code on the fixed Type-0 model. -/
@@ -82,7 +86,7 @@ def SmoothAtlasCode.chartToRealization {n : ℕ} (C : SmoothAtlasCode n)
     (i : Fin C.chartCount) : C.chartDomain i → C.Realization :=
   fun x ↦ C.quotientProjection ⟨i, x⟩
 
-private abbrev SpecialOrthogonal (n : ℕ) :=
+abbrev SpecialOrthogonal (n : ℕ) :=
   Matrix.specialOrthogonalGroup (Fin n) ℝ
 
 theorem stableSOHomotopy_five_subsingleton : Subsingleton (π_ 5 (SpecialOrthogonal 7) 1) := by
@@ -97,7 +101,7 @@ theorem realBottPeriodicity (i n N : ℕ) [NeZero i]
     Nonempty (π_ (i + 8) (SpecialOrthogonal N) 1 ≃* π_ i (SpecialOrthogonal n) 1) := by
   sorry
 
-private noncomputable def sphereBasepoint (n : ℕ) : Sphere n :=
+noncomputable def sphereBasepoint (n : ℕ) : Sphere n :=
   ⟨EuclideanSpace.single 0 1, by simp⟩
 
 /-- The sixth stable stem, represented in the Freudenthal stable range. -/
@@ -183,14 +187,14 @@ def OddWallFormation.IsTrivial {q : ℕ} (F : OddWallFormation q) : Prop :=
       IsCompl F.firstLagrangian.carrier L.carrier ∧
       IsCompl F.secondLagrangian.carrier L.carrier
 
-private def evenWallRelations (q : ℕ) : Set (FreeAbelianGroup (EvenWallForm q)) :=
+def evenWallRelations (q : ℕ) : Set (FreeAbelianGroup (EvenWallForm q)) :=
   {r | (∃ F G : EvenWallForm q, Nonempty (F.Isometry G) ∧
       r = FreeAbelianGroup.of F - FreeAbelianGroup.of G) ∨
     (∃ F G K : EvenWallForm q, Nonempty (F.SumIsometry G K) ∧
       r = FreeAbelianGroup.of K - (FreeAbelianGroup.of F + FreeAbelianGroup.of G)) ∨
     (∃ F : EvenWallForm q, F.IsHyperbolicPlane ∧ r = FreeAbelianGroup.of F)}
 
-private def oddWallRelations (q : ℕ) : Set (FreeAbelianGroup (OddWallFormation q)) :=
+def oddWallRelations (q : ℕ) : Set (FreeAbelianGroup (OddWallFormation q)) :=
   {r | (∃ F G : OddWallFormation q, Nonempty (F.Isometry G) ∧
       r = FreeAbelianGroup.of F - FreeAbelianGroup.of G) ∨
     (∃ F G K : OddWallFormation q, Nonempty (F.SumIsometry G K) ∧
