@@ -99,7 +99,11 @@ What SchemeAndStackFoundations must provide (gap:graded-perfect-stack-descent): 
 
 What SchemeAndStackFoundations must provide (gap:integral-deligne-pairing): Provide the integral four-determinant Deligne pairing for locally projective faithfully flat finitely presented pure curve morphisms over arbitrary bases, with coherent bilinearity, base change, norm and scalar laws, and Deligne's symmetry isomorphism ⟨L,M⟩≅⟨M,L⟩ built from symbols and norms, which acts on ⟨L,L⟩ by `(−1)^{deg L}`. (§3.4.)
 
-What SchemeAndStackFoundations must provide (gap:stack-chow-grr): Provide rational codimension-one Chow and Picard comparison, proper pushforward, Chern and projection laws and Grothendieck–Riemann–Roch on the smooth Deligne–Mumford moduli stack needed by the Noether computation. (§§5.1–5.8.)
+VirtualFundamentalClass Layer 2 supplies the rational Chow groups of separated
+Deligne–Mumford stacks, proper pushforward, Chern classes and the projection formula. Use
+SchemeAndStackFoundations §§5.1–5.8 for the scheme-level theory. Layer 5 of this roadmap proves
+the Picard comparison, the Deligne-pairing comparison and the stack form of Grothendieck–Riemann–Roch
+used in the Noether computation on the smooth moduli stacks.
 
 The surface contracts use [clm](#references), Lemma 6.4, p. 23 (clm line 918), Lemma 6.5 and Proposition 6.3, pp. 23–25, and Proposition 6.7, pp. 25–27. In positive characteristic the general-type input is [mc4-chen-zhang](#references), Theorem 1.3, p. 2 (mc4-chen-zhang line 56): both genera at least two give κ(S)≥1+1=2. The characteristic-zero nefness argument uses spreading as in [clm](#references), Proposition 6.3, pp. 24–25; it does not apply that positive-characteristic theorem directly to a characteristic-zero surface. The marked-model transport contract asks for the additional comparison in that argument; the displayed blowup identity alone does not give nefness of a negative elementary modification.
 
@@ -6580,27 +6584,27 @@ The construction has the following API.
 
 On M̄_g/C, g≥2, the universal pairing satisfies c₁(P_g)=f_*(c₁(ω_f)²) in CH¹(M̄_g/C;Q). The scheme-level integral input is the degree-one graded-K comparison for Deligne pairings on divisorial bases. Its passage to rational Chow and then to the moduli stack must use named comparison/descent maps, and is not an integral identification of arbitrary stack Chow and Picard groups.
 
-Use SchemeAndStackFoundations §§5.1–5.10 stack Chow with rational coefficients and its actual first-Chern/proper-pushforward operations. gap:stack-chow-grr supplies the pairing Chern comparison and the codimension-one Picard comparison for this smooth DM stack, including stabilizers.
+Use VirtualFundamentalClass Layer 2 for rational Chow and its first-Chern and proper-pushforward operations. Prove the pairing Chern comparison and the codimension-one Picard comparison on this smooth Deligne–Mumford stack, including stabilizers.
 
-One proof uses the following inputs and comparisons. On a suitable divisorial scheme chart apply Eriksson–Freixas Corollary 6.9 to the two line arguments. Use the rational Chern-character comparison to convert its graded-K identity to Chow. Use a smooth equivariant Hilbert presentation of the moduli stack and compatible mixed quotients (Edidin–Graham, Propositions 14–19), so that the chart computation is an equivariant identity and not merely an identity after forgetting equivariance. Theorem 3.1 of their Riemann–Roch paper supplies the compatible proper pushforward. The comparison to the chosen SchemeAndStackFoundations §§5.1–5.10 stack-Chow carrier is part of gap:stack-chow-grr; pullback to a plain atlas alone is not an injection on Picard groups.
+One proof uses the following inputs and comparisons. On a suitable divisorial scheme chart apply Eriksson–Freixas Corollary 6.9 to the two line arguments. Use the rational Chern-character comparison to convert its graded-K identity to Chow. Use a smooth equivariant Hilbert presentation of the moduli stack and compatible mixed quotients (Edidin–Graham, Propositions 14–19), so that the chart computation is an equivariant identity and not merely an identity after forgetting equivariance. Theorem 3.1 of their Riemann–Roch paper supplies the compatible proper pushforward. Identify the mixed-quotient class with the rational stack Chow class of VirtualFundamentalClass Layer 2; pullback to a plain atlas alone is not an injection on Picard groups.
 
 State the divisorial-scheme hypothesis before using Corollary 6.9. The smooth-scheme GRR signature is not advertised as arbitrary singular or stack GRR. The sign in the pairing term is positive.
 
 ([mc5-erikssonfreixas2024](#references), §6.1.4, Proposition 6.8 and Corollary 6.9, pp. 316–318. Identifies the Deligne-pairing Chern class with the direct image in graded K-theory under the divisorial-base hypothesis. The projection-formula display in the Proposition 6.8 proof omits a gamma operation on its left side; the intended graded K-group statement and Corollary 6.9 are unchanged.; [mumford1977](#references), Theorem 5.10, rational calculation, pp. 100–102. Supplies the moduli rational computation, including the local singularity correction; a formal stack Chow comparison is required.; [mc5-edidingraham1997](#references), Theorem 1, pp. 7–8; Corollary 1, p. 9; Propositions 14–19, pp. 28–29. Gives the equivariant Chern/Picard comparison, its quotient-stack interpretation and rational intersection-product compatibility.; [mc5-edidingraham1999](#references), Theorem 3.1(b)–(e), pp. 13–14. Supplies proper equivariant pushforward and the smooth/qualified-lci Riemann–Roch compatibilities needed in a quotient presentation, with rational coefficients.)
 
-*Needs:* gap:stack-chow-grr, SchemeAndStackFoundations §§5.1–5.10, SchemeAndStackFoundations §5.3, SchemeAndStackFoundations §§5.4, 5.8, [dualizing deligne pairing](#514-dualizing-deligne-pairing).
+*Needs:* VirtualFundamentalClass Layer 2, SchemeAndStackFoundations §§5.1–5.10, SchemeAndStackFoundations §5.3, SchemeAndStackFoundations §§5.4, 5.8, [dualizing deligne pairing](#514-dualizing-deligne-pairing).
 
 ### 5.16 Rational Noether identity
 
 Over C, for the universal stable genus-g family with g≥2, 12c₁(λ)=f_*(c₁(ω)²)+[Δ] in codimension-one Chow groups with rational coefficients, equivalently the corresponding Picard identity modulo torsion after the line-valued Deligne-pairing comparison. Each universal node smoothing branch contributes coefficient 1. The integral identity over Z is proved separately by complex torsion freeness and the integral Picard injection, not by an unstated mixed-characteristic GRR theorem.
 
-One proof uses the following inputs and comparisons. Work on the characteristic-zero smooth tricanonical moduli charts with the equivariant descent needed for the stack. The universal curve is regular; its relative nodal morphism is lci, with its cotangent complex and virtual relative tangent convention specified. In the universal node chart xy=t, Ω¹→ω has cokernel at the codimension-two singular locus. Compute the node term and descend the branch contribution. Apply the source-scoped GRR, extended to the stack by gap:stack-chow-grr, and extract codimension one on the base; R¹f_*ω≅O has trivial determinant. Compare the pushforward intersection class with the first Chern class of the Deligne pairing. Use Pic≅CH¹ on the regular stack in this range to obtain the line identity modulo torsion. The integral Noether formula of §5.19 then uses torsion freeness and injection from Z to C.
+One proof uses the following inputs and comparisons. Work on the characteristic-zero smooth tricanonical moduli charts with the equivariant descent needed for the stack. The universal curve is regular; its relative nodal morphism is lci, with its cotangent complex and virtual relative tangent convention specified. In the universal node chart xy=t, Ω¹→ω has cokernel at the codimension-two singular locus. Compute the node term and descend the branch contribution. Prove the form of Grothendieck–Riemann–Roch for this universal curve by the equivariant chart comparison of §5.15 and the proper-pushforward compatibility with rational stack Chow. Extract codimension one on the base; R¹f_*ω≅O has trivial determinant. Compare the pushforward intersection class with the first Chern class of the Deligne pairing. Use Pic≅CH¹ on the regular stack in this range to obtain the line identity modulo torsion. The integral Noether formula of §5.19 then uses torsion freeness and injection from Z to C.
 
 A rational Chow identity alone is not the integral Picard identity.
 
 ([mumford1977](#references), Theorem 5.10 calculation, pp. 100–102.)
 
-*Needs:* gap:stack-chow-grr, AlgebraicVectorBundles L0C and the Hodge descent comparison in Layer 5, [the universal boundary cartier divisor](#52-the-universal-boundary-cartier-divisor), SchemeAndStackFoundations §4.15, SchemeAndStackFoundations §§5.1–5.10, StableReduction Layer 2, [hodge determinant and derived direct image](#513-hodge-determinant-and-derived-direct-image), [chern class of the dualizing pairing](#515-chern-class-of-the-dualizing-pairing).
+*Needs:* VirtualFundamentalClass Layer 2, AlgebraicVectorBundles L0C and the Hodge descent comparison in Layer 5, [the universal boundary cartier divisor](#52-the-universal-boundary-cartier-divisor), SchemeAndStackFoundations §4.15, SchemeAndStackFoundations §§5.1–5.10, StableReduction Layer 2, [hodge determinant and derived direct image](#513-hodge-determinant-and-derived-direct-image), [chern class of the dualizing pairing](#515-chern-class-of-the-dualizing-pairing).
 
 ### 5.17 Noether defect line
 
@@ -6634,7 +6638,7 @@ The construction has the following API.
 
 For g≥2 the class [N_g/C] is torsion in Pic(M̄_g/C). Equivalently, some positive tensor power of N_g/C is trivial. This is the precise intermediate conclusion of rational Noether: 12c₁λ=f_*(c₁ω²)+[Δ] together with the pairing Chern comparison and the rational codimension-one Picard–Chow comparison.
 
-The [rational noether identity](#516-rational-noether-identity) is over C and has coefficient one on every reduced universal node branch. gap:stack-chow-grr supplies an injective Pic⊗Q→CH¹⊗Q comparison for the actual stack; N_g is a genuine line, not a rational formal symbol.
+The [rational noether identity](#516-rational-noether-identity) is over C and has coefficient one on every reduced universal node branch. Section 5.15 gives the injective Pic⊗Q→CH¹⊗Q comparison on the stack; N_g is a genuine line, not a rational formal symbol.
 
 One proof uses the following inputs and comparisons. Compute c₁(N_g/C) from its three factors and cancel using [rational noether identity](#516-rational-noether-identity) and [chern class of the dualizing pairing](#515-chern-class-of-the-dualizing-pairing). Transport the vanishing to Pic⊗Q through the specified codimension-one comparison. Use that the kernel of an abelian group’s map to its rationalization is its torsion subgroup; do not infer [N]=0 integrally yet.
 
@@ -6642,7 +6646,7 @@ The conclusion includes an existential positive exponent, not a canonical trivia
 
 ([mumford1977](#references), Theorem 5.10, pp. 100–105; Lemma 5.14, p. 102. First obtains the line relation rationally and then needs a separate torsion-freeness theorem to make it integral.; [yuan-author-http](#references), Theorem 3.3, p. 42. States the integral endpoint, for which this target supplies only the rational and torsion intermediate step.; [mc5-edidingraham1997](#references), Corollary 1, p. 9; Propositions 16–19, pp. 28–29. Identifies equivariant Picard and codimension-one Chow for a smooth quotient presentation; rationalization detects exactly the torsion ambiguity.)
 
-*Needs:* gap:stack-chow-grr, SchemeAndStackFoundations §3.4, [noether defect line](#517-noether-defect-line), [chern class of the dualizing pairing](#515-chern-class-of-the-dualizing-pairing), [rational noether identity](#516-rational-noether-identity).
+*Needs:* VirtualFundamentalClass Layer 2, SchemeAndStackFoundations §3.4, [noether defect line](#517-noether-defect-line), [chern class of the dualizing pairing](#515-chern-class-of-the-dualizing-pairing), [rational noether identity](#516-rational-noether-identity).
 
 ### 5.19 Integral universal Noether formula
 
