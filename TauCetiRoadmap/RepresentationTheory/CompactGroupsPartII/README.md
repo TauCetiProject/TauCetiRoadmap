@@ -296,8 +296,10 @@ Paths in this list are below `TauCeti/RepresentationTheory/` unless given in ful
   applying coefficient formulas; its Euclidean coordinates are not unitary for n≥2.
 - `Compact/FourierPeterWeyl.lean`: `TauCeti.fourierPeterWeylIndexEquiv` and
   `TauCeti.peterWeylFamily_fourierIrrepModel`, including the sign −n.
-  `TauCeti.fourierPontryaginDualEquiv` supplies the single-circle dual.
 
+- `TauCeti/Analysis/Fourier/AddCircle.lean`: `TauCeti.fourierPontryaginDualEquiv`,
+  the group isomorphism `Multiplicative ℤ ≃* PontryaginDual (Multiplicative (AddCircle T))`,
+  supplies the single-circle dual.
 - `TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/Basic.lean`:
   `ContinuousLinearMap.hilbertSchmidtEnergy`, the sum of the squared norms of the
   images of a Hilbert basis, with values in `ℝ≥0∞`, and
