@@ -36,8 +36,8 @@ rest is listed in
 [Beyond this roadmap](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement): the values
 off the principal sheet, the uniform expansions that DLMF mentions in §11.9(iii) without stating
 them, the material DLMF leaves to its references, and the applications and computation sections.
-The roadmap states the corrected forms of DLMF 11.4.15, 11.7.12, 11.11.6, 11.11.8 and
-11.11.18–11.11.19 (see [Prior formalization](#prior-formalization)).
+The roadmap states the corrected forms of DLMF 11.4.15, 11.7.12, 11.11.6 and 11.11.18–11.11.19
+(see [Prior formalization](#prior-formalization)) and the corrected sector of 11.11.8 (8.3).
 
 The roadmap rests on Mathlib, Tau Ceti and six roadmaps. It consumes the Bessel functions `Y_ν`,
 `I_ν`, `K_ν`, the Hankel functions and their theory from
