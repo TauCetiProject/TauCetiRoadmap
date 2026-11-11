@@ -495,7 +495,7 @@ end Presheaf
 section Irreducible
 
 /-- **Layer 6.6.** An object `c` is `J`-irreducible when the only `J`-covering sieve on it is the
-maximal one. For `J = canonicalTopology E` on a Grothendieck topos, this is an irreducible
+maximal one. For `J = Sheaf.canonicalTopology E` on a Grothendieck topos, this is an irreducible
 object of `E`. -/
 def IsIrreducibleObject {C : Type u₁} [Category.{v₁} C] (J : GrothendieckTopology C) (c : C) :
     Prop :=
@@ -511,7 +511,7 @@ def IsRigidTopology {C : Type u₁} [Category.{v₁} C] (J : GrothendieckTopolog
 object is `J`-irreducible (Caramello 2012, Proposition 2.6 (iii)). -/
 theorem isIrreducibleObject_yoneda_iff {C : Type u} [SmallCategory C]
     (J : GrothendieckTopology C) [J.Subcanonical] (c : C) :
-    IsIrreducibleObject (canonicalTopology (Sheaf J (Type u))) (J.yoneda.obj c) ↔
+    IsIrreducibleObject (Sheaf.canonicalTopology (Sheaf J (Type u))) (J.yoneda.obj c) ↔
       IsIrreducibleObject J c :=
   sorry
 
@@ -520,7 +520,7 @@ and `E(A, -)` preserves `u`-small coproducts, that is, when it is connected, non
 projective. -/
 theorem isIrreducibleObject_iff_projective_preservesCoproducts {E : Type (u + 1)} [Category.{u} E]
     (hE : IsGrothendieckTopos E) (A : E) :
-    IsIrreducibleObject (canonicalTopology E) A ↔
+    IsIrreducibleObject (Sheaf.canonicalTopology E) A ↔
       Projective A ∧ ∀ ι : Type u,
         PreservesColimitsOfShape (Discrete ι) (coyoneda.obj (Opposite.op A)) :=
   sorry

@@ -184,7 +184,7 @@ their stability under pullback, are Moerdijk–Vermeulen 2000.
 - Sites and sheaves: `GrothendieckTopology`, `Sheaf`, `presheafToSheaf`,
   `sheafificationAdjunction`, `constantSheaf`, `Sheaf.Γ`, `constantSheafΓAdj`
   (`Sites/GlobalSections`), `Sites/Equivalence`, `Sites/CartesianClosed` (`MonoidalClosed` on
-  `Sheaf J A`), `Sites/LeftExact`, `Sites/Canonical` (`canonicalTopology`,
+  `Sheaf J A`), `Sites/LeftExact`, `Sites/Canonical` (`Sheaf.canonicalTopology`,
   `GrothendieckTopology.Subcanonical`, `GrothendieckTopology.yoneda`), `sheafBotEquivalence`,
   `Opens.grothendieckTopology`.
 - Functoriality: `Functor.IsContinuous`, `Functor.sheafPushforwardContinuous`,
@@ -602,7 +602,8 @@ isomorphic to that of `Y`, and the étale morphism of `Over.mk u` in the topos `
 `GeometricMorphism.ofEquiv (Over.iteratedSliceEquiv (Over.mk u))` followed by it. A morphism
 `f : E → F` is *étale* when there are `X : F` and `e : E ≌ Over X` with `f` isomorphic to
 `GeometricMorphism.ofEquiv e` followed by the étale morphism of `X`; prove that étale morphisms
-are closed under composition and equivalences and that their inverse images have left adjoints.
+are closed under composition and equivalences and that their inverse images have left adjoints
+(SGA 4 IV §5, for the localization of a topos at an object and its morphism to the topos).
 *Needs:* 2.1, 3.1; Mathlib `Over.star`, `Over.forgetAdjStar`, `Over.iteratedSliceEquiv`.
 
 **Checks.**
@@ -620,7 +621,8 @@ geometric morphism of the cocontinuous functor `Over.forget c` (2.4), with Mathl
 `overPullback` as inverse image. A subterminal object `U` (a subobject of `⊤_ E`) gives the étale
 morphism `Over U → E`, whose direct image is fully faithful: the *open embedding* of `U`. For a
 space `X` and `U : Opens X`, identify it with Mathlib's `Opens.sheafEquivOver` followed by the
-geometric morphism of the inclusion `U → X`.
+geometric morphism of the inclusion `U → X` (SGA 4 IV §5 for the localization and §9 for open
+subtopoi).
 *Needs:* 2.4, 3.1, 3.2; Mathlib `TopologicalSpace.Opens.sheafEquivOver`.
 
 **Checks.**
@@ -791,7 +793,14 @@ this layer.
 Define `GeometricMorphism.IsConnected` (`f.inverse` fully faithful); a topos is connected when its
 global sections morphism is. Prove that connected morphisms compose; that `Sh(X)` is connected if
 and only if `X` is a connected space (Mathlib's `ConnectedSpace`, which includes nonempty); and
-that `Cᵒᵖ ⥤ Type u` is connected if and only if `CategoryTheory.IsConnected C`.
+that `Cᵒᵖ ⥤ Type u` is connected if and only if `CategoryTheory.IsConnected C`. Route: composites
+of fully faithful functors are fully faithful. The inverse image of the global sections morphism is
+the constant sheaf functor `Δ`, which is fully faithful exactly when the unit `S ⟶ Γ Δ S` is an
+isomorphism for every type `S`. In `Sh(X)`, `Γ Δ S` is the set of continuous maps `X → S` for
+discrete `S`, that is, of locally constant functions, and in `Cᵒᵖ ⥤ Type u` it is the limit of the
+constant diagram, the set of functions `π₀ C → S`. The unit is an isomorphism at `S = ∅` exactly
+when `X` is nonempty (respectively `C` is nonempty); then at `S = Bool` exactly when `X` is
+connected (respectively `π₀ C` is a point); and then at every `S`.
 *Needs:* 2.3; Mathlib `ConnectedSpace`, `CategoryTheory.IsConnected`.
 
 **Checks.**
@@ -1085,7 +1094,7 @@ when it is irreducible for the canonical topology of `E`: every sieve containing
 epimorphic family into `A` contains `𝟙_A`, equivalently one member of every `u`-small epimorphic
 family into `A` is a split epimorphism (Caramello 2012, Definition 2.3 (c)). Define
 `IsIrreducibleObject J c` and `IsRigidTopology J`; the topos-level notion is
-`IsIrreducibleObject (canonicalTopology E)`. Prove:
+`IsIrreducibleObject (Sheaf.canonicalTopology E)`. Prove:
 
 - (a) `isIrreducibleObject_yoneda_iff`: for a small site with `J.Subcanonical`, `J.yoneda.obj c` is
   an irreducible object of `Sheaf J (Type u)` if and only if `c` is `J`-irreducible (Caramello
@@ -1129,9 +1138,12 @@ family into `A` is a split epimorphism (Caramello 2012, Definition 2.3 (c)). Def
   `J`-covering sieve. The hypothesis holds when `C` is idempotent complete, in particular when `C`
   has finite limits (Caramello 2012, Remark 3.14).
 
-*Needs:* 1.1, 6.5; Mathlib `canonicalTopology`, `GrothendieckTopology.Subcanonical`,
-`GrothendieckTopology.yoneda`, `Functor.IsDenseSubsite`, `Functor.IsDenseSubsite.sheafEquiv`,
-`sheafBotEquivalence`, `Retract`, `Projective`, `ObjectProperty.FullSubcategory`.
+*Needs:* 1.1, 1.2, 1.4, 6.5; Mathlib `Sheaf.canonicalTopology`,
+`GrothendieckTopology.Subcanonical`, `GrothendieckTopology.yoneda`,
+`GrothendieckTopology.ofArrows_mem_iff_isLocallySurjective_sigmaDesc_uliftYoneda_map`,
+`Sheaf.isLocallySurjective_iff_epi`, `Functor.IsDenseSubsite`,
+`Functor.IsDenseSubsite.sheafEquiv`, `sheafBotEquivalence`, `Retract`, `Projective`,
+`ObjectProperty.FullSubcategory`.
 
 **Checks.**
 
@@ -1170,7 +1182,8 @@ family into `A` is a split epimorphism (Caramello 2012, Definition 2.3 (c)). Def
 ### Dependencies
 
 Layers 1–5, AdicSpacesPartII R0.19.10, AdicEtaleGeometry A1.15 (6.4), and Mathlib. Within the
-layer, 6.2 uses 6.1, 6.4 uses 3.1 and 6.2–6.3, 6.5 uses 6.2 and 5.6, and 6.6 uses 1.1 and 6.5.
+layer, 6.2 uses 6.1, 6.4 uses 3.1 and 6.2–6.3, 6.5 uses 6.2 and 5.6, and 6.6 uses 1.1, 1.2, 1.4
+and 6.5.
 
 ## Layer 7: locales and localic topoi
 
@@ -1180,7 +1193,8 @@ Define `Frame.grothendieckTopology L` (Convention 8): a sieve `S` on `U` covers 
 supremum of the `V ≤ U` with `S` containing `V ⟶ U`; its three axioms are frame distributivity
 (pullback stability, `V = V ⊓ ⨆ W = ⨆ (V ⊓ W)`) and a double supremum (transitivity). Prove that it
 is subcanonical, that `Subobject (⊤_ Sh(L)) ≃o L` as frames, and that it equals
-`Opens.grothendieckTopology X` for `L = Opens X`.
+`Opens.grothendieckTopology X` for `L = Opens X` (Mac Lane–Moerdijk IX.1–IX.5; Stone Spaces II,
+§§1–2).
 *Needs:* Mathlib `Order.Frame`, `GrothendieckTopology`, `Opens.grothendieckTopology`.
 
 **Checks.**
@@ -1226,7 +1240,12 @@ correspond to Mathlib's `Locale.PT L` (frame homomorphisms `L → Prop`), so tha
 `Sh(X)` are the points of the soberification of `X`; and that for any space `X` and a space `Y`
 with `QuasiSober Y` and `T0Space Y`, the geometric morphisms `Sh(X) → Sh(Y)` correspond to the
 continuous maps `X → Y`, with a 2-cell `f ⟶ g`, necessarily unique, exactly when
-`g x ∈ closure {f x}` for every `x`.
+`g x ∈ closure {f x}` for every `x` (Mac Lane–Moerdijk IX.1–IX.5 for the functoriality, the points
+and the geometric morphisms between spaces; Stone Spaces II, §3 for sober spaces). The statement
+on 2-cells is proved here: by Convention 4 a 2-cell `f ⟶ g` is a transformation `g^* ⟶ f^*`; since
+`Sh(M)` is generated under colimits by its subterminal objects, which `g^*` and `f^*` send to
+subterminal objects, such a transformation exists exactly when `g^*(V) ≤ f^*(V)` for all `V`, and
+it is then unique, a poset having at most one arrow between two objects.
 *Needs:* 2.2, 2.4, 7.1; Mathlib `Locale`, `Locale.PT`, `QuasiSober`, `T0Space`.
 
 **Checks.**
@@ -1359,7 +1378,9 @@ spaces are scattered. Prove `quasiSober_pi` (the generic point of an irreducible
 `quasiSober_prod`. With `Pi.instT0Space` and `Prod.instT0Space`, products of sober spaces are
 sober, so for sober `S, T` the points of `Sh(S × T)` are the pairs of points of `S` and `T`, the
 points of the product topos `Sh(S) × Sh(T)` (its universal property with `Type u`), with no
-compactness hypothesis.
+compactness hypothesis (Stone Spaces II, §§1–3, for sober spaces and the points of a locale). The
+equivalence of scatteredness with having no nonempty preperfect subset is a rewriting of the
+definitions: a nonempty `A` has a point isolated in `A` exactly when it is not preperfect.
 *Needs:* 7.3, 8.1; Mathlib `QuasiSober`, `IsIrreducible.genericPoint`, `T0Space`,
 `Pi.instT0Space`, `Prod.instT0Space`, `Preperfect`.
 
@@ -1555,7 +1576,8 @@ homomorphism `h : P_x → ℚ/ℤ` with `h(s_x) ≠ 0` (`ℚ/ℤ` is an injectiv
 stalk at `x`, the target having zero stalks elsewhere), so the map `P ⟶ i_*(ℚ/ℤ)` adjoint to `h`
 (`stalkSkyscraperSheafAdjunction`) lifts to `φ : P ⟶ (ℚ/ℤ)_V`. By 9.1, `(ℚ/ℤ)_V` has no nonzero
 section over `N`: its support would be open and closed in the connected `V` and closed in `N`,
-which `V` is not. So `φ(s) = 0`, contradicting `h(s_x) ≠ 0`. Hence every stalk of `P` is `0`.
+which `V` is not. So `φ(s) = 0`, contradicting `h(s_x) ≠ 0`. Hence every
+stalk of `P` is `0`. No source states this; the route above is its proof.
 *Needs:* 9.1, 9.2; Mathlib `Projective`, `Opens.grothendieckTopology`, `TopCat.Presheaf.stalk`,
 `stalkSkyscraperSheafAdjunction`.
 
