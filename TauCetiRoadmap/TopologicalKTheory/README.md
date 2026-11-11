@@ -125,6 +125,23 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   `TauCeti.specialOrthogonalGroupFundamentalGroupMulEquiv`, the isomorphism
   π₁(SO(n),1)≅ℤ/2 for n≥3 on Mathlib's
   `Matrix.specialOrthogonalGroup (Fin n) ℝ`, which T1.5a and T7.1 consume.
+  Tau Ceti `AlgebraicTopology/Sphere/HomotopyGroup.lean` supplies the homotopy
+  groups of spheres up to their dimension, which T1.5a consumes for the
+  sphere fibres of its frame fibrations and T7.1 for its stable range:
+  `TauCeti.subsingleton_homotopyGroup_sphere_of_lt`, π_k(S^m,x) trivial for
+  every k<m, π₀ included, on the unit sphere of any real normed space of
+  dimension m+1; and `TauCeti.homotopyGroupSphereAddEquiv`, π_m(S^m,x)≅ℤ for
+  m≥2 on the unit sphere of a real inner product space with an orthonormal
+  basis indexed by `Fin (m+1)`. For m=1, Tau Ceti's
+  `Circle.fundamentalGroupMulEquiv`
+  (`AlgebraicTopology/UniversalCover/Circle/FundamentalGroup.lean`) gives
+  π₁(S¹,x)≅ℤ on Mathlib's `Circle`, which
+  `TauCeti.EuclideanSpace.sphereHomeomorphCircle` (`Geometry/Sphere/Circle.lean`)
+  identifies with the unit circle of `EuclideanSpace ℝ (Fin 2)`; and
+  `HomotopyGroup.homeomorphEquiv` and `HomotopyGroup.homeomorphMulEquiv`
+  (`Topology/Homotopy/HomotopyGroup/Homeomorph.lean`) transport homotopy
+  groups along a homeomorphism, the first as sets in every degree, π₀
+  included, the second as groups in positive degrees.
 - [AlgebraicTopology](../AlgebraicTopology/README.md) supplies CW pairs,
   cofibrations, homotopies, relative homotopy sequences and ordinary
   (co)homology, and its Stage 5.5 supplies the based homotopy long exact
@@ -226,7 +243,7 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   supplies its additional perturbation and continuous-family interfaces. T6.5
   owns finite-bundle stabilization and the kernel-bundle family index; an
   closed-manifold index consumer must reuse this construction.
-- [GeometricTopology Layer1](../GeometricTopology/README.md) supplies smooth
+- [GeometricTopology Layer 1](../GeometricTopology/README.md) supplies smooth
   embeddings and tubular neighbourhoods. T5 supplies K-theory extension through
   a tubular neighbourhood for an embedding with complex normal bundle. The
   tangent/cotangent normal comparison, topological index and Atiyah–Singer
@@ -340,7 +357,7 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    T1.6 and assumes neither a finite global complement nor representability.
    For compact Hausdorff X retain the relative extension:
    for every closed Y⊆X, extend a specified cylinder trivialization over Y×I
-   that is the identity at time0 to one over X×I, retaining its exact agreement
+   that is the identity at time 0 to one over X×I, retaining its exact agreement
    with the specified data. Prove the compact CW case as a corollary. Extension
    of a bundle map from a closed subset, invertible on a neighbourhood where it
    was invertible, is Tau Ceti's
@@ -430,17 +447,28 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    these trivializations make it a Serre fibration by Tau Ceti's
    `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization`. Consume
    AlgebraicTopology Stage 5.5's based homotopy long exact sequence.
-   For m≥1 prove (m−1)-connectivity. For r=1 the space is S^m and π_m=Z
-   for either parity. For r≥2,m≥1 prove π_m=Z when m is even and Z/2 when
+   For m≥1 prove (m−1)-connectivity, by induction on r along this map. Its
+   fibre over an (r−1)-frame is the unit sphere of the (m+1)-dimensional
+   orthogonal complement of that frame's span, so the fibre's
+   (m−1)-connectivity and π_m=Z are Tau Ceti's:
+   `TauCeti.subsingleton_homotopyGroup_sphere_of_lt`, and
+   `TauCeti.homotopyGroupSphereAddEquiv` for m≥2 or
+   `Circle.fundamentalGroupMulEquiv` through
+   `TauCeti.EuclideanSpace.sphereHomeomorphCircle` for m=1, transported by
+   `HomotopyGroup.homeomorphEquiv` and `HomotopyGroup.homeomorphMulEquiv`.
+   For r=1 and m≥1 the map f↦f₀, read through `WithLp.toLp 2`, is a
+   homeomorphism of the carrier onto the unit sphere of
+   `EuclideanSpace ℝ (Fin n)`, so the space is S^m and π_m=Z for either
+   parity by the same declarations. For r≥2,m≥1 prove π_m=Z when m is even and Z/2 when
    m is odd, with the bottom-fibre Z map the stated quotient and generator.
    For r=2 the preceding boundary is the tangent-sphere clutching evaluation
    x↦2⟨x,e⟩x−e on S^m. Compute its degree directly by the hemispheres as
-   1−(−1)^m; for m=1 this is the degree2 double-angle map. This is a sphere
+   1−(−1)^m; for m=1 this is the degree 2 double-angle map. This is a sphere
    degree calculation, independent of later Euler/Poincare–Hopf theory.
    For r>2 fix the first r−2 frame vectors and prove the naturality square
    with this r=2 bundle. The inductive bottom sphere generates the preceding
-   Z first group when m is odd, hence the boundary image is2Z. When m is
-   even the preceding first group is finite (or r=2 has boundary0), so its
+   Z first group when m is odd, hence the boundary image is 2Z. When m is
+   even the preceding first group is finite (or r=2 has boundary 0), so its
    map to Z vanishes. Prove all actual generator/LES/group comparisons.
    The m=0 full-frame carrier is O(n), with determinant components; its
    identity component is SO(n), with π1=0 for n≤1, Z for n=2 and Z/2 for
@@ -451,9 +479,12 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    SO(2). Treat n=0 and r=0 separately. Construct the relative triple
    (SO(n),SO(k+1),SO(k)) and its inclusion/boundary square on the actual
    positive-rank quotient carriers, retaining every k=0/low-rank exception.
-   For complex r-frames prove2(n−r)-connectivity and first group
+   For complex r-frames prove 2(n−r)-connectivity and first group
    π_(2(n−r)+1)=Z by the same sphere LES, whose preceding base is sufficiently
-   connected to leave the bottom sphere group unchanged. Export basepoint
+   connected to leave the bottom sphere group unchanged; the fibre is the unit
+   sphere of a complex orthogonal complement of complex dimension n−r+1,
+   regarded as a real inner product space of dimension 2(n−r+1), and the same
+   Tau Ceti declarations give its connectivity and first group. Export basepoint
    change, coordinate permutations, stabilization and the actual orientation
    action local systems. This early phase consumes finite-frame charts,
    ordinary sphere degree and the actual fibration LES; it has no Schubert,
@@ -467,7 +498,8 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    - m=2, r=2, n=4: the map on S² has degree 0=1−(−1)², so π₂(V_2(ℝ⁴))=ℤ,
      in agreement with V_2(ℝ⁴)≅S³×S² (the unit tangent bundle of the
      parallelizable S³); degree 2 would give ℤ/2.
-   - r=1: the carrier is S^m itself and π_m=ℤ for every m, with no quotient;
+   - r=1: the carrier is S^m itself and π_m=ℤ for every m≥1, with no quotient
+     (for m=0 it is the two-point space S⁰, which has no group π₀);
      the quotient 2ℤ appears only for r≥2 and odd m, so the ℤ/2 answer for
      V_2(ℝ^(m+2)) with m odd and the ℤ answer with m even are the
      discriminating values.
@@ -630,7 +662,7 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    orientation; a bare SO(0) frame reduction does not classify arbitrary
    chosen zero-dimensional orientations.
 
-   In rank0 retain a chosen orientation as a locally constant sign
+   In rank 0 retain a chosen orientation as a locally constant sign
    σ:X→{+1,−1}, equivalently a section of the trivial two-point orientation
    cover. Construct its comparison with the actual native
    `Orientation ℝ (Fin 0→ℝ) (Fin 0)` and the canonical positive empty-basis
@@ -638,17 +670,17 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    and `Orientation.map_of_isEmpty` fixes each sign under every
    zero-dimensional linear isomorphism. Thus the two oriented zero bundles
    over a point are not isomorphic as oriented bundles, whereas [pt,BSO(0)]
-   is a singleton. Give the rank0 sign classification and its pullback,
+   is a singleton. Give the rank 0 sign classification and its pullback,
    reversal and ordered-product laws separately from the BSO(0) classifier.
    For variable rank, apply the positive-rank theorem on its clopen strata
-   and retain this sign datum on the rank0 stratum. The canonical rank0 point
+   and retain this sign datum on the rank 0 stratum. The canonical rank 0 point
    in the stable tower carries only the positive empty-basis orientation.
    Compare the positive-cofinal stable tower with this canonical starting
    point. To stabilize a supplied signed zero bundle, adjoin the specified
    positively oriented trivial line and construct its actual oriented-bundle
    and classifying-map comparisons. Retain the original σ and these maps;
    do not recover or equate the unstabilized signs from their stable
-   classifier images. No fixed-rank rank0 signed-classification theorem is
+   classifier images. No fixed-rank rank 0 signed-classification theorem is
    inferred from the positive-rank or stable theorem.
 
    Name the fixed-rank universal carrier `Gr_k∞(𝕜)` as the union of Tau
@@ -656,20 +688,20 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    closed embeddings `ambientStabilization`, appending the last coordinate by
    Fin.castSucc, with the final topology for those inclusions. This
    fixed-rank carrier is used for numerable complex/unoriented real
-   classification, including its canonical rank0 point. Use T1.5's finite
+   classification, including its canonical rank 0 point. Use T1.5's finite
    Schubert cells and the native rank/ambient stabilizations to construct
    the CW structure, proving agreement of the weak topology with the
    compactly generated colimit. Construct the universal tautological bundle
    by the native tautological bundles of the compatible finite stages.
    T1.6a's lifted rank map on the finite oriented carriers gives the
    positive-rank oriented lift of the native new-line-first rank map and its
-   last-column SO comparison; the rank0 point has the canonical positive
+   last-column SO comparison; the rank 0 point has the canonical positive
    convention above.
    Define stableRealGrassmannian and stableComplexGrassmannian as the
    rank-colimits of the fixed-rank unoriented real/complex carriers in
    CompactlyGenerated, with underlying weak-CW union topology and the
    transported Schubert cells. The basepoint is the image of the canonical
-   rank0 point, represented in rank k by span(e₀,…,e_(k−1)). Pin the universal
+   rank 0 point, represented in rank k by span(e₀,…,e_(k−1)). Pin the universal
    stable bundle and pullback classification; BO/BU denote these connected
    Grassmannian models.
 
@@ -682,9 +714,9 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    μ_(k+1,k+1)∘(s×s)=s²∘μ_(k,k), and prove the paired-tower/product
    comparison in CompactlyGenerated to obtain the based stable map.
    The based unit endpoints are μ_(k,k)(V,*_k), μ_(k,k)(*_k,V)
-   and s^k V in rank2k. Associativity compares
+   and s^k V in rank 2k. Associativity compares
    μ_(2k,2k)(μ_(k,k)(U,V),s^k W) with
-   μ_(2k,2k)(s^k U,μ_(k,k)(V,W)) in rank4k.
+   μ_(2k,2k)(s^k U,μ_(k,k)(V,W)) in rank 4k.
    Construct the unit, associativity and symmetry homotopies together with
    their unit triangles, associativity pentagon, symmetry involution and
    mixed symmetry/associativity face compatibilities. Each finite coherence
@@ -701,7 +733,7 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    For units use one variable input and its specified trivial input/padding;
    for associativity use three labelled inputs. Symmetry uses TWO labelled
    embeddings: after a positive k-line stabilization of μ, its endpoints
-   in rank3k are (J₀,P₀) and (J₀∘τ,P₀), where τ literally permutes the
+   in rank 3k are (J₀,P₀) and (J₀∘τ,P₀), where τ literally permutes the
    two entire input copies, including their frames. Both have the same
    underlying based output, and carry the actual Whitney swap isomorphism.
    The extra padding carries no virtual class: every target operation is
@@ -732,7 +764,7 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    tower to the remaining U-input embedding, with compact parameter
    families on finitely many coordinates contained in a common finite
    ambient stage. Set P=*_N∩J(B)^perp continuously; no global padding
-   frame is assumed. Include rank0, zero padding where applicable, and all
+   frame is assumed. Include rank 0, zero padding where applicable, and all
    relative parameter faces.
 
    Prove rank compatibility of these choices, not only their existence at
@@ -808,7 +840,7 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    Whitney-oriented sum of two classified stable bundles is classified by this
    based map. Compare with the finite formula after adding a positive trivial
    line, rotating it through a fresh normal direction by π exactly when
-   k≡2 or3 mod4. The rotation changes the underlying plane during the path.
+   k≡2 or 3 mod 4. The rotation changes the underlying plane during the path.
    This comparison uses an orientation-preserving stabilized
    bundle isomorphism and its classifying homotopy; the unit/overlap comparisons
    are relative to the normalized based lift. T7 consumes this actual oriented
@@ -936,7 +968,7 @@ paracompact conclusions of T2.0.
    on a disconnected space.
 3. Build λ_t(E)=Σ[Λ^j E]t^j for actual bundles and the direct-sum product
    identity. Extend λ_t to virtual classes as a unit formal power series with
-   constant1 and prove its inverse identity. Construct on each rank-r stratum
+   constant 1 and prove its inverse identity. Construct on each rank-r stratum
    `Λ^j(E*)≃Λ^(r−j)(E)⊗det(E*)` for 0≤j≤r and base-change compatibility.
    Extract individual λ^j operations and their sum law. After T5's projective
    flag pullback injectivity, prove the universal polynomial product laws for
@@ -957,7 +989,7 @@ paracompact conclusions of T2.0.
    `MvPolynomial.psum_eq_mul_esymm_sub_sum`, rather than divide by k or
    apply a rational logarithm. Pin
    Σ_(k≥1)(−1)^(k−1)ψᵏ(x)t^(k−1)=λ'_t(x)λ_t(x)⁻¹
-   on T2.3's constant1 unit power series. Define the integral signed
+   on T2.3's constant 1 unit power series. Define the integral signed
    unit-derivative coefficient of a unit power series u over a commutative
    ring as (−1)ⁿ times the coefficient of tⁿ in u'·u⁻¹, so that index n
    gives ψ^(n+1) and no rational logarithm or division enters; prove that
@@ -975,15 +1007,36 @@ paracompact conclusions of T2.0.
    adamsOperation_frobeniusModPrime is the resulting quotient-ring
    identity. For the
    multiplicativity/composition splitting proofs handle virtual differences
-   and disconnected rank strata; split E⊕1 when E has rank0 so the
+   and disconnected rank strata; split E⊕1 when E has rank 0 so the
    projectivization is nonempty, then remove the trivial-line term.
+
+   **Checks.**
+   - A line: for u=1+Lt over ℤ[L], u'u⁻¹=Σ_j(−1)ʲL^(j+1)tʲ, so the signed
+     unit-derivative coefficient at n=0,1,2 is L, L², L³, the values of
+     ψ¹, ψ², ψ³ on a line. Without the sign (−1)ⁿ the value at n=1 would be
+     −L²; reading index n as ψⁿ would make the n=0 value L equal to the
+     rank 1.
+   - Newton: for u=1+at+bt² (λ¹=a, λ²=b, λ³=0) the coefficient is a at n=0,
+     a²−2b at n=1 and a³−3ab at n=2, the Newton polynomials N₁, N₂, N₃ at
+     e₃=0. Dropping the factor u⁻¹ would give −2b at n=1, which is not N₂.
+   - Integrality: for u=1+Lt over ℤ[L] the coefficient at n=1 is L²∈ℤ[L],
+     while the t² coefficient of the rational logarithm log(1+Lt) is −L²/2,
+     which is not in ℤ[L], so a definition through the logarithm itself is
+     not available over ℤ. Over ℚ[L] the derivative of log(1+Lt) has tⁿ
+     coefficient (−1)ⁿL^(n+1), and the comparison with the logarithmic
+     derivative returns L^(n+1).
+   - Additivity and constants: for (1+Lt)(1+Mt) the coefficient is
+     L^(n+1)+M^(n+1), the sum of the two lines' values, while (−1)ⁿ times
+     the tⁿ coefficient of u' alone is −2LM at n=1 instead of L²+M². A
+     constant unit c has coefficient 0 in every index, so u and c·u have the
+     same coefficients.
 
    Consume a generic `AdamsOperations`/`AdamsHom` interface over ℤ if
    Mathlib provides one; otherwise provide it in Tau Ceti in the same
    shape: package the constructed operations, composition and prime
-   congruence on K(X), and package pullbacks as `AdamsHom`. Set its index0
+   congruence on K(X), and package pullbacks as `AdamsHom`. Set its index 0
    to the locally constant rank endomorphism followed by trivial bundles;
-   prove the composition and pullback laws also at0. The integral λ-series/Newton comparison
+   prove the composition and pullback laws also at 0. The integral λ-series/Newton comparison
    and topological bundle construction belong here; the supplier's
    rational symmetric-function action applies after constructing the
    `AdamsOperations ℚ (ℚ ⊗[ℤ] K(X))` instance by tensoring the actual
@@ -1047,7 +1100,7 @@ paracompact conclusions of T2.0.
    suspensionRight, appending each S¹ coordinate after the base coordinates,
    in order x then y for the two-coordinate comparison with C via x+iy.
    Construct connecting maps coneBoundary by clutching/cones with parameter
-   increasing from0 to1 and endpoint boundary signs(−0,+1) and the long exact sequence of a pair. Prove
+   increasing from 0 to 1, with endpoint boundary sign − at 0 and + at 1, and the long exact sequence of a pair. Prove
    exactness and naturality in every constructed degree, reduced wedge
    additivity for finite wedges, excision and Mayer–Vietoris, including compact
    supports and their support hypotheses. The sequence `K(X,Y)→K(X)→K(Y)`
@@ -1096,8 +1149,8 @@ all steps below are targets, including independence of the constructed inverse.
 4. Consume BanachAlgebras A2's holomorphic calculus and fixed-contour Riesz
    idempotent for continuous endomorphism families whose spectrum avoids S¹.
    Compare its normalized contour formula with the finite-dimensional
-   generalized-eigenspace projector: on generalized eigenvectors it is1
-   for |λ|<1 and0 for |λ|>1. Prove the two constructions equal, including
+   generalized-eigenspace projector: on generalized eigenvectors it is 1
+   for |λ|<1 and 0 for |λ|>1. Prove the two constructions equal, including
    their contour orientation and normalization, and use this one projector
    thereafter: for a continuous family of finite complex matrices with no
    eigenvalue on the unit circle over a compact base, it is a continuous
@@ -1113,7 +1166,7 @@ all steps below are targets, including independence of the constructed inverse.
    are the generic A2 inputs; self-adjoint spectral theory does not suffice
    for a general companion pencil.
 5. Reduce `Az+B` to a pencil with invertible leading coefficient through
-   `H_t(z)=(A+tB)z+(tA+B)`, with one uniform t<1 sufficiently close to1 on
+   `H_t(z)=(A+tB)z+(tA+B)`, with one uniform t<1 sufficiently close to 1 on
    compact X; prove the circle Möbius identity and endpoint invertibility.
    Normalize by the actual left/right inverse in the correct multiplication
    order. Apply the spectral splitting to prove the clutch bundle decomposes
@@ -1158,8 +1211,8 @@ all steps below are targets, including independence of the constructed inverse.
    projective-bundle theorem with t=[O_(P(E))(−1)], basis
    1,t,…,t^(r−1) over K(X), and relation
    `Σ_(j=0)^r (−1)^j [Λ^j E] t^(r−j)=0`.
-   For r=0, P(E)=∅ and its K-group is0, with the empty basis; the
-   corresponding relation is1=0 in this zero target ring, not CP^(−1).
+   For r=0, P(E)=∅ and its K-group is 0, with the empty basis; the
+   corresponding relation is 1=0 in this zero target ring, not CP^(−1).
    For locally constant variable rank apply the constant-rank theorem on
    each clopen rank stratum X_r, and assemble the idempotent-stratum
    module description. A compact base has finitely many such strata;
@@ -1192,14 +1245,14 @@ all steps below are targets, including independence of the constructed inverse.
    pencil is invertible outside/inside S(M) and homotope it by scaling b on
    its outside block and a on its inside block. Construct the global inverse,
    its homotopy/degree/Laurent-clearance independence and both inverse laws.
-   With tautological t this proves the rank2 relation `(t−1)(t−[M])=0`.
+   With tautological t this proves the rank 2 relation `(t−1)(t−[M])=0`.
    This intrinsic proof supplies T6's equivariant line case without invoking
    a nonequivariant local cover.
 3. Prove the Thom isomorphism `Kc(X)→Kc(E)` by multiplication by the Koszul
    class. For a trivial line it is −β, so compare its multiplier with the
    negative of T4's β Bott map and prove both inverse laws in that convention.
    For a line bundle prove
-   it using the projective compactification/exact sequence in item2. Pull back
+   it using the projective compactification/exact sequence in item 2. Pull back
    a higher-rank bundle to its iterated projective flag bundle, where it splits
    into lines; prove K-theory pullback injective by the projective basis theorem
    for the splitting identities. Prove the ordinary Thom isomorphism by
@@ -1333,7 +1386,7 @@ comparisons, not an assumption on every K-object.
    Stabilize a continuous family of Fredholm maps by a finite equivariant
    bundle W of target sections so that `(D,W)` is fibrewise surjective; over
    a compact base choose W from a finite-dimensional group representation
-   using item1. Prove operator-norm openness of surjectivity for the infinite
+   using item 1. Prove operator-norm openness of surjectivity for the infinite
    Hilbert target: a surjective Fredholm map has a bounded right inverse from
    its complemented kernel, and a Neumann-series perturbation retains a right
    inverse. Consume the native Fredholm package's neighbourhood normal form.
@@ -1362,10 +1415,10 @@ comparisons, not an assumption on every K-object.
    Consume K7's projective Dolbeault/Hodge calculation to extract
    `H^(0,0)(CP^(r−1))=C`, with trivial U(r)-action, and
    `H^(0,q)(CP^(r−1))=0` for q>0. Prove the constant-function/action comparison;
-   a bare dimension equality is insufficient. Include r=1 point and rank0
+   a bare dimension equality is insufficient. Include r=1 point and rank 0
    cases separately.
 
-   For compact Lie G and a compact G×U(r)-space X, use the family of item5
+   For compact Lie G and a compact G×U(r)-space X, use the family of item 5
    and change of group
    `K_(G×H_r)(X)≃K_(G×U(r))(X×CP^(r−1))` to define the projective transfer
    `K_(G×H_r)(X)→K_(G×U(r))(X)`. Prove its module projection formula and
@@ -1382,10 +1435,10 @@ comparisons, not an assumption on every K-object.
    of `TauCeti.OrthonormalFrameBundle.exists_trivialization`, made a principal
    U(r)-bundle in T6.4's sense and retaining the commuting G-action. On P the pullback is the trivial
    `(G×U(r))`-bundle with standard U(r) fibre action. Restrict U(r) to T;
-   its standard representation splits into character lines, so item3 gives
+   its standard representation splits into character lines, so item 3 gives
    Thom there. Use the transfer on base and total space and its Koszul
    compatibility to prove injectivity and surjectivity before descending along
-   P→X by item4. Treat variable ranks on invariant clopen strata. This proves
+   P→X by item 4. Treat variable ranks on invariant clopen strata. This proves
    general complex equivariant Thom and representation Bott
    `R(G)≃K_(G,c)(V)`, including nontrivial G-action on V. Afterwards derive
    the equivariant projective/flag module-basis and relation theorems from
@@ -1423,7 +1476,7 @@ trivial-bundle basepoints and prepend-line tower, T1.6b's actual BO sum μ and
 T1.6c's stableOrientedGrassmannianWhitneySum. Retain its proved ε_k·Whitney
 finite formula, normalized diagonal and natural stable Whitney comparison.
 This inverse construction follows T1.6 and precedes the real Bott comparison
-of item1 and G5.0's stable-Spin inverse supplement.
+of item 1 and G5.0's stable-Spin inverse supplement.
 
 On AT4.5's native CW product P=k(BO×BO), with the pair of marked trivial
 0-cells as basepoint, identify P with T1.6b's CompactlyGenerated product
@@ -1433,7 +1486,7 @@ map x↦(x,*) through that identification, using `cwProductKelley`. Its basepoin
 since μ(*,*)=*. Consume AT8.1's `homotopyGroupKelleyProduct` for the
 native product homotopy-group comparison.
 The based unit homotopies identify the two restrictions of μ with identity;
-prove μ_*(a,b)=a+b. In degree1 prove commutativity by the Eckmann–Hilton
+prove μ_*(a,b)=a+b. In degree 1 prove commutativity by the Eckmann–Hilton
 comparison between loop composition and the H-space sum; in higher degrees
 use the native group law, and treat components using connectedness of BO.
 Thus sh_* is (a,b)↦(a,a+b), with inverse (a,b)↦(a,b−a).
@@ -1525,7 +1578,9 @@ its characteristic-class consequences; G2.8 owns the generic
      Serre fibration by Tau Ceti's
      `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization`, and its
      restriction to SO(n+1) has fibre ι_n(SO(n)). Since π_j(S^n)=0 for j<n
-     (T1.5a at r=1), AlgebraicTopology Stage 5.5's based homotopy long exact
+     (Tau Ceti's `TauCeti.subsingleton_homotopyGroup_sphere_of_lt`, on the
+     unit sphere of `EuclideanSpace ℝ (Fin (n+1))`, which the last column
+     reaches through `WithLp.toLp 2`), AlgebraicTopology Stage 5.5's based homotopy long exact
      sequence makes ι_n bijective on π_i for i≤n−2 and onto for i=n−1, and
      the colimit gives the claim. In degree 0 this is the statement about
      path components: π₀(O(n))=ℤ/2 for n≥1, separated by the determinant.
@@ -1757,21 +1812,21 @@ its characteristic-class consequences; G2.8 owns the generic
    `nonempty_homotopyGroup_orthogonalGroup_mulEquiv` (Hatcher, *Vector Bundles and
    K-Theory*, Introduction, p. 1, for the table of reduced KO of spheres).
 
-   Choose η in degree−1 as Möbius−1, a in degree−4 and b in degree−8 by the
+   Choose η in degree −1 as Möbius−1, a in degree −4 and b in degree −8 by the
    specified irreducible module representatives of Cl(0,n): the raw volume
    e₁⋯e₄ acts by −1 on the even part for a, and e₁⋯e₈ by +1 for b.
    Compute the module restriction cokernels and tensor products in
    degrees 0–8 from SpinRepresentations' real Clifford classification, and
-   prove the low-degree geometric comparison: Möbius clutching in degree1,
-   the explicit winding-one SO(2) loop and its stable Z/2 class in degree2,
-   and quaternionic Hopf clutching in degree4. In particular prove that the
-   Clifford tensor square of the degree1 representative gives that nonzero
+   prove the low-degree geometric comparison: Möbius clutching in degree 1,
+   the explicit winding-one SO(2) loop and its stable Z/2 class in degree 2,
+   and quaternionic Hopf clutching in degree 4. In particular prove that the
+   Clifford tensor square of the degree 1 representative gives that nonzero
    stable loop, in agreement with `η²≠0` above. Prove
    `2η=η³=ηa=0` and `a²=4b`: the first three because a_1=ℤ/2 and
-   a_3=a_5=0, the last by applying the injective c in degree−8. On the
+   a_3=a_5=0, the last by applying the injective c in degree −8. On the
    Clifford-module quotient side prove
    eightfold periodicity via a graded-Clifford Morita equivalence: construct
-   tensoring with the degree8 irreducible graded module, prove it intertwines
+   tensoring with the degree 8 irreducible graded module, prove it intertwines
    restriction, and compute its action on both simple-module generators using
    grading/volume-element signs and dimensions. The ungraded matrix-algebra
    periodicity of SpinRepresentations is an input to that proof, not the
@@ -1779,16 +1834,16 @@ its characteristic-class consequences; G2.8 owns the generic
    For every n≥0 the coefficient map B_n, the product with b from
    KO^(−n)(pt) to KO^(−n−8)(pt), satisfies
    `B_n(α_n(m))=α_(n+8)(m⊗λ₈)` for the ABS maps α and the chosen graded
-   degree8 module λ₈, by ABS multiplicativity. Using
-   the degree0–7 clutching checks and the two periodic isomorphisms, prove
+   degree 8 module λ₈, by ABS multiplicativity. Using
+   the degree 0–7 clutching checks and the two periodic isomorphisms, prove
    α_n bijective for every n. No additive period table alone proves this.
    This
    proves the ring, not just the additive table. Pin complexification by
-   `c(a)=2u²`, `c(b)=u⁴`, where u is T4's degree−2 generator; compute c and r
+   `c(a)=2u²`, `c(b)=u⁴`, where u is T4's degree −2 generator; compute c and r
    on all eight degrees with the real/quaternionic module comparisons.
    In particular prove `r(1)=2`, `r(u)=η²`, `r(u²)=a`, `r(u³)=0`,
    `r(u⁴)=2b`, and c kills the η-torsion; here r(u)≠0 is the winding-one
-   loop of degree2, and the others follow from `c(r(x))=x+conj(x)` with
+   loop of degree 2, and the others follow from `c(r(x))=x+conj(x)` with
    conj(u)=−u and the injectivity of c in degrees −4 and −8.
 
    Export the eightfold stable Bott equivalence on ℤ×BO: a based map from
@@ -1807,7 +1862,7 @@ its characteristic-class consequences; G2.8 owns the generic
    Multiplication by this actual b is a natural map of relative cohomology
    theories and an isomorphism on every compact pair by the periodicity
    theorem above. On finite CW pairs the cell relative groups and five-lemma
-   induction recover the same statement from the coefficients: in degree0
+   induction recover the same statement from the coefficients: in degree 0
    use the attaching-map mapping
    cylinder pair `(M_f,∨S^(k−1))`, whose quotient is the attached skeleton,
    so KO⁰ of that skeleton is central in five defined nonpositive-degree
@@ -1821,7 +1876,7 @@ its characteristic-class consequences; G2.8 owns the generic
    the relative data and X×I version. Product-by-b and the exact sequences
    pass through that colimit, and through the compact-support colimit of T3.3.
    Export the full Z-graded theory and coefficient ring
-   `Z[η,a,b,b^−1]/(2η,η³,ηa,a²−4b)`, with degrees−1,−4,−8. Algebraic Clifford
+   `Z[η,a,b,b^−1]/(2η,η³,ηa,a²−4b)`, with degrees −1, −4, −8. Algebraic Clifford
    periodicity supplies the module calculation, while the geometric
    identification uses the Real (1,1)-periodicity above; neither substitutes
    for the other.
@@ -1880,14 +1935,14 @@ computation uses T1.5a's first homotopy groups and the loop comparisons
 ΩBO≃O and ΩBSO≃SO, which are T7.1's. T1.5–T1.6 consume nothing from T7. Every analytic step in T4 concerns finite
 matrix/bundle families; no elliptic operator or index theorem proves Bott.
 
-- Atiyah–Bott, [*On the periodicity theorem for complex vector bundles*](https://doi.org/10.1007/BF02391772), Acta Math.112 (1964), 229–247, for the polynomial-clutching proof.
+- Atiyah–Bott, [*On the periodicity theorem for complex vector bundles*](https://doi.org/10.1007/BF02391772), Acta Math. 112 (1964), 229–247, for the polynomial-clutching proof.
 - Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf), §1 and §§2.1–2.3, for bundle/classification foundations, the group completion of T2.0, the elementary product proof and Adams operations; the Introduction (p. 1) for the table of reduced KO of spheres and §4.1 (p. 108) for the stable range of the orthogonal groups in T7.1.
 - Kriz–May, [*Operads, algebras, modules, and motives*](https://www.math.uchicago.edu/~may/BOOKS/KM.pdf), the section “The linear isometries operad”, for the finite-support universe and compactly generated coordinate-choice topology; T1.6 builds the actual frame/coherence comparisons.
 - Freed's K-theory lectures, [notes by Arun Debray](https://www.math.purdue.edu/~adebray/lecture_notes/m392c_Knotes.pdf), §§5–6, for the companion-pencil, spectral bundle and inverse-independence proof spine, with uniform approximation and signs proved as specified above.
-- Segal, [*Equivariant K-theory*](https://www.numdam.org/item/PMIHES_1968__34__129_0/), Publ.Math.IHÉS34 (1968), for equivariant bundles, representation embeddings, descent and complex Thom theory.
-- Atiyah, [*Bott periodicity and the index of elliptic operators*](https://doi.org/10.1093/qmath/19.1.113), Quart.J.Math.19 (1968), §§2 and4 (especially Proposition4.9), for the minimal family-index transfer; prove the analytic bridges of T6.5 rather than importing a general index theorem.
+- Segal, [*Equivariant K-theory*](https://www.numdam.org/item/PMIHES_1968__34__129_0/), Publ. Math. IHÉS 34 (1968), for equivariant bundles, representation embeddings, descent and complex Thom theory.
+- Atiyah, [*Bott periodicity and the index of elliptic operators*](https://doi.org/10.1093/qmath/19.1.113), Quart. J. Math. 19 (1968), §§2 and 4 (especially Proposition 4.9), for the minimal family-index transfer; prove the analytic bridges of T6.5 rather than importing a general index theorem.
 - Atiyah, [*K-theory and reality*](https://doi.org/10.1093/qmath/17.1.367), Quart. J. Math. Oxford 17 (1966), 367–386, §2 for (1,1)-periodicity and Theorem 3.10 for the eightfold periodicity of T7.1.
-- Atiyah–Bott–Shapiro, [*Clifford modules*](https://doi.org/10.1016/0040-9383(64)90003-5), Topology3 Supplement1 (1964), §§6 and11, for the graded-module product computation and its geometric comparison in T7.
+- Atiyah–Bott–Shapiro, [*Clifford modules*](https://doi.org/10.1016/0040-9383(64)90003-5), Topology 3 Supplement 1 (1964), §§6 and 11, for the graded-module product computation and its geometric comparison in T7.
 - Sibson, [*Existence theorems for H-space inverses*](https://doi.org/10.1017/S0305004100044029), Proc. Cambridge Philos. Soc. 65 (1969), pp. 19–21, for the connected CW H-space inverse of T7.0.
 - Mitchell, [*Notes on principal bundles and classifying spaces*](https://sites.math.washington.edu/~mitchell/Notes/prin.pdf) (2011), §§2–3 and Lemma 7.2, for the principal-bundle and classifying-space inputs of T6.4.
 - Kolář–Michor–Slovák, [*Natural Operations in Differential Geometry*](https://www.mat.univie.ac.at/~michor/kmsbookh.pdf) (1993), §§10.1–10.9, for principal and associated bundles in T6.4.
