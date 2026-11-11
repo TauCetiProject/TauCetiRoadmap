@@ -16,8 +16,12 @@ By §3.3 every finite-energy connection on `ℝ⁴` has a global potential of cl
 pins have this order-one class: `TauCeti.HasWeakFDerivOn` is the weak derivative, and
 `TauCeti.WeakDerivStep` over `Lᵖ(Ω; V)` is `W^{1,p}(Ω; V)` for a complete `V`. Its local version for
 `𝔰𝔲(2)`-valued potentials, with finite energy, is the predicate `IsFiniteEnergySU2Potential`, the
-matrices carrying the Frobenius norm. For `SU(2)` with the trace form nothing more is needed: `𝔰𝔲(2)`
-is the trace-free skew-Hermitian matrices and the inner product is the trace.
+matrices carrying the Frobenius norm for the weak derivative and square integrability being stated
+entry by entry. For `SU(2)` with the trace form nothing more is needed: `𝔰𝔲(2)` is the trace-free
+skew-Hermitian matrices (Tau Ceti's
+`TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_GLSpecialUnitary_lieSubalgebra_iff`, for
+`TauCeti.GLSpecialUnitary`, whose elements are those of `Matrix.specialUnitaryGroup` by
+`TauCeti.GLSpecialUnitary.mem_iff`) and the inner product is the trace.
 
 The other headlines need at least one of the following.
 
@@ -107,11 +111,14 @@ structure IsFiniteEnergySU2Potential
   trace_eq_zero : ∀ᵐ x, ∀ j, (A x j).trace = 0
   /-- `DA` is a weak derivative of `A` on `ℝ⁴`. -/
   hasWeakFDerivOn : TauCeti.HasWeakFDerivOn volume ⊤ A DA
-  /-- `A` and its directional weak derivatives are square integrable on every compact set. -/
-  memLp_restrict : ∀ K : Set (EuclideanSpace ℝ (Fin 4)), IsCompact K →
-    MemLp A 2 (volume.restrict K) ∧ ∀ v, MemLp (fun x => DA x v) 2 (volume.restrict K)
-  /-- The energy is finite: every curvature coefficient is square integrable. -/
-  memLp_curvature : ∀ j k : Fin 4, MemLp (fun x => curvature A DA x j k) 2 volume
+  /-- Every entry of `A` and of its directional weak derivatives is square integrable on every
+  compact set. -/
+  memLp_restrict : ∀ K : Set (EuclideanSpace ℝ (Fin 4)), IsCompact K → ∀ (j : Fin 4) (a b : Fin 2),
+    MemLp (fun x => A x j a b) 2 (volume.restrict K) ∧
+      ∀ v, MemLp (fun x => DA x v j a b) 2 (volume.restrict K)
+  /-- The energy is finite: every entry of every curvature coefficient is square integrable. -/
+  memLp_curvature : ∀ (j k : Fin 4) (a b : Fin 2),
+    MemLp (fun x => curvature A DA x j k a b) 2 volume
 
 /-- The instanton number `c₂(a) = (8π²)⁻¹ ∫_{ℝ⁴} tr(F ∧ F)` (README §6.4): the integrand is the
 coefficient of `dx¹ ∧ dx² ∧ dx³ ∧ dx⁴` in `tr(F ∧ F)`, namely

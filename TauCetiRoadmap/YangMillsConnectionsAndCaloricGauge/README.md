@@ -115,12 +115,15 @@ It leaves to named roadmaps:
 - **LieGroups** owns `Ad` and `ad` (Layer 1) and the generic invariant-metric and compact
   Lie-algebra splitting (Layer 5A). Its exponential map (Layer 0) and its closed-subgroup theorem
   with the Lie algebra of a closed subgroup (Layer 2) are already in Tau Ceti (From Tau Ceti), and
-  the matrix exponential is Mathlib's `NormedSpace.exp`. Here the matrix trace metric is an
-  explicit compatible choice; the splitting is
-  consumed on the identity component and is not reconstructed. The compact real root planes and
-  normalised root `𝔰𝔲(2)` subalgebras are LieGroups Layer 6’s constructions. The additional norm
-  comparison saying that a longest-root subalgebra attains `γ₀` is requested there under Exact
-  supplier contracts.
+  the matrix exponential is Mathlib's `NormedSpace.exp`. Tau Ceti also proves the facts §1.1 uses
+  about the Lie algebra of a closed subgroup: it grows with the subgroup, is preserved by `Ad(g)`
+  for `g` in the subgroup and is the range of the differential of the inclusion at `1`, and for the
+  unitary (special unitary) matrices it consists of the skew-Hermitian (trace-free
+  skew-Hermitian) matrices; `exp(𝔤) ⊆ G` is the defining property of `𝔤`. Here the matrix trace
+  metric is an explicit compatible choice; the splitting is consumed on the identity component and
+  is not reconstructed. The compact real root planes and normalised root `𝔰𝔲(2)` subalgebras are
+  LieGroups Layer 6’s constructions. The additional norm comparison saying that a longest-root
+  subalgebra attains `γ₀` is requested there under Exact supplier contracts.
 - **Yamabe** owns the sharp Euclidean Sobolev inequality with the constant `Y(Sⁿ)` (Y2 item 1),
   which the energy gap of §7.5 consumes in dimension four.
 - **FourManifolds** states Uhlenbeck's small-curvature Coulomb gauge on the unit Euclidean
@@ -329,7 +332,24 @@ At the pinned Tau Ceti; paths under `TauCeti/`.
   (`Units.lean`) says that `X ∈ R` lies in the Lie algebra of `K` exactly when
   `TauCeti.expUnit (t • X) ∈ K` for all real `t`. Used in §1.1 with `R` the `N × N` complex
   matrices and `K` the group `G`, as a subgroup of their units; the Lie algebra so obtained is the
-  `𝔤` of the Conventions, and the choice of norm on `R` does not affect it.
+  `𝔤` of the Conventions, and the choice of norm on `R` does not affect it. Further (file
+  names again in `Geometry/Lie/Subgroup/` unless a full path is given):
+  `TauCeti.Lie.lieSubalgebraOfSubgroup_mono` (`LieAlgebra.lean`: a larger subgroup has a larger Lie
+  algebra); `TauCeti.Lie.Ad_mem_lieSubalgebraOfSubgroup` (`LieAlgebra.lean`: `Ad(g)` maps the Lie
+  algebra of `K` into itself for `g` in the normaliser of `K`), read in matrix coordinates through
+  `TauCeti.Lie.unitsLieAlgebraEquiv_Ad` (`Geometry/Lie/Adjoint/Units/Basic.lean`: there
+  `Ad(g)X = gXg⁻¹`);
+  `TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_lieSubalgebraOfSubgroup_iff_conjTranspose_eq_neg`
+  (`Unitary.lean`: the Lie algebra of the unitary matrices is `{X : Xᴴ = −X}`);
+  `TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_GLSpecialUnitary_lieSubalgebra_iff`
+  (`SpecialUnitary.lean`: the Lie algebra of `TauCeti.GLSpecialUnitary`, the special unitary group
+  as a subgroup of the units, is `{X : Xᴴ = −X, tr X = 0}`), whose elements are those of
+  `Matrix.specialUnitaryGroup` by `TauCeti.GLSpecialUnitary.mem_iff`
+  (`LinearAlgebra/Matrix/GeneralLinearGroup/SpecialUnitary.lean`); and
+  `TauCeti.Lie.EmbeddedLieSubgroupData.range_lieMapSubtypeVal_eq` (`Differential.lean`: for
+  embedded-subgroup data modelled on the Lie algebra of `K`, as the closed-subgroup theorem
+  supplies, the differential of the inclusion at `1` has range the Lie algebra of `K`). Used in
+  §1.1, and the special unitary computation in §6.4.
 - `HomotopyGroup.bijective_hurewicz` (`AlgebraicTopology/Homotopy/Hurewicz/Absolute.lean`): for a
   space in `Type` whose homotopy groups vanish below degree `n + 2`, the cubical Hurewicz map
   `π_{n+2} → H_{n+2}(·; ℤ)` is bijective. Used in §6.4 for `S³`, with AlgebraicTopology §8.3's
@@ -473,8 +493,10 @@ Define a compact matrix structure group as a triple `(N, G, ⟨·,·⟩)` with `
 `Matrix.unitaryGroup (Fin N) ℂ`, its Lie algebra `𝔤` as in the Conventions, and an `Ad(G)`-invariant
 inner product on `𝔤` (OhTataru-YMHF line 92–102; OhTataru-TopClass line 121–127 and 976–979).
 
-- `𝔤` is a real Lie subalgebra of the skew-Hermitian matrices, `exp(𝔤) ⊆ G`, and `Ad(g)𝔤 = 𝔤` for
-  every `g ∈ G`; the tangent space of `G` at `g`, as a subspace of the matrices, is `g𝔤 = 𝔤g`.
+- The tangent space of `G` at `g`, as a subspace of the matrices, is `g𝔤 = 𝔤g`. Route: the
+  differential of the inclusion at `1` has range `𝔤`; left multiplication by `g` is linear on the
+  matrices and maps `G` onto itself, so it carries this range onto `g𝔤`; and `Ad(g)𝔤 = 𝔤`
+  (`Ad(g)𝔤 ⊆ 𝔤` applied to `g` and to `g⁻¹`) with `gX = (gXg⁻¹)g` gives `g𝔤 = 𝔤g`.
 - `Ad(g)` is an isometry of `𝔤` for `g ∈ G`, and `ad(X)` is skew-adjoint for `X ∈ 𝔤`.
 - The trace form `−Re tr(XY)` is positive definite and `Ad(U(N))`-invariant on `𝔲(N)`, so every
   closed `G ⊆ U(N)` admits an admissible inner product.
@@ -495,8 +517,12 @@ inner product on `𝔤` (OhTataru-YMHF line 92–102; OhTataru-TopClass line 121
   matrix exchanges `e₁` and `e₂`, so it is not `Ad(G)`-invariant and is excluded.
 
 *Needs:* Mathlib `Matrix.unitaryGroup`, `NormedSpace.exp`, `Matrix.isUnit_exp`; Tau Ceti
-`TauCeti.Lie.isEmbeddedLieSubgroup_of_isClosed` and
-`TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_lieSubalgebraOfSubgroup_iff`; LieGroups Layers 1, 5A.
+`TauCeti.Lie.isEmbeddedLieSubgroup_of_isClosed`,
+`TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_lieSubalgebraOfSubgroup_iff`,
+`TauCeti.Lie.lieSubalgebraOfSubgroup_mono`,
+`TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_lieSubalgebraOfSubgroup_iff_conjTranspose_eq_neg`,
+`TauCeti.Lie.Ad_mem_lieSubalgebraOfSubgroup` with `TauCeti.Lie.unitsLieAlgebraEquiv_Ad`, and
+`TauCeti.Lie.EmbeddedLieSubgroupData.range_lieMapSubtypeVal_eq`; LieGroups Layers 1, 5A.
 
 ### 1.2 The nearest-point retraction onto `G`
 
@@ -1437,9 +1463,12 @@ its statements have the generality of this section:
   on `ℝ^d` with values in `N × N` complex matrices and a weak derivative `DA`, where `∂_jA_k` is the
   `k`-th component of `DA x` applied to the `j`-th coordinate vector.
 - `IsFiniteEnergySU2Potential A DA` says that the four coefficients of `A` are skew-Hermitian and
-  trace free almost everywhere, that `DA` is a weak derivative of `A` on `ℝ⁴`
-  (`TauCeti.HasWeakFDerivOn`) with `A` and `DA` square integrable on every compact set, so that `A`
-  lies in `W^{1,2}_loc(ℝ⁴; 𝔰𝔲(2) ⊗ (ℝ⁴)*)`, and that every curvature coefficient lies in `L²`.
+  trace free almost everywhere, that is, lie in `𝔰𝔲(2)` (Tau Ceti's
+  `TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_GLSpecialUnitary_lieSubalgebra_iff`), that `DA` is a
+  weak derivative of `A` on `ℝ⁴` (`TauCeti.HasWeakFDerivOn`) with every entry of `A` and of each
+  directional derivative `DA x v` square integrable on every compact set, so that `A` lies in
+  `W^{1,2}_loc(ℝ⁴; 𝔰𝔲(2) ⊗ (ℝ⁴)*)`, and that every entry of every curvature coefficient lies in
+  `L²`.
 - `instantonNumber A DA` is `c₂(a)`: `(8π²)⁻¹` times the integral of
   `2(tr(F₁₂F₃₄) − tr(F₁₃F₂₄) + tr(F₁₄F₂₃))`, the coefficient of `dx¹ ∧ dx² ∧ dx³ ∧ dx⁴` in
   `tr(F ∧ F)`, which is real for `𝔰𝔲(2)`-valued curvature.
@@ -1461,8 +1490,10 @@ its statements have the generality of this section:
 - The trivial connection has `c₂ = 0`; with the opposite orientation of `S³` all signs flip, which is
   why the orientation is part of the statement.
 
-*Needs:* AlgebraicTopology §6.5 and §8.3; Tau Ceti `HomotopyGroup.bijective_hurewicz` and
-`TauCeti.HasWeakFDerivOn`; DifferentialGeometry Layer 10 (10.3–10.5); 1.4, 3.3, 5.6, 6.2.
+*Needs:* AlgebraicTopology §6.5 and §8.3; Tau Ceti `HomotopyGroup.bijective_hurewicz`,
+`TauCeti.HasWeakFDerivOn` and
+`TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_GLSpecialUnitary_lieSubalgebra_iff`;
+DifferentialGeometry Layer 10 (10.3–10.5); 1.4, 3.3, 5.6, 6.2.
 
 ### Examples
 
