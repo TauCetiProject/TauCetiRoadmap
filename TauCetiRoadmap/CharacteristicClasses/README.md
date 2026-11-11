@@ -1517,22 +1517,22 @@ framed normal comparison νN≃(f|N)*ν{1}. For a degree-one mod 2 class,
 C1.5a's identification of RP∞ as K(ℤ/2,1) and AT8.10's representability give
 a map M→RP∞ pulling a back to α; for a degree-two integral class, C1.5a's
 identification of CP∞ as K(ℤ,2) gives a map M→CP∞ pulling h back to α.
-Factor the first through a finite RP^N with N≥m and the second through a
-finite CP^N with 2N≥m, so N≥1 in both cases, by cellular approximation on
+Factor the first through a finite RP^r with r≥m and the second through a
+finite CP^r with 2r≥m, so r≥1 in both cases, by cellular approximation on
 the dimension-m CW structure and the projective skeleta of C1.5's
 finite-stage comparisons. Use AT4.6's real-projective smooth atlas and CKG
 K7.1's complex-projective atlas, with their CW and topological comparisons.
 Then apply AT8.13's smoothing of maps into compact manifolds and its
-relative transversality to the compact targets RP^N and CP^N and their
-closed embedded submanifolds RP^(N−1) and CP^(N−1): the result is a smooth
+relative transversality to the compact targets RP^r and CP^r and their
+closed embedded submanifolds RP^(r−1) and CP^(r−1): the result is a smooth
 map f, homotopic to the factored classifying map, transverse to the
 hyperplane.
 
 **Hyperplane adapter.** On those same carriers, the first coordinate
 functional defines a section of the dual tautological line γ*; its zero
-locus is the hyperplane H_N={coordinate 0=0}. In projective charts prove
+locus is the hyperplane H_r={coordinate 0=0}. In projective charts prove
 that this section is transverse to the zero section and identify the normal
-bundle νH_N with γ* restricted to H_N. The real normal line need not be
+bundle νH_r with γ* restricted to H_r. The real normal line need not be
 oriented; the image of its mod 2 Thom class under C2.4's tubular extension
 is C1.5's generator a=w₁(γ)=w₁(γ*). The complex normal line has its complex
 orientation; the image of its integral Thom class is the positive hyperplane
@@ -1549,7 +1549,7 @@ adapter precedes the representation theorem; it is not inferred from the
 names of the cohomology generators.
 
 **Transverse preimages and the Gysin identity.** For each transverse
-classifying map f into RP^N or CP^N construct N=f⁻¹(H), its smooth embedding
+classifying map f into RP^r or CP^r construct N=f⁻¹(H), its smooth embedding
 i:N→M, and the derivative-induced normal-bundle isomorphism νN≃(f|N)*νH;
 for the circle these are AT8.13's. In the integral cases orient N by the
 normal-first order νN then TN in a smooth splitting of TM|N, and prove
@@ -1570,16 +1570,16 @@ class or projective space. Applied to the Poincaré dual α=f*u of a given
 homology class, the identity is the representation theorem above.
 
 **Stabilization and transverse-pullback naturality.** Every projective stage
-inclusion j appends zero coordinates. For H_N={coordinate 0=0} and N≤N′,
-prove j⁻¹(H_N′)=H_N and that j is transverse to H_N′; this preserves the
+inclusion j appends zero coordinates. For H_r={coordinate 0=0} and r≤r′,
+prove j⁻¹(H_r′)=H_r and that j is transverse to H_r′; this preserves the
 normal data of the preimage. For a homotopy between two transverse
-classifying maps into stages N₀ and N₁, choose N′≥max(N₀,N₁) with N′≥m+1
-over ℝ or 2N′≥m+1 over ℂ, extend the homotopy constantly to the
+classifying maps into stages r₀ and r₁, choose r′≥max(r₀,r₁) with r′≥m+1
+over ℝ or 2r′≥m+1 over ℂ, extend the homotopy constantly to the
 boundaryless sigma-compact manifold ℝ×M, apply AT8.13's smoothing and
 relative transversality with A=(ℝ∖(0,1))×M, on a neighbourhood of which the
 extended homotopy is the smooth transverse endpoint map, and restrict to
 [0,1]×M. Construct the resulting compact embedded bordism in I×M between
-the two preimages. With interval-first ambient orientation and normal rank
+the two preimages N₀ and N₁. With interval-first ambient orientation and normal rank
 c, multiply its normal-first inverse-image orientation by (−1)^c to obtain
 the boundary −N₀ disjoint-union N₁ under the outward-normal-first
 convention; mod 2 the sign disappears. This proves independence of the
@@ -1598,7 +1598,7 @@ and finite-stage comparisons, C1.5a and C2.1–C2.4.
   1; on CP¹ it is the single point [0:1], which the complex orientation
   counts +1, so the Thom image is h and not −h=c₁(O(−1)).
 - For M=RP² the nonzero class of H₁(RP²;𝔽₂)=𝔽₂ is represented by the line
-  RP¹, the preimage of H_N under a linear inclusion RP²→RP^N; RP² is not
+  RP¹, the preimage of H_r under a linear inclusion RP²→RP^r; RP² is not
   orientable, and the statement needs no orientation there.
 - For M=CP² and u=h the identity map is transverse to the hyperplane
   CP¹⊂CP², and i_*[CP¹]=PD(h) generates H₂(CP²;ℤ), in agreement with
