@@ -96,11 +96,11 @@ BordismFormalGroups consumes G2–G5 and owns formal group laws,
 orientation changes and coefficient-ring universality, so G4.5 states no formal-group
 universality.
 
-**Moved identifiers.** The realization product comparison is AlgebraicTopology Stage 4.5's
+**Moved identifiers.** The realization product comparison is AlgebraicTopology §4.9's
 single simplicial-realization product comparison; G2.1 builds only its pointed smash and quotient
 versions. The G2.1, G2.2, G2.10 and G4.0 carriers below are Tau Ceti's.
 
-- G2.1 realizationProductKelleyComparison → AlgebraicTopology Stage 4.5, simplicial-realization
+- G2.1 realizationProductKelleyComparison → AlgebraicTopology §4.9, simplicial-realization
   product comparison.
 - G2.10 IsHurewiczFibration, MappingPathSpace and MappingPathFiber → Tau Ceti
   `TauCeti.IsHurewiczFibration`, `TauCeti.MappingPathSpace` and `TauCeti.MappingPathFiber`.
@@ -120,7 +120,7 @@ versions. The G2.1, G2.2, G2.10 and G4.0 carriers below are Tau Ceti's.
 
 - AT, CC, TopK and GT abbreviate the supplier roadmaps AlgebraicTopology, CharacteristicClasses,
   TopologicalKTheory and GeometricTopology; AT4.4 is AlgebraicTopology Stage 4.4 and TopK T1.5 is
-  TopologicalKTheory T1.5.
+  TopologicalKTheory T1.5. Stage 4.4 and §4.4 both name item 4.4 of AlgebraicTopology.
 - Work in explicitly fixed universes. The category of u-small CW objects has a
   set of cells in `Type u`, and theory values for Brown's theorem are u-small.
   Prove the solution-set bounds so the representing CW object is in that same
@@ -128,7 +128,7 @@ versions. The G2.1, G2.2, G2.10 and G4.0 carriers below are Tau Ceti's.
   wedge in a construction. The pointed CW category has chosen cell structures,
   a 0-cell basepoint, all continuous based maps, and pointed homotopy classes.
   Its products are CW products in the compactly generated category of
-  AlgebraicTopology Stage 4.5, with k the coreflection: prove the weak
+  AlgebraicTopology §4.8, with k the coreflection: prove the weak
   product CW structure agrees with k(X×Y). All products, wedges, smash and
   relative-product unions below use that topology and its comparison maps.
 - Based spaces carry a point and maps preserve it. For CW models use a chosen
@@ -371,13 +371,15 @@ versions. The G2.1, G2.2, G2.10 and G4.0 carriers below are Tau Ceti's.
   compact based smash and reduced suspension
   carriers for compact Hausdorff inputs and pointed Hausdorff CW spaces, and their raw-to-kified
   comparisons.
-- Stage 4.5: the compact-generation interface, the coreflection k given by
+- §4.8: compact generation, the coreflection k given by
   `TopologicalSpace.compactlyGenerated`, right adjoint to
   `CompactlyGenerated.compactlyGeneratedToTop`, with its counit, the CW and locally compact product
-  comparisons and the interval-product comparison; the single simplicial-realization product
-  comparison |K×L| ≃ k(|K|×|L|); `ordinaryPairQuotientComparison` and
+  comparisons and the based suspension–loop adjunction on based interval loops; 8.11a's
+  interval-product comparison; §4.9's single simplicial-realization product
+  comparison |K×L| ≃ k(|K|×|L|). Stage 4.5: the Kelley product CW structure,
+  `ordinaryPairQuotientComparison` and
   `ordinaryPairQuotientCohomologyComparison`, with the pair-to-mapping-cone comparison.
-- Stage 4.7's realization CW structure of a simplicial set; Stage 4.8's abstract CW
+- Stage 4.7's realization CW structure of a simplicial set; §4.10's abstract CW
   approximation and Stage 5.5's ordinary Serre homology and cohomology spectral sequences with
   their multiplicative convergence; Stage 5.0's spectral sequence of a filtered complex.
 - Stage 6.4: the Poincaré–Lefschetz isomorphisms for compact manifolds with boundary, with their
@@ -387,9 +389,8 @@ versions. The G2.1, G2.2, G2.10 and G4.0 carriers below are Tau Ceti's.
 - Stage 8.8c's functorial abelian Eilenberg–Mac Lane models on arbitrary CW spaces; Stage 8.8d's
   Serre classes, including torsion, and Hurewicz modulo a class; Stage 8.10's ordinary cohomology
   representability `ordinaryEMRepresentability`, its universal class and its relative
-  representability for CW pairs; Stage 8.11b's ordinary Eilenberg–Mac Lane loop comparison, its
-  ordinary cohomology suspension and the based suspension–loop adjunction on the native
-  fixed-interval loops.
+  representability for CW pairs; Stage 8.11b's ordinary Eilenberg–Mac Lane loop comparison on the
+  native fixed-interval loops and its ordinary cohomology suspension.
 
 ### From TauCetiRoadmap.TopologicalKTheory
 
@@ -581,7 +582,7 @@ Own the reduced mapping cone C_f of an arbitrary pointed map
 f:X→Y of compactly generated pointed spaces and its Puppe sequence
 X→Y→C_f→ΣX→ΣY→⋯ (Hatcher, *Algebraic Topology*, §4.3, p. 398, for the
 Puppe sequence of a pair), built on AlgebraicTopology Stage 4.4's pointed quotient
-and reduced suspension carriers and Stage 4.5's compact generation. Prove
+and reduced suspension carriers and §4.8's compact generation. Prove
 the comparison with pair/triple exact sequences, and derive
 Mayer–Vietoris with the ordered-cover map `(restriction,−restriction)`
 from E*(U)⊕E*(V) to E*(U∩V) (May, *A Concise Course in Algebraic Topology*,
@@ -607,7 +608,7 @@ State the comparison with the original theory on CW-type spaces.
 - The singular CW-replacement extension of a theory on CW pairs sends weak equivalences to
   isomorphisms and agrees with the original theory on spaces of CW type.
 
-*Needs:* 1.1–1.2; AlgebraicTopology Stages 4.4–4.5 (pointed quotient and suspension carriers, compact generation and the pair-to-mapping-cone comparison).
+*Needs:* 1.1–1.2; AlgebraicTopology Stages 4.4–4.5 and §4.8 (pointed quotient and suspension carriers, the pair-to-mapping-cone comparison and compact generation).
 
 **Checks.**
 
@@ -672,7 +673,7 @@ do not identify disjoint basepoint addition with this compactification.
 - For locally compact Hausdorff U and V the one-point compactifications satisfy
   `(U×V)⁺ ≅ U⁺∧V⁺`, and this is distinct from adding a disjoint basepoint.
 
-*Needs:* 1.4; AlgebraicTopology Stages 4.4–4.5 (the smash carrier and k-products).
+*Needs:* 1.4; AlgebraicTopology Stages 4.4–4.5 and §4.8 (the smash carrier and k-products).
 
 **Checks.**
 
@@ -740,7 +741,7 @@ proves only 2σ²=0. Prove the bimodule/Koszul action on the shifted summand.
 
 ### Dependencies
 
-G1 uses AlgebraicTopology Stages 2–4, 4.4 and 4.5 for the pointed CW substrate, pairs, cofibrations and the pair-to-mapping-cone comparison, and Mathlib's `TopPair.HomologyPretheory` for the shape of homology theories. It uses no spectral model.
+G1 uses AlgebraicTopology Stages 2–4, 4.4 and 4.5 for the pointed CW substrate, pairs, cofibrations and the pair-to-mapping-cone comparison, with §4.8 for compact generation, and Mathlib's `TopPair.HomologyPretheory` for the shape of homology theories. It uses no spectral model.
 
 ## Layer 2: A concrete spectral model and represented theories
 
@@ -766,16 +767,16 @@ the induced pointed model structure on `Under Δ[0]`. On topological spaces use 
 weak-homotopy (Serre) model with its explicit compactly generated adapter.
 Consume AlgebraicTopology Stage 4.7's realization CW structure of a simplicial set, Stage
 8.2's Kan property of simplicial groups, Moore comparison and Kan realization-unit comparison,
-and CharacteristicClasses C1.2's weak equivalence |Sing X|→X; AlgebraicTopology Stage 4.8
+and CharacteristicClasses C1.2's weak equivalence |Sing X|→X; AlgebraicTopology §4.10
 supplies its abstract CW-approximation comparison. Use those unit and counit results to
 prove realization ⊣ Sing is a Quillen equivalence (Quillen, *Homotopical Algebra*, Chapter II,
 Section 3): `sSetTopAdj_unit_weakEquivalence` states that the unit X → Sing|X| of Mathlib's
 `sSetTopAdj` is a weak equivalence for every simplicial set X, by the triangle identity, the
-counit theorem at |X| and two out of three, and the counit theorem is C1.2's. Consume AlgebraicTopology Stage 4.5's simplicial-realization product comparison
-|K×L| ≃ k(|K|×|L|) with its compact-generation facts; Stages 8.10 and 8.11b use that same
+counit theorem at |X| and two out of three, and the counit theorem is C1.2's. Consume AlgebraicTopology §4.9's simplicial-realization product comparison
+|K×L| ≃ k(|K|×|L|) with §4.8's compact-generation facts; Stages 8.10 and 8.11b use that same
 comparison for their realization and loop adapters. Build its pointed smash and quotient
 versions |X∧Y| ≃ k(|X|∧|Y|) and the monoidal and cofiber diagrams. This pointed adapter uses
-only AlgebraicTopology Stages 4, 4.5 and 8.2; it does not depend on HA, G3 Brown or the
+only AlgebraicTopology Stage 4, with §§4.8 and 4.9, and Stage 8.2; it does not depend on HA, G3 Brown or the
 other G2 targets.
 
 **API.**
@@ -793,7 +794,7 @@ other G2 targets.
 - Realization carries the smash product of pointed simplicial sets to the k-ified smash of the
   realizations, `|X∧Y| ≃ k(|X|∧|Y|)`, compatibly with units, associativity and symmetry.
 
-*Needs:* Tau Ceti `TauCeti.PointedSSet` and `SSet.modelCategoryQuillen.instCategoryWithWeakEquivalences`; Mathlib `SSet.modelCategoryQuillen` and `sSetTopAdj`; AlgebraicTopology Stages 4.5, 4.7, 4.8 and 8.2; CharacteristicClasses C1.2.
+*Needs:* Tau Ceti `TauCeti.PointedSSet` and `SSet.modelCategoryQuillen.instCategoryWithWeakEquivalences`; Mathlib `SSet.modelCategoryQuillen` and `sSetTopAdj`; AlgebraicTopology Stages 4.7 and 8.2 and §§4.8, 4.9 and 4.10; CharacteristicClasses C1.2.
 
 **Checks.**
 
@@ -957,11 +958,11 @@ Quillen equivalences, commutative-ring comparison, stable-equivalence
 invariance and semistability/true-π transport under their replacement
 hypotheses. These adapters carry every topological Thom/operator/Γ model
 into the single retained simplicial category. Prove the homotopy, smash,
-cofiber and suspension diagrams with AlgebraicTopology Stage 4.5's compactly
+cofiber and suspension diagrams with AlgebraicTopology §4.8's compactly
 generated spaces. Own here the pointed smash X∧Y=k((X×Y)/(X∨Y)) of compactly
 generated pointed spaces with its unit S⁰, extending AlgebraicTopology Stage 4.4's
 compact and CW carriers, and use G1.3's mapping cone and Puppe sequence and
-Stage 8.11b's suspension–loop adjunction.
+§4.8's suspension–loop adjunction.
 Prove general Freudenthal for (k−1)-connected pointed CW spaces, k≥1:
 π_iX→π_(i+1)ΣX is an isomorphism for 1≤i≤2k−2 and surjective
 at i=2k−1, with the π₁ group branch at k=1 (Hatcher, *Algebraic Topology*,
@@ -1072,7 +1073,7 @@ negative degrees. No new private stable-stem type is retained.
 - P_s ⊣ Φ_s is a weak monoidal Quillen equivalence of positive-flat models inducing a Quillen
   equivalence of commutative rings, and χ_(m,k) is a stable equivalence on m-semistable spectra.
 
-*Needs:* 2.1–2.4; AlgebraicTopology Stages 4.4, 4.5 and 8.11b, and Stages 2–5 for cellular
+*Needs:* 2.1–2.4; AlgebraicTopology Stage 4.4 and §4.8, and Stages 2–5 for cellular
 approximation and CW homotopy groups; Tau Ceti `TauCeti.BasedTopPair`, `TauCeti.RelHomotopyGroup`,
 `TopPair.ofInclusion`, `TopPair.ofInclusionMap`, the compression lemma and the cell-dimension
 connectivity; Mathlib `Topology.RelCWComplex.Subcomplex` and `JoinedIn`.
@@ -1279,7 +1280,7 @@ Propositions 1.11 and 1.14, pp. 23 and 25, for clutching over spheres).
   and over S¹ the bundles correspond to the conjugacy classes of π₀G.
 - GL_k(ℝ) deformation retracts onto O(k), preserving the determinant sign.
 
-*Needs:* CharacteristicClasses C1.1b; AlgebraicTopology Stage 4.5; RepresentationTheory LieGroups Layer 2 (the matrix groups are Lie groups, so their identity is a nondegenerate basepoint).
+*Needs:* CharacteristicClasses C1.1b; AlgebraicTopology Stage 4.5 and §4.8; RepresentationTheory LieGroups Layer 2 (the matrix groups are Lie groups, so their identity is a nondegenerate basepoint).
 
 **Checks.**
 
@@ -2260,7 +2261,7 @@ EllipticCohomology E2's finite-action towers.
 
 ### Dependencies
 
-G2.1 uses Tau Ceti's pointed simplicial sets, Mathlib's generating classes of simplicial sets, AlgebraicTopology Stages 4.5, 4.7, 4.8 and 8.2 and CharacteristicClasses C1.2. G2.2 uses Tau Ceti's symmetric spectra. G2.3 and G2.4 use G2.1–2.2. G2.5 uses G2.1–2.4, AlgebraicTopology Stages 2–5 (with 4.4 and 4.5) and 8.11b, Tau Ceti's relative homotopy sets of based pairs and Mathlib's CW subcomplexes. G2.6 uses G2.3–2.5. G2.7 uses Tau Ceti's path fibration and AlgebraicTopology Stages 4.5, 5.5, 8.8c and 8.11b. G2.8 uses G2.1–2.4. G2.9 uses CharacteristicClasses C1.1b, AlgebraicTopology Stage 4.5 and RepresentationTheory LieGroups Layer 2; the low-rank homotopy of GL_k(ℝ) that uses G4.0a is G4.6. G2.10 uses G2.1, Tau Ceti's path theory and AlgebraicTopology Stage 5.5. G2.11 uses G2.1–2.5 and G2.9 and precedes G5.7.
+G2.1 uses Tau Ceti's pointed simplicial sets, Mathlib's generating classes of simplicial sets, AlgebraicTopology Stages 4.7 and 8.2 and §§4.8, 4.9 and 4.10 and CharacteristicClasses C1.2. G2.2 uses Tau Ceti's symmetric spectra. G2.3 and G2.4 use G2.1–2.2. G2.5 uses G2.1–2.4, AlgebraicTopology Stages 2–5 (with 4.4 and §4.8), Tau Ceti's relative homotopy sets of based pairs and Mathlib's CW subcomplexes. G2.6 uses G2.3–2.5. G2.7 uses Tau Ceti's path fibration and AlgebraicTopology Stages 4.5, 5.5, 8.8c and 8.11b. G2.8 uses G2.1–2.4. G2.9 uses CharacteristicClasses C1.1b, AlgebraicTopology Stage 4.5 and §4.8 and RepresentationTheory LieGroups Layer 2; the low-rank homotopy of GL_k(ℝ) that uses G4.0a is G4.6. G2.10 uses G2.1, Tau Ceti's path theory and AlgebraicTopology Stage 5.5. G2.11 uses G2.1–2.5 and G2.9 and precedes G5.7.
 
 ## Layer 3: Brown representation, arbitrary CW and infinite comparisons
 
@@ -4525,7 +4526,7 @@ to prove `π_n S⊗ℚ=0` for n>0. Supply the required rational
 H*(K(ℤ,n);ℚ) computation, consuming AT5.5's CW-base and arbitrary-base
 homological and cohomological Serre spectral sequences, with their
 degreewise first-quadrant convergence. Their skeletal filtration and
-CW-approximation construction are owned solely by AT5.5 and AT4.8,
+CW-approximation construction are owned solely by AT5.5 and AT4.10,
 using AT1–4, the AT6.0–6.2 foundational Milnor/cochain/cup portion
 and AT5.0's filtered-complex sequence, and precede AT8.8d and this
 path-loop application. Consume the
@@ -4546,7 +4547,7 @@ bordism polynomial ring; those calculations are not inferred from this
 generic comparison alone. Unstable rational Hurewicz requires its distinct
 connectivity and degree range, not the all-degree stable statement.
 For a pointed space X whose homotopy groups vanish below degree k≥2,
-reduce by CW approximation (AlgebraicTopology Stage 4.8) to a
+reduce by CW approximation (AlgebraicTopology §4.10) to a
 (k−1)-connected pointed CW space and combine G2.5's general Freudenthal
 comparison with this stable theorem to prove that the Hurewicz map
 π_i(X)⊗ℚ→H_i(X;ℚ) is an isomorphism for 1≤i≤2k−2 (trivially for i=1)
@@ -4574,7 +4575,7 @@ Manifolds, and Homotopy*, Theorem 10.19, p. 294).
   `S_ℚ ≃ Hℚ`.
 - `H*(K(ℤ,n);ℚ)` is exterior on a degree-n class for odd n and polynomial on it for even n ≥ 2.
 
-*Needs:* G2.5; G2.7; AlgebraicTopology Stages 4.8, 5.5 and 8.8d; Tau Ceti `HomotopyGroup.hurewiczHom`.
+*Needs:* G2.5; G2.7; AlgebraicTopology §4.10 and Stages 5.5 and 8.8d; Tau Ceti `HomotopyGroup.hurewiczHom`.
 
 **Checks.**
 
