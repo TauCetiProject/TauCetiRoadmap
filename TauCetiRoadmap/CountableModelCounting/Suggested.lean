@@ -478,8 +478,7 @@ theorem not_hasVaughtCount_iff [L.IsRelational] [Countable (Σ l, L.Relations l)
 
 /-- **Layer 5 milestone, the infinite-model reduction.** Adding "the universe is infinite" removes
 the finite tiers: the dichotomy then speaks of the models on `ℕ` alone. -/
-theorem hasVaughtDichotomy_and_infiniteSentence_iff [L.IsRelational]
-    [Countable (Σ l, L.Relations l)] (φ : L.Sentenceω) :
+theorem hasVaughtDichotomy_and_infiniteSentence_iff [L.IsRelational] (φ : L.Sentenceω) :
     HasVaughtDichotomy (φ ⊓ L.infiniteSentence) ↔
       Countable (Quotient (isoSetoidOn ℕ φ)) ∨ HasPerfectSetOfNonisoModelsOn ℕ φ := by
   sorry
