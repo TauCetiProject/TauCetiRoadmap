@@ -446,7 +446,7 @@ For (0,3) the family is (ℙ¹;0,1,∞), with trivial automorphism group. For (1
 
 ### Dependencies
 
-StableReduction Layers 1–3; SchemeAndStackFoundations §§0.9, 1.1–1.2, 1.18–1.23, 2.18–2.20; AlgebraicVectorBundles L0A–L0C. The finite-diagram and arbitrary-base duality contracts precede effective descent.
+StableReduction Layers 0–3; SchemeAndStackFoundations §§0.8–0.9, 1.1–1.2, 1.18–1.23, 2.1–2.2, 2.6, 2.18–2.22, 4.15; AlgebraicVectorBundles L0A–L0C; AlgebraicModuliForArithmeticGeometry §§3.5, 7.2. The finite-diagram and arbitrary-base duality contracts precede effective descent.
 
 ## Layer 1: the unpointed Deligne–Mumford comparison
 
@@ -766,7 +766,7 @@ At g=2 the Hilbert polynomial is 6T−1. A frame is projective: tensoring all fi
 
 ### Dependencies
 
-Layer 0; StableReduction Layers 2–3, 8–9; SchemeAndStackFoundations §§4.6, 4.10, 4.14–4.15; AlgebraicModuliForArithmeticGeometry §§1.1–2.2, 7.2, 8.1–8.3. Hilbert quotient identification uses the family object, not terminal algebraicity or properness as its own premise.
+Layer 0; StableReduction Layers 1–3, 8–9; SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, 1.1, 1.15, 1.18–1.23, 2.1–2.2, 2.6, 2.18–2.22, 4.1–4.10, 4.14–4.15, 4.18, 5.4; AlgebraicModuliForArithmeticGeometry §§1.1–1.7, 2.1–2.2, 3.1–3.5, 7.2–7.3, 7.6, 8.1–8.3; EnhancedDerivedSheaves §E1.9. Hilbert quotient identification uses the family object, not terminal algebraicity or properness as its own premise.
 
 ## Layer 2: universal curves and the full pointed stable range
 
@@ -5780,7 +5780,7 @@ At s=t=0 and γ=1, δ=0 in characteristic two, q=X(X+Y) has discriminant 1. At �
 
 ### Dependencies
 
-Layers 0–1; StableReduction Layers 1–3 and 9; StablePeriodicCurved Layer 2; native polynomial, tensor, dual, categorical Ext, completion and limit APIs. Polynomial matrix and bidual comparisons precede relative criteria; completed coefficient exchange precedes formal-to-geometric transfer; expansion charts precede flatness and coherent inverse comparison.
+Layers 0–1; StableReduction Layers 1–3 and 9; StablePeriodicCurved Layer 2; SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, 1.18–1.23, 4.8, 4.15; AlgebraicModuliForArithmeticGeometry §§1.1–1.7, 7.3, 8.1–8.3; DeformationAndDerivedPatchingAlgebra §3.3; ModularCurves §§1C–1D, 4A–4B; ModularCurvesPartII §§2.1–2.3, 2.11; native polynomial, tensor, dual, categorical Ext, completion and limit APIs. Polynomial matrix and bidual comparisons precede relative criteria; completed coefficient exchange precedes formal-to-geometric transfer; expansion charts precede flatness and coherent inverse comparison.
 
 ## Layer 3: clutching, boundary strata and cotangent lines
 
@@ -6081,7 +6081,7 @@ A self-node contributes two flags. The (0,4) boundary has three points whereas (
 
 ### Dependencies
 
-Layers 0–2; StableReduction Layers 1–3; SchemeAndStackFoundations §§1.18–1.23 and 4.15; AlgebraicModuliForArithmeticGeometry §5.4. Construct elementary clutching and the boundary graph set before their decorated-fibre comparison; construct marking lines before proving their clutching laws. These API consequences are not premises for the defining constructions.
+Layers 0–2; StableReduction Layers 1–3; SchemeAndStackFoundations §§1.1, 1.15, 1.18–1.23, 4.15; AlgebraicModuliForArithmeticGeometry §§5.1–5.4, 7.3, 8.1–8.3. Construct elementary clutching and the boundary graph set before their decorated-fibre comparison; construct marking lines before proving their clutching laws. These API consequences are not premises for the defining constructions.
 
 ## Layer 4: coarse moduli, projectivity and full level
 
@@ -6347,7 +6347,7 @@ For a constant genus-two family E₃ has rank five and degree zero; its determin
 
 ### Dependencies
 
-Layers 0–3; SchemeAndStackFoundations §§1.23 and 4.15; AlgebraicModuliForArithmeticGeometry §§1.1–1.7, 5.4; JacobianChallengePartII §§1.1–1.4; AbelianSchemesAndArithmeticModuli §§A3.1–A3.8. The single ample determinant on the integral level cover is SchemeAndStackFoundations §4.15 `level_structure_cover_ample`.
+Layers 0–3; StableReduction Layers 1–5; SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, 1.18–1.23, 3.3–3.7, 4.15, 5.1–5.10; AlgebraicModuliForArithmeticGeometry §§1.1–1.7, 2.1–2.2, 5.1–5.4, 7.3, 8.1–8.3; JacobianChallenge Layer D; JacobianChallengePartII §§1.1–1.4; AbelianSchemesAndArithmeticModuli §§A3.1–A3.8, A6.18; AbelianSchemesAndArithmeticModuliPartII §B4.1; ComplexComparisonPartII §§C3.2d.1–C3.2d.4. The single ample determinant on the integral level cover is SchemeAndStackFoundations §4.15 `level_structure_cover_ample`.
 
 ## Layer 5: Hodge determinant and integral Noether comparison
 
@@ -6587,7 +6587,7 @@ The construction has the following API.
 
 On M̄_g/C, g≥2, the universal pairing satisfies c₁(P_g)=f_*(c₁(ω_f)²) in CH¹(M̄_g/C;Q), and c₁:Pic(M̄_g/C)⊗Q→CH¹(M̄_g/C;Q) is an isomorphism. The scheme-level integral input is the degree-one graded-K comparison for Deligne pairings on divisorial bases. Its passage to rational Chow and then to the moduli stack must use named comparison/descent maps, and is not an integral identification of arbitrary stack Chow and Picard groups.
 
-Use VirtualFundamentalClass §§2.1–2.3 for rational Chow and its first-Chern and proper-pushforward operations. By §1.11, M̄_g/C≅[U_g/PGL(5g−5)], and EquivariantIntersectionTheory §§1.4 and 2.4 give the integral isomorphism `c₁:Pic(M̄_g/C)→A¹_{PGL(5g−5)}(U_g)`. Prove the pairing Chern comparison, and prove the Edidin–Graham comparison: if a smooth affine group G of dimension d over a field acts properly on a quasi-projective scheme X with a G-linearised ample invertible sheaf and [X/G] is a Deligne–Mumford stack, then flat pullback to the mixed spaces of EquivariantIntersectionTheory §2.1 gives, for every i, an isomorphism `A^G_i(X)⊗Q≅A_{i−d}([X/G])_ℚ` onto the rational Chow groups of VirtualFundamentalClass §2.1, compatible with Chern classes of G-equivariant vector bundles and with proper pushforward along proper G-morphisms. For G=PGL(5g−5) acting on U_g/C and on the universal curve over it, this gives `A^c_{PGL(5g−5)}(U_g)⊗Q≅CH^c(M̄_g/C;Q)` for every c, the same for the universal curves, and compatibility with proper pushforward along f; for c=1 it makes the rational c₁ above an isomorphism.
+Use VirtualFundamentalClass §§2.1–2.3 for rational Chow and its first-Chern and proper-pushforward operations. By §1.11, M̄_g/C≅[U_g/PGL(5g−5)], and EquivariantIntersectionTheory §§1.4 and 2.4 give the integral isomorphism `c₁:Pic(M̄_g/C)→A¹_{PGL(5g−5)}(U_g)`. Prove the pairing Chern comparison, and prove the Edidin–Graham comparison: if a smooth affine group G of dimension d over a field acts properly on a quasi-projective scheme X with a G-linearised ample invertible sheaf and [X/G] is a Deligne–Mumford stack, then flat pullback along the smooth morphisms `X×^G U→[X/G]` from the mixed spaces of EquivariantIntersectionTheory §2.1 gives, for every i, an isomorphism `A_{i−d}([X/G])_ℚ→A^G_i(X)⊗Q` from the rational Chow groups of VirtualFundamentalClass §2.1, compatible with Chern classes of G-equivariant vector bundles and with proper pushforward along proper G-morphisms. For G=PGL(5g−5) acting on U_g/C and on the universal curve over it, this gives `A^c_{PGL(5g−5)}(U_g)⊗Q≅CH^c(M̄_g/C;Q)` for every c, the same for the universal curves, and compatibility with proper pushforward along f; for c=1 it makes the rational c₁ above an isomorphism.
 
 One proof uses the following inputs and comparisons. On a suitable divisorial scheme chart apply Eriksson–Freixas Corollary 6.9 to the two line arguments. Use the rational Chern-character comparison to convert its graded-K identity to Chow. Use a smooth equivariant Hilbert presentation of the moduli stack and compatible mixed quotients (Edidin–Graham, Propositions 14–19), so that the chart computation is an equivariant identity and not merely an identity after forgetting equivariance. Theorem 3.1 of their Riemann–Roch paper supplies the compatible proper pushforward. Identify the mixed-quotient class with the rational stack Chow class of VirtualFundamentalClass §2.1; the Edidin–Graham comparison applies because PGL(5g−5) acts properly on U_g/C, M̄_g/C being separated. Pullback to a plain atlas alone is not an injection on Picard groups.
 
@@ -6710,7 +6710,7 @@ At a node xy=π^e over a DVR, the boundary branch pulls back to e times the clos
 
 ### Dependencies
 
-Layers 0–4; AlgebraicVectorBundles L0A–L0C; PadicMeasuresIwasawaAlgebras §5.1; JacobianChallengePartII §1.3a; SchemeAndStackFoundations §§1.22, 2.18–2.20, 3.4, 5.1–5.8; ComplexComparisonPartII §§C3.2d.1–C3.2d.4; VirtualFundamentalClass §§2.1–2.3; EquivariantIntersectionTheory §§1.4, 2.1, 2.2, 2.4. The graded determinant and integral pairing contracts precede the rational Chow computation and the integral torsion argument.
+Layers 0–4; StableReduction Layers 1–3; AlgebraicVectorBundles L0A–L0C; PadicMeasuresIwasawaAlgebras §5.1; JacobianChallengePartII §1.3a; SchemeAndStackFoundations §§1.1, 1.15, 1.18–1.23, 2.18–2.20, 3.3–3.7, 4.15, 5.1–5.10; AlgebraicModuliForArithmeticGeometry §§5.1–5.4, 7.3, 8.1–8.3; MordellLawrenceVenkatesh §§5.9, 5.11–5.12; ComplexComparisonPartII §§C3.2d.1–C3.2d.4; VirtualFundamentalClass §§2.1–2.3; EquivariantIntersectionTheory §§1.4, 2.1, 2.2, 2.4. The graded determinant and integral pairing contracts precede the rational Chow computation and the integral torsion argument.
 
 ## Layer 6: stable compactifications and Torelli
 
@@ -6766,7 +6766,7 @@ The construction has the following API.
 
 ### 6.3 The smooth full-level Torelli morphism
 
-Over the fixed pairing base and for g≥2, form τ:M_g[N]→A_g[N] by the relative Jacobian with its canonical principal polarization and induced full level. The pullback of the universal abelian scheme is canonically Jac(C_g/M_g[N]); in particular the square of abelian schemes is Cartesian.
+Over the fixed pairing base and for g≥2, form τ:M_g[N]→A_g[N] by the relative Jacobian with its canonical principal polarization and induced full level. The pullback of the universal abelian scheme is canonically Jac(C_g[N]/M_g[N]); in particular the square of abelian schemes is Cartesian.
 
 Here g≥2 and N≥3; work over B=Spec Z[1/N,ζ_N] in the fixed symplectic component, with the same pairing convention in M_g[N] and A_g[N]. The fine curve scheme is Noetherian, and its universal curve is smooth projective geometrically connected of genus g; hence the JacobianChallengePartII §§1.1–1.4 suppliers apply without choosing a section of the curve.
 
@@ -7095,13 +7095,13 @@ The constant family C₀×𝔸¹ must compactify a one-dimensional base even tho
 
 ### Dependencies
 
-Layers 4–5; JacobianChallengePartII §§1.1–1.4 and 6.1–6.3; NeronModelsAndSemistableAbelianVarieties §§4.1 and 4.13; PELModuli §§M5.1–M5.3, M6.9–M6.10; ShimuraCompactifications §§6.1–6.7, 6.10 and 7.13–7.17. The all-characteristic principal Siegel supplier contract is needed for compactified Torelli and its positivity application.
+Layers 1 and 4–5; StableReduction Layer 3; AlgebraicVectorBundles L0C; SchemeAndStackFoundations §§0.3, 0.8–0.9, 0.11, 0.17–0.21, 0.30, 1.1–1.2, 1.23, 3.3, 4.15, 5.1–5.10; AlgebraicModuliForArithmeticGeometry §§5.1–5.4; JacobianChallenge Layer D; JacobianChallengePartII §§1.1–1.4, 6.1–6.3 and 7.1; NeronModelsAndSemistableAbelianVarieties §§4.1 and 4.13; PELModuli §§M5.1–M5.3, M6.9–M6.10; ShimuraCompactifications §§2.8, 6.1–6.7, 6.10 and 7.13–7.17; AbelianSchemesAndArithmeticModuliPartII §B4.1. The all-characteristic principal Siegel supplier contract is needed for compactified Torelli and its positivity application.
 
 ## Layer 7: level Picard parameters and consumer interfaces
 
 ### 7.1 The degree-d level Picard parameter functor
 
-For g≥2, N≥3 invertible with a fixed ζ_N pairing component, and d∈Z, define `P_g,N^d=Pic^d_{C_g/M_g[N]}` on the fppf site. This represented smooth quasi-projective degree-d sheaf is a torsor under the relative Jacobian, parametrizing sheafified relative line classes on the universal smooth curve. An algebraically closed field point corresponds to an isomorphism class of triples (C,α,L). For a general T→M_g[N], lifting a sheaf point to an actual degree-d line bundle is controlled by the boundary to H²_fppf(T,G_m); when it vanishes, the line-bundle isomorphism classes lifting that point form a torsor under Pic(T) by base pullback. The triple groupoid and this sheaf are distinct.
+For g≥2, N≥3 invertible with a fixed ζ_N pairing component, and d∈Z, define `P_g,N^d=Pic^d_{C_g[N]/M_g[N]}` on the fppf site. This represented smooth quasi-projective degree-d sheaf is a torsor under the relative Jacobian, parametrizing sheafified relative line classes on the universal smooth curve. An algebraically closed field point corresponds to an isomorphism class of triples (C,α,L). For a general T→M_g[N], lifting a sheaf point to an actual degree-d line bundle is controlled by the boundary to H²_fppf(T,G_m); when it vanishes, the line-bundle isomorphism classes lifting that point form a torsor under Pic(T) by base pullback. The triple groupoid and this sheaf are distinct.
 
 Here g≥2, N≥3 invertible and d an arbitrary integer; the fixed pairing component is over Z[1/N,ζ_N]. The universal curve lies over the Noetherian fine scheme and is smooth projective with geometrically connected genus-g fibres, so JacobianChallengePartII §§0.1–0.4 representability and torsor statements apply. For every test base T, use `O_T≅(f_T)_*O_{C_T}` universally from the global-functions comparison of StableReduction Layer 3 before applying the exact obstruction and kernel statements.
 
@@ -7379,7 +7379,7 @@ Over an algebraically closed field Pic(k)=0, so a nonempty lift-class fibre is a
 
 ### Dependencies
 
-Layers 0–6; JacobianChallenge Layers A–F and JacobianChallengePartII §§0.1–0.4, 4.4, 6.1–6.3; AlgebraicModuliForArithmeticGeometry §§3.5, 7.6; ModularCurves §§1C–1D, 2D, 4A–4B, 9E. Relative Picard is imported without using its later full-level application to construct curve level.
+Layers 0–6; StableReduction Layers 2–3; AlgebraicVectorBundles L0A–L0C; SchemeAndStackFoundations §§1.15, 1.21, 1.23, 2.2–2.3, 2.11, 4.15; JacobianChallenge Layers A–F and JacobianChallengePartII §§0.1–0.4, 2.1–2.3, 4.4, 6.1–6.3; AlgebraicModuliForArithmeticGeometry §§3.1–3.5, 5.1–5.4, 7.2–7.3, 7.6; ModularCurves §§1C–1D, 2D, 4A–4C, 9D–9E; AbelianSchemesAndArithmeticModuliPartII §B4.1. Relative Picard is imported without using its later full-level application to construct curve level.
 
 ## Downstream consumers
 
