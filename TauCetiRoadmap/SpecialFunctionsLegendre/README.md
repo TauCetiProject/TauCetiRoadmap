@@ -111,7 +111,6 @@ Tau Ceti provides:
 | Sturm's separation and comparison theorems for `((1 − x²) y′)′ + q(x) y = 0` on an open subinterval of `(−1, 1)` or of `(1, ∞)`, and the continuity of the zeros of a solution in its parameters | 9.1 |
 | Adams's linearization of `Pₘ Pₙ` in Legendre polynomials | 7.4 |
 | The Abelian estimate: for `Re μ > −1` and `g` integrable on `(0, 1)` and continuous at `1`, the integral `I(σ) = ∫₀¹ x^σ (1 − x)^μ g(x) dx` exists for `σ ≥ 0` and `σ^{μ+1} I(σ) → Γ(μ + 1) g(1)` as `σ → +∞` (so `I(σ) ∼ Γ(μ + 1) g(1) σ^{−μ−1}` when `g(1) ≠ 0`). Proof: split at `1 − δ`; the part over `(0, 1 − δ)` is `O((1 − δ)^σ)`, and on `(1 − δ, 1)` the substitution `x = e^{−u/σ}` and dominated convergence give `Γ(μ + 1) g(1)` | 7.3 |
-| The `L²` density of the polynomials restricted to `S²`, through Stone–Weierstrass | 11.3 |
 
 **What it does not own:**
 - The principal branch of `𝐅` and its theory (SpecialFunctionsHypergeometric), the Legendre
@@ -119,12 +118,10 @@ Tau Ceti provides:
 - Pincherle's theorem (SpecialFunctionsEiLiErfIncompleteGamma 4.1), consumed for §14.14.
 - The theory of harmonic polynomials in `n` variables (Tau Ceti's `MvPolynomial.harmonicSubmodule`
   and its decomposition) and the spectral theory of the Laplace–Beltrami operator on `Sᵐ`
-  ([RiemannianGeometry](../RiemannianGeometry/README.md) R8). Layer 11 consumes the first and
-  owns the explicit basis `Y_{l,m}` of `S²` in the coordinates `(θ, φ)`. Its completeness
-  statement overlaps the completeness clause of RiemannianGeometry R8.2 on `S²`. 11.3 proves it by
-  the elementary route, Stone–Weierstrass and the harmonic decomposition, which works on every
-  sphere. It uses neither R8's spectral decomposition nor the identification of the eigenspaces of
-  the Laplace–Beltrami operator, which R8.2 owns.
+  ([RiemannianGeometry](../RiemannianGeometry/README.md) R8). Layer 11 consumes the first, and
+  the completeness clause of RiemannianGeometry R8.2 at `m = 2`. It owns the explicit basis
+  `Y_{l,m}` of `S²` in the coordinates `(θ, φ)` and its completeness in those coordinates, which
+  11.3 deduces from R8.2 by the change of variables.
 - The uniform asymptotics (§§14.15, 14.20(vii)–(ix), 14.26), the generalized Mehler–Fock
   transformation (§14.20(vi)), branches off the principal sheet (§14.24), the zeros in the
   complex plane and on the left cut (§14.27), and the formulas of other chapters through Legendre
@@ -257,6 +254,15 @@ associatedLegendreQ ν μ z = e^{μπi} Γ(ν + μ + 1) olverLegendreQ ν μ z  
   and termination at a zero partial numerator. 6.2 applies it to 14.10.6 in the order and to
   14.10.3 in the degree.
 
+### From [RiemannianGeometry](../RiemannianGeometry/README.md)
+
+- R8.2 (spectral completeness and eigenspace identification), its completeness clause at `m = 2`:
+  on the unit round sphere `S²` of `EuclideanSpace ℝ (Fin 3)`, with Tau Ceti's round metric
+  `TauCeti.sphereRoundMetric` and its Riemannian volume, the restrictions of the harmonic
+  homogeneous polynomials of all degrees (`MvPolynomial.harmonicSphereRestriction`) span a dense
+  subspace of `L²(S²)`, and the spaces of different degrees are orthogonal. For 11.3. R8.2 states
+  this over `ℝ`; the complex `L²` follows by taking real and imaginary parts.
+
 ### From Tau Ceti
 
 - **Complete elliptic integrals.** `TauCeti.Real.legendreK`, `TauCeti.Real.legendreEc`,
@@ -288,9 +294,8 @@ associatedLegendreQ ν μ z = e^{μπi} Γ(ν + μ + 1) olverLegendreQ ν μ z  
   `IsOpen.is_const_of_deriv_eq_zero` and Cauchy's integral formula.
 - **Analysis.** `intervalIntegral`, `MeasureTheory.integral` on `Set.Ioi`, Fubini, dominated
   convergence, `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `Asymptotics.IsEquivalent`,
-  `Asymptotics.IsBigO`, `HasSum`, `fourierBasis`, `ContinuousMap.toLp_denseRange`,
-  `ContinuousMap.starSubalgebra_topologicalClosure_eq_top_of_separatesPoints` (Stone–Weierstrass),
-  `HilbertBasis`, `Laplacian.laplacian` (`Δ`, from `InnerProductSpace.instLaplacian`), and
+  `Asymptotics.IsBigO`, `HasSum`, `fourierBasis`, `HilbertBasis`, `Laplacian.laplacian` (`Δ`, from
+  `InnerProductSpace.instLaplacian`), and
   Tannery's theorem `tendsto_tsum_of_dominated_convergence`.
 - **Continued fractions.** `GenContFract`, `GenContFract.convs`, `GenContFract.dens`.
 
@@ -1107,12 +1112,13 @@ Layers 1–5, 7–8; SpecialFunctionsHypergeometric Layers 3, 5, 7.
   cases); so `W = ρ^l Y_{l,m}` solves Laplace's equation 14.30.10 on `ℝ³`, everywhere one-valued
   and continuous;
 - completeness: the functions `(θ, φ) ↦ Y_{l,m}(θ, φ)`, `|m| ≤ l`, form a Hilbert basis of
-  `L²((0, π) × (0, 2π), sin θ dθ dφ)` (`sphericalHarmonic_hilbertBasis`). Orthonormality is 11.2;
-  density: restrictions of polynomials are dense in the continuous functions on `S²`
-  (Stone–Weierstrass), continuous functions are dense in `L²`, and by the harmonic decomposition
-  (`homogeneousSubmodule_eq_iSup_map_mulLeft_normSq_pow`) and `ρ² = 1` on `S²` the restriction of
-  every polynomial is a finite combination of the `Y_{l,m}`; the change of variables from `S²` to
-  `(θ, φ)` with weight `sin θ` is part of the target;
+  `L²((0, π) × (0, 2π), sin θ dθ dφ)` (`sphericalHarmonic_hilbertBasis`). Orthonormality is 11.2.
+  Density is RiemannianGeometry R8.2 at `m = 2` (the restrictions of `H_l`, `l ≥ 0`, span a dense
+  subspace of `L²(S²)`) with two steps that are part of the target: the `p_{l,m}`, `|m| ≤ l`, are
+  a basis of each `H_l` (the first bullet), and the change of variables
+  `(θ, φ) ↦ (sin θ cos φ, sin θ sin φ, cos θ)` from `(0, π) × (0, 2π)` to `S²` carries
+  `sin θ dθ dφ` to the Riemannian volume of the round metric, the complement of its image being
+  null, so that it induces a unitary map from `L²(S²)` onto `L²((0, π) × (0, 2π), sin θ dθ dφ)`;
 - 14.30.11–14.30.13 and 14.30.11_5: with `L²` and `L_z` the differential operators 14.30.12–14.30.13
   in `(θ, φ)` on `(0, π) × ℝ` and real `ħ`, `L² Y_{l,m} = ħ² l(l + 1) Y_{l,m}` and
   `L_z Y_{l,m} = ħ m Y_{l,m}` for `|m| ≤ l`, from 14.2.2 at `μ = m`.
@@ -1128,9 +1134,8 @@ cos θ₁ cos θ₂ + sin θ₁ sin θ₂ cos(φ₁ − φ₂)
 - `p_{1,1} = −(3/(8π))^{1/2} (X₀ + i X₁)` in the coordinates `(x, y, z) = (X₀, X₁, X₂)`.
 - 14.30.8 at `(l₁, m₁, l₂, m₂) = (1, 0, 1, 0)`: `(3/(4π)) ∫∫ cos² θ sin θ dθ dφ = 1`.
 
-*Needs:* Layers 1, 4, 7–8; Tau Ceti harmonic polynomials and
-`MvPolynomial.laplacian_eval_euclidean`; Mathlib Stone–Weierstrass,
-`ContinuousMap.toLp_denseRange`, `fourierBasis`, `HilbertBasis`.
+*Needs:* Layers 1, 4, 7–8; RiemannianGeometry R8.2 (completeness at `m = 2`); Tau Ceti harmonic
+polynomials and `MvPolynomial.laplacian_eval_euclidean`; Mathlib `fourierBasis`, `HilbertBasis`.
 
 ### Examples
 
@@ -1139,8 +1144,8 @@ cos θ₁ cos θ₂ + sin θ₁ sin θ₂ cos(φ₁ − φ₂)
 
 ### Dependencies
 
-Layers 1, 4, 7–8; Tau Ceti `TauCeti/RingTheory/MvPolynomial/Harmonic.lean`,
-`TauCeti/Analysis/MvPolynomial/Sphere.lean`.
+Layers 1, 4, 7–8; RiemannianGeometry R8.2; Tau Ceti
+`TauCeti/RingTheory/MvPolynomial/Harmonic.lean`, `TauCeti/Analysis/MvPolynomial/Sphere.lean`.
 
 ## Downstream consumers
 
