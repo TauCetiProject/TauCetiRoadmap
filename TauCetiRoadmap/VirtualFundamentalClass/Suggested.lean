@@ -15,3 +15,7 @@ No headline statement can be written using the pinned carriers. Tau Ceti supplie
 * Section 7 requires the relative cone and cotangent complex over algebraic stacks and the
   associated Chow operations.
 -/
+
+namespace TauCetiRoadmap.VirtualFundamentalClass
+
+end TauCetiRoadmap.VirtualFundamentalClass
