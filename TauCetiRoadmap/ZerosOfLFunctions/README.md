@@ -204,10 +204,10 @@ not the roadmap.
 - `Asymptotics.IsBigO` along `Bornology.cobounded ℂ` (the growth bound of `OrderLE`) and
   Liouville's theorem `Differentiable.apply_eq_apply_of_bounded`, for 0.1;
 - `PhragmenLindelof.vertical_strip` (convexity on a strip);
-- `Convex.contractibleSpace`, `SimplyConnectedSpace.ofContractible` (simple connectivity of
-  `Set.univ`, and of the strip `Ω_δ` of 1.1 that `exp` carries onto the sector `S_δ`, for Tau
-  Ceti's holomorphic logarithm), `Complex.log_exp` and `Complex.exp_log` (`exp` maps `Ω_δ`
-  injectively onto `S_δ`), `Complex.exp_eq_exp_iff_exists_int` (for 1.1 and 5.4),
+- `Convex.contractibleSpace`, `convex_univ`, `SimplyConnectedSpace.ofContractible` (simple
+  connectivity of `Set.univ`, and of the strip `Ω_δ` of 1.1 that `exp` carries onto the sector
+  `S_δ`, for Tau Ceti's holomorphic logarithm), `Complex.log_exp` and `Complex.exp_log`
+  (`exp` maps `Ω_δ` injectively onto `S_δ`), `Complex.exp_eq_exp_iff_exists_int` (for 1.1 and 5.4),
   `is_const_of_deriv_eq_zero` (uniqueness of an entire logarithm modulo `2πi ℤ`, for 5.4), and
   `IsOpen.is_const_of_deriv_eq_zero` with `Convex.isPreconnected` and `IsPreconnected.image`
   (uniqueness of the branch of 1.1 on the open preconnected sector, which omits the poles of `Γ`);
@@ -238,6 +238,10 @@ not the roadmap.
   `logDeriv_riemannZeta_one_sub`, `Complex.Gammaℝ_eq_zero_iff`, `differentiableAt_riemannZeta`,
   `logDeriv_congr_nhds`, `logDeriv_congr_nhdsNE`, `logDeriv_mul`, `logDeriv_comp` (Euler's
   integral, conjugation, and the functional equation of `ζ'/ζ`, for 1.3a and 1.4a);
+- `completedRiemannZeta₀_one_sub` (`completedRiemannZeta₀ (1 − s) = completedRiemannZeta₀ s`),
+  `Complex.Gamma_mul_Gamma_one_sub` (`Γ(z) Γ(1 − z) = π / sin (π z)`) and
+  `Polynomial.rootMultiplicity_zero` (every root multiplicity of the zero polynomial is `0`), for
+  the Checks of 0.2, 1.3a and 3.4;
 - `Summable.of_nonneg_of_le` (comparison, for 5.6a);
 - `intervalIntegral.integral_mul_deriv_eq_deriv_mul` (integration by parts on an interval, for
   8.9);
