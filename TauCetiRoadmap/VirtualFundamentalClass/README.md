@@ -380,7 +380,9 @@ For `[U/G]` with finite constant `G`, verify the `1/|G|` degree of `BG`.
 
 Extend proper pushforward, flat pullback, localization, and exterior products to these rational
 stack Chow groups. State representability, relative-dimension, separation, and properness
-hypotheses on the morphisms, and prove agreement with the scheme operations.
+hypotheses on the morphisms, and prove agreement with the scheme operations. Construct the
+cap action by operational Chow classes and prove the projection formula for proper pushforward,
+including the first-Chern-class case needed for the Deligne pairing on smooth moduli stacks.
 
 *Needs:* Layer 1 and SchemeAndStackFoundations Layer 5.
 
