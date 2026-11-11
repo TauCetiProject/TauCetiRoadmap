@@ -56,7 +56,7 @@ No existing Tau Ceti declaration or other roadmap target is consumed. Build the 
 
 ## How to read the build
 
-The dependency order is 1 → 2 → 3 → 4 → 5, with unconditional infeasibility in 5 using 1–3 directly. Each numbered target includes its basic API and proved checks. Suggested signatures are aids, never an exhaustive checklist. Their intentional `sorry` proofs check expressibility and do not certify the targets; implementations use proved lemmas and the native interfaces above.
+The layers are built in the order 1 → 2 → 3 → 4 → 5. Layer 1 defines joint endpoints, public intervals, containment, total width and signed row images. Layer 2 builds the simultaneous step and its raw/public iterates and proves retention of graph points and ordered fixed tuples. Layer 3 defines the scalar LP and identifies its feasible assignments with canonical ordered fixed tuples. Layer 4 constructs the actual endpoint limit under nonempty iterates, proves convergence and greatestness, and obtains the unique full-width optimum. Layer 5 applies these results to bounded inequality systems with unchanged extra and integer restrictions; its unconditional infeasibility result uses Layers 1–3 directly. Every numbered target, its basic API and its proved checks are required. The seven headline theorems in [Suggested.lean](Suggested.lean) are milestones within this fuller README specification; their suggested signatures are aids, never an exhaustive checklist. Intentional `sorry` proofs check expressibility and do not certify the targets.
 
 ## Layer 1: endpoints, interval operations and affine images
 
@@ -180,7 +180,7 @@ Define `publicStep`, `rawRun` and `publicRun`: the raw iterate is `(step A q₀)
 
 ### 2.4 Graph points survive every iterate
 
-Define `graph A x=(x,A.mulVec x)`. Prove `graph_survives`: every graph point initially in `Set.Icc q₀.1 q₀.2` belongs to every public iterate. This is the point-retention content of the up/down construction, Belotti et al. 2010, §2 and (9)–(11).
+Define `graph A x=(x,A.mulVec x)`. Prove `graph_survives`: every graph point initially in `Set.Icc q₀.1 q₀.2` belongs to every public iterate. This is the point-retention content of the up/down construction, Belotti et al. 2010, §2, p. 67 and (9)–(11), pp. 71–72; compare Belotti et al. 2012, §2.5, p. 8 for its sequential point-retention statement.
 
 *Needs:* Layer 1, 2.1–2.3, `Matrix.mulVec`.
 
@@ -286,7 +286,7 @@ Prove `lp_iff_fixed`: a full assignment is feasible exactly when it is the canon
 
 ### 3.3 Singleton graph assignment and infeasibility
 
-Construct the canonical singleton assignment for every initially enclosed graph point and prove its LP feasibility. Deduce unconditionally that LP infeasibility excludes every such graph point. These are point-retention consequences of the same 2010 up/down and scalar constraints, not a converse feasibility test.
+Construct the canonical singleton assignment for every initially enclosed graph point and prove its LP feasibility. Deduce unconditionally that LP infeasibility excludes every such graph point. These are point-retention consequences of the same 2010 up/down and scalar constraints, not a converse feasibility test. The one-way infeasibility implication is also stated in Belotti et al. 2012, Proposition 4.2, p. 14, for its variable-width LP; it is derived here for the displayed joint formulation.
 
 *Needs:* 2.4 and 3.1–3.2.
 
@@ -314,9 +314,9 @@ Layers 1–2 and scalar ordered-field arithmetic; no limit or optimizer assumpti
 
 ### 4.1 Nonemptiness criteria
 
-For ordered finite `q₀`, prove equivalence of (a) every public iterate has a Cartesian member, (b) an ordered raw fixed tuple exists, and (c) the scalar LP has a feasible assignment. `run_nonempty_iff_lp` states (a) ↔ (c). This makes explicit the nonemptiness qualification for the greatest-box/LP construction of Belotti et al. 2010, §4.1, pp. 72–73.
+Define `endpointLimit` by lower endpoint suprema and upper endpoint infima of **actual** `rawRun` iterates. For ordered finite `q₀`, prove equivalence of (a) every public iterate has a Cartesian member, (b) an ordered raw fixed tuple exists, and (c) the scalar LP has a feasible assignment. `run_nonempty_iff_lp` states (a) ↔ (c). Under (a), construct ordered `endpointLimit` endpoints and prove their fixedness. The nonempty-limit qualification is explicit in Belotti et al. 2012, Theorem 4.1, p. 14; Belotti et al. 2010, §4.1, pp. 72–73 does not state it explicitly. Here 4.1 expresses that qualification through actual-iterate nonemptiness and fixed-tuple existence.
 
-*Needs:* Layers 1–3, bounded monotone real convergence and finite product topology. Construct ordered limiting endpoints from the nonempty actual iterates, obtain fixedness by 2.2 continuity, and then apply 3.2; retain this construction for 4.2.
+*Needs:* Layers 1–3, `tendsto_atTop_ciSup`, `tendsto_atTop_ciInf`, `tendsto_pi_nhds`, 2.2 continuity and 2.5. Bound the lower and upper endpoint sequences by the finite initial endpoints and by each other, obtain ordered limits and fixedness by continuity, then apply 3.2. This is the sole endpoint-limit construction used by 4.2–4.3.
 
 **API.**
 
@@ -332,11 +332,11 @@ For ordered finite `q₀`, prove equivalence of (a) every public iterate has a C
 
 ### 4.2 The limit is the greatest fixed tuple
 
-Define `endpointLimit` by lower endpoint suprema and upper endpoint infima of **actual** `rawRun` iterates. Under (a) of 4.1, prove `actual_limit`: ordered limiting endpoints, containment in `q₀`, convergence in the finite product topology, concrete fixedness, and greatestness among all ordered fixed tuples in interval inclusion order. Establish graph preservation at this limit.
+For `endpointLimit` constructed in 4.1, under (a) of 4.1 prove `actual_limit`: ordered limiting endpoints, containment in `q₀`, convergence in the finite product topology, concrete fixedness, and greatestness among all ordered fixed tuples in interval inclusion order. Establish graph preservation at this limit.
 
 Belotti et al. 2010, §2.3, Theorem 2.2, p. 70 and §4.1, pp. 72–73 discuss convergence and the greatest fixed point. Here the concrete finite-real endpoint proof establishes the displayed `Tendsto` for this raw/public model; the abstract complete-lattice statement is not imported as a convergence certificate.
 
-*Needs:* Layers 1–3, `tendsto_atTop_ciSup`, `tendsto_atTop_ciInf`, `tendsto_pi_nhds` and 2.2 continuity. Prove from nonempty iterates that all lower/upper sequences are bounded by the finite initial endpoints and bound each other, then obtain ordered limits, fixedness by continuity and greatestness by 2.5. Reuse the endpoint construction established in 4.1.
+*Needs:* 4.1 and 2.5. Use the endpoint bounds, convergence and fixedness established in 4.1, and obtain greatestness by comparison with every ordered fixed tuple using 2.5.
 
 **API.**
 
@@ -367,14 +367,15 @@ Prove `unique_full_width_optimum`: the canonical limit assignment is feasible, a
 - The positive recurrence has unique zero-width singleton optimum.
 - With no rows and initial `[0,2]`, width 2 at `[0,2]` strictly exceeds both width-1 smaller fixed boxes.
 - At `n=m=0` the entire assignment is unique and its objective is zero, while the public state is nonempty.
+- For `A=(1 1)`, `X⁰=[0,1]²` and `B⁰=[0,2]`, the initial tuple is fixed and is the actual limit, with joint width 4. The canonical assignment of `X=[0,1]²`, `B=[1/2,3/2]` is LP-feasible with joint width 3 and the same variable width 2. Every feasible assignment has variable width at most 2 by initial containment, so these distinct assignments both maximize variable-only width. Thus the variable-only objective in Belotti et al. 2012, (31), does not give unique full assignments for this displayed joint LP.
 
 ### Examples
 
-Prove the conditional limit and optimum checks, and graph preservation at the limit. Nonempty fixed boxes and LP assignments remain distinct from affine graph feasibility.
+Prove the conditional limit and optimum checks, including the two explicit joint-width versus variable-only assignments, and graph preservation at the limit. Nonempty fixed boxes and LP assignments remain distinct from affine graph feasibility.
 
 ### Dependencies
 
-Layers 1–3, bounded monotone real convergence, finite product topology and concrete continuity. The shared endpoint construction in 4.1–4.2 precedes the optimizer proof in 4.3.
+Layers 1–3, bounded monotone real convergence, finite product topology and concrete continuity. The endpoint construction belongs to 4.1; 4.2 packages its convergence and fixedness with greatestness before the optimizer proof in 4.3.
 
 ## Layer 5: bounded original-coordinate application
 
@@ -392,7 +393,7 @@ Define `sourceSet` as the original feasible set
 S = {x | Ax≤r ∧ x∈T ∧ ∀ j∈I, ∃ z:ℤ, x j=(z:ℝ)},
 ```
 
-and `variableBox` as the variable-coordinate `Set.Icc` of a joint raw tuple. This bounded application uses the point-retention principle of Belotti et al. 2010, §2 and §4, and adds the bounded feasible-set/minimizer corollaries here. The thesis §2.3.7.1, pp. 35–36 supplies preprocessing context, not this application theorem. This is not a nonlinear or integer propagation theorem.
+and `variableBox` as the variable-coordinate `Set.Icc` of a joint raw tuple. This bounded application uses the point-retention principle of Belotti et al. 2010, §2, p. 67 and §4, pp. 71–73, and adds the bounded feasible-set/minimizer corollaries here. Compare the sequential point-retention statement in Belotti et al. 2012, §2.5, p. 8. The thesis §2.3.7.1, pp. 35–36 supplies preprocessing context, not this application theorem. This is not a nonlinear or integer propagation theorem.
 
 *Needs:* Layer 1 and 2.4, `Matrix.mulVec` and `Set.Icc`.
 
@@ -410,7 +411,7 @@ and `variableBox` as the variable-coordinate `Set.Icc` of a joint raw tuple. Thi
 
 ### 5.2 Infeasibility
 
-Prove `source_infeasible`: LP infeasibility implies `S∩Set.Icc l u=∅`, without a run-nonemptiness assumption.
+Prove `source_infeasible`: LP infeasibility implies `S∩Set.Icc l u=∅`, without a run-nonemptiness assumption. Compare Belotti et al. 2012, Proposition 4.2, p. 14, stated there for its variable-width LP; this application follows from the joint singleton construction in 3.3.
 
 *Needs:* 5.1 and 3.3; no Layer 4 hypothesis.
 
@@ -461,7 +462,7 @@ Bounded finite-dimensional model presolve consumes graph preservation, unconditi
 - Belotti, Cafieri, Lee and Liberti, *Feasibility-Based Bounds Tightening via Fixed Points*, COCOA 2010, LNCS 6508, 65–76, [DOI 10.1007/978-3-642-17458-2_7](https://doi.org/10.1007/978-3-642-17458-2_7); [author manuscript](https://www.lix.polytechnique.fr/~liberti/fbbt-cocoa10.pdf), internal pp. 7–9. Adopted simultaneous construction: §4, pp. 71–73, (9)–(34), Proposition 4.1 and Theorem 4.2, with the explicit display corrections in 3.1.
 - Bernal Neira, *Modern Computational Approaches to Nonlinear Discrete Optimization and Applications in Process Systems Engineering*, Carnegie Mellon PhD thesis, May 2021, original §2.3.7.1, pp. 35–36: preprocessing survey and citation context.
 - Kronqvist, Bernal, Lundell and Grossmann, *A review and comparison of solvers for convex MINLP*, Optimization and Engineering 20 (2019), 397–455, §3.7.1 p. 406, [DOI 10.1007/s11081-018-9411-8](https://doi.org/10.1007/s11081-018-9411-8). Its sequential preprocessing description does not state the simultaneous joint-width LP theorem; the June 3, 2018 author manuscript, §3.8, is a separate version.
-- Belotti et al., *On feasibility based bounds tightening*, [Optimization Online, 24 January 2012](https://optimization-online.org/2012/01/3325/), §2.5 Algorithm 1, Example 2.4 p. 8 and §4 (30)–(43). Its sequential algorithm and variable-only width objective are distinct from the adopted joint-width theorem.
+- Belotti et al., *On feasibility based bounds tightening*, [Optimization Online, 24 January 2012](https://optimization-online.org/2012/01/3325/), §2.5 Algorithm 1, Example 2.4 p. 8, §4 (30)–(43), and Theorem 4.1 and Proposition 4.2, p. 14. Its sequential algorithm and variable-only width objective are distinct from the adopted joint-width theorem.
 - Bordeaux, Katsirelos, Narodytska and Vardi, *The Complexity of Integer Bound Propagation*, JAIR 40 (2011), 657–676, §3.4.1 p. 668, [DOI 10.1613/jair.3248](https://doi.org/10.1613/jair.3248): continuous-linear-propagator fixed-point context, not an identification of the full joint objective.
 - Gleixner, Berthold, Müller and Weltge, *Three enhancements for optimization-based bound tightening*, March 2016 ZIB Report 15-16, §1.2; journal version JGO 67 (2017), 731–757, [DOI 10.1007/s10898-016-0450-4](https://doi.org/10.1007/s10898-016-0450-4): OBBT context.
 - Gemander et al., *Two-row and two-column mixed-integer presolve using hashing-based pairing methods*, EJCO 8 (2020), 205–240, §2 p. 209, [DOI 10.1007/s13675-020-00129-6](https://doi.org/10.1007/s13675-020-00129-6): later presolve context; no integer-rounding theorem is imported.
