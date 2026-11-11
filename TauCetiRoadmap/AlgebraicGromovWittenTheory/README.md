@@ -189,6 +189,12 @@ of its restriction to a curve.
 
 *Needs:* MotivesAndAlgebraicCycles and SchemeAndStackFoundations Layer 5.
 
+**Checks.**
+
+- For a point, the pairing sends the pair of units to one.
+- On the projective line the degree-zero and degree-one classes are dual.
+- A degree-zero divisor on an elliptic curve maps to zero in numerical codimension one.
+
 ### 0.2 Numerical descent of insertions
 
 For a rational Chow insertion `γ` which is numerically trivial, prove the projection-formula
@@ -230,6 +236,12 @@ divisor action with `NovikovSeries.degreeDerivation (D·−)`.
 
 *Needs:* Layer 0, AlgebraicModuliForArithmeticGeometryPartII and Tau Ceti Novikov series.
 
+**Checks.**
+
+- The zero class gives the monomial `Q⁰ = 1`.
+- For the projective line and its degree-one ample class, the ring is `ℚ⟦Q⟧`.
+- Replacing the ample degree by a positive multiple gives the same convergent series.
+
 ### 1.3 Independence of ample class
 
 For two ample classes, prove their degree functions are comparable on the effective cone and
@@ -247,6 +259,12 @@ translation in divisor variables, coefficient extraction, and inversion of a mat
 constant term is invertible.
 
 *Needs:* Layer 0, AlgebraicModuliForArithmeticGeometryPartII and Tau Ceti Novikov series.
+
+**Checks.**
+
+- Setting all parameters to zero gives back `Λ_X`.
+- The coefficient of `t^m` in the inverse of `1 − Q^β t` is `Q^(mβ)`.
+- The divisor derivation of a parameter is zero, and it acts on its Novikov coefficients.
 
 ### Examples
 
@@ -301,9 +319,15 @@ SchemeAndStackFoundations §4.15, StableReduction Layer 9 and StableReductionPar
 
 Define `MbarMap g n X β` as the full substack of the stack of families of maps whose geometric
 fibres are stable and have numerical class `β`. Prove effective fppf descent and invariance of
-the class condition in connected families.
+the class condition in connected families (Behrend–Manin §3).
 
 *Needs:* Layers 0–2 and StableReduction Layers 9–11.
+
+**Checks.**
+
+- Constant maps in the stable range give `Mbar g n × X`.
+- A constant genus-zero map with fewer than three markings has an empty stable-map stack.
+- The unmarked genus-zero degree-one stable-map stack of the projective line is a point.
 
 ### 3.2 Boundedness and quotient presentation
 
@@ -435,6 +459,12 @@ forgetting a mark.
 
 *Needs:* Layers 0 and 2–4.
 
+**Checks.**
+
+- For a constant map in the stable range, the cotangent lines pull back from the stable curve.
+- On the constant genus-zero three-point stack all cotangent classes vanish.
+- The degree of each cotangent class on `Mbar 0 4` is one.
+
 ### 5.2 Descendant invariants
 
 For `γ_i ∈ CH^*(X)_ℚ` and `a_i ∈ ℕ`, define
@@ -448,6 +478,12 @@ Define the value to be zero unless the integrand has total codimension `vdim`. P
 multilinearity, permutation invariance, and compatibility with rational equivalence.
 
 *Needs:* Layers 0 and 2–4.
+
+**Checks.**
+
+- On the projective line, the degree-one genus-zero two-point invariant of two point classes is one.
+- On the point target, the genus-one one-point descendant with exponent one is `1/24`.
+- For the genus-zero three-point invariant in class zero, a total codimension different from `dim X` gives zero.
 
 ### 5.3 Numerical descent
 
@@ -574,6 +610,12 @@ completion and invariance under a change of homogeneous basis.
 
 *Needs:* Layers 0–1 and 5–6.
 
+**Checks.**
+
+- For a point, the potential is `t³/6` in the unit coordinate.
+- At Novikov order zero the potential is the classical triple-intersection cubic.
+- For the projective plane, the coefficient of `Q² t_pt⁵/5!` in the degree-two contribution is the conic count one.
+
 ### 7.2 WDVV
 
 Use the basis-free virtual splitting formula over the three boundary points of
@@ -627,6 +669,12 @@ commutativity, the Frobenius identity, and that `1_X` is its unit.
 
 *Needs:* Layers 0–1 and 5–7.
 
+**Checks.**
+
+- For a point, the small product is ordinary multiplication.
+- On the projective line, `H ⋆small H = Q·1` for the point class `H`.
+- On projective space of dimension `r`, the `r+1` power of the hyperplane class is `Q·1`.
+
 ### 8.2 Small associativity
 
 Prove associativity of `⋆small` from the basis-free four-point WDVV correspondence. Prove that its
@@ -655,6 +703,12 @@ product. See Fulton–Pandharipande (48)–(49) and Thm. 4 for the homogeneous-t
 
 *Needs:* Layers 0–1 and 5–7.
 
+**Checks.**
+
+- The parameter origin gives the small product.
+- The unit coordinate leaves the multiplication operators unchanged.
+- For the projective line on the divisor slice, `H ⋆t H = Q exp(t_H)·1`.
+
 ### 8.4 Naturality and grading
 
 Prove coordinate invariance under linear changes of homogeneous basis and functoriality under
@@ -682,6 +736,12 @@ Let `M_X = H_X ⊗ R_X((z))`. For every continuous coordinate derivation `∂_a`
 continuity, and covariance under a change of basis (Iritani Def. 2.2).
 
 *Needs:* Layers 1 and 7–8.
+
+**Checks.**
+
+- For a point, the unit-coordinate operator is `∂_t + z⁻¹`.
+- The unit coordinate commutes with the divisor coordinate on the projective line.
+- The order-`z⁻¹` terms from the multiplication operators cancel in the paired connection formula under `z ↦ −z`.
 
 ### 9.2 Curvature and flatness
 
@@ -751,6 +811,12 @@ Map this completion into the Laurent-series solution space of Layer 9. See Irita
 
 *Needs:* Layers 1 and 6–9.
 
+**Checks.**
+
+- For the point target, the action of `z∂_t` is `z∂_t + 1`.
+- The commutator with multiplication by `t^a` is multiplication by `z`.
+- The point's horizontal solution belongs to the parameter completion of the localized module.
+
 ### 10.3 The small connection
 
 For `D ∈ N¹(X)_ℚ`, use Layer 1's Novikov derivation `δ_D`. Define the coordinate-free small
@@ -772,6 +838,12 @@ Define the small Rees differential-operator algebra generated by `zδ_D` and the
 `D`-module with action `zδ_D + D⋆small`. Prove independence from a basis of `N¹(X)`.
 
 *Needs:* Layers 1 and 6–9.
+
+**Checks.**
+
+- The zero divisor induces the zero differential operator.
+- On a Novikov monomial, the commutator of the small operator with multiplication by `Q^β` is multiplication by `z(D·β)Q^β`.
+- On the projective line, the operator for the point divisor sends the constant section `1` to `H` and the constant section `H` to `Q·1`.
 
 ### 10.5 The divisor slice
 
@@ -820,6 +892,12 @@ Layers 1 and 6–9.
   automorphism factors. Pair its numerical image with a fourth insertion and recover the
   inverse-metric coefficient identity. This test must fail if the gluing fibre product or
   diagonal Gysin map is oriented incorrectly.
+
+## Downstream consumers
+
+Mirror comparison for projective targets uses the genus-zero product, the small quantum
+connection and the divisor-slice comparison. The algebraic invariants and virtual splitting
+formulas also supply the inputs to reconstruction problems for particular targets.
 
 ## References
 
