@@ -36,8 +36,8 @@ rest is listed in
 [Beyond this roadmap](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement): the values
 off the principal sheet, the uniform expansions that DLMF mentions in §11.9(iii) without stating
 them, the material DLMF leaves to its references, and the applications and computation sections.
-The roadmap states the corrected forms of DLMF 11.4.15, 11.7.12, 11.11.6 and 11.11.18–11.11.19
-(see [Prior formalization](#prior-formalization)).
+The roadmap states the corrected forms of DLMF 11.4.15, 11.7.12, 11.11.6, 11.11.8 and
+11.11.18–11.11.19 (see [Prior formalization](#prior-formalization)).
 
 The roadmap rests on Mathlib, Tau Ceti and six roadmaps. It consumes the Bessel functions `Y_ν`,
 `I_ν`, `K_ν`, the Hankel functions and their theory from
@@ -241,9 +241,11 @@ angerWeberA n z = (π cos nπ)⁻¹ ∂_ν(𝐉_ν(z) − J_ν(z))|_{ν=n}      
 ### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
 
 - [Its Conventions](../SpecialFunctionsHypergeometric/README.md#conventions):
-  `Complex.gaussHypergeometric a b c z`, the principal branch on `1 − z ∈ slitPlane`; 1.2–1.4: its
-  series on the unit disk and its holomorphy in the parameters; 3.1: the hypergeometric equation;
-  5.1: the connection formula 15.8.2 at `∞`. For the Laplace representation of 6.3.
+  `Complex.gaussHypergeometric a b c z`, the principal branch on `1 − z ∈ slitPlane`, which
+  `Suggested.lean` copies together with its auxiliary definitions `eulerIntegral` and
+  `IsEulerContinuation`; 1.2–1.4: its series on the unit disk and its holomorphy in the parameters;
+  3.1: the hypergeometric equation; 5.1: the connection formula 15.8.2 at `∞`. For the Laplace
+  representation of 6.3.
 
 ### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
 
@@ -857,7 +859,8 @@ The definitions of [Conventions](#conventions): `angerJ`, `weberE`, `angerWeberA
   `π⁻¹ ∫₀^{2π} cos(νθ − z sin θ) dθ = (1 + cos 2πν) 𝐉_ν(z) + sin(2πν) 𝐄_ν(z)`;
 - the removable singularities (auxiliary): for `z` in the slit plane, `ν ↦ 𝐀_ν(z)` is entire, so
   that 11.10.15, `𝐉_ν = J_ν + sin(νπ) 𝐀_ν`, holds for all `ν`;
-- DLMF 11.10.4: `𝐀_ν(z) = π⁻¹ ∫₀^∞ e^{−νt − z sinh t} dt` for `Re z > 0`, absolutely convergent;
+- DLMF 11.10.4: `𝐀_ν(z) = π⁻¹ ∫₀^∞ e^{−νt − z sinh t} dt` for `Re z > 0`, and for `Re z = 0`
+  with `Re ν > 0`, absolutely convergent;
 - DLMF 11.10.5–11.10.7: `𝐉_ν` and `𝐄_ν` solve the inhomogeneous Bessel equations
   `w″ + w′/z + (1 − ν²/z²) w = f` with `f = (z − ν) sin(πν)/(πz²)` and
   `f = −(z + ν + (z − ν) cos(πν))/(πz²)` respectively, for `z ≠ 0`;
@@ -980,9 +983,10 @@ and 11.6.5.
 
 With `a_k(λ)` of [Conventions](#conventions) and, for `0 < λ < 1`,
 `μ(λ) = (1 − λ²)^{1/2} − ln((1 + (1 − λ²)^{1/2})/λ)` (11.11.12):
-- DLMF 11.11.8–11.11.9: for fixed `λ > 0`, `𝐀_ν(λν) ∼ π⁻¹ ∑ₖ (2k)! a_k(λ) ν^{−2k−1}` as `ν → ∞` in
-  `|ph ν| ≤ π − δ`, and the values `a₀, …, a₃` of 11.11.9, for example
-  `a₁(λ) = −λ/(2(1 + λ)⁴)`;
+- DLMF 11.11.8–11.11.9, corrected: for fixed `λ > 0`,
+  `𝐀_ν(λν) ∼ π⁻¹ ∑ₖ (2k)! a_k(λ) ν^{−2k−1}` as `ν → ∞` in `|ph ν| ≤ π − θ(λ) − δ`, where
+  `θ(λ) = arctan(−μ(λ)/π)` for `0 < λ < 1` and `θ(λ) = 0` for `λ ≥ 1`; and the values
+  `a₀, …, a₃` of 11.11.9, for example `a₁(λ) = −λ/(2(1 + λ)⁴)`;
 - DLMF 11.11.10: for fixed `λ > 1`, `𝐀_{−ν}(λν) ∼ −π⁻¹ ∑ₖ (2k)! a_k(−λ) ν^{−2k−1}` in
   `|ph ν| ≤ π − δ`;
 - DLMF 11.11.11–11.11.13: for fixed `0 < λ < 1`, as `ν → ∞` in `|ph ν| ≤ π/2 − δ`,
@@ -1008,14 +1012,25 @@ For `Re(λν) > 0`, 11.10.4 gives `𝐀_{±ν}(λν) = π⁻¹ ∫₀^∞ e^{−
 11.11.10 the phase is increasing from `t = 0` and odd, so Watson's lemma after the substitution
 `u = λ sinh t ± t` gives only even powers, with the coefficients `a_k` by Lagrange–Bürmann. For
 11.11.11 the phase has the interior minimum `p(t₀) = μ(λ) < 0 = p(0)`, Laplace's method at `t₀`
-(AsymptoticExpansions 5.5) gives the series, and the endpoint contribution is exponentially
-smaller. Watson's lemma gives 11.11.8 and 11.11.10 for `|ph ν| ≤ π/2 − δ`, and the rotation of the
-path (AsymptoticExpansions 4.3) extends them to `|ph ν| ≤ π − δ`.
+(AsymptoticExpansions 5.5) gives the series, and the endpoint contribution is exponentially smaller.
+Watson's lemma gives 11.11.8 and 11.11.10 for `|ph ν| ≤ π/2 − δ`, and the rotation of the path
+(AsymptoticExpansions 4.3) extends them up to the nearest singularities of `t` as a function of `u`,
+the square-root branch points at the critical values of the phase. For 11.11.10 and for 11.11.8 with
+`λ ≥ 1` the critical values are imaginary (for the phase `λ sinh t ± t` they are
+`u = ±i(λ sin y ± y)` at `t = ±iy` with `cos y = ∓1/λ`), and the rotation reaches `|ph ν| ≤ π − δ`.
+For 11.11.8 with `0 < λ < 1` the critical points `t = arccosh(1/λ) ± πi` give the branch points
+`u = −μ(λ) ± πi` with `−μ(λ) > 0`, which stop the rotation at `|ph u| = π/2 − θ(λ)` and hence at
+`|ph ν| = π − θ(λ)`. Beyond it, `J_ν(λν)/sin νπ` grows like `e^{|ν|(−μ(λ) cos ψ − π |sin ψ|)}`,
+`ψ = π − ph ν`, so DLMF's sector `|ph ν| ≤ π − δ` is too wide.
 
 **Checks.**
 - `a₀(λ) = 1/(1 + λ)` and `a₁(λ) = −λ/(2(1 + λ)⁴)` from the definition:
   `(t/(t + λ sinh t))³ = (1 + λ)^{−3}(1 − λt²/(2(1 + λ)) + O(t⁴))`.
 - `b₀ = √2 (2p″(t₀))^{−1/2}` with `p″(t₀) = λ sinh t₀ = (1 − λ²)^{1/2}` is `(1 − λ²)^{−1/4}`.
+- Outside the corrected sector (an illustration that DLMF's sector fails): at `λ = 0.1`,
+  `θ(λ) = 0.56651…`, so the sector ends at `ph ν = 2.57508…`. At `ν = 20e^{2.9i}`,
+  `|𝐀_ν(λν)| = 3.786… × 10⁹`, while the leading term has modulus `0.0145…`. Inside, at
+  `ν = 20e^{2.4i}`, `|𝐀_ν(λν)| = 0.01447…`.
 
 *Suggested names:* `isBigO_angerWeberA_scaled` (11.11.8).
 

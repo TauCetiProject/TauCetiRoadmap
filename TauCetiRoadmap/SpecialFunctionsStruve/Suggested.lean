@@ -17,14 +17,14 @@ copy SpecialFunctionsEiLiErfIncompleteGamma's, and `eulerIntegral`, `IsEulerCont
 `gaussHypergeometric` copy SpecialFunctionsHypergeometric's Gauss function, which the Laplace
 representation of `S_{μ,ν}` uses, so that this file imports only Mathlib and Tau Ceti. In Tau Ceti
 the Bessel functions and the functions of this roadmap live in `Complex`, beside Mathlib's
-`Complex.besselJ`; here they live in this file's `Complex` subnamespace. The functions of this roadmap copy the definitions of `README.md` with
-their intended bodies, so that the conventions are checked by the compiler: orders first, then
-the argument; Mathlib's regularized `₁F₂` series `Complex.regularizedHGFun {1} {b₁, b₂}` (written
-`𝐅₁₂(b₁, b₂)` here); principal powers; the limit in the first order at the exceptional
-parameters of `S_{μ,ν}`; `deriv` in the order at integer orders for `𝐀_ν`; and the coefficients
-of the scaled expansions as power-series coefficients. Expansions are written out as one `IsBigO`
-statement per truncation order, which is AsymptoticExpansions' `Asymptotics.HasAsymptoticExpansion`
-unfolded. Theorems are stated with `sorry`.
+`Complex.besselJ`; here they live in this file's `Complex` subnamespace. The functions of this
+roadmap copy the definitions of `README.md` with their intended bodies, so that the conventions are
+checked by the compiler: orders first, then the argument; Mathlib's regularized `₁F₂` series
+`Complex.regularizedHGFun {1} {b₁, b₂}` (written `𝐅₁₂(b₁, b₂)` here); principal powers; the limit in
+the first order at the exceptional parameters of `S_{μ,ν}`; `deriv` in the order at integer orders
+for `𝐀_ν`; and the coefficients of the scaled expansions as power-series coefficients. Expansions
+are written out as one `IsBigO` statement per truncation order, which is AsymptoticExpansions'
+`Asymptotics.HasAsymptoticExpansion` unfolded. Theorems are stated with `sorry`.
 -/
 
 @[expose] public section
@@ -35,29 +35,6 @@ namespace TauCetiRoadmap.SpecialFunctionsStruve
 
 open Complex Filter Topology Asymptotics Set MeasureTheory
 open scoped Real Nat
-
-/-- Euler's integral `(Γ(b) Γ(c − b))⁻¹ ∫₀¹ t^{b−1} (1 − t)^{c−b−1} (1 − zt)^{−a} dt`
-(DLMF 15.6.1), with principal powers; a copy of SpecialFunctionsHypergeometric's definition. -/
-def eulerIntegral (a b c z : ℂ) : ℂ :=
-  (Gamma b * Gamma (c - b))⁻¹ *
-    ∫ t in (0 : ℝ)..1, (t : ℂ) ^ (b - 1) * (1 - (t : ℂ)) ^ (c - b - 1) * (1 - z * t) ^ (-a)
-
-/-- `G` continues Euler's integral: at every `z` of the cut plane it is entire in `b` and in `c`,
-and it equals Euler's integral where `0 < Re b < Re c`; a copy of SpecialFunctionsHypergeometric's
-definition. -/
-def IsEulerContinuation (G : ℂ → ℂ → ℂ → ℂ → ℂ) : Prop :=
-  (∀ a c z, 1 - z ∈ slitPlane → Differentiable ℂ fun b => G a b c z) ∧
-  (∀ a b z, 1 - z ∈ slitPlane → Differentiable ℂ fun c => G a b c z) ∧
-  (∀ a b c z, 1 - z ∈ slitPlane → 0 < b.re → b.re < c.re → G a b c z = eulerIntegral a b c z)
-
-open scoped Classical in
-/-- The principal branch of the Gauss function `F(a, b; c; z) = Γ(c) 𝐅(a, b; c; z)` on the cut
-plane, with the junk value `0` off it; a copy of SpecialFunctionsHypergeometric's
-`regularizedGaussHypergeometric` and `gaussHypergeometric`, merged into one definition. -/
-def gaussHypergeometric (a b c z : ℂ) : ℂ :=
-  Gamma c * if h : ∃ G, IsEulerContinuation G then
-    if 1 - z ∈ slitPlane then h.choose a b c z else 0
-  else 0
 
 /-- Mathlib's regularized `₀F₁`: `𝐅(b) x = ∑ₙ xⁿ / (n! Γ(b + n))`. -/
 local notation "𝐅(" b ")" => Complex.regularizedHGFun (0 : Multiset ℂ) ({b} : Multiset ℂ)
@@ -113,6 +90,29 @@ def fresnelC (z : ℂ) : ℂ :=
 /-- SpecialFunctionsEiLiErfIncompleteGamma's Fresnel integral `S(z) = ∫₀^z sin(πt²/2) dt`. -/
 def fresnelS (z : ℂ) : ℂ :=
   ∫ s in (0 : ℝ)..1, z * Complex.sin (π * ((s : ℂ) * z) ^ 2 / 2)
+
+/-- Euler's integral `(Γ(b) Γ(c − b))⁻¹ ∫₀¹ t^{b−1} (1 − t)^{c−b−1} (1 − zt)^{−a} dt`
+(DLMF 15.6.1), with principal powers; a copy of SpecialFunctionsHypergeometric's definition. -/
+def eulerIntegral (a b c z : ℂ) : ℂ :=
+  (Gamma b * Gamma (c - b))⁻¹ *
+    ∫ t in (0 : ℝ)..1, (t : ℂ) ^ (b - 1) * (1 - (t : ℂ)) ^ (c - b - 1) * (1 - z * t) ^ (-a)
+
+/-- `G` continues Euler's integral: at every `z` of the cut plane it is entire in `b` and in `c`,
+and it equals Euler's integral where `0 < Re b < Re c`; a copy of SpecialFunctionsHypergeometric's
+definition. -/
+def IsEulerContinuation (G : ℂ → ℂ → ℂ → ℂ → ℂ) : Prop :=
+  (∀ a c z, 1 - z ∈ slitPlane → Differentiable ℂ fun b => G a b c z) ∧
+  (∀ a b z, 1 - z ∈ slitPlane → Differentiable ℂ fun c => G a b c z) ∧
+  (∀ a b c z, 1 - z ∈ slitPlane → 0 < b.re → b.re < c.re → G a b c z = eulerIntegral a b c z)
+
+open scoped Classical in
+/-- The principal branch of the Gauss function `F(a, b; c; z) = Γ(c) 𝐅(a, b; c; z)` on the cut
+plane, with the junk value `0` off it; a copy of SpecialFunctionsHypergeometric's
+`regularizedGaussHypergeometric` and `gaussHypergeometric`, merged into one definition. -/
+def gaussHypergeometric (a b c z : ℂ) : ℂ :=
+  Gamma c * if h : ∃ G, IsEulerContinuation G then
+    if 1 - z ∈ slitPlane then h.choose a b c z else 0
+  else 0
 
 /-! ### The definitions of this roadmap -/
 
@@ -312,8 +312,7 @@ theorem isBigO_lommelCapitalS_sub_sum (μ ν : ℂ) {δ : ℝ} (hδ : 0 < δ) (h
 /-- The Laplace representation of `S_{μ,ν}` (6.3), with the Gauss function. -/
 theorem lommelCapitalS_eq_laplace (μ ν : ℂ) {z : ℂ} (hz : 0 < z.re) :
     lommelCapitalS μ ν z = z ^ μ * ∫ t in Ioi (0 : ℝ), cexp (-z * t) *
-      TauCetiRoadmap.SpecialFunctionsStruve.gaussHypergeometric
-        ((1 - μ + ν) / 2) ((1 - μ - ν) / 2) (1 / 2) (-(t : ℂ) ^ 2) := by
+      gaussHypergeometric ((1 - μ + ν) / 2) ((1 - μ - ν) / 2) (1 / 2) (-(t : ℂ) ^ 2) := by
   sorry
 
 /-! ## Layer 7: Anger–Weber functions -/
@@ -323,8 +322,8 @@ theorem differentiable_angerWeberA {z : ℂ} (hz : z ∈ slitPlane) :
     Differentiable ℂ fun ν => angerWeberA ν z := by
   sorry
 
-/-- DLMF 11.10.4. -/
-theorem angerWeberA_eq_integral (ν : ℂ) {z : ℂ} (hz : 0 < z.re) :
+/-- DLMF 11.10.4, for `Re z > 0` and for `Re z = 0`, `Re ν > 0`. -/
+theorem angerWeberA_eq_integral {ν z : ℂ} (hz : 0 < z.re ∨ (z.re = 0 ∧ 0 < ν.re)) :
     angerWeberA ν z = (π : ℂ)⁻¹ * ∫ t in Ioi (0 : ℝ), cexp (-ν * t - z * Real.sinh t) := by
   sorry
 
@@ -352,12 +351,17 @@ theorem isBigO_weberE_large_order (z : ℂ) {ε : ℝ} (hε : 0 < ε) :
         fun ν => (Real.exp (π * |ν.im|) : ℂ) * ν ^ (-2 : ℤ) := by
   sorry
 
-/-- DLMF 11.11.8: the expansion of `𝐀_ν(λν)` for fixed `λ > 0`. -/
+/-- DLMF 11.11.8: the expansion of `𝐀_ν(λν)` for fixed `λ > 0`, in `|ph ν| ≤ π − θ(λ) − δ` with
+`θ(λ) = arctan(−μ(λ)/π)` for `0 < λ < 1` (`μ(λ)` of 11.11.12) and `θ(λ) = 0` for `λ ≥ 1`. For
+`λ ≥ 1` the real square root is `0`, the `arctan` term is at most `0`, and the `max` gives `0`.
+DLMF states the expansion in `|ph ν| ≤ π − δ`, which is false for `0 < λ < 1`. -/
 theorem isBigO_angerWeberA_scaled {lam : ℝ} (hlam : 0 < lam) {δ : ℝ} (hδ : 0 < δ) (hδπ : δ < π)
     (N : ℕ) :
     (fun ν => angerWeberA ν (lam * ν) - (π : ℂ)⁻¹ *
         ∑ k ∈ Finset.range N, ((2 * k)! : ℂ) * angerScaledCoeff lam k * ν ^ (-(2 * k + 1 : ℤ)))
-      =O[sectorAtTop (π - δ)] fun ν => ν ^ (-(2 * N + 1 : ℤ)) := by
+      =O[sectorAtTop (π - max 0 (Real.arctan
+          ((Real.log ((1 + √(1 - lam ^ 2)) / lam) - √(1 - lam ^ 2)) / π)) - δ)]
+        fun ν => ν ^ (-(2 * N + 1 : ℤ)) := by
   sorry
 
 /-- DLMF 11.11.17: the transition region, as `ν → ∞` in `|ph ν| ≤ π − δ`, uniformly for
