@@ -2900,8 +2900,8 @@ layer).
 
 Define `AlgSpace` as the full subcategory of `TauCeti.AlgebraicGeometry.SchemePresheaf` on
 `TauCeti.AlgebraicGeometry.Spaces.IsAlgebraicSpace` (the object property `Spaces.isAlgebraicSpace`), with
-*AlgSpace.toPresheaf*, the fully faithful `AlgSpace.ofScheme : Scheme ⥤ AlgSpace`, the terminal
-object `h_{Spec ℤ}` and initial object `h_∅`, and `AlgSpace.overEquiv S`: algebraic spaces over `h_S`
+*AlgSpace.toPresheaf*, the fully faithful *AlgSpace.ofScheme* (`Scheme ⥤ AlgSpace`), the terminal
+object `h_{Spec ℤ}` and initial object `h_∅`, and *AlgSpace.overEquiv* `S`: algebraic spaces over `h_S`
 are the fppf sheaves on `Over S` satisfying `IsAlgebraicSpaceOver S` (Stacks, Definition 65.6.1).
 *Needs:* §1.3; Mathlib `ObjectProperty.FullSubcategory`, `Over`.
 
@@ -3002,10 +3002,10 @@ its route uses only the last: pulling the square back along an atlas `h_W → G`
 `U ×_H W → V ×_H W` over `F ×_H G → G`, whose top arrow is a base change of the given one.
 `spacePresentation`
 identifies the quotient projection with the chosen atlas, and
-`ofScheme_preservesPullback` identifies both projections under its comparison
+*ofScheme_preservesPullback* identifies both projections under its comparison
 isomorphism (Stacks, §65.7 and §67.22 (03MJ, 04RD)). The named fibre-product API is
-`AlgSpace.pullbackObj`, `pullbackFst`, `pullbackSnd`, `ofScheme_preservesPullback`, and
-`ofScheme_relativelyRepresentable` (every `h_U → F` is relatively representable); chart products:
+`AlgSpace.pullbackObj`, *pullbackFst*, `pullbackSnd`, *ofScheme_preservesPullback*, and
+*ofScheme_relativelyRepresentable* (every `h_U → F` is relatively representable); chart products:
 for atlases `U → F`, `V → G`, the scheme representing `U ×_H V`
 exists by the representable diagonal of `H` (for a presheaf, a representable diagonal is
 equivalent to representability of every `h_U ×_H h_V` with `U`, `V` schemes, Stacks, Lemma 65.5.10
@@ -3058,7 +3058,7 @@ under base change and fppf local on the base, the hypotheses of the last clause 
 
 *Lean:* `Spaces.isAlgebraicSpace_pullback`, `Spaces.AlgSpace.pullbackObj`,
 `Spaces.AlgSpace.pullbackSnd`, `Spaces.EtaleLocal`, `Spaces.EtaleLocal.baseChange` (its conclusion
-is about the specified second projection `AlgSpace.pullbackSnd f g`). `pullbackFst`, the
+is about the specified second projection `AlgSpace.pullbackSnd f g`). *pullbackFst*, the
 comparisons with schemes and the rest of the `EtaleLocal` API are specified in this README only.
 
 ### 1.9 Separation and properness
@@ -3156,7 +3156,7 @@ only.
 
 ### 1.11 Quasi-coherent modules on an algebraic space
 
-Define `Spaces.QCoh F`: the full subcategory of `O_F`-modules on `(F_ét, O_F)` satisfying Mathlib's
+Define *Spaces.QCoh* `F`: the full subcategory of `O_F`-modules on `(F_ét, O_F)` satisfying Mathlib's
 `SheafOfModules.IsQuasicoherent` (Stacks, Definition 66.29.1 (03G9)). API: *QCoh.pullback*
 (pullback along a morphism of spaces preserves quasi-coherence), *QCoh.ofSchemeEquiv*
 (`QCoh(h_Y) ≌ QCoh(Y)` for a scheme `Y`), *QCoh.presentationEquiv* (for `F = U/R`, quasi-coherent
@@ -3189,29 +3189,51 @@ algebraic space, with a `GrpObj` structure for the cartesian monoidal structure 
 (Stacks, Definition 78.5.1 (043H)); `Action G X := ModObj G X` for `X` over `h_S` (Definition 78.8.1
 (043Q)); `act G X : G ⊗ X → X`; `Action.IsFree G X`: on `T`-points, `g·x = x` implies `g = 1`
 (Definition 78.8.2). API: `Action.free_iff_mono` (`(a, pr₂) : G × X → X × X` is a monomorphism;
-Lemma 78.8.3 (06P9)), *Action.baseChange* along `S' → S`, *Action.constantEquiv* (actions of Tau
-Ceti's constant group scheme `Γ_S` on `X` are homomorphisms `Γ → Aut X`). Define the comparison
-`GroupSpace.ofGroupScheme : GrpObj (Over.mk f) → GroupSpace S` for a group scheme `f : G → S`, a group object
+Lemma 78.8.3 (06P9)), *Action.baseChange* along `S' → S`, and *Action.constantEquiv*: for a
+finite group `Γ` and an `X` over `h_S` whose underlying presheaf is a Zariski sheaf
+(`Presheaf.IsSheaf Scheme.zariskiTopology X.left`; every algebraic space is one, since
+`zariskiTopology ≤ fppfTopology` by Mathlib's `zariskiPrecoverage_le_fppfPrecoverage`), actions on
+`X` of the constant group space `Γ_S` (Tau Ceti's
+`ConstantGroup.groupScheme` of `Γ` over `Spec ℤ`, base-changed to `S`, carried to `Over h_S` by
+*GroupSpace.ofGroupScheme*) are in bijection with group homomorphisms `Γ → Aut X`, `Aut` taken in
+`Over h_S`. The forward map restricts an action to the sections `γ : h_S → Γ_S`. A point of `Γ_S`
+over `T → S` is a decomposition `T = ⨿_γ T_γ` into open and closed subschemes, and the inverse sends
+`ρ` to the action that is `ρ(γ)` on `T_γ`, glued by the sheaf condition; the sheaf condition also
+makes the forward map injective, since an action is determined by its restrictions to the `T_γ`.
+On presheaves that are not Zariski sheaves the forward map need not be surjective (the coproduct
+Check below). Define the comparison *GroupSpace.ofGroupScheme* (`GrpObj (Over.mk f) → GroupSpace S`)
+for a group scheme `f : G → S`, a group object
 in `Over S` (`yoneda : Over S ⥤ Over h_S` preserves finite products, so carries `GrpObj` to
-`GrpObj`). The named functor `GroupSpace.ofGroupSchemeFunctor S` runs from
-`Grp (Over S)` to `Grp (Over h_S)`; `ofGroupScheme_obj` identifies its objects with
-`ofGroupScheme`, and `ofGroupScheme_forget` identifies its underlying functor with
-`Grp.forget (Over S) ⋙ Over.post yoneda`. The theorem `ofGroupScheme_faithful` asserts
+`GrpObj`). The named functor *GroupSpace.ofGroupSchemeFunctor* `S` runs from
+`Grp (Over S)` to `Grp (Over h_S)`; *ofGroupScheme_obj* identifies its objects with
+*ofGroupScheme*, and *ofGroupScheme_forget* identifies its underlying functor with
+`Grp.forget (Over S) ⋙ Over.post yoneda`. The theorem *ofGroupScheme_faithful* asserts
 `Functor.Faithful`: equality of images of two group homomorphisms implies their equality.
 *Needs:* §1.4, §1.8; Mathlib `GrpObj`, `ModObj`,
-`MonObj`, `CartesianMonoidalCategory`, `Over.cartesianMonoidalCategory`; Tau Ceti
-`ConstantGroup.groupScheme`.
+`MonObj`, `CartesianMonoidalCategory`, `Over.cartesianMonoidalCategory`, `Over.pullback`,
+`Presheaf.IsSheaf`, `Scheme.zariskiTopology`; Tau Ceti `ConstantGroup.groupScheme`.
 
 **Checks.**
 - `G` acting on itself by left translation is free.
 - `𝔾_m` acting on `𝔸¹` by scaling is not free (every `c ≠ 1` fixes
   `0`). The typed criterion rejects `Action.IsFree` whenever an actual
   nonidentity group-valued point fixes a point of the given action.
-- The action of the constant group `(ℤ/2)_k` on `X` is a
-  homomorphism `ℤ/2 → Aut X`, by *Action.constantEquiv*.
+- For an algebraic space `X` over `k`, an action of the constant group `(ℤ/2)_k` on `X` is the
+  same as a homomorphism `ℤ/2 → Aut X`, by *Action.constantEquiv*. On `X = h_{Spec k ⊔ Spec k}`
+  the swap of the two copies gives the action that, at the point `T = T_1 ⊔ T_σ` of `(ℤ/2)_k`,
+  is the identity on `T_1` and the swap on `T_σ`.
+- The sheaf hypothesis of *Action.constantEquiv* cannot be dropped. Over `S = Spec k`, let
+  `X = h_S ⊔ h_S` be the coproduct of presheaves: over every `T → S` it has exactly two points,
+  labelled `1` and `2`, and restriction along any morphism keeps the label. The swap of labels is
+  an automorphism of `X` over `h_S`, but no action of `(ℤ/2)_S` restricts to it. On
+  `T = S ⊔ S`, with inclusions `j₁, j₂`, take the point of `(ℤ/2)_S` that is `1` on the first copy
+  and `σ` on the second. It would send the point `1` of `X(T)` to a point whose restriction along
+  `j₁` is `1` and along `j₂` is `σ·1 = 2`, but both restrictions keep the label. A Zariski sheaf
+  sends `S ⊔ S` to the product of its values on the two copies (the empty overlap has exactly one
+  point); `X` has two points over `S ⊔ S` against four pairs, so it is not one.
 - The trivial group has a unique action on every `X`.
-- `ofGroupScheme` of `𝔾_{m,S}` is the group space `𝔾_m` of
-  §1.15 and its points over a specified map `T → S` are `Γ(T, O)^×`.
+- The comparison sends `𝔾_{m,S}` to the group space `𝔾_m` of
+  §1.15, and its points over a specified map `T → S` are `Γ(T, O)^×`.
 
 - The functor sends the identity of a group scheme to the identity.
 - its value on the trivial group has terminal underlying object over `h_S`.
@@ -3780,8 +3802,8 @@ isomorphisms satisfying the cocycle condition (Stacks, Definition 96.11.1 (06WG)
 *QCoh.pullback*, *QCoh.presentationEquiv* (for `X = [U/R]`, quasi-coherent modules on `U` with
 descent data; Proposition 96.14.3 (06WT)), *QCoh.ofSpaceEquiv* (agreement with §1.11 for spaces).
 For a quasi-compact quasi-separated morphism `f : X → Y` of algebraic stacks, construct
-*QCoh.pushforward* as the quasi-coherent right adjoint to `QCoh.pullback f`, with
-`QCoh.pullbackPushforwardAdjunction` and its natural Hom equivalence. Under `QCoh.ofSpaceEquiv`
+*QCoh.pushforward* as the quasi-coherent right adjoint to *QCoh.pullback* `f`, with
+*QCoh.pullbackPushforwardAdjunction* and its natural Hom equivalence. Under *QCoh.ofSpaceEquiv*
 it agrees with the quasi-coherent pushforward for algebraic spaces of §1.11.
 Prove the flat-test comparison: for every flat test morphism `y : T → Y`, evaluation of
 this right adjoint at `y` agrees naturally with the ordinary big-fppf-site direct image.
@@ -3799,7 +3821,7 @@ ordinary big-site direct image need not preserve quasi-coherence (Stacks, Propos
 - For an affine scheme map, the Hom equivalence becomes
   extension of scalars adjoint to restriction of scalars.
 - For `j : 𝔸²_k ∖ {0} → 𝔸²_k`, the space equivalence carries
-  `QCoh.pushforward j O` to `O_{𝔸²_k}`; flat test objects give the same sections as raw direct image.
+  the quasi-coherent pushforward of `O` along `j` to `O_{𝔸²_k}`; flat test objects give the same sections as raw direct image.
 - The raw big-fppf `j_* O` for this `j` has global
   sections `k[x,y]`, but evaluates to zero on `Spec k → 𝔸²_k` at the origin. A quasi-coherent
   sheaf with those global sections would evaluate to `k`, so raw direct image is not quasi-coherent.
@@ -5007,7 +5029,7 @@ it as `lim`. *Needs:* §2.10.
 
 ### 2.18 Derived categories of quasi-coherent complexes
 
-Define `PseudoCoherence.IsPseudoCoherentComplex K` on the ambient `DerivedCategory X.Modules`:
+Define *PseudoCoherence.IsPseudoCoherentComplex* `K` on the ambient `DerivedCategory X.Modules`:
 locally `K` is represented by a bounded-above complex of finite free module sheaves, without a
 lower bound on the resolution. This is a condition on the complex, not on its section modules.
 Prove `isPseudoCoherentComplex_single_iff` (`F[0]` satisfies it iff §0.5's local-resolution
@@ -5179,7 +5201,7 @@ No finite Tor dimension assumption is needed. Existence uses
 bound uses [Lemma 48.3.5 (0A9I)](https://stacks.math.columbia.edu/tag/0A9I).
 Prove `globalDuality` (`RHom_X(L, a_f K) ≅ RHom_Y(Rf_* L, K)`),
 `pushforwardRightAdjoint_affine_finite` (for `Spec B → Spec A` finite, `a_f(K~) = RHom_A(B, K)~`)
-(Stacks, §48.3 (0A9D), Lemma 48.3.1, Example 48.3.2, Lemmas 48.3.5–48.3.6, 48.3.10 (0B6I)). Define `Coherent.IsLocalCompleteIntersection f` by local factorizations `U ↪ P → Y`, with
+(Stacks, §48.3 (0A9D), Lemma 48.3.1, Example 48.3.2, Lemmas 48.3.5–48.3.6, 48.3.10 (0B6I)). Define *Coherent.IsLocalCompleteIntersection* `f` by local factorizations `U ↪ P → Y`, with
 `P → Y` smooth and the closed immersion defined locally by a finite regular sequence.
 Here the schemes are Noetherian, so this is the usual lci condition
 (Stacks, §37.62, as used in Lemma 48.17.11). Define
@@ -7105,8 +7127,13 @@ Weil pairing is retained; a primitive `m`th root of unity is not fixed over `ℤ
 The symplectic convention is recovered after adjoining such a root by selecting the
 bases with the standard alternating pairing (`level_structure_cover_pairing`). Both
 conventions give finite étale surjective covers of the smooth locus over the indicated
-base, and the normalized symplectic compactification is projective over the cyclotomic
-base after inverting `m` (Deligne §3.3, p. 137).
+base (Deligne §3.3, p. 138, for full bases). The normalized symplectic compactification is
+projective over the cyclotomic base `ℤ[1/m, ζ_m]`: that base is étale over `ℤ[1/m]`, so
+normalization commutes with the base change, and the symplectic bases are an open and closed
+part of the full-basis cover there, so the symplectic compactification is open and closed in the
+base change of `N_{g,n}(m)[1/m]`, projective by `level_structure_cover_projective` and
+`level_structure_cover_pointed` below (Deligne §3.7, p. 141, records projectivity, due to Mumford,
+for the levels of his Corollary 3.6).
 
 Prove `level_structure_cover_normalization`: normalize the **whole** `M̄_{g,n}/ℤ`
 in that full-basis cover of `M_{g,n}[1/m]`; denote this particular normalization by
@@ -7117,7 +7144,7 @@ change. Prove that `q_m` is representable, finite and surjective and restricts t
 original level cover on `M_{g,n}[1/m]`. Finiteness uses the Nagata/excellence results
 of §0.20–§0.21; surjectivity uses lying over and density. The theorem records
 this normalization map and the restriction isomorphism on scheme atlases (Deligne
-§3.4, pp. 137–138). This construction includes the fibres at primes dividing `m`.
+§3.4, pp. 138–139). This construction includes the fibres at primes dividing `m`.
 
 Prove `level_structure_cover_representable`: for `m≥3`, `N_{g,n}(m)[1/m]` is an
 algebraic space. For an algebraic space over all of `Spec ℤ` choose `m` divisible by coprime
@@ -7126,7 +7153,7 @@ maps `N_{g,n}(m)[1/a] → N_{g,n}(a)[1/a]` and similarly for `b`; the induced ma
 on stabilizers are injective. The target stabilizers are trivial, so the source
 stabilizers are trivial on both opens. Since `D(a) ∪ D(b)=Spec ℤ`, this proves
 representability in every characteristic, including primes dividing `m` (Deligne
-Proposition 3.5 and its automorphism lemma, pp. 138–140; Corollary 3.6, p. 140).
+Proposition 3.5 and its automorphism lemma, pp. 139–141; Corollary 3.6, p. 141).
 
 **Nef pluricanonical direct images — `stableCurveDirectImage_nef`.**
 For a stable family `f:C→B` of genus `g≥2` over a smooth projective curve over an
@@ -7228,7 +7255,7 @@ Prove `level_structure_cover_projective`: for these composite levels the normali
 level space itself is projective over `ℤ`, and is therefore a scheme. For `g≥2,n=0`
 use `level_structure_cover_ample` and properness, which follows from the finite map
 to the proper stack. An ample invertible sheaf on this proper algebraic space gives
-a projective scheme. Deligne §3.7, p. 140, supplies the statement reference. The exported finite
+a projective scheme. Deligne §3.7, p. 141, supplies the statement reference. The exported finite
 projective cover is `q_m : N_{g,n}(m) → M̄_{g,n}`, with this projectivity theorem for
 its source. For an arbitrary single `m≥3`, also prove that
 `N_{g,n}(m)[1/m]` is a projective scheme over `ℤ[1/m]`, as follows. Put `m' = 15m`, a level
@@ -7253,7 +7280,7 @@ projectivity statement as well as the integral composite-level cover.
 
 Prove `level_structure_cover_pointed` to extend these conclusions to every
 `2g−2+n>0`. Start at `(g,0)` for `g≥2`, at `(1,1)`, and at `(0,3)`. The genus-one
-case uses pointed stable genus-one curves, as in Deligne §2.2, p. 135; full level
+case uses pointed stable genus-one curves, as in the last paragraph of Deligne §2, p. 136; full level
 kills the automorphisms on the prime-to-level opens by the same torsion argument.
 Its normalized cover is finite over the compactified `j`-line and hence projective;
 prove this finite-map comparison using §1.23's coarse space of a finite quotient
@@ -7280,13 +7307,13 @@ isomorphism of pointed families. Its map to `U ×_ℤ N_{g,n}(15)` is finite. Ta
 closure of its image in `Y ×_ℤ N_{g,n}(15)`, and prove
 `stable_extension_finite_isom_closure`: extend that finite cover over the closure,
 retaining its restriction over `U`. This is the finite Isom-cover extension in the
-proof of Deligne Lemme 1.6, p. 133; it does not assume that a generic isomorphism
+proof of Deligne Lemme 1.6, p. 134; it does not assume that a generic isomorphism
 extends on an arbitrary nonnormal base. A reduced integral component dominating `Y`
 is proper over `Y` by projectivity of `N_{g,n}(15)` and generically finite because
 the original cover was finite over `U`. Pulling back the universal family gives the
 required family and the retained Isom-cover gives its identification over all of
 `ψ⁻¹(U)` (de Jong 1996, §4.17, pp. 71–72; §5.13, pp. 80–81;
-Deligne 1985, Lemme 1.6, pp. 132–133).
+Deligne 1985, Lemme 1.6, pp. 133–134).
 The proper closure map is the alteration; no finiteness claim is made for it.
 *Needs:* §0.20–§0.21, §1.17, §1.18–§1.20, §4.6, §4.16;
 `level_structure_cover_ample` for projectivity; StableReduction Layers 2–3, 9; §1.23
@@ -7419,7 +7446,7 @@ component repeats (de Jong 1996, 2.4, p. 55; 7.2, p. 87; 4.28, p. 76). *Needs:* 
 
 In de Jong's terminology a semistable curve over `S` is StableReduction Layer 3's prestable family
 `f : X → S` (flat, proper, finitely presented, geometric fibres connected curves with at most
-ordinary double points). Define `DeJong.IsSplitPrestable f`: a prestable family such that every
+ordinary double points). Define *DeJong.IsSplitPrestable* `f`: a prestable family such that every
 irreducible component of every fibre is smooth and geometrically irreducible over the
 residue field, every node in each fibre is rational over that residue field, and both
 branches at every node are defined over it (de Jong 1996, 2.21–2.22, p. 61). API: `pullback`,
@@ -7443,7 +7470,7 @@ nodal-family theorem allows persistent nodes, including stable nodal generic fib
 
 The resolution of the total space is for **split** families and has two owned stages. Throughout,
 `S` is a Noetherian excellent regular scheme, `D = D_1 ∪ ⋯ ∪ D_m ⊂ S` a strict normal crossings
-divisor (§4.17), and `f : X → S` satisfies `DeJong.IsSplitPrestable f` and is smooth over `S ∖ D`.
+divisor (§4.17), and `f : X → S` satisfies *DeJong.IsSplitPrestable* `f` and is smooth over `S ∖ D`.
 Then `Sing(X)` lies in the part of `Sing(f)` over `D`, so it has codimension at least two, and `X`
 is normal, being locally a hypersurface over a regular base (de Jong 1996, 3.1 and 3.4,
 pp. 62–63). Let `x ∈ Sing(X)` lie over `s`, and let `t_1, …, t_r` be local equations at `s` of the
@@ -8074,7 +8101,7 @@ flat-pullback and localization targets here); Mathlib `AlgebraicCycle.map`, `IsP
 
 ### 5.3 The first Chern class
 
-Define `Chow.c1 L : CH_k(X) → CH_{k−1}(X)` for an invertible sheaf `L` on `X`: for `V ⊆ X` integral of
+Define *Chow.c1* `L`, a map `CH_k(X) → CH_{k−1}(X)`, for an invertible sheaf `L` on `X`: for `V ⊆ X` integral of
 dimension `k`, `c_1(L) ∩ [V] := [C]` for `C` the Weil divisor of any Cartier divisor on `V`
 representing `L|_V` (Tau Ceti's `CartierDivisor` and `SchemeWeilDivisor`), extended linearly; it
 descends to rational equivalence (Fulton 1998, §§2.3–2.5; Stacks, Sections 42.25, 42.28 (02SN,
@@ -8101,7 +8128,7 @@ relative dimension `e` with fibres `ℙ^e_{κ(x)}`), `fibre`, `pullback` (`ℙ(f
 `projectiveBundle_dual_convention` (the comparison with the quotient convention), `chow_basis`
 (`CH_k(ℙ(E)) = ⊕_{i ≤ e} c_1(O(1))^i ∩ p^* CH_{k−e+i}(X)`; Fulton 1998, Theorem 3.3 (b); Stacks,
 Section 42.36 (02TV)). The projective bundle is planned here because the splitting principle and
-Chern classes need it; AlgebraicModuliForArithmeticGeometry imports it. Define Segre classes `s_i(E) ∩ α := p_*(c_1(O(1))^{e+i} ∩ p^* α)` and `Chow.chernClass E i`, the components of the inverse `c(E) = 1 + c_1(E) + ⋯` of the Segre series `s(E) = 1 + s_1 + ⋯`, acting on `CH_*(X)` (Fulton 1998,
+Chern classes need it; AlgebraicModuliForArithmeticGeometry imports it. Define Segre classes `s_i(E) ∩ α := p_*(c_1(O(1))^{e+i} ∩ p^* α)` and *Chow.chernClass* `E i`, the components of the inverse `c(E) = 1 + c_1(E) + ⋯` of the Segre series `s(E) = 1 + s_1 + ⋯`, acting on `CH_*(X)` (Fulton 1998,
 Proposition 3.1, Theorem 3.2; Stacks, Sections 42.37, 42.43 (02TZ, 02UK)). Hypotheses: `E` locally
 free of constant finite rank. The projective-bundle formula for Segre classes applies to positive
 rank. In rank zero define `s₀(0)=c₀(0)=id` and `s_i(0)=c_i(0)=0` for `i>0`;
@@ -8183,8 +8210,8 @@ carriers, Tau Ceti's `totalSpaceScheme` on `FiniteLocallyFreeSheaf.FixedRank X r
 supplied before Gysin is defined.
 After constructing Gysin, prove *zeroSection_gysin_eq_homotopy_inverse*: for the zero section of
 a constant-rank vector bundle, its Gysin map is this inverse (Fulton 1998, Chapter 6). Define the
-external product `Chow.externalProduct : CH_k(X) ⊗ CH_l(Y) → CH_{k+l}(X ×_{Spec κ} Y)` over the fixed field `κ`, with
-`external_product_pushforward` and `_pullback` (Fulton 1998, §1.10). Define `Chow.IsRegularImmersion i d` for a closed immersion `i`: around every point the ideal of `i` is generated by a regular sequence of length `d`, and the refined Gysin map `Chow.gysin i f : CH_k(Y') → CH_{k−d}(X')` for such a closed `i : X → Y` with normal bundle `N` and any `f : Y' → Y`, `X' := X ×_Y Y'`: specialise to the normal cone `C_{X'} Y' ⊆ f^* N` and apply the inverse of `homotopy_invariance` for `f^* N` (Fulton 1998, §6.1; Stacks, Section 42.54 (0FBI)); `i^* := i^!` for `f = 𝟙`. Hypotheses: `i` regular of constant codimension `d`; no hypothesis on `f`. API: `pushforward_compat` (`i^! g_* = g'_* i^!` for `g` proper), `pullback_compat` (for `g` flat), `commutes_with_c1`, `excess_intersection` (`i^! α = c_{d−d'}(f^* N / N') ∩ i'^* α` when `i' : X' → Y'` is regular of codimension `d'`; Fulton, Theorem 6.3),
+external product *Chow.externalProduct* (`CH_k(X) ⊗ CH_l(Y) → CH_{k+l}(X ×_{Spec κ} Y)`) over the fixed field `κ`, with
+`external_product_pushforward` and `_pullback` (Fulton 1998, §1.10). Define *Chow.IsRegularImmersion* `i d` for a closed immersion `i`: around every point the ideal of `i` is generated by a regular sequence of length `d`, and the refined Gysin map *Chow.gysin* `i f`, a map `CH_k(Y') → CH_{k−d}(X')`, for such a closed `i : X → Y` with normal bundle `N` and any `f : Y' → Y`, `X' := X ×_Y Y'`: specialise to the normal cone `C_{X'} Y' ⊆ f^* N` and apply the inverse of `homotopy_invariance` for `f^* N` (Fulton 1998, §6.1; Stacks, Section 42.54 (0FBI)); `i^* := i^!` for `f = 𝟙`. Hypotheses: `i` regular of constant codimension `d`; no hypothesis on `f`. API: `pushforward_compat` (`i^! g_* = g'_* i^!` for `g` proper), `pullback_compat` (for `g` flat), `commutes_with_c1`, `excess_intersection` (`i^! α = c_{d−d'}(f^* N / N') ∩ i'^* α` when `i' : X' → Y'` is regular of codimension `d'`; Fulton, Theorem 6.3),
 `functoriality` (`(j i)^! = i^! j^!`; Theorem 6.5), *divisor_case* (agreement with §5.3 for `d =
 1`), `gysin_self_intersection` (`i^! i_* α = c_d(N) ∩ α` for `α ∈ CH_*(X)` and
 `N = N_{X/Y}` on `X`) (Fulton 1998, Theorems 6.2, 6.3, 6.5). *Needs:*
@@ -8194,12 +8221,12 @@ external product `Chow.externalProduct : CH_k(X) ⊗ CH_l(Y) → CH_{k+l}(X ×_{
 A regular immersion need not be closed. It is an immersion `i : X → Y` that is a closed regular
 immersion into some open `U ⊆ Y`, and the condition does not depend on `U` (Stacks, Definition
 31.22.1 (063J)). The diagonal of a smooth scheme that is not separated, and the graph of a morphism
-to such a scheme, are of this kind (§5.6). Extend `Chow.gysin i f` to such `i` of constant
+to such a scheme, are of this kind (§5.6). Extend *Chow.gysin* `i f` to such `i` of constant
 codimension `d` as follows.
 - Choose an open `U ⊆ Y` in which `i(X)` is closed, for instance the complement of
   `closure(i(X)) ∖ i(X)`, and let `i_U : X → U` be the induced closed regular immersion.
 - Put `U' := f⁻¹(U)`, so that `X' = X ×_U U'`, and set
-  `Chow.gysin i f := Chow.gysin i_U (f|_{U'}) ∘ res`. Here `res : CH_k(Y') → CH_k(U')` is flat
+  *Chow.gysin* `i f` to be *Chow.gysin* `i_U (f|_{U'})` composed with `res`. Here `res : CH_k(Y') → CH_k(U')` is flat
   pullback along the open immersion (§5.2).
 - The normal bundle of `i` is that of `i_U`.
 
@@ -8293,7 +8320,7 @@ product of §5.5. For `X = X' = Y`, `A(Y) = ⊕ CH^p(Y)` is a commutative graded
 `k`, `X` and `X'` locally of finite type over `k`; no separatedness is assumed. Without
 smoothness the diagonal is not regular and the product is undefined.
 
-Define `Chow.graphPullback f : CH_a(Y) → CH_{a+m−n}(X)`, that is `CH^p(Y) → CH^p(X)`, for a
+Define *Chow.graphPullback* `f`, a map `CH_a(Y) → CH_{a+m−n}(X)`, that is `CH^p(Y) → CH^p(X)`, for a
 morphism `f : X → Y` over `k` of smooth `k`-schemes of pure dimensions `m` and `n`.
 - The graph `γ_f : X → X ×_k Y` is a section of the smooth projection to `X`, hence a regular
   immersion of codimension `n` (Stacks, Lemma 31.23.8 (067R)). It is closed when `Y` is separated
@@ -8305,12 +8332,12 @@ morphism `f : X → Y` over `k` of smooth `k`-schemes of pure dimensions `m` and
   (0FF2)), and for flat `f` it is flat pullback (Lemma 42.59.5 (0FF4)).
 - Fulton 1998, §8.1, builds the refined product through the same graph.
 
-API: `assoc`, `comm`, `one`, `pullback_ring_hom` (`Chow.graphPullback f : A(Y) → A(X)` is a ring
+API: `assoc`, `comm`, `one`, `pullback_ring_hom` (*Chow.graphPullback* `f`, a map `A(Y) → A(X)`, is a ring
 map; Proposition 8.3 (a)), `projection_formula` (`f_*(f^* x · y) = x · f_* y` for `f` proper;
 Proposition 8.3 (c)), `c1_eq_mul` (`c_1(L) ∩ α = c_1(L) · α`), `proper_intersection` (for `V`, `W`
 meeting properly, `[V] · [W] = Σ_Z i(Z; V · W)[Z]` with positive multiplicities; Proposition 8.2),
 `intersect_gysin` (for a regular immersion `i : X → Y` of smooth `k`-schemes,
-`Chow.graphPullback i = i^*`; Lemma 42.59.3 compares the factorizations `𝟙_Y ∘ i` and
+*Chow.graphPullback* `i` is `i^*`; Lemma 42.59.3 compares the factorizations `𝟙_Y ∘ i` and
 `pr_Y ∘ γ_i`). *Needs:* §5.1, §5.2, §5.3, §5.4, §5.5; Mathlib `Smooth`.
 
 **Checks.**
@@ -8326,7 +8353,7 @@ meeting properly, `[V] · [W] = Σ_Z i(Z; V · W)[Z]` with positive multipliciti
   `A¹ × A¹` of `L × L` given by the two copies, the diagonal is `{(t, t) : t ≠ 0}`, and its
   closure contains `(0₁, 0₂)`. So `δ_L` is a regular immersion of codimension one that is not
   closed, and the closed construction of §5.5 does not apply to it. It is closed in
-  `U = L × L ∖ {(0₁, 0₂), (0₂, 0₁)}`, through which `Chow.intersect` on `L` is defined.
+  `U = L × L ∖ {(0₁, 0₂), (0₂, 0₁)}`, through which the intersection product on `L` is defined.
 - `[0₁] · [L] = [0₁]` in `CH_0({0₁})`. The product cycle
   `{0₁} × L` passes through `(0₁, 0₂)`, a point of the closure of the diagonal that is not on it.
   Restriction to `U` removes that point. What remains meets the diagonal transversally at
@@ -8334,7 +8361,7 @@ meeting properly, `[V] · [W] = Σ_Z i(Z; V · W)[Z]` with positive multipliciti
 - For the separated `A¹_k` the diagonal `V(x − y) ⊆ A²` is closed. The
   open `U = A¹ × A¹` is allowed, and the extension is the closed construction of §5.5. Here
   `[0] · [A¹] = [0]` and `[A¹] · [A¹] = [A¹]`.
-- For `pr_1 : ℙ¹ × ℙ¹ → ℙ¹`, `Chow.graphPullback pr_1 [p]` is
+- For `pr_1 : ℙ¹ × ℙ¹ → ℙ¹`, the graph pullback of `[p]` along `pr_1` is
   `[{p} × ℙ¹]`, the flat pullback.
 - For the constant map `f : ℙ¹ → ℙ¹` with value `p`, `f^*[p] = 0` in
   `CH^1(ℙ¹)`, although `f⁻¹(p) = ℙ¹`. The excess normal bundle is `f^*T_pℙ¹`, which is trivial,
@@ -8342,7 +8369,7 @@ meeting properly, `[V] · [W] = Σ_Z i(Z; V · W)[Z]` with positive multipliciti
   since `[p] = [q]`.
 - For the inclusion `j_1 : A¹ → L` of the first chart, the
   graph `γ_{j_1} : A¹ → A¹ × L` is not closed: its closure contains `(0, 0₂)`. So
-  `Chow.graphPullback j_1` needs the extended Gysin map. It is restriction to the chart. On
+  the graph pullback along `j_1` needs the extended Gysin map. It is restriction to the chart. On
   cycles it sends `[L]` to `[A¹]`, `[0₁]` to `[0]` and `[0₂]` to `0`.
 
 ### 5.7 Coherent and perfect classes: `K_0`, `G_0` and the K-theoretic pushforward
@@ -8871,7 +8898,7 @@ consume nothing from this roadmap.
 - Grothendieck Brauer III: *Le groupe de Brauer III*, Dix exposés sur la cohomologie des schémas (1968).
 - Deligne–Mumford 1969: *The irreducibility of the space of curves of given genus*, Publ. IHÉS 36.
 - Deligne 1985: *Le lemme de Gabber*, Astérisque 127,
-  [§§3.3–3.7, pp. 137–140](https://www.numdam.org/item/AST_1985__127__131_0.pdf).
+  [Lemme 1.6, pp. 133–134; §2, p. 136; §§3.3–3.7, pp. 138–141](https://www.numdam.org/item/AST_1985__127__131_0.pdf).
 - Knudsen 1983, II: *The projectivity of the moduli space of stable curves, II:
   The stacks `M_{g,n}`*, Math. Scand. 52, 161–199,
   [Corollary 2.6 and Theorem 2.7, p. 179](https://journals.msp.org/mscand/article/download/1622/1621/1653).
