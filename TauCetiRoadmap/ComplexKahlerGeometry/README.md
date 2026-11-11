@@ -2917,7 +2917,7 @@ Use Stage 6 Poincaré duality and restrictions to ℂP^k to identify the
 powers of u and the cup multiplication, beyond the additive cellular groups.
 CharacteristicClasses C1.5 consumes these finite carrier inclusions, cup
 rings and restriction-normalized u classes for its finite-to-infinite
-comparison; AlgebraicTopology Stage 8, item 12, consumes that later comparison.
+comparison; CharacteristicClasses C1.5a consumes that later comparison.
 Prove nonempty closed complex submanifolds of projective space are compact Kähler and `h^(k,k)≥1` for
 0≤k≤dim from nonzero Kähler powers. These are the geometric inputs to
 GeometricQuantization, whose scaled symplectic forms use k≥1.
@@ -3529,8 +3529,8 @@ filtered-complex spectral sequence supplies convergence after those inputs.
 - RiemannianGeometry consumes 5.7's real Hodge theorem and K7.1; RiemannianGeometry and
   SpinGeometry consume the pointwise star algebra cited in 5.1; Hyperfunctions consumes Layers 1, 2
   and 4 and K5a.
-- AlgebraicTopology Stage 7 consumes K7.1's projective model and K7.2's finite CW structure;
-  MorseTheory and GeneralizedCohomology use K7.1 and K7.2.
+- CharacteristicClasses C2.4a consumes K7.1's projective atlas and C7.6 consumes K7.1's
+  biholomorphism CP¹≃`OnePoint ℂ`; MorseTheory and GeneralizedCohomology use K7.1 and K7.2.
 
 ## References
 
