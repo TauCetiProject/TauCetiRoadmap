@@ -786,14 +786,19 @@ absolutely (1.6):
 
 ### 4.5 Bilateral series
 
-- 16.4.16 as a definition: the bilateral series `ₚH_q(𝐚; 𝐛; z) = ∑_{k ∈ ℤ} (𝐚)ₖ/(𝐛)ₖ zᵏ`, with the
-  Pochhammer symbol at negative `k` given by `(x)ₖ = Γ(x + k)/Γ(x)`, as a `tsum` over `ℤ`;
+- 16.4.16 as a definition: the bilateral series `ₚH_q(𝐚; 𝐛; z) = ∑_{k ∈ ℤ} (𝐚)ₖ/(𝐛)ₖ zᵏ`, as a
+  `tsum` over `ℤ`, with the Pochhammer symbol at negative index `(x)₋ₘ = (−1)ᵐ/(1 − x)ₘ` for
+  `m ≥ 1`. The term of index `−m` is then `(−1)^{m(p−q)} (1 − 𝐛)ₘ/(1 − 𝐚)ₘ z⁻ᵐ`; a bottom
+  parameter in `{1, 2, …}` makes the terms with `m` past it vanish, as the limit in that parameter
+  does. Off the poles `(x)₋ₘ = Γ(x − m)/Γ(x)`, but that quotient is not the definition: in
+  Mathlib's convention `Γ(0) = 0` it gives `(0)₋₁ = 0` where the definition gives `−1`;
 - 16.4.17 (Dougall's bilateral sum) for `Re(c + d − a − b) > 1`, with `c`, `d`, `1 − a` and
   `1 − b` off the poles of `Γ`: the series is summable and its sum is
   `Γ(c) Γ(d) Γ(1 − a) Γ(1 − b) Γ(c + d − a − b − 1)` times
   `(Γ(c − a) Γ(d − a) Γ(c − b) Γ(d − b))⁻¹`, with reciprocal Gamma factors, so that the case
   `b = d` is covered; from
-  SpecialFunctionsHypergeometric 4.2 (15.4.25) by `(x)ₖ = Γ(x + k)/Γ(x)` and the reflection formula.
+  SpecialFunctionsHypergeometric 4.2 (15.4.25), by `(x)ₖ = Γ(x + k)/Γ(x)` off the poles and the
+  reflection formula, and at the excluded parameters by continuity of both sides.
 
 **Checks.**
 - 16.4.17 at `b = d`: `₁H₁(a; c; 1) = 0` for `Re(c − a) > 1`, while the sum over `k ≥ 0` alone is
@@ -804,6 +809,10 @@ absolutely (1.6):
   polynomial, or `1`, at negative indices.
 - 16.4.17 at `(a, b, c, d) = (0.3 + 0.1i, −0.4 + 0.2i, 1.7 − 0.3i, 1.2 + 0.5i)`: the right side is
   `1.13072 61026 60… + 0.44353 25702 10… i`.
+- 16.4.17 at `(a, b, c, d) = (0, ½, 2, ½)`, which the hypotheses allow: the terms of indices `0`
+  and `−1` are `1` and `−1`, and all others vanish (`(0)ₖ = 0` for `k ≥ 1`, `(1 − c)ₘ = 0` for
+  `m ≥ 2`), so the sum is `0`; the right side is `0` through `Γ(d − b)⁻¹ = Γ(0)⁻¹ = 0`. With
+  `(x)₋ₘ = Γ(x − m)/Γ(x)` the sum would be `1`.
 
 *Needs:* Layer 1; SpecialFunctionsHypergeometric 4.2.
 
