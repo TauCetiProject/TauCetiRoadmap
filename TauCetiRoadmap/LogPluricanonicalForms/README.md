@@ -1,175 +1,408 @@
-# Logarithmic pluricanonical forms and generic fiberwise nonvanishing
+# Roadmap: logarithmic pluricanonical forms and generic fiberwise nonvanishing
 
-This roadmap builds logarithmic canonical line bundles on smooth projective complex varieties,
-their rational-section description, and restriction and nonvanishing on smooth fibers. Its final
-result is the negative-fiber branch of logarithmic Kodaira additivity: a very general fiber of
-negative logarithmic Kodaira dimension forces all positive logarithmic plurigenera of the total
-space to vanish. The reusable content is the library of logarithmic sections and specialization
-maps that supports this conclusion.
-
-The geometric development is over `ℂ`. Algebraic suppliers retain their natural commutative-ring
-or semiring hypotheses. Varieties are nonempty integral schemes, smooth and projective over
-`Spec ℂ`; their structural morphisms, projectivity, smoothness and dimensions use the existing
-Mathlib and Tau Ceti APIs. A parallel private definition of projective variety is not introduced.
+**Summary.** Build the twisted canonical line of a smooth complex variety, its pluriform
+sections and rational-section description, and specialization to smooth fibers. The end
+results are generic nonvanishing of a nonzero positive pluriform and a very-general,
+pointwise negative-fiber implication. The restriction and adjunction argument is developed
+for effective Cartier boundaries; reduced strict normal-crossing boundaries give its
+logarithmic Kodaira interpretation. The construction consumes native differentials,
+invertible sheaves and the determinant of an extension (OpenAI, §2.2, first paragraph, p. 5;
+Esnault–Viehweg, §2, Definition 2.1 and Properties 2.2, pp. 11–12).
 
 ## Scope and ownership
 
-This roadmap owns reduced simple normal-crossing boundaries, the logarithmic canonical line
-bundle, rational logarithmic pluriforms, and the fiberwise restriction and nonvanishing statements
-below. It consumes ordinary differentials, exterior powers, invertible sheaves and effective
-Cartier divisors from the existing libraries. It consumes determinant additivity from
-[AlgebraicVectorBundles, §3.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/651d08225204b26a3ef0ce99599ae7c006dc734e/TauCetiRoadmap/AlgebraicVectorBundles/README.md#32-the-determinant-of-an-extension).
-Missing comparisons explicitly specified below are targets here; existing constructions must be
-reused rather than copied.
+This roadmap owns the twisted canonical line and its pole interpretation, global
+pluricanonical sections and their rational-section comparison, fiber adjunction with its
+base determinant factor, generic nonvanishing, and the negative-fiber implication below.
+It owns the comparison between the supplied strict normal-crossing notion and Zariski
+covers by the existing algebraic charts. It does not define a second normal-crossing notion.
 
-The scope is the negative-fiber result. It excludes the negative-base and finite-Kodaira-dimension
-branches of additivity, construction of Iitaka fibrations, variation, positivity and the other
-arguments in the cited manuscript. It does not require a new definition of the whole Kodaira
-dimension function. For this result, negative logarithmic Kodaira dimension is the intrinsic
-vanishing condition in Layer 2; an existing dimension API should be connected by an equivalence.
+The strict normal-crossing data, component/intersection theory and finite-family criterion
+belong to [SchemeAndStackFoundations §4.17](../SchemeAndStackFoundations/README.md#417-strict-normal-crossings-divisors).
+Its distinction between strict normal crossings and normal crossings is retained. The
+étale-coordinate data are Tau Ceti's `TauCeti.SmoothPair.AlgebraicChart`. Determinants of
+extensions and their affine comparisons belong to
+[AlgebraicVectorBundles §§3.2–3.3](../AlgebraicVectorBundles/README.md#32-the-determinant-of-an-extension)
+and [PadicMeasuresIwasawaAlgebras §5.1](../PadicMeasuresIwasawaAlgebras/README.md).
+Their determinant constructions are suppliers, not targets to duplicate here.
 
-## Existing foundations and supplier contracts
+The scope excludes the negative-base and finite-Kodaira-dimension branches of additivity,
+Iitaka fibrations, positivity, variation and a general Kodaira-dimension function. It also
+excludes existence of smooth projective fiber models and existence of complex points outside
+arbitrary countable unions of proper closed sets. Fiber models and such points remain supplied
+arguments. The vanishing predicate below is definite and does not depend on a future dimension API.
 
-Use the definitions and interfaces in the destination's actual pinned dependencies:
+## Conventions
 
-- Mathlib `AlgebraicGeometry.Scheme`, `Scheme.Over`, `IsIntegral`, `Smooth`,
-  `SmoothOfRelativeDimension`, projective morphisms, scheme pullbacks and `IdealSheafData`.
-- Mathlib Kähler differentials, their tensor base-change equivalence and exact transitivity
-  sequence; exterior and finite tensor powers; module localization and finite bases.
-- Tau Ceti `AlgebraicGeometry.Modules.Differentials.{Basic,Rational,Canonical,Rank}`, the native
-  sheaf of relative differentials and its rational/affine comparisons.
-- Tau Ceti's invertible sheaves, effective Cartier divisors and their associated modules;
-  `FiniteLocallyFreeSheaf.det` and `pullbackDetIso` from AlgebraicVectorBundles.
-- Tau Ceti `exteriorPower.equivBaseChange` and `IsBaseChange.exteriorPowerEquiv`, with no
-  freeness assumption; use these instead of a second exterior-power base-change construction.
-- Tau Ceti `Scheme.IdealSheafData.ideal_comap_of_le` and
-  `Submodule.mem_of_forall_maximal_exists_smul_mem`, for affine pullback and local membership.
+- Schemes and section modules use Mathlib's carriers, in universe zero over `Spec ℂ`.
+  Structural morphisms come from `Scheme.Over`. Integral schemes are nonempty.
+- The section and pole constructions apply to smooth integral finite-type complex schemes.
+  The headline fixes smooth proper integral `X` and `Y`, a surjective morphism `f : X → Y`
+  over `ℂ`, and a nonempty open `V ⊆ Y` over which `f` is smooth.
+- An effective Cartier boundary is `E : X.IdealSheafData` with
+  `hE : E.IsEffectiveCartier`. Its invertible ideal is `𝒪_X(−E)`; its dual is
+  `𝒪_X(E)`, which allows poles. No reducedness or crossing condition is imposed in the
+  Cartier form of the headline. The logarithmic interpretation uses reduced strict normal crossings.
+- Strict normal crossings means the Zariski-local regular-parameter condition of Stacks
+  Definition 41.21.1, Tag 0BI9. An arbitrary surjective étale cover does not suffice.
+  In an algebraic chart, the source is an affine **open** of `X`, and its coordinate map
+  to affine space is étale. The boundary ideal is generated by a unit times a product
+  of distinct coordinate functions (Stacks Tags 0BI9–0BIA).
+- The submodule/base factor precedes the quotient/relative factor in determinants.
+  If `t` is a boundary equation, an `m`-pluriform is regular after multiplication by `t^m`.
+- Tensor powers use `TauCeti.tensorPow`, with degree zero the monoidal unit.
+  Vanishing is asserted only for `m > 0`.
+- A complex point is a morphism `y : Spec ℂ → Y` over `ℂ`. Its image in `Y` is
+  `Set.range y.base`. A supplied fiber square consists of a smooth proper integral
+  `F` over `ℂ` and `i : F → X` with `IsPullback i (F ↘ Spec ℂ) f y`.
+  The fiber boundary is an effective Cartier ideal `E_F` with `E_F = E.comap i`.
+  Effectiveness of this pullback is a hypothesis, not a consequence for every fiber.
 
-For determinant additivity, consume the canonical isomorphism for an exact sequence of finite
-locally free sheaves from AlgebraicVectorBundles §3.2. Its finite-free affine model is the
-isomorphism `∧ⁿ M ⊗ ∧ʳ P ≃ ∧ⁿ⁺ʳ N` of a short exact sequence, submodule factor first. Do not
-assume a field or a globally chosen splitting for the sheaf comparison.
+## Exact supplier contracts
 
-## Layer 1: reduced SNC pairs and logarithmic canonical lines
+### From Mathlib
 
-### 1.1 Boundaries and their local equations
+- `AlgebraicGeometry.Scheme`, `Scheme.Over`, `IsIntegral`, `Smooth`, `IsProper`,
+  `Scheme.Hom`, `CategoryTheory.Limits.IsPullback`, and the open restriction `f ∣_ V`:
+  native schemes, geometric hypotheses and fiber squares.
+- `Scheme.IdealSheafData.comap`: pullback of ideal-sheaf data, retaining the ideal rather
+  than replacing it by a support or radical.
+- `Scheme.Modules` and its section notation `Γ(M, U)`: sheaves of modules and their sections.
+- `KaehlerDifferential.tensorKaehlerEquiv`: differential base change.
+  `Algebra.H1Cotangent.exact_δ_mapBaseChange` and `LinearMap.exact_zero_iff_injective`:
+  injectivity in the transitivity sequence when the preceding cotangent homology vanishes.
+- `Submodule.mem_of_localization_maximal`: recover membership from all maximal localizations;
+  module-localization and tensor-product APIs supply the affine membership comparisons.
+- `Scheme.Hom.isOpenMap`: images of opens under a smooth morphism; apply it after restricting
+  `f` over `V`. `IsClosed` and `TopologicalSpace.Opens` express the exceptional sets.
 
-Define a reduced simple normal-crossing effective Cartier divisor on a smooth variety through
-étale local coordinates: locally its ideal is generated by a unit times a product of distinct
-coordinate parameters. Give restriction, support, open-complement, component/intersection and
-change-of-equation APIs. Prove compatibility with the finite-family formulation in which each
-nonempty intersection of distinct components is smooth of the expected codimension. Empty
-intersections are permitted; they must not imply false dimension inequalities on nonempty ones.
+### From Tau Ceti
 
-Use the existing effective-Cartier-divisor and ideal-sheaf objects. The complement of the boundary
-in a nonempty integral variety is a dense nonempty open. Its ideal pulls back by the native
-`IdealSheafData.comap`; a support inclusion must not be silently promoted to equality of divisors
-or of their multiplicities.
+Names in the first four bullets are in `TauCeti.AlgebraicGeometry`.
 
-### 1.2 The logarithmic canonical line
+- `FiniteLocallyFreeSheaf.relativeDifferentials` packages the differential sheaf of a smooth
+  scheme, and `FiniteLocallyFreeSheaf.rank_relativeDifferentials_apply` computes its rank.
+- `FiniteLocallyFreeSheaf.det` is the determinant at locally constant rank;
+  `FiniteLocallyFreeSheaf.pullbackDetIso` is its pullback comparison.
+- `InvertibleSheaf.dual` and `InvertibleSheaf.tensorProduct` manipulate native invertible sheaves.
+- `relativeDifferentialsGenericStalkEquiv`, `rationalDifferential` and
+  `rationalDifferential_map` supply the generic-stalk and affine rational-differential comparisons.
+- `Scheme.IdealSheafData.IsEffectiveCartier.toInvertibleSheaf` packages the invertible
+  **ideal** of an effective Cartier divisor. Its dual, not the ideal itself, supplies the pole twist.
+- `TauCeti.tensorPow` and `TauCeti.tensorPowAddIso` supply tensor powers and their multiplication
+  comparison; `Scheme.Modules.instMonoidalCategory` supplies the ambient monoidal category.
+- `TauCeti.SmoothPair.AlgebraicChart` supplies the affine étale-coordinate presentation with
+  equality of the boundary ideal and a coordinate-product ideal.
+- `TauCeti.exteriorPower.equivBaseChange` and `IsBaseChange.exteriorPowerEquiv` supply exterior
+  base change; `Scheme.IdealSheafData.ideal_comap_of_le` supplies affine pullback identities.
 
-For a smooth variety `X` of dimension `n` and boundary `E`, define
-`ω_X(E) = det(Ω¹_{X/ℂ}) ⊗ 𝒪_X(E)` as an invertible sheaf. Establish restriction to opens,
-change of local generator, and its identification with regular top forms on the boundary
-complement with at most a simple pole along each boundary component. The zero-dimensional
-case has determinant `𝒪_X`; the empty wedge is `1`.
+### From TauCetiRoadmap.SchemeAndStackFoundations
 
-Pin the divisor convention: `𝒪_X(E)` allows poles along the effective divisor `E`. If `t` is a
-local equation of `E`, membership of a rational `m`-pluriform is tested by multiplying by `t^m`,
-not dividing by it. For local coordinates with `E = V(x₁⋯x_a)`, the logarithmic top generator is
-`(dx₁∧⋯∧dx_n)/(x₁⋯x_a)`.
+Section 4.17 supplies `IsStrictNormalCrossings`, `SNCData`, its transverse strata,
+local-equation and component APIs, and effective Cartier boundary data. This roadmap consumes
+those contracts and supplies only the comparison to `TauCeti.SmoothPair.AlgebraicChart`
+needed to compute logarithmic top forms.
 
-## Layer 2: pluriform sections and negative dimension
+### From TauCetiRoadmap.AlgebraicVectorBundles
 
-For every `m : ℕ`, construct the `m`th tensor power of `ω_X(E)` and its module of global sections
-with the existing sheaf and tensor-power operations. Give zero, addition, scalar action,
-restriction, tensor multiplication and the degree-zero identification. Positive degree is an
-explicit hypothesis in vanishing statements; degree zero contains the constants.
+Sections 3.2–3.3 supply the canonical determinant isomorphism for a short exact sequence of
+finite locally free sheaves, its lift-independent local wedge formula, its coherences and
+its affine comparison with graded determinant lines. The base factor comes first.
 
-For integral `X`, embed these sections into the tensor power of the top exterior power of the
-Kähler differentials of its function field. Prove that the image consists exactly of rational
-pluriforms whose product by `t^m` is regular on every affine chart with boundary equation `t`.
-Prove independence of the chart and equation, affine localization compatibility and local-to-global
-membership. This is a comparison with the geometric line bundle, not a new definition chosen
-merely because it makes the final theorem hold.
+### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
 
-Define negative logarithmic Kodaira dimension by
-`∀ m > 0, H⁰(X, ω_X(E)ᵐ) = 0`, equivalently every section in every positive degree vanishes.
-If an existing Kodaira-dimension object is used, prove its bottom-value equivalence with this
-condition. No finite generation of the whole section ring is assumed.
+Section 5.1 supplies determinant lines of finite projective modules and their short-exact
+comparison. It is used by the affine comparison of AlgebraicVectorBundles §3.3; no competing
+determinant-line definition is introduced here.
+
+## How to read the build
+
+Layer 1 connects strict boundary charts to the twisted canonical line. Layer 2 constructs
+its global tensor-power sections, identifies them with rational pluriforms, and fixes the
+negative condition. Layer 3 constructs fiber adjunction and restriction while retaining the
+base determinant line. Layer 4 proves generic nonvanishing and the very-general negative-fiber
+implication. `Suggested.lean` declares `logCanonical`, `pluriformSections`, `NegLogKodaira`,
+`VeryGeneral` and the headline `negLogKodaira_of_veryGeneral_fiber`; its module documentation
+identifies the missing comparison maps that prevent the other headlines being stated there.
+
+## Layer 1: boundary charts and the twisted canonical line
+
+### 1.1 Boundary charts and complements
+
+For a reduced strict normal-crossing boundary on a smooth complex variety, prove that the
+supplied strict normal-crossing condition is equivalent to a Zariski cover by affine opens
+with `TauCeti.SmoothPair.AlgebraicChart` data and the same boundary ideal. This is a comparison
+between the two supplied presentations, not another definition of either presentation
+(Stacks Definition 41.21.1 and Lemma 41.21.2, Tags 0BI9–0BIA).
+*Needs:* SchemeAndStackFoundations §4.17; `TauCeti.SmoothPair.AlgebraicChart`;
+Mathlib affine opens and étale morphisms.
+
+Relate the chart complements to the open complement of the effective Cartier support.
+For integral `X`, this complement is dense and nonempty. Identify its affine restriction and
+its inverse image along a supplied fiber map through `Scheme.IdealSheafData.comap`; equality
+of supports alone is not equality of boundary ideals (Stacks Tag 0BI9; the local nonzerodivisor
+condition for an effective Cartier divisor).
+*Needs:* SchemeAndStackFoundations §4.17; Mathlib `Scheme.IdealSheafData.comap`;
+Tau Ceti `Scheme.IdealSheafData.ideal_comap_of_le`.
+
+**Checks.**
+- The empty boundary, with unit ideal, has complement all of `X` and a chart with zero boundary coordinates.
+- `V(xy) ⊂ 𝔸²_ℂ` has two transverse components and the coordinate-product chart.
+- The nodal cubic `V(y² − x²(x + 1))` is normal crossings but not strict normal crossings;
+  an étale-only cover cannot satisfy the Zariski comparison above.
+
+### 1.2 The canonical line with a pole twist
+
+Define `logCanonical X hE := det(Ω¹_{X/ℂ}) ⊗ 𝒪_X(E)` for every smooth `X` and effective
+Cartier `E`, using the dual of the invertible ideal of `E`. For reduced strict normal crossings,
+identify it with the top logarithmic differentials: in dimension `n`, a boundary equation
+`x₁⋯x_a` gives the generator `(dx₁ ∧ ⋯ ∧ dx_n)/(x₁⋯x_a)` (Esnault–Viehweg,
+Definition 2.1 and Properties 2.2(b,c), pp. 11–12; Stacks Tags 02G1 and 0FJ9).
+*Needs:* `FiniteLocallyFreeSheaf.relativeDifferentials`, `FiniteLocallyFreeSheaf.det`,
+`Scheme.IdealSheafData.IsEffectiveCartier.toInvertibleSheaf`, `InvertibleSheaf.dual`,
+`InvertibleSheaf.tensorProduct`; §1.1 for the logarithmic identification only.
+
+Its basic API provides:
+- invariance under isomorphism of pairs and compatibility with restriction to open subschemes;
+- the empty-boundary identification with the ordinary canonical line;
+- local generators, unit changes of a boundary equation, and the top-form/simple-pole comparison.
+
+**Checks.**
+- On `Spec ℂ` with empty boundary, the determinant of degree zero is the unit line, generated by `1`.
+- On `𝔸¹` with `E = V(x)`, `dx/x` is allowed and `dx/x²` is not; reversing the divisor dual gives the wrong answer.
+- On `ℙ¹`, the empty-boundary line is `𝒪(−2)`, while the boundary `{0, ∞}` gives `𝒪`, generated by `dz/z`.
+
+### Examples
+
+Compute the coordinate-hyperplane model on affine space and the two-point boundary on `ℙ¹`
+from the same line-bundle construction.
+
+### Dependencies
+
+SchemeAndStackFoundations §4.17; the Mathlib and Tau Ceti suppliers of §§1.1–1.2.
+
+## Layer 2: sections, rational membership and the negative condition
+
+### 2.1 Pluriform sections and the rational comparison
+
+Define `pluriformSections X hE m := Γ(logCanonical(X,E)ᵐ, ⊤)` with native tensor powers.
+For integral `X`, let `n` be the constant rank of its differential sheaf, and embed these
+sections into the `m`th tensor power of
+`∧ⁿ Ω_{K(X)/ℂ}`. Prove that its image consists exactly of rational pluriforms whose product
+by `t^m` is regular on every affine chart with boundary equation `t`. This is a comparison
+with sections of the geometric line bundle (Esnault–Viehweg, Properties 2.2(b,c), pp. 11–12,
+followed by tensor powers; the local description of the invertible ideal of `E`).
+*Needs:* §1.2; `TauCeti.tensorPow`, `TauCeti.tensorPowAddIso`, `rationalDifferential`,
+`relativeDifferentialsGenericStalkEquiv`, `rationalDifferential_map`,
+`TauCeti.exteriorPower.equivBaseChange`, `IsBaseChange.exteriorPowerEquiv`, and
+Mathlib `Submodule.mem_of_localization_maximal` and module localization.
+
+Its basic API provides:
+- zero, addition and the `ℂ`-module structure induced by the structural morphism;
+- restriction to opens, tensor multiplication between degrees, and the degree-zero identification
+  with regular functions;
+- injectivity into rational pluriforms, independence of chart and boundary equation, affine
+  localization compatibility, and local-to-global membership.
+
+**Checks.**
+- At degree zero, `1` is a nonzero section on a nonempty scheme; no positive-degree vanishing claim applies.
+- On `𝔸¹` with `t = x` in degree two, `(dx)²/x²` is allowed and `(dx)²/x³` is not.
+- Replacing `t` by `2t` leaves the membership condition unchanged, since `2^m` is a unit.
+- On `ℙ¹` with boundary `{0, ∞}`, every tensor power has the one-dimensional section space
+  generated by `(dz/z)ᵐ`.
+
+### 2.2 The negative condition
+
+Define `NegLogKodaira X hE` by vanishing of `pluriformSections X hE m` for every `m > 0`.
+For reduced strict normal crossings this is precisely the condition that logarithmic Kodaira
+dimension is `−∞`; on other effective Cartier pairs it denotes this specified plurigenus
+vanishing condition, without a birational-invariance assertion (OpenAI, §1 and §2.2, p. 5).
+*Needs:* §2.1.
+
+Its basic API provides:
+- equivalence between vanishing of each positive section space and every positive section being zero;
+- invariance under isomorphism of pairs and under a change of local boundary equations by units;
+- the contrapositive criterion that one nonzero positive pluriform rules out the predicate.
+
+**Checks.**
+- `ℙ¹` with empty boundary satisfies the predicate because `H⁰(ℙ¹, 𝒪(−2m)) = 0` for `m > 0`.
+- `ℙ¹` with boundary `{0, ∞}` fails it: the degree-one section `dz/z` is nonzero.
+- A smooth elliptic curve with empty boundary fails it: a nonzero invariant differential
+  trivializes its canonical line.
+- Degree zero never enters this predicate; requiring its sections to vanish would exclude every nonempty example.
+
+### Examples
+
+Compare the two boundaries on `ℙ¹` and the empty boundary on an elliptic curve. Their
+positive-degree section spaces distinguish the negative condition from degree-zero vanishing.
+
+### Dependencies
+
+Layer 1; the rational-differential, tensor-power and localization suppliers of §2.1.
 
 ## Layer 3: adjunction and fiber restriction
 
-Let `f : X → Y` be a surjective morphism over `ℂ` with connected complex fibers. Let `E` and `D`
-be reduced SNC boundaries satisfying `f⁻¹(|D|) ⊆ |E|`. Assume `f` is smooth over `Y \ |D|`.
-A fiber under discussion is supplied as a smooth projective variety `F` with a cartesian square
-`F → X` over a complex point `y → Y`, together with a reduced SNC boundary `E_F` whose ideal
-is the inverse image of the ideal of `E`. Supplying this data does not assert its existence for
-every point. All quantifiers in the final statements retain this distinction.
+### 3.1 Determinant adjunction on smooth charts
 
-On smooth affine charts, establish canonical adjunction from the transitivity sequence of
-Kähler differentials. The determinant factor from the base comes first. When finite bases are
-used to compute the map, prove the wedge formula and invariance under changing bases or lifts.
-For the algebraic injectivity input, vanishing of the first cotangent homology suffices; do not
-impose formal smoothness on a separately supplied algebraic sequence when that weaker condition
-is all the proof uses.
+For a smooth transitivity sequence of Kähler differentials, apply the supplied determinant
+of an extension to obtain the canonical line comparison, with the base factor first.
+For the algebraic input, vanishing of `Algebra.H1Cotangent A B` makes its connecting map
+zero, so `Algebra.H1Cotangent.exact_δ_mapBaseChange` and
+`LinearMap.exact_zero_iff_injective` give injectivity directly. No separate injectivity
+supplier is introduced (Stacks Tag 0FJB; OpenAI, §2.2, first paragraph, p. 5).
+*Needs:* Mathlib `Algebra.H1Cotangent.exact_δ_mapBaseChange` and
+`LinearMap.exact_zero_iff_injective`; AlgebraicVectorBundles §§3.2–3.3;
+PadicMeasuresIwasawaAlgebras §5.1 via the affine determinant comparison.
 
-Construct the restriction of logarithmic pluricanonical sections to the supplied fiber, retaining
-the one-dimensional base determinant factor. After identifying that factor with `ℂ` by a nonzero
-basis, the result is a logarithmic pluricanonical section of `F`. Prove that changing the base
-basis rescales by a unit, so nonvanishing is unchanged. Prove compatibility with affine
-refinement, differential base change, boundary pullback and gluing. These comparisons must
-recover the rational-section formulation of Layer 2.
+Prove agreement with the local wedge description and naturality under chart refinement.
+In a finite-free calculation, changes of endpoint bases and quotient lifts leave the
+comparison unchanged (Stacks Lemma 15.120.2, Tag 0FJB).
+*Needs:* the supplied affine determinant comparison and its lift-independent formula;
+Mathlib `KaehlerDifferential.tensorKaehlerEquiv`.
 
-## Layer 4: generic nonvanishing and the negative-fiber corollary
+**Checks.**
+- In `0 → R → R² → R → 0` with inclusion `1 ↦ e₁` and the second projection,
+  `1 ⊗ 1` maps to `e₁ ∧ e₂`; over `ℤ`, swapping to inclusion `1 ↦ e₂` and the first
+  projection gives `−e₁ ∧ e₂`. Over `𝔽₂` the sign is invisible, so the integer case discriminates.
+- Replacing a quotient lift by that lift plus an element of the submodule changes no wedge.
+- At degree zero over `Spec ℂ`, the empty wedge is `1` and the determinant comparison is the unit comparison.
 
-For any nonzero global section `s` of `ω_X(E)ᵐ`, with `m > 0`, prove that there is a nonempty open
-`U ⊆ Y \ |D|` such that for every complex point of `U` and every supplied fiber model as in
-Layer 3, the restriction of `s` is nonzero after trivializing the base determinant factor.
-The open is allowed to depend on `s`. The proof must produce the open from the nonzero
-coefficient and dominance, rather than assume generic nonvanishing in the fiber model.
+### 3.2 Specialization to a supplied fiber
 
-Deduce that if some positive logarithmic plurigenus of `X` is nonzero, there is a nonempty open
-on which every supplied fiber model has nonnegative logarithmic Kodaira dimension in the
-vanishing/nonvanishing sense of Layer 2.
+For the standing `X`, `Y`, `f`, `V`, a complex point `y ∈ V`, and a supplied fiber square
+with effective Cartier pullback `E_F`, construct the natural isomorphism
+`i*ω_X(E) ≅ (det Ω¹_{Y/ℂ})_y ⊗_ℂ ω_F(E_F)`.
+In degree `m`, restriction carries a section of `ω_X(E)ᵐ` to a section of
+`(det Ω¹_{Y/ℂ})_yᵐ ⊗_ℂ ω_F(E_F)ᵐ`. Choosing a nonzero basis of the one-dimensional
+base factor gives a fiber pluriform; changing it rescales by a unit (OpenAI, §2.2,
+first paragraph, p. 5; determinant additivity, Stacks Tag 0FJB).
+*Needs:* §§1.2, 2.1 and 3.1; `FiniteLocallyFreeSheaf.pullbackDetIso`,
+`Scheme.IdealSheafData.comap`, `Scheme.IdealSheafData.ideal_comap_of_le`,
+`KaehlerDifferential.tensorKaehlerEquiv`; AlgebraicVectorBundles §3.2.
 
-Define the very-general quantifier as holding outside a countable union of proper closed sets.
-Prove that a property holding on a dense nonempty open is very general. Prove the negative-fiber
-corollary: very generally in `Y \ |D|`, for every supplied fiber model with negative logarithmic
-Kodaira dimension, every positive logarithmic pluricanonical section on `X` vanishes. If a full
-Kodaira-dimension API is in use, derive the corresponding bottom-valued additivity equality.
-The quantifier theorem does not itself assert that the exceptional complement has a complex
-point. An existence theorem for such points is not smuggled into its definition.
+Its basic API provides:
+- linearity and agreement of the sheaf restriction with the rational-section comparison;
+- compatibility with open restriction, affine refinement and gluing;
+- independence of nonvanishing from the chosen base determinant basis.
 
-## Required checks and consumers
+**Checks.**
+- Over a point, the base determinant factor is the unit and restriction is the identity.
+- For the identity map and empty boundaries, restriction to its point fiber is evaluation
+  in the original canonical-line fiber, with the base determinant factor retained.
+- If a supplied fiber lies entirely inside `E`, the pulled-back ideal can fail to be effective
+  Cartier; such a model is excluded by the explicit effectiveness hypothesis, not silently assigned a restriction map.
 
-- At `m = 0`, the scalar section `1` survives; vanishing is asserted only at positive degree.
-- Over a point, adjunction and specialization reduce to the identity after the unit comparison.
-- For `0 → R → R² → R → 0`, the determinant comparison sends `1 ⊗ 1` to `e₁ ∧ e₂` over
-  every commutative ring, including `ℤ` and characteristic two. It is independent of the lift
-  of the quotient basis and of the two endpoint bases.
-- Changing a local boundary equation by a unit leaves the logarithmic-section submodule unchanged.
-- For the identity map and zero boundaries, the sectionwise specialization agrees with evaluation
-  in the zero-dimensional fiber, retaining the base determinant factor.
-- For the projection `ℙ¹_ℂ × Y → Y` with zero boundaries, use the native canonical-bundle
-  computation on `ℙ¹` to recover positive-degree vanishing on the total space. This tests a case
-  where fibers really exist and the negative-fiber premise is nonvacuous.
-- Give the explicit comparison with the family 033 rational-lattice section space and recover its
-  original negative-fiber theorem, including its supplied-model and positive-degree quantifiers.
+### Examples
 
-## Mathematical references and prior formalization
+For `C × ℙ¹ → ℙ¹`, with `C` a smooth elliptic curve and `E = C × {0, ∞}`, choose a
+nonzero invariant differential `η` on `C`. The base-first product `(dz/z) ∧ η`
+trivializes `ω_X(E)`; over `ℙ¹ ∖ {0, ∞}`, trivializing the base factor by `dz/z`
+makes its restriction the nonzero fiber differential `η`.
+
+### Dependencies
+
+Layers 1–2; determinant additivity and its affine comparison from AlgebraicVectorBundles
+§§3.2–3.3, using PadicMeasuresIwasawaAlgebras §5.1.
+
+## Layer 4: generic nonvanishing and the negative-fiber implication
+
+### 4.1 Generic nonvanishing
+
+For the standing smooth proper integral `X`, `Y`, surjective `f` and nonempty open `V`
+with `f` smooth over `V`, let `E` be any effective Cartier divisor and let `s` be a nonzero
+section of `ω_X(E)ᵐ`, `m > 0`. Prove that there is a nonempty open `U ⊆ V` such that
+for every complex point of `U` and every supplied smooth proper integral fiber square
+with effective Cartier pullback `E_F`, the specialized fiber pluriform of §3.2 is nonzero
+(OpenAI, §2.2, first paragraph, p. 5, in its effective-Cartier form).
+*Needs:* §§2.1 and 3.2; Mathlib `Scheme.Hom.isOpenMap` for the smooth restriction over `V`.
+
+A proof route uses the nonvanishing open of a section of a line bundle: it meets the dense
+open `f⁻¹(V)`, and its image under the smooth restriction of `f` is nonempty and open.
+Adjunction identifies nonzero restriction with nonzero specialization. This route uses no
+crossing or reducedness assumption on `E` once its fiber pullback is effective Cartier.
+
+**Checks.**
+- The elliptic product of Layer 3 has a section nonzero on every fiber over
+  `ℙ¹ ∖ {0, ∞}`; it cannot be represented by a zero restriction map.
+- Multiplying a product section by a base function that vanishes at a point can kill that
+  fiber restriction; the open must be allowed to depend on the section.
+- A degree-zero constant remains nonzero, but it is not used to contradict the positive-degree predicate.
+
+### 4.2 Very-general complex points
+
+Define `VeryGeneral V P` for a property `P` of morphisms `Spec ℂ → Y` over `ℂ`: there
+are closed proper subsets `Z_j ⊂ Y`, indexed by `ℕ`, such that `P y` holds whenever
+`Set.range y.base ⊆ V ∖ ⋃ j, Z_j`. Properness means `Z_j ≠ Set.univ` in the ambient
+integral `Y`, not just in a fiber or in an unspecified point space (OpenAI, §1, the
+very-general fiber convention, and the countable positive degrees in §2.2).
+*Needs:* Mathlib `Scheme.Over`, `TopologicalSpace.Opens`, `IsClosed` and countable unions.
+
+Its basic API provides:
+- monotonicity in the property and closure under countable intersections of properties;
+- restriction to smaller nonempty opens and invariance under isomorphism over `ℂ`;
+- a dense-open property as a special case, taking the closed complement as an exceptional set.
+
+**Checks.**
+- For `Y = Spec ℂ` and its nonempty open, every proper closed subset is empty;
+  the predicate reduces to the property of its unique complex point over `ℂ`.
+- On `ℙ¹`, an enumerated union of proper closed subsets excludes only countably many complex points.
+- A property holding on dense open `U ⊆ V` is very general, with the repeated exception `Y ∖ U`.
+- Empty `V` makes the pointwise implication vacuous; the headline's nonempty-open hypothesis excludes that case.
+
+### 4.3 The negative-fiber implication
+
+Prove `negLogKodaira_of_veryGeneral_fiber` in the pointwise form: there are closed proper
+`Z_j ⊂ Y` such that for every complex point `y` with image in `V ∖ ⋃ j, Z_j`, and every
+supplied smooth proper integral fiber square with effective Cartier boundary
+`E_F = E.comap i`, `NegLogKodaira F hEF` implies `NegLogKodaira X hE`.
+This includes the smooth projective reduced-strict-normal-crossing case; connectedness of
+all fibers and the support condition `f⁻¹(|D|) ⊆ |E|` are not needed by this implication when
+`V` and the effective Cartier fiber data are supplied (OpenAI, §2.2, first paragraph, p. 5;
+the restriction/adjunction argument of §§3.2 and 4.1).
+*Needs:* §§2.2, 4.1 and 4.2; countability of positive tensor degrees and countable choice.
+
+A proof route chooses a nonzero section in each positive degree in which one exists,
+applies §4.1, and takes the countable union of the closed complements of those opens.
+A negative fiber at a remaining point contradicts any of the chosen nonzero sections.
+This is a pointwise implication, not an existence assertion for remaining points or fiber models.
+
+**Checks.**
+- For `ℙ¹ × Y → Y` with empty boundary, positive pluriform sections of the total space
+  vanish, agreeing with the actual negative fibers.
+- For the elliptic product with two vertical boundary fibers, the nonzero total section
+  specializes nontrivially; its fibers are not negative.
+- When `Y` is a point, the supplied fiber is `X` and the implication reduces to itself.
+
+### Examples
+
+Recover the negative-fiber statement for smooth projective strict normal-crossing pairs
+with `V = Y ∖ |D|`, retaining the supplied-model quantifiers and `m > 0`.
+The ruled product and elliptic product distinguish the vanishing and nonvanishing cases.
+
+### Dependencies
+
+Layers 1–3; smooth openness, the native sheaf restriction maps and the exceptional-set API.
+
+## Downstream consumers
+
+- The negative-fiber branch of logarithmic Kodaira additivity for smooth projective pairs.
+- Comparisons between concrete rational pluriform lattices and sections of native line bundles.
+- Relative-canonical specialization arguments that must track the base determinant line.
+
+## References
 
 - OpenAI, *The reverse logarithmic Kodaira inequality and additivity*, September 26, 2026,
-  §2.2, first negative-infinity case; the source manuscript distinguishes the other sign cases.
-- The Stacks Project, Tag 0FJB, determinants of finite projective modules, and Tag 02G1, smooth
-  differentials. Use the established algebraic-geometry references of the supplier roadmaps.
-- Existing formalization: `openai/math`, extraction commit
-  `4eaee87548250b2682affda7d05d947c05554bae`, family 033, especially
-  `lean/OAI/AlgebraicGeometry/LogKodaira/{Adjunction,Statement,NonzeroFiber,FiberNegative}.lean`.
-  The user-supplied cLEAN refactoring is additional prior implementation, not the specification.
-  Its snapshot and declaration-by-declaration contribution map accompany this draft.
-
-Original formalization attribution and Apache 2.0 notices must be retained when code is adapted.
-The source's standalone compilation and axiom checks establish facts about that snapshot; they
-do not by themselves establish a port to the destination's current dependencies or the new
-rational-section/sheaf comparison.
+  §1 and §2.2, first paragraph, p. 5. The effective-Cartier and smooth-proper formulation above
+  isolates the hypotheses used by that paragraph's restriction/adjunction argument.
+- H. Esnault and E. Viehweg, *Lectures on Vanishing Theorems*, Birkhäuser, 1992,
+  §2, Definition 2.1 and Properties 2.2(b,c), pp. 11–12;
+  [author-hosted text](https://page.mi.fu-berlin.de/esnault/books/esvibuch.pdf).
+- The Stacks Project, Definition 41.21.1 and Lemma 41.21.2,
+  [Tags 0BI9](https://stacks.math.columbia.edu/tag/0BI9) and
+  [0BIA](https://stacks.math.columbia.edu/tag/0BIA): strict normal crossings.
+- The Stacks Project, [Tag 02G1](https://stacks.math.columbia.edu/tag/02G1):
+  differentials of a smooth morphism are finite locally free.
+- The Stacks Project, [Tag 0FJ9](https://stacks.math.columbia.edu/tag/0FJ9): determinants;
+  [Tag 0FJB](https://stacks.math.columbia.edu/tag/0FJB), Lemma 15.120.2: short exact sequences.
+- Prior formalization: [OpenAI's `openai/math`](https://github.com/openai/math), family 033,
+  the negative-fiber case of §2.2; adapted code retains its original attribution and Apache 2.0 notices.
