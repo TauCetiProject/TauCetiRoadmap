@@ -77,19 +77,20 @@ What this roadmap leaves to others, by object:
   [algebraic-topology roadmap](../AlgebraicTopology/README.md), Stage 8, items 8.8a and 8.8b. The
   model that comparison is normalised against is the pinned `TauCeti.classifyingSpace G`, with
   the pinned identification `TauCeti.classifyingSpaceFundamentalGroupMulEquiv G` of its
-  fundamental group; the pointed map from the nerve model into Milnor's model and its uniqueness
-  up to pointed homotopy are Layer 1 of this roadmap (items 1.1 and 1.2 with the nerve model as
-  the source and Milnor's model as the aspherical target, item 1.3 for the pointed homotopy
-  equivalence), which that item consumes. The classification of pointed maps from a
-  path-connected pointed Hausdorff CW complex into a `K(π, 1)` by homomorphisms `π₁ → π`, up to
-  pointed homotopy, is the case of items 1.1 and 1.2 with target a `K(π, 1)` and is owned here,
-  not in the algebraic-topology roadmap. This roadmap consumes nothing from the
-  algebraic-topology roadmap: the CW machinery its routes use (the homotopy extension property
-  of skeleta, the killing tower and its homotopy groups, the lifting of maps out of spaces of CW
-  type through weak homotopy equivalences, Whitehead's theorem, the homotopy invariance of
-  singular and twisted (co)homology) is at the pin. Segal's remark comparing the nerve model
-  with Milnor's join (Segal 1968, §3) is the background for the relation between the two; it is
-  not a target of either roadmap.
+  fundamental group. The classification of pointed maps from a path-connected pointed Hausdorff
+  CW complex into an aspherical space by homomorphisms of fundamental groups, up to homotopy
+  relative to the base point (Hatcher, Proposition 1B.9), is owned here, as items 1.1 and 1.2,
+  for every aspherical target and every base point. The bijection `[X, Bπ]_* ≃ Hom(π₁(X), π)`
+  of that roadmap's item 8.8b, for its nerve model `Bπ`, is the case of items 1.1 and 1.2 with
+  source a path-connected pointed Hausdorff CW complex `X` and target `Bπ`, which is aspherical
+  with fundamental group identified with `π` by its item 8.8a. This roadmap consumes nothing from
+  the algebraic-topology roadmap, neither the nerve model nor its comparison with Milnor's model:
+  the CW machinery its routes use (the homotopy extension property of skeleta, the killing tower
+  and its homotopy groups, the lifting of maps out of spaces of CW type through weak homotopy
+  equivalences, Whitehead's theorem, the homotopy invariance of singular and twisted
+  (co)homology) is at the pin. Segal's remark comparing the nerve model with Milnor's join
+  (Segal 1968, §3) is the background for the relation between the two; it is not a target of
+  either roadmap.
 - **Covering-space theory** is the universal-covers roadmap's, complete: the universal cover,
   deck transformations, quotient covers by a group action (Mathlib's `IsQuotientCoveringMap`),
   the `π_n` API and the recognition of `K(G, 1)` spaces from a weakly contractible universal
@@ -1188,17 +1189,14 @@ invariance of singular and twisted (co)homology, all named above. No other roadm
 
 ## Downstream consumers
 
-- The [algebraic-topology roadmap](../AlgebraicTopology/README.md), Stage 8, item 8.8b, compares
-  its nerve model with Milnor's model `TauCeti.classifyingSpace G`, normalised to the identity on
-  `G`. Its inputs from this roadmap are Layer 1: item 1.1 for the pointed map from the nerve
-  model, based at its vertex, into Milnor's model inducing the normalised isomorphism, item 1.2
-  for its uniqueness up to pointed homotopy and item 1.3 for the pointed homotopy equivalence;
-  the pinned identification `TauCeti.classifyingSpaceFundamentalGroupMulEquiv G` of the
-  fundamental group of Milnor's model and the pinned local-coefficient comparisons are its other
-  inputs. The classification `[X, Bπ]_* ≃ Hom(π₁(X), π)` of pointed maps from a path-connected
-  pointed Hausdorff CW complex into a `K(π, 1)` is the case of items 1.1 and 1.2 with target
-  `Bπ`, owned here. The [characteristic-classes roadmap](../CharacteristicClasses/README.md)
-  consumes the classifying space of `ℤ/2` through that item.
+- The [characteristic-classes roadmap](../CharacteristicClasses/README.md), item C1.1b, compares,
+  for a finite discrete group `G`, the countable-join model of `G` with the Grassmannian models of
+  the classifying spaces of the orthogonal and unitary groups. That model is the pinned
+  `TauCeti.classifyingSpace G`, the orbit space of Milnor's join realized with the weak topology,
+  which this roadmap consumes by name (*From Tau Ceti*, "Milnor's model") and does not build. Its
+  comparison of `RP^∞` with a classifying space of `ℤ/2` goes through the
+  [algebraic-topology roadmap](../AlgebraicTopology/README.md), Stage 8, item 8.8b, not through
+  this roadmap.
 - Any roadmap computing the (co)homology of a group from a geometric `K(G, 1)` that is not one
   of the pinned models (a surface group from a closed surface, a right-angled Artin group from a
   cube complex) consumes Layer 2 with that model and its own identification `Ψ`.
