@@ -91,7 +91,7 @@ targets are the remaining cases. The inputs are:
 - `₀F₀ = exp` (Mathlib's `regularizedHGFun_zero_zero`) and the contiguous relation 16.3.6 of
   `₀F₁` (Mathlib's `regularizedHGFun_zero_singleton_eq_mul_add_mul`);
 - the case `p = 2`, `q = 1`: SpecialFunctionsHypergeometric's principal branch of the Gauss
-  function, and its Layers 1–5 for every formula of DLMF Chapter 15. A formula of this roadmap
+  function, and its Layers 1–9 for every formula of DLMF Chapter 15. A formula of this roadmap
   that specializes to one of Chapter 15 is stated here for general `p` and `q`, and its case
   `p = 2`, `q = 1` follows from the agreement theorem of 1.2; this roadmap does not restate
   Chapter 15.
@@ -157,7 +157,7 @@ Gamma-function estimates and Mellin tools from ZerosOfLFunctions and AsymptoticE
   - Mathlib's `regularizedHGFun a b z` when `p ≠ q + 1`;
   - when `p = q + 1` and `1 − z ∈ slitPlane`, the value at `z` of a function that is holomorphic
     on the cut plane and equals Mathlib's series on the unit disk
-    (`IsPrincipalContinuation a b f`); it is `Classical.choose` of the existence of such a
+    (`IsPrincipalContinuation`); it is `Classical.choose` of the existence of such a
     function, and 1.2 proves that it exists and that its values on the cut plane do not depend on
     the choice;
   - `0` when `p = q + 1` and `1 − z ∉ slitPlane`, a junk value that no theorem uses.
@@ -165,7 +165,8 @@ Gamma-function estimates and Mellin tools from ZerosOfLFunctions and AsymptoticE
   For `p > q + 1` the definition is DLMF's only in the terminating case, where Mathlib's series
   is a polynomial; the non-terminating case is outside this roadmap, and no theorem here uses it.
   When `p = q + 1` and the series terminates, the principal branch is the polynomial on the cut
-  plane, and its values at `z = 1` and on the cut are those of Mathlib's series. The construction
+  plane; the polynomial's values at `z = 1` and on the cut are Mathlib's series there, and `𝐅`
+  itself is the junk `0` there. The construction
   by Euler's integral and contiguous shifts is a theorem (1.2), not the definition.
 - **`F` and `𝐅`.** `generalizedHypergeometric a b z = (b.map Gamma).prod * 𝐅(𝐚; 𝐛; z)`. When some
   `b_k ∈ {0, −1, −2, …}` this is `0`, Mathlib's junk value of `Γ` at its poles; DLMF's `F` does
@@ -186,10 +187,10 @@ Gamma-function estimates and Mellin tools from ZerosOfLFunctions and AsymptoticE
   with `Γ` in a numerator only where DLMF prints it there. A terminating sum is stated with
   Pochhammer symbols, as a finite sum over `Finset.range (n + 1)`, under the hypothesis that the
   bottom Pochhammer symbols do not vanish.
-- **Helpers.** `Suggested.lean` uses four abbreviations, which are not targets:
-  `hgDomain a b`, the domain above; `terminatingSum a b n`, the finite sum
-  `∑_{k ≤ n} (𝐚)ₖ/((𝐛)ₖ k!)` over lists of parameters; `thetaShift c g`, the function
-  `z ↦ z g′(z) + c g(z)`; and `pochZ x k = Γ(x + k)/Γ(x)` for `k : ℤ`.
+- **Helpers.** `Suggested.lean` uses three abbreviations, which are not targets: `hgDomain`
+  (`hgDomain a b` is the domain above); `terminatingSum` (`terminatingSum a b n` is the finite sum
+  `∑_{k ≤ n} (𝐚)ₖ/((𝐛)ₖ k!)` over lists of parameters); and `thetaShift` (`thetaShift c g` is the
+  function `z ↦ z g′(z) + c g(z)`).
 - **Equations are not predicates.** A solution of 16.8.3 on an open set `U` is stated with
   `DifferentiableOn ℂ w U` and the equation at each point of `U`, written with `iteratedDeriv`.
   The Euler operator `ϑ = z d/dz` is written out: `ϑ` applied `k` times is `z ↦ z * deriv f z`
@@ -252,7 +253,7 @@ Gamma-function estimates and Mellin tools from ZerosOfLFunctions and AsymptoticE
 
 - **The series.** `hasSum_regularizedHGFun` (`p ≤ q`, every `z`;
   `TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`).
-- **The binomial series.** `hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`
+- **The binomial series.** `TauCeti.hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`
   (`TauCeti/Analysis/Analytic/Binomial.lean`), for `₁F₀` on the disk.
 - **Residues.** `TauCeti.Contour.residue` and the residue theorem
   (`TauCeti/Analysis/Contour/Residue/`), for the loop contour of 5.2.
@@ -268,7 +269,7 @@ Gamma-function estimates and Mellin tools from ZerosOfLFunctions and AsymptoticE
   `Complex.analyticOnNhd_regularizedHGFun_of_card_eq_add_one`,
   `Complex.regularizedHGFun_zero_zero` and `Complex.regularizedHGFun_zero_singleton_eq_mul_add_mul`
   (`Mathlib/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`).
-- **Binomial series.** `one_div_one_sub_cpow_hasFPowerSeriesOnBall_zero`
+- **Binomial series.** `Complex.one_div_one_sub_cpow_hasFPowerSeriesOnBall_zero`
   (`Mathlib/Analysis/Analytic/Binomial.lean`).
 - **Gamma and Beta.** `Complex.Gamma`, `Complex.Gamma_add_one`, `Complex.Gamma_ne_zero`,
   `Complex.Gamma_conj`, `Complex.differentiable_one_div_Gamma`, `Complex.Gamma_mul_Gamma_one_sub`
@@ -322,10 +323,10 @@ values.
 For every `a`, `b` and `n`, with `(𝐚)ₙ` as pinned:
 - the coefficients: `regularizedHGFunCoeff a b n = (𝐚)ₙ/(n! ∏_k Γ(b_k + n))`, and, when no `b_k`
   lies in `{0, −1, −2, …}`, `(∏_k Γ(b_k)) · regularizedHGFunCoeff a b n = (𝐚)ₙ/((𝐛)ₙ n!)`
-  (16.2.1 and 16.2.5, `gammaProd_mul_regularizedHGFunCoeff`);
+  (16.2.1 and 16.2.5);
 - the series converges:
   `HasSum (fun n ↦ regularizedHGFunCoeff a b n * z ^ n) (regularizedHGFun a b z)` for `p ≤ q + 1`
-  and `‖z‖ < 1` (`hasSum_regularizedHGFun_of_norm_lt_one`), and for every `z` when `p ≤ q` (Tau
+  and `‖z‖ < 1`, and for every `z` when `p ≤ q` (Tau
   Ceti) or when some `a_j ∈ {0, −1, −2, …}`;
 - terminating series (§16.2(iii)–(iv)): if `−m ∈ a` with `m : ℕ`, then
   `regularizedHGFun a b z = ∑_{n ≤ m} regularizedHGFunCoeff a b n zⁿ` for every `z`, for every `p`
@@ -338,9 +339,10 @@ For every `a`, `b` and `n`, with `(𝐚)ₙ` as pinned:
 `regularizedGeneralizedHypergeometric` and `generalizedHypergeometric` as pinned. The targets, for
 `p = q + 1`:
 - **uniqueness**: two functions holomorphic on the cut plane that equal Mathlib's series on the
-  unit disk agree on the cut plane (the cut plane is open, connected and contains the disk);
+  unit disk agree on the cut plane (the cut plane is open, connected and contains the disk)
+  (`IsPrincipalContinuation.eqOn`);
 - **the base case** `q = 0`: `𝐅({a}; ∅; z) = (1 − z)^{−a}` for `1 − z ∈ slitPlane`
-  (`regularizedGeneralizedHypergeometric_singleton_zero`), from the binomial series on the disk;
+  from the binomial series on the disk;
 - **the shift relations**: for all parameters and `‖z‖ < 1`, as identities of Mathlib's series,
   and then for the principal branch on the cut plane,
 
@@ -351,7 +353,8 @@ For every `a`, `b` and `n`, with `(𝐚)ₙ` as pinned:
 
   where `(𝐚)₁` is the product of the parameters in `𝐚`; both follow from
   `1/Γ(b + n) = (b + n)/Γ(b + n + 1)` and `(a + 1)ₙ − (a)ₙ = n (a + 1)_{n−1}`, coefficient by
-  coefficient (`regularizedGeneralizedHypergeometric_shift_bottom`, `…_shift_top`);
+  coefficient (`regularizedGeneralizedHypergeometric_shift_bottom`,
+  `regularizedGeneralizedHypergeometric_shift_top`);
 - **Euler's integral** 16.5.2 in regularized form: for `Re b₀ > Re a₀ > 0`,
 
 ```text
@@ -374,24 +377,27 @@ For every `a`, `b` and `n`, with `(𝐚)ₙ` as pinned:
 - **agreement with the Gauss function**:
   `𝐅({a, b}; {c}; z) = regularizedGaussHypergeometric a b c z` and
   `F({a, b}; {c}; z) = gaussHypergeometric a b c z` for every `a`, `b`, `c` and `1 − z ∈ slitPlane`
-  (`regularizedGeneralizedHypergeometric_pair_singleton`), by uniqueness and
-  SpecialFunctionsHypergeometric 1.3–1.4.
+  by uniqueness and SpecialFunctionsHypergeometric 1.3–1.4.
 
 **Checks.**
-- `𝐅({0.3, 0.5, 0.7}; {−1, 1.9}; 0.4) = 0.01009 18376 68…`, the series of 16.2.5 with its first two
+- `𝐅({0.3, 0.5, 0.7}; {−1, 1.9}; 0.4) = 0.01009 18376 69…`, the series of 16.2.5 with its first two
   terms `0`, while `generalizedHypergeometric {0.3, 0.5, 0.7} {−1, 1.9} 0.4 = 0`. This excludes
   defining `𝐅` as `F/∏Γ(b_k)` with Lean's junk values at the poles of `Γ`.
 - `F({0.3, 0.5, 0.7}; {1.2, 1.9}; 2 − i)` is the conjugate of the value at `2 + i` (Layer 1
   Examples). This excludes a branch continued across the cut `[1, ∞)` from the upper half-plane.
+- Mathlib's `regularizedHGFun {1} 0` equals `1/(1 − z)` on the unit disk but is the value `0` of
+  a divergent `tsum` at `z = −2`, so it is not a principal continuation (`IsPrincipalContinuation`),
+  while `z ↦ 1/(1 − z)` is one; `𝐅({1}; ∅; −2) = 1/3`. This excludes taking Mathlib's series
+  as the principal branch.
 
 *Needs:* 1.1; SpecialFunctionsHypergeometric 1.2–1.4; Mathlib
 `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, `Complex.Gamma_mul_Gamma_eq_betaIntegral`,
-`one_div_one_sub_cpow_hasFPowerSeriesOnBall_zero`.
+`Complex.one_div_one_sub_cpow_hasFPowerSeriesOnBall_zero`.
 
 ### 1.3 Agreement with the series
 
 - `𝐅(a; b; z) = regularizedHGFun a b z` for `p ≤ q` and every `z`, and for `p = q + 1` and
-  `‖z‖ < 1` (`regularizedGeneralizedHypergeometric_eq_regularizedHGFun`);
+  `‖z‖ < 1`;
 - `F(a; b; z) = (∏_k Γ(b_k)) · regularizedHGFun a b z = ∑ₙ (𝐚)ₙ/((𝐛)ₙ n!) zⁿ` (16.2.1) on the same
   sets, when no `b_k ∈ {0, −1, −2, …}`;
 - `𝐅(a; b; 0) = ∏_k Γ(b_k)⁻¹`; for `p = q + 1` and `−m ∈ a`, `𝐅(a; b; ·)` is Mathlib's terminating
@@ -428,7 +434,7 @@ the shift construction of 1.2, which near every point is one `S_{m,n}` with fixe
   (`terminatingSum_reverse_16_2_3`). 16.2.4 likewise, for every partial sum: the right side is the
   one printed, `(𝐚)ₘ zᵐ/((𝐛)ₘ m!)` times the terminating
   `_{q+2}F_p(−m, 1, 1 − m − 𝐛; 1 − m − 𝐚; (−1)^{p+q+1}/z)`, as a finite sum
-  (`partialSum_eq_reversed_16_2_4`). The proof reverses the order of summation, `k ↦ m − k`.
+  The proof reverses the order of summation, `k ↦ m − k`.
 - **The growth bound** for `p = q`: there are `C` and `K` such that
   `|𝐅(a; b; w)| ≤ C (1 + |w|)^K e^{max(Re w, 0)}` for every `w`
   (`norm_regularizedGeneralizedHypergeometric_le`), for fixed parameters. Where
@@ -478,9 +484,13 @@ DLMF 16.3.1–16.3.5 on the domain, intersected with `slitPlane` where a power `
   `iteratedDeriv n (𝐅(a; b; ·)) z = (𝐚)ₙ 𝐅(a + n; b + n; z)`
   (`iteratedDeriv_regularizedGeneralizedHypergeometric`);
 - 16.3.2–16.3.4 for `F` with the bottom parameters of each `F` outside `{0, −1, −2, …}`, and in
-  regularized form: 16.3.3 as
-  `(z d/dz z)ⁿ (z^{γ−1} 𝐅(γ ::ₘ a; b; z)) = (γ)ₙ z^{γ+n−1} 𝐅((γ + n) ::ₘ a; b; z)` and 16.3.4 as
-  `dⁿ/dzⁿ (z^{γ−1} 𝐅(a; γ ::ₘ b; z)) = z^{γ−n−1} 𝐅(a; (γ − n) ::ₘ b; z)`, both for all parameters;
+  regularized form: 16.3.2 as
+  `dⁿ/dzⁿ (z^γ 𝐅(a; b; z)) = Γ(γ + 1) z^{γ−n} 𝐅((γ + 1) ::ₘ a; (γ + 1 − n) ::ₘ b; z)` for
+  `γ + 1 ∉ {0, −1, −2, …}` (`iteratedDeriv_cpow_mul_16_3_2`), 16.3.3 as
+  `(z d/dz z)ⁿ (z^{γ−1} 𝐅(γ ::ₘ a; b; z)) = (γ)ₙ z^{γ+n−1} 𝐅((γ + n) ::ₘ a; b; z)`
+  (`iterate_cpow_mul_16_3_3`) and 16.3.4 as
+  `dⁿ/dzⁿ (z^{γ−1} 𝐅(a; γ ::ₘ b; z)) = z^{γ−n−1} 𝐅(a; (γ − n) ::ₘ b; z)`
+  (`iteratedDeriv_cpow_mul_16_3_4`), the last two for all parameters;
 - 16.3.5: `(z d/dz z)ⁿ f = zⁿ dⁿ/dzⁿ (zⁿ f)` for `f` holomorphic on an open set, `n ≥ 1`.
 
 *Needs:* Layer 1.
@@ -490,7 +500,8 @@ DLMF 16.3.1–16.3.5 on the domain, intersected with `slitPlane` where a power `
 - The first-order relations, on the domain for all parameters:
   `(ϑ + a₀) 𝐅(a₀ ::ₘ a; b; z) = a₀ 𝐅((a₀ + 1) ::ₘ a; b; z)` and
   `(ϑ + b₀ − 1) 𝐅(a; b₀ ::ₘ b; z) = 𝐅(a; (b₀ − 1) ::ₘ b; z)` (16.3.3 and 16.3.4 at `n = 1`), and
-  the shift relations of 1.2;
+  the shift relations of 1.2 (`thetaShift_regularizedGeneralizedHypergeometric_top`,
+  `thetaShift_regularizedGeneralizedHypergeometric_bottom`);
 - 16.3.6 for `₀F₁`, `z F(; b + 1; z) + b(b − 1) F(; b; z) − b(b − 1) F(; b − 1; z) = 0` for
   `b, b − 1 ∉ {0, −1, −2, …}`, from Mathlib's regularized form
   `𝐅(; u; z) = u 𝐅(; u + 1; z) + z 𝐅(; u + 2; z)`, an input, at `u = b − 1`;
@@ -522,9 +533,9 @@ Layer 1.
 For an open connected `U ⊆ ℂ`, holomorphic `f₀, …, f_{n−1}` on `U`, and the equation
 `w⁽ⁿ⁾ + f_{n−1} w⁽ⁿ⁻¹⁾ + ⋯ + f₀ w = 0` (16.8.1):
 - **Abel's identity**: for solutions `w₀, …, w_{n−1}` on `U`, the Wronskian `W` satisfies
-  `W′ = −f_{n−1} W` on `U` (`deriv_wronskian_eq`); so `W` vanishes identically or nowhere on `U`;
+  `W′ = −f_{n−1} W` on `U`; so `W` vanishes identically or nowhere on `U`;
 - **the spanning criterion**: if `W` has no zero on `U`, every solution on `U` is a linear
-  combination of `w₀, …, w_{n−1}` with constant coefficients (`exists_eq_sum_of_wronskian_ne_zero`).
+  combination of `w₀, …, w_{n−1}` with constant coefficients.
   Proof: solve `∑ⱼ cⱼ wⱼ⁽ⁱ⁾ = w⁽ⁱ⁾`, `i < n`, by Cramer's rule; differentiating the system and using
   the equation gives `∑ⱼ cⱼ′ wⱼ⁽ⁱ⁾ = 0`, so `cⱼ′ = 0`, and `U` is connected;
 - **the Wronskian of powers**: `W(z^{ρ₀}, …, z^{ρ_{n−1}}) = ∏_{i<j} (ρⱼ − ρᵢ) z^{Σρ − n(n−1)/2}` on
@@ -544,8 +555,9 @@ For an open connected `U ⊆ ℂ`, holomorphic `f₀, …, f_{n−1}` on `U`, an
   leading coefficient `z^q (1 − z)` for `p = q + 1`, with `αⱼ`, `βⱼ` defined by expanding the
   products with `ϑᵏ = ∑ⱼ S(k, j) zʲ Dʲ`, `S` Mathlib's `Nat.stirlingSecond`; in particular
   `β_q = q(q − 1)/2 + Σ𝐛`, and `α_q = −1` for `p = q`, `α_q = 0` for `p < q`, and
-  `α_q = −(q(q + 1)/2 + Σ𝐚)` for `p = q + 1`; at `q = 1`, `p = 2` this is the Gauss equation
-  `z(1 − z) w″ + (c − (a + b + 1) z) w′ − ab w = 0`, with `α₁ = −(a + b + 1)` and `β₁ = c`;
+  `α_q = −(q(q + 1)/2 + Σ𝐚)` for `p = q + 1`
+  (`regularizedGeneralizedHypergeometric_equation_16_8_4`); at `q = 1`, `p = 2` this is the Gauss
+  equation `z(1 − z) w″ + (c − (a + b + 1) z) w′ − ab w = 0`, with `α₁ = −(a + b + 1)` and `β₁ = c`;
 - 16.8.1 for this equation: dividing by the leading coefficient, `z^{q+1−j} fⱼ` is holomorphic at
   `0` for each `j`, so `0` is a regular singularity; for `p = q + 1`, `(z − 1)^{q+1−j} fⱼ` is
   holomorphic at `1`, and the equation in `t = 1/z` has a regular singularity at `t = 0`. There are
@@ -580,7 +592,8 @@ For an open connected `U ⊆ ℂ`, holomorphic `f₀, …, f_{n−1}` on `U`, an
 `1 − 1/z` lie in `slitPlane`,
 `w̃ⱼ(z) = (−z)^{−aⱼ} F(aⱼ, 1 − 𝐛 + aⱼ; 1 − 𝐚 + aⱼ (omitting `j`); 1/z)` solve 16.8.3, with the
 bottom parameters outside `{0, −1, −2, …}` by hypothesis; their Wronskian is a nonzero constant
-times `(−z)^{−Σ𝐚 − q(q+1)/2} (1 − 1/z)^{Σ𝐛 − Σ𝐚 − q}`, and they form a fundamental set there.
+times `(−z)^{−Σ𝐚 − q(q+1)/2} (1 − 1/z)^{Σ𝐛 − Σ𝐚 − q}` (`wronskian_solution_16_8_7`), and they
+form a fundamental set there.
 The proof transforms the equation by `t = 1/z`, which exchanges the roles of the top and bottom
 parameters, and applies 3.3 in `t`.
 
@@ -601,8 +614,8 @@ All sums at `z = 1` are Mathlib's series at `1`, as pinned.
 
 ### 4.1 Classification and Lerch's sum
 
-- 16.4.1–16.4.2 as definitions on lists of parameters (`IsWellPoised`, `IsVeryWellPoised`,
-  `IsBalanced k`): `[a₁, …, a_{q+1}]`, `[b₁, …, b_q]` is well-poised if
+- 16.4.1–16.4.2 as definitions on lists of parameters, of the well-poised, very well-poised and
+  `k`-balanced series: `[a₁, …, a_{q+1}]`, `[b₁, …, b_q]` is well-poised if
   `a₁ + b₁ = ⋯ = a_q + b_q = a_{q+1} + 1`, very well-poised if moreover `a₁ = b₁ + 1`, and
   `k`-balanced if `a_{q+1} ∈ {0, −1, −2, …}` and `a₁ + ⋯ + a_{q+1} + k = b₁ + ⋯ + b_q`. Each sum
   below states its parameters explicitly; the definitions name the classes;
@@ -611,6 +624,11 @@ All sums at `z = 1` are Mathlib's series at `1`, as pinned.
   `∑_{k≤n} (a)ₖ/(a + 1)ₖ = a ∑_{k≤n} 1/(a + k)` for `a ∉ {0, −1, …, −n}`, which is
   `a (ψ(a + n + 1) − ψ(a))` for `a ∉ {0, −1, −2, …}`, by telescoping. (At a pole of `ψ` Mathlib's
   `Complex.digamma` has the junk value `0`, so the digamma form needs every `a + k` off the poles.)
+
+**Checks.**
+- The `₇F₆` of 16.4.10 is very well-poised and, with its balance condition, `2`-balanced; the
+  `₃F₂` of Dixon's sum 16.4.4 is well-poised and, for generic parameters, not very well-poised.
+  This excludes a definition of the classes that ignores the order of the parameters.
 
 *Needs:* Layer 1; Mathlib `Complex.digamma`.
 
@@ -623,16 +641,15 @@ For `n : ℕ`, as finite sums with the bottom Pochhammer symbols nonzero:
   apply the Chu–Vandermonde sum;
 - 16.4.10 (Dougall's `₇F₆`) for `2a + 1 = b + c + d + f − n` (`terminatingSum_dougall_7F6`), by
   induction on `n` with a contiguous relation in `f` that preserves the balance condition, or by a
-  WZ pair in `n`; the certificate is part of the target;
+  WZ pair in `n`;
 - 16.4.9 for `d = −n` (terminating Rogers–Dougall): the limit `f → ∞` in 16.4.10, with `d`
   determined by the balance condition, termwise in a finite sum;
 - 16.4.5 (terminating Dixon), for `(b)ₙ (c)ₙ (1 − b − n)ₙ (1 − c − n)ₙ ≠ 0`: the sum is `0` for
   odd `n`, and for `n = 2k` it is `(2k)! (b + c + k)ₖ/(k! (b + k)ₖ (c + k)ₖ)`, DLMF's Gamma ratio
   rewritten by `Γ(x + m)/Γ(x) = (x)ₘ`. For odd `n` the term of index `j` is `(−1)ʲ` times a
   function symmetric under `j ↦ n − j`, so the terms cancel in pairs; for even `n` a WZ pair in
-  `k` proves it, and the certificate is part of the target;
-- 16.4.6 at `a = −n` (terminating Watson) and 16.4.8 (Džrbasjan), by WZ pairs in `n`; the
-  certificates are part of the targets.
+  `k` proves it (`terminatingSum_dixon_even`);
+- 16.4.6 at `a = −n` (terminating Watson) and 16.4.8 (Džrbasjan), by WZ pairs in `n`.
 
 **Checks.**
 - 16.4.3 at `(n, a, b, c) = (1, ½, ½, 3/2)`, `d = −½`: both sides are `4/3`.
@@ -654,12 +671,13 @@ absolutely (1.6):
 ```
 
   with `a/2 + 1` and `a/2 − b − c + 1` off the poles; it is 16.4.9 at `d = a/2`;
-- 16.4.9 (Rogers–Dougall) for `Re(b + c + d − a) < 1`, in `d`: both sides satisfy the same
-  first-order recurrence under `d ↦ d − 1` (by telescoping of the terms), agree at
-  `d = −n` (4.2), and the normalized difference is `1`-periodic and of exponential type below `π`
-  on vertical strips (ZerosOfLFunctions 1.3), so it vanishes by the periodic Carlson lemma
-  (SpecialFunctionsHypergeometric 4.2);
-- 16.4.6 (Watson) for `Re(2c − a − b) > −1` and 16.4.7 (Whipple) for `Re c > 0`, in `c`, by
+- 16.4.9 (Rogers–Dougall) for `Re(b + c + d − a) < 1` (`regularizedHGFun_rogersDougall`), in `d`:
+  both sides satisfy the same first-order recurrence under `d ↦ d − 1` (by telescoping of the
+  terms), agree at `d = −n` (4.2), and the normalized difference is `1`-periodic and of exponential
+  type below `π` on vertical strips (ZerosOfLFunctions 1.3), so it vanishes by the periodic Carlson
+  lemma (SpecialFunctionsHypergeometric 4.2);
+- 16.4.6 (Watson) for `Re(2c − a − b) > −1` (`regularizedHGFun_watson`) and 16.4.7 (Whipple) for
+  `Re c > 0` (`regularizedHGFun_whipple`), in `c`, by
   periodicity and a limit instead of terminating values. The finite sums at `c = −n` cannot
   serve, because the continuation in `c` of the series is not the finite sum there: for Watson
   the bottom parameter `2c` is then a nonpositive integer as well, and the quotients
@@ -668,7 +686,7 @@ absolutely (1.6):
   scheme, for each of the two sums:
   - a WZ pair for the shift `c ↦ c + 1`: with `t_k(c)` the `k`-th term and `ρ(c)` the ratio of the
     right sides at `c + 1` and `c`, `t_k(c + 1)/ρ(c) − t_k(c) = G_{k+1}(c) − G_k(c)` with
-    `G_k(c) = R(c, k) t_k(c)`, `R` rational (the certificate is part of the target). The boundary
+    `G_k(c) = R(c, k) t_k(c)`, `R` rational. The boundary
     term `G_k(c)` is `O(k · |t_k(c)|)`, which tends to `0` as `k → ∞` exactly under the stated
     convergence condition, so the sum `S(c)` satisfies `S(c + 1) = ρ(c) S(c)`, as the right side
     does;
@@ -711,29 +729,48 @@ absolutely (1.6):
   region by holomorphy in the parameters (the series at `1` converges locally uniformly there);
 - 16.4.12 and 16.4.13 for `Re(d + e − a − b − c) > 1`, respectively `> 0`, so that every series
   converges absolutely: the difference of the two sides, truncated at `N`, is a single boundary
-  term that tends to `0` (`regularizedHGFun_three_term_16_4_12`, `…_16_4_13`);
+  term that tends to `0` (`regularizedHGFun_three_term_16_4_12`,
+  `regularizedHGFun_three_term_16_4_13`);
 - 16.4.14 (Whipple's transformation of a balanced `₄F₃`) for `n : ℕ` and
-  `a + b + c − n + 1 = d + e + f`, as finite sums: expand with 16.4.3 and interchange the finite
-  sums;
-- 16.4.15 (Whipple's `₇F₆ → ₄F₃`) when the right side terminates, `f = −n`: both sides are
-  finite sums, and a recurrence in `n` satisfied by both sides (Zeilberger's algorithm) proves
-  it; the certificate is part of the target.
+  `a + b + c − n + 1 = d + e + f`, as finite sums (`terminatingSum_whipple_4F3`): expand with 16.4.3
+  and interchange the finite sums;
+- 16.4.15 (Whipple's `₇F₆ → ₄F₃`) whenever the right side terminates and the left side
+  converges:
+  - when `f = −n` (`terminatingSum_whipple_7F6`), and so by symmetry when `d` or `e` is `−n`: both
+    sides are finite sums, and a recurrence in `n` satisfied by both sides (Zeilberger's
+    algorithm) proves it;
+  - when `a − b − c + 1 = −m` (`regularizedHGFun_whipple_7F6_16_4_15`), for
+    `Re(b + c + d + e + f − 2a) < 2`, where the `₇F₆` is an infinite series. Then
+    `c = a − b + 1 + m`, and the quotients `(c)ₖ/(a − b + 1)ₖ` and `(b)ₖ/(a − c + 1)ₖ` of top by
+    bottom Pochhammer symbols multiply to a polynomial of degree `m` in `u = k(a + k)`. Expand it in
+    the basis `(−k)ⱼ (a + k)ⱼ`, `j ≤ m`; after `k ↦ k + j`, the `j`-th sum is a constant times the
+    Rogers–Dougall sum 16.4.9 at `(a + 2j, d + j, e + j, f + j)` (4.3). Every term then carries
+    the factor `Γ(a − f + 1) Γ(a − d − e − f + 1)/(Γ(a − d − f + 1) Γ(a − e − f + 1))` of the right
+    side, and after dividing by it both sides are rational functions of `f`. They agree at
+    `f = −n` for all large `n` by the case `f = −n`, so they agree identically.
 
 **Checks.**
 - 16.4.11 at `(a, b, c, d, e) = (0.3, 0.4, 0.5, 1.6, 1.2)`: both sides are `1.04664 23221 10…`
   (unregularized).
 - 16.4.14 at `n = 3`, `(a, b, c, d, e) = (0.3, 0.4, 0.5, 1.6, 1.2)`: `1.03201 50616 93…`.
 - 16.4.13 fails at `z = 0.6` in place of `1`: it is not a contiguous relation of the functions.
+- 16.4.15 at `(a, b, c, d, e, f) = (1.3, 1.5, 1.8, 0.2, 0.3, 0.25)`, where `a − b − c + 1 = −1`
+  and the `₇F₆` does not terminate: both sides are `1.07545 73418 14…`.
 
 *Needs:* 4.1–4.3; Layer 1; SpecialFunctionsHypergeometric 5.1.
 
 ### 4.5 Bilateral series
 
-- 16.4.16 as a definition: `bilateralHypergeometric a b z = ∑_{k ∈ ℤ} (𝐚)ₖ/(𝐛)ₖ zᵏ`, with the
+- 16.4.16 as a definition: the bilateral series `ₚH_q(𝐚; 𝐛; z) = ∑_{k ∈ ℤ} (𝐚)ₖ/(𝐛)ₖ zᵏ`, with the
   Pochhammer symbol at negative `k` given by `(x)ₖ = Γ(x + k)/Γ(x)`, as a `tsum` over `ℤ`;
 - 16.4.17 (Dougall's bilateral sum) for `Re(c + d − a − b) > 1` and `a, b, c, d` with every
   `Γ` in the formula finite and nonzero: the series is summable and the sum is as printed, from
   SpecialFunctionsHypergeometric 4.2 (15.4.25) by `(x)ₖ = Γ(x + k)/Γ(x)` and the reflection formula.
+
+**Checks.**
+- 16.4.17 at `b = d`: `₁H₁(a; c; 1) = 0` for `Re(c − a) > 1`, while the sum over `k ≥ 0` alone is
+  `(c − 1)/(c − a − 1)`; at `(a, c) = (0.3, 2.9)` that is `1.1875`. This excludes a one-sided
+  definition.
 
 *Needs:* Layer 1; SpecialFunctionsHypergeometric 4.2.
 
@@ -757,7 +794,7 @@ Layer 1; SpecialFunctionsHypergeometric 4.2, 5.1 and 7.3; ZerosOfLFunctions 1.2�
   growth bound of 1.5 gives the domination;
 - **Hankel's integral on a line**: for `c > 0` and `Re b > 0`,
   `(2π)⁻¹ ∫_{−T}^{T} e^{c+iy} (c + iy)^{−b} dy → 1/Γ(b)` as `T → ∞`, and the integral converges
-  absolutely for `Re b > 1` (`tendsto_integral_exp_mul_cpow_neg`). For `Re b > 1`, the right side
+  absolutely for `Re b > 1`. For `Re b > 1`, the right side
   of `∫₀^∞ e^{−(c+iy)u} u^{b−1} du = Γ(b) (c + iy)^{−b}` is integrable in `y`, and Fourier
   inversion at `u = 1` gives the value; for `0 < Re b ≤ 1` integrate by parts once in `t`;
 - 16.5.4: `𝐅(a; b₀ ::ₘ b; z) = (2π)⁻¹ lim_{T→∞} ∫_{−T}^{T} eᵗ t^{−b₀} 𝐅(a; b; z/t) dy`,
@@ -765,7 +802,7 @@ Layer 1; SpecialFunctionsHypergeometric 4.2, 5.1 and 7.3; ZerosOfLFunctions 1.2�
   `p = q + 1` (then `z/t` lies in the cut plane); for `p ≤ q`,
   `𝐅(a; b; z/t) = 𝐅(a; b; 0) + O(1/|t|)` on the line, so the integrand is Hankel's plus an
   absolutely integrable remainder, integrated termwise; for `p = q + 1` first for `c > |z|`, then
-  in `z` by the identity theorem.
+  in `z` by the identity theorem (`tendsto_integral_inverseLaplace_16_5_4`).
 
 *Needs:* Layer 1; Mathlib Fourier inversion.
 
@@ -788,17 +825,18 @@ Layer 1; SpecialFunctionsHypergeometric 4.2, 5.1 and 7.3; ZerosOfLFunctions 1.2�
   residues at the finitely many poles `s = −a_k − m` with real
   part above `σ`, all simple when no two `a_k` differ by an integer; the sum does not depend on
   `σ` (AsymptoticExpansions 8.2) and continues the first case analytically in the `a_k`;
-- **the loop contour**, `p ≤ q + 1`: for `η > 0` and `σ < 0` such that no pole of any
-  `Γ(a_k + s)` lies on it, the loop `L` from `+∞ − iη` to `σ − iη`, then to `σ + iη`, then to
-  `+∞ + iη` (which encircles the nonnegative integers in the negative sense). The poles
-  `s = −a_k − m` inside `L` are finitely many, because `Re(−a_k − m) ≤ −Re a_k`, and none is a
-  nonnegative integer, because `a_k ∉ {0, −1, −2, …}`. The integral `(2πi)⁻¹ ∫_L` converges and
-  equals the left side of 16.5.1 minus the sum of the residues of the integrand at those poles,
-  for every `z ≠ 0` when `p < q + 1`, and for `0 < |z| < 1` when `p = q + 1`. When no such pole lies
-  inside `L` this is 16.5.1 with DLMF's loop; otherwise indenting `L` around those poles gives
-  DLMF's contour, which separates the two families of poles, and removes the correction. Proof:
-  the residue theorem on the rectangles cut off at `Re s = N + ½`, and
-  `Γ(−s) (−z)^s ∏ Γ(a_k + s)/∏ Γ(b_k + s) → 0` on their right sides as `N → ∞`.
+- **the loop contour**, `p ≤ q + 1`: for `η > 0` and `σ < 0` such that no pole of any `Γ(a_k + s)`
+  lies on it, the loop `L` from `+∞ − iη` to `σ − iη`, then to `σ + iη`, then to `+∞ + iη` (which
+  encircles the nonnegative integers in the negative sense). The poles `s = −a_k − m` inside `L` are
+  finitely many, because `Re(−a_k − m) ≤ −Re a_k`, and none is a nonnegative integer, because
+  `a_k ∉ {0, −1, −2, …}`. The integral `(2πi)⁻¹ ∫_L` converges and equals the left side of 16.5.1
+  minus the sum of the residues of the integrand at those poles, for every `z ≠ 0` when `p < q + 1`,
+  and for `0 < |z| < 1` when `p = q + 1`. When no such pole lies inside `L` this is 16.5.1 with
+  DLMF's loop (`regularizedGeneralizedHypergeometric_eq_loopIntegral`, with `L` written as two rays
+  and a segment); otherwise indenting `L` around those poles gives DLMF's contour, which separates
+  the two families of poles, and removes the correction. Proof: the residue theorem on the
+  rectangles cut off at `Re s = N + ½`, and `Γ(−s) (−z)^s ∏ Γ(a_k + s)/∏ Γ(b_k + s) → 0` on their
+  right sides as `N → ∞`.
 
 **Checks.**
 - 16.5.1 at `a = {0.6, 0.8, 0.5}`, `b = {1.7, 1.1}`, `z = −2`, `σ = −0.3`: both sides give
@@ -817,8 +855,7 @@ H(z) = ∑_{m=1}^{p} ∑_{k≥0} ((−1)ᵏ/k!) Γ(a_m + k) (∏_{ℓ≠m} Γ(a_
          · z^{−a_m−k},
 ```
 
-  with principal powers; for each `m` the series in `k` converges absolutely for `|z| > 1`
-  (`hasSum_balancedH`);
+  with principal powers; for each `m` the series in `k` converges absolutely for `|z| > 1`;
 - 16.11.6: `(∏ Γ(a_ℓ)/∏ Γ(b_ℓ)) F(a; b; z) = H(−z)` for `|z| > 1` and `−z ∈ slitPlane`, in
   regularized form with reciprocal Gamma factors
   (`regularizedGeneralizedHypergeometric_eq_balancedH`). Fix `τ ∈ (0, 1)` at distance at least
@@ -833,7 +870,7 @@ H(z) = ∑_{m=1}^{p} ∑_{k≥0} ((−1)ᵏ/k!) Γ(a_m + k) (∏_{ℓ≠m} Γ(a_
   `|z| > 1` it is 16.11.6 with the inner series summed as `w̃ⱼ` of 3.4 (`1/z` in the unit disk), and
   both sides are holomorphic on `−z ∈ slitPlane`; DLMF's boundary values at `|ph(−z)| = π` are the
   limits from `Im z < 0` and `Im z > 0` at `z = x > 0`, `x ≠ 1`;
-- the domain of 16.8.9 as a definition (`centeredDomain z₀`): with `R = max(|z₀|, |z₀ − 1|)`, the
+- the domain of 16.8.9 as a definition (`centeredDomain`): with `R = max(|z₀|, |z₀ − 1|)`, the
   connected component containing `z₀ − R − 1` of the open set of `z` with `|z − z₀| > R`,
   `1 − z ∈ slitPlane` (where the principal branch on the left is defined) and
   `z₀ − z ∈ slitPlane` (where the principal powers on the right are holomorphic). It contains the
@@ -905,7 +942,8 @@ of `z^N` is `((a)_N/N!) ₃F₂(−N, a + N, a − b − c + 1; a − b + 1, a �
 - 16.10.2 (Nørlund): for `|ζ − 1| < 1` and `Re z < ½`, the series converges and equals
   `F(a; b; zζ)` with `p = q + 1`, the principal branch; `zζ` lies in the cut plane on that set.
   Expand `(1 − (1 − ζ) w)^{…}` in Euler's integral, or prove it for small `|z|` and `|ζ − 1|` by
-  rearranging the double series, and extend by the identity theorem in `(z, ζ)`.
+  rearranging the double series, and extend by the identity theorem in `(z, ζ)`
+  (`hasSum_norlund`, with the inner terminating functions as Mathlib's series).
 
 **Checks.**
 - 16.10.1 at `p = 0`, `q = 1`, `r = s = 0`: `₀F₁(; 1.6; zζ)` at `(z, ζ) = (2, 3)`, `(−5, 1.5)` and
@@ -917,19 +955,22 @@ of `z^N` is `((a)_N/N!) ₃F₂(−N, a + N, a − b − c + 1; a − b + 1, a �
 
 - 16.12.1: `₀F₁(; a; z) ₀F₁(; b; z) = ₂F₃(½(a + b), ½(a + b − 1); a, b, a + b − 1; 4z)` for all `z`,
   in the regularized form `𝐅(; a; z) 𝐅(; b; z) = Γ(a + b − 1) 𝐅(…; 4z)` for all `a`, `b` with
-  `a + b − 1 ∉ {0, −1, −2, …}`: compare coefficients, which reduces to Chu–Vandermonde;
+  `a + b − 1 ∉ {0, −1, −2, …}` (`regularizedGeneralizedHypergeometric_zero_one_mul`): compare
+  coefficients, which reduces to Chu–Vandermonde;
 - 16.12.2 (Clausen) on the cut plane, for `a + b + ½`, `2a + 2b ∉ {0, −1, −2, …}`
   (`gaussHypergeometric_sq_clausen`): on the disk the coefficients of the square satisfy the
   first-order recurrence of the `₃F₂` coefficients, because the square of a solution of the Gauss
   equation with `c = a + b + ½` solves the `₃F₂` equation 16.8.3; then the identity theorem;
-- 16.12.3 for `‖z‖ < 1`, with `c`, `2c − 1`, `a + ½`, `b + ½ ∉ {0, −1, −2, …}` and
-  `c ∉ ½ + ℤ` (so that `3/2 − k − c ≠ 0, −1, …`): the coefficient of `zᵏ` of the square is the
-  Cauchy product `∑_{j≤k} (a)ⱼ (b)ⱼ (a)_{k−j} (b)_{k−j}/((c)ⱼ (c)_{k−j} j! (k − j)!)`, a finite sum
-  with nonzero denominators. Prove that it equals the printed coefficient by a recurrence in `k`
-  satisfied by both sides (Zeilberger; the certificate is part of the target). The Cauchy product
-  is used as it stands: rewriting it as `(a)ₖ (b)ₖ/((c)ₖ k!)` times a terminating `₄F₃` with
-  bottom parameters `1 − a − k`, `1 − b − k` divides by Pochhammer symbols that vanish when `a` or
-  `b` is a nonpositive integer, for example at `a = −1`, `b = c = 1`.
+- 16.12.3 for `‖z‖ < 1`, with `c`, `2c − 1`, `a + ½`, `b + ½ ∉ {0, −1, −2, …}`
+  (`hasSum_gaussHypergeometric_sq`); these keep every denominator of the printed coefficients
+  nonzero, also at `c = 3/2, 5/2, …`, where `(3/2 − k − c)ⱼ ≠ 0` for `j ≤ k`. The coefficient of
+  `zᵏ` of the square is the Cauchy product
+  `∑_{j≤k} (a)ⱼ (b)ⱼ (a)_{k−j} (b)_{k−j}/((c)ⱼ (c)_{k−j} j! (k − j)!)`, a finite sum with nonzero
+  denominators. Prove that it equals the printed coefficient by a recurrence in `k` satisfied by
+  both sides (Zeilberger). The Cauchy product is used as it stands: rewriting it as
+  `(a)ₖ (b)ₖ/((c)ₖ k!)` times a terminating `₄F₃` with bottom parameters `1 − a − k`, `1 − b − k`
+  divides by Pochhammer symbols that vanish when `a` or `b` is a nonpositive integer, for example at
+  `a = −1`, `b = c = 1`.
 
 **Checks.**
 - 16.12.1 at `(a, b, z) = (0.7, 1.3, 2 − i)`: both sides are
@@ -952,12 +993,14 @@ Layers 1–4; SpecialFunctionsHypergeometric 1.2–1.4 and 4.2.
 ### 7.1 Confluence
 
 - 16.8.10: for `p ≤ q`, `F(a, α; b; z/α) → F(a; b; z)` as `|α| → ∞`, locally uniformly in `z`,
-  with `b_k ∉ {0, −1, −2, …}`; the coefficients `(α)ₙ/αⁿ → 1` with `|(α)ₙ/αⁿ| ≤ (1 + n/|α|)ⁿ`,
-  and dominated convergence;
-- 16.8.11: for `p ≤ q + 1` and `|ph β| ≤ π − δ`, `F(a; b, β; βz) → F(a; b; z)` as `|β| → ∞`, with
-  `|z| < 1` when `p = q + 1` and `|ph β| ≤ π/2`, and `|z| < |sin(ph β)|` when `p = q + 1` and
-  `π/2 ≤ |ph β| ≤ π − δ`; the bound `|βⁿ/(β)ₙ| ≤ 1` for `|ph β| ≤ π/2` and `≤ |sin(ph β)|^{−n}`
-  otherwise gives the domination.
+  with `b_k ∉ {0, −1, −2, …}` (`tendsto_generalizedHypergeometric_confluence_top`); the
+  coefficients `(α)ₙ/αⁿ → 1` with `|(α)ₙ/αⁿ| ≤ (1 + n/|α|)ⁿ`, and dominated convergence;
+- 16.8.11: for `p ≤ q + 1`, `F(a; b, β; βz) → F(a; b; z)` as `|β| → ∞` in the sector
+  `|ph β| ≤ π − δ`, with `b_k ∉ {0, −1, −2, …}`; when `p = q + 1`, for `|z| < 1`, and moreover
+  `|z| < sin δ` when `δ < π/2` (`tendsto_generalizedHypergeometric_confluence_bottom`). The
+  condition on `z` is uniform on the sector: `|β + k| ≥ |β|` for `|ph β| ≤ π/2`, and
+  `|β + k| ≥ |Im β| ≥ |β| sin δ` for `π/2 ≤ |ph β| ≤ π − δ`, so `|βⁿ/(β)ₙ| ≤ max(1, 1/sin δ)ⁿ`
+  gives the domination.
 
 *Needs:* Layer 1.
 
@@ -967,9 +1010,10 @@ Layers 1–4; SpecialFunctionsHypergeometric 1.2–1.4 and 4.2.
   with `a₁, …, a_{k−1}` and `b₁, …, b_k` shifted by `r` is its partial sum of `m` terms plus
   `O(r^{−m})` as `r → +∞`. For `‖z‖ < 1` the tail is bounded termwise; on the rest of the cut plane
   use Euler's integral in a pair `(a_k, b_k)` with the unshifted `a_k` and shifted `b_k` (more
-  bottom than top parameters are shifted), and the bound for `‖z‖ < 1` inside;
+  bottom than top parameters are shifted), and the bound for `‖z‖ < 1` inside
+  (`isBigO_generalizedHypergeometric_shift_16_11_10`);
 - 16.11.11: for `p < q`, all parameters shifted by `r`, the remainder after `m` terms is
-  `O(r^{−(q−p)m})`, termwise.
+  `O(r^{−(q−p)m})`, termwise (`isBigO_generalizedHypergeometric_shift`).
 
 *Needs:* Layer 1; 1.2 (Euler's integral).
 
@@ -1030,8 +1074,7 @@ continuation for `p = q + 1` by iterated Euler integrals, the derivatives and co
 the equation, the terminating sums and transformations at `z = 1`, Euler's integral, Fields–Wimp,
 the `₀F₁` product and Clausen's formula, and the large-parameter expansion 16.11.11. Its
 `DLMF/Hypergeometric/` has Pfaff–Saalschütz, Dixon's sum by a WZ pair and Carlson's theorem, and
-Whipple's `₇F₆` transformation. Several of its tagged statements for the Mellin–Barnes integrals,
-the connection formulas and the asymptotics are still `sorry`.
+Whipple's `₇F₆` transformation.
 
 This roadmap specifies the mathematics intrinsically. `lean-DLMF` supplies prior proofs and
 implementation references; reused code carries attribution under the repository's porting

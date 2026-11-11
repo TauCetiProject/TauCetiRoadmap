@@ -1,17 +1,14 @@
 module
 
 public import Mathlib
-public import TauCetiRoadmap.SpecialFunctionsHypergeometric.Suggested
 
 /-!
 # The generalized hypergeometric functions: target signatures
 
-This file states headline theorems of the roadmap against the pinned Mathlib and Tau Ceti, one or
-more per layer. `README.md` is the definitive document and states every target; the targets not
-stated here are the terminating sum 16.2.4, the fundamental set at `∞` beyond its Wronskian, the
-loop contour and the separating contour of 16.5.1, the series `H` of 16.11.2 with 16.11.6, the
-cubic transformation 16.6.2, Nørlund's expansion 16.10.2 and the large-parameter expansion
-16.11.10, whose statements have the same shape as the ones given.
+This file states the headline theorems of the roadmap against the pinned Mathlib. `README.md` is
+the definitive document and states every target. One headline is not stated here because its
+carrier is not at the pins: the agreement of 1.2 with the principal branch of the Gauss function,
+whose carrier `Complex.regularizedGaussHypergeometric` is in neither Mathlib nor Tau Ceti.
 
 The definitions below are roadmap-local copies of the definitions `README.md` pins. In Tau Ceti
 they live in `Complex`, beside Mathlib's `Complex.regularizedHGFun`. They are stated with their
@@ -21,8 +18,8 @@ junk value `0` off it, Mathlib's series for `p ≠ q + 1`, `F = Γ(b₁) ⋯ Γ(
 written as `1 - z ∈ slitPlane`. Theorems are stated with `sorry`.
 
 The helpers `hgDomain` (the domain of `𝐅(a; b; ·)`), `terminatingSum` (a terminating sum as a
-finite sum of Pochhammer quotients), `thetaShift` (the operator `ϑ + c`) and `pochZ` (the
-Pochhammer symbol at an integer index, for the bilateral series) only abbreviate statements.
+finite sum of Pochhammer quotients) and `thetaShift` (the operator `ϑ + c`) only abbreviate
+statements.
 -/
 
 @[expose] public section
@@ -76,9 +73,6 @@ def terminatingSum (a b : List ℂ) (n : ℕ) : ℂ :=
 /-- The operator `ϑ + c`, `ϑ = z d/dz`. -/
 def thetaShift (c : ℂ) (g : ℂ → ℂ) : ℂ → ℂ := fun z => z * deriv g z + c * g z
 
-/-- The Pochhammer symbol at an integer index, `(x)ₖ = Γ(x + k)/Γ(x)` (DLMF 5.2.5, 16.4.16). -/
-def pochZ (x : ℂ) (k : ℤ) : ℂ := Gamma (x + k) / Gamma x
-
 /-- `𝐅(𝐚; 𝐛; z)`. -/
 local notation "𝐅" => regularizedGeneralizedHypergeometric
 
@@ -86,18 +80,6 @@ local notation "𝐅" => regularizedGeneralizedHypergeometric
 local notation "pFq" => generalizedHypergeometric
 
 /-! ### Layer 1: definition and analytic properties -/
-
-/-- 1.1: the coefficients, DLMF 16.2.1 against 16.2.5. -/
-theorem gammaProd_mul_regularizedHGFunCoeff (a : Multiset ℂ) {b : Multiset ℂ}
-    (hb : ∀ x ∈ b, ∀ k : ℕ, x ≠ -k) (n : ℕ) :
-    (b.map Gamma).prod * regularizedHGFunCoeff a b n =
-      (a.map fun x => poch(x, n)).prod / ((b.map fun x => poch(x, n)).prod * (n ! : ℂ)) :=
-  sorry
-
-/-- 1.1: the series converges on the unit disk for `p ≤ q + 1`. -/
-theorem hasSum_regularizedHGFun_of_norm_lt_one {a b : Multiset ℂ}
-    (h : Multiset.card a ≤ Multiset.card b + 1) {z : ℂ} (hz : ‖z‖ < 1) :
-    HasSum (fun n => regularizedHGFunCoeff a b n * z ^ n) (regularizedHGFun a b z) := sorry
 
 /-- 1.2: uniqueness of the principal continuation on the cut plane. -/
 theorem IsPrincipalContinuation.eqOn {a b : Multiset ℂ} {f g : ℂ → ℂ}
@@ -107,10 +89,6 @@ theorem IsPrincipalContinuation.eqOn {a b : Multiset ℂ} {f g : ℂ → ℂ}
 /-- 1.2: existence of the principal continuation for `p = q + 1`. -/
 theorem exists_isPrincipalContinuation {a b : Multiset ℂ}
     (h : Multiset.card a = Multiset.card b + 1) : ∃ f, IsPrincipalContinuation a b f := sorry
-
-/-- 1.2: the base case `₁F₀(a; ; z) = (1 − z)^{−a}`. -/
-theorem regularizedGeneralizedHypergeometric_singleton_zero (a : ℂ) {z : ℂ}
-    (hz : 1 - z ∈ slitPlane) : 𝐅 {a} 0 z = (1 - z) ^ (-a) := sorry
 
 /-- 1.2: the shift relation raising a bottom parameter. -/
 theorem regularizedGeneralizedHypergeometric_shift_bottom {a₀ a₁ b₀ : ℂ} {a b : Multiset ℂ}
@@ -135,18 +113,6 @@ theorem regularizedGeneralizedHypergeometric_eq_eulerIntegral {a₀ b₀ : ℂ} 
     𝐅 (a₀ ::ₘ a) (b₀ ::ₘ b) z =
       (Gamma a₀ * Gamma (b₀ - a₀))⁻¹ *
         ∫ t in (0 : ℝ)..1, (t : ℂ) ^ (a₀ - 1) * (1 - (t : ℂ)) ^ (b₀ - a₀ - 1) * 𝐅 a b (z * t) :=
-  sorry
-
-/-- 1.2: agreement with SpecialFunctionsHypergeometric's principal branch of the Gauss function. -/
-theorem regularizedGeneralizedHypergeometric_pair_singleton (a b c : ℂ) {z : ℂ}
-    (hz : 1 - z ∈ slitPlane) :
-    𝐅 {a, b} {c} z = SpecialFunctionsHypergeometric.regularizedGaussHypergeometric a b c z :=
-  sorry
-
-/-- 1.3: agreement with Mathlib's series. -/
-theorem regularizedGeneralizedHypergeometric_eq_regularizedHGFun {a b : Multiset ℂ}
-    (h : Multiset.card a ≤ Multiset.card b + 1) {z : ℂ}
-    (hz : Multiset.card a ≤ Multiset.card b ∨ ‖z‖ < 1) : 𝐅 a b z = regularizedHGFun a b z :=
   sorry
 
 /-- 1.4: joint holomorphy in the parameters and the argument. -/
@@ -210,11 +176,27 @@ theorem iteratedDeriv_regularizedGeneralizedHypergeometric {a b : Multiset ℂ}
     iteratedDeriv n (𝐅 a b) z =
       (a.map fun x => poch(x, n)).prod * 𝐅 (a.map (· + n)) (b.map (· + n)) z := sorry
 
-/-- 2.1: DLMF 16.3.5. -/
-theorem iterate_theta_eq_16_3_5 {U : Set ℂ} (hU : IsOpen U) {f : ℂ → ℂ}
-    (hf : DifferentiableOn ℂ f U) (n : ℕ) {z : ℂ} (hz : z ∈ U) :
-    (fun g : ℂ → ℂ => fun w => w * deriv (fun v => v * g v) w)^[n] f z =
-      z ^ n * iteratedDeriv n (fun w => w ^ n * f w) z := sorry
+/-- 2.1: DLMF 16.3.2 in regularized form. -/
+theorem iteratedDeriv_cpow_mul_16_3_2 {γ : ℂ} (hγ : ∀ k : ℕ, γ + 1 ≠ -k) {a b : Multiset ℂ}
+    (h : Multiset.card a ≤ Multiset.card b + 1) (n : ℕ) {z : ℂ} (hz : z ∈ slitPlane)
+    (hz' : z ∈ hgDomain a b) :
+    iteratedDeriv n (fun w => w ^ γ * 𝐅 a b w) z =
+      Gamma (γ + 1) * z ^ (γ - n) * 𝐅 ((γ + 1) ::ₘ a) ((γ + 1 - n) ::ₘ b) z := sorry
+
+/-- 2.1: DLMF 16.3.3 in regularized form. -/
+theorem iterate_cpow_mul_16_3_3 {γ : ℂ} {a b : Multiset ℂ}
+    (h : Multiset.card a ≤ Multiset.card b) (n : ℕ) {z : ℂ} (hz : z ∈ slitPlane)
+    (hz' : z ∈ hgDomain (γ ::ₘ a) b) :
+    (fun g : ℂ → ℂ => fun w => w * deriv (fun v => v * g v) w)^[n]
+        (fun w => w ^ (γ - 1) * 𝐅 (γ ::ₘ a) b w) z =
+      poch(γ, n) * z ^ (γ + n - 1) * 𝐅 ((γ + n) ::ₘ a) b z := sorry
+
+/-- 2.1: DLMF 16.3.4 in regularized form. -/
+theorem iteratedDeriv_cpow_mul_16_3_4 {γ : ℂ} {a b : Multiset ℂ}
+    (h : Multiset.card a ≤ Multiset.card b + 2) (n : ℕ) {z : ℂ} (hz : z ∈ slitPlane)
+    (hz' : z ∈ hgDomain a (γ ::ₘ b)) :
+    iteratedDeriv n (fun w => w ^ (γ - 1) * 𝐅 a (γ ::ₘ b) w) z =
+      z ^ (γ - n - 1) * 𝐅 a ((γ - n) ::ₘ b) z := sorry
 
 /-- 2.2: the first-order relation in a top parameter. -/
 theorem thetaShift_regularizedGeneralizedHypergeometric_top {a₀ : ℂ} {a b : Multiset ℂ}
@@ -238,35 +220,36 @@ theorem generalizedHypergeometric_contiguous_16_3_7 {a₁ a₂ a₃ b₁ b₂ : 
 
 /-! ### Layer 3: the differential equation -/
 
-/-- 3.1: Abel's identity for `w⁽ⁿ⁺¹⁾ + f_n w⁽ⁿ⁾ + ⋯ + f₀ w = 0`. -/
-theorem deriv_wronskian_eq {n : ℕ} {U : Set ℂ} (hU : IsOpen U) {f : Fin (n + 1) → ℂ → ℂ}
-    (hf : ∀ i, DifferentiableOn ℂ (f i) U) {w : Fin (n + 1) → ℂ → ℂ}
-    (hw : ∀ j, DifferentiableOn ℂ (w j) U)
-    (heq : ∀ j, ∀ z ∈ U,
-      iteratedDeriv (n + 1) (w j) z + ∑ i : Fin (n + 1), f i z * iteratedDeriv i (w j) z = 0)
-    {z : ℂ} (hz : z ∈ U) :
-    deriv (fun z => (Matrix.of fun i j : Fin (n + 1) => iteratedDeriv i (w j) z).det) z =
-      -f (Fin.last n) z * (Matrix.of fun i j : Fin (n + 1) => iteratedDeriv i (w j) z).det :=
-  sorry
-
-/-- 3.1: the spanning criterion. -/
-theorem exists_eq_sum_of_wronskian_ne_zero {n : ℕ} {U : Set ℂ} (hU : IsOpen U)
-    (hU' : IsPreconnected U) {f : Fin (n + 1) → ℂ → ℂ} (hf : ∀ i, DifferentiableOn ℂ (f i) U)
-    {w : Fin (n + 1) → ℂ → ℂ} (hw : ∀ j, DifferentiableOn ℂ (w j) U)
-    (heq : ∀ j, ∀ z ∈ U,
-      iteratedDeriv (n + 1) (w j) z + ∑ i : Fin (n + 1), f i z * iteratedDeriv i (w j) z = 0)
-    (hW : ∀ z ∈ U, (Matrix.of fun i j : Fin (n + 1) => iteratedDeriv i (w j) z).det ≠ 0)
-    {v : ℂ → ℂ} (hv : DifferentiableOn ℂ v U)
-    (hveq : ∀ z ∈ U,
-      iteratedDeriv (n + 1) v z + ∑ i : Fin (n + 1), f i z * iteratedDeriv i v z = 0) :
-    ∃ c : Fin (n + 1) → ℂ, ∀ z ∈ U, v z = ∑ j, c j * w j z := sorry
-
 /-- 3.2: the generalized hypergeometric equation 16.8.3,
 `ϑ (ϑ + b₁ − 1) ⋯ (ϑ + b_q − 1) w − z (ϑ + a₁) ⋯ (ϑ + a_p) w = 0`. -/
 theorem regularizedGeneralizedHypergeometric_equation (a b : List ℂ)
     (h : a.length ≤ b.length + 1) {z : ℂ} (hz : z ∈ hgDomain (a : Multiset ℂ) (b : Multiset ℂ)) :
     thetaShift 0 (b.foldr (fun c g => thetaShift (c - 1) g) (𝐅 (a : Multiset ℂ) b)) z -
         z * a.foldr (fun c g => thetaShift c g) (𝐅 (a : Multiset ℂ) b) z = 0 := sorry
+
+/-- 3.2: the equation in the form 16.8.4 (`p ≤ q`) and 16.8.5 (`p = q + 1`), with the leading
+coefficients `α_q` and `β_q`. -/
+theorem regularizedGeneralizedHypergeometric_equation_16_8_4 (a b : List ℂ)
+    (h : a.length ≤ b.length + 1) :
+    ∃ α β : ℕ → ℂ,
+      β b.length = b.length * (b.length - 1 : ℂ) / 2 + b.sum ∧
+      α b.length = (if a.length = b.length + 1 then -(b.length * (b.length + 1 : ℂ) / 2 + a.sum)
+        else if a.length = b.length then -1 else 0) ∧
+      ∀ z ∈ hgDomain (a : Multiset ℂ) (b : Multiset ℂ),
+        (if a.length = b.length + 1 then z ^ b.length * (1 - z) else z ^ b.length) *
+            iteratedDeriv (b.length + 1) (𝐅 (a : Multiset ℂ) b) z +
+          ∑ j ∈ Finset.Icc 1 b.length, z ^ (j - 1) * (α j * z + β j) *
+            iteratedDeriv j (𝐅 (a : Multiset ℂ) b) z +
+          α 0 * 𝐅 (a : Multiset ℂ) b z = 0 := sorry
+
+/-- 3.3: the functions `wⱼ` of the fundamental set 16.8.6 solve 16.8.3. -/
+theorem solution_16_8_6 {q : ℕ} (a : List ℂ) (b : Fin q → ℂ) (h : a.length ≤ q + 1)
+    (hb : ∀ j, ∀ n : ℤ, b j ≠ n) (hbb : ∀ i j, i ≠ j → ∀ n : ℤ, b i - b j ≠ n) (j : Fin q)
+    {z : ℂ} (hz : z ∈ slitPlane) (hz' : z ∈ hgDomain (a : Multiset ℂ) (Finset.univ.val.map b)) :
+    let w : ℂ → ℂ := fun z => z ^ (1 - b j) * pFq ((a : Multiset ℂ).map (1 + · - b j))
+      ((2 - b j) ::ₘ ((Finset.univ.erase j).val.map fun k => 1 + b k - b j)) z
+    thetaShift 0 ((List.ofFn b).foldr (fun c g => thetaShift (c - 1) g) w) z -
+        z * a.foldr (fun c g => thetaShift c g) w z = 0 := sorry
 
 /-- 3.3: the Wronskian of the fundamental set 16.8.6 at `0`. -/
 theorem wronskian_solution_16_8_6 {q : ℕ} (a : Multiset ℂ) (b : Fin q → ℂ)
@@ -296,11 +279,6 @@ theorem wronskian_solution_16_8_7 {q : ℕ} (a : Fin (q + 1) → ℂ) (b : Multi
 
 /-! ### Layer 4: argument unity -/
 
-/-- 4.1: Lerch's sum, DLMF 16.4.2_5. -/
-theorem sum_lerch (a c : ℂ) (n : ℕ) (hc : c - a - 1 ≠ 0) (hc' : poch(c - 1, n + 1) ≠ 0) :
-    ∑ k ∈ range (n + 1), poch(a, k) / poch(c, k) =
-      (c - 1) / (c - a - 1) * (1 - poch(a, n + 1) / poch(c - 1, n + 1)) := sorry
-
 /-- 4.2: the Pfaff–Saalschütz sum, DLMF 16.4.3. -/
 theorem terminatingSum_saalschutz (n : ℕ) (a b c d : ℂ) (hcd : c + d = a + b + 1 - n)
     (hc : poch(c, n) ≠ 0) (hd : poch(d, n) ≠ 0) :
@@ -314,12 +292,6 @@ theorem terminatingSum_dixon_even (k : ℕ) (b c : ℂ)
     terminatingSum [-(2 * k : ℂ), b, c] [1 - b - 2 * k, 1 - c - 2 * k] (2 * k) =
       ((2 * k) ! : ℂ) * poch(b + c + k, k) / ((k ! : ℂ) * poch(b + k, k) * poch(c + k, k)) :=
   sorry
-
-/-- 4.2: the terminating Dixon sum, DLMF 16.4.5, for odd `n`. -/
-theorem terminatingSum_dixon_odd (k : ℕ) (b c : ℂ)
-    (h : poch(1 - b - (2 * k + 1), 2 * k + 1) * poch(1 - c - (2 * k + 1), 2 * k + 1) ≠ 0) :
-    terminatingSum [-(2 * k + 1 : ℂ), b, c] [1 - b - (2 * k + 1), 1 - c - (2 * k + 1)]
-      (2 * k + 1) = 0 := sorry
 
 /-- 4.2: Dougall's very-well-poised `₇F₆` sum, DLMF 16.4.10. -/
 theorem terminatingSum_dougall_7F6 (n : ℕ) (a b c d f : ℂ)
@@ -370,6 +342,14 @@ theorem regularizedHGFun_thomae {a b c d e : ℂ} (h : 0 < (d + e - a - b - c).r
       Gamma (d + e - a - b - c) / Gamma (e - a) *
         regularizedHGFun {a, d - b, d - c} {d, d + e - b - c} 1 := sorry
 
+/-- 4.4: the three-term relation 16.4.12, with `₃F₂(…; 1)` written as `Γ(d) Γ(e)` times
+Mathlib's series at `1`. -/
+theorem regularizedHGFun_three_term_16_4_12 {a b c d e : ℂ} (hd : ∀ k : ℕ, d - 1 ≠ -k)
+    (he : ∀ k : ℕ, e ≠ -k) (h : 1 < (d + e - a - b - c).re) :
+    let F : ℂ → ℂ := fun d' => Gamma d' * Gamma e * regularizedHGFun {a, b, c} {d', e} 1
+    (a - d) * (b - d) * (c - d) * (F (d + 1) - F d) + a * b * c * F d =
+      d * (d - 1) * (a + b + c - d - e + 1) * (F d - F (d - 1)) := sorry
+
 /-- 4.4: the three-term relation 16.4.13, with `₃F₂(…; 1)` written as `Γ(d) Γ(e)` times
 Mathlib's series at `1`. -/
 theorem regularizedHGFun_three_term_16_4_13 {a b c d e : ℂ}
@@ -399,12 +379,22 @@ theorem terminatingSum_whipple_7F6 (n : ℕ) (a b c d e : ℂ)
         terminatingSum [a - b - c + 1, d, e, -(n : ℂ)] [a - b + 1, a - c + 1, d + e - n - a] n :=
   sorry
 
-/-- 4.5: Dougall's bilateral sum, DLMF 16.4.17. -/
-theorem hasSum_dougall_bilateral {a b c d : ℂ} (ha : ∀ n : ℤ, a ≠ n) (hb : ∀ n : ℤ, b ≠ n)
-    (hc : ∀ n : ℤ, c ≠ n) (hd : ∀ n : ℤ, d ≠ n) (h : 1 < (c + d - a - b).re) :
-    HasSum (fun k : ℤ => pochZ a k * pochZ b k / (pochZ c k * pochZ d k))
-      (Gamma c * Gamma d * Gamma (1 - a) * Gamma (1 - b) * Gamma (c + d - a - b - 1) /
-        (Gamma (c - a) * Gamma (d - a) * Gamma (c - b) * Gamma (d - b))) := sorry
+/-- 4.4: Whipple's transformation 16.4.15 when the `₄F₃` terminates through
+`a − b − c + 1 = −m`; the `₇F₆` is then an infinite series, written as the product of its bottom
+`Γ`s and Mathlib's series at `1`. -/
+theorem regularizedHGFun_whipple_7F6_16_4_15 (m : ℕ) (a b d e f : ℂ)
+    (hconv : (1 + m + d + e + f - a).re < 2)
+    (hbot : ∀ x ∈ [a / 2, a - b + 1, b - m, a - d + 1, a - e + 1, a - f + 1, a - d - e - f + 1],
+      ∀ k : ℕ, x ≠ -k)
+    (h : poch(a - b + 1, m) * poch(b - m, m) * poch(d + e + f - a, m) ≠ 0) :
+    Gamma (a / 2) * Gamma (a - b + 1) * Gamma (b - m) * Gamma (a - d + 1) * Gamma (a - e + 1) *
+        Gamma (a - f + 1) *
+        regularizedHGFun {a, a / 2 + 1, b, a - b + 1 + m, d, e, f}
+          {a / 2, a - b + 1, b - m, a - d + 1, a - e + 1, a - f + 1} 1 =
+      Gamma (a - d + 1) * Gamma (a - e + 1) * Gamma (a - f + 1) * Gamma (a - d - e - f + 1) /
+          (Gamma (a + 1) * Gamma (a - d - e + 1) * Gamma (a - d - f + 1) *
+            Gamma (a - e - f + 1)) *
+        terminatingSum [-(m : ℂ), d, e, f] [a - b + 1, b - m, d + e + f - a] m := sorry
 
 /-! ### Layer 5: integral representations and the connection at infinity -/
 
@@ -415,11 +405,6 @@ theorem regularizedGeneralizedHypergeometric_eq_laplace {a₀ : ℂ} {a b : Mult
     𝐅 (a₀ ::ₘ a) b z =
       (Gamma a₀)⁻¹ * ∫ t in Ioi (0 : ℝ), Real.exp (-t) * (t : ℂ) ^ (a₀ - 1) * 𝐅 a b (z * t) :=
   sorry
-
-/-- 5.1: Hankel's integral for `1/Γ` on a vertical line, as an improper integral. -/
-theorem tendsto_integral_exp_mul_cpow_neg {c : ℝ} (hc : 0 < c) {b : ℂ} (hb : 0 < b.re) :
-    Tendsto (fun T : ℝ => (2 * π)⁻¹ * ∫ y in -T..T, exp (c + y * I) * (c + y * I) ^ (-b))
-      atTop (𝓝 (Gamma b)⁻¹) := sorry
 
 /-- 5.1: the inverse Laplace transform, DLMF 16.5.4, in regularized form. -/
 theorem tendsto_integral_inverseLaplace_16_5_4 {b₀ : ℂ} {a b : Multiset ℂ}
@@ -439,6 +424,29 @@ theorem regularizedGeneralizedHypergeometric_eq_mellinBarnes {a b : Multiset ℂ
       (2 * π)⁻¹ * ∫ y : ℝ, (a.map fun x => Gamma (x + (σ + y * I))).prod *
         (b.map fun x => (Gamma (x + (σ + y * I)))⁻¹).prod * Gamma (-(σ + y * I)) *
           (-z) ^ (σ + y * I) := sorry
+
+/-- 5.2: the loop integral 16.5.1, `p ≤ q + 1`, when no pole of any `Γ(a_k + s)` lies inside or on
+the loop from `+∞ − iη` to `σ − iη`, `σ + iη` and `+∞ + iη`. -/
+theorem regularizedGeneralizedHypergeometric_eq_loopIntegral {a b : Multiset ℂ}
+    (h : Multiset.card a ≤ Multiset.card b + 1) (ha : ∀ x ∈ a, ∀ k : ℕ, x ≠ -k) {η σ : ℝ}
+    (hη : 0 < η) (hσ : σ < 0)
+    (hpole : ∀ x ∈ a, ∀ m : ℕ, σ ≤ (-x - m).re → η < |(-x - m).im|) {z : ℂ} (hz : z ≠ 0)
+    (hz' : Multiset.card a = Multiset.card b + 1 → ‖z‖ < 1) :
+    let f : ℂ → ℂ := fun s => (a.map fun x => Gamma (x + s)).prod *
+      (b.map fun x => (Gamma (x + s))⁻¹).prod * Gamma (-s) * (-z) ^ s
+    (a.map Gamma).prod * 𝐅 a b z =
+      (2 * π * I)⁻¹ * ((∫ t in Ioi σ, f (t + η * I)) - (∫ t in Ioi σ, f (t - η * I)) +
+        I * ∫ y in -η..η, f (σ + y * I)) := sorry
+
+/-- 5.3: the series `H` of 16.11.2 and the connection 16.11.6 for `|z| > 1`, in regularized form. -/
+theorem regularizedGeneralizedHypergeometric_eq_balancedH {q : ℕ} (a : Fin (q + 1) → ℂ)
+    (b : Multiset ℂ) (hb : Multiset.card b = q) (ha : ∀ j, ∀ k : ℕ, a j ≠ -k)
+    (haa : ∀ i j, i ≠ j → ∀ n : ℤ, a i - a j ≠ n) {z : ℂ} (hz : -z ∈ slitPlane)
+    (hz₁ : 1 < ‖z‖) :
+    (∏ j, Gamma (a j)) * 𝐅 (Finset.univ.val.map a) b z =
+      ∑ m, ∑' k : ℕ, (-1) ^ k / (k ! : ℂ) * Gamma (a m + k) *
+        (∏ l ∈ Finset.univ.erase m, Gamma (a l - a m - k)) *
+          (b.map fun x => (Gamma (x - a m - k))⁻¹).prod * (-z) ^ (-a m - k) := sorry
 
 /-- 5.3: the connection formula 16.8.8 on `−z ∈ slitPlane`, in regularized form. -/
 theorem regularizedGeneralizedHypergeometric_connection_infty {q : ℕ} (a : Fin (q + 1) → ℂ)
@@ -479,6 +487,13 @@ theorem generalizedHypergeometric_quadratic_16_6_1 {a b c : ℂ}
       (1 - z) ^ (-a) * pFq {a / 2, (a + 1) / 2, a - b - c + 1} {a - b + 1, a - c + 1}
         (-4 * z / (1 - z) ^ 2) := sorry
 
+/-- 6.1: the cubic transformation 16.6.2 on the disk `‖z‖ < ½`. -/
+theorem generalizedHypergeometric_cubic_16_6_2 {a b : ℂ} (hb : ∀ k : ℕ, b ≠ -k)
+    (hb' : ∀ k : ℕ, a - b + 3 / 2 ≠ -k) {z : ℂ} (hz : ‖z‖ < 1 / 2) :
+    pFq {a, 2 * b - a - 1, 2 - 2 * b + a} {b, a - b + 3 / 2} (z / 4) =
+      (1 - z) ^ (-a) * pFq {a / 3, a / 3 + 1 / 3, a / 3 + 2 / 3} {b, a - b + 3 / 2}
+        (-27 * z / (4 * (1 - z) ^ 3)) := sorry
+
 /-- 6.2: the Fields–Wimp expansion 16.10.1 for `p < q`, `r ≤ s`. -/
 theorem hasSum_fieldsWimp {a b c d : List ℂ} (hpq : a.length < b.length)
     (hrs : c.length ≤ d.length) {α β γ : ℂ} (hα : ∀ k : ℕ, α ≠ -k) (hβ : ∀ k : ℕ, β ≠ -k)
@@ -491,6 +506,14 @@ theorem hasSum_fieldsWimp {a b c d : List ℂ} (hpq : a.length < b.length)
         pFq ((-(k : ℂ)) ::ₘ (γ + k) ::ₘ (c : Multiset ℂ)) (α ::ₘ β ::ₘ (d : Multiset ℂ)) ζ)
       (pFq (a ++ c : Multiset ℂ) (b ++ d : Multiset ℂ) (z * ζ)) := sorry
 
+/-- 6.2: Nørlund's expansion 16.10.2, `p = q + 1`, for `‖ζ − 1‖ < 1` and `Re z < ½`; the inner
+functions are Mathlib's terminating series. -/
+theorem hasSum_norlund {a₁ : ℂ} {a b : Multiset ℂ} (h : Multiset.card a = Multiset.card b)
+    (hb : ∀ x ∈ b, ∀ k : ℕ, x ≠ -k) {z ζ : ℂ} (hζ : ‖ζ - 1‖ < 1) (hz : z.re < 1 / 2) :
+    HasSum (fun k : ℕ => (1 - z) ^ (-a₁) * (poch(a₁, k) / (k ! : ℂ)) *
+        ((b.map Gamma).prod * regularizedHGFun ((-(k : ℂ)) ::ₘ a) b ζ) * (z / (z - 1)) ^ k)
+      (pFq (a₁ ::ₘ a) b (z * ζ)) := sorry
+
 /-- 6.3: the product formula 16.12.1, in regularized form. -/
 theorem regularizedGeneralizedHypergeometric_zero_one_mul (a b : ℂ) (h : ∀ k : ℕ, a + b - 1 ≠ -k)
     (z : ℂ) :
@@ -500,18 +523,18 @@ theorem regularizedGeneralizedHypergeometric_zero_one_mul (a b : ℂ) (h : ∀ k
 /-- 6.3: Clausen's formula 16.12.2 on the cut plane. -/
 theorem gaussHypergeometric_sq_clausen {a b : ℂ} (h₁ : ∀ k : ℕ, a + b + 1 / 2 ≠ -k)
     (h₂ : ∀ k : ℕ, 2 * a + 2 * b ≠ -k) {z : ℂ} (hz : 1 - z ∈ slitPlane) :
-    SpecialFunctionsHypergeometric.gaussHypergeometric a b (a + b + 1 / 2) z ^ 2 =
+    pFq {a, b} {a + b + 1 / 2} z ^ 2 =
       pFq {2 * a, 2 * b, a + b} {a + b + 1 / 2, 2 * a + 2 * b} z := sorry
 
 /-- 6.3: the square of a Gauss function, 16.12.3, on the unit disk. -/
 theorem hasSum_gaussHypergeometric_sq {a b c : ℂ} (hc : ∀ k : ℕ, c ≠ -k)
     (hc' : ∀ k : ℕ, 2 * c - 1 ≠ -k) (ha : ∀ k : ℕ, a + 1 / 2 ≠ -k)
-    (hb : ∀ k : ℕ, b + 1 / 2 ≠ -k) (hc'' : ∀ n : ℤ, c ≠ 1 / 2 + n) {z : ℂ} (hz : ‖z‖ < 1) :
+    (hb : ∀ k : ℕ, b + 1 / 2 ≠ -k) {z : ℂ} (hz : ‖z‖ < 1) :
     HasSum (fun k : ℕ => poch(2 * a, k) * poch(2 * b, k) * poch(c - 1 / 2, k) /
         (poch(c, k) * poch(2 * c - 1, k) * (k ! : ℂ)) *
         terminatingSum [-(k : ℂ) / 2, (1 - k) / 2, a + b - c + 1 / 2, 1 / 2]
           [a + 1 / 2, b + 1 / 2, 3 / 2 - k - c] k * z ^ k)
-      (SpecialFunctionsHypergeometric.gaussHypergeometric a b c z ^ 2) := sorry
+      (pFq {a, b} {c} z ^ 2) := sorry
 
 /-! ### Layer 7: limits and asymptotics in the parameters -/
 
@@ -521,12 +544,28 @@ theorem tendsto_generalizedHypergeometric_confluence_top {a b : Multiset ℂ}
     Tendsto (fun α : ℂ => pFq (α ::ₘ a) b (z / α)) (Bornology.cobounded ℂ)
       (𝓝 (pFq a b z)) := sorry
 
-/-- 7.1: the confluence 16.8.11 for `p ≤ q`, on a sector `|ph β| ≤ π − δ`. -/
+/-- 7.1: the confluence 16.8.11 for `p ≤ q + 1`, on a sector `|ph β| ≤ π − δ`; for `p = q + 1`
+with `‖z‖ < 1`, and `‖z‖ < sin δ` when `δ < π/2`. -/
 theorem tendsto_generalizedHypergeometric_confluence_bottom {a b : Multiset ℂ}
-    (h : Multiset.card a ≤ Multiset.card b) (hb : ∀ x ∈ b, ∀ k : ℕ, x ≠ -k) {δ : ℝ}
-    (hδ : 0 < δ) (z : ℂ) :
+    (h : Multiset.card a ≤ Multiset.card b + 1) (hb : ∀ x ∈ b, ∀ k : ℕ, x ≠ -k) {δ : ℝ}
+    (hδ : 0 < δ) {z : ℂ}
+    (hz : Multiset.card a = Multiset.card b + 1 → ‖z‖ < 1 ∧ (δ < π / 2 → ‖z‖ < Real.sin δ)) :
     Tendsto (fun β : ℂ => pFq a (β ::ₘ b) (β * z))
       (Bornology.cobounded ℂ ⊓ 𝓟 {β | |arg β| ≤ π - δ}) (𝓝 (pFq a b z)) := sorry
+
+
+
+/-- 7.2: the large-parameter expansion 16.11.10, `p = q + 1`: `a₁, …, a_{k−1}` and `b₁, …, b_k`
+shifted by `r`, `1 ≤ k ≤ q`. -/
+theorem isBigO_generalizedHypergeometric_shift_16_11_10 {q : ℕ} (a : Fin (q + 1) → ℂ)
+    (b : Fin q → ℂ) {k : ℕ} (hk : 1 ≤ k) (hkq : k ≤ q)
+    (hb : ∀ j : Fin q, k ≤ (j : ℕ) → ∀ n : ℕ, b j ≠ -n) {z : ℂ} (hz : 1 - z ∈ slitPlane)
+    (m : ℕ) :
+    let A : ℝ → Fin (q + 1) → ℂ := fun r i => if (i : ℕ) + 1 < k then a i + r else a i
+    let B : ℝ → Fin q → ℂ := fun r i => if (i : ℕ) < k then b i + r else b i
+    (fun r : ℝ => pFq (Finset.univ.val.map (A r)) (Finset.univ.val.map (B r)) z -
+        ∑ n ∈ range m, (∏ i, poch(A r i, n)) / ((∏ i, poch(B r i, n)) * (n ! : ℂ)) * z ^ n)
+      =O[atTop] fun r : ℝ => ((r ^ m : ℝ))⁻¹ := sorry
 
 /-- 7.2: the large-parameter expansion 16.11.11, `p < q`. -/
 theorem isBigO_generalizedHypergeometric_shift {a b : Multiset ℂ}
