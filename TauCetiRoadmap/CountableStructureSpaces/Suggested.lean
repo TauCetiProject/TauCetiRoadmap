@@ -492,8 +492,10 @@ theorem exists_pcSentence [L.IsRelational] [∀ n, Countable (L.Relations n)]
           (fun n => (queryCode (e.encodeVia (L := L)) n, g n)) ∈ body T) := by
   sorry
 
-/-- **Layer 5, the López–Escobar theorem, hard direction**, for every relational language: a Borel
-set depends on the atoms of a countable sublanguage, where the countable case applies (README §5.3,
+/-- **Layer 5, the López–Escobar theorem, hard direction**, for every relational language. Here
+`MeasurableSet` is for the product σ-algebra on codes (README Convention 5), which for uncountably
+many relation symbols is strictly smaller than the Borel σ-algebra of the topology. Such a set
+depends on the atoms of a countable sublanguage, where the countable case applies (README §5.3,
 step 0). -/
 theorem lopez_escobar [L.IsRelational]
     {B : Set (RelationalConfiguration L ℕ)} (hB : MeasurableSet B)

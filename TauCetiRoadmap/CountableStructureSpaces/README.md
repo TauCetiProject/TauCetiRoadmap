@@ -81,7 +81,11 @@ Layer 5; the well-order results use Layers 0–3 and the easy direction of Lópe
    `Equiv.Perm α`.
 5. **Borel.** "Borel" means `MeasurableSet` for the product σ-algebra. Under the countability
    hypotheses the `BorelSpace` instance identifies it with the Borel σ-algebra of the Polish
-   topology; state results as `MeasurableSet` and let the instance do the identification.
+   topology; state results as `MeasurableSet` and let the instance do the identification. With
+   uncountably many relation symbols the two differ: the topology is compact but not metrizable,
+   and its Borel σ-algebra is strictly larger (a single code is closed but depends on uncountably
+   many coordinates). Every statement here, including López–Escobar for arbitrary relational
+   languages, means the product σ-algebra.
 6. **Invariance.** Action invariance of `B` is Mathlib's
    `MulAction.IsFixedBlock (Equiv.Perm α) B`: `σ • B = B` for every `σ`, equivalently
    `(σ • ·) ⁻¹' B = B`. Mathlib's `isInvariantBlock_iff_isFixedBlock` identifies it with the
@@ -145,8 +149,9 @@ the `L`-reduct of a model of `Θ`, the symbols of `L₁` being auxiliary relatio
 existentially; Layer 5 uses them to describe a branch through a tree. For a countable relational
 language, on the space of structures with carrier `ℕ`, these projective classes are exactly the
 isomorphism-invariant analytic sets (`analyticSet_iff_exists_pc`); Lω₁ω model classes are exactly
-the isomorphism-invariant Borel sets (`lopezEscobar_iff`, which holds for every relational
-language by a reduction to a countable sublanguage, §5.3). There `pcSeparation` plays the role of
+the isomorphism-invariant Borel sets (`lopezEscobar_iff`; for sets measurable in the product
+σ-algebra it holds for every relational language, by a reduction to a countable sublanguage,
+§5.3). There `pcSeparation` plays the role of
 Lusin separation, turning the two analytic descriptions of `B` and its complement into one
 sentence. The analytic correspondence needs the countable language, not only a countable carrier
 (negative control in §5.4). `LHom.PCMem` and `pcSeparation` themselves are for arbitrary languages. For languages
@@ -580,14 +585,14 @@ Hence, for a tree representation `T` of an analytic class `B`, the codes of mode
 
 ### 5.3 The hard direction
 
-`lopez_escobar`: for every relational `L`, if `B ⊆ RelationalConfiguration L ℕ` is Borel and
-isomorphism invariant then `B = modelsOf φ` for some `φ : L.Sentenceω`. Proof:
+`lopez_escobar`: for every relational `L`, if `B ⊆ RelationalConfiguration L ℕ` is measurable for
+the product σ-algebra (Borel in the sense of Convention 5) and isomorphism invariant then `B = modelsOf φ` for some `φ : L.Sentenceω`. Proof:
 
 0. **Reduction to a countable sublanguage.** A set measurable for the product σ-algebra
    (Convention 5) is determined by countably many atoms. Let `L₀` be the countable relational
    sublanguage of their symbols, `g : L₀ →ᴸ L` its inclusion, and `B₀` the set of `L₀`-codes whose
    extension by `false` lies in `B`. Extension by `false` is measurable and commutes with the
-   action, so `B₀` is Borel and invariant, and `B` is the preimage of `B₀` under Tau Ceti's
+   action, so `B₀` is measurable and invariant, and `B` is the preimage of `B₀` under Tau Ceti's
    reduct map `g.reductConfiguration`. Steps 1–4, for `L₀`, give `φ₀` with `B₀ = modelsOf φ₀`,
    and `realize_sentenceInf_reductConfiguration` gives `B = modelsOf (g.onBoundedFormulaInf φ₀)`.
    Steps 1–4 assume countably many relation symbols.
@@ -612,7 +617,8 @@ isomorphism invariant then `B = modelsOf φ` for some `φ : L.Sentenceω`. Proof
 
 ### 5.4 Packaging
 
-- `lopezEscobar_iff`: Borel and isomorphism invariant ⟺ `∃ φ, B = modelsOf φ`;
+- `lopezEscobar_iff`: measurable for the product σ-algebra and isomorphism invariant ⟺
+  `∃ φ, B = modelsOf φ`, for every relational `L`;
 - `lopezEscobar_action_iff`: the same with `MulAction.IsFixedBlock (Equiv.Perm ℕ) B`;
 - `measurableSet_iInf_invariants_iff_exists_modelsOf`: the invariant σ-algebra is exactly the
   collection of model classes, `{B | MeasurableSet[⨅ σ, invariants (σ • ·)] B} = range modelsOf`;
@@ -624,8 +630,9 @@ isomorphism invariant then `B = modelsOf φ` for some `φ : L.Sentenceω`. Proof
   `RelationalConfiguration L ℕ`. Unlike the Borel form, it needs countably many relation symbols.
   Negative control: with unary predicates `P_r` for `r ∈ ℝ`, the code with every `P_r` empty is
   fixed by every permutation, so its singleton is invariant and analytic; but a single sentence
-  mentions only countably many symbols, so no PC class is that singleton. (The singleton is not
-  Borel either, so `lopezEscobar_iff` is not contradicted.)
+  mentions only countably many symbols, so no PC class is that singleton. The singleton is closed,
+  hence Borel for the topology, but not measurable for the product σ-algebra, which is the one
+  `lopezEscobar_iff` uses; for the topology's Borel σ-algebra that theorem would fail here.
 
 **Acceptance check.** In the empty language every class of codes is `∅` or `univ`, and
 `lopezEscobar_iff` is witnessed by `⊥` or `⊤`.
