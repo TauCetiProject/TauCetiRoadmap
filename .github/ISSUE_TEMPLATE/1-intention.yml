@@ -41,6 +41,7 @@ body:
         - CFSGBasicProperties
         - CFSGStatement
         - CStarAlgebras
+        - CStarClassification
         - CharacteristicClasses
         - ChevalleyGroups
         - ClassFieldTheory
@@ -129,6 +130,7 @@ body:
         - OptimalTransport
         - Orbifolds
         - PDE
+        - PadicExtensionFamilies
         - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
         - PerfectoidSpaces
