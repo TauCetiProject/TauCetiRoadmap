@@ -16,18 +16,21 @@ filtering functors on its classifying category of Horn formulas, and in every sh
 geometric formula is a `u`-small disjunction of existential quantifications of Horn formulas; every
 geometric theory over a language `L : FirstOrder.Language.{u₁, u₂}` has a classifying site in `Type
 (max u₁ u₂ u)`; two classifying sites of one theory have equivalent sheaf topoi by an equivalence
-carrying one generic model to the other; for a site `(C, J)` classifying `T`, every quotient `T ⊆
-T'` is classified by `(C, J')` for a topology `J ≤ J'`, and every `J' ≥ J` classifies a quotient of
-`T`, in both cases with the sheafified generic model; and Morita equivalence of theories (Layer 2);
+carrying one generic model to the other, and in a classifying topos every subobject of a power of
+the generic model is the interpretation of a geometric formula; for a site `(C, J)` classifying
+`T`, every quotient `T ⊆ T'` is classified by `(C, J')` for a topology `J ≤ J'`, and every `J' ≥ J`
+classifies a quotient of `T`, in both cases with the sheafified generic model; and Morita
+equivalence of theories (Layer 2);
 Horn theories are of presheaf type; the topos of functors from finite sets to sets classifies
 objects, with the inclusion as generic object; for a group `G` the topos of right `G`-sets
 classifies `G`-torsors, with `G` acting on itself on the left as generic torsor, and the theories of
 `G`- and `H`-torsors are Morita-equivalent exactly when `G ≃* H`; simplicial sets classify
 intervals, with `Δ[1]` as generic interval; a theory is of presheaf type exactly when every
 geometric formula is covered by `T`-irreducible formulae, which are the formulae presenting finitely
-presentable set-models, and for such a theory every topology on the opposite of its finitely
-presentable models gives the quotient whose set-models are the homogeneous ones, the finitely
-presentable ones being the irreducible objects of that topology (Layer 3); a commutative ring
+presentable set-models; such a theory is classified by the functors on its finitely presentable
+set-models, and every topology on the opposite of those models gives the quotient whose set-models
+are the homogeneous ones, the finitely presentable ones being the irreducible objects of that
+topology (Layer 3); a commutative ring
 finitely presentable in `CommRingCat` is finitely presented, and presheaves on the opposite of
 finitely presented commutative rings classify commutative rings, with the forgetful functor and its
 pointwise operations as generic ring; that functor is a sheaf for the Zariski topology, the case of
@@ -84,10 +87,10 @@ the Zariski topology on `FPRing.{u}ᵒᵖ` and the restriction.
 **Left to LocallyPresentableCategories.** Gabriel–Ulmer duality and the categories of models of
 small categories with finite limits (LocallyPresentableCategories 3.1–3.4), essentially algebraic
 theories (3.5) and finitely accessible categories as `Ind A` (1.5). The category of set-models of a
-Horn theory, and more generally of a theory of presheaf type, is the category of `Ind` of its
-finitely presentable models, an instance of LocallyPresentableCategories 1.5 recorded in the
-Examples of Layer 3; this roadmap defines only the category `SetModel T` of the set-models of one
-theory, in 3.5, to state finite presentability and presentation by a formula.
+theory of presheaf type is `Ind` of the opposite of a small classifying site, an instance of
+LocallyPresentableCategories 1.5 that 3.5 (a′) uses and the Examples of Layer 3 record; this
+roadmap defines only the category `SetModel T` of the set-models of one theory, in 3.5, to state
+finite presentability and presentation by a formula.
 
 **Supplied by Tau Ceti.** The syntax and set-theoretic semantics of `L_{∞ω}`,
 `FirstOrder.Language.BoundedFormulaInf` (`TauCeti/ModelTheory/Infinitary/Syntax`) and
@@ -208,7 +211,7 @@ subcanonical topology on schemes) and `AlgebraicGeometry.Scheme.Ga`, both in
 
 **From GrothendieckTopoi.** 1.1 (`IsGrothendieckTopos`: `Sheaf J (Type u)` is a Grothendieck topos
 for every small site and every Grothendieck topos is equivalent to one, so the quantifier over small
-sites in 2.1 is a quantifier over Grothendieck topoi), 1.2 (images, epimorphisms and coproducts in
+sites in 2.1 is a quantifier over Grothendieck topoi), 1.2 (epimorphisms and coproducts in
 `Sheaf J (Type u)`, and the frame property of its subobject lattices), 2.1 (`GeometricMorphism`:
 left exact left adjoints between Grothendieck topoi are the inverse images of geometric morphisms),
 2.2 (`GeometricMorphism.homEquivInverse`: 2-cells and transformations of inverse images), 2.5
@@ -218,8 +221,9 @@ subtopoi of `Sheaf J (Type u)` are the `Sheaf J' (Type u)` for `J' ≥ J`), 6.1 
 (`IsIrreducibleObject`, `IsRigidTopology`, `isIrreducibleObject_iff_projective_preservesCoproducts`
 and `isRigidTopology_iff_nonempty_equiv_presheaf`).
 
-**From LocallyPresentableCategories.** 1.5 (finitely accessible categories are `Ind A`), 3.5
-(essentially algebraic theories), for the Examples of Layer 3.
+**From LocallyPresentableCategories.** 1.5 (finitely accessible categories are `Ind A`), for 3.5
+and the Examples of Layer 3; 3.1 (Gabriel–Ulmer duality) and 3.5 (essentially algebraic theories),
+for the Examples of Layer 3.
 
 ## How to read the build
 
@@ -229,11 +233,12 @@ limits, images and small coproducts, the transport of a model along a left exact
 the translation into Tau Ceti's infinitary formulas. Layer 2 defines classifying sites through the
 universal property of Layer 1's transport, builds the classifying category of a Horn theory and the
 normal form of geometric formulas, proves the existence of classifying sites by the syntactic site
-and their uniqueness, relates quotient theories to finer topologies, and defines Morita equivalence;
-it consumes Diaconescu's theorem and the subtopoi of a sheaf topos from GrothendieckTopoi. Layer 3
-specialises to the trivial topology: Horn theories, the object classifier, torsors and `B G`,
-intervals and simplicial sets, then irreducible formulae and finitely presentable models (3.5), on
-which the quotients of a theory of presheaf type by topologies on its finitely presentable models
+and their uniqueness, with the definability of the subobjects of powers of the generic model,
+relates quotient theories to finer topologies, and defines Morita equivalence; it consumes
+Diaconescu's theorem and the subtopoi of a sheaf topos from GrothendieckTopoi. Layer 3 specialises
+to the trivial topology: Horn theories, the object classifier, torsors and `B G`, intervals and
+simplicial sets, then irreducible formulae and finitely presentable models (3.5), on which the
+quotients of a theory of presheaf type by topologies on its finitely presentable models
 (3.6) are built. Layer 4 treats rings: the small category of finitely presented rings,
 the classifying topos of rings, the Zariski topology, and local rings as the quotient classified by
 it, an instance of 2.5 with the topology given explicitly.
@@ -369,9 +374,9 @@ induction on `φ`; the order of subobjects is preserved because `F` preserves mo
 - for a left exact left adjoint `F` as above, `M.Isomorphic N` implies
   `(M.map F).Isomorphic (N.map F)`, since `F` preserves the images that interpret the relations.
 
-*Needs:* 1.3; GrothendieckTopoi 1.2 (images, epimorphisms and coproducts in `Sheaf J (Type u)`);
-Mathlib `piComparison`, `PreservesFiniteProducts`, `PreservesFiniteLimits`,
-`Functor.IsLeftAdjoint`.
+*Needs:* 1.3; GrothendieckTopoi 1.2 (epimorphisms and coproducts in `Sheaf J (Type u)`); Mathlib
+`HasImages (Sheaf J (Type u))`, `piComparison`, `PreservesFiniteProducts`,
+`PreservesFiniteLimits`, `Functor.IsLeftAdjoint`.
 
 **Checks.**
 
@@ -532,8 +537,23 @@ Prove `IsClassifyingSite.exists_equivalence`: if `(C, J, U)` and `(C', J', U')` 
 Route: (i) for `U'` gives `F` with `U' ≅ U.map F`, and symmetrically `G`; (ii) shows that
 `G ⋙ F` and `F ⋙ G` are isomorphic to the identities, a 2-dimensional Yoneda argument
 (Caramello 2017, the chapter « Lattices of theories », §2.1 in the numbering of arXiv:0905.0299v1).
+
+Prove also `IsClassifyingSite.exists_interp_eq_of_subobject`: for
+`L : FirstOrder.Language.{u₁, u₂}`, `T : GeometricTheory.{max u₁ u₂ u} L` and a classifying site
+`(C, J, U)` of `T` in `Type (max u₁ u₂ u)`, as in 2.3, every subobject of `U.pow n` is
+`U.interp ψ` for some `ψ : GeometricFormula.{max u₁ u₂ u} L n`; and the objects underlying the
+`U.interp φ` form a separating family of `Sheaf J (Type (max u₁ u₂ u))`, a small one up to
+isomorphism, since each `U.pow n` has a small set of subobjects (Caramello 2012a, proof of
+Lemma 3.2, p. 182, for the geometric syntactic site). Route: both facts are invariant under the
+equivalence of the first statement, which carries `U` to `U'` and so `U.interp φ` to
+`U'.interp φ` (1.4, API), so it is enough to prove them on the site of 2.3. There the sheafified
+representables are the `U.interp χ` with `χ` Horn, and they separate. A map from one of them into
+`U.pow n` is given on a cover by tuples of terms, so its image is the interpretation of a
+disjunction of `exs` of Horn formulas (the form of 2.2 (b)), and a subobject of `U.pow n` is the
+union of the images of the maps into it from sheafified representables.
 *Needs:* 1.3, 1.4 (API: `CatStructure.Isomorphic` is an equivalence relation, `CatStructure.map`
-along the identity and along a composite); 2.1; Mathlib `Equivalence`.
+along the identity and along a composite); 2.1, 2.2 (b), 2.3; Mathlib `Equivalence`,
+`Subobject`.
 
 **Checks.**
 
@@ -545,6 +565,16 @@ along the identity and along a composite); 2.1; Mathlib `Equivalence`.
   abelian), so `U.map (𝟭 _)` and `U` are isomorphic in two ways.
 - For `T = {⊤ ⊢ bot}`, every classifying site has a degenerate topos, and all degenerate topoi are
   equivalent (one object, one morphism).
+- Definability, in the topos of 3.2 (functors from finite sets to sets, `U` the inclusion). A
+  subobject of the terminal object `U.pow 0` is a subfunctor `S` of `N ↦ {*}`; if `S(N) = {*}`
+  then `S(N') = {*}` for every `N'` with a map `N → N'`, and `∅` maps to every `N'`, while every
+  nonempty `N` maps to every nonempty `N'`. So `S` is `⊥`, `⊤`, or `N ↦ [N ≠ ∅]`: exactly the
+  interpretations of `bot`, `top` and `ex top` in context `0`, and no other subobject exists.
+- The classifying property is used. For the site `(Discrete Bool, ⊥)` with `U` terminal and
+  `T = {⊢ ∃ x, ⊤, ⊤ ⊢ x = y}` over the empty language (2.1, Checks), `U` is a model of `T`, and the
+  topos `Type u × Type u` has four subobjects of the terminal object, while every formula
+  interprets in `U` as `⊥` or `⊤`: the atoms are equations between variables, interpreted as `⊤`
+  on the powers of a terminal object, and `and`, `iSup` and `ex` of `⊥` and `⊤` give `⊥` or `⊤`.
 
 ### 2.5 Quotients and finer topologies
 
@@ -607,7 +637,8 @@ along a composite); 2.1, 2.4.
 ### Dependencies
 
 Layer 1; GrothendieckTopoi 1.1, 1.2, 2.1, 2.2, 2.5, 4.2. Within the layer, 2.3–2.6 use 2.1, 2.3
-uses 2.2, 2.5 uses 2.3 and 2.4, and 2.6 uses 2.4.
+uses 2.2, 2.4 uses 2.2 (b) and 2.3 for the definability statement, 2.5 uses 2.3 and 2.4, and 2.6
+uses 2.4.
 
 ## Layer 3: theories of presheaf type
 
@@ -620,8 +651,8 @@ Route: by 2.2 (a) the models of `T` are the filtering functors on its classifyin
 which by GrothendieckTopoi 2.5 are the geometric morphisms into presheaves on 𝒞_T; take for `C`
 the small category equivalent to 𝒞_T with `⊥`, and for `U` the representable presheaf of
 `(1, top)` (Elephant, D3.1; Caramello 2017, proof of Theorem 17.6, p. 81 in the numbering of
-arXiv:0905.0299v1). The criterion of 3.5 (a) sharpens this to every geometric theory: for a Horn
-theory the covering by irreducible formulae is the normal form of 2.2 (b).
+arXiv:0905.0299v1). The criterion of 3.5 (a) characterizes presheaf type for every geometric
+theory: for a Horn theory the covering by irreducible formulae is the normal form of 2.2 (b).
 *Needs:* 2.1, 2.2; GrothendieckTopoi 2.5; Mathlib `AsSmall`, `yoneda`, `sheafBotEquivalence`.
 
 **Checks.**
@@ -738,53 +769,85 @@ structures (Mathlib's `M →[L] N`), and `FPModel T`, its full subcategory of th
 with `φ.Realize ξ` such that for every model `N` and every `b` with `φ.Realize b` there is a unique
 homomorphism `f : M → N` with `f ∘ ξ = b` (`SetModel.IsPresentedBy`; Caramello 2017, « Lattices of
 theories », Definition 14.5 in the numbering of arXiv:0905.0299v1, with the requirement `φ.Realize
-ξ` that makes `ξ` the element corresponding to the identity). Prove, with `U` the generic model of a
-classifying site of `T`:
+ξ` that makes `ξ` the element corresponding to the identity). In (a), (c) and (d), which use the
+definability statement of 2.4, `L : FirstOrder.Language.{u₁, u₂}` and
+`T : GeometricTheory.{max u₁ u₂ u} L`, with sites in `Type (max u₁ u₂ u)`, as in 2.3
+(Convention 1). Prove, with `U` the generic model of a classifying site of `T`:
 
 - (a) `isOfPresheafType_iff_forall_covered`: `T` is of presheaf type if and only if for every
   geometric formula `φ` in context `n` there are a `u`-small family of `T`-irreducible formulae
   `ψᵢ` and morphisms `[[ψᵢ]] → [[φ]]` forming an epimorphic family, that is, `φ` is covered by
   `T`-irreducible formulae (Caramello 2012a, Corollary 3.15, whose collection `ℱ` is the one of
-  all `T`-irreducible formulae: condition (ii) is then the definition). Route: by 2.4 replace `E`
-  by the topos of the geometric syntactic site `(𝒞, J_T)` of `T` (Elephant, D3.1; an essentially
-  small version of it if needed), which carries the generic model to the Yoneda image of the
-  universal model and `[[φ]]` to `y {x . φ}`. The site `𝒞` has finite limits, so it is
-  idempotent complete and the retracts of representables are representable, and `J_T` is
-  subcanonical. By GrothendieckTopoi 6.6 (d), `E` is a presheaf topos, that is, `T` is of
-  presheaf type (2.1, 3.1), exactly when `J_T` is rigid, which says that each `{x . φ}` is
-  `J_T`-covered by arrows from `J_T`-irreducible objects, by full faithfulness of `y` the
-  epimorphic family of the statement.
-- - (b) `GeometricFormula.isIrreducible_iff_exists_presentedBy`: for `T` of presheaf type, a
+  all `T`-irreducible formulae: condition (ii) is then the definition). Route, "if": the `[[φ]]`
+  separate `E` (2.4), so if each is covered by irreducible objects, the irreducible objects
+  separate `E`, and they form a `u`-small family up to isomorphism, as the subobjects of the
+  `U.pow n` do. By GrothendieckTopoi 6.6 (b) they are connected nonempty projective objects, so `E`
+  is a presheaf topos by GrothendieckTopoi 6.5 (Roos), and transporting `U` along an equivalence
+  with the presheaves on a small category, for the trivial topology, shows that `T` is of presheaf
+  type (2.1, 1.4). "Only if": `E` is then a presheaf topos, so by GrothendieckTopoi 6.5 and 6.6 (b)
+  its irreducible objects separate it, and the family of all maps from irreducible objects into
+  `[[φ]]` is epimorphic. Each irreducible object `I` is isomorphic to some `[[ψ]]` with `ψ`
+  `T`-irreducible: the family of all maps `[[χ]] → I` is epimorphic (2.4), so one of them is split
+  epimorphic, which makes `I` a retract of some `[[χ]]`, hence a subobject of `U.pow n`, hence some
+  `[[ψ]]` (2.4).
+- (a′) `exists_isClassifyingSite_fpModel`: for `T` of presheaf type, `FPModel T` is essentially
+  small, and a small category `C ≌ (FPModel T)ᵒᵖ` with the trivial topology classifies `T`, with the
+  generic model `N ↦ N.carrier` in the functors `FPModel T ⥤ Type u`; the interpretation of a
+  geometric formula `φ` is then `N ↦ [[φ]]_N`, the set of the assignments in `N` that realize `φ`.
+  A set-model presented by a formula is finitely presentable (Caramello 2017, « Lattices of
+  theories », Remark 14.2, p. 65, and §14.2, p. 68, in the numbering of arXiv:0905.0299v1;
+  Caramello 2012a, §4, p. 189, for the generic model). Route: let `(C₀, ⊥, U₀)` classify `T`. By 2.1
+  for the one-point site and Diaconescu's theorem (GrothendieckTopoi 2.5), the set-models and their
+  homomorphisms are the flat functors on `C₀` and their transformations, that is `Ind` of `C₀ᵒᵖ`
+  (LocallyPresentableCategories 1.5; Caramello 2017, Remark 14.2). The finitely presentable objects
+  of `Ind (C₀ᵒᵖ)` are the retracts of the representables, since the identity of such an object
+  factors through a stage of its presentation as a filtered colimit of representables. So
+  `(FPModel T)ᵒᵖ` is the Cauchy completion of `C₀`, which is small, and `FPModel T` is idempotent
+  complete (Borceux–Dejean 1986, Theorem 1 (2), p. 134). Presheaves on `C₀` and on its Cauchy
+  completion are equivalent (Borceux–Dejean 1986, Theorem 1 (4), p. 134), and the equivalence sends
+  an object `P` to the functor `N ↦` the stalk of `P` at the point `N`. For `P = U₀.carrier` the
+  stalk is `N.carrier` (2.1 (i)), and for `P = [[φ]]` it is `[[φ]]_N`, since inverse images preserve
+  the interpretation of formulae (1.4). The functor `N ↦ [[φ]]_N` preserves filtered colimits of
+  set-models, which are computed on the underlying sets, because a geometric formula is realized at
+  an assignment of a filtered colimit exactly when it is realized at one stage (induction on `φ`);
+  so, by the Yoneda lemma, a model presented by `φ` represents it and is finitely presentable.
+- (b) `GeometricFormula.isIrreducible_iff_exists_presentedBy`: for `T` of presheaf type, a
   geometric formula is `T`-irreducible if and only if it presents a set-model of `T` (Caramello
   2012a, Theorem 4.1 (i) for "presents implies irreducible" and Theorem 4.3 (ii) for the converse).
-  Route: the classifying topos is `[FPModel T, Set]` (3.1; Caramello 2017, « Lattices of theories »,
-  Remark 14.2), under which `[[φ]]` is the functor `N ↦ [[φ]]_N` on finitely presentable models; if
-  `φ` presents `M` it is the representable `Hom(M, −)`, which is irreducible by GrothendieckTopoi
-  6.6 (b) and 6.5. Conversely an irreducible `[[φ]]` is a connected nonempty projective object of a
-  presheaf topos, hence a retract of a representable (GrothendieckTopoi 6.5), hence representable
-  because `FPModel T` is idempotent complete, say by `Hom(M, −)`; then `M` is presented by `φ`
-  (Caramello 2017, « Lattices of theories », §14.2: the functor `N ↦ [[φ]]_N` is representable
-  exactly when a model is presented by `φ`).
+  Route: by 2.4 and (a′), `E` is equivalent to `[FPModel T, Type u]`, under which `[[φ]]` is the
+  functor `N ↦ [[φ]]_N` on finitely presentable models. If `φ` presents `M`, then `M` is finitely
+  presentable (a′) and `[[φ]]` is the representable `Hom(M, −)`, which is irreducible by
+  GrothendieckTopoi 6.6 (b): a representable of a presheaf topos is projective and preserves
+  coproducts, by the Yoneda lemma. Conversely an irreducible `[[φ]]` is a connected nonempty
+  projective object of a presheaf topos (GrothendieckTopoi 6.6 (b)), hence a retract of a
+  representable (GrothendieckTopoi 6.5), hence representable because `FPModel T` is idempotent
+  complete (a′), say `[[φ]] ≅ Hom(M, −)` on `FPModel T`, with `M` finitely presentable. Both sides
+  preserve filtered colimits ((a′), and `M` is finitely presentable) and every set-model is a
+  filtered colimit of finitely presentable ones, so the isomorphism holds on all set-models; by the
+  Yoneda lemma `M` is presented by `φ`, with the image of `𝟙_M` as generators (Caramello 2017,
+  « Lattices of theories », §14.2: the functor `N ↦ [[φ]]_N` is representable exactly when a model
+  is presented by `φ`).
 - (c) `exists_isPresentedBy_irreducible_of_isFinitelyPresentable`: for `T` of presheaf type,
   every finitely presentable set-model is presented by a `T`-irreducible formula (Caramello 2012a,
-  Theorem 4.3 (i)). Route: `Hom(M, −)` is a representable of `[FPModel T, Set]`, hence irreducible,
-  and the full subcategory of `E` on the objects `[[φ]]` contains every representable by the
-  covering of (a) and (b), so `Hom(M, −) ≅ [[φ]]` for some `φ`, which then presents `M` and is
-  `T`-irreducible.
+  Theorem 4.3 (i)). Route: by (a′), `Hom(M, −)` is a representable of `[FPModel T, Type u]`, hence
+  irreducible (GrothendieckTopoi 6.6 (b)), hence isomorphic to some `[[φ]]` with `φ`
+  `T`-irreducible, by 2.4, each irreducible object being a retract of some `[[χ]]` as in (a). Then
+  `φ` presents `M`, as at the end of the route of (b).
 - (d) `nonempty_equivalence_irreducible_fpModel` and `isIdempotentComplete_irreducible`: for `T` of
   presheaf type, the full subcategory of `E` on the objects isomorphic to `[[φ]]` with `φ`
   `T`-irreducible (`irreducibleFormulaObjects`) is equivalent to `(FPModel T)ᵒᵖ` and is
-  idempotent complete (Caramello 2012a,
-  Theorem 4.3 and its proof). Route: by (b) and (c) these objects are the representables
-  `Hom(M, −)`, `M` finitely presentable, and by the Yoneda lemma `Hom(Hom(M, −), Hom(M', −))` is
-  `Hom(M', M)`; they are closed under retracts since `FPModel T` is Cauchy complete.
+  idempotent complete (Caramello 2012a, Theorem 4.3 and its proof). Route: by (b) and (c) these
+  objects are, under (a′), the representables `Hom(M, −)`, `M` finitely presentable, and by the
+  Yoneda lemma `Hom(Hom(M, −), Hom(M', −))` is `Hom(M', M)`; they are closed under retracts since
+  `FPModel T` is idempotent complete (a′).
 
-For a Horn theory this contains 3.1: every Horn formula presents the model of 2.2 (the model
+For a Horn theory, of presheaf type by 3.1, every Horn formula presents the model of 2.2 (the model
 generated by `n` elements subject to the atomic formulae of `φ`), so by (b) it is `T`-irreducible,
 and the covering of (a) is the normal form of 2.2 (b).
-*Needs:* 1.4, 2.1, 2.3, 2.4, 3.1; GrothendieckTopoi 1.1, 6.5, 6.6; Mathlib
-`Sheaf.canonicalTopology`, `Subobject.underlying`, `Sigma.desc`, `IsFinitelyPresentable`,
-`IsIdempotentComplete`, `ObjectProperty.FullSubcategory`, `FirstOrder.Language.Hom`.
+*Needs:* 1.4, 2.1, 2.2 (b), 2.4, 3.1; GrothendieckTopoi 1.1, 2.5, 6.5, 6.6;
+LocallyPresentableCategories 1.5; Mathlib `Sheaf.canonicalTopology`, `Subobject.underlying`,
+`Sigma.desc`, `IsFinitelyPresentable`, `IsIdempotentComplete`, `ObjectProperty.FullSubcategory`,
+`FirstOrder.Language.Hom`.
 
 **Checks.**
 
@@ -811,14 +874,28 @@ and the covering of (a) is the normal form of 2.2 (b).
   (GrothendieckTopoi 6.6, Checks).
 - Commutative rings (4.1): `(1, x₀ * x₀ = x₀)` presents `ℤ[x]/(x² − x) ≅ ℤ × ℤ` and is irreducible,
   and `(1, (1 + 1) * x₀ = 1)` presents `ℤ[1/2]`; `ℚ` is a set-model of `commRingTheory` that is not
-  finitely generated as a ring, hence not finitely presentable, and by (b) no formula presents it.
+  finitely generated as a ring, hence not finitely presentable, and by (a′) no formula presents it.
+- Idempotents (a′): for the Horn theory of a unary function symbol `f` with the axiom
+  `⊤ ⊢ f (f x) = f x`, the set-models are the sets with an idempotent endomorphism. `(1, ⊤)`
+  presents `{x, f x}` (a homomorphism out of it is the image of `x`), whose endomorphisms are `𝟙`
+  and `x ↦ f x`, and `(1, f x = x)` presents the one-point set, a retract of `{x, f x}` along
+  `x ↦ f x`. Both formulae are irreducible and `FPModel T` has these two objects up to
+  isomorphism: `[FPModel T, Type u]` is the presheaf topos of the monoid `{1, e}` with `e² = e`,
+  which has two irreducible objects (GrothendieckTopoi 6.5, Checks), and `(FPModel T)ᵒᵖ` is the
+  Cauchy completion of that monoid, as (a′) says, not the monoid itself.
+- Degenerate and trivial cases of (a′): for `T = {⊤ ⊢ bot}` there is no set-model, so `FPModel T`
+  is the empty category and its presheaf topos is the degenerate topos, the classifying topos of
+  `T` (2.1, Checks). For the theory of objects (3.2), `FPModel T` is the finite sets, `C` is
+  equivalent to `FintypeCat.Skeleton.{u}ᵒᵖ`, the site of 3.2, and `N ↦ N.carrier` is the inclusion
+  of finite sets into sets, the generic object.
 
 ### 3.6 Quotients of a theory of presheaf type
 
-Let `T` be of presheaf type. By 3.1 and 3.5 (d) its classifying topos is the presheaf topos
-`[FPModel T, Set]`, of which `(FPModel T)ᵒᵖ` with the trivial topology is a site, up to a small
-skeleton (Caramello 2017, « Lattices of theories », Remark 14.2 in the numbering of
-arXiv:0905.0299v1); by 2.5 the topologies `J` on it correspond to the quotients of `T`. A sieve on
+Let `T` be of presheaf type. By 3.5 (a′) its classifying topos is the presheaf topos
+`[FPModel T, Type u]`, of which `(FPModel T)ᵒᵖ` with the trivial topology is a site, up to a small
+category equivalent to it (Caramello 2017, « Lattices of theories », Remark 14.2 in the numbering
+of arXiv:0905.0299v1); by 2.5 the topologies `J` on it, transported along that equivalence,
+correspond to the quotients of `T`. A sieve on
 `op c` in `(FPModel T)ᵒᵖ` is a cosieve on `c`: a family of homomorphisms `c → d`, closed under
 precomposition by homomorphisms out of `d`. A set-model `M` of `T` is *`J`-homogeneous*
 (`SetModel.IsHomogeneous J M`) when for every `c`, every `J`-covering sieve `S` on `op c` and every
@@ -827,12 +904,15 @@ homomorphism `y : c → M` there are `f : c → d` in `S` and `u : d → M` with
 its Definition 4.4 is the form in an arbitrary sheaf topos, with epimorphic families of objects of
 homomorphisms). Prove:
 
-- - (a) `exists_quotient_isSetModel_iff_isHomogeneous`: for every topology `J` on `(FPModel T)ᵒᵖ`
-  there is a quotient `T ⊆ T'` whose set-models are exactly the `J`-homogeneous set-models of `T`
-  (Caramello 2017, « Lattices of theories », Theorem 14.4; Caramello 2012b, Theorem 4.6). In every
-  Grothendieck topos the models of `T'` are the `J`-homogeneous models of `T`, and `T'` is
-  classified by `Sh((FPModel T)ᵒᵖ, J)`. Route: 2.5 gives `T'` with `(C, J)` classifying it, with the
-  sheafified generic model. A model `M` of `T` corresponds by Diaconescu's theorem
+- (a) `exists_quotient_isSetModel_iff_isHomogeneous`: for every topology `J` on `(FPModel T)ᵒᵖ`
+  there is a quotient `T ⊆ T'` whose set-models are exactly the `J`-homogeneous set-models of `T`,
+  and which is classified by `Sh((FPModel T)ᵒᵖ, J)`, that is, by a small category `C` with an
+  equivalence `e : C ≌ (FPModel T)ᵒᵖ` and the topology `e.functor.inducedTopology J` (Caramello
+  2017, « Lattices of theories », Theorem 14.4; Caramello 2012b, Theorem 4.6). In every
+  Grothendieck topos the models of `T'` are the `J`-homogeneous models of `T`. Route: with `C` the
+  site of 3.5 (a′), 2.5 (`IsClassifyingSite.exists_quotient_theory`) gives `T'` with
+  `(C, e.functor.inducedTopology J)` classifying it, with the sheafified generic model. A model `M`
+  of `T` corresponds by Diaconescu's theorem
   (GrothendieckTopoi 2.5) to a flat functor `F_M` on `(FPModel T)ᵒᵖ`, with `F_M ≅ Hom(i(−), M)` (the
   "Yoneda representation", Caramello 2012b, §4), and `M` is a model of `T'` exactly when `F_M` is
   `J`-continuous, that is, sends every `J`-covering sieve to an epimorphic family. In `Set` this is
@@ -852,7 +932,7 @@ homomorphisms). Prove:
 
 The statement of 2.5 (`IsClassifyingSite.exists_quotient_topology`,
 `IsClassifyingSite.exists_quotient_theory`) is the general case, for any classifying site; here
-the site is the one of 3.5 (d), the quotient is described by the lifting condition, and its
+the site is the one of 3.5 (a′), the quotient is described by the lifting condition, and its
 finitely presentable models by (b).
 *Needs:* 2.5, 3.1, 3.5; GrothendieckTopoi 2.5, 6.6; Mathlib `Sieve`, `GrothendieckTopology`,
 `IsFinitelyPresentable`, `ObjectProperty.FullSubcategory`.
@@ -895,8 +975,9 @@ finitely presentable models by (b).
 
 ### Dependencies
 
-Layers 1–2; GrothendieckTopoi 1.1, 2.5, 6.5, 6.6 (3.5–3.6); LocallyPresentableCategories 1.5, 3.1,
-3.5 for the Examples. Within the layer, 3.2 uses 3.1, 3.5 uses 3.1 and 3.6 uses 3.5.
+Layers 1–2; GrothendieckTopoi 1.1, 2.5, 6.5, 6.6 (3.5–3.6); LocallyPresentableCategories 1.5 (3.5
+and the Examples), 3.1 and 3.5 (Examples only). Within the layer, 3.2 uses 3.1, 3.5 uses 3.1 and
+3.6 uses 3.5.
 
 ## Layer 4: rings, local rings and the Zariski topos
 
