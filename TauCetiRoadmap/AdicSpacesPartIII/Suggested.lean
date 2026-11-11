@@ -1,7 +1,6 @@
 import Mathlib
 import TauCeti.Algebra.Category.ModuleCat.FiniteProjective.Monoidal
 import TauCeti.Algebra.Category.ModuleCat.FiniteProjective.Dualizable
-import TauCeti.AlgebraicGeometry.AdicSpace.Spa.RationalSubset.Basic
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.StructurePresheaf.SheafForEveryPresentation
 import TauCeti.LinearAlgebra.Trace.Projective
 import TauCeti.RingTheory.AdicRing.CompletedAway
@@ -19,9 +18,8 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems that are statable against the pinned Mathlib and Tau Ceti, with the few definitions
 they need: algebras topologically of finite presentation over a complete rank-one valuation ring
 and the comparison of their generic and special fibres (R2.1, R2.6), Frobenius lifts along
-formally étale maps (R2.9), fractional valuation bounds as rational subsets (R2.10), Huber's
-acyclicity of finite modules on Laurent covers, glueing squares and Kiehl's glueing theorem
-(R3.1–R3.2), exactness of dense Banach inverse sequences (R3.4), the criterion for uniform
+formally étale maps (R2.9), Huber's acyclicity of finite modules on Laurent covers, glueing
+squares and Kiehl's glueing theorem (R3.1–R3.2), exactness of dense Banach inverse sequences (R3.4), the criterion for uniform
 Banach rings (R3.5), the trace of a finite projective algebra with its categorical realization,
 transitivity, geometric-point formula and the trace-form criterion for étaleness (R3.8), and the Gel'fand spectrum of a Banach ring with Berkovich's spectral-radius formula (R3.9).
 
@@ -44,7 +42,12 @@ Headline theorems that are not statable at the pins, with the carrier each lacks
   coherent sheaves on `TauCeti.AdicSpace` with their cohomology, Kiehl-proper morphisms of adic
   spaces and the rigid analytification of schemes;
 * the trace of a finite locally free morphism of adic spaces and pull–identify–trace on
-  correspondences (R3.8): finite locally free morphisms of adic spaces.
+  correspondences (R3.8): finite locally free morphisms of adic spaces;
+* the good-reduction comparison and residue discs (R2.8–R2.9), formal models of Hasse domains
+  (R2.10), Kiehl glueing of vector bundles on sheafy Tate affinoids (R3.5), and the analytic
+  classification of generalised elliptic curves with its Hasse loci (R3.7a): admissible formal
+  schemes with their generic fibres, sheaves of modules on `TauCeti.AdicSpace` and the
+  analytification of schemes.
 -/
 
 namespace TauCetiRoadmap.AdicSpacesPartIII
@@ -193,34 +196,6 @@ theorem exists_unique_frobeniusLift_of_etale (p : ℕ) [Fact p.Prime] {A R : Typ
     (φA : A →+* A) (hφA : ∀ a, φA a - a ^ p ∈ Ideal.span {(p : A)}) :
     ∃! φR : R →+* R, φR.comp (algebraMap A R) = (algebraMap A R).comp φA ∧
       ∀ r, φR r - r ^ p ∈ Ideal.span {(p : R)} := sorry
-
-/-! ### R2.10 Fractional valuation bounds (*fractional-valuation-bound*) -/
-
-namespace ValuationSpectrum
-
-open TauCeti.ValuationSpectrum
-
-variable {A : Type*} [CommRing A]
-
-/-- `{|f| ≤ |g|^q}` for `q = a/b` in lowest terms: the valuations with `v(f^b) ≤ v(g^a)`; no root
-of `g` is used. -/
-def fracPowLE (f g : A) (q : ℚ≥0) : Set (Spv A) :=
-  {v | v.toValuativeRel.vle (f ^ q.den) (g ^ q.num)}
-
-/-- `{|f| ≥ |g|^q}`: the valuations with `v(g^a) ≤ v(f^b)` for `q = a/b` in lowest terms. -/
-def fracPowGE (f g : A) (q : ℚ≥0) : Set (Spv A) :=
-  {v | v.toValuativeRel.vle (g ^ q.num) (f ^ q.den)}
-
-/-- For a unit `g`, the bounds cut out rational subsets of `Spa(A, A⁺)`:
-`{|f| ≤ |g|^{a/b}} = R(f^b, g^a / g^a)` and `{|f| ≥ |g|^{a/b}} = R(g^a, f^b / f^b)` (the shape of
-the Hasse domains of Scholze15, §III.2, Definition III.2.12, p. 38, and BHW, §2.1). -/
-theorem fracPow_inter_spa [TopologicalSpace A] [DecidableEq A] (Aplus : Subring A) (f : A)
-    {g : A} (hg : IsUnit g) (q : ℚ≥0) :
-    fracPowLE f g q ∩ spa Aplus = rationalSubset Aplus {f ^ q.den, g ^ q.num} (g ^ q.num) ∧
-      fracPowGE f g q ∩ spa Aplus =
-        rationalSubset Aplus {g ^ q.num, f ^ q.den} (f ^ q.den) := sorry
-
-end ValuationSpectrum
 
 end
 
@@ -419,11 +394,12 @@ theorem denseBanach_inverseSystem_exact (K : Type*) [NontriviallyNormedField K]
 
 /-! ### R3.5 Uniform Banach rings (*uniform-iff-power-bound*) -/
 
-/-- For a complete Tate ring with a submultiplicative norm, the norm is equivalent to a
-power-multiplicative seminorm iff it is equivalent to the spectral seminorm iff
+/-- For a complete normed commutative ring (its norm is submultiplicative), the norm is
+equivalent to a power-multiplicative seminorm iff it is equivalent to the spectral seminorm iff
 `c ‖x‖² ≤ ‖x²‖` for some `c > 0` (KL15, Definition 2.8.1, as corrected in KL16, Appendix A;
-KL15, Remark 2.4.4). -/
-theorem isUniform_tfae {A : Type*} [NormedCommRing A] [CompleteSpace A] [IsTateRing A] :
+KL15 states it for nonarchimedean Banach rings, and the argument uses neither the ultrametric
+inequality nor a topologically nilpotent unit). -/
+theorem isUniform_tfae {A : Type*} [NormedCommRing A] [CompleteSpace A] :
     List.TFAE
       [∃ ν : RingSeminorm A, IsPowMul ν ∧ ∃ c > 0, ∃ C > 0, ∀ x, c * ‖x‖ ≤ ν x ∧ ν x ≤ C * ‖x‖,
         ∃ c > 0, ∀ x, c * ‖x‖ ≤ smoothingFun (normRingSeminorm A) x,
