@@ -26,9 +26,13 @@ body:
         - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCurves
+        - AlgebraicKTheory
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AmenableGroups
+        - AnalyticNumberTheoryPartI
+        - ArithmeticInterpolationDeterminants
+        - AsymptoticExpansions
         - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
@@ -36,11 +40,13 @@ body:
         - BorelEquivalenceRelations
         - CFSGBasicProperties
         - CFSGStatement
+        - CStarAlgebras
         - CharacteristicClasses
         - ChevalleyGroups
         - ClassFieldTheory
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
+        - ClusterAlgebras
         - CoboundaryExpansion
         - CombinatorialHeegaardFloer
         - CompactOperators
@@ -49,24 +55,30 @@ body:
         - ComplexManifolds
         - ComplexTori
         - ComputabilityTheory
+        - ConformalMappingPartII
         - CountableModelCounting
         - DGAInfinity
         - DGFloer
+        - DeRhamCohomologyAndDuality
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
+        - DysonBrownianMotion
         - ECM
         - EllipticCohomology
         - EllipticCurves
         - EllipticIntegrals
         - EnhancedDerivedSheaves
+        - EquivariantIntersectionTheory
         - EtaleCohomologyFoundations
         - EtaleMassFormula
         - FactorRigidity
         - FinancialMathematics
         - FiniteGroupExtensionSplitting
+        - FiniteSamplingDiscrepancy
         - FlagVarieties
+        - Foams
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
         - FreeProbability
@@ -82,9 +94,11 @@ body:
         - GrothendieckEulerForms
         - HamiltonianFloerOperations
         - HeegaardFloer
+        - HilbertModules
         - HopfologicalAlgebra
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
+        - IndexTheory
         - InfinitaryModelExistence
         - IntegralLattices
         - Isoperimetry
@@ -93,10 +107,12 @@ body:
         - KhovanovHomology
         - LFunctions
         - LieGroupoidsPoisson
+        - LinearFormsInLogarithms
         - LocalPurity
         - LocalVariationalFieldTheory
         - MarkovChainsAndRenewal
         - MassFormula
+        - McKaySkewGroup
         - ModularCurves
         - ModularForms
         - MorseNovikov
@@ -105,7 +121,10 @@ body:
         - NewtonPolygons
         - NilpotentOrbits
         - NoncommutativeGeometry
+        - NoncommutativeIntegration
+        - NoncongruenceModularForms
         - OperatorAlgebraDynamics
+        - OperatorKTheory
         - OperatorTheory
         - OptimalTransport
         - Orbifolds
@@ -114,15 +133,20 @@ body:
         - PadicMeasuresIwasawaAlgebras
         - PerfectoidSpaces
         - PivotalSpherical
+        - Poincare3D
+        - PolylogarithmFunctions
         - PositiveScalarCurvature
         - PrimitivePrimeDivisors
         - ProfiniteCohomology
         - PseudodifferentialOperators
+        - PseudoholomorphicCurveAnalysis
         - PurityOfBranchLocus
+        - QuadraticCharactersAndReduction
         - QuadraticFormInvariants
         - QuantumEnvelopingAlgebras
         - QuantumGroups
         - QuaternionicAnalysis
+        - RamificationOfCompleteDiscretelyValuedFields
         - RandomMatrices
         - Rank24LatticeConstructions
         - RealAnalyticGeometry
@@ -131,26 +155,38 @@ body:
         - ReflectionInvariantTheory
         - Regularity
         - RepresentationTheory
+        - ResolutionOfSingularitiesCharacteristicZero
         - RestrictedPowerSeries
         - RiemannianGeometry
         - RigidAnalyticGeometry
+        - RootSystemsPartII
+        - SNumbers
+        - ScatteringDiagrams
         - SchemeAndStackFoundations
         - SchubertGeometry
         - SeibergWittenTheory
         - SmoothBundlesConnections
+        - SobolevPolynomialApproximation
+        - SpecialFunctionsAiry
+        - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsHypergeometric
+        - SpecialFunctionsParabolicCylinder
         - SpinGeometry
         - SporadicOrders
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - StochasticCalculus
         - Subfactors
         - SubspaceTheorem
         - SuccessiveMinima
         - SymplecticFieldTheory
         - SymplecticGeometry
+        - TangentialBordism
         - TauberianBoundaryConvergence
         - TaubesGromov
         - TemperleyLieb
+        - TensorProductCombinatorics
         - ThetaSeries
         - TopologicalKTheory
         - TopologicalSheafCohomology
