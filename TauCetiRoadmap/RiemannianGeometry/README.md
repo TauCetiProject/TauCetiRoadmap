@@ -18,6 +18,14 @@ nonpositively curved normal balls without completeness, and conformal invariance
 surface Dirichlet energy. It is independently definitive and states its boundaries with the
 milestones below.
 
+The sub-roadmap [Minimal surfaces](MinimalSurfaces/README.md) owns the theory of smooth
+minimal hypersurfaces built on R5a and R5b: minimal graphs, monotonicity and the tangency
+principle, the half-space theorem, local compactness and ε-regularity, the Morse index, the
+curvature estimate for stable surfaces, removable singularities, compactness under bounded
+total curvature, the Choi–Wang and Yang–Yau eigenvalue estimates, Frankel's theorem and
+Choi–Schoen compactness. It is independently definitive and states its boundaries with the
+milestones below.
+
 ## Scope and ownership
 
 This roadmap extends the curvature, Jacobi, comparison, immersion and Bochner
@@ -4018,7 +4026,9 @@ DGFloer consumes R2–R3's fixed-interval Jacobi and path geometry for its free-
 applications. CalibratedGeometry C3 consumes R5a.1's relative volume, and
 AffineMorseLefschetz uses R5a/R6's real focal geometry. OptimalTransport Layer 7
 uses R4.6's cut-locus objects; SpectralManifolds uses R7.8's commutator-distance
-theorem. The following internal order separates the direct model and algebra
+theorem. The sub-roadmap [Minimal surfaces](MinimalSurfaces/README.md) consumes R1's
+Euclidean limits of rescaled metrics, R3, R4.1–R4.5, R5a, R5b, R5c, R7.0, R7.6, R7.9
+and R8.2. The following internal order separates the direct model and algebra
 constructions from their comparison and analytic applications.
 
 R1's generic connection/tensor/submersion algebra precedes R2; R1's normal
