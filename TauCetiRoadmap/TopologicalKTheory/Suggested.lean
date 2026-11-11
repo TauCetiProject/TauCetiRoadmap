@@ -33,7 +33,9 @@ place:
   relative or negative-degree KO-group of a space and no product of real bundles;
 * the (1,1)-periodicity of Real K-theory (T7.1): no KR-group of a space with involution;
 * the eightfold stable Bott equivalence `ℤ × BO → Ω⁸(ℤ × BO)` (T7.1): no stable
-  Grassmannian `BO`.
+  Grassmannian `BO`;
+* numerable `BU(n)`/`BO(n)` classification (T1.6a): no stable Grassmannian colimit carriers
+  `Gr_k∞(𝕜)`, `BO` and `BU`.
 
 The finite Grassmannian carriers, the finite trivial embedding and complement, the gap
 partition of unity, the finite oriented carriers and the principal-bundle class that T1.3,
