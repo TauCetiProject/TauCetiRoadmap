@@ -21,7 +21,9 @@ of principal bundles, and their comparison with curvature:
   (C1.2b), the line classes, the Eilenberg–MacLane identifications of RP∞ and CP∞, and the
   classification of line bundles;
 - C2: Thom and Euler classes, the Gysin sequence, the Euler class as primary obstruction, the
-  Euler number `⟨e(TM),[M]⟩=χ(M)`, embedding Gysin maps and fibre integration;
+  Euler number `⟨e(TM),[M]⟩=χ(M)`, embedding Gysin maps, the projective-hyperplane adapter with
+  the embedded representatives of homology classes in codimensions one and two (C2.4a), and
+  fibre integration;
 - C3: Leray–Hirsch, Stiefel–Whitney, Chern and Pontryagin classes defined by projective
   relations, the integral Bockstein classes W_k, the universal rings of BU(r), BO(n) and BSO(n)
   mod 2 and away from 2, partial-frame obstructions, and w₂ as the spin obstruction;
@@ -30,7 +32,8 @@ of principal bundles, and their comparison with curvature:
 - C5a: the real and rational cohomology of compact connected Lie groups through invariant forms,
   the Weil algebra and universal transgression;
 - C6 and C7: multiplicative sequences on bundles, the Chern character and its Thom correction,
-  the characteristic-number formulas and the acceptance calculations.
+  the characteristic-number formulas and the acceptance calculations, including the Hopf
+  instance of AlgebraicTopology's essential map T³→S² (C7.6).
 
 The labels C1–C7 and C5a, and the item labels C1.0, …, C7.AdjointHopfObstruction, are the ones
 other roadmaps cite; every heading below carries its label.
@@ -44,7 +47,9 @@ Left to other roadmaps:
   union-relative products on excisive couples are AlgebraicTopology Stage 6.2's.
 - Singular (co)homology with local coefficients, cup, cap and cross products, CW structures,
   Künneth, the fibration homotopy sequence, the Serre spectral sequences and the
-  Eilenberg–MacLane models are AlgebraicTopology's; continuous vector bundles, Grassmannians,
+  Eilenberg–MacLane models, the smoothing of maps into compact manifolds, parametric and
+  relative transversality and the transverse circle classifying map of a degree-one integral
+  class are AlgebraicTopology's; continuous vector bundles, Grassmannians,
   Stiefel spaces, numerable BO/BU classification, continuous principal bundles and K-theory are
   TopologicalKTheory's; smooth principal bundles, connections, curvature and the normalized
   integral circle class are SmoothBundlesConnections'; forms, integration and the de Rham
@@ -79,7 +84,7 @@ quotients by SO(n)), their lifted finite cells and coordinate maps, and the
 fixed-rank and stable colimits, universal-bundle diagrams and classifier
 comparison on those carriers. C1.0 and C1.1a identify the determinant-sign
 orientation double cover with these oriented carriers. AlgebraicTopology
-Stage 4.5 supplies the compact-generation coreflection and the compactly
+Stage 4.8 supplies the compact-generation coreflection and the compactly
 generated substrate on which the stable colimits are formed; the stable O/SO
 and ΩBSO comparisons are downstream consumers of these classifiers, not inputs
 to the finite oriented-cover comparison. Write BO(n) and BU(n)
@@ -168,7 +173,7 @@ curvature is −2πiω_FS, so the Chern form is +ω_FS.
 | --- | --- |
 | Mathlib, at the pin | `FiberBundle`, `VectorBundle`, `VectorBundleCore`, `Bundle.TotalSpace` and `ContMDiffVectorBundle` with their pullback and Hom/dual constructions; `CompactlyGenerated` and `CompactlyGenerated.compactlyGeneratedToTop`; `sSetTopAdj`, `SSet.KanComplex` and `SSet.π₀`; `cechComplexFunctor` and `CategoryTheory.Sheaf.H`; `MvPolynomial.symmetricSubalgebra`, `esymm`, `psum` and `esymmAlgEquiv`; `LieAlgebra.HasCentralRadical`, `LieAlgebra.IsKilling` and `LieModule.Cohomology.d₁₂_apply_apply_ofTrivial`; `exists_embedding_euclidean_of_compact`; `bernoulli'PowerSeries` and `bernoulliPowerSeries`; `Projectivization`; `Manifold.IsImmersion`, `Manifold.IsImmersion.id`, `MulAction.instChartedSpaceQuotient`, `contMDiff_neg_sphere` and `contMDiff_id`. |
 | Tau Ceti, at the pin | Singular cohomology `TopCat.singularCohomology`, `TopPair.singularCohomology`, `singularCohomologyMap`, `singularCup` and `singularCohomologyδ`, and the Bocksteins `TopCat.singularCohomologyBockstein` and `TopPair.singularCohomologyBockstein` (C1.2); the Serre-fibration class `TauCeti.TopCat.serreFibrations` with its membership theorems (C1.1b); `TauCeti.OrthonormalFrameBundle`, the orientation cover `TauCeti.VectorBundleOrientationCover` with its sign local system, and `TauCeti.VectorBundleOrientation` (C1.0, C1.1a); the finite Grassmannians `TauCeti.finiteGrassmannian` and `TauCeti.finiteOrientedGrassmannian` (C1.1a); `TauCeti.thomPair`, `TauCeti.IsThomClass`, `TauCeti.eulerClass` and the Thom-class gluing and existence theorems (C2.1–C2.2); `TauCeti.FiberBundle.t2Space_totalSpace` and `TauCeti.hasHomotopyExtensionProperty_base` (C2.0); `TauCeti.HomologicalOrientation.evalFundamentalClass`, `TauCeti.localOrientationOfManifoldOrientation`, `Orientation.localOrientation`, `TauCeti.eulerChar`, `TauCeti.FiniteCWType` and `TauCeti.Manifold.Orientation.toVectorBundleOrientation` (C2.3); the Milnor sequence of a tower of complexes and the Mittag–Leffler vanishing (C3.1); the real Clifford spin-cover declarations (C3.5); `TauCeti.lieCartanRestriction`, `LieSubalgebra.lieChevalleyRestrictionIso` and the Killing symmetric-algebra maps (C5.1); `PowerSeries.multiplicativeSequence`, `TauCeti.aHatSeries`, `TauCeti.hirzebruchLSeries` and the genus polynomials (C6.1, C7.1); `Quaternion.toComplexMatrix` and `Quaternion.unitaryEquivSpecialUnitaryGroup` (C7.AdjointHopfObstruction); `TauCeti.FiniteRankBundleCore.ofBundle`, `TauCeti.RealProjectiveSpace` and `TauCeti.instIsManifoldQuotient` (C7.3a). Each item names the files and the exact declarations it consumes. |
-| AlgebraicTopology | Stages 2–6 and 8.1–8.7: singular chains and cochains, local systems, cup, cap and cross products, pair sequences, excision, cellular comparison and Künneth; Stage 2.5 (the sup-ball disk homeomorphism), 4.5 (compact generation and the relative CW pushouts), 4.6 (the finite real projective spaces), 4.8 (CW approximation and the connected-map comparison), 5.5 (the fibration homotopy sequence and the Serre spectral sequences), 6.0–6.2 (the tower Milnor sequence, local-coefficient cochains, the Bockstein, products on excisive couples) and its supported-cellular supplement, 7 (the Euler characteristic of a triangulation); Stages 8.2, 8.3, 8.5, 8.7, 8.8b, 8.9, 8.10 and 8.12 (the Kan/cubical comparison, Hurewicz, Whitehead, manifold triangulations, the normalized ℤ/2 model, primary obstructions, the ordinary Eilenberg–MacLane models and representability, the native circle comparison). |
+| AlgebraicTopology | Stages 2–6 and 8.1–8.7: singular chains and cochains, local systems, cup, cap and cross products, pair sequences, excision, cellular comparison and Künneth; Stage 2.5 (the sup-ball disk homeomorphism), 4.5 (the relative CW pushouts), 4.6 (the finite real projective spaces), 4.8 (compact generation), 4.10 (CW approximation and the connected-map comparison), 5.5 (the fibration homotopy sequence and the Serre spectral sequences), 6.0–6.2 (the tower Milnor sequence, local-coefficient cochains, the Bockstein, products on excisive couples) and its supported-cellular supplement, 6.4 (Poincaré duality), 7 (the Euler characteristic of a triangulation); Stages 8.2, 8.3, 8.5, 8.7, 8.8, 8.9, 8.10, 8.12, 8.13 and 8.16 (the Kan/cubical comparison, Hurewicz, Whitehead, manifold triangulations with their dimension bound, the bar model of ℤ/2 with its normalized π₁ identification and its classification of pointed maps, primary obstructions, the ordinary Eilenberg–MacLane models and representability, the native circle comparison, the smoothing, transversality and transverse circle classifying-map targets, the essential map T³→S² through a Serre fibration S³→S²). |
 | TopologicalKTheory | T1 (continuous finite-rank bundles, metrics, embeddings), T1.3–T1.4 (fibre metrics and the disk-bundle homotopy invariance), T1.5 and T1.5a (finite Grassmannians, Stiefel quotients, the sphere-bundle sequences of SO(k) and π₁(SO(k))), T1.6 and T1.6a (BO(n), BU(n), the finite oriented carriers and their colimits, the countable-colour producer), T2–T5 (K-rings, relative K-theory, compact supports, λ-operations, Bott periodicity, the dual-Koszul Thom class and the embedding pushforward of T5 item 5), T3.4 and T4.8 (right suspension and cone boundary), T6.4 (continuous principal and associated bundles), T7.4 (the doubled-space kernel comparison). |
 | DifferentialGeometry | Layers 1–2 and 5–10: forms, wedge, d, orientations, integration and Stokes, compact supports, the multiplicative singular/de Rham comparison (Layer 8) and the manifold Sard theorem (10.2). |
 | SmoothBundlesConnections | B1.4 (free proper quotients and homogeneous spaces), B2 (associated bundles, frames, metrics, Hom/dual/sum), B3–B4 (connections, curvature, Bianchi), B6.0 (smooth good covers), B6 (the normalized circle class, rank-one Chern–Weil, the lens-space flat bundles). |
@@ -197,11 +202,21 @@ supplier roadmap in detail:
   and relative packaging is that supplier's target.
   C2's primary Euler obstruction additionally consumes AT8.9. C1.5a's
   Eilenberg–MacLane identification of the rank-one projective carriers
-  consumes AT8.5, AT8.8b's normalized ℤ/2 model, AT8.10's ordinary models and
+  consumes AT8.5, AT8.8's bar model of ℤ/2 with its normalized π₁
+  identification, AT8.10's ordinary models and
   representability and AT8.12's native circle comparison, after C1.5's
   independent carrier/cellular calculations; ordinary line classification in
-  C1.6 consumes AT8.10 and C1.5a. C1.5's comparison portion and C2 consume
-  no AT8.8b, AT8.10 or AT8.12.
+  C1.6 consumes AT8.10 and C1.5a. C1.5's comparison portion and C2.0–C2.4 consume
+  no AT8.8, AT8.10 or AT8.12.
+  C2.4a's projective-hyperplane adapter, transverse-preimage Gysin identity and
+  embedded representatives of homology classes in codimensions one and two
+  consume AT6.4's Poincaré duality, AT8.7's smooth triangulation with its
+  dimension bound, AT8.10, AT8.12 and AT8.13's smoothing, relative
+  transversality and transverse circle classifying map; AT8.13 owns those three
+  targets and this roadmap owns the adapter, the identity and the
+  representation theorem. C7.6 consumes AT8.16's theorem for Serre fibrations
+  S³→S² whose fibres have vanishing third homology and proves its two
+  hypotheses for the Hopf projection.
   For the support lane, C1.2a consumes the compactly supported
   local-coefficient cochain foundation of AT's supported-cellular supplement
   after Stage 6.2 (the support colimit and H_c, support enlargement,
@@ -210,7 +225,7 @@ supplier roadmap in detail:
   and AT6.1–6.2. AlgebraicTopology consumes nothing of C1.2a. C1.2a S5
   compares its collared-pair triangle with that supplement's supported
   CW-pair triangle.
-- [AlgebraicTopology Stage 4.8 and Stage 5.5](../AlgebraicTopology/README.md)
+- [AlgebraicTopology Stage 4.10 and Stage 5.5](../AlgebraicTopology/README.md)
   supply the generic homotopy-theoretic inputs. Serre fibrations themselves
   are the pinned Tau Ceti class `TauCeti.TopCat.serreFibrations`
   (`Topology/Homotopy/SerreFibration/Basic.lean`, the right lifting property
@@ -226,7 +241,7 @@ supplier roadmap in detail:
   use one common typical fibre F for every chart of the map. Consume them by
   name. On that pinned class Stage 5.5 supplies, as its own targets, the
   fibration homotopy exact sequence including components and the homological
-  and multiplicative cohomological Serre spectral sequences. Stage 4.8
+  and multiplicative cohomological Serre spectral sequences. Stage 4.10
   supplies CW approximation, weak-equivalence invariance of singular homology
   with local coefficients, and the connected-map homology comparison with its
   coefficient-chain/Hom form. Those are supplier targets, not library
@@ -297,8 +312,10 @@ supplier roadmap in detail:
 C1 builds universal principal bundles and their finite smooth approximations, the cohomological
 infrastructure (the Bockstein, compactly supported relative cochains, the singular counit and
 the Čech comparison) and the line classes with their Eilenberg–MacLane identifications. C2 builds
-Thom and Euler classes, the Gysin sequence, the primary obstruction, the Euler number and fibre
-integration. C3 defines Stiefel–Whitney, Chern and Pontryagin classes by projective splitting
+Thom and Euler classes, the Gysin sequence, the primary obstruction, the Euler number, embedding
+Gysin maps with their hyperplane-section application to embedded representatives of homology
+classes in codimensions one and two, and fibre integration. C3 defines Stiefel–Whitney,
+Chern and Pontryagin classes by projective splitting
 and computes the universal rings mod 2 and away from 2, with w₂ as the spin obstruction. C4
 builds Chern–Weil forms and the universal Chern–Weil map, and C5 proves Chevalley restriction
 and Borel's theorem for the rational universal rings. C5a computes the cohomology of compact
@@ -306,7 +323,8 @@ connected Lie groups by invariant forms, the Weil algebra and universal transgre
 builds multiplicative sequences on bundles and the Chern character with its Thom correction, and
 C7 fixes the characteristic-number formulas and the acceptance calculations. C1–C3 precede the
 curvature layers; the projective cohomology theorem is independent of K-theoretic Bott and Thom
-theory, C7.3a uses only C1–C3, and nothing here has an analytic-index or pseudodifferential
+theory, C7.3a uses only C1–C3, C7.6 uses only C1.5 and AlgebraicTopology's theorem on Serre
+fibrations S³→S², and nothing here has an analytic-index or pseudodifferential
 prerequisite.
 
 ## C1: Universal principal bundles and cohomology infrastructure
@@ -552,7 +570,7 @@ universal-bundle comparison, finite-rank and stable inclusions,
 orientation forgetting and the general paracompact oriented
 classification on those same carriers. Compare with the smooth
 frame/orientation constructions. Consume
-AlgebraicTopology Stage 4.5's compact-generation coreflection k, right
+AlgebraicTopology Stage 4.8's compact-generation coreflection k, right
 adjoint of Mathlib's `CompactlyGenerated.compactlyGeneratedToTop`, with its
 counit and the compact-generation facts stated there; prove that continuous singular simplices, chains and cochains are unchanged
 by k-ification because every standard simplex is compact Hausdorff. Export
@@ -842,9 +860,9 @@ Kan/cubical comparison give the counit weak equivalence.
 Consume AT8.2's cubical/Kan comparison on Mathlib's `SSet.KanComplex`
 predicate, its `SSet.π₀` and its pointed-simplex homotopy structures;
 construct any missing homotopy-group and fundamental-groupoid interfaces
-in Tau Ceti. Consume AT4.8's connected-map homology comparison, with its
+in Tau Ceti. Consume AT4.10's connected-map homology comparison, with its
 face-compatible Eilenberg compression, local-coefficient prism maps and
-weak-equivalence coefficient-chain/Hom comparison; AT4.8 supplies that
+weak-equivalence coefficient-chain/Hom comparison; AT4.10 supplies that
 comparison together with its weak-equivalence/local-coefficient form,
 and this item constructs no part of it. Apply the supplied comparison to
 this actual counit after proving the counit weak equivalence; do not build another
@@ -919,7 +937,7 @@ to prove the classifying pullback `H^d(BG;R)→H^d(B_m;R)` is an
 isomorphism in the stable range; its inverse defines universal classes.
 Use the common associated space `EG×_G E_m`: its map to B_m has contractible
 fibre EG and is a homotopy equivalence by item1; its map to B_join(G) has
-fibre E_m. Apply AT4.8's connected-map comparison after AT5.5's
+fibre E_m. Apply AT4.10's connected-map comparison after AT5.5's
 homotopy exact sequence of this fibration. State the bound,
 for example choose `2(m−N)≥d+1`. The cohomology comparison uses integral
 homology and universal coefficients, not an assumed cohomology Serre theory. These comparisons include local coefficients and coefficient
@@ -1002,7 +1020,9 @@ contractible, to compute the homotopy groups of both carriers: RP∞ has
 π₁=ℤ/2 and no other homotopy, and CP∞ has π₂=ℤ and no other homotopy,
 the latter from the circle fibre's degree-one generator, pinned by
 AT8.12's native circle comparison. Compare the real carrier with AT8.8's
-classifying space of ℤ/2 through AT8.8b's normalized model comparison.
+bar model of ℤ/2, with its normalized π₁ identification, by the pointed map
+that AT8.8's bijection `[X,Bπ]_*≃Hom(π₁X,π)` for connected pointed CW
+complexes assigns to the isomorphism π₁(RP∞)≅ℤ/2.
 Compare the complex carrier with AT8.10's K(ℤ,2) by the map f_h that
 AT8.10's representability assigns to the universal generator h, whose
 restriction to complex-oriented CP¹ pairs to +1 under CKG K7's
@@ -1022,7 +1042,7 @@ m≥1. No new infinite-projective carrier, characteristic-class definition
 or finite-projective comparison is constructed here; C1.6 consumes these
 comparisons. *Needs:* T1.6's carriers with their universal double cover
 and principal circle bundle and the contractibility of their sphere total
-spaces; C1.1b's homotopy exact sequence; AT8.3, AT8.5, AT8.8b, AT8.10
+spaces; C1.1b's homotopy exact sequence; AT8.3, AT8.5, AT8.8, AT8.10
 and AT8.12; CKG K7.2's u normalized on CP¹.
 
 **Checks.**
@@ -1042,6 +1062,13 @@ and AT8.12; CKG K7.2's u normalized on CP¹.
   π₂(CP∞)=π₁(S¹)=ℤ and π_n(CP∞)=0 for n≠2 from the circle bundle
   S∞→CP∞; a model with π₁(CP∞)≠0 is excluded by the connectedness of S¹
   and the contractibility of S∞.
+- The finite stages are not Eilenberg–MacLane spaces: RP¹≅S¹ has π₁=ℤ and
+  is not a K(ℤ/2,1), and CP¹≅S² has π₃=ℤ and is not a K(ℤ,2).
+- ⟨h,[CP¹]⟩=+1 for the complex orientation and −1 for the conjugate
+  orientation; the reduction ℤ→ℤ/2 sends h to the nonzero class of
+  H²(CP∞;ℤ/2)=ℤ/2. The real degree-one class is the unique nonzero element
+  of H¹(RP∞;ℤ/2)=ℤ/2, and its restriction to RP¹≅S¹ is nonzero, detecting
+  the antipodal double cover.
 
 ### 1.6 Ordinary classification of line bundles (C1.6)
 
@@ -1075,18 +1102,18 @@ connecting map (C1.2a).
 C1.0 uses the pinned Tau Ceti orthonormal-frame and orientation-cover declarations,
 TopologicalKTheory T1's metrics and, for the smooth versions, SmoothBundlesConnections B2. C1.1a
 uses C1.0 and TopologicalKTheory T1, T1.5 and T1.6a. C1.1b uses C1.0, C1.1a, TopologicalKTheory
-T1.6, T1.6a and T6.4, AlgebraicTopology Stages 4.5 and 5.5, the pinned Serre-fibration
+T1.6, T1.6a and T6.4, AlgebraicTopology Stages 4.8 and 5.5, the pinned Serre-fibration
 declarations and ClassifyingSpaces' discrete-group join. C1.1d uses C1.0, C1.1b,
 TopologicalKTheory T1.5a and LieGroups Layers 2 and 5; its characteristic comparisons follow
 C2–C3. C1.2 uses the pinned Bockstein and AlgebraicTopology Stage 6.1. C1.2a uses
 AlgebraicTopology Stages 2–4 and 6.1–6.2 and the supported-cellular supplement, independently of
-AlgebraicTopology Stage 8.5. C1.2b uses AlgebraicTopology Stages 4, 4.8 and 8.2, Mathlib's
+AlgebraicTopology Stage 8.5. C1.2b uses AlgebraicTopology Stages 4, 4.10 and 8.2, Mathlib's
 `sSetTopAdj` and `cechComplexFunctor` and TopologicalSheafCohomology TS1.1–TS1.2, and for its
 classifying-map square AlgebraicTopology Stages 8.9–8.10. C1.3 uses C1.1b, CompactGroups'
 Peter–Weyl theorem, LieGroups, SmoothBundlesConnections B1.4 and B6.0, TopologicalKTheory T1 and
-AlgebraicTopology Stages 4.8 and 5.5. C1.4 uses C1.3. C1.5 uses TopologicalKTheory T1.6,
+AlgebraicTopology Stages 4.10 and 5.5. C1.4 uses C1.3. C1.5 uses TopologicalKTheory T1.6,
 AlgebraicTopology Stages 4 and 6, ComplexKahlerGeometry K7.1–K7.2 and SmoothBundlesConnections
-B6. C1.5a uses C1.1b, C1.5, TopologicalKTheory T1.6, AlgebraicTopology Stages 8.3, 8.5, 8.8b, 8.10
+B6. C1.5a uses C1.1b, C1.5, TopologicalKTheory T1.6, AlgebraicTopology Stages 8.3, 8.5, 8.8, 8.10
 and 8.12 and ComplexKahlerGeometry K7.2. C1.6 uses C1.5a, TopologicalKTheory T1.6 and
 AlgebraicTopology Stage 8.10.
 
@@ -1466,6 +1493,122 @@ base is a fibre-support multiplier, not a compact-support class.
 - For a point in Sⁿ with n≥1, i_!(1) generates Hⁿ(Sⁿ;ℤ), while i*i_!(1) lies in Hⁿ(pt)=0, the
   Euler class of the trivial normal bundle of positive rank.
 
+### 2.4a Hyperplane sections and embedded representatives in codimensions one and two (C2.4a)
+
+For a compact boundaryless smooth Hausdorff second-countable m-manifold M,
+prove that every class in H_(m−1)(M;𝔽₂), m≥1, is the push-forward i_*[N] of
+the mod 2 fundamental class of a compact boundaryless smoothly embedded
+(m−1)-manifold i:N→M. No orientation of M or N is required. For an oriented
+M, prove the integral versions in H_(m−1)(M;ℤ), m≥1, and H_(m−2)(M;ℤ), m≥2,
+with N oriented (Thom 1954, Chapter II). M and N may be empty or
+disconnected; the zero class has the empty representative, integral torsion
+classes are included, and no connectedness is imposed on the representative.
+The bounds m≥1 and m≥2 are hypotheses stated before the natural-number
+degrees m−1 and m−2 are formed; vanishing in negative degrees is a separate
+statement and is not an assertion about H_0.
+
+Use AT6.4's Poincaré duality to pass to a class α of degree one mod 2,
+degree one integral or degree two integral. M carries AT8.7's smooth
+triangulation of dimension m; keep its dimension bound rather than finite CW
+type alone. For a degree-one integral class consume AT8.13's transverse
+circle classifying map f:M→Circle, with generator normalized by the positive
+loop t↦exp(2πit), 0≤t≤1, its fibre N=f⁻¹(1), the embedding i:N→M and the
+framed normal comparison νN≃(f|N)*ν{1}. For a degree-one mod 2 class,
+C1.5a's identification of RP∞ as K(ℤ/2,1) and AT8.10's representability give
+a map M→RP∞ pulling a back to α; for a degree-two integral class, C1.5a's
+identification of CP∞ as K(ℤ,2) gives a map M→CP∞ pulling h back to α.
+Factor the first through a finite RP^N with N≥m and the second through a
+finite CP^N with 2N≥m, so N≥1 in both cases, by cellular approximation on
+the dimension-m CW structure and the projective skeleta of C1.5's
+finite-stage comparisons. Use AT4.6's real-projective smooth atlas and CKG
+K7.1's complex-projective atlas, with their CW and topological comparisons.
+Then apply AT8.13's smoothing of maps into compact manifolds and its
+relative transversality to the compact targets RP^N and CP^N and their
+closed embedded submanifolds RP^(N−1) and CP^(N−1): the result is a smooth
+map f, homotopic to the factored classifying map, transverse to the
+hyperplane.
+
+**Hyperplane adapter.** On those same carriers, the first coordinate
+functional defines a section of the dual tautological line γ*; its zero
+locus is the hyperplane H_N={coordinate 0=0}. In projective charts prove
+that this section is transverse to the zero section and identify the normal
+bundle νH_N with γ* restricted to H_N. The real normal line need not be
+oriented; the image of its mod 2 Thom class under C2.4's tubular extension
+is C1.5's generator a=w₁(γ)=w₁(γ*). The complex normal line has its complex
+orientation; the image of its integral Thom class is the positive hyperplane
+class h=c₁(O(1)), with ⟨h,[CP¹]⟩=+1, while the tautological O(−1) has class
+−h. Prove these identifications from C2.1–C2.4's Thom, Euler and Gysin maps
+and C1.5's classes, including finite-stage restriction: restrict to RP¹ and
+CP¹ and count the single transverse hyperplane point, whose mod 2 count is 1
+and whose complex-oriented integral count is +1; C1.5's finite cellular
+restriction isomorphisms in degrees one and two then identify the Thom
+images with a and h, with no appeal to C3's later identification of c₁ with
+an Euler class. The positively oriented normal of 1∈Circle gives in the same
+way the integral degree-one class normalized on the positive loop. The
+adapter precedes the representation theorem; it is not inferred from the
+names of the cohomology generators.
+
+**Transverse preimages and the Gysin identity.** For each transverse
+classifying map f into RP^N or CP^N construct N=f⁻¹(H), its smooth embedding
+i:N→M, and the derivative-induced normal-bundle isomorphism νN≃(f|N)*νH;
+for the circle these are AT8.13's. In the integral cases orient N by the
+normal-first order νN then TN in a smooth splitting of TM|N, and prove
+independence of the splitting. Prove
+
+`i_*[N]=PD_M(f*u)`,
+
+where u is the point class of Circle or the hyperplane class a or h, using
+the pullback of the relative Thom class, tubular excision, C2.4's transverse
+base change and AT6's cup and cap signs. In the real case prove the same
+formula over 𝔽₂ without choosing a coorientation. The circle normal is
+framed; the complex normal is an oriented real two-plane bundle and is not
+assumed trivial. Export the embedding, compactness, normal comparison and
+fundamental-class identity as data and theorems on the native carriers.
+C2.4 supplies the generic transverse Gysin comparison; this item is its
+point and projective-hyperplane application and defines no characteristic
+class or projective space. Applied to the Poincaré dual α=f*u of a given
+homology class, the identity is the representation theorem above.
+
+**Stabilization and transverse-pullback naturality.** Every projective stage
+inclusion j appends zero coordinates. For H_N={coordinate 0=0} and N≤N′,
+prove j⁻¹(H_N′)=H_N and that j is transverse to H_N′; this preserves the
+normal data of the preimage. For a homotopy between two transverse
+classifying maps into stages N₀ and N₁, choose N′≥max(N₀,N₁) with N′≥m+1
+over ℝ or 2N′≥m+1 over ℂ, extend the homotopy constantly to the
+boundaryless sigma-compact manifold ℝ×M, apply AT8.13's smoothing and
+relative transversality with A=(ℝ∖(0,1))×M, on a neighbourhood of which the
+extended homotopy is the smooth transverse endpoint map, and restrict to
+[0,1]×M. Construct the resulting compact embedded bordism in I×M between
+the two preimages. With interval-first ambient orientation and normal rank
+c, multiply its normal-first inverse-image orientation by (−1)^c to obtain
+the boundary −N₀ disjoint-union N₁ under the outward-normal-first
+convention; mod 2 the sign disappears. This proves independence of the
+chosen classifying-map representative in this embedded-bordism sense. It
+does not identify all smooth submanifolds with their homology classes. The
+circle case of this bordism, with c=1, is AT8.13's.
+
+*Needs:* AT6.4, AT8.7's dimension-m triangulation, AT8.10, AT8.12 and
+AT8.13's smoothing, parametric and relative transversality and transverse
+circle classifying map; AT4.5's cellular approximation and AT4.6's
+real-projective atlas; CKG K7.1's complex-projective atlas; C1.5's classes
+and finite-stage comparisons, C1.5a and C2.1–C2.4.
+
+**Checks.**
+- On RP¹ the hyperplane {x₀=0} is the single point [0:1], with mod 2 count
+  1; on CP¹ it is the single point [0:1], which the complex orientation
+  counts +1, so the Thom image is h and not −h=c₁(O(−1)).
+- For M=RP² the nonzero class of H₁(RP²;𝔽₂)=𝔽₂ is represented by the line
+  RP¹, the preimage of H_N under a linear inclusion RP²→RP^N; RP² is not
+  orientable, and the statement needs no orientation there.
+- For M=CP² and u=h the identity map is transverse to the hyperplane
+  CP¹⊂CP², and i_*[CP¹]=PD(h) generates H₂(CP²;ℤ), in agreement with
+  C2.4's line i*i_!(1)=h.
+- For M=RP³, oriented, H₁(RP³;ℤ)=ℤ/2 is torsion and is dual to
+  H²(RP³;ℤ)=ℤ/2; its nonzero class is represented by an embedded circle,
+  so torsion classes are not excluded.
+- For α=0 the classifying map may be taken constant at a point off the
+  hyperplane, and N=∅ represents the zero class.
+
 ### 2.5 Fibre integration (C2.5)
 
 Construct fibre integration for proper smooth submersions with compact fibres, using the vertical
@@ -1552,7 +1695,8 @@ TS² has Euler number 2 and no nowhere-zero section, the realification of O(1) o
 Euler number 1, and the Thom CW model of TS² over its two-cell structure has a basepoint and
 cells of dimensions 2 and 4 (C2.0–C2.2). On S² the antipodal map gives
 `⟨f*e(TS²),[S²]⟩=−2` (C2.3). The barycentric field on the boundary of a tetrahedron has index
-sum 4−6+4=2=χ(S²) (C2.3a). For the product bundle B×S²→B, fibre integration sends e(Tp)∪p*a to
+sum 4−6+4=2=χ(S²) (C2.3a). The nonzero class of H₁(RP²;𝔽₂) is represented by the line RP¹, a
+hyperplane preimage (C2.4a). For the product bundle B×S²→B, fibre integration sends e(Tp)∪p*a to
 2a (C2.5).
 
 ### Dependencies
@@ -1564,7 +1708,9 @@ declarations. C2.2 uses C2.1 and AlgebraicTopology Stage 8.9. C2.3 uses C2.1–C
 fundamental class, local orientations and Euler characteristic, and for the rank-two
 comparison GeometricTopology Layer 10 and SmoothBundlesConnections B6; C2.3a also uses
 GeometricTopology Layer 11, DifferentialGeometry's smooth partitions of unity and
-AlgebraicTopology Stage 7. C2.4 uses C2.1 and GeometricTopology's normal and tubular maps. C2.5
+AlgebraicTopology Stage 7. C2.4 uses C2.1 and GeometricTopology's normal and tubular maps. C2.4a
+uses C1.5, C1.5a, C2.1–C2.4, AlgebraicTopology Stages 4.5, 4.6, 6.4, 8.7, 8.10, 8.12 and 8.13
+and ComplexKahlerGeometry K7.1. C2.5
 uses C2.1, C1.2a, DifferentialGeometry Layers 8 and 10.2, GeometricTopology Layers 1 and 3 and
 Mathlib's `exists_embedding_euclidean_of_compact`. C2.6 uses C1.1b, C2.1 and the invariant inner
 product of LieGroups Layer 5A.
@@ -1610,7 +1756,7 @@ arbitrary subspace C⊆B, using the restrictions of the same finite family
 of ordinary global classes e_j∈H^(d_j)(E;R). Numerable charts and their
 partition restrict to C; do not assume that C is paracompact because B
 is. For this comparison use C1.2b's actual singular counit |Sing C|→C,
-its weak-equivalence construction and AT4.8's ordinary coefficient-chain/Hom
+its weak-equivalence construction and AT4.10's ordinary coefficient-chain/Hom
 comparison. Pull back the restricted bundle to that actual CW carrier;
 use the locally trivial Serre sequence to prove that the total-space map
 is a weak equivalence, componentwise with the same typical fibre.
@@ -1972,7 +2118,7 @@ the tautological line has p₁(L)=0 while p₁(L⊕L)=−β(a)²≠0, the integr
 
 ### Dependencies
 
-C3.1 uses C1.2a, C1.2b, AlgebraicTopology Stages 4.8 and 6.0 and the pinned Milnor tower
+C3.1 uses C1.2a, C1.2b, AlgebraicTopology Stages 4.10 and 6.0 and the pinned Milnor tower
 sequence. C3.2 uses C3.1, C1.5's line classes and C2.2's Euler products. C3.3 uses C3.2 and the
 pinned Bockstein of C1.2. C3.4 uses C3.1–C3.3, C2.2's Gysin sequence and Mathlib's symmetric
 polynomials. C3.4a uses C3.4, C2.2, TopologicalKTheory T1.5a and AlgebraicTopology Stage 8.9.
@@ -3099,12 +3245,55 @@ For the adjoint-bundle formula see Zentner,
   replacing c by the constant transition 1 gives the trivial bundle, whose
   comparison map is constant of degree 0, so c₂=0 there.
 
+### 7.6 The Hopf projection and a map invisible to homotopy and reduced homology (C7.6)
+
+Acceptance: AT8.16 proves, for every Serre fibration p:S³→S² each of whose
+fibres has vanishing third integral homology and for the degree +1 collapse
+q:T³→S³ of the three-torus, that f=p∘q induces zero on all positive
+homotopy groups and on all reduced integral homology groups and is not
+homotopic, even unbased, to a constant map. This item supplies the Hopf
+instance (Hatcher, *Algebraic Topology*, Section 4.2, Exercise 34, p. 392).
+Take C1.5's principal circle model with m=1 and N=1, the quotient
+`ET_1=S³→BT_1=CP¹` of the unit sphere of ℂ² by the free circle action,
+followed by CKG K7.1's biholomorphism CP¹≃`OnePoint ℂ` and Mathlib's
+stereographic homeomorphism `onePointEquivSphereOfFinrankEq` from
+`OnePoint ℂ` to the unit sphere S² of `EuclideanSpace ℝ (Fin 3)` (the real
+dimension of ℂ plus one is 3). Read the source as AT2.5's unit sphere S³
+through the real-linear isometry ℂ²≅ℝ⁴ given by real and imaginary parts,
+and call the composite p:S³→S², with the corresponding basepoints. Prove
+the two hypotheses of AT8.16 for p:
+
+- p is a Serre fibration: the circle bundle S³→CP¹ is locally trivial with
+  the common fibre S¹ on the two affine charts of CP¹, so the pinned
+  `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` applies, and
+  composition with the homeomorphisms of source and target stays in the
+  pinned class;
+- every fibre of p is one orbit of the free circle action, homeomorphic to
+  S¹, and H₃(S¹;ℤ)=0.
+
+AT8.16 then gives the statement for f=p∘q on T³=S¹×S¹×S¹. The collapse, its
+degree, the vanishings and the lifting argument are AT8.16's and are not
+repeated here.
+
+**Checks.**
+- The fibre of p through (z₁,z₂) is {(λz₁,λz₂) : |λ|=1}, a circle; over the
+  point [1:0] it is the circle {(λ,0)}.
+- p itself is detected by homotopy groups: the homotopy exact sequence of
+  S¹→S³→S² gives π₃(S³)≅π₃(S²), so p is essential for a reason that f
+  loses, since π_n(T³)=0 for n≥2 and π₁(S²)=0.
+- On reduced homology, H̃_k(S²;ℤ) is nonzero only for k=2, and f_* on H₂
+  factors through H₂(S³;ℤ)=0.
+- A constant map S³→S² has fibre S³ over its value, with H₃=ℤ, and fails
+  the fibre hypothesis; the composite with q is then constant.
+
 ### Examples
 
 L₃(CP⁶)=h⁶ and L₃(HP³)=0 (C7.1). For m=2^k, RPᵐ has w̄_(m−1)=a^(m−1)≠0, so RP⁴ does not
 immerse in ℝ⁶ nor RP⁸ in ℝ¹⁴ (C7.3a). The adjoint bundle su(F) of the rank-two bundle on S⁴
 clutched by SU(2)≅S³ has e=0, all positive Stiefel–Whitney classes 0, p₁=−4u≠0 and no
-nowhere-zero section (C7.AdjointHopfObstruction).
+nowhere-zero section (C7.AdjointHopfObstruction). The Hopf projection p:S³→S² is a Serre
+fibration with circle fibres, and its composite with the degree-one collapse T³→S³ is
+essential although it is zero on homotopy groups and reduced homology (C7.6).
 
 ### Dependencies
 
@@ -3114,7 +3303,10 @@ TopologicalKTheory T1. C7.3a uses C1–C3, AlgebraicTopology Stage 4.6, Topologi
 T1.5–T1.6, SmoothBundlesConnections B2 and native differential calculus, independently of C4–C6.
 C7.4 uses C6, and the rational coefficient comparisons of C7 use C5–C6.
 C7.AdjointHopfObstruction uses C1.0, C1.1d, C2.2, C3.2–C3.3, TopologicalKTheory T1,
-LieGroups Layer 2 and the pinned `Quaternion.toComplexMatrix`.
+LieGroups Layer 2 and the pinned `Quaternion.toComplexMatrix`. C7.6 uses C1.5's principal
+circle model S³→CP¹, AlgebraicTopology Stages 2.5 and 8.16, ComplexKahlerGeometry K7.1, the
+pinned Serre-fibration membership theorem and Mathlib's `onePointEquivSphereOfFinrankEq`,
+independently of C2–C6.
 
 ## Downstream consumers
 
@@ -3137,6 +3329,10 @@ LieGroups Layer 2 and the pinned `Quaternion.toComplexMatrix`.
 - NilpotentOrbits consumes C5.1's compact Chevalley restriction, and ReflectionInvariantTheory's
   late topological adapters consume C5.1–C5.3 and C5a; neither is an input here.
 - Signature, Dirac and holomorphic index theorems consume the genus formulas of C6.1 and C7.1.
+- C1.2a S5, C1.5a, C2.4a and C7.6 are the owners of the statements that need both this
+  roadmap's classes, carriers and Thom/Gysin maps and AlgebraicTopology's supported cochains,
+  Eilenberg–MacLane models, transversality targets and Serre-fibration theorem; they consume
+  those sections, and none of them is an input to AlgebraicTopology.
 
 ## References
 
@@ -3145,9 +3341,10 @@ LieGroups Layer 2 and the pinned `Quaternion.toComplexMatrix`.
 - Cohen, [*The Topology of Fiber Bundles*](https://math.stanford.edu/~ralph/fiber.pdf), Chapter1 §2.2 (Theorems 1.15 and 1.16, pp. 24–25) and Chapter3 §4 (Theorem 3.22 and formula (4.1), p. 103; Proposition 3.27 and Corollary 3.28, pp. 105–106), for projective tangent bundles and the normal characteristic-class obstruction to immersions.
 - Dupont, [*Fibre Bundles and Chern–Weil Theory*](https://data.math.au.dk/publications/ln/2003/imf-ln-2003-69.pdf), §2 and Example4.3 for orthonormal frame bundles, §§9–10 for invariant curvature forms, polarization, connection independence (Theorem 9.5, Lemma 9.6) and classical polynomials, and AppendixA for invariant forms on compact groups.
 - Alekseev–Meinrenken, [*Lie theory and the Chern–Weil homomorphism*](https://arxiv.org/abs/math/0308135), §3.1, for the Weil algebra and its basic subcomplex.
-- Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), Theorem3C.4 for Hopf's theorem, §3.G for the degrees of the simple types and Corollary4D.3 for the integral cohomology of U(n) and SU(n).
+- Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), Theorem3C.4 for Hopf's theorem, §3.G for the degrees of the simple types and Corollary4D.3 for the integral cohomology of U(n) and SU(n); Examples 1B.3 (p. 88) and 4.50 (p. 380) for RP∞ and CP∞ as Eilenberg–MacLane spaces, and Section 4.2, Exercise 34 (p. 392), for the map of C7.6.
 - Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf), version 2.2: §1.1, p. 16, and §1.2, pp. 22–26, for disk and sphere bundles, clutching and the Gram–Schmidt retraction; §3.1, pp. 77–86, Theorems 3.1, 3.2 and 3.9 and Proposition 3.10, for the projective-bundle definitions of w and c, the universal mod 2 and unitary rings and the classification of line bundles; §3.2, pp. 88–95, Propositions 3.12 and 3.14 and Theorem 3.16, for the Thom pair, the mod 2 cohomology of the oriented Grassmannians, the Euler class of TSⁿ and the oriented rings after inverting 2; §3.2, p. 94, for the definition of the Pontryagin classes; §4.1, pp. 109–111, Propositions 4.2, 4.3 and 4.5, for the Chern character, its additivity and multiplicativity and the rational Chern-character isomorphism.
 - Dupont, [*Curvature and Characteristic Classes*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/dupont2.pdf), §§4–8, especially §8's restriction/fibre-integration proof and Chevalley appendix, for universal Chern–Weil and disconnected groups (Theorem 6.13, pp. 94–95; Theorem 8.1, p. 114, with its proof on pp. 123–130; Lemma 8.30, pp. 125–129; Corollary 8.37, p. 131); Chapter 4, Exercise 3, for the Chern–Simons transgression forms.
+- Thom, *Quelques propriétés globales des variétés différentiables*, Commentarii Mathematici Helvetici 28 (1954), 17–86, Chapter II, for the representability of mod 2 classes of codimension one and of integral classes of codimensions one and two by embedded submanifolds (C2.4a).
 - Bott–Tu, *Differential Forms in Algebraic Topology*, Graduate Texts in Mathematics 82, §§6,11–14,20–23, for fibre integration, Thom and projective splitting. Cited by locator; no legal open copy.
 - tom Dieck, [*Algebraic Topology*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/diecktop.pdf), §9.5 for arbitrary-space connected-map chain compression, §§13.1–13.3 for countable partition reduction and numerable local-to-global homotopy equivalence, §14.4 for the strong Milnor join and universal bundle comparisons.
 - May, [*A Concise Course in Algebraic Topology*](https://www.irif.fr/~mellies/mpri/mpri-ens/biblio/Peter-May-A-Concise-Course-In-Algebraic-Topology.pdf), Chapter16 §§2–3, for the nondegenerate-simplex CW realization and counit weak equivalence via relative simplicial approximation.
