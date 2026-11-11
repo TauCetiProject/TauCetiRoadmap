@@ -64,6 +64,7 @@ body:
         - DiagrammaticCoherence
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
+        - DysonBrownianMotion
         - ECM
         - EllipticCohomology
         - EllipticCurves
@@ -97,6 +98,7 @@ body:
         - HopfologicalAlgebra
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
+        - IndexTheory
         - InfinitaryModelExistence
         - IntegralLattices
         - Isoperimetry
@@ -122,6 +124,7 @@ body:
         - NoncommutativeIntegration
         - NoncongruenceModularForms
         - OperatorAlgebraDynamics
+        - OperatorKTheory
         - OperatorTheory
         - OptimalTransport
         - Orbifolds
@@ -179,6 +182,7 @@ body:
         - SuccessiveMinima
         - SymplecticFieldTheory
         - SymplecticGeometry
+        - TangentialBordism
         - TauberianBoundaryConvergence
         - TaubesGromov
         - TemperleyLieb
