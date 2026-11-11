@@ -2,7 +2,6 @@ module
 
 public import Mathlib
 public import TauCeti.Analysis.SpecialFunctions.RegularizedHypergeometric
-public import TauCetiRoadmap.SpecialFunctionsHypergeometric.Suggested
 
 /-!
 # Struve and related functions: target signatures
@@ -14,11 +13,11 @@ them, and discharging them finishes neither a layer nor the roadmap.
 
 The definitions below are roadmap-local copies. `besselY` and `besselI` copy the definitions that
 SpecialFunctionsBessel pins, `scorerHi` copies SpecialFunctionsAiry's, and `fresnelC`, `fresnelS`
-copy SpecialFunctionsEiLiErfIncompleteGamma's, so that this file compiles against the pins and
-SpecialFunctionsHypergeometric's `Suggested.lean`, whose Gauss function the Laplace representation
-of `S_{μ,ν}` uses. In Tau Ceti the Bessel functions and the functions of this
-roadmap live in `Complex`, beside Mathlib's `Complex.besselJ`; here they live in this file's
-`Complex` subnamespace. The functions of this roadmap copy the definitions of `README.md` with
+copy SpecialFunctionsEiLiErfIncompleteGamma's, and `eulerIntegral`, `IsEulerContinuation` and
+`gaussHypergeometric` copy SpecialFunctionsHypergeometric's Gauss function, which the Laplace
+representation of `S_{μ,ν}` uses, so that this file imports only Mathlib and Tau Ceti. In Tau Ceti
+the Bessel functions and the functions of this roadmap live in `Complex`, beside Mathlib's
+`Complex.besselJ`; here they live in this file's `Complex` subnamespace. The functions of this roadmap copy the definitions of `README.md` with
 their intended bodies, so that the conventions are checked by the compiler: orders first, then
 the argument; Mathlib's regularized `₁F₂` series `Complex.regularizedHGFun {1} {b₁, b₂}` (written
 `𝐅₁₂(b₁, b₂)` here); principal powers; the limit in the first order at the exceptional
@@ -36,6 +35,29 @@ namespace TauCetiRoadmap.SpecialFunctionsStruve
 
 open Complex Filter Topology Asymptotics Set MeasureTheory
 open scoped Real Nat
+
+/-- Euler's integral `(Γ(b) Γ(c − b))⁻¹ ∫₀¹ t^{b−1} (1 − t)^{c−b−1} (1 − zt)^{−a} dt`
+(DLMF 15.6.1), with principal powers; a copy of SpecialFunctionsHypergeometric's definition. -/
+def eulerIntegral (a b c z : ℂ) : ℂ :=
+  (Gamma b * Gamma (c - b))⁻¹ *
+    ∫ t in (0 : ℝ)..1, (t : ℂ) ^ (b - 1) * (1 - (t : ℂ)) ^ (c - b - 1) * (1 - z * t) ^ (-a)
+
+/-- `G` continues Euler's integral: at every `z` of the cut plane it is entire in `b` and in `c`,
+and it equals Euler's integral where `0 < Re b < Re c`; a copy of SpecialFunctionsHypergeometric's
+definition. -/
+def IsEulerContinuation (G : ℂ → ℂ → ℂ → ℂ → ℂ) : Prop :=
+  (∀ a c z, 1 - z ∈ slitPlane → Differentiable ℂ fun b => G a b c z) ∧
+  (∀ a b z, 1 - z ∈ slitPlane → Differentiable ℂ fun c => G a b c z) ∧
+  (∀ a b c z, 1 - z ∈ slitPlane → 0 < b.re → b.re < c.re → G a b c z = eulerIntegral a b c z)
+
+open scoped Classical in
+/-- The principal branch of the Gauss function `F(a, b; c; z) = Γ(c) 𝐅(a, b; c; z)` on the cut
+plane, with the junk value `0` off it; a copy of SpecialFunctionsHypergeometric's
+`regularizedGaussHypergeometric` and `gaussHypergeometric`, merged into one definition. -/
+def gaussHypergeometric (a b c z : ℂ) : ℂ :=
+  Gamma c * if h : ∃ G, IsEulerContinuation G then
+    if 1 - z ∈ slitPlane then h.choose a b c z else 0
+  else 0
 
 /-- Mathlib's regularized `₀F₁`: `𝐅(b) x = ∑ₙ xⁿ / (n! Γ(b + n))`. -/
 local notation "𝐅(" b ")" => Complex.regularizedHGFun (0 : Multiset ℂ) ({b} : Multiset ℂ)
@@ -287,11 +309,10 @@ theorem isBigO_lommelCapitalS_sub_sum (μ ν : ℂ) {δ : ℝ} (hδ : 0 < δ) (h
       =O[sectorAtTop (π - δ)] fun z => z ^ (μ - 1 - 2 * N) := by
   sorry
 
-/-- The Laplace representation of `S_{μ,ν}` (6.3), with the Gauss function of
-SpecialFunctionsHypergeometric. -/
+/-- The Laplace representation of `S_{μ,ν}` (6.3), with the Gauss function. -/
 theorem lommelCapitalS_eq_laplace (μ ν : ℂ) {z : ℂ} (hz : 0 < z.re) :
     lommelCapitalS μ ν z = z ^ μ * ∫ t in Ioi (0 : ℝ), cexp (-z * t) *
-      TauCetiRoadmap.SpecialFunctionsHypergeometric.gaussHypergeometric
+      TauCetiRoadmap.SpecialFunctionsStruve.gaussHypergeometric
         ((1 - μ + ν) / 2) ((1 - μ - ν) / 2) (1 / 2) (-(t : ℂ) ^ 2) := by
   sorry
 
