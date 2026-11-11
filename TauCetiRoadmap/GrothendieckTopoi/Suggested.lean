@@ -50,6 +50,9 @@ Headlines stated here (README target, Lean name):
 * 6.4, `hasEnoughPoints_coherentTopology` (Deligne's theorem).
 * 6.5, `exists_equiv_presheaf_iff_essential_points` (Roos's theorem), `epi_piMap_presheaf`,
   `isIso_sigma_pi_presheaf`.
+* 6.6, `IsIrreducibleObject`, `IsRigidTopology`, `isIrreducibleObject_yoneda_iff`,
+  `isIrreducibleObject_iff_projective_preservesCoproducts`, `nonempty_equiv_presheaf_of_isRigid`,
+  `isRigidTopology_iff_nonempty_equiv_presheaf`.
 * 7.1, `Frame.grothendieckTopology`.
 * 7.2, `GeometricMorphism.isLocalic_iff_nonempty_equiv_sheaf`.
 * 7.4, `exists_sublocale_orderIso_subtopos`.
@@ -488,6 +491,60 @@ theorem isIso_sigma_pi_presheaf {ι : Type u} {K : ι → Type u} (X : ∀ i, K 
   sorry
 
 end Presheaf
+
+section Irreducible
+
+/-- **Layer 6.6.** An object `c` is `J`-irreducible when the only `J`-covering sieve on it is the
+maximal one. For `J = canonicalTopology E` on a Grothendieck topos, this is an irreducible
+object of `E`. -/
+def IsIrreducibleObject {C : Type u₁} [Category.{v₁} C] (J : GrothendieckTopology C) (c : C) :
+    Prop :=
+  ∀ S : Sieve c, S ∈ J c → S = ⊤
+
+/-- **Layer 6.6.** `J` is rigid: every object has a covering sieve all of whose arrows factor
+through `J`-irreducible objects. -/
+def IsRigidTopology {C : Type u₁} [Category.{v₁} C] (J : GrothendieckTopology C) : Prop :=
+  ∀ c : C, ∃ S ∈ J c, ∀ ⦃Y : C⦄ (f : Y ⟶ c), S.arrows f →
+    ∃ (Z : C) (g : Y ⟶ Z) (h : Z ⟶ c), IsIrreducibleObject J Z ∧ g ≫ h = f
+
+/-- **Layer 6.6.** For a subcanonical site, a representable sheaf is irreducible exactly when its
+object is `J`-irreducible (Caramello 2012, Proposition 2.6 (iii)). -/
+theorem isIrreducibleObject_yoneda_iff {C : Type u} [SmallCategory C]
+    (J : GrothendieckTopology C) [J.Subcanonical] (c : C) :
+    IsIrreducibleObject (canonicalTopology (Sheaf J (Type u))) (J.yoneda.obj c) ↔
+      IsIrreducibleObject J c :=
+  sorry
+
+/-- **Layer 6.6.** In a Grothendieck topos, an object is irreducible exactly when it is projective
+and `E(A, -)` preserves `u`-small coproducts, that is, when it is connected, nonempty and
+projective. -/
+theorem isIrreducibleObject_iff_projective_preservesCoproducts {E : Type (u + 1)} [Category.{u} E]
+    (hE : IsGrothendieckTopos E) (A : E) :
+    IsIrreducibleObject (canonicalTopology E) A ↔
+      Projective A ∧ ∀ ι : Type u,
+        PreservesColimitsOfShape (Discrete ι) (coyoneda.obj (Opposite.op A)) :=
+  sorry
+
+/-- **Layer 6.6.** For a rigid topology, the sheaf topos is the presheaf topos on the full
+subcategory of `J`-irreducible objects (Comparison Lemma). -/
+theorem nonempty_equiv_presheaf_of_isRigid {C : Type u} [SmallCategory C]
+    {J : GrothendieckTopology C} (hJ : IsRigidTopology J) :
+    Nonempty (Sheaf J (Type u) ≌
+      ((ObjectProperty.FullSubcategory (IsIrreducibleObject J))ᵒᵖ ⥤ Type u)) :=
+  sorry
+
+/-- **Layer 6.6.** For a subcanonical site whose representable sheaves are closed under retracts,
+the sheaf topos is a presheaf topos exactly when the topology is rigid (Caramello 2012,
+Theorem 3.13). -/
+theorem isRigidTopology_iff_nonempty_equiv_presheaf {C : Type u} [SmallCategory C]
+    (J : GrothendieckTopology C) [J.Subcanonical]
+    (hret : ∀ (c : C) (A : Sheaf J (Type u)), Retract A (J.yoneda.obj c) →
+      ∃ d : C, Nonempty (A ≅ J.yoneda.obj d)) :
+    IsRigidTopology J ↔
+      ∃ (D : Type u) (_ : SmallCategory D), Nonempty (Sheaf J (Type u) ≌ (Dᵒᵖ ⥤ Type u)) :=
+  sorry
+
+end Irreducible
 
 /-! ## Layer 7: locales and localic topoi -/
 

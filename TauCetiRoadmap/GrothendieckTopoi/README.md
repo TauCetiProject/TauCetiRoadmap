@@ -18,15 +18,17 @@ topoi `Sh(L)` of frames `L : Type u`, with sublocales of `L` as subtopoi of `Sh(
 spaces `S, T : Type u` with `S` core-compact, `Opens (S × T)` as the frame coproduct of `Opens S`
 and `Opens T`, which fails for `S = T = ℚ`. Essential geometric morphisms are the ones whose
 inverse image preserves `u`-small products, and a Grothendieck topos is a presheaf topos exactly
-when its essential points jointly reflect isomorphisms (Roos). On abelian sheaves of a small site
-`(C, J)` and an object `c : C`, extension by zero along `Sheaf (J.over c) → Sheaf J` is exact and
-faithful; when the sheafified representable of `c` is subterminal, its counit `j_!j^*F → F` is a
-monomorphism whose cokernel restricts to zero, sections with support in the closed complement
-give the right adjoint `i^!` of `i_*`, the first local cohomology sheaf is the cokernel of
-`F → j_*j^*F`, and the `(q + 2)`-th is the `(q + 1)`-th right derived functor of `j_*` at `j^*F`;
-on a space `X` and `U : Opens X`, the support functor and its right derived functors are Tau
-Ceti's supported sections and local cohomology sheaves of `U.compl`; abelian sheaves on `ℝ` have
-no nonzero projective object.
+when its essential points jointly reflect isomorphisms (Roos); the irreducible objects of a topos
+are its connected nonempty projective objects, and a subcanonical site whose representables are
+closed under retracts has a presheaf topos exactly when its topology is rigid. On abelian sheaves
+of a small site `(C, J)` and an object `c : C`, extension by zero along `Sheaf (J.over c) → Sheaf J`
+is exact and faithful; when the sheafified representable of `c` is subterminal, its counit `j_!j^*F
+→ F` is a monomorphism whose cokernel restricts to zero, sections with support in the closed
+complement give the right adjoint `i^!` of `i_*`, the first local cohomology sheaf is the cokernel
+of `F → j_*j^*F`, and the `(q + 2)`-th is the `(q + 1)`-th right derived functor of `j_*` at `j^*F`;
+on a space `X` and `U : Opens X`, the support functor and its right derived functors are Tau Ceti's
+supported sections and local cohomology sheaves of `U.compl`; abelian sheaves on `ℝ` have no nonzero
+projective object.
 
 Suggested homes: `TauCeti/CategoryTheory/Topos/` for Layers 1–6 and 8,
 `TauCeti/Order/Locale/` with `TauCeti/CategoryTheory/Topos/Localic/` for Layer 7, and
@@ -41,16 +43,17 @@ geometric morphisms, their 2-cells, the 2-category of topoi, morphisms of sites 
 theorem (Layer 2); slices and étale morphisms (Layer 3); subtopoi, universal closure operators,
 Lawvere–Tierney topologies, open and closed subtopoi, gluing and the surjection–embedding
 factorization (Layer 4); connected, locally connected, local, hyperconnected, localic and essential
-morphisms (Layer 5); points of a topos, essential points, Roos's characterization of presheaf topoi
-and the generalisation of Deligne's theorem to locally coherent topoi (Layer 6); localic topoi
+morphisms (Layer 5); points of a topos, essential points, Roos's characterization of presheaf topoi,
+irreducible objects and rigid topologies, and the generalisation of Deligne's theorem to locally
+coherent topoi (Layer 6); localic topoi
 (Layer 7); fibre products of topoi, coproducts of
 frames, the way-below relation, core-compact and scattered spaces, and products of sober spaces
 (Layer 8); and abelian sheaves on a slice and on an open–closed decomposition of a topos: extension
 by zero, the recollement sequence, sections with support and `i^!`, local cohomology sheaves,
 and the absence of projectives on `ℝ` (Layer 9). A search of the roadmaps on main and in the
 open pull requests for Grothendieck topoi, geometric morphisms, subtopoi, essential morphisms, frame
-coproducts, core-compact spaces and abelian sheaves on an open–closed decomposition of a topos finds
-no other owner.
+coproducts, core-compact spaces, irreducible objects of a topos and rigid topologies, and abelian
+sheaves on an open–closed decomposition of a topos finds no other owner.
 
 **Left to other roadmaps.** Topoi of schemes and algebraic spaces (small and big étale, Nisnevich,
 fppf and pro-étale sites, replete topoi, their ringed topoi and comparison morphisms) are
@@ -181,14 +184,17 @@ their stability under pullback, are Moerdijk–Vermeulen 2000.
 - Sites and sheaves: `GrothendieckTopology`, `Sheaf`, `presheafToSheaf`,
   `sheafificationAdjunction`, `constantSheaf`, `Sheaf.Γ`, `constantSheafΓAdj`
   (`Sites/GlobalSections`), `Sites/Equivalence`, `Sites/CartesianClosed` (`MonoidalClosed` on
-  `Sheaf J A`), `Sites/LeftExact`, `Sites/Canonical`, `Opens.grothendieckTopology`.
+  `Sheaf J A`), `Sites/LeftExact`, `Sites/Canonical` (`canonicalTopology`,
+  `GrothendieckTopology.Subcanonical`, `GrothendieckTopology.yoneda`), `sheafBotEquivalence`,
+  `Opens.grothendieckTopology`.
 - Functoriality: `Functor.IsContinuous`, `Functor.sheafPushforwardContinuous`,
   `Functor.sheafPullback`, `Functor.sheafAdjunctionContinuous`,
   `Functor.SmallCategories.instPreservesFiniteLimitsSheafSheafPullbackOfRepresentablyFlat`
   (`Sites/Pullback`), `RepresentablyFlat`, `preservesFiniteLimits_of_flat`,
   `CategoryTheory.final_of_representablyFlat` (`Functor/Flat`), `Functor.IsCocontinuous`,
   `Functor.sheafPushforwardCocontinuous`, `Functor.sheafAdjunctionCocontinuous`
-  (`Sites/CoverLifting`), `Functor.IsDenseSubsite.sheafEquiv` (`Sites/DenseSubsite`).
+  (`Sites/CoverLifting`), `Functor.IsDenseSubsite` and `Functor.IsDenseSubsite.sheafEquiv`
+  (`Sites/DenseSubsite`).
 - Slices: `GrothendieckTopology.over`, `GrothendieckTopology.overPullback` (`Sites/Over`),
   `TopologicalSpace.Opens.sheafEquivOver` (`Topology/Sheaves/Over`), `Over.star`, `Over.forget`,
   `Over.forgetAdjStar`, `Over.post`, `Over.pullback`, `Over.iteratedSliceEquiv`,
@@ -203,7 +209,7 @@ their stability under pullback, are Moerdijk–Vermeulen 2000.
   `ObjectProperty.Small`, `ObjectProperty.IsClosedUnderIsomorphisms`,
   `ObjectProperty.FullSubcategory`, `Subobject`, `Subobject.pullback`, `Subobject.exists`,
   `WellPowered`, `isLeftAdjoint_of_preservesColimits_of_isSeparating`
-  (`Adjunction/AdjointFunctorTheorems`), `Adjunction.leftAdjointUniq`, `conjugateEquiv`,
+  (`Adjunction/AdjointFunctorTheorems`), `Retract`, `Adjunction.leftAdjointUniq`, `conjugateEquiv`,
   `mateEquiv`, `Bicategory`, `Comma`, `MonoidalClosed`, `ihom`,
   `CartesianMonoidalCategory.ofHasFiniteProducts`, `Action.functorCategoryEquivalence`.
 - Order and topology: `Order.Frame`, `FrameHom`, `Locale`, `Locale.PT`, `Nucleus`, `Sublocale`,
@@ -272,7 +278,8 @@ Layers 2, 3, 5 and 7 and ends with products of spaces. Layer 9 passes to abelian
 slices of Layer 3 and the open and closed subtopoi of Layer 4: extension by zero, the recollement
 sequence, sections with support and the local cohomology sheaves, compared on a space with Tau
 Ceti's supported sections and local cohomology sheaves, and ends with the absence of projectives on
-`ℝ`. Essential morphisms (5.6) and essential points (6.5) close Layers 5 and 6.
+`ℝ`. Essential morphisms (5.6) and, in Layer 6, essential points and presheaf topoi (6.5) with
+irreducible objects and rigid topologies (6.6) close Layers 5 and 6.
 
 ## Layer 1: Grothendieck topoi and Giraud's theorem
 
@@ -1067,6 +1074,92 @@ epimorphism (`epi_piMap_presheaf`) and `u`-small products distribute over `u`-sm
   coproduct over the 4 maps `Fin 2 → Fin 2` of `PUnit × PUnit`. In abelian groups it fails:
   `(ℤ ⊕ ℤ) × (ℤ ⊕ ℤ)` has rank 4 and the direct sum of the four `ℤ × ℤ` has rank 8.
 
+### 6.6 Irreducible objects and rigid topologies
+
+For a category `C` with a topology `J`, an object `c` is *`J`-irreducible* when the only
+`J`-covering sieve on `c` is the maximal one, and `J` is *rigid* when, for every `c`, some
+`J`-covering sieve on `c` consists of arrows that factor through `J`-irreducible objects, that is,
+the arrows into `c` from `J`-irreducible objects generate a `J`-covering sieve (Caramello 2012,
+§2, after Elephant, Definition C2.2.18). An object `A` of a Grothendieck topos `E` is *irreducible*
+when it is irreducible for the canonical topology of `E`: every sieve containing a `u`-small
+epimorphic family into `A` contains `𝟙_A`, equivalently one member of every `u`-small epimorphic
+family into `A` is a split epimorphism (Caramello 2012, Definition 2.3 (c)). Define
+`IsIrreducibleObject J c` and `IsRigidTopology J`; the topos-level notion is
+`IsIrreducibleObject (canonicalTopology E)`. Prove:
+
+- (a) `isIrreducibleObject_yoneda_iff`: for a small site with `J.Subcanonical`, `J.yoneda.obj c` is
+  an irreducible object of `Sheaf J (Type u)` if and only if `c` is `J`-irreducible (Caramello
+  2012, Proposition 2.6 (iii), stated there for every site; the third Check shows the
+  hypothesis). Route: a sieve `R` on `J.yoneda.obj c` contains a small epimorphic family exactly
+  when the sieve `{h | y h ∈ R}` on `c` is `J`-covering (Elephant, C2.3.2 (c), as used in Caramello
+  2012 before Proposition 2.6). If `c` is `J`-irreducible, that sieve is maximal, so
+  `𝟙 = y 𝟙_c ∈ R`. If `S ∈ J c` is not maximal, the sieve `R` generated by the `y f`, `f ∈ S`, is
+  epimorphic, and `𝟙 ∈ R` would give `𝟙 = y f ∘ y g` for some `g` (`y` is full), hence
+  `𝟙_c = f ∘ g ∈ S` (`y` is faithful), a contradiction.
+- (b) `isIrreducibleObject_iff_projective_preservesCoproducts`: in a Grothendieck topos, an object
+  `A` is irreducible if and only if it is projective and `E(A, −)` preserves `u`-small coproducts,
+  that is, `A` is connected, nonempty and projective in the sense of 6.5 (Caramello 2012, Remark
+  2.4 and the proof of Theorem 3.13). Route: an irreducible `A` is projective, because an
+  epimorphism `B → A` is an epimorphic family and so splits; it is not initial, because the empty
+  family is epimorphic onto the initial object; and a map `A → ∐ Bᵢ` pulls the coproduct
+  injections back to a decomposition `A = ∐ Aᵢ` (coproducts are disjoint and universal), whose
+  members form an epimorphic family, so some `Aᵢ → A` is split epimorphic and monomorphic, hence
+  an isomorphism, and the map factors through `Bᵢ`. Conversely, for an epimorphic family
+  `fᵢ : Bᵢ → A`, projectivity gives a section `s` of `∐ fᵢ`, which factors through one summand
+  `Bᵢ` and makes `fᵢ` split. By 6.5 the essential points of `E` are then in bijection with its
+  irreducible objects.
+- (c) `nonempty_equiv_presheaf_of_isRigid`: if `J` is rigid, then `Sheaf J (Type u)` is equivalent
+  to the presheaves on the full subcategory `D` of `J`-irreducible objects (Caramello 2012, proof
+  of Proposition 2.5 (iii)). Route: the inclusion `D ⥤ C` is fully faithful and cover dense,
+  since the sieve of arrows factoring through objects of `D` is the one rigidity provides; and a
+  sieve on `d ∈ D` has a `J`-covering image exactly when it is maximal, because `d` is
+  irreducible. So the inclusion is a dense subsite of `(C, J)` for the trivial topology of `D`
+  (Mathlib's `Functor.IsDenseSubsite`), and `Functor.IsDenseSubsite.sheafEquiv` with
+  `sheafBotEquivalence` gives the equivalence.
+- (d) `isRigidTopology_iff_nonempty_equiv_presheaf`: for a small site with `J.Subcanonical` such
+  that every retract of a representable sheaf `J.yoneda.obj c` is isomorphic to a representable,
+  `Sheaf J (Type u)` is a presheaf topos if and only if `J` is rigid (Caramello 2012, Theorem
+  3.13). Route: "if" is (c). For "only if", the irreducible objects of a presheaf topos are the
+  retracts of representables, by (b) and 6.5, and they separate. Each is a retract of some
+  `y c` (apply the epimorphic family of all maps from representables to it), hence isomorphic to
+  some `y c'` by hypothesis. So for each `c` the arrows `y c' → y c` with `y c'` irreducible
+  generate a covering sieve of the canonical topology; `y` is fully faithful and a subcanonical
+  `J` is the topology induced by the canonical one (Elephant, C2.2.16, as used in Caramello 2012,
+  proof of Theorem 3.13), so by (a) the arrows `c' → c` from `J`-irreducible objects generate a
+  `J`-covering sieve. The hypothesis holds when `C` is idempotent complete, in particular when `C`
+  has finite limits (Caramello 2012, Remark 3.14).
+
+*Needs:* 1.1, 6.5; Mathlib `canonicalTopology`, `GrothendieckTopology.Subcanonical`,
+`GrothendieckTopology.yoneda`, `Functor.IsDenseSubsite`, `Functor.IsDenseSubsite.sheafEquiv`,
+`sheafBotEquivalence`, `Retract`, `Projective`, `ObjectProperty.FullSubcategory`.
+
+**Checks.**
+
+- Sierpiński space `X = {o, c}` with `{o}` open, site `Opens X`: `∅` is not irreducible (the empty
+  sieve covers it), `{o}` is, and so is `X`, since an open cover of `X` contains `X` (the only
+  open set containing `c`). The topology is rigid with `D = ({o} ⊆ X)`, and (c) gives the
+  presheaves on that arrow category, which are `Sh(X)` (Convention 4). `X` is irreducible although
+  it has the proper subobject `{o}`, so irreducible objects are not the atoms.
+- `Sh(ℝ)`: an open interval `(0, 1)` is covered by `{(0, 2/3), (1/3, 1)}`, a sieve that does not
+  contain `𝟙_{(0,1)}`, and every nonempty open set contains such an interval. So no object is
+  irreducible, `Opens ℝ` is not rigid, and `Sh(ℝ)` is not a presheaf topos, as 6.5 finds from its
+  essential points; `(0, 1)` is connected, so irreducible is stronger than indecomposable.
+- Subcanonicity is needed in (a). Let `C` be the category `d → c` with one non-identity arrow `f`
+  and `J` generated by the sieve `{f}` on `c`. A sheaf has `F c ≅ F d` and every set is the value
+  at `d` of one sheaf, so `Sheaf J (Type u) ≃ Type u`, and the sheafified representable of `c`
+  goes to a point, which is irreducible in `Type u`; yet `{f}` is a proper `J`-covering sieve on
+  `c`, so `c` is not `J`-irreducible.
+- The retract hypothesis is needed in (d). Take for `C` the full subcategory of `Type u` on
+  `Bool` with the topology induced by the canonical one: it is subcanonical, and `Sheaf ≃ Type u`
+  because every nonempty set is covered by the maps from `Bool`, so it is a presheaf topos. The
+  two constants generate a covering sieve on `Bool` that does not contain `𝟙`, so `Bool` is not
+  irreducible and `J` is not rigid; the retract `PUnit` of `Bool` is not representable.
+- Irreducible objects of `B G` for a group `G`: `B G` is the presheaf topos on `SingleObj G`
+  (6.5), whose one irreducible object is the representable `G`, matching its one essential point
+  up to isomorphism. For the monoid `{1, e}` with `e² = e` there are two, the representable and
+  its retract cut out by `e` (6.5 Checks), and `{1, e}` is not idempotent complete, as (d)
+  allows.
+
 ### Examples
 
 - The points of `B G` form a connected groupoid in which each object has automorphism group
@@ -1077,7 +1170,7 @@ epimorphism (`epi_piMap_presheaf`) and `u`-small products distribute over `u`-sm
 ### Dependencies
 
 Layers 1–5, AdicSpacesPartII R0.19.10, AdicEtaleGeometry A1.15 (6.4), and Mathlib. Within the
-layer, 6.2 uses 6.1, 6.4 uses 3.1 and 6.2–6.3, and 6.5 uses 6.2 and 5.6.
+layer, 6.2 uses 6.1, 6.4 uses 3.1 and 6.2–6.3, 6.5 uses 6.2 and 5.6, and 6.6 uses 1.1 and 6.5.
 
 ## Layer 7: locales and localic topoi
 
@@ -1510,7 +1603,7 @@ consumes 1.1, 1.2, 1.4, 2.3, 5.2, 5.6, 6.5 and 7.1. The converse of the two exac
 of presheaf topoi in 6.5 fails there: sheaves on `[0, 1)` with the lower topology satisfy both
 without being a presheaf topos (TotallyDistributiveTopoi 3.5), and the topoi satisfying both are
 the essential subtopoi of presheaf topoi (TotallyDistributiveTopoi 2.4). ClassifyingTopoi consumes
-Conventions 1 and 4 and 1.1, 1.2, 2.1, 2.2, 2.4, 2.5, 4.1, 4.2 and 6.1.
+Conventions 1 and 4 and 1.1, 1.2, 2.1, 2.2, 2.4, 2.5, 4.1, 4.2, 6.1, 6.5 and 6.6.
 
 ## References
 
@@ -1579,3 +1672,6 @@ Conventions 1 and 4 and 1.1, 1.2, 2.1, 2.2, 2.4, 2.5, 4.1, 4.2 and 6.1.
 - [Picado–Pultr 2012] J. Picado, A. Pultr, *Frames and Locales: Topology without points*,
   Frontiers in Mathematics, Birkhäuser (2012). doi:10.1007/978-3-0348-0154-6. Chapters III and VI
   (sublocales).
+- [Caramello 2012] O. Caramello, « Syntactic characterizations of properties of classifying
+  toposes », *Theory and Applications of Categories* 26 (2012), no. 6, 176–193: §2 (irreducible
+  objects, rigid topologies, Propositions 2.5 and 2.6) and §3 (Theorem 3.13 and Remark 3.14).
