@@ -4,6 +4,7 @@ public import Mathlib
 public import TauCeti.Topology.VectorBundle.Orientation.ThomClass
 public import TauCeti.Analysis.Normed.Module.Ball.IntUnitsAction
 public import TauCeti.AlgebraicTopology.Cohomology.FundamentalClass
+public import TauCeti.AlgebraicTopology.Singular.LocalHomology.FundamentalClass
 public import TauCeti.AlgebraicTopology.Singular.LocalHomology.Orientation.Chart
 public import TauCeti.AlgebraicTopology.Singular.LocalHomology.Orientation.Linear
 public import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.FiniteCWType
@@ -50,6 +51,12 @@ this theorem, the pinned
 `TauCeti.HomologicalOrientation.evalFundamentalClass_id_singularCohomologyMap`, which gives
 `⟨f* c, [M]⟩ = ⟨c, f_*[M]⟩`, and linearity of the Kronecker pairing.
 
+Stated also is the integral headline of C2.4a, Thom's representation of homology classes in
+codimensions one and two: on a compact oriented boundaryless smooth manifold of dimension
+`m + c`, `c ∈ {1, 2}`, every class of `H_m(M; ℤ)` is `i_*[N]` for a compact oriented smooth
+`m`-manifold `N` and a smooth embedding `i : N → M` (Mathlib's `Manifold.IsSmoothEmbedding`),
+with `i_*[N]` the pinned `TauCeti.HomologicalOrientation.mapFundamentalClass`.
+
 Stated as well is the headline of C7.3a, Whitney's theorem that `ℝP^(2^k)`
 admits no smooth immersion into `ℝ^(2^(k+1)-2)`. Here `ℝPᵐ` is the orbit space
 of the antipodal action of `ℤˣ` on the unit sphere `Sᵐ` (the pinned action of
@@ -63,6 +70,11 @@ Mathlib's `Manifold.IsImmersion`, whose charts range over `IsManifold.maximalAtl
 which is defined without that instance.
 
 Not statable at the pins, and therefore not stated here:
+* the mod 2 form of C2.4a, that every class of `H_(m-1)(M; 𝔽₂)` of a compact, possibly
+  non-orientable, smooth `m`-manifold is `i_*[N]` for an embedded, possibly non-orientable,
+  `N`: the pinned fundamental class `TauCeti.HomologicalOrientation.fundamentalClass` is
+  integral and needs an orientation, so a non-orientable `N` has no fundamental class at the
+  pins;
 * the Thom isomorphism `H^k(X;L) ≃ H^(k+n)(E,E∖0;π*L⊗o(E))` (C2.1): there is no
   relative cup product `H^k(E) ⊗ H^n(E,E₀) → H^(k+n)(E,E₀)` at the pins, so
   the Thom map `a ↦ π*a ∪ U_E` has no carrier;
@@ -230,6 +242,30 @@ theorem eval_eulerClass_tangent_eq_eulerChar {M E : Type} [NormedAddCommGroup E]
         (TauCeti.eulerClass (ModuleCat.of ℤ (ULift.{0} ℤ)) ℤ (ModuleCat.of ℤ (ULift.{0} ℤ)) E
           (TangentSpace 𝓘(ℝ, E) : M → Type) (n + 1) u) =
       ULift.up (TauCeti.eulerChar M) := by
+  sorry
+
+/-! ## C2.4a: embedded representatives in codimensions one and two -/
+
+open scoped Manifold ContDiff in
+/-- **Thom's representation theorem in codimensions one and two, integral form** (C2.4a;
+Thom 1954, Théorème II.27, p. 55). Let `M` be a compact Hausdorff boundaryless smooth manifold
+of dimension `m + c` with `c = 1` or `c = 2`, modelled on a finite-dimensional real normed space
+`E`, with an orientation `oM`. Every class `x ∈ H_m(M; ℤ)` is the image `i_*[N]` of the
+fundamental class of a compact Hausdorff boundaryless smooth `m`-manifold `N`, for some
+orientation `oN` of `N`, under a smooth embedding `i : N → M`. The representative may be empty
+(for `x = 0`) or disconnected, and torsion classes are included. -/
+theorem exists_isSmoothEmbedding_mapFundamentalClass_eq {E M : Type} [NormedAddCommGroup E]
+    [NormedSpace ℝ E] [FiniteDimensional ℝ E] [TopologicalSpace M] [T2Space M]
+    [CompactSpace M] [ChartedSpace E M] [IsManifold 𝓘(ℝ, E) ∞ M]
+    {m c : ℕ} (hc : c = 1 ∨ c = 2) (hE : finrank ℝ E = m + c)
+    (oM : TauCeti.HomologicalOrientation M E (m + c))
+    (x : ((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) m).obj
+      (ModuleCat.of ℤ (ULift.{0} ℤ))).obj (TopCat.of M)) :
+    ∃ (N : Type) (_ : TopologicalSpace N) (_ : T2Space N) (_ : CompactSpace N)
+      (_ : ChartedSpace (EuclideanSpace ℝ (Fin m)) N) (_ : IsManifold (𝓡 m) ∞ N)
+      (oN : TauCeti.HomologicalOrientation N (EuclideanSpace ℝ (Fin m)) m) (i : C(N, M)),
+      Manifold.IsSmoothEmbedding (𝓡 m) 𝓘(ℝ, E) ∞ i ∧
+        oN.mapFundamentalClass finrank_euclideanSpace_fin i = x := by
   sorry
 
 /-! ## C7.3a: real projective spaces and the immersion obstruction -/
