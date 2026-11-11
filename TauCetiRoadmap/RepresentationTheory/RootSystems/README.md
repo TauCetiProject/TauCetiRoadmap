@@ -7,8 +7,9 @@ faithful geometric representation of arbitrary Coxeter systems, including
 infinite rank and infinite exponents. The end results are geometric faithfulness
 and its integral form, the length formula on the presented Weyl group, the
 symmetric-group Weyl group of type A over every characteristic-zero domain,
-the criterion that a Coxeter group is finite exactly when its geometric form
-is positive definite, the classification of the finite Coxeter groups,
+the criterion that a Coxeter group is finite exactly when its generating set
+is finite and its geometric form is positive definite, the classification of
+the finite Coxeter groups,
 walks to the greatest root, the semidirect decomposition of root automorphisms
 with its oriented-diagram and integral-lattice forms, and componentwise
 invariant metrics.
@@ -104,17 +105,18 @@ negative by w. The forward cocharacter map of a root-pairing equivalence is the
 inverse of its contravariant `RootPairing.Equiv.coweightEquiv`.
 
 For a general Coxeter system `cs : CoxeterSystem M W`, the index type I and group
-W have arbitrary universes. There is no finiteness hypothesis. Work on the free
-real vector space `I →₀ ℝ`, writing αᵢ for `Finsupp.single i 1` and ρ for the
-native geometric representation. The Coxeter entry 0 means infinite order,
+W have arbitrary universes. There is no standing finiteness hypothesis. Work on
+the free real vector space `I →₀ ℝ`, writing αᵢ for `Finsupp.single i 1` and ρ
+for the native geometric representation. The Coxeter entry 0 means infinite order,
 not order zero; diagonal entries are 1. The Gram form B has diagonal 1 and
 B(αᵢ,αⱼ)=−cos(π/mᵢⱼ), with value −1 at an infinite entry. A simple reflection is
 x ↦ x−2B(αᵢ,x)αᵢ. The form may be degenerate or indefinite. Positivity means
 coordinatewise nonnegativity and nonzero vector, not positive squared norm.
-Finiteness of I or of W and positive definiteness of B occur only in
-§§3.3–3.5, as stated hypotheses or conclusions. The Coxeter graph joins
-distinct i,j with mᵢⱼ≠2, infinite entries included, and the label of an edge
-is its entry.
+Finiteness of W and positive definiteness of B occur only in §§3.3–3.5, as
+stated hypotheses or conclusions; before them, finiteness of I enters only the
+coordinate transport to `I → ℝ` of §1.3 and the integral Gram matrix of §1.4.
+The Coxeter graph joins distinct i,j with mᵢⱼ≠2, infinite entries included,
+and the label of an edge is its entry.
 
 Products act on the left, with the rightmost factor acting first. A right descent
 of w is an i with ℓ(wsᵢ)<ℓ(w). `CoxeterSystem.alternatingWord i j k` ends in j
@@ -378,10 +380,13 @@ keep their native hypotheses.
   Coxeter matrix of a Dynkin type, with entry `TauCeti.coxeterOrder` of the
   product of the two Cartan entries; `TauCeti.coxeterOrder` in
   `Coxeter/Matrix.lean` sends 0, 1, 2, 3 to 2, 3, 4, 6.
-  `TauCeti.DynkinType.coxeterMatrix_A`, `coxeterMatrix_B`, `coxeterMatrix_C`,
-  `coxeterMatrix_E6`, `coxeterMatrix_E7`, `coxeterMatrix_E8`, `coxeterMatrix_F4`
-  and `coxeterMatrix_G2` identify it with Mathlib's named matrix in every type
-  except D, where `TauCeti.DynkinType.coxeterMatrix_D_apply` gives the entries.
+  `TauCeti.DynkinType.coxeterMatrix_A`, `TauCeti.DynkinType.coxeterMatrix_B`,
+  `TauCeti.DynkinType.coxeterMatrix_C`, `TauCeti.DynkinType.coxeterMatrix_E6`,
+  `TauCeti.DynkinType.coxeterMatrix_E7`, `TauCeti.DynkinType.coxeterMatrix_E8`,
+  `TauCeti.DynkinType.coxeterMatrix_F4` and
+  `TauCeti.DynkinType.coxeterMatrix_G2` identify it with Mathlib's named matrix
+  in every type except D, where `TauCeti.DynkinType.coxeterMatrix_D_apply`
+  gives the entries.
   `TauCeti.IsTree.nonempty_iso_pathGraph_of_degree_le_two` in
   `TauCeti/Combinatorics/SimpleGraph/PathGraph.lean` makes a finite tree with
   all degrees at most 2 a path.
@@ -925,8 +930,9 @@ have B(αᵢ,αⱼ)=−cos(π/2)=0. For a connected component K write M_K for th
 restricted matrix on K, B_K for its form and x_K for the restriction of x.
 Prove that B(x,x)=Σ_K B_K(x_K,x_K), a finite sum over the components meeting
 the support of x, and that B is positive definite if and only if B_K is
-positive definite for every component K. The Coxeter graph of M_K is the
-induced graph on K and is connected.
+positive definite for every component K (Davis, §C.1, p. 433, for a finite
+index set). The Coxeter graph of M_K is the induced graph on K and is
+connected.
 
 Prove `isComplement'_parabolic_compl`: for J⊆I with mᵢⱼ=2 whenever i∈J and
 j∉J, every element of the standard parabolic subgroup on J commutes with every
@@ -996,14 +1002,17 @@ Its API:
   with label 4 on its last edge; F4 is the chain with labels 3,4,3; H3 and H4
   are the chains with labels 3,5 and 3,3,5; I m is one edge with label m; D n
   and the three E types are trees with all labels 3 and one node of degree 3.
-- `FiniteCoxeterType.ofDynkinType` sends the Dynkin types A n, D n, E6, E7,
-  E8 and F4 to the types of the same name, both B n and C n to B n, and G2 to
-  I 6. It preserves rank and validity, and the Coxeter matrix of the image has
-  the entries of `TauCeti.DynkinType.coxeterMatrix`, by
-  `TauCeti.DynkinType.coxeterMatrix_A`, `coxeterMatrix_B`, `coxeterMatrix_C`,
-  `coxeterMatrix_E6`, `coxeterMatrix_E7`, `coxeterMatrix_E8`, `coxeterMatrix_F4`
-  and `coxeterMatrix_G2`. Through §2.1 the Weyl group of a base of Dynkin type
-  t is thereby a Coxeter group with the matrix of `ofDynkinType t`.
+- The dictionary from Dynkin types sends A n, D n, E6, E7, E8 and F4 to the
+  types of the same name, both B n and C n to B n, and G2 to I 6. It preserves
+  rank and validity, and the Coxeter matrix of the image has the entries of
+  `TauCeti.DynkinType.coxeterMatrix`, by
+  `TauCeti.DynkinType.coxeterMatrix_A`, `TauCeti.DynkinType.coxeterMatrix_B`,
+  `TauCeti.DynkinType.coxeterMatrix_C`, `TauCeti.DynkinType.coxeterMatrix_E6`,
+  `TauCeti.DynkinType.coxeterMatrix_E7`, `TauCeti.DynkinType.coxeterMatrix_E8`,
+  `TauCeti.DynkinType.coxeterMatrix_F4` and
+  `TauCeti.DynkinType.coxeterMatrix_G2`. Through §2.1 the Weyl group of a
+  base of Dynkin type t is thereby a Coxeter group with the matrix of the
+  image of t.
 - A valid type is the image of a valid Dynkin type exactly when it is not H3,
   H4, I 5 or I m with 7≤m: the entries of a Dynkin Coxeter matrix are the
   values 2, 3, 4, 6 of `TauCeti.coxeterOrder` at the Cartan products 0, 1, 2, 3.
@@ -1017,9 +1026,10 @@ relabelling of the nodes, the matrix of exactly one valid type (Davis,
 Theorem C.1.2, p. 433, with Table 6.1, p. 104). Prove
 `finite_iff_forall_connectedComponent`: W is finite if and only if I is finite
 and, for every connected component K of the Coxeter graph, the restricted
-matrix M_K is, after relabelling, the matrix of a valid type. In particular a
-Coxeter system with connected graph is finite exactly when its matrix is that
-of a valid type, and the type is then unique. The last theorem follows from
+matrix M_K is, after relabelling, the matrix of a valid type (Davis, §C.1,
+p. 433, with Theorem 6.12.9, p. 119, and Theorem C.1.2, p. 433). In
+particular a Coxeter system with connected graph is finite exactly when its
+matrix is that of a valid type, and the type is then unique. The last theorem follows from
 §3.3, the decomposition of the form in §3.4 and the first two theorems.
 
 Write c(m)=4cos²(π/m), so that c(3)=1, c(4)=2, c(5)=(3+√5)/2, c(6)=3, and put
@@ -1070,7 +1080,8 @@ graph `TauCeti.diagramGraph A` is the Coxeter graph of M, so
 `TauCeti.IsFiniteType.existsUnique_dynkinType` relabels A as the Cartan matrix
 of a valid Dynkin type t. Since mᵢⱼ is `TauCeti.coxeterOrder` of AᵢⱼAⱼᵢ for
 i≠j, `TauCeti.DynkinType.coxeterMatrix_apply` identifies M with the Coxeter
-matrix of t and hence of `ofDynkinType t`.
+matrix of t and hence with the matrix of the image of t under the dictionary
+from Dynkin types.
 
 If one label is 5, the fifth vector excludes a node of degree at least 3:
 such a node, two of its neighbours off the path to the edge with label 5, and
