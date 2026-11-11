@@ -215,7 +215,8 @@ choices, with explicit comparison maps between choices.
   cup products, Stage 5.5's cohomological Serre spectral sequence of a
   fibration, Stage 8.3's Hurewicz theorem, Stage 8.7's finite CW type of
   compact smooth manifolds (F6.6's finite CW models), Stage 8.8's bar/CW
-  models and Stage 8.10's universal classes and representability of
+  models, Stage 8.8c's functorial abelian Eilenberg–MacLane models K(A,n)
+  and Stage 8.10's universal classes and representability of
   Eilenberg–MacLane spaces.
 - **From TauCetiRoadmap.CharacteristicClasses:** C3's Stiefel–Whitney
   classes, the Whitney formula and `H^*(BO(n);𝔽₂)=𝔽₂[w₁,…,w_n]`.
