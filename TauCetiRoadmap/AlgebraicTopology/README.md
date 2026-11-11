@@ -967,6 +967,18 @@ generator is constructed in §§2.5 and 6.3 here; Layer 10's smooth
 mapping degree, consumed only by 6.5's comparison; 10.5 consumes Tau Ceti's Brouwer theorem
 (supplier contracts), not a theorem of this roadmap. Layer 9.3 consumes 6.3's classes and is not a supplier of them.
 
+### From TauCetiRoadmap.ClassifyingSpaces
+
+Layer 1, items 1.1 and 1.2, the classification of pointed maps into an aspherical space
+(Hatcher, Proposition 1B.9, p.90), with that roadmap's hypotheses: the source X is a
+path-connected Hausdorff CW complex with an arbitrary base point x, the target (Y,y) is a
+pointed space with `TauCeti.IsAspherical Y y` and no CW structure, and X and Y lie in
+independent universes. Item 1.1 realizes every homomorphism π₁(X,x)→π₁(Y,y) by a map
+sending x to y; item 1.2 makes two such maps inducing the same homomorphism homotopic
+relative to {x}. Consumed by 8.8 with target the nerve model Bπ, aspherical by 8.8a, and by
+the case n=1 of 8.14. Nothing else of that roadmap is consumed, and it consumes nothing of
+this one.
+
 Each use below retains the supplier's hypotheses and names the needed portion. The
 roadmaps that build on this one are not suppliers of it; the Downstream consumers section
 lists what each of them takes.
@@ -5462,7 +5474,7 @@ supplement or the categorical Lusternik–Schnirelmann supplement unless named e
 | 6.6 product-ball intersection | 2.5 reference classes and local generator, native excision, 5.1 relative cross products, the 6.3 determinant sign and the 6.5 degree normalization | 1, 7–8 |
 | 7 Euler characteristic | 2--6; Tau Ceti's Euler characteristic and standard values | 1 |
 | 8.1–8.7 Hurewicz/Whitehead | 2--4, 4.10 for 8.3's connected-map comparison, and the cited external roadmaps; proper 8.5 additionally the supported-cellular supplement's compactly supported cochains, proper pullback, jointly proper homotopy invariance, cellular comparison and countability | 1, 5; ordinary Hurewicz/Whitehead also alongside ordinary 6–7 |
-| 8.8a raw bar/abelian input | 4, ordinary 6, native nerve/realization and universal-cover APIs | 8.8c's abelian K(A,1) specialization |
+| 8.8a raw bar/abelian input | 4, ordinary 6, native nerve/realization and universal-cover APIs; ClassifyingSpaces items 1.1 and 1.2 for the pointed classification of maps into Bπ | 8.8c's abelian K(A,1) specialization |
 | 8.8b normalized model comparison | Layer 8.8a bar model; Tau Ceti's Milnor model, uniqueness theorem and group-(co)homology identifications (supplier contracts) | 8.9 |
 | 8.8c abelian EM family | 4.7, 4.10, 8.1–8.8a, 8.2's Kan/Moore comparison and 5.5's based path fibration for the loop identification; no 8.9–8.12 input | 7 |
 | 8.8d Serre classes/Hurewicz modulo a class | 4.10, 5.3 transfer, 5.5 Serre sequences and path fibrations, 8.3–8.5, 8.8b, 8.8c; Tau Ceti's torsion Serre classes | 7 |
@@ -5472,7 +5484,7 @@ supplement or the categorical Lusternik–Schnirelmann supplement unless named e
 | 8.11b ordinary EM loops | 4.10's CW approximation, 8.5, 8.10, 8.11a, Layer 4.8 compact generation and foundational adjunction, with Layer 4.4 normalized comparisons, 4.9's simplicial-realization product comparison | 7 |
 | 8.12 classical EM comparisons | 8.8a, 8.8b, 8.10 and Tau Ceti's `AddCircle` Eilenberg–MacLane instance and circle comparison; no projective carrier | 7 |
 | 8.13 smooth low-codimension representatives | 8.7 finite CW type, 8.10 and 8.12 for the circle classifying map, and its own smoothing of maps into compact manifolds, parametric transversality and relative transversality (Mathlib `exists_embedding_euclidean_of_compact` and `Continuous.exists_contMDiff_approx_and_eqOn`, GeometricTopology Layer 1 tubular neighbourhoods, Tau Ceti's slice-chart implicit function theorem and flat Morse–Sard theorem) | 7 and 8.11b |
-| 8.14–8.16 applications | 4.1 lifted CW structures, 6.1 universal coefficients, 6.3 noncompact top-degree vanishing and Tau Ceti's compact-manifold vanishing, 8.1–8.8 and 8.10; 8.16 additionally 4.4, 6.5 and 5.5's homotopy lifting for Serre fibrations | 7 and 8.13 |
+| 8.14–8.16 applications | 4.1 lifted CW structures, 6.1 universal coefficients, 6.3 noncompact top-degree vanishing and Tau Ceti's compact-manifold vanishing, 8.1–8.8 and 8.10; 8.14 additionally ClassifyingSpaces items 1.1 and 1.2 for its case n=1; 8.16 additionally 4.4, 6.5 and 5.5's homotopy lifting for Serre fibrations | 7 and 8.13 |
 
 In particular, Layer 1 is independent; the chain `2 -> 3 -> 4` is strict; Layers 2--4 all feed
 Layer 5, except that Layer 2 alone feeds the product maps of Layer 5 item 1; and every layer from
