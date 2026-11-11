@@ -2,10 +2,16 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib
-import TauCeti.Algebra.Coalgebra.Comodule.MatrixCoefficient.Matrix
-import TauCeti.Algebra.Coalgebra.Subcomodule.Basic
-import TauCeti.Algebra.Coalgebra.Star
+module
+
+public import Mathlib
+public import TauCeti.Algebra.Category.FiniteHopfModuleCat.Pivotal
+public import TauCeti.Algebra.Category.FiniteHopfModuleCat.Rigid
+public import TauCeti.Algebra.Coalgebra.Comodule.MatrixCoefficient.Matrix
+public import TauCeti.Algebra.Coalgebra.Star
+public import TauCeti.Algebra.Coalgebra.Subcomodule.Basic
+public import TauCeti.CategoryTheory.Monoidal.Pivotal.Spherical
+public import TauCeti.QuantumGroups.UqSl2.Antipode
 
 /-!
 # Quantum groups: target signatures
@@ -15,7 +21,9 @@ headline theorems against the pinned APIs: weighted Schur orthogonality, the
 algebraic compact-type characterization and, on every Hopf star algebra with a
 positive normalized invariant integral, the uniqueness of the modular automorphism
 of that integral and the Kac equivalence between its traciality and involutivity of
-the antipode.
+the antipode; and, for Layer 8, the sphericity of the finite `U_q(sl₂)`-modules with
+pivot `K⁻¹` for `q - q⁻¹ ≠ 0` (§8.5), together with the rigid and pivotal instances on
+those modules, for every `q ≠ 0`, that it needs.
 
 The following headlines are not statable at the pins without heavy constructions:
 * Layer 0: the standard-solution, fiber-functor and Temperley–Lieb comparisons
@@ -25,7 +33,8 @@ The following headlines are not statable at the pins without heavy constructions
   uniqueness need the completed minimal C*-tensor functor and the analytic
   compact-quantum-group carrier.
 * Layer 2: arbitrary-Hilbert complete reducibility and analytic Peter–Weyl density
-  need free Hilbert C*-modules, their multiplier coactions and analytic CQGs.
+  need free Hilbert C*-modules, the legs of their adjointable operators along unital
+  star homomorphisms, their multiplier coactions and analytic CQGs.
 * Layer 3: the density of the Hopf core, the Plancherel completion, the unitary
   pivotal comparison and intrinsic dimension of §3.3 and the Tomita comparison of
   §3.4 need that analytic CQG, its Haar GNS completion, the full left Hilbert
@@ -43,6 +52,7 @@ The following headlines are not statable at the pins without heavy constructions
   and `TauCeti.Algebra.Category.FiniteHopfModuleCat`) and are not restated; in
   particular the local-finiteness characterization of §8.4 is the pin's
   `TauCeti.UqSl2.isSignedTypeOne_and_forall_exists_pow_smul_eq_zero_iff_isLocallyFiniteModule`.
+  The rigid and pivotal instances and the sphericity of §8.5 are stated below.
   The Biedenharn–Elliott pentagon of §8.5 is not statable: it needs channel
   coordinates on quadruple tensor products and recoupling maps between all five
   bracketings, which the pin's `TauCeti.UqSl2.clebschGordanRecouplingEquiv`
@@ -53,6 +63,8 @@ The following headlines are not statable at the pins without heavy constructions
 open scoped TensorProduct ComplexOrder
 open Module
 namespace TauCetiRoadmap.QuantumGroups
+
+@[expose] public section
 
 universe u v w
 
@@ -118,8 +130,9 @@ def unitaryCoefficientSet (A : Type u) [Ring A] [HopfAlgebra ℂ A] [StarRing A]
     U ∈ unitary (Matrix (Fin n) (Fin n) A) ∧ ∃ i j, a = U i j}
 
 /-- A Hopf star algebra has a normalized positive invariant integral exactly when
-it is spanned by finite unitary coefficients (Timmermann, Theorem 3.2.12). -/
-theorem compactType_iff (A : Type u) [Ring A] [Nontrivial A] [HopfAlgebra ℂ A]
+it is spanned by finite unitary coefficients (Timmermann, Theorem 3.2.12). No nontriviality
+hypothesis is needed: the counit of a complex bialgebra is unital, so `A` is nonzero. -/
+theorem compactType_iff (A : Type u) [Ring A] [HopfAlgebra ℂ A]
     [StarRing A] [StarModule ℂ A] [TauCeti.StarCoalgebra ℂ A] :
     Nonempty (AlgebraicHaar (A := A)) ↔
       Submodule.span ℂ (unitaryCoefficientSet A) = ⊤ := by
@@ -143,5 +156,37 @@ theorem haar_trace_iff_antipode_involutive {A : Type u} [Ring A] [HopfAlgebra �
     (∀ a b : A, h.functional (a * b) = h.functional (b * a)) ↔
       ∀ a : A, HopfAlgebra.antipode ℂ (HopfAlgebra.antipode ℂ a) = a := by
   sorry
+
+/-! ## Layer 8: Generic U_q(sl₂), signed modules and integrability -/
+
+/-- The rigid structure on the finite `U_q(sl₂)`-modules for `q ≠ 0` (§8.5): right duals are the
+contragredients through the antipode `S`, and left duals the contragredients through `S⁻¹`, which
+exists because `S²` is conjugation by `K⁻¹`. -/
+noncomputable instance uqSl2RigidCategory (q : ℂ) [Fact (q ≠ 0)] :
+    CategoryTheory.RigidCategory (TauCeti.FiniteHopfModuleCat ℂ (TauCeti.UqSl2 q)) :=
+  TauCeti.FiniteHopfModuleCat.rigidCategory (TauCeti.UqSl2.antipode_bijective q)
+
+/-- The pivotal structure on the finite `U_q(sl₂)`-modules for `q ≠ 0` with pivot `K⁻¹` (§8.5):
+`K⁻¹` is group-like and implements the square of the antipode, `S²(x) = K⁻¹ x K`, so the
+double-dual isomorphisms `v ↦ (φ ↦ φ(K⁻¹ v))` form a monoidal natural isomorphism from the
+identity functor to the double right dual functor. -/
+noncomputable instance uqSl2PivotalCategory (q : ℂ) [Fact (q ≠ 0)] :
+    TauCeti.PivotalCategory (TauCeti.FiniteHopfModuleCat ℂ (TauCeti.UqSl2 q)) where
+  pivotalIso := TauCeti.FiniteHopfModuleCat.unitEvalNatIso (TauCeti.UqSl2.kUnit q)⁻¹
+    (fun x => by simpa using TauCeti.UqSl2.antipode_antipode q x)
+  pivotalIso_isMonoidal := TauCeti.FiniteHopfModuleCat.unitEvalNatIso_isMonoidal _
+    ⟨by simp, by simp⟩
+
+/-- Sphericity of the finite `U_q(sl₂)`-modules (§8.5): for `q ≠ 0` with `q - q⁻¹ ≠ 0`, the finite
+modules over `U_q(sl₂)`, with the rigid structure `uqSl2RigidCategory` and the pivotal structure
+`uqSl2PivotalCategory` of the pivot `K⁻¹`, form a spherical category: for every module
+endomorphism `f` of `V` the right trace `tr_V(K⁻¹ f)` equals the left trace `tr_V(K f)`. The
+hypothesis cannot be dropped: at `q = ±1` the one-dimensional module with `K = 2` and `E = F = 0`
+has right and left traces `1/2` and `2` of its identity. -/
+theorem uqSl2_sphericalCategory (q : ℂ) [Fact (q ≠ 0)] (hq : q - q⁻¹ ≠ 0) :
+    TauCeti.SphericalCategory (TauCeti.FiniteHopfModuleCat ℂ (TauCeti.UqSl2 q)) := by
+  sorry
+
+end
 
 end TauCetiRoadmap.QuantumGroups
