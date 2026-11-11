@@ -42,6 +42,7 @@ body:
         - CFSGStatement
         - CStarAlgebras
         - CStarClassification
+        - CalibratedGeometry
         - CategoricalOperatorAlgebras
         - CharacteristicClasses
         - ChevalleyGroups
@@ -140,6 +141,7 @@ body:
         - PivotalSpherical
         - Poincare3D
         - PolylogarithmFunctions
+        - PositiveMass
         - PositiveScalarCurvature
         - PrimitivePrimeDivisors
         - ProfiniteCohomology
