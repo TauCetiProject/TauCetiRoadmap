@@ -3,369 +3,56 @@ import TauCeti.Algebra.Category.ModuleCat.FiniteProjective.Monoidal
 import TauCeti.Algebra.Category.ModuleCat.FiniteProjective.Dualizable
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.RationalSubset.Basic
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.StructurePresheaf.SheafForEveryPresentation
-import TauCeti.AlgebraicGeometry.Cohomology.Module.Base
-import TauCeti.AlgebraicGeometry.Modules.GlobalSections
+import TauCeti.LinearAlgebra.Trace.Projective
+import TauCeti.RingTheory.AdicRing.CompletedAway
 import TauCeti.RingTheory.Huber.Adic
 import TauCeti.RingTheory.Huber.LocalizationTopology.Completion
+import TauCeti.RingTheory.Huber.NoetherianType.Basic
 import TauCeti.RingTheory.Huber.StronglyNoetherian
 import TauCeti.RingTheory.Huber.WeightedRestrictedSeries.Completion
 import TauCeti.Topology.PureDimension
-import TauCetiRoadmap.AdicSpacesPartII.Suggested
 
 /-!
-# Foundations of adic spaces, Part III: representative target signatures
+# Foundations of adic spaces, Part III: target signatures
 
-These signatures are suggested forms, not an exhaustive checklist. README.md is the definitive
-specification.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems that are statable against the pinned Mathlib and Tau Ceti, with the few definitions
+they need: algebras topologically of finite presentation over a complete rank-one valuation ring
+and the comparison of their generic and special fibres (R2.1, R2.6), Frobenius lifts along
+formally étale maps (R2.9), fractional valuation bounds as rational subsets (R2.10), Huber's
+acyclicity of finite modules on Laurent covers, glueing squares and Kiehl's glueing theorem
+(R3.1–R3.2), exactness of dense Banach inverse sequences (R3.4), the criterion for uniform
+Banach rings (R3.5), the trace of a finite projective algebra with its categorical realization,
+base change, transitivity, geometric-point formula and the trace-form criterion for étaleness
+(R3.8), and the Gel'fand spectrum of a Banach ring with Berkovich's spectral-radius formula (R3.9).
 
-Formal schemes, coherent formal modules, admissible formal models and their generic fibres,
-Raynaud's theorem, flattening, Hasse domains, coherent sheaves on adic spaces, Kiehl-properness,
-the GAGA comparison maps and the traces of finite locally free morphisms are README targets. This
-file states the parts that are a few lines over the pinned carriers:
+The constructions on adic rings of F0.1 (completed localisation, restricted power series,
+completed tensor product, finite modules as adic systems), the sheaves of the formal spectrum
+of F0.2 and the finite-projective trace `LinearMap.projectiveTrace` of R3.8 are proved in the
+pinned Tau Ceti and are not stated here. The theorem on formal functions and Grothendieck's
+existence theorem for proper schemes are SchemeAndStackFoundations' (§4.9, §4.10).
 
-* F0: completed localisations and completed tensor products of the adic rings supplied by
-  AdicSpacesPartII R0.1a–R0.1b, finite modules as adic systems, the first-order ideal of a
-  square-zero tower,
-  and on schemes proper over an adic noetherian ring the theorem on formal functions and
-  Grothendieck's existence theorem of SchemeAndStackFoundations (§4.9, §4.10) in quotient-system
-  form, with the thickenings `Xₙ` encoded as universal quotients `F ⧸ I^{n+1} F` of
-  `𝒪_X`-modules;
-* R2: algebras topologically of finite presentation over a complete rank-one valuation ring, the
-  comparison of the Krull dimension, reducedness and pure dimension of their generic and special
-  fibres, and the fractional valuation bounds behind Hasse domains;
-* R3: glueing squares and Kiehl's glueing theorem for finite projective modules, descent of
-  finite modules along strongly noetherian Laurent covers, acyclicity of finite modules on
-  Laurent covers of rings of noetherian type, exactness of dense Banach inverse sequences,
-  the trace of a finite projective module and of a finite locally free algebra, its
-  base change and geometric-point formula, and
-  the Gel'fand spectrum of a Banach ring.
+Headline theorems that are not statable at the pins, with the carrier each lacks:
 
-The R3.6 Banach targets (*completely-continuous-map*,
-*strictly-completely-continuous-closed-target*, *completely-continuous-finite-cokernel*,
-*restriction-strictly-completely-continuous*, *almost-noetherian-integral-affinoid-modules*)
-are README-only targets of this roadmap. They use CompactOperators §0.1's complete
-continuity and scalar lattice norms, and PadicFunctionalAnalysis §§2.1–2.2's model-space
-surjections; Part III supplies their affinoid adapters, the strict predicate, closed-target
-and restriction theorems, and the series criterion. R3.6 also transports
-PadicFunctionalAnalysis §2.4's countable-type splitting to Part II's completed tensor and
-proves formal functions for proper coherent cohomology (*proper-cohomology-adic-completion*).
-R3.7a supplies the README-only analytic genus-one projective embedding
-(*rigid-genus-one-projective-embedding*), projective Hilbert/Hom comparison
-(*rigid-projective-hilbert-hom*), Artinian genus-one GAGA
-(*rigid-artinian-genus-one-gaga*) and local algebraicity preserving group, action and level
-(*rigid-generalised-elliptic-local-algebraicity*). These follow R3.6–R3.7 and provide
-*rigid-generalised-elliptic-level-classification* and *hasse-loci-admissible-opens*.
-R2 retains algebraic moduli and the formal Hasse-section domains.
-The Hasse comparison uses the cotangent frame `dX` of `ω = e*Ω̂¹` along the identity and
-its coordinate functional `τ_X = (dX)∨ : ω → O`, with `τ_X(dX) = 1`.
-Modulo `p`, `Ha = ā(dX)^{⊗(p−1)}` and `τ_X^{⊗(p−1)}(Ha) = ā`, where `ā` is the
-reduction of the coefficient of `X^p` in `[p]*(X)`. An integral coordinate change
-`X′ = uX + O(X²)`, `u` a unit, gives `ā′ = ū^{1−p}ā` and `dX′ = u dX` along
-the identity, preserving the section and its Hasse domains for `0 ≤ ε < 1`.
-R2.11's README-only full level over `ℤ[1/N]` is a commutative group-scheme isomorphism
-`((ℤ/N)²)_S ≅ E^sm[N]` meeting every geometric component. Its labels preserve zero and
-addition; the cyclic Drinfeld divisor condition is specified there.
-R3's Čech applications use DerivedModuleAlgebra §S.1's
-`DoubleComplex.totalCohomology_of_exact_rows`, its transpose and canonical edge naturality,
-with total differential `d′ + (−1)^p d″`.
-The README-only Berthelot mapping functor uses the locally power-bounded sheaf,
-continuous chart maps preserving topological nilpotence, and local evaluation maps to
-integral residue fields. Its composite into the analytic stalk need not be local.
-The README-only rational-cover Čech reduction first establishes separatedness and the
-sheaf condition. Its positive-degree induction property is augmented exactness for the
-specified covering after every rational pullback. Localized Laurent exactness supplies
-the base case, and vanishing on the empty open supplies the empty-cover case.
-F0's ordinary projective-bundle, tensor-power and ampleness interfaces are supplied by
-StableReduction Layer 2; F0 supplies their formal-thickening adapters.
-F0 uses the generic tower calculus and Mittag-Leffler criteria of
-DerivedModuleAlgebra §§1.T.1 and 1.1, including the six-term sequence and vanishing of
-`lim¹` for a Mittag-Leffler kernel tower. Its integral-module adapter preserves the maps.
-R3.4's dense Banach inverse-sequence theorem has separate topological hypotheses.
-The README-only local-algebraicity input on an open with `n ≥ 1` sides in every singular
-geometric fibre gives `D = E^sm[n]` finite locally free of rank `n²` over the base and an
-ample relative effective Cartier divisor in `E`, compatibly with rigid base change.
-On the standard `2`-gon over `ℚ₃`, the kernel has rank `4` over the base, whereas
-multiplication on the whole smooth locus has target-component ranks `4` and `0`.
-The README-only coefficient-ideal fibre test requires the extended ideal to be zero on
-the fibre, including nonreduced fibres; its dual-number Check separates this from point sets.
-R2.7's README-only dévissage interfaces distinguish pull-back of finite module and
-basis data from pull-back of a pointed chain. Literal pointed pull-back requires a
-single point in every distinguished finite fibre; after a splitting base change,
-`FormalScheme.devissage_exists_baseChange_local` reconstructs a chain on elementary
-étale neighbourhoods. Cokernel dimension drops concern the distinguished fibre,
-using the neighbourhood-based `FormalScheme.fibreSupportDim`.
-`Devissage.truncateAtDimension` gives a prefix above a threshold with terminal
-cokernel of smaller fibre dimension; a complete chain can terminate above that
-threshold. The flatness-in-dimension criterion uses this terminal bound, and
-`IsFlatInDim.baseChange` transports the upper flatness bound to reconstructed chains.
-
-The general-Tate small-perturbation theorem
-(*surjection-small-perturbation*) is also a README target.
-
-Completeness includes the Hausdorff property.
+* formal higher direct images, formal Serre vanishing, the proper-support existence theorem and
+  formal GAGA (F0.4–F0.8): a formal-scheme carrier (a locally ringed space locally isomorphic to
+  the formal spectrum of an adic ring) with coherent modules on it; the pins have only the
+  structure sheaf of the formal spectrum of one adic ring;
+* Raynaud's theorem, flattening and the generic fibre of an admissible formal scheme (R2.3–R2.7):
+  admissible formal schemes, admissible blow-ups and the category of rigid spaces;
+* Kiehl's Theorems A and B on quasi-Stein spaces (R3.4), Kiehl's proper mapping theorem and the
+  theorem on formal functions for proper coherent cohomology (R3.6), and proper GAGA (R3.7):
+  coherent sheaves on `TauCeti.AdicSpace` with their cohomology, Kiehl-proper morphisms of adic
+  spaces and the rigid analytification of schemes;
+* the trace of a finite locally free morphism of adic spaces and pull–identify–trace on
+  correspondences (R3.8): finite locally free morphisms of adic spaces.
 -/
 
 namespace TauCetiRoadmap.AdicSpacesPartIII
 
-open TauCeti TauCetiRoadmap.AdicSpacesPartII TensorProduct
+open TauCeti TensorProduct
 
 universe u
-
-noncomputable section
-
-/-! ## Layer F0: formal geometry -/
-
-/-! ### F0.1 Constructions on adic rings (*completed-localization*,
-*restricted-power-series-adic*, *completed-tensor-product-adic*) -/
-
-/-! AdicSpacesPartII R0.1a–R0.1b supplies the imported `IsAdicRing`, its chosen ideal and
-Huber instance, and the noetherian completion criteria. -/
-
-namespace IsAdicRing
-
-variable (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
-
-/-- Over an adic noetherian ring the restricted power series ring `A⟨T₁, …, T_r⟩` is noetherian
-(EGA I, Ch. 0, 7.5.4(ii), p. 71). -/
-theorem isNoetherianRing_restrictedMvPowerSeriesCompletion [TauCetiRoadmap.AdicSpacesPartII.IsAdicRing A] [IsNoetherianRing A]
-    (r : ℕ) : IsNoetherianRing (Huber.restrictedMvPowerSeriesCompletion r A) := sorry
-
-end IsAdicRing
-
-namespace AdicRing
-
-variable (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [TauCetiRoadmap.AdicSpacesPartII.IsAdicRing A]
-
-/-- The completed localisation `A_{f}`: the completion of `A_f` along `I·A_f` for the chosen ideal
-of definition `I`, with the `I·A_{f}`-adic topology (EGA I, Ch. 0, 7.6.1–7.6.2, 7.6.15). -/
-def CompletedAway (f : A) : Type _ :=
-  AdicCompletion ((TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal A).map (algebraMap A (Localization.Away f)))
-    (Localization.Away f)
-
-namespace CompletedAway
-
-variable (f : A)
-
-instance : CommRing (CompletedAway A f) :=
-  inferInstanceAs (CommRing (AdicCompletion _ (Localization.Away f)))
-
-instance : Algebra A (CompletedAway A f) :=
-  inferInstanceAs (Algebra A (AdicCompletion _ (Localization.Away f)))
-
-instance : WithIdeal (CompletedAway A f) :=
-  ⟨(TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal A).map (algebraMap A (CompletedAway A f))⟩
-
-/-- `A_{f}` is an adic ring. -/
-theorem isAdicRing : TauCetiRoadmap.AdicSpacesPartII.IsAdicRing (CompletedAway A f) := sorry
-
-/-- `A_{f}` is noetherian and flat over `A` when `A` is noetherian (EGA I, Ch. 0, 7.6.11 and
-7.6.13, p. 74). -/
-theorem isNoetherianRing_flat [IsNoetherianRing A] :
-    IsNoetherianRing (CompletedAway A f) ∧ Module.Flat A (CompletedAway A f) := sorry
-
-/-- Universal property: a continuous `u : A → B` into a complete separated linearly topologised
-ring with `u f` a unit factors uniquely through a continuous map out of `A_{f}`
-(EGA I, Ch. 0, 7.6.6, p. 73). -/
-theorem existsUnique_lift {B : Type*} [CommRing B] [UniformSpace B] [IsUniformAddGroup B]
-    [IsTopologicalRing B] [IsLinearTopology B B] [CompleteSpace B] [T2Space B]
-    (u : A →+* B) (hu : Continuous u) (hf : IsUnit (u f)) :
-    ∃! v : CompletedAway A f →+* B, Continuous v ∧ v.comp (algebraMap A _) = u := sorry
-
-end CompletedAway
-
-section CompletedTensorProduct
-
-variable (A B C : Type*) [CommRing A] [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
-  [TauCetiRoadmap.AdicSpacesPartII.IsAdicRing B] [CommRing C] [TopologicalSpace C] [IsTopologicalRing C] [TauCetiRoadmap.AdicSpacesPartII.IsAdicRing C]
-  [Algebra A B] [Algebra A C]
-
-/-- The ideal of `B ⊗[A] C` generated by `I_B ⊗ 1` and `1 ⊗ I_C`. -/
-def CompletedTensorProduct.tensorIdeal : Ideal (B ⊗[A] C) :=
-  (TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal B).map Algebra.TensorProduct.includeLeftRingHom ⊔
-    (TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal C).map (Algebra.TensorProduct.includeRight : C →ₐ[A] B ⊗[A] C).toRingHom
-
-variable [TopologicalSpace A] [IsTopologicalRing A]
-
-/-- The completed tensor product `B ⊗̂_A C` of adic rings along adic structure maps: the adic
-completion of `B ⊗[A] C` along the tensor ideal, with its adic topology (EGA I, Ch. 0, 7.7.1). -/
-def CompletedTensorProduct [TauCetiRoadmap.AdicSpacesPartII.IsAdicRing A] [TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom (algebraMap A B)]
-    [TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom (algebraMap A C)] : Type _ :=
-  AdicCompletion (CompletedTensorProduct.tensorIdeal A B C) (B ⊗[A] C)
-
-variable [TauCetiRoadmap.AdicSpacesPartII.IsAdicRing A] [TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom (algebraMap A B)]
-  [TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom (algebraMap A C)]
-
-namespace CompletedTensorProduct
-
-instance : CommRing (CompletedTensorProduct A B C) :=
-  inferInstanceAs (CommRing (AdicCompletion _ (B ⊗[A] C)))
-
-instance : Algebra (B ⊗[A] C) (CompletedTensorProduct A B C) :=
-  inferInstanceAs (Algebra (B ⊗[A] C) (AdicCompletion _ (B ⊗[A] C)))
-
-instance : Algebra A (CompletedTensorProduct A B C) :=
-  inferInstanceAs (Algebra A (AdicCompletion _ (B ⊗[A] C)))
-
-instance : IsScalarTower A (B ⊗[A] C) (CompletedTensorProduct A B C) :=
-  inferInstanceAs (IsScalarTower A (B ⊗[A] C) (AdicCompletion _ (B ⊗[A] C)))
-
-instance : WithIdeal (CompletedTensorProduct A B C) :=
-  ⟨(tensorIdeal A B C).map (algebraMap (B ⊗[A] C) (CompletedTensorProduct A B C))⟩
-
-/-- `b ↦ b ⊗ 1`. -/
-def inl : B →ₐ[A] CompletedTensorProduct A B C :=
-  (IsScalarTower.toAlgHom A (B ⊗[A] C) _).comp Algebra.TensorProduct.includeLeft
-
-/-- `c ↦ 1 ⊗ c`. -/
-def inr : C →ₐ[A] CompletedTensorProduct A B C :=
-  (IsScalarTower.toAlgHom A (B ⊗[A] C) _).comp Algebra.TensorProduct.includeRight
-
-/-- `B ⊗̂_A C` is an adic ring (EGA I, Ch. 0, 7.7.1). -/
-theorem isAdicRing : TauCetiRoadmap.AdicSpacesPartII.IsAdicRing (CompletedTensorProduct A B C) := sorry
-
-/-- Universal property: continuous `A`-algebra maps `B → D`, `C → D` into a complete separated
-linearly topologised `A`-algebra induce a unique continuous map out of `B ⊗̂_A C`
-(EGA I, Ch. 0, 7.7.6). -/
-theorem existsUnique_lift {D : Type*} [CommRing D] [UniformSpace D] [IsUniformAddGroup D]
-    [IsTopologicalRing D] [IsLinearTopology D D] [CompleteSpace D] [T2Space D] [Algebra A D]
-    (β : B →ₐ[A] D) (γ : C →ₐ[A] D) (hβ : Continuous β) (hγ : Continuous γ) :
-    ∃! ψ : CompletedTensorProduct A B C →ₐ[A] D,
-      Continuous ψ ∧ ψ.comp (inl A B C) = β ∧ ψ.comp (inr A B C) = γ := sorry
-
-/-- If `A` is adic noetherian, `B` a topological quotient of some `A⟨T₁, …, T_r⟩` and `C`
-noetherian, then `B ⊗̂_A C` is noetherian (EGA I, 10.13.5). -/
-theorem isNoetherianRing [IsNoetherianRing A] [IsNoetherianRing C]
-    (hB : ∃ (r : ℕ) (π : Huber.restrictedMvPowerSeriesCompletion r A →+* B),
-      IsOpenQuotientMap π ∧ π.comp (algebraMap A _) = algebraMap A B) :
-    IsNoetherianRing (CompletedTensorProduct A B C) := sorry
-
-end CompletedTensorProduct
-
-end CompletedTensorProduct
-
-end AdicRing
-
-/-! ### F0.1 Finite modules over an adic noetherian ring (*finite-module-inverse-limit*) -/
-
-/-- Finite modules over an adic noetherian ring are adic systems: if `Mₙ` are finite modules killed
-by `I^{n+1}` and `tₙ : M_{n+1} → Mₙ` are surjective with kernel `I^{n+1} M_{n+1}`, then
-`L = lim Mₙ` is finite and each projection `L → Mₙ` is surjective with kernel `I^{n+1} L`
-(EGA I, Ch. 0, 7.2.9, p. 65). -/
-theorem IsAdicRing.finite_limit {A : Type*} [CommRing A] [TopologicalSpace A]
-    [IsTopologicalRing A] [TauCetiRoadmap.AdicSpacesPartII.IsAdicRing A] [IsNoetherianRing A]
-    (M : ℕ → Type*) [∀ n, AddCommGroup (M n)] [∀ n, Module A (M n)]
-    [∀ n, Module.Finite A (M n)] (t : ∀ n, M (n + 1) →ₗ[A] M n)
-    (ht : ∀ n, Function.Surjective (t n))
-    (hann : ∀ n, (TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal A ^ (n + 1)) • (⊤ : Submodule A (M n)) = ⊥)
-    (hker : ∀ n, LinearMap.ker (t n) = (TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal A ^ (n + 1)) • ⊤) :
-    let L : Submodule A (∀ n, M n) :=
-      ⨅ n, LinearMap.ker (LinearMap.proj n - (t n).comp (LinearMap.proj (n + 1)))
-    Module.Finite A L ∧ ∀ n,
-      Function.Surjective ((LinearMap.proj n : (∀ n, M n) →ₗ[A] M n).comp L.subtype) ∧
-        LinearMap.ker ((LinearMap.proj n : (∀ n, M n) →ₗ[A] M n).comp L.subtype) =
-          (TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal A ^ (n + 1)) • ⊤ := sorry
-
-/-! ### F0.3 The first-order ideal of a square-zero tower (*formal-scheme-carrier-comparison*)
-
-A marked formal scheme `(X, 𝒥)` with `𝒥` of finite type has first-order ideal
-`ker(O_{X_1} → O_{X_0}) = 𝒥/𝒥²` of finite type. For the square-zero tower
-`Spec k → Spec(k ⊕ V) = Spec(k ⊕ V) = ⋯` this ideal is `V`, the kernel of `k ⊕ V → k`. -/
-
-/-- The boundary Check of *formal-scheme-carrier-comparison*: for `V = ⊕_{i ∈ ℕ} k`, the
-first-order ideal `V` of `k ⊕ V` is not finitely generated. Its square-zero tower cannot come
-from a formal scheme marked by an ideal of definition of finite type. -/
-theorem firstOrderIdeal_not_fg (k : Type*) [Field k] :
-    ¬ (RingHom.ker (TrivSqZeroExt.fstHom k k (ℕ →₀ k))).FG := sorry
-
-/-! ### F0.7 Formal functions and Grothendieck's existence theorem
-(*pow-quotient-formal-module-comparison*, *theorem-on-formal-functions*, *grothendieck-existence*)
-
-For a scheme `X` over `Spec A` and an ideal `J ⊆ A`, the restriction of an `𝒪_X`-module `F` to
-the thickening `Xₙ = V(J^{n+1} 𝒪_X)` is encoded by the universal quotient `F ⧸ J^{n+1} F`, which
-is `F → iₙ_* iₙ^* F` for the closed immersion `iₙ : Xₙ → X`. SchemeAndStackFoundations owns,
-on the coherent formal modules of `Formal.Scheme.formalCompletion X (J𝒪_X)`, the theorem on formal
-functions (§4.9, `Scheme.Modules.Cohomology.formalFunctionsIso`) and Grothendieck's existence
-theorem (§4.10, `Formal.grothendieck_existence`); the statements below are their forms on
-quotient systems, transported along the identification of such systems with coherent formal
-modules and of their cohomology towers. -/
-
-section FormalFunctions
-
-open AlgebraicGeometry CategoryTheory Opposite
-open scoped ZeroObject
-
-variable (A : Type u) [CommRing A] {X : Scheme.{u}} [X.Over (Spec (CommRingCat.of A))]
-
-/-- `q : F ⟶ G` exhibits `G` as `F ⧸ J^{n+1} F`: it is killed by every element of `J^{n+1}`
-and every morphism out of `F` killed by `J^{n+1}` factors uniquely through it. Such a `q` is the
-unit `F → iₙ_* iₙ^* F` of the closed immersion `iₙ : V(J^{n+1} 𝒪_X) → X`, up to unique
-isomorphism under `F`. -/
-def IsPowQuotient (J : Ideal A) (n : ℕ) {F G : X.Modules} (q : F ⟶ G) : Prop :=
-  (∀ a ∈ J ^ (n + 1), Scheme.Modules.globalSectionsSmul F
-      (Scheme.Modules.baseRingToGlobalSections A X a) ≫ q = 0) ∧
-    ∀ (H : X.Modules) (g : F ⟶ H),
-      (∀ a ∈ J ^ (n + 1), Scheme.Modules.globalSectionsSmul F
-        (Scheme.Modules.baseRingToGlobalSections A X a) ≫ g = 0) →
-      ∃! h : G ⟶ H, q ≫ h = g
-
-/-- The theorem on formal functions: for `X` proper over a noetherian ring `A`, a coherent
-`𝒪_X`-module `F` and an ideal `J`, `Hⁱ(X, F)` is finite and its `J`-adic completion is the
-module of compatible families in `Hⁱ(Xₙ, F ⧸ J^{n+1} F)`, through the natural maps
-(EGA III₁, Ch. III, 4.1.7 (4.1.7.1); Stacks, Tag 02OC, Theorem 30.20.5). This is the
-quotient-system form of SchemeAndStackFoundations' `Scheme.Modules.Cohomology.formalFunctionsIso`
-(§4.9, file `TauCeti/AlgebraicGeometry/Cohomology/FormalFunctions.lean`), which owns the theorem:
-an `IsPowQuotient` system `F → Qₙ` is `F → F ⧸ J^{n+1} F` up to unique isomorphism. -/
-theorem formalFunctions [IsNoetherianRing A] [IsLocallyNoetherian X]
-    [IsProper (X ↘ Spec (CommRingCat.of A))] (F : X.Modules)
-    [SheafOfModules.IsFinitePresentation (R := X.ringCatSheaf) F] (J : Ideal A)
-    (Q : ℕ → X.Modules) (q : ∀ n, F ⟶ Q n) (hq : ∀ n, IsPowQuotient A J n (q n))
-    (t : ∀ n, Q (n + 1) ⟶ Q n) (ht : ∀ n, q (n + 1) ≫ t n = q n) (i : ℕ) :
-    let V : Submodule A (∀ n, Scheme.Modules.Cohomology (Q n) i) :=
-      ⨅ n, LinearMap.ker
-        ((LinearMap.proj n : (∀ m, Scheme.Modules.Cohomology (Q m) i) →ₗ[A] _) -
-          (Scheme.Modules.cohomologyMapBaseLinear A X (t n) i).comp
-            (LinearMap.proj (n + 1) : (∀ m, Scheme.Modules.Cohomology (Q m) i) →ₗ[A] _))
-    Module.Finite A (Scheme.Modules.Cohomology F i) ∧
-      ∃ E : AdicCompletion J (Scheme.Modules.Cohomology F i) ≃ₗ[A] V, ∀ a n,
-        (E (AdicCompletion.of J (Scheme.Modules.Cohomology F i) a)).val n =
-          Scheme.Modules.cohomologyMapBaseLinear A X (q n) i a := sorry
-
-variable [TopologicalSpace A] [IsTopologicalRing A] [TauCetiRoadmap.AdicSpacesPartII.IsAdicRing A] [IsNoetherianRing A]
-
-/-- Grothendieck's existence theorem, essential surjectivity: for `X` proper over an adic
-noetherian ring `A` with ideal of definition `I`, every adic system of coherent modules on the
-thickenings (`Qₙ` coherent with `Q_{n+1} ⧸ I^{n+1} Q_{n+1} = Qₙ`) is the system of quotients
-of a coherent `𝒪_X`-module (EGA III₁, Ch. III, 5.1.4 and 5.1.7, p. 150; Stacks, Tag 088F,
-Remark 30.27.2). This is SchemeAndStackFoundations' `Formal.grothendieck_existence` (§4.10), which
-owns the theorem, for the completion along `I𝒪_X`: such a system is the pushforward to `X` of a
-`Formal.Scheme.CoherentFormalModule` on `Formal.Scheme.formalCompletion X (I𝒪_X)`. -/
-theorem grothendieckExistence {I : Ideal A} (hI : IsAdic I) [IsLocallyNoetherian X]
-    [IsProper (X ↘ Spec (CommRingCat.of A))] (Q : ℕ → X.Modules)
-    [∀ n, SheafOfModules.IsFinitePresentation (R := X.ringCatSheaf) (Q n)]
-    (t : ∀ n, Q (n + 1) ⟶ Q n) (ht : ∀ n, IsPowQuotient A I n (t n)) :
-    ∃ (F : X.Modules) (_ : SheafOfModules.IsFinitePresentation (R := X.ringCatSheaf) F)
-      (q : ∀ n, F ⟶ Q n), (∀ n, IsPowQuotient A I n (q n)) ∧ ∀ n, q (n + 1) ≫ t n = q n :=
-  sorry
-
-/-- Grothendieck's existence theorem, full faithfulness: compatible morphisms between the
-quotient systems of two coherent modules come from a unique morphism (EGA III₁, Ch. III, 5.1.4
-and 5.1.7, p. 150; Stacks, Tag 0883, Lemma 30.24.1). This is the full-faithfulness clause of
-SchemeAndStackFoundations' Grothendieck existence theorem (§4.10), which owns it, read on the
-quotient systems of `F` and `G`, i.e. on the morphisms of their completions along `I𝒪_X`. -/
-theorem grothendieckExistence_hom {I : Ideal A} (hI : IsAdic I) [IsLocallyNoetherian X]
-    [IsProper (X ↘ Spec (CommRingCat.of A))] (F G : X.Modules)
-    [SheafOfModules.IsFinitePresentation (R := X.ringCatSheaf) F]
-    [SheafOfModules.IsFinitePresentation (R := X.ringCatSheaf) G]
-    (QF QG : ℕ → X.Modules) (qF : ∀ n, F ⟶ QF n) (qG : ∀ n, G ⟶ QG n)
-    (hqF : ∀ n, IsPowQuotient A I n (qF n)) (hqG : ∀ n, IsPowQuotient A I n (qG n))
-    (φ : ∀ n, QF n ⟶ QG n) (tF : ∀ n, QF (n + 1) ⟶ QF n) (tG : ∀ n, QG (n + 1) ⟶ QG n)
-    (htF : ∀ n, qF (n + 1) ≫ tF n = qF n) (htG : ∀ n, qG (n + 1) ≫ tG n = qG n)
-    (hφ : ∀ n, φ (n + 1) ≫ tG n = tF n ≫ φ n) :
-    ∃! ψ : F ⟶ G, ∀ n, ψ ≫ qG n = qF n ≫ φ n := sorry
-
-end FormalFunctions
-
-end
 
 /-! ## Layer R2: formal schemes, generic fibres and Hasse domains -/
 
@@ -443,10 +130,10 @@ theorem IsTopologicallyFinitePresentation.isAdicComplete
 /-- Reduction of completed localisation is ordinary localisation of the reduction, with
 the canonical maps from `A` identified (Bosch–Lütkebohmert I, §1, p. 296). -/
 theorem IsTopologicallyFinitePresentation.completedAway_quotient
-    [TopologicalSpace A] [IsTopologicalRing A] [TauCetiRoadmap.AdicSpacesPartII.IsAdicRing A]
+    [TopologicalSpace A] [IsTopologicalRing A] [TauCeti.IsAdicRing A]
     (hA : IsTopologicallyFinitePresentation O A)
     (hϖ : IsAdic (Ideal.span {algebraMap O A ϖ})) (f : A) (m : ℕ) (hm : 1 ≤ m) :
-    let B := AdicRing.CompletedAway A f
+    let B := TauCeti.AdicRing.CompletedAway A f
     let J : Ideal B := Ideal.span {(algebraMap A B (algebraMap O A ϖ)) ^ m}
     let Q := A ⧸ Ideal.span {(algebraMap O A ϖ) ^ m}
     let fbar : Q := Ideal.Quotient.mk _ f
@@ -458,10 +145,10 @@ theorem IsTopologicallyFinitePresentation.completedAway_quotient
 positive powers of the pseudouniformiser (Bosch–Lütkebohmert I, §1, Lemma 1.6, pp. 295–296).
 The algebra may have pseudouniformiser torsion and the valuation base may be nondiscrete. -/
 theorem IsTopologicallyFinitePresentation.completedAway_flat
-    [TopologicalSpace A] [IsTopologicalRing A] [TauCetiRoadmap.AdicSpacesPartII.IsAdicRing A]
+    [TopologicalSpace A] [IsTopologicalRing A] [TauCeti.IsAdicRing A]
     (hA : IsTopologicallyFinitePresentation O A)
     (hϖ : IsAdic (Ideal.span {algebraMap O A ϖ})) (f : A) :
-    Module.Flat A (AdicRing.CompletedAway A f) := sorry
+    Module.Flat A (TauCeti.AdicRing.CompletedAway A f) := sorry
 
 end TFP
 
@@ -505,19 +192,6 @@ theorem IsTopologicallyFinitePresentation.isReduced_isPureDimensional_genericFib
 
 end FibreComparison
 
-/-- The flatness boundary Check of *formal-model-fibre-comparison*: `O⟨T⟩ ⧸ (ϖT)` is not flat.
-Its generic fibre `K` has Krull dimension `0` and its special fibre `k[T]` has Krull dimension `1`,
-so the bound `ringKrullDim_genericFibre_le` is strict. -/
-theorem formalModelFibre_torsion {O : Type*} [CommRing O] [IsDomain O] [ValuationRing O]
-    [TopologicalSpace O]
-    [NonarchimedeanRing O] (ϖ : O) [IsCompleteRankOneBase O ϖ] :
-    let P := restrictedMvPowerSeriesCompletion 1 O
-    let T : P := ((weightedX (fun _ : Fin 1 ↦ ({1} : Set O)) isWeightFamily_one_weight 0 :
-      weightedRestrictedSubring _ _) : P)
-    let A := P ⧸ Ideal.span {algebraMap O P ϖ * T}
-    ringKrullDim (Localization.Away (algebraMap O A ϖ)) = 0 ∧
-      ringKrullDim (A ⧸ (IsLocalRing.maximalIdeal O).map (algebraMap O A)) = 1 := sorry
-
 end Huber
 
 /-! ### R2.9 Frobenius lifts (*frobenius-lift-etale-over-torus*) -/
@@ -551,10 +225,6 @@ def fracPowLE (f g : A) (q : ℚ≥0) : Set (Spv A) :=
 /-- `{|f| ≥ |g|^q}`: the valuations with `v(g^a) ≤ v(f^b)` for `q = a/b` in lowest terms. -/
 def fracPowGE (f g : A) (q : ℚ≥0) : Set (Spv A) :=
   {v | v.toValuativeRel.vle (g ^ q.num) (f ^ q.den)}
-
-/-- Any representative `q = a/b`, `b > 0`, may be used. -/
-theorem mem_fracPowLE_iff {f g : A} {q : ℚ≥0} {a b : ℕ} (hb : 0 < b) (hq : q = a / b)
-    {v : Spv A} : v ∈ fracPowLE f g q ↔ v.toValuativeRel.vle (f ^ b) (g ^ a) := sorry
 
 /-- For a unit `g`, the bounds cut out rational subsets of `Spa(A, A⁺)`:
 `{|f| ≤ |g|^{a/b}} = R(f^b, g^a / g^a)` and `{|f| ≥ |g|^{a/b}} = R(g^a, f^b / f^b)` (the shape of
@@ -603,7 +273,7 @@ type, the cover `{|f| ≤ 1}`, `{|f| ≥ 1}` with intersection `{|f| = 1}` and a
 `0 → M → B₁ ⊗ M × B₂ ⊗ M → B₁₂ ⊗ M → 0` is exact (Huber 1994, §2, Theorem 2.5, p. 525, both
 cases; rational covers reduce to Laurent covers by KL15, Proposition 2.4.20). -/
 theorem laurent_exact_of_finite [Huber.IsHuberRing A] [CompleteSpace A] [T2Space A]
-    [TauCetiRoadmap.AdicSpacesPartII.Huber.IsNoetherianType A] [DecidableEq A] (P : PairOfDefinition A) (f : A)
+    [TauCeti.Huber.IsNoetherianType A] [DecidableEq A] (P : PairOfDefinition A) (f : A)
     {B₁ B₂ B₁₂ : Type*} [CommRing B₁] [CommRing B₂] [CommRing B₁₂]
     [TopologicalSpace B₁] [TopologicalSpace B₂] [TopologicalSpace B₁₂]
     [Algebra A B₁] [Algebra A B₂] [Algebra A B₁₂]
@@ -790,110 +460,26 @@ theorem isUniform_tfae {A : Type*} [NormedCommRing A] [CompleteSpace A] [IsTateR
         ∃ c > 0, ∀ x, c * ‖x‖ ≤ smoothingFun (normRingSeminorm A) x,
         ∃ c > 0, ∀ x : A, c * ‖x‖ ^ 2 ≤ ‖x ^ 2‖] := sorry
 
-/-! ### R3.9 The Gel'fand spectrum of a Banach ring (*gelfand-spectrum-banach-ring*) -/
-
-/-- The Gel'fand spectrum `M(A)` of a normed commutative ring: multiplicative seminorms bounded by
-a constant multiple of the norm, with the topology of pointwise convergence
-(Berkovich, §1.2; KL15, §2.3, Definition 2.3.2). -/
-def GelfandSpectrum (A : Type*) [NormedCommRing A] :=
-  {α : MulRingSeminorm A // ∃ C > 0, ∀ x, α x ≤ C * ‖x‖}
-
-namespace GelfandSpectrum
-
-variable {A : Type*} [NormedCommRing A]
-
-instance : TopologicalSpace (GelfandSpectrum A) :=
-  TopologicalSpace.induced (fun α : GelfandSpectrum A ↦ (α.val : A → ℝ)) inferInstance
-
-/-- The spectrum of a Banach ring is compact, and nonempty when the ring is nonzero
-(Berkovich, Theorem 1.2.1; KL15, Theorem 2.3.4, p. 34). -/
-theorem compactSpace_nonempty [CompleteSpace A] :
-    CompactSpace (GelfandSpectrum A) ∧ (Nontrivial A → Nonempty (GelfandSpectrum A)) := sorry
-
-/-- Berkovich's formula: the spectral seminorm `lim ‖xⁿ‖^{1/n}` is the maximum of `α(x)` over the
-spectrum, attained when `A ≠ 0`; for `A = 0` both sides are `0` (Berkovich, Theorem 1.3.1;
-KL15, Theorem 2.3.10, p. 35, and Remark 2.3.11(b), p. 36). -/
-theorem smoothingFun_eq_sSup [CompleteSpace A] (x : A) :
-    smoothingFun (normRingSeminorm A) x =
-        sSup (Set.range fun α : GelfandSpectrum A ↦ α.val x) ∧
-      (Nontrivial A → ∃ α : GelfandSpectrum A,
-        α.val x = smoothingFun (normRingSeminorm A) x) := sorry
-
-/-- The spectrum of `ℚ_p` is the `p`-adic norm alone. -/
-theorem test_padic (p : ℕ) [Fact p.Prime] (α : GelfandSpectrum ℚ_[p]) (x : ℚ_[p]) : α.val x = ‖x‖ :=
-  sorry
-
-/-- The zero ring has empty spectrum, since `α(1) = 1 ≠ 0 = α(0)`. -/
-theorem test_zero_ring [Subsingleton A] : IsEmpty (GelfandSpectrum A) := sorry
-
-/-- The dual-number Check of *gelfand-spectrum-banach-ring*: the nilpotent has norm one and
-spectral value zero, and the ambient norm is not multiplicative. -/
-theorem test_dualNumbers (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K]
-    [CompleteSpace K] :
-    let ε : TrivSqZeroExt K K := TrivSqZeroExt.inr 1
-    ‖ε‖ = 1 ∧ smoothingFun (normRingSeminorm (TrivSqZeroExt K K)) ε = 0 ∧
-      sSup (Set.range fun α : GelfandSpectrum (TrivSqZeroExt K K) ↦ α.val ε) = 0 ∧
-      ‖ε * ε‖ ≠ ‖ε‖ * ‖ε‖ ∧
-      ¬ ∃ α : GelfandSpectrum (TrivSqZeroExt K K), ∀ x, α.val x = ‖x‖ := sorry
-
-/-- Points of the spectrum annihilate square-zero elements. -/
-example (α : GelfandSpectrum A) (x : A) (hx : x ^ 2 = 0) : α.val x = 0 := by
-  have h : (α.val x) ^ 2 = 0 := by rw [← map_pow, hx, map_zero]
-  exact (pow_eq_zero_iff (by decide : (2 : ℕ) ≠ 0)).mp h
-
-end GelfandSpectrum
-
 end Huber
 
 /-! ### R3.8 Traces of finite projective modules and finite locally free algebras
-(*projective-module-trace*, *projective-trace-realization*, *finite-locally-free-algebra-trace*,
-*algebra-trace-base-change*, *algebra-trace-transitivity*, *etale-iff-trace-pairing-perfect*) -/
+(*projective-trace-realization*, *finite-locally-free-algebra-trace*, *algebra-trace-base-change*,
+*algebra-trace-transitivity*, *trace-geometric-point-formula*, *etale-iff-trace-pairing-perfect*) -/
 
 namespace LinearMap
 
-variable (R M : Type*) [CommSemiring R] [AddCommMonoid M] [Module R M] [Module.Finite R M]
-  [Module.Projective R M]
-
-/-- Trace by contraction on a finite projective semimodule. Over rings this realizes
-PivotalSpherical's symmetric categorical trace by evaluation at `1` on endomorphisms of `R`. -/
-def projectiveTrace : (M →ₗ[R] M) →ₗ[R] R :=
-  contractLeft R M ∘ₗ (dualTensorHomEquiv R M M).symm.toLinearMap
-
-variable {R M}
-
 open CategoryTheory MonoidalCategory in
 /-- *projective-trace-realization*: the symmetric categorical trace on a finite projective
-module, evaluated at `1` in the unit module, is its scalar contraction trace
-(Stacks, Tag 02DU; Mathlib's exact-pairing evaluation and coevaluation). -/
+module, evaluated at `1` in the unit module, is Tau Ceti's scalar contraction trace
+`LinearMap.projectiveTrace` (Stacks, Tag 02DU; Mathlib's exact-pairing evaluation and
+coevaluation). -/
 theorem projectiveTrace_eq_categoricalTrace (R : Type u) [CommRing R]
     (M : (TauCeti.finiteProjectiveModules R).FullSubcategory) (f : M.obj ⟶ M.obj) :
     (ExactPairing.coevaluation M.obj (HasRightDual.rightDual (X := M.obj)) ≫
       f ▷ (HasRightDual.rightDual (X := M.obj)) ≫
       (β_ M.obj (HasRightDual.rightDual (X := M.obj))).hom ≫
       ExactPairing.evaluation M.obj (HasRightDual.rightDual (X := M.obj))).hom 1 =
-        projectiveTrace R M.obj f.hom := sorry
-
-/-- On free modules the projective trace is Mathlib's trace. -/
-theorem projectiveTrace_eq_trace [Module.Free R M] :
-    projectiveTrace R M = LinearMap.trace R M := sorry
-
-/-- The projective trace commutes with base change. -/
-theorem projectiveTrace_baseChange (R' : Type*) [CommSemiring R'] [Algebra R R']
-    (f : M →ₗ[R] M) :
-    projectiveTrace R' (R' ⊗[R] M) (f.baseChange R') = algebraMap R R' (projectiveTrace R M f) :=
-  sorry
-
-/-- Cyclicity across finite projective semimodules, realizing categorical cyclicity over rings. -/
-theorem projectiveTrace_cyclic {N : Type*} [AddCommMonoid N] [Module R N]
-    [Module.Finite R N] [Module.Projective R N] (f : M →ₗ[R] N) (g : N →ₗ[R] M) :
-    projectiveTrace R M (g.comp f) = projectiveTrace R N (f.comp g) := sorry
-
-/-- The nonfree Check of *projective-trace-realization*: `ℚ × 0 ⊆ ℚ × ℚ` is projective and
-not free. Its identity has trace `(1, 0)`, while the pinned Mathlib trace gives `0`. -/
-theorem projectiveTrace_nonfree
-    [Module.Projective (ℚ × ℚ) (Ideal.span {((1 : ℚ), (0 : ℚ))})] :
-    projectiveTrace (ℚ × ℚ) (Ideal.span {((1 : ℚ), (0 : ℚ))}) LinearMap.id = (1, 0) ∧
-      LinearMap.trace (ℚ × ℚ) (Ideal.span {((1 : ℚ), (0 : ℚ))}) LinearMap.id = 0 := sorry
+        _root_.LinearMap.projectiveTrace R M.obj f.hom := sorry
 
 end LinearMap
 
@@ -902,9 +488,11 @@ namespace Algebra
 variable (R B : Type*) [CommRing R] [CommRing B] [Algebra R B] [Module.Finite R B]
   [Module.Projective R B]
 
-/-- The trace `Tr_{B/R}(b) = tr(m_b)` of a finite projective (finite locally free) algebra. -/
+/-- The trace `Tr_{B/R}(b) = tr(m_b)` of a finite projective (finite locally free) algebra,
+through Tau Ceti's trace `LinearMap.projectiveTrace` of an endomorphism of a finite projective
+module. -/
 def projectiveTrace : B →ₗ[R] R :=
-  LinearMap.projectiveTrace R B ∘ₗ (Algebra.lmul R B).toLinearMap
+  _root_.LinearMap.projectiveTrace R B ∘ₗ (Algebra.lmul R B).toLinearMap
 
 /-- The trace form `(x, y) ↦ Tr_{B/R}(xy)`. -/
 def projectiveTraceForm : LinearMap.BilinForm R B :=
@@ -929,8 +517,8 @@ theorem projectiveTrace_eq_sum_geometricPoints (k B Ω : Type*) [Field k] [CommR
 
 /-- Transitivity in a tower `R → B → C` of finite projective algebras:
 `Tr_{C/R} = Tr_{B/R} ∘ Tr_{C/B}` (the free case is Mathlib's `Algebra.trace_trace`; the finite
-projective case follows by localising at primes, using the finite-projective scalar trace
-and its cyclicity from R3.8). -/
+projective case follows by localising at primes, using Tau Ceti's
+`LinearMap.projectiveTrace_baseChange` and `LinearMap.projectiveTrace_cyclic`). -/
 theorem projectiveTrace_trans {C : Type*} [CommRing C] [Algebra B C] [Algebra R C]
     [IsScalarTower R B C] [Module.Finite B C] [Module.Projective B C] :
     ∃ (_ : Module.Finite R C) (_ : Module.Projective R C), ∀ c : C,
@@ -942,6 +530,42 @@ theorem etale_iff_projectiveTraceForm_bijective :
     Algebra.Etale R B ↔ Function.Bijective (projectiveTraceForm R B) := sorry
 
 end Algebra
+
+namespace Huber
+
+/-! ### R3.9 The Gel'fand spectrum of a Banach ring (*gelfand-spectrum-banach-ring*) -/
+
+/-- The Gel'fand spectrum `M(A)` of a normed commutative ring: multiplicative seminorms bounded by
+a constant multiple of the norm, with the topology of pointwise convergence
+(Berkovich, §1.2; KL15, §2.3, Definition 2.3.2). -/
+def GelfandSpectrum (A : Type*) [NormedCommRing A] :=
+  {α : MulRingSeminorm A // ∃ C > 0, ∀ x, α x ≤ C * ‖x‖}
+
+namespace GelfandSpectrum
+
+variable {A : Type*} [NormedCommRing A]
+
+instance : TopologicalSpace (GelfandSpectrum A) :=
+  TopologicalSpace.induced (fun α : GelfandSpectrum A ↦ (α.val : A → ℝ)) inferInstance
+
+/-- The spectrum of a Banach ring is compact and Hausdorff, and nonempty when the ring is nonzero
+(Berkovich, Theorem 1.2.1; KL15, Theorem 2.3.4, p. 34). -/
+theorem compactSpace_nonempty [CompleteSpace A] :
+    CompactSpace (GelfandSpectrum A) ∧ T2Space (GelfandSpectrum A) ∧
+      (Nontrivial A → Nonempty (GelfandSpectrum A)) := sorry
+
+/-- Berkovich's formula: the spectral seminorm `lim ‖xⁿ‖^{1/n}` is the maximum of `α(x)` over the
+spectrum, attained when `A ≠ 0`; for `A = 0` both sides are `0` (Berkovich, Theorem 1.3.1;
+KL15, Theorem 2.3.10, p. 35, and Remark 2.3.11(b), p. 36). -/
+theorem smoothingFun_eq_sSup [CompleteSpace A] (x : A) :
+    smoothingFun (normRingSeminorm A) x =
+        sSup (Set.range fun α : GelfandSpectrum A ↦ α.val x) ∧
+      (Nontrivial A → ∃ α : GelfandSpectrum A,
+        α.val x = smoothingFun (normRingSeminorm A) x) := sorry
+
+end GelfandSpectrum
+
+end Huber
 
 end
 
