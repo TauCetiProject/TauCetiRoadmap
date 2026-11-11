@@ -106,7 +106,8 @@ It leaves to named roadmaps and to the pins:
   scale; the pseudodifferential calculus and its Peetre theorem consume K5a's analysis, whose
   analytic operator layer consumes only P1.0.
 - AlgebraicTopology: singular homology and cohomology with products, CW structures and the
-  cellular comparison, homological orientations, Poincaré duality and the intersection pairing.
+  cellular comparison, homological orientations, Poincaré duality, the intersection pairing and
+  the regrading of a decreasing filtration for the filtered-complex spectral sequence.
   GeometricTopology Layer 11: simplicial complexes and their star/link API. RealAnalyticGeometry
   R0–R5: semianalytic sets and the compatible analytic triangulation; it owns the native coherent
   `SheafOfModules` predicate and the Stein theory, and consumes K1–K4, K5a's local estimates,
@@ -252,11 +253,13 @@ them.
   sequence of a filtered cochain complex `CochainComplex.spectralSequence` with its first page,
   finite-filtration convergence, naturality and comparison theorem; K8 owns only its Frölicher and
   base-degree filtration adapters (Layers 6–8).
-- Examples: the projectivization instances and affine atlas
-  (`TauCeti.Topology.Algebra.Projectivization`, `TauCeti.Geometry.Manifold.Instances.Projectivization`),
-  the sphere-quotient model `TauCeti.ComplexProjectiveSpace` with `cwComplex` and
-  `TauCeti.eulerChar_complexProjectiveSpace`, `OnePoint.diffeomorphProjectivization`, and the
-  complex torus `AddAction.orbitRel.Quotient L E` with `Submodule.instLieAddGroupOrbitRelQuotient`
+- Examples: the projectivization instances, the affine atlas and the Riemann-sphere
+  diffeomorphism `OnePoint.diffeomorphProjectivization`
+  (`TauCeti.Topology.Algebra.Projectivization`, `TauCeti.Geometry.Manifold.Instances.Projectivization`,
+  `TauCeti.Geometry.Manifold.Instances.OnePoint.Projectivization`), stated on Tau Ceti's own copy
+  of the quotient topology, whose proofs K7.1 repeats on Mathlib's; the sphere-quotient model
+  `TauCeti.ComplexProjectiveSpace` with `cwComplex` and `TauCeti.eulerChar_complexProjectiveSpace`;
+  and the complex torus `AddAction.orbitRel.Quotient L E` with `Submodule.instLieAddGroupOrbitRelQuotient`
   and `Submodule.instCompactSpaceOrbitRelQuotient` (Layer 7).
 
 ### From TauCetiRoadmap.ComplexManifolds
@@ -315,10 +318,11 @@ formulas.
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
-Stage 4 (CW pairs, cellular homology, `cwSubcomplexNeighborhoods`, 4.6's quotient topology on
-`Projectivization`, 4.7's `simplicialRealizationCW`), Stage 6 (cohomology, cup products,
-universal coefficients; 6.3's homological orientation and fundamental classes; 6.4's Poincaré
-duality; 6.5's intersection pairing) and Stage 8, item 7 (finite CW type of compact manifolds).
+Stage 4 (CW pairs, cellular homology, `cwSubcomplexNeighborhoods`, 4.6's cells of ℂPⁿ on the
+sphere-quotient carrier `TauCeti.ComplexProjectiveSpace`, 4.7's `simplicialRealizationCW`),
+Stage 5.0 (the regrading of a decreasing filtration as an increasing one, for K8), Stage 6
+(cohomology, cup products, universal coefficients; 6.3's homological orientation and fundamental
+classes; 6.4's Poincaré duality; 6.5's intersection pairing) and Stage 8, item 7 (finite CW type of compact manifolds).
 
 ### From TauCetiRoadmap.GeometricTopology
 
@@ -443,7 +447,8 @@ supplies the single-level specialization.
 Develop holomorphic submanifolds, embeddings and their tangent/normal exact sequences,
 extending ComplexManifolds Milestone 7.4's codimension-one normal bundle to arbitrary codimension.
 Prove equivalence of regular holomorphic parametrizations and regular holomorphic zero
-sets.
+sets. The sequences in arbitrary codimension and this equivalence are this roadmap's own,
+deduced from the joint implicit map above.
 
 *Needs:* Tau Ceti's joint implicit map (`TauCeti.Analysis.Complex.ImplicitFunction`,
 `TauCeti.Geometry.Manifold.Complex.ImplicitFunction`); Mathlib's `ContDiffAt.to_localInverse` and
@@ -711,7 +716,8 @@ Separately prove the multivariable Taylor approximation on ℂⁿ and Laurent ap
 smooth derivatives. Do not infer multivariable Runge from one-variable Runge. Develop the
 product-domain approximation and gluing API. The solver yields solutions on the full open
 parameter/domain products. The resulting 𝒪 and holomorphic-form sheaves are acyclic on the product
-domains used here, so K7's punctured-plane cover is a verified Leray cover. Here 𝒪 is Mathlib's
+domains used here, so K7's punctured-plane cover is a verified Leray cover. These approximation,
+gluing and acyclicity statements on the product domains are this roadmap's own. Here 𝒪 is Mathlib's
 `smoothSheafCommRing` for `𝓘(ℂ,ℂ)`, with the native carrier comparison of K3.0; K2 precedes K3's
 local coherence calculations.
 Define Dolbeault cohomology on a complex manifold from the pinned complex-linear `delBar` and
@@ -1043,8 +1049,10 @@ an open subset of `ℂⁿ` with the subset the common zero set of finitely many 
 functions and empty interior, from which the manifold statement follows chart by chart
 (Demailly, Chapter II, (4.2)). Prove Hartogs extension across an analytic subset
 A with `dimℂ A ≤ n−2` in an n-dimensional complex manifold, without a boundedness
-assumption. Its point case, extension across one point of a complex manifold of
-dimension at least two, is `hartogs_extension_across_point`; it is the analytic
+assumption (Demailly, Chapter II, (6.1), p. 105, for local boundedness near A, with (4.2),
+p. 91). Its point case, extension across one point of a complex manifold of
+dimension at least two, is `hartogs_extension_across_point` (Demailly, Chapter I, (3.28),
+p. 28); it is the analytic
 input of K7.2.TautologicalIncidence, and in dimension one `1/z` shows the
 dimension hypothesis is needed. No extension theorem for arbitrary singular
 ambient spaces is asserted. Work
@@ -1811,7 +1819,8 @@ equality, to 〈ξ〉^s and connection norms. Also prove for every real s
 `(1+|ξ|)^(2s) ≍ (1+|ξ|²)^s`, with both constants explicit in s, and
 compare the associated completed norms before using either source weight.
 Prove continuous embeddings
-H^s→C^k for s>k+n/2 and supported Rellich H^s→H^r for every real r<s.
+H^s→C^k for s>k+n/2 and supported Rellich H^s→H^r for every real r<s (Demailly, Chapter VI,
+(2.1)–(2.2), p. 289, in integer orders; the real-order forms are this roadmap's own).
 For fixed compact support, prove compactness H^s→C^k under the same strict
 margin by choosing k+n/2<r<s and composing Rellich with the continuous
 H^r→C^k map. Patch to compact bundles; use the sum over the fixed finite
@@ -2540,11 +2549,12 @@ for that metric, preserving the given topology. Derive local compactness
 and σ-compactness from the finite-dimensional second-countable manifold
 structure before applying `riemannianVolume`. For each metric separately,
 write the pulled-back top form as `f dvol_g` and integrate the L¹ function f
-against the native Riemannian volume. Own Lelong local finite-mass estimates, and
-deduce integrability from those estimates and boundedness of the ambient smooth
-form on compact M. Prove agreement with DifferentialGeometry 5's `integralTopForm` when the pullback
+against the native Riemannian volume. Own Lelong local finite-mass estimates (Demailly,
+Chapter III, (2.6), p. 140), and deduce integrability from those estimates and boundedness of
+the ambient smooth form on compact M. Prove agreement with DifferentialGeometry 5's `integralTopForm` when the pullback
 has compact support, independence of the induced metric, Wirtinger's calibrated
-volume equality and Stokes for analytic sets. Own the analytic cutoff lemma:
+volume equality and Stokes for analytic sets, which is the closedness of the current of
+integration (Demailly, Chapter III, (2.7), p. 140). Own the analytic cutoff lemma:
 for a compactly supported smooth (2k−1)-form β on M, construct smooth ambient
 cutoffs χ_j vanishing near S, tending to one on V_reg, with
 `∫_(V_reg) |dχ_j∧ι*β| → 0` and convergence of the integrals of
@@ -2703,19 +2713,23 @@ Use the single carrier
 `Projectivization ℂ (Fin (n+1) → ℂ)` with Mathlib's quotient topology from the nonzero
 vectors, `Projectivization.instTopologicalSpace`, and its open quotient map
 `isOpenQuotientMap_mk'` (`Mathlib.Topology.Algebra.Projectivization`, the interface that
-AlgebraicTopology Stage 4.6 names), and Tau Ceti's instances
-(`TauCeti.Topology.Algebra.Projectivization`)
+AlgebraicTopology Stage 4.6 names). Tau Ceti (`TauCeti.Topology.Algebra.Projectivization`)
+declares the same coinduced topology a second time under the same name and proves on its own copy
 `instT2Space` (continuous linear forms separate the points of the vector space),
 `instCompactSpace` (finite-dimensional normed spaces over ℝ or ℂ, by the continuous surjection
 from the unit sphere), `instSecondCountableTopology` and `instPathConnectedSpace` (every nonzero
-normed space, so every n≥0, ℂP⁰ being a point). Consume ComplexManifolds Milestones 1–3's
+normed space, so every n≥0, ℂP⁰ being a point); no pinned library states them on Mathlib's
+instance. Prove the four on Mathlib's instance by the same arguments, which use the topology only
+through the open quotient map from the nonzero vectors. Consume ComplexManifolds Milestones 1–3's
 complex-manifold, real-restriction and atlas-transport interfaces,
 K3.0's finite-dimensional holomorphic calculus and
 K1's complex orientation. This construction precedes associated bundles
 and uses neither SmoothBundlesConnections B2 nor K5.
 
-The affine atlas is pinned as well (`TauCeti.Geometry.Manifold.Instances.Projectivization`):
-the chart on `U_i={ [v] : v_i≠0 }` is `Projectivization.affineChart i`, the ratios
+Tau Ceti pins the affine atlas on its copy of the topology as well
+(`TauCeti.Geometry.Manifold.Instances.Projectivization`), and K7.1 builds the same atlas on
+Mathlib's instance by the same proofs: the chart on `U_i={ [v] : v_i≠0 }` is
+`Projectivization.affineChart i`, the ratios
 `(v_(i.succAbove j)/v_i)_(j : Fin n)` with inverse `z ↦ [Fin.insertNth i 1 z]`, packaged as the
 open partial homeomorphism `affineOpenPartialHomeomorph i` (`isOpen_affineOpen` for openness,
 `mk_eq_mk_iff` for representative independence); `instChartedSpace` is the atlas of these
@@ -2751,8 +2765,9 @@ in the charts `Projectivization.affineChart i` and `affineChart i`, both of whic
 `v_(i.succAbove j)/v_i`. Transport every K7 theorem through it in both directions; the Lean
 statements of K7.2 are on the sphere-quotient model.
 This roadmap is the single owner of that comparison and of the transport of `cwComplex` and
-its characteristic maps in K7.2: AlgebraicTopology Stage 4.6 supplies only the generic quotient
-topology on `Projectivization`. On the sphere-quotient model the value χ(ℂPⁿ)=n+1 is pinned
+its characteristic maps in K7.2: AlgebraicTopology Stage 4.6 states the cells of ℂPⁿ only on the
+sphere-quotient carrier, and the quotient topology on `Projectivization` is Mathlib's. On the
+sphere-quotient model the value χ(ℂPⁿ)=n+1 is pinned
 (`TauCeti.eulerChar_complexProjectiveSpace`, computed from `cwComplex`). On
 `Projectivization ℂ (Fin (n+1) → ℂ)` the pins give no `TauCeti.FiniteCWType` instance, which
 `TauCeti.eulerChar` requires; the comparison alone supplies the instance
@@ -2768,7 +2783,9 @@ ComplexManifolds Milestone 3 uses, and the affine atlas of `Projectivization ℂ
 the identification `Fin 1 → ℂ ≃ ℂ`; the affine chart at coordinate 1 is the finite chart and the
 affine chart at coordinate 0 the chart at infinity (`OnePoint.affineChart_one_equivProjectivization`,
 `OnePoint.affineChart_zero_equivProjectivization`), and `Diffeomorph.toHomeomorph` gives the
-homeomorphism. Supply chart, inclusion, coordinate-permutation and linear-action naturality APIs
+homeomorphism. Like the affine atlas, this diffeomorphism is stated on Tau Ceti's copy of the
+topology; restate it on Mathlib's instance by the same proof. Supply chart, inclusion,
+coordinate-permutation and linear-action naturality APIs
 for the projective family.
 The n=1 member of this projective family has its own native carrier;
 the biholomorphism identifies its atlas with ComplexManifolds' `OnePoint ℂ` atlas.
@@ -2780,7 +2797,8 @@ every ℂP¹ example and transport theorem.
 
 *Needs:* 1.1's complex orientation; 3.1's holomorphic calculus; ComplexManifolds Milestones 1–3;
 Mathlib's `Projectivization.instTopologicalSpace`; Tau Ceti's projectivization instances and affine
-atlas (`TauCeti.Geometry.Manifold.Instances.Projectivization`), sphere-quotient model
+atlas (`TauCeti.Geometry.Manifold.Instances.Projectivization`), whose proofs 7.1 repeats on
+Mathlib's instance, sphere-quotient model
 (`TauCeti.Topology.ComplexProjectiveSpace.Basic`) and Riemann-sphere comparison
 (`TauCeti.Geometry.Manifold.Instances.OnePoint.Projectivization`).
 
@@ -3267,7 +3285,8 @@ Chern formulas; K4.P; K5's Green operator and K5b's Serre duality; Mathlib
 Construct the primary Hopf surface `(ℂ²∖{0})/(z↦2z)` using ComplexManifolds
 Milestone 4's free properly discontinuous holomorphic quotient, and its smooth
 diffeomorphism to `S¹×S³`. Compute its de Rham groups and prove it is not Kähler since
-`H²(M;ℝ)=0`. Prove `h^(1,0)=0` by Hartogs extension and dilation invariance, compute
+`H²(M;ℝ)=0` (Demailly, Chapter VI, (4.7), p. 297). Prove `h^(1,0)=0` by Hartogs extension and
+dilation invariance, compute
 `h^(0,1)=1`, and identify the failure of Hodge symmetry. Own the Laurent/Čech computation
 of `H¹(ℂ²∖{0},𝒪)` and its dilation action: its invariant part is zero, while
 `H¹(ℤ,𝒪(ℂ²))≃ℂ` by coefficientwise coinvariants. Own the covering Čech/group-cohomology
@@ -3336,12 +3355,11 @@ for finite filtrations. Do not create another spectral-sequence object. Own the 
 adapter on top of them: the total type complex `A^k(M;ℂ)=⊕_(p+q=k)A^(p,q)(M)` with `d=∂+∂̄`
 as a cochain complex of ℂ-vector spaces indexed by ℤ, zero outside `0≤k≤2n`; the decreasing
 column filtration `F^p A^k=⊕_(r≥p)A^(r,k−r)`, a subcomplex because `∂` raises and `∂̄` keeps
-the first index, as the increasing filtration `G_t=F^(−t)` by subobjects, monotone and finite
-(`G_(−n−1)=F^(n+1)=0`, since no type `(r,s)` has `r>n`, and `G_0=F^0` is everything); the
-graded piece `F^p/F^(p+1)` as the Dolbeault complex `(A^(p,•),∂̄)` with `A^(p,q)` in total
-degree `p+q` (Demailly, IV (11.3)–(11.4), p. 227); the cohomological reindexing in which
-`E_r^(p,q)` is the native page `r+1` object at `(2p+q+1,−p−1)`, of total degree `p+q`, so that
-`E₁^(p,q)=H^(p,q)_∂̄` and `d_r:E_r^(p,q)→E_r^(p+r,q−r+1)` (Demailly, IV (10.8), p. 226);
+the first index, finite since `F^0` is everything and `F^(n+1)=0` (no type `(r,s)` has `r>n`),
+and regraded by AlgebraicTopology Stage 5.0's reindexing of decreasing filtrations, through the
+increasing filtration `G_t=F^(−t)`; the graded piece `F^p/F^(p+1)` as the Dolbeault complex
+`(A^(p,•),∂̄)` with `A^(p,q)` in total degree `p+q` (Demailly, IV (11.3)–(11.4), p. 227), so that
+in that reindexing `E₁^(p,q)=H^(p,q)_∂̄` and `d_r:E_r^(p,q)→E_r^(p+r,q−r+1)` (Demailly, IV (10.8), p. 226);
 `d₁` as the map induced by `∂` on Dolbeault classes, which is the connecting map of
 `0→F^(p+1)/F^(p+2)→F^p/F^(p+2)→F^p/F^(p+1)→0` applied to a `∂̄`-closed representative
 (Demailly, IV (11.5), p. 228); the Hodge filtration `F^p H^k_dR(M;ℂ)`, the image of
@@ -3349,7 +3367,9 @@ degree `p+q` (Demailly, IV (11.3)–(11.4), p. 227); the cohomological reindexin
 `E_∞^(p,q)≃F^p H^(p+q)_dR/F^(p+1) H^(p+q)_dR` (Demailly, IV (11.6), p. 228, and VI (11.1),
 p. 322); and, on a compact complex manifold, where K5b makes every `h^(p,q)` finite, the
 Frölicher inequality `b_k ≤ Σ_(p+q=k) h^(p,q)`, with equality for every k exactly when every
-`d_r`, `r≥1`, vanishes (Demailly, VI (11.2)–(11.3), pp. 322–323);
+`d_r`, `r≥1`, vanishes (Demailly, VI (11.2)–(11.3), pp. 322–323), and the Euler-characteristic
+identity `Σ_k(−1)^k b_k=Σ_(p,q)(−1)^(p+q)h^(p,q)` on every compact complex manifold, since each
+page is a finite-dimensional complex whose cohomology is the next (Demailly, VI (11.7), p. 323);
 `finrank_deRhamCohomology_le_sum_dolbeault` states the inequality for every compact complex
 manifold, with no Kähler hypothesis, with the real Betti number of the pinned `deRhamCohomology`,
 equal to the complex dimension of `H^k_dR(M;ℂ)` by K5a's scalar extension, and the Dolbeault
@@ -3363,7 +3383,8 @@ degree.
 `CochainComplex.filtrationSpectralSequencePageXIsoGradedOfFinite`,
 `CochainComplex.filtrationFunctorMap` and
 `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page`, with Mathlib's
-`CategoryTheory.Abelian.SpectralObject` and `coreE₂Cohomological`; K2's type calculus,
+`CategoryTheory.Abelian.SpectralObject` and `coreE₂Cohomological`; AlgebraicTopology Stage 5.0's
+reindexing of decreasing filtrations; K2's type calculus,
 `d=∂+∂̄` and `∂̄∂̄=0`; K5b's finite `h^(p,q)` on compact manifolds; K6.1's Hodge
 decomposition for the Kähler degeneration;
 [ComplexManifolds Milestone 4](../ComplexManifolds/README.md)'s discrete holomorphic
@@ -3504,7 +3525,8 @@ and a nonzero first differential; the Heisenberg group and its Gaussian-integer 
 
 ### Dependencies
 
-Layers 2, 5 and 6 and Tau Ceti's filtered-complex spectral sequence. The Iwasawa quotient consumes
+Layers 2, 5 and 6, Tau Ceti's filtered-complex spectral sequence and AlgebraicTopology Stage 5.0's
+regrading of decreasing filtrations. The Iwasawa quotient consumes
 ComplexManifolds Milestone 4; the invariant-cohomology comparisons first use 8.3's rational central
 subgroup, lattice, lower-dimensional quotient and principal-torus bundle theorem, then
 LieGroupoidsPoisson G1.3's Chevalley–Eilenberg adapter and the page comparisons of 8.1. Tau Ceti's
@@ -3529,8 +3551,9 @@ filtered-complex spectral sequence supplies convergence after those inputs.
 - RiemannianGeometry consumes 5.7's real Hodge theorem and K7.1; RiemannianGeometry and
   SpinGeometry consume the pointwise star algebra cited in 5.1; Hyperfunctions consumes Layers 1, 2
   and 4 and K5a.
-- CharacteristicClasses C2.4a consumes K7.1's projective atlas and C7.6 consumes K7.1's
-  biholomorphism CP¹≃`OnePoint ℂ`; MorseTheory and GeneralizedCohomology use K7.1 and K7.2.
+- CharacteristicClasses C2.4a consumes K7.1's projective atlas and C7.6 K7.1's comparison of
+  `TauCeti.ComplexProjectiveSpace 1` with `Projectivization ℂ (Fin 2 → ℂ)`; MorseTheory uses K7.1
+  and K7.2, and GeneralizedCohomology K1 and K7.1.
 
 ## References
 
