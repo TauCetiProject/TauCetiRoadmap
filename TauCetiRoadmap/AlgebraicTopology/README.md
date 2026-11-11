@@ -241,9 +241,9 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   transverse preimage and the resulting representation of mod 2 classes of codimension
   one and integral classes of codimensions one and two by embedded submanifolds need
   Thom, Euler and Gysin maps and the projective carriers with their classes;
-  CharacteristicClasses consumes Layers 6.4, 8.7, 8.10, 8.12 and 8.13 for them, and no
+  CharacteristicClasses C2.4a consumes Layers 6.4, 8.7, 8.10, 8.12 and 8.13 for them, and no
   layer here consumes them. Layer 8.16 owns its statement for every Serre fibration
-  S³→S² whose fibres have vanishing third homology; CharacteristicClasses consumes it
+  S³→S² whose fibres have vanishing third homology; CharacteristicClasses C7.6 consumes it
   for the Hopf projection of its principal circle bundle S³→CP¹, and no layer here
   consumes that bundle model.
 - The high-dimensional differential-topology and homotopy-sphere roadmap consumes Hurewicz,
@@ -4928,7 +4928,7 @@ H_(m−1)(M;ℤ), m ≥ 1, and H_(m−2)(M;ℤ), m ≥ 2, is the push-forward of
 class of a compact boundaryless smoothly embedded submanifold) needs the Thom classes
 and Gysin maps of vector bundles and, in the mod 2 and degree-two cases, the finite
 projective carriers RP^N and CP^N with their hyperplane classes; it is stated where
-those are owned, and CharacteristicClasses consumes §6.4's Poincaré duality, §8.7's
+those are owned, and CharacteristicClasses C2.4a consumes §6.4's Poincaré duality, §8.7's
 smooth triangulation of dimension m with its dimension bound, §§8.10 and 8.12 and the
 targets of this section for it.
 
@@ -5201,7 +5201,7 @@ interfaces. The Hopf projection is the intended instance: it is locally trivial 
 fibre S¹, hence a Serre fibration by
 `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization`, and H₃(S¹;ℤ)=0. Its
 construction as the projection of the principal circle bundle S³→CP¹ followed by an
-identification CP¹≅S² needs that bundle model; CharacteristicClasses consumes this
+identification CP¹≅S² needs that bundle model; CharacteristicClasses C7.6 consumes this
 section for that instance.
 
 **Checks.**
