@@ -663,7 +663,8 @@ When `g=0`, `β=0` and forgetting the extra marking would leave only two marking
 compute the three-point primary term as `deg(γ₁γ₂)`. Positive cotangent powers vanish
 on the three-pointed constant-map stack.
 
-Source: Kock §4.3.1, p. 44, and the forgetting formula in §1.4.
+Source: Kock §4.3.1, p. 44, and the forgetting formula in §1.4. The primary case is
+Kontsevich–Manin 1994, §2.2.3.
 
 *Needs:* §§3.5, 4.5, 5.1–5.2.
 
@@ -752,8 +753,8 @@ For a homogeneous basis `(T_a)` and `t = Σ_a t^aT_a`, define the genus-zero pot
 F₀(t) = Σ_{β∈NE(X)} Σ_{n≥0} Q^β/n! · ⟨t,…,t⟩_{0,β} ∈ R_X,
 ```
 
-with constant-map terms of arity below three set to zero. Prove convergence in the mixed
-completion and invariance under a change of homogeneous basis.
+with constant-map terms of arity below three set to zero. Prove convergence in the coefficientwise Novikov topology of §1.4 and invariance under
+a change of homogeneous basis.
 
 Source: Fulton–Pandharipande (45)–(46).
 
