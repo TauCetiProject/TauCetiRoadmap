@@ -3820,17 +3820,23 @@ space factors uniquely through `π`; `IsCoarseModuliSpace π`: categorical and a
 `S` with finite inertia has a coarse moduli space `π : X → M`, `π` is proper and quasi-finite, `M`
 is locally of finite type (hence locally of finite presentation) over `S` when `S` is locally
 Noetherian, and formation of `M` commutes with flat base change
-(Rydh, manuscript dated 2012-05-04, Theorem (6.12), pp. 27–28).
+(Rydh, manuscript dated 2012-05-04, Theorem (6.12), p. 28).
 Use its representable étale fixed-point-reflecting cover with finite flat presentation,
-construct the coarse quotient there by Theorem (4.4), and descend by Theorem (6.10).
+construct the coarse quotient there by Theorem (4.4), p. 20, and descend by Theorem (6.10), p. 27.
 The latter supplies compatibility with flat base change. The local-finite-type conclusion
 uses the locally Noetherian hypothesis on `S`; no quasi-compact separated diagonal is
 imposed on `X`. Conrad 2005, Theorem 1.1, pp. 1–2, is the specialization under his
 standing quasi-compact separated diagonal convention. Prove `finite_quotient_coarse`: for a finite group `G` acting on an affine scheme `Spec A`,
-`Spec A^G` is the coarse space of `[Spec A/G]` (Stacks, Lemmas 106.12.2, 106.12.3). Define
-`IsTame M` for `M` locally of finite presentation with finite inertia and coarse space `ρ : M → M`:
-`ρ_* : QCoh(M) → QCoh(M)` is exact (Abramovich–Olsson–Vistoli 2008, Definition 3.1 and the remark
-after it), with `.classifying_iff` (`BG` is tame iff `G` is linearly reductive, Tau Ceti's
+`Spec A^G` is the coarse space of `[Spec A/G]`. The groupoid `G × Spec A ⇉ Spec A` is finite
+locally free with affine terms, so `[Spec A/G]` has a surjective, flat, finite, finitely presented
+cover by an affine scheme, and the spectrum of the ring of invariant functions is its uniform
+categorical moduli space, the quotient map being a universal homeomorphism (Stacks, Lemmas 106.13.2,
+106.13.4 (0DUP) and 106.13.6 (0DUR), with Lemmas 106.12.2 (0DUH) and 106.12.3 (0DUI) for the passage
+between quotients of `Spec A` and moduli spaces of `[Spec A/G]`; Rydh, Theorem (4.1), pp. 19–20, for
+the geometric quotient, which gives the bijection on geometric points). Define
+`IsTame X` for an algebraic stack `X` locally of finite presentation over `S` with finite inertia
+and coarse space `ρ : X → M` (the `π` of `keel_mori`): `ρ_* : QCoh(X) → QCoh(M)` is exact
+(Abramovich–Olsson–Vistoli 2008, Definition 3.1 and the remark after it), with `.classifying_iff` (`BG` is tame iff `G` is linearly reductive, Tau Ceti's
 `linearlyReductiveAffineGroupSchemeProperty`), `.baseChange`, `.geometric_fibres` (tame iff every
 geometric stabilizer is linearly reductive). Prove `tame_local_structure`: a tame stack is
 étale-locally on its coarse space a quotient `[Spec A/G]` with `G` linearly reductive, and tameness
@@ -3852,7 +3858,13 @@ Proposition 3.6). *Needs:* §1.17, §1.19, §1.20, §1.22; Tau Ceti
   `𝔽₂[ε]/(ε²)`, not `𝔽₂`. The categorical space `Spec k` of `[𝔸¹/𝔾_m]` is not coarse
   because the zero and nonzero geometric orbits are distinct.
 - Spaces are tame, and `BG` is tame when the finite group order is invertible.
-  Over `𝔽_p`, `B(ℤ/p)` is not tame whereas `Bμ_p` is tame.
+  Over `𝔽_p`, `B(ℤ/p)` is not tame whereas `Bμ_p` is tame: both have coarse space
+  `ρ : BG → Spec 𝔽_p`, quasi-coherent sheaves on `BG` are representations of `G`, and `ρ_*` is the
+  functor of invariants. For `ℤ/p` it is not exact, since `H¹(ℤ/p, 𝔽_p) = Hom(ℤ/p, 𝔽_p) = 𝔽_p ≠ 0`;
+  for `μ_p` a representation is a `ℤ/p`-graded vector space and `ρ_*` is its degree-zero part, which
+  is exact.
+- The source and the target of `ρ_*` are different categories. Reading the definition with the
+  identity of `X` in place of `ρ` would make every stack tame, `B(ℤ/p)` over `𝔽_p` included.
 
 ### 1.24 Semilinear automorphisms, Galois descent, conjugators and crossed modules
 
@@ -4474,9 +4486,10 @@ Noetherian and `F` quasi-coherent, and `cousinComplex_trivial` for `Z_1 = ∅`
 Prove `relativeSupportCohomology_concentration` and `kempf_cousin_resolution` for
 `X` Noetherian, the supplied closed filtration satisfying `codim_X Z_i ≥ i` and
 **affine morphisms** `Z_i ∖ Z_{i+1} → X`, and `F` a maximal Cohen–Macaulay coherent
-sheaf: the relative support sheaves vanish in degrees different from `i`, and the
-augmentation is a quasi-isomorphism ([BCGP, Theorem 3.9.6](https://www.math.uchicago.edu/~fcale/papers/surfaces.pdf),
-printed p. 64). Here maximal means depth equal to the dimension of the ambient local
+sheaf: the relative support sheaves vanish in degrees different from `i` (Kempf 1978,
+Theorem 10.9, with the notion of a sheaf locally Cohen–Macaulay with respect to a filtration,
+p. 358), and the augmentation is a quasi-isomorphism ([BCGP, Theorem 3.9.6](https://www.math.uchicago.edu/~fcale/papers/surfaces.pdf),
+printed p. 64, whose proof is a reference to the same theorem of Kempf). Here maximal means depth equal to the dimension of the ambient local
 ring at each point where the stalk is nonzero. Affineness alone does not imply degree
 concentration. The target `relativeSupportCohomology_eq_zero_of_affine` is the
 vanishing consequence with all these hypotheses.
@@ -4489,7 +4502,10 @@ passed to this constructor. *Needs:* §0.18, §2.7, including its Noetherian com
 **Checks.**
 - For `Z_0 = X`, `Z_1 = ∅` the augmentation is an isomorphism.
 - For `X = Spec R` of a DVR and `Z_1` the closed point, `Cous(O_X)` is `K → K/R`
-  and the augmentation is a resolution of `R`.
+  and the augmentation is a resolution of `R`. Degree concentration reads: the diagonal terms are
+  `H⁰_{Z_0/Z_1}(O) = K` and `H¹_{Z_1}(O) = K/R`, and the off-diagonal terms
+  `H¹_{Z_0/Z_1}(O) = R¹j_* O_η` (for `j` the inclusion of the generic point `η`) and
+  `H⁰_{Z_1}(O)` (the `ϖ`-power torsion of `R`) are both zero.
 - For `X = Spec k[x, y]/(xy, y²)` (embedded point) with `Z_1` the
   origin, the augmentation is not a quasi-isomorphism.
 - Over an infinite algebraically closed field,
@@ -5938,7 +5954,7 @@ multiple of `[D]`. For `X` locally factorial, so is `U`, `Pic → Cl` is an isom
 (`classGroup_picard_locallyFactorial` above; Stacks, Lemma 31.28.7 (0BE9)), and it commutes with
 restriction to `U`; this gives the surjectivity of `Pic(X) → Pic(U)`. Prove
 `picard_units_sequence`: for `X` regular with `X ∖ U = D_1 ∪ ⋯ ∪ D_r` the union of
-integral closed subschemes of codimension one, the sequence `Γ(X, O)^× → Γ(U, O)^× → ⊕_i ℤ·[D_i] → Pic(X) → Pic(U) → 0` is exact, the second map being `u ↦ (ord_{D_i}(u))_i` (Hartshorne 1977, II,
+pairwise distinct integral closed subschemes `D_1, …, D_r` of codimension one, the sequence `Γ(X, O)^× → Γ(U, O)^× → ⊕_i ℤ·[D_i] → Pic(X) → Pic(U) → 0` is exact, the second map being `u ↦ (ord_{D_i}(u))_i` (Hartshorne 1977, II,
 Proposition 6.5; Fulton 1998, Proposition 1.8 for the cycle-level statement).
 Define `PicardGroupoid C` for a symmetric monoidal category: every morphism is an isomorphism and
 every object has a tensor inverse up to isomorphism, with `pi0 C := Skeleton C` (a commutative
@@ -5984,6 +6000,11 @@ these constant signs glue to a unit of `Γ(X, O)`. Prove `gradedPicardGroupoid.p
 - `Cl(𝔸¹) = 0 → Cl(𝔸¹ ∖ {0}) = 0` and the kernel of
   `ℤ → Cl(𝔸¹)` is `ℤ`; the units sequence reads `k^× → k^× × t^ℤ → ℤ → 0 → 0`, the middle map
   `(c, t^n) ↦ n`.
+- The divisors of the units sequence are pairwise distinct. Listing the origin of `𝔸¹_k` twice
+  (`r = 2`, `D_1 = D_2 = {0}`, `U = 𝔾_m`) the sequence would be `k^× → k^× × t^ℤ → ℤ² → 0`, with
+  `c tⁿ ↦ (n, n)`: the kernel of `ℤ² → Pic(𝔸¹) = 0` is `ℤ²`, the image is the diagonal, and
+  `(1, −1)` is in the kernel and not in the image. With no divisor at all (`r = 0`, `U = X`) the
+  sequence is `Γ(X, O)^× → Γ(X, O)^× → 0 → Pic(X) → Pic(X) → 0`, exact.
 
 *Lean:* `Picard.lineBundleClass_spec_equiv_pic` (a group isomorphism, determined by the
 condition that it sends the class of `L` to `P` exactly when `L ≅ P~`).
@@ -8852,6 +8873,8 @@ consume nothing from this roadmap.
 - Poonen 2017: *Rational points on varieties*, GSM 186, AMS.
 - Cadman 2005: *Using stacks to impose tangency conditions on curves*,
   https://arxiv.org/abs/math/0312349v3.
+- Kempf 1978: G. Kempf, *The Grothendieck–Cousin complex of an induced representation*,
+  Adv. Math. 29 (1978), no. 3, 310–396, https://doi.org/10.1016/0001-8708(78)90021-X.
 - Conrad 2005: *The Keel–Mori theorem via stacks*,
   https://math.stanford.edu/~conrad/papers/coarsespace.pdf.
 - Abramovich–Olsson–Vistoli 2008: *Tame stacks in positive characteristic*,
