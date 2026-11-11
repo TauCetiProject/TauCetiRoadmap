@@ -1818,9 +1818,10 @@ variable is ζ=ξ/(2π) and its weight is 〈ζ〉^s; prove equivalence, rather 
 equality, to 〈ξ〉^s and connection norms. Also prove for every real s
 `(1+|ξ|)^(2s) ≍ (1+|ξ|²)^s`, with both constants explicit in s, and
 compare the associated completed norms before using either source weight.
-Prove continuous embeddings
+Prove on ℝⁿ the continuous embeddings
 H^s→C^k for s>k+n/2 and supported Rellich H^s→H^r for every real r<s (Demailly, Chapter VI,
-(2.1)–(2.2), p. 289, in integer orders; the real-order forms are this roadmap's own).
+(2.1)–(2.2), p. 289, states the integer-order forms on a compact manifold, which the patching
+below recovers; the Euclidean and real-order forms are this roadmap's own).
 For fixed compact support, prove compactness H^s→C^k under the same strict
 margin by choosing k+n/2<r<s and composing Rellich with the continuous
 H^r→C^k map. Patch to compact bundles; use the sum over the fixed finite
@@ -2775,7 +2776,8 @@ sphere-quotient model the value χ(ℂPⁿ)=n+1 is pinned
 transported cells.
 
 Prove the underlying real smooth atlas and its
-complex orientation agree with K1. The Riemann-sphere comparison is Tau Ceti's and is cited:
+complex orientation agree with K1. Tau Ceti proves the Riemann-sphere comparison on its own copy
+of the topology:
 `OnePoint.diffeomorphProjectivization` (`TauCeti.Geometry.Manifold.Instances.OnePoint.Projectivization`)
 upgrades Mathlib's `OnePoint.equivProjectivization`, `t ↦ [t:1]` and `∞ ↦ [1:0]`, to a `C^n`
 diffeomorphism for every n including ω, between Tau Ceti's `OnePoint.instChartedSpace`, the atlas
@@ -2783,8 +2785,8 @@ ComplexManifolds Milestone 3 uses, and the affine atlas of `Projectivization ℂ
 the identification `Fin 1 → ℂ ≃ ℂ`; the affine chart at coordinate 1 is the finite chart and the
 affine chart at coordinate 0 the chart at infinity (`OnePoint.affineChart_one_equivProjectivization`,
 `OnePoint.affineChart_zero_equivProjectivization`), and `Diffeomorph.toHomeomorph` gives the
-homeomorphism. Like the affine atlas, this diffeomorphism is stated on Tau Ceti's copy of the
-topology; restate it on Mathlib's instance by the same proof. Supply chart, inclusion,
+homeomorphism. As for the affine atlas, restate this diffeomorphism on Mathlib's instance by the
+same proof. Supply chart, inclusion,
 coordinate-permutation and linear-action naturality APIs
 for the projective family.
 The n=1 member of this projective family has its own native carrier;
@@ -2796,11 +2798,11 @@ consumers use `OnePoint ℂ` and this biholomorphism. Use that comparison for
 every ℂP¹ example and transport theorem.
 
 *Needs:* 1.1's complex orientation; 3.1's holomorphic calculus; ComplexManifolds Milestones 1–3;
-Mathlib's `Projectivization.instTopologicalSpace`; Tau Ceti's projectivization instances and affine
-atlas (`TauCeti.Geometry.Manifold.Instances.Projectivization`), whose proofs 7.1 repeats on
-Mathlib's instance, sphere-quotient model
-(`TauCeti.Topology.ComplexProjectiveSpace.Basic`) and Riemann-sphere comparison
-(`TauCeti.Geometry.Manifold.Instances.OnePoint.Projectivization`).
+Mathlib's `Projectivization.instTopologicalSpace`; Tau Ceti's projectivization instances, affine
+atlas and Riemann-sphere comparison (`TauCeti.Topology.Algebra.Projectivization`,
+`TauCeti.Geometry.Manifold.Instances.Projectivization`,
+`TauCeti.Geometry.Manifold.Instances.OnePoint.Projectivization`), whose proofs 7.1 repeats on
+Mathlib's instance, and its sphere-quotient model (`TauCeti.Topology.ComplexProjectiveSpace.Basic`).
 
 **Checks.**
 
@@ -3323,8 +3325,9 @@ with `ρ(m+ni)=(−1)^m`; the Hopf surface.
 ### Dependencies
 
 7.1 uses 3.1, 1.1's complex orientation, ComplexManifolds Milestones 1–3, Mathlib's
-`Projectivization.instTopologicalSpace`, Tau Ceti's projectivization instances and affine atlas and
-its sphere-quotient model, and precedes 2.5's ℂP¹ acceptance. 7.3's CW structure and additive groups
+`Projectivization.instTopologicalSpace` and Tau Ceti's sphere-quotient model, repeats on Mathlib's
+instance the proofs of Tau Ceti's projectivization instances, affine atlas and Riemann-sphere
+comparison, and precedes 2.5's ℂP¹ acceptance. 7.3's CW structure and additive groups
 are Tau Ceti's on the sphere-quotient model, transported by 7.1's comparison; its cup calculation
 uses AlgebraicTopology Stage 6, independently of Layers 2–6; the bundle, form and Hodge applications
 of 7.2–7.5 use Layers 4–6. 7.5's embedding uses 7.1 and its section comparisons use 7.2's twists.
