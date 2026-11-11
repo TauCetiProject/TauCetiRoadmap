@@ -1,7 +1,7 @@
 # Roadmap: algebraic Gromov–Witten theory and quantum cohomology
 
-**Summary.** This roadmap constructs of algebraic Gromov–Witten theory for a smooth projective variety
-`X` over an algebraically closed field of characteristic zero. Starting from the moduli stack of
+**Summary.** This roadmap constructs algebraic Gromov–Witten theory for a smooth projective variety
+`X` over an field of characteristic zero. Starting from the moduli stack of
 stable maps and its Behrend–Fantechi virtual fundamental class, this roadmap defines primary and
 descendant Gromov–Witten invariants, proves their structural equations, and uses their genus-zero
 part to construct the small and big quantum cohomology rings. The WDVV equation proves
@@ -34,7 +34,7 @@ operator constructions belong in shared directories rather than under their firs
 
 ## The end goals
 
-Fix an algebraically closed field `k` of characteristic zero and a smooth projective
+Fix an field `k` of characteristic zero and a smooth projective
 `k`-variety `X` of pure dimension `d`.
 
 1. **Stable-map moduli and its virtual class.** For every genus `g`, number of ordered markings
@@ -48,7 +48,8 @@ Fix an algebraically closed field `k` of characteristic zero and a smooth projec
    descendant invariants, and, in the stable range for pointed curves, the Chow-valued
    Gromov–Witten class obtained by stabilization. Prove symmetry, the dimension axiom, the
    degree-zero formula, the fundamental-class, string, divisor, and dilaton equations, the
-   splitting axiom, and genus-zero topological recursion.
+   geometric splitting identity in rational Chow, the numerical inverse-metric contraction
+   after separating gluing and degree pairing, and genus-zero topological recursion.
 3. **WDVV.** Compare the three boundary points of `Mbar_{0,4}` through the virtual splitting
    formula. Prove the coefficientwise WDVV equations for the genus-zero potential over the
    completed Novikov ring.
@@ -70,8 +71,11 @@ Fix an algebraically closed field `k` of characteristic zero and a smooth projec
 
 ## Scope and ownership
 
+The base field has characteristic zero. The positive-characteristic bounded-class case of
+Behrend–Manin Def. 3.13 is outside the scope.
+
 This roadmap constructs ordinary algebraic Gromov–Witten theory for smooth projective varieties
-over an algebraically closed characteristic-zero field, with rational numerical Chow state space.
+over an characteristic-zero field, with rational numerical Chow state space.
 It does not construct Gromov–Witten theory for singular targets, Deligne–Mumford target stacks,
 relative pairs, logarithmic maps, quasimaps, stable quotients, or nonprojective targets. It also
 does not construct equivariant, reduced, cosection-localized, real, open, K-theoretic, or derived
@@ -124,6 +128,9 @@ only to the extent explicitly built in Layer 10.
 
 ### From Mathlib
 
+Use `MvPowerSeries.WithPiTopology` for the product topology and `LaurentSeries` for
+Laurent expansions in the connection parameter.
+
 Use `MvPowerSeries` for the formal parameters and `Derivation` for the algebraic derivations.
 Use Mathlib's commutative algebra, finite-rank lattices and topological-ring APIs.
 
@@ -143,13 +150,13 @@ Use `PrestableMap`, its evaluation and degree maps, scheme-level `Chow.ChowGroup
 - [StableReduction](../StableReduction/README.md) Layer 9 supplies stable reduction for pointed
   curves and Layers 10–11 supply families of maps, the polarizations and stabilization of
   pointed maps. The valuative theorem for stable maps is a target in Layer 3 below.
-- [StableReductionPartII](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1841) §§3.1–3.3
+- [StableReductionPartII](../StableReductionPartII/README.md) §§3.1–3.3
   and 3.11 supply stable-curve clutching, cotangent lines and their forgetting formula.
-- [MotivesAndAlgebraicCycles](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1313) §§0.5
+- [MotivesAndAlgebraicCycles](../MotivesAndAlgebraicCycles/README.md) §§0.5
   and 3.1 supply the rational numerical Chow ring, operations and finite dimensionality.
-- [AlgebraicModuliForArithmeticGeometryPartII](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1754) §§1.1–1.2, 1.4 and 1.7(iii) supply the numerical
+- [AlgebraicModuliForArithmeticGeometryPartII](../AlgebraicModuliForArithmeticGeometryPartII/README.md) §§1.1–1.2, 1.4 and 1.7(iii) supply the numerical
   divisor lattice, numerical curve space, closed effective cone and Kleiman's criterion.
-- [VirtualFundamentalClass](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1996) Layers 2, 3 and 6–9 supply
+- [VirtualFundamentalClass](../VirtualFundamentalClass/README.md) Layers 2, 3 and 6–9 supply
   rational stack Chow and refined Gysin operations, the relative cotangent complex, obstruction
   theories and the absolute and relative virtual classes and functoriality.
 - [AlgebraicVectorBundles](../AlgebraicVectorBundles/README.md) L1A–L2B supply vector bundles
@@ -187,12 +194,19 @@ finite-dimensional graded ring structure and prove perfectness of the complement
 pairing from the numerical quotient. Compare the numerical first Chern class with the degree
 of its restriction to a curve.
 
-*Needs:* MotivesAndAlgebraicCycles and SchemeAndStackFoundations Layer 5.
+Source: MotivesAndAlgebraicCycles §§0.5, 3.1.
+
+**API.**
+
+- Use the Chow quotient map, graded product and perfect complementary pairing.
+- Identify the class of a divisor by its intersection degrees with curves.
+
+*Needs:* MotivesAndAlgebraicCycles §§0.5, 3.1.
 
 **Checks.**
 
 - For a point, the pairing sends the pair of units to one.
-- On the projective line the degree-zero and degree-one classes are dual.
+- On the projective line the codimension-zero and codimension-one classes pair to one and each self-pairing is zero.
 - A degree-zero divisor on an elliptic curve maps to zero in numerical codimension one.
 
 ### 0.2 Numerical descent of insertions
@@ -202,13 +216,15 @@ criterion: pairing `ev^*γ` with any proper pushforward of a complementary Chow 
 zero. Package the multilinear descent lemma that will make every Gromov–Witten invariant factor
 through `H_X` one insertion at a time.
 
-*Needs:* MotivesAndAlgebraicCycles and SchemeAndStackFoundations Layer 5.
+Source: VirtualFundamentalClass §§2.2, 2.5.
+
+*Needs:* MotivesAndAlgebraicCycles §0.5 and VirtualFundamentalClass §§2.2, 2.5.
 
 ### Examples
 
 **Checks.**
 
-For the projective line, the point and unit pair to one. On an elliptic curve, the degree-zero part of the divisor group maps to zero in numerical codimension one.
+- For the projective line, the point and unit pair to one. On an elliptic curve, the degree-zero part of the divisor group maps to zero in numerical codimension one.
 
 ### Dependencies
 
@@ -226,7 +242,12 @@ AlgebraicModuliForArithmeticGeometryPartII §§1.1–1.4 and §1.7(iii) to prove
 `A`. The bounded-height slice of the closed cone is compact and hence meets the lattice
 in finitely many points. This proves finiteness of the classes with `ω_A(β) ≤ B`.
 
-*Needs:* Layer 0, AlgebraicModuliForArithmeticGeometryPartII and Tau Ceti Novikov series.
+**API.**
+
+- Map integral curve cycles to their numerical classes and pair them with Cartier divisors.
+- Bound effective classes by ample degree in the finite-rank lattice.
+
+*Needs:* AlgebraicModuliForArithmeticGeometryPartII §§1.1–1.4, 1.7(iii).
 
 ### 1.2 Novikov series
 
@@ -234,11 +255,18 @@ Set `Λ_X = TauCeti.NovikovSeries ℚ NE(X) ω_A` and take the monomials, convol
 period filtration, topology and completeness from the pinned API. Identify the geometric
 divisor action with `NovikovSeries.degreeDerivation (D·−)`.
 
-*Needs:* Layer 0, AlgebraicModuliForArithmeticGeometryPartII and Tau Ceti Novikov series.
+Source: Kontsevich–Manin 1998 §2.1 and Tau Ceti’s `NovikovSeries` topology and derivation API.
+
+**API.**
+
+- Give coefficients, monomials, truncation by order and convolution multiplication.
+- Recover the coefficient of each class from a finite sum below any fixed degree bound.
+
+*Needs:* §1.1 and Tau Ceti Novikov series.
 
 **Checks.**
 
-- The zero class gives the monomial `Q⁰ = 1`.
+- On the projective line, `δ_H(Q²) = 2Q²`.
 - For the projective line and its degree-one ample class, the ring is `ℚ⟦Q⟧`.
 - Replacing the ample degree by a positive multiple gives the same convergent series.
 
@@ -248,29 +276,36 @@ For two ample classes, prove their degree functions are comparable on the effect
 induce cofinal filtrations. Export `Λ_X` independently of the chosen `A`, with canonical
 continuous equivalences satisfying cocycle coherence.
 
-*Needs:* Layer 0, AlgebraicModuliForArithmeticGeometryPartII and Tau Ceti Novikov series.
+Source: Kleiman’s positivity on the closed cone from AlgebraicModuliForArithmeticGeometryPartII §1.7(iii).
 
-### 1.4 The mixed completion
+*Needs:* §§1.1–1.2.
 
-Develop completed tensor products with finite-dimensional graded vector spaces, the induced action of the continuous divisor
-derivations on the mixed completion
-`R_X = Λ_X⟦t⁰,…,tᴺ⟧`. Prove continuity of substitution, differentiation, exponential
-translation in divisor variables, coefficient extraction, and inversion of a matrix whose
-constant term is invertible.
+### 1.4 The topology of formal parameters
 
-*Needs:* Layer 0, AlgebraicModuliForArithmeticGeometryPartII and Tau Ceti Novikov series.
+Develop completed tensor products with finite-dimensional graded vector spaces, the coefficientwise extension of the continuous divisor derivations, and
+`R_X = MvPowerSeries (Fin (N+1)) Λ_X`. Give it the product topology on the parameter
+coefficients using Mathlib’s `MvPowerSeries.WithPiTopology`
+(`Mathlib/RingTheory/MvPowerSeries/PiTopology.lean`) and the period topology on `Λ_X`.
+
+- Prove continuity of coefficient extraction, formal differentiation, and substitution by
+  series with zero parameter constant term.
+- Extend the Novikov derivations coefficientwise and prove continuity of exponential translation
+  in divisor variables.
+- Invert a formal matrix whose parameter constant term is invertible.
+
+*Needs:* §§1.2–1.3, Mathlib formal power series and Tau Ceti divisor derivations.
 
 **Checks.**
 
 - Setting all parameters to zero gives back `Λ_X`.
 - The coefficient of `t^m` in the inverse of `1 − Q^β t` is `Q^(mβ)`.
-- The divisor derivation of a parameter is zero, and it acts on its Novikov coefficients.
+- On the projective line, `δ_H(Q² t_H³) = 2Q² t_H³`.
 
 ### Examples
 
 **Checks.**
 
-On the projective line the effective lattice is the nonnegative integers. For the cone generated by (1,m) for m ≥ 0 in the plane, the functional (x,y) ↦ x is positive on generators and vanishes on a nonzero direction of the closed cone. Its bounded slice contains infinitely many lattice points.
+- On the projective line the effective lattice is the nonnegative integers. For the cone generated by (1,m) for m ≥ 0 in the plane, the functional (x,y) ↦ x is positive on generators and vanishes on a nonzero direction of the closed cone. Its bounded slice contains infinitely many lattice points.
 
 ### Dependencies
 
@@ -285,7 +320,18 @@ Using the pointed prestable families from `StableReduction`, define the fppf sta
 objects and arrows, construct the diagonal, and prove that it is an algebraic Artin stack,
 smooth and pure of dimension `3g-3+n` over `k`, locally of finite type.
 
-*Needs:* SchemeAndStackFoundations §4.15, StableReduction Layer 9 and StableReductionPartII §§3.1–3.3, 3.11.
+**API.**
+
+- Pull back families and markings and give the diagonal by the sheaf of marked isomorphisms.
+- Descend objects and arrows for fppf covers and compute the chart dimension.
+
+*Needs:* SchemeAndStackFoundations Layer 1 and StableReduction pointed prestable curves.
+
+**Checks.**
+
+- At the unmarked projective line `Mpre 0 0` has dimension minus three, from its `PGL₂` stabilizer.
+- `Mpre 0 3` contains the open point `Mbar 0 3`.
+- At a smooth pointed elliptic curve the stack has dimension one.
 
 ### 2.2 The stable open locus
 
@@ -293,7 +339,14 @@ In the stable range `2g-2+n > 0`, identify the stable open locus with the suppli
 `StableCurves.Mbar g n`. Use its universal curve and forgetting morphism, and
 StableReductionPartII's clutching, cotangent lines and boundary comparison.
 
-*Needs:* SchemeAndStackFoundations §4.15, StableReduction Layer 9 and StableReductionPartII §§3.1–3.3, 3.11.
+Source: Behrend 1997, Lemma 1.
+
+**API.**
+
+- Restrict a prestable family to the open stable locus.
+- Identify the universal curve and the clutching maps on this locus with the supplied ones.
+
+*Needs:* §2.1 and SchemeAndStackFoundations §4.15.
 
 ### 2.3 Stabilization
 
@@ -301,13 +354,18 @@ Construct stabilization `Mpre g n → Mbar g n` in the stable range, with its ca
 comparisons on families and flatness (Behrend 1997, Prop. 3). For smoothness and dimension
 of the prestable stack use Prop. 2 of the same source.
 
-*Needs:* SchemeAndStackFoundations §4.15, StableReduction Layer 9 and StableReductionPartII §§3.1–3.3, 3.11.
+**API.**
+
+- Contract the unstable components functorially in a family.
+- Compare stabilization under base change and on the stable open locus.
+
+*Needs:* §§2.1–2.2 and StableReductionPartII §§3.1–3.3, 3.11.
 
 ### Examples
 
 **Checks.**
 
-On the stable locus, stabilization is the identity. The universal three-pointed genus-zero stable curve lies over a point.
+- On the stable locus, stabilization is the identity. The universal three-pointed genus-zero stable curve lies over a point.
 
 ### Dependencies
 
@@ -319,9 +377,14 @@ SchemeAndStackFoundations §4.15, StableReduction Layer 9 and StableReductionPar
 
 Define `MbarMap g n X β` as the full substack of the stack of families of maps whose geometric
 fibres are stable and have numerical class `β`. Prove effective fppf descent and invariance of
-the class condition in connected families (Behrend–Manin §3).
+the class condition in connected families (Behrend–Manin §2, p. 12, before Lemma 2.2, for class constancy, and Def. 3.13 for the stack).
 
-*Needs:* Layers 0–2 and StableReduction Layers 9–11.
+**API.**
+
+- Give the objects, arrows and pullbacks of pointed stable maps.
+- Compare the class-zero moduli with pointed curves times the target and describe the stability condition on contracted components.
+
+*Needs:* §§1.1, 2.1 and StableReduction Layers 10–11.
 
 **Checks.**
 
@@ -337,18 +400,19 @@ boundedness. Construct a Hilbert-scheme parameter space of embedded source curve
 change-of-basis linear algebraic group with `MbarMap g n X β`. Prove independence of embedding
 and exponent by equivalences satisfying cocycle coherence.
 
-*Needs:* Layers 0–2 and StableReduction Layers 9–11.
+Source: Fulton–Pandharipande §3, Thms. 1–2, for the projective parameter construction.
+
+*Needs:* §3.1, SchemeAndStackFoundations §4.14 and StableReduction Layers 10–11.
 
 ### 3.3 Separatedness and properness
 
 Prove that `MbarMap g n X β` is a separated Deligne–Mumford stack of finite type. Prove
 the valuative theorem for stable maps: extend a generic stable map after finite DVR
 extension and prove uniqueness up to unique isomorphism after common base change.
-Use StableReduction Layer 9 and map stabilization in Layer 11, together with the stable-map
-extension argument in Behrend–Manin Thm. 3.14 and Cor. 4.8. Apply the valuative criterion
+Use StableReduction Layer 9 and map stabilization in Layer 11, together with the reduction to projective space in Behrend–Manin Cor. 4.8 and the extension argument in Fulton–Pandharipande §4.2, Props. 5–6. Behrend–Manin Thm. 3.14 gives the properness statement. Apply the valuative criterion
 for stacks to deduce properness.
 
-*Needs:* Layers 0–2 and StableReduction Layers 9–11.
+*Needs:* §§3.1–3.2, StableReduction Layers 9–11 and SchemeAndStackFoundations §4.15.
 
 ### 3.4 Universal geometry
 
@@ -357,23 +421,38 @@ Construct the universal curve `π`, universal map `f`, ordered sections, evaluat
 range construct `st : MbarMap g n X β → Mbar g n`. Compare all of these with the family-level
 constructions in `StableReduction`.
 
-*Needs:* Layers 0–2 and StableReduction Layers 9–11.
+Source: Behrend–Manin Def. 3.13 and the functoriality in §3.
+
+**API.**
+
+- Pull back the universal curve, sections and map along a map to the moduli stack.
+- Compute evaluation by restriction to a section and the curve forgetful map by forgetting the target morphism.
+
+*Needs:* §§2.3, 3.1 and StableReduction Layers 10–11.
 
 ### 3.5 Forgetting and gluing
 
 Construct permutation, forgetting-and-stabilizing, external gluing, and self-gluing morphisms.
 External gluing has source
 `MbarMap g₁ (I∪{a}) X β₁ ×_X MbarMap g₂ (J∪{b}) X β₂`, using `ev_a` and `ev_b`, and target
-class `β₁+β₂`; state self-gluing separately. Prove their graph-stratum descriptions, degree,
-properness, base change, and coherence for repeated gluing and forgetting.
+class `β₁+β₂`. Self-gluing uses the fibre product of the two node evaluations with the target
+diagonal and raises genus by one.
 
-*Needs:* Layers 0–2 and StableReduction Layers 9–11.
+- Identify the gluing presentations of the graph strata, including the action on the chosen
+  half-edges. Over the stratum with the prescribed node, the labelled-branch cover has degree
+  two for self-gluing. The separating cover has degree two when both marking sets are empty
+  and the two genus and class labels agree, and degree one otherwise. Include the graph
+  automorphism factors on the stack.
+- Prove properness and compatibility with base change, repeated gluing and forgetting. See
+  Behrend–Manin §2 for graphs and §3 for the induced maps.
+
+*Needs:* §3.4 and StableReduction Layers 10–11.
 
 ### Examples
 
 **Checks.**
 
-A stable degree-one map to the projective line is an isomorphism on its degree-one component. A constant map is stable exactly when its pointed source is stable.
+- A stable degree-one map to the projective line is an isomorphism on its degree-one component. A constant map is stable exactly when its pointed source is stable.
 
 ### Dependencies
 
@@ -384,7 +463,7 @@ Layers 0–2 and StableReduction Layers 9–11.
 ### 4.1 The relative obstruction complex
 
 On the universal curve prove that `Rπ_* f^*T_X` is perfect of amplitude `[0,1]`, commutes with
-base change, and has rank `d(1-g)+c₁(T_X)·β` (Behrend 1997, §3). Dualize the differential of the universal map to
+base change, and has rank `d(1-g)+c₁(T_X)·β` (Behrend 1997, “The Virtual Fundamental Classes”, p. 5, after Prop. 4). Dualize the differential of the universal map to
 construct
 
 ```text
@@ -394,7 +473,12 @@ E = (Rπ_* f^*T_X)∨  ──→  L_(MbarMap/Mpre).
 Prove the `H⁰` isomorphism and `H⁻¹` epimorphism through the deformation and obstruction theory
 of a map with its source curve fixed.
 
-*Needs:* Layers 2–3 and VirtualFundamentalClass Layers 2, 3 and 6–9.
+**API.**
+
+- Give the map from the dual universal pushforward to the relative cotangent complex.
+- Compute its pullback in a family and identify the tangent and obstruction sheaves.
+
+*Needs:* §§2.1, 3.4 and VirtualFundamentalClass §§3.3, 6.1.
 
 ### 4.2 Global resolution
 
@@ -404,7 +488,7 @@ Prop. 5). Construct the presentation as a quotient of a quasi-projective paramet
 with an ample linearized line bundle, and deduce the resolution property used for independence
 in VirtualFundamentalClass §7.3.
 
-*Needs:* Layers 2–3 and VirtualFundamentalClass Layers 2, 3 and 6–9.
+*Needs:* §§3.2, 4.1 and VirtualFundamentalClass §7.3.
 
 ### 4.3 Construction and virtual dimension
 
@@ -419,7 +503,14 @@ vdim = (1-g)(d-3) + n + c₁(T_X)·β.
 Prove independence from the projective embedding, quotient presentation, resolution, and
 strict model of every 2-pullback.
 
-*Needs:* Layers 2–3 and VirtualFundamentalClass Layers 2, 3 and 6–9.
+Source: Behrend 1997, pp. 6–7.
+
+**API.**
+
+- Evaluate the relative virtual class on the fundamental class of the prestable stack.
+- Track the dimension shift by relative rank and compare global resolutions.
+
+*Needs:* §§2.1, 4.1–4.2 and VirtualFundamentalClass §9.2.
 
 ### 4.4 Point target and class zero
 
@@ -428,22 +519,30 @@ Identify the virtual class for `X = Spec k` with the ordinary fundamental class 
 `Mbar g n × X` and compute its obstruction theory and virtual class, including the genus-zero
 specialization used by the classical product.
 
-*Needs:* Layers 2–3 and VirtualFundamentalClass Layers 2, 3 and 6–9.
+Source: Kontsevich–Manin 1998 §1.4, eq. (5).
+
+*Needs:* §§2.2, 3.1, 4.1–4.3.
 
 ### 4.5 Virtual compatibility
 
 Prove compatibility of obstruction theories under products of targets, permutation and
 forgetting of markings, and external and self-gluing. Apply the compatible-pullback and product
-theorems from `VirtualFundamentalClass` to obtain virtual pullback, virtual pushforward, and
-diagonal Gysin formulas for the corresponding virtual classes.
+theorems from `VirtualFundamentalClass` for flat pullback and diagonal Gysin. For the
+product of targets use the proper comparison map `h` from maps to the product to the
+fibre product of the two factor moduli over the common stabilized-curve stack. In the
+stable graph formulation, prove `h_*[maps to X × Y]vir = Δ^!([maps to X]vir ×
+[maps to Y]vir)`, where `Δ` is the common curve diagonal. Sum over all product classes
+projecting to the indicated pair when passing to the invariants.
 
-*Needs:* Layers 2–3 and VirtualFundamentalClass Layers 2, 3 and 6–9.
+Source: Behrend 1997, Props. 6–9, and Behrend’s product formula, Thm. 1.
+
+*Needs:* §§3.5, 4.1–4.4 and VirtualFundamentalClass Layers 8–9.
 
 ### Examples
 
 **Checks.**
 
-For the point target the relative obstruction complex is zero. The constant genus-zero three-point virtual class is the ordinary fundamental class of the target.
+- For the point target the relative obstruction complex is zero. The constant genus-zero three-point virtual class is the ordinary fundamental class of the target.
 
 ### Dependencies
 
@@ -457,7 +556,14 @@ Construct `L_i = s_i^*ω_π` and `ψ_i = c₁(L_i)` on the stable-map stack. Pro
 permutation, gluing, and forgetting formulas, including the boundary correction to `ψ_i` after
 forgetting a mark.
 
-*Needs:* Layers 0 and 2–4.
+Source: Kontsevich–Manin 1998 §1.1, eqs. (1)–(2).
+
+**API.**
+
+- Pull back the relative dualizing line along a marked section and take its first Chern class.
+- Identify its gluing restriction and its correction under forgetting a marking.
+
+*Needs:* §§3.4–3.5 and VirtualFundamentalClass §2.3.
 
 **Checks.**
 
@@ -477,7 +583,14 @@ For `γ_i ∈ CH^*(X)_ℚ` and `a_i ∈ ℕ`, define
 Define the value to be zero unless the integrand has total codimension `vdim`. Prove
 multilinearity, permutation invariance, and compatibility with rational equivalence.
 
-*Needs:* Layers 0 and 2–4.
+Source: Kontsevich–Manin 1998 §1.1.
+
+**API.**
+
+- Cap the virtual class with evaluation pullbacks and powers of the cotangent lines.
+- Take the proper degree in virtual dimension zero and impose the dimension rule for the resulting scalar.
+
+*Needs:* §§3.4, 4.3, 5.1 and VirtualFundamentalClass §§2.2–2.5.
 
 **Checks.**
 
@@ -491,7 +604,9 @@ Apply Layer 0's projection-formula criterion to prove that each insertion factor
 numerical equivalence. Export the invariant as a multilinear map on `H_X`, while retaining the
 rational-Chow definition used in geometric proofs.
 
-*Needs:* Layers 0 and 2–4.
+Source: VirtualFundamentalClass §2.5 for the projection formula.
+
+*Needs:* §§0.2, 5.2.
 
 ### 5.4 Ancestors and stabilized classes
 
@@ -503,25 +618,30 @@ monomials in the stable-curve cotangent classes recovers the ancestor invariant,
 insertions `st^*ψ_i^curve`. Construct descendant classes by including the stable-map powers
 `ψ_i^(a_i)` inside the pushforward. Their codimension increases by `Σ_i a_i` and their degree
 is the descendant invariant. Identify the class `ψ_i - st^*ψ_i^curve` as the sum of
-boundary divisors where the marked rational tail is contracted by stabilization, with
-multiplicities from the cotangent comparison. Use the comparison in genus-zero descendant
+boundary divisors where the marked rational tail is contracted by stabilization, each
+with multiplicity one. Use the comparison in genus-zero descendant
 recursion (Kontsevich–Manin 1998, §1.1, Thm. 1.2 and Cor. 1.3).
 
-*Needs:* Layers 0 and 2–4.
+**API.**
+
+- Push forward the primary class along stabilization and pull ancestor lines back from stable curves.
+- Compare ancestor and descendant insertions using the divisor where stabilization contracts the marking.
+
+*Needs:* §§2.3, 3.4–3.5, 5.1–5.2.
 
 ### 5.5 Basic formulas
 
 Prove vanishing by virtual dimension, the degree-zero formula, the point-target formula,
-symmetry, and the product formula for targets. Include the stack multiplicities in every
+symmetry, and the product formula for targets (Behrend, *The product formula for Gromov–Witten invariants*, Thm. 1 for the virtual pushforward and Thm. 9 for the primary operations). Include the stack multiplicities in every
 pushforward and degree calculation.
 
-*Needs:* Layers 0 and 2–4.
+*Needs:* §§4.4–4.5, 5.2–5.4.
 
 ### Examples
 
 **Checks.**
 
-For degree one maps to the projective line, the descendant with insertions τ₁(H), H, 1 has value one by the string equation, while its corresponding ancestor vanishes on the three-pointed curve stack.
+- For degree one maps to the projective line, the descendant with insertions τ₁(H), H, 1 has value one by the string equation, while its corresponding ancestor vanishes on the three-pointed curve stack.
 
 ### Dependencies
 
@@ -539,16 +659,22 @@ cotangent-line pullback formula. With `τ_{-1}=0`, the stable formula is
   = Σⱼ ⟨τ_{aⱼ-1}(γⱼ) ∏_{i≠j} τ_{aᵢ}(γᵢ)⟩_{g,β}.
 ```
 
-State and prove the exceptional constant-map conventions separately (Kontsevich–Manin 1994, §2.2).
+When `g=0`, `β=0` and forgetting the extra marking would leave only two markings,
+compute the three-point primary term as `deg(γ₁γ₂)`. Positive cotangent powers vanish
+on the three-pointed constant-map stack.
 
-*Needs:* Layers 2–5.
+Source: Kock §4.3.1, p. 44, and the forgetting formula in §1.4.
+
+*Needs:* §§3.5, 4.5, 5.1–5.2.
 
 ### 6.2 Dilaton equation
 
 Prove the **dilaton equation**
 `⟨τ₁(1)∏ᵢτ_{aᵢ}(γᵢ)⟩ = (2g-2+n)⟨∏ᵢτ_{aᵢ}(γᵢ)⟩` with the exact stable-type hypotheses.
 
-*Needs:* Layers 2–5.
+Source: Kock §4.3.1, p. 44, and Kontsevich–Manin 1998, Lemma 1.5.3.
+
+*Needs:* §§3.5, 4.5, 5.1–5.2.
 
 ### 6.3 Divisor equation
 
@@ -560,36 +686,57 @@ For a divisor `D ∈ N¹(X)_ℚ`, prove the **divisor equation**
     + Σⱼ⟨τ_{aⱼ-1}(Dγⱼ)∏_{i≠j}τ_{aᵢ}(γᵢ)⟩_{g,β}.
 ```
 
-Derive the primary divisor equation and its exponential generating-series form (Kontsevich–Manin 1994, §2.2, and Iritani Prop. 2.3).
+Derive the primary divisor equation and its exponential generating-series form (Kontsevich–Manin 1998, Lemma 1.5.2, eq. (12), and Kontsevich–Manin 1994, 2.2.4 for primaries).
 
-*Needs:* Layers 2–5.
+*Needs:* §§1.1, 3.5, 4.5, 5.1–5.3.
 
 ### 6.4 Virtual splitting
 
-Prove the external and nonseparating **splitting axioms** by refined pullback along the target
-diagonal and the virtual gluing formula. State the primary result as an equality of Chow
-correspondences and its descendant version after cotangent-line pullback. After applying an
-outgoing evaluation pushforward on each separate component, apply the projection formula
-to derive numerical inverse-metric contraction for separating gluing. For nonseparating
-gluing retain the refined pullback along the actual diagonal of the target. A numerical
-inverse-metric contraction in this case requires the separate diagonal decomposition in
-numerical Chow of the product. See Kontsevich–Manin 1994, §§2.2.7 and 2.3.8.
+Prove separating and nonseparating splitting as equalities of Chow correspondences using
+refined pullback along the target diagonal and the virtual gluing formula. For compatible
+cotangent insertions pull them back to the two sides of the gluing diagram before taking
+the Chow classes. See Kontsevich–Manin 1994, §§2.2.6–2.2.7 and 2.3.8.
 
-*Needs:* Layers 2–5.
+For a separating clutching map `φ_S`, write `I` for the stabilized primary class of §5.4.
+Pair its pullback against an exterior product of complementary Chow classes `c₁ × c₂` on
+the two curve factors. Prove the scalar formula
+
+```text
+deg(φ_S^* I_{g,n,β}(γ) · (c₁ × c₂))
+  = Σ_{β₁+β₂=β} Σ_{e,f} g^{ef}
+      deg(I_{g₁,n₁+1,β₁}(γ_{S₁},T_e) · c₁)
+      deg(I_{g₂,n₂+1,β₂}(T_f,γ_{S₂}) · c₂).
+```
+
+Use Chow lifts of the basis elements only inside the degree pairings. Each component
+pushes its evaluation cycle to `X`. The projection formula and the perfect numerical
+pairing then give the displayed contraction and independence of the lifts. For
+nonseparating gluing use the actual target diagonal; a numerical inverse-metric formula
+requires a separate diagonal decomposition in numerical Chow of the product.
+
+**Checks.**
+
+- In class zero on an elliptic target, the component evaluation cycles given by a point
+  and the unit pair to one. Two point cycles pair to zero.
+- For two points on an elliptic target whose difference is nontorsion, their zero-cycle
+  classes differ in rational Chow and give the same degree pairing.
+- On the projective line the diagonal pairing matrix in the basis `(1,H)` is its own inverse,
+  with off-diagonal entries one and diagonal entries zero.
+
+*Needs:* §§0.1–0.2, 3.5, 4.5, 5.3–5.4.
 
 ### 6.5 Genus-zero topological recursion
 
 Pull back boundary-divisor relations on `Mbar_{0,n}` and prove genus-zero topological recursion
-for descendants. Check the unstable terms rather than absorbing them into an undefined
-correlator (Kontsevich–Manin 1998, Cor. 1.3).
+for descendants. Check the unstable terms using the stable-type conventions. Kontsevich–Manin 1998 Cor. 1.3 gives the three-point case. For the relation with arbitrary remaining markings use Kock, *Notes on psi classes*, §5.4.
 
-*Needs:* Layers 2–5.
+*Needs:* §§3.5, 5.4, 6.4.
 
 ### Examples
 
 **Checks.**
 
-In class zero on an elliptic curve, self-gluing two markings of the three-point operation gives the self-intersection of the diagonal, which vanishes. Numerical inverse-metric contraction would give twice the point class.
+- In class zero on an elliptic curve, self-gluing two markings of the three-point operation gives the self-intersection of the diagonal, which vanishes. Numerical inverse-metric contraction would give twice the point class.
 
 ### Dependencies
 
@@ -608,7 +755,14 @@ F₀(t) = Σ_{β∈NE(X)} Σ_{n≥0} Q^β/n! · ⟨t,…,t⟩_{0,β} ∈ R_X,
 with constant-map terms of arity below three set to zero. Prove convergence in the mixed
 completion and invariance under a change of homogeneous basis.
 
-*Needs:* Layers 0–1 and 5–6.
+Source: Fulton–Pandharipande (45)–(46).
+
+**API.**
+
+- Extract each Novikov and parameter coefficient from genus-zero primary invariants.
+- Differentiate coefficientwise and identify the third derivatives with three fixed insertions.
+
+*Needs:* §§1.2–1.4, 5.2–5.3.
 
 **Checks.**
 
@@ -632,7 +786,9 @@ where `F_{abc} = ∂_a∂_b∂_cF₀`. Prove equality in the completed ring by c
 Novikov and parameter coefficient; formal rearrangement of an unproved infinite sum is not a
 proof.
 
-*Needs:* Layers 0–1 and 5–6.
+Source: Fulton–Pandharipande (50)–(52) and the proof of Thm. 4.
+
+*Needs:* §§6.4, 7.1.
 
 ### 7.3 Potential identities
 
@@ -640,13 +796,15 @@ Express string, divisor, and grading equations for `F₀`. Separate the classica
 degree-zero term, and prove that third derivatives eliminate the convention-dependent constant,
 linear, and quadratic terms.
 
-*Needs:* Layers 0–1 and 5–6.
+Source: the descendant and primary equations in §§6.1–6.3.
+
+*Needs:* §§6.1–6.3, 7.1.
 
 ### Examples
 
 **Checks.**
 
-At class zero the cubic potential is given by the classical triple intersection pairing. The two splittings of the four-pointed curve give the same WDVV coefficient.
+- At class zero the cubic potential is given by the classical triple intersection pairing. For the projective plane, the degree-two WDVV coefficient gives the conic count `N₂ = 1`.
 
 ### Dependencies
 
@@ -667,7 +825,14 @@ the characterizing identity
 `(a ⋆small b,c)=Σ_βQ^β⟨a,b,c⟩_{0,β}`. Prove continuity, `Λ_X`-bilinearity, grading,
 commutativity, the Frobenius identity, and that `1_X` is its unit.
 
-*Needs:* Layers 0–1 and 5–7.
+Source: Fulton–Pandharipande (48)–(49).
+
+**API.**
+
+- Compute the product by outgoing evaluation and descend it to numerical Chow.
+- Pair the output with a third class and identify the result with the Novikov sum of three-point invariants.
+
+*Needs:* §§0.1–0.2, 1.2, 5.3, 6.1.
 
 **Checks.**
 
@@ -681,7 +846,9 @@ Prove associativity of `⋆small` from the basis-free four-point WDVV correspond
 Novikov-order-zero specialization is the ordinary product on `H_X`. Define
 `QH^*small(X) = (H_X ⊗ Λ_X, ⋆small)` and prove independence from basis and ample filtration.
 
-*Needs:* Layers 0–1 and 5–7.
+Source: Fulton–Pandharipande Thm. 4, associativity proof.
+
+*Needs:* §§4.4, 7.2, 8.1.
 
 ### 8.3 The big product
 
@@ -701,27 +868,37 @@ identity, the unit property from the string equation, and associativity from the
 WDVV equation. Define `QH^*big(X)` and prove that evaluation at `t=0` is the small quantum
 product. See Fulton–Pandharipande (48)–(49) and Thm. 4 for the homogeneous-target case.
 
-*Needs:* Layers 0–1 and 5–7.
+**API.**
+
+- Evaluate the outgoing pushforward with formal insertions and extend it continuously over `R_X`.
+- Recover structure constants from third derivatives and specialize the product at `t=0`.
+
+*Needs:* §§1.4, 6.1, 7.1–7.2, 8.1.
 
 **Checks.**
 
-- The parameter origin gives the small product.
+- For the point, `1 ⋆_t 1 = 1` at every parameter value, since `∂_t³(t³/6)=1`.
 - The unit coordinate leaves the multiplication operators unchanged.
 - For the projective line on the divisor slice, `H ⋆t H = Q exp(t_H)·1`.
 
 ### 8.4 Naturality and grading
 
 Prove coordinate invariance under linear changes of homogeneous basis and functoriality under
-isomorphisms of targets. Record precisely which grading survives without a Fano or monotonicity
-hypothesis and how the Novikov degree restores the full cohomological grading.
+isomorphisms of targets. Give a parameter `t^a` degree `2 − deg T_a`. With `deg Q^β = 2c₁(T_X)·β` both products
+are homogeneous of degree zero, coefficient by coefficient. If Novikov monomials are
+assigned degree zero, the grading is by `ℤ/(2N_X ℤ)`, where `N_X ℤ` is the subgroup
+generated by the Chern numbers `c₁(T_X)·β`. This is the integer grading when all such
+numbers are zero.
 
-*Needs:* Layers 0–1 and 5–7.
+Source: the virtual-dimension formula in §4.3.
+
+*Needs:* §§4.3, 8.1, 8.3.
 
 ### Examples
 
 **Checks.**
 
-For the projective line, the point class squares to the degree-one Novikov monomial. Compare the class-zero specialization with the classical ring.
+- For the projective line, the point class squares to the degree-one Novikov monomial. At `Q=0` on the projective plane, `H ⋆small H = H²`.
 
 ### Dependencies
 
@@ -735,12 +912,17 @@ Let `M_X = H_X ⊗ R_X((z))`. For every continuous coordinate derivation `∂_a`
 `∇_a = ∂_a + z⁻¹C_a`, where `C_a(s)=T_a⋆_t s`. Prove the connection Leibniz rule,
 continuity, and covariance under a change of basis (Iritani Def. 2.2).
 
-*Needs:* Layers 1 and 7–8.
+**API.**
+
+- Act on sections by differentiation and multiplication, with the Leibniz rule.
+- Identify the transformed operators after a linear change of homogeneous basis.
+
+*Needs:* §§1.4, 8.3.
 
 **Checks.**
 
 - For a point, the unit-coordinate operator is `∂_t + z⁻¹`.
-- The unit coordinate commutes with the divisor coordinate on the projective line.
+- On the projective line at the parameter origin, `∇_H − ∂_H` has matrix `z⁻¹[[0,Q],[1,0]]` in the basis `(1,H)`.
 - The order-`z⁻¹` terms from the multiplication operators cancel in the paired connection formula under `z ↦ −z`.
 
 ### 9.2 Curvature and flatness
@@ -758,7 +940,9 @@ connection is flat. Conversely, for a commutative product, vanishing of the `z�
 coefficient as an endomorphism on every state gives associativity: commute `C_c` and
 `C_a` on `b` to identify `(a⋆b)⋆c` with `a⋆(b⋆c)`.
 
-*Needs:* Layers 1 and 7–8.
+Source: the WDVV identity in §7.2 and Iritani §2.1.
+
+*Needs:* §§7.2, 8.3, 9.1.
 
 ### 9.3 Flat pairing
 
@@ -767,7 +951,20 @@ Define the `z`-sesquilinear pairing
 `∂_aS(s₁,s₂)=S(∇_as₁,s₂)+S(s₁,∇_as₂)` using the Frobenius identity. Package the connection,
 flat pairing, unit, and multiplication as the formal Frobenius structure attached to `X`.
 
-*Needs:* Layers 1 and 7–8.
+Source: Iritani, proof of Prop. 2.3.
+
+**API.**
+
+- Extend the pairing by the involution `z ↦ −z` in the first argument.
+- Differentiate using the connection in both arguments and prove compatibility with the Frobenius product.
+
+*Needs:* §§8.1, 8.3, 9.1.
+
+**Checks.**
+
+- For the point, the pairing of the normalized horizontal section with itself is one.
+- Without the sign involution the same point calculation gives `exp(−2t/z)`.
+- On the projective line in the basis `(1,H)` the pairing matrix is `[[0,1],[1,0]]`.
 
 ### 9.4 The formal fundamental solution
 
@@ -776,15 +973,20 @@ modules over the finite parameter truncations. Use the Novikov topology coeffici
 and allow the lower Laurent bound to depend on the truncation order. In this module solve
 the horizontal equations recursively in the parameter degree, with identity constant term.
 Use flatness to prove consistency of the recursions and characteristic zero for uniqueness.
-See Iritani §2.3 and Prop. 2.3 for the formal solution convention.
+This solution is normalized at `t = 0` over the whole Novikov ring. Iritani Prop. 2.3 instead normalizes at `Q = t = 0` and imposes the additional Novikov-direction equation (2.9).
 
-*Needs:* Layers 1 and 7–8.
+**API.**
+
+- Evaluate the fundamental matrix at `t=0` and solve its coefficients by parameter degree.
+- Obtain all horizontal sections by applying the matrix to constant initial data.
+
+*Needs:* §§1.4, 9.1–9.2.
 
 ### Examples
 
 **Checks.**
 
-For the point target the normalized solution is exp(−t/z). Each truncation in t has a finite pole order.
+- For the point target the normalized solution is exp(−t/z). Each truncation in t has a finite pole order.
 
 ### Dependencies
 
@@ -798,7 +1000,20 @@ Define the Rees differential-operator algebra `D_big,z` generated over
 `R_X[z]` by symbols `z∂_a`, with relations
 `[z∂_a,f]=z∂_a(f)` and `[z∂_a,z∂_b]=0`. Prove its normal-form and continuity properties.
 
-*Needs:* Layers 1 and 6–9.
+Source: the scaled operators in Iritani Def. 2.2.
+
+**API.**
+
+- Write operators in normal form with coefficient functions on the left.
+- Specialize at `z=0` to symbols and at `z=1` to differential operators.
+
+*Needs:* §1.4 and Mathlib `Derivation`.
+
+**Checks.**
+
+- At `z=0` the Rees algebra is commutative.
+- At `z=1`, `[∂_a,t^a]=1`.
+- In one parameter, `(z∂)² t² = t²(z∂)² + 4zt(z∂) + 2z²` as operators.
 
 ### 10.2 The big quantum module
 
@@ -809,12 +1024,17 @@ equations with those of the Dubrovin connection. Identify the localized module o
 `R_X[z,z⁻¹]`, and its parameter-adic completion over `Λ_X[z,z⁻¹]⟦t⁰,…,tᴺ⟧`, separately.
 Map this completion into the Laurent-series solution space of Layer 9. See Iritani Def. 2.2.
 
-*Needs:* Layers 1 and 6–9.
+**API.**
+
+- Act on sections by the scaled covariant derivatives and check the Rees commutator relations.
+- Localize at `z` and compare its parameter completion with the formal horizontal solutions.
+
+*Needs:* §§9.1–9.4, 10.1.
 
 **Checks.**
 
 - For the point target, the action of `z∂_t` is `z∂_t + 1`.
-- The commutator with multiplication by `t^a` is multiplication by `z`.
+- On the projective line divisor slice, `z∂_H · H = Q exp(t_H)·1`.
 - The point's horizontal solution belongs to the parameter completion of the localized module.
 
 ### 10.3 The small connection
@@ -830,18 +1050,32 @@ Prove `ℚ`-linearity in `D`, the Leibniz rule over `Λ_X`, and
 `[∇^small_D,∇^small_E]=0`. The proof uses the divisor equation, not a choice of generators of
 the effective cone.
 
-*Needs:* Layers 1 and 6–9.
+Source: Iritani §2.1, the small connection.
+
+**API.**
+
+- Assign a commuting operator to each numerical divisor by its Novikov derivation and small multiplication.
+- Identify the resulting connection on each divisor coordinate basis.
+
+*Needs:* §§1.2, 6.3, 8.1–8.2.
 
 ### 10.4 The small quantum module
 
 Define the small Rees differential-operator algebra generated by `zδ_D` and the small quantum
 `D`-module with action `zδ_D + D⋆small`. Prove independence from a basis of `N¹(X)`.
 
-*Needs:* Layers 1 and 6–9.
+Source: Iritani Def. 2.2, specialized to Novikov derivations.
+
+**API.**
+
+- Apply the scaled small operators to sections and verify the Rees relations.
+- Recover the small connection after inverting `z`.
+
+*Needs:* §§10.1, 10.3.
 
 **Checks.**
 
-- The zero divisor induces the zero differential operator.
+- On the projective line, `(zδ_H + H⋆small)(Q·1) = zQ·1 + Q·H`.
 - On a Novikov monomial, the commutator of the small operator with multiplication by `Q^β` is multiplication by `z(D·β)Q^β`.
 - On the projective line, the operator for the point divisor sends the constant section `1` to `H` and the constant section `H` to `Q·1`.
 
@@ -853,13 +1087,26 @@ For a basis `D_i` of the divisor variables define
 of the big product, connection and Rees module with the pullback of the small ones along
 `φ`, using the displayed relation to identify the operators. Prove basis independence.
 
-*Needs:* Layers 1 and 6–9.
+Source: Iritani Prop. 2.3 for the divisor equation.
+
+**API.**
+
+- Map a Novikov monomial to its exponential-weighted image and extend continuously.
+- Intertwine the divisor derivatives and identify the restricted big connection and module with their pullbacks.
+
+*Needs:* §§1.4, 6.3, 8.3, 10.2–10.4.
+
+**Checks.**
+
+- For the point, the divisor slice has no coordinates.
+- For the projective line, `φ(Q²) = e^{2t}Q²`.
+- For the same class, `∂_t φ(Q²) = 2e^{2t}Q² = φ(δ_H Q²)`.
 
 ### Examples
 
 **Checks.**
 
-On the divisor slice for the projective line, the first Novikov monomial becomes exp(t)Q and the logarithmic Novikov derivation becomes differentiation in t.
+- On the divisor slice for the projective line, the first Novikov monomial becomes exp(t)Q and the logarithmic Novikov derivation becomes differentiation in t.
 
 ### Dependencies
 
@@ -895,11 +1142,14 @@ Layers 1 and 6–9.
 
 ## Downstream consumers
 
-Mirror comparison for projective targets uses the genus-zero product, the small quantum
-connection and the divisor-slice comparison. The algebraic invariants and virtual splitting
-formulas also supply the inputs to reconstruction problems for particular targets.
+Mirror theorems for projective targets use the small product (§8.1), the small connection and
+quantum `D`-module (§§10.3–10.4) and the divisor slice (§10.5). Enumerative reconstruction uses
+the invariants (§5.2), their equations (§§6.1–6.5) and WDVV (§7.2).
 
 ## References
+
+- K. Behrend, [*The product formula for Gromov–Witten invariants*](https://arxiv.org/abs/alg-geom/9710014), Theorems 1 and 9.
+- J. Kock, [*Notes on psi classes*](https://mat.uab.cat/~kock/GW/notes/psi-notes.pdf), §1.4 for string and §5.4 for stable-map genus-zero recursion.
 
 - M. Kontsevich and Yu. Manin,
   [*Relations between the correlators of the topological sigma-model coupled to gravity*](https://arxiv.org/abs/alg-geom/9708024),
@@ -934,9 +1184,3 @@ formulas also supply the inputs to reconstruction problems for particular target
   divisor-slice relationship.
 - W. Fulton, *Intersection Theory*, 2nd ed., Springer, 1998, for Chow groups, numerical
   equivalence, refined diagonal pullbacks, and intersection pairings.
-
-## Acknowledgements
-
-The geometric spine follows Behrend–Manin, Behrend–Fantechi, and Behrend. The axioms and WDVV
-organization follow Kontsevich–Manin and Fulton–Pandharipande, while the connection and quantum
-`D`-module package follows Dubrovin and Iritani.
