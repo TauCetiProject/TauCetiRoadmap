@@ -128,9 +128,12 @@ versions. The G2.1, G2.2, G2.10 and G4.0 carriers below are Tau Ceti's.
   wedge in a construction. The pointed CW category has chosen cell structures,
   a 0-cell basepoint, all continuous based maps, and pointed homotopy classes.
   Its products are CW products in the compactly generated category of
-  AlgebraicTopology Stage 4.8, with k the coreflection: prove the weak
-  product CW structure agrees with k(X×Y). All products, wedges, smash and
-  relative-product unions below use that topology and its comparison maps.
+  AlgebraicTopology Stage 4.8, with k the coreflection; for Hausdorff CW X
+  and Y, the products of their characteristic maps are the characteristic
+  maps of a CW structure on k(X×Y), AlgebraicTopology Stage 4.5's Kelley
+  product CW structure (Hatcher, *Algebraic Topology*, Theorem A.6, p. 524).
+  All products, wedges, smash and relative-product unions below use that
+  topology and its comparison maps.
 - Based spaces carry a point and maps preserve it. For CW models use a chosen
   0-cell as basepoint; for general models use the derived singular extension.
   `X₊` means a **disjoint** basepoint; it is distinct from one-point
@@ -2823,7 +2826,7 @@ of lim¹ for surjective towers.)
 
 ### Dependencies
 
-G3.4's telescope and Milnor construction uses G1 and Tau Ceti's towers of modules and precedes G3.1 and G3.3; its spectral version uses G2. G3.1 uses G1 and the CW substrate; G3.2 and G3.6 use G2.3–2.5. G3.5 uses G3.4, G1.3 and Tau Ceti's gap refinement of partitions of unity. G3.8 uses G2.4, G2.7 and G2.8; G3.9 follows G3.8. G3.10 uses G2.10, AlgebraicTopology Stages 4–5 and Tau Ceti's towers of groups.
+G3.4's telescope and Milnor construction uses G1 and Tau Ceti's towers of modules and precedes G3.1 and G3.3; its spectral version uses G2. G3.1 uses G1, the CW substrate and AlgebraicTopology Stage 8.11a's based-loop CW-type comparison; G3.2 and G3.6 use G2.3–2.5. G3.5 uses G3.4, G1.3 and Tau Ceti's gap refinement of partitions of unity. G3.8 uses G2.4, G2.7 and G2.8; G3.9 follows G3.8. G3.10 uses G2.10, AlgebraicTopology Stages 4–5 and Tau Ceti's towers of groups.
 
 ## Layer 4: Generalized Leray–Hirsch, Thom and Euler theory
 
@@ -4924,7 +4927,7 @@ formed within one common filtration level. These maps and paths use the full coh
 
 ### Dependencies
 
-G5.0 uses G2.9, G3.10, G4.0a, G4.5, G4.6, TopologicalKTheory T1.6, T7.0 and T7.1, CharacteristicClasses C1.1b, SpinGeometry G4.1 and GeometricTopology Layer 11.3. G5.1–5.3 use G2–G4; G5.2 also uses Tau Ceti's tubular neighbourhoods and GeometricTopology Layer 1.5's uniqueness of tubes. G5.4 uses G2.5, G2.8 and TopologicalKTheory T7.1. G5.5 uses G4.3–4.5, HilbertModules H2 and H4–H6, CStarAlgebras C5, SpinGeometry G1.3 and OperatorTheory SelfAdjointSpectralTheory Parts C–D. G5.6 uses G2.5, G2.7 and AlgebraicTopology Stages 5.5 and 8.8d. G5.7 uses G2.1, G2.11, G3.6, G3.8, G4.3, G5.1–5.5, CharacteristicClasses C1.2, C1.5, C2.4 and C2.5, AlgebraicTopology Stages 5.5, 6.4 and 8.2, GeometricTopology Layers 1.1 and 11.3, Tau Ceti's Riemannian metrics and tubular neighbourhoods, SmoothBundlesConnections B1.4, TopologicalKTheory T1.5, ComplexKahlerGeometry K7.1 and RepresentationTheory CompactGroups Layer 0.
+G5.0 uses G2.9, G3.10, G4.0a, G4.5, G4.6, TopologicalKTheory T1.6, T7.0 and T7.1, CharacteristicClasses C1.1b, SpinGeometry G4.1, AlgebraicTopology Stage 4.5 and GeometricTopology Layer 11.3. G5.1–5.3 use G2–G4; G5.2 also uses Tau Ceti's tubular neighbourhoods and GeometricTopology Layer 1.5's uniqueness of tubes. G5.4 uses G2.5, G2.8 and TopologicalKTheory T7.1. G5.5 uses G4.3–4.5, HilbertModules H2 and H4–H6, CStarAlgebras C5, SpinGeometry G1.3 and OperatorTheory SelfAdjointSpectralTheory Parts C–D. G5.6 uses G2.5, G2.7 and AlgebraicTopology Stages 4.10, 5.5 and 8.8d. G5.7 uses G2.1, G2.11, G3.6, G3.8, G4.3, G5.1–5.5, CharacteristicClasses C1.2, C1.5, C2.4 and C2.5, AlgebraicTopology Stages 5.5, 6.4 and 8.2, GeometricTopology Layers 1.1 and 11.3, Tau Ceti's Riemannian metrics and tubular neighbourhoods, SmoothBundlesConnections B1.4, TopologicalKTheory T1.5, ComplexKahlerGeometry K7.1 and RepresentationTheory CompactGroups Layer 0.
 
 ## Downstream consumers
 
