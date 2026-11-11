@@ -94,6 +94,7 @@ body:
         - HamiltonianFloerOperations
         - HeegaardFloer
         - HilbertModules
+        - HomotopySpheres
         - HopfologicalAlgebra
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
@@ -187,11 +188,13 @@ body:
         - TauberianBoundaryConvergence
         - TaubesGromov
         - TemperleyLieb
+        - TemperleyLiebOperatorAlgebras
         - TensorProductCombinatorics
         - ThetaSeries
         - TopologicalKTheory
         - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
+        - VariationalMethods
         - VonNeumannAlgebras
         - Yamabe
         - ZerosOfLFunctions
