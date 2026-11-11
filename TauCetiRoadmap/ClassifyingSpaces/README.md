@@ -1193,10 +1193,12 @@ invariance of singular and twisted (co)homology, all named above. No other roadm
   for a finite discrete group `G`, the countable-join model of `G` with the Grassmannian models of
   the classifying spaces of the orthogonal and unitary groups. That model is the pinned
   `TauCeti.classifyingSpace G`, the orbit space of Milnor's join realized with the weak topology,
-  which this roadmap consumes by name (*From Tau Ceti*, "Milnor's model") and does not build. Its
-  comparison of `RP^∞` with a classifying space of `ℤ/2` goes through the
-  [algebraic-topology roadmap](../AlgebraicTopology/README.md), Stage 8, item 8.8, not through
-  this roadmap.
+  which this roadmap consumes by name (*From Tau Ceti*, "Milnor's model") and does not build.
+  The characteristic-classes roadmap's item C1.5a compares `RP^∞` with the nerve model of `ℤ/2`
+  by the pointed map, unique up to pointed homotopy, that item 8.8 of the
+  [algebraic-topology roadmap](../AlgebraicTopology/README.md) assigns to the isomorphism
+  `π₁(RP^∞) ≅ ℤ/2`; item 8.8 obtains that map from items 1.1 and 1.2 (next bullet), so C1.5a
+  consumes them through item 8.8 and cites no item of this roadmap directly.
 - The [algebraic-topology roadmap](../AlgebraicTopology/README.md) consumes items 1.1 and 1.2
   twice: its item 8.8 obtains the classification of pointed maps into its nerve model `Bπ` as
   their case with target `Bπ`, and its item 8.14 obtains from them the case `n = 1` of its
