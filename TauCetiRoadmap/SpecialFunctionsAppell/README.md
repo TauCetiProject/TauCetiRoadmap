@@ -65,7 +65,8 @@ specified in the layers:
 |---|---|
 | 16.13.1–16.13.4 | The series, their domains of convergence, holomorphy, symmetries, derivatives, reductions and fibre expansions (Layer 1). |
 | 16.15.1–16.15.3 | The Euler integrals, by which the principal branches of `F₁`, `F₂`, `F₃` are constructed (Layer 2). |
-| 16.14.1–16.14.6 | The systems of `F₁`–`F₄`, and Horn's `G₂`, `G₃` with their systems (Layer 3). |
+| 16.14.1–16.14.4 | The systems of `F₁`–`F₄` (Layer 3). |
+| 16.14.5–16.14.6 | The series of Horn's `G₂`, `G₃` (Layer 3). |
 | 16.16.1–16.16.5, 16.16.8, 16.16.9 | Reductions and transformations of `F₁`, `F₂`, `F₃` (Layer 4). |
 | 16.15.4, 16.16.5_5, 16.16.6, 16.16.7, 16.16.10 | The Euler integral, reductions, the Burchnall–Chaundy expansion and the connection at infinity of `F₄` (Layer 5). |
 
@@ -77,7 +78,8 @@ Tau Ceti nor SpecialFunctionsHypergeometric provides:
 | Summability of a double series over `ℕ × ℕ` from a bound on its terms, and termwise differentiation of a double power series | 1.1–1.3 |
 | The shift relations of `𝐅₁`, `𝐅₂`, `𝐅₃` in their parameters | 2.2 |
 | Holomorphy of the Euler integrals in the variables and the parameters on their domains | 2.3 |
-| Finite identities of Pochhammer symbols for the Taylor coefficients of 16.16.4, 16.16.7 and 16.15.4, with recurrence certificates | 4.2, 5.1–5.2 |
+| Finite identities of Pochhammer symbols for the Taylor coefficients of 16.16.4, 16.16.7 and 16.15.4 | 4.2, 5.1–5.2 |
+| The systems of second-order equations of `G₂` and `G₃`, which DLMF does not display | 3.2 |
 | The fibre sum of `F₄` in Gauss functions of `y`, and its convergence for large `y` | 5.3 |
 
 **What it does not own:**
@@ -183,17 +185,15 @@ its sums and transformations from SpecialFunctionsHypergeometric.
 - [Its Conventions](../SpecialFunctionsHypergeometric/README.md#conventions):
   `Complex.regularizedGaussHypergeometric a b c z` and `Complex.gaussHypergeometric a b c z`, the
   principal branches on the cut plane `1 − z ∈ slitPlane`, with the junk value `0` off it.
-- Its 1.2–1.4: Euler's integral `regularizedGaussHypergeometric_eq_eulerIntegral`, the shift
-  relations `regularizedGaussHypergeometric_shift_c` and `…_shift_b`, the agreement with Mathlib's
-  series on the unit disk (`regularizedGaussHypergeometric_eq_regularizedGaussHGFun`), the joint
-  holomorphy in `(a, b, c, z)` (`differentiableOn_regularizedGaussHypergeometric`) and the symmetry
-  `regularizedGaussHypergeometric_comm`. They are the fibres of Layer 1 and the model for Layer 2.
-- Its 4.2: the Chu–Vandermonde sum 15.4.24 (`ordinaryHypergeometric_neg_nat_one`), for the
-  coefficient identities of 4.2.
-- Its 5.1: Pfaff's transformation 15.8.1 (`regularizedGaussHypergeometric_pfaff`), for 16.16.5_5
-  and the bound on the fibres near `[−2, 0]` in 5.3, and the connection formula 15.8.2 at infinity
-  (`regularizedGaussHypergeometric_connection_infty`), for 16.16.10 and the bound on the fibres
-  on `U`.
+- Its 1.2–1.4: Euler's integral 15.6.1, the shift relations in `c` and in `b`, the agreement
+  with Mathlib's series `Complex.regularizedGaussHGFun` on the unit disk, the joint holomorphy in
+  `(a, b, c, z)` and the symmetry in `a` and `b`. They are the fibres of Layer 1 and the model for
+  Layer 2.
+- Its 4.2: the Chu–Vandermonde sum 15.4.24, for the coefficient identities of 4.2.
+- Its 5.1: Pfaff's transformation 15.8.1, for 16.16.5_5 and the bound on the fibres near
+  `[−2, 0]` in 5.3, and the connection formula 15.8.2 at infinity, in the form with the factor
+  `sin(π(b − a))/π` that holds for all parameters, for 16.16.10 and the bound on the fibres on
+  `U`.
 
 `Suggested.lean` imports only Mathlib, and carries roadmap-local copies of the four definitions
 of SpecialFunctionsHypergeometric's `Suggested.lean` behind the Gauss function: `eulerIntegral`,
@@ -343,8 +343,9 @@ Mathlib and SpecialFunctionsHypergeometric 1.3.
 
 ### 2.1 The principal domains and uniqueness
 
-- `appellDomain1` is open and connected (`isOpen_appellDomain1`, `isConnected_appellDomain1`; a
-  product of two sets star-shaped about `0`, by `Complex.starConvex_one_slitPlane`); `appellDomain2`
+- `appellDomain1` is open, as the preimage of `slitPlane × slitPlane` under a continuous map, and
+  connected (`isConnected_appellDomain1`; a product of two sets star-shaped about `0`, by
+  `Complex.starConvex_one_slitPlane`); `appellDomain2`
   is open, by compactness of `[0, 1]²`, and star-shaped about `0` (`isOpen_appellDomain2`,
   `starConvex_appellDomain2`); both contain `appellSimplex`, and `appellDomain1` contains
   `appellBidisc`.
@@ -380,7 +381,7 @@ They follow from `1/Γ(c + k) = (c + k)/Γ(c + k + 1)` and `(a + 1)ₖ − (a)�
 - At the parameters and point of 1.1 the two sides of each relation agree; for instance both sides
   of the first are `𝐅₁(0.3; 0.45, 0.7; 1.6; 0.2 + 0.1i, −0.25 + 0.15i)`.
 
-*Needs:* Layer 1, 2.1.
+*Needs:* 1.1.
 
 ### 2.3 The Euler integrals and existence
 
@@ -444,6 +445,8 @@ Targets:
   series. For example `(0, −2) ∈ appellDomain1` and `𝐅₁(1; 0, 1; 1; 0, −2) = 1/3`, while the fibre
   expansion there is `∑ₙ (−2)ⁿ`, because `𝐅(1 + n, 0; 1 + n; 0) = 1/n!`.
 
+*Needs:* 1.2–1.3, 2.1–2.3; SpecialFunctionsHypergeometric 1.4.
+
 ### Examples
 
 - `F₂(0.3; 0.45, 0.7; 1.6, 1.25; 0.5 + 0.5i, −0.8) = 0.92623 8137… + 0.03619 8509… i`, where
@@ -506,7 +509,9 @@ G₃(α, α′; x, y)        = ∑_{m,n} pochZ(α, 2n − m) pochZ(α′, 2m −
 ```
 
   with `ϑₓ = x ∂ₓ`, `ϑᵧ = y ∂ᵧ`, each a second-order equation (`hornG2_pde_fst`, `hornG2_pde_snd`,
-  `hornG3_pde_fst`, `hornG3_pde_snd`). They are the
+  `hornG3_pde_fst`, `hornG3_pde_snd`). DLMF §16.14(ii) says only that such series satisfy pairs
+  of second-order equations, and refers to Erdélyi et al. (1953a, §§5.7.1–5.7.2) for further
+  information; the systems are derived here. They are the
   coefficient recurrences `(m + 1)(β + n − m − 1) c_{m+1,n} = (α + m)(β′ + m − n) c_{m,n}` of `G₂`
   and `(m + 1)(α + 2n − m − 1) c_{m+1,n} = (α′ + 2m − n)(α′ + 2m − n + 1) c_{m,n}` of `G₃`, which
   follow from `Γ(z + 1) = z Γ(z)`.
@@ -514,6 +519,16 @@ G₃(α, α′; x, y)        = ∑_{m,n} pochZ(α, 2n − m) pochZ(α′, 2m −
 **Checks.**
 - `G₂(0.3, 0.55; 0.45, 0.7; 0.3, −0.4 + 0.2i) = 1.28956 88302 38… − 0.34417 52507 33… i`.
 - `G₃(0.3, 0.55; 0.1, 0.05 + 0.05i) = 0.86214 41053 566… − 0.03245 47033 319… i`.
+- `G₂(α, 0; β, β′; x, y) = F(α, β′; 1 − β; −x)` for `‖x‖ < 1`, `‖y‖ < 1`, since
+  `pochZ(β, −m) = (−1)ᵐ/(1 − β)ₘ`; at `α = 0.3`, `β = 0.45`, `β′ = 0.7`, `x = 0.3` both sides are
+  `0.90520 28618 48…`. Exchanging `n − m` and `m − n` in the definition would give
+  `F(α, β; 1 − β′; −x) = 0.88863 92498 57…` instead.
+- The coefficient of `x` in `G₂` is `α β′/(β − 1)`, and the coefficient of `y` in `G₃` is
+  `α (α + 1)/(α′ − 1)`.
+- `G₃(α, α′; 0, y) = ∑ₙ (α)_{2n} (−1)ⁿ yⁿ/((1 − α′)ₙ n!)` for `‖y‖ < ¼`; at `α = 0.3`,
+  `α′ = 0.55`, `y = 0.1` both sides are `0.93072 62972 35…`.
+- The hypothesis `β ∉ ℤ` is needed: at `β = 1` the term `m = 1`, `n = 0` of `hornG2` is `0`,
+  since `pochZ(1, −1) = Γ(0)/Γ(1) = 0` with Mathlib's `Γ`, where the series of DLMF has a pole.
 
 *Needs:* Layer 1 (the summability lemmas); Mathlib `Complex.Gamma_mul_Gamma_one_sub`.
 
@@ -561,32 +576,38 @@ extends it by the identity theorem; only the proof near the origin is described.
   `1 − (1 − u)x − vy = (1 − x)(1 − u x/(x − 1) − v y/(1 − x))`
   (`regularizedAppellF2_transform_16_16_9`).
 
+*Needs:* 2.3–2.4.
+
 ### 4.2 Reduction formulas
 
 - **16.16.1**, on `S = {(x, y) ∈ appellDomain1 | (1 − x)/(1 − y) ∈ slitPlane}`:
   `𝐅₁(α; β, β′; β + β′; x, y) = (1 − y)^{−α} 𝐅(α, β; β + β′; (x − y)/(1 − y))`. Proof: the second
   form of 16.16.8 for `𝐅₁(α; β′, β; β + β′; y, x)`, whose first parameter `γ − β − β′` is then `0`,
   with the symmetry and the reduction of 1.2 (`regularizedAppellF1_reduction_16_16_1`).
+  *Needs:* 1.2, 4.1.
 - **16.16.2**, on `S = {(x, y) ∈ appellDomain2 | (1 − x − y)/(1 − y) ∈ slitPlane}`:
   `𝐅₂(α; β, β′; γ, β′; x, y) = Γ(β′)⁻¹ (1 − y)^{−α} 𝐅(α, β; γ; x/(1 − y))`. Proof: summing over `n`
-  first, `∑ₙ (α + m)ₙ yⁿ/n! = (1 − y)^{−α−m}` (the binomial series)
-  (`regularizedAppellF2_reduction_16_16_2`).
+  first, `∑ₙ (α + m)ₙ yⁿ/n! = (1 − y)^{−α−m}` (the binomial series), then the identity theorem
+  (`regularizedAppellF2_reduction_16_16_2`). *Needs:* 1.1, 2.4; SpecialFunctionsHypergeometric
+  1.3–1.4; Tau Ceti `hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`.
 - **16.16.3**, on `S = {(x, y) ∈ appellDomain2 | (x, x/(1 − y)) ∈ appellDomain1}`:
   `𝐅₂(α; β, β′; γ, α; x, y) = Γ(α)⁻¹ (1 − y)^{−β′} 𝐅₁(β; α − β′, β′; γ; x, x/(1 − y))`. Proof: the
   fibre expansion `∑ₙ (β′)ₙ yⁿ/n! · F(α + n, β; γ; x)`, Euler's integral of each fibre in the region
   `Re γ > Re β > 0`, the binomial series under the integral, and
   `1 − ux − y = (1 − y)(1 − ux/(1 − y))`, which gives Euler's integral 16.15.1 of the right side
-  (`regularizedAppellF2_reduction_16_16_3`).
+  (`regularizedAppellF2_reduction_16_16_3`). *Needs:* 1.4, 2.3–2.4; SpecialFunctionsHypergeometric
+  1.2; Tau Ceti `hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`.
 - **16.16.4**, on `S = appellDomain1`:
   `𝐅₃(α, γ − α; β, β′; γ; x, y) = (1 − y)^{−β′} 𝐅₁(α; β, β′; γ; x, y/(y − 1))`; the map
   `y ↦ y/(y − 1)` preserves `1 − y ∈ slitPlane`. Proof: comparison of Taylor coefficients at the
   origin; the coefficient of `xᵐyⁿ` on the right is a finite sum, which the Chu–Vandermonde sum
   `₂F₁(−n, α + m; γ + m; 1) = (γ − α)ₙ/(γ + m)ₙ` evaluates to the coefficient on the left
   (`regularizedAppellF3_reduction_16_16_4`, and `appellF3_reduction_16_16_4` in DLMF's form).
+  *Needs:* 1.1, 2.4; SpecialFunctionsHypergeometric 4.2.
 - **16.16.5**, on `S = {(x, y) ∈ appellDomain1 | (1 − x)(1 − y) ∈ slitPlane}`:
   `𝐅₃(α, γ − α; β, γ − β; γ; x, y) = (1 − y)^{α+β−γ} 𝐅(α, β; γ; x + y − xy)`. Proof: 16.16.4 with
   `β′ = γ − β`, then 16.16.1 at `(x, y/(y − 1))`, since `(x − Y)/(1 − Y) = x + y − xy` for
-  `Y = y/(y − 1)` (`regularizedAppellF3_reduction_16_16_5`).
+  `Y = y/(y − 1)` (`regularizedAppellF3_reduction_16_16_5`). *Needs:* 16.16.1 and 16.16.4.
 
 **Checks.** At `α = 0.3`, `β = 0.45`, `β′ = 0.7`, `γ = 1.6`, `γ′ = 1.25`, `x = 0.2 + 0.1i`,
 `y = −0.25 + 0.15i`, in DLMF's form:
@@ -598,8 +619,8 @@ extends it by the identity theorem; only the proof near the origin is described.
 - 16.16.8, both forms: `0.98534 81954 425… + 0.02596 17300 552… i`;
 - 16.16.9: `0.97539 09108 742… + 0.02959 42420 817… i`.
 
-*Needs:* Layers 1–2; SpecialFunctionsHypergeometric 1.2–1.4, 4.2; Tau Ceti
-`hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`.
+*Needs:* those of the five items, together: 1.1–1.4, 2.3–2.4, 4.1; SpecialFunctionsHypergeometric
+1.2–1.4, 4.2; Tau Ceti `hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`.
 
 ### Examples
 
@@ -628,9 +649,23 @@ of its function.
 ```
 
   as `HasSum` over `ℕ` (`hasSum_regularizedAppellF4_burchnallChaundy`). Proof: both sides are
-  analytic on the polydisc; the coefficient of `xᵐyⁿ` on each side is a finite double sum of
-  Pochhammer quotients, and the target includes their equality, proved by a recurrence in `m` and
-  `n` with an explicit rational certificate checked by `ring` or `field_simp`.
+  analytic on the polydisc, and the target includes the equality of their coefficients of
+  `x^M y^N`: for all `M, N ≥ 0` and all parameters, with `δ = α + β − γ − γ′ + 1`,
+
+```text
+∑_{m ≤ M, n ≤ N} (−1)^{M−m+N−n} C(n, M − m) C(m, N − n)
+        · (α)_{m+n} (β)_{m+n} / (Γ(γ + m) Γ(γ′ + n) m! n!)
+    = ∑_{k ≤ min(M, N)} (α)ₖ (β)ₖ (δ)ₖ / k!
+        · (α + k)_{M−k} (β + k)_{M−k} / (Γ(γ + M) (M − k)!)
+        · (α + k)_{N−k} (β + k)_{N−k} / (Γ(γ′ + N) (N − k)!),
+```
+
+  with `C(n, j) = 0` for `j > n`; the left side is the coefficient of
+  `𝐅₄(α, β; γ, γ′; x(1 − y), y(1 − x))`, from `xᵐ(1 − x)ⁿ yⁿ(1 − y)ᵐ`. It follows from a linear
+  recurrence in `M`, with coefficients polynomial in `N` and the parameters, that both sides
+  satisfy (one exists by creative telescoping, since both are hypergeometric sums), and from as
+  many initial values in `M` as its order; at `M = 0` both sides are
+  `(α)_N (β)_N/(Γ(γ) Γ(γ′ + N) N!)`. DLMF cites Burchnall and Chaundy (1940, 1941) for §16.16(i).
 - **16.16.6**:
   `𝐅₄(α, β; γ, α + β − γ + 1; x(1 − y), y(1 − x)) = 𝐅(α, β; γ; x) 𝐅(α, β; α + β − γ + 1; y)`, the
   case `γ′ = α + β − γ + 1` of 16.16.7, where `(0)ₖ = 0` for `k ≥ 1`
@@ -652,6 +687,8 @@ in DLMF's form:
 - 16.16.7: both sides are `0.99900 88426 0846… + 0.00959 66916 4714… i`;
 - 16.16.6: `0.92311 26866 0964… + 0.04292 54853 6748… i`;
 - 16.16.5_5: `0.98044 70812 4808… + 0.01783 68312 0938… i`.
+- The coefficient identity above and that of 5.2: at `M, N ≤ 5`, with `(α, β, γ, γ′)` equal to
+  `(0.3, 0.85, 1.6, 1.25)` and to `(0.3, 0.45, −1, 1.25)`, the three sides agree to 45 digits.
 
 *Needs:* Layers 1–2; SpecialFunctionsHypergeometric 1.3 and 5.1.
 
@@ -667,9 +704,19 @@ DLMF 16.15.4 on `appellF4Polydisc`, for `Re γ > Re α > 0` and `Re γ′ > Re �
 
 (`regularizedAppellF4_eq_eulerIntegral`). The powers are evaluated where their bases have positive
 real part. Proof: the right side is analytic on the polydisc; termwise integration of the
-binomial series of the three powers and Beta integrals give its Taylor coefficients, and their
-equality with those of the left side is a finite identity with a recurrence certificate, as in
-5.1.
+binomial series of the three powers and Beta integrals give its Taylor coefficients. With
+`p = α + 1 − γ − γ′`, `q = β + 1 − γ − γ′` and `r = γ + γ′ − α − β − 1`, the coefficient of
+`x^M y^N` on the right is
+
+```text
+(α)_M (β)_N / (Γ(γ + M) Γ(γ′ + N))
+    · ∑_{i ≤ M, j ≤ N} (−r)_{i+j} (−p)_{M−i} (−q)_{N−j} / (i! j! (M − i)! (N − j)!),
+```
+
+and the target includes its equality, for all `M, N ≥ 0` and all parameters, with the left side
+of the identity of 5.1. It follows as in 5.1, from a linear recurrence in `M` that both sides
+satisfy and its initial values; at `M = 0` the Chu–Vandermonde sum and `−r − q = α` give
+`(α)_N (β)_N/(Γ(γ) Γ(γ′ + N) N!)`. DLMF cites Burchnall and Chaundy (1940, (68)) for 16.15.4.
 
 **Checks.**
 - At `α = 0.3`, `β = 0.85`, `γ = 1.6`, `γ′ = 1.25`, `x = 0.15 + 0.05i`, `y = −0.1 + 0.12i`, both
@@ -724,20 +771,32 @@ The proof applies 15.8.2 to each fibre, with `(−y)^{−α−m} = (−y)^{−α
 `F₄(α, α − γ′ + 1; γ, α − β + 1; x/y, 1/y)`, and likewise for `β`.
 
 The convergence on `U` needs a bound on the fibres for all `α`, `β`, including `α − β ∈ ℤ`.
-The connection formula 15.8.2 of SpecialFunctionsHypergeometric 5.1
-(`regularizedGaussHypergeometric_connection_infty`), which carries the factor `sin(π(b − a))/π`
-and holds for all parameters, gives for `|y| ≥ R > 1`, `−y ∈ slitPlane`,
-`|F(α + m, β + m; γ′; y)| ≤ C (1 + m)^K |y|^{−m} (|y|^{−Re α} + |y|^{−Re β})` with `C`, `K` locally
-uniform in `(α, β)` where `β − α` stays at distance at least `¼` from `ℤ`, since there the
-reciprocal of `sin(π(β − α))` is bounded. At any other `(α, β₀)`, with `d = dist(β₀ − α, ℤ) < ¼`
-and `n` the nearest integer, every `β` on the circle `|β − β₀| = ½` has `β − α` at distance at
-least `½ − d > ¼` from `n` and at least `½ − d > ¼` from every other integer. The function
+The connection formula 15.8.2 of SpecialFunctionsHypergeometric 5.1, in the form that carries the
+factor `sin(π(b − a))/π` and holds for all parameters, writes `F(α + m, β + m; γ′; y)` through
+`(−y)^{−α−m} F(α + m, α + m − γ′ + 1; α − β + 1; 1/y)` and the term with `α` and `β` exchanged.
+The coefficients of the last series satisfy
+`|(α + m)ₙ (α + m − γ′ + 1)ₙ/((α − β + 1)ₙ n!)| ≤ C (1 + m + n)^K ((m + n)!/(m! n!))²`, and
+`∑ₙ ((m + n)!/(m! n!))² tⁿ ≤ (1 − √t)^{−2m−2}` for `0 ≤ t < 1`, since the left side is the
+diagonal part of the square of `∑ₙ ((m + n)!/(m! n!)) √tⁿ = (1 − √t)^{−m−1}`; the factor
+`(1 + m + n)^K` costs at most `C (1 + m)^K (1 − √t)^{−K}`, by applying `(s d/ds)^K` to one of the
+two factors at `s = √t`. At `t = 1/|y|`,
+`|y|^{−m} (1 − |y|^{−½})^{−2m} = (√|y| − 1)^{−2m}`. This gives, for `|y| ≥ R > 1`,
+`−y ∈ slitPlane`,
+`|F(α + m, β + m; γ′; y)| ≤ C (1 + m)^K (√|y| − 1)^{−2m} (|y|^{−Re α} + |y|^{−Re β})` with `C`,
+`K` locally uniform in `(α, β)` where `β − α` stays at distance at least `¼` from `ℤ`, since
+there the reciprocal of `sin(π(β − α))` is bounded. The factor `(√|y| − 1)^{−2m}` cannot be
+replaced by `|y|^{−m}`: at `α = 0.3`, `β = 0.85`, `γ′ = 1.25`, `y = 5 + 0.1i`, the product
+`|F(α + m, β + m; γ′; y)| |y|^m` is about `3.6·10³`, `3.0·10⁸`, `3.5·10¹⁸`, `8.1·10³⁸` at
+`m = 10, 20, 40, 80`, while `|F(α + m, β + m; γ′; y)| (√|y| − 1)^{2m}` is about `0.025`,
+`0.015`, `0.0089`, `0.0053`. At any other `(α, β₀)`, with `d = dist(β₀ − α, ℤ) < ¼` and `n` the
+nearest integer, every `β` on the circle `|β − β₀| = ½` has `β − α` at distance at least
+`½ − d > ¼` from `n` and at least `½ − d > ¼` from every other integer. The function
 `β ↦ F(α + m, β + m; γ′; y)` is entire, so the maximum modulus principle on that circle bounds it
 at `β₀` by the bound on the circle, where `|y|^{−Re β} ≤ |y|^{½} |y|^{−Re β₀}`: it is
-`|F(α + m, β₀ + m; γ′; y)| ≤ C (1 + m)^K |y|^{−m} |y|^{½} (|y|^{−Re α} + |y|^{−Re β₀})`, with the
-extra factor `|y|^{½}` independent of `m` and `C`, `K` again locally uniform. With
-`(m!)⁻¹ |(α)ₘ (β)ₘ/(γ)ₘ| ≤ C′ (1 + m)^{K′}` and `√‖x‖ + 1 < √‖y‖`, so `‖x‖ < ‖y‖`, the fibre sum
-converges absolutely and locally uniformly on `U`.
+`|F(α + m, β₀ + m; γ′; y)| ≤ C (1 + m)^K (√|y| − 1)^{−2m} |y|^{½} (|y|^{−Re α} + |y|^{−Re β₀})`,
+with the extra factor `|y|^{½}` independent of `m` and `C`, `K` again locally uniform. With
+`(m!)⁻¹ |(α)ₘ (β)ₘ/(γ)ₘ| ≤ C′ (1 + m)^{K′}` and `√‖x‖ + 1 < √‖y‖`, so `‖x‖ < (√‖y‖ − 1)²`, the
+fibre sum converges absolutely and locally uniformly on `U`; this is why `U` has its shape.
 
 **Checks.** At `α = 0.3`, `β = 0.85`, `γ = 1.6`, `γ′ = 1.25`, both sides of 16.16.10 are
 - `0.63974 60136 565… + 0.02306 13488 454… i` at `(0.3, −6 + i)`;
@@ -789,7 +848,7 @@ of Mathlib, Tau Ceti and [`lean-codes`](https://github.com/bjbraams/lean-codes).
 `DLMF/GeneralizedHypergeometric/Appell/` provides source material for Layers 1–5: the four series
 with their convergence and analyticity, the systems 16.14.1–16.14.4, Horn's `G₂` and `G₃` with
 their systems, the Euler integrals 16.15.1–16.15.3, and the reductions 16.16.1–16.16.6, 16.16.8 and
-16.16.9. Its statements of 16.15.4, 16.16.5_5, 16.16.7 and 16.16.10 are still `sorry`.
+16.16.9. It does not prove 16.15.4, 16.16.5_5, 16.16.7 or 16.16.10.
 
 This roadmap specifies the mathematics intrinsically. `lean-DLMF` supplies prior proofs and
 implementation references; reused code carries attribution under the repository's porting

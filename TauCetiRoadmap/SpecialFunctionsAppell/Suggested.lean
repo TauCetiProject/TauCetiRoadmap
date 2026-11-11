@@ -276,14 +276,13 @@ theorem hasSum_regularizedAppellF1Series_fibre (a b b' c : ℂ) {x y : ℂ}
 
 /-! ### Layer 2: the principal branches of `F₁`, `F₂`, `F₃` -/
 
-/-- **2.1** `appellDomain1` is open and connected. -/
-theorem isOpen_appellDomain1 : IsOpen appellDomain1 := sorry
-
+/-- **2.1** `appellDomain1` is connected. -/
 theorem isConnected_appellDomain1 : IsConnected appellDomain1 := sorry
 
-/-- **2.1** `appellDomain2` is open and star-shaped about the origin. -/
+/-- **2.1** `appellDomain2` is open. -/
 theorem isOpen_appellDomain2 : IsOpen appellDomain2 := sorry
 
+/-- **2.1** `appellDomain2` is star-shaped about the origin. -/
 theorem starConvex_appellDomain2 : StarConvex ℝ 0 appellDomain2 := sorry
 
 /-- **2.1** Uniqueness: two continuations to a connected open set containing `appellSimplex`
