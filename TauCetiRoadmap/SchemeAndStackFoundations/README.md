@@ -4486,18 +4486,47 @@ Noetherian and `F` quasi-coherent, and `cousinComplex_trivial` for `Z_1 = ∅`
 Prove `relativeSupportCohomology_concentration` and `kempf_cousin_resolution` for
 `X` Noetherian, the supplied closed filtration satisfying `codim_X Z_i ≥ i` and
 **affine morphisms** `Z_i ∖ Z_{i+1} → X`, and `F` a maximal Cohen–Macaulay coherent
-sheaf: the relative support sheaves vanish in degrees different from `i` (Kempf 1978,
-Theorem 10.9, with the notion of a sheaf locally Cohen–Macaulay with respect to a filtration,
-p. 358), and the augmentation is a quasi-isomorphism ([BCGP, Theorem 3.9.6](https://www.math.uchicago.edu/~fcale/papers/surfaces.pdf),
-printed p. 64, whose proof is a reference to the same theorem of Kempf). Here maximal means depth equal to the dimension of the ambient local
-ring at each point where the stalk is nonzero. Affineness alone does not imply degree
-concentration. The target `relativeSupportCohomology_eq_zero_of_affine` is the
-vanishing consequence with all these hypotheses.
+sheaf: the relative support sheaves vanish in degrees different from `i`, and the
+augmentation is a quasi-isomorphism ([BCGP, Theorem 3.9.6](https://www.math.uchicago.edu/~fcale/papers/surfaces.pdf),
+printed p. 64; its proof cites Kempf 1978, Theorem 10.9, with Kempf's notion, p. 358, of a sheaf
+locally Cohen–Macaulay with respect to a filtration, which it describes as the Cousin complex
+resolving the sheaf). Here maximal means depth equal to the dimension of the ambient local
+ring at each point where the stalk is nonzero. Write `U_i = X ∖ Z_i`, `j_i : U_i → X` and
+`S_i = Z_i ∖ Z_{i+1}`, a closed subscheme of `U_{i+1}`. The vanishing below `i` uses the depth.
+Every point `x` of `Z_i` has `dim O_{X,x} ≥ i`, so `depth F_x ≥ i` wherever `F_x ≠ 0`, `F` being
+maximal Cohen–Macaulay. So on an affine open `Spec A`
+where `Z_i = V(I)` and `F = M~`, every `p ∈ V(I)` has `H^k_{pA_p}(M_p) = 0` for `k < i` (§2.7
+`depth_localCohomology_vanishing`; Stacks, Lemma 47.11.1 (0AVZ)), hence `H^k_I(M) = 0` for
+`k < i` (Stacks, Lemma 51.2.6 (0DWV), part (1) with `I′ = A`). These groups of the affine opens
+generate the sheaf `H^k_{Z_i}(F)` (§2.7 `localCohomology_module_comparison`), which therefore
+vanishes for `k < i`. In the support sequence
+`H^k_{Z_i}(F) → H^k_{Z_i/Z_{i+1}}(F) → H^{k+1}_{Z_{i+1}}(F)` the last term vanishes by the same
+argument for `Z_{i+1}`, so `H^k_{Z_i/Z_{i+1}}(F) = 0` for `k < i`. The vanishing above `i` holds
+for every quasi-coherent `F` and uses the affine strata. As `S_i → X` is affine,
+`H^m_{Z_i/Z_{i+1}}(F) = j_{i+1,*} H^m_{S_i}(F|_{U_{i+1}})` (BCGP, equation (3.9.8), p. 64).
+For `i = 0` this is zero when `m > 0`, since `S_0 = U_1`. For `i ≥ 1` and `m ≥ 2` it is
+`j_{i+1,*} R^{m−1}k_*(F|_{U_i})` for the inclusion `k : U_i → U_{i+1}` (§2.7
+`supports_localization_triangle` on the opens of `U_{i+1}`). This vanishes for `m − 1 ≥ i` by the
+claim that `R^n j_{i,*} F = 0` for `n ≥ i`, applied to `U_{i+1}` with the traces of
+`Z_0, …, Z_i`. That is a Noetherian scheme with a filtration of the same kind (its affine opens
+are affine opens of `X`), and its `j_i` is `k`. The claim holds by induction on `i` over all such
+schemes: `U_0 = ∅`, and pushing the support triangle of `S_i ⊆ U_{i+1}` forward along `j_{i+1}`
+gives the exact sequence `H^m_{Z_i/Z_{i+1}}(F) → R^m j_{i+1,*} F → R^m j_{i,*} F`, whose outer
+terms vanish for `m ≥ i + 1`. Given the concentration, the augmentation is a quasi-isomorphism.
+Filter an injective resolution of `F` by its subcomplexes of sections supported in the `Z_p`.
+The spectral sequence of this finite filtration has `E_1^{p,q} = H^{p+q}_{Z_p/Z_{p+1}}(F)` and
+abuts to `F` in degree `0`. Concentration leaves only the row `q = 0`, which is the Cousin
+complex with its differential. Affineness alone does not imply degree concentration (the
+embedded-point Check), and a Cousin complex can resolve `F` without it (the `𝔸²` Check). The
+target `relativeSupportCohomology_eq_zero_of_affine` is the vanishing consequence with all these
+hypotheses.
 Prove `cousinComplex_acyclic` with the additional hypothesis that each stratum is
 itself affine (BCGP, Remark 3.9.7, p. 64); global sections then compute `RΓ(X,F)`.
 These inputs are chosen closed filtrations, not the sets of all points of codimension
 at least `i`. On `𝔸¹` the latter set for `i = 1` is dense and proper and cannot be
-passed to this constructor. *Needs:* §0.18, §2.7, including its Noetherian comparison.
+passed to this constructor. *Needs:* §0.18; §2.6 (higher direct images along affine morphisms
+and filtered colimits, behind (3.9.8)); §2.7, including its Noetherian comparison, its
+localization triangle and its depth vanishing.
 
 **Checks.**
 - For `Z_0 = X`, `Z_1 = ∅` the augmentation is an isomorphism.
@@ -4506,8 +4535,23 @@ passed to this constructor. *Needs:* §0.18, §2.7, including its Noetherian com
   `H⁰_{Z_0/Z_1}(O) = K` and `H¹_{Z_1}(O) = K/R`, and the off-diagonal terms
   `H¹_{Z_0/Z_1}(O) = R¹j_* O_η` (for `j` the inclusion of the generic point `η`) and
   `H⁰_{Z_1}(O)` (the `ϖ`-power torsion of `R`) are both zero.
+- For `R = k[x, y]_{(x,y)}` with `Z_1 = V(x)` and `Z_2` the closed point, `codim Z_i = i`, and
+  the strata `Spec R[1/x]`, the generic point of `V(x)` and the closed point are affine over
+  `Spec R`. Each off-diagonal term vanishes by one step of the route. `H^m_{Z_0/Z_1}(O) = 0` for
+  `m ≥ 1`, since `S_0 = U_1`. `H⁰_{Z_1/Z_2}(O) = 0`, since `R_{(x)}` has depth `1`.
+  `H^m_{Z_1/Z_2}(O)` for `m ≥ 2` is `j_{2,*} R^{m−1}k_* O` for `k : Spec R[1/x] → U_2`, and it is
+  zero because `k` is affine (on each affine open it is the principal open `D(x)`).
+  `H^m_𝔪(R) = 0` for `m ≠ 2`, since `R` has depth and dimension `2`.
+- On `𝔸²_k` with `Z_1` the origin and `Z_2 = ∅` the codimension and Cohen–Macaulay hypotheses
+  hold, but the stratum `𝔸² ∖ {0} → 𝔸²` is not affine. Here `Cous(O)` is `O → 0`, because
+  `j_* O_{𝔸² ∖ {0}} = O` and `H¹_{Z_1}(O) = 0` (depth `2`), so it resolves `O`. Yet
+  `H¹_{Z_0/Z_1}(O) = R¹j_* O_{𝔸² ∖ {0}}` has global sections `H¹(𝔸² ∖ {0}, O)`, the span of the
+  `x^{−a} y^{−b}` with `a, b ≥ 1`, which is nonzero. A Cousin complex that resolves `F` therefore
+  does not give degree concentration, and the vanishing above `i` needs the affine strata.
 - For `X = Spec k[x, y]/(xy, y²)` (embedded point) with `Z_1` the
-  origin, the augmentation is not a quasi-isomorphism.
+  origin, the augmentation is not a quasi-isomorphism. The strata `Spec k[x, x⁻¹]` and the origin
+  are affine and `codim Z_1 = 1`, but the depth at the origin is `0`. The kernel of the
+  augmentation `O → H⁰_{Z_0/Z_1}(O) = k[x, x⁻¹]~` is the off-diagonal term `H⁰_{Z_1}(O) = k·y`.
 - Over an infinite algebraically closed field,
   the codimension-one points of `𝔸¹` are exactly its closed points; their set is dense,
   proper, and not closed.
