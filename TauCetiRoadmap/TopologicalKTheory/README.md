@@ -80,10 +80,7 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   `Fin.castSucc`, their strict commutation
   `ambientStabilization_rankStabilization`, the image of the rank map as the
   planes containing `e₀` (`mem_range_rankStabilization`) and both closed
-  embeddings (`Stabilization.lean`); the rank-one homeomorphism
-  `projectivizationHomeomorph` from `Projectivization 𝕜 (Fin N→𝕜)` whose
-  underlying equivalence is Mathlib's `Projectivization.equivSubmodule`
-  (`Projectivization.lean`); and the finite oriented carriers
+  embeddings (`Stabilization.lean`); and the finite oriented carriers
   `TauCeti.finiteOrientedGrassmannian r N` for `r:ℕ+`, the orientation double
   cover of the real tautological bundle, with the forgetting map `forget`,
   compactness, the pulled-back oriented `Tautological` bundle and its two
@@ -91,6 +88,14 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   and `TauCeti.VectorBundleOrientationCover` with the deck involution `deck`,
   the covering map `isCoveringMap_proj` and the two-point fibres
   `ncard_fiber` (`Topology/VectorBundle/Orientation/{Basic,Cover}.lean`).
+  `Plucker.lean`, and through it `Stabilization.lean`, import Tau Ceti's own
+  copy of the projectivization topology
+  (`Topology/Algebra/Projectivization.lean`), which declares Mathlib's
+  instance name `Projectivization.instTopologicalSpace` a second time, so
+  neither is imported together with Mathlib's instance. Tau Ceti's rank-one
+  homeomorphism `TauCeti.finiteGrassmannian.projectivizationHomeomorph`
+  (`Topology/Grassmannian/Projectivization.lean`) is stated on that copy;
+  T1.5 owns the rank-one comparison on Mathlib's instance.
 - Tau Ceti `Topology/VectorBundle/`, `Topology/FiberBundle/` and
   `Topology/PartitionOfUnity/Gap.lean` supply: the constant-rank category
   `TauCeti.FiniteRankBundleCore 𝕜 B` with `ofBundle`, `pointIndexedCore`,
@@ -245,7 +250,7 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   native Fredholm packages, composition, openness and local index constancy.
   Tau Ceti `Analysis/Fredholm/{SmallPerturbation,CompactPerturbation,ContinuousFamily}`
   supplies its additional perturbation and continuous-family interfaces. T6.5
-  owns finite-bundle stabilization and the kernel-bundle family index; an
+  owns finite-bundle stabilization and the kernel-bundle family index; a
   closed-manifold index consumer must reuse this construction.
 - [GeometricTopology Layer 1](../GeometricTopology/README.md) supplies smooth
   embeddings and tubular neighbourhoods. T5 supplies K-theory extension through
@@ -567,12 +572,23 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    tautological and orthogonal-complement bundles smooth, orthogonal
    complementation a diffeomorphism Gr(r,N)≃Gr(N−r,N), and the
    stabilization, direct-sum and scalar-forgetting Gr_ℂ(r,N)→Gr_ℝ(2r,2N)
-   maps smooth, reusing the bundles and classifiers above. In rank one the
-   real and complex projective comparison homeomorphisms from native
-   `Projectivization 𝕜 (Fin (n+1)→𝕜)` to `TauCeti.finiteGrassmannian 𝕜 1 (n+1)`
-   are Tau Ceti's `projectivizationHomeomorph`, whose underlying equivalence
-   is native `equivSubmodule` and whose topologies are the nonzero-vector and
-   full-frame-span quotients;
+   maps smooth, reusing the bundles and classifiers above. In rank one own
+   the real and complex projective comparison homeomorphisms from native
+   `Projectivization 𝕜 (Fin (n+1)→𝕜)`, with Mathlib's nonzero-vector
+   quotient topology `Projectivization.instTopologicalSpace`, to
+   `TauCeti.finiteGrassmannian 𝕜 1 (n+1)` with its full-frame-span quotient
+   topology, whose underlying equivalence is Mathlib's
+   `Projectivization.equivSubmodule`. A one-vector frame is a nonzero vector,
+   so both directions are continuous by Mathlib's
+   `Projectivization.continuous_iff` and `Projectivization.continuous_mk`
+   with Tau Ceti's `TauCeti.finiteGrassmannian.isQuotientMap_frameSpan`: this
+   is the argument of Tau Ceti's
+   `TauCeti.finiteGrassmannian.projectivizationHomeomorph`, which is stated on
+   Tau Ceti's own copy of the topology (supplier contract), carried out on
+   Mathlib's instance. Prove the comparison natural for injective linear
+   maps, Mathlib's `Projectivization.map` against
+   `TauCeti.finiteGrassmannian.map` (`Map.lean`), in particular for the
+   stage inclusions along `Fin.castSucc`;
    prove they are diffeomorphisms to AlgebraicTopology Stage 4.6's
    native RP and ComplexKahlerGeometry K7.1's native CP manifold structures.
    For the complex comparison own the projective real-model comparison:
@@ -984,10 +1000,11 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    and uses earlier AT CW/Whitehead tools, without AT8.10–8.12.
    For these rank-one carriers also construct the direct finite-projective
    model before general classification: identify Gr_1(𝕜^(N+1)) with native
-   Projectivization through Tau Ceti's `projectivizationHomeomorph`,
-   transport AT4.6's real and CKG K7.2's complex characteristic
+   Projectivization, with Mathlib's topology, through T1.5's rank-one
+   homeomorphism, transport AT4.6's real and CKG K7.2's complex characteristic
    cells through the actual ratio charts, and compare the rank-one Schubert
-   labels and stage inclusions. Their weak CW union is the same RP∞/CP∞ carrier.
+   labels and, by T1.5's naturality for injective linear maps, the stage
+   inclusions. Their weak CW union is the same RP∞/CP∞ carrier.
    Use its compact-image finite-subcomplex theorem and the finite-coordinate
    unit-sphere tower to prove contractibility of the universal sphere total
    space by connectivity and CW Whitehead. Keep the real double-cover and
@@ -1374,6 +1391,26 @@ all steps below are targets, including independence of the constructed inverse.
    normalized companion pencil, matching the strict |z|<1 spectral choice.
    The coefficient of β for `z^(−m)p` is `[V_d(E,p)]−m[E]`; prove the sign
    and constant coefficient by computing z, z^(−1), identity and scalar powers.
+
+   **Checks.**
+   - Companion pencil for d=1: for `p(z)=p₁z+p₀` the 2-block pencil with
+     upper row `(1,−z)` and final row `(p₁,p₀)` becomes `diag(1,p₀+p₁z)` after
+     subtracting p₁ times the first row from the second and adding z times
+     the first column to the second, so it is invertible at a point of the
+     circle exactly where p(z) is; the upper row `(1,z)` would give
+     `diag(1,p₀−p₁z)`, that is p(−z).
+   - β-coefficients over a point with E the trivial line, in the
+     Conventions' gluing: z has V of rank 1, coefficient 1 and class
+     `[L]=1+β`; `z^(−1)=z^(−1)·1` has V=0, coefficient `0−1=−1` and class
+     `[L⁻¹]=1−β`; z² has V of rank 2, coefficient 2 and class `[L²]=1+2β`,
+     since β²=0; a nonzero constant has V=0, coefficient 0 and class 1. The
+     opposite sign `m[E]−[V_d(E,p)]` would give z^(−1) the class `[L]`.
+   - Inside projector of item 4: for `B=diag(0,2)` it is `diag(1,0)`; for the
+     non-normal `B=[[1/2,1],[0,2]]`, with eigenvector e₀ for 1/2 and (2,3)
+     for 2, it is `P=[[1,−2/3],[0,0]]`, which is idempotent and commutes with
+     B (`PB=BP=[[1/2,−1/3],[0,0]]`). The orthogonal projection onto ℂe₀
+     sends (2,3) to (2,0)≠0 and does not commute with B, so it is not the
+     projector.
 7. Construct the inverse to the product map, prove both inverse laws, rank
    and basepoint compatibility. Extract `K(S²)≃Z[β]/(β²)` as a corollary of
    the product theorem, not a premise in its injectivity proof.
@@ -1770,8 +1807,10 @@ comparisons, not an assumption on every K-object.
      restriction, which is why the projective fibre is pinned.
    - With G trivial and X a point the left-inverse statement says the
      restriction `R(U(r))→R(U(r−1)×U(1))` is injective, and after iteration
-     `R(U(r))→R(T)` is injective; for r=2 the standard representation
-     restricts to `t₁+t₂≠0`.
+     `R(U(r))→R(T)` is injective. For r=2 the class `[V]−[det V]−1` of the
+     standard representation V maps to `t₁+t₂−t₁t₂−1=−(t₁−1)(t₂−1)≠0` in
+     R(T); restricted instead to the rank-one subtorus U(1)×1 it maps to
+     `(t+1)−t−1=0`, so injectivity needs the full torus.
 7. For any complex G-bundle E, lift to its unitary frame bundle P, Tau Ceti's
    `TauCeti.OrthonormalFrameBundle` with the equivariant local trivializations
    of `TauCeti.OrthonormalFrameBundle.exists_trivialization`, made a principal
@@ -1946,8 +1985,9 @@ its characteristic-class consequences; G2.8 owns the generic
      1∈O(1)={±1}; SO(1) is trivial while O(1) has two elements, which the
      determinant separates, so π₀(O)=ℤ/2 and SO is connected.
    - The map A↦diag(A,−1) sends the identity of O(n) to diag(1,…,1,−1), so
-     it is not a homomorphism and its colimit carries no group structure;
-     the determinant is also not compatible with it.
+     it is not a homomorphism of the matrix groups and their group laws do
+     not pass to its colimit; the determinant is also not compatible with
+     it, since det diag(A,−1)=−det A.
    - The winding-one loop of SO(2) has nonzero class in π₁(SO)=ℤ/2 and its
      double is null, by T1.5a's value π₁(SO(3))=ℤ/2, the surjection
      from π₁(SO(2)) at n=i+1=2 and the bijection at n≥3=i+2; the single
