@@ -266,7 +266,7 @@ declaration is a target of the supplying roadmap, and its statement here is what
   (countable `α` and `ι`) and the instance `standardBorelSpace_modelsOf`; and
   `isomorphismInvariant_modelsOf` (codes isomorphic to a code of a model are codes of models), a
   CountableStructureSpaces target with no Tau Ceti declaration, which follows from Tau Ceti's
-  `Language.Equiv.mem_modelsOf_iff` (invariance across carriers).
+  `FirstOrder.Language.Equiv.mem_modelsOf_iff` (invariance across carriers).
 * **(S3) Isomorphism and the logic action.** `RelationalConfiguration.isoSetoid L α`
   (`Isomorphism.lean`; the decoded structures are isomorphic, `isoSetoid_apply`), on every carrier
   `α : Type w`; the action `instMulActionPerm` of `Equiv.Perm α` (`Basic.lean`), with
