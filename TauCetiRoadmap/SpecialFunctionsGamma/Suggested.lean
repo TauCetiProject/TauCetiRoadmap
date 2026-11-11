@@ -7,9 +7,9 @@ public import Mathlib
 
 This file states the headline theorems of the roadmap against the pinned Mathlib. `README.md` is
 the definitive document and states every target; this file gives suggested forms, not an exhaustive
-list. Tau Ceti `main` has results in `TauCeti/Analysis/SpecialFunctions/Gamma/` that are not at the
-pins; the statements here use only Mathlib, and a real-variable `ψ(x)` is written
-`(Complex.digamma x).re`, which is Tau Ceti's `Real.digamma x`.
+list. The statements use only Mathlib: the Tau Ceti files that `README.md` cites in
+`TauCeti/Analysis/SpecialFunctions/Gamma/` are newer than this repository's Tau Ceti pin. A
+real-variable `ψ(x)` is written `(Complex.digamma x).re`, which is Tau Ceti's `Real.digamma x`.
 
 The definitions below are roadmap-local copies of the definitions `README.md` pins. In Tau Ceti
 they live in `Complex`, beside Mathlib's `Complex.Gamma` and `Complex.digamma`. Theorems are stated
@@ -31,7 +31,7 @@ open scoped Real
 /-- Euler's constant. -/
 local notation "γ" => Real.eulerMascheroniConstant
 
-/-! ### Definitions -/
+/-! ## Definitions -/
 
 /-- The Lah numbers `L(n, k) = C(n − 1, k − 1) n!/k!` for `1 ≤ k ≤ n`, with `L(0, 0) = 1` and
 `L(n, k) = 0` otherwise (DLMF 5.2.9). -/
@@ -61,7 +61,7 @@ determinant. -/
 def absVandermonde {n : ℕ} (t : Fin n → ℝ) : ℝ :=
   |(Matrix.vandermonde t).det|
 
-/-! ### Layer 1: Pochhammer symbols, special values and functional relations -/
+/-! ## Layer 1: Pochhammer symbols, special values and functional relations -/
 
 /-- DLMF 5.2.8. -/
 theorem ascPochhammer_two_mul_eval (a : ℂ) (n : ℕ) :
@@ -89,11 +89,6 @@ theorem descPochhammer_eval_eq_sum_lah (x : ℂ) (n : ℕ) :
 theorem doubleFactorial_odd_eq_Gamma (n : ℕ) :
     ((2 * n + 1).doubleFactorial : ℝ) =
       π ^ (-(1 / 2 : ℝ)) * 2 ^ ((n : ℝ) + 1) * Real.Gamma ((n : ℝ) + 3 / 2) := by
-  sorry
-
-/-- DLMF 5.4.3. -/
-theorem norm_Gamma_mul_I {y : ℝ} (hy : y ≠ 0) :
-    ‖Gamma (I * y)‖ = Real.sqrt (π / (y * Real.sinh (π * y))) := by
   sorry
 
 /-- DLMF 5.4.4. -/
@@ -143,18 +138,70 @@ theorem prod_Gamma_add_div {n : ℕ} (hn : 0 < n) (z : ℂ) :
       (2 * π : ℂ) ^ (((n : ℂ) - 1) / 2) * (n : ℂ) ^ (1 / 2 - n * z) * Gamma (n * z) := by
   sorry
 
-/-- DLMF 5.5.7. -/
-theorem prod_Gamma_div {n : ℕ} (hn : 0 < n) :
-    ∏ k ∈ Ico 1 n, Gamma ((k : ℂ) / n) =
-      (2 * π : ℂ) ^ (((n : ℂ) - 1) / 2) * (n : ℂ) ^ (-(1 / 2 : ℂ)) := by
-  sorry
-
 /-- DLMF 5.5.9. -/
 theorem digamma_mul_nat {n : ℕ} (hn : 0 < n) {z : ℂ} (hz : ∀ m : ℕ, (n : ℂ) * z ≠ -m) :
     digamma (n * z) = (1 / n) * ∑ k ∈ range n, digamma (z + k / n) + log n := by
   sorry
 
-/-! ### Layer 2: inequalities -/
+/-! ## Layer 2: series and products -/
+
+/-- DLMF 5.7.3 on `|z| < 2`, exponentiated. -/
+theorem Gamma_one_add_eq_exp {z : ℂ} (hz : ‖z‖ < 2) (hz₁ : z ≠ -1) :
+    Gamma (1 + z) =
+      (1 + z)⁻¹ * exp (z * (1 - γ) +
+        ∑' k : ℕ, (-1) ^ k * (riemannZeta (k + 2) - 1) * z ^ (k + 2) / (k + 2)) := by
+  sorry
+
+/-- DLMF 5.7.4. -/
+theorem digamma_one_add_eq_tsum {z : ℂ} (hz : ‖z‖ < 1) :
+    digamma (1 + z) = -γ + ∑' k : ℕ, (-1) ^ k * riemannZeta (k + 2) * z ^ (k + 1) := by
+  sorry
+
+/-- DLMF 5.7.5 on `|z| < 2`. -/
+theorem digamma_one_add_eq_tsum_odd {z : ℂ} (hz : ‖z‖ < 2) (hz₀ : z ≠ 0) (hz₁ : z ≠ 1)
+    (hz₂ : z ≠ -1) :
+    digamma (1 + z) =
+      1 / (2 * z) - π / 2 * cot (π * z) + 1 / (z ^ 2 - 1) + 1 - γ -
+        ∑' k : ℕ, (riemannZeta (2 * k + 3) - 1) * z ^ (2 * k + 2) := by
+  sorry
+
+/-- DLMF 5.7.2. -/
+theorem invGammaCoeff_recurrence {k : ℕ} (hk : 3 ≤ k) :
+    ((k : ℂ) - 1) * invGammaCoeff k =
+      γ * invGammaCoeff (k - 1) +
+        ∑ j ∈ Icc 2 (k - 1), (-1) ^ (j + 1) * riemannZeta j * invGammaCoeff (k - j) := by
+  sorry
+
+/-- DLMF 5.7.7, a conditionally convergent series. -/
+theorem tendsto_digamma_half_sub {z : ℂ} (hz : ∀ m : ℕ, z ≠ -m) :
+    Tendsto (fun N : ℕ => 2 * ∑ k ∈ range N, (-1) ^ k / (k + z)) atTop
+      (𝓝 (digamma ((z + 1) / 2) - digamma (z / 2))) := by
+  sorry
+
+/-- DLMF 5.7.8. -/
+theorem im_digamma_one_add_mul_I_eq_tsum (y : ℝ) :
+    HasSum (fun k : ℕ => y / (((k : ℝ) + 1) ^ 2 + y ^ 2)) (digamma (1 + I * y)).im := by
+  sorry
+
+/-- DLMF 5.15.1 for every `z` off the poles, with `ψ′` the complex derivative of `ψ`. -/
+theorem hasSum_deriv_digamma {z : ℂ} (hz : ∀ m : ℕ, z ≠ -m) :
+    HasSum (fun k : ℕ => 1 / ((k : ℂ) + z) ^ 2) (deriv digamma z) := by
+  sorry
+
+/-- DLMF 5.8.2, the Weierstrass product. -/
+theorem hasProd_inv_Gamma (z : ℂ) :
+    ∃ P, HasProd (fun k : ℕ => (1 + z / (k + 1)) * exp (-z / (k + 1))) P ∧
+      (Gamma z)⁻¹ = z * exp (γ * z) * P := by
+  sorry
+
+/-- DLMF 5.8.4–5.8.5, balanced products. -/
+theorem hasProd_balanced {m : ℕ} (a b : Fin m → ℂ) (hab : ∑ k, a k = ∑ k, b k)
+    (hb : ∀ k, ∀ j : ℕ, b k ≠ -j) :
+    HasProd (fun j : ℕ => ∏ k, (a k + j) / (b k + j))
+      ((∏ k, Gamma (b k)) * (∏ k, Gamma (a k))⁻¹) := by
+  sorry
+
+/-! ## Layer 3: inequalities -/
 
 /-- DLMF 5.6.2. -/
 theorem inv_Gamma_add_inv_Gamma_inv_le_two {x : ℝ} (hx : 0 < x) :
@@ -180,6 +227,11 @@ theorem kershaw {x s : ℝ} (hx : 0 < x) (hs₀ : 0 < s) (hs₁ : s < 1) :
         Real.exp ((1 - s) * (digamma (x + (s + 1) / 2 : ℝ)).re) := by
   sorry
 
+/-- DLMF 5.6.6 for every real `x` off the poles. -/
+theorem norm_Gamma_add_mul_I_le {x : ℝ} (hx : ∀ m : ℕ, x ≠ -m) (y : ℝ) :
+    ‖Gamma (x + I * y)‖ ≤ |Real.Gamma x| := by
+  sorry
+
 /-- DLMF 5.6.7. -/
 theorem norm_Gamma_add_mul_I_ge {x : ℝ} (hx : 1 / 2 ≤ x) (y : ℝ) :
     Real.sqrt (1 / Real.cosh (π * y)) * Real.Gamma x ≤ ‖Gamma (x + I * y)‖ := by
@@ -191,70 +243,7 @@ theorem norm_Gamma_add_div_Gamma_add_le {a b : ℝ} (ha : 0 ≤ a) (hab : 1 ≤ 
     ‖Gamma (z + a) / Gamma (z + b)‖ ≤ ‖z‖ ^ (a - b) := by
   sorry
 
-/-! ### Layer 3: series and products -/
-
-/-- DLMF 5.7.1. -/
-theorem hasSum_invGammaCoeff (z : ℂ) :
-    HasSum (fun k : ℕ => invGammaCoeff k * z ^ k) (Gamma z)⁻¹ := by
-  sorry
-
-/-- The first coefficients of 5.7.1. -/
-theorem invGammaCoeff_zero_one_two :
-    invGammaCoeff 0 = 0 ∧ invGammaCoeff 1 = 1 ∧ invGammaCoeff 2 = γ := by
-  sorry
-
-/-- DLMF 5.7.2. -/
-theorem invGammaCoeff_recurrence {k : ℕ} (hk : 3 ≤ k) :
-    ((k : ℂ) - 1) * invGammaCoeff k =
-      γ * invGammaCoeff (k - 1) +
-        ∑ j ∈ Icc 2 (k - 1), (-1) ^ (j + 1) * riemannZeta j * invGammaCoeff (k - j) := by
-  sorry
-
-/-- DLMF 5.7.3 on `|z| < 2`, exponentiated. -/
-theorem Gamma_one_add_eq_exp {z : ℂ} (hz : ‖z‖ < 2) (hz₁ : z ≠ -1) :
-    Gamma (1 + z) =
-      (1 + z)⁻¹ * exp (z * (1 - γ) +
-        ∑' k : ℕ, (-1) ^ k * (riemannZeta (k + 2) - 1) * z ^ (k + 2) / (k + 2)) := by
-  sorry
-
-/-- DLMF 5.7.4. -/
-theorem digamma_one_add_eq_tsum {z : ℂ} (hz : ‖z‖ < 1) :
-    digamma (1 + z) = -γ + ∑' k : ℕ, (-1) ^ k * riemannZeta (k + 2) * z ^ (k + 1) := by
-  sorry
-
-/-- DLMF 5.7.5 on `|z| < 2`. -/
-theorem digamma_one_add_eq_tsum_odd {z : ℂ} (hz : ‖z‖ < 2) (hz₀ : z ≠ 0) (hz₁ : z ≠ 1)
-    (hz₂ : z ≠ -1) :
-    digamma (1 + z) =
-      1 / (2 * z) - π / 2 * cot (π * z) + 1 / (z ^ 2 - 1) + 1 - γ -
-        ∑' k : ℕ, (riemannZeta (2 * k + 3) - 1) * z ^ (2 * k + 2) := by
-  sorry
-
-/-- DLMF 5.7.7, a conditionally convergent series. -/
-theorem tendsto_digamma_half_sub {z : ℂ} (hz : ∀ m : ℕ, z ≠ -m) :
-    Tendsto (fun N : ℕ => 2 * ∑ k ∈ range N, (-1) ^ k / (k + z)) atTop
-      (𝓝 (digamma ((z + 1) / 2) - digamma (z / 2))) := by
-  sorry
-
-/-- DLMF 5.7.8. -/
-theorem im_digamma_one_add_mul_I_eq_tsum (y : ℝ) :
-    HasSum (fun k : ℕ => y / (((k : ℝ) + 1) ^ 2 + y ^ 2)) (digamma (1 + I * y)).im := by
-  sorry
-
-/-- DLMF 5.8.2, the Weierstrass product. -/
-theorem hasProd_inv_Gamma (z : ℂ) :
-    ∃ P, HasProd (fun k : ℕ => (1 + z / (k + 1)) * exp (-z / (k + 1))) P ∧
-      (Gamma z)⁻¹ = z * exp (γ * z) * P := by
-  sorry
-
-/-- DLMF 5.8.4–5.8.5, balanced products. -/
-theorem hasProd_balanced {m : ℕ} (a b : Fin m → ℂ) (hab : ∑ k, a k = ∑ k, b k)
-    (hb : ∀ k, ∀ j : ℕ, b k ≠ -j) :
-    HasProd (fun j : ℕ => ∏ k, (a k + j) / (b k + j))
-      ((∏ k, Gamma (b k)) * (∏ k, Gamma (a k))⁻¹) := by
-  sorry
-
-/-! ### Layer 4: integral representations of `Γ` and `ψ` -/
+/-! ## Layer 4: integral representations of `Γ` and `ψ` -/
 
 /-- DLMF 5.9.1. -/
 theorem integral_exp_neg_mul_rpow {μ : ℝ} (hμ : 0 < μ) {ν z : ℂ} (hν : 0 < ν.re) (hz : 0 < z.re) :
@@ -358,7 +347,7 @@ theorem integral_segment_Gamma {c z : ℂ} (hc : 0 < c.re) (hz : 0 < z.re) :
       ∫ t in Ioi (0 : ℝ), ((t : ℂ) ^ (z - 1) - (t : ℂ) ^ (c - 1)) / Real.log t * Real.exp (-t) := by
   sorry
 
-/-! ### Layer 5: the Beta function -/
+/-! ## Layer 5: the Beta function -/
 
 /-- DLMF 5.12.2. -/
 theorem integral_sin_cpow_mul_cos_cpow {a b : ℂ} (ha : 0 < a.re) (hb : 0 < b.re) :
@@ -438,7 +427,7 @@ theorem beta_pochhammer (a b : ℂ) {ε : ℝ} (hε₀ : 0 < ε) (hε₁ : ε < 
         (Gamma (1 - a))⁻¹ * (Gamma (1 - b))⁻¹ * (Gamma (a + b))⁻¹ := by
   sorry
 
-/-! ### Layer 6: Barnes-type integrals -/
+/-! ## Layer 6: Barnes-type integrals -/
 
 /-- DLMF 5.13.1. -/
 theorem integral_Gamma_mul_Gamma_mul_cpow {a b z : ℂ} {c : ℝ} (hab : 0 < (a + b).re)
@@ -468,12 +457,7 @@ theorem integral_deBrangesWilson {a : Fin 4 → ℂ} (ha : ∀ k, 0 < (a k).re) 
       (∏ j, ∏ k, if j < k then Gamma (a j + a k) else 1) * (Gamma (∑ k, a k))⁻¹ := by
   sorry
 
-/-! ### Layer 7: polygamma functions -/
-
-/-- DLMF 5.15.1. -/
-theorem hasSum_polygamma_one {z : ℂ} (hz : ∀ m : ℕ, z ≠ -m) :
-    HasSum (fun k : ℕ => 1 / ((k : ℂ) + z) ^ 2) (polygamma 1 z) := by
-  sorry
+/-! ## Layer 7: polygamma functions -/
 
 /-- DLMF 5.15.2–5.15.3. -/
 theorem polygamma_one_and_half {n : ℕ} (hn : 1 ≤ n) :
@@ -521,11 +505,10 @@ theorem tendsto_sum_neg_one_pow_polygamma_one :
 
 /-- DLMF 5.16.2. -/
 theorem hasSum_polygamma_one_div :
-    HasSum (fun k : ℕ => polygamma 1 (k + 2) / (k + 1)) (riemannZeta 3) ∧
-      riemannZeta 3 = -(1 / 2) * polygamma 2 1 := by
+    HasSum (fun k : ℕ => polygamma 1 (k + 2) / (k + 1)) (riemannZeta 3) := by
   sorry
 
-/-! ### Layer 8: multidimensional integrals -/
+/-! ## Layer 8: multidimensional integrals -/
 
 /-- Carlson's theorem (auxiliary, 8.1). -/
 theorem eq_zero_of_carlson {f : ℂ → ℂ} (hd : DifferentiableOn ℂ f {z | 0 < z.re})

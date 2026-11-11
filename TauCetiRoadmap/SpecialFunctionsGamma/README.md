@@ -5,10 +5,10 @@ Chapter 5 of the NIST *Digital Library of Mathematical Functions* (DLMF; see
 [References](#references)) as a library. Mathlib has `Γ` (`Complex.Gamma`), its integral, Euler's
 limit, the recurrence, reflection and duplication formulas, the Beta integral, `ψ`
 (`Complex.digamma`) with its recurrence, reflection and duplication, and Euler's constant; Tau Ceti
-has the reciprocal-Gamma bounds, the Gauss series of `ψ`, a holomorphic `log Γ` on sectors, the
-real Beta integrals and the Mellin inversion of `Γ`. This roadmap proves what remains of DLMF
-§§5.2–5.9 and §§5.12–5.16, apart from the explicit Stirling theory and the Barnes `G`-function,
-which other roadmaps own.
+has the real Beta integrals 5.12.1 and 5.12.3 and, in `TauCeti/Analysis/SpecialFunctions/Gamma/`,
+the Gauss series 5.7.6 of `ψ`, the real digamma function and `Γ` on vertical lines. This roadmap
+proves what remains of DLMF §§5.2–5.9 and §§5.12–5.16, apart from the explicit Stirling theory and
+the Barnes `G`-function, which other roadmaps own.
 
 The roadmap covers:
 - the Pochhammer duplication and Lah formulas, the values of `Γ` and `ψ` on the imaginary axis and
@@ -34,15 +34,17 @@ bounds 5.6.1 and 5.6.9, Binet's formulas 5.9.10, the Mellin–Barnes integrals w
 `q`-Beta functions (§5.18), and the applications and computation sections are listed in
 [Beyond this roadmap](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
 
-The roadmap rests on Mathlib and Tau Ceti and on five roadmaps on main. It consumes Stirling's
-formula on sectors from [ZerosOfLFunctions](../ZerosOfLFunctions/README.md); the complex Gamma
-integral, Watson's lemma in a sector, the rotation of the path and the Gamma bound on vertical
-strips from [AsymptoticExpansions](../AsymptoticExpansions/README.md); the Mellin–Barnes integral
-of `(1 + u)^{−a}`, the complex Beta integral 5.12.3 and Barnes's first lemma from
-[SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md); the product formula
-5.8.3 and its comparison in `x` from
+The roadmap rests on Mathlib and Tau Ceti, on five roadmaps on main and on ExplicitNumberFields.
+It consumes Stirling's formula on sectors and on vertical strips and the asymptotics of `ψ` from
+[ZerosOfLFunctions](../ZerosOfLFunctions/README.md); the complex Gamma integral, Watson's lemma in
+a sector, the rotation of the path, the Gamma bound on vertical strips and the exponential Mellin
+inversion from [AsymptoticExpansions](../AsymptoticExpansions/README.md); the Mellin–Barnes
+integral of `(1 + u)^{−a}`, the complex Beta integral 5.12.3, Barnes's first lemma and the periodic
+Carlson lemma from [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md);
+the product formula 5.8.3, its comparison in `x` and the value of `|Γ(1 + iy)|²` from
 [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md); and Gauss's
-integral 5.9.12 from [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md).
+integral 5.9.12 from [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md); and the
+series 5.7.6 and 5.15.1 on `Re z > 0` from ExplicitNumberFields 1.1a.
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Gamma/`, beside Tau Ceti's existing files there,
 and `TauCeti/Analysis/SpecialFunctions/Beta.lean`.
@@ -52,8 +54,8 @@ and `TauCeti/Analysis/SpecialFunctions/Beta.lean`.
 The roadmap is complete when Tau Ceti proves all of the following.
 
 1. **Pochhammer symbols, special values and functional relations** (DLMF §5.2(iii), §5.4, §5.5).
-2. **Inequalities** (DLMF §5.6 without 5.6.1, 5.6.6 and 5.6.9).
-3. **Series and products** (DLMF §§5.7–5.8 without 5.7.6, 5.8.1 and 5.8.3).
+2. **Series and products** (DLMF §§5.7–5.8 without 5.7.6, 5.8.1 and 5.8.3), and DLMF 5.15.1.
+3. **Inequalities** (DLMF §5.6 without 5.6.1 and 5.6.9).
 4. **Integral representations of `Γ` and `ψ`** (DLMF §5.9 without 5.9.10–5.9.12 and 5.9.17).
 5. **The Beta function** (DLMF §5.12 without 5.12.1 and 5.12.3).
 6. **Barnes-type integrals** (DLMF §5.13 without 5.13.3).
@@ -68,17 +70,17 @@ specified in the layers:
 | Formulas | Targets |
 |---|---|
 | 5.2.8, 5.2.9 | Pochhammer duplication and the Lah expansions (1.1). |
-| 5.4.2–5.4.5, 5.4.15–5.4.18 | Values of `Γ` and `ψ` at half-integers and on the lines `Re z ∈ {0, ¼, ½, 1}` (1.2). |
+| 5.4.2, 5.4.4–5.4.5, 5.4.15–5.4.18 | Values of `Γ` and `ψ` at half-integers and on the lines `Re z ∈ {0, ¼, ½, 1}` (1.2). |
 | 5.4.19 | Gauss's digamma theorem (1.3). |
 | 5.5.6, 5.5.7, 5.5.9 | Gauss's multiplication formulas (1.4). |
-| 5.6.2–5.6.5, 5.6.7, 5.6.8 | Inequalities (Layer 2). |
-| 5.7.1–5.7.5, 5.7.7, 5.7.8 | Maclaurin series and other series (3.1–3.3). |
-| 5.8.2, 5.8.4–5.8.5 | The Weierstrass product and the balanced products (3.4). |
+| 5.7.1–5.7.5, 5.7.7, 5.7.8 | Maclaurin series and other series (2.1–2.3). |
+| 5.8.2, 5.8.4–5.8.5 | The Weierstrass product and the balanced products (2.4). |
+| 5.6.2–5.6.8 | Inequalities (Layer 3); 5.6.6 for every real `x` off the poles. |
 | 5.9.1–5.9.9, 5.9.2_5 | Integral representations of `Γ` (4.1–4.3). |
 | 5.9.13–5.9.16, 5.9.18–5.9.20 | Integral representations of `ψ`, `γ` and the derivatives of `Γ` (4.4). |
 | 5.12.2, 5.12.4–5.12.12 | Beta integrals on segments, half-lines, vertical lines and loops (Layer 5). |
 | 5.13.1, 5.13.2, 5.13.4, 5.13.5 | Barnes-type integrals (Layer 6). |
-| 5.15.1–5.15.9, the `ψ′` values of 5.4.12–5.4.13, 5.16.1–5.16.2 | Polygamma functions (Layer 7). |
+| 5.15.1 off `Re z > 0` (2.3), 5.15.2–5.15.9, the `ψ′` values of 5.4.12–5.4.13, 5.16.1–5.16.2 | Polygamma functions (Layer 7). |
 | 5.14.1–5.14.7 | Dirichlet, Selberg, Aomoto, Mehta and Dyson integrals (Layer 8). |
 
 Cases of these formulas that Mathlib or Tau Ceti already proves are inputs, not targets; the
@@ -90,12 +92,15 @@ targets are the remaining cases. The inputs are:
   `ascPochhammer_eval_neg_natCast_of_lt`);
 - 5.4.1 (`Complex.Gamma_nat_eq_factorial`), 5.4.6 (`Real.Gamma_one_half_eq`), 5.4.11
   (`Real.eulerMascheroniConstant_eq_neg_deriv`), and the `ψ` values of 5.4.12–5.4.14
-  (`Complex.digamma_one`, `Complex.digamma_one_half`, `Complex.digamma_nat_add_one`);
+  (`Complex.digamma_one`, `Complex.digamma_one_half`, `Complex.digamma_nat_add_one`), and 5.4.3
+  (SpecialFunctionsParabolicCylinder 6.6(a), divided by `|iy|² = y²`);
 - 5.5.1–5.5.5 and 5.5.8 (`Complex.Gamma_add_one`, `Complex.digamma_apply_add_one`,
   `Complex.Gamma_mul_Gamma_one_sub`, `Complex.digamma_one_sub`, `Complex.Gamma_mul_Gamma_add_half`,
   `Complex.digamma_two_mul`);
-- 5.6.6 (Tau Ceti's `Complex.norm_Gamma_le_Gamma_re`), 5.7.6 (Tau Ceti's
-  `Complex.digamma_eq_gaussSeries`), 5.8.1 (`Complex.GammaSeq_tendsto_Gamma`);
+- 5.6.6 for `x > 0` (Tau Ceti's `Complex.norm_Gamma_le_Gamma_re`), 5.7.6 (ExplicitNumberFields
+  1.1a for `Re z > 0`; Tau Ceti's `Complex.digamma_eq_gaussSeries` for every `z` off the poles),
+  5.15.1 for `Re z > 0` (ExplicitNumberFields 1.1a), 5.8.1 (`Complex.GammaSeq_tendsto_Gamma`);
+- 5.9.1 for real `ν > 0` and `z > 0` (`integral_rpow_mul_exp_neg_mul_rpow`);
 - 5.12.1 (`Complex.Gamma_mul_Gamma_eq_betaIntegral`, and Tau Ceti's
   `TauCeti.integral_rpow_mul_one_sub_rpow` for real parameters) and 5.12.3 for real parameters
   (Tau Ceti's `TauCeti.integral_rpow_mul_one_add_rpow`).
@@ -105,11 +110,11 @@ Tau Ceti nor the consumed roadmaps provide:
 
 | Result | Target |
 |---|---|
-| The Maclaurin coefficients `c_k` of `1/Γ` (`Complex.invGammaCoeff`) | 3.1 |
+| The Maclaurin coefficients `c_k` of `1/Γ` (`Complex.invGammaCoeff`) | 2.2 |
 | The sine integral `∫₀^∞ sin(at)/(e^{2πt} − 1) dt = ¼ coth(a/2) − 1/(2a)` for `a > 0` | 4.4 |
 | The polygamma functions `Complex.polygamma n = iteratedDeriv n Complex.digamma`, their holomorphy off the poles and their reality on the positive axis | 7.1 |
 | The Laplace representation `ψ⁽ⁿ⁾(z) = (−1)ⁿ⁺¹ ∫₀^∞ tⁿ e^{−zt}/(1 − e^{−t}) dt` for `n ≥ 1`, `Re z > 0` | 7.3 |
-| Carlson's theorem | 8.1 |
+| Carlson's theorem (the periodic case is SpecialFunctionsHypergeometric 4.2) | 8.1 |
 | Landau's theorem for integrals of nonnegative functions against `x^s` | 8.1 |
 | The Selberg integrand, its integrability on the full parameter range, and Aomoto's recurrence | 8.3 |
 
@@ -121,20 +126,29 @@ Tau Ceti nor the consumed roadmaps provide:
 - The Mellin–Barnes integral of `(1 + u)^{−a}` for `u > 0`, the Beta integral 5.12.3 for complex
   parameters and Barnes's first lemma 5.13.3 (SpecialFunctionsHypergeometric 6.3); it consumes
   them.
-- The product formula 5.8.3 and its comparison in `x` (SpecialFunctionsParabolicCylinder 6.6(a));
-  it consumes them.
+- The product formula 5.8.3, its comparison in `x` and `|Γ(1 + iy)|² = πy/sinh πy`, which is
+  5.4.3 (SpecialFunctionsParabolicCylinder 6.6(a)); it consumes them.
+- The series 5.7.6 and 5.15.1 on `Re z > 0` (ExplicitNumberFields 1.1a); it consumes them. 2.3
+  extends 5.15.1 to every `z ∉ {0, −1, −2, …}` by the recurrence, and Tau Ceti has 5.7.6 there.
+- The periodic Carlson lemma (SpecialFunctionsHypergeometric 4.2); it consumes it, and 8.1 proves
+  the general theorem, which Dyson's integral (8.5) needs.
 - Gauss's integral 5.9.12 (AnalyticNumberTheoryPartI §1.8a, `digamma_eq_integral`); it consumes
   it.
 - The Maclaurin series of `log Γ(1 + z)` on `|z| < 1` in the form `−γz + Σ_{k≥2} (−1)^k ζ(k) z^k/k`
   (ConformalMappingPartII 5.6) and Gauss's triplication formula, the case `n = 3` of 5.5.6
-  (SpecialFunctionsAiry 7.1). These are owned there; 3.2 and 1.4 here prove the general
+  (SpecialFunctionsAiry 7.1). These are owned there; 2.1 and 1.4 here prove the general
   statements independently.
 - Stirling's series and its remainders (§5.11), the bounds 5.6.1 and 5.6.9, Binet's formulas
-  5.9.10–5.9.10_2 and Hermite's 5.9.11–5.9.11_2, the Mellin–Barnes integral 5.9.17, the
+  5.9.10–5.9.10_2, the formulas 5.9.11_1–5.9.11_2 for `Γ*`, the Mellin–Barnes integrals 5.9.11 and
+  5.9.17, the
   continued fraction (§5.10), the extrema 5.4.20, the Barnes `G`-function (§5.17), the `q`-Gamma
   and `q`-Beta functions (§5.18), and the applications and computation sections (§§5.19–5.21).
 
 See the last section for these.
+
+RandomMatrices 5.2–5.3 prove the Gaussian, Laguerre and Jacobi normalizations at `c = β/2` for
+`β ∈ {1, 2}` through matrix models, as part of their eigenvalue-density theorems; 8.3–8.4 here give
+the same constants for every `β > 0`.
 
 **The boundary in one sentence:** this roadmap owns every formula of DLMF §§5.2–5.9 and §§5.12–5.16
 that is not in Mathlib or Tau Ceti, not one of the consumed results above, and not part of the
@@ -199,20 +213,24 @@ of §5.10.
   `|arg s| < π − δ`, `|s| > 1`. Used for the quotients `Γ(t + a)/Γ(t + b) ∼ t^{a−b}` with complex
   `a`, `b` as `t → +∞` on the real line (6.3).
 - 1.3: `log |Γ(σ + it)| = (σ − ½) log|t| − π|t|/2 + ½ log 2π + O(1/|t|)` uniformly for `σ` in a
-  compact interval (Layer 6, 8.4).
+  compact interval, which bounds `|Γ|` and `|1/Γ|` on vertical strips (Layer 6, 8.3, 8.4).
+- 1.4: for real `x > 0`, `ψ(x)` is real and `(Complex.digamma x).re = deriv (log ∘ Real.Gamma) x`,
+  and `ψ(s) = log s + O(1/|s|)` on sectors (3.2).
 
 ### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
 
 - 1.1 and 1.3: `HasAsymptoticExpansion` and the asymptotic scale `z ↦ z^{−n}` along a sector
   filter (7.3).
 - 4.1: `∫₀^∞ t^{s−1} e^{−zt} dt = Γ(s) z^{−s}` for `Re s > 0`, `Re z > 0`
-  (`integral_cpow_mul_exp_neg_mul_Ioi_of_re_pos`) (4.1, 4.4, 7.3).
+  (`integral_cpow_mul_exp_neg_mul_Ioi_of_re_pos`) (4.1, 4.4, 5.2, 7.3).
 - 4.2: Watson's lemma in `|ph z| ≤ π/2 − δ` (`hasAsymptoticExpansion_laplace_sector`) (7.3).
 - 4.3: the rotation of the path of a Laplace integral and the continuation of its expansion to
-  the rotated sector (7.3, and the rotated Beta integral of 2.4).
+  the rotated sector (7.3, and the rotated Beta integral of 3.4).
 - 8.6: `|Γ(x + iy)| ≤ C (1 + |y|)^K e^{−π|y|/2}` on a vertical strip away from the poles
   (`exists_norm_Gamma_le`), and `Complex.VerticalIntegrable` for `Γ` times `e^{θ|y|}` with
   `θ < π/2` on every line `Re z = x` off the poles (Layer 6, 7.4).
+- 8.7: for `c > 0` and `Re w > 0`, `∫_ℝ Γ(c + iy) w^{−c−iy} dy = 2π e^{−w}`
+  (`integral_Gamma_mul_cpow_neg`) (Layer 6).
 
 ### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
 
@@ -221,31 +239,41 @@ of §5.10.
   `∫₀^∞ t^{s−1} (1 + t)^{−a} dt = Γ(s) Γ(a − s)/Γ(a)` for `0 < Re s < Re a` (DLMF 5.12.3); and
   Barnes's first lemma, DLMF 5.13.3 (`integral_Gamma_mul_Gamma_mul_Gamma_mul_Gamma`) (5.4, 6.1,
   6.4).
+- 4.2: the periodic Carlson lemma: a `1`-periodic function holomorphic on a neighbourhood of
+  `Re w ≥ 0`, bounded by `C (1 + |Im w|)^K e^{σ|Im w|}` with `σ < π` on `0 ≤ Re w ≤ 1` and vanishing
+  at `0`, vanishes on `Re w ≥ 0` (8.3).
 
 ### From [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md)
 
 - 6.6(a): for real `x ∉ {0, −1, −2, …}`, `∏_{k≥0} (1 + y²/(x + k)²) = Γ(x)²/|Γ(x + iy)|²`
   (`hasProd_Gamma_norm_quotient`, DLMF 5.8.3), and its comparison in `x`:
-  `|Γ(x + iy)| ≤ Γ(x)/Γ(x′) · |Γ(x′ + iy)|` for `0 < x ≤ x′` (2.3).
+  `|Γ(x + iy)| ≤ Γ(x)/Γ(x′) · |Γ(x′ + iy)|` for `0 < x ≤ x′` (3.3); and
+  `|Γ(1 + iy)|² = πy/sinh πy` for `y ≠ 0` (`norm_Gamma_one_add_mul_I_sq`, 1.2).
 
 ### From [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md)
 
 - §1.8a: Gauss's integral `ψ(z) = ∫₀^∞ (e^{−t}/t − e^{−zt}/(1 − e^{−t})) dt` for `Re z > 0`, the
   combined integrand absolutely integrable (`digamma_eq_integral`, DLMF 5.9.12) (4.4).
 
+### From ExplicitNumberFields
+
+- 1.1a: DLMF 5.7.6 and 5.15.1 for `Re z > 0`, with `ψ′` the complex derivative of
+  `Complex.digamma`: `ψ(z) = −γ + Σ_{n≥0} (1/(n + 1) − 1/(n + z))` and `ψ′(z) = Σ_{n≥0} 1/(n + z)²`,
+  converging absolutely and uniformly on every set `{Re z ≥ a₀, |z| ≤ R}` with `a₀ > 0` (1.3, 2.1,
+  2.3, 3.2).
+
 ### From Tau Ceti
 
-At Tau Ceti `main`:
-- `TauCeti/Analysis/SpecialFunctions/Gamma/GaussSeries.lean`: `Complex.digamma_eq_gaussSeries`
-  (DLMF 5.7.6) and `Complex.summable_gaussSeries` (3.2, 3.3, 7.2).
-- `TauCeti/Analysis/SpecialFunctions/Gamma/Real.lean`: `Real.digamma`, `Complex.digamma_ofReal`,
-  `Real.digamma_eq_deriv_log_Gamma`, `Complex.isBigO_digamma_ofReal_sub_log` (2.2).
-- `TauCeti/Analysis/SpecialFunctions/Gamma/Vertical.lean`: `Complex.norm_Gamma_le_Gamma_re`
-  (DLMF 5.6.6), `Complex.verticalIntegrable_Gamma`, `Complex.mellinInv_Gamma` (Layer 6).
-- `TauCeti/Analysis/SpecialFunctions/Gamma/ReciprocalGrowth.lean`: `Complex.norm_inv_Gamma_le`
-  (Layer 6, 8.1).
 - `TauCeti/Analysis/SpecialFunctions/Beta.lean`: `TauCeti.integral_rpow_mul_one_sub_rpow`,
   `TauCeti.integral_rpow_mul_one_add_rpow` (Layer 5).
+- `TauCeti/Analysis/SpecialFunctions/Gamma/`, which implements parts of the roadmap items above:
+  `Complex.digamma_eq_gaussSeries` and `Complex.summable_gaussSeries` (DLMF 5.7.6 for every `z` off
+  the poles, extending ExplicitNumberFields 1.1a); `Real.digamma`, `Complex.digamma_ofReal`,
+  `Real.digamma_eq_deriv_log_Gamma` and `Complex.isBigO_digamma_ofReal_sub_log` (the real case of
+  ZerosOfLFunctions 1.4); `Complex.norm_Gamma_le_Gamma_re` (DLMF 5.6.6 for `x > 0`);
+  `Complex.verticalIntegrable_Gamma` and `Complex.mellinInv_Gamma` (AsymptoticExpansions 8.6 and
+  8.7); and `Complex.norm_inv_Gamma_le`, a bound on `|1/Γ|` in the whole plane. Where a layer uses
+  these, its *Needs:* line names the roadmap item.
 
 ### From Mathlib
 
@@ -261,28 +289,28 @@ At Tau Ceti `main`:
 - `Real.eulerMascheroniConstant`, `riemannZeta`, `riemannZeta_two_mul_nat`, `bernoulli`,
   `ascPochhammer`, `descPochhammer`, `Nat.doubleFactorial_two_mul`, `Matrix.vandermonde`,
   `Matrix.det_vandermonde`, `Complex.cot`, `cot_series_rep`, `Complex.tendsto_euler_sin_prod`.
-- `Complex.integral_rpow_mul_exp_neg_mul_rpow`, `integral_gaussian`, `HasProd`, `iteratedDeriv`,
+- `integral_rpow_mul_exp_neg_mul_rpow`, `integral_gaussian`, `HasProd`, `iteratedDeriv`,
   `Complex.VerticalIntegrable`, `mellinInv_mellin_eq`, the identity theorem
   (`AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`), and Phragmén–Lindelöf
   (`PhragmenLindelof.eq_zero_on_quadrant_I` and its siblings).
 
 ## How to read the build
 
-Layer 1 needs only Mathlib. Layer 2 needs 1.2, the consumed product formula, and 7.2 for the
-series of `ψ′`. Layer 3 needs the
-Gauss series of `ψ`. Layer 4 needs Layers 1 and 3 and the consumed Gamma integral and Gauss's
-integral. Layer 5 needs Layer 4 for Hankel's loop. Layer 6 needs Layer 5 and the vertical-strip
-bounds. Layer 7 needs Layers 3 and 4 and Watson's lemma. Layer 8 needs Layer 5 and Carlson's
-theorem, which it proves.
+Layer 1 needs Mathlib and, for 1.3, the Gauss series of `ψ`. Layer 2 needs the Gauss series of `ψ`
+and of `ψ′`. Layer 3 needs 1.2, 2.3, the consumed product formula and the complex Gamma integral.
+Layer 4 needs Layers 1 and 2 and the consumed Gamma integral and Gauss's integral. Layer 5 needs
+the complex Gamma integral and the consumed Beta integral. Layer 6 needs Layer 5 and the
+vertical-strip bounds. Layer 7 needs Layers 2 and 4 and Watson's lemma. Layer 8 needs Layer 5 and
+Carlson's theorem, which it proves.
 
 ```text
-Layer 1 ──► Layer 3 ──► Layer 4 ──► Layer 5 ──► Layer 6
-   │           │           │           │
-   │           └─────┬─────┘           └──► Layer 8
-   │                 ▼
-   │              Layer 7
-   │                 │
-   └────────────► Layer 2
+Layer 1 ──► Layer 2 ──► Layer 4      Layer 5 ──► Layer 6
+   │           │           │            │
+   │           ├─────┬─────┘            └──► Layer 8
+   │           │     ▼
+   │           │  Layer 7
+   │           ▼
+   └──────► Layer 3
 ```
 
 ## Layer 1: Pochhammer symbols, special values and functional relations
@@ -317,7 +345,6 @@ The second expansion is the first at `−x`, by `ascPochhammer_eval_neg_eq_descP
   `n‼ = π^{−1/2} 2^{n/2+1/2} Γ(n/2 + 1)` for odd `n` (`doubleFactorial_odd_eq_Gamma`; the even case
   is `Nat.doubleFactorial_two_mul` with `Complex.Gamma_nat_eq_factorial`), from
   `Real.Gamma_nat_add_half` shifted by one.
-- 5.4.3: `|Γ(iy)| = (π/(y sinh πy))^{1/2}` for real `y ≠ 0`.
 - 5.4.4: `Γ(½ + iy) Γ(½ − iy) = |Γ(½ + iy)|² = π/cosh πy` for real `y`.
 - 5.4.5: `Γ(¼ + iy) Γ(¾ − iy) = π√2/(cosh πy + i sinh πy)` for real `y`.
 - 5.4.15: `ψ(n + ½) = −γ − 2 log 2 + 2 Σ_{k=1}^{n} 1/(2k − 1)` for `n : ℕ` (at `n = 0` this is
@@ -325,20 +352,24 @@ The second expansion is the first at `−x`, by `ascPochhammer_eval_neg_eq_descP
 - 5.4.16–5.4.18: for real `y`, `Im ψ(iy) = 1/(2y) + (π/2) coth πy` and
   `Im ψ(1 + iy) = −1/(2y) + (π/2) coth πy` for `y ≠ 0`, and `Im ψ(½ + iy) = (π/2) tanh πy`.
 
-Route: 5.4.3–5.4.5 are the reflection formula at `iy`, `½ + iy`, `¼ + iy`, with `Γ(z̄) = conj Γ(z)`
-(`Complex.Gamma_conj`) and `Γ(1 + iy) = iy Γ(iy)`. 5.4.16–5.4.18 are the imaginary parts of the
+5.4.3, `|Γ(iy)| = (π/(y sinh πy))^{1/2}` for real `y ≠ 0`, is SpecialFunctionsParabolicCylinder
+6.6(a) `norm_Gamma_one_add_mul_I_sq` divided by `|iy|² = y²`.
+
+Route: 5.4.4–5.4.5 are the reflection formula at `½ + iy`, `¼ + iy`, with `Γ(z̄) = conj Γ(z)`
+(`Complex.Gamma_conj`). 5.4.16–5.4.18 are the imaginary parts of the
 reflection formula for `ψ` (`Complex.digamma_one_sub`) at `iy`, `½ + iy`, using `ψ(z̄) = conj ψ(z)`
 and the recurrence. 5.4.15 is the recurrence from `ψ(½)`.
 
 *Needs:* Mathlib reflection and recurrence for `Γ` and `ψ`, `Complex.Gamma_conj`.
+SpecialFunctionsParabolicCylinder 6.6(a) for 5.4.3, which the targets above do not use.
 
 **Checks.**
 - 5.4.4 at `y = 0`: `Γ(½)² = π`.
 - 5.4.5 at `y = 0`: `Γ(¼) Γ(¾) = π√2`, the reflection formula at `¼`.
 - 5.4.17 at `y = 0`: `Im ψ(½) = 0`.
 - 5.4.18 is 5.4.16 plus `Im(1/(iy)) = −1/y`.
-- The ParabolicCylinder identity `|Γ(1 + iy)|² = πy/sinh πy` (`norm_Gamma_one_add_mul_I_sq`) is
-  5.4.3 multiplied by `|iy|² = y²`.
+- 5.4.16 at `y = 1`: `Im ψ(i) = ½ + (π/2) coth π = 2.0767`, and 5.4.18 gives
+  `Im ψ(1 + i) = 2.0767 − 1 = 1.0767`.
 
 ### 1.3 Gauss's digamma theorem
 
@@ -350,8 +381,8 @@ Route: the Gauss series 5.7.6 at `p/q` and the discrete Fourier expansion of the
 residue class `p` modulo `q`, with `Σ_{n≥1} ω^{n}/n = −log(1 − ω)` for a `q`-th root of unity
 `ω ≠ 1`; the real parts give the logarithms and the imaginary parts the cotangent.
 
-*Needs:* Tau Ceti `Complex.digamma_eq_gaussSeries`; Mathlib `Complex.hasSum_taylorSeries_neg_log`
-or the Abel-summed logarithm series on the unit circle.
+*Needs:* ExplicitNumberFields 1.1a (5.7.6 at `p/q > 0`); Mathlib
+`Complex.hasSum_taylorSeries_neg_log` or the Abel-summed logarithm series on the unit circle.
 
 **Checks.**
 - `p/q = ½`: `cot(π/2) = 0`, the sum is `½ cos π log 4 = −log 2`, total `−γ − 2 log 2`
@@ -366,7 +397,7 @@ or the Abel-summed logarithm series on the unit circle.
 DLMF 5.5.6, 5.5.7 and 5.5.9, for every integer `n ≥ 1`:
 - `Γ(z) Γ(z + 1/n) ⋯ Γ(z + (n − 1)/n) = (2π)^{(n−1)/2} n^{1/2 − nz} Γ(nz)` for every `z ∈ ℂ`
   (`Complex.prod_Gamma_add_div`); both sides vanish exactly when `nz ∈ {0, −1, −2, …}`;
-- `∏_{k=1}^{n−1} Γ(k/n) = (2π)^{(n−1)/2} n^{−1/2}` (`Complex.prod_Gamma_div`);
+- `∏_{k=1}^{n−1} Γ(k/n) = (2π)^{(n−1)/2} n^{−1/2}`, the case `z = 1/n` of the first;
 - `ψ(nz) = (1/n) Σ_{k=0}^{n−1} ψ(z + k/n) + log n` for `nz ∉ {0, −1, −2, …}`
   (`Complex.digamma_mul_nat`).
 
@@ -387,106 +418,11 @@ theorem.
 
 ### Dependencies
 
-Mathlib; Tau Ceti `GaussSeries`.
+Mathlib; ExplicitNumberFields 1.1a.
 
-## Layer 2: inequalities
+## Layer 2: series and products
 
-### 2.1 The inequalities at `x` and `1/x`
-
-DLMF 5.6.2 and 5.6.3: for real `x > 0`, `1/Γ(x) + 1/Γ(1/x) ≤ 2` and
-`1/Γ(x)² + 1/Γ(1/x)² ≤ 2`.
-
-Route: 5.6.2 follows from 5.6.3 by the inequality between the arithmetic and quadratic means.
-5.6.3 is symmetric under `x ↦ 1/x`, so take `x ≥ 1`. For `x ≥ 2` both terms are at most `1`:
-`Γ(x) ≥ 1`, and `Γ(1/x) ≥ Γ(½) > 1` because `Γ` decreases on `(0, 1]`. For `x = 1 + t` with
-`0 ≤ t < 1`, write `1/x = 1 − r`; Taylor bounds for `log Γ` at `1`, from `ψ(1) = −γ`,
-`ψ′(1) = ζ(2)` and the monotonicity of `ψ′` (7.2), give `log Γ(1/x) ≥ γr + ζ(2)r²/2` and
-`log Γ(x) ≥ −γt + ζ(2)t²/2 − 4t³/9`; with `cosh d ≤ e^{d²/2}` and `½ < γ < ⅗` the inequality
-reduces to a polynomial inequality in `t`.
-
-*Needs:* Mathlib `Real.Gamma`, `Real.convexOn_log_Gamma`, `Real.eulerMascheroniConstant`; 7.2.
-
-**Checks.**
-- Equality at `x = 1`.
-- At `x = 2`: `1/Γ(2) + 1/Γ(½) = 1 + 1/√π = 1.5642 ≤ 2`.
-
-### 2.2 Gautschi's and Kershaw's inequalities
-
-DLMF 5.6.4 and 5.6.5: for real `x > 0` and `0 < s < 1`,
-- `x^{1−s} < Γ(x + 1)/Γ(x + s) < (x + 1)^{1−s}`;
-- `exp((1 − s) ψ(x + s^{1/2})) ≤ Γ(x + 1)/Γ(x + s) ≤ exp((1 − s) ψ(x + (s + 1)/2))`.
-
-Route: Gautschi is Wendel's argument with the strict log-convexity of `Γ` on `(0, ∞)`:
-`Γ(x + s) < Γ(x)^{1−s} Γ(x + 1)^s` and `Γ(x + 1) < Γ(x + s)^s Γ(x + s + 1)^{1−s}`, with
-`x + s < x + 1`. Strict convexity follows from `ψ′(x) > 0` (7.2, which needs only Layer 3 and
-5.15.1) or directly from the Gauss series. Kershaw: for `c ∈ {s^{1/2}, (s + 1)/2}` the function
-`x ↦ log Γ(x + 1) − log Γ(x + s) − (1 − s) ψ(x + c)` is monotone on `(0, ∞)` (its derivative is a
-series of rational functions of fixed sign, by 5.7.6 and 5.15.1) and tends to `0` as `x → ∞` (by
-Gautschi's inequality and `ψ(x) − log x → 0`).
-
-*Needs:* Mathlib `Real.convexOn_log_Gamma`; Tau Ceti `Complex.digamma_eq_gaussSeries`,
-`Complex.isBigO_digamma_ofReal_sub_log`; 7.2 (5.15.1 only).
-
-**Checks.**
-- `s → 1`: all four bounds tend to `1`.
-- `x = 1`, `s = ½`: `Γ(2)/Γ(3/2) = 2/√π = 1.1284`, between `1` and `√2 = 1.4142`.
-- Kershaw at `x = 1`, `s = ½`: `exp(½ ψ(1.7071)) = 1.1130 ≤ 1.1284 ≤ exp(½ ψ(1.75)) = 1.1317`.
-
-### 2.3 The lower bound on vertical lines
-
-DLMF 5.6.7: for real `x ≥ ½` and `y`, `|Γ(x + iy)| ≥ (sech πy)^{1/2} Γ(x)`.
-
-Route: the comparison in `x` of SpecialFunctionsParabolicCylinder 6.6(a) from `½` to `x`, and
-5.4.4.
-
-*Needs:* SpecialFunctionsParabolicCylinder 6.6(a); 1.2.
-
-**Checks.**
-- `x = ½`: equality, by 5.4.4.
-- `y = 0`: equality.
-
-### 2.4 Gamma quotients in the right half-plane
-
-DLMF 5.6.8: for real `a ≥ 0` and `b − a ≥ 1`, and `Re z > 0`,
-`|Γ(z + a)/Γ(z + b)| ≤ |z|^{a−b}` (`Complex.norm_Gamma_add_div_Gamma_add_le`).
-
-Route: the Beta integral in the form
-`Γ(z + a)/Γ(z + b) = Γ(b − a)⁻¹ ∫₀^∞ e^{−zu} e^{−au} (1 − e^{−u})^{b−a−1} du` (put `t = e^{−u}` in
-5.12.1). The kernel continues to `Re u > 0`, where `|e^{−au}| ≤ 1` and
-`|(1 − e^{−u})^{b−a−1}| ≤ |u|^{b−a−1}` because `b − a − 1 ≥ 0` and `|1 − e^{−u}| ≤ |u|`. Rotate
-the path to the ray `ph u = −ph z` (AsymptoticExpansions 4.3), where `zu = |z| r`, and bound by
-`Γ(b − a)⁻¹ ∫₀^∞ e^{−|z|r} r^{b−a−1} dr = |z|^{a−b}`.
-
-*Needs:* Mathlib `Complex.Gamma_mul_Gamma_eq_betaIntegral`; AsymptoticExpansions 4.1 and 4.3.
-
-**Checks.**
-- `a = 0`, `b = 1`, `z = x > 0`: `Γ(x)/Γ(x + 1) = 1/x`, equality.
-- The hypothesis `b − a ≥ 1` is needed: at `a = 0`, `b = ½`, `z = x → 0⁺`, the quotient
-  `Γ(x)/Γ(x + ½) ∼ 1/(x√π)` exceeds `x^{−1/2}`.
-
-### Dependencies
-
-Layer 1; 7.2 for 5.15.1; SpecialFunctionsParabolicCylinder 6.6(a); AsymptoticExpansions 4.1, 4.3.
-
-## Layer 3: series and products
-
-### 3.1 The reciprocal Gamma series
-
-DLMF 5.7.1–5.7.2: with `c_k = (1/Γ)^{(k)}(0)/k!` (`Complex.invGammaCoeff`), for every `z ∈ ℂ`,
-`1/Γ(z) = Σ_{k≥1} c_k z^k` (`Complex.hasSum_invGammaCoeff`), `c₀ = 0`, `c₁ = 1`, `c₂ = γ`, and for
-`k ≥ 3`, `(k − 1) c_k = γ c_{k−1} − ζ(2) c_{k−2} + ζ(3) c_{k−3} − ⋯ + (−1)^k ζ(k − 1) c₁`.
-
-Route: `1/Γ` is entire, so its Taylor series at `0` converges on `ℂ`. Multiply
-`z (1/Γ)′(z) = (1/Γ(z)) · (−z ψ(z))` and expand `−zψ(z) = 1 + γz − Σ_{j≥2} (−1)^j ζ(j) z^j` on
-`|z| < 1` (3.2); compare coefficients.
-
-*Needs:* Mathlib `Complex.differentiable_one_div_Gamma`; 3.2 (5.7.4).
-
-**Checks.**
-- `c₃ = (γ² − ζ(2))/2 = −0.65587`, from the recurrence at `k = 3`.
-- `Σ_k c_k = 1/Γ(1) = 1`.
-
-### 3.2 The Maclaurin series of `log Γ(1 + z)` and `ψ(1 + z)`
+### 2.1 The Maclaurin series of `log Γ(1 + z)` and `ψ(1 + z)`
 
 DLMF 5.7.3–5.7.5, with the branch of `log Γ(1 + z)` removed by exponentiating:
 - 5.7.3: for `|z| < 2`, `z ≠ −1`,
@@ -503,7 +439,7 @@ the series `1 − γ + Σ_{k≥2} (−1)^k (ζ(k) − 1) z^{k−1}`, which conve
 identity theorem. 5.7.5 is the even part of 5.7.4 combined with the reflection formula for `ψ`,
 with the same extension to `|z| < 2`.
 
-*Needs:* Tau Ceti `Complex.digamma_eq_gaussSeries`; Mathlib `riemannZeta`,
+*Needs:* ExplicitNumberFields 1.1a (5.7.6 on `Re z > 0`); Mathlib `riemannZeta`,
 `Complex.digamma_one_sub`.
 
 **Checks.**
@@ -515,22 +451,47 @@ with the same extension to `|z| < 2`.
 - The restriction of 5.7.3 to `|z| < 1`, rewritten with `log(1 + z) = Σ (−1)^{k+1} z^k/k`, is
   ConformalMappingPartII 5.6.
 
-### 3.3 Other series
+### 2.2 The reciprocal Gamma series
+
+DLMF 5.7.1–5.7.2: with `c_k = (1/Γ)^{(k)}(0)/k!` (`Complex.invGammaCoeff`), for every `z ∈ ℂ`,
+`1/Γ(z) = Σ_{k≥1} c_k z^k`, `c₀ = 0`, `c₁ = 1`, `c₂ = γ`, and for
+`k ≥ 3`, `(k − 1) c_k = γ c_{k−1} − ζ(2) c_{k−2} + ζ(3) c_{k−3} − ⋯ + (−1)^k ζ(k − 1) c₁`.
+
+Route: `1/Γ` is entire, so its Taylor series at `0` converges on `ℂ`. Multiply
+`z (1/Γ)′(z) = (1/Γ(z)) · (−z ψ(z))` and expand `−zψ(z) = 1 + γz − Σ_{j≥2} (−1)^j ζ(j) z^j` on
+`|z| < 1` (2.1); compare coefficients.
+
+*Needs:* Mathlib `Complex.differentiable_one_div_Gamma`; 2.1 (5.7.4).
+
+**Checks.**
+- `c₃ = (γ² − ζ(2))/2 = −0.65587`, from the recurrence at `k = 3`.
+- `Σ_k c_k = 1/Γ(1) = 1`.
+
+### 2.3 Other series
 
 - 5.7.7: for `z ∉ {0, −1, −2, …}`, `ψ((z + 1)/2) − ψ(z/2) = 2 Σ_{k≥0} (−1)^k/(k + z)`, the series
   converging conditionally, as the limit of its partial sums (`Complex.tendsto_digamma_half_sub`).
 - 5.7.8: for real `y`, `Im ψ(1 + iy) = Σ_{k≥1} y/(k² + y²)`.
+- 5.15.1: for `z ∉ {0, −1, −2, …}`, `deriv Complex.digamma z = Σ_{k≥0} 1/(k + z)²`
+  (`Complex.hasSum_deriv_digamma`).
 
-Route: both from 5.7.6; for 5.7.7, pair the terms of the two Gauss series and use that the even
-partial sums and the odd partial sums of the alternating series have the same limit.
+Route: 5.7.7 and 5.7.8 from 5.7.6; for 5.7.7, pair the terms of the two Gauss series and use that
+the even partial sums and the odd partial sums of the alternating series have the same limit.
+5.15.1 is ExplicitNumberFields 1.1a on `Re z > 0`; for other `z`, pick `n` with `Re z + n > 0` and
+differentiate the recurrence `Complex.digamma_apply_add_nat`, which gives
+`ψ′(z) = ψ′(z + n) + Σ_{k<n} 1/(k + z)²`.
 
-*Needs:* Tau Ceti `Complex.digamma_eq_gaussSeries`.
+*Needs:* ExplicitNumberFields 1.1a; Tau Ceti `Complex.digamma_eq_gaussSeries` (5.7.6 off
+`Re z > 0`, for 5.7.7); Mathlib `Complex.digamma_apply_add_nat`.
 
 **Checks.**
 - 5.7.7 at `z = 1`: `ψ(1) − ψ(½) = 2 log 2 = 2(1 − ½ + ⅓ − ⋯)`.
 - 5.7.8 against 5.4.18 at `y = 1`: `Σ 1/(k² + 1) = −½ + (π/2) coth π = 1.0767`.
+- 5.15.1 at `z = 1`: `Σ_{k≥1} 1/k² = π²/6`.
+- 5.15.1 at `z = −½`: the recurrence gives `ψ′(−½) = ψ′(½) + 4 = π²/2 + 4`, and the series is
+  `4 + Σ_{k≥0} 1/(k + ½)²`.
 
-### 3.4 Infinite products
+### 2.4 Infinite products
 
 - 5.8.2: for every `z`, the product `∏_{k≥1} (1 + z/k) e^{−z/k}` converges (as a `HasProd` over
   `k : ℕ` with the factor at `k + 1`) to a value `P` with `1/Γ(z) = z e^{γz} P`
@@ -552,7 +513,92 @@ the partial products are quotients of `GammaSeq` up to `n^{Σ a_k − Σ b_k} = 
 
 ### Dependencies
 
-Layer 1; Tau Ceti `GaussSeries`.
+Layer 1; ExplicitNumberFields 1.1a; Tau Ceti `GaussSeries`.
+
+## Layer 3: inequalities
+
+### 3.1 The inequalities at `x` and `1/x`
+
+DLMF 5.6.2 and 5.6.3: for real `x > 0`, `1/Γ(x) + 1/Γ(1/x) ≤ 2` and
+`1/Γ(x)² + 1/Γ(1/x)² ≤ 2`.
+
+Route: 5.6.2 follows from 5.6.3 by the inequality between the arithmetic and quadratic means.
+5.6.3 is symmetric under `x ↦ 1/x`, so take `x ≥ 1`. For `x ≥ 2` both terms are at most `1`:
+`Γ(x) ≥ 1`, and `Γ(1/x) ≥ Γ(½) > 1` because `Γ` decreases on `(0, 1]`. For `x = 1 + t` with
+`0 ≤ t < 1`, write `1/x = 1 − r`; Taylor bounds for `log Γ` at `1`, from `ψ(1) = −γ`,
+`ψ′(1) = ζ(2)` and the monotonicity of `ψ′` (both from 5.15.1, 2.3), give
+`log Γ(1/x) ≥ γr + ζ(2)r²/2` and `log Γ(x) ≥ −γt + ζ(2)t²/2 − 4t³/9`; with `cosh d ≤ e^{d²/2}`
+and `½ < γ < ⅗` the inequality reduces to a polynomial inequality in `t`.
+
+*Needs:* Mathlib `Real.Gamma`, `Real.convexOn_log_Gamma`, `Real.eulerMascheroniConstant`; 2.3.
+
+**Checks.**
+- Equality at `x = 1`.
+- At `x = 2`: `1/Γ(2) + 1/Γ(½) = 1 + 1/√π = 1.5642 ≤ 2`.
+
+### 3.2 Gautschi's and Kershaw's inequalities
+
+DLMF 5.6.4 and 5.6.5: for real `x > 0` and `0 < s < 1`,
+- `x^{1−s} < Γ(x + 1)/Γ(x + s) < (x + 1)^{1−s}`;
+- `exp((1 − s) ψ(x + s^{1/2})) ≤ Γ(x + 1)/Γ(x + s) ≤ exp((1 − s) ψ(x + (s + 1)/2))`.
+
+Route: Gautschi is Wendel's argument with the strict log-convexity of `Γ` on `(0, ∞)`:
+`Γ(x + s) < Γ(x)^{1−s} Γ(x + 1)^s` and `Γ(x + 1) < Γ(x + s)^s Γ(x + s + 1)^{1−s}`, with
+`x + s < x + 1`. Strict convexity follows from `ψ′(x) > 0` (5.15.1, 2.3). Kershaw: for
+`c ∈ {s^{1/2}, (s + 1)/2}` the function `x ↦ log Γ(x + 1) − log Γ(x + s) − (1 − s) ψ(x + c)` is
+monotone on `(0, ∞)` (its derivative is a series of rational functions of fixed sign, by 5.7.6 and
+5.15.1) and tends to `0` as `x → ∞` (by Gautschi's inequality and `ψ(x) − log x → 0`).
+
+*Needs:* Mathlib `Real.convexOn_log_Gamma`; ExplicitNumberFields 1.1a (5.7.6); ZerosOfLFunctions
+1.4 (`ψ(x) − log x → 0`); 2.3 (5.15.1).
+
+**Checks.**
+- `s → 1`: all four bounds tend to `1`.
+- `x = 1`, `s = ½`: `Γ(2)/Γ(3/2) = 2/√π = 1.1284`, between `1` and `√2 = 1.4142`.
+- Kershaw at `x = 1`, `s = ½`: `exp(½ ψ(1.7071)) = 1.1130 ≤ 1.1284 ≤ exp(½ ψ(1.75)) = 1.1317`.
+
+### 3.3 Bounds on vertical lines
+
+- DLMF 5.6.6: for real `x ∉ {0, −1, −2, …}` and real `y`, `|Γ(x + iy)| ≤ |Γ(x)|`
+  (`Complex.norm_Gamma_add_mul_I_le`).
+- DLMF 5.6.7: for real `x ≥ ½` and `y`, `|Γ(x + iy)| ≥ (sech πy)^{1/2} Γ(x)`.
+
+Route: for 5.6.6, every factor `1 + y²/(x + k)²` of the product of SpecialFunctionsParabolicCylinder
+6.6(a) is at least `1`, so `Γ(x)²/|Γ(x + iy)|² ≥ 1`. For 5.6.7, the comparison in `x` of 6.6(a)
+from `½` to `x`, and 5.4.4.
+
+*Needs:* SpecialFunctionsParabolicCylinder 6.6(a); 1.2.
+
+**Checks.**
+- 5.6.6 at `y = 0`: equality.
+- 5.6.6 at `x = −½`, `y = 1`: `|Γ(−½ + i)| = 0.46563 ≤ |Γ(−½)| = 2√π = 3.54491`, and the
+  product of 6.6(a) is `(3.54491/0.46563)² = 57.960`.
+- 5.6.7 at `x = ½`: equality, by 5.4.4.
+- 5.6.7 at `y = 0`: equality.
+
+### 3.4 Gamma quotients in the right half-plane
+
+DLMF 5.6.8: for real `a ≥ 0` and `b − a ≥ 1`, and `Re z > 0`,
+`|Γ(z + a)/Γ(z + b)| ≤ |z|^{a−b}` (`Complex.norm_Gamma_add_div_Gamma_add_le`).
+
+Route: the Beta integral in the form
+`Γ(z + a)/Γ(z + b) = Γ(b − a)⁻¹ ∫₀^∞ e^{−zu} e^{−au} (1 − e^{−u})^{b−a−1} du` (put `t = e^{−u}` in
+5.12.1). The kernel continues to `Re u > 0`, where `|e^{−au}| ≤ 1` and
+`|(1 − e^{−u})^{b−a−1}| ≤ |u|^{b−a−1}` because `b − a − 1 ≥ 0` and `|1 − e^{−u}| ≤ |u|`. Rotate
+the path to the ray `ph u = −ph z` (AsymptoticExpansions 4.3), where `zu = |z| r`, and bound by
+`Γ(b − a)⁻¹ ∫₀^∞ e^{−|z|r} r^{b−a−1} dr = |z|^{a−b}`.
+
+*Needs:* Mathlib `Complex.Gamma_mul_Gamma_eq_betaIntegral`; AsymptoticExpansions 4.1 and 4.3.
+
+**Checks.**
+- `a = 0`, `b = 1`, `z = x > 0`: `Γ(x)/Γ(x + 1) = 1/x`, equality.
+- The hypothesis `b − a ≥ 1` is needed: at `a = 0`, `b = ½`, `z = x → 0⁺`, the quotient
+  `Γ(x)/Γ(x + ½) ∼ 1/(x√π)` exceeds `x^{−1/2}`.
+
+### Dependencies
+
+Layers 1 and 2; ExplicitNumberFields 1.1a; ZerosOfLFunctions 1.4; SpecialFunctionsParabolicCylinder
+6.6(a); AsymptoticExpansions 4.1, 4.3.
 
 ## Layer 4: integral representations of `Γ` and `ψ`
 
@@ -625,7 +671,7 @@ Route: 4.2 with the loop replaced by the steepest-descent path through the saddl
 
 **Checks.**
 - `z = 1`: `(e/2π) ∫ e^{−Φ(t)} dt = 1`.
-- Laplace's method at `t = 0`, where `Φ(t) = t²/6 + O(t⁴)`, gives `1/Γ(x) ∼ e^x x^{½−x}/√(2π)`,
+- Laplace's method at `t = 0`, where `Φ(t) = t²/2 + O(t⁴)`, gives `1/Γ(x) ∼ e^x x^{½−x}/√(2π)`,
   Stirling's formula.
 
 ### 4.4 Integrals of `ψ`, `γ` and the derivatives of `Γ`
@@ -640,8 +686,11 @@ For `Re z > 0` (5.9.12 is AnalyticNumberTheoryPartI's `digamma_eq_integral`):
   `∫₀^∞ (t^{z−1} − t^{c−1}) e^{−t}/log t dt`;
 
 and the four integrals of 5.9.18 for `γ`:
-`γ = −∫₀^∞ e^{−t} log t dt = ∫₀^∞ (1/(1 + t) − e^{−t}) dt/t
-= ∫₀¹ (1 − e^{−t}) dt/t − ∫₁^∞ e^{−t} dt/t = ∫₀^∞ (e^{−t}/(1 − e^{−t}) − e^{−t}/t) dt`.
+
+```text
+γ = −∫₀^∞ e^{−t} log t dt = ∫₀^∞ (1/(1 + t) − e^{−t}) dt/t
+  = ∫₀¹ (1 − e^{−t}) dt/t − ∫₁^∞ e^{−t} dt/t = ∫₀^∞ (e^{−t}/(1 − e^{−t}) − e^{−t}/t) dt
+```
 
 Route: 5.9.13 is 5.9.12 minus the Frullani-type identity
 `log z = ∫₀^∞ (e^{−t} − e^{−zt}) dt/t` (AsymptoticExpansions 4.1 integrated in `z`). 5.9.14 and
@@ -665,7 +714,7 @@ with `Γ′(1) = −γ`, and 5.9.12–5.9.16 at `z = 1`.
 
 ### Dependencies
 
-Layers 1 and 3; AsymptoticExpansions 4.1; AnalyticNumberTheoryPartI §1.8a.
+Layers 1 and 2; AsymptoticExpansions 4.1; AnalyticNumberTheoryPartI §1.8a.
 
 ## Layer 5: the Beta function
 
@@ -712,12 +761,12 @@ All powers are principal; their bases have positive real part. DLMF prints the r
 `(w + z)^{1−a−b}/((a + b − 1) B(a, b))` and `1/(b B(a, b))`; the forms above hold for all `a`, `b` in
 the stated ranges, including the poles of `Γ(a)`, `Γ(b)`.
 
-Route: for 5.12.8, Hankel's formula 4.2 deformed to a vertical line gives
+Route: for 5.12.8, the complex Gamma integral (AsymptoticExpansions 4.1) at `w + it` gives
 `(w + it)^{−a} = Γ(a)⁻¹ ∫₀^∞ u^{a−1} e^{−(w+it)u} du` for `Re a > 0`; Fourier inversion in `t` and
 5.12.1, then continuation in `a`, `b`. 5.12.9 is 5.12.8 after the Möbius change of variable
 `t ↦ t/(t − 1)` on the line, or directly the Mellin inversion of 5.12.3.
 
-*Needs:* 4.2, 5.1; Mathlib `mellinInv_mellin_eq`.
+*Needs:* AsymptoticExpansions 4.1; 5.1; Mathlib `mellinInv_mellin_eq`.
 
 **Checks.**
 - 5.12.8 at `a = b = 1`: `(2π)⁻¹ ∫ dt/((w + it)(z − it)) = 1/(w + z)`.
@@ -727,22 +776,34 @@ Route: for 5.12.8, Hankel's formula 4.2 deformed to a vertical line gives
 
 DLMF 5.12.10–5.12.12 with the contours pinned:
 - 5.12.10: for `Re a > 0`, every `b` and `0 < ε < 1`,
-  `(2πi)⁻¹ [(e^{−iπ(b−1)} − e^{iπ(b−1)}) ∫₀^{1−ε} t^{a−1}(1 − t)^{b−1} dt
-  + i ε^b ∫_{−π}^{π} (1 + εe^{iθ})^{a−1} e^{ibθ} dθ] = Γ(a) Γ(a + b)⁻¹ Γ(1 − b)⁻¹`.
+
+  ```text
+  (2πi)⁻¹ [(e^{−iπ(b−1)} − e^{iπ(b−1)}) ∫₀^{1−ε} t^{a−1}(1 − t)^{b−1} dt
+           + i ε^b ∫_{−π}^{π} (1 + εe^{iθ})^{a−1} e^{ibθ} dθ] = Γ(a) Γ(a + b)⁻¹ Γ(1 − b)⁻¹
+  ```
+
   This is DLMF's `(2πi)⁻¹ ∫₀^{(1+)} t^{a−1}(t − 1)^{b−1} dt` on the path from `0` along `(0, 1 − ε]`
   with `ph(t − 1) = −π`, around `|t − 1| = ε` counterclockwise, and back with `ph(t − 1) = π`; the
   right side is `(sin πb/π) B(a, b)` off the poles.
 - 5.12.11: for `Re b > 0`, `a ∉ {0, −1, −2, …}` and `0 < ε < 1`,
-  `(e^{2πia} − 1) ∫_ε^∞ t^{a−1}(1 + t)^{−a−b} dt + i ε^a ∫₀^{2π} e^{iaθ}(1 + εe^{iθ})^{−a−b} dθ
-  = (e^{2πia} − 1) Γ(a)Γ(b)/Γ(a + b)`.
+
+  ```text
+  (e^{2πia} − 1) ∫_ε^∞ t^{a−1}(1 + t)^{−a−b} dt + i ε^a ∫₀^{2π} e^{iaθ}(1 + εe^{iθ})^{−a−b} dθ
+    = (e^{2πia} − 1) Γ(a)Γ(b)/Γ(a + b)
+  ```
+
   This is DLMF's `∫_∞^{(0+)} t^{a−1}(1 + t)^{−a−b} dt` on the path from `+∞` to `ε` with `ph t = 0`,
   around `|t| = ε` counterclockwise, and back to `+∞` with `ph t = 2π`, multiplied out by
   `e^{2πia} − 1`, so that it also holds at the positive integers.
-- 5.12.12: for all `a`, `b` and `0 < ε < ½`, with `f(t) = t^{a−1}(1 − t)^{b−1}`,
-  `C₁ = −i ε^b ∫₀^{2π} (1 − εe^{iφ})^{a−1} e^{ibφ} dφ` and
-  `C₀ = i ε^a ∫₀^{2π} e^{iaθ}(1 − εe^{iθ})^{b−1} dθ`,
-  `(1 − e^{2πia})(1 − e^{2πib}) ∫_ε^{1−ε} f + (1 − e^{2πia}) C₁ − (1 − e^{2πib}) C₀
-  = −4π² e^{πi(a+b)} Γ(1 − a)⁻¹ Γ(1 − b)⁻¹ Γ(a + b)⁻¹`.
+- 5.12.12: for all `a`, `b` and `0 < ε < ½`, with `f(t) = t^{a−1}(1 − t)^{b−1}` and
+
+  ```text
+  C₁ = −i ε^b ∫₀^{2π} (1 − εe^{iφ})^{a−1} e^{ibφ} dφ,
+  C₀ = i ε^a ∫₀^{2π} e^{iaθ}(1 − εe^{iθ})^{b−1} dθ,
+  (1 − e^{2πia})(1 − e^{2πib}) ∫_ε^{1−ε} f + (1 − e^{2πia}) C₁ − (1 − e^{2πib}) C₀
+    = −4π² e^{πi(a+b)} Γ(1 − a)⁻¹ Γ(1 − b)⁻¹ Γ(a + b)⁻¹
+  ```
+
   This is the Pochhammer integral `∫_P^{(1+, 0+, 1−, 0−)} t^{a−1}(1 − t)^{b−1} dt`, with the four
   passes along `[ε, 1 − ε]` collected and the four circles reduced to `C₀`, `C₁`; it does not depend
   on `P`, and the right side is `−4 e^{πi(a+b)} sin πa sin πb B(a, b)` off the poles.
@@ -763,7 +824,7 @@ identity theorem extends the formula.
 
 ### Dependencies
 
-Layer 4 (4.2); SpecialFunctionsHypergeometric 6.3.
+AsymptoticExpansions 4.1; SpecialFunctionsHypergeometric 6.3.
 
 ## Layer 6: Barnes-type integrals
 
@@ -800,9 +861,13 @@ Route: 5.13.1 with `a = b`, `c = 0` and `z = e^{i(2b−π)}`, where `|ph z| < π
 ### 6.3 Ramanujan's integral
 
 DLMF 5.13.4: for `Re(a + b + c + d) > 3`,
-`∫_ℝ Γ(a + t)⁻¹ Γ(b + t)⁻¹ Γ(c − t)⁻¹ Γ(d − t)⁻¹ dt
-= Γ(a + b + c + d − 3) Γ(a + c − 1)⁻¹ Γ(a + d − 1)⁻¹ Γ(b + c − 1)⁻¹ Γ(b + d − 1)⁻¹`, the
-integrand being integrable on the real line (`Complex.integral_inv_Gamma_four`).
+
+```text
+∫_ℝ Γ(a + t)⁻¹ Γ(b + t)⁻¹ Γ(c − t)⁻¹ Γ(d − t)⁻¹ dt
+  = Γ(a + b + c + d − 3) Γ(a + c − 1)⁻¹ Γ(a + d − 1)⁻¹ Γ(b + c − 1)⁻¹ Γ(b + d − 1)⁻¹,
+```
+
+the integrand being integrable on the real line (`Complex.integral_inv_Gamma_four`).
 
 Route: for real `a, b, c, d`, the Fourier transform of `t ↦ 1/(Γ(a + t)Γ(c − t))` is supported in
 `[−π, π]` and equals `(2 cos(x/2))^{a+c−2} e^{ix(c−a)/2}/Γ(a + c − 1)` there; Parseval and 5.12.6
@@ -818,9 +883,12 @@ factors `Γ(c − t)⁻¹`, `Γ(d − t)⁻¹`.
 
 ### 6.4 The de Branges–Wilson integral
 
-DLMF 5.13.5: for `a : Fin 4 → ℂ` with `Re a_k > 0`,
-`(4π)⁻¹ ∫_ℝ ∏_k Γ(a_k + it) Γ(a_k − it) · Γ(2it)⁻¹ Γ(−2it)⁻¹ dt
-= ∏_{j<k} Γ(a_j + a_k) · Γ(a₁ + a₂ + a₃ + a₄)⁻¹` (`Complex.integral_deBrangesWilson`).
+DLMF 5.13.5: for `a : Fin 4 → ℂ` with `Re a_k > 0` (`Complex.integral_deBrangesWilson`),
+
+```text
+(4π)⁻¹ ∫_ℝ ∏_k Γ(a_k + it) Γ(a_k − it) · Γ(2it)⁻¹ Γ(−2it)⁻¹ dt
+  = ∏_{j<k} Γ(a_j + a_k) · Γ(a₁ + a₂ + a₃ + a₄)⁻¹.
+```
 
 Route: by Barnes-type contour arguments that reduce the integral to Barnes's first lemma 5.13.3
 (SpecialFunctionsHypergeometric 6.3); see Andrews, Askey and Roy, *Special Functions*, Chapter 3.
@@ -855,7 +923,7 @@ off the poles, and that `polygamma n x` is real for real `x > 0`.
 
 ### 7.2 Values and functional relations
 
-- 5.15.1: for `z ∉ {0, −1, −2, …}`, `ψ′(z) = Σ_{k≥0} 1/(k + z)²`.
+- 5.15.1 for `polygamma 1`: `polygamma 1 = deriv Complex.digamma`, so 2.3 is 5.15.1.
 - 5.15.2–5.15.3: for `n ≥ 1`, `ψ⁽ⁿ⁾(1) = (−1)^{n+1} n! ζ(n + 1)` and
   `ψ⁽ⁿ⁾(½) = (−1)^{n+1} n! (2^{n+1} − 1) ζ(n + 1)`; in particular the `ψ′` values of 5.4.12–5.4.13,
   `ψ′(1) = π²/6` and `ψ′(½) = π²/2`.
@@ -866,11 +934,11 @@ off the poles, and that `polygamma n x` is real for real `x > 0`.
 - 5.15.7: for `n ≥ 1`, `m ≥ 1` and `mz ∉ {0, −1, −2, …}`,
   `ψ⁽ⁿ⁾(mz) = m^{−n−1} Σ_{k=0}^{m−1} ψ⁽ⁿ⁾(z + k/m)`.
 
-Route: 5.15.1 by differentiating the Gauss series termwise (locally uniform convergence), and
-`ψ⁽ⁿ⁾(z) = (−1)^{n+1} n! Σ_{k≥0} (k + z)^{−n−1}` for `n ≥ 1` likewise; 5.15.2–5.15.4 from this series
+Route: `ψ⁽ⁿ⁾(z) = (−1)^{n+1} n! Σ_{k≥0} (k + z)^{−n−1}` for `n ≥ 1` by differentiating 2.3
+termwise (locally uniform convergence); 5.15.2–5.15.4 from this series
 and `riemannZeta` on the integers `≥ 2`. 5.15.5–5.15.7 by differentiating 5.5.2, 5.5.4 and 5.5.9.
 
-*Needs:* 7.1; Tau Ceti `Complex.digamma_eq_gaussSeries`; Mathlib `riemannZeta_two`,
+*Needs:* 7.1; 2.3; Mathlib `riemannZeta_two`,
 `Complex.digamma_one_sub`; 1.4.
 
 **Checks.**
@@ -921,7 +989,7 @@ forms in `Σ 1/(2j + 1)²`, whose sum is `π²/8`.
 
 ### Dependencies
 
-Layers 3 and 4; Tau Ceti `GaussSeries`; AsymptoticExpansions 4.1–4.3.
+Layers 2 and 4; AsymptoticExpansions 4.1–4.3.
 
 ## Layer 8: multidimensional integrals
 
@@ -937,7 +1005,14 @@ Auxiliary:
   holomorphically from `(s₀, s₁)` to a neighbourhood of `[s₀′, s₁)` with `s₀′ < s₀`. Then
   `∫ w g^s` converges for `s ∈ (s₀′, s₁)` and equals the continuation there. (The proof expands
   `F` in a power series at a point of `(s₀, s₁)`; the coefficients are integrals of `w g^s (log g)^k`
-  with constant sign, which allows monotone convergence.)
+  with constant sign, which allows monotone convergence.) With `g = e^{−t}` this is the theorem
+  that a Laplace–Stieltjes integral with monotone determining function is singular at the real
+  point of its axis of convergence (Widder, *The Laplace Transform*, Chapter II, §5, Theorem 5b,
+  p. 58).
+
+SpecialFunctionsHypergeometric 4.2 owns the periodic case of Carlson's theorem, which is all 8.3
+uses; the general theorem is needed for Dyson's integral (8.5), whose normalized integral is not
+periodic in `b`.
 
 Route: Carlson by dividing `f` by `sin πz` and Phragmén–Lindelöf in the quadrants
 (`PhragmenLindelof.eq_zero_on_quadrant_I` and its siblings), following the classical proof
@@ -983,11 +1058,13 @@ Route: Aomoto's recurrence in `m` by integration by parts in one coordinate, whi
 `m = 0` and gives the shift `a ↦ a + 1` of Selberg's integral; for `Re c ≥ ½`, the ratio of the two
 sides is `1`-periodic in `a`, bounded as Carlson's theorem requires (by 8.2 and the Gamma bounds of
 AsymptoticExpansions 8.6), and `1` at large integers by the dimension recursion
-`(a + nc) S_{n+1}(a, 1, c) = S_n(a, 1 + 2c, c)`, so it is `1`. Holomorphy in `c` extends to
+`(a + nc) S_{n+1}(a, 1, c) = S_n(a, 1 + 2c, c)`, so it is `1` by the periodic Carlson lemma
+(SpecialFunctionsHypergeometric 4.2). Holomorphy in `c` extends to
 `Re c > 0`, and Landau's theorem (8.1), applied in the real parameter `Re c` to the positive integrand,
 extends integrability and the formula to the full range.
 
-*Needs:* 8.1, 8.2; Layer 5; AsymptoticExpansions 8.6; Mathlib `Matrix.det_vandermonde`.
+*Needs:* 8.1 (Landau), 8.2; Layer 5; SpecialFunctionsHypergeometric 4.2; AsymptoticExpansions
+8.6; ZerosOfLFunctions 1.3; Mathlib `Matrix.det_vandermonde`.
 
 **Checks.**
 - `n = 1`: Euler's Beta integral 5.12.1 (and `m = 1` gives `B(a + 1, b)`).
@@ -1000,8 +1077,12 @@ extends integrability and the formula to the full range.
 
 DLMF 5.14.5–5.14.6:
 - for `Re a > 0` and `Re c > −min(1/n, Re a/(n − 1))` (`TauCeti.integral_selberg_laguerre`),
-  `∫_{[0,∞)ⁿ} t₁ ⋯ t_m |Δ(t)|^{2c} ∏_k t_k^{a−1} e^{−t_k} dt
-  = ∏_{k=1}^{m} (a + (n − k)c) · ∏_{k=1}^{n} Γ(a + (n − k)c) Γ(1 + kc) / Γ(1 + c)ⁿ`;
+
+  ```text
+  ∫_{[0,∞)ⁿ} t₁ ⋯ t_m |Δ(t)|^{2c} ∏_k t_k^{a−1} e^{−t_k} dt
+    = ∏_{k=1}^{m} (a + (n − k)c) · ∏_{k=1}^{n} Γ(a + (n − k)c) Γ(1 + kc) / Γ(1 + c)ⁿ;
+  ```
+
 - for `Re c > −1/n`, `(2π)^{−n/2} ∫_{ℝⁿ} |Δ(t)|^{2c} ∏_k e^{−t_k²/2} dt = ∏_{k=1}^{n} Γ(1 + kc)/Γ(1 + c)ⁿ`
   (`TauCeti.integral_selberg_hermite`).
 
@@ -1037,19 +1118,13 @@ Roy, Chapter 8; then to `Re b > −1/n` by Landau's theorem.
 
 ### Dependencies
 
-Layer 5; AsymptoticExpansions 8.6; ZerosOfLFunctions 1.2.
+Layer 5; SpecialFunctionsHypergeometric 4.2; AsymptoticExpansions 8.6; ZerosOfLFunctions 1.2,
+1.3.
 
 ## Downstream consumers
 
-- SpecialFunctionsAiry 7.1 (`Complex.Gamma_mul_Gamma_add_third`) is the case `n = 3` of 1.4.
-- SpecialFunctionsHypergeometric uses 5.5.6 at `n = 3` (through SpecialFunctionsAiry) for its cubic
-  values 15.4.31–15.4.34; 1.4 supplies it for every `n`.
-- RandomMatrices 5.2–5.3 prove the Gaussian, Laguerre and Jacobi normalizations at `c = β/2` for
-  `β ∈ {1, 2}` through matrix models, as part of their eigenvalue-density theorems. 8.3–8.4 give
-  the same constants for every `β > 0`, which the beta ensembles of RandomMatrices 5.3 normalize by.
-- The roadmaps for DLMF Chapters 10–16 use 1.4 (multiplication), Layer 5 (Beta integrals and loop
-  contours, in the integral representations of Bessel, Legendre and confluent functions) and
-  Layer 7 (polygamma values in the logarithmic cases of connection formulas).
+Later roadmaps that need Gauss's multiplication formula for every `n` (1.4), the Beta integrals and
+loop contours (Layer 5) or polygamma values (Layer 7) cite those sections.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
@@ -1060,7 +1135,7 @@ fix the boundary. Contributors should not attempt it under this roadmap.
 - **Decimal values and extrema** (DLMF 5.4.7–5.4.10, 5.4.20): numerical constants and the
   asymptotic location of the extrema of `Γ` on the negative axis.
 - **Explicit Stirling theory**: the bounds 5.6.1 and 5.6.9, Binet's formulas 5.9.10–5.9.10_2,
-  Hermite's formulas for `Γ*` (5.9.11–5.9.11_2), and all of §5.11 (Stirling's series, its
+  the formulas 5.9.11_1–5.9.11_2 for `Γ*`, and all of §5.11 (Stirling's series, its
   remainders, and the asymptotics of Gamma quotients). These rest on the periodic Bernoulli
   remainder of the Euler–Maclaurin formula.
 - **Mellin–Barnes integrals with `ζ`** (DLMF 5.9.11, 5.9.17).
@@ -1091,8 +1166,8 @@ specified by the layers.
 | Layer | Counterpart in `lean-DLMF` |
 |---|---|
 | 1 | `Gamma/Pochhammer`, `Gamma/SpecialValues`, `Gamma/GaussDigamma`, `Gamma/Multiplication` |
-| 2 | `Gamma/Inequalities` |
-| 3 | `Gamma/SeriesExpansions`, `Gamma/Basic` (`one_div_Gamma_eq_tprod`), `Gamma/Products` |
+| 2 | `Gamma/SeriesExpansions`, `Gamma/Basic` (`one_div_Gamma_eq_tprod`), `Gamma/Products` |
+| 3 | `Gamma/Inequalities` |
 | 4 | `Gamma/IntegralRepresentations/HankelAndGaussian`, `PrymAndOscillatory`, `FrullaniAndMoments` |
 | 5 | `Gamma/BetaFunction/ParameterIntegrals`, `Cosine`, `Vertical` |
 | 6 | `Gamma/Integrals/BarnesAndRamanujan`, `Gamma/Integrals/FourierAndTrigamma` |
@@ -1106,6 +1181,8 @@ specified by the layers.
   release.
 - G. E. Andrews, R. Askey and R. Roy, *Special Functions*, Cambridge University Press, 1999,
   Chapters 1, 3 and 8.
+- D. V. Widder, *The Laplace Transform*, Princeton University Press, 1941 (second printing 1946),
+  Chapter II, §5.
 - E. C. Titchmarsh, *The Theory of Functions*, 2nd ed., Oxford University Press, 1939.
 - N. M. Temme, *Special Functions: An Introduction to the Classical Functions of Mathematical
   Physics*, Wiley, 1996, Chapter 3.
