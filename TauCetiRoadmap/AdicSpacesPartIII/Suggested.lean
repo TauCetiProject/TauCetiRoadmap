@@ -23,8 +23,7 @@ formally étale maps (R2.9), fractional valuation bounds as rational subsets (R2
 acyclicity of finite modules on Laurent covers, glueing squares and Kiehl's glueing theorem
 (R3.1–R3.2), exactness of dense Banach inverse sequences (R3.4), the criterion for uniform
 Banach rings (R3.5), the trace of a finite projective algebra with its categorical realization,
-base change, transitivity, geometric-point formula and the trace-form criterion for étaleness
-(R3.8), and the Gel'fand spectrum of a Banach ring with Berkovich's spectral-radius formula (R3.9).
+transitivity, geometric-point formula and the trace-form criterion for étaleness (R3.8), and the Gel'fand spectrum of a Banach ring with Berkovich's spectral-radius formula (R3.9).
 
 The constructions on adic rings of F0.1 (completed localisation, restricted power series,
 completed tensor product, finite modules as adic systems), the sheaves of the formal spectrum
@@ -126,20 +125,6 @@ theorem IsTopologicallyFinitePresentation.finitePresentation_of_fg
 (Bosch–Lütkebohmert I, §1, Proposition 1.1(b), p. 293). -/
 theorem IsTopologicallyFinitePresentation.isAdicComplete
     (hA : IsTopologicallyFinitePresentation O A) : IsAdicComplete (Ideal.span {ϖ}) A := sorry
-
-/-- Reduction of completed localisation is ordinary localisation of the reduction, with
-the canonical maps from `A` identified (Bosch–Lütkebohmert I, §1, p. 296). -/
-theorem IsTopologicallyFinitePresentation.completedAway_quotient
-    [TopologicalSpace A] [IsTopologicalRing A] [TauCeti.IsAdicRing A]
-    (hA : IsTopologicallyFinitePresentation O A)
-    (hϖ : IsAdic (Ideal.span {algebraMap O A ϖ})) (f : A) (m : ℕ) (hm : 1 ≤ m) :
-    let B := TauCeti.AdicRing.CompletedAway A f
-    let J : Ideal B := Ideal.span {(algebraMap A B (algebraMap O A ϖ)) ^ m}
-    let Q := A ⧸ Ideal.span {(algebraMap O A ϖ) ^ m}
-    let fbar : Q := Ideal.Quotient.mk _ f
-    ∃ e : (B ⧸ J) ≃+* Localization.Away fbar, ∀ a : A,
-      e (Ideal.Quotient.mk J (algebraMap A B a)) =
-        algebraMap Q (Localization.Away fbar) (Ideal.Quotient.mk _ a) := sorry
 
 /-- Completed localisation of a tfp valuation-ring algebra is flat, by reduction modulo all
 positive powers of the pseudouniformiser (Bosch–Lütkebohmert I, §1, Lemma 1.6, pp. 295–296).
@@ -294,23 +279,16 @@ end RationalCompletion
 section GlueingSquare
 
 variable (R R₁ R₂ R₁₂ : Type*) [CommRing R] [CommRing R₁] [CommRing R₂] [CommRing R₁₂]
-  [UniformSpace R] [IsUniformAddGroup R] [IsTopologicalRing R] [IsTateRing R]
-  [CompleteSpace R] [T2Space R]
-  [UniformSpace R₁] [IsUniformAddGroup R₁] [IsTopologicalRing R₁] [IsTateRing R₁]
-  [CompleteSpace R₁] [T2Space R₁]
-  [UniformSpace R₂] [IsUniformAddGroup R₂] [IsTopologicalRing R₂] [IsTateRing R₂]
-  [CompleteSpace R₂] [T2Space R₂]
-  [UniformSpace R₁₂] [IsUniformAddGroup R₁₂] [IsTopologicalRing R₁₂] [IsTateRing R₁₂]
-  [CompleteSpace R₁₂] [T2Space R₁₂]
-  [Algebra R R₁] [Algebra R R₂] [Algebra R₁ R₁₂] [Algebra R₂ R₁₂] [Algebra R R₁₂]
-  [IsScalarTower R R₁ R₁₂] [IsScalarTower R R₂ R₁₂]
+  [UniformSpace R] [UniformSpace R₁] [UniformSpace R₂] [UniformSpace R₁₂]
+  [Algebra R R₁] [Algebra R R₂] [Algebra R₁ R₁₂] [Algebra R₂ R₁₂]
 
-/-- A *glueing square* of complete Tate rings `R → R₁, R₂ → R₁₂` (KL15, §2.7, Definition 2.7.3,
-with its condition (c), surjectivity of `M(R₁ ⊕ R₂) → M(R)`, replaced by the consequence used in
-the proof of Proposition 2.7.5):
+/-- A *glueing square* `R → R₁, R₂ → R₁₂` of uniform rings and their algebra maps (KL15, §2.7,
+Definition 2.7.3, stated there for complete Tate rings, with its condition (c), surjectivity of
+`M(R₁ ⊕ R₂) → M(R)`, replaced by the consequence used in the proof of Proposition 2.7.5):
 continuous maps with `0 → R → R₁ × R₂ → R₁₂ → 0`, `(r₁, r₂) ↦ r₁ − r₂`, strict exact,
 `R₂ → R₁₂` of dense range, and every maximal ideal of `R` the contraction of a prime of
-`R₁ × R₂`. -/
+`R₁ × R₂`. Commutativity of the square follows from `exact_sub`; the complete Hausdorff Tate
+hypotheses are hypotheses of the theorems that use the predicate. -/
 structure GlueingSquare : Prop where
   continuous_algebraMap₁ : Continuous (algebraMap R R₁)
   continuous_algebraMap₂ : Continuous (algebraMap R R₂)
@@ -364,15 +342,6 @@ def GlueingDatum.sections (R : Type*) [CommRing R] [Algebra R R₁] [Algebra R R
       TensorProduct.tmul_smul, ← algebraMap_smul R₁₂ (algebraMap R R₁ r),
       ← algebraMap_smul R₁₂ (algebraMap R R₂ r), map_smul, map_smul,
       ← IsScalarTower.algebraMap_apply, ← IsScalarTower.algebraMap_apply, hx]
-
-variable (R₁ R₂ R₁₂) in
-/-- The glueing datum `(R₁ ⊗_R N, R₂ ⊗_R N, R₁₂ ⊗_R N)` of an `R`-module `N`. -/
-def GlueingDatum.ofModule (R : Type*) [CommRing R] [Algebra R R₁] [Algebra R R₂]
-    [Algebra R R₁₂] [IsScalarTower R R₁ R₁₂] [IsScalarTower R R₂ R₁₂]
-    (N : Type*) [AddCommGroup N] [Module R N] :
-    GlueingDatum R₁ R₂ R₁₂ (R₁ ⊗[R] N) (R₂ ⊗[R] N) (R₁₂ ⊗[R] N) where
-  ψ₁ := AlgebraTensorModule.cancelBaseChange R R₁ R₁₂ R₁₂ N
-  ψ₂ := AlgebraTensorModule.cancelBaseChange R R₂ R₁₂ R₁₂ N
 
 end GlueingDatum
 
@@ -463,8 +432,8 @@ theorem isUniform_tfae {A : Type*} [NormedCommRing A] [CompleteSpace A] [IsTateR
 end Huber
 
 /-! ### R3.8 Traces of finite projective modules and finite locally free algebras
-(*projective-trace-realization*, *finite-locally-free-algebra-trace*, *algebra-trace-base-change*,
-*algebra-trace-transitivity*, *trace-geometric-point-formula*, *etale-iff-trace-pairing-perfect*) -/
+(*projective-trace-realization*, *finite-locally-free-algebra-trace*, *algebra-trace-transitivity*,
+*trace-geometric-point-formula*, *etale-iff-trace-pairing-perfect*) -/
 
 namespace LinearMap
 
@@ -499,12 +468,6 @@ def projectiveTraceForm : LinearMap.BilinForm R B :=
   (Algebra.lmul R B).toLinearMap.compr₂ (projectiveTrace R B)
 
 variable {R B}
-
-/-- *algebra-trace-base-change*: extension of scalars carries the trace of `b` to the trace
-of `1 ⊗ b` for every finite projective algebra (Stacks, Tags 02DU and 0BJF). -/
-theorem projectiveTrace_baseChange (R' : Type*) [CommRing R'] [Algebra R R'] (b : B) :
-    projectiveTrace R' (R' ⊗[R] B) (1 ⊗ₜ[R] b) =
-      algebraMap R R' (projectiveTrace R B b) := sorry
 
 /-- *trace-geometric-point-formula*: a finite étale algebra over a field has as many geometric
 points as its dimension, and its scalar trace is the sum of their values
