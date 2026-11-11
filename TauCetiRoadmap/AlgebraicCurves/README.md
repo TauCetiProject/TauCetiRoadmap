@@ -2423,7 +2423,8 @@ schemes; Tau Ceti's two-chart model, scheme Weil divisors and the anti-equivalen
   through 12B.0a for its 9.1 and 12B.0d for its 10.6.
 - EtaleCohomologyFoundations consumes Layers 8 and 12 for decomposition and inertia groups;
   ModularCurves consumes Layers 7–9 and 12; AbhyankarLemma consumes §8.10's pinned compositum
-  theorems.
+  theorems; DiophantineApproximationAndTranscendence consumes §9.3's comparison of Kähler with
+  Weil differentials in its Layer 5.
 - FunctionFieldArithmetic consumes Layers 0–12 with §5.6's finiteness of `Cl⁰(F)`;
   CurvesOverFiniteFields consumes Layers 8 and 10, including §10.2's statements (i)–(iii);
   HyperellipticCurves consumes Layers 10–11;
