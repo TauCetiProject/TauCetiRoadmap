@@ -347,9 +347,11 @@ At the pinned Tau Ceti; paths under `TauCeti/`.
   `Matrix.specialUnitaryGroup` by `TauCeti.GLSpecialUnitary.mem_iff`
   (`LinearAlgebra/Matrix/GeneralLinearGroup/SpecialUnitary.lean`); and
   `TauCeti.Lie.EmbeddedLieSubgroupData.range_lieMapSubtypeVal_eq` (`Differential.lean`: for
-  embedded-subgroup data modelled on the Lie algebra of `K`, as the closed-subgroup theorem
-  supplies, the differential of the inclusion at `1` has range the Lie algebra of `K`). Used in
-  §1.1, and the special unitary computation in §6.4.
+  embedded-subgroup data modelled on the Lie algebra of `K`, the differential of the inclusion at
+  `1` has range the Lie algebra of `K`), with
+  `TauCeti.Lie.nonempty_embeddedLieSubgroupData_lieSubalgebraOfSubgroup_of_isClosed`
+  (`Embedded.lean`: a closed subgroup `K` of a finite-dimensional real Lie group carries such data,
+  modelled on its Lie algebra). Used in §1.1, and the special unitary computation in §6.4.
 - `HomotopyGroup.bijective_hurewicz` (`AlgebraicTopology/Homotopy/Hurewicz/Absolute.lean`): for a
   space in `Type` whose homotopy groups vanish below degree `n + 2`, the cubical Hurewicz map
   `π_{n+2} → H_{n+2}(·; ℤ)` is bijective. Used in §6.4 for `S³`, with AlgebraicTopology §8.3's
@@ -522,7 +524,9 @@ inner product on `𝔤` (OhTataru-YMHF line 92–102; OhTataru-TopClass line 121
 `TauCeti.Lie.lieSubalgebraOfSubgroup_mono`,
 `TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_lieSubalgebraOfSubgroup_iff_conjTranspose_eq_neg`,
 `TauCeti.Lie.Ad_mem_lieSubalgebraOfSubgroup` with `TauCeti.Lie.unitsLieAlgebraEquiv_Ad`, and
-`TauCeti.Lie.EmbeddedLieSubgroupData.range_lieMapSubtypeVal_eq`; LieGroups Layers 1, 5A.
+`TauCeti.Lie.EmbeddedLieSubgroupData.range_lieMapSubtypeVal_eq` with
+`TauCeti.Lie.nonempty_embeddedLieSubgroupData_lieSubalgebraOfSubgroup_of_isClosed`; LieGroups
+Layers 1, 5A.
 
 ### 1.2 The nearest-point retraction onto `G`
 
