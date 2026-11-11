@@ -28,7 +28,10 @@ differentiable germs. GeometricTopology Layer 1 owns normal bundles and tubular
 neighbourhoods, and [GeometricTopology](../GeometricTopology/README.md)'s smooth-triangulation
 theorem (Whitehead: every smooth manifold admits a smooth triangulation) owns smooth
 triangulation; R5a owns the metric orthogonal-to-quotient comparison and R3.2 the finite marked-point
-refinement. ComplexKahlerGeometry K5a owns the bundle analytic and Hodge theory;
+refinement. R7.9 owns the separation of a closed manifold with vanishing first
+de Rham cohomology by a two-sided closed hypersurface, and the two-sidedness of
+closed hypersurfaces in simply connected manifolds, on GeometricTopology Layer
+1's tubes. ComplexKahlerGeometry K5a owns the bundle analytic and Hodge theory;
 PseudodifferentialOperators P1.0 owns the smooth differential-operator, jet,
 symbol, density-transpose, formal-adjoint, Laplace-type and canonical
 Bochner-connection core on finite-rank bundles. R7 consumes that core for
@@ -3740,6 +3743,202 @@ and has no positive eigenvalue.
    [NoncommutativeGeometry](../NoncommutativeGeometry/README.md)'s carriers;
    this item specifies the classical manifold commutator-distance theorem.
 
+### R7.9. Separating and two-sided hypersurfaces
+
+R7.9 is the differential topology of closed hypersurfaces on this roadmap's
+carriers: when a hypersurface bounds a compact domain on each side, the setting
+of the divergence theorem and of Dirichlet problems on one side of a minimal
+hypersurface, and when it has a unit normal at all. It rests on
+GeometricTopology Layer 1.5's tubular neighbourhood theorem in its Riemannian
+form, R5a's normal bundle, Tau Ceti's first de Rham cohomology with its periods
+(DifferentialGeometry 6.1 and 6.3), Tau Ceti's bicollars, regular sublevels
+and vector-bundle orientation cover, and Mathlib's covering maps. It uses no
+Poincaré duality, Mayer–Vietoris sequence, Hodge theory or intersection
+number, and R7.6 only for the positive-Ricci corollary.
+
+Throughout, M has dimension n≥1, Σ is a compact boundaryless manifold of
+dimension n−1 and f:Σ→M is a smooth embedding, a *closed embedded
+hypersurface*; its image is compact, hence closed in M. No orientation of M or
+Σ and no completeness of M is assumed. The normal bundle of f (GT Layer 1.5's
+`TauCeti.SmoothEmbedding.NormalSpace`, identified by R5a with the orthogonal
+complement `ν_f`) is a line bundle with the induced fibre metric. Call f
+*two-sided* when it has a unit normal field ν, a smooth section of `ν_f` of
+norm one, as R5b supposes, and *one-sided* otherwise. The unit vectors of
+`ν_f` form the *unit normal double cover* `S(ν_f)→Σ`, with deck involution
+u↦−u. Prove that sending a unit vector to the orientation of its fibre for
+which it is a positive basis is a homeomorphism of `S(ν_f)` onto Tau Ceti's
+`TauCeti.VectorBundleOrientationCover` of `ν_f`, over Σ and commuting with the
+deck involutions. Hence `S(ν_f)→Σ` is a two-sheeted covering; f is two-sided
+exactly when this covering has a continuous section, a continuous unit normal
+field being smooth because it is locally plus or minus a smooth one,
+equivalently when `ν_f` is orientable
+(`TauCeti.VectorBundleOrientation.nonempty_iff_exists_section`); and for
+connected Σ, f is one-sided exactly when `S(ν_f)` is connected
+(`TauCeti.VectorBundleOrientation.nonempty_iff_not_connectedSpace`). Sections
+of `ν_f` are the functions ψ on `S(ν_f)` with ψ(−u)=−ψ(u), through s(x)=ψ(u)u
+for u over x: this is the double cover of R5b's deck-odd description. For n=1,
+Σ is finite and every f is two-sided.
+
+**Separation.** Let M be connected and compact, Σ connected, and f two-sided
+with unit normal ν. Construct the *normal collar* `c_ν:Σ×(−ε,ε)→M`,
+`c_ν(x,t)=exp_(f(x))(tν(x))`, R6's `TauCeti.SmoothEmbedding.normalExp` at
+tν(x). Prove that for ε>0 small it is a diffeomorphism onto an open
+neighbourhood U of f(Σ) with `c_ν(x,0)=f(x)` (GT Layer 1.5,
+`TauCeti.SmoothEmbedding.exists_isClosedEmbedding_normalExp_disc`), and that
+`(x,s)↦c_ν(x,εs/√(1+s²))` is a bicollar of f, `TauCeti.IsBicollar`. Write
+`t:U→(−ε,ε)` for the second component of the inverse of `c_ν`, and
+`U₊=c_ν(Σ×(0,ε))`, `U₋=c_ν(Σ×(−ε,0))` for the two sides. Fix a smooth
+χ:ℝ→[0,1] with χ=0 on (−∞,−ε/2] and χ=1 on [ε/2,∞). The *crossing form* `ω_ν`
+is the 1-form equal to `d(χ∘t)` on U and to 0 off the compact band
+`c_ν(Σ×[−ε/2,ε/2])`; it is smooth and closed. Prove:
+
+- `M∖f(Σ)` has at most two connected components, with no cohomological
+  hypothesis. A component is open and, M being connected, not closed, so it has
+  a frontier point, necessarily on f(Σ); it then meets U and contains U₊ or U₋,
+  which are connected (`TauCeti.IsBicollar.image_subset_connectedComponentIn`).
+- The class of `ω_ν` in `TauCeti.deRhamCohomology I M 1` does not depend on ε
+  or χ, and `[ω_(−ν)]=−[ω_ν]`.
+- `[ω_ν]=0` exactly when `M∖f(Σ)` is not connected. If Ω₊⊇U₊ and Ω₋⊇U₋ are its
+  two components, the function equal to χ∘t on U, to 1 on Ω₊∖U and to 0 on
+  Ω₋∖U is a primitive. If `M∖f(Σ)` is connected, so is the complement W of the
+  band, onto which `M∖f(Σ)` is pushed homeomorphically along the collar; a loop
+  that follows the normal segment `t↦c_ν(x,t)`, |t|≤3ε/4, and returns inside W,
+  where `ω_ν=0`, has period `χ(3ε/4)−χ(−3ε/4)=1` (`TauCeti.periodHom`, computed
+  with `TauCeti.pathClassIntegral_trans` and
+  `TauCeti.pathClassIntegral_mk_eq_pathIntegral`), whereas exact forms have zero
+  periods (`TauCeti.mem_exactForms_one_iff_periodHom_eq_zero`).
+
+Prove the separation theorem (1): if moreover `H¹_dR(M)=0`, that is
+`TauCeti.deRhamCohomology I M 1` is trivial, then `M∖f(Σ)` has exactly two
+connected components, Ω₊⊇U₊ and Ω₋⊇U₋; there are at most two, and `[ω_ν]=0`
+makes the complement disconnected (Bott–Tu, *Differential Forms in Algebraic
+Topology*, Ch. I, §5, for the closed form dual to a closed oriented
+submanifold, which `ω_ν` represents up to sign when M and Σ are oriented; here
+it comes from the collar, and no duality is used).
+
+Construct a *defining function*: a smooth φ:M→ℝ with `φ⁻¹(0)=f(Σ)`,
+`Ω₊={φ>0}`, `Ω₋={φ<0}` and `grad φ=ν` along f, namely φ=h∘t on U and φ=±1 on
+`Ω_±∖U`, for a smooth nondecreasing h with h(t)=t near 0, h=−1 on (−ε,−ε/2]
+and h=1 on [ε/2,ε). Then 0 is a regular value of φ (`TauCeti.IsRegularValue`),
+and the closures `D₋=Ω₋∪f(Σ)={φ≤0}` and `D₊=Ω₊∪f(Σ)={−φ≤0}`
+(`TauCeti.IsBicollar.closure_eq_union_range`) are regular sublevels. This is
+the sense in which they are compact manifolds with common smooth boundary:
+with Tau Ceti's atlas `TauCeti.scalarRegularSublevelChartedSpace`, each is a
+compact smooth manifold with boundary over the half-space model `𝓡∂ n`
+(`TauCeti.isManifold_scalarRegularSublevel`), the carrier of
+DifferentialGeometry 12.5's divergence theorem; its inclusion in M is smooth
+with invertible differential
+(`TauCeti.contMDiff_subtypeVal_scalarRegularSublevel`,
+`TauCeti.isInvertible_mfderiv_subtypeVal_scalarRegularSublevel`); its manifold
+interior is Ω₋, respectively Ω₊, and its manifold boundary is f(Σ)
+(`TauCeti.interior_scalarRegularSublevel`,
+`TauCeti.boundary_scalarRegularSublevel`). Prove that f is a diffeomorphism of
+Σ onto the boundary of each, with Tau Ceti's boundary atlas
+(`TauCeti.isManifold_boundary`), and that, for the metric pulled back along
+the inclusion, DG 12.5's outward unit normal at f(x) is ν(x) on D₋ and −ν(x)
+on D₊, read through the differential of the inclusion
+(`TauCeti.isOutwardPointing_scalarRegularSublevel_iff`: the outward vectors of
+a sublevel are those on which its function increases).
+
+**Two-sidedness.** Here M need not be compact or connected, and Σ need not be
+connected. For every closed embedded hypersurface f construct the *crossing
+double cover* `p_f:X_f→M`. Let `c_f:S(ν_f)×(−ε,ε)→M`,
+`c_f(u,t)=exp_(f(x))(tu)` for u over x; prove that for ε>0 small it is a
+two-sheeted covering of an open neighbourhood U of f(Σ), with
+`c_f(−u,−t)=c_f(u,t)` and `c_f(u,0)=f(x)` (GT Layer 1.5; for a unit normal ν,
+`c_f(±ν(x),t)=c_ν(x,±t)`). `X_f` is the quotient of the disjoint union of
+`(M∖f(Σ))×{1,−1}` and `S(ν_f)×(−ε,ε)` that identifies (u,t), t≠0, with
+`(c_f(u,t),sign t)`, and `p_f` is the first projection on the first piece and
+`c_f` on the second. Prove:
+
+- `p_f` is a covering map with two-point fibres (Mathlib's `IsCoveringMap`):
+  the identification is a homeomorphism of `S(ν_f)×((−ε,ε)∖{0})` onto
+  `(U∖f(Σ))×{1,−1}`, so `p_f` is the trivial two-sheeted cover over `M∖f(Σ)`
+  and `c_f` over U.
+- u↦[(u,0)] is a homeomorphism of `S(ν_f)` onto `p_f⁻¹(f(Σ))` over f. Hence a
+  continuous section of `p_f` restricts to a continuous section of
+  `S(ν_f)→Σ`, and f is two-sided.
+
+Prove (2): a simply connected M (Mathlib's `SimplyConnectedSpace`) contains no
+closed embedded one-sided hypersurface. M is locally path-connected, so its
+identity lifts through `p_f` (`IsCoveringMap.existsUnique_continuousMap_lifts`),
+the lift is a section, and f is two-sided by the second item. No mod 2
+intersection number and no transversality theorem is used.
+
+The headline statements are:
+
+- (1) In a connected closed M with `H¹_dR(M)=0`, a connected closed two-sided
+  embedded hypersurface separates M: `M∖f(Σ)` has exactly two components, whose
+  closures are compact smooth manifolds with common boundary f(Σ) and outward
+  unit normals ν and −ν.
+- On a connected closed M with Ric>0, (1) applies: R7.6's
+  `subsingleton_deRhamCohomology_one_of_ricciTensor_pos` gives `H¹_dR(M)=0`.
+- (2) A simply connected M contains no closed embedded one-sided hypersurface.
+- In a simply connected closed M every connected closed embedded hypersurface
+  is two-sided, by (2), and separates M as in (1), since
+  `TauCeti.subsingleton_deRhamCohomology_one_of_simplyConnectedSpace` gives
+  `H¹_dR(M)=0`.
+
+GeometricTopology 1.7.1 item 3, for closed locally flat surfaces in ℝ³ by a
+parity count, and Poincare3D 8.1, for embedded spheres in closed simply
+connected three-manifolds by duality and van Kampen, are separate statements
+with their own proofs; R7.9 consumes neither.
+
+**Checks.**
+
+- Equator of the unit Sⁿ, n≥2: f(x)=(x,0), ν=e_(n+1) and
+  `c_ν(x,t)=(cos t·x, sin t)`, a diffeomorphism of `S^(n−1)×(−π/2,π/2)` onto
+  the complement of the two poles. `H¹_dR(Sⁿ)=0`
+  (`TauCeti.subsingleton_deRhamCohomology_sphere_one`), Ω₊ and Ω₋ are the open
+  hemispheres x_(n+1)>0 and x_(n+1)<0, and φ=x_(n+1) is a defining function,
+  its gradient e_(n+1)−x_(n+1)p at p being ν on the equator. The outward unit
+  normal of the lower closed hemisphere D₋ is e_(n+1)=ν and that of the upper
+  one is −ν; the opposite assignment points into the domains. For n=1 the
+  equator S⁰ is not connected.
+- Flat torus ℝ²/ℤ² with coordinates (θ,s): the circle θ=0 is two-sided with
+  ν=∂_θ and `c_ν(s,t)=(t,s)`, |t|<1/2, and its complement 0<θ<1 is connected.
+  Here `ω_ν=χ′(θ)dθ=dθ+d(χ(θ)−θ)`, and χ(θ)−θ on −1/2≤θ≤1/2 equals −θ near
+  the left end and 1−θ near the right end, with value 1/2 at both, so it is a
+  smooth function on the torus; thus `[ω_ν]=[dθ]≠0`
+  (`TauCeti.torusTimeForm_notMem_exactForms`), with period 1 on the loop
+  u↦(u,0), 0≤u≤1. The hypothesis `H¹_dR(M)=0` cannot be dropped from (1).
+  Moreover `p_f` is the connected double cover ℝ/2ℤ×ℝ/ℤ→ℝ²/ℤ², with no section
+  although f is two-sided: a section of `p_f` is sufficient for two-sidedness,
+  not necessary.
+- Circle, n=1: a point is a connected closed two-sided hypersurface with
+  connected complement; its crossing form is a bump form of integral 1,
+  cohomologous to dθ/2π, whose class is not zero
+  (`TauCeti.deRhamCohomology.mk_circleAngularClosedForm_ne_zero`). The circle
+  being the only connected closed one-manifold, (1) has content only for n≥2.
+- ℝP²⊂ℝP³ with the round metric of curvature 1: Ric=2g, `H¹_dR=0` and π₁=ℤ/2.
+  The unit normal double cover is the equatorial S²→ℝP², connected, so f is
+  one-sided; the complement is an open ball, connected, and `p_f` is S³→ℝP³,
+  with no section. Two-sidedness cannot be dropped from (1), and simple
+  connectivity cannot be weakened to `H¹_dR(M)=0` or to Ric>0 in (2). ℝP¹⊂ℝP²,
+  with Ric=g, is the same in dimension two: the tube is a Möbius band, the
+  complement a disc and `p_f` is S²→ℝP².
+- Two circles of latitude x₃=±1/2 on the unit S²: each is two-sided, their
+  union is not connected and its complement has three components; (1) needs Σ
+  connected.
+
+*Needs:* GeometricTopology Layer 1.5 with Tau Ceti
+`TauCeti.SmoothEmbedding.NormalSpace`
+(`Geometry/Manifold/SmoothEmbedding/NormalSpace/`),
+`TauCeti.SmoothEmbedding.normalExp` and
+`TauCeti.SmoothEmbedding.exists_isClosedEmbedding_normalExp_disc`
+(`Geometry/Manifold/TubularNeighborhood/Riemannian/`); R5a's normal bundle;
+Tau Ceti `TauCeti.IsBicollar`
+(`Geometry/Manifold/LocallyFlat/{Bicollar,Separation}.lean`);
+DifferentialGeometry 6.1 and 6.3 through Tau Ceti `TauCeti.deRhamCohomology`,
+`TauCeti.periodHom` and `TauCeti.mem_exactForms_one_iff_periodHom_eq_zero`
+(`Geometry/Manifold/DeRham/{Basic,Period}.lean`); Tau Ceti's regular sublevels
+(`Geometry/Manifold/RegularValue/Scalar/{Sublevel,Outward}.lean`) and boundary
+manifold; DifferentialGeometry 12.5's outward unit normal; Tau Ceti
+`TauCeti.VectorBundleOrientationCover`
+(`Topology/VectorBundle/Orientation/Cover.lean`); Mathlib `IsCoveringMap`,
+`SimplyConnectedSpace` and `IsCoveringMap.existsUnique_continuousMap_lifts`;
+R7.6 for the positive-Ricci corollary.
+
 ### Examples
 
 For f(x)=x² on the Euclidean line, Δ⁺f=−2. On the unit circle,
@@ -3754,6 +3953,11 @@ and ComplexKahlerGeometry K5a; its vanishing theorems are stated on Tau Ceti's
 de Rham cohomology and curvature endomorphism. The scalar local identity precedes the global
 analytic realization. R7.8 uses Mathlib real Lipschitz extension and owns
 the quantitative smooth gluing and Clifford-module norm comparison.
+R7.9 uses R5a's normal bundle, GeometricTopology Layer 1.5's Riemannian tubular
+neighbourhoods, Tau Ceti's first de Rham cohomology and periods, bicollars,
+regular sublevels and vector-bundle orientation cover, and Mathlib's covering
+maps; it uses neither P1.0 nor K5a, and R7.6 only for its positive-Ricci
+corollary.
 
 ## Layer 8: spherical harmonics and minimal eigenmaps
 
@@ -4151,6 +4355,11 @@ minimization nor GeometricCurrents regularity enters R5b.
 - D. Azagra, J. Ferrera, F. López-Mesas and Y. Rangel,
   [*Smooth approximation of Lipschitz functions on Riemannian manifolds*](https://arxiv.org/abs/math/0602051),
   for R7.8's quantitative smoothing and intrinsic-distance comparison.
+- R. Bott and L. W. Tu, *Differential Forms in Algebraic Topology*, Graduate
+  Texts in Mathematics 82, Springer, 1982, Ch. I, §5 (the Mayer–Vietoris
+  argument; the Poincaré dual of a closed oriented submanifold): the closed
+  form dual to a hypersurface, which R7.9 builds from a normal collar as its
+  crossing form.
 - G. Toth and W. Ziller,
   [Spherical minimal immersions of the 3-sphere](https://ems.press/content/serial-article-files/42818?nt=1),
   introduction and spherical-harmonic setup, for Takahashi/eigenmap normalization
