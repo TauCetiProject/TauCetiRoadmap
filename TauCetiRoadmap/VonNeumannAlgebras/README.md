@@ -30,13 +30,18 @@ It leaves the following to the named owners and consumes them by section.
   PD-A36–A45 and PD-B23–B36); the trace-class and Hilbert–Schmidt ideals (OperatorIdeals
   OI-B29–B41); and general principal angles. Its spectral sub-roadmap, SelfAdjointSpectralTheory,
   is a consumer of this roadmap (its SA-B85 consumes V4.0.Fields), so nothing here is taken from
-  it: the bounded Borel calculus and projection-valued measure of a unital representation of
-  `C(K)` and of a normal operator, with the null filter, vector identity, bounded convergence and
-  commutant law (V2.BorelCalculus); the cyclic multiplication models, control measures,
-  measurable multiplicity, the essentially bounded symbol quotient and the classification of
-  representations of `C(K)` and `C₀(X)` by control class and multiplicity (V4.0.Multiplication);
-  and the resolvent, Cayley transform and spectral measure of a self-adjoint `LinearPMap`
-  operator (V10.ClosedOperators) are owned here, at the generality this roadmap uses. V2, V4 and
+  it. The projection-valued-measure carrier `TauCeti.ProjValMeasure` with its integral, null
+  filter, vector identity and dominated convergence; the Riesz measures, polarized measures and
+  Borel extension of a unital representation of `C(K)`, and the Riesz measures of a normal
+  operator; and the resolvent estimates and Cayley transform of a self-adjoint `LinearPMap` are
+  implemented in Tau Ceti at the pin and are consumed from there (From Tau Ceti below). Owned
+  here, at the generality this roadmap uses: multiplicativity of that Borel extension, its
+  spectral measure as a `TauCeti.ProjValMeasure`, the essential-supremum norm and the commutant
+  law, for representations of `C(K)` and for normal operators (V2.BorelCalculus); the cyclic
+  multiplication models, control measures, measurable multiplicity, the essentially bounded
+  symbol quotient and the classification of representations of `C(K)` and `C₀(X)` by control
+  class and multiplicity (V4.0.Multiplication); and the inverse Cayley correspondence and the
+  spectral measure of a self-adjoint `LinearPMap` operator (V10.ClosedOperators). V2, V4 and
   V10 add what is about algebras: membership of Borel-calculus values and
   polar factors in the generated von Neumann algebra, the canonical trace functional with its
   cyclicity and the trace-class duality, the inverse Cayley correspondence, the multiplier-form
@@ -44,32 +49,56 @@ It leaves the following to the named owners and consumes them by section.
   antilinear extensions and modular consequences.
 * [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md) owns C₀ semigroups, generators and
   resolvents. Stone's theorem is consumed from Tau Ceti. Modular automorphism groups and their
-  KMS characterization belong here.
+  KMS characterization belong here. The KMS condition of a point-norm continuous action on a
+  C*-algebra, with the uniqueness of KMS functions and the KMS states of the inner dynamics of a
+  Hermitian matrix (its Gibbs states), is consumed from Tau Ceti; V10.KMS adds the condition for
+  weakly continuous automorphism groups of a von Neumann algebra, which need not be norm
+  continuous, and its characterization of the modular group.
 * [BanachSpaceTheory](../BanachSpaceTheory/README.md) owns annihilators, quotient duals, adjoints,
   Goldstine and weak/weak-star duality (B1), Eberlein–Šmulian, James and Krein–Šmulian (B2)
-  and Banach tensor products (B4). The operator-topology adapters on
-  `B(H)` (sequence boundedness, bounded joint continuity of products and matrix-coefficient
-  criteria) are not in B1; V1 owns them.
+  and Banach tensor products (B4). Its B1 also owns the generic strong and weak operator
+  topologies of bounded maps between normed spaces: norm ⇒ SOT ⇒ WOT, norm boundedness of SOT-
+  and WOT-convergent sequences on a Banach domain, joint SOT continuity of products on
+  norm-bounded sets and its failure for unbounded nets in infinite dimension. V1 consumes these
+  at `E=F=H` and owns the strong-star, ultraweak and ultrastrong topologies, their comparisons
+  with the WOT and SOT, and the Hilbert-space examples. Annihilators, quotient duals,
+  Krein–Šmulian and the Banach space of nuclear operators are implemented in Tau Ceti at the pin
+  and are consumed from there.
 * [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) owns
   Peter–Weyl, and RepresentationTheory/SemisimpleAlgebras the finite-dimensional
   double-centralizer theorem.
 * [AmenableGroups](../AmenableGroups/README.md) owns invariant means and Følner theory (Layers
   5–7) and, in its Layer 7, the `L¹` convolution algebra of a locally compact Hausdorff group
   with its translation continuity, approximate-identity kernels and Haar pushforward formulas.
-  [GlobalNumberFields](../GlobalNumberFields/README.md) Layer 4 owns the finite-adele carrier, and
+  [GlobalNumberFields](../../Completed/GlobalNumberFields/README.md) Layer 4 owns the finite-adele carrier, and
   [OptimalTransport](../OptimalTransport/README.md) Layers 2 and 8.2 Jankov–von Neumann
   uniformization and the finite-measure completion theorem. The Hecke-ring convolution, its
   structure constants and its commutativity criterion are consumed from Tau Ceti; Hecke operators
   on modular forms remain the scope of [ModularForms](../ModularForms/README.md).
-* [BanachAlgebras](../BanachAlgebras/README.md) and CStarAlgebras are consumers of this roadmap
-  (BanachAlgebras A7 consumes V11's closed double-dual embedding; CStarAlgebras consumes V0–V4,
-  V12.J and V13a), so nothing here is taken from either. The `L²` left-regular representation of
-  a locally compact group is owned here (V8.RegularL2); the unitization/character-space
-  comparison and the Fourier uniqueness theorem on `L¹` that V11 needs are owned in V11; the
-  spatial C*-norm on the algebraic tensor product of two concrete C*-algebras is owned in
-  V13b.SpatialNorm. Pure-state and irreducible-GNS theory, operator spaces and completely bounded
-  maps, C*-tensor norms other than the spatial norm, and the C*-algebraic consequences of
-  semidiscreteness are left to CStarAlgebras.
+* [Chebotarev](../../Completed/Chebotarev/README.md) owns prime counting in arithmetic
+  progressions: the prime number theorem in an invertible residue class, implemented in Tau Ceti
+  (its Layers 13–14 specialized to the cyclotomic fields `ℚ(ζ_d)`), is consumed by V10.AffineAP,
+  which adds only the identity between that prime-ideal count and the count of rational primes,
+  transported along the comparison of the primes of `𝓞 ℚ` with rational primes that Mathlib and
+  Tau Ceti prove, and the ratio-2 prime-pair lemma.
+* [BanachAlgebras](../BanachAlgebras/README.md) owns the group algebra `L¹(G)` of a locally
+  compact group and its harmonic analysis up to Fourier uniqueness: its §7.2 the convolution and
+  involution of `L¹(G)`; its §7.3 (A7.IntegratedRepresentations and A7.RegularL2) the faithful
+  nondegenerate left-regular action λ of `L¹(G)` on `L²(G)`, with `‖λ(f)‖≤‖f‖₁` and
+  `λ(f*)=λ(f)*`; its §3.1 the unitization/character-space comparison of a commutative
+  C*-algebra; and its §7.5 (A7.CharactersAndUniqueness) the correspondence between the characters
+  of `L¹(G)` and the Pontryagin dual of an abelian G, with Fourier uniqueness for `L¹` functions
+  and finite regular complex measures. Uniqueness of finite inner regular measures on the dual
+  group from their integrals against the evaluation characters is Tau Ceti's. V8.RegularL2 adds
+  the reduced group C*-algebra, the discrete comparison and the group von Neumann algebra
+  `λ(G)''`; V11 adds the closed double-dual embedding, the passage from the characters of
+  `C*_r(G)` to those of `L¹(G)`, and inversion, Plancherel and duality.
+* [CStarAlgebras](../CStarAlgebras/README.md) is a consumer of this roadmap (it consumes V0–V4,
+  V12.J and V13a), so nothing here is taken from it. The spatial C*-norm on the algebraic tensor
+  product of two concrete C*-algebras is owned in V13b.SpatialNorm. Pure-state and
+  irreducible-GNS theory, operator spaces and completely bounded maps, C*-tensor norms other than
+  the spatial norm, and the C*-algebraic consequences of semidiscreteness are left to
+  CStarAlgebras.
 
 Compact ergodic-action classification beyond SU(2) and direct-finiteness questions in positive
 characteristic are outside this roadmap.
@@ -92,6 +121,11 @@ coercion APIs. The inner product is conjugate-linear in its first variable and l
 second; vector functionals are `ω_ξ(x)=⟪ξ,xξ⟫` and matrix coefficients are `⟪η,xξ⟫`.
 For φ∈M_* pin its bimodule actions by `(aφb)(x)=φ(bxa)`; all centralizing-sequence,
 bicentralizer and Q-stability equations use this convention.
+On a finite-dimensional algebra M, a direct sum of matrix blocks with Tr_M the sum of the
+unnormalized block traces, a linear functional is written `x↦Tr_M(hx)` with a unique density
+h∈M, blockwise by Tau Ceti's trace duality `LinearMap.existsUnique_trace_mul_eq`; on `M₂(ℂ)`
+the state `x↦x₁₁` has `h=e₁₁` and `tr/2` has `h=1/2`. V10.KMS writes each faithful state in this
+way with h positive, invertible and of trace `Tr_M(h)=1`.
 
 Projection equivalence p ~ q means there exists v in the algebra with `v*v=p` and `vv*=q`.
 Subequivalence p ≼ q permits `vv* ≤ q`. This agrees with the conventional initial-to-final
@@ -112,7 +146,13 @@ replace the norm topology. Weak and strong mean WOT and SOT; ultraweak means pai
 trace class; ultrastrong is generated by square-summable vector families. Strong-star and
 ultrastrong-star also require convergence of adjoints. Normality means preservation of
 suprema of bounded increasing nets of positive elements. Countable sequential
-hyperfiniteness and factor classification require separable predual. Weight theory,
+hyperfiniteness and factor classification require separable predual. The Lean statements
+assume instead that the algebra acts on a separable Hilbert space. Anantharaman–Popa call an
+algebra separable when it has a faithful normal representation on a separable Hilbert space
+(Definition 2.6.6, p. 48), so every algebra in the Lean statements is separable in their sense
+and every such algebra is isomorphic to one of them; `ℂ1` acting on a nonseparable space is
+separable without acting on a separable one. V4.Core proves that these are exactly the algebras
+with separable predual. Weight theory,
 standard forms, and injectivity versus semidiscreteness have no σ-finiteness
 or separable-predual restriction; finite-dimensional CP approximations there
 are nets. Continuous-core flow classification is for factors with separable
@@ -124,8 +164,16 @@ predual. Earlier algebraic and net-based theory has no separability restriction.
 `VonNeumannAlgebra.centralizer_centralizer` and `WStarAlgebra`
 (`Mathlib/Analysis/VonNeumannAlgebra/Basic.lean`); `StarSubalgebra.centralizer` and
 `Set.centralizer`; `ContinuousLinearMapWOT` with `ContinuousLinearMapWOT.ext_inner`,
-`ContinuousLinearMapWOT.tendsto_iff_forall_inner_apply_tendsto` and `ContinuousLinearMapWOT.continuous_iff`
-(`Mathlib/Analysis/InnerProductSpace/WeakOperatorTopology.lean`); the pointwise-convergence copy
+`ContinuousLinearMapWOT.tendsto_iff_forall_inner_apply_tendsto` (a net converges in the WOT
+exactly when every matrix coefficient `⟪η,T_iξ⟫` converges), `ContinuousLinearMapWOT.continuous_iff`
+and the `ContinuousStar` instance of `H →WOT[ℂ] H` (the adjoint is WOT continuous)
+(`Mathlib/Analysis/InnerProductSpace/WeakOperatorTopology.lean`), and the separate WOT continuity
+of products `ContinuousLinearMapWOT.continuous_precomp` and
+`ContinuousLinearMapWOT.continuous_postcomp` (`Mathlib/Analysis/LocallyConvex/WeakOperatorTopology.lean`);
+the closure comparison `LinearEquiv.image_closure_of_convex` (a linear equivalence of locally
+convex spaces whose transpose matches their continuous duals carries closures of convex sets to
+closures) with its weak-topology case `Convex.toWeakSpace_closure`
+(`Mathlib/Analysis/LocallyConvex/WeakSpace.lean`); the pointwise-convergence copy
 `H →Lₚₜ[ℂ] H`, `PointwiseConvergenceCLM.tendsto_iff_forall_tendsto` and
 `ContinuousLinearMap.toPointwiseConvergenceCLM`
 (`Mathlib/Topology/Algebra/Module/Spaces/PointwiseConvergenceCLM.lean`); `banach_steinhaus`
@@ -156,10 +204,12 @@ functional calculus and positive-operator order on `H →L[ℂ] H`; `PositiveLin
 `gnsNonUnitalStarAlgHom` (`Mathlib/Analysis/CStarAlgebra/GelfandNaimarkSegal.lean`);
 `LinearMap.dualEmbedding_surjective`, `LinearMap.rightDualEquiv`, the RCLike `SeparatingDual`
 instance and `SeparatingDual.eq_zero_of_forall_dual_eq_zero`; Banach–Alaoglu and
-`Analysis/Convex/KreinMilman`; `lp` with `lp.instInnerProductSpace`; `SymAlg` and `IsCommJordan`;
+`Analysis/Convex/KreinMilman`; `lp` with `lp.instInnerProductSpace`; `WeakDual.metrizable_of_isCompact`; `SymAlg` and `IsCommJordan`;
 `IsSimpleRing`; `CompletelyPositiveMap`, with its underlying complex linear map and positivity
 of all finite `CStarMatrix` amplifications (`Mathlib/Analysis/CStarAlgebra/CompletelyPositiveMap.lean`);
-`ErgodicSMul`, Haar measure and `PontryaginDual`; the Riesz–Markov–Kakutani
+`ErgodicSMul`, Haar measure and `PontryaginDual`; the Hecke-pair predicate `IsHeckeTriple` and the
+Hecke-ring carrier `HeckeRing` with its scoped notation `𝕋` (`Mathlib/NumberTheory/HeckeRing/Defs.lean`),
+whose ring structure is Tau Ceti's; the Riesz–Markov–Kakutani
 measure `RealRMK.rieszMeasure` with `RealRMK.integral_rieszMeasure`
 (`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`) and `essSup`; the continuous
 functional calculus `cfc` of a normal element (`IsStarNormal`) and Fuglede's theorem
@@ -167,7 +217,32 @@ functional calculus `cfc` of a normal element (`IsStarNormal`) and Fuglede's the
 with its adjoint (`Mathlib/Analysis/CStarAlgebra/Fuglede.lean`); the one-point
 compactification `OnePoint`; the partial-map
 adjoint `LinearPMap.adjoint`, `LinearPMap.adjoint_isClosed` and `LinearPMap.isSelfAdjoint_def`
-(`Mathlib/Analysis/InnerProductSpace/LinearPMap.lean`). Each is used as stated at the
+(`Mathlib/Analysis/InnerProductSpace/LinearPMap.lean`); the Phragmén–Lindelöf principle on a
+horizontal strip `a<Im z<b` for functions with values in a complex normed space,
+`PhragmenLindelof.horizontal_strip` (a function holomorphic on the open strip, continuous on its
+closure, of growth at most `exp(B·exp(c·|Re z|))` with `c<π/(b−a)`, and bounded by C on both
+boundary lines is bounded by C on the closed strip) and `PhragmenLindelof.eqOn_horizontal_strip`
+(two such functions that agree on both boundary lines agree on the closed strip)
+(`Mathlib/Analysis/Complex/PhragmenLindelof.lean`); the Gaussian integrals
+`integral_cexp_quadratic` and `fourierIntegral_gaussian`
+(`Mathlib/Analysis/SpecialFunctions/Gaussian/FourierTransform.lean`); and the bijection
+`Rat.HeightOneSpectrum.primesEquiv` from the height-one primes of a Dedekind domain that is the
+integral closure of ℤ in its fraction field ℚ, here `𝓞 ℚ`, onto `Nat.Primes`, sending v to the
+positive generator `Rat.HeightOneSpectrum.natGenerator v` of its contraction to ℤ
+(`Mathlib/NumberTheory/Padics/HeightOneSpectrum.lean`); for the completed Hilbert tensor
+product, the inner product space `TensorProduct.instInnerProductSpace` on `E ⊗[ℂ] F` with
+`ContinuousLinearMap.rTensor` and `ContinuousLinearMap.lTensor`
+(`Mathlib/Analysis/InnerProductSpace/TensorProduct.lean`), completed by `UniformSpace.Completion`
+and `ContinuousLinearMap.completion` (`Mathlib/Topology/Algebra/LinearMapCompletion.lean`); the
+orthogonal projections `Submodule.orthogonalProjectionOnto` and `Submodule.starProjection` onto a
+subspace with `Submodule.HasOrthogonalProjection`
+(`Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean`); the Hilbert sum `WithLp 2 (L × L)`
+with `WithLp.toLp`, and `CFC.sqrt`; the Hölder product `ContinuousLinearMap.holderL`
+(`Mathlib/MeasureTheory/Function/Holder.lean`), which for the exponents `∞, 2, 2` and the
+multiplication of ℂ is multiplication by `L∞` on `L²`, and `StandardBorelSpace`; the composition
+isometry `MeasureTheory.Lp.compMeasurePreservingₗᵢ`, the counting measure
+`MeasureTheory.Measure.count` with its left invariance and `measurePreserving_mul_left`, and
+`DiscreteMeasurableSpace`; `FreeGroup` and `IsConj`. Each is used as stated at the
 pin; none of them includes separability, a chosen faithful state or a nonzero identity.
 
 **From Tau Ceti.** The Stone theorem in `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`;
@@ -191,17 +266,176 @@ convolution: the ring structure on `𝕋 Δ H R` with `HeckeCosetModule.single_m
 `DoubleCoset.multiplicity` (`TauCeti/NumberTheory/HeckeRing/Multiplicity/Basic.lean`), and
 `HeckeAntiInvolution`, `HeckeAntiInvolution.ofAmbient` and
 `HeckeCosetModule.mul_comm_of_antiInvolution` (`TauCeti/NumberTheory/HeckeRing/Commutativity.lean`).
-Each is used as stated at the pin.
+The GNS class map of a positive functional on a possibly nonunital C*-algebra,
+`PositiveLinearMap.toGNS`, the continuous linear map `a ↦ [a]` into the GNS Hilbert space, with
+dense range `PositiveLinearMap.denseRange_toGNS`; the canonical GNS cyclic vector of a positive
+functional on a unital C*-algebra,
+`PositiveLinearMap.gnsVector`, with `PositiveLinearMap.inner_gnsVector_coe`,
+`PositiveLinearMap.inner_gnsStarAlgHom_gnsVector`,
+`PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector` and `PositiveLinearMap.norm_gnsVector`
+(`TauCeti/Analysis/CStarAlgebra/GNS.lean`); the nondegeneracy predicate
+`NonUnitalStarAlgHom.IsNondegenerate` of a representation `π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H)` of a
+C*-algebra, density of the span of the vectors `π a ξ`, with its unfolding
+`NonUnitalStarAlgHom.isNondegenerate_iff_dense` and the unital criterion
+`NonUnitalStarAlgHom.isNondegenerate_of_map_one` (`π 1 = 1` implies nondegeneracy)
+(`TauCeti/Analysis/CStarAlgebra/Representation/Nondegenerate.lean`); the generated von Neumann algebra
+`VonNeumannAlgebra.adjoin`, the double commutant of `s ∪ star s`, with
+`VonNeumannAlgebra.coe_adjoin`, `VonNeumannAlgebra.coe_commutant_adjoin`,
+`VonNeumannAlgebra.subset_adjoin`, `VonNeumannAlgebra.adjoin_le_iff` and
+`VonNeumannAlgebra.adjoin_mono` (`TauCeti/Analysis/VonNeumannAlgebra/Adjoin.lean`); and the von
+Neumann density theorem `StarSubalgebra.exists_forall_norm_sub_apply_lt_of_mem_centralizer_centralizer`
+(`TauCeti/Analysis/VonNeumannAlgebra/Density.lean`): for a unital star subalgebra `S` of the bounded
+operators on a complete real or complex inner product space, an element of `S''` is approximated
+by an element of `S` at finitely many vectors simultaneously.
+The prime number theorem in arithmetic progressions,
+`NumberField.Chebotarev.tendsto_primeCount_primesCongruent` and
+`NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral`
+(`TauCeti/NumberTheory/Chebotarev/PrimeCounting/PrimesCongruent.lean`): for a nonzero level m
+and a natural number a with `IsUnit (a : ZMod m)`, the number
+`TauCeti.primeCount ℚ {𝔭 | absNorm 𝔭 % m = a % m} x` of primes 𝔭 of `𝓞 ℚ` with
+`absNorm 𝔭 ≤ x` in that class (`TauCeti.primeCount`,
+`TauCeti/NumberTheory/ArithmeticDirichletSeries/Counting.lean`), divided by `x / log x`, tends
+to `1/φ(m)`, and the count is asymptotic to `Li(x)/φ(m)`. The norm of a prime of `𝓞 ℚ`,
+`Rat.HeightOneSpectrum.absNorm_asIdeal`: `Ideal.absNorm v.asIdeal = natGenerator v`
+(`TauCeti/NumberTheory/NumberField/Ideal/IntegersRat.lean`).
+The KMS condition of a point-norm continuous real action α on a possibly nonunital C*-algebra
+(`TauCeti.CStarAction`): `TauCeti.CStarAction.IsKMSFunction`, a function F bounded and
+continuous on the closed strip between ℝ and the line `Im z=β`, holomorphic on the open strip,
+with `F(t)=φ(aα_t(b))` and `F(t+iβ)=φ(α_t(b)a)`; `TauCeti.CStarAction.IsKMSState`, a state with
+such a function for every pair a, b; `TauCeti.CStarAction.IsKMSFunction.eqOn`, the uniqueness of
+the KMS function of a pair; and `TauCeti.CStarAction.isKMSFunction_apply_mul_entireExtension_iff`,
+for entire analytic b the function `z↦φ(aα_z(b))` is the KMS function of the pair exactly when
+`φ(aα_(t+iβ)(b))=φ(α_t(b)a)` for real t (`TauCeti/Analysis/CStarAlgebra/Action/KMS/Basic.lean`).
+The inner dynamics `selfAdjoint.cstarAction h`, `τ_t(a)=exp(ith)a·exp(−ith)` for a self-adjoint
+element h of a unital C*-algebra, for which every element is entire analytic with
+`τ_z(a)=exp(izh)a·exp(−izh)`, `selfAdjoint.entireExtension_cstarAction`
+(`TauCeti/Analysis/CStarAlgebra/Action/Inner.lean`). The Gibbs state `Matrix.gibbsState`,
+`x↦Tr(exp(−βK)x)/Tr(exp(−βK))` for a Hermitian complex matrix K, with
+`Matrix.IsHermitian.isKMSState_gibbsState` (it is a β-KMS state of the inner dynamics of K for
+every real β) and `Matrix.IsHermitian.isKMSState_iff_eq_gibbsState` (it is the only one)
+(`TauCeti/Analysis/CStarAlgebra/Action/Gibbs.lean`). Trace duality
+`LinearMap.existsUnique_trace_mul_eq`: every linear functional on square matrices is `x↦Tr(ρx)`
+for a unique matrix ρ (`TauCeti/LinearAlgebra/Matrix/Trace/Duality.lean`).
+The Banach duality of V4.Core. For a subspace S of a normed space E, the isometries
+`Submodule.quotientDualEquivAnnihilator`, the dual of `E ⧸ S` is the annihilator of S by
+precomposition with the quotient map (`TauCeti/Analysis/Normed/Module/Dual/Quotient.lean`), and
+`Submodule.quotientAnnihilatorEquivDual`, the dual of S is the quotient of the dual of E by the
+annihilator of S by restriction (`TauCeti/Analysis/Normed/Module/Dual/Submodule.lean`); the
+double-annihilator theorems `Submodule.orthogonalBilin_orthogonalBilin_topDualPairing_eq_topologicalClosure`,
+the preannihilator of the annihilator of S is its norm closure
+(`TauCeti/Analysis/Normed/Module/Annihilator.lean`), and
+`Submodule.map_orthogonalBilin_flip_orthogonalBilin_eq_topologicalClosure`, the annihilator of the
+preannihilator of a subspace G of the dual is its weak-star closure
+(`TauCeti/Analysis/LocallyConvex/WeakDual/Annihilator.lean`); and the Krein–Šmulian theorem for
+a Banach space E, `Convex.isClosed_iff_forall_isClosed_inter_closedBall` (a real-convex subset
+of `WeakDual 𝕜 E` is weak-star closed exactly when its intersection with every closed ball centred
+at zero is) with its subspace form `Submodule.isClosed_iff_isClosed_inter_closedBall_zero_one`
+(the closed unit ball suffices) (`TauCeti/Analysis/Normed/Module/Dual/KreinSmulian.lean`). The
+Banach space `TauCeti.NuclearOperator` of nuclear operators from a normed space to a Banach space,
+normed by the nuclear norm (the quotient norm of `E* ⊗̂π F` by the kernel of the canonical map),
+with the rank-one value `TauCeti.NuclearOperator.norm_smulRight` (`x↦f(x)y` has nuclear norm
+`‖f‖‖y‖`) and `TauCeti.exists_toContinuousLinearMap_eq_of_nuclearGauge_lt` (an operator of
+nuclear norm below c is induced by a projective tensor of norm below c)
+(`TauCeti/Analysis/Normed/Operator/Nuclear.lean`), and the series representation
+`TauCeti.CompletedProjectiveTensor.exists_hasSum_tmul_of_norm_lt` (a completed projective tensor
+of norm below c is a convergent series `Σ xₙ⊗yₙ` with `Σ‖xₙ‖‖yₙ‖<c`)
+(`TauCeti/Analysis/Normed/Module/TensorProduct/Series.lean`).
+The Borel-calculus inputs of V2.BorelCalculus, on a complete complex Hilbert space H. The
+projection-valued measure `TauCeti.ProjValMeasure` on a measurable space X: projections `P(B)` of
+the measurable sets with finite diagonal measures `diag ξ`, `⟪ξ,P(B)ξ⟫=diag ξ (B)`, `P(X)=1` and
+`P(B∩C)=P(B)P(C)`, with strong countable additivity
+`TauCeti.ProjValMeasure.hasSum_proj_of_pairwise_disjoint`
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Basic.lean`); the commutative C*-algebra
+`TauCeti.BoundedBorelFunction X` of bounded measurable complex functions with the supremum norm
+(`TauCeti/MeasureTheory/Function/BoundedBorel.lean`); the integral
+`TauCeti.ProjValMeasure.integral`, a unital star algebra homomorphism from the bounded Borel
+functions into `B(H)`, with `TauCeti.ProjValMeasure.integral_indicator` (`∫1_B dP=P(B)`),
+`TauCeti.ProjValMeasure.eq_integral_of_continuous` (a continuous map agreeing with the integral on
+simple functions is the integral), `TauCeti.ProjValMeasure.norm_integral_le` (`|f|≤c` pointwise
+gives `‖∫f dP‖≤c`), the vector identity `TauCeti.ProjValMeasure.norm_sq_integral_apply`
+(`‖(∫f dP)ξ‖²=∫|f|²d(diag ξ)`) and `TauCeti.ProjValMeasure.integral_apply_eq_zero_iff` (`(∫f dP)ξ=0`
+iff f=0 `diag ξ`-almost everywhere)
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Integral.lean`); the null filter
+`TauCeti.ProjValMeasure.ae`, the sets conull for every diagonal measure, with
+`TauCeti.ProjValMeasure.proj_eq_zero_iff_compl_mem_ae`
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Null.lean`);
+`TauCeti.ProjValMeasure.integral_eq_integral_iff` (two integrals agree iff the functions agree
+P-almost everywhere) and dominated convergence
+`TauCeti.ProjValMeasure.tendsto_integral_apply_filter_of_dominated_convergence` (functions bounded
+by a common constant and converging P-almost everywhere along a countably generated filter have
+strongly converging integrals)
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/DominatedConvergence.lean`); the polarized
+measures `TauCeti.ProjValMeasure.polarizedComplexMeasure` with
+`TauCeti.ProjValMeasure.polarizedComplexMeasure_apply` (value `⟪ψ,P(B)ξ⟫` on B) and the variation
+bound `TauCeti.ProjValMeasure.polarizedComplexMeasure_variation_univ_le` (at most `‖ψ‖‖ξ‖`)
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Polarization.lean`,
+`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Variation.lean`); and the pushforward
+`TauCeti.ProjValMeasure.map` along a measurable map with the change of variables
+`TauCeti.ProjValMeasure.integral_map`
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Map.lean`). For a unital star representation π
+of `C(K,ℂ)` on H, K compact Hausdorff with its Borel σ-algebra: the finite regular Riesz measure
+`StarAlgHom.representationDiagMeasure` of `f↦⟪ξ,π(f)ξ⟫`, with
+`StarAlgHom.integral_representationDiagMeasure` (`∫f dμ_ξ=⟪ξ,π(f)ξ⟫` for continuous f),
+`StarAlgHom.representationDiagMeasure_univ` (mass `‖ξ‖²`) and
+`StarAlgHom.integral_norm_sq_representationDiagMeasure` (`∫|f|²dμ_ξ=‖π(f)ξ‖²` for continuous f)
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Representation/DiagonalMeasure.lean`); the
+polarized complex measures `StarAlgHom.representationPolarizedMeasure`, conjugate-linear in the
+first vector, with `StarAlgHom.integral_representationPolarizedMeasure` (`∫f dμ_(ψ,ξ)=⟪ψ,π(f)ξ⟫` for
+continuous f), `StarAlgHom.representationPolarizedMeasure_swap_apply` (`μ_(ξ,ψ)(B)` is the conjugate
+of `μ_(ψ,ξ)(B)`) and `StarAlgHom.variation_representationPolarizedMeasure_univ_le` (variation at
+most `2‖ψ‖‖ξ‖`)
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Representation/PolarizedMeasure.lean`); and the
+Borel extension `StarAlgHom.representationBorelOperator`, a complex linear map from the bounded
+Borel functions on K into `B(H)` with `⟪ψ,π(f)ξ⟫=∫f dμ_(ψ,ξ)`
+(`StarAlgHom.inner_representationBorelOperator`) that agrees with π on continuous functions
+(`StarAlgHom.representationBorelOperator_ofContinuousMap`), bounded through
+`StarAlgHom.norm_integral_representationPolarizedMeasure_le` (`‖∫f dμ_(ψ,ξ)‖≤2·sup|f|·‖ψ‖‖ξ‖`), and
+not shown multiplicative at the pin
+(`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Representation/BorelOperator.lean`). For a
+normal operator a, `ContinuousLinearMap.diagMeasure`, the Riesz measure on `spectrum ℂ a` of its
+continuous calculus `cfcHom`, with `ContinuousLinearMap.integral_diagMeasure_eq_inner_cfc`
+(`TauCeti/Analysis/InnerProductSpace/BorelCalculus/DiagonalMeasure.lean`). The resolvent and Cayley
+inputs of V10.ClosedOperators, for a self-adjoint partial linear map T on H (Mathlib's
+`IsSelfAdjoint` for the adjoint `LinearPMap.adjoint`): every nonreal λ is a resolvent point,
+`IsSelfAdjoint.mem_resolventSet_of_im_ne_zero`, with `‖(λ−T)⁻¹‖≤|Im λ|⁻¹`,
+`IsSelfAdjoint.norm_resolvent_le` (`TauCeti/Analysis/InnerProductSpace/LinearPMap/Resolvent.lean`);
+the Cayley transform `LinearPMap.cayley`, `U=1+2i(−i−T)⁻¹`, which is `(T−i)(T+i)⁻¹`, with
+`LinearPMap.mem_graph_iff_exists_cayley` (the graph of T is `{(x−Ux, i(x+Ux)) : x∈H}`) and
+`LinearPMap.cayley_apply_eq_self_iff` (`Ux=x` only for x=0)
+(`TauCeti/Analysis/Normed/Operator/LinearPMap/Cayley.lean`), and its unitarity and normality
+`IsSelfAdjoint.cayley_mem_unitary` and `IsSelfAdjoint.isStarNormal_cayley`
+(`TauCeti/Analysis/InnerProductSpace/LinearPMap/Cayley.lean`). The GNS covariance of V4.Normality.
+For a point-norm continuous action α of a topological group G on a C*-algebra A
+(`TauCeti.CStarAction`) and a positive functional φ with `φ∘α_g=φ`, the GNS implementing group
+`TauCeti.CStarAction.gnsImplementingGroup`, the strongly continuous unitary representation of G on
+the GNS space extending `[b]↦[α_g(b)]`, with
+`TauCeti.CStarAction.inner_gnsImplementingGroup_apply_coe` (`⟪[a],U_g[b]⟫=φ(a*α_g(b))`), and the
+covariant pair `TauCeti.CStarAction.gnsCovariantRepresentation` of Mathlib's GNS representation with
+that group, `U_gπ_φ(a)U_g*=π_φ(α_g(a))` (`TauCeti/Analysis/CStarAlgebra/Action/Covariant/GNS.lean`).
+The separating theorem of Layer 6: for a β-KMS state ω of a point-norm continuous real action on a
+unital C*-algebra A, `TauCeti.CStarAction.IsKMSState.eq_zero_of_apply_toPreGNS_one_eq_zero`, an
+operator x of `π_ω(A)''` with `x[1]=0` is zero
+(`TauCeti/Analysis/CStarAlgebra/Action/KMS/Separating.lean`), and
+`TauCeti.CStarAction.isKMSState_zero_iff`, the 0-KMS states are the tracial states, for every action
+(`TauCeti/Analysis/CStarAlgebra/Action/KMS/Basic.lean`). Each is used as stated at the pin.
 
 **From TauCetiRoadmap.BanachSpaceTheory.** [B1](../BanachSpaceTheory/README.md#b1-duality-and-weak-topologies)
-annihilators, quotient duals, adjoints and Goldstine, the weak/norm closure agreement for convex
-sets, and the weak and weak-star continuity criteria by evaluation;
+annihilators, quotient duals, adjoints and Goldstine, the weak and weak-star continuity criteria
+by evaluation and the comparison of the norm and weak-star topologies on dual balls; and the
+generic operator topologies of bounded maps between normed spaces, on Mathlib's
+`PointwiseConvergenceCLM` (SOT) and `ContinuousLinearMapWOT` (WOT): norm convergence implies SOT
+convergence, which implies WOT convergence; an SOT- or WOT-convergent sequence of bounded maps on
+a Banach space is norm bounded; multiplication is jointly SOT continuous on norm-bounded sets;
+and on an infinite-dimensional Banach space there are SOT-null nets `S_i`, `T_i` with `S_iT_i` a
+fixed nonzero rank-one operator, so it is not jointly SOT continuous there.
 [B2](../BanachSpaceTheory/README.md#b2-weak-compactness-and-reflexivity) Krein–Šmulian and
 James; [B4](../BanachSpaceTheory/README.md#b4-approximation-and-banach-tensor-products) the
 quotient-norm nuclear operators with their nuclear norm, rank-one norm and series
-representation, and the compact Schmidt series with its nuclear-norm identity on Hilbert pairs,
-together with B4's isometric identification of the Hilbert nuclear operators with the
-trace-class ideal of OperatorIdeals OI-B29–B30.
+representation, and the compact Schmidt series with its zero-based singular-value comparison and
+its nuclear-norm identity on Hilbert pairs, together with B4's isometric identification of the
+Hilbert nuclear operators (`TauCeti.NuclearOperator` on Hilbert pairs) with the trace-class ideal
+of OperatorIdeals OI-B29–B30. The annihilator and quotient dualities, Krein–Šmulian and the
+nuclear operators are consumed through their Tau Ceti implementations listed above.
 
 **From TauCetiRoadmap.OperatorTheory.** From
 [PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md) Part A, the bounded
@@ -216,8 +450,9 @@ Hilbert–Schmidt energy, its basis independence, the Hilbert–Schmidt norm wit
 domination, adjoint invariance and ideal inequality, and the Hilbert–Schmidt family
 (OI-B32–B41). Each is assumed for arbitrary complex Hilbert spaces. Nothing is consumed from
 the spectral sub-roadmap SelfAdjointSpectralTheory, which consumes V4.0.Fields; the spectral
-inputs of V2, V4, V5 and V10 are the targets V2.BorelCalculus, V4.0.Multiplication and
-V10.ClosedOperators.
+inputs of V2, V4, V5 and V10 are Tau Ceti's projection-valued measures, Borel extension,
+resolvent and Cayley transform (From Tau Ceti) and the targets V2.BorelCalculus,
+V4.0.Multiplication and V10.ClosedOperators.
 
 **From TauCetiRoadmap.AmenableGroups.** [Layers 5–7](../AmenableGroups/README.md#layer-5-følner-criteria-for-arbitrary-discrete-groups)
 invariant means, discrete Følner theory and abelian amenability, and from
@@ -229,12 +464,34 @@ translations, and the nonnegative integral-one kernels `h_U` supported in shrink
 neighbourhoods U with `‖h*h_U−h‖₁→0` for every `h∈L¹` (a net built from compactly supported
 continuous functions).
 
+**From TauCetiRoadmap.BanachAlgebras.** For a locally compact Hausdorff group G with a nonzero
+regular left Haar measure μ, with no second-countability or σ-finiteness hypothesis:
+[§7.2](../BanachAlgebras/README.md#72-convolution-and-approximate-identities), the Banach
+algebra `L¹(G,μ)` with the convolution `(f*h)(x)=∫f(y)h(y⁻¹x)dμ(y)` and the isometric
+involution `f*(x)=c(x)·conj(f(x⁻¹))`, where `c=Measure.modularCharacter` satisfies
+`∫f(xg)dμ(x)=c(g)∫f dμ`; [§7.3](../BanachAlgebras/README.md#73-integrated-representations)
+A7.IntegratedRepresentations and A7.RegularL2, the unitary left translations
+`(λ_xξ)(y)=ξ(x⁻¹y)` on `L²(G,μ)` with their strong continuity and the integrated operators λ(f),
+f∈L¹, with `‖λ(f)‖≤‖f‖₁`, `λ(f*h)=λ(f)λ(h)`, `λ(f*)=λ(f)*`, nondegeneracy, faithfulness on `L¹`,
+and the common representative of `f*h` in `L¹` and `λ(f)h` in `L²` for h∈L¹∩L², with
+commutativity of `L¹(G)` for abelian G; and
+[§7.5](../BanachAlgebras/README.md#75-characters-and-fourier-comparisons)
+A7.CharactersAndUniqueness, for abelian G: `γ↦(f↦∫f(x)γ(x)dμ(x))` is a bijection from the
+continuous unitary characters of G onto the nonzero bounded characters of `L¹(G)`, with no
+conjugation, and a homeomorphism from the compact-open dual onto the weak-star character space;
+`L¹(G)` is semisimple, so `f̂=0` forces f=0; and two finite regular complex Borel measures on G
+with equal transforms `γ↦∫γ dν` are equal. From
+[§3.1](../BanachAlgebras/README.md#31-characters-and-function-algebras), for a commutative
+C*-algebra A with nonzero characters Ω: restriction is a bijection, and a homeomorphism for the
+weak-star topologies, from the characters of `Unitization ℂ A` other than the augmentation
+`Unitization.fstHom` onto Ω, so that Ω is open in the compact unitized character space, which is
+its one-point compactification when A has no identity. Each is used as BanachAlgebras states it.
+
 **From the other roadmaps named in the scope.** RepresentationTheory/CompactGroups (Peter–Weyl),
 RepresentationTheory/SemisimpleAlgebras (finite double centralizer),
 RepresentationTheory/LieHighestWeight (the rank-one Clebsch–Gordan decomposition for the SU(2)
-application of V8), GlobalNumberFields Layer 4 (finite adeles), OptimalTransport Layers 2 and
-8.2, and ArithmeticDirichletSeries Layer 9 (the implemented Wiener–Ikehara theorem used by
-V10.AffineAP).
+application of V8), GlobalNumberFields Layer 4 (finite adeles), and OptimalTransport Layers 2 and
+8.2.
 
 ## How to read the build
 
@@ -246,15 +503,16 @@ normality/representation conclusions consume that one criterion. V4.0.Fields con
 Hilbert and operator fields from countable fundamental sections and given measures,
 independently of projection-valued measures, multiplication models and central decomposition.
 In V8, V8.RegularL2 precedes
-V8.LCHRegularNormalBridge and the compact-action and dense-translation targets. In V11 the
-harmonic-analysis layer is built as V11.DoubleDualEmbedding, then V11.UnitizationCharacters and
-V11.FourierUniqueness, then inversion, Plancherel and duality. V13b.SpatialNorm opens V13b.
-V2.BorelCalculus uses only Layer 0's states, Mathlib's continuous calculus and Layer 1's
-topologies and bicommutant theorem, and precedes Fields; V4.0.Multiplication consumes Fields and
-V2.BorelCalculus. V2.AbelianClassification and V2.AbelianRepresentationMultiplicity are
-applications after Fields and V4.0.Multiplication, with V4.Normality when a normal
-representation is used; only the elementary V2 carriers, V2.BorelCalculus, the single-generator
-construction and the given-measure multiplication/MASA theorem precede Fields.
+V8.LCHRegularNormalBridge and the compact-action and dense-translation targets, and
+V8.GroupApplications follows V8.SubgroupCosets. In V11 the harmonic-analysis layer is built as
+V11.DoubleDualEmbedding, then V11.UnitizationCharacters and V11.FourierUniqueness, then
+inversion, Plancherel and duality. V13b.SpatialNorm opens V13b.
+V2.BorelCalculus uses only Tau Ceti's projection-valued measures and Borel extension, Mathlib's
+continuous calculus and Layer 1's topologies and bicommutant theorem, and precedes Fields;
+V4.0.Multiplication consumes Fields and V2.BorelCalculus. V4.AbelianClassification,
+V4.AbelianLocalizable and V4.AbelianRepresentationMultiplicity close Layer 4, after Fields,
+V4.0.Multiplication and V4.Normality; the elementary V2 carriers, V2.BorelCalculus, the
+single-generator construction and the given-measure multiplication/MASA theorem precede Fields.
 V4.0.Decomposition consumes Fields, V4.Normality and V4.0.Multiplication and owns
 spectral/central reduction and measurable selection; V5's measurable
 trivialization and the central-reduction applications consume Decomposition. V5 delivers
@@ -263,8 +521,8 @@ classification, V7 modules and index, V8–V9 group algebras, crossed products a
 In V10, ClosedOperators precedes Affiliation; TracialLp also consumes V6; ModularTheory
 constructs the Tomita–Takesaki/natural-cone theory after Affiliation, V0/V1/V6, V2's infinite
 tensor product, V4.Core/PositivePredual/Normality and V8's nonsingular crossed products; KMS
-fixes the strip convention before Hecke uses it. AffineAP applies the implemented generic
-Wiener–Ikehara, higher-prime-power and Abel-transfer APIs; AffineHecke constructs the
+fixes the strip convention before Hecke uses it. AffineAP consumes Tau Ceti's prime
+number theorem in arithmetic progressions; AffineHecke constructs the
 finite-adele corner from Hecke, GlobalNumberFields Layer 4 and V8; AffineType consumes that
 model, AffineAP, KMS and V2/V6's full-corner comparison. These affine constructions have no V11
 input. V11 consumes the completed V10 interfaces. In V12, V12.J.Maps precedes Dye, Enriched and
@@ -292,16 +550,33 @@ theorem to identify the weak-star closed convex hull of the extreme states.
 Do not impose this compactness statement on the norm-one state space of an
 arbitrary nonunital algebra. V4 equips this carrier with normality and support APIs.
 Use `PositiveLinearMap.GNS` and `gnsStarAlgHom` from
-`Mathlib.Analysis.CStarAlgebra.GelfandNaimarkSegal` for the completed GNS construction.
-Add the canonical cyclic vector, recovery of the functional, unitary uniqueness and
+`Mathlib.Analysis.CStarAlgebra.GelfandNaimarkSegal` for the completed GNS construction. For unital
+algebras consume Tau Ceti's canonical cyclic vector `PositiveLinearMap.gnsVector`, with the
+recovery of the functional (`PositiveLinearMap.inner_gnsVector_coe`,
+`PositiveLinearMap.inner_gnsStarAlgHom_gnsVector`) and the density of its orbit
+(`PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector`). Add unitary uniqueness and
 transport/restriction lemmas; prove state separation and construct the faithful direct-sum
 representation (Gelfand–Naimark) from these representations (Peterson, Propositions 4.1.4–4.1.5,
-p. 56, Theorem 4.1.6, p. 57, and Corollary 4.1.7, p. 58; the theorem is stated for unital
-algebras; restrict a unitization representation to the closed span of A acting on its Hilbert
-space and use the approximate unit to obtain the nondegenerate nonunital construction).
+p. 56, Theorem 4.1.6, p. 57, and Corollary 4.1.7, p. 58; the GNS theorem 4.1.6 is stated for
+unital algebras and the corollary for every C*-algebra; restrict a unitization representation to
+the closed span of A acting on its Hilbert space and use the approximate unit to obtain the
+nondegenerate nonunital construction; equivalently, the GNS summand π_ψ of each positive
+functional ψ is nondegenerate because the classes [b] are dense
+(`PositiveLinearMap.denseRange_toGNS`) and, for an approximate unit e_λ,
+`‖π_ψ(e_λ)[b]−[b]‖²=ψ((e_λb−b)*(e_λb−b))≤‖ψ‖‖e_λb−b‖²→0`). The headline is stated for every
+C*-algebra A, possibly nonunital and nonseparable: a faithful nondegenerate representation on a
+complete complex Hilbert space in the universe of A, the zero space when A=0 (the zero
+representation of the zero algebra is nondegenerate, the span of its range being 0, dense in 0), is
+`exists_faithful_nondegenerate_representation`; for unital A nondegeneracy forces the unit to act
+as the identity, so the unital theorem is its special case. Nondegeneracy here and in
+V0.SeparableFaithful is Tau Ceti's `NonUnitalStarAlgHom.IsNondegenerate`, density of the span
+of the vectors `π a ξ`; the Lean statements write out its body.
 *Needs:* Mathlib `PositiveLinearMap`, `PositiveLinearMap.exists_norm_apply_le`, Banach–Alaoglu,
-`Analysis/Convex/KreinMilman` and `PositiveLinearMap.GNS`; BanachSpaceTheory B1's weak-dual
-comparison.
+`Analysis/Convex/KreinMilman` and `PositiveLinearMap.GNS`; Tau Ceti `PositiveLinearMap.toGNS`,
+`PositiveLinearMap.denseRange_toGNS`, `PositiveLinearMap.gnsVector`,
+`PositiveLinearMap.inner_gnsVector_coe`, `PositiveLinearMap.inner_gnsStarAlgHom_gnsVector`,
+`PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector` and `NonUnitalStarAlgHom.IsNondegenerate`;
+BanachSpaceTheory B1's weak-dual comparison.
 
 **Checks.**
 
@@ -318,6 +593,7 @@ comparison.
 - The GNS space of `tr/2` on `M₂(ℂ)` is `M₂(ℂ)` with the Hilbert–Schmidt inner product, of
   dimension 4 and with cyclic vector 1; the GNS space of `x↦x₁₁` is ℂ² with cyclic vector `e₁`, so
   the GNS dimension separates the two states.
+
 **V0.SeparableFaithful — separable carriers and the ℓ² refinement.** For a
 separable complex C*-algebra A, possibly nonunital, construct a faithful
 nondegenerate representation on a separable complete complex Hilbert space.
@@ -329,10 +605,11 @@ nonzero positive elements. Form the norm-convergent positive series
 ψ=Σ_n 2^(-n-1)φ_n, prove ‖ψ‖=1 and ψ(a*a)>0 for a≠0, and use the
 native `PositiveLinearMap.GNS` and `gnsNonUnitalStarAlgHom` on this faithful
 state. Prove separability from the dense image of A and the bound
-‖[a]‖≤‖a‖. Prove faithfulness and nondegeneracy using the native positive
-contractive approximate unit and the dense classes [a]; do not assume an
-unimplemented canonical GNS cyclic-vector theorem. When A is unital, use
-`gnsStarAlgHom` and retain unit preservation.
+‖[a]‖≤‖a‖. For nonunital A there is no class of the unit; prove faithfulness
+and nondegeneracy from the native positive contractive approximate unit and the
+dense classes [a] (`PositiveLinearMap.denseRange_toGNS`). When A is unital, use
+the unital `gnsStarAlgHom`, and take the cyclic vector and the density of its
+orbit from `PositiveLinearMap.gnsVector` and `PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector`.
 
 For A≠0, amplify this nonzero separable GNS carrier by the countable
 Hilbert sum `lp (fun _ : ℕ => ψ.GNS) 2`, with diagonal action. Prove the
@@ -351,9 +628,12 @@ representation on `lp (fun _ : ℕ => ℂ) 2` is
 `exists_injective_nondegenerate_representation_lp`. It has no pure-state, irreducibility or
 V12.J prerequisite. The separable faithful representation is Peterson, Corollary 4.1.7 and
 its proof, p. 58; state separation is Propositions 4.1.4–4.1.5, p. 56. The countable
-amplification and Hilbert-basis transport above give the ℓ² refinement, retaining A≠0.
+amplification and Hilbert-basis transport above give the ℓ² refinement for A≠0.
 *Needs:* Mathlib `PositiveLinearMap.GNS`, `gnsStarAlgHom`, `gnsNonUnitalStarAlgHom`, the C*-algebra
-approximate unit and `lp`; the state separation and Gelfand–Naimark representation above.
+approximate unit and `lp`; Tau Ceti `PositiveLinearMap.toGNS`, `PositiveLinearMap.denseRange_toGNS`,
+`PositiveLinearMap.gnsVector`, `PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector` and
+`NonUnitalStarAlgHom.IsNondegenerate`; the state separation and Gelfand–Naimark representation
+above.
 
 
 Prove every nonzero C*-representation has operator norm one, also for
@@ -387,26 +667,34 @@ state, with n=1 and the zero algebra handled separately.
 - Mathlib `CStarAlgebra`, continuous functional calculus, `PositiveLinearMap`,
   `PositiveLinearMap.GNS`, `gnsStarAlgHom`, `gnsNonUnitalStarAlgHom`, `lp`, Banach–Alaoglu and
   `Analysis/Convex/KreinMilman`.
+- Tau Ceti `PositiveLinearMap.toGNS` and `PositiveLinearMap.denseRange_toGNS` (the dense GNS
+  class map of a possibly nonunital algebra); `PositiveLinearMap.gnsVector` and its lemmas
+  `PositiveLinearMap.inner_gnsVector_coe`, `PositiveLinearMap.inner_gnsStarAlgHom_gnsVector` and
+  `PositiveLinearMap.denseRange_gnsStarAlgHom_gnsVector` (the canonical GNS cyclic vector of a
+  unital algebra); `NonUnitalStarAlgHom.IsNondegenerate` (nondegeneracy of a representation).
 - BanachSpaceTheory B1 (weak-dual comparison).
 
 ## Layer 1: Operator topologies and the bicommutant theorem
 
-Use `ContinuousLinearMapWOT` and the existing SOT `PointwiseConvergenceCLM`
+Use `ContinuousLinearMapWOT` and Mathlib's SOT `PointwiseConvergenceCLM`
 (`H →Lₚₜ[ℂ] H`), and develop compatible strong-star,
-ultraweak, and ultrastrong wrappers. Own here the operator-topology adapters on `B(H)`,
-which BanachSpaceTheory B1 does not supply. Prove that a SOT- or WOT-convergent sequence of
-operators on a complete space is norm bounded, from `banach_steinhaus` (for WOT, apply it
-twice, through the bounded sesquilinear coefficients `⟪η,T_nξ⟫`). Prove that multiplication is
-jointly SOT continuous on norm-bounded sets and is not jointly continuous on the whole space,
-by an unbounded net with `S_iT_i` not converging. Prove the matrix-coefficient comparison: a net
-converges in Mathlib's WOT copy exactly when every `⟪η,T_iξ⟫` converges
-(`ContinuousLinearMapWOT.tendsto_iff_forall_inner_apply_tendsto`), and SOT convergence (in
-`H →Lₚₜ[ℂ] H`, via `PointwiseConvergenceCLM.tendsto_iff_forall_tendsto`) implies WOT
-convergence. Test this on the rank-one projections `P_n` onto an orthonormal sequence `e_n`:
-`P_n → 0` in WOT and SOT while `‖P_n‖ = 1`, so there is no norm convergence. Prove the extended
-topologies' neighborhood and net criteria, Hausdorff
-locally convex structure, vector-coefficient continuity, separate continuity of products,
-WOT/ultraweak continuity of star. Prove equality of weak with ultraweak and strong with ultrastrong on norm-bounded
+ultraweak, and ultrastrong wrappers. The generic facts about the SOT and WOT of bounded maps
+are BanachSpaceTheory B1's and are consumed at `E=F=H` with H complete: SOT convergence implies
+WOT convergence, an SOT- or WOT-convergent sequence of operators is norm bounded,
+multiplication is jointly SOT continuous on norm-bounded sets, and when H is
+infinite-dimensional it is not jointly SOT continuous on the whole space (B1's SOT-null nets
+`S_i`, `T_i` with `S_iT_i` a fixed nonzero rank-one operator); for finite-dimensional H the SOT
+is the norm topology and multiplication is jointly continuous. The matrix-coefficient criterion, that a net converges in Mathlib's WOT copy
+exactly when every `⟪η,T_iξ⟫` converges, is Mathlib's
+`ContinuousLinearMapWOT.tendsto_iff_forall_inner_apply_tendsto`, and the SOT criterion is
+`PointwiseConvergenceCLM.tendsto_iff_forall_tendsto`; separate WOT continuity of products is
+`ContinuousLinearMapWOT.continuous_precomp` and `ContinuousLinearMapWOT.continuous_postcomp`, and
+WOT continuity of the adjoint is the `ContinuousStar` instance of `H →WOT[ℂ] H`. On the
+rank-one projections `P_n` onto an orthonormal sequence `e_n`, `P_n → 0` in WOT and SOT while
+`‖P_n‖ = 1`, so there is no norm convergence. For the strong-star, ultraweak and ultrastrong
+topologies prove the neighborhood and net criteria, the Hausdorff locally convex structure,
+vector-coefficient continuity and separate continuity of products, and prove ultraweak
+continuity of the adjoint and separate SOT continuity of products. Prove equality of weak with ultraweak and strong with ultrastrong on norm-bounded
 sets; exhibit their differences on the whole infinite-dimensional operator space. Construct an
 ultraweak functional φ that is not WOT continuous using the diagonal weights n⁻².
 For separable infinite-dimensional H direct finite-dimensional subspaces F by inclusion;
@@ -421,18 +709,22 @@ shift (SOT convergence to zero with norm one), contrast forward powers, and the 
 family `T_n e₀=n^(-1/2)∑_(k=1)^n e_k`, vanishing on other basis vectors, which converges
 WOT to zero but has `‖T_n e₀‖=1`. Characterize WOT/SOT continuous linear
 functionals as finite sums of matrix coefficients and ultraweak/ultrastrong ones as
-absolutely convergent square-summable vector pairings. Establish the shared continuous-dual
-and closed-convex-set results by locally convex separation, including the hypotheses on
-subspaces. Prove weak compactness of the operator unit ball.
-*Needs:* Mathlib `ContinuousLinearMapWOT`, `H →Lₚₜ[ℂ] H` and their net criteria, `banach_steinhaus`,
-Banach–Alaoglu; Mathlib's `geometric_hahn_banach_closed_point` (with
+absolutely convergent square-summable vector pairings. From the shared continuous duals deduce
+that a convex set has the same WOT and SOT closures, and the same ultraweak and ultrastrong
+closures, by Mathlib's `LinearEquiv.image_closure_of_convex` applied to the identity of `B(H)`
+between the two copies, including the hypotheses on subspaces. Prove weak compactness of the
+operator unit ball.
+*Needs:* Mathlib `ContinuousLinearMapWOT`, `H →Lₚₜ[ℂ] H` and their net criteria
+(`ContinuousLinearMapWOT.tendsto_iff_forall_inner_apply_tendsto`,
+`PointwiseConvergenceCLM.tendsto_iff_forall_tendsto`), `ContinuousLinearMapWOT.continuous_precomp`,
+`ContinuousLinearMapWOT.continuous_postcomp`, the `ContinuousStar` instance of `H →WOT[ℂ] H`,
+`banach_steinhaus`, Banach–Alaoglu; Mathlib's `geometric_hahn_banach_closed_point` (with
 `ContinuousLinearMapWOT.instLocallyConvexSpace` for the local convexity of the WOT, the
 `LocallyConvexSpace` instance of `H →Lₚₜ[ℂ] H` built from `UniformConvergenceCLM.locallyConvexSpace`
 together with `UniformConvergenceCLM.continuousSMul` on finite sets for the SOT, and this layer's
-own locally convex structure for the ultraweak and ultrastrong wrappers); BanachSpaceTheory B1's
-weak/norm
-closure agreement for convex sets and its weak and weak-star continuity criteria by evaluation;
-Layer 0's C*-structure on `B(H)`.
+own locally convex structure for the ultraweak and ultrastrong wrappers) and
+`LinearEquiv.image_closure_of_convex`; BanachSpaceTheory B1's generic SOT/WOT facts listed above
+and its weak and weak-star continuity criteria by evaluation; Layer 0's C*-structure on `B(H)`.
 
 **Weak limits of projections.** On every infinite-dimensional complete complex
 Hilbert space H, prove that the WOT closure of the orthogonal projections in
@@ -465,25 +757,42 @@ State the WOT closure theorem on Mathlib's WOT copy and positive-operator order 
 for `sqrt(C(1−C))`, `H →WOT[ℂ] H`; the bounded-set agreement of WOT and ultraweak topologies above.
 
 For every unital star subalgebra A of B(H), identify its WOT, SOT, ultraweak, and ultrastrong
-closures with A''; the WOT form, `A''=A` exactly when A is closed in Mathlib's WOT copy, is
-`double_commutant_iff_isClosed_image_ofCLM`. Consume the finite-dimensional double-centralizer theorem from
-RepresentationTheory/SemisimpleAlgebras and prove its operator-space specialization and the
-simultaneous-vector amplification argument. Give each concrete algebra subtype its canonical complete normed star algebra and
-CStarAlgebra instances, compatible with `toStarSubalgebra`. Supply generated-algebra constructors, leastness,
-monotonicity, intersections, closure, commutant reversal, and lattice operations. Prove a unital star subalgebra is a von Neumann algebra exactly
-when its norm unit ball is WOT compact. For
+closures with A'' (Houdayer, Theorem 3.1, p. 12; Peterson, Theorem 2.5.6, p. 29; Jones, Theorem
+3.2.2 and Corollary 3.2.3, p. 12); the WOT form, `A''=A` exactly when A is closed in Mathlib's WOT
+copy, is `double_commutant_iff_isClosed_image_ofCLM`. Consume the finite-dimensional
+double-centralizer theorem from RepresentationTheory/SemisimpleAlgebras and prove its
+operator-space specialization (Jones, Theorem 3.2.1, p. 12). The simultaneous-vector amplification
+argument (Peterson, Lemma 2.5.5 and the proof of Theorem 2.5.6, pp. 28–29) is Tau Ceti's von
+Neumann density theorem `StarSubalgebra.exists_forall_norm_sub_apply_lt_of_mem_centralizer_centralizer`:
+consume it for the strong and weak closures, apply it to the amplification of A on `ℓ²(ℕ,H)`, whose
+double commutant is the amplification of A'', for the ultrastrong and ultraweak closures, and
+obtain the reverse inclusions from the WOT closedness of commutants. Give each concrete algebra subtype its canonical complete normed star algebra and
+CStarAlgebra instances, compatible with `toStarSubalgebra`. Consume Tau Ceti's generated von
+Neumann algebra `VonNeumannAlgebra.adjoin` with its leastness (`VonNeumannAlgebra.adjoin_le_iff`),
+monotonicity (`VonNeumannAlgebra.adjoin_mono`) and commutant
+(`VonNeumannAlgebra.coe_commutant_adjoin`), and supply intersections, closure, commutant reversal,
+and lattice operations. Prove a unital star subalgebra is a von Neumann algebra exactly
+when its norm unit ball is WOT compact (Jones, Corollary 5.2.2, p. 33). For
 nonunital star algebras, separate the common annihilator and prove their closure is unital
 on its essential subspace. Show this gives the correct supported algebra on H rather than
-silently adjoining the identity on the annihilator. Prove Kaplansky density for the unit
-ball and its self-adjoint and positive parts, with matrix amplification and strong-star
-forms; establish the useful criterion that bounded strong approximants suffice to prove
+silently adjoining the identity on the annihilator. Prove Kaplansky density: the closed unit ball
+of A is SOT dense in that of A'', and its self-adjoint part in the self-adjoint part of that of A''
+(Houdayer, Theorem 3.16, p. 17; Jones, Theorem 5.2.1, pp. 32–33; Peterson, Theorem 2.6.4 and its
+proof, p. 31, whose statement gives the self-adjoint part without the norm bound), with matrix
+amplification and strong-star forms. Derive from the self-adjoint case that the positive part of
+the unit ball of A is SOT dense in the positive part of the unit ball of A'': for `0≤x≤1` in A'',
+self-adjoint contractions `y_α∈A` converging strongly to `√x` give positive contractions
+`y_α²∈A`, and `y_α²→x` strongly because `y_α²−x=y_α(y_α−√x)+(y_α−√x)√x` and `‖y_α‖≤1` give
+`‖(y_α²−x)ξ‖≤‖(y_α−√x)ξ‖+‖(y_α−√x)√xξ‖`. Establish the useful criterion that bounded strong approximants suffice to prove
 membership in the generated algebra. The unit-ball form, that the SOT closure of the closed
 unit ball of a unital star subalgebra A is the closed unit ball of A'', is
 `closure_unitBall_eq_unitBall_double_centralizer`.
 *Needs:* Mathlib `VonNeumannAlgebra`, `VonNeumannAlgebra.centralizer_centralizer`, `StarSubalgebra`,
 `ContinuousLinearMapWOT.ofCLM`, `ContinuousLinearMap.toPointwiseConvergenceCLM`, the continuous
 functional calculus (the Kaplansky function `t↦2t/(1+t²)`); RepresentationTheory/SemisimpleAlgebras'
-finite double centralizer; the topologies above.
+finite double centralizer; Tau Ceti
+`StarSubalgebra.exists_forall_norm_sub_apply_lt_of_mem_centralizer_centralizer` and
+`VonNeumannAlgebra.adjoin`; the topologies above.
 
 **Checks.**
 
@@ -494,6 +803,22 @@ finite double centralizer; the topologies above.
 - For `A=ℂI` the unit balls of A and `A''=ℂI` coincide, so Kaplansky is an equality there; for
   the unital algebra of finite-rank operators plus scalars on ℓ², `A''=B(H)` and the SOT closure
   of the finite-rank-plus-scalar contractions is the whole unit ball of B(ℓ²).
+- Positive part of Kaplansky density, for A the finite-rank operators plus scalars on ℓ²: the
+  projection q onto the closed span of the even basis vectors is a positive contraction of
+  `A''=B(ℓ²)` outside A, since `q−c·1` has the eigenvalues `1−c` and `−c`, each of infinite
+  multiplicity, for every scalar c. It is the SOT limit of the finite-rank projections `qP_n`,
+  positive contractions in A, while `‖q−a‖≥max(|1−c|,|c|)≥1/2` for every `a=c·1+F` in A with F of
+  finite rank (test on unit vectors of `ker F` in the two eigenspaces of q). So the positive clause
+  is an SOT density, and a norm-density reading of it fails.
+- Negative control for a unit-ball criterion of weak closedness: for the diagonal-weight functional
+  `φ=Σ_(n≥1) n⁻²⟨e_n,·e_n⟩` on ℓ², the kernel `V=ker φ` meets the WOT-compact unit ball in a
+  WOT-closed set, since WOT and ultraweak agree on the ball and φ is ultraweakly continuous; but V
+  is not WOT closed, since a linear functional with closed kernel is continuous and φ is not WOT
+  continuous. Concretely `φ(1)=Σ_(n≥1) n⁻²=π²/6≠0`, so `1∉V` while 1 lies in the WOT closure of
+  the dense hyperplane V. Weak closedness of a subspace is not decided on the unit ball, unlike
+  ultraweak closedness, which the Krein–Šmulian theorem decides there (Tau Ceti's
+  `Submodule.isClosed_iff_isClosed_inter_closedBall_zero_one`, read through the trace-class
+  predual of V4.Core).
 - On `H=ℂ` the scalar `1/2` is a positive contraction that is not a limit of projections
   (the projections are `{0,1}`), so the infinite-dimensionality hypothesis of the projection
   closure theorem cannot be dropped; on ℓ² the rank-one projections `P_n` onto `e_n` tend to
@@ -512,13 +837,20 @@ finite double centralizer; the topologies above.
 ### Dependencies
 
 - Mathlib `ContinuousLinearMapWOT`, `H →Lₚₜ[ℂ] H`, `banach_steinhaus`, positive-operator order.
+- Tau Ceti `StarSubalgebra.exists_forall_norm_sub_apply_lt_of_mem_centralizer_centralizer` and
+  `VonNeumannAlgebra.adjoin` (the von Neumann density theorem and generated algebras).
 - Layer 0 (C*-algebra structure on concrete algebras).
 - RepresentationTheory/SemisimpleAlgebras (finite-dimensional double centralizer).
 - Mathlib `geometric_hahn_banach_closed_point`, `ContinuousLinearMapWOT.instLocallyConvexSpace`,
   `UniformConvergenceCLM.locallyConvexSpace` and `UniformConvergenceCLM.continuousSMul` (local
-  convexity and scalar continuity of the WOT and SOT).
-- BanachSpaceTheory B1 (weak/norm closure agreement for convex sets and the weak-star continuity
-  criterion by evaluation on the predual side).
+  convexity and scalar continuity of the WOT and SOT), `LinearEquiv.image_closure_of_convex`
+  (closures of convex sets in topologies with the same continuous dual),
+  `ContinuousLinearMapWOT.tendsto_iff_forall_inner_apply_tendsto`,
+  `ContinuousLinearMapWOT.continuous_precomp`, `ContinuousLinearMapWOT.continuous_postcomp` and
+  the `ContinuousStar` instance of `H →WOT[ℂ] H`.
+- BanachSpaceTheory B1 (operator topologies: norm ⇒ SOT ⇒ WOT, norm boundedness of convergent
+  sequences, bounded joint SOT continuity of products and its failure for nets; the weak-star
+  continuity criterion by evaluation on the predual side).
 
 ## Layer 2: Elementary algebra, corners, and tensors
 
@@ -529,44 +861,61 @@ by `SOT-lim (a/‖a‖)^(1/n)` for a≠0, with zero-constant polynomial approxim
 *Needs:* Mathlib's nonunital continuous functional calculus; Layer 1's strong topology.
 
 **V2.BorelCalculus — the bounded Borel calculus and spectral measure.** For a compact Hausdorff
-space K and a unital representation π of `C(K)` on an arbitrary complex Hilbert space H (a
-unital star homomorphism into `B(H)`), construct for ξ∈H the finite regular Borel measure μ_ξ
-on K representing the positive functional `f↦⟨ξ,π(f)ξ⟩` on `C(K)` (`RealRMK.rieszMeasure`,
-applied to real and imaginary parts), and by polarization the complex measures μ_(ξ,η) with
-`⟨ξ,π(f)η⟩=∫f dμ_(ξ,η)` for continuous f and total variation at most ‖ξ‖‖η‖. For a bounded
-Borel function f on K define π(f) as the operator of the bounded sesquilinear form
-`(ξ,η)↦∫f dμ_(ξ,η)`, and the spectral measure `P(B)=π(1_B)` for Borel B⊆K. Prove the following.
+space K with its Borel σ-algebra and a unital representation π of `C(K)` on an arbitrary
+complex Hilbert space H (a unital star homomorphism into `B(H)`), consume Tau Ceti's finite
+regular Riesz measures μ_ξ of the positive functionals `f↦⟨ξ,π(f)ξ⟩`, of mass ‖ξ‖²
+(`StarAlgHom.representationDiagMeasure`), their polarizations μ_(ξ,η) with
+`⟨ξ,π(f)η⟩=∫f dμ_(ξ,η)` for continuous f (`StarAlgHom.representationPolarizedMeasure`), and
+the Borel extension: for a bounded Borel function f on K, π(f) is the operator of the bounded
+sesquilinear form `(ξ,η)↦∫f dμ_(ξ,η)`, complex linear in f and equal to π on continuous
+functions (`StarAlgHom.representationBorelOperator`). Define the spectral measure `P(B)=π(1_B)`
+for Borel B⊆K. Prove the following.
 
-- f↦π(f) is a unital star homomorphism from the bounded Borel functions on K into `B(H)` with
-  `‖π(f)‖≤sup|f|`, extending π: multiplicativity holds first for indicators, from
-  `f dμ_(ξ,η)=dμ_(ξ,π(f)η)=dμ_(π(f̄)ξ,η)` for continuous f, extended to Borel f by regularity
-  of the measures, then for simple functions, then by uniform approximation.
-- P is a projection-valued measure: `P(K)=1`, `P(B∩C)=P(B)P(C)`, `P(B)*=P(B)`, countably
-  additive in the strong topology, with `μ_(ξ,η)(B)=⟨ξ,P(B)η⟩`.
-- The vector identity `‖π(f)ξ‖²=∫|f|²dμ_ξ`; in particular `π(f)ξ=0` iff f=0 μ_ξ-almost
-  everywhere.
-- The null filter: P(B)=0 iff μ_ξ(B)=0 for every ξ; π(f)=π(g) iff f=g outside a P-null set;
-  and `‖π(f)‖` is the P-essential supremum of |f|, the supremum of the c≥0 with
-  `P({|f|≥c})≠0`.
+- π is multiplicative on indicators, `P(B)P(C)=P(B∩C)`: from
+  `f dμ_(ξ,η)=dμ_(ξ,π(f)η)=dμ_(π(f̄)ξ,η)` for continuous f, extended to Borel f by regularity of
+  the measures, with `π(f̄)=π(f)*` because exchanging the vectors conjugates μ_(ξ,η)
+  (`StarAlgHom.representationPolarizedMeasure_swap_apply`).
+- P with the diagonal measures μ_ξ is a `TauCeti.ProjValMeasure`: `P(K)=1`, `P(B∩C)=P(B)P(C)` and
+  `⟨ξ,P(B)ξ⟩=μ_ξ(B)`. Its integral is π, `π(f)=∫f dP` (`TauCeti.ProjValMeasure.integral`): both are
+  continuous in f, π by the form bound `‖⟨ψ,π(f)ξ⟩‖≤2·sup|f|·‖ψ‖‖ξ‖`
+  (`StarAlgHom.norm_integral_representationPolarizedMeasure_le`), and they agree on simple functions
+  (`TauCeti.ProjValMeasure.integral_indicator` and
+  `TauCeti.ProjValMeasure.eq_integral_of_continuous`). Hence f↦π(f) is a unital star homomorphism
+  from the bounded Borel functions on K into `B(H)` extending π, with `‖π(f)‖≤sup|f|`
+  (`TauCeti.ProjValMeasure.norm_integral_le`), P is countably additive in the strong topology
+  (`TauCeti.ProjValMeasure.hasSum_proj_of_pairwise_disjoint`), and `μ_(ξ,η)(B)=⟨ξ,P(B)η⟩` with total
+  variation at most ‖ξ‖‖η‖ (`TauCeti.ProjValMeasure.polarizedComplexMeasure_apply` and
+  `TauCeti.ProjValMeasure.polarizedComplexMeasure_variation_univ_le`).
+- Through `π(f)=∫f dP`, the vector identity `‖π(f)ξ‖²=∫|f|²dμ_ξ` and its consequence that
+  `π(f)ξ=0` iff f=0 μ_ξ-almost everywhere are `TauCeti.ProjValMeasure.norm_sq_integral_apply`
+  and `TauCeti.ProjValMeasure.integral_apply_eq_zero_iff`.
+- The null filter: P(B)=0 iff μ_ξ(B)=0 for every ξ
+  (`TauCeti.ProjValMeasure.proj_eq_zero_iff_compl_mem_ae`), and π(f)=π(g) iff f=g outside a
+  P-null set (`TauCeti.ProjValMeasure.integral_eq_integral_iff`), are consumed. Prove that
+  `‖π(f)‖` is the P-essential supremum of |f|, the supremum of the c≥0 with `P({|f|≥c})≠0`.
 - Bounded convergence: if bounded Borel f_n converge pointwise on K to f with
-  `sup_n sup|f_n|<∞`, then π(f_n)→π(f) strongly, by dominated convergence in each `L²(μ_ξ)`
-  through the vector identity; an increasing sequence of nonnegative Borel functions with
-  bounded supremum converges strongly to that supremum.
+  `sup_n sup|f_n|<∞`, then π(f_n)→π(f) strongly
+  (`TauCeti.ProjValMeasure.tendsto_integral_apply_filter_of_dominated_convergence`, along the
+  sequence filter); in particular, for an increasing sequence of nonnegative Borel functions with
+  bounded supremum, the operators converge strongly to π of that supremum.
 - The commutant law: an operator y commutes with every π(f), f bounded Borel, iff it commutes
   with every π(f), f continuous (the measures `μ_(ξ,y*η)` and `μ_(yξ,η)` then agree); hence
   every π(f) and every P(B) lies in the von Neumann algebra generated by π(`C(K)`), by the
   bicommutant theorem of V1.
 
 For a normal bounded operator a (`IsStarNormal a`) take K=σ(a) and π the continuous calculus
-`cfc` of a, writing f(a) for π(f) and P_a for P: this is the bounded Borel calculus of a, with
+`cfcHom` of a, whose Riesz measures μ_ξ are Tau Ceti's `ContinuousLinearMap.diagMeasure`,
+writing f(a) for π(f) and P_a for P: this is the bounded Borel calculus of a, with
 `a=∫z dP_a(z)` and, by Fuglede's theorem `IsStarNormal.commute_star_right`, the commutant law
 in the form that y commutes with every f(a) iff y commutes with a (Peterson, Theorems
 2.7.4–2.7.6, pp. 33–35; Anantharaman–Popa, §2.2, pp. 31–32). Include H=0, where every π(f)=0
 and a normal operator has empty spectrum, and K a point, where π(f)=f(pt)·1 and P is the point
 mass at pt times 1.
-*Needs:* Mathlib `cfc`, `IsStarNormal`, `IsStarNormal.commute_star_right`,
-`RealRMK.rieszMeasure` and `essSup`; V0's positive functionals; Layer 1's strong topology and
-bicommutant theorem.
+*Needs:* Mathlib `cfc`, `IsStarNormal`, `IsStarNormal.commute_star_right` and `essSup`; Tau Ceti
+`StarAlgHom.representationDiagMeasure`, `StarAlgHom.representationPolarizedMeasure`,
+`StarAlgHom.representationBorelOperator`, `ContinuousLinearMap.diagMeasure` and
+`TauCeti.ProjValMeasure` with its integral, null filter and dominated convergence; Layer 1's
+strong topology and bicommutant theorem.
 
 **Checks.**
 
@@ -615,7 +964,7 @@ projection onto `closure span {xpξ : x∈M, ξ∈H}`. For every y∈M′, prove
 `yp=0 ↔ y c(p)=0`; this is the central-support kernel theorem.
 Construct pMp on pH and prove `(pMp)' = pM'p` on pH. If M is a
 factor and p ≠ 0, prove pMp is a factor and the restriction map `M' → B(pH)` is a faithful
-normal isomorphism onto its image. Include reducing-subspace correspondence and the
+ultraweakly continuous star isomorphism onto its image. Include reducing-subspace correspondence and the
 nonzero product theorem `ab ≠ 0` for nonzero a∈M, b∈M' when M is a factor. For a self-adjoint multiplicatively closed generating set S, prove pSp generates pMp
 for p∈M or p∈M'; give a counterexample when multiplicative closure of S is removed.
 For a factor and finite-dimensional linear subspaces V⊂M, W⊂M', prove multiplication
@@ -623,7 +972,7 @@ from the algebraic tensor product `V⊗W` onto the linear span VW is a linear is
 when V,W are star subalgebras prove the star algebra version.
 
 Construct completed Hilbert tensor products by completing native normed
-`TensorProduct ℂ H K` with its existing positive-definite product inner
+`TensorProduct ℂ H K` with its positive-definite product inner
 product. Extend native `TensorProduct.mapL`, `commIsometry` and
 `assocIsometry` to the completions, with their uniqueness on dense
 algebraic tensors. Construct bounded-operator tensor maps; demand dense
@@ -631,13 +980,36 @@ elementary tensors, exact norm/product/adjoint formulas, associativity,
 flip, and the identification with vector-valued L². No second null-quotient
 inner-product carrier is introduced.
 
-**V2.RectangularL2 — Hilbert tensors for arbitrary measures.** For arbitrary measurable spaces S,T and positive measures μ,ν, use the existing native `Measure.pi` on the dependent two-element family(S,T), transported to S×T by `MeasurableEquiv.piFinTwo`; denote this particular measure by κ in the following statements. This is the maximal rectangle-cover product obtained from native `OuterMeasure.pi`/`piPremeasure` and `Measure.pi_caratheodory` in `Mathlib/MeasureTheory/Constructions/Pi.lean` ([finite-product design](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/product%20measures/near/206288949)), not a new measure type or replacement for native `Measure.prod`. Prove the measurable-rectangle cover formula for its outer measure, `κ*(E)=inf{Σ_n μ(A_n)ν(B_n): E⊆⋃_n(A_n×B_n), A_n,B_n measurable}`, and the rectangle identity `κ(A×B)=μ(A)ν(B)` without σ-finiteness. Cover sets in `piPremeasure` can be replaced by their projected bounding rectangles and measurable envelopes with the same outer costs. For the rectangle lower bound integrate the one-variable inequality `ν(B)1_A(x)≤Σ_nν(B_n)1_(A_n)(x)` for any measurable rectangle cover of A×B; this uses countable additivity/monotone convergence, without assuming a Fubini theorem for κ. Consume the native Carathéodory measurability proof for the product σ-algebra. Measurable unions of the rectangle covers show this outer measure is already trimmed to that σ-algebra, matching the native measure’s associated outer measure.
+Write `E⊗̂F` for `UniformSpace.Completion (E ⊗[ℂ] F)`, for complex inner product spaces E and F
+that need not be complete. Define the amplifications `rTensorCompletion F x`, the operator x⊗1
+for x∈B(E), and `lTensorCompletion E y`, the operator 1⊗y for y∈B(F), as the extensions by
+continuity (Mathlib's `ContinuousLinearMap.completion`) of `ContinuousLinearMap.rTensor` and
+`ContinuousLinearMap.lTensor`.
 
-Prove the unique complex-linear unitary `L²(μ)⊗̂L²(ν)≃ₗᵢ[ℂ]L²(κ)` sending f⊗g to the a.e. class of `(x,y)↦f(x)g(y)`, with its exact norm and inner-product formulas, bilinearity, dense range and uniqueness on elementary tensors. Include zero measures, empty carriers and zero L² factors, with no separability assumption on the measure spaces or Hilbert spaces. Prove that changing either representative on a marginal null set changes the product only on a κ-null cylinder. Construct the map first on finite-measure simple-function factors using rectangle pairings, then extend through the existing completed Hilbert tensor. For surjectivity prove that finite spans of indicators of rectangles with finite marginal measures are dense in L²(κ). If κ(E)<∞, choose a countable rectangle cover with total cost<κ(E)+ε, discard its zero-cost rectangles modulo a κ-null union, and take finite subunions of its positive finite-cost rectangles; these have finite marginal measures and approximate E in symmetric-difference measure. Use native `Lp.simpleFunc.denseRange` for p=2 to pass from finite-measure indicators to all L² classes. Identify the completed map with pointwise products by measurable representatives and a.e.-convergent subsequences; do not infer a pointwise formula from a merely abstract Hilbert-space isomorphism.
+- `rTensorCompletion F x` sends the class of e⊗f to the class of `x e⊗f`, and it is the only
+  bounded operator on E⊗̂F that does so, elementary tensors spanning a dense subspace;
+  symmetrically, `lTensorCompletion E y` sends e⊗f to `e⊗y f`.
+- For complete E and F, `x↦rTensorCompletion F x` is a unital star homomorphism
+  `B(E)→B(E⊗̂F)`, isometric when F≠0 and zero when F=0; symmetrically for `lTensorCompletion`.
+- `rTensorCompletion F x` and `lTensorCompletion E y` commute, and their product is the
+  elementary operator tensor x⊗y.
 
-Prove naturality under measure-preserving measurable equivalences of the factors and compatibility with the Hilbert tensor flip and the coordinate swap. For any measure η let η̂ denote its completion on the completed σ-algebra of the same carrier. Construct the canonical unitary C_η:L²(η)≃ₗᵢ[ℂ]L²(η̂) induced by identity on original measurable representatives, and prove C_κ(U(f⊗g)) is the class of (x,y)↦f(x)g(y) in L²(κ̂). Also complete both marginals: let κ_c be the same native maximal product construction for μ̂,ν̂ on their product σ-algebra. Prove κ_c and κ have the same associated outer measure, and that the product of the completed marginal σ-algebras lies in the κ-completed σ-algebra. Construct the canonical identity-on-original-representatives unitary J:L²(κ)≃ₗᵢ[ℂ]L²(κ_c) and prove the commuting identity J∘U=U_c∘(C_μ⊗̂C_ν), where U_c is this same tensor unitary for the completed marginals. Identify both sides with the elementary-product class in their common measure completion. Use equality of marginal outer measures, the measurable-rectangle cover formula and null cylinders to prove these comparisons. These are a.e.-class statements; completeness of marginal σ-algebras does not imply completeness of their product σ-algebra. When μ,ν are σ-finite, prove κ equals native `μ.prod ν`, using `Measure.measurePreserving_piFinTwo`/`Measure.prod_eq`, and recover the usual product-L² unitary with that exact measure. Do not identify the two product conventions for arbitrary s-finite inputs: for μ=ν=∞ times Lebesgue measure on[0,1], the diagonal has maximal rectangle-cover measure∞ but native bind-product measure0. A different rectangle-consistent extension can give that diagonal finite positive measure. Under the maximal convention declared here the theorem holds for all measures with no separability condition, and the σ-finite models agree with native `Measure.prod`. This supplier is part of V2's existing completed-tensor/L² theory; downstream UO tensor operators consume it without a reverse dependency.
+**Checks.**
+
+- On `ℂ²⊗̂ℂ²=ℂ⁴` with the matrix unit e₁₂ (`e₁₂e₂=e₁`), `e₁₂⊗1` sends `e₂⊗e₁` to `e₁⊗e₁` and
+  kills `e₁⊗e₂`, while `1⊗e₁₂` sends `e₁⊗e₂` to `e₁⊗e₁` and kills `e₂⊗e₁`: the two
+  amplifications of one matrix differ, which pins the factor each acts on.
+- For F=0 the completed tensor product is 0 and `1⊗1=0` there, so isometry needs F≠0.
+- For E=ℓ², F=ℂ and the unilateral shift S, `S⊗1` on `ℓ²⊗̂ℂ≅ℓ²` is unitarily equivalent to S:
+  an isometry that is not unitary, as an injective star homomorphism must preserve.
+
+**V2.RectangularL2 — Hilbert tensors for arbitrary measures.** For arbitrary measurable spaces S,T and positive measures μ,ν, use native `Measure.pi` on the dependent two-element family(S,T), transported to S×T by `MeasurableEquiv.piFinTwo`; denote this particular measure by κ in the following statements. This is the maximal rectangle-cover product obtained from native `OuterMeasure.pi`/`piPremeasure` and `Measure.pi_caratheodory` in `Mathlib/MeasureTheory/Constructions/Pi.lean`, not a new measure type or replacement for native `Measure.prod`. Prove the measurable-rectangle cover formula for its outer measure, `κ*(E)=inf{Σ_n μ(A_n)ν(B_n): E⊆⋃_n(A_n×B_n), A_n,B_n measurable}`, and the rectangle identity `κ(A×B)=μ(A)ν(B)` without σ-finiteness. Cover sets in `piPremeasure` can be replaced by their projected bounding rectangles and measurable envelopes with the same outer costs. For the rectangle lower bound integrate the one-variable inequality `ν(B)1_A(x)≤Σ_nν(B_n)1_(A_n)(x)` for any measurable rectangle cover of A×B; this uses countable additivity/monotone convergence, without assuming a Fubini theorem for κ. Consume the native Carathéodory measurability proof for the product σ-algebra. Measurable unions of the rectangle covers show this outer measure is already trimmed to that σ-algebra, matching the native measure’s associated outer measure.
+
+Prove the unique complex-linear unitary `L²(μ)⊗̂L²(ν)≃ₗᵢ[ℂ]L²(κ)` sending f⊗g to the a.e. class of `(x,y)↦f(x)g(y)`, with its exact norm and inner-product formulas, bilinearity, dense range and uniqueness on elementary tensors. Include zero measures, empty carriers and zero L² factors, with no separability assumption on the measure spaces or Hilbert spaces. Prove that changing either representative on a marginal null set changes the product only on a κ-null cylinder. Construct the map first on finite-measure simple-function factors using rectangle pairings, then extend through the completed Hilbert tensor product above. For surjectivity prove that finite spans of indicators of rectangles with finite marginal measures are dense in L²(κ). If κ(E)<∞, choose a countable rectangle cover with total cost<κ(E)+ε, discard its zero-cost rectangles modulo a κ-null union, and take finite subunions of its positive finite-cost rectangles; these have finite marginal measures and approximate E in symmetric-difference measure. Use native `Lp.simpleFunc.denseRange` for p=2 to pass from finite-measure indicators to all L² classes. Identify the completed map with pointwise products by measurable representatives and a.e.-convergent subsequences; do not infer a pointwise formula from a merely abstract Hilbert-space isomorphism.
+
+Prove naturality under measure-preserving measurable equivalences of the factors and compatibility with the Hilbert tensor flip and the coordinate swap. For any measure η let η̂ denote its completion on the completed σ-algebra of the same carrier. Construct the canonical unitary C_η:L²(η)≃ₗᵢ[ℂ]L²(η̂) induced by identity on original measurable representatives, and prove C_κ(U(f⊗g)) is the class of (x,y)↦f(x)g(y) in L²(κ̂). Also complete both marginals: let κ_c be the same native maximal product construction for μ̂,ν̂ on their product σ-algebra. Prove κ_c and κ have the same associated outer measure, and that the product of the completed marginal σ-algebras lies in the κ-completed σ-algebra. Construct the canonical identity-on-original-representatives unitary J:L²(κ)≃ₗᵢ[ℂ]L²(κ_c) and prove the commuting identity J∘U=U_c∘(C_μ⊗̂C_ν), where U_c is this same tensor unitary for the completed marginals. Identify both sides with the elementary-product class in their common measure completion. Use equality of marginal outer measures, the measurable-rectangle cover formula and null cylinders to prove these comparisons. These are a.e.-class statements; completeness of marginal σ-algebras does not imply completeness of their product σ-algebra. When μ,ν are σ-finite, prove κ equals native `μ.prod ν`, using `MeasureTheory.measurePreserving_piFinTwo`/`Measure.prod_eq`, and recover the usual product-L² unitary with that exact measure. Do not identify the two product conventions for arbitrary s-finite inputs: for μ=ν=∞ times Lebesgue measure on[0,1], the diagonal has maximal rectangle-cover measure∞ but native bind-product measure0. A different rectangle-consistent extension can give that diagonal finite positive measure. Under the maximal convention declared here the theorem holds for all measures with no separability condition, and the σ-finite models agree with native `Measure.prod`. It is part of V2's completed-tensor/L² theory.
 *Needs:* Mathlib `Measure.pi`, `MeasurableEquiv.piFinTwo`, `OuterMeasure.pi`, `Measure.pi_caratheodory`,
-`Lp.simpleFunc.denseRange`, `Measure.measurePreserving_piFinTwo`, `Measure.prod_eq`; the completed
+`Lp.simpleFunc.denseRange`, `MeasureTheory.measurePreserving_piFinTwo`, `Measure.prod_eq`; the completed
 Hilbert tensor product above.
 
 **Checks.**
@@ -659,10 +1031,16 @@ is nonseparable; prove ℓ²(I) is separable exactly when I is countable.
 The finite-support inner-product space c₀₀([0,1]) is incomplete: give a Cauchy sequence of partial sums supported on
 countably many distinct points with a square-summable, infinite-support
 limit in ℓ²([0,1]). Identify its completion with ℓ²([0,1]). Define the
-spatial tensor product `M ⊗̄ N` as the algebra generated by elementary operator tensors;
-prove associativity and flip, and construct both canonical normal unital
+spatial tensor product as `spatialTensor A B`, for sets A⊆B(E) and B⊆B(F) of operators: the von
+Neumann algebra on E⊗̂F generated by `rTensorCompletion F x` (x∈A) and `lTensorCompletion E y`
+(y∈B), that is, the double commutant of these operators and their adjoints, Tau Ceti's
+`VonNeumannAlgebra.adjoin` of them. For von Neumann algebras M and N this is `M ⊗̄ N`, the
+algebra generated by the elementary operator tensors;
+prove associativity and flip, and construct both canonical ultraweakly continuous unital
 star homomorphisms `ι_M(x)=x⊗1_N` and `ι_N(y)=1_M⊗y` without nonzero
-hypotheses. Prove `ι_M` injective and isometric when N≠0 or M=0, and
+hypotheses: a square-summable vector pairing on the tensor product, composed with `ι_M`, expands
+in an orthonormal basis of the second factor into a square-summable pairing on the first, and
+symmetrically for `ι_N`. Prove `ι_M` injective and isometric when N≠0 or M=0, and
 `ι_N` injective and isometric when M≠0 or N=0. In the nonzero opposite
 factor case, test on ξ⊗η for a unit vector in its acting Hilbert space
 and use the elementary tensor norm to prove the lower norm bound; the
@@ -675,8 +1053,26 @@ with their norm, adjoint, elementary-tensor and separating-family lemmas. Prove 
 B(K) tensor factors here; the general commutation theorem is a V11 consequence. Prove the B(K) tensor splitting theorem for a von Neumann algebra
 containing `1 ⊗ B(K)` and the factoriality of a tensor product of factors.
 *Needs:* the completed Hilbert tensors and operator tensor maps above, Layer 1's generated algebras
-and bicommutant theorem, Layer 1's ultraweak topology for the normality claims (normality is
-the predicate defined in V4; V4 does not consume this statement).
+and bicommutant theorem, and Layer 1's characterization of ultraweakly continuous functionals as
+square-summable vector pairings for the continuity of `ι_M`, `ι_N` and of corner restrictions.
+
+- `spatialTensor A B` is a von Neumann algebra containing `rTensorCompletion F x` for x∈A and
+  `lTensorCompletion E y` for y∈B, and it is the smallest one; it depends only on the von
+  Neumann algebras generated by A and by B, and is monotone in each argument.
+- For von Neumann algebras M and N, `spatialTensor M′ N′` commutes with `spatialTensor M N`;
+  equality of `spatialTensor M′ N′` with the commutant is the commutation theorem
+  `commutant_spatialTensor` of Layer 11, whose case N=B(K) is proved here.
+
+**Checks.**
+
+- The spatial tensor product of `B(ℂ²)` and `ℂ1` on `ℂ²⊗̂ℂ²=ℂ⁴` is `M₂(ℂ)⊗1`, of dimension 4
+  in the 16-dimensional `B(ℂ⁴)`; its commutant is `1⊗M₂(ℂ)`, again of dimension 4, the spatial
+  tensor product of `B(ℂ²)′=ℂ1` and `(ℂ1)′=B(ℂ²)`.
+- For the unilateral shift S on ℓ² and F=ℂ, the algebra generated by the single operator `S⊗1`
+  is `W*(S)=B(ℓ²)`, since S is irreducible: adjoints are adjoined and the closure is weak, so the
+  result is not the norm-closed non-self-adjoint algebra generated by S.
+- With no operators given on either side, the generated algebra on a nonzero space is `ℂ1`, the
+  commutant of all operators: the generated algebra is unital.
 
 For a sequence of complex Hilbert spaces `(H_n)` with specified unit vectors `ξ_n`, construct
 its incomplete Hilbert tensor product `ITP(H,ξ)`. Form the algebraic direct limit of the finite
@@ -721,7 +1117,7 @@ isomorphisms of von Neumann closures. It is phase-adjusted component equivalence
 of the raw prefix vectors. Consumers must state which conclusion they use.
 Do not assert that arbitrary factorwise unitaries have an infinite product on this component.
 For a topological group G and strongly continuous unitary representations U_n:G→U(H_n) fixing each reference ξ_n, prove that the compatible product unitaries define a strongly continuous unitary representation on ITP(H,ξ). Prove continuity first on each dense finite-prefix cylinder and then on every vector by the uniform norm-one bound; include compact topological groups acting by compatible reference-fixing factor unitaries; this covers compact product-torus actions when those hypotheses hold. Prove separability when every `H_n` is separable, and the compatibility of finite-cylinder
-projections, their commuting local embeddings and their normal-state pairings. Von Neumann
+projections, their commuting local embeddings and their vector-state pairings. Von Neumann
 product-algebra and modular-theory constructions consume this Hilbert carrier; they are distinct
 from its definition. TypeAHeckeAlgebras H3 consumes it for the repeated standard-form Hilbert
 space `K⊗K̄` and its density-vector reference, and owns that application's von Neumann product
@@ -750,123 +1146,29 @@ numbers for the tail-product criteria; no modular-theory input.
 For σ-finite measure spaces realize native L∞ as multiplication operators
 on L² and prove its commutant is itself, with a.e.-class independence and
 the exact essential-supremum operator norm. For abelian algebras on
-separable H construct a single bounded self-adjoint generator a by a
-convergent ternary-weight projection series. These given-measure and
+separable H construct a single bounded self-adjoint generator `a=Σ_n 3⁻ⁿe_n` from a strongly
+dense sequence of projections `e_n` (Jones, EP10, p. 23; Peterson, Lemma 2.8.8, p. 38, uses the
+weights `4⁻ᵏ`). Each weight exceeds the sum of the later ones, `Σ_(k>n)3⁻ᵏ=3⁻ⁿ/2`, so once
+`e_0,…,e_(n−1)` lie in `W*(a)`, the commuting `e_k` give `a−Σ_(k<n)3⁻ᵏe_k` a spectrum inside
+`[0,3⁻ⁿ/2]∪[3⁻ⁿ,3⁻ⁿ·3/2]`, and `e_n` is its spectral projection for `[3⁻ⁿ,∞)`, a continuous function
+of it; the weights `2⁻ⁿ` fail, since `2⁻ⁿ=Σ_(k>n)2⁻ᵏ`. These given-measure and
 generator targets are elementary V2 inputs and precede Fields. Prove
 the measure-theoretic classification of separable nonatomic probability
 measure algebras by the Lebesgue interval independently of the operator
 algebra comparison below.
-*Needs:* Mathlib `L∞`, `essSup` and `Lp` multiplication; Layer 1's projections; the finite
-measure algebra above.
+*Needs:* Mathlib `L∞`, `essSup` and `Lp` multiplication, and `cfc` for the generator; Layer 1's
+projections; the finite measure algebra above.
 
-**V2.AbelianClassification — after Fields and V4.0.Multiplication.** For an abelian
-M on separable H, choose the preceding generator a, so M=W*(a).
-Consume V4.0.Multiplication's control measure μ on K=σ(a) for the
-continuous-calculus representation of a, V2.BorelCalculus's spectral projections P_a and the
-equivalence `μ(B)=0 ↔ P_a(B)=0` for Borel B. For H≠0 normalize
-the finite nonzero control to a probability measure. For H=0 use the
-zero measure and the unique isomorphism of zero algebras; do not claim
-a probability control or choose a unit vector there. Consume V4.0.Multiplication's
-P-essentially bounded symbol quotient, its norm equality and its comparison
-with Mathlib's L∞(K,μ), with norm `essSup_μ|f|`.
-VNA owns its comparison with this concrete generated algebra: construct
+**Checks.**
 
-```
-Φ_a : L∞(K,μ) ≃⋆ₐ[ℂ] W*(a),       Φ_a([f]) = f(a),
-‖Φ_a([f])‖ = essSup_μ |f|.
-```
-
-Require compatibility with continuous and bounded Borel calculus,
-`Φ_a([1_B])=P_a(B)`, the projection/measure-algebra correspondence and
-normality. The representative is an actual bounded Borel version of
-the a.e. class; V2.BorelCalculus's null filter and V4.0.Multiplication's symbol quotient supply
-descent and injectivity, not a new symbol or measure carrier. Prove onto-ness rather
-than putting it in a premise. For T∈W*(a), V1's Kaplansky theorem and
-bounded-set SOT metrizability give uniformly bounded continuous-calculus
-approximants f_n(a)→T strongly. V4.0.Multiplication's weighted control and V2.BorelCalculus's
-vector L² identity `‖f(a)ξ‖²=∫|f|²dμ_ξ` make f_n Cauchy in L²(μ): control finitely many cyclic
-vectors and then the summable uniformly bounded tail. A subsequence
-converges μ-a.e. to a bounded Borel version f with the same uniform
-bound. P-null equivalence and V2.BorelCalculus's bounded convergence give
-f_n(a)→f(a) strongly along that subsequence, so T=Φ_a([f]). Increasing
-bounded nonnegative symbols/projections and their vector integrals give
-normality, and the indicator laws identify the projection lattice.
-This is the algebra-membership/range theorem on the V2.BorelCalculus Borel
-calculus, not a second scalar-control or spectral construction. Changing generators or control choices gives the induced normal
-star isomorphism through M and its projection lattice; preserve the
-measure class, not an arbitrary pointwise representative.
-
-Only after this isomorphism apply the measure-algebra classification:
-classify the separably acting abelian algebras abstractly as ℓ∞ of a
-finite/countable atomic set, a nonatomic L∞[0,1] part, or their direct
-sum, with either part allowed to vanish. Retain the zero algebra
-separately. This is not the classification of arbitrary-cardinality
-abelian algebras by one separable probability model.
-*Needs:* V2.BorelCalculus (Borel calculus, null filter, vector L² identity, bounded
-convergence) and V4.0.Multiplication (control measure, essentially bounded symbols), the
-single-generator construction above, V1's Kaplansky theorem and bounded-set metrizability, Mathlib
-`L∞(K,μ)` and `essSup`; V4.Normality wherever normality is asserted.
-
-**V2.AbelianLocalizable — arbitrary cardinalities.** Retain the general
-abelian model by disjoint sigma-finite corners, without imposing a
-faithful normal state on all M. Using V4.Normality's support/normal
-functional APIs, take a maximal orthogonal family of nonzero supports
-z_i of normal positive vector functionals in an arbitrary faithful
-concrete abelian M. Prove z_i central, their supremum1, and each z_iM
-has a faithful normal state by restriction and normalization. For each
-corner, consume Mathlib's unital commutative Gelfand duality
-(`gelfandTransform_isometry`, `gelfandTransform_bijective`,
-`gelfandStarTransform` under `CommCStarAlgebra`) with C(X_i), and that
-state's cyclic faithful normal GNS representation. X_i may be nonmetrizable.
-Consume V0/GNS, V4.Normality's normal-image theorem, Mathlib's
-Riesz–Markov–Kakutani measure `RealRMK.rieszMeasure` for the state on C(X_i), and the
-preceding given-finite-measure multiplication/MASA theorem. Its finite Radon Riesz measure μ_i
-and continuous-function L² density identify the cyclic GNS carrier with
-L²(μ_i). Bounded continuous approximations to bounded measurable symbols,
-together with the normal image's strong closedness, prove that this
-corner image is all L∞(μ_i). Prove the isometric normal star comparison
-on this actual GNS carrier, not merely a Hilbert-space isomorphism.
-This is the corner/GNS-to-algebra comparison; the Gelfand transform and
-Riesz measure are consumed, not rebuilt.
-
-Complete the finite component measures and take their disjoint union
-with all componentwise measurable sets and measure `μ(E)=∑'_i μ_i(E_i)`.
-Prove this space strictly localizable and construct the normal isometric
-star isomorphisms `M≃∏_i z_iM≃L∞(μ)`, where the product is the uniformly
-bounded product, with norm the supremum of component norms. Prove the
-component/a.e.-class and projection comparisons, choice/reindexing and
-common-universe-lift transport. The empty family gives the zero algebra
-and zero measure. Uncountable counting measure models ℓ∞(I); do not
-replace it by a faithful finite control. This general target uses no
-standard-Borel or countable-multiplicity conclusion for its arbitrary
-X_i or index set.
-*Needs:* V4.Normality's supports and normal functionals, V0's GNS, Mathlib `gelfandStarTransform`,
-`RealRMK.rieszMeasure` and `RealRMK.integral_rieszMeasure`, the given-measure MASA theorem above;
-the strictly localizable disjoint union is built here.
-
-**V2.AbelianRepresentationMultiplicity — terminal application.** For
-normal representations of the separably acting abelian algebras on
-separable Hilbert spaces, consume V4.0.Multiplication's cyclic
-multiplication model, control measure class, measurable multiplicity and
-classification of representations of the same `C(K)` by control class and
-multiplicity, with V4.Normality and the preceding Φ_a comparison. Own
-restriction to the C*-algebra generated by a and comparison with its normal
-extension, and use V4.Normality to recover the given representation from that
-restriction: two normal representations of M=W*(a) on separable Hilbert spaces
-are unitarily equivalent iff their restrictions to `C(σ(a))` have equivalent
-control measures and equal multiplicities almost everywhere, and the control
-class of a normal representation is absolutely continuous with respect to the
-class of μ in V2.AbelianClassification. Include the identity representation of
-L∞[0,1] on `L²[0,1]` (multiplicity 1), its amplification on `L²[0,1]⊗ℂ²`
-(multiplicity 2, not equivalent to the first) and the zero representation (zero
-control). V4.0.Decomposition consumes V4.0.Multiplication for its central-reduction and
-direct-integral applications. For representations on arbitrary Hilbert spaces
-retain V4.0.Multiplication's orthogonal cyclic-sum description and V4.Normality's
-amplification API, without a separable measurable-multiplicity assertion.
-Elementary V2 carriers, completed tensors, projection lattice, membership,
-generator and given-measure MASA APIs consumed by Fields remain independent of
-these later classification applications.
-*Needs:* V4.0.Multiplication, V4.Normality, V2.AbelianClassification's Φ_a.
+- On `ℓ∞({x,y})` acting diagonally on `ℂ²`, the sequence `0, 1, δ_x, δ_y, δ_y, …` contains every
+  projection, so it is strongly dense. With the weights `3⁻ⁿ` the generator takes the values
+  `1/3+1/9=4/9` at x and `1/3+Σ_(n≥3)3⁻ⁿ=7/18` at y, so it has two eigenvalues and generates
+  `ℓ∞({x,y})`; with the weights `2⁻ⁿ` both values are `1/2+1/4=3/4`, so the series is `(3/4)·1`
+  and generates only `ℂ·1`.
+- On `ℓ∞({0,1,2})` the point projections give the generator `e_0+3⁻¹e_1+3⁻²e_2` with the three
+  eigenvalues `1, 1/3, 1/9`, so it generates the whole algebra; equal weights give `1`, which
+  generates only `ℂ·1`.
 
 **V2.NonmodularProjectionLattice.** On H=ℓ²⊕ℓ² let
 D(x)_n=x_n/(n+1), y_n=1/(n+1), A=ℓ²⊕0, B=graph D and C=ℓ²⊕ℂy.
@@ -878,8 +1180,6 @@ This elementary Hilbert/projection result is consumed by V5.LatticeFinite.
 
 ### Examples
 
-- The separably acting abelian von Neumann algebras are `ℓ∞` of a finite or countable atomic
-  set, `L∞[0,1]`, or a direct sum of the two; uncountable counting measure gives `ℓ∞(I)`.
 - On `ℓ²⊕ℓ²`, the subspaces `ℓ²⊕0`, the graph of `D(x)_n=x_n/(n+1)` and `ℓ²⊕ℂy` with
   `y_n=1/(n+1)` violate the modular law (V2.NonmodularProjectionLattice).
 - The support projection of a positive `a≠0` is the SOT limit of `(a/‖a‖)^(1/n)`.
@@ -895,16 +1195,21 @@ This elementary Hilbert/projection result is consumed by V5.LatticeFinite.
 - Layers 0 and 1.
 - Mathlib nonunital continuous functional calculus.
 - OperatorTheory PolarDecomposition PD-A36–A45 and PD-B23–B36, and V2.BorelCalculus, for the
-  membership results; Mathlib `cfc`, `IsStarNormal.commute_star_right` and
-  `RealRMK.rieszMeasure` for V2.BorelCalculus.
-- V2.BorelCalculus, V4.0.Multiplication, Layer 1's Kaplansky
-  theorem and bounded-set metrizability, Mathlib `L∞` and `essSup`, and V4.Normality for
-  V2.AbelianClassification and V2.AbelianRepresentationMultiplicity.
-- Mathlib's commutative Gelfand duality and `RealRMK.rieszMeasure` for V2.AbelianLocalizable.
+  membership results; Mathlib `cfc` and `IsStarNormal.commute_star_right`, and Tau Ceti's
+  projection-valued measures, Riesz and polarized measures and Borel extension
+  (`TauCeti.ProjValMeasure`, `StarAlgHom.representationBorelOperator`), for V2.BorelCalculus.
+- Mathlib `L∞`, `essSup` and `Lp` multiplication for the given-measure multiplication algebras.
+- Mathlib `ContinuousLinearMap.rTensor`, `ContinuousLinearMap.lTensor`,
+  `ContinuousLinearMap.completion` and `StarSubalgebra.centralizer` for the amplifications and
+  the spatial tensor product.
 
 ## Layer 3: Type I and finite-dimensional algebras
 
-Define minimal, finite, infinite, properly infinite, and abelian projections. Prove the
+Define central projections (`IsCentralProjection`: projections of M lying in M′), minimal,
+finite (`IsFiniteProjection`: a projection e of M with `v*v=e` and `vv*≤e` for v∈M only when
+`vv*=e`, so equivalent to no proper subprojection), infinite, properly infinite, and abelian
+projections (`IsAbelianProjection`: a projection e of M with eMe commutative) (Peterson, §3.2,
+pp. 44–45). Prove the
 minimal-corner criterion `pMp = ℂp` for nonzero projections p. In a factor any two nonzero projections have a nonzero
 connecting corner: for nonzero projections p,q construct a unitary u∈M with `puq≠0`; polar decomposition of this corner gives nonzero equivalent subprojections. This does not assert p∼q for arbitrary nonzero p,q.
 Construct matrix units from orthogonal equivalent projections, with their representation,
@@ -920,6 +1225,15 @@ completed tensors), Mathlib `Matrix` and `IsStarProjection`.
   `B(ℓ²)` the rank-one projections are minimal, the finite-rank projections are finite, and 1 is
   properly infinite (it is equivalent to the projection onto the even coordinates and to the one
   onto the odd coordinates, which are orthogonal).
+- In `M₂(ℂ)⊕ℂ` the central projections are exactly `0`, `1⊕0`, `0⊕1` and `1`; the projection
+  `e₁₁⊕0` lies in M but is not central (`(e₁₁⊕0)(e₁₂⊕0)=e₁₂⊕0` while `(e₁₂⊕0)(e₁₁⊕0)=0`); in a
+  factor the only central projections are 0 and 1, and in an abelian algebra every projection is
+  central. A definition asking only membership in M′ would make every projection of `ℂ1`'s
+  commutant `B(H)` central for `ℂ1`.
+- In a II₁ factor every projection is finite (it inherits finiteness from 1, since a proper
+  subprojection q<p with q∼p would give `τ(q)=τ(p)` and `τ(p−q)=0`); in a type III factor only
+  0 is finite; in `B(ℓ²)` the projection onto the even coordinates is infinite, being equivalent
+  to the projection onto the multiples of four, a proper subprojection.
 - In `ℓ∞(ℕ)` every projection is abelian but only the point projections `δ_n` are minimal; in
   `L∞[0,1]` every projection is abelian and none is minimal (a set of positive measure splits into
   two of positive measure), so abelian does not imply minimal.
@@ -928,18 +1242,31 @@ completed tensors), Mathlib `Matrix` and `IsStarProjection`.
 - The inclusion `M₂⊕ℂ⊂M₅⊕M₃` given by `(x,c)↦(diag(x,x,c),diag(x,c))` has multiplicity matrix
   `[[2,1],[1,1]]` (rows `M₅,M₃`, columns `M₂,ℂ`), and the dimension formula reads `2·2+1·1=5`,
   `1·2+1·1=3`.
+- The identity inclusion `ℂ⊕ℂ⊆ℂ⊕ℂ`: `p₁q₂=0` and `p₂q₁=0`, so those corners are the zero algebra,
+  not factors, and their entries are 0 by the zero-corner clause; the matrix is the identity, the
+  dimension formula reads `1=1·1+0·1` for each summand, and the entry formula agrees, since
+  `p₁e₂=0` has rank zero. A definition assigning entries only to nonzero corners would leave the
+  off-diagonal entries undetermined.
 
 Classify finite-dimensional von Neumann algebras acting on possibly infinite-dimensional H
-as finite direct sums of matrix algebras with multiplicity Hilbert spaces. Classify unital
-inclusions by their nonnegative integer multiplicity matrices; show the matrix block formula
+as finite direct sums of matrix algebras with multiplicity Hilbert spaces (Jones, Theorem 4.4.1,
+p. 28). Classify unital inclusions `N⊆M` by their nonnegative integer multiplicity matrices: for
+minimal central projections `q_i` of N and `p_j` of M, the entry for `(i,j)` is 0 when
+`p_jq_i=0`, and otherwise it is the integer k for which `e(p_jq_iMq_ip_j)e` is a type `I_k`
+factor, e a minimal projection of the subfactor `p_jq_iN` of the factor `p_jq_iMq_ip_j` (Jones,
+Theorem 4.4.2 and the definition of the matrix after its proof, pp. 28–29; that definition takes
+every corner `p_jq_iMq_ip_j` to be a factor, so tacitly nonzero). Show the matrix block formula
 for dimensions, composition by matrix multiplication, and the bipartite Bratteli graph.
-Prove the matrix-entry formula using ranks of compressed minimal projections; work out
-`M₂⊕ℂ ⊂ M₅⊕M₃` and the general construction realizing every admissible inclusion matrix.
+Prove the matrix-entry formula using ranks of compressed minimal projections: the entry is the
+rank of `p_je_i` for a minimal projection `e_i` of the factor `q_iN` (Jones, Exercise 4.4.3,
+p. 29); work out `M₂⊕ℂ ⊂ M₅⊕M₃` (Jones, Example 4.4.4, p. 29) and the general construction
+realizing every admissible inclusion matrix (Jones, Exercise 4.4.5, p. 29).
 Prove every algebraic complex linear trace on finite-dimensional B(H) is a scalar multiple
 of matrix trace. For infinite-dimensional H prove B(H) has no nonzero algebraic linear
 trace, with no continuity or positivity assumption, by its algebraic commutator-span
 identity. Also give elementary proofs of the WOT-continuous and positive cases. For a spatial inclusion of type-I factors `N⊂N⊗M_k` with finite k, prove the larger
-algebra is a free left N module of rank k², including N=B(K) for infinite-dimensional K.
+algebra is a free left N module of rank k², including N=B(K) for infinite-dimensional K (Jones,
+§4.5, p. 29).
  For a group Γ, subgroup Η and commutative coefficient ring R, prove the algebraic group-ring formula on native `MonoidAlgebra R Γ`: as a left `MonoidAlgebra R Η`-module it is free on any chosen representatives g_i of the disjoint sets Ηg_i, at arbitrary index. Construct the linear equivalence with the finitely supported direct sum of copies of R[Η], prove uniqueness coefficient by coefficient, and recover rank `[Γ:Η]` in the finite-index case over a nonzero ring. V8 owns the distinct bounded group-von-Neumann and completed L² comparisons; an infinite coset expansion is not an algebraic group-ring expression.
 *Needs:* RepresentationTheory/SemisimpleAlgebras's finite-dimensional structure theory, Mathlib
 `MonoidAlgebra`, `Matrix.trace`, `Module.Free`; Layer 1's bicommutant theorem for the
@@ -984,11 +1311,17 @@ trace-class quotient by the annihilator, prove annihilator closure, quotient com
 the dual identification and weak-star/ultraweak agreement. Denote the ultraweakly
 continuous linear functionals by M_* and identify them isometrically with this
 quotient. Prove intrinsic uniqueness of the von Neumann predual and
-the equivalence with Mathlib's WStarAlgebra definition (Sakai's theorem).
-Consume BanachSpaceTheory B2's generic Krein–Šmulian theorem for the dual
-of a Banach space with its specified weak-star pairing: a convex set is
-weak-star closed iff its intersections with all centered closed balls
-are weak-star closed, including its linear-subspace unit-ball criterion.
+the equivalence with Mathlib's WStarAlgebra definition. A concrete von Neumann algebra has a
+Banach predual in the sense of `WStarAlgebra`, the conjugate Banach space of M_* (Jones, Theorem
+8.1.15, p. 53): this is `exists_predual`. Conversely every C*-algebra with `WStarAlgebra` is
+star-isomorphic to a concrete von Neumann algebra, through the direct sum of the GNS
+representations of the states lying in the predual (Sakai's theorem: Peterson, Theorem 4.4.6,
+p. 66): this is `exists_vonNeumannAlgebra_starAlgEquiv`.
+Consume BanachSpaceTheory B2's Krein–Šmulian theorem, in its Tau Ceti implementation, for the dual
+of a Banach space with its weak-star topology, `Convex.isClosed_iff_forall_isClosed_inter_closedBall`:
+a real-convex set is weak-star closed iff its intersections with all centered closed balls
+are weak-star closed, with its linear-subspace unit-ball criterion
+`Submodule.isClosed_iff_isClosed_inter_closedBall_zero_one`.
 The predual here is complete by the trace-class/closed-annihilator quotient
 construction, or the Banach predual in the abstract WStarAlgebra input.
 Own the W*-algebra specialization: weak-star closedness of the positive
@@ -1007,14 +1340,20 @@ equivalence identifies every continuous linear functional on the weak-star
 space B* uniquely with evaluation at b∈B, with no reflexivity hypothesis.
 Own the pairing and transport specialization: ev_b(φ)=φ(b), and for bounded
 T:B→L[ℂ]C, its weak-star continuous transpose satisfies
-`ev_b ∘ T* = ev_(Tb)`. Consume BanachSpaceTheory B1's existing annihilator
-and quotient theory. Own the following
+`ev_b ∘ T* = ev_(Tb)`. Consume BanachSpaceTheory B1's annihilator and quotient theory in its Tau
+Ceti implementation, the quotient duals
+`Submodule.quotientDualEquivAnnihilator` and `Submodule.quotientAnnihilatorEquivDual` and its
+weak-star double-annihilator theorem
+`Submodule.map_orthogonalBilin_flip_orthogonalBilin_eq_topologicalClosure`: the dual of the
+quotient of S₁(H) by the preannihilator of V is the annihilator of that preannihilator, which is
+the weak-star closure of V, that is V. Own the following
 separability proof in V4 for separable H. Consume
-[BanachSpaceTheory B4](../BanachSpaceTheory/README.md#b4-approximation-and-banach-tensor-products)'s
+[BanachSpaceTheory B4](../BanachSpaceTheory/README.md)'s
 compact Schmidt expansion, its zero-based singular-value/approximation-number
 comparison and its isometric Hilbert nuclear/trace-class identification.
 Truncate the resulting trace-class singular/nuclear expansion to finite rank
-with trace-norm error bounded by the summable tail, and use B4's rank-one norm formula
+with trace-norm error bounded by the summable tail, and use the rank-one value of the nuclear
+norm, Tau Ceti's `TauCeti.NuclearOperator.norm_smulRight`, transported by that identification:
 ‖u⊗v*‖₁=‖u‖‖v‖ in this trace-class comparison. Approximate the finitely
 many vectors by rational complex combinations in a countable orthonormal
 basis; the rank-one formula controls the error. Thus finite matrices
@@ -1022,12 +1361,30 @@ with rational complex coefficients form a countable trace-norm dense
 set. Deduce separability of the quotient predual of every ultraweakly
 closed complex linear subspace V of B(H). Include finite-dimensional
 and zero H; no separability premise enters the general trace-class or
-quotient-duality construction. Specialize to concrete algebras. For group algebras of groups with at least two elements produce a nonzero trace-class
+quotient-duality construction. Specialize to concrete algebras. Prove the converse, so that an
+algebra has separable predual exactly when it has a faithful normal representation on a
+separable Hilbert space (the equivalence recalled in Hiai, §1.8, p. 9, and Peterson, §2.8,
+p. 36; Anantharaman–Popa, Definition 2.6.6, p. 48, call such algebras separable). If M⊆B(H)
+has separable predual, its unit ball is ultraweakly compact and metrizable, hence has a
+countable ultraweakly dense subset D, and the restricted vector functionals `ω_ξ|_M` of unit
+vectors ξ have a norm-dense sequence `ω_(ξ_n)|_M`. The closed span K of the vectors `dξ_n`,
+d∈D, is separable, contains every `Mξ_n` (x↦xξ_n is ultraweak-to-weak continuous) and is
+M-invariant, and `x↦x|_K` is normal and faithful: `xξ_n=0` for every n gives
+`‖xξ‖²=ω_ξ(x*x)=0` for every unit ξ by density, so x=0. The zero algebra acts faithfully on the
+zero space. For group algebras of groups with at least two elements produce a nonzero trace-class
 annihilator to demonstrate that restrictions are not injective.
-*Needs:* BanachSpaceTheory B1 (annihilators, quotient duals), B2 (Krein–Šmulian), B4 (nuclear
-operators, Schmidt series, rank-one norm, identification with trace class); OperatorTheory
+*Needs:* Tau Ceti `Submodule.quotientDualEquivAnnihilator`,
+`Submodule.quotientAnnihilatorEquivDual`,
+`Submodule.map_orthogonalBilin_flip_orthogonalBilin_eq_topologicalClosure`,
+`Convex.isClosed_iff_forall_isClosed_inter_closedBall`,
+`Submodule.isClosed_iff_isClosed_inter_closedBall_zero_one`, `TauCeti.NuclearOperator` and
+`TauCeti.NuclearOperator.norm_smulRight`; BanachSpaceTheory B4 (Schmidt series, identification of
+the Hilbert nuclear operators with trace class); OperatorTheory
 OperatorIdeals OI-B29–B41 and PolarDecomposition PD-A36; Mathlib
-`LinearMap.dualEmbedding_surjective`, `LinearMap.rightDualEquiv`, `SeparatingDual`, `WStarAlgebra`;
+`LinearMap.dualEmbedding_surjective`, `LinearMap.rightDualEquiv`, `SeparatingDual`, `WStarAlgebra`,
+Banach–Alaoglu and `WeakDual.metrizable_of_isCompact` (a compact subset of the weak dual of a
+separable normed space is metrizable);
+V0's GNS representations and state separation for Sakai's theorem;
 Reed–Simon I §VI.6 is the source for the canonical trace and the trace-class duality.
 
 **Checks.**
@@ -1042,7 +1399,11 @@ Reed–Simon I §VI.6 is the source for the canonical trace and the trace-class 
 
 Consume V0's positive-functional and state carriers, convex operations and
 norm-at-one comparison. Define normality of a bounded positive functional by
-preservation of bounded increasing positive nets. Define the analogous net
+preservation of bounded increasing positive nets. On a concrete algebra M⊆B(H) state it for an
+arbitrary linear functional as `IsNormalFunctional`: along every increasing net of M converging
+strongly to some y∈M the values converge to the value at y. By Vigier's theorem (V2) the increasing nets converging strongly are
+exactly the bounded increasing nets, with their suprema as limits, so for positive functionals
+the two forms agree (Anantharaman–Popa, Definition 2.5.1, p. 40). Define the analogous net
 predicates for positive maps and star homomorphisms. Prove that ultraweak
 continuity implies these normality predicates, and that a positive member of
 M_* is completely additive on arbitrary orthogonal projection families. Prove
@@ -1055,6 +1416,27 @@ orthogonal family of nonzero projections. The zero algebra satisfies this
 definition. Define faithfulness of a positive functional by
 `φ(x)=0, x≥0 ⇒ x=0`. The zero algebra has no state, by V0's norm-one definition.
 *Needs:* V0's state carrier, the predual of V4.Core, Mathlib's order on `B(H)`.
+
+**Checks.**
+
+- A free-ultrafilter limit `φ(x)=lim_ω x_n` on `ℓ∞(ℕ)` is a state that is not normal: the
+  projections `1_{0,…,N}` increase to 1 while `φ(1_{0,…,N})=0` for every N and `φ(1)=1`; nor is it
+  completely additive, since `φ(δ_n)=0` for every n although the `δ_n` sum to 1. Positivity and
+  norm one therefore do not imply normality.
+- The weighted functional `φ_w(x)=Σ_n w_n x_n` with `w_n=2^(−n−1)` is normal on `ℓ∞(ℕ)`:
+  `φ_w(1_{0,…,N})=1−2^(−N−1)↑1=φ_w(1)`; it is faithful, since `φ_w(x)=0` for `x≥0` forces every
+  `x_n=0`, whereas the evaluation `δ₀` is a normal state that vanishes on the nonzero positive
+  `δ₁` and is not faithful. On `M₂(ℂ)` likewise `x↦x₁₁` kills `e₂₂` while
+  `tr(x*x)/2=Σ_(i,j)|x_ij|²/2` makes `tr/2` faithful.
+- `B(ℓ²(ℕ))` is countably decomposable (an orthogonal family of nonzero projections yields an
+  orthonormal family of unit vectors, countable in a separable space), and
+  `Σ_n 2^(−n−1)ω_(e_n)` is a faithful normal state: its value on `x*x` is
+  `Σ_n 2^(−n−1)‖xe_n‖²`. For an uncountable set I, `B(ℓ²(I))` is not: the projections onto the
+  lines `ℂδ_i` are uncountably many and orthogonal, and a normal state ω has `Σ_i ω(p_i)=1`, so
+  `ω(p_i)=0` for all but countably many i and ω is not faithful.
+- On the zero algebra there are no nonzero projections, so it is countably decomposable; the zero
+  functional is a faithful normal positive functional and there is no state, which is why the
+  faithful-state form of V4.PositivePredual's equivalence assumes M≠0.
 
 **V4.PositivePredual — positive spanning and the self-adjoint base norm.**
 For every complex W*-algebra M, with no trace, separability or sigma-finiteness
@@ -1114,7 +1496,7 @@ ultraweak continuity iff preservation of increasing projection nets; the
 increasing-positive-net condition is the normality predicate already defined.
 Spectral-step approximation here is confined to a fixed corner: spectral
 projections of an increasing noncommuting positive net need not increase.
-This existing-functional theorem has no typeI₂ exclusion or charge-extension
+This theorem about a given functional has no typeI₂ exclusion or charge-extension
 input. V12.J uses it for its scalar-extension and positive-map comparisons;
 Enriched's predual-adjoint construction establishes its own normality directly.
 *Needs:* V4.Core (trace-class quotient predual, faithful ultraweakly continuous representation),
@@ -1130,8 +1512,13 @@ predual functionals and their separation. Consume V4.Core's faithfulness
 predicate; own the tracial predicate, closure, support projections and normal
 restriction APIs.
 Prove a normal representation has von Neumann image, normal quotient/corner
-behavior, and that a normal positive functional on a concrete algebra is a
-countable sum of vector functionals with square-summable vectors. Derive normal
+behavior, and that a positive functional τ on a concrete algebra M⊆B(H) is normal
+exactly when it is a countable sum of vector functionals with square-summable vectors,
+`τ(x)=Σₙ⟪ξₙ,xξₙ⟫` with `Σₙ‖ξₙ‖²<∞`, with no separability of H
+(`isNormalFunctional_iff_exists_tsum_inner`; Anantharaman–Popa, Theorem 2.5.5 and Remark 2.5.7,
+pp. 42–43; Peterson, Proposition 4.2.2, p. 60, in its trace-class form). Since ultraweak
+continuity implies normality (V4.Core), the tensor embeddings `ι_M`, `ι_N` and the corner
+restriction `M′→B(pH)` of Layer 2, which are ultraweakly continuous, are normal. Derive normal
 GNS, cyclic-vector uniqueness, the concrete vector-state GNS identification
 for φ(a)=a₁₁ on M_n(ℂ) with its defining representation on ℂⁿ, faithful-state
 separating vectors (`IsCyclic`: the orbit Mξ is dense; `IsSeparating`: xξ=0 forces x=0
@@ -1139,12 +1526,36 @@ in M), cyclicity for M iff separation for M' (`isCyclic_iff_isSeparating_commuta
 separability), and normal faithful
 representations preserving the intrinsic predual. Include positive-functional
 domination and the Radon–Nikodym operator in the commutant for a dominated
-vector functional. Prove state-preserving automorphisms are canonically
-unitarily implementable in GNS. Prove every normal star homomorphism is
+vector functional. A state-preserving star automorphism α of a C*-algebra is unitarily
+implemented in the GNS space of the state φ by Tau Ceti's
+`TauCeti.CStarAction.gnsImplementingGroup`, applied to the discrete group `Multiplicative ℤ`
+acting by the powers of α: U is the unitary `[b]↦[α(b)]`, with `⟪[a],U[b]⟫=φ(a*α(b))`
+(`TauCeti.CStarAction.inner_gnsImplementingGroup_apply_coe`) and `Uπ_φ(x)U*=π_φ(α(x))`
+(`TauCeti.CStarAction.gnsCovariantRepresentation`). For a unital algebra prove that U is the only
+unitary that fixes the GNS vector Ω_φ and satisfies this covariance, since such a unitary sends
+`[x]=π_φ(x)Ω_φ` to `π_φ(α(x))Ω_φ=[α(x)]`. Prove every normal star homomorphism is
 represented by amplification, reducing projection and spatial identification
 of its image, with kernel a central summand.
-*Needs:* V4.Core, V4.PositivePredual, V0's GNS, Layer 1's topologies and Kaplansky theorem, Mathlib
-orthogonal projections for the Radon–Nikodym operator in the commutant.
+*Needs:* V4.Core, V4.PositivePredual, V0's GNS, Layer 1's topologies and Kaplansky theorem, Layer 2's
+tensor embeddings and corner restriction for their normality, Mathlib
+orthogonal projections for the Radon–Nikodym operator in the commutant, Tau Ceti
+`TauCeti.CStarAction.gnsImplementingGroup` and `TauCeti.CStarAction.gnsCovariantRepresentation`
+for the implementing unitary.
+
+**Checks.**
+
+- On ℂ² with `M=M₂(ℂ)` every nonzero vector is cyclic and none is separating (`e₁₂e₁=0`), while
+  for the commutant `ℂI` every nonzero vector is separating, as the cyclic/separating duality
+  requires.
+- For the diagonal algebra on ℂ², `(1,1)` is cyclic and separating while `(1,0)` is neither, so
+  "cyclic" cannot be replaced by "nonzero".
+- On the zero Hilbert space the vector 0 is both cyclic and separating for the zero algebra;
+  on a nonzero space the vector 0 is neither.
+- On `M₂(ℂ)` with `φ=tr/2` and `α=Ad u`, `u=diag(1,−1)`, φ∘α=φ; the GNS space is `M₂(ℂ)` with
+  `⟪a,b⟫=tr(a*b)/2` and `Ω_φ=1`. Both `[b]↦[ubu*]` and `[b]↦[ub]` are unitaries covariant for
+  α, but only the first fixes `Ω_φ` (the second sends it to `u≠1`), and it is the implementing
+  unitary: `⟪[e₁₂],U[e₁₂]⟫=φ(e₂₁·(−e₁₂))=−1/2`, while `[b]↦[ub]` gives `φ(e₂₁e₁₂)=1/2`, so the
+  fixed-vector condition is what makes the implementation canonical.
 
 **Faithful C*-states and normal GNS extensions.** Distinguish a faithful state
 on a C*-algebra, faithfulness of its GNS representation, and faithfulness of
@@ -1168,8 +1579,8 @@ The projection supported at coordinate0 onto the line orthogonal to v₀
 is nonzero and annihilates Ω. Thus the normal vector-state extension to
 `π(A)''` is not faithful although φ and π are faithful.
 
-Retain the separate finite-matrix distinction: for n≥2 the state `a↦a₁₁`
-on M_n is not faithful, while its defining GNS representation is faithful.
+Prove the finite-matrix distinction: for n≥2 the state `a↦a₁₁`
+on M_n is not faithful, while its GNS representation is faithful.
 For a faithful normal state on an already given von Neumann algebra, prove
 its GNS cyclic vector is separating for the represented image; the C*-state
 counterexample above does not remove that normality hypothesis.
@@ -1213,6 +1624,23 @@ decomposition input. V4.0.Multiplication consumes it.
 *Needs:* Mathlib measurable functions into separable Hilbert spaces, `MeasureTheory.Lp`,
 Radon–Nikodym derivatives, `gramSchmidt`; V2's completed tensors for constant fields; no
 projection-valued-measure or normal-operator input.
+
+**Checks.**
+
+- The constant field `ℂ^k` over counting measure on n points has direct integral `ℂ^(nk)` and
+  decomposable operators the block-diagonal `⊕_(i≤n) M_k(ℂ)`, the commutant of the diagonal
+  `ℓ∞(n)⊗1`; for n=2, k=1 the flip `[[0,1],[1,0]]` does not commute with `diag(1,0)` and is not
+  decomposable. Over Lebesgue measure on [0,1] the constant field ℂ gives `L²[0,1]`, whose
+  decomposable operators `L∞[0,1]` are their own commutant.
+- For `μ=2ν`, ν Lebesgue measure on [0,1], the change-of-measure map `f↦√(dμ/dν)f=√2f` is
+  unitary `L²(μ)→L²(ν)`: `∫|√2f|²dν=∫|f|²dμ`; the map `f↦(dμ/dν)f=2f` has
+  `‖2f‖²_ν=2‖f‖²_μ` and is not isometric. For `μ=1_[0,1/2]ν` the density vanishes on (1/2,1],
+  and the same formula is onto the zero-extended field, whose direct integral is `L²[0,1/2]`,
+  not onto `L²[0,1]`.
+- Fibres ℂ on [0,1/2) and ℂ² on [1/2,1] give `L²[0,1/2)⊕L²([1/2,1];ℂ²)` with decomposable
+  operators `L∞[0,1/2)⊕L∞([1/2,1];M₂(ℂ))`; the fibrewise flip of ℂ² on [1/2,1] is a decomposable
+  unitary, while the translation T moving [0,1/2) onto [1/2,1] is not, since
+  `(M_tT−TM_t)f(s)=(1/2)f(s−1/2)≠0` for f supported in [0,1/2).
 
 **V4.0.Multiplication — cyclic multiplication models, control measures and multiplicity.** For
 a compact metrizable K and a unital representation π of `C(K)` on an arbitrary complex Hilbert
@@ -1294,14 +1722,14 @@ Jankov–von Neumann uniformization from [OptimalTransport, Layers 2
 and 8.2](../OptimalTransport/README.md). Prove Lusin–Novikov
 uniformization for Borel relations with countable sections, its
 countable-partial-map enumeration and measurable null-set transport.
-V11 and FactorRigidity R6 consume this selection layer.
+V11 and FactorRigidity, Layer 6 (§6.2), consume this selection layer.
 Build Polish structures on
 unitary groups and finite matrix-unit systems using strong-star
 convergence on bounded sets; construct the Borel spaces of countably
 generated algebra fields and spatial isomorphisms. V5 constructs measurable trivialization after projection comparison. Disintegrate representations
 of separable C*-algebras commuting with the diagonal algebra. This
 reduction theory is restricted to separable Hilbert spaces/standard
-σ-finite bases; arbitrary representations retain V4.Normality's amplification
+σ-finite bases; arbitrary representations use V4.Normality's amplification
 API. OperatorAlgebraDynamics D5 consumes V4.0.Fields, V4.0.Multiplication’s diagonal C₀ representation and V4.0.Decomposition’s reduction of separable C*-representations commuting with the diagonal
 and adds groupoid representation/disintegration, while V13 adds the
 injectivity/AFD applications.
@@ -1312,13 +1740,168 @@ Polish spaces, `Measure` on standard Borel spaces and the one-point compactifica
 
 **Checks.**
 
-- On ℂ² with `M=M₂(ℂ)` every nonzero vector is cyclic and none is separating (`e₁₂e₁=0`), while
-  for the commutant `ℂI` every nonzero vector is separating, as the cyclic/separating duality
-  requires.
-- For the diagonal algebra on ℂ², `(1,1)` is cyclic and separating while `(1,0)` is neither, so
-  "cyclic" cannot be replaced by "nonzero".
-- On the zero Hilbert space the vector 0 is both cyclic and separating for the zero algebra;
-  on a nonzero space the vector 0 is neither.
+- `M=ℂ⊕M₂(ℂ)` on `ℂ⊕ℂ²=ℂ³` has centre `ℂ²`; over the full centre (two points) the fibres are
+  ℂ on ℂ and `M₂(ℂ)` on ℂ², both factors, whereas over the central subalgebra `ℂ1` there is one
+  fibre, M itself, with centre ℂ², which is not a factor: the factor conclusion needs the full
+  centre.
+- `M=L∞[0,1]⊗̄M₂(ℂ)` on `L²([0,1];ℂ²)` has centre `L∞[0,1]⊗1` and fibre `M₂(ℂ)` at almost every
+  t; the normal state `φ(x)=∫_0^1 tr(ρ(t)x(t))dt` with `ρ(t)=diag(t,1−t)` decomposes into the
+  fibre functionals `tr(ρ(t)·)`, and the norm formula gives `‖φ‖=∫_0^1 tr ρ(t) dt=1`.
+- `M=L∞[0,1]` on `L²[0,1]` is its own centre, with fibre ℂ on ℂ almost everywhere; single points
+  are null, so the fibre at a prescribed t is not determined and the decomposition is a class
+  modulo null sets, not a pointwise assignment.
+
+**V4.AbelianClassification — separably acting abelian algebras.** For an abelian
+M on separable H, choose V2's single generator a, so M=W*(a).
+Consume V4.0.Multiplication's control measure μ on K=σ(a) for the
+continuous-calculus representation of a, V2.BorelCalculus's spectral projections P_a and the
+equivalence `μ(B)=0 ↔ P_a(B)=0` for Borel B. For H≠0 normalize
+the finite nonzero control to a probability measure. For H=0 use the
+zero measure and the unique isomorphism of zero algebras; do not claim
+a probability control or choose a unit vector there. Consume V4.0.Multiplication's
+P-essentially bounded symbol quotient, its norm equality and its comparison
+with Mathlib's L∞(K,μ), with norm `essSup_μ|f|`.
+VNA owns its comparison with this concrete generated algebra: construct
+
+```
+Φ_a : L∞(K,μ) ≃⋆ₐ[ℂ] W*(a),       Φ_a([f]) = f(a),
+‖Φ_a([f])‖ = essSup_μ |f|.
+```
+
+Require compatibility with continuous and bounded Borel calculus,
+`Φ_a([1_B])=P_a(B)`, the projection/measure-algebra correspondence and
+normality. The representative is an actual bounded Borel version of
+the a.e. class; V2.BorelCalculus's null filter and V4.0.Multiplication's symbol quotient supply
+descent and injectivity, not a new symbol or measure carrier. Prove onto-ness rather
+than putting it in a premise. For T∈W*(a), V1's Kaplansky theorem and
+bounded-set SOT metrizability give uniformly bounded continuous-calculus
+approximants f_n(a)→T strongly. V4.0.Multiplication's weighted control and V2.BorelCalculus's
+vector L² identity `‖f(a)ξ‖²=∫|f|²dμ_ξ` make f_n Cauchy in L²(μ): control finitely many cyclic
+vectors and then the summable uniformly bounded tail. A subsequence
+converges μ-a.e. to a bounded Borel version f with the same uniform
+bound. P-null equivalence and V2.BorelCalculus's bounded convergence give
+f_n(a)→f(a) strongly along that subsequence, so T=Φ_a([f]). Increasing
+bounded nonnegative symbols/projections and their vector integrals give
+normality, and the indicator laws identify the projection lattice.
+This is the algebra-membership/range theorem on the V2.BorelCalculus Borel
+calculus, not a second scalar-control or spectral construction. Changing generators or control choices gives the induced normal
+star isomorphism through M and its projection lattice; preserve the
+measure class, not an arbitrary pointwise representative.
+
+Only after this isomorphism apply the measure-algebra classification:
+classify the separably acting abelian algebras abstractly as ℓ∞ of a
+finite/countable atomic set, a nonatomic L∞[0,1] part, or their direct
+sum, with either part allowed to vanish. Treat the zero algebra
+separately. This is not the classification of arbitrary-cardinality
+abelian algebras by one separable probability model. Define `multiplicationAlgebra μ`, for a
+measure μ on a measurable space X, as the von Neumann algebra on `L²(X,μ)` generated by the
+multiplication operators `(ContinuousLinearMap.mul ℂ ℂ).holderL μ ∞ 2 2 f`, f∈L∞(X,μ), Mathlib's
+Hölder product (Tau Ceti's `VonNeumannAlgebra.adjoin` of them); `MeasureTheory.Lp` has no ring
+structure for p=∞, so L∞ enters as this operator algebra. State the abstract classification as `exists_starAlgEquiv_multiplicationAlgebra`: an
+abelian von Neumann algebra on a nonzero separable Hilbert space is star isomorphic to
+`multiplicationAlgebra μ` for a probability measure μ on a standard Borel space (Jones, the
+remark after EP10, p. 23).
+*Needs:* V2.BorelCalculus (Borel calculus, null filter, vector L² identity, bounded
+convergence) and V4.0.Multiplication (control measure, essentially bounded symbols),
+V2's single-generator construction, V1's Kaplansky theorem and bounded-set metrizability, Mathlib
+`L∞(K,μ)`, `essSup`, `ContinuousLinearMap.holderL` and `StandardBorelSpace`; V4.Normality
+wherever normality is asserted.
+
+- For σ-finite μ, `multiplicationAlgebra μ` consists exactly of the multiplication operators,
+  `f↦(ContinuousLinearMap.mul ℂ ℂ).holderL μ ∞ 2 2 f` is an isometric star isomorphism from
+  L∞(X,μ) onto it, and it is its own commutant (V2's multiplication-operator realization).
+- A measure-preserving measurable isomorphism of probability spaces induces a unitary of the L²
+  spaces conjugating the two multiplication algebras.
+
+**Checks.**
+
+- For the counting measure on a two-point set, L² is ℂ² and the multiplication algebra is the
+  diagonal algebra ℂ², which is its own commutant; for a Dirac measure it is ℂ on ℂ.
+- For Lebesgue measure on [0,1] it is `L∞[0,1]`: multiplication by t has no eigenvector and the
+  algebra has no minimal projection, unlike every atomic model.
+- For μ=0, L²(μ)=0 and the multiplication algebra is the zero algebra on the zero space, which is
+  why the classification uses probability measures and excludes H=0.
+- `ℓ∞(I)` on `ℓ²(I)` with I uncountable is abelian but is not the multiplication algebra of any
+  probability measure: it has uncountably many orthogonal minimal projections, while a
+  probability measure has only countably many atoms; separability of H is needed.
+
+**V4.AbelianLocalizable — arbitrary cardinalities.** Prove the general
+abelian model by disjoint σ-finite corners, without imposing a
+faithful normal state on all M. Using V4.Normality's support/normal
+functional APIs, take a maximal orthogonal family of nonzero supports
+z_i of normal positive vector functionals in an arbitrary faithful
+concrete abelian M. Prove z_i central, their supremum1, and each z_iM
+has a faithful normal state by restriction and normalization. For each
+corner, consume Mathlib's unital commutative Gelfand duality
+(`gelfandTransform_isometry`, `gelfandTransform_bijective`,
+`gelfandStarTransform` under `CommCStarAlgebra`) with C(X_i), and that
+state's cyclic faithful normal GNS representation. X_i may be nonmetrizable.
+Consume V0/GNS, V4.Normality's normal-image theorem, Mathlib's
+Riesz–Markov–Kakutani measure `RealRMK.rieszMeasure` for the state on C(X_i), and
+V2's given-finite-measure multiplication/MASA theorem. Its finite Radon Riesz measure μ_i
+and continuous-function L² density identify the cyclic GNS carrier with
+L²(μ_i). Bounded continuous approximations to bounded measurable symbols,
+together with the normal image's strong closedness, prove that this
+corner image is all L∞(μ_i). Prove the isometric normal star comparison
+on this actual GNS carrier, not merely a Hilbert-space isomorphism.
+This is the corner/GNS-to-algebra comparison; the Gelfand transform and
+Riesz measure are consumed, not rebuilt.
+
+Complete the finite component measures and take their disjoint union
+with all componentwise measurable sets and measure `μ(E)=∑'_i μ_i(E_i)`.
+Prove this space strictly localizable and construct the normal isometric
+star isomorphisms `M≃∏_i z_iM≃L∞(μ)`, where the product is the uniformly
+bounded product, with norm the supremum of component norms. Prove the
+component/a.e.-class and projection comparisons, choice/reindexing and
+common-universe-lift transport. The empty family gives the zero algebra
+and zero measure. Uncountable counting measure models ℓ∞(I); do not
+replace it by a faithful finite control. This general target uses no
+standard-Borel or countable-multiplicity conclusion for its arbitrary
+X_i or index set.
+*Needs:* V4.Normality's supports and normal functionals, V0's GNS, Mathlib `gelfandStarTransform`,
+`RealRMK.rieszMeasure` and `RealRMK.integral_rieszMeasure`, V2's given-measure MASA theorem;
+the strictly localizable disjoint union is built here.
+
+**V4.AbelianRepresentationMultiplicity — terminal application.** For
+normal representations of the separably acting abelian algebras on
+separable Hilbert spaces, consume V4.0.Multiplication's cyclic
+multiplication model, control measure class, measurable multiplicity and
+classification of representations of the same `C(K)` by control class and
+multiplicity, with V4.Normality and V4.AbelianClassification's Φ_a comparison. Own
+restriction to the C*-algebra generated by a and comparison with its normal
+extension, and use V4.Normality to recover the given representation from that
+restriction: two normal representations of M=W*(a) on separable Hilbert spaces
+are unitarily equivalent iff their restrictions to `C(σ(a))` have equivalent
+control measures and equal multiplicities almost everywhere, and the control
+class of a normal representation is absolutely continuous with respect to the
+class of μ in V4.AbelianClassification. Include the identity representation of
+L∞[0,1] on `L²[0,1]` (multiplicity 1), its amplification on `L²[0,1]⊗ℂ²`
+(multiplicity 2, not equivalent to the first) and the zero representation (zero
+control). V4.0.Decomposition consumes V4.0.Multiplication for its central-reduction and
+direct-integral applications. For representations on arbitrary Hilbert spaces
+use V4.0.Multiplication's orthogonal cyclic-sum description and V4.Normality's
+amplification API, without a separable measurable-multiplicity assertion.
+Elementary V2 carriers, completed tensors, projection lattice, membership,
+generator and given-measure MASA APIs consumed by Fields remain independent of
+these later classification applications.
+*Needs:* V4.0.Multiplication, V4.Normality, V4.AbelianClassification's Φ_a.
+
+**Checks.**
+
+- For V2's generator `a=diag(1,1/3,1/9)` of `ℓ∞({0,1,2})` on ℂ³, `K=σ(a)={1,1/3,1/9}` and the
+  control measure charges each point, so `L∞(K,μ)=ℂ³` and `Φ_a([1_{1/3}])` is the projection onto
+  the second basis vector; for H=0 the control is the zero measure and Φ_a is the unique map of
+  zero algebras, with no probability normalization.
+- For a the multiplication by t on `L²[0,1]`, with control Lebesgue measure, the class of
+  `f=1_(ℚ∩[0,1])` is 0, so `Φ_a([f])=0` and `‖Φ_a([f])‖=essSup_μ|f|=0`, whereas the supremum of
+  this representative over `σ(a)=[0,1]` is 1: the norm is the essential supremum of the class.
+- For an uncountable set I, `ℓ∞(I)` on `ℓ²(I)` has no faithful normal state: a normal state ω
+  has `Σ_i ω(δ_i)=1`, so `ω(δ_i)=0` for all but countably many i. V4.AbelianLocalizable's maximal
+  family is then `z_i=δ_i` with corners `ℂδ_i`, and the model is counting measure on I, not a
+  finite control.
+- `L∞[0,1]` on `L²[0,1]` (multiplicity 1) and on `L²[0,1]⊗ℂ²` (multiplicity 2) have the same
+  control class but are not unitarily equivalent: their commutants are `L∞[0,1]`, abelian, and
+  `L∞[0,1]⊗M₂(ℂ)`, not abelian. The control class alone does not classify.
 
 ### Examples
 
@@ -1326,15 +1909,27 @@ Polish spaces, `Measure` on standard Borel spaces and the one-point compactifica
   the state is not faithful, so the vector `e₁` is not separating.
 - `B(H)` is the dual of the trace-class operators, and `ℓ∞(I)` of `ℓ¹(I)` for every index set
   I, with no separability assumption.
+- The separably acting abelian von Neumann algebras are `ℓ∞` of a finite or countable atomic
+  set, `L∞[0,1]`, or a direct sum of the two; uncountable counting measure gives `ℓ∞(I)`.
 
 ### Dependencies
 
 - Layers 0–3.
-- BanachSpaceTheory B1, B2 and B4; OperatorTheory OperatorIdeals OI-B29–B41 and
-  PolarDecomposition PD-A36 for the trace class and trace norm.
+- BanachSpaceTheory B4; OperatorTheory OperatorIdeals OI-B29–B41 and PolarDecomposition
+  PD-A36 for the trace class and trace norm.
+- Tau Ceti's quotient duals, weak-star double annihilators, Krein–Šmulian theorem and
+  `TauCeti.NuclearOperator` (the Banach duality of V4.Core).
 - Mathlib `LinearMap.dualEmbedding_surjective`, `LinearMap.rightDualEquiv`, `SeparatingDual`.
+- Mathlib `ContinuousLinearMap.holderL` and `StandardBorelSpace` for the multiplication algebras
+  of V4.AbelianClassification.
 - V2.BorelCalculus and V4.0.Fields for V4.0.Multiplication; V4.0.Multiplication and
   OptimalTransport Layers 2 and 8.2 for V4.0.Decomposition.
+- V2's single generator and given-measure multiplication/MASA theorem, V2.BorelCalculus, Layer
+  1's Kaplansky theorem and bounded-set metrizability, Mathlib `L∞` and `essSup`, commutative
+  Gelfand duality and `RealRMK.rieszMeasure` for V4.AbelianClassification, V4.AbelianLocalizable
+  and V4.AbelianRepresentationMultiplicity.
+- Tau Ceti's GNS implementing group (`TauCeti.CStarAction.gnsImplementingGroup`,
+  `TauCeti.CStarAction.gnsCovariantRepresentation`) for V4.Normality.
 
 ## Layer 5: Projection comparison and finite factors
 
@@ -1364,21 +1959,27 @@ Define `IsFactor M` (nonzero identity and scalar centre), `IsFinite M` (every is
 unitary) and `IsTypeIIOne M`: a finite factor without minimal projections, that is, every
 nonzero projection of M has a nonzero proper subprojection in M. Define `IsTracialState M τ` for
 a linear functional τ on M by `τ(1)=1`, `τ(x*x)≥0` and `τ(xy)=τ(yx)`.
-First prove **V5.Dixmier**: the norm-closed convex hull of unitary
-conjugates of an element of a finite von Neumann algebra meets its
-center in a unique element D(x) (Dixmier's property: Peterson, Theorem 4.8.2, p. 75;
-Anantharaman–Popa, Theorem 6.4.1, p. 93). Prove that this assignment constructs
-the faithful normal center-valued trace and its scalar specialization (Peterson, Theorem 4.7.10,
-p. 72; Anantharaman–Popa, Theorem 6.4.4, p. 95),
-hence existence
+First prove **V5.Dixmier**, Dixmier's property: for every von Neumann algebra M and x∈M, the
+norm-closed convex hull K(x) of the unitary conjugates `uxu*`, u∈U(M), meets the center of M
+(Peterson, Theorem 4.8.2, p. 75; for factors, where the center is ℂ1, Anantharaman–Popa,
+Theorem 6.4.1, p. 93). This is existence only, and on an infinite algebra the intersection is not
+a single point (see the Checks). Next construct the faithful normal center-valued trace T of a
+finite von Neumann algebra, the norm limit of normal center-valued states that are tracial up to
+a factor 1+ε (Peterson, Lemma 4.7.9, p. 71, and Theorem 4.7.10, pp. 72–73; Anantharaman–Popa,
+Theorem 6.4.4, p. 95), and its scalar specialization. Since T is norm continuous, unitarily
+invariant and the identity on the center, it is constant on K(x), so `Z(M)∩K(x)={T(x)}` for every
+x in a finite M: the Dixmier element D(x) is unique, D=T, and the center-valued trace is unique
+(Peterson, Corollary 4.8.3, p. 76; Anantharaman–Popa, Remark 6.4.3, p. 95, and, for a factor with
+a tracial state, Corollary 6.4.2, p. 94). Hence existence
 and uniqueness of the faithful normal normalized trace on a II₁
 factor, independently of the trace-range theorem (Anantharaman–Popa, Theorems 6.3.4 and 6.3.5,
 pp. 91–92). Prove uniqueness in the stronger form
-`tracialState_unique`: a factor has at most one tracial state, with no normality assumed. On a
-finite factor every tracial state is constant on the Dixmier hull of x and so equals τ(D(x));
-on an infinite factor the halving lemma writes 1 as the sum of two projections equivalent to 1,
-so `τ(1)=2τ(1)` and there is no tracial state. Existence of a faithful tracial state on a II₁
-factor is `exists_faithful_tracialState`; the README's trace is moreover normal.
+`tracialState_unique`: a factor has at most one tracial state, with no normality assumed. A
+tracial state is positive, hence norm continuous, and unitarily invariant, so it is constant on
+K(x) and takes the value α at x whenever α1∈K(x); such an α exists by Dixmier's property, so two
+tracial states agree at every x. On an infinite factor there is in fact none: the halving lemma
+writes 1 as the sum of two projections equivalent to 1, so `τ(1)=2τ(1)`. Existence of a faithful normal tracial state on a II₁
+factor, normality in the sense of `IsNormalFunctional`, is `exists_faithful_tracialState`.
 With this trace, identify projection equivalence and order with
 trace equality and inequality. Prove the small-projection theorem
 before the range argument: split a nonminimal projection into two
@@ -1458,11 +2059,27 @@ the orthogonal remainder into p_1 by projection Schröder–Bernstein so their
 sum is the unit. The resulting normal matrix-unit embedding of B(ℓ²)
 preserves all projection joins, meets and complements. Embed the
 V2.NonmodularProjectionLattice witness in this properly-infinite corner.
-This is the single generic modularity/finiteness owner.
+This is the single generic modularity/finiteness owner. State the corner form as
+`isFiniteProjection_iff_modular`, with meets and joins computed on ranges: `p∧q` is the
+projection onto `ran p∩ran q` and `p∨q` the projection onto the closure of `ran p+ran q`, both in
+M, so the law `p∨(q∧r)=(p∨q)∧r` for projections `p≤r` and q of M below e is an identity of
+closed subspaces. At e=1 it is the theorem for M, since the finiteness of the projection 1 says
+that every isometry of M is unitary.
 *Needs:* the center-valued trace above, the halving lemma and projection Schröder–Bernstein,
 V2.NonmodularProjectionLattice; Mathlib `IsModularLattice`.
 
 **Checks.**
+
+- In `M₂(ℂ)` with e=1 the projections are 0, 1 and the lines of ℂ², and
+  `dim(a∨b)+dim(a∧b)=dim a+dim b` makes this lattice modular, as finiteness predicts; in
+  `B(ℓ²)` the V2.NonmodularProjectionLattice subspaces give `A∨(B∧C)=A∨0=A` but
+  `(A∨B)∧C=H∧C=C≠A`, while the shift shows that 1 is infinite.
+- The corner form in `B(ℓ²)`: a rank-one projection e is finite and `[0,e]={0,e}` is modular;
+  a projection of infinite rank is infinite, and its corner contains a copy of the
+  nonmodular witness.
+- Joins are closures of sums, not sums: for the graph B of the injective operator D with dense
+  range and A=ℓ²⊕0, `A+B=ℓ²⊕ran D` is dense and not closed, so computing `p∨q` as the projection
+  onto `ran p+ran q` without closure would not even give a projection.
 
 - `M₂(ℂ)` on ℂ² is a factor; the diagonal algebra on ℂ² is not (`diag(1,0)` is central and not
   scalar); the zero algebra on the zero space is not a factor, which the condition `1≠0`
@@ -1479,6 +2096,14 @@ V2.NonmodularProjectionLattice; Mathlib `IsModularLattice`.
 - On `M₂(ℂ)` the state `x↦x₁₁` is not tracial (`e₁₂e₂₁=e₁₁` and `e₂₁e₁₂=e₂₂`); on the
   nonfactor `ℂ⊕ℂ` every `t·pr₁+(1−t)·pr₂`, `t∈[0,1]`, is a tracial state, so uniqueness needs
   the factor hypothesis.
+- Dixmier's property in `M₂(ℂ)`: with w the swap of the two basis vectors,
+  `(e₁₁+we₁₁w*)/2=(e₁₁+e₂₂)/2=1/2`, and every element of K(e₁₁) has normalized trace 1/2, so
+  `K(e₁₁)∩ℂ1={1/2}`, the value `T(e₁₁)` of the center-valued trace.
+- Negative control for uniqueness of the Dixmier element: in `B(ℓ²)`, with q the projection onto
+  the even coordinates and u the unitary exchanging even and odd coordinates,
+  `(q+uqu*)/2=1/2`, while the average of n unitary conjugates of q with pairwise orthogonal
+  ranges (projections of infinite rank and corank) has norm `1/n`, so both 1/2 and 0 lie in
+  `K(q)∩ℂ1`. Uniqueness is a theorem about finite algebras, proved from the center-valued trace.
 
 ### Examples
 
@@ -1489,21 +2114,26 @@ V2.NonmodularProjectionLattice; Mathlib `IsModularLattice`.
 
 ### Dependencies
 
-- Layers 2–4; V2's ultraweakly closed ideal classification and V2.BorelCalculus.
+- Layers 1–4; V2's ultraweakly closed ideal classification and V2.BorelCalculus.
 - V4.0.Fields, V4.0.Decomposition and OptimalTransport for measurable trivialization.
 
 ## Layer 6: Tracial standard form and semifinite factors
 
 For arbitrary finite von Neumann algebras define faithful normal finite
 traces on the positive cone and their bounded linear extensions, including
-nonfactor algebras. Define normal semifinite traces by additivity, positive
-homogeneity, monotone-supremum preservation and `τ(x*x)=τ(xx*)`, with
-faithfulness a separate property. Semifiniteness means ultraweak density
-of the finite-trace ideal; prove its equivalent projection criterion that
-every nonzero projection majorizes a nonzero finite-trace projection.
+nonfactor algebras. Define normal semifinite traces (`IsNormalSemifiniteTrace`: on a concrete
+algebra M⊆B(H), a map into `[0,∞]` of which only the values on M₊ matter) by additivity, positive
+homogeneity, monotone-supremum preservation along increasing nets of M₊ converging strongly, and
+`τ(x*x)=τ(xx*)`, with faithfulness a separate property. Semifiniteness of a trace means that every
+nonzero x∈M₊ dominates a nonzero y∈M₊ of finite trace (Anantharaman–Popa, Definition 8.3.1,
+pp. 124–125); prove it equivalent to ultraweak density of the finite-trace ideal and to the
+projection criterion that every nonzero projection majorizes a nonzero finite-trace projection.
 Construct a faithful normal semifinite trace on every semifinite algebra (for factors:
 Peterson, Theorem 4.9.4, p. 78; the general definitions: Anantharaman–Popa, Definitions
-8.3.1–8.3.2, pp. 124–125).
+8.3.1–8.3.2, pp. 124–125). For a factor with a nonzero finite projection, which for a factor is
+the same as being semifinite, prove moreover that this trace is unique up to a nonnegative scalar
+among all normal semifinite traces and that a projection is finite exactly when its trace is
+finite (`exists_isNormalSemifiniteTrace_of_isFactor`; Peterson, Theorem 4.9.4, p. 78).
 Use the central finite/properly-infinite splitting of V5. On a finite
 algebra with center-valued trace T, take a maximal orthogonal family
 of supports z_i of normal traces `ω_i∘T`, prove these supports central
@@ -1513,8 +2143,8 @@ on semifinite infinite pieces choose a finite projection e of full
 central support and exhaust 1 by orthogonal e_i≼e, using central
 partitions when necessary. Sum the transferred corner traces. Prove
 existence of a faithful normal tracial state on a nonzero finite algebra exactly
-when it is σ-finite. Retain normal semifinite tracial weights for arbitrary
-finite algebras, including the zero trace on the zero algebra.
+when it is σ-finite. For arbitrary finite algebras construct normal semifinite tracial
+weights, including the zero trace on the zero algebra.
 Prove finite-trace projection exhaustion, restriction, corner and tensor
 comparisons. These tracial-weight definitions precede V10's Lp construction;
 V11 builds general nontracial weights in the same vocabulary.
@@ -1523,12 +2153,23 @@ supports, the type decomposition below for the semifinite pieces, Mathlib `ℝ�
 
 For a faithful normal tracial state τ construct L²(M,τ) as the
 GNS completion, left and right actions, their norm bounds, the dense
-canonical map, tracial inner product, conjugation `J(xΩ)=x*Ω`, and `JMJ=M'`
-(Anantharaman–Popa, §7.1, pp. 97–100; Peterson, §4.5, pp. 66–68). Prove completeness
-of the operator unit ball for the L² metric and its strong-topology equivalence on bounded
-sets. Construct the hyperfinite tensor model from the compatible algebras `M_(2^n)(ℂ)` and
-product trace; prove its GNS closure is a II₁ factor.
-*Needs:* V0's GNS, V4.Normality, V5's trace, Mathlib `Matrix` for the `M_(2^n)(ℂ)` tower.
+canonical map, tracial inner product, conjugation `J(xΩ)=x*Ω`, and `JMJ=M'` (Anantharaman–Popa,
+§7.1, pp. 97–100, and Theorem 7.1.1, p. 99; Peterson, §4.5, pp. 66–68, and Proposition 4.7.12, pp.
+73–74). State it spatially as `exists_conj_commutant_eq_of_isCyclic`: if Ω is a cyclic vector for
+M⊆B(H) whose vector state is tracial, then Ω is separating, `(H,Ω)` is `L²(M,τ)` for that state by
+V0's GNS uniqueness, and `xΩ↦x*Ω` extends to a conjugate-linear isometric involution J of H with
+`JMJ=M'`. The separating property is Tau Ceti's: for H≠0 normalize Ω, so that its vector state τ on
+M, with Layer 1's C*-algebra structure, is a tracial state; by
+`TauCeti.CStarAction.isKMSState_zero_iff` it is a 0-KMS state of the trivial real action, so
+`TauCeti.CStarAction.IsKMSState.eq_zero_of_apply_toPreGNS_one_eq_zero` makes the GNS vector `[1]`
+separating for `π_τ(M)''`, and the GNS unitary `[x]↦xΩ`, which carries `π_τ(M)''` onto `M''=M` and
+`[1]` to Ω, transports this to Ω. On H=0 there is nothing to prove. Prove completeness of the
+operator unit ball for the L² metric and its strong-topology equivalence on bounded sets. Construct
+the hyperfinite tensor model from the compatible algebras `M_(2^n)(ℂ)` and product trace; prove its
+GNS closure is a II₁ factor.
+*Needs:* V0's GNS, V4.Normality, V5's trace, Tau Ceti `TauCeti.CStarAction.isKMSState_zero_iff`
+and `TauCeti.CStarAction.IsKMSState.eq_zero_of_apply_toPreGNS_one_eq_zero` for the separating
+property, Mathlib `Matrix` for the `M_(2^n)(ℂ)` tower.
 
 For an arbitrary faithful normal semifinite trace construct L² from
 the finite square-integrable ideal with inner product ⟨x,y⟩=τ(x*y). Build its
@@ -1538,8 +2179,18 @@ approximation identities for this general trace representation.
 *Needs:* the semifinite trace above and V0's GNS on the square-integrable ideal.
 
 Define type II∞ as a factor with finite diffuse nonzero projections and infinite
-identity. Prove finite joins of finite projections are finite, then prove a separably acting infinite factor with a finite diffuse nonzero
-corner is an amplification of that corner by B(ℓ²). Construct and characterize the faithful
+identity: `IsTypeIIInfinity` asks that M be a factor that is not finite (some isometry of M is
+not unitary), has no minimal projection, and has a nonzero finite projection p (every v∈M with
+`v*v=p` and `vv*≤p` has `vv*=p`); for a factor, having no minimal projection is the same as
+every nonzero finite corner being diffuse. Prove finite joins of finite projections are finite, then prove a separably acting infinite factor with a finite diffuse nonzero
+corner is an amplification of that corner by B(ℓ²), as
+`nonempty_starAlgEquiv_spatialTensor_of_isTypeIIInfinity`: for a II∞ factor M on a separable H
+and a nonzero closed subspace E whose orthogonal projection p is finite in M, M is star
+isomorphic to the spatial tensor product of the compressions `x↦P_E x|_E` (x∈M), which form pMp
+acting on E, with all of B(ℓ²) (Jones, Definition 9.1.7 and Proposition 9.1.8, p. 57). A maximal
+family of mutually orthogonal projections equivalent to p is countable by separability and
+infinite because M is; it sums to a projection equivalent to 1, and the implementing partial
+isometries are matrix units. Construct and characterize the faithful
 normal semifinite trace, independent of a matrix decomposition up to positive scalar, with
 additivity, homogeneity, unitary invariance, monotone continuity and `Tr(x*x)=Tr(xx*)`.
 For a σ-finite concrete semifinite factor prove its trace on positive elements admits
@@ -1547,8 +2198,13 @@ a sum of vector-functionals with an orthogonal family, via finite-trace projecti
 exhaustion and the finite-functional density operators of V4.Normality. For a σ-finite type II∞ factor, identify projection
 equivalence classes with [0,∞] using its chosen faithful normal semifinite
 trace, and characterize finite projections by finite trace, and prove all infinite projections in a separable II∞ factor are equivalent. Develop
-the complete type decomposition by central projections and characterize type III by absence
-of nonzero finite projections (Peterson, Theorem 3.3.1 and Corollary 3.3.2, pp. 49–50, and
+the complete type decomposition by central projections, `existsUnique_typeDecomposition`: there
+are unique pairwise orthogonal central projections `z_I`, `z_II₁`, `z_II∞`, `z_III` with sum 1 such
+that every nonzero projection below `z_I` has a nonzero abelian subprojection, `z_II₁` is finite
+with no nonzero abelian subprojection, `z_II∞` has no nonzero abelian subprojection and no nonzero
+finite central subprojection while every nonzero projection below it has a nonzero finite
+subprojection, and no nonzero finite projection lies below `z_III`. Characterize type III by
+absence of nonzero finite projections (Peterson, Theorem 3.3.1 and Corollary 3.3.2, pp. 49–50, and
 Theorem 3.3.9, p. 52, for the commutant; the trace comparison of projections: Peterson,
 Proposition 4.9.5, p. 79; Anantharaman–Popa, Corollary 8.3.5 and Propositions 8.3.6 and 8.3.8,
 pp. 126–127). Type I traces, finite traces and semifinite traces must use
@@ -1573,6 +2229,21 @@ density operators, V4.0.Decomposition for the fibrewise statement, Mathlib `ℝ�
 - `M₂(ℂ)⊗̄B(ℓ²)=B(ℂ²⊗ℓ²)` has minimal projections and is of type I∞, not II∞, although its
   identity is infinite; `R` has finite identity and is II₁, not II∞: the two clauses of the II∞
   definition exclude these two cases respectively.
+- The map with value ∞ on every nonzero positive element and 0 at 0 is additive, positively
+  homogeneous (with `0·∞=0`), tracial, faithful and normal (an increasing net with nonzero strong
+  limit is eventually nonzero), but not semifinite, so semifiniteness is an independent clause;
+  on `ℓ∞(ℕ)` the free-ultrafilter limit is a finite trace that is not normal (`1_{0,…,N}↑1`
+  strongly while its values stay 0), and `x↦Σ_n x_n` is a faithful normal semifinite trace with
+  value ∞ at 1.
+- The type decomposition of `M₂(ℂ)`, `R`, `R⊗̄B(ℓ²)` and of a type III factor is
+  `(1,0,0,0)`, `(0,1,0,0)`, `(0,0,1,0)` and `(0,0,0,1)`. `M₂(ℂ)` is finite but its identity goes to
+  the type I slot, since `e₁₁` is a nonzero abelian projection; `B(ℓ²)` also goes to the type I
+  slot although its identity is infinite. On the zero space all four projections are `0=1`.
+- For the nonfactor `M₂(ℂ)⊕R` the decomposition is `(1⊕0, 0⊕1, 0, 0)`. A type I clause asking
+  only that `z_I` majorize one nonzero abelian projection would also admit `(1,0,0,0)`, so
+  uniqueness fails; with the clause for every nonzero projection below `z_I`, the corner `0⊕1`
+  has no abelian subprojection, and every product `z_i z′_j`, i≠j, of two decompositions is a
+  central projection that some clause forces to vanish.
 
 Write `R_(0,1)=R⊗̄B(ℓ²)` for the hyperfinite type II∞ model, with
 product trace normalized by a rank-one projection in the B(ℓ²) factor.
@@ -1606,7 +2277,7 @@ is atomless and modular; typeII∞ iff it is atomless and nonmodular but some
 nonzero interval [0,p] is modular; typeIII iff every nonzero interval is
 nonmodular. These are consequences of the actual type definitions, not a
 replacement notion of finiteness. Recover typeI_n, for n≥1, by n orthogonal atoms
-joining to the identity, and retain V6's infinite-cardinality refinements.
+joining to the identity, and include V6's infinite-cardinality refinements.
 For a nonzero central projection z, prove zM is homogeneous typeI₂ iff z=e∨f for
 two orthogonal abelian projections e,f with central supports both z. Thus
 the typeI₂ central part is the supremum of those nonzero central projections,
@@ -1639,7 +2310,9 @@ above; Mathlib `IsModularLattice` and Boolean algebras.
 
 ### Dependencies
 
-- Layers 2–5, with V4.Core's canonical trace of B(H).
+- Layers 0 and 2–5, with V4.Core's canonical trace of B(H).
+- Tau Ceti's KMS separating theorem `TauCeti.CStarAction.IsKMSState.eq_zero_of_apply_toPreGNS_one_eq_zero`
+  and `TauCeti.CStarAction.isKMSState_zero_iff` for the tracial standard form.
 
 ## Layer 7: Hilbert modules, coupling dimension, and index
 
@@ -1704,7 +2377,7 @@ Tr_J(T) = ∑' j : J, τ_op(T_jj)
 
 where `τ_op(ρ(b^op))=τ(b)`. Use the nonnegative value of the normalized
 trace on each positive diagonal coefficient, with values in `ℝ≥0∞`.
-Construct this normal faithful semifinite tracial weight in V6's existing
+Construct this normal faithful semifinite tracial weight in V6's
 positive-cone vocabulary; do not introduce a second weight carrier. Prove
 additivity, nonnegative homogeneity, monotone-net continuity, faithfulness
 and `Tr_J(T*T)=Tr_J(TT*)`. For the last identity, compress a column of T to
@@ -1795,19 +2468,19 @@ For a bounded module intertwiner, its polar partial isometry identifies
 the orthogonal complement of its kernel with the closure of its range;
 deduce the corresponding extended dimension sum and comparison laws.
 
-Retain standard-module dimension1 and
+Prove that the standard module has dimension 1 and that
 `dim_N(L²(N)q)=τ(q)` for projections q∈N. For nonzero p∈N prove
 `dim_(pNp)(pH)=dim_N(H)/τ(p)` with normalized trace τ(p)^(-1)τ on pNp;
 the standard corner identification sends
 `aΩ_(pNp)↦τ(p)^(-1/2)aΩ_N` into pL²(N)p. Prove this rescaling and
 the general module comparison by the standard models and projection
-comparison of V5. When both acting factors are finite and H≠0, retain
+comparison of V5. When both acting factors are finite and H≠0, prove
 the commutant-corner formula with its normalized commutant trace, the
 reciprocal dimensions, and the original vector-support formula
 `dim_N(H)=τ_N(q_ξ)/τ_(N')(p_ξ)` for ξ≠0, where p_ξ projects onto
 closure(Nξ) and q_ξ onto closure(N'ξ) (the Murray–von Neumann coupling constant:
 Anantharaman–Popa, pp. 135–136; Jones, Chapter 10). Prove its vector independence;
-the two support projections lie in different algebras. Retain the
+the two support projections lie in different algebras. Prove the
 cyclic/separating-vector criteria at dimension≤1/≥1, with the zero module
 and the stated finite-commutant hypotheses handled separately where used.
 These finite-factor statements use V4–V6 and the present trace/comparison
@@ -1821,8 +2494,8 @@ arbitrary model and prove the dimensions equal, with the same rank-one
 normalization. This recovers the preceding countable sum and corner laws.
 Classify separable modules of a fixed finite factor by their attainable
 dimensions; do not assert scalar classification of arbitrary nonseparable
-modules. For N of type II₁ with separable predual, retain realization of
-every dimension in [0,∞] by separable modules. For nonzero separable
+modules. For N of type II₁ with separable predual, prove that every
+dimension in [0,∞] is realized by a separable module. For nonzero separable
 modules prove the commutant type II₁ exactly when dimension is finite,
 and type II∞ exactly when dimension is infinite (Anantharaman–Popa, Propositions 8.5.5, 8.6.1
 and 8.6.2, p. 134). The zero module is separate.
@@ -1832,10 +2505,10 @@ For N=M_m(ℂ), m≥1, construct every normal module as `ℂ^m⊗K` and prove
 over an orthonormal Hilbert basis of K, not finite-dimensional `finrank`
 applied to an infinite-dimensional space. Prove basis independence, the
 finite value k, the infinite value∞ and the zero value0. For separable H,
-retain attainable dimensions `{k/m:k∈ℕ}∪{∞}`, commutant type I_k for
-0<dim K=k<∞ and type I∞ for infinite-dimensional separable K. Retain
-the full arbitrary-cardinality multiplicity Hilbert space in the general
-module equivalence; the common value∞ does not identify distinct uncountable
+prove the attainable dimensions `{k/m:k∈ℕ}∪{∞}`, commutant type I_k for
+0<dim K=k<∞ and type I∞ for infinite-dimensional separable K. State the
+general module equivalence with the full arbitrary-cardinality multiplicity
+Hilbert space; the common value∞ does not identify distinct uncountable
 multiplicities. Prove compatibility with all preceding finite-factor
 dimension, corner and direct-sum APIs.
 *Needs:* V7.Dimension, V7.SumsAndCorners, V3's type I classification, V6's II∞ characterization.
@@ -1880,22 +2553,9 @@ N-linear unitary. This general corollary has no group-theoretic input.
 *Needs:* V7.Dimension, V6's standard form and `JMJ=M′`, V5's trace, V4.Normality; the induced
 commutant trace of V7.Dimension for the restriction-of-scalars law.
 
-**V7.GroupApplications — after the V8 models.** V8.SubgroupCosets constructs
-its actual arbitrary-index coset unitary without a dimension input. When
-L(Η) is a factor, it consumes the preceding corollary: dimension is the finite subgroup index
-when finite and∞ when infinite. Its dimension/index comparison and the
-following test are applications, not prerequisites of V7's general
-construction or index laws. After V8's group-factor and tensor models,
-for the separable hyperfinite factor R and an uncountable free group F_I,
-prove the inclusion R⊂R⊗̄L(F_I) has index∞ on the actual amplification
-L²(R)⊗̂ℓ²(F_I); no isometry into a separable amplification is required.
-Retain V9's finite formal-degree/covolume and commuting-action applications
-with their stated hypotheses. This layer owns elementary dimension, index
-and bimodule theory; Subfactors continues to own its basic constructions,
-finite bases and later towers.
-*Needs:* V8.SubgroupCosets's coset unitary, V8's group factors and tensor models,
-V7.Dimension's identity-range corollary.
-
+This layer owns elementary dimension, index and bimodule theory; Subfactors owns its basic
+constructions, finite bases and later towers. The group-factor index computations that use these
+laws are V8.SubgroupCosets and V8.GroupApplications.
 
 **Checks.**
 
@@ -1904,15 +2564,23 @@ V7.Dimension's identity-range corollary.
   ℂ² has dimension 1/2; a dimension normalized by the unnormalized trace would give 2 and 1.
 - Over `N=ℂ`, `ℓ²(I)` for an uncountable set I has dimension ∞ and admits no N-linear isometry
   into the separable model `S_ℕ`, so the index set J must be allowed to be uncountable.
+- `[M:M]=dim_M L²(M)=1`, and for every II₁ subfactor N⊆M the closed copy `L²(N)⊆L²(M)` has
+  N-dimension 1, which is the source of `[M:N]≥1`.
+- For a II₁ factor N, `L²(N⊗̄M₂(ℂ))=L²(N)⊗L²(M₂(ℂ),tr/2)` is four orthogonal copies of `L²(N)`
+  as a left N-module, so `[N⊗̄M₂(ℂ):N⊗1]=4`; an index computed on the defining module
+  `L²(N)⊗ℂ²` instead of the standard module would give 2.
+- The restriction-of-scalars law on `H=L²(N)⊗ℂ²` as a normal `N⊗̄M₂(ℂ)`-module:
+  `L²(N⊗̄M₂(ℂ))` is two copies of H, so `dim_(N⊗̄M₂)(H)=1/2`, while `dim_N(H)=2=4·(1/2)`; a law
+  with `√[M:N]` in place of `[M:N]` would give 1.
 
 ### Examples
 
 - For `N=M_m(ℂ)`, m≥1, every normal module is `ℂ^m⊗K`, of dimension `dim K/m`.
-- For a subgroup of finite index, `[L(Γ):L(Γ₀)]=[Γ:Γ₀]`.
+- For a II₁ factor N and n≥1, `[N⊗̄M_n(ℂ):N]=n²`.
 
 ### Dependencies
 
-- Layers 2, 4 and 6.
+- Layers 2–6.
 
 ## Layer 8: Group algebras, actions, and discrete crossed products
 
@@ -1923,16 +2591,27 @@ Proposition 5.1.4, p. 83; Anantharaman–Popa, §1.3, pp. 5–12). A coefficient
 an operator only when the associated convolution operator is bounded. Identify `L(ℤ)` with
 `L∞(𝕋)` by Fourier transform and `L(ℤ/n)` with its cyclic matrix model. Prove the center
 criterion and factoriality iff every nonidentity conjugacy class is infinite (Peterson, Theorem
-5.1.6, p. 84); prove free
+5.1.6, p. 84), stated as `isFactor_groupVonNeumannAlgebra_iff`; prove free
 nonabelian groups are ICC and supply every projection trace in their factors using the
 infinite cyclic subgroup. For subgroup inclusions Γ₀⊂Γ with Γ₀ infinite and both groups ICC (every nonidentity conjugacy class infinite), identify
 `[L(Γ):L(Γ₀)]=[Γ:Γ₀]` by the coset decomposition of the normal module. Establish finiteness, direct finiteness `ab=1 ⇒ ba=1`, and the coefficient embedding of the group algebra. Prove direct finiteness of F[Γ] for
 every characteristic-zero field F by descending the finitely many coefficients to a
 finitely generated subfield admitting an embedding into ℂ, and using the complex group
 von Neumann algebra.
-*Needs:* Layer 1's bicommutant theorem, Mathlib `lp`, `MonoidAlgebra`, `fourierBasis` on `L²(𝕋)`,
-`Matrix` for `L(ℤ/n)`; V5's trace and comparison; V7 for the index identity; field embeddings
-(`IsAlgClosed` lifting) for the direct-finiteness descent.
+Realize ℓ²(Γ) as `L²(Γ)` for the counting measure on the discrete σ-algebra, so that
+`leftRegular Γ g` is Mathlib's `MeasureTheory.Lp.compMeasurePreservingₗᵢ` for `h↦g⁻¹h`, measure
+preserving because the counting measure is left invariant, and `groupVonNeumannAlgebra Γ` is the
+von Neumann algebra `λ(Γ)''` it generates, Tau Ceti's `VonNeumannAlgebra.adjoin` of its range.
+*Needs:* Layer 1's bicommutant theorem, Mathlib `lp`, `MeasureTheory.Lp.compMeasurePreservingₗᵢ`,
+`MeasureTheory.Measure.count` and `DiscreteMeasurableSpace`, `MonoidAlgebra`, `fourierBasis` on
+`L²(𝕋)`, `Matrix` for `L(ℤ/n)`; V5's trace and comparison; V7 for the index identity; field
+embeddings (`IsAlgClosed` lifting) for the direct-finiteness descent.
+
+- `leftRegular Γ` is a homomorphism from Γ to the unitary group of ℓ²(Γ), with
+  `leftRegular Γ g δ_h=δ_(gh)` on point masses.
+- `groupVonNeumannAlgebra Γ` is the commutant of the right regular representation, the vector
+  state of δ_1 is a faithful normal tracial state on it, and its elements are determined by
+  their square-summable coefficient functions `g↦⟨δ_g,xδ_1⟩`.
 
 **Checks.**
 
@@ -1951,6 +2630,18 @@ von Neumann algebra.
 *Needs:* the group von Neumann algebra above, V7.AmplificationTrace and V7.Dimension, V6's product
 trace, Mathlib `lp` reindexing along coset representatives.
 
+**V8.GroupApplications — index computations for group factors.** V8.SubgroupCosets constructs
+its arbitrary-index coset unitary without a dimension input. When L(Η) is a factor, consume
+Layer 7's identity-range corollary `dim_N(S_I)=∑'_(i∈I)1`: the dimension of the coset module is
+the subgroup index when it is finite and ∞ when it is infinite. These comparisons apply Layer 7;
+they are not prerequisites of its general construction or index laws. For the separable
+hyperfinite II₁ factor R of V6 and a free group F_I on an uncountable set I, prove that the
+inclusion R⊂R⊗̄L(F_I) has index ∞, computed on the actual amplification `L²(R)⊗̂ℓ²(F_I)`; no
+isometry into a separable amplification is required. V9's formal-degree/covolume and
+commuting-action applications use the same dimension, with their stated hypotheses.
+*Needs:* V8.SubgroupCosets's coset unitary, the group factors of this layer, V2's spatial tensor
+product, V6's hyperfinite model, V7.Index's index and Layer 7's identity-range corollary.
+
 Define normal group actions, fixed-point algebras, inner/outer automorphisms, spatial
 implementation, and proper outerness by vanishing intertwiners. Prove equivalence of proper
 outerness and outerness for factors. Include the Pauli Klein-four action on M₂ with no
@@ -1965,69 +2656,63 @@ iff proper outerness, and freeness of ergodic abelian actions whose induced acti
 sources.
 
 **V8.RegularL2 — the left-regular representation of a locally compact group.** For every
-locally compact Hausdorff group G with a regular left Haar measure μ, define left translation
-`(λ_s f)(r)=f(s⁻¹r)` on `L²(G,μ)` as `Lp.compMeasurePreserving` of the measure-preserving map
-`r↦s⁻¹r`. Prove that each λ_s is unitary, `λ_(st)=λ_sλ_t`, `λ_1=1`, and that `s↦λ_s f` is
-norm continuous for every f, by specializing Mathlib's
-`MeasureTheory.Lp.instContinuousSMulDomMulAct`: G is an R1 Borel space, left multiplication is a
-continuous measure-preserving action, and a regular Haar measure is locally finite and inner
-regular on finite-measure sets. Prove the same translation continuity on `L^p(G,μ)` for every
-1≤p<∞, in particular on `L¹`; V8.LCHRegularNormalBridge and V11 consume it. For f∈L¹(G,μ)
-define the integrated operator `λ(f)=∫f(s)λ_s dμ(s)` strongly, as the Bochner integral of the
-norm-continuous orbit `s↦λ_sξ` against f on a σ-compact carrier of f (AmenableGroups Layer 7's
-localization), through `ContRepresentation.integratedOperatorL1` where its hypotheses apply, and
-prove `‖λ(f)‖≤‖f‖₁`. Prove `λ(f)λ(g)=λ(f*g)` for Layer 7's convolution,
-`λ_sλ(f)=λ(L_sf)` with `(L_sf)(r)=f(s⁻¹r)`, and the adjoint formula `λ(f)*=λ(f*)` with
-`f*(s)=c(s)·conj(f(s⁻¹))`, where `c=Measure.modularCharacter` is Layer 7's right-translation
-factor, `∫f(xg)dμ(x)=c(g)∫f dμ`, and Layer 7's inversion formula `d(μ∘inv)=c dμ` is the
-substitution used. Prove nondegeneracy: for Layer 7's kernels h_U, `λ(h_U)ξ→ξ` for every
-ξ∈L², from `‖λ(h_U)ξ−ξ‖≤∫h_U(s)‖λ_sξ−ξ‖dμ(s)` and strong continuity. Prove faithfulness of
-λ on L¹: if λ(f)=0 then `f*h_U=λ(f)h_U=0` in L² for every U, hence almost everywhere, and
-`‖f‖₁=lim_U‖f*h_U‖₁=0`. For abelian G prove `λ(f)λ(g)=λ(g)λ(f)` from
-commutativity of convolution, so the norm closure of λ(L¹(G)) is a commutative C*-algebra, the
-reduced group C*-algebra C*_r(G), nonunital when G is not discrete. Prove compatibility with the
-discrete case, where μ is counting measure and λ_s is the permutation unitary of ℓ²(G) of the
-group von Neumann algebra above, and that the von Neumann algebra generated by λ(G) equals the one
-generated by λ(L¹(G)) (the kernels h_U recover each λ_s strongly). Include the trivial group,
-where L²=ℂ and λ(f)=f(1), and f=0, where λ(0)=0.
-*Needs:* Mathlib `Lp.compMeasurePreserving`, `Lp.instContinuousSMulDomMulAct`, Haar measure and
-`Measure.modularCharacter`; AmenableGroups Layer 7 (σ-compact localization of `L¹` functions,
-convolution, inversion formula, kernels h_U); Tau Ceti `ContRepresentation.integratedOperatorL1`;
-the group von Neumann algebra of this layer for the discrete comparison.
+locally compact Hausdorff group G with a regular left Haar measure μ, consume BanachAlgebras
+A7.RegularL2 for the left-regular representation: the unitaries `(λ_s f)(r)=f(s⁻¹r)` on
+`L²(G,μ)`, strongly continuous in s, and the integrated operators λ(f), f∈L¹(G,μ), with
+`‖λ(f)‖≤‖f‖₁`, `λ(f)λ(g)=λ(f*g)` and `λ(f)*=λ(f*)` for BanachAlgebras §7.2's convolution and
+involution `f*(s)=c(s)·conj(f(s⁻¹))`, `c=Measure.modularCharacter`, together with nondegeneracy
+and faithfulness of λ on `L¹`. Prove the covariance `λ_sλ(f)=λ(L_sf)`, `(L_sf)(r)=f(s⁻¹r)`,
+from left invariance of μ. Define the reduced group C*-algebra C*_r(G) as the norm closure of
+λ(L¹(G)) in `B(L²(G,μ))`, a C*-subalgebra by the multiplicativity and adjoint laws, unital
+exactly when G is discrete; for abelian G it is commutative, since `L¹(G)` is then commutative.
+Prove that λ(G) and λ(L¹(G)) generate the same von Neumann algebra: an operator commuting with
+every λ_s commutes with every λ(f), and λ_s is the strong limit of `λ_sλ(h_U)=λ(L_sh_U)` for
+AmenableGroups Layer 7's kernels h_U, because `λ(h_U)ξ→ξ` for every ξ. Prove compatibility with
+the discrete case, where μ is counting measure, `L¹(G)=ℓ¹(G)` and λ_s is the permutation unitary
+of ℓ²(G), so that this von Neumann algebra is the group von Neumann algebra `L(G)` above. Include
+the trivial group with Haar measure of mass c, where L²=ℂ, λ(f)=c·f(1) and C*_r(G)=ℂ, and f=0,
+where λ(0)=0.
+*Needs:* BanachAlgebras §7.2 and A7.RegularL2 (§7.3); AmenableGroups Layer 7 (kernels h_U); the
+group von Neumann algebra of this layer for the discrete comparison.
 
 **Checks.**
 
 - For G=ℤ with counting measure, λ_1 is the bilateral shift and λ(f) is convolution by f, unitarily
-  multiplication by `f̂(z)=Σ_n f(n)zⁿ` on L²(𝕋). For `f=δ_(−1)+iδ_0+δ_1`, `f̂(e^(iθ))=2cos θ+i`
-  has supremum modulus √5, so `‖λ(f)‖=√5<3=‖f‖₁`: the bound `‖λ(f)‖≤‖f‖₁` is not an equality,
-  and a definition making λ an isometry of `L¹` would be wrong.
-- For G=ℝ with Lebesgue measure, `s↦λ_s` is not norm continuous: after the Fourier transform λ_s
-  is multiplication by `e^(isξ)`, so `‖λ_s−1‖=sup_ξ|e^(isξ)−1|=2` for every s≠0; strong
-  continuity is the right notion. For `0<ε≤1/2`, the kernel `h_ε=(2ε)⁻¹1_[−ε,ε]` and `f=1_[0,1]` give
-  `‖λ(h_ε)f−f‖₂²=ε/3` (the difference is `(r+ε)/(2ε)` on `[−ε,0]`, `(r−ε)/(2ε)` on `[0,ε]`,
-  and symmetrically at 1), which tends to 0 as the nondegeneracy statement requires.
-  Each of these four disjoint ramps contributes ε/12, giving 1/12 at ε=1/4. At ε=1 the
+  multiplication by `f̂(z)=Σ_n f(n)zⁿ` on L²(𝕋), so `C*_r(ℤ)≅C(𝕋)`. For
+  `f=δ_(−1)+iδ_0+δ_1`, `f̂(e^(iθ))=2cos θ+i` has supremum modulus √5, so `‖λ(f)‖=√5<3=‖f‖₁`: the
+  norm of C*_r(G) is not the `L¹` norm, and a definition completing `L¹(G)` in its own norm would
+  give `ℓ¹(ℤ)`, in which this f has norm 3.
+- For G=ℝ with Lebesgue measure, after the Fourier transform λ_s is multiplication by `e^(isξ)`
+  and λ(f) is multiplication by the transform of f, which vanishes at infinity; hence
+  `‖λ_s−λ(f)‖≥1` and `‖1−λ(f)‖≥1` for every f∈L¹, so λ_s and 1 lie in the von Neumann algebra
+  generated by λ(ℝ) but not in C*_r(ℝ), which is nonunital. Also `‖λ_s−1‖=2` for s≠0, so only
+  strong continuity of s↦λ_s holds. For `0<ε≤1/2`, the kernel `h_ε=(2ε)⁻¹1_[−ε,ε]` and
+  `f=1_[0,1]` give `‖λ(h_ε)f−f‖₂²=ε/3`: each of the four disjoint ramps, `(r+ε)/(2ε)` on
+  `[−ε,0]`, `(r−ε)/(2ε)` on `[0,ε]` and symmetrically at 1, contributes ε/12. At ε=1 the
   convolution equals 1/2 on [0,1], with linear tails on [−1,0] and [1,2], so the error is
   `1/4+1/12+1/12=5/12`, not 1/3; the small-radius hypothesis cannot be dropped.
-- The adjoint convention is pinned on the affine group `{(a,b):a>0,b∈ℝ}`, `(a,b)(α,β)=(aα,aβ+b)`,
-  with left Haar measure `da db/a²`: right translation by `g=(α,β)` multiplies the measure by
-  `1/α`, so `c(α,β)=α` and `f*(α,β)=α·conj(f(1/α,−β/α))`; on a unimodular group (ℝ, ℤ, a compact
-  group) `f*(s)=conj(f(s⁻¹))`, and the formula with `c(s⁻¹)` in place of `c(s)` would make
-  `λ(f)*≠λ(f*)` on this group.
+- The adjoint convention of BanachAlgebras §7.2, recomputed for λ on the affine group
+  `{(a,b):a>0,b∈ℝ}`, `(a,b)(α,β)=(aα,aβ+b)`, with left Haar measure `da db/a²`: right translation
+  by `g=(α,β)` multiplies the measure by `1/α`, so `c(α,β)=α` and `f*(α,β)=α·conj(f(1/α,−β/α))`;
+  on a unimodular group (ℝ, ℤ, a compact group) `f*(s)=conj(f(s⁻¹))`, and the formula with
+  `c(s⁻¹)` in place of `c(s)` would make `λ(f)*≠λ(f*)` on this group.
+- For G=ℤ/2 with counting measure, C*_r(G) is the algebra of circulant matrices `[[a,b],[b,a]]`,
+  already norm closed and equal to `L(ℤ/2)`; for the trivial group `C*_r(G)=ℂ` is unital, as G
+  is discrete.
 
 **V8.LCHRegularNormalBridge.** Before the compact-action application, supply the regular normal-action construction for every locally compact Hausdorff group G, a nonzero regular left Haar measure μ, an arbitrary concrete von Neumann algebra M⊂B(H), and an action α by normal star automorphisms with each orbit g↦α_g(x) ultraweakly continuous. No second-countability, sigma-compactness, sigma-finiteness or separability assumption is imposed on G, H or M. Prove that this continuity is equivalent to pointwise strong-star continuity, using the positive-vector norm identities for α_g(x)*α_g(x)=α_g(x*x). The zero Hilbert-space/zero-algebra case is treated separately; nonzero-vector faithfulness arguments apply to the nonzero case.
 
-First prove that the predual representation β_g(ω)=ω∘α_(g⁻¹) is norm-continuous on every orbit in M_*. Its initial continuity is weak continuity against (M_*)*=M, and each β_g is isometric. Own the following proof adapter here, consuming Mathlib's geometric Hahn–Banach separation and BanachSpaceTheory B2's exact James criterion, rather than assuming an unproved weak-to-strong continuity principle. A compact set of weakly continuous orbit values is weakly compact. Its norm-closed convex hull is weakly compact: every continuous linear functional attains its real-part supremum on the original compact set and hence on that hull, so James applies in the Banach space M_*. For a nonnegative C_c kernel, finite partitions controlling a finite family of scalar evaluations give convex-combination approximants to its normalized weak integral; weak compactness gives the barycentre in M_* and separation gives uniqueness. Split a complex kernel into its four nonnegative real/imaginary parts. This defines the smoothed vectors without first assuming Bochner measurability of the unsmoothed orbit. Their translation estimate is bounded by ‖ω‖ times the L¹ difference of translated kernels. Consume V8.RegularL2's `L¹` translation continuity (Mathlib's domain-action continuity) and AmenableGroups Layer 7's neighbourhood-indexed kernels h_U. Thus smoothed vectors have norm-continuous orbits and converge weakly to ω. The vectors with norm-continuous orbit form a norm-closed linear subspace (the action is isometric), hence a weakly closed subspace by Hahn–Banach; conclude that this subspace is all of M_*. After this argument the predual integrals may be taken as genuine Bochner integrals.
+First prove that the predual representation β_g(ω)=ω∘α_(g⁻¹) is norm-continuous on every orbit in M_*. Its initial continuity is weak continuity against (M_*)*=M, and each β_g is isometric. Own the following proof adapter here, consuming Mathlib's geometric Hahn–Banach separation and BanachSpaceTheory B2's exact James criterion, rather than assuming an unproved weak-to-strong continuity principle. A compact set of weakly continuous orbit values is weakly compact. Its norm-closed convex hull is weakly compact: every continuous linear functional attains its real-part supremum on the original compact set and hence on that hull, so James applies in the Banach space M_*. For a nonnegative C_c kernel, finite partitions controlling a finite family of scalar evaluations give convex-combination approximants to its normalized weak integral; weak compactness gives the barycentre in M_* and separation gives uniqueness. Split a complex kernel into its four nonnegative real/imaginary parts. This defines the smoothed vectors without first assuming Bochner measurability of the unsmoothed orbit. Their translation estimate is bounded by ‖ω‖ times the L¹ difference of translated kernels. Consume AmenableGroups Layer 7's `L¹` translation continuity and neighbourhood-indexed kernels h_U. Thus smoothed vectors have norm-continuous orbits and converge weakly to ω. The vectors with norm-continuous orbit form a norm-closed linear subspace (the action is isometric), hence a weakly closed subspace by Hahn–Banach; conclude that this subspace is all of M_*. After this argument the predual integrals may be taken as genuine Bochner integrals.
 
 Let A_c={x∈M : g↦α_g(x) is norm continuous}. Prove it is an invariant unital C*-subalgebra. For f∈C_c(G), define x_f by the adjoint of the bounded predual integral, equivalently ω(x_f)=∫f(g)ω(α_g(x))dμ(g) for every ω∈M_*. Prove ‖x_f‖≤‖f‖₁‖x‖ and ‖α_h(x_f)−x_f‖≤‖L_h f−f‖₁‖x‖, where L_h f(r)=f(h⁻¹r). The chosen normalized kernels shrinking to the identity give x_(u_U)→x ultraweakly, so A_c is ultraweakly dense in M. This same bridge supplies the following compact-action predual-continuity and smoothing claims; for compact G its normalized Haar average is the predual-adjoint average already specified there.
 
-Construct K=L²(G,μ;H) and its unitary identification with L²(G,μ)⊗̂H without a separability assumption. On actual almost-everywhere classes define (π_α(x)f)(r)=α_(r⁻¹)(x)f(r) and (λ_s f)(r)=f(s⁻¹r). Prove representative independence, linearity and the bound ‖π_α(x)f‖₂≤‖x‖‖f‖₂. Consume Tau Ceti's native [`ContinuousOn.aestronglyMeasurable_of_measure_ne_top` and `AEFinStronglyMeasurable.aestronglyMeasurable_smul`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/MeasureTheory/Function/StronglyMeasurable/InnerRegular.lean#L45-L92). Use their actual `InnerRegularCompactLTTop`, Borel/R1 source and pseudo-metrizable target hypotheses on finite-measure restrictions; do not impose global sigma-finiteness or duplicate these native measurability proofs. After orbit norm continuity has been established, reuse [`ContRepresentation.integratedOperatorL1` and its vector formula](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/RepresentationTheory/Continuous/Integrated/Basic.lean#L104-L229) wherever their scalar-weight representation hypotheses apply, transporting multiplicative/additive notation. Its definition allows a noncommutative `AddGroup`; do not import its separate convolution theorem's `AddCommGroup`, `SFinite` and `SecondCountableTopologyEither` restrictions into that definition. Own the combined L²-vector/predual-coefficient measurability and normal-extension adapter using these primitives: every Bochner L² vector is supported, modulo a Haar-null set, on a countable union of compact sets. Obtain this from its finite-measure level sets {‖f‖≥1/n} and Radon inner approximation, with compact exhaustions up to null sets; this is a localization for that vector, not a claim that G is sigma-compact or its Haar measure sigma-finite. On these compact carriers the continuous H-valued orbit images of the countably many values approximating f are separable. Combine their strong measurability with simple-vector approximation to prove strong measurability of r↦α_(r⁻¹)(x)f(r). Use finite-carrier localization for each pair of vectors when required; no equality between a product sigma-algebra and an uncountable product's full Borel sigma-algebra is assumed.
+Construct K=L²(G,μ;H) and its unitary identification with L²(G,μ)⊗̂H without a separability assumption. On actual almost-everywhere classes define (π_α(x)f)(r)=α_(r⁻¹)(x)f(r) and (λ_s f)(r)=f(s⁻¹r). Prove representative independence, linearity and the bound ‖π_α(x)f‖₂≤‖x‖‖f‖₂. Consume Tau Ceti's native [`ContinuousOn.aestronglyMeasurable_of_measure_ne_top` and `AEFinStronglyMeasurable.aestronglyMeasurable_smul`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Function/StronglyMeasurable/InnerRegular.lean#L73-L111). Use their actual `InnerRegularCompactLTTop`, Borel/R1 source and pseudo-metrizable target hypotheses on finite-measure restrictions; do not impose global sigma-finiteness or duplicate these native measurability proofs. After orbit norm continuity has been established, reuse [`ContRepresentation.integratedOperatorL1` and its vector formula](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/RepresentationTheory/Continuous/Integrated/Basic.lean#L140-L197) wherever their scalar-weight representation hypotheses apply, transporting multiplicative/additive notation. Its definition allows a noncommutative `AddGroup`; do not import its separate convolution theorem's `AddCommGroup`, `SFinite` and `SecondCountableTopologyEither` restrictions into that definition. Own the combined L²-vector/predual-coefficient measurability and normal-extension adapter using these primitives: every Bochner L² vector is supported, modulo a Haar-null set, on a countable union of compact sets. Obtain this from its finite-measure level sets {‖f‖≥1/n} and Radon inner approximation, with compact exhaustions up to null sets; this is a localization for that vector, not a claim that G is sigma-compact or its Haar measure sigma-finite. On these compact carriers the continuous H-valued orbit images of the countably many values approximating f are separable. Combine their strong measurability with simple-vector approximation to prove strong measurability of r↦α_(r⁻¹)(x)f(r). Use finite-carrier localization for each pair of vectors when required; no equality between a product sigma-algebra and an uncountable product's full Borel sigma-algebra is assumed.
 
 Prove π_α is a unital star homomorphism and is faithful. For x≠0 choose ξ with xξ≠0; continuity gives a neighbourhood of the identity on which ‖α_(r⁻¹)(x)ξ‖ is bounded below. Choose a compact subset of this neighbourhood with positive finite Haar measure, and test on 1_C ξ. Prove normality by an actual predual map: with the conjugate-first inner product set ω_(ξ,η)(y)=⟨ξ,yη⟩, form ρ_(f,h)(r)=β_r(ω_(f(r),h(r))). Establish strong measurability in M_* using the norm-continuous predual action, the continuous bilinear/sesquilinear vector-functional map and the compact-carrier localization; prove ‖ρ_(f,h)(r)‖≤‖f(r)‖‖h(r)‖ and hence L¹ integrability by Cauchy–Schwarz. Its Bochner integral is the normal functional x↦⟨f,π_α(x)h⟩. V4's concrete predual and normality criteria then give ultraweak continuity of π_α and a von Neumann image. Do not interchange an arbitrary increasing net with a scalar Haar integral as a replacement for this predual construction.
 
-Consume V8.RegularL2 for the left-regular unitary representation and its strong continuity, tensoring with H. Prove λ_s π_α(x) λ_s*=π_α(α_s(x)). Prove that π_α is the unique normal representation of M extending its restriction to the ultraweakly dense C*-subalgebra A_c. Define M⋊_αG as the von Neumann algebra generated by π_α(M) and λ(G), and prove it is generated already by π_α(A_c) and the integrated operators `∫f(s)λ_s dμ(s)`, f∈C_c(G): the chosen group kernels recover the group operators, and the ultraweak density of A_c gives the full coefficient algebra. This construction does not depend on V11's later duality. The identification of M⋊_αG with the weak closure of the regular C*-crossed product is owned by OperatorAlgebraDynamics D1, which consumes this layer.
+Consume the left-regular unitary representation and its strong continuity (BanachAlgebras A7.RegularL2, through V8.RegularL2), tensoring with H. Prove λ_s π_α(x) λ_s*=π_α(α_s(x)). Prove that π_α is the unique normal representation of M extending its restriction to the ultraweakly dense C*-subalgebra A_c. Define M⋊_αG as the von Neumann algebra generated by π_α(M) and λ(G), and prove it is generated already by π_α(A_c) and the integrated operators `∫f(s)λ_s dμ(s)`, f∈C_c(G): the chosen group kernels recover the group operators, and the ultraweak density of A_c gives the full coefficient algebra. This construction does not depend on V11's later duality. The identification of M⋊_αG with the weak closure of the regular C*-crossed product is owned by OperatorAlgebraDynamics D1, which consumes this layer.
 
-For two faithful normal concrete realizations of the same W*-algebra and action, construct the canonical normal isomorphism of these regular crossed products matching every coefficient π_α(x) and group unitary λ_s. Prove independence using V4's normal amplification/reducing-projection/spatial representation theorem and the induced intertwiners on the corresponding L² spaces, and prove composition and uniqueness on the generated von Neumann algebra. Prove compatibility with the existing discrete construction and with the later second-countable construction. This is a regular crossed product, with the stated comparison for regular representations; it does not assert a universal normal quotient map for every covariant pair. Record the obstruction already for M=ℂ and G=ℤ: a character unitary would demand a normal point-evaluation map L∞(𝕋)→ℂ, which does not exist for nonatomic Haar measure. OperatorAlgebraDynamics D1 retains the full C*-universal property. All second-countability assumptions on V11's subsequent dual-action, Takesaki-duality and dual-weight theorems remain as written.
+For two faithful normal concrete realizations of the same W*-algebra and action, construct the canonical normal isomorphism of these regular crossed products matching every coefficient π_α(x) and group unitary λ_s. Prove independence using V4's normal amplification/reducing-projection/spatial representation theorem and the induced intertwiners on the corresponding L² spaces, and prove composition and uniqueness on the generated von Neumann algebra. Prove compatibility with the discrete construction above and with the later second-countable construction. This is a regular crossed product, with the stated comparison for regular representations; it does not assert a universal normal quotient map for every covariant pair. Record the obstruction already for M=ℂ and G=ℤ: a character unitary would demand a normal point-evaluation map L∞(𝕋)→ℂ, which does not exist for nonatomic Haar measure. OperatorAlgebraDynamics D1 retains the full C*-universal property. All second-countability assumptions on V11's subsequent dual-action, Takesaki-duality and dual-weight theorems remain as written.
 *Needs:* V8.RegularL2, AmenableGroups Layer 7 (kernels h_U, σ-compact localization),
 Mathlib's geometric Hahn–Banach separation (`geometric_hahn_banach_closed_point`),
 BanachSpaceTheory B2 (James), V4's predual and normality criteria,
@@ -2036,16 +2721,16 @@ V4.Normality's amplification/spatial representation theorem, Tau Ceti's measurab
 
 **V8.CompactErgodicActions.** For an arbitrary compact Hausdorff topological group G, its normalized regular Haar probability, a nonzero unital complex C*-algebra A and an action by star automorphisms such that every orbit `g↦α_g(a)` is norm continuous, construct the Haar conditional expectation E onto A^G. Prove positivity, complete positivity, unitality, contractivity, bimodularity over A^G, and faithfulness. If A^G=ℂ1, write E(a)=φ(a)1 and prove φ is the unique invariant state, is faithful, and is tracial. No separability, metrizability or second-countability hypothesis is imposed on G or A.
 
-Consume CompactGroups' arbitrary compact-group Peter–Weyl/Schur orthogonality and finite-dimensional unitary representation conventions. Construct the isotypic Haar projections on A and their matrix-coefficient versions, spectral subspaces, their multiplication/star relations and a norm-dense finite-orbit star algebra. Build the multiplicity spaces and invariant inner products; prove the ergodic finite-multiplicity bound `multiplicity(π)≤dim π`, conjugate-representation and positive pairing identities, and deduce φ(ab)=φ(ba) first on this algebra and then by norm continuity. These constructions generalize the existing V8 finite-multiplicity/spectral-subspace work; SU(2)'s stronger type-I classification remains its own subsequent specialization, with its existing suppliers.
+Consume CompactGroups' arbitrary compact-group Peter–Weyl/Schur orthogonality and finite-dimensional unitary representation conventions. Construct the isotypic Haar projections on A and their matrix-coefficient versions, spectral subspaces, their multiplication/star relations and a norm-dense finite-orbit star algebra. Build the multiplicity spaces and invariant inner products; prove the ergodic finite-multiplicity bound `multiplicity(π)≤dim π`, conjugate-representation and positive pairing identities, and deduce φ(ab)=φ(ba) first on this algebra and then by norm continuity. These constructions hold for every compact group; SU(2)'s stronger type-I classification below is a specialization of them.
 
 For a normal action on a nonzero W*-algebra M continuous pointwise ultraweakly, own the bridge to this C*-theorem. Establish the corresponding continuity on the predual (norm-continuity of each pulled-back normal-functional orbit), and construct Haar averaging as the adjoint of its bounded predual average. Prove this expectation is normal and faithful, and that its range is M^G. Do not justify normality by interchanging an arbitrary increasing net with a scalar Haar integral. Prove that the norm-continuous elements form an invariant unital C*-algebra A_c which is ultraweakly dense in M: weak-star Haar convolutions against continuous scalar kernels lie in A_c, with norm-translation bound `‖α_h(x_f)−x_f‖≤‖L_h f−f‖₁‖x‖`; normalized kernels near the identity converge ultraweakly to x. Use the exact native Haar translation convention in that formula. Apply the C*-result to A_c, whose fixed algebra is scalar when M is ergodic, and use V1's bounded strong-star/Kaplansky approximation and V4's normal functional calculus to extend the trace identity to M. Under M^G=ℂ1, conclude that M has a faithful normal invariant tracial state and is finite. Include normalization, uniqueness and restriction/transport compatibility. The predual-continuity and averaging bridge are owned targets here, not assumed implemented APIs.
 
-See Høegh-Krohn–Landstad–Størmer, [*Compact ergodic groups of automorphisms*, Annals of Mathematics114(1981),75–86](https://doi.org/10.2307/1971377).
+The finiteness theorem is due to Høegh-Krohn, Landstad and Størmer, [*Compact ergodic groups of automorphisms*, Annals of Mathematics 114 (1981), 75–86](https://doi.org/10.2307/1971377): for an ergodic action of a compact group on a unital C*-algebra the invariant state is a trace, and each irreducible representation π occurs in the action with multiplicity at most dim π. Both statements are restated with that attribution in Pinzari, *Growth rates of dimensional invariants of compact quantum groups and a theorem of Høegh-Krohn, Landstad and Størmer* (arXiv:1101.4534v2), Corollary 4.9, p. 12 (the trace), and §2, p. 6 (the multiplicity bound).
 
 For a second-countable compact group acting ergodically, prove existence of a faithful
 normal invariant trace, using spectral subspaces and Haar averaging; develop finite
 multiplicity and matrix-coefficient orthogonality APIs for those spectral subspaces. Prove
-that SU(2) admits no ergodic action on a II₁ factor, by Wassermann's SU(2) spectral-subspace classification. Consume the SU(2) irreducibles
+that SU(2) admits no ergodic action on a II₁ factor, by Wassermann's SU(2) spectral-subspace classification: SU(2) acts ergodically only on von Neumann algebras of type I (Wassermann, *Ergodic actions of compact groups on operator algebras III: classification for SU(2)*, Invent. Math. 93 (1988), the theorem of the Introduction, p. 309), through the list of possible multiplicity diagrams (Theorem 1, p. 311) and the bound `m_ij(π)≤dim π` on the relative multiplicities, which that paper recalls from its Part I on p. 309. Consume the SU(2) irreducibles
 from RepresentationTheory/CompactGroups and the rank-one Clebsch–Gordan decomposition
 from RepresentationTheory/LieHighestWeight; identify their compact group specialization.
 Construct spectral multiplicity spaces, their conjugate intertwiners,
@@ -2053,8 +2738,8 @@ positivity/dimension bounds and the resulting type-I decomposition of every ergo
 SU(2) action.
 *Needs:* RepresentationTheory/CompactGroups (Peter–Weyl, Schur orthogonality),
 RepresentationTheory/LieHighestWeight (rank-one Clebsch–Gordan), V1's Kaplansky theorem, V4's
-normal functional calculus and predual, the regular normal bridge above; Høegh-Krohn–Landstad–Størmer
-(1981) and Wassermann (1988, 1989) are the sources.
+normal functional calculus and predual, the regular normal bridge above; the sources are those
+named above.
 
 Construct the discrete crossed product on `ℓ²(Γ,H)` by
 `(π(x)f)(g)=α_(g⁻¹)(x)f(g)` and `(u_h f)(g)=f(h⁻¹g)`. Prove faithfulness and normality of π,
@@ -2088,19 +2773,19 @@ sources.
 
 **V8.DenseTranslations — the locally compact dense-subgroup model.** For a Hausdorff locally compact topological group G with its Borel sigma-algebra, a regular left Haar measure μ and a countable dense subgroup Γ, define the left action by `α_γ(f)(x)=f(γ⁻¹x)`. Prove measure preservation and `ErgodicSMul Γ G μ` (`ergodicSMul_dense_subgroup`), equivalently that every Γ-invariant L∞ class is scalar. This includes noncompact and nonmetrizable G; neither finite total Haar mass nor second countability is a premise. Derive sigma-compactness from a compact identity neighborhood K and the countable cover `G=⋃_(γ∈Γ)γK`, and hence sigma-finiteness of μ. Consume native topological-group and locally-finite-measure implications where available, and prove the dense-subgroup adapters.
 
-For the ergodicity proof consume native `MeasureTheory.Lp.instContinuousSMulDomMulAct` for the norm-continuity of left translations on L¹, explicitly adapting its domain-action convention to `λ_gφ(x)=φ(g⁻¹x)`. Prove the L¹/L∞ integral pairing, its bound and separation, and `∫φ(x)α_g(f)(x)dμ=∫φ(gy)f(y)dμ`. Thus `g↦α_g(f)` is weak-star continuous and its stabilizer is closed; Γ-invariance and density imply invariance under every g∈G. For an invariant null-measurable event choose a Borel representative A, prove the restricted measure `ν=μ|_A` is inner regular, finite on compacts and left invariant, and apply native regular/inner-regular Haar uniqueness to obtain `ν=cμ` for a finite nonnegative scalar c. Own the restricted-measure, pairing-separation and equality-of-density lemmas yielding A null or conull, including ν=0. These are explicit adapters on the existing Haar/Lp/ergodic carriers. No simultaneous pointwise representative for all g or product-Borel equality is presumed. The finite-measure native dense-stabilizer and minimal-action theorems remain applicable in their own scope; they are not the noncompact-Haar proof.
+For the ergodicity proof consume native `MeasureTheory.Lp.instContinuousSMulDomMulAct` for the norm-continuity of left translations on L¹, explicitly adapting its domain-action convention to `λ_gφ(x)=φ(g⁻¹x)`. Prove the L¹/L∞ integral pairing, its bound and separation, and `∫φ(x)α_g(f)(x)dμ=∫φ(gy)f(y)dμ`. Thus `g↦α_g(f)` is weak-star continuous and its stabilizer is closed; Γ-invariance and density imply invariance under every g∈G. For an invariant null-measurable event choose a Borel representative A, prove the restricted measure `ν=μ|_A` is inner regular, finite on compacts and left invariant, and apply native regular/inner-regular Haar uniqueness to obtain `ν=cμ` for a finite nonnegative scalar c. Own the restricted-measure, pairing-separation and equality-of-density lemmas yielding A null or conull, including ν=0. These are explicit adapters on Mathlib's Haar, Lp and ergodic carriers. No simultaneous pointwise representative for all g or product-Borel equality is presumed. The finite-measure native dense-stabilizer and minimal-action theorems remain applicable in their own scope; they are not the noncompact-Haar proof.
 
 The compact model is Jones, §11.2, p. 73 (the paragraph preceding Example 11.2.17), and
 Γ=ℚ⊂(ℝ,+) is Example 11.2.21, pp. 73–74. That example suggests the locally compact
 generalization; the L¹-continuity and restricted-Haar argument above supplies it without
 assuming metrizability. Its inputs are the pinned translation-continuity instance in
 Mathlib `MeasureTheory/Function/LpSpace/DomAct/Continuous.lean` and regular Haar uniqueness in
-`MeasureTheory/Measure/Haar/Unique.lean`. Recover these two examples through the same target. Under the earlier standard-measure-space hypotheses, consume V8's existing crossed-product and type criteria for their algebra models; do not infer standard Borelness or a nonmetrizable crossed-product classification from countable density alone.
+`MeasureTheory/Measure/Haar/Unique.lean`. Recover these two examples through the same target. Under the earlier standard-measure-space hypotheses, consume V8's crossed-product and type criteria for their algebra models; do not infer standard Borelness or a nonmetrizable crossed-product classification from countable density alone.
 *Needs:* Mathlib `ErgodicSMul`, Haar uniqueness (`isMulLeftInvariant_eq_smul_of_innerRegular`),
 `Lp.instContinuousSMulDomMulAct`, the `L¹`/`L∞` pairing; V8.RegularL2; the crossed-product type
 criteria of this layer for the algebra models.
 
-**V8.BernoulliArbitraryDiscrete.** For every infinite discrete group Γ, with no countability assumption, let S be a finite set with its full powerset sigma-algebra and weights p_s≥0 summing to1, with at least two strictly positive weights; zero-weight points are allowed. Use its finite atomic probability measure μ and consume native `MeasureTheory.Measure.infinitePi (fun _ : Γ ↦ μ)` on the cylinder/product sigma-algebra, rather than reconstructing that measure. Consume [`infinitePi_pi`, `eq_infinitePi`, and `infinitePi_map_piCongrLeft`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Probability/ProductMeasure.lean) for finite cylinders, uniqueness and reindexing, and [`ProbabilityTheory.iIndepFun_infinitePi`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Probability/Independence/InfinitePi.lean) for the measurable coordinate family; separately a.e.-measurable coordinates do not by themselves supply an a.e.-measurable uncountable joint map. Define the left Bernoulli shift `α_g(x)(h)=x(g⁻¹h)` and prove measurability, measure preservation, the action law and the induced normal star action on the actual L∞ quotient. Construct the finite-cylinder L² subspaces and prove their union dense by the product-sigma-algebra approximation theorem. Choose an orthonormal basis of the finite-base L² with constant vector1; the products of its nonconstant basis vectors at finitely many coordinates, together with1, form an orthonormal Hilbert basis of the product L². Prove orthonormality by finite-cylinder independence and completeness by cylinder density; no countable global basis is asserted.
+**V8.BernoulliArbitraryDiscrete.** For every infinite discrete group Γ, with no countability assumption, let S be a finite set with its full powerset sigma-algebra and weights p_s≥0 summing to1, with at least two strictly positive weights; zero-weight points are allowed. Use its finite atomic probability measure μ and consume native `MeasureTheory.Measure.infinitePi (fun _ : Γ ↦ μ)` on the cylinder/product sigma-algebra, rather than reconstructing that measure. Consume [`infinitePi_pi`, `eq_infinitePi`, and `infinitePi_map_piCongrLeft`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Probability/ProductMeasure.lean) for finite cylinders, uniqueness and reindexing, and [`ProbabilityTheory.iIndepFun_infinitePi`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Probability/Independence/InfinitePi.lean) for the measurable coordinate family; separately a.e.-measurable coordinates do not by themselves supply an a.e.-measurable uncountable joint map. Define the left Bernoulli shift `α_g(x)(h)=x(g⁻¹h)` and prove measurability, measure preservation, the action law and the induced normal star action on the actual L∞ quotient. Construct the finite-cylinder L² subspaces and prove their union dense by the product-sigma-algebra approximation theorem. Choose an orthonormal basis of the finite-base L² with constant vector1; the products of its nonconstant basis vectors at finitely many coordinates, together with1, form an orthonormal Hilbert basis of the product L². Prove orthonormality by finite-cylinder independence and completeness by cylinder density; no countable global basis is asserted.
 
 The finite-subset Hilbert-basis argument is Jones, Example 11.2.17, p. 73; the finite-base
 version uses the same argument with labels from a basis orthogonal to the constant function.
@@ -2108,7 +2793,7 @@ For every nonempty finite labelled support, its translation stabilizer is finite
 
 For every fixed g≠1 construct an explicitly product-measurable null set Z_g containing its pointwise fixed set. If g has infinite order use the equal-coordinate conditions on one countably infinite orbit; if it has finite order r>1 use a countable family of disjoint r-cycles, whose equal-coordinate probability is `Σ_i p_i^r<1`. Construct the countable witness coordinates explicitly and let the finite-product probability tend to zero. The full pointwise fixed set is an uncountable intersection when Γ is uncountable and is not presumed measurable on the raw product sigma-algebra: containment in Z_g proves outer measure zero, and it is measurable/null in the measure completion. Derive proper outerness of the L∞ automorphism directly from the same countable coordinate tests and the measurable null envelope, without needing raw fixed-set measurability. Distinguish this per-element measure-algebra assertion from existence of one common conull free set for an uncountable group; no uncountable union of null sets is taken.
 
-Consume the existing arbitrary-discrete-group regular crossed-product, coefficient, expectation and free/ergodic factor APIs for this action; the invariant probability gives its faithful normal trace. Prove the base is diffuse and obtain a type II₁ crossed product without a separable-predual assertion. Recover the existing countable standard-space Bernoulli examples and fair-coin finite-subset basis as special cases. This does not expand V8's separate standard-measure-space measure-to-type criterion beyond its stated hypotheses.
+Consume V8's arbitrary-discrete-group regular crossed-product, coefficient, expectation and free/ergodic factor APIs for this action; the invariant probability gives its faithful normal trace. Prove the base is diffuse and obtain a type II₁ crossed product without a separable-predual assertion. Recover the countable standard-space Bernoulli examples above and fair-coin finite-subset basis as special cases. This does not expand V8's separate standard-measure-space measure-to-type criterion beyond its stated hypotheses.
 
 Do not identify the product sigma-algebra with the full product-topology Borel sigma-algebra for uncountable Γ. If a compact-product Haar presentation is used, prove its measure/completion/Lp comparison separately through finite cylinders and regularity before transporting any statement. The probability-product construction already suffices for this full arbitrary-discrete-group theorem.
 *Needs:* Mathlib `Measure.infinitePi`, `infinitePi_pi`, `eq_infinitePi`, `infinitePi_map_piCongrLeft`,
@@ -2162,12 +2847,16 @@ assumption from the classification milestones.
 - The bounded function `Σ_(n≥1)2^(-n)z^n` lies in `L(ℤ)` but is not a finite combination of
   group unitaries.
 - `ℚ` acting on ℝ by translation is ergodic for Lebesgue measure.
+- For infinite ICC groups Γ₀⊆Γ with `[Γ:Γ₀]<∞`, `[L(Γ):L(Γ₀)]=[Γ:Γ₀]`.
 
 ### Dependencies
 
 - Layers 1–7.
-- AmenableGroups Layer 7; Mathlib `Lp.instContinuousSMulDomMulAct` for V8.RegularL2.
+- AmenableGroups Layer 7; BanachAlgebras §7.2 and §7.3 (A7.RegularL2) for V8.RegularL2; Mathlib
+  `Lp.instContinuousSMulDomMulAct` for V8.DenseTranslations.
 - Tau Ceti `ContRepresentation.integratedOperatorL1` and the strongly measurable lemmas.
+- Mathlib `MeasureTheory.Lp.compMeasurePreservingₗᵢ`, `MeasureTheory.Measure.count` and
+  `DiscreteMeasurableSpace` for the left regular representation on ℓ²(Γ).
 
 ## Layer 9: Lattice modules and discrete series
 
@@ -2178,8 +2867,9 @@ Consume Mathlib's fundamental domains `MeasureTheory.IsFundamentalDomain`, the c
 `IsFundamentalDomain.QuotientMeasureEqMeasurePreimage_HaarMeasure`, and the unfolding formula
 `QuotientGroup.integral_eq_integral_automorphize` (`Mathlib/MeasureTheory/Measure/Haar/Quotient.lean`):
 for a countable subgroup Γ of a locally compact group G with a right-invariant Haar measure and a
-fundamental domain D, `∫_G f=∫_(G/Γ)∑_(γ∈Γ)f(γg)` for integrable f whose automorphization is
-strongly measurable. Define a lattice as a discrete subgroup of finite covolume in a unimodular
+fundamental domain D for the right action of Γ, `∫_G f=∫_(G/Γ)∑_(γ∈Γ)f(gγ)` for integrable f whose
+automorphization is strongly measurable; here G/Γ is the space of left cosets gΓ, and
+`g↦∑_(γ∈Γ)f(gγ)` is constant on each of them. Define a lattice as a discrete subgroup of finite covolume in a unimodular
 second-countable locally compact group, prove Weil's formula for nonnegative measurable
 functions from the integrable case by monotone truncation, and prove a lattice is uniform
 exactly when its quotient is compact. Work out ℤ⊂ℝ,
@@ -2215,7 +2905,7 @@ when these are finite factors prove `dim_(M(K,G/H)) L²(G)=covol(K)/covol(H)`. F
 but its physical L²(ℝ) module has dimension 1+θ, so these representations are not
 unitarily equivalent. Prove the Haar-rescaling invariance of each covolume ratio.
 *Needs:* the lattice theory above, V7.Dimension and V7.SumsAndCorners, V8's crossed products and
-commutant computations, Mathlib's weighted Bergman spaces (built here on `MeasureTheory.Lp` and
+commutant computations, weighted Bergman spaces (built here on Mathlib's `MeasureTheory.Lp` and
 holomorphic functions on the upper half-plane) and `UpperHalfPlane`; Goodman–de la Harpe–Jones,
 §3.3, for the discrete-series formal degree and the coupling-constant computations.
 
@@ -2224,6 +2914,11 @@ holomorphic functions on the upper half-plane) and `UpperHalfPlane`; Goodman–d
 - For G=ℝ, Γ=ℤ with Lebesgue measure, `D=[0,1)` has covolume 1 and Weil's formula is
   `∫_ℝ f=∫_0^1 Σ_n f(x+n)dx`; for Γ=θℤ the covolume is θ, and multiplying Haar measure by c
   multiplies every covolume by c.
+- The side of the coset sum: in `S₃` with counting measure, `Γ={e,(12)}` and f the indicator of
+  (13), the elements (13) and (13)(12) lie in the same left coset. `Σ_γ f(gγ)` is 1 at both, and
+  summing over the three cosets gives `1=Σ_g f(g)`. The left-multiplied sum `Σ_γ f(γg)` is 1 at
+  (13) but 0 at (13)(12), since `(13)(12)≠(13)` and `(12)(13)(12)=(23)≠(13)`, so it is not a
+  function on G/Γ. On an abelian group such as ℤ⊂ℝ the two sums agree.
 - For compact G with normalized Haar measure every irreducible π is square integrable with
   `d_π=dim π`, by Schur orthogonality `∫|⟨π(g)ξ,η⟩|²dg=‖ξ‖²‖η‖²/dim π`; for G=𝕋 the characters
   `z^n` have formal degree 1.
@@ -2248,13 +2943,15 @@ holomorphic functions on the upper half-plane) and `UpperHalfPlane`; Goodman–d
 
 **V10.ClosedOperators — pre-tracial closed-operator calculus.**
 Use Mathlib's `LinearPMap.adjoint`, `LinearPMap.adjoint_isClosed` and
-`LinearPMap.isSelfAdjoint_def`. For a self-adjoint T prove, for ξ in its domain and λ∈ℂ,
-`‖(T−λ)ξ‖²=‖(T−Re λ)ξ‖²+(Im λ)²‖ξ‖²`; hence for λ∉ℝ that `T−λ` is injective with closed
-range, that its range is dense (its orthogonal complement is `ker(T*−λ̄)=ker(T−λ̄)=0`), so that
-`T−λ` is a bijection of its domain onto H with `‖(T−λ)⁻¹‖≤|Im λ|⁻¹` (Reed–Simon I, Theorem
-VIII.3); that the Cayley transform `U=(T−i)(T+i)⁻¹` is unitary, an isometry of `range(T+i)=H`
-onto `range(T−i)=H`; that 1 is not an eigenvalue of U (`Uη=η` with `η=(T+i)ξ` forces `2iξ=0`);
-and that `range(1−U)` is the domain of T (Rudin, *Functional Analysis*, Theorem 13.19). Prove the inverse correspondence: a unitary U for which 1 is not an eigenvalue is the Cayley
+`LinearPMap.isSelfAdjoint_def`. For a self-adjoint T consume Tau Ceti's resolvent and Cayley
+transform: every λ∉ℝ is a resolvent point with `‖(T−λ)⁻¹‖≤|Im λ|⁻¹`
+(`IsSelfAdjoint.mem_resolventSet_of_im_ne_zero`, `IsSelfAdjoint.norm_resolvent_le`; Reed–Simon
+I, Theorem VIII.3); the Cayley transform `U=LinearPMap.cayley T`, `1+2i(−i−T)⁻¹`, which is
+`(T−i)(T+i)⁻¹`, is unitary (`IsSelfAdjoint.cayley_mem_unitary`); 1 is not an eigenvalue of U
+(`LinearPMap.cayley_apply_eq_self_iff`); and the graph of T is `{(x−Ux, i(x+Ux)) : x∈H}`
+(`LinearPMap.mem_graph_iff_exists_cayley`), so `range(1−U)` is the domain of T and
+`T=i(1+U)(1−U)⁻¹` there (Rudin, *Functional Analysis*, Theorem 13.19). Prove the inverse
+correspondence: a unitary U for which 1 is not an eigenvalue is the Cayley
 transform of exactly one self-adjoint operator, `T=i(1+U)(1−U)⁻¹` on the domain `range(1−U)`
 (Rudin, *Functional Analysis*, Thm 13.19). Extend this to arbitrary densely
 defined closed operators T: self-adjointness/positivity of T*T and TT*, equality of domains
@@ -2271,17 +2968,21 @@ real measurable f on domain `{g : ∫|fg|²<∞}` (Reed–Simon I, Thm VIII.4). 
 spectral measure of T from V2.BorelCalculus applied to the normal operator U: its spectral
 measure P_U gives no mass to the point 1, because `P_U({1})` is the projection onto
 `ker(U−1)=0` (by the vector identity, `(U−1)ξ=0` iff μ_ξ is carried by {1}), so P_T is the
-image of P_U under the inverse Cayley map `z↦i(1+z)/(1−z)` from the circle without 1 onto ℝ;
+image of P_U under the inverse Cayley map `z↦i(1+z)/(1−z)` from the circle without 1 onto ℝ,
+given any real value at the P_U-null point 1 (`TauCeti.ProjValMeasure.map`, with the change of
+variables `TauCeti.ProjValMeasure.integral_map`);
 prove `⟨ξ,Tη⟩=∫t dμ^T_(ξ,η)(t)` for η in the domain, which equals `{ξ : ∫t² dμ^T_ξ<∞}`
 (Rudin, Theorem 13.30). Apply the cyclic multiplication model of V4.0.Multiplication to U and
 pull the coordinate back to the real line along the inverse Cayley map; prove the unbounded
 multiplier/domain transport by spectral truncation. For separable H combine the countably many
-summands into its one finite measure space; retain the
+summands into its one finite measure space; use the
 direct-sum form without separability. Extend the adjoint and
 closed-graph machinery to conjugate-linear partial maps using the conjugate Hilbert space;
 prove graph orthogonality, closure and polar-decomposition statements with domains explicit.
 *Needs:* Mathlib `LinearPMap.adjoint`, `LinearPMap.adjoint_isClosed`, `LinearPMap.isSelfAdjoint_def`;
-V2.BorelCalculus and V4.0.Multiplication; PolarDecomposition PD-A36 and
+Tau Ceti `IsSelfAdjoint.norm_resolvent_le`, `LinearPMap.cayley`, `IsSelfAdjoint.cayley_mem_unitary`,
+`LinearPMap.cayley_apply_eq_self_iff`, `LinearPMap.mem_graph_iff_exists_cayley` and
+`TauCeti.ProjValMeasure.map`; V2.BorelCalculus and V4.0.Multiplication; PolarDecomposition PD-A36 and
 PD-B23–B36 for the bounded transform in the unbounded polar decomposition; the conjugate Hilbert space;
 Reed–Simon I, Theorems VIII.3–VIII.4, and Rudin, Theorems 13.19 and 13.30, are the sources.
 
@@ -2360,6 +3061,17 @@ decomposition for surjectivity of this isometric predual identification.
 V6's tracial L² and `JMJ=M′`; Anantharaman–Popa, §§7.2–7.4, pp. 101–117, and Hiai, §5, are the
 sources for the affiliated algebra and the predual as L¹.
 
+**Checks.**
+
+- On `M=L∞[0,1]` with `τ=∫`, the unbounded `h(t)=t^(−1/3)` is τ-measurable and lies in `L²`
+  (`∫t^(−2/3)dt=3`) but not in `L³` (`∫t^(−1)dt=∞`) and not in M; for a finite trace the spaces
+  decrease with p, and `Lᵖ` is not a space of bounded operators.
+- On `M₂(ℂ)` with the normalized trace `τ=tr/2`, `‖e₁₁‖_p=τ(e₁₁)^(1/p)=2^(−1/p)`, so
+  `‖e₁₁‖₁=1/2`; the unnormalized trace would give 1 for every p.
+- The predual identification `a↦(x↦τ(xa))` on `(M₂(ℂ),tr/2)` sends `2e₁₁` to the vector state
+  `x↦x₁₁`, with `‖2e₁₁‖₁=τ(2e₁₁)=1=‖x↦x₁₁‖`; reading the density `e₁₁` of that state for the
+  unnormalized trace against τ would give the functional `x↦x₁₁/2` of norm 1/2.
+
 
 **V10.ModularTheory — Tomita–Takesaki and the natural cone.**
 Consume V10.Affiliation, V4.Core, V4.PositivePredual, V4.Normality, V0,
@@ -2390,6 +3102,21 @@ finite-dimensional density-matrix formulas and the tracial specialization.
 V4.PositivePredual, V4.Normality, V0, V1, V6; V2's infinite tensor product and V8's nonsingular
 crossed products for the examples; Mathlib complex analysis for the `1/(2cosh πt)` integral;
 Hiai, §§2–3, and Takesaki II, Chapters VI and IX, are the sources.
+
+**Checks.**
+
+- For `φ=Tr(h·)` on `M₂(ℂ)` with `h=diag(2/3,1/3)`, the GNS space is `M₂(ℂ)` with
+  `⟨ξ,η⟩=Tr(ξ*η)`, `Ω=h^(1/2)` and left multiplication; then `Δξ=hξh⁻¹`, `Jξ=ξ*` and
+  `JΔ^(1/2)(xΩ)=x*Ω`. The reversed operator `ξ↦h⁻¹ξh` fails this: on `x=e₁₂` it gives
+  `he₂₁h^(−1/2)=6^(−1/2)e₂₁`, whereas `x*Ω=(2/3)^(1/2)e₂₁`.
+- In the same model `Δ^(1/4)(xΩ)=h^(1/4)xh^(1/4)`, so P is the cone of positive matrices, which is
+  self-dual since `Tr(ξη)≥0` for every positive ξ exactly when η is positive. The exponent 1/4 is
+  forced: for the positive all-ones matrix x, `xΩ=[[√(2/3),√(1/3)],[√(2/3),√(1/3)]]` and
+  `Δ^(1/2)xΩ=h^(1/2)x=[[√(2/3),√(2/3)],[√(1/3),√(1/3)]]` are not self-adjoint, so exponents 0 and
+  1/2 give cones that are not P.
+- The pairing convention is "real and nonnegative": `η=i·1` has `Re⟨ξ,η⟩=Re(i Tr ξ)=0` for every
+  positive ξ, so the condition `Re⟨ξ,η⟩≥0` alone would admit it, while `⟨1,i·1⟩=2i` is not real and
+  the stated convention excludes it.
 
 **V10.FiniteComplexPowers — complex powers and their star locus.** On the same
 finite-dimensional algebra `M=∏_k M_(n_k)(ℂ)` and faithful state
@@ -2422,7 +3149,7 @@ This is the operator-valued complex-time comparison in addition to the
 entire scalar KMS function already specified.
 
 Consume native `Complex.cpow` for the scalar spectral powers,
-`Matrix.diagonal` and the existing finite-dimensional spectral calculus.
+`Matrix.diagonal` and Mathlib's finite-dimensional spectral calculus.
 For the underlying algebra automorphisms use the units/conjugation action
 and `MulSemiringAction.toAlgEquiv`; on the imaginary axis compare with
 native `Unitary.conjStarAlgAut`. No new complex-power or inner-automorphism
@@ -2461,23 +3188,57 @@ Consume V10.ModularTheory and its modular action convention.
 Prove the KMS characterization for an arbitrary strongly continuous φ-preserving
 normal automorphism group α: for the convention `σ_t(x)=Δ^(it)xΔ^(-it)`, F is bounded
 continuous on `0≤Im z≤1`, holomorphic inside, `F(t)=φ(α_t(x)y)` and
-`F(t+i)=φ(yα_t(x))`. Prove α=σ^φ iff it satisfies this condition (Hiai, Theorem 2.14; Takesaki II, Theorem VIII.1.2). Establish existence and uniqueness for faithful normal states;
-construct analytic elements by smoothing, prove strip approximation and uniqueness using
-Stone's theorem and common spectral cores. Supply the required scalar/vector strip
-Phragmén–Lindelöf and Fourier smoothing estimates here from Mathlib complex analysis.
+`F(t+i)=φ(yα_t(x))`. Prove α=σ^φ iff it satisfies this condition (Hiai, Theorem 2.14; Takesaki II, Theorem VIII.1.2). Establish existence and uniqueness for faithful normal states:
+a faithful normal state φ on a concrete von Neumann algebra M has exactly one one-parameter
+group of star automorphisms of M, pointwise continuous in the strong operator topology, for which
+φ satisfies the condition, and it is σ^φ. This is `existsUnique_isKMS_flow`, which needs no
+carrier for Δ. Its continuity class is Takesaki's: a weakly continuous automorphism group is
+pointwise strongly continuous, since
+`‖(α_t(x)−x)ξ‖²=⟨ξ,α_t(x*x)ξ⟩−⟨α_t(x)ξ,xξ⟩−⟨xξ,α_t(x)ξ⟩+⟨ξ,x*xξ⟩→0` (Hiai, §2.2, p. 17), and
+strong convergence implies weak convergence.
+Construct analytic elements by the Gaussian means `x_n=√(n/π)∫e^(−nt²)α_t(x)dt` (Hiai, Lemma
+2.13, p. 18), and prove strip approximation and uniqueness using Stone's theorem and common
+spectral cores. The strip estimates are Mathlib's Phragmén–Lindelöf principle for functions with
+values in a complex normed space: `PhragmenLindelof.horizontal_strip` bounds a function on the
+closed strip by its bound on the two boundary lines, and `PhragmenLindelof.eqOn_horizontal_strip`
+determines it by its boundary values. The Gaussian integrals are Mathlib's
+`integral_cexp_quadratic` (`∫cexp(bx²+cx+d)dx` in closed form for `Re b<0`) and
+`fourierIntegral_gaussian` (`∫e^(itx)e^(−bx²)dx=(π/b)^(1/2)e^(−t²/(4b))` for `Re b>0`). The
+Fourier smoothing estimate for the Gaussian means and
+the construction of analytic elements for a weakly continuous group are owned here: a modular
+group is in general not norm continuous, and `TauCeti.CStarAction` is a point-norm continuous
+action.
+For a point-norm continuous α the condition is Tau Ceti's at β=−1 with the pair exchanged: F is
+a strip function of the pair x, y exactly when `G(z)=F(z+i)` is a
+`TauCeti.CStarAction.IsKMSFunction` at β=−1 of the pair a=y, b=x, with boundary values
+`G(t)=φ(yα_t(x))` and `G(t−i)=φ(α_t(x)y)`; so a state satisfies the condition for every pair
+exactly when it is a `TauCeti.CStarAction.IsKMSState` at β=−1.
 Prove the stronger finite-dimensional statement for every finite-dimensional
 M, including a direct sum of matrix blocks. With Tr_M the sum of the
-unnormalized block traces, use the finite-dimensional density theorem to
-write each faithful state uniquely as `φ(x)=Tr_M(hx)` with invertible
-`h∈M₊` and Tr_M(h)=1. Prove invariance and the entire extension
+unnormalized block traces, write each faithful state uniquely as `φ(x)=Tr_M(hx)` with invertible
+`h∈M₊` and Tr_M(h)=1, blockwise by Tau Ceti's trace duality `LinearMap.existsUnique_trace_mul_eq`.
+Prove invariance and the entire extension
 `F(z)=Tr_M(h h^(iz)x h^(-iz)y)`, with the two stated boundary equations
-for `α=σ^φ`. Prove this using finite spectral sums and cyclicity; strip
-holomorphy in the general theorem does not replace the entire conclusion.
+for `α=σ^φ`; strip holomorphy in the general theorem does not replace the entire conclusion.
+For a single block `M_n(ℂ)` this is Tau Ceti's Gibbs theorem at β=−1 with `K=log h`: the inner
+dynamics `exp(itK)x·exp(−itK)=h^(it)xh^(−it)` is σ^φ, the Gibbs state `Tr(e^K·)/Tr(e^K)` is
+`Tr(h·)`, `Matrix.IsHermitian.isKMSState_gibbsState` gives the condition and
+`Matrix.IsHermitian.isKMSState_iff_eq_gibbsState` the uniqueness of the state. Own the
+multi-block case: with `K=log h∈M`, every element of M is entire analytic for
+`selfAdjoint.cstarAction K`, the analytic identity
+`Tr_M(h·y·h^(i(t−i))xh^(−i(t−i)))=Tr_M(h·h^(it)xh^(−it)·y)` follows from the cyclicity of each
+block trace, and `TauCeti.CStarAction.isKMSFunction_apply_mul_entireExtension_iff` makes
+`G(z)=Tr_M(h·y·h^(iz)xh^(−iz))=F(z+i)` the KMS function of the pair y, x. On several blocks the
+state is not determined by the dynamics (Checks).
 Define the centralizer, prove equality with the modular fixed algebra and the commutation
 identity `φ(xy)=φ(yx)`, and prove it is a finite algebra with trace φ.
-*Needs:* V10.ModularTheory, Tau Ceti's Stone theorem, Mathlib complex analysis (the strip
-Phragmén–Lindelöf and Fourier smoothing estimates are built here from the maximum modulus
-principle and `Real.fourierIntegral`), the finite-dimensional density theorem above.
+*Needs:* V10.ModularTheory, Tau Ceti's Stone theorem; Mathlib
+`PhragmenLindelof.horizontal_strip`, `PhragmenLindelof.eqOn_horizontal_strip`,
+`integral_cexp_quadratic` and `fourierIntegral_gaussian`; Tau Ceti `TauCeti.CStarAction.IsKMSFunction`,
+`TauCeti.CStarAction.IsKMSState`, `TauCeti.CStarAction.isKMSFunction_apply_mul_entireExtension_iff`,
+`selfAdjoint.cstarAction`, `selfAdjoint.entireExtension_cstarAction`,
+`Matrix.IsHermitian.isKMSState_gibbsState`, `Matrix.IsHermitian.isKMSState_iff_eq_gibbsState`
+and `LinearMap.existsUnique_trace_mul_eq`.
 
 **Checks.**
 
@@ -2490,6 +3251,19 @@ principle and `Real.fourierIntegral`), the finite-dimensional density theorem ab
 - Uniqueness: on `M₂(ℂ)` the only state with KMS condition for `α_t=Ad(diag(2^(it),1))`
   is `φ=Tr(h·)` with `h=diag(2/3,1/3)`, since the condition on `x=e₁₂`, `y=e₂₁` forces
   `h₁₁/h₂₂=2`.
+- Uniqueness of the group for that φ: the φ-preserving group `α_t=Ad(diag(3^(it),1))` fails the
+  condition. On `x=e₁₂`, `y=e₂₁` the boundary values are `(2/3)3^(it)` and `(1/3)3^(it)`; the
+  bounded strip function with the first values is `(2/3)3^(iz)`, which takes the value
+  `(2/9)3^(it)≠(1/3)3^(it)` on `Im z=1`. The trivial group fails too: F is the constant 2/3, not
+  1/3 on `Im z=1`. Among the groups `Ad(diag(r^(it),1))`, r>0, the same pair gives
+  `F(z)=(2/3)r^(iz)` and requires `(2/3)/r=1/3`, so only r=2, the group `Ad(h^(it))`, passes.
+- The crosswalk is at β=−1, not β=1: for `K=log h` with `h=diag(2/3,1/3)`, the Gibbs state at
+  β=−1 is `Tr(e^K·)/Tr(e^K)=Tr(h·)`, while at β=1 it is `Tr(h⁻¹·)/Tr(h⁻¹)=Tr(diag(1/3,2/3)·)`.
+  For `x=e₁₂`, `y=e₂₁`, `G(z)=F(z+i)=(1/3)2^(iz)` has `G(t)=(1/3)2^(it)=φ(yσ_t(x))` and
+  `G(t−i)=(2/3)2^(it)=φ(σ_t(x)y)`, Tau Ceti's boundary values for a=y, b=x.
+- Several blocks: on `M=ℂ⊕ℂ` every h is central, so σ^φ is trivial and every state, faithful or
+  not, satisfies the condition for it; the uniqueness of the state holds for one block only, while
+  the uniqueness of the group given a faithful φ holds on every M.
 
 **V10.Hecke — discrete pairs and operator conventions.** Consume
 V10.ModularTheory and V10.KMS before computing Δ, J and σ. For an arbitrary
@@ -2568,10 +3342,11 @@ transpose fixes each rational double coset. Consume Tau Ceti's
 with ambient submonoid ⊤ and ℂ coefficients. Clearing denominators proves this double-coset fact;
 it is not asserted to define a ring map from an integral monoid.
 Keep this arithmetic pair distinct from the type-A Hecke tower.
-*Needs:* Tau Ceti's Hecke-ring modules (`IsHeckeTriple`, the ring `𝕋 ⊤ H ℂ`,
+*Needs:* Mathlib `IsHeckeTriple` and the carrier `HeckeRing` (notation `𝕋`); Tau Ceti's Hecke-ring
+modules (the ring structure on `𝕋 ⊤ H ℂ`,
 `HeckeCosetModule.single_mul_single`, `DoubleCoset.multiplicity`, `HeckeAntiInvolution.ofAmbient`,
 `HeckeCosetModule.mul_comm_of_antiInvolution`), V10.ModularTheory and V10.KMS, Mathlib `lp` on
-coset spaces and Smith normal form over ℤ (`Basis.SmithNormalForm`); V1's bicommutant theorem
+coset spaces and Smith normal form over ℤ (`Module.Basis.SmithNormalForm`); V1's bicommutant theorem
 and V4.Normality for the radial restriction.
 
 **V10.AffineHecke — the canonical type-III example.** Use slope-first
@@ -2650,37 +3425,24 @@ subring), V8's crossed products and expectation, Mathlib Haar measure on `A_f`, 
 characters (`ZMod`, `AddChar`), V0's GNS uniqueness and V1's Kaplansky theorem.
 
 **V10.AffineAP — arithmetic progression asymptotics and prime pairs.**
-For a modulus d≥1 and a reduced residue class a₀ modulo d, own the adapter
-`π_(d,a₀)(x) ~ x/(ϕ(d)log x)`, where π counts rational primes
-p≤x in that class and ϕ is Euler's totient. Consume the implemented
-`TauCeti.LSeries.wienerIkehara` from
-`TauCeti.NumberTheory.LSeries.WienerIkehara.SharpCutoff`, as recorded in
-[ArithmeticDirichletSeries Layer9](../../Completed/ArithmeticDirichletSeries/README.md).
-Use Mathlib's actual `ArithmeticFunction.vonMangoldt.residueClass`,
-`continuousOn_LFunctionResidueClassAux`,
-`eqOn_LFunctionResidueClassAux` and half-plane von-Mangoldt summability.
-For the nonnegative residue-class coefficient supply its actual
-`LSeriesHasSum` on Re s>1, a separately defined continuous boundary
-remainder on Re s≥1, and the equality with residue 1/ϕ(d).
-The native theorem gives the normalized partial-sum limit.
-Specialize the prime-ideal counts to K=ℚ and
-`S={𝔭:absNorm(𝔭)≡a₀ mod d}`. Own the rational-prime/prime-ideal
-bijection, norm/logarithmic-weight and inclusive-cutoff comparisons.
-Express the residue-class von-Mangoldt sum as this prime theta sum
-plus the terms p^k≡a₀ mod d with k≥2, and bound that latter weight by
-Tau Ceti's standard higher-prime-power weight. Consume
-`higherPrimePowerTheta_isBigO` and
-`primePowerSummatory_isLittleO_of_le_higherPrimePowerWeight`
-from `TauCeti.NumberTheory.ArithmeticDirichletSeries.HigherPrimePowers`
-to remove that contribution. On the corresponding prime set over ℚ,
-consume `primeCount_sub_mul_logIntegral_isLittleO` and
-`primeCount_asymptotic_of_primeTheta` from
-`TauCeti.NumberTheory.ArithmeticDirichletSeries.Transfer`, with the
-positive residue, and `TauCeti.Real.logIntegral_isEquivalent_div_log`.
-These are applications
-of implemented generic Tauberian/removal/Abel APIs, not new owners of
-those theorems. Mathlib's nonsummability of Σ(log p)/p in a progression
-alone proves neither the asymptotic nor divergence of Σ1/p.
+For a modulus d≥1 and a reduced residue class a₀ modulo d, the prime number theorem in that
+class, `π_(d,a₀)(x) ~ x/(ϕ(d)log x)`, where `π_(d,a₀)(x)` counts the rational primes p≤x with
+p≡a₀ mod d and ϕ is Euler's totient, is consumed from Tau Ceti and not proved here: for a₀ with
+`IsUnit (a₀ : ZMod d)`, `NumberField.Chebotarev.tendsto_primeCount_primesCongruent d a₀` says that
+`TauCeti.primeCount ℚ {𝔭 : absNorm 𝔭 % d = a₀ % d} x / (x / log x) → 1/ϕ(d)`, and
+`NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral d a₀` gives the
+equivalent form `~ Li(x)/ϕ(d)` (Chebotarev, Layers 13–14, owns both). The comparison of the
+primes of `𝓞 ℚ` with rational primes is also in the libraries: Mathlib's
+`Rat.HeightOneSpectrum.primesEquiv` is the bijection `v ↦ natGenerator v` from
+`HeightOneSpectrum (𝓞 ℚ)` onto `Nat.Primes`, with inverse `p ↦ pℤ`, and Tau Ceti's
+`Rat.HeightOneSpectrum.absNorm_asIdeal` gives `absNorm v = natGenerator v`. Own only the counting
+identity `π_(d,a₀)(x) = TauCeti.primeCount ℚ {𝔭 | absNorm 𝔭 % d = a₀ % d} x` for real x,
+obtained by transporting the finite set of primes of norm at most x along `primesEquiv`: the
+congruence condition and the inclusive cutoff `absNorm 𝔭 ≤ x` become p≡a₀ mod d and p≤x. At
+d=4, a₀=3, x=10 both sides are 2, counting the primes 3 and 7 and the primes 3ℤ and 7ℤ of
+`𝓞 ℚ`; the cutoff is inclusive, so at x=7 both sides are still 2 and at x=6.9 both are 1.
+Mathlib's Dirichlet theorem (infinitely many primes in the class) does not give the block counts
+used below.
 
 Derive the precise prime-pair lemma: for every modulus d≥1 and 0<η<1/4, outside
 any finite prime set choose pairwise disjoint prime pairs (p_j,q_j),
@@ -2691,9 +3453,11 @@ pair primes in [X,(1+δ)X] with equally many primes in
 pairs in each sufficiently large block; their reciprocal contribution
 is ≥c'_(d,δ)/log X, whose block sum diverges. This explicit estimate
 is an owned prerequisite, not a claim that infinitude supplies it.
-*Needs:* Tau Ceti `TauCeti.LSeries.wienerIkehara`, Mathlib `ArithmeticFunction.vonMangoldt.residueClass`
-and the `LFunctionResidueClassAux` declarations, the Tau Ceti higher-prime-power and transfer
-declarations named above; ArithmeticDirichletSeries Layer 9.
+*Needs:* Tau Ceti `NumberField.Chebotarev.tendsto_primeCount_primesCongruent`,
+`NumberField.Chebotarev.primeCount_primesCongruent_isEquivalent_logIntegral`,
+`TauCeti.primeCount` and `Rat.HeightOneSpectrum.absNorm_asIdeal`; Mathlib `Ideal.absNorm`,
+`IsDedekindDomain.HeightOneSpectrum`, `Rat.HeightOneSpectrum.primesEquiv`, `Nat.totient` and
+`ZMod`.
 
 **V10.AffineType — Haar return, ergodicity and type III.** Consume
 V10.AffineAP, V10.AffineHecke, GlobalNumberFields Layer4, V8,
@@ -2776,11 +3540,19 @@ Bost–Connes Theorem 5, Laca–Raeburn and Neshveyev are the sources (Reference
 ### Dependencies
 
 - Layers 0–8.
-- Mathlib `LinearPMap.adjoint` and `LinearPMap.adjoint_isClosed`; V2.BorelCalculus,
-  V4.0.Multiplication and PolarDecomposition, for V10.ClosedOperators; Tau Ceti `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`.
-- Tau Ceti's Hecke-ring modules for V10.Hecke; GlobalNumberFields Layer 4 for V10.AffineHecke;
-  ArithmeticDirichletSeries Layer 9 and the Tau Ceti Tauberian/transfer declarations named in
+- Mathlib `LinearPMap.adjoint` and `LinearPMap.adjoint_isClosed`, Tau Ceti's self-adjoint
+  resolvent and Cayley transform (`IsSelfAdjoint.norm_resolvent_le`, `LinearPMap.cayley`) and
+  `TauCeti.ProjValMeasure.map`, V2.BorelCalculus, V4.0.Multiplication and PolarDecomposition, for
+  V10.ClosedOperators; Tau Ceti `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`.
+- Mathlib `IsHeckeTriple` and `HeckeRing` and Tau Ceti's Hecke-ring modules for V10.Hecke; GlobalNumberFields Layer 4 for V10.AffineHecke;
+  Tau Ceti's prime number theorem in arithmetic progressions
+  (`NumberField.Chebotarev.tendsto_primeCount_primesCongruent`), Mathlib's
+  `Rat.HeightOneSpectrum.primesEquiv` and Tau Ceti's `Rat.HeightOneSpectrum.absNorm_asIdeal` for
   V10.AffineAP.
+- Mathlib's `PhragmenLindelof.horizontal_strip`, and Tau Ceti's KMS functions and states
+  (`TauCeti.CStarAction.IsKMSFunction`, `TauCeti.CStarAction.IsKMSState`), inner dynamics
+  (`selfAdjoint.cstarAction`) and Gibbs states (`Matrix.IsHermitian.isKMSState_gibbsState`) for
+  V10.KMS.
 
 ## Layer 11: Weights, Connes invariants, and continuous cores
 
@@ -2834,10 +3606,13 @@ VIII.2.6, and Hiai, Remark 13.18, are the sources.
 - On `B(ℓ²)` the canonical trace is an n.s.f. weight with `n_Tr` the Hilbert–Schmidt operators,
   `m_Tr` the trace class, and `σ^Tr=id`; on `M₂(ℂ)` with `φ=Tr(h·)`, `h=diag(2/3,1/3)`, the
   cocycle is `(Dφ:DTr)_t=h^(it)=diag((2/3)^(it),(1/3)^(it))` and `σ^φ_t=Ad(h^(it))∘σ^Tr_t`.
-- The weight `φ(x)=Σ_n n·x_nn` on `ℓ∞(ℕ)` is normal, faithful and semifinite (finitely supported
-  positive elements have finite weight and are dense), but not bounded; the weight that is ∞ on
-  every nonzero positive element is normal and faithful but not semifinite.
-- `CentralizerCornerRestriction` on `M₂(ℂ)` with the weight above and `p=e₁₁` (fixed by `σ^φ`)
+- The weight `φ(x)=Σ_n (n+1)·x_n` on `ℓ∞(ℕ)` is normal, faithful and semifinite: `φ(δ_n)=n+1>0`,
+  so `φ(x)=0` for `x≥0` forces every `x_n=0`; on `1_{0,…,N}↑1` its values `(N+1)(N+2)/2` increase
+  to `φ(1)=∞`, so it is normal but not bounded; finitely supported positive elements have finite
+  weight and increase to 1. The weight `Σ_n n·x_n` is not faithful, since it vanishes on the
+  nonzero positive `δ₀`. The weight that is ∞ on every nonzero positive element is normal and
+  faithful but not semifinite.
+- CentralizerCornerRestriction on `M₂(ℂ)` with the weight above and `p=e₁₁` (fixed by `σ^φ`)
   gives `θ_p=(2/3)·id` on `pMp=ℂ`, with trivial modular group, as the formula requires.
 
 Construct tensor-product n.s.f. weights on spatial von Neumann tensors
@@ -2870,8 +3645,9 @@ faithful normal state exists. Construct canonical L²(M) from the
 weight-associated spaces and these compatible unitaries, with functorial
 standard implementations and the canonical bimodule action
 `xξy=xJy*Jξ`. Prove its normality, commutation and adjoint laws.
-Prove the general tensor commutation theorem `(M⊗̄N)′=M′⊗̄N′`
-using these standard forms, V4.Normality's faithful representation amplifications
+Prove the general tensor commutation theorem `(M⊗̄N)′=M′⊗̄N′`, stated as
+`commutant_spatialTensor` (Anantharaman–Popa, §5.1, p. 66, footnote 1, which records it with
+its history), using these standard forms, V4.Normality's faithful representation amplifications
 and full/cyclic commutant-projection reductions; include arbitrary
 representations and Hilbert-space multiplicities. A faithful normal state is not an assumption
 of this general standard-form theorem.
@@ -3034,15 +3810,25 @@ weight independence.
 *Needs:* CentralizerCornerRestriction, the spatial derivative and RelativeModularComparison above,
 V2's matrix amplification `M⊗M₂`; Hiai, §§7.2 and 12.2.
 
-For a faithful n.s.f. base weight φ, prove the Pedersen–Takesaki theorem (Hiai, Theorem 9.4):
-a normal semifinite ψ invariant under σ^φ is uniquely φ_h for a
-positive operator h affiliated with the weight centralizer, with
-`φ_h(x)=lim_(ε↓0) φ(h_ε^(1/2)xh_ε^(1/2))`,
-`h_ε=h(1+εh)⁻¹`, including supports and nonfaithful ψ.
-For h with support 1 prove `(Dφ_h:Dφ)_t=h^(it)`; for general h
-use its supported powers and the preceding partial-isometry convention.
-Apply CentralizerCornerRestriction to the centralizer projection s(h)
-for the modular restriction on the support corner.
+For a faithful n.s.f. base weight φ and a positive self-adjoint operator h affiliated with the
+weight centralizer, define `φ_h(x)=lim_(ε↓0) φ(h_ε^(1/2)xh_ε^(1/2))` with `h_ε=h(1+εh)⁻¹`.
+Prove that φ_h is a normal semifinite weight, faithful exactly when h is nonsingular, and that
+`h≤k` exactly when `φ_h≤φ_k` (Hiai, Proposition 9.3, p. 83). For nonsingular h prove
+`σ_t^(φ_h)(x)=h^(it)σ_t^φ(x)h^(−it)` and `(Dφ_h:Dφ)_t=h^(it)` (Hiai, Theorem 9.4, p. 84); for
+general h use its supported powers and the preceding partial-isometry convention.
+Prove the Pedersen–Takesaki theorem for a faithful n.s.f. weight ψ: ψ is σ^φ-invariant exactly
+when φ is σ^ψ-invariant, exactly when `t↦(Dψ:Dφ)_t` is a one-parameter unitary group, exactly
+when `ψ=φ_h` for a nonsingular h, and that h is unique (Hiai, Theorem 9.7, p. 87). Hiai states
+the theorem for faithful weights only. Prove here its extension to every normal semifinite ψ:
+ψ is σ^φ-invariant exactly when `ψ=φ_h` for a positive h affiliated with the centralizer, and h
+is then unique. Route: if ψ is invariant, its support e=s(ψ) satisfies `σ_t^φ(e)=e`, because the
+support of `ψ∘σ_t^φ` is `σ_(−t)^φ(e)`; so e lies in the centralizer. CentralizerCornerRestriction
+makes the restriction φ_e an n.s.f. weight on eMe whose modular group is σ^φ restricted to eMe.
+The restriction of ψ to eMe is faithful, normal, semifinite and invariant under that group, so
+the faithful theorem on eMe gives a nonsingular h_e on eH, and `h=h_e⊕0` satisfies `ψ=φ_h`.
+Uniqueness: `s(φ_h)=s(h)` (Proposition 9.3 applied on the corner s(h)), so a second such h has
+support e and agrees with h_e by the faithful uniqueness. The converse needs no support
+argument: `h_ε` is σ^φ-fixed, so `φ_h∘σ_t^φ=φ_h` for every positive h.
 Compare the Pedersen–Takesaki theorem's trace specialization with V10's tracial Radon–Nikodym density; extend from
 finite functionals to normal semifinite weights by monotone exhaustion. Prove
 Kadison–Sakai innerness of bounded von Neumann-algebra derivations,
@@ -3054,6 +3840,21 @@ Thus nontrivial outer modular action rules out semifiniteness.
 theorem, V10.Affiliation; Mathlib `Derivation`; Hiai, §9, and Takesaki II, Chapter VIII, §3, are
 the sources; the Kadison–Sakai theorem is Sakai, *C*-algebras and W*-algebras*, Theorem 4.1.6
 (cited by locator).
+
+**Checks.**
+
+- On `M₂(ℂ)` with `φ=Tr(k·)`, `k=diag(2/3,1/3)`, the centralizer is the diagonal algebra. The
+  state `ψ(x)=x₁₁` is σ^φ-invariant, since `σ_t^φ=Ad(k^(it))` fixes diagonal entries, and it is not
+  faithful (`ψ(e₂₂)=0`). It equals φ_h for the singular `h=diag(3/2,0)`:
+  `Tr(k h^(1/2)xh^(1/2))=(2/3)(3/2)x₁₁=x₁₁`. So the nonfaithful case needs a singular h, which the
+  faithful theorem (nonsingular h only) does not supply.
+- Negative control on the same φ: the vector state of `v=(1,1)/√2` has support the projection
+  onto ℂv, which is not diagonal, so it is not in the centralizer. It is not σ^φ-invariant:
+  `ψ_v(σ_t^φ(e₁₂))=2^(it)/2`, which is `−1/2≠1/2=ψ_v(e₁₂)` at `t=π/log 2`. So it is no φ_h, as the
+  support argument requires.
+- For `φ=Tr` on `M_n(ℂ)` the centralizer is all of `M_n(ℂ)`, every normal positive functional is
+  `Tr(h·)=φ_h` with h its density matrix, and the theorem reduces to the trace duality of the
+  Conventions.
 
 For an n.s.f. weight φ and a unital von Neumann subalgebra N⊆M,
 prove Takesaki's conditional-expectation theorem (for a faithful normal state: Hiai, Theorem
@@ -3083,7 +3884,7 @@ to their modular product automorphisms, and compute
 of normal flows from L¹ Fourier annihilator ideals, the Connes spectrum as the
 intersection over nonzero invariant corners. Prove its closed-subgroup
 property for modular actions on factors and its identification with
-log(S(M)\{0}). Retain the separate criterion `0∈S(M)` iff the factor
+log(S(M)\{0}). Prove the separate criterion `0∈S(M)` iff the factor
 is type III: `Γ(σ^φ)={0}` holds for both semifinite and type III₀ factors. For the ITPFI and ratio-set development use countable products of
 finite matrix algebras with faithful normalized states, the
 separable-predual class used in classification. Use eigenvalue lists with multiplicities.
@@ -3132,7 +3933,7 @@ use product-density-matrix block partial bijections for the S-to-ratio
 implication, the preceding absorption theorem for ratio-to-absorption,
 and `L_(λ/(1+λ))` for absorption-to-S. For type-III ITPFI factors
 extend the equality to all nonzero values by reciprocal and closed-group
-laws; retain the finite/semifinite alternatives of the Araki–Woods
+laws; include the finite/semifinite alternatives of the Araki–Woods
 convention. Do not assert this equality for arbitrary factors. In
 particular, for an ITPFI III₁ factor deduce `r_∞(M,Ω)=[0,∞)`
 from `S(M)=[0,∞)`.
@@ -3147,14 +3948,18 @@ and dense-ratio M₃ product computations, including divergent mass.
 Araki–Woods, Theorem 7.6.
 
 For arbitrary locally compact Hausdorff abelian G, develop the shared
-harmonic-analysis layer using Mathlib `PontryaginDual` and Tau Ceti
-`Analysis/Fourier/Pontryagin/{DualEval,Continuity,Measure,Uniqueness,StronglyContinuous}`.
-Write `dual G` for the Pontryagin dual with its compact-open topology and `ev:G→dual(dual G)`,
-`ev(g)(γ)=γ(g)`, for evaluation. Construct the dual Haar normalization and the
-positive-character Fourier transform `f̂(γ)=∫f(x)γ(x)dμ(x)` on C_c and L¹, and use
-V8.RegularL2's commutative reduced group C*-algebra `C*_r(G)`, the norm closure of
-`λ(L¹(G))` on L²(G). The targets below are built in the order stated; the embedding and
-uniqueness targets consume no Fourier inversion theorem.
+harmonic-analysis layer using Mathlib `PontryaginDual`, Tau Ceti
+`Analysis/Fourier/Pontryagin/{DualEval,Continuity,Measure,Uniqueness,StronglyContinuous}` and
+BanachAlgebras A7.CharactersAndUniqueness. Write `dual G` for the Pontryagin dual with its
+compact-open topology and `ev:G→dual(dual G)`, `ev(g)(γ)=γ(g)`, for evaluation. The
+positive-character Fourier transform `f̂(γ)=∫f(x)γ(x)dμ(x)` on `L¹` is BanachAlgebras' character
+correspondence, which also supplies uniqueness on G: `f̂=0` forces f=0, and finite regular
+complex measures on G are determined by their transforms. Uniqueness of finite inner regular
+measures on dual G from their integrals against the evaluation characters `γ↦γ(x)`, x∈G, is
+Tau Ceti's `MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`.
+Use V8.RegularL2's commutative reduced group C*-algebra `C*_r(G)`, the norm closure of
+`λ(L¹(G))` on L²(G). The targets below are built in the order stated; the embedding and character
+targets consume no Fourier inversion theorem.
 
 **V11.DoubleDualEmbedding — point separation and the closed embedding.** Own the following
 inversion-free theorem: ev is an injective continuous group
@@ -3179,41 +3984,42 @@ compact dense subset of a Hausdorff space is open in it, so ev(G) is an open, he
 subgroup of its closure, and equals it. No character space of C*_r(G), unitization, Fourier
 uniqueness or double-dual surjectivity enters this proof.
 *Needs:* V8.RegularL2; Tau Ceti `ContRepresentation.exists_pontryaginMeasureTransform_eq_inner`
-and `PontryaginDual.continuous_coe_eval_const`; Mathlib `PontryaginDual` (compact-open topology,
+and `TauCeti.PontryaginDual.continuous_coe_eval_const`; Mathlib `PontryaginDual` (compact-open topology,
 evaluation continuity) and regular Haar measure.
 
-**V11.UnitizationCharacters — the nonunital Gelfand spectrum.** For a commutative nonunital
-C*-algebra A (here C*_r(G)), let Ω⁺ be the character space of `Unitization ℂ A`, compact by
-Mathlib, with the augmentation character `∞=Unitization.fstHom`, and Ω the nonzero characters of
-A. Prove that restriction to A is a bijection from `Ω⁺∖{∞}` onto Ω, with inverse
-`χ↦((c,a)↦c+χ(a))`, and a homeomorphism for the weak-star topologies; that Ω is locally compact
-Hausdorff and Ω⁺ is its one-point compactification exactly when A has no unit (when A is unital,
-∞ is isolated); and that for a∈A the Gelfand transform of `(0,a)` vanishes at ∞ and satisfies
-`‖a‖=sup_Ω|â|`, by the native isometry of the unital Gelfand transform. Include A=0, where Ω is
-empty and Ω⁺={∞}. For A=C*_r(G) prove that `φ↦γ_φ`, `γ_φ(x)=φ(λ(L_xf))/φ(λ(f))` for any f with
-φ(λ(f))≠0, is a well-defined continuous injective map Ω→dual G: well defined and multiplicative
-by `λ(L_xf)=λ_xλ(f)`, continuous by V8.RegularL2's translation continuity (for compact K⊆G the
-set `{λ(L_xf):x∈K}` is norm compact, so weak-star convergence of characters is uniform on it).
-Prove `φ(λ(g))=ĝ(γ_φ)` for every g∈L¹, from `g*f=∫g(x)L_xf dμ(x)` as a Bochner integral in L¹
-and `φ(λ(g))φ(λ(f))=φ(λ(g*f))`; this gives injectivity of φ↦γ_φ and identifies the Gelfand
-transform of λ(g) on Ω with ĝ∘γ. Its surjectivity is proved after Plancherel below.
-*Needs:* Mathlib `characterSpace` compactness, `Unitization.starLift`, `Unitization.fstHom`,
-`gelfandStarTransform` and `gelfandTransform_isometry`; V8.RegularL2.
+**V11.UnitizationCharacters — the nonunital Gelfand spectrum.** Let Ω be the
+nonzero characters of C*_r(G) and Ω⁺ the compact character space of `Unitization ℂ C*_r(G)`,
+with augmentation `∞=Unitization.fstHom`. Consume BanachAlgebras §3.1 for the restriction
+homeomorphism `Ω⁺∖{∞}≃Ω`, with inverse `χ↦((c,a)↦c+χ(a))`, and for Ω⁺ being the one-point
+compactification of Ω when G is not discrete, so that C*_r(G) has no unit; when G is discrete ∞
+is isolated. Prove that the Gelfand transform of `(0,a)` vanishes at ∞ and that `‖a‖=sup_Ω|â|`
+for a∈C*_r(G), by Mathlib's `gelfandTransform_isometry` for the unital commutative C*-algebra
+`Unitization ℂ C*_r(G)`. Own the passage to `L¹(G)`: for φ∈Ω, `φ∘λ` is a bounded character of
+`L¹(G)`, by `‖λ(f)‖≤‖f‖₁` and `λ(f*g)=λ(f)λ(g)`, and it is nonzero because λ(L¹(G)) is dense in
+C*_r(G). BanachAlgebras A7.CharactersAndUniqueness then gives a unique continuous unitary
+character γ_φ with `φ(λ(g))=ĝ(γ_φ)` for every g∈L¹(G). Prove that `φ↦γ_φ` is injective, since φ
+is determined on the dense set λ(L¹(G)), and continuous from the weak-star topology of Ω to the
+compact-open topology of dual G, since weak-star convergence `φ_i→φ` gives pointwise convergence
+`φ_i∘λ→φ∘λ` on `L¹(G)` and A7's correspondence is a homeomorphism onto the weak-star character
+space. Thus the Gelfand transform of λ(g) on Ω is `ĝ∘γ`. Surjectivity of `φ↦γ_φ` is proved after
+Plancherel below. Include the trivial group, where C*_r(G)=ℂ, Ω is one point and γ_φ is the
+trivial character.
+*Needs:* BanachAlgebras §3.1 and A7.CharactersAndUniqueness; Mathlib `characterSpace`
+compactness, `Unitization.starLift`, `Unitization.fstHom` and `gelfandTransform_isometry`;
+V8.RegularL2.
 
-**V11.FourierUniqueness — on finite measures and on L¹.** Own the uniqueness theorem that
-inversion uses. For finite inner regular positive measures ρ₁,ρ₂ on G, if `∫γ dρ₁=∫γ dρ₂` for
-every γ∈dual G then ρ₁=ρ₂: apply Tau Ceti's
-`TauCeti.MeasureTheory.ext_of_forall_mem_subalgebra_integral_eq_of_innerRegular` to the star
-subalgebra of bounded continuous functions spanned by the characters, which is conjugation
-closed (conj γ is a character) and separates the points of G by V11.DoubleDualEmbedding. For
-f∈L¹(G,μ) with f̂=0 prove f=0 a.e.: `conj(f̂(γ))=(conj f)^(conj γ)`, so the transform of
-conj f vanishes too and the real and imaginary parts u,v of f have û=v̂=0; writing `u=u⁺−u⁻`,
-the finite measures u⁺μ and u⁻μ are inner regular (they are supported, up to null sets, on
-AmenableGroups Layer 7's σ-compact carriers, where μ is inner regular) and have equal transforms,
-so u⁺=u⁻ a.e. and u=0 a.e.; likewise v. Include f=0 and the trivial group. The complex-measure
-version by Jordan decomposition is not an input here.
-*Needs:* Tau Ceti `ext_of_forall_mem_subalgebra_integral_eq_of_innerRegular`;
-V11.DoubleDualEmbedding; AmenableGroups Layer 7's σ-compact localization.
+**V11.FourierUniqueness — on finite measures and on L¹.** The uniqueness theorems that
+inversion uses are consumed, not proved here. On G: for f∈L¹(G,μ), `f̂=0` forces f=0 almost
+everywhere, and two finite regular complex Borel measures on G with equal transforms
+`γ↦∫γ dν` are equal, positive measures included (BanachAlgebras A7.CharactersAndUniqueness,
+from the semisimplicity of `L¹(G)`). On dual G: two finite inner regular measures with equal
+integrals against every evaluation character `γ↦γ(x)`, x∈G, are equal (Tau Ceti's
+`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`, a
+consequence of `TauCeti.MeasureTheory.ext_of_forall_mem_subalgebra_integral_eq_of_innerRegular`
+applied to the conjugation-closed, point-separating span of the evaluation characters). Neither
+needs a countability or global σ-finiteness hypothesis. Include f=0 and the trivial group.
+*Needs:* BanachAlgebras A7.CharactersAndUniqueness; Tau Ceti
+`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`.
 
 **Checks.**
 
@@ -3226,13 +4032,28 @@ V11.DoubleDualEmbedding; AmenableGroups Layer 7's σ-compact localization.
   identity `⟨ξ,λ_gξ⟩=max(1−|g|,0)=∫e^(igt)dν(t)` is the Bochner representation of the
   triangle function; the density is nonnegative and integrates to 1, so ν is a probability, as
   `p(1)=1` in the proof requires.
-- Uniqueness needs inner regularity of the measures, not only finiteness: it is applied to u⁺μ
-  with u⁺∈L¹, and the σ-compact carrier of u⁺ is where that regularity is proved; the statement
-  is not asserted for arbitrary finite Borel measures on a nonmetrizable G.
+- On G=ℤ, `C*_r(ℤ)≅C(𝕋)` by V8.RegularL2, its characters are the evaluations `φ_w`, w∈𝕋, and
+  `φ_w(λ(δ_1))=w`, so `γ_(φ_w)(n)=wⁿ` and `ĝ(γ)=Σ_n g(n)γ(n)` carries no conjugation; the inverse
+  convention would make γ_φ the conjugate character `n↦w⁻ⁿ`. As ℤ is discrete, C*_r(ℤ) is unital
+  and ∞ is isolated in Ω⁺, whereas for G=ℝ the algebra C*_r(ℝ) is nonunital and Ω⁺ is the
+  one-point compactification of Ω≅ℝ.
+- For G=ℤ with counting measure the dual Haar measure is the normalized Haar measure m of 𝕋, of
+  total mass 1: `∫(Σ_k f(k)z^k)z^(−n)dm(z)=f(n)`, whereas arc length, of mass 2π, would give
+  `2πf(n)`.
+- For G=ℝ with Lebesgue measure and `γ_y(x)=e^(ixy)`, the dual Haar measure is `dy/(2π)`: for
+  `f=1_[0,1]`, `|f̂(y)|²=(sin(y/2)/(y/2))²` and `∫|f̂(y)|²dy/(2π)=1=‖f‖₂²`, as Plancherel
+  requires, whereas Lebesgue measure dy would give 2π.
+- Uniqueness needs regularity of the measures, not only finiteness: on G it is stated for finite
+  regular complex measures, and on dual G for finite inner regular measures; it is not asserted
+  for arbitrary finite Borel measures on a nonmetrizable group.
 
 Consume V11.FourierUniqueness before constructing inversion on its integrable domain, for
 f∈L¹ with f̂∈L¹(dual G), `f(x)=∫f̂(γ)conj(γ(x))dγ` a.e. for the dual Haar measure normalized by
-this identity, and Fourier–Plancherel on L², the unitary `F:L²(G)≃L²(dual G)` with
+this identity. One route applies Tau Ceti's cyclic spectral theorem
+`ContRepresentation.exists_pontryaginMeasureTransform_eq_inner` to the positive-definite
+functions `x↦⟨ξ,λ_xξ⟩` and identifies the resulting measures on dual G by the uniqueness theorem
+on dual G, with the uniqueness on G for `L¹` functions with equal transforms. Prove
+Fourier–Plancherel on L², the unitary `F:L²(G)≃L²(dual G)` with
 `Fλ(f)F*=M_f̂`; deduce `‖λ(f)‖=sup|f̂|`, hence that every evaluation `f̂↦f̂(γ)` is a
 character of C*_r(G), completing the homeomorphism `Ω≃dual G` of V11.UnitizationCharacters and
 identifying the Fourier transform with the Gelfand transform. Prove the evaluation map
@@ -3240,9 +4061,13 @@ identifying the Fourier transform with the Gelfand transform. Prove the evaluati
 naturality, and Fourier/Haar rescaling compatibilities. Give compact-support density and local
 σ-finite integration arguments for groups without a global σ-finite Haar measure. This
 harmonic-analysis layer is independent of the countability assumption on the normal
-crossed-product construction and supplies Dynamics D4's arbitrary-LCA Takai duality.
+crossed-product construction and supplies OperatorAlgebraDynamics D4's arbitrary-LCA Takai
+duality.
 *Needs:* V11.DoubleDualEmbedding, V11.UnitizationCharacters, V11.FourierUniqueness,
-V8.RegularL2; Mathlib `PontryaginDual` and Haar measure; AmenableGroups Layer 7.
+V8.RegularL2; BanachAlgebras A7.CharactersAndUniqueness; Tau Ceti
+`ContRepresentation.exists_pontryaginMeasureTransform_eq_inner` and
+`MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`;
+Mathlib `PontryaginDual` and Haar measure; AmenableGroups Layer 7.
 
 Construct crossed products by second-countable locally compact groups with
 pointwise strong-star continuous normal actions on `L²(G,H)`, Haar and
@@ -3299,7 +4124,7 @@ inverses, restrictions, pushforward of measures and transport of fiber
 functions `f^φ` by reindexing arrows. Give [R] its uniform metric
 `d(S,T)=μ{x:Sx≠Tx}` on the probability base and prove [R] is closed
 in the nonsingular automorphism group for this metric. Prove the
-modulus-cocycle identities needed for orbit equivalence. FactorRigidity R6 specializes
+modulus-cocycle identities needed for orbit equivalence. FactorRigidity, Layer 6 (§6.2), specializes
 this API to p.m.p. relations. Define hyperfinite measured relations by increasing
 finite subrelations modulo invariant null sets. Prove compatibility
 with the smooth/type-I exhaustion formulation. For an exhaustion
@@ -3311,7 +4136,7 @@ single-transformation presentation from compatible finite orbit
 orderings, measurable successor maps and a conull limiting exhaustion;
 prove the converse for nonsingular transformations by measurable
 marker partitions and finite orbit intervals. Include finite orbit
-components and aperiodic components separately. R7 of FactorRigidity
+components and aperiodic components separately. FactorRigidity, Layer 7 (§7.1),
 consumes this relation API and owns its p.m.p. cost theory. Prove the modular spectrum/ratio-set and
 continuous-core/associated-flow identifications. Prove every properly ergodic flow admits
 a free nonsingular ergodic ℤ-transformation with that associated flow, giving
@@ -3349,6 +4174,20 @@ sources.
   is periodic with least period `|log λ|`.
 - The zero algebra has zero core; a nonzero type III algebra has a core with no finite central
   summand (a finite summand would give a finite-trace corner of M).
+- The trivial relation (equality) on [0,1] has full group `{id}` and regular algebra `L∞[0,1]`;
+  the orbit relation of an irrational rotation `R_α` of the circle contains every `R_(nα)` in its
+  full group, and `d(R_(nα),id)=1` for n≠0, since a nontrivial rotation moves every point. The
+  uniform metric is therefore not the weak topology, in which `R_(n_kα)→id` along any `n_kα→0`
+  mod 1.
+- For the dyadic odometer T on `{0,1}^ℕ` with the product of fair coins, the tail relation is
+  hyperfinite with `R_n={(x,y): x_k=y_k for k>n}`, whose classes have `2ⁿ` points. T lies in no
+  `[R_n]`, since on `{x_1=⋯=x_n=1}` it changes coordinate n+1, but the map `T_n` adding 1 modulo
+  `2ⁿ` in the first n coordinates lies in `[R_n]` and agrees with T off that set, so
+  `d(T,T_n)=2^(−n)→0`, as `[R]=closure(⋃ₙ[R_n])` requires.
+- The orbit relation of the Bernoulli shift of F₂ on `{0,1}^(F₂)` is not hyperfinite: its regular
+  algebra `L∞(X)⋊F₂` contains `L(F₂)` with a trace-preserving conditional expectation, while V13
+  shows that a hyperfinite relation has an injective regular algebra, that injectivity passes to
+  expected subalgebras, and that `L(F₂)` is not injective.
 
 For separable-predual type III factors define infinite multiplicity
 of an n.s.f. weight by proper infiniteness of its centralizer. Prove
@@ -3380,10 +4219,12 @@ Connes–Takesaki 1977.
 
 ### Dependencies
 
-- Layers 4, 6, 8 and 10, with V8.RegularL2 for the harmonic-analysis layer.
-- AmenableGroups Layer 7.
-- Tau Ceti `TauCeti/Analysis/Fourier/Pontryagin` modules and
-  `TauCeti.MeasureTheory.ext_of_forall_mem_subalgebra_integral_eq_of_innerRegular`.
+- Layers 1, 2, 4–8 and 10, with V8.RegularL2 for the harmonic-analysis layer.
+- AmenableGroups Layer 7; BanachAlgebras §3.1 and §7.5 (A7.CharactersAndUniqueness) for the
+  harmonic-analysis layer.
+- Tau Ceti `TauCeti/Analysis/Fourier/Pontryagin` modules, in particular
+  `ContRepresentation.exists_pontryaginMeasureTransform_eq_inner` and
+  `MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`.
 
 ## Layer 12: Two projections, ultraproducts, and central sequences
 
@@ -3399,7 +4240,13 @@ Prove the endpoint and degenerate-summand versions, classify representations of
 the infinite dihedral group `C₂*C₂ ≃ ℤ⋊C₂` using its spectral involution, and derive the
 same decomposition from the self-adjoint unitaries `2p-1`, `2q-1`. Own the generated-algebra
 classification here; general principal angles are not part of this roadmap (Jones, §7.3, p. 46,
-for the two-projection exercises).
+for the two-projection exercises, with general position and the block form at Exercises 7.3.2
+and 7.3.8, pp. 46–47). State the general-position theorem in Halmos's form, for a pair in
+general position on all of H, as `exists_linearIsometryEquiv_withLp_of_generalPosition`: if
+`ran p∩ran q`, `ran p∩ker q`, `ker p∩ran q` and `ker p∩ker q` are 0, there are a Hilbert space L,
+a positive contraction b on L with `ker b=ker(1−b)=0` and a unitary `H≃L⊕L` carrying p to
+`diag(1,0)` and q to `[[b,√(b(1−b))],[√(b(1−b)),1−b]]`. The general-position part of an arbitrary
+pair is such a pair on a reducing subspace, so this is the remainder statement above.
 *Needs:* V2's projection lattice, parallelogram law and polar-part membership (PolarDecomposition PD-B24), V2's spatial tensor
 `B⊗̄M₂`, V3's matrix units.
 
@@ -3415,16 +4262,36 @@ definition also for `R_(0,1)` in V13. See
 [Connes, §II](https://alainconnes.org/wp-content/uploads/automorphismes.pdf).
 *Needs:* V4's predual bimodule actions and strong-star topology, V6's tracial L².
 
+**Checks.**
+
+- Every inner automorphism is centrally trivial: `Ad(u)(x_n)−x_n=[u,x_n]u*`, and
+  `[u,x_n]→0` σ-strong* for a centralizing sequence.
+- On an abelian algebra every bounded sequence is centralizing, so `Ct(M)={id}`: for the rotation
+  `ρ_θ` of `L∞(𝕋)` by θ∉2πℤ, the constant sequence `x_n=z` has `‖ρ_θ(z)−z‖₂=|e^(iθ)−1|>0`, so
+  Ct is not all of `Aut(M)` and not defined by a condition that every automorphism meets.
+- On `R=⊗_(n∈ℤ)M₂(ℂ)` with its product trace, the unitaries `u_n=diag(1,−1)` at site n form a
+  centralizing sequence, and the two-sided shift θ sends `u_n` to `u_(n+1)`, with
+  `‖u_(n+1)−u_n‖₂²=2−2Re τ(u_n u_(n+1))=2`; so θ is not centrally trivial.
+
 For every von Neumann algebra with a faithful normal tracial state,
 define bounded central sequences and their L² convergence and triviality predicates.
 For a type II₁ factor define property Γ by existence of a sequence of trace-zero
-central unitaries. For separable II₁ factors, prove Dixmier's equivalence with
+central unitaries: `HasPropertyGamma` asks for a tracial state τ and unitaries u_n of M with
+`τ(u_n)=0` and `‖u_ny−yu_n‖₂→0` for every y∈M, where `‖z‖₂²=τ(z*z)` (the form of
+Anantharaman–Popa, Theorem 15.2.3(iv), p. 262; Jones, Definition 16.1.1, p. 107, defines Γ by
+a nontrivial central sequence). For separable II₁ factors, prove Dixmier's equivalence with
 existence of a nontrivial bounded central sequence and with the usual finite-set
-approximation formulation (Anantharaman–Popa, §15.2, pp. 261–266; Jones, §§16.1–16.2,
-p. 107). These property Γ equivalences are factor statements;
+approximation formulation (Anantharaman–Popa, Theorem 15.2.3, p. 262, with Remarks 15.2.2,
+p. 262, for the finite-set and sequential forms; Jones, §§16.1–16.2, p. 107). These property Γ equivalences are factor statements;
 they are not asserted for arbitrary tracial algebras.
 *Needs:* V6's tracial L² and bounded-set topology, V5's trace; the ultraproduct below for the
 Dixmier equivalence.
+
+- On a II₁ factor the tracial state in `HasPropertyGamma` is the unique one, so the predicate
+  does not depend on a choice, and it is invariant under star isomorphisms.
+- `HasPropertyGamma` holds for every hyperfinite II₁ factor (`hasPropertyGamma_of_isHyperfinite`,
+  V13b) and fails for the free group factors of rank at least two (below), so the two classes are
+  disjoint.
 
 Verify this scope on M=R⊕ℂ, where R is V6's hyperfinite II₁ tensor model and
 τ(x,c)=(1/4)τ_R(x)+(3/4)c. Let u_n be diag(1,−1) in the nth tensor factor
@@ -3454,8 +4321,8 @@ V5's comparison, Mathlib `Ultrafilter` limits.
 - In `R=⊗M₂(ℂ)` the unitaries `u_n=diag(1,−1)` at site n form a central sequence with `τ(u_n)=0`
   (they commute with every operator supported on the first `n−1` sites), so R has property Γ;
   they define a nonscalar element of `R_ω` with `‖u_n‖₂=1`.
-- The sequence of orthogonal projections `e_n` with `τ(e_n)=1/n` maps to 0 in `M^ω`
-  (`‖e_n‖₂²=1/n→0`) although `‖e_n‖=1`, and the constant sequences embed isometrically, so the
+- A sequence of projections `e_n` with `τ(e_n)=1/(n+1)` maps to 0 in `M^ω`
+  (`‖e_n‖₂²=1/(n+1)→0`) although `‖e_n‖=1`, and the constant sequences embed isometrically, so the
   ideal is the `L²`-null one, not the norm-null one.
 - On `R⊕ℂ` with `τ(x,c)=(1/4)τ_R(x)+(3/4)c`, central elements are `(λ,z)` and
   `‖(u_n,0)−(λ,z)‖₂²=(1/4)(1+|λ|²)+(3/4)|z|²≥1/4`, while a unitary `(v,z)` has
@@ -3463,12 +4330,20 @@ V5's comparison, Mathlib `Ultrafilter` limits.
   central unitary, as the scope statement requires.
 - For `x=u_a∈L(F₂)`, `‖x−τ(x)1‖₂=1` and `‖[u_a,u_b]‖₂=√2` (`ab≠ba` are orthogonal group elements),
   consistent with the estimate `1≤14√2`; for x=1 both sides vanish.
+- `M₂(ℂ)` with `τ=tr/2` does not have property Γ: unitaries with `‖[u_n,e₁₁]‖₂→0` and
+  `‖[u_n,e₁₂]‖₂→0` accumulate, by compactness of U(2), at a unitary commuting with all of `M₂(ℂ)`,
+  a scalar `λ` with `|λ|=1`, whose trace λ is not 0; so a finite-dimensional factor is a negative
+  control for the definition, which would hold trivially if the trace-zero condition were
+  dropped (take `u_n=1`).
 
 For an ICC group with `1∉Δ` and `Γ={1}∪Δ∪αΔα⁻¹` and three disjoint conjugates
 Δ,βΔβ⁻¹,γΔγ⁻¹, prove the estimate (Jones, Theorem 16.3.1, p. 108)
 `‖x-τ(x)1‖₂ ≤ 14 max(‖[x,u_α]‖₂,‖[x,u_β]‖₂,‖[x,u_γ]‖₂)`.
-Supply the ℓ² coefficient estimate, a verified reduced-word partition for every finite-rank
-free group of rank ≥2, and deduce its factor lacks Γ and is not R. These ultrapower and central-sequence APIs precede the V12 flow/automorphism classification; V12.J is a separate Jordan reconstruction submilestone.
+Supply the ℓ² coefficient estimate, a verified reduced-word partition for every free group of
+rank ≥2, of any cardinality (Δ the reduced words ending in a nonzero power of a generator g,
+α=g, β=h and γ=h⁻¹ for a second generator h: Jones, p. 109), and deduce that its factor lacks Γ,
+`not_hasPropertyGamma_groupVonNeumannAlgebra_freeGroup` (Jones, Theorem 16.3.2, p. 109), and is
+not R. These ultrapower and central-sequence APIs precede V13's automorphism and flow classification; V12.J is a separate Jordan reconstruction submilestone.
 *Needs:* V8's group factors and Fourier coefficients, the central-sequence definitions above,
 Mathlib `FreeGroup` reduced words.
 
@@ -3506,7 +4381,9 @@ map API and Enriched do not consume Scalar. No separability or σ-finiteness is 
   `(e₁₂e₂₁)ᵀ=e₁₁` while `e₁₂ᵀe₂₁ᵀ=e₂₁e₁₂=e₂₂`; so a Jordan *-map API that silently assumed
   multiplicativity would reject it.
 - The zero map preserves squares, adjoints and linearity but not the unit, so unitality is a
-  separate hypothesis in Dye's theorem and in the normal-map API.
+  separate clause of the normal-map API for maps that are not surjective. A surjective Jordan
+  map is unital: `y=y∘Φ(1)` for every y in the range, where `x∘y=(xy+yx)/2`, and y=1 gives
+  `Φ(1)=1`; for Dye's bijective Φ it also follows from `α(1)=1`.
 
 **V12.J.Frame — the finite Gleason theorem.** Own the finite-dimensional frame-function
 theorem. A frame function of weight w on a complex Hilbert space of dimension n is a function
@@ -3544,8 +4421,13 @@ projection and closed-subspace APIs.
 
 **V12.J.Scalar.** Own the scalar Mackey–Gleason–Bunce–Wright extension theorem: if M has no
 nonzero typeI₂ central summand, μ:P(M)→ℂ satisfies μ(p+q)=μ(p)+μ(q) for pq=0,
-and `∀p, ‖μ(p)‖≤C` for a stated C≥0, there is a unique bounded complex-linear
-functional extending μ. Prove the uniform estimate `‖φ‖≤4C`, positivity and
+and `∀p, ‖μ(p)‖≤C` for some C, there is a unique bounded complex-linear
+functional extending μ: `exists_unique_extension_of_finitelyAdditive` (Bunce–Wright, Theorems A
+and B, p. 289, for the bounded finitely additive measures of their conditions (a)–(b), p. 288).
+A nonzero typeI₂ central summand is `HasTypeITwoSummand`: a nonzero central projection
+`z=e+f` with e, f orthogonal equivalent projections of M and eMe commutative, so that
+`zM≅M₂(eMe)` is of type I₂. Prove the uniform estimate `‖φ‖≤4C` (Bunce–Wright, the estimate
+in the proof of Lemma 1.1, p. 289), positivity and
 `‖φ‖=φ(1)` for positive μ, and normality of a positive extension iff μ is
 completely orthogonally additive. For σ-finite M prove countable additivity
 suffices; do not identify these notions on arbitrary M. The signed scalar
@@ -3560,6 +4442,27 @@ only generic von Neumann charge-extension owner.
 *Needs:* V12.J.Frame, V0–V6 (matrix units, corners, type decomposition, the II₁ trace),
 V4.PositivePredual; Bunce–Wright, *The Mackey–Gleason problem*, is the source.
 
+**Checks.**
+
+- `M₂(ℂ)` has a typeI₂ central summand: `e=e₁₁`, `f=e₂₂`, `v=e₂₁` with `v*v=e₁₁`, `vv*=e₂₂`,
+  `e+f=1` central and `e₁₁M₂(ℂ)e₁₁=ℂe₁₁` commutative. There the theorem fails: the
+  dimension-two frame function of V12.J.Frame, `p(n)↦1/2+(1/4)sgn(n₃)` with `0↦0`, `1↦1`, is
+  finitely additive (on the orthogonal pairs `p(n),p(−n)` the values sum to 1) and bounded by 1,
+  but not affine in the Bloch vector, so it extends to no linear functional.
+- The hypothesis is not "dimension at least three" alone: `M₂(ℂ)⊕M₃(ℂ)` has the summand
+  `z=1⊕0`, while `M₃(ℂ)` has none (a nonzero central projection of a factor is 1, and `e∼f`
+  with `e+f=1` would give `2·rank e=3`), `M₄(ℂ)` has none (`e+f=1` with rank-two e, but
+  `eM₄(ℂ)e≅M₂(ℂ)` is not commutative), and an abelian algebra has none (`e∼f` there forces
+  `e=v*v=vv*=f`, so `ef=0` gives `e=0`).
+- The bound `‖φ‖≤4C` cannot be improved to `‖φ‖≤C`: on `M₃(ℂ)`, `μ(p)=Tr(diag(1,−1,0)p)`
+  takes values in `[−1,1]` on projections, so C=1, while its extension `x↦Tr(diag(1,−1,0)x)` has
+  norm `Tr|diag(1,−1,0)|=2≤4`.
+- Normality is not automatic: on the abelian `ℓ∞(ℕ)` the free-ultrafilter measure
+  `μ(p)=lim_ω p_n` is positive, finitely additive and bounded, its extension is the
+  ultrafilter-limit state of V4, and it is not completely additive (`μ(δ_n)=0` for every n,
+  `μ(1)=1`), matching the failure of normality. On the zero algebra `μ(0)=2μ(0)` forces
+  `μ(0)=0` and the extension is 0.
+
 
 
 **V12.J.Dye lattice input.** Consume V6.LatticeTypes for the purely lattice
@@ -3570,10 +4473,15 @@ an input to Dye, not to V12.J.Scalar.
 
 **V12.J.Dye.** Consume V12.J.Maps. Prove Dye's extension theorem in the following exact form
 (the AW*-algebra generalization, without the normality conclusion, is Hamhalter,
-arXiv:1408.4597, Theorem 4.3, p. 14; normality and uniqueness are proved here). For nonzero complex
+arXiv:1408.4597, Theorem 4.3, p. 14; normality and uniqueness are proved here; Dye's theorem
+for von Neumann algebras, with uniqueness, is recalled there on pp. 2–3). For complex
 von Neumann algebras M,N, if M has no typeI₂ central summand and
 α:P(M)≃P(N) preserves orthogonality in both directions, there is a unique
-normal unital Jordan *-isomorphism Φ:M→N with Φ(p)=α(p). Derive the order,
+normal unital Jordan *-isomorphism Φ:M→N with Φ(p)=α(p). This is `dye`, which states Φ as a
+complex-linear bijection preserving adjoints and squares; unitality and normality are automatic
+there, since α(1)=1 (1 is the only projection orthogonal to no nonzero projection) and a
+Jordan *-isomorphism and its inverse preserve positivity, hence suprema of bounded increasing
+nets. The zero algebra is included: P(M)={0} forces P(N)={0}, so N=0 and Φ=0. Derive the order,
 complement and arbitrary-supremum laws from the orthoisomorphism. Pull back
 normal positive functionals through α, apply the preceding scalar extension
 and its complete-additivity normality criterion, and use V4.PositivePredual's positive spanning and exact self-adjoint
@@ -3595,10 +4503,23 @@ typeI₂ parts determine an abstract Jordan isomorphism via M₂(Z), but that ma
 need not extend the given orthoisomorphism. On M₂(ℂ), use the nonextendible antipodal
 example V12.J.Bloch below. On the scalar/abelian part use the Boolean projection
 isomorphism and bounded spectral approximation, with no dimension-two exclusion.
-Treat the zero algebra separately, where the projection lattice is a singleton
-and there is no normalized state.
+In the state-pullback route treat the zero algebra separately, since it has no normalized
+state.
 *Needs:* V12.J.Maps, V12.J.Scalar, V4.PositivePredual, V4.Core duality, the lattice input above,
 V12.J.Bloch for the type I₂ counterexample; Hamhalter, Theorem 4.3.
+
+**Checks.**
+
+- On the abelian ℂ², `P={0,e₁,e₂,1}` and the swap `e₁↔e₂` (fixing 0 and 1) preserves
+  orthogonality both ways; its unique extension is `(a,b)↦(b,a)`, here multiplicative. The
+  only orthogonality-preserving bijections of `P(ℂ²)` are this swap and the identity, since 0 is
+  the only self-orthogonal projection and 1 the only one orthogonal to nothing nonzero.
+- On `M₃(ℂ)` the map `p↦pᵀ` is an orthoisomorphism (`pq=0` iff `qᵀpᵀ=0` iff `pᵀqᵀ=0` for
+  projections), and its extension is the transpose, a Jordan *-automorphism that is not
+  multiplicative: `(e₁₂e₂₁)ᵀ=e₁₁` but `e₁₂ᵀe₂₁ᵀ=e₂₁e₁₂=e₂₂`. The conclusion is therefore
+  Jordan, not a *-isomorphism.
+- The I₂ hypothesis is needed: on `M₂(ℂ)` the orthoautomorphism of V12.J.Bloch induced by
+  `(x,y,z)↦(x,y,2z)/sqrt(x²+y²+4z²)` extends to no Jordan *-automorphism.
 
 
 **V12.J.Bloch — the type I₂ boundary example.** In M₂(ℂ) write the rank-one projection with
@@ -3647,6 +4568,18 @@ with the full affine state/evaluation hypothesis, not by dropping its summand.
 *Needs:* V12.J.Maps, V4.PositivePredual, V4.Core duality, Mathlib's continuous functional calculus
 for the spectral perturbation.
 
+**Checks.**
+
+- The direction of `β(ω)=ω∘Φ⁻¹` is pinned on ℂ³ with `Φ(a,b,c)=(c,a,b)`, so `Φ(e₁)=e₂`: then
+  `β(ev₁)=ev₁∘Φ⁻¹=ev₂`, the state concentrated on `Φ(e₁)`, whereas `ω∘Φ` would give `ev₃`.
+- On `M₂(ℂ)` the normal states form the Bloch ball and its affine bijections are the orthogonal
+  maps of ℝ³; the rotations extend to the automorphisms `Ad(U)`, and the reflection
+  `(x,y,z)↦(x,−y,z)` extends to the transpose, a Jordan *-automorphism that is not
+  multiplicative. The type I₂ summand is thus allowed here.
+- Affinity cannot be dropped: the radial extension of V12.J.Bloch's map
+  `n↦(x,y,2z)/sqrt(x²+y²+4z²)` to the Bloch ball is a bijection of the state space that is not
+  affine, and V12.J.Bloch shows that it comes from no Jordan *-automorphism.
+
 **V12.J.CentralSplitting.** Consume V12.J.Maps. Prove a normal Jordan *-isomorphism splits over central projections into a
 *-isomorphism and a complex-linear *-anti-isomorphism. The splitting is not
 unique on an abelian summand. Prove transport of centers, central support,
@@ -3661,11 +4594,22 @@ unitary/antiunitary normalizer in an arbitrary original representation.
 *Needs:* V12.J.Maps, V2's central projections and central support, V5's equivalence and finiteness
 transport, V6's type decomposition.
 
+**Checks.**
+
+- On `M₂(ℂ)⊕M₂(ℂ)`, `Φ=id⊕(transpose)` is a Jordan *-automorphism that is neither multiplicative
+  nor antimultiplicative: for `x=e₁₂⊕e₁₂`, `y=e₂₁⊕e₂₁` one has `Φ(xy)=e₁₁⊕e₁₁`,
+  `Φ(x)Φ(y)=e₁₁⊕e₂₂` and `Φ(y)Φ(x)=e₂₂⊕e₁₁`. The splitting projection is `z=1⊕0`.
+- On a summand ℂ the identity is both a *-homomorphism and a *-anti-homomorphism, so that summand
+  may be put on either side and the splitting is not unique.
+- Transport of equivalence reverses implementing partial isometries on the antimultiplicative part:
+  for the transpose of `M₂(ℂ)`, `v=e₂₁` implements `e₁₁∼e₂₂`, while `vᵀ=e₁₂` has
+  `(vᵀ)*vᵀ=e₂₂`, so `Φ(e₁₁)∼Φ(e₂₂)` is implemented by `(vᵀ)*`, not by `Φ(v)`.
+
 
 Maps and Enriched precede and do not consume Scalar or V12.J.Frame; only the
 bare-projection Dye route consumes Scalar and its finite-frame input.
 They add no V12.J prerequisite to V0. Use SymAlg only to compare Jordan multiplication
-on the existing associative W*-carrier, not to replace that carrier.
+on the associative W*-carrier, not to replace that carrier.
 The scalar endpoint is [Bunce–Wright, *The Mackey-Gleason Problem*](https://arxiv.org/abs/math/9204228).
 The [Dye/Gleason extension formulation](https://arxiv.org/abs/1408.4597)
 provides a statement-level comparison; the constructions above remain
@@ -3682,8 +4626,9 @@ explicit Tau Ceti proof targets.
 
 ### Dependencies
 
-- Layers 1–6 and 11; V6.LatticeTypes for Dye.
-- Mathlib `SymAlg`, `IsCommJordan`, `Matrix.PosSemidef`.
+- Layers 0–6, 8 and 11; V6.LatticeTypes for Dye.
+- Mathlib `SymAlg`, `IsCommJordan`, `Matrix.PosSemidef`; `WithLp` and `CFC.sqrt` for the
+  two-projection theorem; `FreeGroup` for the free group factors.
 
 ## Layer 13: Hyperfiniteness and injective classification
 
@@ -3703,11 +4648,18 @@ map P:A→A with P(A)⊆S, P(s)=s for every s∈S, and ‖P‖=1. Then P is posi
 `P(axb)=aP(x)b` for every a,b∈S and x∈A, and P is completely positive, expressed by a
 `CompletelyPositiveMap A A` whose underlying linear map is P. The range and fixing conditions
 imply P²=P and S=ker(1−P), so S is automatically norm closed; no unitality or normality is
-assumed (Hiai, Theorem 6.5, pp. 55–56; Tomiyama, Proc. Japan Acad. 33 (1957), Theorem 1,
-pp. 608–609, for the unital ambient case; Peterson, Theorem 6.2.1, p. 98, for the unital
-inclusion case). Define injectivity by CP extension and prove its
-equivalence to a contractive projection B(H)→M, of norm one when M≠0, for a faithful normal
-representation; such a projection need not be normal. Prove injectivity
+assumed (Hiai, Theorem 6.5, pp. 55–56, whose conclusions are items (ii) bimodularity and
+(v) complete positivity of Theorem 6.4; Peterson, Theorem 6.2.1, p. 98, for the unital
+inclusion case, complete positivity included. Tomiyama, Proc. Japan Acad. 33 (1957), Theorem 1,
+pp. 608–609, is cited only for positivity and bimodularity in the unital ambient case, the
+conditional-expectation properties that Anantharaman–Popa, Appendix A.4, p. 314, attribute to
+it; complete positivity is taken from Hiai and Peterson). Define injectivity by CP extension
+(every unital CP map into M from a unital C*-subalgebra of a unital C*-algebra extends to a CP
+map on the whole algebra) and prove its equivalence, for M⊆B(H) in a faithful normal representation, to a contractive projection
+B(H)→M: a bounded linear P with P(B(H))⊆M, P(x)=x for x∈M and ‖P‖≤1, of norm one when M≠0
+and then a conditional expectation by Tomiyama's theorem (Anantharaman–Popa, Definition 10.2.1
+and Proposition 10.2.2, p. 161). The contractive-projection form for the given concrete algebra
+is `IsInjective`; such a projection need not be normal. Prove injectivity
 passes to expected subalgebras, corners and type-I amplifications by
 extending and compressing these projections. This layer uses V0–V3, V4.Core and V4.Normality for
 concrete representations, positive functionals and matrix algebras; it
@@ -3793,7 +4745,11 @@ element of A).
   `(π₁⊗id)(x)` for `x=(1,0)⊗e₁₁+(0,1)⊗e₂₂∈A⊙M₂(ℂ)`, but both are projections, of norm 1.
 
 For separable-predual algebras define hyperfiniteness by increasing finite-dimensional
-subalgebras whose union generates M, with equivalent finite-set approximation criteria.
+subalgebras whose union generates M: `IsHyperfinite` asks for an increasing sequence of
+finite-dimensional unital star subalgebras of B(H) whose union has double commutant M
+(Anantharaman–Popa, Theorem 11.2.2(3), p. 186, and the definition of AFD factors before
+Corollary 11.2.4, p. 188). Prove the equivalent finite-set approximation criteria
+(Anantharaman–Popa, Definitions 11.1.1–11.1.2, p. 173, for finite algebras).
 For finite algebras prove the bounded L² formulation, stability under corners and tensor
 products, and the precise unital/nonunital approximation comparisons. Develop quantitative L²
 perturbation lemmas on uniformly operator-norm-bounded approximate projections, partial
@@ -3802,7 +4758,12 @@ unit errors below δ imply exact matrix units within ε in L². Include nearby-u
 conjugacy and dyadic trace adjustments. Prove approximate finite-set dyadic matrix
 containment, nested containment by unitary perturbation, and uniqueness of the hyperfinite
 II₁ factor R by trace-preserving intertwining (Anantharaman–Popa, §11.2, pp. 185–190). Identify
-`L(S_∞)` with R.
+`L(S_∞)` with R. Prove that every hyperfinite II₁ factor has property Γ,
+`hasPropertyGamma_of_isHyperfinite`: the relative commutant of each finite-dimensional `A_n` in
+M contains a self-adjoint unitary `u_n=2e_n−1` with `τ(e_n)=1/2`, and these are asymptotically
+central in `‖·‖₂`, exactly on `⋃A_n` and by Kaplansky density on M (Jones, §16.2, pp. 107–108,
+for the tensor model). With V12's free-group theorem this shows that `L(F_n)`, n≥2, is not
+hyperfinite.
 *Needs:* V6's tracial L² and hyperfinite model, V5's trace and comparison, V3's matrix units,
 V8's group factors for `L(S_∞)`.
 
@@ -3816,6 +4777,14 @@ V8's group factors for `L(S_∞)`.
 - Semidiscreteness is point-ultraweak, not norm: on `ℓ∞(ℕ)` the contractive CP maps
   `x↦(x_1,…,x_N,0,…)` factor through `ℂ^N⊂M_N(ℂ)` and converge to the identity coordinatewise,
   but for `x=(1,1,1,…)` the norm distance is 1 for every N.
+- `B(ℓ²)` is semidiscrete through the normal contractive CP maps `x↦P_nxP_n` into
+  `M_n(ℂ)≅P_nB(ℓ²)P_n` followed by the inclusion, since `P_nxP_n→x` strongly; the unital form
+  uses `x↦P_nxP_n+ω(x)(1−P_n)` for a normal state ω, factoring through `M_n(ℂ)⊕ℂ⊆M_(n+1)(ℂ)`.
+- On `L∞[0,1]` the dyadic conditional expectations `E_n` are normal unital CP maps through
+  `ℓ∞(2ⁿ)⊆M_(2ⁿ)(ℂ)`; for `f=1_[0,1/3]` the value of `E_nf` on the dyadic interval containing 1/3
+  is the fractional part of `2ⁿ/3`, which is 1/3 or 2/3, so `‖E_nf−f‖_∞≥1/3` for every n while
+  `‖E_nf−f‖₁≤2^(−n)`, and `E_n→id` point-ultraweakly. `L(F₂)` has no such approximation: it is not
+  injective, having no hypertrace (Checks below).
 
 Use V13a's CP extension, projection and injectivity permanence results.
 Prove tensor products of semidiscrete algebras semidiscrete by tensoring
@@ -3829,8 +4798,7 @@ Prove the equivalent unital formulation for nonzero unital algebras and
 the upgrade to pointwise σ-strong* convergence by convex combinations. Prove
 injectivity iff semidiscreteness for arbitrary von Neumann algebras by the
 reductions below. Prove the commuting-representation minimal-norm criterion
-(Takesaki III XV.3, Theorem 3.1 and Definition 3.5; Anantharaman–Popa, §§10.2–10.3, pp. 161–172,
-and Peterson, §6.3, pp. 100–104, for the finite case): for every concrete
+(Takesaki III XV.3, Theorem 3.1 and Definition 3.5): for every concrete
 von Neumann algebra M⊆B(H), with no separability hypothesis, injectivity
 and semidiscreteness are equivalent to
 `‖Σᵢ xᵢyᵢ‖≤‖Σᵢ xᵢ⊗yᵢ‖_min` for finite xᵢ∈M,yᵢ∈M′.
@@ -3855,12 +4823,23 @@ from injectivity to the min-norm inequality and semidiscreteness uses
 the finite/semifinite/type-III reductions below.
 In V11's standard form identify M′ with
 Mᵒᵖ by `yᵒᵖ↦Jy*J`, and transport the criterion to M⊙Mᵒᵖ; this is the
-form used by the crossed-product restriction argument below. First, for finite algebras construct hypertraces on B(L²M)
-extending τ and central under M, prove the Powers–Størmer inequality
-`‖a^(1/2)-b^(1/2)‖₂²≤‖a-b‖₁` for positive L¹ elements, and prove Connes's finite-rank
-Følner criterion: finite subsets of the left action admit nonzero finite-rank projections
-whose Hilbert–Schmidt commutators divided by their Hilbert–Schmidt norms are arbitrarily
-small, with normalized compressed traces approximating τ. Derive finite-dimensional
+form used by the crossed-product restriction argument below. First, for an injective finite
+von Neumann algebra M with a faithful normal tracial state τ, construct hypertraces on B(L²M)
+extending τ and central under M (states ψ with ψ(xT)=ψ(Tx) for x∈M and T∈B(L²M), and ψ|M=τ),
+prove the Powers–Størmer inequality `‖a^(1/2)-b^(1/2)‖₂²≤‖a-b‖₁` for positive L¹ elements, and
+prove Connes's Følner criterion in operator form: for every ε>0 and every finite set F of
+unitaries of M there is a positive finite-rank operator T on L²M with `‖T‖_(2,Tr)=1`,
+`‖uT−Tu‖_(2,Tr)≤ε` for u∈F and `|Tr(xT²)−τ(x)|≤ε‖x‖` for every x∈M, where Tr is the canonical
+trace of B(L²M) and `‖T‖_(2,Tr)=Tr(T*T)^(1/2)` (Anantharaman–Popa, Definition 10.2.1 and
+Proposition 10.2.2, p. 161, Proposition 10.2.5, p. 163, Theorems 10.2.8 and 10.2.9, pp. 164–165;
+Peterson, Theorem 6.3.8, p. 103, for hypertraces versus conditional expectations). The operator T
+is not in general a normalized projection. For an injective II₁ factor prove the finite-rank
+projection form: for every ε>0 and finite set F of unitaries there is a nonzero finite-rank
+projection P on L²M with `‖uPu*−P‖_(2,Tr)<ε‖P‖_(2,Tr)` for u∈F, a condition with no trace
+clause, obtained from the operator form by Connes's spectral-projection trick
+(Anantharaman–Popa, Theorem 10.3.1, p. 166, and Theorem 10.3.4, p. 168). Outside II₁ factors
+the projection form with a trace clause can fail: on ℂ² with a non-uniform trace no normalized
+finite-rank projection meets both conditions (Checks below). Derive finite-dimensional
 CP approximations through normal finite-matrix maps: prove the
 spatial-norm continuity of the commuting left/right multiplication
 representation on M⊙Mᵒᵖ, and use CP separation/extension to obtain
@@ -3876,6 +4855,29 @@ Include polynomial-growth groups as amenable examples.
 *Needs:* V13a, V13b.SpatialNorm, V11's standard form (`M′≃Mᵒᵖ`), V4's predual and the weak
 topology `σ(M_*,M)`, V6's L² (Powers–Størmer), AmenableGroups Layers 5–7, V8's crossed products,
 Mathlib's trace norm on `M_n(ℂ)_*`; the sources named at the criterion.
+
+**Checks.**
+
+- The projection form with a trace clause does not extend beyond II₁ factors. On `M=ℂ²` with
+  `τ(a,b)=(a+2b)/3`, L²M is ℂ² with orthonormal basis `√3δ₁, √(3/2)δ₂`, on which M acts
+  diagonally; take `u=(1,−1)`, `x=(1,0)` and ε=1/10. A rank-one projection P onto `(α,β)`,
+  `|α|²+|β|²=1`, has `‖uP−Pu‖²_(2,Tr)=8|α|²|β|²` and `Tr(xP)/Tr(P)=|α|²`, so the commutator
+  bound `8|α|²(1−|α|²)≤1/100` forces `|α|²<0.0013` or `|α|²>0.9987`; P=1 gives
+  `Tr(xP)/Tr(P)=1/2`. None of these is within 1/10 of `τ(x)=1/3`, although ℂ² is injective.
+- On the same instance the operator form holds exactly: `T=diag(3^(−1/2),(2/3)^(1/2))` in that
+  basis has `‖T‖²_(2,Tr)=1/3+2/3=1`, commutes with u, and gives `Tr(xT²)=a/3+2b/3=τ(x)` for every
+  `x=(a,b)`. Theorem 10.2.9 supplies such a positive finite-rank T, not a projection.
+- The trace clause cannot be dropped outside factors: on the same ℂ² the rank-one projection
+  `T=e₁₁` onto the first basis vector has `‖T‖_(2,Tr)=1` and commutes with every unitary of M, so
+  the commutator condition holds with ε=0, but `Tr(xT²)=1≠1/3=τ(x)` for `x=(1,0)`. In a II₁
+  factor the restriction of a hypertrace to M is the unique tracial state, which is why the
+  projection form there asks for the commutator condition alone.
+- Injectivity cannot be dropped: `L(F₂)`, with its canonical trace and `L²M=ℓ²(F₂)`, has no
+  hypertrace. A hypertrace ψ restricted to the multiplication operators `ℓ∞(F₂)⊆B(ℓ²(F₂))` is a
+  left-invariant mean m, since `ψ(λ_g f λ_g*)=ψ(f λ_g* λ_g)=ψ(f)` and `λ_g f λ_g*` is
+  multiplication by `f(g⁻¹·)`. For the free generators a, b and W(s) the reduced words beginning
+  with s, `F₂=W(a)⊔aW(a⁻¹)=W(b)⊔bW(b⁻¹)` gives `m(W(a))+m(W(a⁻¹))=1=m(W(b))+m(W(b⁻¹))`, while
+  the four disjoint sets have total mass at most 1.
 
 Before using the finite theorem in the general reduction, prove
 semidiscrete II₁ factors with separable predual hyperfinite by
@@ -3969,14 +4971,25 @@ type-I amplification and full corners when changing representations.
 Now combine the general injectivity/semidiscreteness equivalence with
 the classification-independent finite and properly infinite approximation
 theorems to prove injective iff hyperfinite for all separable-predual
-algebras. Prove the reverse implication by finite-dimensional expectations,
+algebras, stated for an algebra on a separable Hilbert space as `isInjective_iff_isHyperfinite`
+(Connes's theorem for every von Neumann algebra on a separable Hilbert space, as recalled in
+Hiai, §1.8, p. 9, whose sequential definition of AFD algebras is `IsHyperfinite`'s, and in the
+Notes to Chapter 11 of Anantharaman–Popa, p. 189, where the converse is noted as immediate;
+Takesaki III, XVI.1.9 and XVI.1.22–1.23, for the classification-independent proof. Anantharaman–Popa, Theorem 11.1.3, p. 173, is the
+direction from injective to hyperfinite for finite algebras, in the finite-set `L²` form of their
+Definition 11.1.1, and Theorem 11.2.2, p. 186, the sequential equivalence for II₁ factors).
+Prove the reverse implication by finite-dimensional expectations,
 CP extension and weak compactness. Prove injectivity stable under
 amenable locally compact second-countable crossed products, using
 semidiscrete maps and interval Følner averages for ℝ; deduce their
 hyperfiniteness when separable. This full equivalence precedes the
-AFD factor classification below. Deduce every infinite-dimensional
+AFD factor classification below. With the uniqueness of R above it gives uniqueness of the
+injective II₁ factor: any two injective II₁ factors on separable Hilbert spaces are star
+isomorphic, `nonempty_starAlgEquiv_of_isTypeIIOne_of_isInjective` (Anantharaman–Popa,
+Theorem 11.2.2, p. 186). Deduce every infinite-dimensional
 **factor** subalgebra of R is isomorphic to R: its normal trace-preserving
-expectation gives injectivity, and the finite classification identifies it.
+expectation gives injectivity, and the finite classification identifies it
+(Anantharaman–Popa, Remark 11.2.3, p. 188).
 *Needs:* every preceding item of this layer; AmenableGroups for amenable crossed products;
 V7.Index's expectation for the subfactor corollary.
 
@@ -4015,12 +5028,29 @@ comparison just stated.
 relations; Connes–Feldman–Weiss, Lemmas 8–9 and Theorem 10; Anantharaman–Popa, §12.5,
 pp. 208–212, for the probability-preserving case.
 
-Prove uniqueness of the injective II∞ factor and, for each 0<λ<1,
-the injective III_λ factor, via the trace-scaling outer conjugacy and discrete
-decomposition, using the cocycle-crossed-product isomorphism of V11. Prove injective III₀ factors classified by conjugacy
-of their flows of weights, with every properly ergodic flow realized.
-Prove injective III₁ uniqueness by ordinary bicentralizer triviality
-and the product-state criterion below. Construct all models and prove
+**Checks.**
+
+- The trivial relation is amenable with P the identity of `L∞(X,μ)`, since each class is one
+  arrow; its regular algebra is `L∞(X,μ)`, injective.
+- A relation with finite classes is amenable through the class average
+  `P(f)(x)=|[x]|⁻¹Σ_(y∈[x])f(x,y)`, which is unital, positive and invariant; for the full relation on
+  n atoms of mass 1/n the regular algebra is `M_n(ℂ)`, injective as the theorem requires.
+- The orbit relation of the Bernoulli shift of F₂ on `{0,1}^(F₂)` is not amenable: its regular
+  algebra `L∞(X)⋊F₂` contains `L(F₂)` with a trace-preserving conditional expectation, and
+  `L(F₂)` is not injective, so the regular algebra is not injective either.
+
+Prove uniqueness of the injective II∞ factor: any two injective II∞ factors on separable Hilbert
+spaces are star isomorphic, both being `R⊗̄B(ℓ²)`,
+`nonempty_starAlgEquiv_of_isTypeIIInfinity_of_isInjective` (Anantharaman–Popa, Corollary
+11.2.4, p. 188, for the hyperfinite form, with the injective/hyperfinite equivalence above).
+Prove, for each 0<λ<1, uniqueness of the injective III_λ factor with separable predual, via the
+trace-scaling outer conjugacy and discrete decomposition, using the cocycle-crossed-product
+isomorphism of V11 (Haagerup 1989, the result restated on p. 265 and Theorem 6.1, p. 303, for
+the form with a faithful normal state φ satisfying `σ^φ_(t₀)=id`, `t₀=−2π/log λ`; Takesaki III,
+XVIII.1.1). Prove injective III₀ factors classified by conjugacy of their flows of weights, with
+every properly ergodic flow realized (Takesaki III, XVIII.2.1–2.9). Prove injective III₁
+uniqueness by ordinary bicentralizer triviality and the product-state criterion below
+(Haagerup 2016, Theorems 1.1–1.2, p. 2). Construct all models and prove
 classification exhaustive. Develop these prerequisites before applying
 the classification assertions.
 *Needs:* every preceding item of this layer and V11's discrete and continuous decompositions.
@@ -4181,7 +5211,19 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
   Haagerup 1987, §§1–2, Haagerup 2016, Theorems 1.1–1.2, 2.8, 3.1, 4.2, 5.1 and Lemmas 5.4–5.6,
   Connes–Størmer 1978, Connes–Woods 1985, §7, and Haagerup 1989, §2.
 
+**Checks.**
 
+- For a faithful normal tracial state τ, `x_nτ=τx_n` for every x_n, so every bounded sequence is
+  asymptotically centralizing; constant sequences then give `B(M,τ)⊆Z(M)`, and central elements
+  commute with everything, so `B(M,τ)=Z(M)`, which is ℂ1 for a II₁ factor.
+- For `φ=Tr(h·)` on `M₂(ℂ)` with `h=diag(2/3,1/3)`, `xφ−φx` is the functional with density
+  `xh−hx`, of trace norm `‖[x,h]‖₁`, so the asymptotically centralizing sequences approach the
+  diagonal algebra D, and `B(M,φ)=D′∩M=D`, not ℂ1, although M is a factor; with the trace instead
+  of φ the bicentralizer is ℂ1. Triviality depends on φ outside type III₁ and is a theorem there,
+  not part of the definition.
+- The ordinary bicentralizer uses the stated convention `(aφb)(x)=φ(bxa)`: in the previous
+  instance `(e₁₂φ)(e₂₁)=φ(e₂₁e₁₂)=1/3` and `(φe₁₂)(e₂₁)=φ(e₁₂e₂₁)=2/3`, so `e₁₂` is not
+  centralizing, while the diagonal unitaries commute with h and are.
 
 ### Examples
 
@@ -4193,7 +5235,7 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
 
 ### Dependencies
 
-- Layers 4–12, with V2's completed Hilbert tensors and bounded operator tensor maps for
+- Layers 0–8, 11 and 12, with V2's completed Hilbert tensors and bounded operator tensor maps for
   V13b.SpatialNorm.
 - AmenableGroups Layers 5–7.
 
@@ -4201,14 +5243,43 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
 
 - [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
   SA-B85 consumes V4.0.Fields' measurable fields and change-of-measure unitaries.
-- [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md) consumes V0–V4, V8 and V11.
-- [BanachAlgebras](../BanachAlgebras/README.md) A7 consumes V11's closed double-dual embedding.
+- [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md) consumes V0–V4, V8, V10 (the
+  modular operator and modular group of a faithful normal state, the KMS characterization
+  `existsUnique_isKMS_flow` and the standard form) and V11.
 - [TypeAHeckeAlgebras](../TypeAHeckeAlgebras/README.md) H3 consumes V2's reference-vector
   infinite tensor product.
 - CStarAlgebras consumes V0–V4 and V12.J; its C3–C4 consume V13a; its C5 consumes
   V13b.SpatialNorm's spatial norm, its representation independence, slice maps and inclusion
   functoriality, and adds the maximal norm and the comparison of C*-norms; its C6 consumes the
   semidiscreteness theorems of V13b.
+- [FactorRigidity](../FactorRigidity/README.md) consumes V2 (corners, spatial tensor products,
+  Borel logarithms of unitaries), V3, V4 (normality and the Lusin–Novikov selection), V5–V7
+  (comparison, tracial standard form, coupling dimension), V8 (group algebras, discrete crossed
+  products and V8.BernoulliArbitraryDiscrete), V11 (measured relations, full groups and
+  hyperfinite exhaustions, in its Layer 6 §6.2 and Layer 7 §7.1), V12 (tracial ultrapowers and
+  central sequences) and V13a–V13b (injectivity, semidiscreteness, hypertraces and the
+  hyperfinite II₁ factor R).
+- [Subfactors](../Subfactors/README.md) consumes V1, V2, V4.Core, V4.PositivePredual and
+  V4.Normality, V5, V6, V7 (V7.StandardAmplifications, V7.Dimension, V7.SumsAndCorners,
+  V7.CountableAndTypeI and V7.Index), V8, V10.ModularTheory and V10.KMS, V11 and V13 (uniqueness
+  of the hyperfinite II₁ factor R, hypertraces and the L² perturbation lemmas).
+- [NoncommutativeIntegration](../NoncommutativeIntegration/README.md) consumes V2, V4.Core,
+  V4.PositivePredual and V4.Normality, V5, V6, V7.Index, V8, V10.ClosedOperators,
+  V10.Affiliation, V10.TracialLp, V10.ModularTheory and Layer 11 (weights, the Pedersen–Takesaki
+  theorem, Takesaki's conditional-expectation theorem and the continuous core); its I4 owns the
+  Lp inclusions attached to Takesaki's expectation.
+- [FreeProbability](../FreeProbability/README.md) consumes V0–V4, V6 (tracial L²), V8 (group
+  algebras), V10–V11 (Tomita–Takesaki theory) and V13a (completely positive maps and operator
+  systems).
+- [HilbertModules](../HilbertModules/README.md) consumes V0 (states and GNS), V4.Core (the trace
+  class and the extended positive trace on B(H)), V4.Normality and V7.StandardAmplifications.
+- [NoncommutativeGeometry](../NoncommutativeGeometry/README.md) consumes V0, V4, V6 and V10
+  (GNS representations, the Hilbert-space trace, normal tracial weights and tracial Lp).
+- [QuantumGroups](../QuantumGroups/README.md) consumes V0–V4 (state-space compactness, GNS, V1's
+  finite-dimensional bicommutant theorem and preduals) and V10–V11 (left Hilbert algebras and the
+  Tomita comparison for the Haar modular group).
+- [PseudodifferentialOperators](../PseudodifferentialOperators/README.md) consumes V2's completed
+  Hilbert tensor product.
 
 ## References
 
@@ -4221,31 +5292,45 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
   inverse Cayley correspondence and the spectral measure of a self-adjoint operator
   (V10.ClosedOperators).
 - Vaughan F. R. Jones, [*Von Neumann Algebras*](https://math.berkeley.edu/~vfr/VonNeumann2009.pdf),
-  lecture notes (2009): Chapter 3, p. 13, for the weak-limit remark on projections (V1); §7.3 for
+  lecture notes (2009): Theorems 3.2.1–3.2.2 and Corollary 3.2.3, p. 12, and Theorem 5.2.1 and
+  Corollary 5.2.2, pp. 32–33, for the bicommutant and Kaplansky theorems (V1); Chapter 3, p. 13,
+  for the weak-limit remark on projections (V1); EP10, p. 23, for the single generator (V2); Theorems 4.4.1–4.4.2, Exercises 4.4.3 and 4.4.5,
+  Example 4.4.4 and §4.5, pp. 28–29 (Layer 3); Theorem 8.1.15, p. 53 (V4.Core); §7.3 for
   the two-projection exercises (V12); Chapter 10, pp. 61–66, for `dim_M H` (V7); §§16.1–16.3 and
   Theorem 16.3.1, pp. 107–108, for central sequences, property Γ and the ICC estimate (V12).
 - Jesse Peterson, [*Notes on von Neumann algebras*](https://math.vanderbilt.edu/peters10/teaching/spring2013/vonNeumannAlgebras.pdf)
-  (2013): Proposition 2.6.2, Theorems 2.7.4–2.7.6 and Theorem 2.8.5, pp. 30–37
+  (2013): Lemma 2.5.5 and Theorems 2.5.6 and 2.6.4, pp. 28–31 (V1); Lemma 2.8.8, p. 38 (V2);
+  Corollary 4.1.7, p. 58 (V0); Theorem 4.4.6, p. 66 (Sakai's theorem, V4.Core);
+  Proposition 2.6.2, Theorems 2.7.4–2.7.6 and Theorem 2.8.5, pp. 30–37
   (V2.BorelCalculus, V4.0.Multiplication); Theorem 3.3.1, Corollary 3.3.2 and Theorem 3.3.9 (type decomposition, V6); Theorem
-  4.3.3 and Corollary 4.3.4 (V4.PositivePredual); Theorems 4.7.10, 4.8.2 and 4.9.4 and
+  4.3.3 and Corollary 4.3.4 (V4.PositivePredual); Lemma 4.7.9, p. 71, Theorem 4.7.10,
+  pp. 72–73, Theorem 4.8.2, p. 75, Corollary 4.8.3, p. 76, Theorem 4.9.4 and
   Proposition 4.9.5 (V5–V6); §§4.5 and 5.1–5.2 (V6, V8); Theorems 6.2.1 and 6.2.2 (V7.Index, 13.1);
-  §6.3 (13.2).
+  §6.3 (13.2); §2.8, p. 36, for separability of the predual (V4.Core).
+- Cyril Houdayer, [*An invitation to von Neumann algebras*](https://cyrilhoudayer.com/wp-content/uploads/2014/09/vn-graduate-course.pdf),
+  lecture notes of a graduate course, Université Paris-Sud (2017): Theorem 3.1, p. 12, and
+  Theorem 3.16, p. 17 (V1).
 - Claire Anantharaman and Sorin Popa, [*An introduction to II₁ factors*](https://www.math.ucla.edu/~popa/Books/IIun.pdf),
   draft book on the second author's page: §2.2, pp. 31–32, Theorem 3.1.4, Remark 3.1.5 and
   Theorem 3.2.1, pp. 52–53, and Theorem 8.1.1 with Remark 8.1.2, pp. 122–123
-  (V2.BorelCalculus, V4.0.Multiplication); §§1.3–1.4 and 2.4; Theorems 6.2.8, 6.3.4, 6.3.5, 6.4.1
-  and 6.4.4 (V5); §7.1 and §§7.2–7.4 (V6, V10.TracialLp); Propositions 8.2.2, 8.3.3, 8.3.6, 8.3.8,
+  (V2.BorelCalculus, V4.0.Multiplication); §§1.3–1.4 and 2.4; Theorems 6.2.8, 6.3.4, 6.3.5, 6.4.1,
+  Corollary 6.4.2, Remark 6.4.3 and Theorem 6.4.4, pp. 88–95 (V5); §7.1 and §§7.2–7.4 (V6, V10.TracialLp); Propositions 8.2.2, 8.3.3, 8.3.6, 8.3.8,
   8.4.2, 8.5.5, 8.6.1 and 8.6.2 and Definitions 8.3.1, 8.3.2 and 8.5.4 (V6–V7); §9.1 (V7.Index);
-  §5.4 and §15.2 (V12); §§10.2–10.3, 11.1–11.2 and 12.5 (V13).
-- Fumio Hiai, [*Lectures on selected topics in von Neumann algebras*](https://arxiv.org/abs/2004.02383):
-  Theorem 2.2 (Tomita), Theorem 2.14 (KMS characterization), Proposition 3.8 and Theorems
+  §5.4 and §15.2 (V12); Definition 2.6.6, p. 48, for separable von Neumann algebras;
+  §§10.2–10.3, 11.1–11.2 and 12.5 (V13), in particular Definition 10.2.1 and Proposition 10.2.2,
+  p. 161, Theorem 11.1.3, p. 173, Theorem 11.2.2, p. 186, Remark 11.2.3 and Corollary 11.2.4,
+  p. 188, and the Notes to Chapter 11, p. 189; Appendix A.4, p. 314, for what Tomiyama's 1957
+  theorem states (13.1).
+- Fumio Hiai, [*Concise lectures on selected topics of von Neumann algebras*](https://arxiv.org/abs/2004.02383):
+  §1.8, p. 9 (separable predual; Connes's theorem that injective and AFD algebras coincide), Theorem 2.2 (Tomita), Theorem 2.14 (KMS characterization), Proposition 3.8 and Theorems
   3.12–3.13 (standard form), §5, Theorem 6.5, pp. 55–56 (Tomiyama), Theorem 6.6 (Takesaki's expectation theorem), Theorem 7.6
-  (Connes cocycles), §8, Theorem 9.4 (Pedersen–Takesaki), Theorem 10.7 (Takesaki duality), §12 and
-  §13 (relative modular operators and spatial derivatives).
+  (Connes cocycles), §8, Proposition 9.3, p. 83, and Theorem 9.4, p. 84 (the weights φ_h and their
+  cocycles), Theorem 9.7, p. 87 (Pedersen–Takesaki, faithful weights), Theorem 10.7 (Takesaki
+  duality), §12 and §13 (relative modular operators and spatial derivatives).
 - William Arveson, *Subalgebras of C*-algebras*, Acta Math. 123 (1969), 141–224, Theorem 1.2.3,
   for the completely positive extension theorem of 13.1.
 - Jun Tomiyama, *On the projection of norm one in W*-algebras*, Proc. Japan Acad. 33 (1957),
-  608–612, Theorem 1, for the norm-one projection theorem of 13.1.
+  608–612, Theorem 1, for positivity and bimodularity of a norm-one projection (13.1).
 - Walter Rudin, *Fourier Analysis on Groups*, §§1.5–1.7, for Fourier inversion, Plancherel and
   Pontryagin duality (V11); Gerald B. Folland, *A Course in Abstract Harmonic Analysis*, 2nd ed.,
   §4.4, for Bochner's theorem, which Tau Ceti's cyclic spectral theorem implements.
@@ -4260,7 +5345,8 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
 - Takesaki II XII.1.1 and Haagerup, *Lᵖ-spaces associated with an arbitrary
   von Neumann algebra* (1979), Theorems1.2–1.3, for the core normalization
   and the positive/negative dual-parameter crosswalk.
-- Antony Wassermann, [*Ergodic actions of compact groups on operator algebras: I*](https://annals.math.princeton.edu/1989/130-2/p02), for compact spectral subspaces; [Part III: Classification for SU(2)](https://doi.org/10.1007/BF01394336), Invent. Math. 93 (1988), 309–354, for the SU(2) type-I theorem.
+- Antony Wassermann, [*Ergodic actions of compact groups on operator algebras: I*](https://annals.math.princeton.edu/1989/130-2/p02), Annals of Mathematics 130 (1989), 273–319, for compact spectral subspaces and the multiplicity map; [Part III: Classification for SU(2)](https://doi.org/10.1007/BF01394336), Invent. Math. 93 (1988), 309–354, the theorem of the Introduction, p. 309, and Theorem 1, p. 311, for the SU(2) type-I theorem (V8.CompactErgodicActions).
+- Raphael Høegh-Krohn, Magnus B. Landstad and Erling Størmer, [*Compact ergodic groups of automorphisms*](https://doi.org/10.2307/1971377), Annals of Mathematics 114 (1981), 75–86, for the finiteness theorem and the multiplicity bound; Claudia Pinzari, [*Growth rates of dimensional invariants of compact quantum groups and a theorem of Høegh-Krohn, Landstad and Størmer*](https://arxiv.org/abs/1101.4534), Corollary 4.9, p. 12, and §2, p. 6, for their restatement (V8.CompactErgodicActions).
 - Alain Connes, [*Outer conjugacy classes of automorphisms of factors*](https://www.numdam.org/item/ASENS_1975_4_8_3_383_0/), for the trace-scaling classification; the full conjugacy assertion for fixed nonunit scaling is part of V13.
 - Connes, [*Une classification des facteurs de type III*](https://www.numdam.org/item/ASENS_1973_4_6_2_133_0/),
   §3.6.1, pp.203–205, for the elementwise S/asymptotic-ratio-set
@@ -4294,7 +5380,8 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
   UHF product-representation comparison.
 - Haagerup, [*The injective factors of type IIIλ, 0<λ<1*](https://msp.org/pjm/1989/137-2/pjm-v137-n2-p03-s.pdf),
   §2, for uniform almost-unitary equivalence in normal bimodules,
-  including its Hilbert-ultraproduct uniformity argument.
+  including its Hilbert-ultraproduct uniformity argument, and Theorem 6.1, p. 303, for the
+  uniqueness of the injective IIIλ factor with a periodic faithful normal state (13.2).
 - Connes–Størmer, [*Homogeneity of the State Space of Factors of Type III₁*](https://doi.org/10.1016/0022-1236(78)90085-X),
   for norm-approximate state conjugacy; Haagerup 2016 Theorem 2.4
   and Lemma 4.4 give the form and expected-subfactor application used here.
@@ -4307,15 +5394,14 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
 - Connes, [*Periodic automorphisms of the hyperfinite factor of type II₁*](https://alainconnes.org/wp-content/uploads/szego.pdf),
   Theorem 5.1 and Theorem 6.2, for invariant matrix approximation and
   outer-period/obstruction classification.
-- Mathlib's `Analysis/VonNeumannAlgebra/Basic`, `Analysis/InnerProductSpace/WeakOperatorTopology`, `Analysis/LocallyConvex/WeakOperatorTopology`, and C*-algebra/continuous-functional-calculus files determine the foundational vocabulary.
-- The bicommutant theorem is stated on Mathlib's `ContinuousLinearMapWOT` wrapper, with the
-  finite diagonal amplification of V1 as its proof route.
-- Finite-dimensional positive functionals are written as `x↦Tr(hx)` with a positive density
-  matrix h (V0, V10). The pinned Mathlib has no density-matrix or finite Hilbert–Schmidt
-  declarations; the density-matrix correspondence is a V10 target, and the Hilbert–Schmidt
-  norm is the V4.Core target.
 - Andrew Gleason, *Measures on the closed subspaces of a Hilbert space*, J. Math. Mech. 6
   (1957), pp. 885–893, for the finite frame-function theorem of V12.J.Frame.
+- L. J. Bunce and J. D. Maitland Wright, [*The Mackey–Gleason problem*](https://arxiv.org/abs/math/9204228),
+  Bull. Amer. Math. Soc. 26 (1992), 288–293, Theorems A and B, p. 289, and the norm estimate in
+  the proof of Lemma 1.1, for V12.J.Scalar.
+- Jan Hamhalter, [Dye's theorem and Gleason's theorem for AW*-algebras](https://arxiv.org/abs/1408.4597),
+  arXiv v1 (2014): the statement of Dye's theorem with uniqueness, pp. 2–3, and Theorem 4.3,
+  p. 14, for V12.J.Dye.
 - Uffe Haagerup, [*Connes’ bicentralizer problem and uniqueness of the
   injective factor of type III₁*](https://doi.org/10.1007/BF02392257),
   Acta Math. 158 (1987), 95–148, §§1–2, especially Proposition1.3,
@@ -4332,6 +5418,3 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
   automorphisms*](https://jot.theta.ro/jot/archive/1985-014-001/1985-014-001-011.html),
   J. Operator Theory 14 (1985),189–211, gives the original bicentralizer
   characterization; the proof route specified here is the direct product route.
-- Relevant Lean design discussions include [naming in operator algebras](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/naming%20in%20operator%20algebras) and [Double commutant theorem](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/Double%20commutant%20theorem). Use Mathlib's concrete/abstract split and topology wrappers, with the interface conventions above. Supply the required missing results here or in their explicitly cited prerequisite owner.
-
-
