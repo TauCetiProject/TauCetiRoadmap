@@ -86,7 +86,7 @@ for categories of modules. The boundaries are as follows.
   finitely generated, except in the definitions of global dimension and of Morita equivalence; a
   theory of functors that are not finitely presented (the category of all additive functors appears
   only as the ambient category of `mod C`, of the simple functors `S_Z` and of the radical functors
-  `rad(-, Z)`), Grothendieck categories, purity, the defect formula and Auslander's formula,
+  `rad(-, Z)`), Grothendieck categories, purity, Auslander's formula,
   Krull-Gabriel dimension, and the description of whole components of the Auslander-Reiten quiver
   through functors; coherent rings as a ring-theoretic notion (they enter only through the
   Freyd-Auslander criterion of Layer 1); and dominant dimension of rings other than Artin algebras,
@@ -813,6 +813,10 @@ finitely generated and independent of the presentation up to isomorphism; `τ M 
 is projective; for indecomposable non-projective `M`, `τ M` is indecomposable and not injective, and
 `τ⁻ (τ M) ≅ M` ([ARS, Prop. IV.1.10(f), p. 107]). Over a field, `TauCeti.AuslanderReitenTranslate`
 and the quiver translate `TauCeti.arTranslate` are this construction with `R = k`.
+Functorially, `τ = D_R ∘ Tr` is the composite of the stable transpose
+(`TauCeti.stableTransposeEquivalence`) and the Matlis dual on stable categories, a functor from
+finitely presented modules modulo projectives to modules modulo injectives; the statements above
+concern its value computed from a minimal presentation.
 
 **Checks.**
 
@@ -835,7 +839,12 @@ category of `mod A`. Composed with `TauCeti.stableTransposeEquivalence` it gives
 are [ASS, Thm. IV.2.13, pp. 117–118]. For Artin algebras, [ARS, Props. IV.4.5 and IV.4.6, p. 131]
 prove the equalities of lengths, and the functorial isomorphisms are stated at the end of [ARS,
 §IV.4, p. 132] without proof; the
-target is the natural isomorphism, proved by the argument of [ASS, Thm. IV.2.13] with `D_R`. With the stable equivalence, the first
+target is the natural isomorphism. It is derived from **Auslander's defect formula**
+`D δ^*(X) ≅ δ_*(D Tr X)`, for a short exact sequence `δ` with contravariant and covariant defects
+`δ^*` and `δ_*` and a finitely presented `X` ([Au78, Thm. III.4.1]), with Krause's proof [Kr03],
+which works for any algebra over a commutative ring `k` and any injective `k`-module in place of
+`D_R`: taking for `δ` a sequence with projective, resp. injective, middle term gives the two
+formulas ([Kr03, Corollaries]). With the stable equivalence, the first
 makes `τ` an Auslander-Reiten duality for `mod A`, whose Ext-trivial quotients are the two stable
 categories (3.2).
 
@@ -1268,6 +1277,9 @@ Layers 0, 1 and 2; PurityOfBranchLocus §0.3.
   London (1971). The Auslander correspondence; not read here.
 - M. Auslander, *Representation theory of Artin algebras II*, Comm. Algebra 1 (1974), 269–310. The
   infinite radical and components of bounded length; not read here.
+- [Au78] M. Auslander, *Functors determined by objects*, in: Representation Theory of Algebras
+  (Philadelphia, 1976), Lecture Notes in Pure and Appl. Math. 37, Marcel Dekker (1978), 1–244.
+  Thm. III.4.1 (the defect formula); this locator is taken from [Kr03] and has not been read here.
 - [Ch] S. U. Chase, *Direct products of modules*, Trans. Amer. Math. Soc. 97 (1960), 457–473.
   Thm. 2.1, p. 460 (coherence); this locator has not been read here.
 - [En] H. Enomoto, *Classifications of exact structures and Cohen-Macaulay-finite algebras*, Adv.
@@ -1293,6 +1305,9 @@ Prop. 2.10, p. 12 (almost-split extensions through left and right almost-split m
   Cor. 3.5, p. 6, and Prop. 3.10, p. 7 (projective covers); Prop. 4.1, p. 8 (semiperfect rings);
   Thm. 4.2, Cor. 4.3 and Cor. 4.4, p. 9, with the proof of Cor. 4.4 on p. 10 (uniqueness, exchange,
   and the characterization of Krull-Schmidt categories).
+- [Kr03] H. Krause, *A short proof for Auslander's defect formula*, Linear Algebra Appl. 365 (2003),
+  267–270; Theorem (the defect formula), Lemma (`D(A ⊗ Y) ≅ Hom(A, DY)`), and the two Corollaries
+  (the Auslander-Reiten formulas).
 - [LZ] H. Lenzing, R. Zuazua, *Auslander-Reiten duality for abelian categories*, Bol. Soc. Mat.
   Mexicana (3) 10 (2004), 169–177. Thm. 1.1, p. 169 (existence for abelian categories over a
   commutative Artinian ring); §2, p. 170 (projectively and injectively trivial morphisms).
