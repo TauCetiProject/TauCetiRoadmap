@@ -403,7 +403,7 @@ def restrictInverting {R R' : Type w} [SmallCategory R] [SmallCategory R']
         exact (inferInstance : IsIso (F.obj.map (q.map f)))⟩)
 
 /-- README 5.3. Localisation in the 2-category of categories with `D`-limits: for a small `R`
-with `D`-limits and a set `S` of its arrows there is a small `R[S⁻¹]` with `D`-limits and a
+and a set `S` of its arrows there is a small `R[S⁻¹]` with `D`-limits and a
 `D`-functor `q : R ⥤ R[S⁻¹]` inverting `S`, such that restriction along `q` is an equivalence
 onto the `D`-functors inverting `S`, into every category with `D`-limits (Kelly, Theorem 6.23,
 dualised). -/

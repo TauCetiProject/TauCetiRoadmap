@@ -980,8 +980,9 @@ Mathlib: `CategoryTheory.ObjectProperty.LimitsClosure`, `CategoryTheory.Morphism
 
 ## Downstream consumers
 
-ClassifyingTopoi consumes 1.5 (finitely accessible categories as `Ind A`), 3.1 and 3.5 (theories
-with finite limits and essentially algebraic theories) in the Examples of its Layer 3.
+ClassifyingTopoi consumes 1.5 (finitely accessible categories as `Ind A`) in its 3.5 and in the
+Examples of its Layer 3, and 3.1 and 3.5 (theories with finite limits and essentially algebraic
+theories) in those Examples.
 HigherToposTheory (Layer F1) consumes Mathlib's `CategoryTheory.Presentable` directly; its
 statements about locally presentable categories use the carriers named here.
 
