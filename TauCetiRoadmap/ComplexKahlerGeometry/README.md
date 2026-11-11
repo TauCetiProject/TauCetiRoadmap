@@ -208,7 +208,8 @@ them.
   `IsCoveringMap.existsUnique_continuousMap_lifts`, `Complex.isCoveringMap_exp` and
   `PartitionOfUnity.exists_isSubordinate` (Layers 2, 4, 5 and 7).
 - Topology and homological algebra: `Projectivization.instTopologicalSpace`,
-  `isOpenQuotientMap_mk'`, `OnePoint.equivProjectivization`, `CWComplex` and
+  `isOpenQuotientMap_mk'`, `Topology.IsOpenQuotientMap.secondCountableTopology`,
+  `OnePoint.equivProjectivization`, `CWComplex` and
   `CategoryTheory.Abelian.SpectralObject` (Layers 7–8).
 
 ### From Tau Ceti
@@ -253,12 +254,15 @@ them.
   sequence of a filtered cochain complex `CochainComplex.spectralSequence` with its first page,
   finite-filtration convergence, naturality and comparison theorem; K8 owns only its Frölicher and
   base-degree filtration adapters (Layers 6–8).
-- Examples: the projectivization instances, the affine atlas and the Riemann-sphere
-  diffeomorphism `OnePoint.diffeomorphProjectivization`
+- Examples: the affine atlas and the Riemann-sphere diffeomorphism
+  `OnePoint.diffeomorphProjectivization`
   (`TauCeti.Topology.Algebra.Projectivization`, `TauCeti.Geometry.Manifold.Instances.Projectivization`,
   `TauCeti.Geometry.Manifold.Instances.OnePoint.Projectivization`), stated on Tau Ceti's own copy
   of the quotient topology, whose proofs K7.1 repeats on Mathlib's; the sphere-quotient model
-  `TauCeti.ComplexProjectiveSpace` with `cwComplex` and `TauCeti.eulerChar_complexProjectiveSpace`;
+  `TauCeti.ComplexProjectiveSpace` with its compactness, Hausdorff and path-connectedness
+  instances, which K7.1 transports to Mathlib's topology, its charts and manifold structure,
+  `cwComplex` and `TauCeti.eulerChar_complexProjectiveSpace` with `Homeomorph.finiteCWType` and
+  `Homeomorph.eulerChar_eq`;
   and the complex torus `AddAction.orbitRel.Quotient L E` with `Submodule.instLieAddGroupOrbitRelQuotient`
   and `Submodule.instCompactSpaceOrbitRelQuotient` (Layer 7).
 
@@ -2720,9 +2724,12 @@ declares the same coinduced topology a second time under the same name and prove
 `instCompactSpace` (finite-dimensional normed spaces over ℝ or ℂ, by the continuous surjection
 from the unit sphere), `instSecondCountableTopology` and `instPathConnectedSpace` (every nonzero
 normed space, so every n≥0, ℂP⁰ being a point); no pinned library states them on Mathlib's
-instance. Prove the four on Mathlib's instance by the same arguments, which use the topology only
-through the open quotient map from the nonzero vectors. Consume ComplexManifolds Milestones 1–3's
-complex-manifold, real-restriction and atlas-transport interfaces,
+instance. Obtain the four on Mathlib's instance without repeating those arguments: second
+countability from the open quotient map by Mathlib's
+`Topology.IsOpenQuotientMap.secondCountableTopology`, and Hausdorffness, compactness and
+path-connectedness by transporting the sphere-quotient model's `instT2Space`, `instCompactSpace`
+and `instPathConnectedSpace` (below) along the homeomorphism of the two models. Consume
+ComplexManifolds Milestones 1–3's complex-manifold, real-restriction and atlas-transport interfaces,
 K3.0's finite-dimensional holomorphic calculus and
 K1's complex orientation. This construction precedes associated bundles
 and uses neither SmoothBundlesConnections B2 nor K5.
@@ -2761,8 +2768,10 @@ identification of `Fin (n+1) → ℂ` with `EuclideanSpace ℂ (Fin (n+1))`, the
 `[v]↦[v/‖v‖]` from `Projectivization ℂ (Fin (n+1) → ℂ)` to `TauCeti.ComplexProjectiveSpace n`
 is well defined (two representatives of a line normalize to unit vectors differing by a unit
 scalar), a homeomorphism whose inverse is induced by the inclusion of the sphere into the
-nonzero vectors, and a biholomorphism: it carries `U_i` onto `affineOpen i` and is the identity
-in the charts `Projectivization.affineChart i` and `affineChart i`, both of which read
+nonzero vectors (each direction is continuous since its composite with the quotient map from
+the nonzero vectors, respectively from the unit sphere, is continuous; no separation property of
+Mathlib's instance is used), and a biholomorphism: it carries `U_i` onto `affineOpen i` and is
+the identity in the charts `Projectivization.affineChart i` and `affineChart i`, both of which read
 `v_(i.succAbove j)/v_i`. Transport every K7 theorem through it in both directions; the Lean
 statements of K7.2 are on the sphere-quotient model.
 This roadmap is the single owner of that comparison and of the transport of `cwComplex` and
@@ -2798,11 +2807,16 @@ consumers use `OnePoint ℂ` and this biholomorphism. Use that comparison for
 every ℂP¹ example and transport theorem.
 
 *Needs:* 1.1's complex orientation; 3.1's holomorphic calculus; ComplexManifolds Milestones 1–3;
-Mathlib's `Projectivization.instTopologicalSpace`; Tau Ceti's projectivization instances, affine
-atlas and Riemann-sphere comparison (`TauCeti.Topology.Algebra.Projectivization`,
+Mathlib's `Projectivization.instTopologicalSpace`, `Projectivization.isOpenQuotientMap_mk'` and
+`Topology.IsOpenQuotientMap.secondCountableTopology`; Tau Ceti's affine atlas and Riemann-sphere
+comparison (`TauCeti.Topology.Algebra.Projectivization`,
 `TauCeti.Geometry.Manifold.Instances.Projectivization`,
 `TauCeti.Geometry.Manifold.Instances.OnePoint.Projectivization`), whose proofs 7.1 repeats on
-Mathlib's instance, and its sphere-quotient model (`TauCeti.Topology.ComplexProjectiveSpace.Basic`).
+Mathlib's instance; its sphere-quotient model with its instances, charts and manifold structure
+(`TauCeti.Topology.ComplexProjectiveSpace.Basic`, `TauCeti.Topology.ComplexProjectiveSpace.Charts`,
+`TauCeti.Geometry.Manifold.Instances.ComplexProjectiveSpace`), and its Euler characteristic
+`TauCeti.eulerChar_complexProjectiveSpace` with `Homeomorph.finiteCWType` and
+`Homeomorph.eulerChar_eq`.
 
 **Checks.**
 
@@ -3325,9 +3339,10 @@ with `ρ(m+ni)=(−1)^m`; the Hopf surface.
 ### Dependencies
 
 7.1 uses 3.1, 1.1's complex orientation, ComplexManifolds Milestones 1–3, Mathlib's
-`Projectivization.instTopologicalSpace` and Tau Ceti's sphere-quotient model, repeats on Mathlib's
-instance the proofs of Tau Ceti's projectivization instances, affine atlas and Riemann-sphere
-comparison, and precedes 2.5's ℂP¹ acceptance. 7.3's CW structure and additive groups
+`Projectivization.instTopologicalSpace` with its open quotient map and Tau Ceti's sphere-quotient
+model, whose instances it transports, repeats on Mathlib's instance the proofs of Tau Ceti's
+affine atlas and Riemann-sphere comparison, and precedes 2.5's ℂP¹ acceptance.
+7.3's CW structure and additive groups
 are Tau Ceti's on the sphere-quotient model, transported by 7.1's comparison; its cup calculation
 uses AlgebraicTopology Stage 6, independently of Layers 2–6; the bundle, form and Hodge applications
 of 7.2–7.5 use Layers 4–6. 7.5's embedding uses 7.1 and its section comparisons use 7.2's twists.
@@ -3555,8 +3570,9 @@ filtered-complex spectral sequence supplies convergence after those inputs.
   SpinGeometry consume the pointwise star algebra cited in 5.1; Hyperfunctions consumes Layers 1, 2
   and 4 and K5a.
 - CharacteristicClasses C2.4a consumes K7.1's projective atlas and C7.6 K7.1's comparison of
-  `TauCeti.ComplexProjectiveSpace 1` with `Projectivization ℂ (Fin 2 → ℂ)`; MorseTheory uses K7.1
-  and K7.2, and GeneralizedCohomology K1 and K7.1.
+  `TauCeti.ComplexProjectiveSpace 1` with `Projectivization ℂ (Fin 2 → ℂ)` and its Riemann-sphere
+  diffeomorphism from `OnePoint ℂ` to `Projectivization ℂ (Fin 2 → ℂ)` on Mathlib's topology;
+  MorseTheory uses K7.1 and K7.2, and GeneralizedCohomology K1 and K7.1.
 
 ## References
 
