@@ -53,9 +53,9 @@ theorem rank_sub_one_eq_index_mul (n : ℕ) (H : Subgroup (FreeGroup (Fin n)))
 /-! ## Layer 4: Bass–Serre theory and relative splittings -/
 
 /-- The Grushko–Neumann theorem (§4.11(2)): rank is additive on free products of finitely
-generated nontrivial groups. -/
+generated groups. -/
 theorem rank_coprod {G H : Type*} [Group G] [Group H] [Group.FG G] [Group.FG H]
-    [Group.FG (Monoid.Coprod G H)] [Nontrivial G] [Nontrivial H] :
+    [Group.FG (Monoid.Coprod G H)] :
     Group.rank (Monoid.Coprod G H) = Group.rank G + Group.rank H := by
   sorry
 
