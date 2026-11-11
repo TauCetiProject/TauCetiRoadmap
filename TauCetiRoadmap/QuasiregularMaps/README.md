@@ -251,7 +251,9 @@ It leaves to named roadmaps:
   and `measureSpaceOfInnerProductSpace` (`Mathlib/MeasureTheory/Measure/Haar/OfBasis.lean`):
   membership in `L^p`, local integrability on a set, and the Lebesgue measure of a
   finite-dimensional inner product space. `MemLp` includes almost-everywhere strong
-  measurability; at `p = 0` it asks nothing else.
+  measurability; at `p = 0` it asks nothing else
+  (`MeasureTheory.memLp_zero_iff_aestronglyMeasurable`,
+  `Mathlib/MeasureTheory/Function/LpSeminorm/Basic.lean`).
 
 ### From Tau Ceti
 
@@ -448,11 +450,11 @@ simplicial maps with bounded simplexwise distortion are quasiregular. Layer 7 de
 quasiregular ellipticity, proves its invariances, orients the orbit spaces of free, properly
 discontinuous orientation-preserving actions, and proves its examples.
 
-Layers 1 and 5 can be built at once. Layer 2 needs Layer 1. Layers 3 and 4 need Layer 2.
-Layer 6 needs §2.8. Layer 7 needs Layers 4 and 6. The Euclidean part of the roadmap needs no
-supplier roadmap: the minimal stretch (§1.1), Euclidean quasiregularity (§2.9, the definition),
-the Euclidean form of §3.2 and §5.1–§5.3 rest on Mathlib and Tau Ceti alone, and they are what
-`Suggested.lean` states.
+Layers 1 and 5 can be built at once. Layer 2 needs Layer 1. Layer 3 needs Layer 2, and Layer 4
+needs Layers 2 and 3. Layer 6 needs §2.2, §2.7, §2.8 and §3.1. Layer 7 needs Layers 4 and 6. The
+Euclidean part of the roadmap needs no supplier roadmap: the minimal stretch (§1.1), Euclidean
+quasiregularity (§2.9, the definition), the Euclidean form of §3.2 and §5.1–§5.3 rest on Mathlib
+and Tau Ceti alone, and they are what `Suggested.lean` states.
 
 ## Layer 1: linear distortion
 
@@ -1115,9 +1117,10 @@ of SobolevMapsBetweenManifolds §5.3 (Rickman1993, Ch. I; HeikkilaPankka2025 lin
   The comparison bound of the third bullet is infinite here, while the conformal statement gives
   the exact value.
 
-*Needs:* §1.2, §2.1, §2.2; Tau Ceti `TauCeti.WithMetric`, `TauCeti.riemannianVolumeForm`; Mathlib
-`Orientation.volumeForm_robust`; SobolevMapsBetweenManifolds §4.5, §5.3, §6.2 (gaps `sobolev-maps-class`,
-`sobolev-maps-norm`, `sobolev-maps-jacobian`).
+*Needs:* §1.2, §2.1, §2.2; for the conformal bullet also §1.4, §3.1 and §3.4; Tau Ceti
+`TauCeti.WithMetric`, `TauCeti.riemannianVolumeForm`; Mathlib `Orientation.volumeForm_robust`;
+SobolevMapsBetweenManifolds §4.5, §5.3, §6.2 (gaps `sobolev-maps-class`, `sobolev-maps-norm`,
+`sobolev-maps-jacobian`).
 
 ### 4.2 Orientations
 
@@ -1134,8 +1137,8 @@ SobolevMapsBetweenManifolds §6.2 (HeikkilaPankka2025 lines 20–27).
   Jacobian is `−det R = 1`, so it is `1`-quasiregular.
 - Constant maps are quasiregular for all four pairs of orientations.
 
-*Needs:* §2.4, §2.6; Mathlib `Orientation.volumeForm_neg_orientation`; SobolevMapsBetweenManifolds
-§6.2 (gap `sobolev-maps-jacobian`).
+*Needs:* §2.2, §2.4, §2.6, §3.1; Mathlib `Orientation.volumeForm_neg_orientation`;
+SobolevMapsBetweenManifolds §6.2 (gap `sobolev-maps-jacobian`).
 
 ### 4.3 Precomposition with local diffeomorphisms
 
@@ -1219,7 +1222,10 @@ on every compact subset of `Ω` (MartioRickmanVaisala1969 Definition 2.16, lines
 the boxes are open `n`-intervals with closure in `Ω`, the segments are those of the closure, and
 `p ≥ 1`). The theorems of §5.2 assume `p ≥ 1`, and a Check there shows that they need it. The
 Lean definition accepts every `p : ℝ≥0∞`; at `p = 0` its integrability clause asks only
-measurability, and no statement uses that value.
+almost-everywhere strong measurability (Mathlib's
+`MeasureTheory.memLp_zero_iff_aestronglyMeasurable`). The only statement that reaches that value
+is §5.3 in dimension `0`, where `ℝ⁰` is a point and both sides of the equivalence hold
+(Conventions).
 
 - The line function through `x` depends only on the coordinates of `x` other than the `i`-th.
   So, by Fubini's theorem (`MeasureTheory.volume_preserving_piFinSuccAbove`), "for almost every
@@ -1575,7 +1581,8 @@ essential supremum with the supremum.
   has `q_O = k²/k = k` on the `k`-th strip, so `K_p = ∞`. It is quasiregular on every bounded set
   and not on `ℝ²`, so finiteness of `K_p` is used.
 
-*Needs:* §2.2, §2.7, §6.2, §6.3; Tau Ceti `AbstractSimplicialComplex.compactSpace_realization_iff_finite`.
+*Needs:* §2.2, §2.7, §3.1, §6.2, §6.3; Tau Ceti
+`AbstractSimplicialComplex.compactSpace_realization_iff_finite`.
 
 ### Examples
 
@@ -1585,7 +1592,7 @@ essential supremum with the supremum.
 
 ### Dependencies
 
-§2.2, §2.7, §2.8; Tau Ceti's smooth triangulations, realizations and simplicial maps;
+§2.2, §2.7, §2.8 and §3.1; Tau Ceti's smooth triangulations, realizations and simplicial maps;
 GeometricTopology Layer 11.
 
 ## Layer 7: quasiregularly elliptic manifolds
@@ -1759,10 +1766,13 @@ Prove:
   R4 item 7) is `1`-quasiregularly elliptic for every orientation it carries
   (`Bundle.ContMDiffRiemannianMetric.isLocalRiemannianIsometry_descend`). It carries an
   orientation exactly when every element of `Γ` preserves the orientation of `ℝⁿ`, and its
-  orientations are then the descended orientation of §7.5 and its negative. This covers the flat tori `ℝⁿ/Λ`. It also covers every closed orientable flat
-  manifold, which by the Killing–Hopf theorem (RiemannianGeometry R4 item 7) is isometric to such
-  a quotient and carries an orientation by hypothesis (HeikkilaPankka2025 lines 52–57; Prywes2019
-  lines 35–36).
+  orientations are then the descended orientation of §7.5 and its negative. This covers the flat
+  tori `ℝⁿ/Λ`; that the `n`-torus is quasiregularly elliptic is noted in HeikkilaPankka2025
+  lines 56–57 and Prywes2019 lines 35–36. It also covers every closed orientable flat manifold
+  `N`: by the Killing–Hopf theorem (RiemannianGeometry R4 item 7) `N` is isometric to such a
+  quotient `ℝⁿ/Γ`, the orbit projection followed by that isometry is a local Riemannian isometry
+  `ℝⁿ → N`, and the second bullet makes `N` `1`-quasiregularly elliptic for each of its
+  orientations.
 
 **Checks.**
 
