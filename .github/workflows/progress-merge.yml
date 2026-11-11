@@ -5,13 +5,15 @@ name: progress-merge
 # All the validation, and the merge itself, live in a SHA-pinned reusable workflow in
 # TauCetiProgress -- the same discipline TauCeti uses for TauCetiReview, and for the same reason: an
 # unpinned `@main` would let an upstream change alter what is allowed to merge here without review.
-# The pin must be bumped deliberately, in step with the `progress_ref` input and with the version the
-# worker runs (see TauCetiProgress' README).
+# The pin is in progress-merge-report.yml, which this workflow calls once per report; it must be
+# bumped deliberately, in step with the `progress_ref` input and with the version the worker runs
+# (see TauCetiProgress' README).
 #
 # `pull_request_target` rather than `pull_request` so the App secrets are available for the events we
-# care about. That is safe here only because the called workflow never checks out or executes pull
-# request content: it reads the PR through the API and merges. Note that `opened` fires for drafts
-# too, hence the explicit draft guard below as well as inside the called workflow.
+# care about. That is safe here only because neither this workflow nor the ones it calls ever check
+# out or execute pull request content: they read the PR through the API and merge. Note that
+# `opened` fires for drafts too, hence the explicit draft guard below as well as inside the called
+# workflow.
 #
 # Anyone may open a pull request against this repository. A pull request that fails any check is
 # simply left alone for a human to review, which is the normal path for roadmap contributions.
@@ -19,21 +21,31 @@ name: progress-merge
 on:
   pull_request_target:
     types: [opened, reopened, synchronize, ready_for_review]
-  # A progress pull request usually opens before its `build` check finishes, so the gate has to be
-  # re-run when CI reports. This listens for the CI WORKFLOW rather than for `check_suite`: GitHub
-  # deliberately suppresses `check_suite` and `check_run` events for suites created by GitHub Actions
-  # (it would otherwise recurse), and `build` is a job in this repository's own Actions `CI`
-  # workflow. A `check_suite` trigger therefore never fires for it, and every report would sit
-  # unmerged after the first pass saw `build` still pending.
-  workflow_run:
-    workflows: [CI]
-    types: [completed]
+  # Every twenty minutes: land the progress reports that were held while the merge queue was busy
+  # (see "Hold while the merge queue is busy" here and in progress-merge-report.yml).
+  schedule:
+    - cron: "*/20 * * * *"
   workflow_dispatch:
     inputs:
       pr:
         description: Pull request number to consider.
         required: true
         type: number
+      wait_for_queue:
+        description: Treat the report as an automatic run does and hold it while the merge queue is busy.
+        required: false
+        default: false
+        type: boolean
+
+# Scheduled runs take turns: a run that outlasts the twenty minutes is not joined by the next, so
+# the reports the schedule lets through go one at a time across runs as well as within one. Only
+# the schedule shares a group. Every other run is alone in its own, because a shared group keeps
+# one waiting run and drops the older one, which pull request events could be used to do to a
+# waiting report (see "DELIBERATELY NOT SERIALISED" in the gate). Nobody outside can cause a
+# scheduled run, and a dropped scheduled run loses nothing: the next one reads the same reports.
+concurrency:
+  group: ${{ github.event_name == 'schedule' && 'progress-merge-schedule' || format('progress-merge-{0}', github.run_id) }}
+  cancel-in-progress: false
 
 # The floor. `resolve` needs no more than this; the `gate` job raises its own, because a called
 # workflow can never exceed what the caller grants.
@@ -44,24 +56,33 @@ permissions:
 
 jobs:
   resolve:
+    # The script's prefilter, lifted to the job so that an event which cannot concern a report is
+    # skipped without taking a runner. Every pull request event starts this workflow, and on
+    # 2026-11-07 a few hundred such runs sat in the org's runner queue only to print "not a progress
+    # branch". The script and the gate still check everything; this only has to let every real report
+    # through. `startsWith` ignores case, so it is looser than the script's `case`, which is the safe
+    # direction.
+    if: >-
+      github.event_name == 'workflow_dispatch'
+      || github.event_name == 'schedule'
+      || (github.event_name == 'pull_request_target'
+          && !github.event.pull_request.draft
+          && startsWith(github.event.pull_request.head.ref, 'progress/'))
     runs-on: ubuntu-latest
     outputs:
-      pr: ${{ steps.pick.outputs.pr }}
+      prs: ${{ steps.hold.outputs.prs }}
     steps:
-      - name: Decide which pull request to consider
+      # Writes `prs`, the pull request numbers to consider, separated by spaces; empty for none.
+      - name: Decide which pull requests to consider
         id: pick
         env:
           GH_TOKEN: ${{ github.token }}
           EVENT: ${{ github.event_name }}
-          REPO: ${{ github.repository }}
-          OWNER: ${{ github.repository_owner }}
-          # Quoted through env rather than interpolated into the script: everything from the event
-          # payload is attacker-influenced, and this job holds a token.
-          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
-          HEAD_OWNER: ${{ github.event.workflow_run.head_repository.owner.login }}
-          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
-          # Through env, never interpolated into the script: attacker-controlled.
+          # Through env, never interpolated into the script: the head ref is attacker-controlled.
           PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          PR_DRAFT: ${{ github.event.pull_request.draft }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          DISPATCHED: ${{ inputs.pr }}
         run: |
           set -euo pipefail
           case "$EVENT" in
@@ -71,94 +92,122 @@ jobs:
               # workflow serialises on a single group, which permits one running and one pending run,
               # so if every pull request in the repository were forwarded, ordinary contributor
               # activity could keep evicting a queued report.
-              if [ "${{ github.event.pull_request.draft }}" = "true" ]; then
-                echo "draft pull request; nothing to do"; echo "pr=" >> "$GITHUB_OUTPUT"; exit 0
+              if [ "$PR_DRAFT" = "true" ]; then
+                echo "draft pull request; nothing to do"; echo "prs=" >> "$GITHUB_OUTPUT"; exit 0
               fi
               case "$PR_HEAD_REF" in
                 progress/*) ;;
                 *) echo "head branch $PR_HEAD_REF is not a progress branch"
-                   echo "pr=" >> "$GITHUB_OUTPUT"; exit 0 ;;
+                   echo "prs=" >> "$GITHUB_OUTPUT"; exit 0 ;;
               esac
-              echo "pr=${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT" ;;
+              echo "prs=$PR_NUMBER" >> "$GITHUB_OUTPUT" ;;
             workflow_dispatch)
-              echo "pr=${{ inputs.pr }}" >> "$GITHUB_OUTPUT" ;;
-            workflow_run)
-              # The open progress pull request for this head, if any.
+              echo "prs=$DISPATCHED" >> "$GITHUB_OUTPUT" ;;
+            schedule)
+              # Every open, non-draft progress report, oldest first. `--paginate` applies the filter
+              # to each page of the listing separately, so the filter prints one report per line and
+              # the lines of all pages are sorted together here.
+              reports=$(gh api --paginate "repos/$GITHUB_REPOSITORY/pulls?state=open&per_page=100" \
+                --jq '.[] | select(.draft | not) | select(.head.ref | startswith("progress/")) | "\(.number) \(.head.sha)"' \
+                | sort -n)
+              # A report the gate refused stays open for a human, and the gate comments on every
+              # refusal. So a refused report is not offered again while its head is one that was
+              # refused less than a day ago. After a day it is offered once more: some refusals
+              # lapse with time or with `main` (the cadence, a roadmap that has since merged). A
+              # report that was only held for the queue has no refusal on its head and is always
+              # offered.
               #
-              # Asked of the head directly, not of a list of recent pull requests. `gh pr list`
-              # returns only the newest 30 by default, so anyone could open 30 newer pull requests
-              # and push the legitimate report out of the window -- its build would complete and
-              # this trigger would never find it.
-              #
-              # Fork heads are included. Anyone may publish a report, and an operator without push
-              # access here publishes from their own fork, so excluding them would mean their build
-              # completing and this trigger never finding the pull request. That is why there are
-              # two lookups: `commits/<sha>/pulls` finds a pull request whose head is in this
-              # repository but returns nothing when the head commit lives on a fork, so the run's
-              # head owner and branch are also asked of `pulls?head=<owner>:<branch>`, which finds
-              # both.
-              #
-              # The owner and branch come from the event payload and go into a URL, so they must
-              # match a GitHub login and a progress branch name before they are used; anything else
-              # is not a report and only the commit lookup runs.
-              #
-              # The conditions the gate refuses on that can be read here are filtered FIRST, and
-              # only then is one chosen. Sharing a head SHA means sharing a tree, but not a base
-              # branch, a draft flag, or a branch name: an older pull request at the same commit,
-              # retargeted or renamed, would otherwise be selected, refused forever, and the
-              # legitimate report never reconsidered once CI completed. The head SHA itself must be
-              # the one whose CI just completed: a pull request that has since moved on gets its own
-              # run.
-              #
-              # Among what survives, the pull request on the run's own head owner and branch is
-              # preferred: two pull requests can share a commit under different progress branches,
-              # and only the one CI ran for is known to name the area that commit changes. Otherwise
-              # `min`, so repeated runs agree with each other. A `||` after each lookup, because
-              # `set -e` does not apply inside this command substitution and a failed lookup must
-              # not read as "no pull request".
-              #
-              # `--slurp` so the pages arrive as ONE array; the filter then runs over all of them.
-              # Without it `--jq` is applied page by page: page one emits an empty line, and a
-              # legitimate match on a later page is lost -- the same starvation the 30-item default
-              # allowed, just moved. `--slurp` cannot be combined with `--jq`, hence the pipe.
-              branch_rx='^progress/[0-9a-f]{7}-[0-9a-f]{7}/[A-Za-z0-9]+$'
-              pr="$( {
-                    gh api --paginate --slurp "repos/$REPO/commits/$HEAD_SHA/pulls" || exit $?
-                    if [[ "$HEAD_OWNER" =~ ^[A-Za-z0-9-]+$ && "$HEAD_BRANCH" =~ $branch_rx ]]; then
-                      gh api --paginate --slurp \
-                        "repos/$REPO/pulls?state=open&per_page=100&head=$HEAD_OWNER:$HEAD_BRANCH" \
-                        || exit $?
-                    fi
-                  } | jq -rs --arg repo "$REPO" --arg sha "$HEAD_SHA" --arg rx "$branch_rx" \
-                         --arg owner "$HEAD_OWNER" --arg branch "$HEAD_BRANCH" '
-                         [.[][][]
-                          | select(.state == "open")
-                          | select(.draft | not)
-                          | select(.base.ref == "main")
-                          | select(.base.repo.full_name == $repo)
-                          | select(.head.sha == $sha)
-                          | select(.head.ref | test($rx))]
-                         | (map(select(.head.repo.owner.login == $owner and .head.ref == $branch))
-                            | if length > 0 then . else empty end) // .
-                         | [.[].number] | min // ""')"
-              echo "pr=$pr" >> "$GITHUB_OUTPUT" ;;
+              # Which head was refused is read from the last line of the refusal, written by the
+              # `record` job of progress-merge-report.yml; see there for why only the last line is
+              # trusted. If the latest refusal has no such line (the note failed, or the head moved
+              # during that run), dates decide: the report waits if its head was committed before
+              # that refusal. That date is the author's to choose; a false one can only earn the
+              # author's own report more or fewer retries.
+              now=$(date -u +%s); keep=""
+              while read -r number sha; do
+                [ -n "$number" ] || continue
+                # Every refusal under a day old: when it was written and the head noted on it, `-`
+                # for none.
+                refusals=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$number/comments?per_page=100" \
+                  --jq '.[] | select(.user.login == "github-actions[bot]") | select(.body | startswith("The automated progress gate did not merge this pull request.")) | "\(.created_at) \([.body | capture("\n<!-- progress-gate-refused-head: (?<head>[0-9a-f]{40}) -->\\s*$").head][0] // "-")"' \
+                  | sort | while read -r at noted; do
+                      if [ $(( now - $(date -u -d "$at" +%s) )) -lt 86400 ]; then echo "$at $noted"; fi
+                    done) || refusals=""
+                # Any of them on the present head holds the report, not only the latest: runs
+                # overlap, and a late refusal of an earlier head can follow the refusal of this one.
+                refused=$(awk -v sha="$sha" '$2 == sha { at = $1 } END { print at }' <<< "$refusals")
+                if [ -n "$refused" ]; then
+                  echo "#$number was refused at $refused on its present head; not offered again yet"
+                  continue
+                fi
+                # Otherwise the latest decides, and only if no head is noted on it.
+                latest=$(tail -n 1 <<< "$refusals"); refused=${latest%% *}
+                if [ -n "$refused" ] && [ "${latest#* }" = "-" ]; then
+                  changed=$(gh api "repos/$GITHUB_REPOSITORY/commits/$sha" --jq .commit.committer.date) || changed=""
+                  if [ -n "$changed" ] && [ "$(date -u -d "$changed" +%s)" -le "$(date -u -d "$refused" +%s)" ]; then
+                    echo "#$number was refused at $refused (head not noted) and its head was committed before that; not offered again yet"
+                    continue
+                  fi
+                fi
+                keep="$keep $number"
+              done <<< "$reports"
+              echo "prs=${keep# }" >> "$GITHUB_OUTPUT" ;;
           esac
+      # A progress report landing on `main` resets every merge-queue group, and a group needs about
+      # twenty minutes of quiet `main` to finish its build. Reports arriving every ten or fifteen
+      # minutes starved the queue for hours (2026-11-09: #451 passed its group build four times and
+      # was reset each time). While the queue holds entries, reports wait for the next scheduled run;
+      # a queue whose oldest entry is over two hours old is stuck for other reasons and does not hold
+      # them back. A dispatch by hand always proceeds, unless it asks to wait as an automatic run does.
+      #
+      # This check keeps a busy queue from costing a runner per waiting report. It is not the one
+      # that protects the queue: each report is checked again, just before its own validation, by
+      # the same test in progress-merge-report.yml. Keep the two in step.
+      - name: Hold while the merge queue is busy
+        id: hold
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FORCE: ${{ github.event_name == 'workflow_dispatch' && !inputs.wait_for_queue }}
+          PICKED: ${{ steps.pick.outputs.prs }}
+        run: |
+          set -euo pipefail
+          # A JSON list of the numbers picked; `[]` when there are none.
+          list=$(jq -nc --arg picked "$PICKED" '[$picked | splits("[ \n]+") | select(test("^[0-9]+$")) | tonumber]')
+          if [ "$list" = "[]" ] || [ "$FORCE" = "true" ]; then echo "prs=$list" >> "$GITHUB_OUTPUT"; exit 0; fi
+          q=$(gh api graphql -f query='query($o:String!,$n:String!){ repository(owner:$o,name:$n){ mergeQueue(branch:"main"){ entries(first:1){ totalCount nodes{ enqueuedAt } } } } }' \
+               -f o="${GITHUB_REPOSITORY%/*}" -f n="${GITHUB_REPOSITORY#*/}" --jq '.data.repository.mergeQueue.entries | "\(.totalCount) \(.nodes[0].enqueuedAt // "")"')
+          total=${q%% *}; oldest=${q#* }
+          if [ "$total" != 0 ] && [ -n "$oldest" ] && [ $(( $(date -u +%s) - $(date -u -d "$oldest" +%s) )) -lt 7200 ]; then
+            echo "::notice::merge queue holds $total entr(y/ies) (oldest enqueued $oldest); progress reports $list wait for the next scheduled run"
+            echo "prs=[]" >> "$GITHUB_OUTPUT"
+          else
+            echo "prs=$list" >> "$GITHUB_OUTPUT"
+          fi
 
   gate:
     needs: resolve
-    if: needs.resolve.outputs.pr != ''
-    # Pinned to a full TauCetiProgress SHA. `progress_ref` must be the SAME SHA: it selects the
-    # validator code checked out inside, and a mismatch would validate with different rules than the
-    # ones reviewed here.
-    # `write` here and nowhere else: the called workflow narrows it again to the one job that
-    # explains a refusal on the pull request, and a called workflow cannot exceed what this grants.
+    if: needs.resolve.outputs.prs != '[]'
+    # One report at a time, each with its own look at the merge queue: a queue that fills while an
+    # earlier report is being validated holds the later ones. This orders the reports of one run.
+    # A report's own pull request event starts a run of its own, which can let that report through
+    # at the same moment; see "What this does not cover" in progress-merge-report.yml.
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        pr: ${{ fromJSON(needs.resolve.outputs.prs) }}
+    # `write` here and nowhere else: the called workflow narrows it again to the jobs that explain
+    # a refusal on the pull request, and a called workflow cannot exceed what this grants.
+    # `actions: read` is for its `record` job alone, which reads the log of this run's own gate.
     permissions:
+      actions: read
       contents: read
       pull-requests: write
-    uses: TauCetiProject/TauCetiProgress/.github/workflows/merge.yml@bae9af5ba114a73e0cc15823f335f503618b327b
+    uses: ./.github/workflows/progress-merge-report.yml
     with:
-      pr: ${{ fromJSON(needs.resolve.outputs.pr) }}
-      progress_ref: bae9af5ba114a73e0cc15823f335f503618b327b
+      pr: ${{ matrix.pr }}
+      # A dispatch by hand lands its report whatever the queue holds, unless it asked to wait.
+      force: ${{ github.event_name == 'workflow_dispatch' && !inputs.wait_for_queue }}
       # There is deliberately no author allowlist. Anyone may publish a progress report, including
       # from a fork: what bounds this is the shape of the diff (two generated files, one roadmap,
       # append-only log, window ending in published history), not who sent it. See
