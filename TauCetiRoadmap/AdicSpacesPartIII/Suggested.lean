@@ -258,8 +258,9 @@ variable (R R₁ R₂ R₁₂ : Type*) [CommRing R] [CommRing R₁] [CommRing R�
   [Algebra R R₁] [Algebra R R₂] [Algebra R₁ R₁₂] [Algebra R₂ R₁₂]
 
 /-- A *glueing square* `R → R₁, R₂ → R₁₂` of uniform rings and their algebra maps (KL15, §2.7,
-Definition 2.7.3, stated there for complete Tate rings, with its condition (c), surjectivity of
-`M(R₁ ⊕ R₂) → M(R)`, replaced by the consequence used in the proof of Proposition 2.7.5):
+Definition 2.7.3, stated there for Banach rings with no topologically nilpotent unit assumed,
+with its condition (c), surjectivity of `M(R₁ ⊕ R₂) → M(R)`, replaced by the consequence used in
+the proof of Proposition 2.7.5):
 continuous maps with `0 → R → R₁ × R₂ → R₁₂ → 0`, `(r₁, r₂) ↦ r₁ − r₂`, strict exact,
 `R₂ → R₁₂` of dense range, and every maximal ideal of `R` the contraction of a prime of
 `R₁ × R₂`. Commutativity of the square follows from `exact_sub`; the complete Hausdorff Tate
