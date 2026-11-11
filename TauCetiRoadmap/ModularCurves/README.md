@@ -2474,8 +2474,11 @@ they are the naive problems through the isomorphisms of Layer 4.3, hence finite 
 
 - the étaleness of `gammaOneRelRepData` over a base on which `N` is invertible, by transport
   along the pinned isomorphism `isIso_gammaOneToGammaOneNaive` from the étaleness of the naive
-  problem (`hasProperty_etale_gammaOneNaiveRelRepData`); it is the last clause of
-  `firstMainTheorem_gammaOne`;
+  problem (`hasProperty_etale_gammaOneNaiveRelRepData`). The last clause of
+  `firstMainTheorem_gammaOne`, for `E/S` in `Ell/ℤ` with `N` a unit on `S`, is this statement for
+  `B = S`: the transport needs `N` invertible on `B`, and the exact-order scheme
+  (`exactOrderScheme`, a subscheme of `E`) is the same for `(S, S → Spec ℤ, E)` in `Ell/ℤ` and
+  for `(S, 𝟙, E)` in `Ell/S`;
 
 - the relative representability of balanced `[Γ₁(N)]` by the cyclic-subgroup and Cartier-dual
   generator loci, finite over `Ell/ℤ`, commuting with arbitrary base change and restricting over
@@ -3615,10 +3618,23 @@ Prove the invariant regular-local-ring lemma used by Katz–Mazur and deduce:
 No assertion is made that an arbitrary finite quotient of a regular moduli problem is regular.
 The verification of G1–G3 for the standard quotient problems is Layer 8.9.
 
-Make the invariant-ring input explicit. Prove KM 7.5.2 for a complete noetherian regular local
-ring with perfect residue field when the group fixes all but one regular parameter and multiplies
-the last by a unit. Prove Variant 7.5.3 for a product `H₁×⋯×H_n` acting diagonally on a regular
-parameter system.
+Make the invariant-ring input explicit. Prove KM 7.5.2 in the following form: let `A` be a
+complete noetherian regular local ring with perfect residue field and regular parameters
+`x₁, …, xₙ`, and let a finite group `H` act faithfully on `A` by ring automorphisms which induce
+the identity on the residue field and fix `x₁, …, x_{n−1}`. Then `A^H` is a complete noetherian
+regular local ring with regular parameters `x₁, …, x_{n−1}, N(xₙ)`, where `N(xₙ) = ∏_{h∈H} h(xₙ)`,
+and `A` is free over `A^H` on `1, xₙ, …, xₙ^{|H|−1}`. Nothing is assumed of the elements `h(xₙ)`:
+each `h` induces an automorphism of the discrete valuation ring `A/(x₁, …, x_{n−1})`, so `h(xₙ)`
+is a uniformiser of it, `N(xₙ)` is a unit multiple of `xₙ^{|H|}` there, and
+`A/(x₁, …, x_{n−1}, N(xₙ))A` has length `|H|`. The route: the residue field of `A^H` is that of
+`A` (the Teichmüller representatives are fixed by `H` in residue characteristic `p`, and the
+average over `H` lifts residues in residue characteristic zero), so by completeness the `|H|`
+powers of `xₙ` generate `A` over the closed subring `A^H`; they are independent because the
+fraction field of `A` has degree `|H|` over that of `A^H`, the action being faithful; and
+regularity descends along the finite free local homomorphism `A^H → A`. Prove Variant 7.5.3 by
+iterating: for a product `H₁×⋯×H_n` acting faithfully, trivially on the residue field, with `H_i`
+fixing `x_j` for every `j ≠ i`, the ring `A^{H₁×⋯×H_n}` is regular with parameters
+`N₁(x₁), …, N_n(x_n)` and `A` is free over it of rank `|H₁|⋯|H_n|`.
 
 **Checks.**
 
@@ -3631,6 +3647,16 @@ parameter system.
   and a regular quotient; acting by `(x, y) ↦ (−x, −y)` it has `A^H = k[[x², xy, y²]]`, and
   `A/𝔪_{A^H}A = k[x, y]/(x², xy, y²)` has dimension `3 > |H|`, so `A` needs three generators and
   `A^H` is the cone `uw = v²`, not regular.
+- The lemma covers a group which does not multiply the last parameter by a unit. On
+  `A = k[[x, y]]` in characteristic `2` the involution `y ↦ y + x` fixes `x`, and `y + x` is not a
+  unit multiple of `y` (it is nonzero modulo `y`); `N(y) = y² + xy`, `A^H = k[[x, y² + xy]]` and
+  `A = A^H ⊕ A^H y`, two generators and a regular quotient. This is the shape of the unipotent
+  element `[[1,1],[0,1]]` of the semi-Borel of Layer 8.9, which sends `X(Q)` to
+  `X(P + Q) = F(X(P), X(Q))`, congruent to `X(P)` modulo `X(Q)`.
+- The residue field must be perfect. On `A = k[[y]]` with `k = 𝔽_p(t)` the continuous automorphism
+  `t ↦ t + y`, `y ↦ y` has order `p` and induces the identity on `k`, and `n = 1` leaves no
+  parameter to fix; it fixes `y`, so `N(y) = y^p` is not a parameter of `A^H`, and `1, y` are
+  dependent over `A^H`. The residue field of `A^H` is `𝔽_p(t^p)`.
 - In G1 the test objects are nonempty: the unique morphism from the empty scheme is fixed by
   every `h`, and without the restriction G1 would say `H = 1`.
 
@@ -3714,9 +3740,14 @@ rank over `Ell/ℤ`, regular of dimension two, and finite étale after inverting
 and `firstMainTheorem_gammaOne` in `Suggested.lean`; the balanced problem has no carrier at the
 pin. The clause after inverting `N` is stated there as: the representing scheme is étale over
 every `E/S` on whose base `N` is a unit. `firstMainTheorem_gammaOne` carries it;
-`firstMainTheorem_gamma` does not, the clause for `[Γ(N)]` being the pinned
-`hasProperty_etale_gammaRelRepData` over a base on which `N` is invertible, from which the
-statement over `E/S` follows by the base change `RelRepData.isPullback`.
+`firstMainTheorem_gamma` does not: the pinned `hasProperty_etale_gammaRelRepData` gives the
+clause for the problem over a base `B` on which `N` is invertible, and the clause over `Ell/ℤ` is
+that lemma for `B = S`. The representing scheme of `E/S` is the Drinfeld-basis scheme
+`EllObj.drinfeldBasisScheme` (`gammaRelRepData_rep`), the Drinfeld-basis locus of
+`E[N] ×_S E[N]`, in whose construction the structure morphism `S → B` plays no part; identify it
+for `(S, S → Spec ℤ, E)` in `Ell/ℤ` and for `(S, 𝟙, E)` in `Ell/S`, where `N` is invertible on the
+base `S` by hypothesis. The base change `RelRepData.isPullback` compares the representing
+schemes of one problem over one base and does not give this change of base.
 
 **Checks.**
 
