@@ -71,9 +71,19 @@ comparison contract instead of a second proof.
   completions with finite residue field: [LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md)
   Layer 3; §8.9 states the boundary.
 - *Moduli of stable curves* and the finiteness of automorphism groups of stable curves over a
-  base: [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.15, which consumes
-  this roadmap's function-field theory; §11.4 here proves the function-field statement over every
-  field, under positive genus over the algebraic closure, without moduli.
+  base: [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.15, which takes no
+  input from this roadmap; §11.4 here proves the function-field statement over every field, under
+  positive genus over the algebraic closure, without moduli.
+- *The scheme forms of curve theory* (the affine-or-projective dichotomy, the genus of a proper
+  curve under extension of the base field, Riemann–Hurwitz with the ramification divisor of
+  `Ω_{X/Y}`, degrees of vector bundles on curves): SchemeAndStackFoundations Layer 3 (§§3.1–3.3),
+  which takes no input from this roadmap and restates none of Layers 0–12. The function-field
+  forms and their comparisons with the scheme side are here: the Cartier ramification divisor
+  against the trace-dual different on the separable-residue branch (12B.0d), genus and divisor
+  base change on the smooth model (§8.2 with 12B.0b), and the dictionary of 12A–12E.
+  [AlgebraicVectorBundles](../AlgebraicVectorBundles/README.md) also takes no input from this
+  roadmap; the curve-specific degree theory it assigns here is the degree of places and divisors
+  (§§0.4, 3.1) and its agreement with the degree of scheme Weil divisors (12D).
 
 **Outside the roadmap.** Nonspecial-divisor refinements and Brill–Noether theory; generic
 classicality of gap sequences and the Weierstrass-point theory of positive characteristic
@@ -1048,8 +1058,10 @@ Mathlib `AdjoinRoot`, `conductor_mul_differentIdeal`.
 
 **Checks.**
 
-- `y² = x` at `P_{x−a}` with `a = b² ≠ 0`: `T² − a = (T − b)(T + b)` and `k[x, y]` is integrally
-  closed, so conclusion B gives two places with `e = f = 1`.
+- `y² = x` at `P_{x−a}` with `a = b² ≠ 0` and `char k ≠ 2`: `T² − a = (T − b)(T + b)` with distinct
+  factors and `k[x, y]` integrally closed, so conclusion B gives two places with `e = f = 1`. In
+  characteristic `2` the factors coincide, `T² − a = (T − b)²`, and `x − a = (y − b)²` in `k(y)`:
+  one place, with `e = 2` and `f = 1`.
 - Over `ℚ`, `y² = x²(x − 1)` at `P_x`: `φ̄ = T²` suggests one place with `e = 2`, but `z = y/x`
   satisfies `z² = x − 1 ≡ −1`, so there is one place with `e = 1`, `f = 2`: without monogenicity
   only conclusion A holds.
@@ -1640,11 +1652,18 @@ The linear comparison needs only exact constants and a separating `x`: with §5.
 and `μ : Ω[F⁄k] ≃ₗ[F] Ω_F`, `z dx ↦ z · δ(x)`, is
 `TauCeti.kaehlerDifferentialEquivWeilDifferentialOfSeparating` (Thm. 4.3.2), sending `dy` to
 `(dy/dx) · δ(x)`; the canonical divisor formula `(dx) = −2(x)_∞ + Diff(F/k(x))`, of degree `2g − 2`,
-is `TauCeti.weilDifferentialDivisor_weilDifferentialOfSeparating` (Rem. 4.3.7(c)). Prove, still
-without perfectness, `Cotr_{F/k(y)}(η_y) = (dy/dx) · Cotr_{F/k(x)}(η_x)` for every separating `y`,
-so `μ` does not depend on `x`. With `k` perfect for the residue part only, prove that the local
-component of `z · δ(x)` at `P` is `u ↦ Tr_{F_P/k}(res_P(u z dx))`, and deduce the **residue
-theorem** `∑_P Tr_{F_P/k}(res_P(ω)) = 0` (the pinned
+is `TauCeti.weilDifferentialDivisor_weilDifferentialOfSeparating` (Rem. 4.3.7(c)). Without
+perfectness, the chain rule `Cotr_{F/k(y)}(η_y) = (dy/dx) · Cotr_{F/k(x)}(η_x)` holds for any two
+separating `x` and `y` over exact constants (Thm. 4.3.2(a); the pinned
+`TauCeti.weilDifferentialOfSeparating_eq_derivativeOfSeparating_smul`, with no rational place
+assumed), so `μ` does not depend on `x` (the pinned
+`TauCeti.kaehlerDifferentialEquivWeilDifferentialOfSeparating_eq`). Local components are trace
+residues at every place `P` with `F_P/k` separable: for a separating prime element `t` of `P`, the
+local component at `P` of `μ(ω)` is `u ↦ Tr_{F_P/k}(res_{P,t}(u ω/dt))` (Thm. 4.3.2(d) and
+Rem. 4.3.7(d); the pinned `TauCeti.Place.traceResidue_coord_smul_eq_repartitionDualComponent`,
+over exact constants with no condition on `k`). Perfect `k` enters only for the **residue
+theorem** `∑_P Tr_{F_P/k}(res_P(ω)) = 0`, whose sum needs a trace residue at every place; over
+perfect `k` every residue field is separable and every prime element separating (the pinned
 `TauCeti.finsum_traceResidue_kaehlerBasisOfSeparating_coord_eq_zero`: perfect exact `k`, a prime
 element `t_P` chosen at each place, the trace residues of `ω/dt_P` summed over the places of every
 degree). Over algebraically closed `k` this is the sum of coefficient residues (the pinned
@@ -1653,6 +1672,9 @@ arbitrary-field generality.
 *Needs:* §§9.1–9.2, §7.3, §5.7; Tau Ceti `TauCeti.weilDifferentialOfSeparating`,
 `TauCeti.kaehlerDifferentialEquivWeilDifferentialOfSeparating`,
 `TauCeti.weilDifferentialDivisor_weilDifferentialOfSeparating`,
+`TauCeti.weilDifferentialOfSeparating_eq_derivativeOfSeparating_smul`,
+`TauCeti.kaehlerDifferentialEquivWeilDifferentialOfSeparating_eq`,
+`TauCeti.Place.traceResidue_coord_smul_eq_repartitionDualComponent`,
 `TauCeti.finsum_traceResidue_kaehlerBasisOfSeparating_coord_eq_zero`,
 `TauCeti.finsum_kaehlerResidueOfPerfectField_eq_zero`.
 
@@ -1855,13 +1877,12 @@ cross-check only; singular plane curves are outside the roadmap.
 `n > 1`; (b) `char k ∤ n`; (c) `k` contains a primitive `n`-th root of unity (making the extension
 Galois with group `ℤ/n`); (d) `u ≠ w^d` for every `w ∈ F` and every divisor `d > 1` of `n` (making
 `Tⁿ − u` irreducible; the sufficient form "some place has `gcd(v_P(u), n) = 1`" is its own lemma).
-Then `e(P′∣P) = n/r_P` and `d(P′∣P) = n/r_P − 1` for `r_P = gcd(n, v_P(u))` (pinned for prime `n` with
-`n` invertible in `k`: `TauCeti.Place.ramificationIdx_eq_of_pow_eq_of_prime`,
-`TauCeti.Place.differentExponent_eq_of_pow_eq_of_prime`; for every `n` the pin has the totally
-ramified case `r_P = 1`, `TauCeti.Place.ramificationIdx_eq_of_pow_eq_of_gcd_ord_eq_one` and
-`TauCeti.Place.differentExponent_add_one_eq_of_pow_eq_of_gcd_ord_eq_one`, and the divisibility
-`n/r_P ∣ e`, `TauCeti.Place.div_gcd_ord_dvd_ramificationIdx_of_pow_eq`; the general-`n` equality is a
-target here), the exact constant field criterion and the genus formula. **Artin–Schreier**
+Then `e(P′∣P) = n/r_P` and `d(P′∣P) = n/r_P − 1` for `r_P = gcd(n, v_P(u))`. This local data is
+pinned for every `n` invertible in `k`, for `F′ = F(y)` finite and separable over `F` and
+`u ≠ 0`, without (c) or (d): `TauCeti.Place.ramificationIdx_eq_of_pow_eq` and
+`TauCeti.Place.differentExponent_add_one_eq_of_pow_eq`, the latter as `d(P′∣P) + 1 = n/r_P`, free of
+truncated subtraction. The targets here are the exact constant field criterion and the genus
+formula. **Artin–Schreier**
 `F′ = F(y)`, `y^p − y = u`, `char k = p > 0` (Prop. 3.7.8, with the elementary abelian Prop. 3.7.10),
 under `u ∉ {w^p − w ∣ w ∈ F}` and with the reduced local invariant `m_P` supplied with its actual
 hypothesis: if `F_P` is perfect, there is a substitute `u − (w^p − w)` regular at `P` (`m_P := −1`) or
@@ -1943,10 +1964,14 @@ pinned `TauCeti.finite_algEquiv_of_invariant_rational_places`).
 **Checks.**
 
 - On `k(x)`, a Möbius transformation fixing `0`, `1` and `∞` is the identity (`2g + 3 = 3`).
-- `x ↦ 1/x` fixes the two places `x = ±1` and is not the identity: two places do not suffice in
-  genus `0`.
-- The hyperelliptic involution `y ↦ −y` of `y² = x⁵ − 1` fixes the `6 = 2g + 2` branch places and is not
-  the identity, so `2g + 2` does not suffice in genus `2`.
+- In characteristic not `2`, `x ↦ 1/x` fixes the two rational places `x = ±1` and is not the
+  identity: two places do not suffice in genus `0`. In characteristic `2` the two coincide, and
+  `x = 1` is its only fixed rational place.
+- Over a field `k` of characteristic not `2` or `5` containing a primitive fifth root of unity `ζ`
+  (`ℚ(ζ₅)`, or `𝔽₁₁` since `5 ∣ 11 − 1`), the hyperelliptic involution `y ↦ −y` of `y² = x⁵ − 1`
+  fixes the `6 = 2g + 2` rational branch places `x = ζⁱ` (`0 ≤ i ≤ 4`) and `∞`, and is not the
+  identity, so `2g + 2` rational places do not suffice in genus `2`. Over `ℚ` only the branch places
+  over `x = 1` and `∞` are rational, and the one over `x⁴ + x³ + x² + x + 1` has degree `4`.
 
 ### 11.3 Weierstrass points
 
@@ -2134,8 +2159,10 @@ outside the acceptance suite.
   `168 = 84 · 2`.
 - `(2, 3, 8)` gives `2g − 2 = |G| · (−2 + 1/2 + 2/3 + 7/8) = |G|/24`, a group of order `48(g − 1)`: below the
   bound.
-- A genus-two field has `84(g − 1) = 84`, and `y² = x⁶ − 1` in characteristic zero has automorphisms
-  `x ↦ ζx` (`ζ⁶ = 1`), `y ↦ ±y` and `x ↦ 1/x`, `y ↦ iy/x³`, a group of order `24 ≤ 84`.
+- A genus-two field has `84(g − 1) = 84`, and `y² = x⁶ − 1` over a field of characteristic zero
+  containing `i` and the sixth roots of unity (`ℚ(ζ₁₂)`, or `ℂ`) has automorphisms `x ↦ ζx`
+  (`ζ⁶ = 1`), `y ↦ ±y` and `x ↦ 1/x`, `y ↦ iy/x³`, a group of order `24 ≤ 84`. Over `ℚ` the
+  maps `x ↦ ζx` with `ζ ≠ ±1` and `y ↦ iy/x³` are not defined.
 
 ### 11.6 Wild automorphism groups in positive characteristic
 
@@ -2394,12 +2421,9 @@ schemes; Tau Ceti's two-chart model, scheme Weil divisors and the anti-equivalen
   interfaces.
 - BelyiMaps consumes the pinned carriers, Layers 6–7 (ramification, Riemann–Hurwitz), §8.1 item 2
   through 12B.0a for its 9.1 and 12B.0d for its 10.6.
-- SchemeAndStackFoundations consumes Layers 0–12 for function fields, divisors, Riemann–Roch,
-  Hurwitz's formula, constant-field extension, the regular projective model and the
-  anti-equivalence, and restates none of it.
 - EtaleCohomologyFoundations consumes Layers 8 and 12 for decomposition and inertia groups;
-  ModularCurves consumes Layers 7–9 and 12; AlgebraicVectorBundles consumes the curve divisors and
-  Riemann–Roch; AbhyankarLemma consumes §8.10's pinned compositum theorems.
+  ModularCurves consumes Layers 7–9 and 12; AbhyankarLemma consumes §8.10's pinned compositum
+  theorems.
 - FunctionFieldArithmetic consumes Layers 0–12 with §5.6's finiteness of `Cl⁰(F)`;
   CurvesOverFiniteFields consumes Layers 8 and 10, including §10.2's statements (i)–(iii);
   HyperellipticCurves consumes Layers 10–11;
