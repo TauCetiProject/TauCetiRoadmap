@@ -81,7 +81,7 @@ What this roadmap leaves to others, by object:
   CW complex into an aspherical space by homomorphisms of fundamental groups, up to homotopy
   relative to the base point (Hatcher, Proposition 1B.9), is owned here, as items 1.1 and 1.2,
   for every aspherical target and every base point. The bijection `[X, Bπ]_* ≃ Hom(π₁(X), π)`
-  of that roadmap's item 8.8b, for its nerve model `Bπ`, is the case of items 1.1 and 1.2 with
+  of that roadmap's item 8.8, for its nerve model `Bπ`, is the case of items 1.1 and 1.2 with
   source a path-connected pointed Hausdorff CW complex `X` and target `Bπ`, which is aspherical
   with fundamental group identified with `π` by its item 8.8a. This roadmap consumes nothing from
   the algebraic-topology roadmap, neither the nerve model nor its comparison with Milnor's model:
@@ -1195,7 +1195,7 @@ invariance of singular and twisted (co)homology, all named above. No other roadm
   `TauCeti.classifyingSpace G`, the orbit space of Milnor's join realized with the weak topology,
   which this roadmap consumes by name (*From Tau Ceti*, "Milnor's model") and does not build. Its
   comparison of `RP^∞` with a classifying space of `ℤ/2` goes through the
-  [algebraic-topology roadmap](../AlgebraicTopology/README.md), Stage 8, item 8.8b, not through
+  [algebraic-topology roadmap](../AlgebraicTopology/README.md), Stage 8, item 8.8, not through
   this roadmap.
 - Any roadmap computing the (co)homology of a group from a geometric `K(G, 1)` that is not one
   of the pinned models (a surface group from a closed surface, a right-angled Artin group from a
