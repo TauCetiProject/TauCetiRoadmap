@@ -146,7 +146,9 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   its singular and local-coefficient (co)homology with Mathlib's group (co)homology are Tau
   Ceti's and are consumed through the supplier contracts; the
   [ClassifyingSpaces](../ClassifyingSpaces/README.md) roadmap builds on the same
-  declarations, and nothing of it is consumed here. Layer 8.8 owns only the nerve model:
+  declarations, and Layer 8.8 and §8.14 consume its items 1.1 and 1.2 for the pointed
+  classification of maps into an aspherical space, and nothing else of it. Layer 8.8 owns only
+  the nerve model:
   Layer 8.8a the raw nerve/bar construction and its K(G,1) property, Layer 8.8b its
   comparison with Milnor's model normalized to the identity on π₁, obtained from Tau Ceti's
   uniqueness theorem, and the transport of the native group-(co)homology identifications
@@ -4240,7 +4242,7 @@ Prove that every finite-dimensional Hausdorff second-countable smooth manifold
 `groupClassifyingSpace`; `groupClassifyingSpace_isEMOne` states that this based
 realization is a K(G,1) for every discrete group G, without assuming commutativity.
 
-*Needs:* §4.7, ordinary §6.1, native nerve and universal covers; Tau Ceti's Milnor model, its uniqueness theorem and its group-(co)homology identifications (supplier contracts) for the model comparison.
+*Needs:* §4.7, ordinary §6.1, native nerve and universal covers; Tau Ceti's Milnor model, its uniqueness theorem and its group-(co)homology identifications (supplier contracts) for the model comparison; ClassifyingSpaces Layer 1, items 1.1 and 1.2, for the pointed classification.
 
 **Nonabelian classifying spaces.**
    Own the single generic bar/nerve construction for every discrete group π (Hatcher,
@@ -4272,8 +4274,10 @@ realization is a K(G,1) for every discrete group G, without assuming commutativi
    The raw bar supplies the object used by 8.8c's abelian
    specialization.
    Item 8.8c aliases the abelian specialization as K(A,1);
-   the generic CW/cover proof is supplied only here. For each connected
-   pointed CW complex X prove `[X,Bπ]_*≃Hom(π₁X,π)` and that forgetting basepoints
+   the generic CW/cover proof of the bar model is supplied only here. For each connected
+   pointed Hausdorff CW complex X obtain `[X,Bπ]_*≃Hom(π₁X,π)` from ClassifyingSpaces
+   Layer 1, items 1.1 and 1.2, with target Bπ (aspherical by 8.8a), composed with 8.8a's
+   identification π₁(Bπ)≃π, and prove that forgetting basepoints
    gives the conjugation-orbit description of `[X,Bπ]` (Hatcher, Proposition 1B.9, p.90);
    Tau Ceti's `TauCeti.fundamentalGroupFunctor_map_bijective_cellularClassifyingSpace` is the
    special case of maps out of its cellular model and is not the statement for every X.
@@ -5141,7 +5145,7 @@ submanifolds with their homology classes.
 
 ### 8.14 Finite-dimensional Whitehead, maps out of (n−1)-connected complexes, aspherical surfaces
 
-*Needs:* §4.1's lifted CW structures, §6.1's universal coefficients, §6.3's noncompact top-degree vanishing, §§8.1–8.5, 8.7, 8.8 and 8.10, Tau Ceti's action of π₁ on π_n (supplier contracts), and the universal-covers roadmap's induced maps on covers.
+*Needs:* §4.1's lifted CW structures, §6.1's universal coefficients, §6.3's noncompact top-degree vanishing, §§8.1–8.5, 8.7, 8.8 and 8.10, Tau Ceti's action of π₁ on π_n (supplier contracts), the universal-covers roadmap's induced maps on covers, and ClassifyingSpaces Layer 1, items 1.1 and 1.2, for the case n=1 of the classification of maps.
 
 These are consequences of
 the existing ordinary CW, cover, relative homotopy and cohomology
@@ -5160,8 +5164,10 @@ For n ≥ 1, a pointed (n−1)-connected CW source X and a pointed
 path-connected target Y with π_iY=0 for i>n, prove that the actual
 induced-map function [X,Y]_*→Hom(π_nX,π_nY) is a bijection, natural in
 both variables (Hatcher, Section 4.2, Exercise 17, p. 390). For n=1 use
-the nonabelian group-homomorphism target and the existing K(π,1)
-classifier (Hatcher, Proposition 1B.9, p. 90). In higher degrees use
+the nonabelian group-homomorphism target and obtain the bijection from
+ClassifyingSpaces Layer 1, items 1.1 and 1.2, whose target is an arbitrary
+aspherical space (Hatcher, Proposition 1B.9, p. 90); only the naturality
+is proved here. In higher degrees use
 high-cell replacement of X, the actual cell extension/homotopy procedure,
 Hurewicz and the universal coefficient theorem; do not assume that Y is simply connected or
 that its universal cover has no lower homotopy. For unbased classes

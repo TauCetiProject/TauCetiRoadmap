@@ -1197,6 +1197,10 @@ invariance of singular and twisted (co)homology, all named above. No other roadm
   comparison of `RP^∞` with a classifying space of `ℤ/2` goes through the
   [algebraic-topology roadmap](../AlgebraicTopology/README.md), Stage 8, item 8.8, not through
   this roadmap.
+- The [algebraic-topology roadmap](../AlgebraicTopology/README.md) consumes items 1.1 and 1.2
+  twice: its item 8.8 obtains the classification of pointed maps into its nerve model `Bπ` as
+  their case with target `Bπ`, and its item 8.14 obtains from them the case `n = 1` of its
+  classification of maps out of an `(n − 1)`-connected complex.
 - Any roadmap computing the (co)homology of a group from a geometric `K(G, 1)` that is not one
   of the pinned models (a surface group from a closed surface, a right-angled Artin group from a
   cube complex) consumes Layer 2 with that model and its own identification `Ψ`.
