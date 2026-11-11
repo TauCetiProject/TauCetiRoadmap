@@ -22,7 +22,9 @@ integers containing `p`, and the `p'`-core `O_{p'}(G)`. A block is principal whe
 has nonzero augmentation, written with the native `MonoidAlgebra.lift`. The decomposition
 numbers in the statements of Layers 2 and 3 are the Jordan–Hölder multiplicities
 `TauCeti.jordanHolderMultiplicity` of the simple `k[G]`-modules in the reduction `k ⊗_O L` of a
-`G`-stable `O`-lattice `L`, formed with the native `Representation.baseChange`.
+`G`-stable `O`-lattice `L`, formed with the native `Representation.baseChange`. An irreducible
+representation of `G` over the fraction field `K` of `O` lies in a block of `O[G]` when the block
+idempotent, mapped to `K[G]`, acts on it as the identity.
 
 Headline theorems of the roadmap that are not statable at the pins:
 
@@ -32,16 +34,11 @@ Headline theorems of the roadmap that are not statable at the pins:
   of unity; neither pinned library defines it.
 * Generalized decomposition numbers, their orthogonality relations and Brauer's second main
   theorem (Layers 5 and 7). They need Brauer characters of centralizers.
-* The agreement of the central-character relation with the partition of the ordinary irreducible
-  characters by the block idempotents of `O[G]` (Layer 4). It needs the ordinary characters over
-  the fraction field `K` of a splitting `p`-modular system and their central idempotents in
-  `K[G]`; `K` is not algebraically closed, and the pinned
-  `TauCeti.Representation.primitiveCentralIdempotent` requires an algebraically closed field.
 -/
 
 namespace TauCetiRoadmap.ModularCharactersAndBlocks
 
-/-! ## Layer 0: the centre of the group algebra and its block idempotents -/
+/-! ## Layer 0: element sections, cores and the centre of the group algebra -/
 
 /-- A **block idempotent** of `R[G]` is a primitive idempotent of the centre of `R[G]`
 (Martínez, Theorem 2.11, p. 15). -/
@@ -58,6 +55,13 @@ theorem complete_blockIdempotents_unique {G : Type*} [Group G] [Finite G] {k : T
     (hb : CompleteOrthogonalIdempotents b) (hc : CompleteOrthogonalIdempotents c)
     (hbp : ∀ i, IsBlockIdempotent (b i)) (hcp : ∀ j, IsBlockIdempotent (c j)) :
     ∃ e : ι ≃ κ, ∀ i, b i = c (e i) := sorry
+
+/-- The **`p'`-core** `O_{p'}(G)`: the supremum of the normal subgroups of `G` whose order is
+prime to `p`. For a prime `p` it is the `π`-core of `G` for `π` the set of primes other than `p`.
+For a finite group it is a characteristic subgroup of order prime to `p`, and it contains every
+normal subgroup of order prime to `p`. -/
+def pPrimeCore (p : ℕ) (G : Type*) [Group G] : Subgroup G :=
+  sSup {N : Subgroup G | N.Normal ∧ (Nat.card N).Coprime p}
 
 /-! ## Layer 1: modular systems, lattices and lifting -/
 
@@ -183,6 +187,31 @@ theorem cartanMatrix_eq_transpose_mul_decomposition {G O : Type u} [Group G] [Fi
 
 /-! ## Layer 4: blocks in the three coefficient rings -/
 
+/-- **Blocks of `O[G]` and central characters.** Let `O` be a complete discrete valuation ring
+whose fraction field `K` has characteristic zero and contains a primitive `e`-th root of unity,
+`e` the exponent of `G`. Two irreducible representations `V` and `W` of `G` over `K` lie in one
+block of `O[G]` (one block idempotent acts as the identity on both) exactly when their central
+characters agree modulo the maximal ideal `m` on every class sum: for every `g` with conjugacy
+class `C`, `|C| χ_V(g) / χ_V(1) - |C| χ_W(g) / χ_W(1)` lies in `m` (Webb, §12.2, pp. 231–232,
+for blocks of `K[G]`-modules; Sambale, Definition 1.6, p. 15; Martínez, Definition 2.1, p. 9, and
+Theorem 2.12, pp. 15–16). -/
+theorem exists_blockIdempotent_iff_centralCharacter_congr {G O : Type u} [Group G] [Finite G]
+    [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharZero O]
+    {ζ : FractionRing O} (hζ : IsPrimitiveRoot ζ (Monoid.exponent G))
+    {V W : Type u} [AddCommGroup V] [Module (FractionRing O) V]
+    [FiniteDimensional (FractionRing O) V] [AddCommGroup W] [Module (FractionRing O) W]
+    [FiniteDimensional (FractionRing O) W]
+    (ρ : Representation (FractionRing O) G V) (σ : Representation (FractionRing O) G W)
+    (hρ : ρ.IsIrreducible) (hσ : σ.IsIrreducible) :
+    (∃ b : Subalgebra.center O (MonoidAlgebra O G), IsBlockIdempotent b ∧
+        ρ.asAlgebraHom (MonoidAlgebra.mapRingHom G (algebraMap O (FractionRing O)) b) = 1 ∧
+        σ.asAlgebraHom (MonoidAlgebra.mapRingHom G (algebraMap O (FractionRing O)) b) = 1) ↔
+      ∀ g : G, ∃ m ∈ IsLocalRing.maximalIdeal O, algebraMap O (FractionRing O) m =
+        (Nat.card (ConjClasses.mk g).carrier : FractionRing O) *
+          (ρ.character g / ρ.character 1 - σ.character g / σ.character 1) :=
+  sorry
+
 /-- **The central-character block relation.** For an ideal `M` of the algebraic integers
 `integralClosure ℤ ℂ`, the functions `χ, ψ : G → ℂ` are related when, for every `g` with
 conjugacy class `C`, the difference `|C| χ(g) / χ(1) - |C| ψ(g) / ψ(1)` lies in `M`. On
@@ -292,12 +321,6 @@ theorem brauer_third_main_local {G : Type*} [Group G] [Finite G] {k : Type*} [Fi
       MonoidAlgebra.lift k k H 1 (b : MonoidAlgebra k H) ≠ 0 := sorry
 
 /-! ## Layer 8: normal subgroups and finite-group interfaces -/
-
-/-- The **`p'`-core** `O_{p'}(G)`: the supremum of the normal subgroups of `G` whose order is
-prime to `p`. For a finite group it is a characteristic subgroup of order prime to `p`, and it
-contains every normal subgroup of order prime to `p`. -/
-def pPrimeCore (p : ℕ) (G : Type*) [Group G] : Subgroup G :=
-  sSup {N : Subgroup G | N.Normal ∧ (Nat.card N).Coprime p}
 
 /-- **The kernel of the principal block is the `p'`-core.** Let `M` be a maximal ideal of the
 algebraic integers with `p ∈ M`. An element `g` lies in `O_{p'}(G)` exactly when `χ(g) = χ(1)`
