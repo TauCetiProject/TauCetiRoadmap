@@ -35,10 +35,11 @@ no stated headline using it. Not stated: README 3.6, the `J`-homogeneity of a mo
 sheaf topos and the classification by `Sh((FPModel T)ᵒᵖ, J)`, lacking the object of homomorphisms
 between two models of a theory (Caramello 2012b, Definition 4.4), which is not defined at the pins;
 the case of sets, in its elementary form, is stated. The irreducibility of formulae is written
-with Mathlib's `canonicalTopology` of the topos, since GrothendieckTopoi's `IsIrreducibleObject`
-is not importable here. Geometric morphisms and Diaconescu's theorem are GrothendieckTopoi's
-(Layer 2); the universal property here is written with their inverse images, left exact left
-adjoints between categories of sheaves, so that it is statable on Mathlib's carriers.
+with Mathlib's `Sheaf.canonicalTopology` of the topos, since GrothendieckTopoi's
+`IsIrreducibleObject` is not importable here. Geometric morphisms and Diaconescu's theorem are
+GrothendieckTopoi's (Layer 2); the universal property here is written with their inverse images,
+left exact left adjoints between categories of sheaves, so that it is statable on Mathlib's
+carriers.
 -/
 
 @[expose] public section
@@ -479,7 +480,8 @@ topology. -/
 def GeometricFormula.IsIrreducible {C : Type u} [SmallCategory C] {J : GrothendieckTopology C}
     (U : CatStructure L (Sheaf J (Type u))) {n : ℕ} (φ : GeometricFormula.{u} L n) : Prop :=
   ∀ S : Sieve (Subobject.underlying.obj (U.interp φ)),
-    S ∈ canonicalTopology (Sheaf J (Type u)) (Subobject.underlying.obj (U.interp φ)) → S = ⊤
+    S ∈ Sheaf.canonicalTopology (Sheaf J (Type u)) (Subobject.underlying.obj (U.interp φ)) →
+      S = ⊤
 
 /-- **3.5.** A set-model of a geometric theory: a structure on a type in `Type u` satisfying every
 axiom. -/
