@@ -2692,8 +2692,10 @@ The formulas use the following sign, radius and cusp-count conventions at the in
 PadicFamilies (signed period lines in families, the weight-`k` distribution modules and the specialisations
 of two-variable L-functions; its critical-slope layer uses §2.5 and §§3.0–3.1), KatoEulerSystems (the
 critical-slope L-functions, through the family comparison of §3.3), RankZeroOneBSD,
-GrossZagierAndArithmeticHeights, EllipticRegulators, EllipticModularityEffectiveComparisons and
-AutomorphicCongruences (period-normalised special values and p-adic L-functions of modular forms), and
+GrossZagierAndArithmeticHeights, EllipticRegulators and
+AutomorphicCongruences (period-normalised special values and p-adic L-functions of modular forms),
+EllipticCurveModularityPartII (the pairing with the homological symbols, the Eichler–Shimura comparison,
+the rational Drinfeld–Manin splitting and the integral period lattices of §§0.6–0.8 and §1.1), and
 the Drinfeld–Manin projector of §0.8 for the parabolic zeta morphisms of Nakamura's rank-two universal
 deformations.
 
