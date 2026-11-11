@@ -177,6 +177,7 @@ body:
         - StableReduction
         - StandardDistributions
         - StochasticCalculus
+        - StringOrientation
         - Subfactors
         - SubspaceTheorem
         - SuccessiveMinima
