@@ -164,6 +164,7 @@ body:
         - RepresentationTheory
         - ResolutionOfSingularitiesCharacteristicZero
         - RestrictedPowerSeries
+        - RicciFlow
         - RiemannianGeometry
         - RigidAnalyticGeometry
         - RootSystemsPartII
