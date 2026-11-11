@@ -62,7 +62,7 @@ base changes, principal filtrations and formal functions (R3.6
 Faithfully flat complete extension of the ground field for affinoid algebras
 and the comparison of their finite modules (§1.3) are owned here, because
 Kiehl's excellence route in §1.2 uses them; AdicSpacesPartIII R3.6
-*affinoid-completed-field-extension*, downstream, states the same theorem.
+*affinoid-completed-field-extension*, downstream, cites it.
 
 Section ids of this roadmap whose content is Part III's:
 

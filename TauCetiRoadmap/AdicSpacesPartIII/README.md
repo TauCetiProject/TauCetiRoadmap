@@ -95,12 +95,13 @@ comparisons and the results proper to formal schemes.
 Part III R3.4, R3.6 and R3.7 own Kiehl's Theorems A and B on quasi-Stein spaces,
 proper coherent cohomology and its adic completion and base-change comparisons, coherent analytification and
 proper GAGA. R3.6 owns the affinoid adapter for CompactOperators §0.1's complete continuity, its strict
-variant, descent to closed targets, Schwartz finiteness, relatively compact restriction,
-integral-affinoid almost noetherianity and completed extension of affinoid ground fields.
+variant, descent to closed targets, Schwartz finiteness, relatively compact restriction
+and integral-affinoid almost noetherianity.
 PadicFunctionalAnalysis §§2.1–2.2 supplies the model-space surjections and §2.4 the
 countable-type splittings; R3.6 identifies their maps with Part II's Banach-module carriers.
-RigidAnalyticGeometry §7.5 supplies proper formal functions and the stable principal
-filtration; R3.6 transports them through the rigid–adic comparison.
+R3.6 proves proper formal functions and the stable principal filtration from its own
+finiteness theorem. RigidAnalyticGeometry §1.3 supplies completed extension of affinoid
+ground fields, which R3.6 cites.
 These targets use Part II's affinoid, rigid-space and Banach-module carriers and its
 rigid–adic functor. R3.3 owns small perturbations over general complete Tate rings;
 R3.8 specializes PivotalSpherical’s categorical trace and cyclicity APIs to finite
@@ -601,10 +602,10 @@ identified with their adic forms through Part II R1's *rigid-adic-quasi-separate
 | *restriction-strictly-completely-continuous* | R3.6 | Strict complete continuity of relatively compact restriction after a topologically free surjection. |
 | *almost-noetherian-integral-affinoid-modules* | R3.6 | Finite approximations for integral submodules and noetherianity for discrete valuation. |
 | *proper-affinoid-cohomology-finite* | R3.6 | Finite cohomology and closed Čech differential images. |
-| *proper-cohomology-adic-completion* | R3.6 | Adic transport of RigidAnalyticGeometry §7.5's formal functions and stable principal filtration. |
+| *proper-cohomology-adic-completion* | R3.6 | Formal functions for proper coherent cohomology and the stable principal filtration, Kiehl's Theorems 3.4 and 3.7. |
 | *proper-cohomology-affinoid-subdomain* | R3.6 | Affinoid-subdomain base change. |
 | *countable-type-closed-subspace-section* | R3.6 | Transport of PadicFunctionalAnalysis §2.4's splitting to Part II's Banach completed tensor. |
-| *affinoid-completed-field-extension* | R3.6 | Faithfully flat extension and finite-module completed tensor comparison. |
+| *affinoid-completed-field-extension* | R3.6 | RigidAnalyticGeometry §1.3's faithfully flat extension and finite-module completed tensor comparison, cited under this name. |
 | *proper-coherent-cohomology-field-extension*, *proper-cohomology-finite-flat-base-change* | R3.6 | The natural base-change maps are invertible under their stated hypotheses. |
 | *analytification-coherent*, *proper-gaga*, *proper-gaga-coherent-equivalence* | R3.7 | Exact coherent pullback and proper comparison of cohomology, direct images and coherent categories. |
 | *rigid-genus-one-projective-embedding*, *rigid-projective-hilbert-hom*, *rigid-artinian-genus-one-gaga* | R3.7a | Analytic projective embeddings, Hilbert/Hom comparisons and Artinian algebraisation, after proper coherent theory and GAGA. |
@@ -11026,24 +11027,65 @@ Checks: for the identity of an affinoid `H⁰ = F(X)` is finite and positive coh
 vanishes; zero coefficients give the zero complex; for `P¹_K` with `O(−2)`,
 `H¹ = K` and the two-chart Čech difference has closed image.
 
-The adic comparison for proper formal functions (*proper-cohomology-adic-completion*):
-for a Kiehl-proper `f : X → Spa(A, A°)`, coherent `F` and an ideal `𝔞 ⊆ A`,
-transport RigidAnalyticGeometry §7.5's completion theorem and stable principal filtration
-through Part II's rigid–adic equivalence. Identify the quotient sheaves `F/𝔞ᵏF`, their
-epimorphisms and transitions with the corresponding rigid quotients; on cohomology these
-identifications intertwine the maps from `Hⁱ(X,F)` at every `k`. Consequently the transported
-isomorphism is the canonical map
-`Hⁱ(X,F)^∧_𝔞 ≃ lim_k Hⁱ(X,F/𝔞ᵏF)`.
-For `𝔞 = (a)`, the comparison identifies
-`R_k = ker(Hⁱ(X,F) → Hⁱ(X,F/aᵏF))` and the kernel and cokernel systems with the
-supplier's systems, preserving their transitions and uniform shifts. This is ideal-adic
-completion of the finite `A`-module, distinct from Banach completion
-(Kiehl-E §3, Theorems 3.4 and 3.7, pp. 207–209).
-*Needs:* RigidAnalyticGeometry §7.5, principal filtrations and formal functions;
-Part II *rigid-adic-quasi-separated-equivalence*; *coherent-sheaf-operations*;
-*proper-affinoid-cohomology-finite*.
+Formal functions for proper coherent cohomology and the stable principal filtration, Kiehl's
+Theorems 3.4 and 3.7 (*proper-cohomology-adic-completion*): let `f : X → Spa(A, A°)` be
+Kiehl-proper, `F` coherent, `i ≥ 0` and `M = Hⁱ(X,F)`, a finite `A`-module by
+*proper-affinoid-cohomology-finite*. For `a ∈ A` and `k ≥ 0` put
+`R_k = ker(M → Hⁱ(X,F/aᵏF))` and `Q_k = coker(M → Hⁱ(X,F/aᵏF))`.
+Prove that `(R_k)` is an `a`-good filtration of `M` in the sense of Kiehl-E Definition 3.1:
+`R_0 = M`, the `R_k` decrease, `aᵏM ⊆ R_k` and `aR_k ⊆ R_{k+1}`, with `aR_k = R_{k+1}` for all
+sufficiently large `k`. Prove that there are `d` and `e` such that, for every `k`,
+`R_{k+d} ⊆ aᵏM` and the transition `Q_{k+e} → Q_k` is zero; the two shifts need not coincide.
+Thus the kernel system `(R_k/aᵏM)` and the cokernel system `(Q_k)` of the maps
+`M/aᵏM → Hⁱ(X,F/aᵏF)` are pro-zero for their transition maps, and the canonical map
+`M^∧_a → lim_k Hⁱ(X,F/aᵏF)` is an isomorphism (Kiehl-E §3, Definition 3.1 and Theorem 3.4,
+p. 206).
 
-Checks: with `𝔞 = 0` the comparison is the identity; with `𝔞 = A` both sides are zero;
+Route (Kiehl-E §3, pp. 207–209). The Rees ring `S = ⊕_{k≥0} aᵏA` is a quotient of `A[T]`, hence
+noetherian; write `a'` for `a` placed in degree one. For every `r` the graded `S`-module
+`Mʳ(F) = ⊕_k Hʳ(X,aᵏF)`, on which `a'` acts through multiplication by `a` from `aᵏF` to
+`aᵏ⁺¹F`, is finite. If `a` is a nonzerodivisor on `F`, then `aᵏ : F → aᵏF` is an isomorphism
+and `Mʳ(F)` is generated by its degree-zero part `Hʳ(X,F)`, finite over `A` by
+*proper-affinoid-cohomology-finite*. In general the kernels of `aⁿ : F → F` stabilise at a
+coherent `E` on the quasi-compact `X`, a power of `a` kills `E`, `F/E` has no `a`-torsion, and
+`aᵏF ∩ E = 0` for large `k` by the Artin–Rees lemma on a finite affinoid cover. So
+`⊕_k Hʳ(X,aᵏF ∩ E)` is finite over `A`, and the exact sequences
+`0 → aᵏF ∩ E → aᵏF → aᵏ(F/E) → 0` place `Mʳ(F)` between two finite `S`-modules.
+The long exact sequence of `0 → aᵏF → F → F/aᵏF → 0` gives
+`R_k = im(Hⁱ(X,aᵏF) → M)` and `Q_k = ker(Hⁱ⁺¹(X,aᵏF) → Hⁱ⁺¹(X,F))`. The graded module
+`⊕_k R_k` is a quotient of `Mⁱ(F)`, so it is generated in degrees at most some `k₀`; this is
+`aR_k = R_{k+1}` for `k ≥ k₀`, and then `R_{k+k₀} = aᵏR_{k₀} ⊆ aᵏM`. The graded module
+`⊕_k Q_k` is a submodule of `Mⁱ⁺¹(F)`, so it is finite over `S`. Since `aᵏ` kills `Q_k`, a
+quotient of `Hⁱ(X,F/aᵏF)`, one power `aˢ` kills every `Q_k`, and `a'ˢQ_k = Q_{k+s}` for all
+large `k`. The transition `Q_{k+s} → Q_k`, induced by the inclusion `aᵏ⁺ˢF ⊆ aᵏF`, sends
+`a'ˢx` to `aˢx = 0`; so it vanishes for large `k`, and a larger shift serves every `k`.
+
+For every ideal `𝔞 ⊆ A`, prove that the canonical map `M^∧_𝔞 → lim_k Hⁱ(X,F/𝔞ᵏF)` is an
+isomorphism, natural in `F` (Kiehl-E §3, Theorem 3.7, p. 210, proved there by induction on the
+number of generators of `𝔞`). The induction step uses the pro-zero systems of the principal
+case, not only its limit. Write `𝔞 = 𝔟 + aA`, with the statement known for `𝔟` and every
+coherent sheaf. Since `𝔞²ᵏ ⊆ 𝔟ᵏ + aᵏA ⊆ 𝔞ᵏ`, both sides are the limits over `(k,l)` of their
+terms at `𝔟ᵏ + aˡA`. For fixed `l` the statement for `𝔟` and the coherent sheaf `F/aˡF`
+identifies `lim_k Hⁱ(X,F/(𝔟ᵏ + aˡA)F)` with `Hⁱ(X,F/aˡF) ⊗_A Â`, where `Â` is the `𝔟`-adic
+completion of `A`, flat over `A`. Tensoring the maps `M/aˡM → Hⁱ(X,F/aˡF)` with `Â` keeps
+their kernel and cokernel systems pro-zero, so the limit over `l` is that of
+`(M/aˡM) ⊗_A Â = lim_k M/(𝔟ᵏ + aˡA)M`, which is `M^∧_𝔞`. Every map in this comparison is
+induced by the maps `M → Hⁱ(X,F/(𝔟ᵏ + aˡA)F)`, so the isomorphism is the canonical one.
+This is ideal-adic completion of the finite `A`-module, distinct from Banach completion.
+*Needs:* *proper-affinoid-cohomology-finite*; *coherent-sheaf-operations* (kernels, images and
+quotients of coherent sheaves); the long exact cohomology sequence of module sheaves;
+Part II *rigid-adic-quasi-separated-equivalence* (the classical form over `Sp A`); Mathlib
+`reesAlgebra` and its noetherianity, `Ideal.Filtration.Stable`,
+`Ideal.Filtration.submodule_fg_iff_stable`, `Ideal.exists_pow_inf_eq_pow_smul`,
+`AdicCompletion.flat_of_isNoetherian` and
+`AdicCompletion.ofTensorProductEquivOfFiniteNoetherian`.
+
+Checks: for `a = 0`, `R_0 = M` and `R_k = 0` for `k ≥ 1`; for `a = 1`, `R_k = M` and
+`Hⁱ(X,F/aᵏF) = 0`; for `X = Spa A` and `i = 0`, `R_k = aᵏM` and `Q_k = 0`. For `A = K⟨T⟩`,
+`a = T` and `F` the sheaf of `A ⊕ A/(T)` on `Spa A`, multiplication by `a` is not injective
+on `F`, the torsion sheaf `E` is that of `A/(T)` and `aᵏF ∩ E = 0` for `k ≥ 1`: the reduction
+to the torsion-free quotient is needed. With `𝔞 = 0` the comparison is the identity; with
+`𝔞 = A` both sides are zero; for `X = Spa A`, `F = O`, it is `Â ≅ lim A/𝔞ᵏ`.
 for `X = Spa A`, `F = O`, it is `Â ≅ lim A/𝔞ᵏ`.
 
 Kiehl's Satz 3.5 (*proper-cohomology-affinoid-subdomain*): provides, for a Kiehl-proper
@@ -11051,7 +11093,7 @@ Kiehl's Satz 3.5 (*proper-cohomology-affinoid-subdomain*): provides, for a Kiehl
 `B`-linear isomorphism `B ⊗_A Hⁱ(X, F) ≅ Hⁱ(f⁻¹(U), F)` sending `b ⊗ m` to `b` times the
 restriction of `m`. Prove this for the actual
 restriction `cohomologyPullback` along `f⁻¹(U) → X` (Kiehl-E §3, Satz 3.5,
-pp. 207–208). *Needs:* *proper-affinoid-cohomology-finite*; Part II *affinoid-subdomain-flat*;
+pp. 209–210). *Needs:* *proper-affinoid-cohomology-finite*; Part II *affinoid-subdomain-flat*;
 finite-module base change and the strict Čech complex.
 
 Checks: for `U = Spa A` the map is `b ⊗ m ↦ bm`; zero coefficients give a zero
@@ -11075,14 +11117,15 @@ Checks: `F = 0` gives complement `E`; `F = E` gives the zero complement; in
 and projection `x ↦ x(0)e₀`.
 
 Completed extension of the base field for affinoid algebras (*affinoid-completed-field-extension*):
-provides, for an affinoid `K`-algebra `A`, an extension `K'/K` of complete nonarchimedean fields
-and `A' = K' ⊗̂_K A`, that `A → A'` is faithfully flat and that `A' ⊗_A M → K' ⊗̂_K M` is a
-topological isomorphism for every finite `A`-module `M`. Use
-`A' = Huber.CompletedTensor K A K'` with structure map `a ↦ a ⊗ 1` and prove both
-assertions for this map (BGR §6.1.1, completed scalar extension; Conrad-RA Appendix A.1,
-Theorem A.1.2 and its proof, p. 39, the finite-module comparison).
-*Needs:* Part II *completed-tensor-product*, *completed-tensor-banach-module*,
-*banach-completed-tensor-field-exactness*; noetherian affinoid module topologies.
+for an affinoid `K`-algebra `A`, an extension `K'/K` of complete nonarchimedean fields
+and `A' = K' ⊗̂_K A`, the map `A → A'`, `a ↦ a ⊗ 1`, is faithfully flat and
+`A' ⊗_A M → K' ⊗̂_K M` is a topological isomorphism for every finite `A`-module `M`.
+RigidAnalyticGeometry §1.3 owns this theorem and its proof; it is cited here under this name
+and is not proved again. §1.3 states it for `Huber.CompletedTensor K A K'` and
+`Huber.BanachModule.CompletedTensor`, the carriers of Part II's *completed-tensor-product* and
+*completed-tensor-banach-module* that this layer uses for `A'` and `K' ⊗̂_K M`.
+*Needs:* RigidAnalyticGeometry §1.3; Part II *completed-tensor-product*,
+*completed-tensor-banach-module*.
 
 Checks: for `K' = K` the map is the identity; for `A = K` it is the faithfully flat
 field extension `K → K'`; for `M = 0` both tensor modules vanish.

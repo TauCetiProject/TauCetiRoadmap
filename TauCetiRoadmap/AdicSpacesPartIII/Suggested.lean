@@ -48,7 +48,7 @@ continuity and scalar lattice norms, and PadicFunctionalAnalysis §§2.1–2.2's
 surjections; Part III supplies their affinoid adapters, the strict predicate, closed-target
 and restriction theorems, and the series criterion. R3.6 also transports
 PadicFunctionalAnalysis §2.4's countable-type splitting to Part II's completed tensor and
-RigidAnalyticGeometry §7.5's formal functions to adic coherent cohomology.
+proves formal functions for proper coherent cohomology (*proper-cohomology-adic-completion*).
 R3.7a supplies the README-only analytic genus-one projective embedding
 (*rigid-genus-one-projective-embedding*), projective Hilbert/Hom comparison
 (*rigid-projective-hilbert-hom*), Artinian genus-one GAGA
