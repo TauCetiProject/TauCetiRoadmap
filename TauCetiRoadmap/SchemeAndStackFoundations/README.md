@@ -7127,8 +7127,8 @@ Weil pairing is retained; a primitive `m`th root of unity is not fixed over `ℤ
 The symplectic convention is recovered after adjoining such a root by selecting the
 bases with the standard alternating pairing (`level_structure_cover_pairing`). Both
 conventions give finite étale surjective covers of the smooth locus over the indicated
-base (Deligne §3.3, p. 138, for full bases). The normalized symplectic compactification is
-projective over the cyclotomic base `ℤ[1/m, ζ_m]`: that base is étale over `ℤ[1/m]`, so
+base (Deligne §3.3, p. 138, for full bases). For `m≥3`, the normalized symplectic compactification
+is projective over the cyclotomic base `ℤ[1/m, ζ_m]`: that base is étale over `ℤ[1/m]`, so
 normalization commutes with the base change, and the symplectic bases are an open and closed
 part of the full-basis cover there, so the symplectic compactification is open and closed in the
 base change of `N_{g,n}(m)[1/m]`, projective by `level_structure_cover_projective` and
