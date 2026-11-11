@@ -95,7 +95,10 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   neither is imported together with Mathlib's instance. Tau Ceti's rank-one
   homeomorphism `TauCeti.finiteGrassmannian.projectivizationHomeomorph`
   (`Topology/Grassmannian/Projectivization.lean`) is stated on that copy;
-  T1.5 owns the rank-one comparison on Mathlib's instance.
+  T1.5 owns the rank-one comparison on Mathlib's instance and, on imports
+  compatible with it, the Hausdorffness of the finite carriers and the closed
+  ambient stage inclusions, which T1.6a's fixed-rank carriers and T1.6d's
+  rank-one comparison use.
 - Tau Ceti `Topology/VectorBundle/`, `Topology/FiberBundle/` and
   `Topology/PartitionOfUnity/Gap.lean` supply: the constant-rank category
   `TauCeti.FiniteRankBundleCore 𝕜 B` with `ofBundle`, `pointIndexedCore`,
@@ -588,8 +591,21 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    Mathlib's instance. Prove the comparison natural for injective linear
    maps, Mathlib's `Projectivization.map` against
    `TauCeti.finiteGrassmannian.map` (`Map.lean`), in particular for the
-   stage inclusions along `Fin.castSucc`;
-   prove they are diffeomorphisms to AlgebraicTopology Stage 4.6's
+   stage inclusions along `Fin.castSucc`. On imports compatible with
+   Mathlib's instance, without `Plucker.lean` or `Stabilization.lean`, prove
+   every `TauCeti.finiteGrassmannian 𝕜 r N` Hausdorff, since
+   `V ↦ V.toEuclidean.starProjection` is continuous and injective (Tau Ceti's
+   `TauCeti.finiteGrassmannian.continuous_starProjection_toEuclidean` and
+   `TauCeti.finiteGrassmannian.toEuclidean_injective` in `Tautological.lean`,
+   Mathlib's `Submodule.range_starProjection` and
+   `T2Space.of_injective_continuous`), and prove the stage inclusion
+   `TauCeti.finiteGrassmannian.map` along
+   `Function.ExtendByZero.linearMap 𝕜 𝕜 Fin.castSucc` a closed embedding, as a
+   continuous injection (`TauCeti.finiteGrassmannian.continuous_map`,
+   `TauCeti.finiteGrassmannian.map_injective`) from a compact space
+   (`Orthonormal.lean`) to a Hausdorff one (Mathlib's
+   `Continuous.isClosedEmbedding`). Prove the rank-one comparisons
+   diffeomorphisms to AlgebraicTopology Stage 4.6's
    native RP and ComplexKahlerGeometry K7.1's native CP manifold structures.
    For the complex comparison own the projective real-model comparison:
    consume K1's real restriction of K7.1's designated projective
@@ -771,9 +787,13 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    inferred from the positive-rank or stable theorem.
 
    Name the fixed-rank universal carrier `Gr_k∞(𝕜)` as the union of Tau
-   Ceti's carriers `TauCeti.finiteGrassmannian 𝕜 k (N+k)` along the native
-   closed embeddings `ambientStabilization`, appending the last coordinate by
-   Fin.castSucc, with the final topology for those inclusions. This
+   Ceti's carriers `TauCeti.finiteGrassmannian 𝕜 k (N+k)` along the maps
+   `TauCeti.finiteGrassmannian.map` for
+   `Function.ExtendByZero.linearMap 𝕜 𝕜 Fin.castSucc` (`Map.lean`), appending
+   the last coordinate, with the final topology for those inclusions. These
+   maps are Tau Ceti's `ambientStabilization` by definition, and T1.5 proves
+   them closed embeddings on imports compatible with Mathlib's
+   projectivization topology. This
    fixed-rank carrier is used for numerable complex/unoriented real
    classification, including its canonical rank 0 point. Use T1.5's finite
    Schubert cells and the native rank/ambient stabilizations to construct
@@ -1004,7 +1024,9 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    homeomorphism, transport AT4.6's real and CKG K7.2's complex characteristic
    cells through the actual ratio charts, and compare the rank-one Schubert
    labels and, by T1.5's naturality for injective linear maps, the stage
-   inclusions. Their weak CW union is the same RP∞/CP∞ carrier.
+   inclusions, using T1.5's Hausdorffness and closed stage inclusions in place
+   of `Plucker.lean` and `Stabilization.lean`. Their weak CW union is the same
+   RP∞/CP∞ carrier.
    Use its compact-image finite-subcomplex theorem and the finite-coordinate
    unit-sphere tower to prove contractibility of the universal sphere total
    space by connectivity and CW Whitehead. Keep the real double-cover and
