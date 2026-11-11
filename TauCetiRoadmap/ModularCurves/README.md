@@ -92,9 +92,14 @@ contracts).
 
 This roadmap owns the scheme-theoretic theory of elliptic curves needed for modular curves.
 Equation-level arithmetic is Tau Ceti's and the Elliptic Curves roadmap's. The direct
-equation-level inputs here are Tau Ceti's theorem that multiplication by `N` has degree `N²` and
-Tau Ceti's equation-level Weil pairing over a separably closed field in which `N` is invertible,
-against which the scheme-theoretic pairing is normalised in Layer 2.5 (§Exact supplier contracts).
+equation-level inputs here are Tau Ceti's (§Exact supplier contracts): the theorem that
+multiplication by `N` has degree `N²`; the equation-level Weil pairing over a separably closed
+field in which `N` is invertible, against which the scheme-theoretic pairing is normalised in
+Layer 2.5; supersingularity of a Weierstrass curve over a field, with its `j`-criteria in
+characteristics `2` and `3` and its Verschiebung and trace criteria (Layers 7.1 and 7.3); the
+automorphism group of a Weierstrass curve, equal to `{±1}` when `j ≠ 0, 1728` (Layers 6.4 and
+10); the universal Legendre curve (Layer 3.5); and the formal group law of a Weierstrass curve
+with the formal parameter of its projective model along the zero section (Layer 7.2).
 Layer 2.1 owns the narrow scheme/function-field comparison which transports the first theorem to the
 projective model. The broad comparison between arbitrary scheme isogenies and embeddings of
 function fields belongs to the Algebraic Curves roadmap.
@@ -625,6 +630,71 @@ and `AlgebraicGeometry.GeometricallyConnected`, every fibre over a field-valued 
   spectrum of `A ⊗_k K` is connected, with no finite-type or reducedness hypothesis. Layer 5.3
   uses it for the affine curve `Y(ρ) ⊗ ℚ̄` and `K = ℂ`.
 
+- `TauCeti.AlgebraicGeometry.smoothOfRelativeDimension_iff_smooth_and_pureRelativeDimension`
+  (file `TauCeti/AlgebraicGeometry/Morphisms/Smooth/PureRelativeDimension.lean`): a morphism of
+  schemes is smooth of relative dimension `n` exactly when it is smooth and of pure relative
+  dimension `n` (`PureRelativeDimension n`). Mathlib's `Smooth` and `SmoothOfRelativeDimension n`
+  are different classes, and the pinned `EllObj.smooth_yOne_structureMap` proves the first:
+  `𝔸²_B ⟶ B` is `Smooth` and is not `SmoothOfRelativeDimension 1`. The dimension of the fibres of
+  `Y₁(N)` and `Y_full(N)` is owned by Layer 5.1, item 6, and Layer 5.2.
+- `WeierstrassCurve.IsSupersingular` and `IsOrdinary` with
+  `WeierstrassCurve.isSupersingular_iff_of_isAlgClosed`,
+  `WeierstrassCurve.isSupersingular_baseChange_iff`,
+  `WeierstrassCurve.isSupersingular_variableChange_iff`,
+  `WeierstrassCurve.isSupersingular_iff_j_eq_zero_of_char_two` and
+  `WeierstrassCurve.isSupersingular_iff_j_eq_zero_of_char_three`
+  (file `TauCeti/AlgebraicGeometry/EllipticCurve/Supersingular.lean`);
+  `TauCeti.Isogeny.verschiebungIsogeny` with `verschiebungIsogeny_comp_relativeFrobeniusIsogeny`,
+  `relativeFrobeniusIsogeny_comp_verschiebungIsogeny` and `degree_verschiebungIsogeny` (file
+  `EllipticCurve/Isogeny/RelativeFrobenius/Verschiebung/Basic.lean`);
+  `WeierstrassCurve.isSupersingular_iff_isPurelyInseparable_verschiebungIsogeny` (file
+  `Isogeny/RelativeFrobenius/Supersingular.lean`); and
+  `WeierstrassCurve.isSupersingular_iff_dvd_frobeniusTrace` (file
+  `Isogeny/Frobenius/Supersingular.lean`). For a Weierstrass curve `W` over a field `K`,
+  `W.IsSupersingular p` says that `W` has no nonzero point of order dividing `p` over
+  `AlgebraicClosure K`; the algebraic closure may be replaced by any algebraically closed
+  extension, and the property is invariant under field extension and under changes of variables.
+  An elliptic `W` in characteristic `2`, and likewise in characteristic `3`, is supersingular
+  exactly when `j = 0`. As embeddings of function fields, the Verschiebung `V : W^{(p)} → W`
+  satisfies `V∘F = [p]` and `F∘V = [p]`, has degree `p`, and is purely inseparable exactly when
+  `W` is supersingular; over a finite field of characteristic `p`, `W` is supersingular exactly
+  when `p` divides the trace of Frobenius. These are statements about points over a field and
+  about isogenies as embeddings of function fields. Layer 7.1 owns the comparison of PD-2's
+  notion, the connectedness of the group scheme `E₀[p]`, with this one, and the Frobenius and
+  Verschiebung of group schemes (PD-3); PD-6(a) of Layer 7.3 consumes the two `j`-criteria.
+- `WeierstrassCurve.autGroup` with `eq_one_or_eq_negVariableChange_of_smul_eq`,
+  `eq_one_or_eq_negVariableChange_map`, `autGroupMulEquiv` and `finite_autGroup` (file
+  `TauCeti/AlgebraicGeometry/EllipticCurve/Aut.lean`): the automorphism group of a Weierstrass
+  curve, as the stabiliser of the curve under the changes of variables. Over an integral domain,
+  an elliptic curve with `j ≠ 0` and `j ≠ 1728` is fixed only by the identity and by the change
+  of variables of `[−1]`, in every characteristic, so that its automorphism group is cyclic of
+  order two; and the automorphism group of an elliptic curve over an integral domain is finite.
+  Layer 6.4 consumes the dichotomy on the locus `j ≠ 0, 1728`; Layer 10, item 3, builds its
+  classification in characteristics `2` and `3` on this carrier.
+- `WeierstrassCurve.UniversalLegendre.Ring`, `curve`, `lift` and `existsUnique_legendre` (file
+  `TauCeti/AlgebraicGeometry/EllipticCurve/Legendre.lean`): the ring `ℤ[1/2][λ, 1/λ(λ − 1)]` with
+  the curve `y² = x(x − 1)(x − λ)` over it. For an elliptic Weierstrass curve over a commutative
+  ring, two points `(x₁, y₁)` and `(x₂, y₂)` at which `ψ₂ = 2y + a₁x + a₃` vanishes, and a unit
+  `u` with `x₂ − x₁ = u²`, exactly one pair of a ring homomorphism out of this ring and a change
+  of variables with scaling `u` carries the curve to the base change of the universal one and the
+  two points to `(0, 0)` and `(1, 0)`. This is a statement about equations. Layer 3.5, item 1,
+  owns the identification of these data with a basis of `E[2]` and a differential, the moduli
+  problem over `Ell/ℤ[1/2]`, and its finite étaleness.
+- `WeierstrassCurve.formalGroup` with `map_formalGroup` and `isComm_formalGroup` (file
+  `TauCeti/AlgebraicGeometry/EllipticCurve/FormalGroup/Basic.lean`),
+  `WeierstrassCurve.projModelFormalPoint` with `SpecMap_constantCoeff_projModelFormalPoint` and
+  `exists_unit_projModelFormalPoint_comp_eq` (file `EllipticCurve/Scheme/FormalPoint.lean`), and
+  `WeierstrassCurve.height_formalGroup_eq_one_iff` (file `EllipticCurve/FormalGroup/Height.lean`):
+  the formal group law of a Weierstrass curve over any commutative ring `R`, a commutative
+  `FormalGroup R` of Mathlib whose formation commutes with base change; the point
+  `[z : −1 : w(z)]` of the projective model with values in `R⟦z⟧`, which restricts to the zero
+  section at `z = 0` and which an isomorphism of projective models over `Spec R` preserving the
+  zero sections carries to the same point reparametrised by `z` times a unit of `R⟦z⟧`; and, over
+  a field of characteristic `p`, the criterion that this formal group has height one exactly when
+  the coefficient of `T^{p−1}` in the expansion of the invariant differential is nonzero. Layer 7.2
+  owns the completion of an elliptic curve over a complete local ring along its zero section and
+  its comparison with these in a Weierstrass chart.
+
 The carriers and the declarations on which the statements of `Suggested.lean` rest are pinned
 there by `#check`; the other declarations listed are cited by name and file.
 
@@ -642,8 +712,11 @@ there by `#check`; the other declarations listed are cited by name and file.
 - AlgebraicCurves Layers 7–9 and 12: the different, Hilbert's different formula and
   Riemann–Hurwitz in Euler-characteristic form, carried to smooth proper fibres (Layer 10,
   item 3).
-- EllipticCurves: the `Aut(E)` carrier used by Layer 10, item 3; its equation-level theory is
-  otherwise consumed through Tau Ceti.
+- EllipticCurves: the owner of the equation-level theory, in particular of the
+  ordinary/supersingular dichotomy (its Layer 3) and of `Aut (E, O)` (its Layer 5). What this
+  roadmap consumes of them is at the pin and is listed under From Tau Ceti:
+  `WeierstrassCurve.IsSupersingular` (Layers 7.1 and 7.3) and `WeierstrassCurve.autGroup` (Layers
+  6.4 and 10).
 
 ## Existing Mathlib and work in progress
 
@@ -974,14 +1047,29 @@ the polarised statement used here; it applies to the finite locally free coverin
 
 Construct the representable Hom functors used in Layers 0.8 and 4. The required general result is the
 finite-locally-free Weil-restriction case: if `Z ⟶ S` is finite locally free and `X ⟶ Z` is affine
-of finite presentation, the functor of `Z`-morphisms is represented by an affine `S`-scheme.
-Deduce the special cases representing:
+of finite presentation, the functor `T ↦ Hom_Z(Z ×_S T, X)` on `S`-schemes is represented by an
+`S`-scheme which is affine and of finite presentation over `S`. Conrad, *Reductive group schemes*,
+Lemma 2.1.3, is the case `X = Z ×_S Y` with `Y` affine of finite presentation over `S`, where the
+functor is `T ↦ Hom_T(Z_T, Y_T)`, together with the statement for homomorphisms of group schemes;
+the construction in its proof, which writes a `Z`-morphism in the structure constants of a local
+basis of `𝒪_Z` over `𝒪_S`, applies to every `X` affine of finite presentation over `Z`. The three
+special cases below are of the form covered by that lemma. Deduce the special cases representing:
 
 - tuples of sections of a finite locally free `S`-scheme;
 - homomorphisms between finite locally free group schemes;
 - the ambient schemes in which the full-set, exact-order, and full-level loci are cut out.
 
 Prove compatibility with arbitrary base change.
+
+**Checks.**
+
+- For `Z = S ⊔ S` and `X = 𝔸¹_Z` the functor is `T ↦ 𝒪(T)²`, represented by `𝔸²_S`; a construction
+  which returned `X` itself, or `𝔸¹_S`, has forgotten the rank of `Z`.
+- For `S = Spec k`, `Z = Spec k[ε]/(ε²)` and `X = 𝔾_{m,Z}` the functor is
+  `T ↦ (𝒪(T)[ε]/(ε²))ˣ`, represented by `𝔾_m × 𝔾_a` through `a + bε ↦ (a, b/a)`: the result has
+  dimension two and is not `X ×_Z S = 𝔾_m`.
+- For `Z = ∅`, of rank zero, the functor has one point on every `T` and is represented by `S`;
+  for `Z = S` it is represented by `X`.
 
 **Dependencies.** Layer 0.2 and Mathlib's representable-functor and affine-scheme APIs.
 
@@ -2058,6 +2146,14 @@ it does not re-prove the classification needed to construct the group law.
 
 **Dependencies.** Layers 0.5, 1.3–1.5, and 3.1.
 
+**Further sources.** Loeffler, Proposition 3.3.2: an elliptic curve over a scheme `S` has a
+Weierstrass equation Zariski-locally on `S`, determined over an open subscheme by a basis of
+`π_*Ω¹_{E/S}` there; this is the atlas on objects. AEC III.3.1(b): over a field, two systems of
+Weierstrass coordinates of the same pointed curve differ by a change of variables
+`x = u²x' + r`, `y = u³y' + su²x' + t`; this is the statement on arrows over a field, a special
+case of the classification theorem of Layer 1.3, which is over an arbitrary base and includes
+uniqueness.
+
 ### 3.5. Rigidifiers and KM 4.7.0
 
 Carry out Katz–Mazur's rigidifier construction in the following definite form.
@@ -2068,7 +2164,15 @@ Carry out Katz–Mazur's rigidifier construction in the following definite form.
    representable by `Spec ℤ[1/2][λ, 1/λ(λ-1)]` with the universal curve
    `y²=x(x-1)(x-λ)`, and that for every `E/S` the scheme of Legendre structures is finite étale
    of degree `12` over `S[1/2]`: it is the `μ₂`-torsor of square roots of `x(Q₂)-x(P₂)` over the
-   `GL₂(𝔽₂)`-torsor of level-two bases.
+   `GL₂(𝔽₂)`-torsor of level-two bases. The statement about equations is at the pin (§Exact
+   supplier contracts): by `WeierstrassCurve.UniversalLegendre.existsUnique_legendre`, an elliptic
+   Weierstrass curve over a ring with two points at which `ψ₂` vanishes and a unit `u` with
+   `x₂ − x₁ = u²` is carried to the base change of the universal Legendre curve by exactly one
+   ring homomorphism out of `ℤ[1/2][λ, 1/λ(λ − 1)]` and one change of variables of scaling `u`.
+   Owned here: the identification of such data on a Weierstrass chart with a pair `(φ₂, ω)`, the
+   points being `φ₂(1, 0)` and `φ₂(0, 1)` and `u` the ratio of `ω` to the invariant differential
+   of the chart; the gluing over charts, which makes the pinned statement the representability
+   of the problem on `Ell/ℤ[1/2]`; and the finite étaleness of degree `12`.
 2. Over `ℤ[1/3]`, naive full level three with its `GL₂(𝔽₃)`-action and its affine universal
    family are at the pin (KM 2.2.10–2.2.11, §Exact supplier contracts): `EllObj.universalLevelThree`
    is the level-three normal form `Y² + 3μXY + (μ³ − 1)Y = X³` over
@@ -2416,9 +2520,32 @@ The direct Tate-atlas construction is at the pin (§Exact supplier contracts).
    `hasProperty_etale_gammaOneNaiveRelRepData` (Loeffler, Proposition 3.8.2, for étaleness) and
    `hasProperty_isFinite_gammaOneNaiveRelRepData` of Layer 3.2.
 
+6. **Relative dimension one.** For `N ≥ 4` invertible on `B`, the morphism `Y₁(N) ⟶ B` is smooth
+   of relative dimension one: `smoothOfRelativeDimension_one_yOne_structureMap` in
+   `Suggested.lean`. This is more than item 4. The pinned `smooth_yOne_structureMap` proves
+   Mathlib's `Smooth`, which does not determine the dimension of the fibres: the base
+   `B × Spec ℤ[a,b,Δ⁻¹]` of the universal Tate normal form, in which `Y₁(N)` is a subscheme, is
+   smooth over `B` of relative dimension two. Layers 6.4 and 10 use `Y₁(N)` as a relative curve.
+   Route. Let `𝒫` be the naive `[Γ₁(N)]`-problem and let `δ` be the level-three rigidifier of
+   Layer 3.5 over `B[1/3]`. Its base `T = B × Spec ℤ[1/3, ζ₃][μ, 1/(μ³ − 1)]` is étale over an
+   open subscheme of `𝔸¹_B`, hence smooth of relative dimension one over `B`. The scheme `𝕄(𝒫, δ)`
+   of Layer 3.5, item 3, represents pairs of a `𝒫`-structure and a `δ`-structure, so it is at once
+   the relative representing scheme of `𝒫` on the universal level-three curve, which is finite
+   étale over `T` by item 5, and the scheme of level-three structures on the universal curve over
+   `Y₁(N)`, which is étale and surjective over `Y₁(N)[1/3]` by Layer 3.2. The first description
+   makes `𝕄(𝒫, δ)` smooth of relative dimension one over `B`. By the second, if `Y₁(N) ⟶ B` has
+   relative dimension `m` near a point `x` of `Y₁(N)[1/3]`, then `𝕄(𝒫, δ) ⟶ B` has relative
+   dimension `m` near a point above `x`; the rank of the module of relative differentials at a
+   point of a smooth morphism is well defined, so `m = 1`. Over `B[1/2]` the same argument applies
+   to the Legendre rigidifier of Layer 3.5, item 1, whose base `B × Spec ℤ[1/2][λ, 1/λ(λ − 1)]` is
+   an open subscheme of `𝔸¹_B` and whose problem is finite étale and surjective over
+   `Ell/ℤ[1/2]`; and `B = B[1/2] ∪ B[1/3]`. In terms of the pinned equivalence between "smooth of
+   relative dimension `n`" and "smooth and of pure relative dimension `n`" (§Exact supplier
+   contracts), what is proved is that every fibre of `Y₁(N) ⟶ B` is of pure dimension one.
+
 For `N≥4`, this construction directly represents `Y₁(N)`; it is not routed through KM 4.7.0. No
 fine representability assertion is made for `N≤3`, where the indicated point structure does not
-rigidify every elliptic curve. Nothing of this block is restated in `Suggested.lean`.
+rigidify every elliptic curve. Items 1–5 are at the pin and are not restated in `Suggested.lean`.
 
 **Checks.**
 
@@ -2433,8 +2560,18 @@ rigidify every elliptic curve. Nothing of this block is restated in `Suggested.l
   wrong sign would place `Y₁(5)` at `b = 1 − a`.
 - For `N = 3` the block produces nothing: a point of exact order `3` has `3P` equal to the zero
   section, so it has no Tate normal form, and no representability claim is made for `N ≤ 3`.
+- Relative dimension, item 6: on `a = 1` the discriminant is
+  `b³(1 − 1 − 8b + 36b − 27b − 16b²) = b⁴(1 − 16b)`, so `Y₁(4)` over `ℤ[1/2]` is
+  `Spec ℤ[1/2][b, 1/b(1 − 16b)]`, an open subscheme of the affine line, of relative dimension one.
+  The base `Spec ℤ[a, b, Δ⁻¹]` of the Tate normal form is an open subscheme of the affine plane,
+  smooth of relative dimension two. Both are smooth, so a statement of item 6 with `Smooth` in
+  place of relative dimension one would not distinguish them, and would not supply the hypothesis
+  of the quotient-smoothness theorem of Layer 6.4.
+- For `B = ∅` the scheme `Y₁(N)` is empty and item 6 holds vacuously: relative dimension one is
+  a condition at the points of the source.
 
-**Dependencies.** Layers 1.1–1.4, 2.1, and 3.2; the Drinfeld form of item 4 also uses Layer 4.3.
+**Dependencies.** Layers 1.1–1.4, 2.1, and 3.2; the Drinfeld form of item 4 also uses Layer 4.3,
+and item 6 uses Layer 3.5 (the two rigidifiers and the simultaneous scheme of its item 3).
 
 **Further sources.** DR IV 3.4 and IV 6.7, Conrad, Theorem 3.2.7 and Theorem 4.2.1(2), and
 Česnavičius, §4.1.2 and Lemma 4.1.3, prove that the compactified moduli stack of a level structure
@@ -2448,14 +2585,18 @@ form over a base, for which KM remains the locator.
 For `N ≥ 3`, the rigidity of the naive full-level problem (KM 2.7.2, `isRigid_gammaNaive`) and its
 relative representability by the open full-level locus in `E[N]×_S E[N]`, étale, finite and
 surjective over `Ell/B` where `N` is invertible (KM 3.7.1, Layer 3.2), are at the pin. Prove its
-representability by an elliptic curve over a scheme `Y_full(N)` affine and smooth over `B`, for
-every base `B`, in particular over `ℤ[1/N]` (KM 4.7.0 and Corollary 4.7.2):
-`exists_representableBy_gammaNaive` in `Suggested.lean`. Over `ℤ[1/N]` this is the application of
-`exists_representableBy_of_isRigid` of Layer 3.5 together with the smoothness of the rigidified
-scheme, which is finite étale over the smooth Weierstrass base of the rigidifier. Over a general
-`B` the representing object is the base change of `Y_full(N)/ℤ[1/N]` along `B → Spec ℤ`, affine
-and smooth over `B` as the base change of the composite `Y_full(N) → Spec ℤ[1/N] → Spec ℤ` of an
-affine smooth morphism with the open immersion of a principal open. It represents
+representability by an elliptic curve over a scheme `Y_full(N)` affine and smooth of relative
+dimension one over `B`, for every base `B`, in particular over `ℤ[1/N]` (KM 4.7.0 and Corollary
+4.7.2, which is a statement about a curve): `exists_representableBy_gammaNaive` in
+`Suggested.lean`. Over `ℤ[1/N]` this is the application of `exists_representableBy_of_isRigid` of
+Layer 3.5 together with the argument of Layer 5.1, item 6: over `ℤ[1/3N]`, and likewise over
+`ℤ[1/2N]` with the Legendre rigidifier, the simultaneous scheme `𝕄([Γ(N)], δ)` is finite étale
+over the base of the rigidifier `δ`, which is smooth of relative dimension one, and it is étale
+and surjective over `Y_full(N)`; smoothness and the relative dimension descend along an étale
+surjection of the source. Over a general `B` the representing object is the base change of
+`Y_full(N)/ℤ[1/N]` along `B → Spec ℤ`, affine and smooth of relative dimension one over `B` as the
+base change of the composite `Y_full(N) → Spec ℤ[1/N] → Spec ℤ` of an affine morphism smooth of
+relative dimension one with the open immersion of a principal open. It represents
 `gammaNaive B N` on all of `Ell/B`: an object `E/S` of `Ell/B` with a point of residue
 characteristic `p ∣ N` carries no naive structure, because a homomorphism `(ℤ/Nℤ)² → E(S)`
 injective on the fibre over that point would embed `(ℤ/pℤ)²`, of order `p²`, in the `p`-torsion
@@ -2496,6 +2637,16 @@ on adjoining a primitive `N`th root of unity; `GL₂` permutes these summands th
 determinant. They are not asserted to be individual open-and-closed summands over `ℤ[1/N]`
 before that base change. Call them determinant fibres or fixed-pairing loci, not connected
 components. No connectedness or irreducibility theorem is asserted.
+
+**Checks.**
+
+- For `N = 3` the representing scheme over `B` is `B × Spec ℤ[1/3, ζ₃][μ, 1/(μ³ − 1)]` (Layer 3.5,
+  item 2), étale over an open subscheme of `𝔸¹_B`: relative dimension one, and empty over the
+  points of `B` of residue characteristic `3`.
+- Over a base `B` on which `N` is nowhere invertible, for instance `B = Spec 𝔽_p` with `p ∣ N`,
+  the representing scheme is empty and every clause of the statement holds vacuously.
+- `𝔸²_B ⟶ B` is affine and smooth and is not a relative curve: the clause on the relative
+  dimension is what a statement with `Smooth` alone would lose.
 
 **Dependencies.** The representability of `Y_full(N)` uses Layers 3.2, 3.3, and 3.5. The determinant map and fixed-pairing
 decomposition additionally use the Weil pairing of Layer 2.5; they require no further
@@ -2785,8 +2936,8 @@ The Lean statement is `smoothOfRelativeDimension_one_of_isCategoricalQuotient` i
 `Suggested.lean`, for an arbitrary categorical quotient of a smooth affine relative curve over a
 locally noetherian base with regular local rings.
 
-Apply it once, in the vocabulary of Layer 10: `Y₁(N)/ℤ[1/N]` is a smooth affine relative curve
-(Layer 5.1) carrying the diamond action `P ↦ aP` of Layer 6.2, on which `−1` acts trivially, so for
+Apply it once, in the vocabulary of Layer 10: for `N ≥ 4`, `Y₁(N)/ℤ[1/N]` is a smooth affine
+relative curve (Layer 5.1, items 4 and 6) carrying the diamond action `P ↦ aP` of Layer 6.2, on which `−1` acts trivially, so for
 every `H ≤ (ℤ/Nℤ)ˣ/{±1}` the quotient `Y_H := Y₁(N)/H` is a smooth affine relative curve over
 `ℤ[1/N]`; by KM 8.1.5 above it is the coarse scheme `M([Γ₁(N)]/H)`. The interior smoothness of
 `Y_H` used in Layer 10 is this application and nothing else. Smoothness of `Y_H` is not deduced
@@ -2804,13 +2955,17 @@ The route is as follows. The action of `H` on the naive level structures of a fi
 the sense of Layer 6.1, so `𝒫⊗R' = ([Γ(N)]⊗R')/H` by KM Remark 7.1.4, and by KM 8.1.5 the claim is
 that `A^H ⊗ R' ⟶ (A ⊗ R')^H` is an isomorphism, where `A` is the coordinate ring of `Y_full(N)`
 (Layer 5.2). The invariant ring is the kernel of `A ⟶ ∏_{h∈H} A`, `a ↦ (ha − a)_h`, and `A` is flat
-over the principal ideal domain `ℤ[1/N]`, so by `ker_baseChange_of_noZeroSMulDivisors_coker` it
+over the principal ideal domain `ℤ[1/N]`, so by the kernel base-change lemma stated below it
 suffices that `A^H/p ⟶ (A/p)^H` be surjective for every prime `p ∤ N`. This map is injective, and
 `Spec (A/p)^H ⟶ Spec (A^H/p)` is a finite surjective morphism of curves which are smooth over `𝔽_p`
-by the theorem above, applied to `Y_full(N)` over `ℤ[1/N]` and to its fibre over `𝔽_p`; it is
+by the theorem above, applied to `Y_full(N)` over `ℤ[1/N]`, a smooth affine relative curve by
+Layer 5.2, and to its fibre over `𝔽_p`; it is
 therefore finite locally free. The element `−1` acts trivially on `Y_full(N)`, and on the invariant
-open subscheme `j ≠ 0, 1728`, where the automorphism group of every geometric fibre is `{±1}`, the
-group `H/(H ∩ {±1})` acts freely; the torsor square of a free action (Layer 0.3) is stable under
+open subscheme `j ≠ 0, 1728`, the preimage of an open subscheme of the `j`-line under the pinned
+`jMap`, the automorphism group of every geometric fibre is `{±1}` (at the pin, in every
+characteristic: `WeierstrassCurve.eq_one_or_eq_negVariableChange_of_smul_eq`, §Exact supplier
+contracts), so that the
+group `H/(H ∩ {±1})` acts freely there; the torsor square of a free action (Layer 0.3) is stable under
 base change, so the map is an isomorphism over that open subscheme, which is dense in the target.
 Its rank is therefore one. Česnavičius, Proposition 6.4(b), proves the statement for the
 compactified curves of every level, in the language of stacks and over every base on which
@@ -2821,7 +2976,38 @@ Proposition 6.3 there is the dictionary with the quotient problems and coarse mo
 here. Remark 6.6 there records that the invertibility of `gcd(6,n)` cannot be dropped: for level
 `Γ₁(4)` the statement fails in characteristic `2`.
 
-**Dependencies.** Layers 0.3, 5.1–5.2, and 6.1–6.3.
+**Kernel base change.** The lemma used above, and again in Layer 6.5, item 6, is the following.
+Let `D` be a principal ideal domain, `M` and `N` modules over `D` with `N` flat, and `f : M ⟶ N` a
+`D`-linear map whose cokernel is torsion-free. Then for every `D`-algebra `R` the kernel of
+`f ⊗_D R` is the image of `ker f ⊗_D R`. The module `M` need not be flat: the image of `f` is a
+submodule of `N`, hence torsion-free and flat, as is the cokernel, so the two short exact sequences
+`0 → ker f → M → im f → 0` and `0 → im f → N → coker f → 0` remain exact after `⊗_D R`. Under the
+same hypotheses on `D` and `N`, the cokernel of `f` is torsion-free exactly when
+`ker f ⊗ D/𝔭 ⟶ ker(f ⊗ D/𝔭)` is surjective for every maximal ideal `𝔭` of `D`, the kernel of
+`im f ⊗ D/𝔭 ⟶ N ⊗ D/𝔭` being the `𝔭`-torsion of the cokernel; this is the form in which the lemma
+is applied to `f : A ⟶ ∏_{h∈H} A`, whose kernel is `A^H`.
+
+**Checks.**
+
+- Kernel base change needs the hypothesis on the cokernel: for `f : ℤ ⟶ ℤ`, multiplication by `2`,
+  and `R = 𝔽₂`, the kernel of `f ⊗ R` is `𝔽₂` and the image of `ker f ⊗ R` is `0`; the cokernel
+  `ℤ/2` has torsion. For the diagonal `ℤ ⟶ ℤ²` the cokernel is `ℤ`, and both sides are `0` for
+  every `R`.
+- The quotient-smoothness theorem needs a regular base and does not need `|H|` invertible: `x ↦ −x`
+  on `ℤ_(2)[x]` has invariants `ℤ_(2)[x²]`, smooth over `ℤ_(2)`, although the action is trivial
+  modulo `2`; over the non-regular base `k[ε]/(ε²)` with `char k = 2`, the automorphism
+  `t ↦ (1 + ε)t` of the affine line `Spec k[ε][t]`, of order two since `(1 + ε)² = 1`, sends
+  `(a + bε)tⁿ` to `(a + (b + na)ε)tⁿ`, so its invariants are `k[ε][t²] ⊕ εt·k[t²]`; this ring is
+  not flat over `k[ε]`, the element `εt` being killed by `ε` without being a multiple of `ε`.
+- Coarse base change away from the level, at its two ends: for `H = 1` the problem is
+  representable and the statement is case 1 of KM 8.1.6; for `H = GL₂(ℤ/Nℤ)` the problem is
+  `[Γ(1)]` over `ℤ[1/N]` and the statement is `M([Γ(1)]/R') = Spec R'[j]`, which is Layer 6.5,
+  item 6. The statement is about level `N` over `ℤ[1/N]`: Česnavičius, Remark 6.6, for `Γ₁(4)` in
+  characteristic `2`, concerns a characteristic dividing the level, which is excluded here.
+
+**Dependencies.** Layers 0.3, 0.9 (regular local rings, for the base of the quotient-smoothness
+theorem), 5.1–5.2, and 6.1–6.3, the pinned `jMap`, and the pinned `WeierstrassCurve.autGroup`
+dichotomy for `j ≠ 0, 1728`.
 
 **Further sources.** DR VI 6.7 proves that the coarse curve of every level is smooth where the level
 is invertible by a different method, which does not pass through the general theorem on quotients:
@@ -2884,11 +3070,17 @@ here by the following route, which uses only material already constructed.
    `R`, and this is *not* a corollary of the integral statement: coarse formation does not commute
    with arbitrary base change (KM 8.1.6 needs `6` invertible or `|G|` invertible, and 8.1.7 gives
    counterexamples for other problems), so the arbitrary-base statement is the extra content of
-   KM 8.2.1, for which KM cite Igusa. It is an independent milestone with the following route. Work over `D = ℤ[1/N]` with the Galois rigidifier `[Γ(N)]`, `N = 3` on
+   KM 8.2.1, for which KM cite Igusa. It has two routes. The first: the statement is the case
+   `H = GL₂(ℤ/Nℤ)`, for `N = 3` and `N = 4`, of the coarse base change away from the level of
+   Layer 6.4. Indeed `[Γ(N)]/GL₂(ℤ/Nℤ) = [Γ(1)]` over `ℤ[1/N]` (Layer 6.2, item 1, with `d = 1`),
+   so `M([Γ(1)]/R) = M([Γ(1)]/ℤ[1/N]) ⊗ R` for every `ℤ[1/N]`-algebra `R`, which is `Spec R[j]`
+   by items 1–5 over `ℤ[1/N]`; for an arbitrary `R` the cases `N = 3` over `R[1/3]` and `N = 4`
+   over `R[1/2]` glue, coarse formation commuting with these localisations by case 2 of KM 8.1.6.
+   The second route computes the fibres directly and uses no smoothness theorem. Work over `D = ℤ[1/N]` with the Galois rigidifier `[Γ(N)]`, `N = 3` on
    `D(3)` and `N = 4` on `D(2)`, and let `A_N` be the coordinate ring of `Y_full(N)`, flat over
    `D` with `G = GL₂(ℤ/Nℤ)` acting; `M([Γ(1)]/R) = Spec (A_N ⊗_D R)^G` for every `D`-algebra
    `R`. The invariant ring is the kernel of `φ : A_N ⟶ ∏_{g∈G} A_N`, `a ↦ (ga - a)_g`, and
-   `ker_baseChange_of_noZeroSMulDivisors_coker` (base change of the kernel of a linear map into
+   the kernel base-change lemma of Layer 6.4 (base change of the kernel of a linear map into
    a flat module over a principal ideal domain with torsion-free cokernel; the source need not be
    flat, since the image is a submodule of a flat module and so flat) says that
    `A_N^G ⊗_D R ⟶ (A_N ⊗_D R)^G` is an isomorphism for every `R` as soon as it is surjective
@@ -2902,7 +3094,7 @@ here by the following route, which uses only material already constructed.
    that `M([Γ(1)]/𝔽_p)` is reduced. Then glue over `D(6)`. Alternatives are to formalise Igusa's
    theorem directly, or to redo the invariant computation uniformly over arbitrary rings including
    the fibres at `2` and `3`; whichever is chosen, the arbitrary-base statement must not be discharged by an
-   appeal to the general coarse base-change theorem. The statement is
+   appeal to KM 8.1.6, none of whose four cases covers it. The statement is
    `exists_coarseModuliData_gamma_one_of_ring` in `Suggested.lean`: for every ring `R`,
    coarse-moduli data for `[Γ(1)]` over `Ell/R` with scheme `Spec ℤ[j] × Spec R = 𝔸¹_R` and
    classifying map `(jMap E, S ⟶ Spec R)` for every `E/S`.
@@ -2922,7 +3114,9 @@ for these calculations. Scheme-theoretically the two integral closed loci meet i
 V(j,j-1728) ≅ Spec (ℤ/1728ℤ).
 ```
 
-**Dependencies.** Layers 0.3, 1.3, 3.4–3.5, 5.2, 6.1, and 6.3.
+**Dependencies.** Layers 0.3, 1.3, 3.4–3.5, 5.2, 6.1, and 6.3; item 6 uses Layer 6.4, for the
+kernel base-change lemma in both routes and for the coarse base change away from the level in the
+first, and Layer 6.2, item 1. Layer 6.4 uses the pinned `jMap` and no statement of this section.
 
 **Further sources.** Česnavičius, Proposition 3.3.2: the coarse space of the stack of elliptic
 curves is the affine `j`-line and its formation commutes with arbitrary base change. The statement
@@ -2965,11 +3159,40 @@ henselian local base with perfect residue field, this is a splitting of the spec
 not an assertion that the whole sequence over the local ring splits. Applied to `E₀[pⁿ]`
 over a field it defines the dichotomy the theorems of Layer 8 turn on: `E₀/k` is **ordinary** if
 `E₀[p]⁰` has rank `p`, **supersingular** if `E₀[p]` is connected (`Suggested.lean`,
-`IsSupersingular`, on Tau Ceti's `E₀.torsion p`).
+`IsSupersingular`, on Tau Ceti's `E₀.torsion p`). Prove the comparison with the pinned notion
+(§Exact supplier contracts): for an elliptic Weierstrass curve `W` over a field `k`, with `E₀` the
+elliptic curve of its projective model, and every `p ≥ 1`, the scheme `E₀[p]` is connected if and
+only if `W.IsSupersingular p`. Both sides say that `E₀[p]` has no point over an algebraic closure
+of `k` other than the origin: a finite `k`-scheme is connected exactly when it has one point,
+the point of the origin is `k`-rational and so carries exactly one point with values in the
+algebraic closure, and the points dictionary of Layer 1.2 identifies the points of `E₀[p]` over
+the algebraic closure with the `p`-torsion of `W` there. The comparison holds over imperfect
+fields as well, which is why the pinned notion uses the algebraic closure and not the separable
+one. *Needs:* Layer 1.2, Layer 2.1 (`E[p]` is finite over the base), the pinned
+`WeierstrassCurve.IsSupersingular`.
+
+**Checks** (for the comparison).
+
+- Over `𝔽₂`, `y² + y = x³` has `j = 0`: the partial derivative of the equation in `y` is `1`, so
+  there is no point of order two over any extension, `E₀[2]` has one point, and the pinned
+  criterion in characteristic `2` gives supersingular. `y² + xy = x³ + 1` has `j = 1`: the point
+  `(0, 1)` has order two, `E₀[2]` has two points, and the pinned criterion gives ordinary.
+- Over the imperfect field `𝔽₂(t)`, `y² + xy = x³ + t` has `j = 1/t ≠ 0` and its only nonzero
+  point of order two is `(0, √t)`, defined over `𝔽₂(√t)`. `E₀[2]` has two points, the origin and a
+  point with residue field `𝔽₂(√t)`, so it is not connected, and the curve is ordinary in both
+  senses. A definition which read the points over a separable closure would call it supersingular.
+- For `p` different from the characteristic, `E₀[p]` is étale of rank `p² ≥ 4` and is never
+  connected, and `W` has nonzero `p`-torsion over the algebraic closure: both sides are false.
+  For `p = 1` both sides are true.
 
 **PD-3, Frobenius and Verschiebung.** Over a base of characteristic `p`: relative Frobenius
 `F : E₀ ⟶ E₀^{(p)}` and Verschiebung `V` with `V∘F = p = F∘V`, for elliptic curves and
-their finite levels. Input to PD-4 and to every kernel identification of Layer 8.7.
+their finite levels. Input to PD-4 and to every kernel identification of Layer 8.7. Over a field
+the Verschiebung of a Weierstrass curve is at the pin as an isogeny of function fields
+(`TauCeti.Isogeny.verschiebungIsogeny`, with both composites equal to `[p]`, degree `p`, and pure
+inseparability exactly for supersingular curves; §Exact supplier contracts). Owned here are the
+morphisms of group schemes over a base of characteristic `p`, their restriction to the finite
+levels, and their agreement over a field with the pinned isogenies.
 
 **Further sources.** EGM (10.10) and (10.15) for `p`-divisible groups over a base scheme and their
 height, and (10.16) for the `p`-divisible group of an abelian variety over a field; EGM (4.45) and
@@ -2986,6 +3209,34 @@ a trivialisation of the conormal line—construct an isomorphism of the complete
 `A[[X]]`; prove that another parameter acts by a power series `X↦uX+⋯` with `u∈Aˣ`, and state all
 coordinate formulae equivariantly under this change. In the chosen coordinate identify the
 completed divisor `n[0]` with `(Xⁿ=0)`. Relate the formal `p`-series to Frobenius and Verschiebung.
+
+For a Weierstrass curve the objects are at the pin (§Exact supplier contracts), after AEC IV.1:
+the formal group law `WeierstrassCurve.formalGroup W`, a commutative `FormalGroup R` compatible
+with base change, and the formal point `WeierstrassCurve.projModelFormalPoint W`, the point
+`[z : −1 : w(z)]` of the projective model with values in `R⟦z⟧`, which exhibits `z = −X/Y` as a
+parameter along the zero section; an isomorphism of projective models preserving the zero
+sections changes it by `z` times a unit of `R⟦z⟧`
+(`exists_unit_projModelFormalPoint_comp_eq`). Owned here: the completion of an elliptic curve
+`E/A` along its zero section as a formal group, defined without a Weierstrass equation; the
+statement that in a Weierstrass chart the parameter `z` identifies it with `A[[X]]` carrying
+`WeierstrassCurve.formalGroup` of the chart, so that the group law of Layer 1.4 induces the pinned
+formal group law; the independence of the chart, which is the change-of-parameter statement
+above; base change; the divisor `n[0]`; and the relation of the `p`-series with `F` and `V` of
+PD-3. The height of the formal group of a Weierstrass curve over a field of characteristic `p` is
+at the pin (`WeierstrassCurve.height_formalGroup_eq_one_iff`, after AEC IV.7); PD-5 uses it for
+the supersingular case, where the height is two.
+
+**Checks.**
+
+- For `n = 1` the completed divisor `[0]` is `(X = 0)`, the zero section of the formal group; a
+  coordinate in which `[0]` were `(X − c = 0)` with `c ≠ 0` is not a parameter at the origin.
+- Changing the parameter by `X ↦ uX + ⋯` with `u ∈ Aˣ` carries `(Xⁿ = 0)` to itself, since
+  `uX + ⋯` is `X` times a unit of `A[[X]]`; with `u` not a unit the substitution is not an
+  automorphism of `A[[X]]`, and for `A = k[ε]/(ε²)`, `u = ε` it sends `X` to a zero divisor.
+- For the multiplicative formal group law `X + Y + XY` the `p`-series is `(1 + X)^p − 1`, equal
+  to `X^p` in characteristic `p`: height one. The formal group of a supersingular curve has
+  `p`-series beginning in degree `p²`, so an identification of the completion of a supersingular
+  curve with the multiplicative formal group is excluded by the height.
 
 ### 7.3. Supersingular curves
 
@@ -3021,24 +3272,27 @@ only if `H_p(λ) = 0` for the Hasse polynomial `H_p(t) = Σ_{i=0}^{m} C(m,i)² t
 which is the coefficient of `x^{p−1}` in `(x(x−1)(x−λ))^m` up to the sign `(−1)^m` (AEC V.4.1,
 the Legendre-form criterion). `H_p` is monic of degree `m ≥ 1` with `H_p(0) = 1` and
 `H_p(1) = C(2m, m) = C(p−1, m) ≡ (−1)^m (mod p)`, so it has a root in `k ∖ {0, 1}` and at most
-`m` roots: a supersingular `j` exists and there are at most `m` of them. Route for (a) with
-`p = 2`: a curve with `j ≠ 0` has a model `y² + xy = x³ + a₂x² + a₆` (AEC Appendix A, Prop.
-A.1.1), on which `(0, √a₆)` is a point of order two since the partial derivative in `y` of the
-equation is `x`, so `E[2](k) ≠ 0` and `E` is ordinary; a curve with `j = 0` has a model
-`y² + a₃y = x³ + a₄x + a₆` with `a₃ ≠ 0`, whose partial derivative in `y` is the unit `a₃`, so
-it has no point of order two, `E[2]` is connected, and `E` is supersingular: `j = 0` is the
-unique supersingular invariant in characteristic `2`. Route for (b): the `k`-points of
+`m` roots: a supersingular `j` exists and there are at most `m` of them. For `p = 2`, and
+again for `p = 3`, (a) is at the pin: an elliptic Weierstrass curve over a field of
+characteristic `2`, respectively `3`, is supersingular exactly when `j = 0`
+(`WeierstrassCurve.isSupersingular_iff_j_eq_zero_of_char_two` and
+`WeierstrassCurve.isSupersingular_iff_j_eq_zero_of_char_three`, §Exact supplier contracts), so
+`j = 0` is the unique supersingular invariant in these characteristics; with the comparison of PD-2 this is the
+statement about the connectedness of `E₀[p]`. In all of (a) "supersingular" is the pinned notion
+for a Weierstrass equation of the curve, which is the one AEC V.4.1 uses, and the comparison of
+PD-2 passes to the group scheme. Route for (b): the `k`-points of
 `𝕄(δ)` above a given `j` are the pairs `(E, α)` with `j(E) = j` up to isomorphism, finitely
 many because `E` is determined by `j` up to isomorphism over `k` and `δ(E/k)` is finite, and
 the closed points of the fibre are the Galois orbits of the `𝔽̄_p`-points; the fibre is smooth
 of dimension one over `𝔽_p`, so no closed point is isolated. *Needs:* Mathlib
 `WeierstrassCurve.j`, Layer 1.3 (Weierstrass coordinates and variable changes), Layer 2.1
-(`E[p]` and its rank), PD-2 (the dichotomy), Layer 3.5 (the two rigidifiers and the smoothness
-of their schemes over `ℤ[1/M]`), and EllipticCurves §Layer 3 (the dichotomy over a field and
-the Frobenius-trace criterion, which agree with PD-2's over an algebraically closed field).
+(`E[p]` and its rank), PD-2 (the dichotomy and its comparison with the pinned notion), Layer 3.5
+(the two rigidifiers and the smoothness of their schemes over `ℤ[1/M]`), and the pinned
+`WeierstrassCurve.IsSupersingular` with its `j`-criteria in characteristics `2` and `3` and its
+trace criterion `WeierstrassCurve.isSupersingular_iff_dvd_frobeniusTrace` over a finite field.
 Witnesses, which also pin the direction of the dichotomy: for `p = 3`, `H_3 = 1 + t` has the
-single root `λ = −1`, giving `y² = x³ − x`, the curve EllipticCurves §Layer 3 certifies as
-supersingular by its trace `a_3 = 0`, with `j = 1728 = 0` in `𝔽₃`; for `p = 5`,
+single root `λ = −1`, giving `y² = x³ − x`, which the pinned trace criterion certifies as
+supersingular by its trace `a_3 = 0`, and the pinned `j`-criterion by `j = 1728 = 0` in `𝔽₃`; for `p = 5`,
 `H_5 = t² − t + 1` has two roots, conjugate in `𝔽₂₅`, both with `j = 0`, so there is exactly one
 supersingular `j`-invariant, and a count that reported the roots of `H_p` instead of the
 `j`-invariants would give two; for `p = 7`, `H_7 = (t + 1)(t² + t + 1)` has three roots in
@@ -3096,9 +3350,11 @@ algebraically closed, and `E/W(k)[[T]]` the universal formal deformation of Laye
 Record, as separate lemmas, the compatibility of ST-1 with connected–étale sequences and with the
 ordinary/supersingular dichotomy of PD-5.
 
-**Dependencies.** Layer 7.1 uses Layers 0.2, 1.4, and 2.1. Layer 7.2 uses Layers 0.1 and 1.4 and
-the Frobenius of PD-3. Layer 7.3 uses Layers 7.1–7.2 and, for PD-6, Layers 1.3, 2.1, and 3.5 and
-EllipticCurves §Layer 3. Layer 7.4 uses Layers 1.4 and 3.1. Layer 7.5 uses Layers 0.2, 7.1, 7.3,
+**Dependencies.** Layer 7.1 uses Layers 0.2, 1.2, 1.4, and 2.1 and the pinned
+`WeierstrassCurve.IsSupersingular` and Verschiebung. Layer 7.2 uses Layers 0.1, 1.3, and 1.4, the
+Frobenius of PD-3, and the pinned `WeierstrassCurve.formalGroup` and `projModelFormalPoint`.
+Layer 7.3 uses Layers 7.1–7.2 and, for PD-6, Layers 1.3, 2.1, and 3.5 and the pinned criteria for
+supersingularity. Layer 7.4 uses Layers 1.4 and 3.1. Layer 7.5 uses Layers 0.2, 7.1, 7.3,
 and 7.4.
 
 **Further sources.** Katz, Theorem 1.2.1, is stated for abelian schemes of every dimension, over a
@@ -3141,9 +3397,10 @@ relative-representability data over `Ell/ℤ` (`intRing`, with `ofCurve` placing
 base in `Ell/ℤ`), Reg. 3 quantified over `PDivisibleGroupIso` and Reg. 4 over the universal
 formal deformation `UniversalDeformation` of Layer 7.4.
 
-State the Axiomatic Regularity Theorem (`axiomaticRegularity`): a moduli problem satisfying
-these axioms is finite flat of constant rank at least one and regular of dimension two. Its
-proof is Layer 8.3.
+State the Axiomatic Regularity Theorem (KM 5.2.1; `axiomaticRegularity`): a moduli problem
+satisfying these axioms is finite flat of constant rank at least one and regular of dimension
+two. Its proof is Layer 8.3. KM 5.1.1 is the First Main Theorem, the conclusion for the three
+problems of Layer 4.4, obtained in Layer 8.8 by verifying the axioms.
 
 ### 8.2. Local algebra and local schemes
 
@@ -3153,6 +3410,32 @@ completed strict-henselian local ring with the ring prorepresenting the correspo
 deformation groupoid. Prove that this identification transports the universal family and the level
 structure and is functorial under a change of rigidifier. This is the local-moduli comparison used
 in the homogeneity and regularity arguments; it does not reconstruct the general local-scheme API.
+Its point of use is the proof of KM 5.2.1 (pp. 132–134, cited in Layer 8.3).
+
+**Checks.**
+
+- For the trivial problem and a rigidifier `δ`, at a geometric point of characteristic `p` of
+  `𝕄(δ)`, smooth of relative dimension one over an open subscheme of `Spec ℤ`, the completed
+  strict-henselian local ring is `W(k)[[T]]`, regular of dimension two, which is the ring of the
+  universal deformation of Layer 7.4: the two sides agree, and a comparison with the completed
+  local ring of the fibre over `𝔽_p` would give `k[[T]]`, of dimension one.
+- The strict henselisation is needed before completing: at a closed point with residue field
+  `𝔽_p` the completed local ring is `ℤ_p[[T]]`, whose residue field is not algebraically closed,
+  and it pro-represents no deformation problem over `W(𝔽̄_p)`.
+- For two rigidifiers `δ` and `δ'` the scheme `𝕄(𝒫, δ, δ')` is étale over `𝕄(𝒫, δ)` and over
+  `𝕄(𝒫, δ')`, so the completed strict-henselian local rings of the three schemes at corresponding
+  geometric points are identified; a comparison which depended on `δ` would not be functorial.
+
+**Dependencies.** Layers 0.9, 3.5, and 7.4.
+
+**Further sources.** Conrad, Corollary 3.1.9: for a `Γ(N)`- or `Γ₁(N; n)`-structure on a
+generalized elliptic curve over a separably closed field there is a universal formal deformation
+ring over a Cohen ring of the field, and the universal formal deformation is uniquely
+algebraizable over its spectrum. This is the same comparison in the language of stacks, deduced
+there from the general fact that geometric points of a Deligne–Mumford stack admit universal
+formal deformations; it includes the cusps and is restricted to the two families of level
+structures named. Conrad, Lemma 3.3.4, applies it with KM 5.2.1 and 5.2.2 as the regularity
+criteria.
 
 ### 8.3. Homogeneity and the proof of the Axiomatic Regularity Theorem
 
@@ -3747,7 +4030,8 @@ items 1–2 are asserted for **every** member of the class; item 3 concerns the 
    points, the order-`3` pair (present iff `N ≡ 1 mod 3`) collapses to one wild point of the
    first type. The mechanism is the
    automorphism normalisers, and **this layer owns them as its own milestone** — the
-   elliptic-curves roadmap supplies the `Aut(E)` carrier for its twist theory but not these
+   `Aut(E)` carrier is at the pin, `WeierstrassCurve.autGroup` with its finiteness and its
+   value `{±1}` for `j ≠ 0, 1728` (§Exact supplier contracts), but not these
    computations, and what is needed here is more than the group: the classification
    `Aut(E)/±1 ≅ A₄` (characteristic `2`, `j = 0 = 1728`) and `Aut(E)/±1 ≅ S₃` (characteristic
    `3`), its action on the cyclic order-`N` subgroup schemes of `E`, and the normaliser and
@@ -3807,8 +4091,8 @@ coarse schemes, the `j`-line, and — for the interior smoothness of every `Y_H`
 quotient-smoothness theorem, KM Notes Added in Proof pp. 508–509, applied to `Y₁(N)` with its
 diamond action), Mathlib's relative-normalisation API (present at the pin; the
 finiteness of `fromNormalization` in this situation is a milestone here, not a carrier gap),
-the formal-cusp package of item 2 (built here), the elliptic-curves
-roadmap's `Aut(E)` carrier — the characteristic-`2`/`3` classification and normaliser
+the formal-cusp package of item 2 (built here), the pinned `Aut(E)` carrier
+`WeierstrassCurve.autGroup` — the characteristic-`2`/`3` classification and normaliser
 computations on top of it are item 3's own milestone here — and — for item 3's wild break — a
 **global different and Riemann–Hurwitz package** (in the Euler-characteristic form, per item 3)
 for curves over a field with the local higher-ramification formula, owned by the Algebraic
@@ -3918,7 +4202,7 @@ rather than built:
    universal property; separately, extension of `w_N` using the formal-cusp package in 1,
    the finite extension of `j ∘ w_N`, and the second normalisation identification in item 2;
 7. the characteristic-`2`/`3` automorphism classification and normaliser computations
-   (item 3) — this layer, on the elliptic-curves roadmap's `Aut(E)` carrier;
+   (item 3) — this layer, on the pinned carrier `WeierstrassCurve.autGroup`;
 8. the different and Riemann–Hurwitz package (item 3) — consumed from the
    [Algebraic Curves roadmap](../AlgebraicCurves/README.md), Layers 7–9 through its Layer 12
    dictionary, as itemised at item 3; the fibrewise Euler-characteristic constancy is this
@@ -3995,7 +4279,9 @@ Two cross-links to other work are recorded here.
   its degree-zero part by the curve and constructs the Poincaré bundle, which the Jacobian
   Challenge provides only over a field. It also consumes the basic isogeny theory of Layer 2.3.
 - The equation-level elliptic-curve theory supplies the degree input used by Layer 2.1 and the
-  final normalisation comparison for the Weil pairing in Layer 2.5. The broad comparison of
+  final normalisation comparison for the Weil pairing in Layer 2.5, and, at the pin, the universal
+  Legendre curve of Layer 3.5, the automorphism dichotomy used in Layers 6.4 and 10, the
+  supersingularity criteria of Layers 7.1 and 7.3, and the formal group law of Layer 7.2. The broad comparison of
   isogenies with function-field extensions is owned by Algebraic Curves and is not in this table.
 
 ## Downstream consumers
@@ -4026,8 +4312,12 @@ Two cross-links to other work are recorded here.
 Other roadmaps cite sections of this roadmap by the labels in the first column. Each label
 resolves to the sections in the second column. A label with a letter is unambiguous. A bare layer
 number in the six rows after the lettered labels is read by the topic the citing text names. An
-item label `0A.k` is item `k` of Layer 0.1, whose items 1–7 keep their numbers. The last five rows
-are former heading anchors.
+item label `0A.k` is item `k` of Layer 0.1, whose items 1–7 keep their numbers. The last six rows
+are former heading anchors. Every other former heading anchor resolves through its label: an
+anchor `#<label>-…` of a lettered section, such as `#0e-effective-descent-and-spreading-out` or
+`#2b-isogenies-and-quotients`, resolves as the row of that label (Layer 0E is Layer 0.5, Layer 2B
+is Layer 2.2), and an anchor `#layer-n-…` of a layer heading resolves as the bare layer number
+`n`; Layers 0, 1, 2, 5 and 10 keep their numbers.
 
 | Former label | Section of this roadmap |
 |---|---|
@@ -4089,6 +4379,7 @@ are former heading anchors.
 | `#5b-full-ordered-bases-and-fixed-pairing` | Layer 5.2 |
 | `#9d-coarse-moduli-schemes-and-finite-quotients` | Layers 6.3 and 6.4 |
 | `#9e-the-coarse-j-line-and-y₀n` | Layers 6.5 and 9.6 |
+| `#layer-6-the-three-elementary-integral-level-problems` | Layers 4.4 (relative representability) and 9.1 (`[N-Isog]`) |
 
 ## Worked examples
 
@@ -4145,6 +4436,9 @@ The following examples accompany the general theory.
   629–669, cited by the numbering of arXiv:0708.3333v2.
 - B. Conrad, *The Keel–Mori theorem via stacks*, unpublished note, 2005, for coarse spaces of stacks
   with finite inertia.
+- B. Conrad, *Reductive group schemes*, notes for the SGA 3 summer school (Luminy, 2011), in
+  *Autour des schémas en groupes I*, Panoramas et Synthèses 42–43, Soc. Math. France, 2014,
+  Lemma 2.1.3, for the Hom-schemes of Layer 0.6; cited by the numbering of the author's copy.
 - B. Edixhoven, G. van der Geer and B. Moonen, *Abelian Varieties*, draft of a book, abbreviated
   **EGM** and cited by the paragraph numbers `(a.b)` of the draft.
 - T. Oda, *The first de Rham cohomology group and Dieudonné modules*, Ann. Sci. École Norm. Sup. (4)
@@ -4163,8 +4457,9 @@ The following examples accompany the general theory.
   II §§1–3 and the Mazur–Rapoport appendix, the consumer §The Mazur interface is written against.
 - J. H. Silverman, *The Arithmetic of Elliptic Curves*, 2nd ed., GTM 106, Springer, 2009,
   III.1.7 and V.4.1 for the Legendre form and the Hasse-polynomial criterion for supersingularity
-  (PD-6 of Layer 7.3), III.10.1 and Appendix A for automorphisms and the normal forms in
-  characteristics `2` and `3`.
+  (PD-6 of Layer 7.3), III.3.1 for Weierstrass coordinates (Layer 3.4), IV.1 and IV.7 for the
+  formal group of a Weierstrass curve and its height (Layer 7.2), III.10.1 and Appendix A for
+  automorphisms and the normal forms in characteristics `2` and `3`.
 - K. Buzzard, *Formalizing Fermat*, Lecture 8, for `Y(ρ)`.
 - N. M. Katz, *Serre–Tate local moduli*, in *Surfaces Algébriques* (Séminaire de Géométrie
   Algébrique d'Orsay 1976–78), LNM 868, Springer, 1981, 138–202 — Theorem 1.2.1 is the

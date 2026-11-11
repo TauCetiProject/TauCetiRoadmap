@@ -97,22 +97,22 @@ Reg. 1–Reg. 4 and G1–G3 with the universal formal deformation they quantify 
 supersingularity, isomorphisms of `p`-divisible groups, coarse-moduli data, the class of strictly
 henselian local rings, and the predicate recognising henselizations.
 
-Headline theorems stated here: KM 2.5.1 (pointed morphisms are homomorphisms), KM 4.7.0
-(relatively representable, affine and rigid implies representable) and its consequence KM 4.7.2
-for the naive full-level problem (the smooth affine fine curve `Y_full(N)` for `N ≥ 3` over
-every base), KM 5.1.1 (the Axiomatic Regularity Theorem) with the
-ring-theoretic core of KM 5.3.4, the First Main Theorem for `[Γ(N)]` and for `[Γ₁(N)]` (KM 5.1.1
-applied to the pinned problems), the existence of the universal formal deformation (Layer 7.4),
-KM 6.6.1 (`[Γ₀(N)]` is relatively representable, finite flat of constant positive rank and
-regular of dimension two), KM 7.1.3 (Katz–Mazur quotients), KM 7.5.1 (regularity of quotients),
-KM 8.1.1 and 8.1.5 (coarse moduli schemes and their quotients), KM 8.2.1 (the coarse `j`-line,
-over `ℤ` and over every coefficient ring), the quotient-smoothness theorem of KM's Notes Added in
-Proof (Layer 6.4), the base-change lemma for invariant rings of Layer 6.5, and the clauses of
-Layer 0.9 not at the pin (the separably closed residue field of the strict henselization and its
-Noetherianity), with the characterisation of strictly henselian local rings, the recognition of the
-strict henselization as a henselization, the maps out of an ind-étale algebra into a henselian
-local ring and the uniqueness of henselizations (Stacks 08HR and 08HT), and the strict
-henselization of a discrete valuation ring with its uniformizer.
+Headline theorems stated here: KM 2.5.1 (pointed morphisms are homomorphisms), KM 4.7.0 (relatively
+representable, affine and rigid implies representable) and its consequence KM 4.7.2 for the naive
+full-level problem (the affine fine curve `Y_full(N)` for `N ≥ 3`, smooth of relative dimension one
+over every base) with the relative dimension one of `Y₁(N)` for `N ≥ 4` (Layer 5.1), KM 5.2.1 (the
+Axiomatic Regularity Theorem) with the ring-theoretic core of KM 5.3.4, the First Main Theorem for
+`[Γ(N)]` and for `[Γ₁(N)]` (KM 5.1.1 applied to the pinned problems), the existence of the
+universal formal deformation (Layer 7.4), KM 6.6.1 (`[Γ₀(N)]` is relatively representable, finite
+flat of constant positive rank and regular of dimension two), KM 7.1.3 (Katz–Mazur quotients), KM
+7.5.1 (regularity of quotients), KM 8.1.1 and 8.1.5 (coarse moduli schemes and their quotients), KM
+8.2.1 (the coarse `j`-line, over `ℤ` and over every coefficient ring), the quotient-smoothness
+theorem of KM's Notes Added in Proof (Layer 6.4), and the clauses of Layer 0.9 not at the pin (the
+separably closed residue field of the strict henselization and its Noetherianity), with the
+characterisation of strictly henselian local rings, the recognition of the strict henselization as
+a henselization, the maps out of an ind-étale algebra into a henselian local ring and the
+uniqueness of henselizations (Stacks 08HR and 08HT), and the strict henselization of a discrete
+valuation ring with its uniformizer.
 
 Proved or constructed at the pinned Tau Ceti and cited in `README.md`, §Exact supplier
 contracts, not restated: KM 2.3.1, the killed-by-rank theorem of Layer 0.2, the Galois
@@ -634,20 +634,38 @@ noncomputable def ofCurve {S : Scheme.{u}} (E : EllipticCurveGeom S) :
     EllObj (Spec intRing.{u}) :=
   ⟨S, specULiftZIsTerminal.from S, E⟩
 
+/-! ## Layer 5.1: the relative dimension of `Y₁(N)` -/
+
+/-- Layer 5.1, item 6: for `N ≥ 4` invertible on `B`, the fine curve `Y₁(N)`, the base of the
+pinned `EllObj.yOne B N hN`, is smooth of relative dimension one over `B`. The pin proves that
+it is smooth (`EllObj.smooth_yOne_structureMap`), as a retract of a finite étale cover of the base
+`B × Spec ℤ[a, b, Δ⁻¹]` of the universal Tate normal form, which has relative dimension two; the
+dimension of the fibres of `Y₁(N)` is read off a rigidifier: over `B[1/3]` and over `B[1/2]` the
+scheme of level-three, respectively Legendre, structures on the universal curve is étale and
+surjective over `Y₁(N)` and finite étale over the base of the rigidifier, a relative curve over
+`B`. This is the hypothesis under which the quotient-smoothness theorem of Layer 6.4 applies to
+`Y₁(N)` with its diamond action. -/
+theorem smoothOfRelativeDimension_one_yOne_structureMap (B : Scheme.{u}) (N : ℕ)
+    (hN : ∀ b : B, (N : B.residueField b) ≠ 0) (h4 : 4 ≤ N) :
+    SmoothOfRelativeDimension 1 (EllObj.yOne B N hN).structureMap :=
+  sorry
+
 /-! ## Layer 5.2: the full ordered-basis scheme `Y_full(N)` -/
 
 /-- KM 4.7.0 with Corollary 4.7.2 for the naive full-level problem (Layer 5.2): over every base
 `B`, for `N ≥ 3`, the pinned problem `ModuliProblem.gammaNaive B N`, relatively representable by
 the open naive locus of `E[N] ×_S E[N]` and rigid at the pin, étale, finite and surjective over
 `Ell/B` where `N` is invertible, is represented by an elliptic curve over a scheme `Y_full(N)`
-affine and smooth over `B`. For `B = Spec ℤ[1/N]` this is the fine curve `Y_full(N)/ℤ[1/N]`; over
-a general `B` the representing object is the base change of `Y_full(N)/ℤ[1/N]` along
-`B → Spec ℤ`, empty over the locus of `B` where `N` is not invertible, as the problem itself is
-there (a naive structure injective on a fibre of residue characteristic `p ∣ N` would embed
-`(ℤ/pℤ)²` in the `p`-torsion of that fibre, which has at most `p` points). -/
+affine and smooth of relative dimension one over `B`. For `B = Spec ℤ[1/N]` this is the fine curve
+`Y_full(N)/ℤ[1/N]`; over a general `B` the representing object is the base change of
+`Y_full(N)/ℤ[1/N]` along `B → Spec ℤ`, empty over the locus of `B` where `N` is not invertible, as
+the problem itself is there (a naive structure injective on a fibre of residue characteristic
+`p ∣ N` would embed `(ℤ/pℤ)²` in the `p`-torsion of that fibre, which has at most `p` points).
+The relative dimension is part of the statement: `Smooth` alone admits `𝔸²_B`, and the
+quotient-smoothness theorem of Layer 6.4 takes a curve. -/
 theorem exists_representableBy_gammaNaive (B : Scheme.{u}) (N : ℕ) (h3 : 3 ≤ N) :
     ∃ X : EllObj B, Nonempty ((ModuliProblem.gammaNaive B N).RepresentableBy X) ∧
-      IsAffineHom X.structureMap ∧ Smooth X.structureMap :=
+      IsAffineHom X.structureMap ∧ SmoothOfRelativeDimension 1 X.structureMap :=
   sorry
 
 /-! ## Layer 6.1: Katz–Mazur quotient problems -/
@@ -829,7 +847,7 @@ theorem smoothOfRelativeDimension_one_of_isCategoricalQuotient {S Y Q : Scheme.{
     (_hq : IsCategoricalQuotient ρ q) : SmoothOfRelativeDimension 1 g :=
   sorry
 
-/-! ## Layer 6.5: the coarse `j`-line and invariant rings -/
+/-! ## Layer 6.5: the coarse `j`-line -/
 
 /-- KM 8.2.1 over `ℤ` (Layer 6.5): the coarse moduli scheme of the trivial problem `[Γ(1)]`, the
 pinned `ModuliProblem.gamma (Spec ℤ) 1`, is the `j`-line `Spec ℤ[j]`, and under that
@@ -850,22 +868,6 @@ theorem exists_coarseModuliData_gamma_one_of_ring (R : CommRingCat.{u}) :
     ∃ M : CoarseModuliData (ModuliProblem.gamma (Spec R) 1),
       ∃ e : M.M ≅ Spec (.of (MvPolynomial PUnit.{u + 1} (ULift.{u} ℤ))) ⨯ Spec R,
         ∀ X α, M.classify X α ≫ e.hom = prod.lift X.curve.jMap X.structureMap :=
-  sorry
-
-/-- Base change of the kernel of a linear map into a flat module over a principal ideal domain:
-if the cokernel of `f` is torsion-free, then for every `D`-algebra `R` the kernel of `f ⊗ R` is
-the base change of the kernel of `f`. The source `M` need not be flat: the image of `f` is a
-submodule of the flat module `N`, hence torsion-free and flat, so the two short exact sequences
-`0 → ker f → M → im f → 0` and `0 → im f → N → coker f → 0` stay exact after `⊗ R`. Applied
-in Layer 6.5 to `f : A ⟶ ∏_{g∈G} A`, `a ↦ (ga − a)_g`, whose kernel is the invariant ring `A^G`,
-this is the criterion under which formation of the invariant ring commutes with every base
-change: it does so exactly when it commutes with reduction modulo every maximal ideal of `D`. -/
-theorem ker_baseChange_of_noZeroSMulDivisors_coker {D : Type u} [CommRing D] [IsDomain D]
-    [IsPrincipalIdealRing D] {M N : Type u} [AddCommGroup M] [Module D M] [AddCommGroup N]
-    [Module D N] [Module.Flat D N] (f : M →ₗ[D] N)
-    [NoZeroSMulDivisors D (N ⧸ LinearMap.range f)] (R : Type u) [CommRing R] [Algebra D R] :
-    LinearMap.ker (LinearMap.baseChange R f) =
-      LinearMap.range (LinearMap.baseChange R (LinearMap.ker f).subtype) :=
   sorry
 
 /-! ## Layer 7: an elliptic curve at a prime -/
@@ -956,7 +958,7 @@ end Deformations
 
 /-! ## Layer 8: the regularity axioms and the Axiomatic Regularity Theorem -/
 
-/-- KM 5.1.1's axioms Reg. 1–Reg. 4 for a moduli problem over `Ell/ℤ` at a prime `p`, stated on
+/-- KM 5.2.1's axioms Reg. 1–Reg. 4 for a moduli problem over `Ell/ℤ` at a prime `p`, stated on
 chosen relative-representability data. -/
 structure RegularityAxioms {P : ModuliProblem (Spec intRing.{u})} (D : P.RelRepData) (p : ℕ)
     [Fact p.Prime] [NeZero p] where
@@ -983,7 +985,7 @@ structure RegularityAxioms {P : ModuliProblem (Spec intRing.{u})} (D : P.RelRepD
           IsRegularLocalRing Γ((D.rep (ofCurve 𝔈.family)).left, ⊤) ∧
             ringKrullDim Γ((D.rep (ofCurve 𝔈.family)).left, ⊤) = 2
 
-/-- The Axiomatic Regularity Theorem KM 5.1.1, proved in Layer 8.3: Reg. 1–Reg. 4 imply that `𝒫`
+/-- The Axiomatic Regularity Theorem KM 5.2.1, proved in Layer 8.3: Reg. 1–Reg. 4 imply that `𝒫`
 is finite flat over `Ell/ℤ` of constant positive rank and regular of dimension two, in Tau Ceti's
 sense `RelRepData.IsRegularOfDim` (tested on every representable étale surjective rigidifier). -/
 theorem axiomaticRegularity {P : ModuliProblem (Spec intRing.{u})} {D : P.RelRepData} {p : ℕ}
