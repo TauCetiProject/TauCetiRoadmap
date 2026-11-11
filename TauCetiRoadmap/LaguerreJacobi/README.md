@@ -18,7 +18,7 @@ coordinates of `WeierstrassCurve`. `Gegenbauer` is likewise absent.
 > [LaguerreJacobi](../LaguerreJacobi/README.md); it defines both families and then consumes this
 > area's completeness toolkit (B1) and bridge (B2) as a cited dependency rather than rebuilding
 > them. (The source roadmap has since been completed and archived to
-> [Completed/OrthogonalL2Bases](../Completed/OrthogonalL2Bases/README.md).)
+> [Completed/OrthogonalL2Bases](../../Completed/OrthogonalL2Bases/README.md).)
 
 This is that roadmap. It has two halves, and only the first is new mathematics for the library:
 
