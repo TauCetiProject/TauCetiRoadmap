@@ -26,6 +26,7 @@ body:
         - AlgebraicVectorBundles
         - AmenableGroups
         - AnalyticNumberTheoryPartI
+        - ArithmeticInterpolationDeterminants
         - AsymptoticExpansions
         - BanachAlgebras
         - BanachSpaceTheory
@@ -40,6 +41,7 @@ body:
         - ClassFieldTheory
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
+        - ClusterAlgebras
         - CoboundaryExpansion
         - CombinatorialHeegaardFloer
         - CompactOperators
@@ -70,6 +72,7 @@ body:
         - FiniteGroupExtensionSplitting
         - FiniteSamplingDiscrepancy
         - FlagVarieties
+        - Foams
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
         - FreeProbability
@@ -156,13 +159,16 @@ body:
         - SeibergWittenTheory
         - SmoothBundlesConnections
         - SobolevPolynomialApproximation
+        - SpecialFunctionsAiry
         - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsHypergeometric
         - SpecialFunctionsParabolicCylinder
         - SpinGeometry
         - SporadicOrders
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - StochasticCalculus
         - Subfactors
         - SubspaceTheorem
         - SuccessiveMinima
