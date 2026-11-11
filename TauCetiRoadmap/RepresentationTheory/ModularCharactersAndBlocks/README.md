@@ -307,7 +307,9 @@ Define `IsBlockIdempotent b` for `b` in the centre of `R[G]` as the native
 Propositions 12.1.1–12.1.2, p. 227; Martínez, Theorem 2.11, p. 15). For a field `k`, the centre is
 finite-dimensional, hence Artinian, and the native
 `TauCeti.exists_completeOrthogonalIdempotents_isPrimitiveIdempotent` gives a complete orthogonal
-family of block idempotents.
+family of block idempotents. *Needs:* Tau Ceti `TauCeti.IsPrimitiveIdempotent`,
+`TauCeti.exists_completeOrthogonalIdempotents_isPrimitiveIdempotent`; Mathlib `MonoidAlgebra`,
+`Subalgebra.center`, `CompleteOrthogonalIdempotents`.
 
 - `complete_blockIdempotents_unique`: two complete orthogonal families of block idempotents of
   `k[G]`, indexed by finite types, agree up to a bijection of the index types. The proof uses
@@ -642,8 +644,17 @@ Layer 1; ArithmeticGaloisDuality §R02.4.4 for the agreement.
   coordinate projection of a spanning family spans. For residue characteristic `0` and complete
   families without repetition, `D` is a permutation matrix.
 - `d` is a ring homomorphism compatible with restriction and induction.
-- When `p ∤ |G|`, `d` is an isomorphism and the decomposition matrix is a permutation matrix
-  (Webb, Theorem 9.4.11, p. 155).
+- When `p ∤ |G|`, for every `p`-modular system: reduction of stable lattices is a
+  dimension-preserving bijection from the simple `K[G]`-modules to the simple `k[G]`-modules, so
+  `d` is an isomorphism and the decomposition matrix is a permutation matrix (Webb,
+  Theorem 9.4.11, p. 155, for a splitting system). Route without the splitting hypothesis: `|G|`
+  is a unit of `O`, so by averaging every stable lattice is a projective `O[G]`-module and every
+  `k[G]`-module is projective; by §1.3 reduction is then a bijection from the isomorphism classes
+  of stable lattices to those of finite-dimensional `k[G]`-modules, compatible with direct sums;
+  and a stable lattice `L` is indecomposable exactly when `K ⊗_O L` is simple, because for a
+  submodule `V'` of `K ⊗_O L` the quotient `L/(L ∩ V')` is a stable lattice, hence projective, and
+  `L ∩ V'` is a direct summand of `L`. The completeness of `O`, part of the definition of a
+  `p`-modular system, is used through §1.3.
 
 **Checks.**
 - `S₃`, `p = 3`, rows trivial, sign, standard and columns trivial, sign: `D = [[1,0],[0,1],[1,1]]`,
@@ -656,6 +667,11 @@ Layer 1; ArithmeticGaloisDuality §R02.4.4 for the agreement.
 - `C₂ × C₂`, `p = 3`: `e = 2` and the system of §1.1 has `K = ℚ₃`, which does not contain the
   fourth root of unity `i`, so §R02.4.4 does not apply; `3 ∤ 4`, so `d` is an isomorphism and `D`
   is the `4 × 4` identity once each character `(±1, ±1)` is listed with its reduction.
+- `C₃` over the non-splitting system `(ℚ₂, ℤ₂, 𝔽₂)`, `2 ∤ 3`: the simple `ℚ₂[C₃]`-modules have
+  dimensions `1, 2` and so do the simple `𝔽₂[C₃]`-modules, and `D` is the `2 × 2` identity; over
+  `ℤ₂[ζ₃]` it is the `3 × 3` identity. Completeness is needed: for the localization `ℤ_(7)`, which
+  is not complete, `ℚ[C₃]` has two simple modules and `𝔽₇[C₃]` three, since `7 ≡ 1 mod 3`, so
+  reduction is not a bijection although `7 ∤ 3`.
 - Integral, not only rational: for `S₃` at `p = 3` the rows `(1, 0)`, `(0, 1)`, `(1, 1)` of `D`
   span `ℤ²`, whereas the columns `(2, 1)`, `(1, 2)` of the Cartan matrix span a sublattice of
   index `det C = 3`; surjectivity is a property of `d`, not of the Cartan map.
@@ -857,6 +873,7 @@ The principal block `B₀(G)` is the block whose idempotent has nonzero augmenta
 the trivial character and the trivial module, and it is unique since the augmentation is an
 algebra homomorphism `Z(k[G]) → k` sending block idempotents to `0` or `1` with sum `1` (Sambale,
 Definition 1.2, p. 14). It is not defined as a correspondent of a principal block elsewhere.
+*Needs:* §0.2; for the trivial character, §4.2; Mathlib `MonoidAlgebra.lift`.
 
 **Checks.**
 - `𝔽₂[S₃]`: the augmentation of `1 + r + r²` is `3 = 1` and of `r + r²` is `2 = 0`.
@@ -934,7 +951,8 @@ transitivity, conjugation, the Mackey formula, `Tr_Q^P(a) b = Tr_Q^P(a b)` for `
 transitivity, conjugation and the Mackey formula, and Proposition 12.4.1, p. 238, for the product
 formula and the ideal). Define
 `brauerProjection P : k[G] → k[C_G(P)]`, which keeps the coefficients on `C_G(P)`; it is
-`k`-linear on all of `k[G]` and is not multiplicative there.
+`k`-linear on all of `k[G]` and is not multiplicative there. *Needs:* Mathlib `MonoidAlgebra`,
+`Subgroup.centralizer`, `Subgroup.normalizer`, `IsPGroup`.
 
 - `brauerProjection_mul`: for a `p`-subgroup `P` in characteristic `p`, the projection is
   multiplicative on elements whose coefficients are invariant under conjugation by `P` (Webb, §12.5,
@@ -965,10 +983,17 @@ formula and the ideal). Define
 
 Define `IsDefectGroup p e P` for `e ∈ Z(k[G])`: `P` is a `p`-subgroup, `Br_P(e) ≠ 0`, and every
 `p`-subgroup `Q ≥ P` with `Br_Q(e) ≠ 0` equals `P` (Webb, Theorem 12.5.2 and Corollary 12.5.5,
-pp. 244–246; Sambale, Definition 1.4, p. 14). Prove that this agrees with the definitions by
-vertices of `e k[G]` as a `k[G × G]`-module (Webb, Corollary 12.3.2, p. 235), by minimality of `P`
-with `e ∈ Tr_P^G(k[G]^P)` (Webb, Theorem 12.4.5, p. 241), and by defect classes and central
-characters (Martínez, Definition 3.2 and Theorem 4.3, pp. 17 and 24).
+pp. 244–246; Sambale, Definition 1.4, p. 14). Prove, for every field `k` of characteristic `p`
+and every block idempotent `e`, that this agrees with the definitions by vertices of `e k[G]` as a
+`k[G × G]`-module (Webb, Corollary 12.3.2, p. 235) and by minimality of `P` with
+`e ∈ Tr_P^G(k[G]^P)` (Webb, Theorem 12.4.5, p. 241). Over a field `k` of characteristic `p` that
+splits `G`, the residue field of the local algebra `Z(k[G]) e_B` is `k` for every block `B`, so `B`
+has a **central character** `λ_B : Z(k[G]) → k`, the algebra homomorphism with `λ_B(e_B) = 1`; a
+**defect class** of `B` is a conjugacy class `C` with `a_B(C) λ_B(K_C) ≠ 0`, where `a_B(C)` is the
+coefficient of `e_B` on `C` and `K_C` the class sum. Prove, over such `k`, that the defect groups
+of `B` are the Sylow `p`-subgroups of the centralizers `C_G(x)`, `x ∈ C`, for any defect class `C`
+of `B` (Martínez, Definition 3.2 and Theorem 4.3, pp. 17 and 24, over the algebraic closure of
+`𝔽_p`). *Needs:* §§0.2, 0.3, 6.1; Mathlib `Sylow`; for the defect-zero bullet §§1.1, 2.3, 4.2.
 
 - `isDefectGroup_conj`: any two defect groups of a block of `k[G]`, `k` any field of
   characteristic `p`, are conjugate in `G`.
@@ -1002,6 +1027,15 @@ characters (Martínez, Definition 3.2 and Theorem 4.3, pp. 17 and 24).
   Over `𝔽₄`, which splits `C₃`, it is the sum of the two blocks `1 + α² r + α r²` and
   `1 + α r + α² r²`, each isomorphic to `𝔽₄ = M₁(𝔽₄)` and each holding one linear character, of
   degree divisible by `|C₃|₂ = 1`.
+- Defect classes need `k` to split `G` as well: for the same block `e = r + r²` of `𝔽₂[C₃]`,
+  `Z(𝔽₂[C₃]) e ≅ 𝔽₄` has no `𝔽₂`-algebra homomorphism to `𝔽₂`, so the block has no central
+  character and no defect class, although its defect group is `1`. Over `𝔽₄` the block
+  `1 + α² r + α r²` has `a = α²` and `λ = α` on the class `{r}`, with product `1 ≠ 0`, and the
+  Sylow `2`-subgroup of `C_G(r) = C₃` is `1`, the defect group.
+- `𝔽₂[S₃]`, which splits `S₃`, block `1 + r + r²`: the class `{1}` has `a = 1` and `λ = 1`, and
+  the Sylow `2`-subgroups of `C_G(1) = S₃` are the three subgroups of order `2`; the class of `r`
+  has `a = 1` but `λ(r + r²) = 2 = 0`, so it is not a defect class, and the Sylow `2`-subgroup `1`
+  of `C_G(r) = C₃` is not a defect group.
 - `S₃` over `𝔽₂`, which splits `S₃`: the defect-zero block `r + r²` is `M₂(𝔽₂)`, of dimension `4`,
   and holds the single ordinary character `std`, with `|S₃|₂ = 2 ∣ 2`.
 
@@ -1040,18 +1074,22 @@ Brauer pair.
 
 ### Dependencies
 
-Layers 0 and 4; Mathlib `IsPGroup`, `Sylow`, `Subgroup.centralizer`, `Subgroup.normalizer`.
+Layers 0 and 4; §§1.1 and 2.3 for the defect-zero criterion; Mathlib `IsPGroup`, `Sylow`,
+`Subgroup.centralizer`, `Subgroup.normalizer`.
 
 ## Layer 7: Brauer's main theorems
 
 ### 7.1 Block induction and the first main theorem
 
+Let `k` be a field of characteristic `p` that splits `G` and all its subgroups, so that every block
+of every subgroup has a central character (§6.2).
 For `H ≤ G` and a block `b` of `H`, `b^G` is the block `B` of `G` whose central character satisfies
 `λ_B(z) = λ_b(z_H)` for `z ∈ Z(k[G])`, where `z_H` keeps the coefficients on `H`, when such `B`
 exists (Sambale, Definition 1.10 and Proposition 1.11, p. 16; Martínez, p. 25). Prove that `b^G` is
 defined when `C_G(D_b) ≤ H` for a defect group `D_b` of `b`, that it is transitive, and that for
 `P C_G(P) ≤ H ≤ N_G(P)` and a `p`-subgroup `P`, `Br_P(e_B) = ∑_{b^G = B} e_b` (Martínez,
-Theorem 4.5 and Corollary 4.6, p. 26).
+Theorem 4.5 and Corollary 4.6, p. 26, over the algebraic closure of `𝔽_p`). *Needs:* §§0.2,
+6.1–6.2; for the splitting of `k`, §2.3.
 
 - `brauer_first_main`: over an algebraically closed field `k` of characteristic `p`, for a
   `p`-subgroup `D`, the rule `b ↦ B` with `Br_D(e_B) e_b ≠ 0` is a
@@ -1112,9 +1150,10 @@ Theorem 1.13 and Proposition 1.11, p. 16). Equivalently, `d^u_{χφ} ≠ 0` impl
 
 ### 7.3 The third main theorem
 
-If `b` is a block of `H` with defect group `D` and `C_G(D) ≤ H`, then `b^G` is principal exactly
-when `b` is principal (Sambale, Theorem 1.15, p. 17; Martínez, Corollary 5.9, p. 35; the Axiom
-third-main-theorem formalization as a proof source).
+Over a field `k` of characteristic `p` that splits `G` and all its subgroups (§7.1): if `b` is a
+block of `H` with defect group `D` and `C_G(D) ≤ H`, then `b^G` is principal exactly when `b` is
+principal (Sambale, Theorem 1.15, p. 17; Martínez, Corollary 5.9, p. 35; the Axiom
+third-main-theorem formalization as a proof source). *Needs:* §§4.3, 6.1, 6.2, 7.1.
 
 - `brauer_third_main_local`: over an algebraically closed field `k` of characteristic `p`, for a
   `p`-subgroup `P` and `P C_G(P) ≤ H ≤ N_G(P)`, a block `b` of
@@ -1134,7 +1173,8 @@ corresponds to itself, and `A₄` has a single `2`-block.
 
 ### Dependencies
 
-Layers 0 and 4–6; Tau Ceti `TauCeti.pPart`, `TauCeti.irreducibleCharacter`.
+Layers 0 and 4–6; §2.3 for the splitting of `k`; Tau Ceti `TauCeti.pPart`,
+`TauCeti.irreducibleCharacter`.
 
 ## Layer 8: normal subgroups and finite-group interfaces
 
@@ -1146,6 +1186,7 @@ idempotent under `k[G] → k[G/N]` is a sum of blocks of `G/N`, and every block 
 image of exactly one block of `G` (Martínez, Corollary 8.2, Proposition 8.4 and Theorem 8.5,
 pp. 51–52). This is a partition, not a bijection: domination is bijective only under further
 hypotheses, for instance when `G/C_G(N)` is a `p`-group (Sambale, Theorem 1.23, p. 18).
+*Needs:* §0.2; for the Brauer characters, §2.1.
 
 **Checks.**
 - `S₃`, `p = 3`, `N = C₃`: the single block of `𝔽₃[S₃]` maps to `1 = e₊ + e₋` in `𝔽₃[C₂]`, two blocks.
