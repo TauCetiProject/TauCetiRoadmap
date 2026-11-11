@@ -96,14 +96,14 @@ field for Chow class constructions, and local finite type for the local cone and
   `E₀ = (E⁰)∨` and `E₁ = (E⁻¹)∨`, so `h¹/h⁰(E∨) = [E₁/E₀]`. Never reverse this quotient or
   define virtual dimension as the rank of the obstruction bundle alone.
 - **Dimension grading.** Write `A_i(X)_ℚ` for cycles of dimension `i` modulo rational
-  equivalence, tensored with `ℚ`. Provide codimension notation for pure-dimensional stacks; the virtual class is natively dimension-graded. A pure-dimensional stack of
-  negative dimension, such as a vector-bundle stack, is legitimate.
+  equivalence, tensored with `ℚ`. The virtual class is dimension-graded. The dimension of a
+  pure-dimensional stack can be negative, as for a classifying stack of a positive-rank bundle.
 - **The classical global-resolution hypothesis is visible.** Perfectness and existence of a global two-term resolution are distinct conditions. A perfect complex is only locally a
   bounded complex of vector bundles; that does not supply the global presentation used by the
   original Chow-theoretic construction.
 - **The virtual class does not require properness.** Properness is a hypothesis on the
   degree or pushforward operation, never a field of an obstruction theory and never a premise of
-  construction of the virtual class itself.
+  the construction of the virtual class itself.
 - **Stacks are groupoid-valued fppf stacks.** Use the carriers from
   `SchemeAndStackFoundations` Layer 1. An algebraic stack has diagonal representable by algebraic
   spaces and a smooth surjective scheme atlas; a Deligne–Mumford stack has an étale surjective
@@ -170,7 +170,7 @@ scheme-level versions.
   `I/I² → S ⊗ Ω`, together with functoriality and flat-base-change results. This is an affine
   input and a test oracle; it is not Illusie's cotangent complex on a scheme or stack.
 - **Ideals, graded algebra, and `Proj`.** Ideal sheaves and closed subschemes, graded algebras,
-  projective spectra, and `reesAlgebra` are present. They do not yet form
+  projective spectra, and `reesAlgebra` are present. They do not form
   the conormal algebra, relative normal cone, blowup, or deformation-to-the-normal-cone API.
 - **Raw scheme cycles.** `AlgebraicGeometry.AlgebraicCycle` gives locally finite functions on
   scheme points with quasi-compact pushforward.
@@ -178,7 +178,9 @@ scheme-level versions.
 ### From Tau Ceti
 
 - Tau Ceti supplies
-  `TauCeti.AlgebraicGeometry.Chow.ChowGroup` and `Chow.pushforward` for closed immersions,
+  `TauCeti.AlgebraicGeometry.Chow.ChowGroup` and
+  `TauCeti.AlgebraicGeometry.Chow.ChowGroup.pushforward` for closed immersions of locally
+  Noetherian schemes,
   as well as `SchPseudofunctor` and `Spaces.IsAlgebraicSpace`. The remaining scheme Chow and
   Gysin theory is owned by `SchemeAndStackFoundations` Layer 5.
 
@@ -372,7 +374,8 @@ This lane consumes every scheme-level cycle, Chow, Chern, normal-cone, and Gysin
 Build Vistoli's dimension-graded rational Chow groups for separated Deligne–Mumford stacks,
 with cycles on integral closed substacks and the stabilizer and residue-degree factors required
 for pushforward. Prove atlas independence and agreement with the supplied scheme Chow groups.
-For `[U/G]` with finite constant `G`, verify the `1/|G|` degree of `BG`.
+For `X` pure of dimension `n`, define `A^c(X)_ℚ = A_{n−c}(X)_ℚ`. For a finite constant group
+`G`, verify the `1/|G|` degree of `BG`.
 
 *Needs:* Layer 1 and SchemeAndStackFoundations Layer 5.
 
@@ -459,8 +462,8 @@ properties from the scheme theory. Define a global two-term resolution as an iso
 ### 3.3 Relative cotangent complexes
 
 Consume the scheme cotangent complex from DerivedDeRhamCohomology §5.8 and compare its
-Zariski and small étale realizations on schemes. Extend it to algebraic spaces by étale
-descent. For a morphism of relative Deligne–Mumford type to an algebraic stack, construct
+Zariski and small étale realizations on schemes. Extend it to algebraic spaces by descent
+on the small étale site of SchemeAndStackFoundations §1.10. For a morphism of relative Deligne–Mumford type to an algebraic stack, construct
 the relative cotangent complex using smooth atlases on the target and étale charts after
 base change. Use flat base change and refinement coherence for descent, and prove vanishing
 in positive degrees and coherence in degrees 0 and −1 for locally finite type morphisms
@@ -602,14 +605,14 @@ characterization in Prop. 3.12 restricted to the vector-bundle-stack condition).
 
 ### 5.5 Pullback and transitivity
 
-For a smooth morphism `f : X → Y`, prove the short exact sequence of cone stacks
-`𝔑_{X/Y} → 𝔠_X → f*𝔠_Y` (the smooth case of Behrend–Fantechi Prop. 3.14). For a local complete intersection morphism prove the
-transitivity sequence for intrinsic normal sheaves; use deformation to the normal cone and
-Layer 8’s Vistoli comparison for regular-immersion virtual pullback. Construct the natural
-cone maps used by functoriality. As checks, use `k[x,y]/(x²,xy)` to show equality of the
-intrinsic cone and normal sheaf alone does not characterize lci, and the Cartier divisor
-`x+y+z=0` in `Spec k[x,y,z]/(xy,xz,yz)` over `k=ℚ` to show the cone sequence need not
-be exact for a general lci morphism.
+For a smooth morphism `f : X → Y` of Deligne–Mumford stacks, prove the short exact sequence
+of cone stacks `B T_{X/Y} → 𝔠_X → f*𝔠_Y` (the smooth case of Behrend–Fantechi Prop. 3.14).
+For a local complete intersection morphism, apply the transitivity triangle and Layer 4
+to obtain the exact sequence of abelian cone stacks
+`h¹/h⁰((L_{X/Y})∨) → 𝔑_X → f*𝔑_Y`. Construct the natural cone maps in cartesian squares.
+For the Cartier divisor `x+y+z=0` in `Spec k[x,y,z]/(xy,xz,yz)` over `k=ℚ`, check that
+the map of intrinsic cones to the pullback of the base cone misses a point on the
+origin fibre, so lci alone does not give the short exact sequence of cones.
 
 *Needs:* Layers 0, 1 and 4.
 
@@ -791,9 +794,9 @@ the virtual pullback formula directly from flat pullback and zero-section Gysin.
 
 ### 8.3 Regular-immersion pullback
 
-For a regular local immersion between smooth bases, descend Vistoli's canonical rational
-equivalence through the tangent and vector-bundle actions, lift it to the global resolutions,
-and prove the refined Gysin formula.
+For a regular local immersion between smooth bases, use deformation to the normal cone
+to construct Vistoli's canonical rational equivalence. Descend it through the tangent and
+vector-bundle actions and lift it to the global resolutions to prove the refined Gysin formula.
 
 *Needs:* Layers 2, 5 and 7.
 
