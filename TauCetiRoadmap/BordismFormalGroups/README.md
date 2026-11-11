@@ -563,15 +563,33 @@ Its API:
   (Ravenel, (A2.2.1), (A2.2.2) and Theorem A2.2.3, pp. 363–364).
 - For Araki's generators the p-series of the universal p-typical law is
   [p]_F(x)=Σ^F_(i≥0) v_i x^(p^i), v₀=p (Ravenel, (A2.2.4), p. 364).
-- A strict isomorphism f out of a p-typical law F, whose target is then
-  commutative as F is, has p-typical target exactly when
-  f⁻¹(x)=Σ^F_(i≥0) t_i x^(p^i) with t₀=1, so
-  VT=V[t₁,t₂,…], |t_n|=2(p^n−1), classifies strict isomorphisms of
-  commutative p-typical laws and (V,VT) is a Hopf algebroid, a quotient of
-  (L⊗ℤ_(p),L⊗ℤ_(p)[b₁,b₂,…]); its right unit is determined by
-  η_R(ℓ_n)=Σ_(0≤i≤n) ℓ_i t_(n−i)^(p^i) and, for Araki's generators, by
-  Σ^F_(i,j≥0) t_i η_R(v_j)^(p^i)=Σ^F_(i,j≥0) v_i t_j^(p^i) (Ravenel, Lemma
-  A2.1.26, Theorem A2.1.27, pp. 360–361, and Theorem A2.2.6, p. 365).
+- An isomorphism f out of a p-typical law F over a ℤ_(p)-algebra R,
+  whose target is then commutative as F is, has p-typical target exactly
+  when f⁻¹(x)=Σ^F_(i≥0) t_i x^(p^i) with t_i∈R and t₀ a unit: f⁻¹ has a
+  unique expansion Σ^F_(i≥1) c_i x^i, c₁ a unit, and the target is
+  p-typical precisely when c_i=0 for every i that is not a power of p
+  (Ravenel, Lemma A2.1.26 and its proof, pp. 360–361). For a strict
+  isomorphism t₀=1, so VT=V[t₁,t₂,…], |t_n|=2(p^n−1), classifies strict
+  isomorphisms of commutative p-typical laws and (V,VT) is a Hopf
+  algebroid, a quotient of (L⊗ℤ_(p),L⊗ℤ_(p)[b₁,b₂,…]); its right unit is
+  determined by η_R(ℓ_n)=Σ_(0≤i≤n) ℓ_i t_(n−i)^(p^i) and, for Araki's
+  generators, by Σ^F_(i,j≥0) t_i η_R(v_j)^(p^i)=Σ^F_(i,j≥0) v_i t_j^(p^i)
+  (Ravenel, the paragraph after Lemma A2.1.26 and Theorem A2.1.27, p. 361,
+  and Theorem A2.2.6, p. 365).
+- The last identity holds for every isomorphism of p-typical laws, strict
+  or not: if F and G are commutative p-typical laws over R classified by
+  φ,θ:V→R and f:F→G is an isomorphism with f⁻¹(x)=Σ^F_(i≥0) t_i x^(p^i),
+  t₀ a unit, then for Araki's generators
+  `Σ^F_(i,j≥0) t_i θ(v_j)^(p^i) x^(p^(i+j)) = Σ^F_(i,j≥0) φ(v_i) t_j^(p^i) x^(p^(i+j))`,
+  the formal sums taken in F. Both sides are f⁻¹([p]_G(x))=[p]_F(f⁻¹(x))
+  expanded by (A2.2.4): on the left because f⁻¹ is a homomorphism from G
+  to F and carries θ(v_j)x^(p^j) to Σ^F_(i≥0) t_i θ(v_j)^(p^i) x^(p^(i+j)),
+  on the right because [p]_F is an endomorphism of F, so that
+  [p]_F(f⁻¹(x)) is the formal sum over j of
+  [p]_F(t_j x^(p^j))=Σ^F_(i≥0) φ(v_i) t_j^(p^i) x^(p^(i+j)). For the
+  universal strict isomorphism over VT this is Theorem A2.2.6 with x
+  recording degrees; Ravenel notes that the identity holds for t₀≠1 in the
+  proof of Theorem A2.2.12, p. 367.
 
 *Needs:* Mathlib `FormalGroup` and `FormalGroup.IsComm`; the pinned
 `TauCeti.LazardRing` with
@@ -630,13 +648,16 @@ A2.1.25), with Araki's generators; since p=0 in k, the p-series formula
 (A2.2.4) shows that height h means φ(v_i)=θ(v_i)=0 for 1≤i<h and
 φ(v_h),θ(v_h)≠0. Seek f:F→G with f⁻¹(x)=Σ^F_(i≥0) t_i x^(p^i) and t₀ a
 unit; the law that f transports F to is then p-typical whatever the unit
-t₀ (Lemma A2.1.26, p. 360), and it is G once the t_i satisfy the
-equations below, which determine the classifying map of that law. Comparing
-f⁻¹([p]_G(x)) with [p]_F(f⁻¹(x)) by (A2.2.4) gives the identity of
-Theorem A2.2.6 with φ(v_i) for v_i and θ(v_j) for η_R(v_j),
-`Σ^F_(i,j≥0) t_i θ(v_j)^(p^i) x^(p^(i+j)) = Σ^F_(i,j≥0) φ(v_i) t_j^(p^i) x^(p^(i+j))`,
-whose proof holds for t₀≠1 (Ravenel, proof of Theorem A2.2.12, p. 367).
-Its coefficient of x^(p^h) gives t₀·θ(v_h)=φ(v_h)·t₀^(p^h), that is
+t₀ (the isomorphism bullet of the p-typical paragraph above, Lemma
+A2.1.26, p. 360), and it is G once the t_i satisfy the identity of that
+paragraph for an isomorphism with t₀ a unit,
+`Σ^F_(i,j≥0) t_i θ(v_j)^(p^i) x^(p^(i+j)) = Σ^F_(i,j≥0) φ(v_i) t_j^(p^i) x^(p^(i+j))`
+(Ravenel, Theorem A2.2.6, p. 365, and the proof of Theorem A2.2.12,
+p. 367): the identity holds with the classifying map of the transported
+law in place of θ, and, given φ and the t_i, it determines that map
+degree by degree, since the coefficient of x^(p^n) on its left side is
+t₀ times the value at v_n plus terms in the t_i and the values at v_j,
+j<n. Its coefficient of x^(p^h) gives t₀·θ(v_h)=φ(v_h)·t₀^(p^h), that is
 t₀^(p^h−1)=θ(v_h)/φ(v_h), and its coefficient of x^(p^(h+i)), i≥1, gives
 t_i·θ(v_h)^(p^i)+c_i=φ(v_h)·t_i^(p^h) with c_i∈k determined by
 t₀,…,t_(i−1) (and c₀=0). Each equation says that its new unknown is a
@@ -661,8 +682,8 @@ and for f the identity series, whose defect is F−G, this is
 `FormalGroup.height`, `TauCeti.FormalGroupIso` and the pinned p-series,
 Frobenius, obstruction and leading-difference APIs named above; for
 Ravenel's route also the p-typical paragraph above (Cartier's theorem, V
-with Araki's generators, the p-series formula and the right-unit
-formula) and Lemma A2.1.26 for a unit t₀, which are route inputs, not
+with Araki's generators, the p-series formula, and the isomorphism bullet
+and its identity, both for a unit t₀), which are route inputs, not
 inputs of the statement.
 This supplies ModularCurves' height-classification application.
 EllipticCurves Layer 1 owns the elliptic logarithm/exponential instances;
@@ -690,10 +711,12 @@ it consumes the pinned generic API.
   t₀^(p−1)=θ(v₁)/φ(v₁)=b/a. The equation t₀θ(v₁)=t₀^p, which is the case
   F=F₁, would give c^(p−1)=1/b and transport F to the law classified by
   v₁↦ab, which is not G when a≠1. For p odd and a≠b in 𝔽_p^× the
-  equation has no root in 𝔽_p, where t₀^(p−1)=1 for every t₀≠0; since
-  every isomorphism of p-typical laws is a strict one of the form in the
-  p-typical paragraph above followed by a scaling, F and G are not
-  isomorphic over 𝔽_p, and become isomorphic over its separable closure.
+  equation has no root in 𝔽_p, where t₀^(p−1)=1 for every t₀≠0. By the
+  isomorphism bullet of the p-typical paragraph above every isomorphism
+  f:F→G has f⁻¹(x)=Σ^F t_i x^(p^i) with t₀ a unit, and the coefficient of
+  x^p in its identity is t₀b=at₀^p, the terms with v₀=p vanishing in
+  characteristic p; so F and G are not isomorphic over 𝔽_p, and become
+  isomorphic over its separable closure.
 
 ### Examples
 
@@ -2547,11 +2570,13 @@ Define a positive-degree v_n self-map by K(n)-homology invertibility and nilpote
 every other height. Its positive degree makes mod-p homology nilpotent
 on a finite spectrum. Prove some positive power of any such map has degree
 2a(p^n−1), a>0, inducing scalar multiplication by v_n^a on
-K(n)-homology. This is a normalization of an existing map; arbitrary
+K(n)-homology (Ravenel, *Nilpotence and Periodicity*, Lemma 6.1.1,
+p. 58). This is a normalization of an existing map; arbitrary
 v_n self-maps can have other degrees. For chosen maps v:Σ^dF→F
 and w:Σ^eF→F, prove there exist positive a,b with ad=be and
-v^a=w^b. For h:F→G between type-n spectra prove suitable
-equal-degree powers intertwine h with its actual suspension.
+v^a=w^b (Lemma 6.1.3, p. 58). For h:F→G between type-n spectra prove
+suitable equal-degree powers intertwine h with its actual suspension
+(Lemma 6.1.4, p. 58).
 Carry these choices/comparisons through composition.
 
 **Checks.**
@@ -2782,7 +2807,9 @@ existence of all small-exponent Smith–Toda complexes.
 Construct telescopes T(n) of chosen v_n maps, with T(0)=S_(p)[1/p],
 their independence in Bousfield class of the chosen map and of the
 chosen type-n spectrum (Ravenel, *Nilpotence and Periodicity*, the
-paragraph of (7.2.8), p. 80, from the class invariance Theorem 7.2.7), the inequality
+paragraph of (7.2.8), p. 80: of the map by the uniqueness of v_n maps,
+Lemma 6.1.3, p. 58, and of the spectrum by the class invariance Theorem
+7.2.7), the inequality
 ⟨K(n)⟩≤⟨T(n)⟩ and the resulting localization-unit comparisons.
 Construct finite localization L_n^f away from the finite type-(n+1)
 spectra, its smashing universal property, its class
@@ -3769,7 +3796,7 @@ module-extension nullhomotopy on its moment-map stratification.
 
 - Devinatz–Hopkins–Smith, [*Nilpotence and stable homotopy theory I*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/dhs-ocr.pdf), for the three nilpotence scopes and the Thom/James/vanishing-line proof.
 - Hopkins–Smith, [*Nilpotence and stable homotopy theory II*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/HS.pdf), Theorems 3, 7 and 9, for the Morava K-theory form of nilpotence and finite support, thick classification and periodicity.
-- Ravenel, [*Nilpotence and Periodicity in Stable Homotopy Theory*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/nilpb2020.pdf), §§3.3, 7.2, 7.3 and 7.5, Chapters 6–8 and Appendices B and C, for invariant primes, the Landweber filtration and exact functor theorems (Theorem 3.3.7, p. 33, (B.5.19) and Theorem B.6.2, pp. 182–183), the thick subcategory and periodicity theorems (Theorem 3.4.3, p. 37, and Theorem 1.5.4, p. 9), Bousfield localization (Theorem 7.1.3, p. 76), Bousfield classes (Proposition 7.2.6(iii), p. 79, for the class of the source of a self-map; Theorem 7.2.7 and the telescopes of (7.2.8), p. 80; Theorem 7.3.2, p. 82, for the classes of P(n), B(n), v_n⁻¹BP, E(n) and K(n)), periodicity (§6.2: the operations P_t^s for t>s≥0, p. 63, Definition 6.2.3 of strong type and Theorem 6.2.4, pp. 64–65), the smash product theorem (Theorem 7.5.6, p. 87), the Hopkins–Ravenel smashing proof and Smith idempotents.
+- Ravenel, [*Nilpotence and Periodicity in Stable Homotopy Theory*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/mybooks/nilpb2020.pdf), §§3.3, 7.2, 7.3 and 7.5, Chapters 6–8 and Appendices B and C, for invariant primes, the Landweber filtration and exact functor theorems (Theorem 3.3.7, p. 33, (B.5.19) and Theorem B.6.2, pp. 182–183), the thick subcategory and periodicity theorems (Theorem 3.4.3, p. 37, and Theorem 1.5.4, p. 9), Bousfield localization (Theorem 7.1.3, p. 76), Bousfield classes (Proposition 7.2.6(iii), p. 79, for the class of the source of a self-map; Theorem 7.2.7 and the telescopes of (7.2.8), p. 80, with the properties of v_n maps, Lemmas 6.1.1, 6.1.3 and 6.1.4, p. 58; Theorem 7.3.2, p. 82, for the classes of P(n), B(n), v_n⁻¹BP, E(n) and K(n)), periodicity (§6.2: the operations P_t^s for t>s≥0, p. 63, Definition 6.2.3 of strong type and Theorem 6.2.4, pp. 64–65), the smash product theorem (Theorem 7.5.6, p. 87), the Hopkins–Ravenel smashing proof and Smith idempotents.
 - Hovey–Strickland, [*Morava K-Theories and Localisation*](https://doi.org/10.1090/memo/0666), for generalized Moore systems, their local categories and completion comparisons.
 - Greenlees–Sadofsky, [*The Tate spectrum of v_n-periodic complex oriented theories*](https://people.math.rochester.edu/faculty/doug/otherpapers/greenlees-sadofsky.pdf), Math. Z. 222 (1996), Theorem 1.1 (the number under which Hovey–Sadofsky, p. 3580, cite it), for the vanishing of the Tate spectrum of K(n), and Kuhn, [*Tate cohomology and periodic localization of polynomial functors*](https://arxiv.org/abs/math/0307173), Theorem 1.5, p. 4 (arXiv version), for its telescopic form, the two sources of F6.5's Tate vanishing.
 
