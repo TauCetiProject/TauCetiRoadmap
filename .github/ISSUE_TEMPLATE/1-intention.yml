@@ -42,6 +42,7 @@ body:
         - CFSGStatement
         - CStarAlgebras
         - CStarClassification
+        - CategoricalOperatorAlgebras
         - CharacteristicClasses
         - ChevalleyGroups
         - ClassFieldTheory
@@ -89,6 +90,7 @@ body:
         - GeometricMeasureTheory
         - GeometricRepresentationCategories
         - GeometricTopology
+        - GlobalHolomorphicFunctions
         - GlobalQuadraticForms
         - GraphConnectivityAndFlows
         - GroebnerGeometry
