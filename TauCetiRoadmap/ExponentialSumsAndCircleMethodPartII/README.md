@@ -14,7 +14,7 @@ Mathlib owns polynomial evaluation and homogeneous components, matrix rank, Laur
 
 SchemeAndStackFoundations §§0.7–0.9 and §5.12 own finite-type dimensions, spreading and projective intersection degree; this roadmap supplies the arbitrary finite-grid application of §0.2. It differs from the uniform Lang–Weil bounds of SieveMethodsAndPrimePatterns §5.4, *Uniform algebraic point counts*, by allowing an arbitrary finite grid S⊂K and an explicit cumulative-degree constant; that Lang–Weil estimate is consumed in §8.10. EtaleCohomologyFoundations §§F.0–F.6 own coefficient categories, proper supports, the six operations and realization. FourierDeligneTransform §§2.2–2.5 own the Artin–Schreier sheaves L_ψ with their tensor, base-extension, coefficient-change and trace laws and their acyclicity, §2.8 their cohomology on the line, §3.4 Fourier orthogonality on a vector bundle, and §5.3 Fourier sheaves on the line; here only the 𝔾_a-equivariant cancellation lemma (§3.4a) and the one-parameter application (§5.8) are targets. EtaleDualityAndPerverseSheaves §0.4, *Top-degree compactly supported cohomology of a variety*, owns the top-component formula for singular schemes, and its §§0.6, 3.2–3.8 and 4.1–4.7 own duality, coefficient extension, comparison, Lefschetz and complete-intersection Betti numbers; only the componentwise irreducibility criterion (§10.7) is a target here. The polynomial polar-count argument belongs here in §§8.7–8.10, and so do its function-field lattice inputs (§§1.2–1.5). The finite-length rectangular-rank form in §4.4 differs from the infinite eventual-determinant criterion of ClassicalArithmeticCompletion §6.44.
 
-InverseGaloisAndArithmeticFundamentalGroups §§IG.5.1 and IG.5.7 own configuration schemes, permutation torsors and finite-cover criteria for fundamental-group surjectivity. AlgebraicTopologyPartII owns split arrangement purity and the compact-support range of configuration cohomology (§2.1), the stable configuration diagonal (§3.5), tame polynomials and the tame fibre bouquet theorem (§§4.1–4.2), the double-loop Betti series (§5.1) and Fermat double-loop simple connectivity (§5.4). AlgebraicTopology Stages 4, 6 and 8 own CW pairs, universal coefficients and higher homotopy comparison. DGFloer Layer 1 item 1 owns degree-one Hurewicz, and Layer 2 items 2–3 own mapping-space restriction fibrations and sphere/loop comparisons. LefschetzPencilsAndVanishingCycles §§5.1, 5.8 and 5.10 own the pencil-to-universal image comparison and the symplectic and orthogonal image alternatives; only exclusion of the finite orthogonal case is requested from it as an extension. The two-factor Goursat application belongs to §6.5 here. No configuration carrier, generic Hurewicz theorem, circle fundamental-group calculation, Euler product, character sheaf, Fourier transform or universal monodromy foundation is constructed twice.
+InverseGaloisAndArithmeticFundamentalGroups §§IG.5.1 and IG.5.7 own configuration schemes, permutation torsors and finite-cover criteria for fundamental-group surjectivity. AlgebraicTopologyPartII owns split arrangement purity and the compact-support range of configuration cohomology (§2.1), the stable configuration diagonal (§3.5), tame polynomials and the tame fibre bouquet theorem (§§4.1–4.2), the double-loop Betti series (§5.1) and Fermat double-loop simple connectivity (§5.4). AlgebraicTopology Stages 4, 6 and 8 own CW pairs, universal coefficients and higher homotopy comparison. DGFloer Layer 1 item 1 owns degree-one Hurewicz, and Layer 2 items 2–3 own mapping-space restriction fibrations and sphere/loop comparisons. LefschetzPencilsAndVanishingCycles §§5.1, 5.8 and 5.10 own the pencil-to-universal image comparison and the symplectic and orthogonal image alternatives; only exclusion of the finite orthogonal case is requested from it as an extension. MordellLawrenceVenkatesh §0.17 owns the closed normal subgroups of the symplectic group, and OrthogonalTamagawaAndLatticeMass §0.1 the almost simplicity of Spin and its central isogeny onto SO. The two-factor Goursat application and its dimension count belong to §6.5 here. No configuration carrier, generic Hurewicz theorem, circle fundamental-group calculation, Euler product, character sheaf, Fourier transform or universal monodromy foundation is constructed twice.
 
 ## Conventions
 
@@ -36,13 +36,15 @@ Use `MvPolynomial.eval₂Hom` in `Mathlib/Algebra/MvPolynomial/Eval.lean:158`, `
 
 Use `Matrix.rank` in `Mathlib/LinearAlgebra/Matrix/Rank.lean:134` for the field-point rank test, and `LaurentSeries` in `Mathlib/RingTheory/LaurentSeries.lean:101` for coefficient expansions. `RatFunc.inftyValuation` in `Mathlib/FieldTheory/RatFunc/Valuation.lean:83` fixes the infinity absolute-value convention; its completion is the supplied completion, not a new carrier. Use `fwdDiff` in `Mathlib/Algebra/Group/ForwardDiff.lean:40`, `fwdDiff h f n = f (n + h) − f n`, for the iterated differences of the polar count; it is the negative of the difference Δ_h of §8.1. Use `Ideal.height_le_spanRank_toENat_of_mem_minimalPrimes` in `Mathlib/RingTheory/Ideal/KrullsHeightTheorem.lean:185` on each minimal prime in a Noetherian ring. This is the componentwise form needed in Layer 0.
 
-Use `Nat.forall_exists_prime_gt_and_modEq` in `Mathlib/NumberTheory/LSeries/PrimesInAP.lean:463`, for nonzero modulus and a coprime residue; `legendreSym.quadratic_reciprocity` and `legendreSym.at_two` in `Mathlib/NumberTheory/LegendreSymbol/QuadraticReciprocity.lean:107` and line 60, retaining their prime, oddness and distinctness assumptions. Use `CategoryTheory.Abelian.SpectralObject` in `Mathlib/Algebra/Homology/SpectralObject/Basic.lean:41` as the spectral carrier. Use `ContinuousMap.curry` in `Mathlib/Topology/CompactOpen.lean:430`; evaluation on compact source spaces gives the family criterion used here. Use `nonempty_inter_closedPoints` in `Mathlib/Topology/JacobsonSpace.lean:105`, together with `AlgebraicGeometry.LocallyOfFiniteType.jacobsonSpace` in `Mathlib/AlgebraicGeometry/Morphisms/FiniteType.lean:112`, for nonempty locally closed supports over finite fields. Neither declaration supplies constructibility of a cohomology support. Use `AddCircle.windingNumberIso` in `Mathlib/Topology/Covering/FundamentalGroupCircle.lean:49` with `AddCircle.windingNumber_eq_div` at line 61: the winding number of a loop is (f 1 − f 0)/p for any continuous real lift f.
+Use `Nat.forall_exists_prime_gt_and_modEq` in `Mathlib/NumberTheory/LSeries/PrimesInAP.lean:463`, for nonzero modulus and a coprime residue; `legendreSym.quadratic_reciprocity` and `legendreSym.at_two` in `Mathlib/NumberTheory/LegendreSymbol/QuadraticReciprocity.lean:107` and line 60, retaining their prime, oddness and distinctness assumptions. Use `CategoryTheory.Abelian.SpectralObject` in `Mathlib/Algebra/Homology/SpectralObject/Basic.lean:41` as the spectral carrier. Use `Subgroup.goursat` in `Mathlib/GroupTheory/Goursat.lean:131`, Goursat's lemma for an arbitrary subgroup of a product of two groups, on the geometric points of the two-factor monodromy closure of §6.5; its normal subgroups are the kernels of the two restricted projections. Use `ContinuousMap.curry` in `Mathlib/Topology/CompactOpen.lean:430`; evaluation on compact source spaces gives the family criterion used here. Use `nonempty_inter_closedPoints` in `Mathlib/Topology/JacobsonSpace.lean:105`, together with `AlgebraicGeometry.LocallyOfFiniteType.jacobsonSpace` in `Mathlib/AlgebraicGeometry/Morphisms/FiniteType.lean:112`, for nonempty locally closed supports over finite fields. Neither declaration supplies constructibility of a cohomology support. Use `AddCircle.windingNumberIso` in `Mathlib/Topology/Covering/FundamentalGroupCircle.lean:49` with `AddCircle.windingNumber_eq_div` at line 61: the winding number of a loop is (f 1 − f 0)/p for any continuous real lift f.
 
 Use `Projectivization.instTopologicalSpace` in `Mathlib/Topology/Algebra/Projectivization.lean:44`, the quotient topology from the nonzero vectors, with `Projectivization.continuous_mk` at line 61 and `Projectivization.rep` in `Mathlib/LinearAlgebra/Projectivization/Basic.lean:91`; only conditions that are homogeneous in the representative are imposed through `Projectivization.rep`. Use `Asymptotics.IsBigO` in `Mathlib/Analysis/Asymptotics/Defs.lean:87` along the punctured neighbourhood filter for the germ condition, and the compact-open topology on `ContinuousMap` with its subtype topology for the germ space. Use `FundamentalGroup` in `Mathlib/AlgebraicTopology/FundamentalGroupoid/FundamentalGroup.lean:34`, `GenLoop` in `Mathlib/Topology/Homotopy/HomotopyGroup.lean:98`, the maps of the square I² sending its boundary to the basepoint, which is the model of Ω²X, and `ContinuousMap.HomotopyEquiv` in `Mathlib/Topology/Homotopy/Equiv.lean:43`.
 
 ### From Tau Ceti
 
 Use `Circle.fundamentalGroupMulEquiv` and `Circle.fundamentalGroupMulEquiv_expLoop` in `TauCeti/AlgebraicTopology/UniversalCover/Circle/FundamentalGroup.lean:334` and line 431. The first identifies π₁ of the complex unit circle at any basepoint with `Multiplicative ℤ`; the second sends the class of the counterclockwise loop t↦exp(2πit) to `ofAdd 1` and fixes the sign of end winding. Use the radial retraction of ℂ× onto the unit circle; all based homotopy groups are those of the supplied topology library.
+
+Use `TauCeti.smoothCommHopfAlgProperty_of_charZero` in `TauCeti/Algebra/AlgebraicGroup/Smooth/CharZero.lean:151`, Cartier's theorem that a finite-type commutative Hopf algebra over a field of characteristic zero is smooth, and `TauCeti.HopfIdeal.eq_of_le_of_finrank_quotientLie_le` in `TauCeti/Algebra/AlgebraicGroup/HopfIdeal/Smooth/Dimension.lean:65`: an inclusion of smooth connected closed subgroups that does not lower the dimension of the Lie algebra is an equality. Both hypotheses of smoothness and connectedness are checked on the identity components to which §6.5 applies it.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
@@ -76,9 +78,17 @@ Consume §5.4, *Uniform algebraic point counts*: for a geometrically irreducible
 
 ### From TauCetiRoadmap.LefschetzPencilsAndVanishingCycles
 
-Consume §5.1, *Bertini for monodromy images*, §5.8, *The Kazhdan–Margulis theorem*, and §5.10, *Even dimension: orthogonal monodromy*, including its finite ADE alternative. Apply these to a general pencil of degree-k hypersurfaces and its primitive pairing; identify its vanishing space with primitive cohomology using complete-intersection Lefschetz. These give the symplectic image and the orthogonal open-or-finite alternative over ℚ_ℓ; take Zariski closure and then extend scalars to E. The boundary primitive term of §6.3 is in degree n−2 without an additional Tate twist.
+Consume §5.1, *Bertini for monodromy images*, §5.7, *Closed subgroups of Sp(V)(ℚ_ℓ) and O(V)(ℚ_ℓ)*, §5.8, *The Kazhdan–Margulis theorem*, and §5.10, *Even dimension: orthogonal monodromy*, including its finite ADE alternative. Apply these to a general pencil of degree-k hypersurfaces and its primitive pairing; identify its vanishing space with primitive cohomology using complete-intersection Lefschetz. These give the symplectic image and the orthogonal open-or-finite alternative over ℚ_ℓ, and §5.10 also gives that the orthogonal image is topologically generated by Picard–Lefschetz reflections, so it is not contained in the special orthogonal group; take Zariski closure and then extend scalars to E. The boundary primitive term of §6.3 is in degree n−2 without an additional Tate twist.
 
 What LefschetzPencilsAndVanishingCycles must provide (gap:lpv-universal-monodromy): For the universal family of smooth degree-k hypersurfaces in ℙ^N over an algebraically closed field of characteristic zero or p>k, with k≥3, N≥3 odd, ℓ invertible and primitive middle ℚ_ℓ-cohomology, prove that its geometric monodromy image is infinite unless (k,N)=(3,3).
+
+### From TauCetiRoadmap.MordellLawrenceVenkatesh
+
+Consume §0.17, *Centre and geometric normal subgroups of the symplectic group*: over an algebraically closed field of characteristic zero and for a symplectic space of dimension at least 2, the centre of Sp is {±1} and every proper Zariski-closed normal subgroup of Sp lies in {±1}. §6.5 applies it to the symplectic factor of rank N₂≥6.
+
+### From TauCetiRoadmap.OrthogonalTamagawaAndLatticeMass
+
+Consume §0.1, *Algebraic orthogonal and Spin groups*: for a nondegenerate quadratic space of dimension N≥3 over a field of characteristic different from 2, SO is geometrically connected and Spin is smooth of dimension N(N−1)/2, with a central isogeny Spin→SO with kernel μ₂; for N≥3, N≠4, Spin is absolutely almost simple. §6.5 uses it for N₁≥21, where it implies that a closed connected normal subgroup of SO_(N₁) is trivial or all of SO_(N₁).
 
 ### From TauCetiRoadmap.AlgebraicTopologyPartII
 
@@ -325,7 +335,7 @@ A proof route is as follows. There are dn coefficient variables and at most kd c
 
 **Checks.**
 
-- The bound is componentwise, so it can combine with top cohomology to exclude smaller components.
+- At n=40, k=3, d=2 there are 80 coefficient variables and kd=6 equations, so every component has dimension at least 74=d(n−k). An additional isolated point would be a component of dimension 0<74, so the bound is componentwise and not only a bound on the top dimension.
 - When the scheme is empty, no component or dimension equality is inferred.
 
 ### 3.3 Smooth projective closure of X and its irreducibility
@@ -473,8 +483,9 @@ A proof route is as follows. Translate a nonzero vector in ker H_m into a polyno
 **Checks.**
 
 - For α=0 one may take h₂=1,h₁=0.
-- Actual denominator degree can be smaller than m.
-- The error bound changes by m−m′; replacing it by a fixed exact rational identity is wrong.
+- For L=3, m=1 over ℚ and b=(1,2,4), H₁=[[1,2],[2,4]] has rank 1, and the pair (1,T−2) works with m′=1, since 1/(T−2)=T⁻¹+2T⁻²+4T⁻³+8T⁻⁴+⋯ leaves an error of exponent −4=−L−1+m−m′. The pair (2,2T−4) has the same quotient but its denominator is not monic.
+- For L=3, m=1 and b=(0,0,1), H₁=[[0,0],[0,1]] has rank 1, and the only admissible pair is (0,1) with actual denominator degree m′=0<m. The error α=T⁻³ has exponent exactly −3=−L−1+m−m′. Replacing the allowed exponent by −L−1=−4, the value at m′=m, would wrongly exclude this point of A₁.
+- For L=3, m=1 and b=(0,1,0), H₁=[[0,1],[1,0]] has determinant −1 and rank 2, so b∉A₁. Correspondingly no pair is admissible: m′=0 leaves the term T⁻², and for c/(T−a) the coefficients of T⁻¹ and T⁻² would force c=0 and ca=1.
 
 ### 4.5 Unique reduced approximation on a rank stratum
 
@@ -486,8 +497,10 @@ A proof route is as follows. Compare two approximants by the degree of their cro
 
 **Checks.**
 
-- Monicity removes scalar ambiguity.
-- Uniqueness is asserted on the exact rank stratum and only in the stated m-range.
+- For L=3, m=1 and b=(1,2,4)∈A₁∖A₀ the unique triple is (1,1,T−2). The pair (2,2T−4) has the same quotient, so without monicity uniqueness would fail.
+- For L=3, m=1 and b=(0,0,1)∈A₁∖A₀ the unique triple is (0,0,1). Here m′=0<m, and the coefficient of T^(−L−1+m−m′)=T⁻³ in the error is 1≠0.
+- For L=3, m=2>L/2 and b=(1,0,1), H₁=[[1,0],[0,1]] has rank 2, so b∈A₂∖A₁. For every c∈K the coprime pair h₁=T+c, h₂=T²+cT−1 gives h₁/h₂=T⁻¹+T⁻³−cT⁻⁴+⋯, within the allowed error O(T⁻⁴), so uniqueness fails above L/2.
+- For L=4, m=1 and b=(1,0,0,0)∈A₁∖A₀ the only triple is (1,1,T): a denominator T−a gives T⁻² coefficient a, which must vanish, and m′=0 leaves the term T⁻¹.
 
 ### 4.6 Exact-denominator major-arc open
 
@@ -609,7 +622,7 @@ A proof route is as follows. Use the Bézout identity to make both CRT and numer
 **Checks.**
 
 - Two distinct linear factors recover a tensor square.
-- Do not multiply the numerator names in place of l₁l₂.
+- For l₁=T, l₂=T−1 and h₁=h₂=1 the combined numerator is h₁l₂+h₂l₁=2T−1, and indeed 1/T+1/(T−1)=(2T−1)/(T(T−1)); the product h₁h₂=1 would give 1/(T(T−1)) instead.
 
 ### 5.6 Nonsquarefree-modulus cancellation
 
@@ -697,7 +710,7 @@ A proof route is as follows. Excision and §5.1 replace the exact stratum by U_m
 **Checks.**
 
 - At m=0 the value is E[−2nd](−nd).
-- The result is not asserted for m>d.
+- For n=40 and d=2, at m=2 the quotient affine rank n(d−m) is 0 and contributes shift and twist [0](0); at m=3 it would be −40, and no affine space has that rank, so the formula is stated only for m≤d.
 
 ### 5.12 Reduced cohomology concentrated in the middle
 
@@ -820,15 +833,16 @@ A proof route is as follows. Factor h_n through the dense open of H_(n,k) where 
 
 For k≥3,n≥3 except (k,n)=(3,3),(3,4), the geometric monodromy of 𝒱 contains an element all of whose eigenvalues are −1. This need not act as −Id on the nonsplit primitive extension. Use the primitive-factor monodromy inputs with the small cubic cases retained as exceptions; prove the two-factor Goursat comparison here. Here geometric monodromy means the Zariski closure of the geometric fundamental-group image; membership in that closure is sufficient for equivariant maps. (BS20, §4, Lemma 4.3, p.923; proof pp.924–925; BS20 line 1356.)
 
-A proof route is as follows. Apply LefschetzPencilsAndVanishingCycles §§5.1, 5.8 and 5.10 and gap:lpv-universal-monodromy to the two primitive factors. For the orthogonal factor in odd ambient dimension n₁, EtaleDualityAndPerverseSheaves §4.7's hypersurface formula with hypersurface dimension n₁−1 gives rank N₁=(k−1)((k−1)^n₁+1)/k≥6 outside the cubic-surface case (in fact ≥21 in the stated range). The symplectic and orthogonal Lie algebras then have no common nonzero simple quotient: the low-rank coincidences involve orthogonal dimensions 3, 4 or 5 (𝔰𝔬₃≅𝔰𝔭₂, 𝔰𝔬₄≅𝔰𝔭₂×𝔰𝔭₂, 𝔰𝔬₅≅𝔰𝔭₄), and 𝔰𝔬₆≅𝔰𝔩₄ is not symplectic. The algebraic-group Goursat argument gives the product, since the connected symplectic group has no nontrivial finite algebraic quotient. Lift simultaneous −Id to the extension; its sole eigenvalue is −1 even when the off-diagonal part is nonzero.
+A proof route is as follows. Write n₁ and n₂ for the odd and the even member of {n,n−1}. By §6.4 the two primitive factors of §6.3 have the monodromy of the universal families of hypersurfaces of dimensions n₁−1 and n₂−1, and by EtaleDualityAndPerverseSheaves §4.7 their ranks are N₁=(k−1)((k−1)^n₁+1)/k, orthogonal, and N₂=(k−1)((k−1)^n₂−1)/k, symplectic; in the stated range N₁≥21 and N₂≥6. Let G⊂O_(N₁)×Sp_(N₂) be the Zariski closure of the monodromy image over an algebraic closure of E, with projections p₁ and p₂. By LefschetzPencilsAndVanishingCycles §§5.1 and 5.8 the symplectic image is open in Sp(ℚ_ℓ). By its §§5.1 and 5.10 and gap:lpv-universal-monodromy the orthogonal image is infinite, hence open in O(ℚ_ℓ), and it is topologically generated by Picard–Lefschetz reflections. An open image contains exp(tX) for every X in 𝔰𝔭, respectively 𝔰𝔬, and all small t∈ℚ_ℓ, so its ℓ-adic Lie algebra in the sense of §5.7 there is full, and these one-parameter subgroups put the whole Lie algebra into that of the Zariski closure. That closure is smooth (`TauCeti.smoothCommHopfAlgProperty_of_charZero`), so its identity component is Sp_(N₂), respectively SO_(N₁), by `TauCeti.HopfIdeal.eq_of_le_of_finrank_quotientLie_le`. A reflection has determinant −1, so p₁(G)=O_(N₁) and p₂(G)=Sp_(N₂). Goursat's lemma (`Subgroup.goursat`, on geometric points) makes G₁={g:(g,1)∈G} and G₂={h:(1,h)∈G} closed normal subgroups of O_(N₁) and Sp_(N₂), and the fibre-dimension formula for p₁ and p₂ gives dim G=N₁(N₁−1)/2+dim G₂=N₂(N₂+1)/2+dim G₁. By MordellLawrenceVenkatesh §0.17, G₂ is Sp_(N₂) or lies in {±1}. By OrthogonalTamagawaAndLatticeMass §0.1, Spin_(N₁) is absolutely almost simple and maps onto SO_(N₁) by a central isogeny; the identity component of the preimage of G₁° is therefore 1 or Spin_(N₁), so G₁° is 1 or SO_(N₁). If G₂ were finite, the dimension identity would force either G₁° trivial and N₁(N₁−1)=N₂(N₂+1), that is N₁=N₂+1, or G₁°=SO_(N₁) and N₂=0. Both are impossible: N₂>0, and N₁−N₂=(k−1)((k−1)^n₁−(k−1)^n₂+2)/k equal to 1 would make k a multiple of k−1≥2. Hence G₂=Sp_(N₂), G=O_(N₁)×Sp_(N₂), and (−Id,−Id)∈G. For odd N₁, −Id lies in O_(N₁) but not in SO_(N₁), which is why the reflections are needed. Lift (−Id,−Id) to the extension; its sole eigenvalue is −1 even when the off-diagonal part is nonzero.
 
-*Needs:* §6.3; §6.4; EtaleDualityAndPerverseSheaves §4.7, *Complete-intersection Betti numbers*; LefschetzPencilsAndVanishingCycles §§5.1, 5.8 and 5.10 (gap:lpv-universal-monodromy).
+*Needs:* §6.3; §6.4; EtaleDualityAndPerverseSheaves §4.7, *Complete-intersection Betti numbers*; LefschetzPencilsAndVanishingCycles §§5.1, 5.7, 5.8 and 5.10 (gap:lpv-universal-monodromy); MordellLawrenceVenkatesh §0.17, *Centre and geometric normal subgroups of the symplectic group*; OrthogonalTamagawaAndLatticeMass §0.1, *Algebraic orthogonal and Spin groups*; SchemeAndStackFoundations §0.7; `Subgroup.goursat`; `TauCeti.smoothCommHopfAlgProperty_of_charZero`; `TauCeti.HopfIdeal.eq_of_le_of_finrank_quotientLie_le`.
 
 **Checks.**
 
 - The two cubic exceptions are excluded even in a standalone proposition.
 - A nontrivial Jordan extension may have only eigenvalue −1 without equalling −Id.
-- The rank formula gives N₁=6 for (k,n₁)=(3,3), the excluded cubic surface, and N₁=21 for (4,3); the orthogonal ranks 3, 4 and 5 needed for low-rank coincidences do not occur.
+- The rank formula gives N₁=6 for (k,n₁)=(3,3), the excluded cubic surface. For (k,n)=(4,3) it gives N₁=21 (quartic surfaces) and N₂=6 (plane quartics, of genus 3), with dim SO₂₁=210, dim Sp₆=21 and N₁−N₂=15. Since N₁ is odd, −Id has determinant −1 and lies in O₂₁ but not in SO₂₁: a closure equal to SO₂₁×Sp₆ would not contain (−Id,−Id).
+- For (k,n)=(3,5), n₁=5 and n₂=4 give N₁=22 and N₂=10, of dimensions 231 and 55. Equality dim SO_(N₁)=dim Sp_(N₂) holds exactly when N₁=N₂+1, as for (N₁,N₂)=(3,2) and (5,4), the ranks of 𝔰𝔬₃≅𝔰𝔭₂ and 𝔰𝔬₅≅𝔰𝔭₄; the dimension count excludes these coincidences without listing them.
 
 ### 6.6 Relative stratum formula and lissity
 
@@ -849,7 +863,7 @@ For a Fermat parameter with ζᵏ=−1, x=(1,ζ,0,…) is nonzero and lies on th
 
 ### Dependencies
 
-§3.1; §3.3; SchemeAndStackFoundations §§0.2–0.3, 0.7–0.9; §5.12; EtaleCohomologyFoundations §§F.1–F.4.6; EtaleDualityAndPerverseSheaves §3.4; EtaleCohomologyFoundations §§F.5–F.6; EtaleDualityAndPerverseSheaves §0.6; EtaleDualityAndPerverseSheaves §§4.1, 4.3, 4.6–4.7; EtaleDualityAndPerverseSheaves §§3.2–3.8; EtaleCohomologyFoundations §§F.2–F.4; LefschetzPencilsAndVanishingCycles §§5.1, 5.8 and 5.10 (gap:lpv-universal-monodromy); DeligneWeightsAndPurity §§8.1, 8.8; InverseGaloisAndArithmeticFundamentalGroups IG.0.T4; §5.14.
+§3.1; §3.3; SchemeAndStackFoundations §§0.2–0.3, 0.7–0.9; §5.12; EtaleCohomologyFoundations §§F.1–F.4.6; EtaleDualityAndPerverseSheaves §3.4; EtaleCohomologyFoundations §§F.5–F.6; EtaleDualityAndPerverseSheaves §0.6; EtaleDualityAndPerverseSheaves §§4.1, 4.3, 4.6–4.7; EtaleDualityAndPerverseSheaves §§3.2–3.8; EtaleCohomologyFoundations §§F.2–F.4; LefschetzPencilsAndVanishingCycles §§5.1, 5.7, 5.8 and 5.10 (gap:lpv-universal-monodromy); MordellLawrenceVenkatesh §0.17; OrthogonalTamagawaAndLatticeMass §0.1; SchemeAndStackFoundations §0.7; `Subgroup.goursat`; `TauCeti.smoothCommHopfAlgProperty_of_charZero`; `TauCeti.HopfIdeal.eq_of_le_of_finrank_quotientLie_le`; DeligneWeightsAndPurity §§8.1, 8.8; InverseGaloisAndArithmeticFundamentalGroups IG.0.T4; §5.14.
 
 ## Layer 7: Finite arc filtration and the first page
 
@@ -1006,7 +1020,7 @@ A proof route is as follows. Tensor the two compact-support complexes using the 
 
 **Checks.**
 
-- Do not replace extended addition with a natural-number maximum.
+- For N=1 and G=a, cd_ψ(G)=cd_ψ(−G)=−∞, and G(a)−G(b)=a−b and G(a)−G(a+y)=−y are nonzero linear forms with cd=−∞=(−∞)+(−∞). A convention sending −∞ to 0 would assert that H_c⁰ of these acyclic complexes is nonzero.
 - Over 𝔽₅ with ℓ=2, N=1 and G=a²: cd_ψ(G)=cd_ψ(−G)=1 by FourierDeligneTransform §2.8, while G(a)−G(b)=a²−b² and G(a)−G(a+y)=−2ay−y² both have cohomological degree 2=1+1. A normalization factor or a shifted degree in either identity would break these values.
 
 ### 8.5 Closed points detect constructible supports over a finite field
@@ -1157,7 +1171,7 @@ A proof route is as follows. Telescope the nested closed filtration up to its fi
 
 ### 9.4 Conservative minor-arc vanishing with rounding retained
 
-Write t=floor(d/(k−1)), δ=n/2^k−k+1>0. Under the main finite-field hypotheses, H_c^a(A^L∖A_d,S)=0 for a>2dn+4(k−1)−4tδ. This is the bound that the stratification argument supports, with its remainder term retained. (BS20, §2, Proposition 2.6, p. 905; proof at the end of §5, p. 934; conservative form of the printed statement; BS20 line 540.)
+Let k≥3, d≥k−1, n>2ᵏ(k−1), f of degree k with smooth leading hypersurface Z, x≠0 with f₀(x)=0, p=char 𝔽_q>k, ℓ≠p of even multiplicative order modulo p, and E, ψ as in Conventions; smoothness of X is not used. Write t=floor(d/(k−1)) and δ=n/2^k−k+1, which is positive. Then H_c^a(A^L∖A_d,S)=0 for a>2dn+4(k−1)−4tδ. This is the bound that the stratification argument supports, with its remainder term retained. (BS20, §2, Proposition 2.6, p. 905; proof at the end of §5, p. 934; conservative form of the printed statement; BS20 line 540.)
 
 A proof route is as follows. On A_(m+1)∖A_m, dimension at most 2(m+1) and the stalk cutoff give B(m)=2dn−n⌊m/(k−1)⌋/2^(k−2)+4(m+1). Write m=(k−1)q+r, 0≤r≤k−2, to obtain B(m)=2dn−4qδ+4(r+1)≤2dn−4tδ+4(k−1). For the final full stage at odd L, its ambient dimension L is at most 2⌈L/2⌉, so the same bound applies there. Apply finite localization to the complete ceiling-indexed cover, including that final stratum.
 
@@ -1165,14 +1179,13 @@ A proof route is as follows. On A_(m+1)∖A_m, dimension at most 2(m+1) and the 
 
 **Checks.**
 
-- Keep the remainder term 4(r+1).
-- For k=3,d=4,n=24, B(5)=192 while the printed sharper cutoff is 188.
+- For k=3, d=4, n=24 (δ=1, t=2) the strata are m=4,5. Then B(4)=192−24+20=188 with r=0 and B(5)=192−24+24=192 with r=1, so the conservative cutoff 2dn+4(k−1)−4tδ=192 is attained at m=5. Dropping 4r from the remainder 4(r+1) would give 188 for both strata, which is the printed sharper cutoff.
 - At equality with the conservative cutoff the proof gives no vanishing.
 - At odd L=9 the last full-stage stratum has dimension at most 9≤2·5=10; its bound follows from ambient dimension even though the unsaturated Padé-chart bound was stated only up to L/2.
 
 ### 9.5 Sharp minor-arc bound as an explicit hypothesis
 
-Define the proposition SharpMinorArcBound(d,f,x,E,ψ) to mean that, with the finite-field data and main hypotheses fixed, H_c^a(𝔸ᴸ∖A_d,S)=0 for every integer a>2dn+4−4tδ. It is used only as an explicit hypothesis of §10.3 and its sharp-range consequences; no theorem here asserts this proposition. The stratum estimates of §§9.2–9.4 do not establish it. (BS20, §2, Proposition 2.6, p. 905; printed proof p. 934; BS20 line 540 and line 1856.)
+For data satisfying the hypotheses of §9.4 (k≥3, d≥k−1, n>2ᵏ(k−1), smooth Z, x≠0 with f₀(x)=0, p>k, ℓ of even order modulo p, and E, ψ as in Conventions), define the proposition SharpMinorArcBound(d,f,x,E,ψ) to mean that H_c^a(𝔸ᴸ∖A_d,S)=0 for every integer a>2dn+4−4tδ. It is used only as an explicit hypothesis of §10.3 and its sharp-range consequences; no theorem here asserts this proposition. The stratum estimates of §§9.2–9.4 do not establish it. (BS20, §2, Proposition 2.6, p. 905; printed proof p. 934; BS20 line 540 and line 1856.)
 
 - The proposition quantifies all integer degrees above its strict cutoff for the actual complex S.
 - A proof implies conservative vanishing because k≥3 gives 4≤4(k−1).
@@ -1303,7 +1316,7 @@ A proof route is as follows. By EtaleDualityAndPerverseSheaves §0.4, carried to
 
 ### 10.8 Conservative irreducibility and expected dimension
 
-Under the main geometric hypotheses in characteristic zero or >k, if tδ>k−1 then Mor_(d,x) is geometrically irreducible of dimension D=d(n−k). This strict inequality puts i=0 inside the conservative comparison range. On an algebraically closed K the acceptance statement `mapping_geometrically_irreducible` says that the radical of `mappingIdeal` is prime and its quotient coordinate ring has Krull dimension d(n−k), with explicit affine and leading-form Jacobian conditions. Apply this to the polynomial and vector after base change to an algebraic closure for the arbitrary-field conclusion. (BS20, §1, Corollary 1.4, p. 898; §2, Corollary 2.9 and proof, pp. 907–908; conservative sufficient hypothesis; BS20 line 209.)
+Let K be a field of characteristic zero or >k, k≥3, d≥k−1, n>2ᵏ(k−1), f of degree k with X and Z smooth, and x≠0 with f₀(x)=0; no condition on a coefficient prime is assumed. If tδ>k−1 then Mor_(d,x) is geometrically irreducible of dimension D=d(n−k). This strict inequality puts i=0 inside the conservative comparison range. On an algebraically closed K the acceptance statement `mapping_geometrically_irreducible` says that the radical of `mappingIdeal` is prime and its quotient coordinate ring has Krull dimension d(n−k), with explicit affine and leading-form Jacobian conditions. Apply this to the polynomial and vector after base change to an algebraic closure for the arbitrary-field conclusion. (BS20, §1, Corollary 1.4, p. 898; §2, Corollary 2.9 and proof, pp. 907–908; conservative sufficient hypothesis; BS20 line 209.)
 
 A proof route is as follows. At i=0 only the zero column contributes, giving rank-one H_c^(2D); §10.5 gives vanishing above it. Apply §10.7 and §3.2 after base change to an algebraic closure.
 
@@ -1329,7 +1342,7 @@ A proof route is as follows. Check the gradient equations for affine and leading
 
 ### 10.10 The E₁-degeneration conjecture as a proposition
 
-Define the unproved proposition DegenerationConjecture(d,f,x,E): for every i>−4(tδ−1), H_c^(i+2D)(Mor,E) is isomorphic as an E-vector space to the direct sum over m≥0 of (H_c^(i+m(n−1))(PConf_m,E)⊗V^⊗m⊗sgn^(n−1))^(S_m). The main geometric, degree and characteristic hypotheses are part of the proposition’s parameters. No canonical splitting, Frobenius-compatible splitting or proof is supplied. Distinguish this from E₁ degeneration of the actual spectral sequence, whose abutment comparison is only known in the conservative range. (BS20, §1, Conjecture 1.3, p. 897; BS20 line 164.)
+Define the unproved proposition DegenerationConjecture(d,f,x,E): for every i>−4(tδ−1), H_c^(i+2D)(Mor,E) is isomorphic as an E-vector space to the direct sum over m≥0 of (H_c^(i+m(n−1))(PConf_m,E)⊗V^⊗m⊗sgn^(n−1))^(S_m). Its parameters are a field K of characteristic zero or >k, a prime ℓ invertible in K, k≥3, d≥k−1, n>2ᵏ(k−1), f of degree k with X and Z smooth, and x≠0 with f₀(x)=0; no order condition on ℓ is part of the proposition. No canonical splitting, Frobenius-compatible splitting or proof is supplied. Distinguish this from E₁ degeneration of the actual spectral sequence, whose abutment comparison is only known in the conservative range. (BS20, §1, Conjecture 1.3, p. 897; BS20 line 164.)
 
 - Form a proposition quantifying vector-space isomorphisms in the stated strict range.
 - A proof restricts to any subset of its integer-degree range.
@@ -1495,8 +1508,8 @@ A proof route is as follows. Use compact-open evaluation and the tube lemma at K
 
 **Checks.**
 
-- Apply this to K=S¹ and K=I×S¹.
-- A common projective chart is weaker than a common normalized germ bound.
+- For the escaping loop (K=S¹), x₁=a_s(T)≠0 for every T≠0 and x₁=1 at P, so the chart x₁≠0 contains the common neighbourhood {T≠0}∪{∞} for all s. Yet v=1/a_s gives v/z^d=σ(s,r(T))⁻¹, which equals −1 at s=3r(T)/2, so |v/z^d−1|=2 at arbitrarily large |T|: a common projective chart is weaker than a common normalized germ bound.
+- For the constant family K=I×S¹ at the Fermat reference g, v/z^d=1 identically, and the common chart and a common germ bound both hold.
 
 ### 11.9 Winding of a mapping-space loop at infinity
 
@@ -1664,7 +1677,7 @@ For u=az and w=1+bz, weighted distances from the standard collar are ||a|| and |
 
 ### 13.1 The algebraic-to-continuous trace comparison conjecture
 
-For K=C and the main degree/geometric hypotheses, fix a topology H on the prescribed-germ set, a continuous ι:Mor^an→H (supplied by StrongGermData when that hypothesis is used), and a geometrically justified degree-2D trace τ; §10.8 supplies τ when tδ>k−1, while outside that range its justification is an additional hypothesis. Define the pairing H_c^(2D−j)(Mor,Q)⊗H^j(H,Q)→Q by pullback along ι, compact-support cup product and τ. TraceComparisonConjecture(H,ι,τ) is the unproved proposition that this pairing is perfect for every 0≤j<4(tδ−1). Its content depends on H. The compact-open instance is false in the Fermat example. (BS20, §7, Conjecture 7.1, p. 940; BS20 line 2142.)
+Let K=C, k≥3, d≥k−1, n>2ᵏ(k−1), f of degree k with X and Z smooth, and x≠0 with f₀(x)=0. Fix a topology H on the prescribed-germ set, a continuous ι:Mor^an→H (supplied by StrongGermData when that hypothesis is used), and a geometrically justified degree-2D trace τ; §10.8 supplies τ when tδ>k−1, while outside that range its justification is an additional hypothesis. Define the pairing H_c^(2D−j)(Mor,Q)⊗H^j(H,Q)→Q by pullback along ι, compact-support cup product and τ. TraceComparisonConjecture(H,ι,τ) is the unproved proposition that this pairing is perfect for every 0≤j<4(tδ−1). Its content depends on H. The compact-open instance is false in the Fermat example. (BS20, §7, Conjecture 7.1, p. 940; BS20 line 2142.)
 
 - Pull back H^j(H,Q), cup with H_c^(2D−j)(Mor,Q), and apply the specified geometric trace.
 - Define perfection for all integer j with 0≤j<4(tδ−1) as a proposition.
@@ -1691,8 +1704,8 @@ A proof route is as follows. Use the natural degree-one Hurewicz theorem on the 
 
 **Checks.**
 
-- This example has tδ>k−1, so its trace and irreducibility are within the supported range.
-- The failure occurs strictly inside the conjectural interval.
+- For k=3, n=40, d=2: t=1, δ=3, D=74 and tδ=3>2=k−1, so the trace and irreducibility of §10.8 apply; at n=32 one would have tδ=2, outside that range.
+- The degree j=1 satisfies 0≤1<8=4(tδ−1), and i=−1>−4. Its two factors have dimensions 0 and at least 1, so the pairing cannot be perfect, strictly inside the conjectural interval.
 
 ### 13.3 Conditional implication from the comparison conjecture
 
@@ -1704,9 +1717,9 @@ A proof route is as follows. Use perfection of the explicitly assumed pairing fo
 
 **Checks.**
 
-- Use compact-support cohomology on the algebraic side.
-- Use n≥4 for the connected full double-loop space; the cubic n=3 case has multiple components.
-- The desired E₁ dimension equality is a conclusion of the AlgebraicTopologyPartII formulas, not an assumption obtained from the conjectured degeneration.
+- For Mor=𝔸^D with D≥1 the j=0 pairing uses H_c^(2D)(𝔸^D,ℚ)=ℚ, while ordinary H^(2D)(𝔸^D,ℚ)=0; with ordinary cohomology on the algebraic side the trace line would vanish.
+- The cubic Fermat fibre in three variables is a bouquet of eight 2-spheres, so π₀Ω²X=π₂X=ℤ⁸ and Ω²X has infinitely many components; in four variables it is a bouquet of sixteen 3-spheres and Ω²X is connected. Hence n≥4 is needed for the connected double-loop Betti series.
+- For n=40, d=2 the stable configuration diagonal has dimension 1 at j=0 (the m=0 term only) and 0 at j=1, matching the rational Betti numbers 1 and 0 of the connected, 36-connected space Ω²X; this equality comes from the AlgebraicTopologyPartII formulas, not from the conjectured degeneration.
 
 ### Examples
 
