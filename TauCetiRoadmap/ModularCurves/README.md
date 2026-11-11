@@ -1471,7 +1471,7 @@ Tau Ceti carriers named above; nothing outside Layer 0.
 
 ## Layer 1: elliptic curves over a base scheme
 
-References: KM 2.1 and Deligne–Rapoport II.1.
+References: KM 2.1, 2.2 and Deligne–Rapoport II.1.
 
 ### 1.1. Projective Weierstrass models
 
@@ -1528,7 +1528,8 @@ Construct the relative effective Cartier divisor `[0]`, its multiples, and the l
 ```
 
 Use fibrewise Riemann–Roch and Serre duality, followed by Grauert's theorem and cohomology and base
-change, to prove for `n>0`
+change, to prove for `n>0` (the local freeness and the ranks are the input of Loeffler, Proposition
+3.3.2, for `n ≤ 5`)
 
 ```text
 R¹π_*ℒ_n = 0,
@@ -1554,7 +1555,8 @@ Before choosing an equation, prove the pole-filtration form of the construction.
 the base, split the successive quotients in the filtration of `π_*ℒ_n`, choose `x` and `y` modulo
 the lower pole-order pieces, and use the multiplication maps to obtain the unique relation in pole
 order six. Prove that smoothness of the original curve makes the discriminant of this relation a
-unit. This constructs a pointed Weierstrass equation rather than assuming one.
+unit. This constructs a pointed Weierstrass equation rather than assuming one (KM 2.2.5–2.2.6; Loeffler,
+Proposition 3.3.2, whose sketch lists the bases of `π_*𝒪_E(n[0])` for `n ≤ 5` used below).
 
 After a pointed Weierstrass trivialisation, identify that construction with the bases
 
@@ -1585,16 +1587,26 @@ classification theorem which is needed before any gluing argument:
 > Every pointed isomorphism between projective Weierstrass models over the same base is induced by
 > a unique variable change.
 
+Over a field this is AEC III.3.1(b); over a base it is part of KM 2.2.5–2.2.6.
+
 Prove the arbitrary-base version by descent from affine opens, including uniqueness on overlaps.
 Only after this theorem prove that the bases and multiplication maps above are independent of the
 chosen pointed equation.
 
 Finally prove the Weierstrass-presentation theorem: a smooth proper relative genus-one curve with a
-section is Zariski-locally on the base pointed-isomorphic to a projective Weierstrass model. This is
+section is Zariski-locally on the base pointed-isomorphic to a projective Weierstrass model
+(KM 2.2.5–2.2.6; Deligne–Rapoport II.1.1). This is
 the theorem later used to show that a quotient `E/C` again satisfies the local-model condition.
 
 **Dependencies.** Layers 0.1, 0.5, and 1.1–1.2, and the Jacobian Challenge contracts for curve
 Riemann–Roch, Serre duality, Grauert's theorem, and cohomology and base change.
+
+**Further sources.** Loeffler, Proposition 3.3.2: an elliptic curve over a scheme has a Weierstrass
+equation Zariski-locally on the base, determined by a local basis of `π_*Ω¹_{E/S}`; the same
+statement as the presentation theorem, proved there in outline, with the local freeness of the
+sheaves `π_*𝒪_E(n[0])` taken from the cohomology of the fibres. AEC III.3.1(a) and (b): over a
+field, the Weierstrass equation from the Riemann–Roch spaces of `n[0]`, and the variable changes
+between two such equations; the special case of a field of both theorems.
 
 ### 1.4. The scheme-theoretic group law
 
@@ -2457,8 +2469,13 @@ invertibility hypothesis on `N`:
   (`hasProperty_isFinite_gammaRelRepData`).
 
 Their formation commutes with arbitrary base change (`RelRepData.isPullback`), and over `ℤ[1/N]`
-they are the naive problems through the isomorphisms of Layer 4.3, hence finite étale there
-(`hasProperty_etale_gammaRelRepData`). Owned here:
+they are the naive problems through the isomorphisms of Layer 4.3, hence finite étale there. For
+`[Γ(N)]` this is at the pin (`hasProperty_etale_gammaRelRepData`). Owned here:
+
+- the étaleness of `gammaOneRelRepData` over a base on which `N` is invertible, by transport
+  along the pinned isomorphism `isIso_gammaOneToGammaOneNaive` from the étaleness of the naive
+  problem (`hasProperty_etale_gammaOneNaiveRelRepData`); it is the last clause of
+  `firstMainTheorem_gammaOne`;
 
 - the relative representability of balanced `[Γ₁(N)]` by the cyclic-subgroup and Cartier-dual
   generator loci, finite over `Ell/ℤ`, commuting with arbitrary base change and restricting over
@@ -2910,6 +2927,25 @@ coarse formation need not commute with arbitrary base change. Its examples use g
 modular forms for `[ω]` and `[Δ=1]`; since modular forms are outside this roadmap, that calculation
 is not a formalisation target here.
 
+**Checks.**
+
+- For a problem represented by `𝔼/M`, the data are `M` with the classifying maps of the
+  representing bijection: a family of maps `g` is determined by its value on the universal
+  structure, which is the unique `φ`, and over an algebraically closed field the classifying map is
+  the bijection `𝒫(E/k)/≅ ⟶ M(k)` itself.
+- For `[Γ(1)]` the scheme is `𝔸¹_j` (Layer 6.5), and the curves with `j = 0` and `j = 1728` are
+  single points although their automorphism groups have orders `6` and `4` away from
+  characteristics `2` and `3`, against `2` elsewhere: the data record isomorphism classes and not
+  automorphisms. With the same classifying maps `ℙ¹_j` fails surjectivity on algebraically closed
+  points, no elliptic curve having `j = ∞`.
+- The universal property is not implied by the two conditions on points. Over `𝔽_p` take `𝔸¹`
+  with the classifying maps `Frob ∘ j`: Frobenius is bijective on the points of an algebraically
+  closed field, so both conditions on points hold, but the family `g = j` would need `φ` with
+  `φ(T^p) = T`, and `p · deg φ = 1` has no solution.
+- Algebraic closedness is needed in the injectivity clause: `y² = x³ − x` and `y² = x³ − 4x` have
+  `j = 1728` over `ℚ` and are not isomorphic over `ℚ`, the ratio `1/4` of the coefficients not
+  being a fourth power there. Stated for all fields, the clause would fail for `𝔸¹_j`.
+
 **Dependencies.** Layers 0.3, 3.1–3.2, 3.5, 5.2, and 6.1, and the finite invariant-quotient API.
 
 **Further sources.** Conrad, *The Keel–Mori theorem via stacks*, Theorem 1.1, constructs the coarse
@@ -3084,12 +3120,23 @@ here by the following route, which uses only material already constructed.
    a flat module over a principal ideal domain with torsion-free cokernel; the source need not be
    flat, since the image is a submodule of a flat module and so flat) says that
    `A_N^G ⊗_D R ⟶ (A_N ⊗_D R)^G` is an isomorphism for every `R` as soon as it is surjective
-   modulo every prime `p` of `D`, i.e. as soon as `(A_N/p)^G = 𝔽_p[j]` for every `p ≠ N`.
+   modulo every prime `p` of `D`, i.e. as soon as `(A_N/p)^G = 𝔽_p[j]` for every `p ∤ N`.
    Prove those fibre computations: for `N = 3` by the invariant computation of step 2 over
-   `𝔽_p[ζ₃]` (`isInvariant_tetrahedralGroup` applies for `p ≠ 2, 3`; the fibre at `p = 2`, where
-   `2` is not a nonzerodivisor, is covered by `N = 4`), including the split case `p ≡ 1 mod 3` in
-   which `Y_full(3)_{𝔽_p}` has two components interchanged by `det` and the invariants are those
-   of `SL₂(𝔽₃)` on one component; for
+   `𝔽_p[ζ₃]` (`isInvariant_tetrahedralGroup` applies for `p ≠ 2, 3`), including the split case
+   `p ≡ 1 mod 3` in which `Y_full(3)_{𝔽_p}` has two components interchanged by `det` and the
+   invariants are those of `SL₂(𝔽₃)` on one component. The fibre of `N = 3` at `p = 2` is a
+   computation of its own, because `2` is not a nonzerodivisor of `𝔽₂` and no `𝔽₂`-algebra is a
+   `ℤ[1/2]`-algebra, so that `N = 4` says nothing about it. There
+   `A₃/2 = 𝔽₄[μ, 1/(μ³+1)]` is a domain, free of rank `12` over `𝔽₄[u]`
+   (`finrank_levelThreeRing`), where `u = μ³(μ³+8)³/(μ³−1)³` reduces to `μ¹²/(μ³+1)³` and
+   `j = 27u = u`. The tetrahedral substitutions `μ ↦ ζ₃μ` and `μ ↦ (μ+2)/(μ−1)` reduce to
+   `μ ↦ ζ₃μ` and `μ ↦ μ/(μ+1)`, which generate the group of the twelve substitutions
+   `μ ↦ aμ/(cμ+1)`, `a ∈ 𝔽₄^×`, `c ∈ 𝔽₄`, and fix `u`:
+   `u(μ/(μ+1)) = μ¹²/((μ+1)³(μ²+μ+1)³) = u`, since `μ³ + (μ+1)³ = μ²+μ+1`. A faithful group of
+   order `12` on `𝔽₄(μ)`, of degree `12` over `𝔽₄(u)`, has fixed field `𝔽₄(u)`; the invariants of
+   `A₃/2` lie in it and are integral over the normal ring `𝔽₄[u]`, so they are `𝔽₄[u]`. An
+   element of determinant `−1` fixes `j = u` and acts on `𝔽₄` by `ζ₃ ↦ ζ₃²`, which leaves
+   `𝔽₂[u] = 𝔽₂[j]`. For
    `N = 4` by the Legendre section argument of steps 3–4 over `𝔽_p`, `p` odd, which needs only
    that `M([Γ(1)]/𝔽_p)` is reduced. Then glue over `D(6)`. Alternatives are to formalise Igusa's
    theorem directly, or to redo the invariant computation uniformly over arbitrary rings including
@@ -3151,6 +3198,22 @@ Construct `E[p^∞] = (E[pⁿ])_{n≥0}`: each `E[pⁿ]` finite locally free of 
 change. This is the carrier quantified over by Reg. 3 (KM pp. 129–130) and by G2 of Layer 8.5;
 `Suggested.lean` renders its isomorphisms as `PDivisibleGroupIso`, compatible systems of
 isomorphisms of finite levels.
+
+**Checks.**
+
+- For `E = E'` the identities of the `E[pⁿ]` form such a system. The system which is `[−1]` on
+  `E[p]` and the identity on every other level is excluded by the compatibility with
+  `E[p] ⊆ E[p²]` when `p` is odd, since `[−1] ≠ 1` on `E[p]`, the map `[2]` being an automorphism
+  of `E[p] ≠ 0`; for `p = 2` the same holds one level up, `[2]` being nonzero on `E[4]`. A
+  definition by a family of isomorphisms with no compatibility would admit both.
+- Over a separably closed field in which `p` is invertible, `E[pⁿ]` is the constant group
+  `(ℤ/pⁿℤ)²` and a system is an isomorphism of Tate modules `T_p E ≅ T_p E'` read modulo each
+  `pⁿ`: the systems from `E` to itself form `GL₂(ℤ_p)`, and one exists between any two curves,
+  isogenous or not.
+- Over an algebraically closed field of characteristic `p` there is none between an ordinary and
+  a supersingular curve: `E[p]` has `p` points on one side and one on the other.
+- For `p = 1` every `E[1ⁿ]` is the trivial group and there is exactly one system between any two
+  curves, which is why Reg. 3 and G2 take `p` prime.
 
 **PD-2, connected–étale.** Base: a henselian local ring. Construct the connected–étale
 sequence of a finite locally free commutative group scheme, functorial, compatible with local
@@ -3322,6 +3385,24 @@ universal property is `UniversalDeformation` (its object of `Ell/W(k)` being
 `universalDeformationObj`), and its existence for every elliptic curve over an algebraically
 closed field of characteristic `p` is `exists_universalDeformation`.
 
+**Checks.**
+
+- Test algebras: `k` itself, `k[ε]/(ε²)` and `W₂(k) = W(k)/p²` are test algebras; `W(k)` is not
+  Artinian and `k × k` is not local. The condition that the residue map restricts to the
+  projection `W(k) ⟶ k` excludes `A = k` with the Frobenius of `k` as residue map, which is
+  surjective with kernel the maximal ideal `0` and would twist the special fibre.
+- Over the test algebra `k` a deformation is a curve `E/k` with an arrow of `Ell/W(k)` from `E₀`
+  over the identity of `Spec k`, that is, an isomorphism `E₀ ≅ E`: there is exactly one up to
+  unique isomorphism, and the universal property gives the one map `T ↦ 0`.
+- A map `ψ` of the universal property sends `T` to a nilpotent element, because it lies over the
+  residue maps, and is determined by `ψ(T)`: if `ψ(T)ⁿ = 0` then `ψ` factors through
+  `W(k)[T]/(Tⁿ)`. Over `k[ε]/(ε²)` the maps are `T ↦ cε`, `c ∈ k`, a line, as are the
+  deformations of `E₀` there.
+- The pullback of a universal family along `T ↦ T²` is not universal: every `T ↦ cε` then induces
+  the deformation of `T ↦ c²ε² = 0`, so a nontrivial deformation over `k[ε]/(ε²)` has no `ψ`.
+  A family constant in `T` fails uniqueness as well: `T ↦ 0` and `T ↦ ε` induce the same
+  deformation.
+
 **Further sources.** DR III 1.2: an elliptic curve over a field, and likewise an `n`-gon with `n`
 prime to the characteristic, has no infinitesimal automorphisms, and its deformation functor is
 effectively pro-representable by a ring of power series in one variable; this is more general and
@@ -3402,6 +3483,21 @@ satisfying these axioms is finite flat of constant rank at least one and regular
 two. Its proof is Layer 8.3. KM 5.1.1 is the First Main Theorem, the same conclusion for the three
 problems of Layer 4.4 and for `[Γ₀(N)]`: Layer 8.8 obtains it for the three by verifying the
 axioms, and Layer 9.4 proves it for `[Γ₀(N)]`.
+
+**Checks.**
+
+- The trivial problem `[Γ(1)]`, represented over every `E/S` by `S`, satisfies the four axioms at
+  every prime: the identity is finite and étale, `𝒫(E₀/k)` is a point, and `𝒫_𝔈` is the spectrum of
+  `W(k)[[T]]`, regular local of dimension two with parameters `p` and `T`. The theorem gives rank
+  `1`.
+- The empty problem satisfies Reg. 1–Reg. 3 and fails the nonemptiness of Reg. 4A; its rank is
+  `0`, so without that clause the theorem's positive rank would be false.
+- The problem `𝒫(E/S) = E[p](S)` of sections of `E[p]` satisfies Reg. 1–Reg. 3 and Reg. 4A, a
+  supersingular `E₀[p]` having the one point `0` over `k`, and fails Reg. 4B: `𝒫_𝔈` is the spectrum
+  of `W(k)[[T, X]]/([p](X))` with `[p](X) = X · g(X)`, `g(0) = p`, so `[p](X)` lies in the square of
+  the maximal ideal `(p, T, X)` and the quotient, of dimension two, is neither regular nor a
+  domain. The problem is finite flat of rank `p²` and not regular, so Reg. 4B cannot be dropped;
+  the problem `[Γ₁(p)]` of points of exact order `p` removes the factor `X`.
 
 ### 8.2. Local algebra and local schemes
 
@@ -3524,6 +3620,20 @@ ring with perfect residue field when the group fixes all but one regular paramet
 the last by a unit. Prove Variant 7.5.3 for a product `H₁×⋯×H_n` acting diagonally on a regular
 parameter system.
 
+**Checks.**
+
+- For `H = 1` the axioms G1–G3 hold with the generator `1`, and the theorem is the Axiomatic
+  Regularity Theorem with a projection of degree `1`.
+- A group `H ≠ 1` acting trivially on a nonempty problem fails G1, every point being fixed; the
+  projection is then an isomorphism, of degree `1` and not `|H|`.
+- G3 is what separates regular from singular invariant rings. On `A = k[[x, y]]`, `p` odd, the
+  group `{±1}` acting by `y ↦ −y` has `A^H = k[[x, y²]]` and `A = A^H ⊕ A^H y`, two generators
+  and a regular quotient; acting by `(x, y) ↦ (−x, −y)` it has `A^H = k[[x², xy, y²]]`, and
+  `A/𝔪_{A^H}A = k[x, y]/(x², xy, y²)` has dimension `3 > |H|`, so `A` needs three generators and
+  `A^H` is the cone `uw = v²`, not regular.
+- In G1 the test objects are nonempty: the unique morphism from the empty scheme is fixed by
+  every `h`, and without the restriction G1 would say `H = 1`.
+
 ### 8.6. Deformation rings with level structure
 
 **ST-4, pro-representability with level.** For `𝒫 ∈ {[Γ(pⁿ)], [Γ₁(pⁿ)], bal. [Γ₁(pⁿ)]}` and
@@ -3602,7 +3712,21 @@ Conclude that `[Γ(N)]`, `[Γ₁(N)]`, and balanced `[Γ₁(N)]` are finite flat
 rank over `Ell/ℤ`, regular of dimension two, and finite étale after inverting `N`. For the pinned
 `[Γ(N)]` and `[Γ₁(N)]` with their relative-representability data this is `firstMainTheorem_gamma`
 and `firstMainTheorem_gammaOne` in `Suggested.lean`; the balanced problem has no carrier at the
-pin.
+pin. The clause after inverting `N` is stated there as: the representing scheme is étale over
+every `E/S` on whose base `N` is a unit. `firstMainTheorem_gammaOne` carries it;
+`firstMainTheorem_gamma` does not, the clause for `[Γ(N)]` being the pinned
+`hasProperty_etale_gammaRelRepData` over a base on which `N` is invertible, from which the
+statement over `E/S` follows by the base change `RelRepData.isPullback`.
+
+**Checks.**
+
+- For `N = 1` the representing scheme of both problems is the base, of rank `1`, and the identity
+  is étale.
+- Over `S = Spec 𝔽_p` with `p ∣ N` the integer `N` is not a unit and the clause says nothing, as it
+  must: for a supersingular curve the scheme of points of exact order `p` is the nonreduced
+  `Spec k[X]/(X^{p²−1})`, finite flat of rank `p² − 1` and not étale.
+- The rank of `[Γ₁(N)]` is read after inverting `N`: for `N = 4` it is `16 − 4 = 12`, the points of
+  `(ℤ/4)²` of order exactly four.
 
 **Further sources.** Conrad, Lemma 3.3.4 and Theorem 4.1.1(2), and Česnavičius, Theorem 4.3.5 and
 Theorem 4.4.4, extend the regularity to the compactified stacks over `ℤ`, cusps included, and Conrad
@@ -3617,11 +3741,33 @@ KM 7.6.1:
 
 - for `p^n`, the quotients of `[Γ(p^n)]` by subgroups of the semi-Borel or by product
   subgroups `H₁×H₂` of the diagonal Cartan are regular of dimension two and finite flat
-  over `Ell`; the projections from `[Γ(p^n)]` to those quotients are finite flat;
+  over `Ell`; the projections from `[Γ(p^n)]` to those quotients are finite flat. The semi-Borel
+  is the group `{[[1,b],[0,d]]}` of Layer 6.2, item 3, the stabiliser of `P` in the convention
+  `(P,Q)g = (aP + cQ, bP + dQ)`. This clause is `regular_quotient_gamma_primePow` in
+  `Suggested.lean`, for a finite group `H` mapping injectively to `GL₂(ℤ/pⁿℤ)` and acting through
+  the pinned `gammaAction`, and for every Katz–Mazur quotient formed on `gammaRelRepData`: the
+  quotient is finite flat of constant positive rank and regular of dimension two, and the
+  projection is finite flat of degree `|H|`;
 - for subgroups `G,H⊆(ℤ/p^nℤ)ˣ`, the quotients of balanced `[Γ₁(p^n)]` by `G×H` and of
   `[Γ₁(p^n)]` by `G` are regular of dimension two and finite flat over `Ell`, and the
   projections from the source problems to their quotients are finite flat. The direction
   is source to quotient; no morphism from a quotient back to its source is asserted.
+
+**Checks.**
+
+- The pinned action sends the pair `(P, Q)` of a matrix `[[a,b],[c,d]]` to `(aP + cQ, bP + dQ)`,
+  so `[[1,b],[0,d]]` gives `(P, bP + dQ)` and fixes `P`, while the transpose `[[1,0],[c,d]]` gives
+  `(P + cQ, dQ)` and does not: the semi-Borel condition is on the entries `a = 1`, `c = 0`.
+- `H = 1` gives `[Γ(pⁿ)]` and the full semi-Borel gives `[Γ₁(pⁿ)]` (Layer 6.2, item 3, over `ℤ` by
+  Layer 9.5), both regular by Layer 8.8; the degree `|H| = pⁿ φ(pⁿ)` of the projection agrees with
+  the ranks after inverting `p`: `p^{4n}(1 − 1/p)(1 − 1/p²)` for `[Γ(pⁿ)]` against
+  `p^{2n}(1 − 1/p²)` for `[Γ₁(pⁿ)]`.
+- For `p = 2`, `n = 1` the group `GL₂(𝔽₂)` has order `6`, the semi-Borel is `{1, [[1,1],[0,1]]}`
+  and the diagonal Cartan is trivial; the quotient by the semi-Borel has rank `6/2 = 3`, the three
+  points of order two.
+- A homomorphism to `GL₂(ℤ/pⁿℤ)` which is not injective has a nontrivial kernel acting trivially;
+  the quotient is that by the image, and the degree of the projection is the order of the image
+  and not `|H|`.
 
 **Dependencies.** Layer 8.1 uses Layers 3.1, 3.6, 7.1, and 7.4. Layer 8.2 uses Layers 0.9, 3.1,
 3.5, and 7.4. Layer 8.3 uses Layers 0.9, 3.5–3.6, 7.3, 7.5, 8.1, and 8.2. Layer 8.4 uses Layers
@@ -3798,7 +3944,8 @@ Prove KM 6.6.1 through the following chain.
 
 This completes the fourth clause of the First Main Theorem: `exists_relRepData_gammaZero` in
 `Suggested.lean`, relative-representability data for the pinned `gammaZero` over `ℤ` that are
-finite, flat, of constant positive rank and regular of dimension two. KM §6.8's stronger theorem
+finite, flat, of constant positive rank and regular of dimension two, and étale over every `E/S`
+on whose base `N` is a unit. KM §6.8's stronger theorem
 that the whole `[N-Isog]`-problem is finite flat requires an additional lifting theorem for
 homomorphisms and is outside this roadmap's endpoint; only its finiteness from Layer 9.1 is used here.
 

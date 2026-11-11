@@ -102,10 +102,13 @@ representable, affine and rigid implies representable) and its consequence KM 4.
 full-level problem (the affine fine curve `Y_full(N)` for `N ≥ 3`, smooth of relative dimension one
 over every base) with the relative dimension one of `Y₁(N)` for `N ≥ 4` (Layer 5.1), KM 5.2.1 (the
 Axiomatic Regularity Theorem) with the ring-theoretic core of KM 5.3.4, the First Main Theorem for
-`[Γ(N)]` and for `[Γ₁(N)]` (KM 5.1.1 applied to the pinned problems), the existence of the
+`[Γ(N)]` and for `[Γ₁(N)]` (KM 5.1.1 applied to the pinned problems, with the étaleness of
+`[Γ₁(N)]` where `N` is invertible), the existence of the
 universal formal deformation (Layer 7.4), KM 6.6.1 (`[Γ₀(N)]` is relatively representable, finite
-flat of constant positive rank and regular of dimension two), KM 7.1.3 (Katz–Mazur quotients), KM
-7.5.1 (regularity of quotients), KM 8.1.1 and 8.1.5 (coarse moduli schemes and their quotients), KM
+flat of constant positive rank and regular of dimension two, and étale where `N` is invertible),
+KM 7.1.3 (Katz–Mazur quotients), KM 7.5.1 (regularity of quotients), the clause of KM 7.6.1 for
+the quotients of `[Γ(pⁿ)]` by subgroups of the semi-Borel and by product subgroups of the diagonal
+Cartan (Layer 8.9), KM 8.1.1 and 8.1.5 (coarse moduli schemes and their quotients), KM
 8.2.1 (the coarse `j`-line, over `ℤ` and over every coefficient ring), the quotient-smoothness
 theorem of KM's Notes Added in Proof (Layer 6.4), and the clauses of Layer 0.9 not at the pin (the
 separably closed residue field of the strict henselization and its Noetherianity), with the
@@ -141,6 +144,13 @@ Headline theorems not statable at the pins, and what each lacks:
 * the balanced `[Γ₁(N)]` problem and its clause of the First Main Theorem (KM 5.1.1 applied to
   it): the Cartier dual of a cyclic subgroup and Drinfeld generators of a finite locally free
   group scheme (Layers 0.8 and 2.5);
+* the clauses of KM 7.6.1 for the quotients of `[Γ₁(pⁿ)]` and of balanced `[Γ₁(pⁿ)]` (Layer 8.9):
+  the diamond action of `(ℤ/pⁿℤ)ˣ` on `ModuliProblem.gammaOne`, and the balanced problem;
+* the quotient identifications of KM 7.4.2 over `ℤ` (Layer 9.5): the morphisms of Drinfeld
+  problems `[Γ(N)] ⟶ [Γ(d)]`, `[Γ(N)] ⟶ [Γ₁(N)]` and `[Γ(N)] ⟶ [Γ₀(N)]`, whose construction is itself a
+  theorem (the first vector of a Drinfeld basis has exact order `N`), the diamond action on
+  `ModuliProblem.gammaOne` for the identification of `[Γ₀(N)]` with the quotient of `[Γ₁(N)]`, of
+  which only the projection `gammaOneToGammaZero` is at the pin, and the balanced problem;
 * the cyclicity theorem KM 6.1.1, the finiteness of `[N-Isog]` (KM 6.5.1) and the Axiomatic
   Isomorphism Theorem KM 6.2.1: the generator scheme `Gˣ`, the relative subgroup Grassmannian of
   Layer 0.7 over a non-affine base and Drinfeld generators;
@@ -1073,8 +1083,8 @@ theorem formalGroup_p_eq_zero_of_pow_mem_span {R : Type u} [CommRing R]
 /-- The First Main Theorem for `[Γ(N)]` (KM 5.1.1 applied to it, Layers 8.7–8.8): the pinned
 Drinfeld problem `ModuliProblem.gamma`, relatively representable by the Drinfeld-basis scheme
 `gammaRelRepData` and finite over `Ell/ℤ` at the pin, is finite flat of constant positive rank over
-`Ell/ℤ` and regular of dimension two. After inverting `N` it is finite étale at the pin
-(`hasProperty_etale_gammaRelRepData`). -/
+`Ell/ℤ` and regular of dimension two. Over a base on which `N` is invertible it is finite étale at
+the pin (`hasProperty_etale_gammaRelRepData`), and that clause is not restated. -/
 theorem firstMainTheorem_gamma (N : ℕ) [NeZero N] :
     (ModuliProblem.gammaRelRepData (Spec intRing.{u}) N).HasProperty @Flat ∧
       (ModuliProblem.gammaRelRepData (Spec intRing.{u}) N).HasProperty
@@ -1087,7 +1097,10 @@ theorem firstMainTheorem_gamma (N : ℕ) [NeZero N] :
 /-- The First Main Theorem for `[Γ₁(N)]` (KM 5.1.1 applied to it, Layers 8.7–8.8): the pinned
 Drinfeld problem `ModuliProblem.gammaOne`, relatively representable by the exact-order scheme
 `gammaOneRelRepData` and finite over `Ell/ℤ` at the pin, is finite flat of constant positive rank
-over `Ell/ℤ` and regular of dimension two. -/
+over `Ell/ℤ` and regular of dimension two, and étale over every `E/S` on whose base `N` is
+invertible. The last clause is not at the pin for `gammaOneRelRepData`; over a base of residue
+characteristic `p ∣ N` it is empty, as it must be, the exact-order scheme of a supersingular curve
+being nonreduced there. -/
 theorem firstMainTheorem_gammaOne (N : ℕ) [NeZero N] :
     (ModuliProblem.gammaOneRelRepData (Spec intRing.{u}) N).HasProperty @Flat ∧
       (ModuliProblem.gammaOneRelRepData (Spec intRing.{u}) N).HasProperty
@@ -1095,7 +1108,38 @@ theorem firstMainTheorem_gammaOne (N : ℕ) [NeZero N] :
         (∃ n : ℕ, 0 < n ∧ ∀ X,
           ((ModuliProblem.gammaOneRelRepData (Spec intRing.{u}) N).rep X).hom.finrank =
             fun _ ↦ n) ∧
-          (ModuliProblem.gammaOneRelRepData (Spec intRing.{u}) N).IsRegularOfDim 2 :=
+          (ModuliProblem.gammaOneRelRepData (Spec intRing.{u}) N).IsRegularOfDim 2 ∧
+            ∀ X : EllObj (Spec intRing.{u}), IsUnit ((N : ℕ) : Γ(X.base, ⊤)) →
+              Etale ((ModuliProblem.gammaOneRelRepData (Spec intRing.{u}) N).rep X).hom :=
+  sorry
+
+/-! ## Layer 8.9: regular quotients at prime-power level -/
+
+/-- KM 7.6.1 for `[Γ(pⁿ)]` (Layer 8.9): let a finite group `H` act on the pinned problem
+`ModuliProblem.gamma (Spec ℤ) (p ^ n)` through an injective homomorphism `φ` to `GL₂(ℤ/pⁿℤ)` and
+the pinned right action `ModuliProblem.gammaAction`, and let the image of `φ` either lie in the
+semi-Borel subgroup `{[[1,b],[0,d]]}`, the stabiliser of the first basis vector in the row-vector
+convention `(P,Q)g = (aP + cQ, bP + dQ)`, or be a product subgroup `H₁ × H₂` of the diagonal
+matrices. Then every Katz–Mazur quotient of `[Γ(pⁿ)]` by `H`, formed on the Drinfeld-basis data
+`gammaRelRepData`, is finite flat of constant positive rank over `Ell/ℤ` and regular of dimension
+two, and the projection from `[Γ(pⁿ)]` to it is finite flat of degree `|H|`. -/
+theorem regular_quotient_gamma_primePow (p : ℕ) [Fact p.Prime] (n : ℕ) [NeZero (p ^ n)]
+    {P' : ModuliProblem (Spec intRing.{u})} {H : Type u} [Group H] [Finite H]
+    (φ : H →* (GL (Fin 2) (ZMod (p ^ n)))ᵐᵒᵖ) (_hφ : Function.Injective φ)
+    (_hH : (∀ h : H, (φ h).unop 0 0 = 1 ∧ (φ h).unop 1 0 = 0) ∨
+      ((∀ h : H, (φ h).unop 0 1 = 0 ∧ (φ h).unop 1 0 = 0) ∧
+        ∀ h₁ h₂ : H, ∃ h : H, (φ h).unop 0 0 = (φ h₁).unop 0 0 ∧
+          (φ h).unop 1 1 = (φ h₂).unop 1 1))
+    (Q : KatzMazurQuotientData (ModuliProblem.gamma (Spec intRing.{u}) (p ^ n)) P' H)
+    (_hrel : Q.relRep = ModuliProblem.gammaRelRepData (Spec intRing.{u}) (p ^ n))
+    (_hact : Q.act = (ModuliProblem.gammaAction (Spec intRing.{u}) (p ^ n)).comp φ) :
+    Q.relRep'.HasProperty @IsFinite ∧ Q.relRep'.HasProperty @Flat ∧
+      Q.relRep'.HasProperty @LocallyOfFinitePresentation ∧
+        (∃ m : ℕ, 0 < m ∧ ∀ X, (Q.relRep'.rep X).hom.finrank = fun _ ↦ m) ∧
+          Q.relRep'.IsRegularOfDim 2 ∧
+            ∀ X, IsFinite (Q.mapRep X).left ∧ Flat (Q.mapRep X).left ∧
+              LocallyOfFinitePresentation (Q.mapRep X).left ∧
+                (Q.mapRep X).left.finrank = fun _ ↦ Nat.card H :=
   sorry
 
 /-! ## Layer 9: cyclicity and `[Γ₀(N)]` -/
@@ -1103,14 +1147,17 @@ theorem firstMainTheorem_gammaOne (N : ℕ) [NeZero N] :
 /-- KM 6.6.1, the fourth clause of the First Main Theorem (Layer 9.4): the pinned problem
 `[Γ₀(N)]` of cyclic subgroups of order `N`, `ModuliProblem.gammaZero`, is relatively representable
 by the cyclicity locus of `[N-Isog]`, finite over `Ell/ℤ`, finite flat of constant positive rank
-(`N ∏_{p ∣ N} (1 + 1/p)`, computed in Layer 9.4) and regular of dimension two. The problem is
+(`N ∏_{p ∣ N} (1 + 1/p)`, computed in Layer 9.4) and regular of dimension two, and étale over every
+`E/S` on whose base `N` is invertible. The problem is
 Tau Ceti's; its relative-representability data are a conclusion, since the cyclicity locus is
 constructed from the generator scheme of Layer 9.2. -/
 theorem exists_relRepData_gammaZero (N : ℕ) [NeZero N] :
     ∃ D : (ModuliProblem.gammaZero (Spec intRing.{u}) N).RelRepData,
       D.HasProperty @IsFinite ∧ D.HasProperty @Flat ∧
         D.HasProperty @LocallyOfFinitePresentation ∧
-          (∃ n : ℕ, 0 < n ∧ ∀ X, (D.rep X).hom.finrank = fun _ ↦ n) ∧ D.IsRegularOfDim 2 :=
+          (∃ n : ℕ, 0 < n ∧ ∀ X, (D.rep X).hom.finrank = fun _ ↦ n) ∧ D.IsRegularOfDim 2 ∧
+            ∀ X : EllObj (Spec intRing.{u}), IsUnit ((N : ℕ) : Γ(X.base, ⊤)) →
+              Etale (D.rep X).hom :=
   sorry
 
 end TauCetiRoadmap.ModularCurves
