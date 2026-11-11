@@ -108,7 +108,7 @@ Tau Ceti provides:
 |---|---|
 | Abel's identity for 14.21.1 and the span criterion: two solutions with nonvanishing Wronskian span all solutions on a connected open set | 1.3 |
 | The branch identities behind the definitions: `((1 + z)/(1 − z))^{μ/2}` and `(1 − z²)^{−μ/2}` are holomorphic on the doubly cut plane, `((z + 1)/(z − 1))^{μ/2}`, `(z − 1)^{μ/2} (z + 1)^{μ/2}` and `z^{ν+μ+1}` on `ℂ \ (−∞, 1]`, and each is the principal value on the real interval | 1.1 |
-| Sturm's separation and comparison theorems for `((1 − x²) y′)′ + q(x) y = 0` on an open interval, and the continuity of the zeros of a solution in its parameters | 9.1 |
+| Sturm's separation and comparison theorems for `((1 − x²) y′)′ + q(x) y = 0` on an open subinterval of `(−1, 1)` or of `(1, ∞)`, and the continuity of the zeros of a solution in its parameters | 9.1 |
 | Adams's linearization of `Pₘ Pₙ` in Legendre polynomials | 7.4 |
 | The Abelian estimate: for `Re μ > −1` and `g` integrable on `(0, 1)` and continuous at `1`, the integral `I(σ) = ∫₀¹ x^σ (1 − x)^μ g(x) dx` exists for `σ ≥ 0` and `σ^{μ+1} I(σ) → Γ(μ + 1) g(1)` as `σ → +∞` (so `I(σ) ∼ Γ(μ + 1) g(1) σ^{−μ−1}` when `g(1) ≠ 0`). Proof: split at `1 − δ`; the part over `(0, 1 − δ)` is `O((1 − δ)^σ)`, and on `(1 − δ, 1)` the substitution `x = e^{−u/σ}` and dominated convergence give `Γ(μ + 1) g(1)` | 7.3 |
 | The `L²` density of the polynomials restricted to `S²`, through Stone–Weierstrass | 11.3 |
@@ -798,8 +798,8 @@ the Riemann–Liouville form of 14.6.6 and holomorphy in `μ`.
   the auxiliary table with 14.8.1 for `𝖯^{−μ}_ν` at `1`, the right by the Gamma ratio), so the ratio
   is `1` on each ray `σ₀ + 2ℕ`, hence on `(1, ∞)` and everywhere by the identity theorem;
 - 14.17.6–14.17.9 (orthogonality) for `l, m, n : ℕ` with the Kronecker delta, 14.17.6–14.17.7
-  for `m ≤ n` (for `m > n` both functions vanish by 14.7.16, and the printed right side does
-  not), 14.17.8 for
+  for `m ≤ n` (for `m > n`, `𝖯^m_n = 0` by 14.7.16, so both integrals vanish, while the printed
+  right side of 14.17.7 is `(−1)^m/(l + ½) ≠ 0`), 14.17.8 for
   `m > 0` and 14.17.9 for `l > 0` (`integral_ferrersP_mul_ferrersP`).
 
 ### 7.4 Definite integrals of products
@@ -921,12 +921,16 @@ Layers 1–7; SpecialFunctionsHypergeometric 4.3.
 
 Auxiliary targets, for `((1 − x²) y′)′ + q(x) y = 0` on an open subinterval `I` of `(−1, 1)` or
 of `(1, ∞)` with `q` continuous and real (the method of DLMF's source for §14.16, Hobson (1931,
-pp. 386–389, 399–401)):
+pp. 386–389, 399–401)). On `I` the equation is the Sturm–Liouville equation `(p y′)′ + Q y = 0`
+with `p = |1 − x²| > 0`, where `Q = q` on `(−1, 1)` and `Q = −q` on `(1, ∞)`:
 - the zeros of a nontrivial real solution are simple and isolated;
 - Sturm's separation theorem: the zeros of two independent real solutions interlace;
-- Sturm's comparison theorem: let `q₁ ≤ q₂` on `I`, let `y₁` be a nontrivial real solution for
-  `q₁` with consecutive zeros `a < b` in `I`, and let `y₂` be a real solution for `q₂`. Then `y₂`
-  has a zero in `(a, b)`, unless `q₁ = q₂` on `[a, b]` and `y₂` is a multiple of `y₁`;
+- Sturm's comparison theorem: let `Q₁ ≤ Q₂` on `I` (so `q₁ ≤ q₂` on a subinterval of `(−1, 1)`
+  and `q₂ ≤ q₁` on a subinterval of `(1, ∞)`), let `y₁` be a nontrivial real solution for `q₁`
+  with consecutive zeros `a < b` in `I`, and let `y₂` be a real solution for `q₂`. Then `y₂` has a
+  zero in `(a, b)`, unless `q₁ = q₂` on `[a, b]` and `y₂` is a multiple of `y₁`. The direction
+  matters: on `(1, ∞)` the conical function `P_{−½+2i}` (`q₁ = −17/4`) has the consecutive zeros
+  `1.83253…` and `8.09610…`, while `P₀ = 1` (`q₂ = 0 ≥ q₁`) has none;
 - continuity of the zero count: let `t ↦ (q_t, y_t)` be a family indexed by a real interval `T`,
   with `y_t` a nontrivial real solution for `q_t` and `(t, x) ↦ y_t(x)`, `(t, x) ↦ y_t′(x)`
   continuous on `T × I`. Suppose the endpoint behaviour is fixed: for each compact `K ⊆ T` there
@@ -937,11 +941,14 @@ pp. 386–389, 399–401)):
 
 ### 9.2 Zeros on `(−1, 1)` and `(1, ∞)`
 
-DLMF §14.16 for real `ν ≥ −½` and real `μ` (the restriction to `ν ≥ −½` is no loss by 14.9.5 and
-14.9.11), with 14.16.1 (`μ = m + δ_μ`, `ν = n + δ_ν`, `m, n ∈ ℤ`, `δ_μ, δ_ν ∈ (0, 1)` when `μ`,
-respectively `ν`, is not an integer) and `N₀ = max(⌈ν − |μ|⌉, 0)`. The zeros are counted as the
-cardinality of the zero set in the open interval, which is finite. The statements are DLMF's with
-three corrections:
+DLMF §14.16 for real `μ`. The statements on `𝖯^μ_ν` and `P^μ_ν` are for `ν ≥ −½`, which is no
+loss by 14.9.5 and 14.9.11; those on `𝖰^μ_ν` assume `ν ≥ −½` (DLMF's count fails at
+`(ν, μ) = (−2.3, 0.2)`, where `𝖰^μ_ν` has three zeros, near `−0.99995`, `−0.01354` and `0.99982`,
+against `N₀ = 0`); those on `𝑸^μ_ν` are for all real `ν`. The notation is 14.16.1
+(`μ = m + δ_μ`, `ν = n + δ_ν`, `m, n ∈ ℤ`, `δ_μ, δ_ν ∈ (0, 1)` when `μ`, respectively `ν`, is not
+an integer) and `N₀ = max(⌈ν − |μ|⌉, 0)`. The zeros are counted as the cardinality of the zero
+set in the open interval, which is finite. The statements are DLMF's with the restriction for
+`𝖰^μ_ν` above and three corrections:
 - **`𝖯^μ_ν` on `(−1, 1)`** (`ferrersP_zero_count`), when it is not identically zero there, that is,
   `𝖯^μ_ν(x) ≠ 0` for some `x ∈ (−1, 1)` (`𝖯¹₀` and `𝖯³₂` vanish identically). It has `N₀` zeros if
   `μ ≤ 0`; or `μ = m ≥ 1` is an integer; or `ν ∈ ℕ`; or `ν, μ ∉ ℤ`, `μ > 0`, and either `n ≥ m` and
@@ -1012,7 +1019,10 @@ Layers 1–5.
   14.20.3 (`conicalQHat_eq`) whenever `𝖰^{∓μ}_{−½+iτ}` is defined (that is, except at
   `τ = 0`, `μ ∈ ½ + ℤ`), and 14.20.4–14.20.5 are its Wronskians;
 - 14.20.6 for `x > 1`, `τ ≠ 0`; 14.20.7–14.20.8 for `μ > 0`, `x → 1−`; 14.20.9 for `0 < θ < π`;
-  14.20.10 for `0 ≤ θ ≤ π`, with the positivity of `𝖯_{−½+iτ}(cos θ)` stated after it;
+  14.20.10 for `0 ≤ θ < π` (DLMF prints `0 ≤ θ ≤ π`, but at `θ = π` the left side is
+  singular, `𝖯_{−½+iτ}(x) → +∞` as `x → −1+`, and the series diverges, its terms being at least
+  `((2k − 1)!!/(2k)!!)²`), with the positivity of `𝖯_{−½+iτ}(cos θ)` for `0 ≤ θ < π` stated
+  after it;
 - 14.23.7 as corrected (the second factor is `e^{μπi/2}`, which makes the two terms conjugate):
 
 ```text
