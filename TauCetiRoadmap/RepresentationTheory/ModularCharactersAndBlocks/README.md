@@ -32,8 +32,10 @@ the `π`-cores `O_π(G)` of finite groups (§0.3), among them `O_p(G)` and the `
 kernel theorem, which neither pinned library defines; the `π`-cores that OddOrderTheorem (§1.1)
 and GlaubermanZStar use are these. It does not own the classification of finite simple groups, the
 odd order theorem, Glauberman's `Z*` theorem (GlaubermanZStar consumes the interfaces of §8.4),
-blocks with cyclic defect group and Brauer trees, block fusion systems beyond Brauer pairs, or
-conjectures about blocks.
+relative projectivity, vertices and sources of modules and Green correspondence (defect groups are
+defined and characterized here through the Brauer homomorphism and relative traces in `k[G]`,
+§6.2), blocks with cyclic defect group and Brauer trees, block fusion systems beyond Brauer pairs,
+or conjectures about blocks.
 
 Already in the libraries, and consumed rather than rebuilt:
 
@@ -185,7 +187,12 @@ The declarations listed under *Already in the libraries*, at the files named the
 `FDRep.exists_simple_nonempty_iso_baseChange_of_isPrimitiveRoot`, the pullback of class functions
 `TauCeti.ClassFunction.comap` (`TauCeti/RepresentationTheory/CharacterTable/ClassFunction.lean`)
 and the radical criterion `TauCeti.Ring.mem_jacobson_of_forall_isNilpotent_mul`
-(`TauCeti/RingTheory/Jacobson/Basic.lean`). For the statements of
+(`TauCeti/RingTheory/Jacobson/Basic.lean`). For §§6.1–6.2: the relative norm
+`Representation.relNormInvariants`, `Representation.relNorm_apply_of_forall_apply_eq` and
+`Representation.relNorm_comp_norm` (root namespace, in
+`TauCeti/RepresentationTheory/RelativeNorm.lean`) and the projectivity criterion
+`Rep.moduleProjective_of_id_mem_range_norm_linHom` (root namespace, in
+`TauCeti/RepresentationTheory/NormSplit/Basic.lean`). For the statements of
 §§2.4 and 3.1: the Jordan–Hölder multiplicity `TauCeti.jordanHolderMultiplicity`
 (`TauCeti/RingTheory/CompositionSeries/Multiplicity.lean`), scalar extension of representations
 `Representation.baseChange` (root namespace, in `TauCeti/RepresentationTheory/BaseChange.lean`),
@@ -946,13 +953,21 @@ Layers 0, 2 and 3; Tau Ceti `TauCeti.sum_characterTable_mul_conj` (CharacterTheo
 ### 6.1 Relative traces and the Brauer homomorphism
 
 For `Q ≤ P ≤ G` define `Tr_Q^P : k[G]^Q → k[G]^P`, `a ↦ ∑_{x ∈ P/Q} x a x⁻¹`, and prove
-transitivity, conjugation, the Mackey formula, `Tr_Q^P(a) b = Tr_Q^P(a b)` for `b ∈ k[G]^P`, and that
+transitivity, conjugation, the Mackey formula, `Tr_Q^P(a) b = Tr_Q^P(a b)` and
+`b Tr_Q^P(a) = Tr_Q^P(b a)` for `b ∈ k[G]^P`, and that
 `k[G]^P_Q = Tr_Q^P(k[G]^Q)` is an ideal of `k[G]^P` (Webb, Lemma 11.3.1, pp. 194–195, for
 transitivity, conjugation and the Mackey formula, and Proposition 12.4.1, p. 238, for the product
-formula and the ideal). Define
+formula and the ideal). On `Q`-fixed points `Tr_Q^P` is Tau Ceti's relative norm
+`Representation.relNormInvariants` of the conjugation representation of `P` on `k[G]` at `Q`
+(`TauCeti/RepresentationTheory/RelativeNorm.lean`, independent of the transversal there), which
+also gives `Tr_Q^P(a) = |P : Q| a` for `P`-fixed `a`
+(`Representation.relNorm_apply_of_forall_apply_eq`) and transitivity from the trivial subgroup,
+`Tr_Q^P Tr_1^Q = Tr_1^P` (`Representation.relNorm_comp_norm`); the other statements above are
+proved here. Define
 `brauerProjection P : k[G] → k[C_G(P)]`, which keeps the coefficients on `C_G(P)`; it is
 `k`-linear on all of `k[G]` and is not multiplicative there. *Needs:* Mathlib `MonoidAlgebra`,
-`Subgroup.centralizer`, `Subgroup.normalizer`, `IsPGroup`.
+`Subgroup.centralizer`, `Subgroup.normalizer`, `IsPGroup`; Tau Ceti
+`Representation.relNormInvariants`.
 
 - `brauerProjection_mul`: for a `p`-subgroup `P` in characteristic `p`, the projection is
   multiplicative on elements whose coefficients are invariant under conjugation by `P` (Webb, §12.5,
@@ -984,30 +999,75 @@ formula and the ideal). Define
 Define `IsDefectGroup p e P` for `e ∈ Z(k[G])`: `P` is a `p`-subgroup, `Br_P(e) ≠ 0`, and every
 `p`-subgroup `Q ≥ P` with `Br_Q(e) ≠ 0` equals `P` (Webb, Theorem 12.5.2 and Corollary 12.5.5,
 pp. 244–246; Sambale, Definition 1.4, p. 14). Prove, for every field `k` of characteristic `p`
-and every block idempotent `e`, that this agrees with the definitions by vertices of `e k[G]` as a
-`k[G × G]`-module (Webb, Corollary 12.3.2, p. 235) and by minimality of `P` with
-`e ∈ Tr_P^G(k[G]^P)` (Webb, Theorem 12.4.5, p. 241). Over a field `k` of characteristic `p` that
-splits `G`, the residue field of the local algebra `Z(k[G]) e_B` is `k` for every block `B`, so `B`
-has a **central character** `λ_B : Z(k[G]) → k`, the algebra homomorphism with `λ_B(e_B) = 1`; a
-**defect class** of `B` is a conjugacy class `C` with `a_B(C) λ_B(K_C) ≠ 0`, where `a_B(C)` is the
-coefficient of `e_B` on `C` and `K_C` the class sum. Prove, over such `k`, that the defect groups
-of `B` are the Sylow `p`-subgroups of the centralizers `C_G(x)`, `x ∈ C`, for any defect class `C`
-of `B` (Martínez, Definition 3.2 and Theorem 4.3, pp. 17 and 24, over the algebraic closure of
-`𝔽_p`). *Needs:* §§0.2, 0.3, 6.1; Mathlib `Sylow`; for the defect-zero bullet §§1.1, 2.3, 4.2.
+and every block idempotent `e`, that the defect groups of `e` are exactly the subgroups `P`
+minimal with `e ∈ Tr_P^G(k[G]^P)`, and that they form one conjugacy class (Webb, Theorems 12.4.5
+and 12.5.2, pp. 241–245, which compare both with the vertices of `e k[G]` as a
+`k[G × G]`-module). Route, by relative traces alone: for a Sylow `p`-subgroup `S`,
+`e = Tr_S^G(|G : S|⁻¹ e)`, so minimal subgroups exist, and each is a `p`-group by the same
+argument inside it. For a minimal `P` and `e = Tr_P^G(a)`, `Br_P(e) ≠ 0`: otherwise `e` lies in
+the kernel `∑_{Q<P} Tr_Q^P(k[G]^Q)` of `Br_P`, so `e = Tr_P^G(a) e` lies in
+`∑_{Q<P} Tr_Q^G(k[G]^Q)` by the product formulas and transitivity, and Rosenberg's lemma in
+`Z(k[G]) = k[G]^G`, where `e` is primitive, puts `e` in one `Tr_Q^G(k[G]^Q)` with `Q < P`. If
+`Br_Q(e) ≠ 0` for a `p`-subgroup `Q`, then `Q` lies in a conjugate of `P`: by the Mackey formula,
+`Tr_P^G(a)` is the sum over the double cosets `QgP` of the traces from `Q ∩ gPg⁻¹` to `Q` of
+`g a g⁻¹`, and those with `Q ∩ gPg⁻¹ < Q` lie in the kernel of `Br_Q` (Webb, Lemma 12.5.1(2),
+p. 244). Hence the defect groups of `e` are exactly the conjugates of `P`, and every minimal
+subgroup, having the same two properties, is one of them (Webb, proof of Theorem 12.5.2,
+pp. 244–245). Over a field `k` of characteristic `p` that splits `G`, the residue field of the
+local algebra `Z(k[G]) e_B` is `k` for every block `B`, since `Z(k[G]) ∩ rad k[G]` is a nilpotent
+ideal of the centre and the quotient by it embeds in the centre `kʳ` of
+`k[G] / rad k[G] = ∏ M_{n_i}(k)`; so `B` has a **central character** `λ_B : Z(k[G]) → k`, the
+algebra homomorphism with `λ_B(e_B) = 1`. A **defect class** of `B` is a conjugacy class `C` with
+`a_B(C) λ_B(K_C) ≠ 0`, where `a_B(C)` is the coefficient of `e_B` on `C` and `K_C` the class sum.
+Prove, over such `k`, that the defect groups of `B` are the Sylow `p`-subgroups of the
+centralizers `C_G(x)`, `x ∈ C`, for any defect class `C` of `B` (Martínez, Definition 3.2 and
+Theorem 4.3, pp. 17 and 24, over the algebraic closure of `𝔽_p`). Prove the scalar extension that
+carries such statements from an algebraically closed field to a splitting field: for an extension
+`k ⊆ k'` of fields of characteristic `p` with `k` splitting a subgroup `H`, the class sums are a
+basis of `Z(k[H])` and of `Z(k'[H]) = k' ⊗_k Z(k[H])`, and `k' ⊗_k Z(k[H]) e_b` is local with
+residue field `k'`, because the maximal ideal of `Z(k[H]) e_b` is nilpotent with quotient `k`. So
+the blocks of `k[H]` are exactly the blocks of `k'[H]`, the central character of `b` over `k'`
+extends `λ_b`, and defect classes, `Br_P(e_b)`, defect groups and the principal block are the
+same over `k` and over `k'`. Applied to `k ⊆ k̄` and to the algebraic closure of `𝔽_p` inside `k̄`,
+this passes each statement of this section, §7.1 and §7.3 from the algebraically closed fields of
+Martínez and Sambale to a field `k` that splits the groups involved. *Needs:* §§0.2, 0.3, 6.1;
+Mathlib `Sylow`; SemisimpleAlgebras Layers 0 and 2; for the principal-block bullet §4.3; for the
+defect-zero bullet §§1.1, 2.3, 4.2 and Tau Ceti `Rep.moduleProjective_of_id_mem_range_norm_linHom`.
 
 - `isDefectGroup_conj`: any two defect groups of a block of `k[G]`, `k` any field of
-  characteristic `p`, are conjugate in `G`.
+  characteristic `p`, are conjugate in `G` (the route above).
 - `isDefectGroup_iff_sylow_of_augmentation_ne_zero`: the defect groups of the principal block are
-  exactly the Sylow `p`-subgroups (Webb, Corollary 12.4.7, p. 242).
+  exactly the Sylow `p`-subgroups (Webb, Corollary 12.4.7, p. 242). Route without vertices: the
+  augmentation `∑_C a(C) |C|` of `e_{B₀}` is `1` (§4.3), so some class `C` with `a(C) ≠ 0` has
+  `p ∤ |C| = |G : C_G(x)|` for `x ∈ C`; then `C_G(x)` contains a Sylow `p`-subgroup `S`, the
+  coefficient of `Br_S(e_{B₀})` at `x ∈ C_G(S)` is `a(C) ≠ 0`, and `S`, maximal among the
+  `p`-subgroups, is a defect group, so by conjugacy the defect groups are the Sylow subgroups.
 - `O_p(G)` (§0.3) is contained in every defect group, for every field `k` of characteristic `p`
   (Webb, Corollary 12.3.4, pp. 236–237; Martínez, Corollary 3.9, p. 21, over an algebraically
   closed field); for a `p`-element `x`, `⟨x⟩` is contained in every defect group of every block of
-  `C_G(x)`.
+  `C_G(x)`. Route without vertices: `Q = O_p(G)` acts trivially on every simple `k[G]`-module,
+  whose `Q`-fixed points form a nonzero submodule, and `C_G(Q)` is normal, so a class outside
+  `C_G(Q)` splits into `Q`-orbits of sizes divisible by `p` and its class sum acts as `0` on every
+  simple module; hence `e − Br_Q(e)` lies in the nilpotent ideal `rad k[G]`, so `Br_Q(e) ≠ 0`,
+  `Q` lies in a defect group, and by conjugacy and normality in all of them.
 - Defect zero, over a field `k` of characteristic `p` that splits `G`: a block has defect group
   `1` exactly when it is a matrix algebra over `k` (Webb, Corollary 12.4.8, p. 242, with
-  Theorem 9.6.1, p. 161). When `(K, O, k)` is a splitting `p`-modular system (§1.1), this holds
-  exactly when the block contains an ordinary character `χ` with `|G|_p ∣ χ(1)`, and then
-  `Irr(B) = {χ}` and `IBr(B) = {χ⁰}` (Webb, Theorem 9.6.1, p. 161; Martínez, Corollary 2.9, p. 15).
+  Theorem 9.6.1, p. 161). Route without vertices: a finite-dimensional `k[G]`-module `M` is
+  projective exactly when `1_M = ∑_g g α g⁻¹` for a `k`-linear `α : M → M` (the case `H = 1` of
+  Webb, Proposition 11.3.4, pp. 198–199): such an `α` makes `M` projective by Tau Ceti
+  `Rep.moduleProjective_of_id_mem_range_norm_linHom`, and conversely a `k[G]`-linear splitting of
+  `k[G] ⊗_k M → M` followed by the coefficient of `1` is such an `α`. If `1` is the defect group,
+  `e_B = Tr_1^G(a)` by the trace characterization, and `α = (a ·)` makes every
+  `e_B k[G]`-module projective, so `e_B k[G]` is semisimple and, `e_B` being primitive in the
+  centre and `k` splitting `G`, a matrix algebra over `k`. Conversely, if
+  `e_B k[G] ≅ M_n(k)`, its simple module `S` is projective, and pulling `α` back along the
+  isomorphism `e_B k[G] → End_k(S)`, which carries conjugation by `g` to conjugation by the action
+  of `g`, gives `e_B = Tr_1^G(a)`; the coefficient of `Tr_1^G(a)` at `c` is `|C_G(c)|` times the
+  sum of the coefficients of `a` on the class of `c`, which vanishes when `C_G(c)` contains a
+  nontrivial `p`-subgroup `P`, so `Br_P(e_B) = 0`. When `(K, O, k)` is a splitting `p`-modular
+  system (§1.1), the block has defect group `1` exactly when it contains an ordinary character `χ`
+  with `|G|_p ∣ χ(1)`, and then `Irr(B) = {χ}` and `IBr(B) = {χ⁰}` (Webb, Theorem 9.6.1, p. 161;
+  Martínez, Corollary 2.9, p. 15).
 - Over a field `k` of characteristic `p` that splits `G` and all its subgroups: for a block `B`
   with defect group `D`, `Br_D(e_B)` is a block idempotent of `k[N_G(D)]` with defect group `D`,
   and every such block arises from exactly one `B` (Webb, Theorem 12.6.4 and its proof, p. 250);
@@ -1038,6 +1098,28 @@ of `B` (Martínez, Definition 3.2 and Theorem 4.3, pp. 17 and 24, over the algeb
   of `C_G(r) = C₃` is not a defect group.
 - `S₃` over `𝔽₂`, which splits `S₃`: the defect-zero block `r + r²` is `M₂(𝔽₂)`, of dimension `4`,
   and holds the single ordinary character `std`, with `|S₃|₂ = 2 ∣ 2`.
+- Trace minimality on `𝔽₂[S₃]`: the coefficient of `Tr_1^{S₃}(a)` at `c` is `|C_G(c)|` times the
+  coefficient sum of `a` on the class of `c`, and `|C_G(1)| = 6`, `|C_G(r)| = 3`, `|C_G(t)| = 2`
+  for `t = (12)`, so `Tr_1^{S₃}(𝔽₂[S₃]) = 𝔽₂ (r + r²)`. It contains
+  `e₁ = r + r² = Tr_1^{S₃}(r)`, of defect group `1`, and not `e₀ = 1 + r + r²`, for which
+  `Tr_{⟨t⟩}^{S₃}(e₀) = 3 e₀ = e₀`: the minimal subgroups for `e₀` are the three subgroups of
+  order `2`, its defect groups. Taking maximal instead of minimal subgroups would give `S₃` for
+  both blocks.
+- The route to `O_p(G)`, on `S₃` at `p = 3`: `Q = C₃ = C_G(Q)`, the three transpositions form one
+  `Q`-orbit of size `3`, and their class sum acts as `3 · (±1) = 0` on the trivial and sign
+  modules; the single block `1` has `Br_Q(1) = 1 ≠ 0` and defect group `C₃`. Normality is needed:
+  at `p = 2` the subgroup `⟨t⟩` is a `2`-subgroup, but `Br_{⟨t⟩}(r + r²) = 0` and the defect group
+  of `r + r²` is `1`.
+- The route to the Sylow defect groups, on `S₃` at `p = 2`: `e₀` has augmentation
+  `1 · 1 + 1 · 2 = 1`; the class `{1}`, of odd size, gives `S = ⟨t⟩`, and `Br_S(e₀)` has
+  coefficient `1` at `1`, while the class `{r, r²}`, of even size, has centralizer `C₃`, which
+  contains no Sylow `2`-subgroup.
+- Scalar extension `𝔽₄ ⊆ 𝔽̄₂`, where `𝔽₄` splits `S₃` and all its subgroups: the blocks `e₀`, `e₁`
+  of `𝔽₄[S₃]` stay blocks, with central characters `(1, 0, 1)` and `(1, 1, 0)` on the class sums
+  of `1`, `r`, `t` over both fields, and the blocks `1 + r + r²`, `1 + α² r + α r²`,
+  `1 + α r + α² r²` of `𝔽₄[C₃]` stay blocks. Against it, `𝔽₂` splits `S₃` but not `C₃`, and the
+  block `r + r²` of `𝔽₂[C₃]` is the sum of the last two, so without the splitting of `H` a block of
+  `k[H]` need not stay a block.
 
 ### 6.3 Brauer pairs
 
@@ -1074,8 +1156,9 @@ Brauer pair.
 
 ### Dependencies
 
-Layers 0 and 4; §§1.1 and 2.3 for the defect-zero criterion; Mathlib `IsPGroup`, `Sylow`,
-`Subgroup.centralizer`, `Subgroup.normalizer`.
+Layers 0 and 4; §§1.1 and 2.3 for the defect-zero criterion; SemisimpleAlgebras Layers 0 and 2;
+Mathlib `IsPGroup`, `Sylow`, `Subgroup.centralizer`, `Subgroup.normalizer`; Tau Ceti
+`Representation.relNormInvariants`, `Rep.moduleProjective_of_id_mem_range_norm_linHom`.
 
 ## Layer 7: Brauer's main theorems
 
@@ -1085,11 +1168,14 @@ Let `k` be a field of characteristic `p` that splits `G` and all its subgroups, 
 of every subgroup has a central character (§6.2).
 For `H ≤ G` and a block `b` of `H`, `b^G` is the block `B` of `G` whose central character satisfies
 `λ_B(z) = λ_b(z_H)` for `z ∈ Z(k[G])`, where `z_H` keeps the coefficients on `H`, when such `B`
-exists (Sambale, Definition 1.10 and Proposition 1.11, p. 16; Martínez, p. 25). Prove that `b^G` is
+exists (Sambale, Definition 1.10 and Proposition 1.11, p. 16, over an algebraically closed field;
+Martínez, p. 25, over the algebraic closure of `𝔽_p`). Prove that `b^G` is
 defined when `C_G(D_b) ≤ H` for a defect group `D_b` of `b`, that it is transitive, and that for
 `P C_G(P) ≤ H ≤ N_G(P)` and a `p`-subgroup `P`, `Br_P(e_B) = ∑_{b^G = B} e_b` (Martínez,
-Theorem 4.5 and Corollary 4.6, p. 26, over the algebraic closure of `𝔽_p`). *Needs:* §§0.2,
-6.1–6.2; for the splitting of `k`, §2.3.
+Theorem 4.5 and Corollary 4.6, p. 26, over the algebraic closure of `𝔽_p`). These pass to `k` by
+the scalar extension of §6.2: the blocks of `k[G]` and `k[H]` are those of `k̄[G]` and `k̄[H]`,
+their central characters over `k̄` extend `λ_B` and `λ_b`, and `Z(k̄[G]) = k̄ ⊗_k Z(k[G])`, so
+`b^G` is the same over `k` and over `k̄`. *Needs:* §§0.2, 6.1–6.2; for the splitting of `k`, §2.3.
 
 - `brauer_first_main`: over an algebraically closed field `k` of characteristic `p`, for a
   `p`-subgroup `D`, the rule `b ↦ B` with `Br_D(e_B) e_b ≠ 0` is a
@@ -1101,7 +1187,8 @@ Theorem 4.5 and Corollary 4.6, p. 26, over the algebraic closure of `𝔽_p`). *
   instance one containing a primitive `e'`-th root of unity (§2.3).
 - For `N_G(D) ≤ H ≤ G`, block induction `b ↦ b^G` is a bijection from the blocks of `k[H]` with
   defect group `D` to the blocks of `k[G]` with defect group `D`, by applying the first main theorem
-  to `H` and to `G` and identifying `N_H(D) = N_G(D)` (Sambale, Theorem 1.12, p. 16). The product
+  to `H` and to `G` and identifying `N_H(D) = N_G(D)` (Sambale, Theorem 1.12, p. 16, over an
+  algebraically closed field). The product
   criterion `Br_D(e_B) e_b ≠ 0` describes `b^G = B` for `D C_G(D) ≤ H ≤ N_G(D)`; for larger `H` it
   need not single out one block `B`.
 
@@ -1122,14 +1209,19 @@ Theorem 4.5 and Corollary 4.6, p. 26, over the algebraic closure of `𝔽_p`). *
 
 For `u ∈ R`, `χ ∈ Irr(G)` and `φ ∈ IBr(b)` with `b` a block of `C_G(u)`, `d^u_{χφ} ≠ 0` implies
 `χ ∈ Irr(b^G)`; here `b^G` is defined because `⟨u⟩ ≤ D_b` and so `C_G(D_b) ≤ C_G(u)` (Sambale,
-Theorem 1.13 and Proposition 1.11, p. 16). Equivalently, `d^u_{χφ} ≠ 0` implies
-`Br_{⟨u⟩}(e_B) e_b ≠ 0` for the block `B` of `χ`, so `(⟨u⟩, b)` is a `B`-Brauer pair. *Needs:*
-§§5.1, 6.3, 7.1.
+Theorem 1.13 and Proposition 1.11, p. 16, for a system with algebraically closed residue field).
+The statement passes to the system of §1.1, whose residue field `k` splits `G` and all its
+subgroups (§2.3): the completion of the maximal unramified extension of `K` is a system with
+residue field `k̄`, by §6.2 the blocks of `k[G]` and `k[C_G(u)]` are those over `k̄`, and by the
+uniqueness of central lifts (§1.3) so are the blocks of `O[G]`. Equivalently,
+`d^u_{χφ} ≠ 0` implies `Br_{⟨u⟩}(e_B) e_b ≠ 0` for the block `B` of `χ`, so `(⟨u⟩, b)` is a
+`B`-Brauer pair. *Needs:* §§1.3, 5.1, 6.3, 7.1.
 
 - Block form of the orthogonality relations of §5.2: for a block `B` of `G`, `u, v ∈ R`,
   `φ ∈ IBr(C_G(u))` and `ψ ∈ IBr(C_G(v))`, the sum `∑_{χ ∈ Irr(B)} d^u_{χφ} conj(d^v_{χψ})` equals
   `c^u_{φψ}` when `u = v`, `φ` and `ψ` lie in one block `b` of `C_G(u)` and `b^G = B`, and `0`
-  otherwise (Sambale, Theorem 1.14, p. 16). *Needs:* §§4.2, 5.2 and the theorem above.
+  otherwise (Sambale, Theorem 1.14, p. 16, passed to the system of §1.1 as above). *Needs:*
+  §§4.2, 5.2 and the theorem above.
 - `sum_sameBlock_mul_conj_eq_zero` (block-section orthogonality): if the `p`-parts of `g` and `h`
   are not conjugate, then `∑_{χ ∈ Irr(B)} χ(g) conj(χ(h)) = 0` for each block `B`; the statement is
   made for every maximal ideal `M ∋ p` of the algebraic integers, with `Irr(B)` the irreducible
@@ -1152,8 +1244,11 @@ Theorem 1.13 and Proposition 1.11, p. 16). Equivalently, `d^u_{χφ} ≠ 0` impl
 
 Over a field `k` of characteristic `p` that splits `G` and all its subgroups (§7.1): if `b` is a
 block of `H` with defect group `D` and `C_G(D) ≤ H`, then `b^G` is principal exactly when `b` is
-principal (Sambale, Theorem 1.15, p. 17; Martínez, Corollary 5.9, p. 35; the Axiom
-third-main-theorem formalization as a proof source). *Needs:* §§4.3, 6.1, 6.2, 7.1.
+principal (Sambale, Theorem 1.15, p. 17, over an algebraically closed field; Martínez,
+Corollary 5.9, p. 35, over the algebraic closure of `𝔽_p`, for the implication from
+`b^G = B₀(G)` to `b = B₀(H)`; the Axiom third-main-theorem formalization as a proof source). It
+passes to `k` by the scalar extension of §6.2, which preserves blocks, defect groups and principal
+blocks, and by the invariance of `b^G` (§7.1). *Needs:* §§4.3, 6.1, 6.2, 7.1.
 
 - `brauer_third_main_local`: over an algebraically closed field `k` of characteristic `p`, for a
   `p`-subgroup `P` and `P C_G(P) ≤ H ≤ N_G(P)`, a block `b` of
@@ -1173,8 +1268,8 @@ corresponds to itself, and `A₄` has a single `2`-block.
 
 ### Dependencies
 
-Layers 0 and 4–6; §2.3 for the splitting of `k`; Tau Ceti `TauCeti.pPart`,
-`TauCeti.irreducibleCharacter`.
+Layers 0 and 4–6; §2.3 for the splitting of `k`; §1.3 for the lifted blocks of §7.2; Tau Ceti
+`TauCeti.pPart`, `TauCeti.irreducibleCharacter`.
 
 ## Layer 8: normal subgroups and finite-group interfaces
 
