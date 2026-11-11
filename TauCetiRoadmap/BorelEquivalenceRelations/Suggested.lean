@@ -3,13 +3,30 @@ import TauCeti.Topology.Perfect
 import TauCeti.Topology.Baire.Perfect
 import TauCeti.Topology.Baire.KuratowskiUlam
 import TauCeti.Topology.Baire.Mycielski
+import TauCeti.Topology.Baire.BaireMeasurableMap
+import TauCeti.Topology.Instances.CantorSpace
 import TauCeti.Topology.MetricSpace.Perfect
 import TauCeti.Topology.MetricSpace.Polish.GDelta
 import TauCeti.Topology.MetricSpace.Polish.Pi
+import TauCeti.Data.Set.Countable
+import TauCeti.MeasureTheory.MeasurableSpace.Card
+import TauCeti.MeasureTheory.MeasurableSpace.Graph
 import TauCeti.MeasureTheory.Constructions.Polish.Analytic
 import TauCeti.MeasureTheory.Constructions.Polish.GDelta
 import TauCeti.MeasureTheory.Constructions.Polish.Graph
 import TauCeti.MeasureTheory.Constructions.Polish.Perfect
+import TauCeti.SetTheory.Descriptive.Antichain
+import TauCeti.SetTheory.Descriptive.CantorScheme
+import TauCeti.SetTheory.Descriptive.GSGraph
+import TauCeti.SetTheory.Descriptive.BorelColoring
+import TauCeti.SetTheory.Descriptive.InvariantSeparation
+import TauCeti.SetTheory.Descriptive.SmallFamily.Basic
+import TauCeti.SetTheory.Descriptive.SmallFamily.WitnessExtension
+import TauCeti.SetTheory.Descriptive.GZeroDichotomy
+import TauCeti.SetTheory.Descriptive.Silver
+import TauCeti.SetTheory.Descriptive.BorelReducibility
+import TauCeti.SetTheory.Descriptive.EZero
+import TauCeti.SetTheory.Descriptive.NormalForms
 
 /-!
 # Borel equivalence relations, the G₀ dichotomy and Silver's theorem: suggested signatures
@@ -21,53 +38,32 @@ Lean `sorry`-forms (allowed in this human-owned roadmap library) for *particular
 that contributors and reviewers converge on names and signatures; discharging every statement here
 neither finishes a layer nor the roadmap.
 
-Every definition below has an actual mathematical body; no proposition-valued placeholder stands
-for an unstated condition. The roadmap has no model-theoretic dependency, so this file imports
-Mathlib and the Tau Ceti topology and measure-theory modules that supply Layers 0.1–0.4 and
-1.1–1.2: the Cantor-space instances, `Set.Countable.isMeagre`, Alexandrov's theorem,
-`IsGδ.standardBorelSpace`, the closure of analytic sets under intersection, products,
-off-diagonals and saturation, the Borel graph theorem, the Borel perfect set theorem,
-`Perfect.mk_eq_continuum`, Kuratowski–Ulam and Mycielski. Those are used from Tau Ceti and not
-restated here; the README names each declaration. Names and namespaces are provisional:
-implementations put general topology and measure theory lemmas in Mathlib's namespaces and the
-descriptive-set-theoretic objects in a shared namespace.
+The roadmap has no model-theoretic dependency. Tau Ceti at the pin proves almost all of it: the
+Cantor-space, Gδ, analytic-set, Borel-graph and perfect-set infrastructure of Layer 0, the
+antichain vocabulary `Setoid.HasCantorAntichainOn`, `Setoid.HasPerfectAntichainOn` and
+`Setoid.IsThinOn`, Kuratowski–Ulam, Mycielski, Baire-measurable maps, the graphs
+`TauCeti.gSGraph` and `TauCeti.gZero` with Miller's independence lemma, the Borel colorings
+`SetRel.HasCountableBorelColoring` and the Kechris–Solecki–Todorcevic lemma, invariant Lusin
+separation, Miller's ideal `SetRel.IsSmallFamily`, the G₀ dichotomy `SimpleGraph.g0_dichotomy`,
+Silver's theorem `Setoid.silver_dichotomy` in all its forms, `Setoid.BorelReducible`,
+`Setoid.IsSmooth` and `TauCeti.eZero`. This file imports the modules the README's *From Tau Ceti*
+table names, consumes them and does not restate them; the README names each declaration.
+
+What remains are the two statements below, stated on Tau Ceti's carriers. Names and namespaces
+are provisional.
 -/
 
-universe u v w
+universe u
 
-open MeasureTheory Topology Filter Set Function Cardinal
+open MeasureTheory Function
 
 namespace TauCetiRoadmap.BorelEquivalenceRelations
-
-/-! ## Layer 0: Polish, Cantor-space and analytic-set infrastructure -/
-
-section CantorSpace
 
 /-- With Tau Ceti imported, instance search finds the Polish and perfect structures of Cantor
 space (`TauCeti.polishSpace_pi_of_discreteTopology`, `TauCeti.perfectSpace_pi`), which it does
 not find from Mathlib alone. -/
 example : PolishSpace (ℕ → Bool) ∧ PerfectSpace (ℕ → Bool) ∧ PerfectSpace (ℕ → ℕ) :=
   ⟨inferInstance, inferInstance, inferInstance⟩
-
-/-- The point of Cantor space that starts with the finite word `w`, read left to right, and
-continues with `x`. -/
-def prependWord (w : List Bool) (x : ℕ → Bool) : ℕ → Bool :=
-  fun n => if h : n < w.length then w[n] else x (n - w.length)
-
-/-- The basic clopen set of points extending `w`. -/
-def wordCylinder (w : List Bool) : Set (ℕ → Bool) := Set.range (prependWord w)
-
-theorem isOpenEmbedding_prependWord (w : List Bool) :
-    IsOpenEmbedding (prependWord w) := by
-  sorry
-
-/-- The bridge to Mathlib's cylinders: `PiNat.res x n` lists the first `n` values newest-first,
-so its reverse is the word read left to right. -/
-theorem wordCylinder_reverse_res (x : ℕ → Bool) (n : ℕ) :
-    wordCylinder (PiNat.res x n).reverse = PiNat.cylinder x n := by
-  sorry
-
-end CantorSpace
 
 /-- Alexandrov's theorem in the generality the README states, for `T6` spaces: Tau Ceti's
 `TauCeti.isGδ_of_isCompletelyMetrizableSpace` assumes a perfectly normal Hausdorff space, which
@@ -76,373 +72,28 @@ example {X : Type u} [TopologicalSpace X] [T6Space X] {s : Set X}
     (hs : TopologicalSpace.IsCompletelyMetrizableSpace s) : IsGδ s :=
   TauCeti.isGδ_of_isCompletelyMetrizableSpace
 
-section Cardinality
-
-theorem mk_le_continuum_of_standardBorelSpace (X : Type u) [MeasurableSpace X]
-    [StandardBorelSpace X] : #X ≤ 𝔠 := by
-  sorry
-
-end Cardinality
-
-/-! ## Layer 0: antichain vocabulary -/
-
-section Antichains
-
-variable {X : Type u} [TopologicalSpace X]
-
-/-- A nonempty perfect subset of `A` of pairwise `E`-inequivalent points. -/
-def HasPerfectAntichainOn (E : Setoid X) (A : Set X) : Prop :=
-  ∃ P : Set X, Perfect P ∧ P.Nonempty ∧ P ⊆ A ∧ ∀ x ∈ P, ∀ y ∈ P, E x y → x = y
-
-/-- A continuous map of Cantor space into `A` whose distinct points have `E`-inequivalent
-images. Injectivity follows from reflexivity of `E`. -/
-def HasCantorAntichainOn (E : Setoid X) (A : Set X) : Prop :=
-  ∃ f : (ℕ → Bool) → X, Continuous f ∧ (∀ a, f a ∈ A) ∧ ∀ a b, a ≠ b → ¬ E (f a) (f b)
-
-/-- `A` is thin for `E`: it carries no perfect antichain. -/
-def IsThinOn (E : Setoid X) (A : Set X) : Prop :=
-  ¬ HasPerfectAntichainOn E A
-
-theorem HasCantorAntichainOn.injective {E : Setoid X} {A : Set X}
-    (h : HasCantorAntichainOn E A) :
-    ∃ f : (ℕ → Bool) → X, Continuous f ∧ Set.range f ⊆ A ∧ Injective f := by
-  sorry
-
-/-- A Cantor antichain for a coarser relation `F` is one for the finer relation `E`. -/
-theorem HasCantorAntichainOn.mono_relation {E F : Setoid X} {A : Set X} (hEF : E ≤ F)
-    (h : HasCantorAntichainOn F A) : HasCantorAntichainOn E A := by
-  sorry
-
-theorem HasCantorAntichainOn.mono_topology {E : Setoid X} {A : Set X}
-    {t' : TopologicalSpace X} (hle : t' ≤ ‹TopologicalSpace X›)
-    (h : @HasCantorAntichainOn X t' E A) : HasCantorAntichainOn E A := by
-  sorry
-
-/-- Cantor antichains pass in both directions between `A`, for `E`, and the whole subtype `↥A`,
-for the pulled-back relation; with `continuum_le_mk_quotient` this bounds the quotient of `↥A`. -/
-theorem hasCantorAntichainOn_subtype_iff {E : Setoid X} {A : Set X} :
-    HasCantorAntichainOn (Setoid.comap ((↑) : A → X) E) (Set.univ : Set A) ↔
-      HasCantorAntichainOn E A := by
-  sorry
-
-theorem HasCantorAntichainOn.continuum_le_mk_quotient {E : Setoid X} {A : Set X}
-    (h : HasCantorAntichainOn E A) : 𝔠 ≤ #(Quotient E) := by
-  sorry
-
-theorem hasCantorAntichainOn_iff_hasPerfectAntichainOn [PolishSpace X] {E : Setoid X}
-    {A : Set X} : HasCantorAntichainOn E A ↔ HasPerfectAntichainOn E A := by
-  sorry
-
-/-- Transport along a measurable embedding that preserves and reflects the relations. Neither
-relation and not the class `A` need be Borel. -/
-theorem hasCantorAntichainOn_image_iff {Y : Type v} [PolishSpace X] [MeasurableSpace X]
-    [BorelSpace X] [TopologicalSpace Y] [PolishSpace Y] [MeasurableSpace Y] [BorelSpace Y]
-    {E : Setoid X} {F : Setoid Y} {g : X → Y} (hg : MeasurableEmbedding g)
-    (hrel : ∀ x y, F (g x) (g y) ↔ E x y) (A : Set X) :
-    HasCantorAntichainOn F (g '' A) ↔ HasCantorAntichainOn E A := by
-  sorry
-
-end Antichains
-
-section Splits
-
-variable {X : Type u} {ι : Type v} [Countable ι] {P : ι → X → Prop}
-
-/-- Countably many predicates, each with a countable truth side, are simultaneously constant
-off one countable set. -/
-theorem exists_countable_exceptions_of_splits
-    (hsplit : ∀ i, {x | P i x}.Countable ∨ {x | ¬ P i x}.Countable) :
-    ∃ N : Set X, N.Countable ∧ ∀ x ∉ N, ∀ y ∉ N, ∀ i, P i x ↔ P i y := by
-  sorry
-
-end Splits
-
-/-! ## Layer 1: Baire category on products and on Cantor space -/
-
-section BaireMeasurableFunctions
-
-/-- A function into a second-countable space whose open preimages have the Baire property is
-continuous on a comeagre `Gδ` set. -/
-theorem exists_isGδ_mem_residual_continuousOn {X : Type u} {Y : Type v} [TopologicalSpace X]
-    [TopologicalSpace Y] [SecondCountableTopology Y] {f : X → Y}
-    (hf : ∀ U : Set Y, IsOpen U → BaireMeasurableSet (f ⁻¹' U)) :
-    ∃ C : Set X, IsGδ C ∧ C ∈ residual X ∧ ContinuousOn f C := by
-  sorry
-
-/-- Countably many maps of Cantor space into countable discrete spaces, with Borel fibres,
-become simultaneously continuous along one Cantor subcopy. -/
-theorem exists_cantor_subcopy_continuous {ι : Type v} [Countable ι] {C : ι → Type w}
-    [∀ i, TopologicalSpace (C i)] [∀ i, DiscreteTopology (C i)] [∀ i, Countable (C i)]
-    (g : ∀ i, (ℕ → Bool) → C i) (hg : ∀ i c, MeasurableSet (g i ⁻¹' {c})) :
-    ∃ e : (ℕ → Bool) → (ℕ → Bool), Continuous e ∧ Injective e ∧ ∀ i, Continuous (g i ∘ e) := by
-  sorry
-
-end BaireMeasurableFunctions
-
-section GSGraphs
-
-/-- The oriented edges of `G_S`: `(s ⌢ 0 ⌢ x, s ⌢ 1 ⌢ x)` for `s ∈ S`. -/
-def orientedGS (S : Set (List Bool)) : Set ((ℕ → Bool) × (ℕ → Bool)) :=
-  {p | ∃ s ∈ S, ∃ x, p = (prependWord (s ++ [false]) x, prependWord (s ++ [true]) x)}
-
-/-- The graph `G_S` on Cantor space, the symmetrization of `orientedGS S`. -/
-def gSGraph (S : Set (List Bool)) : SimpleGraph (ℕ → Bool) :=
-  SimpleGraph.fromRel fun y z => (y, z) ∈ orientedGS S
-
-/-- `G_S` has no loops to remove: the two ends of an oriented edge differ at one coordinate. -/
-theorem gSGraph_adj_iff {S : Set (List Bool)} {y z : ℕ → Bool} :
-    (gSGraph S).Adj y z ↔ (y, z) ∈ orientedGS S ∨ (z, y) ∈ orientedGS S := by
-  sorry
-
-/-- Every finite word extends to a word of `S`. -/
-def DenseWords (S : Set (List Bool)) : Prop :=
-  ∀ r : List Bool, ∃ s ∈ S, r <+: s
-
-/-- `S` has at most one word of each length. -/
-def SparseWords (S : Set (List Bool)) : Prop :=
-  ∀ ⦃s⦄, s ∈ S → ∀ ⦃t⦄, t ∈ S → s.length = t.length → s = t
-
-/-- The canonical word of length `n`: the word with code `(Nat.unpair n).1`, padded with `false`
-to length `n` when it is not longer than `n`, and the all-`false` word of length `n` otherwise.
-Every word `r` is a prefix of the canonical word at `n = Nat.pair (encode r) k` once
-`k ≥ r.length`. -/
-def canonicalWord (n : ℕ) : List Bool :=
-  let r := (Encodable.decode (α := List Bool) n.unpair.1).getD []
-  if r.length ≤ n then r ++ List.replicate (n - r.length) false else List.replicate n false
-
-/-- The canonical dense set with exactly one word of each length. -/
-def canonicalWords : Set (List Bool) := Set.range canonicalWord
-
-theorem denseWords_canonicalWords : DenseWords canonicalWords := by
-  sorry
-
-theorem exists_unique_mem_canonicalWords_length (n : ℕ) :
-    ∃! s, s ∈ canonicalWords ∧ s.length = n := by
-  sorry
-
-/-- The Kechris–Solecki–Todorcevic graph `G₀`. -/
-def gZero : SimpleGraph (ℕ → Bool) := gSGraph canonicalWords
-
-theorem measurableSet_orientedGS (S : Set (List Bool)) : MeasurableSet (orientedGS S) := by
-  sorry
-
-/-- Miller's independence lemma: for dense `S`, a non-meagre set with the Baire property
-contains a `G_S`-edge. -/
-theorem exists_gSGraph_adj_of_not_isMeagre {S : Set (List Bool)} (hS : DenseWords S)
-    {B : Set (ℕ → Bool)} (hB : BaireMeasurableSet B) (hBm : ¬ IsMeagre B) :
-    ∃ y ∈ B, ∃ z ∈ B, (gSGraph S).Adj y z := by
-  sorry
-
-end GSGraphs
-
-/-! ## Layer 2: Borel colorings and the KST independence machinery -/
-
-section Colorings
-
-variable {X : Type u} [MeasurableSpace X]
-
-/-- `A` contains no `G`-edge (loops included). -/
-def RelIndependent (G : Set (X × X)) (A : Set X) : Prop :=
-  ∀ ⦃x⦄, x ∈ A → ∀ ⦃y⦄, y ∈ A → (x, y) ∉ G
-
-/-- `G` has a Borel coloring with countably many colors. -/
-def HasCountableBorelColoring (G : Set (X × X)) : Prop :=
-  ∃ c : X → ℕ, Measurable c ∧ ∀ p ∈ G, c p.1 ≠ c p.2
-
-theorem hasCountableBorelColoring_iff_exists_cover {G : Set (X × X)} :
-    HasCountableBorelColoring G ↔
-      ∃ B : ℕ → Set X, (∀ n, MeasurableSet (B n) ∧ RelIndependent G (B n)) ∧
-        ⋃ n, B n = Set.univ := by
-  sorry
-
-theorem simpleGraph_hasCountableBorelColoring_iff (G : SimpleGraph X) :
-    HasCountableBorelColoring {p : X × X | G.Adj p.1 p.2} ↔
-      ∃ c : G.Coloring ℕ, Measurable c := by
-  sorry
-
-variable [TopologicalSpace X] [PolishSpace X] [BorelSpace X]
-
-/-- The Kechris–Solecki–Todorcevic lemma: an analytic independent set of an analytic relation
-lies in a Borel independent set. -/
-theorem exists_measurableSet_relIndependent_superset {G : Set (X × X)} (hG : AnalyticSet G)
-    {A : Set X} (hA : AnalyticSet A) (hind : RelIndependent G A) :
-    ∃ B : Set X, MeasurableSet B ∧ A ⊆ B ∧ RelIndependent G B := by
-  sorry
-
-/-- Invariant Lusin separation for an analytic equivalence relation. -/
-theorem exists_invariant_measurableSet_separating (E : Setoid X)
-    (hE : AnalyticSet {p : X × X | E p.1 p.2}) {A B : Set X} (hA : AnalyticSet A)
-    (hB : AnalyticSet B) (hBinv : Quotient.mk E ⁻¹' (Quotient.mk E '' B) = B)
-    (hAB : Disjoint A B) :
-    ∃ C : Set X, MeasurableSet C ∧ Quotient.mk E ⁻¹' (Quotient.mk E '' C) = C ∧
-      A ⊆ C ∧ Disjoint C B := by
-  sorry
-
-/-- Miller's ideal on families of assignments `ι → X`: countably many Borel `G`-independent
-sets capture a value of every member. -/
-def IsSmallFamily (G : Set (X × X)) {ι : Type v} (Φ : Set (ι → X)) : Prop :=
-  ∃ B : ℕ → Set X, (∀ k, MeasurableSet (B k) ∧ RelIndependent G (B k)) ∧
-    ∀ φ ∈ Φ, ∃ i k, φ i ∈ B k
-
-theorem isSmallFamily_iUnion {G : Set (X × X)} {ι : Type v} {Φ : ℕ → Set (ι → X)}
-    (h : ∀ n, IsSmallFamily G (Φ n)) : IsSmallFamily G (⋃ n, Φ n) := by
-  sorry
-
-/-- Positivity survives amalgamation across a fresh edge: if `Φ` is analytic and not small,
-then neither is the family of combinations of pairs `φ₀, φ₁ ∈ Φ` with `(φ₀ s, φ₁ s) ∈ G`, for
-any combination map whose values are values of its arguments. -/
-theorem not_isSmallFamily_comb_cross {G : Set (X × X)} (hG : AnalyticSet G) {ι κ : Type v}
-    [Countable ι] {Φ : Set (ι → X)} (hΦa : AnalyticSet Φ) (hΦ : ¬ IsSmallFamily G Φ) (s : ι)
-    (comb : (ι → X) → (ι → X) → κ → X)
-    (hvals : ∀ φ₀ φ₁ v, (∃ i, comb φ₀ φ₁ v = φ₀ i) ∨ (∃ i, comb φ₀ φ₁ v = φ₁ i)) :
-    ¬ IsSmallFamily G {ψ | ∃ φ₀ ∈ Φ, ∃ φ₁ ∈ Φ, (φ₀ s, φ₁ s) ∈ G ∧ ψ = comb φ₀ φ₁} := by
-  sorry
-
-end Colorings
-
-/-! ## Layer 3: the G₀ dichotomy -/
-
-section GZero
-
-variable {X : Type u} [TopologicalSpace X] [PolishSpace X] [MeasurableSpace X] [BorelSpace X]
-
-/-- The oriented `G₀` dichotomy, homomorphism half: for sparse `S`, an analytic relation with
-no countable Borel coloring receives a continuous homomorphism of the oriented `G_S`. -/
-theorem exists_continuous_orientedGS_hom {G : Set (X × X)} (hG : AnalyticSet G)
-    {S : Set (List Bool)} (hS : SparseWords S) (hcol : ¬ HasCountableBorelColoring G) :
-    ∃ φ : (ℕ → Bool) → X, Continuous φ ∧ ∀ p ∈ orientedGS S, (φ p.1, φ p.2) ∈ G := by
-  sorry
-
-/-- For dense `S` the two alternatives exclude each other. -/
-theorem not_hasCountableBorelColoring_of_orientedGS_hom {G : Set (X × X)}
-    {S : Set (List Bool)} (hS : DenseWords S) {φ : (ℕ → Bool) → X} (hφ : Continuous φ)
-    (hhom : ∀ p ∈ orientedGS S, (φ p.1, φ p.2) ∈ G) : ¬ HasCountableBorelColoring G := by
-  sorry
-
-/-- The Kechris–Solecki–Todorcevic `G₀` dichotomy for analytic graphs. -/
-theorem g0_dichotomy (G : SimpleGraph X) (hG : AnalyticSet {p : X × X | G.Adj p.1 p.2}) :
-    Xor (∃ c : G.Coloring ℕ, Measurable c) (∃ φ : gZero →g G, Continuous φ) := by
-  sorry
-
-end GZero
-
-/-! ## Layer 4: Silver's theorem -/
-
-section Silver
-
-/-- Silver's theorem for a Borel equivalence relation on a Polish space. -/
-theorem silver_dichotomy {X : Type u} [TopologicalSpace X] [PolishSpace X] [MeasurableSpace X]
-    [BorelSpace X] (E : Setoid X) (hE : MeasurableSet {p : X × X | E p.1 p.2}) :
-    Countable (Quotient E) ∨ HasCantorAntichainOn E Set.univ := by
-  sorry
-
-/-- Silver's theorem on a standard Borel space. -/
-theorem silver_dichotomy_standardBorel {X : Type u} [MeasurableSpace X] [StandardBorelSpace X]
-    (E : Setoid X) (hE : MeasurableSet {p : X × X | E p.1 p.2}) :
-    Countable (Quotient E) ∨
-      ∃ f : (ℕ → Bool) → X, MeasurableEmbedding f ∧ ∀ a b, a ≠ b → ¬ E (f a) (f b) := by
-  sorry
-
-/-- The cardinality form of Silver's theorem on a standard Borel space. -/
-theorem mk_quotient_le_aleph0_or_eq_continuum {X : Type u} [MeasurableSpace X]
-    [StandardBorelSpace X] (E : Setoid X) (hE : MeasurableSet {p : X × X | E p.1 p.2}) :
-    #(Quotient E) ≤ ℵ₀ ∨ #(Quotient E) = 𝔠 := by
-  sorry
-
-/-- Silver relative to a Borel subset, with the antichain in the ambient Polish space and for
-any ambient relation `R` refining the Borel relation `F` on the subset. -/
-theorem countable_or_hasCantorAntichainOn_of_measurableSet {X : Type u} [TopologicalSpace X]
-    [PolishSpace X] [MeasurableSpace X] [BorelSpace X] {A : Set X} (hA : MeasurableSet A)
-    (R : Setoid X) (F : Setoid A) (hRF : ∀ x y : A, R x y → F x y)
-    (hF : MeasurableSet {p : A × A | F p.1 p.2}) :
-    Countable (Quotient F) ∨ HasCantorAntichainOn R A := by
-  sorry
-
-/-- The perfect set theorem for analytic sets, a corollary of Silver's theorem. -/
+/-! ## Layer 4: the perfect set theorem for analytic sets -/
+
+/-- The perfect set theorem for analytic sets, a corollary of Silver's theorem: write `A` as the
+range of a continuous map `g` on a Polish space, apply `Setoid.silver_dichotomy` to the closed
+relation `g a = g b`, and compose `g` with the Cantor antichain. Tau Ceti has the Borel case,
+`MeasurableSet.exists_nat_bool_injection_of_not_countable`. -/
 theorem _root_.MeasureTheory.AnalyticSet.exists_nat_bool_injection_of_not_countable
     {X : Type u} [TopologicalSpace X] [T2Space X] {A : Set X} (hA : AnalyticSet A)
     (hunc : ¬ A.Countable) :
     ∃ f : (ℕ → Bool) → X, Set.range f ⊆ A ∧ Continuous f ∧ Injective f := by
   sorry
 
-end Silver
+/-! ## Layer 5: closed relations are smooth -/
 
-/-! ## Layer 5: Borel reducibility, smoothness and E₀ -/
-
-section Reducibility
-
-variable {X : Type u} {Y : Type v} [MeasurableSpace X] [MeasurableSpace Y]
-
-/-- `E ≤_B F`. -/
-def BorelReducible (E : Setoid X) (F : Setoid Y) : Prop :=
-  ∃ f : X → Y, Measurable f ∧ ∀ x y, E x y ↔ F (f x) (f y)
-
-theorem BorelReducible.refl (E : Setoid X) : BorelReducible E E := by
+/-- Closed equivalence relations on Polish spaces are smooth. For basic open sets `U`, `V` with
+`U ×ˢ V` disjoint from the graph of `E`, the saturations of `U` and `V` are disjoint analytic
+invariant sets, which `Setoid.exists_invariant_measurableSet_separating` separates by an invariant
+Borel set; the countably many separators separate the classes, and
+`Setoid.isSmooth_iff_countablySeparated` concludes. -/
+theorem isSmooth_of_isClosed {X : Type u} [TopologicalSpace X] [PolishSpace X]
+    [MeasurableSpace X] [BorelSpace X] (E : Setoid X) (hE : IsClosed {p : X × X | E p.1 p.2}) :
+    E.IsSmooth := by
   sorry
-
-theorem BorelReducible.trans {Z : Type w} [MeasurableSpace Z] {E : Setoid X} {F : Setoid Y}
-    {G : Setoid Z} (hEF : BorelReducible E F) (hFG : BorelReducible F G) :
-    BorelReducible E G := by
-  sorry
-
-/-- `E` is smooth: Borel reducible to equality on Cantor space. -/
-def IsSmooth (E : Setoid X) : Prop :=
-  BorelReducible E (⊥ : Setoid (ℕ → Bool))
-
-/-- Smoothness is countable separation of the quotient Borel space, that is, countably many
-invariant Borel sets separating the classes. -/
-theorem isSmooth_iff_countablySeparated (E : Setoid X) :
-    IsSmooth E ↔ MeasurableSpace.CountablySeparated (Quotient E) := by
-  sorry
-
-theorem isSmooth_of_countable_quotient (E : Setoid X)
-    (hE : MeasurableSet {p : X × X | E p.1 p.2}) [Countable (Quotient E)] :
-    IsSmooth E := by
-  sorry
-
-/-- Closed equivalence relations on Polish spaces are smooth. -/
-theorem isSmooth_of_isClosed [TopologicalSpace X] [PolishSpace X] [BorelSpace X]
-    (E : Setoid X) (hE : IsClosed {p : X × X | E p.1 p.2}) : IsSmooth E := by
-  sorry
-
-/-- Silver's theorem in reducibility form. -/
-theorem borelReducible_bot_cantor_iff [StandardBorelSpace X] (E : Setoid X)
-    (hE : MeasurableSet {p : X × X | E p.1 p.2}) :
-    BorelReducible (⊥ : Setoid (ℕ → Bool)) E ↔ ¬ Countable (Quotient E) := by
-  sorry
-
-end Reducibility
-
-section EZero
-
-/-- Eventual equality on Cantor space, as Mathlib's germ relation along `atTop`. -/
-def eZero : Setoid (ℕ → Bool) := Filter.germSetoid atTop Bool
-
-theorem measurableSet_eZero : MeasurableSet {p : (ℕ → Bool) × (ℕ → Bool) | eZero p.1 p.2} := by
-  sorry
-
-/-- Generic ergodicity: an `E₀`-invariant set with the Baire property is meagre or comeagre. -/
-theorem isMeagre_or_mem_residual_of_eZero_invariant {B : Set (ℕ → Bool)}
-    (hB : BaireMeasurableSet B) (hinv : Quotient.mk eZero ⁻¹' (Quotient.mk eZero '' B) = B) :
-    IsMeagre B ∨ B ∈ residual (ℕ → Bool) := by
-  sorry
-
-theorem not_isSmooth_eZero : ¬ IsSmooth eZero := by
-  sorry
-
-/-- The explicit Cantor antichain `x ↦ (n ↦ x (Nat.unpair n).1)`. -/
-theorem hasCantorAntichainOn_eZero : HasCantorAntichainOn eZero Set.univ := by
-  sorry
-
-theorem borelReducible_bot_eZero : BorelReducible (⊥ : Setoid (ℕ → Bool)) eZero := by
-  sorry
-
-/-- The easy half of Glimm–Effros, `E₀ ≤_B E → ¬ IsSmooth E`. The converse (Harrington–Kechris–
-Louveau) is out of scope. -/
-theorem not_isSmooth_of_borelReducible_eZero {X : Type u} [MeasurableSpace X] {E : Setoid X}
-    (h : BorelReducible eZero E) : ¬ IsSmooth E := by
-  sorry
-
-end EZero
 
 end TauCetiRoadmap.BorelEquivalenceRelations
