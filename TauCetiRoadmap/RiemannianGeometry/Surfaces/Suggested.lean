@@ -24,7 +24,8 @@ compact subsets of it.
 
 One headline cannot yet be stated, for lack of a carrier: Layer 2.2, the integration formula
 up to the normal cut time, needs the cut time of the normal exponential of a boundary arc of a
-surface domain.
+surface domain. Layer 6, the logarithmic cutoff, is specified in `README.md` and has no
+signature here.
 
 The rescaling identity of Layer 5.1 is proved here, since it follows from the two pinned
 conformal lemmas; the remaining statements are targets.

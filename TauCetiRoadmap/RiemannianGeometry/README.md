@@ -14,8 +14,9 @@ the headlines that are not yet statable there.
 The sub-roadmap [Local geometry of Riemannian surfaces](Surfaces/README.md) owns polar
 coordinates and normal strips on surfaces, integration up to normal cut times on surface
 domains, Gauss–Bonnet for disks with corners and the turning theorem with corners,
-nonpositively curved normal balls without completeness, and conformal invariance of the
-surface Dirichlet energy. It is independently definitive and states its boundaries with the
+nonpositively curved normal balls without completeness, conformal invariance of the
+surface Dirichlet energy, and the logarithmic cutoff at a point.
+It is independently definitive and states its boundaries with the
 milestones below.
 
 ## Scope and ownership
