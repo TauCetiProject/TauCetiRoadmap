@@ -1906,7 +1906,7 @@ its characteristic-class consequences; G2.8 owns the generic
    comparison. First work on finite CW pairs.
 
    Define the stable orthogonal group O and the stable special orthogonal
-   group SO as the colimits, in AlgebraicTopology Stage 4.5's compactly
+   group SO as the colimits, in AlgebraicTopology §4.8's compactly
    generated spaces, of Mathlib's `Matrix.orthogonalGroup (Fin n) ℝ` and
    `Matrix.specialOrthogonalGroup (Fin n) ℝ`, each with the subspace topology
    of the matrix space, along the block inclusions ι_n(A)=diag(A,1), new
