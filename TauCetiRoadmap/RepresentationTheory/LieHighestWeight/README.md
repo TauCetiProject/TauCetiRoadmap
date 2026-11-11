@@ -879,7 +879,15 @@ formulas and Checks below specify the rest of the tensor comparison.
 
 1. **Polynomial, symmetric-tensor and action dictionaries.** Let
    `P_d = MvPolynomial.homogeneousSubmodule (Fin 2) ℂ d`, and put
-   `e_i^d = x^(d-i)y^i` for `0≤i≤d`, zero outside this range. The linear equivalence
+   `e_i^d = x^(d-i)y^i` for `0≤i≤d`, zero outside this range, as
+   `polynomialMonomial`.
+
+   - For i≤d, the monomial is homogeneous of degree d.
+   - Its coefficient at the exponent (d−i,i) is 1 for i≤d, and all other
+     coefficients are zero.
+   - For i>d it vanishes; in degree zero the sole in-range monomial is 1.
+
+   The linear equivalence
    from `Sym[ℂ]^d (Fin 2 → ℂ)` to `P_d` sending the pure symmetric tensor with `d-i`
    copies of the first standard vector and `i` copies of the second to `e_i^d` is native:
    it is `TauCeti.SymmetricPower.equivHomogeneous d` (the symmetric power as the degree-d
@@ -898,10 +906,26 @@ formulas and Checks below specify the rest of the tensor comparison.
    `[[a,b],[c,d]]` substitutes `x↦a x+c y`, `y↦b x+d y`.
    These are not the contragredient polynomial functions of ReductiveGroups Layer 10C,
    whose Borel and sign conventions differ. On diagonal matrices the
-   weight of `e_i^d` is `(d-i,i)`.
+   weight of `e_i^d` is `(d-i,i)`. The concrete substitution is `polynomialAction`;
+   its API consists of the following facts.
+
+   - The identity substitution fixes every polynomial and substitutions compose
+     in the same order as matrix multiplication.
+   - Substitution preserves each homogeneous degree and polynomial products.
+   - The polynomial/symmetric-power dictionary intertwines substitution with
+     the native symmetric-power action.
 
    **Checks.**
 
+   - At (d,i)=(0,0) the monomial is 1, excluding an empty-product value of zero.
+   - At (d,i)=(2,1) the monomial is xy with coefficient 1, not 2xy.
+   - At (d,i)=(1,2) the monomial is 0, excluding y² from truncated subtraction.
+   - The identity matrix fixes both x and y, excluding a zero action.
+   - The matrix diag(2,3) sends xy to 6xy; contragredient substitution gives xy/6.
+   - The upper unipotent matrix with upper entry 1 sends y to x+y while fixing x.
+     Inverse-transpose substitution would instead send x to x−y.
+   - Interchanging x and y sends x⊗y−y⊗x to its negative, detecting the
+     determinant factor on the alternating string.
    - For d=0 the dictionary sends the constant polynomial 1 to the unit of the
      zeroth symmetric power; the zero map fails this.
    - For d=2 the monomial xy maps to the pure symmetric tensor of one first and one
@@ -918,16 +942,18 @@ formulas and Checks below specify the rest of the tensor comparison.
    `TauCeti.symPowerRep` for naturality.
 
 2. **Actual operators and vectors.** Define on these polynomials
-   `E=x∂_y`, `F=y∂_x`, `H=EF-FE`, prove preservation of degree and all linear-map
+   `E=x∂_y`, `F=y∂_x`, `H=EF-FE`, using `polynomialOperator a b` for Xₐ∂ᵦ;
+   prove preservation of degree and all linear-map
    laws, and identify them with differentiation of the actual upper/lower unipotent
    and diagonal actions. Prove the group exponential formulas (finite sums for E,F),
    their tensor Leibniz laws and `H=[E,F]`, `[H,E]=2E`, `[H,F]=-2F`.
    In particular `E e_i=i e_(i-1)`, `F e_i=(d-i)e_(i+1)` and
    `H e_i=(d-2i)e_i`, with zero endpoints. On `P_m⊗P_n` use the actual
-   `E_tot=E⊗1+1⊗E`, `F_tot=F⊗1+1⊗F`, and `H_tot`. For d=2: `E(xy)=x²`,
+   `E_tot=E⊗1+1⊗E`, `F_tot=F⊗1+1⊗F`, and `H_tot`, with
+   `tensorPolynomialOperator` denoting the sum of the two factor operators. For d=2: `E(xy)=x²`,
    `F(xy)=y²`, `H(xy)=0` and `H(x²)=2x²`; replacing E by `y∂_x` would give
    `E(x²)=2xy`, raising the wrong end of the string.
-   For every `0≤r≤min(m,n)` define the nonzero vector
+   For every `0≤r≤min(m,n)` define `polynomialTensorHighest` as the nonzero vector
 
    `v_r=(x₁y₂-y₁x₂)^r x₁^(m-r)x₂^(n-r)
        =Σ_(j=0)^r (-1)^j binom(r,j) e_j^m⊗e_(r-j)^n`.
@@ -944,9 +970,38 @@ formulas and Checks below specify the rest of the tensor comparison.
    `F_tot^(N_r+1)v_r=0`, with nonvanishing for `0≤k≤N_r`.
    Exponents and bounds must be stated before using natural-number subtraction.
 
+   **Checks.**
+
+   - E and F kill the degree-zero unit, detecting an erroneous constant term.
+   - In degree one E(y)=x and F(x)=y, while E(x)=F(y)=0; these endpoints
+     exclude reversing the operators.
+   - In degree two E(xy)=x², F(xy)=y² and H(xy)=0; rescaling E alone fails these values.
+   - On x⊗x the total lowering gives y⊗x+x⊗y; acting on only one factor fails.
+   - On y⊗y the total lowering gives 0, fixing the lower endpoint.
+   - On y⊗x the total lowering gives y⊗y; first-factor minus second-factor
+     lowering gives −y⊗y instead.
+   - For m=n=0 the highest vector is 1⊗1, excluding the zero vector.
+   - For m=n=1 and r=0 the highest vector is x⊗x and E_tot kills it;
+     y⊗y instead has E_tot image x⊗y+y⊗x.
+   - For m=n=1 and r=1 the highest vector is x⊗y−y⊗x and E_tot kills it;
+     the plus sign gives E_tot image 2x⊗x.
+
 3. **The invariant Hermitian form and normalization.** Use the form conjugate-linear
    in the first variable with `⟨e_i^d,e_j^d⟩=δ_ij/binom(d,i)` and tensor-product
-   form on `P_m⊗P_n`. Construct its sesquilinearity, conjugate symmetry, strict
+   form on `P_m⊗P_n`. For its acceptance signature, `polynomialTensorCoefficient`
+   extracts the coefficient of `e_i^m⊗e_j^n`, using the tensor lift of the two
+   native coefficient linear maps.
+
+   - Coefficients preserve addition and complex scalar multiplication.
+   - On a pure tensor they are the product of the two indicated coefficients.
+   - On the bihomogeneous subspace the sum of coefficients times the monomial
+     tensors recovers the vector.
+
+   Define `polynomialTensorPairing` by summing conjugate(first coefficient) times
+   second coefficient divided by `binom(m,i)binom(n,j)` over 0≤i≤m and 0≤j≤n.
+   These denominators are positive integers. On the ambient polynomial tensor
+   space the pairing ignores other bidegrees; positivity is claimed only on
+   `P_m⊗P_n`. Construct its sesquilinearity, conjugate symmetry, strict
    positivity, and compatible norm/inner-product structure retaining the existing
    additive and complex scalar parents; give the pure-tensor product and coordinate
    formulas. Prove invariance under the actual `U(2)` action and hence SU₂ restriction,
@@ -967,6 +1022,15 @@ formulas and Checks below specify the rest of the tensor comparison.
    - For d=2, xy has squared norm 1/choose(2,1)=1/2, and its averaged tensor is
      (x⊗y+y⊗x)/2; the unweighted coefficient form would give 1.
    - For d=2, x² and xy have inner product 0, since their coefficient supports differ.
+   - In bidegree (1,1), the (0,1) coefficient of x⊗y is 1, excluding a zero map.
+   - That same coefficient of y⊗x is 0, excluding a swapped tensor convention.
+   - That same coefficient of i(x⊗y) is i, excluding conjugate-linearity;
+     the (0,0) coefficient of 1⊗1 in bidegree (0,0) is 1.
+   - In bidegree (1,1), pairing i(x⊗y) with x⊗y gives −i, reversing the
+     arguments gives i, and pairing x⊗y with y⊗x gives 0. The opposite
+     sesquilinear convention fails the first two values.
+   - The bidegree-(1,1) pairing gives 0 on 1⊗1 paired with itself; this
+     nonzero ambient vector is outside the claimed positive-definite subspace.
 
 4. **Orthogonality before decomposition.** Prove directly from the adjoint identities
    that `⟨F_tot^k v_r,F_tot^l v_s⟩=0` whenever r≠s (all k,l), and that different
@@ -985,6 +1049,21 @@ formulas and Checks below specify the rest of the tensor comparison.
    summands. Construct the GL₂ intertwiners
    `det^r⊗Sym^(N_r)(ℂ²) → Sym^m(ℂ²)⊗Sym^n(ℂ²)` sending the highest monomial
    to `v_r`; on its i-th monomial use `(N_r-i)!/N_r! · F_tot^i v_r`.
+   This vector is `polynomialTensorString`, defined as zero for i>N_r, with
+   r indexed by `Fin (min m n + 1)` so its highest weight is nonnegative.
+
+   - At i=0 the string equals the specified highest vector.
+   - For 0≤i≤N_r, E_tot sends the normalized i-th vector to i times its
+     predecessor (zero at i=0), and F_tot sends it to N_r−i times its successor.
+   - For i>N_r the string vector is zero.
+
+   The headline `normalizedPolynomialTensorBasis`
+   asserts that these vectors are a basis of the actual homogeneous polynomial
+   tensor space, that their Gram matrix is diagonal with entry
+   `r!(m-r)!(n-r)!(m+n-r+1)! / [m!n!(N_r+1)! binom(N_r,i)]`,
+   and that standard-vector substitution by g∈GL₂ on each string is
+   det(g)ʳ times its substitution on `P_(N_r)`. Thus the basis and its inverse
+   retain the normalization and the determinant twist, not merely the dimensions.
    Check intertwining on the actual torus and both unipotent subgroups by the
    polynomial formulas; use elementary matrix generation of GL₂, rather than
    infer group equivariance from an unspecified differentiation comparison.
@@ -994,6 +1073,18 @@ formulas and Checks below specify the rest of the tensor comparison.
    On each common SU₂ weight of two strings prove the corresponding orthogonality;
    one uniform choice is `ε=(m+n) mod 2`, reached at `k=(N_r-ε)/2`.
    Lowering preserves the invariant **summands**, and moves between weight spaces.
+
+   **Checks.**
+
+   - For m=n=0 the sole string vector is 1⊗1 and its squared norm is 1;
+     the index k=1 gives 0 rather than an additional basis vector.
+   - For m=n=1 the r=0 string is x⊗x, (y⊗x+x⊗y)/2, y⊗y, and the
+     r=1 string is x⊗y−y⊗x. Their Gram diagonal is (1,1/2,1,2), with
+     all off-diagonal entries zero. On the middle coordinates ordered
+     (y⊗x,x⊗y), the columns (1/2,1/2) and (−1,1) have determinant 1;
+     omitting the lowering factorial changes the middle squared norm to 2.
+   - For m=0,n=2 the string is 1⊗x², 1⊗xy, 1⊗y² with squared norms
+     1,1/2,1, and the next lowering is zero. No negative symmetric power occurs.
 
 5. **Symmetric-square calculation and all boundaries.** For n≥2 set
    `A=y²⊗x^n`, `B=xy⊗x^(n-1)y`, `C=x²⊗x^(n-2)y²`.
@@ -1925,9 +2016,12 @@ the native dot action and ρ-translation in Layer 7.
   - For `L = sl₂ × sl₂`, which is semisimple and not simple, the Cartan matrix is diag(2,2),
     the relations with zero entry give `[e₁,e₂]=[f₁,f₂]=0`, the Serre algebra is spanned by the
     six generators, and the surjective lift onto the 6-dimensional `L` is injective.
-  - Without the relation `ad(e₁)^(1−A) e₂ = 0` the presented algebra of diag(2,2) contains the
-    nonzero class `[e₁,e₂]`, which maps to 0 in `L`: the higher Serre relations are needed for
-    injectivity already in the reducible case.
+  - In the free positive part on e₁,e₂, before the Serre quotient for diag(2,2), omit
+    both directed positive cross-relations. The map e₁↦E₁₂, e₂↦E₂₃ into strictly
+    upper-triangular 3×3 matrices sends `[e₁,e₂]` to E₁₃≠0, whereas its map to the
+    positive part of `sl₂ × sl₂` sends the bracket to 0. Imposing either directed
+    cross-relation kills it, since `[e₁,e₂]=−[e₂,e₁]`; deleting just one relation
+    from the full presentation does not give this negative control.
   - Height reduction for A₂, columns (2,−1) and (−1,2): the weight `α₁+α₂ = (1,1)` has
     `χ₁ = 1`, and its reflection `(1,1) − (2,−1) = (−1,2)` is the second column, so its weight
     space is a line. The weight `2α₁+α₂ = (3,0)` has `χ₁ = 3` and reflects to `(−3,3)`, the
@@ -2682,8 +2776,14 @@ square (Dixmier, *Enveloping Algebras*, §1.6, for the reductive specialization)
 
 - For Z=S=0 the map is K≃K⊗K, and 1 maps to 1⊗1.
 - For Z=K abelian and S=0, the degree-one generator maps to t⊗1, not 0.
-- For Z=K and S=sl₂, a scalar-direction generator maps to t⊗1 and the quadratic
-  Casimir from S maps to 1⊗C; the center is K[t]⊗K[C].
+- Over a characteristic-zero field, for Z=K and S=sl₂, a scalar-direction generator
+  maps to t⊗1 and the quadratic Casimir C=h²+2h+4fe maps to 1⊗C;
+  the center is K[t]⊗K[C].
+- In characteristic 3, e³ is nonzero by PBW and central: `[h,e³]=6e³=0`,
+  `[f,e³]=−3e²(h+2)=0`, and `[e,e³]=0`. It has PBW degree 3, whereas a
+  nonconstant polynomial in C has even leading degree. The tensor center contains
+  1⊗e³ and is K[t]⊗Z(U(sl₂)), strictly larger than K[t]⊗K[C]; the general
+  product-center comparison retains this element.
 
 *Needs:* native product, abelian and functorial enveloping equivalences;
 Mathlib tensor injectivity over a field and the include-right centralizer theorem.

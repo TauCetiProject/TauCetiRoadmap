@@ -21,7 +21,8 @@ public import TauCeti.LinearAlgebra.RootSystem.Weyl.Affine.Alcove
 # Lie highest weights: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the headline
-theorems against the pinned APIs: the first-order bracket on the zero fibre of the PBW Rees
+theorems against the pinned APIs: the normalized orthogonal polynomial tensor basis with
+its determinant-twisted GL2 action, the first-order bracket on the zero fibre of the PBW Rees
 algebra, normalized PBW symmetrization, the invariant-form symmetry sign, the split Serre
 presentation, the split identifications G2 and F4, the dimensions of the split Serre algebras
 E6, E7 and E8, the compact real form of G2 on the division octonions and its
@@ -65,6 +66,93 @@ open scoped Classical DirectSum TensorProduct
 open LieModule LieAlgebra Module
 
 universe u v
+
+/-! ## Layer 0: normalized rank-one tensor comparisons -/
+
+/-- The degree-d monomial x^(d-i)y^i, extended by zero for i > d. -/
+noncomputable def polynomialMonomial (d i : ℕ) : MvPolynomial (Fin 2) ℂ :=
+  if i ≤ d then MvPolynomial.X 0 ^ (d - i) * MvPolynomial.X 1 ^ i else 0
+
+/-- The polynomial operator X_a ∂_b; (a,b) = (0,1) raises and (1,0) lowers. -/
+noncomputable def polynomialOperator (a b : Fin 2) :
+    Module.End ℂ (MvPolynomial (Fin 2) ℂ) :=
+  (MvPolynomial.X a : MvPolynomial (Fin 2) ℂ) • (MvPolynomial.pderiv (R := ℂ) b).toLinearMap
+
+/-- The sum of X_a ∂_b on the two polynomial tensor factors. -/
+noncomputable def tensorPolynomialOperator (a b : Fin 2) :
+    Module.End ℂ (MvPolynomial (Fin 2) ℂ ⊗[ℂ] MvPolynomial (Fin 2) ℂ) :=
+  TensorProduct.map (polynomialOperator a b) LinearMap.id +
+    TensorProduct.map LinearMap.id (polynomialOperator a b)
+
+/-- The standard-vector substitution X_i ↦ ∑_j g_ji X_j, restricted to GL2. -/
+noncomputable def polynomialAction (g : Matrix.GeneralLinearGroup (Fin 2) ℂ) :
+    Module.End ℂ (MvPolynomial (Fin 2) ℂ) :=
+  (MvPolynomial.aeval fun i : Fin 2 =>
+    ∑ j : Fin 2, (g : Matrix (Fin 2) (Fin 2) ℂ) j i • MvPolynomial.X j).toLinearMap
+
+/-- The highest vector (x₁y₂-y₁x₂)^r x₁^(m-r)x₂^(n-r), in the polynomial tensor product. -/
+noncomputable def polynomialTensorHighest (m n : ℕ) (r : Fin (min m n + 1)) :
+    MvPolynomial (Fin 2) ℂ ⊗[ℂ] MvPolynomial (Fin 2) ℂ :=
+  ∑ j ∈ Finset.range (r.val + 1), ((-1 : ℂ) ^ j * (r.val.choose j : ℂ)) •
+    (polynomialMonomial m j ⊗ₜ[ℂ] polynomialMonomial n (r.val - j))
+
+/-- The k-th string vector is (N-k)!/N! times the k-th lowering of the highest
+vector, where N=m+n-2r; it is zero outside 0 ≤ k ≤ N. -/
+noncomputable def polynomialTensorString (m n : ℕ) (r : Fin (min m n + 1)) (k : ℕ) :
+    MvPolynomial (Fin 2) ℂ ⊗[ℂ] MvPolynomial (Fin 2) ℂ :=
+  let N := m + n - 2 * r.val
+  if k ≤ N then
+    (((N - k).factorial : ℂ) / (N.factorial : ℂ)) •
+      ((tensorPolynomialOperator 1 0 ^ k) (polynomialTensorHighest m n r))
+  else 0
+
+/-- The coefficient of x^(m-i)y^i ⊗ x^(n-j)y^j in a polynomial tensor. -/
+noncomputable def polynomialTensorCoefficient (m n : ℕ) (i : Fin (m + 1))
+    (j : Fin (n + 1)) :
+    (MvPolynomial (Fin 2) ℂ ⊗[ℂ] MvPolynomial (Fin 2) ℂ) →ₗ[ℂ] ℂ :=
+  TensorProduct.lift
+    ((MvPolynomial.lcoeff ℂ (Finsupp.single 0 (m - i.val) + Finsupp.single 1 i.val)).smulRight
+      (MvPolynomial.lcoeff ℂ (Finsupp.single 0 (n - j.val) + Finsupp.single 1 j.val)))
+
+/-- The coefficient pairing with monomial squared norms 1/(choose(m,i)choose(n,j)),
+conjugate-linear in its first variable; its restriction to bidegree (m,n) is positive definite. -/
+noncomputable def polynomialTensorPairing (m n : ℕ)
+    (u v : MvPolynomial (Fin 2) ℂ ⊗[ℂ] MvPolynomial (Fin 2) ℂ) : ℂ :=
+  ∑ i : Fin (m + 1), ∑ j : Fin (n + 1),
+    star (polynomialTensorCoefficient m n i j u) * polynomialTensorCoefficient m n i j v /
+      ((m.choose i.val : ℂ) * (n.choose j.val : ℂ))
+
+/-- The normalized polynomial strings form an orthogonal basis of P_m ⊗ P_n.
+Their Gram matrix has the factorial normalization, and each string intertwines
+with det^r ⊗ Sym^(m+n-2r) under the actual standard-vector GL2 substitutions. -/
+theorem normalizedPolynomialTensorBasis (m n : ℕ) :
+    ∃ b : Module.Basis (Σ r : Fin (min m n + 1), Fin (m + n - 2 * r.val + 1)) ℂ
+        (MvPolynomial.homogeneousSubmodule (Fin 2) ℂ m ⊗[ℂ]
+          MvPolynomial.homogeneousSubmodule (Fin 2) ℂ n),
+      (∀ a, TensorProduct.map
+          (MvPolynomial.homogeneousSubmodule (Fin 2) ℂ m).subtype
+          (MvPolynomial.homogeneousSubmodule (Fin 2) ℂ n).subtype (b a) =
+        polynomialTensorString m n a.1 a.2.val) ∧
+      (∀ a c : Σ r : Fin (min m n + 1), Fin (m + n - 2 * r.val + 1),
+        polynomialTensorPairing m n (polynomialTensorString m n a.1 a.2.val)
+            (polynomialTensorString m n c.1 c.2.val) =
+          if a = c then
+            ((a.1.val.factorial : ℂ) * ((m - a.1.val).factorial : ℂ) *
+              ((n - a.1.val).factorial : ℂ) * ((m + n - a.1.val + 1).factorial : ℂ)) /
+            ((m.factorial : ℂ) * (n.factorial : ℂ) *
+              ((m + n - 2 * a.1.val + 1).factorial : ℂ) *
+              ((m + n - 2 * a.1.val).choose a.2.val : ℂ))
+          else 0) ∧
+      (∀ (g : Matrix.GeneralLinearGroup (Fin 2) ℂ) (r : Fin (min m n + 1))
+          (k : Fin (m + n - 2 * r.val + 1)),
+        TensorProduct.map (polynomialAction g) (polynomialAction g)
+            (polynomialTensorString m n r k.val) =
+          ((g : Matrix (Fin 2) (Fin 2) ℂ).det ^ r.val) •
+            ∑ i : Fin (m + n - 2 * r.val + 1),
+              (MvPolynomial.lcoeff ℂ
+                (Finsupp.single 0 (m + n - 2 * r.val - i.val) + Finsupp.single 1 i.val)
+                (polynomialAction g (polynomialMonomial (m + n - 2 * r.val) k.val))) •
+              polynomialTensorString m n r i.val) := sorry
 
 /-! ## Layer 3: normalized PBW symmetrization -/
 
