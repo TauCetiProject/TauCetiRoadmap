@@ -3,6 +3,9 @@ module
 import Mathlib
 import TauCeti.CategoryTheory.AlmostSplit.Sequence
 import TauCeti.Algebra.Module.Injective.Envelope.Basic
+import TauCeti.Algebra.Category.ModuleCat.RepresentationFinite
+import TauCeti.Algebra.Category.FGModuleCat.RepresentationFinite
+import TauCeti.RingTheory.GlobalDimension
 
 /-!
 # Krull-Schmidt categories and Auslander-Reiten theory of Artin algebras: suggested forms
@@ -31,13 +34,13 @@ The headlines of the README and their Lean forms here:
 * Matlis duality (Layer 2): `exists_isInjectiveEnvelope_quotient_jacobson` and
   `bijective_applyₗ_of_isInjectiveEnvelope`.
 * Existence of almost-split sequences for Artin algebras (Layer 4): `exists_isAlmostSplit`.
-* The Harada-Sai lemma and the first Brauer-Thrall conjecture (Layer 6): `chainComp`,
-  `chainComp_eq_zero_of_length_le` and `finite_skeleton_of_length_le`.
-* Global dimension of an arbitrary ring (Layer 7): `leftGlobalDimension` and Auslander's theorems
-  `leftGlobalDimension_eq_iSup_cyclic`, `leftGlobalDimension_eq_iSup_finite`,
-  `leftGlobalDimension_mulOpposite` and `leftGlobalDimension_eq_projectiveDimension_quotient`. On a
-  commutative ring `leftGlobalDimension` is the same supremum as the global dimension owned by
-  PurityOfBranchLocus §0.3.
+* The Harada-Sai lemma, the first Brauer-Thrall conjecture and the infinite radical (Layer 6):
+  `chainComp`, `chainComp_eq_zero_of_length_le`, `isRepresentationFinite_of_length_le` and
+  `isRepresentationFinite_iff_forall_mem_jacobsonRadicalIdeal_pow`, on Tau Ceti's
+  `TauCeti.IsRepresentationFinite` and `TauCeti.jacobsonRadicalIdeal`.
+* Auslander's theorems on Tau Ceti's global dimension `TauCeti.globalDimension` of an arbitrary
+  ring (Layer 7): `globalDimension_eq_iSup_cyclic`, `globalDimension_eq_iSup_finite`,
+  `globalDimension_mulOpposite` and `globalDimension_eq_projectiveDimension_quotient`.
 * The Morita-Tachikawa correspondence (Layer 7), on the predicates `IsGeneratorCogenerator` and
   `HasProjectiveInjectiveCopresentation`: the forward direction
   `hasProjectiveInjectiveCopresentation_end`, the converse
@@ -53,10 +56,8 @@ exact category, and with it Auslander-Reiten duality and the existence theorem f
 conflations in exact categories (Layer 3); the category `mod C` as an abelian category (Layer 1);
 the translate of an Artin algebra and its Auslander-Reiten formulas (Layer 4); the valued
 Auslander-Reiten quiver with its mesh and multiplicities (Layer 5), and hence Auslander's theorem on
-components of bounded length (Layer 6); the criterion that an Artin algebra is
-representation-finite exactly when the infinite radical `⋂ₙ radⁿ` of `mod A` vanishes (Layer 6),
-which needs the radical as a morphism ideal with its powers; and dominant dimension as a number
-(Layer 7), of which only the bound `≥ 2` is stated here, as `HasProjectiveInjectiveCopresentation`.
+components of bounded length (Layer 6); and dominant dimension as a number (Layer 7), of which
+only the bound `≥ 2` is stated here, as `HasProjectiveInjectiveCopresentation`.
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.ArtinAlgebras
@@ -195,10 +196,18 @@ include R in
 /-- **The first Brauer-Thrall conjecture** (Roiter's theorem): if the finitely generated
 indecomposable modules over an Artin algebra have bounded length, there are only finitely many
 of them up to isomorphism. -/
-theorem finite_skeleton_of_length_le (b : ℕ)
+theorem isRepresentationFinite_of_length_le (b : ℕ)
     (h : ∀ M : ModuleCat.{u} A, Module.Finite A M → Indecomposable M → Module.length A M ≤ b) :
-    Finite (Skeleton (ObjectProperty.FullSubcategory
-      fun M : ModuleCat.{u} A ↦ Module.Finite A M ∧ Indecomposable M)) :=
+    TauCeti.IsRepresentationFinite.{u} A :=
+  sorry
+
+include R in
+/-- **The infinite radical**: an Artin algebra is representation-finite exactly when the
+intersection `rad^∞` of the powers of the radical of `mod A` vanishes. -/
+theorem isRepresentationFinite_iff_forall_mem_jacobsonRadicalIdeal_pow :
+    TauCeti.IsRepresentationFinite.{u} A ↔
+      ∀ (X Y : FGModuleCat.{u} A) (f : X ⟶ Y),
+        (∀ n : ℕ, f ∈ (TauCeti.jacobsonRadicalIdeal (FGModuleCat.{u} A) ^ n).hom X Y) → f = 0 :=
   sorry
 
 end Finiteness
@@ -207,36 +216,31 @@ end Finiteness
 
 section GlobalDimension
 
-/-- **The left global dimension** of an arbitrary ring: the supremum of the projective dimensions
-of all left modules. The right global dimension is `leftGlobalDimension Aᵐᵒᵖ`. The zero ring has
-global dimension `⊥`, since a zero object has projective dimension `⊥`. -/
-noncomputable def leftGlobalDimension (A : Type u) [Ring A] : WithBot ℕ∞ :=
-  ⨆ X : ModuleCat.{u} A, projectiveDimension X
-
-/-- **Auslander**: the left global dimension is the supremum of the projective dimensions of the
-cyclic modules `A ⧸ I`. -/
-theorem leftGlobalDimension_eq_iSup_cyclic (A : Type u) [Ring A] :
-    leftGlobalDimension A = ⨆ I : Submodule A A, projectiveDimension (ModuleCat.of A (A ⧸ I)) :=
+/-- **Auslander**: the left global dimension `TauCeti.globalDimension A` is the supremum of the
+projective dimensions of the cyclic modules `A ⧸ I`. -/
+theorem globalDimension_eq_iSup_cyclic (A : Type u) [Ring A] :
+    TauCeti.globalDimension.{u} A =
+      ⨆ I : Submodule A A, projectiveDimension (ModuleCat.of A (A ⧸ I)) :=
   sorry
 
 /-- **Auslander**: the left global dimension is the supremum of the projective dimensions of the
 finitely generated modules; it lies between the cyclic supremum and the full one. -/
-theorem leftGlobalDimension_eq_iSup_finite (A : Type u) [Ring A] :
-    leftGlobalDimension A =
+theorem globalDimension_eq_iSup_finite (A : Type u) [Ring A] :
+    TauCeti.globalDimension.{u} A =
       ⨆ (X : ModuleCat.{u} A) (_ : Module.Finite A X), projectiveDimension X :=
   sorry
 
 /-- **Auslander**: over a ring that is left and right Noetherian, the left and right global
-dimensions agree. -/
-theorem leftGlobalDimension_mulOpposite (A : Type u) [Ring A] [IsNoetherianRing A]
-    [IsNoetherianRing Aᵐᵒᵖ] : leftGlobalDimension Aᵐᵒᵖ = leftGlobalDimension A :=
+dimensions agree; the right global dimension is `TauCeti.globalDimension Aᵐᵒᵖ`. -/
+theorem globalDimension_mulOpposite (A : Type u) [Ring A] [IsNoetherianRing A]
+    [IsNoetherianRing Aᵐᵒᵖ] : TauCeti.globalDimension.{u} Aᵐᵒᵖ = TauCeti.globalDimension.{u} A :=
   sorry
 
 /-- **Auslander**: over a semiprimary ring, in particular an Artin algebra, the left global
 dimension is the projective dimension of `A ⧸ J(A)`. For the zero ring both sides are `⊥`. -/
-theorem leftGlobalDimension_eq_projectiveDimension_quotient (A : Type u) [Ring A]
+theorem globalDimension_eq_projectiveDimension_quotient (A : Type u) [Ring A]
     [IsSemiprimaryRing A] :
-    leftGlobalDimension A = projectiveDimension (ModuleCat.of A (A ⧸ Ring.jacobson A)) :=
+    TauCeti.globalDimension.{u} A = projectiveDimension (ModuleCat.of A (A ⧸ Ring.jacobson A)) :=
   sorry
 
 end GlobalDimension
@@ -313,7 +317,7 @@ dominant dimension at least two is the endomorphism ring of an additive generato
 Artin algebra `B`, which is then representation-finite. Dominant dimension alone does not suffice:
 `k[ε]/(ε²)` has infinite dominant dimension and infinite global dimension. -/
 theorem exists_isAdditiveGenerator_algEquiv_end (Γ : Type u) [Ring Γ] [Algebra R Γ]
-    [Module.Finite R Γ] (hgl : leftGlobalDimension Γ ≤ 2)
+    [Module.Finite R Γ] (hgl : TauCeti.globalDimension.{u} Γ ≤ 2)
     (hΓ : HasProjectiveInjectiveCopresentation Γ) :
     ∃ (B : Type u) (_ : Ring B) (_ : Algebra R B) (_ : Module.Finite R B) (M : ModuleCat.{u} B),
       Module.Finite B M ∧ IsAdditiveGenerator M ∧ Nonempty (Γ ≃ₐ[R] Module.End B M) :=

@@ -27,9 +27,9 @@ This roadmap owns:
 
 - Krull-Schmidt categories in general: the local-endomorphism-ring characterization of
   indecomposables, idempotent completeness, uniqueness of decompositions, the recognition theorem for
-  Hom-finite categories over a commutative Artinian ring with its Fitting lemma and summand
-  decomposition, closure properties, additive generators, and the radical of a preadditive category
-  as a morphism ideal with its powers (Layer 0);
+  Hom-finite categories over a commutative Artinian ring with its summand decomposition by
+  idempotents, closure properties, additive generators, and the matrix description of Tau Ceti's
+  radical ideal (Layer 0);
 - finitely presented functors on an additive category, the Freyd-Auslander criterion, the
   comparison with finitely presented modules, projective dimension at most two, and projective
   covers of finitely generated functors (Layer 1);
@@ -38,14 +38,15 @@ This roadmap owns:
 - the `Ext¹` of an exact category, its long exact sequences, the Ext-trivial morphism ideals,
   almost-split conflations with their extension-class criterion and functorial description,
   Auslander-Reiten duality, and the existence theorem for almost-split conflations (Layer 3);
-- the translate, the Auslander-Reiten formulas, almost-split sequences, and source and sink maps for
-  Artin algebras (Layer 4);
-- the division-ring bimodule structure on Tau Ceti's space of irreducible morphisms, valuations,
-  valued translation quivers and the valued Auslander-Reiten quiver (Layer 5);
-- representation-finiteness of Artin algebras, the Harada-Sai lemma, nilpotence of the radical,
-  Auslander's theorem, the first Brauer-Thrall conjecture and the infinite radical (Layer 6);
-- projectivization, Morita theory for Artin algebras, the global dimension of noncommutative rings,
-  dominant dimension, and the Morita-Tachikawa and Auslander correspondences (Layer 7).
+- the translate, the defect formula, the Auslander-Reiten formulas, almost-split sequences, and
+  source and sink maps for Artin algebras (Layer 4);
+- valuations of Tau Ceti's irreducible-morphism bimodules, valued translation quivers and the valued
+  Auslander-Reiten quiver (Layer 5);
+- the Harada-Sai lemma with its bound on the nilpotency of the radical, Auslander's theorem, the
+  first Brauer-Thrall conjecture and the infinite radical (Layer 6);
+- projectivization, Morita theory for Artin algebras, Auslander's theorems on the global dimension
+  of noncommutative rings, dominant dimension, and the Morita-Tachikawa and Auslander
+  correspondences (Layer 7).
 
 The generality is fixed: the base is a commutative Artinian ring `R`, never only a field, and the
 categorical results are stated for arbitrary preadditive, additive or exact categories, never only
@@ -71,10 +72,12 @@ for categories of modules. The boundaries are as follows.
   categories without enough projectives or injectives, compared there with the factoring ideals.
 - **[Purity of the branch locus](../../PurityOfBranchLocus/README.md), §0.3** owns the global
   dimension of a commutative ring (`TauCetiRoadmap.PurityOfBranchLocus.globalDimension`) with its
-  finite-module and cyclic-module criteria and localization bounds. Layer 7 here owns its extension
-  to noncommutative rings, left and right, and the Artin-algebra results; on a commutative ring the
-  two definitions are the same supremum, and the commutative results are imported from §0.3, not
-  proved again.
+  localization bounds. Tau Ceti's `TauCeti.globalDimension` is the global dimension of an arbitrary
+  ring, of left modules, with its finite-module and cyclic-module criteria for `≤ n`; on a
+  commutative ring the two are the same supremum. Layer 7 here owns only Auslander's supremum
+  identities over cyclic and finitely generated modules, the comparison of left and right global
+  dimension, and the formula for semiprimary rings; the commutative results are imported from §0.3,
+  not proved again.
 - **[Enhanced derived sheaves](../../EnhancedDerivedSheaves/README.md)** bounds projective
   dimensions over regular commutative rings. It is not consumed here.
 - **[Geometric representation categories](../../GeometricRepresentationCategories/README.md),
@@ -130,7 +133,7 @@ almost-split conflations), `TauCeti/RingTheory/Matlis/`, and
    indecomposable objects use Mathlib's `Skeleton`.
 10. The radical `rad` of a preadditive category is Tau Ceti's `TauCeti.jacobsonRadical`: `f : X ⟶ Y`
     lies in `rad(X, Y)` when `𝟙 - g ≫ f` is invertible for every `g : Y ⟶ X`. Its powers are
-    those of the morphism ideal of Layer 0.
+    those of the morphism ideal `TauCeti.jacobsonRadicalIdeal`.
 
 **Sources and locators.** Citations use the keys of the section "Sources and locators" at the end,
 which lists, for each work, the statements used and where they are. Pages are printed pages: [ARS]
@@ -140,8 +143,8 @@ text of that section. A locator that has not been read in the source says so.
 
 ## Exact supplier contracts
 
-The baseline is Mathlib `f6090c7095e1e56b3464c1daba5f24631f1290d2` and Tau Ceti
-`358314d4ab97483df4fc4cb8adcc02e74a8d9f5a`.
+The baseline is Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti
+`2fd255d997f47c0b5d834ee416c7015d55444ce5`.
 
 ### From Mathlib
 
@@ -168,20 +171,31 @@ The baseline is Mathlib `f6090c7095e1e56b3464c1daba5f24631f1290d2` and Tau Ceti
   `TauCeti.IsRightAlmostSplit` (`TauCeti.CategoryTheory.AlmostSplit.Basic`) and
   `ShortComplex.IsAlmostSplit` (`TauCeti.CategoryTheory.AlmostSplit.Sequence`).
 - Irreducible morphisms: `TauCeti.IsIrreducibleMorphism` (`TauCeti.CategoryTheory.IrreducibleMorphism`).
-- Indecomposables from local endomorphism rings: `TauCeti.indecomposable_of_injective_of_isLocalRing`
-  (`TauCeti.CategoryTheory.Preadditive.Indecomposable`).
+- Indecomposables and local endomorphism rings:
+  `TauCeti.indecomposable_of_injective_of_isLocalRing`,
+  `TauCeti.indecomposable_of_isLocalRing_end` and Fitting's lemma
+  `TauCeti.isLocalRing_end_of_indecomposable` (`TauCeti.CategoryTheory.Preadditive.Indecomposable`).
+- Summands of sums of objects with local endomorphism rings, in an idempotent-complete linear
+  category over a commutative Artinian ring: `TauCeti.exists_isLocalRing_end_sum_comp_eq_id`
+  (`TauCeti.CategoryTheory.Preadditive.KrullSchmidt`).
 - The space of irreducible morphisms: `TauCeti.irreducibleMorphismSpace k X Y`, the quotient
   `rad(X, Y) / rad²(X, Y)` for a `k`-linear category, with its `AddCommGroup` and `Module k`
   instances, `TauCeti.irreducibleMorphismMk`, `TauCeti.irreducibleMorphismMk_eq_zero_iff`,
   `TauCeti.irreducibleMorphismLift` and `TauCeti.irreducibleMorphismSpaceCongr`
   (`TauCeti.CategoryTheory.Preadditive.Radical.Quotient`).
+- The bimodule structure on the space of irreducible morphisms over the residue rings of the two
+  endomorphism rings: `TauCeti.instModuleResiduePostcomp`, `TauCeti.instModuleResiduePrecomp` and
+  `TauCeti.instSMulCommClassResidue` (`TauCeti.CategoryTheory.Preadditive.Radical.Bimodule`).
 - The radical: `TauCeti.jacobsonRadical` and `TauCeti.jacobsonRadicalSq` (additive subgroups of
-  each Hom group), `TauCeti.mem_jacobsonRadical_iff_not_isIso` for objects with local endomorphism
-  rings, `TauCeti.jacobsonRadical_self_eq_jacobson`, and
+  each Hom group), the radical ideal `TauCeti.jacobsonRadicalIdeal` with
+  `TauCeti.jacobsonRadicalIdeal_sq_hom`, `TauCeti.mem_jacobsonRadical_iff_not_isIso` for objects
+  with local endomorphism rings, `TauCeti.jacobsonRadical_self_eq_jacobson`, and
   `TauCeti.isIrreducibleMorphism_iff_mem_jacobsonRadical_and_notMem_jacobsonRadicalSq`
   (`TauCeti.CategoryTheory.Preadditive.Radical.Basic`).
 - Morphism ideals and their quotients: `TauCeti.MorphismIdeal`, `TauCeti.MorphismIdeal.Quotient`
-  (`TauCeti.CategoryTheory.Preadditive.MorphismIdeal.Basic`).
+  (`TauCeti.CategoryTheory.Preadditive.MorphismIdeal.Basic`), with products and powers from the
+  monoid `TauCeti.MorphismIdeal.instMonoid`
+  (`TauCeti.CategoryTheory.Preadditive.MorphismIdeal.Mul`).
 - Krull-Schmidt for modules of finite length: `TauCeti.exists_indecomposable_iso_biproduct` and
   `TauCeti.exists_equiv_iso_of_iso_biproduct` (`TauCeti.Algebra.Category.ModuleCat.KrullSchmidt`);
   for pointwise finite-dimensional quiver representations,
@@ -191,7 +205,14 @@ The baseline is Mathlib `f6090c7095e1e56b3464c1daba5f24631f1290d2` and Tau Ceti
   it imports), with the projective stable category `TauCeti.ExactStructure.ProjectiveStableCategory`
   (`TauCeti.CategoryTheory.Exact.Stable.Basic`).
 - Injective hulls: `TauCeti.IsInjectiveEnvelope` and `TauCeti.IsInjectiveEnvelope.exists_linearEquiv`
-  (`TauCeti.Algebra.Module.Injective.Envelope.Basic`).
+  (`TauCeti.Algebra.Module.Injective.Envelope.Basic`), and their existence
+  `TauCeti.exists_isInjectiveEnvelope` (`TauCeti.Algebra.Module.Injective.Envelope.Existence`).
+- Matlis duality for modules of finite length over a local ring:
+  `TauCeti.IsInjectiveEnvelope.bijective_applyₗ` and `TauCeti.IsInjectiveEnvelope.length_linearMap`
+  (`TauCeti.RingTheory.MatlisDuality.FiniteLength`).
+- The extension-class criterion for left almost-split maps in an abelian category:
+  `CategoryTheory.ShortComplex.ShortExact.isLeftAlmostSplit_f_iff_extClass`
+  (`TauCeti.CategoryTheory.AlmostSplit.Ext`).
 - Projective covers over Artinian rings: `TauCeti.exists_projectiveCover`
   (`TauCeti.Algebra.Module.ProjectiveCover.ModuleCat`).
 - The transpose over an arbitrary ring and its stable equivalence: `TauCeti.AuslanderReitenTranspose`
@@ -200,10 +221,27 @@ The baseline is Mathlib `f6090c7095e1e56b3464c1daba5f24631f1290d2` and Tau Ceti
 - The translate of a presentation over a field, `TauCeti.AuslanderReitenTranslate`
   (`TauCeti.Algebra.Module.AuslanderReiten.Translate`), and of a quiver representation,
   `TauCeti.arTranslate` (`TauCeti.RepresentationTheory.Quiver.Representation.Translate`).
+- Auslander-Reiten theory over a field: the translate of a module `ModuleCat.arTranslate`
+  (`TauCeti.Algebra.Category.ModuleCat.AuslanderReiten.Translate`), Auslander-Reiten duality
+  `LinearMap.auslanderReitenExtEquiv` with its naturality
+  `LinearMap.auslanderReitenExtEquiv_naturality`
+  (`TauCeti.Algebra.Category.ModuleCat.AuslanderReiten.Basic`), and the existence of almost-split
+  sequences `ModuleCat.exists_isAlmostSplit_arTranslate`
+  (`TauCeti.Algebra.Category.ModuleCat.AuslanderReiten.Sequence`).
+- Representation-finite rings: `TauCeti.IsRepresentationFinite` and
+  `TauCeti.isRepresentationFinite_iff` (`TauCeti.Algebra.Category.ModuleCat.RepresentationFinite`),
+  and nilpotence of the radical of `mod A` for a representation-finite Artin algebra,
+  `TauCeti.IsRepresentationFinite.exists_jacobsonRadicalIdeal_pow_eq_bot`
+  (`TauCeti.Algebra.Category.FGModuleCat.RepresentationFinite`).
 - Morita theory: `IsIdempotentElem.isMoritaEquivalent_corner` (`TauCeti.RingTheory.Morita.Corner`),
   `CategoryTheory.Equivalence.finiteModulesEquivalence` and
   `CategoryTheory.Equivalence.finiteProjectiveModulesEquivalence`
   (`TauCeti.Algebra.Category.ModuleCat.CartanMap.Morita`).
+- Global dimension of an arbitrary ring, of left modules: `TauCeti.globalDimension`,
+  `TauCeti.globalDimension_le_iff`, `TauCeti.globalDimension_le_iff_hasProjectiveDimensionLE`,
+  `TauCeti.globalDimension_le_tfae` (finite and cyclic criteria for `≤ n`),
+  `TauCeti.globalDimension_eq_bot_iff` and `Submonoid.globalDimension_localization_le`
+  (`TauCeti.RingTheory.GlobalDimension`).
 
 ### From other roadmaps
 
@@ -216,7 +254,7 @@ The baseline is Mathlib `f6090c7095e1e56b3464c1daba5f24631f1290d2` and Tau Ceti
   projectives and injectives, and the stable categories `E/[P]` and `E/[I]` as quotients by the
   factoring ideals.
 - PurityOfBranchLocus §0.3: `TauCetiRoadmap.PurityOfBranchLocus.globalDimension` of a commutative
-  ring, with `TauCetiRoadmap.PurityOfBranchLocus.globalDimension_le_iff`,
+  ring, with
   `TauCetiRoadmap.PurityOfBranchLocus.globalDimension_le_iff_hasProjectiveDimensionLE` and the
   localization bounds.
 - GeometricRepresentationCategories §R5.2: the comparison of the Baer sum with addition of
@@ -250,37 +288,18 @@ targets are specified in prose; their Lean names are for the implementer to choo
 
 ### 0.1 Local endomorphism rings and indecomposables
 
-**Local endomorphism rings give indecomposables** (supplied). In a preadditive category with binary
-biproducts, an object whose endomorphism ring is local is indecomposable. This is Tau Ceti's
-`TauCeti.indecomposable_of_injective_of_isLocalRing`, applied to the identity map of `End X`;
-localness gives `1 ≠ 0` in `End X`, hence the premise that `X` is not zero. Only the converse, under
-Krull-Schmidt or Fitting hypotheses, is a target here (0.2 and below).
+Both directions are supplied by Tau Ceti and are not targets here. In a preadditive category with
+binary biproducts, an object whose endomorphism ring is local is indecomposable
+(`TauCeti.indecomposable_of_isLocalRing_end`). Conversely, **Fitting's lemma**
+(`TauCeti.isLocalRing_end_of_indecomposable`): in an idempotent-complete category with binary
+biproducts that is linear over a commutative Artinian ring `R`, an indecomposable object `X` with
+`X ⟶ X` finitely generated over `R` has local endomorphism ring.
 
-**Checks.**
-
-- The zero object is not indecomposable, and its endomorphism ring, the zero ring, is not local.
-- `ℤ` is an indecomposable `ℤ`-module whose endomorphism ring `ℤ` is not local, so the converse
-  fails outside Krull-Schmidt categories.
-- For a field `k`, the module `k` has endomorphism ring `k`, which is local, and is indecomposable.
-
-**Fitting's lemma**. In an idempotent-complete preadditive
-category with binary biproducts that is Hom-finite over a commutative Artinian ring `R` (Convention
-2, for endomorphisms), an indecomposable object has local endomorphism ring. The endomorphism ring
-is an Artin `R`-algebra, every element is a unit or nilpotent on the image of a high enough power
-(Fitting), and a nontrivial idempotent splits off a summand.
-
-**Checks.**
-
-- For `R = ℤ/4ℤ`, the modules `ℤ/2ℤ` and `ℤ/4ℤ` are indecomposable with local endomorphism rings
-  `ℤ/2ℤ` and `ℤ/4ℤ`.
-- `ℤ`, an indecomposable `ℤ`-module, has `End ℤ = ℤ` of infinite length over `ℤ`, and `ℤ` is not
-  Artinian; the conclusion fails there.
-- Without idempotent completeness the conclusion fails: in the full subcategory of free modules over
-  `k × k`, the object `k × k` has no proper nonzero summand in the subcategory, so it is
-  indecomposable there, but its endomorphism ring `k × k` is not local.
-
-*Needs:* Mathlib `IsArtinianRing`, `Module.Finite`, `CategoryTheory.IsIdempotentComplete`; 0.1's
-`TauCeti.indecomposable_of_injective_of_isLocalRing`.
+The hypotheses of Fitting's lemma are needed. `ℤ` is an indecomposable `ℤ`-module whose endomorphism
+ring `ℤ` is not local, and `ℤ` is not Artinian. Without idempotent completeness the conclusion
+fails: in the full subcategory of free modules over `k × k`, the object `k × k` has no proper
+nonzero summand in the subcategory, so it is indecomposable there, but its endomorphism ring
+`k × k` is not local.
 
 ### 0.2 Krull-Schmidt categories
 
@@ -336,7 +355,10 @@ case to be derived.
 that is Hom-finite over a commutative Artinian ring `R` (for endomorphisms), every object `X` has
 finitely many idempotent endomorphisms `e i`, pairwise orthogonal, with `∑ i, e i = 𝟙 X`, whose
 corners `e i ≫ End X ≫ e i` are local rings. The proof decomposes `1` in the Artin `R`-algebra
-`End X` into primitive orthogonal idempotents; no idempotent completeness is needed.
+`End X` into primitive orthogonal idempotents; no idempotent completeness is needed. In an
+idempotent-complete category, Tau Ceti's `TauCeti.exists_isLocalRing_end_sum_comp_eq_id` gives the
+form by morphisms `a j : X ⟶ W j` and `b j : W j ⟶ X` with local `End (W j)` and
+`∑ j, a j ≫ b j = 𝟙 X`; the target here is the form by idempotents, without that hypothesis.
 
 **Checks.**
 
@@ -346,7 +368,7 @@ corners `e i ≫ End X ≫ e i` are local rings. The proof decomposes `1` in the
   identity is `(1, 0) + (0, 1)` with local corners `k`, although the object has no splitting there.
 
 *Needs:* Mathlib `IsArtinianRing`, `Module.Finite`, `IsLocalRing`; Tau Ceti
-`TauCeti.jacobsonRadical_self_eq_jacobson`.
+`TauCeti.jacobsonRadical_self_eq_jacobson`, `TauCeti.exists_isLocalRing_end_sum_comp_eq_id`.
 
 **Recognition** (`isKrullSchmidt_of_module_finite`, in `Suggested.lean`). An idempotent-complete
 category with finite biproducts that is Hom-finite over a commutative Artinian ring is
@@ -369,7 +391,8 @@ remark of [En, §3.2, p. 14].
 - The full subcategory of free modules over `k × k` is Hom-finite over `k` but not idempotent
   complete, and is not Krull-Schmidt (0.1).
 
-*Needs:* 0.4's summand decomposition; 0.1's Fitting lemma; 0.2's `IsKrullSchmidt`; Mathlib
+*Needs:* 0.4's summand decomposition; Tau Ceti's Fitting lemma
+`TauCeti.isLocalRing_end_of_indecomposable` (0.1); 0.2's `IsKrullSchmidt`; Mathlib
 `CategoryTheory.IsIdempotentComplete`.
 
 ### 0.5 Closure, instances and additive generators
@@ -401,7 +424,7 @@ and `TauCeti.QuiverRep.exists_equiv_iso_of_iso_biproduct`.
 having every indecomposable object as a direct summand. API: additive generators are invariant under
 isomorphism and under adding direct summands; a Krull-Schmidt category has an additive generator
 exactly when it has finitely many isomorphism classes of indecomposable objects, and the sum of one
-indecomposable from each class is one (by uniqueness, 0.3; no source is cited); an equivalence of categories carries additive generators to
+indecomposable from each class is one (by uniqueness, 0.3; [Kr, Thm. 4.2, p. 9]); an equivalence of categories carries additive generators to
 additive generators.
 
 **Checks.**
@@ -417,14 +440,14 @@ additive generators.
 
 ### 0.6 The radical as a morphism ideal
 
-**The radical ideal.** The subgroups `TauCeti.jacobsonRadical X Y` form a morphism ideal
-(`TauCeti.MorphismIdeal`), the radical of the category, and its `n`-th power is the ideal generated
-by `n`-fold composites of radical maps. API:
+**The radical ideal.** The subgroups `TauCeti.jacobsonRadical X Y` form Tau Ceti's morphism ideal
+`TauCeti.jacobsonRadicalIdeal C`, the radical of the category. Its `n`-th power, the ideal generated
+by `n`-fold composites of radical maps, is the power in the monoid `TauCeti.MorphismIdeal C`, and
+its square agrees with `TauCeti.jacobsonRadicalSq` (`TauCeti.jacobsonRadicalIdeal_sq_hom`). API:
 
 - the matrix description: for decompositions `X ≅ ⨁ i, X i` and `Y ≅ ⨁ j, Y j` into objects with
   local endomorphism rings, `f ∈ rad(X, Y)` exactly when no component `X i ⟶ Y j` of `f` is an
   isomorphism (from `TauCeti.mem_jacobsonRadical_iff_not_isIso`, applied to each component);
-- the square of the radical ideal agrees with Tau Ceti's `TauCeti.jacobsonRadicalSq`;
 - an equivalence of categories carries the radical and its powers to those of the target.
 
 Between objects with local endomorphism rings, in a category with binary biproducts, the
@@ -446,7 +469,8 @@ both endpoint hypotheses.
   For `i` itself both endpoint rings are local, and the criterion shows that `i` is irreducible.
 
 *Needs:* Tau Ceti `TauCeti.jacobsonRadical`, `TauCeti.jacobsonRadicalSq`,
-`TauCeti.mem_jacobsonRadical_iff_not_isIso`, `TauCeti.MorphismIdeal`; 0.3's uniqueness.
+`TauCeti.jacobsonRadicalIdeal`, `TauCeti.mem_jacobsonRadical_iff_not_isIso`,
+`TauCeti.MorphismIdeal`; 0.3's uniqueness.
 
 ### Examples
 
@@ -516,8 +540,9 @@ equivalences.
 with enough projectives, restriction to the projectives is an equivalence `C ≌ mod (proj C)`. When
 `C` has a **progenerator** `P` (a projective object of which every object is a quotient of a finite
 sum of copies), `proj C = add P`, and `Hom(P, -)` is an equivalence from `C` to the finitely
-presented right `End P`-modules. Both equivalences are the Yoneda argument of 1.1 applied to projective
-presentations; no read source is cited for them.
+presented right `End P`-modules. The equivalence `proj C = add P ≃ proj (End P)` is [Kr, Prop. 2.3,
+p. 3], since an abelian category has split idempotents. The equivalence `C ≌ mod (proj C)` is the
+Yoneda argument of 1.1 applied to projective presentations; it is not located in a read source.
 
 **Checks.**
 
@@ -590,9 +615,11 @@ Layer 0 (projective covers); Mathlib's preadditive Yoneda embedding and weak ker
 (`IsArtinianRing.quotNilradicalPowEquivPi`). Modules over `R` split accordingly.
 
 **`E_R`** (`exists_isInjectiveEnvelope_quotient_jacobson`, in `Suggested.lean`). An injective hull
-of `R ⧸ J(R)`, assembled from the hulls `E(R ⧸ 𝔪)` of the local factors supplied by
-DerivedModuleAlgebra §1.M.2, with uniqueness from `TauCeti.IsInjectiveEnvelope.exists_linearEquiv`.
-`E_R` has finite length, and every simple `R`-module embeds in it.
+of `R ⧸ J(R)`, assembled from the hulls `E(R ⧸ 𝔪)` of the local factors (for a Noetherian local
+ring, DerivedModuleAlgebra §1.M.2). Hulls exist by Tau Ceti's
+`TauCeti.exists_isInjectiveEnvelope` and are unique by
+`TauCeti.IsInjectiveEnvelope.exists_linearEquiv`. `E_R` has finite length, and every simple
+`R`-module embeds in it.
 
 **Checks.**
 
@@ -602,7 +629,8 @@ DerivedModuleAlgebra §1.M.2, with uniqueness from `TauCeti.IsInjectiveEnvelope.
   dimension 2.
 
 *Needs:* DerivedModuleAlgebra §1.M.2; Mathlib `IsArtinianRing.quotNilradicalPowEquivPi`,
-`IsFiniteLength`; Tau Ceti `TauCeti.IsInjectiveEnvelope`.
+`IsFiniteLength`; Tau Ceti `TauCeti.IsInjectiveEnvelope`, `TauCeti.exists_isInjectiveEnvelope`,
+`TauCeti.IsInjectiveEnvelope.length_linearMap`.
 
 ### 2.2 The duality
 
@@ -610,7 +638,9 @@ DerivedModuleAlgebra §1.M.2, with uniqueness from `TauCeti.IsInjectiveEnvelope.
 finite length and composition length, and the evaluation `M → D_R (D_R M)` is an isomorphism for
 every `R`-module of finite length ([ARS, Thm. II.3.1, p. 37]; for Artin algebras, Thm. II.3.3,
 p. 38). So `D_R` is an
-anti-equivalence of the finite-length `R`-modules with themselves.
+anti-equivalence of the finite-length `R`-modules with themselves. Over a local factor `Rᵢ` these
+are Tau Ceti's `TauCeti.IsInjectiveEnvelope.length_linearMap` and
+`TauCeti.IsInjectiveEnvelope.bijective_applyₗ`; the target is the passage to `R = ∏ Rᵢ` (2.1).
 
 **Checks.**
 
@@ -621,7 +651,8 @@ anti-equivalence of the finite-length `R`-modules with themselves.
 - Over a field, an infinite-dimensional space is not reflexive, so the finite-length hypothesis is
   needed.
 
-*Needs:* 2.1's `E_R`; Mathlib `LinearMap.applyₗ`, `Module.length`.
+*Needs:* 2.1's `E_R`; Mathlib `LinearMap.applyₗ`, `Module.length`; Tau Ceti
+`TauCeti.IsInjectiveEnvelope.bijective_applyₗ`, `TauCeti.IsInjectiveEnvelope.length_linearMap`.
 
 ### 2.3 Artin algebras
 
@@ -718,7 +749,9 @@ conflations; so is one starting at a given `X`.
 **The extension-class criterion**. A conflation with
 indecomposable end terms is almost split exactly when its class is nonzero and is killed by pushout
 along every morphism out of its first term that is not a split monomorphism. For the abelian
-structure this is the criterion through Mathlib's `extClass`, which becomes its case. The source is
+structure the condition is Tau Ceti's
+`CategoryTheory.ShortComplex.ShortExact.isLeftAlmostSplit_f_iff_extClass`, through Mathlib's
+`extClass`, and the abelian case is derived from it. The source is
 [INP, Thm. 2.9 and Prop. 2.10, p. 12], specialized to exact categories, whose end terms with local
 endomorphism rings are the endo-local objects there.
 
@@ -729,7 +762,8 @@ endomorphism rings are the endo-local objects there.
 - A split conflation is never almost split, since its class is zero.
 
 *Needs:* 3.1's `Ext¹`; 0.2's `IsKrullSchmidt`; Tau Ceti `ShortComplex.IsAlmostSplit`,
-`TauCeti.IsLeftAlmostSplit`, `TauCeti.IsRightAlmostSplit`.
+`TauCeti.IsLeftAlmostSplit`, `TauCeti.IsRightAlmostSplit`,
+`CategoryTheory.ShortComplex.ShortExact.isLeftAlmostSplit_f_iff_extClass`.
 
 ### 3.4 The functorial picture
 
@@ -811,8 +845,9 @@ covers exist over Artinian rings, `TauCeti.exists_projectiveCover`), its transpo
 (`TauCeti.AuslanderReitenTranspose`), and set `τ M = D_R (Tr M)` and `τ⁻ M = Tr (D_R M)`. Both are
 finitely generated and independent of the presentation up to isomorphism; `τ M = 0` exactly when `M`
 is projective; for indecomposable non-projective `M`, `τ M` is indecomposable and not injective, and
-`τ⁻ (τ M) ≅ M` ([ARS, Prop. IV.1.10(f), p. 107]). Over a field, `TauCeti.AuslanderReitenTranslate`
-and the quiver translate `TauCeti.arTranslate` are this construction with `R = k`.
+`τ⁻ (τ M) ≅ M` ([ARS, Prop. IV.1.10(f), p. 107]). Over a field, `TauCeti.AuslanderReitenTranslate`,
+the translate of a module `ModuleCat.arTranslate` and the quiver translate `TauCeti.arTranslate` are
+this construction with `R = k`, and Tau Ceti supplies the field case of the statements above.
 Functorially, `τ = D_R ∘ Tr` is the composite of the stable transpose
 (`TauCeti.stableTransposeEquivalence`) and the Matlis dual on stable categories, a functor from
 finitely presented modules modulo projectives to modules modulo injectives; the statements above
@@ -824,7 +859,8 @@ concern its value computed from a minimal presentation.
 - `τ A = 0`.
 - For `T₂(k)`, `τ` sends the simple non-projective module to the simple projective module.
 
-*Needs:* 2.2's duality; Tau Ceti `TauCeti.AuslanderReitenTranspose`, `TauCeti.exists_projectiveCover`.
+*Needs:* 2.2's duality; Tau Ceti `TauCeti.AuslanderReitenTranspose`, `TauCeti.exists_projectiveCover`,
+`ModuleCat.arTranslate`.
 
 ### 4.2 The stable equivalence and the Auslander-Reiten formulas
 
@@ -833,18 +869,32 @@ anti-equivalence between the projective stable category of `mod Aᵐᵒᵖ` and 
 category of `mod A`. Composed with `TauCeti.stableTransposeEquivalence` it gives the equivalence
 `τ : E/[P] ≌ E/[I]` for the abelian exact structure `E` on `mod A`.
 
+**The defect formula.** Let `Λ` be an algebra over a commutative ring `k`, `I` an injective
+`k`-module, `D = Hom_k(-, I)`, and `δ : 0 → A → B → C → 0` a short exact sequence of `Λ`-modules.
+Define `δ_* = Coker(Hom(B, -) → Hom(A, -))` and `δ^* = Coker(Hom(-, B) → Hom(-, C))`. For finitely
+presented `X`, `D δ^*(X) ≅ δ_*(D Tr X)`, naturally in `δ` and `X`; the right side does not depend on
+the presentation, since `δ_*` vanishes on injectives ([Au78, Thm. III.4.1], with Krause's proof
+[Kr03, Theorem]).
+
+**Checks.**
+
+- For `T₂(k)` and `δ : 0 → S₁ → P₂ → S₂ → 0`, at `X = S₂` both sides are `k` (`τ S₂ = S₁`).
+- For the same `δ`, at `X = S₁` both sides are `0`.
+- The swapped formula `D δ_*(X) ≅ δ^*(D Tr X)` gives `k` against `0` at `X = S₁`, so it fails.
+- For split `δ` both defects vanish.
+
 **The Auslander-Reiten formulas**. For finitely generated `M` and `N`, natural isomorphisms
 `Ext¹_A(M, N) ≅ D_R (Hom_A(N, τ M) modulo maps factoring through injectives)` and
 `Ext¹_A(M, N) ≅ D_R (Hom_A(τ⁻ N, M) modulo maps factoring through projectives)`. Over a field these
 are [ASS, Thm. IV.2.13, pp. 117–118]. For Artin algebras, [ARS, Props. IV.4.5 and IV.4.6, p. 131]
 prove the equalities of lengths, and the functorial isomorphisms are stated at the end of [ARS,
 §IV.4, p. 132] without proof; the
-target is the natural isomorphism. It is derived from **Auslander's defect formula**
-`D δ^*(X) ≅ δ_*(D Tr X)`, for a short exact sequence `δ` with contravariant and covariant defects
-`δ^*` and `δ_*` and a finitely presented `X` ([Au78, Thm. III.4.1]), with Krause's proof [Kr03],
-which works for any algebra over a commutative ring `k` and any injective `k`-module in place of
-`D_R`: taking for `δ` a sequence with projective, resp. injective, middle term gives the two
-formulas ([Kr03, Corollaries]). With the stable equivalence, the first
+target is the natural isomorphism. It is derived from the defect formula with `k = R` and
+`I = E_R`. Taking `B` injective gives `D Ext¹(X, A) ≅ Hom(A, D Tr X)` modulo injectives, which
+becomes the first formula by reflexivity of the finite-length module `Ext¹` (2.2); taking `B`
+projective gives the second ([Kr03, Corollaries]). Over a field the first formula is Tau Ceti's
+`LinearMap.auslanderReitenExtEquiv`, natural in `N` by
+`LinearMap.auslanderReitenExtEquiv_naturality`. With the stable equivalence, the first
 makes `τ` an Auslander-Reiten duality for `mod A`, whose Ext-trivial quotients are the two stable
 categories (3.2).
 
@@ -854,8 +904,9 @@ categories (3.2).
 - For `A = ℤ/p²ℤ` and `M = N = ℤ/pℤ`, both sides have length 1.
 - For `A = k` (semisimple), every module is projective and injective, and both sides vanish.
 
-*Needs:* 4.1's translate; 3.2's Ext-trivial ideals; 3.5's definition of duality; Tau Ceti
-`TauCeti.stableTransposeEquivalence`, `TauCeti.ExactStructure.ProjectiveStableCategory`;
+*Needs:* 4.1's translate; 3.1's exact sequences; 2.2's duality; 3.2's Ext-trivial ideals; 3.5's
+definition of duality; Tau Ceti `TauCeti.stableTransposeEquivalence`,
+`TauCeti.ExactStructure.ProjectiveStableCategory`, `LinearMap.auslanderReitenExtEquiv`;
 StablePeriodicCurved Layer 0 for the injective stable category.
 
 ### 4.3 Almost-split sequences, source and sink maps
@@ -865,7 +916,8 @@ non-projective finitely generated module `M` there is an almost-split sequence `
 in `mod A`, unique up to isomorphism, and dually for every indecomposable non-injective module
 ([ARS, Thm. V.1.15, p. 145]); this is 3.5 applied to `mod A`. Equivalently, every simple
 contravariant functor on `mod A` is finitely presented, and dually. Over a field the existence
-theorem of QuiverRepresentations 6E is its case `R = k`.
+theorem of QuiverRepresentations 6E and Tau Ceti's `ModuleCat.exists_isAlmostSplit_arTranslate` are
+its case `R = k`.
 
 **Source and sink maps**. Every indecomposable finitely
 generated module `M` has a minimal right almost-split map `Y → M` (for `M` projective, the inclusion
@@ -880,7 +932,7 @@ socle). A map `h : X → M` with `X ≠ 0` is irreducible exactly when there is 
 - The sink map of the projective `ℤ/p²ℤ` over `ℤ/p²ℤ` is the inclusion `pℤ/p²ℤ → ℤ/p²ℤ`.
 
 *Needs:* 3.5's existence; 4.2's formulas; 3.4's functorial picture; Tau Ceti
-`TauCeti.IsIrreducibleMorphism`.
+`TauCeti.IsIrreducibleMorphism`, `ModuleCat.exists_isAlmostSplit_arTranslate`.
 
 ### Examples
 
@@ -898,13 +950,13 @@ Layers 2 and 3; Tau Ceti's transpose and its stable equivalence.
 **`Irr(M, N)`**. The carrier is Tau Ceti's `TauCeti.irreducibleMorphismSpace k M N`, the quotient
 `rad(M, N) / rad²(M, N)` for a `k`-linear category, with its class map
 `TauCeti.irreducibleMorphismMk` and universal property `TauCeti.irreducibleMorphismLift`; for an
-unenriched preadditive category take `k = ℤ`. New here: for `M` and `N` with local endomorphism
-rings, composition makes it a bimodule over the division rings `F_N = End N / rad (End N)` (acting
-by composition after) and `F_M = End M / rad (End M)` (acting by composition before). API: the
-actions of `End N` and `End M` on radical maps commute, preserve `rad²`, and descend through the
-class map; the radical of each endomorphism ring acts by zero, so the actions factor through `F_N`
-and `F_M`; and the class map is equivariant. For indecomposable finitely generated modules over an Artin algebra
-it is finite-dimensional over each, and its two dimensions form the **valuation**
+unenriched preadditive category take `k = ℤ`. Composition makes it a bimodule over the residue
+rings `F_N = End N / rad (End N)` (acting by composition after) and `F_M = End M / rad (End M)`
+(acting by composition before, as a module over the residue ring of `(End M)ᵐᵒᵖ`), which are
+division rings when `M` and `N` have local endomorphism rings: Tau Ceti's
+`TauCeti.instModuleResiduePostcomp`, `TauCeti.instModuleResiduePrecomp` and
+`TauCeti.instSMulCommClassResidue`. For indecomposable finitely generated modules over an Artin
+algebra it is finite-dimensional over each, and its two dimensions form the **valuation**
 `(a_{MN}, b_{MN})`, with `a_{MN}` the dimension over `F_N` and `b_{MN}` over `F_M`.
 
 **Checks.**
@@ -912,13 +964,14 @@ it is finite-dimensional over each, and its two dimensions form the **valuation*
 - For `ℤ/p²ℤ`, both arrows between `ℤ/pℤ` and `ℤ/p²ℤ` have valuation `(1, 1)`.
 - For the `ℝ`-algebra `A` of upper triangular `2 × 2` matrices with diagonal entries in `ℝ` and `ℂ`
   and corner entry in `ℂ`, for an irreducible map between two of its indecomposables the carrier
-  has real dimension 2 and the new actions give the dimensions `(1, 2)`; the successive valuations along
+  has real dimension 2 and the residue actions give the dimensions `(1, 2)`; the successive valuations along
   the almost-split sequence are `(1, 2)` and `(2, 1)`, and the middle term has multiplicity 1;
   reversing the two dimensions would predict 2.
 - Over an algebraically closed field the valuations are `(n, n)` with `n = dim_k Irr(M, N)`.
 
 *Needs:* 0.6's radical; Tau Ceti `TauCeti.irreducibleMorphismSpace`, `TauCeti.irreducibleMorphismMk`,
-`TauCeti.irreducibleMorphismLift`, `TauCeti.jacobsonRadicalSq`.
+`TauCeti.irreducibleMorphismLift`, `TauCeti.jacobsonRadicalSq`, `TauCeti.instModuleResiduePostcomp`,
+`TauCeti.instModuleResiduePrecomp`, `TauCeti.instSMulCommClassResidue`.
 
 ### 5.2 Valued translation quivers
 
@@ -980,9 +1033,9 @@ Layers 0 and 4.
 
 ### 6.1 Representation-finite Artin algebras and the Harada-Sai lemma
 
-**Representation-finite**. `mod A` has finitely many
-isomorphism classes of indecomposable objects (`Skeleton` of the full subcategory of finitely
-generated indecomposable modules is finite).
+**Representation-finite** (supplied). Tau Ceti's `TauCeti.IsRepresentationFinite A`: `mod A` has
+finitely many isomorphism classes of indecomposable objects (`Skeleton` of the full subcategory of
+finitely generated indecomposable modules is finite; `TauCeti.isRepresentationFinite_iff`).
 
 **The Harada-Sai lemma** (`chainComp_eq_zero_of_length_le`, in `Suggested.lean`, with the auxiliary
 `chainComp`). Let `M₀, …, Mₙ` be indecomposable modules of length at most `b`, and
@@ -991,7 +1044,9 @@ p. 193], with the technical bound in Lemma VI.1.2, p. 192; [ASS, Lemma IV.5.2, p
 Example IV.5.3, p. 141, showing that the bound is best possible). [HS, Lemma 12, p. 339] proves
 only that some composite vanishes. Consequently, if `A` is representation-finite
 and every indecomposable has length at most `b`, then
-the `(2 ^ b - 1)`-th power of the radical ideal of `mod A` (0.6) is zero.
+the `(2 ^ b - 1)`-th power of the radical ideal of `mod A` (0.6) is zero. That some power is zero
+is Tau Ceti's `TauCeti.IsRepresentationFinite.exists_jacobsonRadicalIdeal_pow_eq_bot`; the target
+is the bound `2 ^ b - 1`.
 
 **Checks.**
 
@@ -1001,7 +1056,8 @@ the `(2 ^ b - 1)`-th power of the radical ideal of `mod A` (0.6) is zero.
 - For the Kronecker algebra the lengths are unbounded, and no power of the radical of `mod A` is
   zero.
 
-*Needs:* 0.6's radical ideal; Mathlib `Module.length`, `CategoryTheory.Indecomposable`.
+*Needs:* 0.6's radical ideal; Mathlib `Module.length`, `CategoryTheory.Indecomposable`; Tau Ceti
+`TauCeti.IsRepresentationFinite`.
 
 ### 6.2 Auslander's theorem and the first Brauer-Thrall conjecture
 
@@ -1011,13 +1067,15 @@ of the valued Auslander-Reiten quiver of `A` (Mathlib's `Quiver.WeaklyConnectedC
 `𝒞` are bounded, then `𝒞` is the whole quiver, and `A` is representation-finite ([ARS, Thm.
 VI.1.4, p. 193]; Auslander, *Representation theory of Artin algebras II*).
 
-**The first Brauer-Thrall conjecture** (`finite_skeleton_of_length_le`, in `Suggested.lean`). If the
+**The first Brauer-Thrall conjecture** (`isRepresentationFinite_of_length_le`, in `Suggested.lean`). If the
 lengths of the indecomposable finitely generated `A`-modules are bounded, then `A` is
 representation-finite (Roiter; [ARS, Cor. VI.1.5, p. 194]).
 
-**The infinite radical.** `rad^∞` is the intersection of the powers of the radical ideal of
-`mod A` (0.6), and `A` is representation-finite exactly when `rad^∞` is zero (Auslander,
-*Representation theory of Artin algebras II*).
+**The infinite radical** (`isRepresentationFinite_iff_forall_mem_jacobsonRadicalIdeal_pow`, in
+`Suggested.lean`). `rad^∞` is the intersection of the powers of the radical ideal of `mod A` (0.6),
+and `A` is representation-finite exactly when `rad^∞` is zero (Auslander, *Representation theory of
+Artin algebras II*). The forward direction follows from
+`TauCeti.IsRepresentationFinite.exists_jacobsonRadicalIdeal_pow_eq_bot`.
 
 **Connectedness.** For a connected representation-finite `A`, the valued Auslander-Reiten quiver is
 weakly connected.
@@ -1079,37 +1137,37 @@ so it preserves representation-finiteness, global dimension and dominant dimensi
 
 ### 7.2 Global dimension
 
-**Global dimension of a ring** (`leftGlobalDimension`, in `Suggested.lean`). For an arbitrary ring
-`A`, the left global dimension is the supremum of the projective dimensions (Mathlib's
-`CategoryTheory.projectiveDimension` in `ModuleCat A`) of all left `A`-modules, and the right global
-dimension is the left global dimension of `Aᵐᵒᵖ`. On a commutative ring it is
-PurityOfBranchLocus §0.3's `TauCetiRoadmap.PurityOfBranchLocus.globalDimension`, the same
-supremum; one implementation serves both
-when the library is built, and the commutative criteria and localization bounds of §0.3 are
-imported, not proved again.
+**Global dimension of a ring** (supplied). For an arbitrary ring `A`, the left global dimension is
+Tau Ceti's `TauCeti.globalDimension A`, the supremum of the projective dimensions (Mathlib's
+`CategoryTheory.projectiveDimension` in `ModuleCat A`) of all left `A`-modules, with the criteria
+`TauCeti.globalDimension_le_iff`, `TauCeti.globalDimension_le_iff_hasProjectiveDimensionLE` and
+`TauCeti.globalDimension_le_tfae`; the right global dimension is `TauCeti.globalDimension Aᵐᵒᵖ`. On
+a commutative ring it is the same supremum as PurityOfBranchLocus §0.3's
+`TauCetiRoadmap.PurityOfBranchLocus.globalDimension`, and the localization bounds of §0.3 are
+imported, not proved again. The targets of this subsection are Auslander's theorems.
 
 **Auslander's theorems.** For an arbitrary ring, the left global dimension is the supremum over the
-cyclic modules `A ⧸ I` (`leftGlobalDimension_eq_iSup_cyclic`, in `Suggested.lean`; [Au55, Thm. 1,
+cyclic modules `A ⧸ I` (`globalDimension_eq_iSup_cyclic`, in `Suggested.lean`; [Au55, Thm. 1,
 p. 68]); hence, for every ring, it is the supremum over the finitely generated modules, which lies between
-the cyclic and the full supremum (`leftGlobalDimension_eq_iSup_finite`, in
+the cyclic and the full supremum (`globalDimension_eq_iSup_finite`, in
 `Suggested.lean`); for a ring that is left and right Noetherian the left and right global dimensions
-agree (`leftGlobalDimension_mulOpposite`, in `Suggested.lean`; [Au55, Cor. 5, p. 70], from Thm. 4);
+agree (`globalDimension_mulOpposite`, in `Suggested.lean`; [Au55, Cor. 5, p. 70], from Thm. 4);
 and for a semiprimary ring, in particular an Artin algebra, both equal the projective dimension of
-`A ⧸ J(A)` (`leftGlobalDimension_eq_projectiveDimension_quotient`, in `Suggested.lean`; [Au55,
+`A ⧸ J(A)` (`globalDimension_eq_projectiveDimension_quotient`, in `Suggested.lean`; [Au55,
 Cor. 11(b) and Cor. 9, p. 73]). For Artin algebras the global dimension is written `gl.dim`.
 
 **Checks.**
 
-- The zero ring has global dimension `⊥`, since a zero object has projective dimension `⊥`; both
-  sides of each formula above are `⊥` there.
+- The zero ring has global dimension `⊥` (`TauCeti.globalDimension_eq_bot_iff`), since a zero
+  object has projective dimension `⊥`; both sides of each formula above are `⊥` there.
 - A field has global dimension `0`; over `ℤ` the cyclic module `ℤ/2ℤ` has projective dimension 1,
   which realizes both the cyclic and the finitely generated supremum `1`.
 - For `B = k[ε]/(ε²)`, `B ⧸ J(B) = k` has the periodic resolution `⋯ → B → B → k → 0` by
   multiplication by `ε`, so its projective dimension, and the global dimension of `B`, is
   infinite.
 
-*Needs:* Mathlib `CategoryTheory.projectiveDimension`, `IsNoetherianRing`, `IsSemiprimaryRing`;
-PurityOfBranchLocus §0.3.
+*Needs:* Mathlib `CategoryTheory.projectiveDimension`, `IsNoetherianRing`, `IsSemiprimaryRing`; Tau
+Ceti `TauCeti.globalDimension`, `TauCeti.globalDimension_le_tfae`; PurityOfBranchLocus §0.3.
 
 ### 7.3 Dominant dimension
 
@@ -1183,7 +1241,7 @@ two: an equivalence carrying `M` to `M'` induces an isomorphism of endomorphism 
 converse gives surjectivity, and two generator-cogenerators with isomorphic endomorphism algebras
 are related by an `R`-linear equivalence carrying one to the other. Over a field this is [Mü, Thm.
 2, p. 401]; over a commutative Artinian ring the same argument runs with `D_R` in place of
-`Hom_k(-, k)`, and no read source states that generality. Identifying
+`Hom_k(-, k)`, and this general case is this roadmap's own deduction from 2.3 and 7.1. Identifying
 pairs only up to `add M`, which forgets multiplicities, would not be compatible with isomorphism
 classes of endomorphism algebras.
 
@@ -1301,7 +1359,8 @@ Prop. 2.10, p. 12 (almost-split extensions through left and right almost-split m
   Thm. 3.6 and Prop. 3.7, p. 16 (duality and existence over a field); p. 20 (the abelian criterion
   for `mod`, attributed to Auslander).
 - [Kr] H. Krause, *Krull-Schmidt categories and projective covers*, Expo. Math. 33 (2015), 535–549,
-  arXiv:1410.2822v1. Prop. 2.3 and Rem. 2.4, p. 3 (split idempotents; idempotent completion);
+  arXiv:1410.2822v1. Prop. 2.3 and Rem. 2.4, p. 3 (`add X ≃ proj End(X)` under split idempotents;
+  idempotent completion);
   Cor. 3.5, p. 6, and Prop. 3.10, p. 7 (projective covers); Prop. 4.1, p. 8 (semiperfect rings);
   Thm. 4.2, Cor. 4.3 and Cor. 4.4, p. 9, with the proof of Cor. 4.4 on p. 10 (uniqueness, exchange,
   and the characterization of Krull-Schmidt categories).
