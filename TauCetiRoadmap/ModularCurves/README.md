@@ -3399,8 +3399,9 @@ formal deformation `UniversalDeformation` of Layer 7.4.
 
 State the Axiomatic Regularity Theorem (KM 5.2.1; `axiomaticRegularity`): a moduli problem
 satisfying these axioms is finite flat of constant rank at least one and regular of dimension
-two. Its proof is Layer 8.3. KM 5.1.1 is the First Main Theorem, the conclusion for the three
-problems of Layer 4.4, obtained in Layer 8.8 by verifying the axioms.
+two. Its proof is Layer 8.3. KM 5.1.1 is the First Main Theorem, the same conclusion for the three
+problems of Layer 4.4 and for `[Γ₀(N)]`: Layer 8.8 obtains it for the three by verifying the
+axioms, and Layer 9.4 proves it for `[Γ₀(N)]`.
 
 ### 8.2. Local algebra and local schemes
 
