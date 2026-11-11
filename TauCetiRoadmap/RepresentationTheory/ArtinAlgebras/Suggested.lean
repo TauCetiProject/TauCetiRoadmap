@@ -9,7 +9,7 @@ import TauCeti.Algebra.Category.FGModuleCat.RepresentationFinite
 import TauCeti.RingTheory.GlobalDimension
 
 /-!
-# Krull-Schmidt categories and Auslander-Reiten theory of Artin algebras: suggested forms
+# Krull-Schmidt categories and Auslander-Reiten theory of Artin algebras: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. This file records the target signatures of the roadmap's headlines that can be stated
@@ -157,7 +157,7 @@ theorem bijective_applyₗ_of_isInjectiveEnvelope {E : Type u} [AddCommGroup E] 
 
 end Matlis
 
-/-! ## Layer 4: almost-split sequences for Artin algebras -/
+/-! ## Layer 4: Auslander-Reiten theory of Artin algebras -/
 
 section ArtinAlgebra
 

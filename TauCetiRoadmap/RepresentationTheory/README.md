@@ -100,10 +100,11 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   `gl_n` classification and the isotypic decomposition toolkit) and cites its minuscule Pieri rule
   for the `gl_N` worked instance; in return it supplies the Clifford algebra of a Lie algebra with an
   invariant form as the model isotypic module, the Clifford analogue of Hopf-Koszul-Samelson.
-- **Artin algebras generalize quiver representations' Auslander-Reiten theory.** The Artin-algebra
-  roadmap states the Auslander-Reiten theory of the quiver roadmap's Layer 6 over a commutative
-  Artinian base ring and in Krull-Schmidt exact categories, and the statements of Layer 6 over a field
-  become its case `R = k`; it builds on the quiver roadmap's Krull-Schmidt theorem and radical.
+- **Artin algebras generalize quiver representations' Auslander-Reiten theory.** The quiver
+  roadmap's Layer 6 reads Tau Ceti's Auslander-Reiten theory of finite-dimensional algebras on
+  quiver examples; the Artin-algebra roadmap states that theory over a commutative Artinian base
+  ring and in Krull-Schmidt exact categories, with the field case as its case `R = k`. Both consume
+  Tau Ceti's Krull-Schmidt theorem and radical.
 - **Quiver representations meet root systems.** Gabriel's theorem identifies the finite-type quivers with
   the ADE Dynkin diagrams and the indecomposables with the positive roots, tying the finite-dimensional
   algebra theory back to root systems.
