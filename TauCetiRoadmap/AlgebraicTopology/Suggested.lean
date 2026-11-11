@@ -31,8 +31,9 @@ theorem (§6.6); the bundle formula for the Euler characteristic; absolute Hurew
 universe and relative Hurewicz for a simply connected subspace; homological Whitehead for
 spaces of CW type; proper Whitehead; finite CW type of compact smooth manifolds and the
 homology-sphere recognition corollary; CW type of mapping spaces from compact sources; the
-nerve model of K(G,1); Hurewicz modulo a Serre class (§8.8d); rectification of a proper homotopy inverse to a proper strong
-deformation retraction; the Künneth and Cartan–Leray spectral sequences; the topological
+nerve model of K(G,1); Hurewicz modulo a Serre class (§8.8d); rectification of a proper
+homotopy inverse to a proper strong deformation retraction; the homological and cohomological
+Serre spectral sequences (§5.5); the Künneth and Cartan–Leray spectral sequences; the topological
 restriction-tower comparisons; ordinary representability by every Eilenberg–MacLane space of
 positive degree, with its normalized class (§8.10); the EM loop comparison (§8.11b); relative
 obstruction theory; the transverse circle classifying map of an integral degree-one
@@ -51,9 +52,16 @@ relative homotopy groups and Hurewicz maps, absolute Hurewicz for spaces in `Typ
 Hurewicz when the subspace and the space are both highly connected, the local homology system
 of a manifold, which is a local coefficient system, and proper homotopy equivalences.
 
-Not stated, with the missing carriers. The twisted, boundary and compact-triad duality forms
-need direct local-system cochains (the pinned twisted cochains are Hom of twisted chains, which
-computes cochains of the dual system), the local-coefficient cap product and relative
+Not stated, with the missing carriers. The Serre spectral sequences of a Serre fibration over
+a CW base are Tau Ceti's filtered-space spectral sequence `TauCeti.filteredSpaceSpectralSequence`
+of the preimages of the skeleta, with the second page identified as the homology (or cohomology)
+of the base with coefficients in the local system of fibre homology (or cohomology); that local
+system is missing for a Serre fibration: the pins have it, `TauCeti.fiberLocalSystem`, only for a
+Hurewicz fibration with a lifting function, and a statement for those alone would narrow §5.5.
+The cohomological sequence needs as well the direct local-system cochains named next. The
+twisted, boundary and compact-triad duality forms need direct local-system cochains (the
+pinned twisted cochains are Hom of twisted chains, which computes cochains of the dual
+system), the local-coefficient cap product and relative
 fundamental classes of manifolds with boundary; the pinned fundamental classes are those of
 boundaryless manifolds. The Künneth spectral sequence over a general ring needs the filtration
 of the tensor product of chain complexes whose second page is `Tor`, and the Cartan–Leray
@@ -279,8 +287,9 @@ theorem homologicalWhitehead {X Y : Type u}
 
 open scoped ContDiff Manifold in
 /-- A compact Hausdorff second-countable smooth manifold without boundary (Euclidean model)
-has finite CW type: GeometricTopology's smooth triangulation (Whitehead) is finite by
-compactness and its realization homeomorphism is the model equivalence. -/
+has finite CW type: the Cairns–Whitehead smooth triangulation of GeometricTopology §11.3 makes
+it a compact triangulable space, and Tau Ceti's `TauCeti.IsTriangulable.finiteCWType` gives the
+finite CW model. -/
 theorem compactManifoldFiniteCWType (n : ℕ) (M : Type u) [TopologicalSpace M]
     [ChartedSpace (EuclideanSpace ℝ (Fin n)) M] [IsManifold (𝓡 n) ∞ M]
     [T2Space M] [SecondCountableTopology M] [CompactSpace M] :
@@ -289,7 +298,8 @@ theorem compactManifoldFiniteCWType (n : ℕ) (M : Type u) [TopologicalSpace M]
 
 open scoped ContDiff Manifold in
 /-- A compact Hausdorff second-countable smooth manifold with boundary (half-space model)
-has finite CW type, by the same finite smooth triangulation. -/
+has finite CW type, by the same route: the smooth triangulation of GeometricTopology §11.3 and
+Tau Ceti's `TauCeti.IsTriangulable.finiteCWType`. -/
 theorem compactManifoldWithBoundaryFiniteCWType (n : ℕ) [NeZero n] (M : Type u)
     [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace n) M] [IsManifold (𝓡∂ n) ∞ M]
     [T2Space M] [SecondCountableTopology M] [CompactSpace M] :
@@ -349,18 +359,6 @@ theorem groupClassifyingSpace_isEMOne (G : Type u) [Group G] :
       (groupClassifyingSpaceBasepoint G) := by
   sorry
 
-/-- A homomorphism of abelian groups is a `C`-epimorphism when its cokernel lies in `C`
-(§8.8d). -/
-def IsCEpi (C : ObjectProperty AddCommGrpCat.{0}) {A B : Type} [AddCommGroup A] [AddCommGroup B]
-    (f : A →+ B) : Prop :=
-  C (AddCommGrpCat.of (B ⧸ f.range))
-
-/-- A homomorphism of abelian groups is a `C`-isomorphism when its kernel and its cokernel lie
-in `C` (§8.8d). -/
-def IsCIso (C : ObjectProperty AddCommGrpCat.{0}) {A B : Type} [AddCommGroup A] [AddCommGroup B]
-    (f : A →+ B) : Prop :=
-  C (AddCommGrpCat.of f.ker) ∧ IsCEpi C f
-
 /-- Serre's axioms on a class `C` of abelian groups beyond closure under subobjects, quotients
 and extensions (§8.8d): `A ⊗ B` and `Tor₁(A, B)` lie in `C` for `A, B ∈ C`, and the
 positive-degree integral homology of `K(A, 1)`, taken on Milnor's classifying space of `A`, lies
@@ -380,7 +378,8 @@ structure SatisfiesSerreAxioms (C : ObjectProperty AddCommGrpCat.{0}) : Prop whe
 /-- **Hurewicz modulo a Serre class** (§8.8d): for a Serre class `C` satisfying Serre's axioms
 and a simply connected `X` whose homotopy groups `π_i(X)` for `2 ≤ i < n + 2` lie in `C`, the
 integral homology `H_i(X; ℤ)` lies in `C` for `0 < i < n + 2`, the Hurewicz homomorphism in
-degree `n + 2` is a `C`-isomorphism, and the one in degree `n + 3` is a `C`-epimorphism (Serre
+degree `n + 2` is a `C`-isomorphism (kernel and cokernel in `C`, Mathlib's `isoModSerre`), and
+the one in degree `n + 3` is a `C`-epimorphism (cokernel in `C`, Mathlib's `epiModSerre`) (Serre
 1953, Chapter III, Theorem 1, for all three clauses; Hatcher, *Spectral Sequences in Algebraic
 Topology*, Theorem 1.8, p. 14, proves the `C`-isomorphism clause for the finitely generated,
 torsion and finite classes). For `C = 0` this is the absolute Hurewicz theorem. -/
@@ -391,8 +390,10 @@ theorem hurewicz_isCIso (C : ObjectProperty AddCommGrpCat.{0}) [C.IsSerreClass]
     (∀ i, 0 < i → i < n + 2 →
       C (AddCommGrpCat.of (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) i).obj
         (ModuleCat.of ℤ ℤ)).obj (TopCat.of X)))) ∧
-    IsCIso C (HomotopyGroup.hurewiczHom (X := X) (x := x) (ModuleCat.of ℤ ℤ) (n + 1)) ∧
-    IsCEpi C (HomotopyGroup.hurewiczHom (X := X) (x := x) (ModuleCat.of ℤ ℤ) (n + 2)) := by
+    C.isoModSerre (AddCommGrpCat.ofHom
+      (HomotopyGroup.hurewiczHom (X := X) (x := x) (ModuleCat.of ℤ ℤ) (n + 1))) ∧
+    C.epiModSerre (AddCommGrpCat.ofHom
+      (HomotopyGroup.hurewiczHom (X := X) (x := x) (ModuleCat.of ℤ ℤ) (n + 2))) := by
   sorry
 
 /-- **Ordinary representability** (§8.10; Hatcher, Theorem 4.57, p.393, with the fundamental
@@ -455,7 +456,7 @@ theorem properStrongDeformationRetract_of_inverse
         IsProperMap H := by
   sorry
 
-/-! ## Layer 8: smooth representatives and acceptance applications -/
+/-! ## Layer 8: smooth representatives and free actions of finite groups -/
 
 open scoped ContDiff Manifold in
 /-- **Transverse circle classifying map** (§8.13). On a compact boundaryless smooth

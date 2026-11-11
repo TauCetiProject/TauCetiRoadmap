@@ -84,7 +84,7 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   classes of closed manifolds, the based van Kampen presentations, the cube, ball and disk
   homeomorphisms and the cube quotient of the sphere, lifted CW structures on covering spaces,
   incidence numbers as local degrees, real projective space with its CW structure and
-  incidences, NDR data, closed embeddings and separation of pushouts and sequential colimits
+  incidences, neighbourhood-deformation-retract (NDR) data, closed embeddings and separation of pushouts and sequential colimits
   with their finite-stage factorization, homotopy groups of Kan complexes with their
   comparison to cubical ones, Moore's theorem with the abelian Moore comparison, and the ends
   of a space. It also proves the degree-one Hurewicz isomorphism of a path-connected space,
@@ -106,7 +106,7 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   triangulations, manifold boundaries and collars, gluing, connected sum, cobordism carriers,
   and geometric surgery.  This roadmap owns algebraic topology of CW pairs and proves results
   about any space of CW type. The finite-dimensional Hausdorff second-countable
-  smooth-manifold CW comparison consumes geometric topology's smooth triangulation;
+  smooth-manifold CW comparison consumes GeometricTopology §11.3's smooth triangulation;
   compact manifolds have finite CW type. Layer 8.13 consumes geometric topology's Layer 1
   tubular neighbourhood theorem and owns, for boundaryless sigma-compact Hausdorff
   second-countable sources, an arbitrary compact boundaryless target manifold and an
@@ -506,6 +506,17 @@ named in this section is cited as it is at those revisions.
   `TauCeti.RelHomotopyGroup.surjective_hurewicz`, and its bijectivity
   `TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup` when the subspace
   and the space are both (n−1)-connected, again for spaces in `Type`.
+- The fundamental group acting on homotopy groups, in
+  `Topology/Homotopy/HomotopyGroup/FundamentalGroupAction.lean`: the action
+  `TauCeti.homotopyGroupMulAction` of π₁(X,x) on π_n(X,x) by transport around loops
+  (conjugation when n=1), by group automorphisms in positive dimensions
+  (`TauCeti.homotopyGroupMulDistribMulAction`), the transport
+  `TauCeti.homotopyGroupTransportQuotient` along a homotopy class of paths with its identity
+  and composition laws, and the orbits of the action as the free homotopy classes
+  (`TauCeti.homotopyGroup_mem_orbit_iff_exists_homotopyAlong`); in `BasepointChange.lean`,
+  the change of basepoint along a path `TauCeti.homotopyGroupEquivOfPath`, a group
+  isomorphism `TauCeti.homotopyGroupMulEquivOfPath` in positive dimensions. Consumed by
+  §§8.9, 8.10 and 8.14.
 - Ordinary Whitehead and CW type: `TauCeti.CWType` (`Topology.CWComplex.Classical.CWType`) and
   `TauCeti.FiniteCWType` (`Topology.CWComplex.Classical.FiniteCWType`), with the finite CW type
   of compact triangulable spaces `TauCeti.IsTriangulable.finiteCWType`
@@ -767,7 +778,13 @@ named in this section is cited as it is at those revisions.
   groups, the torsion of the positive-degree homology of Milnor's classifying space,
   `TauCeti.isAddTorsion_classifyingSpace_singularHomology` and
   `TauCeti.isKilledBySomePower_classifyingSpace_singularHomology`
-  (`ClassifyingSpace/Torsion.lean`). Consumed by §8.8d.
+  (`ClassifyingSpace/Torsion.lean`). From Mathlib, the morphisms modulo a Serre class
+  (`CategoryTheory/Abelian/SerreClass/MorphismProperty.lean`):
+  `CategoryTheory.ObjectProperty.isoModSerre` (kernel and cokernel in the class),
+  `CategoryTheory.ObjectProperty.epiModSerre` (cokernel in the class) and
+  `CategoryTheory.ObjectProperty.monoModSerre` (kernel in the class), with their closure
+  under composition, the two-out-of-three property of the first, and stability under
+  retracts and base change. Consumed by §8.8d.
 - The killing tower `TauCeti.killHomotopyGroups n X x` of a pointed Hausdorff space
   (`AlgebraicTopology/Homotopy/KillHomotopyGroups.lean`) with
   `TauCeti.bijective_homotopyGroupMap_killHomotopyGroupsIncl` (`π_k` unchanged for `k<n`),
@@ -914,8 +931,8 @@ constructs another universal cover.
 
 ### From TauCetiRoadmap.GeometricTopology
 
-The smoothing-and-triangulation comparison, item 1 (smooth triangulation and its
-realization homeomorphism), consumed by 8.7 for CW type of smooth manifolds; Layer 1's
+§11.3, the Cairns–Whitehead smooth triangulation of a smooth manifold with its realization
+homeomorphism, consumed by 8.7 for CW type of smooth manifolds; Layer 1's
 boundary, collar and two-sided tube conventions, consumed by 6.3–6.4 for the compact
 codimension-0 excision comparisons; Layer 1's tubular neighbourhood theorem, consumed by
 8.13's smoothing and relative-transversality targets for the smooth retraction onto a
@@ -944,7 +961,7 @@ cover and bundle tools. Layer 6 builds topological tower comparisons, cohomology
 ending with the product-ball intersection theorem; Layer 7
 adds the bundle formula to Tau Ceti's Euler characteristic. Layer 8 reaches Hurewicz, Whitehead, representability
 and obstruction theory, then smooth representatives of low-codimension homology classes and
-the homotopy acceptance applications. Item-specific inputs separate the independent tower and
+the homotopy applications. Item-specific inputs separate the independent tower and
 product foundations from later applications.
 
 Other roadmaps cite this one in the form "AlgebraicTopology Stage k item m" and by
@@ -988,10 +1005,10 @@ Items map to sections as follows.
   is the section of smooth representatives in codimensions one and two: the smoothing of
   maps into compact manifolds, parametric and relative transversality, and the transverse
   circle classifying map of an integral degree-one class with its bordism independence.
-  §8.14 is the ordinary homotopy acceptance
+  §8.14 holds the ordinary homotopy
   applications (the finite-dimensional Whitehead criterion, based maps from an
   (n−1)-connected CW complex into a space with no homotopy above degree n, aspherical
-  surfaces); §8.15 the finite-group acceptance applications, including the
+  surfaces); §8.15 the classifying spaces of finite groups and their free actions, including the
   non-freeness of C_p×C_p actions on spheres; §8.16 the essential map T³→S² invisible to
   homotopy groups and reduced homology.
 
@@ -1641,8 +1658,16 @@ Consume existing `TauCeti.HasHomotopyExtensionProperty` and
    both f and its restriction f₀:A→A′ to be homotopy equivalences.
    Given g₀:A′→A and H₀:g₀f₀≃id_A, construct g:X′→X and H:gf≃id_X
    with g|A′=g₀ and H|A×I=H₀ as actual maps into A. Construct the other
-   inverse homotopy. Use the relative mapping-cylinder/HEP construction and
-   the cylinder homotopy extension for this one-sided pair data.
+   inverse homotopy. Route: for any K₀:f₀g₀≃id_(A′), Brown's theorem on homotopy
+   equivalences of maps of cofibrations with its addendum (Brown, *Topology and Groupoids*,
+   7.4.2 and its Addendum, pp.285–286) extends g₀ to a homotopy
+   inverse g of f whose homotopy gf≃id_X restricts on A×I to the track composite
+   −g₀f₀H₀+g₀K₀(f₀×1)+H₀ (left summand first), not to H₀ itself. Choose K₀ by Vogt's
+   proposition (Vogt 1972, Proposition, p.627), so that f₀H₀ and K₀(f₀×1) are homotopic
+   relative to the ends of I;
+   applying g₀, the composite is then homotopic to H₀ relative to the ends, and the cylinder
+   homotopy extension above, for (I,{0,1})×(X,A), deforms the homotopy on X×I, relative
+   to X×{0,1}, until its restriction to A×I is exactly H₀.
    Own the tower homotopy equivalence for closed-cofibration sequences: for sequences of Hausdorff
    spaces with closed-cofibration bonding inclusions and strictly commuting
    levelwise equivalences f_n, construct the actual mapping telescopes and
@@ -1741,7 +1766,8 @@ Consume existing `TauCeti.HasHomotopyExtensionProperty` and
    Own the pair-quotient comparisons in homology and cohomology:
    for closed CW/cofibration-NDR pairs (X,B), the actual collapse map induces
    H_n(X,B;M)≃H̃_n(X/B;M) and H^n(X,B;M)≃H̃^n(X/B;M), for every n≥0,
-   for constant modules over any coefficient ring; extend homology to the
+   for constant modules over any coefficient ring (Hatcher, Proposition 2.22, p.124, for
+   homology of good pairs, and §3.1, Exercise 8(b), p.205, for cohomology); extend homology to the
    abelian-category coefficient generality and exactness assumptions of Layer 2. For local
    coefficients require a specified system on the quotient and its pullback
    identification on X; do not assert descent of an arbitrary system on X.
@@ -1767,6 +1793,12 @@ Consume existing `TauCeti.HasHomotopyExtensionProperty` and
   and identity comparison maps; the Kelley product of a point with Y is Y with its own cells.
 - For the pair-quotient comparison with B=∅, the collapse X₊→X₊ is the identity and
   H̃_n(X₊)=H_n(X,∅)=H_n(X); for B=X both sides vanish.
+- One-sided extension with X=A=X′=A′=S¹, f=g₀=id and H₀(x,t)=e^(2πit)x, the rotation loop
+  that generates π₁ of the identity component of C(S¹,S¹), which is ℤ: with K₀ constant the
+  addendum's restriction −H₀+K₀+H₀ is homotopic relative to the ends to the constant
+  homotopy, which is not homotopic relative to the ends to H₀, so no deformation relative to
+  X×{0,1} reaches H₀; Vogt's choice K₀=H₀ gives −H₀+H₀+H₀, homotopic to H₀ relative to the
+  ends.
 
 ### 4.6 Projective spaces
 
@@ -2891,7 +2923,7 @@ The constant-coefficient cup product by Alexander--Whitney, its comparison with 
    cochain-homotopy equivalence with R in degree 0 and the vanishing of the
    point's singular cohomology in every positive degree. Prove the
    degree 0 augmentation/unit normalization and coefficient naturality. This
-   direct calculation uses neither a hereditary-ring UCT nor an Ext collapse
+   direct calculation uses neither a hereditary-ring universal coefficient theorem nor an Ext collapse
    for general R. Lift classes to relative cohomology and use the **open excisive**
    multiple-relative product and small-chain comparison already owned by 6.2;
    the product lands in H*(X,X;R)=0. Give the cochain/support proof and the
@@ -3030,7 +3062,7 @@ For boundaryless manifolds the local homology system with its transport along pa
    fresh Euclidean carrier and transport the resulting equality through its pair
    isomorphism; do not install that Euclidean atlas or apply the factory directly
    on the original general-model carrier. Include m=0, when the Euclidean model space
-   is a singleton and its basis index `Fin 0` is empty. These are AT constructions;
+   is a singleton and its basis index `Fin 0` is empty. These constructions are this roadmap's;
    DifferentialGeometry Layer 9.3 consumes their classes and proves integration compatibility.
    For positive-dimensional smooth manifolds with boundary over the standard
    half-space model `𝓡∂ (n+1)`, define the ambient orientation system by the
@@ -3085,7 +3117,7 @@ For boundaryless manifolds the local homology system with its transport along pa
    trivializing L on coordinate balls, where the native constant-coefficient lemma applies,
    then Layer 3's twisted excision/Mayer–Vietoris and compact finite-cover induction, as in
    Hatcher Lemma 3.27, p.236.
-   Compare this homological system with DG Layer 2's
+   Compare this homological system with DifferentialGeometry Layer 2's
    tangent orientation via chart local generators and Jacobian signs. Prove the
    converse as an equivalence: smooth orientations correspond bijectively to
    transport-compatible sections of or_U whose value in each fibre is an integral
@@ -3118,7 +3150,7 @@ For boundaryless manifolds the local homology system with its transport along pa
    and avoidance of f(x) off x for all s∈[0,1], then pass to local homology by
    excision. In m=0 prove the positive point formula directly; the empty determinant
    is +1. These lemmas supply chart overlap signs.
-   Own the comparison with `Manifold.Orientation` (DG Layer 2): select the local point generator
+   Own the comparison with `Manifold.Orientation` (DifferentialGeometry Layer 2): select the local point generator
    as the signed image of the actual ordered-simplex identity class under the chart pair map.
    Define the model-orientation sign as the unit ±1 comparing the chosen Euclidean model
    orientation with the standard ordered-coordinate orientation, including m=0.
@@ -3150,17 +3182,17 @@ For boundaryless manifolds the local homology system with its transport along pa
    is the raw chart coefficient times the ordered chart class, for every anchor a, every
    lift representing o and every y in that chart source; then that the signed local image
    of the chart-simplex support class is the point generator on the whole interior.
-   Use these results in the locally represented section and DG's comparison.
-   Use DG's `Orientation.map`/`orientationAt` for arbitrary-chart changes, and first reparameterize
+   Use these results in the locally represented section and in the comparison with DifferentialGeometry's orientations.
+   Use DifferentialGeometry's `Orientation.map`/`orientationAt` for arbitrary-chart changes, and first reparameterize
    a general finite-dimensional real model to the Euclidean basis model before using the
-   Euclidean interior-atlas constructor. This AT-owned comparison also defines the oriented local
+   Euclidean interior-atlas constructor. This comparison, owned here, also defines the oriented local
    section and feeds relative twisted class datum and compact-support uniqueness
    factory; it does not introduce a second local-system or class carrier. DifferentialGeometry Layer 9.3 consumes this
-   exact chosen datum and owns only its smooth-to-AT carrier conversion and integration formulas;
+   exact chosen datum and owns only the conversion from its smooth carrier to this one and the integration formulas;
    it must not construct a competing tangent-orientation system, point generator, or compact class.
    The chart-generator normalization, transition determinant, quotient-lift independence, section
-   local representation, and zero-dimensional signed point normalization are mathematical targets
-   of this AT milestone, not facts supplied merely by naming the structures. Prove naturality of the
+   local representation, and zero-dimensional signed point normalization are targets of
+   §6.3, not facts supplied merely by naming the structures. Prove naturality of the
    homological orientation system and its tangent comparison under smooth open embeddings and
    local diffeomorphisms, using excision and the derivative orientation map. In particular this
    supplies the pullback comparison along S²→RP². Own the pure class laws:
@@ -3172,11 +3204,11 @@ For boundaryless manifolds the local homology system with its transport along pa
    this composite isomorphism with the disjoint-support component map, using the explicit
    two restriction pair maps, then apply the local-image characterization. Include
    the finite-family induction and the empty family. Use one coefficient-correct pair map with the canonical
-   `pullbackConstantIso` in these laws. DG owns only the smooth and real-coefficient
+   `pullbackConstantIso` in these laws. DifferentialGeometry owns only the smooth and real-coefficient
    conversions and integration identities. Own the shared dimension-zero orientation
    sign of o at x, a unit of ℤ:
    for every finite-dimensional model I on E with finrank ℝ E=0, compare
-   DG's `orientationAt` of o at x with the orientation of the unique empty ordered
+   DifferentialGeometry's `orientationAt` of o at x with the orientation of the unique empty ordered
    tangent basis of E. Prove independence of the identification with Euclidean
    0-space. Define the positive point class [x]₊ as the relative homology class of
    the constant singular 0-simplex at x with coefficient 1. Prove chart/lift
@@ -3209,7 +3241,7 @@ For boundaryless manifolds the local homology system with its transport along pa
    c:∂M×[0,1)→M has c(x,0)=x and open image U. Use its inverse coordinates,
    smaller-width restrictions and deformation retraction of U onto ∂M.
    These class comparisons use a topological global collar and smooth local
-   charts; GT Layer 1 owns the stronger global smooth collar and gluing API.
+   charts; GeometricTopology Layer 1 owns the stronger global smooth collar and gluing API.
    On the half-space ambient carrier, define `or_M` exactly once as the half-space
    orientation local system, by groupoid transport
    from the fresh Euclidean interior. All boundary restrictions and coefficient
@@ -3297,7 +3329,7 @@ For boundaryless manifolds the local homology system with its transport along pa
    the orientation classes constructed here; Layer 6.3 does not choose or replace
    the native sphere/disk generators or restate Layer 2, item 5. Include
    S⁰ by verifying both local images of the Layer 6.3 class, and consume the
-   provider's S⁰ normalization. Verify ∂[D¹]=[+1]−[−1] for the positively
+   S⁰ normalization of Tau Ceti's native generator. Verify ∂[D¹]=[+1]−[−1] for the positively
    oriented interval. For the positively oriented plane disk also verify
    ∂_*[D²,S¹]=[S¹], with S¹ counterclockwise by the outward-first convention.
 
@@ -3344,7 +3376,7 @@ For boundaryless manifolds the local homology system with its transport along pa
    At n=1, ρ₁ is a reflection and cᵖ₁ is clockwise, opposite the
    counterclockwise outward-first circle generator. Thus the D² boundary has
    coefficient +1 in λᵖ₁ and −1 in cᵖ₁, and σ₁=−a₁. The value a₁ is
-   computed from the actual provider generator, not from a provider-selected p.
+   computed from Tau Ceti's native generator itself, not from a separately chosen pole p.
 
    Deduce `H_i(U;L)=0` for i>m by
    compact support of singular cycles and the pair/triple sequence (the route
@@ -3406,7 +3438,7 @@ Prove both Poincare--Lefschetz isomorphisms by cap with that class for
    with-boundary structure and smooth embedding. Use the pair-map zigzag
    `(K,∂K)→(U,U\int K)←(U,U\K)`, with the two isomorphisms proved by
    excision and a two-sided tube around the boundaryless compact ∂K in U from
-   GT Layer 1. Trivialize its normal line by DifferentialGeometry Layer 5.1's outward-pointing field;
+   GeometricTopology Layer 1. Trivialize its normal line by DifferentialGeometry Layer 5.1's outward-pointing field;
    use half-space charts and compactness of ∂K to shrink the tube to a
    uniform positive radius before proving that its positive/negative sides
    lie outside/inside K. This supplies the exterior collar without
@@ -3416,7 +3448,7 @@ Prove both Poincare--Lefschetz isomorphisms by cap with that class for
    `(K,∂K)→(U,U\K)`.
    Also own the compact-triad Poincaré–Lefschetz theorem: for a compact m-manifold K
    with boundary faces ∂₀K,∂₁K covering ∂K, with their actual compatible
-   collars and common codimension-two edge (rounded from the GT corner model),
+   collars and common codimension-two edge (rounded from GeometricTopology's corner model),
    cap with [K,∂K] gives H^k(K,∂₁K;L)≃H_(m−k)(K,∂₀K;L⊗or_K),
    and the swapped-face form, for every module-valued local system L.
    Derive the excisive boundary triad from its face collars: choose open
@@ -3714,7 +3746,7 @@ A point has χ=1, S¹ has χ=0, S² has χ=2 and S¹×S¹ has χ=0; the empty co
 ## Layer 8: relative homotopy, Hurewicz, Whitehead, and ordinary representability
 
 This layer consumes Layers 2--4, the universal-covers roadmap's induced-map and basepoint API,
-and geometric topology's smooth-triangulation result for the manifold corollaries.
+and the smooth triangulation of GeometricTopology §11.3 for the manifold corollaries.
 Items 8–16 additionally consume ordinary Layer 6 cohomology and the item-level suppliers above;
 items 1–7 are independent of those later constructions.
 
@@ -4067,20 +4099,20 @@ Ordinary Whitehead is Tau Ceti's `ContinuousMap.IsWeakHomotopyEquivalence.homoto
    `ContinuousMap.HasProperHomotopyInverse`, yields a proper retraction r:X→A and a joint
    proper homotopy id_X≃inclusion∘r stationary on A. A subcomplex A of a strongly locally
    finite CW complex X is the instance: proper homotopy extension for the pair
-   (FTW, Theorem 1.6) is `HasProperHomotopyExtensionProperty A`. Rectify the inverse on
+   (Farrell–Taylor–Wagoner, Theorem 1.6) is `HasProperHomotopyExtensionProperty A`. Rectify the inverse on
    A by proper extension, then use proper extension on the displayed product
    pair to make the inverse homotopy stationary; retain both extension maps
    and their proper controls. Prove the proper cylinder-boundary extension
    corollary from proper extension for (X,A), using a proper retraction to
-   (0×X)∪(I×A) and compact-square reparametrization. Thus the final SDR
-   export does not require callers to supply the product-pair property again;
+   (0×X)∪(I×A) and compact-square reparametrization. Thus the final strong deformation
+   retraction theorem does not take the product-pair property as a hypothesis;
    properness of the inclusion supplies closedness of A. This is the proper
    analogue of the native
    ordinary strong-deformation-retraction theorem, not an implication from
    ordinary homotopy equivalence.
    After proper cellular approximation, construct the actual locally finite finite-dimensional mapping cylinder M_f and its closed collared bottom X. Prove its projection to Y and slide homotopy proper on the whole cylinder. Ordinary homology isomorphisms give H_*(M_f,X;ℤ)=0; compact-support pullback isomorphisms give H_c^*(M_f,X;ℤ)=0 through the supported pair sequence. Identify relative cellular chains with the algebraic cone, with d(y,x)=(d_Yy+f_*x,−d_Xx), and its finite-support dual with the corresponding shifted cochain cone; retain the relative comparison and all signs. Do not collapse the noncompact X to a topological cone point and assume that quotient locally compact.
 
-   Apply §6.2's countability of cells and prove, over ℤ, FTW
+   Apply §6.2's countability of cells and prove, over ℤ, Farrell–Taylor–Wagoner
    Theorem 4.2's locally finite contraction for the ordinary direct-sum based
    cellular chain complex C and its finite-support dual C∨, both acyclic. These
    are neither Borel–Moore chains nor the full product dual. For the algebraic
@@ -4099,11 +4131,10 @@ Ordinary Whitehead is Tau Ceti's `ContinuousMap.IsWeakHomotopyEquivalence.homoto
    prescribed cycle tail. Choose controlled finite fillings along a cofinal
    exhaustion of the countable basis, so each output coordinate occurs in
    only finitely many fillings. Their linear extension gives row- and
-   column-finite s_n with ds_n+s_(n−1)d=id. This is Layer 8.5 work, not
-   an imported lemma. Then separately own the geometric proper
+   column-finite s_n with ds_n+s_(n−1)d=id. Then separately own the geometric proper
    Hurewicz/Whitehead realization at infinity yielding Corollary 4.9's
    actual proper inverse and two jointly proper homotopies under the stated
-   simply-connected/SC-at-infinity hypotheses. No finite-domination-to-finite-CW
+   hypotheses of simple connectivity and simple connectivity at infinity. No finite-domination-to-finite-CW
    or one-end assumption is added.
    Follow Farrell–Taylor–Wagoner, *The Whitehead theorem in the proper
    category*, Compositio 27 (1973), §§1–4, especially Theorem 4.2 and
@@ -4138,14 +4169,14 @@ connected space of CW type (`TauCeti.CWType`) whose integral homology vanishes o
 `0` and `n` and is `ℤ` in degree `n ≥ 2` is homotopy equivalent to the unit sphere of
 `ℝ^(n+1)`.
 
-*Needs:* GeometricTopology smooth triangulation, Tau Ceti's `TauCeti.FiniteCWType` and the
+*Needs:* GeometricTopology §11.3's smooth triangulation, Tau Ceti's `TauCeti.FiniteCWType` and the
 finite CW type of compact triangulable spaces `TauCeti.IsTriangulable.finiteCWType`
 (`Topology/Triangulable/FiniteCWType.lean`), and §4.5; §§8.3–8.5 for recognition.
 
 Prove that every finite-dimensional Hausdorff second-countable smooth manifold
    with the Euclidean or half-space model, with or without boundary, has
-   countable locally finite CW type by consuming GeometricTopology's
-   smoothing-and-triangulation comparison item 1 and its realization homeomorphism.
+   countable locally finite CW type by consuming the Cairns–Whitehead smooth triangulation
+   of GeometricTopology §11.3 and its realization homeomorphism.
    The CW structure so obtained has dimension m, the dimension of the smooth
    triangulation; export this dimension-m structure as such, since the finite-stage
    projective factorizations that CharacteristicClasses builds on §8.13 consume the
@@ -4379,7 +4410,8 @@ Own the single functorial abelian
 
 ### 8.8d Serre classes and Hurewicz modulo a class
 
-*Needs:* Mathlib `IsSerreClass` and `Tor`; Tau Ceti's torsion Serre classes, the torsion
+*Needs:* Mathlib `IsSerreClass`, `CategoryTheory.ObjectProperty.isoModSerre`,
+`CategoryTheory.ObjectProperty.epiModSerre` and `Tor`; Tau Ceti's torsion Serre classes, the torsion
 of the homology of Milnor's classifying space of a finite group, `HomotopyGroup.hurewiczHom`
 and `TauCeti.classifyingSpace` (supplier contracts); §4.10's CW approximation; §5.3's
 transfer; §5.5's homological Serre spectral sequence and path fibrations; §§8.3, 8.4, 8.8b
@@ -4413,11 +4445,13 @@ A Serre class is
    exponent on each cyclic summand, the Künneth formula on finite sums keeps
    it, since tensor products and Tor of groups annihilated by d^m are
    annihilated by d^m, and the directed union over finite sums preserves the
-   uniform exponent d^m. Own the C-isomorphism and
-   C-epimorphism vocabulary, `IsCIso` (kernel and cokernel in C) and `IsCEpi`
-   (cokernel in C) for a homomorphism of abelian groups, with its
-   two-out-of-three laws, the record `SatisfiesSerreAxioms` of Serre's
-   tensor, Tor and K(A,1) axioms on a class, taken on Milnor's classifying
+   uniform exponent d^m. A C-isomorphism of abelian groups, a homomorphism whose kernel and
+   cokernel lie in C, is Mathlib's `CategoryTheory.ObjectProperty.isoModSerre` on
+   `AddCommGrpCat`, and a C-epimorphism, one whose cokernel lies in C, is
+   `CategoryTheory.ObjectProperty.epiModSerre`; their closure under composition and the
+   two-out-of-three property of C-isomorphisms are Mathlib's (supplier contracts). Own the
+   record `SatisfiesSerreAxioms` of Serre's tensor, Tor and K(A,1) axioms on a class, taken
+   on Milnor's classifying
    space of the group, and the mod-C
    comparison of fibre, base and total space in §5.5's homological
    Serre sequence over a simply connected CW base. Prove H̃_*(K(A,n);ℤ)∈C
@@ -4442,13 +4476,14 @@ A Serre class is
 
 **Checks.**
 
-- For C the class of zero groups, `IsCIso` is bijectivity and `IsCEpi` is surjectivity, and
-  `hurewicz_isCIso` is the absolute Hurewicz theorem.
+- For C the class of zero groups, a C-isomorphism is a bijective homomorphism and a
+  C-epimorphism a surjective one, so Hurewicz modulo C is the absolute Hurewicz theorem; a
+  notion testing only the kernel would accept the non-surjective inclusion ℤ→ℚ.
 - For C the torsion groups, multiplication by 2 on ℤ is a C-isomorphism (kernel 0, cokernel
   ℤ/2) but not an isomorphism, and ℤ→0 is a C-epimorphism but not a C-isomorphism (its kernel
   ℤ is not torsion); for C the finitely generated groups the inclusion ℤ→ℚ is not a
   C-epimorphism, its cokernel ℚ/ℤ not being finitely generated.
-- `SatisfiesSerreAxioms` holds for the zero class, the reduced homology of the classifying
+- Serre's three axioms hold for the zero class, the reduced homology of the classifying
   space of the trivial group being zero, and for the torsion class, where
   `H_(2k−1)(K(ℤ/m,1);ℤ)=ℤ/m` and the positive even-degree groups vanish.
 - The `K(A,1)` field ranges over degrees n+1≥1: `H_0(K(A,1);ℤ)=ℤ` is not torsion, so a version
@@ -4457,7 +4492,7 @@ A Serre class is
 
 ### 8.9 Relative obstruction theory
 
-*Needs:* §§4.4–4.5, 6.1 and 8.1; Tau Ceti `TauCeti.TopCat.serreFibrations`; §5.5 for relative-CW homotopy lifting and fibre transport.
+*Needs:* §§4.4–4.5, 6.1 and 8.1; Tau Ceti `TauCeti.TopCat.serreFibrations`, the action `TauCeti.homotopyGroupMulAction` and the transport `TauCeti.homotopyGroupEquivOfPath` (supplier contracts); §5.5 for relative-CW homotopy lifting and fibre transport.
 
 **Relative obstruction cochains.**
     The untwisted bundle case follows Hatcher, *Vector Bundles and K-Theory*,
@@ -4469,7 +4504,8 @@ A Serre class is
     homotopy lifting against relative CW pairs, its fibre transport and §6.1's cellular cochains; it is not asserted
     by the untwisted reference.
     For each relative CW complex (X,B), n≥1 and path-connected target Y with
-    π₁Y acting trivially on π_nY (so π₁Y is abelian when n=1), and a map on
+    π₁(Y,y₀) acting trivially on π_n(Y,y₀) by Tau Ceti's `TauCeti.homotopyGroupMulAction`
+    (Y is n-simple; for n=1 the action is conjugation, so π₁Y is abelian), and a map on
     X^n∪B, construct its relative cellular (n+1)-cochain with coefficient π_nY
     by its characteristic-map boundary classes. Use the outward-first
     orientation induced by Layer 2.5's coordinate-oriented ball reference
@@ -4477,8 +4513,11 @@ A Serre class is
     transported to the cell by Layer 4.4, and its
     degree +1 boundary-sphere homeomorphism. Choose the positive first-coordinate
     boundary point; transport the based class from f(φ_e(v₀)) to the fixed
-    y₀ along a specified path in Y. Prove choice independence using the trivial
-    π₁ action on π_n, with the degree-one commutativity hypothesis explicit.
+    y₀ along a specified path γ in Y by Tau Ceti's `TauCeti.homotopyGroupEquivOfPath γ`.
+    Prove choice independence using the trivial π₁ action on π_n: transports along two
+    paths with the same ends differ by the action of a loop class at y₀, by the composition
+    law of `TauCeti.homotopyGroupTransportQuotient`, with the degree-one commutativity
+    hypothesis explicit.
     In the simply connected specialization, every obstruction and difference
     construction explicitly assumes that Y is simply connected, including path
     connectedness; this premise belongs to the construction itself. For Y=S²⊔{*}
@@ -4525,10 +4564,15 @@ A Serre class is
 - Y=S²⊔{∗} based at ∗: π₂(Y,∗)=0, so a cochain with these coefficients vanishes, yet a
   2-cell mapped onto the sphere component cannot be transported to ∗; the path-connectedness
   hypothesis on Y is part of the construction.
+- Y=RP² with n=2 is not n-simple: the generator of π₁(RP²)=ℤ/2 acts on π₂(RP²)≅π₂(S²)=ℤ
+  as the antipodal map of S², of degree −1, so transporting a boundary class along the two
+  path classes from a point to y₀ gives values differing by sign, and the obstruction
+  cochain would depend on the chosen paths; for Y=S² the action is trivial and the two
+  transports agree.
 
 ### 8.10 Ordinary representability
 
-*Needs:* §§4.5, 6.1, 8.3, 8.8c and 8.9; §4.9's realization product comparison and §4.8; for `ordinaryEMRepresentability` on an arbitrary space, Tau Ceti's lifting through weak homotopy equivalences from sources of CW type, weak-equivalence invariance of singular homology, the universal coefficient sequence and the naturality of the Hurewicz and Kronecker maps (supplier contracts).
+*Needs:* §§4.5, 6.1, 8.3, 8.8c and 8.9; §4.9's realization product comparison and §4.8; for `ordinaryEMRepresentability` on an arbitrary space, Tau Ceti's lifting through weak homotopy equivalences from sources of CW type, weak-equivalence invariance of singular homology, the universal coefficient sequence, the naturality of the Hurewicz and Kronecker maps and the action of π₁ on π_n (supplier contracts).
 
 **Ordinary cohomology representability.**
     Consume 8.8c's single functorial abelian CW/bar/Dold–Kan K(A,n) constructors
@@ -4578,7 +4622,8 @@ read through universal coefficients (p.394). For every space X of CW type (`TauC
 X may be empty or have any number of path components) every class of H^(n+1)(X;A) is f*ι for a
 map f:X→K, and two maps with equal pullbacks of ι are homotopic. No CW structure, separation
 axiom or finiteness is assumed of K. The homotopy classes are free ones: π₁(K) acts trivially
-on π_(n+1)(K), for n=0 because A is abelian (Hatcher, p.394). Chains have the coefficients ℤ
+on π_(n+1)(K) by `TauCeti.homotopyGroupMulAction`, for n=0 because A is abelian (Hatcher,
+p.394). Chains have the coefficients ℤ
 lifted to the universe of K, and cochains take values in A. To prove it, write d=n+1. The
 family's model K₀ of K(A,d), with identification e₀, has one vertex and no cells in dimensions
 1 to d−1. Extend e⁻¹∘e₀ over its d- and (d+1)-cells (Hatcher, Lemma 4.31, p.366) and then over
@@ -4814,11 +4859,11 @@ based-loop forms below retain the relative data.
     the collapse of the two-apex space to a point. The pointed mapping-cone
     collapse used in spectral cofibers has target Σ(B₊), and its pullback
     kills constant degree-zero classes as the ordinary pair boundary does.
-    For the mapping cone M_AT(i)=X∪_(B×{1})CB of B→X, let
-    c_AT:M_AT(i)→Σ_uB be the actual collapse of X. Define M_G(i) and c_G
+    For the mapping cone M_right(i)=X∪_(B×{1})CB of B→X, let
+    c_right:M_right(i)→Σ_uB be the actual collapse of X. Define M_left(i) and c_left
     using the reflected interval-first cone. Under Layer 4.5's actual pair-to-
-    mapping-cone comparison prove δ_(X,B)=(−1)^(n+1)c_AT^*σ_right
-    and δ_(X,B)=c_G^*σ_left. After composing each collapse with q_+,
+    mapping-cone comparison prove δ_(X,B)=(−1)^(n+1)c_right^*σ_right
+    and δ_(X,B)=c_left^*σ_left. After composing each collapse with q_+,
     prove the same formulas using σ_plus with target Σ(B₊); this is the
     adapter for based mapping cones C(B₊→X₊). Reflection t↦1−t has degree−1 and moving
     the interval first contributes (−1)^n, so their composite on ΣS^n
@@ -5083,9 +5128,9 @@ proves independence of the chosen classifying-map representative in
 the specified embedded-bordism sense. It does not identify all smooth
 submanifolds with their homology classes.
 
-### 8.14 Ordinary homotopy acceptance applications
+### 8.14 Finite-dimensional Whitehead, maps out of (n−1)-connected complexes, aspherical surfaces
 
-*Needs:* §4.1's lifted CW structures, §6.1's universal coefficients, §6.3's noncompact top-degree vanishing, §§8.1–8.5, 8.7, 8.8 and 8.10, and the universal-covers roadmap's induced maps on covers.
+*Needs:* §4.1's lifted CW structures, §6.1's universal coefficients, §6.3's noncompact top-degree vanishing, §§8.1–8.5, 8.7, 8.8 and 8.10, Tau Ceti's action of π₁ on π_n (supplier contracts), and the universal-covers roadmap's induced maps on covers.
 
 These are consequences of
 the existing ordinary CW, cover, relative homotopy and cohomology
@@ -5107,12 +5152,14 @@ both variables (Hatcher, Section 4.2, Exercise 17, p. 390). For n=1 use
 the nonabelian group-homomorphism target and the existing K(π,1)
 classifier (Hatcher, Proposition 1B.9, p. 90). In higher degrees use
 high-cell replacement of X, the actual cell extension/homotopy procedure,
-Hurewicz and coefficient UCT; do not assume that Y is simply connected or
+Hurewicz and the universal coefficient theorem; do not assume that Y is simply connected or
 that its universal cover has no lower homotopy. For unbased classes
-retain the target π₁ action. Deduce the existing EM uniqueness comparison
+retain the action of π₁Y on π_nY, Tau Ceti's `TauCeti.homotopyGroupMulAction`, whose orbits
+are the free homotopy classes (`TauCeti.homotopyGroup_mem_orbit_iff_exists_homotopyAlong`).
+Deduce the existing EM uniqueness comparison
 with its prescribed group isomorphism.
 
-As a surface acceptance case, prove that every smooth closed connected
+As a surface case, prove that every smooth closed connected
 surface with infinite fundamental group has contractible universal cover,
 hence is K(π₁,1) (Hatcher, Section 4.2, Exercise 16, p. 390). The cover
 is noncompact because it is infinite-sheeted over a compact base. Use
@@ -5123,7 +5170,7 @@ include the nonorientable branch. This consumes the existing
 surface/cover/duality machinery and does not depend on 3-dimensional
 geometrization.
 
-### 8.15 Finite-group acceptance applications
+### 8.15 Classifying spaces of finite groups and free actions
 
 *Needs:* the finite-cyclic periodic resolution, Tau Ceti's CW approximation, compact-manifold homology vanishing, universal coefficient sequence and group-cohomology identification of Milnor's model (supplier contracts); §§4.1, 5.1 and 8.8b.
 
@@ -5215,7 +5262,7 @@ section for that instance.
   is the composite with p, which kills H₃(S³) in H₃(S²)=0, that is invisible to reduced
   homology.
 
-Hatcher Section 4.2's exercises 13, 16, 17, 26, 28 and 34 state the acceptance applications
+Hatcher Section 4.2's exercises 13, 16, 17, 26, 28 and 34 state the applications
 of §§8.14–8.16, and Thom 1954, Chapter II, the representability theorems that §8.13's
 targets serve.
 
@@ -5375,8 +5422,8 @@ headline theorems, so each former name maps to the section that carries its obje
 ### Dependency order
 
 In the table below, bare references to Layer 6 mean the ordinary 6.0–6.5
-cohomology/duality lane. They do not include the separate supported-cellular
-supplement or the categorical LS supplement unless named explicitly.
+cohomology and duality part. They do not include the separate supported-cellular
+supplement or the categorical Lusternik–Schnirelmann supplement unless named explicitly.
 
 | Layer | Depends on | Can proceed alongside |
 | --- | --- | --- |
@@ -5408,7 +5455,7 @@ supplement or the categorical LS supplement unless named explicitly.
 | 8.11b ordinary EM loops | 4.10's CW approximation, 8.5, 8.10, 8.11a, Layer 4.8 compact generation and foundational adjunction, with Layer 4.4 normalized comparisons, 4.9's simplicial-realization product comparison | 7 |
 | 8.12 classical EM comparisons | 8.8a, 8.8b, 8.10 and Tau Ceti's `AddCircle` Eilenberg–MacLane instance and circle comparison; no projective carrier | 7 |
 | 8.13 smooth low-codimension representatives | 8.7 finite CW type, 8.10 and 8.12 for the circle classifying map, and its own smoothing of maps into compact manifolds, parametric transversality and relative transversality (Mathlib `exists_embedding_euclidean_of_compact` and `Continuous.exists_contMDiff_approx_and_eqOn`, GeometricTopology Layer 1 tubular neighbourhoods, Tau Ceti's slice-chart implicit function theorem and flat Morse–Sard theorem) | 7 and 8.11b |
-| 8.14–8.16 acceptance applications | 4.1 lifted CW structures, 6.1 universal coefficients, 6.3 noncompact top-degree vanishing and Tau Ceti's compact-manifold vanishing, 8.1–8.8 and 8.10; 8.16 additionally 4.4, 6.5 and 5.5's homotopy lifting for Serre fibrations | 7 and 8.13 |
+| 8.14–8.16 applications | 4.1 lifted CW structures, 6.1 universal coefficients, 6.3 noncompact top-degree vanishing and Tau Ceti's compact-manifold vanishing, 8.1–8.8 and 8.10; 8.16 additionally 4.4, 6.5 and 5.5's homotopy lifting for Serre fibrations | 7 and 8.13 |
 
 In particular, Layer 1 is independent; the chain `2 -> 3 -> 4` is strict; Layers 2--4 all feed
 Layer 5, except that Layer 2 alone feeds the product maps of Layer 5 item 1; and every layer from
@@ -5490,8 +5537,9 @@ downstream comparison theorem as input.
 ## References
 
 - Ronald Brown, *Topology and Groupoids*, 3rd ed., Booksurge, 2006, Theorem 6.7.2 (p.240),
-  6.7.5 (p.248), §6.7 Exercises 2 (p.249) and 6 (p.250) and the Lebesgue covering lemma
-  3.6.4 (p.91).
+  6.7.5 (p.248), §6.7 Exercises 2 (p.249) and 6 (p.250), the Lebesgue covering lemma
+  3.6.4 (p.91), and 7.4.2 with its Addendum (pp.285–286) for homotopy inverses of maps of
+  cofibrations.
 - Samuel Eilenberg and Norman Steenrod, *Foundations of Algebraic Topology*, Princeton
   University Press, 1952, Chapters I--III.
 - Allen Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf),
@@ -5550,6 +5598,8 @@ downstream comparison theorem as input.
   1963, Lemmas 3.6 and 3.7.
 - Arne Strøm, [*Note on cofibrations II*](https://journals.msp.org/mscand/article/download/2424/2423),
   Mathematica Scandinavica 22 (1968), 130–142, Theorem 6 (p.135).
+- R. M. Vogt, [*A note on homotopy equivalences*](https://www.ams.org/journals/proc/1972-032-02/S0002-9939-1972-0293632-8/S0002-9939-1972-0293632-8.pdf),
+  Proceedings of the American Mathematical Society 32 (1972), 627–629, Proposition (p.627).
 - James Dugundji, [*An extension of Tietze's theorem*](https://msp.org/pjm/1951/1-3/pjm-v1-n3-p04-s.pdf),
   Pacific Journal of Mathematics 1 (1951), 353–367, Theorem 4.1 (p.357), Corollary 4.2
   (p.358), §7 (p.363) for the Kuratowski–Wojdysławski embedding, Theorem 7.1 (p.363), and
