@@ -49,7 +49,7 @@ At Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`:
 | `Set.Icc`, pointwise function order, `LinearMap` | Coordinate boxes and branch-dependent affine residuals. |
 | `Convex.sum_mem`, `subset_convexHull`, `convexHull_min`, `convex_convexHull` | Finite convex combinations and the smallest convex superset. |
 | `Finset.sum_subset`, `Finset.single_le_sum` | Restriction to positive support and bounds for simplex weights. |
-| `LinearMap.continuous_of_finiteDimensional`, `isClosed_le`, `isClosed_eq`, `isClosed_iInter`, `IsClosed.preimage` | Continuity and closedness of the affine-row and box constraints. |
+| `LinearMap.continuous_of_finiteDimensional`, `isClosed_le`, `isClosed_eq`, `isClosed_iInter`, `IsClosed.preimage` | Continuity and closedness of the affine residual and box constraints. |
 | `isCompact_Icc`, `IsCompact.prod`, `IsCompact.of_isClosed_subset`, `IsCompact.image`, `IsCompact.isClosed` | Compact boxes, closed subsets, continuous images and closedness. |
 
 ### From Tau Ceti
@@ -83,7 +83,7 @@ Define `branch` by `branch D K i = B i = {x | x ∈ Set.Icc l u ∧ A i x - b i 
 
 - For `n = 1`, `A = 0`, `b = 0`, `K = {0}`, box `[0,1]`, the branch is `[0,1]`.
 - With the same box, `A = 0`, `b = 1`, `K = {0}`, the branch is empty.
-- If `n = 0`, the original space is a singleton; row membership decides whether the branch is empty.
+- If `n = 0`, the original space is a singleton; the residual condition `-b i ∈ K i` decides whether the branch is empty.
 
 Define `boundedUnion` by `boundedUnion D K = U = ⋃ i, B i`.
 
@@ -115,7 +115,8 @@ arXiv v3 p. 8, publisher p. 260.
 **API.**
 
 - Expose the displayed conjunction as the membership equivalence for `lift`.
-- Extract simplex membership, each conic row and each scaled coordinate bound separately.
+- Extract simplex membership, each residual condition `A i (v i) - λ i • b i ∈ K i`
+  and each scaled coordinate bound separately.
 - Assemble lift membership from these four groups of constraints.
 
 **Checks.**
@@ -136,7 +137,8 @@ Define `sumBlocks` by `sumBlocks p = ∑ i, p.2 i`.
 
 - The sum over an empty index is zero.
 - Two constant scalar blocks `1/4` and `1/2` sum to `3/4`.
-- A single nonzero block among zero blocks is preserved, including when the selected block is zero.
+- For `ι = Fin 3`, the one-hot block family `Pi.single 1 w` has `sumBlocks = w`
+  for every `w`, including `w = 0`.
 
 Define `projection` by `projection D K = P = {x | ∃ p ∈ L, x = sumBlocks p}`.
 
@@ -148,9 +150,11 @@ Define `projection` by `projection D K = P = {x | ∃ p ∈ L, x = sumBlocks p}`
 
 **Checks.**
 
-- The interval branch has `1/2 ∈ P`.
+- For the interval branch of 1.1, `P = [0,1]`; summing weights instead of blocks
+  would give `{1}`.
 - Empty index gives `P = ∅` despite `sumBlocks` being zero.
-- A lift with sum `x` does not witness a different projected point.
+- For the interval lift `λ = 1`, `v = 1/2`, the projected point is `1/2`;
+  changing only that point to `0` violates the sum equality.
 
 Define `fullLift` by `fullLift D K = F = {q : X × LiftPoint ι n | q.2 ∈ L ∧ q.1 = sumBlocks q.2}`.
 
@@ -170,7 +174,9 @@ Define `fullLift` by `fullLift D K = F = {q : X × LiftPoint ι n | q.2 ∈ L �
 
 *Needs:* 1.2, ordered-field arithmetic and finite-sum inequalities.
 
-For arbitrary sets `K i`, prove `zero_block`: `p ∈ L` and `λ i = 0` imply `v i = 0`.
+For arbitrary sets `K i`, prove the zero-block property: `p ∈ L` and `λ i = 0` imply `v i = 0`
+(Gusev–Bernal Neira, arXiv v2, Proposition 1, p. 8, zero-weight proof; and the
+finite-scaled-bound discussion preceding Proposition 2, p. 10).
 Prove every weight lies in `[0,1]`, every coordinate satisfies
 `min (l j) 0 ≤ v i j ≤ max (u j) 0`, and every projected point lies in `Set.Icc l u`.
 Expose these simultaneously for the original-space point, weights and blocks of `q ∈ F`.
@@ -183,16 +189,20 @@ The containing product box for `L` is
 
 - With box `[1,2]`, a zero-weight block is zero, outside the unscaled box.
 - With box `[-1,2]` and weight `1/2`, a scalar block lies in `[-1/2,1]`.
-- Inconsistent bounds in a nonzero coordinate give `L = P = F = ∅`.
+- If `l j > u j` for some coordinate `j`, then the scaled inequalities force
+  every weight to zero, contradicting `∑ i, λ i = 1`; hence `L = P = F = ∅`.
 
 ### 1.4 Normalization and one-hot lifts
 
 *Needs:* 1.1–1.3 and `PointedCone.smul_mem`, `PointedCone.smul_mem_iff`.
 
-For carriers of `K i : PointedCone ℝ (Y i)`, prove `normalized_block`: if `p ∈ L` and
-`0 < λ i`, then `(λ i)⁻¹ • v i ∈ B i`. Every `x ∈ B i` has the one-hot lift defined in
-Conventions. Prove `empty_branch_weight_block`: if `B i = ∅`, every member of `L` has
-`λ i = 0` and `v i = 0`. An all-empty branch family gives `P = ∅`.
+For carriers of `K i : PointedCone ℝ (Y i)`, prove the normalization property: if `p ∈ L`
+and `0 < λ i`, then `(λ i)⁻¹ • v i ∈ B i` (Ben-Tal–Nemirovski, proof of
+Proposition 3.3.5, p. 101, normalization by positive weights). Every `x ∈ B i` has the
+one-hot lift defined in Conventions (ibid., equation (3.3.24), p. 100, specializing to
+a single nonzero weight). Prove the empty-branch property: if `B i = ∅`, every member
+of `L` has `λ i = 0` and `v i = 0`, by normalization and the zero-block property.
+An all-empty branch family gives `P = ∅` by the simplex equation.
 
 **Checks.**
 
@@ -203,14 +213,25 @@ Conventions. Prove `empty_branch_weight_block`: if `B i = ∅`, every member of 
   `λ = (1/2,1/2)`, `v = (0,0)` and `v = (1/2,1/2)` are lift members projecting to zero
   and one, respectively.
 
+### Examples
+
+The interval branch in 1.1 has `λ = 1`, `v = 1/2` as a lift point. The two-branch
+noncone control in 1.4 has an empty union but projected points `0` and `1`.
+
+### Dependencies
+
+This layer uses Mathlib `Set.Icc`, `LinearMap`, the pointed-cone scaling API including
+`PointedCone.smul_mem_iff`, and finite sums including `Finset.single_le_sum`.
+It consumes no other roadmap.
+
 ## Layer 2: exact finite-union hull
 
 ### 2.1 Exact hull
 
 *Needs:* 1.1–1.4 and the finite convex-combination and convex-hull suppliers.
 
-For carriers of `K i : PointedCone ℝ (Y i)`, prove `convex_lift`, `convex_projection`, and
-`hull_exact`:
+For carriers of `K i : PointedCone ℝ (Y i)`, prove that `L` and `P` are convex, and
+prove `hull_exact`:
 
 `projection D K = convexHull ℝ (boundedUnion D K)`.
 
@@ -222,7 +243,7 @@ cones without closedness; this is the stated bounded variant, not their full unb
 
 One-hot inclusion and convexity give `convexHull ℝ U ⊆ P`. For the reverse inclusion restrict
 to strictly positive weights, normalize each corresponding block, apply the finite
-convex-combination API, and reconstruct the sum using `zero_block`. Do not choose points
+convex-combination API, and reconstruct the sum using the zero-block property. Do not choose points
 from empty or zero-weight branches.
 
 **Checks.**
@@ -230,10 +251,24 @@ from empty or zero-weight branches.
 - In box `[0,3]`, take scalar branches `[0,1]` (`A = id`, `b = 1`, `K = (-∞,0]`)
   and `[2,3]` (`A = id`, `b = 2`, `K = [0,∞)`). Weights `(1/2,1/2)` and blocks
   `(1/2,1)` give `3/2 ∈ P` outside `U`.
-- Use unequal residual dimensions, and the whole residual space as a nonsalient cone.
+- In box `[0,1]`, let branch 1 have `Y 1 = ℝ`, `A 1 x = x`, `b 1 = 0`,
+  `K 1 = [0,∞)`. Let branch 2 have `Y 2 = ℝ²`, `A 2 x = (x,-x)`, `b 2 = 0`,
+  and the nonsalient cone `K 2 = ℝ²`. Then `U = P = [0,1]`, and
+  `λ = (1/2,1/2)`, `v = (1/2,1/2)` is a lift point over `1`.
 - Dropping zero membership can destroy exactness: in box `[0,1]`, branch 1 has
   `A = b = 0`, `K = {0}`, and branch 2 has `A = b = 0`, `K = (0,∞)`.
   Then `U = [0,1]` but `L = P = ∅`, because branch 2's residual is always zero.
+
+### Examples
+
+The branches `[0,1]` and `[2,3]` in box `[0,3]` have `P = [0,3]`. For `x ∈ [0,1]`,
+use only branch 1; for `x ∈ [2,3]`, use only branch 2. For `1 ≤ x ≤ 2`, weights
+`(2-x,x-1)` on branch points `1` and `2` give blocks `(2-x,2(x-1))` summing to `x`.
+
+### Dependencies
+
+Use 1.1–1.4, Mathlib `Convex.sum_mem`, `subset_convexHull`, `convexHull_min` and
+`convex_convexHull`. It consumes no other roadmap.
 
 ## Layer 3: compact lift and closed hull
 
@@ -251,8 +286,13 @@ finite-dimensional boxes.
 
 **Checks.**
 
-- Apply compactness to the interval and unequal-residual-dimension examples.
-- Check empty index, inconsistent bounds, `n = 0` and `m i = 0` without adding feasibility.
+- For the two intervals in 2.1,
+  `L = {(s,1-s,v₁,v₂) | 0 ≤ s ≤ 1, 0 ≤ v₁ ≤ s, 2(1-s) ≤ v₂ ≤ 3(1-s)}`.
+  This closed set lies in `[0,1]² × [0,3]²`, and `P = [0,3]`.
+- Take `n = 0`, `ι = Fin 2`, `m = (0,1)`, `A 1 = A 2 = 0`, `b 1 = 0`,
+  `K 1 = {0}`, `b 2 = 1`, `K 2 = [0,∞)`. Then `B 2 = ∅`,
+  `L = {((1,0),0)}` and `P = {0}`: compact, with an empty branch and a
+  zero-dimensional residual space in branch 1.
 - Closedness is necessary: with one scalar branch in `[0,1]`, put `Y = ℝ²`,
   `A x = (x,0)`, `b = (0,-1)`, `K = {(a,c) | a > 0} ∪ {0}`. This is a
   `PointedCone` carrier without closedness. Here `B = P = (0,1]`; thus `P` and the
@@ -273,14 +313,26 @@ printed pp. 100–102, with the same bounded-variant qualification as 2.1.
 **Checks.**
 
 - The two intervals in 2.1 have closed hull `[0,3]`.
-- The empty and closed nonsalient-cone examples retain their expected behavior.
+- For the unequal-dimension nonsalient-cone example in 2.1,
+  `closure (convexHull ℝ U) = [0,1] = P`. For empty `ι`, both sides are `∅`.
 - In the nonclosed-cone example in 3.1, `closure (convexHull U) = [0,1] ≠ P = (0,1]`.
+
+### Examples
+
+The explicit two-interval lift in 3.1 is closed and contained in `[0,1]² × [0,3]²`;
+its sum image is `[0,3]`. The zero-dimensional example has a singleton lift and image.
+
+### Dependencies
+
+Use 1.2–1.3 for 3.1, then 2.1 and 3.1 for 3.2. The Mathlib suppliers include
+`isCompact_Icc`, `IsCompact.of_isClosed_subset`, `IsCompact.image` and
+`IsCompact.isClosed`. It consumes no other roadmap.
 
 ## Downstream consumers
 
 A finite disjunctive model with coordinate bounds can use the membership and image API to
 exchange its convex hull for the displayed lift. Empty-branch elimination uses the zero-weight
-and zero-block interface. Closed-row clients obtain compactness of the displayed system and
+and zero-block interface. Clients with closed `K i` obtain compactness of the displayed system and
 closedness of its projection.
 
 ## References
@@ -308,7 +360,7 @@ common-recession theory.
   sets. The preceding sources print the locator Proposition 2.3.5; no identity of uninspected
   editions is assumed.
 - S. Ceria and J. Soares, *Convex programming for disjunctive convex optimization*, Mathematical
-  Programming 86 (1999), 595–614, [DOI](https://doi.org/10.1007/s101079900101), Theorem 1 and
+  Programming 86 (1999), 595–614, [DOI](https://doi.org/10.1007/s101070050106), Theorem 1 and
   discussion, pp. 600–601: closed-perspective and empty-branch context with its stated hypotheses.
 - S. Gusev and D. E. Bernal Neira, *Exact Hull Reformulation for Quadratically Constrained
   Generalized Disjunctive Programs*, [arXiv:2508.16093v2](https://arxiv.org/abs/2508.16093v2),

@@ -31,15 +31,17 @@ structure Data (ι : Type*) (n : ℕ) where
 
 variable {ι : Type*} [Fintype ι] {n : ℕ}
 
-/-- A branch consists of points in the common box whose affine residual lies in its row set. -/
+/-! ## Layer 1: scaled boxes and branch interfaces -/
+
+/-- A branch consists of points in the common box whose affine residual lies in the set `K i`. -/
 def branch (D : Data ι n) (K : (i : ι) → Set (Vec (D.dim i))) (i : ι) : Set (Vec n) :=
   {x | x ∈ Icc D.lower D.upper ∧ D.map i x - D.offset i ∈ K i}
 
-/-- The union of all boxed affine-row branches. -/
+/-- The union of all boxed branches. -/
 def boundedUnion (D : Data ι n) (K : (i : ι) → Set (Vec (D.dim i))) : Set (Vec n) :=
   ⋃ i, branch D K i
 
-/-- Nonnegative simplex weights and disaggregated vectors satisfying scaled rows and box bounds. -/
+/-- Nonnegative simplex weights and disaggregated vectors satisfying scaled residual conditions and box bounds. -/
 def lift (D : Data ι n) (K : (i : ι) → Set (Vec (D.dim i))) : Set (LiftPoint ι n) :=
   {p | (∀ i, 0 ≤ p.1 i) ∧ (∑ i, p.1 i) = 1 ∧
     (∀ i, D.map i (p.2 i) - p.1 i • D.offset i ∈ K i) ∧
@@ -67,17 +69,17 @@ theorem hull_exact (D : Data ι n) (K : (i : ι) → PointedCone ℝ (Vec (D.dim
 
 /-! ## Layer 3: compact lift and closed hull -/
 
-/-- Closed row sets make the scaled-box lift compact in the finite weight and block space. -/
+/-- Closed sets `K i` make the scaled-box lift compact in the finite weight and block space. -/
 theorem isCompact_lift (D : Data ι n) (K : (i : ι) → Set (Vec (D.dim i)))
     (hK : ∀ i, IsClosed (K i)) : IsCompact (lift D K) := by
   sorry
 
-/-- For closed row sets, retaining the original-space sum coordinate preserves compactness. -/
+/-- For closed sets `K i`, retaining the original-space sum coordinate preserves compactness. -/
 theorem isCompact_fullLift (D : Data ι n) (K : (i : ι) → Set (Vec (D.dim i)))
     (hK : ∀ i, IsClosed (K i)) : IsCompact (fullLift D K) := by
   sorry
 
-/-- The projection of the scaled-box lift is compact when every row set is closed. -/
+/-- The projection of the scaled-box lift is compact when every set `K i` is closed. -/
 theorem isCompact_projection (D : Data ι n) (K : (i : ι) → Set (Vec (D.dim i)))
     (hK : ∀ i, IsClosed (K i)) : IsCompact (projection D K) := by
   sorry
