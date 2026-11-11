@@ -272,6 +272,12 @@ maps, and base-field extension.
 
 *Needs:* SchemeAndStackFoundations Layer 1.
 
+**Checks.**
+
+- On a scheme, the atlas correction gives its usual dimension.
+- A rank-one additive classifying stack over a field has dimension `−1`.
+- A vector bundle of rank `r` over a pure `d`-dimensional base has dimension `d+r`.
+
 ### 0.3 Quotient dimension
 
 Prove `dim [U/G] = dim U - dim G` when the finite-type group scheme `G` acts on the finite-type scheme `U` (Stacks Project, Tags 0AFL–0AFR).
@@ -331,6 +337,12 @@ and abelian hulls over algebraic spaces and stacks. For coherent `ℱ`, construc
 vector bundle on schemes and its descended stack version.
 
 *Needs:* Layer 0 and AlgebraicVectorBundles L1A–L2B.
+
+**Checks.**
+
+- The symmetric algebra of a finite locally free dual gives the ordinary geometric vector bundle.
+- The degree-zero algebra `𝒪_X × 𝒪_X` does not define a cone under the grading convention.
+- The symmetric algebra on an infinite-rank free module fails the coherence condition.
 
 ### 1.5 Normal cones and deformation
 
@@ -459,6 +471,12 @@ properties from the scheme theory. Define a global two-term resolution as an iso
 
 *Needs:* Layer 1, DerivedModuleAlgebra, EnhancedDerivedSheaves and DerivedDeRhamCohomology §5.8.
 
+**Checks.**
+
+- A line bundle placed in degree zero has perfect amplitude `[0,0]`.
+- Adding a contractible two-term identity summand preserves the derived object and its virtual rank.
+- The direct sum of two global two-term resolutions is a resolution of the direct sum.
+
 ### 3.3 Relative cotangent complexes
 
 Consume the scheme cotangent complex from DerivedDeRhamCohomology §5.8 and compare its
@@ -526,6 +544,12 @@ presentations and prove the expected rank formula for vector-bundle stacks.
 
 *Needs:* Layers 0, 1 and 3.
 
+**Checks.**
+
+- A cone modulo the zero-rank bundle represents the original cone.
+- A trivial action of `E` gives the product with the classifying stack of `E`.
+- For `[F₁/F₀]`, the relative stack dimension is `rank F₁ − rank F₀`.
+
 ### 4.3 The strictly commutative Picard stack
 
 For a two-term complex of abelian sheaves `E⁰ → E¹`, construct the strictly commutative Picard stack
@@ -534,6 +558,12 @@ quasi-isomorphism induces an equivalence. Extend the construction to derived obj
 truncation and prove independence of resolutions.
 
 *Needs:* Layers 0, 1 and 3.
+
+**Checks.**
+
+- The zero differential gives the product of `E¹` and the classifying stack of `E⁰`.
+- An isomorphism as the differential gives a contractible quotient stack over the base.
+- A chain homotopy between comparison maps gives the specified 2-isomorphism of their induced maps.
 
 ### 4.4 The abelian cone stack
 
@@ -577,6 +607,12 @@ For a Deligne–Mumford stack `X`, define
 
 *Needs:* Layers 0, 1 and 4.
 
+**Checks.**
+
+- For a smooth scheme with the identity local embedding, the sheaf is the classifying stack of its tangent bundle.
+- For the dual numbers in the affine line, use the normal-line quotient with tangent action given by the differential of the square equation.
+- In the plane example `k[x,y]/(x²,xy)`, the abelian normal sheaf is the quotient of the cone of the conormal module by the ambient tangent bundle.
+
 ### 5.2 Refinements of local embeddings
 
 Define the category of local embeddings and common refinements. Prove that under a refinement
@@ -592,6 +628,12 @@ uniqueness. Call the result `𝔠_X`. The construction must be unchanged under e
 Deligne–Mumford stacks and scalar extension of the ground field.
 
 *Needs:* Layers 0, 1 and 4.
+
+**Checks.**
+
+- For a smooth scheme, the cone equals its intrinsic normal sheaf.
+- For a regular hypersurface, its ordinary normal cone is the normal bundle before the tangent quotient.
+- For `k[x,y]/(x²,xy)`, equality with the normal sheaf is compatible with failure of the local complete intersection condition.
 
 ### 5.4 Dimension and basic properties
 
@@ -643,6 +685,12 @@ induced map `𝔑_X → h¹/h⁰(E∨)` being a representable closed immersion (
 Def. 4.4 and Thm. 4.5).
 
 *Needs:* Layers 3–5.
+
+**Checks.**
+
+- The identity on the cotangent complex is an obstruction theory.
+- On a smooth scheme, adding a coherent locally free sheaf in degree `−1` to the cotangent complex still gives an obstruction theory by projection.
+- On a point, the zero map from an infinite direct sum in degree `−1` fails the coherence condition.
 
 ### 6.2 Obstruction cone
 
@@ -716,6 +764,12 @@ dimension `rank F₀`. Define
 `rank F₀-rank F₁ = rank E = n` (Behrend–Fantechi Def. 5.2).
 
 *Needs:* Layers 2 and 6.
+
+**Checks.**
+
+- The canonical theory on a pure-dimensional smooth scheme gives its fundamental class.
+- The canonical theory on the dual numbers gives twice the point class.
+- The zero section of a line bundle on a smooth projective curve yields the first Chern class capped with the curve class.
 
 ### 7.3 Independence of resolution
 
