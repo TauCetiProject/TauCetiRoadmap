@@ -116,8 +116,9 @@ end Normalisation
 section Excellence
 
 /-- Affinoid algebras are G-rings (§1.2; Kiehl, *Ausgezeichnete Ringe in der
-nichtarchimedischen analytischen Geometrie*, Theorem 3.3, p. 94, with the reduction to two inputs
-in Conrad, *Irreducible components of rigid spaces*, §1.1, p. 3): every affinoid algebra is
+nichtarchimedischen analytischen Geometrie*, Theorem 3.3, p. 94, reduced to a formal-fibre input
+by the G-ring criterion of README §1.2 as in Conrad, *Irreducible components of rigid spaces*,
+§1.1, pp. 3–4): every affinoid algebra is
 noetherian and the completion of each of its local rings has geometrically regular formal fibres.
 No finiteness of the imperfection degree `[K : K^p]` is assumed; in characteristic `p` the proof
 uses Kiehl's fields of definition, the faithful flatness of complete field extension (README
@@ -127,7 +128,8 @@ theorem isGRing_of_isAffinoidAlgebra {A : Type*} [CommRing A] [Algebra K A]
     (hA : TauCeti.IsAffinoidAlgebra K A) : TauCeti.Excellence.IsGRing A := by
   sorry
 
-/-- Affinoid algebras are J-2 (§1.2; Kiehl, *Ausgezeichnete Ringe*, Theorem 3.3, p. 94): for an
+/-- Affinoid algebras are J-2 (§1.2; Kiehl, *Ausgezeichnete Ringe*, Theorem 3.3, p. 94, reduced
+by the J-2 criterion of README §1.2 to a nonempty open regular subset for affinoid domains): for an
 affinoid algebra `A` and every `A`-algebra `B` of finite type, the regular locus of `B` is open in
 `Spec B`. For the cusp `K⟨X,Y⟩/(Y² − X³)` it is the complement of the origin. A nonempty regular
 locus alone would say nothing, since the generic point of a domain is always regular. -/

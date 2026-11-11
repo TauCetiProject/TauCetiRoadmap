@@ -138,7 +138,7 @@ consume this roadmap and supply nothing to it.
 | Tau Ceti at the pin: `TauCeti/RingTheory/Affinoid/`, `TauCeti/AlgebraicGeometry/Rigid/Affinoid/`, `TauCeti/Topology/GTopology/`, `TauCeti/Analysis/Normed/Field/WeaklyStable.lean`, `TauCeti/RingTheory/MvPowerSeries/TateAlgebra/`, `TauCeti/RingTheory/RegularLocalRing/`, `TauCeti/RingTheory/Huber/`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/MaximalIdealPoint.lean`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Spectral.lean`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/RationalSubset/`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/StructurePresheaf/`, `TauCeti/RingTheory/Japanese.lean`, `TauCeti/Analysis/Normed/Unbundled/SpectralNorm/Basis.lean`, `TauCeti/Analysis/Normed/Module/Bases/`, `TauCeti/Analysis/Normed/Operator/RingOpNorm/OpenMapping.lean`, `TauCeti/Analysis/Normed/Operator/SlopeDecomposition.lean` | The affinoid predicate `TauCeti.IsAffinoidAlgebra`, the supremum seminorm `TauCeti.supSeminorm` and the Layer 0–4 theorems cited by their pinned names below; weak stability of complete and perfect fields, its spectral-norm comparisons on finite extensions, and the Gauss-normed fraction field; countable-type Banach spaces; open mapping and closed graph over Tate rings; regularity of Tate algebras, the G-ring predicate and the regular locus; closedness of ideals and completed tensor products of Huber rings; affinoid subdomains, their presheaf of coordinate algebras and the weak affinoid site; the Japanese-ring predicate and its purely inseparable and separable criteria; the classical points of `Spa(A,A°)`, the spectrality of `Spa`, its rational subsets and Tate acyclicity for rational covers of `Spa(A,A°)` over a strongly noetherian Tate ring; G-topologies, their sites and their slightly finer enhancements; the numerical slope predicates, decompositions and projector of §7.2 | Consumed by name where the text cites them; the remaining targets of Layers 0–4, weak stability of the Gauss fraction field, finiteness of normalisation and excellence of affinoid algebras, the Banach function algebra theorem, the sheaf condition of Layer 5, constructible density and everything else after Layer 5 are this roadmap's |
 | [RestrictedPowerSeries](../RestrictedPowerSeries/README.md) §§0.1, 1.1, 2.1–2.2, 2.4, 3.3, Layers 4–5 and §6.2 | Native restricted series over Banach rings, Gauss norms, evaluation and substitution, maximum modulus, reduction, Weierstrass theory, distinguished charts, Rückert theory, closed ideals and finite Tate modules; positive-polyradius algebra; normed and completed comparisons | Those constructions and proofs are not repeated here. Weak stability of the Gauss fraction field, general affinoids and the converse strict-radius criterion are below |
 | [PadicFunctionalAnalysis](../PadicFunctionalAnalysis/README.md) Layer 1 and §2.4 | The topology of finite Banach modules over a noetherian Banach–Tate ring, and strict exactness of completed scalar extension on countable-type spaces | General Banach-module analysis stays there; its pinned open mapping, closed graph and countable-type results are cited by their Tau Ceti names |
-| [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §0.21 | G-rings, J-2 rings and excellent rings, their permanence, and the completion criteria for reducedness and normality | Apply the shared algebraic criteria; the Japanese predicate and the Japanese criteria used here are pinned in `TauCeti/RingTheory/Japanese.lean` |
+| [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §0.21 | G-rings, J-2 rings and excellent rings, their permanence, and the completion criteria for reducedness and normality | The predicates and their permanence are consumed; the J-2 and G-ring criteria that reduce excellence of affinoid algebras to Kiehl's two inputs are steps of §1.2; the Japanese predicate and the Japanese criteria used here are pinned in `TauCeti/RingTheory/Japanese.lean` |
 | [AdicSpaces](../../Completed/AdicSpaces/README.md) Layers 1–5 | Huber pairs, `Spv` and `Spa`, closed subspaces of quotient pairs, rational localisation, gluing and morphisms locally of finite type | The foundational adic theory is consumed, not repeated; its Tate acyclicity for rational covers of `Spa(A,A°)` and the spectrality of `Spa` are cited by their Tau Ceti names |
 
 ### From Mathlib
@@ -351,7 +351,8 @@ countable-type results are cited above by their Tau Ceti names.
 
 §0.21: excellent rings, G-rings, J-2 rings, their permanence under
 finite-type algebras, and the completion criteria for reducedness and
-normality. The Japanese criteria are pinned and cited above.
+normality. The J-2 and G-ring criteria of §1.2 are not part of it and are
+proved in §1.2. The Japanese criteria are pinned and cited above.
 
 ### From TauCetiRoadmap.AdicSpaces
 
@@ -641,8 +642,8 @@ algebra is a quotient of a Tate algebra, which is regular at its maximal
 ideals (the pinned instance
 `TauCeti.MvPowerSeries.isRegularLocalRing_localization_atPrime_of_isMaximal_isRestricted_subring`),
 and every finite algebra over an affinoid algebra is affinoid; by the
-general criteria [Conrad] p. 3 applies, the two halves therefore follow
-from two inputs, which are targets here:
+criteria (a) and (b) below, the two halves therefore follow from two
+inputs, which are targets here ([Conrad] pp. 3–4 for this reduction):
 
 - for every affinoid domain `A`, the regular locus of `Spec A` contains a
   nonempty open subset ([Kiehl-AR] condition 3.2.1′, p. 94, proved on
@@ -653,9 +654,49 @@ from two inputs, which are targets here:
   form of the formal-fibre condition; [Kiehl-AR] Satz 3.10, p. 97, which
   completes at a maximal ideal of `Tₙ`).
 
-In characteristic zero, excellence of the Tate algebras, and with it both
-inputs, follows from the excellence criterion of [Matsumura] Theorem 102
-applied to `Tₙ` ([Conrad] p. 3). In characteristic `p` the route is Kiehl's, and finiteness
+The reduction uses two general criteria for a noetherian ring `R`. Both are
+steps of this target: SchemeAndStackFoundations §0.21 defines G-rings and
+J-2 rings and proves their permanence, but states neither criterion.
+
+- (a) *J-2 criterion.* If every finite `R`-algebra that is a domain has a
+  regular locus containing a nonempty open subset of its spectrum, then for
+  every finite-type `R`-algebra `B` the regular locus of `Spec B` is open
+  ([Stacks] Tag 07PC, implication (4)⇒(1): for a prime `𝔮` of `R` and a
+  finite purely inseparable extension `L` of `κ(𝔮)`, the subring of `L`
+  generated over `R/𝔮` by finitely many generators of `L` integral over
+  `R/𝔮` is a finite `R`-algebra and a domain with fraction field `L`).
+- (b) *G-ring criterion.* If, for every finite `R`-algebra `S` that is a
+  domain, every maximal ideal `𝔫` of `S` and every prime `𝔭` of the
+  `𝔫`-adic completion `Ŝ_𝔫` with `𝔭∩S=0`, the local ring `(Ŝ_𝔫)_𝔭` is
+  regular, then `R` is a G-ring. Route: `R` is a G-ring once `R_𝔪` has
+  geometrically regular formal fibres for every maximal ideal `𝔪`
+  ([Stacks] Tag 07PT); the formal fibre of `R_𝔪` over a prime `𝔮⊆𝔪` is the
+  generic formal fibre of `(R/𝔮)_𝔪` ([Stacks] Tag 07PN); for a finite purely
+  inseparable extension `L` of `κ(𝔮)` and `S⊆L` as in (a), the completion of
+  `(R/𝔮)_𝔪` tensored over `R/𝔮` with `L` is the product, over the maximal
+  ideals `𝔫` of `S` above `𝔪`, of the rings `Ŝ_𝔫⊗_S L`, as in the proof of
+  [Stacks] Tag 07PQ, and the local rings of `Ŝ_𝔫⊗_S L` are the `(Ŝ_𝔫)_𝔭`
+  with `𝔭∩S=0` ([Conrad] p. 4).
+
+Applied to `R=Tₙ`, (a) and the first input make every finite-type algebra
+over `Tₙ`, and so every finite-type algebra over an affinoid algebra, have
+open regular locus; (b) and the second input make `Tₙ` a G-ring, and its
+quotients are G-rings by SchemeAndStackFoundations §0.21
+(*IsGRing.of_finiteType*).
+
+In characteristic zero both halves follow instead from excellence of `Tₙ`
+and the permanence of SchemeAndStackFoundations §0.21; excellence of `Tₙ`
+in characteristic zero is a step of this target. Its route is Matsumura's
+derivation criterion for excellence ([Matsumura] Theorem 102, which
+[Conrad] p. 3 applies to `Tₙ`), proved as part of the step, with these
+inputs at `Tₙ`: it is a noetherian ring containing `ℚ` and regular at its
+maximal ideals (the pinned instance above, with
+`TauCeti.isRegularRing_of_isRegularLocalRing`), all of its maximal ideals
+have height `n` (the pinned height formula with `dim Tₙ=n`), its residue
+fields are finite over `K`, and the partial derivatives
+`∂/∂X₁,…,∂/∂Xₙ`, which preserve restricted series because `|k|≤1` for
+every integer `k`, are `K`-derivations of `Tₙ` with `∂Xⱼ/∂Xᵢ=δᵢⱼ`.
+In characteristic `p` the route is Kiehl's, and finiteness
 of the imperfection degree `[K:K^p]` is not assumed. Call a complete subfield
 `K₀` of `K` with `K^p⊆K₀`, topologically generated over `K^p` by countably
 many elements, a field of definition of `A` if `A≃B⊗̂_{K₀}K` for an affinoid
@@ -676,19 +717,22 @@ pp. 4–5) then gives regularity, first over a field of definition and then
 over `K`. The descent from `B` to `A=B⊗̂_{K₀}K` uses that `A` is faithfully
 flat over `B` ([Kiehl-AR] pp. 95 and 97), which is §1.3's faithful flatness
 for the complete extension `K/K₀`; [Conrad] p. 6 remarks that Kiehl's
-arguments appear to require it. General excellent-ring permanence stays in
-SchemeAndStackFoundations.
+arguments appear to require it. The results of [Kiehl-AR] on this route
+(Satz 1.4, Satz 2.2 with Folgerung 2.3, Satz 2.4, Hilfssätze 3.4, 3.4′, 3.9
+and 3.11, Folgerungen 3.6 and 3.8) are steps of this target. General
+excellent-ring permanence stays in SchemeAndStackFoundations.
 *Needs:* §1.2's normalisation (Noether normalisation and finiteness over
-`Tₙ`); §1.3 (faithful flatness of `B→B⊗̂_{K₀}K` for an affinoid algebra `B`
-over a complete subfield `K₀⊆K`, and the presentation of `B⊗̂_{K₀}K`); §0.1
-(the Tate algebra and its Gauss norm, for the differential modules);
-SchemeAndStackFoundations §0.21 (excellent rings, G-rings, J-2 rings and
-their permanence); Tau Ceti universal catenarity,
-`TauCeti.Excellence.IsGRing`, `TauCeti.Excellence.regularLocus` and the
-regularity of Tate algebras; [Kiehl-AR] §§1–3; [Conrad] §1.1 (the reduction
-on p. 3 and Theorem 1.1.1 with Corollary 1.1.2); [Matsumura] Theorem 102 in
-characteristic zero; Mathlib `Algebra.FiniteType`, `KaehlerDifferential`
-and `IsRegularLocalRing`.
+`Tₙ`) and its height formula; §1.1 (finite algebras over affinoid algebras
+are affinoid); §1.3 (faithful flatness of `B→B⊗̂_{K₀}K` for an affinoid
+algebra `B` over a complete subfield `K₀⊆K`, and the presentation of
+`B⊗̂_{K₀}K`); §0.1 (the Tate algebra and its Gauss norm, for the
+differential modules and the derivations `∂/∂Xᵢ`, and `dim Tₙ=n`);
+SchemeAndStackFoundations §0.21 (G-rings, J-2 rings and excellent rings,
+and *IsGRing.of_finiteType*); Tau Ceti universal catenarity,
+`TauCeti.Excellence.IsGRing`, `TauCeti.Excellence.regularLocus`, the
+regularity of Tate algebras and `TauCeti.isRegularRing_of_isRegularLocalRing`;
+Mathlib `Algebra.FiniteType`, `KaehlerDifferential`, `Derivation`,
+`AdicCompletion` and `IsRegularLocalRing`.
 
 **Checks.**
 
@@ -708,8 +752,17 @@ and `IsRegularLocalRing`.
 - For `A=K⟨T⟩` and `𝔯=(T)`, the completion is `K⟦T⟧`, a discrete
   valuation ring, and `(T)∩K⟨T⟩=(T)≠0`, so the only prime of `K⟦T⟧`
   meeting `K⟨T⟩` in zero is `(0)`, with localisation `K((T))`, a field: the
-  formal-fibre input holds here with nothing to prove, and it has content
-  only from two variables on.
+  formal-fibre input holds here with nothing to prove. In one variable it
+  still has content: for a domain `A` of dimension one finite over `T₁` and
+  a maximal ideal `𝔯`, `𝔯∩A≠0` and going-down for the flat map
+  `A_𝔯→Â_𝔯` make the primes of `Â_𝔯` meeting `A` in zero exactly its
+  minimal primes, and `Â_𝔯` is Cohen–Macaulay of dimension one, so the
+  input says exactly that `Â_𝔯` is reduced. That fails for one-dimensional
+  noetherian local domains in general: for the discrete valuation ring `R`
+  of [Stacks] Tag 00PB, whose completion is `k⟦x⟧` for a field `k` of
+  characteristic `p` with `[k:k^p]=∞`, and any `b∈k⟦x⟧` outside `R`, one
+  has `b^p∈R` and `b∉Frac R`, so `R[b]≃R[y]/(y^p−b^p)` is a domain, finite
+  over `R`, with completion `k⟦x⟧[y]/((y−b)^p)`, which is not reduced.
 - The imperfection degree may be infinite: for `κ=𝔽_p(t₁,t₂,…)` and the
   complete discretely valued field `K=κ((s))`, the `p`-monomials in
   finitely many `tⱼ` are linearly independent over `K^p=κ^p((s^p))`
@@ -887,8 +940,7 @@ AdicSpaces §3.1; the pinned open mapping and closed graph theorems, the
 Japanese criteria and the affinoid algebra under
 `TauCeti/RingTheory/Affinoid/`, the Tate regularity, G-ring and regular-locus
 interfaces, the Huber completed tensor product and the completed tensor
-product of Banach modules; [Kiehl-AR], [Conrad] §1.1 and [Matsumura]
-Theorem 102 for excellence; the forward direction of §1.5 uses §2.2.
+product of Banach modules; the forward direction of §1.5 uses §2.2.
 AdicSpacesPartII and AdicSpacesPartIII consume this layer.
 
 ## Layer 2: supremum seminorm, reduction and integral models
@@ -1531,10 +1583,11 @@ p. 5): for an affinoid `A` and a classical point `x`, the stalk
 excellence (the criterion [Conrad]'s proof of Theorem 1.1.3 applies on
 p. 5). In [Conrad]'s route the stalk is a quotient of the stalk at a point of
 a unit ball, which is regular since it is noetherian with regular
-completion, hence universally catenary. For the formal fibres one reduces to
-a domain `A` and the generic formal fibre, which is regular by §1.2's
-affinoid excellence through `Â_𝔪≃𝒪̂_{Sp A,x}`; a finite extension of the
-fraction field of the stalk is reached through a finite map of affinoids
+completion, hence universally catenary. For the formal fibres one reduces,
+as in the route of §1.2's G-ring criterion (b), to a domain `A` and the
+generic formal fibre, which is regular by §1.2's affinoid excellence through
+`Â_𝔪≃𝒪̂_{Sp A,x}`; a finite extension of the fraction field of the stalk is
+reached through a finite map of affinoids
 `f:Sp B→Sp A`, for which `f_*(𝒪_{Sp B})_x≃∏_{f(y)=x}𝒪_{Sp B,y}` ([Conrad]
 pp. 5–6). That identification uses Kisin's lemma of §4.3 to put the inverse
 image of a Weierstrass neighbourhood of `x` inside a disjoint union of
@@ -1546,7 +1599,7 @@ Theorem 1.1.3.
 *Needs:* §4.2 (the stalk, its noetherianity and completion, and the
 faithfully flat germ map); §4.3 (Kisin's lemma); §5.1 (the sheaf condition,
 for finite disjoint affinoid coverings); §1.2 (excellence of affinoid
-algebras); SchemeAndStackFoundations §0.21 (excellence permanence and
+algebras, and the route of its G-ring criterion); SchemeAndStackFoundations §0.21 (excellence permanence and
 completion criteria); the pinned `TauCeti.GTopology.point`,
 `TauCeti.GTopology.isColimitNhdsCocone`, `TauCeti.Excellence.IsGRing`,
 `TauCeti.Excellence.IsUniversallyCatenary` and the regularity of Tate
@@ -2241,8 +2294,14 @@ elaborating roadmap prototype is not a proof or an implementation milestone.
   (Satz 2.2) and excellence of affinoid algebras (Theorem 3.3).
   [GDZ digitisation of the article](https://gdz.sub.uni-goettingen.de/download/pdf/PPN243919689_0234/LOG_0008.pdf).
 - **[Matsumura]** H. Matsumura, *Commutative Algebra*, second edition,
-  Benjamin/Cummings, 1980, Theorem 102 (the excellence criterion that
-  [Conrad] p. 3 applies to Tate algebras in characteristic zero).
+  Benjamin/Cummings, 1980, Theorem 102 (the derivation criterion for
+  excellence that [Conrad] p. 3 applies to Tate algebras in characteristic
+  zero).
+- **[Stacks]** The Stacks project authors, *The Stacks project*: Tags 07PC
+  (J-2 criterion), 07PN, 07PQ and 07PT (G-rings) in the chapter *More on
+  Algebra*, and Tag 00PB (a one-dimensional noetherian local domain with
+  nonreduced completion) in the chapter *Commutative Algebra*.
+  [stacks.math.columbia.edu](https://stacks.math.columbia.edu).
 - **[Kiehl-E]** R. Kiehl, *Der Endlichkeitssatz für eigentliche Abbildungen
   in der nichtarchimedischen Funktionentheorie*, Invent. Math. 2 (1967),
   191–214, §2 (Definitions 2.1–2.3).
