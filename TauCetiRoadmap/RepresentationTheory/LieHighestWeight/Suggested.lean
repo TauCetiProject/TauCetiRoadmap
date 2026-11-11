@@ -8,7 +8,6 @@ public import TauCeti.Algebra.Lie.UniversalEnveloping.PBW.Homogeneous
 public import TauCeti.Algebra.Lie.Presentation.Serre.Killing
 public import TauCeti.Algebra.Octonion.Serre
 public import TauCeti.Algebra.AlbertAlgebra.Basic
-public import TauCeti.LinearAlgebra.SymmetricPower.Basic
 public import TauCeti.Algebra.Lie.UniversalEnveloping.Prod
 public import TauCeti.Algebra.Lie.UniversalEnveloping.Abelian
 public import TauCeti.Algebra.Lie.UniversalEnveloping.Rees.ZeroFiber
@@ -22,22 +21,24 @@ public import TauCeti.LinearAlgebra.RootSystem.Weyl.Affine.Alcove
 # Lie highest weights: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the headline
-theorems against the pinned APIs: the normalized polynomial/symmetric-power comparison, the
-first-order bracket on the zero fibre of the PBW Rees
+theorems against the pinned APIs: the first-order bracket on the zero fibre of the PBW Rees
 algebra, normalized PBW symmetrization, the invariant-form symmetry sign, the split Serre
-presentation, the exceptional split identifications G2, F4, E8 and E6/E7, the compact real
-form of G2 on the division octonions and its complexification, the Littlewood-Richardson
-multiplicities of the general linear Lie algebra, the normalized center of an abelian direct
-product, and uniqueness of closed-alcove representatives under the affine Weyl group.
+presentation, the split identifications G2 and F4, the dimensions of the split Serre algebras
+E6, E7 and E8, the compact real form of G2 on the division octonions and its
+complexification, the Littlewood-Richardson multiplicities of the general linear Lie algebra,
+the normalized center of an abelian direct product, and uniqueness of closed-alcove
+representatives under the affine Weyl group.
 The native highest-weight classification, Weyl formulas, complete reducibility, rank-one
 spectrum and dimensions, general-linear classification, the minuscule and dual-standard
-Pieri rules, the Lie and Weyl invariants with the Killing-orthogonal restriction and
-Chevalley's restriction theorem, the Harish-Chandra isomorphisms with the
-central-character orbit theorem, the PBW Rees algebra with its fibres at zero and one, the
-Cayley-Dickson double with the real division octonions, the affine and extended affine Weyl
-groups with the fundamental alcove, and the differentiation of rational representations of
-the general linear group are supplier contracts in README.md, consumed by name and not
-restated here.
+Pieri rules, the polynomial/symmetric-power dictionary, the Lie and Weyl invariants with the
+Killing-orthogonal restriction and Chevalley's restriction theorem, the Harish-Chandra
+isomorphisms with the central-character orbit theorem, the weight theory of the algebra
+presented by Serre's relations with its simple-reflection automorphisms, the split Lie
+algebras of the Dynkin types with their Serre surjections, the PBW Rees algebra with its
+fibres at zero and one, the Cayley-Dickson double with the real division octonions, the
+affine and extended affine Weyl groups with the fundamental alcove, and the differentiation
+of rational representations of the general linear group are supplier contracts in
+README.md, consumed by name and not restated here.
 
 The following headlines are not statable at the pins. The formally real Albert algebra and
 the compact form of F4 lack the Albert carrier over the division octonions: the pinned
@@ -64,19 +65,6 @@ open scoped Classical DirectSum TensorProduct
 open LieModule LieAlgebra Module
 
 universe u v
-
-/-! ## Layer 0: polynomial and symmetric-tensor normalization -/
-
-/-- The polynomial/symmetric-power dictionary sends each standard symmetric monomial
-back to the corresponding polynomial with coefficient one, fixing every degree and its unit. -/
-theorem exists_polynomialSymmetric (d : ℕ) :
-    ∃ e : MvPolynomial.homogeneousSubmodule (Fin 2) ℂ d ≃ₗ[ℂ]
-        SymmetricPower ℂ (Fin d) (Fin 2 → ℂ),
-      ∀ i : Fin (d + 1),
-        (e.symm (SymmetricPower.tprod ℂ (fun k : Fin d =>
-          Pi.single (if k.val < i.val then (1 : Fin 2) else 0) (1 : ℂ))) :
-          MvPolynomial (Fin 2) ℂ) =
-        MvPolynomial.X 0 ^ (d - i.val) * MvPolynomial.X 1 ^ i.val := sorry
 
 /-! ## Layer 3: normalized PBW symmetrization -/
 
