@@ -792,15 +792,16 @@ this layer.
 
 Define `GeometricMorphism.IsConnected` (`f.inverse` fully faithful); a topos is connected when its
 global sections morphism is. Prove that connected morphisms compose; that `Sh(X)` is connected if
-and only if `X` is a connected space (Mathlib's `ConnectedSpace`, which includes nonempty); and
-that `Cᵒᵖ ⥤ Type u` is connected if and only if `CategoryTheory.IsConnected C`. Route: composites
-of fully faithful functors are fully faithful. The inverse image of the global sections morphism is
-the constant sheaf functor `Δ`, which is fully faithful exactly when the unit `S ⟶ Γ Δ S` is an
+and only if `X` is a connected space (Mathlib's `ConnectedSpace`, which includes nonempty); and that
+`Cᵒᵖ ⥤ Type u` is connected if and only if `CategoryTheory.IsConnected C`. Route: composites of
+fully faithful functors are fully faithful. The inverse image of the global sections morphism is the
+constant sheaf functor `Δ`, which is fully faithful exactly when the unit `S ⟶ Γ Δ S` is an
 isomorphism for every type `S`. In `Sh(X)`, `Γ Δ S` is the set of continuous maps `X → S` for
 discrete `S`, that is, of locally constant functions, and in `Cᵒᵖ ⥤ Type u` it is the limit of the
 constant diagram, the set of functions `π₀ C → S`. The unit is an isomorphism at `S = ∅` exactly
 when `X` is nonempty (respectively `C` is nonempty); then at `S = Bool` exactly when `X` is
-connected (respectively `π₀ C` is a point); and then at every `S`.
+connected (respectively `π₀ C` is a point); and then at every `S`. The three statements are proved
+here by the route above (the definition and the case of `Sh(X)`: Elephant C1.5.7).
 *Needs:* 2.3; Mathlib `ConnectedSpace`, `CategoryTheory.IsConnected`.
 
 **Checks.**
@@ -1233,19 +1234,19 @@ homomorphisms, naturally in `M` (Elephant A4.6.5, C1.4).
 ### 7.3 Locales in topoi; spaces and points
 
 Prove that `Sh` is a pseudofunctor from Mathlib's `Locale` to the 2-category of Grothendieck topoi
-(2.2), and that the functor from `FrameHom M L`, ordered by `h ≤ h'` when `h' V ≤ h V` for all
-`V`, to `GeometricMorphism Sh(L) Sh(M)` (2.4) is an equivalence: a 2-cell `f ⟶ g` exists exactly
-when `g^*(V) ≤ f^*(V)` on subterminals, and there is at most one. Prove that the points of `Sh(L)`
+(2.2), and that the functor from `FrameHom M L`, ordered by `h ≤ h'` when `h' V ≤ h V` for all `V`,
+to `GeometricMorphism Sh(L) Sh(M)` (2.4) is an equivalence: a 2-cell `f ⟶ g` exists exactly when
+`g^*(V) ≤ f^*(V)` on subterminals, and there is at most one. Prove that the points of `Sh(L)`
 correspond to Mathlib's `Locale.PT L` (frame homomorphisms `L → Prop`), so that the points of
-`Sh(X)` are the points of the soberification of `X`; and that for any space `X` and a space `Y`
-with `QuasiSober Y` and `T0Space Y`, the geometric morphisms `Sh(X) → Sh(Y)` correspond to the
-continuous maps `X → Y`, with a 2-cell `f ⟶ g`, necessarily unique, exactly when
-`g x ∈ closure {f x}` for every `x` (Mac Lane–Moerdijk IX.1–IX.5 for the functoriality, the points
-and the geometric morphisms between spaces; Stone Spaces II, §3 for sober spaces). The statement
-on 2-cells is proved here: by Convention 4 a 2-cell `f ⟶ g` is a transformation `g^* ⟶ f^*`; since
-`Sh(M)` is generated under colimits by its subterminal objects, which `g^*` and `f^*` send to
-subterminal objects, such a transformation exists exactly when `g^*(V) ≤ f^*(V)` for all `V`, and
-it is then unique, a poset having at most one arrow between two objects.
+`Sh(X)` are the points of the soberification of `X`; and that for any space `X` and a space `Y` with
+`QuasiSober Y` and `T0Space Y`, the geometric morphisms `Sh(X) → Sh(Y)` correspond to the continuous
+maps `X → Y`, with a 2-cell `f ⟶ g`, necessarily unique, exactly when `g x ∈ closure {f x}` for
+every `x` (Mac Lane–Moerdijk IX.1–IX.5 for the functoriality, the points and the geometric morphisms
+between spaces; Stone Spaces II, §1 (1.3–1.7) for the points of a locale and sober spaces). The
+statement on 2-cells is proved here: by Convention 4 a 2-cell `f ⟶ g` is a transformation
+`g^* ⟶ f^*`; since `Sh(M)` is generated under colimits by its subterminal objects, which `g^*` and
+`f^*` send to subterminal objects, such a transformation exists exactly when `g^*(V) ≤ f^*(V)` for
+all `V`, and it is then unique, a poset having at most one arrow between two objects.
 *Needs:* 2.2, 2.4, 7.1; Mathlib `Locale`, `Locale.PT`, `QuasiSober`, `T0Space`.
 
 **Checks.**
@@ -1378,7 +1379,7 @@ spaces are scattered. Prove `quasiSober_pi` (the generic point of an irreducible
 `quasiSober_prod`. With `Pi.instT0Space` and `Prod.instT0Space`, products of sober spaces are
 sober, so for sober `S, T` the points of `Sh(S × T)` are the pairs of points of `S` and `T`, the
 points of the product topos `Sh(S) × Sh(T)` (its universal property with `Type u`), with no
-compactness hypothesis (Stone Spaces II, §§1–3, for sober spaces and the points of a locale). The
+compactness hypothesis (Stone Spaces II, §1, for sober spaces and the points of a locale). The
 equivalence of scatteredness with having no nonempty preperfect subset is a rewriting of the
 definitions: a nonempty `A` has a point isolated in `A` exactly when it is not preperfect.
 *Needs:* 7.3, 8.1; Mathlib `QuasiSober`, `IsIrreducible.genericPoint`, `T0Space`,
@@ -1641,12 +1642,13 @@ Conventions 1 and 4 and 1.1, 1.2, 2.1, 2.2, 2.4, 2.5, 4.1, 4.2, 6.1, 6.5 and 6.6
   Théorème 9.0 and §9 for Deligne's theorem).
 - [Elephant] P. T. Johnstone, *Sketches of an Elephant: A Topos Theory Compendium*, Oxford Logic
   Guides 43–44, Oxford University Press (2002). Part A: A4.1 (geometric morphisms), A4.2
-  (surjections and inclusions, A4.2.10), A4.3–A4.4 (cartesian reflectors, local operators,
-  universal closure operations), A4.5 (open, closed, gluing A4.5.6, the coframe of subtopoi,
-  `¬¬`), A4.6 (localic and hyperconnected morphisms, A4.6.5). Part B: B1.4 (indexed adjunctions),
-  B3.4 (pullbacks of topoi). Part C: C1.2 (locales, regular opens), C1.4 (localic topoi), C1.6
-  (products of locales and topoi), C2.1–C2.3 (sites, Giraud's theorem C2.2.8, morphisms of sites,
-  Diaconescu), C3.3 (locally connected morphisms), C3.6 (local morphisms).
+  (surjections and inclusions, A4.2.10), A4.3–A4.4 (cartesian reflectors, local operators, universal
+  closure operations), A4.5 (open, closed, gluing A4.5.6, the coframe of subtopoi, `¬¬`), A4.6
+  (localic and hyperconnected morphisms, A4.6.5). Part B: B1.4 (indexed adjunctions), B3.4
+  (pullbacks of topoi). Part C: C1.2 (locales, regular opens), C1.4 (localic topoi), C1.5 (C1.5.7,
+  connected morphisms and connected spaces), C1.6 (products of locales and topoi), C2.1–C2.3 (sites,
+  Giraud's theorem C2.2.8, morphisms of sites, Diaconescu), C3.3 (locally connected morphisms), C3.6
+  (local morphisms).
 - [MM] S. Mac Lane, I. Moerdijk, *Sheaves in Geometry and Logic*, Universitext, Springer (1992).
   Chapter III (Grothendieck topoi), V.1–V.3 (Lawvere–Tierney topologies and associated sheaves),
   VII.1–VII.10 (geometric morphisms, embeddings and surjections VII.4, points VII.5, flat functors
@@ -1654,9 +1656,9 @@ Conventions 1 and 4 and 1.1, 1.2, 2.1, 2.2, 2.4, 2.5, 4.1, 4.2, 6.1, 6.5 and 6.6
   IX.1–IX.5 (locales, points, localic topoi), IX.11 (Deligne's theorem), Appendix (Giraud's
   theorem).
 - [Stone Spaces] P. T. Johnstone, *Stone Spaces*, Cambridge Studies in Advanced Mathematics 3,
-  Cambridge University Press (1982). Chapter II, §§1–2 (frames, locales, nuclei and sublocales,
-  coproducts of frames by C-ideals, products of locally compact spaces, 2.14 for `ℚ × ℚ`), §3
-  (spaces and sober spaces); Chapter VII, §4 (locally compact spaces and continuous lattices).
+  Cambridge University Press (1982). Chapter II, §§1–2 (frames, locales, points and sober spaces,
+  nuclei and sublocales, coproducts of frames by C-ideals, products of locally compact spaces, 2.14
+  for `ℚ × ℚ`); Chapter VII, §4 (locally compact spaces and continuous lattices).
 - [Kashiwara–Schapira 1990] M. Kashiwara, P. Schapira, *Sheaves on Manifolds*, Grundlehren der
   mathematischen Wissenschaften 292, Springer (1990). doi:10.1007/978-3-662-02661-8. Chapter II
   (sheaves with supports and their derived functors).
