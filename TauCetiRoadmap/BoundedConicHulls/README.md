@@ -1,172 +1,287 @@
-# Roadmap: Finite boxed conic-union hulls
+# Roadmap: finite boxed conic-union hulls
 
-**Summary.** Develop the reusable interface for a finite union of affine conic sets in a common finite real
-box: membership, scaled-copy bounds, zero and positive weights, exact convex hull, and compactness
-of the literal lifted system. The same row cone carriers appear in the branches and in the lift.
-The zero-weight and empty-branch API makes the formulation usable without choosing points from
-empty sets. Closedness is needed only for compactness and the closed-hull conclusion.
+**Summary.** Develop the interface for a finite union of affine conic sets in a common finite
+real box: branch membership, scaled bounds, zero and positive weights, exact convex hull,
+and compactness of the displayed lift. The same cone carriers occur in branches and lifts.
+Empty branches are allowed. Closedness is needed only for compactness and the closed hull.
 
 ## Scope and ownership
 
-There is one finite branch family, a finite physical dimension, branch-dependent finite residual
-dimensions, and explicit finite lower and upper bounds. The branch index, individual branches and
-the union may be empty. No salience, solidness, proper-cone or feasibility hypothesis is imposed.
-For exactness the rows are carriers of `PointedCone ℝ Y`; for compactness they are arbitrary closed
-sets. Include the basic API and the acceptance examples below as part of the development.
+There is a finite branch index, a finite original-space dimension, branch-dependent finite
+residual dimensions, and finite coordinate bounds. The index, individual branches and union
+may be empty. Exactness uses carriers of `PointedCone ℝ (Y i)`; compactness uses arbitrary
+closed sets. Neither salience, solidness, properness nor feasibility is assumed.
 
-Unbounded unions, common-recession theorems, general extended-valued perspectives, unrestricted
-epigraph heights, whole-GDP ideality, algorithms and solver performance are outside this roadmap.
-Rational polyhedra, cone faces and finite-generator slice theory keep their existing APIs; this
-roadmap does not redefine them. No optimization objective or minimizer interface is required.
+Unbounded unions, common-summand theorems, general extended-valued perspectives, unrestricted
+epigraph heights, whole-GDP ideality, algorithms and solver performance are outside this
+bounded roadmap. No optimization objective or minimizer interface is required.
 
 ## Conventions
 
-Let `ι` carry `Fintype`, let `n : ℕ`, and let `m : ι → ℕ`. Put `X = Fin n → ℝ` and
-`Y i = Fin (m i) → ℝ`. Fix `A i : X →ₗ[ℝ] Y i`, `b i : Y i`, raw row sets `K i : Set (Y i)`
-and `l u : X`. The pointwise order makes the box exactly `Set.Icc l u`. A data bundle contains
-only these parameters; in the suggested interfaces the row family is a separate argument.
+The suggested names `Vec`, `LiftPoint` and `Data` describe the spaces and parameters below.
+
+Let `ι` carry `Fintype`, let `n : ℕ`, and let `m : ι → ℕ`. Write `Vec n = Fin n → ℝ`,
+`X = Vec n`, `Y i = Vec (m i)`, and `LiftPoint ι n = (ι → ℝ) × (ι → X)`.
+`Data ι n` stores `dim = m`, linear maps `map i = A i : X →ₗ[ℝ] Y i`, offsets
+`offset i = b i : Y i`, and bounds `lower = l`, `upper = u : X`. It carries no hypotheses.
+The sets `K i : Set (Y i)` are separate parameters. The order on `X` is pointwise, so the box
+is `Set.Icc l u`. No consistent-bounds premise is implicit.
+
+For `p = (λ,v) : LiftPoint ι n`, `x` is the original-space point, `v i` the disaggregated
+variable of branch `i`, and `λ i` its weight. A one-hot lift of `x ∈ B i` means
+`λ = Pi.single i 1`, `v = Pi.single i x` (with a decidable equality on `ι`).
+Normalization by `(λ i)⁻¹` is restricted to `0 < λ i`.
 
 Mathlib's [`PointedCone`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Geometry/Convex/Cone/Pointed.lean)
-is a submodule over nonnegative scalars: its carrier contains zero and is closed under addition
-and nonnegative scaling. It does **not** mean salient. In particular the whole residual space is
-allowed. Use its native coercion, convexity and scaling API; do not introduce another conic predicate.
-
-With `p = (λ,v) : (ι → ℝ) × (ι → X)`, define
-
-- `B i = {x | x ∈ Set.Icc l u ∧ A i x - b i ∈ K i}` and `U = ⋃ i, B i`;
-- `L = {p | (∀ i, 0 ≤ λ i) ∧ (∑ i, λ i) = 1 ∧
-  (∀ i, A i (v i) - λ i • b i ∈ K i) ∧
-  (∀ i j, l j * λ i ≤ v i j ∧ v i j ≤ u j * λ i)}`;
-- `sumBlocks p = ∑ i, v i` and `P = {x | ∃ p ∈ L, x = sumBlocks p}`;
-- `F = {q : X × ((ι → ℝ) × (ι → X)) | q.2 ∈ L ∧ q.1 = sumBlocks q.2}`.
-
-Use raw row sets in all these definitions. Specialize the exactness theorems by passing the
-carriers of `K i : PointedCone ℝ (Y i)`. Expose membership equivalences for `B`, `L`, `P` and `F`
-and the image identities `P = sumBlocks '' L` and `F = (fun p => (sumBlocks p,p)) '' L`.
-Inverse normalization is always restricted to strictly positive weights.
-
-**Checks.** The branch membership interface must distinguish a feasible zero-residual row,
-an empty row created by zero map/offset one/cone `{0}`, and zero physical dimension. Lift
-membership must distinguish a valid one-hot point, the impossible simplex for an empty index,
-and the forced zero block at zero weight. Projection and full-lift membership must retain the
-sum equality, handle an all-empty family, and agree with their continuous-image descriptions.
-Use these checks with the concrete instances in the layers; none adds a nonemptiness premise.
+is a submodule over nonnegative scalars: its carrier contains zero and is closed under
+addition and nonnegative scaling. It does not mean salient; the whole space is allowed.
+Use this interface without introducing a second conic predicate.
 
 ## Exact supplier contracts
 
-At the roadmap's dependency pins (Lean `v4.36.0-rc2`, Mathlib
-`1b1ccf4b088b32fa3f23f2de1127433254a81e1e`, Tau Ceti
-`2fd255d997f47c0b5d834ee416c7015d55444ce5`), the ground suppliers are:
+### From Mathlib
+
+At Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`:
 
 | Supplier | Contract consumed here |
 | --- | --- |
-| `PointedCone`, `Submodule.zero_mem`, `PointedCone.convex`, `PointedCone.smul_mem`, `PointedCone.smul_mem_iff` | Zero membership, convexity, nonnegative scaling and positive-scaling cancellation on each native row carrier. |
-| `Set.Icc`, pointwise order on finite function spaces, `LinearMap` | Coordinate boxes and dependent affine residuals, with no hidden feasibility assumptions. |
-| `Convex.sum_mem`, `subset_convexHull`, `convexHull_min`, `convex_convexHull` | Finite convex combinations and the smallest-convex-superset property. |
-| `Finset.sum_subset`, `Finset.single_le_sum`, finite-sum inequalities | Restrict to positive support, bound weights, and reconstruct zero blocks. |
-| `LinearMap.continuous_of_finiteDimensional`, `isClosed_le`, `isClosed_eq`, `isClosed_iInter`, `IsClosed.preimage` | Closedness of the literal affine-row and box constraints. |
-| `isCompact_Icc`, `IsCompact.prod`, `IsCompact.of_isClosed_subset`, `IsCompact.image`, `IsCompact.isClosed` | Compact finite boxes, closed subsets and continuous finite-sum images. |
+| `PointedCone`, `Submodule.zero_mem`, `PointedCone.convex`, `PointedCone.smul_mem`, `PointedCone.smul_mem_iff` | Zero membership, convexity, nonnegative scaling and cancellation of positive scaling. |
+| `Set.Icc`, pointwise function order, `LinearMap` | Coordinate boxes and branch-dependent affine residuals. |
+| `Convex.sum_mem`, `subset_convexHull`, `convexHull_min`, `convex_convexHull` | Finite convex combinations and the smallest convex superset. |
+| `Finset.sum_subset`, `Finset.single_le_sum` | Restriction to positive support and bounds for simplex weights. |
+| `LinearMap.continuous_of_finiteDimensional`, `isClosed_le`, `isClosed_eq`, `isClosed_iInter`, `IsClosed.preimage` | Continuity and closedness of the affine-row and box constraints. |
+| `isCompact_Icc`, `IsCompact.prod`, `IsCompact.of_isClosed_subset`, `IsCompact.image`, `IsCompact.isClosed` | Compact boxes, closed subsets, continuous images and closedness. |
 
-These are existing Mathlib contracts. The roadmap builds the branch/lift interfaces linking them.
-Tau Ceti's scalar perspective monotonicity and closed carrier homogenization are neighboring
-constructions: taking a closure there cannot supply this roadmap's nonclosed-cone exactness.
-The literal bounded lift must be developed with its own displayed equations.
+### From Tau Ceti
+
+No Tau Ceti declaration is consumed. At `2fd255d997f47c0b5d834ee416c7015d55444ce5`,
+`ConvexOn.antitoneOn_mul_map_div` in `TauCeti/Analysis/Convex/Perspective.lean` is a scalar
+perspective inequality; it is not used by these targets.
 
 ## How to read the build
 
-This README is the definitive specification. `Suggested.lean` gives complete definitions and
-suggested headline signatures; its intentional `sorry` proofs do not certify any result and are
-not an exhaustive checklist. The surrounding basic API and all examples are also targets.
-Read the layers in order; Layer 3 uses Layer 2 only for its final closed-hull equality.
-Use the repository's pinned dependencies and documented `lake exe cache get` / `lake build`
-workflow, and run `python3 .github/scripts/check_roadmap_topics.py` for the metadata.
+Read the layers in order: Layer 1 constructs the branch and lift interfaces, Layer 2 identifies
+the convex hull, and Layer 3 establishes compactness and the closed hull. The README is the
+definitive specification; `Suggested.lean` gives definitions and selected headline signatures,
+with intentional admissions rather than proofs. The basic API and all checks are also targets.
 
-## Layer 1. Scaled boxes and branch interfaces
+## Layer 1: scaled boxes and branch interfaces
 
-*Needs:* The definitions and native ordered-field, finite-sum and cone APIs in the supplier table.
+### 1.1 Branches and their union
 
-For arbitrary raw row sets establish: a block of weight zero is zero; every weight belongs to
-`Set.Icc (0 : ℝ) 1`; every copied coordinate satisfies
-`min (l j) 0 ≤ v i j ∧ v i j ≤ max (u j) 0`; and every projected point belongs to `Set.Icc l u`.
-For `q ∈ F` expose these bounds simultaneously for its physical coordinate, weights and blocks.
+*Needs:* `Data`, pointwise intervals, linear maps, finite unions.
+
+Define `branch` by `branch D K i = B i = {x | x ∈ Set.Icc l u ∧ A i x - b i ∈ K i}`.
+
+**API.**
+
+- Expose `x ∈ branch D K i ↔ x ∈ Set.Icc l u ∧ A i x - b i ∈ K i`.
+- Deduce `branch D K i ⊆ Set.Icc l u`.
+- Recover both coordinate bounds and residual membership from branch membership.
+
+**Checks.**
+
+- For `n = 1`, `A = 0`, `b = 0`, `K = {0}`, box `[0,1]`, the branch is `[0,1]`.
+- With the same box, `A = 0`, `b = 1`, `K = {0}`, the branch is empty.
+- If `n = 0`, the original space is a singleton; row membership decides whether the branch is empty.
+
+Define `boundedUnion` by `boundedUnion D K = U = ⋃ i, B i`.
+
+**API.**
+
+- Expose `x ∈ boundedUnion D K ↔ ∃ i, x ∈ branch D K i`.
+- Each `branch D K i` is a subset of `boundedUnion D K`.
+- Deduce `boundedUnion D K ⊆ Set.Icc l u`.
+
+**Checks.**
+
+- An empty index gives `U = ∅`.
+- An all-empty branch family gives `U = ∅`.
+- Adding the empty branch above to the interval branch leaves `U = [0,1]`.
+
+### 1.2 The scaled-box lift and its projections
+
+*Needs:* 1.1, finite sums and scalar multiplication.
+
+Define `lift` by `lift D K = L` by
+
+`L = {(λ,v) | (∀ i, 0 ≤ λ i) ∧ (∑ i, λ i) = 1 ∧
+ (∀ i, A i (v i) - λ i • b i ∈ K i) ∧
+ (∀ i j, l j * λ i ≤ v i j ∧ v i j ≤ u j * λ i)}`.
+
+This is the finite scaled-box HR-Cone construction of Bernal Neira–Grossmann,
+arXiv v3 p. 8, publisher p. 260.
+
+**API.**
+
+- Expose the displayed conjunction as the membership equivalence for `lift`.
+- Extract simplex membership, each conic row and each scaled coordinate bound separately.
+- Assemble lift membership from these four groups of constraints.
+
+**Checks.**
+
+- The interval branch from 1.1 admits `λ = 1`, `v = 1/2`.
+- An empty index makes the simplex equation impossible.
+- A zero weight forces its block to zero even for arbitrary sets `K i`.
+
+Define `sumBlocks` by `sumBlocks p = ∑ i, p.2 i`.
+
+**API.**
+
+- Expose the defining finite-sum identity and its coordinatewise form.
+- Prove that `sumBlocks` is linear and continuous.
+- Evaluate it on a one-hot block family as the selected block.
+
+**Checks.**
+
+- The sum over an empty index is zero.
+- Two constant scalar blocks `1/4` and `1/2` sum to `3/4`.
+- A single nonzero block among zero blocks is preserved, including when the selected block is zero.
+
+Define `projection` by `projection D K = P = {x | ∃ p ∈ L, x = sumBlocks p}`.
+
+**API.**
+
+- Expose `x ∈ projection D K ↔ ∃ p ∈ lift D K, x = sumBlocks p`.
+- Prove `projection D K = sumBlocks '' lift D K`.
+- Map every lift member into the projection and recover a lift witness for every projected point.
+
+**Checks.**
+
+- The interval branch has `1/2 ∈ P`.
+- Empty index gives `P = ∅` despite `sumBlocks` being zero.
+- A lift with sum `x` does not witness a different projected point.
+
+Define `fullLift` by `fullLift D K = F = {q : X × LiftPoint ι n | q.2 ∈ L ∧ q.1 = sumBlocks q.2}`.
+
+**API.**
+
+- Expose its displayed membership equivalence.
+- Prove `fullLift D K = (fun p => (sumBlocks p, p)) '' lift D K`.
+- Prove `Prod.fst '' fullLift D K = projection D K` and `Prod.snd '' fullLift D K = lift D K`.
+
+**Checks.**
+
+- Retain `(1/2, (1,1/2))` for the single interval branch.
+- Changing only its original-space point to zero violates the sum equality.
+- Empty index gives `F = ∅`.
+
+### 1.3 Weight and block bounds
+
+*Needs:* 1.2, ordered-field arithmetic and finite-sum inequalities.
+
+For arbitrary sets `K i`, prove `zero_block`: `p ∈ L` and `λ i = 0` imply `v i = 0`.
+Prove every weight lies in `[0,1]`, every coordinate satisfies
+`min (l j) 0 ≤ v i j ≤ max (u j) 0`, and every projected point lies in `Set.Icc l u`.
+Expose these simultaneously for the original-space point, weights and blocks of `q ∈ F`.
 The containing product box for `L` is
 
 `Set.Icc (fun _ => 0) (fun _ => 1) ×ˢ
  Set.Icc (fun i j => min (l j) 0) (fun i j => max (u j) 0)`.
 
-For native cone carriers prove positive-weight normalization `(λ i)⁻¹ • v i ∈ B i` and the
-one-hot lift of every `x ∈ U`: at the selected branch use weight one and block `x`, elsewhere
-weight and block zero. If `B i = ∅`, every feasible lift has weight and block zero there.
-Prove `P = ∅` for an empty index type, and for an all-empty branch family. These statements
-must not obtain witnesses from zero-weight or empty branches.
+**Checks.**
 
-### Examples
+- With box `[1,2]`, a zero-weight block is zero, outside the unscaled box.
+- With box `[-1,2]` and weight `1/2`, a scalar block lies in `[-1/2,1]`.
+- Inconsistent bounds in a nonzero coordinate give `L = P = F = ∅`.
 
- A single branch in dimension one with `A = 0`, `b = 0`, row cone `{0}` and bounds
-zero and one has `x = 1/2`, weight one and block `1/2`. Check an empty branch beside it using
-`A = 0`, `b = 1` and cone `{0}`; the empty branch has zero weight and block. Check empty index,
-all-empty branches and inconsistent bounds in a nonzero physical coordinate.
+### 1.4 Normalization and one-hot lifts
 
-### Dependencies
+*Needs:* 1.1–1.3 and `PointedCone.smul_mem`, `PointedCone.smul_mem_iff`.
 
- The definitions above, ordered-field arithmetic, finite-sum inequalities,
-pointwise interval membership and the existing native cone membership/scaling facts.
+For carriers of `K i : PointedCone ℝ (Y i)`, prove `normalized_block`: if `p ∈ L` and
+`0 < λ i`, then `(λ i)⁻¹ • v i ∈ B i`. Every `x ∈ B i` has the one-hot lift defined in
+Conventions. Prove `empty_branch_weight_block`: if `B i = ∅`, every member of `L` has
+`λ i = 0` and `v i = 0`. An all-empty branch family gives `P = ∅`.
 
-## Layer 2. Exact finite-union hull
+**Checks.**
 
-*Needs:* Layer 1 and the finite convex-combination and hull contracts in the supplier table.
+- For the interval branch, weight `1/2` and block `1/4` normalize to `1/2`.
+- The empty branch in 1.1 has weight and block zero alongside that interval branch.
+- Without the cone assumptions, the all-empty conclusion fails: take two branches with
+  `A i = 0`, `b i = -2`, `K i = {1}`, box `[0,1]`. Each branch is empty, but
+  `λ = (1/2,1/2)`, `v = (0,0)` and `v = (1/2,1/2)` are lift members projecting to zero
+  and one, respectively.
 
-For native cone carriers prove that `L` and `P` are convex and prove
+## Layer 2: exact finite-union hull
 
-`P = convexHull ℝ U`.
+### 2.1 Exact hull
+
+*Needs:* 1.1–1.4 and the finite convex-combination and convex-hull suppliers.
+
+For carriers of `K i : PointedCone ℝ (Y i)`, prove `convex_lift`, `convex_projection`, and
+`hull_exact`:
+
+`projection D K = convexHull ℝ (boundedUnion D K)`.
+
+The source connection is the bounded case of Bernal Neira–Grossmann Theorem 1(2), `W = {0}`
+(arXiv v3 pp. 7–8; publisher pp. 259–260), and Ben-Tal–Nemirovski Proposition 3.3.5(i),
+printed p. 100. Those source statements assume nonempty sets and closed proper or
+conic-quadratic representations. Here the explicit scaled bounds support empty branches and
+cones without closedness; this is the stated bounded variant, not their full unboxed theorem.
 
 One-hot inclusion and convexity give `convexHull ℝ U ⊆ P`. For the reverse inclusion restrict
-the finite sum to strictly positive weights, normalize each block into its branch, use the
-finite convex-combination API and reconstruct the full sum using the zero-block theorem.
-There is no branch-nonemptiness or closedness premise.
+to strictly positive weights, normalize each corresponding block, apply the finite
+convex-combination API, and reconstruct the sum using `zero_block`. Do not choose points
+from empty or zero-weight branches.
 
-### Examples
+**Checks.**
 
- Apply exactness to the positive one-dimensional example and to a two-branch example
-with unequal residual dimensions, such as one and two. Instantiate the whole residual space
-as a closed nonsalient cone to check that no salience or properness hypothesis has appeared.
+- In box `[0,3]`, take scalar branches `[0,1]` (`A = id`, `b = 1`, `K = (-∞,0]`)
+  and `[2,3]` (`A = id`, `b = 2`, `K = [0,∞)`). Weights `(1/2,1/2)` and blocks
+  `(1/2,1)` give `3/2 ∈ P` outside `U`.
+- Use unequal residual dimensions, and the whole residual space as a nonsalient cone.
+- Dropping zero membership can destroy exactness: in box `[0,1]`, branch 1 has
+  `A = b = 0`, `K = {0}`, and branch 2 has `A = b = 0`, `K = (0,∞)`.
+  Then `U = [0,1]` but `L = P = ∅`, because branch 2's residual is always zero.
 
-### Dependencies
+## Layer 3: compact lift and closed hull
 
- Layer 1 and the hull/finite-combination contracts in the supplier table.
+### 3.1 Compactness
 
-## Layer 3. Compact lift and closed hull
+*Needs:* 1.2–1.3 and the continuity, closedness and compactness suppliers.
 
-*Needs:* Layer 1 and the continuity/compactness suppliers; Layer 2 only for the last equality.
+For arbitrary closed sets `K i`, prove `IsClosed L`, containment in 1.3's product box,
+and `isCompact_lift`: `IsCompact L`. The continuous-image descriptions give
+`isCompact_fullLift`: `IsCompact F`, `isCompact_projection`: `IsCompact P`, and `IsClosed P`.
+The full lift includes the original-space point and makes no assertion about additional
+epigraph coordinates. These bounded-lift compactness targets follow the explicit scaled
+bounds in HR-Cone (Bernal Neira–Grossmann arXiv v3 p. 8; publisher p. 260) and compact
+finite-dimensional boxes.
 
-For arbitrary closed row sets prove `IsClosed L`, containment in Layer 1's explicit product box
-and `IsCompact L`. Use the two image descriptions and continuity of finite sums to prove
-`IsCompact F`, `IsCompact P` and `IsClosed P`. The statement about `F` retains the displayed
-physical coordinate. It makes no assertion about unrelated epigraph coordinates.
+**Checks.**
 
-For native cone carriers that are also closed combine this with Layer 2 to prove
+- Apply compactness to the interval and unequal-residual-dimension examples.
+- Check empty index, inconsistent bounds, `n = 0` and `m i = 0` without adding feasibility.
+- Closedness is necessary: with one scalar branch in `[0,1]`, put `Y = ℝ²`,
+  `A x = (x,0)`, `b = (0,-1)`, `K = {(a,c) | a > 0} ∪ {0}`. This is a
+  `PointedCone` carrier without closedness. Here `B = P = (0,1]`; thus `P` and the
+  one-branch lift are not closed or compact.
 
-`closure (convexHull ℝ U) = P`.
+### 3.2 Closed hull
 
-### Examples
+*Needs:* 2.1, 3.1 and `IsCompact.isClosed`.
 
- Apply compactness to the positive example and the unequal-residual-dimension example.
-Check `n = 0` and residual dimensions `m i = 0`, retaining the correct empty or singleton behavior
-rather than adding a common nonemptiness premise. Include the empty and inconsistent-bound
-cases from Layer 1 and the closed nonsalient cone case from Layer 2.
+For closed carriers of `PointedCone ℝ (Y i)`, prove `closed_hull_exact`:
 
-### Dependencies
+`closure (convexHull ℝ (boundedUnion D K)) = projection D K`.
 
- Layer 1, finite-dimensional continuity, closed preimages/intersections,
-compact intervals, finite products and continuous images. Layer 2 supplies only the last equality.
+The source connection is Bernal Neira–Grossmann Theorem 1(2) with `W = {0}` (arXiv v3
+pp. 7–8; publisher pp. 259–260) and Ben-Tal–Nemirovski Proposition 3.3.5(i), proof on
+printed pp. 100–102, with the same bounded-variant qualification as 2.1.
+
+**Checks.**
+
+- The two intervals in 2.1 have closed hull `[0,3]`.
+- The empty and closed nonsalient-cone examples retain their expected behavior.
+- In the nonclosed-cone example in 3.1, `closure (convexHull U) = [0,1] ≠ P = (0,1]`.
 
 ## Downstream consumers
 
-A finite disjunctive model with explicit coordinate bounds can use the membership and image API
-to exchange the ordinary convex hull for the displayed conic lift. Empty-branch elimination uses
-the zero-weight/block interface. Closed-row clients can use compactness of the full displayed
-system and closedness of its projection. These are mathematical consumer interfaces, without
-an algorithm, performance claim, objective, minimizer or external-oracle premise.
+A finite disjunctive model with coordinate bounds can use the membership and image API to
+exchange its convex hull for the displayed lift. Empty-branch elimination uses the zero-weight
+and zero-block interface. Closed-row clients obtain compactness of the displayed system and
+closedness of its projection.
 
 ## References
 
@@ -185,7 +300,7 @@ common-recession theory.
   [arXiv:2109.09657v1](https://arxiv.org/abs/2109.09657v1), Theorem 1/HR-Cone pp. 10–11, and
   [v3](https://arxiv.org/abs/2109.09657v3), pp. 7–8.
 - A. Lodi, M. Tanneau and J. P. Vielma, *Disjunctive cuts in Mixed-Integer Conic Optimization*,
-  [arXiv:1912.03166v2](https://arxiv.org/abs/1912.03166v2), 4 September 2020, Theorem 4, p. 10:
+  [arXiv:1912.03166v2](https://arxiv.org/abs/1912.03166v2), version 2 (title page: 8 September 2020), Theorem 4, p. 10:
   the proper-cone sandwich and common-summand result adopted by the preceding source.
 - A. Ben-Tal and A. Nemirovski, *Lectures on Modern Convex Optimization* (2001),
   [author-hosted version](https://www2.isye.gatech.edu/~nemirovs/LMCOBookSIAM.pdf), Proposition
@@ -193,7 +308,7 @@ common-recession theory.
   sets. The preceding sources print the locator Proposition 2.3.5; no identity of uninspected
   editions is assumed.
 - S. Ceria and J. Soares, *Convex programming for disjunctive convex optimization*, Mathematical
-  Programming 86 (1999), 595–614, [DOI](https://doi.org/10.1007/s101070050106), Theorem 1 and
+  Programming 86 (1999), 595–614, [DOI](https://doi.org/10.1007/s101079900101), Theorem 1 and
   discussion, pp. 600–601: closed-perspective and empty-branch context with its stated hypotheses.
 - S. Gusev and D. E. Bernal Neira, *Exact Hull Reformulation for Quadratically Constrained
   Generalized Disjunctive Programs*, [arXiv:2508.16093v2](https://arxiv.org/abs/2508.16093v2),
@@ -209,4 +324,4 @@ contains the bounded construction in [Chapter08ContinuousHull.lean](https://gith
 [Chapter08.lean](https://github.com/bernalde/complete-retained-library/blob/59c355eb14ed1eff9664736428ca02b4543200b8/lean-modern/Chapter08.lean), with Apache-2.0 software notices. This is secondary provenance,
 not the specification or an assertion that those modules have been ported to Tau Ceti. Reuse its
 mathematical proof strategy while adopting the native interfaces above and preserving applicable
-software attribution. No thesis, publisher PDF or source extract is part of this roadmap.
+software attribution.
