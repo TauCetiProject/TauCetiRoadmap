@@ -27,6 +27,7 @@ and types.
 
 -- structure ObstructionTheory (X : DeligneMumfordStack k) where
 --   E : DerivedCategory (EtaleModules X)
+--   -- E has vanishing positive cohomology and coherent H⁰ and H⁻¹.
 --   toCotangent : E ⟶ cotangentComplex X
 --   h_zero_isIso : IsIso (homologyMap toCotangent 0)
 --   h_negOne_epi : Epi (homologyMap toCotangent (-1))

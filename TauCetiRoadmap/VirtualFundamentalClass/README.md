@@ -43,8 +43,8 @@ Fix a field `k`.
    `𝔠_X` is pure of stack-dimension zero, has abelian hull `𝔑_X`, and is independent of all
    étale charts and embeddings into smooth schemes.
 2. **Obstruction theories.** Define an obstruction theory as a morphism
-   `φ : E → L_X` in the derived category inducing an isomorphism on `H⁰` and a surjection on
-   `H⁻¹`. Prove the equivalent closed-immersion statement
+   `φ : E → L_X` in the derived category, where `Hⁱ(E)=0` for `i>0` and `H⁰(E)` and
+   `H⁻¹(E)` are coherent, inducing an isomorphism on `H⁰` and a surjection on `H⁻¹`. Prove the equivalent closed-immersion statement
    `𝔑_X ↪ h¹/h⁰(E∨)` and the square-zero deformation interpretation. Define perfectness by
    perfect amplitude in `[-1, 0]`; keep the existence of a global resolution as a separate
    hypothesis.
@@ -301,14 +301,18 @@ compatible with the cartesian squares in Layers 7–9.
 - Instantiate the ringed-site tensor, internal Hom, pullback, duality, cohomology, truncation, and
   Ext constructions from `EnhancedDerivedSheaves` on the sites of Layer 1. Prove
   pseudofunctoriality under stack morphisms and comparison across the small étale, lisse-étale,
-  and big fppf sites.
+  and big fppf sites. Construct arbitrary-morphism pullback on the quasi-coherent derived
+  categories by descent and site comparison; do not assume arbitrary stack morphisms induce
+  morphisms of lisse-étale topoi (Stacks Project, Tags 07BF and 0GR1).
 - Define perfect complexes and Tor amplitude `[a,b]` locally on an atlas. Descend finite locally
   free resolutions, duals, ranks, direct sums, pullback, shifts, cones, and the two-out-of-three
   properties from the scheme theory. Define a global two-term resolution as an isomorphism
   `[F⁻¹ → F⁰] ≅ E` in the derived category, not as equality of chosen complexes.
 - Starting from the ring cotangent complex and its theorems in `DerivedModuleAlgebra`, globalize
   `L_{X/Y}` to schemes and algebraic spaces on the small étale site, then to
-  Deligne–Mumford stacks by atlas descent. Prove functoriality, the transitivity triangle
+  Deligne–Mumford stacks by atlas descent. Compare the scheme construction with the shared
+  scheme cotangent complex of `DerivedDeRhamCohomology` §5.8, and supply its Zariski–étale
+  comparison and the stack extension here. Prove functoriality, the transitivity triangle
   `f*L_Y → L_X → L_{X/Y} →`, flat base change, and compatibility with atlas refinement.
 - For a local embedding `U ↪ M` with `M` smooth, construct the canonical comparison
   `L_X|_U → [I/I² → Ω_M|_U]` and prove that it is an isomorphism on `H⁰` and `H⁻¹`. Prove
@@ -358,12 +362,17 @@ model agrees with the Kähler presentation complex, and all comparisons commute 
 - Glue `[C_{U/M}/T_M|_U]` inside the already intrinsic `𝔑_X`; prove cocycle coherence and
   uniqueness. Call the result `𝔠_X`. The construction must be unchanged under equivalence of
   Deligne–Mumford stacks and scalar extension of the ground field.
-- Prove `𝔠_X` is pure of stack-dimension zero and its abelian hull is `𝔑_X`. Prove the local
-  complete intersection characterization `𝔠_X = 𝔑_X`, the smooth specialization
-  `𝔠_X = B T_X`, and the product formula.
-- Prove the intrinsic pullback sequence for a local complete intersection morphism
-  `f : X → Y` and the natural maps between intrinsic cones in the cartesian situations used by
-  the functoriality theorem.
+- Prove `𝔠_X` is pure of stack-dimension zero and its abelian hull is `𝔑_X`. Prove that
+  `X` is a local complete intersection exactly when `𝔠_X` is a vector-bundle stack; in that
+  case `𝔠_X = 𝔑_X`. Prove the smooth specialization `𝔠_X = B T_X` and the product formula.
+- For a smooth morphism `f : X → Y`, prove the short exact sequence of cone stacks
+  `𝔑_{X/Y} → 𝔠_X → f*𝔠_Y`. For a local complete intersection morphism prove the
+  transitivity sequence for intrinsic normal sheaves; use deformation to the normal cone and
+  Layer 8’s Vistoli comparison for regular-immersion virtual pullback. Construct the natural
+  cone maps used by functoriality. As checks, use `k[x,y]/(x²,xy)` to show equality of the
+  intrinsic cone and normal sheaf alone does not characterize lci, and the Cartier divisor
+  `x+y+z=0` in `Spec k[x,y,z]/(xy,xz,yz)` over `k=ℚ` to show the cone sequence need not
+  be exact for a general lci morphism.
 
 **Gate.** Recomputing `𝔠_X` from two unrelated atlases gives canonically equivalent closed cone
 substacks of `𝔑_X`, and the comparison satisfies the cocycle condition rather than merely
@@ -371,7 +380,8 @@ existing noncanonically.
 
 ### Layer 6: obstruction theories and their deformation meaning
 
-- Define an obstruction theory `φ : E → L_X` by the two cohomological conditions
+- For `E` satisfying the Layer 4 condition `Hⁱ(E)=0` for `i>0` with coherent `H⁰(E)` and
+  `H⁻¹(E)`, define an obstruction theory `φ : E → L_X` by the two cohomological conditions
   `H⁰(φ)` is an isomorphism and `H⁻¹(φ)` is an epimorphism. Prove this is equivalent to the
   induced map `𝔑_X → h¹/h⁰(E∨)` being a representable closed immersion.
 - Define the obstruction cone as the image of `𝔠_X` in `h¹/h⁰(E∨)` and prove it is a closed
