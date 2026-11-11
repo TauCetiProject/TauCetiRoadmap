@@ -86,6 +86,11 @@ Planned by other roadmaps, and imported by name and section:
   splitting field `ℚ(ζ_e)` and its realization adapters).
 - [InductionRestriction](../InductionRestriction/README.md), Layer 6: ordinary Brauer induction from
   elementary subgroups, an input to the surjectivity of the decomposition map.
+- [RamificationOfCompleteDiscretelyValuedFields](../../RamificationOfCompleteDiscretelyValuedFields/README.md),
+  §4a.3: for a complete discretely valued field `K` with perfect residue field `k`, the completion
+  `K′` of the maximal unramified extension `K^ur` is complete for a discrete valuation with
+  `e(K′/K) = 1` and residue field an algebraic closure of `k`. §7.2 uses it for the field `K` of
+  §1.1, whose residue field is finite; no such extension is constructed here.
 - ArithmeticGaloisDuality, §R02.4.4 (*Surjectivity of the decomposition map*): for a finite
   extension `K` of `ℚ_p` containing the `|G|`-th roots of unity, with residue field `k`, the
   decomposition map `d : modRepK0 K G → modRepK0 k G` by reduction of stable lattices, its
@@ -234,6 +239,14 @@ to the class of the trivial module.
 
 Layer 6: every ordinary character is a `ℤ`-combination of characters induced from elementary
 subgroups.
+
+### From TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields
+
+§4a.3: for `K` complete discretely valued with perfect residue field `k`, the completion `K′` of
+`K^ur` is complete discretely valued with `e(K′/K) = 1` and residue field an algebraic closure of
+`k`. Assumed: exactly this statement, for `K` a finite extension of `ℚ_p`. For `K = ℚ₂(ζ₃)`,
+`K′` is the completion of `ℚ₂^ur`, with uniformizer `2` and residue field an algebraic closure of
+`𝔽₄`.
 
 ### From TauCetiRoadmap.ArithmeticGaloisDuality
 
@@ -1211,17 +1224,21 @@ For `u ∈ R`, `χ ∈ Irr(G)` and `φ ∈ IBr(b)` with `b` a block of `C_G(u)`,
 `χ ∈ Irr(b^G)`; here `b^G` is defined because `⟨u⟩ ≤ D_b` and so `C_G(D_b) ≤ C_G(u)` (Sambale,
 Theorem 1.13 and Proposition 1.11, p. 16, for a system with algebraically closed residue field).
 The statement passes to the system of §1.1, whose residue field `k` splits `G` and all its
-subgroups (§2.3): the completion of the maximal unramified extension of `K` is a system with
-residue field `k̄`, by §6.2 the blocks of `k[G]` and `k[C_G(u)]` are those over `k̄`, and by the
-uniqueness of central lifts (§1.3) so are the blocks of `O[G]`. Equivalently,
+subgroups (§2.3): the completion `K′` of the maximal unramified extension of `K` is complete for a
+discrete valuation with `e(K′/K) = 1` and residue field `k̄`
+(RamificationOfCompleteDiscretelyValuedFields §4a.3; the residue field `k` of `K` is finite, hence
+perfect), so its valuation ring gives a `p`-modular system with residue field `k̄` whose maximal
+ideal lies over that of `O`. By §6.2 the blocks of `k[G]` and `k[C_G(u)]` are those over `k̄`, and
+by the uniqueness of central lifts (§1.3) so are the blocks of `O[G]`. Equivalently,
 `d^u_{χφ} ≠ 0` implies `Br_{⟨u⟩}(e_B) e_b ≠ 0` for the block `B` of `χ`, so `(⟨u⟩, b)` is a
-`B`-Brauer pair. *Needs:* §§1.3, 5.1, 6.3, 7.1.
+`B`-Brauer pair. *Needs:* §§1.3, 5.1, 6.3, 7.1; RamificationOfCompleteDiscretelyValuedFields
+§4a.3.
 
 - Block form of the orthogonality relations of §5.2: for a block `B` of `G`, `u, v ∈ R`,
   `φ ∈ IBr(C_G(u))` and `ψ ∈ IBr(C_G(v))`, the sum `∑_{χ ∈ Irr(B)} d^u_{χφ} conj(d^v_{χψ})` equals
   `c^u_{φψ}` when `u = v`, `φ` and `ψ` lie in one block `b` of `C_G(u)` and `b^G = B`, and `0`
   otherwise (Sambale, Theorem 1.14, p. 16, passed to the system of §1.1 as above). *Needs:*
-  §§4.2, 5.2 and the theorem above.
+  §§4.2, 5.2 and the theorem above; RamificationOfCompleteDiscretelyValuedFields §4a.3.
 - `sum_sameBlock_mul_conj_eq_zero` (block-section orthogonality): if the `p`-parts of `g` and `h`
   are not conjugate, then `∑_{χ ∈ Irr(B)} χ(g) conj(χ(h)) = 0` for each block `B`; the statement is
   made for every maximal ideal `M ∋ p` of the algebraic integers, with `Irr(B)` the irreducible
@@ -1268,8 +1285,9 @@ corresponds to itself, and `A₄` has a single `2`-block.
 
 ### Dependencies
 
-Layers 0 and 4–6; §2.3 for the splitting of `k`; §1.3 for the lifted blocks of §7.2; Tau Ceti
-`TauCeti.pPart`, `TauCeti.irreducibleCharacter`.
+Layers 0 and 4–6; §2.3 for the splitting of `k`; §1.3 for the lifted blocks of §7.2;
+RamificationOfCompleteDiscretelyValuedFields §4a.3 for the complete unramified extension with
+residue field `k̄` of §7.2; Tau Ceti `TauCeti.pPart`, `TauCeti.irreducibleCharacter`.
 
 ## Layer 8: normal subgroups and finite-group interfaces
 

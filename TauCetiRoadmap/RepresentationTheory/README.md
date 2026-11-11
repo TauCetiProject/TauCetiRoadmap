@@ -77,6 +77,7 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
 
 - **Ordinary and modular character theory share the algebraic foundations.** ModularCharactersAndBlocks
   consumes CharacterTheory's ordinary characters, ModularInduction's exact Grothendieck groups,
+  SemisimpleAlgebras Layers 0–2 (the radical, simple modules and Artin–Wedderburn),
   QuiverRepresentations Layer 3's projective covers and Cartan matrix, and InductionRestriction
   Layer 6's Brauer induction. It adds the modular systems, decomposition map and block correspondences.
 - **Semisimple algebras → character theory.** The Wedderburn structure of the group algebra and the
@@ -130,7 +131,9 @@ the remaining subjects in this family.
 - **Ordinary and modular representations have separate owners.** CharacterTheory owns ordinary
   characters in nonmodular characteristic. GrothendieckEulerForms owns exact K₀; ModularInduction owns its group-algebra specialization and
   modular Artin induction. [ModularCharactersAndBlocks](ModularCharactersAndBlocks/README.md)
-  consumes both and owns Brauer characters, decomposition matrices and blocks with defect.
+  consumes these foundations, imports Brauer characters and their projective pairing from
+  GL2AutomorphicRepresentationsAndTransfer §R17.5.11, and owns the Brauer-character basis theorem,
+  decomposition matrices, Brauer reciprocity and blocks with defect.
   Family-specific modular representation theory of symmetric groups is outside this family.
 - **Finite and compact groups only, on the unitary side.** The analytic representation theory stops at
   compact groups (Peter-Weyl, compact Frobenius-Schur): no infinite-dimensional unitary
