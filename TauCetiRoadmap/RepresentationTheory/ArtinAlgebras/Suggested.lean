@@ -322,7 +322,12 @@ def HasProjectiveInjectiveCoresolution (Γ : Type u) [Ring Γ] (n : ℕ) : Prop 
 
 /-- The **dominant dimension** `dom.dim Γ` of a ring, of left modules: the supremum in `ℕ∞` of the
 `n` for which `Γ` has a projective-injective coresolution with `n` terms. It is `⊤` for a left
-self-injective ring, through `0 → Γ → Γ → 0 → 0 → ⋯`. -/
+self-injective ring, through `0 → Γ → Γ → 0 → 0 → ⋯`.
+
+This is the dominant dimension only for Artin algebras. For other rings the established notion asks
+the terms of the minimal injective coresolution to be flat (Hoshino), and the two differ already for
+`ℤ`: here `dominantDimension ℤ = 0`, while the flat version gives `1`. If the flat version is added
+later, it should take this name and this definition should be renamed. -/
 noncomputable def dominantDimension (Γ : Type u) [Ring Γ] : ℕ∞ :=
   ⨆ (n : ℕ) (_ : HasProjectiveInjectiveCoresolution Γ n), (n : ℕ∞)
 

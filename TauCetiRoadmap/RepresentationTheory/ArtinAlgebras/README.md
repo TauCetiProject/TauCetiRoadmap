@@ -96,8 +96,7 @@ for categories of modules. The boundaries are as follows.
   through functors; coherent rings as a ring-theoretic notion (they enter only through the
   Freyd-Auslander criterion of Layer 1); and dominant dimension of rings other than Artin algebras,
   where the terms of the minimal injective coresolution are asked to be flat rather than projective
-  (Hoshino), beyond the definition of 7.3 and its first two properties there, which hold for any
-  ring. For Artin algebras the two conditions agree; for other rings the flat version needs
+  (Hoshino). For Artin algebras the two conditions agree; for other rings the flat version needs
   flatness over noncommutative rings, which Mathlib does not have (`Module.Flat` is stated over
   commutative rings).
 
@@ -1297,9 +1296,14 @@ sequence is a `CategoryTheory.ComposableArrows (ModuleCat Γ) (n + 1)` satisfyin
 that exactness at `Γ` says that `Γ → I⁰` is a monomorphism. For `n = 0` the sequence is `0 → Γ`,
 and the condition always holds. The **dominant dimension** `dom.dim Γ = dominantDimension Γ` is the
 supremum in `ℕ∞` of the `n` for which it holds. The definition is stated for any ring, of left
-modules, as `TauCeti.globalDimension` is. The first two items below hold for any ring and the
-others are for Artin algebras; for other rings it is not Hoshino's flat version (see "Scope and
-ownership"). API:
+modules, as `TauCeti.globalDimension` is, with no assumptions it does not use, but it is the
+dominant dimension only for Artin algebras (the third item below). For other rings the established
+notion asks the terms of the minimal injective coresolution to be flat rather than projective
+(Hoshino); the two numbers already differ for `ℤ` (see the checks), and the flat version is out of
+scope (see "Scope and ownership"). If the flat version is added to Tau Ceti later, it should take
+the name `dominantDimension`, and the definition here should be renamed, as Mathlib plans to rename
+`Module.Flat` to `Module.MonoFlat` once genuine flatness over semirings is introduced. The first
+two items below hold for any ring and the others are for Artin algebras. API:
 
 - truncation: dropping the last term of a coresolution with `n + 1` terms leaves one with `n`
   terms, so `n ≤ dom.dim Γ` exactly when `Γ` has a projective-injective coresolution with `n`
@@ -1332,6 +1336,11 @@ The first three items are not located in a read source.
   finitely generated projective-injective module, gives coresolutions with any number of terms, and
   `dominantDimension B = ⊤`; the same holds for every left self-injective ring, and for the zero
   ring.
+- `dominantDimension ℤ = 0`: a nonzero finitely generated projective `ℤ`-module is free and so not
+  divisible, hence not injective, so the only finitely generated projective-injective `ℤ`-module is
+  `0`, and `ℤ → 0` is not a monomorphism. In the flat version the minimal injective coresolution
+  `0 → ℤ → ℚ → ℚ/ℤ → 0` has `ℚ` flat and `ℚ/ℤ` not flat, giving `1`. So the two notions differ
+  outside Artin algebras.
 - For the path algebra of `• → •` (that is, `T₂(k)`), the dominant dimension is 1: the injective
   hull of the simple projective module is projective-injective, and its cokernel, the other simple
   module, is injective but not projective.
