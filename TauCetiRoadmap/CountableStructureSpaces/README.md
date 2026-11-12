@@ -73,7 +73,9 @@ Layer 5; the well-order results use Layers 0–3 and the easy direction of Lópe
 3. **The logic action.** `Equiv.Perm α` acts on codes by Tau Ceti's relabelling action
    (`σ • c = c.restrict σ⁻¹`), so `(σ • c).eval (atom R v) = c.eval (atom R (σ⁻¹ ∘ v))`. With this convention `σ` is an
    isomorphism from the structure named by `c` to the one named by `σ • c`, and orbits are
-   isomorphism classes. Fix the inverse before building any invariance or measurability API on it.
+   isomorphism classes. This is the convention of Marker's notes (p. 30,
+   `σ(M) ⊨ φ(a) ⇔ M ⊨ φ(σ⁻¹(a))`). Fix the inverse before building any invariance or
+   measurability API on it.
 4. **Topology on permutations.** For `[TopologicalSpace α] [DiscreteTopology α]`, `Equiv.Perm α`
    carries Tau Ceti's topology, induced by `σ ↦ (σ, σ⁻¹)` into `(α → α) × (α → α)`. This is the topology
    of pointwise convergence; the inverse coordinate adds no open sets (Layer 1 acceptance lemma)
@@ -457,7 +459,10 @@ statements below fix how the later layers use it.
   `measurableSet_setOf_bfEquivSetoid` for `β < ω₁` and `isoSetoid_le_bfEquivSetoid`.
 - **Isomorphism classes are Borel**: the class of `c`, `{d | isoSetoid L ℕ c d}`, is
   the model class of the Scott sentence of the structure `c` names, by `realize_scottSentence_iff`;
-  hence each orbit is Borel and invariant.
+  hence each orbit is Borel and invariant. This is the proof of Marker's notes, Corollary 3.4,
+  p. 30, for a countable vocabulary. Vaught 1974, Corollary 2.6, p. 280, proves orbits Borel for a
+  Polish group acting on a metrizable space in the setting of his §2, which the logic action of a
+  countable vocabulary meets (p. 282).
 
 ### 4.2 The external Scott height
 
@@ -554,7 +559,9 @@ height is the right parameter for the height comparison.
 ### 5.1 The easy direction
 
 For every `φ : L.Sentenceω`, `modelsOf φ` is Borel (`measurableSet_modelsOf`) and isomorphism
-invariant (`isomorphismInvariant_modelsOf`). This is Layer 2.
+invariant (`isomorphismInvariant_modelsOf`). This is Layer 2. For a countable vocabulary it is
+Marker's notes, Lemma 3.1, p. 29, and Corollary 3.3, p. 30; here it holds for every relational
+language on a countable carrier.
 
 ### 5.2 The PC sentence of a tree
 
@@ -586,12 +593,20 @@ statements together as `exists_pcSentence`):
   is used.
 
 Hence, for a tree representation `T` of an analytic class `B`, the codes of models of
-`pcSentence T` on `ℕ` lie in the saturation of `B`, and contain `B`.
+`pcSentence T` on `ℕ` lie in the saturation of `B`, and contain `B`. This is the construction of
+Marker's notes, Lemma 4.24, pp. 50–51 (every invariant analytic set is the set of countable models
+of a PC class), there with function symbols for the successor and the branch and a constant for
+zero; here they are relational graphs, and the numeral axiom makes every model countable.
 
 ### 5.3 The hard direction
 
 `lopez_escobar`: for every relational `L`, if `B ⊆ RelationalConfiguration L ℕ` is measurable for
-the product σ-algebra (Borel in the sense of Convention 5) and isomorphism invariant then `B = modelsOf φ` for some `φ : L.Sentenceω`. Proof:
+the product σ-algebra (Borel in the sense of Convention 5) and isomorphism invariant then
+`B = modelsOf φ` for some `φ : L.Sentenceω`. For a countable vocabulary, steps 1–4 follow Marker's
+notes, Corollary 4.23 and Theorem 4.26, pp. 50–51, which obtain disjointness of the two PC classes
+from Löwenheim–Skolem; here the numeral axiom makes it direct. Vaught 1974, Corollary 3.3, p. 285,
+proves the countable case by invariant separation (for countably many symbols his formulas, p. 283,
+are those of Lω₁ω). Proof:
 
 0. **Reduction to a countable sublanguage.** The σ-algebra on codes is the product one
    (Convention 5), so by Mathlib's `MeasureTheory.MeasurableSet.eq_preimage_restrict_countable`
@@ -643,6 +658,9 @@ the product σ-algebra (Borel in the sense of Convention 5) and isomorphism inva
   singleton. The singleton is closed,
   hence Borel for the topology, but not measurable for the product σ-algebra, which is the one
   `lopezEscobar_iff` uses; for the topology's Borel σ-algebra that theorem would fail here.
+  Vaught 1974 (p. 283, and the remark after Corollary 3.3, p. 285) does obtain topological Borel
+  sets as model classes with uncountably many symbols, because his closed formulas may then be
+  uncountable conjunctions, which `L.Sentenceω` does not have.
 
 **Acceptance check.** In the empty language every class of codes is `∅` or `univ`, and
 `lopezEscobar_iff` is witnessed by `⊥` or `⊤`.
@@ -668,6 +686,10 @@ presentation.
   `isomorphismInvariant_iff_preimage_image_quotientMk` is the relational case).
 - `exists_sentence_separating`: by López–Escobar, the separator is `modelsOf θ` for a single
   sentence `θ`.
+
+Vaught 1974, statement (10), p. 281, and Marker's notes, Corollary 4.25, p. 51, separate two
+disjoint invariant analytic sets by an invariant Borel set. Here only `B` need be invariant:
+the saturation of `A` is analytic (Layer 1.2) and, `B` being invariant, still disjoint from `B`.
 
 ### 6.2 The coded well-order class
 
@@ -849,6 +871,10 @@ revision.
   theorem, with Kunen's proof).
 - S. Gao, *Invariant Descriptive Set Theory*, Pure and Applied Mathematics, CRC Press, 2009:
   the logic action, invariant separation and López-Escobar's theorem.
+- D. Marker, *Lectures on Infinitary Model Theory*, lecture notes for Math 512, University of
+  Illinois at Chicago, Fall 2013, <https://homepages.math.uic.edu/~marker/math512-F13/inf.pdf>.
+  The locators "Marker's notes" above are to these notes: §3.1 (the space of countable models
+  and the logic action) and §4.3 (the interpolation theorem, PC separation and López–Escobar's theorem).
 - D. Marker, *Lectures on Infinitary Model Theory*, Lecture Notes in Logic 46, Cambridge
   University Press, 2016: López-Escobar's theorem through interpolation and PC classes, the route
   of Layer 5.
