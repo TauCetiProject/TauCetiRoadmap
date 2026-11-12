@@ -4,7 +4,7 @@
 algebra to geometric trajectory complexes and their topological comparison.
 Count periodic return orbits with their multiplicities and Lefschetz signs,
 and prove that Novikov torsion multiplied by the dynamical zeta function equals
-cellular Reidemeister torsion. The resulting library includes nonintegral period
+cellular Reidemeister torsion (Hutchings, Forum Math. 14 (2002), Theorem B, p. 215). The resulting library includes nonintegral period
 classes, noninjective period homomorphisms, torsion in abelian deck groups,
 continuation, Euler structures, and explicit circle, mapping-torus and knot-surgery
 calculations.
@@ -27,46 +27,24 @@ DifferentialGeometry Layers 0–3, 5–6, 8, 10 and 12 own forms, flows, integra
 period comparison, degree and metrics. AlgebraicTopology Stages 1–7 and
 GeometricTopology Layers 1, 3–5 and 11 own the topological and smooth suppliers
 specified below. Their generic constructions are consumed, not rebuilt.
-CharacteristicClasses C2.3 proves the oriented Euler-class form of the vector-field
-count, Σ ind = ⟨e(TM),[M]⟩ = χ(M) on a closed oriented manifold, through Thom
-classes; §7.1 proves the count without an orientation, through a parameter
-cobordism to a Morse gradient, §7.3 states it as `poincare_hopf`, and neither
-consumes anything from C2.3.
 
 The pinned libraries supply group algebras, localization, singular homology,
-manifold derivatives, Morse indices and local flow APIs. The pinned Tau Ceti already
-has, and this roadmap consumes as the supplier contracts below specify: the
-period-controlled completion with its topology, functoriality, Laurent and Hahn
-comparisons, domain theorem, field criterion, exponential, logarithm and Euler products,
-and the irrational-period example with an infinite period kernel (Layer 1);
-completed orbit modules and their supported kernel maps (§1.5 and the linear algebra
-of §3.1); Morse closed one-forms and the periods of closed one-forms (§§2.1–2.2); the
-equivariant cellular chains of a covering and the degree-one Hurewicz isomorphism
-(§§2.2 and 3.3); based torsion over a field with its basis-change, exact-sequence,
-mapping-cone, square-minor, homology-basis, componentwise and minor-chart continuity
-laws (§§4.1, 4.3 and 4.5); the decomposition of the total quotient of ℤ[H] into
-finitely many characteristic-zero fields, nonzerodivisors, reducedness and Artinian
-total quotients of the completion, and finite-index coset bases, traces and the
-logarithmic norm identity (§§4.2 and 4.4); closed orbits with multiplicities, the
-iterate-sign formula and the algebraic orbit zeta function with its integral Euler
-product (§§5.2–5.3); and nondegenerate fixed points with their finiteness (§6.5). The
-closed-one-form cutoff moduli, the Novikov complex of a closed one-form and its
-comparisons, the field decomposition of the total quotient of Nov(ℤ,H,N), the
-cyclotomic description and topology of the total quotients, the cover norms of
-torsion, the flow zeta function, the local fixed-point index, the dynamical/cellular
-equality and the Euler torsor are constructions of this roadmap. No Floer complex,
-nonabelian torsion, analytic Ray–Singer torsion or gauge invariant is an input.
+manifold derivatives, Morse indices and local flow APIs. The completed ring,
+cutoff moduli, based Novikov torsion, orbit zeta series and Euler torsor are
+constructions of this roadmap. No Floer complex, spectral sequence, nonabelian torsion, analytic
+Ray–Singer torsion or gauge invariant is an input.
 
 Existing work includes [Dongryul Kim's Novikov-series development](https://github.com/dongryul-kim/lean4-novikov),
 with its coefficient/support carrier in Novikov/Series/Basic.lean (revision
 d5e705bd46bca9cb1622a260425388500d7697c2, coefficient and support definitions).
 It treats real additive-submonoid exponents and, in several variables,
-finiteness for every positive weight vector. The pinned `TauCeti.NovikovSeries`
-consumed by N1 instead permits an arbitrary abelian exponent group with a
-specified, possibly noninjective period map; for injective N its reindexing onto
-the image of N is `TauCeti.NovikovSeries.continuousDomCongr`, and for
-noninjective N its comparison through a kernel splitting is §1.4's
-`TauCeti.NovikovSeries.hahnSeriesEquiv`.
+finiteness for every positive weight vector. N1 instead permits an arbitrary
+abelian exponent group with a specified, possibly noninjective period map.
+For injective N, construct the coefficient-preserving comparison with the
+one-variable carrier on the image of N, including convolution and the period
+topology. For noninjective N, retain the finite ties in each period fiber and
+compare through the supplied kernel splitting below. This general construction
+and its comparison are independent of the descent theorem in that project.
 Coordinate with its authors before code integration and follow the repository's
 licensing and reuse requirements for any copying or adaptation.
 
@@ -74,18 +52,21 @@ licensing and reuse requirements for any copying or adaptation.
 
 The geometric setting is a finite-dimensional real smooth Hausdorff second-countable
 closed connected manifold X. The Novikov complex does not require X to be oriented.
-The torsion comparison assumes χ(X)=0; retain the zero convention when a field
-component is not acyclic. Smooth one-forms use
+The torsion comparison assumes χ(X)=0; retain the zero convention of rt3
+Definition A.1, p. 239 when a field component is not acyclic. Smooth one-forms use
 [DifferentialGeometry 0–1](../DifferentialGeometry/README.md)'s common smooth-form
-carrier and exterior derivative, with its pullback and de Rham comparisons.
+carrier (`closedForms`, `RoughForm`) and exterior derivative, with its pullback and
+de Rham comparisons.
 A closed one-form α is Morse if its local potentials have nondegenerate critical
 points. This predicate includes neither Morse–Smale transversality nor periodic-orbit
-nondegeneracy. Use the metric dual V=α♯, and count trajectories of **−V**.
+nondegeneracy. Use the metric dual V=α♯, and count trajectories and closed orbits
+of **−V** (rt3 §1.1, pp. 210–211).
 
 Choose a connected regular abelian covering π:X̃→X on which π*α is exact, with
 specified deck-group identification H. Periods factor as
 `π₁(X)→H₁(X;ℤ)→H→ℝ`; denote the final homomorphism by P. Write H additively,
-monomials as e^h, and use **N=−P** in the Novikov completion. A primitive f̃ satisfies
+monomials as e^h, and use **N=−P** in the Novikov completion (rt3 §1.2, p. 211,
+where the ring is Nov(H,−[α])). A primitive f̃ satisfies
 `f̃(h·x)=f̃(x)+P(h)`. Thus e^h shifts critical values by P(h), and completed chains
 are finite above each potential threshold. A downward closed orbit γ has
 `N([γ])=−∫γ α>0`. Neither injectivity nor discreteness of N is assumed.
@@ -102,8 +83,10 @@ finitely generated, proved using a finite CW model of X. N1's completion algebra
 also treats arbitrary abelian groups, without claiming a finite field decomposition
 in that generality.
 
-Lean targets use small types, a real finite-dimensional model E, a boundaryless
-model with corners I, and rational singular homology. The Lefschetz and
+Lean targets are universe-polymorphic in the manifold and its model: a real
+finite-dimensional model E, a boundaryless model with corners I, and rational
+singular homology of the pair (M,∅), whose coefficient object `ULift ℚ` lies in the
+universe of M. The Lefschetz and
 Poincaré–Hopf statements also allow disconnected and empty compact manifolds;
 the connectedness convention above belongs to the covering/torsion development.
 The determinant of the endomorphism of the zero-dimensional vector space is 1.
@@ -120,12 +103,13 @@ Use `Localization (nonZeroDivisors R)` for total quotients, and
 `ChainComplex (ModuleCat R) ℤ` with native homology and homotopies.
 Use `IsAddQuotientCoveringMap` (Topology/Covering/Quotient.lean) for orbit fibers
 and disjoint translates; it does not include connectedness or nonemptiness.
-Use `mfderiv`, `fderiv`, `extChartAt`, `TangentSpace`, `TangentBundle` and
-`VectorField.mpullback` for the two headline statements. The pullback uses an
-inverse derivative and is zero when that derivative is not invertible; Layer 7
-uses it only on the open target of a boundaryless chart.
-Use `AlgebraicTopology.singularHomologyFunctor`
-(AlgebraicTopology/SingularHomology/Basic.lean) and `LinearMap.trace`
+Use `mfderiv`, `TangentSpace`, `TangentBundle`, `ContinuousLinearMap.snd`,
+`LinearMap.det` and `Function.fixedPoints` for the two headline statements.
+`mfderiv` reads df_x in the charts at x and f(x), which coincide at a fixed point;
+the vertical derivative of a vector field at a zero is the fiber component, under
+`ContinuousLinearMap.snd`, of the derivative of its section into the tangent bundle.
+Use `TopPair.incl` (Topology/Category/TopPair.lean) to regard M as the pair (M,∅),
+`Module.finrank`, and `LinearMap.trace`
 (LinearAlgebra/Trace.lean). Trace is defined to be zero without a finite basis;
 the closed-manifold theorem must prove finite-dimensionality and vanishing above
 the manifold dimension from the finite triangulation comparison.
@@ -142,122 +126,39 @@ normalized by 1/2. Consume `Riemannian.Tensor.rieszDual` and
 fiber hypotheses, and `exists_contMDiffAt_localFlow`
 (Geometry/Manifold/IntegralCurve/SmoothFlow.lean), with its boundaryless and
 finite-dimensional hypotheses. Global completeness in the compact application
-is a consequence to establish using the maximal-flow supplier.
+is `TauCeti.isCompleteVectorField_of_compactSpace`
+(Geometry/Manifold/Flow/Complete.lean), for C¹ fields on a compact boundaryless
+manifold. Consume `TauCeti.IsNondegenerateFixedPt` and
+`TauCeti.finite_fixedPoints_of_isNondegenerateFixedPt`
+(Geometry/Manifold/MFDeriv/FixedPoint.lean), for a finite-dimensional model over a
+complete field and a compact Hausdorff manifold: the first is §6.5's nondegeneracy
+hypothesis (1 is not an eigenvalue of df_x), the second the finiteness of its fixed set.
+Consume `TopPair.singularHomology` and `TopPair.singularHomologyMap`
+(AlgebraicTopology/Singular/Relative.lean) for rational singular homology and its
+induced maps; absolute homology of M is that of the pair (M,∅), by the natural
+isomorphism `TopPair.singularHomologyInclIso` (AlgebraicTopology/Singular/Empty.lean).
+For a space of finite CW type, `TauCeti.eulerChar_eq_finsum_finrank_singularHomology`
+(AlgebraicTopology/Cellular/EulerCharacteristic/FiniteCWType.lean) compares §7.3's
+alternating Betti sum with `TauCeti.eulerChar`.
+Consume `TauCeti.HurewiczOne.hurewiczHomologyAddEquiv`
+(AlgebraicTopology/Homotopy/Hurewicz/One/Basic.lean), the degree-one Hurewicz
+isomorphism from the abelianization of π₁(X,x) to the first integral singular homology
+of a path-connected space X, and its naturality in continuous maps,
+`TauCeti.HurewiczOne.homologyMap_hurewiczHomologyAddEquiv`
+(AlgebraicTopology/Homotopy/Hurewicz/One/Naturality.lean).
 The vector-space `stableSet_eq_biUnion_orbit_localInvariantSet_Ici`
 (Analysis/Calculus/Morse/LocalToGlobal.lean) retains its Lipschitz and convergence
 hypotheses. The Banach-domain `isMeagre_image_criticalPoints_of_isFredholm`
 (Analysis/Fredholm/SardSmale.lean) retains its separability and stated regularity
 bound; HeegaardFloer F0 supplies the manifold/parameter adapters.
 
-Consume the period-controlled completion of RingTheory/NovikovSeries for an additive
-group H and a period homomorphism `N : H →+ ℝ`, neither injective nor discrete:
-the carrier `TauCeti.NovikovSeries R H N` (Basic.lean) with its convolution ring and
-algebra structures and the group-ring embedding `TauCeti.NovikovSeries.ofAddMonoidAlgebra`
-(Multiplication.lean); the period filtration `TauCeti.NovikovSeries.periodFiltration`,
-its separated complete topology and the abstract completion
-`TauCeti.NovikovSeries.completionPkg` of the group ring (Topology.lean); the
-topological-ring structure, the nonnegative subring `TauCeti.NovikovSeries.nonnegSubring`,
-its positive ideal `TauCeti.NovikovSeries.posIdeal` and the geometric inverses
-`TauCeti.NovikovSeries.unitsOneSub` (TopologicalRing.lean); the pushforward
-`TauCeti.NovikovSeries.map` and the finite-kernel restriction `TauCeti.NovikovSeries.comap`
-(Map.lean) with `TauCeti.NovikovSeries.mapRingHom`, `TauCeti.NovikovSeries.mapAlgHom`,
-`TauCeti.NovikovSeries.mapNonnegSubring` and `TauCeti.NovikovSeries.map_mem_periodFiltration`,
-for exponent maps rescaling periods by a constant c>0 (Functoriality.lean); the
-rescaling and reversal equivalences `TauCeti.NovikovSeries.domCongr` and
-`TauCeti.NovikovSeries.continuousDomCongr` (Equiv.lean); `TauCeti.NovikovSeries.expMulEquiv`
-over a commutative ℚ-algebra (ExpLog.lean); `TauCeti.NovikovSeries.multipliable_of_finite_cutoffs`
-and `TauCeti.NovikovSeries.eulerProduct` (InfiniteProduct.lean);
-`TauCeti.NovikovSeries.toLaurentSeries`, a ring isomorphism for every R, with its
-topological form `TauCeti.NovikovSeries.toLaurentSeriesUniformEquiv` over a field
-(LaurentSeries.lean); `TauCeti.NovikovSeries.PeriodKernelSplitting`,
-`TauCeti.NovikovSeries.toHahnSeries` and `TauCeti.NovikovSeries.hahnSeriesEquiv`
-(HahnSeries.lean); `TauCeti.NovikovSeries.leadingTerm` and
-`TauCeti.NovikovSeries.isDomain_of_fg` (LeadingTerm.lean); the field criterion
-`TauCeti.NovikovSeries.isField_iff`, that Nov is a field exactly when R is a field and N is
-injective (Field.lean); the irrational-period example on ℤ³,
-`TauCeti.NovikovSeries.IrrationalExample.period`, `TauCeti.NovikovSeries.IrrationalExample.ker_period`,
-`TauCeti.NovikovSeries.IrrationalExample.series`,
-`TauCeti.NovikovSeries.IrrationalExample.leadingTerm_series` and
-`TauCeti.NovikovSeries.IrrationalExample.eventually_period_ge` (Examples/Irrational.lean); for a finite-index subgroup,
-`TauCeti.NovikovSeries.cosetBasis`, `TauCeti.NovikovSeries.finrank_eq_index` and
-`TauCeti.NovikovSeries.trace_eq_index_smul_comap` (FiniteIndex.lean) and
-`TauCeti.NovikovSeries.log_normNonnegSubring` (Norm.lean); for finitely generated H,
-`TauCeti.NovikovSeries.ofAddMonoidAlgebra_mem_nonZeroDivisors` and
-`TauCeti.NovikovSeries.map_ofAddMonoidAlgebra_injective` over coefficients without zero
-divisors (NonZeroDivisors.lean), `TauCeti.NovikovSeries.isReduced_iff` (Reduced.lean),
-and `TauCeti.NovikovSeries.isArtinianRing_of_isFractionRing` and
-`TauCeti.NovikovSeries.charZero_quotient_of_isFractionRing` over a domain
-(TotalQuotient.lean); for the group ring, the reducedness instance
-`AddMonoidAlgebra.isReduced_of_isFormallyReal` over a formally real coefficient ring
-(Algebra/MonoidAlgebra/Reduced.lean) and, for finitely generated H over a formally real
-Noetherian coefficient ring such as ℤ, the decomposition of its total quotient into finitely
-many characteristic-zero fields `AddMonoidAlgebra.exists_ringEquiv_pi_field_of_isFractionRing`
-(Algebra/MonoidAlgebra/TotalQuotient.lean); the reducedness of every localization of a reduced
-ring `IsLocalization.isReduced` (RingTheory/Localization/Reduced.lean); and
-`TauCeti.NovikovSeries.orbitLog`, `TauCeti.NovikovSeries.orbitZeta`,
-`TauCeti.NovikovSeries.isUnit_orbitZeta`, `TauCeti.NovikovSeries.orbitZeta_sub_one_mem_periodFiltration`,
-`TauCeti.NovikovSeries.orbitZeta_eq_eulerProduct`
-and `TauCeti.NovikovSeries.orbitZeta_eq_mapRingHom_eulerProduct` (OrbitZeta.lean), whose
-hypotheses are positive orbit periods tending to infinity along the cofinite filter
-and, for the product formula, iterate signs forming a geometric sequence of ratio ±1.
-Consume the matrix cutoff estimates of RingTheory/NovikovSeries/Matrix.lean, including
-`Matrix.continuous_mulVec_extension_iff`.
-
-Consume the completed orbit modules of RingTheory/NovikovModule: `TauCeti.NovikovModule R F`
-for a potential F (Basic.lean), finite above every potential threshold, with the lift
-coordinates `TauCeti.NovikovModule.coordinatesLinearEquiv` and the change-of-lift formula
-`TauCeti.NovikovModule.coordinates_apply_eq_mul_single` when the generators form finitely
-many H-torsors with `F(h+ᵥp)=F(p)−N(h)`; the potential-cutoff topology
-`TauCeti.NovikovModule.potentialFiltration` (Topology.lean); and the maps
-`TauCeti.NovikovModule.kernelMap` of kernels with a potential bound, their composites
-`TauCeti.NovikovModule.kernelComp` with `TauCeti.NovikovModule.kernelMap_kernelMap`, and the
-Nov-linear map `TauCeti.NovikovModule.novikovKernelMap` of a deck-invariant kernel
-(KernelMap.lean).
-
-Consume the based torsion of Algebra/Homology/ReidemeisterTorsion, for ℤ-graded
-complexes of finite-dimensional vector spaces over a field with ordered chain bases:
-`HomologicalComplex.reidemeisterTorsion` (Basic.lean), 0 off bounded acyclic complexes and
-normalized by `HomologicalComplex.reidemeisterTorsion_eq_det_zpow` so that a differential
-a from degree 1 to degree 0 has torsion a⁻¹;
-`HomologicalComplex.reidemeisterTorsionWithHomology` (Homology.lean);
-`HomologicalComplex.reidemeisterTorsion_homotopyCofiber` and
-`HomologicalComplex.reidemeisterTorsion_eq_mul_of_quasiIso` (MappingCone.lean);
-`HomologicalComplex.torsionMinor` and
-`HomologicalComplex.reidemeisterTorsion_eq_finprod_det_torsionMinor` (SquareMinor.lean);
-`HomologicalComplex.componentwiseReidemeisterTorsion` in a reduced Artinian ring
-(Componentwise.lean); and `HomologicalComplex.tendsto_reidemeisterTorsion_of_det_torsionMinor_ne_zero`
-on a fixed nonvanishing minor chart over a topological field (Topology.lean).
-
-Consume `Flow.ClosedOrbit`, `Flow.ClosedOrbit.iterate` and `Flow.ClosedOrbit.multiplicity`
-(Dynamics/Flow/ClosedOrbit.lean); `LinearMap.sign_det_one_sub_pow`
-(LinearAlgebra/Matrix/Charpoly/DetSign.lean); `TauCeti.IsMorseOneForm`,
-`TauCeti.IsPrimitiveOn.criticalHessian_eq`, `TauCeti.IsPrimitiveOn.manifoldMorseIndex_eq`
-and `TauCeti.IsMorseOneForm.finite_zeroSet` (Geometry/Manifold/Morse/OneForm.lean);
-`TauCeti.periodHom` and `TauCeti.mpullback_mem_exactForms_one_iff_periodHom_map_eq_zero`
-(Geometry/Manifold/DeRham/Period.lean), the latter for a smooth map out of a connected
-manifold; `TauCeti.IsNondegenerateFixedPt` and
-`TauCeti.finite_fixedPoints_of_isNondegenerateFixedPt`
-(Geometry/Manifold/MFDeriv/FixedPoint.lean), for a finite-dimensional model over a
-complete field and a compact Hausdorff manifold; the equivariant cellular chain complex
-`TauCeti.cellularChainComplexRep` (AlgebraicTopology/Cellular/Covering.lean) of the
-lifted CW structure `TauCeti.cwComplexPreimage` (Topology/CWComplex/Classical/Covering.lean)
-along a quotient covering map by a group acting freely, free over the group ring on
-chosen lifts by `TauCeti.cellularChainRepIsoFree`, with the cellular differential
-`TauCeti.cellularDifferential` (AlgebraicTopology/Cellular/Chains.lean) and the
-cellular/singular comparison `TauCeti.cellularSingularHomologyIso`
-(AlgebraicTopology/Cellular/Comparison.lean); and the degree-one Hurewicz isomorphism
-`TauCeti.HurewiczOne.hurewiczHomologyAddEquiv` of a path-connected space
-(AlgebraicTopology/Homotopy/Hurewicz/One/Basic.lean), natural by
-`TauCeti.HurewiczOne.homologyMap_hurewiczHomologyAddEquiv`
-(AlgebraicTopology/Homotopy/Hurewicz/One/Naturality.lean). The cellular chains are
-indexed by a multiplicative group: the additive deck group H enters through
-`Multiplicative H` and Mathlib's `IsAddQuotientCoveringMap.toMultiplicative`.
-
 ### From TauCetiRoadmap.MorseTheory
 
 Consume M1–M4 and M6: critical Hessians, indices and charts, finite compact-band
 handles and CW models, inequalities and gradient convergence. Apply them to local
 potentials; the closed-one-form period control is Layer 2's additional assertion.
+§2.1 applies M1 to local potentials, §2.4 uses M6's gradient convergence, §3.3
+takes its finite CW model from M2, and §7.1 uses M4.
 
 ### From TauCetiRoadmap.HeegaardFloer
 
@@ -269,12 +170,15 @@ chain change. Consume Lane F0 for Banach-manifold Fredholm/transversality and
 section conjugacy, all positive iterates and the normal-derivative comparison.
 The latter uses a compact periodic orbit, not a complete flow or compact ambient
 manifold. Layer 5's fixed-cohomology perturbations must preserve closedness.
+Consume §1.9 (M.9)'s Morse Euler/index proof for §7.1's comparison with the
+vector-field Poincaré–Hopf theorem.
 
 ### From TauCetiRoadmap.DifferentialGeometry
 
 Consume Layers 0–1 for forms, exterior derivative, pullbacks and local primitives;
-Layers 2–3 for orientations and maximal flows; Layers 5–6 and 8 for integration,
-de Rham cohomology and the period comparison; Layer 10 for degree and relative
+Layers 2–3 for orientations and maximal flows (`flowOf`, `toFlow`); Layers 5–6 and 8 for integration,
+de Rham cohomology and the period comparison, including the integral 2π of
+`circleAngularForm` over the circle and the nonvanishing of its de Rham class; Layer 10 for degree and relative
 homotopies; Layer 12 for metrics and musical maps. Normalize `circleAngularForm`
 by dividing by 2π under the map ℝ/ℤ→Circle, t↦exp(2πit).
 
@@ -284,64 +188,54 @@ Consume AlgebraicTopology Stages 1–3 for fundamental groups, relative singular
 chains, subdivision and excision; Stage 4 items 2–3 (AT4.2–AT4.3) for cellular
 chains and the cellular/singular comparison, natural on homology; Stages 5–7
 for covers, local systems, products, orientation coefficients and Euler
-characteristic; Stage 8 item 3 (AT8.3) for the natural degree-one Hurewicz
-isomorphism H₁=π₁ᵃᵇ, which is the native `TauCeti.HurewiczOne.hurewiczHomologyAddEquiv`
-with its naturality. Consume UniversalCovers Stage 2 item 8 for
-normal-subgroup/deck-quotient classification.
+characteristic. The natural identification H₁=π₁ᵃᵇ is the Tau Ceti Hurewicz
+isomorphism above. Consume UniversalCovers Stage 2 items 7–8 for the pointed cover
+attached to a subgroup of π₁(X,x₀) and the normal-subgroup/deck-quotient classification.
 No strict cellular-to-singular chain map is assumed.
 
 ### From TauCetiRoadmap.GeometricTopology
 
 Consume Layer 1 for collars and smooth gluing; Layer 3 for the C∞ family topology;
 Layers 4–5 for meridian/Seifert longitude, Conway-normalized Alexander polynomial
-and zero-slope surgery; Layer 11 and the smoothing-and-triangulation comparison
+and zero-slope surgery, and in particular §4.4 for the infinite cyclic cover of a knot
+exterior, its Alexander module H₁(X∞;ℤ) over ℤ[t,t⁻¹], the Seifert presentation
+`tV−Vᵀ`, the Fox presentation from a Wirtinger presentation, the agreement of these
+routes up to units, and Δ_K as the order of the module; Layer 11 and the smoothing-and-triangulation comparison
 for smooth triangulations, simplex-cell structures, signed boundaries and
-cellularity of simplicial maps. Layer 6 below constructs the equivariant
-knot/surgery chain comparison and the finite simplicial chain adapter.
+cellularity of simplicial maps. Layer 6 below constructs the based equivariant
+cellular complex of the surgery cover, its identification with §4.4's presentation,
+and the finite simplicial chain adapter.
 
 ## How to read the build
 
-Layers 1–7 retain the names N1–N7. Layer 1 fixes the coefficient algebra on the
-pinned Novikov-series library; it is independent of geometry. Layer 2 builds
-bounded-period geometry on native Morse and flow topology and HeegaardFloer Lanes M
-and F0. Layer 3 consumes Layers 1–2 and the AlgebraicTopology, GeometricTopology and
-native cellular suppliers to build the Novikov complex and its comparisons. Layer 4's
-torsion algebra runs independently of Layers 2–3, on the pinned based torsion, and
-then applies to their based complexes. Layer 5 consumes Layers 1–2 and counts return
-orbits. Layer 6 uses all five, including its own Lefschetz and knot/surgery adapters,
-to prove unrefined dynamical invariance and cellular equality; Layer 7 constructs the
-Euler carrier before using it to refine Layer 6. Generic ordinary Morse homology is
-not proved using the dynamical torsion theorem, and the Novikov homology comparison
-is not used to infer torsion invariance without its based comparison factor. The two
-native headline signatures are in Suggested.lean; its docstring names the pinned
-declarations that prove the algebraic headlines and the carriers missing for the
-others.
+Layers 1–7 retain the names N1–N7. Layer 1 develops the coefficient algebra;
+Layers 2–3 build bounded-period geometry and complexes. Layer 4 develops based
+torsion algebra, independently of the moduli construction, then applies it to
+Layer 3. Layer 5 counts return orbits. Layer 6 proves unrefined dynamical
+invariance and cellular equality; Layer 7 builds Euler structures and then proves
+the refined equality. The two native headline signatures are in Suggested.lean;
+its docstring names the missing carriers for the other headlines.
 
 ## Layer 1: Period-controlled completed group rings and modules
 
 ### 1.1 Completion coefficients and convolution
 
-For an abelian group H, a homomorphism N:H→ℝ and a commutative ring R, Nov(R,H,N)
-is `TauCeti.NovikovSeries R H N` (RingTheory/NovikovSeries/Basic.lean): coefficient
+For an abelian group H and homomorphism N:H→ℝ, define Nov(R,H,N) by coefficient
 functions a:H→R satisfying
 `∀ C:ℝ, {h | a(h)≠0 ∧ N(h)<C}.Finite`.
-Consume its equivalence with ≤C in place of <C
-(`TauCeti.NovikovSeries.forall_finite_lt_iff_forall_finite_le`), the least N-value of a
-nonzero support (`TauCeti.NovikovSeries.exists_isLeast_image_support`), the finiteness of
-the pairs `(u,v)` with u+v=h and a(u)b(v)≠0 (`TauCeti.NovikovSeries.finite_setOf_add_eq`)
-and the uniform cutoff lemma for associativity
-(`TauCeti.NovikovSeries.finite_setOf_period_add_add_lt`); the commutative-ring and
-R-algebra structures of Multiplication.lean, with monomials multiplying by adding
-exponents (`TauCeti.NovikovSeries.single_mul_single`) and monomials with unit
-coefficient units with inverse at −h (`TauCeti.NovikovSeries.isUnit_single`); and the
-group-ring embedding `TauCeti.NovikovSeries.ofAddMonoidAlgebra` by the coefficient map,
-injective by `TauCeti.NovikovSeries.ofAddMonoidAlgebra_injective` and, for nontrivial R,
-onto exactly when N=0 by `TauCeti.NovikovSeries.ofFinsupp_surjective_iff`. Every later
-layer uses this carrier and no other model of the completion.
+Use this exact support condition. Prove it is equivalent with ≤C in place of <C,
+and that a nonzero support has a lower bound and a least N-value. Prove equality
+coefficientwise; construct zero, addition, negation, coefficient scalar maps and
+convolution. For each h the pairs `(u,v)` with u+v=h and a(u)b(v)≠0 are finite;
+prove this before interpreting the coefficient sum. Prove all commutative-ring and
+R-algebra laws by finite support arguments, including the uniform cutoff lemma
+needed for associativity. Monomials multiply by adding exponents and are units
+with inverse e^(−h). Embed `AddMonoidAlgebra R H` by its actual coefficient map.
+For nontrivial R prove this embedding is onto iff N=0.
 
-The integral support model is rt3 §1.2, p. 211.
+The integral support model is rt3 §1.2, p. 211, and for H=H₁ with N=−θ rt2 §1, p. 371; the arbitrary-ring extension and finite-sum proofs are targets here.
 
-Later layers use:
+The API includes:
 
 - Equality is coefficientwise, with zero, addition and negation evaluated in the specified R.
 - Every convolution coefficient is a finite sum, and associativity uses a common finite cutoff.
@@ -355,49 +249,39 @@ Later layers use:
 - For H=ℤ², N(a,b)=a, infinitely many coefficients at (1,b) fail the cutoff C=2; finite ties 1+e^(0,1) are allowed.
 - Transporting the ring on ℤ by negation changes the monomial coefficient at its exponent from 1 to −1; the coefficient operations must be parameters of the construction.
 
-*Needs:* Tau Ceti RingTheory/NovikovSeries/Basic.lean and Multiplication.lean; Mathlib `AddMonoidAlgebra`.
+*Needs:* Mathlib `AddMonoidAlgebra`, `Finsupp` and finite sums.
 
 ### 1.2 Filtration, completion and functoriality
 
-The subgroups U_C={a | ∀h, N(h)<C→a(h)=0} are
-`TauCeti.NovikovSeries.periodFiltration` (RingTheory/NovikovSeries/Topology.lean).
-Consume their separated complete group topology, the density of finite truncations
-(`TauCeti.NovikovSeries.denseRange_ofFinsupp`), the universal completion property of
-the group ring with this filtration (`TauCeti.NovikovSeries.completionPkg`), continuity
-of the ring operations and the cutoff/convolution compatibility
-`TauCeti.NovikovSeries.mul_sub_mul_trunc_mem_periodFiltration` (TopologicalRing.lean).
-Scalar change is coefficientwise; do not identify base change of completed rings with
-a tensor product without its own proof. Positive rescaling of N gives the same ring
-and topology, and −N reverses the completion and is related by h↦−h, not the
-identity: both are `TauCeti.NovikovSeries.domCongr` and its homeomorphism form
-`TauCeti.NovikovSeries.continuousDomCongr` (Equiv.lean). For commutative ground rings
-R,S, a unital homomorphism ρ:R→S, an exponent homomorphism φ:H→H′ and c>0
-satisfying N′∘φ=cN, the continuous unital ring homomorphism
-P_(ρ,φ):Nov(R,H,N)→Nov(S,H′,N′) with coefficient
-`P_(ρ,φ)(a)(h′)=Σ_(φ(h)=h′)ρ(a(h))`, summing over nonzero source coefficients, is
-`TauCeti.NovikovSeries.mapRingHom` (Functoriality.lean), built on the additive
-pushforward `TauCeti.NovikovSeries.map` (Map.lean). Consume its multiplicativity,
-preservation of 1 and monomials, identity and composition laws
-(`TauCeti.NovikovSeries.mapRingHom_id`, `TauCeti.NovikovSeries.mapRingHom_comp`), the
-bound `P_(ρ,φ)(U_C)⊆U′_(cC)` (`TauCeti.NovikovSeries.map_mem_periodFiltration`), its
-continuity (`TauCeti.NovikovSeries.continuous_mapRingHom`), its restriction
-`TauCeti.NovikovSeries.mapNonnegSubring` to the nonnegative subrings, which maps positive
-ideals into positive ideals (`TauCeti.NovikovSeries.mapNonnegSubring_mem_posIdeal`), and
-the algebra-homomorphism form `TauCeti.NovikovSeries.mapAlgHom` for a fixed ground ring.
-Finite kernel is not required for this pushforward. With finite kernel, the
-restriction φ^* by coefficient precomposition and its support bound are
-`TauCeti.NovikovSeries.comap`. The inclusion/restriction cases used in finite cyclic
-covers are the algebra `TauCeti.NovikovSeries.instAlgebraAddSubgroup` over the
-subgroup ring and the projection formula
-`TauCeti.NovikovSeries.comap_subtype_algebraMap_mul`. A pushforward with a finer grading additionally
+Put U_C={a | ∀h, N(h)<C→a(h)=0}. These additive subgroups define the separated
+period-filtration topology. Prove completeness and the universal completion
+property for the group ring with this filtration, density of finite truncations,
+continuity of ring operations, and cutoff/convolution compatibility. Scalar change
+is coefficientwise; do not identify base change of completed rings with a tensor
+product without its own proof. Positive rescaling of N gives the same ring and
+topology; −N reverses the completion and is related by h↦−h, not the identity.
+For commutative ground rings R,S, a unital homomorphism ρ:R→S, an exponent
+homomorphism φ:H→H′ and c>0 satisfying N′∘φ=cN, construct the continuous unital
+ring homomorphism P_(ρ,φ):Nov(R,H,N)→Nov(S,H′,N′) with coefficient
+`P_(ρ,φ)(a)(h′)=Σ_(φ(h)=h′)ρ(a(h))`, summing over nonzero source coefficients.
+Prove this sum and every target sublevel support finite using the period identity.
+Prove additivity, multiplication, preservation of 1 and monomials, ground-coefficient
+naturality, identity and composition laws by reindexing the actual finite sums.
+If U_C and U′_D are the declared period neighborhoods, prove
+`P_(ρ,φ)(U_C)⊆U′_(cC)` and deduce continuity. Construct its restrictions to the
+nonnegative subrings and strictly positive ideals. With fixed ground ring export
+the R-algebra homomorphism specialization. Finite kernel is not required for this
+pushforward. With finite kernel also construct restriction φ^* by coefficient
+precomposition and prove its support bound. Export the inclusion/restriction cases
+used in finite cyclic covers. A pushforward with a finer grading additionally
 requires a target degree map commuting with φ, or an explicit degree quotient;
 the period identity alone supplies the ungraded map. Do not claim an unrestricted
 series pushforward for arbitrary φ or infer flatness, injectivity, or a completed
 tensor-product identification from this construction.
 
-The filtration extends the support definition of rt3 §1.2, p. 211; finite-cover restriction is rt3 §3.4, pp. 226–227.
+The filtration extends the support definition of rt3 §1.2, p. 211; the cutoff relation O(R) and limits in Nov are rt3 §2.1, p. 220; finite-cover restriction is rt3 §3.4, pp. 226–227. The general period-compatible pushforward and universal property are proved from these finite supports.
 
-Later layers use:
+The API includes:
 
 - The neighborhoods U_C give a separated complete additive topology, with continuous ring operations and dense finite sums.
 - Period-compatible pushforward preserves products, monomials and composition and sends U_C into U′_(cC).
@@ -406,29 +290,28 @@ Later layers use:
 **Checks.**
 
 - The tail Σ(k>m)t^k vanishes below any fixed C once m≥C, and t² lies in U₂ but not U₃.
-- Projection ℤ²→ℤ, (a,b)↦a, sends 1+e^(0,1) to 2 although the kernel is infinite; period fibers in an allowed support are finite.
+- U₂ is an additive subgroup but not an ideal: t²∈U₂ while t⁻³·t²=t⁻¹∉U₂.
+- Projection ℤ²→ℤ, (a,b)↦a, sends 1+e^(0,1) to 2 although the kernel is infinite; period fibers in an allowed support are finite. Precomposition along it is unavailable: Σ(a≥0)t^a pulls back to infinitely many terms of period 0.
+- For the inclusion 2ℤ→ℤ with N the identity, restriction takes the even-exponent part, and restriction after pushforward is the identity.
+- For ℤ→ℤ/2 with N(k)=k and N′=0, no c>0 satisfies N′∘φ=cN, so no pushforward is claimed; summing Σ(k≥0)t^k over cosets would diverge.
 - Precomposition along ℤ⊕ℤ/2→ℤ sends 1 to 1+g; its square is 2+2g, not 1+g, excluding ring-homomorphism language.
 - N and 2N admit Σt^k; −N excludes it but admits Σt^(−k), so reversal uses h↦−h.
 
-*Needs:* §1.1; Tau Ceti RingTheory/NovikovSeries/Topology.lean, TopologicalRing.lean, Map.lean, Functoriality.lean, Equiv.lean and FiniteIndex.lean.
+*Needs:* §1.1; Mathlib topological rings and additive groups.
 
 ### 1.3 Positive series and convergent operations
 
-The subring of series supported on N≥0 and its strictly positive ideal of series
-supported on N>0 are `TauCeti.NovikovSeries.nonnegSubring` and
-`TauCeti.NovikovSeries.posIdeal` (RingTheory/NovikovSeries/TopologicalRing.lean). Consume
-the geometric inverse `TauCeti.NovikovSeries.unitsOneSub` of 1−a for a in the positive
-ideal, over any R; the monomial identities `TauCeti.NovikovSeries.one_sub_single_mul_tsum`
-and `TauCeti.NovikovSeries.tsum_mul_one_sub_single`, which give
-`(1−e^h)^−1=Σ(k≥0)e^(kh)` when N(h)>0; the exponential `TauCeti.NovikovSeries.expMulEquiv`
-from the positive ideal onto the units 1+a with a in it, inverse to the logarithm, over
-a commutative ℚ-algebra (ExpLog.lean); and the convergence of infinite products in which
-only finitely many factors differ from 1 below each cutoff,
-`TauCeti.NovikovSeries.multipliable_of_finite_cutoffs` (InfiniteProduct.lean).
+Construct the nonnegative-period subring of series supported on N≥0 and its
+strictly positive ideal of series supported on N>0. Construct geometric series
+for such a, prove both inverse identities for 1−a, and build exp/log between
+this ideal and units of the form 1+a over a ℚ-algebra, with convergence and
+formal identities in the period topology. Prove filtered infinite
+products converge for families whose nonconstant supports escape every cutoff.
+Include monomial `(1−e^h)^−1=Σ(k≥0)e^(kh)` when N(h)>0.
 
-Use rt3 §1.3, equations (1.1)–(1.2) and Remark 1.4, p. 212.
+Use rt3 §1.3, equations (1.1)–(1.2) and Remark 1.4, p. 212; construct the coefficient-ring generalizations with the stated rational-scalar hypothesis.
 
-Later layers use:
+The API includes:
 
 - The nonnegative subring contains a strictly positive ideal; geometric inversion works over any R.
 - Over a ℚ-algebra, exponential and logarithm are mutually inverse between the positive ideal and 1 plus that ideal.
@@ -439,71 +322,51 @@ Later layers use:
 - For N(t)=1, (1−t)(1+t+t²+⋯) has coefficients 1,0,0 in degrees 0,1,2.
 - A constant series 1 is nonnegative but not positive: 1−1=0 has no inverse in a nonzero ring.
 - Over ℚ, exp(t) starts 1+t+t²/2 and log(1+t) starts t−t²/2; in characteristic 2 division by 2 is unavailable.
+- For N(k)=−k, Σ(k≥0)t^k is not in the ring; there 1−t has inverse −t⁻¹Σ(k≥0)t^(−k).
+- Π(n≥1)(1−t^n)⁻¹ converges because its n-th factor is 1 modulo U_n, and its t⁴ coefficient is the partition number 5; for N(t)<0 the factors do not escape the cutoffs and no convergence is claimed.
 
-*Needs:* §§1.1–1.2; Tau Ceti RingTheory/NovikovSeries/TopologicalRing.lean, ExpLog.lean and InfiniteProduct.lean.
+*Needs:* §§1.1–1.2; rational power-series identities.
 
 ### 1.4 Laurent, Hahn and leading-term comparisons
 
-For H=ℤ with N(k)=k, the coefficient-preserving ring isomorphism with native
-`LaurentSeries R` is `TauCeti.NovikovSeries.toLaurentSeries`
-(RingTheory/NovikovSeries/LaurentSeries.lean); it restricts to the group-ring
-Laurent-polynomial inclusion, and over a field it is a uniform equivalence for the
-period and X-adic topologies (`TauCeti.NovikovSeries.toLaurentSeriesUniformEquiv`).
-For a general H and a supplied splitting `TauCeti.NovikovSeries.PeriodKernelSplitting`
-of the period kernel, the comparison with Hahn series whose coefficients lie in the
-kernel group ring is the injective ring homomorphism `TauCeti.NovikovSeries.toHahnSeries`,
-with image the locally finite Hahn series (`TauCeti.NovikovSeries.hahnSeriesEquiv`) and
-coefficient and topology formulas
-`TauCeti.NovikovSeries.mem_periodFiltration_iff_coeff_toHahnSeries` and
-`TauCeti.NovikovSeries.tendsto_nhds_iff_coeff_toHahnSeries` (HahnSeries.lean). The
-splitting and ordered period group are data, and this comparison is not the
-definition. For finitely generated torsion-free H and a domain R, Nov is a domain by
-`TauCeti.NovikovSeries.isDomain_of_fg`, through the leading coefficients
-`TauCeti.NovikovSeries.leadingTerm` in the group ring, which retain finite ties in N
-(LeadingTerm.lean). For every abelian H, Nov is a field exactly when R is a field and N
-is injective (`TauCeti.NovikovSeries.isField_iff`, Field.lean), dense period groups
-included: over a nonzero R, a nonzero kernel element h makes 1−e^h a nonunit, since
-pushforward along N sends it to 0.
+For H=ℤ with N(k)=k, construct the coefficient-preserving ring/topological comparison
+with native `LaurentSeries R`, retaining the group-ring Laurent-polynomial inclusion.
+For a general H and a supplied splitting of the period kernel, give the comparison
+with the locally finite subring of Hahn series whose coefficients are finite sums
+in the kernel group ring; prove coefficient and topology formulas. The splitting
+and ordered period group are data, and this comparison is not the definition.
+For finitely generated torsion-free H and a domain R prove Nov is a domain using
+leading coefficients in the period-kernel group ring; finite ties in N are retained.
 
-The cyclic case is rt3 Example 1.3, p. 211; the leading-coefficient domain argument is in the proof of Lemma A.4, p. 240.
+The cyclic case is rt3 Example 1.3, p. 211; the leading-coefficient domain argument is in the proof of Lemma A.4, p. 240. The split-kernel topological comparison is an extension built here.
 
-Later layers use:
+The API includes:
 
-- The cyclic comparison preserves each coefficient; over a field it also identifies the period topology with the X-adic topology.
+- The cyclic comparison preserves each integer coefficient and the period topology.
 - The split-kernel comparison retains finite group-ring coefficients in each period fiber.
 - For finitely generated torsion-free H and a domain R the least-period coefficient proves the product of two nonzero series is nonzero.
-- Over a coefficient field, an injective period map, discrete or dense, makes Nov a field.
 
 **Checks.**
 
 - The Laurent element t⁻²+3+t³ has minimum exponent −2 on both sides of the comparison.
 - For N(a,b,c)=a+√2b, 1+e^(0,0,1) has two leading terms of period 0; collapsing them to one exponent loses a coefficient.
 - For H=ℤ/2 and R=ℤ, (1−g)(1+g)=0 with both factors nonzero; the domain theorem must exclude torsion.
-- Over ℚ with H=ℤ, N(k)=k gives the field ℚ((t)), where 1−t has inverse Σ(k≥0)t^k; N=0 gives ℚ[t,t⁻¹], where 1−t is not a unit, so the field criterion cannot drop injectivity.
+- For H=ℤ² and the injective dense period N(a,b)=a+√2b, a nonzero series attains its least period at exactly one exponent, so leading terms multiply and Nov(ℤ,ℤ²,N) is a domain.
 
-*Needs:* §§1.1–1.3; Tau Ceti RingTheory/NovikovSeries/LaurentSeries.lean, HahnSeries.lean, LeadingTerm.lean and Field.lean; Mathlib `LaurentSeries`, `HahnSeries` and group algebras.
+*Needs:* §§1.1–1.3; Mathlib `LaurentSeries`, `HahnSeries` and group algebras.
 
 ### 1.5 Completed orbit modules
 
 For a free H-set S with finitely many orbits and an equivariant potential
-F(hs)=F(s)−N(h), the completed R-linear combinations of S finite above every
-F-threshold are `TauCeti.NovikovModule R F` (RingTheory/NovikovModule/Basic.lean).
-Consume the identification of this module with a finite free Nov-module on chosen
-orbit lifts (`TauCeti.NovikovModule.coordinatesLinearEquiv`), the diagonal monomial
-change-of-lift formula (`TauCeti.NovikovModule.coordinates_apply_eq_mul_single`), the
-cutoff topology `TauCeti.NovikovModule.potentialFiltration` (Topology.lean), and the
-uniform support estimates for differentials, continuation maps, homotopies and
-compositions in the form of kernel maps: `TauCeti.NovikovModule.kernelMap` for a kernel
-with a potential bound C shifts cutoffs by C, composites are
-`TauCeti.NovikovModule.kernelComp` with constants adding
-(`TauCeti.NovikovModule.kernelMap_kernelMap`), and a deck-invariant kernel gives the
-Nov-linear map `TauCeti.NovikovModule.novikovKernelMap` (KernelMap.lean). Equivariant
-group-ring matrices extend uniquely to continuous maps by
-`Matrix.continuous_mulVec_extension_iff` (RingTheory/NovikovSeries/Matrix.lean).
+F(hs)=F(s)−N(h), construct completed R-linear combinations of S finite above every
+F-threshold. Chosen orbit lifts identify this module with a finite free Nov-module.
+Prove change-of-lift matrices are diagonal monomials, cutoff convergence, and the
+extension of equivariant matrices to continuous maps. Export the uniform support
+estimates for differentials, continuation maps, homotopies and compositions.
 
-The critical-lift model is rt3 §1.4, pp. 212–213.
+The critical-lift model is rt3 §1.4, pp. 212–213; the finite-orbit module and uniform matrix estimates generalize that model.
 
-Later layers use:
+The API includes:
 
 - Chosen orbit lifts give a finite free module over the completion.
 - Changing a lift by h multiplies its basis vector by e^h.
@@ -515,42 +378,30 @@ Later layers use:
 - Replacing s by h·s multiplies its basis by e^h; the empty orbit set gives the zero module.
 - Multiplication by t² sends U₃ into U₅, since 2+3=5; reversing the potential sign would give the wrong direction.
 
-*Needs:* §§1.1–1.2; Tau Ceti RingTheory/NovikovModule/Basic.lean, Topology.lean and KernelMap.lean, and RingTheory/NovikovSeries/Matrix.lean.
+*Needs:* §§1.1–1.2; finite free modules.
 
 ### Examples
 
-The irrational period N(a,b,c)=a+√2b on ℤ³ with coefficients ℤ is
-`TauCeti.NovikovSeries.IrrationalExample.period`, whose kernel is generated by (0,0,1)
-(`TauCeti.NovikovSeries.IrrationalExample.ker_period`). Its series
-`TauCeti.NovikovSeries.IrrationalExample.series`, the product of 1+e^(0,0,1) with Σ(n≥0)e^(n,0,0),
-keeps both tied exponents in its leading term
-(`TauCeti.NovikovSeries.IrrationalExample.leadingTerm_series`), and along its infinite support
-the periods exceed every cutoff
-(`TauCeti.NovikovSeries.IrrationalExample.eventually_period_ge`). It is the coefficient
-example with nonintegral and noninjective periods that the later layers' algebra is held
-against, alongside the discrete injective periods of the circle.
+Use the irrational period N(a,b,c)=a+√2b with a nontrivial kernel, not only discrete injective periods.
 
 ### Dependencies
 
-N1 consumes the pinned Novikov-series and Novikov-module libraries and the Mathlib algebra they rest on. It does not depend on geometry.
+N1 uses only the pinned algebra, topology and finite-sum APIs. Its arbitrary-ring completion does not depend on geometry.
 
 ## Layer 2: Morse closed one-forms, covers and bounded-period moduli
 
 ### 2.1 Closed forms and critical geometry
 
-The Morse condition is `TauCeti.IsMorseOneForm` (Geometry/Manifold/Morse/OneForm.lean),
-stated on the actual cotangent fibers through local primitives. Consume local-primitive
-independence of the critical Hessian and index (`TauCeti.IsPrimitiveOn.criticalHessian_eq`,
-`TauCeti.IsPrimitiveOn.manifoldMorseIndex_eq`) and the isolation and finiteness of zeros
-on a compact manifold (`TauCeti.IsMorseOneForm.finite_zeroSet`). Compare a nondegenerate
-zero with transversality of the section α to the zero section and establish local
-normal forms. Define negative dual trajectories, stable/unstable
+Define the zero locus using the actual cotangent bundle. Prove local-potential
+independence of the critical Hessian and index; compare nondegenerate zero with
+transversality of the section α to the zero section. Establish local normal forms,
+isolation and finite critical sets. Define negative dual trajectories, stable/unstable
 manifolds and Morse–Smale transversality separately. Specify descending orientation
 lines over critical points and their deck transport; the sign convention is
 `TD(p)=TM(p,q)⊕R(negative-flow tangent)⊕TD(q)`. Compare it with Lane M's
 integer boundary convention rather than counting unsigned trajectories.
 
-Use rt3 §1.1, pp. 210–211 and §1.4, pp. 212–213 for the local potential and orientation conventions.
+Use rt3 §1.1, pp. 210–211 and §1.4, pp. 212–213 for the local potential and orientation conventions; the Morse and Morse–Smale conditions are admissibility conditions (a) and (b) of rt3 Definition 1.1, p. 211.
 
 The API includes:
 
@@ -562,20 +413,17 @@ The API includes:
 
 - On ℝ, potentials x²/2 and x²/2+7 give α=x dx, Hessian 1 and index 0; −x²/2 gives index 1.
 - The form x² dx has a degenerate zero since its derivative there is 0, even though the zero is isolated.
+- On the noncompact line, d(sin x) has infinitely many nondegenerate zeros, so finiteness of the zero set needs compactness.
 - For f=cos θ on S¹ with maximum unstable direction +∂θ, the two downward paths have signs +1 and −1, so their ordinary incidence sum is 0.
 
-*Needs:* DifferentialGeometry Layers 0–3 and 12; MorseTheory M1 and M6; HeegaardFloer Lane M; Tau Ceti `TauCeti.IsMorseOneForm`.
+*Needs:* DifferentialGeometry Layers 0–3 and 12; MorseTheory M1 and M6; HeegaardFloer Lane M.
 
 ### 2.2 Periods and connected abelian covers
 
-The period homomorphism on π₁ is `TauCeti.periodHom` (Geometry/Manifold/DeRham/Period.lean):
-consume its homotopy invariance, additivity under concatenation, dependence only on the
-de Rham class and pullback naturality, and factor it through H₁ by the native Hurewicz
-isomorphism `TauCeti.HurewiczOne.hurewiczHomologyAddEquiv` with its naturality.
-Specialize the regular-cover classification to surjections π₁(X)→H, using
-π₁-abelianization; π*α is exact iff periods vanish on that kernel, which is
-`TauCeti.mpullback_mem_exactForms_one_iff_periodHom_map_eq_zero` for the connected
-cover. Build the lifted smooth structure, metric/vector field and primitive,
+Construct the period homomorphism by integrating loops, with homotopy, concatenation,
+homology and de Rham naturality. Specialize the regular-cover classification to
+surjections π₁(X)→H, using π₁-abelianization; π*α is exact iff periods vanish on
+that kernel. Build the lifted smooth structure, metric/vector field and primitive,
 with deck-equivariance and positive/negative flow comparison. For a connected
 regular cover with abelian deck group H, prove that
 `H₁(X̃;ℤ) → H₁(X;ℤ) → H → 0` is exact at H₁(X;ℤ) and surjective onto H,
@@ -596,7 +444,7 @@ The API includes:
 - For an exact form P=0, the pulled-back potential is invariant under every deck transformation.
 - For the universal cyclic cover of S¹, H₁(upstairs)=0 and H₁(base)→ℤ is the identity; its kernel is 0.
 
-*Needs:* DifferentialGeometry Layers 5–6 and 8; AlgebraicTopology Stages 1 and 5 and Stage 8 item 3 (AT8.3), with the native `TauCeti.HurewiczOne.hurewiczHomologyAddEquiv` and `TauCeti.HurewiczOne.homologyMap_hurewiczHomologyAddEquiv`; Tau Ceti `TauCeti.periodHom`; UniversalCovers Stage 2 item 8.
+*Needs:* DifferentialGeometry Layers 5–6 and 8; AlgebraicTopology Stages 1 and 5; Tau Ceti `TauCeti.HurewiczOne.hurewiczHomologyAddEquiv` and `TauCeti.HurewiczOne.homologyMap_hurewiczHomologyAddEquiv`; UniversalCovers Stage 2 items 7–8.
 
 ### 2.3 The Klein-bottle cover and period kernel
 
@@ -641,6 +489,9 @@ The API includes:
 **Checks.**
 
 - AB(s,y)=(s+1,−y−1) and BA(s,y)=(s+1,−y+1) agree modulo 2; B²(s,y)=(s,y+2)=(s,y).
+- A^nB^e(s,y)=(s,y) forces n=0 and e=0, so the action is free; the quotient by B is ℝ×(ℝ/ℤ), on which A identifies (s,y) with (s+1,−y), giving X.
+- [a,b]=aba⁻¹b⁻¹=b⁻², so ⟨b²⟩ lies in the commutator subgroup, and π₁(X)/⟨b²⟩≅ℤ⊕ℤ/2 is abelian; hence ⟨b²⟩ is the commutator subgroup and C is the universal abelian cover.
+- For α=dx+√2dy on T², P:ℤ²→ℝ is injective with dense image, the period-kernel cover is ℝ² and N is not discrete; a construction through a circle-valued map would fail for this class.
 - The subgroup generator b² maps injectively as 2 in the fiber subgroup of π₁(X), but maps to 2[b]=0 in H₁(X); thus 0 and 1 in H₁(C)=ℤ both map to 0.
 - P(A)=1, P(B)=0 and N(A⁻¹)=1; (1−g)(1+g)=1−g²=0, with both factors nonzero over ℤ.
 
@@ -661,7 +512,7 @@ products give the coherent square-zero identity, and all estimates are uniform o
 the compact parameter sets needed in N3. Retain empty and constant-trajectory
 cases separately from the free translation quotient.
 
-Use the compactness argument in rt3 §1.4, p. 213 and the uniform bounds of Lemma 2.2, pp. 218–219; build the full cutoff compactification and orientation/gluing interfaces.
+The expected dimension is rt3 §1.1, p. 211, and the bound on length away from critical points by a multiple of the drop is §1.3, p. 212. Use the compactness argument in rt3 §1.4, p. 213 and the uniform bounds of Lemma 2.2, pp. 218–219; build the full cutoff compactification and orientation/gluing interfaces.
 
 The API includes:
 
@@ -674,8 +525,9 @@ The API includes:
 - An index-one-to-index-zero path has quotient dimension 0; an index-zero-to-index-zero nonconstant path would have dimension −1 and is absent under transversality.
 - For an exact potential, a nonconstant closed trajectory would satisfy both drop>0 and drop=0, hence none exists.
 - An oriented interval compactification has endpoints +1 and −1, whose sum 0 gives the two-term square-zero cancellation; a constant trajectory has a full translation stabilizer.
+- On the nonzero-period circle with a maximum p and a minimum q, the lift p̃ has exactly one trajectory to each of the two adjacent lifts of q and none to any other lift.
 
-*Needs:* §§2.1–2.3; HeegaardFloer Lane M stable manifolds, compactification and gluing; Layer 1 module support estimates.
+*Needs:* §§2.1–2.3; HeegaardFloer Lane M stable manifolds, compactification and gluing; MorseTheory M6 gradient convergence; Layer 1 module support estimates.
 
 ### Examples
 
@@ -690,14 +542,9 @@ N2 consumes N1 support estimates and the named ordinary geometric suppliers; it 
 ### 3.1 The Novikov differential
 
 Take coefficients in ℤ first and scalar-extend coefficientwise to R. Define
-`CN_i=Nov(R,H,N)⟨chosen lifts of Crit_i(α)⟩` as the completed module
-`TauCeti.NovikovModule` of the lifted index-i critical points with potential f̃; its
-differential is the kernel map `TauCeti.NovikovModule.kernelMap` of the signed
-index-one trajectory counts to **all** lifts of each lower critical point. Use N2 to
-prove that this kernel has potential bound 0 and finite output above every threshold;
-continuity and Nov-linearity (`TauCeti.NovikovModule.novikovKernelMap`) follow, and d²=0
-reduces through `TauCeti.NovikovModule.kernelMap_kernelMap` to N2's index-two boundary
-identity. Change
+`CN_i=Nov(R,H,N)⟨chosen lifts of Crit_i(α)⟩`; its differential sums signed
+index-one trajectories to **all** lifts of each lower critical point. Use N2 to
+prove the output support condition, continuity, Nov-linearity and d²=0. Change
 of lifts and descending orientations gives specified chain isomorphisms. Define
 homology through native chain complexes, not a private ker/im quotient.
 
@@ -715,7 +562,7 @@ The API includes:
 - After setting t=1 in the finite exact-circle differential, 1−t becomes 0, recovering the ordinary incidence count.
 - For a zero critical set, every chain group and differential is 0; homology is 0, while the empty-complex torsion is 1.
 
-*Needs:* Layers 1–2; Tau Ceti RingTheory/NovikovModule/KernelMap.lean; Mathlib chain complexes and homology.
+*Needs:* Layers 1–2; Mathlib chain complexes and homology.
 
 ### 3.2 Continuation with controlled support
 
@@ -742,15 +589,15 @@ The API includes:
 - The constant family on a one-generator zero-differential complex induces matrix [1], not [0].
 - For a change of lift by t², continuation and its inverse have matrices [t²] and [t⁻²], with product [1].
 - An index-one interval of parameterized solutions contributes opposite endpoint signs +1 and −1, giving chain-homotopic endpoint maps.
+- On the nonzero-period circle the critical-free and two-critical-point forms are cohomologous; continuation between the zero complex and the acyclic two-term complex of §3.1 is a chain homotopy equivalence.
+- Across a birth/death in a path of exact forms df_t, the chain change is HeegaardFloer §1.5 (M.5)'s signed elementary chain change, not the identity on generators.
 
 *Needs:* §3.1; HeegaardFloer §1.5 (M.5) and F0; DifferentialGeometry relative smooth perturbations; Layer 2 uniform cutoff gluing.
 
 ### 3.3 Completed cellular and controlled singular comparison
 
-Consume the equivariant cellular chain complex `TauCeti.cellularChainComplexRep` of X̃,
-for the lifted CW structure `TauCeti.cwComplexPreimage` of a finite CW model of X along
-the deck quotient map, free over ℤ[H] on chosen lifts of the cells by
-`TauCeti.cellularChainRepIsoFree`. Its completed version is
+Construct an equivariant finite cellular chain complex of X̃ over ℤ[H] from a
+finite CW model of X and actual lifted attaching maps. Its completed version is
 `Nov(R,H,N)⊗_(ℤ[H]) Ccell_*(X̃;ℤ)` with the displayed group-ring scalar map.
 Prove a chain homotopy equivalence with CN, compatible with subdivisions, cell
 models, orientation/lift changes and continuation. Build the alternative controlled
@@ -763,12 +610,12 @@ Prove the exact-form specialization is the group-ring equivariant ordinary Morse
 complex. Prove the large-gradient comparison for β=α+C df with C sufficiently
 large and a chosen Morse–Smale f: after positive rescaling to df+C⁻¹α, the relevant
 critical points and lifted incidence counts correspond, and the flow has no periodic
-orbits. Supply the structural-stability/entry-exit and support argument; cohomology
+orbits (rt3 Lemma 4.1, p. 235, whose proof on p. 236 is a small-perturbation argument). Supply the structural-stability/entry-exit and support argument; cohomology
 equality and a formal small-perturbation sentence are not proofs. Complete the
 Morse-to-cellular chain identification for the triangulation-adapted model and
 compare it with ordinary singular homology.
 
-The homology comparison is rt3 equation (1.4), p. 213. The controlled chain-homotopy equivalence, subdivision and prism estimates are stronger targets whose construction is specified here.
+The homology comparison is rt3 equation (1.4), p. 213. The triangulation-adapted model, built from the triangulation vector field of Appendix B, is sketched in rt3 Example 1.8, p. 215; Remark 4.3, p. 237 records that the sketch is not rigorous, so the model is constructed here. The controlled chain-homotopy equivalence, subdivision and prism estimates are stronger targets whose construction is specified here.
 
 The API includes:
 
@@ -781,8 +628,9 @@ The API includes:
 - For the exact circle on its universal cover, d=1−t over ℤ[t,t⁻¹], so H₀=ℤ and H₁=0.
 - For nonzero circle period, 1−t is invertible and both completed homology groups vanish.
 - The infinite sum of translates at increasing positive potential fails the finite-above condition; translates with potential −k pass every fixed upper cutoff.
+- On S¹=ℝ/2πℤ with α=dθ, f=cos θ and the flat metric, the rescaled field −∇(f+C⁻¹θ) is (sin θ−C⁻¹)∂θ: for C>1 it has two zeros and no closed orbit, for C<1 the whole circle is a closed orbit, so C must be large.
 
-*Needs:* §§3.1–3.2; Layer 1 modules; Tau Ceti `TauCeti.cellularChainComplexRep`, `TauCeti.cwComplexPreimage`, `TauCeti.cellularChainRepIsoFree` and `TauCeti.cellularSingularHomologyIso`; AlgebraicTopology Stages 2–4; GeometricTopology Layer 11; HeegaardFloer ordinary Morse/singular comparison.
+*Needs:* §§3.1–3.2; Layer 1 modules; MorseTheory M2 finite CW model; AlgebraicTopology Stages 2–4; GeometricTopology Layer 11; HeegaardFloer ordinary Morse/singular comparison.
 
 ### 3.4 Naturality and top degree
 
@@ -802,6 +650,8 @@ The API includes:
 - A two-term field complex with differential 2 has chain ranks (1,1), Betti numbers (0,0) and Euler sums 0=0.
 - For the critical-free nonzero-period circle, all Betti and critical counts vanish; ordinary circle Betti numbers (1,1) would give the wrong answer.
 - For exact α=0 on an oriented circle with trivial cover, H₁=ℤ, so omitting the nonzero-class hypothesis would be false.
+- For the torus with α the pullback of dx and cover ℝ×S¹, the completed cellular complex is (Nov —(1−t)→ Nov)⊗Ccell(S¹), acyclic since 1−t is a unit; so H₂^Nov=0 while H₂(T²;ℤ)=ℤ, and Novikov homology is not H_*(T²)⊗Nov.
+- For the Klein bottle with the class of ds (§2.3), top-degree Novikov homology vanishes although the surface is nonorientable.
 
 *Needs:* §3.3; AlgebraicTopology Stage 6 orientation coefficients.
 
@@ -817,56 +667,37 @@ N3 uses N1–N2 and the ordinary cellular/Morse suppliers. Its field-rank conseq
 
 ### 4.1 Determinant lines and based torsion
 
-Consume the scalar torsion of a based complex over a field F,
-`HomologicalComplex.reidemeisterTorsion` (Algebra/Homology/ReidemeisterTorsion/Basic.lean):
-a nonzero scalar from the chosen ordered chain bases of a bounded acyclic complex, and
-0 for a nonacyclic one (`HomologicalComplex.reidemeisterTorsion_eq_zero_iff`),
-independent of boundary bases and lifts (`HomologicalComplex.reidemeisterTorsion_eq_finprod`).
-Its homological convention is that the elementary two-term complex with differential
-a from degree 1 to degree 0 has torsion a⁻¹ for a≠0
-(`HomologicalComplex.reidemeisterTorsion_eq_det_zpow`). This is Hutchings rt3,
+Build the determinant line of a bounded finite-dimensional chain complex over a
+field F and its canonical comparison with the alternating determinant of homology,
+using bases of boundaries and lifts through the short exact sequences. Fix the
+homological convention that the elementary two-term complex with differential a
+from degree 1 to degree 0 has torsion a⁻¹ for a≠0. This is Hutchings rt3,
 Definition A.1 and Proposition A.2, p. 239; it is the inverse of Milnor's
-multiplicative convention in Whitehead torsion, §3, p. 365. Consume the
-permutation/sign rule `HomologicalComplex.reidemeisterTorsion_reindex`, the graded
-basis-change formula `HomologicalComplex.reidemeisterTorsion_eq_mul_finprod_det`, scalar
-extension `HomologicalComplex.map_reidemeisterTorsion`, direct sums
-`HomologicalComplex.reidemeisterTorsion_biprod`, multiplicativity for a degreewise based
-short exact sequence of acyclic complexes with compatible chain bases and the explicit
-Koszul sign (`HomologicalComplex.reidemeisterTorsion_eq_mul_of_shortExact`), the
-homology-basis torsion `HomologicalComplex.reidemeisterTorsionWithHomology` with its
-chain- and homology-basis change laws (Homology.lean), and the transformation of torsion
-under a chain map by the torsion of its based mapping cone
-(`HomologicalComplex.reidemeisterTorsion_homotopyCofiber`,
-`HomologicalComplex.reidemeisterTorsion_eq_mul_of_quasiIso`, MappingCone.lean).
-
-Build the determinant line of a bounded finite-dimensional chain complex over F and
-its canonical comparison with the alternating determinant of homology, using bases of
-boundaries and lifts through the short exact sequences. For a nonacyclic complex it
-retains the homology-basis determinant line where the scalar torsion is 0; after a
-choice of homology bases it is `HomologicalComplex.reidemeisterTorsionWithHomology`.
-For general complexes, prove determinant-line multiplicativity through the long exact
-homology sequence, including its torsion correction with chosen homology bases. Regard
-that sequence as an acyclic homological complex with H_i(A), H_i(B), H_i(D) in degrees
+multiplicative convention in Whitehead torsion, §3, p. 365. For acyclic complexes obtain a nonzero
+scalar from the chosen ordered chain bases; for nonacyclic complexes define the
+scalar to be 0 while retaining the more informative homology-basis determinant
+line. Prove independence of boundary bases/lifts, permutation/sign rules, graded
+basis-change formula, scalar extension and direct sums. For a degreewise based
+short exact sequence of acyclic complexes, prove scalar-torsion multiplicativity
+with compatible chain bases and the explicit Koszul sign. For general complexes,
+prove determinant-line multiplicativity through the long exact homology sequence,
+including its torsion correction with chosen homology bases. Regard that sequence
+as an acyclic homological complex with H_i(A), H_i(B), H_i(D) in degrees
 3i+2,3i+1,3i respectively, using the same alternating determinant order and
 subspace-first lifts. Derive the scalar formula from this comparison; the
-zero-extended scalar torsions do not replace the determinant-line formula. Prove
-contraction and subdivision identities used below. Do not assert torsion is invariant
-under every chain homotopy equivalence: use its transformation by the based
-mapping-cone torsion.
+zero-extended scalar torsions do not replace the determinant-line formula.
+Prove contraction and subdivision identities used below. Do not assert torsion is invariant under every chain homotopy
+equivalence: prove its transformation by the based mapping-cone torsion.
 
-For an acyclic complex choose coordinate subspaces D_i,E_i for which the
-**projection** `p_(E_(i−1))∘d|_(D_i)` is an isomorphism; rt3 Proposition A.2 proves
-that such a choice exists. The differential need not map D_i into E_(i−1) itself.
-When each E_i precedes D_i in the chain basis, the alternating product of these minor
-determinants is `HomologicalComplex.reidemeisterTorsion_eq_finprod_det_torsionMinor`
-for the minors `HomologicalComplex.torsionMinor` (SquareMinor.lean). For blocks in
-other positions, reconcile it with the determinant-line convention, including the
-overall sign: `τ=±Π_i det(d_s:D_i→E_(i−1))^((-1)^i)`, where `d_s=p_(E_(i−1))∘d|_(D_i)`
-is the square minor and the sign is that of reordering the chain bases. For degreewise
-basis changes A_i, the exact equality `τ(A⁻¹dA)=τ(d)·Π_i det(A_i)^((-1)^i)` for
-grading-preserving A is `HomologicalComplex.reidemeisterTorsion_eq_mul_finprod_det_toMatrix`.
+For acyclic complexes give the square-minor formula by choosing coordinate subspaces D_i,E_i and using
+the **projection** `p_(E_(i−1))∘d|_(D_i)`; these projected maps are isomorphisms.
+The differential need not map D_i into E_(i−1) itself. Compute the alternating
+product of these minor determinants and reconcile it with the determinant-line
+convention, including the overall sign: `τ=±Π_i det(d_s:C_i→C_(i−1))^((-1)^i)`.
+For degreewise basis changes A_i, prove
+`τ(A⁻¹dA)=τ(d)·Π_i det(A_i)^((-1)^i)` as an exact equality for grading-preserving A.
 
-Use rt3 Definition A.1 and Proposition A.2, p. 239, and Proposition A.5, p. 240; transport Milnor §3, pp. 365–368 by inversion.
+Use rt3 Definition A.1, equation (A.1) and Proposition A.2, p. 239, and Proposition A.5, p. 240; transport Milnor §3, pp. 365–368 by inversion. Milnor's multiplicativity, §3, Theorem 3.1, holds modulo ±1, so the Koszul sign is fixed here rather than taken from it.
 
 The API includes:
 
@@ -879,35 +710,24 @@ The API includes:
 - For ℚ —2→ ℚ in degrees 1,0, torsion is 1/2; Milnor gives 2. With A₀=3 and A₁=5, the new differential is 10/3 and torsion 3/10=(1/2)·3/5.
 - Differential 0 over ℚ has two nonzero homology groups, so its zero-extended scalar torsion is 0, not an acyclic determinant quotient. The zero complex has torsion 1.
 - The column d(1)=(1,1) does not land in span(e₁), but projection to span(e₁) is [1], an invertible minor.
+- The direct sum of ℚ —a→ ℚ and ℚ —b→ ℚ, a,b≠0, has torsion a⁻¹b⁻¹; the multiplicative convention would give ab.
+- For the identity ℚ²→ℚ² with the degree-zero basis order swapped, A₀ is a transposition: the new differential has determinant −1 and torsion −1, and τ(d)·det(A₀)=−1 agrees, so the basis-change formula holds with its sign.
 
-*Needs:* Tau Ceti Algebra/Homology/ReidemeisterTorsion Basic.lean, Homology.lean, MappingCone.lean and SquareMinor.lean; Mathlib finite-dimensional linear algebra, exterior powers, chain complexes and homology.
+*Needs:* Mathlib finite-dimensional linear algebra, exterior powers, chain complexes and homology.
 
 ### 4.2 Abelian total quotient components
 
 Use Mathlib `Localization (nonZeroDivisors A)` for total quotients. For a finitely
-generated abelian H, consume that the group-ring inclusion sends nonzerodivisors to
-nonzerodivisors and induces an injective total-quotient map
-(`TauCeti.NovikovSeries.ofAddMonoidAlgebra_mem_nonZeroDivisors`,
-`TauCeti.NovikovSeries.map_ofAddMonoidAlgebra_injective`, RingTheory/NovikovSeries/NonZeroDivisors.lean),
-that the total quotient of ℤ[H] is a finite product of characteristic-zero fields
-(`AddMonoidAlgebra.exists_ringEquiv_pi_field_of_isFractionRing`,
-Algebra/MonoidAlgebra/TotalQuotient.lean), that Nov(ℤ,H,N) is reduced because ℤ[H] is
-(`TauCeti.NovikovSeries.isReduced_iff` with `AddMonoidAlgebra.isReduced_of_isFormallyReal`),
-and that the total quotient of Nov over a domain is Artinian, with characteristic-zero
-residue fields when the coefficients have no additive torsion
-(`TauCeti.NovikovSeries.isArtinianRing_of_isFractionRing`,
-`TauCeti.NovikovSeries.charZero_quotient_of_isFractionRing`, TotalQuotient.lean). Prove
-that the total quotient of Nov(ℤ,H,N) is a finite product of characteristic-zero
-fields: reducedness passes to the localization by `IsLocalization.isReduced`, and
-Mathlib's `IsArtinianRing.equivPi` presents the reduced Artinian total quotient as the
-product of its residue fields. Construct the finite-torsion/free splitting and cyclotomic
-components and the componentwise field/localization statements; show the answer is
-independent of that splitting. Prove the injective total-quotient map is compatible
-with the field components. In the
+generated abelian H prove that the total quotient rings of ℤ[H] and Nov(ℤ,H,N)
+are finite products of characteristic-zero fields. Construct the finite-torsion/free
+splitting and cyclotomic components, prove reducedness and the componentwise
+field/localization statements; show the answer is independent of that splitting.
+Prove group-ring inclusion sends nonzerodivisors to nonzerodivisors and induces an
+injective total-quotient map compatible with the field components. In the
 torsion-free case recover native fraction fields and the leading-term domain proof.
 Do not replace the general deck group by its free quotient.
 
-Use rt3 Lemma A.4 and its proof, p. 240, retaining the finite-generation and characteristic-zero hypotheses.
+Use rt3 Lemma A.4 and its proof, p. 240, retaining the finite-generation and characteristic-zero hypotheses. The field components are the minimal ideals of the total quotient ring (rt3 Appendix A, p. 240), which makes them independent of the splitting; the induced total-quotient map is rt3 §1.6, p. 214.
 
 The API includes:
 
@@ -919,29 +739,26 @@ The API includes:
 
 - For H=0, the total quotient of ℤ is ℚ.
 - For H=ℤ/2 and N=0, Q(ℤ[H])=ℚ×ℚ with g↦(1,−1); 1−g maps to (0,2).
+- For H=ℤ/3, Q(ℤ[H])=ℚ×ℚ(ζ₃), two fields of different degrees; for H=ℤ it is the single field ℚ(t).
+- For H=ℤ⊕ℤ/2 and N(n,e)=−n, with t=e^(−1,0) the downward monomial of §2.3 (so N(t)=1) and g=e^(0,1), Nov=ℤ((t))[g]/(g²−1), and the idempotents (1±g)/2 give Q(Nov)=F×F with F the fraction field of ℤ((t)). The map from Q(ℤ[H])=ℚ(t)×ℚ(t) is ℚ(t)→F in each component, followed by §4.3's embedding F⊂ℚ((t)). F is neither ℚ((t)) nor ℚ⊗ℤ((t)): a quotient f/h of integral Laurent series lies in ℤ[1/c]((t)) for c the lowest nonzero coefficient of h, so exp(t)=Σtⁿ/n!, whose coefficient of t^p has p in its denominator for every prime p, is not in F; and 1/(2−t)=Σtⁿ/2ⁿ⁺¹ is in F but has unbounded denominators. The splitting with free generator (1,1) gives the same two minimal ideals.
 - Over 𝔽₂, (1+g)²=0 with 1+g≠0, so the characteristic-zero component statement cannot be exported unchanged.
 
-*Needs:* Layer 1 leading coefficients; Tau Ceti RingTheory/NovikovSeries/NonZeroDivisors.lean, Reduced.lean and TotalQuotient.lean, Algebra/MonoidAlgebra/Reduced.lean and TotalQuotient.lean, and RingTheory/Localization/Reduced.lean; Mathlib `Localization`, `nonZeroDivisors` and `IsArtinianRing.equivPi`; finite abelian groups and cyclotomic fields.
+*Needs:* Layer 1 leading coefficients; Mathlib `Localization` and `nonZeroDivisors`; finite abelian groups and cyclotomic fields.
 
 ### 4.3 Total-quotient topology and continuity
 
 Construct the period-order topology on each total-quotient field component:
-after a free/torsion and period-kernel splitting H≅ker N⊕H′, embed it into the
-Novikov ring over H′ with coefficients in the fraction field of the corresponding
-characteristic-zero kernel group algebra. That ring is a field by §1.4's criterion
-`TauCeti.NovikovSeries.isField_iff`, since its coefficients form a field and N is
-injective on H′. Define O(C) by order>C and prove
+after a free/torsion and period-kernel splitting, embed it into the Novikov
+field with coefficients in the fraction field of the corresponding
+characteristic-zero kernel group algebra. Define O(C) by order>C and prove
 independence of the splitting, continuity of addition/multiplication and
 inversion at nonzero elements. The total quotient has the product topology
 over its finitely many field components; completeness of Nov alone is not a
 completeness claim for this quotient. Prove rt3 Lemma 2.8's cutoff continuity
-of based torsion when the acyclic component set is fixed, by applying in each field
-component, with this topology, the minor-chart continuity
-`HomologicalComplex.tendsto_reidemeisterTorsion_of_det_torsionMinor_ne_zero`
-(Algebra/Homology/ReidemeisterTorsion/Topology.lean): a nonzero limiting minor remains
-nonzero, and high-order changes in its inverse remain high order.
+of based torsion when the acyclic component set is fixed: a nonzero limiting
+minor remains nonzero, and high-order changes in its inverse remain high order.
 
-Use rt3 §2.1, Definition 2.6 and Lemmas 2.7–2.9, pp. 220–221; in particular the proof of Lemma 2.8 fixes the acyclic component set.
+Use rt3 §2.1, Definition 2.6 and Lemmas 2.7–2.9, pp. 220–221; in particular the proof of Lemma 2.8 fixes the acyclic component set. rt3 §2.1, p. 220 identifies each field component with a tensor product of Nov(G/Ker N, N) with a field; only the embedding above holds (the ℤ⊕ℤ/2 Check of §4.2), and the order O(C) is defined through it.
 
 The API includes:
 
@@ -955,19 +772,15 @@ The API includes:
 - In the two components (0,2), the zero component remains zero under a perturbation confined to the second component, whose torsion tends to 1/2.
 - At a=0 the zero-extended two-term torsion is 0 but for a=t^m it is t^(−m); continuity across the acyclic/nonacyclic change is false.
 
-*Needs:* §4.2; Layer 1 period filtration and field criterion; §4.1 minor formula; Tau Ceti RingTheory/NovikovSeries/Field.lean and Algebra/Homology/ReidemeisterTorsion/Topology.lean.
+*Needs:* §4.2; Layer 1 period filtration; §4.1 minor formula.
 
 ### 4.4 Finite cyclic norms and traces
 
-For a cyclic quotient μ:H→ℤ/k with kernel K, Nov(ℤ,H,N) is free of rank k over
-Nov(ℤ,K,N|K) on the coset monomials (`TauCeti.NovikovSeries.cosetBasis`,
-`TauCeti.NovikovSeries.finrank_eq_index`, RingTheory/NovikovSeries/FiniteIndex.lean, for
-every finite-index subgroup). Norm and Tr are Mathlib's `Algebra.norm` and
-`Algebra.trace`, the determinant and trace of multiplication, with their basis
-independence and the multiplicativity of Norm. Consume Tr=k·coefficient restriction
-(`TauCeti.NovikovSeries.trace_eq_index_smul_comap`) and, over a ℚ-algebra,
-log Norm(1+x)=Tr log(1+x) for x in the positive ideal
-(`TauCeti.NovikovSeries.log_normNonnegSubring`, Norm.lean). If μ kills the torsion
+For a cyclic quotient μ:H→ℤ/k with kernel K, prove Nov(ℤ,H,N) is finite
+free of rank k over Nov(ℤ,K,N|K), with coset-monomial basis. Define Norm and
+Tr as determinant and trace of multiplication, prove basis independence,
+multiplicativity of Norm, Tr=k·coefficient restriction, and over ℚ prove
+log Norm(1+x)=Tr log(1+x) in the positive ideal. If μ kills the torsion
 subgroup of H, extend Norm to the total quotients, identify corresponding
 field components and prove a nonzero component stays nonzero under Norm.
 Under this same hypothesis prove cellular and Novikov torsion transform by
@@ -975,7 +788,7 @@ Norm, retaining zero on nonacyclic components and pullback Euler structures.
 The ring-level Norm and zeta formula do not require this additional
 hypothesis; the asserted quotient/torsion comparison does.
 
-Use rt3 Lemma 3.5 and Proposition 3.6, pp. 227–228, including condition (3.8).
+Use rt3 Lemma 3.5 and Proposition 3.6, pp. 227–228, including condition (3.8): the rank-k free extension is rt3 §3.4, p. 227; Tr=k·restriction and log Norm=Tr log are Lemma 3.5(a)–(b), p. 227; nonvanishing under (3.8) is Lemma 3.5(c), p. 227; the torsion transformation is Proposition 3.6(b), p. 228.
 
 The API includes:
 
@@ -987,18 +800,15 @@ The API includes:
 
 - For ℤ→ℤ/2 with s=t², multiplication by t has matrix [[0,s],[1,0]], trace 0 and norm −s; Norm(1−t)=1−s.
 - For 1+t², Tr=2+2s, matching twice restriction; restriction alone would miss the factor 2.
+- Norm(1+ct)=1−c²s, whose logarithm −c²s−c⁴s²/2−⋯ is twice the even part of log(1+ct)=ct−c²t²/2+⋯, as log Norm=Tr log requires.
 - For H=ℤ/2 mapping identically to ℤ/2, the component idempotent (1,0) is nonzero but has norm 0; this quotient does not kill torsion.
 
-*Needs:* §§4.1–4.3; Layer 1 coset modules and positive logarithms; Tau Ceti RingTheory/NovikovSeries/FiniteIndex.lean and Norm.lean.
+*Needs:* §§4.1–4.3; Layer 1 coset modules and positive logarithms.
 
 ### 4.5 Partial acyclicity and lift ambiguity
 
-For a based finite free complex over either ring, componentwise torsion is
-`HomologicalComplex.componentwiseReidemeisterTorsion`
-(Algebra/Homology/ReidemeisterTorsion/Componentwise.lean) in the reduced Artinian total
-quotient of §4.2: a component is 0 exactly when that component complex is nonacyclic
-(`HomologicalComplex.mk_componentwiseReidemeisterTorsion_eq_zero_iff`), and the value is
-natural in the ring (`HomologicalComplex.map_componentwiseReidemeisterTorsion`). Retain
+For a based finite free complex over either ring, define torsion componentwise,
+setting a component to 0 exactly when that component complex is nonacyclic. Retain
 partial acyclicity; a single global zero convention would lose information. Define
 the ambiguity action by signs and deck monomials on the **whole** total quotient
 ring, including 0, and pass to its orbit quotient. Prove torsion's formulas under
@@ -1007,7 +817,7 @@ changes. Use GT's smooth triangulation/PL comparison and explicit subdivision
 mapping cones. Cellular torsion is a simple-homotopy invariant with the stated
 based structure, not an invariant of arbitrary unbased homotopy equivalence.
 
-Use rt3 Definitions A.1 and A.3, pp. 239–240 and §1.5, pp. 213–214, with subdivision comparison constructed from the stated topological suppliers.
+Use rt3 Definitions A.1 and A.3, pp. 239–240 and §1.5, pp. 213–214, with subdivision comparison constructed from the stated topological suppliers; the orbit quotient Q(Nov)/±e^H is that of rt3 Definition 1.5, p. 214.
 
 The API includes:
 
@@ -1020,8 +830,9 @@ The API includes:
 - For H=ℤ/2 and d=1−g, the two components have d=0 and d=2, hence torsions (0,1/2), not global zero.
 - The ambiguity action fixes 0 and sends a nonzero scalar a to ±e^h a; it cannot turn 0 into 1.
 - Changing only the degree-zero lift by t multiplies torsion by t; changing only the degree-one lift multiplies it by t⁻¹.
+- The two-cell circle with d e₁=v₂−v₁ and d e₂=t v₁−v₂ has matrix [[−1,t],[1,−1]] of determinant 1−t, so its torsion is (1−t)⁻¹ modulo sign, as for the one-cell model.
 
-*Needs:* §§4.1–4.4; Tau Ceti Algebra/Homology/ReidemeisterTorsion/Componentwise.lean; GeometricTopology Layer 11; Layer 3 when applying torsion to its complexes.
+*Needs:* §§4.1–4.4; GeometricTopology Layer 11; AlgebraicTopology Stage 4; Layer 3 when applying torsion to its complexes.
 
 ### 4.6 Novikov inequalities
 
@@ -1050,7 +861,7 @@ The two-term complex over ℤ[ℤ/2] detects both the torsion convention and par
 
 ### Dependencies
 
-N4 algebra depends on N1, the pinned based torsion and pinned linear/homological algebra; applications consume N3 complexes. No torsion construction depends on N6 invariance.
+N4 algebra depends on N1 and pinned linear/homological algebra; applications consume N3 complexes. No torsion construction depends on N6 invariance.
 
 ## Layer 5: Periodic return orbits and the dynamical zeta function
 
@@ -1080,11 +891,9 @@ The API includes:
 
 ### 5.2 Orbit multiplicity and local fixed-point index
 
-Closed orbits of the complete flow of −α♯ on compact X up to rotation, their primitive
-orbits with least real return time, k-fold iterates and integer multiplicity p(γ) are
-`Flow.ClosedOrbit`, `Flow.ClosedOrbit.iterate` and `Flow.ClosedOrbit.multiplicity`
-(Dynamics/Flow/ClosedOrbit.lean). The multiplicity is the covering degree over the
-primitive orbit; it is not the return time. Apply the supplied return germs and their normal-derivative conjugacies. An
+Define a primitive periodic orbit of −α♯ up to rotation, with its least real return
+time, and define the k-fold iterate separately. The integer multiplicity p(γ) is
+its covering degree over the primitive orbit; it is not the return time. Apply the supplied return germs and their normal-derivative conjugacies. An
 isolated return fixed point has local index defined by perturbing the return map
 on an isolating transverse chart neighbourhood to have nondegenerate fixed points
 and summing `sgn det(1−dg)` over them. Use a generic relative homotopy's
@@ -1122,7 +931,7 @@ and trajectory conditions. Define ε(γ)=sgn det(1−dreturn_γ). Establish gene
 admissible pairs in each fixed cohomology class by local return-map perturbations
 and the countable intersection over bounded-period/iterate windows.
 
-Use rt3 §1.1 and §1.3, pp. 210–212, and Lemma 3.2, p. 223 for index conservation. The continuous, chart-independent and partial-domain index interfaces are constructed here from degree.
+Use rt3 §1.1 and §1.3, pp. 210–212, and Lemma 3.2, p. 223 for index conservation. Admissible pairs are rt3 Definition 1.1, p. 211, generic in each fixed cohomology class by the transversality remark following it. The continuous, chart-independent and partial-domain index interfaces are constructed here from degree.
 
 The API includes:
 
@@ -1136,9 +945,11 @@ The API includes:
 - A primitive orbit of real period 7 has multiplicity 1; its double has period 14 and multiplicity 2.
 - For local maps P(x)=x/2 and P(x)=2x at 0, det(1−DP)=1/2 and −1, giving indices +1 and −1.
 - On an interval, P(x)=x+x²−ε has for ε>0 two fixed points with determinant signs +1 and −1, total 0; ε<0 has no fixed point, also total 0.
+- For the degenerate g(x)=x+x³ and ε>0, x+x³−εx has fixed points 0 (sign +1) and ±√ε (sign −1 each), while x+x³+εx has only 0 (sign −1); both perturbations give index −1.
+- For α=dx on T² with the flat metric every orbit is periodic with return derivative 1, so the pair is not admissible; a generic metric in the same class is admissible, so admissibility depends on the metric and not only on [α].
 - Conjugation by h(x)=−x leaves the derivative of P(x)=2x equal to 2; chart reversal must not reverse its index −1.
 
-*Needs:* §5.1; Tau Ceti `Flow.ClosedOrbit`; DifferentialGeometry Layer 10 and relative smooth approximation; AlgebraicTopology Stages 2–3 and 6; Layer 2 critical transversality.
+*Needs:* §5.1; DifferentialGeometry Layer 10 and relative smooth approximation; AlgebraicTopology Stages 2–3 and 6; Layer 2 critical transversality.
 
 ### 5.3 The zeta series, integrality and cover norm
 
@@ -1146,35 +957,27 @@ Prove only finitely many closed orbits up to rotation, with iterates included,
 have N([γ]) below any prescribed positive threshold. Rule out accumulation on a degenerate orbit and on a broken
 cycle through critical points; the latter needs an equal/higher-index segment,
 excluded by N2. Include all iterates and prove multiplicity support estimates.
-The rational log series `Σγ ε(γ)/p(γ) · e^[γ]` in the positive period ideal and its
-exponential ζ are `TauCeti.NovikovSeries.orbitLog` and `TauCeti.NovikovSeries.orbitZeta`
-(RingTheory/NovikovSeries/OrbitZeta.lean), applied to the classes of the primitive
-orbits and the signs of their iterates; the finiteness just proved is their hypothesis
-that the periods tend to infinity. This uses the completion over ℚ, not an assumed
-tensor-product commutation with completion over ℤ. Write i_− for the number of real
-return eigenvalues below −1, i_+ for those above 1, and i_0 for those in (−1,1), with
-algebraic multiplicity. The iterate signs ε(γ^k)=(−1)^i_+ · (−1)^((k+1)i_−) are
-`LinearMap.sign_det_one_sub_pow` (LinearAlgebra/Matrix/Charpoly/DetSign.lean) for the
-normal return derivative, so the signs of the iterates of γ form a geometric sequence
-of ratio (−1)^i_−. Then `TauCeti.NovikovSeries.orbitZeta_eq_eulerProduct` and
-`TauCeti.NovikovSeries.orbitZeta_eq_mapRingHom_eulerProduct` give integral coefficients
-through the convergent product over primitive orbits
+Construct the rational log series
+`Σγ ε(γ)/p(γ) · e^[γ]` in the positive period ideal and its exponential ζ.
+This uses the completion over ℚ, not an assumed tensor-product commutation with
+completion over ℤ. Prove ζ has integral coefficients by the convergent product
+over primitive orbits
 
 `ζ=Πγ (1−(−1)^i_−(γ)e^[γ])^(−ε(γ)(−1)^i_−(γ))`,
 
-and `TauCeti.NovikovSeries.isUnit_orbitZeta` with
-`TauCeti.NovikovSeries.orbitZeta_sub_one_mem_periodFiltration` makes ζ a unit congruent
-to 1 above a positive cutoff, hence with constant term 1.
-Prove that the exponent is −(−1)^(i_++i_−)=(−1)^(dim X−i_0): the transverse space has
-dimension dim X−1 and no return eigenvalue is ±1. It specializes to −(−1)^i_0 only in
-odd dimension. Prove naturality for valid period-support exponent maps from
-`TauCeti.NovikovSeries.mapRingHom_eulerProduct`, and the finite cyclic cover norm
-formulas needed for N6, retaining the individual lift/iterate multiplicities. For
-0→K→H→[μ]ℤ/k→0, prove ζ(X̂)=Norm(ζ(X)) with no torsion-annihilation hypothesis, from
-`TauCeti.NovikovSeries.log_normNonnegSubring` and Tr=k·restriction on each orbit term,
-including shorter primitive lifts.
+where i_− counts real return eigenvalues below −1, i_+ those above 1, and
+i_0 those in (−1,1), with algebraic multiplicity. Prove
+ε(γ^k)=(−1)^i_+ · (−1)^((k+1)i_−), so the exponent is
+−(−1)^(i_++i_−)=(−1)^(dim X−i_0). It specializes to
+−(−1)^i_0, the exponent of rt2 equation (2), p. 371, only in odd dimension. Prove these identities from real/complex
+conjugate eigenvalue blocks, then log/product equality and integrality. Show ζ is
+a unit with constant term 1. Prove naturality for valid period-support exponent
+maps and the finite cyclic cover norm formulas needed for N6, retaining the
+individual lift/iterate multiplicities. For 0→K→H→[μ]ℤ/k→0,
+prove ζ(X̂)=Norm(ζ(X)) with no torsion-annihilation hypothesis; use
+Tr=k·restriction on each orbit term, including shorter primitive lifts.
 
-Use rt3 §1.3, equations (1.1)–(1.2), p. 212 and Proposition 3.6(a), p. 228; derive the dimension-correct iterate/product signs from real eigenvalue blocks.
+Use rt3 §1.3, equations (1.1)–(1.2), p. 212 and Proposition 3.6(a), p. 228, and for integral classes rt2 Definition 1.3, p. 371; derive the dimension-correct iterate/product signs from real eigenvalue blocks.
 
 The API includes:
 
@@ -1187,9 +990,10 @@ The API includes:
 - For a critical-free circle, log ζ=t+t²/2+t³/3+⋯ and ζ=1+t+t²+⋯; the constant coefficient 1 excludes zero.
 - On a surface an attracting return multiplier 1/2 has all signs +1 and factor (1−t)⁻¹; a repelling multiplier 2 has all signs −1 and factor 1−t.
 - For multiplier −2, signs are +1 on odd iterates and −1 on even iterates, giving factor 1+t; (1+t)/(1−t²)=1/(1−t) checks period doubling.
+- For the Klein-bottle mapping torus with return map f(θ)=−θ+ε sin θ, 0<ε<1, the only periodic points are the fixed points 0 and π, with derivatives −1+ε (i_0=1) and −1−ε (i_−=1). Then log ζ=Σt^k/k+Σ(−1)^(k+1)t^k/k, so ζ=(1+t)/(1−t), agreeing with the exponents (−1)^(2−i_0); the exponent −(−1)^i_0 would give the factor (1−t)^(+1) for the orbit at 0.
 - For the double cyclic circle cover with s=t², Norm((1−t)⁻¹)=(1−s)⁻¹; no missing factor 2 is allowed in the exponent.
 
-*Needs:* §§5.1–5.2; Layer 2 cutoff compactness; Layer 1 positive series; §4.4 norms; Tau Ceti RingTheory/NovikovSeries/OrbitZeta.lean and `LinearMap.sign_det_one_sub_pow`.
+*Needs:* §§5.1–5.2; Layer 2 cutoff compactness; Layer 1 positive series; §4.4 norms.
 
 ### Examples
 
@@ -1214,7 +1018,7 @@ Construct a generic fixed-cohomology one-parameter family with prescribed
 admissible endpoints, at every period cutoff: transverse critical-point slides,
 ordinary trajectory tangency/cancellation, isolated critical birth/death and
 closed-orbit degenerations, with the semi-isolation and good-parameter conditions
-of Hutchings rt3 §2. Consume [HeegaardFloer §1.5 (M.5)](../HeegaardFloer/README.md)'s ordinary local A₂
+of Hutchings rt3 §2 (good times are rt3 Definition 2.6, p. 220). Consume [HeegaardFloer §1.5 (M.5)](../HeegaardFloer/README.md)'s ordinary local A₂
 fold, relative partial-jet transversality and signed elementary chain change.
 Construct the closed-one-form specialization using local exact potentials
 and exact cutoff perturbations, retaining the global cohomology class,
@@ -1225,14 +1029,14 @@ with precisely that local normalization:
 `V_t=(x₁² ± (t−t₀),−x₂,…,−x_i,x_(i+1),…,x_n)`.
 The two critical points have indices i and i−1; trajectories use −V_t.
 For closed-orbit-only degenerations use rt3 Lemma 3.2's local fixed-point-index
-invariance on transverse return discs; a full classification of periodic-orbit
+invariance on transverse return discs (p. 223); a full classification of periodic-orbit
 bifurcations is not an assumed supplier. Prove the bifurcation analysis:
 opposite trajectory cancellations; closed-orbit local-index conservation; handle slides
 between distinct critical points; same-critical-point deck slides; and critical
 birth/death with multiply broken return trajectories. Compare the based complex
 matrices, determinant/minor factors and zeta factors at each event.
 
-The unrefined invariance and cellular equality are rt3 Theorems A and B, pp. 214–215; the generic event framework is §2, pp. 218–222 and the ordinary events are §3.1–3.3, pp. 223–226.
+The invariant I is rt3 Definition 1.5, p. 214. The unrefined invariance and cellular equality are rt3 Theorems A and B, pp. 214–215, proved for real multiples of integral classes in rt2 Theorem 1.7, p. 373; the generic event framework is §2, pp. 218–222 and the ordinary events are §3.1–3.3, pp. 223–226.
 
 The API includes:
 
@@ -1245,6 +1049,9 @@ The API includes:
 - For the critical-free nonzero-period circle, τNov=1 and ζ=(1−t)⁻¹, so I=(1−t)⁻¹.
 - In the local fold x³/3−εx, ε>0 gives zeros ±√ε with Hessians ±2√ε, hence indices 1 and 0; ε<0 has no zeros.
 - An elementary distinct-critical-point slide matrix [[1,a],[0,1]] has determinant 1, hence introduces no torsion factor.
+- For exact α=df there are no closed orbits, so ζ=1 and I=τ(CN), the classical equality of Morse and cellular torsion (rt3 Example 1.8, p. 215).
+- In the normal form with sign + and t<t₀, −V_t has x₁-component (t₀−t)−x₁², so the single connecting trajectory runs along the x₁-axis from the index-i point x₁=−√(t₀−t) to the index-(i−1) point x₁=√(t₀−t), with elementary coefficient ±1.
+- At a closed-orbit-only degeneration CN and ζ are unchanged: by §5.2's cubic Check the total local index is −1 before and after.
 
 *Needs:* Layers 1–5; HeegaardFloer §1.5 (M.5) and F0; DifferentialGeometry relative exact perturbations.
 
@@ -1298,8 +1105,8 @@ for `z=x^((-1)^i)y`, prove the e^(kh) coefficient of
 `log Norm_(ν_k)(z)` vanishes. Perturb the ν_k pullback family relative to
 endpoints below a sufficiently large cutoff. Lifted slides with k not dividing
 the lift-index difference are distinct-point slides, which preserve I; a
-first self-slide in class kh has no linear term by the chain identity
-`d₊=A_p(x)⁻¹d₋A_p(x)` and the leading-coefficient identity `b₁=(−1)^(i+1)a₁` above. Thus the cover changes I by
+first self-slide in class kh has no linear term by the already proved chain
+and geometric leading-coefficient identities. Thus the cover changes I by
 `1+O(e^(2kh))`, without assuming full event invariance in that cover.
 Cancel in a nonzero cover component using N4's norm lemma and prove the
 injectivity of one-variable series in e^(kh) in that component. Use
@@ -1313,7 +1120,7 @@ the whole total-quotient orbit space. Agreement
 of only the linear coefficient is insufficient. Birth/death requires the explicit
 entry/exit/gluing analysis and the geometric-series algebra of its return chains.
 
-Use rt3 §3.4–3.5, Lemmas 3.5 and 3.7–3.10, pp. 227–231. The two quotient families and the split-homology case make the divisibility and cancellation conditions explicit.
+Use rt3 §3.4–3.5, Lemmas 3.5 and 3.7–3.10, pp. 227–231: Lemma 3.7, p. 229 gives x and a₁=±1, and Lemma 3.8(a)–(b), p. 230 gives y and b₁=(−1)^(i+1)a₁. The two quotient families and the split-homology case make the divisibility and cancellation conditions explicit.
 
 The API includes:
 
@@ -1326,6 +1133,7 @@ The API includes:
 - For H=ℤ⊕ℤ/2 and h=(2,1), d=2. With k=3, μ(n,e)=2n mod 3 sends h to 1; with k=2, ν(n,e)=n mod 4 sends h to 2 and nh lies in its kernel exactly for even n.
 - For i=1 and x=1+t, y=x gives x^(−1)y=1; for i=2, y=x⁻¹ gives xy=1. The leading coefficients have signs +a₁ and −a₁ respectively.
 - For z=1+c₂t²+O(t³), d=2 and k=2, the degree-two logarithmic norm coefficient is 4c₂; vanishing forces c₂=0 over ℚ.
+- The conjugation d₊=A_p(x)⁻¹d₋A_p(x) multiplies based torsion by det(A_p(x))^((−1)^i)=x^((−1)^i), so τ₊ζ₊=τ₋ζ₋ is equivalent to y=x^((−1)^(i+1)).
 
 *Needs:* §6.1; §4.4 component norms; Layer 2 parameterized orientations; Layer 1 nonzerodivisors of one-variable series.
 
@@ -1347,7 +1155,7 @@ apply N3's large-gradient comparison and N6's invariance to α+C df. Positive
 rescaling preserves N1's completion. Keep the torsion of the comparison map
 visible; an arbitrary quasi-isomorphism cannot substitute for the based calculation.
 
-Use rt3 Lemmas 2.7–2.9, pp. 220–221 and §4, pp. 237–238; based large-gradient comparison is part of the construction, not a consequence of an unbased quasi-isomorphism.
+Use rt3 Lemmas 2.7–2.9, pp. 220–221 and §4, Lemma 4.1 and the deduction of Theorem B, pp. 235–236; the exact case is classical (rt3 Example 1.8, p. 215, citing Milnor's Whitehead torsion), and the triangulation-adapted route to it is only sketched there; based large-gradient comparison is part of the construction, not a consequence of an unbased quasi-isomorphism.
 
 The API includes:
 
@@ -1360,6 +1168,8 @@ The API includes:
 - Events with drops 1,2,3,… are infinite globally but only finitely many lie below any fixed C.
 - For d=2+t^m, torsion differs from 1/2 first in degree m; fixed acyclicity permits the limit.
 - For the scalar differential t^m→0 in the period topology, inverse torsion t^(−m) does not tend to 0; this limit cannot be used without the acyclicity comparison.
+- A good time (rt3 Definition 2.6, p. 220) has one-sided limits of ζ and of the complex; a limit of bifurcations of bounded length is not good, and no limit is taken there.
+- A comparison quasi-isomorphism that rescales one generator by 2 changes torsion by 2^(±1), so it cannot replace the based comparison.
 
 *Needs:* §§6.1–6.2; §3.2 controlled continuation; §3.3 based cellular comparison; §4.3 torsion continuity.
 
@@ -1385,13 +1195,13 @@ corresponding monomial unit factor. CN acyclic, τNov=(1−t)⁻¹ modulo signs 
   monodromy define the homological zeta by its Lefschetz-number exponential;
   the same determinant formula holds, without interpreting a degenerate fixed
   set as a sum of determinant signs. Construct the Lefschetz fixed-point formula here by simplicial approximation
-  on a smooth triangulation and Hopf's barycentric modification (Hopf, Math. Z. 29 (1929),
-  pp. 493–524; the resulting index equality is Granas, Theorem 10.1, p. 224),
+  on a smooth triangulation and Hopf's barycentric modification,
   the Hopf trace lemma and N5's continuous local fixed-point index, valid also for nonorientable
   S. Choose a finite smooth triangulation K and construct its local PL charts
   from subdivision stars and the link-sphere property of GT11's smooth
   triangulation comparison. Choose a simplicial approximation
-  `a:sd^r K→K` of φ and its homotopic Hopf modification ψ. Define the finite
+  `a:sd^r K→K` of φ, which exists on a sufficiently fine barycentric subdivision
+  (Hatcher §2.C, Theorem 2C.1, p. 177), and its homotopic Hopf modification ψ. Define the finite
   chain endomorphism `T_q=a_#,q∘Sd^r_q:C_q(K;ℚ)→C_q(K;ℚ)`.
   Prove ψ has isolated fixed points and, for each q-simplex σ, its total
   interior fixed-point index is `(−1)^q (T_q)_(σ,σ)`.
@@ -1442,80 +1252,90 @@ corresponding monomial unit factor. CN acyclic, τNov=(1−t)⁻¹ modulo signs 
   for a larger abelian cover under its actual support hypotheses.
 * Zero-slope surgery X_K on an oriented knot in S³, using GT's meridian/Seifert
   longitude and Conway-normalized Δ_K. Construct H₁(X_K)=ℤ and the corresponding
-  infinite cyclic cover. Build the knot-complement cellular/Fox or Seifert-matrix
-  Alexander module, prove the polynomial/module presentation comparison, and
-  attach the filling chain complex. Prove
+  infinite cyclic cover. The Alexander module of the knot exterior, its Seifert and
+  Fox presentations and Δ_K as its order are GeometricTopology §4.4's. Build here the
+  based equivariant cellular complex of the infinite cyclic cover of the exterior
+  from a finite CW model with chosen lifted cells, identify its first homology with
+  §4.4's Alexander module compatibly with that presentation, and attach the lifted
+  filling cells of the solid torus whose meridian is glued to the Seifert longitude.
+  Prove
   `τcell(X̃_K)=Δ_K(t)/(1−t)^2 mod ±t^ℤ`.
   Thus the total dynamical invariant for every admissible integral-period form
   representing the generator has this value in the correctly directed completion.
   Verify the unknot and right-handed trefoil, including t↦t⁻¹ and lift changes.
 
-Use rt3 Examples 1.7–1.9, pp. 215–216 for the circle and mapping torus, and rt2 Example 1.4, p. 372 for zero surgery. The finite-triangulation chain adapter built in the mapping-torus item and §5.2's local fixed-point index supply the comparisons; §6.5 states the resulting Lefschetz formula.
+Use rt3 Examples 1.7–1.9, pp. 215–216 for the circle and mapping torus, and rt2 Example 1.4, p. 372 for zero surgery. In particular the circle is rt3 Example 1.7, p. 215; the mapping-torus zeta formula (1.6) and its determinant identity are rt3 Example 1.9, p. 215, and the equivariant version for a larger cover is p. 216. That example takes the Lefschetz theorem for the iterates as given, so it is constructed here. The zero-surgery torsion is also rt1 Example 1.9, p. 863, which credits it to Milnor and points to its Lemma 2.6 for a proof; rt3 §1.5, p. 214 records only the relation with the Alexander polynomial. The chain adapters and local-index proof below supply the comparisons.
 
 The API includes:
 
 - Mapping-torus chains are the equivariant cone of 1−tφ#, with downward monodromy fixed.
 - The simplicial chain adapter, subdivision homotopies and homology comparison identify the native homology endomorphism.
-- The knot-surgery complex realizes the Alexander module and the filling contributions, with the stated meridian/longitude normalization.
+- The based knot-surgery complex has first homology GeometricTopology §4.4's Alexander module, compatibly with its presentation, and adds the filling cells with the stated meridian/longitude normalization.
 
 **Checks.**
 
 - Circle reflection has fixed-point sum 1+1=2 and Lefschetz trace 1−(−1)=2; nontrivial rotation gives 0=1−1.
 - For circle reflection monodromy, the homological mapping-torus zeta is (1+t)/(1−t); identity monodromy gives 1 for the torus. Both raw maps have degenerate iterates, so these values use the continuous-index extension, not an admissible raw orbit sum.
-- The unknot has Δ=1 and surgery torsion (1−t)⁻². The Conway-normalized right-handed trefoil has Δ=t⁻¹−1+t, giving (t⁻¹−1+t)/(1−t)².
+- The unknot has Δ=1 and surgery torsion (1−t)⁻². The Conway-normalized right-handed trefoil has Δ=t⁻¹−1+t, giving (t⁻¹−1+t)/(1−t)². Under t↦t⁻¹ the numerator is unchanged and (1−t⁻¹)²=t⁻²(1−t)², so the class changes only by a monomial.
+- On the boundary of a triangle the simplicial chain adapter has H₀=R and H₁=R; reversing one edge's vertex order multiplies its basis element by −1. A simplicial map collapsing an edge sends it to 0, and one reversing an edge sends it to minus the image edge.
+- For one subdivision of e=[v₀,v₁] with barycenter b, Sd(e)=[v₀,b]+[b,v₁]; the last-vertex map sends b to v₁, hence [v₀,b] to e and [b,v₁] to 0, so λ#∘Sd is the identity on chains.
 
-*Needs:* §6.3; Layer 5 local index; AlgebraicTopology Stages 2–7; GeometricTopology Layers 4–5 and 11.
+*Needs:* §6.3; Layer 5 local index; AlgebraicTopology Stages 2–7; GeometricTopology Layers 4–5 (§4.4 for the Alexander module, its presentations and Δ_K) and 11.
 
 ### 6.5 Native Lefschetz signature
 
-For a finite-dimensional smooth compact Hausdorff second-countable manifold M
+For a finite-dimensional smooth compact Hausdorff manifold M
 modeled on a boundaryless model with corners I, and a smooth self-map f, assume
-det(1−df_x)≠0 at every fixed point. Prove `lefschetz_fixed_point_formula`:
-the finite sum of these determinant signs equals
+every fixed point is nondegenerate in the sense of Tau Ceti's
+`TauCeti.IsNondegenerateFixedPt`: 1 is not an eigenvalue of df_x, which in finite
+dimension says det(1−df_x)≠0. The fixed set is then finite by
+`TauCeti.finite_fixedPoints_of_isNondegenerateFixedPt`. Prove
+`lefschetz_fixed_point_formula`: the finite sum of the determinant signs equals
 Σ(i=0,…,dim M)(−1)^i tr(f_*:H_i(M;ℚ)→H_i(M;ℚ)). Neither orientability,
-connectedness nor nonemptiness is required. Apply it to every positive iterate
+connectedness nor nonemptiness is required, and second countability is not a
+hypothesis: it follows from compactness. M and its model may lie in any universe.
+Apply it to every positive iterate
 whose fixed points are nondegenerate; the identity on a positive-dimensional
 manifold is treated by §5.2's continuous index, not by dropping nondegeneracy.
-In finite dimensions det(1−df_x)≠0 says that x is a `TauCeti.IsNondegenerateFixedPt`,
-so the sum is finite by `TauCeti.finite_fixedPoints_of_isNondegenerateFixedPt`.
-
-The formula is the Lefschetz–Hopf theorem for compact metric ANRs, which include
-compact manifolds (Granas, Example 9.1(iv), p. 221): the total fixed-point index
-equals the rational Lefschetz number (Granas, Theorem 10.1, p. 224, with the
-excision, additivity and normalization properties (I), (II) and (VII) of §5,
-p. 214; the rational Lefschetz number is defined in §§2–3, pp. 210–211). The same
-theorem makes the index a topological invariant, so excision reduces the index of
-an isolated fixed point to that of its chart expression, which is the local
-homological degree of x↦x−f(x) (Granas §6, p. 215). §5.2 proves that this degree
-is sgn det(1−df_x) at a nondegenerate fixed point. Hatcher §2.C, proof of
-Theorem 2C.3, pp. 180–181 supplies the chain/homology trace argument of §6.4's
-simplicial route; Hatcher's theorem itself asserts only that a map with nonzero
-Lefschetz number has a fixed point.
+Hatcher §2.C, Theorem 2C.3, p. 179 is the Lefschetz fixed-point theorem for retracts
+of finite simplicial complexes (a fixed point exists when the Lefschetz number is
+nonzero), and its proof, pp. 180–181, supplies the chain/homology trace argument, with the trace
+formula on p. 181. The local-index form Σ ind=L(f) for compact Euclidean
+neighbourhood retracts is Dold, Lectures on Algebraic Topology, Chapter VII, §6
+(the Lefschetz–Hopf theorem); §§5.2 and 6.4 construct the stronger local-index
+equality.
 
 **Checks.**
 
 - A point has fixed-point contribution 1 and H₀-trace 1; the empty manifold gives 0 on both sides.
 - Circle reflection has two contributions +1,+1, hence 2=1−(−1); a nontrivial rotation has no contributions and 0=1−1.
+- The squaring map z↦z² of S¹ fixes only 1, where df=2 and det(1−2)=−1; the right side is 1−2=−1.
+- A rotation of S² by an angle θ∉{0,π} descends to ℝP² with one fixed point, where det(1−R_θ)=2−2cos θ>0; ℝP² has rational homology ℚ in degree 0 only, so both sides are 1 on a nonorientable manifold.
 - Translation on ℝ has no fixed points but H₀-trace 1; compactness excludes this false 0=1 test.
 
-Define `fixedPointDerivative` using `mfderiv` and transport along f(x)=x,
-so it is an endomorphism of T_xM, not a map between unconnected fibers.
-Its API includes:
+Define `fixedPointDet` f x as the determinant of 1−df_x, with df_x given by
+`mfderiv` in the charts at x and f(x). At a fixed point these charts coincide, so
+it is the determinant of 1−df_x as an endomorphism of T_xM, not of a map between
+unconnected fibers. Define `fixedPointSign` as 1 when `fixedPointDet` is positive
+and −1 otherwise. Their API includes:
 
-- For a smooth f it is the intrinsic derivative with the fixed-point target identification.
-- A chart change conjugates its matrix and preserves det(1−df_x).
+- For a smooth f and a fixed point x, `fixedPointDet` is det(1−df_x) for the intrinsic derivative with the fixed-point target identification.
+- For a smooth f on a manifold with a finite-dimensional model and a fixed point x, `fixedPointDet` I f x≠0 if and only if `TauCeti.IsNondegenerateFixedPt` I f x, since det(1−D)≠0 exactly when 1−D is injective in finite dimension.
+- A chart change conjugates the matrix of df_x and preserves det(1−df_x); under the nondegeneracy hypothesis `fixedPointSign` is sgn det(1−df_x).
 - At a fixed point of f, the derivative of an iterate is the corresponding power.
 
 **Checks.**
 
-- For f(x)=−x at 0 in ℝ, the endomorphism is [−1], hence det(1−df)=2 and sign +1.
+- For f(x)=−x at 0 in ℝ, df_0=[−1], hence `fixedPointDet` is 2 and `fixedPointSign` is +1.
 - For f(x)=2x, the determinant is −1; conjugating by x↦3x leaves it −1.
 - On a zero-dimensional tangent space, the determinant is 1 even though the unique derivative is also the zero map; in positive dimension the identity gives determinant 0 and fails the hypothesis.
+- On an infinite-dimensional model `LinearMap.det` is 1 for every endomorphism, so the identity would have `fixedPointDet` 1 although every tangent vector is fixed and the fixed point is not nondegenerate; the equivalence with `TauCeti.IsNondegenerateFixedPt` needs the finite-dimensional model.
 
-Define `rationalHomologyMap` as the underlying linear map of the native
-singular-homology functor applied to a continuous self-map. Its API includes:
+Define `rationalHomologyMap` as the underlying linear map of Tau Ceti's
+`TopPair.singularHomologyMap` on the pair (M,∅), with coefficient object
+`ULift ℚ` in the universe of M, applied to a continuous self-map. Its API includes:
 
-- Identity and composition agree with the native functor's maps.
+- Identity and composition agree with the functoriality of `TopPair.singularHomologyMap`.
 - Homotopic self-maps induce equal maps.
 - The finite-triangulation homology comparison intertwines this map with the simplicial chain map.
 
@@ -1526,8 +1346,9 @@ singular-homology functor applied to a continuous self-map. Its API includes:
 - A map interchanging two points acts on H₀ by [[0,1],[1,0]], with trace 0; a constant map of the two points has trace 1, equal to its single fixed point count.
 
 *Needs:* §6.4 finite-triangulation adapter and Hopf trace route; §5.2 local index;
-Mathlib `mfderiv`, `AlgebraicTopology.singularHomologyFunctor` and `LinearMap.trace`;
-Tau Ceti `TauCeti.IsNondegenerateFixedPt` and `TauCeti.finite_fixedPoints_of_isNondegenerateFixedPt`.
+Mathlib `mfderiv`, `LinearMap.det`, `LinearMap.trace` and `TopPair.incl`; Tau Ceti
+`TopPair.singularHomologyMap`, `TauCeti.IsNondegenerateFixedPt` and
+`TauCeti.finite_fixedPoints_of_isNondegenerateFixedPt`.
 
 ### Examples
 
@@ -1555,9 +1376,11 @@ orientations change together; its signed zero-cycle is an ordinary integral
 field V=α♯, whose Morse-zero sign is (−1)^ind(p), matching the alternating
 cell weights. Construct the vector-field Poincaré–Hopf theorem here: compare
 zero cycles through a transverse parameter cobordism with a Morse gradient,
-then use MorseTheory M4 and AT Stage 7 to prove Σind(V,p)=χ(X).
+then use MorseTheory M4 and AT Stage 7 to prove Σind(V,p)=χ(X). For the gradient
+of a Morse function, compare the result with HeegaardFloer §1.9 (M.9)'s Morse
+Euler/index proof.
 
-Use rt3 Appendix B, Definition B.1, p. 241 for Euler-chain transport, and Milnor, Topology from the Differentiable Viewpoint, §6, p. 35 for Poincaré–Hopf.
+Use rt3 Appendix B, p. 241 and Turaev 1990 for Euler chains, Definition B.1, p. 241 for Euler-chain transport, Definitions B.3–B.4, pp. 241–242 for the combinatorial model, and Milnor, Topology from the Differentiable Viewpoint, §6, p. 35 for Poincaré–Hopf.
 
 The API includes:
 
@@ -1570,8 +1393,10 @@ The API includes:
 - The nonsingular field on S¹ has empty zero cycle, so Euler-chain classes form H₁(S¹)=ℤ with the zero chain as the field-dependent origin.
 - The height gradient on S² has two zeros with determinant signs +1,+1, so the sum is 2=χ(S²); the resulting zero cycle is not a boundary.
 - For V=sin θ ∂θ on S¹, derivatives at 0 and π are 1 and −1, giving 0=χ(S¹); chart reversal conjugates these derivatives and preserves their signs.
+- A Morse gradient on T² has signs +1,−1,−1,+1, summing to 0=χ(T²); on ℝP² a Morse function with three critical points gives +1−1+1=1=χ(ℝP²) without an orientation.
+- At a maximum in dimension n, V=∇f has dV_p negative definite and sign (−1)^n=(−1)^ind; the negative gradient would give (−1)^(n−ind), which differs from the cell weight (−1)^ind in odd dimension.
 
-*Needs:* AlgebraicTopology Stages 2, 6 and 7; MorseTheory M4; HeegaardFloer parameter transversality; DifferentialGeometry degree.
+*Needs:* AlgebraicTopology Stages 2, 6 and 7; MorseTheory M4; HeegaardFloer parameter transversality and §1.9 (M.9); DifferentialGeometry degree.
 
 ### 7.2 Determinant volumes and refined equality
 
@@ -1590,7 +1415,7 @@ particular Euler structure, even though trajectory counts use its negative flow;
 Do not assert sign removal by a homology orientation for dynamical torsion without
 building that separate sign comparison; the definite theorem here retains ±1.
 
-Use rt3 Appendix B, Definitions B.3–B.4, pp. 241–242 and Theorem B, p. 215; the determinant-volume formulation retains the torsor action when the complex is zero.
+Use rt3 Appendix B, Definitions B.3–B.4, pp. 241–242 and Theorem B, p. 215; the determinant-volume formulation retains the torsor action when the complex is zero. The normalization T_m(ξ₀)=1 for a nonsingular field is rt3 Example 1.9, p. 215; the refined I:E(X)→Q(Λ)/±1 is Definition 1.5, p. 214; rt3 states the refined equality as equation (1.5), p. 215, with a proof sketch, and Remark 4.3, p. 237 makes the sketch depend on a rigorous version of Example 1.8, so the refined equality is proved here; and Remark 1.6, p. 214 leaves sign removal by a homology orientation for the Morse-theoretic torsion open.
 
 The API includes:
 
@@ -1608,13 +1433,15 @@ The API includes:
 
 ### 7.3 Native vector-field index signature
 
-Define `vectorFieldChartDerivative` by pulling the field back through the inverse
-extended chart and taking its ordinary derivative at the chart coordinate of x.
-The definition has a real body using `VectorField.mpullback` and `fderiv`;
-its geometric API assumes a smooth field on a boundaryless smooth manifold:
+Define `zeroDet` V p as the determinant of the vertical derivative of V at p: the
+derivative of the section x↦(x,V(x)) of the tangent bundle, read in the
+tangent-bundle chart at (p,V(p)) and projected to the fiber by
+`ContinuousLinearMap.snd`. Define `zeroSign` as 1 when `zeroDet` is positive and
+−1 otherwise. Both have real bodies using `mfderiv` and `LinearMap.det`;
+their geometric API assumes a smooth field on a boundaryless smooth manifold:
 
-- Near x the inverse chart is a local diffeomorphism, so the pullback is the actual coordinate field.
-- At a zero of V, another chart conjugates this derivative; its determinant sign is intrinsic.
+- The fiber component is the derivative at p of the coordinate expression of V in the chart at p.
+- At a zero of V, another chart conjugates this derivative; its determinant sign is intrinsic, and at a nondegenerate zero `zeroSign` is the local index sgn det(dV_p), the index of a nondegenerate zero in Milnor, Topology from the Differentiable Viewpoint, §6.
 - For a Morse gradient the determinant sign is (−1)^index, agreeing with the signed zero cycle of §7.1.
 
 **Checks.**
@@ -1623,12 +1450,32 @@ its geometric API assumes a smooth field on a boundaryless smooth manifold:
 - For V(x)=x² the derivative is 0 at 0, so nondegeneracy fails despite isolation of the zero.
 - For V(x,y)=(−x,y), the derivative has determinant −1; conjugation by (x,y)↦(−x,y) preserves −1. A model that reverses the sign under orientation reversal is excluded.
 
+Define `rationalBetti` M i as the dimension over ℚ of the rational singular
+homology of the pair (M,∅) in degree i, with coefficient object `ULift ℚ` in the
+universe of M; its alternating sum over degrees 0 to dim M is χ(M)
+(AlgebraicTopology Stage 7). Since `Module.finrank` is 0 on an infinite-dimensional
+space, `rationalBetti` is the actual dimension only where the homology is
+finite-dimensional, which the first bullet proves for compact manifolds. Its API includes:
+
+- For a compact Hausdorff manifold M, every H_i(M;ℚ) is finite-dimensional: a compact manifold is a compact Euclidean neighbourhood retract and so has finitely generated integral homology (Hatcher, Corollaries A.8–A.9, p. 527), and H_i(M;ℚ)=H_i(M;ℤ)⊗ℚ.
+- For a compact Hausdorff n-manifold M, `rationalBetti` M i=0 for every i>n (Hatcher, Lemma 3.27(b), p. 236, with A=M).
+- Homotopy equivalent spaces have the same `rationalBetti` in every degree, by homotopy invariance of singular homology and the natural isomorphism `TopPair.singularHomologyInclIso` between the homology of (M,∅) and that of M.
+- When M has finite CW type, the alternating sum of `rationalBetti` M i over all degrees is `TauCeti.eulerChar` M, by `TauCeti.eulerChar_eq_finsum_finrank_singularHomology` over the division ring `ULift ℚ` after `TopPair.singularHomologyInclIso`. No pinned instance gives finite CW type to a compact manifold, so `poincare_hopf` states the alternating sum itself.
+
+**Checks.**
+
+- A point has `rationalBetti` 1 in degree 0 and 0 above; two points have 2 in degree 0.
+- The circle has (1,1), with alternating sum 0=χ(S¹); a definition through reduced homology would give (0,1) and sum −1.
+- ℝP² has (1,0,0), with alternating sum 1; 𝔽₂ coefficients would give (1,1,1), so the coefficient field is part of the definition even though the alternating sum agrees.
+- An infinite discrete space has infinite-dimensional H₀, on which `Module.finrank` is 0; the finiteness bullet needs compactness.
+
 Prove `poincare_hopf` for every smooth vector field V on a finite-dimensional
-compact Hausdorff second-countable smooth manifold M with a boundaryless model I:
-if det(`vectorFieldChartDerivative` I V x)≠0 at every zero, then
-Σ(V(x)=0) sgn det(dV_x)=Σ(i=0,…,dim M)(−1)^i dim_ℚ H_i(M;ℚ).
-The derivative here is the chart derivative just defined. The sum is finite by
-compactness and nondegeneracy. No connectedness, orientation or χ(M)=0 is assumed
+compact Hausdorff smooth manifold M with a boundaryless model I, in any universe:
+if `zeroDet` I V x≠0 at every zero, then
+Σ(V(x)=0) `zeroSign` I V x=Σ(i=0,…,dim M)(−1)^i `rationalBetti` M i.
+The sum is finite by compactness and nondegeneracy. No connectedness,
+orientation, second countability or χ(M)=0 is assumed; second countability
+follows from compactness
 (Milnor, Topology from the Differentiable Viewpoint, §6, Poincaré–Hopf theorem, p. 35).
 
 **Checks.**
@@ -1638,7 +1485,9 @@ compactness and nondegeneracy. No connectedness, orientation or χ(M)=0 is assum
 - A height gradient on S² has signs +1,+1, giving 2=1+1; on the noncompact line the constant nonzero field would give 0≠1, so compactness cannot disappear from the signature.
 
 *Needs:* §7.1 zero-locus comparison and Morse/Euler route; Mathlib tangent bundles,
-extended charts, `VectorField.mpullback`, `fderiv` and rational singular homology.
+`mfderiv`, `ContinuousLinearMap.snd`, `LinearMap.det`, `Module.finrank` and
+`TopPair.incl`; Tau Ceti `TopPair.singularHomology`, `TopPair.singularHomologyInclIso`
+and `TauCeti.eulerChar_eq_finsum_finrank_singularHomology`.
 
 ### Examples
 
@@ -1648,45 +1497,58 @@ Dimension one and the zero-critical-point complex test Euler refinement independ
 
 N7 first constructs the Euler torsor from index theory and ordinary homology, then uses N3–N6 for the refined dynamical/cellular comparison.
 
-## Downstream consumers
-
-DGFloer §7.C and §7.T consume the general completion and period-controlled complexes;
-FukayaTheory's coefficient contracts and GromovWittenTheory's Novikov layer consume
-N1. AlgebraicTopologyPartII §13.3 and the MorseNovikov supplier contract of
-K3SurfacesAndSymplecticBoundedness consume N6's Lefschetz comparison. These consumers do not supply prerequisites here.
-
 ## Worked examples
 
-Acceptance requires all three circle chain calculations,
+N1 is independent of geometry. N2 uses native Morse/flow topology and HF M/F0;
+N3 consumes N1–N2 and AT/GT cellular suppliers. N4's algebra runs independently
+of N2–N3, then applies to their based complexes. N5 consumes N1–N2. N6 uses all
+five, including its own Lefschetz and knot/surgery adapters; N7 constructs the
+Euler carrier before using it to refine N6. Generic ordinary Morse homology is
+not proved using the dynamical torsion theorem, and Novikov homology comparison
+is not used to infer torsion invariance without its based comparison factor.
+
+Acceptance requires all three circle chain calculations, an irrational-period
+noninjective-kernel completion example with finite tied leading coefficients,
 a deck group with finite torsion and partially acyclic total-quotient components,
 return-map iterate signs in both dimension parities (the three circle calculations supply odd dimension): an attracting and a
 repelling orbit on a surface, and the orientation-reversing circle mapping
 torus (Klein bottle) with homological ζ=(1+t)/(1−t). Check period doubling algebraically
 by (1+x)/(1−x²)=1/(1−x), and the algebraic cyclic-cover norm/self-slide identities for
-H=ℤ⊕ℤ/2 and h=(2,1), using divisibility 2 in H/T. The irrational
-noninjective completion example, H=ℤ³ and N(a,b,c)=a+√2b over ℤ with kernel
-generated by (0,0,1), finite tied leading supports and an infinite series whose
-periods escape each cutoff, is the pinned one of Layer 1's Examples
-(`TauCeti.NovikovSeries.IrrationalExample.series`). For partial acyclicity use the algebraic two-term complex over H=ℤ/2,
+H=ℤ⊕ℤ/2 and h=(2,1), using divisibility 2 in H/T. For the
+irrational noninjective example fix H=ℤ³ and N(a,b,c)=a+√2b,
+with coefficient ring ℤ and kernel generated by (0,0,1); verify finite tied
+leading supports and an infinite series whose periods escape each cutoff.
+For partial acyclicity use the algebraic two-term complex over H=ℤ/2,
 N=0, differential 1−g from degree 1 to degree 0: its two rational components have differential 0 and 2,
 so its torsion components are 0 and 1/2. This is explicitly an algebraic
 acceptance example, not an asserted geometric fibred example. Include the mapping-
 torus Lefschetz/determinant comparison and the two knot-surgery examples. Every
 coefficient, lift, orientation and monodromy change is checked by its naturality
-formula. Suggested.lean states `lefschetz_fixed_point_formula` and `poincare_hopf`
-on native manifold and singular-homology carriers. Its three supporting definitions
-are `fixedPointDerivative`, `rationalHomologyMap` and `vectorFieldChartDerivative`;
+formula. Suggested.lean states `lefschetz_fixed_point_formula` and `poincare_hopf`,
+universe-polymorphic, on Mathlib's manifold carriers and Tau Ceti's singular homology
+of the pair (M,∅). Its supporting definitions are `fixedPointDet`, `fixedPointSign`,
+`rationalHomologyMap`, `zeroDet`, `zeroSign` and `rationalBetti`;
 all other constructions and API targets are specified in this README.
+
+## Downstream consumers
+
+DGFloer §7.C and §7.T consume the general completion and period-controlled complexes,
+and §7.T also N4's based torsion over total quotient rings for its Floer–Novikov torsion;
+TaubesGromov consumes N1 for H=H₁(Y;ℤ) with a noninjective period map, and N4–N6,
+including §6.4's mapping-torus trace/local-index theorem, for its orbit expansions;
+HamiltonianFloerOperations consumes N1's completion and continuous coefficient maps;
+FukayaTheory's coefficient contracts and GromovWittenTheory's Novikov layer consume
+N1. AlgebraicTopologyPartII §13.3 and the MorseNovikov supplier contract of
+K3SurfacesAndSymplecticBoundedness consume N6's Lefschetz comparison. These consumers do not supply prerequisites here.
 
 ## References
 
-* M. Hutchings and Y.-J. Lee, [Circle-valued Morse theory and Reidemeister torsion](https://math.berkeley.edu/~hutching/pub/rt2/rt2_published.pdf), Geometry & Topology 3 (1999), 369–396: completed chains, orbit signs, product formula, topological torsion and Euler structures.
-* M. Hutchings, [Reidemeister torsion in generalized Morse theory](https://math.berkeley.edu/~hutching/pub/rt3/rt3.pdf), Forum Mathematicum 14 (2002), 209–244: arbitrary closed forms/abelian covers, cutoff bifurcations, finite cyclic covers and refined comparison.
-* M. Hutchings and Y.-J. Lee, [Circle-valued Morse theory, Reidemeister torsion, and Seiberg–Witten invariants](https://math.berkeley.edu/~hutching/pub/rt1/rt1_published.pdf), Topology 38 (1999), 861–888: original circle-valued calculations and context. Gauge-invariant comparisons belong to their gauge-theory supplier, rather than being assumed here.
-* A. Hatcher, [Algebraic Topology](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), 2002, §2.C, Theorems 2C.1 and 2C.3, pp. 177–181: simplicial approximation and the alternating chain/homology trace argument; Theorem 2C.3 asserts only the existence of a fixed point.
-* A. Granas, [The Leray–Schauder index and the fixed point theory for arbitrary ANRs](http://www.numdam.org/item/BSMF_1972__100__209_0/), Bull. Soc. Math. France 100 (1972), 209–228: the rational Lefschetz number, §§2–3, pp. 210–211; the index axioms (I)–(VII), §5, p. 214; the index in ℝⁿ as a local homological degree, §6, p. 215; manifolds are ANRs, Example 9.1(iv), p. 221; total index equals Lefschetz number on metric ANRs, Theorem 10.1, p. 224.
-* H. Hopf, Über die algebraische Anzahl von Fixpunkten, Math. Z. 29 (1929), 493–524: the barycentric modification of a simplicial approximation and the local fixed-point count of §6.4.
+* M. Hutchings and Y.-J. Lee, [Circle-valued Morse theory and Reidemeister torsion](https://math.berkeley.edu/~hutching/pub/rt2/rt2_published.pdf), Geometry & Topology 3 (1999), 369–396 (rt2): completed chains, orbit signs, product formula, topological torsion and Euler structures.
+* M. Hutchings, [Reidemeister torsion in generalized Morse theory](https://math.berkeley.edu/~hutching/pub/rt3/rt3.pdf), Forum Mathematicum 14 (2002), 209–244 (rt3): arbitrary closed forms/abelian covers, cutoff bifurcations, finite cyclic covers and refined comparison.
+* M. Hutchings and Y.-J. Lee, [Circle-valued Morse theory, Reidemeister torsion, and Seiberg–Witten invariants](https://math.berkeley.edu/~hutching/pub/rt1/rt1_published.pdf), Topology 38 (1999), 861–888 (rt1): original circle-valued calculations and context. Gauge-invariant comparisons belong to their gauge-theory supplier, rather than being assumed here.
+* A. Hatcher, [Algebraic Topology](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), 2002, §2.C, Theorems 2C.1 and 2C.3, pp. 177–181: simplicial approximation and the alternating chain/homology trace argument. The local-index strengthening is constructed in Layers 5–6.
 * J. Milnor, Topology from the Differentiable Viewpoint, 1965, §6, Poincaré–Hopf theorem, p. 35: the vector-field index sum.
+* A. Dold, Lectures on Algebraic Topology, Springer 1972, Chapter VII: the fixed-point index on Euclidean neighbourhood retracts and, in §6, the Lefschetz–Hopf theorem.
 * V. Turaev, Introduction to Combinatorial Torsions, Birkhäuser 2001; Euler structures, nonsingular vector fields, and Reidemeister-type torsions, Math. USSR-Izvestiya 34 (1990), 627–662: based torsion and lift refinement.
 * A. Pajitnov, Circle-valued Morse Theory, de Gruyter 2006; J. Milnor, Whitehead torsion, Bull. AMS 72 (1966), 358–426: completed cellular comparison and based elementary chain operations.
 * M. Hutchings, [family-Floer transversality correction](https://floerhomology.wordpress.com/2011/06/30/erratum-family1/): generic function/metric paths or generic horizontal connections, not arbitrary fixed function homotopies with metric variations alone.
