@@ -801,7 +801,8 @@ with a constant C independent of ε. In particular `E(χ_ε) → 0` and `Λ E(χ
 `ε → 0⁺` with δ fixed: this is the classical statement that a point of a Riemannian surface
 has zero capacity for the Dirichlet energy (Chodosh, *Introduction to minimal surfaces*,
 proof of Lemma 5.8, p. 20, for the planar interpolation between the radii `ε²` and ε, of
-energy `2π/|log ε|`).
+energy `2π/|log ε|`). Lean names: `logCutoffProfile` for `ψ_ε` and
+`exists_abs_integral_norm_mgradient_logCutoff_sub_le`.
 
 Write `r = d(p, ·)`, which is `|log_p|` on the open R-ball. By 1.1's metric
 `dr² + j² dθ²`, r is smooth with `|grad r| = 1` on the punctured R-ball, so
@@ -878,7 +879,8 @@ Deduce the extension of a quadratic-form inequality across B: if V is continuous
 `∫ V φ² dμ ≤ ∫ |grad φ|² dμ` for every `C^k` function φ whose compact support does not
 meet B, then the same inequality holds for every `C^k` function φ with compact support
 (Chodosh, Lemma 33.5, p. 81, for one point, smooth φ and the stability form of a minimal
-surface). The product rule
+surface). Lean name: `integral_mul_sq_le_integral_norm_mgradient_sq_of_finite`. The product
+rule
 `grad φ_ε − grad φ = (χ_ε^B − 1) grad φ + φ grad χ_ε^B` is `mgradient_mul`; on `B_δ(b)` the
 other factors of `χ_ε^B` equal `1`, so its energy is the sum of the energies of its factors
 and `1 − χ_ε^B = 1 − χ_ε^b` there.
@@ -925,8 +927,8 @@ completeness or curvature-sign hypothesis.
 
 PositiveMass §3.1 consumes Layer 3's disk formula with corners, its boundary term against
 local connection forms and its cancellation along common edges, and builds the
-compact-surface theorem on them. No roadmap on main consumes this sub-roadmap;
-RiemannianGeometry R1, R2, R3, R4.2, R4.9.6a and R6 supply it and take nothing back.
+compact-surface theorem on them. RiemannianGeometry R1, R2, R3, R4.2, R4.9.6a and R6 supply
+this sub-roadmap and take nothing back.
 
 ## References
 

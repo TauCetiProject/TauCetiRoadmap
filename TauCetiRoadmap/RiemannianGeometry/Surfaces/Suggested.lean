@@ -24,8 +24,7 @@ compact subsets of it.
 
 One headline cannot yet be stated, for lack of a carrier: Layer 2.2, the integration formula
 up to the normal cut time, needs the cut time of the normal exponential of a boundary arc of a
-surface domain. Layer 6, the logarithmic cutoff, is specified in `README.md` and has no
-signature here.
+surface domain.
 
 The rescaling identity of Layer 5.1 is proved here, since it follows from the two pinned
 conformal lemmas; the remaining statements are targets.
@@ -294,5 +293,58 @@ theorem integral_norm_mgradient_sq_comp_eq_of_pullback_eq_rescale
   sorry
 
 end Conformal
+
+/-! ## Layer 6: the logarithmic cutoff -/
+
+section LogCutoff
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
+  {M : Type*} [MetricSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
+  [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
+  [IsRiemannianManifold I M] [MeasurableSpace M] [BorelSpace M] [LindelofSpace M]
+  [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)]
+
+open TauCeti TauCeti.Manifold
+
+/-- Layer 6.1: the logarithmic cutoff profile `ψ_ε`, built from `Real.smoothTransition`; for
+`0 < 4ε ≤ δ` it is `0` on `[0, ε]`, `log(r/ε)/log(δ/ε)` on `[2ε, δ/2]` and `1` on `[δ, ∞)`. -/
+def logCutoffProfile (ε δ r : ℝ) : ℝ :=
+  if r ≤ 0 then 0 else
+    Real.log (r / ε) / Real.log (δ / ε) * Real.smoothTransition (Real.logb 2 (r / ε)) +
+      (1 - Real.log (r / ε) / Real.log (δ / ε)) *
+        (1 - Real.smoothTransition (Real.logb 2 (δ / r)))
+
+/-- Layer 6.1: on a metric normal ball of radius `R` with compact closure, the logarithmic
+cutoff `χ_ε = ψ_ε(d(p, ·))` is smooth and its Dirichlet energy is `2π/log(δ/ε)` up to
+`C/log(δ/ε)²`, with `C` independent of `ε`. -/
+theorem exists_abs_integral_norm_mgradient_logCutoff_sub_le (hE : Module.finrank ℝ E = 2)
+    (p : M) {R : ℝ} (hR : 0 < R)
+    (hdom : Metric.ball (0 : TangentSpace I p) R ⊆ expDomain I M p)
+    (hbij : BijOn (riemannianExp I M p) (Metric.ball 0 R) (Metric.ball p R))
+    (hdist : ∀ v ∈ Metric.ball (0 : TangentSpace I p) R, dist p (riemannianExp I M p v) = ‖v‖)
+    (hcpt : IsCompact (Metric.closedBall p R)) {δ : ℝ} (hδ : 0 < δ) (hδR : δ < R) :
+    ∃ C : ℝ, ∀ ε : ℝ, 0 < ε → 4 * ε ≤ δ →
+      ContMDiff I 𝓘(ℝ) ∞ (fun x ↦ logCutoffProfile ε δ (dist p x)) ∧
+      |(∫ x, ‖mgradient I (fun y ↦ logCutoffProfile ε δ (dist p y)) x‖ ^ 2
+          ∂riemannianVolume I M) - 2 * Real.pi / Real.log (δ / ε)| ≤
+        C / Real.log (δ / ε) ^ 2 := by
+  sorry
+
+/-- Layer 6.2: on a surface, an inequality `∫ V φ² ≤ ∫ |grad φ|²` with `V` continuous that holds
+for the compactly supported `C^k` functions whose support misses a finite set `B` holds for every
+compactly supported `C^k` function. -/
+theorem integral_mul_sq_le_integral_norm_mgradient_sq_of_finite (hE : Module.finrank ℝ E = 2)
+    {B : Set M} (hB : B.Finite) {k : ℕ∞} (hk : 1 ≤ k) (V : M → ℝ) (hV : Continuous V)
+    (h : ∀ φ : M → ℝ, ContMDiff I 𝓘(ℝ) k φ → HasCompactSupport φ → Disjoint (tsupport φ) B →
+      ∫ x, V x * φ x ^ 2 ∂riemannianVolume I M ≤
+        ∫ x, ‖mgradient I φ x‖ ^ 2 ∂riemannianVolume I M)
+    (φ : M → ℝ) (hφ : ContMDiff I 𝓘(ℝ) k φ) (hφc : HasCompactSupport φ) :
+    ∫ x, V x * φ x ^ 2 ∂riemannianVolume I M ≤
+      ∫ x, ‖mgradient I φ x‖ ^ 2 ∂riemannianVolume I M := by
+  sorry
+
+end LogCutoff
 
 end TauCetiRoadmap.RiemannianGeometry.Surfaces
