@@ -1,48 +1,49 @@
 module
 
 public import Mathlib
-public import TauCeti.Algebra.Lie.Symplectic.Killing
 public import TauCeti.Geometry.Lie.Tangent.LeftInvariantDerivation
 public import TauCeti.Geometry.Lie.Exponential.Basic
 public import TauCeti.Geometry.Lie.Adjoint.Derivation
-public import TauCeti.Geometry.Manifold.Riemannian.Isometry.Basic
-public import TauCeti.GroupTheory.TitsSystem.Parabolic.Basic
+public import TauCeti.Geometry.Lie.Subgroup.LieAlgebra
+public import TauCeti.GroupTheory.TitsSystem.Basic
+public import TauCeti.Geometry.Manifold.Riemannian.Jacobi.Comparison
 
 /-!
 # Real semisimple Lie groups, parabolic subgroups and symmetric spaces: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+This file is not the roadmap; the roadmap is `README.md`. This file states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
+definitions their statements need.
 
-Stated here: the Cartan-involution predicate on a real Lie algebra and its eigenspaces (§0.1),
-the symplectic instance already in Tau Ceti (§0.4), maximal abelian subspaces of `𝔭`, restricted
-root spaces and restricted roots (§1.1), the restricted root pairing (§1.2), the real rank of a
-real semisimple Lie algebra with its independence of choices and its examples (§1.3, §1.4), the
-real rank of a Lie group and the compactness criterion (§2.1), the nonnegative-eigenvalue
-parabolic subalgebra of an element and the dynamical parabolic subset of a Lie group (§4.4), the
-Riemannian symmetric-space predicate (§5.1), and the displacement injectivity radius of a group
-acting on a metric space (§5.6).
+Stated here: the restricted root pairing of a Cartan involution (§1.2); the real rank of a real
+semisimple Lie algebra, its independence of choices and the compactness criterion (§1.3), and
+its group form (§2.1); Cartan's fixed-point theorem on a Hadamard manifold (§5.4); and, for
+connected groups with semisimple Lie algebra and finite centre, the Bruhat decomposition as a
+Tits system (§3.3), the dynamical description of parabolic subgroups (§4.4) and the existence
+and conjugacy of maximal compact subgroups (§5.4).
 
-Not stated here, and why:
+Headline theorems of the README that are not statable at the pins, and what each lacks:
 
-* everything that takes a LieGroups Layer 9 `CartanInvolution` or `IwasawaData` as input
-  (Layers 2–4 beyond the real rank, the minimal parabolic interface of §3.1, the Tits system of
-  §3.3): those structures live in the LieGroups roadmap's `Suggested.lean`, not in Tau Ceti, so
-  they cannot be imported here;
-* the conjugacy of Cartan involutions (§0.2) and of hyperbolic elements (§2.4): the pins have no
-  inner automorphism group `Int(𝔤₀)` of a real Lie algebra;
-* the symmetric space `G ⧸ K` as a Riemannian manifold (§5.2–§5.5): the pins have no smooth
-  structure on `G ⧸ K` (SmoothBundlesConnections B1.4 is its supplier).
+* the conjugacy of Cartan involutions (§0.2) and of hyperbolic elements (§2.4) under inner
+  automorphisms: the pins have no inner automorphism group `Int(𝔤₀)` of a real Lie algebra;
+* the identification of the restricted Weyl group `N_K(𝔞)/Z_K(𝔞)` with the Weyl group of the
+  restricted root system (§2.3): the restricted root pairing exists here only inside the statement
+  `exists_restrictedRootPairing`, and a definition of it would be data with a `sorry` body;
+* the Langlands decompositions `M × A × N ≅ P` and `M_{Π'} × A_{Π'} × N_{Π'} ≅ Q` (§3.1,
+  §4.3): they are diffeomorphisms of closed subgroups, and the pins give a closed subgroup only the
+  predicate `TauCeti.Lie.IsEmbeddedLieSubgroup`, not a manifold structure;
+* the comparison of parabolic subgroups with algebraic `ℝ`-parabolic subgroups (§4.5): the pins
+  have no Lie group structure on the real points of an algebraic group;
+* the geometry of the symmetric space `G ⧸ K` (§5.2, §5.3, §5.5, §5.6): the pins have no smooth
+  structure on `G ⧸ K`.
 -/
 
 @[expose] public section
 
 noncomputable section
 
-open LieAlgebra Module Set Bundle
-open scoped Manifold ContDiff ENNReal
+open LieAlgebra Module Set Bundle CovariantDerivative
+open scoped Manifold ContDiff
 
 namespace TauCetiRoadmap.RealSemisimpleLieGroups
 
@@ -50,59 +51,25 @@ namespace TauCetiRoadmap.RealSemisimpleLieGroups
 
 section CartanInvolution
 
-variable {L : Type*} [LieRing L] [LieAlgebra ℝ L] [FiniteDimensional ℝ L]
+variable {L : Type*} [LieRing L] [LieAlgebra ℝ L]
 
 /-- **§0.1.** A Cartan involution of a real semisimple Lie algebra: an involutive Lie algebra
 automorphism `θ` for which `B_θ(X, Y) = -B(X, θ Y)` is positive definite, `B` the Killing form.
--/
+A real Lie algebra that has one is semisimple, since `B` is then nondegenerate. -/
 def IsCartanInvolution (θ : L ≃ₗ⁅ℝ⁆ L) : Prop :=
   (∀ x, θ (θ x) = x) ∧ ∀ x : L, x ≠ 0 → 0 < -(killingForm ℝ L x (θ x))
 
-/-- **§0.1.** The reductive form: an involutive automorphism whose restriction to the derived
-algebra satisfies the Cartan positivity; on the centre it is an arbitrary involution. -/
-def IsReductiveCartanInvolution (θ : L ≃ₗ⁅ℝ⁆ L) : Prop :=
-  (∀ x, θ (θ x) = x) ∧
-    ∀ x ∈ derivedSeries ℝ L 1, x ≠ 0 → 0 < -(killingForm ℝ L x (θ x))
-
-/-- The `+1`-eigenspace `𝔨` of `θ`. -/
-def cartanK (θ : L ≃ₗ⁅ℝ⁆ L) : Submodule ℝ L :=
-  LinearMap.ker ((θ : L →ₗ[ℝ] L) - LinearMap.id)
-
-/-- The `-1`-eigenspace `𝔭` of `θ`. -/
+/-- **§0.1.** The `-1`-eigenspace `𝔭` of `θ`. -/
 def cartanP (θ : L ≃ₗ⁅ℝ⁆ L) : Submodule ℝ L :=
   LinearMap.ker ((θ : L →ₗ[ℝ] L) + LinearMap.id)
 
-/-- **§0.1.** The Cartan decomposition `𝔤₀ = 𝔨 ⊕ 𝔭`. -/
-theorem isCompl_cartanK_cartanP {θ : L ≃ₗ⁅ℝ⁆ L} (hθ : ∀ x, θ (θ x) = x) :
-    IsCompl (cartanK θ) (cartanP θ) := sorry
-
-/-- **§0.1.** `[𝔭, 𝔭] ⊆ 𝔨`. -/
-theorem lie_mem_cartanK_of_mem_cartanP {θ : L ≃ₗ⁅ℝ⁆ L} {x y : L}
-    (hx : x ∈ cartanP θ) (hy : y ∈ cartanP θ) : ⁅x, y⁆ ∈ cartanK θ := sorry
-
-/-- **§0.1.** The Killing form is positive definite on `𝔭` and negative definite on `𝔨`. -/
-theorem killingForm_pos_of_mem_cartanP {θ : L ≃ₗ⁅ℝ⁆ L} (hθ : IsCartanInvolution θ) {x : L}
-    (hx : x ∈ cartanP θ) (hx0 : x ≠ 0) : 0 < killingForm ℝ L x x := sorry
-
-/-- **§0.3.** A real semisimple Lie algebra is compact (negative definite Killing form) exactly
-when the identity is a Cartan involution, exactly when `𝔭 = 0` for some (any) Cartan
-involution. -/
-theorem isCartanInvolution_refl_iff :
-    IsCartanInvolution (LieEquiv.refl : L ≃ₗ⁅ℝ⁆ L) ↔
-      ∀ x : L, x ≠ 0 → killingForm ℝ L x x < 0 := sorry
-
 end CartanInvolution
-
-/-- **§0.4.** The symplectic Cartan involution `X ↦ -Xᵀ` already in Tau Ceti is a Cartan
-involution of `𝔰𝔭(2n, ℝ)`. -/
-theorem isCartanInvolution_symplectic (l : Type*) [Fintype l] [DecidableEq l] :
-    IsCartanInvolution (LieAlgebra.Symplectic.cartanInvolution l ℝ) := sorry
 
 /-! ## Layer 1: restricted roots and real rank -/
 
 section RestrictedRoots
 
-variable {L : Type*} [LieRing L] [LieAlgebra ℝ L] [FiniteDimensional ℝ L]
+variable {L : Type*} [LieRing L] [LieAlgebra ℝ L]
 
 /-- **§1.1.** A maximal abelian subspace of `𝔭`: maximal under inclusion among the subspaces of
 `𝔭` on which the bracket vanishes. -/
@@ -117,57 +84,41 @@ def restrictedRootSpace (𝔞 : Submodule ℝ L) (μ : Module.Dual ℝ 𝔞) : S
 def restrictedRoots (𝔞 : Submodule ℝ L) : Set (Module.Dual ℝ 𝔞) :=
   {μ | μ ≠ 0 ∧ restrictedRootSpace 𝔞 μ ≠ ⊥}
 
-/-- **§1.1.** The restricted root space decomposition: `𝔤₀` is the direct sum of `𝔤_0` and the
-`𝔤_λ`, `λ ∈ Σ`, and `Σ` is finite. -/
-theorem iSupIndep_restrictedRootSpace {θ : L ≃ₗ⁅ℝ⁆ L} (hθ : IsCartanInvolution θ)
-    {𝔞 : Submodule ℝ L} (h𝔞 : IsMaximalAbelianInP θ 𝔞) :
-    (restrictedRoots 𝔞).Finite ∧
-      iSupIndep (fun μ : ({0} ∪ restrictedRoots 𝔞 : Set (Module.Dual ℝ 𝔞)) ↦
-        restrictedRootSpace 𝔞 (μ : Module.Dual ℝ 𝔞)) ∧
-      ⨆ μ : ({0} ∪ restrictedRoots 𝔞 : Set (Module.Dual ℝ 𝔞)),
-        restrictedRootSpace 𝔞 (μ : Module.Dual ℝ 𝔞) = ⊤ := sorry
+/-- **§1.2, §3.1.** The sum `𝔫 = ⊕_{λ ∈ Σ⁺} 𝔤_λ` of the restricted root spaces of the positive
+system `Σ⁺ = {λ ∈ Σ | λ(H₀) > 0}` cut out by `H₀ ∈ 𝔞`. -/
+def positiveRestrictedRootSpace (𝔞 : Submodule ℝ L) (H₀ : 𝔞) : Submodule ℝ L :=
+  ⨆ (μ ∈ restrictedRoots 𝔞) (_ : 0 < μ H₀), restrictedRootSpace 𝔞 μ
 
-/-- **§1.2.** The restricted roots form a crystallographic root pairing for the evaluation pairing
-of `𝔞*` with `𝔞`, possibly nonreduced, which is a root system (its roots span `𝔞*`) for
-semisimple `𝔤₀`. -/
-theorem exists_restrictedRootPairing [IsSemisimple ℝ L] {θ : L ≃ₗ⁅ℝ⁆ L}
-    (hθ : IsCartanInvolution θ) {𝔞 : Submodule ℝ L} (h𝔞 : IsMaximalAbelianInP θ 𝔞) :
+/-- **§1.2.** The restricted roots of a Cartan involution of a real semisimple Lie algebra form a
+crystallographic root system, possibly nonreduced, for the evaluation pairing of `𝔞*` with `𝔞`:
+LieGroups Layer 9's restricted root system, packaged as a Mathlib `RootPairing` indexed by `Σ`. -/
+theorem exists_restrictedRootPairing [FiniteDimensional ℝ L] [IsSemisimple ℝ L]
+    {θ : L ≃ₗ⁅ℝ⁆ L} (hθ : IsCartanInvolution θ) {𝔞 : Submodule ℝ L}
+    (h𝔞 : IsMaximalAbelianInP θ 𝔞) :
     ∃ P : RootPairing (restrictedRoots 𝔞) ℝ (Module.Dual ℝ 𝔞) 𝔞,
       (∀ (f : Module.Dual ℝ 𝔞) (x : 𝔞), P.toLinearMap f x = f x) ∧
       (∀ i, P.root i = (i : Module.Dual ℝ 𝔞)) ∧ P.IsCrystallographic ∧ P.IsRootSystem := sorry
 
-/-- **§1.2.** The only multiples of a restricted root that are restricted roots are
-`±1/2`, `±1` and `±2` times it. -/
-theorem restrictedRoots_smul_mem {θ : L ≃ₗ⁅ℝ⁆ L} (hθ : IsCartanInvolution θ)
-    {𝔞 : Submodule ℝ L} (h𝔞 : IsMaximalAbelianInP θ 𝔞) {α : Module.Dual ℝ 𝔞}
-    (hα : α ∈ restrictedRoots 𝔞) {c : ℝ} (hc : c • α ∈ restrictedRoots 𝔞) :
-    c ∈ ({-2, -1, -1/2, 1/2, 1, 2} : Set ℝ) := sorry
-
 variable (L) in
-/-- **§1.3, Annals #1.** The real rank of a real Lie algebra: the dimension of a maximal abelian
+/-- **§1.3.** The real rank of a real semisimple Lie algebra: the dimension of a maximal abelian
 subspace of `𝔭` for a Cartan involution. Written as a supremum so that it is a definition
-without choices; `finrank_eq_realRank` says every choice attains it. -/
+without choices; `finrank_eq_realRank` says every choice attains it. A real Lie algebra that is
+not semisimple has no Cartan involution, so the supremum is empty and the value is `0`; the real
+rank of a reductive algebra is read from a reductive Cartan involution instead (README §1.3). -/
 def realRank : ℕ :=
   sSup {n | ∃ θ : L ≃ₗ⁅ℝ⁆ L, IsCartanInvolution θ ∧
     ∃ 𝔞 : Submodule ℝ L, IsMaximalAbelianInP θ 𝔞 ∧ finrank ℝ 𝔞 = n}
 
 /-- **§1.3.** Independence of choices: every Cartan involution and every maximal abelian
 subspace of its `𝔭` give the real rank. -/
-theorem finrank_eq_realRank [IsSemisimple ℝ L] {θ : L ≃ₗ⁅ℝ⁆ L} (hθ : IsCartanInvolution θ)
-    {𝔞 : Submodule ℝ L} (h𝔞 : IsMaximalAbelianInP θ 𝔞) :
+theorem finrank_eq_realRank [FiniteDimensional ℝ L] [IsSemisimple ℝ L] {θ : L ≃ₗ⁅ℝ⁆ L}
+    (hθ : IsCartanInvolution θ) {𝔞 : Submodule ℝ L} (h𝔞 : IsMaximalAbelianInP θ 𝔞) :
     finrank ℝ 𝔞 = realRank L := sorry
 
-/-- **§1.3.** Real rank zero characterizes compact real semisimple Lie algebras. -/
-theorem realRank_eq_zero_iff [IsSemisimple ℝ L] :
+/-- **§1.3.** Real rank zero characterizes the compact real semisimple Lie algebras, those with
+negative definite Killing form. -/
+theorem realRank_eq_zero_iff [FiniteDimensional ℝ L] [IsSemisimple ℝ L] :
     realRank L = 0 ↔ ∀ x : L, x ≠ 0 → killingForm ℝ L x x < 0 := sorry
-
-/-- **§1.4.** `rank_ℝ 𝔰𝔩(n, ℝ) = n - 1`. -/
-theorem realRank_sl (n : ℕ) :
-    realRank (LieAlgebra.SpecialLinear.sl (Fin n) ℝ) = n - 1 := sorry
-
-/-- **§1.4.** `rank_ℝ 𝔰𝔭(2n, ℝ) = n`. -/
-theorem realRank_sp (n : ℕ) :
-    realRank (LieAlgebra.Symplectic.sp (Fin n) ℝ) = n := sorry
 
 end RestrictedRoots
 
@@ -186,7 +137,8 @@ local instance : FiniteDimensional ℝ (LeftInvariantDerivation I G) :=
   finiteDimensional_leftInvariantDerivation BoundarylessManifold.isInteriorPoint
 
 variable (I G) in
-/-- **§2.1, Annals #1.** The real rank of a Lie group is the real rank of its Lie algebra. -/
+/-- **§2.1.** The real rank of a Lie group with semisimple Lie algebra is the real rank of its
+Lie algebra (`0` when the Lie algebra is not semisimple). -/
 abbrev groupRealRank : ℕ := realRank (LeftInvariantDerivation I G)
 
 /-- **§2.1.** A connected Lie group with semisimple Lie algebra has real rank zero exactly
@@ -196,71 +148,102 @@ theorem groupRealRank_eq_zero_iff_compactSpace [ConnectedSpace G]
     [IsSemisimple ℝ (LeftInvariantDerivation I G)] :
     groupRealRank I G = 0 ↔ CompactSpace G := sorry
 
+/-! ## Layer 3: the Bruhat decomposition -/
+
+/-- **§3.3.** The Bruhat decomposition as a Tits system. Let `G` be connected with semisimple Lie
+algebra and finite centre, `θ` a Cartan involution of its Lie algebra, `𝔞` a maximal abelian
+subspace of `𝔭` and `H₀ ∈ 𝔞` regular. The normalizer in `G` of `𝔫 = ⊕_{λ(H₀) > 0} 𝔤_λ`, which is
+the minimal parabolic subgroup `MAN`, and the normalizer of `𝔞` are the subgroups `B` and `N` of
+a Tits system on `G`. -/
+theorem exists_titsSystem [ConnectedSpace G] [IsSemisimple ℝ (LeftInvariantDerivation I G)]
+    [Finite (Subgroup.center G)]
+    {θ : LeftInvariantDerivation I G ≃ₗ⁅ℝ⁆ LeftInvariantDerivation I G}
+    (hθ : IsCartanInvolution θ) {𝔞 : Submodule ℝ (LeftInvariantDerivation I G)}
+    (h𝔞 : IsMaximalAbelianInP θ 𝔞) {H₀ : 𝔞} (hH₀ : ∀ μ ∈ restrictedRoots 𝔞, μ H₀ ≠ 0) :
+    ∃ T : TauCeti.TitsSystem G,
+      (∀ g : G, g ∈ T.subgroupB ↔ ∀ Y ∈ positiveRestrictedRootSpace 𝔞 H₀,
+        TauCeti.Lie.Ad (I := I) g Y ∈ positiveRestrictedRootSpace 𝔞 H₀) ∧
+      (∀ g : G, g ∈ T.subgroupN ↔ ∀ Y ∈ 𝔞, TauCeti.Lie.Ad (I := I) g Y ∈ 𝔞) := sorry
+
+/-! ## Layer 4: the dynamical description of parabolic subgroups -/
+
 /-- **§4.4.** The dynamical parabolic subset of `X ∈ 𝔤`: the `g` whose conjugates
 `exp(-tX) g exp(tX)`, `t ≥ 0`, stay in a compact set. -/
 def dynamicalParabolic (X : LeftInvariantDerivation I G) : Set G :=
   {g | IsCompact (closure (range fun t : Ici (0 : ℝ) ↦
     lieExp ((-(t : ℝ)) • X) * g * lieExp ((t : ℝ) • X)))}
 
-/-- **§4.4.** The dynamical parabolic subset is a subgroup, for every `X`. Closedness, and its
-identification with a parabolic subgroup, hold for hyperbolic `X` in a real reductive group and
-are stated in the README. -/
-theorem exists_subgroup_eq_dynamicalParabolic (X : LeftInvariantDerivation I G) :
-    ∃ Q : Subgroup G, (Q : Set G) = dynamicalParabolic X := sorry
-
-end Group
-
-/-! ## Layer 4: the nonnegative-eigenvalue parabolic subalgebra -/
-
-section ParabolicSubalgebra
-
-variable {L : Type*} [LieRing L] [LieAlgebra ℝ L] [FiniteDimensional ℝ L]
-
 /-- **§4.4.** The sum of the eigenspaces of `ad X` with nonnegative eigenvalue. For `X` in the
 closed positive chamber it is the standard parabolic subalgebra `𝔮_{Π'}`, `Π'` the simple
 roots vanishing on `X`. -/
-def nonnegEigenSubmodule (X : L) : Submodule ℝ L :=
+def nonnegEigenSubmodule {L : Type*} [LieRing L] [LieAlgebra ℝ L] (X : L) : Submodule ℝ L :=
   ⨆ (c : ℝ) (_ : 0 ≤ c), Module.End.eigenspace (ad ℝ L X) c
 
-/-- **§4.4.** For `X ∈ 𝔭` the nonnegative-eigenvalue space is a Lie subalgebra. -/
-theorem lie_mem_nonnegEigenSubmodule {θ : L ≃ₗ⁅ℝ⁆ L} (hθ : IsCartanInvolution θ) {X : L}
-    (hX : X ∈ cartanP θ) {y z : L} (hy : y ∈ nonnegEigenSubmodule X)
-    (hz : z ∈ nonnegEigenSubmodule X) : ⁅y, z⁆ ∈ nonnegEigenSubmodule X := sorry
+/-- **§4.4.** The dynamical description of parabolic subgroups. Let `G` be connected with
+semisimple Lie algebra and finite centre, and `X` hyperbolic (`ad X` diagonalizable over `ℝ`).
+Then `dynamicalParabolic X` is a closed subgroup whose Lie algebra is `nonnegEigenSubmodule X`,
+and it is parabolic: it contains the minimal parabolic subgroup `N_G(𝔫)` of some Cartan involution,
+maximal abelian `𝔞 ⊆ 𝔭` and regular `H₀ ∈ 𝔞`. -/
+theorem dynamicalParabolic_isClosed_lie [ConnectedSpace G]
+    [IsSemisimple ℝ (LeftInvariantDerivation I G)] [Finite (Subgroup.center G)]
+    {X : LeftInvariantDerivation I G}
+    (hX : ⨆ c : ℝ, Module.End.eigenspace (ad ℝ (LeftInvariantDerivation I G) X) c = ⊤) :
+    ∃ Q : Subgroup G, (Q : Set G) = dynamicalParabolic X ∧ IsClosed (Q : Set G) ∧
+      (TauCeti.Lie.lieSubalgebraOfSubgroup (I := I) Q).toSubmodule = nonnegEigenSubmodule X ∧
+      ∃ θ : LeftInvariantDerivation I G ≃ₗ⁅ℝ⁆ LeftInvariantDerivation I G,
+        IsCartanInvolution θ ∧ ∃ 𝔞 : Submodule ℝ (LeftInvariantDerivation I G),
+          IsMaximalAbelianInP θ 𝔞 ∧ ∃ H₀ : 𝔞, (∀ μ ∈ restrictedRoots 𝔞, μ H₀ ≠ 0) ∧
+            ∀ g : G, (∀ Y ∈ positiveRestrictedRootSpace 𝔞 H₀,
+              TauCeti.Lie.Ad (I := I) g Y ∈ positiveRestrictedRootSpace 𝔞 H₀) → g ∈ Q := sorry
 
-end ParabolicSubalgebra
+end Group
 
-/-! ## Layer 5: symmetric spaces -/
+/-! ## Layer 5: Cartan's fixed-point theorem and maximal compact subgroups -/
 
-section SymmetricSpace
+section CartanFixedPoint
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  {H : Type*} [TopologicalSpace H] (I : ModelWithCorners ℝ E H)
-  (M : Type*) [TopologicalSpace M] [ChartedSpace H M]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [EMetricSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
   [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
+  [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
 
-/-- **§5.1.** A Riemannian globally symmetric space: every point is an isolated fixed point of
-an involutive Riemannian isometry whose differential there is `-1`. Connectedness is imposed
-separately where it is used. -/
-def IsRiemannianSymmetricSpace : Prop :=
-  ∀ p : M, ∃ s : TauCeti.RiemannianIsometry I I M M,
-    s p = p ∧ (∀ x, s (s x) = x) ∧ ∀ v : TangentSpace I p, mfderiv I I s p v = -v
+/-- **§5.4.** Cartan's fixed-point theorem: a compact group acting continuously by isometries on
+a Hadamard manifold (complete, simply connected, sectional curvature `≤ 0`, distance the
+Riemannian distance) has a fixed point. -/
+theorem exists_forall_smul_eq_of_sectionalCurvature_nonpos [I.Boundaryless]
+    [IsRiemannianManifold I M] [CompleteSpace M] [SimplyConnectedSpace M]
+    (hK : ∀ (x : M) (u v : TangentSpace I x), LinearIndependent ℝ ![u, v] →
+      (leviCivitaConnection I M).sectionalCurvature (isMetricCompatible_leviCivitaConnection I)
+        x u v ≤ 0)
+    {Λ : Type*} [Group Λ] [TopologicalSpace Λ] [CompactSpace Λ] [MulAction Λ M]
+    [ContinuousSMul Λ M] [IsIsometricSMul Λ M] :
+    ∃ x : M, ∀ l : Λ, l • x = x := sorry
 
-end SymmetricSpace
+end CartanFixedPoint
 
-section Displacement
+section MaximalCompact
 
-variable {X : Type*} [PseudoEMetricSpace X] {Λ : Type*} [Group Λ] [MulAction Λ X]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {G : Type*} [TopologicalSpace G] [ChartedSpace H G] [Group G]
+  [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G]
 
-/-- **§5.6, Annals #62.5(c).** The injectivity radius at `x` of the quotient by `Λ`, defined by
-displacement: half the infimum of `d(x, γ x)` over `γ ≠ 1`, and `∞` for trivial `Λ`. -/
-def displacementInjRad (x : X) : ℝ≥0∞ :=
-  (⨅ (γ : Λ) (_ : γ ≠ 1), edist x (γ • x)) / 2
+attribute [local instance] LieGroup.minSmoothness_of_isRCLikeNormedField
 
-/-- **§5.6.** For an isometric action the displacement radius is constant on orbits, so it is a
-function on the quotient. -/
-theorem displacementInjRad_smul [IsIsometricSMul Λ X] (γ : Λ) (x : X) :
-    displacementInjRad (Λ := Λ) (γ • x) = displacementInjRad (Λ := Λ) x := sorry
+local instance : FiniteDimensional ℝ (LeftInvariantDerivation I G) :=
+  finiteDimensional_leftInvariantDerivation BoundarylessManifold.isInteriorPoint
 
-end Displacement
+/-- **§5.4.** Maximal compact subgroups of a connected Lie group with semisimple Lie algebra and
+finite centre: one exists, and every compact subgroup lies in a conjugate of any given maximal
+compact subgroup; in particular any two maximal compact subgroups are conjugate. -/
+theorem exists_maximal_isCompact_and_le_conj [ConnectedSpace G]
+    [IsSemisimple ℝ (LeftInvariantDerivation I G)] [Finite (Subgroup.center G)] :
+    (∃ K : Subgroup G, Maximal (fun K : Subgroup G ↦ IsCompact (K : Set G)) K) ∧
+      ∀ K : Subgroup G, Maximal (fun K : Subgroup G ↦ IsCompact (K : Set G)) K →
+        ∀ C : Subgroup G, IsCompact (C : Set G) →
+          ∃ g : G, C ≤ K.map (MulAut.conj g).toMonoidHom := sorry
+
+end MaximalCompact
 
 end TauCetiRoadmap.RealSemisimpleLieGroups
