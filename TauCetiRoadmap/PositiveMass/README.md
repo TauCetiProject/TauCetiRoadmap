@@ -1131,7 +1131,7 @@ other end entering only through completeness and Scal≥0.
 
 Layers 0–2, 4–6; RiemannianGeometry R7.8; DifferentialGeometry 10.
 
-## Layer 8: theorems and conformal applications
+## Layer 8: the positive mass theorems and their invariance
 
 ### 8.1 Nonspin positive mass, 3 ≤ n ≤ 7
 
@@ -1184,7 +1184,7 @@ nonnegative mass at that end, and zero mass implies a global isometry with ℝ�
 pass to finite Riemannian covers, each end lifting to copies with the mass of the end
 below (0.2; Lee–Parker, Theorem 9.6 and the remark after Theorem 10.3).
 
-*Needs:* 8.1–8.3; 0.4.
+*Needs:* 8.1–8.3; 0.2.
 
 **Checks.**
 
