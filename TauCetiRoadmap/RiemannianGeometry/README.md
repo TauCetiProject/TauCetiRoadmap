@@ -557,6 +557,11 @@ or such a similarity followed by an inversion in a sphere centred on the boundar
 hyperplane; and `TauCeti.RiemannianIsometry.ext_of_mfderiv_eq` (`Isometry/Ext.lean`),
 two Riemannian isometries of a preconnected boundaryless Hausdorff smooth Riemannian
 manifold with the same value and differential at one point are equal.
+`TauCeti.ModelGeometry.Space` (`ModelGeometry/Basic.lean`) is the manifold underlying
+each of the eight three-dimensional model geometries `TauCeti.ModelGeometry`: the unit
+sphere of ℝ⁴, Euclidean three-space and the upper half-space of ℝ²×ℝ in the three cases
+of constant curvature. `TauCeti.HyperbolicMetric` (`Hyperbolic.lean`) is a complete
+smooth Riemannian metric of constant curvature −1 on a manifold.
 
 For the round-sphere connection of R4.7 and the flat-ambient case of R5a,
 `CovariantDerivative.IsLeviCivitaConnection.inner_apply_eq_inner_mvfderiv` in
@@ -733,15 +738,14 @@ The following contracts specify each supplier and section consumed.
   B6.0 supplies uniform normal and strong-convexity radii on compact sets and
   the variable-base inverse-function theorem for `(x,v)↦(x,exp_x v)`.
 - [GeometricTopology](../GeometricTopology/README.md), Layer 1: the actual normal
-  bundle and tubular neighbourhood theorem; Layer 7: the existing intrinsic
-  curvature construction and `TauCeti.riemannianVolume`. This roadmap extends
+  bundle and tubular neighbourhood theorem. This roadmap extends
   their geometric identities and comparison theory. General immersions use the
   corresponding orthogonal subbundle of f*TN; for embeddings it is canonically
   the Layer 1 normal bundle, with the same induced topology. R5a constructs the smooth orthogonal-complement-to-quotient
   comparison on this supplied normal bundle.
-  Layer 8 owns the eight three-dimensional model geometries; R4.7 compares its
-  constant-curvature models with their native `ModelGeometry.Space` instances.
-  Its smooth-triangulation theorem (Whitehead: every smooth manifold admits a
+  Layer 7 §7.1 supplies R4.7's hyperbolic quotient description and the
+  hyperbolic model-geometry identification.
+  GeometricTopology's smooth-triangulation theorem (Whitehead: every smooth manifold admits a
   smooth triangulation) supplies smooth triangulation.
   R3.2 constructs the finite marked-point refinement and its marked-pair identification.
 - [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md), K5a: real/complex
@@ -2318,8 +2322,9 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
 
 7. Consume the existing `TauCeti` round-sphere RiemannianBundle and
    `Riemannian/Hyperbolic.lean`, `Hyperbolic/UpperHalfSpace/Basic.lean` objects and
-   GT Layer 7’s `HyperbolicMetric`; compare with GT Layer 8's native
-   `ModelGeometry.Space` in dimension 3. The curvature +1 of the round unit sphere,
+   Tau Ceti's `TauCeti.HyperbolicMetric`; compare the Euclidean and round models
+   with Tau Ceti's `TauCeti.ModelGeometry.Space` in dimension 3. The curvature +1 of
+   the round unit sphere,
    the curvature 1/r² of the round metric of radius r>0 and the curvature −1 of the
    half-space metric `(|dx|²+dt²)/t²` are Tau Ceti's
    `TauCeti.hasConstantSectionalCurvature_sphere`,
@@ -2368,18 +2373,19 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
    local constant-curvature isometry germs from their value/tangent data, using
    completeness to continue along finite paths and simple connectivity to
    remove path dependence.
-   Prove the Killing–Hopf universal-cover classification (`killingHopf_euclidean`,
-   `killingHopf_sphere`, `killingHopf_hyperbolic`: a connected complete simply
+   Prove the Killing–Hopf universal-cover classification in curvature 0 and 1
+   (`killingHopf_euclidean`, `killingHopf_sphere`: a connected complete simply
    connected Riemannian manifold modelled on ℝⁿ with constant sectional
-   curvature 0, 1 or −1 is isometric to Euclidean n-space, to the unit sphere
-   of ℝ^(n+1), or to the upper half-space model of hyperbolic n-space with the
-   metric `(|dx|²+dt²)/t²`; the spherical case needs n≥2, since the line
+   curvature 0 or 1 is isometric to Euclidean n-space or to the unit sphere
+   of ℝ^(n+1); the spherical case needs n≥2, since the line
    satisfies the curvature hypothesis vacuously for n=1 and is not a circle,
-   and the hyperbolic case needs n≥1 so that the two dimensions agree, while
-   the Euclidean case holds for every n, a point and the line included;
-   Barzen–Leymann, *Mathematics of Spacetime*, Theorem 9, p. 60, with the
-   hyperboloid sheet as the model of curvature −1) and the quotient
+   while the Euclidean case holds for every n, a point and the line included;
+   Barzen–Leymann, *Mathematics of Spacetime*, Theorem 9, p. 60) and, in these
+   two curvatures, the quotient
    description by free properly discontinuous discrete smooth isometries.
+   The curvature −1 case (a complete hyperbolic manifold is ℍⁿ/Γ, with
+   universal cover the upper half-space model) and that model's identification
+   with `TauCeti.ModelGeometry` are GeometricTopology §7.1's, consumed here.
    For a free properly discontinuous group of smooth isometries of any Riemannian
    manifold, none of the following needs constant curvature: the quotient atlas is
    Mathlib's `MulAction.instChartedSpaceQuotient` and the orbit projection is a
@@ -2408,9 +2414,9 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
    generic isometric quotient with that carrier and descend the round metric.
    **The round real-projective quotient, with low-dimensional and orientation branches.**
 
-   For every n ≥ 0 use the native unit sphere in `EuclideanSpace ℝ (Fin (n+1))` with its antipodal integer-unit action and Tau Ceti's orbit quotient `TauCeti.RealProjectiveSpace` n. The native projection is continuous, surjective, a quotient covering map and identifies x and y exactly when x = y or x = −y; its compactness/path-connectedness/unique-zero-dimensional carrier are existing declarations. Construct its comparison with AlgebraicTopology AT4.6's native `Projectivization` ℝ (Fin (n+1) → ℝ), after the `WithLp` linear homeomorphism. Send a unit vector to its one-dimensional span. Surjectivity chooses a nonzero vector on the line and normalizes it; if two unit vectors span the same line the real scalar has absolute value 1, hence is ±1. The induced quotient bijection is continuous, and compact-to-Hausdorff gives the homeomorphism. Pin representative, inverse, topology and basepoint equations. This comparison is an owned construction, not supplied by the mere generic quotient theorem.
+   For every n ≥ 0 use the native unit sphere in `EuclideanSpace ℝ (Fin (n+1))` with its antipodal integer-unit action and Tau Ceti's orbit quotient `TauCeti.RealProjectiveSpace` n. The native projection is continuous, surjective, a quotient covering map and identifies x and y exactly when x = y or x = −y; its compactness/path-connectedness/unique-zero-dimensional carrier are existing declarations. Consume AlgebraicTopology §4.6's homeomorphism from `TauCeti.RealProjectiveSpace` n to `Projectivization` ℝ (Fin (n+1) → ℝ), induced by v↦[v] on the unit sphere after the `WithLp` linear homeomorphism, together with §4.6's Hausdorffness of Mathlib's quotient topology.
 
-   In the projective chart with coordinate i nonzero choose its unit representative with positive i-th coordinate. The affine ratio vector gives the explicit smooth section, with normalizing denominator √(1 + Σ ratios²) > 0. Compare it with the lifted smooth antipodal-cover atlas and AT's designated projective atlas by these coordinate maps; the identity is a diffeomorphism and no second projective manifold/topology is installed. The antipodal action is a smooth round isometry, free even on S⁰. The generic Riemannian quotient/pullback metric then descends the round metric, and in each local sheet sectional curvature equals 1 for n ≥ 2. In dimensions 0 and 1 the sectional statement has no two-plane test and is vacuous; no positive-Ricci Myers hypothesis is inferred there. Compactness is from the sphere quotient, before any classification of complete space forms.
+   Through that homeomorphism, §4.6's smooth comparison with the affine charts identifies the lifted smooth antipodal-cover atlas with AT's projective atlas; no second projective manifold or topology is installed. The antipodal action is a smooth round isometry, free even on S⁰. The generic Riemannian quotient/pullback metric then descends the round metric, and in each local sheet sectional curvature equals 1 for n ≥ 2. In dimensions 0 and 1 the sectional statement has no two-plane test and is vacuous; no positive-Ricci Myers hypothesis is inferred there. Compactness is from the sphere quotient, before any classification of complete space forms.
 
    For n ≥ 1 the connected sphere is oriented by the outward-normal-first orientation. The antipodal map on the ambient ℝⁿ⁺¹ has determinant (−1)ⁿ⁺¹; its boundary-sphere degree is the same sign. Prove the normal/tangent orientation comparison, not determinant(-Id on a fixed abstract n-plane), which would give the wrong exponent. A quotient orientation pulls back to an invariant sphere orientation; conversely an invariant orientation descends in the covering charts. On connected Sⁿ every orientation differs by one global sign, so an orientation-reversing deck transformation obstructs every descent. Thus RPⁿ is orientable exactly for odd n when n ≥ 1. RP⁰ is a single point and is orientable separately. This is a concrete quotient/parity comparison, not a full Stiefel–Whitney or Killing–Hopf classification input.
 

@@ -13,7 +13,6 @@ public import TauCeti.Geometry.Manifold.DeRham.Basic
 public import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 public import TauCeti.Geometry.Manifold.Riemannian.Isometry.Basic
 public import TauCeti.Geometry.Manifold.Riemannian.Sphere.Basic
-public import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.UpperHalfSpace.Basic
 public import TauCeti.Geometry.Manifold.Orientation.Basic
 public import TauCeti.RingTheory.MvPolynomial.Harmonic
 public import TauCeti.Geometry.Manifold.Riemannian.Laplacian
@@ -37,7 +36,8 @@ under an upper sectional bound (R4.1), Günther's volume comparison under an upp
 bound (R4.1), the Bishop–Gromov relative-volume monotonicity against the
 model of curvature `κ` (R4.1), Cartan–Hadamard (R4.4), Bonnet–Myers in its distance form and the
 finiteness of the fundamental group (R4.5), Synge's theorem in its even-dimensional and
-odd-dimensional forms (R4.6), the three cases of the Killing–Hopf classification of simply
+odd-dimensional forms (R4.6), the Euclidean and spherical cases of the Killing–Hopf classification
+of simply
 connected space forms (R4.7), two distinct fixed-interval geodesics between distinct points of a
 connected closed positive-dimensional manifold (R4.8), the three simple closed geodesic images on
 a smooth two-sphere (R4.9), the paraboloid crossing and vertex-pole theorems (R5a.3), Bochner's
@@ -47,6 +47,9 @@ smooth-function duality for the Riemannian distance (R7.8), the identification o
 eigenfunctions of the round-sphere Laplacian with restrictions of harmonic homogeneous polynomials
 (R8.2) and the irreducibility of the complex harmonic polynomials of each degree under `SO(N)` for
 `N ≥ 3` (R8.3).
+
+Not stated here, because another roadmap owns it: the hyperbolic case of the Killing–Hopf
+classification (R4.7), which is GeometricTopology §7.1's.
 
 Not restated here, because Tau Ceti proves them and the README cites the declarations: the
 Bianchi identities, pair interchange and the Ricci identity, parallel curvature under constant
@@ -378,19 +381,6 @@ theorem killingHopf_sphere (hn : 2 ≤ n)
       (CovariantDerivative.isMetricCompatible_leviCivitaConnection (𝓡 n)) 1) :
     Nonempty (TauCeti.RiemannianIsometry (𝓡 n) (𝓡 n) M
       (Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1)) := by
-  sorry
-
-/-- R4.7, Killing–Hopf, hyperbolic case: for `n ≥ 1`, a connected, complete, simply connected
-Riemannian manifold modelled on `ℝⁿ` with constant sectional curvature `−1` is isometric to
-hyperbolic `n`-space in the upper half-space model `TauCeti.UpperHalfSpace (ℝⁿ⁻¹)`, the open
-upper half-space of `ℝⁿ⁻¹ × ℝ` with the metric `(|dx|² + dt²)/t²`. The dimension bound keeps
-the two dimensions equal; for `n = 1` both sides are the line. -/
-theorem killingHopf_hyperbolic (hn : 1 ≤ n)
-    (hK : (CovariantDerivative.leviCivitaConnection (𝓡 n) M).HasConstantSectionalCurvature
-      (CovariantDerivative.isMetricCompatible_leviCivitaConnection (𝓡 n)) (-1)) :
-    Nonempty (TauCeti.RiemannianIsometry (𝓡 n)
-      𝓘(ℝ, WithLp 2 (EuclideanSpace ℝ (Fin (n - 1)) × ℝ)) M
-      (TauCeti.UpperHalfSpace (EuclideanSpace ℝ (Fin (n - 1))))) := by
   sorry
 
 end SpaceForms
