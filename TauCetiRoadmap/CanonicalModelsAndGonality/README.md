@@ -63,9 +63,9 @@ Suggested home: `TauCeti/FieldTheory/FunctionField/Gonality/`, `.../LinearSystem
   existence of plane models and of plane models with only ordinary singularities (Layer 4).
 - **Clifford's equality case, the corollaries of Castelnuovo–Severi, the Thom–Porteous formula
   and the Brill–Noether existence theorem** with the bound `gon_{k̄} ≤ ⌊(g+3)/2⌋` (Layer 5).
-- **Quotient curves** by finite automorphism groups, the quotient genus by Riemann–Hurwitz in
-  orbit form, fixed-point counts of involutions, the predicates *bielliptic* (over `k` and
-  geometric), *cyclic trigonal*, descent of automorphisms along constant extensions (Layer 6).
+- **Quotient curves** by finite automorphism groups, fixed-point counts of involutions, the
+  predicates *bielliptic* (over `k` and geometric), *cyclic trigonal*, descent of automorphisms
+  along constant extensions (Layer 6).
 - **Points of low degree**: `ℙ¹`-parametrized, AV-parametrized, isolated and sporadic points,
   Frey's criterion `gon_k ≤ 2d`, finiteness of isolated points of bounded degree, and the
   degree/rank criteria the LMFDB uses to decide isolation (Layer 7).
@@ -180,9 +180,12 @@ Suggested home: `TauCeti/FieldTheory/FunctionField/Gonality/`, `.../LinearSystem
 - **Passports, generating vectors, signatures, Riemann's existence theorem, the topological
   classification of group actions** (hgcwa), and the meaning of the hgcwa columns
   `hyperelliptic`, `cyclic_trigonal` and `g0`, which are read on the generic member of a family:
-  the sibling `GroupActionsOnRiemannSurfaces`. Layer 6 supplies to it, for one function field, the
-  quotient genus, the Riemann–Hurwitz orbit formula and the predicates
-  `IsHyperellipticFunctionField ℂ F` and `IsCyclicTrigonal ℂ F`.
+  the sibling `GroupActionsOnRiemannSurfaces`. This roadmap supplies to it, for one function field
+  over `ℂ`, `IsCyclicTrigonal` with the uniqueness of the trigonal pencil for `g ≥ 5` (5.2(f),
+  6.6), the fixed-point degree of an involution (6.3) and the central hyperelliptic involution
+  (6.7). The quotient genus and its orbit form are Tau Ceti's `hurwitz_genus_formula` and
+  `TauCeti.Divisor.degree_tameDifferent_eq_finrank_mul_sum`, and `IsHyperellipticFunctionField`
+  is Tau Ceti's predicate.
 - **Labels beyond their intrinsic prefix, enumerative indices, orderings fixed by convention, stored
   lists and the completeness of database tables** are not targets. Nothing here depends on an
   ordering or a normal form; the intrinsic data a label is built from (genus, gonality bounds) are
@@ -377,6 +380,12 @@ For Layer 8, Tau Ceti supplies the analytic carriers:
   `C²` function on a manifold without boundary) and `TauCeti.Manifold.integral_mul_laplaceBeltrami`
   (Green's first identity `∫ f Δg dV = −∫ ⟨∇f, ∇g⟩ dV` for `f` compactly supported `C¹` and `g`
   `C²`).
+
+For §9.3, `TauCeti/AlgebraicGeometry/Fibers.lean` supplies `TauCeti.genericFiber R K f` and
+`TauCeti.specialFiber R f`, the base changes of `f : 𝒳 ⟶ Spec R` to `K` and to the residue field,
+and `TauCeti/AlgebraicGeometry/Scheme/BaseAlgebra.lean` supplies
+`Scheme.functionFieldBaseAlgebra`, the `k`-algebra structure on the function field of an integral
+scheme over `Spec k`.
 
 The AlgebraicCurves Layer 12 dictionary supplies the regular projective model `X_F`,
 its function-field identification, closed points as places with their residue fields,
@@ -839,7 +848,9 @@ The API includes:
 `2g ≤ deg D → IsBasePointFree D` and `2g + 1 ≤ deg D → IsVeryAmple D`, for `hF`, `hex`, with
 `[PerfectField k]` for the second (the conorm to a finite constant extension keeps the degree and
 `ℓ`, `TauCeti.Divisor.degree_conorm_of_constantCompositum_eq_top`, `TauCeti.Divisor.dim_conorm`, and the
-high-degree theorem applies to `D − E` with `deg (D − E) ≥ 2g − 1`). The scheme form is
+high-degree theorem applies to `D − E` with `deg (D − E) ≥ 2g − 1`). Sources: Stacks, Tag 0E3C
+for the first; for the second, Tag 0E3D over each finite constant extension, with `Z` the
+subscheme of a nonzero `E`, and Tag 0H2V for the line bundle `𝒪(D)`. The scheme form is
 SchemeAndStackFoundations §3.2 `lineBundle_degree_bounds`; 9.1 identifies the two.
 
 The bounds are `isBasePointFree_of_two_mul_genus_le` and
@@ -1485,9 +1496,9 @@ with `k' = k`), and when every place is tame (in particular for `(|H| : k) ≠ 0
 `2g − 2 = |H| (2 g_H − 2) + Σ_{P : Place k F} (e_P − 1) · deg P` as the degree of `tameDifferent`
 (Tau Ceti `two_mul_genus_sub_two_eq_iff_forall_isTame`), equivalently, grouping by orbits,
 `2g − 2 = |H| · (2 g_H − 2 + Σ_{Q : Place k F^H} (1 − 1/e_Q) · deg Q)` (Tau Ceti
-`TauCeti.Divisor.degree_tameDifferent_eq_finrank_mul_sum`). This is the `g0` column of hgcwa and the quotient
-genus of `ag.quotient_curve`; the signature `(g_H; m₁, …, m_r)` over `ℂ` and the generating vectors
-realizing it are the sibling's.
+`TauCeti.Divisor.degree_tameDifferent_eq_finrank_mul_sum`). This is the quotient genus of
+`ag.quotient_curve`; the hgcwa `g0` column, the signature `(g_H; m₁, …, m_r)` over `ℂ` and the
+generating vectors realizing it are the sibling `GroupActionsOnRiemannSurfaces`'s (6.7).
 
 In characteristic zero every place is tame (Tau Ceti `isTame_of_charZero`), so the tame form
 holds for every finite `H` with `|H| = [F : F^H]` (Tau Ceti `finrank_fixedField_eq_natCard`);
@@ -1505,7 +1516,8 @@ the *fixed-point divisor* `Fix σ := Σ_{e_P = 2} P = tameDifferent k F (hF.fixe
 involution; Tau Ceti `card_branchPlaces` over `k̄`), and **`g_σ = 1 ↔ deg Fix σ = 2g − 2`**.
 In characteristic two the different exponent at a ramified place is `≥ 2` and the count must be
 replaced by `deg Diff`; state the characteristic-two version with the Artin–Schreier different
-(Tau Ceti `Different/ArtinSchreier.lean`).
+(Tau Ceti `TauCeti.Place.differentExponent_eq_of_pow_sub_self_eq_of_ord_eq_neg`,
+`Different/ArtinSchreier/Basic.lean`: exponent `(p − 1)(m + 1)` over a reduced pole of order `m`).
 
 The involution formula is `degree_tameDifferent_of_natCard_eq_two`.
 
@@ -1620,7 +1632,7 @@ The API includes:
 
 *Needs:* §§1.6, 5.2, 6.2; AlgebraicCurves Layer 10, Kummer theory with roots of unity.
 
-### 6.7 The hgcwa booleans and the quotient genus
+### 6.7 Hyperelliptic and cyclic-trigonal subgroups of one function field
 
 For `k` algebraically closed of characteristic zero (the hgcwa setting, `k = ℂ`), one function
 field `F` with `g ≥ 2` and a finite `G ≤ F ≃ₐ[k] F` with quotient genus `g_G := genus k F^G`:
@@ -2028,9 +2040,12 @@ criterion; SchemeAndStackFoundations §0.30 for normal curves; §4.4 for the loc
 ### 9.3 Gonality under good reduction
 
 For a discrete valuation ring `R` with fraction field `K` and perfect residue field `κ`, a function
-field `F / K` with a smooth proper model `𝒳 / R` of `X_F` (StableReduction Layer 0; Tau Ceti
-`Curves/StableReduction/Model/*`) with special fibre `X_κ` of function field `F_κ`:
-`gonality κ F_κ ≤ gonality K F`, and `gon_{κ̄}(F_κ) ≤ gon_{K̄}(F)`. Proof: a function `z` of degree
+field `F / K` with exact constants and a smooth proper model `𝒳 / R` of `X_F` (StableReduction
+Layer 0; Tau Ceti `Curves/StableReduction/Model/*`) with integral special fibre `X_κ` of function
+field `F_κ`: `gonality κ F_κ ≤ gonality K F`, and `gon_{κ̄}(F_κ) ≤ gon_{K̄}(F)`. The first
+inequality is `gonality_specialFiber_le`, for a smooth proper `f : 𝒳 ⟶ Spec R` whose fibres
+`TauCeti.genericFiber R K f` and `TauCeti.specialFiber R f` are integral, `F` being the function
+field of the generic fibre. Proof: a function `z` of degree
 `d` has pole divisor `D`, an effective Cartier divisor on `X_F`; its scheme-theoretic closure
 `𝒟 ⊆ 𝒳` is flat over `R` with special fibre a zero-dimensional subscheme of the smooth curve
 `X_κ`, hence a relative effective Cartier divisor (ModularCurves §0A.1, the fibre criterion),
@@ -2044,7 +2059,7 @@ field finite over `κ`), and use 1.7. With 1.8: **for a curve over `ℚ` with go
 `qbar_gonality_bounds`. (Poonen 2007 and Derickx–van Hoeij 2014 use this inequality; the proof
 above is the standard one.)
 
-*Needs:* §§1.2, 1.7–1.8; StableReduction Layer 0; ModularCurves §0A.1, §0A.4–0A.5; JacobianChallenge Layer C, upper semicontinuity.
+*Needs:* §§1.2, 1.7–1.8; Tau Ceti `TauCeti.genericFiber`, `TauCeti.specialFiber`; StableReduction Layer 0; ModularCurves §0A.1, §0A.4–0A.5; JacobianChallenge Layer C, upper semicontinuity.
 
 ### 9.4 The LMFDB model dictionary
 
@@ -2165,7 +2180,7 @@ The examples below distinguish the invariants and name the milestones that repro
 | --- | --- | --- |
 | Layers 1–3, 9 | `gonality`, `Model`, `canonicalModel`, `IsVeryAmple`, `IsSmoothPlaneEquation`, the `K`-gonality relation | `AdelicImagesAndModularCurves`, `QuaternionArithmetic` |
 | Layers 3, 4.7 | the canonical image conic and its rationality; the plane model of a Weierstrass equation | `HyperellipticCurves` |
-| Layer 6 | quotient genus, `IsBielliptic`, `IsCyclicTrigonal`, hyperelliptic-as-involution | `GroupActionsOnRiemannSurfaces` |
+| 5.2(f), Layer 6 | `IsCyclicTrigonal` and trigonal uniqueness (5.2(f), 6.6), involution fixed points (6.3), the central hyperelliptic involution (6.7) | `GroupActionsOnRiemannSurfaces` |
 | Layer 7 | *IsIsolated*, Frey's criterion, the degree and rank criteria | `AdelicImagesAndModularCurves` |
 
 ## References
@@ -2184,6 +2199,10 @@ The examples below distinguish the invariants and name the milestones that repro
   IV.5.2 (the canonical embedding of a non-hyperelliptic curve), IV.5.4 (Clifford with equality),
   IV Examples 5.5.1–5.5.3 (canonical curves of genus `3, 4, 5`), IV.3.10–3.11 (nodal projections,
   excluded).
+- The Stacks project, chapter *Algebraic Curves* — Tags 0E3C (global generation in degree
+  `≥ 2g`), 0E3D (surjectivity onto the sections over a finite subscheme `Z` in degree
+  `≥ 2g − 1 + deg Z`), for an integral proper curve with `H⁰ = k`; 0H2V (very ampleness in degree
+  `≥ 2g + 1` on a geometrically integral one), 2.5.
 - E. Arbarello, M. Cornalba, P. Griffiths, J. Harris, *Geometry of Algebraic Curves I*,
   Grundlehren 267, Springer, 1985 — Ch. III §2 (Max Noether's theorem, the base-point-free pencil
   trick), §3 (Petri's analysis of the canonical ideal, Enriques–Babbage), Ch. V Theorem 1.1

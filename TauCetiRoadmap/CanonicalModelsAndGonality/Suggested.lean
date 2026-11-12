@@ -18,6 +18,8 @@ import TauCeti.Analysis.Complex.Fuchsian.Compactification.Manifold
 import TauCeti.LinearAlgebra.Matrix.ProjectiveSpecialLinearGroup
 import TauCeti.Topology.Algebra.Matrix.ProjectiveSpecialLinearGroup
 import TauCeti.GroupTheory.Index.Basic
+import TauCeti.AlgebraicGeometry.Fibers
+import TauCeti.AlgebraicGeometry.Scheme.BaseAlgebra
 
 /-!
 # Canonical models, plane models and gonality: target signatures
@@ -31,7 +33,8 @@ corollaries (uniqueness of the bielliptic involution and of the trigonal pencil,
 for a double cover of a pointless conic); quotient and bielliptic criteria with the descent of
 the hyperelliptic and bielliptic involutions along an algebraic closure; Frey's criterion; the
 analytic gonality of a compact Riemann surface as the gonality of its meromorphic function field;
-and Abramovich's unconditional bound for congruence modular curves.
+Abramovich's unconditional bound for congruence modular curves; and the specialization of gonality
+along a smooth proper model over a discrete valuation ring.
 
 The following headlines cannot yet be stated on the intended carriers at these pins:
 * The hyperelliptic canonical-ring presentation (§3.7) lacks the Veronese subring of a graded
@@ -47,8 +50,8 @@ The following headlines cannot yet be stated on the intended carriers at these p
   and the *SelbergBound* form of Abramovich's bound (§8.6) lack the hyperbolic metric on `Γ\ℍ`
   with its variational `λ₁`. The unconditional form of §8.6 is stated: it is Abramovich's
   Theorem 0.1 itself.
-* The closed-immersion criterion and scheme Noether theorem (§9.1), smooth-image comparison
-  (§9.2), and good-reduction specialization (§9.3) lack the morphism from the regular projective
+* The closed-immersion criterion and scheme Noether theorem (§9.1) and the smooth-image
+  comparison (§9.2) lack the morphism from the regular projective
   model to `ℙⁿ_k` attached to a model datum, with its divisor and genus comparisons. Tau Ceti
   has the regular projective model and its functor, but embeds it only by the complete linear
   system of a pole divisor whose section ring is generated in degree one.
@@ -59,7 +62,9 @@ needed. Geometric extension statements use native field towers and `constantComp
 A `Model` is birational by its generation law. Arithmetic genus and delta are integers.
 Layer 8 is stated on Tau Ceti's Riemann surfaces (a `ChartedSpace ℂ` with an analytic atlas),
 their meromorphic function field `RiemannSurface.MeromorphicFunction`, the degree of a finite
-holomorphic map, and the cusp compactification `Subgroup.CompactifiedQuotient`.
+holomorphic map, and the cusp compactification `Subgroup.CompactifiedQuotient`. Layer 9 is stated
+on Tau Ceti's generic and special fibres `genericFiber` and `specialFiber` of a scheme over a
+discrete valuation ring.
 -/
 
 
@@ -657,6 +662,25 @@ theorem le_analyticGonality_compactifiedQuotient (Γ : Subgroup SL(2, ℤ))
     (hΓ : CongruenceSubgroup.IsCongruenceSubgroup Γ) :
     (7 / 800 : ℝ) * Γ.withCenter.index ≤
       analyticGonality (Γ.map sl2zToPSL2R).CompactifiedQuotient := by
+  sorry
+
+/-! ## Layer 9: models as schemes -/
+
+/-- `README.md`, Layer 9, 9.3: **gonality under good reduction**. Let `R` be a discrete valuation
+ring with fraction field `K` and perfect residue field `κ`, and `f : 𝒳 ⟶ Spec R` smooth and
+proper with integral generic and special fibres, the generic fibre having a function field with
+exact constants over `K`. Then the `κ`-gonality of the special fibre is at most the `K`-gonality
+of the generic fibre: the closure of the pole divisor of a pencil specializes to a divisor of the
+same degree with at least two sections. -/
+theorem gonality_specialFiber_le {R K : Type u} [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] [Field K] [Algebra R K] [IsFractionRing R K]
+    [PerfectField (IsLocalRing.ResidueField R)]
+    (X : Scheme.{u}) (f : X ⟶ Spec (.of R)) [Smooth f] [IsProper f]
+    [IsIntegral (genericFiber R K f).left] [IsIntegral (specialFiber R f).left]
+    (hF : IsFunctionField K (genericFiber R K f).left.functionField)
+    (hex : IsIntegrallyClosedIn K (genericFiber R K f).left.functionField) :
+    gonality (IsLocalRing.ResidueField R) (specialFiber R f).left.functionField ≤
+      gonality K (genericFiber R K f).left.functionField := by
   sorry
 
 end TauCetiRoadmap.CanonicalModelsAndGonality
