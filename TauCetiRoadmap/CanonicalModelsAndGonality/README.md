@@ -71,10 +71,11 @@ Suggested home: `TauCeti/FieldTheory/FunctionField/Gonality/`, `.../LinearSystem
   Frey's criterion `gon_k ≤ 2d`, finiteness of isolated points of bounded degree, and the
   degree/rank criteria the LMFDB uses to decide isolation (Layer 7).
 - **Abramovich's bound**: the analytic gonality of a compact Riemann surface and its agreement
-  with the gonality of its meromorphic function field, the Li–Yau inequality
-  `λ₁ · Area ≤ 8π · gon`, its finite-area extension, the comparison of the variational `λ₁` with
-  the congruence spectral bottom, and `λ · [PSL₂(ℤ):Γ̄] ≤ 24 · gon(X(Γ))` for every `λ` with
-  *SelbergBound λ*, unconditionally at `λ = 21/100` (Layer 8).
+  with the gonality of its meromorphic function field, the energy of a holomorphic map to the
+  round sphere, the Li–Yau inequality in its gonality form `λ₁ · Area ≤ 8π · gon`, its
+  finite-area extension, the comparison of the variational `λ₁` with the congruence spectral
+  bottom, and `λ · [PSL₂(ℤ):Γ̄] ≤ 24 · gon(X(Γ))` for every `λ` with *SelbergBound λ*,
+  unconditionally at `λ = 21/100` (Layer 8).
 - **Models as schemes**: the morphism of the regular model to `ℙⁿ_k` attached to a model datum,
   the closed-immersion criterion, smooth plane models as schemes, the arithmetic genus of the
   image curve, and gonality under good reduction (Layer 9).
@@ -131,6 +132,12 @@ Suggested home: `TauCeti/FieldTheory/FunctionField/Gonality/`, `.../LinearSystem
   eigenvalues of `Δ_Γ` in `(0, 1/4)`, so `λ′₁(Γ) ≤ 1/4`; §5.3 the congruence spectral gap
   `λ′₁(Γ) ≥ 21/100` (Luo–Rudnick–Sarnak). 8.3 compares them with this roadmap's `λ₁`; none is
   restated.
+- From the [minimal-surfaces sub-roadmap](../RiemannianGeometry/MinimalSurfaces/README.md) of
+  RiemannianGeometry: 10.3, Hersch's balancing lemma, and 10.4, the bound
+  `λ₁(−Δ_Σ) · |Σ| ≤ 8π · d` for a holomorphic map of degree `d` from a closed Riemannian surface
+  to the sphere; from its [surfaces sub-roadmap](../RiemannianGeometry/Surfaces/README.md),
+  5.1–5.2, the conformal invariance of the surface Dirichlet energy. Layer 8 restates none of
+  them.
 - From [GroebnerGeometry](../GroebnerGeometry/README.md) G4: eventual Hilbert polynomials
   of finite graded modules over standard polynomial rings, graded sheafification and its
   large-degree global-section comparison. SchemeAndStackFoundations §2.6 supplies Serre
@@ -283,8 +290,8 @@ Checked against the Mathlib the repository builds.
   automorphisms are carried as the subgroups `H ≤ F ≃ₐ[k] F` with `Nat.card H = 2`, `3` (the
   generator `σ` has `orderOf σ = 2`, `3` and `H = Subgroup.zpowers σ`).
 - Analysis: `UpperHalfPlane.volume` (the hyperbolic measure), `Complex` analysis on the plane,
-  `MeasureTheory` integration, `Brouwer`-type input for §8.4 is supplied by AlgebraicTopology Stage 2, item 7,
-  `noRetraction_diskBoundary`; this roadmap owns the measure-balancing argument.
+  `MeasureTheory` integration. The balancing argument of Layer 8, with its no-retraction input,
+  is RiemannianGeometry.MinimalSurfaces 10.3.
 
 Mathlib has no gonality, no linear systems, no canonical embedding, no Clifford theorem, no plane
 curve genus formula, no Brill–Noether theory, and no Li–Yau inequality.
@@ -337,10 +344,13 @@ For perfect exact constants it is smooth and geometrically integral.
 - the [congruence spectral gap roadmap](../CongruenceSpectralGap/README.md), §§0.2, 0.4 and 0.7
   (the Laplacian of a congruence quotient, its positive spectral bottom `λ′₁` and the clipped
   comparison) and §5.3 (`λ′₁ ≥ 21/100`);
+- the [minimal-surfaces sub-roadmap](../RiemannianGeometry/MinimalSurfaces/README.md) of
+  RiemannianGeometry, 10.3–10.4 (Hersch's balancing lemma and the degree bound), and its
+  [surfaces sub-roadmap](../RiemannianGeometry/Surfaces/README.md), 5.1–5.2 (conformal
+  invariance of the Dirichlet energy), for §§8.4–8.5;
 - [heights, rational points and obstructions](../HeightsRationalPointsAndObstructions/README.md),
   §5.9 (rational points on subvarieties of abelian varieties), Layer 1 (Mordell–Weil).
 
-- AlgebraicTopology Stage 2, item 7 supplies `noRetraction_diskBoundary` for §8.4.
 - MotivesAndAlgebraicCycles §§0.4–0.5 supplies algebraic and numerical equivalence,
   the quotient of rational Chow groups, products and degree for §5.4.
 - GroebnerGeometry G4 supplies eventual Hilbert polynomials for finitely generated graded
@@ -352,6 +362,16 @@ For perfect exact constants it is smooth and geometrically integral.
   Serre vanishing and §3.3 supplies singular-curve Riemann–Roch. Together with
   GroebnerGeometry G4 these identify the Hilbert polynomial with the Euler characteristic
   in §2.7.
+
+### From TauCetiRoadmap.RiemannianGeometry.MinimalSurfaces
+
+10.3: for a finite positive measure `μ` on `Σ` and a measurable `Φ : Σ → S²` whose fibres are
+`μ`-null, some `T_a` (that item's orientation-preserving conformal automorphism of `S²`, a Möbius
+transformation of `ℙ¹(ℂ)`) satisfies `∫ (T_a ∘ Φ) dμ = 0 ∈ ℝ³`. 10.4: for a closed connected
+oriented Riemannian surface `(Σ, g)` with the complex structure of rotation through `+π/2`, and a
+nonconstant holomorphic `Φ : Σ → S²` of degree `d`, `λ₁(−Δ_Σ) · |Σ| ≤ 8π · d`, with `λ₁(−Δ_Σ)`
+the first positive eigenvalue. §8.4 reads 10.4 on a compact Riemann surface; §8.5 applies 10.3
+to the hyperbolic area of `Y(Γ)`.
 
 ## How to read the build
 
@@ -1700,7 +1720,7 @@ Layers 1 and 6; JacobianChallenge Layers C–F; SchemeAndStackFoundations §§3.
 
 ## Layer 8: Abramovich's bound
 
-Abramovich 1996 (Theorem 0.1 and its proof); Li–Yau 1982; Yang–Yau 1980; Hersch 1970;
+Abramovich 1996 (Theorem 0.1 and its proof); Li–Yau 1982; Yang–Yau 1980;
 Forster, *Lectures on Riemann Surfaces*, §8 (degree of a holomorphic map and the field degree).
 
 ### 8.1 Analytic gonality
@@ -1780,41 +1800,47 @@ The API includes:
 
 ### 8.4 The Li–Yau inequality
 
-For a compact Riemann surface `X` with a conformal metric of area `A` and a nonconstant holomorphic
-`f : X → ℙ¹(ℂ)` of degree `d`: **`λ₁(X) · A ≤ 8π · d`**, where `λ₁(X)` is the variational bottom
-over smooth functions of mean zero. Sub-milestones: (a) *energy of a holomorphic
-map to the round sphere*: for `f` holomorphic into `S² = ℙ¹(ℂ)` with the Fubini–Study metric of
-area `4π`, `∫_X ‖df‖² dA = 2 · (area of `f` counted with multiplicity) = 8π d`, and the energy is
-conformally invariant; (b) *Hersch's balancing lemma*: for every nonconstant holomorphic `f : X → S²` there is
-a Möbius transformation `γ` of `S²` with `∫_X (x_i ∘ γ ∘ f) dA = 0` for the three coordinate
-functions `x_i` of `S² ⊆ ℝ³` (the pushforward of area has no atoms because the fibres of a nonconstant holomorphic
-map are finite; the centre-of-mass argument uses AlgebraicTopology Stage 2, item 7,
-`noRetraction_diskBoundary`, and its equivalent ball-surjectivity consequence); (c) with `γ ∘ f` balanced, each
-`x_i ∘ γ ∘ f` is an admissible test function, `Σ_i ∫ (x_i ∘ γ ∘ f)² dA = A` and
-`Σ_i ∫ ‖∇(x_i ∘ γ ∘ f)‖² dA = ∫ ‖d(γ∘f)‖² dA = 8π d`, so `λ₁ A ≤ 8π d`. (Li–Yau 1982, Theorem 1 and
-the discussion of Yang–Yau's inequality; Yang–Yau 1980.)
+For a compact connected Riemann surface `X` with a smooth conformal metric of area `A`:
+**`λ₁(X) · A ≤ 8π · gonAn X`**, where `λ₁(X)` is the variational bottom over smooth functions of
+mean zero. For one nonconstant holomorphic `f : X → ℙ¹(ℂ)` of degree `d`, the bound
+`λ₁ · A ≤ 8π · d` is RiemannianGeometry.MinimalSurfaces 10.4, proved there from Hersch's
+balancing lemma (its 10.3); neither is restated here. Sub-milestones: (a) *energy of a
+holomorphic map to the round sphere*: for `f : X → S² = ℙ¹(ℂ)` holomorphic of degree `d`, the
+coordinate functions `x_i` of `S² ⊆ ℝ³`, and every open `U ⊆ X` with finite complement carrying a
+smooth conformal metric, `Σ_i ∫_U ‖∇(x_i ∘ f)‖² dA = 8π d`. The integral is conformally invariant
+(RiemannianGeometry.Surfaces 5.1–5.2), and for a conformal metric the integrand times `dA` is
+twice the pullback of the round area form, of total `4π`, which `f` covers `d` times away from
+its finitely many branch values; 8.5 uses (a) with the hyperbolic metric. (b) *Reading 10.4 on
+`X`*: with its orientation and the metric, `X` is a closed connected oriented Riemannian surface
+whose rotation through `+π/2` is the complex structure of `X`, so 10.4's holomorphic atlas is
+compatible with that of `X` and 10.4 applies to `f`; an eigenfunction of 10.4's `λ₁(−Δ_X)` is a
+nonzero smooth function of mean zero (the Laplacian integrates to zero) whose Rayleigh quotient
+is that eigenvalue (Green's first identity), so `λ₁(X) ≤ λ₁(−Δ_X)` and `λ₁(X) · A ≤ 8π · d`.
+(c) *The gonality form*: apply (b) to a map of degree `gonAn X` (§8.1). (Li–Yau 1982, Theorem 1
+and the discussion of Yang–Yau's inequality; Yang–Yau 1980.)
 
 **Checks.**
 
-- For the round sphere and its identity map, the barycentre is zero, area is `4π`, energy is `8π`, and `λ₁A=2·4π=8π`.
-- A smooth map constant on 90% of the area has an atom of mass 0.9; every transformed barycentre has component at least `0.9−0.1=0.8`, so holomorphic nonconstancy cannot be omitted.
-- A retraction of the two-dimensional disk onto its boundary would make the identity of `H₁(S¹)=ℤ` factor through `H₁(D²)=0`; the supplied no-retraction theorem excludes it.
+- The round sphere `ℙ¹(ℂ)`: area `4π`, `λ₁ = 2`, *gonAn = 1*, and `Σ_i ‖∇x_i‖² = 2` pointwise, so (a) gives `2 · 4π = 8π` and `λ₁ A = 8π`: equality in (c).
+- (a) on `U = ℂ = ℙ¹(ℂ) ∖ {∞}` with the flat metric `|dz|²`, for inverse stereographic projection: the energy is still `8π`, although this metric does not extend to `ℙ¹(ℂ)` (its area is infinite); 8.5 uses (a) for the hyperbolic metric, which does not extend across the cusps either.
+- A complex elliptic curve has *gonAn = 2* (§8.1). The square torus `ℂ/(2πℤ + 2πiℤ)` has `λ₁ = 1` and area `4π²`, so `λ₁ A ≈ 39.48 ≤ 16π ≈ 50.27`; with `8π ≈ 25.13` on the right the bound fails, as it must, since no map of degree one exists.
 
-The holomorphic hypothesis is explicit in Yang–Yau, §2 Proposition, p.58;
-the balancing-density argument is on p.59.
-
-*Needs:* §8.1; AlgebraicTopology Stage 2, item 7, no retraction; conformal energy and atomless area pushforward.
+*Needs:* §8.1; RiemannianGeometry.MinimalSurfaces 10.4 (with 10.3); RiemannianGeometry.Surfaces 5.1–5.2, conformal invariance of the Dirichlet energy; Tau Ceti's `TauCeti.Manifold.integral_laplaceBeltrami_eq_zero` and `TauCeti.Manifold.integral_mul_laplaceBeltrami`.
 
 ### 8.5 The finite-area extension
 
 For `Γ` of finite covolume and `f : X(Γ) → ℙ¹(ℂ)` nonconstant of degree `d` on the compactification:
-`λ₁(Y(Γ)) · A(Γ) ≤ 8π · d`. The test functions `x_i ∘ γ ∘ f` are smooth on `X(Γ)`, bounded, with
-finite Dirichlet integral on `Y(Γ)`; truncate near the cusps and elliptic points by cut-offs whose
-energy tends to zero (the cusp neighbourhoods have finite area and the Dirichlet integral is
-conformal, so the standard logarithmic cut-off works), and pass to the limit in the Rayleigh
-quotient. (Abramovich 1996, the proof of Theorem 0.1.)
+`λ₁(Y(Γ)) · A(Γ) ≤ 8π · d`. RiemannianGeometry.MinimalSurfaces 10.3, applied to the hyperbolic
+area on `Y(Γ)` (finite and positive, with no atoms, so the finite fibres of `f` are null), gives
+a Möbius transformation `T_a` with `∫_{Y(Γ)} (x_i ∘ T_a ∘ f) dA = 0` for `i = 1, 2, 3`. The test
+functions `x_i ∘ T_a ∘ f` are smooth on `X(Γ)`, bounded, with `Σ_i (x_i ∘ T_a ∘ f)² = 1` and, by
+8.4(a) for the degree-`d` holomorphic map `T_a ∘ f`, total Dirichlet integral `8π d` on `Y(Γ)`
+minus its elliptic points; truncate near the cusps and elliptic points by cut-offs whose energy
+tends to zero (the cusp neighbourhoods have finite area and the Dirichlet integral is conformal,
+so the standard logarithmic cut-off works), and pass to the limit in the Rayleigh quotient.
+(Abramovich 1996, the proof of Theorem 0.1.)
 
-*Needs:* §§8.3–8.4; FuchsianOrbifolds Layer 4, compactification and cusp charts.
+*Needs:* §§8.3–8.4; RiemannianGeometry.MinimalSurfaces 10.3; FuchsianOrbifolds Layer 4, compactification and cusp charts.
 
 ### 8.6 Abramovich's bound
 
@@ -1842,11 +1868,11 @@ Combined with 1.7, `gonality ℚ F ≥ gon_{ℚ̄}(F)`; combined with 1.10 for a
 
 ### Examples
 
-The sphere equality and the plateau-map counterexample are in §8.4; the numerical modular bounds appear in the worked examples.
+The sphere equality, the flat-plane energy and the square torus are in §8.4; the numerical modular bounds appear in the worked examples.
 
 ### Dependencies
 
-Layer 1; ModularForms 10A–10B; FuchsianOrbifolds Layers 2 and 4; AlgebraicTopology Stage 2, item 7; CongruenceSpectralGap §§0.2, 0.4, 0.7, 5.3.
+Layer 1; ModularForms 10A–10B; FuchsianOrbifolds Layers 2 and 4; RiemannianGeometry.MinimalSurfaces 10.3–10.4; RiemannianGeometry.Surfaces 5.1–5.2; CongruenceSpectralGap §§0.2, 0.4, 0.7, 5.3.
 
 ## Layer 9: models as schemes
 
@@ -2082,8 +2108,7 @@ The examples below distinguish the invariants and name the milestones that repro
   and its applications to the Willmore conjecture and the first eigenvalue of compact surfaces*,
   Invent. Math. 69 (1982), 269–291 — Theorem 1 and the Yang–Yau discussion (8.4). P. Yang,
   S.-T. Yau, *Eigenvalues of the Laplacian of compact Riemann surfaces and minimal submanifolds*,
-  Ann. Sc. Norm. Sup. Pisa 7 (1980), 55–63. J. Hersch, *Quatre propriétés isopérimétriques de
-  membranes sphériques homogènes*, C. R. Acad. Sci. Paris 270 (1970), 1645–1648 (balancing).
+  Ann. Sc. Norm. Sup. Pisa 7 (1980), 55–63 (8.4).
 - O. Forster, *Lectures on Riemann Surfaces*, GTM 81 — §8, Theorem 8.12 (the field of meromorphic
   functions and the degree of a map), 8.2.
 - M. Derickx, M. van Hoeij, *Gonality of the modular curve `X₁(N)`*, J. Algebra 417 (2014),
