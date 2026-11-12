@@ -274,6 +274,15 @@ The specification, for every language `L` and carrier `α`:
 `orderStructure`) gives back `(ℕ, ≤)`, and the cylinder `{c | c.eval (atom leSymb ![0, 1]) = true}`
 is clopen.
 
+**Checks.** For `queryCode`:
+
+- `queryCode c (Encodable.encode a) = c.eval a` for every atom `a`, with the instance
+  `Encodable.ofCountable`: the code is read through that decoder, not through an enumeration of
+  its own;
+- in `Language.empty` there are no atoms, so `queryCode` is constantly `false` (the padding);
+- two codes differing only at the atom `a` have query codes differing at `Encodable.encode a`, and
+  only at indices that decode to `a`.
+
 ⚠ **API warning.** `RelationalConfiguration L α` is a `def`, not an `abbrev` of the function
 type, so the action of Layer 1 is an instance on the coding space rather than a global instance
 on `Atom L α → Bool` competing with Mathlib's pointwise instances on Pi types. Keep new instances
@@ -429,6 +438,14 @@ Build, on Mathlib's `Descriptive.tree A`:
 **Acceptance check.** The tree of strictly decreasing finite sequences in `ℕ` is well-founded, of
 height `ω + 1` (its root has rank `ω`); the full tree on `ℕ` has a branch.
 
+**Checks.**
+
+- `treeHeight`: the empty tree `⊥`, the root alone `{[]}` and the tree of strictly decreasing
+  sequences in `ℕ` have heights `0`, `1` and `ω + 1`. The supremum of the ranks, without the
+  successor, would give `0`, `0` and `ω`, so these values fix Convention 9.
+- `KBLT`: `[0, 1]` precedes `[0]` (a proper extension comes first, unlike the lexicographic order)
+  and `[0, 5]` precedes `[1]` (first difference `0 < 1`); `[1]` does not precede `[0, 5]`.
+
 ⚠ **API warning.** The node sets in the boundedness theorem are closed, not clopen, so the map
 `x ↦ T x` need not be continuous. This is the generality Layer 4 needs: the node sets of the
 forced back-and-forth trees are closed, and need not be open when the language has infinitely many
@@ -545,6 +562,14 @@ Still to build: `stabilizesCompletely_iff_univ`, `selfStabilizationOrdinal_le_sc
 **Acceptance check.** In the language of one unary predicate, the codes of `P = 2ℕ` and
 `P = 3ℕ` are isomorphic, and `bfEquivSetoid L ℕ β` relates them for every `β`.
 
+**Checks.** For `bfTree`, in the language of one unary predicate `P`:
+
+- `P = {0}` against `P = ∅`: no answer to element `0` of the left structure has its atomic type,
+  so the tree is `{[]}`, well-founded of height `1`;
+- a disagreeing nullary relation symbol already separates the empty tuples, so the tree is `⊥`;
+- `P = {0}` against `P = {1}`: the transposition of `0` and `1` is an isomorphism, so the tree has
+  a branch (`body_bfTree_nonempty_iff`).
+
 ⚠ **API warning.** Borelness of the external strata `{c | scottHeight c ≤ β}` is not claimed: the
 definition quantifies over all countable structures. Stratify by the internal ordinal `s(c)`,
 whose strata are Borel, and pass to the external height with the comparison bounds.
@@ -597,6 +622,13 @@ Hence, for a tree representation `T` of an analytic class `B`, the codes of mode
 Marker's notes, Lemma 4.24, pp. 50–51 (every invariant analytic set is the set of countable models
 of a PC class), there with function symbols for the successor and the branch and a constant for
 zero; here they are relational graphs, and the numeral axiom makes every model countable.
+
+**Checks.** For the PC sentence of a tree:
+
+- `pcSentence ⊥` has no model: at `n = 0` clause 3 is the empty disjunction;
+- `ℕ` together with a disjoint copy of `ℤ`, with zero `{0}` and successor `x ↦ x + 1` on both
+  parts, satisfies every axiom of clause 1 except the numeral axiom `∀ x, ⋁ₖ νₖ(x)`, which fails
+  at the elements of `ℤ`; so that infinitary axiom is what makes every model countable.
 
 ### 5.3 The hard direction
 
@@ -717,6 +749,14 @@ well-order of `ℕ`. Prove:
 
 **Acceptance check.** In a language with one binary symbol `lt`, the code of `(ℕ, <)` lies in
 `wellOrderClass lt` with order type `ω`, and the code of `(ℤ, <)` transported to `ℕ` does not.
+
+**Checks.**
+
+- `descTree` of the code of `(ℕ, <)` is the tree of strictly decreasing sequences, of height
+  `ω + 1`, which bounds the order type `ω`;
+- `descTree` of the code of `(ℤ, <)` transported to `ℕ` has a branch;
+- the code of `(ℕ, ≤)` is not in `wellOrderClass lt`, since a well-order here is strict, and its
+  `descTree` has the constant branch `0, 0, 0, …`.
 
 ⚠ **API warning.** The well-order class constrains only `lt`. With one further unary predicate
 the class contains a continuous Cantor family of pairwise non-isomorphic codes (fix the usual
