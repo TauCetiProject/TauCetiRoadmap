@@ -161,6 +161,11 @@ Each implementation consumes the narrow supplier it needs, not an entire supplie
 
 ## Milestone 0 — Native graph and logical probability interfaces
 
+*Needs:* Mathlib `SimpleGraph.binomialRandom` with its Bernoulli-product presentation, the graph
+language and structure adapters, bounded formulas and realization; Tau Ceti
+`SimpleGraph.Iso.toLanguageEquiv` and the measurable structure of
+`TauCeti.Combinatorics.SimpleGraph.Measurable`.
+
 ### 0.1 Graph/language transport
 
 Complete the correspondence between induced graph embeddings and embeddings of the canonical
@@ -213,6 +218,9 @@ graphon mixture evaluations. The graph-language adapters also identify the age o
 
 ## Milestone 1 — Representative families and amalgamation
 
+*Needs:* Mathlib `age`, `Hereditary`, `JointEmbedding`, `Amalgamation`, `IsFraisse` and the
+quotient-by-isomorphism convention; Milestone 0 for the finite-graph free amalgam.
+
 For a family $`F_i`$ of actual finitely generated structures, define its isomorphism closure
 $`\{A:\exists i,\ A\cong F_i\}`$. Prove membership, reindexing, duplicate-representative
 invariance, equivalence transport and the equivalence between representative-family and
@@ -244,6 +252,9 @@ $`(m-1)`$-element root cannot have disjoint new images in an $`m`$-element amalg
 This example pins the distinction; the class at $`m=0`$ consists of empty structures.
 
 ## Milestone 2 — Extension-rich chains and Fraïssé existence
+
+*Needs:* Milestone 1; Mathlib direct limits, `DirectLimit.exists_fg_substructure_in_Sigma`,
+`age_directLimit` and `IsFraisseLimit` with its uniqueness.
 
 ### 2.1 Chains, factorization and extension requests
 
@@ -308,6 +319,9 @@ limits without encoding them into an infinite carrier.
 
 ## Milestone 3 — Rooted extension, universality and comparison
 
+*Needs:* Milestones 1–2; Mathlib `IsExtensionPair`, `embedding_from_cg`, `equiv_between_cg`, and
+for the examples `isFraisse_finite_linear_order` and `isFraisseLimit_of_countable_nonempty_dlo`.
+
 Given a finitely generated root $`A`$ and actual embeddings
 $`a_M:A\hookrightarrow M`$, $`a_N:A\hookrightarrow N`$, prove the rooted forms of
 Mathlib's countably-generated back-and-forth construction.
@@ -343,6 +357,9 @@ theorems and do not assume that strengthening as an unstated supplier.
 
 ### 4.1 Combinatorial and syntactic extension
 
+*Needs:* Milestone 0; Tau Ceti `SimpleGraph.HasExtensionProperty`,
+`SimpleGraph.HasExtensionProperty.exists_adj_iff` and `SimpleGraph.Iso.toLanguageEquiv`.
+
 Define the witness predicate and $`\mathrm{EP}_{\le d}`$ by their actual finite-set
 conditions. Full extension $`\mathrm{EP}`$ is the canonical `SimpleGraph.HasExtensionProperty`.
 That predicate omits the condition that the witness lies outside $`U`$, which adjacency to every
@@ -371,6 +388,10 @@ correspondence. Expose reordering and permutation of the positive and negative t
 No probabilistic theorem may take this semantic correspondence as an unproved parameter.
 
 ### 4.2 Existence and identification
+
+*Needs:* 4.1; Milestones 1–3; Tau Ceti `TauCeti.radoGraph`,
+`TauCeti.hasExtensionProperty_radoGraph`, `SimpleGraph.HasExtensionProperty.isExtensionPair`,
+`SimpleGraph.HasExtensionProperty.nonempty_iso` and `TauCeti.nonempty_iso_radoGraph_iff`.
 
 Prove that the class of all finite simple graph structures is Fraïssé using Milestone 1.
 Construct its limit using Milestone 2 and prove that it satisfies $`\mathrm{EP}`$. Conversely,
@@ -406,6 +427,9 @@ cycle graphs.
 
 ### 5.1 Shared finite-logic foundations
 
+*Needs:* Milestone 0; 4.1 for the extension strategy; Tau Ceti `EFStrategy`, `BFEquiv`,
+`SimpleGraph.sameAtomicType_iff` and the infinitary quantifier rank.
+
 Define natural-valued quantifier rank by structural recursion on Mathlib bounded formulas.
 Prove constructor and renaming laws, the appropriate substitution laws, and compatibility
 with the ordinal rank of the existing infinitary embedding. Identify rank zero with
@@ -436,6 +460,11 @@ G\models\varphi\quad\Longleftrightarrow\quad H\models\varphi.
 Handle rank $`0`$ directly, and verify the indexing at ranks $`1,2,3`$.
 
 ### 5.2 Complete theory and QE
+
+*Needs:* 4.1–4.2, 5.1; Milestone 3 rooted universality; Mathlib `Theory.IsComplete`,
+`Cardinal.Categorical`, `CompleteType`, `typesWith`, `typeOf`, `ElementaryEmbedding`,
+`BoundedFormula.encoding` and `Computable`; Tau Ceti `firstOrderAtomicDiagram` and
+`realize_firstOrderAtomicDiagram_iff_sameAtomicType`.
 
 Let $`T_R`$ be the native simple-graph theory together with all $`E_{r,s}`$.
 Prove that its models are precisely the graph structures with full extension; it has
@@ -503,6 +532,8 @@ parameter values.
 
 ### 5.3 Finite consequences
 
+*Needs:* 5.1–5.2.
+
 Prove that each sentence is decided by a finite set of extension axioms, using the
 explicit rank theorem. Give the finite-consequence/compactness formulation and its
 agreement with this bound. This is the deterministic finite-consequence API used in
@@ -512,6 +543,9 @@ The first-order isolation assertions here use the finite graph language. No theo
 asserts that arbitrary-language ultrahomogeneity alone implies first-order isolation.
 
 ## Milestone 6 — Witness counts and extension-failure estimates
+
+*Needs:* 0.2; 4.1 for the witness predicate, bounded extension and the extension sentences;
+StandardDistributions binomial law.
 
 Fix disjoint $`U,V`$ with $`|U|=r`$, $`|V|=s`$ and put
 $`q_{r,s}=p^r(1-p)^s`$.
@@ -574,6 +608,8 @@ The empty request and the absence of candidates are required boundary checks.
 
 ### 7.1 Finite laws
 
+*Needs:* 5.1–5.3; Milestone 6.
+
 For $`\mathrm{qr}(\varphi)\le d+1`$ and $`n\ge d`$, prove the explicit estimate
 
 ```math
@@ -598,6 +634,8 @@ budget, with the corresponding failure bound. Milestone 8 supplies actual graph
 properties and proves these deterministic implications.
 
 ### 7.2 Varying parameters
+
+*Needs:* 7.1; Milestone 6.
 
 Let $`p_n\in[0,1]`$ and $`\delta_n=\min(p_n,1-p_n)`$. For each fixed $`d\ge1`$, prove
 bounded-rank convergence whenever
@@ -628,6 +666,9 @@ Do not infer summability or joint almost-sure stabilization from it without an
 additional summability estimate.
 
 ### 7.3 Joint almost-sure statements
+
+*Needs:* 7.1–7.2; Mathlib `measure_limsup_atTop_eq_zero` (Borel–Cantelli); Tau Ceti
+`SimpleGraph.restrictFin` for the nested windows.
 
 Fix $`0\lt p\lt 1`$. Let $`(\Omega,\mu)`$ be a probability space and let measurable
 $`X_n:\Omega\to\mathrm{SimpleGraph}(\mathrm{Fin}\ n)`$ have the native $`G(n,p)`$ law.
@@ -665,6 +706,8 @@ Instantiate it on the nested initial windows of the native infinite binomial gra
 
 ### 8.1 Finite named roots
 
+*Needs:* 0.2; 4.2 rooted universality; the tuple form of 5.1; Milestone 6; 7.1.
+
 For a fixed graph $`H`$ on `Fin m`, condition $`G(n,p)`$ on inducing $`H`$ on the first
 $`m`$ vertices, for $`n\ge m`$ and $`0\lt p\lt 1`$. Prove positivity and the exact probability of
 this event, and identify the conditional law of the remaining independent edges.
@@ -690,6 +733,9 @@ $`\psi(x_0,x_1)=\mathrm{Adj}(x_0,x_1)`$, whose limit is $`p`$. This does not con
 the sentence zero–one law: it is a formula evaluated at random named vertices.
 
 ### 8.2 Graph properties
+
+*Needs:* 7.1–7.3; Mathlib `CliqueFree`, `degree` and `diam`; Tau Ceti
+`SimpleGraph.IsVertexConnected`.
 
 Prove each deterministic implication from a fixed extension budget and then its
 asymptotically-almost-sure and joint-eventual forms.
@@ -720,6 +766,8 @@ $`d=0,1,2`$.
 
 ### 9.1 Infinite binomial graphs
 
+*Needs:* 0.3; 4.1–4.2; Milestone 6; 7.3.
+
 For each finite extension request in the native $`G(\mathbb N,p)`$ law, prove that the
 event of having no witness has probability $`0`$. Take the countable intersection over
 requests and derive
@@ -734,6 +782,9 @@ description. Export avoidance of every finite set and infinitely many witnesses,
 the finite-window law, and the joint eventual statements from Milestone 7.
 
 ### 9.2 Graphon sampling
+
+*Needs:* 9.1; 7.1–7.3; DenseGraphLimits `sampleGraph_const`, `infiniteSampleLaw_map_restrictFin`
+and infinite-law extensionality.
 
 Use `sampleGraph_const` and the actual infinite finite-window identities to identify
 the constant-graphon finite and infinite laws with the native binomial laws.
@@ -769,6 +820,10 @@ where finite FO zero–one fails despite almost-sure infinite Rado support.
 
 ### 9.3 Invariant-event laws and mixtures
 
+*Needs:* 0.3; Tau Ceti `Equiv.Perm.finitary`,
+`ergodicSMul_map_toRelationalConfiguration_infiniteSampleLaw`, `graphonMixtureLawEquiv_law` and
+`InfiniteExchangeableGraphLaw.existsUnique_bind_infiniteSampleLawOnSpace`.
+
 Transport the existing dissociation/ergodicity theorem to measurable events of actual
 graphs. For a fixed graphon, every measurable event invariant under finitely supported
 permutations has probability $`0`$ or $`1`$. Specialize to the native realization event of
@@ -790,6 +845,8 @@ theorem does not apply to them.
 
 ### 9.4 One isomorphism class, distinct labeled laws
 
+*Needs:* 9.1–9.2; `tendsto_homDensityFin_infiniteSampleLaw_ae`.
+
 Use the existing graphon sampling strong law, together with the $`K_2`$ homomorphism-density
 normalization, to prove
 
@@ -807,6 +864,9 @@ The separating initial-window density events are measurable and invariant under
 finitely supported permutations; do not claim invariance under all relabelings.
 
 ## Milestone 10 — Infinitary distinctions with actual sentences
+
+*Needs:* 4.1; 7.1; 9.1; Tau Ceti infinitary syntax and semantics and
+`SimpleGraph.HasExtensionProperty.realize_scottSentence_iff`.
 
 Use the existing $`L_{\omega_1,\omega}`$ syntax, native FO embedding and realization API:
 `Language.graph.Sentenceω` with `BoundedFormulaInf.iInf` and `iSup`, `BoundedFormula.toInf`,
@@ -834,6 +894,8 @@ finite-probability convergence. Neither is a failure of the FO theorem.
 ## Milestone 11 — Poisson limits and sharp scope comparisons
 
 ### 11.1 Discrete factorial-moment criterion
+
+*Needs:* Mathlib `Nat.descFactorial`, `ProbabilityTheory.poissonMeasure` and integration on ℕ.
 
 Build a reusable Poisson-convergence theorem for probability laws $`\nu_n`$ on $`\mathbb N`$.
 Assume every descending-factorial moment is finite and
@@ -865,6 +927,8 @@ $`\mathbb E[a^{T_n}]\ge a^{\binom n3}p_n^{\binom n2}\to\infty`$ for every $`a\gt
 $`np_n\to c\gt 0`$.
 
 ### 11.2 Sparse triangles
+
+*Needs:* 0.2; 11.1; Mathlib `cliqueFinset`.
 
 Count triangles using the native finite clique API: one unordered three-element clique
 is one triangle, so there is no factor-of-six ambiguity.
@@ -898,6 +962,8 @@ parameter sequence, for example $`p_n=\min(1,c/(n+1))`$, and state its asymptoti
 equivalence to the usual $`c/n`$ regime.
 
 ### 11.3 A graphon whose infinite sample is Rado but finite FO zero–one fails
+
+*Needs:* 9.2; 11.1.
 
 Use the explicit graphon $`W(x,y)=xy`$ on the uniform unit interval.
 Its infinite sample is almost surely Rado by 9.2. Let $`Z_n`$ count isolated vertices
