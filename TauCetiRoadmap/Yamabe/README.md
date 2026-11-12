@@ -800,7 +800,7 @@ For any pole and prescribed finite order N≥2 construct a positive global confo
 normalized at the pole, for which geodesic normal coordinates have `det g=1+O(r^N)`. Prove the
 transformation of the curvature jets and, for N≥5, that `Scal=O(r²)` at the pole, so that Scal
 and dScal vanish there, with the contracted second scalar derivative/Weyl-norm identity with the
-sign converted to Δ⁺ (Lee–Parker, Theorem 5.1, p. 58, proved on p. 62). Derive the numeric
+sign converted to Δ⁺ (Lee–Parker, Theorem 5.1, p. 58, proved on pp. 61–62). Derive the numeric
 coefficients from the fixed curvature convention rather than importing an incompatible Δ. Later
 items use these coordinates with N≥5, and with N large enough that the error term of `det g`
 does not enter their expansions (Lee–Parker, p. 62).
@@ -813,9 +813,11 @@ does not enter their expansions (Lee–Parker, p. 62).
 **Checks.**
 
 - The unit S³ in its own geodesic normal coordinates has `det g=(sin r/r)^4=1−2r²/3+O(r⁴)`. With
-  N=2 the factor 1 is already normalized, yet Scal(p)=6≠0, so the scalar conclusions need N≥5;
-  for N≥3 a conformal factor is needed, and the round metric is conformal to the flat metric near
-  the pole, whose coordinates have `det g=1` exactly.
+  N=2 the factor 1 is already normalized, yet Scal(p)=6≠0. By the expansion of `det g`
+  (Lee–Parker, Lemma 5.5, p. 60), N≥3 forces Ric(p)=0 and N≥4 adds dScal(p)=0. The Weyl-norm
+  identity needs N≥5: the flat metric times `e^(2r⁴)` has W=0 and `det g=1+O(r⁴)`, yet
+  `Σ∂ᵢ²Scal(p)=−16n(n−1)(n+2)≠0`. For N≥3 a conformal factor is needed. The round metric is
+  conformal to the flat metric near the pole, whose coordinates have `det g=1` exactly.
 - After normalization with N≥5, Scal(p)=0 and dScal(p)=0, while the unnormalized unit sphere has
   Scal=n(n−1).
 - On a locally conformally flat neighbourhood W=0, so for N≥5 the contracted second scalar
