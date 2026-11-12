@@ -2,14 +2,13 @@ import Mathlib
 import TauCeti.SetTheory.Descriptive.BorelReducibility
 
 /-!
-# Borel equivalence relations, the G₀ dichotomy and Silver's theorem: suggested signatures
+# Borel equivalence relations, the G₀ dichotomy and Silver's theorem: target signatures
 
 **`README.md` is the definitive roadmap document** — its conventions, layer-by-layer build
-(Layers 0–5), acceptance checks, worked examples, provenance and references are the
-specification. This file is **not** the roadmap and is **not exhaustive**: it records suggested
-Lean `sorry`-forms (allowed in this human-owned roadmap library) for *particular* milestones, so
-that contributors and reviewers converge on names and signatures; discharging every statement here
-neither finishes a layer nor the roadmap.
+(Layers 0–5), examples, worked examples, provenance and references are the specification. This
+file states target signatures as `sorry`-forms (allowed in this human-owned roadmap library); it
+is **not** an exhaustive checklist, and discharging every statement here neither finishes a layer
+nor the roadmap.
 
 The roadmap has no model-theoretic dependency. Tau Ceti at the pin proves almost all of it: the
 Cantor-space, Gδ, analytic-set, Borel-graph and perfect-set infrastructure of Layer 0, the
@@ -22,8 +21,7 @@ Silver's theorem `Setoid.silver_dichotomy` in all its forms, `Setoid.BorelReduci
 `Setoid.IsSmooth` and `TauCeti.eZero`. The README names each consumed Tau Ceti declaration and
 its module.
 
-What remains are the two statements below, stated on Tau Ceti's carriers. Names and namespaces
-are provisional.
+What remains are the two statements below, stated on Tau Ceti's carriers.
 -/
 
 universe u
