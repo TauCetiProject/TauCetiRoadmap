@@ -107,6 +107,12 @@ Pin these once; every statement below uses them.
 7. **Sentence level.** Interpolation and separation are stated for single sentences, or for
    countable theories reduced to one sentence by a countable conjunction. Statements about
    arbitrary sets of sentences are excluded (see [Out of scope](#out-of-scope)).
+8. **Names.** A backticked declaration name in Layers 0–8 is a declaration of Mathlib, one of
+   Tau Ceti at this repository's pin (for this roadmap's own targets, those listed under
+   [Tau Ceti implementation](#tau-ceti-implementation)), one of a sibling roadmap named with it, or
+   otherwise the name under which a target of this roadmap is to be declared. `Suggested.lean`
+   states some of these targets, not all: `aElementary_of_cocone` (2.4), `craig_pcSeparation` (7.2)
+   and `realize_mono_of_signed` (7.3), for instance, are targets named only here.
 
 ## Existing library and ownership
 

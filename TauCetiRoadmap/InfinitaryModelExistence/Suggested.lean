@@ -31,8 +31,7 @@ among them model existence and the theorems of Layers 6 and 8, are not restated 
 states targets the pin lacks. Every definition below has an actual mathematical body; where a
 construction is specified in `README.md` but too long to prototype (the first-order Morley theory,
 the inseparability consistency property), the milestone is stated as an existence theorem or a
-property of the construction, never as a placeholder proposition. Names and namespaces are
-provisional.
+property of the construction, never as a placeholder proposition.
 -/
 
 @[expose] public section
