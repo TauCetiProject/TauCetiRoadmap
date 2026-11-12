@@ -2056,8 +2056,9 @@ geometric statement pass to a finite extension `K' / K` over which a `K̄`-penci
 the integral closure of `R` in `K'` (again a discrete valuation ring after localizing, residue
 field finite over `κ`), and use 1.7. With 1.8: **for a curve over `ℚ` with good reduction at `p`,
 `#X(𝔽_{p^m}) ≤ gon_{ℚ̄}(X) · (p^m + 1)` for every `m`**, the lower bound behind the LMFDB's
-`qbar_gonality_bounds`. (Poonen 2007 and Derickx–van Hoeij 2014 use this inequality; the proof
-above is the standard one.)
+`qbar_gonality_bounds`. (Derickx–van Hoeij 2014, §1, inequality (1), state the first inequality
+for a curve over `ℚ` at a prime of good reduction; the proof above gives it for every `R` and `𝒳`
+as above.)
 
 *Needs:* §§1.2, 1.7–1.8; Tau Ceti `TauCeti.genericFiber`, `TauCeti.specialFiber`; StableReduction Layer 0; ModularCurves §0A.1, §0A.4–0A.5; JacobianChallenge Layer C, upper semicontinuity.
 
@@ -2214,8 +2215,7 @@ The examples below distinguish the invariants and name the milestones that repro
 - W. Fulton, *Intersection Theory*, 2nd ed., Springer, 1998 — Theorem 14.4 and Example 14.4.1
   (Thom–Porteous), 5.3.
 - B. Poonen, *Gonality of modular curves in characteristic p*, Math. Res. Lett. 14 (2007),
-  691–701 — Appendix A, Proposition A.1 (the elementary properties of gonality: 1.3, 1.6, 1.7),
-  and the specialization inequality of 9.3.
+  691–701 — Appendix A, Proposition A.1 (the elementary properties of gonality: 1.3, 1.6, 1.7).
 - G. Frey, *Curves with infinitely many points of fixed degree*, Israel J. Math. 85 (1994),
   79–83 — Proposition 2 (7.4). D. Abramovich, J. Harris, *Abelian varieties and curves in
   `W_d(C)`*, Compositio Math. 78 (1991), 227–238 — Lemma 1 (7.4).
@@ -2232,7 +2232,8 @@ The examples below distinguish the invariants and name the milestones that repro
   Ann. Sc. Norm. Sup. Pisa 7 (1980), 55–63 — §2, Proposition, p. 58 (`λ₁ A ≤ 8π d` for a
   nonconstant holomorphic map of degree `d` to the sphere), pp. 59–60 (8.4).
 - M. Derickx, M. van Hoeij, *Gonality of the modular curve `X₁(N)`*, J. Algebra 417 (2014),
-  52–71 — gonality bounds by point counts and the LMFDB's `X₁(N)` values. A. Ogg, *Hyperelliptic
+  52–71 — arXiv:1307.5719v3, §1, inequality (1), p. 1 (the specialization inequality over `ℚ`,
+  9.3); gonality bounds by point counts and the LMFDB's `X₁(N)` values. A. Ogg, *Hyperelliptic
   modular curves*, Bull. SMF 102 (1974), 449–462 — the `19` hyperelliptic `X₀(N)`.
 - J.-P. Serre, *Algebraic Groups and Class Fields*, GTM 117 — Ch. IV §11 (the conductor and
   `dim Õ/𝔠 = 2δ` for plane curve singularities), 4.4.
