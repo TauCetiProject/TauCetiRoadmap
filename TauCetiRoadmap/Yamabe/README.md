@@ -25,8 +25,8 @@ This roadmap owns:
   manifold.
 - Layer 1: the comparison of the scalar Sobolev carriers of a closed manifold
   (PseudodifferentialOperators 5.2, ComplexKahlerGeometry K5a) and their critical embedding, the
-  realization and first eigenvalue of the conformal Laplacian, the local estimates and the critical bootstrap, and the
-  Green function of L_g.
+  realization and first eigenvalue of the conformal Laplacian, the local estimates and the critical
+  bootstrap, and the Green function of L_g.
 - Layer 2: the sharp Euclidean Sobolev inequality, its equality cases and its transfer to closed
   manifolds with an ε loss.
 - Layer 3: the Yamabe invariant, Aubin's bound, the subcritical minimizers and Theorem A.
@@ -252,18 +252,18 @@ Ric≥(n−1)kg, k>0, a nonzero mean-zero eigenfunction of `Δ⁺` with eigenval
 
 ### From TauCetiRoadmap.PositiveMass
 
-[PositiveMass](../PositiveMass/README.md) 0.2: the ADM mass, its normalization and its existence
-for order `t>(n−2)/2` with integrable scalar curvature; under a finite Riemannian covering each
-end lifts to deg copies with the mass of the end below. 0.4: the mass `m(g)+2c` of `u^(4/(n−2))g` for `u=1+c r^(2−n)+o_2(r^(2−n))`; the inversion of a
-normalized Green expansion; the lifts of ends to finite covers. 3.0: for λ₁(L_g)>0 with positive
-eigenfunction φ, the metric `φ^(4/(n−2))g` of scalar curvature `λ₁φ^(−4/(n−2))>0`. 3.1: a closed
-oriented d-manifold, 3≤d≤7, with a nonzero-degree map to `T^d` has no metric of positive scalar
-curvature. 3.2: the
-orientation double cover, which removes orientability from 8.1. 8.1: positivity and rigidity of
-the mass of every end of a complete connected finite-ended AE manifold, 3≤n≤7, Scal≥0, with no
-Spin or orientation hypothesis. 8.3: the same for one AE end of a complete connected spin
-manifold whose other ends are arbitrary, every n≥3. 8.4: invariance of 8.1–8.3 under isometries
-and finite covers. The geometric end, mass and Spin hypotheses are verified in Y6–Y8.
+[PositiveMass](../PositiveMass/README.md) 0.2: the ADM mass, its normalization and its existence for
+order `t>(n−2)/2` with integrable scalar curvature; under a finite Riemannian covering each end
+lifts to deg copies with the mass of the end below. 0.4: the mass `m(g)+2c` of `u^(4/(n−2))g` for
+`u=1+c r^(2−n)+o_2(r^(2−n))`; the inversion of a normalized Green expansion; the lifts of ends to
+finite covers. 3.0: for λ₁(L_g)>0 with positive eigenfunction φ, the metric `φ^(4/(n−2))g` of scalar
+curvature `λ₁φ^(−4/(n−2))>0`. 3.1: a closed oriented d-manifold, 3≤d≤7, with a nonzero-degree map to
+`T^d` has no metric of positive scalar curvature. 3.2: the orientation double cover, which removes
+orientability from 8.1. 8.1: positivity and rigidity of the mass of every end of a complete
+connected finite-ended AE manifold, 3≤n≤7, Scal≥0, with no Spin or orientation hypothesis. 8.3: the
+same for one AE end of a complete connected spin manifold whose other ends are arbitrary, every n≥3.
+8.4: invariance of 8.1–8.3 under isometries and finite covers. The geometric end, mass and Spin
+hypotheses are verified in Y6–Y8.
 
 ### From TauCetiRoadmap.DifferentialGeometry
 
@@ -312,18 +312,18 @@ cover, deck group and lifting theory.
 
 ## How to read the build
 
-The section Yk is Layer k, and its subsection k.n is cited as Yk.n; "Yk item n" means Yk.n.
-Layer 0 consumes Tau Ceti's conformal geometry and proves what it lacks, ending with the converse
-Weyl–Schouten theorem and the developing map of a locally conformally flat manifold. Layer 1
-builds the closed-manifold analysis of L_g, Layer 2 the sharp Euclidean
-Sobolev theory, and Layer 3 the variational theory below the sphere threshold, Theorem A. Layer 4
-builds conformal normal coordinates and the Green expansions. Y4–Y6's expansions and
-test-function construction and Y0.6's developing geometry use no positive-mass theorem. Layer 5
-proves Theorem B from Layers 0, 2 and 4, with no positive-mass input. PositiveMass 8.1 and 8.3
-then supply positivity and Euclidean rigidity; Y6's zero-mass compactification, Y7 and Y8.2–Y8.4
-consume them. Y6's zero-mass compactification uses Y0.6 even in dimensions 3–5. Layer 9 concludes existence, uniqueness and
-rigidity, and Layer 10 collects examples and the invariant σ. The Lean name at each headline
-target is its signature in `Suggested.lean`.
+The section Yk is Layer k, and its subsection k.n is cited as Yk.n; "Yk item n" means Yk.n. Layer 0
+consumes Tau Ceti's conformal geometry and proves what it lacks, ending with the converse
+Weyl–Schouten theorem and the developing map of a locally conformally flat manifold. Layer 1 builds
+the closed-manifold analysis of L_g, Layer 2 the sharp Euclidean Sobolev theory, and Layer 3 the
+variational theory below the sphere threshold, Theorem A. Layer 4 builds conformal normal
+coordinates and the Green expansions. Y4–Y6's expansions and test-function construction and Y0.6's
+developing geometry use no positive-mass theorem. Layer 5 proves Theorem B from Layers 0, 2 and 4,
+with no positive-mass input. PositiveMass 8.1 and 8.3 then supply positivity and Euclidean rigidity;
+Y6's zero-mass compactification, Y7 and Y8.2–Y8.4 consume them. Y6's zero-mass compactification uses
+Y0.6 even in dimensions 3–5. Layer 9 concludes existence, uniqueness and rigidity, and Layer 10
+collects examples and the invariant σ. The Lean name at each headline target is its signature in
+`Suggested.lean`.
 
 ## Y0: conformal tensors and the conformal Laplacian
 
@@ -436,7 +436,8 @@ flattening the metric near each point, with its conformal invariance and the for
 Weyl–Schouten implications; and the reduction of local conformal flatness to W=0 plus local
 solvability of the flattening equation. Compare local conformal flatness with conformal
 Euclidean coordinate charts. Prove the converse Weyl–Schouten implications: W=0 implies LCF for
-n≥4 (Lee–Parker, p. 43, citing Eisenhart, §28), and C=0 implies LCF for n=3. Treat the
+n≥4 (Lee–Parker, p. 43, citing Eisenhart, §28), and C=0 implies LCF for n=3 (Cotton 1899,
+Chapter III, n° 18, p. 412). Treat the
 flattening equation as a first-order system for (f,df) on the full jet carrier, prove its
 involutivity from the pinned defect identity, and apply DG4.3's local Frobenius theorem. The
 resulting e^(2f)g has P=0 and W=0, hence is flat; use RiemannianGeometry R1.1 item 3 (flat
@@ -512,15 +513,16 @@ UniversalCovers Stages 1–4; Y1.1 and Y1.3 for the weak-domain statements of 0.
 ### 1.1 Sobolev carriers
 
 Consume K5a's real bundle distributions and RealBundleSobolev for the trivial real line, with its
-H¹, integer-order and L² identifications. Consume PseudodifferentialOperators 5.2's W^(k,p)
-carrier on the trivial real line (finite-chart and connection norms equivalent and complete,
-smooth sections dense for finite p, compact W^(k,p)→W^(l,p)), and prove its agreement at p=2 with
-that same Hilbert carrier. Compare the same carriers with the PDE and bundle-Sobolev suppliers; add the manifold comparison rather than
-another independent weak-derivative theory. Consume Tau Ceti's critical Sobolev estimate for `C¹`
-functions on a closed manifold, `TauCeti.Manifold.exists_eLpNorm_le_mul_eLpNorm_mgradient_two_add`,
-and extend it to H¹. Consume the native `Analysis/Sobolev/W1p/{Basic,Density,ChainRule}`,
-`Analysis/Sobolev/Embedding` (`TauCeti.W1p0.sobolevEmbeddingL` at its explicit Sobolev-conjugate
-exponent), `Analysis/Sobolev/RellichKondrachov`, and
+H¹, integer-order and L² identifications. Consume PseudodifferentialOperators 5.2's W^(k,p) carrier
+on the trivial real line (finite-chart and connection norms equivalent and complete, smooth sections
+dense for finite p, compact W^(k,p)→W^(l,p)), and prove its agreement at p=2 with that same Hilbert
+carrier. Compare the same carriers with the PDE and bundle-Sobolev suppliers; add the manifold
+comparison rather than another independent weak-derivative theory. Consume Tau Ceti's critical
+Sobolev estimate for `C¹` functions on a closed manifold,
+`TauCeti.Manifold.exists_eLpNorm_le_mul_eLpNorm_mgradient_two_add`, and extend it to H¹. Consume the
+native `Analysis/Sobolev/W1p/{Basic,Density,ChainRule}`, `Analysis/Sobolev/Embedding`
+(`TauCeti.W1p0.sobolevEmbeddingL` at its explicit Sobolev-conjugate exponent),
+`Analysis/Sobolev/RellichKondrachov`, and
 `PDE/FundamentalSolution/Euclidean/{Basic,DistributionalLaplacian}` modules under their actual
 Euclidean hypotheses. Their chart, density and Green-normalization comparisons are the manifold
 targets here.
@@ -747,8 +749,8 @@ Theorem 4.1, p. 52, Proposition 4.2, p. 53, and Lemma 4.3, p. 54).
 **API.**
 
 - The subcritical quotient `Q^q(u)=∫(a_n|du|²+Scal u²)/‖u‖_q²` and its infimum Y_q.
-- For unit volume, |Y_q| is nonincreasing in q, and Y_q is left-continuous at p_n when
-  Y>0.
+- For unit volume, |Y_q| is nonincreasing in q, and Y_q is left-continuous at p_n when Y≥0
+  (Lee–Parker, Lemma 4.3, p. 54).
 
 **Checks.**
 
@@ -765,8 +767,11 @@ Establish the precise concentration alternative for these minimizers, including 
 measures, epsilon regularity, blow-up rescaling and exclusion of mass loss when Y<Y(Sⁿ).
 Equivalently prove the required compactness by the epsilon-Sobolev inequality with a
 quantitative absorption argument; in either proof supply the critical nonlinear limit and strong
-H¹ convergence. Produce a smooth positive unit-Lp minimizer when Y<Y(Sⁿ), including Y≤0
-(Theorem A: Lee–Parker, p. 39, proved by Proposition 4.4 and Theorem 4.5, pp. 54–55). Lean name:
+H¹ convergence. Identify the limit multiplier λ with Y: by 3.2's left-continuity when Y≥0, the
+case Y=0 included; when Y<0 the Y_q increase in q, so λ≤Y, while λ=Q(φ)≥Y for the limit φ
+(Lee–Parker, proof of Theorem 4.5, p. 55). Produce a smooth positive unit-Lp minimizer when
+Y<Y(Sⁿ), including Y≤0 (Theorem A: Lee–Parker, p. 39, proved by Proposition 4.4 and Theorem 4.5,
+pp. 54–55). Lean name:
 `exists_isMinOn_yamabeQuotient_of_lt`.
 
 **Checks.**
@@ -851,7 +856,8 @@ independent of the allowed normalized chart (Lee–Parker, Lemma 6.4, p. 64). A 
 ### 4.4 Locally conformally flat poles
 
 In a locally conformally flat neighborhood construct a conformal representative exactly flat near
-the pole and prove `G=r^(2−n)+A+O(r)` with the differentiated remainder estimates. This local
+the pole and prove `G=r^(2−n)+A+O(r)` with the differentiated remainder estimates (Lee–Parker,
+Lemma 6.4(a), p. 64). This local
 normalization does not require the final Yamabe theorem.
 
 **Checks.**
@@ -939,12 +945,14 @@ PositiveMass 0.4's mass `2c` of `(1+c r^(2−n))^(4/(n−2))δ` with c=A.
 ### 6.2 The glued test function and the zero-mass case
 
 Construct the glued test function from an inner bubble and the outer Green function. Prove
-positivity, smooth gluing, norm/energy estimates and `Y<Y(Sⁿ)` when A>0. The zero case follows
+positivity, smooth gluing, norm/energy estimates and `Y<Y(Sⁿ)` when A>0 (Lee–Parker,
+Proposition 7.1, p. 69, and Theorem 7.2, p. 70). The zero case follows
 PositiveMass 8.1 and 8.3 and Y0.6: a Euclidean blow-up makes g LCF on M\{p}; extend vanishing of
 W, or Cotton for n=3, to p by continuity and apply Y0.5. Prove that deleting a point in
 dimension≥3 induces the fundamental-group isomorphism, using coordinate balls and van Kampen on
 the native fundamental-groupoid carrier. Thus M\{p}≅ℝⁿ implies M simply connected. Y0.6's
-developing map on compact M is a covering of Sⁿ and therefore a conformal diffeomorphism. This
+developing map on compact M is a covering of Sⁿ and therefore a conformal diffeomorphism
+(Lee–Parker, proof of the Yamabe theorem, p. 85). This
 gives the smooth conformal map at p, rather than just a topological compactification.
 
 **Checks.**
@@ -1062,7 +1070,8 @@ covering/compactification assertion, rather than assuming a local map is globall
 
 Combine Y6 with strict A>0 off the conformal sphere to obtain the strict Yamabe inequality for
 every closed LCF manifold not conformally the sphere, with no dimension bound and no Spin
-assumption downstairs. Lean name: `exists_yamabeQuotient_lt_sphereYamabeConstant_of_not_conformal`.
+assumption downstairs (Theorem C: Lee–Parker, p. 40). Lean name:
+`exists_yamabeQuotient_lt_sphereYamabeConstant_of_not_conformal`.
 
 **Checks.**
 
@@ -1091,7 +1100,8 @@ unit-volume conformal factor attaining Y, hence a constant-scalar-curvature Yama
 Yamabe theorem: Lee–Parker, p. 85). For the conformal sphere exhibit a minimizer directly
 (Lee–Parker, Theorem 3.2, p. 49). For a disconnected compact manifold prove the componentwise
 theorem and determine the global infimum separately. If any component has negative invariant, it
-is `−(Σ_(Y_i<0)|Y_i|^(n/2))^(2/n)`; otherwise it is `min_i Y_i`. Determine the supporting
+is `−(Σ_(Y_i<0)|Y_i|^(n/2))^(2/n)`; otherwise it is `min_i Y_i` (Ammann–Dahl–Humbert, §1, p. 4,
+for two components). Determine the supporting
 components of minimizing functions and when a minimizer can be strictly positive on every
 component. Componentwise existence does not assert one global constant scalar when the component
 signs differ. Lean names: `exists_isMinOn_yamabeQuotient`,
@@ -1110,7 +1120,8 @@ signs differ. Lean names: `exists_isMinOn_yamabeQuotient`,
 ### 9.2 Uniqueness when Y ≤ 0
 
 Prove uniqueness of the unit-volume constant-scalar-curvature metric in each conformal class with
-Y≤0. Give the maximum-principle and zero-scalar harmonic arguments, including the equality case.
+Y≤0 (Brendle–Marques, §1, p. 3). Give the maximum-principle and zero-scalar harmonic arguments,
+including the equality case.
 Lean name: `eq_of_scalarCurvature_rescale_eq_of_nonpos`.
 
 **Checks.**
@@ -1127,13 +1138,15 @@ Lean name: `eq_of_scalarCurvature_rescale_eq_of_nonpos`.
 ### 9.3 Obata's theorems and the Lichnerowicz equality case
 
 Prove Obata's Hessian/round-sphere theorem by the complete geodesic and radial metric argument
-(Obata 1962). For a positive Einstein metric identify all conformally related
+(Obata 1962, uncertified). For a positive Einstein metric identify all conformally related
 constant-scalar-curvature metrics: homotheties unless the metric is round up to scale (Obata
-1971); in the sphere case identify the Möbius conformal factors and their normalized family
-(Lee–Parker, Proposition 3.1, p. 48, and Theorem 3.2, p. 49). Consume the Lichnerowicz bound
+1971, uncertified); in the sphere case identify the Möbius conformal factors and their normalized
+family (Lee–Parker, Proposition 3.1, p. 48, and Theorem 3.2, p. 49; Brendle–Marques, §2,
+pp. 3–4). Consume the Lichnerowicz bound
 `TauCeti.Manifold.finrank_mul_le_of_laplaceBeltrami_eq_neg_mul` and RiemannianGeometry R7.0's
 equality case (an eigenfunction with λ=nk satisfies Hess f=−kfg). With Obata's theorem above,
-prove that λ₁(Δ⁺)=nk forces (M,g) to be isometric to the round sphere of radius 1/√k. Lean names:
+prove that λ₁(Δ⁺)=nk forces (M,g) to be isometric to the round sphere of radius 1/√k
+(Cavalletti–Mondino–Semola, Theorem 1.1, p. 2, after Obata 1962). Lean names:
 `nonempty_riemannianIsometry_sphere_of_hessian_eq`,
 `nonempty_riemannianIsometry_sphere_of_laplaceBeltrami_eq`,
 `exists_forall_eq_of_ricciTensor_eq_smul`, `exists_diffeomorph_of_conformalLaplacian_eq`.
@@ -1154,8 +1167,9 @@ prove that λ₁(Δ⁺)=nk forces (M,g) to be isometric to the round sphere of r
 ### 9.4 The conformal sphere
 
 Prove `Y=Y(Sⁿ)` iff the connected conformal manifold is the round conformal sphere, and identify
-its minimizing factors. Explain this equality via the already constructed strict-inequality cases
-and the explicit spherical equality classification. Lean name: `forall_le_yamabeQuotient_iff`.
+its minimizing factors (Lee–Parker, Theorems B and C, pp. 39–40, and Theorem 3.2, p. 49). Explain
+this equality via the already constructed strict-inequality cases and the explicit spherical
+equality classification. Lean name: `forall_le_yamabeQuotient_iff`.
 
 **Checks.**
 
@@ -1197,13 +1211,13 @@ equality for every cover.
 ### 10.2 The product cylinder
 
 Give a closed positive-scalar example with nonunique unit-volume constant-scalar metrics in one
-conformal class on S^(n−1)×S¹. For the product cylinder prove the periodic ODE
-`u''−(n−2)²u/4+n(n−2)u^((n+2)/(n−2))/4=0`, its positive equilibrium, and nonconstant positive
-solutions of minimal period L for L>2π/√(n−2). Prove the period range and limiting values by the
-phase-plane energy integral; the constant equilibrium itself has every period. Normalize the
-resulting metrics to volume one. Prove the constant solution is not minimizing at those lengths
-by its second variation; stationary solutions are not identified with minimizers merely from
-their scalar curvature.
+conformal class on S^(n−1)×S¹ (Brendle–Marques, §1, Example, p. 3, after Schoen 1989). For the
+product cylinder prove the periodic ODE `u''−(n−2)²u/4+n(n−2)u^((n+2)/(n−2))/4=0`, its positive
+equilibrium, and nonconstant positive solutions of minimal period L for L>2π/√(n−2). Prove the
+period range and limiting values by the phase-plane energy integral; the constant equilibrium itself
+has every period. Normalize the resulting metrics to volume one. Prove the constant solution is not
+minimizing at those lengths by its second variation; stationary solutions are not identified with
+minimizers merely from their scalar curvature.
 
 **Checks.**
 
@@ -1219,7 +1233,8 @@ their scalar curvature.
 ### 10.3 The invariant σ
 
 Develop the basic diffeomorphism invariant `σ(M)=sup_[g] Y(M,[g])`, including the sphere upper
-bound and its sign implications. Supply the norms and compactness conditions in continuity
+bound and its sign implications (Ammann–Dahl–Humbert, §1, pp. 4–5, after Schoen 1989 and
+Kobayashi 1987). Supply the norms and compactness conditions in continuity
 statements.
 
 **Checks.**
@@ -1255,11 +1270,12 @@ Layers 0, 3 and 9; PositiveMass 3.1.
 - J. M. Lee, T. H. Parker, *The Yamabe problem*, Bull. Amer. Math. Soc. (N.S.) 17 (1987),
   37–91, doi:10.1090/S0273-0979-1987-15514-5: notation and (1.1)–(1.5), pp. 38–39; Theorems A
   and B, p. 39; Theorem C, p. 40; (2.5)–(2.7) and the Weyl–Schouten statement, p. 43;
-  Theorem 2.3, p. 45; Theorem 2.8, p. 47; Proposition 3.1 and (3.2), p. 48; Theorem 3.2, p. 49;
-  Theorem 3.3, (3.6) and Lemma 3.4, p. 50; Lemma 3.5, p. 51; Theorem 4.1, p. 52;
-  Proposition 4.2, p. 53; Lemma 4.3 and Proposition 4.4, p. 54; Theorem 4.5, p. 55; Theorem 5.1
-  and the proof of Theorem B, pp. 58–59; Lemma 6.1, p. 63; (6.1) and Lemma 6.4, p. 64;
-  Theorem 6.5, p. 65; Lemma 9.7, p. 79; the Yamabe theorem, p. 85. It supplies the conformal,
+  Theorems 2.2 and 2.3, p. 45; Theorem 2.8, p. 47; Proposition 3.1 and (3.2), p. 48; Theorem 3.2,
+  p. 49; Theorem 3.3, (3.6) and Lemma 3.4, p. 50; Lemma 3.5, p. 51; Theorem 4.1, p. 52;
+  Proposition 4.2, p. 53; Lemma 4.3 and Proposition 4.4, p. 54; Theorem 4.5 with its proof, p. 55;
+  Theorem 5.1 and the proof of Theorem B, pp. 58–59; Lemma 6.1, p. 63; (6.1) and Lemma 6.4, p. 64;
+  Theorem 6.5, p. 65; Proposition 7.1, p. 69; Theorem 7.2, p. 70; Lemma 9.7, p. 79;
+  Theorem 10.4, pp. 81–82; the Yamabe theorem and its proof, p. 85. It supplies the conformal,
   variational, normal-coordinate and test-function development.
 - L. P. Eisenhart, *Riemannian geometry*, Princeton University Press (1926), §28, as cited by
   Lee–Parker, p. 43, for Weyl–Schouten in dimension n≥4 (uncertified).
@@ -1277,10 +1293,27 @@ Layers 0, 3 and 9; PositiveMass 3.1.
   Invent. Math. 92 (1988), 47–71, doi:10.1007/BF01393992: the developing-map comparison of Y8;
   Y8 proves its stated modern arbitrary-end mass application with the explicit hypotheses above.
 - M. Obata, *Certain conditions for a Riemannian manifold to be isometric with a sphere*,
-  J. Math. Soc. Japan 14 (1962), 333–340, doi:10.2969/jmsj/01430333: the Hessian theorem of Y9.3.
+  J. Math. Soc. Japan 14 (1962), 333–340, doi:10.2969/jmsj/01430333 (uncertified): the Hessian
+  theorem of Y9.3.
 - M. Obata, *The conjectures on conformal transformations of Riemannian manifolds*, J. Differential
-  Geom. 6 (1971), 247–258, doi:10.4310/jdg/1214430407: the conformal constant-scalar-curvature
-  metrics of a positive Einstein metric, Y9.3.
+  Geom. 6 (1971), 247–258, doi:10.4310/jdg/1214430407 (uncertified): the conformal
+  constant-scalar-curvature metrics of a positive Einstein metric, Y9.3.
+- É. Cotton, *Sur les variétés à trois dimensions*, Ann. Fac. Sci. Toulouse (2) 1 (1899),
+  385–438: Chapter III, n° 18, p. 412, the three-dimensional criterion of Y0.5.
+- R. Schoen, *Variational theory for the total scalar curvature functional for Riemannian metrics
+  and related topics*, in *Topics in Calculus of Variations*, Lecture Notes in Math. 1365,
+  Springer (1989), 120–154, doi:10.1007/BFb0089180 (uncertified): the cylinder examples of Y10.2
+  and the invariant σ of Y10.3.
+- O. Kobayashi, *Scalar curvature of a metric with unit volume*, Math. Ann. 279 (1987), 253–265,
+  doi:10.1007/BF01461722 (uncertified): the invariant σ of Y10.3.
+- S. Brendle, F. C. Marques, *Recent progress on the Yamabe problem*, arXiv:1010.4960v1: §1, p. 3,
+  uniqueness when Y≤0 and the cylinder example; §2, pp. 3–4, Obata's classification on the
+  sphere.
+- F. Cavalletti, A. Mondino, D. Semola, *Quantitative Obata's theorem*, arXiv:1910.06637v3:
+  Theorem 1.1, p. 2, the Lichnerowicz bound with Obata's equality case.
+- B. Ammann, M. Dahl, E. Humbert, *Smooth Yamabe invariant and surgery*, arXiv:0804.1418v5: §1,
+  p. 4, the invariant of a disjoint union and the definition of σ with its sphere bound and sign;
+  p. 5, σ of tori and of S^(n−1)×S¹.
 - S. Cecchini, R. Zeidler, *The positive mass theorem and distance estimates in the spin
   setting*, arXiv:2108.11972v2 (Trans. Amer. Math. Soc. 377 (2024), 5271–5288,
   doi:10.1090/tran/8942): Theorem B, p. 3, the arbitrary-end spin theorem owned by PositiveMass
