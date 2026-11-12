@@ -7,7 +7,10 @@ the regularity extension of the existing nondegenerate metric, with a strongness
 for continuous dual inverses and conditional Levi-Civita theory for weak metrics.
 Part II specializes these foundations to finite-dimensional Lorentzian cones, time
 orientations, causal curves, null geometry, global hyperbolicity and the singularity
-theorems. Local causal geometry includes `C^{1,1}` metrics. Conformal transport relates
+theorems. Local causal geometry includes `C^{1,1}` metrics. Domains of dependence are also
+defined inside an arbitrary subset of a manifold with boundary or corners, for continuous
+metrics, and achronal boundaries and Cauchy horizons are treated for `C¹` metrics; acoustical
+metrics on `ℝ × Σ` are the model. Conformal transport relates
 the causal predicates and null geodesic images while retaining the metric dependence of
 length and affine parametrization.
 
@@ -70,8 +73,10 @@ It leaves to other roadmaps:
 - the positive mass theorem for Riemannian asymptotically Euclidean manifolds: PositiveMass.
 
 Outside this roadmap: wave equations and normally hyperbolic operators on Lorentzian
-manifolds, their Green operators and energy estimates, the Cauchy problem for the Einstein
-equations and maximal globally hyperbolic developments, matter models, asymptotic flatness,
+manifolds, their Green operators and energy estimates, characteristic hypersurfaces of
+hyperbolic operators and systems, the Cauchy problem for the Einstein
+equations and maximal globally hyperbolic developments, the compressible Euler equations,
+their states, developments and maximal developments, matter models, asymptotic flatness,
 null infinity, Bondi and spacetime ADM mass, black-hole regions and specific black-hole
 families beyond the Schwarzschild exterior of §C1.2. These belong to a hyperbolic-PDE roadmap
 and to general-relativity roadmaps that consume this one. On flat Minkowski space the causal
@@ -137,7 +142,10 @@ same flow. The global splitting and singularity theorems use smooth metrics.
 Bundle fields and their within-chart differential identities permit corners. Unrestricted
 two-sided local flows use the interior or manifolds without boundary. Optical foliations
 at corners use the stratum-surjectivity conditions in §C3.2; generator flows at boundary
-points use face tangency in §C3.3. The global causal theory in §C4–§C7 is boundaryless.
+points use face tangency in §C3.3. The global causal theory in §C4–§C7 is boundaryless,
+except §C6.6: its causal curves and domains of dependence live in an arbitrary subset `D`
+of a manifold possibly with boundary or corners, with metric and time orientation needed
+only at points of `D`. §C6.7 works on open subsets of a boundaryless manifold.
 Hausdorffness, countability, paracompactness and connectedness are explicit where needed;
 no global smooth bump-function hypothesis enters the local Banach core.
 
@@ -188,7 +196,10 @@ future null expansions are negative.
 **Domains of dependence.** `D^+(A)` is the set of `p` such that every past-inextendible
 causal curve through `p` meets `A` (Hawking–Ellis, §6.5; O'Neill, Ch. 14); `D(A) = D^+(A) ∪
 D^−(A)`; the future Cauchy horizon is `H^+(A) = closure(D^+(A)) \ I^−(D^+(A))`. A Cauchy
-surface is a set met exactly once by every inextendible timelike curve. Global hyperbolicity
+surface is a set met exactly once by every inextendible timelike curve. Inside a subset `D`,
+`D^+_D(S)` is the set of `p ∈ D` such that every future causal curve in `D` ending at `p`
+and past-inextendible in `D` meets `S` (§C6.6); for open `D` it is `D^+(S ∩ D)` of the
+spacetime `(D, g|D)`. Global hyperbolicity
 is causality together with compactness of every `J^+(p) ∩ J^−(q)` (Bernal–Sánchez 2007); §C6.3
 proves the equivalence with the strongly causal form.
 
@@ -362,6 +373,9 @@ appear on every milestone, with the following overview.
 | §C0–§C3 | Finite | Continuous metrics and stated immersion orders | Lorentzian, except general null algebra |
 | §C4 | Finite | `C^{1,1}` local causality; `C¹` conformal null predicates | Time-oriented Lorentzian metric |
 | §C5–§C7 | Finite | Smooth for global analytic theorems | Time-oriented Lorentzian metric and stated global hypotheses |
+| §C1.3 | Finite | Pointwise; `C^k` where the data are | Acoustical form on `ℝ × Σ` |
+| §C6.6 | Finite, boundary or corners allowed | Continuous on a subset `D` | Lorentzian form field and timelike field on `D` |
+| §C6.7 | Finite, open subsets without boundary | Locally Lipschitz; `C¹` for geodesic generators | Time-oriented Lorentzian metric |
 
 ## Part I: shared foundations
 
@@ -692,6 +706,12 @@ on `ι(M)`, which is open; a proper open connected subset `U` of a connected sem
 embeddings. The isometry identity preserves signature on the image, and connectedness of
 the extension forces the same signature throughout. The Lorentzian extension API is a
 specialization; §C6.4's completeness obstruction specifically assumes index one and causality.
+
+Prove that the choice of boundaryless model is immaterial: if `I'` is a boundaryless model
+on a finite-dimensional `E'` with `finrank ℝ E' = finrank ℝ E`, transporting charts along
+`I`, `I'` and a linear equivalence `E' ≃L[ℝ] E` turns a `C^l`-extension modelled on `I'`
+into one modelled on `I`. So `IsInextendible l g` is inextendibility among all extensions of
+the same dimension.
 
 **Checks.**
 
@@ -1110,6 +1130,48 @@ timelike field supplies the time orientation of §C2.1.
 
 *Needs:* §F1.4–§F1.7, §C1.1; RiemannianGeometry R1 for round spheres.
 
+#### C1.3 Acoustical metrics on product spacetimes
+
+*Hypotheses:* Finite-dimensional smooth `Σ` without boundary with a Riemannian metric `h`; `M = ℝ × Σ`; speed `c` and velocity `v` arbitrary pointwise, with positivity, continuity or `C^k` regularity on the sets stated.
+
+On `M = ℝ × Σ`, with `t` the first coordinate, let `h` be a Riemannian metric on `Σ`,
+`c : M → ℝ` a function and `v` a time-dependent vector field on `Σ`, `v(t, x) ∈ T_xΣ`.
+Define pointwise the acoustical form `acousticalForm h c v` by
+`g((a, X), (b, Y)) = −c² a b + h(X − a v, Y − b v)`, that is
+`g = −c² dt² + h(dx − v dt, dx − v dt)`, and the vector field `B = ∂_t + v`. Regularity is
+a property of these fields, not part of the definition. Prove:
+
+- at a point with `c ≠ 0`, `g` is a Lorentzian scalar product, `g(B, B) = −c²`,
+  `g(B, X) = 0` for `X ∈ T_xΣ`, and `g = h` on `T_xΣ`; at a point with `c = 0`, `B` spans
+  the radical and `g` is degenerate;
+- `g⁻¹ = −c^{−2} B ⊗ B + h⁻¹`, where `h⁻¹` acts on the restrictions of covectors to `TΣ`.
+  Hence `g⁻¹(dt, dt) = −c^{−2}`, each tangent space of a slice `Σ_τ = {τ} × Σ` is a
+  spacelike subspace (§C0.3) with induced form `h`, and
+  `g⁻¹(du, du) = −c^{−2}(∂_t u + du(v))² + |d_Σ u|²_h`;
+- every causal vector `X` has `dt(X) ≠ 0`, and `g(X, B) = −c² dt(X)` for every `X`. The vector
+  `∂_t + Y`, `Y ∈ T_xΣ`, is causal iff `|Y − v|_h ≤ c` and null iff `|Y − v|_h = c`;
+- on an open `U` where `c > 0` and `c`, `v`, `h` are of class `C^k` (`k : ℕ∞ω`, including
+  `k = 0`), `acousticalForm h c v` is a `LorentzianMetric` of class `C^k` on `U`, and `B` is
+  a continuous timelike vector field on `U` when `c`, `v` are continuous. §C2.1 time orients
+  it by `[B]`, and §C6.6 uses the pair on subsets where only continuity on the subset is known.
+
+These statements take `c` and `v` as given fields. The fluid side, the sound speed
+`c = √(p′(ρ))` of an equation of state and the velocity of a state of the compressible
+Euler equations, belongs to the hyperbolic-PDE roadmap named under Downstream consumers.
+
+**Checks.**
+
+- `Σ = ℝ^n` Euclidean, `c > 0` and `v` constant: `(t, x) ↦ (ct, x − vt)` is an isometry onto
+  `(ℝ × ℝ^n, minkowskiForm)` carrying `[B]` to `[∂_t]`; so `{x¹ = (v¹ + c)t}` is a null
+  hyperplane, with null normal `B + c ∂_1`.
+- For `Σ = ℝ × (ℝ/2πℤ)^{n−1}` use Mathlib's `Circle` for each periodic factor, with the
+  unit round metric of RiemannianGeometry R1; the product metric is flat and the covering
+  `ℝ^n → Σ`, `x ↦ (x¹, e^{ix²}, …, e^{ixⁿ})`, is a local isometry. Acoustical forms of
+  `x`-periodic `c`, `v` on `ℝ × ℝ^n` are pullbacks of acoustical forms on `ℝ × Σ`.
+- The acoustical checks of §F1.2, §C2.1 and §C3.2 are the case `Σ = ℝ²`.
+
+*Needs:* §C0.1–§C0.3, §F1.2, §C1.1; Mathlib Riemannian metrics, product manifolds and `Circle`; RiemannianGeometry R1 for the round circle.
+
 ### C2 Time orientations and causal curves
 
 #### C2.1 Time orientations and spacetimes
@@ -1171,6 +1233,9 @@ Fix a time orientation `𝔱`. Define:
 - `IsFutureCausalCurve 𝔱 γ a b`: locally Lipschitz on `[a, b]`, differentiable with future
   causal velocity at almost every parameter (the velocity exists almost everywhere by
   Rademacher's theorem in charts);
+- `IsFutureTimelikeLipschitzCurve 𝔱 γ a b`: locally Lipschitz on `[a, b]`, `a < b`, with future
+  timelike velocity at almost every parameter. Every future timelike piecewise `C¹` curve is
+  one, and every one is a future causal curve;
 - past-directed versions by `𝔱 ↦ −𝔱`; future- and past-inextendible curves on half-open and
   open intervals, and inextendible timelike and causal curves.
 
@@ -1203,6 +1268,9 @@ of parameter and the reduction to bounded open domains used in `Suggested.lean`.
 - `s ↦ (s, s)` has `L = 0`; `s ↦ (s, 0)` on `[0, 2]` has `L = 2`; `s ↦ (2s, 0)` on `[0, 1]`
   has `L = 2` too.
 - `s ↦ (|s|, 0)` on `[−1, 1]` is not future causal: its velocity is past-directed for `s < 0`.
+- The endpoints of future timelike Lipschitz curves from `p` need not form an open set for a
+  continuous metric (Grant–Kunzinger–Sämann–Steinbauer), so `I^±` in §C2.3 uses piecewise
+  `C¹` curves; §C4.3 identifies the two endpoint relations for `C^{1,1}` metrics.
 
 *Needs:* §F2.1–§F2.2, §C2.1; finite-dimensional Rademacher, real change of variables and piecewise curves.
 
@@ -1443,6 +1511,8 @@ For `C^{1,1}` `g`, `J^+(p)` defined with Lipschitz causal curves equals the set 
 piecewise-`C¹` causal curves, and `I^+(p)` equals the set of endpoints of Lipschitz causal
 curves whose velocity is timelike on a set of positive measure (Chruściel, *Elements of
 causality theory*, §2; Minguzzi, *Convex neighborhoods for Lipschitz connections and sprays*).
+In particular `I^+(p)` is the set of endpoints of the future timelike Lipschitz curves of
+§C2.2 from `p`.
 
 Use §F2.1's admissible changes of parameter and arc-length normalization to prove
 agreement with absolutely continuous causal curves with nonzero velocity almost everywhere.
@@ -1682,6 +1752,143 @@ the affine-null parameter transformation and a completeness counterexample are i
 
 *Needs:* §C2.4, §C4.4, §C5.1–§C5.3, §C6.1–§C6.3.
 
+#### C6.6 Causal curves and domains of dependence in subsets
+
+*Hypotheses:* Finite-dimensional smooth manifolds, possibly with boundary or corners; an arbitrary subset `D`; Lorentzian form field and timelike field continuous on `D`; boundarylessness, openness, closedness and time functions as stated.
+
+Let `M` be a finite-dimensional smooth manifold, possibly with boundary or corners, and
+`D ⊆ M` any subset. Define `TimeOrientedLorentzianFieldOn D`: a pointwise field of bounded
+bilinear forms on `TM` and a pointwise vector field `T`, both continuous on `D` as maps
+into their total spaces, with the form Lorentzian and `T` timelike at every point of `D`.
+Values off `D` are never used. A `LorentzianMetric I M k` with a timelike field
+representing a time orientation restricts to such a field on every `D`, and `mono` restricts
+along `D' ⊆ D`. Future-directed vectors at points of `D` are defined by `g(v, T) < 0`, as in
+§C2.1. Replacing `T` by `T'` with `g(T, T') < 0` on `D`, or the form by a positive continuous
+multiple on `D`, changes none of the sets below.
+
+For an interval `J ⊆ ℝ` (`J.OrdConnected`; a single point, open, closed or half-open,
+bounded or not), define:
+
+- `IsFutureCausalCurveIn 𝔤 γ J`: `γ` maps `J` into `D`, is locally Lipschitz on `J` in the
+  sense of §C2.2, and has future causal velocity at almost every parameter of `J`. Every
+  map on a one-point `J` with value in `D` qualifies. For `J = [a, b]`, `a < b`, and `D = M`
+  this is §C2.2's `IsFutureCausalCurve` for the restricted field;
+- the curve ends at `γ(b)` when `b` is the maximum of `J`;
+- `IsPastInextendibleIn 𝔤 γ J`: if `J` has a minimum `a`, no future causal curve in `D` on a
+  nontrivial `[a', a]` ends at `γ(a)`; if `J` has no minimum, `γ(s)` has no limit in `D` as
+  `s` decreases to `inf J` within `J` (as `s → −∞` when `J` is unbounded below);
+- `futureDomainOfDependenceIn 𝔤 S`, written `D^+_D(S)`, for any `S ⊆ M`: the `p ∈ D` such
+  that every future causal curve in `D` ending at `p` and past-inextendible in `D` meets `S`;
+  `D^−_D(S)` by reversing `T`, and `D_D(S) = D^+_D(S) ∪ D^−_D(S)`.
+
+Prove:
+
+- `S ∩ D ⊆ D^+_D(S)`, and `D^+_D(S)` is monotone in `S`;
+- the endpoint and past-inextendibility are invariant under §F2.1's admissible changes of
+  parameter, and concatenation at a common point of two future causal curves in `D` is one,
+  after such a change;
+- if `J` has no minimum and `γ(s)` has a limit `q ∈ D` at its past end, then adding `q`
+  and reparametrizing by auxiliary Riemannian arc length gives a future causal curve in `D`
+  on an interval with minimum. So `IsPastInextendibleIn` says that no admissible
+  reparametrization of `γ` is the restriction of a future causal curve in `D` on a strictly
+  larger interval with the same maximum;
+- open sets: for `M` without boundary and `D = U` open, these curve classes and
+  past-inextendibility agree, after §F2.1's reduction to intervals with `a < b`, with those
+  of §C2.2 on the spacetime `(U, g|U)`, and `D^+_U(S)` is §C6.2's `D^+(S ∩ U)` for
+  `(U, g|U)`: a past-inextendible curve through `p` restricts to one ending at `p`. This
+  holds for continuous metrics; the theorems of §C6.2 then apply to `D^+_U(S)` for smooth
+  `g|U`, and §C6.7 treats its horizons for `C¹` metrics;
+- time functions: call `t : M → ℝ` a time function on `D` if `t ∘ γ` is strictly increasing
+  on `J` for every future causal curve in `D`. If `t` is `C¹` on a neighbourhood of `D`, with
+  `g⁻¹(dt, dt) < 0` and `dt(T) > 0` on `D`, then `t` is a time function on `D`, the future
+  causal vectors at points of `D` are the causal vectors with `dt(X) > 0`, and every future
+  causal curve in `D` on a nontrivial interval is related by §F2.1's change of parameter
+  `φ = t ∘ γ` (locally Lipschitz, `φ′ > 0` almost everywhere) to a locally Lipschitz
+  `t`-parametrized curve, `t(γ(s)) = s`. For `t`-parametrized curves, past-inextendibility
+  in `D` is equivalent to the extension form: no `t`-parametrized future causal curve in `D`
+  on an interval `J' ⊋ J` with the same maximum restricts to `γ` on `J`. Hence `D^+_D(S)` is
+  the set defined using only `t`-parametrized curves on arbitrary intervals, including
+  one-point intervals, with this extension form. The acoustical forms of §C1.3 with the
+  field `B` satisfy these hypotheses with `t` the time coordinate, on every subset `D` of
+  `ℝ × Σ` where `c > 0` and `c`, `v` are continuous on `D`;
+- slabs: if `t` is a time function on `D`, `D ⊆ {t ≥ t₀}` and `S ⊆ {t = t₀}`, then
+  `D^+_D(S) ∩ {t = t₀} = S ∩ D`;
+- determination: if `M` has no boundary, `U ⊆ M` is open, `S ⊆ U` is closed in `U`, and
+  `D = D^+_U(S)`, then `D^+_D(S) = D` for the field restricted to `D`. (Let a curve in `D`
+  ending at `p ∈ D` be past-inextendible in `D` and miss `S`. It is not past-inextendible in
+  `U`, so it has a past limit `q ∈ U \ D`, and concatenation shows `q ∈ D^+_U(S)`; or it has
+  a minimum point `q ∈ D \ S`, and on a past-inextendible curve in `U` ending at `q` the
+  segment after the last point of `S` is a nontrivial causal curve in `D` ending at `q`.)
+- coverings: if `π : M̃ → M` is a smooth covering map and a local isometry carrying the
+  time field of `M̃` to that of `M`, then `π⁻¹(D^+_D(S)) = D^+_{π⁻¹D}(π⁻¹S)`, by unique
+  lifting of locally Lipschitz curves and of their past limits.
+
+**Checks.**
+
+- Minkowski `ℝ^{1+1}`, `U = M`, `S = {t = 0, |x| ≤ 1}`: `D^+_U(S) = {0 ≤ t ≤ 1 − |x|}`, as in §C6.2.
+- `D = {t ≥ 0} ⊆ ℝ^{1+1}`, `S = {t = 0, x ≥ 0}`: `D^+_D(S) = {t ≥ 0, x ≥ t}`. At `(0, x)`,
+  `x < 0`, the one-point curve is past-inextendible in `D` and misses `S`; one-point
+  curves are what make the slab statement hold. The same set is `D^+_U(S)` for `U = M`, and
+  by the determination statement it is also `D^+_{D'}(S)` for `D' = {t ≥ 0, x ≥ t}`.
+- `s ↦ (√s, 0)` on `(0, 1]` is a future causal curve in `D = {t ≥ 0}` that is not Lipschitz
+  up to `s = 0` in its parameter but has the past limit `(0, 0) ∈ D`: it is
+  past-extendible, which the endpoint form records and a fixed-parameter extension form
+  would not.
+- For the acoustical metric of §C1.3 with `Σ = ℝ^n` and constant `c > 0`, `v`, take
+  `D = {t ≥ 0}` and `S = {t = 0, x¹ ≥ 0}`: `D^+_D(S) = {t ≥ 0, x¹ ≥ (v¹ + c)t}`. A
+  `t`-parametrized curve `(t, x(t))` is future causal iff `|ẋ − v| ≤ c` almost everywhere.
+
+*Needs:* §F2.1, §C1.3 for the acoustical checks, §C2.1–§C2.3, §C6.2; Mathlib covering maps and path lifting.
+
+#### C6.7 Achronal boundaries and Cauchy horizons of `C¹` metrics
+
+*Hypotheses:* Finite-dimensional time-oriented Lorentzian metrics on manifolds without boundary, in particular open subsets of a spacetime; locally Lipschitz metrics for the causal and boundary statements; `C¹` metrics for geodesic generators; Hausdorff second countable.
+
+Extend to locally Lipschitz metrics, which include `C¹` metrics: push-up
+`I^+ ∘ J^+ ⊆ I^+` and `J^+ ∘ I^+ ⊆ I^+`, and `I^+(p) = int J^+(p)` (Chruściel–Grant); for every
+`S`, `∂I^+(S)` is a closed achronal locally Lipschitz topological hypersurface in the sense of
+§C6.1; every point of `∂I^+(S) \ closure S` lies on a future causal curve contained in
+`∂I^+(S)`, no two of whose points are chronologically related, that is past-inextendible or
+has its past endpoint in `closure S`.
+
+Call a future causal curve no two of whose points are chronologically related achronal.
+For locally Lipschitz `g`, prove that an achronal causal curve has an admissible change of
+parameter (§F2.1) to a `C^{1,1}` curve with null velocity everywhere that solves the geodesic
+equation in Filippov's sense (Lange–Lytchak–Sämann; Graf–Ling). For `C¹` `g` the
+Christoffel field of §F1.4 is continuous, the Filippov solution is classical, and the curve
+is a null geodesic in the sense of `CovariantDerivative.IsGeodesicOn` (§F2.2). Geodesics of
+`C¹` metrics need not be unique, so these generators are asserted to exist, not to form a flow.
+
+Horizons relative to an open set: for `U` open, `S ⊆ U` closed in `U` and achronal in
+`(U, g|U)`, let `D^+_U(S)` be as in §C6.6, `H^+_U(S) = closure_U(D^+_U(S)) \ I^−_U(D^+_U(S))`
+with closure and `I^−` taken in `U`, and `edge_U(S)` the edge of §C6.1 in `(U, g|U)`. For
+locally Lipschitz `g` prove that `H^+_U(S)` is closed in `U` and achronal, and that every point of
+`H^+_U(S) \ edge_U(S)` lies on an achronal causal curve in `H^+_U(S)` that is
+past-inextendible in `U` or has its past endpoint on `edge_U(S)`; for `C¹` `g` that curve
+is a null geodesic after reparametrization (Hawking–Ellis, Prop. 6.5.3, at this regularity).
+
+Slices of a temporal function: let `t` be `C¹` on `U` with `g⁻¹(dt, dt) < 0` and `dt > 0` on
+future vectors, and let `S` be closed in the slice `Σ_{t₀} = {t = t₀}`. Prove that `S` is
+achronal in `U`, that `edge_U(S)` is the topological boundary `∂_{Σ_{t₀}} S` of `S` in the
+slice, and that the characteristic boundary satisfies
+`∂_U D^+_U(S) ∩ {t > t₀} = H^+_U(S) ∩ {t > t₀}`. Where `H^+_U(S)` is a `C¹` embedded
+hypersurface near a point, it is null there in the sense of §C3.2 and contains the tangent
+line of each generator through the point: a `C¹` hypersurface in an achronal set has no
+timelike tangent vector, for continuous `g`, and the generator supplies a null one.
+
+**Checks.**
+
+- For the constant acoustical state of §C6.6's last Check, the characteristic boundary is
+  `{x¹ = (v¹ + c)t, t > 0}`, a null hyperplane whose generators `t ↦ (t, x₀ + t(v + c e₁))`,
+  `x₀¹ = 0`, issue from `edge(S) = {t = 0, x¹ = 0}`.
+- On `ℝ^{1+1}` with `−dt² + (1 + t|t|^α) dx²`, `0 < α < 1` (§F1.3), the metric is `C¹` and not
+  `C^{1,1}`; this section applies to its domains of dependence, while §C4 does not.
+- For merely continuous (Hölder) metrics Chruściel–Grant construct causal bubbles, open sets in
+  `J^+(p) \ closure (I^+(p))`; the push-up and boundary statements need the locally Lipschitz
+  hypothesis.
+
+*Needs:* §F1.4, §F2.1–§F2.2, §C2.2–§C2.3, §C3.2, §C6.1–§C6.2, §C6.6; Filippov solutions of differential inclusions as specified here.
+
 ### C7 Focusing and singularity theorems
 
 #### C7.1 Lorentzian index and maximizing consequences
@@ -1775,7 +1982,12 @@ geodesically incomplete (O'Neill, Ch. 14; Penrose 1965).
 
 - A hyperbolic-PDE roadmap (wave equations on Lorentzian manifolds, symmetric hyperbolic
   systems, domains of dependence and finite speed of propagation, the compressible Euler
-  equations and their acoustical metric) consumes §F1–§F3, §C1–§C3 and §C6.2.
+  equations and their acoustical metric) consumes §F1–§F3, §C1–§C3, §C6.2 and §C6.6–§C6.7.
+  It owns the fluid side: equations of state and sound speed, states of class `C¹` on
+  non-open sets, initial and characteristic data, developments (sets `D` with
+  `D = D^+_D(S)` for the acoustical metric of §C1.3 built from the solution itself), their
+  uniqueness and maximal developments, and local well-posedness. It also proves that a
+  hypersurface is characteristic for `□_g` iff it is null in the sense of §C3.2.
 - General-relativity roadmaps (the Cauchy problem for the Einstein equations, black holes,
   Cauchy horizons, `C^0`-extendibility statements) consume §F1.5–§F1.7, §C1–§C3, §C6.2
   and §C6.4.
@@ -1829,6 +2041,16 @@ geodesically incomplete (O'Neill, Ch. 14; Penrose 1965).
 - P. T. Chruściel, *Elements of causality theory*, arXiv:1110.6706.
 - P. T. Chruściel, J. D. E. Grant, *On Lorentzian causality with continuous metrics*, Class.
   Quantum Grav. 29 (2012) 145001.
+- J. D. E. Grant, M. Kunzinger, C. Sämann, R. Steinbauer, *The future is not always open*,
+  Lett. Math. Phys. 110 (2020) 83–103.
+- A. Lange, A. Lytchak, C. Sämann, *Lorentz meets Lipschitz*, Adv. Theor. Math. Phys. 25
+  (2021): maximal causal curves of
+  Lipschitz metrics as Filippov geodesics.
+- M. Graf, E. Ling, *Maximizers in Lipschitz spacetimes are either timelike or null*, Class.
+  Quantum Grav. 35 (2018) 087001.
+- A. F. Filippov, *Differential Equations with Discontinuous Righthand Sides*, Kluwer (1988).
+- D. Christodoulou, *The Formation of Shocks in 3-Dimensional Fluids*, EMS (2007): acoustical
+  metrics and developments of compressible Euler data, the model consumer of §C1.3 and §C6.6.
 - R. Geroch, *Domain of dependence*, J. Math. Phys. 11 (1970) 437–449.
 - A. N. Bernal, M. Sánchez, *On smooth Cauchy hypersurfaces and Geroch's splitting theorem*,
   Comm. Math. Phys. 243 (2003) 461–470; *Smoothness of time functions and the metric splitting

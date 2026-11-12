@@ -21,8 +21,11 @@ identification with Tau Ceti's
 `TauCeti.Manifold.ContMDiffNondegenerateMetric` (§F1.2), `C^k`-extensions (§F1.7), time
 orientations and time-oriented metrics (§C2.1), causal curves and the causal relations (§C2.2,
 §C2.3), null hypersurfaces and optical functions (§C3.2), and the global-hyperbolicity and
-Cauchy-surface definitions with Geroch's theorem (§C6), and conformal transport of time
-orientations, causal relations and global causal predicates (§C2.4, §C6.5). The inverse metric, optical
+Cauchy-surface definitions with Geroch's theorem (§C6), conformal transport of time
+orientations, causal relations and global causal predicates (§C2.4, §C6.5), the pointwise
+acoustical form (§C1.3), future timelike Lipschitz curves (§C2.2), and causal curves,
+past-inextendibility and future domains of dependence inside an arbitrary subset, with the
+slab and determination theorems (§C6.6). The inverse metric, optical
 functions, null hypersurfaces and extension definitions use the shared carrier at every
 signature. The prose milestones concern finite and smooth orders `k ≤ ∞` on smooth manifolds.
 The pairing carrier and strong musical inverse use arbitrary normed model spaces; local
@@ -51,7 +54,8 @@ normal-neighbourhood targets of §F2.4, are specified in the README. Smooth flow
 regularity theorem about the single locally Lipschitz flow of §F2.2. Curve domains require
 `a < b`, and §F2.1 distinguishes admissible reparametrizations and geodesic images.
 The optical-function predicate at a corner does not assert a foliation there; that theorem
-uses the separate boundary-stratum conditions of §C3.2.
+uses the separate boundary-stratum conditions of §C3.2. The `C¹` achronal-boundary and horizon theorems
+of §C6.7 are specified in the README.
 -/
 
 @[expose] public section
@@ -157,6 +161,47 @@ theorem minkowskiForm_self (E : Type*) [NormedAddCommGroup E] [InnerProductSpace
 theorem isLorentzian_minkowskiForm (E : Type*) [NormedAddCommGroup E] [InnerProductSpace ℝ E]
     [FiniteDimensional ℝ E] : IsLorentzian (minkowskiForm E) := by
   sorry
+
+section Acoustical
+
+variable (F : Type*) [NormedAddCommGroup F] [InnerProductSpace ℝ F]
+
+/-- **§C1.3.** The linear change of frame `(a, X) ↦ (c a, X - a v)` relating the acoustical
+form to `minkowskiForm`. -/
+def acousticalShear (c : ℝ) (v : F) : ℝ × F →ₗ[ℝ] ℝ × F :=
+  LinearMap.prod (c • LinearMap.fst ℝ ℝ F)
+    (LinearMap.snd ℝ ℝ F - (LinearMap.fst ℝ ℝ F).smulRight v)
+
+/-- **§C1.3.** The acoustical form at one point of `ℝ × F`, for sound speed `c` and velocity
+`v`: `-c² a b + ⟪X - a v, Y - b v⟫`, i.e. `-c² dt² + |dx - v dt|²`. -/
+def acousticalForm (c : ℝ) (v : F) : LinearMap.BilinForm ℝ (ℝ × F) :=
+  (minkowskiForm F).compl₁₂ (acousticalShear F c v) (acousticalShear F c v)
+
+variable {F}
+
+theorem acousticalForm_apply (c : ℝ) (v : F) (x y : ℝ × F) :
+    acousticalForm F c v x y =
+      -(c ^ 2 * (x.1 * y.1)) + inner ℝ (x.2 - x.1 • v) (y.2 - y.1 • v) := by
+  simp [acousticalForm, acousticalShear, minkowskiForm]
+  ring
+
+/-- **§C1.3.** `B = ∂_t + v` pairs with `X` to `-c² dt(X)`. -/
+theorem acousticalForm_apply_flow (c : ℝ) (v : F) (x : ℝ × F) :
+    acousticalForm F c v x (1, v) = -(c ^ 2 * x.1) := by
+  simp [acousticalForm_apply]
+
+/-- **§C1.3.** The acoustical form is Lorentzian wherever the sound speed is nonzero. -/
+theorem isLorentzian_acousticalForm [FiniteDimensional ℝ F] {c : ℝ} (hc : c ≠ 0) (v : F) :
+    IsLorentzian (acousticalForm F c v) := by
+  sorry
+
+/-- **§C1.3.** `∂_t + Y` is causal iff `|Y - v| ≤ c`: the causal-curve condition of a
+`t`-parametrized curve. -/
+theorem isCausal_acousticalForm_iff {c : ℝ} (hc : 0 < c) (v Y : F) :
+    IsCausal (acousticalForm F c v) ((1 : ℝ), Y) ↔ ‖Y - v‖ ≤ c := by
+  sorry
+
+end Acoustical
 
 /-! ## §F2.2: local coefficient ODE in Banach spaces -/
 
@@ -451,6 +496,13 @@ def IsFutureCausalCurve (τ : TimeOrientation g) (γ : ℝ → M) (a b : ℝ) : 
     ∀ᵐ t ∂(volume.restrict (Icc a b)),
       MDifferentiableAt 𝓘(ℝ, ℝ) I γ t ∧ τ.IsFutureCausal (mfderiv 𝓘(ℝ, ℝ) I γ t 1)
 
+/-- **§C2.2.** A future-directed timelike Lipschitz curve on `[a, b]`, `a < b`: locally
+Lipschitz, with future-directed timelike velocity at almost every parameter. -/
+def IsFutureTimelikeLipschitzCurve (τ : TimeOrientation g) (γ : ℝ → M) (a b : ℝ) : Prop :=
+  a < b ∧ IsLocallyLipschitzCurveOn (I := I) γ (Icc a b) ∧
+    ∀ᵐ t ∂(volume.restrict (Icc a b)),
+      MDifferentiableAt 𝓘(ℝ, ℝ) I γ t ∧ τ.IsFutureTimelike (mfderiv 𝓘(ℝ, ℝ) I γ t 1)
+
 /-- **§C2.3.** The chronological future `I⁺(p)`. -/
 def chronologicalFuture (τ : TimeOrientation g) (p : M) : Set M :=
   {q | ∃ γ a b, γ a = p ∧ γ b = q ∧ IsFutureTimelikeCurve τ γ a b}
@@ -560,6 +612,105 @@ theorem isGloballyHyperbolic_iff_exists_isCauchySurface [I.Boundaryless] [T2Spac
   sorry
 
 end LorentzianMetric
+
+/-! ### §C6.6: causal curves and domains of dependence inside a subset -/
+
+/-- **§C6.6.** A Lorentzian form field and a timelike vector field, both continuous on the
+subset `D` and Lorentzian, resp. timelike, at its points. Values off `D` are never used. The
+manifold may have boundary or corners and `D` need not be open. -/
+structure TimeOrientedLorentzianFieldOn (D : Set M) where
+  /-- The pointwise bilinear forms. -/
+  form : (x : M) → TangentSpace I x →L[ℝ] TangentSpace I x →L[ℝ] ℝ
+  /-- The form field is continuous on `D`. -/
+  continuousOn_form : ContinuousOn (fun x ↦ TotalSpace.mk' (E →L[ℝ] E →L[ℝ] ℝ)
+    (E := fun x : M ↦ TangentSpace I x →L[ℝ] TangentSpace I x →L[ℝ] ℝ) x (form x)) D
+  /-- It is Lorentzian at the points of `D`. -/
+  isLorentzian : ∀ x ∈ D, IsLorentzian (form x).toBilinForm
+  /-- The time-orienting vector field. -/
+  timeField : (x : M) → TangentSpace I x
+  /-- The time field is continuous on `D`. -/
+  continuousOn_timeField :
+    ContinuousOn (fun x ↦ TotalSpace.mk' E (E := TangentSpace I) x (timeField x)) D
+  /-- It is timelike at the points of `D`. -/
+  isTimelike : ∀ x ∈ D, IsTimelike (form x).toBilinForm (timeField x)
+
+namespace TimeOrientedLorentzianFieldOn
+
+variable {D : Set M} (𝔤 : TimeOrientedLorentzianFieldOn (I := I) D)
+
+/-- **§C6.6.** Restriction to a smaller subset. -/
+def mono {D' : Set M} (h : D' ⊆ D) : TimeOrientedLorentzianFieldOn (I := I) D' where
+  form := 𝔤.form
+  continuousOn_form := 𝔤.continuousOn_form.mono h
+  isLorentzian x hx := 𝔤.isLorentzian x (h hx)
+  timeField := 𝔤.timeField
+  continuousOn_timeField := 𝔤.continuousOn_timeField.mono h
+  isTimelike x hx := 𝔤.isTimelike x (h hx)
+
+/-- **§C6.6.** A future-directed causal vector: causal and pairing negatively with the time
+field. -/
+def IsFutureCausal {x : M} (v : TangentSpace I x) : Prop :=
+  IsCausal (𝔤.form x).toBilinForm v ∧ 𝔤.form x v (𝔤.timeField x) < 0
+
+/-- **§C6.6.** A future-directed causal curve in `D` on an interval `J` (possibly a point,
+open, closed or half-open, bounded or not): locally Lipschitz, with values in `D` and future
+causal velocity at almost every parameter. -/
+def IsFutureCausalCurveIn (γ : ℝ → M) (J : Set ℝ) : Prop :=
+  J.OrdConnected ∧ MapsTo γ J D ∧ LorentzianMetric.IsLocallyLipschitzCurveOn (I := I) γ J ∧
+    ∀ᵐ t ∂(volume.restrict J),
+      MDifferentiableAt 𝓘(ℝ, ℝ) I γ t ∧ 𝔤.IsFutureCausal (mfderiv 𝓘(ℝ, ℝ) I γ t 1)
+
+/-- **§C6.6.** Past-inextendible in `D`: at a least parameter no nontrivial future causal curve
+in `D` ends at its value; with no least parameter, no past limit in `D`. -/
+def IsPastInextendibleIn (γ : ℝ → M) (J : Set ℝ) : Prop :=
+  (∀ a, IsLeast J a → ¬ ∃ (γ' : ℝ → M) (a' : ℝ),
+      a' < a ∧ 𝔤.IsFutureCausalCurveIn γ' (Icc a' a) ∧ γ' a = γ a) ∧
+    ((BddBelow J ∧ ¬ ∃ a, IsLeast J a) →
+      ¬ ∃ p ∈ D, Tendsto γ (𝓝[J] (sInf J)) (𝓝 p)) ∧
+    (¬ BddBelow J → ¬ ∃ p ∈ D, Tendsto γ atBot (𝓝 p))
+
+/-- **§C6.6.** The future domain of dependence `D⁺_D(S)` of `S` in `D`: the points `p ∈ D`
+such that every future causal curve in `D` ending at `p` and past-inextendible in `D`
+meets `S`. -/
+def futureDomainOfDependenceIn (S : Set M) : Set M :=
+  {p | p ∈ D ∧ ∀ (γ : ℝ → M) (J : Set ℝ) (b : ℝ), IsGreatest J b → γ b = p →
+    𝔤.IsFutureCausalCurveIn γ J → 𝔤.IsPastInextendibleIn γ J → ∃ t ∈ J, γ t ∈ S}
+
+omit [FiniteDimensional ℝ E] in
+theorem futureDomainOfDependenceIn_subset (S : Set M) :
+    𝔤.futureDomainOfDependenceIn S ⊆ D :=
+  fun _ hp ↦ hp.1
+
+omit [FiniteDimensional ℝ E] in
+/-- **§C6.6.** `S ∩ D ⊆ D⁺_D(S)`. -/
+theorem inter_subset_futureDomainOfDependenceIn (S : Set M) :
+    S ∩ D ⊆ 𝔤.futureDomainOfDependenceIn S := by
+  intro p hp
+  refine ⟨hp.2, fun γ J b hb hγb _ _ ↦ ⟨b, hb.1, ?_⟩⟩
+  rw [hγb]
+  exact hp.1
+
+/-- **§C6.6.** A time function on `D`: strictly increasing along future causal curves in `D`. -/
+def IsTimeFunctionOn (t : M → ℝ) : Prop :=
+  ∀ γ J, 𝔤.IsFutureCausalCurveIn γ J → StrictMonoOn (t ∘ γ) J
+
+/-- **§C6.6, slabs.** In a region above the level `t₀` of a time function, the domain of
+dependence of a subset of that level meets the level only in the subset. -/
+theorem futureDomainOfDependenceIn_inter_level {t : M → ℝ} (ht : 𝔤.IsTimeFunctionOn t)
+    {t₀ : ℝ} (hD : D ⊆ {x | t₀ ≤ t x}) {S : Set M} (hS : S ⊆ {x | t x = t₀}) :
+    𝔤.futureDomainOfDependenceIn S ∩ {x | t x = t₀} = S ∩ D := by
+  sorry
+
+/-- **§C6.6, determination.** For `S` closed in an open `U`, the domain of dependence
+`D⁺_U(S)` is its own domain of dependence of `S`. -/
+theorem futureDomainOfDependenceIn_self [I.Boundaryless] {U : Set M}
+    (𝔲 : TimeOrientedLorentzianFieldOn (I := I) U) (hU : IsOpen U) {S C : Set M}
+    (hC : IsClosed C) (hS : S = C ∩ U) :
+    (𝔲.mono (𝔲.futureDomainOfDependenceIn_subset S)).futureDomainOfDependenceIn S =
+      𝔲.futureDomainOfDependenceIn S := by
+  sorry
+
+end TimeOrientedLorentzianFieldOn
 
 end Manifold
 
