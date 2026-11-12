@@ -6,13 +6,11 @@ public import TauCeti.ModelTheory.Infinitary.LanguageMap
 public import TauCeti.ModelTheory.ModelExistence.Types
 
 /-!
-# Ehrenfeucht–Mostowski models and Hanf numbers for Lω₁ω: suggested signatures
+# Ehrenfeucht–Mostowski models and Hanf numbers for Lω₁ω: target signatures
 
-**`README.md` is the definitive roadmap document** — its narrative plan, layer-by-layer build
-(Layers 0–5), conventions, worked examples, and references are the specification. This file is
-**not** the roadmap and is **not exhaustive**: it records suggested Lean `sorry`-forms (allowed in
-this human-owned roadmap library) for *particular* milestones, so that contributors and reviewers
-converge on names and signatures; discharging every statement here neither finishes a layer nor
+**This file is not the roadmap and is not exhaustive.** The definitive specification is
+`README.md`. The statements here suggest Lean forms for the milestones, so that contributors and
+reviewers converge on names and signatures; discharging all of them finishes neither a layer nor
 the roadmap.
 
 Everything is stated over the pinned Tau Ceti library: the infinitary syntax and satisfaction of
@@ -25,7 +23,6 @@ and the Ehrenfeucht–Mostowski term model `EM(J, Φ)` are constructions specifi
 only, so the targets about them (`realize_em_iff`, `isSkolemTemplate_templateOf`, `isEMSource_em`,
 `exists_total_of_cofinallyApproximated`, `isSkolemTemplate_of_approximated`) have no signature
 here; the source and stretching theorems are stated here semantically.
-Names are provisional.
 -/
 
 @[expose] public section

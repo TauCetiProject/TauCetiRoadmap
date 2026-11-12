@@ -954,7 +954,7 @@ The following belong to separate roadmaps.
   omitting types, downward Löwenheim–Skolem, types and isolation, Morleyization, PC classes,
   interpolation and the well-ordering applications. Consumed here only through the IME sections
   listed under [Existing library and ownership](#existing-library-and-ownership).
-- **[CountableStructureSpaces](../CountableStructureSpaces/README.md) ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)), [BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md) and [CountableModelCounting](../CountableModelCounting/README.md)**: spaces of
+- **[CountableStructureSpaces](../CountableStructureSpaces/README.md), [BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md) and [CountableModelCounting](../CountableModelCounting/README.md)**: spaces of
   countable structures, López–Escobar, Borel equivalence relations, and counting countable models,
   including Morley's counting theorem and Vaught's conjecture.
 - The general Glimm–Effros dichotomy of Harrington, Kechris and Louveau and Gandy–Harrington
