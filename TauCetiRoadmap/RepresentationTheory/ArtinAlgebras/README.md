@@ -179,7 +179,9 @@ The baseline is Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti
   preadditive category: uniqueness `CategoryTheory.ShortComplex.IsAlmostSplit.nonempty_iso`
   (`TauCeti.CategoryTheory.AlmostSplit.Uniqueness`), the irreducible maps into the right-hand end
   `CategoryTheory.ShortComplex.IsAlmostSplit.isIrreducibleMorphism_iff_exists_isSplitMono`
-  (`TauCeti.CategoryTheory.AlmostSplit.Components`), and
+  (`TauCeti.CategoryTheory.AlmostSplit.Components`), the isomorphism of two right minimal right
+  almost-split maps `TauCeti.IsRightAlmostSplit.exists_iso_of_minimal`
+  (`TauCeti.CategoryTheory.AlmostSplit.Minimal`, in any category), and
   `CategoryTheory.ShortComplex.IsAlmostSplit.rightRadicalQuotientEquiv` and
   `CategoryTheory.ShortComplex.IsAlmostSplit.leftRadicalQuotientEquiv`
   (`TauCeti.CategoryTheory.AlmostSplit.RadicalQuotient`), the last three for end terms with local
@@ -785,7 +787,17 @@ indecomposable in any preadditive category with binary biproducts (Tau Ceti
 `TauCeti.IsLeftAlmostSplit.indecomposable`, `TauCeti.IsRightAlmostSplit.indecomposable`). In a
 balanced preadditive category an almost-split sequence is determined by its right-hand end
 (`CategoryTheory.ShortComplex.IsAlmostSplit.nonempty_iso`); the target is the same uniqueness, at
-either end, for conflations of an exact category, which need not be balanced.
+either end, for conflations of an exact category, which need not be balanced. The route: for
+composable `f : A ⟶ B` and `g : B ⟶ C` such that `Hom(B, A) → Hom(B, B) → Hom(B, C)` is exact, for
+instance when `f` is a weak kernel of `g`, `g` is right minimal exactly when `f` lies in the radical
+`TauCeti.jacobsonRadical A B` ([ABM, 2.5, Lemma, p. 25], for weak kernels in a Krull-Schmidt
+category; [JK, Lemma 1.1], stated for `mod Λ`, with a proof valid in any additive category), and
+dually for left minimality. The inflation of an almost-split conflation is a kernel of its deflation
+and lies in the radical, since it is not a split monomorphism and its source has a local
+endomorphism ring. So the deflations of two almost-split conflations ending at `Z` are right
+minimal, hence isomorphic over `Z` by Tau Ceti's `TauCeti.IsRightAlmostSplit.exists_iso_of_minimal`,
+and their kernels, the inflations, are then isomorphic; dually at the left end ([INP, Prop.
+2.6(1)–(2)], for extriangulated categories).
 
 **The extension-class criterion**. A conflation with
 indecomposable end terms is almost split exactly when its class is nonzero and is killed by pushout
@@ -1374,6 +1386,9 @@ Layers 0, 1 and 2.
 
 ## Sources and locators
 
+- [ABM] I. Assem, A. Beligiannis, N. Marmaridis, *Right triangulated categories with right
+  semi-equivalences*, in: Algebras and Modules II (Geiranger, 1996), CMS Conf. Proc. 24, Amer. Math.
+  Soc., Providence, RI, 1998, 17–37. 2.5, Lemma, p. 25 (right minimality and the radical).
 - [ARS] M. Auslander, I. Reiten, S. O. Smalø, *Representation Theory of Artin Algebras*, Cambridge
   Studies in Advanced Mathematics 36, Cambridge University Press (1995). Prop. II.2.1 and Thm. II.2.2,
   p. 33 (projectivization; indecomposables and local endomorphism rings); Thm. II.3.1, p. 37, and
@@ -1419,12 +1434,14 @@ Layers 0, 1 and 2.
 - M. Hoshino, *On dominant dimension of Noetherian rings*, Osaka J. Math. 26 (1989), 275–280. The
   flat version of dominant dimension; not read here.
 - [INP] O. Iyama, H. Nakaoka, Y. Palu, *Auslander-Reiten theory in extriangulated categories*,
-  arXiv:1805.03776v3. Example 1.14 (exact categories are extriangulated); Fact 1.20(1)–(3) (the
-  long exact sequences); Def. 1.21, p. 8, and Rem. 1.22, p. 9 (the ideals `𝒫` and `ℐ`); Thm. 2.9 and
-Prop. 2.10, p. 12 (almost-split extensions through left and right almost-split maps); Def. 3.4,
-  Thm. 3.6 and Prop. 3.7, p. 16 (duality and existence over a field); Def. 3.11(2) (the valuation
-  of the Auslander-Reiten quiver); §4.1 (the definition of `mod`), with the abelian criterion for
-  `mod`, attributed to Auslander, on p. 20.
+  arXiv:1805.03776v3. Example 1.14 (exact categories are extriangulated); Fact 1.20(1)–(3) (the long
+  exact sequences); Def. 1.21, p. 8, and Rem. 1.22, p. 9 (the ideals `𝒫` and `ℐ`); Prop. 2.6(1)–(2)
+  (uniqueness of almost-split extensions); Thm. 2.9 and Prop. 2.10, p. 12 (almost-split extensions
+  through left and right almost-split maps); Def. 3.4, Thm. 3.6 and Prop. 3.7, p. 16 (duality and
+  existence over a field); Def. 3.11(2) (the valuation of the Auslander-Reiten quiver); §4.1 (the
+  definition of `mod`), with the abelian criterion for `mod`, attributed to Auslander, on p. 20.
+- [JK] G. Jasso, S. Kvamme, *An introduction to higher Auslander-Reiten theory*, Bull. Lond. Math.
+  Soc. 51 (2019), 1–24, arXiv:1610.05458v2. Lemma 1.1 (right minimality and the radical).
 - [Kr] H. Krause, *Krull-Schmidt categories and projective covers*, Expo. Math. 33 (2015), 535–549,
   arXiv:1410.2822v1. Prop. 2.3 and Rem. 2.4, p. 3 (`add X ≃ proj End(X)` under split idempotents;
   idempotent completion);
