@@ -19,11 +19,9 @@ are unique, so that no spectral measure has to be chosen.
 
 Headline theorems of the README that are not stated here, with the carrier each lacks:
 
-* uniqueness of equilibrium states for Hölder potentials on transitive subshifts of finite type and
-  on their suspension flows (README §§8.4–8.5): a subshift of finite type as a compact metric space
-  carrying its shift map, and the topological suspension space with the Bowen–Walters metric;
-  Mathlib's `Subshift` carries no metric, and its product metrics `PiNat.metricSpace` and
-  `PiCountable.metricSpace` are definitions, not instances.
+* uniqueness of equilibrium states for Hölder potentials on suspension flows over subshifts of
+  finite type (README §8.5): the topological suspension space with the Bowen–Walters metric, on
+  which the suspension flow is a `Flow ℝ`.
 -/
 
 noncomputable section
@@ -712,9 +710,9 @@ end Variational
 
 /-! ## Layer 8: Equilibrium states and measures of maximal entropy -/
 
-section Equilibrium
+section EquilibriumDefinitions
 
-variable {X : Type*} [MetricSpace X] [CompactSpace X] [MeasurableSpace X] [BorelSpace X]
+variable {X : Type*} [MeasurableSpace X] [UniformSpace X]
 
 /-- Layer 8.1: `ν` is an equilibrium state of `φ`: an invariant probability with
 `h_ν(T) + ∫ φ dν = P(T, φ)` in `EReal`. -/
@@ -728,6 +726,12 @@ def IsEquilibriumState (T : X → X) (φ : C(X, ℝ)) (ν : ProbabilityMeasure X
 def IsMeasureOfMaximalEntropy (T : X → X) (ν : ProbabilityMeasure X) : Prop :=
   ν ∈ invariantProbabilities T ∧
     (measureEntropy (ν : Measure X) T : EReal) = Dynamics.coverEntropy T univ
+
+end EquilibriumDefinitions
+
+section Equilibrium
+
+variable {X : Type*} [MetricSpace X] [CompactSpace X] [MeasurableSpace X] [BorelSpace X]
 
 /-- Layer 8.1: `ν` is an equilibrium state of a continuous flow: a flow-invariant probability with
 `h_ν(ϕ 1) + ∫ F dν` equal to the flow pressure. -/
@@ -801,10 +805,11 @@ def HasFlowSpecification (ϕ : Flow ℝ X) : Prop :=
         ∀ i, ∀ t ∈ Set.Icc (a i) (b i), dist (ϕ t y) (ϕ t (x i)) ≤ ε
 
 /-- Layer 8.5: the Bowen property of a potential for a flow: bounded variation of the integrals
-`∫_0^t F (ϕ s x) ds` on flow Bowen balls of some fixed radius. -/
+`∫_0^t F (ϕ s x) ds`, `t ≥ 0`, on flow Bowen balls of some fixed radius. -/
 def HasFlowBowenProperty (ϕ : Flow ℝ X) (F : X → ℝ) : Prop :=
-  ∃ ε > 0, ∃ K : ℝ, ∀ (t : ℝ) (x y : X), (∀ s ∈ Set.Icc 0 t, dist (ϕ s x) (ϕ s y) ≤ ε) →
-    |(∫ s in (0 : ℝ)..t, F (ϕ s x)) - ∫ s in (0 : ℝ)..t, F (ϕ s y)| ≤ K
+  ∃ ε > 0, ∃ K : ℝ, ∀ (t : ℝ) (x y : X), 0 ≤ t →
+    (∀ s ∈ Set.Icc 0 t, dist (ϕ s x) (ϕ s y) ≤ ε) →
+      |(∫ s in (0 : ℝ)..t, F (ϕ s x)) - ∫ s in (0 : ℝ)..t, F (ϕ s y)| ≤ K
 
 /-- Layer 8.5: the flow version of Bowen's theorem: for an expansive flow with specification,
 every potential with the flow Bowen property has exactly one flow equilibrium state. -/
@@ -827,6 +832,43 @@ def sftOneSided (A : ι → ι → Bool) : Set (ℕ → ι) :=
 /-- Layer 8.4: the shift `(σ x) n = x (n + 1)` on a one-sided subshift of finite type. -/
 def sftShift (A : ι → ι → Bool) (x : sftOneSided A) : sftOneSided A :=
   ⟨fun n => x.1 (n + 1), fun n => x.2 (n + 1)⟩
+
+/-- Layer 8.4: the two-sided subshift of finite type of sequences with `A (x n) (x (n + 1))`. -/
+def sftTwoSided (A : ι → ι → Bool) : Set (ℤ → ι) :=
+  {x | ∀ n, A (x n) (x (n + 1)) = true}
+
+/-- Layer 8.4: the shift `(σ x) n = x (n + 1)` on a two-sided subshift of finite type. -/
+def sftShiftTwoSided (A : ι → ι → Bool) (x : sftTwoSided A) : sftTwoSided A :=
+  ⟨fun n => x.1 (n + 1), fun n => x.2 (n + 1)⟩
+
+/-- Layer 8.4: for an irreducible transition matrix, every `d_θ`-Lipschitz potential on the
+two-sided subshift of finite type, a cylinder bound `C θ ^ n` for sequences agreeing on the
+coordinates `|k| < n`, has exactly one equilibrium state (Bowen's theorem on the pieces of the
+spectral decomposition). -/
+theorem existsUnique_isEquilibriumState_sftTwoSided [Nonempty ι] [DecidableEq ι]
+    [UniformSpace ι] [DiscreteUniformity ι] [MeasurableSpace ι] [MeasurableSingletonClass ι]
+    (A : ι → ι → Bool)
+    (hirr : ∀ i j, ∃ N : ℕ, 0 < N ∧
+      0 < ((Matrix.of fun i j => if A i j = true then (1 : ℝ) else 0) ^ N) i j)
+    {θ : ℝ} (hθ : θ ∈ Ioo 0 1) (φ : C(sftTwoSided A, ℝ))
+    (hφ : ∃ C : ℝ, ∀ x y : sftTwoSided A, ∀ n : ℕ,
+      (∀ k : ℤ, |k| < n → x.1 k = y.1 k) → |φ x - φ y| ≤ C * θ ^ n) :
+    ∃! ν, IsEquilibriumState (sftShiftTwoSided A) φ ν := by
+  sorry
+
+/-- Layer 8.4: for an irreducible transition matrix, every `d_θ`-Lipschitz potential on the
+one-sided subshift of finite type, a cylinder bound `C θ ^ n` for sequences agreeing on the
+coordinates `k < n`, has exactly one equilibrium state. -/
+theorem existsUnique_isEquilibriumState_sftOneSided [Nonempty ι] [DecidableEq ι]
+    [UniformSpace ι] [DiscreteUniformity ι] [MeasurableSpace ι] [MeasurableSingletonClass ι]
+    (A : ι → ι → Bool)
+    (hirr : ∀ i j, ∃ N : ℕ, 0 < N ∧
+      0 < ((Matrix.of fun i j => if A i j = true then (1 : ℝ) else 0) ^ N) i j)
+    {θ : ℝ} (hθ : θ ∈ Ioo 0 1) (φ : C(sftOneSided A, ℝ))
+    (hφ : ∃ C : ℝ, ∀ x y : sftOneSided A, ∀ n : ℕ,
+      (∀ k < n, x.1 k = y.1 k) → |φ x - φ y| ≤ C * θ ^ n) :
+    ∃! ν, IsEquilibriumState (sftShift A) φ ν := by
+  sorry
 
 /-- Layer 8.6: the sequence `(i, x 0, x 1, …)`. -/
 def consSeq (i : ι) (x : ℕ → ι) : ℕ → ι

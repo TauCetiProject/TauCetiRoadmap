@@ -170,11 +170,14 @@ representation comparisons in §0.6; on compact metrizable spaces every Borel pr
 **Separated sets and Bowen balls.** On a compact metric space the dynamical entourages are
 Mathlib's `Dynamics.dynEntourage T U n`; for metric statements use `U = {p | dist p.1 p.2 < ε}`,
 so `B_n(x,ε) = {y | ∀ k < n, dist (T^[k] x) (T^[k] y) < ε}` (strict inequality, `n` points of the
-orbit). An `(n,ε)`-separated set is Mathlib's `Dynamics.IsDynNetIn T Set.univ U n s`. For a flow,
-`B_t(x,ε) = {y | ∀ s ∈ Set.Icc 0 t, dist (ϕ s x) (ϕ s y) < ε}`.
+orbit). An `(n,ε)`-separated set is Mathlib's `Dynamics.IsDynNetIn T Set.univ U n s`. For a flow
+and `t ≥ 0`, `B_t(x,ε) = {y | ∀ s ∈ Set.Icc 0 t, dist (ϕ s x) (ϕ s y) < ε}`.
 
 **Potentials.** A potential is a continuous `φ : X → ℝ` on a compact space (Mathlib's `C(X, ℝ)`).
-Hölder hypotheses are written with Mathlib's `HolderWith C r φ`, not a new predicate.
+Hölder hypotheses are written with Mathlib's `HolderWith C r φ`, not a new predicate. A subshift
+carries the product uniformity and no metric instance, so there a `d_θ`-Lipschitz potential is
+written as the cylinder bound `|φ x - φ y| ≤ C θ ^ n` whenever `x` and `y` agree on the coordinates
+`|k| < n` (`k < n` one-sided); an `r`-Hölder potential for `d_θ` is `d_(θ ^ r)`-Lipschitz.
 
 ## Exact supplier contracts
 
@@ -413,16 +416,18 @@ in Layer 1.4.
 2. **Bernoulli shifts.** One-sided: Tau Ceti `shift α` on `ℕ → α` with `Measure.infinitePi
    (fun _ => p)`. Two-sided: the left shift on `ℤ → α` with the same product, as an invertible
    system. Define `bernoulliShift p` and `bernoulliShiftTwoSided p` for `p : Measure α` with
-   `[IsProbabilityMeasure p]` and any measurable `α`. For every countable discrete group `G`,
+   `[IsProbabilityMeasure p]` and any measurable `α` (the one-sided Bernoulli measure of a finite
+   alphabet: Sarig2023, Definition 1.6, p. 10). For every countable discrete group `G`,
    construct the Bernoulli action on `G → α` with product probability and
    `(g • x) h = x (g⁻¹ * h)`. Prove preservation by permutation of coordinates, identify its
    finite-coordinate cylinders, and give the ℤ and ℤᵈ specializations. Use Mathlib's shift
    vocabulary, with an explicit inverse/opposite-action conversion when its convention differs.
 3. **Markov shifts.** For a Markov kernel `κ` on a countable `S` with an invariant probability
    `π` (`ProbabilityTheory.Kernel.Invariant κ π`), the stationary chain law
-   `markovChainLaw π κ` on `ℕ → S` is shift invariant. Define `markovShift κ π` and its two-sided
-   extension on `ℤ → S` by Tau Ceti's countable projective-limit theorem applied to the stationary
-   finite-dimensional laws. Identify these concrete examples with natural extensions in §0.7.
+   `markovChainLaw π κ` on `ℕ → S` is shift invariant (Sarig2023, Proposition 1.8, p. 12, for
+   finite `S`). Define `markovShift κ π` and its two-sided extension on `ℤ → S` by Tau Ceti's
+   countable projective-limit theorem applied to the stationary finite-dimensional laws. Identify
+   these concrete examples with natural extensions in §0.7.
 4. **Toral endomorphisms.** For `A : Matrix (Fin d) (Fin d) ℤ` with `A.det ≠ 0`, define
    `toralEndomorphism A : UnitAddTorus (Fin d) → UnitAddTorus (Fin d)` by the induced action on
    `ℝ^d / ℤ^d`. It preserves the Haar probability `volume`. For `A.det = ±1` it is a measurable
@@ -647,9 +652,10 @@ refinement of the filter. Specialize to `IterateMulAct T` along `atTop` to recov
 
 - The filter for a discrete infinite group is `cofinite`; the map case uses `atTop`.
 - Mixing along `⊥` is vacuous, so the ergodicity implication carries `NeBot`.
-- Along `pure m₀`, mixing gives `μ (B ∩ (m₀ • ·) ⁻¹' B) = μ B ^ 2` for `A = (m₀ • ·) ⁻¹' B`,
-  and invariance turns the left side into `μ B`, so `μ B ∈ {0, 1}` for every measurable `B`: such
-  a measure is weakly mixing, as the implication from mixing along a nontrivial filter requires.
+- Along `pure m₀`, mixing with `A = (m₀ • ·) ⁻¹' B` gives
+  `μ ((m₀ • ·) ⁻¹' B) = μ ((m₀ • ·) ⁻¹' B) * μ B`, and invariance turns this into `μ B = μ B ^ 2`,
+  so `μ B ∈ {0, 1}` for every measurable `B`: such a measure is weakly mixing, as the implication
+  from mixing along a nontrivial filter requires.
 
 *Needs:* §§0.1–0.2; Mathlib measure-preserving products, π-systems and `Lp`.
 
@@ -1086,8 +1092,9 @@ applied to `{r ≥ 1/n}`. On `X₀` define the suspension space
 `(∫ r dμ)⁻¹ • (μ₀.prod volume).restrict _`, transported to the subtype, where `μ₀` is the
 restriction of `μ` to `X₀`, and the suspension flow: `t +ᵥ (x, s) = (T^n x,
 s + t - S_n r x)` for the unique `n : ℤ` putting the second coordinate in `[0, r (T^n x))`, where
-`S_n r` is the cocycle of Birkhoff sums extended to negative `n`. Prove that this is a measurable
-flow preserving the probability, and:
+`S_n r` is the cocycle of Birkhoff sums extended to negative `n` (Sarig2023, Definition 1.20,
+p. 30, gives the semiflow over a base that need not be invertible, for roofs with `inf r > 0`).
+Prove that this is a measurable flow preserving the probability, and:
 
 1. the flow is ergodic iff `T` is ergodic;
 2. `α` is a frequency of an eigenfunction iff there is a measurable `g : X → ℂ`, not almost
@@ -1283,13 +1290,18 @@ martingale convergence, `condExpKernel`.
 
 Prove:
 
-1. invariance under isomorphism mod 0, and `h_ν(S) ≤ h_μ(T)` for a factor;
-2. `h_μ(T^[k]) = k * h_μ(T)` for `k ≥ 1`, and `h_μ(T.symm) = h_μ(T)` for invertible `T`;
-3. `h_{μ.prod ν}(Prod.map T S) = h_μ(T) + h_ν(S)`;
+1. invariance under isomorphism mod 0 (Sarig2023, Problem 4.3, p. 130), and `h_ν(S) ≤ h_μ(T)`
+   for a factor;
+2. `h_μ(T^[k]) = k * h_μ(T)` for `k ≥ 1`, and `h_μ(T.symm) = h_μ(T)` for invertible `T`
+   (Sarig2023, Problems 4.4–4.5, p. 130);
+3. `h_{μ.prod ν}(Prod.map T S) = h_μ(T) + h_ν(S)` (Sarig2023, Problem 4.12, p. 131);
 4. finite affinity: `h_{a μ + (1 - a) ν}(T) = a h_μ(T) + (1 - a) h_ν(T)` for invariant
-   probabilities `μ`, `ν` and `a ∈ [0, 1]` (`ℝ≥0∞` arithmetic);
-5. `h_μ(T, ξ) ≤ H_μ(ξ)`, with equality for finite `ξ` iff the labels `ξ ∘ T^[k]` are independent;
-6. continuity of `h_μ(T, ·)` in the Rokhlin distance `H(ξ | η) + H(η | ξ)` on finite partitions.
+   probabilities `μ`, `ν` and `a ∈ [0, 1]` (`ℝ≥0∞` arithmetic; Sarig2023, Problem 4.6, p. 130);
+5. `h_μ(T, ξ) ≤ H_μ(ξ)`, with equality for finite `ξ` iff the labels `ξ ∘ T^[k]` are independent
+   (from `H(ξ ∨ η) ≤ H(ξ) + H(η)` with equality iff `ξ`, `η` are independent: Sarig2023,
+   Proposition 4.3, p. 106);
+6. continuity of `h_μ(T, ·)` in the Rokhlin distance `H(ξ | η) + H(η | ξ)` on finite partitions
+   (Sarig2023, Problem 4.8, p. 130).
 
 **Checks.**
 
@@ -1624,14 +1636,16 @@ Mathlib's `coverEntropy T univ` is the topological entropy. Add, for a compact m
    uniformity);
 2. the open-cover (Adler–Konheim–McAndrew) definition `openCoverEntropy T` on nonempty compact
    Hausdorff spaces, and its equality with `coverEntropy T univ` for the compatible compact
-   uniformity; specialize to the metric formulas in item 1;
-3. `coverEntropy (T^[k]) univ = k * coverEntropy T univ` for `k ≥ 1`;
-   `coverEntropy T.symm univ = coverEntropy T univ` for a homeomorphism; additivity on products;
-   monotonicity under topological factors (Mathlib's `Semiconj` results);
-4. isometries have entropy 0; the full shift on `ℕ → α` or `ℤ → α`, `α` finite, has entropy
-   `log (card α)`; a one-step subshift of finite type whose `0`-`1` transition matrix `M` has no
-   zero row has entropy `log (spectralRadius ℝ M)` (count admissible words by entries of `M^n` and apply
-   `spectrum.gelfand_formula`);
+   uniformity; specialize to the metric formulas in item 1 (on a compact metric space the
+   open-cover and separated-set forms agree: Sarig2023, Definitions 4.5–4.7 and Theorem 4.8,
+   pp. 119–121);
+3. `coverEntropy (T^[k]) univ = k * coverEntropy T univ` for `k ≥ 1` (Sarig2023, Problem 4.13,
+   p. 131); `coverEntropy T.symm univ = coverEntropy T univ` for a homeomorphism; additivity on
+   products; monotonicity under topological factors (Mathlib's `Semiconj` results);
+4. isometries have entropy 0 (Sarig2023, proof of Corollary 4.1, p. 122); the full shift on
+   `ℕ → α` or `ℤ → α`, `α` finite, has entropy `log (card α)`; a one-step subshift of finite type
+   whose `0`-`1` transition matrix `M` has no zero row has entropy `log (spectralRadius ℝ M)` (count
+   admissible words by entries of `M^n` and apply `spectrum.gelfand_formula`);
 5. `coverEntropy (toralEndomorphism A) univ ≤ ∑_{|λ|>1} log |λ|` by counting spanning sets in a
    fundamental domain.
 
@@ -1763,19 +1777,23 @@ with §0.5's separated/spanning formulations, independently of the compatible me
 
 For `φ : C(X, ℝ)` on a compact metrizable `X`, use weights `exp(∑ g ∈ F, φ(g • x))` and define
 `actionTopologicalPressure G φ : EReal` by normalized separated-set sums (`actionPressureNetSum`,
-along a family of windows `actionPressureAlong`), with the scale tending
-to zero. Construct the weighted open-cover version, prove the finite-window comparison estimates,
-and apply the limit lemma to weighted covers after adding a constant to make the potential
-nonnegative. Prove equality of the cover, separated and spanning definitions and independence
-of Følner family. In particular the scale limit of limsup agrees with that of liminf; a fixed
-separation scale is not asserted to have a limit without further hypotheses.
+along a family of windows `actionPressureAlong`), with the scale tending to zero (Chung2013, §3,
+pp. 8–9, gives the cover and separated-set forms along a left Følner sequence). Construct the
+weighted open-cover version, prove the finite-window comparison estimates, and apply the limit lemma to
+weighted covers after adding a constant to make the potential nonnegative. Prove equality of the
+cover, separated and spanning definitions and independence of Følner family. In particular the scale
+limit of limsup agrees with that of liminf; a fixed separation scale is not asserted to have a limit
+without further hypotheses.
 
 Prove pressure at zero equals entropy, potential monotonicity, addition of constants, the
-finite-valued Lipschitz bound and convexity, and conjugacy invariance. Prove invariance under
-adding `ψ ∘ (g • ·) - ψ` for a fixed `g`, using the Følner boundary estimate; include finite sums
-of such coboundaries. Prove entropy factor monotonicity and product additivity. The ℤ-action of a
-homeomorphism agrees with the map definitions in §§5.2 and 5.4. For infinite `G`, the finite-alphabet
-full shift has entropy `log #α` and a coordinate potential has pressure `log ∑ a, exp(φ a)`.
+finite-valued Lipschitz bound and convexity, and conjugacy invariance. Prove invariance under adding
+`ψ ∘ (g • ·) - ψ` for a fixed `g`, using the Følner boundary estimate; include finite sums of such
+coboundaries. (Chung2013, Proposition 6.1, pp. 23–24, proves all of these but conjugacy invariance
+for sofic pressure, which is this pressure for amenable `G` by Chung2013, Theorem 1.1, p. 2; for
+amenable `G` it cites MoulinOllagnier1985, Corollary 5.2.6.) Prove entropy factor monotonicity and
+product additivity. The ℤ-action of a homeomorphism agrees with the map definitions in §§5.2 and
+5.4. For infinite `G`, the finite-alphabet full shift has entropy `log #α` and a coordinate
+potential has pressure `log ∑ a, exp(φ a)` (Chung2013, Theorem 5.3, p. 21, with Theorem 1.1, p. 2).
 
 **Checks.**
 
@@ -1832,15 +1850,15 @@ GeometryOfNumbersAndQuadraticArithmetic §4.2.
 ### 6.2 Upper semicontinuity of the entropy map
 
 Prove that `ν ↦ h_ν(T)` is upper semicontinuous on `invariantProbabilities T` for expansive
-homeomorphisms and positively expansive maps. Route: given `ν`, take a generator `ξ` with
-`ν`-null boundaries; then `ν' ↦ H_ν'(ξ^n)` is continuous at `ν`, and
+homeomorphisms (Walters1982, Chapter 8) and positively expansive maps. Route: given `ν`, take a
+generator `ξ` with `ν`-null boundaries; then `ν' ↦ H_ν'(ξ^n)` is continuous at `ν`, and
 `h_ν'(T) = inf_n H_ν'(ξ^n)/n` is an infimum of functions continuous at `ν`.
 
-Prove **Jacobs' theorem** for mixtures: on a compact metric space, for a measurable family
-`s ↦ ν_s` of invariant probabilities indexed by a probability space `(S, ρ)`,
-`h_{∫ ν_s dρ}(T) = ∫⁻ h_{ν_s}(T) dρ`. Route: ArithmeticDynamics §2.7's ergodic decomposition with
-entropy integration applied to the mixture and to each `ν_s`, and uniqueness of the ergodic
-decomposition.
+Prove **Jacobs' theorem** for mixtures: on a compact metric space, for a measurable family `s ↦ ν_s`
+of invariant probabilities indexed by a probability space `(S, ρ)`,
+`h_{∫ ν_s dρ}(T) = ∫⁻ h_{ν_s}(T) dρ` (Walters1982, Chapter 8, for the ergodic decomposition).
+Route: ArithmeticDynamics §2.7's ergodic decomposition with entropy integration applied to the
+mixture and to each `ν_s`, and uniqueness of the ergodic decomposition.
 
 **Checks.**
 
@@ -1889,7 +1907,7 @@ entropy-of-a-flow theorem: Abramov, *On the entropy of a flow*, Dokl. Akad. Nauk
 (1959), 873–875). The compact continuous result is a specialization; its local-entropy
 proof via §6.3 and the Bowen-ball comparison of §5.5 gives the compatibility check.
 
-For §3.3's suspension over an ergodic invertible base with positive integrable roof, prove
+For §3.3's suspension over an invertible base with positive integrable roof, ergodic or not, prove
 `h_susp(ϕ 1) = h_μ(T) / ∫ r dμ`. Supply the return-section information comparison, using §4.4
 for discrete induced maps and finite-step approximations to the roof; prove stability under
 these approximations and changes on null sets. Thus the time-`t` entropy is
@@ -2026,14 +2044,16 @@ Layers 3–6; ArithmeticDynamics §2.7.
 
 ### 8.1 Definitions
 
-For continuous `T` on a nonempty compact metric space and `φ : C(X, ℝ)`:
+For `T : X → X` on a space with a uniform structure and a σ-algebra, and `φ : C(X, ℝ)` (the
+theorems of this layer take `T` continuous and `X` a nonempty compact metric space with its Borel
+σ-algebra, or a subshift of finite type with its product uniformity and product σ-algebra):
 
 - `IsEquilibriumState T φ ν`: `ν ∈ invariantProbabilities T` and
   `(h_ν(T) : EReal) + ∫ φ dν = topologicalPressure T φ`;
 - `IsMeasureOfMaximalEntropy T ν`: `ν ∈ invariantProbabilities T` and
   `(h_ν(T) : EReal) = coverEntropy T univ`.
 
-For `ϕ : Flow ℝ X` and `F : C(X, ℝ)`:
+For `ϕ : Flow ℝ X` on a metric space `X` with a σ-algebra and `F : C(X, ℝ)`:
 
 - `IsFlowEquilibriumState ϕ F ν`: `ν ∈ flowInvariantProbabilities ϕ` and
   `(h_ν(ϕ 1) : EReal) + ∫ F dν = flowTopologicalPressure ϕ F`.
@@ -2191,15 +2211,15 @@ to `μ_φ` would violate the Gibbs upper bound on a set separating them. Finite 
 holds by expansiveness (§5.3), so §8.1's real formulation applies.
 
 **Subshifts of finite type.** For a finite nonempty alphabet `ι` and `A : ι → ι → Bool`, define the
-two-sided SFT `sftTwoSided A ⊆ ℤ → ι` of sequences with `A (x n) (x (n + 1))` for all `n`, as a
-Mathlib `Subshift`, and the one-sided `sftOneSided A ⊆ ℕ → ι` with its shift `sftShift A`,
-`(σ x) n = x (n + 1)`; give them the metrics
-`d_θ x y = θ ^ (min {|n| : x n ≠ y n})` for `θ ∈ (0, 1)`, compatible with the product topology. Call
-`A` *irreducible* if for all `i, j` some power of the `0`-`1` matrix of `A` has positive `(i, j)` entry,
-and *aperiodic* (primitive) if one power is entrywise positive. Prove:
+two-sided SFT `sftTwoSided A ⊆ ℤ → ι` of sequences with `A (x n) (x (n + 1))` for all `n`, with its
+shift `sftShiftTwoSided A`, and the one-sided `sftOneSided A ⊆ ℕ → ι` with its shift `sftShift A`,
+both `(σ x) n = x (n + 1)`; prove that `sftTwoSided A` is the carrier of a Mathlib `Subshift`, and
+give them the metrics `d_θ x y = θ ^ (min {|n| : x n ≠ y n})` for `θ ∈ (0, 1)`, compatible with the
+product topology. Call `A` *irreducible* if for all `i, j` some power of the `0`-`1` matrix of `A`
+has positive `(i, j)` entry, and *aperiodic* (primitive) if one power is entrywise positive. Prove:
 
-1. the shift on `sftTwoSided A` is expansive; it is topologically transitive iff `A` is
-   irreducible (after deleting symbols that occur in no bi-infinite sequence), and topologically
+1. the shift on `sftTwoSided A` is expansive. After deleting the symbols that occur in no
+   bi-infinite sequence, it is topologically transitive iff `A` is irreducible, and topologically
    mixing iff `A` is aperiodic;
 2. for aperiodic `A`, the shift has specification;
 3. for irreducible `A` of period `d`, the space splits into `d` clopen sets cyclically permuted by
@@ -2207,11 +2227,15 @@ and *aperiodic* (primitive) if one power is entrywise positive. Prove:
    decomposition);
 4. every `θ'`-Hölder function for `d_θ` has the Bowen property.
 
-Hence **every Hölder potential on a transitive two-sided SFT has a unique equilibrium state**,
-ergodic, Gibbs and fully supported: for aperiodic `A` by Bowen's theorem, and for irreducible `A`
-by applying it to the `d`-th iterate on one piece with potential `S_d φ`, and spreading the
-equilibrium state over the `d` pieces (§4.1 item 2 and §5.4 item 4). The same holds for one-sided
-SFTs.
+Hence, **for irreducible `A`, every Hölder potential on `sftTwoSided A` has a unique equilibrium
+state** (`existsUnique_isEquilibriumState_sftTwoSided`), ergodic, Gibbs and fully supported: for
+aperiodic `A` by Bowen's theorem, and for irreducible `A` by applying it to the `d`-th iterate on
+one piece with potential `S_d φ`, and spreading the equilibrium state over the `d` pieces (§4.1 item
+2 and §5.4 item 4). The same holds on `sftOneSided A`
+(`existsUnique_isEquilibriumState_sftOneSided`): the natural extension of `sftShift A` (§0.7) is the
+shift on `sftTwoSided A`, once a history is identified with the bi-infinite sequence it determines,
+and it matches the invariant probabilities, entropies (§4.2) and integrals of `φ` and of its lift on
+the two sides, so by §7.1 the pressures and the equilibrium states correspond.
 
 **Checks.**
 
@@ -2222,8 +2246,30 @@ SFTs.
 - The identity on a two-point space is expansive but has no specification and two measures of
   maximal entropy. The disjoint union of two full shifts on `Fin 2` is expansive, has no
   specification, and has two ergodic measures of maximal entropy.
+- The two-sided full shift on `Fin 2` with `d x y = 2^(-min {|k| : x k ≠ y k})` has specification:
+  for `m ≥ 1` and `2^(-m) ≤ ε`, `M = 2m - 1` works, since it suffices that `y` copy `x_i` on the
+  windows `[a_i - m + 1, b_i + m - 1]`, which are disjoint and fit into one period `p`, and any
+  word of length `p` extends to a `p`-periodic point.
+- On the same shift, a potential depending only on `x 0` has the Bowen property with `ε = 1/2` and
+  `K = 0`, since `dist (T^k x) (T^k y) ≤ 1/2` for `k < n` forces `x k = y k` for `k < n`. The
+  continuous potential `φ x = 1 / (1 + min {k ≥ 0 | x k = 1})`, with `φ x = 0` when `x k = 0` for
+  all `k ≥ 0`, lacks it: for `ε > 0` take `m` with `2^(-m) ≤ ε`; the point `x = 000…` and the point
+  `y` with a single `1`, at coordinate `n + m - 1`, satisfy `dist (T^k x) (T^k y) ≤ ε` for `k < n`,
+  while `S_n φ y - S_n φ x = ∑_{j=m+1}^{n+m} 1/j → ∞`.
+- The identity of `[0, 1]` with `φ x = x` lacks the Bowen property: points at distance `η ≤ ε` stay
+  `ε`-close, while `|S_n φ x - S_n φ y| = n η`.
+- On the same shift with `2^(-m-1) < ε ≤ 2^(-m)`, `B_n(x, ε)` is the cylinder fixing the
+  coordinates `-m, …, n - 1 + m`. For `φ = 0` the uniform Bernoulli measure gives it mass
+  `2^(-(n + 2m))` against `exp (-n log 2) = 2^(-n)`, so it is a Gibbs measure with `K = 4^m`. For
+  `φ` depending on `x 0`, the Bernoulli measure with `p_i ∝ exp (φ i)` has ratio the product of
+  `p_(x k)` over the `2m` coordinates outside `[0, n)`, in `[(min p)^(2m), 1]`. The Dirac mass at
+  `000…` is not a Gibbs measure for `φ = 0`: it gives `B_n(111…, ε)` mass `0`.
+- For `ι = Fin 2` with `A 0 0 = A 0 1 = true` and `A 1 j = false`, `sftTwoSided A` is the single
+  fixed point `000…`, which is topologically mixing, while every power of the `0`-`1` matrix of `A`
+  has zero second row, so `A` is not aperiodic; deleting the symbol `1`, which occurs in no
+  bi-infinite sequence, leaves the aperiodic matrix `(1)`.
 
-*Needs:* §§0.3, 5.2–5.4, 7.1, 8.1–8.2; Mathlib `Subshift`, `HolderWith`.
+*Needs:* §§0.3, 0.7, 4.2, 5.2–5.4, 7.1, 8.1–8.2; Mathlib `Subshift`, `HolderWith`.
 
 ### 8.5 Uniqueness for flows
 
@@ -2237,7 +2283,8 @@ Let `ϕ : Flow ℝ X` be a continuous flow on a nonempty compact metric space.
   `p ≥ b_k - a_1 + M` there is `y` with `dist (ϕ t y) (ϕ t x_i) ≤ ε` on `[a_i, b_i]` and
   `ϕ (p + τ) y = y` for some `|τ| ≤ ε` (Bowen's specification for flows).
 - `HasFlowBowenProperty ϕ F`: there are `ε > 0` and `K` with
-  `|∫_0^t F (ϕ s x) ds - ∫_0^t F (ϕ s y) ds| ≤ K` whenever `dist (ϕ s x) (ϕ s y) ≤ ε` on `[0, t]`.
+  `|∫_0^t F (ϕ s x) ds - ∫_0^t F (ϕ s y) ds| ≤ K` whenever `t ≥ 0` and `dist (ϕ s x) (ϕ s y) ≤ ε`
+  for `s ∈ [0, t]`.
 
 Prove the flow version of Bowen's theorem (Franco, *Flows with unique equilibrium states*, 1977):
 an expansive flow with specification and a potential with the flow Bowen property has exactly one
@@ -2280,6 +2327,19 @@ by `c`.
 - The unit-speed flow on `UnitAddCircle`, a single closed orbit, is expansive: with
   `δ = min ε (1/2)`, the hypothesis at `t = 0` gives `dist x y < δ`, so `y = ϕ u x` with
   `|u| = dist x y < ε`.
+- The trivial flow `ϕ t x = x` on two points `a`, `b` is expansive: with `δ ≤ dist a b`, the
+  hypothesis at `t = 0` gives `dist x y < δ`, so `y = x = ϕ 0 x`.
+- The unit-speed flow on `UnitAddCircle` has no flow specification: every point returns exactly at
+  integer times, and for `ε < 1/2` and `p = n + 1/2` no `|τ| ≤ ε` puts `p + τ` in `ℤ`. The trivial
+  flow on one point has flow specification; the trivial flow on two points at distance `> 2ε` does
+  not, since `y` would have to be `ε`-close to both.
+- For the unit-speed flow on `UnitAddCircle`, every continuous `F` has the flow Bowen property for
+  every `ε`, with `K = 2 ‖F‖_∞`: for `t ≥ 0`,
+  `∫_0^t F (x + s) ds = ⌊t⌋ ∫ F + ∫_0^(t - ⌊t⌋) F (x + s) ds`. The trivial flow on `[0, 1]` with
+  `F x = x` lacks it: points at distance `η ≤ ε` give integrals differing by `t η`.
+- For the trivial flow on two points `a`, `b` and `F` the indicator of `{a}`, every `ε < dist a b`
+  works with `K = 0`, since closeness at `s = 0` forces `x = y`. The condition constrains only
+  `t ≥ 0`: at `t = -n` the integrals along `a` and `b` differ by `n`, so no `K` would bound them.
 
 *Needs:* §§3.3–3.4, 5.5, 6.4, 7.3, 8.1–8.2, 8.4; Mathlib `Flow`, interval integrals.
 
