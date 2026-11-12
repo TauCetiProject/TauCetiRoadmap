@@ -3842,10 +3842,10 @@ and has no positive eigenvalue.
 ### R7.9. Separating and two-sided hypersurfaces
 
 R7.9 is the differential topology of closed hypersurfaces on this roadmap's
-carriers: when a hypersurface bounds a domain on each side, compact when the
-ambient manifold is, the setting
-of the divergence theorem and of Dirichlet problems on one side of a minimal
-hypersurface, and when it has a unit normal at all. It rests on
+carriers. It answers two questions: when a hypersurface bounds a domain on
+each side, the setting of the divergence theorem and of Dirichlet problems on
+one side of a minimal hypersurface, these domains being compact when the
+ambient manifold is; and when a hypersurface has a unit normal at all. It rests on
 GeometricTopology Layer 1.5's tubular neighbourhood theorem in its Riemannian
 form, R5a's normal bundle, Tau Ceti's first de Rham cohomology with its periods
 (DifferentialGeometry 6.1 and 6.3), Tau Ceti's bicollars, regular sublevels
