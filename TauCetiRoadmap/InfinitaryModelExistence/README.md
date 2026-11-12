@@ -546,6 +546,11 @@ Suggested home: `TauCeti/ModelTheory/ModelExistence/{Types,OmittingTypes}.lean`.
   of the existential. This makes `T ∪ σ ∪ {¬ψ[c]}` satisfiable, and `¬ψ[c]` is an instance of the
   member `¬ψ` of `A`. The model omits `p` because it omits the image of `p` along
   `lhomWithConstants` and every element is named.
+
+  *Needs:* `ConsistencyProperty.model_existence_omitting` (3.2), `ConsistencyProperty.ofSatisfiable`
+  (3.3), `Fragment.FormationClosed` with `FormationClosed.mapBound_mem` (1.2), `substBounds` and
+  `inst` (0.4), `realize_onBoundedFormulaInf` along `lhomWithConstants` (0.1), and
+  `Theoryω.IsolatesIn` (4.2).
 * Corollaries: for `A` and `T` as above (in particular `T` satisfiable), a partial type inside `A`
   realized in every countable model of `T` is isolated over `T` in `A`; and the **first-order
   omitting types theorem** `exists_countable_model_omitting_fo` (Exercise 4.11 of the notes, p. 45):
@@ -557,6 +562,10 @@ Suggested home: `TauCeti/ModelTheory/ModelExistence/{Types,OmittingTypes}.lean`.
   for every `ψ ∈ p`; omission is `OmitsFOType M p`, every `n`-tuple of `M` refuting some formula of
   `p`. The empty type, isolated by `⊤`, shows that the non-isolation hypothesis cannot be dropped.
   Derive the theorem by taking `A` to be the first-order image fragment.
+
+  *Needs:* `Theoryω.exists_countable_model_omitting` (4.2), the first-order image fragment (1.2),
+  and `BoundedFormula.realize_toInf` (InfinitaryLogic), which carries satisfiability, isolation and
+  omission between Mathlib's first-order notions and those of 1.1 and 4.2.
 
 **Checks** (`IsolatesFO`, `OmitsFOType`).
 
@@ -620,6 +629,10 @@ under components.
   models `morleyTheory A` and omits every type of `morleyTypes A` **iff** `S` is the canonical
   expansion. The backward direction is an induction over `A`; omission supplies exactly the
   conjunction and disjunction steps.
+
+  *Needs:* `morleyize`, `lhomMorleyize` and `morleyExpansion` (5.1), `morleyTheory` and
+  `morleyTypes` with their countability (5.2), `OmitsFOType` (4.2), and the component closure of
+  `Fragment` (1.2).
 * Corollary: for a sentence `φ` with `⟨0, φ⟩ ∈ A`, the models of `φ` are exactly the reducts of the
   models of the countable first-order theory `morleyTheory A ∪ {R_φ}` that omit `morleyTypes A`.
 
@@ -713,6 +726,10 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
 * `craig_interpolation_relational`, the relational core: for relational `L` of any cardinality and
   sentences with `Sentenceω.Entails φ ψ`, there is `θ` with
   `relationsIn θ ⊆ relationsIn φ ∩ relationsIn ψ`, `φ ⊨ θ` and `θ ⊨ ψ`.
+
+  *Needs:* `ConsistencyProperty.model_existence` (3.2), the symbol sublanguage with `symbSublang`
+  and `restrictSymbols` (0.3), `constantsVarsEquiv` (0.4), and the transfer of entailment along
+  language maps (2.5).
 * `craig_interpolation` (Theorem 4.21 of Marker's 2013 notes, p. 48): the same for an arbitrary
   language of any cardinality, with no hypothesis on `L`, and with both bounds
   `functionsIn θ ⊆ functionsIn φ ∩ functionsIn ψ` and
@@ -722,6 +739,10 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
   the exact occurrence identity and the shared-vocabulary identity to bound the interpolant's
   symbols by `relSym (F₁ ∩ F₂) (R₁ ∩ R₂)`, and back-translate; both entailments are transported
   along the graph expansion, without reconstruction.
+
+  *Needs:* `craig_interpolation_relational` (7.2); from Layer 6, `entails_iff_graphTranslation`,
+  `relationalize` with its exact occurrence identity, the shared-vocabulary identity `relSym_inter`,
+  and `backTranslate` with `realize_backTranslate` and its occurrence calculus.
 * `craig_pcSeparation`: if `ψ₁ ⊨ ¬ψ₂`, some sentence of
   `symbSublang (functionsIn ψ₁ ∩ functionsIn ψ₂) (relationsIn ψ₁ ∩ relationsIn ψ₂)` holds in the
   reduct of every nonempty model of `ψ₁` and fails in the reduct of every nonempty model of `ψ₂`,
@@ -757,6 +778,11 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
   Corollary: if every countable nonempty `L`-structure lies in
   exactly one of two such classes, the first is the class of countable nonempty models of `θ`.
 
+  *Needs:* `craig_interpolation` (7.2), `PCMem` (7.1),
+  `FirstOrder.Language.Theoryω.exists_countable_model` and `Theoryω.Entails.realize` (2.5),
+  `exists_eq_onBoundedFormulaInf_of_subset_range` (0.3), the occurrence laws for
+  `onBoundedFormulaInf` (0.2), and `realize_onBoundedFormulaInf` (0.1).
+
 Route for the relational core. Reduce to the countable symbol sublanguage of `φ` and `ψ` (Layer 0)
 and work in `L[[ℕ]]`. The members of the consistency property are finite pairs `(Γ, Δ)`, presented
 as the set `Γ ∪ Δ`, with `Γ` in the symbols of `φ`, `Δ` in those of `ψ`, both with finite constant
@@ -787,6 +813,10 @@ is used.
   keep their polarity under the translation, and the graph symbols, which may occur with either
   sign, back-translate into equalities and drop out of the signed bounds.
   `craig_of_lyndon_interpolation` recovers Craig from the two signed bounds.
+
+  *Needs:* `lyndon_interpolation_relational` and `relationsInSigned` (7.3); from Layer 6,
+  `entails_iff_graphTranslation`, the polarity of base relations under `relationalize`, and the
+  signed occurrence calculus of `backTranslate`.
 
 **Checks** (`relationsInSigned`).
 
@@ -819,6 +849,10 @@ refines the Craig engine: only the separator class changes, the pair maintaining
   universal. The engine is a side-labelled budgeted pair whose separators carry two quantifier
   permissions; the right root `¬ψ` has no positive universal occurrence exactly when `ψ` is
   universal, so no separator acquires an existential occurrence.
+
+  *Needs:* `universalSigned` with its laws (7.4), `ConsistencyProperty.model_existence` (3.2), the
+  symbol sublanguage (0.3) and `constantsVarsEquiv` (0.4), as for the relational core of Craig
+  interpolation (7.2).
 
 **Checks** (`universalSigned`).
 
