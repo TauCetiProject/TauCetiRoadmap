@@ -2,7 +2,6 @@ module
 
 public import Mathlib
 public import TauCeti.ModelTheory.Counting.Classes
-public import TauCeti.ModelTheory.Counting.LanguageEquiv
 public import TauCeti.ModelTheory.Counting.Levels
 public import TauCeti.ModelTheory.Counting.Scattered.Basic
 public import TauCeti.ModelTheory.Counting.Stratification
@@ -46,12 +45,6 @@ open TauCeti.RelationalConfiguration (atom modelsOf isoSetoid isoSetoidOn bfEqui
 
 variable {L : FirstOrder.Language.{u, v}}
 
-/-- Countably many relation symbols in all give countably many of each arity, the form of the
-countability hypothesis that Tau Ceti's counting results take. -/
-private theorem countable_relations [Countable (Σ l, L.Relations l)] (n : ℕ) :
-    Countable (L.Relations n) :=
-  (sigma_mk_injective (i := n)).countable
-
 /-! ## Layer 0: counting isomorphism classes of countable models
 
 The restricted isomorphism `isoSetoidOn V φ`, the classes `CountableModelClasses φ`, the count
@@ -63,21 +56,6 @@ the sentence `L.infiniteSentence` is `FirstOrder.Language.infiniteSentence`. -/
 section Layer0
 
 variable [L.IsRelational]
-
-/-- **Layer 0 milestone.** A code transported from a model is a code of a model (by
-`Equiv.realize_encodeVia`, which carries realization along `Equiv.nonempty_equiv_encodeVia`). -/
-theorem encodeVia_mem_modelsOf {α : Type} (φ : L.Sentenceω) {M : Type w} [L.Structure M]
-    (e : M ≃ α) (hM : SentenceInf.Realize φ M) :
-    e.encodeVia (L := L) ∈ (modelsOf φ : Set (RelationalConfiguration L α)) :=
-  RelationalConfiguration.mem_modelsOf.2 ((Equiv.realize_encodeVia e φ).2 hM)
-
-/-- **Layer 0 milestone.** Isomorphism of codes on `Fin n` is a finite union of graphs of
-relabellings, so it has Borel graph. -/
-theorem measurableSet_isoSetoid_fin [Countable (Σ l, L.Relations l)] (n : ℕ) :
-    MeasurableSet {p : RelationalConfiguration L (Fin n) × RelationalConfiguration L (Fin n) |
-      isoSetoid L (Fin n) p.1 p.2} :=
-  haveI := countable_relations (L := L)
-  RelationalConfiguration.measurableSet_setOf_isoSetoid
 
 /-- **Layer 0.** `φ` has a perfect set of pairwise non-isomorphic models with carrier `α`. -/
 def HasPerfectSetOfNonisoModelsOn (α : Type) (φ : L.Sentenceω) : Prop :=
@@ -99,82 +77,14 @@ Tau Ceti's `LEquiv.lift_countableModelCount_onBoundedFormulaInf` and
 `LEquiv.hasPerfectlyManyCountableModels_onBoundedFormulaInf_iff` transport the count and perfectly
 many countable models along a language equivalence. -/
 
-/-! ## Layer 0 acceptance check: a perfect set at the finite tier `Fin 1` -/
-
-namespace UnaryPredicates
-
-/-- One unary relation symbol for each natural number, and nothing else. -/
-def Rel : ℕ → Type
-  | 1 => ℕ
-  | _ => PEmpty
-
-/-- The language of countably many unary predicates. -/
-def lang : FirstOrder.Language.{0, 0} := ⟨fun _ => PEmpty, Rel⟩
-
-instance : lang.IsRelational := fun _ => inferInstanceAs (IsEmpty PEmpty)
-
-instance (l : ℕ) : Countable (lang.Relations l) := by
-  rcases l with _ | _ | l <;> simp only [lang, Rel] <;> infer_instance
-
-/-- "There is exactly one element": `∃ x ∀ y, y = x`, through the finitary embedding
-`BoundedFormula.toInf`. -/
-def oneElement : lang.Sentenceω :=
-  BoundedFormula.toInf (ι := ℕ) (BoundedFormula.ex (BoundedFormula.all
-    (Term.bdEqual (Term.var (Sum.inr (1 : Fin 2))) (Term.var (Sum.inr (0 : Fin 2))))))
-
-/-- **Layer 0 acceptance check.** The codes on `Fin 1` form a perfect set of pairwise
-non-isomorphic models: continuum many pairwise non-isomorphic one-element structures. -/
-theorem hasPerfectSetOfNonisoModelsOn_fin_one_unaryPredicates :
-    HasPerfectSetOfNonisoModelsOn (Fin 1) oneElement := by
-  sorry
-
-/-- There are no models on `ℕ`, so the perfect alternative holds only at a finite tier. -/
-theorem modelsOf_oneElement_nat :
-    (modelsOf oneElement : Set (RelationalConfiguration lang ℕ)) = ∅ := by
-  sorry
-
-theorem countableModelCount_oneElement : countableModelCount oneElement = 𝔠 := by
-  sorry
-
-end UnaryPredicates
-
 /-! ## Layer 1: the back-and-forth stratification and isolating ranks
 
 The restricted levels `bfEquivSetoidOn V φ α`, the level sentences `c.scottSentenceAtLevel α`, the
 contract `IsIsolatingRank ρ` and isolation `R.IsolatedBy E` are Tau Ceti's
 `TauCeti.RelationalConfiguration.bfEquivSetoidOn`,
 `TauCeti.RelationalConfiguration.scottSentenceAtLevel`, `TauCeti.IsIsolatingRank` and
-`Setoid.IsolatedBy`. -/
-
-section Layer1
-
-variable [L.IsRelational]
-
-/- The instance: the Scott height read on codes is an isolating rank, Tau Ceti's
-`TauCeti.isIsolatingRank_scottHeight`, which needs no countability of `L`. -/
-
-/-- The image of a set `K` of codes in the quotient by isomorphism is the quotient of isomorphism
-restricted to `K`, the form in which Tau Ceti states its counting results. -/
-private noncomputable def quotientComapEquivImage (K : Set (RelationalConfiguration L ℕ)) :
-    Quotient ((isoSetoid L ℕ).comap (Subtype.val : K → RelationalConfiguration L ℕ)) ≃
-      (Quotient.mk (isoSetoid L ℕ) '' K) :=
-  (Setoid.comapQuotientEquiv _ _).trans
-    (Set.equivOfEq (by rw [Set.range_comp, Subtype.range_coe]))
-
-/-- **Layer 1 milestone, the stratification bound.** If at every level `β < ω₁` the codes of a
-set `K` fall into countably many back-and-forth classes, then `K` meets at most `ℵ₁`
-isomorphism classes: the classes of rank `β` inject into the level-`β` quotient. Tau Ceti's
-`TauCeti.mk_isoClasses_le_aleph_one_of_countable_levels` proves it for the quotient of isomorphism
-restricted to `K`. -/
-theorem mk_isoClasses_le_aleph_one_of_countable_levels (K : Set (RelationalConfiguration L ℕ))
-    (hK : ∀ β < (Ordinal.omega 1 : Ordinal.{0}),
-      Countable (Quotient ((bfEquivSetoid L ℕ β).comap
-        (Subtype.val : K → RelationalConfiguration L ℕ)))) :
-    #(Quotient.mk (isoSetoid L ℕ) '' K) ≤ ℵ₁ :=
-  (Cardinal.mk_congr (quotientComapEquivImage K)).symm.trans_le
-    (TauCeti.mk_isoClasses_le_aleph_one_of_countable_levels K hK)
-
-end Layer1
+`Setoid.IsolatedBy`. The Scott height is an isolating rank (`TauCeti.isIsolatingRank_scottHeight`),
+and the stratification bound is `TauCeti.mk_isoClasses_le_aleph_one_of_countable_levels`. -/
 
 /-! ## Layer 2: the bounded-rank dichotomy -/
 
@@ -251,7 +161,9 @@ end Layer3
 
 /-! ## Layer 4: scattered classes and thinness criteria
 
-`BFScattered K` is Tau Ceti's `TauCeti.BFScattered`. -/
+`BFScattered K` is Tau Ceti's `TauCeti.BFScattered`. Counting a scattered class (4b) is Tau Ceti's
+`TauCeti.IsIsolatingRank.countable_isoClasses_iff_bounded` and
+`TauCeti.IsIsolatingRank.mk_isoClasses_eq_aleph_one`. -/
 
 section Layer4
 
@@ -271,30 +183,6 @@ Silver step of Layer 3. -/
 theorem bfScattered_modelsOf_iff_isThinOnNatModels [Countable (Σ l, L.Relations l)]
     (φ : L.Sentenceω) : BFScattered (modelsOf φ) ↔ IsThinOnNatModels φ := by
   sorry
-
-/-- **Layer 4 milestone, counting a scattered class.** For any isolating rank and any
-back-and-forth scattered set of codes, countably many isomorphism classes exactly when the rank
-is bounded below `ω₁` on it. -/
-theorem IsIsolatingRank.countable_isoClasses_iff_bounded
-    {ρ : RelationalConfiguration L ℕ → Ordinal.{0}} (hρ : IsIsolatingRank ρ)
-    {K : Set (RelationalConfiguration L ℕ)} (hK : BFScattered K) :
-    (Quotient.mk (isoSetoid L ℕ) '' K).Countable ↔
-      ∃ β < Ordinal.omega 1, ∀ c ∈ K, ρ c < β := by
-  rw [← Set.countable_coe_iff, ← (quotientComapEquivImage K).countable_iff]
-  exact hρ.countable_isoClasses_iff_bounded hK
-
-/-- **Layer 4 milestone.** Under the same hypotheses, uncountably many classes are exactly `ℵ₁`. -/
-theorem IsIsolatingRank.mk_isoClasses_eq_aleph_one
-    {ρ : RelationalConfiguration L ℕ → Ordinal.{0}} (hρ : IsIsolatingRank ρ)
-    {K : Set (RelationalConfiguration L ℕ)} (hK : BFScattered K)
-    (hunc : ¬ (Quotient.mk (isoSetoid L ℕ) '' K).Countable) :
-    #(Quotient.mk (isoSetoid L ℕ) '' K) = ℵ₁ := by
-  have : Uncountable (Quotient ((isoSetoid L ℕ).comap
-      (Subtype.val : K → RelationalConfiguration L ℕ))) := by
-    rw [← not_countable_iff, (quotientComapEquivImage K).countable_iff, Set.countable_coe_iff]
-    exact hunc
-  rw [← Cardinal.mk_congr (quotientComapEquivImage K)]
-  exact hρ.mk_isoClasses_eq_aleph_one hK
 
 /-- **Layer 4.** A set of codes is concentrated at back-and-forth levels: at each level `β < ω₁`,
 all but countably many of its isomorphism classes lie in the class of one centre `k`. -/
@@ -337,8 +225,8 @@ variable {L : FirstOrder.Language.{u, v}} [L.IsRelational]
   (Φ : Set (Σ n, L.BoundedFormulaω Empty n))
 
 /-- **Layer 4g, the expansion code.** The code of the canonical expansion of the decoded
-structure: a base bit is copied (`morleyCode_inl`); the bit of the new symbol of `φ ∈ Φ` at a tuple
-is the truth of `φ` there in the decoded structure (`morleyCode_inr_eq_true_iff`). -/
+structure: a base bit is copied; the bit of the new symbol of `φ ∈ Φ` at a tuple is the truth of
+`φ` there in the decoded structure. -/
 noncomputable def morleyCode (c : RelationalConfiguration L ℕ) :
     RelationalConfiguration (L.morleyize Φ) ℕ :=
   @RelationalConfiguration.ofStructure (L.morleyize Φ) ℕ (@morleyExpansion L Φ ℕ c.toStructure)
@@ -348,54 +236,12 @@ reduct along `lhomMorleyize Φ`. -/
 def morleyBase (e : RelationalConfiguration (L.morleyize Φ) ℕ) : RelationalConfiguration L ℕ :=
   (lhomMorleyize Φ).reductConfiguration e
 
-theorem morleyCode_inl (c : RelationalConfiguration L ℕ) {l : ℕ} (R : L.Relations l)
-    (v : Fin l → ℕ) :
-    (morleyCode Φ c).eval (atom (Sum.inl R : (L.morleyize Φ).Relations l) v) =
-      c.eval (atom R v) := by
-  rw [morleyCode,
-    @RelationalConfiguration.eval_ofStructure _ _ (@morleyExpansion L Φ ℕ c.toStructure)]
-  simp only [@morleyExpansion_relMap_inl L Φ ℕ c.toStructure,
-    RelationalConfiguration.toStructure_relMap, Bool.decide_eq_true]
-
-theorem morleyCode_inr_eq_true_iff (c : RelationalConfiguration L ℕ) {l : ℕ}
-    (φ : {φ : L.BoundedFormulaω Empty l // ⟨l, φ⟩ ∈ Φ}) (v : Fin l → ℕ) :
-    (morleyCode Φ c).eval (atom (Sum.inr φ : (L.morleyize Φ).Relations l) v) = true ↔
-      @BoundedFormulaInf.Realize L ℕ Empty ℕ c.toStructure l φ.1 Empty.elim v := by
-  rw [morleyCode,
-    @RelationalConfiguration.eval_ofStructure _ _ (@morleyExpansion L Φ ℕ c.toStructure)]
-  simp only [decide_eq_true_eq]
-  exact @morleyExpansion_relMap_morleyRel L Φ ℕ c.toStructure l φ.1 φ.2 v
-
-theorem morleyBase_morleyCode (c : RelationalConfiguration L ℕ) :
-    morleyBase Φ (morleyCode Φ c) = c := by
-  ext a
-  induction a using RelationalConfiguration.Atom.induction_atom with
-  | h R v =>
-    rw [morleyBase, LHom.eval_reductConfiguration, LHom.onAtom_atom, lhomMorleyize_onRelation,
-      morleyCode_inl]
-
-theorem morleyCode_injective : Function.Injective (morleyCode Φ) := fun c d h => by
-  rw [← morleyBase_morleyCode Φ c, h, morleyBase_morleyCode]
-
-/-- **Layer 4g, decoding agreement.** Decoding the expansion code gives the canonical expansion of
-the decoded base structure. -/
-theorem toStructure_morleyCode (c : RelationalConfiguration L ℕ) :
-    (morleyCode Φ c).toStructure = @morleyExpansion L Φ ℕ c.toStructure :=
-  RelationalConfiguration.toStructure_ofStructure _
-
 /-- **Layer 4g.** The expansion code is a measurable embedding: Borel because satisfaction is
-Borel in the code, injective by `morleyCode_injective`, hence an embedding by Lusin–Souslin. -/
+Borel in the code, injective because `morleyBase` is a left inverse, hence an embedding by
+Lusin–Souslin. -/
 theorem measurableEmbedding_morleyCode [Countable (Σ l, L.Relations l)] (hΦ : Φ.Countable) :
     MeasurableEmbedding (morleyCode Φ) := by
   sorry
-
-/-- **Layer 4g.** Expansion codes are isomorphic exactly when the base codes are: by decoding
-agreement, this is `nonempty_morleyEquiv_iff` for the decoded structures. -/
-theorem isoSetoid_morleyCode_iff (c d : RelationalConfiguration L ℕ) :
-    isoSetoid (L.morleyize Φ) ℕ (morleyCode Φ c) (morleyCode Φ d) ↔ isoSetoid L ℕ c d := by
-  rw [RelationalConfiguration.isoSetoid_apply, RelationalConfiguration.isoSetoid_apply,
-    toStructure_morleyCode, toStructure_morleyCode]
-  exact @nonempty_morleyEquiv_iff L Φ ℕ ℕ c.toStructure d.toStructure
 
 /-- **Layer 4g.** The range of the expansion code: the codes whose new bits agree with the truth of
 their formulas in the decoded base code. -/
@@ -409,8 +255,9 @@ theorem range_morleyCode :
 
 /-- **Layer 4g milestone, Morleyization transport.** A class of base codes carries a Cantor
 antichain for isomorphism exactly when its image under the expansion code does. This is
-`Setoid.hasCantorAntichainOn_image_iff` applied with `measurableEmbedding_morleyCode` and
-`isoSetoid_morleyCode_iff`. -/
+`Setoid.hasCantorAntichainOn_image_iff` applied with `measurableEmbedding_morleyCode` and the fact
+that expansion codes are isomorphic exactly when the base codes are (`nonempty_morleyEquiv_iff`
+for the decoded structures). -/
 theorem hasCantorAntichainOn_image_morleyCode_iff [Countable (Σ l, L.Relations l)]
     (hΦ : Φ.Countable) (K : Set (RelationalConfiguration L ℕ)) :
     (isoSetoid (L.morleyize Φ) ℕ).HasCantorAntichainOn (morleyCode Φ '' K) ↔
@@ -444,10 +291,6 @@ def VaughtConjecture : Prop :=
 def CardinalVaughtConjecture : Prop :=
   ∀ (L : FirstOrder.Language.{0, 0}) [L.IsRelational] [Countable (Σ l, L.Relations l)]
     (φ : L.Sentenceω), HasVaughtCount φ
-
-/-- **Layer 5 milestone.** The perfect-set form implies the cardinal form. -/
-theorem VaughtConjecture.cardinal (h : VaughtConjecture) : CardinalVaughtConjecture :=
-  fun L _ _ φ => (h L φ).imp_right HasPerfectlyManyCountableModels.countableModelCount_eq
 
 /-- **Layer 5 milestone.** Under the continuum hypothesis the cardinal form holds, by Morley's
 theorem. -/
@@ -566,8 +409,8 @@ theorem minimallyUncountableOn_modelsOf_iff [L.IsRelational] [Countable (Σ l, L
 /-- **Layer 5 milestone.** For every isolating rank `ρ`, the models of a sentence are minimally
 uncountable exactly when they are back-and-forth scattered and `ρ` is minimally unbounded on them
 (Montalbán's minimally unbounded sentences). On a scattered class, countably many classes is the
-same as `ρ` bounded below `ω₁` (`IsIsolatingRank.countable_isoClasses_iff_bounded`), on every
-subclass. -/
+same as `ρ` bounded below `ω₁`, on every subclass
+(`TauCeti.IsIsolatingRank.countable_isoClasses_iff_bounded`). -/
 theorem minimallyUncountableOn_modelsOf_iff_minimallyUnboundedOn [L.IsRelational]
     [Countable (Σ l, L.Relations l)] {ρ : RelationalConfiguration L ℕ → Ordinal.{0}}
     (hρ : IsIsolatingRank ρ) (φ : L.Sentenceω) :
@@ -595,15 +438,6 @@ theorem exists_bfLevel_saturated_modelsOf [L.IsRelational] [Countable (Σ l, L.R
         (c ∈ (modelsOf θ : Set (RelationalConfiguration L ℕ)) ↔
           d ∈ (modelsOf θ : Set (RelationalConfiguration L ℕ))) := by
   sorry
-
-/-- **Layer 5.** The two forms of "countably many models on `ℕ`" agree: through the setoid
-`isoSetoidOn ℕ φ` on the model class, and through the image of the model class in the quotient by
-the ambient isomorphism relation. -/
-theorem countable_quotient_isoSetoidOn_iff [L.IsRelational] (φ : L.Sentenceω) :
-    Countable (Quotient (isoSetoidOn ℕ φ)) ↔
-      (Quotient.mk (isoSetoid L ℕ) ''
-        (modelsOf φ : Set (RelationalConfiguration L ℕ))).Countable :=
-  Setoid.countable_quotient_comap_val_iff
 
 /-- **Layer 5 milestone, the Harnik–Makkai reduction.** A sentence with back-and-forth scattered
 models on `ℕ` meeting uncountably many isomorphism classes has a minimally uncountable

@@ -191,8 +191,7 @@ needed here.
 ### Targets of this roadmap in Tau Ceti
 
 Tau Ceti implements the following targets at the pin; `Suggested.lean` uses its definitions and
-cites its theorems, restating a few of them in the form used here. Files are under
-`TauCeti/ModelTheory/`.
+cites its theorems. Files are under `TauCeti/ModelTheory/`.
 
 * **Layer 0** (`Counting/Classes.lean`, `Counting/LanguageEquiv.lean`, `Infinitary/Infinite.lean`):
   `RelationalConfiguration.isoSetoidOn V φ`, `CountableModelClasses`, `countableModelCount` with
@@ -207,10 +206,10 @@ cites its theorems, restating a few of them in the form used here. Files are und
   `LEquiv.lift_countableModelCount_onBoundedFormulaInf`,
   `FirstOrder.Language.LEquiv.hasPerfectlyManyCountableModels_onBoundedFormulaInf_iff`, and
   `exists_language_zero_countableModelCount` (the move to `Language.{0, 0}`). The finite-carrier
-  Borel graph `measurableSet_isoSetoid_fin` is
-  `RelationalConfiguration.measurableSet_setOf_isoSetoid`
-  (`RelationalConfiguration/Isomorphism.lean`, any finite carrier), and `encodeVia_mem_modelsOf` is
-  `Equiv.realize_encodeVia` with `RelationalConfiguration.mem_modelsOf`.
+  Borel graph of isomorphism is `RelationalConfiguration.measurableSet_setOf_isoSetoid`
+  (`RelationalConfiguration/Isomorphism.lean`, any finite carrier), and a code transported along
+  `Equiv.encodeVia` from a model is a code of a model by `Equiv.realize_encodeVia` with
+  `RelationalConfiguration.mem_modelsOf`.
 * **Layer 1** (`Counting/Levels.lean`, `Counting/Stratification.lean`,
   `RelationalConfiguration/LevelSentence.lean`, `BackAndForth/ExtensionSpectrum.lean`,
   `TauCeti/Data/Setoid/Isolation.lean`): `RelationalConfiguration.bfEquivSetoidOn V φ α` with
@@ -239,7 +238,9 @@ cites its theorems, restating a few of them in the form used here. Files are und
 
 Tau Ceti states its counting results for the quotient of isomorphism restricted to a set `K` of
 codes, `Quotient ((isoSetoid L ℕ).comap Subtype.val)`; the targets here use the image of `K` in the
-quotient by `isoSetoid L ℕ`, and the two are in bijection by Mathlib's `Setoid.comapQuotientEquiv`.
+quotient by `isoSetoid L ℕ`, and the two are in bijection by Mathlib's `Setoid.comapQuotientEquiv`
+(countability of the two agrees by Tau Ceti's `Setoid.countable_quotient_comap_val_iff`,
+`Data/Setoid/Countable.lean`).
 Tau Ceti assumes countably many relation symbols of each arity where this roadmap assumes
 `[Countable (Σ l, L.Relations l)]`; the two are equivalent (convention 1).
 
@@ -362,7 +363,7 @@ theorems and acceptance checks.
 | 2 | equivalence relations with all classes infinite: internal Scott rank `1` throughout and exactly `ℵ₀` countable models |
 | 3 | equivalence relations: an explicit perfect set of pairwise non-isomorphic models |
 | 4 | a concentrated class is back-and-forth scattered, hence thin in a countable relational language |
-| 5 | `VaughtConjecture.cardinal` and the CH and ¬CH reformulations |
+| 5 | the perfect-set form implies the cardinal form, and the CH and ¬CH reformulations |
 | 6 | the internal Scott rank is not an isolating rank |
 
 ### Layer 0: classes of countable models
@@ -384,12 +385,15 @@ Build:
   `Nonempty (M ≃[L] N)`), `classOf_surjective` (every class is the class of a model in every
   universe `w`), and the tier lemmas (`classOf` lands in the `ℕ` summand exactly for infinite
   `M`, and in summand `n` exactly when `M` has `n` elements), using (S1)'s `Equiv.encodeVia` and
-  `encodeVia_mem_modelsOf` (a transported code of a model is a code of a model).
+  the fact that a transported code of a model is a code of a model (`Equiv.realize_encodeVia` with
+  `RelationalConfiguration.mem_modelsOf`).
 * **Upper bound.** `countableModelCount_le_continuum`, from (S1)'s
   `RelationalConfiguration.mk_le_continuum` and the summand bounds.
 * **Isomorphism on a finite carrier.** On `Fin n`, (S3)'s `isoSetoid L (Fin n)` is the
   orbit relation of the finite group `Equiv.Perm (Fin n)`, so its graph is a finite union of graphs
-  of continuous maps: `measurableSet_isoSetoid_fin`.
+  of continuous maps, hence Borel: Tau Ceti's
+  `RelationalConfiguration.measurableSet_setOf_isoSetoid` (any finite carrier, per-arity
+  countability as in convention 1).
 * **Perfect sets of non-isomorphic models.** `HasPerfectSetOfNonisoModelsOn α φ :=
   (isoSetoid L α).HasPerfectAntichainOn (modelsOf φ)` (E0) and
   `HasPerfectlyManyCountableModels φ` (a perfect set at the tier `ℕ` or at some `Fin n`). With (E0),
@@ -397,8 +401,8 @@ Build:
   `HasPerfectlyManyCountableModels.countableModelCount_eq : countableModelCount φ = 𝔠`.
 * **The finite-tier dichotomy.** `countable_or_hasPerfectSetOfNonisoModelsOn_fin`: (E1), relative
   form, on the Borel set `modelsOf φ` of codes on `Fin n`, with `R` and `F` both isomorphism (Borel
-  by `measurableSet_isoSetoid_fin`). Its second alternative is a continuous Cantor family
-  of pairwise non-isomorphic models on `Fin n`, which (E0)'s
+  by `RelationalConfiguration.measurableSet_setOf_isoSetoid`). Its second alternative is a
+  continuous Cantor family of pairwise non-isomorphic models on `Fin n`, which (E0)'s
   `hasCantorAntichainOn_iff_hasPerfectAntichainOn` turns into
   `HasPerfectSetOfNonisoModelsOn (Fin n) φ`.
   No stratification is needed on a finite carrier.
@@ -643,20 +647,20 @@ classical definition of a scattered sentence.
 **4g. Morleyization transport.** For a countable set `Φ` of formulas (M3): by (M3)'s instances
 `L.morleyize Φ` is relational with countably many relation symbols when `L` is, and by (M3)'s
 `nonempty_morleyEquiv_iff` canonical expansions are isomorphic exactly when the base structures are.
-The targets, all stated in `Suggested.lean` against (M3)'s objects:
+The targets, against (M3)'s objects:
 
 * `morleyCode Φ : RelationalConfiguration L ℕ → RelationalConfiguration (L.morleyize Φ) ℕ`, the
   expansion code, the code (`RelationalConfiguration.ofStructure`) of the canonical expansion of the
-  decoded structure: base bits copied (`morleyCode_inl`), the bit of the symbol of `φ` at `v` the
-  truth of `φ` at `v` in the decoded structure (`morleyCode_inr_eq_true_iff`);
-* `morleyBase`, reading off the base bits (the reduct `(lhomMorleyize Φ).reductConfiguration`),
-  with `morleyBase_morleyCode` and `morleyCode_injective`;
-* `toStructure_morleyCode`, decoding agreement: `(morleyCode Φ c).toStructure` is (M3)'s
-  `morleyExpansion Φ` of `c.toStructure`;
+  decoded structure: base bits are copied, and the bit of the symbol of `φ` at `v` is the truth of
+  `φ` at `v` in the decoded structure;
+* `morleyBase`, reading off the base bits (the reduct `(lhomMorleyize Φ).reductConfiguration`), a
+  left inverse of `morleyCode Φ`, which is therefore injective;
+* decoding agreement: `(morleyCode Φ c).toStructure` is (M3)'s `morleyExpansion Φ` of
+  `c.toStructure`;
 * `measurableEmbedding_morleyCode`: Borel because satisfaction is Borel in the code, injective,
   hence a measurable embedding by Lusin–Souslin (countably many relation symbols, `Φ` countable);
-* `isoSetoid_morleyCode_iff`: expansion codes are isomorphic exactly when the base codes
-  are, which is `nonempty_morleyEquiv_iff` after decoding agreement;
+* expansion codes are isomorphic exactly when the base codes are, which is
+  `nonempty_morleyEquiv_iff` after decoding agreement;
 * `range_morleyCode`: the range is the set of codes whose new bits agree with the truth of their
   formulas in the decoded base code;
 * `hasCantorAntichainOn_image_morleyCode_iff`: by (E0)'s `hasCantorAntichainOn_image_iff` with the
@@ -703,7 +707,8 @@ Prove, with exactly the hypotheses shown:
   ¬ HasPerfectlyManyCountableModels φ` (no CH hypothesis; from the witnessed Morley theorem);
 * `not_hasVaughtCount_iff`: `¬ HasVaughtCount φ ↔ countableModelCount φ = ℵ₁ ∧ ℵ₁ < 𝔠` (from the
   cardinal Morley theorem and `ℵ₁ ≤ 𝔠`);
-* `VaughtConjecture.cardinal : VaughtConjecture → CardinalVaughtConjecture`;
+* the perfect-set form implies the cardinal form, `VaughtConjecture → CardinalVaughtConjecture`
+  (by `HasPerfectlyManyCountableModels.countableModelCount_eq`);
 * `cardinalVaughtConjecture_of_aleph_one_eq_continuum : ℵ₁ = 𝔠 → CardinalVaughtConjecture`;
 * `cardinalVaughtConjecture_iff_vaughtConjecture`: if `ℵ₁ < 𝔠`, then
   `CardinalVaughtConjecture ↔ VaughtConjecture`;
@@ -832,12 +837,12 @@ the parent roadmap. In order:
    infinite-model reduction): `VaughtConjecture` holds iff no sentence has minimally uncountable
    models. Every counterexample has a minimally uncountable strengthening. The two forms of
    "countably many models on `ℕ`" used here, through `isoSetoidOn ℕ φ` and through the image of
-   `modelsOf φ` in the quotient by `isoSetoid L ℕ`, agree by
-   `countable_quotient_isoSetoidOn_iff`; and `not_vaughtConjecture_of_minimallyUncountableOn`
+   `modelsOf φ` in the quotient by `isoSetoid L ℕ`, agree by Tau Ceti's
+   `Setoid.countable_quotient_comap_val_iff`; and `not_vaughtConjecture_of_minimallyUncountableOn`
    passes through `φ ⊓ L.infiniteSentence`, which has the same models on `ℕ` and no finite
    models, since the finite tiers of `φ` can carry a perfect set.
 
-**Acceptance check.** `VaughtConjecture.cardinal`,
+**Acceptance check.** The implication `VaughtConjecture → CardinalVaughtConjecture`,
 `cardinalVaughtConjecture_of_aleph_one_eq_continuum`, `not_hasVaughtCount_iff` and
 `cardinalVaughtConjecture_iff_vaughtConjecture` compile from Layers 0 and 3 alone.
 
@@ -917,8 +922,7 @@ Discharge these alongside the layers.
   size and one for `ℕ`); `countableModelCount L.infiniteSentence = 1`.
 * **One element, many predicates** (Layer 0 acceptance): continuum many pairwise non-isomorphic
   one-element structures, a perfect set at the tier `Fin 1`, and no models on `ℕ`. Morley's theorem
-  and the bounded-rank dichotomy are witnessed here only through a finite tier
-  (`hasPerfectSetOfNonisoModelsOn_fin_one_unaryPredicates`).
+  and the bounded-rank dichotomy are witnessed here only through a finite tier.
 * **Equivalence relations with infinite classes** (Layer 2 acceptance): internal Scott rank `1`,
   exactly `ℵ₀` models.
 * **Equivalence relations** (Layer 3 acceptance): an explicit perfect set;
