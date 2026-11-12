@@ -624,6 +624,9 @@ for the last, from Mathlib.
   analytic subset of a Hausdorff space contains the range of a continuous injection of Cantor
   space. Write it as the range of a continuous `g` on a Polish space; the relation `g a = g b` is
   closed; Silver's theorem gives a Cantor antichain `h` for it, and `g ∘ h` is the injection.
+
+  *Needs:* Mathlib `MeasureTheory.analyticSet_iff_exists_polishSpace_range`, `isClosed_diagonal`;
+  Tau Ceti `Setoid.silver_dichotomy`, `Setoid.HasCantorAntichainOn.exists_injective`.
 - Silver for equality is the perfect set theorem for the space itself, and needs nothing beyond
   Mathlib's `IsClosed.exists_nat_bool_injection_of_not_countable`; the content of Silver's
   theorem is in the non-smooth relations of Layer 5.
@@ -691,6 +694,10 @@ All but `isSmooth_of_isClosed` is consumed from Tau Ceti (`BorelReducibility.lea
   `U ×ˢ V` disjoint from the graph of `E`, the saturations of `U` and `V` are disjoint invariant
   analytic sets; invariant Lusin separation (Layer 2.2) separates them by an invariant Borel set;
   the countably many separators separate the classes.
+
+  *Needs:* Mathlib `IsClosed.analyticSet`, `MeasurableSet.analyticSet`,
+  `TopologicalSpace.exists_countable_basis`; Tau Ceti
+  `Setoid.exists_invariant_measurableSet_separating`, `Setoid.isSmooth_iff_countablySeparated`.
 - Reducibility to a smooth relation preserves smoothness (`Setoid.BorelReducible.isSmooth`).
 
 ### 5.3 Silver in reducibility form
