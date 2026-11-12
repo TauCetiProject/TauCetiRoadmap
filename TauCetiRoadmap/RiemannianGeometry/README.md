@@ -38,12 +38,12 @@ R7.3's Laplace-type theorem for D*D, differs from P1.0's Dirac-type
 theorem only in allowing D:E→F between bundles of different ranks. R4.7 owns the
 completeness of the quotient of a complete Riemannian manifold by a free properly
 discontinuous group of isometries, built on the library's quotient manifold, quotient
-metric and curvature naturality, and the space-form quotients in curvature 0 and 1.
+metric and curvature naturality, and the space-form quotients in curvature 0 and 1;
 GeometricTopology §7.1 owns the curvature −1 case in dimensions n ≥ 1, and AlgebraicTopology
 §4.6 owns the homeomorphism from `TauCeti.RealProjectiveSpace` n to `Projectivization` ℝ
 (Fin (n+1) → ℝ) with its affine-chart comparison. PseudodifferentialOperators P7a consumes
-R4.7's quotient construction, and R4.7 uses no PseudodifferentialOperators target, so
-P1.0 → R7 and R4.7 → P7a form
+R4.7's quotient construction and none of
+these; R4.7 uses no PseudodifferentialOperators target, so P1.0 → R7 and R4.7 → P7a form
 no cycle. R5b owns the Dirichlet realization of the normal Jacobi operator: its
 form on W¹,²₀, the self-adjoint operator that form represents, built on Tau Ceti's
 Lax–Milgram solution operator, and its boundary-domain identification. It is
