@@ -187,10 +187,13 @@ and the representation of a topos by a localic groupoid (Joyal–Tierney 1984).
   `NatTrans.naturality_apply`.
 - Sites: `GrothendieckTopology` with its complete lattice, `Sieve`, `Sheaf`, `sheafToPresheaf`,
   `presheafToSheaf`, `sheafBotEquivalence`, `Presheaf.IsSheaf`, `Sheaf.instHasColimitsOfShape`
-  (`Sites/Limits`), the instance `HasImages (Sheaf J (Type u))` (`Sites/Subsheaf`).
+  (`Sites/Limits`), the instance `HasImages (Sheaf J (Type u))` (`Sites/Subsheaf`), and
+  `Functor.inducedTopology` (`Sites/InducedTopology`), used along the functor of an equivalence of
+  categories.
 - Categories and examples: `FintypeCat.Skeleton`, `FintypeCat.Skeleton.incl`, `FintypeCat.incl`,
-  `unopUnop`, `yoneda`, `SingleObj`, `SingleObj.star`, `AsSmall`, `AsSmall.up`, `AsSmall.equiv`,
-  `SimplexCategory` with `SimplexCategory.δ`, `SimplexCategory.σ` and
+  `unopUnop`, `Equivalence`, `Equivalence.op`, `ObjectProperty.FullSubcategory`,
+  `ObjectProperty.ι`, `yoneda`, `SingleObj`, `SingleObj.star`, `AsSmall`, `AsSmall.up`,
+  `AsSmall.equiv`, `SimplexCategory` with `SimplexCategory.δ`, `SimplexCategory.σ` and
   `SimplexCategory.isTerminalZero`; `Sheaf.canonicalTopology`, `Subobject.underlying`,
   `IsIdempotentComplete` and `Sieve` with its maximal element.
 - Schemes: `AlgebraicGeometry.Scheme.Γ`, `Scheme.zariskiTopology`,
@@ -947,7 +950,8 @@ The statement of 2.5 (`IsClassifyingSite.exists_quotient_topology`,
 the site is the one of 3.5 (a′), the quotient is described by the lifting condition, and its
 finitely presentable models by (b).
 *Needs:* 2.5, 3.1, 3.5; GrothendieckTopoi 2.5, 6.6; Mathlib `Sieve`, `GrothendieckTopology`,
-`IsFinitelyPresentable`, `ObjectProperty.FullSubcategory`.
+`Functor.inducedTopology`, `Equivalence`, `IsFinitelyPresentable`,
+`ObjectProperty.FullSubcategory`.
 
 **Checks.**
 
