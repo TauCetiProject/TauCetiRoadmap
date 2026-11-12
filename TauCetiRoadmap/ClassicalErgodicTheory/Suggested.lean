@@ -14,19 +14,16 @@ their statements need.
 `condPartitionEntropy` the conditional entropy given a sub-σ-algebra of ArithmeticDynamics §2.7 in
 the countable-label form of README §4.0, only so that the entropy headlines below are statable.
 
+The spectral statements quantify over the finite measures with the prescribed moments, which
+are unique, so that no spectral measure has to be chosen.
+
 Headline theorems of the README that are not stated here, with the carrier each lacks:
 
-* the spectral characterizations of weak mixing (every mean-zero spectral measure is atomless) and
-  of mixing (every mean-zero spectral measure is a Rajchman measure), and the spectral
-  Halmos–von Neumann theorem: the spectral measure of a vector for an isometry (README §2.1)
-  exists at the pins only through Tau Ceti's Herglotz existence theorem, so a definition of it
-  would have to choose the measure;
 * uniqueness of equilibrium states for Hölder potentials on transitive subshifts of finite type and
-  on their suspension flows (README §§8.4–8.5), and the identification of the logarithm of the
-  Ruelle–Perron–Frobenius eigenvalue with the topological pressure (README §8.6): a subshift of
-  finite type as a compact metric space carrying its shift map, and the topological suspension
-  space with the Bowen–Walters metric; Mathlib's `Subshift` carries no metric, and its product
-  metrics `PiNat.metricSpace` and `PiCountable.metricSpace` are definitions, not instances.
+  on their suspension flows (README §§8.4–8.5): a subshift of finite type as a compact metric space
+  carrying its shift map, and the topological suspension space with the Bowen–Walters metric;
+  Mathlib's `Subshift` carries no metric, and its product metrics `PiNat.metricSpace` and
+  `PiCountable.metricSpace` are definitions, not instances.
 -/
 
 noncomputable section
@@ -286,6 +283,51 @@ theorem weakMixing_iff_hasEigenvector_ae_const {X : Type*} [MeasurableSpace X]
         ∃ a : ℂ, (f : X → ℂ) =ᵐ[μ] fun _ => a := by
   sorry
 
+/-- Layer 2.3: a probability-preserving map is weakly mixing iff every mean-zero `f ∈ L²` has an
+atomless spectral measure `σ_f` on the circle, `⟪f, Uⁿ f⟫ = ∫ zⁿ dσ_f` for the Koopman
+isometry `U f = f ∘ T` (Sarig, Theorem 3.2, for the eigenfunction form on a Lebesgue space). -/
+theorem weakMixing_iff_exists_atomless_spectralMeasure {X : Type*} [MeasurableSpace X]
+    (μ : Measure X) [IsProbabilityMeasure μ] {T : X → X} (hT : MeasurePreserving T μ μ) :
+    WeakMixing T μ ↔ ∀ f : Lp ℂ 2 μ, ∫ x, f x ∂μ = 0 →
+      ∃ σ : Measure Circle, IsFiniteMeasure σ ∧
+        (∀ n : ℕ, ∫ z, (z : ℂ) ^ n ∂σ =
+          inner ℂ f (((Lp.compMeasurePreservingₗᵢ ℂ T hT).toLinearMap ^ n) f)) ∧
+        ∀ z : Circle, σ {z} = 0 := by
+  sorry
+
+/-- Layer 2.3: a probability-preserving map is strongly mixing iff the spectral measure of every
+mean-zero `f ∈ L²` is a Rajchman measure, `σ̂_f(n) = ⟪f, Uⁿ f⟫ → 0`. -/
+theorem mixing_iff_exists_rajchman_spectralMeasure {X : Type*} [MeasurableSpace X]
+    (μ : Measure X) [IsProbabilityMeasure μ] {T : X → X} (hT : MeasurePreserving T μ μ) :
+    (∀ A B : Set X, MeasurableSet A → MeasurableSet B →
+      Tendsto (fun n : ℕ => μ.real (A ∩ T^[n] ⁻¹' B)) atTop (𝓝 (μ.real A * μ.real B))) ↔
+    ∀ f : Lp ℂ 2 μ, ∫ x, f x ∂μ = 0 → ∃ σ : Measure Circle, IsFiniteMeasure σ ∧
+      (∀ n : ℕ, ∫ z, (z : ℂ) ^ n ∂σ =
+        inner ℂ f (((Lp.compMeasurePreservingₗᵢ ℂ T hT).toLinearMap ^ n) f)) ∧
+      Tendsto (fun n : ℕ => ∫ z, (z : ℂ) ^ n ∂σ) atTop (𝓝 0) := by
+  sorry
+
+/-- Layer 2.3: the spectral Halmos–von Neumann theorem: two ergodic invertible probability systems
+whose Koopman eigenfunctions span dense subspaces have unitarily equivalent Koopman operators iff
+they have the same eigenvalues. -/
+theorem koopman_linearIsometryEquiv_iff_eigenvalues_eq {X Y : Type*} [MeasurableSpace X]
+    [MeasurableSpace Y] (μ : Measure X) [IsProbabilityMeasure μ] (ν : Measure Y)
+    [IsProbabilityMeasure ν] {T : X ≃ᵐ X} {S : Y ≃ᵐ Y} (hT : MeasurePreserving T μ μ)
+    (hS : MeasurePreserving S ν ν) (hTe : Ergodic T μ) (hSe : Ergodic S ν)
+    (hTd : Dense (Submodule.span ℂ {f : Lp ℂ 2 μ | ∃ c : ℂ,
+      Module.End.HasEigenvector (Lp.compMeasurePreservingₗᵢ ℂ T hT).toLinearMap c f} :
+        Set (Lp ℂ 2 μ)))
+    (hSd : Dense (Submodule.span ℂ {f : Lp ℂ 2 ν | ∃ c : ℂ,
+      Module.End.HasEigenvector (Lp.compMeasurePreservingₗᵢ ℂ S hS).toLinearMap c f} :
+        Set (Lp ℂ 2 ν))) :
+    (∃ V : Lp ℂ 2 μ ≃ₗᵢ[ℂ] Lp ℂ 2 ν, ∀ f, V (Lp.compMeasurePreservingₗᵢ ℂ T hT f) =
+        Lp.compMeasurePreservingₗᵢ ℂ S hS (V f)) ↔
+      {c : ℂ | Module.End.HasEigenvalue
+          (Lp.compMeasurePreservingₗᵢ (E := ℂ) (p := 2) ℂ T hT).toLinearMap c} =
+        {c : ℂ | Module.End.HasEigenvalue
+          (Lp.compMeasurePreservingₗᵢ (E := ℂ) (p := 2) ℂ S hS).toLinearMap c} := by
+  sorry
+
 /-- Layer 2.5: the Følner mean ergodic theorem: for an isometric representation of a countable
 group on a Hilbert space and a left Følner family, the averages `#(F i)⁻¹ ∑_(g ∈ F i) U (g⁻¹) v`
 converge to the orthogonal projection of `v` onto the invariant vectors. -/
@@ -320,6 +362,18 @@ theorem weakMixingVAdd_real_iff_tendsto_cesaro :
 any `t ≠ 0`. -/
 theorem weakMixingVAdd_real_iff_weakMixing {t : ℝ} (ht : t ≠ 0) :
     WeakMixingVAdd ℝ X μ ↔ WeakMixing (fun x : X => t +ᵥ x) μ := by
+  sorry
+
+/-- Layer 3.2: a measurable real flow is weakly mixing iff every mean-zero `f ∈ L²` has an atomless
+spectral measure `σ_f` on `ℝ`, `⟪f, U_t f⟫ = ∫ exp (2π i t ξ) dσ_f(ξ)` for the Koopman group
+`U_t f = f ∘ ((-t) +ᵥ ·)`. -/
+theorem weakMixingVAdd_real_iff_exists_atomless_spectralMeasure :
+    WeakMixingVAdd ℝ X μ ↔ ∀ f : Lp ℂ 2 μ, ∫ x, f x ∂μ = 0 →
+      ∃ σ : Measure ℝ, IsFiniteMeasure σ ∧
+        (∀ t : ℝ, ∫ ξ, Complex.exp (2 * Real.pi * Complex.I * t * ξ) ∂σ =
+          inner ℂ f (Lp.compMeasurePreservingₗᵢ ℂ (fun x : X => (-t) +ᵥ x)
+            (measurePreserving_vadd (-t) μ) f)) ∧
+        ∀ ξ : ℝ, σ {ξ} = 0 := by
   sorry
 
 end Layer3
@@ -770,6 +824,10 @@ variable {ι : Type*} [Fintype ι]
 def sftOneSided (A : ι → ι → Bool) : Set (ℕ → ι) :=
   {x | ∀ n, A (x n) (x (n + 1)) = true}
 
+/-- Layer 8.4: the shift `(σ x) n = x (n + 1)` on a one-sided subshift of finite type. -/
+def sftShift (A : ι → ι → Bool) (x : sftOneSided A) : sftOneSided A :=
+  ⟨fun n => x.1 (n + 1), fun n => x.2 (n + 1)⟩
+
 /-- Layer 8.6: the sequence `(i, x 0, x 1, …)`. -/
 def consSeq (i : ι) (x : ℕ → ι) : ℕ → ι
   | 0 => i
@@ -782,17 +840,19 @@ def ruelleOperator (A : ι → ι → Bool) (φ : (ℕ → ι) → ℝ) (f : (�
 
 /-- Layer 8.6: the Ruelle–Perron–Frobenius theorem: for a `d_θ`-Lipschitz potential on a one-sided
 aperiodic subshift of finite type, the transfer operator has a positive eigenvalue `c` with a
-positive `d_θ`-Lipschitz eigenfunction `h` and an eigenmeasure `ν` normalized by `∫ h dν = 1`, and
-`c⁻ⁿ Lⁿ f → h ∫ f dν` uniformly on the subshift for every continuous `f`. -/
-theorem exists_ruelleOperator_eigen [Nonempty ι] [DecidableEq ι] [TopologicalSpace ι]
-    [DiscreteTopology ι] [MeasurableSpace ι] [MeasurableSingletonClass ι] (A : ι → ι → Bool)
+positive `d_θ`-Lipschitz eigenfunction `h` and an eigenmeasure `ν` normalized by `∫ h dν = 1`,
+`log c` is the topological pressure of the shift for the potential, and `c⁻ⁿ Lⁿ f → h ∫ f dν`
+uniformly on the subshift for every continuous `f`. -/
+theorem exists_ruelleOperator_eigen [Nonempty ι] [DecidableEq ι] [UniformSpace ι]
+    [DiscreteUniformity ι] [MeasurableSpace ι] [MeasurableSingletonClass ι] (A : ι → ι → Bool)
     (haper : ∃ N : ℕ, 0 < N ∧
       ∀ i j, 0 < ((Matrix.of fun i j => if A i j = true then (1 : ℝ) else 0) ^ N) i j)
     {θ : ℝ} (hθ : θ ∈ Ioo 0 1) (φ : (ℕ → ι) → ℝ)
     (hφ : ∃ C : ℝ, ∀ x ∈ sftOneSided A, ∀ y ∈ sftOneSided A, ∀ n : ℕ,
       (∀ k < n, x k = y k) → |φ x - φ y| ≤ C * θ ^ n) :
     ∃ (c : ℝ) (h : (ℕ → ι) → ℝ) (ν : ProbabilityMeasure (ℕ → ι)),
-      0 < c ∧ ν (sftOneSided A) = 1 ∧
+      0 < c ∧ topologicalPressure (sftShift A) (fun x => φ x.1) = (Real.log c : EReal) ∧
+      ν (sftOneSided A) = 1 ∧
       (∃ C : ℝ, ∀ x ∈ sftOneSided A, ∀ y ∈ sftOneSided A, ∀ n : ℕ,
         (∀ k < n, x k = y k) → |h x - h y| ≤ C * θ ^ n) ∧
       (∀ x ∈ sftOneSided A, 0 < h x ∧ ruelleOperator A φ h x = c * h x) ∧
