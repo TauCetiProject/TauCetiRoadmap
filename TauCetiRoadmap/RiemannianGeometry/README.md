@@ -633,7 +633,9 @@ symmetric, ‖S‖⁻¹ is the least value of B(v,v)/‖Jv‖² over the v with 
 Mathlib's Lax–Milgram equivalence `IsCoercive.continuousLinearEquivOfBilin` in
 `Mathlib/Analysis/InnerProductSpace/LaxMilgram.lean`.
 
-For R5c: `TauCeti.Manifold.laplaceBeltrami_eq_sum_hessian` in
+For R5c: `TauCeti.IsRegularValue` in `TauCeti/Geometry/Manifold/RegularValue.lean`, every
+point of the level a point where the manifold derivative is surjective, for the defining
+functions of item 3; `TauCeti.Manifold.laplaceBeltrami_eq_sum_hessian` in
 `TauCeti/Geometry/Manifold/Riemannian/Laplacian.lean`, Δf(x) is the sum of the values
 Hess f(e_i,e_i) of the scalar Hessian over every orthonormal basis (e_i) of T_xM; in
 `TauCeti/Geometry/Manifold/Riemannian/DivergenceTheorem.lean`, on a boundaryless manifold
@@ -771,6 +773,7 @@ The following contracts specify each supplier and section consumed.
   Its smooth-triangulation theorem (Whitehead: every smooth manifold admits a
   smooth triangulation) supplies smooth triangulation.
   R3.2 constructs the finite marked-point refinement and its marked-pair identification.
+  R5c uses the smooth collars of §1.1 and the gluing along the boundary of §1.3.
 - [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md), K5a: real/complex
   bundle Sobolev/Rellich, distributional regularity and global estimates for
   smooth Laplace-type systems, the formal-adjoint L² comparison, compact resolvent, Green operator,
@@ -3539,8 +3542,10 @@ Prove:
    Dirichlet case on D̄, a compact manifold with boundary modelled on
    Mathlib's `𝓡∂ m`, among the functions smooth up to the boundary and
    vanishing on it. Every compact Riemannian manifold with boundary arises
-   so: a collar (GeometricTopology Layer 1) extends the manifold, and the
-   metric extends to a neighbourhood of D̄. On a closed connected M
+   so: a collar (GeometricTopology §1.1), glued along the boundary (§1.3),
+   extends the manifold, and the metric extends across the boundary by
+   ComplexKahlerGeometry K5a's Seeley extension, staying positive definite on a
+   neighbourhood of D̄. On a closed connected M
    the headline `exists_pos_eigenfunction_neg_laplaceBeltrami_add` states
    this among smooth functions, with μ₁ their least Rayleigh quotient
    `(∫|∇u|²+∫qu²)/∫u²`.
@@ -3548,7 +3553,14 @@ Prove:
    μ₁(L)=0.
 3. Strict domain monotonicity: for connected relatively compact smooth
    domains D₁ and D₂ of M with D̄₁⊂D₂ and D₁≠D₂, where D₂ may be closed, that
-   is D₂=M for a compact connected M, `μ₁(L,D₁)>μ₁(L,D₂)`.
+   is D₂=M for a compact connected M, `μ₁(L,D₁)>μ₁(L,D₂)`. The headline
+   `exists_rayleigh_lt_of_pos_dirichletEigenfunction` states it with
+   Dᵢ={ρᵢ<0} for smooth ρᵢ with regular value 0 and {ρᵢ≤0} compact, D₂=M
+   closed being ρ₂=−1. Every relatively compact smooth domain has such a ρ,
+   glued by a partition of unity from −x_m in boundary charts and ±1 away from
+   ∂D. μ₁(L,D₁) is given by a positive eigenfunction smooth up to ∂D₁ and
+   vanishing there (item 1), and μ₁(L,D₂)<μ₁(L,D₁) is written as a smooth
+   function supported in D₂ whose Rayleigh quotient is below μ₁(L,D₁).
 4. For q=0 on a closed connected M, μ₁(Δ⁺)=0 with eigenspace the constants,
    the first positive eigenvalue `λ₁(Δ⁺)=μ₂(Δ⁺)` is positive and has a smooth
    eigenfunction, and
@@ -3597,7 +3609,8 @@ zero, with equality at the λ₁-eigenfunctions.
 
 *Needs:* the realization and the min–max characterization above; PDE A3
 (closed case) and C13; VariationalMethods 4.1 and 4.3; GeometricTopology
-Layer 1 (a smooth collar, for the headline on a manifold with boundary); Tau
+§1.1 and §1.3 and ComplexKahlerGeometry K5a's Seeley extension (for the
+headline on a manifold with boundary); Tau
 Ceti
 `TauCeti.W1p.posPartAbove`, `TauCeti.W1p.posPart_mem_w1p0Submodule`,
 `TauCeti.W1p0.extendByZeroL`, `TauCeti.Manifold.integral_mul_laplaceBeltrami`

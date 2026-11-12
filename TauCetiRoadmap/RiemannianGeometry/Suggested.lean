@@ -18,6 +18,7 @@ public import TauCeti.Geometry.Manifold.Orientation.Basic
 public import TauCeti.RingTheory.MvPolynomial.Harmonic
 public import TauCeti.Geometry.Manifold.Riemannian.Laplacian
 public import TauCeti.Analysis.MvPolynomial.Sphere
+public import TauCeti.Geometry.Manifold.RegularValue
 
 /-!
 # Riemannian geometry: target signatures
@@ -42,7 +43,8 @@ connected space forms (R4.7), two distinct fixed-interval geodesics between dist
 connected closed positive-dimensional manifold (R4.8), the three simple closed geodesic images on
 a smooth two-sphere (R4.9), the paraboloid crossing and vertex-pole theorems (R5a.3),
 the first positive eigenvalue of `Δ⁺`, the closed-manifold and Dirichlet principal eigenfunctions
-of `Δ⁺ + q` and the scalar Dirichlet problem on a compact manifold with boundary (R5c), Bochner's
+of `Δ⁺ + q`, strict domain monotonicity of the lowest Dirichlet eigenvalue and the scalar
+Dirichlet problem on a compact manifold with boundary (R5c), Bochner's
 vanishing of the first de Rham cohomology under positive Ricci curvature (R7.6), the vanishing of
 de Rham cohomology in every interior degree under a positive curvature operator (R7.7), the
 smooth-function duality for the Riemannian distance (R7.8), the identification of the smooth
@@ -86,8 +88,7 @@ Weitzenböck curvature term on `p`-forms, absent at the pin; and Takahashi's eig
 (R8.4), which needs the mean curvature of an isometric immersion into a round sphere, absent at
 the pin. The same holds for the Dirichlet realization (R5b) and for R5c's spectral decomposition,
 min–max formula and index for a bundle `(E, ∇, K)`, which need the `L²` space of sections of a
-vector bundle, absent at the pin, and for R5c's strict domain monotonicity, which needs a smooth
-subdomain of a manifold, absent at the pin.
+vector bundle, absent at the pin.
 -/
 
 @[expose] public section
@@ -497,7 +498,7 @@ theorem paraboloid_vertex_pole
 
 end Paraboloid
 
-/-! ## Layer 5: Schrödinger operators on closed manifolds -/
+/-! ## Layer 5: Schrödinger operators on closed manifolds and smooth domains -/
 
 section Schrodinger
 
@@ -537,6 +538,30 @@ theorem exists_pos_eigenfunction_neg_laplaceBeltrami_add [CompactSpace M] [Conne
         mu * ∫ x, u x ^ 2 ∂TauCeti.riemannianVolume I M ≤
           ∫ x, ‖TauCeti.Manifold.mgradient I u x‖ ^ 2 + q x * u x ^ 2
             ∂TauCeti.riemannianVolume I M := by
+  sorry
+
+/-- R5c, item 3, strict domain monotonicity: let `D₁ = {ρ₁ < 0}` and `D₂ = {ρ₂ < 0}` be
+connected relatively compact smooth domains, cut out by smooth functions with regular value `0`,
+with `D̄₁ ⊆ D₂` and `D₁ ≠ D₂` (`ρ₂ = −1` gives `D₂ = M` closed). If `φ`, smooth up to `∂D₁`,
+positive on `D₁` and zero on `∂D₁`, solves `−Δφ + qφ = μφ` on `D₁`, so that
+`μ = μ₁(Δ⁺ + q, D₁)`, then a smooth `u` supported in `D₂` has `∫|∇u|² + ∫qu² < μ∫u²`, that is
+`μ₁(Δ⁺ + q, D₂) < μ₁(Δ⁺ + q, D₁)`. For `(π/4, 3π/4) ⊂ (0, π)` and `q = 0`, `μ = 4` with
+`φ = −cos 2x`, and a cut-off `sin` has quotient near `1`. -/
+theorem exists_rayleigh_lt_of_pos_dirichletEigenfunction (q : M → ℝ)
+    (hq : ContMDiff I 𝓘(ℝ) ∞ q) (ρ₁ ρ₂ : M → ℝ) (hρ₁ : ContMDiff I 𝓘(ℝ) ∞ ρ₁)
+    (hρ₂ : ContMDiff I 𝓘(ℝ) ∞ ρ₂) (hreg₁ : TauCeti.IsRegularValue I 𝓘(ℝ) ρ₁ 0)
+    (hreg₂ : TauCeti.IsRegularValue I 𝓘(ℝ) ρ₂ 0) (hcpt₁ : IsCompact {x | ρ₁ x ≤ 0})
+    (hcpt₂ : IsCompact {x | ρ₂ x ≤ 0}) (hconn₁ : IsConnected {x | ρ₁ x < 0})
+    (hconn₂ : IsConnected {x | ρ₂ x < 0}) (hsub : {x | ρ₁ x ≤ 0} ⊆ {x | ρ₂ x < 0})
+    (hne : {x | ρ₁ x < 0} ≠ {x | ρ₂ x < 0}) (mu : ℝ) (φ : M → ℝ)
+    (hφ : ContMDiffOn I 𝓘(ℝ) ∞ φ {x | ρ₁ x ≤ 0}) (hφpos : ∀ x, ρ₁ x < 0 → 0 < φ x)
+    (hφbd : ∀ x, ρ₁ x = 0 → φ x = 0)
+    (hφeq : ∀ x, ρ₁ x < 0 →
+      -TauCeti.Manifold.laplaceBeltrami I φ x + q x * φ x = mu * φ x) :
+    ∃ u : M → ℝ, ContMDiff I 𝓘(ℝ) ∞ u ∧ tsupport u ⊆ {x | ρ₂ x < 0} ∧
+      ∫ x, ‖TauCeti.Manifold.mgradient I u x‖ ^ 2 + q x * u x ^ 2
+          ∂TauCeti.riemannianVolume I M <
+        mu * ∫ x, u x ^ 2 ∂TauCeti.riemannianVolume I M := by
   sorry
 
 end Schrodinger
