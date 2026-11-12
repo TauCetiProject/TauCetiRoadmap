@@ -365,6 +365,17 @@ once from a source of cardinality `ℶ_ω₁`. That is the relation `ℶ_ω₁ �
 fails with output `ω` (Convention 9). Each application of Erdős–Rado here concerns finitely many
 arities.
 
+### Examples
+
+1. **Erdős–Rado at small parameters.** `ℶ₁⁺ → (ℵ₁)²_{ℵ₀}` and `ℶ₂⁺ → (ℵ₁)³_{ℵ₀}` as instances of
+   `erdos_rado`; the pigeonhole instance `ℵ₁ → (ℵ₁)¹_{ℵ₀}`.
+
+### Dependencies
+
+Mathlib cardinals and ordinals (`Cardinal.beth`, regularity of successor cardinals and of
+`ℵ₁`, the infinite pigeonhole principle), order embeddings and `Finset.orderEmbOfFin`. No other
+layer.
+
 ## Layer 1 — Indiscernible sequences and templates
 
 Suggested home: `TauCeti/ModelTheory/Infinitary/EM/{Indiscernible, Template}.lean`.
@@ -430,6 +441,16 @@ true, so the eventual template contains every `Pᵢ(x₀)` and `¬⋀ᵢ Pᵢ(x�
 realized and the whole is not. Templates used for stretching therefore carry the witness
 conditions of Layer 2, and no statement here asserts that a finitely realized template is
 realizable.
+
+### Examples
+
+2. **Morley seed.** An injective sequence in any model of `φ` is indiscernible for the Morley seed.
+3. **The height example.** The template-realizability counterexample of the Layer 1 warning, with
+   its finitely realized and unrealizable template proved.
+
+### Dependencies
+
+InfinitaryLogic Layer 0. No other layer.
 
 ## Layer 2 — Skolem towers and Ehrenfeucht–Mostowski models
 
@@ -612,6 +633,16 @@ formulas even over a finite language, and the resulting language is uncountable,
 has the wrong cardinality and the truth lemma's family no longer fits in a countable set. The
 tower above adds Skolem symbols only for the countable family that the construction needs.
 
+### Examples
+
+4. **EM models of the atomic order fragment.** The Layer 2 acceptance check, with the skeleton an
+   order isomorphism from `J` onto the EM model.
+
+### Dependencies
+
+Layer 1; IME Layers 0.1, 0.4, 1.2 and 2.2; InfinitaryLogic Layer 0; Mathlib `Language.sum` and
+`Substructure.closure`.
+
 ## Layer 3 — The Morley–Hanf theorem
 
 Suggested home: `TauCeti/ModelTheory/Infinitary/Hanf/{Defs, Approximation, MorleyHanf}.lean`.
@@ -773,6 +804,16 @@ stage condition. They cannot be recovered from the finished assignment: a total 
 finite parts are cofinally approximated, built by the decision lemma alone, need not be
 ω-complete (compare the height example of Layer 1).
 
+### Examples
+
+5. **Omitting types.** The Hanf number for omitting a countable set of countable types in a
+   countable first-order theory is at most `ℶ_ω₁`, via `morley_omitting_types`; the example of 3.4
+   with uncountably many constants shows that countability of each type cannot be dropped.
+
+### Dependencies
+
+Layers 0 and 2; IME Layers 0.1–0.3 and 1.1; InfinitaryLogic Layer 0.
+
 ## Layer 4 — The Hanf number of Lω₁ω
 
 Suggested home: `TauCeti/ModelTheory/Infinitary/Hanf/{Global, Ladder, VonNeumannModel}.lean`.
@@ -846,6 +887,18 @@ bound); an injection into `Set Y` bounds by `2 ^ #Y` (`Cardinal.mk_le_of_injecti
 
 **Acceptance check:** the ladder at `α = 0`, with `Set ℕ` as maximal model (`cₙ = {n}`, `U_⊥` the
 singletons, `E(x, y)` iff `x = {n}` with `n ∈ y`) and every model of cardinality at most `2^ℵ₀`.
+
+### Examples
+
+6. **A countable spectrum.** Over constants `cₙ`, the sentence "every element is some `cₙ`, and the
+   `cₙ` are pairwise distinct" has exactly one model up to isomorphism, of cardinality `ℵ₀`, so
+   `ℵ₀ < lomega1omegaHanfNumber`.
+7. **The ladder at `α = 0`.** The Layer 4 acceptance check with `Set ℕ`.
+
+### Dependencies
+
+Layer 3, for the upper bound and the global Hanf bound only; InfinitaryLogic Layer 0; Mathlib
+von Neumann hierarchy.
 
 ## Layer 5 — Small models, complete sentences and categoricity
 
@@ -999,37 +1052,26 @@ argument must go through a back-and-forth system with an arbitrary model, which 
 `TauCeti.bfEquiv_of_realize_scottSentence` supplies at the pin, from the parent's
 `isTupleBFSystem_of_realize_scottSentenceAt` in any model `N`.
 
-## Worked examples
+### Examples
 
-Discharge these alongside the layers; they check that the API describes real structures.
-
-1. **Erdős–Rado at small parameters.** `ℶ₁⁺ → (ℵ₁)²_{ℵ₀}` and `ℶ₂⁺ → (ℵ₁)³_{ℵ₀}` as instances of
-   `erdos_rado`; the pigeonhole instance `ℵ₁ → (ℵ₁)¹_{ℵ₀}`.
-2. **Morley seed.** An injective sequence in any model of `φ` is indiscernible for the Morley seed.
-3. **The height example.** The template-realizability counterexample of the Layer 1 warning, with
-   its finitely realized and unrealizable template proved.
-4. **EM models of the atomic order fragment.** The Layer 2 acceptance check, with the skeleton an
-   order isomorphism from `J` onto the EM model.
-5. **Pure sets.** For the empty language and `φ = "there are infinitely many elements"` (a countable
+8. **Pure sets.** For the empty language and `φ = "there are infinitely many elements"` (a countable
    conjunction of first-order sentences), the Layer 3 construction produces pure sets of every
    infinite cardinality; every pure set is small and the sentence is complete and
    `κ`-categorical for every infinite `κ`.
-6. **Dense linear orders.** The Scott sentence of `(ℚ, <)` is complete, has models of every infinite
+9. **Dense linear orders.** The Scott sentence of `(ℚ, <)` is complete, has models of every infinite
    cardinality by `exists_model_card_eq_of_forall_beth`, and is `ℵ₀`-categorical; the complete
    strengthening produced by 5.5 at `κ = ℵ₀` is equivalent to it.
-7. **A countable spectrum.** Over constants `cₙ`, the sentence "every element is some `cₙ`, and the
-   `cₙ` are pairwise distinct" has exactly one model up to isomorphism, of cardinality `ℵ₀`, so
-   `ℵ₀ < lomega1omegaHanfNumber`.
-8. **The ladder at `α = 0`.** The Layer 4 acceptance check with `Set ℕ`.
-9. **Omitting types.** The Hanf number for omitting a countable set of countable types in a
-   countable first-order theory is at most `ℶ_ω₁`, via `morley_omitting_types`; the example of 3.4
-   with uncountably many constants shows that countability of each type cannot be dropped.
 10. **A function symbol.** Over one unary function symbol `f`, let `φ` say "`f` is the identity and
     there are infinitely many elements". 5.4 and 5.5 do not apply to it. The models of its graph
     form `conjunction (graphAxioms Set.univ) ∧ relationalize φ` are the infinite pure sets of
-    example 5 with `G_f` interpreted as equality. By 5.6 every model is small, `φ` is complete and `κ`-categorical for
+    example 8 with `G_f` interpreted as equality. By 5.6 every model is small, `φ` is complete and `κ`-categorical for
     every infinite `κ`, and the completion of `exists_isCompleteSentence_isCategorical_of_countable`
     at any infinite `κ` is equivalent to `φ`.
+
+### Dependencies
+
+Layers 2 and 3; InfinitaryLogic Layers 1–3; IME Layers 0.1, 1.1, 1.2, 2.3, 4.1 and 6; Mathlib
+Hahn series and subfield closures.
 
 ## Out of scope
 
