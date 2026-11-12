@@ -114,8 +114,9 @@ Poisson bracket `[−,−]_P`, use left Hamiltonians `H_f=[f,−]_P`.
 Use `OreLocalization` for the skew fields of fractions of the based tori.
 Commutative one-exchange statements use regular localization of Laurent semirings.
 The skew one-exchange, patching and replacement statements concern subrings of a
-fixed division ring. Compare total quotient rings with `FractionRing` and
-`IsFractionRing` when the coefficient ring is a domain.
+fixed division ring. For a commutative ring `A` the total quotient `T(A)` is
+Mathlib's total fraction ring `FractionRing A`; use `FractionRing` and
+`IsFractionRing` for rings. `T` is a new construction only for semirings.
 The common scalar ring acts centrally; the ambient division ring need not be
 commutative. Ordinary quantum algebras are `Z_v`-algebras. Quasi-commuting frozen
 generators are coordinates, not central scalars.
@@ -257,8 +258,6 @@ composition and both comparison equivalences. The induced structures use
 the given operations, so the comparisons do not require changing instances
 at each use. Zero-sum-freeness alone does not make a semiring's units
 addition-closed; for example `1+1` is not a unit in `ℕ`.
-The Lean signatures use a semifield `P₀` with the zero-sum-free hypothesis
-for the zero-adjoined object and `P₀ˣ` for its coefficient group.
 
 Let `R` be a commutative semiring and `G≤Rˣ` a subgroup closed under addition
 in `R`. Construct the induced coefficient-semifield structure on `G`.
@@ -276,8 +275,10 @@ Prove uniqueness, identity and composition laws under this explicit condition;
 an arbitrary coefficient map need not extend. If `A` is nontrivial and every nonzero
 element is regular, prove that `Reg(A)=A∖{0}` and this localization is a
 semifield. For a regular element `e`, construct
-`T(A[e⁻¹])≃+*T(A)` commuting with the base maps and evaluation, and the
-comparison with the fraction field when `A` is a domain ring. Follow the
+`T(A[e⁻¹])≃+*T(A)` commuting with the base maps and evaluation. For a
+commutative ring `A`, `isRegular_iff_mem_nonZeroDivisors` gives `Reg(A)=A⁰`,
+so `T(A)` is Mathlib's total fraction ring `FractionRing A`; `T` is a new
+construction only for semirings. Follow the
 regular-element terminology of Mathlib's
 [localization discussion](https://github.com/leanprover-community/mathlib4/issues/22997).
 
@@ -347,10 +348,11 @@ reindexing along `K ≃ K'`, and,
 for a commutative `R`-algebra `A`, the unique `L(R,K) →ₐ[R] A` with `X_i ↦ x_i` for
 `x : K → Aˣ`. Construct coefficient maps along `R →+* R'`, injective along injective maps,
 with identity, composition and reindexing laws, and `IsLocalization` of `L(R',K)` over
-`L(R,K)` when `R'` localizes `R`. A Laurent chart (`LaurentChart`) in a
+`L(R,K)` when `R'` localizes `R`. A Laurent chart in a
 commutative `R`-algebra `B` is an injective `L(R,K)→ₐ[R]B`.
 Its coordinate map evaluates the basis monomials `X_i`, which are units.
 Construct the canonical chart in `T(L(R,K))`. A generating regular chart
+(`Seed.IsGenerating`, for the chart of a seed over a commutative ring)
 includes an equivalence `T(L(R,K))≃ₐ[R]B` extending this chart; §0.5 constructs
 these after regular exchanges. Prove coefficient, reindexing and chart-composition
 laws without assuming that `B` is a field.
@@ -463,10 +465,11 @@ Seeds use the following presentation of charts by normalized monomials. Let R
 be a commutative semiring, `u∈Rˣ`, I a finite type, Λ an integer alternating
 form on `ℤ^I` and B an R-algebra, not necessarily commutative. A based chart
 (`BasedChart`) for `(R,u,Λ)` in B is a family `M:ℤ^I→Bˣ` with `M(0)=1`,
-`M(a)M(b)=u^{Λ(a,b)}M(a+b)` and R-linearly independent values: finite
-R-combinations of the `M(a)` have unique coefficients. Its coordinates are
-`X_i=M(e_i)`, and its chart map sends a finitely supported family f to
-`Σ_a f_aM(a)`. Prove that the chart map is injective, that a based chart is
+`M(a)M(b)=u^{Λ(a,b)}M(a+b)`, where `Λ(a,b)=Σ_{i,j}a_iΛ_ij b_j`
+(`formPairing`), and R-linearly independent values: finite
+R-combinations of the `M(a)` have unique coefficients. Its coordinates
+(`BasedChart.coordinate`) are `X_i=M(e_i)`, and its chart map
+(`BasedChart.eval`) sends a finitely supported family f to `Σ_a f_aM(a)`. Prove that the chart map is injective, that a based chart is
 determined by its coordinates through the ordered-product formula above, and
 transport along reindexing and along injective R-algebra maps of B. For a
 commutative ring R, prove that `M(a)=χ(X^a)` is a bijection from injective
@@ -776,9 +779,12 @@ an exchange matrix on K. Its mutation is given by the Y-formulas below.
 **Coefficient systems.** An exchange polynomial (`ExchangePolynomial`) over a
 commutative monoid with zero 𝕂 is a specified degree `r>0` with coefficients
 `h_0,…,h_r∈𝕂` whose endpoints `h_0,h_r` are units. Write
-`H(T)=Σ_l h_lT^l`. Its reversal is `T^rH(T⁻¹)`; for units κ and e its
-dilation is `H(κT)`, with coefficients `κ^lh_l`, and its multiple is `eH`.
-These operations use only the multiplication of 𝕂.
+`H(T)=Σ_l h_lT^l`. Its reversal (`ExchangePolynomial.reverse`) is
+`T^rH(T⁻¹)`; for units κ and e its dilation (`ExchangePolynomial.dilate`) is
+`H(κT)`, with coefficients `κ^lh_l`, and its multiple
+(`ExchangePolynomial.scale`) is `eH`. These operations use only the
+multiplication of 𝕂. The binary polynomial (`ExchangePolynomial.binary`) is
+`1+T`.
 
 A coefficient system (`CoefficientSystem`) over a commutative semiring R
 consists of such a 𝕂, a map `φ:𝕂→R` preserving 0, 1 and products, and a
@@ -790,12 +796,13 @@ normalizer ν assigning a unit `ν(H)∈𝕂ˣ` to every exchange polynomial H o
 
 The system says where the coefficients live, how they act as scalars, and
 how exchange polynomials are normalized. The map φ need not be additive or
-injective. Put `N(H)=ν(H)H`, and call H normalized when `ν(H)=1`. Prove that
+injective. Put `N(H)=ν(H)H` (`CoefficientSystem.normalize`), and call H
+normalized when `ν(H)=1`. Prove that
 N is idempotent, that reversal preserves normalized polynomials, that ν is
 homogeneous of degree −1 for the subgroup `G_ν≤𝕂ˣ` generated by its values,
 and that the normalized polynomials are a reversal-stable set of
 representatives for the scaling action of `G_ν`; conversely such a subgroup
-and set of representatives determine ν. The scalar system of R has `𝕂=R`,
+and set of representatives determine ν. The scalar system (`CoefficientSystem.trivial`) of R has `𝕂=R`,
 `φ=id` and `ν=1`. A map of coefficient systems over R is a map `ψ:𝕂→𝕂'`
 preserving 0, 1 and products with `φ'∘ψ=φ` and `ν'(ψH)=ψ(ν(H))`; prove its
 identity and composition laws. This roadmap uses the scalar system, for
@@ -805,8 +812,10 @@ semifield below.
 **Exchange data.** Fix a finite type I, a type K and an embedding
 `row:K↪I`. Exchange data (`ExchangeData`) over 𝕂 consist of an extended
 exchange matrix B̃ and exchange polynomials `H_k`, `k∈K`, over 𝕂 whose
-degrees `r_k` divide every entry of column k. Put `β_k=b_{•k}/r_k`,
-`β_kj=b_kj/r_j` and `κ_{kj}=h_{k,r_k}^{[β_kj]_+}h_{k,0}^{−[−β_kj]_+}∈𝕂ˣ`.
+degrees `r_k` divide every entry of column k. Put `β_k=b_{•k}/r_k`
+(`ExchangeData.dividedColumn`), `β_kj=b_kj/r_j` and
+`κ_{kj}=h_{k,r_k}^{[β_kj]_+}h_{k,0}^{−[−β_kj]_+}∈𝕂ˣ`
+(`ExchangePolynomial.dilationFactor`).
 Mutation at k has three steps: mutate B̃ by §1.1 and reverse `H_k`; dilate
 every other polynomial to `H_j(κ_{kj}T)`; normalize it, so
 `H'_j=N(H_j(κ_{kj}T))`. The dilation is the propagation law of exchange
@@ -816,16 +825,16 @@ axiom (2.7), for binomials; Chekhov–Shapiro, (2.5)). It prescribes `H'_j` up
 to a unit, and the normalizer chooses the unit. Prove preservation of
 degrees, column divisibility and unit endpoints; that the reversal of `H_k`
 with the entry `−β_kj` has dilation factor `κ_{kj}⁻¹`; that data all of
-whose polynomials are normalized stay so; and that mutation is an
+whose polynomials are normalized (`ExchangeData.IsNormalized`) stay so; and that mutation is an
 involution on normalized data. Prove reindexing laws and that maps of
 coefficient systems commute with mutation.
 
-Write `H_k(1)=Σ_lφ(h_{k,l})∈R`. In `D_k=L(R,I∖{row(k)})`, the exchange
+Write `H_k(1)=Σ_lφ(h_{k,l})∈R` (`ExchangeData.valueAtOne`). In `D_k=L(R,I∖{row(k)})`, the exchange
 numerator of normalized data d is
 
-```math
-m_{k,\pm}=\prod_{i\ne\mathrm{row}(k)}X_i^{[\pm\beta_{ik}]_+},
-\qquad E_k=\sum_{l=0}^{r_k}\phi(h_{k,l})m_{k,+}^{l}m_{k,-}^{r_k-l}.
+```
+m_{k,±} = ∏_{i≠row(k)} X_i^{[±β_ik]_+},
+E_k = Σ_{l=0}^{r_k} φ(h_{k,l}) m_{k,+}^l m_{k,−}^{r_k−l}.
 ```
 
 Prove `E_k(μ_k(d))=E_k(d)`.
@@ -835,13 +844,15 @@ A seed (`Seed`) of a coefficient system over `(R,u)` in B consists of
 normalized exchange data d, called its state, an alternating integer form Λ
 on `ℤ^I`, weights w satisfying §1.1's column compatibility with the matrix
 of d, and a based chart M for `(R,u,Λ)` in B (§0.4). Its exchange element
-at k is
+(`Seed.exchangeElement`) at k, with the exponents
+`ExchangeData.exchangeExponent`, is
 
 ```
 X'_k = Σ_{l=0}^{r_k} φ(h_{k,l}) M(−e_k + l[β_k]_+ + (r_k−l)[−β_k]_+).
 ```
 
-Mutation at k is defined when `X'_k` is a unit of B. The new seed has state
+Mutation at k (`Seed.IsMutation`, as a relation between the two seeds) is
+defined when `X'_k` is a unit of B. The new seed has state
 `μ_k(d)`, form `Λ'` of §1.1, the same weights, and the based chart with
 coordinate `X'_k` at `row(k)` and all other coordinates unchanged:
 
@@ -864,13 +875,13 @@ column, `X'_k=H_k(1)X_k⁻¹`. A seed is admissible (`Seed.Admissible`) when
 `H_k(1)` is a unit of B for every zero column k. Prove that mutation
 preserves admissibility: a column is zero after a mutation exactly when it was
 zero before, its polynomial is then reversed or unchanged, and reversal
-preserves `H_k(1)`. A class of seeds is total (`Seed.IsTotal`) when every
+preserves `H_k(1)`. A class of seeds is total when every
 exchange element of its members is a unit and it is closed under mutation;
 §1.3's word action is defined on total classes.
 
 **Gauge.** Two seeds over `(R,u)` in B, possibly of different coefficient
 systems over R, with the same extended matrix and form are gauge equivalent
-(`Seed.GaugeEquivalent`) when there are units `c_i∈Rˣ`, `i∈I`, and
+when there are units `c_i∈Rˣ`, `i∈I`, and
 `e_k∈Rˣ`, `k∈K`, with `M̃(a)=c^aM(a)` and
 `φ̃(H̃_k)(T)=e_k·φ(H_k)(c^{−β_k}T)`, where `c^a=∏_ic_i^{a_i}` and `φ(H)` is
 the polynomial over R with coefficients `φ(h_l)`.
@@ -882,8 +893,8 @@ admissibility is gauge invariant, and the chart rings, cluster algebras,
 upper cluster algebras and upper bounds over R coincide (§1.3). Over a
 subsemiring of scalars that does not contain the gauge units these algebras
 can differ. Every seed is gauge equivalent, with `c=1` and `e=1`, to the seed
-of the scalar system with the same chart and the polynomials `φ(H_k)`
-(`Seed.toScalarSeed`); thus the pattern of every coefficient system follows
+of the scalar system with the same chart and the polynomials `φ(H_k)`;
+thus the pattern of every coefficient system follows
 a pattern of the scalar system. The correspondence follows paths; it is not
 a bijection of seeds or of cluster variables. Periodicity of a pattern and
 finiteness of its set of cluster variables depend on the normalizer: they are
@@ -932,10 +943,8 @@ mutation is matrix mutation with Y-mutation using the principal block:
 `κ_{kj}=y_k^{[b_kj]_+}(y_k⊕1)^{−b_kj}`. A normalized seed is a seed of this
 system with binomial data; its exchange numerators are
 
-```math
-E_k=\phi(y_k\mathbin{\oplus_P}1)^{-1}
-\left(\phi(y_k)\prod_{i\ne\mathrm{row}(k)}X_i^{[\widetilde b_{ik}]_+}
-              +\prod_{i\ne\mathrm{row}(k)}X_i^{[-\widetilde b_{ik}]_+}\right)\in D_k.
+```
+E_k = φ(y_k ⊕_P 1)⁻¹ (φ(y_k) ∏_{i≠row(k)} X_i^{[b̃_ik]_+} + ∏_{i≠row(k)} X_i^{[−b̃_ik]_+}) ∈ D_k.
 ```
 
 The normalizer is formed in P before φ is applied. Since φ need not preserve
@@ -987,10 +996,9 @@ the extended matrix and generating chart.
 For coefficient semifields `P,Q`, a group homomorphism `φ:P→Q`, a Y-seed
 `(y,B)` over `P` and `x:K→Q`, define
 
-```math
-x'_k=\frac{\phi(y_k)\prod_i x_i^{[b_{ik}]_+}
-                  \mathbin{\oplus_Q}\prod_i x_i^{[-b_{ik}]_+}}
-                 {\phi(y_k\mathbin{\oplus_P}1)x_k},\qquad x'_i=x_i\quad(i\ne k).
+```
+x'_k = (φ(y_k) ∏_i x_i^{[b_ik]_+} ⊕_Q ∏_i x_i^{[−b_ik]_+}) / (φ(y_k ⊕_P 1) x_k),
+x'_i = x_i   if i ≠ k.
 ```
 
 Together with Y-mutation in `P`, this gives a bijection between the copies of
@@ -1050,8 +1058,9 @@ one-exchange theorem; §1.1 for exchange matrices, forms and column compatibilit
 For the partial mutations of §1.2, an admissible word includes the proof
 that the exchange element is a unit at each successive seed. Prove
 composition of paths, reversal, cancellation of adjacent equal directions and
-reindexing. The reachable-seed relation is the reflexive transitive closure
-of these one-step exchanges, for every coefficient system, parameter and ambient algebra.
+reindexing. The reachable-seed relation (`Seed.Reachable`) is the reflexive
+transitive closure of these one-step exchanges (`Seed.Step`), for every
+coefficient system, parameter and ambient algebra.
 The pattern of a seed is the family of its reachable seeds; its cluster
 variables (`Seed.clusterVariables`) are their mutable coordinates.
 A map intertwining admissible steps transports admissible paths; prove its
@@ -1072,16 +1081,16 @@ Prove that word evaluation realizes it as the simple graph quotient of
 the mutation tree. For partial patterns use the admissible paths and their
 endpoint quotient; no regularity of an unadmitted exchange is assumed.
 
-For a seed s of any coefficient system over `(R,u)` in B, let `J=I∖row(K)` and choose
+For a seed s of any coefficient system over `(R,u)` in B, let `J=I∖row(K)` (`Frozen`) and choose
 `S⊆J`. The frozen coordinates `z_j` are independent of the reachable seed;
 for `u≠1` they need not be central. Define the following R-subalgebras of B,
 using the reachable seeds t of s:
 
 - the chart ring `L_{S,t}` (`Seed.chartAlgebra`), generated by all coordinates
   of t and the inverses of its mutable coordinates and of the `z_s`, `s∈S`;
-- the cluster algebra `A_S` (`Seed.clusterAlgebra`), generated by the mutable
+- the cluster algebra `A_S`, generated by the mutable
   coordinates of all reachable seeds, all `z_j`, and `z_s⁻¹` for `s∈S`;
-- the upper cluster algebra `U_S=⨅_t L_{S,t}` (`Seed.upperClusterAlgebra`);
+- the upper cluster algebra `U_S=⨅_t L_{S,t}`;
 - the upper bound `UB_S(s)` (`Seed.upperBound`), the intersection of `L_{S,s}`
   with the `L_{S,t}` of the one-step mutations t of s.
 
@@ -1136,7 +1145,7 @@ intertwine `μ_k(y,B)` with `μ_kB̃` and give the exchange relation
 (`i∈J`). Apply §1.3 to each `R_S` (§0.3), including its frozen-localization
 construction. Every comparison of `L_{R,t}`, `A_R`, `U_R` keeps `R` explicit.
 
-Binary data have `H_k=1+T` in every direction. In the scalar system they are
+Binary data (`ExchangeData.IsBinary`) have `H_k=1+T` in every direction. In the scalar system they are
 closed under mutation, and a binary seed is a seed of the scalar system with
 binary data. Construct the map from the normalized system of the one-element
 coefficient semifield to the scalar system;
@@ -1689,7 +1698,7 @@ the `k`th column of the mutable block `B_t`. Prove `G_tB_t=B₀C_t`, that `X_{j;
 homogeneous of degree the `j`th column `g_{j;t}` of `G_t` (its `g`-vector), and
 `X_{j;t}(x,u)=x^{g_{j;t}}F_{j;t}(û)` with `û_j=u_j∏_i x_i^{(B₀)_ij}`. These grading
 results consume L5–L6a and are not inputs to the `X`-form of L7b's separation theorem or
-to L8.
+to L8 (FZ IV, Propositions 3.6, 5.1, 6.1 and 6.6, and Corollary 6.3).
 
 **Checks.**
 
@@ -1712,8 +1721,8 @@ Use the positive regular charts first, and compare them with the universal
 integral charts through the embedding in the fraction field. Write
 `χ_s` for its inclusion of `Pos(P,K)` into `Fˣ`. For reachable seeds `s,t`, prove
 
-```math
-\chi_s(\operatorname{Pos}(P,K))=\chi_t(\operatorname{Pos}(P,K)).
+```
+χ_s(Pos(P,K)) = χ_t(Pos(P,K)).
 ```
 
 Construct the induced coefficient-semifield equivalences and prove their
@@ -1980,7 +1989,7 @@ Construct the resulting surjection
 `C⊗_{R_univ}A_{R_univ,S}→A_{C,S}`, with coordinate, reversal, word,
 reindexing and expansion laws. Compare it in degree one with L8 and §1.4.
 The comparison concerns finite Laurent representatives and the generated
-algebras; scalar extension of upper algebras is not identified with U_{C,S}.
+algebras; scalar extension of upper algebras is not identified with `U_{C,S}`.
 For semirings, P1 and §1.6 define the polynomial patterns and their algebras
 along regular paths; the Laurent theorem here concerns the admitted ring
 realizations. Generalized coefficient-semifield separation remains outside
@@ -2157,7 +2166,8 @@ A lattice seed is a finite indexed family `e:K→N_uf` with integers `d_k>0`
 such that `d_ke_k∈N°`. Allow dependent, nonspanning and repeated vectors.
 Define `ε_ij={e_i,e_j}d_j` for mutable indices; prove these numbers integral.
 For `k∈K`, define signed mutation by
-`e'_k=−e_k`, `e'_i=e_i+[±ε_ik]_+e_k` (`i≠k`), keeping the weights.
+`e'_k=−e_k`, `e'_i=e_i+[±ε_ik]_+e_k` (`i≠k`), keeping the weights
+(GHK, (2.3)–(2.4), for the positive sign; §3.5 gives the reference).
 Prove preservation of the lattice conditions, that positive and negative mutations
 are mutually inverse, and that positive mutation twice is the image of the family
 under the fixed-data automorphism `n↦n+{n,e_k}d_ke_k`.
@@ -2470,6 +2480,8 @@ initial state, prove the equivalence of:
 1. The seed is of finite type.
 2. Some `B'∈[B]` has `IsFiniteType (A(B'))`.
 3. Every `B'∈[B]` satisfies `|b'_ij b'_ji|≤3` for all `i≠j`.
+
+(FZ II, Theorems 1.4, 1.5 and 1.8.)
 
 The geometric-type signature `finite_clusterVariables_iff` states 1 ⇔ 2 for a binary seed
 over ℤ with frozen rows and a faithful chart in a field, using its principal block.

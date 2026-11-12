@@ -13,14 +13,17 @@ public import TauCeti.RingTheory.SerreCondition.Basic
 # Cluster algebras: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. The statements below give suggested Lean forms for the Layer 1 carriers and
-the headline targets using the pinned libraries.
+`README.md`. The statements below are the roadmap's headline theorems, with only the
+definitions their statements need.
 
 Layer 1 has one seed structure and one mutation. A `CoefficientSystem` says where the
 coefficients of the exchange polynomials live and how the polynomials are normalized;
 `ExchangeData` is the one type of states; a `Seed` adds a form with column-compatible
 weights and a faithful `BasedChart`. A based chart is presented by its normalized
 monomials, which README §0.4 identifies with a faithful chart of the based torus.
+One-step mutation is the relation `Seed.IsMutation`; a based chart is determined by its
+coordinates and form, so the relation determines the mutated seed, whose existence is a
+target of §1.2.
 The classical headline statements use binary seeds over ℤ. The Starfish statement uses the
 realized coordinates over the chosen coefficient ring.
 
@@ -42,26 +45,6 @@ namespace TauCetiRoadmap.ClusterAlgebras
 /-- Laurent polynomials use the group algebra of finitely supported exponent vectors. -/
 abbrev LaurentRing (R : Type*) [CommSemiring R] (K : Type*) :=
   AddMonoidAlgebra R (K →₀ ℤ)
-
-/-- A faithful chart; generation of the ambient algebra is a separate condition. -/
-structure LaurentChart (R : Type*) [CommSemiring R] (K : Type*)
-    (F : Type*) [CommSemiring F] [Algebra R F] where
-  toAlgHom : LaurentRing R K →ₐ[R] F
-  injective : Function.Injective toAlgHom
-
-/-- The coordinate of a chart at `i`: the image of the monomial `x_i`. -/
-def LaurentChart.coordinate {R : Type*} [CommSemiring R] {K : Type*}
-    {F : Type*} [CommSemiring F] [Algebra R F] (c : LaurentChart R K F) (i : K) : F :=
-  c.toAlgHom (AddMonoidAlgebra.single (Finsupp.single i 1) 1)
-
-/-- The submonoid of regular elements. -/
-def regulars (A : Type*) [CommSemiring A] : Submonoid A where
-  carrier := {a | IsRegular a}
-  one_mem' := isRegular_one
-  mul_mem' ha hb := ha.mul hb
-
-/-- The total quotient semiring `T(A)` (§0.1). -/
-abbrev TotalQuotient (A : Type*) [CommSemiring A] := Localization (regulars A)
 
 /-- The pairing `Λ(a,b)` of an integer form on exponent vectors. -/
 def formPairing {I : Type*} [Fintype I] (Λ : Matrix I I ℤ) (a b : I →₀ ℤ) : ℤ :=
@@ -112,15 +95,6 @@ def matrixMutation {I K : Type*} [DecidableEq I] [DecidableEq K]
 def matrixMutationWord {I K : Type*} [DecidableEq I] [DecidableEq K]
     (row : K ↪ I) (B : Matrix I K ℤ) (w : List K) : Matrix I K ℤ :=
   w.foldl (matrixMutation row) B
-
-/-- Mutation keeps the symmetrizer. -/
-def ExchangeMatrix.mutation {I K : Type*} [DecidableEq I] [DecidableEq K] {row : K ↪ I}
-    (B : ExchangeMatrix row) (k : K) : ExchangeMatrix row where
-  matrix := matrixMutation row B.matrix k
-  symmetrizer := B.symmetrizer
-  symmetrizer_pos := B.symmetrizer_pos
-  symmetrized := by
-    sorry
 
 /-- Column compatibility `B̃ᵀΛ = (diag(w) 0)` (§1.1); the weights may be zero or negative. -/
 def ColumnCompatible {I K : Type*} [Fintype I] [DecidableEq I] (row : K ↪ I)
@@ -173,15 +147,6 @@ def scale (H : ExchangePolynomial 𝕂) (e : 𝕂ˣ) : ExchangePolynomial 𝕂 w
   isUnit_coeff_zero := (Units.isUnit e).mul H.isUnit_coeff_zero
   isUnit_coeff_last := (Units.isUnit e).mul H.isUnit_coeff_last
 
-/-- Coefficientwise image under a multiplicative map. -/
-def map {𝕂' : Type*} [CommMonoidWithZero 𝕂'] (ψ : 𝕂 →*₀ 𝕂') (H : ExchangePolynomial 𝕂) :
-    ExchangePolynomial 𝕂' where
-  degree := H.degree
-  degree_pos := H.degree_pos
-  coeff l := ψ (H.coeff l)
-  isUnit_coeff_zero := H.isUnit_coeff_zero.map ψ
-  isUnit_coeff_last := H.isUnit_coeff_last.map ψ
-
 /-- The factor `h_r^{[b]_+} h_0^{-[-b]_+}` by which mutation at the direction of `H`
 dilates a polynomial whose divided matrix entry is `b`. -/
 def dilationFactor (H : ExchangePolynomial 𝕂) (b : ℤ) : 𝕂ˣ :=
@@ -217,25 +182,6 @@ def trivial (R : Type*) [CommSemiring R] : CoefficientSystem R R where
   normalizer_reverse _ := rfl
   normalizer_scale _ _ := one_mul 1
 
-open scoped Classical in
-/-- The normalized system of a coefficient semifield with zero adjoined (§1.2): the scalar
-map is the extension of `φ` by zero, and `ν(H) = (⊕_l h_l)⁻¹`. The hypothesis says that
-`P₀` is zero-sum-free, so the sum is a unit. -/
-def ofSemifield {P₀ : Type*} [Semifield P₀] {C : Type*} [CommSemiring C]
-    (hP : ∀ a b : P₀, a + b = 0 → a = 0) (φ : P₀ˣ →* Cˣ) : CoefficientSystem P₀ C where
-  toScalar :=
-    { toFun := fun a => if h : a = 0 then 0 else (φ (Units.mk0 a h) : C)
-      map_zero' := by simp
-      map_one' := by
-        sorry
-      map_mul' := by
-        sorry }
-  normalizer H := if h : ∑ l, H.coeff l = 0 then 1 else (Units.mk0 _ h)⁻¹
-  normalizer_reverse := by
-    sorry
-  normalizer_scale := by
-    sorry
-
 end CoefficientSystem
 
 /-- Exchange data (§1.2): an extended exchange matrix with exchange polynomials whose
@@ -253,17 +199,6 @@ variable {𝕂 : Type*} [CommMonoidWithZero 𝕂] {R : Type*} [CommSemiring R] {
 /-- The divided column `β_k = b_{•k} / r_k`. -/
 def dividedColumn (d : ExchangeData 𝕂 row) (k : K) (i : I) : ℤ :=
   d.exchange.matrix i k / ((d.polynomial k).degree : ℤ)
-
-/-- Mutation: reverse the polynomial at `k`, dilate every other polynomial by
-`κ_{kj} = h_{k,r_k}^{[β_kj]_+} h_{k,0}^{-[-β_kj]_+}`, and normalize it. -/
-def mutate (c : CoefficientSystem 𝕂 R) (d : ExchangeData 𝕂 row) (k : K) : ExchangeData 𝕂 row where
-  exchange := d.exchange.mutation k
-  polynomial j :=
-    if j = k then (d.polynomial k).reverse
-    else c.normalize ((d.polynomial j).dilate ((d.polynomial k).dilationFactor
-      (d.exchange.matrix (row k) j / ((d.polynomial j).degree : ℤ))))
-  degree_dvd := by
-    sorry
 
 /-- All polynomials are normalized. -/
 def IsNormalized (c : CoefficientSystem 𝕂 R) (d : ExchangeData 𝕂 row) : Prop :=
@@ -314,36 +249,23 @@ def exchangeElement (s : Seed c row u B) (k : K) : B :=
     algebraMap R B (c.toScalar ((s.state.polynomial k).coeff l)) *
       (s.chart.monomial (s.state.exchangeExponent k l.val) : B)
 
-/-- Mutation at `k`, defined when the exchange element is a unit of the ambient algebra.
-The new normalized monomials are `u^{-Λ'(a_k e_k, a°)} (X'_k)^{a_k} M(a°)`. The proof
-obligations are targets of §1.2: quasi-commutation from column compatibility, and
-faithfulness of the new chart from §0.5. -/
-def mutate (s : Seed c row u B) (k : K) (hE : IsUnit (s.exchangeElement k)) : Seed c row u B where
-  state := s.state.mutate c k
-  normalized := by
-    sorry
-  form := formMutation row s.state.exchange.matrix s.form k
-  form_skew := by
-    sorry
-  weight := s.weight
-  compatible := by
-    sorry
-  chart :=
-    { monomial := fun a =>
-        Units.map (algebraMap R B).toMonoidHom
-            (u ^ (-(a (row k) * ∑ j,
-              formMutation row s.state.exchange.matrix s.form k (row k) j *
-                (Finsupp.erase (row k) a) j))) *
-          hE.unit ^ a (row k) * s.chart.monomial (Finsupp.erase (row k) a)
-      monomial_zero := by
-        sorry
-      monomial_mul := by
-        sorry
-      linearIndependent := by
-        sorry }
+/-- One-step mutation at `k` (§1.2), as a relation: the exchange element is a unit, the
+polynomial at `k` is reversed, every other polynomial is dilated by
+`κ_{kj} = h_{k,r_k}^{[β_kj]_+} h_{k,0}^{-[-β_kj]_+}` and normalized, and the coordinate at
+`k` becomes the exchange element. -/
+def IsMutation (s t : Seed c row u B) (k : K) : Prop :=
+  IsUnit (s.exchangeElement k) ∧
+  t.state.exchange.matrix = matrixMutation row s.state.exchange.matrix k ∧
+  t.state.exchange.symmetrizer = s.state.exchange.symmetrizer ∧
+  (∀ j, t.state.polynomial j = if j = k then (s.state.polynomial k).reverse else
+    c.normalize ((s.state.polynomial j).dilate ((s.state.polynomial k).dilationFactor
+      (s.state.exchange.matrix (row k) j / ((s.state.polynomial j).degree : ℤ))))) ∧
+  t.form = formMutation row s.state.exchange.matrix s.form k ∧ t.weight = s.weight ∧
+  (t.chart.coordinate (row k) : B) = s.exchangeElement k ∧
+  ∀ i, i ≠ row k → t.chart.coordinate i = s.chart.coordinate i
 
-def Step (s t : Seed c row u B) : Prop :=
-  ∃ k, ∃ hE : IsUnit (s.exchangeElement k), s.mutate k hE = t
+/-- One mutation in some direction. -/
+def Step (s t : Seed c row u B) : Prop := ∃ k, s.IsMutation t k
 
 /-- Reachability by finite sequences of defined mutations (§1.3). -/
 abbrev Reachable : Seed c row u B → Seed c row u B → Prop := Relation.ReflTransGen Step
@@ -353,11 +275,6 @@ ring this is `H_k(1) ≠ 0`; for a generating regular chart it is `IsRegular (H_
 def Admissible (s : Seed c row u B) : Prop :=
   ∀ k, (∀ i, s.state.exchange.matrix i k = 0) →
     IsUnit (algebraMap R B (s.state.valueAtOne c k))
-
-/-- A mutation-invariant class of seeds on which every direction is defined (§1.2). -/
-structure IsTotal (G : Seed c row u B → Prop) : Prop where
-  isUnit : ∀ s, G s → ∀ k, IsUnit (s.exchangeElement k)
-  mutate : ∀ s (hs : G s) k, G (s.mutate k (isUnit s hs k))
 
 /-- The mixed chart ring `L_{S,t}` (§1.3): all coordinates, with the mutable ones and the
 frozen ones in `S` inverted. -/
@@ -370,51 +287,15 @@ def chartAlgebra (A : Type*) [CommSemiring A] [Algebra A B] (s : Seed c row u B)
 def clusterVariables (s : Seed c row u B) : Set B :=
   {v | ∃ t, Reachable s t ∧ ∃ k, v = (t.chart.coordinate (row k) : B)}
 
-def clusterAlgebra (A : Type*) [CommSemiring A] [Algebra A B] (s : Seed c row u B)
-    (S : Set (Frozen row)) : Subalgebra A B :=
-  Algebra.adjoin A (clusterVariables s ∪
-    Set.range (fun j : Frozen row => (s.chart.coordinate j.val : B)) ∪
-    {v | ∃ j ∈ S, v = ((s.chart.coordinate j.val)⁻¹ : Bˣ)})
-
-def upperClusterAlgebra (A : Type*) [CommSemiring A] [Algebra A B] (s : Seed c row u B)
-    (S : Set (Frozen row)) : Subalgebra A B :=
-  ⨅ t : {t // Reachable s t}, chartAlgebra A t.val S
-
 def upperBound (A : Type*) [CommSemiring A] [Algebra A B] (s : Seed c row u B)
     (S : Set (Frozen row)) : Subalgebra A B :=
   chartAlgebra A s S ⊓ ⨅ t : {t // Step s t}, chartAlgebra A t.val S
 
-/-- The seed of the scalar system with the same chart and the scalar exchange polynomials. -/
-def toScalarSeed (s : Seed c row u B) : Seed (CoefficientSystem.trivial R) row u B where
-  state := ⟨s.state.exchange, fun k => (s.state.polynomial k).map c.toScalar,
-    s.state.degree_dvd⟩
-  normalized := fun _ => rfl
-  form := s.form
-  form_skew := s.form_skew
-  weight := s.weight
-  compatible := s.compatible
-  chart := s.chart
-
-variable {𝕂' : Type*} [CommMonoidWithZero 𝕂'] {c' : CoefficientSystem 𝕂' R}
-
-/-- Gauge equivalence (§1.2): two seeds, possibly of different coefficient systems over `R`,
-with the same matrix and form whose charts differ by a character `g` with values in the
-units of `R`, `M̃(a) = g^a M(a)`. Their scalar exchange polynomials then satisfy
-`H̃_k(T) = e_k H_k(g^{-β_k} T)` for units `e_k`. -/
-def GaugeEquivalent (s : Seed c row u B) (t : Seed c' row u B) : Prop :=
-  s.state.exchange = t.state.exchange ∧ s.form = t.form ∧
-    ∃ g : I → Rˣ,
-      (∀ a : I →₀ ℤ, t.chart.monomial a =
-        Units.map (algebraMap R B).toMonoidHom (∏ i, g i ^ a i) * s.chart.monomial a) ∧
-      ∀ k, ∃ e : Rˣ, (t.state.polynomial k).map c'.toScalar =
-        (((s.state.polynomial k).map c.toScalar).dilate
-          (∏ i, g i ^ (-s.state.dividedColumn k i))).scale e
-
 /-- The chart is a generating regular chart (§§0.2 and 1.2): it extends to an isomorphism
-from the total quotient semiring of the Laurent semiring. -/
-def IsGenerating {C : Type*} [CommSemiring C] {c : CoefficientSystem 𝕂 C} {F : Type*}
-    [CommSemiring F] [Algebra C F] (s : Seed c row (1 : Cˣ) F) : Prop :=
-  ∃ e : TotalQuotient (LaurentRing C I) ≃ₐ[C] F, ∀ a : I →₀ ℤ,
+from the total fraction ring of the Laurent ring. -/
+def IsGenerating {C : Type*} [CommRing C] {c : CoefficientSystem 𝕂 C} {F : Type*}
+    [CommRing F] [Algebra C F] (s : Seed c row (1 : Cˣ) F) : Prop :=
+  ∃ e : FractionRing (LaurentRing C I) ≃ₐ[C] F, ∀ a : I →₀ ℤ,
     (s.chart.monomial a : F) = e (algebraMap (LaurentRing C I) _ (AddMonoidAlgebra.single a 1))
 
 end Seed
@@ -491,7 +372,7 @@ theorem upperBound_le_of_starfish {C R F : Type*} [CommRing C] [CommRing R] [IsD
     (S : Set (Frozen row)) (hS₂ : Module.SatisfiesSerreS 2 R R)
     (x : I → R) (x' : K → R)
     (hx : ∀ i, algebraMap R F (x i) = (s.chart.coordinate i : F))
-    (hx' : ∀ k, algebraMap R F (x' k) = ((s.mutate k (hE k)).chart.coordinate (row k) : F))
+    (hx' : ∀ k, algebraMap R F (x' k) = s.exchangeElement k)
     (hS : ∀ j ∈ S, IsUnit (x j))
     (hcover : ∀ p : Ideal R, p.IsPrime → p.height = 1 →
       (∀ i j : K, i ≠ j → x (row i) ∉ p ∨ x (row j) ∉ p) ∧
