@@ -35,8 +35,8 @@ build, Layer k being MSk, and own:
   in a small ball, the mean value inequality, the improved Kato inequality and the
   two-dimensional forms of G6's Simons identity, and the two-dimensional Kato form of G6's
   Riemannian Simons inequality.
-- MS4: the first-contact lemma, unique continuation, the catenoid barriers and the half-space
-  theorem.
+- MS4: the first-contact lemma, the global tangency principle, the catenoid barriers and the
+  half-space theorem.
 - MS5: ε-regularity under small total curvature, compactness under bounded area and
   curvature for embedded and for immersed minimal hypersurfaces, including varying metrics,
   the point-picking lemma, and the smooth version of Allard regularity.
@@ -159,8 +159,7 @@ parent supply the following, in arbitrary codimension before specializing to hyp
   mean curvature and stationarity under compactly supported variations [CM, §§1.1, 1.3]
   [White, §1, Theorem 1] [Chodosh, §7]. In `ℝ^m`, minimality of an n-dimensional submanifold
   is equivalent to harmonicity of the coordinate functions [CM, Lemma 1.8]
-  [White, Theorem 13] [Chodosh, Theorem 8.1]. For an isometric immersion `f : Σ → ℝ^m`,
-  `Hess_Σ(x_i ∘ f) = ⟨II, e_i⟩`, so `|II|² = Σ_i |Hess_Σ(x_i ∘ f)|²`.
+  [White, Theorem 13] [Chodosh, Theorem 8.1].
 - Second variation of volume, the normal-bundle Jacobi operator in arbitrary codimension and
   its scalar specialization on two-sided hypersurfaces, with the normal-bundle and
   double-cover form on one-sided hypersurfaces, and stability under compactly supported
@@ -292,6 +291,9 @@ below.
 
 For a minimal surface in `ℝ³`, prove `K = −½|A|²`: by R5a's Gauss equation K is the product
 of the two principal curvatures, which are opposite, and `|A|²` is the sum of their squares.
+Also prove, from R5a's Gauss formula, that `Hess_Σ(x_i ∘ f) = ⟨II, e_i⟩` for an isometric
+immersion `f : Σ → ℝ^m`. Hence `|II|² = Σ_i |Hess_Σ(x_i ∘ f)|²`; for `m = 3`, `n = 2` this sum
+is `hessianCoordNormSq`.
 
 **Checks.**
 
@@ -301,8 +303,12 @@ of the two principal curvatures, which are opposite, and `|A|²` is the sum of t
 - A plane: both sides vanish.
 - Negative control for minimality: the unit sphere has `K = 1` and `|A|² = 2`; the identity
   for an arbitrary surface is `2K = (κ₁+κ₂)² − |A|²`, here `2 = 4 − 2`.
+- Round sphere of radius ρ: `Hess_Σ(x_i ∘ f) = −(ν_i/ρ) g`, so the sum is `2/ρ² = |A|²`; on the
+  catenoid it is `2/cosh⁴ v`.
+- Negative control for isometry: for `2ι` on the unit sphere the sum is 8, while the image
+  sphere has `|A|² = ½`.
 
-*Needs:* R5a's Gauss equation.
+*Needs:* R5a's Gauss equation and Gauss formula.
 
 ### From the other roadmaps
 
@@ -471,7 +477,8 @@ the minimal-surface equation is the target here.
 
 ### 2.3 Small-data Dirichlet problem for minimal graphs
 
-*Sources:* [Chodosh, proof of Theorem 32.5].
+*Sources:* [Chodosh, proof of Theorem 32.5], for `g = g_Eucl`. The dependence on g is this
+roadmap's extension: the same implicit-function argument, with g as a parameter.
 
 Let `B₁ ⊂ ℝⁿ` (`n ≥ 2`) be the unit ball and `0 < α < 1`. For a smooth (or `C⁴`) Riemannian
 metric g on `B̄₁ × [−1,1]` close to `g_Eucl` in `C⁴(B̄₁ × [−1,1])` and `u ∈ C^(2,α)(B̄₁)` with
@@ -574,6 +581,8 @@ with C depending on n, M and the ambient metric (only on n and M in `ℝ^(n+1)`)
 the gradient bound).
 
 ### 2.6 Multi-valued graphs
+
+*Sources:* [CM4, §0, notation for multi-valued graphs].
 
 In `ℝ³`, let `P = {(ρ,θ) : ρ > 0, θ ∈ ℝ}` be the universal cover of the punctured plane, with
 covering map `(ρ,θ) ↦ (ρ cos θ, ρ sin θ)`. A graph over a domain `Ω ⊂ P` is the surface
@@ -716,6 +725,8 @@ functions (MS1) and the maximum principle applied to the linear functions `x ↦
 
 ### 3.4 Maximum principle in a small ball
 
+*Sources:* [CM4, Appendix C, proof of Lemma C.1].
+
 Let `B_R(p)` be a ball in a Riemannian m-manifold (`m ≥ 2`) with R below the injectivity radius
 at p and, if the sectional curvature is bounded above by some `κ > 0`, also `R < π/(2√κ)`;
 there is no additional curvature restriction when the bound is `≤ 0`, and the
@@ -833,17 +844,20 @@ maximum.
 
 ### 4.1 First-contact lemma and catenoid barriers
 
-Establish a first-contact lemma: let `f : Σ → ℝ^(n+1)` be a proper immersion of an n-manifold
+Establish a first-contact lemma ([Chodosh, proof of Theorem 20.1]): let `f : Σ → ℝ^(n+1)` be a proper immersion of an n-manifold
 without boundary, `S ⊂ ℝ^(n+1)` a properly embedded hypersurface with boundary, `e ∈ ℝ^(n+1)` a
 vector transversal to S at its interior points, and `S_t = S + te` for `t ∈ [0,T]`. If
 `S_T ∩ f(Σ) = ∅`, `S₀ ∩ f(Σ) ≠ ∅`, no `∂S_t` meets `f(Σ)`, and `⋃_t (S_t ∩ f(Σ))` is bounded,
 then there is a largest `t₀` with `S_(t₀) ∩ f(Σ) ≠ ∅`, and at every point of `S_(t₀) ∩ f(Σ)`
 each local sheet of the immersion is tangent to and lies on one side of `S_(t₀)`. If both
 hypersurfaces are minimal, the tangency principle 3.2 applies. The same assertion holds with
-boundary on Σ if no `S_t` meets `f(∂Σ)`. Include unique continuation [CM, §1.7]
-[Chodosh, Corollary 19.6]: if Σ is connected, `f : Σ → N` is a minimal immersion into a
-Riemannian `(n+1)`-manifold, `S ⊂ N` is a connected, complete, embedded minimal hypersurface,
-and `f(U) ⊂ S` for a nonempty open `U ⊂ Σ`, then `f(Σ) ⊂ S`. In `ℝ³`, let
+boundary on Σ if no `S_t` meets `f(∂Σ)`. Include the global tangency principle
+[Chodosh, Corollary 19.6]: if Σ is connected and without boundary, `f : Σ → N` is a minimal
+immersion into a Riemannian `(n+1)`-manifold, `S ⊂ N` is a properly embedded minimal
+hypersurface, possibly with boundary, with `f(Σ) ∩ ∂S = ∅`, and every point of `f⁻¹(S)` has a
+neighbourhood whose image lies on one side of S, then `f⁻¹(S)` is empty or all of Σ. It is
+closed, and it is open by 3.2, since one-sided contact forces equal tangent planes.
+In `ℝ³`, let
 `𝒞 = {x₁² + x₂² = cosh² x₃}` be the catenoid [CM, §1.2] [Chodosh, §14] and `ρ = √(x₁² + x₂²)`;
 the halves of `λ𝒞` are the graphs `x₃ = ±λ arccosh(ρ/λ)` over `{ρ ≥ λ}`, and as `λ → 0` these
 graphs converge to the punctured plane `{x₃ = 0} ∖ {0}`, smoothly on compact subsets.
@@ -872,15 +886,17 @@ Let `f : Σ → ℝ³` be a proper minimal immersion, where Σ is a connected, n
 without boundary. If `f(Σ)` is contained in a closed half-space, then `f(Σ)` is a plane
 parallel to the boundary of that half-space. Properness here is properness as a map into all of
 `ℝ³`. After translating the half-space to `{x₃ ≥ 0}` with `inf_(f(Σ)) x₃ = 0`, if `f(Σ)` meets
-`{x₃ = 0}` then the tangency principle and unique continuation force `f(Σ) = {x₃ = 0}`.
+`{x₃ = 0}` then the global tangency principle of 4.1 gives `f(Σ) ⊂ {x₃ = 0}`. By
+properness the image is open and closed in the plane, so it is the plane.
 Otherwise `f(Σ) ⊂ {x₃ > 0}`, and one translates a rescaled lower half-catenoid
 `x₃ = t − λ arccosh(ρ/λ)` upwards from `{x₃ ≤ 0}`, keeping its waist circle in a small ball
 around the origin disjoint from `f(Σ)`; it bends into `{x₃ < 0}` as `ρ → ∞`, so that its
 intersection with `{x₃ ≥ 0}` is compact. Fix a small positive final height and then take λ
 small enough that the final barrier meets the surface, using a point of the surface below that
 height and the convergence to the punctured plane. Apply the first-contact lemma with the
-parameter reversed. The tangency principle and unique continuation then force `f(Σ)` to be a
-catenoid, which is not contained in a half-space; the higher-dimensional catenoid in `ℝ^(n+1)`
+parameter reversed. The global tangency principle of 4.1 then puts `f(Σ)` in the compact set
+`{λ ≤ ρ ≤ λ cosh(t/λ)}` of the contact barrier. By properness Σ is then compact, which 3.3
+excludes; the higher-dimensional catenoid in `ℝ^(n+1)`
 for `n ≥ 3`, by contrast, lies in a slab [Chodosh, §14.2].
 
 Lean name: `range_eq_plane_of_minimal_of_nonneg`.
@@ -896,7 +912,7 @@ Lean name: `range_eq_plane_of_minimal_of_nonneg`.
 - Negative control for properness: there is a complete minimal immersion into `ℝ³` whose image
   lies between two parallel planes [Chodosh, Theorem 20.2].
 
-*Needs:* 4.1, 3.2; the harmonicity of the coordinate functions (MS1);
+*Needs:* 4.1, 3.2, 3.3; the harmonicity of the coordinate functions (MS1);
 `TauCeti.Manifold.laplaceBeltrami`, for the statement in `Suggested.lean`.
 
 ### Examples

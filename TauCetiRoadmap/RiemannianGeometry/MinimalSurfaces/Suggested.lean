@@ -69,7 +69,7 @@ theorem range_eq_plane_of_minimal_of_nonneg {S : Type*} [TopologicalSpace S]
     ∃ c : ℝ, Set.range f = {y | y 2 = c} := by
   sorry
 
-/-! ## Layer 5 and Layer 7: ε-regularity and the curvature estimate in `ℝ³` -/
+/-! ## Layer 5: local compactness and ε-regularity -/
 
 /-- `Σᵢ |Hess fᵢ|²(x)` for a map `f` of a Riemannian surface into `ℝ³`. For an isometric
 immersion it is `|A|²(x)`, since `Hess fᵢ = ⟨II, eᵢ⟩` (MS1). -/
@@ -108,6 +108,8 @@ theorem exists_sq_mul_hessianCoordNormSq_le_lintegral : ∃ ε C₀ : ℝ, 0 < �
           ∂TauCeti.riemannianVolume (𝓡 2) S).toReal := by
   sorry
 
+/-! ## Layer 7: stability and the curvature estimate -/
+
 /-- **Curvature estimate for stable minimal surfaces in `ℝ³`** (MS7.5). There is a universal
 `C` such that a minimal immersion of a surface into `ℝ³` satisfying the stability inequality
 `∫ |A|² φ² ≤ ∫ |∇φ|²` has `R² |A|²(p) ≤ C` whenever the intrinsic ball `B̄_R(p)` is compact. -/
@@ -130,8 +132,6 @@ theorem exists_sq_mul_hessianCoordNormSq_le_of_stable : ∃ C : ℝ, ∀ (S : Ty
     ∀ (p : S) (R : ℝ), 0 < R → IsCompact (closedBall p R) →
       R ^ 2 * hessianCoordNormSq f p ≤ C := by
   sorry
-
-/-! ## Layer 7: stability and the curvature estimate -/
 
 /-- **Bernstein's theorem** (MS7.6). A `C²` solution of the minimal-surface equation
 `(1 + u_y²) u_xx − 2 u_x u_y u_xy + (1 + u_x²) u_yy = 0` on all of `ℝ²` is affine. -/
