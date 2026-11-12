@@ -22,8 +22,9 @@ This roadmap owns:
   Yamabe quotient and its weak Euler–Lagrange equation, the round-sphere volume and stereographic
   change of variables, the comparison of local conformal flatness with conformal Euclidean charts,
   and the converse Weyl–Schouten theorem.
-- Layer 1: the scalar Sobolev carriers of a closed manifold, the realization and first
-  eigenvalue of the conformal Laplacian, the local estimates and the critical bootstrap, and the
+- Layer 1: the comparison of the scalar Sobolev carriers of a closed manifold
+  (PseudodifferentialOperators 5.2, ComplexKahlerGeometry K5a) and their critical embedding, the
+  realization and first eigenvalue of the conformal Laplacian, the local estimates and the critical bootstrap, and the
   Green function of L_g.
 - Layer 2: the sharp Euclidean Sobolev inequality, its equality cases and its transfer to closed
   manifolds with an ε loss.
@@ -52,7 +53,7 @@ Boundaries with other roadmaps:
   contracts below; the items consume them and own only what the pin lacks.
 - [PositiveMass](../PositiveMass/README.md) is a supplier of this roadmap and consumes nothing
   from it. It owns asymptotically Euclidean ends, the ADM mass and its normalization (0.2), the
-  scalar law for `φ^(4/(n−2))g` and the mass shift under a conformal factor (0.4), the
+  mass shift under a conformal factor (0.4), the
   positive-scalar metric from a positive first eigenfunction (3.0), the torus obstruction to
   positive scalar curvature (3.1), and the positive mass theorems with rigidity (8.1, 8.3) with
   their isometry and finite-cover invariance (8.4). This roadmap owns the identity `m = 2A` for
@@ -66,11 +67,15 @@ Boundaries with other roadmaps:
 - [DifferentialGeometry](../DifferentialGeometry/README.md) owns the orientation cover (2), local
   Frobenius (4.3) and the gradient, divergence, Laplace–Beltrami operator and densities
   (12.2–12.5); Y0 owns their conformal behaviour, not replacement operators.
-- [PDE](../PDE/README.md) owns the Euclidean weak spaces and estimates; ComplexKahlerGeometry K5a
-  owns the bundle Sobolev scales and the Laplace-type realization on closed manifolds; Y1 builds
-  the scalar closed-manifold comparison.
+- [PDE](../PDE/README.md) owns the Euclidean weak spaces and estimates;
+  [PseudodifferentialOperators](../PseudodifferentialOperators/README.md) 5.2 owns the W^(k,p)
+  carrier of a bundle over a compact base; ComplexKahlerGeometry K5a owns the bundle Sobolev
+  scales and the Laplace-type realization on closed manifolds; Y1 builds the scalar
+  closed-manifold comparison and the critical embedding.
 - [GeometricMeasureTheory](../GeometricMeasureTheory/README.md) G2–G3 own the area and change of
-  variables formulas; Sobolev rearrangement and its equality classification are Y2's.
+  variables formulas. [Isoperimetry](../Isoperimetry/README.md) owns Schwarz rearrangement (I2)
+  and the Pólya–Szegő inequality (I5); the equality classification of the sharp L² Sobolev
+  inequality is Y2's.
 - SpinGeometry, SmoothBundlesConnections, CharacteristicClasses, AlgebraicTopology and the
   completed UniversalCovers roadmap own Spin structures, frame bundles, van Kampen and universal
   covers; Y8 owns the Spin lift of the round sphere, the conformal developing map and the
@@ -248,8 +253,7 @@ Ric≥(n−1)kg, k>0, a nonzero mean-zero eigenfunction of `Δ⁺` with eigenval
 
 [PositiveMass](../PositiveMass/README.md) 0.2: the ADM mass, its normalization and its existence
 for order `t>(n−2)/2` with integrable scalar curvature; under a finite Riemannian covering each
-end lifts to deg copies with the mass of the end below. 0.4: the scalar law for `φ^(4/(n−2))g`;
-the mass `m(g)+2c` of `u^(4/(n−2))g` for `u=1+c r^(2−n)+o_2(r^(2−n))`; the inversion of a
+end lifts to deg copies with the mass of the end below. 0.4: the mass `m(g)+2c` of `u^(4/(n−2))g` for `u=1+c r^(2−n)+o_2(r^(2−n))`; the inversion of a
 normalized Green expansion; the lifts of ends to finite covers. 3.0: for λ₁(L_g)>0 with positive
 eigenfunction φ, the metric `φ^(4/(n−2))g` of scalar curvature `λ₁φ^(−4/(n−2))>0`. 3.1: a closed
 oriented d-manifold, 3≤d≤7, with a nonzero-degree map to `T^d` has no metric of positive scalar
@@ -274,6 +278,12 @@ Sobolev spaces, smooth density, extension, compact embedding below the critical 
 maximum and Harnack principles, linear elliptic existence and local and boundary estimates.
 Y1–Y3 construct the closed-manifold, critical and conformal-Laplacian bridges explicitly.
 
+### From TauCetiRoadmap.PseudodifferentialOperators
+
+[PseudodifferentialOperators](../PseudodifferentialOperators/README.md) 5.2: the W^(k,p) carrier
+of a real bundle over a compact base, its norms, completeness, smooth density and compact
+embeddings, used on the trivial real line.
+
 ### From TauCetiRoadmap.ComplexKahlerGeometry
 
 [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) K5a: generic finite-rank real and
@@ -281,10 +291,13 @@ complex bundle distributions, all-real-order Hilbert Sobolev scales, realificati
 Rellich, Laplace-type regularity and the geometric L² realization. These are written supplier
 targets, and Y1 uses their real rank-one specialization.
 
-### From TauCetiRoadmap.GeometricMeasureTheory
+### From TauCetiRoadmap.GeometricMeasureTheory and TauCetiRoadmap.Isoperimetry
 
 [GeometricMeasureTheory](../GeometricMeasureTheory/README.md) G2–G3: normalized Hausdorff area
 and change of variables for spherical and stereographic integration.
+[Isoperimetry](../Isoperimetry/README.md) I2: Schwarz rearrangement, equimeasurability and Lᵖ
+norms; I5: the convex-integrand Pólya–Szegő estimate for nonnegative integrable Lipschitz
+functions.
 
 ### From the topology, bundle, Spin and covering roadmaps
 
@@ -472,9 +485,10 @@ and Y1.3 for the weak-domain statements of 0.2–0.3.
 ### 1.1 Sobolev carriers
 
 Consume K5a's real bundle distributions and RealBundleSobolev for the trivial real line, with its
-H¹, integer-order and L² identifications. Construct the scalar W^(k,p) finite-chart adapter from
-PDE's weak spaces, and prove agreement at p=2 with that same Hilbert carrier. Compare the same
-carriers with the PDE and bundle-Sobolev suppliers; add the manifold comparison rather than
+H¹, integer-order and L² identifications. Consume PseudodifferentialOperators 5.2's W^(k,p)
+carrier on the trivial real line (finite-chart and connection norms equivalent and complete,
+smooth sections dense for finite p, compact W^(k,p)→W^(l,p)), and prove its agreement at p=2 with
+that same Hilbert carrier. Compare the same carriers with the PDE and bundle-Sobolev suppliers; add the manifold comparison rather than
 another independent weak-derivative theory. Consume Tau Ceti's critical Sobolev estimate for `C¹`
 functions on a closed manifold, `TauCeti.Manifold.exists_eLpNorm_le_mul_eLpNorm_mgradient_two_add`,
 and extend it to H¹. Consume the native `Analysis/Sobolev/W1p/{Basic,Density,ChainRule}`,
@@ -486,8 +500,8 @@ targets here.
 
 **API.**
 
-- Equivalent metric and atlas norms, and smooth density.
-- Continuous H¹→Lp at p=p_n, compact H¹→Lq for q<p_n, and weak compactness.
+- Continuous H¹→Lp at p=p_n, compact H¹→Lq for q<p_n, and weak compactness (Lee–Parker,
+  Theorem 2.2, p. 45).
 - Absolute-value truncations and weak chain rules.
 
 **Checks.**
@@ -499,7 +513,8 @@ targets here.
 - `|u|∈H¹` with `|d|u||=|du|` almost everywhere: for a coordinate function `u=x₁` near a point,
   `|d|u||=|du|=1` off the hypersurface `x₁=0`.
 
-*Needs:* ComplexKahlerGeometry K5a; PDE Layer 1 (A1–A7); the Tau Ceti Sobolev modules.
+*Needs:* PseudodifferentialOperators 5.2; ComplexKahlerGeometry K5a; PDE Layer 1 (A1–A7); the Tau
+Ceti Sobolev modules.
 
 ### 1.2 The realization of L_g and its first eigenvalue
 
@@ -578,8 +593,8 @@ meaning, parameter regularity away from the diagonal and the requisite local est
 
 ### Dependencies
 
-ComplexKahlerGeometry K5a; PDE Layers 1, 3, 4 and 5; RiemannianGeometry R5c; the Tau Ceti
-Sobolev and fundamental-solution modules; Layer 0.
+PseudodifferentialOperators 5.2; ComplexKahlerGeometry K5a; PDE Layers 1, 3, 4 and 5;
+RiemannianGeometry R5c; the Tau Ceti Sobolev and fundamental-solution modules; Layer 0.
 
 ## Layer 2 (Y2): sharp Euclidean Sobolev theory
 
@@ -604,8 +619,9 @@ name: `sphereYamabeConstant_mul_le`.
 
 ### 2.2 Equality cases
 
-Construct decreasing rearrangement and the coarea/isoperimetric comparison needed for a proof,
-or the equivalent stereographic variational argument with its compactness and equality steps.
+Consume Isoperimetry I2's Schwarz rearrangement and I5's estimate `∫Φ(‖∇h*‖)≤∫Φ(‖∇h‖)` at
+`Φ(s)=s²`, extended from nonnegative Lipschitz functions to D¹,² by density, or use the
+stereographic variational argument with its compactness and equality steps.
 Prove the equality cases in D¹,²: nonzero real multiples of `U_(λ,b)`, λ>0 (Lee–Parker,
 Theorem 3.3, p. 50, with (3.2), p. 48). The sign and translation/dilation parameters must be
 recovered, not assumed from a guessed radial extremizer. Lean name:
@@ -613,8 +629,8 @@ recovered, not assumed from a guessed radial extremizer. Lean name:
 
 **API.**
 
-- Decreasing rearrangement on ℝⁿ with `‖u*‖_q=‖u‖_q` and `‖∇u*‖₂≤‖∇u‖₂` (Pólya–Szegő), and its
-  equality case for the extremals.
+- Isoperimetry I2 and I5 give `‖u*‖_q=‖u‖_q` and `‖∇u*‖₂≤‖∇u‖₂`; prove here the equality case
+  for the extremals.
 
 **Checks.**
 
@@ -623,7 +639,7 @@ recovered, not assumed from a guessed radial extremizer. Lean name:
   `2^(2/n)Y(Sⁿ)`, `2^(2/3)·43.82≈69.57` for n=3, so the sum is not an extremal.
 - The Gaussian of 2.1 is strictly above `Y(S³)`.
 
-*Needs:* 2.1; GeometricMeasureTheory G2–G3.
+*Needs:* 2.1; Isoperimetry I2 and I5; GeometricMeasureTheory G2–G3.
 
 ### 2.3 Bubbles
 
@@ -664,7 +680,8 @@ distortion estimates.
 
 ### Dependencies
 
-Tau Ceti's `TauCeti.D1p0`, sphere constant and bubble modules; GeometricMeasureTheory G2–G3; Y1.1.
+Tau Ceti's `TauCeti.D1p0`, sphere constant and bubble modules; Isoperimetry I2 and I5;
+GeometricMeasureTheory G2–G3; Y1.1.
 
 ## Layer 3 (Y3): variational compactness below the sphere threshold
 
