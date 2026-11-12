@@ -565,8 +565,7 @@ converges in `L²(μ)` in `y`, its sum is the function whose `n`-th expansion co
 `zⁿ p_n(x)/h_n`.
 
 Route: under the summability hypothesis the series may be integrated term by term (dominated
-convergence), and orthogonality (2.3) leaves the term `n = m`. There is no locator: DLMF 18.2.41
-only defines `P_z` and states its convergence.
+convergence), and orthogonality (2.3) leaves the term `n = m`.
 
 *Needs:* 2.3.
 
@@ -802,8 +801,9 @@ Given `α : ℕ → ℝ` and `β` with `β_{n+1} > 0`, let `p_n = monicThreeTerm
   This is Simon (1998), (5.37), p. 56, in spectral form: the truncated Jacobi matrix and the full
   one have the same moments `⟨δ₀, Aʲ δ₀⟩` for `j ≤ 2n − 1`.
 
-The first two bullets have no locator: `L(p_m p_n)` follows from the recurrence by induction on
-`m + n`, and the reality and simplicity of the zeros is the symmetric-matrix argument of 3.5.
+The zeros of `p_n` are real (Simon (1998), Proposition 5.7, p. 52) and simple, being the
+eigenvalues of a Jacobi matrix with nonzero off-diagonal entries (3.5). Route for `L(p_m p_n)`:
+induction on `min(m, n)` through the recurrence.
 
 *Needs:* 3.1, 3.5, Mathlib `Matrix.IsHermitian.eigenvalues`.
 
@@ -816,9 +816,9 @@ The first two bullets have no locator: `L(p_m p_n)` follows from the recurrence 
 ### 8.2 Favard's theorem
 
 - Auxiliary: if finite measures `ν_n` converge weakly to `μ` and `sup_n ∫ x^{2k} dν_n < ∞` for
-  every `k`, then `∫ x^j dν_n → ∫ x^j dμ` for every `j`. There is no locator; the proof applies
-  weak convergence to a continuous cutoff of `x^j` at `|x| = R` and bounds the tails uniformly in
-  `n` by `R^{−j} ∫ x^{2j} dν_n`.
+  every `k`, then `∫ x^j dν_n → ∫ x^j dμ` for every `j`. Route: apply weak convergence to a
+  continuous cutoff of `x^j` at `|x| = R`, and bound the tails uniformly in `n` by
+  `R^{−j−2} ∫ x^{2j+2} dν_n`, since `|x|^j ≤ |x|^{2j+2}/R^{j+2}` for `|x| ≥ R`.
 
 DLMF §18.2(viii): for every `α` and every `β` with `β_{n+1} > 0` there is a probability
 orthogonality measure `μ` with `monic μ = monicThreeTerm α β` (`favard`). The same holds for each
@@ -855,13 +855,14 @@ orthogonal for the functional with moments `m`, and applies 8.2.
 ### 8.4 Uniqueness
 
 - Auxiliary: a finite measure `ν` and `M ≥ 0` with `∫ x^{2k} dν ≤ C M^{2k}` for all `k`: `ν` is
-  concentrated on `[−M, M]`. There is no locator; by Markov's inequality
+  concentrated on `[−M, M]`. Route: by Markov's inequality
   `ν(|x| ≥ M + ε) ≤ C (M/(M + ε))^{2k} → 0` for every `ε > 0`.
 - Bounded coefficients: if `|α_n| ≤ A`, `B ≥ 0` and `0 < β_{n+1} ≤ B²`, the Favard measure is
   concentrated on `[−(A + 2B), A + 2B]` (Gershgorin for the symmetric Jacobi matrices, Mathlib
   `eigenvalue_mem_ball`, then 8.2) and is the only probability orthogonality measure with
-  `monic μ = monicThreeTerm α β` (`favard_bounded`). There is no locator; the route is
-  Gershgorin and the auxiliary.
+  `monic μ = monicThreeTerm α β` (`favard_bounded`). Route: Gershgorin and the auxiliary;
+  uniqueness is also Simon (1998), Proposition 1.5, p. 6, since the moments are at most
+  `(A + 2B)ᵏ`.
 - DLMF §18.2(viii): if `μ` is concentrated on a bounded interval and `ν` is an orthogonality measure
   with `monic ν = monic μ`, then `ν = (ν(ℝ)/μ(ℝ)) μ` (`eq_smul_of_monic_eq`).
 
@@ -1003,8 +1004,8 @@ Pearson equation `(π μ)′ = τ μ` in the sense of distributions). Let `d = d
   and `w` gives an orthogonality measure, then that measure is semi-classical for `(π, τ)`.
 
 DLMF 18.2.44 records the structure relation as part of its definition of a semi-classical
-measure; here it is derived from the Pearson equation, and there is no locator for the
-derivation.
+measure. The derivation from the Pearson equation, with `W = π` and `2V = τ − π′`, is Magnus
+(1995), §3, p. 8; DLMF §18.2(xii) cites Ismail (2009), (3.2.3) and (3.2.10), for 18.2.42–18.2.43.
 
 Route: `⟨π p′_n, p_j⟩ = −⟨p_n, τ p_j + π p′_j⟩` vanishes when `j + s < n`; for 18.2.42–18.2.43,
 rewrite each `p_j` through the recurrence (3.4) as a polynomial combination of `p_n`, `p_{n+1}`
@@ -1031,8 +1032,7 @@ Define `derivativeAction v` and `IsSheffer p f u` (DLMF 18.2.45 with `c_n = 1`; 
   commutes with translations and `v(D) x` is a nonzero constant;
 - Mathlib's Bernoulli polynomials are Sheffer with `u(t) = t` and `f(t) = Σ B_n tⁿ/n!`
   (`isSheffer_bernoulli`, from `Polynomial.bernoulli_generating_function`), and they are not
-  orthogonal for any orthogonality measure (`not_isOrthogonal_bernoulli`; DLMF §18.2(xii), Sheffer
-  polynomials: the Bernoulli polynomials are Sheffer polynomials that are not OP's);
+  orthogonal for any orthogonality measure (`not_isOrthogonal_bernoulli`; DLMF §18.2(xii));
 - Mathlib's `He_n`, mapped to `ℚ[X]`, are Sheffer with `u(t) = t` and `f(t) = exp(−t²/2)`; the
   coefficients agree with Tau Ceti's analytic generating function
   `Polynomial.hasSum_hermite_generating_function`.
@@ -1167,5 +1167,8 @@ specified by the layers.
 - B. Simon, The classical moment problem as a self-adjoint finite difference operator,
   *Adv. Math.* 137 (1998), 82–203; arXiv:math-ph/9906008. Page numbers refer to the arXiv
   version.
+- A. P. Magnus, Painlevé-type differential equations for the recurrence coefficients of
+  semi-classical orthogonal polynomials, *J. Comput. Appl. Math.* 57 (1995), 215–237;
+  arXiv:math/9307218. Page numbers refer to the arXiv version.
 - G.-C. Rota, D. Kahaner and A. Odlyzko, On the foundations of combinatorial theory VIII: finite
   operator calculus, *J. Math. Anal. Appl.* 42 (1973), 684–760.
