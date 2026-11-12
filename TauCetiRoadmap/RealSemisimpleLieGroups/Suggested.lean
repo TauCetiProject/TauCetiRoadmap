@@ -19,8 +19,9 @@ Stated here: the restricted root pairing of a Cartan involution (§1.2); the rea
 semisimple Lie algebra, its independence of choices and the compactness criterion (§1.3), and
 its group form (§2.1); Cartan's fixed-point theorem on a Hadamard manifold (§5.4); and, for
 connected groups with semisimple Lie algebra and finite centre, the Bruhat decomposition as a
-Tits system (§3.3), the dynamical description of parabolic subgroups (§4.4) and the existence
-and conjugacy of maximal compact subgroups (§5.4).
+Tits system (§3.3), the dynamical description of parabolic subgroups (§4.4), the existence
+and conjugacy of maximal compact subgroups, and the bijection between maximal compact subgroups
+and Cartan involutions (§5.4).
 
 Headline theorems of the README that are not statable at the pins, and what each lacks:
 
@@ -32,10 +33,13 @@ Headline theorems of the README that are not statable at the pins, and what each
 * the Langlands decompositions `M × A × N ≅ P` and `M_{Π'} × A_{Π'} × N_{Π'} ≅ Q` (§3.1,
   §4.3): they are diffeomorphisms of closed subgroups, and the pins give a closed subgroup only the
   predicate `TauCeti.Lie.IsEmbeddedLieSubgroup`, not a manifold structure;
-* the comparison of parabolic subgroups with algebraic `ℝ`-parabolic subgroups (§4.5): the pins
-  have no Lie group structure on the real points of an algebraic group;
-* the geometry of the symmetric space `G ⧸ K` (§5.2, §5.3, §5.5, §5.6): the pins have no smooth
-  structure on `G ⧸ K`.
+* the comparison of parabolic subgroups with algebraic `ℝ`-parabolic subgroups (§4.5) and the
+  conjugacy of maximal `ℝ`-split tori (§2.4): the pins have no Lie group structure on the real
+  points of an algebraic group;
+* the Cartan involutions of a real form of a complex reductive group (§2.5): the pins have no
+  antiholomorphic automorphisms of a complex Lie group;
+* the geometry of the symmetric space `G ⧸ K` (§5.2, §5.3, §5.5, §5.6), complex hyperbolic space
+  included (§5.7): the pins have no smooth structure on `G ⧸ K`.
 -/
 
 @[expose] public section
@@ -243,6 +247,20 @@ theorem exists_maximal_isCompact_and_le_conj [ConnectedSpace G]
       ∀ K : Subgroup G, Maximal (fun K : Subgroup G ↦ IsCompact (K : Set G)) K →
         ∀ C : Subgroup G, IsCompact (C : Set G) →
           ∃ g : G, C ≤ K.map (MulAut.conj g).toMonoidHom := sorry
+
+/-- **§5.4.** Maximal compact subgroups and Cartan involutions. For a connected Lie group with
+semisimple Lie algebra and finite centre, the Lie algebra of each maximal compact subgroup is the
+`+1`-eigenspace `𝔨` of exactly one Cartan involution. Together with §2.2 (each `𝔨` integrates to
+a compact subgroup) this makes `θ ↦ K_θ` a bijection from Cartan involutions onto maximal compact
+subgroups. -/
+theorem existsUnique_isCartanInvolution_lie_eq [ConnectedSpace G]
+    [IsSemisimple ℝ (LeftInvariantDerivation I G)] [Finite (Subgroup.center G)]
+    {K : Subgroup G} (hK : Maximal (fun K : Subgroup G ↦ IsCompact (K : Set G)) K) :
+    ∃! θ : LeftInvariantDerivation I G ≃ₗ⁅ℝ⁆ LeftInvariantDerivation I G,
+      IsCartanInvolution θ ∧
+        (TauCeti.Lie.lieSubalgebraOfSubgroup (I := I) K).toSubmodule =
+          LinearMap.ker ((θ : LeftInvariantDerivation I G →ₗ[ℝ] LeftInvariantDerivation I G) -
+            LinearMap.id) := sorry
 
 end MaximalCompact
 
