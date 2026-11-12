@@ -450,7 +450,8 @@ Prove, for `Ω ⊆ E` open and `u ∈ W^{1,p}_loc(Ω; F)`:
   `TauCeti.hasWeakFDerivOn_of_tendsto_lintegral_enorm_sub` pass to the limit.
 - (b) *Bounded derivative.* If `g : F → G` is `C¹` with `sup ‖dg‖ < ∞`, then
   `g ∘ u ∈ W^{1,p}_loc(Ω; G)` with the same formula, for every `u` in the class
-  (Arendt–Kreuter, Thm 4.2, p. 9, for Lipschitz outer maps on bounded domains). Route:
+  (Arendt–Kreuter, Thm 4.2, p. 9, for outer maps that are Lipschitz and one-sided Gateaux
+  differentiable, on bounded domains or with `g(0) = 0`). Route:
   mollify (§2.3), apply (a) to the mollifications, and pass to the limit with
   `TauCeti.hasWeakFDerivOn_of_tendsto_lintegral_enorm_sub`, using dominated convergence along an
   almost everywhere convergent subsequence.
@@ -647,7 +648,8 @@ the pushforward of `μ` restricted to `φ.source` is `w_φ(y) dy` on `φ.target`
 positive continuous real function `w_φ`. Prove that one atlas suffices, with the Jacobian
 change-of-variables rule for these weights; construct such measures by gluing local chart
 densities with a source partition of unity. Prove local finiteness, the Radon property, full
-support, and agreement of `μ`-null sets with chartwise null sets. Identify Riemannian volume
+support, and agreement of `μ`-null sets with chartwise null sets (Convent–Van Schaftingen,
+§1.1, p. 3, for positive absolutely continuous Radon measures). Identify Riemannian volume
 as the density whose coordinate weight is `√det (g_ij)` times the density of `b.addHaar` with
 respect to `volume`, for the basis `b` of `E` in which the coefficients `g_ij` are computed;
 for Lebesgue measure on `ℝⁿ` and its standard basis the weight is `√det (g_ij)`.
@@ -685,7 +687,8 @@ families of bounded linear equivalences, so their operator norms and inverse nor
 bounded. For the displayed Hom bundle the source tangent space is finite-dimensional and the
 target tangent space can be Banach. Prove:
 
-- the notions do not depend on the charts (§2.2) and are local;
+- the notions do not depend on the charts (§2.2) and are local (Convent–Van Schaftingen, §1.1,
+  p. 3, define scalar measurability and local integrability by one chart at each point);
 - for every positive continuous density measure `μ`, chart-measurable means
   `AEStronglyMeasurable` for `μ`, and `L^p_loc(M; F)` means `MemLp u p (μ.restrict K)`
   for every compact `K ⊆ M`;
@@ -1111,8 +1114,10 @@ map can send compact source sets to noncompact target regions, where two continu
 norms need not have uniform comparison constants. Prove:
 
 - for continuous `u`, membership of the local homogeneous class is equivalent to
-  `IsSobolevMap E E' p u`, and the differentials agree. Reconstruct ordinary chart derivatives
-  from compact target probes on neighbourhoods with compact image;
+  `IsSobolevMap E E' p u` (`isSobolevMap_iff_exists_hasColocalWeakMFDeriv`, with the energy
+  read in charts, which §5.3 makes norm-independent for continuous `u`), and the differentials
+  agree. Reconstruct ordinary chart derivatives from compact target probes on neighbourhoods
+  with compact image;
 - for `N = F` finite-dimensional with its fixed norm and usual distance, the inhomogeneous
   local class is exactly the ordinary vector-valued `W^{1,p}_loc(M; F)` of §4.1, without a
   continuity assumption. Supply the truncation-to-weak-derivative reconstruction using §2.6;
@@ -1143,7 +1148,7 @@ comparison with the extrinsic space on compact source and target is §10.4.
   `g(y) = sign y` has zero differential, but `g ∘ u` has a jump and is not colocal. This
   checks the properness or composition-membership hypothesis in the chain rule.
 
-*Needs:* §2.6, §3.1–§3.3, §4.7–§4.8, §5.1–§5.3; Convent–Van Schaftingen §§1–2.
+*Needs:* §2.6, §3.1–§3.3, §4.2–§4.8, §5.1–§5.3; Convent–Van Schaftingen §§1–2.
 
 ### Examples
 
@@ -1336,9 +1341,10 @@ The source `M` is finite-dimensional; `N` is a Banach manifold and
 `ω(y)` is a bounded alternating multilinear map from `T_yN` to `V`. Prove:
 
 - it is chart-measurable and its almost-everywhere class does not depend on the choice of `Df`;
-- `|f^♯ω| ≤ |ω ∘ f| ‖Df‖^k` for compatible continuous source and target tangent norms,
-  so `f^♯ω ∈ L^{p/k}_loc` for `1 ≤ k ≤ p`, and
-  `f^♯ω` is continuous for `k = 0`;
+- `|f^♯ω| ≤ |ω ∘ f| ‖Df‖^k` for compatible continuous source and target tangent norms
+  (for smooth scalar forms on a closed connected oriented Riemannian `n`-manifold, Riemannian
+  norms and quasiregular maps of a ball: Heikkilä–Pankka, arXiv 2302.11440v2, §3, p. 7), so
+  `f^♯ω ∈ L^{p/k}_loc` for `1 ≤ k ≤ p`, and `f^♯ω` is continuous for `k = 0`;
 - `f^♯ω = TauCeti.mpullback f ω` almost everywhere for `C¹` `f`;
 - `f^♯(ω ∧_B η) = f^♯ω ∧_B f^♯η` for a bounded bilinear coefficient pairing
   `B : V × W → Z` between Banach spaces; this includes multiplication for scalar forms;
@@ -1619,7 +1625,8 @@ sphere. Compactness of a Banach target is not an assumption.
 ### 10.1 The space `W^{1,p}_ι(M, N)`
 
 Define `W^{1,p}_ι(M, N)` as the set of `u ∈ W^{1,p}_loc(M; F)` with `u(x) ∈ ι(N)` for almost every
-`x`, with the metric of the carrier of §7.3. Prove:
+`x` (Hajłasz 2009, §1, p. 185, for compact Riemannian `M`, `N`, `p < ∞` and `N` isometrically
+embedded in `ℝ^ν`), with the metric of the carrier of §7.3. Prove:
 
 - *tangency*: `du(x)` takes values in `dι(T_y N)`, `ι(y) = u(x)`, for almost every `x`; route:
   `Π ∘ u = u` almost everywhere and §2.1(b) give `du = dΠ_u ∘ du`;
@@ -1888,5 +1895,6 @@ Degrees of `z ↦ zᵏ` and of the antipodal map of `Sⁿ` computed as `∫ J`; 
   (2011), 444–458.
 - S. Heikkilä, P. Pankka, *De Rham algebras of closed quasiregularly elliptic manifolds are
   Euclidean*, Ann. of Math. 201 (2025), no. 2, 3, cited in the numbering of arXiv
-  2302.11440v2: p. 1 (quasiregular maps in `W^{1,n}_loc(M, N)`, with `‖Df‖` and `J_f`) and the
-  proof of Prop. B.1, p. 24 (membership in `W^{1,∞}(M, N)` through a Nash embedding).
+  2302.11440v2: p. 1 (quasiregular maps in `W^{1,n}_loc(M, N)`, with `‖Df‖` and `J_f`), §3,
+  p. 7 (the pointwise bound for pulled-back forms) and the proof of Prop. B.1, p. 24
+  (membership in `W^{1,∞}(M, N)` through a Nash embedding).

@@ -20,7 +20,8 @@ change of variables and Morrey continuity (§1.2, §2.1(a), §2.2, §2.4); the c
 `W^{1,p}_loc(M, N)` with its independence of the charts, existence and uniqueness of the weak
 differential, `C¹` members, locality, and pullback by submersions and postcomposition with
 their chain rules (§4.2–§4.6); colocal weak
-differentiability with existence and uniqueness of its differential (§4.7–§4.8); the oriented
+differentiability with existence and uniqueness of its differential (§4.7–§4.8); the agreement
+of the local homogeneous class with the continuous class on continuous maps (§5.4); the oriented
 Jacobian of a linear map (§6.1) and local integrability of the Jacobian of a map for `p ≥ n`
 (§6.3); the characterization through split immersions (§9.1);
 intrinsic relative smooth approximation (§9.3); density for Banach targets with a closed
@@ -31,9 +32,8 @@ the failure of density at `x/|x|` (§11.3).
 
 Not statable at the pins:
 * the `Lᵖ` characterization through `‖Df‖` for compatible continuous tangent norms (§5.2),
-  the isometric clause of §9.1, and the energy classes of §5.4 for general compatible norms
-  with their comparison with the continuous class: there is
-  no carrier for continuous norms on the tangent spaces of a manifold (§5.1); Mathlib's
+  the isometric clause of §9.1, and the energy classes of §5.4 for general compatible norms:
+  there is no carrier for continuous norms on the tangent spaces of a manifold (§5.1); Mathlib's
   `Bundle.RiemannianBundle` covers only the Riemannian case;
 * commutation of the pullback of `V`-valued forms with the weak exterior derivative (§8.3):
   `TauCeti.integralTopForm` integrates scalar top forms only, and the `V`-valued integral that
@@ -251,7 +251,7 @@ theorem HasWeakMFDeriv.comp_submersion [CompleteSpace E']
 
 end Manifold
 
-/-! ## Layers 4.7–4.8: measurable weak maps into finite-dimensional targets -/
+/-! ## Layers 4.7–4.8 and §5.4: measurable weak maps into finite-dimensional targets -/
 
 section Colocal
 
@@ -326,6 +326,24 @@ theorem IsSobolevMap.isColocallyWeaklyDifferentiable [FiniteDimensional ℝ E'] 
     [IsManifold 𝓘(ℝ, E) 1 M] [IsManifold 𝓘(ℝ, E') 1 N]
     {p : ℝ≥0∞} {u : M → N} (hu : IsSobolevMap E E' p u) (hp : 1 ≤ p) :
     IsColocallyWeaklyDifferentiable E E' u := by
+  sorry
+
+/-- §5.4: on continuous maps into a finite-dimensional target the local homogeneous class is the
+continuous class: a continuous `u` lies in `W^{1,p}_loc(M, N)` iff it has a colocal weak
+differential whose chart expressions are locally `Lᵖ`, which for a continuous map is the local
+energy condition for every pair of compatible tangent norms (§5.3). -/
+theorem isSobolevMap_iff_exists_hasColocalWeakMFDeriv [FiniteDimensional ℝ E'] [BorelSpace N]
+    [T2Space M] [SecondCountableTopology M] [T2Space N] [SecondCountableTopology N]
+    [IsManifold 𝓘(ℝ, E) 1 M] [IsManifold 𝓘(ℝ, E') 1 N]
+    {p : ℝ≥0∞} (hp : 1 ≤ p) {u : M → N} (hu : Continuous u) :
+    IsSobolevMap E E' p u ↔
+      ∃ Du : (x : M) → TangentSpace 𝓘(ℝ, E) x →L[ℝ] TangentSpace 𝓘(ℝ, E') (u x),
+        HasColocalWeakMFDeriv E E' u Du ∧ ∀ x : M,
+          MemLpLoc (F := E →L[ℝ] E') p (chartDomain E E' u x) fun y =>
+            ((mfderiv 𝓘(ℝ, E') 𝓘(ℝ, E') (extChartAt 𝓘(ℝ, E') (u x))
+                (u ((extChartAt 𝓘(ℝ, E) x).symm y))).comp
+              ((Du ((extChartAt 𝓘(ℝ, E) x).symm y)).comp
+                (mfderiv 𝓘(ℝ, E) 𝓘(ℝ, E) (extChartAt 𝓘(ℝ, E) x).symm y)) : E →L[ℝ] E') := by
   sorry
 
 end Colocal
