@@ -812,9 +812,10 @@ The following belong to separate roadmaps.
 - **Ownership of the consumed interface.** The interface of 4.3 and invariant separation (2.2)
   are Tau Ceti declarations at the pin, as are the other results above except Mathlib's
   `IsGδ.polishSpace`; this roadmap owns no interface that its consumers use.
-  CountableModelCounting states its targets with Tau Ceti's `Setoid.HasPerfectAntichainOn`,
-  `Setoid.HasCantorAntichainOn` and `Setoid.IsThinOn`, which have the bodies of Convention 6
-  (`Setoid.hasCantorAntichainOn_iff` and its companions unfold them).
+  CountableModelCounting consumes the objects listed in 4.3. Where its prototype writes the
+  antichain predicates out for its model classes, it writes the bodies of Convention 6, to which
+  Tau Ceti's `Setoid.hasCantorAntichainOn_iff`, `Setoid.hasPerfectAntichainOn_iff` and
+  `Setoid.isThinOn_iff` unfold the named predicates.
 - **Mathlib.** The open proposals listed under *Existing library and ownership* cover material
   this roadmap consumes from Tau Ceti; they are design references, not assumptions that their
   code has merged. Mathlib's closed-set Cantor–Bendixson decomposition is
