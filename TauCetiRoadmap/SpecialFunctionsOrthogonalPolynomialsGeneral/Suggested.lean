@@ -14,8 +14,7 @@ polynomials (`TauCeti/RingTheory/Polynomial/Hermite/GeneratingFunction.lean`); t
 statements need only Mathlib carriers, so the file imports only Mathlib.
 
 The definitions below are roadmap-local copies of the definitions `README.md` pins.
-`shiftedHankelDet` is a local copy of the definition owned by ClassicalArithmeticCompletion §6.21,
-and the moments are Mathlib's `ProbabilityTheory.moment id n μ`. In Tau Ceti the
+The moments are Mathlib's `ProbabilityTheory.moment id n μ`. In Tau Ceti the
 measure-dependent definitions live in the namespace `OrthogonalPolynomials`, and the purely
 algebraic ones (`monicThreeTerm`, `corecursive`, `jacobiMatrix`, `imCentralDiff`,
 `derivativeAction`, `IsSheffer`) in `Polynomial`. Theorems are stated with `sorry`.
@@ -434,15 +433,11 @@ theorem monic_even_odd_two_sq_sub_one {μ : Measure ℝ} (hμ : IsOrthogonalityM
 
 /-! ## Layer 7: moments and Hankel determinants -/
 
-/-- The shifted leading Hankel determinant `D_n(a) = det (a_(i+j+1))_{i,j<n}`, `D₀ = 1`: a local
-copy of the definition owned by ClassicalArithmeticCompletion §6.21. -/
-def shiftedHankelDet {R : Type*} [CommRing R] (a : ℕ → R) (n : ℕ) : R :=
-  Matrix.det (fun i j : Fin n => a (i.val + j.val + 1))
-
 /-- The Hankel determinant `Δ_n = det (m_(i+j))_{i,j<n}` of a sequence (DLMF 18.2.27); `Δ₀ = 1`.
-It is ClassicalArithmeticCompletion's `shiftedHankelDet` of the sequence with `a_(k+1) = m_k`. -/
+It is ClassicalArithmeticCompletion §6.21's `D_n(a) = det (a_(i+j+1))_{i,j<n}` for
+`a_(k+1) = m_k`. -/
 def hankelDet (m : ℕ → ℝ) (n : ℕ) : ℝ :=
-  shiftedHankelDet (fun k => m (k - 1)) n
+  (Matrix.of fun i j : Fin n => m (i.val + j.val)).det
 
 /-- The determinant `Δ′_n` (DLMF 18.2.28); `Δ′₀ = 0`, `Δ′₁ = m₁`. -/
 def hankelDet' (m : ℕ → ℝ) (n : ℕ) : ℝ :=
