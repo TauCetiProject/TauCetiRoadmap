@@ -35,15 +35,13 @@ equivalence and the Scott analysis (`TauCeti.BFEquiv`, `TauCeti.scottSentence`,
 isomorphism and back-and-forth setoids, the permutation-group topology, and projective classes
 (`FirstOrder.Language.LHom.PCMem`). The library's theorems are cited, not restated, except where
 the roadmap needs a milestone in a different form; such a milestone is stated in the roadmap's
-form and proved by the library's theorem. One declaration below, `pcSeparation`, is a stand-in for
-the InfinitaryModelExistence roadmap, which owns it, marked with the owner's revision it was checked
-against. The PC sentence of a tree is recorded by its specification (`exists_pcSentence`); the
+form and proved by the library's theorem. The PC sentence of a tree is recorded by its specification (`exists_pcSentence`); the
 README gives its explicit construction. Names and namespaces are provisional.
 -/
 
 @[expose] public section
 
-universe u v w w' u₁ v₁ u₂ v₂
+universe u v w w'
 
 namespace TauCetiRoadmap.CountableStructureSpaces
 
@@ -420,32 +418,9 @@ theorem measurableSet_iso_inter_iff_exists_bfLevel [L.IsRelational]
 
 /-! ## Layer 5: the López–Escobar theorem
 
-Projective classes are the library's `FirstOrder.Language.LHom.PCMem`. -/
-
-/-! ### Stand-in owned by InfinitaryModelExistence
-
-Owner: the InfinitaryModelExistence roadmap, Layer 7. Declaration: `pcSeparation`, over the pinned
-infinitary syntax. Checked against revision 35db8dff of that roadmap (follow-up TauCetiRoadmap #1615). The
-copy is prototype scaffolding; the owner's statement is authoritative. -/
-
-/-- **Stand-in for `pcSeparation` of the InfinitaryModelExistence roadmap** (its Craig
-interpolation layer), stated as there. Two projective classes with no common countable nonempty
-member are separated by a single `L`-sentence on nonempty structures; no language is assumed
-countable. For a countable relational language, on the space of structures with carrier `ℕ`, it
-plays the role of Lusin separation. Each `LHom.PCMem` carries its own expansion, so the theorem
-applies with `L₁ = L₂`. This roadmap consumes the theorem and does not prove it; Layer 5 applies it
-to the PC sentences of trees for `B` and its complement. -/
-theorem pcSeparation {L : FirstOrder.Language.{u, v}} {L₁ : FirstOrder.Language.{u₁, v₁}}
-    {L₂ : FirstOrder.Language.{u₂, v₂}}
-    (Θ₁ : (L.sum L₁).Sentenceω) (Θ₂ : (L.sum L₂).Sentenceω)
-    (h : ∀ (M : Type) [L.Structure M] [Nonempty M] [Countable M],
-      LHom.PCMem LHom.sumInl Θ₁ M → ¬ LHom.PCMem LHom.sumInl Θ₂ M) :
-    ∃ θ : L.Sentenceω,
-      (∀ (M : Type w) [L.Structure M] [Nonempty M], LHom.PCMem LHom.sumInl Θ₁ M →
-        SentenceInf.Realize θ M) ∧
-      (∀ (M : Type w) [L.Structure M] [Nonempty M], LHom.PCMem LHom.sumInl Θ₂ M →
-        ¬ SentenceInf.Realize θ M) := by
-  sorry
+Projective classes are the library's `FirstOrder.Language.LHom.PCMem`. The hard direction consumes
+`pcSeparation` of the InfinitaryModelExistence roadmap, whose statement the README quotes as that
+roadmap's contract; it is not restated here. -/
 
 /-- The relation symbols of the witness vocabulary: a zero, the graph of a successor, and the
 graph of a branch. -/

@@ -790,9 +790,7 @@ These belong to separate roadmaps.
   (`ModelTheory/Scott/RandomGraph.lean`) supplies the extension axioms of worked example 4.
 - **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md).** The single dependency is
   `pcSeparation`, with `LHom.PCMem`, as stated under ownership. That roadmap owns both. Tau Ceti
-  implements the predicate as `LHom.PCMem`; `pcSeparation` is not at the pin, so `Suggested.lean`
-  repeats that roadmap's statement verbatim, marked with its owner and the owner's revision it
-  matches, for Layer 5 to be stated against. Its application here uses relational PC sentences
+  implements the predicate as `LHom.PCMem`; `pcSeparation` is not at the pin. Its application here uses relational PC sentences
   whose models are countable by construction, so it needs neither Löwenheim–Skolem, nor graph
   translation, nor that roadmap's boundedness of well-ordered models.
 - **[BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md).** This roadmap consumes
