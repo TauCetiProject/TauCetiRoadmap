@@ -54,9 +54,9 @@ Suggested home: `TauCeti/Analysis/SpecialFunctions/Gamma/`, beside
 The roadmap is complete when Tau Ceti proves all of the following.
 
 1. **Pochhammer symbols, special values and functional relations** (DLMF §5.2(iii), §5.4 without
-   5.4.7–5.4.10 and 5.4.20, §5.5).
+   5.4.3, 5.4.7–5.4.10 and 5.4.20, §5.5).
 2. **Series and products** (DLMF §§5.7–5.8 without 5.7.6 on `Re z > 0`, 5.8.1, 5.8.2 and
-   5.8.3), and DLMF 5.15.1.
+   5.8.3), and DLMF 5.15.1 off `Re z > 0`.
 3. **Inequalities** (DLMF §5.6 without 5.6.1 and 5.6.9).
 4. **Integral representations of `Γ` and `ψ`** (DLMF §5.9 without 5.9.10–5.9.12 and 5.9.17).
 5. **The Beta function** (DLMF §5.12 without 5.12.1 and 5.12.3).
@@ -755,11 +755,11 @@ integral. 5.9.20 by integrating 5.2.1 in `z` and Fubini. In 5.9.18, the first eq
 input. The integral over `(0, 1)` minus the integral over `(1, ∞)` follows from it
 by integrating `e^{−t} log t` by parts, against `1 − e^{−t}` on `(0, 1)` and against `−e^{−t}` on
 `(1, ∞)`; the integrals of `(1/(1 + t) − e^{−t})/t` and of `e^{−t}/(1 − e^{−t}) − e^{−t}/t` are
-5.9.16 and 5.9.13 at `z = 1`, with `ψ(1) = −γ`.
+5.9.14 and 5.9.13 at `z = 1`, with `ψ(1) = −γ`.
 
 *Needs:* AnalyticNumberTheoryPartI §1.8a; AsymptoticExpansions 4.1; Mathlib
-`Real.eulerMascheroniConstant_eq_neg_deriv`, the cotangent partial fractions `cot_series_rep`,
-`hasDerivAt_integral_of_dominated_loc_of_deriv_le`.
+`Real.eulerMascheroniConstant_eq_neg_integral_log`, `Real.eulerMascheroniConstant_eq_neg_deriv`,
+the cotangent partial fractions `cot_series_rep`, `hasDerivAt_integral_of_dominated_loc_of_deriv_le`.
 
 **Checks.**
 - 5.9.16 at `z = 1`: both integrals vanish and `ψ(1) + γ = 0`.
