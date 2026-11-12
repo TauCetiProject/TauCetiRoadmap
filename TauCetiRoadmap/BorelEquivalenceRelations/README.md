@@ -203,14 +203,10 @@ kind 3 below.
 
    | Tau Ceti declaration | Difference from the layer's form | Bridge |
    | --- | --- | --- |
-   | `PiNat.prependWord` | `w ++ₛ x` over any alphabet, not a case split on `n < w.length` | equal by `funext` with `PiNat.prependWord_apply_of_lt` and `PiNat.prependWord_apply_of_le`; not by `rfl` |
-   | `SetRel.HasCountableBorelColoring` | curried: `∀ ⦃x y⦄, (x, y) ∈ G → c x ≠ c y` | `∀ p ∈ G, c p.1 ≠ c p.2` by `Prod` eta |
    | `Setoid.HasCantorAntichainOn.exists_injective` | the conclusion also carries the antichain property | drop the last conjunct |
    | `Setoid.exists_invariant_measurableSet_separating` | no class meets both `A` and `B`, in place of an invariant `B` disjoint from `A`; Hausdorff, measurable open sets | for invariant `B`, a class meeting both puts a point of `A` in `B` |
    | `SetRel.isSmallFamily_iUnion` | an iff, over any countable index | its `.2` |
    | `SetRel.not_isSmallFamily_comb_cross` | value condition `range (comb φ₀ φ₁) ⊆ range φ₀ ∪ range φ₁`; members written `comb φ₀ φ₁ = ψ` | the pointwise value condition gives the range form; `eq_comm` |
-   | `TauCeti.exists_continuous_orientedGS_hom` | homomorphism property curried over `(y, z)` | instantiate at `(p.1, p.2)`, with the coloring bridge above |
-   | `TauCeti.not_hasCountableBorelColoring_of_orientedGS_hom` | `φ` only measurable; homomorphism hypothesis curried | `hφ.measurable`; uncurry |
    | `Setoid.isSmooth_of_countable_quotient` | measurable classes in place of a Borel graph | each class is a section, `measurable_prodMk_left hE` |
    | `TauCeti.isGδ_of_isCompletelyMetrizableSpace` | perfectly normal and `T2Space`, complete metrizability of `s` as an instance | `T6Space` gives both by instance search; `haveI := hs` (the `example` in `Suggested.lean`) |
    | `Setoid.borelReducible_bot_bot_iff_lift_mk_le` | `Cardinal.lift` across two universes | `Cardinal.lift_id` in one universe |
@@ -224,9 +220,6 @@ kind 3 below.
    - worked examples 3 (in its closed-relation reading) and 8, which wait on these two theorems,
      and 5, the Vitali relation: Tau Ceti has neither the relation nor its generic ergodicity.
      The other worked examples follow from Mathlib and the declarations of kinds 1 and 2.
-
-This is a supplier map, not a completion claim; whether the roadmap moves to the completed
-roadmaps is a separate decision for the maintainers.
 
 The Tau Ceti measurable-selection module `TauCeti.MeasureTheory.MeasurableSpace.Selection`
 (Kuratowski–Ryll-Nardzewski) is related but not consumed: no milestone here needs a selector.
