@@ -289,11 +289,11 @@ set of sequents (Johnstone, Elephant, D1.1; Mac Lane–Moerdijk, X.1 and X.3, pp
 and universal quantification are not formulas; a sequent `φ ⊢ ψ` plays the role of
 `∀ x, φ → ψ`.
 
-Define also, as API, `GeometricFormula.relabel` along `g : Fin n → Fin m`: the connectives are
-kept, terms are relabelled by Mathlib's `Term.relabel g`, and under `ex` the formula is relabelled
-along the extension `Fin (n + 1) → Fin (m + 1)` of `g` that sends the last variable to the last
-variable. The weakening of `φ` to `Fin (n + k)` is `φ.relabel (Fin.castAdd k)`, which keeps the
-first `n` variables.
+Define also, as API, the relabelling `φ[g]` of a geometric formula `φ` along `g : Fin n → Fin m`:
+the connectives are kept, terms are relabelled by Mathlib's `Term.relabel g`, and under `ex` the
+formula is relabelled along the extension `Fin (n + 1) → Fin (m + 1)` of `g` that sends the last
+variable to the last variable. The weakening of `φ` to `Fin (n + k)` is `φ[Fin.castAdd k]`, which
+keeps the first `n` variables.
 *Needs:* Mathlib `FirstOrder.Language`, `FirstOrder.Language.Term`, `Term.relabel`.
 
 **Checks.**
@@ -307,7 +307,7 @@ first `n` variables.
   finitary first-order formula, so finite disjunctions would not express it.
 - The bound variable is the last one (Convention 2): `ex (equal (var 0) (var 1 * var 1))` in
   context `Fin 1` holds at `4` and fails at `2` in `ℤ`.
-- `relabel` moves the bound variable with the context: the weakening of that formula to `Fin 2` is
+- Relabelling moves the bound variable with the context: the weakening of that formula to `Fin 2` is
   `ex (equal (var 0) (var 2 * var 2))`, again "`x₀` is a square", which holds at `(4, 7)` and fails
   at `(2, 7)` in `ℤ`. Relabelling under `ex` along `Fin.castAdd 1 : Fin 2 → Fin 3` would leave
   `var 1` in place and give `∃ x₂, x₀ = x₁ * x₁`, which fails at `(4, 7)`.
@@ -331,7 +331,7 @@ relabelled by `Sum.inr`, and the disjunction of `φ : ι → _` goes to the disj
 `φ`, with Tau Ceti's realization lemmas for `⊤`, `⊓`, `ex` and `iSup`.
 
 Prove also, as API, that for `g : Fin n → Fin m` and `x : Fin m → M`,
-`(φ.relabel g).Realize x ↔ φ.Realize (x ∘ g)` (1.1, API), by induction on `φ`, with Mathlib's
+`φ[g].Realize x ↔ φ.Realize (x ∘ g)` (1.1, API), by induction on `φ`, with Mathlib's
 `Term.realize_relabel` at the atomic formulas; under `ex`, `Fin.snoc x a` composed with the
 extension of `g` is `Fin.snoc (x ∘ g) a`.
 *Needs:* 1.1; Mathlib `FirstOrder.Language.Structure`, `Structure.RelMap`, `Term.realize`,
@@ -429,7 +429,7 @@ induction on `φ`; the order of subobjects is preserved because `F` preserves mo
 - for every structure `M` in `Sheaf K (Type u)` of a small site and every `g : Fin n → Fin m`, with
   `p : M.pow m ⟶ M.pow n` the map `Pi.lift fun i => Pi.π _ (g i)`:
   `M.termMap (t.relabel g) = p ≫ M.termMap t`, by induction on `t`, and
-  `M.interp (φ.relabel g) = (Subobject.pullback p).obj (M.interp φ)` (1.1, API), by induction on
+  `M.interp φ[g] = (Subobject.pullback p).obj (M.interp φ)` (1.1, API), by induction on
   `φ`. `Subobject.pullback p` preserves `⊤`, `⊓` and equalizers and is functorial in `p`. For
   `iSup`, it preserves joins, being a frame homomorphism (GrothendieckTopoi 1.2), and the image of
   the coproduct is the join. For `ex`, the square formed by `p`, the map of the extension of `g`
@@ -544,14 +544,14 @@ subject to the atomic formulas of `φ`. Prove:
   (1.2). Images are stable under pullback, since every epimorphism is the coequalizer of its kernel
   pair (1.2) and such coequalizers are universal (GrothendieckTopoi 1.4), so `Subobject.exists`
   satisfies Frobenius reciprocity and commutes with pullback along projections. In the `and` case
-  the two blocks of bound variables are put in one context by `GeometricFormula.relabel` (1.1,
+  the two blocks of bound variables are put in one context by the relabelling of formulas (1.1,
   API): `θ i` and `θ' j` are relabelled into the context of `n + (m i + m' j)` variables, `θ i`
   onto the first `n + m i` variables and `θ' j` onto the first `n` and the last `m' j`; both stay
   Horn, and their interpretations are pullbacks along projections (1.4, API). The index types
   stay in `Type u` (`PUnit`, products, sigma types) (Elephant, D1.3.10, as used in Caramello 2017,
   proof of Theorem 17.6, p. 81).
 
-*Needs:* 1.1 (API: `GeometricFormula.relabel`), 1.3, 1.4 (API: the interpretation of a relabelled
+*Needs:* 1.1 (API: the relabelling of formulas), 1.3, 1.4 (API: the interpretation of a relabelled
 formula); GrothendieckTopoi 1.2, 1.4, 2.5; Mathlib `GrothendieckTopology`, `Sheaf`, `Term.subst`,
 `Pi.lift`, `Subobject.pullback`, `Subobject.exists`, `equalizerSubobject`, `AsSmall`.
 
@@ -571,7 +571,7 @@ formula); GrothendieckTopoi 1.2, 1.4, 2.5; Mathlib `GrothendieckTopology`, `Shea
   `ℤ[x]/(x² - x)`, the second `ℤ[x]`.
 - In (b), the conclusion of the second new axiom of `localRingTheory` is already in normal form
   (index `ULift Bool`, `m = 1`); `and (ex θ) ψ` has the normal form `ex (and θ ψ')`, with `ψ'` the
-  weakening `ψ.relabel (Fin.castAdd 1)` of `ψ` to `Fin (n + 1)` (1.1, API), by Frobenius
+  weakening `ψ[Fin.castAdd 1]` of `ψ` to `Fin (n + 1)` (1.1, API), by Frobenius
   reciprocity, the interpretation of `ψ'` being the pullback of that of `ψ` along the projection
   of Convention 2 (1.4, API; in `Type u`, `(∃ y, θ x y) ∧ ψ x ↔ ∃ y, θ x y ∧ ψ x`); a normal form
   with finite index types would not reach the torsion formula of 1.1.
@@ -594,7 +594,7 @@ representable
 presheaf of `(1, top)`: by 2.2 (a), the `J`-continuous filtering functors on `C` are the
 `T`-models (Caramello 2017, « Lattices of theories », Remark 3.7 in the numbering of
 arXiv:0905.0299v1), and GrothendieckTopoi 2.5 gives the universal property.
-*Needs:* 1.1 (API: `GeometricFormula.relabel`), 1.3, 1.4 (API: the interpretation of a relabelled
+*Needs:* 1.1 (API: the relabelling of formulas), 1.3, 1.4 (API: the interpretation of a relabelled
 formula), 2.1, 2.2; GrothendieckTopoi 2.5; Mathlib `GrothendieckTopology`, `Sheaf`, `AsSmall`,
 `yoneda`, `presheafToSheaf`.
 
