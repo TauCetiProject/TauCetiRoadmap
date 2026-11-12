@@ -141,12 +141,18 @@ in `TauCeti.Algebra.Polynomial.Laurent.Basic` supply one-variable evaluation at 
 for §§0.2 and 0.5. Use `TauCeti.DynkinType`, `DynkinType.Valid` and
 `TauCeti.IsFiniteType` for Cartan type in Layer 4.
 
+Use `TauCeti.twistedMonoidAlgebra` in
+[`TauCeti.Algebra.MonoidAlgebra.Twisted.Basic`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean)
+for the based torus of §0.4 over a commutative semiring. The namespace
+`TauCeti.TwistedMonoidAlgebra` supplies `basis`, `of_mul_of`, `isUnit_of`,
+`lift` for the chart map and `monoidAlgebraEquiv` for the trivial factor set.
+
 ### From TauCetiRoadmap.ScatteringDiagrams
 
-[ScatteringDiagrams](../ScatteringDiagrams/README.md) §4.3 supplies the full
-`QuantumMonoidAlgebra`, including its monomial basis, coefficient maps, lattice maps
-and untwisted comparison. It also supplies completed wall groups, consistent completion,
-broken lines, theta transport and wall positivity.
+[ScatteringDiagrams](../ScatteringDiagrams/README.md) §4.3 supplies the coefficient
+and lattice maps for the full `QuantumMonoidAlgebra`. The scattering roadmap also
+supplies completed wall groups, consistent completion, broken lines, theta transport
+and wall positivity.
 Consume §0.8's finite expansion and recursion, §§3.3–3.4's ordinary and
 relative abelian completions, §§4.2–4.4, 5.1–5.6 and 7.1–7.7 at their
 stated hypotheses. This roadmap owns seed mutation invariance, the cluster chambers,
@@ -188,7 +194,7 @@ The complex scheme construction is not a general scalar-ring supplier.
 
 | Layer | Delivers | Depends on |
 |---|---|---|
-| 0 | Coefficients, based quantum tori, Laurent charts and local algebra | Mathlib; ScatteringDiagrams §4.3 |
+| 0 | Coefficients, based quantum tori, Laurent charts and local algebra | Mathlib, Tau Ceti and ScatteringDiagrams §4.3 |
 | 1 | Coefficient systems, exchange data, seeds and their mutation, regular and division-ring realizations, algebras | 0 |
 | 2 | Common polynomial upper bounds; quantum and classical Laurentness; separation; Starfish | 0–1; SchemeAndStackFoundations §0.6 |
 | 3 | Lattice formalism, cluster varieties, matrix and tropical realizations | 0–2; toric carriers and scheme gluing |
@@ -198,7 +204,8 @@ The complex scheme construction is not a general scalar-ring supplier.
 
 | Shared material | Single home | Consumers |
 |---|---|---|
-| Twisted lattice algebra, monomial basis and functorial maps | ScatteringDiagrams §4.3 | Based tori and quantum charts |
+| Twisted lattice algebra and monomial basis | Tau Ceti | Based tori and quantum charts |
+| Coefficient and lattice maps of twisted lattice algebras | ScatteringDiagrams §4.3 | Based tori and quantum charts |
 | Embedded skew Laurent normal forms, chart change and denominator patching | Seed-free algebra, §§0.4–0.5 | Polynomial mutation and Q1; commutative one-exchange statements |
 | Support, separated scalar factors and flat simultaneous divisibility | Seed-free algebra, §0.6 | Commuting Q2 and classical divisibility statements |
 | Finite ordered polynomial replacement | Seed-free algebra, §0.7 | Interacting Q2, binary and commutative replacement |
@@ -426,14 +433,17 @@ maps.
 
 ### 0.4 Based quantum tori and Ore realizations
 
-For a commutative ring `R`, a unit `u∈Rˣ`, a finite free lattice `L` and an
-integral alternating form `Λ`, let `T(R,u,Λ)` be the full
-`QuantumMonoidAlgebra` of ScatteringDiagrams §4.3 with `q=u` and `β=Λ`.
-The positive degree datum can be `(L,{0},0)` for this use of the full algebra.
-Use the supplied basis and its coefficient and lattice maps. Write `X^a` for the
-basis monomial at `a∈L`. The multiplication rule
+Let `R` be a commutative semiring, `u∈Rˣ` a unit, `L` a finite free lattice
+and `Λ:L×L→ℤ` an alternating bilinear form. Bilinearity and `Λ(0,a)=Λ(a,0)=0`
+give a normalized factor set `α(a,b)=u^{Λ(a,b)}` on `Multiplicative L`.
+Define `T(R,u,Λ)` as `TauCeti.twistedMonoidAlgebra` for this factor set.
+Over a commutative ring this is the full `QuantumMonoidAlgebra` of
+ScatteringDiagrams §4.3 with `q=u` and `β=Λ`. The positive degree datum can
+be `(L,{0},0)` for this use of the full algebra. Use §4.3's coefficient and
+lattice maps over rings. Write `X^a` for the basis monomial at `a∈L`.
+The multiplication rule
 `X^a X^b=u^{Λ(a,b)}X^{a+b}` gives inverse monomial `X^{-a}` and the untwisted
-product at `u=1`. Use §4.3's untwisted comparison for `Λ=0`.
+product at `u=1`. For `Λ=0` use `TwistedMonoidAlgebra.monoidAlgebraEquiv`.
 Quantum cluster notation takes `u=v` and `q_cl=v²`, so
 `X_i X_j=v^{2Λ_ij}X_j X_i`.
 
@@ -445,7 +455,7 @@ from the subalgebra with exponents `a_i≥0` (`i∉S`) sending `X_i` to `U_i`. F
 order on the basis it sends `X^a` to `u^{-Σ_{i<j}a_i a_j Λ_ij}∏_iU_i^{a_i}`, the product
 taken in that order; the result is independent of the order.
 
-Derive
+For the fraction constructions assume `R` is a commutative ring. Derive
 [`UniqueSums`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Group/UniqueProds/Basic.html#UniqueSums)
 for the finite free lattice L and prove `T(R,u,Λ)` is a domain when R is a domain.
 Over a field it
@@ -469,10 +479,12 @@ form on `ℤ^I` and B an R-algebra, not necessarily commutative. A based chart
 (`formPairing`), and R-linearly independent values: finite
 R-combinations of the `M(a)` have unique coefficients. Its coordinates
 (`BasedChart.coordinate`) are `X_i=M(e_i)`, and its chart map
-(`BasedChart.eval`) sends a finitely supported family f to `Σ_a f_aM(a)`. Prove that the chart map is injective, that a based chart is
-determined by its coordinates through the ordered-product formula above, and
-transport along reindexing and along injective R-algebra maps of B. For a
-commutative ring R, prove that `M(a)=χ(X^a)` is a bijection from injective
+(`BasedChart.eval`) sends a finitely supported family f to `Σ_a f_aM(a)`.
+This is the underlying linear map of `TwistedMonoidAlgebra.lift` applied to
+the monomial family. Prove that the chart map is injective and that the
+ordered-product formula determines a based chart from its coordinates.
+Transport based charts along reindexing and injective R-algebra maps of B.
+Prove that `M(a)=χ(X^a)` gives a bijection from injective
 R-algebra maps `χ:T(R,u,Λ)→B` to based charts; quantum charts are those with
 B a division ring. For `u=1`, `Λ=0` and commutative B, prove that
 `M(a)=c(X^a)` is a bijection from §0.2's Laurent charts c of `L(R,I)` to based charts.
@@ -486,8 +498,8 @@ B a division ring. For `u=1`, `Λ=0` and commutative B, prove that
 - In the skew field of fractions of the rank-two torus, verify that the nonzero element `1+X₁`
   becomes a unit while `X₂(1+X₁)=(1+u⁻²X₁)X₂`.
 
-*Needs:* Mathlib lattice, monomial support and Ore localization APIs, and ScatteringDiagrams §4.3
-for the full twisted lattice algebra, its monomial basis and its coefficient and lattice maps.
+*Needs:* Mathlib lattice, monomial support and Ore localization APIs, Tau Ceti's
+twisted monoid algebra and ScatteringDiagrams §4.3 for the coefficient and lattice maps.
 
 ### 0.5 One-exchange algebra
 
@@ -705,8 +717,8 @@ Use the rank-two determinant lattice to compare the ordinary Laurent chart, the 
 
 ### Dependencies
 
-Mathlib supplies the algebraic carriers. ScatteringDiagrams §4.3 supplies the full twisted
-lattice algebra for the quantum torus.
+Mathlib supplies the algebraic carriers. Tau Ceti supplies the twisted monoid algebra
+for the quantum torus. ScatteringDiagrams §4.3 supplies its coefficient and lattice maps.
 
 ## Layer 1: classical and quantum seeds and mutation
 
@@ -1143,7 +1155,8 @@ bijections between `Y`-seeds `(y,B)` and extended matrices `B̃` with principal 
 For finite J this is §1.1's extended-matrix carrier. Prove that they
 intertwine `μ_k(y,B)` with `μ_kB̃` and give the exchange relation
 `x_kx'_k=∏_{i∈I}a_i^{[b_ik]_+}+∏_{i∈I}a_i^{[-b_ik]_+}`, `a_i=x_i` (`i∈K`), `a_i=z_i`
-(`i∈J`). Apply §1.3 to each `R_S` (§0.3), including its frozen-localization
+(`i∈J`) (FZ IV, Definition 2.12 and (2.13)–(2.15)).
+Apply §1.3 to each `R_S` (§0.3), including its frozen-localization
 construction. Every comparison of `L_{R,t}`, `A_R`, `U_R` keeps `R` explicit.
 
 Binary data (`ExchangeData.IsBinary`) have `H_k=1+T` in every direction. In the scalar system they are
@@ -1157,7 +1170,7 @@ seeds with frozen set J. The regrouping
 normalized tropical-coefficient presentation above. Its exchange at k is
 defined when its two-monomial numerator is regular. Over a commutative ring C,
 all directions are regular exactly when
-`IsRegular (2:C)` or every mutable column of the full extended matrix being nonzero.
+`IsRegular (2:C)` holds or every mutable column of the full extended matrix is nonzero.
 Prove that this is exactly the regularity condition for its binary exchanges
 and is mutation invariant. Use distinct monomial support for nonzero columns;
 a zero column has exchange numerator 2. Construct the new generating chart
@@ -1498,11 +1511,11 @@ gives one-step membership. Here `UB(s)` is §1.3's `UB_J(s)`, and
 Full column rank supplies these hypotheses by Q2 and §1.1's rank invariance.
 The signature `Seed.upperBound_eq_of_reachable` states invariance of
 `Seed.upperBound` at every reachable seed under the full-column-rank
-hypothesis. In finite classical geometric type over ℤ with all frozen
-coordinates inverted, `Seed.chartAlgebra` is the ring generated by the
-coordinates and their inverses, and `Seed.upperBound` is the intersection of
-the initial and adjacent chart algebras of the same seed
-(BFZ III, Corollary 1.9). The resulting common Laurent theorem is
+hypothesis. For a binary seed over ℤ at `u=1` in a field, with all frozen
+coordinates inverted, `Seed.chartAlgebra` is the Laurent ring of the chart
+and `Seed.upperBound` is BFZ's upper bound (BFZ III, Definition 1.1).
+In this case the invariance statement gives BFZ III, Corollary 1.9.
+The resulting common Laurent theorem is
 
 ```
 X_{a;μ_ω(s)} ∈ T_{μ_p(s)}   for all p, ω ∈ List(K) and a ∈ I.
@@ -1820,7 +1833,9 @@ independent of the chosen finite enlargement and compatible with re-rooting.
 The same reduction transports §5.2's integral positivity. Finite-type
 classification, finite lattice geometry and the quantum core retain finite rank.
 
-See FZ IV, §§3 and 6, for normalization and separation.
+See FZ IV, Proposition 3.9 and (3.12)–(3.13) for the `Y` and `ŷ` patterns,
+Proposition 3.12 and (3.17) for the normalization identities, Theorem 3.7
+for the separation formula and Corollary 6.3 for its `g`-vector form.
 
 **Checks.**
 
@@ -2534,7 +2549,10 @@ For every coefficient semifield P and bipartite initial regular normalized seed,
 and each admitted domain realization, prove there is a unique bijection `α↦x[α]` from `Φ_{≥-1}` to the cluster
 variables with `d(x[α])_i=[α:α_i]`; it has `x[-α_i]=x_i` and maps maximal compatible sets
 bijectively to clusters. Deduce that there are `rank(Φ)+|Φ_{>0}|` cluster variables and
-finitely many seeds.
+finitely many seeds. For a binary seed over ℤ in a field, `ncard_clusterVariables`
+states the count when the Cartan companion of the principal block is the Cartan
+matrix `A` of a finite reduced crystallographic root system (FZ II, Theorems 1.4
+and 1.9). Use §4.1 to reach a bipartite seed and §1.3 to re-root the pattern there.
 
 For a connected finite-type component of rank at least two, strengthen the
 bipartite expansion to `x[α]=P_α/x^α` with `P_α(0)∈P` for every positive

@@ -27,9 +27,12 @@ The data of the mutated seed are defined explicitly (`ExchangeData.mutatedPolyno
 The classical headline statements use binary seeds over ℤ. The Starfish statement uses the
 realized coordinates over the chosen coefficient ring.
 
-The cluster scattering diagram (§5.1) needs the completed wall groups from
-ScatteringDiagrams. The coordinate-ring theorem (§6.3) needs the double Bruhat cell and
-generalized minors from Layer 6.
+The identification of global functions on the cluster `𝒜`-scheme with the upper cluster
+algebra (§3.3) needs the glued scheme. Mutation invariance of the cluster scattering diagram
+and the theta-function realization of cluster monomials (§§5.1–5.2) need the completed wall
+groups and broken lines from ScatteringDiagrams. The identification of the coordinate ring
+of a double Bruhat cell with its upper cluster algebra (§6.3) needs the cell and generalized
+minors from Layer 6. These targets require carriers still to be constructed.
 -/
 
 @[expose] public section
@@ -66,6 +69,7 @@ namespace BasedChart
 variable {R : Type*} [CommSemiring R] {u : Rˣ} {I : Type*} [Fintype I] {Λ : Matrix I I ℤ}
   {B : Type*} [Semiring B] [Algebra R B]
 
+/-- The coordinate `X_i = M(e_i)` of a based chart. -/
 def coordinate (c : BasedChart R u Λ B) (i : I) : Bˣ := c.monomial (Finsupp.single i 1)
 
 /-- The chart on finitely supported coefficient families: `f ↦ Σ_a f_a M(a)`. -/
@@ -74,7 +78,7 @@ def eval (c : BasedChart R u Λ B) : ((I →₀ ℤ) →₀ R) →ₗ[R] B :=
 
 end BasedChart
 
-/-! ## Layer 1: seeds and mutation -/
+/-! ## Layer 1: classical and quantum seeds and mutation -/
 
 /-- The mutable indices embed in the full row set; the symmetrizer is positive. -/
 structure ExchangeMatrix {I K : Type*} (row : K ↪ I) where
@@ -243,6 +247,7 @@ structure Seed {𝕂 : Type*} [CommMonoidWithZero 𝕂] {R : Type*} [CommSemirin
   compatible : ColumnCompatible row state.exchange.matrix form weight
   chart : BasedChart R u form B
 
+/-- The frozen indices `J = I ∖ row(K)`. -/
 abbrev Frozen {I K : Type*} (row : K ↪ I) := {i : I // i ∉ Set.range row}
 
 namespace Seed
@@ -308,9 +313,12 @@ def chartAlgebra (A : Type*) [CommSemiring A] [Algebra A B] (s : Seed c row u B)
     {v | ∃ i, (i ∈ Set.range row ∨ ∃ j ∈ S, j.val = i) ∧
       v = ((s.chart.coordinate i)⁻¹ : Bˣ)})
 
+/-- The cluster variables (§1.3) are the mutable coordinates of all reachable seeds. -/
 def clusterVariables (s : Seed c row u B) : Set B :=
   {v | ∃ t, Reachable s t ∧ ∃ k, v = (t.chart.coordinate (row k) : B)}
 
+/-- The upper bound `UB_S(s)` (§1.3) intersects the chart algebra of `s` with those of its
+one-step mutations. -/
 def upperBound (A : Type*) [CommSemiring A] [Algebra A B] (s : Seed c row u B)
     (S : Set (Frozen row)) : Subalgebra A B :=
   chartAlgebra A s S ⊓ ⨅ t : {t // Step s t}, chartAlgebra A t.val S
@@ -427,6 +435,19 @@ theorem exists_isFiniteType_iff_forall_le_three {K : Type*} [Fintype K] [Decidab
       ∀ w i j, i ≠ j →
         |matrixMutationWord (Function.Embedding.refl K) B.matrix w i j *
           matrixMutationWord (Function.Embedding.refl K) B.matrix w j i| ≤ 3 := by
+  sorry
+
+/-- **The cluster variables of finite type** (§4.2, FZ II, Theorems 1.4 and 1.9): if the
+Cartan companion of the principal block is the Cartan matrix of a finite reduced crystallographic
+root system (in FZ's convention), there are `rank Φ + |Φ⁺|` cluster variables. -/
+theorem ncard_clusterVariables [Fintype K] {F : Type*} [Field F]
+    {ι M N : Type*} [Finite ι] [AddCommGroup M] [Module ℚ M] [AddCommGroup N] [Module ℚ N]
+    {P : RootPairing ι ℚ M N} [P.IsCrystallographic] [P.IsReduced] (b : P.Base)
+    (s : Seed (CoefficientSystem.trivial ℤ) row (1 : ℤˣ) F) (hs : s.state.IsBinary)
+    (e : K ≃ b.support)
+    (hA : ∀ i j, cartanCompanion (fun i j ↦ s.state.exchange.matrix (row i) j) i j =
+      b.cartanMatrix (e j) (e i)) :
+    s.clusterVariables.ncard = Fintype.card K + Nat.card {i // b.IsPos i} := by
   sorry
 
 /-! ## Layer 5: scattering, positivity and sign-coherence -/
