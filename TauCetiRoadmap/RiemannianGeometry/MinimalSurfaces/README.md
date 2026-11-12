@@ -2065,7 +2065,8 @@ sphere; S5; Tau Ceti's no-retraction theorem. Independent of Layers 2–9.
 
 ### 11.1 Second variation of length between submanifolds
 
-*Sources:* [Lee, Chapters 6, 10]; [Frankel].
+*Sources:* [Lee, Chapters 6, 10]; [Frankel, §2, the second variation in the proof of the
+generalized Hadamard theorem, pp. 69–70].
 
 Let `γ : [0,ℓ] → M` (`ℓ > 0`) be a unit-speed geodesic in a Riemannian m-manifold `(M,g)`
 (`m ≥ 2`) minimizing the distance between two smoothly immersed submanifolds `f₁ : Σ₁ → M` and
@@ -2106,7 +2107,8 @@ map).
 
 ### 11.2 Frankel's theorem
 
-*Sources:* [Frankel]; [Chodosh, Exercise 20.2], for the round sphere.
+*Sources:* [Frankel, §2, generalized Hadamard theorem, p. 69]; [Chodosh, Exercise 20.2], for
+the round sphere.
 
 Let `(M^(n+1),g)` be a complete connected Riemannian `(n+1)`-manifold with `Ric_g > 0`, and let
 `f₁ : Σ₁ → M` and `f₂ : Σ₂ → M` be minimal immersions of nonempty closed n-manifolds; in
@@ -2137,7 +2139,8 @@ the trace of II).
 
 ### 11.3 Connectedness of preimages in finite covers
 
-*Sources:* [Frankel]; [Bernstein, Theorem 3.1].
+*Sources:* [Frankel, §1, Theorem, p. 69, with its proof through the universal cover,
+pp. 70–71]; [Bernstein, Theorem 3.1].
 
 Let `(M^(n+1),g)` be a closed connected Riemannian manifold with `Ric_g > 0`. Compactness of M
 gives `Ric_g ≥ k g` for some `k > 0`, so by Bonnet–Myers (R4.5) the universal Riemannian cover
@@ -2145,7 +2148,7 @@ gives `Ric_g ≥ k g` for some `k > 0`, so by Bonnet–Myers (R4.5) the universa
 closed connected embedded minimal hypersurface `Σ ⊂ M`, the full preimage `Σ̃ = π⁻¹(Σ) ⊂ M̃` is
 a nonempty closed embedded minimal hypersurface in `(M̃,π^*g)` whose connected components are
 pairwise disjoint; since `Ric_(π^*g) > 0`, Frankel's theorem implies that Σ̃ is connected
-(equivalently, `π₁(Σ) → π₁(M)` is surjective [Frankel]). Because M̃ is simply connected, M̃ is
+(equivalently, `π₁(Σ) → π₁(M)` is surjective [Frankel, §1, Theorem, p. 69]). Because M̃ is simply connected, M̃ is
 orientable with `b₁(M̃) = 0`, so Σ̃ separates M̃ and is two-sided, hence orientable (R7.9).
 Moreover, `π|_(Σ̃) : Σ̃ → Σ` is a d-sheeted covering, so `χ(Σ̃) = d χ(Σ)` by Tau Ceti's
 `TauCeti.eulerChar_eq_mul_of_isCoveringMap`; when `n = 2` and Σ is orientable of genus γ, Σ̃
