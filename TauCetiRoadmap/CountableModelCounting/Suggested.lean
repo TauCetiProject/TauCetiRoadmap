@@ -13,20 +13,19 @@ public import TauCeti.ModelTheory.Scott.Rank
 public import TauCeti.SetTheory.Descriptive.Antichain
 
 /-!
-# Counting countable models: Morley's theorem and the Vaught toolkit: suggested signatures
+# Counting countable models: Morley's theorem and the Vaught toolkit: target signatures
 
-**`README.md` is the definitive roadmap document** — its narrative plan, standing conventions,
-layer-by-layer build (Layers 0–6), worked examples, coordination, and references are the
-specification. This file is **not** the roadmap and is **not exhaustive**: it records suggested
-Lean `sorry`-forms (allowed in this human-owned roadmap library) for *particular* milestones, so
-that contributors and reviewers converge on names and signatures; discharging every statement here
-neither finishes a layer nor the roadmap.
+`README.md` is the definitive specification of this roadmap; this file is not. It states target
+signatures for the roadmap's definitions and milestone theorems against the pinned Mathlib and
+Tau Ceti, the theorems with `sorry`, and is not an exhaustive checklist: discharging every
+statement here finishes neither a layer nor the roadmap.
 
 The file builds on the native Tau Ceti declarations at this repository's pin (the infinitary
 syntax, back-and-forth equivalence and Scott analysis, the relational configurations
 `TauCeti.RelationalConfiguration` with their model classes, isomorphism and back-and-forth
-relations, the perfect-set vocabulary, the language maps and the Morleyization), including the
-targets of this roadmap that Tau Ceti already implements. Names and namespaces are provisional.
+relations, the perfect-set vocabulary, the language maps and the Morleyization). The targets of
+this roadmap that Tau Ceti already implements are cited, not restated; the README lists them under
+"Targets of this roadmap in Tau Ceti".
 
 Not statable at the pins: the fragment-spectrum characterization of thinness (Layer 4f), which
 needs InfinitaryModelExistence's `fragmentType` and `Fragment.slice`.
