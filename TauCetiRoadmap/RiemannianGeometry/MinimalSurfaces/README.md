@@ -844,7 +844,8 @@ maximum.
 
 ### 4.1 First-contact lemma and catenoid barriers
 
-Establish a first-contact lemma ([Chodosh, proof of Theorem 20.1]): let `f : Σ → ℝ^(n+1)` be a proper immersion of an n-manifold
+Establish a first-contact lemma ([Chodosh, proof of Theorem 20.1]): let `f : Σ → ℝ^(n+1)` be a
+proper immersion of an n-manifold
 without boundary, `S ⊂ ℝ^(n+1)` a properly embedded hypersurface with boundary, `e ∈ ℝ^(n+1)` a
 vector transversal to S at its interior points, and `S_t = S + te` for `t ∈ [0,T]`. If
 `S_T ∩ f(Σ) = ∅`, `S₀ ∩ f(Σ) ≠ ∅`, no `∂S_t` meets `f(Σ)`, and `⋃_t (S_t ∩ f(Σ))` is bounded,
