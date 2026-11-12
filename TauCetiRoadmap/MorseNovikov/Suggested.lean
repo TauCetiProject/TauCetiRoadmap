@@ -37,12 +37,18 @@ from signed trajectory counts of a closed one-form on an abelian cover. Layer 5'
 function and cover-norm theorem lack the periodic-orbit data of a closed one-form: the deck
 classes of the closed orbits of its negative dual flow and their return-map signs. Layer 6's
 dynamical torsion invariance and its equality with cellular torsion lack both carriers, and the
-mapping-torus formula for the flow zeta function lacks the periodic-orbit data. The cellular
-torsion formulas for the mapping torus and the zero surgery lack a based cellular torsion of an
-abelian cover of a finite CW complex: the pinned equivariant cellular chains
-`TauCeti.cellularChainComplexRep` and the componentwise torsion
-`HomologicalComplex.componentwiseReidemeisterTorsion` are not joined by a basis of lifted cells
-and a scalar extension to the total quotient ring. The zero-surgery formula lacks, in addition,
+mapping-torus formula for the flow zeta function lacks the periodic-orbit data: the pinned
+suspension flow `TauCeti.SmoothMappingTorus.flow` has its closed orbits through the periodic
+points as the maps of circles `TauCeti.SmoothMappingTorus.closedOrbit`, and their deck classes
+and return-map signs are README targets. The cellular torsion formulas for the mapping torus
+and the zero surgery lack a based cellular torsion of an abelian cover of a finite CW complex:
+the pinned equivariant cellular chains `TauCeti.cellularChainComplexRep`, free on chosen lifts
+of the cells by `TauCeti.cellularChainRepIsoFree`, form an ℕ-indexed complex of
+representations, while the pinned scalar extension `HomologicalComplex.matrixBaseChange` and
+the componentwise torsion `HomologicalComplex.componentwiseReidemeisterTorsion` take a
+ℤ-indexed complex of modules over a commutative ring with `Fin`-indexed bases of its terms,
+and the passage from the first to the second is a README target. The zero-surgery formula
+lacks, in addition,
 the Alexander polynomial of a knot in the 3-sphere: the pinned `TauCeti.KnotTheory.alexander` is
 defined on a Seifert matrix, and no pinned declaration produces a Seifert matrix from a smooth
 knot `TauCeti.SmoothCircleEmbedding` (the pinned `TauCeti.BraidWord.seifertMatrix` is that of a

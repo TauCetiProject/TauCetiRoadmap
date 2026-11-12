@@ -51,7 +51,17 @@ its integral Euler product (§§5.2–5.3); the mapping torus of a homeomorphism
 infinite cyclic cover, the ordered simplicial chain complex with its cone operator and
 its cellular and singular comparisons, the cellular chain maps of realized simplicial maps, and the
 barycentric-subdivision homeomorphism (§6.4); and nondegenerate fixed points with their
-finiteness (§6.5). The closed-one-form cutoff moduli, the Novikov complex of a closed
+finiteness (§6.5). It has, further: the Morse lemma, the stable and unstable sets of a flow and
+connecting orbits (§§2.1 and 2.4); smooth structures pulled back along local homeomorphisms
+and on free quotients, the smooth mapping torus with its suspension flow, closed orbits and
+time form, and the covering space of local primitives of a closed one-form (§§2.2–2.3 and
+6.4); locally finite singular chains with their subdivision, and the coordinate base change of
+a based complex (§3.3); the norm on total quotient rings (§4.4); hitting times of transverse
+sections, the flow of a complete field, the degree at a regular value and the local homology
+system (§§5.1–5.2); smooth triangulations, PL charts on stars with spherical links, the
+singular Wang cone, knot exteriors and Dehn fillings (§6.4); and the Morse inequalities of a
+compact manifold, the homotopy invariance of singular homology and the linearization of a
+section at a zero (§§6.5 and 7.1–7.3). The closed-one-form cutoff moduli, the Novikov complex of a closed
 one-form and its comparisons, the determinant line of a complex with its
 long-exact-sequence correction, the field decomposition of the total quotient of Nov(ℤ,H,N), the
 cyclotomic description and topology of the total quotients, the cover norms of
@@ -95,8 +105,8 @@ where the ring is Nov(H,−[α])). A primitive f̃ satisfies
 `f̃(h·x)=f̃(x)+P(h)`. Thus e^h shifts critical values by P(h), and completed chains
 are finite above each potential threshold. A downward closed orbit γ has
 `N([γ])=−∫γ α>0`. Neither injectivity nor discreteness of N is assumed.
-For S¹ use ℝ/ℤ, identified with `Circle` by t↦exp(2πit), and pull back
-DG's `circleAngularForm/(2π)` to obtain the angular form with integral 1. The Laurent variable t is the
+For S¹ use ℝ/ℤ, Mathlib's `AddCircle (1 : ℝ)`; its angular form with integral 1 is the pinned
+`AddCircle.timeForm`. The Laurent variable t is the
 monomial of the generator of H≅ℤ with **N(h)>0**, not a silently chosen positive
 angular deck generator. In the exact N=0 circle example, separately fix
 t as the positive angular deck generator; no N(t)>0 condition applies.
@@ -136,8 +146,8 @@ the vertical derivative of a vector field at a zero is the fiber component, unde
 Use `TopPair.incl` (Topology/Category/TopPair.lean) to regard M as the pair (M,∅),
 `Module.finrank`, and `LinearMap.trace`
 (LinearAlgebra/Trace.lean). Trace is defined to be zero without a finite basis;
-the closed-manifold theorem must prove finite-dimensionality and vanishing above
-the manifold dimension from the finite triangulation comparison.
+the closed-manifold theorem takes finite-dimensionality and vanishing above
+the manifold dimension from the pinned Morse inequalities cited under From Tau Ceti.
 
 ### From Tau Ceti
 
@@ -337,13 +347,208 @@ on simplices and sending each face-vertex to the barycentre of its face
 nonincreasing vertex order or computes the chain map of a simplicial map on a face it
 collapses or reorders; §6.4 builds those.
 
+For §2.1 consume the Morse lemma
+`TauCeti.IsManifoldNondegenerateCriticalPoint.nonempty_morseChart`
+(Geometry/Manifold/Morse/Lemma.lean), a Morse chart at a nondegenerate critical point of a
+function smooth near it, on a manifold modelled on a finite-dimensional real vector space, and
+`TauCeti.IsMorseOneForm.isManifoldNondegenerateCriticalPoint`
+(Geometry/Manifold/Morse/OneForm.lean), that every local primitive of a Morse one-form is
+nondegenerate at each zero in its domain. The stable and unstable sets of a point under a
+flow are `Flow.stableSet` and `Flow.unstableSet` (Dynamics/Flow/Stable.lean). The smooth
+manifold structure on stable sets,
+`TauCeti.IsAdaptedPseudoGradient.exists_stableSet_isManifold`
+(Geometry/Manifold/Morse/Stable/Manifold.lean), and the Morse–Smale condition
+`TauCeti.IsAdaptedPseudoGradient.IsMorseSmale`
+(Geometry/Manifold/Morse/Stable/Transversality.lean) are stated for a pseudo-gradient adapted
+to a function on a compact Hausdorff manifold, so they apply to a closed one-form only when
+it is exact.
+
+For the smooth structures of Layer 2 consume the charted-space structure pulled back along a
+local homeomorphism, `IsLocalHomeomorph.chartedSpaceComap`, with
+`IsLocalHomeomorph.isManifold_chartedSpaceComap`, the criterion
+`IsLocalHomeomorph.contMDiff_chartedSpaceComap_iff` that a map into the source is Cⁿ exactly
+when it is continuous and its composite with the local homeomorphism is Cⁿ, and
+`IsLocalHomeomorph.isLocalDiffeomorph_chartedSpaceComap`
+(Geometry/Manifold/Instances/Comap.lean); and the manifold structure on the quotient by a
+free properly discontinuous action by Cⁿ maps, `TauCeti.instIsManifoldQuotient`, with
+`TauCeti.isLocalDiffeomorph_quotientMk` (Geometry/Manifold/Instances/Quotient.lean).
+For a diffeomorphism φ of a locally compact Hausdorff manifold M consume the smooth mapping
+torus `TauCeti.SmoothMappingTorus`, the quotient of ℝ×M by (t,x)∼(t+1,φ⁻¹x), with its
+projection `TauCeti.SmoothMappingTorus.proj` to the circle; its suspension flow
+`TauCeti.SmoothMappingTorus.flow`, [t,x]↦[t+s,x], whose time-one map returns each fibre by φ
+(`TauCeti.SmoothMappingTorus.flow_one_mk`) and for which [t,x] is fixed by time s exactly
+when s is an integer k with φᵏx=x (`TauCeti.SmoothMappingTorus.isFixedPt_flow_mk_iff`); and
+the homeomorphism `TauCeti.SmoothMappingTorus.homeomorphMappingTorus` with
+`TauCeti.MappingTorus` of the inverse homeomorphism
+(Geometry/Manifold/Instances/MappingTorus.lean). Its closed orbit through a periodic point of
+φ is `TauCeti.SmoothMappingTorus.closedOrbit`, translated by the flow
+(`TauCeti.SmoothMappingTorus.flow_closedOrbit`) and injective exactly at the least period
+(`TauCeti.SmoothMappingTorus.injective_closedOrbit_iff`,
+Geometry/Manifold/Instances/MappingTorus/ClosedOrbit.lean). Its time form
+`TauCeti.SmoothMappingTorus.timeForm`, the pullback along the projection of the circle's
+`AddCircle.timeForm`, is closed (`TauCeti.SmoothMappingTorus.isClosed_timeForm`), integrates
+to b−a along a flow line from time a to time b
+(`TauCeti.SmoothMappingTorus.pathIntegral_timeForm_mk`,
+Geometry/Manifold/DifferentialForm/MappingTorus.lean), and takes the value 1 on the generator
+`TauCeti.SmoothMappingTorus.timeVectorField` of the suspension flow
+(`TauCeti.SmoothMappingTorus.timeForm_timeVectorField`,
+Geometry/Manifold/VectorField/MappingTorus.lean). On the circle consume `AddCircle.timeForm`
+with `AddCircle.isClosed_timeForm` and `AddCircle.pathIntegral_timeForm_coe`, that its
+integral along t↦[t] from a to b is b−a
+(Geometry/Manifold/DifferentialForm/AddCircle.lean).
+
+For the period-kernel cover of §2.3 consume the space of local primitives
+`TauCeti.PrimitiveSpace` of a one-form, with the action of constants
+`TauCeti.PrimitiveSpace.translate` and `TauCeti.PrimitiveSpace.value_translate`, and
+`TauCeti.PrimitiveSpace.isCoveringMap_proj`, that its projection to the manifold is a
+covering map when the form is closed and of class Cʳ, r≥1
+(Geometry/Manifold/DifferentialForm/LocalPrimitive.lean); and
+`TauCeti.PrimitiveSpace.value_monodromy` (Geometry/Manifold/DeRham/Period.lean), that the
+monodromy of this covering along a path class adds the integral of the form along it.
+
+For §2.4 consume the relation `Flow.connectingOrbitSetoid` of time translation on the set of
+points connecting two given points, and
+`Flow.orbit_injective_of_ne_of_mem_unstableSet_inter_stableSet`, that on a T₁ space the time
+parameter of an orbit connecting distinct limits is free (Dynamics/Flow/ConnectingOrbit.lean);
+the breaking statement
+`Flow.exists_mem_closure_inter_unstableSet_of_mem_closure_inter_stableSet`
+(Dynamics/Flow/Breaking.lean), that an invariant set disjoint from the stable set of x whose
+closure meets that stable set has closure meeting the unstable set of x at distance exactly
+r, for every radius r>0 with compact sphere and the forward and backward trapping
+properties; and the energy identity `TauCeti.energy_maximalIntegralCurve_neg_mgradient`
+(Geometry/Manifold/Morse/GradientFlow.lean), that along the maximal integral curve of the
+negative gradient of a C² function the energy between two times is half the drop of the
+function.
+
+For §3.2 consume `TauCeti.NovikovModule.kernelMap_sub_kernelMap`, that a kernel identity
+m−m′=kδ₀+δ₁k among kernels with potential bounds gives the same identity of their kernel
+maps, and `TauCeti.NovikovModule.kernelMap_eq_id` for the identity kernel (KernelMap.lean).
+For §3.3 consume the coordinate base change `HomologicalComplex.matrixBaseChange` of a
+ℤ-indexed chain complex of modules over a commutative ring with `Fin`-indexed bases of its
+terms, along a homomorphism to a commutative ring, with its standard bases
+`HomologicalComplex.matrixBaseChangeBasis` and the matrices of its differentials
+`HomologicalComplex.toMatrix_matrixBaseChange_d`
+(Algebra/Homology/ModuleCat/MatrixBaseChange.lean); and the locally finite singular chain
+complex `TauCeti.LocalCoefficientSystem.locallyFiniteChainComplex` of a space with
+coefficients in a local system, the extension
+`TauCeti.LocalCoefficientSystem.extendLocallyFinite` of a properly supported map to locally
+finite chains (AlgebraicTopology/Singular/Twisted/LocallyFinite/Basic.lean), its barycentric
+subdivision `TauCeti.LocalCoefficientSystem.locallyFiniteSubdivisionChainMap` and the chain
+homotopy `TauCeti.LocalCoefficientSystem.locallyFiniteSubdivisionHomotopy` of that
+subdivision to the identity
+(AlgebraicTopology/Singular/Twisted/LocallyFinite/Subdivision.lean).
+
+For Layer 4 consume the determinant line `LinearMap.detLine` of a linear map f,
+det(ker f)⊗det(coker f)*, with its trivialization `LinearMap.detLineEquivOfBijective` for
+bijective f (LinearAlgebra/Determinant/Line.lean);
+`TauCeti.NovikovSeries.exists_finiteIndex_isDomain`, a finite-index subgroup of a finitely
+generated abelian group whose Novikov ring over a domain is a domain
+(RingTheory/NovikovSeries/TotalQuotient.lean);
+`IsFractionRing.isLocalization_algebraMapSubmonoid_iff`, that for S finite free over R a
+ring is a total ring of fractions of S exactly when it is the localization of S at the
+nonzerodivisors of R (RingTheory/Localization/FiniteFree.lean);
+`AddMonoidAlgebra.algEquivPiField`, the group algebra of a finite abelian group over a field
+in which its order is nonzero as the product of its residue fields at the maximal ideals,
+and `AddMonoidAlgebra.isFractionRing_of_finite`, that K[M] is the total quotient of R[M] for
+finite commutative M when K is the Artinian total quotient of R
+(Algebra/MonoidAlgebra/TotalQuotient.lean); the order `TauCeti.NovikovSeries.order` of a
+series, with `TauCeti.NovikovSeries.le_order_iff` and
+`TauCeti.NovikovSeries.min_order_le_order_add` (RingTheory/NovikovSeries/Basic.lean), and
+its additivity `TauCeti.NovikovSeries.order_mul` when the group ring has no zero divisors
+(RingTheory/NovikovSeries/LeadingTerm.lean); the determinant perturbation estimate
+`Matrix.det_sub_det_mem_periodFiltration_of_weights` (RingTheory/NovikovSeries/Matrix.lean);
+the multiplicative extension `Algebra.fractionNorm` of the norm of a finite free algebra to
+the total quotient rings, with `Algebra.fractionNorm_mk'`, `Algebra.fractionNorm_eq_norm`
+and `Algebra.fractionNorm_trans` (RingTheory/Norm/FractionRing.lean), which needs no domain
+hypothesis; and `HomologicalComplex.reidemeisterTorsion_unitsSMul`
+(Algebra/Homology/ReidemeisterTorsion/Basic.lean), that rescaling the basis vectors by units
+w i k multiplies the torsion by ∏ᵢ(∏ₖ w i k)^((−1)^i).
+
+For Layer 5 consume the hitting time `TauCeti.flowHittingTime` of a transverse section for a
+C¹ field and the regularity `TauCeti.contMDiffAt_flowOf_flowHittingTime` of the transition to
+the section (Geometry/Manifold/Flow/HittingTime.lean); the maximal flow `TauCeti.flowOf` of a
+vector field (Geometry/Manifold/Flow/Basic.lean) and the flow `TauCeti.globalFlow` of a
+complete C¹ field (Geometry/Manifold/IntegralCurve/GlobalFlow.lean); the degree
+`TauCeti.degreeAtRegularValue` of a map between oriented manifolds at a point, the signed
+count of its preimages at a regular value with finite fibre
+(Geometry/Manifold/Degree/Basic.lean); the local homology system
+`TauCeti.localHomologySystem`, a functor on the fundamental groupoid of a Hausdorff space
+modelled on a finite-dimensional real normed space, which in top degree with integer
+coefficients is the orientation local system
+(AlgebraicTopology/Singular/LocalHomology/System.lean); and, beside
+`LinearMap.sign_det_one_sub_pow`, the parity statements
+`Matrix.neg_one_pow_card_roots_charpoly`, that the number of real characteristic roots of a
+real square matrix has the parity of its size, and
+`Matrix.neg_one_pow_card_filter_one_lt_add_card_filter_lt_neg_one`, that for a real n×n
+matrix A with 1−A² invertible (−1)^(i₊+i₋)=(−1)^(n+i₀), where i₊, i₋ and i₀ count the real
+characteristic roots in (1,∞), (−∞,−1) and (−1,1) (LinearAlgebra/Matrix/Charpoly/DetSign.lean).
+
+For §6.4 consume also smooth triangulations `TauCeti.IsSmoothTriangulation`
+(Geometry/Manifold/SmoothTriangulation/Basic.lean), whose barycentric subdivisions are
+smooth triangulations by
+`TauCeti.IsSmoothTriangulation.barycentricSubdivisionRealizationHomeomorph_trans`
+(Geometry/Manifold/SmoothTriangulation/Subdivision.lean); the PL chart on the open star of a
+vertex whose link is a combinatorial sphere,
+`PreAbstractSimplicialComplex.IsCombinatorialSphere.exists_openPartialHomeomorph_openStar_isPL`
+(AlgebraicTopology/SimplicialComplex/Realization/Star/PL/Chart.lean), and the PL structure
+`AbstractSimplicialComplex.exists_chartedSpace_hasGroupoid_of_isCombinatorialSphere_link` on
+a realization all of whose vertex links are combinatorial spheres
+(AlgebraicTopology/SimplicialComplex/CombinatorialManifold/PL.lean); the singular Wang cone
+`TauCeti.MappingTorus.wangMappingCone` of id−φ_* with its chain map
+`TauCeti.MappingTorus.wangMappingConeMap` to the singular chains of the mapping torus
+(AlgebraicTopology/Singular/MappingTorus/Basic.lean), and the short exact sequence
+`TauCeti.MappingTorus.cyclicCoverShortComplex_shortExact` of singular chains
+0→C(F×ℝ)→C(F×ℝ)→C(T_φ)→0 with first map 1−τ_*
+(AlgebraicTopology/Singular/MappingTorus/CyclicCover.lean); and, for the surgery, the
+exterior `TauCeti.knotExterior` of a solid-torus neighbourhood
+(LowDimTopology/SolidTorusNeighborhood/Exterior.lean), Dehn fillings `TauCeti.DehnFilling`
+(LowDimTopology/DehnSurgery/Filling.lean), which exist along every slope by
+`TauCeti.IsSolidTorusNeighborhood.exists_dehnFilling`
+(LowDimTopology/DehnSurgery/Existence.lean), the preferred framing
+`TauCeti.IsSolidTorusNeighborhood.preferredFramedBoundaryTorus`, the isomorphism
+`TauCeti.IsSolidTorusNeighborhood.complementHomologyEquiv` of the first integral homology of
+the knot complement with ℤ sending the meridian to 1, for a Hausdorff ambient space whose
+reduced integral homology vanishes in degrees 1 and 2, and
+`TauCeti.IsSolidTorusNeighborhood.ker_boundaryHomologyMap`, that the preferred
+longitude generates the classes of the boundary torus that are null-homologous in the
+complement (LowDimTopology/DehnSurgery/SeifertFraming.lean), the two vanishing hypotheses for
+the unit sphere of ℝ⁴,
+`TauCeti.isZero_reducedSingularHomologyFunctor_one_sphere_euclideanSpace_fin_four` and
+`TauCeti.isZero_reducedSingularHomologyFunctor_two_sphere_euclideanSpace_fin_four`
+(AlgebraicTopology/Singular/Sphere.lean), and
+`TauCeti.unknotZeroDehnFilling`, that zero surgery on the unknot is S¹×S²
+(LowDimTopology/DehnSurgery/Unknot.lean).
+
+For Layer 7 consume `TauCeti.exists_isMorse`, the existence of a Morse function on a compact
+Hausdorff smooth manifold with finite-dimensional model
+(Geometry/Manifold/Morse/Generic/Basic.lean), and, for a Morse function on such a manifold M
+with boundaryless model and a finite-dimensional coefficient space over a division ring in
+the universe of M: the finiteness `TauCeti.IsMorse.finite_singularHomology` of singular
+homology, the weak inequality `TauCeti.IsMorse.finrank_singularHomology_le` and the Euler
+equality `TauCeti.IsMorse.sum_range_neg_one_pow_mul_finrank_singularHomology_eq` over the
+degrees up to any n at least the dimension (Geometry/Manifold/Morse/Inequalities.lean), with
+`TauCeti.criticalCount_eq_zero_of_finrank_lt`, that no critical point has index above the
+dimension (Geometry/Manifold/Morse/CriticalPoints.lean). These concern the absolute singular
+homology of M; §7.3 passes to the pair (M,∅) by `TopPair.singularHomologyInclIso` and to
+ℚ-dimensions through the division ring `ULift ℚ`. Consume the homotopy invariance of
+singular homology in the forms `ContinuousMap.HomotopyEquiv.singularHomologyIso` and, for
+homotopic maps of pairs, `TopPair.Homotopy.congr_singularHomologyMap`
+(AlgebraicTopology/Singular/Homotopy/Invariance.lean). For §7.3's chart independence consume
+the linearization `TauCeti.sectionLinearization` of a section at a point, with
+`TauCeti.mvfderiv_section_coordChange_of_eq_zero`, that at a zero the coordinate derivatives
+in two trivializations differ by the fibre coordinate change, and
+`TauCeti.sectionLinearization_eq_symmL_comp`, that at a zero the linearization can be
+computed in any trivialization
+(Geometry/Manifold/VectorBundle/Section/Linearization.lean).
+
 ### From TauCetiRoadmap.MorseTheory
 
-Consume M1–M4 and M6: critical Hessians, indices and charts, finite compact-band
-handles and CW models, inequalities and gradient convergence. Apply them to local
+Consume M1–M2 and M6: critical Hessians, indices and charts, finite compact-band
+handles and CW models, and gradient convergence. Apply them to local
 potentials; the closed-one-form period control is Layer 2's additional assertion.
-§2.1 applies M1 to local potentials, §2.4 uses M6's gradient convergence, §3.3
-takes its finite CW model from M2, and §7.1 uses M4.
+§2.1 applies M1 to local potentials beyond the pinned Morse lemma, §2.4 uses M6's gradient
+convergence and §3.3 takes its finite CW model from M2. The Morse inequalities and Euler
+equality that Layer 7 uses are the pinned Tau Ceti theorems above.
 
 ### From TauCetiRoadmap.HeegaardFloer
 
@@ -361,11 +566,12 @@ vector-field Poincaré–Hopf theorem.
 ### From TauCetiRoadmap.DifferentialGeometry
 
 Consume Layers 0–1 for forms, exterior derivative, pullbacks and local primitives;
-Layers 2–3 for orientations and maximal flows (`flowOf`, `toFlow`); Layers 5–6 and 8 for integration,
-de Rham cohomology and the period comparison, including the integral 2π of
-`circleAngularForm` over the circle and the nonvanishing of its de Rham class; Layer 10 for degree and relative
-homotopies; Layer 12 for metrics and musical maps. Normalize `circleAngularForm`
-by dividing by 2π under the map ℝ/ℤ→Circle, t↦exp(2πit).
+Layers 2–3 for orientations; Layers 5–6 and 8 for integration,
+de Rham cohomology and the period comparison; Layer 10 for degree and relative
+homotopies; Layer 12 for metrics and musical maps. The maximal flow of a vector field and
+the flow of a complete field are the pinned `TauCeti.flowOf` and `TauCeti.globalFlow` above,
+and the circle's angular form, its closedness and its integral 1 are the pinned
+`AddCircle.timeForm` declarations above.
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
@@ -381,16 +587,18 @@ No strict cellular-to-singular chain map is assumed.
 ### From TauCetiRoadmap.GeometricTopology
 
 Consume Layer 1 for collars and smooth gluing; Layer 3 for the C∞ family topology;
-Layers 4–5 for meridian/Seifert longitude, Conway-normalized Alexander polynomial
-and zero-slope surgery, and in particular §4.4 for the infinite cyclic cover of a knot
+Layers 4–5 for the Conway-normalized Alexander polynomial,
+and in particular §4.4 for the infinite cyclic cover of a knot
 exterior, its Alexander module H₁(X∞;ℤ) over ℤ[t,t⁻¹], the Seifert presentation
 `tV−Vᵀ`, the Fox presentation from a Wirtinger presentation, the agreement of these
 routes up to units, and Δ_K as the order of the module; Layer 11 and the smoothing-and-triangulation comparison
 for smooth triangulations. The simplex-cell CW structure of a realization, its signed
-boundaries and the cellularity of simplicial maps are the Tau Ceti declarations above.
+boundaries and the cellularity of simplicial maps are the Tau Ceti declarations above, as
+are smooth triangulations with their subdivisions, the PL charts on stars with spherical
+links, the knot exterior, its Dehn fillings and its preferred longitude.
 Layer 6 below constructs the based equivariant
 cellular complex of the surgery cover, its identification with §4.4's presentation,
-and the orientation signs, scalar extension and simplicial-map functoriality of the
+and the orientation signs and simplicial-map functoriality of the
 pinned ordered simplicial chains.
 
 ## How to read the build
@@ -638,9 +846,16 @@ stated on the actual cotangent fibers through local primitives. Consume local-pr
 independence of the critical Hessian and index (`TauCeti.IsPrimitiveOn.criticalHessian_eq`,
 `TauCeti.IsPrimitiveOn.manifoldMorseIndex_eq`) and the isolation and finiteness of zeros
 on a compact manifold (`TauCeti.IsMorseOneForm.finite_zeroSet`). Compare a nondegenerate
-zero with transversality of the section α to the zero section and establish local
-normal forms. Define negative dual trajectories, stable/unstable
-manifolds and Morse–Smale transversality separately. Specify descending orientation
+zero with transversality of the section α to the zero section. The local normal form at a
+zero is the pinned Morse lemma
+`TauCeti.IsManifoldNondegenerateCriticalPoint.nonempty_morseChart` for a local primitive,
+nondegenerate there by `TauCeti.IsMorseOneForm.isManifoldNondegenerateCriticalPoint`. Define
+negative dual trajectories; their stable and unstable sets are the pinned `Flow.stableSet`
+and `Flow.unstableSet` of the negative dual flow. Build the manifold structures on these
+sets and Morse–Smale transversality for a closed one-form, separately from the Morse
+condition: the pinned `TauCeti.IsAdaptedPseudoGradient.exists_stableSet_isManifold` and
+`TauCeti.IsAdaptedPseudoGradient.IsMorseSmale` concern a pseudo-gradient adapted to a
+function and apply only when α is exact. Specify descending orientation
 lines over critical points and their deck transport; the sign convention is
 `TD(p)=TM(p,q)⊕R(negative-flow tangent)⊕TD(q)`. Compare it with Lane M's
 integer boundary convention rather than counting unsigned trajectories.
@@ -660,7 +875,7 @@ The API includes:
 - On the noncompact line, d(sin x) has infinitely many nondegenerate zeros, so finiteness of the zero set needs compactness.
 - For f=cos θ on S¹ with maximum unstable direction +∂θ, the two downward paths have signs +1 and −1, so their ordinary incidence sum is 0.
 
-*Needs:* DifferentialGeometry Layers 0–3 and 12; MorseTheory M1 and M6; HeegaardFloer Lane M; Tau Ceti `TauCeti.IsMorseOneForm`.
+*Needs:* DifferentialGeometry Layers 0–3 and 12; MorseTheory M1 and M6; HeegaardFloer Lane M; Tau Ceti `TauCeti.IsMorseOneForm` with `TauCeti.IsMorseOneForm.isManifoldNondegenerateCriticalPoint`, `TauCeti.IsManifoldNondegenerateCriticalPoint.nonempty_morseChart`, `Flow.stableSet` and `Flow.unstableSet`.
 
 ### 2.2 Periods and connected abelian covers
 
@@ -674,7 +889,12 @@ group of the cover of a normal subgroup
 (`TauCeti.UniversalCover.deckSubgroupQuotientProjEquivOfNormal`) to surjections π₁(X)→H, using
 π₁-abelianization; π*α is exact iff periods vanish on that kernel, which is
 `TauCeti.mpullback_mem_exactForms_one_iff_periodHom_map_eq_zero` for the connected
-cover. Build the lifted smooth structure, metric/vector field and primitive,
+cover. The lifted smooth structure is the pinned `IsLocalHomeomorph.chartedSpaceComap`
+along the covering map, a manifold by `IsLocalHomeomorph.isManifold_chartedSpaceComap`, for
+which the covering map is a local diffeomorphism
+(`IsLocalHomeomorph.isLocalDiffeomorph_chartedSpaceComap`) and the smoothness of deck
+transformations reduces to `IsLocalHomeomorph.contMDiff_chartedSpaceComap_iff`. Build the
+lifted metric, vector field and primitive,
 with deck-equivariance and positive/negative flow comparison. For a connected
 regular cover with abelian deck group H, prove that
 `H₁(X̃;ℤ) → H₁(X;ℤ) → H → 0` is exact at H₁(X;ℤ) and surjective onto H,
@@ -695,17 +915,22 @@ The API includes:
 - For an exact form P=0, the pulled-back potential is invariant under every deck transformation.
 - For the universal cyclic cover of S¹, H₁(upstairs)=0 and H₁(base)→ℤ is the identity; its kernel is 0.
 
-*Needs:* DifferentialGeometry Layers 5–6 and 8; AlgebraicTopology Stages 1 and 5; Tau Ceti `TauCeti.periodHom`, `TauCeti.HurewiczOne.hurewiczHomologyAddEquiv`, `TauCeti.HurewiczOne.homologyMap_hurewiczHomologyAddEquiv`, `TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient` and `TauCeti.UniversalCover.deckSubgroupQuotientProjEquivOfNormal`.
+*Needs:* DifferentialGeometry Layers 5–6 and 8; AlgebraicTopology Stages 1 and 5; Tau Ceti `TauCeti.periodHom`, `TauCeti.HurewiczOne.hurewiczHomologyAddEquiv`, `TauCeti.HurewiczOne.homologyMap_hurewiczHomologyAddEquiv`, `TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient`, `TauCeti.UniversalCover.deckSubgroupQuotientProjEquivOfNormal` and Geometry/Manifold/Instances/Comap.lean.
 
 ### 2.3 The Klein-bottle cover and period kernel
 
 Make that failure explicit on the Klein bottle
-`X=([0,1]×(ℝ/ℤ))/((1,y)∼(0,−y))`. Use GT's smooth gluing and AT's
+`X=([0,1]×(ℝ/ℤ))/((1,y)∼(0,−y))`. Its smooth model is the pinned
+`TauCeti.SmoothMappingTorus` of the reflection y↦−y of ℝ/ℤ, the quotient of ℝ_s×(ℝ_y/ℤ) by
+(s,y)∼(s+1,−y); build that reflection as a diffeomorphism, and use GT's smooth gluing only
+to compare this model with the glued cylinder. Use AT's
 fundamental-group/abelianization APIs to construct the connected smooth cover `C=ℝ_s×(ℝ_y/2ℤ)` and its commuting
 deck transformations `A(s,y)=(s+1,−y)`, `B(s,y)=(s,y+1)`. Prove B has
-order2 and that these generate a free proper action of `H=ℤ⊕ℤ/2`, with
-quotient the same Klein bottle X. The integral closed form α=ds descends
-to X, its pullback has primitive s, and `P(n,e)=n`, `N(n,e)=−n`.
+order2 and that these generate a free proper action of `H=ℤ⊕ℤ/2`, whose
+quotient, a manifold by the pinned `TauCeti.instIsManifoldQuotient` with local
+diffeomorphism `TauCeti.isLocalDiffeomorph_quotientMk`, is the same Klein bottle X. The
+integral closed form α=ds on X is the pinned `TauCeti.SmoothMappingTorus.timeForm`,
+its pullback has primitive s, and `P(n,e)=n`, `N(n,e)=−n`.
 Prove that this cover is the universal abelian cover: for the based section
 a at y=0 and fiber loop b, use `π₁(X)=⟨a,b | aba⁻¹=b⁻¹⟩`, identify the
 cover subgroup with ⟨b²⟩, and identify its deck quotient with H₁(X;ℤ).
@@ -721,7 +946,12 @@ downstairs; it does not by itself construct the cover.
 For integral period classes construct the circle-valued map and its pullback
 cover, then identify a connected component and the divisibility of its deck
 generator. Every real class, including irrational ones, has a period-kernel
-cover. In the preceding example the minimal period-kernel cover instead has
+cover: build it as a connected component of the pinned `TauCeti.PrimitiveSpace` of α, a
+covering by `TauCeti.PrimitiveSpace.isCoveringMap_proj` on which constants act by
+`TauCeti.PrimitiveSpace.translate` (`TauCeti.PrimitiveSpace.value_translate`) and monodromy
+adds the period (`TauCeti.PrimitiveSpace.value_monodromy`). Prove that the value function is
+a primitive of the pulled-back form on it and that its deck group is the group of periods.
+In the preceding example the minimal period-kernel cover instead has
 deck group ℤ and kills b; distinguish it from the larger abelian cover C,
 whose period map has kernel ℤ/2. With downward monomial t=A⁻¹ and g=B,
 compare N1's completion to `(ℤ[ℤ/2])((t))`, retaining both coefficients at
@@ -746,17 +976,25 @@ The API includes:
 - The subgroup generator b² maps injectively as 2 in the fiber subgroup of π₁(X), but maps to 2[b]=0 in H₁(X); thus 0 and 1 in H₁(C)=ℤ both map to 0.
 - P(A)=1, P(B)=0 and N(A⁻¹)=1; (1−g)(1+g)=1−g²=0, with both factors nonzero over ℤ.
 
-*Needs:* §2.2; GeometricTopology Layer 1; AlgebraicTopology Stage 1; Layer 1 Laurent comparison.
+*Needs:* §2.2; GeometricTopology Layer 1; AlgebraicTopology Stage 1; Layer 1 Laurent comparison; Tau Ceti `TauCeti.SmoothMappingTorus` with `TauCeti.SmoothMappingTorus.timeForm`, `TauCeti.instIsManifoldQuotient`, `TauCeti.isLocalDiffeomorph_quotientMk`, and `TauCeti.PrimitiveSpace` with `TauCeti.PrimitiveSpace.translate`, `TauCeti.PrimitiveSpace.isCoveringMap_proj` and `TauCeti.PrimitiveSpace.value_monodromy`.
 
 ### 2.4 Cutoff trajectory spaces
 
 For a Morse–Smale pair on compact X, establish a lifted moduli space
 for each pair of lifted critical points, with translation quotient and expected
-dimension equal to the index difference minus one. Construct compactification, evaluation and gluing under a
+dimension equal to the index difference minus one. As a topological space it is the
+quotient of the connecting set by the pinned `Flow.connectingOrbitSetoid` of the lifted
+negative dual flow, on which the time parameter is free between distinct critical points by
+`Flow.orbit_injective_of_ne_of_mem_unstableSet_inter_stableSet`. Construct compactification, evaluation and gluing under a
 fixed upper bound on **potential drop**. Compactness on X is not compactness on X̃:
 prove that outside disjoint small critical neighborhoods, drop controls trajectory
 length; passages near hyperbolic critical points have controlled entry/exit, and
 only finitely many compatible lifts/connecting pieces occur below a fixed drop.
+The drop of a lifted trajectory is twice its energy, by the pinned
+`TauCeti.energy_maximalIntegralCurve_neg_mgradient` for the lifted primitive, and a limit of
+trajectories leaving the stable set of a critical point continues along its unstable set by
+the pinned `Flow.exists_mem_closure_inter_unstableSet_of_mem_closure_inter_stableSet`, once
+its compact-sphere and trapping hypotheses are proved near a hyperbolic critical point.
 Exclude equal/higher-index broken cycles by Morse–Smale transversality. Prove
 index-one signed trajectories are finite at a fixed cutoff, index-two boundary
 products give the coherent square-zero identity, and all estimates are uniform on
@@ -778,7 +1016,7 @@ The API includes:
 - An oriented interval compactification has endpoints +1 and −1, whose sum 0 gives the two-term square-zero cancellation; a constant trajectory has a full translation stabilizer.
 - On the nonzero-period circle with a maximum p and a minimum q, the lift p̃ has exactly one trajectory to each of the two adjacent lifts of q and none to any other lift.
 
-*Needs:* §§2.1–2.3; HeegaardFloer Lane M stable manifolds, compactification and gluing; MorseTheory M6 gradient convergence; Layer 1 module support estimates.
+*Needs:* §§2.1–2.3; HeegaardFloer Lane M stable manifolds, compactification and gluing; MorseTheory M6 gradient convergence; Layer 1 module support estimates; Tau Ceti Dynamics/Flow/ConnectingOrbit.lean and Breaking.lean and `TauCeti.energy_maximalIntegralCurve_neg_mgradient`.
 
 ### Examples
 
@@ -825,6 +1063,11 @@ The API includes:
 For cohomologous α₀,α₁ on the same cover, construct continuous continuation chain
 maps and degree-one homotopies with uniform period estimates; prove constant
 identity, concatenation up to homotopy, inverse and independence on homology.
+The algebraic half is pinned: a kernel identity m−m′=kδ₀+δ₁k among kernels with potential
+bounds gives the chain-homotopy identity of their kernel maps
+(`TauCeti.NovikovModule.kernelMap_sub_kernelMap`), and the identity kernel gives the identity
+map (`TauCeti.NovikovModule.kernelMap_eq_id`); prove the kernel identities themselves from
+the parametrized moduli spaces.
 Genericity must concern the full function/metric path, or a generic horizontal
 lift on the parameter product. A fixed arbitrary function homotopy with generic
 metrics alone need not be transverse. Build genericity in each fixed cohomology
@@ -848,7 +1091,7 @@ The API includes:
 - On the nonzero-period circle the critical-free and two-critical-point forms are cohomologous; continuation between the zero complex and the acyclic two-term complex of §3.1 is a chain homotopy equivalence.
 - Across a birth/death in a path of exact forms df_t, the chain change is HeegaardFloer §1.5 (M.5)'s signed elementary chain change, not the identity on generators.
 
-*Needs:* §3.1; HeegaardFloer §1.5 (M.5) and F0; DifferentialGeometry relative smooth perturbations; Layer 2 uniform cutoff gluing.
+*Needs:* §3.1; HeegaardFloer §1.5 (M.5) and F0; DifferentialGeometry relative smooth perturbations; Layer 2 uniform cutoff gluing; Tau Ceti RingTheory/NovikovModule/KernelMap.lean.
 
 ### 3.3 Completed cellular and controlled singular comparison
 
@@ -856,12 +1099,20 @@ Consume the equivariant cellular chain complex `TauCeti.cellularChainComplexRep`
 for the lifted CW structure `TauCeti.cwComplexPreimage` of a finite CW model of X along
 the deck quotient map, free over ℤ[H] on chosen lifts of the cells by
 `TauCeti.cellularChainRepIsoFree`. Its completed version is
-`Nov(R,H,N)⊗_(ℤ[H]) Ccell_*(X̃;ℤ)` with the displayed group-ring scalar map.
+`Nov(R,H,N)⊗_(ℤ[H]) Ccell_*(X̃;ℤ)` with the displayed group-ring scalar map. In the
+basis of chosen lifts it is the pinned coordinate base change
+`HomologicalComplex.matrixBaseChange`, whose differentials are the images of the cellular
+incidence matrices (`HomologicalComplex.toMatrix_matrixBaseChange_d`). That declaration
+takes a ℤ-indexed complex of modules over a commutative ring with `Fin`-indexed bases, so
+build the adapter from the ℕ-indexed complex of representations and its lifted-cell basis.
 Prove a chain homotopy equivalence with CN, compatible with subdivisions, cell
 models, orientation/lift changes and continuation. Build the alternative controlled
-singular-chain model: locally finite chains upstairs with only finitely many
-simplices meeting any region {f̃>C}, including the controlled subdivision,
-prism and comparison operations. Require the comparison to this carrier, not
+singular-chain model inside the pinned locally finite chains
+`TauCeti.LocalCoefficientSystem.locallyFiniteChainComplex` of X̃: the chains with only
+finitely many simplices meeting any region {f̃>C}. Prove that the pinned subdivision
+`TauCeti.LocalCoefficientSystem.locallyFiniteSubdivisionChainMap` and its homotopy to the
+identity `TauCeti.LocalCoefficientSystem.locallyFiniteSubdivisionHomotopy` preserve this
+cutoff condition, and build the comparison operations. Require the comparison to this carrier, not
 merely an isomorphism with an unnamed completed homology.
 
 Prove the exact-form specialization is the group-ring equivariant ordinary Morse
@@ -888,7 +1139,7 @@ The API includes:
 - The infinite sum of translates at increasing positive potential fails the finite-above condition; translates with potential −k pass every fixed upper cutoff.
 - On S¹=ℝ/2πℤ with α=dθ, f=cos θ and the flat metric, the rescaled field −∇(f+C⁻¹θ) is (sin θ−C⁻¹)∂θ: for C>1 it has two zeros and no closed orbit, for C<1 the whole circle is a closed orbit, so C must be large.
 
-*Needs:* §§3.1–3.2; Layer 1 modules; MorseTheory M2 finite CW model; Tau Ceti `TauCeti.cellularChainComplexRep`, `TauCeti.cwComplexPreimage`, `TauCeti.cellularChainRepIsoFree` and `TauCeti.cellularSingularHomologyIso`; AlgebraicTopology Stages 2–4; GeometricTopology Layer 11; HeegaardFloer ordinary Morse/singular comparison.
+*Needs:* §§3.1–3.2; Layer 1 modules; MorseTheory M2 finite CW model; Tau Ceti `TauCeti.cellularChainComplexRep`, `TauCeti.cwComplexPreimage`, `TauCeti.cellularChainRepIsoFree`, `TauCeti.cellularSingularHomologyIso`, `HomologicalComplex.matrixBaseChange` and AlgebraicTopology/Singular/Twisted/LocallyFinite Basic.lean and Subdivision.lean; AlgebraicTopology Stages 2–4; GeometricTopology Layer 11; HeegaardFloer ordinary Morse/singular comparison.
 
 ### 3.4 Naturality and top degree
 
@@ -955,6 +1206,9 @@ exact sequences 0→B_i→Z_i→H_i→0 and 0→Z_i→C_i→B_(i−1)→0, subsp
 in the isomorphisms preceding rt3 equation (A.1), p. 239. For a nonacyclic complex it
 retains the homology-basis determinant line where the scalar torsion is 0; after a
 choice of homology bases it is `HomologicalComplex.reidemeisterTorsionWithHomology`.
+For a complex with two nonzero terms compare it with the pinned determinant line
+`LinearMap.detLine` of the differential, det(ker)⊗det(coker)*, and for a bijective
+differential with its trivialization `LinearMap.detLineEquivOfBijective`.
 For general complexes, prove determinant-line multiplicativity through the long exact
 homology sequence, including its torsion correction with chosen homology bases. Regard
 that sequence as an acyclic homological complex with H_i(A), H_i(B), H_i(D) in degrees
@@ -993,7 +1247,7 @@ The API includes:
 - The direct sum of ℚ —a→ ℚ and ℚ —b→ ℚ, a,b≠0, has torsion a⁻¹b⁻¹; the multiplicative convention would give ab.
 - For the identity ℚ²→ℚ² with the degree-zero basis order swapped, A₀ is a transposition: the new differential has determinant −1 and torsion −1, and τ(d)·det(A₀)=−1 agrees, so the basis-change formula holds with its sign.
 
-*Needs:* Tau Ceti Algebra/Homology/ReidemeisterTorsion Basic.lean, Homology.lean, MappingCone.lean and SquareMinor.lean, and `TauCeti.detLine`, `LinearEquiv.detLineCongr` and `TauCeti.exteriorPower.shortExactEquiv`; Mathlib finite-dimensional linear algebra, exterior powers, chain complexes and homology.
+*Needs:* Tau Ceti Algebra/Homology/ReidemeisterTorsion Basic.lean, Homology.lean, MappingCone.lean and SquareMinor.lean, and `TauCeti.detLine`, `LinearEquiv.detLineCongr`, `LinearMap.detLine`, `LinearMap.detLineEquivOfBijective` and `TauCeti.exteriorPower.shortExactEquiv`; Mathlib finite-dimensional linear algebra, exterior powers, chain complexes and homology.
 
 ### 4.2 Abelian total quotient components
 
@@ -1013,9 +1267,19 @@ residue fields when the coefficients have no additive torsion
 that the total quotient of Nov(ℤ,H,N) is a finite product of characteristic-zero
 fields: reducedness passes to the localization by `IsLocalization.isReduced`, and
 Mathlib's `IsArtinianRing.equivPi` presents the reduced Artinian total quotient as the
-product of its residue fields. Construct the finite-torsion/free splitting and cyclotomic
-components and the componentwise field/localization statements; show the answer is
-independent of that splitting. Prove the injective total-quotient map is compatible
+product of its residue fields. For the torsion subgroup T of H the pinned
+`AddMonoidAlgebra.algEquivPiField` presents K[T], over a field K in which the order of T is
+nonzero, as the product of its residue fields at the maximal ideals, and
+`AddMonoidAlgebra.isFractionRing_of_finite` identifies K[T] with the total quotient of R[T]
+when K is the Artinian total quotient of R. For the completion, the pinned
+`TauCeti.NovikovSeries.exists_finiteIndex_isDomain` gives a finite-index subgroup of H whose
+Novikov ring is a domain; Nov(ℤ,H,N) is finite free over it on the coset monomials
+(`TauCeti.NovikovSeries.cosetBasis`), and
+`IsFractionRing.isLocalization_algebraMapSubmonoid_iff` then presents its total quotient as
+the localization at the nonzero elements of that domain. Identify the residue fields with
+the cyclotomic components of a finite-torsion/free splitting and prove the componentwise
+field/localization statements; the components, being indexed by maximal ideals, do not
+depend on that splitting. Prove the injective total-quotient map is compatible
 with the field components. In the
 torsion-free case recover native fraction fields and the leading-term domain proof.
 Do not replace the general deck group by its free quotient.
@@ -1036,7 +1300,7 @@ The API includes:
 - For H=ℤ⊕ℤ/2 and N(n,e)=−n, with t=e^(−1,0) the downward monomial of §2.3 (so N(t)=1) and g=e^(0,1), Nov=ℤ((t))[g]/(g²−1), and the idempotents (1±g)/2 give Q(Nov)=F×F with F the fraction field of ℤ((t)). The map from Q(ℤ[H])=ℚ(t)×ℚ(t) is ℚ(t)→F in each component, followed by §4.3's embedding F⊂ℚ((t)). F is neither ℚ((t)) nor ℚ⊗ℤ((t)): a quotient f/h of integral Laurent series lies in ℤ[1/c]((t)) for c the lowest nonzero coefficient of h, so exp(t)=Σtⁿ/n!, whose coefficient of t^p has p in its denominator for every prime p, is not in F; and 1/(2−t)=Σtⁿ/2ⁿ⁺¹ is in F but has unbounded denominators. The splitting with free generator (1,1) gives the same two minimal ideals.
 - Over 𝔽₂, (1+g)²=0 with 1+g≠0, so the characteristic-zero component statement cannot be exported unchanged.
 
-*Needs:* Layer 1 leading coefficients; Tau Ceti RingTheory/NovikovSeries/NonZeroDivisors.lean, Reduced.lean and TotalQuotient.lean, Algebra/MonoidAlgebra/Reduced.lean and TotalQuotient.lean, and RingTheory/Localization/Reduced.lean; Mathlib `Localization`, `nonZeroDivisors` and `IsArtinianRing.equivPi`; finite abelian groups and cyclotomic fields.
+*Needs:* Layer 1 leading coefficients; Tau Ceti RingTheory/NovikovSeries/FiniteIndex.lean, NonZeroDivisors.lean, Reduced.lean and TotalQuotient.lean, Algebra/MonoidAlgebra/Reduced.lean and TotalQuotient.lean, and RingTheory/Localization/Reduced.lean and FiniteFree.lean; Mathlib `Localization`, `nonZeroDivisors` and `IsArtinianRing.equivPi`; finite abelian groups and cyclotomic fields.
 
 ### 4.3 Total-quotient topology and continuity
 
@@ -1045,8 +1309,12 @@ after a free/torsion and period-kernel splitting H≅ker N⊕H′, embed it into
 Novikov ring over H′ with coefficients in the fraction field of the corresponding
 characteristic-zero kernel group algebra. That ring is a field by
 `TauCeti.NovikovSeries.isField_iff` (RingTheory/NovikovSeries/Field.lean), since its
-coefficients form a field and N is injective on H′. Define O(C) by order>C and prove
-independence of the splitting, continuity of addition/multiplication and
+coefficients form a field and N is injective on H′. Define O(C) by order>C, with the
+pinned order `TauCeti.NovikovSeries.order` (`TauCeti.NovikovSeries.le_order_iff`); the
+continuity of addition and multiplication at this level is
+`TauCeti.NovikovSeries.min_order_le_order_add` and `TauCeti.NovikovSeries.order_mul`, whose
+hypothesis that the group ring has no zero divisors holds for the finitely generated
+torsion-free H′ by Mathlib's `AffineAddMonoid.to_twoUniqueSums`. Prove independence of the splitting and continuity of
 inversion at nonzero elements. The total quotient has the product topology
 over its finitely many field components; completeness of Nov alone is not a
 completeness claim for this quotient. Prove rt3 Lemma 2.8's cutoff continuity
@@ -1054,7 +1322,8 @@ of based torsion when the acyclic component set is fixed, by applying in each fi
 component, with this topology, the minor-chart continuity
 `HomologicalComplex.tendsto_reidemeisterTorsion_of_det_torsionMinor_ne_zero`
 (Algebra/Homology/ReidemeisterTorsion/Topology.lean): a nonzero limiting minor remains
-nonzero, and high-order changes in its inverse remain high order.
+nonzero, and high-order changes in its inverse remain high order; the determinant estimate
+for the minor is the pinned `Matrix.det_sub_det_mem_periodFiltration_of_weights`.
 
 Use rt3 §2.1, Definition 2.6 and Lemmas 2.7–2.9, pp. 220–221; in particular the proof of Lemma 2.8 fixes the acyclic component set. rt3 §2.1, p. 220 identifies each field component with a tensor product of Nov(G/Ker N, N) with a field; only the embedding above holds (the ℤ⊕ℤ/2 Check of §4.2), and the order O(C) is defined through it.
 
@@ -1070,7 +1339,7 @@ The API includes:
 - In the two components (0,2), the zero component remains zero under a perturbation confined to the second component, whose torsion tends to 1/2.
 - At a=0 the zero-extended two-term torsion is 0 but for a=t^m it is t^(−m); continuity across the acyclic/nonacyclic change is false.
 
-*Needs:* §4.2; Layer 1 period filtration; §4.1 minor formula; Tau Ceti RingTheory/NovikovSeries/Field.lean and Algebra/Homology/ReidemeisterTorsion/Topology.lean.
+*Needs:* §4.2; Layer 1 period filtration; §4.1 minor formula; Tau Ceti RingTheory/NovikovSeries/Field.lean, Basic.lean, LeadingTerm.lean and Matrix.lean and Algebra/Homology/ReidemeisterTorsion/Topology.lean; Mathlib `AffineAddMonoid.to_twoUniqueSums`.
 
 ### 4.4 Finite cyclic norms and traces
 
@@ -1082,13 +1351,17 @@ every finite-index subgroup). Norm and Tr are Mathlib's `Algebra.norm` and
 independence and the multiplicativity of Norm. Consume Tr=k·coefficient restriction
 (`TauCeti.NovikovSeries.trace_eq_index_smul_comap`) and, over a ℚ-algebra,
 log Norm(1+x)=Tr log(1+x) for x in the positive ideal
-(`TauCeti.NovikovSeries.log_normNonnegSubring`, Norm.lean). If μ kills the torsion
-subgroup of H, extend Norm to the total quotients, identify corresponding
+(`TauCeti.NovikovSeries.log_normNonnegSubring`, Norm.lean). The extension of Norm to the
+total quotients is the pinned `Algebra.fractionNorm`, the multiplicative extension of the
+norm of a finite free algebra, with `Algebra.fractionNorm_mk'`,
+`Algebra.fractionNorm_eq_norm` and `Algebra.fractionNorm_trans`
+(RingTheory/Norm/FractionRing.lean); it needs no hypothesis on μ. If μ kills the torsion
+subgroup of H, identify corresponding
 field components and prove a nonzero component stays nonzero under Norm.
 Under this same hypothesis prove cellular and Novikov torsion transform by
 Norm, retaining zero on nonacyclic components and pullback Euler structures.
-The ring-level Norm and zeta formula do not require this additional
-hypothesis; the asserted quotient/torsion comparison does.
+The ring-level Norm, its extension to the total quotients and the zeta formula do not
+require this additional hypothesis; the asserted component and torsion comparison does.
 
 Use rt3 Lemma 3.5 and Proposition 3.6, pp. 227–228, including condition (3.8): the rank-k free extension is rt3 §3.4, p. 227; Tr=k·restriction and log Norm=Tr log are Lemma 3.5(a)–(b), p. 227; nonvanishing under (3.8) is Lemma 3.5(c), p. 227; the torsion transformation is Proposition 3.6(b), p. 228.
 
@@ -1105,7 +1378,7 @@ The API includes:
 - Norm(1+ct)=1−c²s, whose logarithm −c²s−c⁴s²/2−⋯ is twice the even part of log(1+ct)=ct−c²t²/2+⋯, as log Norm=Tr log requires.
 - For H=ℤ/2 mapping identically to ℤ/2, the component idempotent (1,0) is nonzero but has norm 0; this quotient does not kill torsion.
 
-*Needs:* §§4.1–4.3; Layer 1 coset modules and positive logarithms; Tau Ceti RingTheory/NovikovSeries/FiniteIndex.lean and Norm.lean.
+*Needs:* §§4.1–4.3; Layer 1 coset modules and positive logarithms; Tau Ceti RingTheory/NovikovSeries/FiniteIndex.lean and Norm.lean and RingTheory/Norm/FractionRing.lean.
 
 ### 4.5 Partial acyclicity and lift ambiguity
 
@@ -1117,8 +1390,11 @@ quotient of §4.2: a component is 0 exactly when that component complex is nonac
 natural in the ring (`HomologicalComplex.map_componentwiseReidemeisterTorsion`). Retain
 partial acyclicity; a single global zero convention would lose information. Define
 the ambiguity action by signs and deck monomials on the **whole** total quotient
-ring, including 0, and pass to its orbit quotient. Prove torsion's formulas under
-ordered orientation/lift changes, regular cellular subdivision and triangulation
+ring, including 0, and pass to its orbit quotient. Over a field, a change of orientations
+and lifts rescales the basis vectors by units and multiplies the torsion by the alternating
+product of those units, by the pinned `HomologicalComplex.reidemeisterTorsion_unitsSMul`.
+Prove the componentwise form of that formula for ordered orientation/lift changes, and
+torsion's formulas under regular cellular subdivision and triangulation
 changes. Use GT's smooth triangulation/PL comparison and explicit subdivision
 mapping cones. Cellular torsion is a simple-homotopy invariant with the stated
 based structure, not an invariant of arbitrary unbased homotopy equivalence.
@@ -1138,7 +1414,7 @@ The API includes:
 - Changing only the degree-zero lift by t multiplies torsion by t; changing only the degree-one lift multiplies it by t⁻¹.
 - The two-cell circle with d e₁=v₂−v₁ and d e₂=t v₁−v₂ has matrix [[−1,t],[1,−1]] of determinant 1−t, so its torsion is (1−t)⁻¹ modulo sign, as for the one-cell model.
 
-*Needs:* §§4.1–4.4; Tau Ceti Algebra/Homology/ReidemeisterTorsion/Componentwise.lean; GeometricTopology Layer 11; AlgebraicTopology Stage 4; Layer 3 when applying torsion to its complexes.
+*Needs:* §§4.1–4.4; Tau Ceti Algebra/Homology/ReidemeisterTorsion/Componentwise.lean and `HomologicalComplex.reidemeisterTorsion_unitsSMul`; GeometricTopology Layer 11; AlgebraicTopology Stage 4; Layer 3 when applying torsion to its complexes.
 
 ### 4.6 Novikov inequalities
 
@@ -1180,7 +1456,10 @@ N4 algebra depends on N1, the pinned based torsion and pinned linear/homological
 
 ### 5.1 The closed-form return germ
 
-Apply HeegaardFloer §2.8 (F0.6)'s local return germ to −α♯. A transverse
+Apply HeegaardFloer §2.8 (F0.6)'s local return germ to −α♯. The transition to a transverse
+section is the pinned hitting time `TauCeti.flowHittingTime` for the maximal flow
+`TauCeti.flowOf`, of the regularity given by `TauCeti.contMDiffAt_flowOf_flowHittingTime`.
+A transverse
 section through a nonstationary periodic orbit gives a germ P, its derivative
 on the normal quotient, and conjugacies under section/basepoint changes.
 Check the nonvanishing-field hypothesis along that orbit; the application uses
@@ -1200,11 +1479,12 @@ The API includes:
 - For a critical-free circle orbit the transverse space has dimension 0, so its determinant and return sign are 1.
 - At a critical point α♯=0, no transverse return germ of a nonstationary orbit is claimed.
 
-*Needs:* HeegaardFloer §2.8 (F0.6); Layer 2 negative dual flow.
+*Needs:* HeegaardFloer §2.8 (F0.6); Layer 2 negative dual flow; Tau Ceti Geometry/Manifold/Flow/HittingTime.lean and `TauCeti.flowOf`.
 
 ### 5.2 Orbit multiplicity and local fixed-point index
 
-Closed orbits of the complete flow of −α♯ on compact X up to rotation, their primitive
+Closed orbits of the complete flow of −α♯ on compact X, the pinned `TauCeti.globalFlow` of
+this field, up to rotation, their primitive
 orbits with least real return time, k-fold iterates and integer multiplicity p(γ) are
 `Flow.ClosedOrbit`, `Flow.ClosedOrbit.iterate` and `Flow.ClosedOrbit.multiplicity`
 (Dynamics/Flow/ClosedOrbit.lean). The multiplicity is the covering degree over the
@@ -1215,8 +1495,10 @@ and summing `sgn det(1−dg)` over them. Use a generic relative homotopy's
 one-dimensional zero cobordism to prove independence of the perturbation.
 In transverse dimension zero the isolated point has index 1; in dimension one
 the same signed sum applies, with no positive-dimensional boundary sphere assumed.
-In dimensions at least two compare with DG 10's degree on the boundary sphere
-of `x↦x−return(x)`. Build independence
+In dimensions at least two compare with the degree on the boundary sphere
+of `x↦x−return(x)`: at a regular value it is the pinned signed count
+`TauCeti.degreeAtRegularValue`, and its independence of the regular value and homotopy
+invariance are DG 10's. Build independence
 of chart/isolating neighbourhood, additivity and restriction
 and homotopy invariance while the boundary remains fixed-point free. At a
 nondegenerate point prove the index is ε below, including transverse dimension 0.
@@ -1225,8 +1507,9 @@ Extend the index to continuous maps with compact isolated fixed set by a
 C⁰-small smooth approximation that stays fixed-point-free on the isolating
 boundary. Prove independence by relative approximation of a boundary-avoiding
 homotopy; compare this extension with the smooth index. Construct its homological
-graph/diagonal intersection description using AT's relative homology, excision
-and orientation local system; normalize the two local orientation factors by
+graph/diagonal intersection description using AT's relative homology and excision
+and the pinned orientation local system, `TauCeti.localHomologySystem` in top degree with
+integer coefficients; normalize the two local orientation factors by
 their canonical square pairing, so the integer needs no orientation of the
 ambient manifold. Prove agreement with the approximation definition and
 the partial-domain commutativity formula. For open subsets `U⊆Y₁`,
@@ -1264,7 +1547,7 @@ The API includes:
 - For α=dx on T² with the flat metric every orbit is periodic with return derivative 1, so the pair is not admissible; a generic metric in the same class is admissible, so admissibility depends on the metric and not only on [α].
 - Conjugation by h(x)=−x leaves the derivative of P(x)=2x equal to 2; chart reversal must not reverse its index −1.
 
-*Needs:* §5.1; Tau Ceti Dynamics/Flow/ClosedOrbit.lean; DifferentialGeometry Layer 10 and relative smooth approximation; AlgebraicTopology Stages 2–3 and 6; Layer 2 critical transversality.
+*Needs:* §5.1; Tau Ceti Dynamics/Flow/ClosedOrbit.lean, `TauCeti.globalFlow`, `TauCeti.degreeAtRegularValue` and `TauCeti.localHomologySystem`; DifferentialGeometry Layer 10 and relative smooth approximation; AlgebraicTopology Stages 2–3 and 6; Layer 2 critical transversality.
 
 ### 5.3 The zeta series, integrality and cover norm
 
@@ -1292,8 +1575,11 @@ and `TauCeti.NovikovSeries.isUnit_orbitZeta` with
 `TauCeti.NovikovSeries.orbitZeta_sub_one_mem_periodFiltration` makes ζ a unit with ζ−1
 in U_c for some c>0, hence with constant term 1.
 Prove that the exponent is −(−1)^(i_++i_−)=(−1)^(dim X−i_0): the transverse space has
-dimension dim X−1, no real return eigenvalue is ±1, and the nonreal eigenvalues come in
-conjugate pairs. It specializes to −(−1)^i_0, the exponent of rt2 equation (2), p. 371,
+dimension dim X−1 and no real return eigenvalue is ±1, so the pinned
+`Matrix.neg_one_pow_card_filter_one_lt_add_card_filter_lt_neg_one`, applied to a matrix of
+the return derivative, gives (−1)^(i_++i_−)=(−1)^(dim X−1+i_0); its count of nonreal
+eigenvalues in conjugate pairs is `Matrix.neg_one_pow_card_roots_charpoly`. Transfer the
+statement from matrices to the linear return map. It specializes to −(−1)^i_0, the exponent of rt2 equation (2), p. 371,
 only in odd dimension. Prove naturality for valid period-support exponent maps from
 `TauCeti.NovikovSeries.mapRingHom_eulerProduct`, and the finite cyclic cover norm
 formulas needed for N6, retaining the individual lift/iterate multiplicities. For
@@ -1317,7 +1603,7 @@ The API includes:
 - For the Klein-bottle mapping torus with return map f(θ)=−θ+ε sin θ, 0<ε<1, the only periodic points are the fixed points 0 and π, with derivatives −1+ε (i_0=1) and −1−ε (i_−=1). Then log ζ=Σt^k/k+Σ(−1)^(k+1)t^k/k, so ζ=(1+t)/(1−t), agreeing with the exponents (−1)^(2−i_0); the exponent −(−1)^i_0 would give the factor (1−t)^(+1) for the orbit at 0.
 - For the double cyclic circle cover with s=t², Norm((1−t)⁻¹)=(1−s)⁻¹; no missing factor 2 is allowed in the exponent.
 
-*Needs:* §§5.1–5.2; Layer 2 cutoff compactness; Layer 1 positive series; §4.4 norms; Tau Ceti RingTheory/NovikovSeries/OrbitZeta.lean and `LinearMap.sign_det_one_sub_pow`.
+*Needs:* §§5.1–5.2; Layer 2 cutoff compactness; Layer 1 positive series; §4.4 norms; Tau Ceti RingTheory/NovikovSeries/OrbitZeta.lean, `LinearMap.sign_det_one_sub_pow` and `Matrix.neg_one_pow_card_filter_one_lt_add_card_filter_lt_neg_one`.
 
 ### Examples
 
@@ -1518,7 +1804,21 @@ corresponding monomial unit factor. CN acyclic, τNov=(1−t)⁻¹ modulo signs 
   coordinate the height s is a primitive upstairs and that generator raises it by 1, so
   its period is 1 and the downward deck t, with N(t)=1, is its inverse; with a
   product metric the downward return map is φ, since (x,−1) and (φx,0) are identified.
-  Build its equivariant cone `1−tφ#`; prove Lefschetz signed fixed-point counts for every
+  Its smooth model is the pinned `TauCeti.SmoothMappingTorus` of φ⁻¹, homeomorphic to
+  this space by `TauCeti.SmoothMappingTorus.homeomorphMappingTorus`, and α is its time form
+  `TauCeti.SmoothMappingTorus.timeForm`, closed and with value 1 on the generator
+  `TauCeti.SmoothMappingTorus.timeVectorField` of the suspension flow
+  `TauCeti.SmoothMappingTorus.flow`, whose time-one map returns each fibre by φ⁻¹. For a
+  metric in which that generator is the dual field of α, the flow of −α♯ is the reversed
+  suspension flow, and its closed orbits are the pinned
+  `TauCeti.SmoothMappingTorus.closedOrbit` through the periodic points of φ
+  (`TauCeti.SmoothMappingTorus.isFixedPt_flow_mk_iff`), traversed downward. Build that
+  metric, the deck classes of these orbits and their return-map signs.
+  Build its based equivariant cellular cone `1−tφ#`, which torsion needs; the unbased
+  statement on singular chains is pinned, as the short exact sequence
+  `TauCeti.MappingTorus.cyclicCoverShortComplex_shortExact` of the infinite cyclic cover with
+  first map 1−τ_* and the Wang cone `TauCeti.MappingTorus.wangMappingCone` with its map
+  `TauCeti.MappingTorus.wangMappingConeMap` to the chains of the mapping torus. Prove Lefschetz signed fixed-point counts for every
   iterate with nondegenerate fixed points and the trace/determinant identity
   `ζ=Πi det(1−tφ*|H_i(S;ℚ))^((-1)^(i+1))`.
   Here the orbit-counting ζ requires all iterates nondegenerate. For arbitrary
@@ -1527,8 +1827,15 @@ corresponding monomial unit factor. CN acyclic, τNov=(1−t)⁻¹ modulo signs 
   set as a sum of determinant signs. Construct the Lefschetz fixed-point formula here by simplicial approximation
   on a smooth triangulation and Hopf's barycentric modification
   (Hopf, Math. Z. 29 (1929), 493–524), the Hopf trace lemma and N5's continuous local fixed-point index, valid also for nonorientable
-  S. Choose a finite smooth triangulation K and construct its local PL charts
-  from subdivision stars and the link-sphere property of GT11's smooth
+  S. Choose a finite smooth triangulation K, a pinned `TauCeti.IsSmoothTriangulation`,
+  whose barycentric subdivisions are again smooth triangulations by
+  `TauCeti.IsSmoothTriangulation.barycentricSubdivisionRealizationHomeomorph_trans`. Its
+  local PL charts on open stars are the pinned
+  `PreAbstractSimplicialComplex.IsCombinatorialSphere.exists_openPartialHomeomorph_openStar_isPL`,
+  and its PL structure is
+  `AbstractSimplicialComplex.exists_chartedSpace_hasGroupoid_of_isCombinatorialSphere_link`,
+  once every vertex link is a combinatorial sphere; the existence of K and that link-sphere
+  property are GT11's smooth
   triangulation comparison. Choose a simplicial approximation
   `a:sd^r K→K` of φ, which exists on a sufficiently fine barycentric subdivision
   (Hatcher §2.C, Theorem 2C.1, p. 177), and its homotopic Hopf modification ψ. Define the finite
@@ -1543,8 +1850,10 @@ corresponding monomial unit factor. CN acyclic, τNov=(1−t)⁻¹ modulo signs 
   complex K with linearly ordered vertices and commutative coefficient ring R,
   consume Tau Ceti's `TauCeti.orderedSimplicialChainComplex`, the
   `ChainComplex (ModuleCat R) ℕ` free on the q-simplices with the alternating
-  deleted-vertex boundary, and build here the sign −1 of an orientation reversal,
-  scalar extension and the extension by zero to `ChainComplex (ModuleCat R) ℤ`.
+  deleted-vertex boundary, and build here the sign −1 of an orientation reversal
+  and the extension by zero to `ChainComplex (ModuleCat R) ℤ`; for commutative R, scalar
+  extension of the extended complex, with its simplices numbered by `Fin`, is the pinned
+  `HomologicalComplex.matrixBaseChange`.
   Its isomorphism with the cellular complex of
   `AbstractSimplicialComplex.realizationCWComplex` is
   `TauCeti.cellularChainComplexRealizationIso`, and the isomorphism of its homology with
@@ -1587,12 +1896,24 @@ corresponding monomial unit factor. CN acyclic, τNov=(1−t)⁻¹ modulo signs 
   them and their ends smoothly and applying the generic smooth homotopy's
   fixed-point one-manifold in S×[0,1]: its end signs `sgn det(1−df)` cancel
   without an orientation of S. Thus the PL ψ and smooth φ have the same total.
-  Compare graph/diagonal intersection using AT 6's orientation local system
+  Compare graph/diagonal intersection using the pinned orientation local system
+  `TauCeti.localHomologySystem`
   in the oriented specialization. Reconcile
   the homology determinant with chain torsion and prove an equivariant version
   for a larger abelian cover under its actual support hypotheses.
-* Zero-slope surgery X_K on an oriented knot in S³, using GT's meridian/Seifert
-  longitude and Conway-normalized Δ_K. Construct H₁(X_K)=ℤ and the corresponding
+* Zero-slope surgery X_K on an oriented knot in S³, using GT's Conway-normalized Δ_K. The
+  exterior of a solid-torus neighbourhood of the knot is the pinned `TauCeti.knotExterior`
+  and X_K is a `TauCeti.DehnFilling` of it, which exists along every slope by
+  `TauCeti.IsSolidTorusNeighborhood.exists_dehnFilling`. The zero slope is the preferred
+  longitude of `TauCeti.IsSolidTorusNeighborhood.preferredFramedBoundaryTorus`, which
+  generates the kernel of the map from H₁ of the boundary torus to H₁ of the knot complement
+  (`TauCeti.IsSolidTorusNeighborhood.ker_boundaryHomologyMap`), while the meridian generates
+  H₁ of the complement (`TauCeti.IsSolidTorusNeighborhood.complementHomologyEquiv`); both
+  hold in a Hausdorff ambient space whose reduced integral homology vanishes in degrees 1
+  and 2, which for S³ are the pinned
+  `TauCeti.isZero_reducedSingularHomologyFunctor_one_sphere_euclideanSpace_fin_four` and
+  `TauCeti.isZero_reducedSingularHomologyFunctor_two_sphere_euclideanSpace_fin_four`.
+  Construct H₁(X_K)=ℤ and the corresponding
   infinite cyclic cover. The Alexander module of the knot exterior, its Seifert and
   Fox presentations and Δ_K as its order are GeometricTopology §4.4's. Build here the
   based equivariant cellular complex of the infinite cyclic cover of the exterior
@@ -1603,7 +1924,8 @@ corresponding monomial unit factor. CN acyclic, τNov=(1−t)⁻¹ modulo signs 
   `τcell(X̃_K)=Δ_K(t)/(1−t)^2 mod ±t^ℤ`.
   Thus the total dynamical invariant for every admissible integral-period form
   representing the generator has this value in the correctly directed completion.
-  Verify the unknot and right-handed trefoil, including t↦t⁻¹ and lift changes.
+  Verify the unknot, where X_K is S¹×S² by the pinned `TauCeti.unknotZeroDehnFilling`, and
+  the right-handed trefoil, including t↦t⁻¹ and lift changes.
 
 Use rt3 Examples 1.7–1.9, pp. 215–216 for the circle and mapping torus, and rt2 Example 1.4, p. 372 for zero surgery. In particular the circle is rt3 Example 1.7, p. 215; the mapping-torus zeta formula (1.6) and its determinant identity are rt3 Example 1.9, p. 215, and the equivariant version for a larger cover is p. 216. That example takes the Lefschetz theorem for the iterates as given, so it is constructed here. The zero-surgery torsion is also rt1 Example 1.9, p. 863, which credits it to Milnor and points to its Lemma 2.6 for a proof; rt3 §1.5, p. 214 records only the relation with the Alexander polynomial. The chain adapter of the mapping-torus item and §5.2's local index supply the comparisons.
 
@@ -1621,7 +1943,7 @@ The API includes:
 - On the boundary of a triangle the simplicial chain adapter has H₀=R and H₁=R; reversing one edge's vertex order multiplies its basis element by −1. A simplicial map collapsing an edge sends it to 0, and one reversing an edge sends it to minus the image edge.
 - For one subdivision of e=[v₀,v₁] with barycenter b, Sd(e)=[v₀,b]+[b,v₁]; the last-vertex map sends b to v₁, hence [v₀,b] to e and [b,v₁] to 0, so λ#∘Sd is the identity on chains.
 
-*Needs:* §6.3; Layer 5 local index; AlgebraicTopology Stages 2–7; GeometricTopology Layers 4–5 (§4.4 for the Alexander module, its presentations and Δ_K) and 11; Tau Ceti `TauCeti.MappingTorus` with `TauCeti.MappingTorus.isAddQuotientCoveringMap_coverMap` and `TauCeti.MappingTorus.deck`, `TauCeti.orderedSimplicialChainComplex`, `AbstractSimplicialComplex.realizationCWComplex`, `TauCeti.cellularChainComplexRealizationIso`, `TauCeti.orderedSimplicialHomologyIsoSingularHomology`, `PreAbstractSimplicialComplex.SimplicialMap.isCellular_realizationMap`, `TauCeti.cellularChainComplexMap`, `TauCeti.cellularChainGroupMap_realization_cellularChainBasis`, `TauCeti.cellularSingularHomologyIsoOfCWComplex_hom_naturality`, `AbstractSimplicialComplex.barycentricSubdivisionRealizationHomeomorph`, and `TauCeti.OrderedSimplicialChain.cone` with `TauCeti.OrderedSimplicialChain.boundary_cone_zero` and `TauCeti.OrderedSimplicialChain.boundary_cone_succ`.
+*Needs:* §6.3; Layer 5 local index; AlgebraicTopology Stages 2–7; GeometricTopology Layers 4–5 (§4.4 for the Alexander module, its presentations and Δ_K) and 11; Tau Ceti `TauCeti.MappingTorus` with `TauCeti.MappingTorus.isAddQuotientCoveringMap_coverMap` and `TauCeti.MappingTorus.deck`, `TauCeti.SmoothMappingTorus` with `TauCeti.SmoothMappingTorus.homeomorphMappingTorus`, `TauCeti.SmoothMappingTorus.flow`, `TauCeti.SmoothMappingTorus.closedOrbit`, `TauCeti.SmoothMappingTorus.timeForm` and `TauCeti.SmoothMappingTorus.timeVectorField`, `TauCeti.MappingTorus.wangMappingCone` and `TauCeti.MappingTorus.cyclicCoverShortComplex_shortExact`, `TauCeti.IsSmoothTriangulation`, `PreAbstractSimplicialComplex.IsCombinatorialSphere.exists_openPartialHomeomorph_openStar_isPL`, `AbstractSimplicialComplex.exists_chartedSpace_hasGroupoid_of_isCombinatorialSphere_link`, `HomologicalComplex.matrixBaseChange`, `TauCeti.localHomologySystem`, `TauCeti.knotExterior`, `TauCeti.DehnFilling`, LowDimTopology/DehnSurgery/Existence.lean, SeifertFraming.lean and Unknot.lean, AlgebraicTopology/Singular/Sphere.lean, `TauCeti.orderedSimplicialChainComplex`, `AbstractSimplicialComplex.realizationCWComplex`, `TauCeti.cellularChainComplexRealizationIso`, `TauCeti.orderedSimplicialHomologyIsoSingularHomology`, `PreAbstractSimplicialComplex.SimplicialMap.isCellular_realizationMap`, `TauCeti.cellularChainComplexMap`, `TauCeti.cellularChainGroupMap_realization_cellularChainBasis`, `TauCeti.cellularSingularHomologyIsoOfCWComplex_hom_naturality`, `AbstractSimplicialComplex.barycentricSubdivisionRealizationHomeomorph`, and `TauCeti.OrderedSimplicialChain.cone` with `TauCeti.OrderedSimplicialChain.boundary_cone_zero` and `TauCeti.OrderedSimplicialChain.boundary_cone_succ`.
 
 ### 6.5 Native Lefschetz signature
 
@@ -1678,7 +2000,7 @@ Define `rationalHomologyMap` as the underlying linear map of Tau Ceti's
 `ULift ℚ` in the universe of M, applied to a continuous self-map. Its API includes:
 
 - Identity and composition agree with the functoriality of `TopPair.singularHomologyMap`.
-- Homotopic self-maps induce equal maps.
+- Homotopic self-maps induce equal maps, by the pinned `TopPair.Homotopy.congr_singularHomologyMap` for the induced homotopy of pairs.
 - The finite-triangulation homology comparison intertwines this map with the simplicial chain map.
 
 **Checks.**
@@ -1689,7 +2011,8 @@ Define `rationalHomologyMap` as the underlying linear map of Tau Ceti's
 
 *Needs:* §6.4 finite-triangulation adapter and Hopf trace route; §5.2 local index;
 Mathlib `mfderiv`, `LinearMap.det`, `LinearMap.trace` and `TopPair.incl`; Tau Ceti
-`TopPair.singularHomologyMap`, `TauCeti.IsNondegenerateFixedPt` and
+`TopPair.singularHomologyMap`, `TopPair.Homotopy.congr_singularHomologyMap`,
+`TauCeti.IsNondegenerateFixedPt` and
 `TauCeti.finite_fixedPoints_of_isNondegenerateFixedPt`.
 
 ### Examples
@@ -1717,8 +2040,10 @@ orientations change together; its signed zero-cycle is an ordinary integral
 0-cycle and Euler chains are ordinary integral 1-chains. Use the positive dual
 field V=α♯, whose Morse-zero sign is (−1)^ind(p), matching the alternating
 cell weights. Construct the vector-field Poincaré–Hopf theorem here: compare
-zero cycles through a transverse parameter cobordism with a Morse gradient,
-then use MorseTheory M4 and AT Stage 7 to prove Σind(V,p)=χ(X). For the gradient
+zero cycles through a transverse parameter cobordism with the gradient of a Morse function,
+which exists by the pinned `TauCeti.exists_isMorse`, then use the pinned Euler equality
+`TauCeti.IsMorse.sum_range_neg_one_pow_mul_finrank_singularHomology_eq` and AT Stage 7 to
+prove Σind(V,p)=χ(X). For the gradient
 of a Morse function, compare the result with HeegaardFloer §1.9 (M.9)'s Morse
 Euler/index proof.
 
@@ -1738,7 +2063,7 @@ The API includes:
 - A Morse gradient on T² has signs +1,−1,−1,+1, summing to 0=χ(T²); on ℝP² a Morse function with three critical points gives +1−1+1=1=χ(ℝP²) without an orientation.
 - At a maximum in dimension n, V=∇f has dV_p negative definite and sign (−1)^n=(−1)^ind; the negative gradient would give (−1)^(n−ind), which differs from the cell weight (−1)^ind in odd dimension.
 
-*Needs:* AlgebraicTopology Stages 2, 6 and 7; MorseTheory M4; HeegaardFloer parameter transversality and §1.9 (M.9); DifferentialGeometry degree.
+*Needs:* AlgebraicTopology Stages 2, 6 and 7; Tau Ceti `TauCeti.exists_isMorse` and `TauCeti.IsMorse.sum_range_neg_one_pow_mul_finrank_singularHomology_eq`; HeegaardFloer parameter transversality and §1.9 (M.9); DifferentialGeometry degree.
 
 ### 7.2 Determinant volumes and refined equality
 
@@ -1783,7 +2108,7 @@ tangent-bundle chart at (p,V(p)) and projected to the fiber by
 their geometric API assumes a smooth field on a boundaryless smooth manifold:
 
 - The fiber component is the derivative at p of the coordinate expression of V in the chart at p.
-- At a zero of V, another chart conjugates this derivative; its determinant sign is intrinsic, and at a nondegenerate zero `zeroSign` is the local index sgn det(dV_p), the index of a nondegenerate zero in Milnor, Topology from the Differentiable Viewpoint, §6.
+- At a zero of V, another chart conjugates this derivative, by the pinned `TauCeti.mvfderiv_section_coordChange_of_eq_zero` and `TauCeti.sectionLinearization_eq_symmL_comp` once `zeroDet` is identified with the determinant of the pinned `TauCeti.sectionLinearization` of V; its determinant sign is intrinsic, and at a nondegenerate zero `zeroSign` is the local index sgn det(dV_p), the index of a nondegenerate zero in Milnor, Topology from the Differentiable Viewpoint, §6.
 - For a Morse gradient the determinant sign is (−1)^index, agreeing with the signed zero cycle of §7.1.
 
 **Checks.**
@@ -1799,9 +2124,9 @@ universe of M; its alternating sum over degrees 0 to dim M is χ(M)
 space, `rationalBetti` is the actual dimension only where the homology is
 finite-dimensional, which the first bullet proves for compact manifolds. Its API includes:
 
-- For a compact Hausdorff manifold M, every H_i(M;ℚ) is finite-dimensional: a compact manifold is a compact Euclidean neighbourhood retract and so has finitely generated integral homology (Hatcher, Corollaries A.8–A.9, p. 527), and H_i(M;ℚ)=H_i(M;ℤ)⊗ℚ.
-- For a compact Hausdorff n-manifold M, `rationalBetti` M i=0 for every i>n (Hatcher, Lemma 3.27(b), p. 236, with A=M).
-- Homotopy equivalent spaces have the same `rationalBetti` in every degree, by homotopy invariance of singular homology and the natural isomorphism `TopPair.singularHomologyInclIso` between the homology of (M,∅) and that of M.
+- For a compact Hausdorff smooth manifold M with boundaryless finite-dimensional model, every H_i(M;ℚ) is finite-dimensional: M has a Morse function by the pinned `TauCeti.exists_isMorse`, and `TauCeti.IsMorse.finite_singularHomology` over the division ring `ULift ℚ`, after `TopPair.singularHomologyInclIso`, gives the finiteness (for topological manifolds the statement is Hatcher, Corollaries A.8–A.9, p. 527).
+- For such M of dimension n, `rationalBetti` M i=0 for every i>n: the pinned `TauCeti.IsMorse.finrank_singularHomology_le` bounds it by the number of critical points of index i, which is 0 by `TauCeti.criticalCount_eq_zero_of_finrank_lt` (the statement is Hatcher, Lemma 3.27(b), p. 236, with A=M).
+- Homotopy equivalent spaces have the same `rationalBetti` in every degree, by the pinned `ContinuousMap.HomotopyEquiv.singularHomologyIso` and the natural isomorphism `TopPair.singularHomologyInclIso` between the homology of (M,∅) and that of M.
 - When M has finite CW type, the alternating sum of `rationalBetti` M i over all degrees is `TauCeti.eulerChar` M, by `TauCeti.eulerChar_eq_finsum_finrank_singularHomology` over the division ring `ULift ℚ` after `TopPair.singularHomologyInclIso`. No pinned instance gives finite CW type to a compact manifold, so `poincare_hopf` states the alternating sum itself.
 
 **Checks.**
@@ -1828,8 +2153,12 @@ follows from compactness
 
 *Needs:* §7.1 zero-locus comparison and Morse/Euler route; Mathlib tangent bundles,
 `mfderiv`, `ContinuousLinearMap.snd`, `LinearMap.det`, `Module.finrank` and
-`TopPair.incl`; Tau Ceti `TopPair.singularHomology`, `TopPair.singularHomologyInclIso`
-and `TauCeti.eulerChar_eq_finsum_finrank_singularHomology`.
+`TopPair.incl`; Tau Ceti `TopPair.singularHomology`, `TopPair.singularHomologyInclIso`,
+`TauCeti.eulerChar_eq_finsum_finrank_singularHomology`, `TauCeti.exists_isMorse`,
+`TauCeti.IsMorse.finite_singularHomology`, `TauCeti.IsMorse.finrank_singularHomology_le`,
+`TauCeti.criticalCount_eq_zero_of_finrank_lt`,
+`ContinuousMap.HomotopyEquiv.singularHomologyIso` and
+Geometry/Manifold/VectorBundle/Section/Linearization.lean.
 
 ### Examples
 
