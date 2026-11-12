@@ -35,7 +35,9 @@ a compact geodesic interval (R2), the Morse index theorem on smooth endpoint-zer
 the integral homology of the based loop space of a round sphere (R3.3), the Rauch comparison
 under an upper sectional bound (R4.1), Günther's volume comparison under an upper sectional
 bound (R4.1), the Bishop–Gromov relative-volume monotonicity against the
-model of curvature `κ` (R4.1), Cartan–Hadamard (R4.4), Bonnet–Myers in its distance form and the
+model of curvature `κ` (R4.1),
+the Laplacian comparison at a possible cut point through smooth upper barriers (R4.1),
+Cartan–Hadamard (R4.4), Bonnet–Myers in its distance form and the
 finiteness of the fundamental group (R4.5), Synge's theorem in its even-dimensional and
 odd-dimensional forms (R4.6), the three cases of the Killing–Hopf classification of simply
 connected space forms (R4.7), two distinct fixed-interval geodesics between distinct points of a
@@ -295,6 +297,27 @@ theorem bishopGromov [ConnectedSpace M] [CompleteSpace M]
         modelBallVolume κ (Module.finrank ℝ E) s ≤
       (TauCeti.riemannianVolume I M (Metric.ball p r)).toReal /
         modelBallVolume κ (Module.finrank ℝ E) r := by
+  sorry
+
+/-- R4.1, Laplacian comparison through smooth upper barriers: for a unit-speed geodesic `γ` on
+`[0, ℓ]`, `ℓ > 0`, minimizing from `γ 0` to `γ ℓ`, with `Ric(γ′,γ′) ≥ (n−1)κ` along it and
+`ℓ < π/√κ` when `κ > 0`, some function smooth at `γ ℓ`, equal to `ℓ` there and at least
+`dist (γ 0)` near it, has Laplacian at most `(n−1) s_κ′(ℓ)/s_κ(ℓ)` at `γ ℓ`, which may be a cut
+point of `γ 0`. -/
+theorem exists_upper_barrier_laplaceBeltrami_le {γ : ℝ → M} {ℓ κ : ℝ} (hℓ : 0 < ℓ)
+    (hγ : TauCeti.Manifold.IsGeodesicCurveOn I γ (Icc 0 ℓ))
+    (hunit : ∀ t ∈ Icc 0 ℓ, ‖TauCeti.Manifold.curveVelocityWithin I γ (Icc 0 ℓ) t‖ = 1)
+    (hmin : dist (γ 0) (γ ℓ) = ℓ)
+    (hRic : ∀ t ∈ Icc 0 ℓ, ((Module.finrank ℝ E : ℝ) - 1) * κ ≤
+      (CovariantDerivative.leviCivitaConnection I M).ricciTensor (γ t)
+        (TauCeti.Manifold.curveVelocityWithin I γ (Icc 0 ℓ) t)
+        (TauCeti.Manifold.curveVelocityWithin I γ (Icc 0 ℓ) t))
+    (hmodel : 0 < κ → ℓ < Real.pi / Real.sqrt κ) :
+    ∃ f : M → ℝ, ContMDiffAt I 𝓘(ℝ, ℝ) ∞ f (γ ℓ) ∧ f (γ ℓ) = ℓ ∧
+      (∀ᶠ x in nhds (γ ℓ), dist (γ 0) x ≤ f x) ∧
+      TauCeti.Manifold.laplaceBeltrami I f (γ ℓ) ≤
+        ((Module.finrank ℝ E : ℝ) - 1) *
+          (TauCeti.curvatureCosine κ ℓ / TauCeti.curvatureSine κ ℓ) := by
   sorry
 
 /-- R4.4, Cartan–Hadamard: on a connected complete Riemannian manifold with nonpositive sectional

@@ -483,6 +483,36 @@ For R4.1, `TauCeti.curvatureSine` and `TauCeti.curvatureCosine` in
 of y″+κy=0 with initial data (0,1) and (1,0), for every sign of κ, with their
 derivatives and smoothness.
 
+For R4.1's smooth upper distance barriers, in `TauCeti/Geometry/Manifold/`, on a smooth
+boundaryless Hausdorff manifold modelled on a finite-dimensional real normed space with
+a smooth Riemannian metric: `TauCeti.Manifold.exists_isNormalDomain_ball` and
+`TauCeti.Manifold.riemannianLog` (`Riemannian/Geodesic/Normal/Basic.lean`), some ball
+about 0 in the tangent space at each point p is a normal domain at p, and the logarithm
+of a normal domain, smooth on its normal neighbourhood by
+`TauCeti.Manifold.IsNormalDomain.contMDiffOn_riemannianLog`;
+`TauCeti.Manifold.mfderiv_riemannianExp_zero` (`Riemannian/Geodesic/Exponential.lean`),
+`d(exp_p)_0=Id`; `TauCeti.Manifold.hessian` and
+`TauCeti.Manifold.laplaceBeltrami_eq_sum_hessian` (`Riemannian/Laplacian.lean`),
+`Hess f(v,w)=⟨∇_v grad f,w⟩` and Δf its trace in every orthonormal basis;
+`TauCeti.Manifold.hessian_self_nonneg_of_isLocalMin` and
+`TauCeti.Manifold.laplaceBeltrami_nonpos_of_isLocalMax`
+(`Riemannian/MaximumPrinciple.lean`), for f C² at x, `Hess f(v,v)≥0` at a local
+minimum and `Δf≤0` at a local maximum; `CovariantDerivative.ricciTensor_eq_sum_inner`
+(`VectorBundle/CovariantDerivative/Curvature/Ricci.lean`),
+`Ric(u,v)=Σ_i⟨e_i,R(e_i,u)v⟩` in an orthonormal basis (e_i);
+`CovariantDerivative.IsMetricCompatible.inner_eq_of_alongCurveWithin_eq_zero`
+(`VectorBundle/CovariantDerivative/AlongCurve/Metric.lean`), two parallel fields along
+a differentiable curve on a preconnected parameter set with unique derivatives keep
+their inner product; and `TauCeti.Manifold.hasDerivAt_energy`
+(`Riemannian/FirstVariation.lean`), for a family Γ that is C² at every point of
+{0}×[a,b], with central curve γ and variation field V, the energy
+`½∫_a^b|∂_tΓ(s,t)|²dt` has derivative `⟨V(b),γ′(b)⟩−⟨V(a),γ′(a)⟩−∫_a^b⟨V,D_tγ′⟩dt` at
+s=0, with no condition at the endpoints. By `TauCeti.hasDerivAt_curvatureSine`, in the
+file of the preceding paragraph, the model sine has derivative the model cosine, so
+`s_κ′(ℓ)/s_κ(ℓ)` is `TauCeti.curvatureCosine κ ℓ / TauCeti.curvatureSine κ ℓ`. The
+openness in TM of the domain of the exponential map and its smoothness there are in the
+R3.1 contract above.
+
 For R4.3, `Bundle.ContMDiffRiemannianMetric.pullback` and
 `Bundle.ContMDiffRiemannianMetric.pullback_inner` in
 `TauCeti/Geometry/Manifold/Riemannian/Pullback/Basic.lean`: the C^n metric
@@ -1535,7 +1565,18 @@ derivative/integral under compact-parameter hypotheses, and derive the second
 energy variation, including endpoint acceleration and corner terms. For fixed
 endpoints its Hessian is the pinned index form. For length, use normal fields
 along a unit-speed nonconstant geodesic and state the tangential/reparametrization
-degeneracy separately. On smooth closed geodesics also prove the second
+degeneracy separately.
+With free endpoints, derive from the second energy variation, with its endpoint
+acceleration terms, the second variation of length of a smooth variation Γ of a
+unit-speed geodesic γ:[0,ℓ]→M, with variation field V and transverse acceleration
+`A=D_s∂_sΓ(0,·)`:
+
+`d²/ds² L(Γ_s)|_(s=0)=∫_0^ℓ(|D_tV^⊥|²−⟨R(V^⊥,γ′)γ′,V^⊥⟩)dt+⟨A,γ′⟩|_0^ℓ`,
+
+where `V^⊥=V−⟨V,γ′⟩γ′`. It is the energy formula minus `∫_0^ℓ⟨D_tV,γ′⟩²dt`, so
+only the normal part of V enters. This is the free-endpoint formula consumed by
+R4.1's smooth upper distance barriers.
+On smooth closed geodesics also prove the second
 variation on periodic fields/variations; periodic endpoint terms cancel. This
 is the closed-geodesic formula consumed by R4.6's Synge argument; DGFloer
 owns the wider free-loop Morse theory. Give the smooth-density/approximation comparison with
@@ -2185,8 +2226,10 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
 
    `W_w(t)=f(t)P_t w`, `γ_w(t)=exp_(γ(t))(W_w(t))`, t∈[0,ℓ].
 
-   Thus (s,t)↦γ_(sw)(t) is Tau Ceti's `TauCeti.Manifold.exponentialVariation` of γ
-   along W_w: its central curve is γ, its variation field is W_w, `γ_w(0)=p`,
+   Thus `γ_(sw)(t)=exp_(γ(t))(sW_w(t))`, and (s,t)↦γ_(sw)(t) is a variation of γ,
+   smooth where `sW_w(t)` lies in `expDomain` by
+   `TauCeti.Manifold.contMDiffOn_riemannianExp_tangentBundle`: its central curve
+   is γ, its variation field is W_w, `γ_w(0)=p`,
    `γ_w(ℓ)=exp_p̄(w)`, and each transverse curve s↦γ_(sw)(t) is a geodesic. Take γ
    on an open interval containing [0,ℓ], to which it extends as a geodesic, with P
    and f on that interval, so that the variation is smooth at the end parameters.
@@ -2209,10 +2252,16 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
      γ′(ℓ) contributes zero;
    - `Δr̃(p̄)=∫_0^ℓ((n−1)f′(t)²−f(t)²Ric(γ′(t),γ′(t)))dt≤(n−1)s_κ′(ℓ)/s_κ(ℓ)`, where
      Δ is Tau Ceti's `TauCeti.Manifold.laplaceBeltrami`, `Δ=div grad`, and
-     `s_κ′(ℓ)/s_κ(ℓ)` is Tau Ceti's `TauCeti.curvatureCotangent κ ℓ`. In the sign
+     `s_κ′(ℓ)/s_κ(ℓ)` is `TauCeti.curvatureCosine κ ℓ / TauCeti.curvatureSine κ ℓ`,
+     by `TauCeti.hasDerivAt_curvatureSine`. In the sign
      convention of this roadmap the bound is `Δ⁺r̃(p̄)≥−(n−1)s_κ′(ℓ)/s_κ(ℓ)`. For
      κ=−k≤0 it reads `Δr̃(p̄)≤(n−1)√k coth(√k ℓ)≤(n−1)(√k+1/ℓ)`, the middle term
      being (n−1)/ℓ when k=0 and the last step being `x coth x≤1+x` for x>0.
+
+   The headline `exists_upper_barrier_laplaceBeltrami_le` states the first and last
+   items as an existence statement: a function smooth at p̄, equal to ℓ there and at
+   least `dist(p,·)` near p̄, whose Laplacian at p̄ is at most
+   `(n−1)s_κ′(ℓ)/s_κ(ℓ)`.
 
    Proof programme: the zero vectors at the points γ(t), t∈[0,ℓ], form a compact
    subset of the set of tangent vectors lying in `expDomain`, which is open in TM
@@ -2225,26 +2274,20 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
    by differentiation under the integral; composing with the smooth
    `TauCeti.Manifold.riemannianLog` of the normal domain gives the regularity of
    r̃. The inequality `r̃≥dist(p,·)` holds because γ_w is a C¹ curve from p to
-   `exp_p̄(w)`, and `r̃(p̄)=L(γ)=ℓ`. For the gradient apply Tau Ceti's first
-   variation of length with moving endpoints,
-   `TauCeti.Manifold.hasDerivAt_toReal_pathELength_of_norm_curveVelocity_eq_one`,
-   to s↦γ_(sw): the derivative at s=0 is
+   `exp_p̄(w)`, and `r̃(p̄)=L(γ)=ℓ`. For the gradient, the central curve has unit
+   speed, so the s-derivative at s=0 of `L(γ_(sw))` equals that of the energy
+   `½∫_0^ℓ|∂_tγ_(sw)|²dt`, which Tau Ceti's `TauCeti.Manifold.hasDerivAt_energy`
+   (supplier contract) gives with free endpoints: it is
    `⟨W_w(ℓ),γ′(ℓ)⟩−⟨W_w(0),γ′(0)⟩−∫_0^ℓ⟨W_w,D_tγ′⟩dt=⟨w,γ′(ℓ)⟩`, and
    `d(exp_p̄)_0=Id` by `TauCeti.Manifold.mfderiv_riemannianExp_zero`. For the
    Hessian prove that a C² function h near x and a geodesic c with c(0)=x satisfy
    `(h∘c)″(0)=Hess h(c′(0),c′(0))`, with Hess Tau Ceti's
    `TauCeti.Manifold.hessian`, and apply it to `c(s)=exp_p̄(sw)`, along which
-   `r̃(c(s))=L(γ_(sw))`. Derive from R3's second energy variation, with its
-   endpoint acceleration terms, the second variation of length of a smooth
-   variation Γ of the unit-speed geodesic γ with free endpoints, variation field V
-   and transverse acceleration `A=D_s∂_sΓ(0,·)`:
-
-   `d²/ds² L(Γ_s)|_(s=0)=∫_0^ℓ(|D_tV^⊥|²−⟨R(V^⊥,γ′)γ′,V^⊥⟩)dt+⟨A,γ′⟩|_0^ℓ`,
-
-   where `V^⊥=V−⟨V,γ′⟩γ′`. It is the energy formula minus `∫_0^ℓ⟨D_tV,γ′⟩²dt`, so
-   only the normal part of V enters. Here A=0, every transverse curve being a
-   geodesic, and `W_w^⊥=W_(w^⊥)` with `D_tW_(w^⊥)=f′P_t w^⊥`, because γ′ is
-   parallel and `P_tγ′(ℓ)=γ′(t)`; this is the Hessian formula. In the direction
+   `r̃(c(s))=L(γ_(sw))`. Apply R3's second variation of length with free endpoints
+   to the variation (s,t)↦γ_(sw)(t), whose variation field is W_w. Its transverse
+   acceleration A vanishes, every transverse curve being a geodesic, and
+   `W_w^⊥=W_(w^⊥)` with `D_tW_(w^⊥)=f′P_t w^⊥`, because γ′ is parallel and
+   `P_tγ′(ℓ)=γ′(t)`; this is the Hessian formula. In the direction
    w=γ′(ℓ) the curve `γ_(sw)(t)=γ(t+sf(t))` is a reparametrization of γ on
    [0,ℓ+s], of length exactly ℓ+s, which exhibits the first derivative 1 and the
    second derivative 0 directly: the same modulation f serves in the tangential
@@ -2256,8 +2299,14 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
    `CovariantDerivative.ricciTensor_eq_sum_inner`, the term of γ′ itself
    vanishing. Finally `(n−1)f′²−f²Ric(γ′,γ′)≤(n−1)(f′²−κf²)=(n−1)(ff′)′` by
    `f″=−κf`, and `(ff′)(ℓ)−(ff′)(0)=f′(ℓ)=s_κ′(ℓ)/s_κ(ℓ)` (Lynch, *The Cheng–Yau
-   gradient estimate for Jacobi fields*, Appendix B, for this
-   second-variation comparison with the modulation f when κ≤0).
+   gradient estimate for Jacobi fields*, Proposition B.1 and its proof,
+   pp. 15–16, with constant weight and N=n, for this second-variation comparison
+   with the modulation f when κ=−k≤0; the constant written κ≥0 there is √k). For
+   every real κ, on a complete manifold with `Ric≥(n−1)κ` the distance r from p
+   satisfies `Δr≤Δ_κ r` in the barrier sense, Δ_κ r being the Laplacian of the
+   distance in the model of curvature κ, through Calabi's upper barrier
+   `ε+dist(γ(ε),·)` (Wei, *Manifolds with a lower Ricci curvature bound*, §3,
+   inequality (3.1), Lemma 3.4 and Theorem 3.6, pp. 3–4).
 
    The barrier API also comprises:
 
@@ -2298,18 +2347,18 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
    - Tangential direction in ℝⁿ: `r̃(p̄+s p̄/ℓ)=ℓ+s`, with first derivative 1 and
      second derivative 0, as for `γ_(sγ′(ℓ))(t)=γ(t+sf(t))` in general.
 
-   *Needs:* R3 (second energy variation with endpoint acceleration terms; bulk
+   *Needs:* R3 (second variation of length with free endpoints; bulk
    index integral); SmoothBundlesConnections B5.0 (parallel transport along γ,
    linear, smooth in the parameter and agreeing with Tau Ceti's covariant
    derivative along curves); HopfRinow (Completed) Layers 1–2 (exponential map
    and its open domain, normal domains and logarithm); Tau Ceti
-   `TauCeti.Manifold.exponentialVariation`,
    `TauCeti.Manifold.contMDiffOn_riemannianExp_tangentBundle`,
-   `TauCeti.Manifold.hasDerivAt_toReal_pathELength_of_norm_curveVelocity_eq_one`,
+   `TauCeti.Manifold.hasDerivAt_energy`,
    `TauCeti.Manifold.riemannianLog`,
    `TauCeti.Manifold.laplaceBeltrami_eq_sum_hessian`,
-   `CovariantDerivative.ricciTensor_eq_sum_inner` and
-   `TauCeti.curvatureCotangent`.
+   `CovariantDerivative.ricciTensor_eq_sum_inner`,
+   `TauCeti.curvatureSine`, `TauCeti.curvatureCosine` and
+   `TauCeti.hasDerivAt_curvatureSine` (supplier contract).
 
 2. On a connected complete noncompact manifold, prove a ray exists from every
    point by compactness of initial unit directions and a limit of minimizing
@@ -2975,7 +3024,7 @@ Mathlib's quotient atlas and covering and Tau Ceti's quotient manifold,
 descended metric and curvature naturality.
 R4.6 supplies cut-locus integration to R4.1. R4.1's smooth upper distance
 barriers use R3's second variation, SmoothBundlesConnections B5.0 and Tau Ceti's
-exponential variation and first variation of length, with no cut-locus input.
+exponential map and first variation of energy, with no cut-locus input.
 R4.8 uses R3 and the topological
 contracts named there; R4.9 uses its separately stated planar, parabolic and
 finite-relative-homology inputs, never its own minimax conclusion.
@@ -4296,10 +4345,19 @@ minimization nor GeometricCurrents regularity enters R5b.
   p. 226, and Corollary 3.3(1), p. 228: Bishop–Gromov relative volume
   comparison under a Ricci lower bound, used by R4.1.
 - S. Lynch, [*The Cheng–Yau gradient estimate for Jacobi fields*](https://arxiv.org/abs/2611.12758v1),
-  arXiv:2611.12758v1 (2026), Appendix B: the Laplacian comparison
+  arXiv:2611.12758v1 (2026), Appendix B, Proposition B.1, p. 15, and its proof,
+  p. 16, with constant weight and N=n, the constant written κ≥0 there being √k:
+  the Laplacian comparison
   `Δr≤(n−1)√k coth(√k r)` in the barrier sense at the endpoint of a minimizing
   geodesic along which `Ric≥−(n−1)k`, from the second variation of length with the
   modulation `sinh(√k t)/sinh(√k ℓ)`, used by R4.1's smooth upper distance barriers.
+- G. Wei, [*Manifolds with a lower Ricci curvature bound*](https://arxiv.org/abs/math/0612107v1),
+  arXiv:math/0612107v1 (2006), §3, inequality (3.1), p. 3, Lemma 3.4 and
+  Theorem 3.6, p. 4: on a complete manifold with `Ric≥(n−1)H`, H real, the
+  Laplacian of the distance from a point is at most its value in the model of
+  curvature H, off the cut locus and, through Calabi's upper barrier
+  `ε+dist(γ(ε),·)`, in the barrier sense at every point; the comparison of R4.1's
+  smooth upper distance barriers for every sign of κ.
 - D. Azagra, J. Ferrera, F. López-Mesas and Y. Rangel,
   [*Smooth approximation of Lipschitz functions on Riemannian manifolds*](https://arxiv.org/abs/math/0602051),
   for R7.8's quantitative smoothing and intrinsic-distance comparison.
