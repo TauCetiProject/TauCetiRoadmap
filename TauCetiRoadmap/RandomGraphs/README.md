@@ -107,7 +107,7 @@ The following are suppliers, not requests to rebuild their objects.
 | [Tau Ceti `ModelTheory/Scott/AtomicDiagram.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Scott/AtomicDiagram.lean) at `2fd255d99` (the finite companion of the parent's infinitary `atomicDiagram`) | `TauCeti.AtomicIdx.toFormula : AtomicIdx L n → L.BoundedFormula Empty n`; for `[Finite (Σ k, L.Relations k)]`, `TauCeti.firstOrderAtomicDiagram (a : Fin n → M) : L.BoundedFormula Empty n`, the finite conjunction `BoundedFormula.iInf` over `AtomicIdx L n` of the tests true of `a` and the negations of those false of it (`firstOrderAtomicDiagram_def`); and, for relational `L`, `realize_firstOrderAtomicDiagram_iff_sameAtomicType : (firstOrderAtomicDiagram a).Realize v b ↔ SameAtomicType a b` for `b : Fin n → N` in any structure. The tuple occupies bound positions |
 | [DenseGraphLimits, Layers 9a–c](../../Completed/DenseGraphLimits/README.md) | Finite and infinite graphon sampling, finite restrictions, exchangeable graph laws, dissociation, mixtures and sampling convergence |
 | [Exchangeability, array layers](../../Completed/Exchangeability/README.md) | Generic array exchangeability, dissociation and ergodic/extreme-measure machinery |
-| [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md) | Native vertex-connectivity, deletion, separators and their graph interfaces |
+| [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md) | Vertex connectivity `SimpleGraph.IsVertexConnected` (Tau Ceti `Combinatorics/SimpleGraph/Connectivity/VertexConnectivity.lean`; `k : ℕ∞`, more than `k` vertices and connected after deleting fewer than `k`), deletion, separators and their graph interfaces |
 | [StandardDistributions](../StandardDistributions/README.md) | Bernoulli/binomial/Poisson laws and their ordinary distribution API |
 
 Individual implementation modules to reuse include
@@ -696,8 +696,8 @@ asymptotically-almost-sure and joint-eventual forms.
 - The graph and its complement are connected; for fixed interior $`p`$ their diameter
   is exactly $`2`$ eventually almost surely.
 - For each fixed natural $`k`$, vertex connectivity is at least $`k`$ asymptotically almost
-  surely. Use the supplier's native `IsVertexConnected k` interface and its size
-  convention. Derive the result by deletion of fewer than $`k`$ vertices and the
+  surely. Use Tau Ceti's `SimpleGraph.IsVertexConnected` and its size convention (more than
+  `k` vertices). Derive the result by deletion of fewer than $`k`$ vertices and the
   common-neighbor witness property, including the required carrier-size bound.
 
 Use native clique, degree, distance, deletion and connectivity definitions. For diameter
