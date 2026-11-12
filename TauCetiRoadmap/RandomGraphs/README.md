@@ -387,6 +387,12 @@ Construct the finite conjunction expressing $`\mathrm{EP}_{\le d}`$ and prove th
 correspondence. Expose reordering and permutation of the positive and negative tuples.
 No probabilistic theorem may take this semantic correspondence as an unproved parameter.
 
+**Checks.** On `Fin 0` budget `0` fails: the empty request has no witness. On `K₁` budget `0`
+holds and budget `1` fails, since the request with one positive vertex has no neighbour to use.
+On the 4-cycle budget `1` holds and budget `2` fails: two adjacent vertices have no common
+neighbour. On `K₁`, `E_{0,0}` holds while `E_{1,0}` and `E_{0,1}` fail; `E_{0,1}` fails only
+because the witness must differ from the listed vertex.
+
 ### 4.2 Existence and identification
 
 *Needs:* 4.1; Milestones 1–3; Tau Ceti `TauCeti.radoGraph`,
@@ -422,6 +428,12 @@ the complement isomorphism, universality for countable graphs, rooted universali
 extension-property graph (from Milestone 3), and extension of finite induced isomorphisms to
 automorphisms. Give explicit finite graph embeddings, including complete, empty, path and
 cycle graphs.
+
+**Checks.** The empty graph and `K₂` belong to the class of finite simple graphs; a one-point
+structure whose adjacency relation is reflexive fails the simple-graph axioms, and the Rado graph
+fails finiteness. `K₂` embeds in the Rado graph on `{0, 1}` (bit `0` of `1` is `1`) and the
+edgeless two-vertex graph on `{0, 2}` (bit `0` of `2` is `0`); `K₁` is not the limit, since `K₂`
+is outside its age.
 
 ## Milestone 5 — Finite rank, Rado theory and elimination
 
@@ -529,6 +541,12 @@ model of $`T_R`$. Rooted universality supplies the embedding and QE makes it ele
 the target model need not be countable. Give the atomicity and primeness statements
 after naming a finite tuple, with the elementary embedding retaining the prescribed
 parameter values.
+
+**Checks.** Modulo `T_R`, `∃y Adj(x₀, y)` eliminates to `⊤` (it holds in every model, by
+`E_{1,0}`) and `∃x Adj(x, x)` to `⊥`. In the Rado graph the pairs `(0, 0)`, `(0, 1)` and `(0, 2)`
+have three different diagrams (`x₀ = x₁`; `x₀ ≠ x₁` and adjacent; `x₀ ≠ x₁` and nonadjacent), so
+they isolate three different types in `T_R.CompleteType (Fin 2)`; the first pair shows that
+equality atoms are needed, the last two that adjacency atoms are.
 
 ### 5.3 Finite consequences
 
@@ -731,6 +749,9 @@ p^{e(H)}(1-p)^{\binom m2-e(H)}
 This is a finite, effectively determined polynomial expression. Include the example
 $`\psi(x_0,x_1)=\mathrm{Adj}(x_0,x_1)`$, whose limit is $`p`$. This does not contradict
 the sentence zero–one law: it is a formula evaluated at random named vertices.
+
+**Checks.** For `ψ = Adj(x₀, x₁)` the conditioned limits are `1` on `H = K₂` and `0` on the
+edgeless `H`, and their mixture with weights `p` and `1 - p` is the unconditioned limit `p`.
 
 ### 8.2 Graph properties
 
