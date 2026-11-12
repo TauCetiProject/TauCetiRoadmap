@@ -58,10 +58,12 @@ classifying topoi, geometric theories, geometric logic, Diaconescu's theorem, fl
 theory of objects, the object classifier, syntactic sites and Morita equivalence of theories finds
 no other owner: GrothendieckTopoi (Scope and ownership, Out of scope) and
 LocallyPresentableCategories (Scope and ownership, Left to other roadmaps) both exclude classifying
-topoi of geometric theories, and the only other mention, AdicSpacesPartIV, uses the classifying
-topos of a profinite Galois group as an example. The Morita equivalence of DGAInfinity,
-HilbertModules and GrothendieckEulerForms is a different notion, for dg categories, C*-algebras and
-rings.
+topoi of geometric theories, and the other roadmaps that mention a classifying topos
+(AdicSpacesPartIV, AlgebraicModuliForArithmeticGeometry, AnabelianGeometryAndNonabelianChabauty,
+HomotopyTheoryOfCategories, KTheoryFiniteLocalFields) mean the classifying topos of a group, finite,
+profinite or algebraic, as an example or as GrothendieckTopoi's object. The Morita equivalence of
+DGAInfinity, HilbertModules and GrothendieckEulerForms is a different notion, for dg categories,
+C*-algebras and rings.
 
 **Left to GrothendieckTopoi.** Grothendieck topoi and the predicate `IsGrothendieckTopos`, with
 `Sheaf J (Type u)` as the standard instance and every topos equivalent to one (GrothendieckTopoi
@@ -180,7 +182,7 @@ and the representation of a topos by a localic groupoid (Joyal–Tierney 1984).
 
 - Model theory (`ModelTheory/Basic`, `ModelTheory/Syntax`, `ModelTheory/Semantics`):
   `FirstOrder.Language` with its fields `Functions` and `Relations`, `FirstOrder.Language.Term` with
-  `Term.var`, `Term.func`, `Term.realize`, `Term.relabel` and `Term.subst`,
+  `Term.var`, `Term.func`, `Term.realize`, `Term.relabel`, `Term.realize_relabel` and `Term.subst`,
   `FirstOrder.Language.Structure` with `Structure.funMap` and `Structure.RelMap`,
   `FirstOrder.Language.Hom` (`M →[L] N`) with `FirstOrder.Language.Hom.id`,
   `FirstOrder.Language.Hom.comp`, `FirstOrder.Language.Hom.map_fun` and
@@ -240,7 +242,7 @@ a quantifier over Grothendieck topoi), 1.2 (epimorphisms and coproducts in `Shea
 epimorphism being the coequalizer of its kernel pair, and the frame property of its subobject
 lattices), the Examples of Layer 1 (`B G` as `Action (Type u) G`, for Convention 5 and 3.3), 1.4
 (Giraud's axioms: coequalizers of internal equivalence relations are universal, so images are stable
-under pullback, for 2.2 (b)), 2.1 (`GeometricMorphism`: left exact left adjoints between
+under pullback, for 1.4 and 2.2 (b)), 2.1 (`GeometricMorphism`: left exact left adjoints between
 Grothendieck topoi are the inverse images of geometric morphisms), 2.2
 (`GeometricMorphism.homEquivInverse`: 2-cells and transformations of inverse images), 2.4
 (`GeometricMorphism.ofContinuous`: inverse images of continuous maps, for the Examples of Layer 1),
@@ -286,7 +288,13 @@ set of sequents (Johnstone, Elephant, D1.1; Mac Lane–Moerdijk, X.1 and X.3, pp
 533–539). Implication, negation
 and universal quantification are not formulas; a sequent `φ ⊢ ψ` plays the role of
 `∀ x, φ → ψ`.
-*Needs:* Mathlib `FirstOrder.Language`, `FirstOrder.Language.Term`.
+
+Define also, as API, `GeometricFormula.relabel` along `g : Fin n → Fin m`: the connectives are
+kept, terms are relabelled by Mathlib's `Term.relabel g`, and under `ex` the formula is relabelled
+along the extension `Fin (n + 1) → Fin (m + 1)` of `g` that sends the last variable to the last
+variable. The weakening of `φ` to `Fin (n + k)` is `φ.relabel (Fin.castAdd k)`, which keeps the
+first `n` variables.
+*Needs:* Mathlib `FirstOrder.Language`, `FirstOrder.Language.Term`, `Term.relabel`.
 
 **Checks.**
 
@@ -299,6 +307,10 @@ and universal quantification are not formulas; a sequent `φ ⊢ ψ` plays the r
   finitary first-order formula, so finite disjunctions would not express it.
 - The bound variable is the last one (Convention 2): `ex (equal (var 0) (var 1 * var 1))` in
   context `Fin 1` holds at `4` and fails at `2` in `ℤ`.
+- `relabel` moves the bound variable with the context: the weakening of that formula to `Fin 2` is
+  `ex (equal (var 0) (var 2 * var 2))`, again "`x₀` is a square", which holds at `(4, 7)` and fails
+  at `(2, 7)` in `ℤ`. Relabelling under `ex` along `Fin.castAdd 1 : Fin 2 → Fin 3` would leave
+  `var 1` in place and give `∃ x₂, x₀ = x₁ * x₁`, which fails at `(4, 7)`.
 
 ### 1.2 Set-theoretic semantics and homomorphisms
 
@@ -317,10 +329,15 @@ relabelled by `Sum.inr`, and the disjunction of `φ : ι → _` goes to the disj
 `⟨X, x⟩` whose branch is `φ x` when `X = ι` and `⊥` otherwise. Prove
 `GeometricFormula.realize_toInf`: `φ.toInf.Realize Empty.elim x ↔ φ.Realize x`, by induction on
 `φ`, with Tau Ceti's realization lemmas for `⊤`, `⊓`, `ex` and `iSup`.
+
+Prove also, as API, that for `g : Fin n → Fin m` and `x : Fin m → M`,
+`(φ.relabel g).Realize x ↔ φ.Realize (x ∘ g)` (1.1, API), by induction on `φ`, with Mathlib's
+`Term.realize_relabel` at the atomic formulas; under `ex`, `Fin.snoc x a` composed with the
+extension of `g` is `Fin.snoc (x ∘ g) a`.
 *Needs:* 1.1; Mathlib `FirstOrder.Language.Structure`, `Structure.RelMap`, `Term.realize`,
-`Term.relabel`, `Fin.snoc`, `FirstOrder.Language.Hom`, `FirstOrder.Language.Hom.map_fun`,
-`FirstOrder.Language.Hom.map_rel`; Tau Ceti `FirstOrder.Language.BoundedFormulaInf`,
-`FirstOrder.Language.BoundedFormulaInf.Realize`.
+`Term.relabel`, `Term.realize_relabel`, `Fin.snoc`, `FirstOrder.Language.Hom`,
+`FirstOrder.Language.Hom.map_fun`, `FirstOrder.Language.Hom.map_rel`; Tau Ceti
+`FirstOrder.Language.BoundedFormulaInf`, `FirstOrder.Language.BoundedFormulaInf.Realize`.
 
 **Checks.**
 
@@ -342,6 +359,10 @@ relabelled by `Sum.inr`, and the disjunction of `φ : ι → _` goes to the disj
   Ceti's `ex` of the relabelled equation, which binds the last slot by `Fin.snoc` as in
   Convention 2, and is realized at `4` and not at `2` in `ℤ`; relabelling the context into free
   variables would leave `ex` nothing to bind.
+- Weakening keeps the first variables: the weakening of `equal (var 0) 0` to `Fin 2` is
+  `equal (var 0) 0` in context `Fin 2`, realized in `ℤ` at `(0, 5)` and not at `(5, 0)`, since
+  `x ∘ Fin.castAdd 1` is the first coordinate of `x`; a weakening onto the last variable would give
+  `x₁ = 0`, realized at `(5, 0)` and not at `(0, 5)`.
 
 ### 1.3 Structures and models in a category
 
@@ -404,12 +425,24 @@ induction on `φ`; the order of subobjects is preserved because `F` preserves mo
   products, `(M.map F).map G` is `CatStructure.Isomorphic` to `M.map (F ⋙ G)`, both through the
   identity of the carrier and the `piComparison` of a composite;
 - for a left exact left adjoint `F` as above, `M.Isomorphic N` implies
-  `(M.map F).Isomorphic (N.map F)`, since `F` preserves the images that interpret the relations.
+  `(M.map F).Isomorphic (N.map F)`, since `F` preserves the images that interpret the relations;
+- for every structure `M` in `Sheaf K (Type u)` of a small site and every `g : Fin n → Fin m`, with
+  `p : M.pow m ⟶ M.pow n` the map `Pi.lift fun i => Pi.π _ (g i)`:
+  `M.termMap (t.relabel g) = p ≫ M.termMap t`, by induction on `t`, and
+  `M.interp (φ.relabel g) = (Subobject.pullback p).obj (M.interp φ)` (1.1, API), by induction on
+  `φ`. `Subobject.pullback p` preserves `⊤`, `⊓` and equalizers and is functorial in `p`. For
+  `iSup`, it preserves joins, being a frame homomorphism (GrothendieckTopoi 1.2), and the image of
+  the coproduct is the join. For `ex`, the square formed by `p`, the map of the extension of `g`
+  and the two projections of Convention 2 is a pullback, and images are stable under pullback: every
+  epimorphism is the coequalizer of its kernel pair (GrothendieckTopoi 1.2) and such coequalizers
+  are universal (GrothendieckTopoi 1.4).
 
-*Needs:* 1.1, 1.3; GrothendieckTopoi 1.2 (epimorphisms and coproducts in `Sheaf J (Type u)`);
-Mathlib `GrothendieckTopology`, `Sheaf`, `Sheaf.instHasColimitsOfShape`,
-`HasImages (Sheaf J (Type u))`, `HasFiniteProducts`, `piComparison`, `CategoryTheory.inv`,
-`Over.mk`, `PreservesFiniteProducts`, `PreservesFiniteLimits`, `Functor.IsLeftAdjoint`.
+*Needs:* 1.1, 1.3; GrothendieckTopoi 1.2 (epimorphisms, coproducts and the frames of subobjects in
+`Sheaf J (Type u)`), 1.4 (universal coequalizers); Mathlib `GrothendieckTopology`, `Sheaf`,
+`Sheaf.instHasColimitsOfShape`, `HasImages (Sheaf J (Type u))`, `HasFiniteProducts`,
+`piComparison`, `CategoryTheory.inv`, `Over.mk`, `PreservesFiniteProducts`,
+`PreservesFiniteLimits`, `Functor.IsLeftAdjoint`, `Term.relabel`, `Pi.lift`, `Pi.π`,
+`Subobject.pullback`, `Subobject.exists`.
 
 **Checks.**
 
@@ -424,6 +457,11 @@ Mathlib `GrothendieckTopology`, `Sheaf`, `Sheaf.instHasColimitsOfShape`,
 - The degenerate topos (the empty site) has `⊤ = ⊥` in every subobject lattice, so every
   structure there is a model of every theory, `{⊤ ⊢ bot}` included; its image under any left
   exact left adjoint is again in a degenerate topos, consistently with 1.4.
+- The interpretation of a weakening is a preimage. For the structure of `ℤ` in the topos of the
+  one-point site, equivalent to `Type u` (Examples), the weakening of `equal (var 0) 0` to `Fin 2`
+  is interpreted as `{(x₀, x₁) | x₀ = 0}`, the preimage of `{0}` under the first projection
+  `Pi.lift fun i => Pi.π _ (Fin.castAdd 1 i)`: it contains `(0, 5)` and not `(5, 0)`. The pullback
+  along the second projection would be `{(x₀, x₁) | x₁ = 0}`.
 
 ### Examples
 
@@ -434,8 +472,8 @@ Mathlib `GrothendieckTopology`, `Sheaf`, `Sheaf.instHasColimitsOfShape`,
 
 ### Dependencies
 
-Mathlib; Tau Ceti for 1.2; GrothendieckTopoi 1.2 for 1.4 and 2.4 for the Examples. Within the
-layer, each target uses the previous ones.
+Mathlib; Tau Ceti for 1.2; GrothendieckTopoi 1.2 and 1.4 for 1.4, and 2.4 for the Examples. Within
+the layer, each target uses the previous ones.
 
 ## Layer 2: classifying topoi
 
@@ -505,12 +543,17 @@ subject to the atomic formulas of `φ`. Prove:
   GrothendieckTopoi 1.2: meets distribute over joins, and `Subobject.exists` commutes with joins
   (1.2). Images are stable under pullback, since every epimorphism is the coequalizer of its kernel
   pair (1.2) and such coequalizers are universal (GrothendieckTopoi 1.4), so `Subobject.exists`
-  satisfies Frobenius reciprocity and commutes with pullback along projections. The index types
+  satisfies Frobenius reciprocity and commutes with pullback along projections. In the `and` case
+  the two blocks of bound variables are put in one context by `GeometricFormula.relabel` (1.1,
+  API): `θ i` and `θ' j` are relabelled into the context of `n + (m i + m' j)` variables, `θ i`
+  onto the first `n + m i` variables and `θ' j` onto the first `n` and the last `m' j`; both stay
+  Horn, and their interpretations are pullbacks along projections (1.4, API). The index types
   stay in `Type u` (`PUnit`, products, sigma types) (Elephant, D1.3.10, as used in Caramello 2017,
   proof of Theorem 17.6, p. 81).
 
-*Needs:* 1.1, 1.3; GrothendieckTopoi 1.2, 1.4, 2.5; Mathlib `GrothendieckTopology`, `Sheaf`,
-`Term.subst`, `Pi.lift`, `Subobject.pullback`, `Subobject.exists`, `equalizerSubobject`, `AsSmall`.
+*Needs:* 1.1 (API: `GeometricFormula.relabel`), 1.3, 1.4 (API: the interpretation of a relabelled
+formula); GrothendieckTopoi 1.2, 1.4, 2.5; Mathlib `GrothendieckTopology`, `Sheaf`, `Term.subst`,
+`Pi.lift`, `Subobject.pullback`, `Subobject.exists`, `equalizerSubobject`, `AsSmall`.
 
 **Checks.**
 
@@ -528,9 +571,10 @@ subject to the atomic formulas of `φ`. Prove:
   `ℤ[x]/(x² - x)`, the second `ℤ[x]`.
 - In (b), the conclusion of the second new axiom of `localRingTheory` is already in normal form
   (index `ULift Bool`, `m = 1`); `and (ex θ) ψ` has the normal form `ex (and θ ψ')`, with `ψ'` the
-  weakening of `ψ` to `Fin (n + 1)`, by Frobenius reciprocity (in `Type u`,
-  `(∃ y, θ x y) ∧ ψ x ↔ ∃ y, θ x y ∧ ψ x`); a normal form with finite index types would not reach
-  the torsion formula of 1.1.
+  weakening `ψ.relabel (Fin.castAdd 1)` of `ψ` to `Fin (n + 1)` (1.1, API), by Frobenius
+  reciprocity, the interpretation of `ψ'` being the pullback of that of `ψ` along the projection
+  of Convention 2 (1.4, API; in `Type u`, `(∃ y, θ x y) ∧ ψ x ↔ ∃ y, θ x y ∧ ψ x`); a normal form
+  with finite index types would not reach the torsion formula of 1.1.
 
 ### 2.3 Existence: the syntactic site
 
@@ -539,17 +583,20 @@ Prove `exists_isClassifyingSite`: for `L : FirstOrder.Language.{u₁, u₂}` and
 topology `J` and a model `U` with `IsClassifyingSite T J U` (Makkai–Reyes 1977, « Classifying
 topoi », pp. 272–297; Mac Lane–Moerdijk, X.5–X.6, pp. 553–566; Elephant, D3.1). Route: by 2.2 (b),
 each axiom `φ ⊢ ψ` of `T` has the same models in every sheaf topos as the axioms `χ ⊢ ψ'`, for the
-disjuncts `exs χ` of the normal form of `φ` and `ψ'` the weakening of `ψ`, and each of these as
-an axiom `χ ⊢ ⋁ᵢ exs θᵢ` with `χ` and the `θᵢ` Horn (Elephant, D1.3.10, as used in
+disjuncts `exs χ` of the normal form of `φ` and `ψ'` the weakening of `ψ` to the context of `χ`
+(1.1, API), interpreted as the pullback of the interpretation of `ψ` (1.4, API), and each of these
+as an axiom `χ ⊢ ⋁ᵢ exs θᵢ` with `χ` and the `θᵢ` Horn (Elephant, D1.3.10, as used in
 Caramello 2017, proof of Theorem 17.6, p. 81 in the numbering of arXiv:0905.0299v1). Take for `C`
 the classifying category of the empty theory over `L` (2.2), as a small category, for `J` the
 topology generated by the families `(n + mᵢ, θᵢ ∧ χ') ⟶ (n, χ)` of the axioms, given by the first
-`n` variables (`χ'` the weakening of `χ`), and for `U` the sheafification of the representable
+`n` variables (`χ'` the weakening of `χ` to `Fin (n + mᵢ)`), and for `U` the sheafification of the
+representable
 presheaf of `(1, top)`: by 2.2 (a), the `J`-continuous filtering functors on `C` are the
 `T`-models (Caramello 2017, « Lattices of theories », Remark 3.7 in the numbering of
 arXiv:0905.0299v1), and GrothendieckTopoi 2.5 gives the universal property.
-*Needs:* 1.1, 1.3, 2.1, 2.2; GrothendieckTopoi 2.5; Mathlib `GrothendieckTopology`, `Sheaf`,
-`AsSmall`, `yoneda`, `presheafToSheaf`.
+*Needs:* 1.1 (API: `GeometricFormula.relabel`), 1.3, 1.4 (API: the interpretation of a relabelled
+formula), 2.1, 2.2; GrothendieckTopoi 2.5; Mathlib `GrothendieckTopology`, `Sheaf`, `AsSmall`,
+`yoneda`, `presheafToSheaf`.
 
 **Checks.**
 
@@ -1053,7 +1100,8 @@ after the comparisons `piObjIso` and `Types.productIso`, natural because ring ma
 `finitePresentation_of_isFinitelyPresentable`: a commutative ring that is
 `IsFinitelyPresentable.{u}` in `CommRingCat.{u}` is a finitely presented `ℤ`-algebra, the
 converse of `CommRingCat.isFinitelyPresentable_under` over `ℤ` (a finitely presentable ring is a
-retract of a finitely presented one through which its identity factors). Prove
+retract of a finitely presented one through which its identity factors; Stacks Project, Tag 00QO,
+Lemma 10.127.3, (2) ⇒ (1) for `ℤ → S`, directed systems in `Type u` being filtered diagrams). Prove
 `isClassifyingSite_genericRing`: `(FPRing.{u}ᵒᵖ, ⊥, genericRing)` classifies commutative rings
 (Mac Lane–Moerdijk, VIII.5, pp. 437–445, with Proposition 5.1). Route: 3.1, through 2.2 for
 `commRingTheory`: its classifying category is equivalent to `FPRing.{u}ᵒᵖ`, `(n, φ)` going to
@@ -1201,3 +1249,5 @@ type beyond the criteria known for cartesian theories.
   Corollary 4.9).
 - O. Caramello, « Extensions of flat functors and theories of presheaf type », arXiv:1404.4610
   (cited as Caramello 2014, in the numbering of arXiv version 2): §6.4.1 (Remark 6.27).
+- The Stacks Project Authors, *The Stacks Project*, https://stacks.math.columbia.edu, Tag 00QO
+  (Algebra, Lemma 10.127.3).
