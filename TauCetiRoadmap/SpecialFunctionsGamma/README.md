@@ -53,9 +53,10 @@ Suggested home: `TauCeti/Analysis/SpecialFunctions/Gamma/`, beside
 
 The roadmap is complete when Tau Ceti proves all of the following.
 
-1. **Pochhammer symbols, special values and functional relations** (DLMF §5.2(iii), §5.4, §5.5).
-2. **Series and products** (DLMF §§5.7–5.8 without 5.7.6 on `Re z > 0`, 5.8.1 and 5.8.3), and DLMF
-   5.15.1.
+1. **Pochhammer symbols, special values and functional relations** (DLMF §5.2(iii), §5.4 without
+   5.4.7–5.4.10 and 5.4.20, §5.5).
+2. **Series and products** (DLMF §§5.7–5.8 without 5.7.6 on `Re z > 0`, 5.8.1, 5.8.2 and
+   5.8.3), and DLMF 5.15.1.
 3. **Inequalities** (DLMF §5.6 without 5.6.1 and 5.6.9).
 4. **Integral representations of `Γ` and `ψ`** (DLMF §5.9 without 5.9.10–5.9.12 and 5.9.17).
 5. **The Beta function** (DLMF §5.12 without 5.12.1 and 5.12.3).
@@ -161,7 +162,8 @@ the same constants for every `β > 0`.
 **The boundary in one sentence:** this roadmap owns every formula of DLMF §§5.2–5.9 and §§5.12–5.16
 that is not in Mathlib or Tau Ceti, not one of the consumed results above, and not part of the
 explicit Stirling theory (§5.11, 5.6.1, 5.6.9, 5.9.10–5.9.11_2, 5.9.17), the continued fraction
-of §5.10, the decimal values 5.4.7–5.4.10 and the extrema 5.4.20.
+of §5.10, the Weierstrass product 5.8.2, the decimal values 5.4.7–5.4.10 and the extrema
+5.4.20.
 
 ## Conventions
 
@@ -279,8 +281,8 @@ of §5.10, the decimal values 5.4.7–5.4.10 and the extrema 5.4.20.
 
 ### From Mathlib
 
-- `Complex.Gamma`, `Complex.Gamma_eq_integral`, `Complex.Gamma_add_one`,
-  `Complex.Gamma_mul_Gamma_one_sub`, `Complex.Gamma_mul_Gamma_add_half`, `Complex.Gamma_conj`,
+- `Complex.Gamma`, `Complex.Gamma_eq_integral`, `Complex.Gamma_nat_eq_factorial`,
+  `Complex.Gamma_add_one`, `Complex.Gamma_mul_Gamma_one_sub`, `Complex.Gamma_mul_Gamma_add_half`, `Complex.Gamma_conj`,
   `Complex.Gamma_ne_zero`, `Complex.differentiableAt_Gamma`,
   `Complex.differentiable_one_div_Gamma`, `Complex.GammaSeq_tendsto_Gamma`,
   `Complex.Gamma_mul_Gamma_eq_betaIntegral`, `Real.Gamma_nat_add_half`,
@@ -749,8 +751,11 @@ Route: 5.9.13 is 5.9.12 minus the Frullani-type identity
 `1/(e^u − 1) − 1/u + ½ = 2 ∫₀^∞ sin(ut)/(e^{2πt} − 1) dt` (the sine integral of the auxiliary
 table, from the partial-fraction expansion of `coth` via Mathlib's cotangent series) and
 `∫₀^∞ e^{−zu} sin(tu) du = t/(t² + z²)`, by Fubini. 5.9.19 by differentiating 5.2.1 under the
-integral. 5.9.20 by integrating 5.2.1 in `z` and Fubini. 5.9.18 is 5.9.19 at `n = 1`, `z = 1`,
-with `Γ′(1) = −γ`, and 5.9.12–5.9.16 at `z = 1`.
+integral. 5.9.20 by integrating 5.2.1 in `z` and Fubini. In 5.9.18, the first equality is an
+input. The integral over `(0, 1)` minus the integral over `(1, ∞)` follows from it
+by integrating `e^{−t} log t` by parts, against `1 − e^{−t}` on `(0, 1)` and against `−e^{−t}` on
+`(1, ∞)`; the integrals of `(1/(1 + t) − e^{−t})/t` and of `e^{−t}/(1 − e^{−t}) − e^{−t}/t` are
+5.9.16 and 5.9.13 at `z = 1`, with `ψ(1) = −γ`.
 
 *Needs:* AnalyticNumberTheoryPartI §1.8a; AsymptoticExpansions 4.1; Mathlib
 `Real.eulerMascheroniConstant_eq_neg_deriv`, the cotangent partial fractions `cot_series_rep`,
