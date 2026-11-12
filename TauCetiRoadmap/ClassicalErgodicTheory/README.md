@@ -1060,9 +1060,10 @@ Prove the equivalences for a measurable flow on a probability space:
    of `T × T` in Definition 6.1.1, p. 56);
 4. some time-`t` map with `t ≠ 0` is weakly mixing;
 5. every time-`t` map with `t ≠ 0` is weakly mixing (`weakMixingVAdd_real_iff_weakMixing` for
-   1 ⇔ 4 ⇔ 5; Auer2024, Theorem 3, p. 5, for the time-1 map of a continuous action of `ℝ^d` on a
-   metric space, with weak mixing defined as Cesàro decay of `L²₀` correlations, the function form
-   of item 2; rescaling time gives every `t ≠ 0`).
+   1 ⇔ 4 ⇔ 5; Auer2024, Theorem 3, p. 5 of arXiv version 3, for a continuous action of `ℝ^d` on a
+   metric space and its restriction to `ℤ^d`, the time-1 map when `d = 1`, with weak mixing defined
+   as Cesàro decay of `L²₀` correlations, the function form of item 2; rescaling time gives every
+   `t ≠ 0`).
 
 With MathematicalBilliards §12.5, 1 ⇔ 2 gives the eigenfunction criterion: `WeakMixingVAdd ℝ X μ`
 holds iff every eigenfunction is almost everywhere constant, and then its frequency is 0. Route
@@ -2449,8 +2450,9 @@ almost-everywhere flows.
   (2012), Proposition 3.4.2 (ergodic measures as extreme points, §3.4), Proposition 4.5.2
   (unique ergodicity, §5.1) and Corollary 6.6.4 (weak mixing and atomless spectral measures,
   §3.2).
-- M. Auer, [*Weak mixing and sparse equidistribution*](https://arxiv.org/abs/2408.15238),
-  arXiv:2408.15238 (2024), Theorem 3 (weak mixing of the time-1 map of a flow, §3.2).
+- M. Auer, [*Weak mixing and sparse equidistribution*](https://arxiv.org/abs/2408.15238v3),
+  arXiv:2408.15238v3 (2024, revised 2025), Theorem 3, p. 5 (weak mixing of the time-1 map of a
+  flow, §3.2).
 - A. S. Kechris and B. D. Miller, *Topics in Orbit Equivalence*, LNM 1852 (2004),
   Lemma 6.7 (Borel marker sequences).
 - T. Ward and Q. Zhang, *The Abramov–Rokhlin entropy addition formula for amenable group
@@ -2465,7 +2467,8 @@ almost-everywhere flows.
   [research announcement](https://www.ams.org/journals/era/1999-05-12/S1079-6762-99-00065-7/S1079-6762-99-00065-7.pdf),
   Electron. Res. Announc. Amer. Math. Soc. 5 (1999), 82–90, cited by theorem number.
 - N.-P. Chung, [*Topological pressure and the variational principle for actions of sofic groups*](https://doi.org/10.1017/S0143385712000429),
-  Ergodic Theory Dynam. Systems 33 (2013), 1363–1390, §3 (amenable pressure definitions and comparisons);
+  Ergodic Theory Dynam. Systems 33 (2013), 1363–1390, §3 (amenable pressure definitions and comparisons),
+  cited by the theorem and page numbers of [arXiv:1110.0699v3](https://arxiv.org/abs/1110.0699v3) (2012);
   J. Moulin Ollagnier, *Ergodic Theory and Statistical Mechanics*, LNM 1115 (1985), Chapter 5
   (amenable variational principle).
 - L. M. Abramov, *On the entropy of a flow*, Dokl. Akad. Nauk SSSR 128 (1959), 873–875
