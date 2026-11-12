@@ -4,17 +4,21 @@ public import Mathlib
 public import TauCeti.Combinatorics.DenseGraphLimits.Sampling.Finite
 public import TauCeti.Combinatorics.DenseGraphLimits.Sampling.Infinite
 public import TauCeti.Combinatorics.DenseGraphLimits.Sampling.AlmostSure.Basic
+public import TauCeti.Algebra.GroupAction.FiniteSupportPerm
+public import TauCeti.Combinatorics.DenseGraphLimits.ExchangeableGraphLaw.Infinite.Mixture
+public import TauCeti.Combinatorics.SimpleGraph.Connectivity.VertexConnectivity
 public import TauCeti.Combinatorics.SimpleGraph.ExtensionProperty
+public import TauCeti.ModelTheory.Scott.AtomicDiagram
 public import TauCeti.ModelTheory.Scott.RandomGraph
 public import TauCeti.ModelTheory.Infinitary.Semantics
 
 /-!
-# Random graphs, Fraïssé limits, and first-order asymptotic laws: suggested signatures
+# Random graphs, Fraïssé limits, and first-order asymptotic laws: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is README.md.
-These declarations suggest Lean forms for selected definitions and milestones. Discharging every
-declaration here finishes neither a milestone nor the roadmap. The sorry forms are permitted in
-this human-owned roadmap repository: these are proposed targets, not established proofs.
+README.md is the definitive specification. This file states target signatures for its definitions
+and headline theorems; it is not an exhaustive checklist, and discharging every declaration here
+finishes neither a milestone nor the roadmap. The `sorry` forms are proposed targets, not
+established proofs.
 
 Every predicate and definition below has an actual body. Quantifier elimination and the decision
 procedure are stated as existence of computable maps on a fixed structural coding of formulas,
@@ -22,16 +26,17 @@ with their correctness specifications; the README requires executable implementa
 theorems are their prototype contracts. No proposition-valued placeholder names an unstated
 condition.
 
-Names are provisional inside this prototype namespace. Implement general Fraïssé/first-order
-lemmas in the shared native namespaces, and graph lemmas in SimpleGraph as appropriate.
+Implement general Fraïssé/first-order lemmas in the shared native namespaces, and graph lemmas in
+`SimpleGraph` as appropriate.
 Use the existing Tau Ceti EF strategies, back-and-forth relations and graph atomic-type bridge;
 this file does not redeclare those objects. Direct rank-agreement signatures can state the
 endpoint without importing the implementation of those strategies.
 
-The imports consume existing graphon objects and the canonical extension predicate
-`SimpleGraph.HasExtensionProperty`, the Rado graph `TauCeti.radoGraph` and its countable
-characterization `TauCeti.nonempty_iso_radoGraph_iff` from Tau Ceti. The README specifies the
-further shared interfaces needed for implementation.
+The imports consume from Tau Ceti the existing graphon samplers and mixtures, the canonical
+extension predicate `SimpleGraph.HasExtensionProperty`, the Rado graph `TauCeti.radoGraph` and its
+countable characterization `TauCeti.nonempty_iso_radoGraph_iff`, the finite atomic diagrams
+`TauCeti.firstOrderAtomicDiagram`, and vertex connectivity `SimpleGraph.IsVertexConnected`. The
+README specifies the further shared interfaces needed for implementation.
 -/
 
 @[expose] public section
@@ -241,6 +246,17 @@ theorem nonempty_elementaryEmbedding_radoGraph (M : Type w) [Language.graph.Stru
     Nonempty (@ElementaryEmbedding Language.graph ℕ M TauCeti.radoGraph.structure _) := by
   sorry
 
+/-- Primeness after naming a finite tuple: when a tuple of `R` and a tuple of an
+extension-property graph of any cardinality have the same equality and adjacency pattern, some
+elementary embedding of `R` sends the first to the second. -/
+theorem exists_elementaryEmbedding_radoGraph_comp_eq {m : ℕ} (H : SimpleGraph W)
+    (hH : H.HasExtensionProperty) (a : Fin m → ℕ) (b : Fin m → W)
+    (heq : ∀ i j, a i = a j ↔ b i = b j)
+    (hadj : ∀ i j, TauCeti.radoGraph.Adj (a i) (a j) ↔ H.Adj (b i) (b j)) :
+    ∃ e : @ElementaryEmbedding Language.graph ℕ W TauCeti.radoGraph.structure H.structure,
+      ∀ i, e (a i) = b i := by
+  sorry
+
 theorem satisfies_iff_of_extension
     (G : SimpleGraph V) (H : SimpleGraph W) (d : ℕ)
     (hG : HasExtensionUpTo G d) (hH : HasExtensionUpTo H d)
@@ -259,6 +275,18 @@ theorem formula_iff_of_extension {m q : ℕ}
     (hH : HasExtensionUpTo H (m + q - 1))
     (φ : Language.graph.Formula (Fin m)) (hφ : foRank φ ≤ q) :
     SatisfiesFormula G φ a ↔ SatisfiesFormula H φ b := by
+  sorry
+
+/-- The finite axiom set of budget `d`: the simple-graph axioms and the `E_{r,s}` with
+`r + s ≤ d`. -/
+noncomputable def radoAxiomsUpTo (d : ℕ) : Language.graph.Theory :=
+  Language.Theory.simpleGraph ∪ {φ | ∃ r s, r + s ≤ d ∧ φ = extensionSentence r s}
+
+/-- Finite consequences: a sentence of rank at most `d + 1` holds in `R` exactly when it follows
+from the finite axiom set of budget `d`. -/
+theorem radoAxiomsUpTo_models_iff (d : ℕ) (φ : Language.graph.Sentence)
+    (hφ : foRank φ ≤ d + 1) :
+    radoAxiomsUpTo d ⊨ᵇ φ ↔ Satisfies TauCeti.radoGraph φ := by
   sorry
 
 /-! ### Effective syntax for graph formulas
@@ -374,6 +402,17 @@ noncomputable def radoTruth (φ : Language.graph.Sentence) : ℝ := by
   classical
   exact if Satisfies TauCeti.radoGraph φ then 1 else 0
 
+/-- Atomic isolation in Mathlib's type space: the basic open set of a tuple's finite diagram
+(Tau Ceti's `firstOrderAtomicDiagram`, its bound positions made free) is the singleton of the
+tuple's complete type. Equality patterns count: in `R` the pairs `(0, 0)` and `(0, 1)` have
+different diagrams and isolate different types. -/
+theorem typesWith_firstOrderAtomicDiagram_eq_singleton {M : Type w} [Language.graph.Structure M]
+    [Nonempty M] [M ⊨ radoAxioms] {m : ℕ} (a : Fin m → M) :
+    radoAxioms.typesWith (Formula.equivSentence
+        ((TauCeti.firstOrderAtomicDiagram a).toFormula.relabel (Sum.elim Empty.elim id))) =
+      {radoAxioms.typeOf a} := by
+  sorry
+
 /-! ## Witness counts and explicit error profiles (Milestones 6–7) -/
 
 def witnessProbability (p : I) (r s : ℕ) : ℝ :=
@@ -441,6 +480,15 @@ theorem firstOrder_limit_varying_bounded_rank
     Tendsto (fun n => sentenceProbability (p n) n φ) atTop (𝓝 (radoTruth φ)) := by
   sorry
 
+/-- All-rank varying parameters: `min (p n) (1 - p n)` decays more slowly than every power of
+`n`. The parameters need not converge. -/
+theorem firstOrder_limit_varying (p : ℕ → I)
+    (hp : ∀ a : ℝ, 0 < a →
+      Tendsto (fun n : ℕ => (n : ℝ) ^ a * min (p n : ℝ) (1 - (p n : ℝ))) atTop atTop)
+    (φ : Language.graph.Sentence) :
+    Tendsto (fun n => sentenceProbability (p n) n φ) atTop (𝓝 (radoTruth φ)) := by
+  sorry
+
 /-- A single probability space; no independence across sample sizes. -/
 theorem ae_eventually_all_bounded_rank
     {Ω : Type w} [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabilityMeasure μ]
@@ -448,6 +496,20 @@ theorem ae_eventually_all_bounded_rank
     (X : ∀ n : ℕ, Ω → SimpleGraph (Fin n))
     (hX : ∀ n, Measurable (X n))
     (hlaw : ∀ n, μ.map (X n) = SimpleGraph.binomialRandom (Fin n) p) :
+    ∀ᵐ ω ∂μ, ∀ d : ℕ, ∀ᶠ n : ℕ in atTop,
+      ∀ φ : Language.graph.Sentence, foRank φ ≤ d + 1 →
+        (Satisfies (X n ω) φ ↔ Satisfies TauCeti.radoGraph φ) := by
+  sorry
+
+/-- The joint statement for varying parameters under the all-rank condition. -/
+theorem ae_eventually_all_bounded_rank_varying
+    {Ω : Type w} [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabilityMeasure μ]
+    (p : ℕ → I)
+    (hp : ∀ a : ℝ, 0 < a →
+      Tendsto (fun n : ℕ => (n : ℝ) ^ a * min (p n : ℝ) (1 - (p n : ℝ))) atTop atTop)
+    (X : ∀ n : ℕ, Ω → SimpleGraph (Fin n))
+    (hX : ∀ n, Measurable (X n))
+    (hlaw : ∀ n, μ.map (X n) = SimpleGraph.binomialRandom (Fin n) (p n)) :
     ∀ᵐ ω ∂μ, ∀ d : ℕ, ∀ᶠ n : ℕ in atTop,
       ∀ φ : Language.graph.Sentence, foRank φ ≤ d + 1 →
         (Satisfies (X n ω) φ ↔ Satisfies TauCeti.radoGraph φ) := by
@@ -492,6 +554,58 @@ theorem rooted_firstOrder_limit {m : ℕ} (p : I)
   classical
   sorry
 
+/-- The unconditioned fixed-tuple limit, a finite mixture over the root patterns `H`, each placed
+in `R` by a chosen copy `a H`. For `φ = Adj(x₀, x₁)` the limit is `p`. -/
+theorem firstOrder_limit_firstVertices {m : ℕ} (p : I)
+    (hp0 : 0 < (p : ℝ)) (hp1 : (p : ℝ) < 1)
+    (a : ∀ H : SimpleGraph (Fin m), H ↪g TauCeti.radoGraph)
+    (φ : Language.graph.Formula (Fin m)) :
+    Tendsto (fun n => (SimpleGraph.binomialRandom (Fin (m + n)) p
+        {G | SatisfiesFormula G φ (firstVertices m n)}).toReal) atTop
+      (𝓝 (∑ H : SimpleGraph (Fin m), (p : ℝ) ^ H.edgeSet.ncard *
+        (1 - (p : ℝ)) ^ (m.choose 2 - H.edgeSet.ncard) * rootedTruth φ (a H))) := by
+  sorry
+
+/-! ## Graph properties (Milestone 8.2) -/
+
+/-- Every fixed finite graph occurs as an induced subgraph asymptotically almost surely. -/
+theorem tendsto_binomialRandom_nonempty_embedding {k : ℕ} (p : I)
+    (hp0 : 0 < (p : ℝ)) (hp1 : (p : ℝ) < 1) (F : SimpleGraph (Fin k)) :
+    Tendsto (fun n => (SimpleGraph.binomialRandom (Fin n) p {G | Nonempty (F ↪g G)}).toReal)
+      atTop (𝓝 1) := by
+  sorry
+
+/-- Cliques and independent sets of each fixed size, in Mathlib's clique vocabulary. -/
+theorem tendsto_binomialRandom_not_cliqueFree (p : I)
+    (hp0 : 0 < (p : ℝ)) (hp1 : (p : ℝ) < 1) (k : ℕ) :
+    Tendsto (fun n => (SimpleGraph.binomialRandom (Fin n) p
+        {G | ¬ G.CliqueFree k ∧ ¬ Gᶜ.CliqueFree k}).toReal) atTop (𝓝 1) := by
+  sorry
+
+open scoped Classical in
+/-- Every vertex has at least `k` neighbours and at least `k` nonneighbours. -/
+theorem tendsto_binomialRandom_le_degree (p : I)
+    (hp0 : 0 < (p : ℝ)) (hp1 : (p : ℝ) < 1) (k : ℕ) :
+    Tendsto (fun n => (SimpleGraph.binomialRandom (Fin n) p
+        {G | ∀ v, k ≤ G.degree v ∧ k ≤ Gᶜ.degree v}).toReal) atTop (𝓝 1) := by
+  sorry
+
+/-- The graph and its complement have diameter exactly `2` (so both are connected): the
+common-neighbour bound and an exhibited nonedge. -/
+theorem tendsto_binomialRandom_diam_eq_two (p : I)
+    (hp0 : 0 < (p : ℝ)) (hp1 : (p : ℝ) < 1) :
+    Tendsto (fun n => (SimpleGraph.binomialRandom (Fin n) p
+        {G | G.diam = 2 ∧ Gᶜ.diam = 2}).toReal) atTop (𝓝 1) := by
+  sorry
+
+/-- Vertex connectivity at least `k`, in Tau Ceti's `IsVertexConnected` convention (more than `k`
+vertices, and connected after deleting fewer than `k`). -/
+theorem tendsto_binomialRandom_isVertexConnected (p : I)
+    (hp0 : 0 < (p : ℝ)) (hp1 : (p : ℝ) < 1) (k : ℕ) :
+    Tendsto (fun n => (SimpleGraph.binomialRandom (Fin n) p
+        {G | G.IsVertexConnected k}).toReal) atTop (𝓝 1) := by
+  sorry
+
 /-! ## Infinite laws and existing graphon samplers (Milestone 9) -/
 
 open TauCeti.DenseGraphLimits
@@ -530,6 +644,14 @@ theorem graphon_firstOrder_limit (K : Graphon Ω μ)
       atTop (𝓝 (radoTruth φ)) := by
   sorry
 
+/-- For a fixed graphon, a measurable event invariant under the finitely supported permutations
+of `ℕ` has probability `0` or `1`. -/
+theorem infiniteSampleLaw_zero_one_of_invariant (K : Graphon Ω μ)
+    (S : Set (SimpleGraph ℕ)) (hS : MeasurableSet S)
+    (hinv : ∀ g ∈ Equiv.Perm.finitary ℕ, ∀ G : SimpleGraph ℕ, G.comap ⇑g ∈ S ↔ G ∈ S) :
+    infiniteSampleLaw K S = 0 ∨ infiniteSampleLaw K S = 1 := by
+  sorry
+
 /-- An infinite-law theorem; it has no finite-sample convergence conclusion. -/
 theorem infiniteSampleLaw_sentence_zero_one (K : Graphon Ω μ)
     (φ : Language.graph.Sentence) :
@@ -538,6 +660,14 @@ theorem infiniteSampleLaw_sentence_zero_one (K : Graphon Ω μ)
   sorry
 
 end Graphons
+
+/-- Evaluated mixtures: under the graphon mixture with mixing measure `P`, the probability of a
+sentence is the `P`-integral of its probabilities under the graphon samples, each `0` or `1`. -/
+theorem bind_infiniteSampleLawOnSpace_satisfies (P : ProbabilityMeasure GraphonSpaceI)
+    (φ : Language.graph.Sentence) :
+    (P : Measure GraphonSpaceI).bind infiniteSampleLawOnSpace {G | Satisfies G φ} =
+      ∫⁻ x, infiniteSampleLawOnSpace x {G | Satisfies G φ} ∂(P : Measure GraphonSpaceI) := by
+  sorry
 
 /-- Real division by zero gives value zero at n = 0, 1. -/
 noncomputable def windowEdgeDensity (G : SimpleGraph ℕ) (n : ℕ) : ℝ :=
