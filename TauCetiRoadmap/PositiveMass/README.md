@@ -29,15 +29,15 @@ identification, with its naturality for exhaustions;
 spinors at infinity and the boundary mass identity; doubled Callias operators
 with chiral boundary conditions; and the localized Callias argument for one AE end.
 
-It also owns three closed-manifold conformal inputs that its compact
-obstruction uses, stated in Layer 0 and Layer 3: the pointwise scalar-curvature
-law of a metric `φ^(4/(n−2)) g`, the positive first eigenfunction of a
-Schrödinger operator on a closed connected manifold, and the metric of positive
-scalar curvature obtained from it. They are derived from RiemannianGeometry R1's
-law for `e^(2u) g` and from the form realizations below. The Yamabe roadmap, a
-consumer of Layer 8, plans the same closed-manifold facts inside its variational
-theory; the facts this roadmap uses are owned here so that supply runs in one
-direction.
+It also owns two closed-manifold conformal inputs that its compact obstruction
+uses, stated in Layer 0 and Layer 3: the pointwise scalar-curvature law of a
+metric `φ^(4/(n−2)) g`, derived from RiemannianGeometry R1's law for `e^(2u) g`,
+and the metric of positive scalar curvature obtained from a positive first
+eigenfunction. The positive first eigenfunction of a Schrödinger operator on a
+closed connected manifold is RiemannianGeometry R5c's, consumed in 3.0. The
+Yamabe roadmap, a consumer of Layer 8, plans the same closed-manifold facts inside
+its variational theory; the facts this roadmap uses are owned here or in
+RiemannianGeometry, so that supply runs in one direction.
 
 It leaves to other roadmaps:
 
@@ -142,7 +142,10 @@ isometry, without assuming simple connectedness). R4.3, R4.6: covering criterion
 and cut locus. R5a–R5b: Gauss equation, first and second variation, the
 full-scalar stability identity `∫(2|dφ|²+Scal_Σ φ²) ≥ ∫(Scal_M+|A|²)φ²` with its
 compact-support and two-sidedness hypotheses, and the normal-Jacobi Dirichlet
-realization. R7.8: smooth Lipschitz approximation of distance functions. R8.1–R8.2:
+realization. R5c item 1: on a closed connected manifold, for smooth q, the lowest
+eigenvalue μ₁ of `Δ⁺ + q` is the least Rayleigh quotient `(∫|∇u|²+∫qu²)/∫u²` and is
+simple, with a smooth positive eigenfunction. R7.8: smooth Lipschitz approximation of
+distance functions. R8.1–R8.2:
 scalar spherical harmonics and their completeness in the compact L² realization.
 
 ### From TauCetiRoadmap.RiemannianGeometry.Surfaces (on main)
@@ -668,15 +671,15 @@ G6's smooth codimension-one regularity applies.
 For a closed connected smooth Riemannian k-manifold, a constant a>0 and a smooth
 potential V, realize `L = aΔ⁺ + V` through UnboundedOperators UO-D06 and
 VariationalMethods V5.1 with ComplexKahlerGeometry K5a's closed-base domain
-comparison. Prove that its lowest eigenvalue λ₁ is the infimum of the Rayleigh
-quotient, simple, with a smooth eigenfunction that can be chosen positive: a
-minimizer u gives the minimizer |u|, smooth by K5a's regularity, and positive by
-the strong maximum principle of PDE 3.2 (C13). For k≥3, if λ₁(a_k Δ⁺ + Scal) > 0 with
+comparison. Its lowest eigenvalue `λ₁ = aμ₁(Δ⁺ + V/a)` is the infimum of the
+Rayleigh quotient, simple, with a smooth positive eigenfunction, by RiemannianGeometry
+R5c item 1, since `aΔ⁺ + V = a(Δ⁺ + V/a)` has the eigenfunctions of `Δ⁺ + V/a` and
+a times its Rayleigh quotient. For k≥3, if λ₁(a_k Δ⁺ + Scal) > 0 with
 positive eigenfunction φ, then by 0.4 the metric `φ^(4/(k−2)) g` has scalar curvature
 `λ₁ φ^(−4/(k−2)) > 0` (Lee–Parker, Theorem 2.6, Theorem 4.1 and its proof).
 
 *Needs:* UnboundedOperators UO-D06; VariationalMethods V2.3, V5.1;
-ComplexKahlerGeometry K5a; PDE 3.2 (C13); 0.4.
+ComplexKahlerGeometry K5a; RiemannianGeometry R5c item 1; 0.4.
 
 **Checks.**
 
@@ -845,11 +848,10 @@ as the model closed manifold of the obstruction.
 
 ### Dependencies
 
-Layers 0–2; GeometricCurrents G1–G7; RiemannianGeometry R1, R5a–R5b;
+Layers 0–2; GeometricCurrents G1–G7; RiemannianGeometry R1, R5a–R5c;
 RiemannianGeometry/Surfaces S3; AlgebraicTopology Stages 2–3, 6–7; DifferentialGeometry
 2, 10, 12.2–12.5; GeometricTopology, smoothing-and-triangulation comparison, item 1;
-UnboundedOperators UO-D06; VariationalMethods V2.3, V5.1; ComplexKahlerGeometry K5a;
-PDE 3.2 (C13).
+UnboundedOperators UO-D06; VariationalMethods V2.3, V5.1; ComplexKahlerGeometry K5a.
 
 ## Layer 4: spinors at infinity and the boundary mass identity
 
