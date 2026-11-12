@@ -82,10 +82,10 @@ Layer 5; the well-order results use Layers 0–3 and the easy direction of Lópe
 5. **Borel.** "Borel" means `MeasurableSet` for the product σ-algebra. Under the countability
    hypotheses the `BorelSpace` instance identifies it with the Borel σ-algebra of the Polish
    topology; state results as `MeasurableSet` and let the instance do the identification. With
-   uncountably many relation symbols the two differ: the topology is compact but not metrizable,
-   and its Borel σ-algebra is strictly larger (a single code is closed but depends on uncountably
-   many coordinates). Every statement here, including López–Escobar for arbitrary relational
-   languages, means the product σ-algebra.
+   uncountably many atoms (for instance uncountably many relation symbols on the carrier `ℕ`) the
+   two differ: the topology is compact but not metrizable, and its Borel σ-algebra is strictly
+   larger (a single code is closed but depends on uncountably many coordinates). Every statement
+   here, including López–Escobar for arbitrary relational languages, means the product σ-algebra.
 6. **Invariance.** Action invariance of `B` is Mathlib's
    `MulAction.IsFixedBlock (Equiv.Perm α) B`: `σ • B = B` for every `σ`, equivalently
    `(σ • ·) ⁻¹' B = B`. Mathlib's `isInvariantBlock_iff_isFixedBlock` identifies it with the
