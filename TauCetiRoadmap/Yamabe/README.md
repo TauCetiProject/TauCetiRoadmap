@@ -40,7 +40,7 @@ two incompatible metric instances on the same carrier.
 
 | Supplier | Interface used |
 | --- | --- |
-| [RiemannianGeometry R1–R4,R7](../RiemannianGeometry/README.md) | Levi-Civita connection, full scalar curvature, general conformal-change formulas, geodesics/normal coordinates and density, comparison geometry and Bochner identities. The conformal-Laplacian specialization, normal-coordinate normalization and Obata arguments are targets here. |
+| [RiemannianGeometry R1–R4,R5c,R7](../RiemannianGeometry/README.md) | Levi-Civita connection, full scalar curvature, general conformal-change formulas, geodesics/normal coordinates and density, comparison geometry and Bochner identities; R5c item 1, the simple lowest eigenvalue of `Δ⁺+q` on a closed connected manifold with its smooth positive eigenfunction, the least Rayleigh quotient. The conformal-Laplacian specialization, normal-coordinate normalization and Obata arguments are targets here. |
 | [PDE Lanes A,C–E](../PDE/README.md) | Euclidean weak Sobolev spaces, smooth density, extension, compact embedding below the critical exponent, maximum/Harnack principles, linear elliptic existence and local/boundary estimates. Y1–Y3 construct the closed-manifold, critical and conformal-Laplacian bridges explicitly. |
 | [DifferentialGeometry 12.2–12.5](../DifferentialGeometry/README.md) | Generic manifold gradient, divergence, Laplace–Beltrami, integration by parts, density and volume comparison, together with its tensor/partition/integration foundations. Y0 owns their conformal transformation, not replacement operators. |
 | [ComplexKahlerGeometry K5a](../ComplexKahlerGeometry/README.md) | Generic finite-rank real/complex bundle distributions, all-real-order Hilbert Sobolev scales, realification, compact Rellich, Laplace-type regularity and geometric L² realization. These are written supplier targets, and Y1 uses their real rank-one specialization. |
@@ -130,9 +130,9 @@ zero-mass compactification even in dimensions3–5.
    and smooth spectral decomposition. Prove that L_g and a sufficiently
    positive shift satisfy those exact operator/form hypotheses, and
    identify its native coefficient, domain and quadratic form. Obtain
-   the variational first eigenvalue and prove positivity/simplicity of
-   its first eigenfunction on
-   connected M and the exact maximum-principle consequences when λ₁>0.
+   the first eigenvalue `λ₁(L_g)=a_n μ₁(Δ⁺+Scal_g/a_n)` and the simple
+   positive first eigenfunction on connected M from RiemannianGeometry
+   R5c item 1, and prove the exact maximum-principle consequences when λ₁>0.
    The scalar potential need not be nonnegative for the spectral construction.
 3. Establish the local Lp, Schauder, Harnack and strong maximum estimates
    used below with quantitative dependence on metric coefficients and
