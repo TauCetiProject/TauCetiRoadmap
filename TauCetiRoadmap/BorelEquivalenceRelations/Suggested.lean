@@ -1,32 +1,5 @@
 import Mathlib
-import TauCeti.Topology.Perfect
-import TauCeti.Topology.Baire.Perfect
-import TauCeti.Topology.Baire.KuratowskiUlam
-import TauCeti.Topology.Baire.Mycielski
-import TauCeti.Topology.Baire.BaireMeasurableMap
-import TauCeti.Topology.Instances.CantorSpace
-import TauCeti.Topology.MetricSpace.Perfect
-import TauCeti.Topology.MetricSpace.Polish.GDelta
-import TauCeti.Topology.MetricSpace.Polish.Pi
-import TauCeti.Data.Set.Countable
-import TauCeti.MeasureTheory.MeasurableSpace.Card
-import TauCeti.MeasureTheory.MeasurableSpace.Graph
-import TauCeti.MeasureTheory.Constructions.Polish.Analytic
-import TauCeti.MeasureTheory.Constructions.Polish.GDelta
-import TauCeti.MeasureTheory.Constructions.Polish.Graph
-import TauCeti.MeasureTheory.Constructions.Polish.Perfect
-import TauCeti.SetTheory.Descriptive.Antichain
-import TauCeti.SetTheory.Descriptive.CantorScheme
-import TauCeti.SetTheory.Descriptive.GSGraph
-import TauCeti.SetTheory.Descriptive.BorelColoring
-import TauCeti.SetTheory.Descriptive.InvariantSeparation
-import TauCeti.SetTheory.Descriptive.SmallFamily.Basic
-import TauCeti.SetTheory.Descriptive.SmallFamily.WitnessExtension
-import TauCeti.SetTheory.Descriptive.GZeroDichotomy
-import TauCeti.SetTheory.Descriptive.Silver
 import TauCeti.SetTheory.Descriptive.BorelReducibility
-import TauCeti.SetTheory.Descriptive.EZero
-import TauCeti.SetTheory.Descriptive.NormalForms
 
 /-!
 # Borel equivalence relations, the G₀ dichotomy and Silver's theorem: suggested signatures
@@ -46,8 +19,8 @@ antichain vocabulary `Setoid.HasCantorAntichainOn`, `Setoid.HasPerfectAntichainO
 `SetRel.HasCountableBorelColoring` and the Kechris–Solecki–Todorcevic lemma, invariant Lusin
 separation, Miller's ideal `SetRel.IsSmallFamily`, the G₀ dichotomy `SimpleGraph.g0_dichotomy`,
 Silver's theorem `Setoid.silver_dichotomy` in all its forms, `Setoid.BorelReducible`,
-`Setoid.IsSmooth` and `TauCeti.eZero`. This file imports the modules the README's *From Tau Ceti*
-table names, consumes them and does not restate them; the README names each declaration.
+`Setoid.IsSmooth` and `TauCeti.eZero`. The README names each consumed Tau Ceti declaration and
+its module.
 
 What remains are the two statements below, stated on Tau Ceti's carriers. Names and namespaces
 are provisional.
