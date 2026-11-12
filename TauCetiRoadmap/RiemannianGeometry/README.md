@@ -777,7 +777,9 @@ The following contracts specify each supplier and section consumed.
 - [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md), K5a: real/complex
   bundle Sobolev/Rellich, distributional regularity and global estimates for
   smooth Laplace-type systems, the formal-adjoint L² comparison, compact resolvent, Green operator,
-  real de Rham Hodge theorem and harmonic representatives. This roadmap owns
+  real de Rham Hodge theorem and harmonic representatives, and, for R5c, the
+  extension of smooth functions across a smooth boundary by a collar and the
+  half-space Seeley extension. This roadmap owns
   curvature identities and their geometric consequences, not another Hodge or
   bundle L² construction. [PDE](../PDE/README.md) supplies scalar weak-derivative,
   extension and elliptic estimates through K5a. The vector-valued
@@ -3738,11 +3740,13 @@ R5b's Dirichlet realization is stated for a bundle with a metric connection of
 SmoothBundlesConnections B2–B4 and for P1.0's connection Laplacian.
 R5c uses R5b's Dirichlet realization with its PDE and Tau Ceti inputs, PDE
 A3, A4 and A6, C13's strong maximum principle and E20's global regularity,
-ComplexKahlerGeometry K5a on closed manifolds, VariationalMethods 3.1 and
+ComplexKahlerGeometry K5a on closed manifolds and its Seeley extension across a
+boundary, VariationalMethods 3.1 and
 4.1–4.4 for the ordered eigenvalues and the min–max principle,
 PseudodifferentialOperators
 P1.0's connection Laplacian, SmoothBundlesConnections B2–B4, GeometricTopology
-Layer 1's tubular neighbourhoods and collars, and Tau Ceti's Laplace–Beltrami
+Layer 1's tubular neighbourhoods, collars (§1.1) and gluing along the boundary
+(§1.3), and Tau Ceti's Laplace–Beltrami
 operator,
 Green identities, Sobolev truncation and extension by zero.
 
