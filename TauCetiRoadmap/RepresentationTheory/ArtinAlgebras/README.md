@@ -28,8 +28,8 @@ This roadmap owns:
 - Krull-Schmidt categories in general: the local-endomorphism-ring characterization of
   indecomposables, idempotent completeness, uniqueness of decompositions, the recognition theorem for
   Hom-finite categories over a commutative Artinian ring with its summand decomposition by
-  idempotents, closure properties, additive generators, and the matrix description of Tau Ceti's
-  radical ideal (Layer 0);
+  idempotents, closure properties, additive generators with their description by indecomposables,
+  and the matrix description of Tau Ceti's radical ideal (Layer 0);
 - finitely presented functors on an additive category, the Freyd-Auslander criterion, the
   comparison with finitely presented modules, projective dimension at most two, and projective
   covers of finitely generated functors (Layer 1);
@@ -45,8 +45,8 @@ This roadmap owns:
 - the Harada-Sai lemma with its bound on the nilpotency of the radical, Auslander's theorem, the
   first Brauer-Thrall conjecture and the infinite radical (Layer 6);
 - projectivization, Morita theory for Artin algebras, Auslander's theorems on the global dimension
-  of noncommutative rings, dominant dimension, and the Morita-Tachikawa and Auslander
-  correspondences (Layer 7).
+  of noncommutative rings, generators and cogenerators of `mod A`, dominant dimension, and the
+  Morita-Tachikawa and Auslander correspondences (Layer 7).
 
 The generality is fixed: the base is a commutative Artinian ring `R`, never only a field, and the
 categorical results are stated for arbitrary preadditive, additive or exact categories, never only
@@ -108,15 +108,19 @@ almost-split conflations), `TauCeti/RingTheory/Matlis/`, and
 ## Conventions
 
 1. `R` is a commutative Artinian ring. An **Artin `R`-algebra** is `[Ring A] [Algebra R A]
-   [Module.Finite R A]`. Modules are left modules, and `mod A` is `FGModuleCat A`. No statement
-   assumes `[IsAlgClosed k]`.
+   [Module.Finite R A]`. Modules are left modules, and `mod A` is `FGModuleCat A`. A **generator**
+   (**cogenerator**) of `mod A` is a separator (coseparator) of `FGModuleCat A`, Mathlib's
+   `CategoryTheory.IsSeparator` (`CategoryTheory.IsCoseparator`). No statement assumes
+   `[IsAlgClosed k]`.
 2. A category `C` is **Hom-finite over `R`** when it is `R`-linear (`Linear R C`) and every
    `X ⟶ Y` is a finitely generated `R`-module. Where only endomorphisms are used, the hypothesis is
    stated for `X ⟶ X` alone.
 3. A **Krull-Schmidt category** is a preadditive category with finite biproducts in which every
    object is isomorphic to a finite biproduct of objects with local endomorphism rings. The zero
-   object is the empty biproduct. An **additive generator** is an object of which every
-   indecomposable object is a direct summand. "Direct summand" is Mathlib's `Retract`.
+   object is the empty biproduct. An **additive generator** of a preadditive category `C` with
+   finite biproducts is an object `G` with `add G = C`: every object is a direct summand of a finite
+   biproduct of copies of `G`. In a Krull-Schmidt category this says that every indecomposable
+   object is a direct summand of `G` (0.5). "Direct summand" is Mathlib's `Retract`.
 4. For an additive category `C`, a **finitely presented functor** is an additive functor
    `F : Cᵒᵖ ⥤ AddCommGrpCat` with an exact sequence `(-, X) → (-, Y) → F → 0` of representable
    functors (`preadditiveYoneda`); `mod C` is the full subcategory they form. For `X` with local
@@ -156,16 +160,19 @@ The baseline is Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti
   `CategoryTheory.Limits.HasFiniteBiproducts`, `CategoryTheory.Indecomposable`,
   `CategoryTheory.IsIdempotentComplete`, `CategoryTheory.Idempotents.Karoubi`,
   `CategoryTheory.Retract`, `CategoryTheory.Skeleton`, `CategoryTheory.ObjectProperty.FullSubcategory`,
-  `CategoryTheory.Limits.HasWeakKernels`, `CategoryTheory.preadditiveYoneda`, `AddCommGrpCat`.
+  `CategoryTheory.Limits.HasWeakKernels`, `CategoryTheory.preadditiveYoneda`, `AddCommGrpCat`,
+  `CategoryTheory.IsSeparator`, `CategoryTheory.IsCoseparator`.
 - Homological algebra: `CategoryTheory.ShortComplex` with `ShortComplex.Exact` and
   `ShortComplex.ShortExact`, `CategoryTheory.Abelian.Ext` with `ShortComplex.ShortExact.extClass`,
   `CategoryTheory.Projective`, `CategoryTheory.Injective`, `CategoryTheory.EnoughProjectives`,
   `CategoryTheory.EnoughInjectives`, `CategoryTheory.projectiveDimension`,
   `CategoryTheory.HasProjectiveDimensionLE`, `CategoryTheory.HasProjectiveDimensionLT`.
-- Modules and rings: `ModuleCat`, `FGModuleCat`, `Module.Finite`, `Module.End`, `IsLocalRing`,
-  `Ring.jacobson`, `IsArtinianRing` with `IsArtinianRing.quotNilradicalPowEquivPi`,
-  `IsNoetherianRing`, `IsSemiprimaryRing`, `IsFiniteLength`, `Module.length`, `MulOpposite`,
-  `LinearMap.applyₗ`, the scoped `ModuleCat.Algebra` instances.
+- Modules and rings: `ModuleCat`, `FGModuleCat` (with finite biproducts from its finite colimits,
+  `CategoryTheory.Limits.HasFiniteBiproducts.of_hasFiniteCoproducts`), `Module.Finite`,
+  `Module.End`, `IsLocalRing`, `Ring.jacobson`, `IsArtinianRing` with
+  `IsArtinianRing.quotNilradicalPowEquivPi`, `IsNoetherianRing`, `IsSemiprimaryRing`,
+  `IsFiniteLength`, `Module.length`, `MulOpposite`, `LinearMap.applyₗ`, the scoped
+  `ModuleCat.Algebra` instances.
 - Morita theory: `MoritaEquivalence`, `IsMoritaEquivalent` and `IsMoritaEquivalent.matrix`.
 - Quivers: `Quiver`, `Quiver.WeaklyConnectedComponent`.
 
@@ -453,12 +460,30 @@ modules over an arbitrary ring, and pointwise finite-dimensional representations
 are Krull-Schmidt; the module and quiver cases recover `TauCeti.exists_indecomposable_iso_biproduct`
 and `TauCeti.QuiverRep.exists_equiv_iso_of_iso_biproduct`.
 
-**Additive generators** (`IsAdditiveGenerator`, in `Suggested.lean` for `mod A`). An object
-having every indecomposable object as a direct summand. API: additive generators are invariant under
-isomorphism and under adding direct summands; a Krull-Schmidt category has an additive generator
-exactly when it has finitely many isomorphism classes of indecomposable objects, and the sum of one
-indecomposable from each class is one (by uniqueness, 0.3; [Kr, Thm. 4.2, p. 9]); an equivalence of categories carries additive generators to
-additive generators.
+**Additive generators** (`IsAdditiveGenerator`, in `Suggested.lean`). In a preadditive category
+`C` with finite biproducts, an object `G` with `add G = C`: every object is a direct summand of a
+finite biproduct of copies of `G`. Here `add G` is Tau Ceti's `TauCeti.additiveClosure G`
+(`TauCeti.CategoryTheory.Preadditive.AdditiveClosure`, later than the pinned revision), the
+retracts of the `Gⁿ`, with `TauCeti.additiveClosure_iff` unfolding it; so `add G = C` is
+`∀ X, TauCeti.additiveClosure G X`, and `Suggested.lean` states its unfolding. In a
+Krull-Schmidt category this is equivalent to every indecomposable object being a direct summand of
+`G` (`isAdditiveGenerator_iff_forall_indecomposable`, in `Suggested.lean`): every object is a finite
+biproduct of indecomposables, and an indecomposable direct summand of a biproduct of copies of `G`
+has a local endomorphism ring, so by uniqueness of decompositions (0.3; [Kr, Thm. 4.2, p. 9]) it
+is isomorphic to a summand in a decomposition of `G`. Outside Krull-Schmidt categories the
+indecomposable form is not the right notion (see the checks). API: additive generators are
+invariant under isomorphism and under adding direct summands; a Krull-Schmidt category has an
+additive generator exactly when it has finitely many isomorphism classes of indecomposable
+objects, and the sum of one indecomposable from each class is one (by uniqueness, 0.3; [Kr, Thm.
+4.2, p. 9]); an equivalence of categories carries additive generators to additive generators.
+Layer 7 uses the predicate in `mod A`, as `IsAdditiveGenerator (C := FGModuleCat A) M`.
+
+Tau Ceti's `TauCeti.IsAdditiveGenerator`
+(`TauCeti.CategoryTheory.Preadditive.KrullSchmidt.AdditiveGenerator`, also later than the pinned
+revision) is defined by the indecomposable form, in a preadditive category with binary biproducts.
+A target here: redefine `TauCeti.IsAdditiveGenerator G` as `∀ X, TauCeti.additiveClosure G X`,
+prove the Krull-Schmidt equivalence with the indecomposable form, and restate its API for the new
+definition.
 
 **Checks.**
 
@@ -467,9 +492,13 @@ additive generators.
   generator.
 - `mod` of the Kronecker algebra over a field has infinitely many indecomposables up to isomorphism
   and no additive generator.
+- In `ModuleCat k`, all vector spaces over a field, which is not Krull-Schmidt, every
+  indecomposable object is isomorphic to `k`, so `k` satisfies the indecomposable form; but `k` is
+  not an additive generator, since an infinite-dimensional space is not a direct summand of `kⁿ`.
 
-*Needs:* 0.2's `IsKrullSchmidt`, 0.4's `isKrullSchmidt_of_module_finite`; Mathlib `Skeleton`,
-`CategoryTheory.Retract`; Tau Ceti `TauCeti.exists_indecomposable_iso_biproduct`.
+*Needs:* 0.2's `IsKrullSchmidt`, 0.3's uniqueness, 0.4's `isKrullSchmidt_of_module_finite`; Mathlib
+`Skeleton`, `CategoryTheory.Retract`, `CategoryTheory.Limits.biproduct`; Tau Ceti
+`TauCeti.exists_indecomposable_iso_biproduct`.
 
 ### 0.6 The radical as a morphism ideal
 
@@ -986,11 +1015,13 @@ Tau Ceti `TauCeti.ExactStructure.InjectiveStableCategory`.
 **Almost-split sequences** (`exists_isAlmostSplit`, in `Suggested.lean`). For every indecomposable
 non-projective finitely generated module `M` there is an almost-split sequence `0 → τ M → Y → M → 0`
 in `mod A`, unique up to isomorphism (`CategoryTheory.ShortComplex.IsAlmostSplit.nonempty_iso`,
-`mod A` being abelian), and dually for every indecomposable non-injective module
-([ARS, Thm. V.1.15, p. 145]); this is 3.5 applied to `mod A`. Equivalently, every simple
-contravariant functor on `mod A` is finitely presented, and dually. Over a field the existence
-theorem is Tau Ceti's `ModuleCat.exists_isAlmostSplit_arTranslate`, its case `R = k`, which
-QuiverRepresentations 6E consumes.
+`mod A` being abelian), and dually, for every indecomposable non-injective finitely generated
+module `M`, an almost-split sequence `0 → M → Y → τ⁻ M → 0` in `mod A`
+(`exists_isAlmostSplit_of_not_injective`, in `Suggested.lean`) ([ARS, Thm. V.1.15, p. 145]); this
+is 3.5 applied to `mod A`. Equivalently, every simple contravariant functor on `mod A` is finitely
+presented, and dually. Over a field the existence theorem is Tau Ceti's
+`ModuleCat.exists_isAlmostSplit_arTranslate`, its case `R = k`, which QuiverRepresentations 6E
+consumes.
 
 **Source and sink maps**. Every indecomposable finitely
 generated module `M` has a minimal right almost-split map `Y → M` (for `M` projective, the inclusion
@@ -1285,27 +1316,55 @@ p. 211]). API:
 
 ### 7.4 The Morita-Tachikawa correspondence
 
-**Generator-cogenerators** (`IsGeneratorCogenerator`, in `Suggested.lean`). Every finitely
-generated indecomposable projective and every finitely generated indecomposable injective module is
-a direct summand of `M`. API: the predicate is invariant under isomorphism and under adding direct
-summands; `M` is a generator-cogenerator exactly when `A` and `D_R A` lie in `add M`; an `R`-linear
-equivalence of module categories carries generator-cogenerators to generator-cogenerators.
+**Generator-cogenerators** (`IsGeneratorCogenerator`, in `Suggested.lean`). An object `M` of
+`mod A` that is a generator and a cogenerator of `mod A`, that is, a separator and a coseparator of
+`FGModuleCat A` (`CategoryTheory.IsSeparator`, `CategoryTheory.IsCoseparator`). API:
+
+- over any ring, `M` is a generator of `mod A` exactly when `A ∈ add M`, with `add M` the
+  additive closure of 0.5 in `FGModuleCat A`, that is, `A` is a direct summand of a finite
+  biproduct of copies of `M` (`isSeparator_iff_exists_retract`, in `Suggested.lean`, which states
+  the unfolding `∃ n, Nonempty (Retract (FGModuleCat.of A A) (⨁ fun _ : Fin n ↦ M))`): for a
+  separator, the quotient map from `A` onto `A` modulo the trace of `M` is a morphism of `mod A`
+  that kills every map `M ⟶ A`, so it is zero; then finitely many maps `M ⟶ A` have images
+  summing to `A`, and the resulting surjection `Mⁿ ⟶ A` splits; conversely every finitely
+  generated module is a quotient of some `Aᵐ`;
+- for an Artin algebra, `M` is a cogenerator of `mod A` exactly when `D_R A ∈ add M` (the same
+  additive closure): a coseparator `M` of the finite-length category `mod A` admits an embedding
+  of every object into some `Mⁿ`, which splits for the injective object `D_R A`; conversely every
+  finitely generated module embeds into a finite sum of copies of `D_R A` (2.3);
+- for an Artin algebra, `M` is a generator-cogenerator exactly when every indecomposable projective
+  and every indecomposable injective object of `mod A` is a direct summand of `M`
+  (`isGeneratorCogenerator_iff_forall_indecomposable`, in `Suggested.lean`), from the two previous
+  items, the Krull-Schmidt property of `mod A` (0.5) and the finitely generated injective hulls of
+  2.3;
+- the predicate is invariant under isomorphism and under adding direct summands, and an `R`-linear
+  equivalence `mod A ≌ mod A'` carries generator-cogenerators to generator-cogenerators.
+
+These characterizations are not located in a read source.
 
 **Checks.**
 
 - For `B = k[ε]/(ε²)` and its simple module `S`, `B` and `B ⊕ S` are generator-cogenerators.
-- `S` is not a generator-cogenerator: `B` has length 2 and is not a direct summand of a module of
-  length 1.
+- `S` is not a generator: finite sums of copies of `S` are semisimple, and `B` is not, so
+  `B ∉ add S`.
 - For any Artin algebra, `A ⊕ D_R A` is a generator-cogenerator.
+- The Artin hypothesis of the indecomposable description is needed. `mod ℤ` has no nonzero
+  injective object: a nonzero finitely generated abelian group has a direct summand `ℤ` or `ℤ/pᵏℤ`
+  with `k ≥ 1`, which would be injective too, but the monomorphisms `2 : ℤ ⟶ ℤ` and
+  `ℤ/pᵏℤ ⟶ ℤ/p²ᵏℤ` do not split. So every indecomposable projective and every indecomposable
+  injective object of `mod ℤ` is a direct summand of `ℤ`. But `ℤ` is not a cogenerator of `mod ℤ`:
+  every map `ℤ/2ℤ ⟶ ℤ` is zero.
 
-*Needs:* 2.3's duality for Artin algebras; Mathlib `CategoryTheory.Retract`.
+*Needs:* 0.5's Krull-Schmidt property of `mod A`; 2.3's duality for Artin algebras and injective
+hulls; Mathlib `CategoryTheory.IsSeparator`, `CategoryTheory.IsCoseparator`,
+`CategoryTheory.Retract`.
 
-**Endomorphism algebras.** For `M` in `mod A`, `Module.End A M` is an `R`-algebra through Mathlib's
-scoped `ModuleCat.Algebra` instances, and every isomorphism of endomorphism rings in this subsection
-and the next is an `R`-algebra isomorphism. A ring isomorphism does not suffice: for `R = k × k`
-acting on `A = A' = k` through the two projections, both endomorphism rings are `k`, but no
-`R`-linear equivalence exists, since `(1, 0)` acts as the identity on one category and as zero on
-the other.
+**Endomorphism algebras.** For `M` in `mod A`, `Module.End A M` (in Lean `Module.End A M.obj`, for
+`M : FGModuleCat A`) is an `R`-algebra through Mathlib's scoped `ModuleCat.Algebra` instances, and
+every isomorphism of endomorphism rings in this subsection and the next is an `R`-algebra
+isomorphism. A ring isomorphism does not suffice: for `R = k × k` acting on `A = A' = k` through
+the two projections, both endomorphism rings are `k`, but no `R`-linear equivalence exists, since
+`(1, 0)` acts as the identity on one category and as zero on the other.
 
 **Forward** (`hasProjectiveInjectiveCopresentation_end`, in `Suggested.lean`). If `M` is a
 generator-cogenerator of `mod A`, then `dom.dim (Module.End A M) ≥ 2`.
@@ -1345,11 +1404,11 @@ injective hulls.
 ### 7.5 The Auslander correspondence
 
 **Forward** (`hasProjectiveDimensionLE_two`, in `Suggested.lean`; `IsAdditiveGenerator`, in
-`Suggested.lean`). If `M` is an additive generator of `mod A` (0.5; it exists exactly when `A` is
-representation-finite), then `add M = mod A`, so the finitely presented right `Γ`-modules form
-`mod (mod A)` and have projective dimension at most two (1.4); so the right global dimension of
-`Γ = Module.End A M` is at most two, and so is its left global dimension (7.2). Besides,
-`dom.dim Γ ≥ 2` (7.4).
+`Suggested.lean`). If `M` is an additive generator of `mod A` (0.5, in `FGModuleCat A`; it exists
+exactly when `A` is representation-finite), that is, `add M = mod A`, then the finitely presented
+right `Γ`-modules form `mod (mod A)` and have projective dimension at most two (1.4); so the right
+global dimension of `Γ = Module.End A M` is at most two, and so is its left global dimension
+(7.2). Besides, `dom.dim Γ ≥ 2` (7.4).
 
 **Converse** (`exists_isAdditiveGenerator_algEquiv_end`, in `Suggested.lean`). If
 `gl.dim Γ ≤ 2 ≤ dom.dim Γ`, the generator-cogenerator `Q` of 7.4 is an additive generator of
@@ -1383,7 +1442,7 @@ module is zero, and the global dimension is `⊥`.
 
 ### Dependencies
 
-Layers 0, 1 and 2.
+Layers 0 (the Krull-Schmidt property of `mod A` and its additive generators, 0.5), 1 and 2.
 
 ## Downstream consumers
 
