@@ -198,7 +198,7 @@ Define `graph A x=(x,A.mulVec x)`. Prove `graph_survives`: every graph point ini
 
 ### 2.5 Fixed tuples lie in every iterate
 
-Prove every ordered raw fixed tuple lies within `q₀` and within every raw iterate, by contraction, monotonicity and induction. Fixedness and order are hypotheses here, not assumptions about the limit later constructed in 4.2.
+Prove every ordered raw fixed tuple lies within `q₀` and within every raw iterate, by contraction, monotonicity and induction. Fixedness and order are hypotheses here, not assumptions about the limit later constructed in 4.1.
 
 *Needs:* 2.2–2.3 and `Function.IsFixedPt`.
 
@@ -314,14 +314,14 @@ Layers 1–2 and scalar ordered-field arithmetic; no limit or optimizer assumpti
 
 ### 4.1 Nonemptiness criteria
 
-Define `endpointLimit` by lower endpoint suprema and upper endpoint infima of **actual** `rawRun` iterates. For ordered finite `q₀`, prove equivalence of (a) every public iterate has a Cartesian member, (b) an ordered raw fixed tuple exists, and (c) the scalar LP has a feasible assignment. `run_nonempty_iff_lp` states (a) ↔ (c). Under (a), construct ordered `endpointLimit` endpoints and prove their fixedness. The nonempty-limit qualification is explicit in Belotti et al. 2012, Theorem 4.1, p. 14; Belotti et al. 2010, §4.1, pp. 72–73 does not state it explicitly. Here 4.1 expresses that qualification through actual-iterate nonemptiness and fixed-tuple existence.
+Define `endpointLimit` by lower endpoint suprema and upper endpoint infima of **actual** `rawRun` iterates. For ordered finite `q₀`, prove equivalence of (a) every public iterate has a Cartesian member, (b) an ordered raw fixed tuple exists, and (c) the scalar LP has a feasible assignment. `run_nonempty_iff_lp` states (a) ↔ (c). Under (a), construct ordered `endpointLimit` endpoints, prove convergence of the actual raw iterates to them, and then derive fixedness by continuity. The nonempty-limit qualification is explicit in Belotti et al. 2012, Theorem 4.1, p. 14; Belotti et al. 2010, §4.1, pp. 72–73 does not state it explicitly. Here 4.1 expresses that qualification through actual-iterate nonemptiness and fixed-tuple existence.
 
-*Needs:* Layers 1–3, `tendsto_atTop_ciSup`, `tendsto_atTop_ciInf`, `tendsto_pi_nhds`, 2.2 continuity and 2.5. Bound the lower and upper endpoint sequences by the finite initial endpoints and by each other, obtain ordered limits and fixedness by continuity, then apply 3.2. This is the sole endpoint-limit construction used by 4.2–4.3.
+*Needs:* Layers 1–3, `tendsto_atTop_ciSup`, `tendsto_atTop_ciInf`, `tendsto_pi_nhds`, 2.2 continuity and 2.5. Bound the lower and upper endpoint sequences by the finite initial endpoints and by each other, obtain ordered limits and coordinatewise and product convergence, then derive fixedness by continuity and apply 3.2. This is the sole endpoint-limit construction used by 4.2–4.3.
 
 **API.**
 
 - Fixed-tuple existence implies every-iterate nonemptiness by 2.5.
-- Every-iterate nonemptiness gives ordered endpoint limits and hence a fixed tuple; use 3.2 for LP equivalence.
+- Every-iterate nonemptiness gives ordered endpoint limits and convergence of the actual raw iterates; continuity then gives a fixed tuple. Use 3.2 for LP equivalence.
 - Separate these conditions from original graph feasibility and from finite termination.
 
 **Checks.**
@@ -336,7 +336,7 @@ For `endpointLimit` constructed in 4.1, under (a) of 4.1 prove `actual_limit`: o
 
 Belotti et al. 2010, §2.3, Theorem 2.2, p. 70 and §4.1, pp. 72–73 discuss convergence and the greatest fixed point. Here the concrete finite-real endpoint proof establishes the displayed `Tendsto` for this raw/public model; the abstract complete-lattice statement is not imported as a convergence certificate.
 
-*Needs:* 4.1 and 2.5. Use the endpoint bounds, convergence and fixedness established in 4.1, and obtain greatestness by comparison with every ordered fixed tuple using 2.5.
+*Needs:* 4.1, 2.4 and 2.5. Use the endpoint bounds, convergence and fixedness established in 4.1, obtain greatestness by comparison with every ordered fixed tuple using 2.5, and graph preservation from 2.4 by passing to the limit in closed endpoint inequalities.
 
 **API.**
 
@@ -354,7 +354,7 @@ Belotti et al. 2010, §2.3, Theorem 2.2, p. 70 and §4.1, pp. 72–73 discuss co
 
 Prove `unique_full_width_optimum`: the canonical limit assignment is feasible, attains `IsMaxOn objective` on the scalar feasible set, and is the unique maximizing **entire assignment**, including B and all product coordinates. Use endpoint containment, total-width equality and canonical products. This is the qualified joint-width conclusion of Belotti et al. 2010, Proposition 4.1, p. 72 and Theorem 4.2, p. 73.
 
-*Needs:* 1.2, 3.2, the limit construction and greatestness of 4.2 under every-iterate nonemptiness.
+*Needs:* 1.2, 3.2, the limit construction of 4.1 and the greatestness of 4.2 under every-iterate nonemptiness.
 
 **API.**
 
