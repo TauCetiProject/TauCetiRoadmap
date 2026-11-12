@@ -65,8 +65,7 @@ Suggested home: `TauCeti/FieldTheory/FunctionField/Gonality/`, `.../LinearSystem
   and the Brill–Noether existence theorem** with the bound `gon_{k̄} ≤ ⌊(g+3)/2⌋` (Layer 5).
 - **Quotient curves** by finite automorphism groups, the quotient genus by Riemann–Hurwitz in
   orbit form, fixed-point counts of involutions, the predicates *bielliptic* (over `k` and
-  geometric), *cyclic trigonal*, the hgcwa booleans, descent of automorphisms along constant
-  extensions (Layer 6).
+  geometric), *cyclic trigonal*, descent of automorphisms along constant extensions (Layer 6).
 - **Points of low degree**: `ℙ¹`-parametrized, AV-parametrized, isolated and sporadic points,
   Frey's criterion `gon_k ≤ 2d`, finiteness of isolated points of bounded degree, and the
   degree/rank criteria the LMFDB uses to decide isolation (Layer 7).
@@ -96,12 +95,19 @@ Suggested home: `TauCeti/FieldTheory/FunctionField/Gonality/`, `.../LinearSystem
   `nonempty_algEquiv_ratFunc_of_genus_eq_zero_of_divisor_degree_eq_one` and the conic
   `Consequences/Conic.lean`, Weierstrass gaps, `IsHyperellipticFunctionField` with
   `exists_degree_eq_two_and_two_le_dim`, `isHyperellipticFunctionField_of_genus_eq_two`,
+  `isHyperellipticFunctionField_of_genus_eq_two_of_perfectField`,
+  `isHyperellipticFunctionField_iff_two_le_genus_and_exists_finrank_adjoin_eq_two`,
+  `isSeparable_adjoin_of_finrank_prime`,
   `mem_adjoin_of_finrank_adjoin_le_genus`, `adjoin_eq_adjoin_of_finrank_adjoin_eq_two`,
+  the hyperelliptic models and regular differentials (`Hyperelliptic/Model.lean`,
+  `Hyperelliptic/RegularDifferential.lean`), smooth projective plane curves with their genus and
+  canonical class (`PlaneCurve/Projective.lean`, `genus_eq_of_isHomogeneous`), the section ring
+  `Divisor.sectionRing` (`RiemannRoch/SectionRing.lean`),
   `card_branchPlaces`, place extensions `Place.restrict`, `ramificationIdx`, `relativeDegree`,
   the Galois action on places with `ncard_mul_ramificationIdx_mul_relativeDegree_eq_finrank`,
   `Divisor.different`, `tameDifferent`, `Place.IsTame`, `hurwitz_genus_formula`,
   `two_mul_genus_sub_two_eq_iff_forall_isTame`, `TauCeti.Divisor.degree_tameDifferent_eq_finrank_mul_sum`,
-  `IsFunctionField.fixedField`, `isIntegrallyClosedIn_intermediateField`, the constant-extension
+  `IsFunctionField.fixedField`, the constant-extension
   API `constantCompositum`, `Divisor.conorm`, `TauCeti.Divisor.dim_conorm`,
   `genus_eq_genus_of_constantCompositum_eq_top`, `TauCeti.Divisor.degree_conorm_of_constantCompositum_eq_top`,
   `geometricDegree`, Kummer covers (`Place/Extension/Kummer.lean`, `Different/Radical.lean`), and
@@ -109,8 +115,8 @@ Suggested home: `TauCeti/FieldTheory/FunctionField/Gonality/`, `.../LinearSystem
 - From the [algebraic-curves roadmap](../AlgebraicCurves/README.md): Layer 8's constant-field
   extensions (for algebraic `k″ / k` with `k` perfect, `k″` is the exact constant field of
   `F·k″`, linear independence over `k` persists over `k″`, and degrees, every `ℓ` and the genus
-  are unchanged: Stichtenoth Prop. 3.6.1, Thm. 3.6.3), Layer 10's smooth plane curves and Kummer
-  covers, Layer 11's automorphism groups, Layer 12's dictionary.
+  are unchanged: Stichtenoth Prop. 3.6.1, Thm. 3.6.3), Layer 10's Kummer covers with their
+  hypotheses of record, Layer 11's automorphism groups, Layer 12's dictionary.
 - From the [Jacobian challenge](../JacobianChallenge/README.md): symmetric powers `X^{(d)}` and
   relative effective Cartier divisors (Layer C), `Pic^d_{X/k}` and the Jacobian `J` (Layers D–E),
   the Abel–Jacobi map (Layer F); from
@@ -124,7 +130,10 @@ Suggested home: `TauCeti/FieldTheory/FunctionField/Gonality/`, `.../LinearSystem
   surface, the finite map `X(Γ) → X(1)`, the hyperbolic area formula; from the
   [modular-forms roadmap](../ModularForms/README.md) Layer 10A the degree identification
   `deg (X(Γ) → X(1)) = [PSL₂(ℤ) : Γ̄]` and Layer 10B meromorphic functions, divisors and the
-  analytic Riemann–Roch theorem on a compact Riemann surface. At the pin Tau Ceti realizes the
+  analytic Riemann–Roch theorem on a compact Riemann surface; from the
+  [Belyi-maps roadmap](../BelyiMaps/README.md) §§9.2–9.4, that the meromorphic function field
+  `M(X)` of a compact connected Riemann surface is a function field over `ℂ` with exact
+  constants and `[M(X) : ℂ(f)] = deg f` for nonconstant `f`. At the pin Tau Ceti realizes the
   compact Riemann surface `X(Γ)`, the field of meromorphic functions and the degree of a
   holomorphic map (*From Tau Ceti*); Layer 8 is stated on those carriers.
 - From the [congruence spectral gap roadmap](../CongruenceSpectralGap/README.md), for a congruence
@@ -169,9 +178,11 @@ Suggested home: `TauCeti/FieldTheory/FunctionField/Gonality/`, `.../LinearSystem
   conic of a geometrically hyperelliptic curve and its rationality criterion; Tau Ceti's
   `Hyperelliptic/Model.lean` supplies the equation `y² = f(x)` away from characteristic two.
 - **Passports, generating vectors, signatures, Riemann's existence theorem, the topological
-  classification of group actions** (hgcwa): the sibling `GroupActionsOnRiemannSurfaces`. Layer 6
-  supplies the quotient genus, the Riemann–Hurwitz orbit formula and the predicates
-  `hyperelliptic`, `cyclic_trigonal` that its tables display.
+  classification of group actions** (hgcwa), and the meaning of the hgcwa columns
+  `hyperelliptic`, `cyclic_trigonal` and `g0`, which are read on the generic member of a family:
+  the sibling `GroupActionsOnRiemannSurfaces`. Layer 6 supplies to it, for one function field, the
+  quotient genus, the Riemann–Hurwitz orbit formula and the predicates
+  `IsHyperellipticFunctionField ℂ F` and `IsCyclicTrigonal ℂ F`.
 - **Labels beyond their intrinsic prefix, enumerative indices, orderings fixed by convention, stored
   lists and the completeness of database tables** are not targets. Nothing here depends on an
   ordering or a normal form; the intrinsic data a label is built from (genus, gonality bounds) are
@@ -270,6 +281,9 @@ Checked against the Mathlib the repository builds.
   (`[k(X) : k(f)] = max (natDegree num) (natDegree denom)`), Lüroth's theorem
   `RatFunc.Luroth.algEquiv` (every intermediate field of `k(X)/k` other than `k` is rational); the
   genus-zero and degree-one calculations of Layer 1 rest on these through Tau Ceti.
+- `AlgHom.isIntegrallyClosedIn` (`Mathlib/RingTheory/IntegralClosure/IntegrallyClosed.lean:82`):
+  exactness of the constants passes to an intermediate field through its inclusion `val`, which
+  is how a quotient `F^H` inherits exact constants in 6.1.
 - `IntermediateField.adjoin`, `k⟮x⟯`, `Transcendental`, `Module.finrank`, `IntermediateField.fixedField`,
   `FixedPoints.toAlgAutMulEquiv` (`H ≃* (F ≃ₐ[F^H] F)`, on `FixedPoints.subfield H F`): the
   quotient-curve layer is Galois theory plus Tau Ceti's Riemann–Hurwitz. ⚠ Mathlib's
@@ -305,7 +319,24 @@ curve genus formula, no Brill–Noether theory, and no Li–Yau inequality.
 At the pin, the function-field library listed under *Consumed, not redefined* is
 built and imported directly: places, divisors, Riemann–Roch, the canonical class, Clifford for an
 arbitrary exact constant field, hyperelliptic function fields with the uniqueness of the index-two
-subfield and the `2g + 2` branch places, Weierstrass gaps, constant-field extensions with
+subfield and the `2g + 2` branch places, over a perfect field their characterization by an
+index-two rational subfield and the genus-two case
+(`TauCeti/FieldTheory/FunctionField/Hyperelliptic/Basic.lean`:
+`TauCeti.isHyperellipticFunctionField_iff_two_le_genus_and_exists_finrank_adjoin_eq_two`,
+`TauCeti.isHyperellipticFunctionField_of_genus_eq_two_of_perfectField`), separability of a
+rational subfield of prime index in positive genus over a perfect field
+(`Consequences/GenusZero.lean`: `TauCeti.isSeparable_adjoin_of_finrank_prime`), the models
+`y² = f(x)` and regular differentials of hyperelliptic fields (`Hyperelliptic/Model.lean`:
+`TauCeti.IsHyperellipticFunctionField.exists_squarefree_sq_eq_aeval`;
+`Hyperelliptic/RegularDifferential.lean`: `TauCeti.adjoin_setOf_repartitionDualMul_eq_adjoin`),
+plane-curve function fields (`PlaneCurve/Basic.lean`: `TauCeti.isFunctionField_of_aeval_eq_zero`;
+`PlaneCurve/ConstantField.lean`: `TauCeti.ker_aeval_eq_span_singleton_of_irreducible`), the
+genus and canonical class of a smooth projective plane curve over every field
+(`PlaneCurve/Projective.lean`: `TauCeti.genus_eq_of_isHomogeneous`,
+`TauCeti.divisorClass_sub_three_zsmul_sup_poles_eq_canonicalClass_of_isHomogeneous`,
+`TauCeti.riemannRochSpace_sub_three_zsmul_sup_poles_eq_span_of_isHomogeneous`), the section ring
+of a divisor (`RiemannRoch/SectionRing.lean`: `TauCeti.Divisor.sectionRing`,
+`TauCeti.Divisor.sectionRingGrade`), Weierstrass gaps, constant-field extensions with
 `dim_conorm` and genus invariance, extensions of function fields with `e`, `f`, the Galois action
 on places, the different, tameness, the Hurwitz genus formula in cross-multiplied and tame forms,
 Castelnuovo's inequality of AlgebraicCurves Layer 8
@@ -320,7 +351,7 @@ Kummer and Artin–Schreier covers, fixed fields of finite automorphism groups, 
 Weil divisors, line bundles, Riemann–Roch and Serre duality for the regular model
 (`TauCeti/AlgebraicGeometry/WeilDivisor/Scheme/*`, `LineBundle/*`). Beyond these pinned modules the supplier contracts are
 AlgebraicCurves Layer 8 (algebraic constant extensions), Layer 10
-(hyperelliptic models and canonical differentials, smooth plane curves), Layer 11
+(Kummer covers with their hypotheses of record), Layer 11
 (automorphism finiteness), and Layer 12 (regular projective models and the genus dictionary).
 Only their named roadmap contracts are used for results absent from the pin.
 
@@ -356,8 +387,8 @@ For perfect exact constants it is smooth and geometrically integral.
 
 - the [algebraic-curves roadmap](../AlgebraicCurves/README.md), Layers 3–5 (divisors,
   Riemann–Roch, Clifford, Weierstrass gaps), 6–8 (extensions, Riemann–Hurwitz, algebraic
-  constant-field extensions over a perfect field, Castelnuovo's inequality), 10 (model
-  classes, Kummer covers), 11 (automorphisms) and 12 (the curves ↔ function-fields dictionary);
+  constant-field extensions over a perfect field, Castelnuovo's inequality), 10 (Kummer
+  covers), 11 (automorphisms) and 12 (the curves ↔ function-fields dictionary);
 - the [Jacobian challenge](../JacobianChallenge/README.md), Layers B–F (coherent cohomology of
   curves, symmetric powers and relative effective divisors, `Pic^d`, the Jacobian, Abel–Jacobi);
 - [scheme, stack, cohomology and intersection foundations](../SchemeAndStackFoundations/README.md),
@@ -369,9 +400,11 @@ For perfect exact constants it is smooth and geometrically integral.
 - the [modular-curves roadmap](../ModularCurves/README.md), §0A (relative effective Cartier
   divisors over a general base: the fibre criterion, finiteness under properness, the degree);
 - the [modular-forms roadmap](../ModularForms/README.md), Layer 10A–10B (the compact Riemann
-  surface `X(Γ)`, its meromorphic functions and analytic Riemann–Roch), and
+  surface `X(Γ)`, its meromorphic functions and analytic Riemann–Roch),
   [Fuchsian orbifolds](../FuchsianOrbifolds/README.md), Layers 2 and 4 (the hyperbolic area and
-  covolume of `Γ\ℍ`, the compactified quotient `X(Γ)`);
+  covolume of `Γ\ℍ`, the compactified quotient `X(Γ)`), and the
+  [Belyi-maps roadmap](../BelyiMaps/README.md), §§9.2–9.4 (the meromorphic function field of a
+  compact connected Riemann surface, its exact constants and the degree theorem);
 - the [congruence spectral gap roadmap](../CongruenceSpectralGap/README.md), §§0.2, 0.4 and 0.7
   (the Laplacian of a congruence quotient, its positive spectral bottom `λ′₁` and the clipped
   comparison) and §5.3 (`λ′₁ ≥ 21/100`);
@@ -506,14 +539,16 @@ The API includes:
 (a) `gonality k F = 2 ↔ ∃ x, Transcendental k x ∧ finrank k⟮x⟯ F = 2` for non-rational `F`.
 (b) For `[PerfectField k]`, `hex`, `2 ≤ g`: `gonality k F = 2 ↔ IsHyperellipticFunctionField k F`
 (Tau Ceti's predicate carries separability of `F / k(x)`; over a perfect field an index-two
-subextension of a field of genus `≥ 2` is separable, because a purely inseparable one would make
-`F` rational — AlgebraicCurves Layer 10, hyperelliptic rational-subfield criterion). (c) Genus
-two: `IsHyperellipticFunctionField k F` for perfect `k` (AlgebraicCurves Layer 10, perfect-field genus-two criterion; the pin's
-`isHyperellipticFunctionField_of_genus_eq_two` assumes `(2 : k) ≠ 0`), consistent with 1.3(d).
+subextension of a field of positive genus is separable, because a purely inseparable one would
+make `F` rational: Tau Ceti `TauCeti.isSeparable_adjoin_of_finrank_prime`, which gives
+`TauCeti.isHyperellipticFunctionField_iff_two_le_genus_and_exists_finrank_adjoin_eq_two`). (c) Genus
+two: `IsHyperellipticFunctionField k F` for perfect `k` (Tau Ceti
+`TauCeti.isHyperellipticFunctionField_of_genus_eq_two_of_perfectField`; the pin's
+`isHyperellipticFunctionField_of_genus_eq_two` is the form for `(2 : k) ≠ 0`), consistent with 1.3(d).
 
 The equivalence is `gonality_eq_two_iff_isHyperellipticFunctionField`.
 
-*Needs:* §§1.1–1.3; AlgebraicCurves Layer 10, separable hyperelliptic subfields.
+*Needs:* §§1.1–1.3; Tau Ceti `isHyperellipticFunctionField_iff_two_le_genus_and_exists_finrank_adjoin_eq_two`.
 
 ### 1.6 Functoriality under finite maps
 
@@ -636,8 +671,8 @@ one by the fundamental equality, and a generator of `k(x)` whose pole is that pl
 divisor `2P` in `F`. The converse needs a perfect constant field: **for `[PerfectField k]` and
 `g ≥ 2`, `2` is a pole number at a rational place `P` iff `F` is hyperelliptic over `k` with `P`
 ramified over the index-two subfield.** A function `x` with pole divisor `2P` has `[F : k(x)] = 2`,
-and over a perfect field this extension is separable (AlgebraicCurves Layer 10, perfect-field
-separability of the index-two subfield, as in 1.5(b)); `P` is totally ramified since `(x)_∞ = 2P`.
+and over a perfect field this extension is separable (Tau Ceti
+`TauCeti.isSeparable_adjoin_of_finrank_prime`, as in 1.5(b)); `P` is totally ramified since `(x)_∞ = 2P`.
 
 **Checks.**
 
@@ -645,7 +680,7 @@ separability of the index-two subfield, as in 1.5(b)); `P` is totally ramified s
 - Over the imperfect field `k = 𝔽₂(a)`, the field `F = k(x, y)` with `y² = x⁵ + a` has exact constants `k` (`F ⊗_k k̄` is the field `k̄(x)(√x⁵)`) and genus two: by Riemann–Hurwitz for the separable degree-five extension `F / k(y)`, `x⁵ = y² + a`, the degree-two place `y² + a = 0` and the place at infinity of `k(y)` are totally and tamely ramified, so `2g − 2 = 5·(−2) + 4·2 + 4·1 = 2`. The place `P_∞` over `∞` is rational with `v_{P_∞}(x) = −2` and `x` regular elsewhere, so `2` is a pole number at `P_∞`; but `F` is not hyperelliptic over `k`, since its only subfield of index two is `k(x)` (Tau Ceti `adjoin_eq_adjoin_of_finrank_adjoin_eq_two`) and `F / k(x)` is purely inseparable (`y² ∈ k(x)`). Over `k̄`, with `a = b²`, `F k̄ = k̄((y + b)/x²)` is rational. The perfectness hypothesis of the converse cannot be dropped.
 - On `ℙ¹` every positive integer is a pole number at every rational place and the bound gives `gonality ≤ 1`.
 
-*Needs:* §§1.2, 1.5; Tau Ceti `Place.IsPoleNumber`, `Divisor.degree_poles`, the fundamental equality; AlgebraicCurves Layer 5, Weierstrass gaps, and Layer 10, perfect-field separability of index-two subfields.
+*Needs:* §§1.2, 1.5; Tau Ceti `Place.IsPoleNumber`, `Divisor.degree_poles`, the fundamental equality; AlgebraicCurves Layer 5, Weierstrass gaps; Tau Ceti `isSeparable_adjoin_of_finrank_prime`.
 
 ### 1.10 Disconnected curves: `gon_k = [K:k] · gon_K`
 
@@ -739,8 +774,9 @@ is eventually of this form and `0` otherwise (the existence statement says the f
 holds under `hF` and `hex`), `g ≤ p_a`, and `delta x := p_a − g`.
 One route uses the dimension-two standard graded domain `R := k[X]/I` and its finite
 graded normalization `R̃`. Finite normalization of finitely generated domains over a field is
-supplied by SchemeAndStackFoundations §§0.19–0.21; the grading and comparison with the section
-ring `⊕_m L(mD)` are targets here. Prove that `R̃_m = L(mD)` and that the coherent quotient
+supplied by SchemeAndStackFoundations §§0.19–0.21. The section ring `⊕_m L(mD)` is Tau Ceti's
+`TauCeti.Divisor.sectionRing D`, graded by `TauCeti.Divisor.sectionRingGrade D`; the grading of
+`R̃` and its comparison with that section ring are targets here. Prove that `R̃_m = L(mD)` and that the coherent quotient
 on `Proj R` is supported at finitely many points. Its Hilbert polynomial is a nonnegative
 constant, which can be positive: its graded pieces need not eventually vanish. The eventual
 Hilbert polynomials of the finitely generated graded modules `R`, `R̃` and `R̃/R` are
@@ -851,7 +887,8 @@ homogeneous evaluation kernel in §2.2. The map degree is Tau Ceti `Divisor.degr
 
 `ℙⁿ_k` as pinned. For a model datum `x` with `D := Model.divisor x`, construct a
 morphism `φ_x : X_F → ℙⁿ_k` with `φ_x^* 𝒪(1) ≅ 𝒪(D)` and `φ_x^* X_i = x_i` as sections (the graded
-`k`-algebra map `k[X₀, …, X_n] → ⊕_m L(m·D)`, `X_i ↦ x_i`, and SchemeAndStackFoundations §0.3's
+`k`-algebra map `k[X₀, …, X_n] → ⊕_m L(m·D)`, `X_i ↦ x_i`, into Tau Ceti's section ring
+`TauCeti.Divisor.sectionRing D`, and SchemeAndStackFoundations §0.3's
 Proj functoriality; Tau Ceti `WeilDivisor/Scheme/Sheaf.lean` for `𝒪(D)` on `X_F`); its
 scheme-theoretic image is `Proj (k[X]/homogeneousIdeal x)`, an integral projective curve `C'`
 with `k(C') ≅ F`; `φ_x : X_F → C'` is the normalization (finite, birational); the degree of `C'`
@@ -965,7 +1002,7 @@ Lemma 6.2.2(a); away from characteristic two this is the pinned
 `isHyperellipticFunctionField_iff_two_le_genus_and_exists_degree_eq_two_and_two_le_dim`, which
 carries `(2 : k) ≠ 0`; in characteristic two the degree-two divisor still gives an index-two
 subfield by the pinned `exists_transcendental_finrank_adjoin_eq_two_of_degree_eq_two`, separable
-over the perfect field `k̄` by AlgebraicCurves Layer 10's perfect-field separability milestone).
+over the perfect field `k̄` by Tau Ceti `TauCeti.isSeparable_adjoin_of_finrank_prime`).
 (ii) ⟺ (iii) is 1.5 over `k̄`. (iv) is the birational half (Hartshorne IV.5.2 proves (i) ⟹ closed
 immersion over `k̄`, whence birationality; the converse because a `2 : 1` canonical map has
 `[F' : canonicalField] = 2`). Also: for `g = 2` every `F` is geometrically hyperelliptic, so the
@@ -983,8 +1020,9 @@ and the equality of the canonical field with F.
 For `[PerfectField k]`, `g ≥ 2`, `F` geometrically hyperelliptic: `K₀ := canonicalField k F` has
 `[F : K₀] = 2`, `genus k K₀ = 0`, and `K₀` is the unique subfield of index `2` and genus `0`
 (uniqueness over `k̄` is Tau Ceti `adjoin_eq_adjoin_of_finrank_adjoin_eq_two`; descend). When `F`
-is hyperelliptic over `k` with `F / k(x)` of degree two, `K₀ = k⟮x⟯` (AlgebraicCurves Layer 10, hyperelliptic regular differentials: the ratios of regular differentials generate `k(x)`,
-with a basis `x^i ω`, `0 ≤ i ≤ g − 1`). The model of `|W|` factors as `F ⊇ K₀` followed by the
+is hyperelliptic over `k` with `F / k(x)` of degree two, `K₀ = k⟮x⟯` (Tau Ceti
+`TauCeti.adjoin_setOf_repartitionDualMul_eq_adjoin`: the ratios of regular differentials generate
+`k(x)`, with a basis `x^i ω`, `0 ≤ i ≤ g − 1`, by `TauCeti.weilDifferentialFiltration_zero_eq_span_pow`). The model of `|W|` factors as `F ⊇ K₀` followed by the
 complete model of a divisor of degree `g − 1` on `K₀`: the *rational normal curve* of degree
 `g − 1` in `ℙ^{g−1}` (a genus-zero field, a divisor `D₀` of degree `g − 1` with `ℓ(D₀) = g`; its
 homogeneous ideal is generated by the `2 × 2` minors of a `2 × (g−1)` matrix of linear forms when
@@ -992,7 +1030,7 @@ homogeneous ideal is generated by the `2 × 2` minors of a `2 × (g−1)` matrix
 
 The rational-subfield case is `finrank_canonicalField_eq_two`.
 
-*Needs:* §§1.4, 3.3–3.4; AlgebraicCurves Layer 10, hyperelliptic differential basis and uniqueness.
+*Needs:* §§1.4, 3.3–3.4; Tau Ceti `adjoin_setOf_repartitionDualMul_eq_adjoin` and `adjoin_eq_adjoin_of_finrank_adjoin_eq_two`.
 
 ### 3.6 Rationality of the canonical image and even genus
 
@@ -1013,7 +1051,7 @@ The descent target is `isHyperellipticFunctionField_of_even_genus`.
 This is a derived target: use the genus-zero degree-one rationality theorem
 (Stichtenoth, Proposition 1.6.3;
 `TauCeti.nonempty_algEquiv_ratFunc_of_genus_eq_zero_of_divisor_degree_eq_one`,
-`TauCeti/FieldTheory/FunctionField/Consequences/GenusZero.lean:95`), the hyperelliptic canonical image
+`TauCeti/FieldTheory/FunctionField/Consequences/GenusZero.lean:120`), the hyperelliptic canonical image
 (Proposition 6.2.4), and divisibility by the index from §1.4.
 
 *Needs:* §§1.4–1.5, 3.5; integer divisibility.
@@ -1088,8 +1126,10 @@ for generation in degrees two and three, including both exceptions.
 (a) `g = 3`, not geometrically hyperelliptic: the canonical model is a plane model of degree `4`,
 `homogeneousIdeal` is generated by one irreducible quartic `G` with `IsSmoothPlaneEquation G` (4.3), and
 conversely the function field of a smooth plane quartic has `canonicalField = ⊤` with the
-quartic as canonical model (AlgebraicCurves Layer 10 gives the canonical
-divisor as the divisor of forms of degree `d − 3 = 1`). (b) `g = 4`: the canonical model in `ℙ³`
+quartic as canonical model (Tau Ceti
+`TauCeti.divisorClass_sub_three_zsmul_sup_poles_eq_canonicalClass_of_isHomogeneous` and
+`TauCeti.riemannRochSpace_sub_three_zsmul_sup_poles_eq_span_of_isHomogeneous`: the canonical
+divisor is cut out by the forms of degree `d − 3 = 1`). (b) `g = 4`: the canonical model in `ℙ³`
 has `homogeneousIdeal` generated by an irreducible quadric `Q` and a cubic; the quadric has rank
 `4` (two rulings, two trigonal pencils) or rank `3` (one pencil, `F` has a unique `g¹₃`);
 `gon_{k̄} = 3`. (c) `g = 5`, not trigonal: `homogeneousIdeal` is generated by three quadrics and
@@ -1098,7 +1138,7 @@ out a cubic scroll and a cubic generator is needed (the Petri exception). (Harts
 Examples 5.5.1–5.5.3 for (a)–(c) over `k̄`; ACGH III §3.) Each is stated as a theorem about the
 ideal, with 4.3 for smoothness.
 
-*Needs:* §§2.2, 3.4, 3.7; AlgebraicCurves Layer 10, smooth-plane canonical class; the ideal calculations are the low-genus input to §3.8.
+*Needs:* §§2.2, 3.4, 3.7; Tau Ceti smooth-plane canonical class (`PlaneCurve/Projective.lean`); the ideal calculations are the low-genus input to §3.8.
 
 ### Examples
 
@@ -1106,11 +1146,11 @@ The genus-two characteristic-two relation and genus-four quadric–cubic model a
 
 ### Dependencies
 
-Layers 1–2 and AlgebraicCurves Layer 10. The low-genus ideal computations in §3.9 can precede the general Petri proof.
+Layers 1–2 and Tau Ceti's hyperelliptic and smooth-plane-curve modules. The low-genus ideal computations in §3.9 can precede the general Petri proof.
 
 ## Layer 4: plane models and the genus–degree formula
 
-Fulton Ch. 5, Ch. 7 §7.4, Ch. 8 §8.3; AlgebraicCurves Layer 10 for the smooth
+Fulton Ch. 5, Ch. 7 §7.4, Ch. 8 §8.3; Tau Ceti's smooth plane curves for the smooth
 case; Hartshorne IV.3.
 
 ### 4.1 Plane models
@@ -1118,13 +1158,15 @@ case; Hartshorne IV.3.
 A *plane model* is a `Model k F 2`; `homogeneousIdeal x` is principal, generated by an
 irreducible homogeneous `G` of degree `d = Model.degree x`, unique up to `kˣ`; conversely an
 irreducible homogeneous `G` in `k[X, Y, Z]` not divisible by `Z` with `F ≅ k(X/Z, Y/Z)` under
-`G(X/Z, Y/Z, 1) = 0` gives a plane model (AlgebraicCurves Layer 10, plane-curve function fields). Over a field for which `F / k` is separably generated (any perfect `k`),
+`G(X/Z, Y/Z, 1) = 0` gives a plane model (Tau Ceti `TauCeti.isFunctionField_of_aeval_eq_zero`,
+and `TauCeti.ker_aeval_eq_span_singleton_of_irreducible` for the affine relation ideal
+`(G(X, Y, 1))`, whose homogenization is `(G)`). Over a field for which `F / k` is separably generated (any perfect `k`),
 every `F` has a plane model: `F = k(x, y)` with `y` separable over `k(x)` (primitive element),
 `G` the homogenized minimal polynomial. `d = 1, 2 ⟹ g = 0`; `d ≥ 3` for `g ≥ 1`.
 
 The plane-equation statement is `Model.exists_generator`.
 
-*Needs:* §2.2; Mathlib unique factorization and primitive elements; AlgebraicCurves Layer 10, plane-curve function fields.
+*Needs:* §2.2; Mathlib unique factorization and primitive elements; Tau Ceti plane-curve function fields (`PlaneCurve/Basic.lean`, `PlaneCurve/ConstantField.lean`).
 
 ### 4.2 The Hilbert function of a plane curve
 
@@ -1145,8 +1187,9 @@ The integer identity is `Model.two_mul_genus_eq`.
 power of the irrelevant ideal iff `J` has no common zero in `ℙ²(k̄)`; hence `IsSmoothPlaneEquation G` iff
 `G, ∂G/∂X, ∂G/∂Y, ∂G/∂Z` have no common zero in `ℙ²(k̄)`, and when `(d : k) ≠ 0` the generator
 `G` is redundant (Euler). Theorem: `IsSmoothPlaneEquation G → genus k F = (d−1)(d−2)/2` and `delta x = 0`
-(AlgebraicCurves Layer 10, smooth-plane genus formula, the algebraic-curves roadmap's Layer 10 route by
-projection and the different). The converse over a perfect field follows after the local delta sum in §4.4.
+(Tau Ceti `TauCeti.genus_eq_of_isHomogeneous`, over every field, for `G` with no common zero
+with its partial derivatives over an algebraically closed extension of `k`, which the projective
+Nullstellensatz above gives; then `delta x = 0` by 4.2). The converse over a perfect field follows after the local delta sum in §4.4.
 
 The smoothness implication is `Model.delta_eq_zero_of_isSmoothPlaneEquation`.
 
@@ -1162,7 +1205,7 @@ The API includes:
 - For `G=0`, the Jacobian ideal is zero and contains no power of a variable; the predicate fails.
 - For `Y²Z−X³`, the cusp `(0:0:1)` is a common zero, so the predicate fails; for a smooth conic in characteristic two, the equation itself must remain in the Jacobian ideal when Euler cannot remove it.
 
-*Needs:* §4.1; Mathlib affine Nullstellensatz and Euler identity; AlgebraicCurves Layer 10, smooth-plane genus; the converse uses §4.4.
+*Needs:* §§4.1–4.2; Mathlib affine Nullstellensatz and Euler identity; Tau Ceti `genus_eq_of_isHomogeneous`; the converse uses §4.4.
 
 ### 4.4 Local delta invariants and their sum
 
@@ -1247,14 +1290,14 @@ transformation `(X : Y : Z) ↦ (YZ : XZ : XY)` on model data, its effect on `Mo
 ### 4.7 Plane models of hyperelliptic curves
 
 For `F` hyperelliptic over `k`, `(2 : k) ≠ 0`, with `y² = f(x)`, `f` squarefree of degree
-`2g + 1` or `2g + 2` (AlgebraicCurves Layer 10): the plane model
+`2g + 1` or `2g + 2` (Tau Ceti `TauCeti.IsHyperellipticFunctionField.exists_squarefree_sq_eq_aeval`): the plane model
 `Y² Z^{2g} = Z^{2g+2} f(X/Z)` has degree `2g + 2` (degree `2g + 1` when `deg f = 2g + 1`, after
 homogenizing to `Y² Z^{2g−1} = …`), one singular point at infinity for `g ≥ 2`, of multiplicity
 `2g` (resp. `2g − 1`), and `delta = (2g+1)(2g)/2 − g = 2g²` (resp. `(2g)(2g−1)/2 − g = 2g² − 2g`),
 so that 4.2 recovers `g`. This is the plane model the `g2c` pages display; the Weierstrass equation itself,
 its minimality and its invariants are the hyperelliptic sibling's.
 
-*Needs:* §§4.1–4.5; AlgebraicCurves Layer 10, squarefree hyperelliptic equation away from characteristic two.
+*Needs:* §§4.1–4.5; Tau Ceti `IsHyperellipticFunctionField.exists_squarefree_sq_eq_aeval`, the squarefree hyperelliptic equation away from characteristic two.
 
 ### Examples
 
@@ -1262,7 +1305,7 @@ The node, cusp, tacnode and inseparable residue point in §§4.4–4.5 distingui
 
 ### Dependencies
 
-Layer 2, especially §2.7, and AlgebraicCurves Layer 10. Local delta theory in §4.4 precedes the converse smoothness implication of §4.3; no Layer 9 input.
+Layer 2, especially §2.7, and Tau Ceti's plane-curve and hyperelliptic-model modules. Local delta theory in §4.4 precedes the converse smoothness implication of §4.3; no Layer 9 input.
 
 ## Layer 5: Clifford's equality, Castelnuovo–Severi, Brill–Noether
 
@@ -1306,7 +1349,8 @@ not trigonal by (a) with `n₁ = 3`, `n₂ = 2`: `g ≤ 4`, and `≤ 4` by compo
 characteristic for the extensions used: `F / F^H` is Galois for a finite subgroup `H`, `F / k(x)`
 is separable by the hyperelliptic predicate, and a pencil of prime degree `p` over a perfect field
 is separable unless `F` is rational (a purely inseparable extension of `k(x)` of degree `p` is
-`k(x^{1/p})`). No characteristic hypothesis appears in (b)–(g).
+`k(x^{1/p})`; Tau Ceti `TauCeti.isSeparable_adjoin_of_finrank_prime`). No characteristic
+hypothesis appears in (b)–(g).
 
 The pointless-conic case of (b) is `gonality_eq_four_of_index_canonicalField_eq_two` (`g ≥ 3`,
 canonical field of index two in `F` and of index two as a genus-zero field); (c), (d) and (e) are
@@ -1414,7 +1458,9 @@ Surfaces* (bielliptic curves); the LMFDB knowls `ag.quotient_curve`, `ag.biellip
 ### 6.1 The quotient by a finite group of automorphisms
 
 For a finite `H ≤ F ≃ₐ[k] F`: `F^H := fixedField H` is a function field over `k`
-(Tau Ceti `IsFunctionField.fixedField`) with exact constants (`isIntegrallyClosedIn_intermediateField`),
+(Tau Ceti `IsFunctionField.fixedField`) with exact constants (Mathlib `AlgHom.isIntegrallyClosedIn`,
+`Mathlib/RingTheory/IntegralClosure/IntegrallyClosed.lean:82`, applied to the inclusion
+`(fixedField H).val`),
 `F / F^H` is finite Galois with group `H` (Tau Ceti `IntermediateField.finiteDimensional_fixedField`,
 `isGalois_fixedField`, Mathlib `FixedPoints.toAlgAutMulEquiv`), `[F : F^H] = Nat.card H` (Tau Ceti
 `IntermediateField.finrank_fixedField_eq_natCard`); `genus k F^H ≤ g` (Tau Ceti
@@ -1430,7 +1476,7 @@ full automorphism group for `g ≥ 2` (finite by AlgebraicCurves Layer 11).
 - For `t↦−t` on `k(t)` in characteristic zero, the fixed field is `k(t²)` and degree is two although `k(t)/k` is not finite-dimensional.
 - For the S₃ action generated by `t↦1−t` and `t↦1/t`, the fixed-field extension has degree six; commutativity of the acting group is unnecessary.
 
-*Needs:* Tau Ceti `IsFunctionField.fixedField`, `isIntegrallyClosedIn_intermediateField`, finite-group fixed-field Galois and degree theorems; AlgebraicCurves Layer 11, automorphism finiteness.
+*Needs:* Tau Ceti `IsFunctionField.fixedField`; Mathlib `AlgHom.isIntegrallyClosedIn`; finite-group fixed-field Galois and degree theorems; AlgebraicCurves Layer 11, automorphism finiteness.
 
 ### 6.2 The quotient genus by Riemann–Hurwitz
 
@@ -1485,10 +1531,14 @@ geometrically bielliptic; `IsBielliptic k F → gonality k F ≤ 2 · gonality k
 `≤ 4` when the elliptic quotient has a rational place (1.4(b) and 1.6); for `(2 : k) ≠ 0`,
 `IsBielliptic k F ↔ ∃ H, Nat.card H = 2 ∧ deg (Fix σ) = 2g − 2` (6.3). The LMFDB knowl lists (i)
 a `2 : 1` map to an elliptic curve over `k̄`, (ii) an involution over `k` whose genus-one quotient
-has a rational point, (iii) an involution over `k` with exactly `2g − 2` fixed points; record
-`(ii) ⟹ (iii) ⟺ IsBielliptic k F ⟹ (i)` (the middle equivalence for `(2 : k) ≠ 0`), and that
-neither converse holds in general: a genus-one quotient without rational points, and an
-involution not defined over `k` (whose descent 6.5 handles when it is unique). Consequences from
+has a rational point, (iii) an involution over `k` with exactly `2g − 2` fixed points; record,
+for `(2 : k) ≠ 0`, `(ii) ⟹ (iii) ⟺ IsBielliptic k F`, and in every characteristic
+`(ii) ⟹ IsBielliptic k F ⟹ (i)` (the second implication over perfect `k`). In characteristic
+two the involution of (ii) never has `2g − 2` fixed points once `g ≥ 2`: every ramified place
+has different exponent at least two, so a genus-one quotient (`deg Diff = 2g − 2`) leaves at
+most `g − 1` fixed points. Neither converse of the chain holds in general: a genus-one quotient
+without rational points, and an involution not defined over `k` (whose descent 6.5 handles when
+it is unique). Consequences from
 5.2: bielliptic and geometrically hyperelliptic only for `g ≤ 3`; for `g ≥ 6` the bielliptic
 involution is unique; for `g ≥ 5` a bielliptic `F` has `gon_{k̄} = 4`.
 
@@ -1507,6 +1557,7 @@ The API includes:
 - The involution `x↦−x` on `y²=x⁶+1` has genus-one quotient and two fixed points, satisfying biellipticity.
 - The hyperelliptic involution on the same curve has genus-zero quotient and six fixed points; it is not a bielliptic involution.
 - Translation by a nonzero two-torsion point on an elliptic curve has genus-one quotient and zero fixed points, agreeing with `2g−2=0`.
+- Over `𝔽₂`, let `E : v² + v = u³` and `F = E(w)` with `w² + w = v`, so `w⁴ + w = u³`, a smooth plane quartic. The only ramified place lies over `O`, where `v` has a triple pole, with different exponent four, so `2g − 2 = 0 + 4` and `g = 3`. The involution `w ↦ w + 1` has the pointed genus-one quotient `E` but one fixed point, not `2g − 2 = 4`, and no involution of `F` has four (with different exponents at least two it would have a genus-zero quotient, but a smooth plane quartic is not hyperelliptic); reading (iii) as following from (ii) without `(2 : k) ≠ 0` would get this wrong.
 
 *Needs:* §§1.4, 1.6, 5.2, 6.3; algebraic constant extensions for the geometric clauses.
 
@@ -1571,15 +1622,21 @@ The API includes:
 
 ### 6.7 The hgcwa booleans and the quotient genus
 
-For `k` algebraically closed of characteristic zero (the hgcwa setting, `k = ℂ`) and a finite
-`G ≤ F ≃ₐ[k] F` with quotient genus `g_G := genus k F^G`: `hyperelliptic` is
-`IsHyperellipticFunctionField k F`, equivalently the existence of a central involution of
-`Aut(F/k)` with genus-zero quotient (the hyperelliptic involution is central, by uniqueness of the
-index-two subfield); `cyclic_trigonal` is `IsCyclicTrigonal k F`; `g0` is `g_G`, computed by 6.2.
-The sibling's `Riemann–Hurwitz with signature` `2g − 2 = |G| (2 g_G − 2 + Σ (1 − 1/mᵢ))` is 6.2's
-orbit form with `mᵢ` the stabilizer orders of the branch orbits.
+For `k` algebraically closed of characteristic zero (the hgcwa setting, `k = ℂ`), one function
+field `F` with `g ≥ 2` and a finite `G ≤ F ≃ₐ[k] F` with quotient genus `g_G := genus k F^G`:
+`IsHyperellipticFunctionField k F` holds iff `Aut(F/k)` has an involution with genus-zero
+quotient, and that involution is central (uniqueness of the index-two subfield);
+`IsCyclicTrigonal k F` is 6.6's predicate, its order-three subgroup unique for `g ≥ 5` (5.2(f));
+`g_G` is computed by 6.2, whose orbit form is the signature formula
+`2g − 2 = |G| (2 g_G − 2 + Σ (1 − 1/mᵢ))` with `mᵢ` the stabilizer orders of the branch orbits.
+These are statements about one function field. The hgcwa columns `hyperelliptic`,
+`cyclic_trigonal` and `g0` are the sibling `GroupActionsOnRiemannSurfaces`'s, read on the generic
+member of a family of actions. `g0` is the same on every member, but hyperellipticity is not:
+the Fermat quartic `x⁴ + y⁴ = z⁴` with `z ↦ −z` and `y² = x⁸ + 3x⁴ + 1` with `x ↦ −x` both carry
+a `C₂`-action of genus three with four fixed points and a genus-one quotient (signature
+`(1; 2⁴)`), and only the second is hyperelliptic.
 
-*Needs:* §§6.1–6.6; no generating-vector or topological classification input.
+*Needs:* §§5.2, 6.1–6.6; no generating-vector or topological classification input.
 
 ### Examples
 
@@ -1753,8 +1810,7 @@ Layers 1 and 6; JacobianChallenge Layers C–F; SchemeAndStackFoundations §§3.
 
 ## Layer 8: Abramovich's bound
 
-Abramovich 1996 (Theorem 0.1 and its proof); Li–Yau 1982; Yang–Yau 1980;
-Forster, *Lectures on Riemann Surfaces*, §8 (degree of a holomorphic map and the field degree).
+Abramovich 1996 (Theorem 0.1 and its proof); Li–Yau 1982; Yang–Yau 1980.
 
 ### 8.1 Analytic gonality
 
@@ -1780,17 +1836,19 @@ The API includes:
 
 ### 8.2 The analytic gonality is the gonality of the function field
 
-`M(X)`, the field of meromorphic functions, is a function field over `ℂ` and, for every
-nonconstant `f`, `[M(X) : ℂ(f)] = deg f` (Forster Thm. 8.12 gives `≤`, with the elementary
-symmetric functions of the fibre values; equality from the existence of meromorphic functions
-separating the points of a fibre and with prescribed principal parts, ModularForms 10B's
-Riemann–Roch). Hence `IsFunctionField ℂ (M(X))`, `IsIntegrallyClosedIn ℂ (M(X))`, and
+For `M(X)` the field of meromorphic functions, `IsFunctionField ℂ (M(X))`,
+`IsIntegrallyClosedIn ℂ (M(X))` and `[M(X) : ℂ(f)] = deg f` for every nonconstant `f` are the
+Belyi-maps roadmap's §§9.2–9.4 (the bound `≤` is Tau Ceti
+`TauCeti.RiemannSurface.MeromorphicFunction.natDegree_minpoly_ratFunc_le`). Hence
 ***gonAn X = gonality ℂ (M(X))*** (`analyticGonality_eq_gonality`, with `M(X)` Tau Ceti's field
-`RiemannSurface.MeromorphicFunction X`). No identification of `M(X)` with the function field of an
+`RiemannSurface.MeromorphicFunction X`): a transcendental element of `M(X)` is a nonconstant
+holomorphic map to `ℙ¹(ℂ)`, hence a finite holomorphic map (`FiniteHolomorphicMap.ofMDifferentiable`)
+whose degree is its field degree, and every finite holomorphic map to `ℙ¹(ℂ)` is such an element.
+No identification of `M(X)` with the function field of an
 algebraic model is used or claimed; that identification for `X = X(Γ_H)` is the modular-curve
 sibling's and enters only in 8.7.
 
-*Needs:* §8.1; Tau Ceti `RiemannSurface.MeromorphicFunction`; ModularForms Layer 10B, prescribed principal parts; Forster Theorem 8.12.
+*Needs:* §8.1; BelyiMaps §§9.2–9.4; Tau Ceti `RiemannSurface.MeromorphicFunction`.
 
 ### 8.3 Hyperbolic area and the variational `λ₁`
 
@@ -1914,7 +1972,7 @@ The sphere equality, the flat-plane energy and the square torus are in §8.4; th
 
 ### Dependencies
 
-Layer 1; ModularForms 10A–10B; FuchsianOrbifolds Layers 2 and 4; RiemannianGeometry.MinimalSurfaces 10.3–10.4; RiemannianGeometry.Surfaces 5.1–5.2; CongruenceSpectralGap §§0.2, 0.4, 0.7, 5.3.
+Layer 1; ModularForms 10A–10B; BelyiMaps §§9.2–9.4; FuchsianOrbifolds Layers 2 and 4; RiemannianGeometry.MinimalSurfaces 10.3–10.4; RiemannianGeometry.Surfaces 5.1–5.2; CongruenceSpectralGap §§0.2, 0.4, 0.7, 5.3.
 
 ## Layer 9: models as schemes
 
@@ -2007,8 +2065,9 @@ bounds of 1.3 and the lower bounds of 1.8, 9.3 and (through `gonality K F ≥ go
 `qbar_gonality` / `qbar_gonality_bounds` are `gon_{K̄}(F)` (1.7) with the upper bound of 5.4 and
 the lower bounds of 1.8, 9.3 and 8.6 (5.4 bounds only the geometric gonality: a genus-three
 double cover of a pointless conic has `gonality K F = 4 > 3 = ⌊(g + 3)/2⌋`, 5.2(b)); `genus` is
-Tau Ceti's; `isolated` is 7.3 with the criteria 7.6; the hgcwa `hyperelliptic`,
-`cyclic_trigonal`, `g0` are 6.7; `ag.bielliptic_curve` is 6.4.
+Tau Ceti's; `isolated` is 7.3 with the criteria 7.6; the hgcwa columns are
+`GroupActionsOnRiemannSurfaces`'s, with the single-curve predicates of 6.7; `ag.bielliptic_curve`
+is 6.4.
 
 *Needs:* §§1.1–1.10, 2.1, 2.6, 3.3–3.6, 4.1–4.5, 6.4, 6.6, 7.3–7.6, 9.1–9.3.
 
@@ -2052,7 +2111,8 @@ The examples below distinguish the invariants and name the milestones that repro
   hyperelliptic over `ℚ` (Ogg 1974), so `gon_{ℚ̄} = 2` although `⌊(g+3)/2⌋` is `3, 3, 4, 4`: the
   Brill–Noether bound is an upper bound (5.4). Boundary: `X₀(43)`, genus `3`, is not hyperelliptic,
   so its canonical model is a smooth plane quartic (3.9(a)) and `gon_{ℚ̄} = 3`.
-- **The Klein quartic** `x³y + y³z + z³x = 0` (`X(7)`, genus `3`, AlgebraicCurves Layer 10): smooth (4.3), `g = 3 = (4−1)(4−2)/2`, `δ = 0`; its canonical
+- **The Klein quartic** `x³y + y³z + z³x = 0` (`X(7)`, genus `3`, Tau Ceti
+  `TauCeti.genus_eq_three_of_pow_three_mul_add_pow_three_add_eq_zero`): smooth (4.3), `g = 3 = (4−1)(4−2)/2`, `δ = 0`; its canonical
   model is itself (3.9(a)); not hyperelliptic, so `gon_{ℚ̄} = 3` by 3.4 and 5.4; `gonality ℚ = 3`
   by projection from the rational point `(1 : 0 : 0)`. Over `𝔽₈` it has `24` rational points, so
   1.8 gives `gon_{𝔽₈} ≥ 24/9`, that is `≥ 3`, matching. The Fermat quartic `x⁴ + y⁴ = z⁴` has the
@@ -2152,8 +2212,6 @@ The examples below distinguish the invariants and name the milestones that repro
   S.-T. Yau, *Eigenvalues of the Laplacian of compact Riemann surfaces and minimal submanifolds*,
   Ann. Sc. Norm. Sup. Pisa 7 (1980), 55–63 — §2, Proposition, p. 58 (`λ₁ A ≤ 8π d` for a
   nonconstant holomorphic map of degree `d` to the sphere), pp. 59–60 (8.4).
-- O. Forster, *Lectures on Riemann Surfaces*, GTM 81 — §8, Theorem 8.12 (the field of meromorphic
-  functions and the degree of a map), 8.2.
 - M. Derickx, M. van Hoeij, *Gonality of the modular curve `X₁(N)`*, J. Algebra 417 (2014),
   52–71 — gonality bounds by point counts and the LMFDB's `X₁(N)` values. A. Ogg, *Hyperelliptic
   modular curves*, Bull. SMF 102 (1974), 449–462 — the `19` hyperelliptic `X₀(N)`.

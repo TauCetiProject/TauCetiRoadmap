@@ -642,8 +642,8 @@ noncomputable def analyticGonality (X : Type*) [TopologicalSpace X] [ChartedSpac
     RiemannSurface.degree f)
 
 /-- `README.md`, Layer 8, 8.2: the analytic gonality of a compact connected Riemann surface is
-the gonality of its field `M(X)` of meromorphic functions over `ℂ` (Forster, Theorem 8.12, for
-`[M(X) : ℂ(f)] = deg f`). -/
+the gonality of its field `M(X)` of meromorphic functions over `ℂ` (the degree theorem
+`[M(X) : ℂ(f)] = deg f` and the exact constants of `M(X)` are the Belyi-maps roadmap's §§9.2–9.4). -/
 theorem analyticGonality_eq_gonality (X : Type*) [TopologicalSpace X] [T2Space X]
     [ChartedSpace ℂ X] [IsManifold 𝓘(ℂ) ω X] [CompactSpace X] [ConnectedSpace X] :
     analyticGonality X = gonality ℂ (RiemannSurface.MeromorphicFunction X) := by
