@@ -1,7 +1,7 @@
 # Roadmap: Borel equivalence relations, the G₀ dichotomy and Silver's theorem
 
-Develop the classical, non-effective descriptive set theory of Borel equivalence relations on
-Polish and standard Borel spaces, from the Baire-category tools Mathlib lacks up to two
+**Summary.** Develop the classical, non-effective descriptive set theory of Borel equivalence
+relations on Polish and standard Borel spaces, from the Baire-category tools Mathlib lacks up to two
 summits:
 
 - **Silver's theorem.** A Borel equivalence relation on a Polish space has countably many
@@ -45,17 +45,17 @@ and perfect-space instances for Cantor space, Gδ subspaces, closure properties 
 the Borel graph theorem, the perfect set theorem for Borel sets, Kuratowski–Ulam and Mycielski),
 except two theorems: the perfect set theorem for analytic sets and the smoothness of closed
 equivalence relations. The rest is consumed, not rebuilt; see
-[Existing library and ownership](#existing-library-and-ownership).
+[Exact supplier contracts](#exact-supplier-contracts).
 
 The roadmap has no model-theoretic content and no model-theoretic dependency. Its principal
 consumer is the [CountableModelCounting](../CountableModelCounting/README.md) roadmap, which
 counts countable models through the interface of Layer 4.
 
-## Scope and dependency order
+## Scope and ownership
 
 Every layer below is required.
 
-| Layer | Builds | Consumes | Acceptance check (compiles without later layers) |
+| Layer | Builds | Consumes | Example (compiles without later layers) |
 | --- | --- | --- | --- |
 | 0 | Word cylinders and the coordinate flip; functional Borel graphs; the cardinality bound for standard Borel spaces; perfect and Cantor antichains with transport; countable splits | Mathlib Polish, perfect-set, Cantor-scheme, analytic-set and standard-Borel APIs; Tau Ceti's Cantor-space instances, Gδ subspaces, analytic-set closure and saturation, Borel graph theorem, Borel perfect set theorem and cardinality of perfect sets | an uncountable Borel subset of ℝ contains a Cantor copy |
 | 1 | Baire-measurable maps continuous on comeagre Gδ sets; Cantor subcopies; the graphs G_S, dense and sparse word sets, the canonical words, Miller's independence lemma | 0; Mathlib Baire-category API; Tau Ceti's Kuratowski–Ulam and Mycielski | every Borel equivalence relation on Cantor space with countable classes is meagre in the square |
@@ -126,7 +126,7 @@ everything about spaces of countable structures and their isomorphism relations:
    `Mathlib/Topology/Baire/BaireMeasurable.lean`.
    No second meagre or comeagre predicate is introduced.
 
-## Existing library and ownership
+## Exact supplier contracts
 
 The following are suppliers, not requests to rebuild their objects.
 
@@ -142,9 +142,9 @@ The following are suppliers, not requests to rebuild their objects.
 | Mathlib graphs, germs and cardinals | `SimpleGraph`, `SimpleGraph.fromRel`, `SimpleGraph.Coloring`, `SimpleGraph.Hom`, `SimpleGraph.IsIndepSet`; `Filter.germSetoid`, `Filter.Germ`; `Cardinal.continuum`, `Cardinal.mk_le_aleph0_iff`, `Cardinal.mk_real` |
 
 **From Tau Ceti**, at the pinned revision `2fd255d9`. These cover every layer of the build order
-below except the items of kind 3 in the supplier map after the table; this roadmap consumes them
-and does not restate them. Where a Tau Ceti statement is more general than the layer's
-description, the row says how.
+below except the items of kind 3 under [How to read the build](#how-to-read-the-build); this
+roadmap consumes them and does not restate them. Where a Tau Ceti statement is more general than
+the layer's description, the row says how.
 
 | Tau Ceti module | Consumed material |
 | --- | --- |
@@ -181,6 +181,9 @@ graphs](https://github.com/leanprover-community/mathlib4/pull/41944), and [`Perf
 equivalents land in Mathlib they replace the Tau Ceti declarations. The statements here use only
 the class `PerfectSpace`, so either definition of it serves.
 
+The Tau Ceti measurable-selection module `TauCeti.MeasureTheory.MeasurableSpace.Selection`
+(Kuratowski–Ryll-Nardzewski) is related but not consumed: no milestone here needs a selector.
+
 What is missing from Mathlib: a working `PolishSpace (ℕ → Bool)` instance (at the pinned Mathlib,
 instance search does not find it although `PolishSpace.mk` produces it); `PerfectSpace` for
 infinite products; meagreness of countable sets; standard Borel Gδ subspaces; Alexandrov's
@@ -189,7 +192,9 @@ Borel graph theorem; the perfect set theorem beyond closed sets; Kuratowski–Ul
 the remaining objects of every layer. Tau Ceti has all of this at the pin except the items of
 kind 3 below.
 
-**Supplier map.** Each target of Layers 0–5 and each worked example is of one of three kinds.
+## How to read the build
+
+Each target of Layers 0–5 and each worked example is of one of three kinds.
 
 1. *Direct replacements.* The Tau Ceti declaration named in the layer is the target: the same
    definition up to definitional equality, the same statement, or a more general statement that
@@ -220,9 +225,6 @@ kind 3 below.
    - worked examples 3 (in its closed-relation reading) and 8, which wait on these two theorems,
      and 5, the Vitali relation: Tau Ceti has neither the relation nor its generic ergodicity.
      The other worked examples follow from Mathlib and the declarations of kinds 1 and 2.
-
-The Tau Ceti measurable-selection module `TauCeti.MeasureTheory.MeasurableSpace.Selection`
-(Kuratowski–Ryll-Nardzewski) is related but not consumed: no milestone here needs a selector.
 
 ---
 
@@ -339,10 +341,17 @@ and `Setoid.IsThinOn` are the definitions of Convention 6, with this API:
   by countably many such tests is constant off a countable set
   (`TauCeti.constant_off_countable_of_splits`).
 
-**Acceptance check.** An uncountable Borel subset of ℝ (for example an uncountable closed set
-minus a countable set) contains a Cantor copy, by Tau Ceti's
-`MeasurableSet.exists_nat_bool_injection_of_not_countable`, and the set of pairs of distinct
-points of an analytic set is analytic.
+### Examples
+
+An uncountable Borel subset of ℝ (for example an uncountable closed set minus a countable set)
+contains a Cantor copy, by Tau Ceti's `MeasurableSet.exists_nat_bool_injection_of_not_countable`,
+and the set of pairs of distinct points of an analytic set is analytic.
+
+### Dependencies
+
+Mathlib's Polish, perfect-set, Cantor-scheme, analytic-set and standard-Borel APIs; Tau Ceti's
+Cantor-space instances, Gδ subspaces, analytic-set closure and saturation, Borel graph theorem,
+Borel perfect set theorem and cardinality of perfect sets.
 
 ## Layer 1 — Baire category on products and on Cantor space
 
@@ -434,9 +443,15 @@ Consumed from Tau Ceti (`TauCeti/SetTheory/Descriptive/GSGraph.lean`):
   meagre (`TauCeti.isMeagre_setOf_comp_of_forall_gSGraph_adj`, for a measurable `φ` and an `E` with
   measurable classes).
 
-**Acceptance check.** An equivalence relation on Cantor space with Borel graph and countable
-classes is meagre in the square: each section is countable, hence meagre
-(`Set.Countable.isMeagre`), and Kuratowski–Ulam applies.
+### Examples
+
+An equivalence relation on Cantor space with Borel graph and countable classes is meagre in the
+square: each section is countable, hence meagre (`Set.Countable.isMeagre`), and Kuratowski–Ulam
+applies.
+
+### Dependencies
+
+Layer 0; Mathlib's Baire-category API; Tau Ceti's Kuratowski–Ulam and Mycielski.
 
 ## Layer 2 — Borel colorings, separation and Miller's ideals
 
@@ -509,9 +524,15 @@ Fix an analytic relation `G` on a Polish Borel space `X`.
   naturals all have their words properly extended, by a fold of the pigeonhole over one-letter
   extensions: `SetRel.exists_subset_not_isSmallFamily_witness_extension`).
 
-**Acceptance check.** For a Borel equivalence relation `E`, the inequivalence relation has a
-countable Borel coloring exactly when `Quotient E` is countable (2.1), and in the uncountable
-case `Set.univ : Set (Fin 1 → X)` is not small for it.
+### Examples
+
+For a Borel equivalence relation `E`, the inequivalence relation has a countable Borel coloring
+exactly when `Quotient E` is countable (2.1), and in the uncountable case
+`Set.univ : Set (Fin 1 → X)` is not small for it.
+
+### Dependencies
+
+Layer 0; Mathlib's Lusin separation.
 
 ## Layer 3 — The G₀ dichotomy
 
@@ -551,9 +572,15 @@ Polish Borel space and `G : Set (X × X)` analytic.
   (apply the oriented form to the inequivalence relation and use Layer 2.1); for every sparse
   `S` the same holds with `orientedGS S` (`Setoid.exists_continuous_forall_gSGraph_adj_not`).
 
-**Acceptance check.** `TauCeti.gZero` has no countable Borel coloring (Layer 1.4), so the dichotomy
-is not vacuous on its own graph; and for `S = {[]}`, which is sparse but not dense, `gSGraph S` is
-2-colored by the first coordinate, so density is needed for exclusivity.
+### Examples
+
+`TauCeti.gZero` has no countable Borel coloring (Layer 1.4), so the dichotomy is not vacuous on its
+own graph; and for `S = {[]}`, which is sparse but not dense, `gSGraph S` is 2-colored by the first
+coordinate, so density is needed for exclusivity.
+
+### Dependencies
+
+Layers 1 and 2.
 
 ## Layer 4 — Silver's theorem
 
@@ -617,9 +644,15 @@ consumes the following Tau Ceti declarations, and nothing about structures is st
   conclusion;
 - the cardinality form `Setoid.mk_quotient_le_aleph0_or_eq_continuum` (4.2).
 
-**Acceptance check.** On an uncountable Polish space, `Setoid.silver_dichotomy` for `⊥` produces a
-continuous injection of Cantor space, agreeing with
-`IsClosed.exists_nat_bool_injection_of_not_countable` applied to `Set.univ`.
+### Examples
+
+On an uncountable Polish space, `Setoid.silver_dichotomy` for `⊥` produces a continuous injection of
+Cantor space, agreeing with `IsClosed.exists_nat_bool_injection_of_not_countable` applied to
+`Set.univ`.
+
+### Dependencies
+
+Layers 0, 1 and 3.
 
 ## Layer 5 — Borel reducibility, smoothness and E₀
 
@@ -681,7 +714,7 @@ Consumed from Tau Ceti (`TauCeti/SetTheory/Descriptive/EZero.lean`):
   (`Nat.cofinite_eq_atTop`), and the API states both readings (`TauCeti.eZero_iff_cofinite`).
 - `TauCeti.measurableSet_eZero`: the graph of E₀ is Fσ, hence Borel. Every class is countable
   and dense (`TauCeti.countable_setOf_eZero`, `TauCeti.dense_setOf_eZero`). E₀ is meagre in the
-  square (`TauCeti.isMeagre_eZero`; Layer 1 acceptance check).
+  square (`TauCeti.isMeagre_eZero`; the example of Layer 1).
 - `TauCeti.isMeagre_or_mem_residual_of_eZero_invariant` (generic ergodicity): an E₀-invariant set
   with the Baire property is meagre or comeagre. Such a set is invariant under every coordinate
   flip; if it is comeagre in some cylinder, the flips carry that cylinder onto every cylinder of the
@@ -702,8 +735,15 @@ continuous embedding of E₀; Harrington–Kechris–Louveau), is the general Gl
 It is not a target of this roadmap in any form, including its special cases for orbit
 equivalence relations of Polish group actions; see [Out of scope](#out-of-scope-for-this-roadmap).
 
-**Acceptance check.** `TauCeti.measurableSet_eZero`, `TauCeti.hasCantorAntichainOn_eZero` and
+### Examples
+
+`TauCeti.measurableSet_eZero`, `TauCeti.hasCantorAntichainOn_eZero` and
 `TauCeti.not_isSmooth_eZero`, assembled only from Layers 0–2 and the definitions of 5.1–5.2.
+
+### Dependencies
+
+Layers 0–4: Layer 4 only for Silver's reducibility form, and Layer 2 only for the closed-relation
+theorem.
 
 ## Worked examples
 
@@ -735,7 +775,7 @@ Discharge these alongside the layers; they check that the API describes real rel
 6. **Colorings.** The inequivalence relation of E₀ has no countable Borel coloring; the
    inequivalence relation of example 2 has one; `TauCeti.gZero` has none; `gSGraph {[]}` is
    2-colorable.
-7. **Mycielski regression.** Mycielski applied to E₀ (meagre by the Layer 1 acceptance check)
+7. **Mycielski regression.** Mycielski applied to E₀ (meagre by the example of Layer 1)
    produces a Cantor antichain, consistent with the explicit one of 5.4.
 8. **Analytic perfect sets.** The projection to the first coordinate of an uncountable closed
    subset of `ℝ × (ℕ → ℕ)` with uncountable projection contains a Cantor copy by the analytic
@@ -809,7 +849,7 @@ The following belong to separate roadmaps.
   antichain predicates out for its model classes, it writes the bodies of Convention 6, to which
   Tau Ceti's `Setoid.hasCantorAntichainOn_iff`, `Setoid.hasPerfectAntichainOn_iff` and
   `Setoid.isThinOn_iff` unfold the named predicates.
-- **Mathlib.** The open proposals listed under *Existing library and ownership* cover material
+- **Mathlib.** The open proposals listed under *Exact supplier contracts* cover material
   this roadmap consumes from Tau Ceti; they are design references, not assumptions that their
   code has merged. Mathlib's closed-set Cantor–Bendixson decomposition is
   consumed; the ordinal Cantor–Bendixson analysis discussed on the Zulip thread
