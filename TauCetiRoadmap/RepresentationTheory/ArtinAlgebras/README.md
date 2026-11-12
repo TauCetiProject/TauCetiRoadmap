@@ -174,14 +174,14 @@ The baseline is Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti
 - Almost-split maps and sequences in an arbitrary category: `TauCeti.IsLeftAlmostSplit`,
   `TauCeti.IsRightAlmostSplit` with `TauCeti.IsLeftAlmostSplit.isLocalRing_end`,
   `TauCeti.IsRightAlmostSplit.isLocalRing_end`, `TauCeti.IsLeftAlmostSplit.indecomposable` and
-  `TauCeti.IsRightAlmostSplit.indecomposable` (`TauCeti.CategoryTheory.AlmostSplit.Basic`), and
-  `ShortComplex.IsAlmostSplit` (`TauCeti.CategoryTheory.AlmostSplit.Sequence`). In a balanced
+  `TauCeti.IsRightAlmostSplit.indecomposable` (`TauCeti.CategoryTheory.AlmostSplit.Basic`), the
+  isomorphism of two right minimal right almost-split maps
+  `TauCeti.IsRightAlmostSplit.exists_iso_of_minimal` (`TauCeti.CategoryTheory.AlmostSplit.Minimal`),
+  and `ShortComplex.IsAlmostSplit` (`TauCeti.CategoryTheory.AlmostSplit.Sequence`). In a balanced
   preadditive category: uniqueness `CategoryTheory.ShortComplex.IsAlmostSplit.nonempty_iso`
   (`TauCeti.CategoryTheory.AlmostSplit.Uniqueness`), the irreducible maps into the right-hand end
   `CategoryTheory.ShortComplex.IsAlmostSplit.isIrreducibleMorphism_iff_exists_isSplitMono`
-  (`TauCeti.CategoryTheory.AlmostSplit.Components`), the isomorphism of two right minimal right
-  almost-split maps `TauCeti.IsRightAlmostSplit.exists_iso_of_minimal`
-  (`TauCeti.CategoryTheory.AlmostSplit.Minimal`, in any category), and
+  (`TauCeti.CategoryTheory.AlmostSplit.Components`), and
   `CategoryTheory.ShortComplex.IsAlmostSplit.rightRadicalQuotientEquiv` and
   `CategoryTheory.ShortComplex.IsAlmostSplit.leftRadicalQuotientEquiv`
   (`TauCeti.CategoryTheory.AlmostSplit.RadicalQuotient`), the last three for end terms with local
@@ -205,7 +205,9 @@ The baseline is Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti
 - The radical: `TauCeti.jacobsonRadical` and `TauCeti.jacobsonRadicalSq` (additive subgroups of
   each Hom group), the radical ideal `TauCeti.jacobsonRadicalIdeal` with
   `TauCeti.jacobsonRadicalIdeal_sq_hom`, `TauCeti.mem_jacobsonRadical_iff_not_isIso` for objects
-  with local endomorphism rings, `TauCeti.jacobsonRadical_self_eq_jacobson`, and
+  with local endomorphism rings, `TauCeti.mem_jacobsonRadical_iff_not_isSplitMono` and
+  `TauCeti.mem_jacobsonRadical_iff_not_isSplitEpi` for a source, resp. target, with local
+  endomorphism ring, `TauCeti.jacobsonRadical_self_eq_jacobson`, and
   `TauCeti.isIrreducibleMorphism_iff_mem_jacobsonRadical_and_notMem_jacobsonRadicalSq`
   (`TauCeti.CategoryTheory.Preadditive.Radical.Basic`).
 - Morphism ideals and their quotients: `TauCeti.MorphismIdeal`, `TauCeti.MorphismIdeal.Quotient`
@@ -816,7 +818,11 @@ endomorphism rings are the endo-local objects there.
 
 *Needs:* 3.1's `Ext¹`; 0.2's `IsKrullSchmidt`; Tau Ceti `ShortComplex.IsAlmostSplit`,
 `TauCeti.IsLeftAlmostSplit`, `TauCeti.IsRightAlmostSplit`,
-`CategoryTheory.ShortComplex.ShortExact.isLeftAlmostSplit_f_iff_extClass`.
+`CategoryTheory.ShortComplex.ShortExact.isLeftAlmostSplit_f_iff_extClass`; for the uniqueness, Tau
+Ceti `TauCeti.jacobsonRadical`, `TauCeti.IsLeftAlmostSplit.isLocalRing_end`,
+`TauCeti.IsRightAlmostSplit.isLocalRing_end`, `TauCeti.mem_jacobsonRadical_iff_not_isSplitMono`,
+`TauCeti.mem_jacobsonRadical_iff_not_isSplitEpi`,
+`TauCeti.IsRightAlmostSplit.exists_iso_of_minimal`.
 
 ### 3.4 The functorial picture
 
