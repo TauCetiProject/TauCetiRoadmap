@@ -12,9 +12,10 @@ references throughout are Colding and Minicozzi's book [CM], White's lecture not
 and Chodosh's lecture notes [Chodosh].
 
 This README is the roadmap. `Suggested.lean` states the targets that are statable against the
-pinned Mathlib and Tau Ceti: the half-space theorem (4.2), the point-picking lemma (5.4),
-Bernstein's theorem (7.6) and Hersch's balancing lemma (10.3). Its docstring names, for each
-other headline, the carrier of the parent roadmap that the statement needs.
+pinned Mathlib and Tau Ceti: the half-space theorem (4.2), ε-regularity (5.1) and the
+curvature estimate for stable surfaces (7.5) in `ℝ³`, Bernstein's theorem (7.6) and Hersch's
+balancing lemma (10.3). Its docstring names, for each other headline, the carrier of the
+parent roadmap that the statement needs.
 
 ## Scope and ownership
 
@@ -32,8 +33,8 @@ build, Layer k being MSk, and own:
 - MS3: monotonicity for proper minimal immersions with its affine-plane rigidity case, the
   boundary form of the tangency principle, the convex hull property, the maximum principle
   in a small ball, the mean value inequality, the improved Kato inequality and the
-  two-dimensional forms of G6's Simons identity, and the estimate of the ambient curvature
-  terms of that identity in a Riemannian manifold.
+  two-dimensional forms of G6's Simons identity, and the two-dimensional Kato form of G6's
+  Riemannian Simons inequality.
 - MS4: the first-contact lemma, unique continuation, the catenoid barriers and the half-space
   theorem.
 - MS5: ε-regularity under small total curvature, compactness under bounded area and
@@ -88,7 +89,7 @@ Boundaries with the parent and with other roadmaps:
   the statement for smooth proper minimal immersions, with its exact remainder, proved from
   the first variation without varifolds. Item 3.6 consumes Simons' identity and inequality
   and owns what G6 does not state: the improved Kato inequality, the two-dimensional
-  equalities, and the estimate of the ambient curvature terms in a Riemannian manifold.
+  equalities, and the two-dimensional Kato form of G6's Riemannian Simons inequality.
 - [PDE](../../PDE/README.md) owns the linear elliptic theory: maximum principles and the
   Hopf lemma (PDE C13), Harnack inequalities (PDE C14), De Giorgi–Nash–Moser (PDE E23) and
   the Schauder estimates (PDE E22 and E25). This sub-roadmap owns their application to the
@@ -98,7 +99,7 @@ Boundaries with the parent and with other roadmaps:
 - Hersch's balancing lemma (10.3) and the bound `λ₁(−Δ_Σ) |Σ| ≤ 8πd` for a holomorphic map
   of degree d from a closed Riemannian surface to the sphere (10.4) have this sub-roadmap
   as their single owner. A roadmap that needs this bound for a holomorphic map of degree d
-  on a compact Riemann surface, as the theory of the gonality of algebraic curves does,
+  on a compact Riemann surface, as CanonicalModelsAndGonality §8.4 does,
   cites 10.3 and 10.4.
 - The one-sided curvature estimate [CM4, Theorem 0.2] and the uniqueness of the helicoid use
   most of this sub-roadmap, especially the curvature estimate of MS7 and the graphical
@@ -158,7 +159,8 @@ parent supply the following, in arbitrary codimension before specializing to hyp
   mean curvature and stationarity under compactly supported variations [CM, §§1.1, 1.3]
   [White, §1, Theorem 1] [Chodosh, §7]. In `ℝ^m`, minimality of an n-dimensional submanifold
   is equivalent to harmonicity of the coordinate functions [CM, Lemma 1.8]
-  [White, Theorem 13] [Chodosh, Theorem 8.1].
+  [White, Theorem 13] [Chodosh, Theorem 8.1]. For an isometric immersion `f : Σ → ℝ^m`,
+  `Hess_Σ(x_i ∘ f) = ⟨II, e_i⟩`, so `|II|² = Σ_i |Hess_Σ(x_i ∘ f)|²`.
 - Second variation of volume, the normal-bundle Jacobi operator in arbitrary codimension and
   its scalar specialization on two-sided hypersurfaces, with the normal-bundle and
   double-cover form on one-sided hypersurfaces, and stability under compactly supported
@@ -364,7 +366,8 @@ Fourier series on the two-torus.
 The positive-Jacobi-field and curvature estimates in MS7 follow [Lynch] in `ℝ³`; their
 adaptation to a Riemannian three-manifold is this roadmap's own argument. They use MS6 (the
 stability quadratic form), the Bochner formula, the two-dimensional form of Simons' identity
-and the estimate of its ambient curvature terms (3.6), the Gauss equation (MS1), and the smooth
+and the two-dimensional Kato form of G6's Riemannian Simons inequality (3.6), the Gauss
+equation (MS1), and the smooth
 upper distance barriers of R4.1. This route is independent of MS2, MS4 and MS5, and does not
 need point-picking, ambient blow-up, pointed compactness for immersed surfaces, Pogorelov's
 area bound, the logarithmic cutoff or graphical neighbourhoods. The implication from stability
@@ -627,11 +630,12 @@ Let `f : Σ → ℝ^m` be a proper minimal immersion of an n-manifold (`1 ≤ n 
 where `ω_n` is the volume of the unit ball in `ℝⁿ` and `(f(q)−p)^⊥` is the component normal to
 `df_q(T_qΣ)` in `ℝ^m`. In particular, `r ↦ Area(f⁻¹(B_r(p)))/(ω_n rⁿ)` is nondecreasing on
 `(0,R)` and tends, as `r → 0`, to the number of points of `f⁻¹(p)`: area counts sheets with
-multiplicity. Include the affine-plane-rigidity equality case [White, Theorem 4]: if `Σ ⊂ ℝ^m`
-is a nonempty properly embedded minimal n-submanifold without boundary satisfying
-`lim_(R→∞) Area(Σ ∩ B_R(0))/(ω_n Rⁿ) ≤ 1`, then translation invariance of the asymptotic ratio
-and the small-ball limit 1 at `p₀ ∈ Σ` force `Area(Σ ∩ B_r(p₀))/(ω_n rⁿ) ≡ 1`, hence
-`(x−p₀)^⊥ ≡ 0` and `Σ = p₀ + T_(p₀)Σ` is an affine n-plane. In a Riemannian m-manifold N, for p
+multiplicity. Include the affine-plane-rigidity equality case [White, Theorem 4]: if
+`f : Σ → ℝ^m` is a proper minimal immersion of a nonempty n-manifold without boundary
+satisfying `lim_(R→∞) Area(f⁻¹(B_R(0)))/(ω_n Rⁿ) ≤ 1`, then translation invariance of the
+asymptotic ratio and the small-ball limit `#f⁻¹(p₀) ≥ 1` at `p₀ ∈ f(Σ)` force the ratio at p₀
+to be identically 1, hence `(f−p₀)^⊥ ≡ 0`, and f is an embedding onto an affine n-plane
+through p₀. In a Riemannian m-manifold N, for p
 in a compact subset `C ⊂ N` and R below a scale depending on the metric near C, there is
 `a ≥ 0` depending on the sectional curvature bound near C such that
 `r ↦ e^(ar) Area(f⁻¹(B_r(p)))/(ω_n rⁿ)` is nondecreasing for `0 < r < R` whenever `B_R(p)` is
@@ -782,19 +786,11 @@ Hence `Δ|A|² ≥ −2|A|⁴`, and `|A|Δ|A| − (2/n)|∇|A||² ≥ −|A|⁴`
 the equalities `|∇A|² = 2|∇|A||²`, `Δs = |∇s|²/s − 2s²` (`s = |A|² > 0`) and
 `Δ log|A| = −|A|²`.
 
-*Ambient curvature terms.* G6's item names the identity and fixes its signs; the estimate of
-the terms that the curvature of a Riemannian ambient manifold adds to it is owned here, in the
-two forms used in 5.1 and 7.4. For a minimal hypersurface in a Riemannian `(n+1)`-manifold N,
-prove
-
-`|½Δ|A|² − |∇A|² + |A|⁴| ≤ C(n)(|Rm_N| |A|² + |∇Rm_N| |A|)`
-
-pointwise, the norms of `Rm_N` and `∇Rm_N` being taken at the point: commute the covariant
-derivatives of A as in the Euclidean identity, with the Codazzi equation of R5a for N, whose
-right-hand side is the component `Rm_N(·,·,·,ν)`, and with the Gauss equation for the curvature
-of the hypersurface. In particular `Δ|A|² ≥ −2|A|⁴ − C(n)(|Rm_N| |A|² + |∇Rm_N| |A|)`, and at a
-point where `A = 0`, `Δ|A|² = 2|∇A|² ≥ 0`. For `n = 2` the same Codazzi term enters the Kato
-equality: for every `ε ∈ (0,1)` there is `C_ε` such that, where `s = |A|² > 0`,
+*Ambient curvature terms.* For a minimal hypersurface of a Riemannian `(n+1)`-manifold N,
+consume G6's Simons identity and inequality, whose ambient terms are bounded pointwise by
+`C(n)(|Rm_N| |A|² + |∇Rm_N| |A|)`; 5.1 uses this inequality. For `n = 2` the Codazzi term of
+R5a enters the Kato equality, and this form is owned here: for every `ε ∈ (0,1)` there is `C_ε`
+such that, where `s = |A|² > 0`,
 
 `Δs ≥ (1−ε)|∇s|²/s − 2s² − C(|Rm_N| s + |∇Rm_N| √s) − C_ε |Rm_N|²`
 
@@ -925,10 +921,15 @@ minimal surface and `f : Σ → B̄_r(x) ⊂ ℝ³` with `f(∂Σ) ⊂ ∂B_r(x)
 
 `σ² |A|²(q) ≤ C₀ ∫_Σ |A|²` for `0 < σ ≤ r` and `q ∈ Σ` with `f(q) ∈ B_(r−σ)(x)`.
 
+The same holds for a minimal immersion of a surface without boundary that is proper into the
+open ball `B_r(x)`: apply it to `f⁻¹(B̄_(r′)(x))` for regular values `r′ ↑ r` of `|f − x|`. Lean
+name: `exists_sq_mul_hessianCoordNormSq_le_lintegral`, for this form in `ℝ³`.
+
 In a Riemannian three-manifold N, for x in a compact subset `C ⊂ N` and `0 < r ≤ r₀` with
 `r₀, ε, C₀ > 0` depending on the metric near C, the same hypotheses give
 `σ² |A|²(q) ≤ C₀(∫_Σ |A|² + r²)`; in particular `σ² |A|²(q) ≤ 1` after decreasing ε and `r₀` so
-that `C₀(ε + r₀²) ≤ 1`. No stability is assumed. The proof uses Simons' inequality (3.6) and
+that `C₀(ε + r₀²) ≤ 1`. No stability is assumed. The proof uses Simons' inequality (G6, as
+consumed in 3.6) and
 the mean value inequality on minimal surfaces (3.5), which is proved like monotonicity (3.1).
 
 **Checks.**
@@ -942,8 +943,8 @@ the mean value inequality on minimal surfaces (3.5), which is proved like monoto
   circle, where `|f(q)| = λ`, `σ² |A|²(q) = 2σ²/λ²` is unbounded as `λ → 0` for `σ = ½`. Hence
   `ε < 8π`.
 
-*Needs:* 3.5, 3.6, 3.1; R1's Euclidean limits of rescaled metrics (MS1), for the Riemannian
-form.
+*Needs:* 3.5, 3.6, 3.1; GeometricCurrents G6 (Simons' inequality); R1's Euclidean limits of
+rescaled metrics (MS1), for the Riemannian form; DifferentialGeometry 10.2.
 
 ### 5.2 Compactness with bounded area and curvature
 
@@ -1020,8 +1021,6 @@ satisfies `(R₀ − d(x,x₀)) f(x) = M > 0`, then `q ↦ (R₀ − d(q,x₀)) 
 `λ_* = f(q_*)` therefore produces a ball of radius `λ_* ρ_* ≥ M/2` on which the rescaled
 quantity equals 1 at the origin and is bounded above by 2.
 
-Lean name: `exists_point_picking`.
-
 **Checks.**
 
 - `X = ℝ`, `x₀ = 0`, `R₀ = 1`, `S = [−1,1]`, `f ≡ 1`, `x = 0`: `M = 1`, the weight `1 − |y|` is
@@ -1083,8 +1082,9 @@ metrics (MS1).
 
 Layer 2 for graphical neighbourhoods, interior estimates and the difference of two sheets;
 Layer 3 for monotonicity with its rigidity case, the tangency principle, the mean value
-inequality and Simons' inequality; R1's Euclidean limits of rescaled metrics; Mathlib's
-Arzelà–Ascoli theorem and extreme value theorem. No stability is assumed.
+inequality; GeometricCurrents G6 for Simons' inequality; R1's Euclidean limits of rescaled
+metrics; DifferentialGeometry 10.2; Mathlib's Arzelà–Ascoli theorem and extreme value theorem.
+No stability is assumed.
 
 ## Layer 6 (MS6): Morse index and stability of minimal submanifolds
 
@@ -1453,7 +1453,7 @@ of `Σ ∖ ∂Σ`, and let p and R be as above, with `|Rm_N| ≤ Λ₀` and `|�
 both `3 − 1/c > 0` and `1 − 2c > 0`. The Bochner formula and the Gauss equation
 `Ric_Σ = (K_N(TΣ) − ½s) g` give, where `q > 0`, the Euclidean expression for `Δq` plus terms
 bounded below by `−C(Λ₀ |∇q|/√q + Λ₀(q+s) + Λ₁ √q)`, the last one coming from
-`−2⟨∇f, ∇(Ric_N(ν,ν))⟩`; the estimate of the ambient curvature terms of 3.6 gives, where
+`−2⟨∇f, ∇(Ric_N(ν,ν))⟩`; the two-dimensional Kato form of 3.6 gives, where
 `s > 0`, `Δs ≥ (1−ε₀)|∇s|²/s − 2s² − C(Λ₀ s + Λ₁ √s) − CΛ₀²`, and `Δs ≥ 0` where `s = 0`.
 Splitting the gradient terms as `(1−ε₀)(|∇q|²/q + c|∇s|²/s) + ε₀(|∇q|²/q + c|∇s|²/s)` with
 small `ε₀ > 0` still leaves a strictly positive quadratic term `c₀Q²` after completing the
@@ -1507,6 +1507,10 @@ is compact and contained in the interior, and when Σ is complete,
 
 `|A|²(p) ≤ C / dist(p,∂Σ)²`.
 
+Stability enters only through the scalar inequality `Q(φ) ≥ 0`, so the estimate holds for every
+minimal immersion that satisfies it. Lean name: `exists_sq_mul_hessianCoordNormSq_le_of_stable`,
+for the form in `ℝ³`.
+
 In a Riemannian three-manifold N, for p in a compact subset `C ⊂ N` and `0 < r ≤ r₀` with
 `r₀, C₀ > 0` depending on the metric near C, the Riemannian adaptation of 7.4 gives the
 Riemannian Schoen estimate [Schoen]: `sup_(B_r^Σ(p)) |A|² ≤ C₀/r²` whenever the closure of
@@ -1530,11 +1534,12 @@ and the graphical neighbourhoods of 2.4.
 *Sources:* [CM, §1.5]; [White, Theorem 29].
 
 Every complete, connected, two-sided stable minimal immersion of a surface without boundary in
-`ℝ³` has a plane as its image [FCS] [dCP] [Pogorelov]. Consequently, every smooth solution of
-the minimal-surface equation on all of `ℝ²` is affine: an entire graph is complete, and it is
-stable by 7.3 (see also [Chodosh, Theorem 25.1] for a direct proof for entire graphs using area
-minimization). By completeness and the absence of boundary, `dist(p,∂Σ) = ∞` for every p, so
-the curvature estimate 7.5 gives `|A|²(p) = 0`, hence `A ≡ 0`.
+`ℝ³` has a plane as its image [FCS] [dCP] [Pogorelov]. Consequently, every `C²` solution of
+the minimal-surface equation on all of `ℝ²` is affine: it is smooth by the regularity of 2.2,
+an entire graph is complete, and it is stable by 7.3 (see also [Chodosh, Theorem 25.1] for a
+direct proof for entire graphs using area minimization). By completeness and the absence of
+boundary, `dist(p,∂Σ) = ∞` for every p, so the curvature estimate 7.5 gives `|A|²(p) = 0`,
+hence `A ≡ 0`.
 
 Lean name: `exists_affine_of_minimalSurfaceEquation`, for the statement on entire graphs.
 
@@ -1546,7 +1551,7 @@ Lean name: `exists_affine_of_minimalSurfaceEquation`, for the statement on entir
 - `u = xy` and `u = x² − y²` are entire and harmonic, and the left-hand side of the
   minimal-surface equation of 2.1 takes the values `−2xy` and `8(y² − x²)` on them.
 
-*Needs:* 7.5, 7.3.
+*Needs:* 7.5, 7.3; 2.2 (smoothness of a `C²` solution).
 
 ### 7.7 Limits of stable hypersurfaces
 
@@ -1587,8 +1592,8 @@ Layer 6 for the stability form and the index; R5b's Jacobi operator; R5c's princ
 eigenfunction, strict domain monotonicity and Dirichlet problem; R7.0's Bochner formula; 1.1
 and 3.6 for the Gauss curvature, the two-dimensional Simons identity and its ambient terms;
 R4.1's smooth upper distance barriers; the pinned Green identity and maximum principle at a
-local maximum; PDE C14, E23 and E25 for the exhaustion in 7.2. Items 7.1–7.6 are independent of
-Layers 2, 4 and 5; 7.7 uses 2.5 and 5.2.
+local maximum; PDE C14, E23 and E25 for the exhaustion in 7.2. Items 7.1–7.5 are independent of
+Layers 2, 4 and 5; 7.6 uses 2.2, and 7.7 uses 2.5 and 5.2.
 
 ## Layer 8 (MS8): removable singularities
 
@@ -1906,7 +1911,7 @@ bound.
 
 ### 10.3 Hersch's conformal balancing lemma on `S²`
 
-*Sources:* [Hersch]; [YangYau]; [Chodosh, Theorem 34.5].
+*Sources:* [Hersch]; [YangYau, p. 59]; [Chodosh, proof of Theorem 34.5].
 
 Let `(Σ,μ)` be a finite positive Borel measure space (`μ(Σ) > 0`) and let `Φ : Σ → S² ⊂ ℝ³` be
 a measurable map whose fibres over antipodal points are null: `μ(Φ⁻¹({−v})) = 0` for every
@@ -1948,7 +1953,8 @@ Lean names: `herschMap` for `T_a`, as a map of the ambient space, and
 
 ### 10.4 The degree bound and the Yang–Yau eigenvalue bound
 
-*Sources:* [YangYau]; [Chodosh, Theorem 34.5].
+*Sources:* [YangYau, §2, Proposition, p. 58, and Theorem 1, p. 55]; [Chodosh, Theorem 34.5
+and its proof].
 
 Let `(Σ,g)` be a closed connected orientable Riemannian surface, with an orientation chosen.
 Endowing Σ with the smooth almost complex structure j given by rotation by `+π/2` in oriented
@@ -2083,7 +2089,7 @@ map).
 
 ### 11.2 Frankel's theorem
 
-*Sources:* [Frankel].
+*Sources:* [Frankel]; [Chodosh, Exercise 20.2], for the round sphere.
 
 Let `(M^(n+1),g)` be a complete connected Riemannian `(n+1)`-manifold with `Ric_g > 0`, and let
 `f₁ : Σ₁ → M` and `f₂ : Σ₂ → M` be minimal immersions of nonempty closed n-manifolds; in

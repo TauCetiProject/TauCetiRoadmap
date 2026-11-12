@@ -1,18 +1,21 @@
 import Mathlib
 import TauCeti.Geometry.Manifold.Riemannian.Laplacian
+import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 
 /-!
 # Minimal surfaces: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. These signatures state the targets of the sub-roadmap that are statable against
-the pinned Mathlib and Tau Ceti: the half-space theorem (4.2), the point-picking lemma (5.4),
-Bernstein's theorem (7.6), and the conformal maps and the balancing lemma of Hersch (10.3).
-Unimplemented statements have honest `sorry` bodies.
+the pinned Mathlib and Tau Ceti: the half-space theorem (4.2), ε-regularity in `ℝ³` (5.1),
+the curvature estimate for stable minimal surfaces in `ℝ³` (7.5), Bernstein's theorem (7.6),
+and the conformal maps and the balancing lemma of Hersch (10.3). Unimplemented statements have
+honest `sorry` bodies.
 
-In the half-space theorem a minimal immersion into `ℝ³` is an isometric immersion whose
-coordinate functions are harmonic for `TauCeti.Manifold.laplaceBeltrami`, which is MS1's
-characterization of minimality in a Euclidean space.
+In `ℝ³` a minimal immersion is an isometric immersion whose coordinate functions are harmonic
+for `TauCeti.Manifold.laplaceBeltrami`, which is MS1's characterization of minimality in a
+Euclidean space, and `|A|²` of an isometric immersion is `hessianCoordNormSq`, the sum of the
+squared Hessians of the coordinate functions (MS1).
 
 The other headlines of `README.md` are not statable at the pins, for lack of the carriers of
 RiemannianGeometry R5a and R5b named below. `TauCeti.secondFundamentalForm` is the second
@@ -20,16 +23,15 @@ fundamental form of a map from a finite-dimensional normed space into an inner p
 the pins have no second fundamental form, mean curvature, normal connection or second
 variation of volume of an immersion of a manifold into a Riemannian manifold.
 
-- ε-regularity (5.1) needs the second fundamental form `A` of an immersed surface with
-  boundary, for `∫ |A|²` and `|A|²(q)`.
+- ε-regularity (5.1) and the curvature estimate (7.5) are stated in `ℝ³`, `|A|²` of an
+  isometric immersion being `hessianCoordNormSq`; their Riemannian forms need `A` and
+  `Ric_N(ν,ν)` of a surface in a Riemannian three-manifold.
 - Compactness under bounded area and curvature (5.2) needs the mean curvature and `|A|` of a
   hypersurface of a Riemannian manifold.
 - The Morse index (6.1) needs the normal bundle of a minimal immersion with its normal
   connection, and the index form of the second variation of volume.
 - Instability under `Ric > 0` (6.4) needs the mean curvature and `|A|` of a two-sided
   hypersurface of a Riemannian manifold, for the stability form.
-- The curvature estimate for stable surfaces (7.5) needs `|A|` and the stability form of a
-  two-sided minimal immersion.
 - Removable singularities (8.1) and compactness under bounded total curvature (9.1) need the
   mean curvature and `|A|` of a surface in a Riemannian three-manifold.
 - Frankel's theorem (11.2) needs the mean curvature of an immersion into a Riemannian
@@ -41,11 +43,11 @@ variation of volume of an immersion of a manifold into a Riemannian manifold.
 noncomputable section
 
 open MeasureTheory Metric Bundle
-open scoped Manifold ContDiff
+open scoped Manifold ContDiff ENNReal
 
 namespace TauCetiRoadmap.RiemannianGeometry.MinimalSurfaces
 
-/-! ### MS4.2: the half-space theorem -/
+/-! ## Layer 4: the half-space theorem -/
 
 /-- **Half-space theorem** (MS4.2). A proper isometric immersion of a connected nonempty surface
 into `ℝ³` with harmonic coordinates, that is a proper minimal immersion (MS1), whose image lies in
@@ -67,25 +69,69 @@ theorem range_eq_plane_of_minimal_of_nonneg {S : Type*} [TopologicalSpace S]
     ∃ c : ℝ, Set.range f = {y | y 2 = c} := by
   sorry
 
-/-! ### MS5.4: the point-picking lemma -/
+/-! ## Layer 5 and Layer 7: ε-regularity and the curvature estimate in `ℝ³` -/
 
-/-- **Point-picking lemma** (MS5.4). On a compact subset `S` of a closed ball, a nonnegative
-continuous `f` whose weight `(R₀ - dist x x₀) * f x` is positive at an interior point attains
-its maximal weight at an interior point `q`; on the ball about `q` of half the remaining
-radius, `f` is at most `2 * f q`, and the rescaled radius is at least `M / 2`. -/
-theorem exists_point_picking {X : Type*} [PseudoMetricSpace X] {x₀ : X} {R₀ : ℝ} {S : Set X}
-    (hS : IsCompact S) (hSR : S ⊆ closedBall x₀ R₀) {f : X → ℝ} (hf : ContinuousOn f S)
-    (hf0 : ∀ y ∈ S, 0 ≤ f y) {x : X} (hx : x ∈ S) (hxR : dist x x₀ < R₀) {M : ℝ}
-    (hM : 0 < M) (hxM : (R₀ - dist x x₀) * f x = M) :
-    ∃ q ∈ S, dist q x₀ < R₀ ∧
-      (∀ y ∈ S, (R₀ - dist y x₀) * f y ≤ (R₀ - dist q x₀) * f q) ∧
-      M ≤ (R₀ - dist q x₀) * f q ∧
-      ball q ((R₀ - dist q x₀) / 2) ⊆ ball x₀ R₀ ∧
-      M / 2 ≤ (R₀ - dist q x₀) / 2 * f q ∧
-      ∀ y ∈ S ∩ ball q ((R₀ - dist q x₀) / 2), f y ≤ 2 * f q := by
+/-- `Σᵢ |Hess fᵢ|²(x)` for a map `f` of a Riemannian surface into `ℝ³`. For an isometric
+immersion it is `|A|²(x)`, since `Hess fᵢ = ⟨II, eᵢ⟩` (MS1). -/
+def hessianCoordNormSq {S : Type*} [TopologicalSpace S]
+    [ChartedSpace (EuclideanSpace ℝ (Fin 2)) S] [IsManifold (𝓡 2) 2 S]
+    [RiemannianBundle (fun x : S ↦ TangentSpace (𝓡 2) x)]
+    [IsContMDiffRiemannianBundle (𝓡 2) 1 (EuclideanSpace ℝ (Fin 2))
+      (fun x : S ↦ TangentSpace (𝓡 2) x)]
+    (f : S → EuclideanSpace ℝ (Fin 3)) (x : S) : ℝ :=
+  ∑ i : Fin 3, ∑ j, ∑ k, TauCeti.Manifold.hessian (𝓡 2) (fun y ↦ f y i) x
+    (stdOrthonormalBasis ℝ (TangentSpace (𝓡 2) x) j)
+    (stdOrthonormalBasis ℝ (TangentSpace (𝓡 2) x) k) ^ 2
+
+/-- **ε-regularity in `ℝ³`** (MS5.1). There are universal `ε, C₀ > 0` such that a minimal
+immersion of a surface that is proper into the open ball `B_r(x₀)` and has total curvature at
+most `ε` satisfies `σ² |A|²(q) ≤ C₀ ∫ |A|²` whenever `f q ∈ B_(r−σ)(x₀)`. -/
+theorem exists_sq_mul_hessianCoordNormSq_le_lintegral : ∃ ε C₀ : ℝ, 0 < ε ∧ 0 < C₀ ∧
+    ∀ (S : Type) [TopologicalSpace S] [ChartedSpace (EuclideanSpace ℝ (Fin 2)) S]
+    [IsManifold (𝓡 2) ∞ S] [RiemannianBundle (fun x : S ↦ TangentSpace (𝓡 2) x)]
+    [IsContMDiffRiemannianBundle (𝓡 2) 1 (EuclideanSpace ℝ (Fin 2))
+      (fun x : S ↦ TangentSpace (𝓡 2) x)]
+    [IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin 2)) (fun x : S ↦ TangentSpace (𝓡 2) x)]
+    [MeasurableSpace S] [BorelSpace S] [SecondCountableTopology S]
+    (f : S → EuclideanSpace ℝ (Fin 3)) (x₀ : EuclideanSpace ℝ (Fin 3)) (r : ℝ),
+    ContMDiff (𝓡 2) 𝓘(ℝ, EuclideanSpace ℝ (Fin 3)) ∞ f →
+    (∀ (x : S) (v w : TangentSpace (𝓡 2) x),
+      inner ℝ (mfderiv (𝓡 2) 𝓘(ℝ, EuclideanSpace ℝ (Fin 3)) f x v)
+        (mfderiv (𝓡 2) 𝓘(ℝ, EuclideanSpace ℝ (Fin 3)) f x w) = inner ℝ v w) →
+    (∀ (i : Fin 3) (x : S), TauCeti.Manifold.laplaceBeltrami (𝓡 2) (fun y ↦ f y i) x = 0) →
+    (∀ q, f q ∈ ball x₀ r) → (∀ K ⊆ ball x₀ r, IsCompact K → IsCompact (f ⁻¹' K)) →
+    ∫⁻ x, ENNReal.ofReal (hessianCoordNormSq f x) ∂TauCeti.riemannianVolume (𝓡 2) S ≤
+      ENNReal.ofReal ε →
+    ∀ (σ : ℝ) (q : S), 0 < σ → dist (f q) x₀ < r - σ →
+      σ ^ 2 * hessianCoordNormSq f q ≤ C₀ *
+        (∫⁻ x, ENNReal.ofReal (hessianCoordNormSq f x)
+          ∂TauCeti.riemannianVolume (𝓡 2) S).toReal := by
   sorry
 
-/-! ### MS7.6: Bernstein's theorem -/
+/-- **Curvature estimate for stable minimal surfaces in `ℝ³`** (MS7.5). There is a universal
+`C` such that a minimal immersion of a surface into `ℝ³` satisfying the stability inequality
+`∫ |A|² φ² ≤ ∫ |∇φ|²` has `R² |A|²(p) ≤ C` whenever the intrinsic ball `B̄_R(p)` is compact. -/
+theorem exists_sq_mul_hessianCoordNormSq_le_of_stable : ∃ C : ℝ, ∀ (S : Type) [MetricSpace S]
+    [ChartedSpace (EuclideanSpace ℝ (Fin 2)) S] [IsManifold (𝓡 2) ∞ S]
+    [RiemannianBundle (fun x : S ↦ TangentSpace (𝓡 2) x)]
+    [IsContMDiffRiemannianBundle (𝓡 2) 1 (EuclideanSpace ℝ (Fin 2))
+      (fun x : S ↦ TangentSpace (𝓡 2) x)]
+    [IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin 2)) (fun x : S ↦ TangentSpace (𝓡 2) x)]
+    [IsRiemannianManifold (𝓡 2) S] [MeasurableSpace S] [BorelSpace S] [SecondCountableTopology S]
+    (f : S → EuclideanSpace ℝ (Fin 3)),
+    ContMDiff (𝓡 2) 𝓘(ℝ, EuclideanSpace ℝ (Fin 3)) ∞ f →
+    (∀ (x : S) (v w : TangentSpace (𝓡 2) x),
+      inner ℝ (mfderiv (𝓡 2) 𝓘(ℝ, EuclideanSpace ℝ (Fin 3)) f x v)
+        (mfderiv (𝓡 2) 𝓘(ℝ, EuclideanSpace ℝ (Fin 3)) f x w) = inner ℝ v w) →
+    (∀ (i : Fin 3) (x : S), TauCeti.Manifold.laplaceBeltrami (𝓡 2) (fun y ↦ f y i) x = 0) →
+    (∀ φ : S → ℝ, ContMDiff (𝓡 2) 𝓘(ℝ) ∞ φ → HasCompactSupport φ →
+      ∫ x, hessianCoordNormSq f x * φ x ^ 2 ∂TauCeti.riemannianVolume (𝓡 2) S ≤
+        ∫ x, ‖TauCeti.Manifold.mgradient (𝓡 2) φ x‖ ^ 2 ∂TauCeti.riemannianVolume (𝓡 2) S) →
+    ∀ (p : S) (R : ℝ), 0 < R → IsCompact (closedBall p R) →
+      R ^ 2 * hessianCoordNormSq f p ≤ C := by
+  sorry
+
+/-! ## Layer 7: stability and the curvature estimate -/
 
 /-- **Bernstein's theorem** (MS7.6). A `C²` solution of the minimal-surface equation
 `(1 + u_y²) u_xx − 2 u_x u_y u_xy + (1 + u_x²) u_yy = 0` on all of `ℝ²` is affine. -/
@@ -97,7 +143,7 @@ theorem exists_affine_of_minimalSurfaceEquation {u : ℝ × ℝ → ℝ} (hu : C
     ∃ a b c : ℝ, ∀ x y : ℝ, u (x, y) = a * x + b * y + c := by
   sorry
 
-/-! ### MS10.3: Hersch's conformal maps and the balancing lemma -/
+/-! ## Layer 10: eigenvalue estimates and area bounds -/
 
 /-- The conformal map `T_a` of the unit sphere of `ℝ³`, for `a` in the open unit ball
 (MS10.3), as a map of the ambient space. -/
