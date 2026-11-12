@@ -2148,7 +2148,8 @@ gives `Ric_g ≥ k g` for some `k > 0`, so by Bonnet–Myers (R4.5) the universa
 closed connected embedded minimal hypersurface `Σ ⊂ M`, the full preimage `Σ̃ = π⁻¹(Σ) ⊂ M̃` is
 a nonempty closed embedded minimal hypersurface in `(M̃,π^*g)` whose connected components are
 pairwise disjoint; since `Ric_(π^*g) > 0`, Frankel's theorem implies that Σ̃ is connected
-(equivalently, `π₁(Σ) → π₁(M)` is surjective [Frankel, §1, Theorem, p. 69]). Because M̃ is simply connected, M̃ is
+(equivalently, `π₁(Σ) → π₁(M)` is surjective [Frankel, §1, Theorem, p. 69]). Because M̃ is
+simply connected, M̃ is
 orientable with `b₁(M̃) = 0`, so Σ̃ separates M̃ and is two-sided, hence orientable (R7.9).
 Moreover, `π|_(Σ̃) : Σ̃ → Σ` is a d-sheeted covering, so `χ(Σ̃) = d χ(Σ)` by Tau Ceti's
 `TauCeti.eulerChar_eq_mul_of_isCoveringMap`; when `n = 2` and Σ is orientable of genus γ, Σ̃
