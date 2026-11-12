@@ -281,6 +281,13 @@ For a linear order `I` and a colour type `C`:
   `μ = 0`, since `Fin 0 ↪o J` is inhabited and admits no colouring by an empty type. The partition
   theorems of this layer all have an infinite colour bound.
 
+**Checks.**
+
+- `0 → (0)¹_0` holds: the empty order is its own homogeneous set (Erdős and Rado's form fails).
+- `3 → (2)¹_2` holds: two colours on three points leave a fibre with two points.
+- `2 → (2)¹_2` fails: colouring the two points of a two-element order differently leaves no
+  homogeneous set with two points.
+
 API: homogeneity is inherited by subsets and transported along order embeddings and order
 isomorphisms; the restriction of a colouring along an order embedding has the pulled-back
 homogeneous sets; `IsHomogeneousOn` implies `IsEndHomogeneousOn`; `PartitionRel.mono` (larger
@@ -661,6 +668,12 @@ number exactly when it is not a Hanf bound; invariance of all three notions unde
 a nonempty model of `φ` expands to a model of its image, interpreting the new symbols arbitrarily,
 and a model of the image restricts to a model of `φ` on the same carrier.
 
+**Checks.**
+
+- `∀x ⊥` has Hanf number `0`: it has no nonempty model, so every cardinal is a Hanf bound.
+- The ladder sentence at `α = 0` (4.2) has Hanf number `(2^ℵ₀)⁺`: it has a model of cardinality
+  `2^ℵ₀` and none larger, so exactly the cardinals above `2^ℵ₀` are Hanf bounds.
+
 ### 3.2 Reduction to a countable Skolemized setting
 
 *Needs:* 2.1; IME 0.1–0.3; Mathlib `exists_wellFoundedLT`.
@@ -923,6 +936,13 @@ Suggested home: `TauCeti/Order/HighlyTransitive.lean` and
   notes, Exercise 5.12, p. 59, whose hint is `of_field`; it is stated there for every `κ`, but no
   finite order with at least two points is highly order-transitive).
 
+**Checks.**
+
+- `ℚ` is highly order-transitive.
+- `ℤ` is not: its order automorphisms are translations, so none sends `(0, 1)` to `(0, 2)`, although
+  any point can be sent to any point.
+- `Fin 2` is not: its only order automorphism is the identity, which does not send `0` to `1`.
+
 ### 5.2 Small structures
 
 *Needs:* IME 0.1, 4.1; InfinitaryLogic Layers 1–3 (`PotentialIso`).
@@ -936,6 +956,13 @@ Using IME's `infinitaryType` and `realizedTypes` (IME 4.1):
   same complete types, so smallness transfers along `PotentialIso`; if every tuple's complete
   type is determined by its orbit under a group of automorphisms with countably many orbits on
   `n`-tuples for each `n`, the structure is small.
+
+**Checks.**
+
+- `(ℝ, <)` is small: the complete type of a tuple is determined by its order type, since order
+  automorphisms act transitively on increasing tuples.
+- The ordered field `ℝ` is not small: every rational is definable, so distinct reals have distinct
+  complete `1`-types, and there are `2^ℵ₀` of them.
 
 ### 5.3 Small models of every infinite cardinality
 
@@ -967,6 +994,11 @@ Karp's forward direction).
 In 5.4 and 5.5 `L` is relational with countably many relation symbols, as the parent's Scott
 sentences require; 5.6 extends both headlines to languages with countably many function and
 relation symbols.
+
+**Checks** (`IsCompleteSentence`, Convention 7).
+
+- `⊥` is not complete: it has no model.
+- The Scott sentence of `(ℚ, <)` is complete (`isCompleteSentence_scottSentence`).
 
 - **`exists_countable_potentialIso_of_isLω₁ωSmall`** (countable companion): a small structure `M` is
   potentially isomorphic to a countable structure (Marker's notes, the remark after Definition 6.11,
