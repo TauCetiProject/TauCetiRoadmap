@@ -155,9 +155,9 @@ compactness arguments, never in a final estimate.
   `open scoped Matrix.Norms.L2Operator` (`Mathlib/Analysis/CStarAlgebra/Matrix.lean:280`); it is
   the norm in which Tau Ceti states the smoothness of the square root, and §7.1 transfers that
   statement to the entrywise norm.
-- `contDiffAt_ringInverse` (`Mathlib/Analysis/Calculus/ContDiff/Operations.lean:779`) and the
-  Faà di Bruno bound `norm_iteratedFDeriv_comp_le`
-  (`Mathlib/Analysis/Calculus/ContDiff/Bounds.lean:510`).
+- The Faà di Bruno bound `norm_iteratedFDerivWithin_comp_le`
+  (`Mathlib/Analysis/Calculus/ContDiff/Bounds.lean:444`), and `CFC.sqrt_eq_rpow` and
+  `CFC.rpow_neg` (`Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Basic.lean:633,516`).
 - `ContinuousLinearMap.hasFDerivAt_of_bilinear` (`Mathlib/Analysis/Calculus/FDeriv/Bilinear.lean:120`):
   the product rule for a bounded bilinear map, applied to `dotProduct` and `mulVec` in §2.1.
 
@@ -166,11 +166,14 @@ compactness arguments, never in a final estimate.
 - `Matrix.contDiffOn_sqrt` and `Matrix.contDiffOn_rpow`
   (`TauCeti/Analysis/Matrix/Exponential/Log.lean:106,98`): `CFC.sqrt` and `P ↦ P ^ s` are `C^k`
   on the positive definite matrices for every `k`, in the norm of
-  `open scoped Matrix.Norms.L2Operator`. These are the only Tau Ceti declarations consumed; the
-  statements of `Suggested.lean` need only Mathlib.
+  `open scoped Matrix.Norms.L2Operator`.
+- `TauCeti.fwdDiff_iter_smul` (`TauCeti/Algebra/Group/ForwardDiff.lean:102`): the iterated
+  discrete Leibniz rule over a possibly noncommutative ring, used with `j ↦ Matrix.toLin' (a j)`
+  in §3.1.
 
-Nothing else in Mathlib or Tau Ceti treats hyperbolic systems, transport equations, difference
-schemes or grid functions on `ℤⁿ`; every such item below is a target.
+The statements of `Suggested.lean` need only Mathlib. Nothing else in Mathlib or Tau Ceti treats
+hyperbolic systems, transport equations or difference schemes; every such item below is a
+target.
 
 ## How to read the build
 
@@ -186,6 +189,9 @@ in parallel after Layer 1; Layer 4 needs Layer 3; Layer 5 needs Layer 4; Layer 6
 ## Layer 1: systems and classical solutions
 
 ### 1.1 Continuous partial derivatives give `C¹`
+
+(Rudin, *Principles of Mathematical Analysis*, 3rd ed., Theorem 9.21, for maps between Euclidean
+spaces.)
 
 Prove that a function `f : EuclideanSpace ℝ ι → G` (`ι` a finite type, `G` a real normed space)
 whose partial derivatives `gᵢ(x) = d/dr f(x + r eᵢ)|_{r=0}` exist at every point of an open set
@@ -244,6 +250,18 @@ the initial value are not fields of the system.
 - The predicate is satisfiable and not vacuous: `A⁰ = 1`, `Aʲ = 0`, `B = 0` is symmetric
   hyperbolic with constant `λ` exactly when `0 < λ ≤ 1` (test `ξ = e₁`, `N ≥ 1`); `A⁰ = 0` is not,
   for any `λ > 0`.
+- `matDt`, `matDx`: for `M(t,x) = t x₁ • [[0, 1], [1, 0]]` on `ℝ × ℝ²`,
+  `matDt M t x = x₁ [[0, 1], [1, 0]]`, `matDx M 0 t x = t [[0, 1], [1, 0]]` and `matDx M 1 t x = 0`.
+- The product rule for `matDt`: for `P(t) = diag(t, 1)`, `matDt (P · P)` at `t = 1` is
+  `diag(2, 0) = matDt P · P + P · matDt P`, while `matDt P · matDt P = diag(1, 0)`.
+- Junk values: for `M(t) = |t| • 1`, `matDt M 0 = 0` (Mathlib's `deriv` of a non-differentiable
+  function), which is why statements about `matDt` assume `C¹`.
+- `IsClassicalSolution` excludes non-`C¹` functions: `u(t,x) = |x − t|` solves `∂ₜu + ∂ₓu = 0`
+  off the line `x = t`, but `uncurry u` is not `C¹`, so it is not a classical solution.
+- For `T < 0` the set `Icc 0 T ×ˢ univ` is empty, so every `u` is a classical solution; the
+  existence theorems therefore assume `0 < T`.
+- The predicate does not fix `u 0`: with `A⁰ = 1`, `Aʲ = B = F = 0`, every `u(t,x) = g(x)` with
+  `g` of class `C¹` is a classical solution.
 
 *Needs:* §1.1; Mathlib's `Matrix.mulVec`, `Matrix.dotProduct`, `Matrix.IsSymm`, `ContDiffOn`.
 
@@ -370,7 +388,10 @@ because `F = 0` where `φ > 0`; and `⟪Ku, u⟫ ≤ (κ/λ)⟪A⁰u, u⟫` for 
   `F = 0` the constant `u = 1` is a classical solution with infinite energy, for which Mathlib's
   `∫` returns the junk value `0`.
 
-*Needs:* §2.2; §1.2 linearity.
+*Needs:* uniqueness: §2.2, §1.2 (linearity, speed). Integrated identity: §2.1; Mathlib's
+`hasDerivAt_integral_of_dominated_loc_of_deriv_le` and
+`integral_bilinear_fderiv_right_eq_neg_left_of_integrable`. Energy estimate: the integrated
+identity and `norm_le_gronwallBound_of_norm_deriv_right_le`. Time reversal: §1.2.
 
 ### Examples
 
@@ -387,6 +408,8 @@ Layer 1; Mathlib's integration, integration by parts and Grönwall.
 
 ### 3.1 Lattice, differences and discrete norms
 
+The results of this section are elementary; their proofs are given in full here.
+
 Define the grid point `gridPoint h j`, the discrete norm `gridNormSq h v = hⁿ Σ_j |v j|²`, the
 difference quotients `D₊ᵢ`, `D₋ᵢ`, `D₀ᵢ` and the iterated `D₊^α` of the Conventions, the grid
 inner product `⟪v, w⟫_h = hⁿ Σ_j ⟪v j, w j⟫`, and the shift `τᵢ v (j) = v (j + eᵢ)`. For finitely
@@ -397,8 +420,11 @@ supported grid functions prove:
 - Summation by parts: `⟪D₊ᵢ v, w⟫_h = −⟪v, D₋ᵢ w⟫_h`; `⟪D₀ᵢ v, w⟫_h = −⟪v, D₀ᵢ w⟫_h`.
 - The matrix Leibniz rule: for `a : (Fin n → ℤ) → Matrix (Fin N) (Fin N) ℝ`, with
   `(a v)(j) = a j *ᵥ v j`, `D₊ᵢ(a v)(j) = a(j + eᵢ) *ᵥ D₊ᵢ v (j) + (D₊ᵢ a)(j) *ᵥ v j`, and its
-  iterate `D₊^α(a v)(j) = Σ_{β ≤ α} (α choose β) (D₊^{α−β} a)(j + β) *ᵥ D₊^β v (j)`, extending
-  Mathlib's scalar `fwdDiff_smul`.
+  iterate `D₊^α(a v)(j) = Σ_{β ≤ α} (α choose β) (D₊^{α−β} a)(j + β) *ᵥ D₊^β v (j)`. The
+  one-direction iterate is Tau Ceti's `TauCeti.fwdDiff_iter_smul` applied to
+  `j ↦ Matrix.toLin' (a j)` (Mathlib's `fwdDiff_smul` already allows a noncommutative ring); the
+  coefficient-shifted form above is the same lemma with step `−eᵢ` at `j + αᵢeᵢ`; the target is
+  the multi-index composite.
 - Differences of restrictions: if `f : EuclideanSpace ℝ (Fin n) → X` is `C^{|α|}`, then
   `D₊^α (f ∘ gridPoint h)(j)` is an average, with respect to a probability measure on the box
   `x_j + h Πᵢ [0, αᵢ]`, of `∂^α f` (iterated fundamental theorem of calculus), so its norm is at
@@ -424,7 +450,8 @@ supported grid functions prove:
 
 ### 3.2 The discrete Sobolev inequality
 
-For `h > 0` and finitely supported `v`, prove
+This inequality turns the `ℓ²` bounds of Layer 5 into the pointwise bounds used in Layer 6; it is
+elementary, and its proof is given in full here. For `h > 0` and finitely supported `v`, prove
 
     |v j|² ≤ Σ_{s ⊆ Fin n} ‖D₊^{1_s} v‖²_h        for every j,
 
@@ -444,6 +471,9 @@ one-dimensional inequality in each coordinate in turn to the slices. Consequentl
 *Needs:* §3.1.
 
 ### 3.3 Multilinear interpolation
+
+The interpolant is the standard multilinear (`Q₁`) one; its properties below are elementary and
+proved in full here.
 
 Define the multilinear interpolant `interp h v : EuclideanSpace ℝ (Fin n) → (Fin N → ℝ)`: for `x`, let
 `jᵢ = ⌊xᵢ/h⌋` and `θᵢ = xᵢ/h − jᵢ ∈ [0,1)`, and put
@@ -486,14 +516,15 @@ Mathlib only.
 
 ## Layer 4: Friedrichs' scheme
 
-Throughout this layer and Layers 5 and 6, `n ≥ 1` and `A⁰ = 1`. The existence proof of Layers
-4–6 is the method of finite differences of John 1982, Ch. 5 §3 (b).
+Throughout this layer and Layers 5 and 6, `n ≥ 1`, `A⁰ = 1` and every `Aⁱ(t,x)` is symmetric.
+Without symmetry the weights of §4.2 are not positive semidefinite and the one-step inequality
+fails (Check in §4.2). The existence proof of Layers 4–6 is the method of finite differences of
+John 1982, Ch. 5 §3 (b).
 
 ### 4.1 The scheme
 
-Define one step of Friedrichs' scheme at time `t` with mesh `h` and step `k` (Rauch 2005,
-Definition 6 and (7), p. 5; for `n = 1` the Lax–Friedrichs scheme, Lax 2006, (8.9)–(8.10), p. 84,
-and in several variables (8.69), p. 104),
+Define one step of Friedrichs' scheme at time `t` with mesh `h` and step `k` (for `n = 1` the
+Lax–Friedrichs scheme, Lax 2006, (8.9)–(8.10), p. 84, and in several variables (8.69), p. 104),
 
     (Q v)(j) = Σᵢ [ (2n)⁻¹ (v(j+eᵢ) + v(j−eᵢ)) − (k/2h) Aⁱ(t, x_j)(v(j+eᵢ) − v(j−eᵢ)) ]
                + k (F(t, x_j) − B(t, x_j) v(j)),
@@ -544,6 +575,10 @@ and the iterates `u⁰ = u₀ ∘ gridPoint h`, `u^{m+1} = Q_{t_m} u^m` with `t_
 
 - The lemma fails without positivity: scalar weights `2` and `−1` with `v = (1, −1)` give
   `|2 + 1|² = 9 > 2 − 1 = 1`.
+- The one-step inequality needs symmetric `Aⁱ`: for `n = 1`, `N = 2`, `A¹ = [[0, 1], [−1, 0]]`
+  (so `⟪A¹ξ, ξ⟫ = 0`, and the CFL condition holds with `μ = 1`, `L = M = 0`), `B = F = 0`,
+  `h = k = 1` and `v(j) = (cos(jπ/4), −sin(jπ/4))` for `0 ≤ j ≤ 7`, one gets `‖v‖²_h = 8` and
+  `‖Q v‖²_h = 14`.
 - The CFL condition is necessary for stability: for Lax–Friedrichs with `μ|a| > 1`, the mode
   `u_j = e^{ijθ}` has amplification factor `cos θ − iμa sin θ`, of modulus `μ|a| > 1` at
   `θ = π/2`, and the weights `½(1 ∓ μa)` are not both nonnegative.
@@ -553,7 +588,8 @@ and the iterates `u⁰ = u₀ ∘ gridPoint h`, `u^{m+1} = Q_{t_m} u^m` with `t_
 
 ### 4.3 Stability
 
-Under the CFL condition for all `t`, the Lipschitz bound `L` and the bound `M` for all `t`,
+Under the CFL condition for all `t`, the Lipschitz bound `L` and the bound `M` for all `t`
+(Lax 2006, Theorem 8.1, p. 85, iterated; John 1982, Ch. 5 §3 (b)),
 
     ‖u^m‖_h ≤ e^{(nL/2 + M) m k} (‖u⁰‖_h + k Σ_{l < m} ‖F(t_l,·) ∘ gridPoint h‖_h),
 
@@ -582,7 +618,8 @@ Layer 3.
 
 ### 5.1 Difference quotients of the scheme
 
-For a multi-index `α`, apply `D₊^α` to `u^{m+1} = P u^m + k(F − B u^m)` and expand with the
+The difference quotients of the scheme are estimated as in John 1982, Ch. 5 §3 (b). For a
+multi-index `α`, apply `D₊^α` to `u^{m+1} = P u^m + k(F − B u^m)` and expand with the
 Leibniz rule of §3.1. Prove the identity
 
     D₊^α u^{m+1} = P^{(α)} D₊^α u^m + k R_α^m,
@@ -614,7 +651,8 @@ with `C_α` depending on `α`, `n` and the suprema of the derivatives of `Aⁱ` 
 
 ### 5.2 Uniform bounds
 
-Assume the coefficients are `C_b^∞`, the CFL condition holds, and `u₀`, `F` are smooth and
+(John 1982, Ch. 5 §3 (b).) Assume the coefficients are `C_b^∞`, the CFL condition holds, and
+`u₀`, `F` are smooth and
 compactly supported. For every `r` prove, for `0 < h ≤ 1` and `m k ≤ T`,
 
     Σ_{|α| ≤ r} ‖D₊^α u^m‖_h ≤ C_r,
@@ -655,13 +693,14 @@ condition, and `k = μ h`.
 
 ### 6.1 Compactness
 
-Let `U_h(t,x)` be the linear interpolation in `t` between `interp h u^m` at `t_m` and
+The passage to the limit follows John 1982, Ch. 5 §3 (b), with Arzelà–Ascoli in place of the
+compactness argument there. Let `U_h(t,x)` be the linear interpolation in `t` between `interp h u^m` at `t_m` and
 `interp h u^{m+1}` at `t_{m+1}`, for `0 ≤ t ≤ T + 1`, and let `W_{h,i}` be the same for
 `D₊ᵢ u^m`. By §5.2, §3.3 and §4.1:
 
 - `U_h` and `W_{h,i}` are bounded uniformly in `h ∈ (0,1]`;
 - they are Lipschitz in `(t,x)` uniformly in `h`;
-- they vanish outside `‖x‖_∞ ≤ R₁ = R + 2 + (T + 1)/μ`, where `u₀` and `F` vanish outside
+- they vanish outside `‖x‖_∞ ≤ R₁ = R + 3 + (T + 1)/μ`, where `u₀` and `F` vanish outside
   `‖x‖_∞ ≤ R`.
 
 Apply `BoundedContinuousFunction.arzela_ascoli` on the compact space
@@ -674,7 +713,8 @@ every sequence `h_l → 0` has a subsequence along which `U_h → u` and
 
 ### 6.2 Existence
 
-Identify the limit and prove that it is a classical solution on `[0,T]` with `u 0 = u₀`.
+Identify the limit and prove that it is a classical solution on `[0,T]` with `u 0 = u₀` (John
+1982, Ch. 5 §3 (b)).
 
 - **Space.** Shift equivariance (§3.3) gives
   `U_h(t, x + N h eᵢ) − U_h(t, x) = h Σ_{l < N} W_{h,i}(t, x + l h eᵢ)`; with `N = ⌊s/h⌋` the right
@@ -733,16 +773,25 @@ The square root and `P ↦ P ^ (−1/2 : ℝ)` are `C^k` on the positive definit
 `open scoped Matrix.Norms.L2Operator` to the entrywise norm (all norms on matrices are
 equivalent), this makes the entries of `x ↦ CFC.sqrt (A x)` and `x ↦ (CFC.sqrt (A x))⁻¹` of class
 `C^k` whenever the entries of `A : X → Matrix (Fin N) (Fin N) ℝ` are `C^k` and every `A x` is
-positive definite; `Matrix.PosSemidef.inv_sqrt` identifies `(CFC.sqrt A)⁻¹` with `A ^ (−1/2 : ℝ)`.
+positive definite; `Matrix.PosSemidef.inv_sqrt` with `CFC.sqrt_eq_rpow` and `CFC.rpow_neg`
+identifies `(CFC.sqrt A)⁻¹` with `A ^ (−1/2 : ℝ)`.
 
-The target of this section is the uniform version, `exists_bound_iteratedFDeriv_sqrt_comp` in
+This section is assembled from Tau Ceti's lemmas and Mathlib's chain rule; the target is the
+uniform version, `exists_bound_iteratedFDeriv_sqrt_comp` in
 `Suggested.lean`: let `A x` be symmetric with `c|ξ|² ≤ ⟪A x ξ, ξ⟫ ≤ Λ|ξ|²` for all `x`, `ξ`, where
 `0 < c ≤ Λ`, and let every derivative of the entries of `A` of order `≤ m` be bounded by `C`.
 Then every derivative of order `≤ m` of the entries of `x ↦ CFC.sqrt (A x)` and of
 `x ↦ (CFC.sqrt (A x))⁻¹` is bounded, by a constant depending on `m`, `N`, `c`, `Λ` and `C`.
 Proof: the set `K` of symmetric `T` with `c|ξ|² ≤ ⟪Tξ, ξ⟫ ≤ Λ|ξ|²` is compact and consists of
 positive definite matrices, so the iterated derivatives of `CFC.sqrt` and of `P ↦ P ^ (−1/2 : ℝ)`
-of order `≤ m` are bounded on `K`; then `norm_iteratedFDeriv_comp_le` bounds the composites.
+of order `≤ m` are bounded near `K`, and the chain rule bounds the composites. The set
+`{P | P.PosDef}` lies in the proper subspace of symmetric matrices, so for `N ≥ 2` it is not
+open and not `UniqueDiffOn`; work instead with `g(P) = CFC.sqrt ((P + Pᵀ)/2)` and
+`g'(P) = ((P + Pᵀ)/2) ^ (−1/2 : ℝ)` on the open set `U = {P | ((P + Pᵀ)/2).PosDef}`. They are
+`C^k` on `U` by Tau Ceti's lemmas composed with the linear map `P ↦ (P + Pᵀ)/2`
+(`ContDiffOn.comp`), agree with the square root and its inverse on symmetric matrices, and have
+bounded iterated derivatives on the compact `K ⊆ U`. Then `norm_iteratedFDerivWithin_comp_le`
+with `t = U` (open, hence `UniqueDiffOn`) and `s = univ` bounds the composites.
 
 **Checks.**
 
@@ -754,7 +803,8 @@ of order `≤ m` are bounded on `K`; then `norm_iteratedFDeriv_comp_le` bounds t
   For `ε = 0`, `√(A x) = |sin x|` is not differentiable at `0`.
 
 *Needs:* Tau Ceti's `Matrix.contDiffOn_sqrt` and `Matrix.contDiffOn_rpow`; Mathlib's
-`Matrix.PosSemidef.inv_sqrt`, `norm_iteratedFDeriv_comp_le`, the norm of
+`Matrix.PosSemidef.inv_sqrt`, `CFC.sqrt_eq_rpow`, `CFC.rpow_neg`,
+`norm_iteratedFDerivWithin_comp_le`, `ContDiffOn.comp`, the norm of
 `Matrix.Norms.L2Operator`.
 
 ### 7.2 Normalization
@@ -763,7 +813,8 @@ Let `P = (A⁰)^{−1/2} = (CFC.sqrt A⁰)⁻¹`, with the derivatives `∂ₜP 
 
     A⁰' = 1,   Aʲ' = P Aʲ P,   B' = P (A⁰ ∂ₜP + Σⱼ Aʲ ∂ⱼP + B P),
 
-and prove: `u` is a classical solution of `S` with source `F` on `[0,T]` if and only if
+and prove, for `S` symmetric hyperbolic with constant `λ` and `A⁰` of class `C¹` (so that `P` is
+`C¹`): `u` is a classical solution of `S` with source `F` on `[0,T]` if and only if
 `v = (A⁰)^{1/2} u` is a classical solution of `S.normalize` with source `P F`. This is the change
 of unknown of §1.2 with `u = P v`, followed by multiplication by `P`, using `P A⁰ P = 1`.
 
@@ -787,7 +838,8 @@ For `n ≥ 1`, a symmetric hyperbolic system with constant `λ` whose coefficien
 are `C_b^∞`, and smooth compactly supported `u₀` and `F`, there is a classical solution on
 `[0,T]` with `u 0 = u₀`; it is unique (§2.3); and if `u₀` and `F` vanish outside the ball of
 radius `R` and `c` is a speed, then `u(t,x) = 0` for `‖x‖ > R + c t`, by §2.2 applied to cones
-centred at `x` with radius `‖x‖ − R`. Proof: §6.2 for `S.normalize` and §7.2.
+centred at `x` with radius `‖x‖ − R`. Proof: this theorem is assembled here from §6.2 applied
+to `S.normalize`, §7.1 and §7.2; the reduction `u = (A⁰)^{−1/2} v` is the standard one.
 
 **Checks.**
 
@@ -820,15 +872,14 @@ theorem (§7.3).
   7 (1954), 345–392. Cited at §1.2.
 - F. John, *Partial Differential Equations*, 4th ed., Applied Mathematical Sciences 1, Springer,
   1982: Ch. 5, §3 (a) (the basic energy inequality) and (b) (existence of solutions by the
-  method of finite differences). Cited in the summary, §2.1 and Layer 4.
+  method of finite differences). Cited in the summary, §2.1, Layer 4, §4.3, §5.1, §5.2, §6.1 and §6.2.
 - R. Courant, K. Friedrichs, H. Lewy, *Über die partiellen Differenzengleichungen der
   mathematischen Physik*, Math. Ann. 100 (1928), 32–74. Cited at §4.2.
 - P. D. Lax, *Hyperbolic Partial Differential Equations*, Courant Lecture Notes in Mathematics
   14, Courant Institute and American Mathematical Society, 2006: Theorem 4.3 and Theorem 4.6
-  (§4.3), Chapter 8 (finite difference approximation). Cited at §2.2, §2.3, §4.1, §4.2 and §6.3.
-- J. Rauch, *Finite speed for symmetrizable hyperbolic systems*, preprint, University of
-  Michigan, 2005, https://dept.math.lsa.umich.edu/~rauch/speed3.pdf: §2, Friedrichs' scheme in
-  several space variables. Cited at §4.1.
+  (§4.3), Chapter 8 (finite difference approximation). Cited at §2.2, §2.3, §4.1, §4.2, §4.3 and §6.3.
+- W. Rudin, *Principles of Mathematical Analysis*, 3rd ed., McGraw-Hill, 1976: Theorem 9.21.
+  Cited at §1.1.
 - G. Métivier, lecture notes, Chapter 4, *Symmetric systems. The L² linear theory*,
   https://www.math.u-bordeaux.fr/~gmetivie/NotesPisaChap4.pdf: Definition 4.1.1, Lemma 4.2.1,
   Proposition 4.2.3. Cited at §1.2, §2.1 and §2.3.
