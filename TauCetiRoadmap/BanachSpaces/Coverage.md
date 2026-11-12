@@ -30,6 +30,33 @@ line 76. For the unlabelled Bochner-integral definition, its internal equation
 label `eq:def-BochnerInt1` is the source identifier. Proof details are covered
 by the corresponding result, with reusable helper interfaces listed separately.
 
+## Reuse and ownership
+
+Source coverage does not confer ownership. The distinction below applies to
+every source row in this index. “Library input” means an implementation has
+been identified in the source revisions linked by the README. A target in
+another roadmap is a supplier requirement, not a claim that all its proofs
+have already been completed.
+
+| Coverage | Existing implementation or owning roadmap | Additional scope here |
+| --- | --- | --- |
+| BN1; BN2.1–BN2.2; BN4.1–BN4.2; BN5 | Mathlib normed-space, completion, quotient and finite-dimensional APIs | Only explicit specializations and coordinate comparisons |
+| BN2.3; BN4.4 | Native `PiLp` and bounded maps; Tau Ceti's exact quotient norm | Abstract product-norm comparison and any missing coordinate adapters |
+| BN3.1–BN3.3 | Native classical spaces; Tau Ceti's discrete `C₀` API; Bochner spaces BS3.1–BS3.3 | The `C₀`-to-native-`lp ∞` comparison; no new `Lp` construction or separability theory |
+| BN3.4, scalar finiteness | Tau Ceti `VectorMeasure.isFiniteMeasure_variation`, already at the pin | None; the Lean file checks the instance |
+| BN3.4, variation formula and regular measures | Bochner spaces BS7.1 and native variation; Banach space theory B5 and implemented `regularSubmodule` norm | Arbitrary-measurable-space scalar norm and completeness, agreeing with the regular-measure norm |
+| BN4.3 | Tau Ceti Dense extends convergence to a supplied limit | Construction of the bounded limit and its liminf norm estimate |
+| BN4.6; BN8.6 | Banach space theory B1/B3; native `lp.hasSum_single` and Tau Ceti diagonal operators | Concrete convergence-separation examples using those operators |
+| BN6.2–BN6.3 | Native convex-hull and equicontinuity APIs; Tau Ceti's compact-set equicontinuity theorem | None beyond specialization; the Lean file checks compact-set convergence without `sorry` |
+| BN7.1 | Native `Finpartition`; Tau Ceti measurable refinements and interval Riemann sums | Arbitrary compact-metric Borel partitions, small mesh, tagged-sum error and integral comparison |
+| BN7.2 | Native Banach-valued interval FTC and derivative API | Specializations only |
+| BN7.3 | Bochner spaces BS1.1, BS1.3, BS1.5 and BS2; native simple approximation and integration | Distance-test packaging; no duplicate Bochner construction or approximation theory |
+| BN8.1–BN8.2 | Existing Hilbert–Schmidt matrix bound and native evaluation/integration maps; BS3.3's zero-space case | Explicit examples and the exact scalar-integration norm |
+| BN8.3 | Native Hölder map; implemented complex $L^2$ multiplication; B5's interval targets | General exponent/scalar comparison and norm equality |
+| BN8.4 | Implemented `TauCeti.integralOperatorLp` with Schur bounds | Product-`Lp` kernel adapter, continuous-output lift, extension to arbitrary $L^2$ kernels, and agreement of the maps |
+| BN8.5 | B5's continuous-function operator; Banach algebras Layer 3.1's complex $L^2$ Volterra operator | Continuous-output extension, real/complex comparison, triangular-kernel bound and sharp norm $2/\pi$ |
+| BN8.7 | Native algebraic basis extension; Banach algebras Layer 5 uses a discontinuous functional as an input | The concrete existence example on $\ell^2$; no separating-space theory |
+
 ## Banach spaces
 
 ### Definition and general properties
@@ -64,9 +91,9 @@ by the corresponding result, with reusable helper interfaces listed separately.
 | --- | --- | --- |
 | `ex:eucliden` | Euclidean, finite $p$-norm, and maximum-norm spaces; norm inequalities and equivalence | BN3.1; BN5.1–BN5.2; native `EuclideanSpace` and `PiLp` |
 | `L270` | $\ell^p$, $\ell^\infty$, completeness, and $c_0$ as a closed subspace | BN3.1 |
-| `L277` | Completeness of $C(K)$; norm/uniform convergence; separability for compact metric $K$ | BN3.2 |
+| `L277` | Completeness of $C(K)$; norm/uniform convergence; separability for compact metric $K$ | BN3.2; native `ContinuousMap.instSeparableSpace` |
 | `L320` | Scalar $L^p$ carriers and norms, a.e. equivalence, completeness, and the finite-exponent separability criterion | BN3.3; Bochner spaces BS3.3 |
-| `L334` | Scalar countably additive measures, finite variation, variation norm, and completeness | BN3.4 |
+| `L334` | Scalar countably additive measures, finite variation, variation norm, and completeness | BN3.4; existing scalar-finiteness instance; BS7.1 variation inputs; general norm/completeness extension compatible with B5 |
 | `L345` | Hilbert-space norm and completeness; Euclidean, $\ell^2$, and $L^2$ examples | BN3.5; native inner-product structures |
 
 The figures illustrating finite-dimensional balls and a ball in $C[0,1]$
@@ -108,16 +135,16 @@ already specified.
 
 | Source | Mathematical content | Roadmap coverage |
 | --- | --- | --- |
-| `ex:matrices-bdd`; `eq:norm-A-upper` | Matrix operator and squared-entry upper bound for its Euclidean operator norm | BN8.1 |
+| `ex:matrices-bdd`; `eq:norm-A-upper` | Matrix operator and squared-entry upper bound for its Euclidean operator norm | BN8.1; existing Hilbert–Schmidt energy inequality and Frobenius comparison |
 | Prose, line 590 | The matrix bound can be strict | BN8.1, $2\times2$ identity witness |
 | `ex:bdd-op-evaluation` | Point evaluation on $C(K)$ has norm one | BN8.1 |
-| `ex:bdd-op-integration` | Scalar $L^1$ integration has norm one or zero according to existence of a finite positive-measure set | BN8.2; native integral functional |
+| `ex:bdd-op-integration` | Scalar $L^1$ integration has norm one or zero according to existence of a finite positive-measure set | BN8.2; native integral functional and BS3.3's purely-infinite zero-space case |
 | `ex:pointwise-multiplier` | $L^\infty$ symbols act on $L^p$; upper bound for arbitrary measures; equality under the stated endpoint or sigma-finiteness hypotheses | BN8.3 |
 | `ex:kernel`, continuous-kernel part | Compactness of the product space; comparison of its sum and maximum metrics; bounded operator on $C(K)$ and the finite-measure norm bound | BN8.4 |
-| `ex:kernel`, $L^\infty$ part | A.e. sections, representative independence, and a bounded operator on $L^\infty$ | BN8.4 |
+| `ex:kernel`, $L^\infty$ part | A.e. sections, representative independence, and a bounded operator on $L^\infty$ | BN8.4; specialize the existing `TauCeti.integralOperatorLp` |
 | `ex:kernel`, $L^2$ part | Square-integrable kernel operator, output integrability, and norm at most the kernel's $L^2$ norm | BN8.4 |
 | `ex:Volterra`, first part | $L^2\to C[0,1]$ primitive, half-Hölder estimate, and sup-norm bound | BN8.5 |
-| `ex:Volterra`, second part | Inclusion into $L^2$, triangular kernel, $1/\sqrt2$ upper bound, and exact norm $2/\pi$ | BN8.5, including its explicit sharp-inequality prerequisite |
+| `ex:Volterra`, second part | Inclusion into $L^2$, triangular kernel, $1/\sqrt2$ upper bound, and exact norm $2/\pi$ | Banach algebras Layer 3.1 supplies the complex operator; BN8.5 adds the comparisons, bounds and explicit sharp-inequality prerequisite |
 | Prose, lines 691–695 | An unbounded algebraic linear functional exists even on a separable Hilbert space, using choice | BN8.7 |
 
 The final sentence at line 695 is a metamathematical consistency observation
@@ -152,7 +179,7 @@ calculations and to the $p=1$ shift problem do not import those problem sets.
 | Prose, line 843 | Convex hull and closed convex hull | BN6.2; native hulls |
 | `L848` | The closed convex hull of a compact set in a Banach space is compact | BN6.2; native total boundedness of convex hulls |
 | Proof, lines 853–860 | Compact finite convex hull via a simplex; finite-net approximation of convex hulls | BN6.2 |
-| `prop:uniform-limits-on-K` | Uniformly bounded SOT convergence is uniform on relatively compact sets | BN6.3 |
+| `prop:uniform-limits-on-K` | Uniformly bounded SOT convergence is uniform on relatively compact sets | BN6.3; existing equicontinuity theorem, checked against pinned Mathlib in Lean |
 | Prose, line 870 | Banach-domain version without a separate uniform bound | BN6.3 and BN4.6 |
 
 ## Integration in Banach spaces
@@ -179,9 +206,9 @@ calculations and to the $p=1$ shift problem do not import those problem sets.
 | `thm:Pettis` | Closed separable range plus measurable distance tests; distance measurability for every ambient vector | BN7.3.1; native separable-range criterion and Bochner spaces BS1.1 |
 | Proof, lines 1042–1080 | Simple approximation inside a separable subspace and countable closed spans | BN7.3.1; native approximation and span APIs |
 | `cor:ptw-lim-strmeas` | Pointwise sequential limits preserve strong measurability | BN7.3.1; native limit theorem |
-| `def:mu-simple` | Finite-measure-support simple functions and their integral formula | BN7.3.2 |
-| Prose and `eq:triangle-Bochner`, lines 1101–1113 | Representation independence, disjoint refinement, and the simple integral norm bound | BN7.3.2 |
-| `eq:def-BochnerInt1` and `eq:def-BochnerInt2`, definition at line 1115 | $L^1$ approximation by finite-measure simple functions and definition by limits of integrals | BN7.3.3 |
+| `def:mu-simple` | Finite-measure-support simple functions and their integral formula | BN7.3.2 consumes Bochner spaces BS2 |
+| Prose and `eq:triangle-Bochner`, lines 1101–1113 | Representation independence, disjoint refinement, and the simple integral norm bound | BN7.3.2 consumes Bochner spaces BS2 |
+| `eq:def-BochnerInt1` and `eq:def-BochnerInt2`, definition at line 1115 | $L^1$ approximation by finite-measure simple functions and definition by limits of integrals | BN7.3.3 consumes Bochner spaces BS1.3 and BS2 |
 | Prose, lines 1127–1136 | Measurability of errors; existence and independence of the integral limit; continuous functions on compact spaces; equality with the Riemann integral | BN7.3.3 and BN7.1.3 |
 | `prop:Bochner-integrable` | Norm-integrability criterion and integral norm bound | BN7.3.3; native `Integrable` under the stated pointwise convention |
 | Proof, lines 1147–1163 | Dominated simple approximation with finite-measure nonzero fibres | BN7.3.2–BN7.3.3; native simple density and dominated convergence |
@@ -199,10 +226,12 @@ calculations and to the $p=1$ shift problem do not import those problem sets.
   convergence conclusion, rather than changing the source's definition of
   convergence to unconditional summability.
 - **Scalar measures need the variation norm.** An existing signed/complex
-  vector-measure carrier is not evidence that it already has the source's
-  complete total-variation norm. BN3.4 specifies the remaining norm,
-  finite-variation, and completeness interfaces on that carrier. B5's
-  regular Borel measures are a distinct, narrower scope.
+  vector-measure carrier already has finite variation by Tau Ceti's scalar
+  instance. The newer regular-measure subtype also has a variation norm.
+  Neither supplies the source's complete normed space of all scalar measures
+  on an arbitrary measurable space. BN3.4 supplies that extension and its
+  norm comparison, using BS7.1's generic variation results. B5 retains
+  regularity and representation theory.
 - **Operator convergence retains its hypotheses.** Dense-set convergence
   needs a common operator-norm bound and a complete target to construct a
   limit. Strong convergence on a Banach domain gives a uniform bound for
@@ -221,13 +250,15 @@ calculations and to the $p=1$ shift problem do not import those problem sets.
   cells are arbitrary Borel subsets of a compact metric space. Interval
   partitions alone do not suffice. BN7.1 allows atoms and does not assume
   null boundaries; its integral is the native Bochner integral characterized
-  by tagged sums.
+  by tagged sums. Common measurable refinements are existing inputs.
 - **Examples include sharp and degenerate cases.** The scalar integration
   functional can have norm zero on a nonzero measure space. Finite-exponent
   multiplier norm equality carries sigma-finiteness. Kernel statements
-  include representative independence. The main-text equality
+  include representative independence and reuse the existing Schur operator.
+  The main-text equality
   $\|V\|_{L^2\to L^2}=2/\pi$ is included even though its proof appears in
-  another chapter; BN8.5 specifies its prerequisite here.
+  another chapter; BN8.5 specifies its prerequisite here for the operator
+  already owned by Banach algebras Layer 3.1.
 - **Problem exclusion does not erase prose.** BN8.7 still includes the
   unbounded-functional assertion made in the main text. The 45 problems
   themselves, including their further constructions and requested proofs,

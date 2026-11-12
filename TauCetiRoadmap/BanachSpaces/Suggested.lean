@@ -16,8 +16,11 @@ public import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
 public import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
 public import Mathlib.MeasureTheory.VectorMeasure.Variation.Basic
 public import Mathlib.Order.Partition.Finpartition
+public import Mathlib.Topology.MetricSpace.UniformConvergence
+public import Mathlib.Topology.UniformSpace.Ascoli
 public import TauCeti.Analysis.Normed.Module.Quotient
 public import TauCeti.Analysis.Normed.Operator.Dense
+public import TauCeti.MeasureTheory.VectorMeasure.ScalarIntegral
 
 /-!
 # Banach spaces: suggested interfaces
@@ -31,9 +34,12 @@ for duplicate library declarations. Subsequent signatures fix the remaining comp
 example interfaces on native carriers. In particular, tagged sums use `Finpartition` and converge
 to the native Bochner integral, and multiplication uses `ContinuousLinearMap.holderL`.
 
-The total-variation Banach structure is specified in the README. Its two representative targets
-below use native vector measures and variation, so they can be stated before that norm structure
-exists. No placeholder norm or empty proposition is introduced.
+The total-variation Banach structure is specified in the README. Scalar finiteness is checked
+against an existing instance; the remaining completeness target uses native vector measures and
+variation before that norm structure exists. No placeholder norm or empty proposition is introduced.
+The compact-set convergence example is proved using the existing equicontinuity API. Results owned
+by BochnerSpaces and the newer Schur integral-operator implementation are inputs, not additional
+admitted theorem targets here.
 -/
 
 @[expose] public section
@@ -43,7 +49,7 @@ noncomputable section
 set_option autoImplicit false
 
 open MeasureTheory Filter Set TopologicalSpace
-open scoped ENNReal Topology BigOperators
+open scoped ENNReal NNReal Topology BigOperators
 
 namespace TauCetiRoadmap.BanachSpaces
 
@@ -83,10 +89,8 @@ example {D : Set X} (hD : Dense D) (Tn : ℕ → X →L[𝕜] Y) (T : X →L[�
 
 /-! ## BN3. Scalar measures with their total variation -/
 
-/-- BN3.4: scalar countably additive measures have finite total variation. -/
-theorem scalarMeasure_finiteVariation (m : VectorMeasure S 𝕜) :
-    IsFiniteMeasure m.variation := by
-  sorry
+/-- BN3.4: scalar finiteness is already supplied by Tau Ceti at the pinned revision. -/
+example (m : VectorMeasure S 𝕜) : IsFiniteMeasure m.variation := inferInstance
 
 /-- BN3.4: completeness expressed intrinsically before installing the variation norm.
 The limit is a native countably additive measure, not just a set function. -/
@@ -119,14 +123,27 @@ theorem isCompact_closure_iff_approx [CompleteSpace X] (A : Set X) :
         ∀ x ∈ A, ∃ y ∈ K, ‖x - y‖ < ε := by
   sorry
 
-/-- BN6.3: no completeness assumption is needed when the uniform bound is supplied. -/
-theorem tendstoUniformlyOn_of_strongly_tendsto
+/-- BN6.3 is an existing equicontinuity specialization, with no new production declaration.
+No completeness assumption is needed when the uniform bound is supplied. -/
+example
     (Tn : ℕ → X →L[𝕜] Y) (T : X →L[𝕜] Y)
     {C : ℝ} (hbound : ∀ n, ‖Tn n‖ ≤ C)
     (hconv : ∀ x : X, Tendsto (fun n => Tn n x) atTop (𝓝 (T x)))
     {K : Set X} (hK : IsCompact (closure K)) :
     TendstoUniformlyOn (fun n x => Tn n x) T atTop K := by
-  sorry
+  have hC : 0 ≤ C := (norm_nonneg (Tn 0)).trans (hbound 0)
+  let L : ℝ≥0 := ⟨C, hC⟩
+  have hLip : ∀ n, LipschitzWith L (Tn n) := fun n =>
+    (Tn n).lipschitzWith.weaken (by exact_mod_cast hbound n)
+  have hequi : EquicontinuousOn (fun n x => Tn n x) (closure K) :=
+    (LipschitzWith.uniformEquicontinuous _ L hLip).equicontinuous.equicontinuousOn _
+  have h := (EquicontinuousOn.tendsto_uniformOnFun_iff_pi'
+    (F := fun n x => Tn n x) (𝔖 := {closure K})
+    (by simpa using hK) (by simpa using hequi) atTop (T : X → Y)).2 <| by
+      rw [sUnion_singleton]
+      exact tendsto_pi_nhds.2 fun x => hconv x
+  exact (UniformOnFun.tendsto_iff_tendstoUniformlyOn.1 h
+    (closure K) rfl).mono subset_closure
 
 /-! ## BN7.1. Tagged Borel partitions of a compact metric space -/
 
@@ -193,11 +210,7 @@ theorem norm_scalarIntegral_eq_one
     ‖L1.integralCLM' 𝕜 (E := 𝕜) (μ := μ)‖ = 1 := by
   sorry
 
-/-- Without finite positive-measure sets, scalar L¹ and its integral functional are zero. -/
-theorem scalarL1_subsingleton_of_no_finite_positive_set
-    (hμ : ¬ ∃ A : Set S, MeasurableSet A ∧ 0 < μ A ∧ μ A < ∞) :
-    Subsingleton (Lp 𝕜 1 μ) := by
-  sorry
+-- The purely infinite / zero-Lp assertion is consumed from BochnerSpaces BS3.3.
 
 /-! ## BN8.3. Pointwise multiplication uses the native Hölder map -/
 
@@ -248,12 +261,8 @@ theorem exists_continuousKernelOperator (k : C(K × K, 𝕜)) :
       ‖T‖ ≤ (ν univ).toReal * ‖k‖ := by
   sorry
 
-/-- An essentially bounded product kernel gives an operator on native L∞. -/
-theorem exists_linftyKernelOperator (k : Lp 𝕜 ∞ (ν.prod ν)) :
-    ∃ T : Lp 𝕜 ∞ ν →L[𝕜] Lp 𝕜 ∞ ν,
-      (∀ f : Lp 𝕜 ∞ ν, ∀ᵐ s ∂ν, T f s = ∫ t, k (s, t) * f t ∂ν) ∧
-      ‖T‖ ≤ (ν univ).toReal * ‖k‖ := by
-  sorry
+-- The L∞ kernel operator is an adapter to TauCeti.integralOperatorLp at the newer
+-- revision cited in the README. Its construction is not restated as a missing theorem.
 
 /-- The square-integrable-kernel bound needs no positivity or symmetry of the kernel. -/
 theorem exists_l2KernelOperator (k : Lp 𝕜 2 (ν.prod ν)) :
@@ -280,12 +289,13 @@ theorem exists_volterra_continuous :
         ‖V f s - V f t‖ ≤ Real.sqrt |(s : ℝ) - (t : ℝ)| * ‖f‖ := by
   sorry
 
-/-- The L² norm is the sharp value asserted in the source's main-text example. -/
-theorem exists_volterra_l2_norm :
-    ∃ V : Lp 𝕜 2 unitIntervalMeasure →L[𝕜] Lp 𝕜 2 unitIntervalMeasure,
-      (∀ f : Lp 𝕜 2 unitIntervalMeasure, ∀ᵐ s ∂unitIntervalMeasure,
-        V f s = ∫ t in (0 : ℝ)..s, f t) ∧
-      ‖V‖ = 2 / Real.pi := by
+/-- BN8.5 proves the sharp norm of the supplied Volterra operator. The complex construction is
+owned by BanachAlgebras Layer 3.1; its real-valued restriction is compared in the README. -/
+theorem norm_volterra_l2
+    (V : Lp 𝕜 2 unitIntervalMeasure →L[𝕜] Lp 𝕜 2 unitIntervalMeasure)
+    (hV : ∀ f : Lp 𝕜 2 unitIntervalMeasure, ∀ᵐ s ∂unitIntervalMeasure,
+      V f s = ∫ t in (0 : ℝ)..s, f t) :
+    ‖V‖ = 2 / Real.pi := by
   sorry
 
 end TauCetiRoadmap.BanachSpaces

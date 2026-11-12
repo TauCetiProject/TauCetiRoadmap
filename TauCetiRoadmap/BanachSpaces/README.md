@@ -23,20 +23,33 @@ chapter notes impose no coverage requirement.
 
 ## Scope and ownership
 
-This roadmap owns the elementary normed-space interfaces and concrete examples
-specified below where they are not already library inputs. It is distinct from
-the advanced geometry, duality, and operator-ideal theory in
-[Banach space theory](../BanachSpaceTheory/README.md).
+The numbered sections describe mathematical coverage, not a list of new
+declarations to create. An existing theorem or a result owned by another
+roadmap discharges the corresponding requirement here. A specialization should
+use that result directly; add a named wrapper only when it supplies a reusable
+interface. In particular, the foundation sections do not commission a second
+normed-space library.
 
 | Shared material | Owner and boundary |
 | --- | --- |
 | Norms, completion, continuous linear maps, finite-dimensional topology, Riesz's lemma | Native Mathlib inputs; BN1–BN2 and BN4–BN6 consume their APIs |
-| SOT and WOT, uniform boundedness, classical sequence-space dualities | [Banach space theory](../BanachSpaceTheory/README.md), B1 and B3; BN4 uses the native topologies, and BN8 supplies the specific unilateral-shift and truncation examples below |
-| General strong measurability and Bochner integration | [Bochner spaces](../BochnerSpaces/README.md), BS1–BS3; BN7 records the distance-test specialization, the compact-space Riemann-sum comparison, and the elementary calculus applications |
-| Scalar measure representation on compact and locally compact spaces | Banach space theory B5; BN3 supplies the total-variation Banach structure on an arbitrary measurable space, without a regularity or representation theorem |
+| SOT and WOT, uniform boundedness, classical sequence-space dualities and bases | [Banach space theory](../BanachSpaceTheory/README.md), B1 and B3; BN4 consumes the topology results, and BN8 uses the existing coordinate projections and duality for its convergence examples |
+| Strong measurability, simple approximation, Bochner integration, scalar `Lp` and separability | [Bochner spaces](../BochnerSpaces/README.md), BS1.1, BS1.3, BS1.5, BS2 and BS3.1–BS3.3; BN3.3 and BN7.3 consume these results. Only the distance-test packaging and the compact-space Riemann comparison are additional interfaces here |
+| Variation of vector measures | Bochner spaces BS7.1 and native variation APIs own the partition formula and general restriction/density comparisons; Tau Ceti's `VectorMeasure.isFiniteMeasure_variation` already supplies scalar finiteness |
+| Scalar measure representation on compact and locally compact spaces | Banach space theory B5, with Tau Ceti's `VectorMeasure.regularSubmodule` and its existing variation norm; BN3 extends the normed-space interface to arbitrary measurable spaces and supplies completeness there |
 | Multiplication on scalar `Lp` | Banach space theory B5 owns the interval examples; BN8's arbitrary-measure construction uses native Hölder multiplication and extends the existing Tau Ceti multiplication API |
-| Volterra on continuous functions | Banach space theory B5 and Tau Ceti's `ContinuousMap.intervalIntegralOperator`; BN8 owns its `L² → C[0,1]` extension, the `L²` operator, and the sharp `L²` norm |
+| Volterra operators | Banach space theory B5 owns the `C[0,1]` operator and its norm; [Banach algebras](../BanachAlgebras/README.md#31-characters-and-function-algebras), Layer 3.1, owns the complex `L²` operator. BN8 supplies the continuous-output extension, the real/complex comparison, and the sharp `L²` norm of that same operator |
+| Integral operators satisfying Schur bounds | Tau Ceti's `integralOperatorLp` supplies the bounded-kernel `Lp` construction, a.e. action and norm estimates. BN8 specializes it, adds the continuous-output lift and extends to arbitrary square-integrable kernels |
 | General Hilbert–Schmidt, compact-operator, and spectral theory | [Operator ideals](../OperatorTheory/OperatorIdeals/README.md) and [Operator theory](../OperatorTheory/README.md); BN8 needs only the explicitly stated kernel bounds and supplies an elementary route to the Volterra norm |
+
+The substantial additions owned here are the arbitrary-measurable-space
+scalar-measure Banach norm (BN3.4), construction of dense-set operator limits
+with the liminf estimate (BN4.3), compact-metric tagged Riemann sums (BN7.1),
+and the additional operator interfaces and examples specified in BN8.
+The product-norm comparisons, compactness criterion and distance-test criterion
+are smaller adapters to existing theories. BN1, BN2.1–BN2.2, BN4.1–BN4.2,
+the native parts of BN4.4–BN4.6, BN5, BN6.2–BN6.3 and BN7.2 are library inputs
+and their explicit specializations.
 
 BN3's scalar-measure completeness is independent of the Riesz representation
 theorem and of Bochner-space duality. BN8's kernel bounds do not assume that
@@ -118,25 +131,34 @@ instruction to freeze an API after the dependency changes.
 | Finite-dimensional normed spaces | [Mathlib FiniteDimension][ml-finite], continuous linear equivalences, properness, completeness, closed subspaces, and the compact-ball criterion |
 | Riesz's lemma | [Mathlib RieszLemma][ml-riesz], `riesz_lemma_of_lt_one`, with a norm-one vector and distance from every vector in a proper closed subspace |
 | Compact convex hulls | [Mathlib convex topology][ml-convex] and [total boundedness][ml-convex-tb], `Set.Finite.isCompact_convexHull` and `TotallyBounded.convexHull` |
-| Classical function spaces | Native `C(K, 𝕜)`, `BoundedContinuousFunction`, `ZeroAtInftyContinuousMap`, `lp`, and [`MeasureTheory.Lp` completeness][ml-lp]; use their native norms and typeclass instances |
-| Scalar and vector measures | Native `SignedMeasure` and `ComplexMeasure` on `VectorMeasure`, [variation][ml-variation], and [Tau Ceti variation comparisons][tc-variation]; these do not by themselves supply BN3's total-variation Banach structure |
+| Classical function spaces | Native `C(K, 𝕜)`, `BoundedContinuousFunction`, `ZeroAtInftyContinuousMap`, `lp`, and [`MeasureTheory.Lp` completeness][ml-lp]; [continuous-map separability][ml-continuous-separable] supplies `ContinuousMap.instSeparableSpace` |
+| Sequence coordinates and projections | [Tau Ceti discrete `C₀`][tc-c0], [`lp` bases][tc-lp-basis] and [diagonal operators][tc-diagonal], including `lp.diagonalCLM`, `norm_diagonalCLM`, `diagonalTruncation` and its tail bound; use native `lp.hasSum_single` for strong convergence |
+| Scalar and vector measures | Native `SignedMeasure` and `ComplexMeasure`, [variation][ml-variation], [Tau Ceti comparisons][tc-variation] and [scalar measures][tc-scalar-measure]; `VectorMeasure.isFiniteMeasure_variation` is already an instance, including over `RCLike` |
+| Matrix norm bound | [Tau Ceti Hilbert–Schmidt energy][tc-hs], `ContinuousLinearMap.enorm_sq_le_hilbertSchmidtEnergy` and its finite-dimensional Frobenius comparison; specialize to the standard Euclidean bases |
+| Uniform convergence on compact sets | [Mathlib Ascoli][ml-ascoli], `EquicontinuousOn.tendsto_uniformOnFun_iff_pi'`, with [`LipschitzWith.uniformEquicontinuous`][ml-uniform-lipschitz]; BN6.3 is their bounded-operator specialization |
 | Pointwise multiplication and scalar pairing | [Mathlib Holder][ml-holder], `ContinuousLinearMap.holderL` and `lpPairing`; these are the constructions behind BN8 |
 | Strong measurability | [Mathlib StronglyMeasurable][ml-strong], its simple approximants, separable range, pointwise-limit closure, and `stronglyMeasurable_iff_measurable_separable` |
 | Bochner integration and integral functionals | [Mathlib Bochner][ml-bochner], [L1][ml-l1], `L1.integralCLM'`, norm estimates, simple approximation, and completeness of `Lp` |
 | Volterra on continuous paths | [Tau Ceti ContinuousMap][tc-continuous-map], `ContinuousMap.intervalIntegralOperator`, `unitIntervalIntegral`, their evaluation formulas, and norm upper bounds |
 | Banach-valued fundamental theorem of calculus | [Mathlib interval FTC][ml-ftc] and [mean value theory][ml-mean-value]; use native derivatives and interval integrals |
 
-Two further Tau Ceti modules are available at
-`396c3bd971e9722aa8656231760e710fe641d8cf`, beyond this dependency pin.
-[Multiplication][tc-multiplication] constructs
-`MeasureTheory.Lp.multiplicationOperator` on complex, vector-valued $L^2$
-and proves the sigma-finite norm equality.
-[RiemannSums][tc-riemann] gives tagged sums on real intervals for
-finite-variation vector measures. BN8 extends the former across the source's
-exponents and scalars; BN7 requires arbitrary finite Borel partitions of a compact
-metric space, so the interval theorem alone does not discharge that target.
-Adopt these APIs when available, and provide the needed interfaces in Tau Ceti
-when working at an earlier pin.
+The following further interfaces are present at Tau Ceti revision
+`396c3bd971e9722aa8656231760e710fe641d8cf`, beyond the dependency pin:
+
+| Module | Interface and boundary |
+| --- | --- |
+| [Multiplication][tc-multiplication] | `MeasureTheory.Lp.multiplicationOperator` on complex, vector-valued $L^2$, with sigma-finite norm equality; BN8.3 generalizes the exponents and scalar field |
+| [Integral operators][tc-integral-operator] | `TauCeti.integralOperatorLp`, `coeFn_integralOperatorLp` and `norm_integralOperatorLp_le_max` for operator-valued kernels with row and column integral bounds; BN8.4 uses this construction for bounded kernels |
+| [Regular scalar measures][tc-regular-measure] | `VectorMeasure.regularSubmodule`, `norm_def` and `normedSpaceCore` already give the regular-measure normed carrier; the arbitrary-measurable-space extension in BN3.4 must agree with it |
+| [Equicontinuity][tc-ascoli] | `EquicontinuousOn.tendstoUniformlyOn_of_tendsto` directly packages the compact-set convergence result already available through Mathlib |
+| [Measurable finite partitions][tc-measurable-partition] | Measurable bipartitions and common refinements on native `Finpartition`; BN7.1 adds the small-mesh compact-metric and tagged-integral interfaces |
+| [Riemann sums][tc-riemann] | Tagged interval sums for finite-variation vector measures; arbitrary compact-space Borel partitions remain the additional scope of BN7.1 |
+| [Diagonal operators][tc-diagonal-current] | `lp.tendsto_diagonalTruncation_apply` packages the strong-convergence statement used in BN8.6 |
+
+Use these supplying APIs; an earlier dependency pin does not justify a parallel
+implementation. If an interface has to be brought into an earlier checkout,
+retain its supplying module and declaration rather than creating a roadmap-local
+replacement. The suggested Lean file uses only the pinned dependencies.
 
 ## BN1. Banach spaces: definition and general properties
 
@@ -226,38 +248,46 @@ APIs. These items are principally existing inputs and their specializations.
    Use `lp (fun _ : ℕ ↦ 𝕜) p` for $\ell^p$, $1\le p\le\infty$.
    Consume the triangle inequalities, displayed norm formulas, and completeness.
    Realize $c_0$ by the native zero-at-infinity continuous functions on the
-   discrete natural numbers. Construct or reuse the isometric embedding into
-   $\ell^\infty$, characterize its range by convergence of the coordinates to
-   zero, and prove the range closed. Do not replace these carriers by raw
-   functions plus separately maintained membership proofs.
+   discrete natural numbers, using Tau Ceti's discrete `C₀` coordinate API
+   and B3's classical-space comparison. The only additional carrier adapter
+   needed here is its isometric inclusion into native $\ell^\infty$, with
+   range the sequences tending to zero; closedness follows from completeness.
+   Reuse the existing inclusion into bounded continuous functions and the
+   bounded-family comparison. Do not reconstruct `C₀` or its coordinate API.
 
 2. **Continuous functions.** For compact $K$, use `C(K, 𝕜)` with its
    supremum norm and completeness. Norm convergence is uniform convergence.
-   For compact metric $K$, consume or supply separability of this space,
-   with its compact-domain and scalar hypotheses explicit. The empty-space
+   For compact metric $K$, consume `ContinuousMap.instSeparableSpace`:
+   compact metric spaces are second countable and locally compact, and
+   the scalar field is second countable. The empty-space
    carrier is the zero space; formulas using a maximum require nonempty $K$.
 
 3. **Scalar $L^p$.** Use native `Lp 𝕜 p μ` for every $1\le p\le\infty$.
    Record the integral formula for finite $p$, the essential-supremum formula
    at infinity, the representative invariance, and completeness. When
    $p<\infty$, $\mu$ is sigma-finite and the measurable structure is countably
-   generated, obtain separability. Consume Bochner spaces BS3.3 and the native
+   generated, specialize Bochner spaces BS3.3 to obtain separability.
+   The `Lp` construction, norm formulas and completeness are inputs from
+   Mathlib and BS3.1, not additional targets here. Consume the native
    simple-density API; do not require an arbitrary measure space to be
    countably generated or sigma-finite for completeness.
 
 4. **Scalar measures with the variation norm.** For any measurable space $S$,
    use `VectorMeasure S 𝕜` with its native scalar-measure specializations,
-   `SignedMeasure` and `ComplexMeasure`. Prove that scalar-valued countably
-   additive measures have finite total variation. For complex scalars use the
-   real and imaginary signed measures and the corresponding variation bounds;
-   this assertion is false for general Banach-valued measures.
+   `SignedMeasure` and `ComplexMeasure`. Consume the existing instance
+   `VectorMeasure.isFiniteMeasure_variation` and its real/imaginary-part
+   comparison lemmas from `ScalarIntegral`. Scalar finiteness is already
+   proved; it is false for general Banach-valued measures.
 
    Give this native scalar carrier the norm
    $\|m\|=|m|(S)$, expressed by `(m.variation Set.univ).toReal`.
-   Prove its equality with the supremum of
+   Use the native variation formula and Bochner spaces BS7.1 to identify it
+   with the supremum of
    $\sum_{A\in\mathcal P}|m(A)|$ over finite measurable disjoint families.
    Compare that formula with partitions of the whole space by adjoining the
-   complement. Establish definiteness, triangle inequality, scalar homogeneity,
+   complement. Extend the existing regular-measure norm construction to
+   this unrestricted scalar carrier, reusing its variation inequalities.
+   Establish definiteness, triangle inequality, scalar homogeneity,
    $\|m(A)\|\le |m|(A)\le\|m\|$, and boundedness of evaluation at a measurable
    set.
 
@@ -265,9 +295,13 @@ APIs. These items are principally existing inputs and their specializations.
    set; the limit is countably additive by uniform variation-tail control,
    and the original sequence converges to it in variation norm. Include the
    norm continuity of restriction and the contraction under measurable
-   pushforward. These comparisons keep the construction compatible with B5's
-   submodule of measures with finite regular variation; regularity and the
-   continuous-function dual representation remain B5's responsibility.
+   pushforward, using the native vector-measure operations. General variation,
+   restriction and density results remain BS7.1's inputs. Prove that the
+   inherited norm on `VectorMeasure.regularSubmodule` equals its existing
+   `norm_def`; do not install a second norm on that subtype. Regularity,
+   Dirac maps and the continuous-function dual representation remain B5's
+   responsibility. Its regular-measure norm does not give completeness for
+   scalar measures on an arbitrary measurable space.
    Do not replace a complex measure by its total mass or by the maximum norm of
    its real and imaginary parts.
 
@@ -278,7 +312,8 @@ APIs. These items are principally existing inputs and their specializations.
    dual pairing elsewhere remains bilinear.
 
 *Needs:* BN1–BN2; native `lp`, `Lp`, continuous-function and inner-product
-APIs; native signed-measure finiteness and variation; Bochner spaces BS3.3.
+APIs; Tau Ceti scalar-measure finiteness and the regular-measure norm;
+Bochner spaces BS3.1–BS3.3 and BS7.1.
 The scalar-measure norm and completeness are an explicit target, not a claimed
 consequence of merely having a `VectorMeasure` type.
 
@@ -424,9 +459,13 @@ lemma, and proper metric spaces. These conclusions are largely existing inputs.
    $\sup_n\|T_n\|<\infty$ and $T_nx\to Tx$ for every $x$, then
    `TendstoUniformlyOn (fun n x ↦ Tn n x) T atTop K` for every
    relatively compact $K$. Neither domain nor target needs to be Banach.
-   A finite epsilon net and the bound
-   $\|(T_n-T)x\|\le\|(T_n-T)y\|+(\|T_n\|+\|T\|)\|x-y\|$
-   supply the interface. If the domain is Banach, remove the separately stated
+   This is an existing equicontinuity specialization: the common norm bound
+   gives `LipschitzWith.uniformEquicontinuous`, and Mathlib's
+   `EquicontinuousOn.tendsto_uniformOnFun_iff_pi'` gives uniform convergence
+   on the compact closure. Tau Ceti's
+   `EquicontinuousOn.tendstoUniformlyOn_of_tendsto` packages this implication.
+   Consume it and restrict to $K$; no separate finite-net proof is requested.
+   If the domain is Banach, remove the separately stated
    uniform bound using BN4.6. Do not extend that inference to arbitrary nets.
 
 *Needs:* BN4–BN5; native total boundedness, uniform convergence, and convexity.
@@ -448,7 +487,9 @@ Bochner integral as the candidate integral.
    empty partition. Establish existence of measurable partitions with
    arbitrarily small positive mesh bound using finite covers by small balls
    and disjointification. This existence is needed for uniqueness of limits.
-   Provide common refinement by nonempty intersections and its measurability.
+   Consume the common-refinement and measurability operations in
+   `TauCeti.MeasureTheory.MeasurableSpace.Finpartition`; the refinement uses
+   nonempty intersections.
    Empty $K$ has the empty sum and integral zero.
 
 2. **Quantitative error and the limit.** If
@@ -480,6 +521,9 @@ on compact spaces. This route does not require the scalar-test Pettis theorem.
 
 ### BN7.2. Differentiation and the fundamental theorem of calculus
 
+This section is an application of the native derivative and interval-FTC API,
+not a second development of Banach-valued calculus.
+
 Use `HasDerivWithinAt` at endpoints and the ordinary real derivative in the
 interior of an interval. Consume differentiability implying continuity.
 If $f$ is differentiable on $(a,b)$ with zero derivative there, it is constant
@@ -493,6 +537,12 @@ part of the source's calculus proposition.
 
 ### BN7.3. The Bochner integral
 
+The simple-function, approximation and integration theory in this section is
+owned by Bochner spaces BS1–BS2 and already partly implemented in Mathlib.
+The source uses pointwise strong measurability; apply those APIs with that
+stronger hypothesis. The distance-test formulation in item 1 is the additional
+statement to package here. The Riemann comparison belongs to BN7.1.
+
 1. **Simple functions and strong measurability.** Consume native simple
    functions and the equivalence with finite sums of measurable indicator
    functions times vectors. Scalar measurability agrees with strong
@@ -503,25 +553,28 @@ part of the source's calculus proposition.
    $x_0\in X_0$. Under these conditions $s\mapsto\|f(s)-x\|$ is measurable
    for every $x\in X$. Obtain this criterion from native measurable/separable
    range theory and countably many distance tests in the separable subspace;
-   compare with Bochner spaces BS1.1. Also consume closure under pointwise
+   compare with Bochner spaces BS1.1. Do not duplicate its continuous-dual
+   Pettis theorem. Consume BS1.3 and native closure under pointwise
    sequential limits and the common separable closed span for the ranges of
    countably many strongly measurable functions.
 
-2. **Finite-measure simple integration.** A simple function is
+2. **Finite-measure simple integration (BS2 input).** A simple function is
    $\mu$-simple exactly when every nonzero fibre has finite measure.
-   Compare this with native integrability of simple functions. Its integral
-   is the sum of the fibre values times their measures. Include disjoint
+   Use BS2's comparison with native integrability of simple functions.
+   Its integral is the sum of the fibre values times their measures.
+   Consume BS2's disjoint
    refinement of an arbitrary finite indicator representation, independence
    of that representation, addition and scalar multiplication, and the
    integral norm bound. Zero terms on infinite-measure sets contribute zero
    without using an invalid real conversion of infinite measure.
 
-3. **Approximation and integrability.** For a pointwise strongly measurable
+3. **Approximation and integrability (BS1.3, BS1.5 and BS2 inputs).**
+   For a pointwise strongly measurable
    $f$, native integrability is equivalent to approximation by $\mu$-simple
    functions in $L^1$ norm, and to finiteness of the nonnegative integral of
-   $\|f\|$. Include measurability of the approximation error, existence and
-   independence of the limit of the simple integrals, and the same norm bound.
-   Consume Bochner spaces BS2 and Mathlib's simple-density and dominated
+   $\|f\|$. Consume measurability of the approximation error, existence and
+   independence of the limit of the simple integrals, and the same norm bound
+   from those owning sections and Mathlib's simple-density and dominated
    convergence theorems. On a compact metric space with finite Borel measure,
    continuous functions satisfy these conditions and their Bochner integral
    has the Riemann-sum characterization in BN7.1.
@@ -533,8 +586,11 @@ pointwise and a.e. conventions must be related explicitly.
 ## BN8. Bounded operators: first examples
 
 1. **Matrices and point evaluations.** For a matrix over $\mathbb K$, use
-   the induced continuous linear map between Euclidean spaces. Prove
-   $\|A\|^2\le\sum_{i,j}|a_{ij}|^2$ using native Cauchy–Schwarz.
+   the induced continuous linear map between Euclidean spaces. Specialize
+   `ContinuousLinearMap.enorm_sq_le_hilbertSchmidtEnergy` to the standard
+   bases to obtain $\|A\|^2\le\sum_{i,j}|a_{ij}|^2$; its
+   Frobenius comparison supplies the squared-entry formula. This bound is
+   an existing input, not a new Hilbert–Schmidt development.
    The inequality need not be equality: the $2\times2$ identity has operator
    norm one and squared-entry sum two. For $x\in K$, point evaluation
    $C(K,\mathbb K)\to\mathbb K$ has norm one, witnessed by the constant-one
@@ -545,7 +601,10 @@ pointwise and a.e. conventions must be related explicitly.
    $A$ with $0<\mu(A)<\infty$; otherwise its norm is zero and scalar $L^1$
    is the zero space. Include the indicator witness, the norm upper bound,
    and the vanishing assertion when there are no finite positive-measure
-   sets. Do not silently assume the measure is sigma-finite or nonzero.
+   sets. Consume the purely-infinite/zero-space case of Bochner spaces
+   BS3.3 for the last assertion; the additional target is the exact norm
+   of the native integral functional. Do not silently assume the measure
+   is sigma-finite or nonzero.
 
 3. **Pointwise multipliers.** For $m\in L^\infty(\mu)$ use
    `ContinuousLinearMap.holderL` with scalar multiplication to define
@@ -566,28 +625,43 @@ pointwise and a.e. conventions must be related explicitly.
    The source's sum product metric and the native maximum product metric
    satisfy $d_{\max}\le d_{\mathrm{sum}}\le2d_{\max}$, so they give the same
    topology and uniformity; no replacement metric instance is needed.
-   Construct these maps using native continuous-function and `Lp`
-   carriers:
+   Use the existing `TauCeti.integralOperatorLp` for kernels satisfying
+   Schur's row/column bounds, with scalar multiplication as its
+   operator-valued kernel. All maps below use native continuous-function
+   and `Lp` carriers:
    - For $k\in C(K\times K,\mathbb K)$,
      $T_kf(s)=\int_K k(s,t)f(t)\,d\mu(t)$ defines a bounded operator on
      $C(K,\mathbb K)$, with $\|T_k\|\le\mu(K)\|k\|_\infty$.
-     Include continuity in $s$, linearity in $f$ and $k$, and continuity
-     of the kernel-to-operator map with the same bound.
+     Supply the continuous-output lift using this pointwise formula:
+     continuity in $s$, linearity in $f$ and $k$, and continuity of the
+     kernel-to-operator map with the same bound. The comparison with the
+     `Lp` operator is a commuting evaluation/a.e.-class diagram, not an
+     assumed inverse to `C(K) → L∞(μ)` when $\mu$ lacks full support.
    - For $k\in L^\infty(\mu\times\mu)$ the same formula gives an a.e.
      defined operator on $L^\infty(\mu)$, with
-     $\|T_k\|\le\mu(K)\|k\|_\infty$. Prove the a.e. section statements and
-     independence of both kernel and input representatives.
+     $\|T_k\|\le\mu(K)\|k\|_\infty$. This is a specialization of
+     `integralOperatorLp`, `coeFn_integralOperatorLp` and
+     `norm_integralOperatorLp_le_max`: both Schur bounds are
+     $\mu(K)\|k\|_\infty$. Use its a.e. section and representative APIs;
+     only the adapter from the product `Lp` kernel and independence of the
+     chosen kernel representative need packaging here.
    - For $k\in L^2(\mu\times\mu)$ it defines an operator on $L^2(\mu)$
-     with $\|T_k\|\le\|k\|_2$. Supply a.e. section integrability,
+     with $\|T_k\|\le\|k\|_2$. Extend the bounded-kernel maps using native
+     $L^2$ density and the Cauchy–Schwarz bound on kernel differences.
+     Square integrability does not supply uniform Schur bounds, so this
+     extension is an additional target. Supply a.e. section integrability,
      strong measurability and square integrability of the output, and
      continuity of the kernel-to-operator map. Cauchy–Schwarz and Fubini
      provide the bound, including complex kernels without inserting
      conjugation in the displayed operator formula.
 
-   Compare the three maps on their common continuous-kernel domains.
+   Compare the three maps on their common continuous-kernel domains,
+   and identify the $L^2$ extension with `integralOperatorLp` whenever
+   both constructions apply.
    Finite discrete spaces recover the matrix formula with the specified
-   measure weights. Use the kernel operator design of the Mathlib proposals
-   cited below; provide the required generality in Tau Ceti rather than
+   measure weights. Keep the existing Tau Ceti kernel constructor and the
+   native $L^2$ design of the Mathlib proposals cited below; provide the
+   required extensions rather than
    importing a new private `L²` carrier or assuming positivity of the kernel.
    Compactness and Hilbert–Schmidt classification are not prerequisites for
    these boundedness statements.
@@ -603,12 +677,18 @@ pointwise and a.e. conventions must be related explicitly.
    $$
    Compare it on continuous inputs with
    `ContinuousMap.unitIntervalIntegral`. The natural inclusion of continuous
-   functions into $L^2(0,1)$ is contractive. Compose to obtain the $L^2$
-   operator and identify its kernel as $\mathbf1_{\{0<t<s<1\}}$.
+   functions into $L^2(0,1)$ is contractive. Its composition with this
+   continuous-output extension must agree, by the a.e. integral formula,
+   with the complex $L^2$ Volterra operator owned by Banach algebras
+   Layer 3.1. Consume that bounded operator; do not define another one.
+   Supply the real-valued restriction and its scalar-extension comparison
+   for the real version. These basic operator inputs are independent of
+   the operator-algebra and spectral conclusions of that layer.
+   Identify the shared operator's kernel as $\mathbf1_{\{0<t<s<1\}}$.
    Compute the squared kernel norm as $1/2$, giving
    $\|V\|\le1/\sqrt2$.
 
-   Also prove the sharper main-text assertion $\|V\|=2/\pi$.
+   The new norm target for this supplied operator is $\|V\|=2/\pi$.
    An explicit route independent of a new spectral development is to prove,
    first for continuously differentiable $F$ with $F(0)=0$,
    $$
@@ -625,8 +705,13 @@ pointwise and a.e. conventions must be related explicitly.
 
 6. **Separating the operator convergence notions.** On $\ell^p(\mathbb N)$,
    $1\le p<\infty$, let $P_n$ keep the first $n$ coordinates.
-   Prove $P_nx\to x$ for every $x$ and
-   $\|I-P_n\|=1$, so convergence is strong but not in operator norm.
+   Use `lp.diagonalTruncation` with the constant-one symbol, or B3's
+   corresponding native finite projections. Strong convergence
+   $P_nx\to x$ is already `lp.hasSum_single`, packaged in
+   `lp.tendsto_diagonalTruncation_apply` at the newer revision.
+   The existing diagonal norm/tail bound and an omitted coordinate vector
+   give $\|I-P_n\|=1$. Record this SOT-versus-norm example without creating
+   a second projection construction.
    For $1<p<\infty$, let $R$ be the right shift, with zero inserted at
    coordinate zero. Its powers preserve norms, converge weakly to zero
    against every continuous functional, and fail to converge strongly to
@@ -642,8 +727,10 @@ pointwise and a.e. conventions must be related explicitly.
    impossible. No particular solution of the excluded problem is prescribed.
 
 *Needs:* BN3–BN7; native Hölder multiplication, Cauchy–Schwarz, Fubini, interval
-FTC, continuous-function density in scalar $L^2$, and B3's scalar sequence-space
-duality. The auxiliary sharp interval inequality is explicitly owned by BN8.5.
+FTC and continuous-function density in scalar $L^2$; the supplying integral
+operators, B3's scalar sequence-space API, and Banach algebras Layer 3.1's
+basic complex $L^2$ Volterra operator. The auxiliary sharp interval inequality
+is explicitly owned by BN8.5.
 
 ## Sources and API alignment
 
@@ -659,9 +746,11 @@ duality. The auxiliary sharp interval inequality is explicitly owned by BN8.5.
   and bounded operators; BN8.4 additionally requires general kernels with
   the stated integrability and complex-scalar conventions.
 - Mathlib PR [#42103](https://github.com/leanprover-community/mathlib4/pull/42103)
-  supplies finite variation for finite-dimensional vector-measure targets.
-  Follow that API for the scalar finiteness input in BN3.4; the Banach norm
-  and completeness are further requirements.
+  addresses finite variation for general finite-dimensional vector-measure
+  targets. The scalar instance
+  required here already exists in Tau Ceti's `ScalarIntegral` at the pinned
+  revision; BN3.4 does not request its reimplementation. The general
+  scalar-measure Banach norm and completeness are further requirements.
 - The [Riemann–Stieltjes discussion](https://leanprover-community.github.io/archive/stream/423402-PrimeNumberTheorem%2B/topic/Formalizing.20Riemann-Stieltjes.20theory.html)
   and Mathlib PR [#45112](https://github.com/leanprover-community/mathlib4/pull/45112)
   concern interval-based integration and periodic bounded-variation Riemann
@@ -691,10 +780,23 @@ duality. The auxiliary sharp interval inequality is explicitly owned by BN8.5.
 [ml-l1]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Integral/Bochner/L1.lean
 [ml-ftc]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean
 [ml-mean-value]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/Calculus/MeanValue.lean
+[ml-continuous-separable]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Topology/ContinuousMap/SecondCountableSpace.lean
+[ml-ascoli]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Topology/UniformSpace/Ascoli.lean
+[ml-uniform-lipschitz]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Topology/MetricSpace/UniformConvergence.lean
 [tc-quotient]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Analysis/Normed/Module/Quotient.lean
 [tc-extend]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Analysis/Normed/Operator/Extend.lean
 [tc-dense]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Analysis/Normed/Operator/Dense.lean
 [tc-variation]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/VectorMeasure/Variation/Basic.lean
 [tc-continuous-map]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Analysis/Calculus/ContinuousMap.lean
+[tc-scalar-measure]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/VectorMeasure/ScalarIntegral.lean
+[tc-c0]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/ContinuousMap/ZeroAtInfty/Discrete.lean
+[tc-lp-basis]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Analysis/Normed/Lp/Basis.lean
+[tc-diagonal]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Analysis/Normed/Lp/Diagonal/Basic.lean
+[tc-hs]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/Basic.lean
 [tc-multiplication]: https://github.com/TauCetiProject/TauCeti/blob/396c3bd971e9722aa8656231760e710fe641d8cf/TauCeti/MeasureTheory/Function/Lp/Multiplication.lean
 [tc-riemann]: https://github.com/TauCetiProject/TauCeti/blob/396c3bd971e9722aa8656231760e710fe641d8cf/TauCeti/MeasureTheory/VectorMeasure/RiemannSums.lean
+[tc-integral-operator]: https://github.com/TauCetiProject/TauCeti/blob/396c3bd971e9722aa8656231760e710fe641d8cf/TauCeti/MeasureTheory/Function/Lp/Operator/Integral/Basic.lean
+[tc-regular-measure]: https://github.com/TauCetiProject/TauCeti/blob/396c3bd971e9722aa8656231760e710fe641d8cf/TauCeti/MeasureTheory/VectorMeasure/RegularSubmodule.lean
+[tc-ascoli]: https://github.com/TauCetiProject/TauCeti/blob/396c3bd971e9722aa8656231760e710fe641d8cf/TauCeti/Topology/UniformSpace/Ascoli.lean
+[tc-measurable-partition]: https://github.com/TauCetiProject/TauCeti/blob/396c3bd971e9722aa8656231760e710fe641d8cf/TauCeti/MeasureTheory/MeasurableSpace/Finpartition.lean
+[tc-diagonal-current]: https://github.com/TauCetiProject/TauCeti/blob/396c3bd971e9722aa8656231760e710fe641d8cf/TauCeti/Analysis/Normed/Lp/Diagonal/Basic.lean
