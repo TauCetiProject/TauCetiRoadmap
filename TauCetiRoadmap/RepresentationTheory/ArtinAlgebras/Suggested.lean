@@ -46,12 +46,14 @@ The headlines of the README and their Lean forms here:
 * Auslander's theorems on Tau Ceti's global dimension `TauCeti.globalDimension` of an arbitrary
   ring (Layer 7): `globalDimension_mulOpposite` and
   `globalDimension_eq_projectiveDimension_quotient`.
-* The Morita-Tachikawa correspondence (Layer 7), on the predicates `IsGeneratorCogenerator` (a
+* Dominant dimension (Layer 7): `HasProjectiveInjectiveCoresolution`, the number
+  `dominantDimension` in `ℕ∞`, and `two_le_dominantDimension_iff`, which identifies the bound
+  `2 ≤ dominantDimension Γ` with the explicit `HasProjectiveInjectiveCopresentation`.
+* The Morita-Tachikawa correspondence (Layer 7), on the predicate `IsGeneratorCogenerator` (a
   separator and coseparator of `mod A = FGModuleCat A`, with `isSeparator_iff_exists_retract` and
-  `isGeneratorCogenerator_iff_forall_indecomposable`) and
-  `HasProjectiveInjectiveCopresentation`: the forward direction
-  `hasProjectiveInjectiveCopresentation_end`, the converse
-  `exists_algEquiv_end_of_hasProjectiveInjectiveCopresentation`, and injectivity on marked pairs
+  `isGeneratorCogenerator_iff_forall_indecomposable`) and on `dominantDimension`: the forward
+  direction `two_le_dominantDimension_end`, the converse
+  `exists_algEquiv_end_of_two_le_dominantDimension`, and injectivity on marked pairs
   `exists_linear_equivalence_of_algEquiv_end`. All isomorphisms of endomorphism rings are
   `R`-algebra isomorphisms, for the scoped `ModuleCat.Algebra` instances.
 * The Auslander correspondence (Layer 7), on `IsAdditiveGenerator` of Layer 0 in
@@ -62,10 +64,8 @@ The following headlines need carriers that are themselves targets of the README 
 the pins, so the README specifies them in prose and they are not stated here: the `Ext¹` of an
 exact category, and with it Auslander-Reiten duality and the existence theorem for almost-split
 conflations in exact categories (Layer 3); the category `mod C` as an abelian category (Layer 1);
-the translate of an Artin algebra and its Auslander-Reiten formulas (Layer 4); the valued
-Auslander-Reiten quiver with its mesh and multiplicities (Layer 5); and dominant dimension as a
-number (Layer 7), of which only the bound `≥ 2` is stated here, as
-`HasProjectiveInjectiveCopresentation`.
+the translate of an Artin algebra and its Auslander-Reiten formulas (Layer 4); and the valued
+Auslander-Reiten quiver with its mesh and multiplicities (Layer 5).
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.ArtinAlgebras
@@ -309,19 +309,42 @@ def HasProjectiveInjectiveCopresentation (Γ : Type u) [Ring Γ] : Prop :=
     Mono f ∧ (ShortComplex.mk f g hfg).Exact ∧ Module.Finite Γ I₀ ∧ Module.Finite Γ I₁ ∧
       Projective I₀ ∧ Injective I₀ ∧ Projective I₁ ∧ Injective I₁
 
+/-- `Γ` has a **projective-injective coresolution with `n` terms**: an exact sequence
+`0 → Γ → I⁰ → ⋯ → Iⁿ⁻¹` of left `Γ`-modules whose terms `Iⁱ` are finitely generated, projective
+and injective. In `S`, the object `S.obj 0` is zero, `S.obj 1` is the regular module and
+`S.obj (i + 2)` is `Iⁱ`; exactness at `S.obj 1` says that `Γ → I⁰` is a monomorphism. For `n = 0`
+the sequence is `0 → Γ`, and the condition always holds. -/
+def HasProjectiveInjectiveCoresolution (Γ : Type u) [Ring Γ] (n : ℕ) : Prop :=
+  ∃ S : ComposableArrows (ModuleCat.{u} Γ) (n + 1), S.Exact ∧ IsZero (S.obj 0) ∧
+    Nonempty (S.obj 1 ≅ ModuleCat.of Γ Γ) ∧
+      ∀ i : Fin n, Module.Finite Γ (S.obj i.succ.succ) ∧ Projective (S.obj i.succ.succ) ∧
+        Injective (S.obj i.succ.succ)
+
+/-- The **dominant dimension** `dom.dim Γ` of a ring, of left modules: the supremum in `ℕ∞` of the
+`n` for which `Γ` has a projective-injective coresolution with `n` terms. It is `⊤` for a left
+self-injective ring, through `0 → Γ → Γ → 0 → 0 → ⋯`. -/
+noncomputable def dominantDimension (Γ : Type u) [Ring Γ] : ℕ∞ :=
+  ⨆ (n : ℕ) (_ : HasProjectiveInjectiveCoresolution Γ n), (n : ℕ∞)
+
+/-- Over any ring, `dom.dim Γ ≥ 2` exactly when the regular module has an injective copresentation
+`0 → Γ → I⁰ → I¹` by finitely generated projective-injective modules. -/
+theorem two_le_dominantDimension_iff (Γ : Type u) [Ring Γ] :
+    2 ≤ dominantDimension Γ ↔ HasProjectiveInjectiveCopresentation Γ :=
+  sorry
+
 /-- **Morita-Tachikawa, forward**: for a generator-cogenerator `M` of `mod A`, the endomorphism
 ring `Γ = Module.End A M` has dominant dimension at least two. -/
-theorem hasProjectiveInjectiveCopresentation_end {A : Type u} [Ring A] [Algebra R A]
-    [Module.Finite R A] (M : FGModuleCat.{u} A) (hM : IsGeneratorCogenerator M) :
-    HasProjectiveInjectiveCopresentation (Module.End A M.obj) :=
+theorem two_le_dominantDimension_end {A : Type u} [Ring A] [Algebra R A] [Module.Finite R A]
+    (M : FGModuleCat.{u} A) (hM : IsGeneratorCogenerator M) :
+    2 ≤ dominantDimension (Module.End A M.obj) :=
   sorry
 
 /-- **Morita-Tachikawa, converse**: an Artin algebra `Γ` of dominant dimension at least two is the
 endomorphism ring of a generator-cogenerator `M` over an Artin algebra `B`. One choice is
 `B = Module.End Γ Q`, for `Q` the sum of the indecomposable projective-injective `Γ`-modules, and
 `M = Q`. -/
-theorem exists_algEquiv_end_of_hasProjectiveInjectiveCopresentation (Γ : Type u) [Ring Γ]
-    [Algebra R Γ] [Module.Finite R Γ] (hΓ : HasProjectiveInjectiveCopresentation Γ) :
+theorem exists_algEquiv_end_of_two_le_dominantDimension (Γ : Type u) [Ring Γ]
+    [Algebra R Γ] [Module.Finite R Γ] (hΓ : 2 ≤ dominantDimension Γ) :
     ∃ (B : Type u) (_ : Ring B) (_ : Algebra R B) (_ : Module.Finite R B) (M : FGModuleCat.{u} B),
       IsGeneratorCogenerator M ∧ Nonempty (Γ ≃ₐ[R] Module.End B M.obj) :=
   sorry
@@ -330,7 +353,7 @@ theorem exists_algEquiv_end_of_hasProjectiveInjectiveCopresentation (Γ : Type u
 `R`-algebra isomorphic endomorphism rings, an `R`-linear equivalence of the categories `mod A` and
 `mod A'` carries one to the other. A ring isomorphism does not suffice: for `R = k × k` acting on
 `k` through the two projections, the endomorphism rings are both `k`, but no `R`-linear equivalence
-exists. With the converse `exists_algEquiv_end_of_hasProjectiveInjectiveCopresentation`, this makes
+exists. With the converse `exists_algEquiv_end_of_two_le_dominantDimension`, this makes
 `(A, M) ↦ Module.End A M` a bijection from pairs up to `R`-linear equivalences carrying `M` to `M'`
 onto `R`-algebra isomorphism classes of Artin algebras of dominant dimension at least two. -/
 theorem exists_linear_equivalence_of_algEquiv_end {A A' : Type u} [Ring A] [Algebra R A]
@@ -355,7 +378,7 @@ Artin algebra `B`, which is then representation-finite. Dominant dimension alone
 `k[ε]/(ε²)` has infinite dominant dimension and infinite global dimension. -/
 theorem exists_isAdditiveGenerator_algEquiv_end (Γ : Type u) [Ring Γ] [Algebra R Γ]
     [Module.Finite R Γ] (hgl : TauCeti.globalDimension.{u} Γ ≤ 2)
-    (hΓ : HasProjectiveInjectiveCopresentation Γ) :
+    (hΓ : 2 ≤ dominantDimension Γ) :
     ∃ (B : Type u) (_ : Ring B) (_ : Algebra R B) (_ : Module.Finite R B) (M : FGModuleCat.{u} B),
       IsAdditiveGenerator M ∧ Nonempty (Γ ≃ₐ[R] Module.End B M.obj) :=
   sorry

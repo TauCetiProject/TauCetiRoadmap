@@ -96,7 +96,8 @@ for categories of modules. The boundaries are as follows.
   through functors; coherent rings as a ring-theoretic notion (they enter only through the
   Freyd-Auslander criterion of Layer 1); and dominant dimension of rings other than Artin algebras,
   where the terms of the minimal injective coresolution are asked to be flat rather than projective
-  (Hoshino). For Artin algebras the two conditions agree; for other rings the flat version needs
+  (Hoshino), beyond the definition of 7.3 and its first two properties there, which hold for any
+  ring. For Artin algebras the two conditions agree; for other rings the flat version needs
   flatness over noncommutative rings, which Mathlib does not have (`Module.Flat` is stated over
   commutative rings).
 
@@ -163,7 +164,8 @@ The baseline is Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti
   `CategoryTheory.Limits.HasWeakKernels`, `CategoryTheory.preadditiveYoneda`, `AddCommGrpCat`,
   `CategoryTheory.IsSeparator`, `CategoryTheory.IsCoseparator`.
 - Homological algebra: `CategoryTheory.ShortComplex` with `ShortComplex.Exact` and
-  `ShortComplex.ShortExact`, `CategoryTheory.Abelian.Ext` with `ShortComplex.ShortExact.extClass`,
+  `ShortComplex.ShortExact`, `CategoryTheory.ComposableArrows` with `ComposableArrows.Exact`,
+  `CategoryTheory.Abelian.Ext` with `ShortComplex.ShortExact.extClass`,
   `CategoryTheory.Projective`, `CategoryTheory.Injective`, `CategoryTheory.EnoughProjectives`,
   `CategoryTheory.EnoughInjectives`, `CategoryTheory.projectiveDimension`,
   `CategoryTheory.HasProjectiveDimensionLE`, `CategoryTheory.HasProjectiveDimensionLT`.
@@ -1286,33 +1288,57 @@ Ceti `TauCeti.globalDimension`, `TauCeti.globalDimension_le_tfae`.
 
 ### 7.3 Dominant dimension
 
-**Dominant dimension**. For an Artin algebra `Γ` with minimal
-injective coresolution `0 → Γ → I⁰ → I¹ → ⋯` of the left regular module (2.3), `dom.dim Γ ≥ n` when
-`I⁰, …, Iⁿ⁻¹` are projective; `dom.dim Γ` is the supremum of such `n` in `ℕ∞` ([ARS, §VI.5,
-p. 211]). API:
+**Dominant dimension** (`HasProjectiveInjectiveCoresolution` and `dominantDimension`, in
+`Suggested.lean`). For a ring `Γ` and `n : ℕ`, `Γ` has a **projective-injective coresolution with
+`n` terms** when there is an exact sequence `0 → Γ → I⁰ → ⋯ → Iⁿ⁻¹` of left `Γ`-modules, exact at
+`Γ` and at `I⁰, …, Iⁿ⁻²`, with every `Iⁱ` finitely generated, projective and injective. In Lean the
+sequence is a `CategoryTheory.ComposableArrows (ModuleCat Γ) (n + 1)` satisfying
+`ComposableArrows.Exact`, with a zero object in position 0 and the regular module in position 1, so
+that exactness at `Γ` says that `Γ → I⁰` is a monomorphism. For `n = 0` the sequence is `0 → Γ`,
+and the condition always holds. The **dominant dimension** `dom.dim Γ = dominantDimension Γ` is the
+supremum in `ℕ∞` of the `n` for which it holds. The definition is stated for any ring, of left
+modules, as `TauCeti.globalDimension` is. The first two items below hold for any ring and the
+others are for Artin algebras; for other rings it is not Hoshino's flat version (see "Scope and
+ownership"). API:
 
-- the value does not depend on the chosen minimal injective coresolution, since minimal injective
+- truncation: dropping the last term of a coresolution with `n + 1` terms leaves one with `n`
+  terms, so `n ≤ dom.dim Γ` exactly when `Γ` has a projective-injective coresolution with `n`
+  terms;
+- `dom.dim Γ ≥ 2` exactly when there is an injective copresentation `0 → Γ → I⁰ → I¹` by finitely
+  generated projective-injective modules (`two_le_dominantDimension_iff`, in `Suggested.lean`, on
+  `HasProjectiveInjectiveCopresentation`), over any ring, by truncation and the case `n = 2`;
+- **the minimal injective coresolution**: for an Artin algebra `Γ` with minimal injective
+  coresolution `0 → Γ → E⁰ → E¹ → ⋯` of the left regular module (2.3), `n ≤ dom.dim Γ` exactly when
+  `E⁰, …, Eⁿ⁻¹` are projective, so `dominantDimension Γ` is the dominant dimension of [ARS, §VI.5,
+  p. 211]. The terms `Eⁱ` are finitely generated (2.3), so the truncated minimal coresolution is a
+  witness when its first `n` terms are projective. Conversely, the minimal coresolution is a
+  termwise direct summand of any injective coresolution `0 → Γ → I⁰ → ⋯ → Iⁿ⁻¹`, by induction on
+  cosyzygies: an injective module containing `M` contains an injective hull of `M` as a direct
+  summand, so if the `i`-th cosyzygy of `I` is the `i`-th cosyzygy of `E` plus an injective module,
+  then `Iⁱ` is `Eⁱ` plus an injective module, and the `(i + 1)`-st cosyzygies are again related in
+  this way; and direct summands of projective-injective modules are projective-injective. The
+  minimal version does not depend on the chosen minimal coresolution, since minimal injective
   coresolutions are unique up to isomorphism (uniqueness of injective hulls,
   `TauCeti.IsInjectiveEnvelope.exists_linearEquiv`);
-- `dom.dim Γ ≥ 2` exactly when there is some injective copresentation `0 → Γ → I⁰ → I¹` by finitely
-  generated projective-injective modules (`HasProjectiveInjectiveCopresentation`, in
-  `Suggested.lean`): the minimal coresolution is a direct summand of any such copresentation, and
-  direct summands of projective-injective modules are projective-injective;
 - dominant dimension is invariant under Morita equivalence (7.1).
+
+The first three items are not located in a read source.
 
 **Checks.**
 
-- For `T₂(k)` the copresentation condition fails, and for `End_B(B ⊕ S)` with `B = k[ε]/(ε²)` and
-  `S = k` it holds.
-
-- `k[ε]/(ε²)` is self-injective, so its dominant dimension is infinite.
+- For `T₂(k)` the copresentation condition fails, so `dominantDimension T₂(k) < 2`, and for
+  `End_B(B ⊕ S)` with `B = k[ε]/(ε²)` and `S = k` it holds.
+- `B = k[ε]/(ε²)` is self-injective, so `0 → B → B → 0 → 0 → ⋯`, with the zero module as a
+  finitely generated projective-injective module, gives coresolutions with any number of terms, and
+  `dominantDimension B = ⊤`; the same holds for every left self-injective ring, and for the zero
+  ring.
 - For the path algebra of `• → •` (that is, `T₂(k)`), the dominant dimension is 1: the injective
   hull of the simple projective module is projective-injective, and its cokernel, the other simple
   module, is injective but not projective.
 - For `B = k[ε]/(ε²)`, `End_B(B ⊕ k)` has dominant dimension 2.
 
-*Needs:* 2.3's minimal injective coresolutions; Mathlib `CategoryTheory.Projective`,
-`CategoryTheory.Injective`.
+*Needs:* 2.3's minimal injective coresolutions; Mathlib `CategoryTheory.ComposableArrows`,
+`CategoryTheory.ComposableArrows.Exact`, `CategoryTheory.Projective`, `CategoryTheory.Injective`.
 
 ### 7.4 The Morita-Tachikawa correspondence
 
@@ -1366,14 +1392,14 @@ isomorphism. A ring isomorphism does not suffice: for `R = k × k` acting on `A 
 the two projections, both endomorphism rings are `k`, but no `R`-linear equivalence exists, since
 `(1, 0)` acts as the identity on one category and as zero on the other.
 
-**Forward** (`hasProjectiveInjectiveCopresentation_end`, in `Suggested.lean`). If `M` is a
-generator-cogenerator of `mod A`, then `dom.dim (Module.End A M) ≥ 2`.
+**Forward** (`two_le_dominantDimension_end`, in `Suggested.lean`). If `M` is a generator-cogenerator
+of `mod A`, then `dom.dim (Module.End A M) ≥ 2`.
 
-**Converse** (`exists_algEquiv_end_of_hasProjectiveInjectiveCopresentation`, in `Suggested.lean`).
-For an Artin algebra `Γ` with `dom.dim Γ ≥ 2`, let `Q` be the sum of the indecomposable
-projective-injective left `Γ`-modules, one of each isomorphism class, and `B = Module.End Γ Q`; then
-`Q` is a generator-cogenerator of `mod B`, and the action map `Γ → Module.End B Q` is an
-`R`-algebra isomorphism.
+**Converse** (`exists_algEquiv_end_of_two_le_dominantDimension`, in `Suggested.lean`). For an Artin
+algebra `Γ` with `dom.dim Γ ≥ 2`, let `Q` be the sum of the indecomposable projective-injective left
+`Γ`-modules, one of each isomorphism class, and `B = Module.End Γ Q`; then `Q` is a
+generator-cogenerator of `mod B`, and the action map `Γ → Module.End B Q` is an `R`-algebra
+isomorphism.
 
 **The correspondence** (`exists_linear_equivalence_of_algEquiv_end`, in `Suggested.lean`). Pairs
 `(A, M)` with `M` a generator-cogenerator of `mod A` are identified when an `R`-linear equivalence
