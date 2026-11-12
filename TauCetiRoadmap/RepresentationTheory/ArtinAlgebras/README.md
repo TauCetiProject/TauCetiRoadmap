@@ -1371,6 +1371,16 @@ The first three items are not located in a read source.
   that kills every map `M ⟶ A`, so it is zero; then finitely many maps `M ⟶ A` have images
   summing to `A`, and the resulting surjection `Mⁿ ⟶ A` splits; conversely every finitely
   generated module is a quotient of some `Aᵐ`;
+- **comparison with Tau Ceti's generators**: over any ring, `M` is a separator of `FGModuleCat A`
+  exactly when `TauCeti.Module.IsGenerator A M.obj` (`TauCeti.Algebra.Module.Generator`, later than
+  the pinned revision), the module-level notion, defined for all modules over any semiring, that
+  `A` is a quotient of a finite power `Mⁿ`
+  (`TauCeti.Module.isGenerator_iff_exists_surjective`): a surjection `Mⁿ ⟶ A` splits because `A`
+  is projective, so for finitely generated `M` both conditions say `A ∈ add M`
+  (`isSeparator_iff_exists_retract`). The two are kept side by side, linked by this equivalence, as
+  Mathlib links `Module.Injective` and `CategoryTheory.Injective`. With it, the double centralizer
+  property of a generator-cogenerator, used in the converse below, is Tau Ceti's
+  `TauCeti.toModuleEnd_moduleEnd_bijective_of_isGenerator`;
 - for an Artin algebra, `M` is a cogenerator of `mod A` exactly when `D_R A ∈ add M` (the same
   additive closure): a coseparator `M` of the finite-length category `mod A` admits an embedding
   of every object into some `Mⁿ`, which splits for the injective object `D_R A`; conversely every
@@ -1400,7 +1410,7 @@ These characterizations are not located in a read source.
 
 *Needs:* 0.5's Krull-Schmidt property of `mod A`; 2.3's duality for Artin algebras and injective
 hulls; Mathlib `CategoryTheory.IsSeparator`, `CategoryTheory.IsCoseparator`,
-`CategoryTheory.Retract`.
+`CategoryTheory.Retract`; Tau Ceti `TauCeti.Module.IsGenerator`.
 
 **Endomorphism algebras.** For `M` in `mod A`, `Module.End A M` (in Lean `Module.End A M.obj`, for
 `M : FGModuleCat A`) is an `R`-algebra through Mathlib's scoped `ModuleCat.Algebra` instances, and
