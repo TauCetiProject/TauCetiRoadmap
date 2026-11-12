@@ -76,6 +76,45 @@ Tau Ceti's `LEquiv.lift_countableModelCount_onBoundedFormulaInf` and
 `LEquiv.hasPerfectlyManyCountableModels_onBoundedFormulaInf_iff` transport the count and perfectly
 many countable models along a language equivalence. -/
 
+/-! ## Layer 0 acceptance check: a perfect set at the finite tier `Fin 1` -/
+
+namespace UnaryPredicates
+
+/-- One unary relation symbol for each natural number, and nothing else. -/
+def Rel : ℕ → Type
+  | 1 => ℕ
+  | _ => PEmpty
+
+/-- The language of countably many unary predicates. -/
+def lang : FirstOrder.Language.{0, 0} := ⟨fun _ => PEmpty, Rel⟩
+
+instance : lang.IsRelational := fun _ => inferInstanceAs (IsEmpty PEmpty)
+
+instance (l : ℕ) : Countable (lang.Relations l) := by
+  rcases l with _ | _ | l <;> simp only [lang, Rel] <;> infer_instance
+
+/-- "There is exactly one element": `∃ x ∀ y, y = x`, through the finitary embedding
+`BoundedFormula.toInf`. -/
+def oneElement : lang.Sentenceω :=
+  BoundedFormula.toInf (ι := ℕ) (BoundedFormula.ex (BoundedFormula.all
+    (Term.bdEqual (Term.var (Sum.inr (1 : Fin 2))) (Term.var (Sum.inr (0 : Fin 2))))))
+
+/-- **Layer 0 acceptance check.** The codes on `Fin 1` form a perfect set of pairwise
+non-isomorphic models: continuum many pairwise non-isomorphic one-element structures. -/
+theorem hasPerfectSetOfNonisoModelsOn_fin_one_unaryPredicates :
+    HasPerfectSetOfNonisoModelsOn (Fin 1) oneElement := by
+  sorry
+
+/-- There are no models on `ℕ`, so the perfect alternative holds only at a finite tier. -/
+theorem modelsOf_oneElement_nat :
+    (modelsOf oneElement : Set (RelationalConfiguration lang ℕ)) = ∅ := by
+  sorry
+
+theorem countableModelCount_oneElement : countableModelCount oneElement = 𝔠 := by
+  sorry
+
+end UnaryPredicates
+
 /-! ## Layer 1: the back-and-forth stratification and isolating ranks
 
 The restricted levels `bfEquivSetoidOn V φ α`, the level sentences `c.scottSentenceAtLevel α`, the
