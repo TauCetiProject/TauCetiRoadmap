@@ -13,10 +13,12 @@ list. Tau Ceti at the pin has the completeness of polynomial systems under one e
 polynomials (`TauCeti/RingTheory/Polynomial/Hermite/GeneratingFunction.lean`); the headline
 statements need only Mathlib carriers, so the file imports only Mathlib.
 
-The definitions below are roadmap-local copies of the definitions `README.md` pins. In Tau Ceti
-the measure-dependent ones live in the namespace `OrthogonalPolynomials`, and the purely algebraic
-ones (`monicThreeTerm`, `corecursive`, `jacobiMatrix`, `imCentralDiff`, `derivativeAction`,
-`IsSheffer`) in `Polynomial`. Theorems are stated with `sorry`.
+The definitions below are roadmap-local copies of the definitions `README.md` pins.
+`shiftedHankelDet` is a local copy of the definition owned by ClassicalArithmeticCompletion §6.21,
+and the moments are Mathlib's `ProbabilityTheory.moment id n μ`. In Tau Ceti the
+measure-dependent definitions live in the namespace `OrthogonalPolynomials`, and the purely
+algebraic ones (`monicThreeTerm`, `corecursive`, `jacobiMatrix`, `imCentralDiff`,
+`derivativeAction`, `IsSheffer`) in `Polynomial`. Theorems are stated with `sorry`.
 -/
 
 @[expose] public section
@@ -25,7 +27,7 @@ noncomputable section
 
 namespace TauCetiRoadmap.SpecialFunctionsOrthogonalPolynomialsGeneral
 
-open Polynomial MeasureTheory Filter Topology Finset
+open Polynomial MeasureTheory ProbabilityTheory Filter Topology Finset
 open scoped ENNReal NNReal
 
 /-! ## Layer 1: difference operators -/
@@ -86,10 +88,6 @@ theorem imCentralDiff_map_real (p : ℝ[X]) :
 structure IsOrthogonalityMeasure (μ : Measure ℝ) : Prop where
   integrable_pow : ∀ n : ℕ, Integrable (fun x : ℝ => x ^ n) μ
   support_infinite : μ.support.Infinite
-
-/-- The moments `μ_n = ∫ xⁿ dμ(x)` (DLMF 18.2.26). -/
-def moment (μ : Measure ℝ) (n : ℕ) : ℝ :=
-  ∫ x, x ^ n ∂μ
 
 /-- The moment pairing `⟨p, q⟩ = ∫ p(x) q(x) dμ(x)`. -/
 def pairing (μ : Measure ℝ) (p q : ℝ[X]) : ℝ :=
@@ -390,10 +388,11 @@ theorem christoffelNumber_eq {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ
 def kernelPolynomial (μ : Measure ℝ) (p : ℕ → ℝ[X]) (y : ℝ) (n : ℕ) : ℝ[X] :=
   ∑ ℓ ∈ range (n + 1), C ((p ℓ).eval y / normSq μ p ℓ) * p ℓ
 
-/-- Kernel polynomials are orthogonal for `|y − x| dμ(x)` when `y` lies to the right of the
-support (DLMF 18.2.15). -/
+/-- Kernel polynomials are orthogonal for `|y − x| dμ(x)` when `y` lies to the right or to the
+left of the support (DLMF 18.2.15). -/
 theorem isOrthogonal_kernelPolynomial {μ : Measure ℝ} {p : ℕ → ℝ[X]}
-    (hμ : IsOrthogonalityMeasure μ) (hp : IsOrthogonal μ p) {y : ℝ} (hy : ∀ᵐ x ∂μ, x ≤ y) :
+    (hμ : IsOrthogonalityMeasure μ) (hp : IsOrthogonal μ p) {y : ℝ}
+    (hy : (∀ᵐ x ∂μ, x ≤ y) ∨ ∀ᵐ x ∂μ, y ≤ x) :
     IsOrthogonalityMeasure (μ.withDensity fun x => ENNReal.ofReal |y - x|) ∧
       IsOrthogonal (μ.withDensity fun x => ENNReal.ofReal |y - x|) (kernelPolynomial μ p y) := by
   sorry
@@ -435,9 +434,15 @@ theorem monic_even_odd_two_sq_sub_one {μ : Measure ℝ} (hμ : IsOrthogonalityM
 
 /-! ## Layer 7: moments and Hankel determinants -/
 
-/-- The Hankel determinant `Δ_n` of a sequence (DLMF 18.2.27); `Δ₀ = 1`. -/
+/-- The shifted leading Hankel determinant `D_n(a) = det (a_(i+j+1))_{i,j<n}`, `D₀ = 1`: a local
+copy of the definition owned by ClassicalArithmeticCompletion §6.21. -/
+def shiftedHankelDet {R : Type*} [CommRing R] (a : ℕ → R) (n : ℕ) : R :=
+  Matrix.det (fun i j : Fin n => a (i.val + j.val + 1))
+
+/-- The Hankel determinant `Δ_n = det (m_(i+j))_{i,j<n}` of a sequence (DLMF 18.2.27); `Δ₀ = 1`.
+It is ClassicalArithmeticCompletion's `shiftedHankelDet` of the sequence with `a_(k+1) = m_k`. -/
 def hankelDet (m : ℕ → ℝ) (n : ℕ) : ℝ :=
-  (Matrix.of fun i j : Fin n => m (i + j)).det
+  shiftedHankelDet (fun k => m (k - 1)) n
 
 /-- The determinant `Δ′_n` (DLMF 18.2.28); `Δ′₀ = 0`, `Δ′₁ = m₁`. -/
 def hankelDet' (m : ℕ → ℝ) (n : ℕ) : ℝ :=
@@ -446,27 +451,27 @@ def hankelDet' (m : ℕ → ℝ) (n : ℕ) : ℝ :=
 
 /-- The Hankel determinants of an orthogonality measure are positive. -/
 theorem hankelDet_pos {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) (n : ℕ) :
-    0 < hankelDet (moment μ) n := by
+    0 < hankelDet (moment id · μ) n := by
   sorry
 
 /-- `h_n = Δ_{n+1}/Δ_n` for the monic polynomials. -/
 theorem normSq_monic_eq {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) (n : ℕ) :
-    normSq μ (monic μ) n = hankelDet (moment μ) (n + 1) / hankelDet (moment μ) n := by
+    normSq μ (monic μ) n = hankelDet (moment id · μ) (n + 1) / hankelDet (moment id · μ) n := by
   sorry
 
 /-- DLMF 18.2.29. -/
 theorem eval_monic_eq_det {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) (n : ℕ) (x : ℝ) :
     (monic μ (n + 1)).eval x = (Matrix.of fun i j : Fin (n + 2) =>
-      if (i : ℕ) = n + 1 then x ^ (j : ℕ) else moment μ (i + j)).det /
-        hankelDet (moment μ) (n + 1) := by
+      if (i : ℕ) = n + 1 then x ^ (j : ℕ) else moment id (i + j) μ).det /
+        hankelDet (moment id · μ) (n + 1) := by
   sorry
 
 /-- DLMF 18.2.30. -/
 theorem alpha_beta_eq_hankel {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) (n : ℕ) :
-    alpha μ n = hankelDet' (moment μ) (n + 1) / hankelDet (moment μ) (n + 1) -
-        hankelDet' (moment μ) n / hankelDet (moment μ) n ∧
-      beta μ (n + 1) = hankelDet (moment μ) (n + 2) * hankelDet (moment μ) n /
-        hankelDet (moment μ) (n + 1) ^ 2 := by
+    alpha μ n = hankelDet' (moment id · μ) (n + 1) / hankelDet (moment id · μ) (n + 1) -
+        hankelDet' (moment id · μ) n / hankelDet (moment id · μ) n ∧
+      beta μ (n + 1) = hankelDet (moment id · μ) (n + 2) * hankelDet (moment id · μ) n /
+        hankelDet (moment id · μ) (n + 1) ^ 2 := by
   sorry
 
 /-! ## Layer 8: Favard's theorem, uniqueness and completeness -/
@@ -481,7 +486,7 @@ theorem favard (α β : ℕ → ℝ) (hβ : ∀ n, 0 < β (n + 1)) :
 measures with infinite support. -/
 theorem exists_measure_iff_hankelDet_pos (m : ℕ → ℝ) :
     (∀ n, 0 < hankelDet m n) ↔
-      ∃ μ : Measure ℝ, IsOrthogonalityMeasure μ ∧ ∀ k, moment μ k = m k := by
+      ∃ μ : Measure ℝ, IsOrthogonalityMeasure μ ∧ ∀ k, moment id k μ = m k := by
   sorry
 
 /-- Bounded recurrence coefficients: compact support and uniqueness. -/
@@ -499,11 +504,14 @@ theorem eq_smul_of_monic_eq {μ ν : Measure ℝ} (hμ : IsOrthogonalityMeasure 
     (h : monic μ = monic ν) : ν = (ν Set.univ / μ Set.univ) • μ := by
   sorry
 
-/-- Completeness under one exponential moment (DLMF 18.2.24–18.2.25). -/
-theorem hasSum_orthonormal_expansion {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ)
-    (hexp : ∃ a : ℝ, 0 < a ∧ Integrable (fun x => Real.exp (a * |x|)) μ) (f : Lp ℝ 2 μ) :
-    ∃ g : ℕ → Lp ℝ 2 μ, (∀ n, (g n : ℝ → ℝ) =ᵐ[μ] fun x => (orthonormal μ n).eval x) ∧
-      HasSum (fun n => (∫ x, (f : ℝ → ℝ) x * (orthonormal μ n).eval x ∂μ) • g n) f := by
+/-- Completeness under one exponential moment (DLMF 18.2.24–18.2.25), for `𝕜 = ℝ` or `ℂ`. -/
+theorem hasSum_orthonormal_expansion {𝕜 : Type*} [RCLike 𝕜] {μ : Measure ℝ}
+    (hμ : IsOrthogonalityMeasure μ)
+    (hexp : ∃ a : ℝ, 0 < a ∧ Integrable (fun x => Real.exp (a * |x|)) μ) (f : Lp 𝕜 2 μ) :
+    ∃ g : ℕ → Lp 𝕜 2 μ,
+      (∀ n, (g n : ℝ → 𝕜) =ᵐ[μ] fun x => algebraMap ℝ 𝕜 ((orthonormal μ n).eval x)) ∧
+      HasSum (fun n =>
+        (∫ x, algebraMap ℝ 𝕜 ((orthonormal μ n).eval x) * (f : ℝ → 𝕜) x ∂μ) • g n) f := by
   sorry
 
 /-! ## Layer 9: associated polynomials, continued fractions and Markov's theorem -/
@@ -519,10 +527,10 @@ def corecursive {R : Type*} [CommRing R] (α β : ℕ → R) : ℕ → R[X]
 def jFraction (α β : ℕ → ℂ) (z : ℂ) : GenContFract ℂ :=
   ⟨0, Stream'.Seq.ofStream fun k => if k = 0 then ⟨1, z - α 0⟩ else ⟨-β k, z - α k⟩⟩
 
-/-- The zeros of the associated polynomials `q_j^{(k)}`, `k + j ≤ N`, lie in `(a, b)` when `μ`
-is concentrated on `[a, b]`; so the tails of the J-fraction do not vanish off `[a, b]`. -/
+/-- The zeros of the associated polynomials `q_j^{(k)}` lie in `(a, b)` when `μ` is concentrated
+on `[a, b]`; so the tails of the J-fraction do not vanish off `[a, b]`. -/
 theorem associated_roots_mem_Ioo {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) {a b : ℝ}
-    (hab : ∀ᵐ x ∂μ, x ∈ Set.Icc a b) {k j N : ℕ} (hkj : k + j ≤ N) {x : ℂ}
+    (hab : ∀ᵐ x ∂μ, x ∈ Set.Icc a b) (k j : ℕ) {x : ℂ}
     (hx : aeval x (monicThreeTerm (fun i => alpha μ (i + k)) (fun i => beta μ (i + k)) j) = 0) :
     x.im = 0 ∧ x.re ∈ Set.Ioo a b := by
   sorry
@@ -531,7 +539,7 @@ theorem associated_roots_mem_Ioo {μ : Measure ℝ} (hμ : IsOrthogonalityMeasur
 theorem aeval_associated {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) (n : ℕ) {z : ℂ}
     (hz : ∀ᵐ x : ℝ ∂μ, (x : ℂ) ≠ z) :
     aeval z (monicThreeTerm (fun k => alpha μ (k + 1)) (fun k => beta μ (k + 1)) n) =
-      (moment μ 0 : ℂ)⁻¹ * ∫ x : ℝ,
+      (moment id 0 μ : ℂ)⁻¹ * ∫ x : ℝ,
         (aeval z (monic μ (n + 1)) - (((monic μ (n + 1)).eval x : ℝ) : ℂ)) / (z - (x : ℂ)) ∂μ := by
   sorry
 
@@ -541,7 +549,7 @@ theorem convs'_jFraction {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) {a
     (jFraction (fun k => alpha μ k) (fun k => beta μ k) z).convs' (n + 1) =
         aeval z (corecursive (alpha μ) (beta μ) (n + 1)) / aeval z (monic μ (n + 1)) ∧
       aeval z (corecursive (alpha μ) (beta μ) (n + 1)) / aeval z (monic μ (n + 1)) =
-        (moment μ 0 : ℂ)⁻¹ *
+        (moment id 0 μ : ℂ)⁻¹ *
           ∑ i, (christoffelNumber μ (n + 1) i : ℂ) / (z - zeros μ (n + 1) i) := by
   sorry
 
@@ -550,7 +558,7 @@ theorem markov {μ : Measure ℝ} (hμ : IsOrthogonalityMeasure μ) {a b : ℝ}
     (hab : ∀ᵐ x ∂μ, x ∈ Set.Icc a b) :
     TendstoLocallyUniformlyOn
       (fun n z => (jFraction (fun k => alpha μ k) (fun k => beta μ k) z).convs' n)
-      (fun z => (moment μ 0 : ℂ)⁻¹ * ∫ x : ℝ, (z - (x : ℂ))⁻¹ ∂μ) atTop
+      (fun z => (moment id 0 μ : ℂ)⁻¹ * ∫ x : ℝ, (z - (x : ℂ))⁻¹ ∂μ) atTop
       {z : ℂ | ∀ t ∈ Set.Icc a b, (t : ℂ) ≠ z} := by
   sorry
 
@@ -615,16 +623,26 @@ theorem not_isOrthogonal_bernoulli :
       IsOrthogonal μ (fun n => (Polynomial.bernoulli n).map (algebraMap ℚ ℝ)) := by
   sorry
 
-/-- Monotonic weights (Szegő, Theorem 7.2). -/
-theorem sqrt_weight_mul_abs_le {a b : ℝ} (hab : a < b) {w : ℝ → ℝ} (hw : MonotoneOn w (Set.Icc a b))
-    (hw0 : ∀ x ∈ Set.Icc a b, 0 ≤ w x) (hwm : Measurable w)
-    (hμ : IsOrthogonalityMeasure
-      ((volume.restrict (Set.Icc a b)).withDensity fun x => ENNReal.ofReal (w x)))
+/-- Monotonic weights (DLMF §18.2(xii), Szegő, Theorem 7.2): a nondecreasing weight on an
+interval `s` with greatest point `b`. -/
+theorem sqrt_weight_mul_abs_le {s : Set ℝ} (hs : s.OrdConnected) {b : ℝ} (hb : IsGreatest s b)
+    {w : ℝ → ℝ} (hw : MonotoneOn w s) (hw0 : ∀ x ∈ s, 0 ≤ w x) (hwm : Measurable w)
+    (hμ : IsOrthogonalityMeasure ((volume.restrict s).withDensity fun x => ENNReal.ofReal (w x)))
     {p : ℕ → ℝ[X]}
-    (hp : IsOrthogonal
-      ((volume.restrict (Set.Icc a b)).withDensity fun x => ENNReal.ofReal (w x)) p)
-    (n : ℕ) {x : ℝ} (hx : x ∈ Set.Icc a b) :
+    (hp : IsOrthogonal ((volume.restrict s).withDensity fun x => ENNReal.ofReal (w x)) p)
+    (n : ℕ) {x : ℝ} (hx : x ∈ s) :
     Real.sqrt (w x) * |(p n).eval x| ≤ Real.sqrt (w b) * |(p n).eval b| := by
+  sorry
+
+/-- The mirror form: a nonincreasing weight on an interval `s` with least point `a`. -/
+theorem sqrt_weight_mul_abs_le_of_antitoneOn {s : Set ℝ} (hs : s.OrdConnected) {a : ℝ}
+    (ha : IsLeast s a) {w : ℝ → ℝ} (hw : AntitoneOn w s) (hw0 : ∀ x ∈ s, 0 ≤ w x)
+    (hwm : Measurable w)
+    (hμ : IsOrthogonalityMeasure ((volume.restrict s).withDensity fun x => ENNReal.ofReal (w x)))
+    {p : ℕ → ℝ[X]}
+    (hp : IsOrthogonal ((volume.restrict s).withDensity fun x => ENNReal.ofReal (w x)) p)
+    (n : ℕ) {x : ℝ} (hx : x ∈ s) :
+    Real.sqrt (w x) * |(p n).eval x| ≤ Real.sqrt (w a) * |(p n).eval a| := by
   sorry
 
 end TauCetiRoadmap.SpecialFunctionsOrthogonalPolynomialsGeneral
