@@ -245,6 +245,16 @@ isometry `MeasureTheory.Lp.compMeasurePreservingₗᵢ`, the counting measure
 `DiscreteMeasurableSpace`; `FreeGroup` and `IsConj`. Each is used as stated at the
 pin; none of them includes separability, a chosen faithful state or a nonzero identity.
 
+For V10.StandardRealSubspaces consume Mathlib's `StandardSubspace`,
+`StandardSubspace.mulI`, `StandardSubspace.symplComp` and
+`StandardSubspace.symplComp_symplComp_eq`
+(`Mathlib/Analysis/InnerProductSpace/StandardSubspace.lean`, introduced in
+[Mathlib #29251](https://github.com/leanprover-community/mathlib4/pull/29251)).
+Use its `ClosedSubmodule`-scoped real inner product and
+`ClosedSubmodule.mem_symplComp_iff`; the symplectic complement means vanishing imaginary
+inner product, not the complex orthogonal complement. Mathlib supplies the carrier and
+complement operations; the modular conjugation, unitary group and KMS theory are targets here.
+
 **From Tau Ceti.** The Stone theorem in `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`;
 the measurability lemmas `ContinuousOn.aestronglyMeasurable_of_measure_ne_top` and
 `AEFinStronglyMeasurable.aestronglyMeasurable_smul`
@@ -439,7 +449,7 @@ nuclear operators are consumed through their Tau Ceti implementations listed abo
 
 **From TauCetiRoadmap.OperatorTheory.** From
 [PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md) Part A, the bounded
-modulus `|x|=√(x†x)` of a bounded operator between complete complex Hilbert spaces with its
+modulus `|x|=√(x†x)` of a bounded operator between complete real or complex Hilbert spaces with its
 positivity, square, pointwise norm, kernel and norm laws (PD-A36–A45), and from Part B the
 canonical polar partial isometry v with initial space the closure of `range |x|`, equal to
 `(ker x)⊥`, final space the closure of `range x`, `v|x|=x`, the initial and final projection
@@ -448,7 +458,8 @@ initial space (PD-B23–B36). From [OperatorIdeals](../OperatorTheory/OperatorId
 nuclear gauge `ν(x)=∑ₙ aₙ(x)` and the trace-class ideal family (OI-B29–B31, OI-B23), and the
 Hilbert–Schmidt energy, its basis independence, the Hilbert–Schmidt norm with its operator-norm
 domination, adjoint invariance and ideal inequality, and the Hilbert–Schmidt family
-(OI-B32–B41). Each is assumed for arbitrary complex Hilbert spaces. Nothing is consumed from
+(OI-B32–B41). The ideal statements are consumed on arbitrary complex Hilbert spaces;
+the modulus and polar decomposition are consumed over both ℝ and ℂ. Nothing is consumed from
 the spectral sub-roadmap SelfAdjointSpectralTheory, which consumes V4.0.Fields; the spectral
 inputs of V2, V4, V5 and V10 are Tau Ceti's projection-valued measures, Borel extension,
 resolvent and Cayley transform (From Tau Ceti) and the targets V2.BorelCalculus,
@@ -518,9 +529,12 @@ spectral/central reduction and measurable selection; V5's measurable
 trivialization and the central-reduction applications consume Decomposition. V5 delivers
 projection comparison and the trace of finite factors, V6 the standard form and semifinite
 classification, V7 modules and index, V8–V9 group algebras, crossed products and discrete series.
-In V10, ClosedOperators precedes Affiliation; TracialLp also consumes V6; ModularTheory
-constructs the Tomita–Takesaki/natural-cone theory after Affiliation, V0/V1/V6, V2's infinite
-tensor product, V4.Core/PositivePredual/Normality and V8's nonsingular crossed products; KMS
+In V10, StandardRealSubspaces builds the bounded modular data from V2.BorelCalculus and
+PolarDecomposition, independently of ClosedOperators. ClosedOperators precedes Affiliation;
+TracialLp also consumes V6. ModularTheory first proves the cyclic-separating modular theorem
+using StandardRealSubspaces and V0/V1/V4; its unbounded-operator comparison and natural cone
+then consume ClosedOperators and Affiliation. Its product-state and crossed-product examples
+also consume V2's infinite tensor product, V6 and V8's nonsingular crossed products. KMS
 fixes the strip convention before Hecke uses it. AffineAP consumes Tau Ceti's prime
 number theorem in arithmetic progressions; AffineHecke constructs the
 finite-adele corner from Hecke, GlobalNumberFields Layer 4 and V8; AffineType consumes that
@@ -2416,7 +2430,7 @@ and zero-padding laws, not a prior dimension-invariance theorem.
 semifinite-trace vocabulary, Mathlib `ENNReal.tsum_comm`.
 
 **V7.Dimension — embedding and index-set independence.** (Anantharaman–Popa, Definition 8.5.4,
-p. 133; Jones, Chapter 10, pp. 61–66.) For a normal module
+p. 133; Jones, Chapter 10, pp. 61–68.) For a normal module
 H and an N-linear isometry U:H→S_J, prove that `p_U=UU*` is the
 orthogonal **range** projection and belongs to A_J. The adjoint of an
 intertwiner is an intertwiner by the star laws. Define
@@ -2775,8 +2789,8 @@ sources.
 
 For the ergodicity proof consume native `MeasureTheory.Lp.instContinuousSMulDomMulAct` for the norm-continuity of left translations on L¹, explicitly adapting its domain-action convention to `λ_gφ(x)=φ(g⁻¹x)`. Prove the L¹/L∞ integral pairing, its bound and separation, and `∫φ(x)α_g(f)(x)dμ=∫φ(gy)f(y)dμ`. Thus `g↦α_g(f)` is weak-star continuous and its stabilizer is closed; Γ-invariance and density imply invariance under every g∈G. For an invariant null-measurable event choose a Borel representative A, prove the restricted measure `ν=μ|_A` is inner regular, finite on compacts and left invariant, and apply native regular/inner-regular Haar uniqueness to obtain `ν=cμ` for a finite nonnegative scalar c. Own the restricted-measure, pairing-separation and equality-of-density lemmas yielding A null or conull, including ν=0. These are explicit adapters on Mathlib's Haar, Lp and ergodic carriers. No simultaneous pointwise representative for all g or product-Borel equality is presumed. The finite-measure native dense-stabilizer and minimal-action theorems remain applicable in their own scope; they are not the noncompact-Haar proof.
 
-The compact model is Jones, §11.2, p. 73 (the paragraph preceding Example 11.2.17), and
-Γ=ℚ⊂(ℝ,+) is Example 11.2.21, pp. 73–74. That example suggests the locally compact
+The compact model is Jones, §11.2, p. 75 (the paragraph preceding Example 11.2.17), and
+Γ=ℚ⊂(ℝ,+) is Example 11.2.21, p. 76. That example suggests the locally compact
 generalization; the L¹-continuity and restricted-Haar argument above supplies it without
 assuming metrizability. Its inputs are the pinned translation-continuity instance in
 Mathlib `MeasureTheory/Function/LpSpace/DomAct/Continuous.lean` and regular Haar uniqueness in
@@ -2787,7 +2801,7 @@ criteria of this layer for the algebra models.
 
 **V8.BernoulliArbitraryDiscrete.** For every infinite discrete group Γ, with no countability assumption, let S be a finite set with its full powerset sigma-algebra and weights p_s≥0 summing to1, with at least two strictly positive weights; zero-weight points are allowed. Use its finite atomic probability measure μ and consume native `MeasureTheory.Measure.infinitePi (fun _ : Γ ↦ μ)` on the cylinder/product sigma-algebra, rather than reconstructing that measure. Consume [`infinitePi_pi`, `eq_infinitePi`, and `infinitePi_map_piCongrLeft`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Probability/ProductMeasure.lean) for finite cylinders, uniqueness and reindexing, and [`ProbabilityTheory.iIndepFun_infinitePi`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Probability/Independence/InfinitePi.lean) for the measurable coordinate family; separately a.e.-measurable coordinates do not by themselves supply an a.e.-measurable uncountable joint map. Define the left Bernoulli shift `α_g(x)(h)=x(g⁻¹h)` and prove measurability, measure preservation, the action law and the induced normal star action on the actual L∞ quotient. Construct the finite-cylinder L² subspaces and prove their union dense by the product-sigma-algebra approximation theorem. Choose an orthonormal basis of the finite-base L² with constant vector1; the products of its nonconstant basis vectors at finitely many coordinates, together with1, form an orthonormal Hilbert basis of the product L². Prove orthonormality by finite-cylinder independence and completeness by cylinder density; no countable global basis is asserted.
 
-The finite-subset Hilbert-basis argument is Jones, Example 11.2.17, p. 73; the finite-base
+The finite-subset Hilbert-basis argument is Jones, Example 11.2.17, p. 75; the finite-base
 version uses the same argument with labels from a basis orthogonal to the constant function.
 For every nonempty finite labelled support, its translation stabilizer is finite: fixing one support point injects the stabilizer into the finite support. Thus its orbit is infinite. An invariant square-summable coefficient family is constant on each orbit, so every nonconstant coefficient vanishes; invariant L² vectors are scalar and the action is ergodic. Equivalently, for cylinder events controlled by finite F, choose g outside FF⁻¹; the events and their g-translates are independent. Use finite-cylinder approximation to extend this mixing/ergodicity argument to all measurable events.
 
@@ -2941,6 +2955,57 @@ holomorphic functions on the upper half-plane) and `UpperHalfPlane`; Goodman–d
 
 ## Layer 10: Affiliated operators and Tomita–Takesaki theory
 
+**V10.StandardRealSubspaces — bounded modular data.** Work on an arbitrary complete complex
+Hilbert space, using Mathlib's `StandardSubspace H`. Thus K is a closed real subspace with
+`K∩iK={0}` and dense algebraic sum `K+iK`; the supremum in `ClosedSubmodule` is the closed
+span, so cyclicity does not assert that the algebraic sum is all of H. Let p and q be the
+orthogonal projections onto K and iK for the real inner product `Re⟨·,·⟩`, and put
+`R=p+q`, `T=|p−q|`. Use the bounded real polar decomposition `p−q=JT` to construct J.
+Prove R and T are complex linear, `0≤R≤2`, both R and `2−R` are injective,
+`T=R^(1/2)(2−R)^(1/2)` is injective, and J is an antiunitary involution satisfying
+`JRJ=2−R`, `Jp=(1−q)J` and `J(K)=K.symplComp` (Rieffel–van Daele,
+Definition 2.1, Propositions 2.2–2.3 and 3.1). The polar decomposition is taken over ℝ;
+complex antilinearity of J is a conclusion.
+Own the scalar-restriction adapters used here: a bounded ℝ-linear map commuting with
+multiplication by i defines a bounded ℂ-linear map with the same underlying function and
+operator norm. For such maps prove compatibility of the real and complex adjoints,
+self-adjointness and positivity, and use uniqueness of the positive square root to compare
+the real modulus T with the complex operator `R^(1/2)(2−R)^(1/2)`.
+
+Construct `U_t=(2−R)^(it)R^(−it)` by V2.BorelCalculus. The spectral projections of R at
+0 and 2 vanish by injectivity; choose arbitrary bounded endpoint values and prove they do
+not affect U_t. Prove the unitary group law, strong continuity, `JU_t=U_tJ`, `U_t(K)=K`,
+and compatibility with unitary transport and the symplectic complement:
+`R_(K.symplComp)=2−R_K`, `J_(K.symplComp)=J_K` and
+`U_t^(K.symplComp)=U_(-t)^K`. Use spectral cutoffs and dominated convergence for the
+imaginary powers; R need not have a bounded inverse. Establish the bounded analytic
+extensions used in Rieffel–van Daele Lemma 3.6 before their strip arguments.
+
+Prove the real-subspace KMS characterization (Propositions 3.5 and 3.7, Theorem 3.8):
+among strongly continuous unitary groups preserving K, U is the unique group for which,
+for every ξ,η∈K, there is a bounded continuous f on `−1≤Im z≤0`, holomorphic inside,
+with `f(t)=⟨η,U_t ξ⟩` and `f(t−i)=⟨U_t ξ,η⟩`. Prove the equivalent half-strip condition
+that f is real on `Im z=−1/2`, and construct the dense real Gaussian-smoothed entire
+vectors used for uniqueness. Prove that the KMS condition extends from a real subspace to
+its closed invariant real span, by uniform limits of the strip functions and their boundary
+bounds (the closure argument in Theorem 3.9). These formulas use our
+second-variable-linear convention; the source uses the first-variable-linear convention.
+Include the zero Hilbert space.
+*Needs:* Mathlib `StandardSubspace`, `ClosedSubmodule`'s real inner product, symplectic
+complements and orthogonal projections; V2.BorelCalculus; PolarDecomposition PD-A36–A45
+and PD-B23–B36 over ℝ; Mathlib complex analysis and Gaussian integrals. Rieffel–van Daele,
+§§2–3, pp. 188–200, is the source. General two-projection algebra classification remains V12;
+no V12 theorem or unbounded-operator calculus is needed here.
+
+**Checks.**
+
+- For `K=ℝ⊂ℂ`, p and q are the real and imaginary coordinate projections, `R=T=1`,
+  J is complex conjugation and `U_t=1`; `K.symplComp=K`, whereas its complex orthogonal
+  complement is zero.
+- On the Hilbert–Schmidt space `M₂(ℂ)`, put `h=diag(2/3,1/3)` and
+  `K={x h^(1/2):x=x*}`. Then `R(e₁₂)=(2/3)e₁₂`, `R(e₂₁)=(4/3)e₂₁`, J is adjoint,
+  and `U_t(e₁₂)=2^(it)e₁₂`; this pins the order of the two imaginary powers.
+
 **V10.ClosedOperators — pre-tracial closed-operator calculus.**
 Use Mathlib's `LinearPMap.adjoint`, `LinearPMap.adjoint_isClosed` and
 `LinearPMap.isSelfAdjoint_def`. For a self-adjoint T consume Tau Ceti's resolvent and Cayley
@@ -3074,22 +3139,56 @@ sources for the affiliated algebra and the predual as L¹.
 
 
 **V10.ModularTheory — Tomita–Takesaki and the natural cone.**
-Consume V10.Affiliation, V4.Core, V4.PositivePredual, V4.Normality, V0,
-V1 and V6. Consume V2's infinite-tensor-product carrier and V8's nonsingular
-crossed products, Radon–Nikodym implementations and factor criteria for
-the product-state and group-measure-space comparisons below.
-For cyclic separating Ω construct closable antilinear maps `S₀(xΩ)=x*Ω`,
-`F₀(x'Ω)=x'*Ω`, prove their closures satisfy `S*=F`, and prove the graph characterization
-using affiliated operators. Construct `S=JΔ^(1/2)` with J antiunitary involution, Δ positive
-self-adjoint with trivial kernel, `JΔJ=Δ⁻¹`, `ΔΩ=Ω`, and the corresponding F decomposition.
+Treat the zero Hilbert space directly; in the nonzero case normalize Ω for the state
+arguments. For a cyclic separating vector Ω of M, construct
+`K=closure_ℝ {xΩ:x∈M,x=x*}` as a `StandardSubspace H` (Rieffel–van Daele,
+Proposition 4.1), using V4.Normality's cyclic/separating commutant duality to prove
+`K∩iK={0}` after taking closure. Apply V10.StandardRealSubspaces to obtain R,T,J,U.
+From `Ω∈K∩(iK)ᗮ` obtain `RΩ=Ω`, then `JΩ=Ω` and `U_t Ω=Ω` before the commutant
+argument below.
+Prove the modular theorem by the bounded route of Rieffel–van Daele, §4:
+establish their real predual separation lemma (Lemma 4.3), the bounded relation
+`TJx'JT=λ(2−R)xR+conj(λ)Rx(2−R)` for x'∈M' and `Re λ>0` (Lemma 4.5),
+and its scalar matrix-coefficient integral solution with kernel
+`exp(−θt)/(2 cosh πt)`, `λ=exp(iθ/2)`, `|θ|<π` (Lemmas 4.6–4.7).
+Continue the exponentially weighted scalar integrals analytically from real θ to imaginary
+θ, then apply Fourier uniqueness to obtain the inclusion `U_t J M' J U_t*⊆M`.
+Prove `JMJ⊆M'` by the cyclic-vector argument of Lemma 4.9, closing the two inclusions
+(Lemmas 4.8–4.9 and Theorem 4.2).
+In particular `JMJ=M'` and `U_t M U_t*=M`; put `σ_t(x)=U_t x U_t*`
+and prove group law, normality and strong-star continuity.
+Use scalar integrals of matrix coefficients and uniform norm bounds to reconstruct the
+bounded operator; no operator-norm Bochner integrability of the orbit is assumed.
+For continuous integrable scalar coefficients with zero Fourier transform, derive uniqueness
+from Mathlib's `Continuous.fourierInv_fourier_eq`
+(`Mathlib/Analysis/Fourier/Inversion.lean`); the zero transform is integrable. This does not
+depend on V11's abstract-group Fourier theory.
+
+Compare these bounded data with the closed-operator formulation, consuming
+V10.ClosedOperators and V10.Affiliation. Construct the closed antilinear involution
+`S_K(ξ+iη)=ξ−iη` on the actual domain K+iK. Deduce
+`closure_ℝ M'_sa Ω=J(K)=K.symplComp` from `JMJ=M'` and `JΩ=Ω`.
+Prove that S_K is the closure of
+`S₀(xΩ)=x*Ω`, and that the closure F of `F₀(x'Ω)=x'*Ω` is `S_K*`.
+Construct the positive self-adjoint Δ as the spectral multiplier `r↦(2−r)/r` of R,
+on its square-integrability domain. Prove `R=2(1+Δ)⁻¹`,
+`S_K=JΔ^(1/2)`, `F=JΔ^(−1/2)`, `U_t=Δ^(it)`, `JΔJ=Δ⁻¹` and `ΔΩ=Ω`
+with trivial kernel for Δ (Rieffel–van Daele, §6, pp. 218–220; compare Jones 2015,
+Corollary 13.1.4, p. 95, for F).
+Prove the affiliated-operator graph characterization and its bounded spectral-truncation
+core (Jones 2015, Theorem 13.1.3 and its proof, pp. 94–95).
 Prove the predual regularization lemma: for faithful normal state φ, λ>0 and ψ∈M_*
 with `|ψ(y*x)|≤sqrt(φ(x*x)) sqrt(φ(y*y))`, obtain a∈M of norm ≤1/2 such that
-`ψ(x)=λφ(ax)+λ⁻¹φ(xa)` for every x. Develop the bounded regularization lemma solving
-the `λS+λ⁻¹F` relation, joint graph-core
-approximation, the spectral-window dense core, and the `1/(2 cosh πt)` Fourier integral
-identity used to pass from these relations to the modular theorem. Prove `JMJ=M'` and
-`Δ^(it) M Δ^(-it)=M`, with strong-star continuity, group law and normality (Tomita's theorem:
-Hiai, Theorem 2.2; Takesaki II, Chapter VI). Construct the natural cone `P=closure {Δ^(1/4)xΩ : x∈M, x≥0}` and prove complex self-duality,
+`ψ(x)=λφ(ax)+λ⁻¹φ(xa)` for every x (Jones 2015, Lemma 8.2.1, p. 54).
+Develop the `λS+λ⁻¹F` regularization and simultaneous graph-core approximation
+(Lemma 13.1.5 and Corollary 13.1.6, p. 95), and the dense spectral-window core on
+which all complex powers act (the subspace H₀ in the proof of Proposition 13.2.2, p. 97).
+These are comparisons and usable
+core lemmas for the same modular objects; the bounded proof does not wait for them.
+Jones's §§13.1–13.2, pp. 94–97, give the corresponding unbounded proof; Hiai,
+Theorem 2.2, and Takesaki II, Chapter VI, fix the standard modular-theorem statement.
+
+Construct the natural cone `P=closure {Δ^(1/4)xΩ : x∈M, x≥0}` and prove complex self-duality,
 in the convention `P={η∈H:for every ξ∈P, ⟨ξ,η⟩ is real and nonnegative}`.
 Use this convention for natural cones throughout V11. Prove
 pointwise fixation by J and `xJxJ(P)⊆P`. Prove every normal positive functional has a unique
@@ -3098,10 +3197,13 @@ implementations, and every normal star isomorphism between algebras in standard 
 has a unique implementing unitary preserving J and P (Hiai, Theorems 3.12 and 3.13). Develop these objects before the spatial derivative in V11.
 Prove the
 finite-dimensional density-matrix formulas and the tracial specialization.
-*Needs:* V10.Affiliation and V10.ClosedOperators (closed antilinear maps), V4.Core,
-V4.PositivePredual, V4.Normality, V0, V1, V6; V2's infinite tensor product and V8's nonsingular
-crossed products for the examples; Mathlib complex analysis for the `1/(2cosh πt)` integral;
-Hiai, §§2–3, and Takesaki II, Chapters VI and IX, are the sources.
+*Needs:* V10.StandardRealSubspaces, V4.Core, V4.PositivePredual, V4.Normality, V0 and V1
+for the bounded modular theorem; V10.ClosedOperators and V10.Affiliation for the comparison
+and natural cone; V6 for the tracial comparison, V2's infinite tensor product and V8's
+nonsingular crossed products for the examples; Mathlib complex analysis and Fourier
+inversion on ℝ. Rieffel–van Daele, §§4 and 6, and Jones 2015, Lemma 8.2.1 and §§13.1–13.2,
+are the proof sources; Hiai, §§2–3, and Takesaki II, Chapters VI and IX, also supply
+the natural-cone and standard-form theory.
 
 **Checks.**
 
@@ -3155,6 +3257,8 @@ and `MulSemiringAction.toAlgEquiv`; on the imaginary axis compare with
 native `Unitary.conjStarAlgAut`. No new complex-power or inner-automorphism
 carrier is required. The star locus is exactly the centrality criterion above; the description
 "star automorphism iff z∈iℝ" is its specialization to noncentral h.
+Jones 2015, Exercises 13.0.4–13.0.6, pp. 93–94, supply the matrix calculations;
+the central-density case is included by the criterion above.
 *Needs:* Mathlib `Complex.cpow`, `Matrix.diagonal`, the Hermitian spectral theorem
 (`Matrix.IsHermitian.spectral_theorem`), `MulSemiringAction.toAlgEquiv`, `Unitary.conjStarAlgAut`;
 V10.ModularTheory's finite-dimensional density formulas.
@@ -3174,7 +3278,12 @@ V10.ModularTheory's finite-dimensional density formulas.
   `Re z=0` alone would wrongly exclude `z=1` here.
 
 Compute J, Δ and modular automorphisms for faithful product states on infinite tensor
-products of finite matrix algebras. Identify every such ITPFI algebra with the nonsingular
+products of finite matrix algebras. Construct the tensor conjugation J first on the local
+matrix-algebra GNS vectors, extend it isometrically, and prove `J A_local J⊆M'`.
+Density of `J A_local J Ω` then proves that Ω is separating for M before invoking the
+modular theorem. Identify the closure of the local Tomita operator and the diagonal modular
+operator on the tensor basis (Jones 2015, Example 13.3.1, pp. 98–99).
+Identify every such ITPFI algebra with the nonsingular
 crossed product of its product diagonal algebra by the restricted direct sum of the finite
 cyclic permutation groups. Prove ergodicity by the finite-coordinate tail 0–1 law
 for these faithful product measures, and deduce factoriality by V8. Compute the nonsingular group-measure-space
@@ -3197,8 +3306,8 @@ pointwise strongly continuous, since
 `‖(α_t(x)−x)ξ‖²=⟨ξ,α_t(x*x)ξ⟩−⟨α_t(x)ξ,xξ⟩−⟨xξ,α_t(x)ξ⟩+⟨ξ,x*xξ⟩→0` (Hiai, §2.2, p. 17), and
 strong convergence implies weak convergence.
 Construct analytic elements by the Gaussian means `x_n=√(n/π)∫e^(−nt²)α_t(x)dt` (Hiai, Lemma
-2.13, p. 18), and prove strip approximation and uniqueness using Stone's theorem and common
-spectral cores. The strip estimates are Mathlib's Phragmén–Lindelöf principle for functions with
+2.13, p. 18), and prove strip approximation and the common spectral-core comparisons using
+Stone's theorem. The strip estimates are Mathlib's Phragmén–Lindelöf principle for functions with
 values in a complex normed space: `PhragmenLindelof.horizontal_strip` bounds a function on the
 closed strip by its bound on the two boundary lines, and `PhragmenLindelof.eqOn_horizontal_strip`
 determines it by its boundary values. The Gaussian integrals are Mathlib's
@@ -3213,6 +3322,16 @@ a strip function of the pair x, y exactly when `G(z)=F(z+i)` is a
 `TauCeti.CStarAction.IsKMSFunction` at β=−1 of the pair a=y, b=x, with boundary values
 `G(t)=φ(yα_t(x))` and `G(t−i)=φ(α_t(x)y)`; so a state satisfies the condition for every pair
 exactly when it is a `TauCeti.CStarAction.IsKMSState` at β=−1.
+Derive the state characterization from V10.StandardRealSubspaces on
+`K=closure_ℝ M_sa Ω`. For existence obtain the boundary identities for self-adjoint x,y
+from their vectors in K, then extend to all x,y∈M by complex bilinearity
+(Rieffel–van Daele, Theorem 4.10, pp. 206–207).
+For uniqueness first deduce φ-invariance from the KMS condition with y=1, construct the
+GNS implementing unitary group and prove it preserves K. Extend the KMS condition from
+M_sa Ω to K by the uniform-limit lemma, then apply the real-subspace uniqueness theorem.
+Their lower-strip function f has `f(t)=φ(yσ_t(x))` and `f(t−i)=φ(σ_t(x)y)`;
+our upper-strip function is `F(z)=f(z−i)`, with the same modular group and exchanged
+boundary order. Prove this translation explicitly when comparing the two formulations.
 Prove the stronger finite-dimensional statement for every finite-dimensional
 M, including a direct sum of matrix blocks. With Tr_M the sum of the
 unnormalized block traces, write each faithful state uniquely as `φ(x)=Tr_M(hx)` with invertible
@@ -3232,13 +3351,13 @@ block trace, and `TauCeti.CStarAction.isKMSFunction_apply_mul_entireExtension_if
 state is not determined by the dynamics (Checks).
 Define the centralizer, prove equality with the modular fixed algebra and the commutation
 identity `φ(xy)=φ(yx)`, and prove it is a finite algebra with trace φ.
-*Needs:* V10.ModularTheory, Tau Ceti's Stone theorem; Mathlib
+*Needs:* V10.StandardRealSubspaces and V10.ModularTheory, Tau Ceti's Stone theorem; Mathlib
 `PhragmenLindelof.horizontal_strip`, `PhragmenLindelof.eqOn_horizontal_strip`,
 `integral_cexp_quadratic` and `fourierIntegral_gaussian`; Tau Ceti `TauCeti.CStarAction.IsKMSFunction`,
 `TauCeti.CStarAction.IsKMSState`, `TauCeti.CStarAction.isKMSFunction_apply_mul_entireExtension_iff`,
 `selfAdjoint.cstarAction`, `selfAdjoint.entireExtension_cstarAction`,
 `Matrix.IsHermitian.isKMSState_gibbsState`, `Matrix.IsHermitian.isKMSState_iff_eq_gibbsState`
-and `LinearMap.existsUnique_trace_mul_eq`.
+and `LinearMap.existsUnique_trace_mul_eq`; Rieffel–van Daele, Theorems 3.8–3.9 and 4.10.
 
 **Checks.**
 
@@ -3540,6 +3659,10 @@ Bost–Connes Theorem 5, Laca–Raeburn and Neshveyev are the sources (Reference
 ### Dependencies
 
 - Layers 0–8.
+- Mathlib `StandardSubspace`, its real inner product and symplectic complement,
+  V2.BorelCalculus and PolarDecomposition PD-A36–A45/PD-B23–B36 over ℝ for
+  V10.StandardRealSubspaces; Mathlib `Continuous.fourierInv_fourier_eq` for the bounded
+  modular theorem.
 - Mathlib `LinearPMap.adjoint` and `LinearPMap.adjoint_isClosed`, Tau Ceti's self-adjoint
   resolvent and Cayley transform (`IsSelfAdjoint.norm_resolvent_le`, `LinearPMap.cayley`) and
   `TauCeti.ProjValMeasure.map`, V2.BorelCalculus, V4.0.Multiplication and PolarDecomposition, for
@@ -3565,13 +3688,26 @@ supremum of finite subsums. Prove normality and faithfulness; finite sums
 of the p_i have finite weight and increase to 1, giving semifiniteness.
 Develop the associated full left Hilbert algebra from `n_φ∩n_φ*`, its
 commutant Hilbert algebra and the dense Tomita algebra of analytic vectors.
-Establish closability of the involution, modular polar decomposition,
-the preclosedness and fullness arguments of VI.1, and Gaussian
-regularization/common-core arguments. Construct the commutant and full
-closure 𝔄'' of a left Hilbert algebra and prove `R_l(𝔄'')=R_l(𝔄)`.
+Construct the commutant and full closure 𝔄'' of a left Hilbert algebra by the bounded
+method below and prove `R_l(𝔄'')=R_l(𝔄)`. Recover closability of the involution and the
+modular polar decomposition through the real-subspace comparison, and develop the
+Gaussian regularization/common-core lemmas used by weight theory.
 Prove Tomita's theorem
 for full left Hilbert algebras: the polar conjugation exchanges the left
 and right represented algebras, and Δ^(it) preserves the left algebra.
+Use V10.StandardRealSubspaces for K, the closed real span of the vectors ξ#ξ. Prove
+that this subspace is standard, prove it is the closure of the self-adjoint vectors of
+the Hilbert algebra (Lemma 5.12), identify its closed involution with the closure of #,
+and compare the resulting J and U_t with the modular polar data. Rieffel–van Daele,
+Definition 5.5, Lemmas 5.11–5.12 and Theorems 5.13–5.15, pp. 211–218, supply the
+bounded proof, the commutant Hilbert algebra and its full-closure compatibility; use
+their graph-projection and regularization lemmas 5.4 and 5.6–5.10 to build these
+comparisons without assuming a cyclic separating state vector for a weight.
+For the real regularization equation in Lemma 5.6, apply Mathlib's
+`IsCoercive.continuousLinearEquivOfBilin`
+(`Mathlib/Analysis/InnerProductSpace/LaxMilgram.lean`) to the bounded real bilinear form
+`B(η,ζ)=Re(λ⟨ζ,η⟩)` on K.symplComp, with `Re λ=1`.
+Here `B(η,η)=‖η‖²` proves coercivity; no symmetry of B is required.
 Then construct the canonical n.s.f. weight on the left von Neumann
 algebra from the norm of its left-bounded vectors (Takesaki II VII.2.5).
 Identify its GNS full Hilbert algebra with 𝔄''; starting from a weight
@@ -3597,9 +3733,11 @@ Theorem VIII.2.6, as used for the centralizer corner in
 [Hiai Remark 13.18](https://arxiv.org/html/2004.02383#S13.Thmthm18).
 The state version is compared with V10; no state-based regularization
 lemma is assumed for an unbounded weight.
-*Needs:* V10.ModularTheory and V10.Affiliation, V4.Normality's supports and normal functionals,
-V6's tracial weights, Tau Ceti's Stone theorem; Takesaki II, VI.1, VII.1–VII.2 and Theorem
-VIII.2.6, and Hiai, Remark 13.18, are the sources.
+*Needs:* V10.StandardRealSubspaces, V10.ModularTheory and V10.Affiliation,
+V4.Normality's supports and normal functionals,
+V6's tracial weights, Tau Ceti's Stone theorem and Mathlib's Lax–Milgram theorem;
+Takesaki II, VI.1, VII.1–VII.2 and Theorem
+VIII.2.6, Rieffel–van Daele, §5, and Hiai, Remark 13.18, are the sources.
 
 **Checks.**
 
@@ -4239,9 +4377,10 @@ b with trivial endpoint kernels, and identify
 Prove the endpoint and degenerate-summand versions, classify representations of
 the infinite dihedral group `C₂*C₂ ≃ ℤ⋊C₂` using its spectral involution, and derive the
 same decomposition from the self-adjoint unitaries `2p-1`, `2q-1`. Own the generated-algebra
-classification here; general principal angles are not part of this roadmap (Jones, §7.3, p. 46,
+classification here; general principal angles are not part of this roadmap (Jones, §7.3, pp. 47–48,
 for the two-projection exercises, with general position and the block form at Exercises 7.3.2
-and 7.3.8, pp. 46–47). State the general-position theorem in Halmos's form, for a pair in
+and 7.3.8, p. 47, and the dihedral-group argument at Exercises 7.3.11–7.3.14, p. 48).
+State the general-position theorem in Halmos's form, for a pair in
 general position on all of H, as `exists_linearIsometryEquiv_withLp_of_generalPosition`: if
 `ran p∩ran q`, `ran p∩ker q`, `ker p∩ran q` and `ker p∩ker q` are 0, there are a Hilbert space L,
 a positive contraction b on L with `ker b=ker(1−b)=0` and a unitary `H≃L⊕L` carrying p to
@@ -4278,11 +4417,11 @@ define bounded central sequences and their L² convergence and triviality predic
 For a type II₁ factor define property Γ by existence of a sequence of trace-zero
 central unitaries: `HasPropertyGamma` asks for a tracial state τ and unitaries u_n of M with
 `τ(u_n)=0` and `‖u_ny−yu_n‖₂→0` for every y∈M, where `‖z‖₂²=τ(z*z)` (the form of
-Anantharaman–Popa, Theorem 15.2.3(iv), p. 262; Jones, Definition 16.1.1, p. 107, defines Γ by
+Anantharaman–Popa, Theorem 15.2.3(iv), p. 262; Jones, Definition 16.1.1, p. 113, defines Γ by
 a nontrivial central sequence). For separable II₁ factors, prove Dixmier's equivalence with
 existence of a nontrivial bounded central sequence and with the usual finite-set
 approximation formulation (Anantharaman–Popa, Theorem 15.2.3, p. 262, with Remarks 15.2.2,
-p. 262, for the finite-set and sequential forms; Jones, §§16.1–16.2, p. 107). These property Γ equivalences are factor statements;
+p. 262, for the finite-set and sequential forms; Jones, §§16.1–16.2, pp. 113–114). These property Γ equivalences are factor statements;
 they are not asserted for arbitrary tracial algebras.
 *Needs:* V6's tracial L² and bounded-set topology, V5's trace; the ultraproduct below for the
 Dixmier equivalence.
@@ -4337,12 +4476,12 @@ V5's comparison, Mathlib `Ultrafilter` limits.
   dropped (take `u_n=1`).
 
 For an ICC group with `1∉Δ` and `Γ={1}∪Δ∪αΔα⁻¹` and three disjoint conjugates
-Δ,βΔβ⁻¹,γΔγ⁻¹, prove the estimate (Jones, Theorem 16.3.1, p. 108)
+Δ,βΔβ⁻¹,γΔγ⁻¹, prove the estimate (Jones, Theorem 16.3.1, p. 114)
 `‖x-τ(x)1‖₂ ≤ 14 max(‖[x,u_α]‖₂,‖[x,u_β]‖₂,‖[x,u_γ]‖₂)`.
 Supply the ℓ² coefficient estimate, a verified reduced-word partition for every free group of
 rank ≥2, of any cardinality (Δ the reduced words ending in a nonzero power of a generator g,
-α=g, β=h and γ=h⁻¹ for a second generator h: Jones, p. 109), and deduce that its factor lacks Γ,
-`not_hasPropertyGamma_groupVonNeumannAlgebra_freeGroup` (Jones, Theorem 16.3.2, p. 109), and is
+α=g, β=h and γ=h⁻¹ for a second generator h: Jones, p. 115), and deduce that its factor lacks Γ,
+`not_hasPropertyGamma_groupVonNeumannAlgebra_freeGroup` (Jones, Theorem 16.3.2, p. 115), and is
 not R. These ultrapower and central-sequence APIs precede V13's automorphism and flow classification; V12.J is a separate Jordan reconstruction submilestone.
 *Needs:* V8's group factors and Fourier coefficients, the central-sequence definitions above,
 Mathlib `FreeGroup` reduced words.
@@ -4761,7 +4900,7 @@ II₁ factor R by trace-preserving intertwining (Anantharaman–Popa, §11.2, pp
 `L(S_∞)` with R. Prove that every hyperfinite II₁ factor has property Γ,
 `hasPropertyGamma_of_isHyperfinite`: the relative commutant of each finite-dimensional `A_n` in
 M contains a self-adjoint unitary `u_n=2e_n−1` with `τ(e_n)=1/2`, and these are asymptotically
-central in `‖·‖₂`, exactly on `⋃A_n` and by Kaplansky density on M (Jones, §16.2, pp. 107–108,
+central in `‖·‖₂`, exactly on `⋃A_n` and by Kaplansky density on M (Jones, §16.2, pp. 113–114,
 for the tensor model). With V12's free-group theorem this shows that `L(F_n)`, n≥2, is not
 hyperfinite.
 *Needs:* V6's tracial L² and hyperfinite model, V5's trace and comparison, V3's matrix units,
@@ -5291,13 +5430,19 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
 - Walter Rudin, *Functional Analysis*, Theorems 13.19 and 13.30, for the Cayley transform, the
   inverse Cayley correspondence and the spectral measure of a self-adjoint operator
   (V10.ClosedOperators).
-- Vaughan F. R. Jones, [*Von Neumann Algebras*](https://math.berkeley.edu/~vfr/VonNeumann2009.pdf),
-  lecture notes (2009): Theorems 3.2.1–3.2.2 and Corollary 3.2.3, p. 12, and Theorem 5.2.1 and
+- Vaughan F. R. Jones, [*Von Neumann Algebras*](https://cdn.vanderbilt.edu/t2-my/my-prd/wp-content/uploads/sites/3392/2020/10/vonNeumann2015.pdf),
+  lecture notes, 13 November 2015 (all Jones locators here refer to this version):
+  Theorems 3.2.1–3.2.2 and Corollary 3.2.3, p. 12, and Theorem 5.2.1 and
   Corollary 5.2.2, pp. 32–33, for the bicommutant and Kaplansky theorems (V1); Chapter 3, p. 13,
   for the weak-limit remark on projections (V1); EP10, p. 23, for the single generator (V2); Theorems 4.4.1–4.4.2, Exercises 4.4.3 and 4.4.5,
-  Example 4.4.4 and §4.5, pp. 28–29 (Layer 3); Theorem 8.1.15, p. 53 (V4.Core); §7.3 for
-  the two-projection exercises (V12); Chapter 10, pp. 61–66, for `dim_M H` (V7); §§16.1–16.3 and
-  Theorem 16.3.1, pp. 107–108, for central sequences, property Γ and the ICC estimate (V12).
+  Example 4.4.4 and §4.5, pp. 28–29 (Layer 3); Theorem 8.1.15, p. 53 (V4.Core); §7.3,
+  pp. 47–48, for the two-projection exercises (V12); Chapter 10, pp. 61–68, for `dim_M H` (V7);
+  §11.2, p. 75, for compact translations and the Bernoulli basis (V8); Lemma 8.2.1, p. 54,
+  §§13.1–13.2, pp. 94–97, for the predual regularization, graph/core lemmas and modular theorem,
+  Exercises 13.0.4–13.0.6, pp. 93–94, for the finite-dimensional computations, and Example
+  13.3.1, pp. 98–99, for product-state modular data and the separating-vector argument (V10);
+  §§16.1–16.3 and Theorems 16.3.1–16.3.2, pp. 113–115, for central sequences, property Γ and
+  the ICC estimate (V12).
 - Jesse Peterson, [*Notes on von Neumann algebras*](https://math.vanderbilt.edu/peters10/teaching/spring2013/vonNeumannAlgebras.pdf)
   (2013): Lemma 2.5.5 and Theorems 2.5.6 and 2.6.4, pp. 28–31 (V1); Lemma 2.8.8, p. 38 (V2);
   Corollary 4.1.7, p. 58 (V0); Theorem 4.4.6, p. 66 (Sakai's theorem, V4.Core);
@@ -5321,6 +5466,17 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
   p. 161, Theorem 11.1.3, p. 173, Theorem 11.2.2, p. 186, Remark 11.2.3 and Corollary 11.2.4,
   p. 188, and the Notes to Chapter 11, p. 189; Appendix A.4, p. 314, for what Tomiyama's 1957
   theorem states (13.1).
+- Marc A. Rieffel and Alfons van Daele,
+  [*A bounded operator approach to Tomita–Takesaki theory*](https://msp.org/pjm/1977/69-1/pjm-v69-n1-p17-s.pdf),
+  Pacific J. Math. 69 (1977), 187–221: Definition 2.1 and Propositions 2.2–2.3, pp. 188–191,
+  for the bounded projection/polar construction; §3 and Theorems 3.8–3.9,
+  pp. 193–200, for the modular unitary group, real-subspace KMS characterization and closure
+  argument (V10.StandardRealSubspaces); Proposition 4.1, Theorem 4.2 and Lemmas 4.3–4.9,
+  pp. 200–206, for the bounded proof of the modular theorem, Theorem 4.10, pp. 206–207,
+  for its state KMS consequence, and §6, pp. 218–220, for comparison with S,F,Δ
+  (V10.ModularTheory and V10.KMS); §5, pp. 207–218, especially Definition 5.5,
+  Lemmas 5.11–5.12 and Theorems 5.13–5.15, for left Hilbert algebras, their commutants,
+  full closures and modular data (V11).
 - Fumio Hiai, [*Concise lectures on selected topics of von Neumann algebras*](https://arxiv.org/abs/2004.02383):
   §1.8, p. 9 (separable predual; Connes's theorem that injective and AFD algebras coincide), Theorem 2.2 (Tomita), Theorem 2.14 (KMS characterization), Proposition 3.8 and Theorems
   3.12–3.13 (standard form), §5, Theorem 6.5, pp. 55–56 (Tomiyama), Theorem 6.6 (Takesaki's expectation theorem), Theorem 7.6
