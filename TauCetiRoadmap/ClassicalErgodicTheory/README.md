@@ -311,15 +311,15 @@ above; §§2.5, 4.6 and 5.6 use it.
 
 | Layer | Content | Prerequisites |
 | --- | --- | --- |
-| 0 | Monoid factors, finite observations, Radon probabilities, Koopman, natural extensions, joinings, induced maps and towers | Mathlib; Tau Ceti; GeometryOfNumbersAndQuadraticArithmetic §4.2 (Koopman, return times) |
-| 1 | Mixing for filtered monoid actions; natural extensions and relative weak mixing for groups | Layer 0; ProbabilisticAndMetricNumberTheory §4.6 |
-| 2 | Group representations, abelian spectral measures and Følner mean ergodic theorem | Layers 0–1; Herglotz, Bochner; AmenableGroups |
-| 3 | Measurable and continuous flows: time-`t` maps, weak mixing, suspension flows, invariant measures, almost-everywhere flows, rates of mixing | Layers 0–2; MathematicalBilliards §§12.1–12.5 |
+| 0 | Monoid factors, finite observations, Radon probabilities, Koopman, natural extensions, joinings, induced maps and towers | Mathlib; Tau Ceti; GeometryOfNumbersAndQuadraticArithmetic §4.2 (Koopman, return times); MarkovChainsAndRenewal Layer 0 |
+| 1 | Mixing for filtered monoid actions; natural extensions and relative weak mixing for groups | Layer 0; ProbabilisticAndMetricNumberTheory §4.6; MarkovChainsAndRenewal Layer 3 |
+| 2 | Group representations, abelian spectral measures and Følner mean ergodic theorem | Layers 0–1; Herglotz, Bochner; AmenableGroups; MathematicalBilliards §§12.4–12.5 |
+| 3 | Measurable and continuous flows: time-`t` maps, weak mixing, suspension flows, invariant measures, almost-everywhere flows, rates of mixing | Layers 0–2; MathematicalBilliards §§8.2–8.3, 12.1–12.5 |
 | 4 | Kolmogorov–Sinai entropy theory, amenable entropy, relative entropy and addition, generators and natural extensions; amenable Shannon–McMillan–Breiman theorem, ergodic decomposition of action entropy | Layers 0–1; §2.5 for §4.7; ProbabilisticAndMetricNumberTheory §§4.1–4.3, 5.1a; GeometryOfNumbersAndQuadraticArithmetic §4.2; ArithmeticDynamics §§2.6–2.7; AmenableGroups |
 | 5 | Topological entropy and pressure for maps, amenable actions and flows | Layer 0; §4.6 limit lemma for §5.6; Mathlib topological entropy |
-| 6 | Measure entropy of continuous maps: small partitions, expansiveness, upper semicontinuity, Brin–Katok, Abramov's formula for flows | Layers 3–5; ArithmeticDynamics §2.7 |
-| 7 | Variational principles for maps, amenable actions and flows | Layers 3–6; ArithmeticDynamics §2.7 |
-| 8 | Equilibrium states and measures of maximal entropy; agreement with finite-entropy formulations; uniqueness under specification, subshifts of finite type, suspension flows and the Ruelle–Perron–Frobenius theorem | Layers 0, 3–7; ProbabilisticAndMetricNumberTheoryPartII §3.3 |
+| 6 | Measure entropy of continuous maps: small partitions, expansiveness, upper semicontinuity, Brin–Katok, Abramov's formula for flows | Layers 3–5; GeometryOfNumbersAndQuadraticArithmetic §4.2; ArithmeticDynamics §2.7 |
+| 7 | Variational principles for maps, amenable actions and flows | Layers 3–6; GeometryOfNumbersAndQuadraticArithmetic §4.2; ArithmeticDynamics §2.7 |
+| 8 | Equilibrium states and measures of maximal entropy; agreement with finite-entropy formulations; uniqueness under specification, subshifts of finite type, suspension flows and the Ruelle–Perron–Frobenius theorem | Layers 0, 3–7; ArithmeticDynamics §2.7; ProbabilisticAndMetricNumberTheoryPartII §3.3 |
 
 Layer 0 builds the systems and their examples, Layer 1 the mixing hierarchy and Layer 2 its
 spectral form; Layer 3 transfers these to measurable and continuous flows. Layer 4 develops
@@ -382,7 +382,8 @@ action, consume GeometryOfNumbersAndQuadraticArithmetic §4.2's
 
 Prove that if `G` is a second-countable locally compact group with a Haar measure, the action is
 jointly measurable (`MeasurableVAdd₂ G X`), `μ` is a finite invariant measure and `1 ≤ p < ∞`,
-then `g ↦ scalarLpKoopman p μ hμ g f` is continuous for every `f`.
+then `g ↦ scalarLpKoopman p μ hμ g f` is continuous for every `f` (Creutz, Theorem 11.22, p. 107,
+for `p = 2` on a standard Borel probability space, where the measure need only be quasi-invariant).
 GeometryOfNumbersAndQuadraticArithmetic §4.2's `scalarLpKoopman_strong` covers continuous actions
 on R₁ spaces, and MathematicalBilliards §12.3 covers `G = ℝ` with `p = 2` and a probability
 measure; this target needs no topology on `X` and allows every such `G` and `p`. Route: for `f` bounded measurable, Fubini makes
@@ -740,9 +741,10 @@ measurable sets by cylinders).
 
 For an action of a topological group `G` as in the conventions, define the classes
 `MixingVAdd G X μ`: for measurable `A`, `B`,
-`Tendsto (fun g => μ.real (A ∩ (g +ᵥ ·) ⁻¹' B)) (cocompact G) (𝓝 (μ.real A * μ.real B))`; and
-the already defined `WeakMixingVAdd G X μ`. Identify `MixingVAdd` with `MixingAlong` along
-`cocompact G`; give multiplicative versions by `to_additive`. Prove: mixing implies weak mixing for
+`Tendsto (fun g => μ.real (A ∩ (g +ᵥ ·) ⁻¹' B)) (cocompact G) (𝓝 (μ.real A * μ.real B))`
+(Creutz, Definition 13.9 and the remark after it, p. 118, for locally compact second countable
+`G`); and the already defined `WeakMixingVAdd G X μ`. Identify `MixingVAdd` with `MixingAlong`
+along `cocompact G`; give multiplicative versions by `to_additive`. Prove: mixing implies weak mixing for
 noncompact `G`; weak mixing implies ergodicity; for compact `G` (where `cocompact G = ⊥`) every
 action is mixing, so statements needing a genuine limit assume `G` noncompact. For `G = ℤ` or
 `G = ℝ`, `cocompact` is the union of the two ends and, by invariance of the measure, `MixingVAdd`
@@ -859,8 +861,7 @@ additive formulation: `U : ContRepresentation ℂ (Multiplicative G) H` for an a
 compact abelian `G`, and its dual `PontryaginDual (Multiplicative G)`. Prove the additive/
 multiplicative repackaging of the Koopman interface once. This construction consumes the cyclic
 spectral theorem directly; positive definiteness and the Bochner representation are compatibility
-lemmas
-Prove uniqueness, total mass, polarization, covariance and compatibility with intertwining
+lemmas. Prove uniqueness, total mass, polarization, covariance and compatibility with intertwining
 isometries. Specialize to `G = ℤ`, identifying its dual with `Circle`, and to `G = ℝ`, identifying
 its dual with `ℝ` by `ξ ↦ (t ↦ exp(2π i t ξ))`; the latter is `spectralMeasureReal U f`.
 For a measurable flow with Koopman representation `U_t f = f ∘ ((-t) +ᵥ ·)`, MathematicalBilliards
@@ -883,7 +884,8 @@ For a system `T`, write `σ_f` for the spectral measure of the Koopman isometry 
   `ξ ↦ -2π ξ` is `δ_(2π)`, the spectral measure MathematicalBilliards §12.5 gives `e₁`.
 
 *Needs:* Tau Ceti Herglotz, cyclic strongly continuous spectral theorem and uniqueness of
-inner regular Pontryagin transforms; Mathlib inner product spaces.
+inner regular Pontryagin transforms; Mathlib inner product spaces; MathematicalBilliards §§12.4.1
+and 12.5 (the spectral measure of the comparison on `ℝ`).
 
 ### 2.2 Wiener's lemma and atoms
 
@@ -946,11 +948,14 @@ For a unitary group representation `U` on a complex Hilbert space define weak mi
 absence of nonzero finite-dimensional invariant subspaces. Prove its equivalence with absence
 of invariant vectors in `U ⊗ conjugate U`, its tensor-product permanence with arbitrary unitary
 representations, and the orthogonal decomposition into the closed span of finite-dimensional
-invariant subspaces and its weakly mixing complement. Construct the Hilbert tensor-product
-intertwiner identifying the Koopman representation of a product probability system with the
+invariant subspaces and its weakly mixing complement (Creutz, Theorem 13.8, p. 118, for the
+Koopman representation of a locally compact second countable group). Construct the Hilbert
+tensor-product intertwiner identifying the Koopman representation of a product probability system with the
 tensor product of the Koopman representations. Deduce that a probability-preserving group
-action is diagonally weakly mixing iff its representation on `L²₀` is weakly mixing, and iff its
-product with every ergodic probability action is ergodic.
+action is diagonally weakly mixing iff its representation on `L²₀` is weakly mixing (Creutz,
+Proposition 13.2.1, p. 117, where weak mixing of the action means that the only precompact
+functions are the constants), and iff its product with every ergodic probability action is
+ergodic.
 
 For a topological group define mixing of a strongly continuous representation by decay of all
 matrix coefficients along `cocompact`. Prove equivalence with set mixing for Koopman on `L²₀`,
@@ -1010,7 +1015,8 @@ averages.
 
 Layers 0–1; Tau Ceti Herglotz and Bochner theorems, the cyclic spectral theorem and compact
 self-adjoint operators; Mathlib mean ergodic theorem, Fourier analysis and `IsFoelner`;
-AmenableGroups Layer 5.
+AmenableGroups Layer 5; MathematicalBilliards §§12.4–12.5 (the comparisons on `ℝ` in §§2.1 and
+2.5).
 
 ## Layer 3: Flows
 
@@ -1096,9 +1102,12 @@ s + t - S_n r x)` for the unique `n : ℤ` putting the second coordinate in `[0,
 p. 30, gives the semiflow over a base that need not be invertible, for roofs with `inf r > 0`).
 Prove that this is a measurable flow preserving the probability, and:
 
-1. the flow is ergodic iff `T` is ergodic;
+1. the flow is ergodic iff `T` is ergodic (ParryPollicott1990, p. 90, over a subshift of finite
+   type with a Hölder roof);
 2. `α` is a frequency of an eigenfunction iff there is a measurable `g : X → ℂ`, not almost
-   everywhere zero, with `g (T x) = exp (2π i α r x) * g x` almost everywhere;
+   everywhere zero, with `g (T x) = exp (2π i α r x) * g x` almost everywhere (ParryPollicott1990,
+   Proposition 6.2, pp. 93–94, over a subshift of finite type with a Hölder roof and a Gibbs
+   measure, where the frequency is `2π α`);
 3. hence the flow is weakly mixing iff `T` is ergodic and the equation in 2 has no solution for
    `α ≠ 0`;
 4. the base `X₀ × {0}` is a cross-section: the first return of the flow to it is `T`, with return
@@ -1153,7 +1162,8 @@ defined only off a null set. Work with a standard Borel space `X` and a σ-finit
    a jointly measurable family of measure-preserving maps of `(X, μ)` satisfying the group law
    everywhere, and that ergodicity, mixing, eigenfunctions, spectral measures and entropy of the
    time-`t` maps do not depend on the chosen conull carrier or on modifications on null sets.
-   MathematicalBilliards §8.2's billiard flow and §3.3's suspension flow are conull flows.
+   MathematicalBilliards §8.2's billiard flow, with §8.3's invariant Liouville measure, and §3.3's
+   suspension flow are conull flows.
 2. **Point realization.** For a jointly measurable family `T : ℝ → X → X` of measure-preserving
    maps with `T 0 = id` almost everywhere and, for each `s` and `t`,
    `T (s + t) = T s ∘ T t` almost everywhere (the exceptional set may depend on `s, t`), prove that
@@ -1183,8 +1193,8 @@ defined only off a null set. Work with a standard Borel space `X` and a σ-finit
   form a conull set that translation does not preserve (`√2 + (-√2) = 0`), so a conull set need not
   carry a given flow.
 
-*Needs:* §§0.1, 3.1; Mathlib `Measure.withDensity`, `Measure.sum`, Fubini for σ-finite measures,
-`StandardBorelSpace`.
+*Needs:* §§0.1, 3.1, 3.3; MathematicalBilliards §§8.2–8.3 (the billiard flow of item 1); Mathlib
+`Measure.withDensity`, `Measure.sum`, Fubini for σ-finite measures, `StandardBorelSpace`.
 
 ### 3.6 Correlations and rates of mixing
 
@@ -1213,6 +1223,12 @@ conjugacy, with the same exponent and rate.
 
 - The linear flow on `UnitAddCircle` is not mixing, so it has no correlation bound: the
   correlation of `exp(2π i x)` with itself has modulus 1 for every `t`.
+- For the same flow and `e₁ = fourier 1`, `flowCorrelation volume e₁ e₁ t = exp (2π i t)`, so its
+  value at `t = 1/4` is `i`; putting the conjugate on `f (t +ᵥ x)` instead of on `g x` would give
+  `-i`.
+- For `f = g = 1` on any probability space, `flowCorrelation μ 1 1 t = 1 - 1 = 0` for every `t`;
+  without the subtracted product of means it would be `1` for every `t`, so the characterization
+  of mixing would fail at the constants and no flow would satisfy `HasCorrelationBound`.
 - For the two-sided Bernoulli shift with the metric `d(x, y) = 2^(-min{|k| : x k ≠ y k})`,
   functions depending on coordinates in `[-k, k]` are Lipschitz, and their correlations vanish for
   `n > 2k`; §8.6 proves exponential mixing for all Hölder functions.
@@ -1229,7 +1245,7 @@ Bernoulli shift with its Hölder observables.
 
 ### Dependencies
 
-Layers 0–2; MathematicalBilliards §§12.1–12.5; Mathlib `Flow`, Fourier series on `AddCircle`,
+Layers 0–2; MathematicalBilliards §§8.2–8.3, 12.1–12.5; Mathlib `Flow`, Fourier series on `AddCircle`,
 `Measure.withDensity`, `MemHolder` and `nnHolderNorm`.
 
 ## Layer 4: Kolmogorov–Sinai entropy
@@ -1687,7 +1703,8 @@ Prove that two-sided full shifts and subshifts are expansive and one-sided ones 
 expansive, that `toralEndomorphism A` with `A.det = ±1` and no eigenvalue of modulus 1 is an
 expansive homeomorphism, that `toralEndomorphism A` is positively expansive for every `A` with
 `A.det ≠ 0` all of whose eigenvalues have modulus `> 1` (for example `!![2,0;0,2]`), and that an
-expansive homeomorphism has finite topological entropy computed at any scale `< δ`.
+expansive homeomorphism has finite topological entropy computed at any scale `< δ` (Bowen1972,
+Theorem 2.4 with Corollary 2.3, p. 327: an expansive constant is an entropy-expansive constant).
 
 **Checks.**
 
@@ -2038,7 +2055,7 @@ The identity on a finite set, full shifts with coordinate potentials, the linear
 
 ### Dependencies
 
-Layers 3–6; ArithmeticDynamics §2.7.
+Layers 3–6; GeometryOfNumbersAndQuadraticArithmetic §4.2; ArithmeticDynamics §2.7.
 
 ## Layer 8: Equilibrium states and measures of maximal entropy
 
@@ -2094,7 +2111,7 @@ complements items 1–4.
 - Every invariant probability of the identity on a compact space is a measure of maximal entropy
   (`h_top = 0`).
 
-*Needs:* Layer 7.
+*Needs:* Layer 7; ArithmeticDynamics §2.7 (Goodwyn's inequality, item 1).
 
 ### 8.2 Structure of the set of equilibrium states
 
@@ -2358,7 +2375,8 @@ in `F_(θ')` for some `θ' ∈ (θ, 1)`.
    `ruelleOperator A φ f x = ∑_{σ y = x} exp (φ y) f y` on `C(Σ⁺, ℝ)`, the preimages being the
    sequences `consSeq i x = (i, x 0, x 1, …)` with `A i (x 0)`; prove it is a positive bounded operator preserving `F_θ`, with
    `(L^n f) x = ∑_{σ^n y = x} exp (S_n φ y) f y` and the Lasota–Yorke inequality
-   `Lip (L^n f) ≤ C ‖L^n 1‖_∞ (θ^n Lip f + ‖f‖_∞)`.
+   `Lip (L^n f) ≤ C ‖L^n 1‖_∞ (θ^n Lip f + ‖f‖_∞)` (ParryPollicott1990, Proposition 2.1, p. 19, in
+   the normalised case `L 1 = 1`).
 3. **RPF theorem** (`exists_ruelleOperator_eigen` states the eigendata, the pressure identity and
    the uniform convergence). For `φ ∈ F_θ` there are `λ > 0`, a strictly positive `h ∈ F_θ` and a
    Borel probability `ν` with `L h = λ h`, `L* ν = λ ν`, `∫ h dν = 1`, `λ^(-n) L^n f → h ∫ f dν`
@@ -2367,19 +2385,23 @@ in `F_(θ')` for some `θ' ∈ (θ, 1)`.
    depending on `m` coordinates, `L` acts on functions of `m` coordinates as a primitive matrix and
    item 1 applies; for general `φ`, contract the cone `{f > 0 | f x ≤ exp (K d_θ x y) f y}` in
    Hilbert's projective metric by ProbabilisticAndMetricNumberTheoryPartII §3.3's
-   `birkhoff_contraction`, using item 2 and the cylinder structure. (Bowen, *Equilibrium States
-   and the Ergodic Theory of Anosov Diffeomorphisms*, Chapter 1; Parry–Pollicott, Chapter 2.)
+   `birkhoff_contraction`, using item 2 and the cylinder structure. (ParryPollicott1990,
+   Theorem 2.2, p. 21, for real `φ ∈ F_θ`; Theorem 3.5 and the paragraph after it, pp. 42–43, for
+   `log λ` as the variational pressure, which §7.1 identifies with `topologicalPressure`; Bowen,
+   *Equilibrium States and the Ergodic Theory of Anosov Diffeomorphisms*, Chapter 1.)
 4. **Gibbs measures.** `μ_φ = h ν` is `σ`-invariant, satisfies
    `C⁻¹ ≤ μ_φ [x 0 … x (n-1)] / exp (-n P + S_n φ x) ≤ C`, is the unique equilibrium state of `φ`
-   and coincides with §8.4's `μ_φ`. It is mixing, and exponentially mixing for `F_θ` observables in
-   the sense of §3.6.
+   and coincides with §8.4's `μ_φ` (ParryPollicott1990, Proposition 3.2 and Corollary 3.2.1,
+   p. 37, for a normalised potential, and Theorem 3.5, pp. 42–43, for uniqueness). It is mixing,
+   and exponentially mixing for `F_θ` observables in the sense of §3.6.
 5. **Two-sided SFTs.** Prove Sinai's lemma: every `φ ∈ F_θ` on `sftTwoSided A` is
-   `ψ + u ∘ σ - u` with `ψ ∈ F_(√θ)` depending only on nonnegative coordinates and `u` continuous.
-   The equilibrium state of `φ` is the natural extension (§0.7) of the one-sided Gibbs measure of
-   `ψ`, and is exponentially mixing for Hölder observables.
+   `ψ + u ∘ σ - u` with `ψ ∈ F_(√θ)` depending only on nonnegative coordinates and `u` continuous
+   (ParryPollicott1990, Proposition 1.2, p. 14). The equilibrium state of `φ` is the natural
+   extension (§0.7) of the one-sided Gibbs measure of `ψ`, and is exponentially mixing for Hölder
+   observables.
 6. **Derivative of pressure.** For `φ, ψ ∈ F_θ`, `t ↦ topologicalPressure σ (φ + t ψ)` is real
-   differentiable with derivative `∫ ψ dμ_(φ + t ψ)`; hence `μ_φ` is the unique tangent functional
-   of §8.2 item 5.
+   differentiable with derivative `∫ ψ dμ_(φ + t ψ)` (ParryPollicott1990, Proposition 4.10, p. 60);
+   hence `μ_φ` is the unique tangent functional of §8.2 item 5.
 
 **Checks.**
 
@@ -2419,13 +2441,16 @@ almost-everywhere flows.
   (2023): natural extensions, induced maps, weak mixing, K-systems and entropy, cited by theorem
   number; E. Glasner, *Ergodic Theory via Joinings*, AMS (2003), factors, relative products and
   relative weak mixing.
+- M. Hochman, [*Notes on ergodic theory*](https://math.huji.ac.il/~mhochman/courses/ergodic-theory-2012/notes.final.pdf)
+  (2012), Proposition 3.4.2 (ergodic measures as extreme points, §3.4) and Proposition 4.5.2
+  (unique ergodicity, §5.1).
 - A. S. Kechris and B. D. Miller, *Topics in Orbit Equivalence*, LNM 1852 (2004),
   Lemma 6.7 (Borel marker sequences).
 - T. Ward and Q. Zhang, *The Abramov–Rokhlin entropy addition formula for amenable group
   actions*, [Monatsh. Math. 114 (1992), 317–329](https://doi.org/10.1007/BF01299386)
   (relative entropy and addition).
 - D. Creutz, [*Ergodic Theory of Group Actions*](https://www.dcreutz.com/publications/Ergodic_Theory_of_Group_Actions.pdf),
-  Chapters 10 and 13 (amenable averaging, representations and mixing).
+  Chapters 10–13 (amenable averaging, the Koopman representation, representations and mixing).
 - D. Ornstein and B. Weiss, *Entropy and isomorphism theorems for actions of amenable groups*,
   J. Analyse Math. 48 (1987), 1–141 (finite quasi-tiling and entropy limit arguments).
 - E. Lindenstrauss, [*Pointwise theorems for amenable groups*](https://doi.org/10.1007/s002220100162),
@@ -2450,14 +2475,21 @@ almost-everywhere flows.
 - R. Bowen and D. Ruelle, *The ergodic theory of Axiom A flows*, Invent. Math. 29 (1975): pressure
   of flows and `P_g(F) = P_{g¹}(F₁)`.
 - M. Brin and A. Katok, *On local entropy*, Lecture Notes in Math. 1007 (1983).
+- R. Bowen, [*Entropy-expansive maps*](https://doi.org/10.1090/S0002-9947-1972-0285689-X),
+  Trans. Amer. Math. Soc. 164 (1972), 323–331, Theorem 2.4 and Corollary 2.3 (§5.3).
 - R. Bowen, *Some systems with unique equilibrium states*, Math. Systems Theory 8 (1974), 193–202;
   *Equilibrium States and the Ergodic Theory of Anosov Diffeomorphisms*, Lecture Notes in Math. 470,
   Springer (1975), Chapter 1 (§§8.4, 8.6); R. Bowen and P. Walters, *Expansive one-parameter flows*,
   J. Differential Equations 12 (1972), 180–193.
 - E. Franco, *Flows with unique equilibrium states*, Amer. J. Math. 99 (1977), 486–514 (§8.5).
-- W. Parry and M. Pollicott, *Zeta Functions and the Periodic Orbit Structure of Hyperbolic
-  Dynamics*, Astérisque 187–188 (1990), Chapters 1–2 and 6 (transfer operators, suspension flows).
+- W. Parry and M. Pollicott, [*Zeta Functions and the Periodic Orbit Structure of Hyperbolic
+  Dynamics*](http://www.numdam.org/item?id=AST_1990__187-188__1_0), Astérisque 187–188 (1990),
+  Chapters 1–4 and 6 (transfer operators, Gibbs measures, the derivative of pressure and suspension
+  flows, §§3.3 and 8.6).
 - M. Misiurewicz, *Diffeomorphism without any measure with maximal entropy*, Bull. Acad. Polon. Sci.
   21 (1973), 903–910 (context for the check in §8.2).
+- M. Misiurewicz, [*A short proof of the variational principle for a `ℤ₊ᴺ` action on a compact
+  space*](http://www.numdam.org/item?id=AST_1976__40__147_0), Astérisque 40 (1976), 147–157, §3
+  (§7.1).
 - G. W. Mackey, *Point realizations of transformation groups*, Illinois J. Math. 6 (1962), 327–335
   (§3.5).
