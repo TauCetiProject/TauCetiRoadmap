@@ -10,7 +10,7 @@ Lie group and its almost-simple factors, the restricted Weyl group, minimal para
 the Bruhat decomposition as a Tits system, standard and general parabolic subgroups with their
 Langlands decompositions, Levi subgroups, the dynamical description and the comparison with
 algebraic `ℝ`-parabolics. On the geometric side it develops Riemannian symmetric spaces, the
-symmetric space `X = G/K` of a real reductive group with its Killing metric, curvature, geodesics
+symmetric space `X = G/K` of a real reductive group with its invariant metric, curvature, geodesics
 and distance, Cartan's fixed-point theorem and the conjugacy of maximal compact subgroups, flats
 and the rank of `X`, the vector-valued distance, and quotients `Λ\X` by discrete subgroups with
 their injectivity radius and volume.
@@ -37,8 +37,10 @@ This roadmap owns:
   characterization of real rank by `ℝ`-split abelian subalgebras and by algebraic split tori, the
   conjugacy of maximal `ℝ`-split tori of a connected reductive `ℝ`-group under its real points, the
   identification of the restricted Weyl group `N_K(𝔞)/Z_K(𝔞)` with the Weyl group of the
-  restricted root system, and the Cartan involutions of a real form `G^τ` of a connected complex
-  reductive group with its maximal compact subgroups (Layer 2);
+  restricted root system, and, for a real form `H^τ` of a connected complex reductive group, the
+  identification of `τ` with the conjugation of an `ℝ`-form and the reading on `H^τ` of
+  ArithmeticLocallySymmetricSpaces ALS.0.1's Cartan involutions, with their LieGroups Layer 9 datum
+  and maximal compact subgroups (Layer 2);
 - minimal parabolic subgroups beyond the class of real points of algebraic groups, the normalizer
   `N_G(𝔞)`, rank-one subgroups, the Tits system `(P, N_G(𝔞))`, the Bruhat decomposition, the big
   cell and the Furstenberg boundary `G/P` with its Bruhat cells (Layer 3);
@@ -113,7 +115,13 @@ It leaves to other roadmaps:
   real Lie algebra with a negative definite invariant form, which needs no group;
 - the conjugacy of the maximal compact subgroups of the real points of a reductive `ℝ`-group, every
   compact subgroup lying in one: ArithmeticLocallySymmetricSpaces ALS.F.1; §5.4 proves containment
-  and conjugacy for every LieGroups `CartanInvolution` datum, nonlinear finite covers included.
+  and conjugacy for every LieGroups `CartanInvolution` datum, nonlinear finite covers included;
+- the Cartan involutions of a connected reductive `ℝ`-group, their existence and their conjugacy
+  under its real points, and the transpose-stable realization of its real points:
+  ArithmeticLocallySymmetricSpaces ALS.0.1 and ALS.F.1; §2.5 reads them on `H^τ` and refines the
+  conjugacy to `(H^τ)°`, §0.2 proves the conjugacy of the Cartan involutions of a real semisimple
+  Lie algebra under `Int(𝔤₀)`, and §5.4 that of LieGroups `CartanInvolution` data on a group,
+  nonlinear finite covers included.
 
 The boundary with LieGroups Layer 9 is the following. Layer 9 owns the global decompositions
 of a group carrying its `CartanInvolution` datum, the group-level fields of `IwasawaData`, and the
@@ -139,7 +147,7 @@ Richardson–Slodowy), which consume §2.5 and Layer 0.
 
 - **Lie algebras.** `𝔤₀` is a finite-dimensional real Lie algebra (Mathlib `LieRing`,
   `LieAlgebra ℝ`, `FiniteDimensional ℝ`). `B` is its Killing form, Mathlib's
-  `LieAlgebra.killingForm ℝ 𝔤₀`, the Killing form of the **real** algebra, never of `𝔨` or of a
+  `killingForm ℝ 𝔤₀`, the Killing form of the **real** algebra, never of `𝔨` or of a
   complexification. Semisimple is Mathlib's `LieAlgebra.IsSemisimple ℝ`. Reductive means
   `𝔤₀ = 𝔷(𝔤₀) ⊕ [𝔤₀, 𝔤₀]` with `[𝔤₀, 𝔤₀]` semisimple, spelled through `LieAlgebra.center` and
   `LieAlgebra.derivedSeries ℝ 𝔤₀ 1` as in LieGroups Layer 9's `CartanInvolution`. For a Lie
@@ -173,7 +181,8 @@ Richardson–Slodowy), which consume §2.5 and Layer 0.
 - **The symmetric space.** `X = G ⧸ K` (left cosets, Mathlib's `G ⧸ K`), base point `o = 1·K`,
   left `G`-action. For semisimple `𝔤₀` the metric at `o` is `B|𝔭`, unscaled, transported along
   `dπ_1|𝔭 : 𝔭 ≅ T_oX`. For reductive `𝔤₀` the metric at `o` is `B` on `𝔭 ∩ [𝔤₀, 𝔤₀]` plus a
-  specified `Ad(K)`-invariant inner product on `𝔭 ∩ 𝔷(𝔤₀)`, the two summands orthogonal.
+  specified `Ad(K)`-invariant inner product on `𝔭 ∩ 𝔷(𝔤₀)`, the two summands orthogonal. In both
+  cases `⟨·,·⟩_o` denotes this inner product on `𝔭`.
   Curvature follows RiemannianGeometry: `R(X, Y)Z = ∇_X∇_Y Z − ∇_Y∇_X Z − ∇_[X,Y] Z` and
   `K(X, Y) = ⟨R(X, Y)Y, X⟩ / (|X|²|Y|² − ⟨X, Y⟩²)`. Noncompact type means `𝔤₀` semisimple with
   no compact simple ideal.
@@ -187,7 +196,7 @@ Richardson–Slodowy), which consume §2.5 and Layer 0.
 
 ### From Mathlib
 
-- Lie algebras: `LieAlgebra.killingForm`, `LieAlgebra.IsKilling`,
+- Lie algebras: `killingForm`, `LieAlgebra.IsKilling`,
   `LieAlgebra.HasTrivialRadical.instIsKilling` (Cartan's criterion, so a real semisimple Lie
   algebra has nondegenerate Killing form), `LieAlgebra.IsSemisimple`, `LieAlgebra.center`,
   `LieAlgebra.derivedSeries`, `LieDerivation.IsKilling.exists_eq_ad` (every derivation of a
@@ -253,8 +262,9 @@ Richardson–Slodowy), which consume §2.5 and Layer 0.
   (`.../Riemannian/Homogeneous.lean`),
   `TauCeti.Manifold.norm_le_norm_mfderiv_riemannianExp_of_sectionalCurvature_nonpos`
   (`.../Riemannian/Jacobi/Comparison.lean`), `TauCeti.riemannianVolume`
-  (`.../Riemannian/VolumeDensity/Volume.lean`), the real hyperbolic space
-  (`TauCeti/Geometry/Hyperbolic/Hyperboloid/`), and the quotient manifold of a free properly
+  (`.../Riemannian/VolumeDensity/Volume.lean`), the upper half-space model `TauCeti.UpperHalfSpace`
+  of real hyperbolic space (`TauCeti/Geometry/Manifold/Riemannian/Hyperbolic/UpperHalfSpace/`), and
+  the quotient manifold of a free properly
   discontinuous action (`TauCeti/Geometry/Manifold/Instances/Quotient.lean`).
 
 ### From other roadmaps
@@ -278,9 +288,13 @@ Richardson–Slodowy), which consume §2.5 and Layer 0.
   minimal parabolics, recovery of the decomposition from `P` and `θ`, the real-rank-one
   description, and the algebraic comparison `P = G ∩ 𝐏(ℝ)` with `A = 𝐒(ℝ)°` for a maximal
   `ℝ`-split torus `𝐒`, for its supplied class of real reductive groups.
-- **ArithmeticLocallySymmetricSpaces ALS.F.1.** Real points of linear algebraic groups as Lie
-  groups, used only through AF §2.3a (whose class they form) and §4.5. Its maximal-compact
-  clauses are the linear case of §5.4, cited there and not consumed.
+- **ArithmeticLocallySymmetricSpaces ALS.0.1 and ALS.F.1.** ALS.0.1: the Cartan involutions of a
+  connected reductive `ℝ`-group (involutions with compact twisted real form), their existence, their
+  conjugacy under real points, and the Cartan involution `g ↦ (gᵀ)⁻¹` of a transpose-stable group,
+  consumed by §2.5. ALS.F.1: real points of linear algebraic groups as Lie groups with finitely
+  many components and the transpose-stable realization of a reductive group, consumed by §2.4,
+  §2.5 and §4.5 and through AF §2.3a (whose class they form). Its maximal-compact clauses are the
+  linear case of §5.4, cited there and not consumed.
 - **ReductiveGroups Layer 7.** Parabolic `k`-subgroups, the cocharacter description
   `P_G(λ)` with its Levi `Z_G(λ)` and unipotent radical `U_G(λ)`. Layer 4: split tori and their
   diagonalizable representations. Layer 6: the derived group `𝐆_der`, the central torus `Z(𝐆)°`
@@ -346,10 +360,12 @@ Symmetric Spaces*, Ch. III §7.)
 ### 0.2 Conjugacy, uniqueness and the inner automorphism group
 
 Prove that any two Cartan involutions `θ, θ'` of a real semisimple `𝔤₀` are conjugate by an
-inner automorphism: there is `Z ∈ 𝔭_θ` with `θ' = e^{ad Z} θ e^{−ad Z}`. Route (Knapp, Ch. VI,
-Thm. 6.16 and Cor. 6.19): `ω = θθ'` is a `B_θ`-positive automorphism; its real powers `ω^s` are
-automorphisms (eigenspace product law); `log ω` is a derivation, hence `ad Z₀` by
-`LieDerivation.IsKilling.exists_eq_ad`; `φ = ω^{1/4}` conjugates `θ` to a Cartan involution
+inner automorphism: there is `Z ∈ 𝔭_θ` with `θ' = e^{ad Z} θ e^{−ad Z}`. For the Lie algebra of
+a Lie group `G`, where `e^{ad Z} = Ad(lieExp Z)`, this is `exists_conj_cartanInvolution`; every
+real semisimple `𝔤₀` is such a Lie algebra (`Int(𝔤₀)`). Route (Knapp, Ch. VI, Thm. 6.16 and
+Cor. 6.19): `ω = θ'θ` is a `B_θ`-self-adjoint automorphism, so `ω²` is `B_θ`-positive; its real
+powers `(ω²)^s` are automorphisms (eigenspace product law); `log ω²` is a derivation, hence `ad Z₀`
+by `LieDerivation.IsKilling.exists_eq_ad`; `φ = (ω²)^{1/4}` conjugates `θ` to a Cartan involution
 commuting with `θ'`, and two commuting Cartan involutions are equal. Prove also: a Cartan
 involution is determined by `𝔨` (`𝔭 = 𝔨^{⊥_B}`), so the map `θ ↦ 𝔨` is injective; the
 conjugating `φ` carries `𝔭_θ` onto `𝔭_θ'` and maximal abelian subspaces of `𝔭_θ` onto those of
@@ -369,7 +385,8 @@ stable under the `B_θ`-adjoint, that `φ ↦ θφθ⁻¹` is an involution of i
 - For compact `𝔤₀` the only Cartan involution is the identity.
 - `Int(𝔰𝔩₂(ℝ)) ≅ PSL₂(ℝ)`, whose `K_θ` is `PSO(2)`, a circle.
 
-*Needs:* §0.1; Mathlib `LieDerivation.IsKilling.exists_eq_ad`; LieGroups Layers 2, 4 and 9.
+*Needs:* §0.1; Mathlib `LieDerivation.IsKilling.exists_eq_ad`; LieGroups Layers 2, 4 and 9;
+Tau Ceti `lieExp` and `TauCeti.Lie.Ad` for the group form.
 
 ### 0.3 Ideals, products and compactness
 
@@ -573,16 +590,18 @@ For a Lie group `G` with semisimple Lie algebra define
 `groupRealRank I G = realRank (LeftInvariantDerivation I G)`. Prove it is unchanged by passing to
 open subgroups, coverings and quotients by discrete central subgroups. For connected `G` with
 semisimple Lie algebra, define the **almost-simple factors** as the connected Lie subgroups `G_i`
-with Lie algebras the simple ideals `𝔤_i` (LieGroups Layer 4), and prove: each `G_i` is closed and
-normal (it is the identity component of the centralizer of the sum of the other ideals); the `G_i`
-commute pairwise and their product is `G`; with finite centre the multiplication map `∏ G_i → G` has
-finite central kernel. Call `G_i` compact if `𝔤_i` is compact. Prove
-`groupRealRank I G = Σ_i realRank 𝔤_i`, that a factor has real rank `0` iff it is compact, and that
-a connected `G` with semisimple Lie algebra has real rank `0` iff it is compact, for any centre
-(`groupRealRank_eq_zero_iff_compactSpace`; LieGroups Layer 7's compact simply connected integration
-for one direction, LieGroups Layer 5A's negative definite Killing form on the Lie algebra of a
-compact connected semisimple group for the other). Define `G` to have **higher rank** if
-`groupRealRank I G ≥ 2`, and to have **no compact factors** if no `G_i` is compact.
+with Lie algebras the simple ideals `𝔤_i` (LieGroups Layer 4; the splitting of `𝔤₀` into simple
+ideals is Eschenburg, *Lecture Notes on Symmetric Spaces*, §7, Lemma, pp. 17–18), and prove: each
+`G_i` is closed and normal (it is the identity component of the centralizer of the sum of the other
+ideals); the `G_i` commute pairwise and their product is `G`; with finite centre the multiplication
+map `∏ G_i → G` has finite central kernel. Call `G_i` compact if `𝔤_i` is compact. Prove
+`groupRealRank I G = Σ_i realRank 𝔤_i` (§1.3's additivity over simple ideals), that a factor has
+real rank `0` iff it is compact, and that a connected `G` with semisimple Lie algebra has real rank
+`0` iff it is compact, for any centre (`groupRealRank_eq_zero_iff_compactSpace`; LieGroups Layer 7's
+compact simply connected integration for one direction, LieGroups Layer 5A's negative definite
+Killing form on the Lie algebra of a compact connected semisimple group for the other). Define `G`
+to have **higher rank** if `groupRealRank I G ≥ 2`, and to have **no compact factors** if no `G_i`
+is compact.
 
 **Checks.**
 
@@ -624,7 +643,10 @@ group generated by the simple reflections, acts simply transitively on positive 
 `W_G`-orbit in `𝔞` meets `𝔞̄⁺` exactly once, by
 `TauCeti.existsUnique_mem_orbit_inter_dominantChamber` for the reduced subsystem (Knapp, Ch. VI,
 Thm. 6.57, and Ch. VII §2). Prove that two elements of `𝔞` conjugate under `G` are conjugate under
-`W_G` (from the uniqueness of the middle factor of `kakDecomposition` modulo `W_G`). Prove that `M`
+`W_G` (by the Iwasawa decomposition `g = kan`: `Ad(an)H − H ∈ 𝔫` and `𝔭 ∩ 𝔫 = 0` give
+`Ad(k)H = H'`, Kostant, *On convexity, the Weyl group and the Iwasawa decomposition*, Proposition
+2.4, p. 422; then `k·exp(H)·k⁻¹ = exp(H')` and the uniqueness of the middle factor of
+`kakDecomposition` modulo `W_G`). Prove that `M`
 meets every component of `G = 𝐆(ℝ)` for `𝐆` connected reductive over `ℝ`, from `𝐆(ℝ) = 𝐆(ℝ)°·𝐒(ℝ)`
 for the maximal split torus `𝐒` of AutomorphicFormsOnReductiveGroups §2.3a and `𝐒(ℝ) ∩ K ⊆ M`
 (Borel–Tits, *Groupes réductifs*, §14).
@@ -648,13 +670,15 @@ abelian subalgebra **`ℝ`-split** if it consists of hyperbolic elements. Prove 
 `X` is `Int(𝔤₀)`-conjugate to a unique element of the closed chamber `𝔞̄⁺`, and that every `ℝ`-split
 abelian subalgebra is `Int(𝔤₀)`-conjugate into `𝔞`; hence the maximal `ℝ`-split abelian subalgebras
 are exactly the `Int(𝔤₀)`-conjugates of `𝔞`, and `realRank` is the maximal dimension of an `ℝ`-split
-abelian subalgebra. Route: `ad X` semisimple puts `X` in a Cartan subalgebra (take a Cartan
-subalgebra of its reductive centralizer); every Cartan subalgebra is `Int(𝔤₀)`-conjugate to a
-`θ`-stable one `𝔱' ⊕ 𝔞'` with `𝔱' ⊆ 𝔨`, `𝔞' ⊆ 𝔭` (Knapp, Ch. VI, Prop. 6.59); real eigenvalues force
-`X ∈ 𝔞'`; then §1.3 and §2.3 for `G = Int(𝔤₀)` conclude, and uniqueness is §2.3's `W_G`-conjugacy.
-For an `ℝ`-split abelian subalgebra apply this to an element of it that is regular among its
-elements, whose centralizer contains the whole subalgebra (Kostant, *On convexity, the Weyl group
-and the Iwasawa decomposition*, §2, Proposition 2.4, p. 422, for elements).
+abelian subalgebra. For the Lie algebra of a connected Lie group `G`, where `Ad(G) = Int(𝔤₀)`
+(§2.2), the first statement is `existsUnique_ad_mem_closedChamber`. Route: `ad X` semisimple puts
+`X` in a Cartan subalgebra (take a Cartan subalgebra of its reductive centralizer); every Cartan
+subalgebra is `Int(𝔤₀)`-conjugate to a `θ`-stable one `𝔱' ⊕ 𝔞'` with `𝔱' ⊆ 𝔨`, `𝔞' ⊆ 𝔭`
+(Knapp, Ch. VI, Prop. 6.59); real eigenvalues force `X ∈ 𝔞'`; then §1.3 and §2.3 for `G = Int(𝔤₀)`
+conclude, and uniqueness is §2.3's `W_G`-conjugacy. For an `ℝ`-split abelian subalgebra apply this
+to an element of it that is regular among its elements, whose centralizer contains the whole
+subalgebra (Kostant, *On convexity, the Weyl group and the Iwasawa decomposition*, §2, Proposition
+2.4, p. 422, for elements).
 
 For `G` with semisimple Lie algebra, call `g ∈ G` hyperbolic if `g = lieExp X` with `X`
 hyperbolic, and a connected abelian Lie subgroup `ℝ`-split if its Lie algebra is `ℝ`-split. For
@@ -696,7 +720,7 @@ lieExp(𝔭 ∩ 𝔷(𝔤₀))`, by the same argument for central `X`, and that 
   (its real points are compact), so the conjugacy statement concerns split tori only, and
   `𝐙_s` is the scalar torus with `𝐙_s(ℝ)° = ℝ_{>0}·1 = lieExp(𝔭 ∩ 𝔷)`.
 
-*Needs:* §1.2, §1.3, §2.3; LieGroups Layer 9; AutomorphicFormsOnReductiveGroups §2.3a;
+*Needs:* §1.2, §1.3, §2.2, §2.3; LieGroups Layer 9; AutomorphicFormsOnReductiveGroups §2.3a;
 ReductiveGroups Layers 4 and 6; ArithmeticLocallySymmetricSpaces ALS.F.1.
 
 ### 2.5 Real forms of complex reductive groups
@@ -709,22 +733,31 @@ fixed subgroup). Call a holomorphic involutive automorphism `σ` of `H` a **Cart
 
 - `𝔥 = 𝔥^τ ⊕ i𝔥^τ` with `𝔥^τ = Lie(H^τ)`, and `𝔥^τ` is a real reductive Lie algebra; `H^τ` is a
   closed real Lie subgroup of `H` with finitely many components.
-- A Cartan involution for `τ` exists, and any two are conjugate by an element of `(H^τ)°`. Route:
-  take a compact real form `U` of `H` with antiholomorphic conjugation `κ` (LieGroups Layer 7).
-  On the central torus `Z(H)°` the compact conjugation is unique, so it commutes with `τ`. On
-  `[𝔥, 𝔥]`, `ω = (dκ dτ)²` is positive for the Hermitian form `−B(X, dκ Y)`, `ω^{1/4} = e^{ad Z}`
-  for some `Z ∈ [𝔥, 𝔥]`, and conjugating `κ` by `lieExp Z` gives a compact real form commuting with
-  `τ`, as in LieGroups Layer 7's Lie-algebra compatibility (Knapp, Ch. VI, proof of Thm. 6.11);
-  `σ = κτ`. Uniqueness up to `(H^τ)°` is §0.2 on `[𝔥^τ, 𝔥^τ]`, the uniqueness of the compact
-  conjugation on `Z(H)°`, and the fact that `σ` is determined by `dσ`.
+- `τ` is the complex conjugation of a real form `𝐇₀` of `𝐇`: a connected reductive `ℝ`-group with
+  `𝐇₀ ⊗_ℝ ℂ = 𝐇` and `𝐇₀(ℝ) = H^τ`. Route: every holomorphic automorphism `φ` of `H` is regular,
+  because `φ(U)` is a compact real form, hence `hUh⁻¹` for some `h ∈ H` (LieGroups Layer 7's
+  compact real form `U` and the conjugacy of compact real forms), and `c_h⁻¹ ∘ φ` is the holomorphic
+  extension of a continuous automorphism of `U`, which is regular by Layer 7's compact-real-form
+  pairs and algebraic morphisms. The conjugation `κ` fixing `U` is antiregular (it is `g ↦ (g*)⁻¹`
+  for a `U`-invariant Hermitian form in Layer 7's faithful representation), so `τ = (τκ)κ` is
+  antiregular, and the regular functions `f` with `f = conj ∘ f ∘ τ` form an `ℝ`-structure on
+  `ℂ[𝐇]` (a conjugate-linear involution of a complex vector space `V` gives `V = V^τ ⊕ iV^τ`),
+  the coordinate ring of `𝐇₀`.
+- The Cartan involutions for `τ` are the complexifications of the Cartan involutions `θ` of `𝐇₀`
+  in the sense of ArithmeticLocallySymmetricSpaces ALS.0.1: `σ` is regular by the previous item and
+  commutes with `τ`, so it descends to an involution `θ` of `𝐇₀`, whose twisted real form
+  `{g ∈ H | g = θ(ḡ)}` is `H^{στ}`. So a Cartan involution for `τ` exists and any two are
+  conjugate by an element of `H^τ = 𝐇₀(ℝ)` (ALS.0.1). Prove that they are conjugate by an element
+  of `(H^τ)°`: write the conjugating element as `k·lieExp X` with `k ∈ K`, `X ∈ 𝔭` (the polar
+  decomposition of the next item); since `σ(k) = k`, conjugation by `lieExp(Ad(k)X)` has the same
+  effect on `σ`.
 - `dσ|_{𝔥^τ}` is a reductive Cartan involution of `𝔥^τ` (§0.1), and `H^τ` with `Θ = σ|_{H^τ}` is a
-  LieGroups Layer 9 `CartanInvolution` datum with `K = H^τ ∩ H^σ`. Route: a faithful holomorphic
-  representation of `H`, summed with its `τ`-conjugate and given a Hermitian form averaged over
-  the compact group `U ⋊ ⟨τ⟩` (CompactGroups), realizes `H` as a Zariski-closed subgroup of
-  `GL_N(ℂ)` with `τ(g) = ḡ` and `κ(g) = (g*)⁻¹`; then `H^τ = H ∩ GL_N(ℝ)` is a closed
-  transpose-stable subgroup, the real points of a connected reductive `ℝ`-group (finitely many
-  components, ArithmeticLocallySymmetricSpaces ALS.F.1), and `σ` restricts to `g ↦ (gᵀ)⁻¹`. This
-  is LieGroups Layer 9's global matrix model with `π = id`.
+  LieGroups Layer 9 `CartanInvolution` datum with `K = H^τ ∩ H^σ`. Route: the transpose-stable
+  realization of `𝐇₀` of ArithmeticLocallySymmetricSpaces ALS.F.1, in which `g ↦ (gᵀ)⁻¹` is a
+  Cartan involution (ALS.0.1), conjugated by the element of `𝐇₀(ℝ)` that ALS.0.1's conjugacy gives
+  between that involution and `σ`, makes `H^τ` a closed transpose-stable subgroup of `GL_N(ℝ)` with
+  finitely many components (ALS.F.1) on which `σ` restricts to `g ↦ (gᵀ)⁻¹`. This is LieGroups
+  Layer 9's global matrix model with `π = id`.
 - Consequently `K = H^τ ∩ H^σ` is a maximal compact subgroup of `H^τ` meeting every component
   (LieGroups Layer 9), `K × 𝔭 → H^τ` is a diffeomorphism, and `M` meets every component of `H^τ`
   (§2.3, since `H^τ` is the group of real points of a connected reductive `ℝ`-group), so Layers 3–5
@@ -744,8 +777,8 @@ fixed subgroup). Call a holomorphic involutive automorphism `σ` of `H` a **Cart
 - Non-example: on `SL₂(ℂ)` with `τ(g) = ḡ`, `σ = 1` is a holomorphic involution commuting with `τ`,
   but `H^{στ} = SL₂(ℝ)` is not compact, so `1` is not a Cartan involution for `τ`.
 
-*Needs:* §0.1, §0.2, §2.3; LieGroups Layers 7 and 9; CompactGroups;
-ArithmeticLocallySymmetricSpaces ALS.F.1.
+*Needs:* §0.1, §2.3; LieGroups Layers 7 and 9; CompactGroups (an invariant Hermitian form);
+ArithmeticLocallySymmetricSpaces ALS.0.1 and ALS.F.1.
 
 ### Examples
 
@@ -755,7 +788,8 @@ are worked in full.
 ### Dependencies
 
 Layers 0–1; LieGroups Layers 2, 4, 5, 5A, 7 and 9; AutomorphicFormsOnReductiveGroups §2.3a;
-ReductiveGroups Layers 4 and 6; ArithmeticLocallySymmetricSpaces ALS.F.1; CompactGroups.
+ReductiveGroups Layers 4 and 6; ArithmeticLocallySymmetricSpaces ALS.0.1 and ALS.F.1;
+CompactGroups.
 
 ## Layer 3: minimal parabolic subgroups and the Bruhat decomposition
 
@@ -768,10 +802,10 @@ Lie algebra and finite centre, linear or not: `M` is compact with Lie algebra `�
 and `lieExp : 𝔫 → N` are diffeomorphisms; `MA = Z_G(𝔞)`; `M` and `A` normalize `N`; `P` is closed
 with Lie algebra `𝔪 ⊕ 𝔞 ⊕ 𝔫`; `M × A × N → P` is a diffeomorphism; `P = N_G(𝔫) = N_G(P)`;
 `P ∩ Θ(P) = MA`; `G = KP`; any two triples `(θ, 𝔞, Σ⁺)` are conjugate under `G`, so the minimal
-parabolic subgroups form one conjugacy class. Route: AF §2.3a applies to `𝐆_ad(ℝ)`, the real points
-of the adjoint group `𝐆_ad` of `𝔤₀` (the identity component of the real algebraic group of
-automorphisms of `𝔤₀`, connected reductive over `ℝ`), which is in its class with the
-transpose-stable realization on `(𝔤₀, B_θ)`. Its objects restrict to the open subgroup
+parabolic subgroups form one conjugacy class (Knapp, Ch. VII §7). Route: AF §2.3a applies to
+`𝐆_ad(ℝ)`, the real points of the adjoint group `𝐆_ad` of `𝔤₀` (the identity component of the real
+algebraic group of automorphisms of `𝔤₀`, connected reductive over `ℝ`), which is in its class with
+the transpose-stable realization on `(𝔤₀, B_θ)`. Its objects restrict to the open subgroup
 `Int(𝔤₀) = 𝐆_ad(ℝ)°` by intersection (`A` and `N` are connected, and `𝐆_ad(ℝ) = K·Int(𝔤₀)` by the
 Cartan decomposition), and the statements survive the restriction, except the conjugacy of triples,
 which inside `Int(𝔤₀)` comes from §0.2, §1.3 and the simple transitivity of `W(Σ)` on positive
@@ -815,6 +849,9 @@ from the Bruhat decomposition.
 - `SL₂(ℝ)`: `G = P ⊔ PwP`, `w = [[0, −1], [1, 0]]`; `N⁻P` is the set of matrices with nonzero
   `(1, 1)` entry.
 - `SL₃(ℝ)`: for `α = e₁ − e₂`, `G^{(α)}` is the upper-left `SL₂(ℝ)`.
+- `SO₀(n, 1)`, `n ≥ 2`: in real rank one the subalgebra generated by the restricted root spaces is
+  an ideal, so `𝔤^{(α)} = 𝔰𝔬(n, 1)` and `G^{(α)} = G`; the rank-one decomposition is the two-cell
+  Bruhat decomposition of `S^{n−1}`, and `N_G(𝔞)/MA` has order `2`.
 
 *Needs:* §2.3, §3.1; LieGroups Layer 9.
 
@@ -870,7 +907,8 @@ For a minimal parabolic datum and `Π' ⊆ Π` define `𝔮_{Π'}` as in Convent
 `𝔞_{Π'} = {H ∈ 𝔞 | α(H) = 0 for α ∈ Π'}`, `𝔫_{Π'} = ⊕_{λ ∈ Σ⁺ ∖ Σ_{Π'}} 𝔤_λ`,
 `𝔩_{Π'} = Z_{𝔤₀}(𝔞_{Π'})`. Prove: `𝔮_{Π'}` is a subalgebra; `Π' ↦ 𝔮_{Π'}` is an
 inclusion-preserving bijection from subsets of `Π` to subalgebras containing `𝔮_∅`;
-`𝔮_{Π'} = 𝔩_{Π'} ⊕ 𝔫_{Π'}` with `𝔫_{Π'}` the nilradical, an ideal; `𝔩_{Π'} = 𝔮_{Π'} ∩ θ𝔮_{Π'}`
+`𝔮_{Π'} = 𝔩_{Π'} ⊕ 𝔫_{Π'}` with `𝔫_{Π'}` an ideal, the nilradical of `𝔮_{Π'} ∩ [𝔤₀, 𝔤₀]`;
+`𝔩_{Π'} = 𝔮_{Π'} ∩ θ𝔮_{Π'}`
 is reductive and `θ`-stable with `𝔩_{Π'} = 𝔪_{Π'} ⊕ 𝔞_{Π'}`, where
 `𝔪_{Π'} = 𝔪 ⊕ span{H'_α | α ∈ Π'} ⊕ ⊕_{λ ∈ Σ_{Π'}} 𝔤_λ`. Prove the dynamical description:
 for `X ∈ 𝔞̄⁺` with `{α ∈ Π | α(X) = 0} = Π'`, `𝔮_{Π'}` is `nonnegEigenSubmodule X`, the sum of the
@@ -895,7 +933,9 @@ subgroups of `G` containing `P` (`TauCeti.TitsSystem.standardParabolicOrderIso`)
 subgroup; every subgroup containing `P` is closed; `Q_{Π'} = N_G(𝔮_{Π'})`; its Lie algebra is
 `𝔮_{Π'}`; `N_G(Q_{Π'}) = Q_{Π'}` (`TauCeti.TitsSystem.normalizer_standardParabolic`); and the
 double cosets `Q_{Π'} \ G / Q_{Π''}` are indexed by `W_{Π'} \ W / W_{Π''}`
-(`TauCeti.TitsSystem.parabolicDoubleCosetEquiv`).
+(`TauCeti.TitsSystem.parabolicDoubleCosetEquiv`). (Bourbaki, *Lie*, Ch. IV §2, nos. 5–6, for the
+subgroups containing `B` in a Tits system; Knapp, Ch. VII §7, for closedness, `N_G(𝔮_{Π'})` and the
+Lie algebra.)
 
 **Checks.**
 
@@ -914,11 +954,12 @@ For `Q = Q_{Π'}` define `A_{Π'} = lieExp 𝔞_{Π'}`, `N_{Π'} = lieExp 𝔫_{
 `χ : L_{Π'} → ℝ^×`. Prove: `L_{Π'} = Q ∩ Θ(Q)` is `Θ`-stable, closed, with Lie algebra
 `𝔩_{Π'}`; `M_{Π'} × A_{Π'} → L_{Π'}` is an isomorphism of Lie groups; `M_{Π'}` is `Θ`-stable
 with Lie algebra `𝔪_{Π'}`, contains `M`, and has the minimal parabolic datum
-`(M, A ∩ M_{Π'}, N ∩ M_{Π'})`, so that `P = (P ∩ M_{Π'})·A_{Π'}·N_{Π'}`; `N_{Π'}` is the largest
-connected normal nilpotent subgroup of `Q` (its nilradical), simply connected, with
-`lieExp : 𝔫_{Π'} → N_{Π'}` a diffeomorphism; `Q = L_{Π'} ⋉ N_{Π'}`; and the **Langlands
-decomposition** `M_{Π'} × A_{Π'} × N_{Π'} → Q`, `(m, a, n) ↦ man`, is a diffeomorphism. For
-`Π' = ∅` this is §3.1's `P = MAN`. Prove that the Langlands decomposition is the unique one with
+`(M, A ∩ M_{Π'}, N ∩ M_{Π'})`, so that `P = (P ∩ M_{Π'})·A_{Π'}·N_{Π'}`; `N_{Π'}` is a connected,
+simply connected, normal nilpotent subgroup of `Q` whose Lie algebra is the nilradical of
+`𝔮_{Π'} ∩ [𝔤₀, 𝔤₀]`, with `lieExp : 𝔫_{Π'} → N_{Π'}` a diffeomorphism, and for semisimple `𝔤₀` it
+is the largest connected normal nilpotent subgroup of `Q`; `Q = L_{Π'} ⋉ N_{Π'}`; and the
+**Langlands decomposition** `M_{Π'} × A_{Π'} × N_{Π'} → Q`, `(m, a, n) ↦ man`, is a diffeomorphism.
+For `Π' = ∅` this is §3.1's `P = MAN`. Prove that the Langlands decomposition is the unique one with
 `Θ`-stable Levi relative to `K`, and that `G = KQ`. (Knapp, Ch. VII §7.)
 
 **Checks.**
@@ -960,7 +1001,8 @@ roots are the roots of the Cartan subalgebra `𝔱 ⊗ ℂ = 𝔱 ⊕ i𝔱` res
 restricted root spaces are its complex root spaces, so each `𝔮_{Π'}` is a complex parabolic
 subalgebra. For `s ∈ i𝔲` the group `P_s = {g | e^{ts} g e^{−ts}, t ≥ 0, is bounded}` of the
 Higgs-bundle literature is `dynamicalParabolic (−s)`, and every parabolic subgroup of `H` is a
-`P_s`.
+`P_s` (García-Prada, Gothen and Mundet i Riera, *The Hitchin–Kobayashi correspondence, Higgs pairs
+and surface group representations*, §2.1, Definition 2.1, p. 5, and §2.4, Lemma 2.5, p. 7).
 
 **Checks.**
 
@@ -1034,9 +1076,9 @@ through `p`; `M` is complete (HopfRinow; Eschenburg, *Lecture Notes on Symmetric
 p. 2); `∇R = 0` (`CovariantDerivative.HasParallelCurvature`, since `s_p` preserves `∇R` and
 negates odd tensors at `p`; Eschenburg, §5, proof of Theorem 5, p. 15); the group generated by the
 `s_p` acts transitively (the symmetry at the midpoint of a minimizing geodesic exchanges its ends;
-Eschenburg, §1, Theorem 1, p. 2); and `s_p s_q` translates along the geodesic through `p` and `q`
-(Eschenburg, §2, Theorem 2, p. 8). Prove that a Riemannian product of symmetric spaces and the
-universal Riemannian cover of a connected symmetric space are symmetric.
+Eschenburg, §1, p. 2, the paragraph before Theorem 1); and `s_p s_q` translates along the geodesic
+through `p` and `q` (Eschenburg, §2, Theorem 2, p. 8). Prove that a Riemannian product of
+symmetric spaces and the universal Riemannian cover of a connected symmetric space are symmetric.
 
 **Checks.**
 
@@ -1044,6 +1086,9 @@ universal Riemannian cover of a connected symmetric space are symmetric.
   hyperbolic space with the hyperboloid reflection.
 - A flat torus `ℝ²/Λ` is symmetric (`x ↦ 2p − x` descends); a surface of nonconstant curvature
   is not, since `∇R ≠ 0` (RiemannianGeometry §1.2's metric `dx² + e^{2x²}dy²`).
+- `ℝ² ∖ {0}` with the flat metric has `∇R = 0` but is not symmetric: a symmetry at `p` would have
+  to be `x ↦ 2p − x`, which sends `2p` to the removed origin; a predicate tested only by parallel
+  curvature would accept this space.
 
 *Needs:* Tau Ceti Riemannian isometries and parallel curvature; HopfRinow; RiemannianGeometry
 R1.2.
@@ -1063,7 +1108,8 @@ diffeomorphic to `G/K` for `K` of §2.2, and that the kernel of the action is th
 the product of the compact factors of `Int(𝔤₀)`, which is `Z(G)` when `𝔤₀` has noncompact type. For
 reductive `𝔤₀`, prove `X ≅ X_{[𝔤₀,𝔤₀]} × (𝔭 ∩ 𝔷(𝔤₀))`. (Eschenburg, *Lecture Notes on Symmetric
 Spaces*, §3, Theorem 3, p. 11, for `𝔭 ≅ T_oX`, and §6, p. 17, for simple connectivity and `X ≅ ℝⁿ`
-in noncompact type.)
+when `X` is isotropy irreducible of noncompact type; in general both follow from
+`cartan_polar_decomposition`.)
 
 **Checks.**
 
@@ -1071,7 +1117,8 @@ in noncompact type.)
 - `SL_n(ℝ)/SO(n)` is the space of positive definite symmetric matrices of determinant `1`, via
   `g ↦ ggᵀ`; `GL_n(ℝ)/O(n)` is all positive definite symmetric matrices, of dimension
   `n(n + 1)/2`.
-- `SO₀(n, 1)/SO(n)` is the upper sheet of the hyperboloid (Tau Ceti's hyperboloid model).
+- `SO₀(n, 1)/SO(n)` is the upper sheet of the hyperboloid, isometric after rescaling to Tau Ceti's
+  `TauCeti.UpperHalfSpace`.
 
 *Needs:* §2.2; LieGroups Layer 9; SmoothBundlesConnections B1.4.
 
@@ -1084,19 +1131,19 @@ unique `G`-invariant metric with value `B|𝔭` at `o` (semisimple case); the **
 (§5.1); the Levi-Civita connection at `o` is the canonical connection, so for `Y ∈ 𝔭` the curve
 `t ↦ lieExp(tY)·o` is a geodesic, every geodesic through `o` has this form, and
 `d(lieExp(tY))` is parallel transport along it; the curvature at `o` is
-`R(Y, Z)W = −[[Y, Z], W]`; the sectional curvature of the plane spanned by a `B`-orthonormal
+`R(Y, Z)W = −[[Y, Z], W]`; the sectional curvature of the plane spanned by a `⟨·,·⟩_o`-orthonormal
 pair `Y, Z ∈ 𝔭` is `B([Y, Z], [Y, Z]) ≤ 0`, zero iff `[Y, Z] = 0`; the Ricci tensor is
 `Ric = −½ B|𝔭`, so the Killing metric is Einstein with constant `−½` when `𝔤₀` is semisimple; `X`
 is complete (`TauCeti.completeSpace_of_isPretransitive_isom_of_finiteDimensional`); `X` is a
 Hadamard manifold, so by R4.4 `exp_o` is a diffeomorphism and any two points are joined by a
-unique geodesic; and the distance formula `d(g·o, h·o) = B(Y, Y)^{1/2}` where
-`g⁻¹h = lieExp(Y)k`, `Y ∈ 𝔭`, `k ∈ K`. Prove that for simple noncompact `𝔤₀` the isotropy
-representation of `K` on `𝔭` is irreducible and every `G`-invariant metric is a constant
-multiple of the Killing metric. Prove that the `G`-equivariant diffeomorphisms of §5.2 between
-the spaces `X` of two Cartan involution data (`gK ↦ gh⁻¹K'`) and the identification
-`G/K ≅ X_{𝔤₀}` are isometries for the Killing metrics, so that `(X, g_X)` depends only on `𝔤₀` up
-to `G`-equivariant isometry. (Helgason, Ch. IV §§3–4 and Ch. V §3; Eberlein, *Geometry of
-Nonpositively Curved Manifolds*, Ch. 2.)
+unique geodesic; and the distance formula `d(g·o, h·o) = ⟨Y, Y⟩_o^{1/2}`, which is `B(Y, Y)^{1/2}`
+when `𝔤₀` is semisimple, where `g⁻¹h = lieExp(Y)k`, `Y ∈ 𝔭`, `k ∈ K`. Prove that for simple
+noncompact `𝔤₀` the isotropy representation of `K` on `𝔭` is irreducible and every `G`-invariant
+metric is a constant multiple of the Killing metric. Prove that, for semisimple `𝔤₀`, the
+`G`-equivariant diffeomorphisms of §5.2 between the spaces `X` of two Cartan involution data
+(`gK ↦ gh⁻¹K'`) and the identification `G/K ≅ X_{𝔤₀}` are isometries for the Killing metrics, so
+that `(X, g_X)` depends only on `𝔤₀` up to `G`-equivariant isometry. (Helgason, Ch. IV §§3–4 and
+Ch. V §3; Eberlein, *Geometry of Nonpositively Curved Manifolds*, Ch. 2.)
 
 **Checks.**
 
@@ -1162,15 +1209,16 @@ connected totally geodesic submanifolds with the same tangent space at a common 
 it, since both contain the short geodesics in its directions; a connectedness argument gives the
 inclusion. A **flat** is a
 complete totally geodesic submanifold isometric to a Euclidean space; it comes from an abelian
-`𝔰`. Prove: `F_𝔞 = A·o` is a maximal flat, isometric to `(𝔞, B|𝔞)`; every flat through `o` lies
-in `k·F_𝔞` for some `k ∈ K`; the maximal flats are the `g·F_𝔞`; any two points lie in a common
+`𝔰`. Prove: `F_𝔞 = A·o` is a maximal flat, isometric to `(𝔞, ⟨·,·⟩_o|𝔞)`; every flat through `o`
+lies in `k·F_𝔞` for some `k ∈ K`; the maximal flats are the `g·F_𝔞`; any two points lie in a common
 maximal flat (`kakDecomposition`); the **rank** of `X`, the maximal dimension of a flat, equals
 `finrank ℝ 𝔞`, which is `groupRealRank` when `𝔤₀` is semisimple; for noncompact type, rank one is
 equivalent to strictly negative sectional curvature. Define the **Weyl chambers** of `F_𝔞` as the
 images of the chambers of `𝔞`, and the **vector-valued distance** `d_𝔞(g·o, h·o) ∈ 𝔞̄⁺`, the
 `𝔞̄⁺`-component of `g⁻¹h` in `kakDecomposition`; prove it is well defined (uniqueness of the
 middle `KAK` factor modulo `W_G`, §2.3), `G`-invariant, satisfies `d_𝔞(y, x) = −w₀ d_𝔞(x, y)`,
-and `|d_𝔞(x, y)|_B = d(x, y)`. (Helgason, Ch. IV §7 and Ch. V §6; Eberlein, Ch. 2.)
+and `|d_𝔞(x, y)|_o = d(x, y)`, the norm of `⟨·,·⟩_o`. (Helgason, Ch. IV §7 and Ch. V §6;
+Eberlein, Ch. 2.)
 
 **Checks.**
 
@@ -1281,9 +1329,10 @@ R4.1, R4.4, R4.6, R5a; HopfRinow; CompactGroups; ComplexKahlerGeometry.
 
 ## Ordering
 
-Layer 0 needs LieGroups Layer 7 only for existence of Cartan involutions; §0.1, §0.3 and §0.4
-are otherwise self-contained Lie algebra and can be built first, with existence taken as a
-hypothesis in each statement that needs it. Layer 1 follows; it reads LieGroups Layer 9's
+§0.1, §0.3 and §0.4 need LieGroups Layer 7 only for the existence of Cartan involutions; they are
+otherwise self-contained Lie algebra and can be built first, with existence taken as a hypothesis in
+each statement that needs it. §0.2 needs LieGroups Layers 2, 4 and 9 for `Int(𝔤₀)` and its adjoint
+datum. Layer 1 follows; it reads LieGroups Layer 9's
 restricted root system on the adjoint `CartanInvolution` datum of §0.2 (the direct route for §1.1
 needs only §0.1), and §1.3 needs Layer 9's `Ad(K)𝔞 = 𝔭` on the same datum. Layer 2 follows
 Layer 1. Layers 3–4 and Layer 5 depend on Layer 2 and not on each other, except that §4.4's
@@ -1328,3 +1377,6 @@ hyperbolic geometry.
   maximal split tori).
 - W. M. Goldman, *Complex Hyperbolic Geometry*, Oxford (1999): Ch. 3 (the ball model, its
   invariant metric and its totally geodesic submanifolds).
+- O. García-Prada, P. B. Gothen and I. Mundet i Riera, *The Hitchin–Kobayashi correspondence, Higgs
+  pairs and surface group representations*, arXiv:0909.4487 (v3, 2012): §2.1 and §2.4 (parabolic
+  subgroups of a complex reductive group and the groups `P_s`).
