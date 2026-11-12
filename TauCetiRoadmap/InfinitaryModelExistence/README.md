@@ -1118,11 +1118,17 @@ Among the targets that `Suggested.lean` states, Tau Ceti `2fd255d99` does not im
 `fragmentType`, `Theoryω.exists_countable_model_omitting`, `OmitsFOType`, `IsolatesFO`,
 `exists_countable_model_omitting_fo`, `exists_firstOrder_presentation`, `craig_interpolation`,
 `pcSeparation`, `relationsInSigned`, `lyndon_interpolation`, `universalSigned` or
-`malitz_interpolation`. Tau Ceti commit `d2083f0` has declarations for all of them except the three
-first-order omitting-types items, Lyndon and Malitz, with the first-order presentation stated as
-`model_morleyTheory_and_omitsType_iff_eq_morleyExpansion`; its `pcSeparation`, in
-`Interpolation/Craig.lean`, takes the hypothesis over countable structures in an arbitrary universe
-rather than in `Type`.
+`malitz_interpolation`.
+
+**Provenance after the pin.** Later Tau Ceti work, which this repository does not pin and nothing
+here imports, is a further proof reference. At Tau Ceti commit
+[`d2083f0`](https://github.com/TauCetiProject/TauCeti/tree/d2083f0f1dd2136d02467ba36efbbe1af612e89c),
+every target in the list above has a declaration except `OmitsFOType`, `IsolatesFO`,
+`exists_countable_model_omitting_fo`, `lyndon_interpolation` and `malitz_interpolation`. There the
+first-order presentation is `model_morleyTheory_and_omitsType_iff_eq_morleyExpansion`
+(`ModelExistence/Presentation.lean`), and `pcSeparation` (`Interpolation/Craig.lean`) takes its
+hypothesis over countable structures in an arbitrary universe `Type w₀`; at `w₀ = 0` it is the
+statement of Layer 7.
 
 ## References
 
