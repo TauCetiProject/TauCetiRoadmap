@@ -54,10 +54,11 @@ embedding with a controlled retraction. It proves smooth density for these space
 
 This roadmap owns:
 
-- the local Lebesgue and local Sobolev classes `MemLpLoc` and `W^{k,p}_loc(Ω; F)` on open
-  subsets of every finite-dimensional real normed space, with their Banach-valued API (§1.1),
-  which extend the planar classes of PseudoholomorphicCurveAnalysis §1.1 from `ℂ` to every such
-  source (those are the case `E = ℂ`), and the first-order class `W^{1,p}_loc(Ω; F)` (§1.2);
+- the local Lebesgue class `MemLpLoc` and the first-order local Sobolev class
+  `W^{1,p}_loc(Ω; F)` with Banach `F` on open subsets of every finite-dimensional real normed
+  space, with their Banach-valued API (§1.1–§1.2); they extend the planar classes of orders `0`
+  and `1` of PseudoholomorphicCurveAnalysis §1.1 from `ℂ` to every such source (those are the
+  case `E = ℂ`);
 - the Euclidean chain rule for `C¹` outer maps with bounded derivative and arbitrary Sobolev
   inner maps, the continuity of the composition operator, the change of variables of the local
   class under `C¹` local diffeomorphisms and submersions, local mollification, Banach-valued
@@ -97,9 +98,9 @@ It leaves to named owners:
 - **PseudoholomorphicCurveAnalysis** PH1 owns the planar classes on planar domains and
   half-discs and their higher-order theory (embeddings, products, composition of order `k ≥ 2`,
   reflection, local compactness), and PH4.1 owns `W^{k,p}_loc(Σ, M)` for maps from a Riemann
-  surface with `kp > 2`. §1.1 defines the classes of PH1.1 over every finite-dimensional source,
-  PH1.1's being the case `E = ℂ`, and §7.2 proves that PH4.1's class at `k = 1` is this
-  roadmap's class on surfaces.
+  surface with `kp > 2`. §1.1 defines the classes of PH1.1 of orders `0` and `1` over every
+  finite-dimensional source, PH1.1's being the case `E = ℂ`, and §7.2 proves that PH4.1's class
+  at `k = 1` is this roadmap's class on surfaces.
 - **PseudodifferentialOperators** §5.2 owns the Banach space of `W^{k,p}` sections of a vector
   bundle over a compact base, its finite-chart norms and its smooth density.
   **Yamabe** Y1 owns the scalar closed-manifold carriers used for the Yamabe problem. This roadmap
@@ -120,7 +121,8 @@ It leaves to named owners:
   `W^{1,p}_loc` maps on Euclidean domains (its §5.1–§5.2), and everything about distortion.
 - **GeometricMeasureTheory** owns the area and coarea formulas for Lipschitz maps.
 
-Outside this roadmap: Sobolev maps of order `k ≥ 2` or fractional order between manifolds;
+Outside this roadmap: Sobolev classes of order `k ≥ 2` or fractional order, of functions on
+Euclidean domains and of maps between manifolds;
 Sobolev maps on manifolds with boundary, traces and extension of Sobolev maps; Bethuel's density
 theorem for `p < dim M` and the homotopy theory of `W^{1,p}(M, N)`; lifting; Nash's isometric
 embedding theorem; harmonic maps and the calculus of variations for maps between manifolds;
@@ -224,8 +226,9 @@ derivatives directly usable and compares them with its manifold predicates in La
   `TopologicalSpace.Opens` as a charted space.
 - `Manifold.IsSubmersionAt` (`Mathlib/Geometry/Manifold/Submersion.lean`), the local chart
   normal form of a projection with a continuous linear complement. §2.5 and §4.6 use this
-  predicate; the finite-dimensional surjective-differential corollary is proved there from
-  the inverse function theorem if the general conversion is not in the supplier API.
+  predicate. Mathlib has no conversion from a surjective differential to
+  `Manifold.IsSubmersionAt`; §2.5 proves the finite-dimensional one from the inverse function
+  theorem.
 - `Manifold.IsImmersionAt` (`Mathlib/Geometry/Manifold/Immersion.lean`), with
   `ContMDiffAt.iff_comp_isImmersionAtOfComplement` as the smooth pattern of §9.1. This is the
   chart-normal-form notion of a split immersion, not just injectivity of the differential.
@@ -300,8 +303,7 @@ derivatives directly usable and compares them with its manifold predicates in La
   compact base, its finite-chart norms, completeness and smooth density for `p < ∞`.
 - **RiemannianGeometry** R4.6 (chartwise and Riemannian null sets, for smooth metrics) and R6
   (the nearest-point retraction `π` onto a closed-image `C²` embedded submanifold of a Euclidean
-  space, defined on an open tube, `C¹` for `C²` embeddings and smooth for smooth ones, with `dπ`
-  at a point of the submanifold the orthogonal projection onto its tangent space).
+  space, defined on an open tube, `C¹` for `C²` embeddings and smooth for smooth ones).
 - **DifferentialGeometry** 2.1–2.2 (orientations), Layer 5 (integration of top forms and the
   boundaryless Stokes theorem), 12.4 (Riemannian volume), 10.4 (the integral formula
   `∫_M f^*ω = deg f · ∫_N ω` for smooth maps of closed oriented manifolds and smooth `ω`) and
@@ -326,23 +328,23 @@ Layer 5 needs Layer 4; Layer 6 needs Layer 5. Layer 7 needs Layers 4–5, with �
 the Jacobian comparison. Layer 8 needs Layers 4–5 and §2.3, with §6.2 used only for its volume-form
 specialization. Layer 9 needs Layers 4–5 and §2.3; §9.3 does not depend on §9.1–§9.2.
 Layer 10 needs Layers 7 and 9 and §2.4, with §5.4 used in §10.4. Layer 11
-needs Layers 8–10.
+needs §6.3 and Layers 8–10.
 
 ## Layer 1: local classes on Euclidean domains
 
 ### 1.1 Local Lebesgue and Sobolev classes
 
-Define for `E` the classes that PseudoholomorphicCurveAnalysis §1.1 plans for `ℂ`, with
-Banach-valued codomain: `MemLpLoc p U u` (for `u : E → F`, `u ∈ Lᵖ(K)` for every compact
-`K ⊆ U`) and the order-`k` class `W^{k,p}_loc(Ω; F)` (iterated `TauCeti.HasWeakFDerivOn`
-derivatives of order `≤ k` on `Ω`, each in `MemLpLoc p Ω`). The planar classes are the case
-`E = ℂ`. Prove for `E` the API that PseudoholomorphicCurveAnalysis §1.1 lists for `ℂ`: closure
-under addition,
+Define for `E` the classes of orders `0` and `1` that PseudoholomorphicCurveAnalysis §1.1 plans
+for `ℂ`, with Banach-valued codomain: `MemLpLoc p U u` (for `u : E → F`, `u ∈ Lᵖ(K)` for every
+compact `K ⊆ U`) and the first-order class `W^{1,p}_loc(Ω; F)` of §1.2 (Arendt–Kreuter, §2,
+pp. 2–3, for the global first-order Bochner space on an open subset of `ℝᵈ`). The planar
+classes of orders `0` and `1` are the case `E = ℂ`. Prove for `E` the API that
+PseudoholomorphicCurveAnalysis §1.1 lists for `ℂ`, at these two orders: closure under addition,
 scalar multiplication, continuous linear maps `F →L[ℝ] G` and restriction to smaller opens;
 the sheaf property for open covers; coordinates in a finite basis when `F` is finite-dimensional;
-monotonicity in `k` and the case `k = 0`; for `F = ℝ` and `E` an inner product space with
-Lebesgue measure, agreement with `TauCeti.Wkp volume W p k` on every relatively compact
-open `W` with closure in `Ω`. Prove in addition:
+for `F = ℝ` and `E` an inner product space with Lebesgue measure, agreement of the first-order
+class with `TauCeti.W1p volume W p` on every relatively compact open `W` with closure in `Ω`.
+Prove in addition:
 
 - `MemLpLoc p Ω u` implies `MemLpLoc q Ω u` for `q ≤ p`, and implies local integrability for
   `p ≥ 1`;
@@ -354,11 +356,11 @@ open `W` with closure in `Ω`. Prove in addition:
 
 **Checks.**
 
-- At `E = ℂ` the classes are the planar ones of PseudoholomorphicCurveAnalysis §1.1:
-  `z ↦ |z|` lies in `W^{1,p}_loc(ℂ; ℝ)` for every `p` and in `W^{2,p}_loc(ℂ; ℝ)` exactly for
-  `p < 2`, since its second derivatives have size `1/|z|` and `∫_{|z|<1} |z|^{−p}` is finite
-  exactly for `p < 2`.
-- The identity of `E` lies in `W^{k,p}_loc(E; E)` for all `p`, `k`, and not in `Lᵖ(E)` for any
+- At `E = ℂ` the classes are the planar ones of PseudoholomorphicCurveAnalysis §1.1 of orders
+  `0` and `1`: `z ↦ |z|` lies in `W^{1,p}_loc(ℂ; ℝ)` for every `p`, while `z ↦ z/|z|` lies in
+  `W^{1,p}_loc(ℂ; ℂ)` exactly for `p < 2`, since its derivative has norm `1/|z|` and
+  `∫_{|z|<1} |z|^{−p}` is finite exactly for `p < 2`.
+- The identity of `E` lies in `W^{1,p}_loc(E; E)` for all `p`, and not in `Lᵖ(E)` for any
   `p < ∞` when `n ≥ 1`: the class is local.
 - For `n = 3`, `u(x) = |x|^{−1}` lies in `MemLpLoc p ℝ³` exactly for `p < 3`.
 - Haar independence: `2 · volume` has the same null sets and the same `Lᵖ(K)` functions.
@@ -369,12 +371,12 @@ open `W` with closure in `Ω`. Prove in addition:
   derivative `h ↦ Da(x)(h) v`; no basis of the target is used.
 
 *Needs:* Tau Ceti `TauCeti.HasWeakFDerivOn`,
-`TauCeti.hasWeakFDerivOn_iff_forall_isCompact_closure`, `TauCeti.Wkp`; Mathlib
+`TauCeti.hasWeakFDerivOn_iff_forall_isCompact_closure`, `TauCeti.W1p`; Mathlib
 `MeasureTheory.MemLp`.
 
 ### 1.2 The first-order class `W^{1,p}_loc(Ω; F)`
 
-Write `W^{1,p}_loc(Ω; F)` (`MemW1pLoc p Ω u`) for the case `k = 1` of §1.1: `u ∈ MemLpLoc p Ω`
+Write `W^{1,p}_loc(Ω; F)` (`MemW1pLoc p Ω u`) for the first-order class of §1.1: `u ∈ MemLpLoc p Ω`
 and some `Du : E → E →L[ℝ] F` with `TauCeti.HasWeakFDerivOn volume Ω u Du` lies in
 `MemLpLoc p Ω`. Prove:
 
@@ -579,9 +581,11 @@ injective, proper or of the same source and target dimensions.
 ### 2.6 Locality on measurable equality sets
 
 For `u, v ∈ W^{1,1}_loc(Ω; F)`, prove `Du = Dv` almost everywhere on the measurable equality
-set `{x ∈ Ω : u(x) = v(x)}`. In particular, the weak derivative of a function is zero almost
-everywhere on each of its level sets. This is equality on a measurable set, not a claim that
-arbitrary restrictions to such sets have an open-domain Sobolev structure. Prove the scalar
+set `{x ∈ Ω : u(x) = v(x)}` (for finite-dimensional `F`, a case of Convent–Van Schaftingen,
+Prop. 1.8, p. 7, since weakly differentiable maps are colocal, p. 4). In particular, the weak
+derivative of a function is zero almost everywhere on each of its level sets. This is equality
+on a measurable set, not a claim that arbitrary restrictions to such sets have an open-domain
+Sobolev structure. Prove the scalar
 statement by the one-dimensional absolutely continuous representatives and Fubini, then the
 Banach-valued statement by a countable norming family on the essential separable ranges of
 the functions and partial derivatives. Supply the corresponding scalar truncation facts:
@@ -736,7 +740,8 @@ For `u : M → F`, define `u ∈ W^{1,p}_loc(M; F)` (`MemW1pLocM E p u` in `Sugg
 every chart representative `u ∘ (extChartAt x).symm` lies in `W^{1,p}_loc` of the open set
 `(extChartAt x).target`. Define the weak differential `du(x) : T_xM →L[ℝ] F` of a member as a
 family whose chart expression `du(φ⁻¹ y) ∘ dφ⁻¹_y` is a weak derivative of the representative on
-every chart target (`HasWeakMFDerivFun E u du`). Prove that it exists, is unique almost
+every chart target (`HasWeakMFDerivFun E u du`; Convent–Van Schaftingen, §1.1, pp. 3–4, for
+real-valued `u`). Prove that it exists, is unique almost
 everywhere, is chart-measurable with `L^p_loc` chart expressions, and that membership does not
 depend on the atlas (§2.2), is local and is preserved by continuous linear maps `F → G` and by
 restriction to open subsets. A `C¹`
@@ -764,8 +769,9 @@ is continuous and, for every `x`, the chart representative `writtenInExtChartAt 
   pair of charts of the maximal atlases of `M` and `N`, on the open part of the source chart's
   target where `f` maps into the target chart's source, iff it holds for every pair of charts
   from some atlas of `M` and some atlas of `N` (families of charts of the maximal atlases
-  whose sources cover `M` and `N`). Route: §2.1(a) for the transition of `N`, §2.2 for the
-  transition of `M`, and §1.2's sheaf property.
+  whose sources cover `M` and `N`); the first equivalence is
+  `isSobolevMap_iff_forall_maximalAtlas`. Route: §2.1(a) for the transition of `N`, §2.2 for
+  the transition of `M`, and §1.2's sheaf property.
 - *Normed targets.* For `N = F` with its identity chart, a continuous `f` lies in
   `W^{1,p}_loc(M, F)` iff it lies in §4.1's `W^{1,p}_loc(M; F)`.
 - *Constant and `C¹` maps* are members (§4.4).
@@ -839,8 +845,9 @@ Prove:
 - for an open `U ⊆ M`, `f ∈ W^{1,p}_loc(M, N)` restricts to `f|_U ∈ W^{1,p}_loc(U, N)`, with
   weak differential the restriction of `Df`; and for an open `V ⊆ N` with `f(M) ⊆ V`, `f` is in
   the class into `N` iff it is in the class into `V`;
-- *locality*: if `M = ⋃ U_i` is an open cover and every `f|_{U_i}` is in the class, then `f` is,
-  and weak differentials of the restrictions glue to one of `f`;
+- *locality*: if `M = ⋃ U_i` is an open cover and every `f|_{U_i}` is in the class, then `f` is
+  (`IsSobolevMap.of_locally`; continuity of `f` follows from the cover), and weak differentials
+  of the restrictions glue to one of `f`;
 - *metric independence*: replacing compatible target tangent norms changes no membership or
   weak-differential predicate, since these definitions involve only charts. For finite-dimensional
   `N` with continuous Riemannian metrics `g` on `M` and `h` on `N`, `f` is in the class iff
@@ -864,7 +871,8 @@ Prove, for `f ∈ W^{1,p}_loc(M, N)` with weak differential `Df`:
   weak differential of it; the preimage under `θ` of a null set is null (§3.3).
 - (b) *Postcomposition.* For a `C¹` map `g : N → P`, `g ∘ f ∈ W^{1,p}_loc(M, P)`
   (`IsSobolevMap.comp_contMDiff`) and `x ↦ dg_{f(x)} ∘ Df(x)` is a weak differential of it
-  (`HasWeakMFDeriv.comp_contMDiff`).
+  (`HasWeakMFDeriv.comp_contMDiff`; for finite-dimensional targets the identity is
+  Convent–Van Schaftingen, Prop. 1.5, p. 6).
 - (c) *Products.* `x ↦ (f₁(x), f₂(x))` lies in `W^{1,p}_loc(M, N₁ × N₂)` iff `f₁` and `f₂` lie in
   their classes, with weak differential `(Df₁, Df₂)`.
 
@@ -1001,7 +1009,8 @@ volumes are a specialization, not part of the definition of these norm data.
 
 For compatible continuous tangent norms on `M`, `N`, and `f ∈ W^{1,p}_loc(M, N)`, define
 `‖Df‖(x)` as the operator norm of `Df(x)` for the norms at
-`x` and `f(x)`. Prove that it
+`x` and `f(x)` (for oriented Riemannian `n`-manifolds: Heikkilä–Pankka, arXiv 2302.11440v2,
+p. 1). Prove that it
 is chart-measurable, hence `AEStronglyMeasurable` for `μ`, and that its
 almost-everywhere class does not depend on the choice of weak differential. For `C¹` `f` it is
 the continuous function `x ↦ ‖mfderiv f x‖`.
@@ -1350,7 +1359,8 @@ of degree `k` and `β` of degree `k + 1`
 (chart-measurable with `L¹_loc` chart coefficients), say that `β` is a weak exterior derivative
 of `α` when for every open `U ⊆ M`, every orientation `o` of
 `U` and every smooth compactly supported scalar `(n − k − 1)`-form `φ` on `U`,
-`integralTopForm o (β ∧ φ) = (−1)^{k+1} integralTopForm o (α ∧ dφ)`. Prove:
+`integralTopForm o (β ∧ φ) = (−1)^{k+1} integralTopForm o (α ∧ dφ)` (for scalar forms on a
+Euclidean ball: Heikkilä–Pankka, arXiv 2302.11440v2, §3, p. 7). Prove:
 
 - uniqueness almost everywhere;
 - it suffices to test on the sources of the charts of one atlas, with their model orientation,
@@ -1384,16 +1394,17 @@ DifferentialGeometry Layer 5.
 
 Prove that for `f ∈ W^{1,p}_loc(M, N)`, a `C¹` `V`-valued `k`-form `ω` on the Banach target `N` and
 `p ≥ k + 1`,
-`f^♯(dω)` is a weak exterior derivative of `f^♯ω`. Route: locally, in charts, the mollifications
-of §2.3 converge to the chart representative locally uniformly and in `W^{1,p}_loc`, so the
-smooth pullbacks converge to `f^♯ω` in `L^{p/k}_loc` and to `f^♯(dω)` in `L^{p/(k+1)}_loc`, both
-contained in `L¹_loc` because `p ≥ k + 1`; the identity of §8.2 holds for the smooth
-pullbacks. All test-form integration is on `M`; smooth pullback and the exterior derivative on
-`N` use bounded alternating maps and Fréchet derivatives, with no target volume or top-degree
-form. Prove the classical identity for smooth maps from a finite-dimensional domain into a
-Banach chart using the Fréchet chain rule and symmetry of second derivatives. For `p = ∞`,
-use convergence in every finite local
-Sobolev exponent `q ≥ k + 1`, rather than claiming convergence of derivatives in `L^∞`.
+`f^♯(dω)` is a weak exterior derivative of `f^♯ω` (for scalar forms, quasiregular maps from a
+Euclidean ball and `p = n`: Heikkilä–Pankka, arXiv 2302.11440v2, §3, p. 7). Route: locally, in
+charts, the mollifications of §2.3 converge to the chart representative locally uniformly and
+in `W^{1,p}_loc`, so the smooth pullbacks converge to `f^♯ω` in `L^{p/k}_loc` and to `f^♯(dω)`
+in `L^{p/(k+1)}_loc`, both contained in `L¹_loc` because `p ≥ k + 1`; the identity of §8.2
+holds for the smooth pullbacks. All test-form integration is on `M`; smooth pullback and the
+exterior derivative on `N` use bounded alternating maps and Fréchet derivatives, with no target
+volume or top-degree form. Prove the classical identity for smooth maps from a
+finite-dimensional domain into a Banach chart using the Fréchet chain rule and symmetry of
+second derivatives. For `p = ∞`, use convergence in every finite local Sobolev exponent
+`q ≥ k + 1`, rather than claiming convergence of derivatives in `L^∞`.
 Deduce: the pullback of a closed form is weakly closed; for closed oriented `M`,
 `f ∈ W^{1,n}_loc(M, N)` and a `C¹` `V`-valued `(n−1)`-form `η` on `N`,
 `∫_M f^♯(dη) = 0` in `V`.
@@ -1633,7 +1644,8 @@ equivalent norms. No embedding-independent global space for arbitrary Banach tar
 
 Prove that for `p > n` every element of `W^{1,p}_ι(M, N)` has a continuous representative, which
 lies in `W^{1,p}_loc(M, N)` after composing with `ι⁻¹`, so `W^{1,p}_ι(M, N)` is the set of
-continuous members of the class with `‖Df‖ ∈ Lᵖ(M)`.
+continuous members of the class with `‖Df‖ ∈ Lᵖ(M)` (for compact targets embedded in a
+Euclidean space, the Sobolev embedding step of Hajłasz 2009, proof of Thm 2.1, p. 188).
 
 **Checks.**
 
@@ -1647,12 +1659,13 @@ the continuous representative takes values in `ι(N)` everywhere.
 
 ### 10.3 Density of smooth maps for `p ≥ n`
 
-Prove that for `n ≤ p < ∞` the maps `ι ∘ g`, `g : M → N` smooth, are dense in `W^{1,p}_ι(M, N)`.
-For a compact finite-dimensional target and a smooth embedding `ι : N → ℝᵐ` this is
-Schoen–Uhlenbeck's theorem (Hajłasz 2009, Thm 2.1, p. 188, and its proof for `p = n`):
-every `u ∈ W^{1,p}(M; ℝᵐ)` with `u(x) ∈ ι(N)` for almost every `x` is the limit of `ι ∘ g_j`
-for smooth `g_j : M → N`, with `ι ∘ g_j → u` and `D(ι ∘ g_j) → Du` in `Lᵖ` on every compact
-subset of every chart (`exists_smooth_approx_of_ae_mem_range`). Route: for `p > n`,
+Prove that for `n ≤ p < ∞` the maps `ι ∘ g`, `g : M → N` smooth, are dense in `W^{1,p}_ι(M, N)`
+(`exists_smooth_approx_of_controlledRetraction`, with convergence in `Lᵖ` on every compact
+subset of every chart). For a compact finite-dimensional target and a smooth embedding
+`ι : N → ℝᵐ` this is Schoen–Uhlenbeck's theorem (Hajłasz 2009, Thm 2.1, p. 188, and its proof
+for `p = n`): every `u ∈ W^{1,p}(M; ℝᵐ)` with `u(x) ∈ ι(N)` for almost every `x` is the
+limit of `ι ∘ g_j` for smooth `g_j : M → N`, with `ι ∘ g_j → u` and `D(ι ∘ g_j) → Du` in `Lᵖ`
+on every compact subset of every chart (`exists_smooth_approx_of_ae_mem_range`). Route: for `p > n`,
 §10.2 and §9.3. For `p = n ≥ 1`, mollify `u` with a partition
 of unity subordinate to finitely many charts; by the oscillation bound of §2.3,
 `dist(u_ε(x), ι(N)) ≤ ⨍ |u_ε(x) − u(z)| dz ≤ C sup_x ‖Du‖_{Lⁿ(B_{Cε}(x))} → 0` uniformly in `x`,
@@ -1676,7 +1689,8 @@ zero-dimensional compact source is finite and requires no approximation argument
 For a compact finite-dimensional second-countable `N` and any smooth Euclidean embedding
 `ι : N → F`, prove that the intrinsic local homogeneous class of §5.4, the intrinsic global
 homogeneous class on compact `M`, and the maps represented in `W^{1,p}_ι(M, N)` agree modulo
-almost-everywhere equality. The distance-value term is automatic for a compact target.
+almost-everywhere equality (Convent–Van Schaftingen, Prop. 1.6, p. 6, and Prop. 2.6, p. 11, for
+closed and isometric embeddings). The distance-value term is automatic for a compact target.
 For the tangent norm induced by `ι`, prove
 `D(ι ∘ u) = dι_u ∘ Du` and `‖D(ι ∘ u)‖ = ‖Du‖` almost everywhere. Other compatible target
 norms on compact `N` give equivalent energy norms and the same membership.
@@ -1701,8 +1715,8 @@ and derivative bounds needed for that embedding, as the `sinh` example of §10.1
 - At `p > dim M`, §10.2 gives a continuous representative and §5.4 identifies it with the
   continuous class of §4.2.
 
-*Needs:* §2.1, §4.7–§4.8, §5.4, §9.2, §10.1–§10.3; Convent–Van Schaftingen's embedding
-comparison, specialized to compact targets.
+*Needs:* §2.1, §4.7–§4.8, §5.4, §9.2, §10.1–§10.3; Convent–Van Schaftingen, Prop. 1.6, p. 6,
+and Prop. 2.6, p. 11.
 
 ### Examples
 
@@ -1746,7 +1760,8 @@ integrals converge by §8.1, since `f_j^♯ω → f^♯ω` in `L¹`.
 For `u ∈ W^{1,n}_ι(M, N)`, with the pullback `u^♯ω = u^*(π^*ω)` of §8.1 taken extrinsically
 (well defined by tangency, §10.1), define `deg u = ∫_M u^♯ω` for an `n`-form `ω` on `N` with
 `∫_N ω = 1`. Prove that it does not depend on `ω` or `ι`,
-that it is an integer, that it is locally constant on `W^{1,n}_ι(M, N)`, that it equals the
+that it is an integer, that it is locally constant on `W^{1,n}_ι(M, N)` (the integral degree
+and its continuity in `W^{1,n}`: Hajłasz 2009, proof of Thm 2.3, p. 190), that it equals the
 degree of every smooth map close enough to `u` in `W^{1,n}` (which exist by §10.3), and that it
 equals `deg u` of §11.1 for continuous `u`.
 
@@ -1789,7 +1804,7 @@ Degrees of `z ↦ zᵏ` and of the antipodal map of `Sⁿ` computed as `∫ J`; 
 
 ### Dependencies
 
-Layers 8–10; DifferentialGeometry 10.4–10.5.
+§6.3, Layers 8–10; DifferentialGeometry 10.4–10.5.
 
 ## Downstream consumers
 
@@ -1797,7 +1812,6 @@ Layers 8–10; DifferentialGeometry 10.4–10.5.
   `W^{1,n}_loc(M, N)`, `Df`, `‖Df‖` and `J_f`, citing §1.2, §3.1, §3.3, §4.2–§4.6, §5.1–§5.3,
   §6.1–§6.3 and §7.1. Its Parts II and III (Reshetnyak's theory; the cohomological bounds of
   Bonk–Heinonen, Prywes and Heikkilä–Pankka) consume Layers 8 and 11.
-- **PseudoholomorphicCurveAnalysis** uses §1.1's generalized classes and the comparison of §7.2.
 - A roadmap on harmonic maps between Riemannian manifolds would start from Layers 5, 9 and 10.
 
 ## References

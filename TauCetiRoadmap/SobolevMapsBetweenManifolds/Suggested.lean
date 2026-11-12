@@ -17,12 +17,14 @@ and a Banach-valued target.
 
 Stated here: the Euclidean class with its sheaf property, chain rule for continuous inner maps,
 change of variables and Morrey continuity (§1.2, §2.1(a), §2.2, §2.4); the class
-`W^{1,p}_loc(M, N)` with existence and uniqueness of the weak differential, `C¹` members,
-pullback by submersions and the chain rule for postcomposition (§4.2–§4.6); colocal weak
+`W^{1,p}_loc(M, N)` with its independence of the charts, existence and uniqueness of the weak
+differential, `C¹` members, locality, pullback by submersions and the chain rule for
+postcomposition (§4.2–§4.6); colocal weak
 differentiability with existence and uniqueness of its differential (§4.7–§4.8); the oriented
 Jacobian of a linear map (§6.1) and local integrability of the Jacobian of a map for `p ≥ n`
 (§6.3); the characterization through split immersions (§9.1);
-intrinsic relative smooth approximation (§9.3); Schoen–Uhlenbeck density for compact
+intrinsic relative smooth approximation (§9.3); density for Banach targets with a closed
+retractive embedding and controlled retraction data, and Schoen–Uhlenbeck density for compact
 finite-dimensional targets (§10.3); and the failure of density at `x/|x|` (§11.3).
 
 Not statable at the pins:
@@ -33,9 +35,6 @@ Not statable at the pins:
 * commutation of the pullback of `V`-valued forms with the weak exterior derivative (§8.3):
   `TauCeti.integralTopForm` integrates scalar top forms only, and the `V`-valued integral that
   defines the weak exterior derivative is the target of §8.2;
-* density for a Banach target with a controlled retractive embedding (§10.3, general form):
-  the controlled retraction data of Layer 10 (a smooth retraction on a tube of fixed width
-  with a global `C¹` extension of bounded derivative) have no carrier at the pins;
 * the degree of `W^{1,n}` maps and its integral formula (Layer 11): it is defined through the
   nearest-point retraction of RiemannianGeometry R6 and compared with the degree of continuous
   maps of DifferentialGeometry 10.5, and neither is at the pins; Tau Ceti has only
@@ -65,7 +64,7 @@ def MemLpLoc (p : ℝ≥0∞) (U : Set E) (u : E → F) : Prop :=
   ∀ K : Set E, K ⊆ U → IsCompact K → MemLp u p (volume.restrict K)
 
 /-- §1.2: the first-order local Sobolev class `W^{1,p}_loc(Ω; F)`: `u` and some weak derivative
-of `u` on `Ω` are locally `Lᵖ`. This is the case `k = 1` of the order-`k` class of §1.1. -/
+of `u` on `Ω` are locally `Lᵖ`. -/
 def MemW1pLoc (p : ℝ≥0∞) (Ω : Opens E) (u : E → F) : Prop :=
   MemLpLoc p Ω u ∧
     ∃ Du : E → E →L[ℝ] F, TauCeti.HasWeakFDerivOn volume Ω u Du ∧ MemLpLoc p Ω Du
@@ -164,6 +163,17 @@ def HasWeakMFDeriv (f : M → N)
 
 variable [IsManifold 𝓘(ℝ, E) 1 M] [IsManifold 𝓘(ℝ, E') 1 N] [IsManifold 𝓘(ℝ, E'') 1 P]
 
+/-- §4.2: the class does not depend on the charts: a map is in it iff it is continuous and its
+representative in every pair of charts of the `C¹` maximal atlases of `M` and `N` is Sobolev on
+the open part of the source chart's target that the map sends into the target chart's source. -/
+theorem isSobolevMap_iff_forall_maximalAtlas [CompleteSpace E'] {p : ℝ≥0∞} {f : M → N} :
+    IsSobolevMap E E' p f ↔ Continuous f ∧
+      ∀ e ∈ IsManifold.maximalAtlas 𝓘(ℝ, E) 1 M, ∀ e' ∈ IsManifold.maximalAtlas 𝓘(ℝ, E') 1 N,
+        MemW1pLoc p ⟨interior ((e.extend 𝓘(ℝ, E)).target ∩
+            (e.extend 𝓘(ℝ, E)).symm ⁻¹' (f ⁻¹' e'.source)), isOpen_interior⟩
+          (e'.extend 𝓘(ℝ, E') ∘ f ∘ (e.extend 𝓘(ℝ, E)).symm) := by
+  sorry
+
 /-- §4.3: every member of the class has a weak differential. -/
 theorem IsSobolevMap.exists_hasWeakMFDeriv [CompleteSpace E']
     [T2Space M] [SecondCountableTopology M]
@@ -186,6 +196,13 @@ theorem isSobolevMap_of_contMDiff [CompleteSpace E'] {f : M → N}
     (hf : ContMDiff 𝓘(ℝ, E) 𝓘(ℝ, E') 1 f)
     (p : ℝ≥0∞) (hp : 1 ≤ p) :
     IsSobolevMap E E' p f ∧ HasWeakMFDeriv E E' f (fun x => mfderiv 𝓘(ℝ, E) 𝓘(ℝ, E') f x) := by
+  sorry
+
+/-- §4.5: locality: a map whose restrictions to the sets of an open cover of `M` are in the
+class is in the class; its continuity follows from the cover. -/
+theorem IsSobolevMap.of_locally [CompleteSpace E'] {p : ℝ≥0∞} {f : M → N}
+    (h : ∀ x, ∃ V : Opens M, x ∈ V ∧ IsSobolevMap E E' p (f ∘ ((↑) : V → M))) :
+    IsSobolevMap E E' p f := by
   sorry
 
 /-- §4.6(b): postcomposition with a `C¹` map, with no bound on its derivative. -/
@@ -429,16 +446,48 @@ section Density
 
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
   [MeasureSpace E] [BorelSpace E] [(volume : Measure E).IsAddHaarMeasure]
-  {E' : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
+  {E' : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E']
   {M : Type*} [TopologicalSpace M] [ChartedSpace E M]
   {N : Type*} [TopologicalSpace N] [ChartedSpace E' N]
+  {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
+
+/-- §10.3: let `M` be closed of dimension `n`, and let `ι : N → F` be a smooth embedding with
+closed image of a Banach manifold into a Banach space, with controlled retraction data: a map
+`r` that is smooth on an open `U` containing the tube `{z | dist(z, ι(N)) < δ}`, with
+`r ∘ ι = id`, and a `C¹` map `Q : F → F` (the map `Π` of Layer 10) with bounded derivative and
+`Q = ι ∘ r` on the tube of width `δ / 2`; the retraction makes `ι` a split immersion. For
+`n ≤ p < ∞`, every `u ∈ W^{1,p}(M; F)` with values in `ι(N)` almost everywhere is a `W^{1,p}`
+limit of `ι ∘ g_j` with `g_j : M → N` smooth, the convergence of values and weak derivatives
+being read in `Lᵖ` on compact subsets of charts. -/
+theorem exists_smooth_approx_of_controlledRetraction [CompleteSpace E'] [CompleteSpace F]
+    [IsManifold 𝓘(ℝ, E) ∞ M] [CompactSpace M] [T2Space M] [IsManifold 𝓘(ℝ, E') ∞ N] [T2Space N]
+    (ι : N → F) (hι : ContMDiff 𝓘(ℝ, E') 𝓘(ℝ, F) ∞ ι) (hιemb : Topology.IsClosedEmbedding ι)
+    {U : Set F} (hU : IsOpen U) {r : F → N} (hr : ContMDiffOn 𝓘(ℝ, F) 𝓘(ℝ, E') ∞ r U)
+    (hrι : ∀ y, r (ι y) = y) {δ : ℝ} (hδ : 0 < δ)
+    (hT : {z | Metric.infDist z (range ι) < δ} ⊆ U)
+    {Q : F → F} (hQ : ContDiff ℝ 1 Q) (hQb : ∃ C, ∀ z, ‖fderiv ℝ Q z‖ ≤ C)
+    (hQr : ∀ z, Metric.infDist z (range ι) < δ / 2 → Q z = ι (r z))
+    {p : ℝ≥0∞} (hnp : (finrank ℝ E : ℝ≥0∞) ≤ p) (hp : p < ⊤)
+    {u : M → F} (hu : MemW1pLocM E p u) (hN : TauCeti.IsNullSet 𝓘(ℝ, E) {x | u x ∉ range ι}) :
+    ∃ g : ℕ → M → N, (∀ j, ContMDiff 𝓘(ℝ, E) 𝓘(ℝ, E') ∞ (g j)) ∧
+      ∀ (x₀ : M) (K : Set E), IsCompact K → K ⊆ (extChartAt 𝓘(ℝ, E) x₀).target →
+        ∃ Du : E → E →L[ℝ] F,
+          TauCeti.HasWeakFDerivOn volume
+              ⟨interior (extChartAt 𝓘(ℝ, E) x₀).target, isOpen_interior⟩
+              (u ∘ (extChartAt 𝓘(ℝ, E) x₀).symm) Du ∧
+            Tendsto (fun j => eLpNorm (ι ∘ g j ∘ (extChartAt 𝓘(ℝ, E) x₀).symm -
+              u ∘ (extChartAt 𝓘(ℝ, E) x₀).symm) p (volume.restrict K)) atTop (𝓝 0) ∧
+            Tendsto (fun j => eLpNorm
+              (fun y => fderiv ℝ (ι ∘ g j ∘ (extChartAt 𝓘(ℝ, E) x₀).symm) y - Du y) p
+              (volume.restrict K)) atTop (𝓝 0) := by
+  sorry
 
 /-- §10.3, Schoen–Uhlenbeck: on a compact source of dimension `n`, for a compact target smoothly
 embedded in `ℝᵐ` and `n ≤ p < ∞`, every `u ∈ W^{1,p}(M; ℝᵐ)` with values in the image almost
 everywhere is a `W^{1,p}` limit of `ι ∘ g_j` with `g_j : M → N` smooth, the convergence of values
 and weak derivatives being read in `Lᵖ` on compact subsets of charts (Hajłasz 2009, Thm 2.1,
 p. 188, and its proof for `p = n`). -/
-theorem exists_smooth_approx_of_ae_mem_range
+theorem exists_smooth_approx_of_ae_mem_range [FiniteDimensional ℝ E']
     [IsManifold 𝓘(ℝ, E) ∞ M] [CompactSpace M] [T2Space M]
     [IsManifold 𝓘(ℝ, E') ∞ N] [CompactSpace N] [T2Space N] {m : ℕ}
     (ι : N → EuclideanSpace ℝ (Fin m))
