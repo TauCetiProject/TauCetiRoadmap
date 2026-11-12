@@ -292,7 +292,8 @@ For a star homomorphism `π : C(K, ℂ) →⋆ₙₐ[ℂ] (H →L[ℂ] H)`, not 
 essential subspace `H_π` as the range of `π(1)`, the essential representation `π₀` on `H_π` by
 restriction, and the spectral field `P_π(B) = J P_{π₀}(B) J*` with integral `f ↦ J f(P_{π₀}) J*`,
 where `J : H_π → H` is the inclusion and `P_{π₀}` is the spectral measure of the unital
-representation `π₀`.
+representation `π₀`. The source theorem is the unital one, Conway1990, Theorem IX.1.14, applied to
+`π₀` on `H_π`; the laws below transport it along `J`.
 
 - `π(1)` is an orthogonal projection, since `π(1)² = π(1)` and `π(1)* = π(1)`, so `H_π` is closed and
   complete; `π(f) = π(1) π(f) = π(f) π(1)` for every `f`.
@@ -319,10 +320,13 @@ representation `π₀`.
 For a continuous map `φ : K → L` of compact Hausdorff spaces, prove that the pushforward
 `P.map φ` of a projection-valued measure with regular diagonal measures again has regular diagonal
 measures, since `(P.map φ)` has diagonal measures `(μ_ξ).map φ` and a finite inner regular measure
-on a compact Hausdorff space is regular. Prove naturality: the spectral measure of
+on a compact Hausdorff space is regular (Mathlib
+`MeasureTheory.Measure.InnerRegular.map_of_continuous`). Prove naturality: the spectral measure of
 `π ∘ φ*`, where `φ*(g) = g ∘ φ`, is `P_π.map φ`, because both have regular diagonal measures and
 the change of variables gives `g(P_π.map φ) = (g ∘ φ)(P_π) = π(g ∘ φ)` for continuous `g`, so
-§1.1 applies.
+§1.1 applies. For multiplication `A` by the coordinate on `L²(ℝ, μ)` and real `f`, Teschl2009,
+(3.65)–(3.67), pp. 100–101, lines 4183–4194, state the change of variables and the naturality
+`P_{f(A)}(Ω) = χ_{f⁻¹(Ω)}`.
 
 *Needs:* §1.1; Tau Ceti `TauCeti.ProjValMeasure.map`, `TauCeti.ProjValMeasure.map_diag`,
 `TauCeti.ProjValMeasure.integral_map`, `TauCeti.BoundedBorelFunction.compStarAlgHom'`; Mathlib
@@ -342,18 +346,22 @@ For a family `(H_i)_{i ∈ I}` and operators `T_i` on `H_i` with `‖T_i‖ ≤ 
 Hilbert direct sum `⊕ T_i` on `lp (fun i => H i) 2` by `(⊕ T_i x)_i = T_i x_i`.
 
 - `⊕ T_i` is a bounded operator with `‖⊕ T_i‖ = sup_i ‖T_i‖`, since `‖T_i x_i‖ ≤ M ‖x_i‖` keeps the
-  image in `ℓ²`.
+  image in `ℓ²` (Teschl2009, Problem 2.26, p. 80, line 3314, for countable families).
 - `⊕ T_i` sends the single vector `v` at `i` to the single vector `T_i v` at `i`.
 - `⊕ 1 = 1`, and `⊕` is additive, homogeneous and multiplicative in the family, with
-  `(⊕ T_i)* = ⊕ T_i*`.
+  `(⊕ T_i)* = ⊕ T_i*` (Teschl2009, Problem 2.24, p. 80, line 3311, for countable families).
 
 Prove unitary transport: for a linear isometric equivalence `U : H ≃ₗᵢ[ℂ] H′` and
-`π′ = U.conjStarAlgEquiv ∘ π`, `P_{π′}(B) = U P_π(B) U⁻¹` and `f(P_{π′}) = U f(P_π) U⁻¹`. Prove reducing
+`π′ = U.conjStarAlgEquiv ∘ π`, `P_{π′}(B) = U P_π(B) U⁻¹` and `f(P_{π′}) = U f(P_π) U⁻¹`
+(Teschl2009, p. 97, lines 4009–4012, for unitarily equivalent self-adjoint operators). Prove reducing
 restriction: if a closed subspace `V` is invariant under every `π(f)`, then it is invariant under
-every `P_π(B)`, and the spectral measure of the restricted representation is the restriction of
-`P_π`. Prove direct sums: for unital `π_i` on `H_i`, the direct sum `(⊕ π_i)(f) = ⊕ π_i(f)` is a
-unital star homomorphism (`‖π_i(f)‖ ≤ ‖f‖`), its spectral measure is `B ↦ ⊕ P_{π_i}(B)` and its
-integral is `f ↦ ⊕ f(P_{π_i})`.
+every `P_π(B)` (the self-adjoint case is Teschl2009, Lemma 4.5 with Corollary 4.6, p. 116,
+lines 4926 and 4945), and the spectral measure of the restricted representation is the
+restriction of `P_π`. Prove direct sums: for unital `π_i` on `H_i`, the direct sum
+`(⊕ π_i)(f) = ⊕ π_i(f)` is a unital star homomorphism (`‖π_i(f)‖ ≤ ‖f‖`), its spectral measure is
+`B ↦ ⊕ P_{π_i}(B)` and its integral is `f ↦ ⊕ f(P_{π_i})`; for countably many self-adjoint
+operators, Teschl2009, Theorem 2.23, p. 79, line 3257, states the corresponding identity for
+resolvents: the resolvent of the direct sum is the direct sum of the resolvents.
 
 *Needs:* §1.1; V2.BorelCalculus (commutant law, for reducing restriction); Mathlib `lp`,
 `lp.single`, `IsHilbertSum`, `LinearIsometryEquiv.conjStarAlgEquiv`.
@@ -373,12 +381,15 @@ integral is `f ↦ ⊕ f(P_{π_i})`.
 
 For compact `K ⊆ ℂ` and unital `π`, let `T = π(z)` with `z` the coordinate. Prove that `T` is normal,
 `σ(T) ⊆ K`, and `π = cfcHom(T) ∘ ρ`, where `ρ : C(K, ℂ) → C(σ(T), ℂ)` is restriction; the two star
-homomorphisms agree on the coordinate and are continuous. Prove concentration: `P_π(K \ σ(T)) = 0`,
+homomorphisms agree on the coordinate and are continuous (Mathlib `AlgHom.spectrum_apply_subset`
+with `ContinuousMap.spectrum_eq_range` gives `σ(T) ⊆ K`, and `ContinuousMap.starAlgHom_ext_map_X`
+the factorisation). Prove concentration: `P_π(K \ σ(T)) = 0`,
 by §1.3 applied to the inclusion `σ(T) → K`; and a relatively open `U ⊆ K` meeting `σ(T)` has
 `P_π(U) ≠ 0`, since a continuous `f` with values in `[0, 1]`, supported in `U`, with `f(λ) = 1` at some
 `λ ∈ σ(T)` has `‖f(T)‖ = 1` by isometry of the continuous calculus but `f(P_π) = 0` if `P_π(U) = 0`. Full support
 of the spectral measure of a normal operator on its spectrum is the case `K = σ(T)`; on a larger
-`K` the support is `σ(T)`, not `K`.
+`K` the support is `σ(T)`, not `K` (Teschl2009, Theorem 3.8 and Corollary 3.9, p. 97, lines 4015
+and 4031, for self-adjoint `T`).
 
 *Needs:* §1.3; V2.BorelCalculus; Mathlib `AlgHom.spectrum_apply_subset`,
 `ContinuousMap.spectrum_eq_range`, `ContinuousMap.starAlgHom_ext_map_X`, `cfcHom`.
@@ -405,8 +416,11 @@ the functional `Λ`.
 
 Prove the Goldstine limit comparison: for bounded Borel `f` there is a net `g_α` of continuous
 functions with `‖g_α‖ ≤ sup |f|` and `∫ g_α dμ → ∫ f dμ` for every finite regular `μ` (Goldstine's
-theorem applied to `ι(f)`), and then `π(g_α) → f(P_π)` in the weak operator topology, because
-`⟪ξ, π(g_α) η⟫ = ∫ g_α dμ_(ξ,η)` and the polarised measures of `P_π` are finite and regular.
+theorem, Tau Ceti `NormedSpace.closure_image_inclusionInDoubleDualWeak_closedBall`, applied to
+`ι(f)`), and then `π(g_α) → f(P_π)` in the weak operator topology, because
+`⟪ξ, π(g_α) η⟫ = ∫ g_α dμ_(ξ,η)` and the polarised measures of `P_π` are finite and regular. These
+statements specialise supplied results rather than a source theorem: `ι` and its norm the Riesz
+isometry of BanachSpaceTheory §5.4, the comparison Goldstine's theorem.
 
 *Needs:* §1.1; BanachSpaceTheory §5.4; Tau Ceti
 `NormedSpace.closure_image_inclusionInDoubleDualWeak_closedBall`; V2.BorelCalculus; Mathlib
@@ -456,9 +470,11 @@ eigenspace of `λ`, and prove:
 - the eigenspaces of distinct eigenvalues are orthogonal, `T* x = conj(λ) x` whenever `T x = λ x`,
   and `H` is the orthogonal sum of the kernel of `T` and the closure of the sum of the nonzero
   eigenspaces;
-- the nonzero eigenvalues are countable, have finite multiplicity and accumulate only at `0`;
+- the nonzero eigenvalues are countable, have finite multiplicity and accumulate only at `0`
+  (Teschl2009, Theorem 6.6, p. 136, line 5757, for self-adjoint `T`);
 - `Σ_{λ ∈ F} λ P_λ → T` in operator norm as the finite set `F` exhausts the nonzero eigenvalues,
-  with `‖T − Σ_{λ ∈ F} λ P_λ‖ = sup_{λ ∉ F} |λ|` (the supremum over an empty tail being `0`).
+  with `‖T − Σ_{λ ∈ F} λ P_λ‖ = sup_{λ ∉ F} |λ|` (the supremum over an empty tail being `0`); the
+  expansion is Teschl2009, (6.5), p. 136, line 5765, for self-adjoint `T`.
 
 *Needs:* Tau Ceti `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`; Mathlib
 `ContinuousLinearMap.orthogonalComplement_iSup_eigenspaces_eq_bot`,
@@ -541,8 +557,8 @@ Let `P = P_A`. Prove:
 
 - `P(B)` commutes with `R(z)` for every Borel `B` and nonreal `z`, maps the domain of `A` into itself,
   and `A P(B) x = P(B) A x` there; both follow from `R(z) = r_z(P)` and commutativity of the integral.
-- The range of `P(B)` reduces `A` in the sense of `LinearPMap.IsReducing`, and the restriction of
-  `A` to it is self-adjoint.
+- The range of `P(B)` reduces `A` in the sense of `LinearPMap.IsReducing` (Teschl2009,
+  Corollary 4.6, p. 116, line 4945), and the restriction of `A` to it is self-adjoint.
 - A Borel set `B ⊆ ℝ` of resolvent points of `A`, that is, with `(s : ℂ) ∉ LinearPMap.spectrum A`
   for every `s ∈ B`, has `P(B) = 0` (Teschl2009, Corollary 3.9, p. 97, line 4031).
 - If `B ∩ (λ − δ, λ + δ) = ∅` for real `λ` and `δ > 0`, then `λ` is a resolvent point of the
