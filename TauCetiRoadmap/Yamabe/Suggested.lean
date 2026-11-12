@@ -53,7 +53,7 @@ energies and the cutoff-bubble estimates (Y2.3).
 Not statable at the pins, hence not stated: the identity `m = 2A` of Y6 between the ADM mass of
 the Green blow-up and the constant term of the Green function, which needs the ADM mass of an
 asymptotically Euclidean end (PositiveMass 0.2), absent at the pin. The intermediate
-constructions of Y1, Y2.4, Y4, Y6, Y8.1–Y8.3 and Y10 are specified in the README only.
+constructions of Y0.6, Y1, Y2.4, Y4, Y6, Y8.1–Y8.3 and Y10 are specified in the README only.
 -/
 
 @[expose] public section
@@ -111,25 +111,31 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimension
   {M : Type*} [TopologicalSpace M] [ChartedSpace H M]
 
 /-- Y0.5, the converse of the Weyl–Schouten theorem in dimension at least four (Lee–Parker,
-p. 43): a smooth metric whose Weyl tensor vanishes everywhere is locally conformally flat. Tau
-Ceti's `Bundle.ContMDiffRiemannianMetric.IsLocallyConformallyFlat.weylTensor_eq_zero` is the
-forward implication. -/
+p. 43): a smooth metric whose Weyl tensor vanishes everywhere is locally conformally flat. The
+installed metric is `g`, by `hg`. Tau Ceti's
+`Bundle.ContMDiffRiemannianMetric.IsLocallyConformallyFlat.weylTensor_eq_zero` is the forward
+implication. -/
 theorem isLocallyConformallyFlat_of_weylTensor_eq_zero [T2Space M] [IsManifold I ∞ M]
+    [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
+    [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
     (hn : 4 ≤ finrank ℝ E) (g : ContMDiffRiemannianMetric I ∞ E (fun x : M ↦ TangentSpace I x))
-    (hW : ∀ x, (letI : RiemannianBundle (fun x : M ↦ TangentSpace I x) := ⟨g.toRiemannianMetric⟩;
-      (CovariantDerivative.leviCivitaConnection I M).weylTensor x) = 0) :
+    (hg : RiemannianBundle.g = g.toRiemannianMetric)
+    (hW : ∀ x, (CovariantDerivative.leviCivitaConnection I M).weylTensor x = 0) :
     g.IsLocallyConformallyFlat := by
   sorry
 
 /-- Y0.5, the converse of the Weyl–Schouten theorem in dimension three, where the Weyl tensor
-vanishes identically: a smooth metric whose Cotton tensor vanishes everywhere is locally
-conformally flat. Tau Ceti's
+vanishes identically (Cotton, *Sur les variétés à trois dimensions*, 1899, Chapter III, n° 18,
+p. 412): a smooth metric whose Cotton tensor vanishes everywhere is locally conformally flat. The
+installed metric is `g`, by `hg`. Tau Ceti's
 `Bundle.ContMDiffRiemannianMetric.IsLocallyConformallyFlat.cottonTensor_eq_zero` is the forward
 implication. -/
 theorem isLocallyConformallyFlat_of_cottonTensor_eq_zero [T2Space M] [IsManifold I ∞ M]
+    [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
+    [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
     (hn : finrank ℝ E = 3) (g : ContMDiffRiemannianMetric I ∞ E (fun x : M ↦ TangentSpace I x))
-    (hC : ∀ x, (letI : RiemannianBundle (fun x : M ↦ TangentSpace I x) := ⟨g.toRiemannianMetric⟩;
-      (CovariantDerivative.leviCivitaConnection I M).cottonTensor x) = 0) :
+    (hg : RiemannianBundle.g = g.toRiemannianMetric)
+    (hC : ∀ x, (CovariantDerivative.leviCivitaConnection I M).cottonTensor x = 0) :
     g.IsLocallyConformallyFlat := by
   sorry
 
@@ -223,7 +229,8 @@ theorem exists_rescale_scalarCurvature_eq_const [T2Space M] [SecondCountableTopo
       ∀ x, (g.rescale f hf hf_pos).scalarCurvature x = c := by
   sorry
 
-/-- Y9.2, uniqueness in a conformal class of nonpositive Yamabe invariant: on a closed connected
+/-- Y9.2, uniqueness in a conformal class of nonpositive Yamabe invariant (Brendle–Marques,
+*Recent progress on the Yamabe problem*, arXiv:1010.4960v1, §1, p. 3): on a closed connected
 manifold of dimension `n ≥ 3`, two unit-volume metrics `f₁ g` and `f₂ g` of constant scalar
 curvature, the first nonpositive, coincide. The sign of the second constant is then forced. -/
 theorem eq_of_scalarCurvature_rescale_eq_of_nonpos [T2Space M] [SecondCountableTopology M]
@@ -240,16 +247,19 @@ theorem eq_of_scalarCurvature_rescale_eq_of_nonpos [T2Space M] [SecondCountableT
   sorry
 
 /-- Y9.3, the constant-scalar-curvature metrics conformal to a positive Einstein metric (Obata,
-*The conjectures on conformal transformations of Riemannian manifolds*, 1971): on a closed
-connected manifold of dimension `n ≥ 3` with `Ric = κ g`, `κ > 0`, not conformal to the round
-sphere, a conformal rescaling `f g` of constant scalar curvature has constant `f`. -/
+*The conjectures on conformal transformations of Riemannian manifolds*, 1971, uncertified): on a
+closed connected manifold of dimension `n ≥ 3` with `Ric = κ g`, `κ > 0`, not conformal to the
+round sphere, a conformal rescaling `f g` of constant scalar curvature has constant `f`. The
+installed metric is `g`, by `hg`. -/
 theorem exists_forall_eq_of_ricciTensor_eq_smul [T2Space M] [SecondCountableTopology M]
     [CompactSpace M] [ConnectedSpace M] [I.Boundaryless] [IsManifold I ∞ M]
     {n : ℕ} (hE : finrank ℝ E = n) (hn : 3 ≤ n)
-    (g : ContMDiffRiemannianMetric I ∞ E (fun x : M ↦ TangentSpace I x)) {κ : ℝ} (hκ : 0 < κ)
+    [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
+    [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
+    (g : ContMDiffRiemannianMetric I ∞ E (fun x : M ↦ TangentSpace I x))
+    (hg : RiemannianBundle.g = g.toRiemannianMetric) {κ : ℝ} (hκ : 0 < κ)
     (hRic : ∀ x (v w : TangentSpace I x),
-      (letI : RiemannianBundle (fun x : M ↦ TangentSpace I x) := ⟨g.toRiemannianMetric⟩;
-        (CovariantDerivative.leviCivitaConnection I M).ricciTensor x v w) = κ * g.inner x v w)
+      (CovariantDerivative.leviCivitaConnection I M).ricciTensor x v w = κ * g.inner x v w)
     (hconf : ¬ ∃ (Φ : M ≃ₘ⟮I, 𝓡 n⟯ Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1)
       (h : M → ℝ), (∀ x, 0 < h x) ∧ ∀ x (v w : TangentSpace I x),
         ⟪mfderiv I (𝓡 n) Φ x v, mfderiv I (𝓡 n) Φ x w⟫_ℝ = h x * g.inner x v w)
@@ -294,10 +304,10 @@ variable {n : ℕ} {M : Type*} [MetricSpace M]
   [IsRiemannianManifold (𝓡 n) M] [ConnectedSpace M]
 
 /-- Y9.3, Obata's theorem (Obata, *Certain conditions for a Riemannian manifold to be isometric
-with a sphere*, 1962): a complete connected Riemannian manifold of dimension `n ≥ 2` carrying a
-nonzero smooth `f` with `Hess f = -f g` is isometric to the unit sphere of `ℝⁿ⁺¹`. The case
-`Hess f = -k f g`, `k > 0`, is this one for the metric `k g`. The order-one and order-two
-Riemannian-bundle instances are the ones the Hessian and curvature read. -/
+with a sphere*, 1962, uncertified): a complete connected Riemannian manifold of dimension `n ≥ 2`
+carrying a nonzero smooth `f` with `Hess f = -f g` is isometric to the unit sphere of `ℝⁿ⁺¹`.
+The case `Hess f = -k f g`, `k > 0`, is this one for the metric `k g`. The order-one and
+order-two Riemannian-bundle instances are the ones the Hessian and curvature read. -/
 theorem nonempty_riemannianIsometry_sphere_of_hessian_eq [CompleteSpace M] (hn : 2 ≤ n)
     {f : M → ℝ} (hf : ContMDiff (𝓡 n) 𝓘(ℝ) ∞ f) (hf₀ : ∃ x, f x ≠ 0)
     (hH : ∀ x (v w : TangentSpace (𝓡 n) x),
@@ -306,9 +316,10 @@ theorem nonempty_riemannianIsometry_sphere_of_hessian_eq [CompleteSpace M] (hn :
       (Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1)) := by
   sorry
 
-/-- Y9.3, the equality case of the Lichnerowicz bound: a closed connected Riemannian manifold of
-dimension `n ≥ 2` with `Ric ≥ (n - 1) g` and a nonzero smooth `f` with `Δ⁺ f = n f` is isometric to
-the unit sphere of `ℝⁿ⁺¹`. RiemannianGeometry R7.0 gives `Hess f = -f g`, and
+/-- Y9.3, the equality case of the Lichnerowicz bound (Cavalletti–Mondino–Semola,
+arXiv:1910.06637v3, Theorem 1.1, p. 2, after Obata 1962): a closed connected Riemannian manifold
+of dimension `n ≥ 2` with `Ric ≥ (n - 1) g` and a nonzero smooth `f` with `Δ⁺ f = n f` is
+isometric to the unit sphere of `ℝⁿ⁺¹`. RiemannianGeometry R7.0 gives `Hess f = -f g`, and
 `nonempty_riemannianIsometry_sphere_of_hessian_eq` concludes; the bound itself is Tau Ceti's
 `TauCeti.Manifold.finrank_mul_le_of_laplaceBeltrami_eq_neg_mul`. -/
 theorem nonempty_riemannianIsometry_sphere_of_laplaceBeltrami_eq [CompactSpace M]
