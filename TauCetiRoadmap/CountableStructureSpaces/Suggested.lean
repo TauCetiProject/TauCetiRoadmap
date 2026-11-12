@@ -18,14 +18,13 @@ public import TauCeti.ModelTheory.Scott.Stabilization
 public import TauCeti.Topology.Algebra.Group.Perm
 
 /-!
-# Spaces of countable structures and the López–Escobar theorem: suggested signatures
+# Spaces of countable structures and the López–Escobar theorem: target signatures
 
 **`README.md` is the definitive roadmap document** — its narrative plan, standing conventions,
 layer-by-layer build (Layers 0–6), worked examples, coordination, and references are the
-specification. This file is **not** the roadmap and is **not exhaustive**: it records suggested
-Lean `sorry`-forms (allowed in this human-owned roadmap library) for *particular* milestones, so
-that contributors and reviewers converge on names and signatures; discharging every statement here
-neither finishes a layer nor the roadmap.
+specification. This file states target signatures for the central objects and the headline
+theorems against the pinned Mathlib and Tau Ceti APIs, with `sorry` proofs. It is **not
+exhaustive**: discharging every statement here neither finishes a layer nor the roadmap.
 
 Everything is stated over the pinned Tau Ceti library: the infinitary syntax and satisfaction
 (`FirstOrder.Language.BoundedFormulaInf`, `Sentenceω`, `SentenceInf.Realize`), back-and-forth
@@ -37,7 +36,7 @@ isomorphism and back-and-forth setoids, the permutation-group topology, and proj
 are proved in place: `isomorphismInvariant_modelsOf`, which CountableModelCounting consumes by
 name, and `orbitRank_le_scottHeight`, from the target `selfStabilizationOrdinal_le_scottHeight`.
 The PC sentence of a tree is recorded by its specification (`exists_pcSentence`); the
-README gives its explicit construction. Names and namespaces are provisional.
+README gives its explicit construction.
 -/
 
 @[expose] public section
