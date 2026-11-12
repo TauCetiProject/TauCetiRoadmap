@@ -254,6 +254,13 @@ Use its `ClosedSubmodule`-scoped real inner product and
 `ClosedSubmodule.mem_symplComp_iff`; the symplectic complement means vanishing imaginary
 inner product, not the complex orthogonal complement. Mathlib supplies the carrier and
 complement operations; the modular conjugation, unitary group and KMS theory are targets here.
+For V10.ModularTheory consume the Fourier inversion theorem `Continuous.fourierInv_fourier_eq`,
+for a continuous integrable function on a finite-dimensional real inner product space whose
+Fourier transform is integrable, with values in a complete complex normed space
+(`Mathlib/Analysis/Fourier/Inversion.lean`). For V11 consume the Lax–Milgram theorem
+`IsCoercive.continuousLinearEquivOfBilin`, for a coercive bounded real bilinear form on a
+complete real inner product space, not assumed symmetric
+(`Mathlib/Analysis/InnerProductSpace/LaxMilgram.lean`).
 
 **From Tau Ceti.** The Stone theorem in `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`;
 the measurability lemmas `ContinuousOn.aestronglyMeasurable_of_measure_ne_top` and
@@ -2963,7 +2970,9 @@ orthogonal projections onto K and iK for the real inner product `Re⟨·,·⟩`,
 `R=p+q`, `T=|p−q|`. Use the bounded real polar decomposition `p−q=JT` to construct J.
 Prove R and T are complex linear, `0≤R≤2`, both R and `2−R` are injective,
 `T=R^(1/2)(2−R)^(1/2)` is injective, and J is an antiunitary involution satisfying
-`JRJ=2−R`, `Jp=(1−q)J` and `J(K)=K.symplComp` (Rieffel–van Daele,
+`JRJ=2−R`, `Jp=(1−q)J` and `J(K)=K.symplComp`. Prove that J is the only antiunitary
+involution with `J(K)=K.symplComp` and `Re⟨ξ,Jξ⟩≥0` for every ξ∈K; for an antilinear J the
+sign condition on iK in Proposition 2.3 follows from the one on K (Rieffel–van Daele,
 Definition 2.1, Propositions 2.2–2.3 and 3.1). The polar decomposition is taken over ℝ;
 complex antilinearity of J is a conclusion.
 Own the scalar-restriction adapters used here: a bounded ℝ-linear map commuting with
@@ -3001,10 +3010,17 @@ no V12 theorem or unbounded-operator calculus is needed here.
 
 - For `K=ℝ⊂ℂ`, p and q are the real and imaginary coordinate projections, `R=T=1`,
   J is complex conjugation and `U_t=1`; `K.symplComp=K`, whereas its complex orthogonal
-  complement is zero.
+  complement is zero. The antiunitary involution `z↦−z̄` also maps K onto `K.symplComp`, but
+  `Re⟨1,−1⟩=−1<0`, so the sign condition excludes it.
 - On the Hilbert–Schmidt space `M₂(ℂ)`, put `h=diag(2/3,1/3)` and
   `K={x h^(1/2):x=x*}`. Then `R(e₁₂)=(2/3)e₁₂`, `R(e₂₁)=(4/3)e₂₁`, J is adjoint,
   and `U_t(e₁₂)=2^(it)e₁₂`; this pins the order of the two imaginary powers.
+- In the same model take `ξ=η=(e₁₂+e₂₁)h^(1/2)=3^(−1/2)e₁₂+(2/3)^(1/2)e₂₁∈K`. Then
+  `f(z)=(1/3)2^(iz)+(2/3)2^(−iz)` is bounded on `−1≤Im z≤0`, `f(t)=⟨η,U_tξ⟩`,
+  `f(t−i)=(2/3)2^(it)+(1/3)2^(−it)=⟨U_tξ,η⟩`, and `f(t−i/2)=(2√2/3)cos(t log 2)` is real.
+  For the group `U_(−t)`, which also preserves K, the bounded extension of `⟨η,U_(−t)ξ⟩` has
+  `f(t−i)=(1/6)2^(−it)+(4/3)2^(it)`, not `⟨U_(−t)ξ,η⟩=(1/3)2^(it)+(2/3)2^(−it)`, so the
+  condition fixes the sign of t.
 
 **V10.ClosedOperators — pre-tracial closed-operator calculus.**
 Use Mathlib's `LinearPMap.adjoint`, `LinearPMap.adjoint_isClosed` and
@@ -3147,15 +3163,18 @@ Proposition 4.1), using V4.Normality's cyclic/separating commutant duality to pr
 From `Ω∈K∩(iK)ᗮ` obtain `RΩ=Ω`, then `JΩ=Ω` and `U_t Ω=Ω` before the commutant
 argument below.
 Prove the modular theorem by the bounded route of Rieffel–van Daele, §4:
-establish their real predual separation lemma (Lemma 4.3), the bounded relation
-`TJx'JT=λ(2−R)xR+conj(λ)Rx(2−R)` for x'∈M' and `Re λ>0` (Lemma 4.5),
-and its scalar matrix-coefficient integral solution with kernel
+establish their real predual separation lemma (Lemma 4.3) and the bounded relation of
+Lemma 4.5: for every x'∈M' and every λ with `Re λ>0` there is x∈M with
+`TJx'JT=λ(2−R)xR+conj(λ)Rx(2−R)`. Then solve this relation for x by the scalar
+matrix-coefficient integral with kernel
 `exp(−θt)/(2 cosh πt)`, `λ=exp(iθ/2)`, `|θ|<π` (Lemmas 4.6–4.7).
 Continue the exponentially weighted scalar integrals analytically from real θ to imaginary
 θ, then apply Fourier uniqueness to obtain the inclusion `U_t J M' J U_t*⊆M`.
 Prove `JMJ⊆M'` by the cyclic-vector argument of Lemma 4.9, closing the two inclusions
 (Lemmas 4.8–4.9 and Theorem 4.2).
-In particular `JMJ=M'` and `U_t M U_t*=M`; put `σ_t(x)=U_t x U_t*`
+In particular `JMJ=M'` and `U_t M U_t*=M`. The first, with J characterized as in
+V10.StandardRealSubspaces by `J(K)=K.symplComp` and `Re⟨ξ,Jξ⟩≥0` for ξ∈K, is
+`exists_conj_commutant_eq_of_isCyclic_of_isSeparating`. Put `σ_t(x)=U_t x U_t*`
 and prove group law, normality and strong-star continuity.
 Use scalar integrals of matrix coefficients and uniform norm bounds to reconstruct the
 bounded operator; no operator-norm Bochner integrability of the orbit is assumed.
@@ -4363,6 +4382,7 @@ Connes–Takesaki 1977.
 - Tau Ceti `TauCeti/Analysis/Fourier/Pontryagin` modules, in particular
   `ContRepresentation.exists_pontryaginMeasureTransform_eq_inner` and
   `MeasureTheory.FiniteMeasure.ext_of_forall_pontryaginMeasureTransform_eq_of_innerRegular`.
+- Mathlib `IsCoercive.continuousLinearEquivOfBilin` for the left Hilbert algebra regularization.
 
 ## Layer 12: Two projections, ultraproducts, and central sequences
 
