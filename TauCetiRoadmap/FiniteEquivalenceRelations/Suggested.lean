@@ -31,9 +31,13 @@ Headline theorems stated here:
   effective, and `A` is flat over its invariants.
 * README 3.1, `raicuIdeal_isEquivIdeal`, `raicuIdeal_finite` and `differenceIdeal_raicuIdeal_ne`:
   Raicu's finite equivalence relation on `𝔸²_k` is not given by its invariants.
-* README 3.2, `eq_differenceIdeal_of_sq_eq_bot`: on `A = k ⊕ V` with `V² = 0`, every
-  equivalence ideal is the difference ideal of its invariants.
-* README 3.3, `eq_differenceIdeal_of_isToric`: toric equivalence relations on affine toric
+* README 3.2, `not_isEffectiveEquivalenceRelation_raicuArtin`: over every field, a closed
+  equivalence relation on a finite local `k`-scheme that is not effective; and
+  `eq_differenceIdeal_of_sq_eq_bot`: on `A = k ⊕ V` with `V² = 0`, every equivalence ideal is the
+  difference ideal of its invariants.
+* README 3.3, `raicuCocycle_not_mem_differenceIdeal`: over `𝔽₃`, the class of Raicu's cocycle is
+  the obstruction.
+* README 3.4, `eq_differenceIdeal_of_isToric`: toric equivalence relations on affine toric
   varieties are effective.
 * README 4.1, `bijOn_baseChange` and `isAmitsurEqualizer_iff_bijOn`: under the Amitsur condition
   for `N`, and only then, morphisms of descent data into `B ⊗[A] N` descend uniquely.
@@ -228,6 +232,29 @@ theorem differenceIdeal_raicuIdeal_ne :
     differenceIdeal k (MvPolynomial (Fin 2) k) (raicuIdeal k) ≠ raicuIdeal k := by
   sorry
 
+/-- The ideal `(f₁², f₂², f₃²)` of a finite local subscheme `Z ⊆ 𝔸²_k`, with the invariants
+`f₁ = x₁²`, `f₂ = x₁x₂ - x₂²`, `f₃ = x₂³` of Raicu's relation. -/
+noncomputable def raicuArtinIdeal : Ideal (MvPolynomial (Fin 2) k) :=
+  Ideal.span
+    {(MvPolynomial.X 0 ^ 2) ^ 2, (MvPolynomial.X 0 * MvPolynomial.X 1 - MvPolynomial.X 1 ^ 2) ^ 2,
+      (MvPolynomial.X 1 ^ 3) ^ 2}
+
+/-- The ideal of the restriction `R ∩ (Z ×_k Z)` of Raicu's relation to `Z`. -/
+noncomputable def raicuArtinRelation :
+    Ideal ((MvPolynomial (Fin 2) k ⧸ raicuArtinIdeal k) ⊗[k]
+      (MvPolynomial (Fin 2) k ⧸ raicuArtinIdeal k)) :=
+  (raicuIdeal k).map
+    (Algebra.TensorProduct.map (Ideal.Quotient.mkₐ k (raicuArtinIdeal k))
+      (Ideal.Quotient.mkₐ k (raicuArtinIdeal k)))
+
+/-- Over every field `k`, the restriction of Raicu's relation to the finite local scheme `Z` is
+a closed equivalence relation that is not effective. -/
+theorem not_isEffectiveEquivalenceRelation_raicuArtin :
+    ¬ IsEffectiveEquivalenceRelation
+      (specFst k (MvPolynomial (Fin 2) k ⧸ raicuArtinIdeal k) (raicuArtinRelation k))
+      (specSnd k (MvPolynomial (Fin 2) k ⧸ raicuArtinIdeal k) (raicuArtinRelation k)) := by
+  sorry
+
 end Raicu
 
 section SquareZero
@@ -243,6 +270,15 @@ theorem eq_differenceIdeal_of_sq_eq_bot (V : Ideal A) (hV : V ^ 2 = ⊥)
   sorry
 
 end SquareZero
+
+/-- Over `𝔽₃`, the image of Raicu's cocycle on `Z × Z` lies in the ideal of the restricted
+relation (it is a generator) and not in the ideal of `Z ×_Y Z`. -/
+theorem raicuCocycle_not_mem_differenceIdeal :
+    Algebra.TensorProduct.map (Ideal.Quotient.mkₐ (ZMod 3) (raicuArtinIdeal (ZMod 3)))
+        (Ideal.Quotient.mkₐ (ZMod 3) (raicuArtinIdeal (ZMod 3))) (raicuCocycle (ZMod 3)) ∉
+      differenceIdeal (ZMod 3) (MvPolynomial (Fin 2) (ZMod 3) ⧸ raicuArtinIdeal (ZMod 3))
+        (raicuArtinRelation (ZMod 3)) := by
+  sorry
 
 section Toric
 

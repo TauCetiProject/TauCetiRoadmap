@@ -11,7 +11,9 @@ coequalizer of `R ⇉ X` in the category of all schemes; `R` is effective in Mat
 (`CategoryTheory.IsEffectiveEquivalenceRelation`) iff `I = J(B)`, iff `dim_k I = dim_k J(B)`; an
 equivalence relation with a flat projection is effective and `A` is flat over `A^R`; Raicu's
 finite equivalence relation on `𝔸²_k` is not `X ×_Y X` for `Y = Spec A^R`, over every field;
-for `k` a field and
+its restriction to the finite local subscheme `Z = V(f₁², f₂², f₃²)`, `f₁ = x₁²`,
+`f₂ = x₁x₂ - x₂²`, `f₃ = x₂³`, is a closed equivalence relation on a finite local `k`-scheme which
+is not effective, over every field, with an explicit obstruction over `𝔽₃`; for `k` a field and
 `A = k ⊕ V` with `V` an ideal and `V² = 0`, every equivalence ideal `I` equals `J(B)`; and toric
 equivalence relations on affine toric varieties are effective (Raicu 2010). For modules, along any
 map of commutative rings `A → B`: base change is a bijection from `Hom_A(M, N)` onto the morphisms
@@ -33,7 +35,8 @@ Tau Ceti's `TauCeti/AlgebraicGeometry/Quotient/EquivalenceRelation.lean`.
 schemes over a ring `k` and its comparison with Mathlib's internal equivalence relations in
 `Scheme`; the ring of invariants and the difference ideal `J(B)`; the categorical quotient and
 the effectivity criterion for `A` finite over a field; the restriction to closed subschemes;
-Raicu's examples (the non-effective relation on `𝔸²` and the toric theorem); the theorem that every equivalence relation on a
+Raicu's examples (the non-effective relation on `𝔸²` and the toric theorem); the non-effective
+relation on a finite local scheme of Layer 3, and the theorem that every equivalence relation on a
 square-zero extension `k ⊕ V` of a field is given by its invariants (3.2); the Amitsur condition,
 descent of morphisms of modules and the Joyal–Tierney theorem for pure ring maps, with their
 application to the quotient map `A^R → A` and to the universal effective epimorphisms of affine
@@ -202,10 +205,14 @@ Layer 0 translates closed equivalence relations on `Spec A` into ideals of `A �
 any commutative ring `k`. Layer 1 builds the invariants and the quotient and proves the effectivity
 criterion `I = J(B)` for `A` finite over a field, with its linear-algebra form. Layer 2 derives the
 flat case from Tau Ceti's quotient by a finite locally free equivalence relation. Layer 3 gives the
-examples: Raicu's non-effective relation on the affine plane, the square-zero case and Raicu's
-toric theorem. Layer 4 gives the Amitsur condition and descent of module morphisms along ring maps,
-the Joyal–Tierney theorem for pure maps, and their applications to quotient maps and universal
-effective epimorphisms of affine schemes.
+examples: Raicu's non-effective relation on `𝔸²`, its restriction to a finite local scheme, which
+answers Grothendieck's question over a field in the negative, an explicit obstruction over `𝔽₃`, and
+Raicu's toric theorem; and every equivalence relation on a square-zero extension `k ⊕ V` is given by
+its invariants (3.2). Layer 4 turns to modules: the Amitsur condition and descent of morphisms
+along any ring map, the Joyal–Tierney theorem for pure maps, its application to the quotient
+map `A^R → A`, and the universal effective epimorphisms of affine schemes. The hardest targets are
+1.2 (coequalizers in all schemes, not only affine ones) and 3.4; the non-effectivity of 3.2 and the
+obstruction of 3.3 are finite computations.
 
 ## Layer 0: equivalence relations as ideals
 
@@ -365,6 +372,8 @@ equivalence ideal. *Needs:* 0.3, 1.1, 1.2, Mathlib `IsEffectiveEquivalenceRelati
   `Y = Spec k`.
 - `I = (x² - y²)` on `A = k[t]/(t⁴)`, `char k ≠ 2`: `A^R` contains `k[t²]/(t⁴)`, so `I` is the
   ideal of the kernel pair of `t ↦ t²`, and both sides of the criterion hold.
+- The restriction of Raicu's relation to `Z` (3.2): `finrank` differs by one in degree `5`
+  (`52` against `51` for the lifts to `k[x, y]`), so the criterion fails.
 
 ### Examples
 
@@ -415,6 +424,8 @@ form, the same follows from 0.3 with `specFst` finite, flat and locally of finit
 - The free action of `ℤ/2` swapping the factors of `A = k × k`: `R = Δ ∪ σ` is `I = ⊥`, free of
   rank `2` over `A`, and `A^R = k`, with `A` free of rank `2` over `k`.
 - `I = ker μ`: `(A ⊗ A) ⧸ I = A` is free of rank `1` over `A`, and `A^R = A`.
+- The flatness hypothesis is needed: the relation of 3.2 is a closed equivalence relation on a
+  finite scheme which is not effective, so its projection is not flat.
 
 ### Examples
 
@@ -454,9 +465,28 @@ computation over `ℤ` whose quotient is free (Kollár 2012, ¶50). *Needs:* 0.1
   space of quintic forms in `x₁, x₂, y₁, y₂`, and `raicuCocycle` is not in `(J(B))₅`; in degrees
   `1` to `4` the dimensions agree (`0, 2, 9, 23`).
 
-### 3.2 Relations on square-zero extensions
+### 3.2 A non-effective relation on a finite local scheme
 
-Prove `eq_differenceIdeal_of_sq_eq_bot`: for `k` a field and `A = k ⊕ V`
+Define `raicuArtinIdeal k = (f₁², f₂², f₃²) ⊆ k[x₁, x₂]` and `raicuArtinRelation k`, the image of
+`raicuIdeal k` in `O(Z) ⊗[k] O(Z)`, `O(Z) = k[x₁, x₂] ⧸ raicuArtinIdeal k`: by 0.2 and 3.1 it is a
+closed equivalence relation on `Z = Spec O(Z)`, with finite projections since `O(Z)` is
+finite-dimensional. Since `f₁² = x₁⁴` and `f₃² = x₂⁶`, `Z` is supported at the origin, and `O(Z)` is
+a local artinian `k`-algebra with residue field `k`. Prove
+`not_isEffectiveEquivalenceRelation_raicuArtin`: over every field `k`, this relation is not
+effective. This answers negatively, over a field, the question of FGA III, §2, p. 212-05: whether
+every closed equivalence relation on a finite scheme over a field is effective. The restriction to
+`Z` is this roadmap's own; it is not in Raicu's or Kollár's text. It is not formal: the invariants
+`B(Z)` of `R ∩ (Z × Z)` are computed on `O(Z)` and can be more than the images of the invariants on
+`𝔸²`, so the difference ideal can grow. Route: by 1.3 it suffices that `I(Z) ≠ J(B(Z))`,
+`I(Z) = raicuArtinRelation k`; both are graded, and in degree `5` their lifts to `k[x, y]` satisfy
+`dim (I + K)₅ = 52 > 51 = dim (J + K)₅`, `K` the ideal of `Z × Z` and `J` the lift of `J(B(Z))`, a
+rank computation needing the invariants of `O(Z)` of degree `≤ 5` only. Over `ℚ` the eliminations
+divide only by integers whose prime factors are 2, 3, 5, 7, 13, 41 and 61; for every other prime `p`
+the same elimination runs over `𝔽_p` with the same ranks, the seven listed primes are checked
+directly, and ranks do not change under field extension from the prime field. *Needs:* 0.2, 1.3,
+3.1, Mathlib `Ideal.Quotient`, `MvPolynomial`, `Module.finrank`.
+
+Prove also `eq_differenceIdeal_of_sq_eq_bot`, this roadmap's own: for `k` a field and `A = k ⊕ V`
 (every `a ∈ A` is `c · 1 + v` with `c ∈ k`, `v ∈ V`), `V` an ideal with `V² = 0`, every equivalence
 ideal `I` on `A` satisfies `I = differenceIdeal I`, and `A^R = k ⊕ I₁` with `I₁ = (id ⊗ π)(I) ⊆ V`,
 `π : A → k` the residue map; when `A` is finite-dimensional, this is effectivity by 1.3. So a
@@ -474,6 +504,18 @@ the conclusion as effectivity.
 
 **Checks.**
 
+- `dim_k O(Z) = 15` when `char k ≠ 2`, with Hilbert function `1, 2, 3, 4, 3, 2`; when `char k = 2`,
+  `f₂² = x₁²x₂² + x₂⁴` and `dim_k O(Z) = 16`, Hilbert function `1, 2, 3, 4, 3, 2, 1`. In degree `6`,
+  the relations `x₁²f₂², x₁x₂f₂², x₂²f₂²` on `x₁³x₂³, x₁²x₂⁴, x₁x₂⁵` have determinant
+  `det [[-2, 1, 0], [1, -2, 1], [0, 1, -2]] = -4`.
+- The exponents matter: for `Z = V(f₁ᵃ, f₂ᵇ, f₃ᶜ)` over `𝔽₃`, comparing `I(Z)` with `J(B(Z))` in
+  degrees `≤ 14`, with the invariants of degree `≤ 7`, finds no gap for `(1, 1, 1)`, `(2, 1, 1)`,
+  `(1, 2, 1)`, `(1, 1, 2)`, `(2, 2, 1)`, `(2, 1, 2)` and `(1, 2, 2)`; `(2, 2, 2)` is the smallest
+  triple with a gap, and `(3, 3, 2)`, of length `27`, has gaps in degrees `5` and `6`
+  (`44 > 43`, `77 > 75`).
+- `raicuArtinRelation` is neither `⊥` nor the diagonal `ker μ`: it contains `x₁² - y₁²`, nonzero in
+  `O(Z) ⊗ O(Z)`, and its degree-`1` part is `0` (Raicu's generators have degree `≥ 2` and the ideal
+  of `Z × Z` starts in degree `4`), so it does not contain `x₁ - y₁ ∈ ker μ`.
 - `eq_differenceIdeal_of_sq_eq_bot` on `A = k[x, y] ⧸ m²`, `V = m`: the equivalence ideals are
   the kernel pairs `J(k ⊕ W)` of the subalgebras `k ⊕ W`, one for each subspace `W ⊆ m`, so `5`
   over `𝔽₂` and `6` over `𝔽₃`, all effective. A definition of `I₁` as `I ∩ (V ⊗ 1)` would be `0`
@@ -488,7 +530,27 @@ the conclusion as effectivity.
   in the previous Check; `L[ε₁, ε₂] ⧸ (ε₁, ε₂)²` with `L = 𝔽₉` over `𝔽₃` (length `6`), whose
   residue field is `L`, is outside it as well.
 
-### 3.3 Toric relations are effective
+### 3.3 The obstruction over 𝔽₃
+
+Prove `raicuCocycle_not_mem_differenceIdeal`: over `𝔽₃`, the image of `raicuCocycle` in
+`O(Z) ⊗ O(Z)` lies in `raicuArtinRelation` (it is a generator) and not in its `differenceIdeal`.
+Everything is finite over `𝔽₃`, and a certificate is: a basis of the invariants of `O(Z)` of
+degree `≤ 5` together with a nonzero minor proving that no other invariant exists in those
+degrees (the invariants of degree `d` are the kernel of a linear map on `(O(Z))_d`), and a linear
+form on `(O(Z) ⊗ O(Z))₅` that vanishes on `(J(B(Z)))₅` and not on the cocycle. Checking it is matrix
+arithmetic over `ZMod 3`, by `decide` or by a verified elimination. The same holds over `ℚ` and
+`𝔽₂`. *Needs:* 3.2, 1.1, Mathlib `ZMod`.
+
+**Checks.**
+
+- The cocycle has degree `5`, and `(O(Z) ⊗ O(Z))₅` has dimension `∑ h_i h_{5-i}` over the Hilbert
+  function `h = (1, 2, 3, 4, 3, 2)`, that is `2 + 6 + 12 + 12 + 6 + 2 = 40`.
+- In degrees `< 5` the ideal `I(Z)` equals `J(B(Z))`, so a certificate in a lower degree cannot
+  exist.
+- Membership in `raicuArtinRelation` is by the definition of `raicuIdeal`; non-membership in the
+  difference ideal is the content.
+
+### 3.4 Toric relations are effective
 
 Define `diagonalCoaction k σ` (Conventions) and `IsToric k σ I`: the image of `I` by the coaction
 lies in the ideal generated by `I` in `(k[σ] ⊗ k[σ]) ⊗ k[σ]`, so `R` is invariant under the
@@ -505,12 +567,12 @@ Theorem 3.1). *Needs:* 0.1, 1.1, Mathlib `AddMonoidAlgebra`, `Bialgebra.comulAlg
 - `σ = ℕ`, `I = (x² - y²)`, `char k ≠ 2`: homogeneous of degree `2` for `s + t`, toric, and equal
   to the difference ideal of `k[t²]`.
 - Raicu's relation of 3.1 is not toric for `σ = ℕ²`: `x₁x₂ - x₂²` mixes the degrees `(1, 1)` and
-  `(0, 2)`, so 3.3 and 3.1 concern different classes of relations.
+  `(0, 2)`, so 3.4 and 3.1 do not conflict.
 - `σ = ℕ`, `I = ker μ = (x - y)`: `x - y ↦ (x - y) ⊗ χ¹`, toric, with `A^R = A`.
 
 ### Examples
 
-- Raicu's relation on `𝔸²_k` (3.1) and the effective relations on split square-zero extensions (3.2).
+- Raicu's relation on `𝔸²_k` (3.1) and its restriction to `Z` (3.2).
 - Kernel pairs of monomial maps `k[τ] → k[σ]`, which are toric.
 
 ### Dependencies
@@ -729,6 +791,17 @@ modules too (Mesablishvili 2002, Theorem 1.1), and a ring map along which descen
 is not effective is not pure. For quasi-compact morphisms of schemes, stable effective descent of
 quasi-coherent modules is equivalent to purity (Mesablishvili 2004a), and purity to being a
 stable regular epimorphism (Mesablishvili 2004b).
+
+The smallest length of a finite local scheme over a field carrying a non-effective closed
+equivalence relation is not known. It is at least `3` over every field, and local algebras with
+residue field `k` and `m² = 0` give no example in any length (3.2,
+`eq_differenceIdeal_of_sq_eq_bot`); it is at most `15` (`16` in characteristic `2`) by 3.2. An
+unpublished exhaustive search over `𝔽₂` and `𝔽₃` finds no example in lengths `3` and `4`, over the
+local algebras `k[x]/(x³)`, `k[x, y]/m²`, `𝔽_{p³}`, `k[x]/(x⁴)`, `k[x, y, z]/m²`, every
+`k[x, y]/(W + m³)` with `W` a plane of quadrics, `𝔽_{p²}[ε]` and `𝔽_{p⁴}`, testing every ideal
+with the three fields of 0.1 against the criterion of 1.3; there the equivalence ideals are exactly
+the kernel pairs of subalgebras. Whether every non-effective example comes, as in 3.2,
+from restricting one on an affine space is not known either.
 
 Kollár's Question 8 is open: in characteristic zero, for a scheme-theoretic equivalence relation
 `R ⊂ X × X` whose two projections are finite, does a geometric quotient `X/R` exist, that is a
