@@ -144,15 +144,15 @@ The following Mathlib proposals fix the shape of corresponding targets here. The
 Tau Ceti now, named and stated as these proposals do, and replaced by Mathlib's declarations
 when equivalents land.
 
-- [Mathlib #20649](https://github.com/leanprover-community/mathlib4/pull/20649) (closed
-  without merging; its names still fix the target shapes):
+- The [graph-characterization proposal](https://github.com/leanprover-community/mathlib4/pull/20649):
   the graph-language extension property `FirstOrder.Language.graph.ExtensionProperty`,
   `ExtensionProperty.embedding_from_countable`, and
   `ExtensionProperty.isFraisseLimit_finite_graphs`, identifying a countable structure with the
   property as the Fraïssé limit of finite simple graphs (Milestone 4).
-- [Mathlib #41113](https://github.com/leanprover-community/mathlib4/pull/41113):
+- The [quantifier-elimination proposal](https://github.com/leanprover-community/mathlib4/pull/41113):
   `FirstOrder.Language.Theory.IsQFEquivalent` and `Theory.HasQuantifierElimination`, with the
-  reduction to finite variable types; [Mathlib #41115](https://github.com/leanprover-community/mathlib4/pull/41115)
+  reduction to finite variable types; its
+  [extension-pair companion](https://github.com/leanprover-community/mathlib4/pull/41115)
   derives quantifier elimination from extension pairs (Milestone 5).
 
 Graph-specific adapters and probabilistic consequences belong here. Generic samplers,
@@ -355,8 +355,8 @@ Prove that full extension supplies arbitrarily many distinct witnesses for every
 
 Prove the adapter between the graph-facing and graph-language forms: under
 `SimpleGraph.structure`, `G.HasExtensionProperty` holds exactly when the graph-language
-extension property holds, stated as `FirstOrder.Language.graph.ExtensionProperty` in
-Mathlib #20649 (a witness outside $`A\cup B`$ related by the adjacency symbol to all of $`A`$
+extension property holds, stated as `FirstOrder.Language.graph.ExtensionProperty` in the
+graph-characterization proposal (a witness outside $`A\cup B`$ related by the adjacency symbol to all of $`A`$
 and none of $`B`$). Give `FirstOrder.Language.Equiv.toSimpleGraphIso`, the converse of Tau Ceti's
 `SimpleGraph.Iso.toLanguageEquiv`, and transport both across it.
 
@@ -375,8 +375,8 @@ No probabilistic theorem may take this semantic correspondence as an unproved pa
 Prove that the class of all finite simple graph structures is Fraïssé using Milestone 1.
 Construct its limit using Milestone 2 and prove that it satisfies $`\mathrm{EP}`$. Conversely,
 a countable graph with $`\mathrm{EP}`$ has this age and is ultrahomogeneous, hence is the same
-Fraïssé limit. State this converse as `ExtensionProperty.isFraisseLimit_finite_graphs` of
-Mathlib #20649, together with `ExtensionProperty.embedding_from_countable`, and transfer both
+Fraïssé limit. State this converse as `ExtensionProperty.isFraisseLimit_finite_graphs` of the
+graph-characterization proposal, together with `ExtensionProperty.embedding_from_countable`, and transfer both
 to `SimpleGraph` through the adapter of 4.1.
 
 The named graph $`R`$ is the supplier's `TauCeti.radoGraph`, defined by
@@ -480,7 +480,7 @@ through finite patterns; build:
   pattern are consistent. This gives the QE map, with the native `IsQF` proofs of its outputs,
   and on sentences the decision map.
 
-Export also the theory-level property in the vocabulary of Mathlib #41113,
+Export also the theory-level property in the vocabulary of the quantifier-elimination proposal,
 `T_R.HasQuantifierElimination`: every formula is `IsQFEquivalent` modulo $`T_R`$,
 using that proposal's reduction to finite variable types. The theory-level property is a
 consequence of the computable QE map and does not replace it.
@@ -974,14 +974,14 @@ discharge its corresponding target.
 ## Coordination and provenance
 
 Use Mathlib's existing and emerging API shape. Follow the design of the general existence
-construction in [Gabin Kolly's Fraïssé-existence pull request to Mathlib](https://github.com/leanprover-community/mathlib4/pull/18876)
+construction in [Gabin Kolly's Fraïssé-existence proposal for Mathlib](https://github.com/leanprover-community/mathlib4/pull/18876)
 and [its prerequisite](https://github.com/leanprover-community/mathlib4/pull/18749), and of the
 graph characterization of Milestone 4 in his
-[Mathlib #20649](https://github.com/leanprover-community/mathlib4/pull/20649); all three were
-closed without merging. Coordinate the theory-level quantifier-elimination endpoint with
-[Mathlib #41113](https://github.com/leanprover-community/mathlib4/pull/41113) and
-[#41115](https://github.com/leanprover-community/mathlib4/pull/41115).
-These are design and provenance references, not assumptions that their code has merged.
+[graph-characterization proposal](https://github.com/leanprover-community/mathlib4/pull/20649).
+Coordinate the theory-level quantifier-elimination endpoint with the
+[quantifier-elimination proposal](https://github.com/leanprover-community/mathlib4/pull/41113) and
+its [extension-pair companion](https://github.com/leanprover-community/mathlib4/pull/41115).
+These are design and provenance references, not assumptions that their code is in Mathlib.
 On the Tau Ceti side, the extension predicate and Rado graph come from the InfinitaryLogic
 random-graph worked example (`Combinatorics/SimpleGraph/ExtensionProperty.lean` and
 `ModelTheory/Scott/RandomGraph.lean`);

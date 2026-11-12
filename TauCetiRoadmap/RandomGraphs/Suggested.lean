@@ -378,9 +378,10 @@ theorem computable_boundedCode_cases :
 
 /-- **Computable quantifier elimination modulo `T_R`.** A computable map on codes, taking the
 context size `m` as input, that sends the code of each formula over `Fin m` to the code of a
-quantifier-free formula with the same realizations in every model of `radoAxioms`. Its correctness yields the
-theory-level `HasQuantifierElimination` of Mathlib #41113. The values on numbers that are not
-formula codes are unconstrained. -/
+quantifier-free formula with the same realizations in every model of `radoAxioms`. Its
+correctness yields the theory-level `HasQuantifierElimination` of the Mathlib
+quantifier-elimination proposal. The values on numbers that are not formula codes are
+unconstrained. -/
 theorem exists_computable_quantifierElimination :
     ∃ Q : ℕ → ℕ → ℕ, Computable₂ Q ∧
       ∀ (m : ℕ) (φ : Language.graph.Formula (Fin m)),
