@@ -1109,8 +1109,8 @@ principal `K`-bundle. Prove: `dπ_1|𝔭 : 𝔭 → T_oX` is an isomorphism inte
 isotropy action of `k ∈ K`; `Y ↦ lieExp(Y)·o` is a diffeomorphism `𝔭 ≅ X` (from
 `cartan_polar_decomposition`); hence `X` is contractible and simply connected; the action of `G` on
 `X` is proper with point stabilizers the conjugates `gKg⁻¹`; a discrete subgroup acts properly
-discontinuously; and `X` depends on choices only up to `G`-equivariant diffeomorphism (`gK ↦ gh⁻¹K'`
-for `K' = hKh⁻¹`; the fixed groups of any two data are conjugate by §5.4). For connected `G` with
+discontinuously; and two such data on `G` whose fixed groups are conjugate, `K' = hKh⁻¹` with
+`h ∈ G`, have `G`-equivariantly diffeomorphic spaces `X`, by `gK ↦ gh⁻¹K'`. For connected `G` with
 semisimple Lie algebra and any centre, define `X_{𝔤₀} = Int(𝔤₀)/K_θ` with `G` acting through `Ad`,
 prove that it is `G`-equivariantly diffeomorphic to `G/K` for `K` of §2.2, and that the kernel of
 the action is the `Ad`-preimage of the product of the compact factors of `Int(𝔤₀)`, which is `Z(G)`
@@ -1128,8 +1128,7 @@ general both follow from `cartan_polar_decomposition`.)
 - `SO₀(n, 1)/SO(n)` is the upper sheet of the hyperboloid, isometric after rescaling to Tau Ceti's
   `TauCeti.UpperHalfSpace`.
 
-*Needs:* §2.2; §5.4 (conjugacy of the fixed groups, for the independence of choices); LieGroups
-Layer 9; SmoothBundlesConnections B1.4.
+*Needs:* §2.2; LieGroups Layer 9; SmoothBundlesConnections B1.4.
 
 ### 5.3 The invariant metric, curvature and geodesics
 
@@ -1149,10 +1148,10 @@ unique geodesic; and the distance formula `d(g·o, h·o) = ⟨Y, Y⟩_o^{1/2}`, 
 when `𝔤₀` is semisimple, where `g⁻¹h = lieExp(Y)k`, `Y ∈ 𝔭`, `k ∈ K`. Prove that for simple
 noncompact `𝔤₀` the isotropy representation of `K` on `𝔭` is irreducible and every `G`-invariant
 metric is a constant multiple of the Killing metric. Prove that, for semisimple `𝔤₀`, the
-`G`-equivariant diffeomorphisms of §5.2 between the spaces `X` of two Cartan involution data
-(`gK ↦ gh⁻¹K'`) and the identification `G/K ≅ X_{𝔤₀}` are isometries for the Killing metrics, so
-that `(X, g_X)` depends only on `𝔤₀` up to `G`-equivariant isometry. (Helgason, Ch. IV §§3–4 and
-Ch. V §3; Eberlein, *Geometry of Nonpositively Curved Manifolds*, Ch. 2.)
+`G`-equivariant diffeomorphisms of §5.2 between the spaces `X` of two data with conjugate fixed
+groups (`gK ↦ gh⁻¹K'`) and the identification `G/K ≅ X_{𝔤₀}` are isometries for the Killing
+metrics. (Helgason, Ch. IV §§3–4 and Ch. V §3; Eberlein, *Geometry of Nonpositively Curved
+Manifolds*, Ch. 2.)
 
 **Checks.**
 
@@ -1178,7 +1177,10 @@ global exponential chart at `p`, and closed-ball compactness (HopfRinow) for exi
 minimizer. This is `exists_forall_smul_eq_of_sectionalCurvature_nonpos`. For `G` with a
 `CartanInvolution` datum, `K` is a maximal compact subgroup (LieGroups Layer 9); prove: every
 compact subgroup of `G` lies in a conjugate of `K` (it fixes a point of `X`); the maximal compact
-subgroups are exactly the conjugates of `K`; and, when `𝔤₀` is semisimple, any two Cartan
+subgroups are exactly the conjugates of `K`; hence the fixed groups of any two data on `G` are
+conjugate and their spaces `X` are `G`-equivariantly diffeomorphic (§5.2); for semisimple `𝔤₀`
+these diffeomorphisms are isometries for the Killing metrics (§5.3), so that `(X, g_X)` does not
+depend on the datum up to `G`-equivariant isometry; and, when `𝔤₀` is semisimple, any two Cartan
 involution data on `G` are conjugate by an inner automorphism of `G` (their fixed groups are
 conjugate, and a datum is determined by its fixed group `K`, through `𝔭 = 𝔨^{⊥_B}` and
 `G = K·lieExp(𝔭)`). For connected `G` with semisimple Lie algebra and finite centre,
@@ -1211,7 +1213,7 @@ Ch. I §13 and Ch. VI §2; Eberlein, §1.4.)
   `ℂˣ` is abelian, so no inner automorphism relates them: the conjugacy of data needs semisimple
   `𝔤₀`, while the fixed groups are conjugate in every case.
 
-*Needs:* §2.2, §5.3; LieGroups Layer 9 (maximality of `K`); RiemannianGeometry R2, R4.1;
+*Needs:* §2.2, §5.2, §5.3; LieGroups Layer 9 (maximality of `K`); RiemannianGeometry R2, R4.1;
 HopfRinow; CompactGroups Haar probability.
 
 ### 5.5 Totally geodesic submanifolds, flats and rank
