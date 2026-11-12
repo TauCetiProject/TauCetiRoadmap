@@ -73,10 +73,10 @@ Boundaries with other roadmaps:
   carrier of a bundle over a compact base; ComplexKahlerGeometry K5a owns the bundle Sobolev
   scales and the Laplace-type realization on closed manifolds; Y1 builds the scalar
   closed-manifold comparison and the critical embedding.
-- [GeometricMeasureTheory](../GeometricMeasureTheory/README.md) G2–G3 own the area and change of
-  variables formulas. [Isoperimetry](../Isoperimetry/README.md) owns Schwarz rearrangement (I2)
-  and the Pólya–Szegő inequality (I5); the equality classification of the sharp L² Sobolev
-  inequality is Y2's.
+- [GeometricMeasureTheory](../GeometricMeasureTheory/README.md) G2 owns the area formula,
+  spherical surface measure and polar integration. [Isoperimetry](../Isoperimetry/README.md)
+  owns Schwarz rearrangement (I2) and the Pólya–Szegő inequality (I5); the equality
+  classification of the sharp L² Sobolev inequality is Y2's.
 - SpinGeometry, SmoothBundlesConnections, CharacteristicClasses, AlgebraicTopology and the
   completed UniversalCovers roadmap own Spin structures, frame bundles, van Kampen and universal
   covers; Y0.6 owns the conformal developing map, and Y8 the Spin lift of the round sphere and
@@ -133,7 +133,8 @@ origin instead of 6.
 
 - `Bundle.ContMDiffRiemannianMetric`, `Bundle.RiemannianBundle`, `IsContMDiffRiemannianBundle`,
   `IsContinuousRiemannianBundle` and `IsRiemannianManifold`
-  (`Mathlib/Geometry/Manifold/VectorBundle/Riemannian.lean`,
+  (`Mathlib/Topology/VectorBundle/Riemannian.lean`,
+  `Mathlib/Geometry/Manifold/VectorBundle/Riemannian.lean`,
   `Mathlib/Geometry/Manifold/Riemannian/Basic.lean`): the metric carriers.
 - `CovariantDerivative.leviCivitaConnection`
   (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`).
@@ -294,8 +295,8 @@ targets, and Y1 uses their real rank-one specialization.
 
 ### From TauCetiRoadmap.GeometricMeasureTheory and TauCetiRoadmap.Isoperimetry
 
-[GeometricMeasureTheory](../GeometricMeasureTheory/README.md) G2–G3: normalized Hausdorff area
-and change of variables for spherical and stereographic integration.
+[GeometricMeasureTheory](../GeometricMeasureTheory/README.md) G2: the area and coarea formulas,
+spherical surface measure and polar integration, for spherical and stereographic integration.
 [Isoperimetry](../Isoperimetry/README.md) I2: Schwarz rearrangement, equimeasurability and Lᵖ
 norms; I5: the convex-integrand Pólya–Szegő estimate for nonnegative integrable Lipschitz
 functions.
@@ -420,7 +421,7 @@ the stereographic identity, with the actual coordinate maps and density Jacobian
 - Constant rescaling on the unit S³: `L_(4g)1=6/4`, the scalar curvature of the sphere of
   radius 2.
 
-*Needs:* GeometricMeasureTheory G2–G3; the Tau Ceti sphere and stereographic declarations; 0.2.
+*Needs:* GeometricMeasureTheory G2; the Tau Ceti sphere and stereographic declarations; 0.2.
 
 ### 0.5 Weyl–Schouten
 
@@ -505,7 +506,7 @@ simply connected for n≥3, it is a conformal diffeomorphism. Y6.2 and Y8.3 cons
 ### Dependencies
 
 Tau Ceti's conformal Laplacian, Yamabe quotient, conformal laws and conformal curvature;
-RiemannianGeometry R1; DifferentialGeometry 2, 4.3 and 12.2–12.5; GeometricMeasureTheory G2–G3;
+RiemannianGeometry R1; DifferentialGeometry 2, 4.3 and 12.2–12.5; GeometricMeasureTheory G2;
 UniversalCovers Stages 1–4; Y1.1 and Y1.3 for the weak-domain statements of 0.2–0.3.
 
 ## Y1: closed-manifold analytic interfaces
@@ -668,7 +669,7 @@ recovered, not assumed from a guessed radial extremizer. Lean name:
   `2^(2/n)Y(Sⁿ)`, `2^(2/3)·43.82≈69.57` for n=3, so the sum is not an extremal.
 - The Gaussian of 2.1 is strictly above `Y(S³)`.
 
-*Needs:* 2.1; Isoperimetry I2 and I5; GeometricMeasureTheory G2–G3.
+*Needs:* 2.1; Isoperimetry I2 and I5; GeometricMeasureTheory G2.
 
 ### 2.3 Bubbles
 
@@ -710,7 +711,7 @@ distortion estimates.
 ### Dependencies
 
 Tau Ceti's `TauCeti.D1p0`, sphere constant and bubble modules; Isoperimetry I2 and I5;
-GeometricMeasureTheory G2–G3; Y1.1.
+GeometricMeasureTheory G2; Y1.1.
 
 ## Y3: variational compactness below the sphere threshold
 
@@ -795,12 +796,14 @@ Layers 0–2; PositiveMass 3.0.
 
 ### 4.1 Conformal normal coordinates
 
-For any pole and prescribed finite order N construct a positive global conformal factor,
+For any pole and prescribed finite order N≥2 construct a positive global conformal factor,
 normalized at the pole, for which geodesic normal coordinates have `det g=1+O(r^N)`. Prove the
-transformation of the curvature jets, vanishing scalar/first scalar derivative at the pole, and
-the contracted second scalar derivative/Weyl-norm identity with the sign converted to Δ⁺
-(Lee–Parker, Theorem 5.1, p. 58). Derive the numeric coefficients from the fixed curvature
-convention rather than importing an incompatible Δ.
+transformation of the curvature jets and, for N≥5, that `Scal=O(r²)` at the pole, so that Scal
+and dScal vanish there, with the contracted second scalar derivative/Weyl-norm identity with the
+sign converted to Δ⁺ (Lee–Parker, Theorem 5.1, p. 58, proved on p. 62). Derive the numeric
+coefficients from the fixed curvature convention rather than importing an incompatible Δ. Later
+items use these coordinates with N≥5, and with N large enough that the error term of `det g`
+does not enter their expansions (Lee–Parker, p. 62).
 
 **API.**
 
@@ -809,21 +812,22 @@ convention rather than importing an incompatible Δ.
 
 **Checks.**
 
-- The unit S³ in its own geodesic normal coordinates has `det g=(sin r/r)^4=1−2r²/3+O(r⁴)`, so
-  the normalization needs a conformal factor; the round metric is conformal to the flat metric
-  near the pole, whose coordinates have `det g=1` exactly.
-- After normalization Scal(p)=0 and dScal(p)=0, while the unnormalized unit sphere has
+- The unit S³ in its own geodesic normal coordinates has `det g=(sin r/r)^4=1−2r²/3+O(r⁴)`. With
+  N=2 the factor 1 is already normalized, yet Scal(p)=6≠0, so the scalar conclusions need N≥5;
+  for N≥3 a conformal factor is needed, and the round metric is conformal to the flat metric near
+  the pole, whose coordinates have `det g=1` exactly.
+- After normalization with N≥5, Scal(p)=0 and dScal(p)=0, while the unnormalized unit sphere has
   Scal=n(n−1).
-- On a locally conformally flat neighbourhood W=0, so the contracted second scalar derivative at
-  the pole vanishes as well, by the Weyl-norm identity.
+- On a locally conformally flat neighbourhood W=0, so for N≥5 the contracted second scalar
+  derivative at the pole vanishes as well, by the Weyl-norm identity.
 
 *Needs:* RiemannianGeometry R1–R2 (normal coordinates and density); Layer 0.
 
 ### 4.2 Cutoff-bubble Taylor bounds
 
-Supply the Taylor bounds with derivatives and uniformity needed for cutoff-bubble energy,
-denominator and annular errors. Construct a smooth cutoff, track its scale, and show which terms
-have order ε⁴, ε^(n−2), or logarithmic order.
+In the coordinates of 4.1 with N≥5, supply the Taylor bounds with derivatives and uniformity
+needed for cutoff-bubble energy, denominator and annular errors. Construct a smooth cutoff, track
+its scale, and show which terms have order ε⁴, ε^(n−2), or logarithmic order.
 
 **Checks.**
 
@@ -836,7 +840,7 @@ have order ε⁴, ε^(n−2), or logarithmic order.
 
 ### 4.3 Green expansions in dimensions 3, 4 and 5
 
-Derive Green expansions in dimensions 3, 4, 5 after this normalization, with sufficient derivative
+Derive Green expansions in dimensions 3, 4, 5 after 4.1's normalization, with sufficient derivative
 bounds to make the inverted metric AE, to compute its ADM mass and to control the test-function
 remainder. Include dimension-specific curvature terms and prove that the constant called A is
 independent of the allowed normalized chart (Lee–Parker, Lemma 6.4, p. 64). A statement only of
@@ -882,7 +886,8 @@ Layers 0–2; RiemannianGeometry R1–R2.
 ### 5.1 Theorem B
 
 For n≥6 and a point where the Weyl tensor is nonzero, construct a global cutoff bubble in
-conformal normal coordinates. Compute numerator and denominator, including all cutoff and
+4.1's conformal normal coordinates with N≥5, where `Scal=O(r²)` and the Weyl-norm identity
+hold. Compute numerator and denominator, including all cutoff and
 curvature remainders, to prove
 
 - for n≥7, `Q(χU_ε)=Y(Sⁿ)−c_n|W(p)|² ε⁴+o(ε⁴)`;
