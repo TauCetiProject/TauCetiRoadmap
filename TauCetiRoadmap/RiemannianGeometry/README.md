@@ -38,7 +38,10 @@ R7.3's Laplace-type theorem for D*D, differs from P1.0's Dirac-type
 theorem only in allowing D:E→F between bundles of different ranks. R4.7 owns the
 completeness of the quotient of a complete Riemannian manifold by a free properly
 discontinuous group of isometries, built on the library's quotient manifold, quotient
-metric and curvature naturality, and the space-form quotients; PseudodifferentialOperators P7a consumes
+metric and curvature naturality, and the space-form quotients in curvature 0 and 1;
+GeometricTopology §7.1 owns the curvature −1 case in dimensions n ≥ 1, and AlgebraicTopology
+§4.6 owns the homeomorphism from `TauCeti.RealProjectiveSpace` n to `Projectivization` ℝ
+(Fin (n+1) → ℝ) with its affine-chart comparison; PseudodifferentialOperators P7a consumes
 these; R4.7 uses no PseudodifferentialOperators target, so P1.0 → R7 and R4.7 → P7a form
 no cycle. R5b owns the Dirichlet realization of the normal Jacobi operator: its
 form on W¹,²₀, the self-adjoint operator that form represents, built on Tau Ceti's
@@ -560,8 +563,10 @@ manifold with the same value and differential at one point are equal.
 `TauCeti.ModelGeometry.Space` (`ModelGeometry/Basic.lean`) is the manifold underlying
 each of the eight three-dimensional model geometries `TauCeti.ModelGeometry`: the unit
 sphere of ℝ⁴, Euclidean three-space and the upper half-space of ℝ²×ℝ in the three cases
-of constant curvature. `TauCeti.HyperbolicMetric` (`Hyperbolic.lean`) is a complete
-smooth Riemannian metric of constant curvature −1 on a manifold.
+of constant curvature. `TauCeti.HyperbolicMetric` (`Hyperbolic.lean`) is a smooth
+Riemannian metric, complete for its Riemannian distance, whose curvature is the
+constant-curvature tensor with parameter −1, on a preconnected T3 smooth manifold
+modelled on a finite-dimensional space.
 
 For the round-sphere connection of R4.7 and the flat-ambient case of R5a,
 `CovariantDerivative.IsLeviCivitaConnection.inner_apply_eq_inner_mvfderiv` in
@@ -738,8 +743,7 @@ The following contracts specify each supplier and section consumed.
   B6.0 supplies uniform normal and strong-convexity radii on compact sets and
   the variable-base inverse-function theorem for `(x,v)↦(x,exp_x v)`.
 - [GeometricTopology](../GeometricTopology/README.md), Layer 1: the actual normal
-  bundle and tubular neighbourhood theorem. This roadmap extends
-  their geometric identities and comparison theory. General immersions use the
+  bundle and tubular neighbourhood theorem. General immersions use the
   corresponding orthogonal subbundle of f*TN; for embeddings it is canonically
   the Layer 1 normal bundle, with the same induced topology. R5a constructs the smooth orthogonal-complement-to-quotient
   comparison on this supplied normal bundle.
@@ -2383,9 +2387,11 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
    Barzen–Leymann, *Mathematics of Spacetime*, Theorem 9, p. 60) and, in these
    two curvatures, the quotient
    description by free properly discontinuous discrete smooth isometries.
-   The curvature −1 case (a complete hyperbolic manifold is ℍⁿ/Γ, with
-   universal cover the upper half-space model) and that model's identification
-   with `TauCeti.ModelGeometry` are GeometricTopology §7.1's, consumed here.
+   For n ≥ 1 the curvature −1 case (a complete hyperbolic n-manifold is ℍⁿ/Γ,
+   with universal cover the upper half-space model in ℝⁿ⁻¹×ℝ) and that model's
+   identification with `TauCeti.ModelGeometry` are GeometricTopology §7.1's,
+   consumed here; for n = 0 the point satisfies the curvature hypothesis
+   vacuously and has no half-space model.
    For a free properly discontinuous group of smooth isometries of any Riemannian
    manifold, none of the following needs constant curvature: the quotient atlas is
    Mathlib's `MulAction.instChartedSpaceQuotient` and the orbit projection is a
