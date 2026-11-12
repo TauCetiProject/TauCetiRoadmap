@@ -403,8 +403,13 @@ Prove that the class of all finite simple graph structures is Fraïssé using Mi
 Construct its limit using Milestone 2 and prove that it satisfies $`\mathrm{EP}`$. Conversely,
 a countable graph with $`\mathrm{EP}`$ has this age and is ultrahomogeneous, hence is the same
 Fraïssé limit. State this converse as `ExtensionProperty.isFraisseLimit_finite_graphs` of the
-graph-characterization proposal, together with `ExtensionProperty.embedding_from_countable`, and transfer both
-to `SimpleGraph` through the adapter of 4.1.
+graph-characterization proposal, together with `ExtensionProperty.embedding_from_countable`, and
+transfer both to `SimpleGraph` through the adapter of 4.1.
+
+Cameron (*The random graph*, Theorem 3 and the paragraph after it, p. 8) states that the finite
+graphs form a Fraïssé class with limit $`R`$. His Theorem 3 is for relational languages, with
+joint embedding as amalgamation over the empty structure; Mathlib's `IsFraisse` also asks for a
+nonempty class, which the empty graph supplies.
 
 The named graph $`R`$ is the supplier's `TauCeti.radoGraph`, defined by
 `SimpleGraph.fromRel fun i j => j.testBit i`, with its extension property
@@ -483,6 +488,14 @@ Prove that its models are precisely the graph structures with full extension; it
 no finite models; it is countably categorical; and it is complete. Prove
 $`T_R\models\varphi`$ if and only if $`R\models\varphi`$, so the semantic consequence
 closure of this axiom set is $`\mathrm{Th}(R)`$.
+
+Cameron proves countable categoricity (Proposition 11, p. 9) by the back-and-forth argument of
+his Fact 2 (pp. 1–2), and the equivalence of $`T_R\models\varphi`$ with $`R\models\varphi`$ is
+(b)⇔(c) of his Theorem 6 (p. 10). His axioms $`\sigma_{m,n}`$ (p. 9) translate his property (∗),
+whose witness Fact 2 uses as distinct from all listed vertices; the $`E_{r,s}`$ here require
+that distinctness explicitly. Completeness follows from categoricity and the absence of finite
+models by the Łoś–Vaught test, the route of Fagin's Theorem 1 (p. 51), which he states for
+Gaifman's extension axioms over an arbitrary finite relational vocabulary rather than for graphs.
 
 Prove quantifier elimination for actual first-order formulas, including formulas with
 free variables. The meaning of a tuple's diagram is Tau Ceti's atomic-diagram semantics:
@@ -720,6 +733,10 @@ Prove the varying-parameter version under the all-rank condition of 7.2, and the
 abstract version under summability of the extension-failure probabilities.
 Instantiate it on the nested initial windows of the native infinite binomial graph.
 
+These are derivations, not cited theorems: the inputs are the summable bounds of Milestone 6
+and 7.2, the first Borel–Cantelli lemma `measure_limsup_atTop_eq_zero`, which needs no
+independence, and the rank agreement of 5.1.
+
 ## Milestone 8 — Rooted laws and asymptotic graph examples
 
 ### 8.1 Finite named roots
@@ -776,6 +793,8 @@ asymptotically-almost-sure and joint-eventual forms.
 Use native clique, degree, distance, deletion and connectivity definitions. For diameter
 $`2`$, provide both the common-neighbor upper bound and the existence of a nonedge;
 do not confuse diameter at most $`2`$ with equality.
+Each item is derived from its deterministic implication and 7.1–7.3; no external theorem is
+cited for these graph properties.
 
 Give explicit FO translations for the fixed finite patterns, fixed degree lower bounds,
 common-neighbor property and diameter bound. Connectivity itself need not be defined
@@ -833,7 +852,9 @@ $`0\lt \varepsilon\le1/2`$, prove
 
 Derive the finite FO Rado-truth law, uniform rank estimates and arbitrary-coupling
 almost-sure stabilization for these graphon sample laws. This is an application of the
-existing sampler to the newly proved conditional witness bounds.
+existing sampler to the newly proved conditional witness bounds. The conditional witness
+probabilities and the displayed bound are computed from the sampler's definition, as in
+Milestone 6; no external theorem is cited for them.
 
 Mere almost-everywhere positivity and strict inequality from $`1`$ supply the infinite
 Rado theorem, not the uniform finite estimate. Milestone 11 gives a concrete graphon
@@ -845,14 +866,15 @@ where finite FO zero–one fails despite almost-sure infinite Rado support.
 `ergodicSMul_map_toRelationalConfiguration_infiniteSampleLaw`, `graphonMixtureLawEquiv_law` and
 `InfiniteExchangeableGraphLaw.existsUnique_bind_infiniteSampleLawOnSpace`.
 
-Transport the existing dissociation/ergodicity theorem to measurable events of actual
+Transport the existing dissociation/ergodicity theorem,
+`ergodicSMul_map_toRelationalConfiguration_infiniteSampleLaw`, to measurable events of actual
 graphs. For a fixed graphon, every measurable event invariant under finitely supported
 permutations has probability $`0`$ or $`1`$. Specialize to the native realization event of
 each FO sentence.
 
 For a graphon-mixture law $`\int P_W\,d\Pi([W])`$, prove the measurability of the
 graphon-space satisfaction-probability function and evaluate the existing measure
-`bind` identity to obtain
+`bind` identity `graphonMixtureLawEquiv_law` by `Measure.bind_apply` to obtain
 
 ```math
 \Pr(G\models\varphi)=\int P_W(G\models\varphi)\,d\Pi([W]).
@@ -967,7 +989,9 @@ Bound the remaining intersection types: every connected component of a union of
 triangles has at least as many edges as vertices, and a component containing two
 distinct triangles has strictly more. Thus any overlapping list has total $`e-v\ge1`$,
 and the overlap contribution tends to zero. Make this finite classification/counting bound an
-explicit lemma, not a probabilistic independence assumption for overlapping copies.
+explicit lemma, not a probabilistic independence assumption for overlapping copies. This
+calculation is a derivation from the clique count and the edge/vertex bound above, not a cited
+theorem.
 
 Construct the actual rank-$`3`$ triangle sentence and identify its satisfaction with
 $`T_n\gt 0`$. Derive
@@ -1021,7 +1045,10 @@ For $`n\ge2k`$, the bound
 
 gives the integrable dominator $`\exp(-\sum_i u_i/(4k))`$ after scaling.
 Thus the moment limit is $`2^k`$, and 11.1 applies. Prove the $`k=0`$ case separately.
-As an elementary check, $`\mathbb E Z_n=2(1-2^{-n})`$ for every $`n`$; both sides vanish at $`n=0`$.
+As an elementary check, $`\mathbb E Z_n=2(1-2^{-n})`$ for every $`n`$. At $`n=0`$ the sum over
+vertices is empty and both sides are $`0`$. For $`n\ge1`$ a vertex with label $`x`$ is isolated
+with conditional probability $`(1-x/2)^{n-1}`$, so
+$`\mathbb E Z_n=n\int_0^1(1-x/2)^{n-1}\,dx=2(1-2^{-n})`$.
 
 Construct the FO sentence $`\forall x\,\exists y\,\mathrm{Adj}(x,y)`$ and derive
 
@@ -1101,8 +1128,13 @@ work. No unmerged mathlib branch or external formalization is a runtime dependen
 
 - R. Fagin, [Probabilities on finite models](https://homepages.math.uic.edu/~lreyzin/s15_mcs590/fagin76.pdf),
   *Journal of Symbolic Logic* 41 (1976), 50–58: finite-model zero–one laws,
-  finite consequences and rates. The theorem here is specialized to undirected loopless
-  graphs and covers every fixed interior binomial parameter.
+  finite consequences and rates, for all structures over a finite set of predicate symbols under
+  the uniform measure. Theorem 1 (p. 51) is Gaifman's completeness of the extension axioms, by
+  the Łoś–Vaught test and back-and-forth; Theorem 2 and Corollary 3 (p. 52) give the limit law
+  for each axiom and for its consequences; Corollary 5 (p. 53) gives finite models of every
+  sufficiently large cardinality for each finite set of axioms. The theorems here are the
+  corresponding statements for undirected loopless graphs, proved by the same route, and cover
+  every fixed interior binomial parameter.
 - J. Spencer, *The Strange Logic of Random Graphs*, Algorithms and Combinatorics 22,
   Springer, 2001. Theorem 0.1.2 is the Fagin–GKLT law at $`p=1/2`$ and Theorem 0.1.5 the
   uniqueness of the countable graph with the extension ("Alice's Restaurant") property;
@@ -1130,8 +1162,13 @@ work. No unmerged mathlib branch or external formalization is a runtime dependen
   most countable. Milestones 2 and 3 assume less: existence uses countability of the function
   symbols only and proceeds through representative families, and the rooted embedding allows a
   target of any cardinality; the constructions specified there supply these variants.
-- P. J. Cameron, [The random graph](https://arxiv.org/abs/1301.7544):
-  extension properties, the binary presentation, homogeneity, universality and logical theory.
+- P. J. Cameron, [The random graph](https://arxiv.org/abs/1301.7544), arXiv:1301.7544v1
+  (2013). Property (∗) and Facts 1–2 (pp. 1–2: almost-sure extension for each fixed edge
+  probability in `(0,1)`, and countable uniqueness); Rado's binary presentation (p. 3);
+  universality, Proposition 6 (p. 6); homogeneity, Proposition 9 (p. 7); the finite graphs as a
+  Fraïssé class with limit $`R`$, Theorem 3 and the following paragraph (p. 8); countable
+  categoricity, Proposition 11 (p. 9); truth in $`R`$, consequence of the extension axioms and
+  the uniform finite limit law, Theorem 6 (p. 10).
 - P. Erdős and A. Rényi,
   [On the evolution of random graphs](https://www.renyi.hu/~p_erdos/1960-10.pdf):
   classical sparse small-subgraph asymptotics. The native model and normalization in
