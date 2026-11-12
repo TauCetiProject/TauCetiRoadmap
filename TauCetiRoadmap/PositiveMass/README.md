@@ -144,8 +144,8 @@ full-scalar stability identity `∫(2|dφ|²+Scal_Σ φ²) ≥ ∫(Scal_M+|A|²)
 compact-support and two-sidedness hypotheses, and the normal-Jacobi Dirichlet
 realization. R5c item 1: on a closed connected manifold of positive dimension, for
 smooth q, the lowest eigenvalue μ₁ of `Δ⁺ + q` is the least Rayleigh quotient
-`(∫|∇u|²+∫qu²)/∫u²` and is simple, with a smooth positive eigenfunction. R7.8: smooth Lipschitz approximation of
-distance functions. R8.1–R8.2:
+`(∫|∇u|²+∫qu²)/∫u²` and is simple, with a smooth positive eigenfunction. R7.8: smooth
+Lipschitz approximation of distance functions. R8.1–R8.2:
 scalar spherical harmonics and their completeness in the compact L² realization.
 
 ### From TauCetiRoadmap.RiemannianGeometry.Surfaces (on main)
