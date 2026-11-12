@@ -54,13 +54,14 @@ embedding with a controlled retraction. It proves smooth density for these space
 
 This roadmap owns:
 
-- the generalization of the local Lebesgue and local Sobolev classes `MemLpLoc` and `MemWkpLoc`
-  from planar domains to open subsets of every finite-dimensional real normed space, with
-  their Banach-valued API (§1.1), and the first-order class `W^{1,p}_loc(Ω; F)` (§1.2);
+- the local Lebesgue and local Sobolev classes `MemLpLoc` and `W^{k,p}_loc(Ω; F)` on open
+  subsets of every finite-dimensional real normed space, with their Banach-valued API (§1.1),
+  which extend the planar classes of PseudoholomorphicCurveAnalysis §1.1 from `ℂ` to every such
+  source (those are the case `E = ℂ`), and the first-order class `W^{1,p}_loc(Ω; F)` (§1.2);
 - the Euclidean chain rule for `C¹` outer maps with bounded derivative and arbitrary Sobolev
   inner maps, the continuity of the composition operator, the change of variables of the local
-  class under `C¹` diffeomorphisms and submersions, local mollification, Banach-valued Poincaré and Morrey
-  estimates (Layer 2);
+  class under `C¹` local diffeomorphisms and submersions, local mollification, Banach-valued
+  Poincaré and Morrey estimates (Layer 2);
 - on manifolds without a metric: the almost-everywhere filter, chart measurability and local
   `Lᵖ`, null preimages under submersions, and measures defined by positive continuous densities
   (Layer 3);
@@ -73,8 +74,9 @@ This roadmap owns:
   the oriented Jacobian of a linear map and of a Sobolev map between manifolds of the same
   finite dimension, and Hadamard's inequality (Layer 6);
 - the comparison of the class with its Euclidean form, with PseudoholomorphicCurveAnalysis §4.1
-  and with Tau Ceti's Sobolev sections of a trivial bundle over a compact manifold, including
-  the first-order extension of that carrier to Banach fibres (Layer 7);
+  and with the Sobolev sections of a trivial bundle over a compact manifold of
+  PseudodifferentialOperators §5.2, including the first-order extension of that carrier to
+  Banach fibres (Layer 7);
 - the pullback of forms with fixed Banach coefficients, the Bochner extension of top-form
   integration and Stokes needed for testing their weak exterior derivative, and commutation of
   pullback with that derivative (Layer 8);
@@ -92,21 +94,22 @@ It leaves to named owners:
 
 - **PDE** Layer 1 owns the Euclidean scalar spaces `W^{k,p}(Ω)`, Poincaré inequalities, Morrey's
   theorem and density; Tau Ceti implements the parts consumed here (Exact supplier contracts).
-- **PseudoholomorphicCurveAnalysis** PH1 owns the higher-order theory of `MemWkpLoc` on planar
-  domains and half-discs (embeddings, products, composition of order `k ≥ 2`, reflection, local
-  compactness) and PH4.1 owns `W^{k,p}_loc(Σ, M)` for maps from a Riemann surface with
-  `kp > 2`. §1.1 generalizes the two PH1 definitions in place, and §7.2 proves that PH4.1's class
-  at `k = 1` is this roadmap's class on surfaces.
+- **PseudoholomorphicCurveAnalysis** PH1 owns the planar classes on planar domains and
+  half-discs and their higher-order theory (embeddings, products, composition of order `k ≥ 2`,
+  reflection, local compactness), and PH4.1 owns `W^{k,p}_loc(Σ, M)` for maps from a Riemann
+  surface with `kp > 2`. §1.1 defines the classes of PH1.1 over every finite-dimensional source,
+  PH1.1's being the case `E = ℂ`, and §7.2 proves that PH4.1's class at `k = 1` is this
+  roadmap's class on surfaces.
 - **PseudodifferentialOperators** §5.2 owns the Banach space of `W^{k,p}` sections of a vector
-  bundle over a compact base, implemented as `TauCeti.SobolevSection`, and its smooth density.
+  bundle over a compact base, its finite-chart norms and its smooth density.
   **Yamabe** Y1 owns the scalar closed-manifold carriers used for the Yamabe problem. This roadmap
-  builds no second Banach carrier: §7.3 extends the existing carrier for first-order trivial
-  Banach bundles, identifies its class on a compact manifold with that carrier, and Layer 10
+  builds no second carrier: §7.3 extends the §5.2 carrier at first order to trivial bundles
+  with Banach fibre, identifies this roadmap's class on a compact manifold with it, and Layer 10
   uses it. Higher-order and nontrivial Banach bundles are outside this roadmap.
 - **RiemannianGeometry** R4.6 owns the agreement of chartwise null sets with null sets of the
-  Riemannian volume (Tau Ceti's `TauCeti.isNullSet_iff_riemannianVolume_eq_zero`), and R6 owns
-  the nearest-point retraction onto the image of a closed-image `C²` embedding into a Euclidean
-  space.
+  Riemannian volume of a smooth metric (§3.1 proves it for every positive continuous density,
+  which covers continuous metrics), and R6 owns the nearest-point retraction onto the image of
+  a closed-image `C²` embedding into a Euclidean space.
 - **DifferentialGeometry** owns orientations (2.1–2.2), integration of forms and Stokes' theorem
   (Layer 5), the Riemannian volume (12.4) and the degree of smooth and continuous maps with its
   integral formula and homotopy invariance (10.3–10.5). §8.2 here extends its existing scalar
@@ -195,7 +198,7 @@ and completeness of the full space of weak maps are outside this roadmap.
   Wedges use a specified bounded bilinear coefficient pairing; weak testing wedges a
   `V`-valued form with a scalar test form. Oriented top-form integration uses the form itself
   and does not depend on the auxiliary positive density `μ`.
-- **Source dimension.** Finite-dimensional sources supply Lebesgue measure, chart-invariant
+- **Source dimension.** Finite-dimensional sources supply Haar measures, chart-invariant
   null sets and compactly supported test functions. Infinite-dimensional Banach spaces have no
   nonzero continuous compactly supported test functions and no nonzero locally finite
   translation-invariant Borel measure in the separable case. Gaussian Sobolev theories require
@@ -249,19 +252,15 @@ derivatives directly usable and compares them with its manifold predicates in La
 
 - `TauCeti.HasWeakFDerivOn` and, in `TauCeti/Analysis/Sobolev/WeakDeriv/`:
   `TauCeti.HasWeakFDerivOn.ae_eq`, `.mono`, `.congr_ae_deriv`,
-  `TauCeti.hasWeakFDerivOn_of_differentiableOn` (`Basic.lean`); locality
-  `TauCeti.hasWeakFDerivOn_iff_locally`, `TauCeti.hasWeakFDerivOn_iSup_iff`,
-  `TauCeti.exists_hasWeakFDerivOn_iSup` (`Local.lean`); coordinates
-  `TauCeti.hasWeakFDerivOn_iff_coordinates` (`Coordinates.lean`); the chain rule for continuous
-  inner maps `TauCeti.HasWeakFDerivOn.contDiffOn_comp` (`ChainRule.lean`), already stated for
-  Banach-valued inner and outer maps, whose outer map is `C¹` on an open set containing the
-  image, with no bound on its derivative; closedness under
-  `L¹_loc` limits `TauCeti.hasWeakFDerivOn_of_tendsto_lintegral_enorm_sub` (`Limit.lean`);
-  mollification `TauCeti.HasWeakFDerivOn.fderiv_convolution_right` (`Mollification/Basic.lean`)
-  and `TauCeti.HasWeakFDerivOn.fderiv_indicator_convolution_normed` (`Mollification/Interior.lean`).
-- `TauCeti.HasWeakFDerivOn.comp_contDiffOn_diffeo` (`TauCeti/Analysis/Sobolev/W1p/ChangeOfVariables.lean`):
-  precomposition with an injective `C¹` map with invertible derivative, with no bound on it.
-  Higher-dimensional submersion pullback and its Fubini argument are targets of §2.5.
+  `TauCeti.hasWeakFDerivOn_of_differentiableOn` (`Basic.lean`); detection on relatively compact
+  subdomains `TauCeti.hasWeakFDerivOn_iff_forall_isCompact_closure` (`Local.lean`); the
+  classical derivative of a continuous function with a continuous weak derivative,
+  `TauCeti.HasWeakFDerivOn.fderiv_eq_of_continuousOn` and
+  `TauCeti.HasWeakFDerivOn.contDiffOn_succ` (`Classical.lean`); closedness under
+  `L¹_loc` limits `TauCeti.hasWeakFDerivOn_of_tendsto_lintegral_enorm_sub` (`Limit.lean`).
+  In `TauCeti/Analysis/Sobolev/Mollification/`: mollification
+  `TauCeti.HasWeakFDerivOn.fderiv_convolution_right` (`Basic.lean`)
+  and `TauCeti.HasWeakFDerivOn.fderiv_indicator_convolution_normed` (`Interior.lean`).
 - `TauCeti.W1p`, `TauCeti.W1p.hasWeakFDerivOn_comp` (`W1p/ChainRule.lean`, scalar outer maps),
   `TauCeti.W1p.continuousOn_preciseRepresentative` (`W1p/InteriorMorrey.lean`, Morrey for
   `p > n`), `TauCeti.Wkp.dense_contDiffOn_representatives` (`Wkp/MeyersSerrin.lean`), and the
@@ -269,12 +268,8 @@ derivatives directly usable and compares them with its manifold predicates in La
   are suppliers; §2.3–§2.4 build their Banach-valued local versions, and §7.3 supplies the
   Banach-valued first-order carrier comparison. No finite-coordinate argument is a supplier for
   an infinite-dimensional target.
-- The planar classes `TauCeti.MemLpLoc`, `TauCeti.MemWkpLoc` and their API in
-  `TauCeti/Analysis/Sobolev/Local/` (PseudoholomorphicCurveAnalysis PH1.1), stated for `ℂ`.
-- `TauCeti.IsNullSet`, `TauCeti.IsNullSet.iUnion`, `TauCeti.IsNullSet.interior_eq_empty`,
-  `TauCeti.isNullSet_image_of_forall_addHaar_image_extChartAt`
-  (`TauCeti/Geometry/Manifold/Measure.lean`); `TauCeti.isNullSet_iff_riemannianVolume_eq_zero`
-  (`TauCeti/Geometry/Manifold/Riemannian/VolumeDensity/Null.lean`).
+- `TauCeti.IsNullSet`, `TauCeti.IsNullSet.chartwise`, `TauCeti.IsNullSet.iUnion`,
+  `TauCeti.IsNullSet.interior_eq_empty` (`TauCeti/Geometry/Manifold/Measure.lean`).
 - `TauCeti.riemannianVolume`, `TauCeti.isLocallyFiniteMeasure_riemannianVolume`
   (`…/Riemannian/VolumeDensity/Volume.lean`), `TauCeti.isOpenPosMeasure_riemannianVolume`
   (`…/VolumeDensity/Support.lean`), `TauCeti.riemannianVolumeForm` (`…/Riemannian/VolumeForm.lean`),
@@ -289,16 +284,9 @@ derivatives directly usable and compares them with its manifold predicates in La
   allow fixed general coefficients. The listed top-form integral and Stokes API is scalar;
   §8.2 supplies its Bochner-valued extension, compact-support integrability API and
   compatibility with continuous linear coefficient maps.
-- `TauCeti.SobolevSection` and `TauCeti.FiniteBundleAtlas`
-  (`TauCeti/Geometry/Manifold/VectorBundle/Sobolev/Basic.lean`); `TauCeti.Manifold.SobolevH1`
-  (`TauCeti/Geometry/Manifold/Riemannian/Sobolev/H1.lean`). The existing Sobolev-section carrier
-  assumes finite-dimensional fibres; its first-order trivial-Banach-bundle extension, including
-  the norm and completeness instances it needs, is a target of §7.3.
-- `TauCeti.degreeAtRegularValue` (`TauCeti/Geometry/Manifold/Degree/Basic.lean`),
-  `TauCeti.Manifold.Orientation.toHomologicalOrientation`,
-  `TauCeti.HomologicalOrientation.degree` and `TauCeti.HomologicalOrientation.degree_eq_of_homotopy`
-  (`TauCeti/AlgebraicTopology/Singular/LocalHomology/Degree.lean`),
-  `TauCeti.Manifold.Orientation.degree_toHomologicalOrientation` (`…/Degree/Homological.lean`).
+- `TauCeti.degreeAtRegularValue` (`TauCeti/Geometry/Manifold/Degree/Basic.lean`), the signed
+  count over a regular value of a `C¹` map, from which DifferentialGeometry 10.3–10.5 builds
+  the degree.
 - `TauCeti.exists_isTubularNeighborhood_normalBundle`
   (`TauCeti/Geometry/Manifold/TubularNeighborhood/Euclidean.lean`).
 
@@ -308,30 +296,16 @@ derivatives directly usable and compares them with its manifold predicates in La
   Ceti declarations above.
 - **PseudoholomorphicCurveAnalysis** PH1.1 (the planar classes, generalized in §1.1) and PH4.1
   (the surface class, compared in §7.2).
-- **PseudodifferentialOperators** §5.2: `TauCeti.SobolevSection` and its smooth density for
-  `p < ∞`.
-- **RiemannianGeometry** R4.6 (chartwise and Riemannian null sets) and R6 (the nearest-point
-  retraction `π` onto a closed-image `C²` embedded submanifold of a Euclidean space, defined on an
-  open tube, `C¹` for `C²` embeddings and smooth for smooth ones, with `dπ` at a point of the
-  submanifold the orthogonal projection onto its tangent space).
+- **PseudodifferentialOperators** §5.2: the `W^{k,p}` section carrier of a vector bundle over a
+  compact base, its finite-chart norms, completeness and smooth density for `p < ∞`.
+- **RiemannianGeometry** R4.6 (chartwise and Riemannian null sets, for smooth metrics) and R6
+  (the nearest-point retraction `π` onto a closed-image `C²` embedded submanifold of a Euclidean
+  space, defined on an open tube, `C¹` for `C²` embeddings and smooth for smooth ones, with `dπ`
+  at a point of the submanifold the orthogonal projection onto its tangent space).
 - **DifferentialGeometry** 2.1–2.2 (orientations), Layer 5 (integration of top forms and the
   boundaryless Stokes theorem), 12.4 (Riemannian volume), 10.4 (the integral formula
   `∫_M f^*ω = deg f · ∫_N ω` for smooth maps of closed oriented manifolds and smooth `ω`) and
   10.5 (the degree of continuous maps and its homotopy invariance).
-
-## Existing code to refactor
-
-`TauCeti.MemLpLoc` and `TauCeti.MemWkpLoc` (`TauCeti/Analysis/Sobolev/Local/Basic.lean`) are
-stated for functions on `ℂ`. Their definitions and the part of their API in `Local/` that does
-not use the plane (`Basic`, `Locality`, `W1p`, `ChainRule`, `ChangeOfVariables`) are to be restated
-for Banach-valued functions on any finite-dimensional real normed space `E` with an additive Haar
-measure (Conventions), keeping the names. `Coordinates` retains a finite-dimensional target for its
-finite-basis characterization; it is a specialization, not a definition of Banach-valued
-membership. `Lipschitz` retains its finite-dimensional targets, within QuasiregularMaps' ownership;
-general Banach-valued Lipschitz membership is not a target here. The planar files (`Morrey`, `Reflection`,
-`Multiplication`, `Compactness`, half-discs) then apply with `E = ℂ`; their statements do not
-change. §1.1 is this refactor. §7.3 extends the existing first-order trivial-bundle carrier
-without introducing a competing carrier or claiming higher-order Banach-bundle results.
 
 ## How to read the build
 
@@ -358,11 +332,12 @@ needs Layers 8–10.
 
 ### 1.1 Local Lebesgue and Sobolev classes
 
-Generalize `TauCeti.MemLpLoc p U u` (for `u : E → F`, `u ∈ Lᵖ(K)` for every compact `K ⊆ U`) and
-`TauCeti.MemWkpLoc p Ω k u` (iterated `TauCeti.HasWeakFDerivOn` derivatives of order `≤ k` on
-`Ω`, each `MemLpLoc p Ω`) from `ℂ` to `E`, with Banach-valued codomain, as described under
-Existing code to refactor. Prove for `E` the API that PseudoholomorphicCurveAnalysis PH1.1
-lists for `ℂ`: closure under addition,
+Define for `E` the classes that PseudoholomorphicCurveAnalysis §1.1 plans for `ℂ`, with
+Banach-valued codomain: `MemLpLoc p U u` (for `u : E → F`, `u ∈ Lᵖ(K)` for every compact
+`K ⊆ U`) and the order-`k` class `W^{k,p}_loc(Ω; F)` (iterated `TauCeti.HasWeakFDerivOn`
+derivatives of order `≤ k` on `Ω`, each in `MemLpLoc p Ω`). The planar classes are the case
+`E = ℂ`. Prove for `E` the API that PseudoholomorphicCurveAnalysis §1.1 lists for `ℂ`: closure
+under addition,
 scalar multiplication, continuous linear maps `F →L[ℝ] G` and restriction to smaller opens;
 the sheaf property for open covers; coordinates in a finite basis when `F` is finite-dimensional;
 monotonicity in `k` and the case `k = 0`; for `F = ℝ` and `E` an inner product space with
@@ -379,9 +354,11 @@ open `W` with closure in `Ω`. Prove in addition:
 
 **Checks.**
 
-- At `E = ℂ` the generalized definitions are the planar ones: the planar files compile with
-  `E := ℂ` and unchanged statements.
-- The identity of `E` lies in `MemWkpLoc p E k` for all `p`, `k`, and not in `Lᵖ(E)` for any
+- At `E = ℂ` the classes are the planar ones of PseudoholomorphicCurveAnalysis §1.1:
+  `z ↦ |z|` lies in `W^{1,p}_loc(ℂ; ℝ)` for every `p` and in `W^{2,p}_loc(ℂ; ℝ)` exactly for
+  `p < 2`, since its second derivatives have size `1/|z|` and `∫_{|z|<1} |z|^{−p}` is finite
+  exactly for `p < 2`.
+- The identity of `E` lies in `W^{k,p}_loc(E; E)` for all `p`, `k`, and not in `Lᵖ(E)` for any
   `p < ∞` when `n ≥ 1`: the class is local.
 - For `n = 3`, `u(x) = |x|^{−1}` lies in `MemLpLoc p ℝ³` exactly for `p < 3`.
 - Haar independence: `2 · volume` has the same null sets and the same `Lᵖ(K)` functions.
@@ -391,13 +368,15 @@ open `W` with closure in `Ω`. Prove in addition:
 - `F = ℓ²`: `u(x) = a(x) v` for a scalar Sobolev `a` and fixed `v ∈ ℓ²` is a member with
   derivative `h ↦ Da(x)(h) v`; no basis of the target is used.
 
-*Needs:* Tau Ceti `TauCeti.MemLpLoc`, `TauCeti.MemWkpLoc` and their files under
-`Analysis/Sobolev/Local/`; Tau Ceti `TauCeti.HasWeakFDerivOn`, `TauCeti.Wkp`.
+*Needs:* Tau Ceti `TauCeti.HasWeakFDerivOn`,
+`TauCeti.hasWeakFDerivOn_iff_forall_isCompact_closure`, `TauCeti.Wkp`; Mathlib
+`MeasureTheory.MemLp`.
 
 ### 1.2 The first-order class `W^{1,p}_loc(Ω; F)`
 
-Write `W^{1,p}_loc(Ω; F)` for `MemWkpLoc p Ω 1`: `u ∈ MemLpLoc p Ω` and some `Du : E → E →L[ℝ] F`
-with `TauCeti.HasWeakFDerivOn volume Ω u Du` lies in `MemLpLoc p Ω`. Prove:
+Write `W^{1,p}_loc(Ω; F)` (`MemW1pLoc p Ω u`) for the case `k = 1` of §1.1: `u ∈ MemLpLoc p Ω`
+and some `Du : E → E →L[ℝ] F` with `TauCeti.HasWeakFDerivOn volume Ω u Du` lies in
+`MemLpLoc p Ω`. Prove:
 
 - the weak derivative of a member is unique almost everywhere on `Ω` (`TauCeti.HasWeakFDerivOn.ae_eq`),
   and the `MemLpLoc` condition on it does not depend on the choice;
@@ -407,7 +386,12 @@ with `TauCeti.HasWeakFDerivOn volume Ω u Du` lies in `MemLpLoc p Ω`. Prove:
 - for continuous `u`, the condition `u ∈ MemLpLoc p Ω` is automatic, so `u` is in the class iff it
   has a weak derivative in `MemLpLoc p Ω`;
 - the class is a sheaf: membership on every set of an open cover of `Ω` gives membership on `Ω`
-  (`TauCeti.exists_hasWeakFDerivOn_iSup`).
+  (`memW1pLoc_iSup_iff`). Route: weak derivatives on two sets of the cover agree almost
+  everywhere on their overlap (`TauCeti.HasWeakFDerivOn.ae_eq`), so those of a countable
+  subcover glue to one field; the compact support of a test function meets finitely many sets
+  of the subcover, and a smooth partition of unity subordinate to them splits its test identity
+  (with `TauCeti.hasWeakFDerivOn_iff_forall_isCompact_closure` for the reduction to relatively
+  compact subdomains).
 
 On an open `U` with compact closure in `Ω`, write convergence in `W^{1,p}(U; F)` for
 convergence of the functions and weak derivatives in their Bochner `Lᵖ` norms. This is a
@@ -416,13 +400,17 @@ carrier and its identification with the bundle carrier are built in §7.3.
 
 **Checks.**
 
-- `u(x) = |x|` on `E` lies in the class for every `p`, with `Du(x) = ⟨x/|x|, ·⟩` off `0`.
+- `u(x) = ‖x‖` on `E` lies in the class for every `p`, with `‖Du‖ ≤ 1` almost everywhere. For
+  an inner product norm `Du(x) = ⟨x/‖x‖, ·⟩` off `0`; for the norm `max(|x₁|, |x₂|)` on `ℝ²`,
+  `Du(x) = sign(x₁) dx₁` where `|x₁| > |x₂|` and `sign(x₂) dx₂` where `|x₂| > |x₁|`. The inner
+  product formula is wrong for that model: at `x = (1, 1/2)`, `Du(x)(0, 1) = 0`, while
+  `⟨x/|x|, (0, 1)⟩ ≠ 0`.
 - `u(x) = log |x|` on `ℝ²` lies in `W^{1,p}_loc` exactly for `p < 2` (`|Du| = 1/|x|`) and is not
   continuous at `0`: the Euclidean class does not require continuity.
 - The indicator of a half-space lies in `MemLpLoc p` for every `p` and in no `W^{1,p}_loc`.
 
 *Needs:* §1.1; Tau Ceti `TauCeti.HasWeakFDerivOn.ae_eq`, `TauCeti.hasWeakFDerivOn_of_differentiableOn`,
-`TauCeti.exists_hasWeakFDerivOn_iSup`.
+`TauCeti.hasWeakFDerivOn_iff_forall_isCompact_closure`; Mathlib smooth partitions of unity.
 
 ### Examples
 
@@ -441,10 +429,16 @@ Prove, for `Ω ⊆ E` open and `u ∈ W^{1,p}_loc(Ω; F)`:
 
 - (a) *Continuous inner maps.* If `u` is continuous on `Ω`, `W ⊆ F` is open, `u(Ω) ⊆ W` and
   `g : F → G` is `C¹` on `W`, then `g ∘ u ∈ W^{1,p}_loc(Ω; G)` with `D(g ∘ u) = dg(u) ∘ Du`
-  almost everywhere. No bound on `dg` is assumed: `dg ∘ u` is bounded on compact subsets of `Ω`
-  because `u` is continuous (`TauCeti.HasWeakFDerivOn.contDiffOn_comp`).
+  almost everywhere (`MemW1pLoc.comp_contDiffOn`). No bound on `dg` is assumed: `dg ∘ u` is
+  bounded on compact subsets of `Ω` because `u` is continuous. Route: on an open `U` with
+  compact closure in `Ω`, the mollifications `u * ρ_ε` of §2.3 converge to `u` uniformly on `U`
+  and in `W^{1,1}(U)`; for small `ε` they stay within a fixed distance of the compact set
+  `u(closure U)`, where `dg` is bounded, and `dg ∘ (u * ρ_ε) → dg ∘ u` uniformly on `U` by
+  continuity of `dg` along that compact set. The classical chain rule for `g ∘ (u * ρ_ε)` and
+  `TauCeti.hasWeakFDerivOn_of_tendsto_lintegral_enorm_sub` pass to the limit.
 - (b) *Bounded derivative.* If `g : F → G` is `C¹` with `sup ‖dg‖ < ∞`, then
-  `g ∘ u ∈ W^{1,p}_loc(Ω; G)` with the same formula, for every `u` in the class. Route:
+  `g ∘ u ∈ W^{1,p}_loc(Ω; G)` with the same formula, for every `u` in the class
+  (Arendt–Kreuter, Thm 4.2, p. 9, for Lipschitz outer maps on bounded domains). Route:
   mollify (§2.3), apply (a) to the mollifications, and pass to the limit with
   `TauCeti.hasWeakFDerivOn_of_tendsto_lintegral_enorm_sub`, using dominated convergence along an
   almost everywhere convergent subsequence.
@@ -476,25 +470,35 @@ Lipschitz outer maps are not covered by replacing `C¹` with `Lipschitz` in thes
 - For a bounded linear map `g : F →L[ℝ] G`, composition is continuous for every `p`, including
   `∞`, on arbitrary Banach targets.
 
-*Needs:* §1.2, §2.3; Tau Ceti `TauCeti.HasWeakFDerivOn.contDiffOn_comp`,
-`TauCeti.hasWeakFDerivOn_of_tendsto_lintegral_enorm_sub`.
+*Needs:* §1.2, §2.3; Tau Ceti `TauCeti.hasWeakFDerivOn_of_tendsto_lintegral_enorm_sub`; Mathlib's
+chain rule for Fréchet derivatives.
 
 ### 2.2 Change of variables
 
-For open `Ω, Ω' ⊆ E` and an injective `Φ : E → E` that is `C¹` on `Ω'` with invertible derivative
-at every point and `Φ(Ω') ⊆ Ω`, prove that `u ∈ MemLpLoc p Ω` gives `u ∘ Φ ∈ MemLpLoc p Ω'` and
+For open `Ω, Ω' ⊆ E` and `Φ : E → E` that is `C¹` on `Ω'` with invertible derivative at every
+point and `Φ(Ω') ⊆ Ω`, prove that `u ∈ MemLpLoc p Ω` gives `u ∘ Φ ∈ MemLpLoc p Ω'` and
 `u ∈ W^{1,p}_loc(Ω; F)` gives `u ∘ Φ ∈ W^{1,p}_loc(Ω'; F)` with `D(u ∘ Φ) = Du(Φ) ∘ dΦ` almost
-everywhere. Prove that `Φ` and its local inverses carry null sets to null sets and
+everywhere (`MemW1pLoc.comp_contDiffOn_diffeo`; Ziemer, Thm 2.2.2, for bi-Lipschitz maps).
+Prove that `Φ` and its local inverses carry null sets to null sets and
 `AEStronglyMeasurable` functions to `AEStronglyMeasurable` functions. No global bound on `dΦ` or
-`dΦ⁻¹` is assumed: on a compact `K ⊆ Ω'` both are bounded.
+`dΦ⁻¹` is assumed: on a compact `K ⊆ Ω'` both are bounded. `Φ` need not be injective, since
+the statements are local. Route: by the inverse function theorem `Φ` restricts to a `C¹`
+diffeomorphism on a ball around each point of `Ω'`, and the class is a sheaf (§1.2); on such a
+ball, compose the mollifications of §2.3 with `Φ`, use the classical chain rule and the change
+of variables formula with `|det dΦ|` bounded above and below, and pass to the limit with
+`TauCeti.hasWeakFDerivOn_of_tendsto_lintegral_enorm_sub`.
 
 **Checks.**
 
 - `Φ(x) = 2x`: `‖u ∘ Φ‖_{Lᵖ(K)} = 2^{−n/p} ‖u‖_{Lᵖ(2K)}` and `D(u ∘ Φ)(x) = 2 Du(2x)`.
 - `Φ(x) = eˣ` from `Ω' = ℝ` to `Ω = (0, ∞)`: `dΦ` is unbounded on `Ω'` and the statement still
   holds, because it is local.
+- `Φ(z) = z²` on `Ω' = Ω = ℂ ∖ {0}` is not injective (`Φ(1) = Φ(−1)`), its derivative
+  `h ↦ 2zh` has determinant `4|z|² ≠ 0`, and `D(u ∘ Φ)(z) = Du(z²) ∘ (h ↦ 2zh)`: an injectivity
+  hypothesis would exclude this covering map.
 
-*Needs:* §1.2; Tau Ceti `TauCeti.HasWeakFDerivOn.comp_contDiffOn_diffeo`; Mathlib
+*Needs:* §1.2, §2.3; Tau Ceti `TauCeti.hasWeakFDerivOn_of_tendsto_lintegral_enorm_sub`; Mathlib
+the inverse function theorem,
 `MeasureTheory.addHaar_image_eq_zero_of_differentiableOn_of_addHaar_eq_zero`,
 `MeasureTheory.lintegral_image_eq_lintegral_abs_det_fderiv_mul`.
 
@@ -509,7 +513,7 @@ inequality, with constants depending on the source dimension, not the target dim
 mollification to pass from smooth functions to the weak class. Prove the oscillation bound:
 for `x ∈ U` and small `ε`,
 `⨍_{B_ε(x)} |u(z) − (u * ρ_ε)(x)| dz ≤ C(n, ρ) ε^{1 − n/p} ‖Du‖_{Lᵖ(B_ε(x))}` (Poincaré on balls),
-which at `p = n` is `C ‖Du‖_{Lⁿ(B_ε(x))}`.
+which at `p = n` is `C ‖Du‖_{Lⁿ(B_ε(x))}` (Hajłasz 2009, (2.1), p. 188).
 
 **Checks.**
 
@@ -525,10 +529,12 @@ balls (PDE §1.5).
 ### 2.4 Banach-valued Morrey estimates
 
 For `p > n` and `u ∈ W^{1,p}_loc(Ω; F)`, prove the interior Morrey estimate on balls and the
-existence of a locally Hölder continuous representative (locally Lipschitz when `p = ∞`). For
+existence of a locally Hölder continuous representative (locally Lipschitz when `p = ∞`;
+`MemW1pLoc.exists_continuousOn_ae_eq` for the continuous representative). For
 finite `p`, the exponent is `1 − n/p`. Use the scalar Morrey estimate through a countable
 norming family of functionals on the separable closed subspace containing the essential ranges
-of `u` and its finitely many partial derivatives. Equivalently, give the Banach-valued
+of `u` and its finitely many partial derivatives (Arendt–Kreuter, Thm 6.2, p. 17, transfers a
+scalar Hölder estimate of this form to `F`-valued functions). Equivalently, give the Banach-valued
 segment-integral proof. Prove the local estimate controlling the uniform norm by the
 `W^{1,p}` norm, so convergence in `W^{1,p}` implies locally uniform convergence for these
 representatives. The exponent depends only on the source dimension; compactness of bounded
@@ -608,9 +614,9 @@ Layer 1.
 ### 3.1 Null sets, positive densities and the almost-everywhere filter
 
 Consume Tau Ceti's `TauCeti.IsNullSet` (chartwise null sets, closed under countable unions, with
-empty interior) and RiemannianGeometry R4.6, implemented as
-`TauCeti.isNullSet_iff_riemannianVolume_eq_zero`: for every continuous Riemannian metric, the
-null sets of `TauCeti.riemannianVolume` are the chartwise null sets. Define the filter
+empty interior) and RiemannianGeometry R4.6: for a smooth Riemannian metric, the null sets of
+`TauCeti.riemannianVolume` are the chartwise null sets. For a continuous metric this is the
+case of the positive continuous density measures below. Define the filter
 `ae 𝓘(ℝ, E) M` of sets with null complement, and prove
 `∀ᵐ x ∂riemannianVolume, P x ↔ ∀ᶠ x in ae, P x` for every continuous metric, so "almost
 everywhere" on `M` depends on neither the metric nor the orientation. Prove that a null set
@@ -618,21 +624,23 @@ read in any chart of the maximal atlas is null, and that a set is null iff its i
 the source of each chart of a countable atlas is.
 
 On `M` with its Borel measurable structure, define a *positive continuous density measure*
-`μ` (`IsPositiveContinuousDensityMeasure E μ`) by requiring that in every source chart `φ`,
+`μ` by requiring that in every source chart `φ`,
 the pushforward of `μ` restricted to `φ.source` is `w_φ(y) dy` on `φ.target`, for a strictly
 positive continuous real function `w_φ`. Prove that one atlas suffices, with the Jacobian
 change-of-variables rule for these weights; construct such measures by gluing local chart
 densities with a source partition of unity. Prove local finiteness, the Radon property, full
 support, and agreement of `μ`-null sets with chartwise null sets. Identify Riemannian volume
-as the density whose coordinate weight is the square root of the metric determinant.
+as the density whose coordinate weight is `√det (g_ij)` times the density of `b.addHaar` with
+respect to `volume`, for the basis `b` of `E` in which the coefficients `g_ij` are computed;
+for Lebesgue measure on `ℝⁿ` and its standard basis the weight is `√det (g_ij)`.
 
 For any two such measures `μ`, `μ'`, prove `μ' = ρ μ` for a strictly positive continuous
 `ρ : M → ℝ`; conversely every such weight defines another density measure. Bounds
 `0 < c ≤ ρ ≤ C < ∞` on a measurable set compare its `Lᵖ` norms by `c^{1/p}` and `C^{1/p}` (with the
 usual `p = ∞` convention); these bounds hold on compact sets. Thus the null-set filter and
 local Bochner `Lᵖ` spaces are independent of the chosen density, even when the two global
-`Lᵖ` spaces differ. All Euclidean weak derivatives still use Lebesgue measure in charts;
-no weighted integration-by-parts definition replaces them.
+`Lᵖ` spaces differ. All Euclidean weak derivatives still use the Haar measure `volume` in
+charts; no weighted integration-by-parts definition replaces them.
 
 **Checks.**
 
@@ -643,9 +651,9 @@ no weighted integration-by-parts definition replaces them.
 - `dx` and `(2 + sin x) dx` give equivalent global `Lᵖ` norms, while `dx` and `e^x dx`
   have only the asserted local equivalence. No tangent norm is needed to define these measures.
 
-*Needs:* §2.2; Tau Ceti `TauCeti.IsNullSet`, `TauCeti.isNullSet_iff_riemannianVolume_eq_zero`,
-the Riemannian volume-density construction; Mathlib `Measure.withDensity`, change of variables
-and partitions of unity; RiemannianGeometry R4.6.
+*Needs:* §2.2; Tau Ceti `TauCeti.IsNullSet`, the Riemannian volume-density construction;
+Mathlib `Measure.withDensity`, change of variables and partitions of unity;
+RiemannianGeometry R4.6.
 
 ### 3.2 Measurability and local `Lᵖ`
 
@@ -670,22 +678,32 @@ For a measurable map `u : M → N` into a finite-dimensional second-countable ta
 measurability of a family `Du(x) : T_xM →L[ℝ] T_{u(x)}N` on the measurable intersections of a
 source chart with `u⁻¹` of a target chart. Require strong measurability of its trivialized
 coefficients there; these intersections need not be open. Prove independence of charts by
-countable patching and measurable transition functions. This supplies the derivative
-measurability used in §4.8 without pretending that `u*TN` is a continuous bundle over `M`.
+countable patching and measurable transition functions (`IsChartMeasurableMFDeriv E E' u Du`).
+This supplies the derivative measurability used in §4.8 without pretending that `u*TN` is a
+continuous bundle over `M`. For `N` with a measurable structure, call `u : M → N` chart
+almost-everywhere measurable when every `u ∘ (extChartAt x).symm` is almost everywhere
+measurable on `(extChartAt x).target` for `volume` (`IsChartAEMeasurableMap E u`).
 
 **Checks.**
 
-- On `ℝ` with the metric `e^{2x} dx²`, the function `1` is in `L^p_loc` but not in `Lᵖ` of the
-  volume: local `Lᵖ` is metric free, global `Lᵖ` is not.
+- On `ℝ` with the metric `e^{2x} dx²` and `p < ∞`, the function `1` is in `L^p_loc` but not in
+  `Lᵖ` of the volume `eˣ dx` (`∫ eˣ dx = ∞`): local `Lᵖ` is metric free, global `Lᵖ` is not. At
+  `p = ∞` both hold, `‖1‖_{L^∞} = 1`.
 - `x ↦ |x|^{−1/2}` on `ℝ` is in `L^p_loc` exactly for `p < 2`, in every chart.
+- Charts must be related by `C¹` diffeomorphisms: `u(x) = |x|^{−1/3}` on `ℝ` is in `L²_loc`
+  (`∫_{−1}^{1} |x|^{−2/3} dx = 6`), while for the homeomorphism `h(y) = y³`, which is not a
+  `C¹` diffeomorphism at `0`, `u ∘ h(y) = |y|^{−1}` is not in `L¹_loc`; admitting `h` as a
+  chart would make the class depend on the atlas.
 
 *Needs:* §1.1, §2.2, §3.1; Mathlib strong measurability and measurable maps into Borel spaces.
 
 ### 3.3 Null sets under `C¹` maps
 
 Here both manifolds are finite-dimensional. Prove: a `C¹` map between manifolds of the same
-dimension carries null sets to null sets
-(`TauCeti.isNullSet_image_of_forall_addHaar_image_extChartAt` with Mathlib's Euclidean statement);
+dimension carries null sets to null sets (Lee 2012, Ch. 6). Route: read the map in countably
+many pairs of charts, identify the two models by a linear equivalence, and apply
+`TauCeti.IsNullSet.chartwise` and Mathlib's
+`MeasureTheory.addHaar_image_eq_zero_of_differentiableOn_of_addHaar_eq_zero` to each piece;
 a `C¹` submersion `θ : M' → M`, with possibly different finite dimensions, has null preimages
 of null sets; chart-measurable and
 `L^p_loc` functions pull back along `θ` to chart-measurable and `L^p_loc` functions. The last
@@ -698,7 +716,7 @@ map into a positive-dimensional space has a non-null preimage of a null singleto
   is `ℤ`, which is null.
 - A constant map `ℝ → ℝ` has the non-null preimage `ℝ` of the null set `{c}`.
 
-*Needs:* §2.5, §3.1, §3.2; Tau Ceti `TauCeti.isNullSet_image_of_forall_addHaar_image_extChartAt`;
+*Needs:* §2.5, §3.1, §3.2; Tau Ceti `TauCeti.IsNullSet.chartwise`, `TauCeti.IsNullSet.iUnion`;
 Mathlib `MeasureTheory.addHaar_image_eq_zero_of_differentiableOn_of_addHaar_eq_zero`.
 
 ### Examples
@@ -718,9 +736,10 @@ For `u : M → F`, define `u ∈ W^{1,p}_loc(M; F)` (`MemW1pLocM E p u` in `Sugg
 every chart representative `u ∘ (extChartAt x).symm` lies in `W^{1,p}_loc` of the open set
 `(extChartAt x).target`. Define the weak differential `du(x) : T_xM →L[ℝ] F` of a member as a
 family whose chart expression `du(φ⁻¹ y) ∘ dφ⁻¹_y` is a weak derivative of the representative on
-every chart target. Prove that it exists, is unique almost everywhere, is chart-measurable with
-`L^p_loc` chart expressions, and that membership does not depend on the atlas (§2.2), is local
-and is preserved by continuous linear maps `F → G` and by restriction to open subsets. A `C¹`
+every chart target (`HasWeakMFDerivFun E u du`). Prove that it exists, is unique almost
+everywhere, is chart-measurable with `L^p_loc` chart expressions, and that membership does not
+depend on the atlas (§2.2), is local and is preserved by continuous linear maps `F → G` and by
+restriction to open subsets. A `C¹`
 function is a member with `du = mfderiv u`. Members need not be continuous.
 
 **Checks.**
@@ -728,6 +747,9 @@ function is a member with `du = mfderiv u`. Members need not be continuous.
 - On `M = E` with the identity chart, the class is §1.2's `W^{1,p}_loc(E; F)`.
 - On `S²` with stereographic charts, `u(x) = log |x − x₀|` is in `W^{1,p}_loc(S²; ℝ)` exactly for
   `p < 2`: it is computed in a chart centred at `x₀` and is smooth elsewhere.
+- The chart expression carries `dφ⁻¹`: on `M = ℝ`, `u(x) = x` read in the chart `φ(x) = 2x` is
+  `y ↦ y/2`, with weak derivative `1/2 = du ∘ dφ⁻¹_y` for `du = id`. A definition without the
+  factor `dφ⁻¹_y` would give `du = 1/2` in this chart and `du = 1` in the identity chart.
 
 *Needs:* §1.2, §2.2, §3.1, §3.2.
 
@@ -735,7 +757,8 @@ function is a member with `du = mfderiv u`. Members need not be continuous.
 
 Define `f ∈ W^{1,p}_loc(M, N)` (`IsSobolevMap E E' p f`) when `f`
 is continuous and, for every `x`, the chart representative `writtenInExtChartAt x f` lies in
-`W^{1,p}_loc(Ω_x(f); E')`. The set `Ω_x(f)` is open because `f` is continuous. Prove:
+`W^{1,p}_loc(Ω_x(f); E')`. The set `Ω_x(f)` is open because `f` is continuous
+(`chartDomain E E' f x` is its interior, which is the set itself for continuous `f`). Prove:
 
 - *Chart independence.* The condition holds for the preferred charts iff it holds for every
   pair of charts of the maximal atlases of `M` and `N`, on the open part of the source chart's
@@ -769,8 +792,9 @@ every `x₀`, the chart expression `y ↦ dψ_{f(φ⁻¹y)} ∘ Df(φ⁻¹y) ∘
 preferred charts at `x₀` and `f(x₀)` and the derivatives `mfderiv`, is a weak derivative of the
 chart representative on `Ω_{x₀}(f)`. Prove:
 
-- a weak differential exists for every member and is unique almost everywhere; define
-  `weakMfderiv f` as a chosen one;
+- a weak differential exists for every member (`IsSobolevMap.exists_hasWeakMFDeriv`), and two
+  weak differentials of a continuous map differ only on a null set (`HasWeakMFDeriv.ae_eq`);
+  `Df` denotes a chosen one;
 - its chart expression in every pair of charts of the maximal atlases is a weak derivative of
   the corresponding representative;
 - it is chart-measurable, as a section of `Hom(TM, f^*TN)` (§3.2), and its chart expressions are
@@ -782,6 +806,9 @@ chart representative on `Ω_{x₀}(f)`. Prove:
 - For `f = id_M`, `Df(x) = id` is a weak differential.
 - For `M = N = ℝ` and `f(t) = |t|`, `Df(t) = sign t` almost everywhere; any value at `t = 0` is
   allowed.
+- The zero family is not a weak differential of `f(t) = t` on `ℝ`: the weak derivative of the
+  representative is `1`, and `0 ≠ 1` on a set of positive measure. A definition that did not
+  tie `Df` to the weak derivative would accept it.
 
 *Needs:* §3.1, §3.2, §4.2; Tau Ceti `TauCeti.HasWeakFDerivOn.ae_eq`,
 `TauCeti.HasWeakFDerivOn.congr_ae_deriv`.
@@ -789,17 +816,21 @@ chart representative on `Ω_{x₀}(f)`. Prove:
 ### 4.4 `C¹` members
 
 Prove that a `C¹` map `f : M → N` lies in `W^{1,p}_loc(M, N)` for every `p` and that
-`x ↦ mfderiv f x` is a weak differential of it. Prove conversely that a member whose weak
-differential agrees almost everywhere with a continuous family that is the `mfderiv` of `f` at
-every point is `C¹`: in charts, `TauCeti.HasWeakFDerivOn.fderiv_eq_of_continuousOn`.
+`x ↦ mfderiv f x` is a weak differential of it (`isSobolevMap_of_contMDiff`). Prove conversely
+that a member whose weak differential agrees almost everywhere with a family `Φ`,
+`Φ(x) : T_xM →L[ℝ] T_{f(x)}N`, whose chart expressions are continuous is `C¹`, with
+`mfderiv f x = Φ x` at every `x`
+(Convent–Van Schaftingen, Prop. 1.1, p. 4, for finite-dimensional targets); in charts,
+`TauCeti.HasWeakFDerivOn.contDiffOn_succ` and `TauCeti.HasWeakFDerivOn.fderiv_eq_of_continuousOn`.
 
 **Checks.**
 
 - `z ↦ z²` on `ℂ` and `x ↦ −x` on `ℝⁿ` are members with `Df = mfderiv f` everywhere.
 - On `ℝ`, `t ↦ t|t|` is `C¹` with derivative `2|t|`, and it is the weak differential.
 
-*Needs:* §4.2, §4.3; Tau Ceti `TauCeti.hasWeakFDerivOn_of_differentiableOn`; Mathlib `mfderiv`
-in charts.
+*Needs:* §4.2, §4.3; Tau Ceti `TauCeti.hasWeakFDerivOn_of_differentiableOn`,
+`TauCeti.HasWeakFDerivOn.contDiffOn_succ`, `TauCeti.HasWeakFDerivOn.fderiv_eq_of_continuousOn`;
+Mathlib `mfderiv` in charts.
 
 ### 4.5 Restriction, locality and metric copies
 
@@ -829,10 +860,11 @@ spaces.
 Prove, for `f ∈ W^{1,p}_loc(M, N)` with weak differential `Df`:
 
 - (a) *Precomposition.* For a `C¹` submersion `θ : M' → M`,
-  `f ∘ θ ∈ W^{1,p}_loc(M', N)` and `y ↦ Df(θ y) ∘ dθ_y` is a weak differential of it; the
-  preimage under `θ` of a null set is null (§3.3).
-- (b) *Postcomposition.* For a `C¹` map `g : N → P`, `g ∘ f ∈ W^{1,p}_loc(M, P)` and
-  `x ↦ dg_{f(x)} ∘ Df(x)` is a weak differential of it.
+  `f ∘ θ ∈ W^{1,p}_loc(M', N)` (`IsSobolevMap.comp_submersion`) and `y ↦ Df(θ y) ∘ dθ_y` is a
+  weak differential of it; the preimage under `θ` of a null set is null (§3.3).
+- (b) *Postcomposition.* For a `C¹` map `g : N → P`, `g ∘ f ∈ W^{1,p}_loc(M, P)`
+  (`IsSobolevMap.comp_contMDiff`) and `x ↦ dg_{f(x)} ∘ Df(x)` is a weak differential of it
+  (`HasWeakMFDeriv.comp_contMDiff`).
 - (c) *Products.* `x ↦ (f₁(x), f₂(x))` lies in `W^{1,p}_loc(M, N₁ × N₂)` iff `f₁` and `f₂` lie in
   their classes, with weak differential `(Df₁, Df₂)`.
 
@@ -859,10 +891,12 @@ since `f` is continuous.
 Here `N` is finite-dimensional, Hausdorff, second countable and `C¹`. Define
 `IsColocallyWeaklyDifferentiable E E' u` for an almost-everywhere measurable `u : M → N`
 by requiring `φ ∘ u ∈ W^{1,1}_loc(M; ℝ)` for every compactly supported `C¹` function
-`φ : N → ℝ`. Use the chartwise measurable-map predicate of §3.2; it agrees with
-`AEMeasurable u μ` for every density measure of §3.1. Prove invariance under almost-everywhere
-equality, restriction to source opens, locality for countable open source covers, and
-invariance under changes of atlases and target `C¹` diffeomorphisms.
+`φ : N → ℝ` (Convent–Van Schaftingen, Def. 1.1, p. 3). Use the chartwise measurable-map
+predicate of §3.2; it agrees with `AEMeasurable u μ` for every density measure of §3.1. Prove
+invariance under almost-everywhere equality, restriction to source opens, locality for
+countable open source covers, and invariance under changes of atlases and target `C¹`
+diffeomorphisms. Prove that every member of §4.2 with `p ≥ 1` is colocal
+(`IsSobolevMap.isColocallyWeaklyDifferentiable`).
 
 Build a countable cover of `N` by relatively compact chart neighbourhoods and compactly
 supported `C¹` scalar probes whose finite tuples agree there with the coordinates of a chart.
@@ -880,6 +914,9 @@ on an infinite-dimensional Banach manifold vanish, so this probe family would de
   probe of `u` is smooth near `0` up to a change at that point; `u` is colocal, but neither
   `u` nor its derivative is locally integrable near `0`. Colocal differentiability alone is
   weaker than ordinary vector-valued `W^{1,1}_loc`.
+- `u(x) = sign x` on `ℝ` is not colocal into `ℝ`: for a probe with `φ(1) ≠ φ(−1)`, `φ ∘ u`
+  jumps at `0` and is not in `W^{1,1}_loc`. A definition that asked only for `L¹_loc` probes
+  would accept it.
 
 *Needs:* §2.1, §2.6, §3.1–§3.2, §4.1; Mathlib finite-dimensional manifold bump functions;
 Convent–Van Schaftingen §1.
@@ -889,18 +926,23 @@ Convent–Van Schaftingen §1.
 For a colocal map `u : M → N` as in §4.7, define `HasColocalWeakMFDeriv E E' u Du` to mean that
 `Du(x) : T_xM →L[ℝ] T_{u(x)}N` is chart-measurable in the sense of §3.2 and, for every probe
 `φ` of §4.7, the ordinary weak differential of `φ ∘ u` is
-`x ↦ dφ_{u(x)} ∘ Du(x)`. Use a predicate for weak differentials of Banach-valued functions
-on the source as in §4.1; no continuity of `φ ∘ u` is required. Prove:
+`x ↦ dφ_{u(x)} ∘ Du(x)` (Convent–Van Schaftingen, Def. 1.2, p. 4). Use a predicate for weak
+differentials of Banach-valued functions on the source as in §4.1; no continuity of `φ ∘ u` is
+required. Prove:
 
-- existence and uniqueness almost everywhere, constructing `Du` from the countable extended
-  chart probes and using §2.6 on their measurable overlap sets;
+- existence (`IsColocallyWeaklyDifferentiable.exists_hasColocalWeakMFDeriv`) and uniqueness
+  almost everywhere (`HasColocalWeakMFDeriv.ae_eq`), constructing `Du` from the countable
+  extended chart probes and using §2.6 on their measurable overlap sets (Convent–Van
+  Schaftingen, Prop. 1.2, p. 5);
 - invariance under null changes of `u` (transporting the target tangent space on the equality
   set), and under null changes of `Du`; restriction and locality on source opens;
 - equality of the derivatives almost everywhere on any measurable set on which two colocal
-  maps agree, with the same tangent-space transport;
-- constants, `C¹` maps and products, with their expected differentials;
+  maps agree, with the same tangent-space transport (Convent–Van Schaftingen, Prop. 1.8, p. 7);
+- constants, `C¹` maps and products, with their expected differentials (products:
+  Convent–Van Schaftingen, Prop. 1.7, p. 7);
 - the chain identity `D(g ∘ u) = dg_u ∘ Du` for `C¹` maps between finite-dimensional targets
-  whenever both `u` and `g ∘ u` are colocal. The hypothesis that the composition is colocal
+  whenever both `u` and `g ∘ u` are colocal (Convent–Van Schaftingen, Prop. 1.5, p. 6). The
+  hypothesis that the composition is colocal
   is part of this statement. Prove it automatically when `g` is proper, by pulling back
   compactly supported probes, or when `u` has locally essentially compact target range, by
   inserting a target cutoff equal to one on that range;
@@ -916,8 +958,12 @@ differential and the weak differential of §4.3 agree whenever the latter exists
 
 - The example `1/x` of §4.7 has `Du = −1/x²` almost everywhere; its local integrability is
   recovered only after a compact target truncation.
-- The radial map `x ↦ x/|x|` into `S^{n−1}`, with an arbitrary value at the origin, has its
-  usual tangential derivative almost everywhere and is colocal even without continuity.
+- For `n ≥ 2`, the radial map `x ↦ x/|x|` into `S^{n−1}`, with an arbitrary value at the
+  origin, has its usual tangential derivative almost everywhere and is colocal even without
+  continuity. At `n = 1` it is `sign x` into `S⁰ = {±1}`, which is not colocal (§4.7).
+- For `M = N = ℝ` and `u(t) = |t|`, `Du(t) = sign t` almost everywhere, and the zero field is
+  not a colocal differential: for a probe equal to `y` on `[−1, 1]`, `φ ∘ u = |t|` near `0`,
+  whose weak derivative is `sign t ≠ 0`.
 
 *Needs:* §2.6, §3.2–§3.3, §4.1, §4.3, §4.7; Convent–Van Schaftingen §1.
 
@@ -999,7 +1045,8 @@ mutually comparable by factors `a, b ≥ 1`, respectively. Prove
 density measures and assume `c ≤ ρ ≤ C` on the set being integrated. Compare the `Lᵖ`
 differential norms with upper factor `C^{1/p} a b` and lower factor `c^{1/p}/(a b)`;
 for `p = ∞` the density factor is `1`. Prove that any two compatible source norms and
-densities are uniformly comparable on compact source sets. Any two compatible target norms
+densities are uniformly comparable on compact source sets (for Riemannian metrics on a compact
+manifold, Hajłasz 2009, §1, p. 187). Any two compatible target norms
 are comparable on compact target sets; for continuous `f`, use the compactness of `f(K)`.
 This proves the local characterization is independent of all these choices for continuous
 maps. For discontinuous maps, target norm comparisons require uniform bounds along their
@@ -1022,8 +1069,10 @@ Riemannian specialization.
 Here `N` is finite-dimensional and second countable, with specified compatible continuous
 tangent norms on `M`, `N`, and a positive continuous source density `μ`. Define
 `Ẇ^{1,p}_loc(M, N)` as the colocal maps of §4.7 with `‖Du‖ ∈ L^p_loc(M, μ)`; define the
-global homogeneous class `Ẇ^{1,p}(M, N)` by `‖Du‖ ∈ Lᵖ(M, μ)`. Prove measurability of this
-norm using §3.2's measurable chart coefficients and the compatible norm data. These are
+global homogeneous class `Ẇ^{1,p}(M, N)` by `‖Du‖ ∈ Lᵖ(M, μ)` (Convent–Van Schaftingen,
+Def. 2.1, p. 8, for Riemannian metrics with the Hilbert–Schmidt norm and `p < ∞`). Prove
+measurability of this norm using §3.2's measurable chart coefficients and the compatible norm
+data. These are
 classes modulo almost-everywhere equality, with the differential of §4.8. If a compatible target distance
 `d_N` and basepoint `y₀` are specified, define the inhomogeneous local and global classes by
 also requiring `d_N(u(·),y₀)` in the corresponding `Lᵖ` space. Prove independence of the
@@ -1094,10 +1143,12 @@ For finite-dimensional real inner product spaces `V`, `W` of one dimension `n` w
 `o_W.volumeForm (A v₁, …, A vₙ) = J(A) · o_V.volumeForm (v₁, …, vₙ)` for every family (equivalently,
 `J(A) = o_W.volumeForm (A ∘ b)` for a positive orthonormal basis `b` of `V`). Prove:
 
-- `J(B ∘ A) = J(B) J(A)` for three oriented spaces, and `J(id) = 1` for one orientation;
+- `J(B ∘ A) = J(B) J(A)` for three oriented spaces (`orientedJacobian_comp`), and `J(id) = 1`
+  for one orientation;
 - reversing exactly one of `o_V`, `o_W` negates `J(A)`;
-- `|J(A)| = LinearMap.normDet A ≤ ‖A‖ⁿ` (Hadamard, `Orientation.abs_volumeForm_apply_le`);
-- `J(A) = LinearMap.det A` when `V = W` with one orientation;
+- `|J(A)| = LinearMap.normDet A ≤ ‖A‖ⁿ` (`abs_orientedJacobian`, `abs_orientedJacobian_le`;
+  Hadamard, `Orientation.abs_volumeForm_apply_le`);
+- `J(A) = LinearMap.det A` when `V = W` with one orientation (`orientedJacobian_self`);
 - `J(A) ≠ 0` iff `A` is invertible, and `J(A) > 0` iff `A` is invertible and carries `o_V` to
   `o_W` (`Orientation.map`);
 - in dimension `0`, `J(A) = 1` if the two orientations agree and `−1` otherwise.
@@ -1128,7 +1179,8 @@ and `N` are modelled on one space `E` with an orientation `o_E`, and the charts 
 `o_E`), then for almost every `x` in the chart domain
 `J_f(x) = LinearMap.det (dψ ∘ Df(x) ∘ dφ⁻¹) · w_N(ψ(f(x))) / w_M(φ(x))`, where `w_M`, `w_N` are
 the coordinate weights of the Riemannian volumes in `φ`, `ψ` (§3.1), equal to
-`√det (g_{ij})` for Lebesgue measure on `ℝⁿ`.
+`√det (g_{ij})` for Lebesgue measure on `ℝⁿ` (Lee 2012, Ch. 15, for the volume form in oriented
+charts).
 
 **Checks.**
 
@@ -1143,7 +1195,8 @@ the coordinate weights of the Riemannian volumes in `φ`, `ψ` (§3.1), equal to
 ### 6.3 Hadamard's inequality and integrability
 
 Prove `|J_f| ≤ ‖Df‖ⁿ` almost everywhere, hence `J_f ∈ L^{p/n}_loc(M)` for `p ≥ n`, in particular
-`J_f ∈ L¹_loc(M)` for `f ∈ W^{1,n}_loc(M, N)`.
+`J_f ∈ L¹_loc(M)` for `f ∈ W^{1,n}_loc(M, N)`; local integrability for `p ≥ n`, on compact
+sets for the Riemannian volume, is `IsSobolevMap.integrableOn_orientedJacobian`.
 
 **Checks.**
 
@@ -1168,19 +1221,23 @@ Layer 5.
 
 ### 7.1 Euclidean domains
 
-Let `Ω ⊆ E` be open, carrying the identity chart and the flat metric, and let `F` be a real
-Banach space with its identity chart and fixed norm. Prove that
+Let `Ω ⊆ E` be open, carrying the identity chart and the norm of `E` as its tangent norm
+(§5.1), and let `F` be a real Banach space with its identity chart and fixed norm. Prove that
 for `f : E → F`, the restriction of `f` to the open submanifold `Ω` lies in `W^{1,p}_loc(Ω, F)` iff
 `f` is continuous on `Ω` and has a weak derivative `Du` on `Ω`
 (`TauCeti.HasWeakFDerivOn volume Ω f Du`) with `‖Du‖ ∈ MemLpLoc p Ω`; that then `Df = Du` and
-`‖Df‖ = ‖Du‖` almost everywhere. For the finite-dimensional specialization `F = E` with one
-orientation on both sides, prove that
-`J_f = LinearMap.det Du` almost everywhere.
+`‖Df‖ = ‖Du‖` almost everywhere. When `E` is an inner product space with its flat metric,
+`F = E` and one orientation is used on both sides, prove that `J_f = LinearMap.det Du`
+almost everywhere (Martio–Rickman–Väisälä, p. 6, for the Jacobian `J(x, f)` of a map of
+`ℝⁿ`).
 
 **Checks.**
 
 - The fold of §6's Examples: `Du = diag(sign x₁, 1, …, 1)`, `‖Du‖ = 1`, `det Du = sign x₁`.
 - With `o` on `Ω` and `−o` on `E`, `J_f = −det Du`; the identity then has `J = −1`.
+- The tangent norm is the norm of `E`: on `ℝ²` with the norm `max(|y₁|, |y₂|)`, `f(x) = x₁ + x₂`
+  into `F = ℝ` has `‖Df‖ = 2`, the dual norm of `(1, 1)`; the Euclidean metric would give
+  `√2`.
 
 *Needs:* §4.2–§4.3, §5.1; §6.2 for the determinant specialization.
 
@@ -1203,27 +1260,23 @@ is a weak differential in the sense of §4.3.
 
 Let `M` be compact and `F` Banach. Prove that every `u ∈ W^{1,p}_loc(M; F)` has `u ∈ Lᵖ(M; F)`
 and `|du| ∈ Lᵖ(M)` for every positive continuous source density and compatible continuous
-source tangent norm. Extend the existing
-`TauCeti.SobolevSection A volume p 1` carrier and the underlying first-order chart-component
-construction to the trivial bundle `M × F`: remove the finite-dimensional-fibre assumption in
-this case, supplying its normed-space and completeness API and its smooth density for `p < ∞`.
-Build the first-order Banach-valued Euclidean component space from the closed graph
-`u ↦ (u, ∂₁u, …, ∂ₙu)` in a finite product of Bochner `Lᵖ` spaces; identify the existing
-finite-dimensional specialization with it. Weak-derivative closedness supplies completeness,
-and §2.3 plus a source partition of unity supplies density. No reflexivity or Radon–Nikodým
-property of `F` is needed. General higher-order or nontrivial Banach-bundle carriers remain
-with their named owners and are not asserted here.
+source tangent norm. Extend the first-order case of the `W^{k,p}` section carrier of
+PseudodifferentialOperators §5.2 and its chart-component construction to the trivial bundle
+`M × F` with Banach fibre `F`, supplying its normed-space and completeness API and its smooth
+density for `p < ∞`. Build the first-order Banach-valued Euclidean component space from the
+closed graph `u ↦ (u, ∂₁u, …, ∂ₙu)` in a finite product of Bochner `Lᵖ` spaces; the §5.2
+carrier of a trivial bundle with finite-dimensional fibre is its specialization. Weak-derivative
+closedness supplies completeness, and §2.3 plus a source partition of unity supplies density.
+No reflexivity or Radon–Nikodým property of `F` is needed. General higher-order or nontrivial
+Banach-bundle carriers remain with their named owners and are not asserted here.
 
 For any finite source atlas with the standard trivial fibre coordinates, identify this carrier
 with classes modulo almost-everywhere equality of members of `W^{1,p}_loc(M; F)`, with norm
 equivalent to `‖u‖_{Lᵖ} + ‖ |du| ‖_{Lᵖ}`. More general fibre trivializations are allowed when
 their transition maps and first derivatives have uniform bounds on the compact chart sets.
 These norms are equivalent for all the specified densities and source tangent norms by
-§3.1 and §5.3; the `volume` argument in the existing carrier is chart Lebesgue measure, not
-a demand to use a Riemannian global measure.
-Prove that for `p = 2`, `F = ℝ` and a smooth metric, `TauCeti.Manifold.SobolevH1` is identified, isometrically
-for the norm `(‖u‖²_{L²} + ‖ |du| ‖²_{L²})^{1/2}`, with the same space, using the smooth density
-of PseudodifferentialOperators §5.2.
+§3.1 and §5.3; the chart integrals use the Haar measure `volume` of the model, not a
+Riemannian global measure.
 
 **Checks.**
 
@@ -1234,12 +1287,11 @@ of PseudodifferentialOperators §5.2.
   completeness applies even though bounded families of such sections need not be precompact.
 
 *Needs:* §2.3, §3.2, §4.1, §5.3; Tau Ceti weak-derivative closedness,
-`TauCeti.SobolevSection`, `TauCeti.Manifold.SobolevH1`;
-PseudodifferentialOperators §5.2.
+`TauCeti.hasWeakFDerivOn_of_tendsto_lintegral_enorm_sub`; PseudodifferentialOperators §5.2.
 
 ### Examples
 
-Smooth functions on closed manifolds as elements of `TauCeti.SobolevSection`; Floer strips as
+Smooth functions on closed manifolds as elements of the carrier of §7.3; Floer strips as
 members of `W^{1,p}_loc` for `p > 2`.
 
 ### Dependencies
@@ -1253,8 +1305,8 @@ PseudoholomorphicCurveAnalysis PH4.1; PseudodifferentialOperators §5.2.
 
 Fix a real Banach coefficient space `V`. For `f ∈ W^{1,p}_loc(M, N)` with weak differential
 `Df` and a continuous `V`-valued `k`-form `ω` on `N`,
-define the rough form `f^♯ω` on `M` by `(f^♯ω)(x)(v₁, …, v_k) = ω(f(x))(Df(x)v₁, …, Df(x)v_k)`
-(`sobolevPullback`). The source `M` is finite-dimensional; `N` is a Banach manifold and
+define the rough form `f^♯ω` on `M` by `(f^♯ω)(x)(v₁, …, v_k) = ω(f(x))(Df(x)v₁, …, Df(x)v_k)`.
+The source `M` is finite-dimensional; `N` is a Banach manifold and
 `ω(y)` is a bounded alternating multilinear map from `T_yN` to `V`. Prove:
 
 - it is chart-measurable and its almost-everywhere class does not depend on the choice of `Df`;
@@ -1296,7 +1348,7 @@ This is integration of oriented top forms, independent of the auxiliary density 
 On the finite-dimensional source `M`, for `0 ≤ k < n` and locally integrable `V`-valued rough forms `α`
 of degree `k` and `β` of degree `k + 1`
 (chart-measurable with `L¹_loc` chart coefficients), say that `β` is a weak exterior derivative
-of `α` (`HasWeakMExtDeriv α β`) when for every open `U ⊆ M`, every orientation `o` of
+of `α` when for every open `U ⊆ M`, every orientation `o` of
 `U` and every smooth compactly supported scalar `(n − k − 1)`-form `φ` on `U`,
 `integralTopForm o (β ∧ φ) = (−1)^{k+1} integralTopForm o (α ∧ dφ)`. Prove:
 
@@ -1377,14 +1429,17 @@ Let `ι : N → F` be a `C¹` split immersion of a Banach manifold into a real B
 `v ↦ (v, 0)` for a topological direct-sum complement. Extract from this normal form, near each
 `y`, an open neighbourhood of `ι(y)` and a `C¹` local left inverse `r` into `N` which satisfies
 `r ∘ ι = id` near `y`. Prove that a continuous `f : M → N` lies
-in `W^{1,p}_loc(M, N)` iff `ι ∘ f ∈ W^{1,p}_loc(M; F)`, and that then `D(ι ∘ f) = dι_f ∘ Df`
+in `W^{1,p}_loc(M, N)` iff `ι ∘ f ∈ W^{1,p}_loc(M; F)`
+(`isSobolevMap_iff_memW1pLocM_comp_immersion`), and that then `D(ι ∘ f) = dι_f ∘ Df`
 almost everywhere. If `dι` preserves the chosen tangent norms,
 then `‖D(ι ∘ f)‖ = ‖Df‖` almost everywhere. Route: one direction is §4.6(b); for the other, near
 `f(x₀)` the immersion has a `C¹` left inverse `r` defined on a neighbourhood of `ι(f(x₀))` in `F`,
 and `f = r ∘ ι ∘ f` near `x₀` because `f` is continuous, so §2.1(a) applies; this is the Sobolev
-form of `ContMDiffAt.iff_comp_isImmersionAtOfComplement`. In particular the definition of
-`W^{1,p}_loc(M, N)` through an isometric (Nash) embedding of a finite-dimensional `N` into a
-Euclidean space gives this roadmap's class with the same `‖Df‖` (Heikkilä–Pankka, Remark 2).
+form of `ContMDiffAt.iff_comp_isImmersionAtOfComplement`. In particular, on continuous maps,
+the definition of `W^{1,p}_loc(M, N)` through an isometric (Nash) embedding of a
+finite-dimensional `N` into a Euclidean space (Hajłasz 2009, §1, p. 185; Heikkilä–Pankka,
+arXiv 2302.11440v2, proof of Prop. B.1, p. 24) gives this roadmap's class with the same
+`‖Df‖`.
 Derive the injective-differential version when both `N` and the ambient space are
 finite-dimensional: combine the continuous linear left inverse supplied by
 `IsDiffImmersionAt.of_injective_of_finiteDimensional` with the inverse function theorem to
@@ -1442,6 +1497,10 @@ cutoff on `H`. The complemented linear subspace has `Π` equal to its projection
 - `N = S^{m−1} ⊆ ℝ^m`: `π(z) = z/|z|` on `T_1`, and `dπ_z = (I − z zᵀ)` at `|z| = 1`.
 - The unit sphere of `ℓ²` satisfies the retraction hypotheses but is not compact. No
   nonempty infinite-dimensional Banach manifold is compact, since it is not locally compact.
+- `ι(t) = (t, t²)` from `ℝ` into `ℝ²`, with `U = ℝ²` and `r(z) = z₁`, is retractive although
+  `r` is not the nearest-point retraction: `dι_t(1) = (1, 2t)`, `d(ι ∘ r)_{ι(t)}` sends `v` to
+  `v₁ (1, 2t)`, so the identity `d(ι ∘ r)_{ι(t)} ∘ dι_t = dι_t` holds, while `dr` is not the
+  orthogonal projection onto the tangent line for `t ≠ 0`.
 
 *Needs:* §9.1; Mathlib Banach inverse function theorem and Hilbert orthogonal projections;
 RiemannianGeometry R6 and Tau Ceti `TauCeti.exists_isTubularNeighborhood_normalBundle` for the
@@ -1470,7 +1529,9 @@ Prove:
   open neighbourhoods `O_j ⊆ M × N` of the graph of `f`, require
   `(x, f_j(x)) ∈ O_j` as well as the convergence of (b). Supply homotopies from `f` to `f_j`
   fixed on `V'` whose graphs also remain in `O_j`. With `A = ∅` this includes unrestricted
-  approximation;
+  approximation. The approximants, their graph control and agreement near `A` are
+  `IsSobolevMap.exists_smooth_approx_rel`, with the convergence of (b) in fixed charts written
+  `TendstoSobolevLoc`;
 - (d) for every smooth map `ι : N → F` into a Banach space, deduce convergence of
   `ι ∘ f_j` locally uniformly and in `W^{1,p}_loc(M; F)`, including convergence of its weak
   differentials. This applies to any smooth embedding and does not require a globally bounded
@@ -1488,8 +1549,9 @@ uniform and `Lᵖ` derivative errors on a source exhaustion; keep every support 
 `closure V'`. Prove that local finite stabilization gives global smooth maps, that the error
 bounds survive target chart transitions, and that chartwise straight-line interpolations give
 the controlled relative homotopies. This supplies the Sobolev estimates in addition to the
-continuous-map smoothing framework of Wockel's theorem. Wockel alone is not a supplier of
-`W^{1,p}` convergence. Every local change and every gluing estimate is part of this target.
+continuous-map smoothing framework of Wockel's theorem (Wockel, Thm 0.11, p. 4). Wockel alone
+is not a supplier of `W^{1,p}` convergence. Every local change and every gluing estimate is
+part of this target.
 
 **Checks.**
 
@@ -1502,7 +1564,7 @@ continuous-map smoothing framework of Wockel's theorem. Wockel alone is not a su
   neighbourhood of `A`; in particular no prescribed smooth data there are changed.
 
 *Needs:* §2.1(d), §2.2–§2.3, §4.5–§4.6; Mathlib source `SmoothPartitionOfUnity`, source
-exhaustions and locally finite refinements; Wockel's chartwise relative smoothing framework.
+exhaustions and locally finite refinements; Wockel, Thm 0.11, p. 4.
 Part (d)'s direct retraction construction additionally uses §9.2.
 
 ### Examples
@@ -1529,7 +1591,7 @@ sphere. Compactness of a Banach target is not an assumption.
 ### 10.1 The space `W^{1,p}_ι(M, N)`
 
 Define `W^{1,p}_ι(M, N)` as the set of `u ∈ W^{1,p}_loc(M; F)` with `u(x) ∈ ι(N)` for almost every
-`x`, with the metric of `TauCeti.SobolevSection` (§7.3). Prove:
+`x`, with the metric of the carrier of §7.3. Prove:
 
 - *tangency*: `du(x)` takes values in `dι(T_y N)`, `ι(y) = u(x)`, for almost every `x`; route:
   `Π ∘ u = u` almost everywhere and §2.1(b) give `du = dΠ_u ∘ du`;
@@ -1543,7 +1605,7 @@ Define `W^{1,p}_ι(M, N)` as the set of `u ∈ W^{1,p}_loc(M; F)` with `u(x) ∈
   have been supplied;
 - *continuous members*: for continuous `u : M → F` with values in `ι(N)`,
   `u ∈ W^{1,p}_ι(M, N)` iff `ι⁻¹ ∘ u ∈ W^{1,p}_loc(M, N)` (§9.1);
-- `W^{1,p}_ι(M, N)` is closed in `TauCeti.SobolevSection` for `p < ∞`.
+- `W^{1,p}_ι(M, N)` is closed in the carrier of §7.3 for `p < ∞`.
 
 This is a subset of the Banach-valued carrier extended in §7.3. Prove that the definition,
 with its fixed embedding, is independent of the finite source atlas, positive continuous
@@ -1585,8 +1647,12 @@ the continuous representative takes values in `ι(N)` everywhere.
 
 ### 10.3 Density of smooth maps for `p ≥ n`
 
-Prove that for `n ≤ p < ∞` the maps `ι ∘ g`, `g : M → N` smooth, are dense in `W^{1,p}_ι(M, N)`
-(Schoen–Uhlenbeck when the target is compact and finite-dimensional). Route: for `p > n`,
+Prove that for `n ≤ p < ∞` the maps `ι ∘ g`, `g : M → N` smooth, are dense in `W^{1,p}_ι(M, N)`.
+For a compact finite-dimensional target and a smooth embedding `ι : N → ℝᵐ` this is
+Schoen–Uhlenbeck's theorem (Hajłasz 2009, Thm 2.1, p. 188, and its proof for `p = n`):
+every `u ∈ W^{1,p}(M; ℝᵐ)` with `u(x) ∈ ι(N)` for almost every `x` is the limit of `ι ∘ g_j`
+for smooth `g_j : M → N`, with `ι ∘ g_j → u` and `D(ι ∘ g_j) → Du` in `Lᵖ` on every compact
+subset of every chart (`exists_smooth_approx_of_ae_mem_range`). Route: for `p > n`,
 §10.2 and §9.3. For `p = n ≥ 1`, mollify `u` with a partition
 of unity subordinate to finitely many charts; by the oscillation bound of §2.3,
 `dist(u_ε(x), ι(N)) ≤ ⨍ |u_ε(x) − u(z)| dz ≤ C sup_x ‖Du‖_{Lⁿ(B_{Cε}(x))} → 0` uniformly in `x`,
@@ -1652,8 +1718,7 @@ periods `∫_γ u^♯dθ / 2π` of continuous members.
 Throughout this layer `M` and `N` are finite-dimensional, closed, connected and oriented, of
 the same dimension `n ≥ 1`, with smooth metrics. The target `N` is embedded into a Euclidean
 space as in §9.2. The degree `deg` is that of DifferentialGeometry 10.4–10.5 for continuous
-maps, equal to Tau Ceti's `TauCeti.HomologicalOrientation.degree` through
-`TauCeti.Manifold.Orientation.toHomologicalOrientation`.
+maps.
 The intrinsic weak maps of §5.4 are identified with the extrinsic carrier by §10.4, so the
 degree below also defines their degree, with the same integral formula and continuity.
 
@@ -1680,7 +1745,7 @@ integrals converge by §8.1, since `f_j^♯ω → f^♯ω` in `L¹`.
 
 For `u ∈ W^{1,n}_ι(M, N)`, with the pullback `u^♯ω = u^*(π^*ω)` of §8.1 taken extrinsically
 (well defined by tangency, §10.1), define `deg u = ∫_M u^♯ω` for an `n`-form `ω` on `N` with
-`∫_N ω = 1` (`sobolevDegree`). Prove that it does not depend on `ω` or `ι`,
+`∫_N ω = 1`. Prove that it does not depend on `ω` or `ι`,
 that it is an integer, that it is locally constant on `W^{1,n}_ι(M, N)`, that it equals the
 degree of every smooth map close enough to `u` in `W^{1,n}` (which exist by §10.3), and that it
 equals `deg u` of §11.1 for continuous `u`.
@@ -1692,15 +1757,18 @@ equals `deg u` of §11.1 for continuous `u`.
   discontinuous at `p`, and has degree `0`, since `Du` has rank at most `1` and `J_u = 0`.
 - For continuous `u` the definition returns the degree of §11.1; for `u` the identity of `S²`,
   `deg u = 1`.
+- The antipodal map `a` of `S²` reverses the orientation, so `J_a = −1` for the round metric and
+  `∫ a^♯ω = −∫ ω`: `deg a = −1`. A definition integrating `|J_u|` would give `1`.
 
 *Needs:* §8.1, §8.3, §10.1, §10.3, §11.1.
 
 ### 11.3 Failure of density below `n`
 
 Prove that for `n ≥ 2` and `n − 1 ≤ p < n`, the map `u(x) = x/|x|` of the open unit ball
-`B ⊆ ℝⁿ` lies in `W^{1,p}(B; ℝⁿ)` with values in `S^{n−1}`, and that there is no sequence of
-maps `v_j : B → S^{n−1}`, smooth on `B` with `v_j ∈ W^{1,p}(B; ℝⁿ)`, converging to `u` in
-`W^{1,p}(B; ℝⁿ)`. Route: by Fubini in polar coordinates, for almost every `r ∈ (0, 1)` a
+`B ⊆ ℝⁿ` lies in `W^{1,p}(B; ℝⁿ)` with values in `S^{n−1}`, and that for a weak derivative
+`Du` of `u` on `B` there is no sequence of maps `v_j : B → S^{n−1}`, smooth on `B`, with
+`v_j → u` and `Dv_j → Du` in `Lᵖ(B)` (`not_exists_smooth_sphere_approx_radial`; Hajłasz 2009,
+Thm 2.3, p. 189). Route: by Fubini in polar coordinates, for almost every `r ∈ (0, 1)` a
 subsequence of `v_j|_{∂B_r}` converges to `u|_{∂B_r}` in `W^{1,n−1}(∂B_r)`; the degree of
 §11.2 (with `M = ∂B_r ≅ S^{n−1}`, `N = S^{n−1}`, dimension `n − 1`) is continuous there, `0` for
 `v_j|_{∂B_r}`, which extends over `B_r`, and `1` for `u|_{∂B_r}`.
@@ -1739,6 +1807,16 @@ Layers 8–10; DifferentialGeometry 10.4–10.5.
 - T. Iwaniec, G. Martin, *Geometric Function Theory and Non-linear Analysis*, Oxford, 2001:
   Ch. 4–6 (Sobolev mappings, pullback of forms, the Jacobian as a weak divergence).
 - S. Rickman, *Quasiregular Mappings*, Springer, 1993: Ch. I (the class `W^{1,n}_loc ∩ C`).
+- J. M. Lee, *Introduction to Smooth Manifolds*, 2nd ed., GTM 218, Springer, 2012: Ch. 6 (sets
+  of measure zero and their images under `C¹` maps), Ch. 15 (orientations and the Riemannian
+  volume form in oriented charts).
+- O. Martio, S. Rickman, J. Väisälä, *Definitions for quasiregular mappings*, Ann. Acad. Sci.
+  Fenn. Ser. A I 448 (1969), p. 6 (the Jacobian `J(x, f)`).
+- P. Hajłasz, *Sobolev mappings between manifolds and metric spaces*, in *Sobolev Spaces in
+  Mathematics I*, Int. Math. Ser. 8, Springer, 2009, 185–222: §1, p. 185 (the class
+  `W^{1,p}(M, N)` through an isometric embedding) and p. 187 (Riemannian metrics on a compact
+  manifold are equivalent), Thm 2.1 and (2.1), p. 188 (density for
+  `p > dim M` and the oscillation estimate behind `p = dim M`), Thm 2.3, p. 189 (`x/|x|`).
 - P. Hajłasz, T. Iwaniec, J. Malý, J. Onninen, *Weakly differentiable mappings between
   manifolds*, Mem. Amer. Math. Soc. 192 (2008), no. 899 (intrinsic and extrinsic definitions,
   chain rules).
@@ -1754,7 +1832,8 @@ Layers 8–10; DifferentialGeometry 10.4–10.5.
 - W. Arendt, M. Kreuter, [*Mapping theorems for Sobolev-spaces of vector-valued
   functions*](https://arxiv.org/abs/1611.06161), Studia Math. 240 (2018), 275–299:
   Bochner weak derivatives, smooth and Lipschitz composition, the Radon–Nikodým distinction,
-  and Banach-valued Morrey estimates (§§2–6). The local smooth chain rule, mollification and
+  and Banach-valued Morrey estimates (§§2–6; Thm 4.2, p. 9 and Thm 6.2, p. 17 in the numbering
+  of arXiv 1611.06161v1). The local smooth chain rule, mollification and
   segment-integral estimates here use these Banach-valued arguments; the retraction results
   state the geometric data needed to apply them.
 - A. Convent, J. Van Schaftingen, [*Intrinsic colocal weak derivatives and Sobolev spaces
@@ -1763,12 +1842,15 @@ Layers 8–10; DifferentialGeometry 10.4–10.5.
   intrinsic homogeneous energy classes and comparison with embedded definitions. Sections
   4.7–4.8 and 5.4 specify the basic intrinsic calculus; the roadmap does not adopt the paper's
   Hilbert–Schmidt norm as its operator norm, or assert its full metric and completeness theory.
+  Definitions and propositions are cited in the numbering of arXiv 1312.5858v1.
 - C. Wockel, [*A generalisation of Steenrod's approximation
-  theorem*](https://arxiv.org/abs/math/0610252), 2006: relative smoothing through locally convex
+  theorem*](https://arxiv.org/abs/math/0610252), 2006, Thm 0.11, p. 4 of arXiv
+  math/0610252v1: relative smoothing through locally convex
   target charts, graph control and relative homotopies. Section 9.3 adds the first-order
   Sobolev error estimates needed for its Banach-target statement.
 - S. Hencl, *Sobolev homeomorphism with zero Jacobian almost everywhere*, J. Math. Pures Appl. 95
   (2011), 444–458.
 - S. Heikkilä, P. Pankka, *De Rham algebras of closed quasiregularly elliptic manifolds are
-  Euclidean*, Ann. of Math. 201 (2025), no. 2, 3: §2 and Remark 2 (the definition of
-  `W^{1,n}_loc(M, N)` and its equivalence with the Nash-embedding definition).
+  Euclidean*, Ann. of Math. 201 (2025), no. 2, 3, cited in the numbering of arXiv
+  2302.11440v2: p. 1 (quasiregular maps in `W^{1,n}_loc(M, N)`, with `‖Df‖` and `J_f`) and the
+  proof of Prop. B.1, p. 24 (membership in `W^{1,∞}(M, N)` through a Nash embedding).

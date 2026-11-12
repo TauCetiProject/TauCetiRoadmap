@@ -3,36 +3,43 @@ module
 public import Mathlib
 public import TauCeti.Analysis.Sobolev.WeakDeriv.Basic
 public import TauCeti.Geometry.Manifold.DifferentialForm.Basic
+public import TauCeti.Geometry.Manifold.Measure
+public import TauCeti.Geometry.Manifold.Orientation.Basic
+public import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
 
 /-!
 # Sobolev maps between manifolds: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, with the definitions they need. The local
+classes have a finite-dimensional real normed source with an additive Haar measure `volume`
+and a Banach-valued target.
 
-Stated here: the generalized local classes on Euclidean domains (§1.1–§1.2) with the chain rule
-for continuous inner maps (§2.1(a)), change of variables (§2.2) and Morrey continuity (§2.4);
-the classes of Sobolev
-functions and Sobolev maps on manifolds (§4.1–§4.2), the weak differential (§4.3), `C¹` members
-(§4.4) and postcomposition (§4.6(b)); the oriented Jacobian of a linear map with its algebra
-(§6.1); submersion pullback (§4.6(a)); positive density measures (§3.1); colocal weak
-differentiability and its differential (§4.7–§4.8); Banach-valued pullback (§8.1); the extrinsic
-characterization through split immersions (§9.1); smooth retractive embedding data (§9.2);
-and intrinsic relative smooth approximation (§9.3).
+Stated here: the Euclidean class with its sheaf property, chain rule for continuous inner maps,
+change of variables and Morrey continuity (§1.2, §2.1(a), §2.2, §2.4); the class
+`W^{1,p}_loc(M, N)` with existence and uniqueness of the weak differential, `C¹` members,
+pullback by submersions and the chain rule for postcomposition (§4.2–§4.6); colocal weak
+differentiability with existence and uniqueness of its differential (§4.7–§4.8); the oriented
+Jacobian of a linear map (§6.1) and local integrability of the Jacobian of a map for `p ≥ n`
+(§6.3); the characterization through split immersions (§9.1);
+intrinsic relative smooth approximation (§9.3); Schoen–Uhlenbeck density for compact
+finite-dimensional targets (§10.3); and the failure of density at `x/|x|` (§11.3).
 
-The local classes below have finite-dimensional normed source with an additive Haar measure
-`volume` (Lebesgue measure on an inner product space is the standard instance) and Banach-valued
-target. In Tau Ceti
-they replace the planar `TauCeti.MemLpLoc` and `TauCeti.MemWkpLoc`
-(README, Existing code to refactor).
-
-Not stated here: compatible tangent norms and `‖Df‖` (Layer 5), the finite-dimensional Jacobian
-`J_f` of a map (Layer 6), Bochner top-form testing (Layer 8), intrinsic energy classes (§5.4)
-and the controlled extrinsic space and finite-dimensional degree (Layers 10–11).
-These use the explicit norm,
-retraction and carrier hypotheses in README; no infinite-dimensional target volume is assumed.
+Not statable at the pins:
+* the `Lᵖ` characterization through `‖Df‖` for compatible continuous tangent norms (§5.2),
+  the isometric clause of §9.1 and the energy classes of §5.4 with their comparisons: there is
+  no carrier for continuous norms on the tangent spaces of a manifold (§5.1); Mathlib's
+  `Bundle.RiemannianBundle` covers only the Riemannian case;
+* commutation of the pullback of `V`-valued forms with the weak exterior derivative (§8.3):
+  `TauCeti.integralTopForm` integrates scalar top forms only, and the `V`-valued integral that
+  defines the weak exterior derivative is the target of §8.2;
+* density for a Banach target with a controlled retractive embedding (§10.3, general form):
+  the controlled retraction data of Layer 10 (a smooth retraction on a tube of fixed width
+  with a global `C¹` extension of bounded derivative) have no carrier at the pins;
+* the degree of `W^{1,n}` maps and its integral formula (Layer 11): it is defined through the
+  nearest-point retraction of RiemannianGeometry R6 and compared with the degree of continuous
+  maps of DifferentialGeometry 10.5, and neither is at the pins; Tau Ceti has only
+  `TauCeti.degreeAtRegularValue`, the signed count over a regular value of a `C¹` map.
 -/
 
 @[expose] public section
@@ -58,7 +65,7 @@ def MemLpLoc (p : ℝ≥0∞) (U : Set E) (u : E → F) : Prop :=
   ∀ K : Set E, K ⊆ U → IsCompact K → MemLp u p (volume.restrict K)
 
 /-- §1.2: the first-order local Sobolev class `W^{1,p}_loc(Ω; F)`: `u` and some weak derivative
-of `u` on `Ω` are locally `Lᵖ`. This is `MemWkpLoc p Ω 1` of §1.1. -/
+of `u` on `Ω` are locally `Lᵖ`. This is the case `k = 1` of the order-`k` class of §1.1. -/
 def MemW1pLoc (p : ℝ≥0∞) (Ω : Opens E) (u : E → F) : Prop :=
   MemLpLoc p Ω u ∧
     ∃ Du : E → E →L[ℝ] F, TauCeti.HasWeakFDerivOn volume Ω u Du ∧ MemLpLoc p Ω Du
@@ -77,11 +84,12 @@ theorem MemW1pLoc.comp_contDiffOn [CompleteSpace F] [CompleteSpace G]
     MemW1pLoc p Ω (g ∘ u) := by
   sorry
 
-/-- §2.2: change of variables under an injective `C¹` map with invertible derivative, with no
-global bound on the derivative or its inverse. -/
+/-- §2.2: change of variables under a `C¹` map with invertible derivative at every point, with
+no global bound on the derivative or its inverse and no injectivity (Ziemer, Thm 2.2.2, for
+bi-Lipschitz maps). -/
 theorem MemW1pLoc.comp_contDiffOn_diffeo [CompleteSpace F] {p : ℝ≥0∞}
     {Ω Ω' : Opens E} {Φ : E → E} {u : E → F} (hu : MemW1pLoc p Ω u)
-    (hΦ : ContDiffOn ℝ 1 Φ Ω') (hinj : InjOn Φ Ω')
+    (hΦ : ContDiffOn ℝ 1 Φ Ω')
     (hdet : ∀ x ∈ (Ω' : Set E), (fderiv ℝ Φ x).det ≠ 0) (hmaps : MapsTo Φ Ω' Ω) :
     MemW1pLoc p Ω' (u ∘ Φ) := by
   sorry
@@ -135,15 +143,6 @@ def HasWeakMFDerivFun (u : M → F)
       (Du ((extChartAt 𝓘(ℝ, E) x).symm y)).comp
         (mfderiv 𝓘(ℝ, E) 𝓘(ℝ, E) (extChartAt 𝓘(ℝ, E) x).symm y)
 
-variable (E) in
-/-- §3.1: the source measure has a strictly positive continuous density in every chart.
-The measure is specified independently of any tangent norm. -/
-def IsPositiveContinuousDensityMeasure [MeasurableSpace M] (μ : Measure M) : Prop :=
-  ∀ x : M, ∃ w : E → ℝ, ContinuousOn w (extChartAt 𝓘(ℝ, E) x).target ∧
-    (∀ y ∈ (extChartAt 𝓘(ℝ, E) x).target, 0 < w y) ∧
-    Measure.map (extChartAt 𝓘(ℝ, E) x) (μ.restrict (extChartAt 𝓘(ℝ, E) x).source) =
-      (volume.restrict (extChartAt 𝓘(ℝ, E) x).target).withDensity (fun y => ENNReal.ofReal (w y))
-
 variable (E E') in
 /-- §4.2: the class `W^{1,p}_loc(M, N)` of continuous maps whose chart representatives are
 Sobolev. It involves no metric. -/
@@ -171,6 +170,14 @@ theorem IsSobolevMap.exists_hasWeakMFDeriv [CompleteSpace E']
     {p : ℝ≥0∞} {f : M → N} (hf : IsSobolevMap E E' p f) :
     ∃ Df : (x : M) → TangentSpace 𝓘(ℝ, E) x →L[ℝ] TangentSpace 𝓘(ℝ, E') (f x),
       HasWeakMFDeriv E E' f Df := by
+  sorry
+
+/-- §4.3: two weak differentials of a continuous map differ only on a null set. -/
+theorem HasWeakMFDeriv.ae_eq [CompleteSpace E'] [T2Space M] [SecondCountableTopology M]
+    {f : M → N}
+    {Df Df' : (x : M) → TangentSpace 𝓘(ℝ, E) x →L[ℝ] TangentSpace 𝓘(ℝ, E') (f x)}
+    (hf : Continuous f) (h : HasWeakMFDeriv E E' f Df) (h' : HasWeakMFDeriv E E' f Df') :
+    TauCeti.IsNullSet 𝓘(ℝ, E) {x | Df x ≠ Df' x} := by
   sorry
 
 /-- §4.4: a `C¹` map is in the class for every exponent, and `mfderiv` is a weak differential
@@ -207,22 +214,13 @@ theorem IsSobolevMap.comp_submersion [CompleteSpace E']
     IsSobolevMap E₀ E' p (f ∘ θ) := by
   sorry
 
-variable (E E') in
-/-- §8.1: pullback along a specified differential field, with fixed Banach coefficients.
-For a Sobolev member, README requires this to be independent of the weak field almost everywhere. -/
-def sobolevPullback {V : Type*} [NormedAddCommGroup V] [NormedSpace ℝ V]
-    (f : M → N)
-    (Df : (x : M) → TangentSpace 𝓘(ℝ, E) x →L[ℝ] TangentSpace 𝓘(ℝ, E') (f x))
-    {k : ℕ} (form : TauCeti.RoughForm 𝓘(ℝ, E') N V k) :
-    TauCeti.RoughForm 𝓘(ℝ, E) M V k :=
-  fun x => (form (f x)).compContinuousLinearMap (Df x)
-
 /-! ## Layer 9: the extrinsic characterization -/
 
 /-- §9.1: for a split immersion `ι : N → E''` and a continuous `f`, `f` is a Sobolev map iff
 `ι ∘ f` is a Sobolev function. Both target models may be Banach spaces of infinite dimension.
 Injectivity of `mfderiv` alone does not replace the split-immersion hypothesis. A Nash
-embedding is a finite-dimensional isometric special case (Heikkilä–Pankka, Remark 2). -/
+embedding is a finite-dimensional isometric special case (Hajłasz 2009, §1, p. 185;
+Heikkilä–Pankka, arXiv 2302.11440v2, proof of Prop. B.1, p. 24). -/
 theorem isSobolevMap_iff_memW1pLocM_comp_immersion [CompleteSpace E'] [CompleteSpace E'']
     {p : ℝ≥0∞} {f : M → N} {ι : N → E''}
     (hι : ContMDiff 𝓘(ℝ, E') 𝓘(ℝ, E'') 1 ι)
@@ -230,15 +228,6 @@ theorem isSobolevMap_iff_memW1pLocM_comp_immersion [CompleteSpace E'] [CompleteS
     (hf : Continuous f) :
     IsSobolevMap E E' p f ↔ MemW1pLocM E p (ι ∘ f) := by
   sorry
-
-variable (E' E'') in
-/-- §9.2: a smooth embedding with a smooth retraction from an open neighbourhood of its image.
-The retraction is defined on the open subtype; no map from the ambient space to an empty
-target, uniform tube, bounded derivative, or compactness of the target is implicit. -/
-def IsSmoothRetractiveEmbedding (ι : N → E'') : Prop :=
-  Topology.IsEmbedding ι ∧ ContMDiff 𝓘(ℝ, E') 𝓘(ℝ, E'') ∞ ι ∧
-    ∃ U : Opens E'', ∃ hιU : ∀ y, ι y ∈ U, ∃ r : U → N,
-      ContMDiff 𝓘(ℝ, E'') 𝓘(ℝ, E') ∞ r ∧ ∀ y, r ⟨ι y, hιU y⟩ = y
 
 variable (E E') in
 /-- §9.3: chartwise locally uniform and first-order local Sobolev convergence.
@@ -339,6 +328,16 @@ theorem IsColocallyWeaklyDifferentiable.exists_hasColocalWeakMFDeriv
       HasColocalWeakMFDeriv E E' u Du := by
   sorry
 
+/-- §4.8: two colocal weak differentials of a map differ only on a null set
+(Convent–Van Schaftingen, Prop. 1.2, p. 5). -/
+theorem HasColocalWeakMFDeriv.ae_eq [FiniteDimensional ℝ E'] [BorelSpace N]
+    [T2Space M] [SecondCountableTopology M] [T2Space N] [SecondCountableTopology N]
+    [IsManifold 𝓘(ℝ, E) 1 M] [IsManifold 𝓘(ℝ, E') 1 N] {u : M → N}
+    {Du Du' : (x : M) → TangentSpace 𝓘(ℝ, E) x →L[ℝ] TangentSpace 𝓘(ℝ, E') (u x)}
+    (h : HasColocalWeakMFDeriv E E' u Du) (h' : HasColocalWeakMFDeriv E E' u Du') :
+    TauCeti.IsNullSet 𝓘(ℝ, E) {x | Du x ≠ Du' x} := by
+  sorry
+
 /-- §4.7: continuous Sobolev maps into a finite-dimensional target are colocal. -/
 theorem IsSobolevMap.isColocallyWeaklyDifferentiable [FiniteDimensional ℝ E'] [BorelSpace N]
     [T2Space M] [SecondCountableTopology M] [T2Space N] [SecondCountableTopology N]
@@ -349,7 +348,7 @@ theorem IsSobolevMap.isColocallyWeaklyDifferentiable [FiniteDimensional ℝ E'] 
 
 end Colocal
 
-/-! ## Layer 6: the oriented Jacobian of a linear map -/
+/-! ## Layer 6: the Jacobian -/
 
 section Jacobian
 
@@ -367,22 +366,10 @@ def orientedJacobian (oV : Orientation ℝ V (Fin n)) (oW : Orientation ℝ W (F
   let b := Module.finBasisOfFinrankEq ℝ V (Fact.out : finrank ℝ V = n)
   oW.volumeForm (fun i => A (b i)) / oV.volumeForm b
 
-/-- §6.1: the defining identity. -/
-theorem orientedJacobian_mul_volumeForm (oV : Orientation ℝ V (Fin n))
-    (oW : Orientation ℝ W (Fin n)) (A : V →ₗ[ℝ] W) (v : Fin n → V) :
-    oW.volumeForm (fun i => A (v i)) = orientedJacobian oV oW A * oV.volumeForm v := by
-  sorry
-
 /-- §6.1: multiplicativity. -/
 theorem orientedJacobian_comp (oU : Orientation ℝ U (Fin n)) (oV : Orientation ℝ V (Fin n))
     (oW : Orientation ℝ W (Fin n)) (A : U →ₗ[ℝ] V) (B : V →ₗ[ℝ] W) :
     orientedJacobian oU oW (B ∘ₗ A) = orientedJacobian oV oW B * orientedJacobian oU oV A := by
-  sorry
-
-/-- §6.1: reversing the source orientation negates the Jacobian. -/
-theorem orientedJacobian_neg_left (oV : Orientation ℝ V (Fin n))
-    (oW : Orientation ℝ W (Fin n)) (A : V →ₗ[ℝ] W) :
-    orientedJacobian (-oV) oW A = -orientedJacobian oV oW A := by
   sorry
 
 /-- §6.1: the absolute value is the norm determinant. -/
@@ -401,5 +388,98 @@ theorem orientedJacobian_self (oV : Orientation ℝ V (Fin n)) (A : V →ₗ[ℝ
   sorry
 
 end Jacobian
+
+section JacobianOfMap
+
+open Bundle
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  [MeasureSpace E] [BorelSpace E] [(volume : Measure E).IsAddHaarMeasure]
+  {E' : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
+  {M : Type*} [TopologicalSpace M] [ChartedSpace E M] [IsManifold 𝓘(ℝ, E) 1 M]
+  {N : Type*} [TopologicalSpace N] [ChartedSpace E' N] [IsManifold 𝓘(ℝ, E') 1 N]
+
+/-- §6.3: for oriented manifolds of one dimension `n` with continuous Riemannian metrics and
+`f ∈ W^{1,p}_loc(M, N)` with `n ≤ p`, the Jacobian `J_f(x) = J(Df(x))` of a weak differential,
+for the tangent orientations and inner products, is locally integrable for the Riemannian
+volume of `M`; the route is Hadamard's inequality `|J_f| ≤ ‖Df‖ⁿ`. -/
+theorem IsSobolevMap.integrableOn_orientedJacobian
+    [T2Space M] [SecondCountableTopology M] [MeasurableSpace M] [BorelSpace M]
+    [RiemannianBundle (fun x : M ↦ TangentSpace 𝓘(ℝ, E) x)]
+    [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace 𝓘(ℝ, E) x)]
+    [RiemannianBundle (fun y : N ↦ TangentSpace 𝓘(ℝ, E') y)]
+    [IsContinuousRiemannianBundle E' (fun y : N ↦ TangentSpace 𝓘(ℝ, E') y)]
+    {n : ℕ} [∀ x : M, Fact (finrank ℝ (TangentSpace 𝓘(ℝ, E) x) = n)]
+    [∀ y : N, Fact (finrank ℝ (TangentSpace 𝓘(ℝ, E') y) = n)]
+    (oM : TauCeti.Manifold.Orientation 𝓘(ℝ, E) M (Fin n))
+    (oN : TauCeti.Manifold.Orientation 𝓘(ℝ, E') N (Fin n))
+    {p : ℝ≥0∞} (hnp : (n : ℝ≥0∞) ≤ p) {f : M → N} (hf : IsSobolevMap E E' p f)
+    {Df : (x : M) → TangentSpace 𝓘(ℝ, E) x →L[ℝ] TangentSpace 𝓘(ℝ, E') (f x)}
+    (hDf : HasWeakMFDeriv E E' f Df) {K : Set M} (hK : IsCompact K) :
+    IntegrableOn (fun x => orientedJacobian (oM.orientationAt x) (oN.orientationAt (f x))
+        (Df x : TangentSpace 𝓘(ℝ, E) x →ₗ[ℝ] TangentSpace 𝓘(ℝ, E') (f x)))
+      K (TauCeti.riemannianVolume 𝓘(ℝ, E) M) := by
+  sorry
+
+end JacobianOfMap
+
+/-! ## Layer 10: density of smooth maps for `p ≥ dim M` -/
+
+section Density
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  [MeasureSpace E] [BorelSpace E] [(volume : Measure E).IsAddHaarMeasure]
+  {E' : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
+  {M : Type*} [TopologicalSpace M] [ChartedSpace E M]
+  {N : Type*} [TopologicalSpace N] [ChartedSpace E' N]
+
+/-- §10.3, Schoen–Uhlenbeck: on a compact source of dimension `n`, for a compact target smoothly
+embedded in `ℝᵐ` and `n ≤ p < ∞`, every `u ∈ W^{1,p}(M; ℝᵐ)` with values in the image almost
+everywhere is a `W^{1,p}` limit of `ι ∘ g_j` with `g_j : M → N` smooth, the convergence of values
+and weak derivatives being read in `Lᵖ` on compact subsets of charts (Hajłasz 2009, Thm 2.1,
+p. 188, and its proof for `p = n`). -/
+theorem exists_smooth_approx_of_ae_mem_range
+    [IsManifold 𝓘(ℝ, E) ∞ M] [CompactSpace M] [T2Space M]
+    [IsManifold 𝓘(ℝ, E') ∞ N] [CompactSpace N] [T2Space N] {m : ℕ}
+    (ι : N → EuclideanSpace ℝ (Fin m))
+    (hι : ContMDiff 𝓘(ℝ, E') 𝓘(ℝ, EuclideanSpace ℝ (Fin m)) ∞ ι)
+    (hιemb : Topology.IsEmbedding ι)
+    (hιimm : ∀ y, Manifold.IsImmersionAt 𝓘(ℝ, E') 𝓘(ℝ, EuclideanSpace ℝ (Fin m)) ∞ ι y)
+    {p : ℝ≥0∞} (hnp : (finrank ℝ E : ℝ≥0∞) ≤ p) (hp : p < ⊤)
+    {u : M → EuclideanSpace ℝ (Fin m)} (hu : MemW1pLocM E p u)
+    (hN : TauCeti.IsNullSet 𝓘(ℝ, E) {x | u x ∉ Set.range ι}) :
+    ∃ g : ℕ → M → N, (∀ j, ContMDiff 𝓘(ℝ, E) 𝓘(ℝ, E') ∞ (g j)) ∧
+      ∀ (x₀ : M) (K : Set E), IsCompact K → K ⊆ (extChartAt 𝓘(ℝ, E) x₀).target →
+        ∃ Du : E → E →L[ℝ] EuclideanSpace ℝ (Fin m),
+          TauCeti.HasWeakFDerivOn volume
+              ⟨interior (extChartAt 𝓘(ℝ, E) x₀).target, isOpen_interior⟩
+              (u ∘ (extChartAt 𝓘(ℝ, E) x₀).symm) Du ∧
+            Tendsto (fun j => eLpNorm (ι ∘ g j ∘ (extChartAt 𝓘(ℝ, E) x₀).symm -
+              u ∘ (extChartAt 𝓘(ℝ, E) x₀).symm) p (volume.restrict K)) atTop (𝓝 0) ∧
+            Tendsto (fun j => eLpNorm
+              (fun y => fderiv ℝ (ι ∘ g j ∘ (extChartAt 𝓘(ℝ, E) x₀).symm) y - Du y) p
+              (volume.restrict K)) atTop (𝓝 0) := by
+  sorry
+
+end Density
+
+/-! ## Layer 11: failure of density below the dimension -/
+
+/-- §11.3: for `n ≥ 2` and `n − 1 ≤ p < n`, the radial map `x ↦ x/‖x‖` of the open unit ball
+of `ℝⁿ` is not a `W^{1,p}` limit of maps into the unit sphere that are smooth on the ball
+(Hajłasz 2009, Thm 2.3, p. 189). -/
+theorem not_exists_smooth_sphere_approx_radial (n : ℕ) (hn : 2 ≤ n) (p : ℝ≥0∞)
+    (hp : ((n - 1 : ℕ) : ℝ≥0∞) ≤ p) (hpn : p < n)
+    (Du : EuclideanSpace ℝ (Fin n) → EuclideanSpace ℝ (Fin n) →L[ℝ] EuclideanSpace ℝ (Fin n))
+    (hDu : TauCeti.HasWeakFDerivOn volume ⟨Metric.ball 0 1, Metric.isOpen_ball⟩
+      (fun x => ‖x‖⁻¹ • x) Du) :
+    ¬ ∃ v : ℕ → EuclideanSpace ℝ (Fin n) → EuclideanSpace ℝ (Fin n),
+      (∀ j, ContDiffOn ℝ ∞ (v j) (Metric.ball 0 1)) ∧
+      (∀ j, ∀ x ∈ Metric.ball (0 : EuclideanSpace ℝ (Fin n)) 1, ‖v j x‖ = 1) ∧
+      Tendsto (fun j => eLpNorm (fun x => v j x - ‖x‖⁻¹ • x) p
+        (volume.restrict (Metric.ball 0 1))) atTop (𝓝 0) ∧
+      Tendsto (fun j => eLpNorm (fun x => fderiv ℝ (v j) x - Du x) p
+        (volume.restrict (Metric.ball 0 1))) atTop (𝓝 0) := by
+  sorry
 
 end TauCetiRoadmap.SobolevMapsBetweenManifolds
