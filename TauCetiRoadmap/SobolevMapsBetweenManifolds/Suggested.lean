@@ -18,18 +18,21 @@ and a Banach-valued target.
 Stated here: the Euclidean class with its sheaf property, chain rule for continuous inner maps,
 change of variables and Morrey continuity (§1.2, §2.1(a), §2.2, §2.4); the class
 `W^{1,p}_loc(M, N)` with its independence of the charts, existence and uniqueness of the weak
-differential, `C¹` members, locality, pullback by submersions and the chain rule for
-postcomposition (§4.2–§4.6); colocal weak
+differential, `C¹` members, locality, and pullback by submersions and postcomposition with
+their chain rules (§4.2–§4.6); colocal weak
 differentiability with existence and uniqueness of its differential (§4.7–§4.8); the oriented
 Jacobian of a linear map (§6.1) and local integrability of the Jacobian of a map for `p ≥ n`
 (§6.3); the characterization through split immersions (§9.1);
 intrinsic relative smooth approximation (§9.3); density for Banach targets with a closed
 retractive embedding and controlled retraction data, and Schoen–Uhlenbeck density for compact
-finite-dimensional targets (§10.3); and the failure of density at `x/|x|` (§11.3).
+finite-dimensional targets (§10.3); the comparison of the local intrinsic class with the
+extrinsic one for a compact target, with the target norm induced by its embedding (§10.4); and
+the failure of density at `x/|x|` (§11.3).
 
 Not statable at the pins:
 * the `Lᵖ` characterization through `‖Df‖` for compatible continuous tangent norms (§5.2),
-  the isometric clause of §9.1 and the energy classes of §5.4 with their comparisons: there is
+  the isometric clause of §9.1, and the energy classes of §5.4 for general compatible norms
+  with their comparison with the continuous class: there is
   no carrier for continuous norms on the tangent spaces of a manifold (§5.1); Mathlib's
   `Bundle.RiemannianBundle` covers only the Riemannian case;
 * commutation of the pullback of `V`-valued forms with the weak exterior derivative (§8.3):
@@ -73,6 +76,8 @@ def MemW1pLoc (p : ℝ≥0∞) (Ω : Opens E) (u : E → F) : Prop :=
 theorem memW1pLoc_iSup_iff [CompleteSpace F] {p : ℝ≥0∞} {ι : Type*} (V : ι → Opens E)
     {u : E → F} : MemW1pLoc p (⨆ i, V i) u ↔ ∀ i, MemW1pLoc p (V i) u := by
   sorry
+
+/-! ## Layer 2: Euclidean calculus of the local class -/
 
 /-- §2.1(a): the chain rule for a continuous inner map and an outer map that is `C¹` on an open
 set containing the image, with no bound on its derivative. -/
@@ -231,57 +236,17 @@ theorem IsSobolevMap.comp_submersion [CompleteSpace E']
     IsSobolevMap E₀ E' p (f ∘ θ) := by
   sorry
 
-/-! ## Layer 9: the extrinsic characterization -/
-
-/-- §9.1: for a split immersion `ι : N → E''` and a continuous `f`, `f` is a Sobolev map iff
-`ι ∘ f` is a Sobolev function. Both target models may be Banach spaces of infinite dimension.
-Injectivity of `mfderiv` alone does not replace the split-immersion hypothesis. A Nash
-embedding is a finite-dimensional isometric special case (Hajłasz 2009, §1, p. 185;
-Heikkilä–Pankka, arXiv 2302.11440v2, proof of Prop. B.1, p. 24). -/
-theorem isSobolevMap_iff_memW1pLocM_comp_immersion [CompleteSpace E'] [CompleteSpace E'']
-    {p : ℝ≥0∞} {f : M → N} {ι : N → E''}
-    (hι : ContMDiff 𝓘(ℝ, E') 𝓘(ℝ, E'') 1 ι)
-    (hιimm : ∀ y, Manifold.IsImmersionAt 𝓘(ℝ, E') 𝓘(ℝ, E'') 1 ι y)
-    (hf : Continuous f) :
-    IsSobolevMap E E' p f ↔ MemW1pLocM E p (ι ∘ f) := by
-  sorry
-
-variable (E E') in
-/-- §9.3: chartwise locally uniform and first-order local Sobolev convergence.
-Source and target charts in each test are fixed, including for the approximating maps. -/
-def TendstoSobolevLoc (p : ℝ≥0∞) (fSeq : ℕ → M → N) (f : M → N) : Prop :=
-  Continuous f ∧ (∀ j, Continuous (fSeq j)) ∧
-    ∀ (x₀ : M) (y₀ : N) (U : Opens E), IsCompact (closure (U : Set E)) →
-      closure (U : Set E) ⊆ (extChartAt 𝓘(ℝ, E) x₀).target →
-      MapsTo (f ∘ (extChartAt 𝓘(ℝ, E) x₀).symm) (closure (U : Set E))
-        (extChartAt 𝓘(ℝ, E') y₀).source →
-      let rep := fun g : M → N =>
-        (extChartAt 𝓘(ℝ, E') y₀) ∘ g ∘ (extChartAt 𝓘(ℝ, E) x₀).symm
-      (∀ᶠ j in atTop, MapsTo (fSeq j ∘ (extChartAt 𝓘(ℝ, E) x₀).symm)
-        (closure (U : Set E)) (extChartAt 𝓘(ℝ, E') y₀).source) ∧
-      TendstoUniformlyOn (fun j => rep (fSeq j)) (rep f) atTop (closure (U : Set E)) ∧
-      ∃ Du : E → E →L[ℝ] E', ∃ DuSeq : ℕ → E → E →L[ℝ] E',
-        TauCeti.HasWeakFDerivOn volume U (rep f) Du ∧
-        MemLp Du p (volume.restrict U) ∧
-        (∀ᶠ j in atTop, TauCeti.HasWeakFDerivOn volume U (rep (fSeq j)) (DuSeq j) ∧
-          MemLp (DuSeq j) p (volume.restrict U)) ∧
-        Tendsto (fun j => eLpNorm (fun y => rep (fSeq j) y - rep f y) p (volume.restrict U))
-          atTop (𝓝 0) ∧
-        Tendsto (fun j => eLpNorm (fun y => DuSeq j y - Du y)
-          p (volume.restrict U)) atTop (𝓝 0)
-
-/-- §9.3: intrinsic relative approximation, without embedding or retraction hypotheses.
-The full relative homotopy and graph-control API is specified in README. -/
-theorem IsSobolevMap.exists_smooth_approx_rel [CompleteSpace E']
-    [T2Space M] [SecondCountableTopology M] [T2Space N]
-    [IsManifold 𝓘(ℝ, E) ∞ M] [IsManifold 𝓘(ℝ, E') ∞ N]
-    {p : ℝ≥0∞} {f : M → N} (hf : IsSobolevMap E E' p f) (hp : 1 ≤ p) (hpfin : p < ⊤)
-    {A : Set M} (hA : IsClosed A) {V : Opens M} (hAV : A ⊆ V)
-    (hfV : ContMDiffOn 𝓘(ℝ, E) 𝓘(ℝ, E') ∞ f V)
-    (O : ℕ → Opens (M × N)) (hO : ∀ j x, (x, f x) ∈ O j) :
-    ∃ fSeq : ℕ → M → N, (∀ j, ContMDiff 𝓘(ℝ, E) 𝓘(ℝ, E') ∞ (fSeq j)) ∧
-      (∀ j x, (x, fSeq j x) ∈ O j) ∧ TendstoSobolevLoc E E' p fSeq f ∧
-      ∃ V' : Opens M, A ⊆ V' ∧ closure (V' : Set M) ⊆ V ∧ ∀ j, EqOn (fSeq j) f V' := by
+/-- §4.6(a): the chain rule for precomposition by a submersion: `y ↦ Df(θ y) ∘ dθ_y` is a weak
+differential of `f ∘ θ`. -/
+theorem HasWeakMFDeriv.comp_submersion [CompleteSpace E']
+    {E₀ : Type*} [NormedAddCommGroup E₀] [NormedSpace ℝ E₀] [FiniteDimensional ℝ E₀]
+    [MeasureSpace E₀] [BorelSpace E₀] [(volume : Measure E₀).IsAddHaarMeasure]
+    {M₀ : Type*} [TopologicalSpace M₀] [ChartedSpace E₀ M₀] [IsManifold 𝓘(ℝ, E₀) 1 M₀]
+    {f : M → N} {θ : M₀ → M}
+    {Df : (x : M) → TangentSpace 𝓘(ℝ, E) x →L[ℝ] TangentSpace 𝓘(ℝ, E') (f x)}
+    (hf : Continuous f) (hDf : HasWeakMFDeriv E E' f Df)
+    (hθ : ∀ x, Manifold.IsSubmersionAt 𝓘(ℝ, E₀) 𝓘(ℝ, E) 1 θ x) :
+    HasWeakMFDeriv E₀ E' (f ∘ θ) (fun y => (Df (θ y)).comp (mfderiv 𝓘(ℝ, E₀) 𝓘(ℝ, E) θ y)) := by
   sorry
 
 end Manifold
@@ -440,7 +405,71 @@ theorem IsSobolevMap.integrableOn_orientedJacobian
 
 end JacobianOfMap
 
-/-! ## Layer 10: density of smooth maps for `p ≥ dim M` -/
+/-! ## Layer 9: immersions and smooth approximation -/
+
+section Approximation
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  [MeasureSpace E] [BorelSpace E] [(volume : Measure E).IsAddHaarMeasure]
+  {E' : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E']
+  {E'' : Type*} [NormedAddCommGroup E''] [NormedSpace ℝ E'']
+  {M : Type*} [TopologicalSpace M] [ChartedSpace E M] [IsManifold 𝓘(ℝ, E) 1 M]
+  {N : Type*} [TopologicalSpace N] [ChartedSpace E' N] [IsManifold 𝓘(ℝ, E') 1 N]
+
+/-- §9.1: for a split immersion `ι : N → E''` and a continuous `f`, `f` is a Sobolev map iff
+`ι ∘ f` is a Sobolev function. Both target models may be Banach spaces of infinite dimension.
+Injectivity of `mfderiv` alone does not replace the split-immersion hypothesis. A Nash
+embedding is a finite-dimensional isometric special case (Hajłasz 2009, §1, p. 185;
+Heikkilä–Pankka, arXiv 2302.11440v2, proof of Prop. B.1, p. 24). -/
+theorem isSobolevMap_iff_memW1pLocM_comp_immersion [CompleteSpace E'] [CompleteSpace E'']
+    {p : ℝ≥0∞} {f : M → N} {ι : N → E''}
+    (hι : ContMDiff 𝓘(ℝ, E') 𝓘(ℝ, E'') 1 ι)
+    (hιimm : ∀ y, Manifold.IsImmersionAt 𝓘(ℝ, E') 𝓘(ℝ, E'') 1 ι y)
+    (hf : Continuous f) :
+    IsSobolevMap E E' p f ↔ MemW1pLocM E p (ι ∘ f) := by
+  sorry
+
+variable (E E') in
+/-- §9.3: chartwise locally uniform and first-order local Sobolev convergence.
+Source and target charts in each test are fixed, including for the approximating maps. -/
+def TendstoSobolevLoc (p : ℝ≥0∞) (fSeq : ℕ → M → N) (f : M → N) : Prop :=
+  Continuous f ∧ (∀ j, Continuous (fSeq j)) ∧
+    ∀ (x₀ : M) (y₀ : N) (U : Opens E), IsCompact (closure (U : Set E)) →
+      closure (U : Set E) ⊆ (extChartAt 𝓘(ℝ, E) x₀).target →
+      MapsTo (f ∘ (extChartAt 𝓘(ℝ, E) x₀).symm) (closure (U : Set E))
+        (extChartAt 𝓘(ℝ, E') y₀).source →
+      let rep := fun g : M → N =>
+        (extChartAt 𝓘(ℝ, E') y₀) ∘ g ∘ (extChartAt 𝓘(ℝ, E) x₀).symm
+      (∀ᶠ j in atTop, MapsTo (fSeq j ∘ (extChartAt 𝓘(ℝ, E) x₀).symm)
+        (closure (U : Set E)) (extChartAt 𝓘(ℝ, E') y₀).source) ∧
+      TendstoUniformlyOn (fun j => rep (fSeq j)) (rep f) atTop (closure (U : Set E)) ∧
+      ∃ Du : E → E →L[ℝ] E', ∃ DuSeq : ℕ → E → E →L[ℝ] E',
+        TauCeti.HasWeakFDerivOn volume U (rep f) Du ∧
+        MemLp Du p (volume.restrict U) ∧
+        (∀ᶠ j in atTop, TauCeti.HasWeakFDerivOn volume U (rep (fSeq j)) (DuSeq j) ∧
+          MemLp (DuSeq j) p (volume.restrict U)) ∧
+        Tendsto (fun j => eLpNorm (fun y => rep (fSeq j) y - rep f y) p (volume.restrict U))
+          atTop (𝓝 0) ∧
+        Tendsto (fun j => eLpNorm (fun y => DuSeq j y - Du y)
+          p (volume.restrict U)) atTop (𝓝 0)
+
+/-- §9.3: intrinsic relative approximation, without embedding or retraction hypotheses.
+The full relative homotopy and graph-control API is specified in README. -/
+theorem IsSobolevMap.exists_smooth_approx_rel [CompleteSpace E']
+    [T2Space M] [SecondCountableTopology M] [T2Space N]
+    [IsManifold 𝓘(ℝ, E) ∞ M] [IsManifold 𝓘(ℝ, E') ∞ N]
+    {p : ℝ≥0∞} {f : M → N} (hf : IsSobolevMap E E' p f) (hp : 1 ≤ p) (hpfin : p < ⊤)
+    {A : Set M} (hA : IsClosed A) {V : Opens M} (hAV : A ⊆ V)
+    (hfV : ContMDiffOn 𝓘(ℝ, E) 𝓘(ℝ, E') ∞ f V)
+    (O : ℕ → Opens (M × N)) (hO : ∀ j x, (x, f x) ∈ O j) :
+    ∃ fSeq : ℕ → M → N, (∀ j, ContMDiff 𝓘(ℝ, E) 𝓘(ℝ, E') ∞ (fSeq j)) ∧
+      (∀ j x, (x, fSeq j x) ∈ O j) ∧ TendstoSobolevLoc E E' p fSeq f ∧
+      ∃ V' : Opens M, A ⊆ V' ∧ closure (V' : Set M) ⊆ V ∧ ∀ j, EqOn (fSeq j) f V' := by
+  sorry
+
+end Approximation
+
+/-! ## Layer 10: extrinsic spaces and smooth density -/
 
 section Density
 
@@ -508,6 +537,28 @@ theorem exists_smooth_approx_of_ae_mem_range [FiniteDimensional ℝ E']
             Tendsto (fun j => eLpNorm
               (fun y => fderiv ℝ (ι ∘ g j ∘ (extChartAt 𝓘(ℝ, E) x₀).symm) y - Du y) p
               (volume.restrict K)) atTop (𝓝 0) := by
+  sorry
+
+/-- §10.4: for a compact target `N` with a smooth embedding `ι` into a finite-dimensional space
+`F`, on any source `M`, `ι ∘ u ∈ W^{1,p}_loc(M; F)` iff `u` has a colocal weak differential `Du`
+whose chart expressions composed with `dι` are locally `Lᵖ`: the local homogeneous class of
+§5.4 for the target norm induced by `ι`. On a compact source this identifies that class with the
+maps represented in `W^{1,p}_ι(M, N)` (Convent–Van Schaftingen, Prop. 1.6, p. 6, and Prop. 2.6,
+p. 11). -/
+theorem memW1pLocM_comp_iff_exists_hasColocalWeakMFDeriv [FiniteDimensional ℝ E']
+    [FiniteDimensional ℝ F] [MeasurableSpace N] [BorelSpace N]
+    [IsManifold 𝓘(ℝ, E) 1 M] [T2Space M] [SecondCountableTopology M]
+    [IsManifold 𝓘(ℝ, E') ∞ N] [T2Space N] [CompactSpace N]
+    {ι : N → F} (hι : ContMDiff 𝓘(ℝ, E') 𝓘(ℝ, F) ∞ ι) (hιemb : Topology.IsEmbedding ι)
+    (hιimm : ∀ y, Manifold.IsImmersionAt 𝓘(ℝ, E') 𝓘(ℝ, F) ∞ ι y)
+    {p : ℝ≥0∞} (hp : 1 ≤ p) {u : M → N} :
+    MemW1pLocM E p (ι ∘ u) ↔
+      ∃ Du : (x : M) → TangentSpace 𝓘(ℝ, E) x →L[ℝ] TangentSpace 𝓘(ℝ, E') (u x),
+        HasColocalWeakMFDeriv E E' u Du ∧ ∀ x : M,
+          MemLpLoc (F := E →L[ℝ] F) p (extChartAt 𝓘(ℝ, E) x).target fun y =>
+            ((mfderiv 𝓘(ℝ, E') 𝓘(ℝ, F) ι (u ((extChartAt 𝓘(ℝ, E) x).symm y))).comp
+              ((Du ((extChartAt 𝓘(ℝ, E) x).symm y)).comp
+                (mfderiv 𝓘(ℝ, E) 𝓘(ℝ, E) (extChartAt 𝓘(ℝ, E) x).symm y)) : E →L[ℝ] F) := by
   sorry
 
 end Density

@@ -61,8 +61,8 @@ This roadmap owns:
   case `E = ℂ`);
 - the Euclidean chain rule for `C¹` outer maps with bounded derivative and arbitrary Sobolev
   inner maps, the continuity of the composition operator, the change of variables of the local
-  class under `C¹` local diffeomorphisms and submersions, local mollification, Banach-valued
-  Poincaré and Morrey estimates (Layer 2);
+  class under `C¹` local diffeomorphisms and submersions, local mollification, and Banach-valued
+  Poincaré and Morrey estimates for the local class, whose `C¹` cases are Tau Ceti's (Layer 2);
 - on manifolds without a metric: the almost-everywhere filter, chart measurability and local
   `Lᵖ`, null preimages under submersions, and measures defined by positive continuous densities
   (Layer 3);
@@ -266,11 +266,19 @@ derivatives directly usable and compares them with its manifold predicates in La
   and `TauCeti.HasWeakFDerivOn.fderiv_indicator_convolution_normed` (`Interior.lean`).
 - `TauCeti.W1p`, `TauCeti.W1p.hasWeakFDerivOn_comp` (`W1p/ChainRule.lean`, scalar outer maps),
   `TauCeti.W1p.continuousOn_preciseRepresentative` (`W1p/InteriorMorrey.lean`, Morrey for
-  `p > n`), `TauCeti.Wkp.dense_contDiffOn_representatives` (`Wkp/MeyersSerrin.lean`), and the
-  Poincaré inequalities on balls under `TauCeti/Analysis/Sobolev/Poincare/`. The scalar estimates
-  are suppliers; §2.3–§2.4 build their Banach-valued local versions, and §7.3 supplies the
-  Banach-valued first-order carrier comparison. No finite-coordinate argument is a supplier for
-  an infinite-dimensional target.
+  `p > n`), `TauCeti.Wkp.dense_contDiffOn_representatives` (`Wkp/MeyersSerrin.lean`). For `C¹`
+  functions with values in a Banach space `F`: the Poincaré–Wirtinger inequality on bounded
+  convex open sets `TauCeti.eLpNorm_sub_setAverage_le_of_convex` (`Poincare/Wirtinger/Basic.lean`,
+  `1 ≤ p < ∞`) and Morrey's inequality on balls `TauCeti.enorm_sub_le_of_mem_ball_of_finrank_lt`
+  (`Morrey.lean`, finite `p > n`); §2.3–§2.4 pass them to the local class by mollification, and
+  §7.3 supplies the Banach-valued first-order carrier comparison. No finite-coordinate argument
+  is a supplier for an infinite-dimensional target.
+- `TauCeti.WeakDerivStep` (`TauCeti/Analysis/Sobolev/GraphStep/Basic.lean`): with base the
+  identity of `Lp F p (volume.restrict U)`, `1 ≤ p`, the closed graph of `u ↦ (u, Du)` in
+  `Lp F p × Lp (E →L[ℝ] F) p` over an open `U`, complete for Banach `F` by its `CompleteSpace`
+  instance; membership is `TauCeti.mem_weakDerivStepSubmodule_iff_hasWeakFDerivOn`, and
+  convergence is convergence of both components
+  (`TauCeti.WeakDerivStep.tendsto_iff_prev_weakFDeriv`).
 - `TauCeti.IsNullSet`, `TauCeti.IsNullSet.chartwise`, `TauCeti.IsNullSet.iUnion`,
   `TauCeti.IsNullSet.interior_eq_empty` (`TauCeti/Geometry/Manifold/Measure.lean`).
 - `TauCeti.riemannianVolume`, `TauCeti.isLocallyFiniteMeasure_riemannianVolume`
@@ -322,13 +330,14 @@ intrinsic relative smooth approximation. Layer 10 defines extrinsic spaces of
 possibly discontinuous maps under quantitative retraction hypotheses. Layer 11 is the
 finite-dimensional degree theory.
 
-Layer 2 needs Layer 1; Layer 3 uses §2.2 and §2.5. Layer 4 needs Layers 2 and 3,
+Layer 2 needs Layer 1; within it §2.3 comes first, since §2.1, §2.2 and §2.4 use its
+mollification. Layer 3 uses §2.2 and §2.5. Layer 4 needs Layers 2 and 3,
 including §2.6's locality on measurable equality sets for the colocal construction;
 Layer 5 needs Layer 4; Layer 6 needs Layer 5. Layer 7 needs Layers 4–5, with §6.2 used only for
 the Jacobian comparison. Layer 8 needs Layers 4–5 and §2.3, with §6.2 used only for its volume-form
-specialization. Layer 9 needs Layers 4–5 and §2.3; §9.3 does not depend on §9.1–§9.2.
-Layer 10 needs Layers 7 and 9 and §2.4, with §5.4 used in §10.4. Layer 11
-needs §6.3 and Layers 8–10.
+specialization. Layer 9 needs Layers 4–5 and §2.3; §9.3(a)–(c) do not depend on §9.1–§9.2,
+and the direct retraction construction of §9.3(d) uses §9.2. Layer 10 needs Layers 7 and 9
+and §2.4, with §5.4 used in §10.4. Layer 11 needs §6.3 and Layers 8–10.
 
 ## Layer 1: local classes on Euclidean domains
 
@@ -398,7 +407,8 @@ and some `Du : E → E →L[ℝ] F` with `TauCeti.HasWeakFDerivOn volume Ω u Du
 On an open `U` with compact closure in `Ω`, write convergence in `W^{1,p}(U; F)` for
 convergence of the functions and weak derivatives in their Bochner `Lᵖ` norms. This is a
 condition on representatives, independent of almost-everywhere choices. The complete quotient
-carrier and its identification with the bundle carrier are built in §7.3.
+carrier on `U` is Tau Ceti's `TauCeti.WeakDerivStep` over the identity of `Lp F p` on `U`; its
+identification with the bundle carrier is §7.3.
 
 **Checks.**
 
@@ -510,9 +520,9 @@ For `u ∈ W^{1,p}_loc(Ω; F)`, a standard mollifier `ρ_ε` and an open `U` wit
 `Ω`, prove that `u * ρ_ε` is smooth on `U` for small `ε`, that `D(u * ρ_ε) = Du * ρ_ε` there, and
 for `p < ∞` that `u * ρ_ε → u` in `W^{1,p}(U)`. If `u` is continuous on `Ω` then
 `u * ρ_ε → u` uniformly on `U`. These are Bochner convolutions in `F` and `E →L[ℝ] F`.
-Build the Banach-valued Poincaré inequality on balls by the segment-integral proof and Minkowski's
-inequality, with constants depending on the source dimension, not the target dimension; use
-mollification to pass from smooth functions to the weak class. Prove the oscillation bound:
+Pass the Banach-valued Poincaré–Wirtinger inequality on balls from `C¹` functions
+(`TauCeti.eLpNorm_sub_setAverage_le_of_convex`, whose constant depends on the source dimension
+and not on `F`) to the local class by mollification. Prove the oscillation bound:
 for `x ∈ U` and small `ε`,
 `⨍_{B_ε(x)} |u(z) − (u * ρ_ε)(x)| dz ≤ C(n, ρ) ε^{1 − n/p} ‖Du‖_{Lᵖ(B_ε(x))}` (Poincaré on balls),
 which at `p = n` is `C ‖Du‖_{Lⁿ(B_ε(x))}` (Hajłasz 2009, (2.1), p. 188).
@@ -525,19 +535,22 @@ which at `p = n` is `C ‖Du‖_{Lⁿ(B_ε(x))}` (Hajłasz 2009, (2.1), p. 188).
   to `0` with `ε` by absolute continuity of the integral: this is the VMO estimate used in §10.3.
 
 *Needs:* §1.2; Tau Ceti `TauCeti.HasWeakFDerivOn.fderiv_convolution_right`,
-`TauCeti.HasWeakFDerivOn.fderiv_indicator_convolution_normed`, the Poincaré inequalities on
-balls (PDE §1.5).
+`TauCeti.HasWeakFDerivOn.fderiv_indicator_convolution_normed`,
+`TauCeti.eLpNorm_sub_setAverage_le_of_convex` (PDE §1.5).
 
 ### 2.4 Banach-valued Morrey estimates
 
 For `p > n` and `u ∈ W^{1,p}_loc(Ω; F)`, prove the interior Morrey estimate on balls and the
 existence of a locally Hölder continuous representative (locally Lipschitz when `p = ∞`;
 `MemW1pLoc.exists_continuousOn_ae_eq` for the continuous representative). For
-finite `p`, the exponent is `1 − n/p`. Use the scalar Morrey estimate through a countable
-norming family of functionals on the separable closed subspace containing the essential ranges
-of `u` and its finitely many partial derivatives (Arendt–Kreuter, Thm 6.2, p. 17, transfers a
-scalar Hölder estimate of this form to `F`-valued functions). Equivalently, give the Banach-valued
-segment-integral proof. Prove the local estimate controlling the uniform norm by the
+finite `p`, the exponent is `1 − n/p`. Route: apply Tau Ceti's Banach-valued Morrey inequality
+for `C¹` functions, `TauCeti.enorm_sub_le_of_mem_ball_of_finrank_lt`, to the mollifications of
+§2.3 and pass to the limit along an almost everywhere convergent subsequence; for `p = ∞`
+apply it at every finite exponent above `n` and let the exponent tend to `∞`. Alternatively,
+transfer the scalar Morrey estimate through a countable norming family of functionals on the
+separable closed subspace containing the essential ranges of `u` and its finitely many partial
+derivatives (Arendt–Kreuter, Thm 6.2, p. 17, transfers a scalar Hölder estimate of this form
+to `F`-valued functions). Prove the local estimate controlling the uniform norm by the
 `W^{1,p}` norm, so convergence in `W^{1,p}` implies locally uniform convergence for these
 representatives. The exponent depends only on the source dimension; compactness of bounded
 sets in `F` is not asserted.
@@ -549,7 +562,8 @@ sets in `F` is not asserted.
   compactness theorem for arbitrary Banach targets.
 - At `F = ℝ` this is the scalar interior Morrey theorem consumed from PDE.
 
-*Needs:* §1.2, §2.3; PDE §1.4; Tau Ceti `TauCeti.W1p.continuousOn_preciseRepresentative`;
+*Needs:* §1.2, §2.3; PDE §1.4; Tau Ceti `TauCeti.enorm_sub_le_of_mem_ball_of_finrank_lt`, or,
+for the norming-family route, `TauCeti.W1p.continuousOn_preciseRepresentative` and
 Arendt–Kreuter §6.
 
 ### 2.5 Pullback by submersions
@@ -868,7 +882,8 @@ Prove, for `f ∈ W^{1,p}_loc(M, N)` with weak differential `Df`:
 
 - (a) *Precomposition.* For a `C¹` submersion `θ : M' → M`,
   `f ∘ θ ∈ W^{1,p}_loc(M', N)` (`IsSobolevMap.comp_submersion`) and `y ↦ Df(θ y) ∘ dθ_y` is a
-  weak differential of it; the preimage under `θ` of a null set is null (§3.3).
+  weak differential of it (`HasWeakMFDeriv.comp_submersion`); the preimage under `θ` of a null
+  set is null (§3.3).
 - (b) *Postcomposition.* For a `C¹` map `g : N → P`, `g ∘ f ∈ W^{1,p}_loc(M, P)`
   (`IsSobolevMap.comp_contMDiff`) and `x ↦ dg_{f(x)} ∘ Df(x)` is a weak differential of it
   (`HasWeakMFDeriv.comp_contMDiff`; for finite-dimensional targets the identity is
@@ -1272,10 +1287,11 @@ and `|du| ∈ Lᵖ(M)` for every positive continuous source density and compatib
 source tangent norm. Extend the first-order case of the `W^{k,p}` section carrier of
 PseudodifferentialOperators §5.2 and its chart-component construction to the trivial bundle
 `M × F` with Banach fibre `F`, supplying its normed-space and completeness API and its smooth
-density for `p < ∞`. Build the first-order Banach-valued Euclidean component space from the
-closed graph `u ↦ (u, ∂₁u, …, ∂ₙu)` in a finite product of Bochner `Lᵖ` spaces; the §5.2
-carrier of a trivial bundle with finite-dimensional fibre is its specialization. Weak-derivative
-closedness supplies completeness, and §2.3 plus a source partition of unity supplies density.
+density for `p < ∞`. The first-order Banach-valued Euclidean component space on a chart piece
+`U` is Tau Ceti's `TauCeti.WeakDerivStep` over the identity of `Lp F p` on `U`, the closed graph
+of `u ↦ (u, Du)`, complete by its `CompleteSpace` instance; the §5.2 carrier of a trivial bundle
+with finite-dimensional fibre is its specialization, and §2.3 plus a source partition of unity
+supplies density.
 No reflexivity or Radon–Nikodým property of `F` is needed. General higher-order or nontrivial
 Banach-bundle carriers remain with their named owners and are not asserted here.
 
@@ -1295,8 +1311,9 @@ Riemannian global measure.
 - For `F = ℓ²`, constant sections have the expected `Lᵖ` norm and zero weak differential;
   completeness applies even though bounded families of such sections need not be precompact.
 
-*Needs:* §2.3, §3.2, §4.1, §5.3; Tau Ceti weak-derivative closedness,
-`TauCeti.hasWeakFDerivOn_of_tendsto_lintegral_enorm_sub`; PseudodifferentialOperators §5.2.
+*Needs:* §2.3, §3.2, §4.1, §5.3; Tau Ceti `TauCeti.WeakDerivStep` with its `CompleteSpace`
+instance and `TauCeti.mem_weakDerivStepSubmodule_iff_hasWeakFDerivOn`; PseudodifferentialOperators
+§5.2.
 
 ### Examples
 
@@ -1693,7 +1710,12 @@ almost-everywhere equality (Convent–Van Schaftingen, Prop. 1.6, p. 6, and Prop
 closed and isometric embeddings). The distance-value term is automatic for a compact target.
 For the tangent norm induced by `ι`, prove
 `D(ι ∘ u) = dι_u ∘ Du` and `‖D(ι ∘ u)‖ = ‖Du‖` almost everywhere. Other compatible target
-norms on compact `N` give equivalent energy norms and the same membership.
+norms on compact `N` give equivalent energy norms and the same membership. The local
+comparison needs no compactness of the source: for every source `M` and every map
+`u : M → N`, `ι ∘ u ∈ W^{1,p}_loc(M; F)` iff `u` has a colocal weak differential `Du` (§4.8)
+whose chart expressions `dι_u ∘ Du ∘ dφ⁻¹` are locally `Lᵖ` on every chart target, which is
+membership of the local homogeneous class for the norm induced by `ι`
+(`memW1pLocM_comp_iff_exists_hasColocalWeakMFDeriv`).
 
 Route: the coordinate functions of `ι` restricted to compact `N` are admissible colocal
 probes, and their weak derivatives assemble into the Euclidean derivative; boundedness of
@@ -1847,8 +1869,8 @@ Degrees of `z ↦ zᵏ` and of the antipodal map of `Sⁿ` computed as `∫ J`; 
   functions*](https://arxiv.org/abs/1611.06161), Studia Math. 240 (2018), 275–299:
   Bochner weak derivatives, smooth and Lipschitz composition, the Radon–Nikodým distinction,
   and Banach-valued Morrey estimates (§§2–6; Thm 4.2, p. 9 and Thm 6.2, p. 17 in the numbering
-  of arXiv 1611.06161v1). The local smooth chain rule, mollification and
-  segment-integral estimates here use these Banach-valued arguments; the retraction results
+  of arXiv 1611.06161v1). The local smooth chain rule and mollification here use these
+  Banach-valued arguments; the retraction results
   state the geometric data needed to apply them.
 - A. Convent, J. Van Schaftingen, [*Intrinsic colocal weak derivatives and Sobolev spaces
   between manifolds*](https://arxiv.org/abs/1312.5858), Ann. Sc. Norm. Super. Pisa Cl. Sci.
