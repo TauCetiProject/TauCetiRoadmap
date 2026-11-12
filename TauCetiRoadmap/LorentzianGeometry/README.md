@@ -51,10 +51,10 @@ compactness enter only in the results that need them. These requirements apply t
 generalization of the existing proofs, including the pointwise curvature construction.
 
 HopfRinow supplies smooth nondegenerate metrics, Levi-Civita and Riemannian geodesic
-interfaces. RiemannianGeometry R1–R3 and R5a supply curvature, Jacobi, index and immersion
-interfaces for positive-definite metrics; for positive-definite `g`, Part I proves that its
-curvature, Jacobi, index and immersion objects agree with those of RiemannianGeometry R1–R3
-and R5a. The one maximal flow and exponential
+interfaces. RiemannianGeometry R1.3, R2–R3 and R5a supply warped-product curvature, Jacobi,
+index and immersion interfaces for positive-definite metrics; for positive-definite `g`, Part I
+proves that its warped-product curvature, Jacobi, index and immersion objects agree with those
+of RiemannianGeometry R1.3, R2–R3 and R5a. The one maximal flow and exponential
 of §3.2 receives its stronger regularity properties in §3.3; normal domains in §3.4 add
 bi-Lipschitz or smooth inverse properties under their own hypotheses. Riemannian distance,
 Hopf–Rinow and positivity-dependent comparison and topological consequences remain with
@@ -229,7 +229,9 @@ namespace beside Tau Ceti's along-curve API.
 ### From Mathlib
 
 - Bilinear and quadratic forms: `LinearMap.BilinForm.IsSymm`, `.Nondegenerate`, `.toDual`,
-  `.restrict`, `.orthogonal`, `LinearMap.BilinMap.toQuadraticMap`,
+  `.restrict`, `.orthogonal`, `.finrank_orthogonal`, `.orthogonal_orthogonal`,
+  `.isCompl_orthogonal_of_restrict_nondegenerate`, `.orthogonal_span_singleton_eq_toLin_ker`
+  (`Mathlib/LinearAlgebra/BilinearForm/Orthogonal.lean`), `LinearMap.BilinMap.toQuadraticMap`,
   `ContinuousLinearMap.toBilinForm`; the inertia indices `sigPos`, `sigNeg` with
   `QuadraticForm.sigPos_add_sigNeg_add_radical`,
   `QuadraticForm.sigNeg_of_equiv_weightedSumSquares` and
@@ -295,8 +297,28 @@ finite-dimensional public interfaces.
 - Curvature of a smooth connection: `CovariantDerivative.curvatureTensor`
   (`.../Curvature/Tensor.lean`) and `CovariantDerivative.ricciTensor` (`.../Curvature/Ricci.lean`),
   both metric-free; the positive-definite `CovariantDerivative.scalarCurvature`
-  (`.../Curvature/Scalar.lean`) and the Riemannian warped-product curvature
-  (`.../Curvature/WarpedProd*.lean`), whose signature-independent formulas are generalized in §2.5–§2.6.
+  (`.../Curvature/Scalar.lean`).
+- Curvature laws of Riemannian metrics, generalized in §2.5: local-isometry naturality
+  `TauCeti.IsLocalRiemannianIsometry.mfderiv_curvatureTensor`
+  (`TauCeti/Geometry/Manifold/Riemannian/Isometry/Curvature.lean`), constant scaling
+  `Bundle.ContMDiffRiemannianMetric.curvatureTensor_leviCivitaConnection_rescale_const`
+  (`TauCeti/Geometry/Manifold/Riemannian/Scaling.lean`), the product law
+  `TauCeti.Manifold.tangentSpaceProdEquiv_curvatureTensor_leviCivitaConnection_prod`
+  (`.../Curvature/Prod.lean`), the conformal-change law
+  `Bundle.ContMDiffRiemannianMetric.curvatureTensor_leviCivitaConnection_rescale`
+  (`.../Curvature/Conformal.lean`), Schur's theorem
+  `CovariantDerivative.hasConstantSectionalCurvature_of_forall_hasSectionalCurvatureAt`
+  (`.../Curvature/Schur.lean`) and constancy of the Einstein factor
+  `CovariantDerivative.eq_of_ricciTensor_eq_smul_inner` (`.../Curvature/Einstein.lean`).
+- Warped products: the Riemannian warped-product metric `TauCeti.Manifold.IsWarpedProduct`
+  (`TauCeti/Geometry/Manifold/Riemannian/WarpedProd.lean`) and its Levi-Civita connection
+  `TauCeti.Manifold.IsWarpedProduct.tangentSpaceProdEquiv_leviCivitaConnection_prodVectorField`
+  (`.../LeviCivita/WarpedProd.lean`), generalized in §2.6; their curvature is
+  RiemannianGeometry R1.3's.
+- The unit round sphere `TauCeti.sphereRoundMetric`
+  (`TauCeti/Geometry/Manifold/Riemannian/Sphere/Basic.lean`) and its constant sectional
+  curvature `1`, `TauCeti.hasConstantSectionalCurvature_sphere` (`.../Sphere/Curvature.lean`),
+  used for the spherical factors of §7.2.
 - Riemannian geodesics: `TauCeti.Manifold.IsGeodesicCurveOn`, `TauCeti.Manifold.geodesicSpray`,
   `TauCeti.Manifold.expDomain`, `TauCeti.Manifold.riemannianExp` and
   `TauCeti.Manifold.IsNormalDomain` (`TauCeti/Geometry/Manifold/Riemannian/Geodesic/`), as
@@ -319,14 +341,25 @@ neighbourhoods and the manifold inverse-function theorem. Layer 3 generalizes th
 flow and inverse-function arguments to Banach connections, with the separate locally
 Lipschitz theory in §3.2.
 
+### From TauCetiRoadmap.SmoothBundlesConnections (on main)
+
+B3.1–B3.3: principal connections, the Atiyah sequence, and the connections induced on
+associated bundles, identified with Mathlib's `CovariantDerivative`, with their dual, tensor and
+Hom connections; B4.1: curvature and the exterior covariant derivative; B5.0 and B5.2:
+horizontal lifts and parallel transport along piecewise `C¹` paths, holonomy and flat
+connections. They are stated for smooth finite-rank bundles over finite-dimensional manifolds
+without boundary; §2.1 uses them in that setting and adds the local Banach and
+finite-regularity generalizations.
+
 ### From TauCetiRoadmap.RiemannianGeometry (on main)
 
-R1: curvature identities and the curvature of products, warped products and the round sphere;
+R1.3: the curvature and Ricci tensors of warped products;
 R2: Jacobi fields, initial data, Wronskians and the differential of the exponential map;
 R3: energy variations, index forms and conjugate points; R5a: immersion geometry. Part I
 states the semi-Riemannian versions of these objects and proves that for positive-definite
-metrics they agree with R1–R3 and R5a; the round sphere and the results using positive-definite
-estimates are used as RiemannianGeometry states them.
+metrics they agree with R1.3, R2–R3 and R5a; the results using positive-definite
+estimates are used as RiemannianGeometry states them. The curvature identities, the curvature
+of products and the round sphere are Tau Ceti's, under From Tau Ceti.
 
 ### From TauCetiRoadmap.PDE (on main)
 
@@ -423,10 +456,14 @@ theorems are the specializations in Layer 6.
 
 ### 1.2 Orthogonal subspaces and null hyperplanes
 
-For a symmetric nondegenerate `b` of signature `(p, q)` and any subspace `W`, develop
-orthogonal complements, `dim W + dim W^⊥ = dim V`, `(W^⊥)^⊥ = W`, and
-`rad(b|W) = W ∩ W^⊥`. A nondegenerate restriction gives `V = W ⊕ W^⊥` with additive
-signatures. For a nonzero covector `ξ`, `(ker ξ)^⊥ = ℝ ξ^♯`; its kernel is degenerate
+For a symmetric nondegenerate `b` of signature `(p, q)` and any subspace `W`, Mathlib
+supplies `dim W + dim W^⊥ = dim V` (`LinearMap.BilinForm.finrank_orthogonal`),
+`(W^⊥)^⊥ = W` (`LinearMap.BilinForm.orthogonal_orthogonal`) and, for nondegenerate `b|W`,
+`V = W ⊕ W^⊥` (`LinearMap.BilinForm.isCompl_orthogonal_of_restrict_nondegenerate`), in
+`Mathlib/LinearAlgebra/BilinearForm/Orthogonal.lean`. Prove `rad(b|W) = W ∩ W^⊥` and that
+the signatures of `W` and `W^⊥` add when `b|W` is nondegenerate. For a nonzero covector `ξ`,
+`(ker ξ)^⊥ = ℝ ξ^♯`, since `ker ξ = (ℝ ξ^♯)^⊥` by Mathlib's
+`LinearMap.BilinForm.orthogonal_span_singleton_eq_toLin_ker`; its kernel is degenerate
 iff `ξ^♯` is null, and then its radical is exactly this line. A negative unit normal gives
 kernel signature `(p, q − 1)`, a positive unit normal `(p − 1, q)`, and a null normal
 gives quotient signature `(p − 1, q − 1)`. General degenerate subspaces can have larger
@@ -436,7 +473,10 @@ radicals; classify restrictions by their inertia indices and radical dimension.
 **Checks.**
 
 - In `diag(−1,−1,1,1)`, the span of `e₀+e₂` and `e₁+e₃` is totally null of dimension two.
-- A null hyperplane has a radical line, although general degenerate subspaces can have larger radicals.
+- In `diag(−1, 1, 1)`, of signature `(2, 1)`, `ξ = dx` has `ξ^♯ = e₁`, a positive unit normal, and
+  `ker dx = span(e₀, e₂)` has signature `(1, 1) = (p − 1, q)`; `ξ = dt` has `ξ^♯ = −e₀`, a negative
+  unit normal, and `ker dt = span(e₁, e₂)` has signature `(2, 0) = (p, q − 1)`. Exchanging the two
+  rules would give `ker dx` signature `(2, 0)`.
 - In `diag(−1, 1)` the null line `W = ℝ(1, 1)` has `W^⊥ = W`, so `dim W + dim W^⊥ = 2` while `W + W^⊥ ≠ ℝ²`: the splitting `V = W ⊕ W^⊥` needs `b|W` nondegenerate.
 
 *Needs:* §1.1; Mathlib orthogonal complements, restrictions and dual maps.
@@ -504,8 +544,9 @@ and connections; constructing them globally by partitions of unity has separate 
 
 - The trivial bundle over a Banach space with `Γ = 0` has zero curvature and constant
   parallel sections along curves.
-- A connection on a bundle other than `TM` has curvature without any tangent metric or
-  notion of torsion; restriction to an open chart requires no global smooth bump functions.
+- On the trivial line bundle over `ℝ²` with `Γ = x dy`, parallel transport along `s ↦ (1, s)`
+  solves `σ′ + Γ(∂_y)σ = σ′ + σ = 0`, so `σ(s) = e^{−s}σ₀`, and along `s ↦ (s, 0)` it is constant
+  as `Γ(∂_x) = 0`; the opposite convention `∇ = D − Γ` would give `e^{s}σ₀`.
 - On the trivial line bundle over `ℝ²` with `Γ = x dy`, the curvature formula gives `R(∂_x, ∂_y) = DΓ(∂_x)(∂_y) − DΓ(∂_y)(∂_x) = 1 − 0 = 1`: a connection with commuting coefficients is still curved, so the derivative terms cannot be dropped.
 
 *Needs:* Mathlib local connections, continuous multilinear maps, Banach ODE; SmoothBundlesConnections B3–B5 and the existing Tau Ceti curvature interfaces.
@@ -677,11 +718,13 @@ the metric trace of a bilinear form via `sharp`, the scalar curvature `S`, the E
 `G` and the sectional curvature of nondegenerate planes through the existing curvature API.
 Prove the existing scalar curvature is its positive-definite specialization; constant
 sectional curvature `κ` iff `R(X,Y)Z = κ(g(Y,Z)X − g(X,Z)Y)` in dimension `d ≥ 2`, and then
-`Ric = (d − 1) κ g`, `S = d(d − 1)κ`; the contracted Bianchi identity `div G = 0` with
+`Ric = (d − 1) κ g`, `S = d(d − 1)κ` (Barzen–Leymann, Theorem 8, p. 50, for semi-Riemannian
+metrics); the contracted Bianchi identity `div G = 0` with
 LVF6's divergence. Prove at every signature the local-isometry naturality, constant-scaling,
 product and conformal-change laws, covariant curvature identities, and Schur and
-Einstein-factor constancy in connected dimension `d ≥ 3` that RiemannianGeometry R1 states
-for positive-definite metrics, and prove that for positive-definite `g` they agree with R1's.
+Einstein-factor constancy in connected dimension `d ≥ 3` that Tau Ceti proves for Riemannian
+metrics (supplier contract), and prove that for positive-definite `g` they agree with Tau
+Ceti's.
 Re-use the metric-free connection results directly.
 
 Define the vacuum Einstein equations `Ric = 0`, and with cosmological constant `Λ`,
@@ -703,25 +746,30 @@ are outside this roadmap.
 - A sectional curvature formula without the `g(X,X)g(Y,Y) − g(X,Y)²` denominator gives the
   wrong sign on de Sitter, whose spanning planes have negative Gram determinant.
 
-*Needs:* §2.1, §2.4; existing curvature and Ricci APIs; LVF6 divergence for contracted Bianchi; RiemannianGeometry R1 for the positive-definite comparison.
+*Needs:* §2.1, §2.4; existing curvature and Ricci APIs; LVF6 divergence for contracted Bianchi; Tau Ceti's Riemannian curvature laws (supplier contract) for the positive-definite comparison.
 
 ### 2.6 Products and warped products
 
 Generalize the existing warped-product API to a semi-Riemannian base `(B, g_B)` and fibre
 `(F, g_F)` of arbitrary signatures and a positive function `f` on `B`. The metric
 `π^*g_B + (f ∘ π)² σ^*g_F` has their sum signature and the common regularity of the data.
-For strong smooth data on Banach factors generalize the existing Levi-Civita and
-uncontracted curvature formulas. In finite dimensions generalize the Ricci formulas, with
-metric traces and signed orthonormal contractions (O'Neill, Ch. 7). The Riemannian formulas
+For strong smooth data on Banach factors generalize Tau Ceti's warped-product Levi-Civita
+formula and RiemannianGeometry R1.3's uncontracted curvature formulas. In finite dimensions
+generalize R1.3's Ricci formulas, with metric traces and signed orthonormal contractions (for
+semi-Riemannian factors, Barzen–Leymann, Lemmas 34–36, pp. 61–62, whose curvature tensor has
+the opposite sign; O'Neill, Ch. 7, Propositions 35 and 42 and Corollary 43). The Riemannian formulas
 and the Lorentzian-base/Riemannian-fibre formulas are specializations. Particular Lorentzian models use these same formulas in §7.2.
 
 **Checks.**
 
 - A constant warping function gives the orthogonal-product connection and curvature.
-- Finite signatures add; strongness is preserved on products of strong Banach factors.
+- Base `(ℝ, ±dt²)`, fibre `(ℝ, dx²)` and `f = cosh t`: the mixed sectional curvature
+  `K(∂_t, ∂_x) = −Hess f(∂_t, ∂_t)/(f g(∂_t, ∂_t))` is `−1` for the Riemannian base (the hyperbolic
+  plane `dt² + cosh²t dx²`) and `+1` for the Lorentzian base (de Sitter, §2.5); the Riemannian
+  value `−f″/f` copied without the metric sign would give `−1` for both.
 - The base `((0, ∞), −dt²)`, the fibre `(ℝ, dx²)` and `f(t) = t` give the Milne metric `−dt² + t² dx²`, whose curvature `K = f″/f = 0` (§2.5) shows it is flat.
 
-*Needs:* §2.2, §2.4–§2.5; existing product and warped-product APIs.
+*Needs:* §2.2, §2.4–§2.5; Tau Ceti's product and warped-product APIs; RiemannianGeometry R1.3.
 
 ### 2.7 Extensions and inextendibility
 
@@ -745,7 +793,11 @@ the same dimension.
 **Checks.**
 
 - A proper connected open Euclidean ball, with its restricted metric, extends to Euclidean space.
-- Openness of an embedding into the same-dimensional target is a finite-dimensional step here; no infinite-dimensional invariance-of-domain claim is used.
+- `(ℝ, −dt²)` has no `C⁰`-extension: an isometric embedding into a connected one-manifold with a
+  continuous metric, locally `−a² ds²` with `a > 0`, has as image a proper open arc of infinite
+  `a`-length towards each end, while near an endpoint of the arc in the target `a` is bounded, so
+  that end has finite length. A target of higher dimension would make it extendible, by
+  `t ↦ (t, 0)` into Minkowski `ℝ^{1+1}`.
 - The identity of a connected manifold is a smooth isometric embedding onto the whole manifold; the clause `ι(M) ≠ M̃` makes it no extension of `M`.
 
 *Needs:* §2.2; Mathlib smooth embeddings and open submanifolds.
@@ -756,7 +808,7 @@ the same dimension.
 
 ### Dependencies
 
-Layer 1 (§1.1); Mathlib connections, sections, continuous multilinear maps, Banach ODE, continuous-linear invertibility, Hölder and derivative APIs, smooth embeddings; Tau Ceti's nondegenerate metric, Levi-Civita, curvature, Ricci, product and warped-product APIs; SmoothBundlesConnections B3–B5; HopfRinow Layer 1; RiemannianGeometry R1; PDE §1.7; LocalVariationalFieldTheory LVF6.
+Layer 1 (§1.1); Mathlib connections, sections, continuous multilinear maps, Banach ODE, continuous-linear invertibility, Hölder and derivative APIs, smooth embeddings; Tau Ceti's nondegenerate metric, Levi-Civita, curvature, Ricci, product and warped-product APIs; SmoothBundlesConnections B3–B5; HopfRinow Layer 1; RiemannianGeometry R1.3; PDE §1.7; LocalVariationalFieldTheory LVF6.
 
 ## Layer 3: curves and one geodesic flow
 
@@ -853,8 +905,12 @@ coefficient field enters the spray.
 **Checks.**
 
 - `Γ = 0` on a Banach space gives the affine flow and `exp_p(v) = p + v`.
-- The geodesic predicate applies to continuous coefficients even when no unique flow is available.
-- Smooth and `C^{1,1}` metrics use this same construction through their Levi-Civita connections.
+- On `ℝ²` the continuous field `Γ_x(v, v) = (0, −12|x₂|^{1/2} v₁²)` has the two geodesics
+  `s ↦ (s, 0)` and `s ↦ (s, max(s, 0)⁴)` with initial data `(0, e₁)`, since
+  `x₂″ = 12s² = 12|x₂|^{1/2}` for `s > 0`: the geodesic predicate holds without uniqueness.
+- For `Γ_x(v, v) = v²` on `ℝ` the geodesic with `x(0) = 0`, `x′(0) = c > 0` is
+  `log(1 + ct) = γ_1(ct)`, as the rescaling law requires; `c log(1 + t)` is not a geodesic for
+  `c ≠ 1`.
 
 *Needs:* §2.1, §2.4, §3.1; Mathlib Banach Picard–Lindelöf and Grönwall; existing HopfRinow geodesic interfaces.
 
@@ -875,8 +931,8 @@ flow or exponential is defined and then compared to the locally Lipschitz one.
 **Checks.**
 
 - Constant flat coefficients give a smooth flow through the common API.
-- A merely locally Lipschitz coefficient field supplies locally Lipschitz dependence from
-  §3.2; differentiability throughout its domain is not part of that hypothesis.
+- For `Γ_x(v, v) = v²` on `ℝ` the exponential at `0` has the open domain `(−1, ∞)` and
+  `exp_0(v) = log(1 + v)`, smooth with `d(exp_0)_0 = 1`; the domain is not all of `T_0ℝ`.
 - The smooth coefficient field `Γ_x(v, v) = v²` on `ℝ` gives `x″ = −x′²`, whose geodesic with `x(0) = 0`, `x′(0) = 1` is `x(t) = log(1 + t)`, defined exactly for `t > −1`: a smooth flow need not be complete.
 
 *Needs:* §3.2; Mathlib regularity of ODE solutions and the existing smooth-flow arguments.
@@ -887,12 +943,12 @@ For a `C¹` connection on a Banach tangent bundle: every point has a normal neig
 (image of a star-shaped open set on which `exp_p` is a diffeomorphism). In finite dimensions
 prove a basis of convex neighbourhoods `U` (normal neighbourhoods of each of their points, so any two points of `U`
 are joined by a unique geodesic in `U`, depending smoothly on the endpoints) (Kobayashi–Nomizu,
-Vol. I, §III.8; O'Neill, Ch. 5; Minguzzi 2019, §2.2, pp. 26–28). For a smooth strong metric, or a weak metric with a supplied
+Vol. I, §III.8; Minguzzi 2019, Theorem 2.4, pp. 26–27). For a smooth strong metric, or a weak metric with a supplied
 smooth compatible torsion-free connection, prove the
 semi-Riemannian Gauss lemma `g(d(exp_p)_v(v), d(exp_p)_v(w)) = g(v, w)` and that the position
 vector field `P` of a normal neighbourhood satisfies `dq = 2g(P,·)` for `q = g(P, P)`;
 for strong metrics this is `grad_g q = 2P`
-(O'Neill, Ch. 5; Minguzzi 2019, Theorem 2.6, p. 27). Generalize the existing normal-domain and Gauss-lemma APIs and their
+(Minguzzi 2019, Theorem 2.6, p. 27). Generalize the existing normal-domain and Gauss-lemma APIs and their
 proofs, retaining the positive-definite interfaces as specializations. Normal-coordinate
 vanishing of Christoffel symbols for a torsion-free connection, and of first derivatives
 of its compatible metric, are shared statements.
@@ -922,7 +978,7 @@ presuppose a smooth `exp`.
   flow and locally bi-Lipschitz normal coordinates, without a continuous curvature tensor.
 - On Minkowski `ℝ^{1+1}` with `p = 0`, `q(x) = −t² + x²` and `P(x) = x`; `dq_x(w) = −2t w_t + 2x w_x = 2g(P(x), w)`, the Gauss identity of this section.
 
-*Needs:* §2.4, §3.2–§3.3; native inverse-function, HasStrictFDerivAt and ApproximatesLinearOn APIs; O’Neill and Minguzzi as cited.
+*Needs:* §2.4, §3.2–§3.3; native inverse-function, HasStrictFDerivAt and ApproximatesLinearOn APIs; Minguzzi as cited.
 
 ### Examples
 
@@ -961,15 +1017,23 @@ tangent metric, construct the orthogonal projection onto the tangent bundle, its
 as normal bundle and the induced connections; no normal musical inverse is needed for
 the vector-valued identities. The strong ambient case supplies the strong normal metric.
 The Gauss equation is
-`R^Σ(X,Y,Y,X) = R(X,Y,Y,X) + ε(k(X,X)k(Y,Y) − k(X,Y)²)`.
+`R^Σ(X,Y,Y,X) = R(X,Y,Y,X) + ε(k(X,X)k(Y,Y) − k(X,Y)²)` (for spacelike hypersurfaces of
+four-dimensional Lorentzian manifolds, `ε = −1`, Gourgoulhon, Gauss relation (2.92), p. 35, and
+Codazzi relation (2.101), p. 36, whose extrinsic curvature is `−k`; for `ε = 1` and Euclidean
+`ℝ³`, the contracted form (2.96), p. 35).
 A finite-dimensional positive-definite submanifold has dimension at most `p`, so a spacelike hypersurface
 cannot occur when the ambient negative index is greater than one.
 
 
 **Checks.**
 
-- A strong induced tangent metric gives a bounded orthogonal tangent projection.
-- The hypersurface Gauss equation retains `ε = g(ν,ν)`; setting `ε = 1` gives the Riemannian specialization.
+- The unit sphere in Euclidean `ℝ³` (`ε = 1`, `k = h` for the outward normal) has
+  `R^Σ(X, Y, Y, X) = 0 + (1 − 0) = 1` for orthonormal `X, Y`, and the future unit hyperboloid of
+  §9.1 (`ε = −1`, `k = h`) has `0 − (1 − 0) = −1`; a Gauss equation without `ε` gives `+1` for both.
+- The de Sitter surface `{−t² + x² + y² = 1}` in `ℝ^{1,2}` is timelike, with spacelike unit
+  normal the position vector (`ε = 1`, `k = h`), so `R^Σ(X, Y, Y, X) = h(X, X)h(Y, Y) − h(X, Y)²`
+  and `K = 1`, as in §2.5; taking `ε = −1` for every hypersurface of a Lorentzian manifold would
+  give `K = −1`.
 - The line `{t = 0}` of Minkowski `ℝ^{1+1}` has unit normal `∂_t` with `ε = −1`, induced metric `dx²` and `k = 0`; the line `{x = 0}` has unit normal `∂_x` with `ε = 1` and induced metric `−dt²`, so the induced signatures `(1, 0)` and `(0, 1)` add with the normal's to `(1, 1)`.
 
 *Needs:* §1.2 for finite signatures; §2.1–§2.5; RiemannianGeometry R5a and native immersion charts.
@@ -1015,7 +1079,10 @@ Fredholm and mono-/epiconjugate-point theory belongs to a separate development.
 **Checks.**
 
 - For `J ⊥ γ′` in constant curvature `κ`, the shared equation is `J″ = −κ g(γ′,γ′) J`.
-- Positive and negative unit tangents give the spherical/hyperbolic and Lorentzian sign specializations of this same equation.
+- On the de Sitter surface of §4.1 (`κ = 1`), along a unit timelike geodesic
+  (`g(γ′, γ′) = −1`) the equation is `J″ = J`, and the field with `J(0) = 0` and `J′(0)` a unit
+  normal is `sinh s` times that parallel normal, which never vanishes again; on the unit sphere
+  along a unit geodesic `J″ = −J` gives `sin s`, vanishing at `s = π`.
 - In Minkowski space along `s ↦ (s, 0)`, `J(s) = s∂_x` solves `J″ = 0 = −R(J, γ′)γ′` with `J(0) = 0`, `J′(0) = ∂_x`, and `d(exp_0)_{(1, 0)}(∂_x) = J(1) = ∂_x`, as `exp_0` is the identity.
 
 *Needs:* §2.5, §3.2–§3.4, §4.1; existing RiemannianGeometry R2–R3 interfaces.
@@ -1035,7 +1102,9 @@ null version and the positive-transverse-metric focusing consequences are in §1
 **Checks.**
 
 - On `diag(−1,1)`, `σ = [[0,1],[−1,0]]` is trace-free and self-adjoint but `tr(σ²) = −2`.
-- The operator equation needs no trace; a finite-dimensional shear norm inequality needs a definite transverse metric.
+- Along unit-speed geodesics from a point of the unit round `S²` (`m = 1`, `Ric(u, u) = 1`) the
+  distance circles have `B = cot r`, so `θ = cot r` and `θ′ = −1/sin² r = −θ² − Ric(u, u)`;
+  without the Ricci term the identity would give `−cot² r`.
 - For the radial unit lines of Euclidean `ℝ³` (`R = 0`, `m = 2`), `B = (1/r)` on `u^⊥`, `θ = 2/r`, `σ = 0`, and `θ′ = −2/r² = −θ²/2`.
 
 *Needs:* §2.5, §4.1, §5.1.
@@ -1174,12 +1243,16 @@ Define `LorentzianMetric I M k` as the index-one subtype of the common carrier i
 Levi-Civita connection, curvature, restrictions, products with Riemannian factors and
 conformal changes are the specializations of Part I, with no additional metric data.
 Identify the signature with `(n,1)` in dimension `n+1`; for a connected manifold it suffices
-to check the signature at one point. Preserve the existing smooth nondegenerate interface
+to check the signature at one point (Tau Ceti's
+`TauCeti.Manifold.isLocallyConstant_sigPos_sigNeg_of_continuous`). Preserve the existing smooth nondegenerate interface
 and the native Riemannian interface through the shared carrier.
 
 **Checks.**
 
-- Minkowski, double-null and acoustical metrics are supplied by the checks of §2.2.
+- On `ℝ × (0, 2m) × S²` the Schwarzschild formula of §7.2 is diagonal with entries
+  `−(1 − 2m/r) > 0` on `∂_t`, `(1 − 2m/r)^{−1} < 0` on `∂_r` and `r² g_{S²}` on the sphere: one
+  negative direction, so it is a `LorentzianMetric` there although `∂_t` is spacelike; a
+  definition asking the first coordinate field to be timelike would exclude it.
 - An index-two metric remains in the common carrier and is excluded by the Lorentzian predicate.
 - `−dt² + t dx²` on `ℝ²` is Lorentzian for `t > 0`, degenerate at `t = 0` and negative definite for `t < 0`, so it is a `LorentzianMetric` on `{t > 0}` only.
 
@@ -1216,7 +1289,7 @@ timelike field supplies the time orientation of §8.1.
   warped product needs both the base curvature and the warping terms, and fails for
   `F = 1 − 2m/r²`.
 
-*Needs:* §2.4–§2.7, §7.1; RiemannianGeometry R1 for round spheres.
+*Needs:* §2.4–§2.7, §7.1; Tau Ceti's round sphere `TauCeti.sphereRoundMetric` and `TauCeti.hasConstantSectionalCurvature_sphere`.
 
 ### 7.3 Acoustical metrics on product spacetimes
 
@@ -1224,7 +1297,8 @@ On `M = ℝ × Σ`, with `t` the first coordinate, let `h` be a Riemannian metri
 `c : M → ℝ` a function and `v` a time-dependent vector field on `Σ`, `v(t, x) ∈ T_xΣ`.
 Define pointwise the acoustical form by
 `g((a, X), (b, Y)) = −c² a b + h(X − a v, Y − b v)`, that is
-`g = −c² dt² + h(dx − v dt, dx − v dt)`, and the vector field `B = ∂_t + v`. Regularity is
+`g = −c² dt² + h(dx − v dt, dx − v dt)` (for `Σ = ℝ²` Euclidean, Luo–Yu, (1.2), p. 3), and the
+vector field `B = ∂_t + v`. Regularity is
 a property of these fields, not part of the definition. Prove:
 
 - at a point with `c ≠ 0`, `g` is a Lorentzian scalar product, `g(B, B) = −c²`,
@@ -1254,7 +1328,9 @@ Euler equations, belongs to the hyperbolic-PDE roadmap named under Downstream co
   Ceti's round metric `TauCeti.roundMetricCircle`; the product metric is flat and the covering
   `ℝ^n → Σ`, `x ↦ (x¹, e^{ix²}, …, e^{ixⁿ})`, is a local isometry. Acoustical forms of
   `x`-periodic `c`, `v` on `ℝ × ℝ^n` are pullbacks of acoustical forms on `ℝ × Σ`.
-- The acoustical checks of §2.2, §8.1 and §9.2 are the case `Σ = ℝ²`.
+- `Σ = ℝ`, `c = 1`, `v = 2`: `g = −dt² + (dx − 2dt)²` has Gram matrix `[[3, −2], [−2, 1]]` with
+  determinant `−1`, so it is Lorentzian; `g(∂_t, ∂_t) = 3 > 0` while `g(B, B) = 3 − 8 + 4 = −1`, so
+  in this supersonic flow `B` orients time and `∂_t` does not.
 
 *Needs:* §6.1–§6.3, §2.2, §7.1; Mathlib Riemannian metrics, product manifolds and `Circle`; Tau Ceti `TauCeti.roundMetricCircle`.
 
@@ -1264,7 +1340,7 @@ Euler equations, belongs to the hyperbolic-PDE roadmap named under Downstream co
 
 ### Dependencies
 
-Layer 2 (§2.2–§2.7); Layer 6; RiemannianGeometry R1; Mathlib Riemannian metrics, product manifolds and `Circle`; Tau Ceti `TauCeti.roundMetricCircle`.
+Layer 2 (§2.2–§2.7); Layer 6; Mathlib Riemannian metrics, product manifolds and `Circle`; Tau Ceti `TauCeti.roundMetricCircle`, `TauCeti.sphereRoundMetric` and `TauCeti.hasConstantSectionalCurvature_sphere`.
 
 ## Layer 8: time orientations and causal curves
 
@@ -1413,8 +1489,12 @@ proved in §12.5 after their definitions; null affine parameters are treated in 
 
 **Checks.**
 
-- A nonconstant positive conformal factor preserves Minkowski light cones and `I^±,J^±`.
-- A constant factor `c` multiplies lengths by `c`, so length is additional data beyond the cones.
+- For `Ω(t, x) = e^x` on Minkowski `ℝ^{1+1}`, `ĝ((1, 1), (1, 1)) = e^{2x} · 0 = 0` and
+  `ĝ((1, 0), (1, 0)) = −e^{2x} < 0`, so the characters are unchanged, while the segments from
+  `(0, 0)` to `(1, 0)` and from `(0, 1)` to `(1, 1)`, both of `g`-length `1`, have `ĝ`-lengths `1`
+  and `e`: length is data beyond the cones.
+- `Ω(t, x) = t²` vanishes on `{t = 0}`, where `ĝ = t⁴ g` is degenerate: the factor must be
+  positive for `ĝ` to be Lorentzian.
 - For `ĝ = 4g` on Minkowski `ℝ^{1+1}` (`Ω = 2`), the segment from `0` to `(1, 0)` has `L_ĝ = 2 = 2L_g`, while `(1, 1)` stays null: `ĝ((1, 1), (1, 1)) = 4 · 0`.
 
 *Needs:* §2.2, §8.1–§8.3; change of variables and the length integral.
@@ -1456,7 +1536,10 @@ shared Gauss and Codazzi equations to
 
 and their contractions, the constraint equations
 `2 G(ν, ν) = S_Σ + H² − |k|²` and `G(ν, ·)|_{TΣ} = div_Σ k − dH`. In particular a spacelike
-hypersurface of a vacuum spacetime satisfies the vacuum constraints `S_Σ + H² − |k|² = 0`, `div_Σ k − dH = 0`.
+hypersurface of a vacuum spacetime satisfies the vacuum constraints `S_Σ + H² − |k|² = 0`, `div_Σ k − dH = 0`
+(in dimension four, Gourgoulhon, (2.92) and (2.95), p. 35, (2.101) and (2.103), p. 36, with
+extrinsic curvature `−k`; the vacuum constraints are its (4.19) and (4.21), p. 54, with zero
+sources).
 
 **Checks.**
 
@@ -1757,7 +1840,8 @@ without taking the differential of a continuous function.
 ### 11.4 Limit curves and length semicontinuity
 
 Prove, for an auxiliary complete Riemannian metric `h` (construct one by conformally rescaling
-any smooth Riemannian metric by a proper smooth exhaustion function, Nomizu–Ozeki):
+any smooth Riemannian metric by a proper smooth exhaustion function, Nomizu–Ozeki; Minguzzi
+2019, Theorem 1.5, p. 10):
 future causal curves parametrized by `h`-arc length are 1-Lipschitz; if `γ_n` are such curves
 defined on a common compact interval with `γ_n(0)` convergent, a subsequence converges
 uniformly to a future causal curve; if the `γ_n` are future-inextendible, or their `h`-lengths
@@ -1812,7 +1896,7 @@ Prove: an achronal set `A` with empty edge is a closed topological hypersurface 
 Lipschitz hypersurface with empty edge (Minguzzi 2019, Proposition 2.101, p. 68, Theorem 2.87
 (iii), p. 61, and Proposition 2.136, p. 77); every point of `∂I^+(S) \ closure S` lies on a
 null geodesic in `∂I^+(S)` that is past-inextendible or has its past endpoint on `closure S`
-(Hawking–Ellis, Prop. 6.3.1; for closed `S`, Minguzzi 2019, Theorems 2.28 and 2.56, pp. 37
+(Hawking–Ellis, Lemma 6.3.2; for closed `S`, Minguzzi 2019, Theorems 2.28 and 2.56, pp. 37
 and 49).
 
 **Checks.**
@@ -1954,7 +2038,8 @@ the affine-null parameter transformation and a completeness counterexample are i
 
 - The metric `exp(−2t²)(−dt²+dx²)` has exactly the Minkowski Cauchy surfaces and causal
   diamonds and is globally hyperbolic, although its null affine completeness differs.
-- Constant positive rescaling leaves all the causal sets unchanged and multiplies time separation by the constant factor.
+- For `ĝ = 4g` on Minkowski `ℝ^{1+1}` (`Ω = 2`), `τ_ĝ(0, (2, 0)) = 4 = 2τ_g(0, (2, 0))`, not
+  `Ω²τ_g = 8`; on the Lorentzian cylinder of §8.3, `τ_ĝ = τ_g = ∞`.
 - For `ĝ = e^{2t}(−dt² + dx²)` on `ℝ^{1+1}`, `J^+_ĝ(0) = J^+_g(0) = {t ≥ |x|}`, while the segment from `0` to `(1, 0)` has `ĝ`-length `∫_0^1 e^s ds = e − 1` instead of `1`.
 
 *Needs:* §8.4, §10.4, §11.1–§11.3, §12.1–§12.3.
@@ -2022,9 +2107,13 @@ Prove:
   open, `S ⊆ U` is closed in `U`, and `D = D^+_U(S)`, then `D^+_D(S) = D` for the field
   restricted to `D`. (Let a curve in `D`
   ending at `p ∈ D` be past-inextendible in `D` and miss `S`. It is not past-inextendible in
-  `U`, so it has a past limit `q ∈ U \ D`, and concatenation shows `q ∈ D^+_U(S)`; or it has
-  a minimum point `q ∈ D \ S`, and on a past-inextendible curve in `U` ending at `q` the
-  segment after the last point of `S` is a nontrivial causal curve in `D` ending at `q`.)
+  `U`, so it has a past limit `q ∈ U \ D`, and concatenation shows `q ∈ D^+_U(S)`; or its
+  parameter interval has a minimum `a`, with `q = γ(a) ∈ D \ S`, and by the definition of
+  past-inextendibility in `U` some future causal curve `σ` in `U` on a nontrivial `[a', a]`
+  ends at `q`. As `S` is closed in `U`, `σ⁻¹(S)` is closed, so `σ` meets `S` at a last
+  parameter, less than `a` as `q ∉ S`, or not at all; every point of `σ` after that parameter
+  (every point, if `σ` misses `S`) lies in `D`, by concatenation, so a nontrivial final segment of `σ` is a future causal curve in
+  `D` ending at `q`.)
 - coverings: if `π : M̃ → M` is a smooth covering map and a local isometry carrying the
   time field of `M̃` to that of `M`, then `π⁻¹(D^+_D(S)) = D^+_{π⁻¹D}(π⁻¹S)`, by unique
   lifting of locally Lipschitz curves and of their past limits.
@@ -2044,11 +2133,14 @@ Prove:
   `D = {t ≥ 0}` and `S = {t = 0, x¹ ≥ 0}`: `D^+_D(S) = {t ≥ 0, x¹ ≥ (v¹ + c)t}`. A
   `t`-parametrized curve `(t, x(t))` is future causal iff `|ẋ − v| ≤ c` almost everywhere.
 
-*Needs:* §3.1, §7.3 for the acoustical checks, §8.1–§8.3, §12.2; Mathlib covering maps and path lifting.
+*Needs:* §3.1, §7.3 for the acoustical checks, §8.1–§8.3, §12.2; §12.4's local length bound (Galloway–Ling–Sbierski, Lemma 2.1, p. 5), for adding a past limit point, with its argument applied to curves in `D` near the point, where the metric is continuous on `D`; Mathlib covering maps and path lifting.
 
 ### 12.7 Achronal boundaries and Cauchy horizons of `C¹` metrics
 
-Extend to locally Lipschitz metrics, which include `C¹` metrics: push-up
+Extend to locally Lipschitz metrics, which include `C¹` metrics: the limit curve theorem, that
+future-directed inextendible causal curves accumulating at a point accumulate at a
+future-directed inextendible causal curve through it (Chruściel, *Elements of causality theory*, Theorem 2.6.7, p. 36, which
+holds for `C^{0,1}` metrics by Chruściel–Grant, Corollary 1.26, p. 19); push-up
 `I^+ ∘ J^+ ⊆ I^+` and `J^+ ∘ I^+ ⊆ I^+`, and `I^+(p) = int J^+(p)` (Chruściel–Grant,
 Corollary 1.17, p. 16, Lemma 1.22, p. 17, and Corollary 1.26, p. 19); for every
 `S`, `∂I^+(S)` is a closed achronal locally Lipschitz topological hypersurface in the sense of
@@ -2082,7 +2174,9 @@ with closure and `I^−` taken in `U`, and `edge_U(S)` the edge of §12.1 in `(U
 locally Lipschitz `g` prove that `H^+_U(S)` is closed in `U` and achronal, and that every point of
 `H^+_U(S) \ edge_U(S)` lies on an achronal causal curve in `H^+_U(S)` that is
 past-inextendible in `U` or has its past endpoint on `edge_U(S)`; for `C¹` `g` that curve
-is a null geodesic after reparametrization (Hawking–Ellis, Prop. 6.5.3, at this regularity).
+is a null geodesic after reparametrization, by the Filippov-geodesic theorem above. (For smooth `g`
+this is Minguzzi 2019, Theorem 3.24, p. 91; the route is its argument, with the limit curve
+theorem and push-up of this section in place of their smooth versions.)
 
 Slices of a temporal function: let `t` be `C¹` on `U` with `g⁻¹(dt, dt) < 0` and `dt > 0` on
 future vectors, and let `S` be closed in the slice `Σ_{t₀} = {t = t₀}`. Prove that `S` is
@@ -2133,7 +2227,8 @@ hypersurfaces and spacelike codimension-two submanifolds. Prove: a timelike geod
 `p` with a conjugate point `r` before `q` is not maximizing from `p` to `q`; a null geodesic
 from `p` with a conjugate point
 before `q` has `q ∈ I^+(p)`; and the focal analogues for hypersurfaces and codimension-two
-surfaces (O'Neill, Ch. 10; for the focal analogues, Minguzzi 2019, Theorem 6.16, pp. 171–172).
+surfaces (Minguzzi 2019, Theorem 6.16 (a), pp. 171–172, for focal points, and with Remark 6.17,
+p. 172, for conjugate points).
 
 **Checks.**
 
@@ -2283,6 +2378,16 @@ Theorem and page numbers of a preprint are those of the arXiv version named in i
 - A. F. Filippov, *Differential Equations with Discontinuous Righthand Sides*, Kluwer (1988).
 - D. Christodoulou, *The Formation of Shocks in 3-Dimensional Fluids*, EMS (2007): acoustical
   metrics and developments of compressible Euler data, the model consumer of §7.3 and §12.6.
+- J. Barzen, F. Leymann, *Mathematics of Spacetime: A Guided Tour Through The Underlying
+  Differential Topology and Differential Geometry*,
+  [arXiv:2606.02616](https://arxiv.org/abs/2606.02616): constant curvature and warped products of
+  semi-Riemannian metrics.
+- É. Gourgoulhon, *3+1 Formalism and Bases of Numerical Relativity*,
+  [arXiv:gr-qc/0703035v1](https://arxiv.org/abs/gr-qc/0703035v1): Gauss–Codazzi relations of
+  spacelike hypersurfaces and the constraint equations.
+- T.-W. Luo, P. Yu, *On the stability of multi-dimensional rarefaction waves I: the energy
+  estimates*, [arXiv:2302.09714v2](https://arxiv.org/abs/2302.09714v2): the acoustical metric of
+  two-dimensional compressible Euler flow.
 - R. Geroch, *Domain of dependence*, J. Math. Phys. 11 (1970) 437–449.
 - A. N. Bernal, M. Sánchez, *On smooth Cauchy hypersurfaces and Geroch's splitting theorem*,
   Comm. Math. Phys. 243 (2003) 461–470; *Smoothness of time functions and the metric splitting
