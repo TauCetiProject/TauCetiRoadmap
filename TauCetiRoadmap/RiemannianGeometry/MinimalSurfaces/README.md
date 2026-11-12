@@ -7,12 +7,14 @@ results are the half-space theorem (MS4), local compactness and ε-regularity (M
 Morse index and stability (MS6), the curvature estimate for stable surfaces (MS7), removable
 singularities and compactness under bounded total curvature (MS8 and MS9), Frankel's theorem
 (MS11) and the Choi–Schoen compactness theorem for minimal surfaces of bounded genus in
-three-manifolds of positive Ricci curvature (MS12). Every hypothesis is explicit and every
-proof has a written source; the main references throughout are Colding and Minicozzi's book
+three-manifolds of positive Ricci curvature (MS12). Every hypothesis is explicit; the main
+references throughout are Colding and Minicozzi's book
 [CM], White's lecture notes [White] and Chodosh's lecture notes [Chodosh].
 
 This README is the roadmap. `Suggested.lean` states the targets that are statable against the
-pinned Mathlib without the immersion carriers of the parent roadmap; its docstring says which.
+pinned Mathlib and Tau Ceti: the half-space theorem (4.2), the point-picking lemma (5.4),
+Bernstein's theorem (7.6) and Hersch's balancing lemma (10.3). Its docstring names, for each
+other headline, the carrier of the parent roadmap that the statement needs.
 
 ## Scope and ownership
 
@@ -28,7 +30,9 @@ corollary, stated there. MS2–MS12 own:
   Harnack and gradient estimates, and multi-valued graphs.
 - MS3: monotonicity for proper minimal immersions with its affine-plane rigidity case, the
   boundary form of the tangency principle, the convex hull property, the maximum principle
-  in a small ball, the mean value inequality, and the forms of Simons' identity used below.
+  in a small ball, the mean value inequality, the improved Kato inequality and the
+  two-dimensional forms of G6's Simons identity, and the estimate of the ambient curvature
+  terms of that identity in a Riemannian manifold.
 - MS4: the first-contact lemma, unique continuation, the catenoid barriers and the half-space
   theorem.
 - MS5: ε-regularity under small total curvature, compactness under bounded area and
@@ -46,6 +50,7 @@ corollary, stated there. MS2–MS12 own:
 - MS9: compactness under bounded area and total curvature, multiplicity-one regularity, and
   the stability of limit components of higher multiplicity.
 - MS10: Reilly's formula, the Choi–Wang eigenvalue estimate, Hersch's balancing lemma, the
+  bound `λ₁(−Δ_Σ) |Σ| ≤ 8πd` for a holomorphic map of degree d to the sphere, the
   Yang–Yau eigenvalue bound, and the area bound from the genus under `Ric > 0`.
 - MS11: the second variation of length between two submanifolds, Frankel's theorem, and the
   connectedness of preimages in finite covers.
@@ -73,14 +78,20 @@ Boundaries with the parent and with other roadmaps:
   Simons' identity and inequality. The interior tangency principle of 3.2 is that maximum
   principle: it is one theorem, consumed here, and 3.2 owns its boundary form. Item 3.1 is
   the statement for smooth proper minimal immersions, with its exact remainder, proved from
-  the first variation without varifolds. Item 3.6 is Simons' identity in the forms and with
-  the conventions used here; it is the same identity as G6's.
+  the first variation without varifolds. Item 3.6 consumes Simons' identity and inequality
+  and owns what G6 does not state: the improved Kato inequality, the two-dimensional
+  equalities, and the estimate of the ambient curvature terms in a Riemannian manifold.
 - [PDE](../../PDE/README.md) owns the linear elliptic theory: maximum principles and the
   Hopf lemma (PDE C13), Harnack inequalities (PDE C14), De Giorgi–Nash–Moser (PDE E23) and
   the Schauder estimates (PDE E22 and E25). This sub-roadmap owns their application to the
   minimal-surface equation and to the Jacobi equation.
 - [PseudoholomorphicCurveAnalysis](../../PseudoholomorphicCurveAnalysis/README.md) PH2.4
   owns isothermal coordinates and PH7.2 owns Riemann–Roch. Item 10.4 consumes them.
+- Hersch's balancing lemma (10.3) and the bound `λ₁(−Δ_Σ) |Σ| ≤ 8πd` for a holomorphic map
+  of degree d from a closed Riemannian surface to the sphere (10.4) have this sub-roadmap
+  as their single owner. A roadmap that needs this bound for a holomorphic map of degree d
+  on a compact Riemann surface, as the theory of the gonality of algebraic curves does,
+  cites 10.3 and 10.4.
 - The one-sided curvature estimate [CM4, Theorem 0.2] and the uniqueness of the helicoid use
   most of this sub-roadmap, especially the curvature estimate of MS7 and the graphical
   neighbourhoods and multi-valued graphs of MS2, together with the multi-valued graph
@@ -161,9 +172,8 @@ below.
     intrinsic distance d to the arc (S2);
   - Gauss–Bonnet for a disk with piecewise smooth boundary (S3);
   - normal balls without completeness (S4): on an intrinsic ball with compact closure in the
-    interior on which `K ≤ 0` (or `K ≤ κ` with radius below `π/√κ`, by Jacobi comparison),
-    `exp_p` is defined on the tangent ball and is a local diffeomorphism, and when `K ≤ 0`
-    and the ball is simply connected and contained in one coordinate chart (for instance a
+    interior on which `K ≤ 0`,
+    and which is simply connected and contained in one coordinate chart (for instance a
     ball in a disk parametrized by one chart), `exp_p` maps the tangent ball
     diffeomorphically onto it, radial geodesics realizing the distance;
   - the conformal invariance of the Dirichlet energy `∫|∇φ|²` of a function on a surface
@@ -293,9 +303,10 @@ normal double covers, Riemannian coverings, the Bochner formula and the spherica
 spectrum of R8.2, and the bundle and scalar Schrödinger spectral theory of R5c; and on
 Fourier series on the two-torus.
 
-The positive-Jacobi-field and curvature estimates in MS7, following [Lynch] in `ℝ³` and its
-adaptation to a Riemannian three-manifold, use MS6 (the stability quadratic form), the
-Bochner formula, Simons' identity in both its Euclidean and Riemannian forms (MS3), the
+The positive-Jacobi-field and curvature estimates in MS7 follow [Lynch] in `ℝ³`; their
+adaptation to a Riemannian three-manifold is this roadmap's own argument. They use MS6 (the
+stability quadratic form), the Bochner formula, the two-dimensional form of Simons' identity
+and the estimate of its ambient curvature terms (3.6), the
 Gauss equation (MS1), and the smooth upper distance barriers of R4.1. This route is
 independent of MS2, MS4 and MS5, and does not need point-picking, ambient blow-up, pointed
 compactness for immersed surfaces, Pogorelov's area bound, the logarithmic cutoff or
@@ -366,7 +377,7 @@ general ambient manifolds, the finite-cover reduction from Bonnet–Myers and Fr
   theory: De Giorgi–Nash–Moser for Du, then the Schauder bootstrap of
   [Chodosh, Lemma 19.1]. The linear estimates are those of [PDE](../../PDE/README.md) (E23,
   then E22 and E25); their application to the minimal-surface equation is the target here.
-- **2.3 Small-data Dirichlet problem for minimal graphs** [Chodosh, Lemma 32.3]. Let
+- **2.3 Small-data Dirichlet problem for minimal graphs** [Chodosh, proof of Theorem 32.5]. Let
   `B₁ ⊂ ℝⁿ` (`n ≥ 2`) be the unit ball and `0 < α < 1`. For a smooth (or `C⁴`) Riemannian
   metric g on `B̄₁ × [−1,1]` close to `g_Eucl` in `C⁴(B̄₁ × [−1,1])` and
   `u ∈ C^(2,α)(B̄₁)` with small norm, let `M_g(u)` denote the coordinate g-minimal-graph
@@ -428,7 +439,7 @@ general ambient manifolds, the finite-cover reduction from Bonnet–Myers and Fr
 ## MS3. First consequences of minimality
 
 - **3.1 Monotonicity** [CM, §1.3] [White, Theorem 3]
-  [Chodosh, Theorem 9.3, Corollaries 9.4–9.5]. Let `f : Σ → ℝ^m` be a proper minimal
+  [Chodosh, Theorem 9.3, Corollary 9.4]. Let `f : Σ → ℝ^m` be a proper minimal
   immersion of an n-manifold (`1 ≤ n < m`), and let `B_R(p)` be an ambient ball disjoint
   from `f(∂Σ)`. For `0 < σ < ρ < R`, testing `div_Σ X^⊤ = n` (`X(q) = f(q) − p`) with a
   radial cutoff gives
@@ -439,7 +450,8 @@ general ambient manifolds, the finite-cover reduction from Bonnet–Myers and Fr
   where `ω_n` is the volume of the unit ball in `ℝⁿ` and `(f(q)−p)^⊥` is the component
   normal to `df_q(T_qΣ)` in `ℝ^m`. In particular, `r ↦ Area(f⁻¹(B_r(p)))/(ω_n rⁿ)` is
   nondecreasing on `(0,R)` and tends, as `r → 0`, to the number of points of `f⁻¹(p)`: area
-  counts sheets with multiplicity. Include the affine-plane-rigidity equality case: if
+  counts sheets with multiplicity. Include the affine-plane-rigidity equality case
+  [White, Theorem 4]: if
   `Σ ⊂ ℝ^m` is a nonempty properly embedded minimal n-submanifold without boundary
   satisfying `lim_(R→∞) Area(Σ ∩ B_R(0))/(ω_n Rⁿ) ≤ 1`, then translation invariance of the
   asymptotic ratio and the small-ball limit 1 at `p₀ ∈ Σ` force
@@ -478,8 +490,8 @@ general ambient manifolds, the finite-cover reduction from Bonnet–Myers and Fr
   trace is positive (MS1, R4.1). In particular such a ball contains no closed minimal
   submanifold. This argument, applied to the squared distance from a point of a small ball,
   controls the topology of a minimal surface inside the ball [CM4, Lemma C.1].
-- **3.5 Mean value inequality** [CM, §1.3, Theorem 1.12, §2.2] [Chodosh, Corollary 9.5]
-  [White, Theorem 4]. Let `f : Σ → ℝ^m` be a proper minimal immersion of an n-manifold
+- **3.5 Mean value inequality** [CM, §1.3, Theorem 1.12, §2.2].
+  Let `f : Σ → ℝ^m` be a proper minimal immersion of an n-manifold
   (`1 ≤ n < m`) and `p ∈ f(Σ)` with `B_R(p)` disjoint from `f(∂Σ)`. If `u ≥ 0` is a smooth
   function on Σ satisfying `Δu ≥ −au` for some `a ≥ 0`, then
 
@@ -490,17 +502,36 @@ general ambient manifolds, the finite-cover reduction from Bonnet–Myers and Fr
   `u = |A|²`, for which Simons' inequality gives `Δ|A|² ≥ −2|A|⁴`, on a ball of radius
   `R ∼ |A|(q₀)⁻¹` where `aR²` is bounded. In a Riemannian m-manifold, the same holds for R
   below a scale depending on the metric near a compact set.
-- **3.6 Simons' identity** [Simons] [CM, Lemma 2.1] [Chodosh, Lemma 26.1]. For a minimal
-  hypersurface in `ℝ^(n+1)`,
+- **3.6 Consequences of Simons' identity** [Simons] [CM, Lemma 2.1]. Consume the Simons
+  identity and inequality of [GeometricCurrents](../../GeometricCurrents/README.md) G6,
+  translated by `Δ = −Δ⁺`: for a minimal hypersurface in `ℝ^(n+1)`,
+  `½Δ|A|² = |∇A|² − |A|⁴`. G6 owns them, and they are not proved again here. From the
+  identity prove, for a minimal hypersurface in `ℝ^(n+1)`, the improved Kato inequality
 
-  `½Δ|A|² = |∇A|² − |A|⁴ ≥ ((n+2)/n) |∇|A||² − |A|⁴`,
+  `|∇A|² ≥ ((n+2)/n) |∇|A||²` where `A ≠ 0`.
 
-  hence `Δ|A|² ≥ −2|A|⁴` and, where `A ≠ 0`, `|A|Δ|A| − (2/n)|∇|A||² ≥ −|A|⁴`; for a
-  minimal surface in `ℝ³` (`n = 2`) this is the equality `Δ log|A| = −|A|²`. Include the
-  version in a Riemannian `(n+1)`-manifold N, with the ambient curvature terms built from
-  `Rm_N` and `∇Rm_N`. Simons' identity and inequality are also built by
-  [GeometricCurrents](../../GeometricCurrents/README.md) G6; it is one identity, stated here
-  in the forms and with the Laplacian used below.
+  Hence `Δ|A|² ≥ −2|A|⁴`, and `|A|Δ|A| − (2/n)|∇|A||² ≥ −|A|⁴` where `A ≠ 0`. For `n = 2`
+  prove the equalities `|∇A|² = 2|∇|A||²`, `Δs = |∇s|²/s − 2s²` (`s = |A|² > 0`) and
+  `Δ log|A| = −|A|²`.
+
+  *Ambient curvature terms.* G6's item names the identity and fixes its signs; the estimate
+  of the terms that the curvature of a Riemannian ambient manifold adds to it is owned here,
+  in the two forms used in 5.1 and 7.4. For a minimal hypersurface in a Riemannian
+  `(n+1)`-manifold N, prove
+
+  `|½Δ|A|² − |∇A|² + |A|⁴| ≤ C(n)(|Rm_N| |A|² + |∇Rm_N| |A|)`
+
+  pointwise, the norms of `Rm_N` and `∇Rm_N` being taken at the point: commute the
+  covariant derivatives of A as in the Euclidean identity, with the Codazzi equation of R5a
+  for N, whose right-hand side is the component `Rm_N(·,·,·,ν)`, and with the Gauss
+  equation for the curvature of the hypersurface. In particular
+  `Δ|A|² ≥ −2|A|⁴ − C(n)(|Rm_N| |A|² + |∇Rm_N| |A|)`, and at a point where `A = 0`,
+  `Δ|A|² = 2|∇A|² ≥ 0`. For `n = 2` the same Codazzi term enters the Kato equality: for
+  every `ε ∈ (0,1)` there is `C_ε` such that, where `s = |A|² > 0`,
+
+  `Δs ≥ (1−ε)|∇s|²/s − 2s² − C(|Rm_N| s + |∇Rm_N| √s) − C_ε |Rm_N|²`
+
+  with a universal C.
 
 ## MS4. The half-space theorem
 
@@ -561,7 +592,8 @@ general ambient manifolds, the finite-cover reduction from Bonnet–Myers and Fr
   which, for i large, `Σ_i ∩ V` is a union of m graphs over `Σ ∩ V` converging smoothly to
   `Σ ∩ V`, and that `Σ_i ∩ K = ∅` for i large whenever `K ⊂ U ∖ Σ` is compact. The limit is
   embedded because of the tangency principle 3.2. If points `p_i ∈ Σ_i` converge to a point
-  of U, then Σ is not empty and contains that point. Include the varying-metric exhaustion
+  of U, then Σ is not empty and contains that point, by monotonicity (3.1)
+  [Chodosh, Corollary 9.5]. Include the varying-metric exhaustion
   version needed for ambient blow-ups: given open sets `U_i ↑ U`, smooth metrics `g_i` on
   `U_i` converging in `C^∞_loc(U)` to a smooth metric g on U, and properly embedded
   `g_i`-minimal hypersurfaces `Σ_i ⊂ U_i` without boundary in `U_i` whose `g_i`-areas and
@@ -582,7 +614,8 @@ general ambient manifolds, the finite-cover reduction from Bonnet–Myers and Fr
   Allard regularity and in the bounded-total-curvature compactness), where the rescaled
   limit `Σ̃_∞` is a priori only an immersion, and embeddedness is recovered afterwards from
   the affine-plane rigidity of 3.1 or the multiplicity-one regularity of 9.2.
-- **5.4 Point-picking lemma** [Chodosh, Lemma 29.1]. Let `(X,d)` be a metric space,
+- **5.4 Point-picking lemma** [Chodosh, proof of Lemma 29.1 and of Theorem 5.5]. Let
+  `(X,d)` be a metric space,
   `x₀ ∈ X`, `R₀ > 0`, S a compact subset of the closed ball `B̄_(R₀)(x₀)`, and
   `f : S → [0,∞)` a continuous function; in applications, `S = Σ ∩ B̄_(R₀)(x₀)` on a
   relatively compact ball and `f = |A|`. If `x ∈ S ∩ B_(R₀)(x₀)` satisfies
@@ -661,7 +694,7 @@ diagonal of R5b's polarized form.
   supremum of `dim E` over finite-dimensional subspaces `E ⊂ C^∞_c(Σ ∖ ∂Σ;ν_f)` on which Q
   is negative definite, agreeing with the compact definition 6.1 when Σ is closed or compact
   with smooth boundary. In particular, `index(Σ) = 0` if and only if Σ is stable; so affine
-  n-planes in `ℝ^m` and minimal graphs in `ℝ^(n+1)` have index 0.
+  n-planes in `ℝ^m` have index 0, since `II = 0` gives `Q(V) = ∫_Σ |∇^⊥V|² dμ ≥ 0`.
 - **6.3 Specialization to hypersurfaces and two-sided hypersurfaces** [FCS] [CM, §1.8]
   [Chodosh, §§24, 33]. For any minimal hypersurface (`m = n+1`, possibly one-sided), `ν_f`
   is a real line bundle on which any local unit normal `±ν` is `∇^⊥`-parallel, and
@@ -785,7 +818,7 @@ Q also denotes the function `q + cs` of [Lynch]; the two uses do not meet in one
   function `⟨ν,e⟩` satisfies `J⟨ν,e⟩ = 0`; more generally, `J⟨ν,X⟩ = 0` whenever X is a
   Killing vector field on N. For a minimal graph in `ℝ^(n+1)` with upward unit normal,
   `h = ⟨ν,e_(n+1)⟩ > 0`, so the graph is stable for variations compactly supported in its
-  interior, by 7.1.
+  interior, by 7.1; by 6.2 its index is 0.
 - **7.4 Gradient estimate for positive Jacobi fields on minimal surfaces**
   [Lynch, Theorem 1.1, §4]. Let `Σ → ℝ³` be a minimally immersed surface, and let `u > 0` be
   a positive Jacobi field on an open subset of `Σ ∖ ∂Σ`. Set `f = log u`, `q = |∇f|²`,
@@ -827,22 +860,36 @@ Q also denotes the function `q + cs` of [Lynch]; the two uses do not meet in one
   rearranging give `R² Q(p) ≤ C` for a universal C, hence `R² (q + s)(p) ≤ 3C`. When Σ is
   complete and `u > 0` on `Σ ∖ ∂Σ`, letting `R ↑ dist_g(p,∂Σ)` completes the proof.
 
-  *Riemannian adaptation.* For a minimally immersed surface `Σ → N` in a Riemannian
-  three-manifold with `|Rm_N| ≤ Λ₀` and `|∇Rm_N| ≤ Λ₁` near a compact subset `C ⊂ N`,
-  choose `c ∈ (⅓, ½)`, for instance `c = ⅖`, so that both `3 − 1/c > 0` and `1 − 2c > 0`.
-  Splitting the gradient terms as
+  *Riemannian adaptation.* [Lynch] treats hypersurfaces of `ℝ³` and `ℝ⁴` only; the
+  following adaptation is this roadmap's own argument. Let `Σ → N` be a minimally immersed
+  surface in a Riemannian three-manifold, let `u > 0` solve
+  `Δu + (|A|² + Ric_N(ν,ν))u = 0` on an open subset of `Σ ∖ ∂Σ`, and let p and R be as
+  above, with `|Rm_N| ≤ Λ₀` and `|∇Rm_N| ≤ Λ₁` on the image of `B_R^Σ(p)`. Then
+  `Δf = −s − q − Ric_N(ν,ν)`. Choose `c ∈ (⅓, ½)`, for instance `c = ⅖`, so that both
+  `3 − 1/c > 0` and `1 − 2c > 0`. The Bochner formula and the Gauss equation
+  `Ric_Σ = (K_N(TΣ) − ½s) g` give, where `q > 0`, the Euclidean expression for `Δq` plus
+  terms bounded below by `−C(Λ₀ |∇q|/√q + Λ₀(q+s) + Λ₁ √q)`, the last one coming from
+  `−2⟨∇f, ∇(Ric_N(ν,ν))⟩`; the estimate of the ambient curvature terms of 3.6 gives, where
+  `s > 0`, `Δs ≥ (1−ε₀)|∇s|²/s − 2s² − C(Λ₀ s + Λ₁ √s) − CΛ₀²`, and `Δs ≥ 0` where
+  `s = 0`. Splitting the gradient terms as
   `(1−ε₀)(|∇q|²/q + c|∇s|²/s) + ε₀(|∇q|²/q + c|∇s|²/s)` with small `ε₀ > 0` still leaves a
   strictly positive quadratic term `c₀Q²` after completing the square on the Y cross term,
-  while the reserved `ε₀` fraction absorbs the first-order ambient curvature perturbations
-  from `Ric_N(ν,ν)` in `Δq` and from the Codazzi equation in the Riemannian Simons identity
-  (3.6) by Young's inequality, yielding
+  while the reserved `ε₀` fraction absorbs the first-order term `Λ₀ |∇q|/√q` by Young's
+  inequality. The remaining terms are absorbed by `Λ₀ Q ≤ δQ² + C_δ Λ₀²` and
+  `Λ₁ √Q ≤ δQ² + C_δ Λ₁^(4/3)`; the points where q or s vanishes are treated as in the
+  Euclidean case. This yields, where `Q > 0`,
 
-  `ΔQ ≥ (1−ε₀)|∇Q|²/Q + (c₀/2)Q² − C(Λ₀² + Λ₁²)`.
+  `ΔQ ≥ (1−ε₀)|∇Q|²/Q + (c₀/2)Q² − C(Λ₀² + Λ₁^(4/3))`,
 
-  Along a minimizing geodesic in `B_R^Σ(p)` from p to p̄, the Gauss equation gives
-  `Ric_Σ = (K_N(TΣ) − ½s) g ≥ −(Λ₀ + Q(p̄)/(2c)) g`, so the upper barrier r̃ of R4.1
+  with `c₀ > 0` and C depending only on c and `ε₀`. Every term scales by `λ⁻⁴` under
+  `g ↦ λ²g`, for which `Q`, `Λ₀` and `Λ₁` scale by `λ⁻²`, `λ⁻²` and `λ⁻³`. Along a
+  minimizing geodesic in `B_R^Σ(p)` from p to p̄, the Gauss equation
+  gives `Ric_Σ = (K_N(TΣ) − ½s) g ≥ −(Λ₀ + Q(p̄)/(2c)) g`, so the upper barrier r̃ of R4.1
   satisfies `Δr̃(p̄) ≤ C(√Q(p̄) + √Λ₀ + 1/r(p̄))` and the maximum principle gives
-  `R² Q(p) ≤ C(1 + (Λ₀ + Λ₁)R²)`.
+
+  `R² Q(p) ≤ C(1 + (Λ₀ + Λ₁^(2/3))R²)`,
+
+  both sides being invariant under `g ↦ λ²g`.
 - **7.5 Curvature estimate for stable surfaces** [Schoen] [White, Theorem 29]. Let
   `Σ → ℝ³` be a two-sided stable minimal immersion. Whenever the closure of `B_R^Σ(p)` is
   compact and contained in the interior `Σ ∖ ∂Σ`, 7.2 ([CM, Proposition 1.39], [FCS]) gives
@@ -883,7 +930,8 @@ Q also denotes the function `q + cs` of [Lynch]; the two uses do not meet in one
 
 ## MS8. Removable singularities
 
-- **8.1 Statement and curvature decay** [Chodosh, Lemma 32.1, Theorem 32.5] [ChoiSchoen].
+- **8.1 Statement and curvature decay** [Chodosh, §32 opening paragraph, Theorem 32.5]
+  [ChoiSchoen].
   Let `B_(r₀)(p)` be a normal ball in a smooth Riemannian three-manifold `(N³,g)` and let
   `Σ ⊂ B_(r₀)(p) ∖ {p}` be properly embedded and minimal, without boundary in
   `B_(r₀)(p) ∖ {p}`. Suppose that p lies in the closure of Σ, that
@@ -895,13 +943,17 @@ Q also denotes the function `q + cs` of [Lynch]; the two uses do not meet in one
   compactness application. As a first step, `∫_Σ |A|² dμ < ∞` gives
   `∫_(Σ ∩ B_(2s)(p)) |A|² dμ → 0` as `s → 0⁺`, so applying the Riemannian
   small-total-curvature estimate 5.1 on `B_(s/2)(x) ⊂ B_(2s)(p) ∖ {p}` for `x ∈ Σ` with
-  `s = d_g(x,p) < r₀/2` yields
+  `s = d_g(x,p) < r₀/2`, with `r = s/2` and `σ = s/4`, yields
 
-  `(s/2)² |A|²(x) ≤ C₀(∫_(Σ ∩ B_(s/2)(x)) |A|² dμ + (s/2)²) → 0`,
+  `(s/4)² |A|²(x) ≤ C₀(∫_(Σ ∩ B_(s/2)(x)) |A|² dμ + (s/2)²) → 0`,
 
-  hence `d_g(x,p) |A|(x) → 0` as `x → p`.
+  hence `d_g(x,p) |A|(x) → 0` as `x → p`. The estimate is applied to the compact surface
+  `Σ ∩ B̄_r(x)` after decreasing `r = s/2` to a radius in `(s/4, s/2]` whose sphere `∂B_r(x)`
+  meets Σ transversally, so that its boundary lies on `∂B_r(x)`; the centre x lies in
+  `B_(r−σ)(x)`.
 - **8.2 Annular punctured-plane blow-ups and punctured-disk decomposition**
-  [Chodosh, Proposition 32.2]. Write `r(x) = d_g(x,p)`. At any critical point `x ∈ Σ` of
+  [Chodosh, Lemmas 32.1–32.3, Proposition 32.4]. Write `r(x) = d_g(x,p)`. At any critical
+  point `x ∈ Σ` of
   `r²|_Σ`, `∇r²(x)` is normal to `T_xΣ`, so
 
   `Hess_Σ(r²) = Hess_N(r²)|_(T_xΣ) + ⟨∇r²(x), II⟩ = 2g_Σ + O(r²) + O(r|A|(x))`
@@ -924,7 +976,7 @@ Q also denotes the function `q + cs` of [Lynch]; the two uses do not meet in one
   multiplicity 1 in the ordered annular collar of its great-circle link in `S²`, so it is a
   single punctured plane `Π ∖ {0}` through 0 with multiplicity one.
 - **8.3 Minimal-graph barrier trapping and smooth extension across the puncture**
-  [Chodosh, Lemmas 32.3–32.4, Theorem 32.5] [ChoiSchoen]. Fix `D^* = D_ℓ^*`. By the
+  [Chodosh, Proposition 32.4, Theorem 32.5] [ChoiSchoen]. Fix `D^* = D_ℓ^*`. By the
   multiplicity-one blow-up on dyadic annuli, at a sufficiently small scale `ρ₀ ∈ (0,r₁)` the
   rescaled normal coordinates `y = ρ₀⁻¹ exp_p⁻¹(x)` with metric
   `g̃(y) = ρ₀⁻² (exp_p(ρ₀y))^*g` (`‖g̃ − g_Eucl‖_(C⁴) ≤ Cρ₀² ≪ ε₂ ≪ δ₀`) can be rotated so
@@ -1050,21 +1102,22 @@ Bounded area and genus therefore imply bounded total curvature `∫_Σ |A|²`.
   closure with `F|_(S²) = id`. By Brouwer's no-retraction theorem (if `F ≠ 0` on `B³`, then
   `F/|F|` would retract the closed ball onto `S²`), there exists `a ∈ B³` such that
   `∫_Σ (T_a ∘ Φ) dμ = 0 ∈ ℝ³`.
-- **10.4 Yang–Yau eigenvalue bound** [YangYau] [Chodosh, Theorem 34.5]. Let `(Σ,g)` be a
-  closed connected orientable Riemannian surface of genus γ. Then
-
-  `λ₁(−Δ_Σ) |Σ| ≤ 8π(γ+1)`.
-
+- **10.4 The degree bound and the Yang–Yau eigenvalue bound** [YangYau]
+  [Chodosh, Theorem 34.5]. Let `(Σ,g)` be a closed connected orientable Riemannian surface,
+  with an orientation chosen.
   Endowing Σ with the smooth almost complex structure j given by rotation by `+π/2` in
   oriented g-orthonormal frames, isothermal coordinates
   ([PseudoholomorphicCurveAnalysis](../../PseudoholomorphicCurveAnalysis/README.md) §2.4,
   PH2.4) give `(Σ,j)` the holomorphic atlas of a compact connected Riemann surface in which
-  g is conformal to `dz dz̄`. Fixing `p ∈ Σ`, Riemann–Roch (§7.2, PH7.2, of the same roadmap,
-  applied in divisor form to `D = (γ+1)p`, without Brill–Noether theory) gives
-  `dim_ℂ H⁰(𝒪((γ+1)p)) ≥ (γ+1) + 1 − γ = 2`, producing a nonconstant meromorphic function
-  whose sole pole at p has order `d ≤ γ+1`, hence by stereographic projection a finite
-  holomorphic (smooth orientation-preserving branched conformal) map `Φ : Σ → S² ⊂ ℝ³` of
-  degree `d ≤ γ+1` (Tau Ceti's `TauCeti.RiemannSurface.FiniteHolomorphicMap.ofMeromorphic`).
+  g is conformal to `dz dz̄`.
+
+  *Degree bound* [Chodosh, proof of Theorem 34.5]. Let `Φ : Σ → S² ⊂ ℝ³` be a nonconstant
+  holomorphic map of degree d, the unit sphere carrying the complex structure of the Riemann
+  sphere through stereographic projection; such a Φ is a smooth orientation-preserving
+  branched conformal map. Then
+
+  `λ₁(−Δ_Σ) |Σ| ≤ 8πd`.
+
   Away from the finite critical set `{dΦ = 0}`, conformality `Φ^*g_(S²) = λg` gives
   `|dΦ|²_g = Σ_(i=1)^3 |∇_g Φ_i|² = 2λ = 2 Jac_g(Φ)`, and deleting the finite branch-value
   set `S ⊂ S²` and `Φ⁻¹(S)` restricts Φ to a d-sheeted covering map, so the Dirichlet energy
@@ -1072,7 +1125,20 @@ Bounded area and genus therefore imply bounded total curvature `∫_Σ |A|²`.
   gives a branched conformal map `Φ̃ = T_a ∘ Φ` of degree d with `∫_Σ Φ̃_i dμ_g = 0`
   (`i = 1,2,3`) and `E(Φ̃) = 4πd` (S5). Testing the Rayleigh quotient for `λ₁(−Δ_Σ)` (R5c)
   against `Φ̃₁, Φ̃₂, Φ̃₃` and summing with `Σ_(i=1)^3 Φ̃_i² ≡ 1` yields
-  `λ₁(−Δ_Σ) |Σ| ≤ 2E(Φ̃) = 8πd ≤ 8π(γ+1)`. The sharper bound `8π⌊(γ+3)/2⌋`, which needs a
+  `λ₁(−Δ_Σ) |Σ| ≤ 2E(Φ̃) = 8πd`. This bound and 10.3 are the single statement of Hersch's
+  argument for holomorphic maps to the sphere; the roadmaps that need it cite them.
+
+  *Yang–Yau bound.* If Σ has genus γ, then
+
+  `λ₁(−Δ_Σ) |Σ| ≤ 8π(γ+1)`.
+
+  Fixing `p ∈ Σ`, Riemann–Roch (§7.2, PH7.2, of the same roadmap,
+  applied in divisor form to `D = (γ+1)p`, without Brill–Noether theory) gives
+  `dim_ℂ H⁰(𝒪((γ+1)p)) ≥ (γ+1) + 1 − γ = 2`, producing a nonconstant meromorphic function
+  whose sole pole at p has order `d ≤ γ+1`, hence by stereographic projection a finite
+  holomorphic map `Φ : Σ → S² ⊂ ℝ³` of
+  degree `d ≤ γ+1` (Tau Ceti's `TauCeti.RiemannSurface.FiniteHolomorphicMap.ofMeromorphic`),
+  to which the degree bound applies. The sharper bound `8π⌊(γ+3)/2⌋`, which needs a
   map of degree at most `⌊(γ+3)/2⌋` from Brill–Noether theory, is not a target of this
   sub-roadmap, and no item uses it.
 - **10.5 Area bound from genus under `Ric > 0`** [ChoiSchoen] [Chodosh, §34.3]. Let

@@ -19,8 +19,10 @@ surface Dirichlet energy. It is independently definitive and states its boundari
 milestones below.
 
 The sub-roadmap [Minimal surfaces](MinimalSurfaces/README.md) owns the theory of smooth
-minimal hypersurfaces built on R5a and R5b: minimal graphs, monotonicity and the tangency
-principle, the half-space theorem, local compactness and ε-regularity, the Morse index, the
+minimal hypersurfaces built on R5a and R5b: minimal graphs, monotonicity for smooth proper
+minimal immersions and the boundary form of the tangency principle (the interior principle
+is GeometricCurrents G6's), the half-space theorem, local compactness and ε-regularity,
+the Morse index, the
 curvature estimate for stable surfaces, removable singularities, compactness under bounded
 total curvature, the Choi–Wang and Yang–Yau eigenvalue estimates, Frankel's theorem and
 Choi–Schoen compactness. It is independently definitive and states its boundaries with the
