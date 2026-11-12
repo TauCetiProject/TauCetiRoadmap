@@ -4,6 +4,8 @@ public import Mathlib
 public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Nondegenerate.Existence
 public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.AlongCurve.Acceleration
 public import TauCeti.Geometry.Manifold.PiecewisePath
+public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.Curvature.Ricci
+public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Nondegenerate.Regularity
 
 /-!
 # Semi-Riemannian foundations and Lorentzian causality: target signatures
@@ -20,13 +22,16 @@ theorems against the pinned Mathlib and Tau Ceti, with the definitions their sta
 * the Galloway–Ling–Sbierski theorem (§12.4): a smooth globally hyperbolic spacetime that is
   timelike geodesically complete is `C⁰`-inextendible, and Sbierski's theorem that Minkowski
   space is `C⁰`-inextendible;
-* the determination theorem for domains of dependence inside a subset (§12.6).
+* the determination theorem for domains of dependence inside a subset (§12.6);
+* Hawking's theorem (§13.3), for Cauchy surfaces that are level sets of a smooth temporal
+  function, with the mean curvature of the level set as the trace of the covariant derivative
+  of its unit normal.
 
 Not statable at the pins:
 
-* Hawking's theorem and the timelike focusing lemma (§13.2, §13.3): there is no second
-  fundamental form or mean curvature of a hypersurface in a semi-Riemannian manifold (Tau Ceti's
-  second fundamental form is that of a map into an inner product space);
+* the timelike focusing lemma (§13.2): there is no Jacobi field, normal exponential map or
+  focal point of a semi-Riemannian metric (Tau Ceti's Jacobi fields, conjugate points and
+  exponential map are those of a Riemannian metric);
 * Penrose's theorem and the null focusing lemma (§13.2, §13.3): there is no null expansion of a
   spacelike codimension-two submanifold;
 * the generator theorems of §12.7: there is no Levi-Civita connection or geodesic of a `C¹`
@@ -294,7 +299,8 @@ def IsCauchySurface (τ : TimeOrientation g) (S : Set M) : Prop :=
   ∀ γ a b, IsInextendibleTimelikeCurve τ γ a b → ∃! t, t ∈ Ioo a b ∧ γ t ∈ S
 
 /-- **§12.3, Geroch's theorem.** A smooth spacetime without boundary is globally hyperbolic iff
-it has a Cauchy surface (Minguzzi 2019, Theorem 4.119). -/
+it has a Cauchy surface (Geroch 1970; Minguzzi 2019, Theorem 4.119, for closed acausal Cauchy
+hypersurfaces, with Corollary 3.34 and Theorem 3.45 for the converse from a Cauchy surface). -/
 theorem isGloballyHyperbolic_iff_exists_isCauchySurface [I.Boundaryless] [T2Space M]
     [SecondCountableTopology M] [ConnectedSpace M] (hk : ∞ ≤ k) (τ : TimeOrientation g) :
     IsGloballyHyperbolic τ ↔ ∃ S, IsCauchySurface τ S := by
@@ -426,6 +432,59 @@ theorem futureDomainOfDependenceIn_self [I.Boundaryless] {U : Set M}
   sorry
 
 end TimeOrientedLorentzianFieldOn
+
+/-! ## Layer 13: focusing and singularity theorems -/
+
+namespace LorentzianMetric
+
+variable {k : ℕ∞ω} {g : LorentzianMetric I M k}
+
+variable (g) in
+/-- **§13.3.** The Ricci tensor `Ric(u, v) = tr(w ↦ R(w, u)v)` of the Levi-Civita connection of a
+smooth Lorentzian metric (§2.5). -/
+def ricci [T2Space M] (hk : ∞ ≤ k) (x : M) :
+    TangentSpace I x →ₗ[ℝ] TangentSpace I x →ₗ[ℝ] ℝ :=
+  letI := (g.val.toSmoothMetric hk).isLeviCivitaConnection_leviCivitaConnection
+    |>.contMDiffCovariantDerivative le_rfl
+  (g.val.toSmoothMetric hk).leviCivitaConnection.ricciTensor x
+
+variable (g) in
+/-- **§13.3.** The unit normal `ν = −grad t / |grad t|` of the level sets of `t`, where
+`grad t = sharp(dt)`; it is the future unit normal when `dt` is positive on future causal
+vectors. -/
+def levelSetUnitNormal (hk : ∞ ≤ k) (t : M → ℝ) (x : M) : TangentSpace I x :=
+  let ν := (g.val.toSmoothMetric hk).sharp x
+    (mfderiv I 𝓘(ℝ, ℝ) t x : TangentSpace I x →L[ℝ] ℝ).toLinearMap
+  ((-1 : ℝ) / Real.sqrt (-(g x ν ν))) • ν
+
+variable (g) in
+/-- **§13.3.** The mean curvature `H = tr_h k` (§9.1) of the level sets of `t`, as the trace on
+`T_xM` of `X ↦ ∇_X ν` for the unit normal `ν`; the normal direction adds nothing to the trace,
+as `g(ν, ν) = −1` makes `g(∇_X ν, ν)` vanish. -/
+def levelSetMeanCurvature (hk : ∞ ≤ k) (t : M → ℝ) (x : M) : ℝ :=
+  LinearMap.trace ℝ (TangentSpace I x)
+    ((g.val.toSmoothMetric hk).leviCivitaConnection (levelSetUnitNormal g hk t) x).toLinearMap
+
+/-- **§13.3, Hawking's theorem.** In a smooth globally hyperbolic spacetime of dimension `n + 1`
+satisfying the timelike convergence condition, if the level set `S = t⁻¹(0)` of a smooth temporal
+function `t` is a Cauchy surface with future mean curvature `H ≤ b < 0`, then every future causal
+curve from `S` has Lorentzian length at most `n / |b|` (O'Neill, Theorem 14.55A). Every smooth
+spacelike Cauchy surface is such a level set (Bernal–Sánchez 2006). -/
+theorem lorentzianLength_le_of_meanCurvature_le [I.Boundaryless] [T2Space M]
+    [SecondCountableTopology M] [ConnectedSpace M] (hk : ∞ ≤ k) (τ : TimeOrientation g)
+    (h : IsGloballyHyperbolic τ)
+    (hRic : ∀ (x : M) (v : TangentSpace I x), IsTimelike (g x).toBilinForm v →
+      0 ≤ g.ricci hk x v v)
+    (t : M → ℝ) (ht : ContMDiff I 𝓘(ℝ, ℝ) ∞ t)
+    (hdt : ∀ (x : M) (v : TangentSpace I x), τ.IsFutureCausal v →
+      (0 : ℝ) < (mfderiv I 𝓘(ℝ, ℝ) t x v : ℝ))
+    (hS : IsCauchySurface τ (t ⁻¹' {0})) {b : ℝ} (hb : b < 0)
+    (hH : ∀ x ∈ t ⁻¹' {0}, g.levelSetMeanCurvature hk t x ≤ b)
+    (γ : ℝ → M) (a c : ℝ) (hγ : IsFutureCausalCurve τ γ a c) (ha : t (γ a) = 0) :
+    lorentzianLength g γ a c ≤ ((Module.finrank ℝ E : ℝ) - 1) / |b| := by
+  sorry
+
+end LorentzianMetric
 
 end Manifold
 

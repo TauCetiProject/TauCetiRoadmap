@@ -524,7 +524,8 @@ map has class `C^r`, with the derivative loss explicit.
 For `C^r` coefficient fields, `r ≥ 1`, generalize the curvature operator and prove its
 tensoriality locally, producing a continuous multilinear tensor of class `C^{r−1}`.
 In a trivialization its value is
-`R_x(u,v) = DΓ_x(u)(v) − DΓ_x(v)(u) + [Γ_x(u), Γ_x(v)]`.
+`R_x(u,v) = DΓ_x(u)(v) − DΓ_x(v)(u) + [Γ_x(u), Γ_x(v)]` (for the tangent bundle in
+coordinates, Barzen–Leymann, Lemma 24, (54), p. 42).
 Prove agreement with the existing `CovariantDerivative.curvatureTensor` in finite dimensions,
 and recover its algebraic tensor interface from the continuous multilinear one. Prove
 alternation, naturality, the covariant exterior Bianchi identity for `C²` coefficients,
@@ -690,6 +691,13 @@ so it supplies the hypothesis of the single flow construction in §3.2.
 **Checks.**
 
 - A constant strong metric has zero Christoffel field.
+- For `−dt² + a(t)² dx²` the Christoffel formula gives `Γ^t_xx = −½ g^{tt} ∂_t g_xx = a a′` and
+  `Γ^x_tx = ½ g^{xx} ∂_t g_xx = a′/a`; raising with `+1` in place of `g^{tt} = −1` would give
+  `Γ^t_xx = −a a′`.
+- For `ĝ = e^{2t}(−dt² + dx²)`, that is `u = t` and `g` flat, the conformal formula gives
+  `ĝ.∇_{∂_x}∂_x = −g(∂_x, ∂_x) g.sharp(dt) = ∂_t`, as `g.sharp(dt) = −∂_t`; directly,
+  `Γ̂^t_xx = −½ ĝ^{tt} ∂_t ĝ_xx = −½ (−e^{−2t})(2e^{2t}) = 1`. The sign `+g(X, Y) g.sharp(du)`
+  would give `−∂_t`.
 - The constant weighted `ℓ²` metric of §2.2 is weak but its Koszul covectors are represented by `Γ = 0`.
 - For the `C^{1,α}` metric of §2.3 the Christoffel field is `C^{0,α}`; local geodesic uniqueness is a separate question.
 
@@ -1056,15 +1064,15 @@ hypotheses of §4.1, with finite dimension only for the trace.
 ### 5.1 Jacobi fields, energy variations and index forms
 
 Define Jacobi fields along geodesics of a smooth torsion-free connection on a Banach
-manifold by `J'' + R(J, γ')γ' = 0`, with the solution API that RiemannianGeometry R2–R3
-states for Riemannian metrics.
+manifold by `J'' + R(J, γ')γ' = 0` (Lorentzian case: Minguzzi 2019, Proposition 6.3, p. 159),
+with the solution API that RiemannianGeometry R2–R3 states for Riemannian metrics.
 Prove existence and uniqueness from initial data and a continuous linear identification
 of the solution space with the product of the two initial-data fibres, using convergence
 of `J` and `D_t J` uniformly on compact parameter intervals in bundle charts. Finite-dimensionality
 of that space follows in finite dimensions. Generalize the identification of `d(exp_p)`
 with the Jacobi field of initial data `(0, w)`. For a smooth strong metric, or a weak
 metric supplied with a smooth compatible torsion-free connection, generalize the
-Wronskian conservation law, first and second variations of
+Wronskian conservation law (Lorentzian case: Minguzzi 2019, p. 160), first and second variations of
 energy `E(γ) = ½∫g(γ', γ')`, and the index form
 `I(X,Y) = ∫[g(D_t X,D_t Y) − g(R(X,γ')γ',Y)] dt` on fields with fixed zero endpoints.
 Generalize the index boundary term from the shape operators of §4.1. In finite dimensions
@@ -1921,9 +1929,11 @@ Theorem 3.45, p. 99); `H^+(A)` is closed and achronal (Proposition 3.15, p. 87),
 past-inextendible or has past endpoint on `edge(A)` (Minguzzi 2019, Theorem 3.24, p. 91;
 Hawking–Ellis, Prop. 6.5.3). Prove that
 a Cauchy surface is achronal, is met by every inextendible causal curve, is a closed achronal
-topological hypersurface, and satisfies `D(S) = M`; conversely a closed achronal `S` with
-`D(S) = M` is a Cauchy surface; any two Cauchy surfaces are homeomorphic (Minguzzi 2019,
-Theorem 4.119, p. 147).
+topological hypersurface, and satisfies `D(S) = M` (for closed achronal `S` the domain of
+dependence defined by timelike curves is `M` iff `D(S)` is, Minguzzi 2019, Corollary 3.34,
+p. 95); conversely a closed
+achronal `S` with `D(S) = M` is a Cauchy surface; any two Cauchy surfaces are homeomorphic
+(Geroch 1970; for closed acausal Cauchy hypersurfaces, Minguzzi 2019, Theorem 4.119, p. 147).
 
 **Checks.**
 
@@ -1951,7 +1961,10 @@ Definition 4.117 (b), p. 146). Prove:
   the space of future causal curves from `p` to `q`, up to reparametrization, is compact for
   uniform convergence in `h`-arc length;
 - Geroch's theorem: `M` is globally hyperbolic iff it has a Cauchy surface (Geroch 1970;
-  Minguzzi 2019, Theorem 4.119, p. 147; `isGloballyHyperbolic_iff_exists_isCauchySurface`);
+  Minguzzi 2019, Theorem 4.119, p. 147, for its closed acausal Cauchy hypersurfaces,
+  Definition 3.35, p. 95, which are Cauchy surfaces here; conversely `D(S) = M` from §12.2 and
+  Minguzzi 2019, Theorem 3.45, p. 99, make `M` globally hyperbolic;
+  `isGloballyHyperbolic_iff_exists_isCauchySurface`);
 - the Bernal–Sánchez splitting: a globally hyperbolic spacetime has a Cauchy temporal
   function `t : M → ℝ` (smooth, `dt(v) > 0` for every future causal `v`, with every level set a
   Cauchy surface; `exists_cauchyTemporalFunction`), so `M` is diffeomorphic to `ℝ × Σ` with
@@ -2194,6 +2207,14 @@ timelike tangent vector, for continuous `g`, and the generator supplies a null o
   `x₀¹ = 0`, issue from `edge(S) = {t = 0, x¹ = 0}`.
 - On `(−1/2, 1/2) × ℝ` with `−dt² + (1 + t|t|^α) dx²`, `0 < α < 1` (§2.3), the metric is `C¹`
   and not `C^{1,1}`; this section applies to its domains of dependence, while Layer 10 does not.
+- For the locally Lipschitz metric `−dt² + e^{2|t|} dx²` on `ℝ²`, in the coordinates `(t, x)`
+  and off `t = 0`, `Γ_y(w, w) = (sign(t) e^{2|t|} w_x², 2 sign(t) w_t w_x)`. The curve
+  `s ↦ (0, s)` lies in the null set `t = 0`, where `Γ` is undefined, so a definition evaluating
+  `Γ` along the curve says nothing about it. Near `((0, s), (0, 1))` the values approach `(1, 0)`
+  from `t > 0` and `(−1, 0)` from `t < 0`, so the essential convex hull contains `0 = −x″` and the
+  curve is a Filippov geodesic.
+- For the same metric, near `w = (1, 0)` both components of `Γ_y(w, w)` carry a factor `w_x` and
+  tend to `0`, so `s ↦ (s, x₀)`, which crosses `t = 0`, is a Filippov geodesic with `x″ = 0`.
 - For merely continuous (Hölder) metrics Chruściel–Grant construct causal bubbles, open sets in
   `J^+(p) \ closure (I^+(p))` (Chruściel–Grant, Theorem 1.20 (i), p. 17, and Proposition 1.10
   (vi), p. 9); the push-up and boundary statements need the locally Lipschitz hypothesis.
@@ -2283,8 +2304,13 @@ with Theorem 6.16, p. 171, identifying the first focal point with `θ → −∞
 Prove Hawking's theorem: if `M` is globally hyperbolic and satisfies the timelike convergence
 condition, and `S` is a smooth spacelike Cauchy surface with future mean curvature
 `H ≤ b < 0`, then every future causal curve from `S` has Lorentzian length at most `n/|b|`, so
-`M` is future timelike geodesically incomplete (O'Neill, Ch. 14; Hawking 1967; for a compact
-contracting Cauchy surface, Minguzzi 2019, Theorem 6.49, p. 191). Prove Penrose's
+`M` is future timelike geodesically incomplete (O'Neill, Theorem 14.55A; Hawking 1967; for a
+compact contracting Cauchy surface, Minguzzi 2019, Theorem 6.49, p. 191). By §12.3 every smooth
+spacelike Cauchy surface is the level set `t⁻¹(0)` of a smooth temporal function `t`, and the
+theorem is stated in that form (`lorentzianLength_le_of_meanCurvature_le`), with `Ric` the Ricci
+tensor `ricci` of the Levi-Civita connection, `ν = −grad t/|grad t|` the future unit normal
+`levelSetUnitNormal`, and `H` the trace on `T_xM` of `X ↦ ∇_X ν` (`levelSetMeanCurvature`),
+which is `tr_h k` because `g(ν, ν) = −1` makes `g(∇_X ν, ν)` vanish. Prove Penrose's
 theorem: if `M` is globally hyperbolic with a noncompact Cauchy surface, satisfies the null
 convergence condition and contains a closed trapped surface, then `M` is future null
 geodesically incomplete (Minguzzi 2019, Theorem 6.25, p. 180; Penrose 1965).
