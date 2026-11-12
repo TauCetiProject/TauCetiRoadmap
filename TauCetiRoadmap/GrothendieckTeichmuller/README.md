@@ -50,10 +50,12 @@ injective by Belyi 1979), its image (Ihara 1991, Question 3.3.3), `Out♯ₙ ≅
 `π̂₁(M_{0,n})` that preserve the conjugacy classes of the inertia subgroups and commute with the
 permutations of the marked points) and `Out(Πₙ) ≅ GT̂ × 𝔖ₙ₊₃` for `n ≥ 2`
 (Hoshi–Minamide–Mochizuki 2022, Corollary 2.8; `Πₙ` is the profinite fundamental group of the
-configuration space of `n` points on `ℙ¹ ∖ {0, 1, ∞}` over `ℚ̄`) are left to the successor of
-[BelyiMaps](../BelyiMaps/README.md) Layer 12 (`BelyiArithmeticActions`) and to
-InverseGaloisAndArithmeticFundamentalGroups §IG.1.2 (tangential base points) and §IG.5.1
-(configuration spaces). The pro-unipotent and graded groups `GT(k)`,
+configuration space of `n` points on `ℙ¹ ∖ {0, 1, ∞}` over `ℚ̄`) are not in this roadmap. They
+use, besides `GT̂`, the outer action of `Gal(ℚ̄/ℚ)` on the profinite fundamental group of
+`ℙ¹ ∖ {0, 1, ∞}` of [BelyiMaps](../BelyiMaps/README.md) §12.8 (BelyiMaps excludes
+Grothendieck–Teichmüller theory and tangential base points), the tangential base points of
+InverseGaloisAndArithmeticFundamentalGroups §IG.1.2 and its configuration spaces of §IG.5.1.
+The pro-unipotent and graded groups `GT(k)`,
 `GRT(k)` and the Lie algebra `𝔤𝔯𝔱` are not in this roadmap (Bar-Natan 1998 defines `GT₁(k)`, for
 a commutative `ℚ`-algebra `k`, as the group of automorphisms of the unipotent completion of the
 category of parenthesised braids that preserve its skeleton, the strand operations and the
@@ -83,7 +85,8 @@ dimension `3g − 3 + n ≤ 2` (Grothendieck 1984, §2).
 
 The boundary in one sentence: if a statement is about pro-words, about `P̂₄` or `K̂(0,5)`, or about
 pairs `(λ, f)`, it is here; if it mentions a Galois group, a curve or a configuration space, it is
-in BelyiMaps' successor or in InverseGaloisAndArithmeticFundamentalGroups.
+not here, and its inputs other than `GT̂` are in BelyiMaps or in
+InverseGaloisAndArithmeticFundamentalGroups.
 
 ## Conventions
 
@@ -658,12 +661,7 @@ compactness for topologically finitely generated groups.
 
 ## Downstream consumers
 
-The successor of [BelyiMaps](../BelyiMaps/README.md) Layer 12, `BelyiArithmeticActions`, consumes
-`GT̂`, `β`, `χ` and the injection `GT̂ → ContinuousOut F̂₂` to state the homomorphism
-`Gal(ℚ̄/ℚ) → GT̂` and its injectivity, with the tangential base points of
-InverseGaloisAndArithmeticFundamentalGroups §IG.1.2; relation (III) in `P̂₄` and its five-term
-form in `K̂(0,5)` are what that successor compares with the fundamental groups of the
-configuration spaces of InverseGaloisAndArithmeticFundamentalGroups §IG.5.1.
+No roadmap on main cites this one.
 
 ## Research context
 
