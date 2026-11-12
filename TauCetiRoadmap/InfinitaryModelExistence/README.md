@@ -516,6 +516,13 @@ Suggested home: `TauCeti/ModelTheory/ModelExistence/{Types,OmittingTypes}.lean`.
 * The countable seed of isolators: for a structure realizing countably many types at every arity,
   the set of all `χ_p` and their one-variable existential closures generates a countable fragment.
 
+**Checks** (`fragmentType`).
+
+* `fragmentType ⊤ M a = infinitaryType M a`, and `fragmentType ⊥ M a = ∅`.
+* `AElementary.fragmentType_comp` needs its hypothesis: for the inclusion `(ℤ, <) ↪ (ℚ, <)`, a
+  fragment containing the density sentence `δ`, and `n = 0`, `δ` is in the `A`-type of the empty
+  tuple in `ℚ` and not in `ℤ`.
+
 ### 4.2 Isolation over a theory and omitting types
 
 * `Theoryω.IsolatesIn A T p`: some member `φ` of `A` at arity `n` has `T ∪ {∃̄φ}` satisfiable and
@@ -550,6 +557,14 @@ Suggested home: `TauCeti/ModelTheory/ModelExistence/{Types,OmittingTypes}.lean`.
   for every `ψ ∈ p`; omission is `OmitsFOType M p`, every `n`-tuple of `M` refuting some formula of
   `p`. The empty type, isolated by `⊤`, shows that the non-isolation hypothesis cannot be dropped.
   Derive the theorem by taking `A` to be the first-order image fragment.
+
+**Checks** (`IsolatesFO`, `OmitsFOType`).
+
+* The empty type is isolated by `⊤` over every satisfiable `T`, and no nonempty structure omits it.
+* `{⊥}` is isolated by nothing, and every structure omits it.
+* At `n = 0`, `OmitsFOType M {ψ}` holds exactly when `M ⊭ ψ`.
+* Over `Th(ℕ, 0, S)`, the type `{x ≠ Sᵏ0 : k ∈ ℕ}` is not isolated, because a formula consistent
+  with this complete theory holds of some standard number, and `ℕ` omits it.
 
 **Acceptance example.** A partial type realized in every countable model of a satisfiable `T` is
 isolated.
@@ -773,6 +788,12 @@ is used.
   sign, back-translate into equalities and drop out of the signed bounds.
   `craig_of_lyndon_interpolation` recovers Craig from the two signed bounds.
 
+**Checks** (`relationsInSigned`).
+
+* `¬R(t)` has `R` only negatively, and `¬¬R(t)` only positively.
+* `R(t) → R(t)` has `R` with both signs.
+* `t = t'` and `⊥` contribute to neither sign.
+
 This is the **relation-polarity, logical-equality form** of López-Escobar's interpolation theorem
 (López-Escobar 1965, Theorem 4.1, p. 267): his polarity clause (.4) is proved in full, and his
 clause (.3) restricting where equality may occur in `θ` is not part of this theorem. The proof
@@ -798,6 +819,11 @@ refines the Craig engine: only the separator class changes, the pair maintaining
   universal. The engine is a side-labelled budgeted pair whose separators carry two quantifier
   permissions; the right root `¬ψ` has no positive universal occurrence exactly when `ψ` is
   universal, so no separator acquires an existential occurrence.
+
+**Checks** (`universalSigned`).
+
+* `∀x R(x)` is universal and not existential.
+* `∃x R(x)`, which is `¬∀x ¬R(x)`, is existential and not universal.
 
 **Acceptance example.** The degenerate interpolants: if `φ` is unsatisfiable, `⊥` interpolates with
 empty occurrence sets; if `ψ` is valid, `⊤` does.
