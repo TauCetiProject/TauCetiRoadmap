@@ -89,7 +89,8 @@ and files):
   Hilbert space.
 - From B6: the weak `p`-norm, the absolutely `p`-summing gauge and the Banach ideal `Πₚ(E,F)`
   with all its laws, Pietsch domination and factorization, and Grothendieck's inequality for
-  matrices with the constants `8` over `ℝ` and `16` over `𝕜`.
+  matrices and for finite families of bilinear forms on `C(K, 𝕜) × C(L, 𝕜)`, with the constants
+  `8` over `ℝ` and `16` over `𝕜`.
 - From B7: the Banach–Mazur distance with symmetry, the multiplicative triangle inequality and
   distance one exactly for isometric spaces, finite representability, local reflexivity, finite
   representability of `E**` in `E`, covering numbers of spheres, the Gaussian-maximum estimate,
@@ -319,6 +320,10 @@ Layer 6:
   through the canonical image, and through its closure for a complete target).
 - `Matrix.abs_sum_sum_mul_inner_le_eight_mul` and `Matrix.norm_sum_sum_mul_inner_le_sixteen_mul`
   (`Analysis/Matrix/Grothendieck.lean:169,207`).
+- `LinearMap.norm_sum_apply_apply_le_sixteen_mul` and `LinearMap.abs_sum_apply_apply_le_eight_mul`
+  (`Topology/ContinuousMap/Grothendieck.lean:157,169`; compact normal `K, L`): Grothendieck's
+  inequality for a bounded bilinear form on `C(K, 𝕜) × C(L, 𝕜)` and finite families with square
+  functions at most one.
 
 Layer 7:
 - `TauCeti.banachMazurDist`, `TauCeti.banachMazurDist_comm`, `TauCeti.banachMazurDist_triangle`,
@@ -374,10 +379,9 @@ the real–complex comparisons, Grothendieck's reflexive theorem with Enflo's co
 the Argyros–Haydon construction. Layer 5 is function spaces and measure duality, from `ℓ²(S)`
 and Hilbert dimension through `C(K)*`, the `Lᵖ` dualities, the Dunford–Pettis theory and the
 local-null Haar endpoint. Layer 6 is cotype and Grothendieck's theorem, and Layer 7 the local
-theory. Layers 1–3 depend only on the suppliers; Layer 4 needs Layers 1–3 (§4.4 also the early
-§5.4 measure layer); Layer 5 needs Layers 1–3, and inside it §5.4's density construction comes
-first and §5.7's property of `L¹(μ)` last, after §5.9; Layer 6 needs Layer 5; Layer 7 needs
-Layers 1, 4 and 6.
+theory. Layers 1–3 depend only on the suppliers; Layer 4 needs Layers 1–3; Layer 5 needs
+Layers 1–3, and inside it §5.4's density construction comes first and §5.7's property of
+`L¹(μ)` last, after §5.9; Layer 6 needs Layer 5; Layer 7 needs Layers 1, 4 and 6.
 
 ## Layer 1: duality and weak topologies (B1)
 
@@ -483,9 +487,11 @@ the native weak topology along this directed order.
 
 ### 1.4 A metric that agrees with the usual one on lines
 
-Finite-dimensional norm equivalence does not extend to every metric agreeing with usual
-convergence on affine lines. On `ℝ²` set `f(0,0) = 0` and `f(x,y) = x²y/(x⁴ + y²)` elsewhere.
-Prove `f` is continuous on every affine line but `f(t, t²) = 1/2` for `t ≠ 0`. The metric
+Finite-dimensional norm equivalence (van Neerven, *Functional Analysis*, Theorem 1.34, p. 18) does
+not extend to every metric agreeing with usual convergence on affine lines; the counterexample
+below is an elementary computation, recorded in the Checks. On `ℝ²` set `f(0,0) = 0` and
+`f(x,y) = x²y/(x⁴ + y²)` elsewhere. Prove `f` is continuous on every affine line but
+`f(t, t²) = 1/2` for `t ≠ 0`. The metric
 `d(p,q) = ‖p − q‖₂ + |f(p) − f(q)|` has the usual topology on every line and a different
 ambient topology.
 
@@ -517,7 +523,7 @@ Banach space over `ℝ` or `ℂ`, weak compactness of `A` is equivalent to attai
 supremum of `Re f` for every continuous linear functional `f`, that is, to the existence of
 `a ∈ A` with `Re f(b) ≤ Re f(a)` for every `b ∈ A`. Convexity is real convexity, so a complex
 space carries its real scalar action compatibly (`IsScalarTower ℝ 𝕜 E`). Over `ℝ` this is James,
-*Weakly compact sets*, Theorems 4–5 (p. 138); over `ℂ` apply it to the underlying real Banach
+*Weakly compact sets*, Theorems 4–5 (pp. 138–139); over `ℂ` apply it to the underlying real Banach
 space, whose continuous real functionals are exactly the real parts `Re f`. Deduce that a Banach
 space is reflexive iff every functional attains its norm on the closed unit ball
 (`surjective_inclusionInDoubleDual_iff_forall_exists_norm_apply_eq`): by the pinned
@@ -644,7 +650,8 @@ contract; consumers of B4's tensor products cite those carriers.
 ### 4.1 Approximation properties of the classical function spaces
 
 Prove the metric approximation property of `Lᵖ([0,1])`, `1 ≤ p < ∞`, from the dyadic averaging
-contractions of §3.2. The pinned results cover `ℓᵖ`, `c₀`, spaces with a basis, and transport
+contractions of §3.2 (Daws, remark after Proposition 2.3.4, p. 40). The pinned results cover
+`ℓᵖ`, `c₀`, spaces with a basis, and transport
 along equivalences and projections.
 
 **Checks.**
@@ -661,8 +668,9 @@ along equivalences and projections.
 Prove Grothendieck's tensor characterization
 (`hasApproximationProperty_iff_injective_toCompletedInjectiveTensor`): a Banach space `E` has the
 approximation property iff for every Banach space `F` the pinned contraction
-`F ⊗̂π E → F ⊗̂ε E` is injective (Ryan, Chapter 4). Prove that the pinned canonical map
-`E* ⊗̂π F → (E →L[𝕜] F)` is injective if `E*` or `F` has the approximation property, and keep
+`F ⊗̂π E → F ⊗̂ε E` is injective (Daws, Proposition 2.3.4(3), pp. 39–40; Ryan, Proposition 4.6).
+Prove that the pinned canonical map `E* ⊗̂π F → (E →L[𝕜] F)` is injective if `E*` or `F` has the
+approximation property (Daws, Proposition 2.3.4, pp. 39–40), and keep
 this hypothesis-dependent identification distinct from the always-defined quotient-norm nuclear
 carrier `TauCeti.NuclearOperator`. Build the finite-rank tensor approximation and the
 separation/compact-set arguments for these comparisons.
@@ -680,7 +688,8 @@ infinite orthonormal family of eigenvectors with eigenvalues of modulus at least
 mutual distance at least `ε√2`. Choose the orthonormal families `(e_j), (f_j)` with
 `f_j = s_j⁻¹ T e_j` and `s_j > 0` nonincreasing, tending to zero in the infinite-rank case;
 prove `T x = Σ s_j ⟪e_j, x⟫ f_j`, vanishing on `ker T`, with operator-norm convergence of the
-truncations. Zero-pad the singular values in the finite-rank case and prove `s_n = a_n(T)` with
+truncations (van Neerven, *Functional Analysis*, Theorem 9.2, pp. 305–306). Zero-pad the
+singular values in the finite-rank case and prove `s_n = a_n(T)` with
 the zero-based OI convention (OI-A01): the rank-`n` truncation gives the upper bound and, below
 the rank, a kernel vector on an `(n+1)`-dimensional singular span gives the lower bound. A finite
 trace-class gauge implies compactness by OI-A25–OI-A28. The summable Schmidt series gives the
@@ -705,9 +714,10 @@ OperatorIdeals OI-A01, OI-A25–OI-A28, OI-B29–OI-B30.
 ### 4.3 Real and complex approximation comparisons (B4.C)
 
 For any real Banach space `X`, consume `TauCeti.Complexification X` with its Taylor norm
-`‖x + iy‖ = sup_θ ‖cos(θ)x − sin(θ)y‖`, native scalar action, complete-space instances,
-`ofRealLI`, `reCLM`, `imCLM`, `equivProd`, and `ContinuousLinearMap.complexify` with its exact
-operator norm. Prove compactness under complexification, and equivalence of the approximation
+`‖x + iy‖ = sup_θ ‖cos(θ)x − sin(θ)y‖` (Muñoz–Sarantopoulos–Tonge, Proposition 3, p. 5), native
+scalar action, complete-space instances, `ofRealLI`, `reCLM`, `imCLM`, `equivProd`, and
+`ContinuousLinearMap.complexify` with its exact operator norm (ibid., Proposition 4, pp. 6–7).
+Prove compactness under complexification, and equivalence of the approximation
 property, `λ`-bounded approximation for `λ ≥ 1`, and the metric approximation property for `X`
 and its complexification, using real inclusion/projection and `complexify`. Build the
 real/complex strong-dual comparison and prove preservation and reflection of reflexivity. In
@@ -715,7 +725,9 @@ particular construct the bounded complex-linear equivalence between
 `StrongDual ℂ (TauCeti.Complexification X)` and `TauCeti.Complexification (StrongDual ℝ X)` by
 real and imaginary parts and `φ(x+iy) = g(x) − h(y) + i(h(x) + g(y))`
 (`exists_complexificationStrongDualEquiv`, an equivalence whose value on `g + ih` is this `φ`);
-pin the norm bounds rather than asserting an isometry of their different dual norms.
+pin the norm bounds rather than asserting an isometry of their different dual norms (the pairing
+and Proposition 7 of Muñoz–Sarantopoulos–Tonge, p. 9, with the norm comparison of their
+Proposition 3, p. 5).
 
 **Checks.**
 - `X = ℝ`, `g = id`, `h = 0`: `φ(x + iy) = x + iy`, the identity of `ℂ`, as the formula
@@ -786,17 +798,25 @@ use the separable essential range of Bochner functions for a.e. uniqueness; do n
 separable. For complex targets use the underlying real Banach space and prove compatibility
 with complex scalar multiplication.
 
-Using the pinned integral bilinear forms, define the integral endomorphism ideal on `X*` and its
-norm by currying the trace-pairing dual. Construct the isometric comparison `A(X)* ≃ I(X*)`. For
-reflexive `X`, use scalar weak-star-dual-ball factorization, the Riesz representation of §5.4 and
-the reflexive-target density theorem just assigned to obtain `I(X*) ≃ N(X*)` with equality of
+Run this route for real `X`. Using the pinned integral bilinear forms, define the integral
+endomorphism ideal on `X*` and its norm by currying the trace-pairing dual. Construct the
+isometric comparison `A(X)* ≃ I(X*)`. For reflexive `X`, use scalar weak-star-dual-ball
+factorization; the pinned Riesz–Markov–Kakutani representation
+`TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart` of a bounded
+functional on `C(K, ℝ)`, `K` compact Hausdorff, which is order bounded, as the difference of the
+integrals against two finite regular measures whose total masses add up to its norm; and the
+reflexive-target density theorem just assigned to obtain `I(X*) ≃ N(X*)` with equality of
 integral and nuclear ideal norms, with the actual finite-rank/simple-density approximations and
 their norm bounds. Under the approximation property identify `X* ⊗̂π X` isometrically with
 `N(X)` through its quotient-norm nuclear map. If `u` represents `T`, prove that `Θ_X(u)`
 corresponds to the transpose `T′`. The reflexive isometry `J_X : X ≃ₗᵢ X**` gives
 `T = J_X⁻¹ ∘ T′′ ∘ J_X`; the nuclear ideal inequalities and the two contractive canonical maps
 yield `ν(T) ≤ ν(T′′) ≤ ν(T′) ≤ ν(T)`. Consequently `‖Θ_X u‖ = ν(T′) = ν(T) = ‖u‖π`, first on the
-defining comparisons and then on the completions, and the metric criterion supplies MAP. Keep
+defining comparisons and then on the completions, and the metric criterion supplies MAP. For
+complex `X`, the underlying real space is reflexive and has the approximation property, since a
+complex finite-rank operator is a real one. Given a compact `C ⊆ X`, a real-linear finite-rank
+`T` with `‖T‖ ≤ 1` within `ε` of the identity on `C ∪ iC` gives the complex-linear finite-rank
+`(T − iTi)/2`, of norm at most `‖T‖` and within `ε` of the identity on `C`. Keep
 zero spaces in scope by using contractive maps rather than requiring a map's norm to equal one.
 Without reflexivity the approximation property gives no uniform bound on the approximating
 finite-rank operators. This fixes the trace-pairing convention of the integral/nuclear
@@ -898,8 +918,9 @@ Tau Ceti `TauCeti.HasApproximationProperty`, `TauCeti.HasMetricApproximationProp
 `TauCeti.NuclearOperator`, `SchauderBasis.hasBoundedApproximationProperty`,
 `TauCeti.hasApproximationProperty_iff_forall_isCompactOperator`,
 `LinearIsometry.exists_continuousLinearMap_of_doubleDual` (the direction from MAP to isometry of
-the metric criterion only); §§4.2–4.3; §5.4 (scalar Riesz representation); Daws §2.3; Enflo
-§§1–4.
+the metric criterion only),
+`TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart` (the
+integral/nuclear route); §§4.2–4.3; Daws §2.3; Enflo §§1–4.
 
 ### 4.5 Bourgain–Delbaen spaces and the scalar-plus-compact example (B4.1)
 
@@ -1005,7 +1026,8 @@ subsequence theorem over real scalars: for a normalized weakly null sequence and
 `‖Σ_(i∈F) a_i x_i‖ ≤ C ‖Σ_i a_i x_i‖` whenever the finite set `F` has coefficient oscillation at
 most `D` and a successive Schreier decomposition into blocks of oscillation at most `d`.
 Construct the finite-colouring/open-Ramsey selection and Matching Lemma used in
-Dilworth–Odell–Schlumprecht–Zsák, *Partial Unconditionality*, Theorems 2.1–2.2. Index these
+Dilworth–Odell–Schlumprecht–Zsák, *Partial Unconditionality* (arXiv math/0510609v1), Theorem 6
+and Theorem 7 (Matching Lemma), p. 7, Corollary 9, p. 10, and Lemmas 10–11, pp. 11–12. Index these
 sequences by positive integers, identifying them with native `ℕ` by `n ↦ n + 1`, so a single
 nonempty Schreier block always satisfies `1 ≤ min F`. Prove open/closed Ramsey for the product
 topology on infinite subsets: every infinite `L` has infinite `M ⊆ L` with `[M]^ω` contained in
@@ -1147,7 +1169,7 @@ sequences using the RIS estimates, supplying the `c₀` case as well as the `ℓ
 
 *Needs:* Mathlib `lp (fun _ : Γ => ℝ) ∞`, `IsCompactOperator`, normed quotients; §3.1's ambient
 small-perturbation theorem and basic sequences; §4.3; Argyros–Haydon §§2–9; AOST Theorem 5.4;
-DOSZ Theorems 2.1–2.2; Emmanuele.
+DOSZ Theorems 6–7, Corollary 9 and Lemmas 10–11; Emmanuele.
 
 ### Examples
 
@@ -1157,9 +1179,10 @@ at `n = 3, 4`; the Argyros–Haydon parameters `(4,16)`, `(16, 2^32)`.
 ### Dependencies
 
 Mathlib: `lp`, `ZMod`, `Nat.choose`, normed quotients, `IsCompactOperator`. Tau Ceti: the Layer 4
-contract, and the pinned local reflexivity of the Layer 7 contract for §4.4's metric criterion.
-Within the roadmap: Layer 1 (bidual), Layer 2 (reflexivity), Layer 3 (bases and perturbation), and
-§5.4 for §4.4's integral/nuclear route. OperatorIdeals for §4.2.
+contract, the pinned local reflexivity of the Layer 7 contract for §4.4's metric criterion, and
+the pinned Riesz–Markov–Kakutani theorem of the Layer 5 contract for §4.4's integral/nuclear
+route. Within the roadmap: Layer 1 (bidual), Layer 2 (reflexivity) and Layer 3 (bases and
+perturbation). OperatorIdeals for §4.2.
 
 ## Layer 5: function spaces and weak compactness (B5)
 
@@ -1732,10 +1755,15 @@ uses neither a noncommutative Khintchine theorem nor a predual cotype assertion.
 
 The real and complex matrix inequalities with constants `κ_ℝ = 8` and `κ_ℂ = 16` are the pinned
 `Matrix.abs_sum_sum_mul_inner_le_eight_mul` and `Matrix.norm_sum_sum_mul_inner_le_sixteen_mul`.
-Construct the compact-space bilinear-form version by finite partitions of unity and passage to
-the limit: for compact `K, L` and a bounded bilinear `B : C(K) × C(L) → 𝕜`, there are probability
-measures `μ, ν` with `|B(f, g)| ≤ κ_𝕜 ‖B‖ ‖f‖_{L²(μ)} ‖g‖_{L²(ν)}` (Albiac–Kalton, 8.1.3); the
-constants carry no optimality claim. Derive `π₂(T) ≤ κ_𝕜 ‖T‖` for `T : C(K) → L¹(μ)` with finite
+The compact-space form for finite families is pinned as well: for compact normal `K, L`, a
+bilinear `B` on `C(K, 𝕜) × C(L, 𝕜)` with `‖B(f, g)‖ ≤ C ‖f‖ ‖g‖`, and families with
+`Σ_i |f_i|² ≤ 1` on `K` and `Σ_i |g_i|² ≤ 1` on `L`, `‖Σ_i B(f_i, g_i)‖ ≤ 16 C`
+(`LinearMap.norm_sum_apply_apply_le_sixteen_mul`; over `ℝ` the bound `8 C` is
+`LinearMap.abs_sum_apply_apply_le_eight_mul`). From it derive the measure form by the
+Hahn–Banach separation argument: for compact Hausdorff `K, L` and a bounded bilinear
+`B : C(K) × C(L) → 𝕜`, there are probability measures `μ, ν` with
+`|B(f, g)| ≤ κ_𝕜 ‖B‖ ‖f‖_{L²(μ)} ‖g‖_{L²(ν)}` (Albiac–Kalton, 8.1.3); the constants carry no
+optimality claim. Derive `π₂(T) ≤ κ_𝕜 ‖T‖` for `T : C(K) → L¹(μ)` with finite
 `μ`, using §5.9's `L∞ ≅ C(K_μ)` and its square-function comparison in the integral bilinear form
 `(f, g) ↦ ∫ Tf · g`. Prove Grothendieck's theorem (`summingENorm_one_le_of_lp_one`): for every
 measure `μ`, every bounded operator `T : L¹(μ) → H` into an inner product space over `𝕜` has
@@ -1754,7 +1782,8 @@ extend from simple functions by density, reusing §5.6's pairing.
   `κ_𝕜 ‖ι‖`.
 
 *Needs:* Tau Ceti `Matrix.abs_sum_sum_mul_inner_le_eight_mul`,
-`Matrix.norm_sum_sum_mul_inner_le_sixteen_mul`, `ContinuousLinearMap.summingENorm`; §§5.6, 5.9.
+`Matrix.norm_sum_sum_mul_inner_le_sixteen_mul`, `LinearMap.norm_sum_apply_apply_le_sixteen_mul`,
+`LinearMap.abs_sum_apply_apply_le_eight_mul`, `ContinuousLinearMap.summingENorm`; §§5.6, 5.9.
 
 ### Examples
 
@@ -1823,19 +1852,21 @@ volume are compared. Derive John's bound (`banachMazurDist_euclideanSpace_le_sqr
 §1, p. 3, over `ℝ` and `ℂ`). Derive the Kadec–Snobar projection theorem (`kadec_snobar`): every
 subspace `F` of dimension `n` of a normed `𝕜`-space is the range of a projection of norm at most
 `√n` (Albiac–Kalton, 13.1.7). In John's position of `F` extend the contact functionals
-`⟨·, u_i⟩` from `F` by Hahn–Banach with the same norm `1` and put `P x = Σ c_i φ̃_i(x) u_i`;
+`⟨u_i, ·⟩`, which are `𝕜`-linear, from `F` by Hahn–Banach to `φ̃_i` with the same norm `1` and put
+`P x = Σ c_i φ̃_i(x) u_i`;
 Cauchy–Schwarz with `Σ c_i = n` and `‖·‖_F ≤ |·|₂` gives `‖P‖ ≤ √n`, over either field. Prove the
 Garling–Gordon projection theorem (`garling_gordon`), its dual: for every `ε > 0`, every closed
 subspace `M` of a normed `𝕜`-space `X` whose quotient `X/M` has finite dimension `n` is the
 kernel of a projection of norm at most `√n + ε` (Garling–Gordon 1971); by monotonicity of `√n`
 the same holds for codimension at most `n`. Run John's decomposition on the finite-dimensional
-dual `(X/M)*`, represent its contact points by vectors `w_i ∈ X/M` of norm at most `1`, lift them
-to `x_i ∈ X` of norm less than `1 + ε′`, and set `P y = Σ c_i φ_i(π y) x_i` with the contact
-functionals `φ_i`. Then `π ∘ P = π`, so `P² = P` and `ker P = ker π = M`; closedness of `M` makes
+dual `(X/M)*`, with contact points `φ_i ∈ (X/M)*`; represent the contact functionals `⟨φ_i, ·⟩`
+on `(X/M)*` by vectors `w_i ∈ X/M` of norm at most `1`, so that `f(w_i) = ⟨φ_i, f⟩` for every
+`f`, lift them to `x_i ∈ X` of norm less than `1 + ε′`, and set `P y = Σ c_i φ_i(π y) x_i`. Then
+`π ∘ P = π`, so `P² = P` and `ker P = ker π = M`; closedness of `M` makes
 `X/M` a normed space and `π` continuous. The lift of the quotient norm is the sole source of `ε`.
 
 - In John's position `B ⊆ K ⊆ √n B` for symmetric `K`.
-- The contact-point decomposition is a resolution of the identity: `Σ c_i ⟨x, u_i⟩² = ‖x‖²`.
+- The contact-point decomposition is a resolution of the identity: `Σ c_i |⟨u_i, x⟩|² = ‖x‖²`.
 
 **Checks.**
 - `K = [−1,1]ⁿ`: the unit ball is its maximal-volume ellipsoid, the contact points are `±e_i`
@@ -1853,6 +1884,10 @@ functionals `φ_i`. Then `π ∘ P = π`, so `P² = P` and `ker P = ker π = M`;
   closedness hypothesis would be false.
 - Kadec–Snobar over `ℂ` at `n = 1`: for `F = ℂ x₀` with `‖x₀‖ = 1`, a Hahn–Banach functional `φ`
   with `φ(x₀) = 1` and `‖φ‖ = 1` gives `P x = φ(x) x₀` of norm `1 = √1`.
+- The complex convention at `n = 1`, `K` the unit disc of `ℂ`, `u₁ = i`, `c₁ = 1`:
+  `⟨i, x⟩ i = (−i x) i = x`, so `c₁ (u₁ ⊗ u₁) = I`, and `|⟨i, 1⟩|² = 1 = ‖1‖²`; the unconjugated
+  square `⟨1, i⟩² = i² = −1` refutes `Σ c_i ⟨x, u_i⟩² = ‖x‖²` over `ℂ`, and the functional
+  `⟨·, i⟩` is conjugate-linear, so it cannot serve as the contact functional.
 
 *Needs:* Mathlib `ConvexBody`, `EuclideanSpace`, `LinearMap.det`, Lebesgue measure, Hahn–Banach
 (`exists_extension_norm_eq`), normed quotients; Tau Ceti `TauCeti.banachMazurDist`; Ball
@@ -1938,8 +1973,8 @@ contract. Within the roadmap: Layer 1, §4.4 (for §7.1), §6.1 (Gaussian model)
   over `𝕜` with the Kadec–Snobar and Garling–Gordon projection theorems; the local reflexivity it
   also names is Tau Ceti's at the pin.
 - CStarAlgebras and HilbertModules consume Layers 1–2.
-- SelfAdjointSpectralTheory consumes Layer 1's Goldstine comparison and §5.4's `M(K)`; the
-  scalar-measure layer it also uses is Tau Ceti's.
+- SelfAdjointSpectralTheory consumes §5.4's `M(K)` and its Riesz isometry with `C(K)*`; the
+  Goldstine theorem and the scalar-measure layer it also uses are Tau Ceti's.
 - CompactQuantumMetricSpaces consumes Layers 1 and 5; ToeplitzOperators consumes §5.9's scalar
   `L∞` algebra laws; Hyperfunctions consumes Layers 1 and 2.
 - LocallyConvexDuality, NoncommutativeGeometry N1, SmoothBanachRepresentations and
@@ -1957,23 +1992,29 @@ contract. Within the roadmap: Layer 1, §4.4 (for §7.1), §6.1 (Gaussian model)
   (local reflexivity), 12.3.13 (Dvoretzky), 13.1.5 (John), 13.1.7 (Kadec–Snobar), 13.3.2–13.3.7
   (mean-norm estimate, Dvoretzky–Rogers, Gaussian maximum and logarithmic Dvoretzky bound).
 - Runde, *Lectures on Amenability*, Appendix B.2: injective and projective tensor norms.
-- Ryan, *Introduction to Tensor Products of Banach Spaces*, Chapters 2–4
+- Ryan, *Introduction to Tensor Products of Banach Spaces*, Chapters 2–4 and Proposition 4.6
   (<https://doi.org/10.1007/978-1-4471-3903-4>): nuclear operators, injective duality and the
   approximation/tensor comparisons.
 - Ball, *An Elementary Introduction to Modern Convex Geometry*, Lecture 3, Theorem 3.1 and p. 13
   (<https://math.uchicago.edu/~shmuel/AAT-readings/Combinatorial%20Geometry%2C%20Concentration%2C%20Real%20Algebraic%20Geometry/ball.pdf>).
 - D. J. H. Garling and Y. Gordon, *Relations between some constants associated with finite
   dimensional Banach spaces*, Israel J. Math. **9** (1971), 346–361.
+- G. A. Muñoz, Y. Sarantopoulos and A. Tonge, *Complexifications of real Banach spaces,
+  polynomials and multilinear maps*, Studia Math. **134** (1999), 1–33
+  (<https://doi.org/10.4064/sm-134-1-1-33>), Propositions 3, 4 and 7, pp. 5–9.
 - Garrido–Jaramillo, *Variations on the Banach–Stone theorem*, §2, Theorems 2 and 4
   (<https://matematicas.unex.es/~extracta/Vol-17-3/17J3Mari.pdf>).
-- Daws, thesis, §2.3, Theorems 2.3.14 and 2.3.23 (<https://matthewdaws.github.io/files/thesis.pdf>).
+- Daws, thesis, §2.3, Proposition 2.3.4 and the remark after it, Theorems 2.3.14 and 2.3.23
+  (<https://matthewdaws.github.io/files/thesis.pdf>).
 - Enflo, *A counterexample to the approximation problem in Banach spaces*, Acta Math. 130 (1973),
   309–317 (<https://doi.org/10.1007/BF02392270>), §§1–4.
 - Argyros–Haydon, *A hereditarily indecomposable ℒ∞-space that solves the scalar-plus-compact
   problem* (<https://arxiv.org/abs/0903.3921>), §§2–9.
 - Androulakis–Odell–Schlumprecht–Tomczak-Jaegermann, *On the structure of the spreading models of
   a Banach space* (<https://arxiv.org/abs/math/0305082>), Theorem 5.4.
-- Dilworth–Odell–Schlumprecht–Zsák, *Partial unconditionality*, Theorems 2.1–2.2.
+- Dilworth–Odell–Schlumprecht–Zsák, *Partial unconditionality*
+  (<https://arxiv.org/abs/math/0510609v1>; numbering of that version), Theorem 6 and Theorem 7
+  (Matching Lemma), p. 7, Corollary 9, p. 10, and Lemmas 10–11, pp. 11–12.
 - Emmanuele, *Answer to a question by M. Feder about K(X,Y)*, Rev. Mat. Univ. Complut. Madrid 6
   (1993), 263–266.
 - Hewitt–Ross, *Abstract Harmonic Analysis I*, Theorem 12.18.
@@ -1984,9 +2025,9 @@ contract. Within the roadmap: Layer 1, §4.4 (for §7.1), §6.1 (Gaussian model)
 - K. Yosida and E. Hewitt, *Finitely additive measures*, Trans. Amer. Math. Soc. **72** (1952),
   46–66, Theorems 1.23, 1.24 and 2.3 (<https://doi.org/10.1090/S0002-9947-1952-0045194-X>).
 - J. van Neerven, *Functional Analysis*, second edition, Cambridge Studies in Advanced
-  Mathematics (<https://arxiv.org/abs/2112.11166v8>; numbering of that version): Theorems 2.48,
-  3.22, 3.25, 3.28, 4.2, 4.4, Examples 2.49–2.50, Corollaries 3.23 and 4.13, Propositions 4.23
-  and 4.24, Remark 4.5.
+  Mathematics (<https://arxiv.org/abs/2112.11166v8>; numbering of that version): Theorems 1.34,
+  2.48, 3.22, 3.25, 3.28, 4.2, 4.4, 9.2, Examples 2.49–2.50, Corollaries 3.23 and 4.13,
+  Propositions 4.23 and 4.24, Remark 4.5.
 - C. Heil, *A Basis Theory Primer*, original edition, 1997, Theorem 7.6
   (<https://heil.math.gatech.edu/papers/bases.pdf>).
 - J. B. Conway, *A Course in Functional Analysis*, second edition, Chapter I, Proposition 4.14.
