@@ -20,14 +20,15 @@ density with oriented integration in every oriented-coordinate computation.
 The scalar curvature is the full trace of Ricci, so a unit round sphere
 has scalar n(n−1). Use the nonnegative Laplacian Δ⁺=−div grad.
 
-Set a_n=4(n−1)/(n−2), p_n=2n/(n−2), and
+Set a_n=4(n−1)/(n−2), p_n=2n/(n−2) (Lee–Parker, notation after (1.1), p. 38), and
 
 `L_g=a_n Δ⁺_g+Scal_g`,
 
 `Q_g(u)=[∫(a_n|du|²+Scal_g u²)dV_g]/[∫|u|^(p_n)dV_g]^(2/p_n)`.
 
 The domain of Q is the nonzero real H¹ space. Its infimum is Y(M,[g]);
-prove the same infimum is obtained from positive smooth functions. Metric
+prove the same infimum is obtained from positive smooth functions
+(Lee–Parker, (1.5), p. 39, and p. 49). Metric
 rescaling is `ĝ=u^(4/(n−2))g` with u smooth and strictly positive. Products,
 curvature traces, weak derivatives and integrals use the native carriers,
 not a second private definition of Riemannian manifold or Sobolev function.
@@ -143,11 +144,12 @@ precedes the zero-mass compactification even in dimensions3–5.
    and factor, the curvature-operator law at finite differentiability.
    Prove the Ricci, scalar, Schouten, Weyl and Cotton laws at the actual
    finite differentiability levels each term needs, and specialize them
-   to ĝ=u^(4/(n−2))g.
+   to ĝ=u^(4/(n−2))g (Lee–Parker, (2.5)–(2.6), p. 43, and (1.1), p. 38).
 2. Consume Tau Ceti's `TauCeti.Yamabe.scalarCurvature_rescale_eq_rpow_mul_conformalLaplacian`
    and `TauCeti.Yamabe.conformalLaplacian_rescale`
    (`TauCeti/Analysis/PDE/Yamabe/ConformalLaplacian.lean`) for
-   `Scal_ĝ=u^(-(n+2)/(n−2)) L_g u` and `L_ĝ(v)=u^(-(n+2)/(n−2)) L_g(uv)`, and
+   `Scal_ĝ=u^(-(n+2)/(n−2)) L_g u` and `L_ĝ(v)=u^(-(n+2)/(n−2)) L_g(uv)`
+   (Lee–Parker, (1.1), p. 38, and (2.7), p. 43), and
    its formal symmetry, integration-by-parts energy identity and conformal
    invariance of the energy and of the critical integral on smooth functions.
    Deduce `Q_ĝ(v)=Q_g(uv)` for smooth v, and prove it on the weak domain.
@@ -158,7 +160,8 @@ precedes the zero-mass compactification even in dimensions3–5.
    parametrization, constant-factor redundancy and pullback,
    `Vol(ĝ)=∫u^(p_n)dV_g`, the volume-normalized scalar-functional identity,
    and, for `C²` functions, the equivalence between critical points of Q and
-   solutions of `L_g u=λ|u|^(p_n−2)u`, its form for u≥0 and the
+   solutions of `L_g u=λ|u|^(p_n−2)u` (Lee–Parker, (1.2)–(1.4), pp. 38–39),
+   its form for u≥0 and the
    identification of λ with Q at unit Lp norm. Prove the equivalence between
    critical points of Q on the nonzero H¹ space and weak solutions of
    `L_g u=λ|u|^(p_n−2)u`, specialize it to u≥0, and identify λ with Q at
@@ -192,7 +195,8 @@ precedes the zero-mass compactification even in dimensions3–5.
    the reduction of local conformal flatness to W=0 plus local solvability of
    the flattening equation. Compare local conformal flatness with conformal
    Euclidean coordinate charts. Prove the converse Weyl–Schouten
-   implications: W=0 implies LCF for n≥4, and C=0 implies LCF for n=3.
+   implications: W=0 implies LCF for n≥4 (Lee–Parker, p. 43, citing
+   Eisenhart, §28), and C=0 implies LCF for n=3.
    Treat the flattening equation as a first-order system for (f,df) on the
    full jet carrier, prove its involutivity from the pinned defect identity,
    and apply DG4.3's local Frobenius theorem. The resulting e^(2f)g has
@@ -236,9 +240,10 @@ precedes the zero-mass compactification even in dimensions3–5.
    from its initial Sobolev embedding.
 4. Construct the inverse and positive Green kernel of L_g when λ₁>0, with
    distributional normalization, symmetry, off-diagonal smoothness and
-   positivity. Pin normalized G_p by
+   positivity (Lee–Parker, Theorem 2.8, p. 47, and Lemma 6.1, p. 63). Pin
+   normalized G_p by
    `L_g G_p=a_n(n−2)|S^(n−1)| δ_p`, so its leading local singularity is
-   r^(2−n). Prove chart-independent distributional meaning, parameter
+   r^(2−n) (Lee–Parker, (6.1), p. 64). Prove chart-independent distributional meaning, parameter
    regularity away from the diagonal and the requisite local estimates.
 
 ## Y2. Sharp Euclidean Sobolev theory
@@ -250,12 +255,14 @@ precedes the zero-mass compactification even in dimensions3–5.
    constant `Y(Sⁿ)=n(n−1)Vol(Sⁿ)^(2/n)`, `TauCeti.Yamabe.sphereYamabeConstant`.
    Prove the sharp inequality
    `a_n∫|du|² ≥ Y(Sⁿ) (∫|u|^(p_n))^(2/p_n)` on smooth compactly supported u,
-   and extend it to D¹,² by density.
+   and extend it to D¹,² by density (Lee–Parker, Theorem 3.3 and (3.6),
+   p. 50; Aubin 1976a; Talenti 1976).
 2. Construct decreasing rearrangement and the coarea/isoperimetric
    comparison needed for a proof, or the equivalent stereographic
    variational argument with its compactness and equality steps. Prove the
    equality cases in D¹,²: nonzero real multiples of
-   `U_(λ,b)(x)=(2λ/(λ²+|x−b|²))^((n−2)/2)`, λ>0.
+   `U_(λ,b)(x)=(2λ/(λ²+|x−b|²))^((n−2)/2)`, λ>0 (Lee–Parker, Theorem 3.3,
+   p. 50, with (3.2), p. 48).
    The sign and translation/dilation parameters must be recovered, not
    assumed from a guessed radial extremizer.
 3. Consume Tau Ceti's bubbles `TauCeti.Yamabe.bubble`: smoothness,
@@ -267,13 +274,15 @@ precedes the zero-mass compactification even in dimensions3–5.
    Prove every further moment estimate Y5 and Y6 use in the same form.
 4. Transfer the sharp estimate to M with an epsilon loss: for every ε>0
    find Cε with
-   `‖u‖_(p_n)² ≤ (a_n/Y(Sⁿ)+ε)∫|du|²+Cε∫u²`.
+   `‖u‖_(p_n)² ≤ (a_n/Y(Sⁿ)+ε)∫|du|²+Cε∫u²` (Lee–Parker, Theorem 2.3, p. 45,
+   whose `(1+ε)σ_n` with `σ_n=a_n/Y(Sⁿ)` is the same leading coefficient).
    Prove the finite-chart localization and metric distortion estimates.
 
 ## Y3. Variational compactness below the sphere threshold
 
 1. Prove finiteness and metric/conformal invariance of Y, its continuity
-   under C² metric perturbation, the universal bound Y≤Y(Sⁿ), and the
+   under C² metric perturbation, the universal bound Y≤Y(Sⁿ) (Lee–Parker,
+   Lemma 3.4, p. 50), and the
    equivalence between the signs of Y and λ₁(L_g). For λ₁(L_g)>0 consume
    PositiveMass 3.0's metric `φ^(4/(n−2))g` of scalar curvature
    `λ₁φ^(−4/(n−2))`, generally a varying function. For λ₁≤0 the same Tau
@@ -282,14 +291,16 @@ precedes the zero-mass compactification even in dimensions3–5.
 2. For exponents 2<q<p_n construct nonnegative unit-Lq minimizers and their
    Euler equations. Prove coercive minimizing-sequence bounds, direct-method
    attainment, smooth positivity, uniform energy and multiplier bounds and
-   convergence of subcritical infima as q increases to p_n.
+   convergence of subcritical infima as q increases to p_n (Lee–Parker,
+   Theorem 4.1, p. 52, Proposition 4.2, p. 53, and Lemma 4.3, p. 54).
 3. Establish the precise concentration alternative for these minimizers,
    including local energy measures, epsilon regularity, blow-up rescaling
    and exclusion of mass loss when Y<Y(Sⁿ). Equivalently prove the required
    compactness by the epsilon-Sobolev inequality with a quantitative
    absorption argument; in either proof supply the critical nonlinear
    limit and strong H¹ convergence. Produce a smooth positive unit-Lp
-   minimizer when Y<Y(Sⁿ), including Y≤0.
+   minimizer when Y<Y(Sⁿ), including Y≤0 (Theorem A: Lee–Parker, p. 39,
+   proved by Proposition 4.4 and Theorem 4.5, pp. 54–55).
 
 ## Y4. Conformal normal coordinates and local expansions
 
@@ -298,8 +309,9 @@ precedes the zero-mass compactification even in dimensions3–5.
    coordinates have `det g=1+O(r^N)`. Prove the transformation of the
    curvature jets, vanishing scalar/first scalar derivative at the pole,
    and the contracted second scalar derivative/Weyl-norm identity with
-   the sign converted to Δ⁺. Derive the numeric coefficients from the
-   fixed curvature convention rather than importing an incompatible Δ.
+   the sign converted to Δ⁺ (Lee–Parker, Theorem 5.1, p. 58). Derive the
+   numeric coefficients from the fixed curvature convention rather than
+   importing an incompatible Δ.
 2. Supply the Taylor bounds with derivatives and uniformity needed for
    cutoff-bubble energy, denominator and annular errors. Construct a
    smooth cutoff, track its scale, and show which terms have order ε⁴,
@@ -308,7 +320,8 @@ precedes the zero-mass compactification even in dimensions3–5.
    with sufficient derivative bounds to make the inverted metric AE,
    to compute its ADM mass and to control the test-function remainder.
    Include dimension-specific curvature terms and prove that the
-   constant called A is independent of the allowed normalized chart.
+   constant called A is independent of the allowed normalized chart
+   (Lee–Parker, Lemma 6.4, p. 64).
    A statement only of `G=r^(2−n)+O(1)` is insufficient for these uses.
 4. In a locally conformally flat neighborhood construct a conformal
    representative exactly flat near the pole and prove
@@ -324,7 +337,8 @@ denominator, including all cutoff and curvature remainders, to prove
 - for n≥7, `Q(χU_ε)=Y(Sⁿ)−c_n|W(p)|² ε⁴+o(ε⁴)`;
 - for n=6, `Q(χU_ε)=Y(S⁶)−c_6|W(p)|² ε⁴ log(1/ε)+O(ε⁴)`.
 
-Here the bubble's fixed scale convention is that in Y2; calculate each
+(Theorem B: Lee–Parker, p. 39, with its proof, pp. 58–59, after Aubin
+1976b.) Here the bubble's fixed scale convention is that in Y2; calculate each
 c_n as the corresponding radial integral and prove it strictly positive.
 Consequently Y<Y(Sⁿ). Consume Y0.5's Weyl–Schouten characterization.
 The Weyl calculation is independent of
@@ -334,10 +348,12 @@ positive mass and of the low-dimensional Green expansion.
 
 Assume λ₁(L_g)>0. On M\{p} construct `ĝ=G_p^(4/(n−2))g`, prove
 scalar flatness away from p, completeness, and the precise AE chart obtained
-by inversion. In the Y4 low-dimensional or flat-pole cases verify all decay,
+by inversion (Lee–Parker, Theorem 6.5, p. 65). In the Y4 low-dimensional or
+flat-pole cases verify all decay,
 regularity and scalar-integrability hypotheses of the positive-mass theorem.
 With PositiveMass 0.2's mass normalization, prove `m_ADM=2A`
-in the normalized expansion. Include any dimension-specific curvature
+in the normalized expansion (Lee–Parker, Lemma 9.7, p. 79, where the mass is
+4(n−1)A in Lee–Parker's normalization). Include any dimension-specific curvature
 terms in the calculation; only the flat-pole case is an immediate
 Schwarzschild leading-term computation, PositiveMass 0.4's mass `2c` of
 `(1+c r^(2−n))^(4/(n−2))δ` with c=A.
@@ -356,6 +372,8 @@ the smooth conformal map at p, rather than just a topological compactification.
 
 ## Y7. Low dimensions and orientation
 
+Theorem C (Lee–Parker, p. 40; Schoen 1984) is Y7 for 3≤n≤5 and Y8.4 for
+locally conformally flat manifolds.
 For 3≤n≤5, apply PositiveMass 8.1, the finite-ended nonspin theorem, to the
 actual complete blow-up in Y6. Prove that A≥0 and that A=0 implies the
 conformal sphere. Consume PositiveMass 3.2's orientation double cover and
@@ -368,7 +386,8 @@ the positive case.
 ## Y8. Locally conformally flat manifolds in every dimension
 
 1. Construct the conformal atlas transition theorem and the developing
-   local conformal map from the simply connected cover to Sⁿ, including
+   local conformal map from the simply connected cover to Sⁿ (Schoen–Yau
+   1988), including
    continuation, monodromy and differential bundle comparison. For n≥3
    prove the local Liouville/Möbius transition result used here. Obtain a
    Spin structure on the round Sⁿ by lifting its oriented frame bundle
@@ -392,7 +411,7 @@ the positive case.
    same local expansion and mass 2A. Construct the pulled-back Spin
    structure on this exact punctured metric.
 3. Apply PositiveMass 8.3, the spin theorem for one AE end and arbitrary
-   other complete ends. Its proof uses localized doubled-Callias problems on
+   other complete ends (Cecchini–Zeidler, Theorem B, p. 3). Its proof uses localized doubled-Callias problems on
    compact-boundary AE truncations; a global Fredholm inverse on an
    arbitrary non-AE remainder is not an input. Obtain A≥0. If A=0,
    Euclidean zero rigidity leaves one end, while distinct lifted poles
@@ -412,7 +431,8 @@ the positive case.
    dimensions3–5 by Y7; LCF in every dimension by Y8. Conclude that every
    closed smooth n-manifold, n≥3, has a positive smooth unit-volume
    conformal factor attaining Y, hence a constant-scalar-curvature
-   Yamabe metric. For the conformal sphere exhibit a minimizer directly.
+   Yamabe metric (the Yamabe theorem: Lee–Parker, p. 85). For the conformal
+   sphere exhibit a minimizer directly (Lee–Parker, Theorem 3.2, p. 49).
    For a disconnected compact manifold prove the componentwise theorem
    and determine the global infimum separately. If any component has
    negative invariant, it is `−(Σ_(Y_i<0)|Y_i|^(n/2))^(2/n)`;
@@ -424,10 +444,11 @@ the positive case.
    in each conformal class with Y≤0. Give the maximum-principle and
    zero-scalar harmonic arguments, including the equality case.
 3. Prove Obata's Hessian/round-sphere theorem by the complete geodesic and
-   radial metric argument. For a positive Einstein metric identify all
+   radial metric argument (Obata 1962). For a positive Einstein metric identify all
    conformally related constant-scalar-curvature metrics: homotheties
-   unless the metric is round up to scale; in the sphere case identify
-   the Möbius conformal factors and their normalized family. Consume the
+   unless the metric is round up to scale (Obata 1971); in the sphere case identify
+   the Möbius conformal factors and their normalized family (Lee–Parker,
+   Proposition 3.1, p. 48, and Theorem 3.2, p. 49). Consume the
    Lichnerowicz bound `TauCeti.Manifold.finrank_mul_le_of_laplaceBeltrami_eq_neg_mul`
    and RiemannianGeometry R7.0's equality case (an eigenfunction with
    λ=nk satisfies Hess f=−kfg). With Obata's theorem above, prove that
@@ -458,16 +479,48 @@ implications. A cover bound must keep its actual direction and degree;
 it is not an equality for every cover. Supply the norms and compactness
 conditions in continuity statements.
 
-## Sources
+## References
 
-Lee–Parker, *The Yamabe Problem*, supplies the conformal, variational,
-normal-coordinate and test-function development. Aubin and Schoen's primary
-papers give the two strict-inequality lanes. Schoen–Yau's 1988
-*Conformally flat manifolds, Kleinian groups and scalar curvature* supplies
-the developing-map comparison; Y8 proves its stated modern arbitrary-end
-mass application with the explicit hypotheses above. Schoen–Yau's low-dimensional
-positive-mass arguments and Cecchini–Zeidler's arbitrary-end spin theorem
-are owned by PositiveMass with their separate dimension and end
-hypotheses. Ammann–Humbert's corrected compact-spin Green-mass argument
-provides an additional comparison in its stated spin scope. The scalar,
+- J. M. Lee, T. H. Parker, *The Yamabe problem*, Bull. Amer. Math. Soc. (N.S.) 17 (1987),
+  37–91, doi:10.1090/S0273-0979-1987-15514-5: notation and (1.1)–(1.5), pp. 38–39; Theorems A
+  and B, p. 39; Theorem C, p. 40; (2.5)–(2.7) and the Weyl–Schouten statement, p. 43;
+  Theorem 2.3, p. 45; Theorem 2.8, p. 47; Proposition 3.1 and (3.2), p. 48; Theorem 3.2, p. 49;
+  Theorem 3.3, (3.6) and Lemma 3.4, p. 50; Theorem 4.1, p. 52; Proposition 4.2, p. 53;
+  Lemma 4.3 and Proposition 4.4, p. 54; Theorem 4.5, p. 55; Theorem 5.1 and the proof of
+  Theorem B, pp. 58–59; Lemma 6.1, p. 63; (6.1) and Lemma 6.4, p. 64; Theorem 6.5, p. 65;
+  Lemma 9.7, p. 79; the Yamabe theorem, p. 85. It supplies the conformal, variational,
+  normal-coordinate and test-function development.
+- L. P. Eisenhart, *Riemannian geometry*, Princeton University Press (1926), §28, as cited by
+  Lee–Parker, p. 43, for Weyl–Schouten in dimension n≥4 (uncertified).
+- T. Aubin, *Problèmes isopérimétriques et espaces de Sobolev*, J. Differential Geom. 11 (1976),
+  573–598, doi:10.4310/jdg/1214433725 (cited as Aubin 1976a): the sharp Sobolev constant.
+- T. Aubin, *Équations différentielles non linéaires et problème de Yamabe concernant la
+  courbure scalaire*, J. Math. Pures Appl. 55 (1976), 269–296 (cited as Aubin 1976b): the strict
+  inequality of Y5 and the bound of Y3.1.
+- G. Talenti, *Best constant in Sobolev inequality*, Ann. Mat. Pura Appl. 110 (1976), 353–372,
+  doi:10.1007/BF02418013: the sharp Sobolev constant and its extremals.
+- R. Schoen, *Conformal deformation of a Riemannian metric to constant scalar curvature*,
+  J. Differential Geom. 20 (1984), 479–495, doi:10.4310/jdg/1214439291: the strict inequality of
+  Y6–Y8 through the Green function and the positive mass theorem.
+- R. Schoen, S.-T. Yau, *Conformally flat manifolds, Kleinian groups and scalar curvature*,
+  Invent. Math. 92 (1988), 47–71, doi:10.1007/BF01393992: the developing-map comparison of Y8;
+  Y8 proves its stated modern arbitrary-end mass application with the explicit hypotheses above.
+- M. Obata, *Certain conditions for a Riemannian manifold to be isometric with a sphere*,
+  J. Math. Soc. Japan 14 (1962), 333–340, doi:10.2969/jmsj/01430333: the Hessian theorem of Y9.3.
+- M. Obata, *The conjectures on conformal transformations of Riemannian manifolds*, J. Differential
+  Geom. 6 (1971), 247–258, doi:10.4310/jdg/1214430407: the conformal constant-scalar-curvature
+  metrics of a positive Einstein metric, Y9.3.
+- S. Cecchini, R. Zeidler, *The positive mass theorem and distance estimates in the spin
+  setting*, arXiv:2108.11972v2 (Trans. Amer. Math. Soc. 377 (2024), 5271–5288,
+  doi:10.1090/tran/8942): Theorem B, p. 3, the arbitrary-end spin theorem owned by PositiveMass
+  8.3 and applied in Y8.3.
+- B. Ammann, E. Humbert, *Positive mass theorem for the Yamabe problem on spin manifolds*,
+  arXiv:math/0304043v3, which adds a term missing from the printed version (Geom. Funct. Anal. 15
+  (2005), 567–576, doi:10.1007/s00039-005-0521-z): Theorem 2.2, the locally conformally flat case,
+  and Section 3, dimensions 3, 4 and 5, both for compact spin manifolds. Its Green function Γ has
+  `L_gΓ=δ_p`, so its constant term is `A/(4(n−1)|S^(n−1)|)`; it is an additional comparison for
+  Y7 and Y8 in that spin scope.
+
+Schoen–Yau's low-dimensional positive-mass arguments and Cecchini–Zeidler's arbitrary-end spin
+theorem are owned by PositiveMass with their separate dimension and end hypotheses. The scalar,
 mass, Clifford and Green normalizations above govern all comparisons.
