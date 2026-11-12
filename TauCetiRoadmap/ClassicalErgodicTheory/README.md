@@ -1055,10 +1055,14 @@ Prove the equivalences for a measurable flow on a probability space:
    `(1/T) ∫_0^T |μ.real (A ∩ (t +ᵥ ·) ⁻¹' B) - μ.real A * μ.real B| dt → 0` as `T → ∞`, the weak
    mixing of MathematicalBilliards §12.1 (`weakMixingVAdd_real_iff_tendsto_cesaro` for 1 ⇔ 2);
 3. `spectralMeasureReal` of every `f ∈ L²₀` is atomless
-   (`weakMixingVAdd_real_iff_exists_atomless_spectralMeasure` for 1 ⇔ 3);
+   (`weakMixingVAdd_real_iff_exists_atomless_spectralMeasure` for 1 ⇔ 3; Hochman2012,
+   Corollary 6.6.4, p. 70, for an ergodic transformation, with weak mixing defined as ergodicity
+   of `T × T` in Definition 6.1.1, p. 56);
 4. some time-`t` map with `t ≠ 0` is weakly mixing;
 5. every time-`t` map with `t ≠ 0` is weakly mixing (`weakMixingVAdd_real_iff_weakMixing` for
-   1 ⇔ 4 ⇔ 5).
+   1 ⇔ 4 ⇔ 5; Auer2024, Theorem 3, p. 5, for the time-1 map of a continuous action of `ℝ^d` on a
+   metric space, with weak mixing defined as Cesàro decay of `L²₀` correlations, the function form
+   of item 2; rescaling time gives every `t ≠ 0`).
 
 With MathematicalBilliards §12.5, 1 ⇔ 2 gives the eigenfunction criterion: `WeakMixingVAdd ℝ X μ`
 holds iff every eigenfunction is almost everywhere constant, and then its frequency is 0. Route
@@ -1867,13 +1871,13 @@ GeometryOfNumbersAndQuadraticArithmetic §4.2.
 ### 6.2 Upper semicontinuity of the entropy map
 
 Prove that `ν ↦ h_ν(T)` is upper semicontinuous on `invariantProbabilities T` for expansive
-homeomorphisms (Walters1982, Chapter 8) and positively expansive maps. Route: given `ν`, take a
+homeomorphisms (Walters1982, Theorem 8.2) and positively expansive maps. Route: given `ν`, take a
 generator `ξ` with `ν`-null boundaries; then `ν' ↦ H_ν'(ξ^n)` is continuous at `ν`, and
 `h_ν'(T) = inf_n H_ν'(ξ^n)/n` is an infimum of functions continuous at `ν`.
 
 Prove **Jacobs' theorem** for mixtures: on a compact metric space, for a measurable family `s ↦ ν_s`
 of invariant probabilities indexed by a probability space `(S, ρ)`,
-`h_{∫ ν_s dρ}(T) = ∫⁻ h_{ν_s}(T) dρ` (Walters1982, Chapter 8, for the ergodic decomposition).
+`h_{∫ ν_s dρ}(T) = ∫⁻ h_{ν_s}(T) dρ` (Walters1982, Theorem 8.4, for the ergodic decomposition).
 Route: ArithmeticDynamics §2.7's ergodic decomposition with entropy integration applied to the
 mixture and to each `ν_s`, and uniqueness of the ergodic decomposition.
 
@@ -2131,7 +2135,7 @@ Prove for continuous `T` on a nonempty compact metric space, with finiteness imp
 5. if topological entropy is finite, `ν` is an equilibrium state of `φ` iff `ν` is a tangent
    functional to `P(T, ·)` at `φ`
    (`∫ ψ dν ≤ P(T, φ + ψ) - P(T, φ)` for all `ψ`), the converse direction assuming upper
-   semicontinuity (Walters1982, Chapter 9);
+   semicontinuity (Walters1982, Theorems 9.14 and 9.15);
 6. the flow analogues of 1–3 for `IsFlowEquilibriumState`, with the finiteness hypothesis only
    on the analogue of item 1, with coboundaries replaced by
    `u (ϕ t x) - u x = ∫_0^t G (ϕ s x) ds` for continuous `u`, `G`.
@@ -2442,8 +2446,11 @@ almost-everywhere flows.
   number; E. Glasner, *Ergodic Theory via Joinings*, AMS (2003), factors, relative products and
   relative weak mixing.
 - M. Hochman, [*Notes on ergodic theory*](https://math.huji.ac.il/~mhochman/courses/ergodic-theory-2012/notes.final.pdf)
-  (2012), Proposition 3.4.2 (ergodic measures as extreme points, §3.4) and Proposition 4.5.2
-  (unique ergodicity, §5.1).
+  (2012), Proposition 3.4.2 (ergodic measures as extreme points, §3.4), Proposition 4.5.2
+  (unique ergodicity, §5.1) and Corollary 6.6.4 (weak mixing and atomless spectral measures,
+  §3.2).
+- M. Auer, [*Weak mixing and sparse equidistribution*](https://arxiv.org/abs/2408.15238),
+  arXiv:2408.15238 (2024), Theorem 3 (weak mixing of the time-1 map of a flow, §3.2).
 - A. S. Kechris and B. D. Miller, *Topics in Orbit Equivalence*, LNM 1852 (2004),
   Lemma 6.7 (Borel marker sequences).
 - T. Ward and Q. Zhang, *The Abramov–Rokhlin entropy addition formula for amenable group
