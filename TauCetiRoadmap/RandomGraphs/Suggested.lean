@@ -61,12 +61,6 @@ def StrongAmalgamation (K : Set (Bundled.{w} L.Structure)) : Prop :=
         D ∈ K ∧ i.comp f = j.comp g ∧
           Set.range i ∩ Set.range j = Set.range (i.comp f)
 
-theorem StrongAmalgamation.amalgamation {K : Set (Bundled.{w} L.Structure)}
-    (h : StrongAmalgamation K) : Amalgamation K :=
-  fun A B C f g hA hB hC =>
-    let ⟨D, i, j, hD, hc, _⟩ := h A B C f g hA hB hC
-    ⟨D, i, j, hD, hc⟩
-
 /-- No relation-symbol countability, nonempty-carrier or infinitude premise. -/
 theorem exists_isFraisseLimit_of_isFraisse
     [Countable (Σ n, L.Functions n)]
@@ -151,19 +145,11 @@ def HasExtensionUpTo (G : SimpleGraph V) (d : ℕ) : Prop :=
   ∀ U Z : Finset V, Disjoint U Z → U.card + Z.card ≤ d →
     ∃ x, IsExtensionWitness G U Z x
 
-theorem hasExtensionUpTo_zero_iff (G : SimpleGraph V) :
-    HasExtensionUpTo G 0 ↔ Nonempty V := by
-  sorry
-
 /-- The canonical predicate omits `x ∉ U`, which adjacency to every vertex of `U` forces in a
 loopless graph. -/
 theorem hasExtensionProperty_iff (G : SimpleGraph V) :
     G.HasExtensionProperty ↔ ∀ d, HasExtensionUpTo G d := by
   sorry
-
-theorem HasExtensionUpTo.mono {G : SimpleGraph V} {d e : ℕ}
-    (h : HasExtensionUpTo G d) (hed : e ≤ d) : HasExtensionUpTo G e :=
-  fun U Z hUZ hc => h U Z hUZ (hc.trans hed)
 
 /-- Full extension supplies arbitrarily many witnesses, so the carrier is infinite. -/
 theorem HasExtensionProperty.infinite {G : SimpleGraph V} (hG : G.HasExtensionProperty) :
@@ -377,16 +363,6 @@ theorem exists_computable_quantifierElimination :
             ∀ a : Fin m → M, ψ.Realize a ↔ φ.Realize a := by
   sorry
 
-/-- **Semantic quantifier elimination**, the consequence of the computable procedure used by the
-later milestones: every formula is equivalent modulo `T_R` to a quantifier-free one. -/
-theorem exists_isQF_equivalent {m : ℕ} (φ : Language.graph.Formula (Fin m)) :
-    ∃ ψ : Language.graph.Formula (Fin m), ψ.IsQF ∧
-      ∀ (M : Type w) [Language.graph.Structure M], M ⊨ radoAxioms →
-        ∀ a : Fin m → M, ψ.Realize a ↔ φ.Realize a :=
-  let ⟨_, _, hQ⟩ := exists_computable_quantifierElimination.{w}
-  let ⟨ψ, _, hψ⟩ := hQ m φ
-  ⟨ψ, hψ⟩
-
 /-- **Decidability of the Rado theory.** The prototype contract for the decision procedure: a
 computable test on codes of sentences that answers truth in the Rado graph. -/
 theorem exists_computable_decide_rado :
@@ -597,15 +573,6 @@ theorem satisfiesInf_radoSentenceInf_iff (G : SimpleGraph V) :
     SatisfiesInf G radoSentenceInf ↔ G.HasExtensionProperty := by
   sorry
 
-/-- `Θ_R` and Tau Ceti's Scott sentence of `R` hold in the same graphs, of any cardinality:
-by `SimpleGraph.HasExtensionProperty.realize_scottSentence_iff`, both say that the graph has the
-extension property. `Θ_R` is the explicit conjunction of the first-order extension axioms. -/
-theorem satisfiesInf_radoSentenceInf_iff_scottSentence (G : SimpleGraph V) :
-    SatisfiesInf G radoSentenceInf ↔
-      SatisfiesInf G (@TauCeti.scottSentence Language.graph _ ℕ TauCeti.radoGraph.structure _ _) :=
-  (satisfiesInf_radoSentenceInf_iff G).trans
-    (TauCeti.hasExtensionProperty_radoGraph.realize_scottSentence_iff G).symm
-
 theorem binomialRandom_radoSentenceInf (p : I) (hp0 : 0 < (p : ℝ)) (hp1 : (p : ℝ) < 1) :
     SimpleGraph.binomialRandom ℕ p {G | SatisfiesInf G radoSentenceInf} = 1 := by
   sorry
@@ -618,13 +585,6 @@ theorem binomialRandom_radoSentenceInf_of_finite [Finite V] (p : I) :
 /-- `CardEq m`: the carrier has exactly `m` elements. -/
 def cardEq (m : ℕ) : Language.graph.Sentence :=
   Sentence.cardGe Language.graph m ⊓ (Sentence.cardGe Language.graph (m + 1)).not
-
-theorem satisfies_cardEq_iff (G : SimpleGraph V) (m : ℕ) :
-    Satisfies G (cardEq m) ↔ Cardinal.mk V = m := by
-  let _ := G.structure
-  simp only [Satisfies, cardEq, Sentence.realize_inf, Sentence.realize_not,
-    Sentence.realize_cardGe, Nat.cast_succ, Cardinal.natCast_add_one_le_iff, not_lt]
-  exact and_comm.trans le_antisymm_iff.symm
 
 /-- `Θ_even`, the countable disjunction of `CardEq (2 m)`. -/
 def evenSentenceInf : Language.graph.Sentenceω :=
@@ -734,11 +694,6 @@ def productGraphon : Graphon I (volume : Measure I) where
   bdd' := ⟨1, fun x y => abs_le.mpr ⟨by linarith [(unitInterval.mul_mem x.2 y.2).1],
     (unitInterval.mul_mem x.2 y.2).2⟩⟩
   mem01' x y := unitInterval.mul_mem x.2 y.2
-
-theorem productGraphon_isolated_expectation (n : ℕ) :
-    (∫ G : SimpleGraph (Fin n), (isolatedCount G : ℝ) ∂sampleGraph productGraphon n) =
-      2 * (1 - (1 / 2 : ℝ) ^ n) := by
-  sorry
 
 theorem productGraphon_isolated_factorialMoment_limit (k : ℕ) :
     Tendsto
