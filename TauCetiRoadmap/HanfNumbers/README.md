@@ -259,7 +259,9 @@ For a linear order `I` and a colour type `C`:
   agree on their first `n + 1` entries have the same colour.
 - `PartitionRel κ λ n μ`, written `κ → (λ)ⁿ_μ`: for every linear order `J : Type u` with `#J = κ`
   and every colouring of `Fin n ↪o J` by a type of cardinality at most `μ`, some `H` with
-  `λ ≤ #H` is homogeneous. This agrees with Erdős and Rado's relation for `μ ≥ 1`. At `μ = 0`
+  `λ ≤ #H` is homogeneous. This agrees with Erdős and Rado's relation for `μ ≥ 1` (as stated in
+  Marker's notes, §5.1, p. 55, for sets with `|X| ≥ κ`; restricting a colouring to a subset of
+  cardinality `κ` shows the two forms equivalent). At `μ = 0`
   it does not: their definition asks for a homogeneous set of a named colour, which zero colours
   cannot supply, while here a colour type of cardinality `0` is allowed and every homogeneous set
   counts, so `0 → (0)¹_0` holds here and fails for them. When `n = 0` both conventions hold at
@@ -278,12 +280,14 @@ statement proved for well-orders (`κ.ord.ToType`) holds for every linear order 
 
 - `partitionRel_succ_one`: for infinite `κ`, `κ⁺ → (κ⁺)¹_κ`. A map from a set of cardinality `κ⁺`
   to a set of cardinality at most `κ` has a fibre of cardinality `κ⁺`, by
-  `Cardinal.infinite_pigeonhole_card` and `Cardinal.isRegular_succ`.
+  `Cardinal.infinite_pigeonhole_card` and `Cardinal.isRegular_succ` (Marker's notes, proof of
+  Theorem 5.5, case `n = 0`, p. 56).
 - `exists_unbounded_fiber`: a map from the countable ordinals `Set.Iio ω₁` to a countable type takes
   some value at unboundedly many ordinals below `ω₁`. A bounded subset of `ω₁` is countable
   (`Cardinal.countable_toType_of_lt_omega_one`), so a countable union of bounded sets is bounded by
   `Cardinal.isRegular_aleph_one`. The finite-colour case is the one the Morley–Hanf decisions use;
-  the countable case is the one its witness choices use.
+  the countable case is the one its witness choices use (as in Marker's notes, proof of Theorem 5.2,
+  p. 58).
 - A downward-closed predicate on `Set.Iio ω₁` that holds at unboundedly many ordinals holds at
   all of them. Layer 3 applies this to "approximable at level `α`".
 
@@ -309,7 +313,8 @@ on which the colour of a pair depends only on its smaller point. With pigeonhole
 
 ### 0.4 The Erdős–Rado theorem
 
-**`erdos_rado`.** For infinite `κ` and every `n : ℕ`, `ℶₙ(κ)⁺ → (κ⁺)ⁿ⁺¹_κ`.
+**`erdos_rado`.** For infinite `κ` and every `n : ℕ`, `ℶₙ(κ)⁺ → (κ⁺)ⁿ⁺¹_κ` (Marker's notes,
+Theorem 5.5, p. 55).
 
 Induction on `n`. The case `n = 0` is `partitionRel_succ_one`. For the step, a colouring of
 increasing `(n + 2)`-tuples of a set of cardinality `ℶₙ₊₁(κ)⁺ = (2^{ℶₙ(κ)})⁺` (well-ordered, by
@@ -322,7 +327,8 @@ cardinality `κ⁺` homogeneous for the induced colouring, and hence for the ori
 
 Consumer forms, each a stated theorem:
 
-- **`erdos_rado_beth`**: `ℶ_(α+n)⁺ → (ℶ_α⁺)ⁿ⁺¹_{ℶ_α}` for every ordinal `α`, from
+- **`erdos_rado_beth`**: `ℶ_(α+n)⁺ → (ℶ_α⁺)ⁿ⁺¹_{ℶ_α}` for every ordinal `α` (Marker's notes,
+  Corollary 5.6, p. 56), from
   `iteratedTwoPow (ℶ_ α) n = ℶ_ (α + n)` (Convention 4). Since `ℶ_(α+n)⁺ ≤ ℶ_(α+n+1)`, a set of cardinality at least `ℶ_(α+n+1)`
   suffices.
 
@@ -535,8 +541,10 @@ For `IsEMSource Γ N a`, by `isSkolemTemplate_templateOf` (2.2) the template of 
 template for `(Γ, w)`, with `w` the Skolem terms of source condition (3). Conversely, for a Skolem
 template `Φ` for `(Γ, w)`, the skeleton of `EM(ℕ, Φ)` is an Ehrenfeucht–Mostowski source on `Γ`
 (**`isEMSource_em`**: source condition (3) with the terms `w` and (4) by the truth lemma of 2.3,
-and the skeleton is injective when `Φ` declares the instance `x₀ = x₁` false). Two milestones,
-each with its own statement:
+and the skeleton is injective when `Φ` declares the instance `x₀ = x₁` false). The source
+interface is this roadmap's own; the classical statement it serves is that indiscernibles in a
+model of a theory with built-in Skolem functions give arbitrarily large models (Marker's notes,
+Exercise 5.7, p. 57). Two milestones, each with its own statement:
 
 - **`exists_emModel`** (stretching with the cardinality bound). Let `L' : Language.{0, 0}` and
   `IsEMSource Γ N a`, with `N` in any universe, independent of `w`. For every linear order `J : Type w` there are `E : Type w`, an
@@ -577,17 +585,19 @@ Suggested home: `TauCeti/ModelTheory/Infinitary/Hanf/{Defs, Approximation, Morle
 
 `HasArbLargeModels φ`, `IsHanfBound φ κ`, `hanfNumber φ` (Convention 6), with:
 `IsHanfBound.mono`; every sentence has a Hanf bound (if `φ` lacks arbitrarily large models, some
-cardinal bounds all its models); `hanfNumber_isHanfBound`, so the Hanf number is a Hanf bound; the
-Hanf number lies below every Hanf bound, `κ` is a Hanf bound exactly when the Hanf number is at most
-`κ`, and `κ` lies below the Hanf number exactly when it is not a Hanf bound; invariance of all three
-notions under sentence equivalence and under `onBoundedFormulaInf` along an injective language map
+cardinal bounds all its models; Keisler–Knight, Theorem 1.6.1, for any set of sentences);
+`hanfNumber_isHanfBound`, so the Hanf number is a Hanf bound; the Hanf number lies below every Hanf
+bound, `κ` is a Hanf bound exactly when the Hanf number is at most `κ`, and `κ` lies below the Hanf
+number exactly when it is not a Hanf bound; invariance of all three notions under sentence equivalence and under `onBoundedFormulaInf` along an injective language map
 (IME 0.1). The invariance uses that the Hanf predicates count only nonempty models (Convention 6):
 a nonempty model of `φ` expands to a model of its image, interpreting the new symbols arbitrarily,
 and a model of the image restricts to a model of `φ` on the same carrier.
 
 ### 3.2 Reduction to a countable Skolemized setting
 
-Given `φ : L.Sentenceω` satisfying the Morley–Hanf hypothesis:
+Given `φ : L.Sentenceω` satisfying the Morley–Hanf hypothesis, reduce to a countable language
+with Skolem functions, as at the start of the proof of Theorem 5.2 in Marker's notes (p. 57, for
+a countable vocabulary and a countable fragment with built-in Skolem functions):
 
 - let `L_φ = (symbSublang (functionsIn φ) (relationsIn φ)).sum D`, where `D` has one dummy
   function symbol and one dummy relation symbol of each arity; it has countably many symbols of
@@ -616,7 +626,9 @@ any sets `pos`, `neg`: they need neither finiteness of the conditions nor counta
 language, and countability of `Γ*` matters only for the enumeration of 3.4. Approximation at `α` implies approximation at every `β ≤ α` (pass to a subset of
 `H`), so by 0.2 cofinal approximation is approximation at unboundedly many `α`.
 
-Targets:
+The decision and witness lemmas are the two claims of the proof of Theorem 5.2 in Marker's notes
+(pp. 57–58), stated there for a consistency property of finite sets of sentences in which the
+indiscernibles are new constants. Targets:
 
 - **`isCofinallyApproximated_start`.** `{φ ↦ true, disEq ↦ true}` is cofinally approximated: take
   `H = M` for a model of size at least `ℶ_α`.
@@ -667,8 +679,9 @@ Targets:
   `isSkolemTemplate_of_approximated` and `isEMSource_em`. The dummies are interpreted in the approximating models as the first projection
   (arity `≥ 1`), a fixed element (arity `0`) and the empty relation, so they change none of the
   arguments of 3.3.
-- **`exists_model_card_eq_of_forall_beth`** (cardinality control and transfer, the headline):
-  under the Morley–Hanf hypothesis, for every infinite `κ : Cardinal.{w}` there is `M : Type w` with
+- **`exists_model_card_eq_of_forall_beth`** (cardinality control and transfer, the headline;
+  Marker's notes, Theorem 5.2, p. 54, with the same hypothesis and conclusion): under the
+  Morley–Hanf hypothesis, for every infinite `κ : Cardinal.{w}` there is `M : Type w` with
   `M ⊨ φ` and `#M = κ`. Apply `exists_emModel_card_eq` to the Ehrenfeucht–Mostowski source of
   `exists_emSource_of_forall_beth` along `J = κ.ord.ToType` (an infinite order of cardinality `κ`),
   obtaining an `L'`-structure `E` of cardinality exactly `κ` with `E ⊨ onBoundedFormulaInf g φ`,
@@ -683,7 +696,9 @@ Targets:
 - **`morley_hanf_theory`**: a countable `T : Theoryω L` (IME 1.1), through `Theoryω.conjunction`,
   satisfying the Morley–Hanf hypothesis
   has models of every infinite cardinality.
-- **`morley_omitting_types`** (Morley 1965): over any language, let `T` be a first-order theory and
+- **`morley_omitting_types`** (Morley 1965; Marker's notes, Corollary 5.8, p. 58, for a countable
+  signature, models of cardinality exactly `ℶ_α` and the conclusion of arbitrarily large models):
+  over any language, let `T` be a first-order theory and
   `Σ : Set (Σ n, Set (L.BoundedFormula Empty n))` a set of partial first-order types, each tagged
   with its arity, with `T.Countable`, `Σ.Countable` and `∀ p ∈ Σ, p.2.Countable`. If `T` has models
   omitting every type of `Σ` of cardinality at least `ℶ_α` for every `α < ω₁`, it has such models
@@ -759,14 +774,16 @@ Index sets are countable because `α + 2 < ω₁`, so the conjunctions and disju
   `#V_{ω+α+1} = preBeth (ω + α + 1) = ℶ_(α+1)` by `ZFSet.card_vonNeumann` and
   `Cardinal.beth_eq_preBeth`.
 - **`exists_sentence_maximal_model`**: the ladder sentence has a model of cardinality exactly
-  `ℶ_(α+1)` and none larger.
+  `ℶ_(α+1)` and none larger (Marker's notes, Exercise 5.3, p. 54).
 
 ### 4.3 Sharpness
 
 - **`beth_succ_lt_lomega1omegaHanfNumber`**: `ℶ_(α+1) < lomega1omegaHanfNumber` for every `α < ω₁`.
 - **`iSup_beth_succ_omega_one`**: `⨆_{α < ω₁} ℶ_(α+1) = ℶ_ω₁`, from `Cardinal.beth_limit` and
   cofinality of the successors in the limit `ω₁`.
-- **`lomega1omegaHanfNumber_eq_beth_omega_one`** (headline): `Hanf(Lω₁ω) = ℶ_ω₁`.
+- **`lomega1omegaHanfNumber_eq_beth_omega_one`** (headline): `Hanf(Lω₁ω) = ℶ_ω₁` (Keisler–Knight,
+  Theorem 1.6.2, where the Hanf number has the cofinal form of Convention 5; both forms have the
+  value `ℶ_ω₁`).
 
 The cardinal arithmetic used here follows from Mathlib, with the consumer forms derived as small
 lemmas where convenient: a countable sum of cardinals at most an infinite `κ` is at most `κ`
@@ -796,14 +813,16 @@ Suggested home: `TauCeti/Order/HighlyTransitive.lean` and
   of a highly order-transitive order in `Type w`. Take a set `X` of cardinality `κ`, the value group
   `Γ = Lex (X →₀ ℤ)`, the ordered field `Lex ℚ⟦Γ⟧` of Hahn series, and the subfield generated by
   the monomials `t^{e_x}` (`x ∈ X`). It has cardinality `κ` by `Subfield.cardinalMk_closure_le_max`
-  and injectivity of `x ↦ t^{e_x}`, and it is highly order-transitive by `of_field`.
+  and injectivity of `x ↦ t^{e_x}`, and it is highly order-transitive by `of_field` (Marker's
+  notes, Exercise 5.12, p. 59, whose hint is `of_field`; it is stated there for every `κ`, but no
+  finite order with at least two points is highly order-transitive).
 
 ### 5.2 Small structures
 
 Using IME's `infinitaryType` and `realizedTypes` (IME 4.1):
 
 - `IsLω₁ωSmall M`: for every `n`, `(realizedTypes M n).Countable`, i.e. `M` realizes countably many
-  complete Lω₁ω-types in `n` variables.
+  complete Lω₁ω-types in `n` variables (smallness in Marker's notes, Definition 6.11, p. 77).
 - API: invariance under isomorphism; every countable structure is small; smallness descends to reducts along a language map (types of the
   reduct are determined by types in the expansion); potentially isomorphic structures realize the
   same complete types, so smallness transfers along `PotentialIso`; if every tuple's complete
@@ -813,7 +832,10 @@ Using IME's `infinitaryType` and `realizedTypes` (IME 4.1):
 ### 5.3 Small models of every infinite cardinality
 
 **`exists_small_model_card_eq`.** Under the Morley–Hanf hypothesis, for every infinite
-`κ : Cardinal.{w}`, `φ` has a small model of cardinality `κ`.
+`κ : Cardinal.{w}`, `φ` has a small model of cardinality `κ` (Marker's notes, Theorem 5.11, p. 59,
+stated there under arbitrarily large models and for every `κ`; its proof starts from the
+indiscernibles of the proof of Theorem 5.2, which the Morley–Hanf hypothesis supplies, and needs
+`κ` infinite).
 
 Take the template `Φ` of 3.4 and a highly order-transitive `J` of cardinality `κ` (5.1). In
 `EM(J, Φ)` every element is the value of a term at an increasing tuple from the skeleton. A tuple of
@@ -834,8 +856,10 @@ sentences require; 5.6 extends both headlines to languages with countably many f
 relation symbols.
 
 - **`exists_countable_potentialIso_of_isLω₁ωSmall`** (countable companion): a small structure `M` is
-  potentially isomorphic to a countable structure. Let `F` be the fragment generated by isolating
-  formulas `χ_p` of `exists_isolatingFormula` for all realized types `p` of all arities, together
+  potentially isomorphic to a countable structure (Marker's notes, the remark after Definition 6.11,
+  p. 77, as `L∞ω`-equivalence, which Karp's theorem identifies with potential isomorphism; the
+  Exercise 2.34, p. 22, that it cites assumes `M` countable). Let `F` be the fragment generated by
+  isolating formulas `χ_p` of `exists_isolatingFormula` for all realized types `p` of all arities, together
   with their one-variable existential closures (the isolator seed of IME 4.1); it is countable by
   `Fragment.generated_countable`. Take `M₀ ⊆ M` countable with `AElementary F M₀.subtype` by
   `exists_countable_aElementary_substructure` with `X = ∅` (IME 2.3; a relational language has no
@@ -864,7 +888,9 @@ relation symbols.
 
 ### 5.5 Categorical completions
 
-**`exists_isCompleteSentence_isCategorical`** (headline). Let `L` be countable relational, `φ`
+**`exists_isCompleteSentence_isCategorical`** (headline; Marker's notes, Corollary 5.13, p. 59,
+under arbitrarily large models and without the restriction to infinite `κ`, which it needs). Let `L`
+be countable relational, `φ`
 satisfy the Morley–Hanf hypothesis, `κ` be infinite and `φ` be `κ`-categorical. Then there is a
 complete `σ` entailing `φ`, with a model of cardinality `κ`, and `σ` is `κ`-categorical. Take a
 small model of cardinality `κ` (5.3) and the complete sentence it satisfies (5.4). Models of `σ` are
@@ -1094,6 +1120,9 @@ below is "where to look", not a specification. Paths are relative to
   sharpness examples and small models; Chapter 4, "The Model Existence Theorem" (pp. 39–50), the
   model existence and fragment material consumed through InfinitaryModelExistence. The chapter
   titles and page ranges are from the publisher's metadata.
+- D. Marker, *Lectures on Infinitary Model Theory*, lecture notes, University of Illinois at
+  Chicago, Fall 2013, [inf.pdf](https://homepages.math.uic.edu/~marker/math512-F13/inf.pdf).
+  "Marker's notes" in the layers refers to these notes, with their theorem and page numbers.
 - H. J. Keisler, *Model Theory for Infinitary Logic*, North-Holland, 1971.
 - H. J. Keisler and J. F. Knight, "Barwise: infinitary logic and admissible sets", *Bulletin of
   Symbolic Logic* 10 (2004), 4–36,
