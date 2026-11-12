@@ -47,8 +47,9 @@ The headlines of the README and their Lean forms here:
   ring (Layer 7): `globalDimension_mulOpposite` and
   `globalDimension_eq_projectiveDimension_quotient`.
 * Dominant dimension (Layer 7): `HasProjectiveInjectiveCoresolution`, the number
-  `dominantDimension` in `ℕ∞`, and `two_le_dominantDimension_iff`, which identifies the bound
-  `2 ≤ dominantDimension Γ` with the explicit `HasProjectiveInjectiveCopresentation`.
+  `dominantDimension` in `ℕ∞`, `two_le_dominantDimension_iff`, which identifies the bound
+  `2 ≤ dominantDimension Γ` with the explicit `HasProjectiveInjectiveCopresentation`, and the
+  left-right symmetry `dominantDimension_mulOpposite`.
 * The Morita-Tachikawa correspondence (Layer 7), on the predicate `IsGeneratorCogenerator` (a
   separator and coseparator of `mod A = FGModuleCat A`, with `isSeparator_iff_exists_retract` and
   `isGeneratorCogenerator_iff_forall_indecomposable`) and on `dominantDimension`: the forward
@@ -57,8 +58,11 @@ The headlines of the README and their Lean forms here:
   `exists_linear_equivalence_of_algEquiv_end`. All isomorphisms of endomorphism rings are
   `R`-algebra isomorphisms, for the scoped `ModuleCat.Algebra` instances.
 * The Auslander correspondence (Layer 7), on `IsAdditiveGenerator` of Layer 0 in
-  `mod A = FGModuleCat A`: the forward direction `hasProjectiveDimensionLE_two`, and the converse
-  `exists_isAdditiveGenerator_algEquiv_end`.
+  `mod A = FGModuleCat A` and on Auslander algebras `IsAuslanderAlgebra`
+  (`gl.dim Γ ≤ 2 ≤ dom.dim Γ`): the forward direction `isAuslanderAlgebra_end`, the converse
+  `exists_isAdditiveGenerator_algEquiv_end`, compatibility with Morita equivalence
+  `isMoritaEquivalent_end_iff`, and the bijection of Morita classes
+  `exists_equiv_quotient_moritaSetoid`, on the setoid `moritaSetoid`.
 
 The following headlines need carriers that are themselves targets of the README and do not exist at
 the pins, so the README specifies them in prose and they are not stated here: the `Ext¹` of an
@@ -326,8 +330,8 @@ self-injective ring, through `0 → Γ → Γ → 0 → 0 → ⋯`.
 
 This is the dominant dimension only for Artin algebras. For other rings the established notion asks
 the terms of the minimal injective coresolution to be flat (Hoshino), and the two differ already for
-`ℤ`: here `dominantDimension ℤ = 0`, while the flat version gives `1`. If the flat version is added
-later, it should take this name and this definition should be renamed. -/
+`ℤ`: here `dominantDimension ℤ = 0`, while the flat version gives `1`. Following Xi, the flat
+version, if added later, is the *flat-dominant dimension* `flatDominantDimension`. -/
 noncomputable def dominantDimension (Γ : Type u) [Ring Γ] : ℕ∞ :=
   ⨆ (n : ℕ) (_ : HasProjectiveInjectiveCoresolution Γ n), (n : ℕ∞)
 
@@ -335,6 +339,12 @@ noncomputable def dominantDimension (Γ : Type u) [Ring Γ] : ℕ∞ :=
 `0 → Γ → I⁰ → I¹` by finitely generated projective-injective modules. -/
 theorem two_le_dominantDimension_iff (Γ : Type u) [Ring Γ] :
     2 ≤ dominantDimension Γ ↔ HasProjectiveInjectiveCopresentation Γ :=
+  sorry
+
+/-- **Tachikawa**: for an Artin algebra the left and right dominant dimensions agree; the right
+dominant dimension is `dominantDimension Γᵐᵒᵖ`. -/
+theorem dominantDimension_mulOpposite (Γ : Type u) [Ring Γ] [Algebra R Γ] [Module.Finite R Γ] :
+    dominantDimension Γᵐᵒᵖ = dominantDimension Γ :=
   sorry
 
 /-- **Morita-Tachikawa, forward**: for a generator-cogenerator `M` of `mod A`, the endomorphism
@@ -369,23 +379,54 @@ theorem exists_linear_equivalence_of_algEquiv_end {A A' : Type u} [Ring A] [Alge
       Nonempty (F.functor.obj M ≅ M') :=
   sorry
 
-/-- **The Auslander correspondence, global dimension**: for an additive generator `M` of `mod A`,
-every finitely generated module over `Γ = Module.End A M` has projective dimension at most two. -/
-theorem hasProjectiveDimensionLE_two {A : Type u} [Ring A] [Algebra R A] [Module.Finite R A]
-    (M : FGModuleCat.{u} A) (hM : IsAdditiveGenerator M)
-    (X : ModuleCat.{u} (Module.End A M.obj)) [Module.Finite (Module.End A M.obj) X] :
-    HasProjectiveDimensionLE X 2 :=
+/-- An **Auslander algebra**: a ring with `gl.dim Γ ≤ 2 ≤ dom.dim Γ`. Like `dominantDimension`, it
+is stated for any ring but is the notion of the literature only for Artin algebras. -/
+def IsAuslanderAlgebra (Γ : Type u) [Ring Γ] : Prop :=
+  TauCeti.globalDimension.{u} Γ ≤ 2 ∧ 2 ≤ dominantDimension Γ
+
+/-- **The Auslander correspondence, forward**: for an additive generator `M` of `mod A`, the
+endomorphism ring `Module.End A M` is an Auslander algebra. -/
+theorem isAuslanderAlgebra_end {A : Type u} [Ring A] [Algebra R A] [Module.Finite R A]
+    (M : FGModuleCat.{u} A) (hM : IsAdditiveGenerator M) :
+    IsAuslanderAlgebra (Module.End A M.obj) :=
   sorry
 
-/-- **The Auslander correspondence, converse**: an Artin algebra `Γ` with `gl.dim Γ ≤ 2` and
-dominant dimension at least two is the endomorphism ring of an additive generator of `mod B` for an
-Artin algebra `B`, which is then representation-finite. Dominant dimension alone does not suffice:
-`k[ε]/(ε²)` has infinite dominant dimension and infinite global dimension. -/
+/-- **The Auslander correspondence, converse**: an Auslander algebra `Γ` that is an Artin algebra is
+the endomorphism ring of an additive generator of `mod B` for an Artin algebra `B`, which is then
+representation-finite. Dominant dimension alone does not suffice: `k[ε]/(ε²)` has infinite dominant
+dimension and infinite global dimension. -/
 theorem exists_isAdditiveGenerator_algEquiv_end (Γ : Type u) [Ring Γ] [Algebra R Γ]
-    [Module.Finite R Γ] (hgl : TauCeti.globalDimension.{u} Γ ≤ 2)
-    (hΓ : 2 ≤ dominantDimension Γ) :
+    [Module.Finite R Γ] (hΓ : IsAuslanderAlgebra Γ) :
     ∃ (B : Type u) (_ : Ring B) (_ : Algebra R B) (_ : Module.Finite R B) (M : FGModuleCat.{u} B),
       IsAdditiveGenerator M ∧ Nonempty (Γ ≃ₐ[R] Module.End B M.obj) :=
+  sorry
+
+/-- **The Auslander correspondence on Morita classes**: for additive generators `M` of `mod A` and
+`M'` of `mod A'`, the endomorphism rings are Morita equivalent exactly when `A` and `A'` are. The
+direction `←` makes `A ↦ Module.End A M` well defined on Morita classes, also for two additive
+generators of the same `mod A`; the direction `→` makes it injective. -/
+theorem isMoritaEquivalent_end_iff {A A' : Type u} [Ring A] [Algebra R A] [Module.Finite R A]
+    [Ring A'] [Algebra R A'] [Module.Finite R A'] (M : FGModuleCat.{u} A)
+    (M' : FGModuleCat.{u} A') (hM : IsAdditiveGenerator M) (hM' : IsAdditiveGenerator M') :
+    IsMoritaEquivalent R (Module.End A M.obj) (Module.End A' M'.obj) ↔
+      IsMoritaEquivalent R A A' :=
+  sorry
+
+/-- Morita equivalence over `R`, as a setoid on the `R`-algebras in `Type u` satisfying `P`. -/
+def moritaSetoid (P : AlgCat.{u} R → Prop) : Setoid {A : AlgCat.{u} R // P A} where
+  r A B := IsMoritaEquivalent R A.1 B.1
+  iseqv := ⟨fun A ↦ .refl R A.1, .symm R, .trans R⟩
+
+/-- **The Auslander correspondence, as a bijection**: `A ↦ Module.End A M`, for an additive
+generator `M` of `mod A`, induces a bijection from the Morita classes of representation-finite
+Artin `R`-algebras onto the Morita classes of Auslander algebras that are Artin `R`-algebras. Every
+representation-finite Artin algebra has an additive generator, so the condition on `e` determines
+it. -/
+theorem exists_equiv_quotient_moritaSetoid :
+    ∃ e : Quotient (moritaSetoid R fun A ↦ Module.Finite R A ∧ TauCeti.IsRepresentationFinite.{u} A)
+        ≃ Quotient (moritaSetoid R fun Γ ↦ Module.Finite R Γ ∧ IsAuslanderAlgebra Γ),
+      ∀ A Γ (M : FGModuleCat.{u} A.1), IsAdditiveGenerator M →
+        Nonempty (Γ.1 ≃ₐ[R] Module.End A.1 M.obj) → e (Quotient.mk _ A) = Quotient.mk _ Γ :=
   sorry
 
 end Correspondences

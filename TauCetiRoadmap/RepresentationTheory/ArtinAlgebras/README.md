@@ -1299,11 +1299,12 @@ supremum in `ℕ∞` of the `n` for which it holds. The definition is stated for
 modules, as `TauCeti.globalDimension` is, with no assumptions it does not use, but it is the
 dominant dimension only for Artin algebras (the third item below). For other rings the established
 notion asks the terms of the minimal injective coresolution to be flat rather than projective
-(Hoshino); the two numbers already differ for `ℤ` (see the checks), and the flat version is out of
-scope (see "Scope and ownership"). If the flat version is added to Tau Ceti later, it should take
-the name `dominantDimension`, and the definition here should be renamed, as Mathlib plans to rename
-`Module.Flat` to `Module.MonoFlat` once genuine flatness over semirings is introduced. The first
-two items below hold for any ring and the others are for Artin algebras. API:
+([Ho, p. 275], for any ring); the two numbers already differ for `ℤ` (see the checks), and the flat
+version is out of scope (see "Scope and ownership"). Xi keeps the name *dominant dimension* for the
+projective version over Artin algebras and calls the flat version, following Hoshino, the
+*flat-dominant dimension* ([Xi, §1]); so if the flat version is added to Tau Ceti later, it should
+be `flatDominantDimension`, and `dominantDimension` keeps its name. The first two items below hold
+for any ring and the others are for Artin algebras. API:
 
 - truncation: dropping the last term of a coresolution with `n + 1` terms leaves one with `n`
   terms, so `n ≤ dom.dim Γ` exactly when `Γ` has a projective-injective coresolution with `n`
@@ -1324,7 +1325,14 @@ two items below hold for any ring and the others are for Artin algebras. API:
   minimal version does not depend on the chosen minimal coresolution, since minimal injective
   coresolutions are unique up to isomorphism (uniqueness of injective hulls,
   `TauCeti.IsInjectiveEnvelope.exists_linearEquiv`);
-- dominant dimension is invariant under Morita equivalence (7.1).
+- dominant dimension is invariant under Morita equivalence (7.1);
+- **left-right symmetry** (`dominantDimension_mulOpposite`, in `Suggested.lean`): for an Artin
+  algebra, `dominantDimension Γᵐᵒᵖ = dominantDimension Γ`. Hoshino proves this for the flat version
+  over left and right Noetherian rings, in the form that `dom.dim ≥ n` holds on the left exactly
+  when it holds on the right, for every `n ≥ 1` ([Ho, Theorem, p. 275]); for Artinian rings he
+  notes that his definition agrees with Tachikawa's and that the theorem was already established by
+  Tachikawa ([Ho, p. 275], citing Tachikawa, *Quasi-Frobenius Rings and Generalizations*). The
+  value `0` is symmetric because the statement covers every `n ≥ 1`.
 
 The first three items are not located in a read source.
 
@@ -1340,7 +1348,7 @@ The first three items are not located in a read source.
   divisible, hence not injective, so the only finitely generated projective-injective `ℤ`-module is
   `0`, and `ℤ → 0` is not a monomorphism. In the flat version the minimal injective coresolution
   `0 → ℤ → ℚ → ℚ/ℤ → 0` has `ℚ` flat and `ℚ/ℤ` not flat, giving `1`. So the two notions differ
-  outside Artin algebras.
+  outside Artin algebras ([Xi, §1]).
 - For the path algebra of `• → •` (that is, `T₂(k)`), the dominant dimension is 1: the injective
   hull of the simple projective module is projective-injective, and its cokernel, the other simple
   module, is injective but not projective.
@@ -1438,22 +1446,64 @@ injective hulls.
 
 ### 7.5 The Auslander correspondence
 
-**Forward** (`hasProjectiveDimensionLE_two`, in `Suggested.lean`; `IsAdditiveGenerator`, in
-`Suggested.lean`). If `M` is an additive generator of `mod A` (0.5, in `FGModuleCat A`; it exists
-exactly when `A` is representation-finite), that is, `add M = mod A`, then the finitely presented
-right `Γ`-modules form `mod (mod A)` and have projective dimension at most two (1.4); so the right
-global dimension of `Γ = Module.End A M` is at most two, and so is its left global dimension
-(7.2). Besides, `dom.dim Γ ≥ 2` (7.4).
+**Auslander algebras** (`IsAuslanderAlgebra`, in `Suggested.lean`). An Artin algebra `Γ` is an
+**Auslander algebra** when `gl.dim Γ ≤ 2 ≤ dom.dim Γ` ([ARS, §VI.5, p. 209], where `dom.dim Γ ≥ 2`
+is written as the projectivity of the first two terms of the minimal injective coresolution). The
+Lean predicate is `TauCeti.globalDimension Γ ≤ 2 ∧ 2 ≤ dominantDimension Γ`, stated for any ring
+like `dominantDimension` (7.3), and it is the notion of [ARS] only for Artin algebras.
 
-**Converse** (`exists_isAdditiveGenerator_algEquiv_end`, in `Suggested.lean`). If
-`gl.dim Γ ≤ 2 ≤ dom.dim Γ`, the generator-cogenerator `Q` of 7.4 is an additive generator of
-`mod B`. So the Morita-Tachikawa bijection restricts to a bijection between pairs `(A, M)` with `M`
-an additive generator, up to `R`-linear equivalences carrying `M` to `M'`, and `R`-algebra
-isomorphism classes of **Auslander algebras**, the Artin algebras with
-`gl.dim Γ ≤ 2 ≤ dom.dim Γ`. Passing to Morita classes on both sides, it is a bijection between
-Morita classes of representation-finite Artin algebras and Morita classes of Auslander algebras
-([ARS, Thm. VI.5.7, p. 215], with Props. VI.5.4, p. 213, and VI.5.6, p. 214; Auslander,
-*Representation dimension of Artin algebras*).
+**Forward** (`isAuslanderAlgebra_end`, in `Suggested.lean`; `IsAdditiveGenerator`, in
+`Suggested.lean`). If `M` is an additive generator of `mod A` (0.5, in `FGModuleCat A`; it exists
+exactly when `A` is representation-finite), that is, `add M = mod A`, then `Γ = Module.End A M` is
+an Auslander algebra. The finitely presented right `Γ`-modules form `mod (mod A)` and have
+projective dimension at most two (1.4); so the right global dimension of `Γ` is at most two, and so
+is its left global dimension (7.2), `TauCeti.globalDimension Γ ≤ 2`. An additive generator is a
+generator-cogenerator, so `dom.dim Γ ≥ 2` (7.4). ([ARS, Prop. VI.5.4(a), p. 213], for nonsemisimple
+`A`, where both dimensions are exactly `2`; for semisimple `A`, `Γ` is semisimple, of global
+dimension `0` or `⊥`, and of dominant dimension `⊤`.)
+
+**Converse** (`exists_isAdditiveGenerator_algEquiv_end`, in `Suggested.lean`). If `Γ` is an
+Auslander algebra, the generator-cogenerator `Q` of 7.4 is an additive generator of `mod B`, and
+`Γ ≅ Module.End B Q` as `R`-algebras ([ARS, Prop. VI.5.6, p. 214]).
+
+**Morita classes** (`isMoritaEquivalent_end_iff`, in `Suggested.lean`). For additive generators
+`M` of `mod A` and `M'` of `mod A'`, `IsMoritaEquivalent R (Module.End A M) (Module.End A' M')`
+holds exactly when `IsMoritaEquivalent R A A'`. For `←`, an `R`-linear equivalence `mod A ≌ mod A'`
+(7.1) carries `M` to an additive generator `N` of `mod A'`, with `Module.End A M ≅ Module.End A' N`;
+and `add N = add M' = mod A'`, so projectivization (7.1) identifies the finitely generated
+projective modules over `Module.End A' N` and `Module.End A' M'` with `add N = add M'`, and the two
+rings are Morita equivalent (7.1). In particular the Morita class of `Module.End A M` does not
+depend on the additive generator `M`. For `→`, a Morita equivalence of `Γ = Module.End A M` and
+`Γ' = Module.End A' M'` matches their projective-injective modules, so the rings
+`Module.End Γ Q` and `Module.End Γ' Q'` of 7.4 are Morita equivalent; up to opposite rings they are
+Morita equivalent to `A` and `A'` ([ARS, Prop. VI.5.4(b), p. 213]), and Morita equivalence of Artin
+algebras passes to opposite rings through the duality `D` of Layer 2; hence `A` and `A'` are Morita
+equivalent.
+
+[ARS] write `Γ_M = End_A(M)ᵒᵖ` where this README and `Suggested.lean` use `Module.End A M`. The two
+differ by passing to opposite rings, which preserves Auslander algebras by the left-right symmetry
+of global dimension (7.2, `globalDimension_mulOpposite`) and of dominant dimension (7.3,
+`dominantDimension_mulOpposite`), and preserves Morita equivalence as above.
+
+**The bijection** (`exists_equiv_quotient_moritaSetoid`, on `moritaSetoid`, in `Suggested.lean`).
+Bundle Artin `R`-algebras in `Type u` as `AlgCat R` with `Module.Finite R`, and let `moritaSetoid`
+be Morita equivalence over `R`, an equivalence relation by Mathlib's `IsMoritaEquivalent.refl`,
+`IsMoritaEquivalent.symm` and `IsMoritaEquivalent.trans`. Then `A ↦ Module.End A M`, for an
+additive generator `M` of `mod A`, induces a bijection from the Morita classes of
+representation-finite Artin `R`-algebras onto the Morita classes of Auslander algebras that are
+Artin `R`-algebras ([ARS, §VI.5, p. 209]; Auslander, *Representation dimension of Artin
+algebras*). [ARS, Thm. VI.5.7, p. 215] states it for nonsemisimple algebras on both sides, where
+both dimensions of `Γ` are exactly `2`. The semisimple classes correspond to each other separately:
+for semisimple `A`, `Module.End A M` is semisimple, and a semisimple Artin algebra is an Auslander
+algebra, of dominant dimension `⊤`, which arises as `Module.End A M` with `A` semisimple; the zero
+algebra corresponds to itself. It is well defined and injective by `isMoritaEquivalent_end_iff`,
+surjective by the converse, and lands in Auslander algebras by the forward direction. The Lean
+statement asks for an `Equiv` of the two quotients that sends the class of `A` to the class of `Γ`
+whenever `Γ ≅ Module.End A M` for an additive generator `M`; as every representation-finite Artin
+algebra has an additive generator (0.5), this determines the `Equiv`. At the level of pairs, the
+Morita-Tachikawa bijection of 7.4 restricts to a bijection between pairs `(A, M)` with `M` an
+additive generator, up to `R`-linear equivalences carrying `M` to `M'`, and `R`-algebra
+isomorphism classes of Auslander algebras.
 
 **Checks.**
 
@@ -1465,9 +1515,14 @@ Morita classes of representation-finite Artin algebras and Morita classes of Aus
   global dimension 0; for `A = M = 0` it is the zero algebra, of global dimension `⊥`. Over
   `Mat₂(k) = End_k(k²)` every module has projective dimension at most 0: `pd(k²) = 0`, and the zero
   module has `pd(0) = ⊥`.
+- For `A = k`, the additive generators `k` and `k ⊕ k` give `k` and `Mat₂(k)`, which are Morita
+  equivalent, as `isMoritaEquivalent_end_iff` requires; the bijection sends the class of `k` to the
+  class of `k`.
 
-*Needs:* 7.4's correspondence; 1.4's projective dimension bound; 0.5's additive generators; 7.2's
-global dimension.
+*Needs:* 7.4's correspondence; 1.4's projective dimension bound; 0.5's additive generators; 7.1's
+Morita theory and projectivization; 7.2's global dimension and 7.3's dominant dimension, with their
+left-right symmetry; Mathlib `AlgCat`, `IsMoritaEquivalent` with `IsMoritaEquivalent.refl`,
+`IsMoritaEquivalent.symm` and `IsMoritaEquivalent.trans`, and `Quotient`.
 
 ### Examples
 
@@ -1531,8 +1586,10 @@ Layers 0 (the Krull-Schmidt property of `mod A` and its additive generators, 0.5
   not read here.
 - [HS] M. Harada, Y. Sai, *On categories of indecomposable modules I*, Osaka J. Math. 7 (1970),
   323–344. Lemmas 11 and 12, p. 339 (eventual vanishing of composites, without the bound `2^b - 1`).
-- M. Hoshino, *On dominant dimension of Noetherian rings*, Osaka J. Math. 26 (1989), 275–280. The
-  flat version of dominant dimension; not read here.
+- [Ho] M. Hoshino, *On dominant dimension of Noetherian rings*, Osaka J. Math. 26 (1989), 275–280.
+  p. 275: the flat version of dominant dimension, for any ring; the Theorem (left-right symmetry for
+  left and right Noetherian rings); and the agreement with Tachikawa's dominant dimension for
+  Artinian rings.
 - [INP] O. Iyama, H. Nakaoka, Y. Palu, *Auslander-Reiten theory in extriangulated categories*,
   arXiv:1805.03776v3. Example 1.14 (exact categories are extriangulated); Fact 1.20(1)–(3) (the long
   exact sequences); Def. 1.21, p. 8, and Rem. 1.22, p. 9 (the ideals `𝒫` and `ℐ`); Prop. 2.6(1)–(2)
@@ -1566,5 +1623,9 @@ Layers 0 (the Krull-Schmidt property of `mod A` and its additive generators, 0.5
   (1968), 1275–1282. Brauer-Thrall I; used through [ARS, Cor. VI.1.5].
 - H. Tachikawa, *Quasi-Frobenius Rings and Generalizations*, Lecture Notes in Mathematics 351,
   Springer (1973). Dominant dimension and the Morita-Tachikawa correspondence; not read here.
+- [Xi] C. Xi, *Frobenius bimodules and flat-dominant dimensions*, arXiv:1903.07921v1. §1: dominant
+  dimension of Artin algebras, the flat-dominant dimension of an arbitrary ring following Hoshino,
+  their agreement for Artin algebras, and the example `ℤ`, of dominant dimension `0` and
+  flat-dominant dimension `1`.
 - N. Yoneda, *On Ext and exact sequences*, J. Fac. Sci. Univ. Tokyo Sect. I 8 (1960), 507–576.
   `Ext¹` by classes of extensions; not read here.
