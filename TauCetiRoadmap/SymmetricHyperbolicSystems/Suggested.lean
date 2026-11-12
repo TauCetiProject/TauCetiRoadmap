@@ -22,10 +22,11 @@ difference quotients and the multilinear interpolant (Layer 3); one step and the
 Friedrichs' scheme (§4.1); the inverse square root of `A⁰` and the normalized system (§7.2).
 
 Headline theorems: continuous partial derivatives give `C¹` (§1.1); the domain of dependence,
-uniqueness and the energy estimate (§2.2, §2.3); the discrete Sobolev inequality (§3.2); the
-Lipschitz bound for the interpolant (§3.3); the positive-weights lemma and the one-step energy
-inequality (§4.2); existence for `A⁰ = 1` and convergence of the scheme (§6.2, §6.3); the smooth
-square root (§7.1); normalization (§7.2); and existence for general `A⁰` (§7.3).
+uniqueness, the integrated energy identity and the energy estimate (§2.2, §2.3); the discrete
+Sobolev inequality (§3.2); the Lipschitz bound for the interpolant (§3.3); the positive-weights
+lemma and the one-step energy inequality (§4.2); existence for `A⁰ = 1` and convergence of the
+scheme (§6.2, §6.3); derivative bounds for the square root (§7.1); normalization (§7.2); and
+existence for general `A⁰` (§7.3).
 -/
 
 @[expose] public section
@@ -115,8 +116,8 @@ theorem eq_zero_of_isClassicalSolution_of_cone {S : LinearSystem n N} {lam : ℝ
       Matrix.of.symm (S.A j p.1 p.2))
     (hB : Continuous fun p : ℝ × EuclideanSpace ℝ (Fin n) => Matrix.of.symm (S.B p.1 p.2))
     {c : ℝ} (hc0 : 0 ≤ c)
-    (hc : ∀ t x (ω : EuclideanSpace ℝ (Fin n)), ‖ω‖ ≤ 1 → ∀ ξ : Fin N → ℝ,
-      |ξ ⬝ᵥ ((∑ j, ω j • S.A j t x) *ᵥ ξ)| ≤ c * (ξ ⬝ᵥ (S.A0 t x *ᵥ ξ)))
+    (hc : ∀ t x (w : EuclideanSpace ℝ (Fin n)), ‖w‖ ≤ 1 → ∀ ξ : Fin N → ℝ,
+      |ξ ⬝ᵥ ((∑ j, w j • S.A j t x) *ᵥ ξ)| ≤ c * (ξ ⬝ᵥ (S.A0 t x *ᵥ ξ)))
     {F u : ℝ → EuclideanSpace ℝ (Fin n) → Fin N → ℝ} {T : ℝ}
     (hu : S.IsClassicalSolution F T u) {x₀ : EuclideanSpace ℝ (Fin n)} {R : ℝ}
     (h0 : ∀ x, dist x x₀ < R → u 0 x = 0)
@@ -136,6 +137,24 @@ theorem eqOn_of_isClassicalSolution {S : LinearSystem n N} {lam : ℝ}
     {F u v : ℝ → EuclideanSpace ℝ (Fin n) → Fin N → ℝ} {T : ℝ}
     (hu : S.IsClassicalSolution F T u) (hv : S.IsClassicalSolution F T v) (h0 : u 0 = v 0) :
     ∀ t ∈ Icc 0 T, u t = v t := by
+  sorry
+
+/-- **The integrated energy identity** (§2.3), for a classical solution vanishing outside a
+bounded set: the energy changes by the integral of `⟪K u, u⟫ + 2 ⟪F, u⟫`, where
+`K = ∂ₜA⁰ + ∑ⱼ ∂ⱼAʲ − B − Bᵀ`. No bound on the `Aʲ` is assumed. -/
+theorem integral_dotProduct_A0_sub_eq {S : LinearSystem n N} {lam : ℝ}
+    (hS : S.IsSymmetricHyperbolic lam)
+    (hA0 : ContDiff ℝ 1 fun p : ℝ × EuclideanSpace ℝ (Fin n) => Matrix.of.symm (S.A0 p.1 p.2))
+    (hA : ∀ j, ContDiff ℝ 1 fun p : ℝ × EuclideanSpace ℝ (Fin n) =>
+      Matrix.of.symm (S.A j p.1 p.2))
+    (hB : Continuous fun p : ℝ × EuclideanSpace ℝ (Fin n) => Matrix.of.symm (S.B p.1 p.2))
+    {F u : ℝ → EuclideanSpace ℝ (Fin n) → Fin N → ℝ} {T : ℝ}
+    (hu : S.IsClassicalSolution F T u) (hFc : ContinuousOn (uncurry F) (Icc 0 T ×ˢ univ))
+    (hsupp : ∃ R, ∀ t ∈ Icc 0 T, ∀ x, R < ‖x‖ → u t x = 0) :
+    ∀ t ∈ Icc 0 T, (∫ x, u t x ⬝ᵥ (S.A0 t x *ᵥ u t x)) - ∫ x, u 0 x ⬝ᵥ (S.A0 0 x *ᵥ u 0 x) =
+      ∫ s in (0 : ℝ)..t, ∫ x,
+        (u s x ⬝ᵥ ((matDt S.A0 s x + (∑ j, matDx (S.A j) j s x) - S.B s x - (S.B s x)ᵀ) *ᵥ
+          u s x) + 2 * (F s x ⬝ᵥ u s x)) := by
   sorry
 
 /-- **The energy estimate** (§2.3), for a classical solution vanishing outside a bounded set, with
@@ -255,7 +274,7 @@ theorem sqrt_gridNormSq_friedrichsStep_le [NeZero n] {S : LinearSystem n N}
 
 end Layer4
 
-/-! ## Layer 6: existence and convergence for `A⁰ = 1` -/
+/-! ## Layer 6: passage to the limit for `A⁰ = 1` -/
 
 section Layer6
 
@@ -307,13 +326,20 @@ end Layer6
 
 section Layer7
 
-/-- **The smooth square root** (§7.1): the positive square root of a family of uniformly positive
-definite symmetric matrices with `C^k` entries has `C^k` entries. -/
-theorem contDiff_sqrt_comp {X : Type*} [NormedAddCommGroup X] [NormedSpace ℝ X]
-    {A : X → Matrix (Fin N) (Fin N) ℝ} {k : WithTop ℕ∞}
-    (hA : ContDiff ℝ k fun x => Matrix.of.symm (A x)) (hsymm : ∀ x, (A x).IsSymm) {c : ℝ}
-    (hc : 0 < c) (hpos : ∀ x (ξ : Fin N → ℝ), c * (ξ ⬝ᵥ ξ) ≤ ξ ⬝ᵥ (A x *ᵥ ξ)) :
-    ContDiff ℝ k fun x => Matrix.of.symm (CFC.sqrt (A x)) := by
+/-- **Derivative bounds for the square root** (§7.1): for a family of symmetric matrices with
+`c |ξ|² ≤ ξ ⬝ᵥ A x ξ ≤ Lam |ξ|²`, `0 < c`, whose entries have bounded derivatives of order `≤ m`,
+the entries of `CFC.sqrt (A x)` and of its inverse have bounded derivatives of order `≤ m`.
+Smoothness itself is Tau Ceti's `Matrix.contDiffOn_sqrt` and `Matrix.contDiffOn_rpow`. -/
+theorem exists_bound_iteratedFDeriv_sqrt_comp {X : Type*} [NormedAddCommGroup X]
+    [NormedSpace ℝ X] {A : X → Matrix (Fin N) (Fin N) ℝ} {m : ℕ}
+    (hA : ContDiff ℝ m fun x => Matrix.of.symm (A x)) (hsymm : ∀ x, (A x).IsSymm)
+    {c Lam C : ℝ} (hc : 0 < c)
+    (hpos : ∀ x (ξ : Fin N → ℝ), c * (ξ ⬝ᵥ ξ) ≤ ξ ⬝ᵥ (A x *ᵥ ξ))
+    (hLam : ∀ x (ξ : Fin N → ℝ), ξ ⬝ᵥ (A x *ᵥ ξ) ≤ Lam * (ξ ⬝ᵥ ξ))
+    (hC : ∀ i ≤ m, ∀ x, ‖iteratedFDeriv ℝ i (fun y => Matrix.of.symm (A y)) x‖ ≤ C) :
+    ∃ C' : ℝ, ∀ i ≤ m, ∀ x,
+      ‖iteratedFDeriv ℝ i (fun y => Matrix.of.symm (CFC.sqrt (A y))) x‖ ≤ C' ∧
+      ‖iteratedFDeriv ℝ i (fun y => Matrix.of.symm ((CFC.sqrt (A y))⁻¹)) x‖ ≤ C' := by
   sorry
 
 namespace LinearSystem

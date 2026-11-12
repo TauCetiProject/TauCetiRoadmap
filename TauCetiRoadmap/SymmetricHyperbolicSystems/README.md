@@ -16,8 +16,7 @@ estimate (§2.3); and convergence of Friedrichs' scheme under the Courant–Frie
 condition (§6.3). Along the way the roadmap builds reusable material: the criterion "continuous
 partial derivatives imply `C¹`" on Euclidean space (§1.1), a toolkit for grid functions on
 `hℤⁿ` with discrete norms, summation by parts, the discrete Leibniz rule, a discrete Sobolev
-inequality and multilinear interpolation (Layer 3), the positive-weights lemma (§4.2), and the
-smooth dependence of the positive square root on a positive definite matrix (§7.1). The
+inequality and multilinear interpolation (Layer 3), and the positive-weights lemma (§4.2). The
 roadmap is this README; `Suggested.lean` states the headline definitions and theorems.
 
 ## Scope and ownership
@@ -29,8 +28,8 @@ finite propagation speed, uniqueness and the `L²` energy estimate; grid functio
 lattice `hℤⁿ` with their difference quotients, discrete `ℓ²` norms, summation by parts,
 discrete Leibniz rule, discrete Sobolev inequality and multilinear interpolation; Friedrichs'
 scheme, its stability and the higher-order discrete bounds; existence of classical solutions
-and convergence of the scheme; the smooth positive square root of positive definite matrices,
-and the reduction of a general `A⁰` to `A⁰ = 1`.
+and convergence of the scheme; bounds for the derivatives of the inverse square root of a positive definite matrix-valued
+function, and the reduction of a general `A⁰` to `A⁰ = 1`.
 
 - **PDE** owns the scalar elliptic and parabolic theory, the Sobolev and Besov spaces and the
   Strichartz estimates for the wave equation (its Layer 8). Nothing here consumes it and it
@@ -110,7 +109,7 @@ function `f` on `ℝⁿ` is `j ↦ f(x_j)`.
 
 **Constants.** Every estimate states how its constants depend on the data: on `λ`, on the speed,
 on the mesh ratio `μ`, on explicit bounds for the coefficients and finitely many of their
-derivatives, on `T`, on `n` and on the multi-index. An unqualified `∃ C` appears only in
+derivatives, on `T`, on `n`, on `N` and on the multi-index. An unqualified `∃ C` appears only in
 compactness arguments, never in a final estimate.
 
 ## Exact supplier contracts
@@ -122,8 +121,6 @@ compactness arguments, never in a final estimate.
   (`Mathlib/LinearAlgebra/Matrix/Symmetric.lean:33`).
 - `Matrix.PosSemidef`, `Matrix.PosDef` and `Matrix.posSemidef_iff_dotProduct_mulVec`
   (`Mathlib/LinearAlgebra/Matrix/PosDef.lean:311`): positivity in the dot-product form used here.
-- `Matrix.IsHermitian.spectral_theorem` (`Mathlib/Analysis/Matrix/Spectrum.lean:143`): a real
-  symmetric matrix is orthogonally diagonalizable.
 - `hasStrictFDerivAt_uncurry_coprod` (`Mathlib/Analysis/Calculus/FDeriv/Partial.lean:62`):
   continuous partial derivatives of a function of two variables give strict differentiability.
   This is the two-variable case of §1.1; Mathlib has no `n`-variable version.
@@ -156,19 +153,21 @@ compactness arguments, never in a final estimate.
   root of a positive semidefinite matrix, its uniqueness, and `(√A)⁻¹ = √(A⁻¹)`.
 - The `L²` operator norm on matrices, a Banach-algebra norm, under
   `open scoped Matrix.Norms.L2Operator` (`Mathlib/Analysis/CStarAlgebra/Matrix.lean:280`); it is
-  used only inside the proofs of §7.1.
-- The inverse function theorem `ContDiffAt.to_localInverse`
-  (`Mathlib/Analysis/Calculus/InverseFunctionTheorem/ContDiff.lean:66`); `contDiffAt_ringInverse`
-  (`Mathlib/Analysis/Calculus/ContDiff/Operations.lean:779`); the Faà di Bruno bound
-  `norm_iteratedFDeriv_comp_le` (`Mathlib/Analysis/Calculus/ContDiff/Bounds.lean:510`).
+  the norm in which Tau Ceti states the smoothness of the square root, and §7.1 transfers that
+  statement to the entrywise norm.
+- `contDiffAt_ringInverse` (`Mathlib/Analysis/Calculus/ContDiff/Operations.lean:779`) and the
+  Faà di Bruno bound `norm_iteratedFDeriv_comp_le`
+  (`Mathlib/Analysis/Calculus/ContDiff/Bounds.lean:510`).
+- `ContinuousLinearMap.hasFDerivAt_of_bilinear` (`Mathlib/Analysis/Calculus/FDeriv/Bilinear.lean:120`):
+  the product rule for a bounded bilinear map, applied to `dotProduct` and `mulVec` in §2.1.
 
 ### From Tau Ceti
 
-- `TauCeti.sqrtNearOne` and `TauCeti.analyticAt_sqrtNearOne`
-  (`TauCeti/Analysis/Normed/Algebra/SquareRoot.lean:80,88`): the smooth square root near the
-  identity of a Banach algebra by the inverse function theorem. Section 7.1 follows the same
-  route at every positive definite matrix and identifies the result with `CFC.sqrt`. No other
-  Tau Ceti material is consumed, and `Suggested.lean` imports only Mathlib.
+- `Matrix.contDiffOn_sqrt` and `Matrix.contDiffOn_rpow`
+  (`TauCeti/Analysis/Matrix/Exponential/Log.lean:106,98`): `CFC.sqrt` and `P ↦ P ^ s` are `C^k`
+  on the positive definite matrices for every `k`, in the norm of
+  `open scoped Matrix.Norms.L2Operator`. These are the only Tau Ceti declarations consumed; the
+  statements of `Suggested.lean` need only Mathlib.
 
 Nothing else in Mathlib or Tau Ceti treats hyperbolic systems, transport equations, difference
 schemes or grid functions on `ℤⁿ`; every such item below is a target.
@@ -214,7 +213,8 @@ Define the structure `LinearSystem n N` with fields `A0`, `A : Fin n → …` an
 `ℝ → EuclideanSpace ℝ (Fin n) → Matrix (Fin N) (Fin N) ℝ`; the entrywise derivatives `matDt` and
 `matDx` of the Conventions; the left-hand side
 `S.apply u t x = A⁰ ∂ₜu + Σⱼ Aʲ ∂ⱼu + B u` with the derivatives of the Conventions; the predicate
-`IsSymmetricHyperbolic S λ`; and the predicate `IsClassicalSolution S F T u`. The source `F` and
+`IsSymmetricHyperbolic S λ` (Friedrichs 1954; in the form used here, Métivier, Definition
+4.1.1); and the predicate `IsClassicalSolution S F T u`. The source `F` and
 the initial value are not fields of the system.
 
 - `S.apply` is additive and homogeneous in `u` among functions differentiable in the relevant
@@ -241,10 +241,18 @@ the initial value are not fields of the system.
   `∂ₜu + A¹∂ₓu = 0` has no symmetrizer: multiplying by a symmetric `A⁰` gives the coefficient
   `A⁰A¹`, and `A⁰A¹` symmetric forces the `(1,1)` entry of `A⁰` to vanish, so `A⁰` is not positive
   definite.
-- With `λ > 0` the predicate is satisfiable and not vacuous: `A⁰ = 1`, `Aʲ = 0`,
-  `B = 0` satisfies it, and `A⁰ = 0` does not.
+- The predicate is satisfiable and not vacuous: `A⁰ = 1`, `Aʲ = 0`, `B = 0` is symmetric
+  hyperbolic with constant `λ` exactly when `0 < λ ≤ 1` (test `ξ = e₁`, `N ≥ 1`); `A⁰ = 0` is not,
+  for any `λ > 0`.
 
 *Needs:* §1.1; Mathlib's `Matrix.mulVec`, `Matrix.dotProduct`, `Matrix.IsSymm`, `ContDiffOn`.
+
+### Examples
+
+The acceptance examples of this layer are transport `∂ₜu + a∂ₓu = 0` with least speed `|a|`; the
+one- and `n`-dimensional wave equation as a symmetric system with speed `1`; the Jordan block
+`[[0, 1], [0, 0]]`, which has no symmetrizer; and `f = x₁x₂/(x₁² + x₂²)` for the continuity
+hypothesis of §1.1.
 
 ### Dependencies
 
@@ -255,7 +263,8 @@ Mathlib only.
 ### 2.1 The energy identity
 
 For a classical solution of a symmetric hyperbolic system with `A⁰`, `Aʲ` of class `C¹` and `B`
-continuous, prove the pointwise identity on `(0,T) × ℝⁿ`
+continuous, prove the pointwise identity on `(0,T) × ℝⁿ` (Métivier, Lemma 4.2.1; John 1982,
+Ch. 5 §3 (a))
 
     ∂ₜ⟪A⁰u, u⟫ + Σⱼ ∂ⱼ⟪Aʲu, u⟫ = ⟪K u, u⟫ + 2⟪F, u⟫,
     K = ∂ₜA⁰ + Σⱼ ∂ⱼAʲ − B − Bᵀ,
@@ -271,7 +280,8 @@ with `⟪v, w⟫ = v ⬝ᵥ w`, where `∂ⱼAʲ = matDx Aʲ j` is the entrywise
   Jordan block `A¹` of §1.2 and `u = (1, x)`, `∂ₓ⟪A¹u, u⟫ = ∂ₓ(u₁u₂) = 1` while
   `2⟪A¹∂ₓu, u⟫ = 2 u₁ ∂ₓu₂ = 2`.
 
-*Needs:* §1.2; Mathlib's product rule for `inner`.
+*Needs:* §1.2; Mathlib's `ContinuousLinearMap.hasFDerivAt_of_bilinear` applied to `dotProduct`
+and `mulVec`.
 
 ### 2.2 Finite propagation speed
 
@@ -279,6 +289,8 @@ Let `c ≥ 0` be a speed (Conventions), `A⁰` and `Aʲ` be `C¹` and `B` contin
 classical solution on `[0,T]`. If `u₀ = u 0` vanishes on the open ball `B(x₀, R)` and `F`
 vanishes on the open cone `{(t,x) : 0 ≤ t ≤ T, ‖x − x₀‖ < R − c t}`, then `u` vanishes on that
 cone. No bound on the coefficients outside the cone and no integrability of `u` is assumed.
+(Compare Lax 2006, Theorem 4.6, p. 44, where the domain of influence is bounded by the
+characteristic conoid; the cone here uses the single speed `c`.)
 
 Proof route: for `ε > 0` put `ρ_ε(x) = √(ε² + ‖x − x₀‖²)`, which is smooth with
 `‖∇ρ_ε‖ < 1`, and `φ(t,x) = ψ(ρ_ε(x) + c t)` with `ψ(s) = Real.smoothTransition (R − s)`, so `φ`
@@ -316,24 +328,37 @@ because `F = 0` where `φ > 0`; and `⟪Ku, u⟫ ≤ (κ/λ)⟪A⁰u, u⟫` for 
   classical solutions on `[0,T]` with the same `F` and the same initial value agree on
   `[0,T] × ℝⁿ`. Their difference vanishes on every cone of §2.2 with the speed of §1.2, and every
   point lies in such a cone.
-- **Energy estimate.** If moreover `u` vanishes outside a bounded set of `[0,T] × ℝⁿ` and
-  `ξ ⬝ᵥ (K(t,x) *ᵥ ξ) ≤ κ (ξ ⬝ᵥ ξ)` for all `(t,x)` and `ξ`, with `κ ≥ 0`, then for `0 ≤ t ≤ T`
+- **Integrated energy identity.** If `A⁰` and `Aʲ` are `C¹`, `B` is continuous, `F` is continuous
+  on `[0,T] × ℝⁿ` and the classical solution `u` vanishes outside a bounded set of
+  `[0,T] × ℝⁿ`, then for `0 ≤ t ≤ T`
+
+      ∫ ⟪A⁰u, u⟫(t) − ∫ ⟪A⁰u, u⟫(0) = ∫₀ᵗ ∫ (⟪Ku, u⟫ + 2⟪F, u⟫) dx ds.
+
+  This is §2.1 integrated over `[0,t] × ℝⁿ`; the divergence terms `∂ⱼ⟪Aʲu, u⟫` integrate to `0`
+  because `u(s,·)` has compact support. No bound on the `Aʲ` is needed. In `Suggested.lean` this
+  is `integral_dotProduct_A0_sub_eq`, and the estimate below is `integral_dotProduct_A0_le`.
+- **Energy estimate** (Lax 2006, Theorem 4.3, p. 41; Métivier, Proposition 4.2.3). Under the
+  hypotheses of the integrated identity (again no bound on the `Aʲ`
+  is needed), if `ξ ⬝ᵥ (K(t,x) *ᵥ ξ) ≤ κ (ξ ⬝ᵥ ξ)` for all `(t,x)` and `ξ`, with `κ ≥ 0`, then for
+  `0 ≤ t ≤ T`
 
       ∫ ⟪A⁰u, u⟫(t) ≤ e^{(κ+1)t/λ} (∫ ⟪A⁰u, u⟫(0) + ∫₀ᵗ ∫ ‖F‖² dx ds).
 
-  This is the computation of §2.2 with `φ = 1`, legitimate because `u(t,·)` has compact support:
-  `E' ≤ κ‖u‖² + ‖F‖² + ‖u‖² ≤ ((κ + 1)/λ) E + ‖F(t)‖²_{L²}`. With an upper bound
+  From the integrated identity, `E' ≤ κ‖u‖² + ‖F‖² + ‖u‖² ≤ ((κ + 1)/λ) E + ‖F(t)‖²_{L²}`. With an upper bound
   `ξ ⬝ᵥ (A⁰ *ᵥ ξ) ≤ Λ (ξ ⬝ᵥ ξ)` it gives `‖u(t)‖²_{L²} ≤ e^{(κ+1)t/λ}((Λ/λ)‖u₀‖²_{L²} + λ⁻¹ ∫₀ᵗ ‖F(s)‖²_{L²} ds)`.
 - **Time reversal.** The reversed system has coefficients `A⁰(−t,x)`, `−Aʲ(−t,x)`, `−B(−t,x)`;
   it is symmetric hyperbolic with the same `λ` and the same speeds. If `uncurry u` is `C¹` on
   `[−T, 0] × ℝⁿ` and `u` satisfies `Lu = F` on `(−T, 0) × ℝⁿ`, then `t ↦ u(−t)` is a classical
-  solution on `[0,T]` of the reversed system with source `−F(−t,x)`. With the energy estimate this
-  gives backward uniqueness and energy conservation in both time directions.
+  solution on `[0,T]` of the reversed system with source `−F(−t,x)`. With uniqueness this gives
+  backward uniqueness, and with the integrated energy identity it gives conservation of the
+  energy backward in time when `K = 0` and `F = 0`.
 
 **Checks.**
 
-- Constant coefficients, `B = 0`, `F = 0`: `K = 0` and the energy `∫⟪A⁰u, u⟫` is conserved
-  (apply the estimate forward and, by time reversal, backward).
+- Constant coefficients, `B = 0`, `F = 0`, compactly supported `u`: `K = 0`, and the integrated
+  energy identity gives `∫⟪A⁰u, u⟫(t) = ∫⟪A⁰u, u⟫(0)`. The energy estimate alone does not: with
+  `λ = 1` and `κ = 0`, applied forward and backward it only gives
+  `e^{−t}E(0) ≤ E(t) ≤ e^{t}E(0)`.
 - Without symmetry no estimate `‖u(t)‖_{L²} ≤ C‖u₀‖_{L²}` holds: for the Jordan block of §1.2,
   `u₂ = g(x)`, `u₁ = f(x) − t g'(x)` solves `∂ₜu + A¹∂ₓu = 0`; with `g(x) = χ(x) sin(mx)`, `χ` a
   fixed bump, `‖u₀‖_{L²}` stays bounded as `m → ∞` while `‖u(t)‖_{L²} ≥ t ‖g'‖ − ‖f‖` grows like
@@ -346,6 +371,13 @@ because `F = 0` where `φ > 0`; and `⟪Ku, u⟫ ≤ (κ/λ)⟪A⁰u, u⟫` for 
   `∫` returns the junk value `0`.
 
 *Needs:* §2.2; §1.2 linearity.
+
+### Examples
+
+The acceptance examples of this layer are transport with `a = 1` and data on `(−2, −1)`, which
+shows that the speed `1` is sharp; the one-dimensional wave system, whose energy
+`∫(w_t² + w_x²)` is conserved; `B = −β • 1`, where the energy grows like `e^{2βt}`; and the
+Jordan block with data `χ(x) sin(mx)`, for which no `L²` estimate holds.
 
 ### Dependencies
 
@@ -373,8 +405,9 @@ supported grid functions prove:
   most `sup ‖iteratedFDeriv ℝ |α| f‖`.
 - Support: if `v` vanishes outside `{‖j‖_∞ ≤ J}` then `τᵢ^{±1} v` and every `D^±ᵢ v` vanish
   outside `{‖j‖_∞ ≤ J + 1}`.
-- Restriction of a compactly supported `f` with `f = 0` outside `‖x‖_∞ ≤ R` has
-  `‖f ∘ gridPoint h‖²_h ≤ (2R + 2)ⁿ sup‖f‖²` for `0 < h ≤ 1`, the count of lattice points in the
+- Restriction of a compactly supported `f : ℝⁿ → ℝᴺ` with `f = 0` outside `‖x‖_∞ ≤ R` has
+  `‖f ∘ gridPoint h‖²_h ≤ (2R + 2)ⁿ sup_x |f x|²` for `0 < h ≤ 1`, with `|·|` the Euclidean norm
+  (equivalently `N (2R + 2)ⁿ sup_x ‖f x‖²` in the max norm): the count of lattice points in the
   box times `hⁿ`.
 
 **Checks.**
@@ -435,8 +468,17 @@ Prove:
   constant `1/h = sup |D₊ v|`.
 - `n = 2`, `v(j) = j₁ j₂`: `interp h v x = x₁x₂/h²`; the interpolant reproduces functions affine
   in each variable separately.
+- `n = 2`, `v = δ₀`, `x = (h/2, h/2)`: `interp h v x = 1/4`; piecewise-linear interpolation on
+  the two triangles of the cell would give `1/2` or `0`.
 
 *Needs:* §3.1; Mathlib's `Int.floor`.
+
+### Examples
+
+The acceptance examples of this layer are summation by parts for `δ₀`; the Leibniz rule with
+`a(j) = j • 1` and `v = δ₁`; the discrete Sobolev inequality for `δ₀` in dimensions `1` and `2`
+and its failure without difference terms; the hat function and the bilinear function `x₁x₂/h²`
+as interpolants; and the value `1/4` at the centre of a cell.
 
 ### Dependencies
 
@@ -444,11 +486,14 @@ Mathlib only.
 
 ## Layer 4: Friedrichs' scheme
 
-Throughout this layer and Layers 5 and 6, `n ≥ 1` and `A⁰ = 1`.
+Throughout this layer and Layers 5 and 6, `n ≥ 1` and `A⁰ = 1`. The existence proof of Layers
+4–6 is the method of finite differences of John 1982, Ch. 5 §3 (b).
 
 ### 4.1 The scheme
 
-Define one step of Friedrichs' scheme at time `t` with mesh `h` and step `k`,
+Define one step of Friedrichs' scheme at time `t` with mesh `h` and step `k` (Rauch 2005,
+Definition 6 and (7), p. 5; for `n = 1` the Lax–Friedrichs scheme, Lax 2006, (8.9)–(8.10), p. 84,
+and in several variables (8.69), p. 104),
 
     (Q v)(j) = Σᵢ [ (2n)⁻¹ (v(j+eᵢ) + v(j−eᵢ)) − (k/2h) Aⁱ(t, x_j)(v(j+eᵢ) − v(j−eᵢ)) ]
                + k (F(t, x_j) − B(t, x_j) v(j)),
@@ -468,16 +513,20 @@ and the iterates `u⁰ = u₀ ∘ gridPoint h`, `u^{m+1} = Q_{t_m} u^m` with `t_
   `u^{m+1}_j = ½(1 − μa) u^m_{j+1} + ½(1 + μa) u^m_{j−1}`.
 - At `μ a = 1` this is `u^{m+1}_j = u^m_{j−1}`, which with `k = h/a` reproduces the exact solution
   `u₀(x − a t)` at grid points.
+- `n = N = 1`, `A¹ = 0`, `B = 0`, `F = 0`, `v = δ₀`: `Q v = ½(δ₁ + δ₋₁)` and `‖Q v‖²_h = h/2`;
+  without the averaging term the step would return `δ₀`.
 
 *Needs:* §3.1.
 
 ### 4.2 Positive weights and the one-step energy inequality
 
-- **Positive-weights lemma.** For positive semidefinite `W₁, …, W_r ∈ ℝ^{N×N}` with `Σᵢ Wᵢ = 1`
+- **Positive-weights lemma** (Friedrichs' stability theorem, Lax 2006, Theorem 8.1, p. 85). For
+  positive semidefinite `W₁, …, W_r ∈ ℝ^{N×N}` with `Σᵢ Wᵢ = 1`
   and any `v₁, …, v_r ∈ ℝᴺ`, `|Σᵢ Wᵢvᵢ|² ≤ Σᵢ ⟪Wᵢvᵢ, vᵢ⟫`. Proof: for any `w`,
   `⟪w, Σ Wᵢvᵢ⟫ = Σ⟪Wᵢw, vᵢ⟫ ≤ Σ⟪Wᵢw, w⟫^{1/2}⟪Wᵢvᵢ, vᵢ⟫^{1/2} ≤ |w|(Σ⟪Wᵢvᵢ, vᵢ⟫)^{1/2}`, using
   Cauchy–Schwarz for the positive semidefinite form `⟪Wᵢ·, ·⟫` and then for the sum.
-- **CFL condition.** `n μ |⟪Aⁱ(t,x)ξ, ξ⟫| ≤ |ξ|²` for all `i, t, x, ξ`; for symmetric `Aⁱ` this is
+- **CFL condition** (Courant–Friedrichs–Lewy 1928, Part II §2, pp. 61–62; Lax 2006, (8.11),
+  p. 84). `n μ |⟪Aⁱ(t,x)ξ, ξ⟫| ≤ |ξ|²` for all `i, t, x, ξ`; for symmetric `Aⁱ` this is
   `n μ ‖Aⁱ(t,x)‖ ≤ 1` with the spectral norm. It makes the weights `(2n)⁻¹ ± (μ/2) Aⁱ(t, x_j)`
   positive semidefinite, and they sum to `1`.
 - **One-step inequality.** Assume the CFL condition at time `t`, the Lipschitz bound
@@ -517,6 +566,13 @@ the right side is bounded uniformly in `h` for `m k ≤ T`, by §3.1.
   `‖u^m‖_h ≤ ‖u⁰‖_h + k Σ ‖F^l‖_h`.
 
 *Needs:* §4.2; Mathlib's `discrete_gronwall`.
+
+### Examples
+
+The acceptance examples of this layer are the Lax–Friedrichs scheme for transport, exact at
+`μa = 1` and unstable for `μ|a| > 1` (amplification factor of modulus `μ|a|` at `θ = π/2`); the
+averaging of `δ₀` to `½(δ₁ + δ₋₁)`; and the scalar weights `2, −1`, for which the positive-weights
+lemma fails.
 
 ### Dependencies
 
@@ -582,6 +638,12 @@ Consequences, with §3.2 and `r = n + 3`, uniformly for `0 < h ≤ 1` and `m k �
 
 *Needs:* §5.1, §4.2, §3.2; Mathlib's `discrete_gronwall`.
 
+### Examples
+
+The acceptance examples of this layer are constant coefficients with `B = 0` and `F = 0`, where
+`D₊^α` commutes with the scheme and the bounds have constant `1`, and `∂ₜu − x∂ₓu = 0`, where `∂ₓu` grows like `eᵗ` and the
+constants must depend on the derivatives of the coefficients.
+
 ### Dependencies
 
 Layer 4.
@@ -624,9 +686,10 @@ Identify the limit and prove that it is a classical solution on `[0,T]` with `u 
   `u(t,x) = u₀(x) + ∫₀ᵗ G(s,x) ds` with `G = −Σᵢ Aⁱ wᵢ − B u + F`, first at limits of grid
   points and then everywhere by continuity.
 - **Regularity.** Extend `u` to `t < 0` by `u(t,x) = u₀(x) + t G(0,x)`, where
-  `G(0,·) = −Σᵢ Aⁱ(0,·) ∂ᵢu₀ − B(0,·) u₀ + F(0,·)` is `C¹` because `u₀` is smooth. The extension
-  has continuous partial derivatives `∂ₜ = G` and `∂ᵢ = wᵢ` on the open slab
-  `(−∞, T + 1) × ℝⁿ`, so it is `C¹` there by §1.1, and `u` is `C¹` on `Icc 0 T ×ˢ univ`. The
+  `G(0,·) = −Σᵢ Aⁱ(0,·) ∂ᵢu₀ − B(0,·) u₀ + F(0,·)` is `C¹` because `u₀` is smooth. For `t < 0` put
+  `G(t,·) = G(0,·)` and `wᵢ(t,·) = ∂ᵢu₀ + t ∂ᵢG(0,·)`. Both are continuous across `t = 0` because
+  `wᵢ(0,·) = ∂ᵢu₀`, and the extension has partial derivatives `∂ₜ = G` and `∂ᵢ = wᵢ` on the open
+  slab `(−∞, T + 1) × ℝⁿ`, so it is `C¹` there by §1.1, and `u` is `C¹` on `Icc 0 T ×ˢ univ`. The
   equation holds on `(0, T)` because `∂ₜu = G`. Support: `u(t,·)` vanishes outside
   `‖x‖_∞ ≤ R₁`.
 
@@ -643,12 +706,19 @@ The headline is `exists_isClassicalSolution_of_A0_eq_one` in `Suggested.lean`.
 
 ### 6.3 Convergence of the scheme
 
-By uniqueness (§2.3) every subsequential limit in §6.1 is the solution of §6.2, so
+By uniqueness (§2.3) every subsequential limit in §6.1 is the solution of §6.2 (compare Lax
+2006, Theorem 8.3, p. 87: a consistent and stable scheme converges), so
 `U_h → u` uniformly on `[0,T] × ℝⁿ` as `h → 0` (Mathlib's `tendsto_of_subseq_tendsto`). At grid
 points: for every `ε > 0`, for all sufficiently small `h > 0`, all `m` with `m μ h ≤ T` and all
 `j`, `‖u^m(j) − u(m μ h, x_j)‖ ≤ ε`. No rate is claimed.
 
 *Needs:* §6.1, §6.2, §2.3.
+
+### Examples
+
+The acceptance example of this layer is transport with `a = 1` and `μ = 1`, where the scheme is
+exact at grid points and the limit is `u₀(x − t)`; its numerical support bound `R + (T + 1)/μ`
+dominates the true support `R + |a|(T + 1)`.
 
 ### Dependencies
 
@@ -656,42 +726,36 @@ Layers 2, 3 and 5; §1.1.
 
 ## Layer 7: general `A⁰`
 
-### 7.1 The smooth square root
+### 7.1 Derivative bounds for the square root
 
-Work with the Banach-algebra norm of `open scoped Matrix.Norms.L2Operator` inside the proofs.
-For a positive definite `T₀ ∈ ℝ^{N×N}` with `⟪T₀ξ, ξ⟫ ≥ c|ξ|²`, `c > 0`, let `S₀ = CFC.sqrt T₀`.
-Prove that squaring `S ↦ S * S` has invertible derivative `H ↦ S₀H + HS₀` at `S₀`: by
-`Matrix.IsHermitian.spectral_theorem`, `S₀ = Q D Qᵀ` with `Q` orthogonal and `D` diagonal with
-entries `dₐ ≥ √c`, and conjugating by `Q` turns the derivative into `H ↦ (dₐ + d_b) H_{ab}`
-entrywise, which is invertible since `dₐ + d_b ≥ 2√c > 0`. The inverse function theorem
-(`ContDiffAt.to_localInverse`, as in Tau Ceti's `sqrtNearOne`) gives a smooth local inverse `σ`
-on a neighbourhood of `T₀`. Identify `σ` with `CFC.sqrt` on positive definite matrices near
-`T₀`: for symmetric `T` near `T₀`, `σ(T)ᵀ` is another square root of `T` near `S₀ᵀ = S₀`, hence
-equals `σ(T)`; `σ(T)` is symmetric and within `√c/2` of `S₀` in the spectral norm, hence positive
-definite; and `CFC.sqrt_unique` applies.
+The square root and `P ↦ P ^ (−1/2 : ℝ)` are `C^k` on the positive definite matrices for every
+`k` (Tau Ceti `Matrix.contDiffOn_sqrt`, `Matrix.contDiffOn_rpow`). Transferred from the norm of
+`open scoped Matrix.Norms.L2Operator` to the entrywise norm (all norms on matrices are
+equivalent), this makes the entries of `x ↦ CFC.sqrt (A x)` and `x ↦ (CFC.sqrt (A x))⁻¹` of class
+`C^k` whenever the entries of `A : X → Matrix (Fin N) (Fin N) ℝ` are `C^k` and every `A x` is
+positive definite; `Matrix.PosSemidef.inv_sqrt` identifies `(CFC.sqrt A)⁻¹` with `A ^ (−1/2 : ℝ)`.
 
-Headline: let `A : X → Matrix (Fin N) (Fin N) ℝ` (`X` a real normed space) have `C^k` entries,
-with `A x` symmetric and `⟪A x ξ, ξ⟫ ≥ c|ξ|²` for all `x`, `ξ` and some `c > 0`. Then the entries
-of `x ↦ CFC.sqrt (A x)` and of `x ↦ (CFC.sqrt (A x))⁻¹` are `C^k`. If moreover
-`⟪A x ξ, ξ⟫ ≤ Λ|ξ|²` and every derivative of the entries of `A` of order `≤ m` is bounded, then so
-are those of the two compositions: the set of symmetric `T` with `c|ξ|² ≤ ⟪Tξ, ξ⟫ ≤ Λ|ξ|²` is
-compact, finitely many local branches with bounded derivatives cover it, and
-`norm_iteratedFDeriv_comp_le` bounds the composites. The inverse is smooth by
-`contDiffAt_ringInverse`, and `Matrix.PosSemidef.inv_sqrt` identifies it with `CFC.sqrt (A x)⁻¹`.
+The target of this section is the uniform version, `exists_bound_iteratedFDeriv_sqrt_comp` in
+`Suggested.lean`: let `A x` be symmetric with `c|ξ|² ≤ ⟪A x ξ, ξ⟫ ≤ Λ|ξ|²` for all `x`, `ξ`, where
+`0 < c ≤ Λ`, and let every derivative of the entries of `A` of order `≤ m` be bounded by `C`.
+Then every derivative of order `≤ m` of the entries of `x ↦ CFC.sqrt (A x)` and of
+`x ↦ (CFC.sqrt (A x))⁻¹` is bounded, by a constant depending on `m`, `N`, `c`, `Λ` and `C`.
+Proof: the set `K` of symmetric `T` with `c|ξ|² ≤ ⟪Tξ, ξ⟫ ≤ Λ|ξ|²` is compact and consists of
+positive definite matrices, so the iterated derivatives of `CFC.sqrt` and of `P ↦ P ^ (−1/2 : ℝ)`
+of order `≤ m` are bounded on `K`; then `norm_iteratedFDeriv_comp_le` bounds the composites.
 
 **Checks.**
 
 - `T = [[2, 1], [1, 2]]` (eigenvalues `3`, `1`): `CFC.sqrt T = ½[[√3 + 1, √3 − 1], [√3 − 1, √3 + 1]]`.
-- At `T₀ = 1` the derivative of the square root is `H ↦ H/2`.
-- Diagonal case: for `A(x) = diag(a₁(x), …, a_N(x))` with `aₐ ≥ c > 0`,
-  `CFC.sqrt (A x) = diag(√a₁(x), …, √a_N(x))`, smooth when the `aₐ` are.
-- Positive definiteness is needed: for `N = 1` and `A(t) = t²`, `CFC.sqrt (A t) = |t|` is not
-  differentiable at `0`.
+- `N = 1`, `A(x) = 2 + sin x`, `c = 1`, `Λ = 3`: `(A x)^{−1/2} = (2 + sin x)^{−1/2}` has derivative
+  `−½ cos x (2 + sin x)^{−3/2}`, bounded by `½`.
+- The bound depends on `c`: `N = 1`, `A(x) = sin²x + ε` has `c = ε`, `Λ = 1 + ε` and all derivatives
+  bounded independently of `ε`, but the second derivative of `√(A x)` at `x = 0` is `ε^{−1/2}`.
+  For `ε = 0`, `√(A x) = |sin x|` is not differentiable at `0`.
 
-*Needs:* Mathlib's matrix `CFC.sqrt` under `MatrixOrder`, `CFC.sqrt_unique`,
-`Matrix.IsHermitian.spectral_theorem`, `ContDiffAt.to_localInverse`, `contDiffAt_ringInverse`,
-`norm_iteratedFDeriv_comp_le`, `Matrix.PosSemidef.inv_sqrt`; Tau Ceti's `sqrtNearOne` as the
-model proof.
+*Needs:* Tau Ceti's `Matrix.contDiffOn_sqrt` and `Matrix.contDiffOn_rpow`; Mathlib's
+`Matrix.PosSemidef.inv_sqrt`, `norm_iteratedFDeriv_comp_le`, the norm of
+`Matrix.Norms.L2Operator`.
 
 ### 7.2 Normalization
 
@@ -711,6 +775,9 @@ of unknown of §1.2 with `u = P v`, followed by multiplication by `P`, using `P 
 
 - `n = 1`, `A⁰ = diag(1, 4)`, `A¹ = 1`, `B = 0`: `P = diag(1, ½)`, `A¹' = diag(1, ¼)`, `B' = 0`;
   the components travel at speeds `1` and `¼`, and the least speed of both systems is `1`.
+- `n = N = 1`, `A⁰ = e^{2t}`, `A¹ = 0`, `B = 0`: `P = e^{−t}`, `B' = P A⁰ ∂ₜP = −1`, and `v = eᵗu`
+  solves `∂ₜv − v = e^{−t}F`. The wrong model `B' = P B P` gives `0`.
+- `A⁰ = λ • 1` constant: `Aʲ' = Aʲ/λ` and `B' = B/λ`.
 
 *Needs:* §7.1, §1.2.
 
@@ -729,20 +796,39 @@ centred at `x` with radius `‖x‖ − R`. Proof: §6.2 for `S.normalize` and �
 
 *Needs:* §7.2, §6.2, §2.2, §2.3.
 
+### Examples
+
+The acceptance examples of this layer are `A⁰ = diag(1, 4)`, `A¹ = 1`, with speeds `1` and `¼`
+and supports `[t − 1, t + 1]` and `[t/4 − 1, t/4 + 1]`; `A⁰ = e^{2t}` in one dimension, where
+`B' = −1`; constant `A⁰ = λ • 1`; and the square root of `[[2, 1], [1, 2]]`.
+
 ### Dependencies
 
-Layers 2 and 6; Mathlib's functional calculus for Hermitian matrices.
+Layers 2 and 6; Mathlib's functional calculus for Hermitian matrices; Tau Ceti's
+`Matrix.contDiffOn_sqrt` and `Matrix.contDiffOn_rpow`.
+
+## Downstream consumers
+
+No roadmap in this repository consumes this one yet. The quasilinear Cauchy problem for
+symmetric hyperbolic systems, which is outside this roadmap, would consume the energy identity
+and its integrated form (§2.1, §2.3), finite propagation speed (§2.2) and the linear existence
+theorem (§7.3).
 
 ## References
 
 - K. O. Friedrichs, *Symmetric hyperbolic linear differential equations*, Comm. Pure Appl. Math.
-  7 (1954), 345–392.
+  7 (1954), 345–392. Cited at §1.2.
 - F. John, *Partial Differential Equations*, 4th ed., Applied Mathematical Sciences 1, Springer,
   1982: Ch. 5, §3 (a) (the basic energy inequality) and (b) (existence of solutions by the
-  method of finite differences).
+  method of finite differences). Cited in the summary, §2.1 and Layer 4.
 - R. Courant, K. Friedrichs, H. Lewy, *Über die partiellen Differenzengleichungen der
-  mathematischen Physik*, Math. Ann. 100 (1928), 32–74.
-- P. D. Lax, *Weak solutions of nonlinear hyperbolic equations and their numerical computation*,
-  Comm. Pure Appl. Math. 7 (1954), 159–193.
-- J. Rauch, *Hyperbolic Partial Differential Equations and Geometric Optics*, Graduate Studies in
-  Mathematics 133, American Mathematical Society, 2012.
+  mathematischen Physik*, Math. Ann. 100 (1928), 32–74. Cited at §4.2.
+- P. D. Lax, *Hyperbolic Partial Differential Equations*, Courant Lecture Notes in Mathematics
+  14, Courant Institute and American Mathematical Society, 2006: Theorem 4.3 and Theorem 4.6
+  (§4.3), Chapter 8 (finite difference approximation). Cited at §2.2, §2.3, §4.1, §4.2 and §6.3.
+- J. Rauch, *Finite speed for symmetrizable hyperbolic systems*, preprint, University of
+  Michigan, 2005, https://dept.math.lsa.umich.edu/~rauch/speed3.pdf: §2, Friedrichs' scheme in
+  several space variables. Cited at §4.1.
+- G. Métivier, lecture notes, Chapter 4, *Symmetric systems. The L² linear theory*,
+  https://www.math.u-bordeaux.fr/~gmetivie/NotesPisaChap4.pdf: Definition 4.1.1, Lemma 4.2.1,
+  Proposition 4.2.3. Cited at §1.2, §2.1 and §2.3.
