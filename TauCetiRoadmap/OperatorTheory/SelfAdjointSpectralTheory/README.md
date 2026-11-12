@@ -34,7 +34,8 @@ This roadmap owns, and states in its layers:
   norm-convergent eigen-expansion with its tail estimate (Layer 2);
 - the resolvent characterisation of the spectral measure of a self-adjoint partial operator and
   its uniqueness; spectral projections commuting with resolvents, spectral subspaces as reducing
-  subspaces with self-adjoint restrictions, spectral support and gap resolvents; the spectral
+  subspaces with self-adjoint restrictions, the vanishing of the spectral measure on real
+  resolvent points and gap resolvents; the spectral
   criterion for lower and upper form bounds, in the unbounded, bounded and invariant-subspace
   forms; spectral truncations, cut operators, the spectral-gap inverse, grid decompositions and
   the reassembly of block bounds; the comparison with bounded and multiplication operators
@@ -90,6 +91,13 @@ Left to named owners and consumed by section:
   on Banach spaces, consumed by §2.1.
 - [OneParameterSemigroups](../../../Completed/OneParameterSemigroups/README.md) owns C₀
   semigroups and groups in general; Layer 4 consumes their implementation at the Tau Ceti pin.
+
+Owned by roadmaps that build on this one, and not used here:
+
+- [UnboundedOperators](../UnboundedOperators/README.md) §1.6 owns the identification of the
+  support of the spectral measure with the spectrum, of which §3.2 proves the half that a set of
+  real resolvent points is null; §1.7 owns the self-adjointness of the maximal multiplication
+  operator by a real symbol, and its §3.5 the spectra of multiplication and diagonal operators.
 - [SpectralSubspacePerturbation](../SpectralSubspacePerturbation/README.md) owns the solvability
   and a-priori estimates of Sylvester equations, Rosenblum's theorem and the Davis–Kahan
   theorems.
@@ -100,7 +108,9 @@ The roadmaps that cite this one by its former SA ids follow the table in
 ## Conventions
 
 - `H`, `H′`, `H_i` are complete complex inner product spaces, in arbitrary universes. The inner
-  product `⟪ξ, η⟫` is conjugate-linear in `ξ` and linear in `η`, as in Mathlib.
+  product `⟪ξ, η⟫` is conjugate-linear in `ξ` and linear in `η`, as in Mathlib. Teschl2009
+  assumes every Hilbert space separable (p. 42, line 1780); the results cited from it are used
+  here for arbitrary `H`, and none of the cited proofs uses separability.
 - A partial operator is `A : H →ₗ.[ℂ] H` with domain `A.domain`. Self-adjointness is Mathlib's
   `IsSelfAdjoint A`: `A` equals its adjoint, domains included. A bounded `T` enters the
   partial-operator theory as the total partial operator `(T : H →ₗ[ℂ] H).toPMap ⊤`.
@@ -139,7 +149,9 @@ The roadmaps that cite this one by its former SA ids follow the table in
   equal), `MeasureTheory.Measure.InnerRegular.map_of_continuous`,
   `MeasureTheory.Measure.Regular.of_sigmaCompactSpace_of_isLocallyFiniteMeasure` (locally finite
   measures on σ-compact pseudometrizable spaces are regular), `RealRMK.rieszMeasure`.
-- `lp`, `lp.single`, `IsHilbertSum`, `NormedSpace.inclusionInDoubleDual`, `NormedSpace.exp`.
+- `lp`, `lp.single`, `IsHilbertSum`, `NormedSpace.inclusionInDoubleDual`, `NormedSpace.exp`,
+  `NormedSpace.map_exp` (a continuous ring homomorphism commutes with the exponential),
+  `NormedSpace.exp_add_of_commute`.
 
 **From Tau Ceti.**
 
@@ -167,6 +179,7 @@ The roadmaps that cite this one by its former SA ids follow the table in
   `TauCeti.ProjValMeasure.integral_diag_eq_inner_integral`,
   `TauCeti.ProjValMeasure.integral_polarizedComplexMeasure_eq_inner_integral`,
   `TauCeti.ProjValMeasure.integral_indicator`, `TauCeti.ProjValMeasure.norm_sq_integral_apply`,
+  `TauCeti.ProjValMeasure.continuous_integral`,
   `TauCeti.ProjValMeasure.tendsto_integral_apply_filter_of_dominated_convergence`; the
   representation measures `StarAlgHom.representationDiagMeasure` and
   `StarAlgHom.representationBorelOperator`
@@ -179,7 +192,10 @@ The roadmaps that cite this one by its former SA ids follow the table in
 - Scalar measures and approximation: `TauCeti/MeasureTheory/VectorMeasure/ScalarIntegral.lean`,
   `WithDensity.lean`, `Uniqueness.lean`, `TauCeti/MeasureTheory/Measure/Regular.lean`,
   `TauCeti/MeasureTheory/Function/ContinuousApproximation.lean`
-  (`MeasureTheory.exists_continuous_norm_le_forall_integral_norm_sub_le`), and Goldstine's
+  (`MeasureTheory.exists_continuous_norm_le_forall_integral_norm_sub_le`), uniqueness of a finite
+  measure on `ℝ` with a given resolvent transform on the upper half-plane,
+  `MeasureTheory.Measure.ext_of_resolventTransform`
+  (`TauCeti/MeasureTheory/Measure/ResolventTransform/Inversion.lean`), and Goldstine's
   theorem `NormedSpace.closure_image_inclusionInDoubleDualWeak_closedBall`
   (`TauCeti/Analysis/Normed/Module/Dual/Goldstine.lean`).
 - Partial operators: `LinearPMap.resolvent`, `LinearPMap.spectrum`, `LinearPMap.resolvent_comm`
@@ -501,7 +517,8 @@ Teschl2009, Theorem 3.21, p. 108, line 4497), so two such measures have the same
 measures and are equal by extensionality.
 
 *Needs:* V10.ClosedOperators; Tau Ceti `LinearPMap.resolvent`,
-`IsSelfAdjoint.norm_resolvent_le`, `TauCeti.ProjValMeasure.ext_of_diag`,
+`IsSelfAdjoint.norm_resolvent_le`, `MeasureTheory.Measure.ext_of_resolventTransform`,
+`TauCeti.ProjValMeasure.ext_of_diag`,
 `TauCeti.ProjValMeasure.polarizedComplexMeasure`,
 `TauCeti.ProjValMeasure.integral_polarizedComplexMeasure_eq_inner_integral`.
 
@@ -526,10 +543,8 @@ Let `P = P_A`. Prove:
   and `A P(B) x = P(B) A x` there; both follow from `R(z) = r_z(P)` and commutativity of the integral.
 - The range of `P(B)` reduces `A` in the sense of `LinearPMap.IsReducing`, and the restriction of
   `A` to it is self-adjoint.
-- The spectrum is the support of `P`: every nonreal number is a resolvent point, and a real `λ`
-  lies in `LinearPMap.spectrum A` exactly when `P((λ − ε, λ + ε)) ≠ 0` for every `ε > 0`
-  (Teschl2009, Theorem 3.8, p. 97, line 4015); in particular a Borel set of real resolvent points
-  has `P(B) = 0`.
+- A Borel set `B ⊆ ℝ` of resolvent points of `A`, that is, with `(s : ℂ) ∉ LinearPMap.spectrum A`
+  for every `s ∈ B`, has `P(B) = 0` (Teschl2009, Corollary 3.9, p. 97, line 4031).
 - If `B ∩ (λ − δ, λ + δ) = ∅` for real `λ` and `δ > 0`, then `λ` is a resolvent point of the
   restriction of `A` to the range of `P(B)`, with resolvent norm at most `δ⁻¹`.
 - For bounded `B`, the range of `P(B)` lies in the domain of `A` and `‖A x‖ ≤ sup_{s ∈ B} |s| · ‖x‖`
@@ -542,15 +557,18 @@ Let `P = P_A`. Prove:
 
 - For `A = diag(0, 1)`, `P((−∞, 1/2)) = e₁₁`; the restriction to `ℂ e₁` is `0`, and with `λ = 1`,
   `δ = 1/2` its resolvent at `1` is `1 ≤ δ⁻¹ = 2`.
-- For multiplication by `t` on `L²(ℝ)`, `P({t₀}) = 0` for every `t₀` although `σ(A) = ℝ`: the support
-  is not the set of atoms.
+- For multiplication by `t` on `L²(ℝ)`, `P({t₀}) = 0` for every `t₀` although every `t₀` lies in
+  `σ(A) = ℝ`: a null set need not consist of resolvent points, so the statement has no converse
+  for arbitrary Borel sets.
 - For `A = 0` on `H ≠ 0`, `P = δ₀ · 1`, `σ(A) = {0}` and `P(ℝ \ {0}) = 0`.
 
 ### 3.3 Semiboundedness from spectral support
 
 Prove `forall_le_re_inner_iff_proj_Iio_eq_zero`: for self-adjoint `A` with spectral measure `P` and
 real `c`, `c ‖x‖² ≤ Re ⟪x, A x⟫` for every `x` in the domain exactly when `P((−∞, c)) = 0`
-(Teschl2009, Theorem 3.8, p. 97, line 4015, with the quadratic form `⟪x, A x⟫ = ∫ s dμ_x(s)`). Prove
+(Teschl2009, Theorem 2.18, p. 77, line 3170, which gives `A ≥ c` exactly when `σ(A) ⊆ [c, ∞)`,
+with the remark after Theorem 3.8, p. 97, line 4030; the route here uses the quadratic form
+`⟪x, A x⟫ = ∫ s dμ_x(s)`). Prove
 the upper form, `Re ⟪x, A x⟫ ≤ c ‖x‖²` on the domain exactly when `P((c, ∞)) = 0`, and the two-sided
 form: if `B ⊆ [β, α]`, then `β ‖x‖² ≤ Re ⟪x, A x⟫ ≤ α ‖x‖²` on the range of `P(B)`. For bounded
 self-adjoint `T` with the spectral measure of §3.5, the lower bound `c` is equivalent to
@@ -576,7 +594,9 @@ operator the lower bound `0` on the whole space is positivity in the sense of Ma
 
 ### 3.4 Spectral truncation, cut operators and the spectral-gap inverse
 
-Prove that `P([−n, n]) → 1` strongly as `n → ∞` and that its range lies in the domain of `A`.
+Prove that `P([−n, n]) → 1` strongly as `n → ∞` (Teschl2009, Theorem 3.1, p. 90, line 3687: integrals
+of uniformly bounded, pointwise convergent symbols converge strongly) and that its range lies in
+the domain of `A`.
 
 Define the spectral cut operator: for Borel `B ⊆ ℝ`, `c ∈ ℝ` and `r ≥ 0` with `|s − c| ≤ r` on `B`, let
 `C_{B,c}` be the integral of the bounded symbol `s ↦ (s − c) 1_B(s)`.
@@ -585,13 +605,15 @@ Define the spectral cut operator: for Borel `B ⊆ ℝ`, `c ∈ ℝ` and `r ≥ 
   `C_{B,c} y = A y − c y` for `y` in that range.
 - `C_{B,c}` commutes with every `P(B′)` and every `R(z)`.
 
-Define the spectral-gap inverse: for `δ > 0`, `G_δ` is the integral of `s ↦ 1_{|s| ≥ δ}(s) s⁻¹`.
+Define the spectral-gap inverse: for `δ > 0`, `G_δ` is the integral of `s ↦ 1_{|s| ≥ δ}(s) s⁻¹`, the
+operator of Teschl2009, proof of Theorem 3.8, p. 97, lines 4025–4029, at `λ₀ = 0`, `ε = δ`.
 
 - `‖G_δ‖ ≤ δ⁻¹`, `G_δ ξ` lies in the domain of `A` and `A G_δ ξ = P({|s| ≥ δ}) ξ`.
 - If `μ_ξ((−δ, δ)) = 0`, then `A G_δ ξ = ξ` and `‖G_δ ξ‖ ≤ δ⁻¹ ‖ξ‖`.
 
 Prove the grid decomposition: for `ε > 0` the cells `I_k = [k ε, (k+1) ε)`, `k ∈ ℤ`, partition `ℝ`, and
-`Σ_k ‖P(I_k) v‖² = ‖v‖²` for every `v`. Prove the reassembly lemma: if bounded operators `(Q_i)_{i ∈ I}` on
+`Σ_k ‖P(I_k) v‖² = ‖v‖²` for every `v`, by strong σ-additivity (Teschl2009, p. 88, line 3587). Prove
+the reassembly lemma: if bounded operators `(Q_i)_{i ∈ I}` on
 a complex inner product space satisfy `Σ_i ‖Q_i f‖² = ‖f‖²` for every `f`, and
 `c ‖Q_i x‖ ≤ ‖Q_i y‖` for every `i` with `c ∈ [0, ∞]`, then `c ‖x‖ ≤ ‖y‖` (in extended norms).
 
@@ -618,11 +640,13 @@ partial operator is the pushforward of the spectral measure `P_T` of V2.BorelCal
 `σ(T) ⊆ ℂ` along the real part, `B ↦ P_T({λ ∈ σ(T) : Re λ ∈ B})`, because the resolvent is the continuous calculus of `(z − s)⁻¹` and §3.1's uniqueness
 applies; in particular `⟪ξ, T ξ⟫ = ∫ s dμ_ξ(s)` and `T` is the integral of the bounded coordinate. Prove
 the multiplication-operator form: for a σ-finite measure `ν` on `X` and real measurable `h`, the
-multiplication by `h` on `L²(ν)` with domain `{g : h g ∈ L²(ν)}` is self-adjoint, its spectral measure
-is `P(B) = ` multiplication by `1_{h⁻¹(B)}`, and its spectrum is the essential range of `h`; for finite
-`ν` the essential range is the support of `ν.map h`. For bounded complex `h`, the spectral measure of
-the normal operator `M_h` on `σ(M_h)` sends `B` to multiplication by `1_{h⁻¹(B)}` and `g(M_h) = M_{g ∘ h}`
-for bounded Borel `g`.
+multiplication `M_h` by `h` on `L²(ν)` with domain `{g : h g ∈ L²(ν)}` has resolvent
+`R(z) = M_{(z − h)⁻¹}` at every nonreal `z` (Teschl2009, (2.21), p. 59, line 2424, and (2.72), p. 74,
+line 3056, for a measure on `ℝⁿ`), so the projection-valued measure `B ↦ M_{1_{h⁻¹(B)}}`
+(Teschl2009, (3.7), p. 88, line 3605, on `L²(ℝ)`) satisfies `IsSpectralMeasure` for `M_h`, since its
+diagonal measure at `g` is the image under `h` of `|g|² ν`. For bounded complex `h`, the spectral
+measure of the normal operator `M_h` on `σ(M_h)` sends `B` to multiplication by `1_{h⁻¹(B)}` and
+`g(M_h) = M_{g ∘ h}` for bounded Borel `g`.
 
 *Needs:* §1.1, §3.1; V2.BorelCalculus; Mathlib `MeasureTheory.Lp`.
 
@@ -630,9 +654,10 @@ for bounded Borel `g`.
 
 - For `T = diag(0, 1)` as a total operator, the spectral measure is `δ₀ e₁₁ + δ₁ e₂₂`, the restriction
   of the bounded spectral measure.
-- For multiplication by `t` on `L²[0, 1]`, `P(B)` is multiplication by `1_{B ∩ [0,1]}` and `σ = [0, 1]`,
-  the support of Lebesgue measure on `[0, 1]`.
-- For `ν = 0`, `L²(ν) = 0`, and the spectrum is empty, the support of the zero measure.
+- For multiplication by `t` on `L²[0, 1]`, `P(B)` is multiplication by `1_{B ∩ [0,1]}`. With `g = 1`
+  and `z = i`, both sides of the resolvent formula equal `∫₀¹ (i − t)⁻¹ dt = −(log 2)/2 − iπ/4`; the
+  field `B ↦ M_{1_{(−h)⁻¹(B)}}` gives `∫₀¹ (i + t)⁻¹ dt = (log 2)/2 − iπ/4` and fails it.
+- For `ν = 0`, `L²(ν) = 0`, and the field is the zero projection-valued measure.
 - For `h = 1_[0,1/2]` on `L²[0, 1]`, `σ(M_h) = {0, 1}` and `P({1})` is multiplication by `1_[0,1/2]`.
 
 ### Examples
@@ -687,9 +712,10 @@ For self-adjoint `A` and `n ≥ 1`:
 
 - `A_n^+` and `A_n^-` are bounded; for `x` in the domain, `A_n^+ x = i n R(i n) A x` and
   `A_n^- x = −i n R(−i n) A x`, and both converge to `A x`.
-- `‖n R(± i n)‖ ≤ 1`.
-- `S_n` is self-adjoint, since `R(i n)* = R(−i n)`, with `S_n = s_n(P)` for `s_n(s) = n² s/(n² + s²)`, so
-  `‖S_n‖ ≤ n/2`.
+- `‖n R(± i n)‖ ≤ 1` (Teschl2009, Theorem 2.18, p. 77, line 3172).
+- `S_n` is self-adjoint, since `R(i n)* = R(−i n)`, with `S_n = s_n(P)` for `s_n(s) = n² s/(n² + s²)`, by
+  `R(z) = r_z(P)` and multiplicativity of the integral (Teschl2009, Theorem 3.1, p. 90, line 3687),
+  so `‖S_n‖ ≤ n/2`.
 - `S_m` and `S_n` commute for all `m, n`, and `S_n x → A x` for `x` in the domain.
 - `S_0 = 0`.
 
@@ -709,18 +735,27 @@ For self-adjoint `A` and `n ≥ 1`:
 ### 4.3 Yosida approximation of the Stone group
 
 Prove the commuting Duhamel estimate: for commuting bounded self-adjoint `S`, `T`,
-`‖exp(i t S) ψ − exp(i t T) ψ‖ ≤ |t| ‖(S − T) ψ‖`. Prove `tendsto_ofBoundedExp_yosidaApproximant`:
-`exp(i t S_n) ψ → U(t) ψ` for every `t` and `ψ`. One route: `S_n → A` in the strong resolvent sense by
-§4.2 (Teschl2009, Lemma 6.36, p. 155, line 6655, with core the domain of `A`), and strong resolvent
-convergence gives strong convergence of `exp(i t S_n)` (Teschl2009, Theorem 6.31, p. 154, line 6602).
-Another: `S_n` commutes with `U(t)` by §4.1, the Duhamel estimate between `exp(i t S_n)` and `U(t)` gives
-`‖exp(i t S_n) ψ − U(t) ψ‖ ≤ |t| ‖(S_n − A) ψ‖` for `ψ` in the domain, and density with the uniform bound
-`1` gives all `ψ`, uniformly for `t` in compact intervals. Each `ofBoundedExp S_n` is unitary, and its
-complex generator is `i S_n`.
+`‖exp(i t S) ψ − exp(i t T) ψ‖ ≤ |t| ‖(S − T) ψ‖`. With `B = S − T`, commutation gives
+`exp(i t S) − exp(i t T) = exp(i t T)(exp(i t B) − 1)`, and the Duhamel identity
+`exp(i t B) ψ − ψ = ∫₀ᵗ exp(i u B) (i B ψ) du` with unitary `exp(i u B)` gives
+`‖(exp(i t B) − 1) ψ‖ ≤ |t| ‖B ψ‖`, the operator form of `|exp(i t λ) − 1| ≤ |t λ|` (Teschl2009, proof
+of Theorem 5.1, p. 124, line 5215). Prove
+`tendsto_ofBoundedExp_yosidaApproximant`: `exp(i t S_n) ψ → U(t) ψ` for every `t` and `ψ`. In
+Teschl2009 this follows from strong resolvent convergence of `S_n` to `A` (Lemma 6.36, p. 155, line
+6655, with core the domain of `A`, and Theorem 6.31, p. 154, line 6602). The route here stays in the
+bounded calculus of `P`: `exp(i t S_n)` is the integral of `s ↦ exp(i t s_n(s))`, by `S_n = s_n(P)`
+(§4.2) and Mathlib `NormedSpace.map_exp` applied to the continuous star-algebra homomorphism
+`P.integral`; `U(t)` is the integral of `s ↦ exp(i t s)` (§4.1, with polarisation); so
+`‖exp(i t S_n) ψ − U(t) ψ‖² = ∫ |exp(i t s_n(s)) − exp(i t s)|² dμ_ψ(s)`, which tends to `0` by dominated
+convergence, since `s_n(s) → s` for every `s` and the integrand is at most `4`. Each
+`ofBoundedExp S_n` is unitary, and its complex generator is `i S_n`.
 
 *Needs:* §4.1, §4.2; Tau Ceti `TauCeti.Semigroups.StronglyContinuousGroup.ofBoundedExp`,
 `TauCeti.Semigroups.StronglyContinuousGroup.isUnitary_ofBoundedExp`,
-`ContinuousLinearMap.exp_smul_apply_sub_eq_intervalIntegral`.
+`TauCeti.ProjValMeasure.continuous_integral`,
+`TauCeti.ProjValMeasure.tendsto_integral_apply_filter_of_dominated_convergence`,
+`ContinuousLinearMap.exp_smul_apply_sub_eq_intervalIntegral`; Mathlib `NormedSpace.map_exp`,
+`NormedSpace.exp_add_of_commute`.
 
 **Checks.**
 
@@ -748,7 +783,6 @@ complex generator is `i S_n`.
 
 - SpectralSubspacePerturbation consumes the partial-operator spectrum and resolvent and the
   domain-aware Sylvester equation at the Tau Ceti pin, and Layer 3's spectral measure.
-- BanachAlgebras §8.1 names Layer 2's compact normal decomposition as its consumer.
 - UnboundedOperators, VariationalMethods, QuantumFoundations, CongruenceSpectralGap and
   HeegaardFloer consume Layer 3 (the spectral measure, spectral subspaces and the lower-bound
   criterion) and Layer 4 (the spectral representation of the Stone group).
@@ -763,7 +797,10 @@ complex generator is `i S_n`.
 
 The SA ids of this roadmap's earlier numbering are cited by other roadmaps. Each former id is
 listed with where its content lives: a section here, a VonNeumannAlgebras target, or a declaration
-at the Tau Ceti or Mathlib pin.
+at the Tau Ceti or Mathlib pin. The former Parts are ranges of these ids: Part A is SA-A01–SA-A24,
+Part B SA-B01–SA-B86, Part C SA-C01–SA-C87, Part D SA-D01–SA-D39 and Part E SA-E01–SA-E47 (the
+numbering skips SA-C57–SA-C61, SA-C73–SA-C75 and SA-E42), so a citation of a Part resolves through
+its rows.
 
 | Former SA id | Location |
 | --- | --- |
@@ -960,12 +997,17 @@ at the Tau Ceti or Mathlib pin.
 ## References
 
 - Teschl2009: G. Teschl, *Mathematical Methods in Quantum Mechanics, with Applications to
-  Schrödinger Operators*, 2009. Theorem 3.7 (spectral theorem), p. 96, line 3983; the Borel
-  transform (3.40), p. 94, line 3881; Theorem 3.8 (spectrum as support), p. 97, line 4015;
+  Schrödinger Operators*, 2009. The separability convention, p. 42, line 1780; multiplication
+  operators (2.21), p. 59, line 2424, and their resolvents (2.72), p. 74, line 3056; Theorem 2.18
+  (self-adjointness, lower bounds and the spectrum), p. 77, lines 3170–3172; projection-valued
+  measures and strong σ-additivity, p. 88, line 3587, and the example (3.7), line 3605; Theorem 3.1
+  (the bounded integral), p. 90, line 3687; Theorem 3.7 (spectral theorem), p. 96, line 3983; the
+  Borel transform (3.40), p. 94, line 3881; Theorem 3.8 (spectrum as support), p. 97, line 4015,
+  with its proof, lines 4025–4029, and the remark at line 4030; Corollary 3.9, p. 97, line 4031;
   Theorem 3.21 (Stieltjes inversion), p. 108, line 4497; Theorems 5.1 and 5.2 (Stone), pp. 123–124,
-  lines 5183 and 5232; Theorem 6.6 (compact self-adjoint operators), p. 136, line 5757; strong
-  resolvent convergence (6.47), p. 153, line 6588, Theorem 6.31, p. 154, line 6602, and Lemma 6.36,
-  p. 155, line 6655.
+  lines 5183 and 5232, with the proof of Theorem 5.1 at line 5215; Theorem 6.6 (compact self-adjoint
+  operators), p. 136, line 5757; strong resolvent convergence (6.47), p. 153, line 6588, Theorem 6.31,
+  p. 154, line 6602, and Lemma 6.36, p. 155, line 6655.
 - Conway1990: J. B. Conway, *A Course in Functional Analysis*, 2nd ed., Graduate Texts in
   Mathematics 96. Theorem IX.1.14 (the spectral measure of a representation of `C(X)`).
 - Schmudgen2012: K. Schmüdgen, *Unbounded Self-adjoint Operators on Hilbert Space*, Graduate Texts

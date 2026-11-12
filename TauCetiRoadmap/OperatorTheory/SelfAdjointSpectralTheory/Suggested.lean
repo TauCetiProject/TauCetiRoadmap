@@ -102,7 +102,7 @@ theorem existsUnique_isSpectralMeasure
 /-- **Spectral criterion for a lower bound.** For a self-adjoint operator `A` with spectral
 measure `P` and a real `c`, the quadratic form of `A` is bounded below by `c` on the domain of
 `A` exactly when `P` vanishes on the half-line `(-∞, c)` (Teschl, *Mathematical Methods in
-Quantum Mechanics*, Theorem 3.8). -/
+Quantum Mechanics*, Theorem 2.18, with the remark after Theorem 3.8). -/
 theorem forall_le_re_inner_iff_proj_Iio_eq_zero
     {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
     {A : H →ₗ.[ℂ] H} (hA : IsSelfAdjoint A)
