@@ -21,7 +21,8 @@ This roadmap owns:
 - Layer 0: the finite-regularity conformal laws, the weak-domain conformal invariance of the
   Yamabe quotient and its weak Euler–Lagrange equation, the round-sphere volume and stereographic
   change of variables, the comparison of local conformal flatness with conformal Euclidean charts,
-  and the converse Weyl–Schouten theorem.
+  the converse Weyl–Schouten theorem, and the developing map of a locally conformally flat
+  manifold.
 - Layer 1: the comparison of the scalar Sobolev carriers of a closed manifold
   (PseudodifferentialOperators 5.2, ComplexKahlerGeometry K5a) and their critical embedding, the
   realization and first eigenvalue of the conformal Laplacian, the local estimates and the critical bootstrap, and the
@@ -35,7 +36,7 @@ This roadmap owns:
 - Layer 6: the Green blow-up, the identity `m_ADM = 2A`, the glued test function and the
   zero-mass compactification.
 - Layer 7: Theorem C in dimensions 3–5, through PositiveMass 8.1.
-- Layer 8: the developing map of a locally conformally flat manifold, the lifted blow-up and
+- Layer 8: the Spin structure pulled back along the developing map, the lifted blow-up and
   Theorem C for locally conformally flat manifolds, through PositiveMass 8.3.
 - Layer 9: the Yamabe theorem, uniqueness when `Y ≤ 0`, Obata's theorems with the equality case
   of the Lichnerowicz bound, and the characterization of the conformal sphere.
@@ -78,8 +79,8 @@ Boundaries with other roadmaps:
   inequality is Y2's.
 - SpinGeometry, SmoothBundlesConnections, CharacteristicClasses, AlgebraicTopology and the
   completed UniversalCovers roadmap own Spin structures, frame bundles, van Kampen and universal
-  covers; Y8 owns the Spin lift of the round sphere, the conformal developing map and the
-  metric-completeness adapters built on them.
+  covers; Y0.6 owns the conformal developing map, and Y8 the Spin lift of the round sphere and
+  the metric-completeness adapters built on them.
 
 ## Conventions
 
@@ -311,19 +312,20 @@ cover, deck group and lifting theory.
 
 ## How to read the build
 
-Layer k is cited as Yk and its subsection k.n as Yk.n; "Yk item n" means Yk.n. Layer 0 consumes
-Tau Ceti's conformal geometry and proves what it lacks, ending with the converse Weyl–Schouten
-theorem. Layer 1 builds the closed-manifold analysis of L_g, Layer 2 the sharp Euclidean
+The section Yk is Layer k, and its subsection k.n is cited as Yk.n; "Yk item n" means Yk.n.
+Layer 0 consumes Tau Ceti's conformal geometry and proves what it lacks, ending with the converse
+Weyl–Schouten theorem and the developing map of a locally conformally flat manifold. Layer 1
+builds the closed-manifold analysis of L_g, Layer 2 the sharp Euclidean
 Sobolev theory, and Layer 3 the variational theory below the sphere threshold, Theorem A. Layer 4
 builds conformal normal coordinates and the Green expansions. Y4–Y6's expansions and
-test-function construction and Y8.1's developing geometry use no positive-mass theorem. Layer 5
-proves Theorem B from Layer 4 alone. PositiveMass 8.1 and 8.3 then supply positivity and
-Euclidean rigidity; Y6's zero-mass compactification, Y7 and Y8.2–Y8.4 consume them. Y8.1 precedes
-the zero-mass compactification even in dimensions 3–5. Layer 9 concludes existence, uniqueness and
+test-function construction and Y0.6's developing geometry use no positive-mass theorem. Layer 5
+proves Theorem B from Layers 0, 2 and 4, with no positive-mass input. PositiveMass 8.1 and 8.3
+then supply positivity and Euclidean rigidity; Y6's zero-mass compactification, Y7 and Y8.2–Y8.4
+consume them. Y6's zero-mass compactification uses Y0.6 even in dimensions 3–5. Layer 9 concludes existence, uniqueness and
 rigidity, and Layer 10 collects examples and the invariant σ. The Lean name at each headline
 target is its signature in `Suggested.lean`.
 
-## Layer 0 (Y0): conformal tensors and the conformal Laplacian
+## Y0: conformal tensors and the conformal Laplacian
 
 ### 0.1 Conformal laws
 
@@ -468,19 +470,44 @@ of this system. Lean names: `isLocallyConformallyFlat_of_weylTensor_eq_zero`,
 *Needs:* the Tau Ceti conformal-curvature declarations; DifferentialGeometry 4.3;
 RiemannianGeometry R1.1 item 3.
 
+### 0.6 The developing map
+
+Construct the conformal atlas transition theorem and the developing local conformal map from the
+simply connected cover to Sⁿ (Schoen–Yau 1988; Lee–Parker, Theorem 10.4, pp. 81–82), including
+continuation, monodromy and differential bundle comparison. For n≥3 prove the local
+Liouville/Möbius transition result used here. Prove independently of positive mass that for
+compact simply connected M the developing local diffeomorphism is surjective and a covering of
+Sⁿ: its image is open and compact, and proper local diffeomorphisms are coverings. Since Sⁿ is
+simply connected for n≥3, it is a conformal diffeomorphism. Y6.2 and Y8.3 consume this lemma.
+
+**API.**
+
+- Uniqueness of the developing map up to post-composition by a Möbius transformation, and its
+  equivariance for the holonomy representation of the deck group.
+
+**Checks.**
+
+- The round Sⁿ: the developing map is the identity.
+- The flat Tⁿ: the developing map is the inverse stereographic map ℝⁿ→Sⁿ, missing one point;
+  Tⁿ is not simply connected, so the surjectivity lemma does not apply.
+- S^(n−1)×S¹, the quotient of ℝⁿ∖{0} by `x↦2x`: the developing map has image Sⁿ minus two
+  points and the deck group is ℤ.
+
+*Needs:* 0.5; DifferentialGeometry 2; UniversalCovers Stages 1–4.
+
 ### Examples
 
 - The round sphere, flat tori and closed hyperbolic manifolds, with the values of L, Q and Y
   above; the stereographic bubble metric; S²×S², S²×ℝ and the Heisenberg metric for the
-  Weyl–Schouten theorem.
+  Weyl–Schouten theorem; the developing maps of the round sphere, flat tori and S^(n−1)×S¹.
 
 ### Dependencies
 
 Tau Ceti's conformal Laplacian, Yamabe quotient, conformal laws and conformal curvature;
-RiemannianGeometry R1; DifferentialGeometry 4.3 and 12.2–12.5; GeometricMeasureTheory G2–G3; Y1.1
-and Y1.3 for the weak-domain statements of 0.2–0.3.
+RiemannianGeometry R1; DifferentialGeometry 2, 4.3 and 12.2–12.5; GeometricMeasureTheory G2–G3;
+UniversalCovers Stages 1–4; Y1.1 and Y1.3 for the weak-domain statements of 0.2–0.3.
 
-## Layer 1 (Y1): closed-manifold analytic interfaces
+## Y1: closed-manifold analytic interfaces
 
 ### 1.1 Sobolev carriers
 
@@ -596,7 +623,7 @@ meaning, parameter regularity away from the diagonal and the requisite local est
 PseudodifferentialOperators 5.2; ComplexKahlerGeometry K5a; PDE Layers 1, 3, 4 and 5;
 RiemannianGeometry R5c; the Tau Ceti Sobolev and fundamental-solution modules; Layer 0.
 
-## Layer 2 (Y2): sharp Euclidean Sobolev theory
+## Y2: sharp Euclidean Sobolev theory
 
 ### 2.1 The sharp inequality
 
@@ -683,7 +710,7 @@ distortion estimates.
 Tau Ceti's `TauCeti.D1p0`, sphere constant and bubble modules; Isoperimetry I2 and I5;
 GeometricMeasureTheory G2–G3; Y1.1.
 
-## Layer 3 (Y3): variational compactness below the sphere threshold
+## Y3: variational compactness below the sphere threshold
 
 ### 3.1 The invariant and Aubin's bound
 
@@ -759,7 +786,7 @@ H¹ convergence. Produce a smooth positive unit-Lp minimizer when Y<Y(Sⁿ), inc
 
 Layers 0–2; PositiveMass 3.0.
 
-## Layer 4 (Y4): conformal normal coordinates and local expansions
+## Y4: conformal normal coordinates and local expansions
 
 ### 4.1 Conformal normal coordinates
 
@@ -844,7 +871,7 @@ normalization does not require the final Yamabe theorem.
 
 Layers 0–2; RiemannianGeometry R1–R2.
 
-## Layer 5 (Y5): Aubin's strict inequality
+## Y5: Aubin's strict inequality
 
 ### 5.1 Theorem B
 
@@ -881,7 +908,7 @@ Lean name: `exists_yamabeQuotient_lt_sphereYamabeConstant_of_weylTensor_ne_zero`
 
 Layers 0, 2 and 4.
 
-## Layer 6 (Y6): Green blow-up and the test-function bridge
+## Y6: Green blow-up and the test-function bridge
 
 ### 6.1 The blow-up metric and its mass
 
@@ -913,10 +940,10 @@ PositiveMass 0.4's mass `2c` of `(1+c r^(2−n))^(4/(n−2))δ` with c=A.
 
 Construct the glued test function from an inner bubble and the outer Green function. Prove
 positivity, smooth gluing, norm/energy estimates and `Y<Y(Sⁿ)` when A>0. The zero case follows
-PositiveMass 8.1 and 8.3 and Y8.1: a Euclidean blow-up makes g LCF on M\{p}; extend vanishing of
+PositiveMass 8.1 and 8.3 and Y0.6: a Euclidean blow-up makes g LCF on M\{p}; extend vanishing of
 W, or Cotton for n=3, to p by continuity and apply Y0.5. Prove that deleting a point in
 dimension≥3 induces the fundamental-group isomorphism, using coordinate balls and van Kampen on
-the native fundamental-groupoid carrier. Thus M\{p}≅ℝⁿ implies M simply connected. Y8.1's
+the native fundamental-groupoid carrier. Thus M\{p}≅ℝⁿ implies M simply connected. Y0.6's
 developing map on compact M is a covering of Sⁿ and therefore a conformal diffeomorphism. This
 gives the smooth conformal map at p, rather than just a topological compactification.
 
@@ -928,7 +955,7 @@ gives the smooth conformal map at p, rather than just a topological compactifica
 - A>0 is needed for the strict inequality: on the unit Sⁿ, where A=0, every quotient is at
   least Y(Sⁿ).
 
-*Needs:* 6.1; 8.1; 0.5; AlgebraicTopology Layer 1; PositiveMass 8.1 and 8.3.
+*Needs:* 6.1; 0.5–0.6; AlgebraicTopology Layer 1; PositiveMass 8.1 and 8.3.
 
 ### Examples
 
@@ -937,9 +964,9 @@ gives the smooth conformal map at p, rather than just a topological compactifica
 
 ### Dependencies
 
-Layers 1 and 4; Y8.1; PositiveMass 0.2, 0.4, 8.1 and 8.3; AlgebraicTopology Layer 1.
+Layers 0, 1 and 4; PositiveMass 0.2, 0.4, 8.1 and 8.3; AlgebraicTopology Layer 1.
 
-## Layer 7 (Y7): low dimensions and orientation
+## Y7: low dimensions and orientation
 
 ### 7.1 Theorem C in dimensions 3–5
 
@@ -969,38 +996,28 @@ directly; the Green/positive-mass lane is only needed for the positive case. Lea
 
 Layer 6; PositiveMass 0.2, 0.4, 3.2 and 8.1.
 
-## Layer 8 (Y8): locally conformally flat manifolds in every dimension
+## Y8: locally conformally flat manifolds in every dimension
 
-### 8.1 The developing map
+### 8.1 The Spin structure from the developing map
 
-Construct the conformal atlas transition theorem and the developing local conformal map from the
-simply connected cover to Sⁿ (Schoen–Yau 1988), including continuation, monodromy and
-differential bundle comparison. For n≥3 prove the local Liouville/Möbius transition result used
-here. Obtain a Spin structure on the round Sⁿ by lifting its oriented frame bundle through
+Obtain a Spin structure on the round Sⁿ by lifting its oriented frame bundle through
 Spin(n+1)→SO(n+1), identifying the Spin(n) stabilizer and its frame action; compare this lift
 with SpinGeometry G4's actual carrier. Prove pullback and metric-change compatibility using G4.2.
-Pull this sphere Spin structure back along the oriented conformal tangent isomorphism; no
-injectivity of the developing map is assumed at this stage. Prove independently of positive mass
-that for compact simply connected M the developing local diffeomorphism is surjective and a
-covering of Sⁿ: its image is open and compact, and proper local diffeomorphisms are coverings.
-Since Sⁿ is simply connected for n≥3, it is a conformal diffeomorphism. Y6 and Y8.3 consume this
-lemma.
-
-**API.**
-
-- Uniqueness of the developing map up to post-composition by a Möbius transformation, and its
-  equivariance for the holonomy representation of the deck group.
+Pull this sphere Spin structure back along the oriented conformal tangent isomorphism of Y0.6's
+developing map; no injectivity of the developing map is assumed at this stage.
 
 **Checks.**
 
-- The round Sⁿ: the developing map is the identity.
-- The flat Tⁿ: the developing map is the inverse stereographic map ℝⁿ→Sⁿ, missing one point;
-  Tⁿ is not simply connected, so the surjectivity lemma does not apply.
-- S^(n−1)×S¹, the quotient of ℝⁿ∖{0} by `x↦2x`: the developing map has image Sⁿ minus two
-  points and the deck group is ℤ.
+- The oriented orthonormal frame bundle of the unit Sⁿ is SO(n+1)→Sⁿ with fibre SO(n), and its
+  lift is Spin(n+1)→Sⁿ with fibre Spin(n); the dimensions agree:
+  `(n+1)n/2−n(n−1)/2=n`.
+- n=2: Spin(3)=S³→S² with fibre Spin(2)=S¹ is the Hopf fibration.
+- Sⁿ is simply connected for n≥2, so `H¹(Sⁿ;ℤ/2)=0` and its Spin structure is unique; the
+  pullback to the universal cover of a flat Tⁿ along its developing map is the trivial Spin
+  structure of ℝⁿ.
 
-*Needs:* 0.5; DifferentialGeometry 2; SpinGeometry G3–G5 with G4.2; SmoothBundlesConnections B1.4;
-CharacteristicClasses C1; UniversalCovers Stages 1–4.
+*Needs:* 0.6; SpinGeometry G3–G5 with G4.2; SmoothBundlesConnections B1.4; CharacteristicClasses
+C1.
 
 ### 8.2 The lifted blow-up
 
@@ -1019,7 +1036,7 @@ finite-length escaping curve. Show each pole is an AE end with the same local ex
 - The unit Sⁿ: one lift, one end, mass 0.
 - The lower bound: `G≥min G>0` gives `ĝ≥(min G)^(4/(n−2))g` on the cover.
 
-*Needs:* 8.1; 6.1; UniversalCovers Stages 1–4.
+*Needs:* 0.6; 8.1; 6.1; UniversalCovers Stages 1–4.
 
 ### 8.3 Positivity on the cover
 
@@ -1039,7 +1056,7 @@ covering/compactification assertion, rather than assuming a local map is globall
 - Ammann–Humbert's Theorem 2.2 reaches A≥0 for compact spin LCF manifolds directly, a
   comparison in that spin scope.
 
-*Needs:* 8.1–8.2; PositiveMass 8.3.
+*Needs:* 0.6; 8.1–8.2; PositiveMass 8.3.
 
 ### 8.4 Theorem C for locally conformally flat manifolds
 
@@ -1061,12 +1078,10 @@ assumption downstairs. Lean name: `exists_yamabeQuotient_lt_sphereYamabeConstant
 
 ### Dependencies
 
-Layers 0 and 6; PositiveMass 8.3; SpinGeometry G3–G5; SmoothBundlesConnections B1.4;
+Layers 0 (with 0.6) and 6; PositiveMass 8.3; SpinGeometry G3–G5; SmoothBundlesConnections B1.4;
 CharacteristicClasses C1; UniversalCovers Stages 1–4; DifferentialGeometry 2.
 
-<a id="y9-existence-uniqueness-and-rigidity"></a>
-
-## Layer 9 (Y9): existence, uniqueness and rigidity
+## Y9: existence, uniqueness and rigidity
 
 ### 9.1 The Yamabe theorem
 
@@ -1160,7 +1175,7 @@ and the explicit spherical equality classification. Lean name: `forall_le_yamabe
 
 Layers 3, 5, 7 and 8; RiemannianGeometry R7.0; Tau Ceti's Lichnerowicz bound.
 
-## Layer 10 (Y10): reusable examples and invariant interfaces
+## Y10: reusable examples and invariant interfaces
 
 ### 10.1 Model computations
 
@@ -1228,8 +1243,8 @@ Layers 0, 3 and 9; PositiveMass 3.1.
 
 - YangMillsConnectionsAndCaloricGauge consumes Y2.1's sharp Euclidean Sobolev inequality, in
   dimension four.
-- RiemannianGeometry R7.0 cites Y9.3, at the anchor of Layer 9, as the owner of Obata's theorem,
-  and consumes nothing from this roadmap.
+- RiemannianGeometry R7.0 cites Y9 as the owner of Obata's theorem (Y9.3) and consumes nothing
+  from this roadmap.
 - PositiveMass lists Y6–Y8 as consumers of its 8.1 and 8.3, GeometricCurrents cites Y7's use of
   PositiveMass's nonspin theorem, and DifferentialGeometry lists this roadmap among the
   consumers of its sections 2, 4 and 12.2–12.5. These are supplier statements; none of them
