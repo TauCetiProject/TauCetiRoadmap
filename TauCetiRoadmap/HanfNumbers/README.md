@@ -1,12 +1,12 @@
 # Roadmap: Ehrenfeucht–Mostowski models and Hanf numbers for Lω₁ω
 
-**Summary.** A first-order theory in a countable language with an infinite model has models of every infinite
-cardinality. An Lω₁ω sentence need not, even in a countable language: the Scott sentence of a
-countable structure can have only countable models, and for every countable ordinal α there are
-sentences whose largest models have cardinality exactly ℶ_(α+1). The **Morley–Hanf theorem** says
-that this is the whole story: if an Lω₁ω sentence has models of cardinality at least ℶ_α for every α
-< ω₁, it has models of every infinite cardinality. Together with those bounded examples it computes
-the **Hanf number** of the logic: `Hanf(Lω₁ω) = ℶ_ω₁`.
+**Summary.** A first-order theory in a countable language with an infinite model has models of
+every infinite cardinality. An Lω₁ω sentence need not, even in a countable language: the Scott
+sentence of a countable structure can have only countable models, and for every countable ordinal
+α there are sentences whose largest models have cardinality exactly ℶ_(α+1). The **Morley–Hanf
+theorem** says that this is the whole story: if an Lω₁ω sentence has models of cardinality at least
+ℶ_α for every α < ω₁, it has models of every infinite cardinality. Together with those bounded
+examples it computes the **Hanf number** of the logic: `Hanf(Lω₁ω) = ℶ_ω₁`.
 
 The proof is the prototype of a method used throughout model theory: partition calculus turns large
 models into **indiscernible** configurations, those configurations are recorded as an
@@ -355,9 +355,8 @@ cardinality `κ⁺` homogeneous for the induced colouring, and hence for the ori
 Consumer forms, each a stated theorem:
 
 - **`erdos_rado_beth`**: `ℶ_(α+n)⁺ → (ℶ_α⁺)ⁿ⁺¹_{ℶ_α}` for every ordinal `α` (Marker's notes,
-  Corollary 5.6, p. 56), from
-  `iteratedTwoPow (ℶ_ α) n = ℶ_ (α + n)` (Convention 4). Since `ℶ_(α+n)⁺ ≤ ℶ_(α+n+1)`, a set of cardinality at least `ℶ_(α+n+1)`
-  suffices.
+  Corollary 5.6, p. 56), from `iteratedTwoPow (ℶ_ α) n = ℶ_ (α + n)` (Convention 4). Since
+  `ℶ_(α+n)⁺ ≤ ℶ_(α+n+1)`, a set of cardinality at least `ℶ_(α+n+1)` suffices.
 
 **Acceptance check:** `erdos_rado` at `n = 1`, i.e. `(2^κ)⁺ → (κ⁺)²_κ`, and at `κ = ℵ₀`, i.e.
 `ℶ₁⁺ → (ℵ₁)²_{ℵ₀}`.
@@ -399,11 +398,11 @@ For a linear order `J`, a structure `M`, a sequence `a : J → M` and a set
 - `IsIndiscernible a`: indiscernibility for every formula of every arity.
 
 API, each a target: monotonicity in `Δ`; restriction along order embeddings `K ↪o J` (if `a` is
-indiscernible on `Δ`, so is `a ∘ e` for `e : K ↪o J`) and transport along order isomorphisms; invariance of indiscernibility
-under isomorphisms of the structure; closure of `Δ` under the operations that preserve it: negation,
-implication, the countable connectives `iSup`/`iInf`, and reindexing of bound positions along an
-order embedding `Fin n ↪o Fin m` (the parent's `mapBound`). Quantifiers do not preserve
-indiscernibility, and the docstring says so.
+indiscernible on `Δ`, so is `a ∘ e` for `e : K ↪o J`) and transport along order isomorphisms;
+invariance of indiscernibility under isomorphisms of the structure; closure of `Δ` under the
+operations that preserve it: negation, implication, the countable connectives `iSup`/`iInf`, and
+reindexing of bound positions along an order embedding `Fin n ↪o Fin m` (the parent's `mapBound`).
+Quantifiers do not preserve indiscernibility, and the docstring says so.
 
 Indiscernibility of an injective sequence for the equality formulas is automatic, and the
 sequence's increasing tuples realize the same equality pattern.
@@ -663,10 +662,11 @@ Suggested home: `TauCeti/ModelTheory/Infinitary/Hanf/{Defs, Approximation, Morle
 cardinal bounds all its models; Keisler–Knight, Theorem 1.6.1, for any set of sentences);
 `hanfNumber_isHanfBound`, so the Hanf number is a Hanf bound; the Hanf number lies below every Hanf
 bound, `κ` is a Hanf bound exactly when the Hanf number is at most `κ`, and `κ` lies below the Hanf
-number exactly when it is not a Hanf bound; invariance of all three notions under sentence equivalence and under `onBoundedFormulaInf` along an injective language map
-(IME 0.1). The invariance uses that the Hanf predicates count only nonempty models (Convention 6):
-a nonempty model of `φ` expands to a model of its image, interpreting the new symbols arbitrarily,
-and a model of the image restricts to a model of `φ` on the same carrier.
+number exactly when it is not a Hanf bound; invariance of all three notions under sentence
+equivalence and under `onBoundedFormulaInf` along an injective language map (IME 0.1). The
+invariance uses that the Hanf predicates count only nonempty models (Convention 6): a nonempty
+model of `φ` expands to a model of its image, interpreting the new symbols arbitrarily, and a model
+of the image restricts to a model of `φ` on the same carrier.
 
 **Checks.**
 
@@ -951,11 +951,11 @@ Using IME's `infinitaryType` and `realizedTypes` (IME 4.1):
 
 - `IsLω₁ωSmall M`: for every `n`, `(realizedTypes M n).Countable`, i.e. `M` realizes countably many
   complete Lω₁ω-types in `n` variables (smallness in Marker's notes, Definition 6.11, p. 77).
-- API: invariance under isomorphism; every countable structure is small; smallness descends to reducts along a language map (types of the
-  reduct are determined by types in the expansion); potentially isomorphic structures realize the
-  same complete types, so smallness transfers along `PotentialIso`; if every tuple's complete
-  type is determined by its orbit under a group of automorphisms with countably many orbits on
-  `n`-tuples for each `n`, the structure is small.
+- API: invariance under isomorphism; every countable structure is small; smallness descends to
+  reducts along a language map (types of the reduct are determined by types in the expansion);
+  potentially isomorphic structures realize the same complete types, so smallness transfers along
+  `PotentialIso`; if every tuple's complete type is determined by its orbit under a group of
+  automorphisms with countably many orbits on `n`-tuples for each `n`, the structure is small.
 
 **Checks.**
 
@@ -988,8 +988,8 @@ reduct, and 5.2 gives smallness. The cardinality is `κ` by the cardinality clau
 
 ### 5.4 Countable companions and complete sentences
 
-*Needs:* 5.2; IME 1.2, 2.3, 4.1; InfinitaryLogic Layers 1–3 (Scott sentences, back-and-forth systems,
-Karp's forward direction).
+*Needs:* 5.2; IME 1.2, 2.3, 4.1; InfinitaryLogic Layers 1–3 (Scott sentences, back-and-forth
+systems, Karp's forward direction).
 
 In 5.4 and 5.5 `L` is relational with countably many relation symbols, as the parent's Scott
 sentences require; 5.6 extends both headlines to languages with countably many function and
@@ -1004,16 +1004,16 @@ relation symbols.
   potentially isomorphic to a countable structure (Marker's notes, the remark after Definition 6.11,
   p. 77, as `L∞ω`-equivalence, which Karp's theorem identifies with potential isomorphism; the
   Exercise 2.34, p. 22, that it cites assumes `M` countable). Let `F` be the fragment generated by
-  isolating formulas `χ_p` of `exists_isolatingFormula` for all realized types `p` of all arities, together
-  with their one-variable existential closures (the isolator seed of IME 4.1); it is countable by
-  `Fragment.generated_countable`. Take `M₀ ⊆ M` countable with `AElementary F M₀.subtype` by
-  `exists_countable_aElementary_substructure` with `X = ∅` (IME 2.3; a relational language has no
-  function symbols). The pairs of tuples of `M₀` and `M` with the same complete type in `M` form a
-  tuple back-and-forth system. Going back, let `ā` from `M₀` and `b̄` from `M` have the same type
-  and `d ∈ M`, and put `q = tp(b̄ d)`. Then `M ⊨ ∃y χ_q(b̄, y)`, so `M ⊨ ∃y χ_q(ā, y)`, so `M₀ ⊨ ∃y
-  χ_q(ā, y)` by `F`-elementarity, and a witness `c ∈ M₀` has `tp(ā c) = q` in `M`. Going forth, the
-  witness is found in `M` directly. Conclude with the parent's
-  `potentialIso_iff_exists_isTupleBFSystem`.
+  isolating formulas `χ_p` of `exists_isolatingFormula` for all realized types `p` of all arities,
+  together with their one-variable existential closures (the isolator seed of IME 4.1); it is
+  countable by `Fragment.generated_countable`. Take `M₀ ⊆ M` countable with
+  `AElementary F M₀.subtype` by `exists_countable_aElementary_substructure` with `X = ∅` (IME 2.3; a
+  relational language has no function symbols). The pairs of tuples of `M₀` and `M` with the same
+  complete type in `M` form a tuple back-and-forth system. Going back, let `ā` from `M₀` and `b̄`
+  from `M` have the same type and `d ∈ M`, and put `q = tp(b̄ d)`. Then `M ⊨ ∃y χ_q(b̄, y)`, so
+  `M ⊨ ∃y χ_q(ā, y)`, so `M₀ ⊨ ∃y χ_q(ā, y)` by `F`-elementarity, and a witness `c ∈ M₀` has
+  `tp(ā c) = q` in `M`. Going forth, the witness is found in `M` directly. Conclude with the
+  parent's `potentialIso_iff_exists_isTupleBFSystem`.
 - **`isCompleteSentence_scottSentence`**: the Scott sentence of a countable structure `M₀` is
   complete. A model `N` of it, of any cardinality, satisfies `BFEquiv β` with `M₀` at every level
   (`TauCeti.bfEquiv_of_realize_scottSentence`, from the parent's
@@ -1096,9 +1096,9 @@ argument must go through a back-and-forth system with an arbitrary model, which 
 10. **A function symbol.** Over one unary function symbol `f`, let `φ` say "`f` is the identity and
     there are infinitely many elements". 5.4 and 5.5 do not apply to it. The models of its graph
     form `conjunction (graphAxioms Set.univ) ∧ relationalize φ` are the infinite pure sets of
-    example 8 with `G_f` interpreted as equality. By 5.6 every model is small, `φ` is complete and `κ`-categorical for
-    every infinite `κ`, and the completion of `exists_isCompleteSentence_isCategorical_of_countable`
-    at any infinite `κ` is equivalent to `φ`.
+    example 8 with `G_f` interpreted as equality. By 5.6 every model is small, `φ` is complete and
+    `κ`-categorical for every infinite `κ`, and the completion of
+    `exists_isCompleteSentence_isCategorical_of_countable` at any infinite `κ` is equivalent to `φ`.
 
 ### Dependencies
 
