@@ -1050,10 +1050,13 @@ the continuous function `x ↦ ‖mfderiv f x‖`.
 
 Prove that for continuous `f : M → N` whose chart representatives lie in `W^{1,1}_loc`, so
 `f ∈ W^{1,1}_loc(M, N)`, the following are equivalent: `f ∈ W^{1,p}_loc(M, N)`;
-`‖Df‖ ∈ L^p_loc(M)` (§3.2). Route: in a chart, the chart expression of `Df` and `Df` differ by
-`dψ` and `dφ⁻¹`, which with their inverses are bounded on compact sets for the compatible norms,
-and `f` maps compact sets to compact sets. Deduce that `W^{1,p}_loc(M, N) ⊆ W^{1,q}_loc(M, N)`
-for `q ≤ p`.
+`‖Df‖ ∈ L^p_loc(M)` (§3.2). Convent–Van Schaftingen (Def. 2.1, p. 8) define the homogeneous
+class `Ẇ^{1,p}(M, N)` by the global form of this energy condition, for Riemannian metrics,
+`p < ∞` and the Hilbert–Schmidt norm `|Df|_HS`; pointwise `‖Df‖ ≤ |Df|_HS ≤ √(dim M) ‖Df‖`, so
+the two norms give the same `L^p_loc` condition. Route: in a chart, the chart expression of
+`Df` and `Df` differ by `dψ` and `dφ⁻¹`, which with their inverses are bounded on compact sets
+for the compatible norms, and `f` maps compact sets to compact sets. Deduce that
+`W^{1,p}_loc(M, N) ⊆ W^{1,q}_loc(M, N)` for `q ≤ p`.
 
 **Checks.**
 
