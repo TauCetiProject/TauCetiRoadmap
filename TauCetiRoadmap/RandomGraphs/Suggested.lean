@@ -826,6 +826,13 @@ def productGraphon : Graphon I (volume : Measure I) where
     (unitInterval.mul_mem x.2 y.2).2⟩⟩
   mem01' x y := unitInterval.mul_mem x.2 y.2
 
+/-- The expected number of isolated vertices of the `xy` graphon sample is `2(1 - 2⁻ⁿ)` for every
+`n`, including `n = 0` (empty sum, both sides `0`); the values at `n = 1, 2, 3` are `1, 3/2, 7/4`. -/
+theorem productGraphon_isolated_expectation (n : ℕ) :
+    (∫ G : SimpleGraph (Fin n), (isolatedCount G : ℝ) ∂sampleGraph productGraphon n) =
+      2 * (1 - (1 / 2 : ℝ) ^ n) := by
+  sorry
+
 theorem productGraphon_isolated_factorialMoment_limit (k : ℕ) :
     Tendsto
       (fun n => ∫ G : SimpleGraph (Fin n),
