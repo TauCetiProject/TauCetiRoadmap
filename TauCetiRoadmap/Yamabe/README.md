@@ -35,78 +35,170 @@ Use RiemannianGeometry's instance-driven connection and curvature APIs on
 a metric-indexed type synonym of M, carrying the selected native metric.
 Construct the identity diffeomorphism between metric-indexed copies and
 the induced tangent/tensor transports; prove evaluation agrees with the
-explicit `rescale.inner` formula. Comparing two metrics must never install
+explicit `Bundle.ContMDiffRiemannianMetric.rescale_inner` formula. Comparing two metrics must never install
 two incompatible metric instances on the same carrier.
 
 | Supplier | Interface used |
 | --- | --- |
-| [RiemannianGeometry R1–R4,R5c,R7](../RiemannianGeometry/README.md) | Levi-Civita connection, full scalar curvature, general conformal-change formulas, geodesics/normal coordinates and density, comparison geometry and Bochner identities; R5c item 1, the simple lowest eigenvalue of `Δ⁺+q` on a closed connected manifold with its smooth positive eigenfunction, the least Rayleigh quotient. The conformal-Laplacian specialization, normal-coordinate normalization and Obata arguments are targets here. |
-| [PDE Lanes A,C–E](../PDE/README.md) | Euclidean weak Sobolev spaces, smooth density, extension, compact embedding below the critical exponent, maximum/Harnack principles, linear elliptic existence and local/boundary estimates. Y1–Y3 construct the closed-manifold, critical and conformal-Laplacian bridges explicitly. |
+| [RiemannianGeometry R1–R4,R5c,R7](../RiemannianGeometry/README.md) | Levi-Civita connection, full scalar curvature, general conformal-change formulas, geodesics/normal coordinates and density, comparison geometry and Bochner identities; R1.1 item 3, flat curvature is equivalent to a local Euclidean isometry; R5c, the closed-case self-adjoint realization of `Δ⁺+q` with its eigenbasis, and its item 1, the simple lowest eigenvalue of `Δ⁺+q` on a closed connected manifold with its smooth positive eigenfunction, the least Rayleigh quotient; R7.0, the equality case of the Lichnerowicz bound: for Ric≥(n−1)kg, k>0, an eigenfunction of `Δ⁺` with eigenvalue nk satisfies `Hess f=−kfg`. The normal-coordinate normalization and Obata's theorem are targets here. |
+| [PDE Layers 1, 3, 4, 5 (A1–A7, C12–C15, D16–D19, E20–E26)](../PDE/README.md) | Euclidean weak Sobolev spaces, smooth density, extension, compact embedding below the critical exponent, maximum/Harnack principles, linear elliptic existence and local/boundary estimates. Y1–Y3 construct the closed-manifold, critical and conformal-Laplacian bridges explicitly. |
 | [DifferentialGeometry 12.2–12.5](../DifferentialGeometry/README.md) | Generic manifold gradient, divergence, Laplace–Beltrami, integration by parts, density and volume comparison, together with its tensor/partition/integration foundations. Y0 owns their conformal transformation, not replacement operators. |
 | [ComplexKahlerGeometry K5a](../ComplexKahlerGeometry/README.md) | Generic finite-rank real/complex bundle distributions, all-real-order Hilbert Sobolev scales, realification, compact Rellich, Laplace-type regularity and geometric L² realization. These are written supplier targets, and Y1 uses their real rank-one specialization. |
 | [GeometricMeasureTheory G2–G3](../GeometricMeasureTheory/README.md) | Normalized Hausdorff area/change of variables for spherical and stereographic integration. Sobolev rearrangement and its equality classification belong to Y2. |
-| [PositiveMass P0–P8](../PositiveMass/README.md) | Finite-ended nonspin positivity/rigidity in dimensions3–7 and the spin one-AE-end theorem with arbitrary other complete ends. The geometric end, mass and Spin hypotheses are verified in Y7–Y8. |
-| [AlgebraicTopology Stage 1](../AlgebraicTopology/README.md), [SmoothBundlesConnections B1.4](../SmoothBundlesConnections/README.md), [CharacteristicClasses C1](../CharacteristicClasses/README.md) | van Kampen on the native fundamental-groupoid carrier, associated principal bundles and the oriented orthonormal frame bundle used by the sphere Spin lift. |
+| [PositiveMass 0.4, 3.0, 3.2, 8.1, 8.3, 8.4](../PositiveMass/README.md) | 0.4: the scalar law for `φ^(4/(n−2))g`, the mass `m(g)+2c` of `u^(4/(n−2))g` for `u=1+c r^(2−n)+o_2(r^(2−n))`, the inversion of a normalized Green expansion and the lifts of ends to finite covers; 3.0: the metric `φ^(4/(n−2))g` of scalar curvature `λ₁φ^(−4/(n−2))>0` from a positive first eigenfunction φ of the conformal Laplacian with λ₁>0; 3.2: the orientation double cover, which removes orientability from 8.1; 8.1: finite-ended nonspin positivity/rigidity in dimensions3–7; 8.3: the spin one-AE-end theorem with arbitrary other complete ends; 8.4: invariance of 8.1–8.3 under isometries and finite covers. The geometric end, mass and Spin hypotheses are verified in Y6–Y8. |
+| [AlgebraicTopology Layer 1](../AlgebraicTopology/README.md), [SmoothBundlesConnections B1.4](../SmoothBundlesConnections/README.md), [CharacteristicClasses C1](../CharacteristicClasses/README.md) | van Kampen on the native fundamental-groupoid carrier, associated principal bundles and the oriented orthonormal frame bundle used by the sphere Spin lift. |
 | [SpinGeometry G3–G5](../SpinGeometry/README.md), [UniversalCovers Stages 1–4](../../Completed/UniversalCovers/README.md), [DifferentialGeometry 2,4](../DifferentialGeometry/README.md) | Spin pullback/metric-change, native universal-cover/deck/lifting theory, orientation cover and smooth covering transport, and finite-dimensional Frobenius. Y8 constructs the sphere Spin lift, conformal developing map and metric-completeness adapters. |
 
-Y0–Y3 supply the variational foundation; PositiveMass consumes Y0's
-conformal identities and Y2.1's Euclidean inequality, while owning its own
-weighted corrections. Y4–Y6's expansions and test-function construction
-and Y8.1's developing geometry use no positive-mass theorem. P8 then
-supplies positivity and Euclidean rigidity; Y6's zero-mass compactification,
-Y7 and Y8.2–4 consume it. Y9 concludes existence. Y8.1 precedes the
-zero-mass compactification even in dimensions3–5.
+From Tau Ceti, at the pinned revision:
+
+- `Analysis/PDE/Yamabe/`: the conformal Laplacian `TauCeti.Yamabe.conformalLaplacian`, its
+  covariance `TauCeti.Yamabe.conformalLaplacian_rescale`, the scalar law
+  `TauCeti.Yamabe.scalarCurvature_rescale_eq_rpow_mul_conformalLaplacian` and its Yamabe-equation
+  form `TauCeti.Yamabe.scalarCurvature_rescale_eq_iff_conformalLaplacian_eq`
+  (`ConformalLaplacian.lean`); integration by parts, formal symmetry, the energy identity and its
+  conformal invariance `TauCeti.Yamabe.integral_mul_conformalLaplacian`,
+  `TauCeti.Yamabe.integral_mul_conformalLaplacian_right_eq_left`,
+  `TauCeti.Yamabe.integral_mul_conformalLaplacian_self`, `TauCeti.Yamabe.integral_energy_rescale`
+  (`Energy.lean`); the volume-normalized total scalar curvature
+  `TauCeti.Yamabe.integral_scalarCurvature_rescale_div_riemannianTotalVolume_rpow`
+  (`TotalScalarCurvature.lean`); the Yamabe quotient `TauCeti.Yamabe.yamabeQuotient`, its first
+  variation and Euler–Lagrange equation
+  `TauCeti.Yamabe.forall_hasDerivAt_yamabeQuotient_add_smul_iff_exists_conformalLaplacian_eq`, with
+  the multiplier `TauCeti.Yamabe.yamabeQuotient_eq_of_conformalLaplacian_eq_of_integral_eq_one`
+  (`Quotient.lean`); `TauCeti.Yamabe.sphereYamabeConstant` (`SphereConstant.lean`); and the bubbles
+  `TauCeti.Yamabe.bubble` with `TauCeti.Yamabe.conformalCoefficient_mul_neg_laplacian_bubble`,
+  `TauCeti.Yamabe.conformalCoefficient_mul_integral_norm_fderiv_bubble_sq_eq_sphereYamabeConstant`,
+  `TauCeti.Yamabe.inner_mfderiv_stereographic'_symm_smul_sub` and the decay, moment and cutoff
+  estimates of `Bubble/{Basic,Decay,Energy,Moments,Cutoff,SobolevQuotient,Stereographic}.lean`.
+- Conformal change of metric: `Bundle.ContMDiffRiemannianMetric.rescale`,
+  `Bundle.ContMDiffRiemannianMetric.conformalClass` with
+  `Bundle.ContMDiffRiemannianMetric.mem_conformalClass_iff_existsUnique_rpow`,
+  `Bundle.ContMDiffRiemannianMetric.rescale_const_mul_rpow`,
+  `Bundle.ContMDiffRiemannianMetric.rescale_rescale` and
+  `Bundle.ContMDiffRiemannianMetric.rescale_inv_rescale`
+  (`Geometry/Manifold/VectorBundle/Riemannian/Conformal.lean`);
+  `Bundle.ContMDiffRiemannianMetric.pullback_rescale` (`Riemannian/Pullback/Basic.lean`);
+  `Bundle.ContMDiffRiemannianMetric.leviCivitaConnection_rescale_apply`
+  (`CovariantDerivative/LeviCivita/Conformal.lean`); the curvature-operator, curvature, Ricci,
+  scalar, Schouten, Weyl and Cotton laws
+  `Bundle.ContMDiffRiemannianMetric.curvatureOperator_leviCivitaConnection_rescale`,
+  `Bundle.ContMDiffRiemannianMetric.curvatureTensor_leviCivitaConnection_rescale`,
+  `Bundle.ContMDiffRiemannianMetric.ricciTensor_leviCivitaConnection_rescale`,
+  `Bundle.ContMDiffRiemannianMetric.scalarCurvature_rescale`,
+  `Bundle.ContMDiffRiemannianMetric.schoutenTensor_leviCivitaConnection_rescale`,
+  `Bundle.ContMDiffRiemannianMetric.weylTensor_leviCivitaConnection_rescale`,
+  `Bundle.ContMDiffRiemannianMetric.cottonTensor_leviCivitaConnection_rescale` and
+  `Bundle.ContMDiffRiemannianMetric.cottonTensor_leviCivitaConnection_rescale_of_finrank_eq_three`
+  (`CovariantDerivative/Curvature/Conformal.lean`);
+  `Bundle.ContMDiffRiemannianMetric.hessian_rescale_rpow` and
+  `Bundle.ContMDiffRiemannianMetric.laplaceBeltrami_rescale` (`Riemannian/Hessian/Conformal.lean`);
+  `TauCeti.WithMetric.inner_mgradient_rescale` (`Riemannian/Conformal.lean`);
+  `TauCeti.WithMetric.integral_riemannianVolume_rescale`,
+  `TauCeti.WithMetric.riemannianTotalVolume_rescale_rpow` and
+  `TauCeti.WithMetric.integral_abs_rpow_rescale_rpow` (`Riemannian/VolumeDensity/Conformal.lean`).
+- Conformal curvature (`Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/`):
+  `CovariantDerivative.schoutenTensor` (`Schouten.lean`); `LinearMap.BilinForm.kulkarniNomizu`
+  (`LinearAlgebra/BilinearForm/KulkarniNomizu.lean`); `CovariantDerivative.weylTensor` with its
+  symmetries, trace-freeness and vanishing in dimension three (`Weyl/Basic.lean`); the divergence
+  `CovariantDerivative.IsMetricCompatible.sum_derivWeylTensor_self_eq_mul_cottonTensor`,
+  `div W=(n−3)C` (`Weyl/Divergence.lean`); the integrability defect of the conformal flattening
+  equation `CovariantDerivative.IsMetricCompatible.conformalFlatteningDeriv_sub_swap` and its
+  vanishing under W=C=0,
+  `CovariantDerivative.IsMetricCompatible.conformalFlatteningDeriv_sub_swap_eq_inner_curvatureTensor`
+  (`Weyl/Integrability.lean`); `CovariantDerivative.cottonTensor` (`Cotton.lean`);
+  `Bundle.ContMDiffRiemannianMetric.IsLocallyConformallyFlat` with its conformal invariance,
+  `Bundle.ContMDiffRiemannianMetric.IsLocallyConformallyFlat.weylTensor_eq_zero`,
+  `Bundle.ContMDiffRiemannianMetric.IsLocallyConformallyFlat.cottonTensor_eq_zero` and the
+  reduction
+  `Bundle.ContMDiffRiemannianMetric.isLocallyConformallyFlat_iff_forall_weylTensor_eq_zero_and_forall_exists_eventually_hessian_eq`
+  (`ConformallyFlat.lean`).
+- `TauCeti.roundSphereVolume` with `TauCeti.roundSphereVolume_pos` and
+  `TauCeti.roundSphereVolume_eq_two_mul_pi_rpow_div_Gamma` (`Geometry/Euclidean/Volume/Sphere.lean`);
+  the round metric `TauCeti.sphereRoundMetric` (`Riemannian/Sphere/Basic.lean`).
+- The homogeneous space `TauCeti.D1p0` with `TauCeti.D1p0.ofTestFunctionₗ`,
+  `TauCeti.D1p0.sobolevEmbeddingL` and `TauCeti.D1p0.sobolevEmbeddingL_injective`
+  (`Analysis/Sobolev/D1p0/Basic.lean`), its translations `TauCeti.D1p0.translate` and dilations
+  `TauCeti.D1p0.dilate` (`D1p0/Translation.lean`, `D1p0/Dilation.lean`).
+- The critical Sobolev estimate for `C¹` functions on a closed manifold
+  `TauCeti.Manifold.exists_eLpNorm_le_mul_eLpNorm_mgradient_two_add` (`Riemannian/Sobolev.lean`);
+  the Lichnerowicz bound `TauCeti.Manifold.finrank_mul_le_of_laplaceBeltrami_eq_neg_mul`
+  (`Riemannian/Lichnerowicz.lean`).
+
+PositiveMass is a supplier of this roadmap and consumes nothing from it.
+Y4–Y6's expansions and test-function construction
+and Y8.1's developing geometry use no positive-mass theorem. PositiveMass 8.1
+and 8.3 then supply positivity and Euclidean rigidity; Y6's zero-mass
+compactification, Y7 and Y8.2–4 consume them. Y9 concludes existence. Y8.1
+precedes the zero-mass compactification even in dimensions3–5.
 
 ## Y0. Conformal tensors and the conformal Laplacian
 
 1. Consume RiemannianGeometry R1's connection, Ricci and scalar formulas
-   for ĝ=e^(2f)g, and DG12's gradient/divergence/Laplacian carriers.
-   Prove their specialization to ĝ=u^(4/(n−2))g, including inverse metric,
-   volume density, Hessian, composition, inverse rescaling and pullback.
-   Establish regularity at the actual finite differentiability levels
-   before specializing to smooth metrics.
-2. Prove
-   `Scal_ĝ=u^(-(n+2)/(n−2)) L_g u` and the operator identity
-   `L_ĝ(v)=u^(-(n+2)/(n−2)) L_g(uv)`.
-   Prove formal symmetry, the integration-by-parts energy identity and
-   conformal invariance `Q_ĝ(v)=Q_g(uv)` on the weak domain. Extend positive
-   smooth multiplication to the Sobolev spaces and prove it is an isomorphism;
-   smooth identities alone do not establish the weak-domain assertion.
-3. Define the conformal class and its positive-function parametrization,
-   including constant-factor redundancy and pullback. Prove
-   `Vol(ĝ)=∫u^(p_n)dV_g`, the volume-normalized scalar-functional identity
-   and the equivalence between critical points of Q and weak solutions of
-   `L_g u=λ|u|^(p_n−2)u`. Specialize to u≥0 and then to positive smooth
-   functions. Identify λ with Q at unit Lp norm.
-4. Compute Euclidean, unit-sphere, constant-rescaling and stereographic
-   examples, with the actual coordinate maps and density Jacobians. The
-   spherical area is the normalized n-dimensional measure of Sⁿ in ℝ^(n+1),
-   not the ambient Lebesgue measure of that sphere. Prove its finiteness,
-   positivity and `2π^((n+1)/2)/Γ((n+1)/2)` value.
-5. Define the Schouten tensor
-   `P=(Ric−Scal·g/[2(n−1)])/(n−2)`, the Kulkarni–Nomizu product and
-   Weyl tensor on the same native tensor bundles. With
-   `Rm(X,Y,Z,W)=⟨R(X,Y)Z,W⟩`, use
+   for ĝ=e^(2f)g, DG12's gradient/divergence/Laplacian carriers, and Tau
+   Ceti's conformal laws for ĝ=fg listed above: connection, curvature,
+   Ricci, scalar, Schouten, Weyl and Cotton tensors, gradient (the inverse
+   metric), Hessian, Laplacian, volume density, composition and inversion
+   of rescalings, and pullback, with the Hessian and Laplacian laws already
+   specialized to `u^p g`. The tensor laws are pinned for a smooth metric
+   and factor, the curvature-operator law at finite differentiability.
+   Prove the Ricci, scalar, Schouten, Weyl and Cotton laws at the actual
+   finite differentiability levels each term needs, and specialize them
+   to ĝ=u^(4/(n−2))g.
+2. Consume Tau Ceti's `TauCeti.Yamabe.scalarCurvature_rescale_eq_rpow_mul_conformalLaplacian`
+   and `TauCeti.Yamabe.conformalLaplacian_rescale`
+   (`TauCeti/Analysis/PDE/Yamabe/ConformalLaplacian.lean`) for
+   `Scal_ĝ=u^(-(n+2)/(n−2)) L_g u` and `L_ĝ(v)=u^(-(n+2)/(n−2)) L_g(uv)`, and
+   its formal symmetry, integration-by-parts energy identity and conformal
+   invariance of the energy and of the critical integral on smooth functions.
+   Deduce `Q_ĝ(v)=Q_g(uv)` for smooth v, and prove it on the weak domain.
+   Extend positive smooth multiplication to the Sobolev spaces and prove it
+   is an isomorphism; smooth identities alone do not establish the
+   weak-domain assertion.
+3. Consume Tau Ceti's conformal class with its positive-function
+   parametrization, constant-factor redundancy and pullback,
+   `Vol(ĝ)=∫u^(p_n)dV_g`, the volume-normalized scalar-functional identity,
+   and, for `C²` functions, the equivalence between critical points of Q and
+   solutions of `L_g u=λ|u|^(p_n−2)u`, its form for u≥0 and the
+   identification of λ with Q at unit Lp norm. Prove the equivalence between
+   critical points of Q on the nonzero H¹ space and weak solutions of
+   `L_g u=λ|u|^(p_n−2)u`, specialize it to u≥0, and identify λ with Q at
+   unit Lp norm on H¹.
+4. Consume Tau Ceti's Euclidean conformal Laplacian
+   `TauCeti.Yamabe.conformalLaplacian_eq_conformalCoefficient_mul_neg_laplacian`,
+   the constant-rescaling law `TauCeti.Yamabe.conformalLaplacian_rescale_const`,
+   the unit-sphere scalar curvature `TauCeti.scalarCurvature_sphereRoundMetric_ofLE`,
+   the stereographic identity `TauCeti.Yamabe.inner_mfderiv_stereographic'_symm_smul_sub`
+   and the spherical area `TauCeti.roundSphereVolume`, the normalized n-dimensional
+   measure of Sⁿ in ℝ^(n+1), not the ambient Lebesgue measure of that sphere, with
+   its positivity and `2π^((n+1)/2)/Γ((n+1)/2)` value. Prove that the Riemannian
+   volume of the round metric is that normalized measure, and the stereographic
+   change of variables `∫_(Sⁿ) f dV=∫ f(Φ(x)) U_(t,b)(x)^(p_n) dx` along each map
+   Φ of the stereographic identity, with the actual coordinate maps and density
+   Jacobians.
+5. Consume Tau Ceti's Schouten tensor
+   `P=(Ric−Scal·g/[2(n−1)])/(n−2)`, Kulkarni–Nomizu product, Weyl tensor
+   and Cotton tensor on the native tensor bundles, with
+   `Rm(X,Y,Z,W)=⟨R(X,Y)Z,W⟩`,
    `(P⊙g)(X,Y,Z,W)=P(X,W)g(Y,Z)+P(Y,Z)g(X,W)`
-   `−P(X,Z)g(Y,W)−P(Y,W)g(X,Z)` and `W=Rm−P⊙g`.
-   Define Cotton by `C(X,Y,Z)=(∇_ZP)(X,Y)−(∇_YP)(X,Z)`.
-   Prove symmetries, contractions, Bianchi identities and conformal laws,
-   including invariance of Weyl of type(1,3) and of Cotton in dimension3.
-   In a local orthonormal frame define
-   `(div W)(X,Y,Z)=Σ_i(∇_(e_i)W)(e_i,X,Y,Z)` and prove
-   `div W=(n−3)C`. For the first-jet system below compute the remaining
-   integrability obstruction as `C(Z,Y,X)+W(X,Y,Z,ξ♯)` on a fibre
-   covector ξ. Under W=C=0 it vanishes for every ξ, supplying Frobenius
-   involutivity on the full jet carrier, not only an identity on solutions.
-   Define local conformal flatness by a positive local factor producing
-   a flat metric and compare with conformal Euclidean coordinate charts.
-   Prove Weyl–Schouten: W=0 iff LCF for n≥4, and C=0 iff LCF for n=3.
-   For the reverse implication construct the first-jet system
-   `Hess f=P+df⊗df−|df|²g/2`, prove its involutivity from the stated
-   curvature/Cotton identities, and apply DG4.3's local Frobenius theorem.
-   The resulting e^(2f)g has P=0 and W=0, hence is flat; use R1.3's
-   local Euclidean-isometry theorem. Supply coordinate transport,
-   smoothness and parameter normalization of this system.
+   `−P(X,Z)g(Y,W)−P(Y,W)g(X,Z)`, `W=Rm−P⊙g` and
+   `C(X,Y,Z)=(∇_ZP)(X,Y)−(∇_YP)(X,Z)`: their symmetries, contractions,
+   Bianchi identities and conformal laws, including invariance of Weyl of
+   type(1,3) and of Cotton in dimension3; `div W=(n−3)C` in an orthonormal
+   frame; the integrability defect `C(u,v,w)+W(w,v,u,ξ)` of the conformal
+   flattening equation `Hess f=P+df⊗df−|df|²g/2` for every value ξ of df,
+   solution or not, which vanishes under W=C=0; local conformal flatness,
+   defined by a positive factor flattening the metric near each point, with
+   its conformal invariance and the forward Weyl–Schouten implications; and
+   the reduction of local conformal flatness to W=0 plus local solvability of
+   the flattening equation. Compare local conformal flatness with conformal
+   Euclidean coordinate charts. Prove the converse Weyl–Schouten
+   implications: W=0 implies LCF for n≥4, and C=0 implies LCF for n=3.
+   Treat the flattening equation as a first-order system for (f,df) on the
+   full jet carrier, prove its involutivity from the pinned defect identity,
+   and apply DG4.3's local Frobenius theorem. The resulting e^(2f)g has
+   P=0 and W=0, hence is flat; use RiemannianGeometry R1.1 item 3 (flat
+   implies locally Euclidean). Supply coordinate transport, smoothness and
+   parameter normalization of this system.
 
 ## Y1. Closed-manifold analytic interfaces
 
@@ -119,17 +211,19 @@ zero-mass compactification even in dimensions3–5.
    truncations and weak chain rules. Compare the same carriers with the
    PDE and bundle-Sobolev suppliers; add the manifold comparison rather than
    another independent weak-derivative theory.
+   Consume Tau Ceti's critical Sobolev estimate for `C¹` functions on a
+   closed manifold, `TauCeti.Manifold.exists_eLpNorm_le_mul_eLpNorm_mgradient_two_add`,
+   and extend it to H¹.
    Consume the native `Analysis/Sobolev/W1p/{Basic,Density,ChainRule}`,
    `Analysis/Sobolev/Embedding` (`TauCeti.W1p0.sobolevEmbeddingL` at
-   its explicit Sobolev-conjugate exponent), `RellichKondrachov`, and
+   its explicit Sobolev-conjugate exponent), `Analysis/Sobolev/RellichKondrachov`, and
    `PDE/FundamentalSolution/Euclidean/{Basic,DistributionalLaplacian}`
    modules under their actual Euclidean hypotheses. Their chart, density
    and Green-normalization comparisons are the manifold targets here.
-2. Consume K5a's closed-manifold Laplace-type estimates, weak-domain
-   identification, shifted self-adjoint compact-resolvent realization
-   and smooth spectral decomposition. Prove that L_g and a sufficiently
-   positive shift satisfy those exact operator/form hypotheses, and
-   identify its native coefficient, domain and quadratic form. Obtain
+2. Take the self-adjoint realization of L_g as a_n times RiemannianGeometry
+   R5c's closed-case realization of `Δ⁺+Scal_g/a_n`, with K5a's H² domain,
+   the form `∫(a_n|du|²+Scal_g u²)dV_g` on H¹ and the same eigenfunctions,
+   and identify this form with the numerator of Q_g. Obtain
    the first eigenvalue `λ₁(L_g)=a_n μ₁(Δ⁺+Scal_g/a_n)` and the simple
    positive first eigenfunction on connected M from RiemannianGeometry
    R5c item 1, and prove the exact maximum-principle consequences when λ₁>0.
@@ -149,13 +243,14 @@ zero-mass compactification even in dimensions3–5.
 
 ## Y2. Sharp Euclidean Sobolev theory
 
-1. For n≥3 construct the homogeneous D¹,² completion of compactly supported
-   smooth real functions by the gradient norm and its canonical injection
-   into L^(p_n). Supply density, dilation/translation actions and comparison
-   with the PDE homogeneous-space construction wherever that carrier is
-   available. Prove the sharp inequality
-   `a_n∫|du|² ≥ Y(Sⁿ) (∫|u|^(p_n))^(2/p_n)`, with
-   `Y(Sⁿ)=n(n−1)Vol(Sⁿ)^(2/n)`.
+1. For n≥3 consume Tau Ceti's homogeneous D¹,² completion `TauCeti.D1p0`
+   of compactly supported smooth real functions by the gradient norm, with
+   the dense map of test functions, dilations and translations, and its
+   injective embedding `TauCeti.D1p0.sobolevEmbeddingL` into L^(p_n), and the
+   constant `Y(Sⁿ)=n(n−1)Vol(Sⁿ)^(2/n)`, `TauCeti.Yamabe.sphereYamabeConstant`.
+   Prove the sharp inequality
+   `a_n∫|du|² ≥ Y(Sⁿ) (∫|u|^(p_n))^(2/p_n)` on smooth compactly supported u,
+   and extend it to D¹,² by density.
 2. Construct decreasing rearrangement and the coarea/isoperimetric
    comparison needed for a proof, or the equivalent stereographic
    variational argument with its compactness and equality steps. Prove the
@@ -163,11 +258,13 @@ zero-mass compactification even in dimensions3–5.
    `U_(λ,b)(x)=(2λ/(λ²+|x−b|²))^((n−2)/2)`, λ>0.
    The sign and translation/dilation parameters must be recovered, not
    assumed from a guessed radial extremizer.
-3. Prove smoothness, positivity, exact derivatives, integrability, decay and
-   all scaling/moment estimates of these bubbles. Verify
-   `a_n Δ⁺ U=n(n−1)U^(p_n−1)`, their norm/energy equality and their
-   stereographic metric interpretation. Treat logarithmically divergent
-   moments by truncated integrals with explicit remainder bounds.
+3. Consume Tau Ceti's bubbles `TauCeti.Yamabe.bubble`: smoothness,
+   positivity, exact derivatives, integrability, decay, scaling and the
+   moment and cutoff estimates of `Analysis/PDE/Yamabe/Bubble/`, the
+   equation `a_n Δ⁺ U=n(n−1)U^(p_n−1)`, their norm/energy equality and their
+   stereographic metric interpretation, with logarithmically divergent
+   moments treated by truncated integrals with explicit remainder bounds.
+   Prove every further moment estimate Y5 and Y6 use in the same form.
 4. Transfer the sharp estimate to M with an epsilon loss: for every ε>0
    find Cε with
    `‖u‖_(p_n)² ≤ (a_n/Y(Sⁿ)+ε)∫|du|²+Cε∫u²`.
@@ -177,10 +274,11 @@ zero-mass compactification even in dimensions3–5.
 
 1. Prove finiteness and metric/conformal invariance of Y, its continuity
    under C² metric perturbation, the universal bound Y≤Y(Sⁿ), and the
-   equivalence between the signs of Y and λ₁(L_g). Construct a metric of
-   scalar curvature of the corresponding sign from the positive first
-   eigenfunction φ: its scalar is `λ₁φ^(−4/(n−2))`, generally a varying
-   function. This construction uses no final critical minimizer.
+   equivalence between the signs of Y and λ₁(L_g). For λ₁(L_g)>0 consume
+   PositiveMass 3.0's metric `φ^(4/(n−2))g` of scalar curvature
+   `λ₁φ^(−4/(n−2))`, generally a varying function. For λ₁≤0 the same Tau
+   Ceti law gives this metric scalar curvature of the sign of λ₁. This
+   construction uses no final critical minimizer.
 2. For exponents 2<q<p_n construct nonnegative unit-Lq minimizers and their
    Euler equations. Prove coercive minimizing-sequence bounds, direct-method
    attainment, smooth positivity, uniform energy and multiplier bounds and
@@ -238,14 +336,16 @@ Assume λ₁(L_g)>0. On M\{p} construct `ĝ=G_p^(4/(n−2))g`, prove
 scalar flatness away from p, completeness, and the precise AE chart obtained
 by inversion. In the Y4 low-dimensional or flat-pole cases verify all decay,
 regularity and scalar-integrability hypotheses of the positive-mass theorem.
-With the standard mass normalization in PositiveMass, prove `m_ADM=2A`
+With PositiveMass 0.2's mass normalization, prove `m_ADM=2A`
 in the normalized expansion. Include any dimension-specific curvature
 terms in the calculation; only the flat-pole case is an immediate
-Schwarzschild leading-term computation.
+Schwarzschild leading-term computation, PositiveMass 0.4's mass `2c` of
+`(1+c r^(2−n))^(4/(n−2))δ` with c=A.
 
 Construct the glued test function from an inner bubble and the outer Green
 function. Prove positivity, smooth gluing, norm/energy estimates and
-`Y<Y(Sⁿ)` when A>0. The zero case follows P8 and Y8.1: a Euclidean
+`Y<Y(Sⁿ)` when A>0. The zero case follows PositiveMass 8.1 and 8.3 and
+Y8.1: a Euclidean
 blow-up makes g LCF on M\{p}; extend vanishing of W, or Cotton for n=3,
 to p by continuity and apply Y0.5. Prove that deleting a point in
 dimension≥3 induces the fundamental-group isomorphism, using coordinate
@@ -256,10 +356,11 @@ the smooth conformal map at p, rather than just a topological compactification.
 
 ## Y7. Low dimensions and orientation
 
-For 3≤n≤5, apply PositiveMass's finite-ended nonspin theorem to the actual
-complete blow-up in Y6. Prove that A≥0 and that A=0 implies the conformal
-sphere. Consume P3's orientation-double-cover corollary and P0's covering
-mass comparison; verify their completeness/end hypotheses for the blow-up.
+For 3≤n≤5, apply PositiveMass 8.1, the finite-ended nonspin theorem, to the
+actual complete blow-up in Y6. Prove that A≥0 and that A=0 implies the
+conformal sphere. Consume PositiveMass 3.2's orientation double cover and
+0.4's lifts of ends to finite covers, through which 8.1 needs no
+orientation; verify their completeness/end hypotheses for the blow-up.
 No Spin hypothesis is added to the low-dimensional Yamabe theorem.
 If Y≤0, use Y3 directly; the Green/positive-mass lane is only needed for
 the positive case.
@@ -290,8 +391,8 @@ the positive case.
    facts to exclude every finite-length escaping curve. Show each pole is an AE end with the
    same local expansion and mass 2A. Construct the pulled-back Spin
    structure on this exact punctured metric.
-3. Apply PositiveMass's spin theorem for one AE end and arbitrary other
-   complete ends. Its proof uses localized doubled-Callias problems on
+3. Apply PositiveMass 8.3, the spin theorem for one AE end and arbitrary
+   other complete ends. Its proof uses localized doubled-Callias problems on
    compact-boundary AE truncations; a global Fredholm inverse on an
    arbitrary non-AE remainder is not an input. Obtain A≥0. If A=0,
    Euclidean zero rigidity leaves one end, while distinct lifted poles
@@ -326,10 +427,12 @@ the positive case.
    radial metric argument. For a positive Einstein metric identify all
    conformally related constant-scalar-curvature metrics: homotheties
    unless the metric is round up to scale; in the sphere case identify
-   the Möbius conformal factors and their normalized family. Connect
-   this to the Lichnerowicz estimate: for Ric≥(n−1)kg with k>0 prove
-   λ₁(Δ⁺)≥nk via R7.4's scalar Bochner identity, and identify equality
-   with Obata's Hessian equation and the round sphere.
+   the Möbius conformal factors and their normalized family. Consume the
+   Lichnerowicz bound `TauCeti.Manifold.finrank_mul_le_of_laplaceBeltrami_eq_neg_mul`
+   and RiemannianGeometry R7.0's equality case (an eigenfunction with
+   λ=nk satisfies Hess f=−kfg). With Obata's theorem above, prove that
+   λ₁(Δ⁺)=nk forces (M,g) to be isometric to the round sphere of radius
+   1/√k.
 4. Prove `Y=Y(Sⁿ)` iff the connected conformal manifold is the round
    conformal sphere, and identify its minimizing factors. Explain this
    equality via the already constructed strict-inequality cases and
