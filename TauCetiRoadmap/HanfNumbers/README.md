@@ -323,7 +323,7 @@ cardinality `κ⁺` homogeneous for the induced colouring, and hence for the ori
 Consumer forms, each a stated theorem:
 
 - **`erdos_rado_beth`**: `ℶ_(α+n)⁺ → (ℶ_α⁺)ⁿ⁺¹_{ℶ_α}` for every ordinal `α`, from
-  `iteratedTwoPow_beth`. Since `ℶ_(α+n)⁺ ≤ ℶ_(α+n+1)`, a set of cardinality at least `ℶ_(α+n+1)`
+  `iteratedTwoPow (ℶ_ α) n = ℶ_ (α + n)` (Convention 4). Since `ℶ_(α+n)⁺ ≤ ℶ_(α+n+1)`, a set of cardinality at least `ℶ_(α+n+1)`
   suffices.
 
 **Acceptance check:** `erdos_rado` at `n = 1`, i.e. `(2^κ)⁺ → (κ⁺)²_κ`, and at `κ = ℵ₀`, i.e.
@@ -352,8 +352,8 @@ For a linear order `J`, a structure `M`, a sequence `a : J → M` and a set
   `ψ.Realize Empty.elim (a ∘ s) ↔ ψ.Realize Empty.elim (a ∘ t)`.
 - `IsIndiscernible a`: indiscernibility for every formula of every arity.
 
-API, each a target: monotonicity in `Δ`; restriction along order embeddings `K ↪o J`
-(`IsIndiscernibleOn.comp`) and transport along order isomorphisms; invariance of indiscernibility
+API, each a target: monotonicity in `Δ`; restriction along order embeddings `K ↪o J` (if `a` is
+indiscernible on `Δ`, so is `a ∘ e` for `e : K ↪o J`) and transport along order isomorphisms; invariance of indiscernibility
 under isomorphisms of the structure; closure of `Δ` under the operations that preserve it: negation,
 implication, the countable connectives `iSup`/`iInf`, and reindexing of bound positions along an
 order embedding `Fin n ↪o Fin m` (the parent's `mapBound`). Quantifiers do not preserve
@@ -372,8 +372,7 @@ sequence's increasing tuples realize the same equality pattern.
 - **Coherence**: `Φ` is coherent on a set `Δ` closed under reindexing when `ψ ∈ Φ` iff
   `mapBound r ψ ∈ Φ` for every order embedding `r : Fin n ↪o Fin m` with `ψ ∈ Δ`.
 
-Theorems: `IsIndiscernibleOn a Δ ↔ (templateOf a).RealizesOn a Δ`
-(`isIndiscernibleOn_iff_realizesOn_templateOf`, over any index order); on an infinite index order,
+Theorems: `IsIndiscernibleOn a Δ ↔ (templateOf a).RealizesOn a Δ`, over any index order; on an infinite index order,
 the template of an indiscernible sequence is coherent on any reindexing-closed `Δ`; if `a` is indiscernible on `Δ`, a subsequence along
 `K ↪o J` with `K` infinite has the same template on `Δ`, since each formula of `Δ` has one truth
 value on all increasing tuples of `J` and `K` has increasing tuples of every arity (without
@@ -384,12 +383,13 @@ indiscernible on `Δ`.
 ### 1.3 The Morley seed
 
 `disEq : L.BoundedFormulaω Empty 2` is `¬(x₀ = x₁)`, and `morleySeed φ = {⟨0, φ⟩, ⟨2, disEq⟩}`.
-`isIndiscernibleOn_morleySeed`: every injective sequence in a model of `φ` is indiscernible for
-the Morley seed, since the sentence ignores the tuple and `x₀ ≠ x₁` holds at every increasing pair.
+Every injective sequence in a model of `φ` is indiscernible for the Morley seed, since the sentence
+ignores the tuple and `x₀ ≠ x₁` holds at every increasing pair.
 If `b : J → N` realizes the template of such a sequence on the seed, then `N ⊨ φ` and `b` is
 injective, so `#J ≤ #N`.
 
-**Acceptance check:** `isIndiscernibleOn_morleySeed`, compiled on the parent's Layer 0 alone.
+**Acceptance check:** every injective sequence in a model of `φ` is indiscernible for the Morley
+seed, compiled on the parent's Layer 0 alone.
 
 ⚠ **API warning.** Realizability of a template is not a finite-character property in Lω₁ω. Over
 unary predicates `Pᵢ`, let `M` have elements of every finite height with `Pᵢ x ↔ i ≤ height x`,
@@ -677,7 +677,7 @@ Targets:
   where the language term of `exists_emModel` is absorbed, and the reduct keeps the carrier.
 - **`hasArbLargeModels_of_forall_beth`** and **`morley_hanf`**: `ℶ_ω₁` is a Hanf bound for every
   Lω₁ω sentence, over any language.
-- **`hanfNumber_le_beth_omega_one`**.
+- The Hanf number of every Lω₁ω sentence is at most `ℶ_ω₁`.
 - **`morley_hanf_theory`**: a countable `T : Theoryω L` (IME 1.1), through `Theoryω.conjunction`,
   satisfying the Morley–Hanf hypothesis
   has models of every infinite cardinality.
@@ -801,8 +801,7 @@ Using IME's `infinitaryType` and `realizedTypes` (IME 4.1):
 
 - `IsLω₁ωSmall M`: for every `n`, `(realizedTypes M n).Countable`, i.e. `M` realizes countably many
   complete Lω₁ω-types in `n` variables.
-- API: invariance under isomorphism; every countable structure is small
-  (`isLω₁ωSmall_of_countable`); smallness descends to reducts along a language map (types of the
+- API: invariance under isomorphism; every countable structure is small; smallness descends to reducts along a language map (types of the
   reduct are determined by types in the expansion); potentially isomorphic structures realize the
   same complete types, so smallness transfers along `PotentialIso`; if every tuple's complete
   type is determined by its orbit under a group of automorphisms with countably many orbits on
@@ -895,7 +894,7 @@ many relation symbols, so 5.4 and 5.5 apply to it. Targets:
 
 Worked example 10 is the test case: a sentence with a function symbol, outside 5.4 and 5.5.
 
-**Acceptance check:** `isLω₁ωSmall_of_countable`.
+**Acceptance check:** every countable structure is small.
 
 ⚠ **API warning.** Smallness concerns the complete Lω₁ω-type, all of whose formulas are allowed,
 not the type relative to a fragment. A structure realizing countably many types relative to every
@@ -913,7 +912,7 @@ Discharge these alongside the layers; they check that the API describes real str
 
 1. **Erdős–Rado at small parameters.** `ℶ₁⁺ → (ℵ₁)²_{ℵ₀}` and `ℶ₂⁺ → (ℵ₁)³_{ℵ₀}` as instances of
    `erdos_rado`; the pigeonhole instance `ℵ₁ → (ℵ₁)¹_{ℵ₀}`.
-2. **Morley seed.** `isIndiscernibleOn_morleySeed` for an injective sequence in any model of `φ`.
+2. **Morley seed.** An injective sequence in any model of `φ` is indiscernible for the Morley seed.
 3. **The height example.** The template-realizability counterexample of the Layer 1 warning, with
    its finitely realized and unrealizable template proved.
 4. **EM models of the atomic order fragment.** The Layer 2 acceptance check, with the skeleton an

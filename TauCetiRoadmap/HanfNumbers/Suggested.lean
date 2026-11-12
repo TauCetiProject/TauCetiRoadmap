@@ -82,11 +82,6 @@ noncomputable def iteratedTwoPow (κ : Cardinal.{u}) : ℕ → Cardinal.{u}
   | 0 => κ
   | n + 1 => 2 ^ iteratedTwoPow κ n
 
-/-- On the beth scale the iterated exponential is a shift of the index. -/
-theorem iteratedTwoPow_beth (α : Ordinal.{u}) (n : ℕ) :
-    iteratedTwoPow (ℶ_ α) n = ℶ_ (α + n) := by
-  induction n <;> simp_all [iteratedTwoPow, ← add_assoc, Cardinal.beth_add_one]
-
 /-- **Layer 0, the pigeonhole principle** `κ⁺ → (κ⁺)¹_κ`, from the regularity of successor
 cardinals. -/
 theorem partitionRel_succ_one {κ : Cardinal.{u}} (hκ : ℵ₀ ≤ κ) :
@@ -135,12 +130,6 @@ def IsIndiscernibleOn {J : Type u'} [LinearOrder J] {M : Type w} [L.Structure M]
     BoundedFormulaInf.Realize p.2 (Empty.elim : Empty → M) (a ∘ s) ↔
       BoundedFormulaInf.Realize p.2 (Empty.elim : Empty → M) (a ∘ t)
 
-/-- Indiscernibility passes to subsequences. -/
-theorem IsIndiscernibleOn.comp {J : Type u'} [LinearOrder J] {K : Type*} [LinearOrder K]
-    {M : Type w} [L.Structure M] {a : J → M} {Δ : Set (Σ n, L.BoundedFormulaω Empty n)}
-    (h : IsIndiscernibleOn a Δ) (e : K ↪o J) : IsIndiscernibleOn (a ∘ e) Δ :=
-  fun p hp s t => h p hp (s.trans e) (t.trans e)
-
 /-- An Ehrenfeucht–Mostowski template: for each arity, the formulas declared true of increasing
 tuples. The README pins its coherence, completeness and Skolem conditions. -/
 structure EMTemplate (L : FirstOrder.Language.{u, v}) where
@@ -159,13 +148,6 @@ def EMTemplate.RealizesOn (Φ : EMTemplate L) {J : Type u'} [LinearOrder J] {M :
   ∀ p ∈ Δ, ∀ t : Fin p.1 ↪o J,
     BoundedFormulaInf.Realize p.2 (Empty.elim : Empty → M) (a ∘ t) ↔ p.2 ∈ Φ.formulas p.1
 
-/-- Indiscernibility on `Δ` is realization of the sequence's own template on `Δ`. -/
-theorem isIndiscernibleOn_iff_realizesOn_templateOf {J : Type u'} [LinearOrder J]
-    {M : Type w} [L.Structure M] (a : J → M) (Δ : Set (Σ n, L.BoundedFormulaω Empty n)) :
-    IsIndiscernibleOn a Δ ↔ (templateOf a).RealizesOn a Δ :=
-  ⟨fun h p hp t => ⟨fun ht s => (h p hp t s).1 ht, fun hall => hall t⟩,
-    fun h p hp s t => ⟨fun hs => (h p hp s).1 hs t, fun ht => (h p hp t).1 ht s⟩⟩
-
 /-- The formula `x₀ ≠ x₁` on two bound positions. -/
 def disEq : L.BoundedFormulaω Empty 2 :=
   (BoundedFormulaInf.equal (Term.var (Sum.inr 0)) (Term.var (Sum.inr 1))).not
@@ -173,15 +155,6 @@ def disEq : L.BoundedFormulaω Empty 2 :=
 /-- The Morley seed of a sentence: the sentence itself and `x₀ ≠ x₁`. -/
 def morleySeed (φ : L.Sentenceω) : Set (Σ n, L.BoundedFormulaω Empty n) :=
   {⟨0, φ⟩, ⟨2, disEq⟩}
-
-/-- **Layer 1 worked example.** Every injective sequence in a model of `φ` is indiscernible for
-the Morley seed. -/
-theorem isIndiscernibleOn_morleySeed {J : Type u'} [LinearOrder J] {M : Type w} [L.Structure M]
-    (φ : L.Sentenceω) {a : J → M} (ha : Function.Injective a) :
-    IsIndiscernibleOn a (morleySeed φ) := by
-  rintro p (rfl | rfl) s t
-  · rw [Subsingleton.elim (a ∘ ⇑s) (a ∘ ⇑t)]
-  · simp [disEq, ha.eq_iff, s.injective.eq_iff, t.injective.eq_iff]
 
 end Indiscernibles
 
@@ -367,11 +340,6 @@ theorem morley_hanf (φ : L.Sentenceω) :
     IsHanfBound φ (ℶ_ (Ordinal.omega.{w} 1)) := by
   sorry
 
-/-- **Layer 3.** The Hanf number of every Lω₁ω sentence is at most `ℶ_ω₁`, by `morley_hanf`. -/
-theorem hanfNumber_le_beth_omega_one (φ : L.Sentenceω) :
-    hanfNumber.{u, v, w} φ ≤ ℶ_ (Ordinal.omega.{w} 1) :=
-  csInf_le' (morley_hanf φ)
-
 /-- **Layer 3, Morley's omitting-types theorem**, over any language. Partial first-order types are
 tagged with their arity. Countability of each type is a hypothesis separate from countability of
 the family: without it the omitting sentence is not in Lω₁ω, and the theorem fails (README 3.4). -/
@@ -437,12 +405,6 @@ variable {L : FirstOrder.Language.{u, v}}
 finite number of variables. -/
 def IsLω₁ωSmall (M : Type w) [L.Structure M] : Prop :=
   ∀ n, (realizedTypes (L := L) M n).Countable
-
-/-- **Layer 5 acceptance check.** Every countable structure is Lω₁ω-small: its `n`-tuples are
-countably many. -/
-theorem isLω₁ωSmall_of_countable (M : Type w) [L.Structure M] [Countable M] :
-    IsLω₁ωSmall (L := L) M :=
-  fun _ => (Set.countable_range (infinitaryType M)).mono fun _ hp => mem_realizedTypes.1 hp
 
 /-- A linear order is highly order-transitive when any two increasing tuples of the same length
 are conjugate by an order automorphism. -/
