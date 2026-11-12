@@ -65,16 +65,21 @@ rings.
 
 **Left to GrothendieckTopoi.** Grothendieck topoi and the predicate `IsGrothendieckTopos`, with
 `Sheaf J (Type u)` as the standard instance and every topos equivalent to one (GrothendieckTopoi
-1.1); geometric morphisms, their 2-cells and the equivalence between 2-cells and transformations of
-inverse images (GrothendieckTopoi 2.1–2.2); Diaconescu's theorem, `IsFiltering` and
-`nonempty_geometricMorphism_equiv_isFiltering` (GrothendieckTopoi 2.5); subtopoi, and the
-correspondence between subtopoi of `Sheaf J (Type u)` and topologies `J' ≥ J` (GrothendieckTopoi
-4.1–4.2); points of a topos (GrothendieckTopoi 6.1); essential points and Roos's theorem on presheaf
-topoi (GrothendieckTopoi 6.5); irreducible objects of a topos, rigid topologies and the criterion
-`Sheaf J (Type u)` presheaf topos if and only if `J` rigid (GrothendieckTopoi 6.6). This roadmap
-writes the universal property of a classifying topos with inverse images, the left exact left
-adjoints `Sheaf J (Type u) ⥤ Sheaf K (Type u)`, which GrothendieckTopoi 2.1 identifies with
-geometric morphisms; it restates none of those statements.
+1.1); the structure of a topos, of which this roadmap uses the epimorphisms, the coproducts and the
+frames of subobjects (GrothendieckTopoi 1.2), and Giraud's axioms (GrothendieckTopoi 1.4); geometric
+morphisms, their 2-cells and the equivalence between 2-cells and transformations of inverse images
+(GrothendieckTopoi 2.1–2.2); the geometric morphisms of morphisms of sites and of continuous maps
+(GrothendieckTopoi 2.4); Diaconescu's theorem, `IsFiltering` and
+`nonempty_geometricMorphism_equiv_isFiltering` (GrothendieckTopoi 2.5); subtopoi (GrothendieckTopoi
+4.1), and the correspondence between subtopoi of `Sheaf J (Type u)` and topologies `J' ≥ J`
+(GrothendieckTopoi 4.2); points of a topos (GrothendieckTopoi 6.1); essential points and Roos's
+theorem on presheaf topoi (GrothendieckTopoi 6.5); irreducible objects of a topos, with their
+characterization as the connected nonempty projective objects, and rigid topologies
+(GrothendieckTopoi 6.6); and the classifying topos `B G` of a group, the category
+`Action (Type u) G` (GrothendieckTopoi, Examples of Layer 1), which Convention 5 compares with the
+presheaves on `SingleObj G`. This roadmap writes the universal property of a classifying topos with
+inverse images, the left exact left adjoints `Sheaf J (Type u) ⥤ Sheaf K (Type u)`, which
+GrothendieckTopoi 2.1 identifies with geometric morphisms; it restates none of those statements.
 
 **Supplied by Tau Ceti and Mathlib.** The global sections functor `Scheme.Γ` is a sheaf for every
 subcanonical topology on schemes (Tau Ceti `CategoryTheory.GrothendieckTopology.isSheaf_Γ`,
@@ -84,13 +89,14 @@ additive group is Tau Ceti's `AlgebraicGeometry.Scheme.Ga`. The forgetful functo
 restriction to the `Spec A` with `A` finitely presented (`Scheme.ΓSpecIso`). This roadmap owns only
 the Zariski topology on `FPRing.{u}ᵒᵖ` and the restriction.
 
-**Left to LocallyPresentableCategories.** Gabriel–Ulmer duality and the categories of models of
-small categories with finite limits (LocallyPresentableCategories 3.1–3.4), essentially algebraic
-theories (3.5) and finitely accessible categories as `Ind A` (1.5). The category of set-models of a
-theory of presheaf type is `Ind` of the opposite of a small classifying site, an instance of
-LocallyPresentableCategories 1.5 that 3.5 (a′) uses and the Examples of Layer 3 record; this
-roadmap defines only the category `SetModel T` of the set-models of one theory, in 3.5, to state
-finite presentability and presentation by a formula.
+**Left to LocallyPresentableCategories.** Gabriel–Ulmer duality (its Layer 3), of which this roadmap
+cites the categories of models of small categories with finite limits (LocallyPresentableCategories
+3.1) and essentially algebraic theories (LocallyPresentableCategories 3.5), and finitely accessible
+categories as `Ind A` (LocallyPresentableCategories 1.5). The category of set-models of a theory of
+presheaf type is `Ind` of the opposite of a small classifying site, an instance of
+LocallyPresentableCategories 1.5 that 3.5 (a′) uses and the Examples of Layer 3 record; this roadmap
+defines only the category `SetModel T` of the set-models of one theory, in 3.5, to state finite
+presentability and presentation by a formula.
 
 **Supplied by Tau Ceti.** The syntax and set-theoretic semantics of `L_{∞ω}`,
 `FirstOrder.Language.BoundedFormulaInf` (`TauCeti/ModelTheory/Infinitary/Syntax`) and
@@ -170,40 +176,55 @@ and the representation of a topos by a localic groupoid (Joyal–Tierney 1984).
 
 ## Exact supplier contracts
 
-**From Mathlib** (at the pins).
+**From Mathlib** (at the pins; file names are relative to `Mathlib/`).
 
-- Model theory: `FirstOrder.Language`, `FirstOrder.Language.Term` with `Term.var`, `Term.func`,
-  `Term.realize`, `Term.relabel` and `Term.subst`, `FirstOrder.Language.Structure` with
-  `Structure.funMap` and `Structure.RelMap`, `FirstOrder.Language.Hom` (`M →[L] N`),
-  `FirstOrder.Language.Functions.apply₁`, `FirstOrder.Language.empty`, `FirstOrder.Language.ring`
-  with its `Zero`, `One`, `Add`, `Mul` and `Neg` instances on terms and
-  `FirstOrder.Ring.compatibleRingOfRing` (`ModelTheory/Algebra/Ring/Basic`).
-- Subobjects and limits: `Subobject` with its `⊓` and `⊤`, `Subobject.pullback`,
-  `Subobject.exists`, `imageSubobject`, `equalizerSubobject` (`Subobject/Limits`), `Over`,
-  `Pi.lift`, `Pi.π`, `Limits.Pi.map`, `Sigma.desc`, `piComparison`, `HasFiniteProducts`,
-  `HasFiniteLimits`, `HasImages`, `HasCoproducts`, `PreservesFiniteProducts`,
-  `PreservesFiniteLimits`, `Functor.IsLeftAdjoint`, `IsTerminal`, `IsTerminal.isTerminalObj`,
-  `Types.productIso`, `TypeCat.ofHom`, `piObjIso`, `piObjIso_hom_comp_π`,
-  `NatTrans.naturality_apply`.
-- Sites: `GrothendieckTopology` with its complete lattice, `Sieve`, `Sheaf`, `sheafToPresheaf`,
-  `presheafToSheaf`, `sheafBotEquivalence`, `Presheaf.IsSheaf`, `Sheaf.instHasColimitsOfShape`
-  (`Sites/Limits`), the instance `HasImages (Sheaf J (Type u))` (`Sites/Subsheaf`), and
-  `Functor.inducedTopology` (`Sites/InducedTopology`), used along the functor of an equivalence of
-  categories.
-- Categories and examples: `FintypeCat.Skeleton`, `FintypeCat.Skeleton.incl`, `FintypeCat.incl`,
-  `unopUnop`, `Equivalence`, `Equivalence.op`, `ObjectProperty.FullSubcategory`,
-  `ObjectProperty.ι`, `yoneda`, `SingleObj`, `SingleObj.star`, `AsSmall`, `AsSmall.up`,
-  `AsSmall.equiv`, `SimplexCategory` with `SimplexCategory.δ`, `SimplexCategory.σ` and
-  `SimplexCategory.isTerminalZero`; `Sheaf.canonicalTopology`, `Subobject.underlying`,
-  `IsIdempotentComplete` and `Sieve` with its maximal element.
-- Schemes: `AlgebraicGeometry.Scheme.Γ`, `Scheme.zariskiTopology`,
-  `Scheme.subcanonical_zariskiTopology` (`AlgebraicGeometry/Sites/BigZariski`), `Spec` and
-  `Scheme.ΓSpecIso`.
-- Algebra: `MvPolynomial`, `Ideal.FG`, `Ideal.span`, `IsLocalization.Away`, `RingHom.toAlgebra`,
-  `MulEquiv`, `CommRingCat`, `Algebra.FinitePresentation`, `IsFinitelyPresentable`,
+- Model theory (`ModelTheory/Basic`, `ModelTheory/Syntax`, `ModelTheory/Semantics`):
+  `FirstOrder.Language` with its fields `Functions` and `Relations`, `FirstOrder.Language.Term` with
+  `Term.var`, `Term.func`, `Term.realize`, `Term.relabel` and `Term.subst`,
+  `FirstOrder.Language.Structure` with `Structure.funMap` and `Structure.RelMap`,
+  `FirstOrder.Language.Hom` (`M →[L] N`) with `FirstOrder.Language.Hom.id`,
+  `FirstOrder.Language.Hom.comp`, `FirstOrder.Language.Hom.map_fun` and
+  `FirstOrder.Language.Hom.map_rel`, `FirstOrder.Language.Functions.apply₁`,
+  `FirstOrder.Language.empty`, and `FirstOrder.Language.ring` with its `Zero`, `One`, `Add`, `Mul`
+  and `Neg` instances on terms and `FirstOrder.Ring.compatibleRingOfRing`
+  (`ModelTheory/Algebra/Ring/Basic`).
+- Subobjects and limits: `Subobject` with its `⊓` and `⊤`, `Subobject.pullback`, `Subobject.exists`,
+  `Subobject.arrow` and `Subobject.underlying` (`CategoryTheory/Subobject/Basic`), `imageSubobject`,
+  `equalizerSubobject` (`CategoryTheory/Subobject/Limits`), `Over`, `Over.mk`
+  (`CategoryTheory/Comma/Over/Basic`), `Pi.lift`, `Pi.π`, `Limits.Pi.map`, `Sigma.desc`,
+  `piComparison`, `HasCoproducts` (`CategoryTheory/Limits/Shapes/Products`), `HasFiniteProducts`,
+  `HasFiniteLimits`, `HasImages`, `PreservesFiniteProducts`, `PreservesFiniteLimits`
+  (`CategoryTheory/Limits/Preserves/Finite`), `Functor.IsLeftAdjoint`
+  (`CategoryTheory/Adjunction/Basic`), `Epi`, `CategoryTheory.inv` (`CategoryTheory/Iso`),
+  `IsTerminal`, `IsTerminal.from`, `IsTerminal.isTerminalObj`, `Types.productIso`
+  (`CategoryTheory/Limits/Types/Products`), `TypeCat.ofHom` (`CategoryTheory/Types/Basic`),
+  `piObjIso`, `piObjIso_hom_comp_π` (`CategoryTheory/Limits/FunctorCategory/Shapes/Products`),
+  `NatTrans.naturality_apply` (`CategoryTheory/ConcreteCategory/Basic`).
+- Sites: `GrothendieckTopology` with its complete lattice, `Sieve` with its field `Sieve.arrows` and
+  its maximal element, `Sheaf`, `sheafToPresheaf`, `presheafToSheaf`, `sheafBotEquivalence`,
+  `Presheaf.IsSheaf`, `Sheaf.instHasColimitsOfShape` (`CategoryTheory/Sites/Limits`), the instance
+  `HasImages (Sheaf J (Type u))` (`CategoryTheory/Sites/Subsheaf`), `Sheaf.canonicalTopology`
+  (`CategoryTheory/Sites/Canonical`) and `Functor.inducedTopology`
+  (`CategoryTheory/Sites/InducedTopology`), used along the functor of an equivalence of categories.
+- Categories and examples: `Category` and `SmallCategory` (`CategoryTheory/Category/Basic`), in the
+  binders of the targets from 1.3 on; `Opposite.op`, `unopUnop`, `Equivalence`, `Equivalence.op`,
+  `ObjectProperty`, `ObjectProperty.FullSubcategory`, `ObjectProperty.ι`, `yoneda`,
+  `FintypeCat.Skeleton`, `FintypeCat.Skeleton.incl`, `FintypeCat.incl`, `SingleObj`,
+  `SingleObj.star`, `AsSmall`, `AsSmall.up`, `AsSmall.equiv`, `SimplexCategory` with
+  `SimplexCategory.δ`, `SimplexCategory.σ`, `SimplexCategory.isTerminalZero` and the notation `⦋n⦌`
+  of `Simplicial` (`AlgebraicTopology/SimplexCategory`), `IsIdempotentComplete`
+  (`CategoryTheory/Idempotents/Basic`) and `IsFinitelyPresentable`
+  (`CategoryTheory/Presentable/Finite`).
+- Schemes: `AlgebraicGeometry.Scheme.Γ`, `Spec` and `Scheme.ΓSpecIso` (`AlgebraicGeometry/Scheme`),
+  `Scheme.zariskiTopology` and `Scheme.subcanonical_zariskiTopology`
+  (`AlgebraicGeometry/Sites/BigZariski`).
+- Algebra and basic data: `Group`, `MulEquiv`, `MvPolynomial`, `Ideal`, `Ideal.FG`, `Ideal.span`,
+  the ring structures on the quotient by an ideal and on `ULift`, `IsLocalization.Away`,
+  `RingHom.toAlgebra`, `CommRingCat`, `Algebra.FinitePresentation`,
   `CommRingCat.isFinitelyPresentable_under`, `CommRingCat.isFinitelyPresentable_hom`
   (`Algebra/Category/Ring/FinitePresentation`) and `essentiallySmall_of_le`
-  (`Algebra/Category/CommAlgCat/FiniteType`).
+  (`Algebra/Category/CommAlgCat/FiniteType`); `Fin.snoc` (`Data/Fin/Tuple/Basic`), `Set.range`,
+  `Finset` and `Matrix.vecCons`, the notation `![t, s]` (`Data/Fin/VecNotation`).
 
 **From Tau Ceti** (at the pin). `FirstOrder.Language.BoundedFormulaInf` with its constructors
 `equal`, `rel` and `iSup` and its `⊤`, `⊥`, `⊓` and `ex` (`TauCeti/ModelTheory/Infinitary/Syntax`),
@@ -212,25 +233,27 @@ for 1.2; `CategoryTheory.GrothendieckTopology.isSheaf_Γ` (`Scheme.Γ` is a shea
 subcanonical topology on schemes) and `AlgebraicGeometry.Scheme.Ga`, both in
 `TauCeti/AlgebraicGeometry/Sites/Big/StructureSheaf.lean`, for 4.2.
 
-**From GrothendieckTopoi.** 1.1 (`IsGrothendieckTopos`: `Sheaf J (Type u)` is a Grothendieck topos
-for every small site and every Grothendieck topos is equivalent to one, so the quantifier over small
-sites in 2.1 is a quantifier over Grothendieck topoi), 1.2 (epimorphisms and coproducts in
-`Sheaf J (Type u)`, every epimorphism being the coequalizer of its kernel pair, and the frame
-property of its subobject lattices), 1.4 (Giraud's axioms: coequalizers of internal equivalence
-relations are universal, so images are stable under pullback, for 2.2 (b)), 2.1
-(`GeometricMorphism`: left exact left adjoints between Grothendieck topoi are the inverse images of
-geometric morphisms), 2.2 (`GeometricMorphism.homEquivInverse`: 2-cells and transformations of
-inverse images), 2.4 (`GeometricMorphism.ofContinuous`: inverse images of continuous maps, for the
-Examples of Layer 1), 2.5 (`IsFiltering`, `nonempty_geometricMorphism_equiv_isFiltering`,
-Diaconescu's theorem), 4.2 (the subtopoi of `Sheaf J (Type u)` are the `Sheaf J' (Type u)` for
-`J' ≥ J`), 6.1 (points of a topos, `nonempty_point_equivalence`), 6.5 (connected nonempty projective
-objects, Roos's theorem), 6.6 (`IsIrreducibleObject`, `IsRigidTopology`,
-`isIrreducibleObject_iff_projective_preservesCoproducts` and
-`isRigidTopology_iff_nonempty_equiv_presheaf`).
+**From GrothendieckTopoi.** Conventions 1 (sizes) and 4 (the direction of 2-cells), for Conventions
+1 and 4 here; 1.1 (`IsGrothendieckTopos`: `Sheaf J (Type u)` is a Grothendieck topos for every small
+site and every Grothendieck topos is equivalent to one, so the quantifier over small sites in 2.1 is
+a quantifier over Grothendieck topoi), 1.2 (epimorphisms and coproducts in `Sheaf J (Type u)`, every
+epimorphism being the coequalizer of its kernel pair, and the frame property of its subobject
+lattices), the Examples of Layer 1 (`B G` as `Action (Type u) G`, for Convention 5 and 3.3), 1.4
+(Giraud's axioms: coequalizers of internal equivalence relations are universal, so images are stable
+under pullback, for 2.2 (b)), 2.1 (`GeometricMorphism`: left exact left adjoints between
+Grothendieck topoi are the inverse images of geometric morphisms), 2.2
+(`GeometricMorphism.homEquivInverse`: 2-cells and transformations of inverse images), 2.4
+(`GeometricMorphism.ofContinuous`: inverse images of continuous maps, for the Examples of Layer 1),
+2.5 (`IsFiltering`, `nonempty_geometricMorphism_equiv_isFiltering`, Diaconescu's theorem), 4.1
+(`Subtopos`) and 4.2 (the subtopoi of `Sheaf J (Type u)` are the `Sheaf J' (Type u)` for `J' ≥ J`),
+for 2.5; 6.1 (points of a topos, `nonempty_point_equivalence`), for the Examples of Layer 2; 6.5
+(connected nonempty projective objects, Roos's theorem
+`exists_equiv_presheaf_iff_essential_points`), 6.6 (`IsIrreducibleObject` and
+`isIrreducibleObject_iff_projective_preservesCoproducts`), for 3.5 and 3.6.
 
-**From LocallyPresentableCategories.** 1.5 (finitely accessible categories are `Ind A`), for 3.5
-and the Examples of Layer 3; 3.1 (Gabriel–Ulmer duality) and 3.5 (essentially algebraic theories),
-for the Examples of Layer 3.
+**From LocallyPresentableCategories.** 1.5 (finitely accessible categories are `Ind A`), for 3.5 and
+the Examples of Layer 3; 3.1 (theories with finite limits and their categories of models) and 3.5
+(essentially algebraic theories), for the Examples of Layer 3.
 
 ## How to read the build
 
@@ -294,8 +317,9 @@ relabelled by `Sum.inr`, and the disjunction of `φ : ι → _` goes to the disj
 `⟨X, x⟩` whose branch is `φ x` when `X = ι` and `⊥` otherwise. Prove
 `GeometricFormula.realize_toInf`: `φ.toInf.Realize Empty.elim x ↔ φ.Realize x`, by induction on
 `φ`, with Tau Ceti's realization lemmas for `⊤`, `⊓`, `ex` and `iSup`.
-*Needs:* 1.1; Mathlib `Term.realize`, `Term.relabel`, `Structure.RelMap`,
-`FirstOrder.Language.Hom`; Tau Ceti `FirstOrder.Language.BoundedFormulaInf`,
+*Needs:* 1.1; Mathlib `FirstOrder.Language.Structure`, `Structure.RelMap`, `Term.realize`,
+`Term.relabel`, `Fin.snoc`, `FirstOrder.Language.Hom`, `FirstOrder.Language.Hom.map_fun`,
+`FirstOrder.Language.Hom.map_rel`; Tau Ceti `FirstOrder.Language.BoundedFormulaInf`,
 `FirstOrder.Language.BoundedFormulaInf.Realize`.
 
 **Checks.**
@@ -344,9 +368,10 @@ ranges, coproducts are sigma types, and the order of subobjects is inclusion. Pr
 - `CatStructure.IsModel` is invariant under `CatStructure.Isomorphic`: an isomorphism of carriers
   carries `M.interp φ` to `N.interp φ` for every formula, by induction on `φ`.
 
-*Needs:* 1.1, 1.2; Mathlib `Subobject`, `Subobject.pullback`, `Subobject.exists`,
-`imageSubobject`, `equalizerSubobject`, `Pi.lift`, `Limits.Pi.map`, `Sigma.desc`, `Over`,
-`Types.productIso`, `TypeCat.ofHom`.
+*Needs:* 1.1, 1.2; Mathlib `HasFiniteProducts`, `HasFiniteLimits`, `HasImages`, `HasCoproducts`,
+`Subobject`, `Subobject.pullback`, `Subobject.exists`, `Subobject.arrow`, `imageSubobject`,
+`equalizerSubobject`, `Pi.lift`, `Pi.π`, `Limits.Pi.map`, `Sigma.desc`, `Over`, `Over.mk`,
+`Structure.funMap`, `Structure.RelMap`, `Types.productIso`, `TypeCat.ofHom`.
 
 **Checks.**
 
@@ -381,9 +406,10 @@ induction on `φ`; the order of subobjects is preserved because `F` preserves mo
 - for a left exact left adjoint `F` as above, `M.Isomorphic N` implies
   `(M.map F).Isomorphic (N.map F)`, since `F` preserves the images that interpret the relations.
 
-*Needs:* 1.3; GrothendieckTopoi 1.2 (epimorphisms and coproducts in `Sheaf J (Type u)`); Mathlib
-`HasImages (Sheaf J (Type u))`, `piComparison`, `PreservesFiniteProducts`,
-`PreservesFiniteLimits`, `Functor.IsLeftAdjoint`.
+*Needs:* 1.1, 1.3; GrothendieckTopoi 1.2 (epimorphisms and coproducts in `Sheaf J (Type u)`);
+Mathlib `GrothendieckTopology`, `Sheaf`, `Sheaf.instHasColimitsOfShape`,
+`HasImages (Sheaf J (Type u))`, `HasFiniteProducts`, `piComparison`, `CategoryTheory.inv`,
+`Over.mk`, `PreservesFiniteProducts`, `PreservesFiniteLimits`, `Functor.IsLeftAdjoint`.
 
 **Checks.**
 
@@ -424,7 +450,8 @@ left adjoint `F : Sheaf J (Type u) ⥤ Sheaf K (Type u)`, and (ii) for two such 
 Grothendieck topos `E` are, naturally in `E`, the opposite of the geometric morphisms `E → Sh(C, J)`
 (Convention 4; Mac Lane–Moerdijk, X.6, pp. 559–566; Elephant, D3.1). By Diaconescu's theorem
 (GrothendieckTopoi 2.5) they are also the `J`-filtering functors `C ⥤ E`.
-*Needs:* 1.3, 1.4; GrothendieckTopoi 1.1, 2.1, 2.2, 2.5.
+*Needs:* 1.1, 1.3, 1.4; GrothendieckTopoi 1.1, 2.1, 2.2, 2.5; Mathlib `GrothendieckTopology`,
+`Sheaf`, `PreservesFiniteLimits`, `Functor.IsLeftAdjoint`.
 
 **Checks.**
 
@@ -482,8 +509,8 @@ subject to the atomic formulas of `φ`. Prove:
   stay in `Type u` (`PUnit`, products, sigma types) (Elephant, D1.3.10, as used in Caramello 2017,
   proof of Theorem 17.6, p. 81).
 
-*Needs:* 1.3; GrothendieckTopoi 1.2, 1.4, 2.5; Mathlib `Term.subst`, `Pi.lift`,
-`Subobject.pullback`, `Subobject.exists`, `equalizerSubobject`, `AsSmall`.
+*Needs:* 1.1, 1.3; GrothendieckTopoi 1.2, 1.4, 2.5; Mathlib `GrothendieckTopology`, `Sheaf`,
+`Term.subst`, `Pi.lift`, `Subobject.pullback`, `Subobject.exists`, `equalizerSubobject`, `AsSmall`.
 
 **Checks.**
 
@@ -521,7 +548,8 @@ topology generated by the families `(n + mᵢ, θᵢ ∧ χ') ⟶ (n, χ)` of th
 presheaf of `(1, top)`: by 2.2 (a), the `J`-continuous filtering functors on `C` are the
 `T`-models (Caramello 2017, « Lattices of theories », Remark 3.7 in the numbering of
 arXiv:0905.0299v1), and GrothendieckTopoi 2.5 gives the universal property.
-*Needs:* 2.1, 2.2; GrothendieckTopoi 2.5; Mathlib `AsSmall`, `yoneda`, `presheafToSheaf`.
+*Needs:* 1.1, 1.3, 2.1, 2.2; GrothendieckTopoi 2.5; Mathlib `GrothendieckTopology`, `Sheaf`,
+`AsSmall`, `yoneda`, `presheafToSheaf`.
 
 **Checks.**
 
@@ -554,7 +582,7 @@ Route: (i) for `U'` gives `F` with `U' ≅ U.map F`, and symmetrically `G`; (ii)
 Prove also `IsClassifyingSite.exists_interp_eq_of_subobject`: for
 `L : FirstOrder.Language.{u₁, u₂}`, `T : GeometricTheory.{max u₁ u₂ u} L` and a classifying site
 `(C, J, U)` of `T` in `Type (max u₁ u₂ u)`, as in 2.3, every subobject of `U.pow n` is
-`U.interp ψ` for some `ψ : GeometricFormula.{max u₁ u₂ u} L n`. Prove also that the objects
+`U.interp ψ` for some `ψ : GeometricFormula.{max u₁ u₂ u} L n`. Prove also, as API, that the objects
 underlying the `U.interp φ` form a separating family of `Sheaf J (Type (max u₁ u₂ u))`, a small one
 up to isomorphism, since each `U.pow n` has a small set of subobjects (Caramello 2012a, proof of
 Lemma 3.2, p. 182, for the geometric syntactic site). Route: both facts are invariant under the
@@ -564,9 +592,9 @@ representables are the `U.interp χ` with `χ` Horn, and they separate. A map fr
 `U.pow n` is given on a cover by tuples of terms, so its image is the interpretation of a
 disjunction of `exs` of Horn formulas (the form of 2.2 (b)), and a subobject of `U.pow n` is the
 union of the images of the maps into it from sheafified representables.
-*Needs:* 1.3, 1.4 (API: `CatStructure.Isomorphic` is an equivalence relation, `CatStructure.map`
-along the identity and along a composite); 2.1, 2.2 (b), 2.3; Mathlib `Equivalence`,
-`Subobject`.
+*Needs:* 1.1, 1.3, 1.4 (API: `CatStructure.Isomorphic` is an equivalence relation,
+`CatStructure.map` along the identity and along a composite); 2.1, 2.2 (b), 2.3; Mathlib
+`GrothendieckTopology`, `Sheaf`, `Equivalence`, `Subobject`.
 
 **Checks.**
 
@@ -596,15 +624,16 @@ then some `J' ≥ J` makes `(C, J')` with the model
 `U.map (sheafToPresheaf J (Type u) ⋙ presheafToSheaf J' (Type u))` classify `T'`; and
 `IsClassifyingSite.exists_quotient_theory`: conversely, for every `J' ≥ J` some `T' ⊇ T` is
 classified by `(C, J')` with the same model. The functor `sheafToPresheaf J ⋙ presheafToSheaf J'`
-is the inverse image of the inclusion of the subtopos `Sheaf J' (Type u)` (GrothendieckTopoi 4.2).
+is the inverse image of the inclusion of the subtopos `Sheaf J' (Type u)` (GrothendieckTopoi 4.1
+and 4.2).
 This is the duality theorem between quotients of a geometric theory and subtopoi of its
 classifying topos (Caramello 2017, the chapter « Lattices of theories », Theorem 3.6 and
 Remark 3.7 in the numbering of arXiv:0905.0299v1). Route: `T'`-models are the `T`-models whose
 filtering functor sends the families of the new axioms to epimorphic families (the proof of
 Theorem 3.6), which is continuity for the topology `J'` generated by `J` and those families.
-*Needs:* 1.3, 1.4 (API: invariance of `CatStructure.IsModel` under `CatStructure.Isomorphic`,
-`CatStructure.map` along a composite and of isomorphic structures); 2.1, 2.3, 2.4;
-GrothendieckTopoi 2.5, 4.2; Mathlib `sheafToPresheaf`, `presheafToSheaf`.
+*Needs:* 1.1, 1.3, 1.4 (API: invariance of `CatStructure.IsModel` under `CatStructure.Isomorphic`,
+`CatStructure.map` along a composite and of isomorphic structures); 2.1, 2.3, 2.4; GrothendieckTopoi
+2.5, 4.1, 4.2; Mathlib `GrothendieckTopology`, `Sheaf`, `sheafToPresheaf`, `presheafToSheaf`.
 
 **Checks.**
 
@@ -625,8 +654,9 @@ classifying sites `(C, J, U)` of `T` and `(C', J', U')` of `T'` with
 `Sheaf J (Type u) ≌ Sheaf J' (Type u)`. By 2.4 the condition does not depend on the chosen sites
 (Caramello 2017, « Lattices of theories », Definition 3.5, p. 14 in the numbering of
 arXiv:0905.0299v1; Elephant, D3.1).
-*Needs:* 1.3, 1.4 (API: `CatStructure.Isomorphic` is an equivalence relation, `CatStructure.map`
-along a composite); 2.1, 2.4.
+*Needs:* 1.1, 1.3, 1.4 (API: `CatStructure.Isomorphic` is an equivalence relation,
+`CatStructure.map` along a composite); 2.1, 2.4; Mathlib `GrothendieckTopology`, `Sheaf`,
+`Equivalence`.
 
 **Checks.**
 
@@ -649,9 +679,9 @@ along a composite); 2.1, 2.4.
 
 ### Dependencies
 
-Layer 1; GrothendieckTopoi 1.1, 1.2, 1.4, 2.1, 2.2, 2.5, 4.2. Within the layer, 2.3–2.6 use 2.1, 2.3
-uses 2.2, 2.4 uses 2.2 (b) and 2.3 for the definability statement, 2.5 uses 2.3 and 2.4, and 2.6
-uses 2.4.
+Layer 1; Mathlib; GrothendieckTopoi 1.1, 1.2, 1.4, 2.1, 2.2, 2.5, 4.1 and 4.2, and 6.1 for the
+Examples. Within the layer, 2.3–2.6 use 2.1, 2.3 uses 2.2, 2.4 uses 2.2 (b) and 2.3 for the
+definability statement, 2.5 uses 2.3 and 2.4, and 2.6 uses 2.4.
 
 ## Layer 3: theories of presheaf type
 
@@ -666,7 +696,8 @@ the small category equivalent to 𝒞_T with `⊥`, and for `U` the representabl
 `(1, top)` (Elephant, D3.1; Caramello 2017, proof of Theorem 17.6, p. 81 in the numbering of
 arXiv:0905.0299v1). The criterion of 3.5 (a) characterizes presheaf type for every geometric
 theory: for a Horn theory the covering by irreducible formulae is the normal form of 2.2 (b).
-*Needs:* 2.1, 2.2; GrothendieckTopoi 2.5; Mathlib `AsSmall`, `yoneda`, `sheafBotEquivalence`.
+*Needs:* 1.1, 1.3, 2.1, 2.2; GrothendieckTopoi 2.5; Mathlib `GrothendieckTopology`, `Sheaf`,
+`AsSmall`, `yoneda`, `sheafBotEquivalence`.
 
 **Checks.**
 
@@ -686,8 +717,9 @@ presheaf `unopUnop _ ⋙ FintypeCat.Skeleton.incl ⋙ FintypeCat.incl` on
 `FintypeCat.Skeleton.{u}ᵒᵖ` as a sheaf for `⊥` (`sheafBotEquivalence`), the inclusion of finite
 sets into sets. Prove `isClassifyingSite_genericObject`: functors from finite sets to sets
 classify objects (Mac Lane–Moerdijk, VIII.4, pp. 434–437; Elephant, D3.1).
-*Needs:* 2.1, 2.2, 3.1; Mathlib `FintypeCat.Skeleton`, `FintypeCat.Skeleton.incl`,
-`FintypeCat.incl`, `unopUnop`, `sheafBotEquivalence`.
+*Needs:* 1.1, 1.3, 2.1, 2.2, 3.1; Mathlib `FirstOrder.Language.empty`, `GrothendieckTopology`,
+`Sheaf`, `FintypeCat.Skeleton`, `FintypeCat.Skeleton.incl`, `FintypeCat.incl`, `unopUnop`,
+`sheafBotEquivalence`.
 
 **Checks.**
 
@@ -716,8 +748,10 @@ equivalence preserves); an idempotent of a group is `1`, so idempotents split in
 which is therefore equivalent to its Cauchy completion (Borceux–Dejean 1986, Theorem 1 (3), p. 134),
 and an equivalence `SingleObj G ≌ SingleObj H` restricts to a group isomorphism on the endomorphisms
 of the object.
-*Needs:* 2.1, 2.4, 2.6; GrothendieckTopoi 2.5; Mathlib `SingleObj`, `AsSmall`, `yoneda`,
-`sheafBotEquivalence`, `MulEquiv`.
+*Needs:* 1.1, 1.3, 2.1, 2.4, 2.6; GrothendieckTopoi 2.5 and, through Convention 5, the `B G` of the
+Examples of its Layer 1; Mathlib `FirstOrder.Language`, `FirstOrder.Language.Functions.apply₁`,
+`Term.var`, `Group`, `Set.range`, `GrothendieckTopology`, `Sheaf`, `SingleObj`, `SingleObj.star`,
+`AsSmall`, `AsSmall.up`, `yoneda`, `sheafBotEquivalence`, `Pi.π`, `MulEquiv`.
 
 **Checks.**
 
@@ -747,8 +781,11 @@ finitely presentable intervals are the finite ones `{0 < 1 < ⋯ < n + 1}`, and 
 the simplex category through `⦋n⦌ ↦ Hom(⦋n⦌, ⦋1⦌)`; 3.1's route for cartesian theories does not
 apply (the linearity axiom is a disjunction) and is replaced by a direct check that intervals in
 `E` are the filtering functors on the simplex category (GrothendieckTopoi 2.5).
-*Needs:* 2.1; GrothendieckTopoi 2.5; Mathlib `SimplexCategory`, `SimplexCategory.δ`,
-`SimplexCategory.σ`, `SimplexCategory.isTerminalZero`, `IsTerminal.isTerminalObj`, `AsSmall.equiv`.
+*Needs:* 1.1, 1.3, 2.1; GrothendieckTopoi 2.5; Mathlib `FirstOrder.Language`, `Term.var`,
+`Term.func`, `Matrix.vecCons`, `GrothendieckTopology`, `Sheaf`, `SimplexCategory`,
+`SimplexCategory.δ`, `SimplexCategory.σ`, `SimplexCategory.isTerminalZero`, the notation `⦋n⦌`,
+`IsTerminal`, `IsTerminal.from`, `IsTerminal.isTerminalObj`, `AsSmall`, `AsSmall.up`,
+`AsSmall.equiv`, `yoneda`, `sheafBotEquivalence`, `Pi.lift`, `Over.mk`.
 
 **Checks.**
 
@@ -788,43 +825,44 @@ definability statement of 2.4, `L : FirstOrder.Language.{u₁, u₂}` and
 (Convention 1). Prove, with `U` the generic model of a classifying site of `T`:
 
 - (a) `isOfPresheafType_iff_forall_covered`: `T` is of presheaf type if and only if for every
-  geometric formula `φ` in context `n` there are a `u`-small family of `T`-irreducible formulae
-  `ψᵢ` and morphisms `[[ψᵢ]] → [[φ]]` forming an epimorphic family, that is, `φ` is covered by
-  `T`-irreducible formulae (Caramello 2012a, Corollary 3.15, whose collection `ℱ` is the one of
-  all `T`-irreducible formulae: condition (ii) is then the definition). Route, "if": the `[[φ]]`
-  separate `E` (2.4), so if each is covered by irreducible objects, the irreducible objects
-  separate `E`, and they form a `u`-small family up to isomorphism, as the subobjects of the
-  `U.pow n` do. By GrothendieckTopoi 6.6 (b) they are connected nonempty projective objects, so `E`
-  is a presheaf topos by GrothendieckTopoi 6.5 (Roos), and transporting `U` along an equivalence
-  with the presheaves on a small category, for the trivial topology, shows that `T` is of presheaf
-  type (2.1, 1.4). "Only if": `E` is then a presheaf topos, so by GrothendieckTopoi 6.5 and 6.6 (b)
-  its irreducible objects separate it, and the family of all maps from irreducible objects into
-  `[[φ]]` is epimorphic. Each irreducible object `I` is isomorphic to some `[[ψ]]` with `ψ`
-  `T`-irreducible: the family of all maps `[[χ]] → I` is epimorphic (2.4), so one of them is split
-  epimorphic, which makes `I` a retract of some `[[χ]]`, hence a subobject of `U.pow n`, hence some
-  `[[ψ]]` (2.4).
+  geometric formula `φ` in context `n` there are a family of `T`-irreducible formulae `ψᵢ`, indexed
+  by a type in the universe of the site, and morphisms `[[ψᵢ]] → [[φ]]` forming an epimorphic
+  family, that is, `φ` is covered by `T`-irreducible formulae (Caramello 2012a, Corollary 3.15, the
+  case of the geometric syntactic site of its Theorem 3.13; the collection `ℱ` of the corollary is
+  here the one of all `T`-irreducible formulae, and condition (ii) is then the definition). Route,
+  "if": the `[[φ]]` separate `E` (2.4), so if each is covered by irreducible objects, the
+  irreducible objects separate `E`, and they form a `u`-small family up to isomorphism, as the
+  subobjects of the `U.pow n` do. By GrothendieckTopoi 6.6 (b) they are connected nonempty
+  projective objects, so `E` is a presheaf topos by GrothendieckTopoi 6.5 (Roos), and transporting
+  `U` along an equivalence with the presheaves on a small category, for the trivial topology, shows
+  that `T` is of presheaf type (2.1, 1.4). "Only if": `E` is then a presheaf topos, so by
+  GrothendieckTopoi 6.5 and 6.6 (b) its irreducible objects separate it, and the family of all maps
+  from irreducible objects into `[[φ]]` is epimorphic. Each irreducible object `I` is isomorphic to
+  some `[[ψ]]` with `ψ` `T`-irreducible: the family of all maps `[[χ]] → I` is epimorphic (2.4), so
+  one of them is split epimorphic, which makes `I` a retract of some `[[χ]]`, hence a subobject of
+  `U.pow n`, hence some `[[ψ]]` (2.4).
 - (a′) `exists_isClassifyingSite_fpModel`: for `T` of presheaf type, `FPModel T` is essentially
   small, and a small category `C ≌ (FPModel T)ᵒᵖ` with the trivial topology classifies `T`, the
-  presheaf underlying the generic model being `N ↦ N.carrier` on `FPModel T`
-  (`SetModel.forget`), along the equivalence. Prove also that the interpretation of a geometric
-  formula `φ` is then `N ↦ [[φ]]_N`, the set of the assignments in `N` that realize `φ`, and that a
-  set-model presented by a formula is finitely presentable (Caramello 2017, « Lattices of
-  theories », Remark 14.2, p. 65, and §14.2, p. 68, in the numbering of arXiv:0905.0299v1;
-  Caramello 2012a, §4, p. 189, for the generic model). Route: let `(C₀, ⊥, U₀)` classify `T`. By 2.1
-  for the one-point site and Diaconescu's theorem (GrothendieckTopoi 2.5), the set-models and their
-  homomorphisms are the flat functors on `C₀` and their transformations, that is `Ind` of `C₀ᵒᵖ`
-  (LocallyPresentableCategories 1.5; Caramello 2017, Remark 14.2). The finitely presentable objects
-  of `Ind (C₀ᵒᵖ)` are the retracts of the representables, since the identity of such an object
-  factors through a stage of its presentation as a filtered colimit of representables. So
-  `(FPModel T)ᵒᵖ` is the Cauchy completion of `C₀`, which is small, and `FPModel T` is idempotent
-  complete (Borceux–Dejean 1986, Theorem 1 (2), p. 134). Presheaves on `C₀` and on its Cauchy
-  completion are equivalent (Borceux–Dejean 1986, Theorem 1 (4), p. 134), and the equivalence sends
-  an object `P` to the functor `N ↦` the stalk of `P` at the point `N`. For `P = U₀.carrier` the
-  stalk is `N.carrier` (2.1 (i)), and for `P = [[φ]]` it is `[[φ]]_N`, since inverse images preserve
-  the interpretation of formulae (1.4). The functor `N ↦ [[φ]]_N` preserves filtered colimits of
-  set-models, which are computed on the underlying sets, because a geometric formula is realized at
-  an assignment of a filtered colimit exactly when it is realized at one stage (induction on `φ`);
-  so, by the Yoneda lemma, a model presented by `φ` represents it and is finitely presentable.
+  presheaf underlying the generic model being `N ↦ N.carrier` on `FPModel T` (`SetModel.forget`),
+  along the equivalence. Prove also, as API, that the interpretation of a geometric formula `φ` is
+  then `N ↦ [[φ]]_N`, the set of the assignments in `N` that realize `φ`, and that a set-model
+  presented by a formula is finitely presentable (Caramello 2017, « Lattices of theories », Remark
+  14.2, p. 65, and §14.2, p. 68, in the numbering of arXiv:0905.0299v1; Caramello 2012a, §4, p. 189,
+  for the generic model). Route: let `(C₀, ⊥, U₀)` classify `T`. By 2.1 for the one-point site and
+  Diaconescu's theorem (GrothendieckTopoi 2.5), the set-models and their homomorphisms are the flat
+  functors on `C₀` and their transformations, that is `Ind` of `C₀ᵒᵖ` (LocallyPresentableCategories
+  1.5; Caramello 2017, Remark 14.2). The finitely presentable objects of `Ind (C₀ᵒᵖ)` are the
+  retracts of the representables, since the identity of such an object factors through a stage of
+  its presentation as a filtered colimit of representables. So `(FPModel T)ᵒᵖ` is the Cauchy
+  completion of `C₀`, which is small, and `FPModel T` is idempotent complete (Borceux–Dejean 1986,
+  Theorem 1 (2), p. 134). Presheaves on `C₀` and on its Cauchy completion are equivalent
+  (Borceux–Dejean 1986, Theorem 1 (4), p. 134), and the equivalence sends an object `P` to the
+  functor `N ↦` the stalk of `P` at the point `N`. For `P = U₀.carrier` the stalk is `N.carrier`
+  (2.1 (i)), and for `P = [[φ]]` it is `[[φ]]_N`, since inverse images preserve the interpretation
+  of formulae (1.4). The functor `N ↦ [[φ]]_N` preserves filtered colimits of set-models, which are
+  computed on the underlying sets, because a geometric formula is realized at an assignment of a
+  filtered colimit exactly when it is realized at one stage (induction on `φ`); so, by the Yoneda
+  lemma, a model presented by `φ` represents it and is finitely presentable.
 - (b) `GeometricFormula.isIrreducible_iff_exists_presentedBy`: for `T` of presheaf type, a
   geometric formula is `T`-irreducible if and only if it presents a set-model of `T` (Caramello
   2012a, Theorem 4.1 (i) for "presents implies irreducible" and Theorem 4.3 (ii) for the converse).
@@ -858,11 +896,13 @@ definability statement of 2.4, `L : FirstOrder.Language.{u₁, u₂}` and
 For a Horn theory, of presheaf type by 3.1, every Horn formula presents the model of 2.2 (the model
 generated by `n` elements subject to the atomic formulae of `φ`), so by (b) it is `T`-irreducible,
 and the covering of (a) is the normal form of 2.2 (b).
-*Needs:* 1.4, 2.1, 2.2 (b), 2.4, 3.1; GrothendieckTopoi 1.1, 2.5, 6.5, 6.6;
-LocallyPresentableCategories 1.5; Mathlib `Sheaf.canonicalTopology`, `Subobject.underlying`,
-`Sigma.desc`, `IsFinitelyPresentable`, `IsIdempotentComplete`, `ObjectProperty.FullSubcategory`,
-`ObjectProperty.ι`, `FirstOrder.Language.Hom`, `Equivalence.op`, `unopUnop`, `sheafToPresheaf`,
-`TypeCat.ofHom`.
+*Needs:* 1.1, 1.2, 1.3, 1.4, 2.1, 2.2 (b), 2.4, 3.1; GrothendieckTopoi 1.1, 2.5, 6.5, 6.6;
+LocallyPresentableCategories 1.5; Mathlib `GrothendieckTopology`, `Sheaf`, `Sieve`,
+`Sheaf.canonicalTopology`, `Subobject.underlying`, `Sigma.desc`, `Epi`, `Category`,
+`FirstOrder.Language.Structure`, `FirstOrder.Language.Hom`, `FirstOrder.Language.Hom.id`,
+`FirstOrder.Language.Hom.comp`, `IsFinitelyPresentable`, `IsIdempotentComplete`, `ObjectProperty`,
+`ObjectProperty.FullSubcategory`, `ObjectProperty.ι`, `Equivalence`, `Equivalence.op`, `unopUnop`,
+`sheafToPresheaf`, `TypeCat.ofHom`.
 
 **Checks.**
 
@@ -949,7 +989,8 @@ The statement of 2.5 (`IsClassifyingSite.exists_quotient_topology`,
 `IsClassifyingSite.exists_quotient_theory`) is the general case, for any classifying site; here
 the site is the one of 3.5 (a′), the quotient is described by the lifting condition, and its
 finitely presentable models by (b).
-*Needs:* 2.5, 3.1, 3.5; GrothendieckTopoi 2.5, 6.6; Mathlib `Sieve`, `GrothendieckTopology`,
+*Needs:* 1.1, 1.2, 1.3, 2.1, 2.5, 3.1, 3.5; GrothendieckTopoi 2.5, 6.6; Mathlib
+`GrothendieckTopology`, `Sheaf`, `Sieve`, `Sieve.arrows`, `Opposite.op`,
 `Functor.inducedTopology`, `Equivalence`, `IsFinitelyPresentable`,
 `ObjectProperty.FullSubcategory`.
 
@@ -991,9 +1032,10 @@ finitely presentable models by (b).
 
 ### Dependencies
 
-Layers 1–2; GrothendieckTopoi 1.1, 2.5, 6.5, 6.6 (3.5–3.6); LocallyPresentableCategories 1.5 (3.5
-and the Examples), 3.1 and 3.5 (Examples only). Within the layer, 3.2 uses 3.1, 3.5 uses 3.1 and
-3.6 uses 3.5.
+Layers 1–2; Mathlib; GrothendieckTopoi 2.5 (3.1 and 3.3–3.6), 1.1 and 6.5 (3.5), 6.6 (3.5–3.6) and
+the `B G` of the Examples of its Layer 1 (3.3, through Convention 5); LocallyPresentableCategories
+1.5 (3.5 and the Examples), 3.1 and 3.5 (Examples only). Within the layer, 3.2, 3.5 and 3.6 use 3.1,
+and 3.6 uses 3.5.
 
 ## Layer 4: rings, local rings and the Zariski topos
 
@@ -1021,11 +1063,13 @@ representable of `(1, top)` goes to the forgetful functor, with the operations o
 finitely presentable set-models (`CommRingCat.isFinitelyPresentable_hom` and
 `finitePresentation_of_isFinitelyPresentable`), and they form an essentially small category
 (`essentiallySmall_of_le`), of which `FPRing.{u}` is a small model.
-*Needs:* 2.1, 2.2, 3.1; Mathlib `MvPolynomial`, `Ideal.FG`, `FirstOrder.Language.ring`,
-`FirstOrder.Ring.compatibleRingOfRing`, `piObjIso`, `piObjIso_hom_comp_π`, `Types.productIso`,
-`NatTrans.naturality_apply`, `sheafBotEquivalence`, `IsFinitelyPresentable`,
-`Algebra.FinitePresentation`, `CommRingCat.isFinitelyPresentable_under`,
-`CommRingCat.isFinitelyPresentable_hom`, `essentiallySmall_of_le`.
+*Needs:* 1.1, 1.3, 1.4, 2.1, 2.2, 3.1; Mathlib `MvPolynomial`, `Ideal`, `Ideal.FG`, `SmallCategory`,
+`FirstOrder.Language.ring` with its term operations, `FirstOrder.Ring.compatibleRingOfRing`,
+`Structure.funMap`, `TypeCat.ofHom`, `unopUnop`, `Pi.π`, `piObjIso`, `piObjIso_hom_comp_π`,
+`Types.productIso`, `NatTrans.naturality_apply`, `GrothendieckTopology`, `Sheaf`,
+`sheafBotEquivalence`, `CommRingCat`, `IsFinitelyPresentable`, `Algebra.FinitePresentation`,
+`CommRingCat.isFinitelyPresentable_under`, `CommRingCat.isFinitelyPresentable_hom`,
+`essentiallySmall_of_le`.
 
 **Checks.**
 
@@ -1056,10 +1100,11 @@ to a Zariski covering `{Spec A[1/fᵢ] → Spec A}` of the big site, and the for
 restriction of `𝔾_a`; the pullback of a generating family along `A ⟶ A'` contains the
 localizations of `A'` away from the images of the `fᵢ`, which still generate the unit ideal, so it
 suffices to check the sheaf condition on the generating families, where it is that of `𝔾_a`.
-*Needs:* 4.1; Tau Ceti `CategoryTheory.GrothendieckTopology.isSheaf_Γ`; Mathlib
-`Scheme.zariskiTopology`, `Scheme.subcanonical_zariskiTopology`, `Scheme.ΓSpecIso`,
-`GrothendieckTopology` (complete lattice), `Ideal.span`, `IsLocalization.Away`,
-`RingHom.toAlgebra`, `Presheaf.IsSheaf`.
+*Needs:* 4.1; Tau Ceti `CategoryTheory.GrothendieckTopology.isSheaf_Γ`,
+`AlgebraicGeometry.Scheme.Ga`; Mathlib `AlgebraicGeometry.Scheme.Γ`, `Spec`, `Scheme.ΓSpecIso`,
+`Scheme.zariskiTopology`, `Scheme.subcanonical_zariskiTopology`, `GrothendieckTopology` (complete
+lattice), `Sieve`, `Sieve.arrows`, `Finset`, `Ideal.span`, `IsLocalization.Away`,
+`RingHom.toAlgebra`, `Presheaf.IsSheaf`, `unopUnop`.
 
 **Checks.**
 
@@ -1083,7 +1128,7 @@ forgetful functor. Route: 2.5 with `T = commRingTheory`,
 sieve on the zero ring and the cover `{A ⟶ A[1/x], A ⟶ A[1/(1 - x)]}`, which generate
 `zariskiTopology` (every Zariski cover is reached from those binary ones by the transitivity
 axiom, by induction on the size of the family generating the unit ideal).
-*Needs:* 2.5, 4.1, 4.2; Mathlib `sheafToPresheaf`, `presheafToSheaf`.
+*Needs:* 1.1, 1.4, 2.1, 2.5, 4.1, 4.2; Mathlib `sheafToPresheaf`, `presheafToSheaf`.
 
 **Checks.**
 
@@ -1104,15 +1149,16 @@ axiom, by induction on the size of the family generating the unit ideal).
 
 ### Dependencies
 
-Layers 1–3. Within the layer, 4.2 uses 4.1 and 4.3 uses 4.1 and 4.2.
+Layers 1–3; Mathlib; Tau Ceti for 4.2. Within the layer, 4.2 uses 4.1 and 4.3 uses 4.1 and 4.2.
 
 ## Downstream consumers
 
-No roadmap on main or in the open pull requests cites ClassifyingTopoi. GrothendieckTopoi
-(Scope and ownership, Out of scope) and LocallyPresentableCategories (Scope and ownership) name
-classifying topoi of geometric theories as outside their scope; AdicSpacesPartIV describes the
-étale topos of a field as the classifying topos of its Galois group, an example of 3.3 for a
-profinite group with continuous actions, which this roadmap does not treat.
+No roadmap on main or in the open pull requests consumes ClassifyingTopoi. GrothendieckTopoi and
+LocallyPresentableCategories name it, under their Downstream consumers, as a consumer of theirs, and
+both put classifying topoi of geometric theories outside their scope (GrothendieckTopoi, Scope and
+ownership, Out of scope; LocallyPresentableCategories, Scope and ownership, Left to other roadmaps);
+AdicSpacesPartIV describes the étale topos of a field as the classifying topos of its Galois group,
+an example of 3.3 for a profinite group with continuous actions, which this roadmap does not treat.
 
 ## Research context
 
