@@ -15,8 +15,8 @@ The roadmap covers:
 - the inequalities of Gautschi and Kershaw, the inequalities of §5.6(i) at `x` and `1/x`, and the
   lower bound and quotient bound of §5.6(ii);
 - the Maclaurin series of `1/Γ`, `log Γ(1 + z)` and `ψ(1 + z)`, Gauss's series of `ψ` off the
-  right half-plane, the series of `ψ` on half arguments and on the line `1 + iy`, the Weierstrass
-  product and the balanced products;
+  right half-plane, the series of `ψ` on half arguments and on the line `1 + iy`, and the balanced
+  products;
 - the integral representations of `Γ` and `ψ`: Hankel's loop, Temme's real-axis integral, the
   Cauchy–Saalschütz and oscillatory integrals, and the Frullani-type integrals of `ψ` and `γ`;
 - the Beta integrals, including the loop and Pochhammer contours of §5.12(ii), with the contours
@@ -71,11 +71,11 @@ specified in the layers:
 | Formulas | Targets |
 |---|---|
 | 5.2.8, 5.2.9 | Pochhammer duplication and the Lah expansions (1.1). |
-| 5.4.2, 5.4.4–5.4.5, 5.4.15–5.4.18 | Values of `Γ` and `ψ` at half-integers and on the lines `Re z ∈ {0, ¼, ½, 1}` (1.2). |
+| 5.4.4–5.4.5, 5.4.15–5.4.18 | Values of `Γ` and `ψ` at half-integers and on the lines `Re z ∈ {0, ¼, ½, 1}` (1.2). |
 | 5.4.19 | Gauss's digamma theorem (1.3). |
 | 5.5.6, 5.5.7, 5.5.9 | Gauss's multiplication formulas (1.4). |
 | 5.7.1–5.7.5, 5.7.6 off `Re z > 0`, 5.7.7, 5.7.8 | Maclaurin series and other series (2.1–2.3). |
-| 5.8.2, 5.8.4–5.8.5 | The Weierstrass product and the balanced products (2.4). |
+| 5.8.4–5.8.5 | The balanced products (2.4). |
 | 5.6.2–5.6.8 | Inequalities (Layer 3); 5.6.6 for every real `x` off the poles. |
 | 5.9.1–5.9.9, 5.9.2_5 | Integral representations of `Γ` (4.1–4.3). |
 | 5.9.13–5.9.16, 5.9.18–5.9.20 | Integral representations of `ψ`, `γ` and the derivatives of `Γ` (4.4). |
@@ -105,7 +105,11 @@ targets are the remaining cases. The inputs are:
   `q = 2z − 1`), and 5.9.7 at `z = 0` (Tau Ceti's `TauCeti.Contour.tendsto_integral_sin_div_atTop`);
 - 5.12.1 (`Complex.Gamma_mul_Gamma_eq_betaIntegral`, and Tau Ceti's
   `TauCeti.integral_rpow_mul_one_sub_rpow` for real parameters) and 5.12.3 for real parameters
-  (Tau Ceti's `TauCeti.integral_rpow_mul_one_add_rpow`).
+  (Tau Ceti's `TauCeti.integral_rpow_mul_one_add_rpow`);
+- 5.4.2 (`Nat.doubleFactorial_two_mul` with `Complex.Gamma_nat_eq_factorial`, and
+  `Real.Gamma_nat_add_one_add_half`), the first equality of 5.9.18
+  (`Real.eulerMascheroniConstant_eq_neg_integral_log`), and 5.9.19 for `n ≤ 1`
+  (`Complex.Gamma_eq_integral`, `Complex.hasDerivAt_Gamma_of_re_pos`).
 
 It also owns the following auxiliary results, which the layers need and which neither Mathlib nor
 Tau Ceti nor the consumed roadmaps provide:
@@ -144,10 +148,11 @@ Tau Ceti nor the consumed roadmaps provide:
   on the positive axis, which give the bound 5.6.1, Binet's formulas, and the modulus bound on
   vertical lines in the form of 5.6.9 (ExplicitZetaBounds 1.1–1.2, 2.4 and 2.5).
 - The Barnes `G`-function of §5.17 (AnalyticNumberTheoryPartII §4.3, `barnesG`).
+- The Weierstrass product 5.8.2 (GlobalHolomorphicFunctions 6.1).
 - The rest of §5.11 (the asymptotics of Gamma quotients), the formulas 5.9.11_1–5.9.11_2 for `Γ*`,
-  the Mellin–Barnes integrals 5.9.11 and 5.9.17, the continued fraction (§5.10), the extrema 5.4.20,
-  the `q`-Gamma and `q`-Beta functions (§5.18), and the applications and computation sections
-  (§§5.19–5.21). The last section lists them.
+  the Mellin–Barnes integrals 5.9.11 and 5.9.17, the continued fraction (§5.10), the decimal
+  values 5.4.7–5.4.10, the extrema 5.4.20, the `q`-Gamma and `q`-Beta functions (§5.18), and the
+  applications and computation sections (§§5.19–5.21). The last section lists them.
 
 RandomMatrices 5.2–5.3 prove the Gaussian, Laguerre and Jacobi normalizations at `c = β/2` for
 `β ∈ {1, 2}` through matrix models, as part of their eigenvalue-density theorems; 8.3–8.4 here give
@@ -155,8 +160,8 @@ the same constants for every `β > 0`.
 
 **The boundary in one sentence:** this roadmap owns every formula of DLMF §§5.2–5.9 and §§5.12–5.16
 that is not in Mathlib or Tau Ceti, not one of the consumed results above, and not part of the
-explicit Stirling theory (§5.11, 5.6.1, 5.6.9, 5.9.10–5.9.11_2, 5.9.17) or the continued fraction
-of §5.10.
+explicit Stirling theory (§5.11, 5.6.1, 5.6.9, 5.9.10–5.9.11_2, 5.9.17), the continued fraction
+of §5.10, the decimal values 5.4.7–5.4.10 and the extrema 5.4.20.
 
 ## Conventions
 
@@ -214,9 +219,9 @@ of §5.10.
 
 - 1.2: Stirling's formula `log Γ(s) = (s − ½) Log s − s + ½ log 2π + O(1/|s|)` uniformly on
   `|arg s| < π − δ`, `|s| > 1`. Used for the quotients `Γ(t + a)/Γ(t + b) ∼ t^{a−b}` with complex
-  `a`, `b` as `t → +∞` on the real line (6.3).
+  `a`, `b` as `t → +∞` on the real line (6.3, 8.4).
 - 1.3: `log |Γ(σ + it)| = (σ − ½) log|t| − π|t|/2 + ½ log 2π + O(1/|t|)` uniformly for `σ` in a
-  compact interval, which bounds `|Γ|` and `|1/Γ|` on vertical strips (Layer 6, 8.3, 8.4).
+  compact interval, which bounds `|Γ|` and `|1/Γ|` on vertical strips (8.3).
 - 1.4: for real `x > 0`, `ψ(x)` is real and `(Complex.digamma x).re = deriv (log ∘ Real.Gamma) x`,
   and `ψ(s) = log s + O(1/|s|)` on sectors (3.2).
 
@@ -225,7 +230,7 @@ of §5.10.
 - 1.1 and 1.3: `HasAsymptoticExpansion` and the asymptotic scale `z ↦ z^{−n}` along a sector
   filter (7.3).
 - 4.1: `∫₀^∞ t^{s−1} e^{−zt} dt = Γ(s) z^{−s}` for `Re s > 0`, `Re z > 0`
-  (`integral_cpow_mul_exp_neg_mul_Ioi_of_re_pos`) (4.1, 4.4, 5.2, 7.3).
+  (`integral_cpow_mul_exp_neg_mul_Ioi_of_re_pos`) (3.4, 4.1, 4.4, 5.2, 7.3).
 - 4.2: Watson's lemma in `|ph z| ≤ π/2 − δ` (`hasAsymptoticExpansion_laplace_sector`) (7.3).
 - 4.3: the rotation of the path of a Laplace integral and the continuation of its expansion to
   the rotated sector (7.3, and the rotated Beta integral of 3.4).
@@ -279,12 +284,13 @@ of §5.10.
   `Complex.Gamma_ne_zero`, `Complex.differentiableAt_Gamma`,
   `Complex.differentiable_one_div_Gamma`, `Complex.GammaSeq_tendsto_Gamma`,
   `Complex.Gamma_mul_Gamma_eq_betaIntegral`, `Real.Gamma_nat_add_half`,
+  `Real.Gamma_nat_add_one_add_half`, `Complex.hasDerivAt_Gamma_of_re_pos`,
   `Real.convexOn_log_Gamma`, `Real.eq_Gamma_of_log_convex`.
 - `Complex.digamma`, `Complex.digamma_one`, `Complex.digamma_one_half`,
   `Complex.digamma_apply_add_one`, `Complex.digamma_one_sub`, `Complex.digamma_two_mul`,
   `Complex.digamma_nat_add_one`, `Complex.digamma_apply_add_nat`.
-- `Real.eulerMascheroniConstant`, `riemannZeta`, `riemannZeta_two_mul_nat`, `bernoulli`,
-  `ascPochhammer`, `descPochhammer`, `Nat.doubleFactorial_two_mul`, `Matrix.vandermonde`,
+- `Real.eulerMascheroniConstant`, `Real.eulerMascheroniConstant_eq_neg_integral_log`,
+  `riemannZeta`, `riemannZeta_two_mul_nat`, `bernoulli`, `ascPochhammer`, `descPochhammer`, `Nat.doubleFactorial_two_mul`, `Matrix.vandermonde`,
   `Matrix.det_vandermonde`, `Complex.cot`, `cot_series_rep`, `Complex.tendsto_euler_sin_prod`.
 - `integral_rpow_mul_exp_neg_mul_rpow`, `integral_gaussian`, `HasProd`, `iteratedDeriv`,
   `Complex.VerticalIntegrable`, `mellinInv_mellin_eq`, the identity theorem
@@ -339,10 +345,6 @@ The second expansion is the first at `−x`, by `ascPochhammer_eval_neg_eq_descP
 
 ### 1.2 Special values
 
-- 5.4.2: for `n : ℕ`, `n‼ = 2^{n/2} Γ(n/2 + 1)` for even `n` and
-  `n‼ = π^{−1/2} 2^{n/2+1/2} Γ(n/2 + 1)` for odd `n` (`doubleFactorial_odd_eq_Gamma`; the even case
-  is `Nat.doubleFactorial_two_mul` with `Complex.Gamma_nat_eq_factorial`), from
-  `Real.Gamma_nat_add_half` shifted by one.
 - 5.4.4: `Γ(½ + iy) Γ(½ − iy) = |Γ(½ + iy)|² = π/cosh πy` for real `y`
   (`Complex.Gamma_half_add_mul_I`).
 - 5.4.5: `Γ(¼ + iy) Γ(¾ − iy) = π√2/(cosh πy + i sinh πy)` for real `y`
@@ -515,15 +517,11 @@ differentiate the recurrence `Complex.digamma_apply_add_nat`, which gives
 
 ### 2.4 Infinite products
 
-- 5.8.2: for every `z`, the product `∏_{k≥1} (1 + z/k) e^{−z/k}` converges (as a `HasProd` over
-  `k : ℕ` with the factor at `k + 1`) to a value `P` with `1/Γ(z) = z e^{γz} P`
-  (`Complex.hasProd_inv_Gamma`); both sides vanish at the poles.
 - 5.8.4–5.8.5: for `a, b : Fin m → ℂ` with `Σ a_k = Σ b_k` and no `b_k` in `{0, −1, −2, …}`,
   `∏_{j≥0} ∏_k (a_k + j)/(b_k + j) = ∏_k Γ(b_k) · ∏_k Γ(a_k)⁻¹` as a `HasProd`
   (`Complex.hasProd_balanced`). When some `a_k ∈ {0, −1, −2, …}` both sides are `0`.
 
-Route: 5.8.2 from Euler's limit 5.8.1 and `Σ_{k≤n} 1/k − log n → γ`, with absolute convergence of
-`Σ |(1 + z/k)e^{−z/k} − 1|`. 5.8.5 from 5.8.1: the balancing makes the factors `1 + O(1/j²)`, and
+Route: 5.8.5 from 5.8.1: the balancing makes the factors `1 + O(1/j²)`, and
 the partial products are quotients of `GammaSeq` up to `n^{Σ a_k − Σ b_k} = 1`.
 
 *Needs:* Mathlib `Complex.GammaSeq_tendsto_Gamma`, `HasProd`.
@@ -531,7 +529,6 @@ the partial products are quotients of `GammaSeq` up to `n^{Σ a_k − Σ b_k} = 
 **Checks.**
 - 5.8.5 with `m = 2`, `a = (1, 1)`, `b = (½, 3/2)`: `∏ (j+1)²/((j+½)(j+3/2)) = Γ(½)Γ(3/2) = π/2`,
   the Wallis product.
-- 5.8.2 at `z = 1`: `∏ (1 + 1/k)e^{−1/k} = e^{−γ}`.
 
 ### Examples
 
@@ -709,7 +706,8 @@ theorem.
 
 DLMF 5.9.2_5: for `Re z > 0`,
 `1/Γ(z) = (e^z z^{1−z}/2π) ∫_{−π}^{π} e^{−zΦ(t)} dt`, `Φ(t) = 1 − t cot t + log(t/sin t)`
-(`Complex.inv_Gamma_eq_temme`, with `Φ` the helper `temmePhi`); `Φ(0) = 0` and `Φ` is real-analytic and nonnegative on `(−π, π)`.
+(`Complex.inv_Gamma_eq_temme`, with `Φ` the helper `temmePhi`, whose value at the removable
+point is `Φ(0) = 0`); `Φ` is real-analytic and nonnegative on `(−π, π)`.
 
 Route: 4.2 with the loop replaced by the steepest-descent path through the saddle `t = z` of
 `e^t t^{−z}`. For real `z = x > 0` that path is `t = x (θ/sin θ) e^{iθ}`, `θ ∈ (−π, π)`, on which
@@ -733,15 +731,16 @@ For `Re z > 0` (5.9.12 is AnalyticNumberTheoryPartI's `digamma_eq_integral`):
 - 5.9.16: `ψ(z) + γ = ∫₀^∞ (e^{−t} − e^{−zt})/(1 − e^{−t}) dt = ∫₀¹ (1 − t^{z−1})/(1 − t) dt`
   (`Complex.digamma_add_eulerMascheroni`);
 - 5.9.19: for `n : ℕ`, `Γ⁽ⁿ⁾(z) = ∫₀^∞ (log t)ⁿ e^{−t} t^{z−1} dt`
-  (`Complex.iteratedDeriv_Gamma_eq_integral`);
+  (`Complex.iteratedDeriv_Gamma_eq_integral`; the cases `n ≤ 1` are inputs);
 - 5.9.20: for `Re c > 0`, `∫ Γ` along the segment from `c` to `z` equals
   `∫₀^∞ (t^{z−1} − t^{c−1}) e^{−t}/log t dt` (`Complex.integral_segment_Gamma`);
 
-and the four integrals of 5.9.18 for `γ` (`Real.eulerMascheroni_eq_integrals`):
+and the three remaining integrals of 5.9.18 for `γ` (`Real.eulerMascheroni_eq_integrals`; the
+first equality is an input):
 
 ```text
-γ = −∫₀^∞ e^{−t} log t dt = ∫₀^∞ (1/(1 + t) − e^{−t}) dt/t
-  = ∫₀¹ (1 − e^{−t}) dt/t − ∫₁^∞ e^{−t} dt/t = ∫₀^∞ (e^{−t}/(1 − e^{−t}) − e^{−t}/t) dt
+γ = ∫₀^∞ (1/(1 + t) − e^{−t}) dt/t = ∫₀¹ (1 − e^{−t}) dt/t − ∫₁^∞ e^{−t} dt/t
+  = ∫₀^∞ (e^{−t}/(1 − e^{−t}) − e^{−t}/t) dt
 ```
 
 Route: 5.9.13 is 5.9.12 minus the Frullani-type identity
@@ -990,7 +989,8 @@ Layer 5; SpecialFunctionsHypergeometric 6.3; ZerosOfLFunctions 1.2; AsymptoticEx
 
 ### 7.1 Definition
 
-`Complex.polygamma n z = iteratedDeriv n Complex.digamma z`. Prove that it is holomorphic on
+`Complex.polygamma n z = iteratedDeriv n Complex.digamma z` (DLMF §5.15, opening paragraph:
+`ψ⁽ⁿ⁾` is the `n`-th derivative of `ψ`, `n ≥ 1`). Prove that it is holomorphic on
 `ℂ \ {0, −1, −2, …}`, that `polygamma 0 = digamma`, that `deriv (polygamma n) = polygamma (n + 1)`
 off the poles, and that `polygamma n x` is real for real `x > 0`.
 
@@ -1046,11 +1046,11 @@ subsector. Watson's lemma (AsymptoticExpansions 4.2) gives the expansion in `|ph
 the rotation of the path (AsymptoticExpansions 4.3) through `|θ| < π/2` extends it to
 `|ph z| ≤ π − δ`.
 
-*Needs:* 7.2; AsymptoticExpansions 4.1–4.3; Mathlib `bernoulli`.
+*Needs:* 7.2; AsymptoticExpansions 1.1, 1.3, 4.1–4.3; Mathlib `bernoulli`.
 
 **Checks.**
 - `n = 1`, `z = 10`, terms up to `k = 2`: `ψ′(10) = 0.1051663356817` and
-  `1/10 + 1/200 + 1/6000 − 1/300000 = 0.1051663333333`; the difference `2.35 · 10⁻⁹` is close to
+  `1/10 + 1/200 + 1/6000 − 1/3000000 = 0.1051663333333`; the difference `2.35 · 10⁻⁹` is close to
   the next term `B₆/10⁷ = 1/(42 · 10⁷) = 2.38 · 10⁻⁹`.
 - The sector cannot reach the negative axis: `ψ′` has poles at `−k`.
 
@@ -1093,9 +1093,11 @@ Auxiliary:
   `F(s) = ∫ w g^s` converge for real `s` in a nonempty interval `(s₀, s₁)`, `s₀ < s₁`, and suppose
   `F` continues holomorphically from `(s₀, s₁)` to a neighbourhood of `[s₀′, s₁)` with `s₀′ < s₀`. Then
   `∫ w g^s` converges for `s ∈ (s₀′, s₁)` and equals the continuation there. (The proof expands
-  `F` in a power series at a point of `(s₀, s₁)`; the coefficients are integrals of `w g^s (log g)^k`
-  with constant sign, which allows monotone convergence.) With `g = e^{−t}` this is the theorem
-  that a Laplace–Stieltjes integral with monotone determining function is singular at the real
+  `F` in a power series at a point `s*` of `(s₀, s₁)` and splits the integral at `g = 1`. On
+  `{g > 1}`, `g^s ≤ g^{s*}` for `s < s*`, so that part converges. On `{g ≤ 1}`, the Taylor
+  coefficients at `s*` are `∫ w g^{s*} (log g)^k`, of sign `(−1)^k`, so every term of the series
+  at `s < s*` is nonnegative and monotone convergence applies.) With `g = e^{−t}` this is the
+  theorem that a Laplace–Stieltjes integral with monotone determining function is singular at the real
   point of its axis of convergence (Widder, *The Laplace Transform*, Chapter II, §5, Theorem 5b,
   p. 58).
 

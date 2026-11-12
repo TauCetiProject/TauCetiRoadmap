@@ -52,9 +52,10 @@ def invGammaCoeff (k : ℕ) : ℂ :=
 def sectorFilter (δ : ℝ) : Filter ℂ :=
   Bornology.cobounded ℂ ⊓ 𝓟 {z | |arg z| ≤ π - δ}
 
-/-- Temme's phase `Φ(t) = 1 − t cot t + log(t/sin t)` (DLMF 5.9.2_5). -/
+/-- Temme's phase `Φ(t) = 1 − t cot t + log(t/sin t)` (DLMF 5.9.2_5), with its removable value
+`Φ(0) = 0`. -/
 def temmePhi (t : ℝ) : ℝ :=
-  1 - t * Real.cot t + Real.log (t / Real.sin t)
+  if t = 0 then 0 else 1 - t * Real.cot t + Real.log (t / Real.sin t)
 
 /-- `|Δ(t₁, …, tₙ)| = |∏_{j<k} (t_j − t_k)|` (DLMF 5.14.3), as the modulus of the Vandermonde
 determinant. -/
@@ -82,13 +83,6 @@ theorem ascPochhammer_eval_eq_sum_lah (x : ℂ) (n : ℕ) :
 theorem descPochhammer_eval_eq_sum_lah (x : ℂ) (n : ℕ) :
     (descPochhammer ℂ n).eval x =
       ∑ k ∈ range (n + 1), (-1) ^ (n - k) * lah n k * (ascPochhammer ℂ k).eval x := by
-  sorry
-
-/-- DLMF 5.4.2, odd case (the even case is `Nat.doubleFactorial_two_mul` with
-`Complex.Gamma_nat_eq_factorial`). -/
-theorem doubleFactorial_odd_eq_Gamma (n : ℕ) :
-    ((2 * n + 1).doubleFactorial : ℝ) =
-      π ^ (-(1 / 2 : ℝ)) * 2 ^ ((n : ℝ) + 1) * Real.Gamma ((n : ℝ) + 3 / 2) := by
   sorry
 
 /-- DLMF 5.4.4. -/
@@ -197,12 +191,6 @@ theorem im_digamma_one_add_mul_I_eq_tsum (y : ℝ) :
 /-- DLMF 5.15.1 for every `z` off the poles, with `ψ′` the complex derivative of `ψ`. -/
 theorem hasSum_deriv_digamma {z : ℂ} (hz : ∀ m : ℕ, z ≠ -m) :
     HasSum (fun k : ℕ => 1 / ((k : ℂ) + z) ^ 2) (deriv digamma z) := by
-  sorry
-
-/-- DLMF 5.8.2, the Weierstrass product. -/
-theorem hasProd_inv_Gamma (z : ℂ) :
-    ∃ P, HasProd (fun k : ℕ => (1 + z / (k + 1)) * exp (-z / (k + 1))) P ∧
-      (Gamma z)⁻¹ = z * exp (γ * z) * P := by
   sorry
 
 /-- DLMF 5.8.4–5.8.5, balanced products. -/
@@ -338,10 +326,10 @@ theorem digamma_add_eulerMascheroni {z : ℂ} (hz : 0 < z.re) :
       digamma z + γ = ∫ t in (0 : ℝ)..1, (1 - (t : ℂ) ^ (z - 1)) / (1 - t) := by
   sorry
 
-/-- DLMF 5.9.18. -/
+/-- DLMF 5.9.18, the three integrals that Mathlib does not have (the first is
+`Real.eulerMascheroniConstant_eq_neg_integral_log`). -/
 theorem eulerMascheroni_eq_integrals :
-    γ = -∫ t in Ioi (0 : ℝ), Real.exp (-t) * Real.log t ∧
-      γ = ∫ t in Ioi (0 : ℝ), (1 / (1 + t) - Real.exp (-t)) / t ∧
+    γ = ∫ t in Ioi (0 : ℝ), (1 / (1 + t) - Real.exp (-t)) / t ∧
       γ = (∫ t in (0 : ℝ)..1, (1 - Real.exp (-t)) / t) - ∫ t in Ioi (1 : ℝ), Real.exp (-t) / t ∧
       γ = ∫ t in Ioi (0 : ℝ), (Real.exp (-t) / (1 - Real.exp (-t)) - Real.exp (-t) / t) := by
   sorry
