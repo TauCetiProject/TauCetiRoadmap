@@ -153,8 +153,9 @@ Define `projection` by `projection D K = P = {x | ∃ p ∈ L, x = sumBlocks p}`
 - For the interval branch of 1.1, `P = [0,1]`; summing weights instead of blocks
   would give `{1}`.
 - Empty index gives `P = ∅` despite `sumBlocks` being zero.
-- For the interval lift `λ = 1`, `v = 1/2`, the projected point is `1/2`;
-  changing only that point to `0` violates the sum equality.
+- With the empty branch of 1.1 (`A = 0`, `b = 1`, `K = {0}`, box `[0,1]`) as the
+  only branch, `λ = 1` forces the residual `−1 ∉ {0}`, so `L = P = ∅`. Dropping
+  the residual condition, or taking `P` to be the box, would give `[0,1]`.
 
 Define `fullLift` by `fullLift D K = F = {q : X × LiftPoint ι n | q.2 ∈ L ∧ q.1 = sumBlocks q.2}`.
 
