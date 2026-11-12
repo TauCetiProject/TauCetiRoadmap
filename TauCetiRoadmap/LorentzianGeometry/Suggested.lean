@@ -1,61 +1,48 @@
 module
 
 public import Mathlib
-public import TauCeti.Geometry.Manifold.VectorBundle.NondegenerateMetric.Signature
-public import TauCeti.Geometry.Manifold.VectorBundle.NondegenerateMetric.Musical
 public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Nondegenerate.Existence
+public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.AlongCurve.Acceleration
 public import TauCeti.Geometry.Manifold.PiecewisePath
 
 /-!
 # Semi-Riemannian foundations and Lorentzian causality: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+`README.md` is the roadmap; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, with the definitions their statements need:
 
-Stated here: arbitrary-signature and Lorentzian scalar-product predicates and causal
-characters (§F0.1, §C0.1), the timelike-cone theorems (§C0.2), a null hyperplane (§F0.2),
-the regularity-graded nondegenerate metric carrier, its signature predicates and its smooth
-identification with Tau Ceti's
-`TauCeti.Manifold.ContMDiffNondegenerateMetric` (§F1.2), `C^k`-extensions (§F1.7), time
-orientations and time-oriented metrics (§C2.1), causal curves and the causal relations (§C2.2,
-§C2.3), null hypersurfaces and optical functions (§C3.2), and the global-hyperbolicity and
-Cauchy-surface definitions with Geroch's theorem (§C6), conformal transport of time
-orientations, causal relations and global causal predicates (§C2.4, §C6.5), the pointwise
-acoustical form (§C1.3), future timelike Lipschitz curves (§C2.2), and causal curves,
-past-inextendibility and future domains of dependence inside an arbitrary subset, with the
-slab and determination theorems (§C6.6). The inverse metric, optical
-functions, null hypersurfaces and extension definitions use the shared carrier at every
-signature. The prose milestones concern finite and smooth orders `k ≤ ∞` on smooth manifolds.
-The pairing carrier and strong musical inverse use arbitrary normed model spaces; local
-ODE existence uses Banach completeness. Finite-dimensional hypotheses enter explicitly
-for signature classification, extensions and the Lorentzian causal specialization.
+* Geroch's theorem (§12.3): a smooth spacetime is globally hyperbolic iff it has a Cauchy
+  surface;
+* the Bernal–Sánchez theorem (§12.3): a smooth globally hyperbolic spacetime has a smooth Cauchy
+  temporal function;
+* the Avez–Seifert theorem (§12.3): two distinct causally related points of a smooth globally
+  hyperbolic spacetime are joined by a causal geodesic whose length is their time separation;
+* the Galloway–Ling–Sbierski theorem (§12.4): a smooth globally hyperbolic spacetime that is
+  timelike geodesically complete is `C⁰`-inextendible, and Sbierski's theorem that Minkowski
+  space is `C⁰`-inextendible;
+* the determination theorem for domains of dependence inside a subset (§12.6).
 
-The local `ContMDiffNondegenerateMetric k` prototypes the regularity generalization of
-the imported smooth carrier, which has no regularity parameter at the pinned revision.
-Its smooth comparison maps use that existing implementation. In Tau Ceti, generalize the
-existing carrier and preserve its smooth interface; this prototype does not specify a
-second permanent metric carrier. `LorentzianMetric` is only its index-one subtype.
-`IsStrong` uses native continuous-linear invertibility on the same carrier. Weak metrics
-can be paired with a supplied compatible connection, with the representation condition
-and uniqueness specified in §F1.4. The coefficient ODE signatures below test §F2.2's local
-Banach existence and uniqueness interface; they do not introduce another manifold geodesic.
+Not statable at the pins:
 
-Not stated here: the `C^{k,α}` predicate of §F1.3 (it is a chartwise Hölder condition whose
-exact form follows the PDE roadmap's `C^{k,α}_loc`), the low-regularity Levi-Civita
-connection and curvature of §F1.4 and §F1.5 (connection regularity uses the existing
-`ContMDiffCovariantDerivative`; the finite-order Levi-Civita and curvature constructions
-are targets), and the full geodesic, time-separation and Jacobi interfaces of §F2, §C5 and §F4, which
-are generalizations of the existing Riemannian APIs. The local bundle and curvature
-generalizations of §F1.1 use native `IsCovariantDerivativeOn` and continuous multilinear
-maps; their full finite-regularity interfaces, as well as the bi-Lipschitz exponential and
-normal-neighbourhood targets of §F2.4, are specified in the README. Smooth flow is a
-regularity theorem about the single locally Lipschitz flow of §F2.2. Curve domains require
-`a < b`, and §F2.1 distinguishes admissible reparametrizations and geodesic images.
-The optical-function predicate at a corner does not assert a foliation there; that theorem
-uses the separate boundary-stratum conditions of §C3.2. The `C¹` achronal-boundary and horizon theorems
-of §C6.7 are specified in the README.
+* Hawking's theorem and the timelike focusing lemma (§13.2, §13.3): there is no second
+  fundamental form or mean curvature of a hypersurface in a semi-Riemannian manifold (Tau Ceti's
+  second fundamental form is that of a map into an inner product space);
+* Penrose's theorem and the null focusing lemma (§13.2, §13.3): there is no null expansion of a
+  spacelike codimension-two submanifold;
+* the generator theorems of §12.7: there is no Levi-Civita connection or geodesic of a `C¹`
+  metric (Tau Ceti's Levi-Civita connection is that of a smooth metric);
+* the theorems of Part I on Banach manifolds and at finite regularity (Layers 2–5: the
+  Levi-Civita connection of a strong `C^k` metric, the geodesic flow of a locally Lipschitz
+  connection, the `C^{1,1}` Gauss lemma, the Gauss–Codazzi–Ricci equations of a nondegenerate
+  immersion, Jacobi fields and index forms of an indefinite metric): Tau Ceti's covariant
+  acceleration and Levi-Civita connection are finite-dimensional and smooth, its exponential map
+  is the Riemannian one, and it has no second fundamental form of an immersion into a
+  semi-Riemannian manifold.
+
+The carrier `ContMDiffNondegenerateMetric k` is the metric of §2.2 at regularity `k`: Tau Ceti's
+`TauCeti.Manifold.ContMDiffNondegenerateMetric` is the smooth case and has no regularity
+parameter at the pin, and `ContMDiffNondegenerateMetric.toSmoothMetric` reads a smooth metric
+as Tau Ceti's, so that its Levi-Civita connection is available.
 -/
 
 @[expose] public section
@@ -69,173 +56,7 @@ universe u
 
 namespace TauCetiRoadmap.LorentzianGeometry
 
-/-! ## §F0 and §C0: scalar products and Lorentzian cones -/
-
-section Linear
-
-variable {V : Type*} [AddCommGroup V] [Module ℝ V]
-
-/-- **§F0.1.** A symmetric nondegenerate scalar product of signature `(p, q)`, with
-`p` positive and `q` negative directions. -/
-def HasSignature (b : LinearMap.BilinForm ℝ V) (p q : ℕ) : Prop :=
-  b.IsSymm ∧ b.Nondegenerate ∧ sigPos b.toQuadraticMap = p ∧ sigNeg b.toQuadraticMap = q
-
-/-- **§C0.1.** A Lorentzian scalar product: a symmetric nondegenerate real bilinear form of
-index one, the index being Mathlib's negative inertia index `sigNeg`. -/
-def IsLorentzian (b : LinearMap.BilinForm ℝ V) : Prop :=
-  b.IsSymm ∧ b.Nondegenerate ∧ sigNeg b.toQuadraticMap = 1
-
-/-- A timelike vector: `b v v < 0`. -/
-def IsTimelike (b : LinearMap.BilinForm ℝ V) (v : V) : Prop := b v v < 0
-
-/-- A null (lightlike) vector: `b v v = 0` and `v ≠ 0`. -/
-def IsNull (b : LinearMap.BilinForm ℝ V) (v : V) : Prop := b v v = 0 ∧ v ≠ 0
-
-/-- A causal vector: timelike or null. The zero vector is not causal. -/
-def IsCausal (b : LinearMap.BilinForm ℝ V) (v : V) : Prop := IsTimelike b v ∨ IsNull b v
-
-/-- A spacelike vector: `0 < b v v` or `v = 0` (O'Neill's convention). -/
-def IsSpacelike (b : LinearMap.BilinForm ℝ V) (v : V) : Prop := 0 < b v v ∨ v = 0
-
-/-- The timelike cone containing a timelike vector `v`. -/
-def timeCone (b : LinearMap.BilinForm ℝ V) (v : V) : Set V :=
-  {w | IsTimelike b w ∧ b v w < 0}
-
-variable [FiniteDimensional ℝ V]
-
-/-- **§F0.1, arbitrary-signature normal form.** Negative coordinates come first. -/
-theorem hasSignature_iff_exists_basis (b : LinearMap.BilinForm ℝ V) (p q : ℕ) :
-    HasSignature b p q ↔ ∃ e : Module.Basis (Fin (p + q)) ℝ V,
-      ∀ i j, b (e i) (e j) = if i = j then (if i.val < q then -1 else 1) else 0 := by
-  sorry
-
-/-- **§C0.1, normal form.** A form is Lorentzian iff some basis is `η`-orthonormal with
-`η = diag(-1, 1, …, 1)`. -/
-theorem isLorentzian_iff_exists_basis (b : LinearMap.BilinForm ℝ V) :
-    IsLorentzian b ↔ ∃ (n : ℕ) (e : Module.Basis (Fin (n + 1)) ℝ V),
-      ∀ i j, b (e i) (e j) = if i = j then (if i = 0 then -1 else 1) else 0 := by
-  sorry
-
-/-- **§C0.2 (c).** On the orthogonal complement of a timelike vector a Lorentzian form is
-positive definite. -/
-theorem IsLorentzian.pos_of_mem_orthogonal {b : LinearMap.BilinForm ℝ V} (hb : IsLorentzian b)
-    {v : V} (hv : IsTimelike b v) {w : V} (hw : b v w = 0) (hw0 : w ≠ 0) : 0 < b w w := by
-  sorry
-
-/-- **§C0.2, reverse Cauchy–Schwarz.** For timelike `v`, `b(v,v) b(w,w) ≤ b(v,w)²`, with
-equality iff `v, w` are linearly dependent. -/
-theorem IsLorentzian.mul_le_sq {b : LinearMap.BilinForm ℝ V} (hb : IsLorentzian b)
-    {v : V} (hv : IsTimelike b v) (w : V) : b v v * b w w ≤ b v w ^ 2 := by
-  sorry
-
-/-- **§C0.2 (a), (b).** The timelike vectors are the disjoint union of the cone of `v` and
-its negative, and the cone is convex. -/
-theorem IsLorentzian.setOf_isTimelike_eq {b : LinearMap.BilinForm ℝ V} (hb : IsLorentzian b)
-    {v : V} (hv : IsTimelike b v) :
-    {w | IsTimelike b w} = timeCone b v ∪ timeCone b (-v) ∧
-      Disjoint (timeCone b v) (timeCone b (-v)) ∧ Convex ℝ (timeCone b v) := by
-  sorry
-
-/-- **§F0.2, a null hyperplane in any signature.** For a nonzero covector `ξ`, the
-hyperplane `ker ξ` is degenerate for `b` iff `ξ^♯` is null, and then `ξ^♯ ∈ ker ξ`. -/
-theorem not_nondegenerate_restrict_ker_iff {b : LinearMap.BilinForm ℝ V}
-    (hs : b.IsSymm) (hb : b.Nondegenerate) {ξ : Module.Dual ℝ V} (hξ : ξ ≠ 0) :
-    ¬ (b.restrict (LinearMap.ker ξ)).Nondegenerate ↔
-      IsNull b ((b.toDual hb).symm ξ) := by
-  sorry
-
-end Linear
-
-/-- **§C0.1, the Minkowski model.** On `ℝ × E`, `-(t s) + ⟪x, y⟫`. Its quadratic form is the
-negative of the opposite-signature square `t² − ‖x‖²` used by HyperbolicGeometry. -/
-def minkowskiForm (E : Type*) [NormedAddCommGroup E] [InnerProductSpace ℝ E] :
-    LinearMap.BilinForm ℝ (ℝ × E) :=
-  LinearMap.mk₂ ℝ (fun v w ↦ -(v.1 * w.1) + inner ℝ v.2 w.2)
-    (by intros; simp [inner_add_left]; ring) (by intros; simp [inner_smul_left]; ring)
-    (by intros; simp [inner_add_right]; ring) (by intros; simp [inner_smul_right]; ring)
-
-theorem minkowskiForm_self (E : Type*) [NormedAddCommGroup E] [InnerProductSpace ℝ E]
-    (v : ℝ × E) : minkowskiForm E v v = -(v.1 ^ 2 - ‖v.2‖ ^ 2) := by
-  sorry
-
-theorem isLorentzian_minkowskiForm (E : Type*) [NormedAddCommGroup E] [InnerProductSpace ℝ E]
-    [FiniteDimensional ℝ E] : IsLorentzian (minkowskiForm E) := by
-  sorry
-
-section Acoustical
-
-variable (F : Type*) [NormedAddCommGroup F] [InnerProductSpace ℝ F]
-
-/-- **§C1.3.** The linear change of frame `(a, X) ↦ (c a, X - a v)` relating the acoustical
-form to `minkowskiForm`. -/
-def acousticalShear (c : ℝ) (v : F) : ℝ × F →ₗ[ℝ] ℝ × F :=
-  LinearMap.prod (c • LinearMap.fst ℝ ℝ F)
-    (LinearMap.snd ℝ ℝ F - (LinearMap.fst ℝ ℝ F).smulRight v)
-
-/-- **§C1.3.** The acoustical form at one point of `ℝ × F`, for sound speed `c` and velocity
-`v`: `-c² a b + ⟪X - a v, Y - b v⟫`, i.e. `-c² dt² + |dx - v dt|²`. -/
-def acousticalForm (c : ℝ) (v : F) : LinearMap.BilinForm ℝ (ℝ × F) :=
-  (minkowskiForm F).compl₁₂ (acousticalShear F c v) (acousticalShear F c v)
-
-variable {F}
-
-theorem acousticalForm_apply (c : ℝ) (v : F) (x y : ℝ × F) :
-    acousticalForm F c v x y =
-      -(c ^ 2 * (x.1 * y.1)) + inner ℝ (x.2 - x.1 • v) (y.2 - y.1 • v) := by
-  simp [acousticalForm, acousticalShear, minkowskiForm]
-  ring
-
-/-- **§C1.3.** `B = ∂_t + v` pairs with `X` to `-c² dt(X)`. -/
-theorem acousticalForm_apply_flow (c : ℝ) (v : F) (x : ℝ × F) :
-    acousticalForm F c v x (1, v) = -(c ^ 2 * x.1) := by
-  simp [acousticalForm_apply]
-
-/-- **§C1.3.** The acoustical form is Lorentzian wherever the sound speed is nonzero. -/
-theorem isLorentzian_acousticalForm [FiniteDimensional ℝ F] {c : ℝ} (hc : c ≠ 0) (v : F) :
-    IsLorentzian (acousticalForm F c v) := by
-  sorry
-
-/-- **§C1.3.** `∂_t + Y` is causal iff `|Y - v| ≤ c`: the causal-curve condition of a
-`t`-parametrized curve. -/
-theorem isCausal_acousticalForm_iff {c : ℝ} (hc : 0 < c) (v Y : F) :
-    IsCausal (acousticalForm F c v) ((1 : ℝ), Y) ↔ ‖Y - v‖ ≤ c := by
-  sorry
-
-end Acoustical
-
-/-! ## §F2.2: local coefficient ODE in Banach spaces -/
-
-section CoefficientODE
-
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-
-/-- The connection geodesic ODE in a chart, with state `(position, velocity)`. -/
-def geodesicRHS (Γ : E → E →L[ℝ] E →L[ℝ] E) (z : E × E) : E × E :=
-  (z.2, -(Γ z.1 z.2 z.2))
-
-/-- Locally Lipschitz connection coefficients give a locally Lipschitz ODE. -/
-theorem locallyLipschitz_geodesicRHS (Γ : E → E →L[ℝ] E →L[ℝ] E)
-    (hΓ : LocallyLipschitz Γ) : LocallyLipschitz (geodesicRHS Γ) := by
-  sorry
-
-/-- Local existence is a Banach Picard–Lindelöf statement, independent of any metric. -/
-theorem exists_geodesicState [CompleteSpace E] (Γ : E → E →L[ℝ] E →L[ℝ] E)
-    (hΓ : LocallyLipschitz Γ) (z₀ : E × E) :
-    ∃ ε : ℝ, 0 < ε ∧ ∃ z : ℝ → E × E, z 0 = z₀ ∧
-      ∀ t ∈ Ioo (-ε) ε, HasDerivAt z (geodesicRHS Γ (z t)) t := by
-  sorry
-
-/-- Uniqueness is separate from the geodesic predicate and requires coefficient control. -/
-theorem geodesicState_eqOn (Γ : E → E →L[ℝ] E →L[ℝ] E)
-    (hΓ : LocallyLipschitz Γ) {a b : ℝ} (ha : a < 0) (hb : 0 < b)
-    {z w : ℝ → E × E} (hz : ∀ t ∈ Ioo a b, HasDerivAt z (geodesicRHS Γ (z t)) t)
-    (hw : ∀ t ∈ Ioo a b, HasDerivAt w (geodesicRHS Γ (w t)) t)
-    (h₀ : z 0 = w 0) : EqOn z w (Ioo a b) := by
-  sorry
-
-end CoefficientODE
-
-/-! ## §F1: shared metrics; §C1–§C3: Lorentzian and null specializations -/
+/-! ## Layer 2: local bundle calculus and metric pairings -/
 
 section Manifold
 
@@ -243,10 +64,11 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   {M : Type u} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
 
-/-- **§F1.2.** Prototype of the regularity extension of Tau Ceti's existing nondegenerate
-metric carrier. Generalize that carrier in place; omitted regularity retains its smooth API.
-The manifold may have boundary or corners. Neither dimension nor signature is prescribed;
-nondegeneracy alone does not supply a continuous inverse in infinite dimensions. -/
+/-- **§2.2.** A symmetric nondegenerate metric of class `C^k` on `TM`: a `C^k` section of the
+bundle of continuous bilinear forms on the tangent spaces whose value at every point is
+symmetric and nondegenerate (injective as a map to the continuous dual). The manifold may have
+boundary or corners; neither the dimension nor the signature is prescribed, and in infinite
+dimensions nondegeneracy does not give a continuous inverse. -/
 structure ContMDiffNondegenerateMetric (k : ℕ∞ω := ∞) where
   /-- The `C^k` section of continuous bilinear forms. -/
   toContMDiffSection :
@@ -261,98 +83,22 @@ namespace ContMDiffNondegenerateMetric
 
 variable {k : ℕ∞ω}
 
+/-- A metric is evaluated pointwise as its continuous bilinear form. -/
 instance : CoeFun (ContMDiffNondegenerateMetric (I := I) (M := M) k) fun _ ↦
     (x : M) → TangentSpace I x →L[ℝ] TangentSpace I x →L[ℝ] ℝ where
   coe g := g.toContMDiffSection
 
-/-- **§F1.2.** Strong nondegeneracy: the metric map to the continuous dual is invertible. -/
-def IsStrong (g : ContMDiffNondegenerateMetric (I := I) (M := M) k) : Prop :=
-  ∀ x, (g x).IsInvertible
-
-/-- **§F1.2.** A strong metric supplies a continuous sharp map. -/
-def sharp (g : ContMDiffNondegenerateMetric (I := I) (M := M) k)
-    (_hg : g.IsStrong) (x : M) :
-    (TangentSpace I x →L[ℝ] ℝ) →L[ℝ] TangentSpace I x := (g x).inverse
-
-/-- The inverse recovers a covector after applying the metric map. -/
-theorem flat_sharp (g : ContMDiffNondegenerateMetric (I := I) (M := M) k)
-    (hg : g.IsStrong) (x : M) (ξ : TangentSpace I x →L[ℝ] ℝ) :
-    g x (g.sharp hg x ξ) = ξ := (hg x).self_apply_inverse ξ
-
-/-- The inverse recovers a vector after applying the metric map. -/
-theorem sharp_flat (g : ContMDiffNondegenerateMetric (I := I) (M := M) k)
-    (hg : g.IsStrong) (x : M) (v : TangentSpace I x) :
-    g.sharp hg x (g x v) = v := (hg x).inverse_apply_self v
-
-/-- **§F1.2.** Finite-dimensional nondegeneracy automatically implies strongness. -/
-theorem isStrong_of_finiteDimensional [FiniteDimensional ℝ E]
-    (g : ContMDiffNondegenerateMetric (I := I) (M := M) k) : g.IsStrong := by
-  intro x
-  exact ContinuousLinearMap.isInvertible_of_separatingLeft (E := E) (g.nondegenerate x).1
-
-/-- **§F1.2, §C3.2.** The inverse metric uses the continuous sharp map at any dimension. -/
-def inverseApply (g : ContMDiffNondegenerateMetric (I := I) (M := M) k)
-    (hg : g.IsStrong) (x : M) (ξ : TangentSpace I x →L[ℝ] ℝ) : ℝ :=
-  g x (g.sharp hg x ξ) (g.sharp hg x ξ)
-
-/-- **§C2.4.** A positive continuous conformal relation on the common metric carrier. -/
-structure IsConformal {k l : ℕ∞ω}
-    (g : ContMDiffNondegenerateMetric (I := I) (M := M) k)
-    (h : ContMDiffNondegenerateMetric (I := I) (M := M) l) (Ω : M → ℝ) : Prop where
-  continuous : Continuous Ω
-  pos (x : M) : 0 < Ω x
-  apply (x : M) (v w : TangentSpace I x) : h x v w = (Ω x) ^ 2 * g x v w
-
-/-- **§F1.2.** Lowering regularity preserves the same underlying metric field. -/
-def ofLE {l : ℕ∞ω} (g : ContMDiffNondegenerateMetric (I := I) (M := M) k) (h : l ≤ k) :
-    ContMDiffNondegenerateMetric (I := I) (M := M) l where
-  toContMDiffSection := ⟨fun x ↦ g x, g.toContMDiffSection.contMDiff.of_le h⟩
-  symm := g.symm
-  nondegenerate := g.nondegenerate
-
-/-- **§F1.2.** Fixed signature is a predicate on the common carrier. -/
-def HasSignature (g : ContMDiffNondegenerateMetric (I := I) (M := M) k) (p q : ℕ) : Prop :=
-  ∀ x, TauCetiRoadmap.LorentzianGeometry.HasSignature (g x).toBilinForm p q
-
-/-- **§C1.1.** Index one is a predicate on the common carrier. -/
-def IsLorentzian (g : ContMDiffNondegenerateMetric (I := I) (M := M) k) : Prop :=
-  ∀ x, TauCetiRoadmap.LorentzianGeometry.IsLorentzian (g x).toBilinForm
-
-/-- **§F1.2, smooth identification.** Use the imported smooth implementation. -/
+/-- **§2.2.** A metric of class `C^k` with `∞ ≤ k`, read as Tau Ceti's smooth nondegenerate
+metric (same field, symmetry and nondegeneracy). -/
 def toSmoothMetric (g : ContMDiffNondegenerateMetric (I := I) (M := M) k) (hk : ∞ ≤ k) :
     TauCeti.Manifold.ContMDiffNondegenerateMetric (I := I) (M := M) where
   toContMDiffSection := ⟨fun x ↦ g x, g.toContMDiffSection.contMDiff.of_le hk⟩
   symm := g.symm
   nondegenerate := g.nondegenerate
 
-/-- **§F1.2.** Read the existing smooth metric in the generalized carrier. -/
-def ofSmoothMetric (g : TauCeti.Manifold.ContMDiffNondegenerateMetric (I := I) (M := M)) :
-    ContMDiffNondegenerateMetric (I := I) (M := M) ∞ where
-  toContMDiffSection := g.toContMDiffSection
-  symm := g.symm
-  nondegenerate := g.nondegenerate
-
-theorem toSmoothMetric_ofSmoothMetric
-    (g : TauCeti.Manifold.ContMDiffNondegenerateMetric (I := I) (M := M)) :
-    (ofSmoothMetric g).toSmoothMetric le_rfl = g := by
-  sorry
-
-theorem ofSmoothMetric_toSmoothMetric
-    (g : ContMDiffNondegenerateMetric (I := I) (M := M) ∞) :
-    ofSmoothMetric (g.toSmoothMetric le_rfl) = g := by
-  sorry
-
-/-- **§C1.1.** The index-one predicate is equivalent to signature `(n, 1)` at every
-regularity. The corresponding smooth theorem specializes the existing signature API. -/
-theorem isLorentzian_iff_signature [FiniteDimensional ℝ E]
-    (g : ContMDiffNondegenerateMetric (I := I) (M := M) k)
-    (n : ℕ) (hn : Module.finrank ℝ E = n + 1) :
-    g.IsLorentzian ↔ g.HasSignature n 1 := by
-  sorry
-
-/-- **§F1.7.** An extension at any signature: a smooth
-embedding into a nondegenerate metric manifold `(M', g')` of the same model
-and with `g'` of class `C^l`, pulling `g'` back to `g`, and not surjective. -/
+/-- **§2.7.** An extension of `(M, g)` of class `C^l`, at any signature: a smooth embedding `ι`
+into a manifold `M'` with the same model, carrying a nondegenerate metric `g'` of class `C^l`,
+such that `g'` pulls back to `g` and `ι` is not surjective. -/
 structure IsExtension [FiniteDimensional ℝ E] {k l : ℕ∞ω}
     (g : ContMDiffNondegenerateMetric (I := I) (M := M) k)
     {M' : Type*} [TopologicalSpace M'] [ChartedSpace H M'] [IsManifold I ∞ M']
@@ -362,7 +108,7 @@ structure IsExtension [FiniteDimensional ℝ E] {k l : ℕ∞ω}
     g' (ι x) (mfderiv I I ι x v) (mfderiv I I ι x w) = g x v w
   range_ne_univ : range ι ≠ univ
 
-/-- **§F1.7.** `(M, g)` is `C^l`-inextendible: it has no `C^l`-extension into a connected
+/-- **§2.7.** `(M, g)` is `C^l`-inextendible: it has no extension of class `C^l` into a connected
 Hausdorff manifold of the same universe and model. -/
 def IsInextendible [FiniteDimensional ℝ E] {k : ℕ∞ω} (l : ℕ∞ω)
     (g : ContMDiffNondegenerateMetric (I := I) (M := M) k) : Prop :=
@@ -373,12 +119,63 @@ def IsInextendible [FiniteDimensional ℝ E] {k : ℕ∞ω} (l : ℕ∞ω)
 
 end ContMDiffNondegenerateMetric
 
-/-! The causal and null-hypersurface prototypes below are finite-dimensional specializations. -/
+end Manifold
+
+/-! ## Layer 6: Lorentzian scalar products and cones -/
+
+section Linear
+
+variable {V : Type*} [AddCommGroup V] [Module ℝ V]
+
+/-- **§6.1.** A Lorentzian scalar product: a symmetric nondegenerate real bilinear form of
+index one, the index being Mathlib's negative inertia index `sigNeg`. -/
+def IsLorentzian (b : LinearMap.BilinForm ℝ V) : Prop :=
+  b.IsSymm ∧ b.Nondegenerate ∧ sigNeg b.toQuadraticMap = 1
+
+/-- **§6.1.** A timelike vector: `b v v < 0`. -/
+def IsTimelike (b : LinearMap.BilinForm ℝ V) (v : V) : Prop := b v v < 0
+
+/-- **§6.1.** A null (lightlike) vector: `b v v = 0` and `v ≠ 0`. -/
+def IsNull (b : LinearMap.BilinForm ℝ V) (v : V) : Prop := b v v = 0 ∧ v ≠ 0
+
+/-- **§6.1.** A causal vector: timelike or null. The zero vector is not causal. -/
+def IsCausal (b : LinearMap.BilinForm ℝ V) (v : V) : Prop := IsTimelike b v ∨ IsNull b v
+
+/-- **§6.2 (b).** For a Lorentzian form on a finite-dimensional space, lying in the same time
+cone is transitive: timelike `u, v, w` with `b u v < 0` and `b v w < 0` have `b u w < 0`. -/
+theorem IsLorentzian.neg_of_neg_of_neg [FiniteDimensional ℝ V] {b : LinearMap.BilinForm ℝ V}
+    (hb : IsLorentzian b) {u v w : V} (hu : IsTimelike b u) (hv : IsTimelike b v)
+    (hw : IsTimelike b w) (huv : b u v < 0) (hvw : b v w < 0) : b u w < 0 := by
+  sorry
+
+end Linear
+
+/-- **§6.1.** The Minkowski form on `ℝ × E`: `((t, x), (s, y)) ↦ -(t s) + ⟪x, y⟫`. Its quadratic
+form is `-t² + ‖x‖²`. -/
+def minkowskiForm (E : Type*) [NormedAddCommGroup E] [InnerProductSpace ℝ E] :
+    LinearMap.BilinForm ℝ (ℝ × E) :=
+  LinearMap.mk₂ ℝ (fun v w ↦ -(v.1 * w.1) + inner ℝ v.2 w.2)
+    (by intros; simp [inner_add_left]; ring) (by intros; simp [inner_smul_left]; ring)
+    (by intros; simp [inner_add_right]; ring) (by intros; simp [inner_smul_right]; ring)
+
+/-! ## Layer 7: Lorentzian metrics and model spacetimes -/
+
+section Manifold
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type u} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+
+/-- **§7.1.** The index-one predicate on the metric carrier: Lorentzian at every point. -/
+def ContMDiffNondegenerateMetric.IsLorentzian {k : ℕ∞ω}
+    (g : ContMDiffNondegenerateMetric (I := I) (M := M) k) : Prop :=
+  ∀ x, TauCetiRoadmap.LorentzianGeometry.IsLorentzian (g x).toBilinForm
 
 variable [FiniteDimensional ℝ E]
 
 variable (I M) in
-/-- **§C1.1.** A Lorentzian metric is the index-one subtype of the shared metric carrier. -/
+/-- **§7.1.** A Lorentzian metric of class `C^k` is the index-one subtype of the metric
+carrier of §2.2. -/
 abbrev LorentzianMetric (k : ℕ∞ω) :=
   {g : ContMDiffNondegenerateMetric (I := I) (M := M) k // g.IsLorentzian}
 
@@ -386,20 +183,16 @@ namespace LorentzianMetric
 
 variable {k : ℕ∞ω}
 
+/-- A Lorentzian metric is evaluated pointwise as its continuous bilinear form. -/
 instance : CoeFun (LorentzianMetric I M k) fun _ ↦
     (x : M) → TangentSpace I x →L[ℝ] TangentSpace I x →L[ℝ] ℝ where
   coe g := g.val
 
-omit [FiniteDimensional ℝ E] in
-/-- Unpacking the index-one proof adds no metric data. -/
-theorem isLorentzian (g : LorentzianMetric I M k) (x : M) :
-    IsLorentzian (g x).toBilinForm := g.property x
-
-/-! ### §C2.1: time orientation -/
+/-! ## Layer 8: time orientations and causal curves -/
 
 variable (g : LorentzianMetric I M k)
 
-/-- **§C2.1.** A continuous timelike vector field. -/
+/-- **§8.1.** A continuous timelike vector field. -/
 structure TimelikeVectorField where
   /-- The field. -/
   toFun : (x : M) → TangentSpace I x
@@ -408,214 +201,161 @@ structure TimelikeVectorField where
   /-- It is timelike at every point. -/
   isTimelike (x : M) : IsTimelike (g x).toBilinForm (toFun x)
 
-/-- **§C2.1.** Two timelike fields are equivalent when `g(T, T') < 0` everywhere. That this is
-an equivalence relation is §C0.2 (b) pointwise. -/
+/-- **§8.1.** Two timelike fields are equivalent when `g(T, T') < 0` everywhere; this is an
+equivalence relation by §6.2 (b) at every point. -/
 def TimelikeVectorField.setoid : Setoid (TimelikeVectorField g) where
   r T T' := ∀ x, g x (T.toFun x) (T'.toFun x) < 0
-  iseqv := sorry
+  iseqv :=
+    { refl := fun T x ↦ T.isTimelike x
+      symm := fun h x ↦ ((g.property x).1.eq _ _).trans_lt (h x)
+      trans := fun {T T' T''} h h' x ↦
+        IsLorentzian.neg_of_neg_of_neg (g.property x) (T.isTimelike x) (T'.isTimelike x)
+          (T''.isTimelike x) (h x) (h' x) }
 
-/-- **§C2.1.** A time orientation is an equivalence class of continuous timelike fields. -/
+/-- **§8.1.** A time orientation is an equivalence class of continuous timelike fields. -/
 def TimeOrientation : Type _ := Quotient (TimelikeVectorField.setoid g)
-
-/-- **§C2.1.** Time-orientable: a continuous timelike vector field exists. -/
-def IsTimeOrientable : Prop := Nonempty (TimelikeVectorField g)
-
-/-- **§C2.1.** A connected time-orientable Lorentzian manifold has exactly two time
-orientations. -/
-theorem card_timeOrientation [ConnectedSpace M] (h : IsTimeOrientable g) :
-    Nat.card (TimeOrientation g) = 2 := by
-  sorry
-
-/-- **§C2.1.** Every time orientation has a smooth representative. -/
-theorem TimeOrientation.exists_smooth_rep [T2Space M] [SigmaCompactSpace M]
-    (τ : TimeOrientation g) :
-    ∃ T : TimelikeVectorField g, ⟦T⟧ = τ ∧
-      ContMDiff I I.tangent ∞ fun x ↦ (⟨x, T.toFun x⟩ : TangentBundle I M) := by
-  sorry
 
 variable {g}
 
-/-- **§C2.1.** A future-directed causal vector for a time orientation: causal and
-`g(v, T) < 0` for a (any) representative `T`. -/
+/-- **§8.1.** A future-directed causal vector for a time orientation `τ`: causal and
+`g(v, T) < 0` for some representative `T` of `τ` (by §6.2, then for every representative). -/
 def TimeOrientation.IsFutureCausal (τ : TimeOrientation g) {x : M} (v : TangentSpace I x) :
     Prop :=
-  Quotient.liftOn τ (fun T ↦ IsCausal (g x).toBilinForm v ∧ g x v (T.toFun x) < 0) sorry
+  ∃ T : TimelikeVectorField g, ⟦T⟧ = τ ∧ IsCausal (g x).toBilinForm v ∧ g x v (T.toFun x) < 0
 
-/-- **§C2.1.** Future-directed timelike. -/
+/-- **§8.1.** A future-directed timelike vector. -/
 def TimeOrientation.IsFutureTimelike (τ : TimeOrientation g) {x : M} (v : TangentSpace I x) :
     Prop :=
   IsTimelike (g x).toBilinForm v ∧ τ.IsFutureCausal v
 
-/-- The negative of a continuous timelike vector field. -/
-def TimelikeVectorField.neg (T : TimelikeVectorField g) : TimelikeVectorField g where
-  toFun x := -T.toFun x
-  continuous := sorry
-  isTimelike x := by simpa [IsTimelike] using T.isTimelike x
-
-/-- **§C2.1.** The opposite time orientation `[-T]`. -/
-def TimeOrientation.neg (τ : TimeOrientation g) : TimeOrientation g :=
-  Quotient.map TimelikeVectorField.neg (fun _ _ h x ↦ by simpa [TimelikeVectorField.neg] using h x) τ
-
-/-- **§C2.4.** Conformal transport retains the same timelike vector field. -/
-def transportTimeOrientation {l : ℕ∞ω} {h : LorentzianMetric I M l} {Ω : M → ℝ}
-    (hc : ContMDiffNondegenerateMetric.IsConformal g.val h.val Ω)
-    (τ : TimeOrientation g) : TimeOrientation h :=
-  Quotient.map (fun T : TimelikeVectorField g ↦
-    { toFun := T.toFun
-      continuous := T.continuous
-      isTimelike := by
-        intro x
-        change h x (T.toFun x) (T.toFun x) < 0
-        rw [hc.apply]
-        exact mul_neg_of_pos_of_neg (sq_pos_of_pos (hc.pos x)) (T.isTimelike x) })
-    (by
-      intro T T' hTT x
-      change h x (T.toFun x) (T'.toFun x) < 0
-      rw [hc.apply]
-      exact mul_neg_of_pos_of_neg (sq_pos_of_pos (hc.pos x)) (hTT x)) τ
-
-/-! ### §C2.2–§C2.3: causal curves and relations -/
-
-/-- **§C2.2.** A future-directed timelike piecewise `C¹` curve on `[a, b]`, `a < b`: every
+/-- **§8.2.** A future-directed timelike piecewise `C¹` curve on `[a, b]`, `a < b`: every
 one-sided velocity is future-directed timelike. -/
 def IsFutureTimelikeCurve (τ : TimeOrientation g) (γ : ℝ → M) (a b : ℝ) : Prop :=
   a < b ∧ TauCeti.Manifold.IsPiecewiseContMDiffOn I 1 γ a b ∧
     (∀ t ∈ Ico a b, τ.IsFutureTimelike (mfderivWithin 𝓘(ℝ, ℝ) I γ (Icc t b) t 1)) ∧
     ∀ t ∈ Ioc a b, τ.IsFutureTimelike (mfderivWithin 𝓘(ℝ, ℝ) I γ (Icc a t) t 1)
 
-/-- **§C2.2.** A curve is locally Lipschitz on a parameter set when, near every parameter,
+/-- **§8.2.** A curve is locally Lipschitz on a parameter set when, near every parameter,
 it stays in the chart at its value and is Lipschitz there in that chart. -/
 def IsLocallyLipschitzCurveOn (γ : ℝ → M) (s : Set ℝ) : Prop :=
   ∀ t ∈ s, ∃ U ∈ 𝓝[s] t, ∃ K : NNReal,
     MapsTo γ U (extChartAt I (γ t)).source ∧ LipschitzOnWith K (extChartAt I (γ t) ∘ γ) U
 
-/-- **§C2.2.** A future-directed causal curve on `[a, b]`, `a < b`: locally Lipschitz, with
+/-- **§8.2.** A future-directed causal curve on `[a, b]`, `a < b`: locally Lipschitz, with
 future-directed causal velocity at almost every parameter. -/
 def IsFutureCausalCurve (τ : TimeOrientation g) (γ : ℝ → M) (a b : ℝ) : Prop :=
   a < b ∧ IsLocallyLipschitzCurveOn (I := I) γ (Icc a b) ∧
     ∀ᵐ t ∂(volume.restrict (Icc a b)),
       MDifferentiableAt 𝓘(ℝ, ℝ) I γ t ∧ τ.IsFutureCausal (mfderiv 𝓘(ℝ, ℝ) I γ t 1)
 
-/-- **§C2.2.** A future-directed timelike Lipschitz curve on `[a, b]`, `a < b`: locally
-Lipschitz, with future-directed timelike velocity at almost every parameter. -/
-def IsFutureTimelikeLipschitzCurve (τ : TimeOrientation g) (γ : ℝ → M) (a b : ℝ) : Prop :=
-  a < b ∧ IsLocallyLipschitzCurveOn (I := I) γ (Icc a b) ∧
-    ∀ᵐ t ∂(volume.restrict (Icc a b)),
-      MDifferentiableAt 𝓘(ℝ, ℝ) I γ t ∧ τ.IsFutureTimelike (mfderiv 𝓘(ℝ, ℝ) I γ t 1)
+/-- **§8.2.** The Lorentzian length `∫_a^b √(-g(γ', γ')) dt` of a curve on `[a, b]`. -/
+def lorentzianLength (g : LorentzianMetric I M k) (γ : ℝ → M) (a b : ℝ) : ℝ :=
+  ∫ t in a..b, Real.sqrt (-(g (γ t) (mfderiv 𝓘(ℝ, ℝ) I γ t 1) (mfderiv 𝓘(ℝ, ℝ) I γ t 1)))
 
-/-- **§C2.3.** The chronological future `I⁺(p)`. -/
+/-- **§8.3.** The chronological future `I⁺(p)`: endpoints of future timelike curves from `p`. -/
 def chronologicalFuture (τ : TimeOrientation g) (p : M) : Set M :=
   {q | ∃ γ a b, γ a = p ∧ γ b = q ∧ IsFutureTimelikeCurve τ γ a b}
 
-/-- **§C2.3.** The causal future `J⁺(p)`: `p` and the endpoints of future causal curves. -/
+/-- **§8.3.** The causal future `J⁺(p)`: `p` and the endpoints of future causal curves from
+`p`. -/
 def causalFuture (τ : TimeOrientation g) (p : M) : Set M :=
   insert p {q | ∃ γ a b, γ a = p ∧ γ b = q ∧ IsFutureCausalCurve τ γ a b}
 
-/-- **§C2.3.** `I⁺(p)` is open, for continuous metrics. -/
-theorem isOpen_chronologicalFuture [I.Boundaryless] (τ : TimeOrientation g) (p : M) :
-    IsOpen (chronologicalFuture τ p) := by
-  sorry
+/-- **§8.3.** The causal past `J⁻(q)`: the points `p` with `q ∈ J⁺(p)`. -/
+def causalPast (τ : TimeOrientation g) (q : M) : Set M :=
+  {p | q ∈ causalFuture τ p}
 
-/-- **§C2.4.** Chronological futures are conformally invariant after orientation transport. -/
-theorem chronologicalFuture_conformal {l : ℕ∞ω} {h : LorentzianMetric I M l} {Ω : M → ℝ}
-    (hc : ContMDiffNondegenerateMetric.IsConformal g.val h.val Ω)
-    (τ : TimeOrientation g) (p : M) :
-    chronologicalFuture (transportTimeOrientation hc τ) p = chronologicalFuture τ p := by
-  sorry
+/-! ## Layer 11: time separation, causal ladder and limit curves -/
 
-/-- **§C2.4.** Causal futures are conformally invariant after orientation transport. -/
-theorem causalFuture_conformal {l : ℕ∞ω} {h : LorentzianMetric I M l} {Ω : M → ℝ}
-    (hc : ContMDiffNondegenerateMetric.IsConformal g.val h.val Ω)
-    (τ : TimeOrientation g) (p : M) :
-    causalFuture (transportTimeOrientation hc τ) p = causalFuture τ p := by
-  sorry
+/-- **§11.1.** The time separation `τ(p, q) ∈ [0, ∞]`: the supremum of the Lorentzian lengths of
+the future causal curves from `p` to `q`, and `0` when there is none. -/
+def timeSeparation (τ : TimeOrientation g) (p q : M) : ENNReal :=
+  ⨆ (γ : ℝ → M) (a : ℝ) (b : ℝ) (_ : γ a = p ∧ γ b = q ∧ IsFutureCausalCurve τ γ a b),
+    ENNReal.ofReal (lorentzianLength g γ a b)
 
-end LorentzianMetric
-
-/-! ### §C3.2: null hypersurfaces at arbitrary finite signature -/
-
-namespace ContMDiffNondegenerateMetric
-
-variable {k : ℕ∞ω}
-
-/-- **§C3.2.** An optical function on an open set `U`: `C¹`, with nowhere-vanishing
-differential solving the eikonal equation `g⁻¹(du, du) = 0`. -/
-structure IsOpticalFunctionOn (g : ContMDiffNondegenerateMetric (I := I) (M := M) k)
-    (u : M → ℝ) (U : Set M) : Prop where
-  isOpen : IsOpen U
-  contMDiffOn : ContMDiffOn I 𝓘(ℝ, ℝ) 1 u U
-  mfderiv_ne_zero : ∀ x ∈ U, mfderiv I 𝓘(ℝ, ℝ) u x ≠ 0
-  eikonal : ∀ x ∈ U,
-    g.inverseApply g.isStrong_of_finiteDimensional x (mfderiv I 𝓘(ℝ, ℝ) u x) = 0
-
-/-- **§C3.2.** A `C¹` immersed hypersurface `F : Σ → M` is null when the induced form on every
-tangent hyperplane `dF(T_yΣ)` is degenerate. -/
-def IsNullHypersurface (g : ContMDiffNondegenerateMetric (I := I) (M := M) k)
-    {E' H' : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
-    [TopologicalSpace H'] {J : ModelWithCorners ℝ E' H'}
-    {N : Type*} [TopologicalSpace N] [ChartedSpace H' N] (F : N → M) : Prop :=
-  Manifold.IsImmersion J I 1 F ∧ Module.finrank ℝ E' + 1 = Module.finrank ℝ E ∧
-    ∀ y : N, ¬ ((g (F y)).toBilinForm.restrict
-      (LinearMap.range (mfderiv J I F y).toLinearMap)).Nondegenerate
-
-end ContMDiffNondegenerateMetric
-
-namespace LorentzianMetric
-
-variable {k : ℕ∞ω} {g : LorentzianMetric I M k}
-
-/-! ### §C6: achronal sets, Cauchy surfaces and global hyperbolicity -/
-
-/-- **§C6.1.** An achronal set: no two points are chronologically related. -/
-def IsAchronal (τ : TimeOrientation g) (S : Set M) : Prop :=
-  ∀ p ∈ S, ∀ q ∈ S, q ∉ chronologicalFuture τ p
-
-/-- **§C5.2.** Causal: no closed causal curves, i.e. `J⁺` is antisymmetric. -/
+/-- **§11.2.** A causal spacetime: `J⁺` is antisymmetric (no closed causal curves). -/
 def IsCausalSpacetime (τ : TimeOrientation g) : Prop :=
   ∀ p q, q ∈ causalFuture τ p → p ∈ causalFuture τ q → p = q
 
-/-- **§C6.3.** Globally hyperbolic (Bernal–Sánchez form): causal, with compact causal
-diamonds `J⁺(p) ∩ J⁻(q)`. -/
-def IsGloballyHyperbolic (τ : TimeOrientation g) : Prop :=
-  IsCausalSpacetime τ ∧ ∀ p q, IsCompact (causalFuture τ p ∩ causalFuture τ.neg q)
+/-! ## Layer 12: Cauchy theory and global hyperbolicity -/
 
-/-- **§C6.2.** A future-directed timelike curve on `(a, b)` that is inextendible: piecewise
-`C¹` timelike on every compact subinterval, `a < b`, with no endpoint in `M` at either end.
-General open domains are related to this finite-endpoint prototype by §F2.1. -/
+/-- **§12.3.** Globally hyperbolic: causal, with compact causal diamonds `J⁺(p) ∩ J⁻(q)`. -/
+def IsGloballyHyperbolic (τ : TimeOrientation g) : Prop :=
+  IsCausalSpacetime τ ∧ ∀ p q, IsCompact (causalFuture τ p ∩ causalPast τ q)
+
+/-- **§12.2.** A future-directed inextendible timelike curve on `(a, b)`, `a < b`: future
+timelike and piecewise `C¹` on every compact subinterval, with no limit in `M` at either end. -/
 def IsInextendibleTimelikeCurve (τ : TimeOrientation g) (γ : ℝ → M) (a b : ℝ) : Prop :=
   a < b ∧ (∀ c d, a < c → d < b → c < d → IsFutureTimelikeCurve τ γ c d) ∧
     (¬ ∃ p, Tendsto γ (𝓝[>] a) (𝓝 p)) ∧ (¬ ∃ p, Tendsto γ (𝓝[<] b) (𝓝 p))
 
-/-- **§C6.2.** A Cauchy surface: met exactly once by every inextendible timelike curve. -/
+/-- **§12.2.** A Cauchy surface: met exactly once by every inextendible timelike curve. -/
 def IsCauchySurface (τ : TimeOrientation g) (S : Set M) : Prop :=
   ∀ γ a b, IsInextendibleTimelikeCurve τ γ a b → ∃! t, t ∈ Ioo a b ∧ γ t ∈ S
 
-/-- **§C6.5.** Global hyperbolicity depends on the transported cones. -/
-theorem isGloballyHyperbolic_conformal {l : ℕ∞ω} {h : LorentzianMetric I M l} {Ω : M → ℝ}
-    (hc : ContMDiffNondegenerateMetric.IsConformal g.val h.val Ω)
-    (τ : TimeOrientation g) :
-    IsGloballyHyperbolic (transportTimeOrientation hc τ) ↔ IsGloballyHyperbolic τ := by
-  sorry
-
-/-- **§C6.5.** Cauchy surfaces are unchanged by positive conformal rescaling. -/
-theorem isCauchySurface_conformal {l : ℕ∞ω} {h : LorentzianMetric I M l} {Ω : M → ℝ}
-    (hc : ContMDiffNondegenerateMetric.IsConformal g.val h.val Ω)
-    (τ : TimeOrientation g) (S : Set M) :
-    IsCauchySurface (transportTimeOrientation hc τ) S ↔ IsCauchySurface τ S := by
-  sorry
-
-/-- **§C6.3, Geroch's theorem.** A smooth spacetime without boundary is globally hyperbolic
-iff it has a Cauchy surface. -/
+/-- **§12.3, Geroch's theorem.** A smooth spacetime without boundary is globally hyperbolic iff
+it has a Cauchy surface (Minguzzi 2019, Theorem 4.119). -/
 theorem isGloballyHyperbolic_iff_exists_isCauchySurface [I.Boundaryless] [T2Space M]
     [SecondCountableTopology M] [ConnectedSpace M] (hk : ∞ ≤ k) (τ : TimeOrientation g) :
     IsGloballyHyperbolic τ ↔ ∃ S, IsCauchySurface τ S := by
   sorry
 
+/-- **§12.3, Bernal–Sánchez.** A smooth globally hyperbolic spacetime has a smooth Cauchy
+temporal function: `dt(v) > 0` for every future causal `v`, and every level set is a Cauchy
+surface (Minguzzi 2019, Theorem 4.120). -/
+theorem exists_cauchyTemporalFunction [I.Boundaryless] [T2Space M] [SecondCountableTopology M]
+    [ConnectedSpace M] (hk : ∞ ≤ k) (τ : TimeOrientation g) (h : IsGloballyHyperbolic τ) :
+    ∃ t : M → ℝ, ContMDiff I 𝓘(ℝ, ℝ) ∞ t ∧
+      (∀ (x : M) (v : TangentSpace I x), τ.IsFutureCausal v →
+        (0 : ℝ) < (mfderiv I 𝓘(ℝ, ℝ) t x v : ℝ)) ∧
+      ∀ a : ℝ, IsCauchySurface τ (t ⁻¹' {a}) := by
+  sorry
+
+/-- **§12.3, Avez–Seifert.** In a smooth globally hyperbolic spacetime, distinct points `p` and
+`q ∈ J⁺(p)` are joined by a future causal geodesic of the Levi-Civita connection whose length is
+the time separation `τ(p, q)` (Minguzzi 2019, Theorem 4.123). -/
+theorem exists_geodesic_lorentzianLength_eq_timeSeparation [I.Boundaryless] [T2Space M]
+    [SecondCountableTopology M] [ConnectedSpace M] (hk : ∞ ≤ k) (τ : TimeOrientation g)
+    (h : IsGloballyHyperbolic τ) {p q : M} (hpq : q ∈ causalFuture τ p) (hne : p ≠ q) :
+    ∃ (γ : ℝ → M) (a b : ℝ), γ a = p ∧ γ b = q ∧ IsFutureCausalCurve τ γ a b ∧
+      ContMDiffOn 𝓘(ℝ, ℝ) I 2 γ (Icc a b) ∧
+      (∀ t ∈ Icc a b, CovariantDerivative.accelerationWithin
+        (g.val.toSmoothMetric hk).leviCivitaConnection γ (Icc a b) t = 0) ∧
+      ENNReal.ofReal (lorentzianLength g γ a b) = timeSeparation τ p q := by
+  sorry
+
+variable (g) in
+/-- **§12.4.** Timelike geodesic completeness of a smooth Lorentzian metric: every geodesic of
+its Levi-Civita connection on an open interval around `0`, with timelike velocity at `0`, is the
+restriction of a geodesic defined on all of `ℝ`. -/
+def IsTimelikeGeodesicallyComplete (hk : ∞ ≤ k) : Prop :=
+  ∀ (γ : ℝ → M) (a b : ℝ), a < 0 → 0 < b → ContMDiffOn 𝓘(ℝ, ℝ) I 2 γ (Ioo a b) →
+    IsTimelike (g (γ 0)).toBilinForm (mfderiv 𝓘(ℝ, ℝ) I γ 0 1) →
+    (∀ t ∈ Ioo a b, CovariantDerivative.accelerationWithin
+      (g.val.toSmoothMetric hk).leviCivitaConnection γ (Ioo a b) t = 0) →
+    ∃ γ' : ℝ → M, EqOn γ' γ (Ioo a b) ∧ ContMDiff 𝓘(ℝ, ℝ) I 2 γ' ∧
+      ∀ t, CovariantDerivative.accelerationWithin
+        (g.val.toSmoothMetric hk).leviCivitaConnection γ' univ t = 0
+
+/-- **§12.4, Galloway–Ling–Sbierski.** A smooth globally hyperbolic spacetime that is timelike
+geodesically complete is `C⁰`-inextendible (Galloway–Ling–Sbierski, Theorem 1). -/
+theorem isInextendible_zero_of_isGloballyHyperbolic [I.Boundaryless] [T2Space M]
+    [SecondCountableTopology M] [ConnectedSpace M] (hk : ∞ ≤ k) (τ : TimeOrientation g)
+    (h : IsGloballyHyperbolic τ) (hc : IsTimelikeGeodesicallyComplete g hk) :
+    g.val.IsInextendible 0 := by
+  sorry
+
 end LorentzianMetric
 
-/-! ### §C6.6: causal curves and domains of dependence inside a subset -/
+/-- **§12.4, Sbierski's theorem.** Minkowski space `(ℝ × F, minkowskiForm F)` is
+`C⁰`-inextendible (Sbierski, Theorem 3.1); it is the first case of the previous theorem. -/
+theorem minkowski_isInextendible_zero (F : Type*) [NormedAddCommGroup F]
+    [InnerProductSpace ℝ F] [FiniteDimensional ℝ F]
+    (g : ContMDiffNondegenerateMetric (I := 𝓘(ℝ, ℝ × F)) (M := ℝ × F) ∞)
+    (hg : ∀ x, (g x).toBilinForm = minkowskiForm F) : g.IsInextendible 0 := by
+  sorry
 
-/-- **§C6.6.** A Lorentzian form field and a timelike vector field, both continuous on the
+/-- **§12.6.** A Lorentzian form field and a timelike vector field, both continuous on the
 subset `D` and Lorentzian, resp. timelike, at its points. Values off `D` are never used. The
 manifold may have boundary or corners and `D` need not be open. -/
 structure TimeOrientedLorentzianFieldOn (D : Set M) where
@@ -638,7 +378,7 @@ namespace TimeOrientedLorentzianFieldOn
 
 variable {D : Set M} (𝔤 : TimeOrientedLorentzianFieldOn (I := I) D)
 
-/-- **§C6.6.** Restriction to a smaller subset. -/
+/-- **§12.6.** Restriction to a smaller subset. -/
 def mono {D' : Set M} (h : D' ⊆ D) : TimeOrientedLorentzianFieldOn (I := I) D' where
   form := 𝔤.form
   continuousOn_form := 𝔤.continuousOn_form.mono h
@@ -647,12 +387,12 @@ def mono {D' : Set M} (h : D' ⊆ D) : TimeOrientedLorentzianFieldOn (I := I) D'
   continuousOn_timeField := 𝔤.continuousOn_timeField.mono h
   isTimelike x hx := 𝔤.isTimelike x (h hx)
 
-/-- **§C6.6.** A future-directed causal vector: causal and pairing negatively with the time
+/-- **§12.6.** A future-directed causal vector: causal and pairing negatively with the time
 field. -/
 def IsFutureCausal {x : M} (v : TangentSpace I x) : Prop :=
   IsCausal (𝔤.form x).toBilinForm v ∧ 𝔤.form x v (𝔤.timeField x) < 0
 
-/-- **§C6.6.** A future-directed causal curve in `D` on an interval `J` (possibly a point,
+/-- **§12.6.** A future-directed causal curve in `D` on an interval `J` (possibly a point,
 open, closed or half-open, bounded or not): locally Lipschitz, with values in `D` and future
 causal velocity at almost every parameter. -/
 def IsFutureCausalCurveIn (γ : ℝ → M) (J : Set ℝ) : Prop :=
@@ -660,7 +400,7 @@ def IsFutureCausalCurveIn (γ : ℝ → M) (J : Set ℝ) : Prop :=
     ∀ᵐ t ∂(volume.restrict J),
       MDifferentiableAt 𝓘(ℝ, ℝ) I γ t ∧ 𝔤.IsFutureCausal (mfderiv 𝓘(ℝ, ℝ) I γ t 1)
 
-/-- **§C6.6.** Past-inextendible in `D`: at a least parameter no nontrivial future causal curve
+/-- **§12.6.** Past-inextendible in `D`: at a least parameter no nontrivial future causal curve
 in `D` ends at its value; with no least parameter, no past limit in `D`. -/
 def IsPastInextendibleIn (γ : ℝ → M) (J : Set ℝ) : Prop :=
   (∀ a, IsLeast J a → ¬ ∃ (γ' : ℝ → M) (a' : ℝ),
@@ -669,45 +409,20 @@ def IsPastInextendibleIn (γ : ℝ → M) (J : Set ℝ) : Prop :=
       ¬ ∃ p ∈ D, Tendsto γ (𝓝[J] (sInf J)) (𝓝 p)) ∧
     (¬ BddBelow J → ¬ ∃ p ∈ D, Tendsto γ atBot (𝓝 p))
 
-/-- **§C6.6.** The future domain of dependence `D⁺_D(S)` of `S` in `D`: the points `p ∈ D`
+/-- **§12.6.** The future domain of dependence `D⁺_D(S)` of `S` in `D`: the points `p ∈ D`
 such that every future causal curve in `D` ending at `p` and past-inextendible in `D`
 meets `S`. -/
 def futureDomainOfDependenceIn (S : Set M) : Set M :=
   {p | p ∈ D ∧ ∀ (γ : ℝ → M) (J : Set ℝ) (b : ℝ), IsGreatest J b → γ b = p →
     𝔤.IsFutureCausalCurveIn γ J → 𝔤.IsPastInextendibleIn γ J → ∃ t ∈ J, γ t ∈ S}
 
-omit [FiniteDimensional ℝ E] in
-theorem futureDomainOfDependenceIn_subset (S : Set M) :
-    𝔤.futureDomainOfDependenceIn S ⊆ D :=
-  fun _ hp ↦ hp.1
-
-omit [FiniteDimensional ℝ E] in
-/-- **§C6.6.** `S ∩ D ⊆ D⁺_D(S)`. -/
-theorem inter_subset_futureDomainOfDependenceIn (S : Set M) :
-    S ∩ D ⊆ 𝔤.futureDomainOfDependenceIn S := by
-  intro p hp
-  refine ⟨hp.2, fun γ J b hb hγb _ _ ↦ ⟨b, hb.1, ?_⟩⟩
-  rw [hγb]
-  exact hp.1
-
-/-- **§C6.6.** A time function on `D`: strictly increasing along future causal curves in `D`. -/
-def IsTimeFunctionOn (t : M → ℝ) : Prop :=
-  ∀ γ J, 𝔤.IsFutureCausalCurveIn γ J → StrictMonoOn (t ∘ γ) J
-
-/-- **§C6.6, slabs.** In a region above the level `t₀` of a time function, the domain of
-dependence of a subset of that level meets the level only in the subset. -/
-theorem futureDomainOfDependenceIn_inter_level {t : M → ℝ} (ht : 𝔤.IsTimeFunctionOn t)
-    {t₀ : ℝ} (hD : D ⊆ {x | t₀ ≤ t x}) {S : Set M} (hS : S ⊆ {x | t x = t₀}) :
-    𝔤.futureDomainOfDependenceIn S ∩ {x | t x = t₀} = S ∩ D := by
-  sorry
-
-/-- **§C6.6, determination.** For `S` closed in an open `U`, the domain of dependence
-`D⁺_U(S)` is its own domain of dependence of `S`. -/
+/-- **§12.6, determination.** For `S` closed in an open `U` of a manifold without boundary, the
+domain of dependence `D = D⁺_U(S)` satisfies `D⁺_D(S) = D` for the field restricted to `D`. -/
 theorem futureDomainOfDependenceIn_self [I.Boundaryless] {U : Set M}
     (𝔲 : TimeOrientedLorentzianFieldOn (I := I) U) (hU : IsOpen U) {S C : Set M}
     (hC : IsClosed C) (hS : S = C ∩ U) :
-    (𝔲.mono (𝔲.futureDomainOfDependenceIn_subset S)).futureDomainOfDependenceIn S =
-      𝔲.futureDomainOfDependenceIn S := by
+    (𝔲.mono (fun _ hp ↦ hp.1 : 𝔲.futureDomainOfDependenceIn S ⊆ U)).futureDomainOfDependenceIn
+      S = 𝔲.futureDomainOfDependenceIn S := by
   sorry
 
 end TimeOrientedLorentzianFieldOn
