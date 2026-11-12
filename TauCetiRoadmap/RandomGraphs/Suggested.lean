@@ -20,11 +20,10 @@ and headline theorems; it is not an exhaustive checklist, and discharging every 
 finishes neither a milestone nor the roadmap. The `sorry` forms are proposed targets, not
 established proofs.
 
-Every predicate and definition below has an actual body. Quantifier elimination and the decision
-procedure are stated as existence of computable maps on a fixed structural coding of formulas,
-with their correctness specifications; the README requires executable implementations, and these
-theorems are their prototype contracts. No proposition-valued placeholder names an unstated
-condition.
+Every predicate and definition below has an actual body. Quantifier elimination and decidability
+are stated as existence of computable maps on a fixed structural coding of formulas, with their
+correctness specifications; these computability theorems are the targets, and the README gives the
+pattern-elimination route to them. No proposition-valued placeholder names an unstated condition.
 
 Implement general Fraïssé/first-order lemmas in the shared native namespaces, and graph lemmas in
 `SimpleGraph` as appropriate.
@@ -295,7 +294,7 @@ Computable quantifier elimination and decidability are stated over a fixed struc
 graph formulas by natural numbers: Mathlib's list encoding `BoundedFormula.encoding`, followed by
 an explicit numbering of its symbol alphabet. The coding is not `Encodable.ofCountable`, whose
 classical enumeration carries no effective content. The context type is a parameter; for
-`Fin m` the code does not depend on `m`, which the procedures receive separately. -/
+`Fin m` the code does not depend on `m`, which the maps receive separately. -/
 
 instance : IsEmpty (Σ l, Language.graph.Functions l) :=
   ⟨fun ⟨_, f⟩ => (f : Empty).elim⟩
@@ -377,10 +376,9 @@ theorem computable_boundedCode_cases :
         | all ψ => tag (boundedCode φ) = 4 ∧ left (boundedCode φ) = boundedCode ψ := by
   sorry
 
-/-- **Computable quantifier elimination modulo `T_R`.** The prototype contract for the
-terminating syntactic procedure of the README: a computable map on codes, taking the context size
-`m` as input, that sends the code of each formula over `Fin m` to the code of a quantifier-free
-formula with the same realizations in every model of `radoAxioms`. Its correctness yields the
+/-- **Computable quantifier elimination modulo `T_R`.** A computable map on codes, taking the
+context size `m` as input, that sends the code of each formula over `Fin m` to the code of a
+quantifier-free formula with the same realizations in every model of `radoAxioms`. Its correctness yields the
 theory-level `HasQuantifierElimination` of Mathlib #41113. The values on numbers that are not
 formula codes are unconstrained. -/
 theorem exists_computable_quantifierElimination :
@@ -391,8 +389,8 @@ theorem exists_computable_quantifierElimination :
             ∀ a : Fin m → M, ψ.Realize a ↔ φ.Realize a := by
   sorry
 
-/-- **Decidability of the Rado theory.** The prototype contract for the decision procedure: a
-computable test on codes of sentences that answers truth in the Rado graph. -/
+/-- **Decidability of the Rado theory.** A computable test on codes of sentences that answers
+truth in the Rado graph. -/
 theorem exists_computable_decide_rado :
     ∃ D : ℕ → Bool, Computable D ∧
       ∀ φ : Language.graph.Sentence, D (boundedCode φ) = true ↔ Satisfies TauCeti.radoGraph φ := by

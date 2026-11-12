@@ -449,35 +449,41 @@ free variables. The meaning of a tuple's diagram is Tau Ceti's atomic-diagram se
 `realize_firstOrderAtomicDiagram_iff_sameAtomicType`, applied to the graph language through the
 instance `Finite (Σ l, Language.graph.Relations l)`, which is a target of this milestone. That
 diagram is a classical finite
-conjunction and is noncomputable, so it supplies the semantics but not the algorithm. Build:
+conjunction and is noncomputable, so it supplies the semantics but not the algorithm.
 
-- an **effective coding of graph formulas** as the input and output format of the procedures:
+The two endpoints are computability theorems on codes of formulas. **Computable quantifier
+elimination** is a `Computable₂` map taking `m` and a code, such that for every formula over
+`Fin m` the output is the code of a quantifier-free formula over the same context with the same
+realizations in every model of $`T_R`$. **Decidability** is a `Computable` map on codes of
+sentences answering truth in the Rado graph. A computability proof needs an explicit witness:
+define both maps in Lean and prove these theorems for them. That each formula has some
+quantifier-free equivalent modulo $`T_R`$ does not discharge either theorem. The proof goes
+through finite patterns; build:
+
+- an **effective coding of graph formulas** as the input and output format of the two maps:
   Mathlib's structural list encoding `BoundedFormula.encoding` followed by an explicit numbering
   of its symbol alphabet, uniform in the free-variable context `Fin m` (not
   `Encodable.ofCountable`, whose classical enumeration has no effective content), with decoding
   that accepts exactly the formula codes (Mathlib's list decoder ignores trailing symbols, so
-  this needs a re-encoding check) and its round-trip law, and computability on codes of the syntax operations the procedures
+  this needs a re-encoding check) and its round-trip law, and computability on codes of the syntax operations the maps
   use: the constructors (`⊥`, equality and adjacency atoms between variables, implication,
   universal quantification) and case analysis on the outermost constructor. These are supporting
-  targets for computable QE, not a general computability library;
+  targets for the two theorems, not a general computability library;
 - a computable representation of finite equality-and-adjacency patterns on `Fin m`, with
-  its consistency procedure;
+  its consistency test;
 - a correctness bridge proving that the formula of each consistent pattern and
   `firstOrderAtomicDiagram` of any tuple realizing it have equivalent realizations, with the
   conversion between free-variable and bound-variable presentations made explicit;
-- a genuine terminating syntactic procedure expressing every formula modulo $`T_R`$ as a
-  finite Boolean combination of pattern formulas, with its semantic correctness, not just a
-  choice of an equivalent formula.
+- pattern elimination: every formula is equivalent modulo $`T_R`$ to a finite Boolean
+  combination of pattern formulas, computably from its code, with semantic correctness. A
+  quantifier over such a combination is eliminated by testing which one-point extensions of each
+  pattern are consistent. This gives the QE map, with the native `IsQF` proofs of its outputs,
+  and on sentences the decision map.
 
-Export the output's native `IsQF` proof and decidability of the sentence theory from the
-procedure. The prototype states both as existence of computable maps on codes
-(`Computable₂` for the QE map, which takes `m` and a code), each with its correctness
-specification: the output code is the code of a quantifier-free formula over the same context
-with the same realizations in every model of `T_R`, and the decision map answers truth in the
-Rado graph. A semantic QE statement without the procedure does not discharge this target. Export also the theory-level property in the vocabulary of Mathlib #41113,
+Export also the theory-level property in the vocabulary of Mathlib #41113,
 `T_R.HasQuantifierElimination`: every formula is `IsQFEquivalent` modulo $`T_R`$,
 using that proposal's reduction to finite variable types. The theory-level property is a
-consequence of the procedure and does not replace it.
+consequence of the computable QE map and does not replace it.
 
 Show that the complete finite diagrams isolate the realized graph types and define
 automorphism orbits, using equality/disequality as well as adjacency/nonadjacency.
@@ -578,9 +584,9 @@ For $`\mathrm{qr}(\varphi)\le d+1`$ and $`n\ge d`$, prove the explicit estimate
 
 It is uniform over all sentences of the indicated rank. Derive the fixed-$`p`$ zero–one
 law, the equality of the almost-sure theory with $`\mathrm{Th}(R)`$ (the semantic
-consequence closure of $`T_R`$), and independence of this theory from $`p\in(0,1)`$. The procedure in Milestone 5 computes the limiting truth
+consequence closure of $`T_R`$), and independence of this theory from $`p\in(0,1)`$. The decision map of Milestone 5 computes the limiting truth
 value; the rank supplies the error profile. Classical compactness alone is not claimed
-to compute either procedure.
+to compute either of them.
 
 Derive that every finite subset of $`T_R`$ has a finite model, and every sentence true
 in $`R`$ has finite models of every sufficiently large cardinality. These are
