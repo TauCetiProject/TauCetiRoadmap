@@ -40,7 +40,9 @@ finiteness of the fundamental group (R4.5), Synge's theorem in its even-dimensio
 odd-dimensional forms (R4.6), the three cases of the Killing–Hopf classification of simply
 connected space forms (R4.7), two distinct fixed-interval geodesics between distinct points of a
 connected closed positive-dimensional manifold (R4.8), the three simple closed geodesic images on
-a smooth two-sphere (R4.9), the paraboloid crossing and vertex-pole theorems (R5a.3), Bochner's
+a smooth two-sphere (R4.9), the paraboloid crossing and vertex-pole theorems (R5a.3),
+the first positive eigenvalue of `Δ⁺` and the closed-manifold principal eigenfunction of `Δ⁺ + q`
+(R5c), Bochner's
 vanishing of the first de Rham cohomology under positive Ricci curvature (R7.6), the vanishing of
 de Rham cohomology in every interior degree under a positive curvature operator (R7.7), the
 smooth-function duality for the Riemannian distance (R7.8), the identification of the smooth
@@ -82,7 +84,9 @@ connection, absent at the pin; the vanishing of de Rham cohomology under a posit
 term `ℛ_p` and the parallelism of harmonic forms under a nonnegative one (R7.6), which need the
 Weitzenböck curvature term on `p`-forms, absent at the pin; and Takahashi's eigenmap theorem
 (R8.4), which needs the mean curvature of an isometric immersion into a round sphere, absent at
-the pin.
+the pin. The same holds for the Dirichlet realization (R5b) and for the Dirichlet spectrum, the
+strict domain monotonicity and the scalar Dirichlet problem (R5c), which need a smooth-boundary
+domain of a manifold and sections smooth up to its boundary, absent at the pin.
 -/
 
 @[expose] public section
@@ -491,6 +495,50 @@ theorem paraboloid_vertex_pole
   sorry
 
 end Paraboloid
+
+/-! ## Layer 5: Schrödinger operators on closed manifolds -/
+
+section Schrodinger
+
+variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [FiniteDimensional ℝ E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  [I.Boundaryless] [TopologicalSpace M] [T2Space M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianBundle (fun x : M => TangentSpace I x)]
+  [IsContMDiffRiemannianBundle I ∞ E (fun x : M => TangentSpace I x)]
+  [MeasurableSpace M] [BorelSpace M] [SecondCountableTopology M]
+  [IsContinuousRiemannianBundle E (fun x : M => TangentSpace I x)]
+
+/-- R5c, item 4: on a closed connected Riemannian manifold of positive dimension the first
+positive eigenvalue `λ₁` of `Δ⁺ = −Δ` exists, has a smooth eigenfunction (`Δf = −λ₁ f` for Tau
+Ceti's `Δ = div grad`), and is the least Rayleigh quotient `∫|∇g|²/∫g²` of the smooth functions
+of mean zero. On the unit circle `λ₁ = 1` with `f = sin`. -/
+theorem exists_pos_laplaceBeltrami_eigenvalue_isLeast [CompactSpace M] [ConnectedSpace M]
+    [Nontrivial E] :
+    ∃ lam : ℝ, 0 < lam ∧
+      (∃ f : M → ℝ, ContMDiff I 𝓘(ℝ) ∞ f ∧ f ≠ 0 ∧
+        ∀ x, TauCeti.Manifold.laplaceBeltrami I f x = -lam * f x) ∧
+      ∀ g : M → ℝ, ContMDiff I 𝓘(ℝ) ∞ g → ∫ x, g x ∂TauCeti.riemannianVolume I M = 0 →
+        lam * ∫ x, g x ^ 2 ∂TauCeti.riemannianVolume I M ≤
+          ∫ x, ‖TauCeti.Manifold.mgradient I g x‖ ^ 2 ∂TauCeti.riemannianVolume I M := by
+  sorry
+
+/-- R5c, item 1 on a closed connected manifold: for a smooth `q` the lowest eigenvalue `μ` of
+`Δ⁺ + q` has a smooth positive eigenfunction `φ` spanning its eigenspace among smooth functions,
+and `μ` is the least Rayleigh quotient `(∫|∇u|² + ∫qu²)/∫u²`. -/
+theorem exists_pos_eigenfunction_neg_laplaceBeltrami_add [CompactSpace M] [ConnectedSpace M]
+    (q : M → ℝ) (hq : ContMDiff I 𝓘(ℝ) ∞ q) :
+    ∃ (mu : ℝ) (φ : M → ℝ), ContMDiff I 𝓘(ℝ) ∞ φ ∧ (∀ x, 0 < φ x) ∧
+      (∀ x, -TauCeti.Manifold.laplaceBeltrami I φ x + q x * φ x = mu * φ x) ∧
+      (∀ u : M → ℝ, ContMDiff I 𝓘(ℝ) ∞ u →
+        (∀ x, -TauCeti.Manifold.laplaceBeltrami I u x + q x * u x = mu * u x) →
+          ∃ c : ℝ, u = c • φ) ∧
+      ∀ u : M → ℝ, ContMDiff I 𝓘(ℝ) ∞ u →
+        mu * ∫ x, u x ^ 2 ∂TauCeti.riemannianVolume I M ≤
+          ∫ x, ‖TauCeti.Manifold.mgradient I u x‖ ^ 2 + q x * u x ^ 2
+            ∂TauCeti.riemannianVolume I M := by
+  sorry
+
+end Schrodinger
 
 /-! ## Layer 7: Bochner vanishing -/
 
