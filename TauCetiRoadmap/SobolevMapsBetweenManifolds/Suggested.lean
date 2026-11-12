@@ -437,8 +437,8 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimension
 /-- §9.1: for a split immersion `ι : N → E''` and a continuous `f`, `f` is a Sobolev map iff
 `ι ∘ f` is a Sobolev function. Both target models may be Banach spaces of infinite dimension.
 Injectivity of `mfderiv` alone does not replace the split-immersion hypothesis. A Nash
-embedding is a finite-dimensional isometric special case (Hajłasz 2009, §1, p. 185;
-Heikkilä–Pankka, arXiv 2302.11440v2, proof of Prop. B.1, p. 24). -/
+embedding is a finite-dimensional isometric special case (for compact `M`, `N`: Hajłasz 2009,
+§1, p. 185; Heikkilä–Pankka, arXiv 2302.11440v2, proof of Prop. B.1, p. 24). -/
 theorem isSobolevMap_iff_memW1pLocM_comp_immersion [CompleteSpace E'] [CompleteSpace E'']
     {p : ℝ≥0∞} {f : M → N} {ι : N → E''}
     (hι : ContMDiff 𝓘(ℝ, E') 𝓘(ℝ, E'') 1 ι)

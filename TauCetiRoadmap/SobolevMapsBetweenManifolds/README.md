@@ -526,7 +526,8 @@ Pass the Banach-valued Poincaré–Wirtinger inequality on balls from `C¹` func
 and not on `F`) to the local class by mollification. Prove the oscillation bound:
 for `x ∈ U` and small `ε`,
 `⨍_{B_ε(x)} |u(z) − (u * ρ_ε)(x)| dz ≤ C(n, ρ) ε^{1 − n/p} ‖Du‖_{Lᵖ(B_ε(x))}` (Poincaré on balls),
-which at `p = n` is `C ‖Du‖_{Lⁿ(B_ε(x))}` (Hajłasz 2009, (2.1), p. 188).
+which at `p = n` is `C ‖Du‖_{Lⁿ(B_ε(x))}` (Hajłasz 2009, (2.1), p. 188, for `ℝ^ν`-valued maps
+on balls of `ℝⁿ`).
 
 **Checks.**
 
@@ -1050,13 +1051,14 @@ the continuous function `x ↦ ‖mfderiv f x‖`.
 
 Prove that for continuous `f : M → N` whose chart representatives lie in `W^{1,1}_loc`, so
 `f ∈ W^{1,1}_loc(M, N)`, the following are equivalent: `f ∈ W^{1,p}_loc(M, N)`;
-`‖Df‖ ∈ L^p_loc(M)` (§3.2). Convent–Van Schaftingen (Def. 2.1, p. 8) define the homogeneous
-class `Ẇ^{1,p}(M, N)` by the global form of this energy condition, for Riemannian metrics,
-`p < ∞` and the Hilbert–Schmidt norm `|Df|_HS`; pointwise `‖Df‖ ≤ |Df|_HS ≤ √(dim M) ‖Df‖`, so
-the two norms give the same `L^p_loc` condition. Route: in a chart, the chart expression of
-`Df` and `Df` differ by `dψ` and `dφ⁻¹`, which with their inverses are bounded on compact sets
-for the compatible norms, and `f` maps compact sets to compact sets. Deduce that
-`W^{1,p}_loc(M, N) ⊆ W^{1,q}_loc(M, N)` for `q ≤ p`.
+`‖Df‖ ∈ L^p_loc(M)` (§3.2). Convent–Van Schaftingen (§1.1, p. 3, and Def. 2.1, p. 8) define the
+homogeneous class `Ẇ^{1,p}(M, N)` of colocally weakly differentiable maps by the global form of
+this energy condition, for finite-dimensional, Hausdorff, second-countable Riemannian manifolds
+`M`, `N`, `p < ∞` and the Hilbert–Schmidt norm `|Df|_HS`; pointwise
+`‖Df‖ ≤ |Df|_HS ≤ √(dim M) ‖Df‖`, so the two norms give the same `L^p_loc` condition. Route: in
+a chart, the chart expression of `Df` and `Df` differ by `dψ` and `dφ⁻¹`, which with their
+inverses are bounded on compact sets for the compatible norms, and `f` maps compact sets to
+compact sets. Deduce that `W^{1,p}_loc(M, N) ⊆ W^{1,q}_loc(M, N)` for `q ≤ p`.
 
 **Checks.**
 
@@ -1474,9 +1476,9 @@ then `‖D(ι ∘ f)‖ = ‖Df‖` almost everywhere. Route: one direction is �
 and `f = r ∘ ι ∘ f` near `x₀` because `f` is continuous, so §2.1(a) applies; this is the Sobolev
 form of `ContMDiffAt.iff_comp_isImmersionAtOfComplement`. In particular, on continuous maps,
 the definition of `W^{1,p}_loc(M, N)` through an isometric (Nash) embedding of a
-finite-dimensional `N` into a Euclidean space (Hajłasz 2009, §1, p. 185; Heikkilä–Pankka,
-arXiv 2302.11440v2, proof of Prop. B.1, p. 24) gives this roadmap's class with the same
-`‖Df‖`.
+finite-dimensional `N` into a Euclidean space (for compact `M`, `N` and `p < ∞`: Hajłasz 2009,
+§1, p. 185; for closed `n`-manifolds and `p = ∞`: Heikkilä–Pankka, arXiv 2302.11440v2, proof
+of Prop. B.1, p. 24) gives this roadmap's class with the same `‖Df‖`.
 Derive the injective-differential version when both `N` and the ambient space are
 finite-dimensional: combine the continuous linear left inverse supplied by
 `IsDiffImmersionAt.of_injective_of_finiteDimensional` with the inverse function theorem to
