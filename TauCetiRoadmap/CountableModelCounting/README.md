@@ -11,10 +11,9 @@ and minimally uncountable sentences.
 The summit is **Morley's theorem** for a countable relational language `L` and a sentence
 `φ : L.Sentenceω`, in its witnessed form:
 
-```math
-\#\{\text{countable models of }\varphi\}/{\cong}\ \le\ \aleph_1
-\quad\text{or}\quad
-\varphi\ \text{has a perfect set of pairwise non-isomorphic countable models,}
+```text
+#{countable models of φ}/≅  ≤  ℵ₁
+    or  φ has a perfect set of pairwise non-isomorphic countable models,
 ```
 
 with the cardinal form "at most ℵ₁ or exactly 2^ℵ₀" as a corollary. Neither form assumes or
