@@ -3534,7 +3534,13 @@ dimension in C^∞_c(D;E).
 Prove:
 
 1. μ₁(L,D) is simple, and its eigenspace is spanned by a φ₁∈C^∞(D̄) with φ₁>0
-   on D. In the Dirichlet case φ₁ vanishes on ∂D. On a closed connected M
+   on D. In the Dirichlet case φ₁ vanishes on ∂D. The headline
+   `exists_pos_dirichletEigenfunction_neg_laplaceBeltrami_add` states the
+   Dirichlet case on D̄, a compact manifold with boundary modelled on
+   Mathlib's `𝓡∂ m`, among the functions smooth up to the boundary and
+   vanishing on it. Every compact Riemannian manifold with boundary arises
+   so: a collar (GeometricTopology Layer 1) extends the manifold, and the
+   metric extends to a neighbourhood of D̄. On a closed connected M
    the headline `exists_pos_eigenfunction_neg_laplaceBeltrami_add` states
    this among smooth functions, with μ₁ their least Rayleigh quotient
    `(∫|∇u|²+∫qu²)/∫u²`.
@@ -3590,7 +3596,9 @@ Poincaré–Wirtinger inequality is the Rayleigh bound for f−a, which has mean
 zero, with equality at the λ₁-eigenfunctions.
 
 *Needs:* the realization and the min–max characterization above; PDE A3
-(closed case) and C13; VariationalMethods 4.1 and 4.3; Tau Ceti
+(closed case) and C13; VariationalMethods 4.1 and 4.3; GeometricTopology
+Layer 1 (a smooth collar, for the headline on a manifold with boundary); Tau
+Ceti
 `TauCeti.W1p.posPartAbove`, `TauCeti.W1p.posPart_mem_w1p0Submodule`,
 `TauCeti.W1p0.extendByZeroL`, `TauCeti.Manifold.integral_mul_laplaceBeltrami`
 and `TauCeti.Manifold.integral_mul_laplaceBeltrami_right_eq_left`.
@@ -3605,7 +3613,12 @@ there is exactly one u∈C^∞(D̄) with
 and that u>0 on D̄ whenever f≥0 on D and φ>0 on ∂D. Prove the Friedrichs
 inequality in this form: if every connected component of D̄ meets ∂D, then
 μ₁(Δ⁺,D)>0, that is `‖Ju‖²≤μ₁(Δ⁺,D)⁻¹‖∇u‖²` on W¹,²₀(D). So the theorem holds
-for L=Δ⁺ with no hypothesis on the spectrum.
+for L=Δ⁺ with no hypothesis on the spectrum. The headline
+`existsUnique_dirichletProblem_neg_laplaceBeltrami_add` states it on D̄ as in
+item 1, with μ₁(L,D)>0 written as positivity of Q on the nonzero smooth
+functions vanishing on ∂D, which is equivalent because the first
+eigenfunctions are such functions, and with φ the restriction to ∂D of a
+smooth function on D̄.
 
 A route: for 0<t<1, `Q(u,u)≥t‖∇u‖²+((1−t)μ₁−tk₀)‖Ju‖²`, so Q is coercive on V
 for small t. Extend φ to a smooth Φ on M through a tubular neighbourhood of
@@ -3716,7 +3729,8 @@ ComplexKahlerGeometry K5a on closed manifolds, VariationalMethods 3.1 and
 4.1–4.4 for the ordered eigenvalues and the min–max principle,
 PseudodifferentialOperators
 P1.0's connection Laplacian, SmoothBundlesConnections B2–B4, GeometricTopology
-Layer 1's tubular neighbourhoods, and Tau Ceti's Laplace–Beltrami operator,
+Layer 1's tubular neighbourhoods and collars, and Tau Ceti's Laplace–Beltrami
+operator,
 Green identities, Sobolev truncation and extension by zero.
 
 ## Layer 6: focal points and squared distance

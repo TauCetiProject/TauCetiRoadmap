@@ -41,8 +41,8 @@ odd-dimensional forms (R4.6), the three cases of the Killing–Hopf classificati
 connected space forms (R4.7), two distinct fixed-interval geodesics between distinct points of a
 connected closed positive-dimensional manifold (R4.8), the three simple closed geodesic images on
 a smooth two-sphere (R4.9), the paraboloid crossing and vertex-pole theorems (R5a.3),
-the first positive eigenvalue of `Δ⁺` and the closed-manifold principal eigenfunction of `Δ⁺ + q`
-(R5c), Bochner's
+the first positive eigenvalue of `Δ⁺`, the closed-manifold and Dirichlet principal eigenfunctions
+of `Δ⁺ + q` and the scalar Dirichlet problem on a compact manifold with boundary (R5c), Bochner's
 vanishing of the first de Rham cohomology under positive Ricci curvature (R7.6), the vanishing of
 de Rham cohomology in every interior degree under a positive curvature operator (R7.7), the
 smooth-function duality for the Riemannian distance (R7.8), the identification of the smooth
@@ -84,9 +84,10 @@ connection, absent at the pin; the vanishing of de Rham cohomology under a posit
 term `ℛ_p` and the parallelism of harmonic forms under a nonnegative one (R7.6), which need the
 Weitzenböck curvature term on `p`-forms, absent at the pin; and Takahashi's eigenmap theorem
 (R8.4), which needs the mean curvature of an isometric immersion into a round sphere, absent at
-the pin. The same holds for the Dirichlet realization (R5b) and for the Dirichlet spectrum, the
-strict domain monotonicity and the scalar Dirichlet problem (R5c), which need a smooth-boundary
-domain of a manifold and sections smooth up to its boundary, absent at the pin.
+the pin. The same holds for the Dirichlet realization (R5b) and for R5c's spectral decomposition,
+min–max formula and index for a bundle `(E, ∇, K)`, which need the `L²` space of sections of a
+vector bundle, absent at the pin, and for R5c's strict domain monotonicity, which needs a smooth
+subdomain of a manifold, absent at the pin.
 -/
 
 @[expose] public section
@@ -539,6 +540,70 @@ theorem exists_pos_eigenfunction_neg_laplaceBeltrami_add [CompactSpace M] [Conne
   sorry
 
 end Schrodinger
+
+/-! ## Layer 5: Schrödinger operators on compact manifolds with boundary -/
+
+section SchrodingerDirichlet
+
+variable {m : ℕ} [NeZero m] {M : Type*} [TopologicalSpace M] [T2Space M]
+  [ChartedSpace (EuclideanHalfSpace m) M] [IsManifold (𝓡∂ m) ∞ M]
+  [RiemannianBundle (fun x : M => TangentSpace (𝓡∂ m) x)]
+  [IsContMDiffRiemannianBundle (𝓡∂ m) ∞ (EuclideanSpace ℝ (Fin m))
+    (fun x : M => TangentSpace (𝓡∂ m) x)]
+  [IsContMDiffRiemannianBundle (𝓡∂ m) 1 (EuclideanSpace ℝ (Fin m))
+    (fun x : M => TangentSpace (𝓡∂ m) x)]
+  [MeasurableSpace M] [BorelSpace M] [SecondCountableTopology M]
+  [IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin m))
+    (fun x : M => TangentSpace (𝓡∂ m) x)]
+
+/-- R5c, item 1 in the Dirichlet case: on a compact connected Riemannian manifold `M` with
+nonempty boundary, the closure `D̄` of a connected relatively compact smooth domain, and for a
+smooth `q`, the lowest Dirichlet eigenvalue `μ` of `Δ⁺ + q` has an eigenfunction `φ` smooth up to
+the boundary, positive on the interior and zero on the boundary, spanning the smooth
+eigenfunctions vanishing on the boundary, and `μ` is the least Rayleigh quotient of the smooth
+functions vanishing on the boundary. On `[0, π]`, `μ = 1 + q` for constant `q`, with `φ = sin`. -/
+theorem exists_pos_dirichletEigenfunction_neg_laplaceBeltrami_add [CompactSpace M]
+    [ConnectedSpace M] (hbd : ((𝓡∂ m).boundary M).Nonempty) (q : M → ℝ)
+    (hq : ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ q) :
+    ∃ (mu : ℝ) (φ : M → ℝ), ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ φ ∧
+      (∀ x ∈ (𝓡∂ m).interior M, 0 < φ x) ∧ (∀ x ∈ (𝓡∂ m).boundary M, φ x = 0) ∧
+      (∀ x ∈ (𝓡∂ m).interior M,
+        -TauCeti.Manifold.laplaceBeltrami (𝓡∂ m) φ x + q x * φ x = mu * φ x) ∧
+      (∀ u : M → ℝ, ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ u → (∀ x ∈ (𝓡∂ m).boundary M, u x = 0) →
+        (∀ x ∈ (𝓡∂ m).interior M,
+          -TauCeti.Manifold.laplaceBeltrami (𝓡∂ m) u x + q x * u x = mu * u x) →
+          ∃ c : ℝ, u = c • φ) ∧
+      ∀ u : M → ℝ, ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ u → (∀ x ∈ (𝓡∂ m).boundary M, u x = 0) →
+        mu * ∫ x, u x ^ 2 ∂TauCeti.riemannianVolume (𝓡∂ m) M ≤
+          ∫ x, ‖TauCeti.Manifold.mgradient (𝓡∂ m) u x‖ ^ 2 + q x * u x ^ 2
+            ∂TauCeti.riemannianVolume (𝓡∂ m) M := by
+  sorry
+
+/-- R5c, the scalar Dirichlet problem: on a compact Riemannian manifold `M` with boundary each
+of whose connected components meets the boundary, if the form `∫|∇u|² + ∫qu²` is positive on
+the nonzero smooth functions vanishing on the boundary, that is `μ₁(Δ⁺ + q) > 0`, then for
+smooth `f` and `Φ` exactly one `u` smooth up to the boundary solves `−Δu + qu = f` on the
+interior with `u = Φ` on the boundary, and `u > 0` when `f ≥ 0` and `Φ > 0` on the boundary.
+On `[0, π]` with `q = 0`, `f = 1`, `Φ = 1` it is `1 + x(π − x)/2`; for `q = −2` the solution
+with `f = 0`, `Φ = 1` is negative at `π/2`. -/
+theorem existsUnique_dirichletProblem_neg_laplaceBeltrami_add [CompactSpace M]
+    (hcomp : ∀ x : M, ∃ y ∈ connectedComponent x, y ∈ (𝓡∂ m).boundary M) (q : M → ℝ)
+    (hq : ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ q)
+    (hpos : ∀ u : M → ℝ, ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ u → (∀ x ∈ (𝓡∂ m).boundary M, u x = 0) →
+      u ≠ 0 → 0 < ∫ x, ‖TauCeti.Manifold.mgradient (𝓡∂ m) u x‖ ^ 2 + q x * u x ^ 2
+        ∂TauCeti.riemannianVolume (𝓡∂ m) M)
+    (f Φ : M → ℝ) (hf : ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ f) (hΦ : ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ Φ) :
+    (∃! u : M → ℝ, ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ u ∧ (∀ x ∈ (𝓡∂ m).boundary M, u x = Φ x) ∧
+      ∀ x ∈ (𝓡∂ m).interior M,
+        -TauCeti.Manifold.laplaceBeltrami (𝓡∂ m) u x + q x * u x = f x) ∧
+    ((∀ x, 0 ≤ f x) → (∀ x ∈ (𝓡∂ m).boundary M, 0 < Φ x) →
+      ∀ u : M → ℝ, ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ u → (∀ x ∈ (𝓡∂ m).boundary M, u x = Φ x) →
+        (∀ x ∈ (𝓡∂ m).interior M,
+          -TauCeti.Manifold.laplaceBeltrami (𝓡∂ m) u x + q x * u x = f x) →
+        ∀ x, 0 < u x) := by
+  sorry
+
+end SchrodingerDirichlet
 
 /-! ## Layer 7: Bochner vanishing -/
 
