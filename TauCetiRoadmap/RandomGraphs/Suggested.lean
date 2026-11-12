@@ -6,6 +6,7 @@ public import TauCeti.Combinatorics.DenseGraphLimits.Sampling.Infinite
 public import TauCeti.Combinatorics.DenseGraphLimits.Sampling.AlmostSure.Basic
 public import TauCeti.Algebra.GroupAction.FiniteSupportPerm
 public import TauCeti.Combinatorics.DenseGraphLimits.ExchangeableGraphLaw.Infinite.Mixture
+public import TauCeti.Combinatorics.DenseGraphLimits.ExchangeableGraphLaw.Relational.Ergodic
 public import TauCeti.Combinatorics.SimpleGraph.Connectivity.VertexConnectivity
 public import TauCeti.Combinatorics.SimpleGraph.ExtensionProperty
 public import TauCeti.ModelTheory.Scott.AtomicDiagram
@@ -31,11 +32,12 @@ Use the existing Tau Ceti EF strategies, back-and-forth relations and graph atom
 this file does not redeclare those objects. Direct rank-agreement signatures can state the
 endpoint without importing the implementation of those strategies.
 
-The imports consume from Tau Ceti the existing graphon samplers and mixtures, the canonical
-extension predicate `SimpleGraph.HasExtensionProperty`, the Rado graph `TauCeti.radoGraph` and its
-countable characterization `TauCeti.nonempty_iso_radoGraph_iff`, the finite atomic diagrams
-`TauCeti.firstOrderAtomicDiagram`, and vertex connectivity `SimpleGraph.IsVertexConnected`. The
-README specifies the further shared interfaces needed for implementation.
+The imports consume from Tau Ceti the existing graphon samplers, their ergodicity and mixtures,
+the canonical extension predicate `SimpleGraph.HasExtensionProperty`, the Rado graph
+`TauCeti.radoGraph` and its countable characterization `TauCeti.nonempty_iso_radoGraph_iff`, the
+finite atomic diagrams `TauCeti.firstOrderAtomicDiagram`, and vertex connectivity
+`SimpleGraph.IsVertexConnected`. The README specifies the further shared interfaces needed for
+implementation.
 -/
 
 @[expose] public section
