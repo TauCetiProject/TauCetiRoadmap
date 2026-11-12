@@ -4,6 +4,7 @@ public import Mathlib
 public import TauCeti.ModelTheory.Infinitary.Fragment
 public import TauCeti.ModelTheory.Infinitary.LanguageMap
 public import TauCeti.ModelTheory.ModelExistence.Types
+public import TauCeti.ModelTheory.Scott.Sentence
 
 /-!
 # Ehrenfeucht–Mostowski models and Hanf numbers for Lω₁ω: target signatures
@@ -445,6 +446,15 @@ This is the sentence-level Lω₁ω form of Mathlib's `Cardinal.Categorical`. -/
 def IsCategorical (φ : L.Sentenceω) (κ : Cardinal.{w}) : Prop :=
   ∀ (M N : Type w) (_ : L.Structure M) (_ : L.Structure N), SentenceInf.Realize φ M →
     SentenceInf.Realize φ N → #M = κ → #N = κ → Nonempty (M ≃[L] N)
+
+/-- **Layer 5.4 milestone, completeness of Scott sentences.** The Scott sentence of a countable
+structure in a countable relational language (Tau Ceti's `TauCeti.scottSentence`) is complete: it
+decides every Lω₁ω sentence on all its models in `Type w`, of every cardinality, not only on the
+countable ones. -/
+theorem isCompleteSentence_scottSentence [L.IsRelational] [Countable (Σ l, L.Relations l)]
+    (M₀ : Type w) [L.Structure M₀] [Countable M₀] :
+    IsCompleteSentence.{u, v, w} (TauCeti.scottSentence (L := L) M₀) := by
+  sorry
 
 /-- **Layer 5 milestone, small structures satisfy complete sentences.** For a countable relational
 language, a structure is Lω₁ω-small exactly when it satisfies a complete sentence. -/

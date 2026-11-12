@@ -577,8 +577,9 @@ Suggested home: `TauCeti/ModelTheory/Infinitary/Hanf/{Defs, Approximation, Morle
 
 `HasArbLargeModels φ`, `IsHanfBound φ κ`, `hanfNumber φ` (Convention 6), with:
 `IsHanfBound.mono`; every sentence has a Hanf bound (if `φ` lacks arbitrarily large models, some
-cardinal bounds all its models); `hanfNumber_isHanfBound`, `hanfNumber_le_of_isHanfBound`,
-`hanfNumber_le_iff_isHanfBound` and `lt_hanfNumber_iff_not_isHanfBound`; invariance of all three
+cardinal bounds all its models); `hanfNumber_isHanfBound`, so the Hanf number is a Hanf bound; the
+Hanf number lies below every Hanf bound, `κ` is a Hanf bound exactly when the Hanf number is at most
+`κ`, and `κ` lies below the Hanf number exactly when it is not a Hanf bound; invariance of all three
 notions under sentence equivalence and under `onBoundedFormulaInf` along an injective language map
 (IME 0.1). The invariance uses that the Hanf predicates count only nonempty models (Convention 6):
 a nonempty model of `φ` expands to a model of its image, interpreting the new symbols arbitrarily,
@@ -675,8 +676,9 @@ Targets:
   `LHom.isExpansionOn_reduct`) gives `E ⊨ φ`. The cardinality is exactly `κ` with no term for the
   size of `L`, even when `κ < #(Σ n, L.Functions n)`: the stretching runs over the countable `L'`,
   where the language term of `exists_emModel` is absorbed, and the reduct keeps the carrier.
-- **`hasArbLargeModels_of_forall_beth`** and **`morley_hanf`**: `ℶ_ω₁` is a Hanf bound for every
-  Lω₁ω sentence, over any language.
+- **Arbitrarily large models** and **`morley_hanf`**: under the Morley–Hanf hypothesis `φ` has
+  arbitrarily large models (`HasArbLargeModels φ`), and `ℶ_ω₁` is a Hanf bound for every Lω₁ω
+  sentence, over any language.
 - The Hanf number of every Lω₁ω sentence is at most `ℶ_ω₁`.
 - **`morley_hanf_theory`**: a countable `T : Theoryω L` (IME 1.1), through `Theoryω.conjunction`,
   satisfying the Morley–Hanf hypothesis
@@ -721,7 +723,8 @@ Suggested home: `TauCeti/ModelTheory/Infinitary/Hanf/{Global, Ladder, VonNeumann
 `IsLω₁ωHanfBound κ`: `κ : Cardinal.{w}` is a Hanf bound for every sentence of every language in
 `Language.{u, v}`. `lomega1omegaHanfNumber` is the least such cardinal. Targets:
 `beth_omega_one_isLω₁ωHanfBound` (from `morley_hanf`), the attained infimum, the universal property
-`lomega1omegaHanfNumber_le_iff`, and the bounded-spectrum criterion
+(the global Hanf number is at most `κ` exactly when `κ` is a global Hanf bound), and the
+bounded-spectrum criterion
 `lt_lomega1omegaHanfNumber_of_maximal_model`: a sentence with a nonempty model of cardinality at
 least `κ` and no model of cardinality greater than `κ` shows `κ < lomega1omegaHanfNumber`.
 
@@ -1045,7 +1048,7 @@ below is "where to look", not a specification. Paths are relative to
   all-arity statement `FiniteArityErdosRadoOmega1` and is not a migration target.
 - **Layer 1:** `Methods/EM/Indiscernible.lean`, `Methods/EM/Template.lean`,
   `Methods/EM/Realization.lean` (template sentences over `L[[J]]`),
-  `Methods/EM/FragmentAdapter.lean` (`morleySeed`, `morleySeed_indiscernibleOn`),
+  `Methods/EM/FragmentAdapter.lean` (the Morley seed and its indiscernibility),
   `Methods/TailIndiscernible.lean` and `Methods/EM/TailAdapter.lean`. The height counterexample is
   `T_counterexample` in `Conditional/MorleyHanfTransfer.lean`.
 - **Layer 2:** `Methods/LocalTower.lean`, `Methods/LocalSkolem.lean`, `Methods/LocalColimit.lean`
@@ -1061,7 +1064,8 @@ below is "where to look", not a specification. Paths are relative to
   `exists_uniform_of_cofinal_countable`); `Methods/SchemaCompletion.lean` (the stage-by-stage
   completion with pinned witnesses); `Methods/SchemaTermModel.lean`, `Methods/SchemaTermTruth.lean`,
   `Methods/SchemaOmegaWitness.lean`, `Methods/SchemaLocalEMSource.lean`;
-  `Conditional/MorleyHanfTransfer.lean` (`hasArbLargeModels_of_seed_realizability`) and
+  `Conditional/MorleyHanfTransfer.lean` (arbitrarily large models from realizability of the seed's
+  template) and
   `Conditional/MorleyHanfSchemaDischarge.lean` (`morley_hanf`, and the reduction to the symbols of
   `φ` by `symbSublang`, with `Methods/GeneratedSublanguage.lean`); `ModelTheory/MorleyHanf.lean`
   (`morley_hanf_theory`). The directory name `Conditional/` is historical: `morley_hanf` is
@@ -1069,8 +1073,8 @@ below is "where to look", not a specification. Paths are relative to
   `PureColoringHypothesis`, `TailTemplateRealizable` and their consumers are historical or
   false-shaped and are not migration targets.
 - **Layer 4:** `ModelTheory/HanfSpectrum/{LadderSyntax, IndexOrder, VonNeumannModel, LadderBound,
-  CardinalBounds, Countable, Powerset, BethLadder}.lean` and `ModelTheory/MorleyHanf.lean`
-  (`lt_Lomega1omegaHanfNumber_of_maximal_model`, `Lomega1omegaHanfNumber_eq_beth_omega1`).
+  CardinalBounds, Countable, Powerset, BethLadder}.lean` and `ModelTheory/MorleyHanf.lean` (the
+  bounded-spectrum criterion and the value of the Hanf number).
 - **Layer 5:** `Methods/HighlyOrderTransitive.lean`, `Methods/HighlyTransitiveField.lean`,
   `Methods/HighlyTransitiveExistence.lean`; `ModelTheory/InfinitaryTypes.lean`;
   `Methods/LocalEMCompression.lean`, `Methods/LocalEMTupleOrbit.lean`, `Methods/LocalEMSmall.lean`,
