@@ -36,18 +36,24 @@ comparisons, domain theorem, exponential, logarithm and Euler products, and the
 irrational-period example with an infinite period kernel (Layer 1); completed orbit
 modules and their supported kernel maps (§1.5 and the linear algebra of §3.1); Morse
 closed one-forms and the periods of closed one-forms (§§2.1–2.2); the degree-one
-Hurewicz isomorphism and the equivariant cellular chains of a covering (§§2.2 and
-3.3); based torsion over a field with its basis-change, exact-sequence, mapping-cone,
-square-minor, homology-basis, componentwise and minor-chart continuity laws (§§4.1,
+Hurewicz isomorphism, the classification of pointed connected covers by subgroups of
+π₁ with the deck group of a normal subgroup, and the equivariant cellular chains of a
+covering (§§2.2 and 3.3); based torsion over a field with its basis-change, exact-sequence, mapping-cone,
+square-minor, homology-basis, componentwise and minor-chart continuity laws, and the
+determinant lines of modules with their short-exact isomorphism (§§4.1,
 4.3 and 4.5); the decomposition of the total quotient of ℤ[H] into finitely many
 characteristic-zero fields, nonzerodivisors, reducedness and Artinian total quotients
 of the completion, the field criterion for the completion, and finite-index coset
-bases, traces and the logarithmic norm identity (§§4.2–4.4); closed orbits with
+bases, traces and the logarithmic norm identity (§§4.2–4.4); the weak and strong
+Morse inequalities of a complex of vector spaces (§4.6); closed orbits with
 multiplicities, the iterate-sign formula and the algebraic orbit zeta function with
-its integral Euler product (§§5.2–5.3); and nondegenerate fixed points with their
+its integral Euler product (§§5.2–5.3); the mapping torus of a homeomorphism with its
+infinite cyclic cover, the ordered simplicial chain complex with its cone operator and
+its cellular and singular comparisons, the cellular chain maps of realized simplicial maps, and the
+barycentric-subdivision homeomorphism (§6.4); and nondegenerate fixed points with their
 finiteness (§6.5). The closed-one-form cutoff moduli, the Novikov complex of a closed
-one-form and its comparisons, the determinant line with its long-exact-sequence
-correction, the field decomposition of the total quotient of Nov(ℤ,H,N), the
+one-form and its comparisons, the determinant line of a complex with its
+long-exact-sequence correction, the field decomposition of the total quotient of Nov(ℤ,H,N), the
 cyclotomic description and topology of the total quotients, the cover norms of
 torsion, the flow zeta function, the local fixed-point index, the dynamical/cellular
 equality and the Euler torsor are constructions of this roadmap. No Floer complex,
@@ -269,6 +275,68 @@ cellular/singular comparison `TauCeti.cellularSingularHomologyIso`
 multiplicative group: the additive deck group H enters through `Multiplicative H` and
 Mathlib's `IsAddQuotientCoveringMap.toMultiplicative`.
 
+For §2.2's covers of a path-connected, locally path-connected and semilocally simply
+connected space, as a connected manifold is, consume
+`TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient`
+(AlgebraicTopology/UniversalCover/Classification/Bijection.lean): a pointed connected cover is
+isomorphic over the base to the quotient of the universal cover by exactly one subgroup of
+π₁(X,x₀); and `TauCeti.UniversalCover.deckSubgroupQuotientProjEquivOfNormal`
+(Classification/DeckGroup.lean): for a normal subgroup the deck group of that quotient is
+π₁(X,x₀) modulo the subgroup. For §4.1's determinant lines consume `TauCeti.detLine`, the top
+exterior power of a module over a commutative ring, with `LinearEquiv.detLineCongr` for
+isomorphisms (LinearAlgebra/Determinant/Line.lean), and, for a short exact sequence
+0→U→V→W→0 of finite-dimensional vector spaces, the isomorphism
+`TauCeti.exteriorPower.shortExactEquiv` from the tensor product of the top exterior powers of
+U and W, with the subspace factor first, to that of V, independent of the lifts chosen
+(LinearAlgebra/ExteriorPower/ShortExact.lean). For §4.6 consume, for a complex of vector
+spaces over a division ring, the weak inequality `HomologicalComplex.finrank_homology_le_finrank_X`
+that a homology group has dimension at most that of its finite-dimensional term
+(Algebra/Homology/ModuleCat/Finrank.lean); for an ℕ-indexed chain complex with
+finite-dimensional terms through degree n, the strong inequality
+`ChainComplex.sum_range_neg_one_pow_mul_finrank_homology_le`, with signs (−1)^(n−i)
+(Algebra/Homology/EulerCharacteristic/MorseInequalities.lean), and, when the differential
+from degree n+1 to degree n vanishes, the equality of alternating sums with signs (−1)^i
+`ChainComplex.sum_range_finrank_X_eq_sum_range_finrank_homology`
+(Algebra/Homology/EulerCharacteristic/ChainComplex.lean).
+
+For §6.4's mapping torus consume, for a homeomorphism φ of a space F, `TauCeti.MappingTorus`
+(Topology/MappingTorus/Basic.lean), the quotient of F×ℝ by n·(x,s)=(φⁿx,s+n);
+`TauCeti.MappingTorus.isAddQuotientCoveringMap_coverMap`, that F×ℝ is a quotient covering of it
+for this ℤ-action; and the deck generator `TauCeti.MappingTorus.deck`, (x,s)↦(φx,s+1), the
+action of 1 (Topology/MappingTorus/Covering.lean). For §6.4's finite-triangulation adapter
+consume, for an abstract simplicial complex K with linearly ordered vertices: the ordered
+simplicial chain complex `TauCeti.orderedSimplicialChainComplex` over any ring, free on the
+faces with the alternating deleted-vertex boundary
+(AlgebraicTopology/SimplicialComplex/ChainComplex.lean), and its cone operator
+`TauCeti.OrderedSimplicialChain.cone` at a vertex v, which sends a face whose vertices all
+lie below v and which spans a face together with v to that larger face, and every other
+face to 0, with the cone identities
+`TauCeti.OrderedSimplicialChain.boundary_cone_zero` and
+`TauCeti.OrderedSimplicialChain.boundary_cone_succ` on chains of such faces
+(SimplicialComplex/Acyclic.lean); the simplex-cell CW structure
+`AbstractSimplicialComplex.realizationCWComplex` on the realization |K|, with characteristic
+maps ordered by the vertex order (SimplicialComplex/Realization/CWComplex/Basic.lean); the chain
+isomorphism `TauCeti.cellularChainComplexRealizationIso` from its cellular chain complex to the
+ordered complex, and the isomorphism `TauCeti.orderedSimplicialHomologyIsoSingularHomology` of
+ordered simplicial homology with the singular homology of |K|, with coefficients in the
+universe of the vertex type (Realization/CWComplex/OrderedChainComplex.lean); the cellularity
+`PreAbstractSimplicialComplex.SimplicialMap.isCellular_realizationMap` of a realized simplicial
+map (Realization/CWComplex/Map.lean), its cellular chain map `TauCeti.cellularChainComplexMap`
+(AlgebraicTopology/Cellular/Map.lean), the value of that map on the basis vector of a cell on
+which the simplicial map is increasing,
+`TauCeti.cellularChainGroupMap_realization_cellularChainBasis`
+(Realization/CWComplex/AlternatingIncidence.lean), and the naturality of the cellular/singular
+comparison under cellular maps,
+`TauCeti.cellularSingularHomologyIsoOfCWComplex_hom_naturality`
+(AlgebraicTopology/Cellular/Naturality.lean); and the barycentric subdivision
+`TauCeti.PreAbstractSimplicialComplex.barycentricSubdivision`
+(SimplicialComplex/Subdivision/Basic.lean) with the homeomorphism
+`AbstractSimplicialComplex.barycentricSubdivisionRealizationHomeomorph` of realizations, affine
+on simplices and sending each face-vertex to the barycentre of its face
+(SimplicialComplex/Subdivision/Homeomorph.lean). None of these orients a face by a
+nonincreasing vertex order or computes the chain map of a simplicial map on a face it
+collapses or reorders; §6.4 builds those.
+
 ### From TauCetiRoadmap.MorseTheory
 
 Consume M1–M4 and M6: critical Hessians, indices and charts, finite compact-band
@@ -299,15 +367,15 @@ de Rham cohomology and the period comparison, including the integral 2π of
 homotopies; Layer 12 for metrics and musical maps. Normalize `circleAngularForm`
 by dividing by 2π under the map ℝ/ℤ→Circle, t↦exp(2πit).
 
-### From TauCetiRoadmap.AlgebraicTopology and UniversalCovers
+### From TauCetiRoadmap.AlgebraicTopology
 
 Consume AlgebraicTopology Stages 1–3 for fundamental groups, relative singular
 chains, subdivision and excision; Stage 4 items 2–3 (AT4.2–AT4.3) for cellular
 chains and the cellular/singular comparison, natural on homology; Stages 5–7
 for covers, local systems, products, orientation coefficients and Euler
 characteristic. The natural identification H₁=π₁ᵃᵇ is the Tau Ceti Hurewicz
-isomorphism above. Consume UniversalCovers Stage 2 items 7–8 for the pointed cover
-attached to a subgroup of π₁(X,x₀) and the normal-subgroup/deck-quotient classification.
+isomorphism above, and the classification of pointed connected covers by subgroups of
+π₁(X,x₀), with the deck group of a normal subgroup, is the Tau Ceti classification above.
 No strict cellular-to-singular chain map is assumed.
 
 ### From TauCetiRoadmap.GeometricTopology
@@ -318,10 +386,12 @@ and zero-slope surgery, and in particular §4.4 for the infinite cyclic cover of
 exterior, its Alexander module H₁(X∞;ℤ) over ℤ[t,t⁻¹], the Seifert presentation
 `tV−Vᵀ`, the Fox presentation from a Wirtinger presentation, the agreement of these
 routes up to units, and Δ_K as the order of the module; Layer 11 and the smoothing-and-triangulation comparison
-for smooth triangulations, simplex-cell structures, signed boundaries and
-cellularity of simplicial maps. Layer 6 below constructs the based equivariant
+for smooth triangulations. The simplex-cell CW structure of a realization, its signed
+boundaries and the cellularity of simplicial maps are the Tau Ceti declarations above.
+Layer 6 below constructs the based equivariant
 cellular complex of the surgery cover, its identification with §4.4's presentation,
-and the finite simplicial chain adapter.
+and the orientation signs, scalar extension and simplicial-map functoriality of the
+pinned ordered simplicial chains.
 
 ## How to read the build
 
@@ -598,7 +668,10 @@ The period homomorphism on π₁ is `TauCeti.periodHom` (Geometry/Manifold/DeRha
 consume its homotopy invariance, additivity under concatenation, dependence only on the
 de Rham class and pullback naturality, and factor it through H₁ by the Hurewicz
 isomorphism `TauCeti.HurewiczOne.hurewiczHomologyAddEquiv` with its naturality.
-Specialize the regular-cover classification to surjections π₁(X)→H, using
+Specialize the pinned classification of pointed connected covers
+(`TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient`) and the deck
+group of the cover of a normal subgroup
+(`TauCeti.UniversalCover.deckSubgroupQuotientProjEquivOfNormal`) to surjections π₁(X)→H, using
 π₁-abelianization; π*α is exact iff periods vanish on that kernel, which is
 `TauCeti.mpullback_mem_exactForms_one_iff_periodHom_map_eq_zero` for the connected
 cover. Build the lifted smooth structure, metric/vector field and primitive,
@@ -622,7 +695,7 @@ The API includes:
 - For an exact form P=0, the pulled-back potential is invariant under every deck transformation.
 - For the universal cyclic cover of S¹, H₁(upstairs)=0 and H₁(base)→ℤ is the identity; its kernel is 0.
 
-*Needs:* DifferentialGeometry Layers 5–6 and 8; AlgebraicTopology Stages 1 and 5; Tau Ceti `TauCeti.periodHom`, `TauCeti.HurewiczOne.hurewiczHomologyAddEquiv` and `TauCeti.HurewiczOne.homologyMap_hurewiczHomologyAddEquiv`; UniversalCovers Stage 2 items 7–8.
+*Needs:* DifferentialGeometry Layers 5–6 and 8; AlgebraicTopology Stages 1 and 5; Tau Ceti `TauCeti.periodHom`, `TauCeti.HurewiczOne.hurewiczHomologyAddEquiv`, `TauCeti.HurewiczOne.homologyMap_hurewiczHomologyAddEquiv`, `TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient` and `TauCeti.UniversalCover.deckSubgroupQuotientProjEquivOfNormal`.
 
 ### 2.3 The Klein-bottle cover and period kernel
 
@@ -874,9 +947,12 @@ under a chain map by the torsion of its based mapping cone
 (`HomologicalComplex.reidemeisterTorsion_homotopyCofiber`,
 `HomologicalComplex.reidemeisterTorsion_eq_mul_of_quasiIso`, MappingCone.lean).
 
-Build the determinant line of a bounded finite-dimensional chain complex over F and
-its canonical comparison with the alternating determinant of homology, using bases of
-boundaries and lifts through the short exact sequences. For a nonacyclic complex it
+Build the determinant line of a bounded finite-dimensional chain complex over F from
+the determinant lines `TauCeti.detLine` of its terms, transported along isomorphisms by
+`LinearEquiv.detLineCongr`, and its canonical comparison with the alternating determinant
+of homology through the isomorphisms `TauCeti.exteriorPower.shortExactEquiv` of the short
+exact sequences 0→B_i→Z_i→H_i→0 and 0→Z_i→C_i→B_(i−1)→0, subspace factor first, as
+in the isomorphisms preceding rt3 equation (A.1), p. 239. For a nonacyclic complex it
 retains the homology-basis determinant line where the scalar torsion is 0; after a
 choice of homology bases it is `HomologicalComplex.reidemeisterTorsionWithHomology`.
 For general complexes, prove determinant-line multiplicativity through the long exact
@@ -917,7 +993,7 @@ The API includes:
 - The direct sum of ℚ —a→ ℚ and ℚ —b→ ℚ, a,b≠0, has torsion a⁻¹b⁻¹; the multiplicative convention would give ab.
 - For the identity ℚ²→ℚ² with the degree-zero basis order swapped, A₀ is a transposition: the new differential has determinant −1 and torsion −1, and τ(d)·det(A₀)=−1 agrees, so the basis-change formula holds with its sign.
 
-*Needs:* Tau Ceti Algebra/Homology/ReidemeisterTorsion Basic.lean, Homology.lean, MappingCone.lean and SquareMinor.lean; Mathlib finite-dimensional linear algebra, exterior powers, chain complexes and homology.
+*Needs:* Tau Ceti Algebra/Homology/ReidemeisterTorsion Basic.lean, Homology.lean, MappingCone.lean and SquareMinor.lean, and `TauCeti.detLine`, `LinearEquiv.detLineCongr` and `TauCeti.exteriorPower.shortExactEquiv`; Mathlib finite-dimensional linear algebra, exterior powers, chain complexes and homology.
 
 ### 4.2 Abelian total quotient components
 
@@ -1073,8 +1149,12 @@ for the number of index-i critical points and b_i for the dimension of the
 component Novikov homology. Prove b_i≤c_i and, for each q≥0,
 Σ(i=0,…,q)(−1)^(q−i)b_i≤Σ(i=0,…,q)(−1)^(q−i)c_i, with equality for
 q=dim X. These are dimensions over an actual field, not ranks over an assumed
-Novikov field (rt3 §1.4, equation (1.4), p. 213 and Appendix A, pp. 239–240;
-the inequalities follow from splitting the resulting finite field complex).
+Novikov field (rt3 §1.4, equation (1.4), p. 213 and Appendix A, pp. 239–240).
+For the finite complex of each field component, in degrees 0 to dim X and so indexed by ℕ,
+they are Tau Ceti's `HomologicalComplex.finrank_homology_le_finrank_X` and
+`ChainComplex.sum_range_neg_one_pow_mul_finrank_homology_le`, and at q=dim X, where the
+differential out of degree dim X+1 vanishes,
+`ChainComplex.sum_range_finrank_X_eq_sum_range_finrank_homology` multiplied by (−1)^(dim X).
 
 **Checks.**
 
@@ -1083,6 +1163,9 @@ the inequalities follow from splitting the resulting finite field complex).
 - For the zero differential in ranks (1,1), b₀=b₁=1; for differential 2 over ℚ they are 0,0. Chain ranks alone do not fix the Betti numbers.
 
 *Needs:* §3.1 Novikov complex and §3.3 cellular comparison; §4.2 field components;
+Tau Ceti `HomologicalComplex.finrank_homology_le_finrank_X`,
+`ChainComplex.sum_range_neg_one_pow_mul_finrank_homology_le` and
+`ChainComplex.sum_range_finrank_X_eq_sum_range_finrank_homology`;
 Mathlib finite-dimensional linear algebra and homology.
 
 ### Examples
@@ -1372,7 +1455,7 @@ The API includes:
 
 **Checks.**
 
-- For H=ℤ⊕ℤ/2 and h=(2,1), d=2. With k=3, μ(n,e)=2n mod 3 sends h to 1; with k=2, ν(n,e)=n mod 4 sends h to 2 and nh lies in its kernel exactly for even n.
+- For H=ℤ⊕ℤ/2 with §2.3's N(n,e)=−n and h=(−2,1), N(h)=2>0 and d=2. With k=3, μ(n,e)=n mod 3 sends h to 1; with k=2, ν(n,e)=−n mod 4 sends h to 2 and nh lies in its kernel exactly for even n. The class (2,1) has N=−2, so 1+Σa_n e^(n(2,1)) with infinitely many a_n≠0 has infinitely many terms below every cutoff and is not in Nov(ℤ,H,N).
 - For i=1 and x=1+t, y=x gives x^(−1)y=1; for i=2, y=x⁻¹ gives xy=1. The leading coefficients have signs +a₁ and −a₁ respectively.
 - For z=1+c₂t²+O(t³), d=2 and k=2, the degree-two logarithmic norm coefficient is 4c₂; vanishing forces c₂=0 over ℚ.
 - The conjugation d₊=A_p(x)⁻¹d₋A_p(x) multiplies based torsion by det(A_p(x))^((−1)^i)=x^((−1)^i), so τ₊ζ₊=τ₋ζ₋ is equivalent to y=x^((−1)^(i+1)).
@@ -1428,9 +1511,14 @@ corresponding monomial unit factor. CN acyclic, τNov=(1−t)⁻¹ modulo signs 
 * Exact α=df on S¹ with universal cyclic cover: N=0, coefficients ℤ[t,t⁻¹],
   d=±(1−t), H₀=ℤ with trivial deck action and H₁=0. Contrast both nonzero-period
   examples with ordinary H_*(S¹) tensored with the coefficient ring.
-* Mapping torus of a diffeomorphism of a closed connected fiber S, with the
-  downward return-map monodromy φ and the corresponding deck t. Build its
-  equivariant cone `1−tφ#`; prove Lefschetz signed fixed-point counts for every
+* Mapping torus of a diffeomorphism φ of a closed connected fiber S. Its topological space is
+  `TauCeti.MappingTorus` of φ as a homeomorphism, with infinite cyclic cover S×ℝ
+  (`TauCeti.MappingTorus.isAddQuotientCoveringMap_coverMap`) and deck generator
+  `TauCeti.MappingTorus.deck`, (x,s)↦(φx,s+1). For α pulled back from the circle
+  coordinate the height s is a primitive upstairs and that generator raises it by 1, so
+  its period is 1 and the downward deck t, with N(t)=1, is its inverse; with a
+  product metric the downward return map is φ, since (x,−1) and (φx,0) are identified.
+  Build its equivariant cone `1−tφ#`; prove Lefschetz signed fixed-point counts for every
   iterate with nondegenerate fixed points and the trace/determinant identity
   `ζ=Πi det(1−tφ*|H_i(S;ℚ))^((-1)^(i+1))`.
   Here the orbit-counting ζ requires all iterates nondegenerate. For arbitrary
@@ -1452,27 +1540,38 @@ corresponding monomial unit factor. CN acyclic, τNov=(1−t)⁻¹ modulo signs 
   Include the reflected 1-simplex: ε=−1 gives index +1. Thus prove
   `Σ index(ψ)=Σ_q (−1)^q tr(T_q)` before applying the Hopf trace lemma.
   Build the finite-triangulation chain adapter here. For each finite simplicial
-  complex K and commutative coefficient ring R, construct the native
-  `ChainComplex (ModuleCat R) ℕ` free on the q-simplices, with basis orientations
-  fixed by a vertex order and orientation reversal acting by −1, with the
-  alternating face differential, basis equations, scalar extension and its
-  extension by zero to `ChainComplex (ModuleCat R) ℤ`. Consume GT11's chosen
-  simplex-cell CW structure on |K|, ordered characteristic maps and signed
-  simplicial/cellular boundary identification. Prove this native chain adapter
-  agrees with that structure and AT4.2's cellular complex and chain maps. Compose with AT4.3's cellular/singular
-  comparison to obtain the homology isomorphism. Prove independence of vertex
+  complex K with linearly ordered vertices and commutative coefficient ring R,
+  consume Tau Ceti's `TauCeti.orderedSimplicialChainComplex`, the
+  `ChainComplex (ModuleCat R) ℕ` free on the q-simplices with the alternating
+  deleted-vertex boundary, and build here the sign −1 of an orientation reversal,
+  scalar extension and the extension by zero to `ChainComplex (ModuleCat R) ℤ`.
+  Its isomorphism with the cellular complex of
+  `AbstractSimplicialComplex.realizationCWComplex` is
+  `TauCeti.cellularChainComplexRealizationIso`, and the isomorphism of its homology with
+  the singular homology of |K| is `TauCeti.orderedSimplicialHomologyIsoSingularHomology`.
+  Prove independence of vertex
   ordering via the orientation-change chain isomorphism, and functoriality
-  for simplicial maps f. Consume GT11's cellularity of |f| for these same
-  simplex-cell structures, and identify AT4.2's cellular chain map with f_#,
-  with degree zero on degenerate images and
-  the orientation sign otherwise. AT4.3's naturality on homology then identifies
+  for simplicial maps f. The realization |f| is cellular for these simplex-cell
+  structures (`PreAbstractSimplicialComplex.SimplicialMap.isCellular_realizationMap`),
+  and its cellular chain map `TauCeti.cellularChainComplexMap` sends the basis vector of
+  a cell on which f is increasing to that of the image cell
+  (`TauCeti.cellularChainGroupMap_realization_cellularChainBasis`). Identify that
+  cellular chain map with f_#, with degree zero on degenerate images and
+  the orientation sign otherwise. The naturality of the cellular/singular comparison,
+  `TauCeti.cellularSingularHomologyIsoOfCWComplex_hom_naturality`, then identifies
   f_# with |f|_*, without claiming a strict cellular-to-singular chain map.
-  Construct the canonical affine homeomorphism `b_r:|sd^r K|≃ₜ|K|`, mapping
-  each subdivision vertex to its barycenter. Use b_r to identify the realizations
+  Take `b_r:|sd^r K|≃ₜ|K|` to be the r-fold composite of
+  `AbstractSimplicialComplex.barycentricSubdivisionRealizationHomeomorph` for
+  `TauCeti.PreAbstractSimplicialComplex.barycentricSubdivision`, affine on simplices and
+  mapping each subdivision vertex to its barycenter. Use b_r to identify the realizations
   when choosing a as an approximation of φ. Construct simplicial subdivision,
   the last-vertex chain inverse `λ_r#` and both
   composite-to-identity homotopies. Build the finite acyclic-carrier homotopy
-  lemma using augmented simplex cone contractions to supply those homotopies.
+  lemma using augmented simplex cone contractions to supply those homotopies, from
+  the pinned cone operator `TauCeti.OrderedSimplicialChain.cone` and its boundary
+  identities on chains of faces below the cone vertex
+  (`TauCeti.OrderedSimplicialChain.boundary_cone_zero`,
+  `TauCeti.OrderedSimplicialChain.boundary_cone_succ`).
   Define `λ_r:sd^r K→K` by composing one-step last-vertex maps with fixed
   vertex orders at every subdivision level, and prove it is a simplicial approximation
   of b_r: their images lie in a common original simplex, so straight-line
@@ -1522,7 +1621,7 @@ The API includes:
 - On the boundary of a triangle the simplicial chain adapter has H₀=R and H₁=R; reversing one edge's vertex order multiplies its basis element by −1. A simplicial map collapsing an edge sends it to 0, and one reversing an edge sends it to minus the image edge.
 - For one subdivision of e=[v₀,v₁] with barycenter b, Sd(e)=[v₀,b]+[b,v₁]; the last-vertex map sends b to v₁, hence [v₀,b] to e and [b,v₁] to 0, so λ#∘Sd is the identity on chains.
 
-*Needs:* §6.3; Layer 5 local index; AlgebraicTopology Stages 2–7; GeometricTopology Layers 4–5 (§4.4 for the Alexander module, its presentations and Δ_K) and 11.
+*Needs:* §6.3; Layer 5 local index; AlgebraicTopology Stages 2–7; GeometricTopology Layers 4–5 (§4.4 for the Alexander module, its presentations and Δ_K) and 11; Tau Ceti `TauCeti.MappingTorus` with `TauCeti.MappingTorus.isAddQuotientCoveringMap_coverMap` and `TauCeti.MappingTorus.deck`, `TauCeti.orderedSimplicialChainComplex`, `AbstractSimplicialComplex.realizationCWComplex`, `TauCeti.cellularChainComplexRealizationIso`, `TauCeti.orderedSimplicialHomologyIsoSingularHomology`, `PreAbstractSimplicialComplex.SimplicialMap.isCellular_realizationMap`, `TauCeti.cellularChainComplexMap`, `TauCeti.cellularChainGroupMap_realization_cellularChainBasis`, `TauCeti.cellularSingularHomologyIsoOfCWComplex_hom_naturality`, `AbstractSimplicialComplex.barycentricSubdivisionRealizationHomeomorph`, and `TauCeti.OrderedSimplicialChain.cone` with `TauCeti.OrderedSimplicialChain.boundary_cone_zero` and `TauCeti.OrderedSimplicialChain.boundary_cone_succ`.
 
 ### 6.5 Native Lefschetz signature
 
@@ -1759,7 +1858,7 @@ return-map iterate signs in both dimension parities (the three circle calculatio
 repelling orbit on a surface, and the orientation-reversing circle mapping
 torus (Klein bottle) with homological ζ=(1+t)/(1−t). Check period doubling algebraically
 by (1+x)/(1−x²)=1/(1−x), and the algebraic cyclic-cover norm/self-slide identities for
-H=ℤ⊕ℤ/2 and h=(2,1), using divisibility 2 in H/T. The irrational
+H=ℤ⊕ℤ/2 and h=(−2,1), using divisibility 2 in H/T. The irrational
 noninjective completion example, H=ℤ³ and N(a,b,c)=a+√2b over ℤ with kernel
 generated by (0,0,1), finite tied leading supports and an infinite series whose
 periods escape each cutoff, is the pinned one of Layer 1's Examples
