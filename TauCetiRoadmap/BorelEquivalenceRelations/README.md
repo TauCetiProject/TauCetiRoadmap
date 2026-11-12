@@ -792,7 +792,7 @@ The following belong to separate roadmaps.
   numbers, Borel Brooks-type theorems) and the Lecomte–Miller basis theorems.
 - Everything about spaces of countable structures: the structure space, model classes,
   López–Escobar and the Borel complexity of isomorphism belong to
-  [CountableStructureSpaces](../CountableStructureSpaces/README.md) ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)); the counting of countable
+  [CountableStructureSpaces](../CountableStructureSpaces/README.md); the counting of countable
   models belongs to [CountableModelCounting](../CountableModelCounting/README.md).
 
 ## Coordination
@@ -803,8 +803,7 @@ The following belong to separate roadmaps.
   [CountableModelCounting](../CountableModelCounting/README.md) through the interface of 4.3, and
   this roadmap consumes nothing from either.
 - **Spaces of countable structures.**
-  [CountableStructureSpaces](../CountableStructureSpaces/README.md)
-  ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)) consumes four general
+  [CountableStructureSpaces](../CountableStructureSpaces/README.md) consumes four general
   results, none of which mentions structures: Mathlib's `IsGδ.polishSpace` and Tau Ceti's
   `IsGδ.standardBorelSpace` (see 0.2), for Gδ model classes; Tau Ceti's `AnalyticSet.prod` (see
   0.3); and Tau Ceti's `Setoid.exists_invariant_measurableSet_separating` (Layer 2.2), for
