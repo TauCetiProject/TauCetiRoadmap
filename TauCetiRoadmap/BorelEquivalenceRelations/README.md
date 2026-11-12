@@ -208,7 +208,7 @@ kind 3 below.
    | `SetRel.isSmallFamily_iUnion` | an iff, over any countable index | its `.2` |
    | `SetRel.not_isSmallFamily_comb_cross` | value condition `range (comb φ₀ φ₁) ⊆ range φ₀ ∪ range φ₁`; members written `comb φ₀ φ₁ = ψ` | the pointwise value condition gives the range form; `eq_comm` |
    | `Setoid.isSmooth_of_countable_quotient` | measurable classes in place of a Borel graph | each class is a section, `measurable_prodMk_left hE` |
-   | `TauCeti.isGδ_of_isCompletelyMetrizableSpace` | perfectly normal and `T2Space`, complete metrizability of `s` as an instance | `T6Space` gives both by instance search; `haveI := hs` (the `example` in `Suggested.lean`) |
+   | `TauCeti.isGδ_of_isCompletelyMetrizableSpace` | perfectly normal and `T2Space`, complete metrizability of `s` as an instance | `T6Space` gives both by instance search; `haveI := hs` |
    | `Setoid.borelReducible_bot_bot_iff_lift_mk_le` | `Cardinal.lift` across two universes | `Cardinal.lift_id` in one universe |
 3. *Missing at the pin.* Neither Tau Ceti nor Mathlib has these; they are the open targets of
    this roadmap, and the two theorems are the only statements of `Suggested.lean`:

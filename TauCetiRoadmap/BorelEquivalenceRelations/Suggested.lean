@@ -59,19 +59,6 @@ open MeasureTheory Function
 
 namespace TauCetiRoadmap.BorelEquivalenceRelations
 
-/-- With Tau Ceti imported, instance search finds the Polish and perfect structures of Cantor
-space (`TauCeti.polishSpace_pi_of_discreteTopology`, `TauCeti.perfectSpace_pi`), which it does
-not find from Mathlib alone. -/
-example : PolishSpace (ℕ → Bool) ∧ PerfectSpace (ℕ → Bool) ∧ PerfectSpace (ℕ → ℕ) :=
-  ⟨inferInstance, inferInstance, inferInstance⟩
-
-/-- Alexandrov's theorem in the generality the README states, for `T6` spaces: Tau Ceti's
-`TauCeti.isGδ_of_isCompletelyMetrizableSpace` assumes a perfectly normal Hausdorff space, which
-a `T6` space is, and takes the complete metrizability of the subspace as an instance. -/
-example {X : Type u} [TopologicalSpace X] [T6Space X] {s : Set X}
-    (hs : TopologicalSpace.IsCompletelyMetrizableSpace s) : IsGδ s :=
-  TauCeti.isGδ_of_isCompletelyMetrizableSpace
-
 /-! ## Layer 4: the perfect set theorem for analytic sets -/
 
 /-- The perfect set theorem for analytic sets, a corollary of Silver's theorem: write `A` as the
