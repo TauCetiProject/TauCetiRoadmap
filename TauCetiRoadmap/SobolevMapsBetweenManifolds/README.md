@@ -55,7 +55,7 @@ embedding with a controlled retraction. It proves smooth density for these space
 This roadmap owns:
 
 - the generalization of the local Lebesgue and local Sobolev classes `MemLpLoc` and `MemWkpLoc`
-  from planar domains to open subsets of every finite-dimensional real inner product space, with
+  from planar domains to open subsets of every finite-dimensional real normed space, with
   their Banach-valued API (§1.1), and the first-order class `W^{1,p}_loc(Ω; F)` (§1.2);
 - the Euclidean chain rule for `C¹` outer maps with bounded derivative and arbitrary Sobolev
   inner maps, the continuity of the composition operator, the change of variables of the local
@@ -132,8 +132,14 @@ and completeness of the full space of weak maps are outside this roadmap.
 ## Conventions
 
 - **Exponents.** `p : ℝ≥0∞` with `1 ≤ p ≤ ∞`. A statement that needs `p < ∞` says so.
-- **Euclidean domains.** `E` is a finite-dimensional real inner product space of dimension `n`
-  with Lebesgue measure `volume` (Mathlib's `measureSpaceOfInnerProductSpace`); `F`, `G` are
+- **Euclidean domains.** `E` is a finite-dimensional real normed space of dimension `n` with its
+  Borel σ-algebra and an additive Haar measure `volume` (`[MeasureSpace E] [BorelSpace E]
+  [volume.IsAddHaarMeasure]`). The standard instance is an inner product space with Lebesgue
+  measure (Mathlib's `measureSpaceOfInnerProductSpace`), for instance `EuclideanSpace ℝ (Fin n)`
+  for `ℝⁿ`; no inner product on `E` is used, since tangent norms are separate data (Layer 5).
+  Tau Ceti suppliers stated on inner product spaces apply through a continuous linear
+  equivalence `E ≃L[ℝ] EuclideanSpace ℝ (Fin n)`, which carries `volume` to a positive multiple
+  of Lebesgue measure. `F`, `G` are
   real Banach spaces (`NormedSpace ℝ` and `CompleteSpace`). No separability assumption on the
   target space is needed: integrability and weak derivatives use Bochner integrals and
   `AEStronglyMeasurable`, including its essentially separably valued condition. An open set is a
@@ -141,7 +147,7 @@ and completeness of the full space of weak maps are outside this roadmap.
   `Ω` is a function `E → F` whose values off `Ω` play no role, as in `TauCeti.HasWeakFDerivOn`.
   Every class below is independent of the Haar measure used (Check in §1.1).
 - **Manifolds.** Source manifolds `M`, `M'` are Hausdorff, second countable and boundaryless,
-  modelled on finite-dimensional real inner product spaces `E`, with `IsManifold 𝓘(ℝ, E) 1 M`.
+  modelled on finite-dimensional real normed spaces `E` as above, with `IsManifold 𝓘(ℝ, E) 1 M`.
   Targets `N`, `P` are Hausdorff boundaryless manifolds modelled on real Banach spaces `E'`, `E''`,
   with `IsManifold 𝓘(ℝ, E') 1 N`; second countability of targets is not required. Layers 8–11
   use smooth manifolds. Whenever a target is used as a source, it must meet the source
@@ -206,7 +212,7 @@ derivatives directly usable and compares them with its manifold predicates in La
 ### From Mathlib
 
 - `MeasureTheory.MemLp`, `MeasureTheory.LocallyIntegrableOn`, `MeasureTheory.AEStronglyMeasurable`
-  and `measureSpaceOfInnerProductSpace`.
+  `measureSpaceOfInnerProductSpace` and `MeasureTheory.Measure.IsAddHaarMeasure`.
 - `MeasureTheory.addHaar_image_eq_zero_of_differentiableOn_of_addHaar_eq_zero` and
   `MeasureTheory.lintegral_image_eq_lintegral_abs_det_fderiv_mul`
   (`Mathlib/MeasureTheory/Function/Jacobian.lean`): differentiable images of null sets are null,
@@ -318,8 +324,8 @@ derivatives directly usable and compares them with its manifold predicates in La
 `TauCeti.MemLpLoc` and `TauCeti.MemWkpLoc` (`TauCeti/Analysis/Sobolev/Local/Basic.lean`) are
 stated for functions on `ℂ`. Their definitions and the part of their API in `Local/` that does
 not use the plane (`Basic`, `Locality`, `W1p`, `ChainRule`, `ChangeOfVariables`) are to be restated
-for Banach-valued functions on any finite-dimensional real inner product space `E` with Lebesgue
-measure, keeping the names. `Coordinates` retains a finite-dimensional target for its
+for Banach-valued functions on any finite-dimensional real normed space `E` with an additive Haar
+measure (Conventions), keeping the names. `Coordinates` retains a finite-dimensional target for its
 finite-basis characterization; it is a specialization, not a definition of Banach-valued
 membership. `Lipschitz` retains its finite-dimensional targets, within QuasiregularMaps' ownership;
 general Banach-valued Lipschitz membership is not a target here. The planar files (`Morrey`, `Reflection`,
@@ -359,8 +365,8 @@ Existing code to refactor. Prove for `E` the API that PseudoholomorphicCurveAnal
 lists for `ℂ`: closure under addition,
 scalar multiplication, continuous linear maps `F →L[ℝ] G` and restriction to smaller opens;
 the sheaf property for open covers; coordinates in a finite basis when `F` is finite-dimensional;
-monotonicity in `k` and the case `k = 0`; for `F = ℝ`, agreement with
-`TauCeti.Wkp volume W p k` on every relatively compact
+monotonicity in `k` and the case `k = 0`; for `F = ℝ` and `E` an inner product space with
+Lebesgue measure, agreement with `TauCeti.Wkp volume W p k` on every relatively compact
 open `W` with closure in `Ω`. Prove in addition:
 
 - `MemLpLoc p Ω u` implies `MemLpLoc q Ω u` for `q ≤ p`, and implies local integrability for
@@ -368,7 +374,8 @@ open `W` with closure in `Ω`. Prove in addition:
 - strong measurability and the required norm integrability are part of membership; testing
   scalar compositions alone does not define Banach-valued membership;
 - continuous functions on `Ω` are `MemLpLoc p Ω` for every `p`;
-- the classes are unchanged if `volume` is replaced by any additive Haar measure on `E`.
+- the classes are unchanged if `volume` is replaced by any additive Haar measure on `E`, and
+  are carried to the classes of `E₁` by every continuous linear equivalence `E ≃L[ℝ] E₁`.
 
 **Checks.**
 
@@ -378,6 +385,9 @@ open `W` with closure in `Ω`. Prove in addition:
   `p < ∞` when `n ≥ 1`: the class is local.
 - For `n = 3`, `u(x) = |x|^{−1}` lies in `MemLpLoc p ℝ³` exactly for `p < 3`.
 - Haar independence: `2 · volume` has the same null sets and the same `Lᵖ(K)` functions.
+- A model norm that is not an inner product norm: `ℝ²` with the norm `max(|y₁|, |y₂|)` and
+  its product Lebesgue measure has the classes of `EuclideanSpace ℝ (Fin 2)`, through the
+  identity linear equivalence.
 - `F = ℓ²`: `u(x) = a(x) v` for a scalar Sobolev `a` and fixed `v ∈ ℓ²` is a member with
   derivative `h ↦ Da(x)(h) v`; no basis of the target is used.
 
@@ -536,7 +546,8 @@ Arendt–Kreuter §6.
 
 ### 2.5 Pullback by submersions
 
-Let `E₀` be another finite-dimensional real inner product space, `Ω₀ ⊆ E₀` open, and
+Let `E₀` be another finite-dimensional real normed space with an additive Haar measure, `Ω₀ ⊆ E₀`
+open, and
 `θ : Ω₀ → Ω` a `C¹` submersion, expressed by the local projection normal form. Prove that
 `u ∈ L^p_loc(Ω; F)` implies `u ∘ θ ∈ L^p_loc(Ω₀; F)` and that
 `u ∈ W^{1,p}_loc(Ω; F)` implies `u ∘ θ ∈ W^{1,p}_loc(Ω₀; F)`, with
@@ -728,8 +739,10 @@ is continuous and, for every `x`, the chart representative `writtenInExtChartAt 
 
 - *Chart independence.* The condition holds for the preferred charts iff it holds for every
   pair of charts of the maximal atlases of `M` and `N`, on the open part of the source chart's
-  target where `f` maps into the target chart's source. Route: §2.1(a) for the transition of
-  `N`, §2.2 for the transition of `M`, and §1.2's sheaf property.
+  target where `f` maps into the target chart's source, iff it holds for every pair of charts
+  from some atlas of `M` and some atlas of `N` (families of charts of the maximal atlases
+  whose sources cover `M` and `N`). Route: §2.1(a) for the transition of `N`, §2.2 for the
+  transition of `M`, and §1.2's sheaf property.
 - *Normed targets.* For `N = F` with its identity chart, a continuous `f` lies in
   `W^{1,p}_loc(M, F)` iff it lies in §4.1's `W^{1,p}_loc(M; F)`.
 - *Constant and `C¹` maps* are members (§4.4).
@@ -1109,17 +1122,23 @@ that reversing exactly one orientation negates it; that `J_f = J(mfderiv f)` for
 that `J_{g ∘ f} = J_g(f) J_f` for `C¹` `g` and `J_{f ∘ θ} = J_f(θ) J_θ` for `C¹` local
 diffeomorphisms `θ` (§4.6); and that under a change of metrics, with
 `riemannianVolumeForm' = ρ_M · riemannianVolumeForm` on `M` and `ρ_N` likewise on `N`,
-`J'_f(x) = (ρ_N(f(x)) / ρ_M(x)) · J_f(x)` almost everywhere. In local oriented coordinates,
-`J_f` is the determinant of the chart expression of `Df` times the ratio of the volume
-densities.
+`J'_f(x) = (ρ_N(f(x)) / ρ_M(x)) · J_f(x)` almost everywhere. Prove the chart formula: when `M`
+and `N` are modelled on one space `E` with an orientation `o_E`, and the charts `φ` of `M` and
+`ψ` of `N` are positively oriented (their differentials carry the tangent orientations to
+`o_E`), then for almost every `x` in the chart domain
+`J_f(x) = LinearMap.det (dψ ∘ Df(x) ∘ dφ⁻¹) · w_N(ψ(f(x))) / w_M(φ(x))`, where `w_M`, `w_N` are
+the coordinate weights of the Riemannian volumes in `φ`, `ψ` (§3.1), equal to
+`√det (g_{ij})` for Lebesgue measure on `ℝⁿ`.
 
 **Checks.**
 
 - The identity `(M, o) → (M, −o)` has `J = −1`.
 - `z ↦ z²` on `ℂ` with the flat metric has `J_f(z) = 4|z|²`.
 - For `f = id : (ℝ, dx²) → (ℝ, 4dx²)`, `ρ_N = 2`, `ρ_M = 1`, so `J' = 2`.
+- Chart formula: on `ℝ` with the metric `e^{2t} dt²` on the target, the identity has
+  `det = 1`, `w_N(t) = eᵗ`, `w_M = 1`, so `J_f(t) = eᵗ`, the length stretch.
 
-*Needs:* §5.1, §6.1; Tau Ceti `TauCeti.riemannianVolumeForm`, `TauCeti.Manifold.Orientation`.
+*Needs:* §3.1, §5.1, §6.1; Tau Ceti `TauCeti.riemannianVolumeForm`, `TauCeti.Manifold.Orientation`.
 
 ### 6.3 Hadamard's inequality and integrability
 

@@ -22,7 +22,9 @@ differentiability and its differential (§4.7–§4.8); Banach-valued pullback (
 characterization through split immersions (§9.1); smooth retractive embedding data (§9.2);
 and intrinsic relative smooth approximation (§9.3).
 
-The local classes below have finite-dimensional source and Banach-valued target. In Tau Ceti
+The local classes below have finite-dimensional normed source with an additive Haar measure
+`volume` (Lebesgue measure on an inner product space is the standard instance) and Banach-valued
+target. In Tau Ceti
 they replace the planar `TauCeti.MemLpLoc` and `TauCeti.MemWkpLoc`
 (README, Existing code to refactor).
 
@@ -46,8 +48,8 @@ open scoped Manifold ENNReal ContDiff Topology
 
 section Euclidean
 
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
-  [MeasurableSpace E] [BorelSpace E]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  [MeasureSpace E] [BorelSpace E] [(volume : Measure E).IsAddHaarMeasure]
   {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
   {G : Type*} [NormedAddCommGroup G] [NormedSpace ℝ G]
 
@@ -97,8 +99,8 @@ end Euclidean
 
 section Manifold
 
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
-  [MeasurableSpace E] [BorelSpace E]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  [MeasureSpace E] [BorelSpace E] [(volume : Measure E).IsAddHaarMeasure]
   {E' : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E']
   {E'' : Type*} [NormedAddCommGroup E''] [NormedSpace ℝ E'']
   {M : Type*} [TopologicalSpace M] [ChartedSpace E M]
@@ -196,8 +198,8 @@ theorem HasWeakMFDeriv.comp_contMDiff [CompleteSpace E'] [CompleteSpace E'']
 
 /-- §4.6(a): precomposition by a submersion allows a larger finite-dimensional source. -/
 theorem IsSobolevMap.comp_submersion [CompleteSpace E']
-    {E₀ : Type*} [NormedAddCommGroup E₀] [InnerProductSpace ℝ E₀] [FiniteDimensional ℝ E₀]
-    [MeasurableSpace E₀] [BorelSpace E₀]
+    {E₀ : Type*} [NormedAddCommGroup E₀] [NormedSpace ℝ E₀] [FiniteDimensional ℝ E₀]
+    [MeasureSpace E₀] [BorelSpace E₀] [(volume : Measure E₀).IsAddHaarMeasure]
     {M₀ : Type*} [TopologicalSpace M₀] [ChartedSpace E₀ M₀] [IsManifold 𝓘(ℝ, E₀) 1 M₀]
     {p : ℝ≥0∞} {f : M → N} {θ : M₀ → M}
     (hf : IsSobolevMap E E' p f)
@@ -282,8 +284,8 @@ end Manifold
 
 section Colocal
 
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
-  [MeasurableSpace E] [BorelSpace E]
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+  [MeasureSpace E] [BorelSpace E] [(volume : Measure E).IsAddHaarMeasure]
   {E' : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E']
   {M : Type*} [TopologicalSpace M] [ChartedSpace E M]
   {N : Type*} [TopologicalSpace N] [ChartedSpace E' N] [MeasurableSpace N]
