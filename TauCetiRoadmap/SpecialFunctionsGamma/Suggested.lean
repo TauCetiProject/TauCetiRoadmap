@@ -7,9 +7,9 @@ public import Mathlib
 
 This file states the headline theorems of the roadmap against the pinned Mathlib. `README.md` is
 the definitive document and states every target; this file gives suggested forms, not an exhaustive
-list. The statements use only Mathlib: the Tau Ceti files that `README.md` cites in
-`TauCeti/Analysis/SpecialFunctions/Gamma/` are newer than this repository's Tau Ceti pin. A
-real-variable `ψ(x)` is written `(Complex.digamma x).re`, which is Tau Ceti's `Real.digamma x`.
+list. The statements use only Mathlib. A real-variable `ψ(x)` is written `(Complex.digamma x).re`.
+DLMF 5.15.8–5.15.9 in AsymptoticExpansions' `HasAsymptoticExpansion` form is not statable against
+the pinned libraries, which lack that carrier; the truncated `O`-form is stated.
 
 The definitions below are roadmap-local copies of the definitions `README.md` pins. In Tau Ceti
 they live in `Complex`, beside Mathlib's `Complex.Gamma` and `Complex.digamma`. Theorems are stated
@@ -170,6 +170,17 @@ theorem invGammaCoeff_recurrence {k : ℕ} (hk : 3 ≤ k) :
     ((k : ℂ) - 1) * invGammaCoeff k =
       γ * invGammaCoeff (k - 1) +
         ∑ j ∈ Icc 2 (k - 1), (-1) ^ (j + 1) * riemannZeta j * invGammaCoeff (k - j) := by
+  sorry
+
+/-- DLMF 5.7.6: the paired Gauss series converges absolutely for every `z` (at a pole the single
+term `1/(z + k)` is Lean's `0`). -/
+theorem summable_gaussSeries (z : ℂ) :
+    Summable (fun k : ℕ => 1 / ((k : ℂ) + 1) - 1 / (z + k)) := by
+  sorry
+
+/-- DLMF 5.7.6 for every `z` off the poles. -/
+theorem digamma_eq_gaussSeries {z : ℂ} (hz : ∀ m : ℕ, z ≠ -m) :
+    digamma z = -γ + ∑' k : ℕ, (1 / ((k : ℂ) + 1) - 1 / (z + k)) := by
   sorry
 
 /-- DLMF 5.7.7, a conditionally convergent series. -/
