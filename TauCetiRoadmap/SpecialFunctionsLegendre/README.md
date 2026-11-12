@@ -280,6 +280,11 @@ associatedLegendreQ ν μ z = e^{μπi} Γ(ν + μ + 1) olverLegendreQ ν μ z  
 - **Residue theorem.** `TauCeti.Contour.classicalResidueTheorem_circle`
   (`TauCeti/Analysis/Contour/Residue/Theorem.lean`), for meromorphic functions on a closed disc,
   for Dougall's expansion in 8.3.
+- **Round sphere and Riemannian volume.** `TauCeti.sphereRoundMetric`
+  (`TauCeti/Geometry/Manifold/Riemannian/Sphere/Basic.lean`), `TauCeti.riemannianVolume` and the
+  integration-in-coordinates theorem `TauCeti.setIntegral_riemannianVolume_of_subset`
+  (`TauCeti/Geometry/Manifold/Riemannian/VolumeDensity/Volume.lean`), for the change of variables
+  in 11.3.
 
 ### From Mathlib
 
@@ -293,8 +298,9 @@ associatedLegendreQ ν μ z = e^{μπi} Γ(ν + μ + 1) olverLegendreQ ν μ z  
   `DifferentiableOn.analyticOnNhd`, `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`,
   `IsOpen.is_const_of_deriv_eq_zero` and Cauchy's integral formula.
 - **Analysis.** `intervalIntegral`, `MeasureTheory.integral` on `Set.Ioi`, Fubini, dominated
-  convergence, `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `Asymptotics.IsEquivalent`,
-  `Asymptotics.IsBigO`, `HasSum`, `fourierBasis`, `HilbertBasis`, `Laplacian.laplacian` (`Δ`, from
+  convergence, `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, the change-of-variables
+  formula `MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul`,
+  `Asymptotics.IsEquivalent`, `Asymptotics.IsBigO`, `HasSum`, `fourierBasis`, `HilbertBasis`, `Laplacian.laplacian` (`Δ`, from
   `InnerProductSpace.instLaplacian`), and
   Tannery's theorem `tendsto_tsum_of_dominated_convergence`.
 - **Continued fractions.** `GenContFract`, `GenContFract.convs`, `GenContFract.dens`.
@@ -803,8 +809,9 @@ the Riemann–Liouville form of 14.6.6 and holomorphy in `μ`.
   the auxiliary table with 14.8.1 for `𝖯^{−μ}_ν` at `1`, the right by the Gamma ratio), so the ratio
   is `1` on each ray `σ₀ + 2ℕ`, hence on `(1, ∞)` and everywhere by the identity theorem;
 - 14.17.6–14.17.9 (orthogonality) for `l, m, n : ℕ` with the Kronecker delta, 14.17.6–14.17.7
-  for `m ≤ n` (for `m > n`, `𝖯^m_n = 0` by 14.7.16, so both integrals vanish, while the printed
-  right side of 14.17.7 is `(−1)^m/(l + ½) ≠ 0`), 14.17.8 for
+  for `m ≤ n` (for `m > n`, `𝖯^m_n = 0` by 14.7.16: at `l = n` both integrals vanish while the
+  printed right side of 14.17.7 is `(−1)^m/(l + ½) ≠ 0`, and at `l ≠ n` 14.17.7 fails as well,
+  `∫₋₁¹ 𝖯²₃ 𝖯⁻²₁ dx = −4` at `(l, m, n) = (3, 2, 1)`), 14.17.8 for
   `m > 0` and 14.17.9 for `l > 0` (`integral_ferrersP_mul_ferrersP`).
 
 ### 7.4 Definite integrals of products
@@ -1135,7 +1142,9 @@ cos θ₁ cos θ₂ + sin θ₁ sin θ₂ cos(φ₁ − φ₂)
 - 14.30.8 at `(l₁, m₁, l₂, m₂) = (1, 0, 1, 0)`: `(3/(4π)) ∫∫ cos² θ sin θ dθ dφ = 1`.
 
 *Needs:* Layers 1, 4, 7–8; RiemannianGeometry R8.2 (completeness at `m = 2`); Tau Ceti harmonic
-polynomials and `MvPolynomial.laplacian_eval_euclidean`; Mathlib `fourierBasis`, `HilbertBasis`.
+polynomials, `MvPolynomial.laplacian_eval_euclidean`, `TauCeti.sphereRoundMetric`,
+`TauCeti.riemannianVolume` and `TauCeti.setIntegral_riemannianVolume_of_subset`; Mathlib
+`MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul`, `fourierBasis`, `HilbertBasis`.
 
 ### Examples
 
@@ -1145,7 +1154,10 @@ polynomials and `MvPolynomial.laplacian_eval_euclidean`; Mathlib `fourierBasis`,
 ### Dependencies
 
 Layers 1, 4, 7–8; RiemannianGeometry R8.2; Tau Ceti
-`TauCeti/RingTheory/MvPolynomial/Harmonic.lean`, `TauCeti/Analysis/MvPolynomial/Sphere.lean`.
+`TauCeti/RingTheory/MvPolynomial/Harmonic.lean`, `TauCeti/Analysis/MvPolynomial/Sphere.lean`,
+`TauCeti/Geometry/Manifold/Riemannian/Sphere/Basic.lean`,
+`TauCeti/Geometry/Manifold/Riemannian/VolumeDensity/Volume.lean`; Mathlib
+`MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul`.
 
 ## Downstream consumers
 
