@@ -1033,10 +1033,8 @@ universe-general statements here are part of the work. The map below says where 
 At Tau Ceti `2fd255d99`, the revision this repository pins, the declarations below implement
 targets of this roadmap. Files are under `TauCeti/ModelTheory/` and names are in the namespace
 `FirstOrder.Language` unless written with `TauCeti`. `Suggested.lean` uses these definitions under
-their Tau Ceti names and states only the targets the pin lacks, together with
-`model_existence_omitting`, which derives the set-indexed form of Layer 3 from Tau Ceti's
-family-indexed theorem. Where the two statements differ, the roadmap's statement remains the target
-and the difference is recorded in the last column.
+their Tau Ceti names and states only targets the pin lacks. Where the two statements differ, the
+roadmap's statement remains the target and the difference is recorded in the last column.
 
 | Layer | Files | Declarations | Difference from the roadmap |
 |---|---|---|---|
@@ -1051,9 +1049,8 @@ and the difference is recorded in the last column.
 | L8 | `WellOrdering.lean` | `RelChain`, `RelChain.not_wellFounded`, `Sentenceω.HasWellOrderedChains`, `Sentenceω.exists_model_relChain_rat`, `Sentenceω.wellFounded_boundedness`, `Sentenceω.wellOrder_type_boundedness`, `wellOrdering_undefinable` | none |
 
 Among the targets that `Suggested.lean` states, Tau Ceti `2fd255d99` does not implement
-`fragmentType`, `AElementary.fragmentType_comp`, `Theoryω.exists_countable_model_omitting`,
-`OmitsFOType`, `IsolatesFO`, `exists_countable_model_omitting_fo`,
-`exists_firstOrder_presentation`, `craig_interpolation_relational`, `craig_interpolation`,
+`fragmentType`, `Theoryω.exists_countable_model_omitting`, `OmitsFOType`, `IsolatesFO`,
+`exists_countable_model_omitting_fo`, `exists_firstOrder_presentation`, `craig_interpolation`,
 `pcSeparation`, `relationsInSigned`, `lyndon_interpolation`, `universalSigned` or
 `malitz_interpolation`. Tau Ceti commit `d2083f0` has declarations for all of them except the three
 first-order omitting-types items, Lyndon and Malitz, with the first-order presentation stated as

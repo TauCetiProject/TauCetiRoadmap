@@ -3,8 +3,6 @@ module
 public import Mathlib
 public import TauCeti.ModelTheory.Infinitary.Symbols
 public import TauCeti.ModelTheory.Infinitary.FormationClosed
-public import TauCeti.ModelTheory.ModelExistence.AElementary
-public import TauCeti.ModelTheory.ModelExistence.ModelExistence
 public import TauCeti.ModelTheory.ModelExistence.Isolation
 public import TauCeti.ModelTheory.ModelExistence.Morleyization
 public import TauCeti.ModelTheory.Interpolation.PCClass
@@ -19,8 +17,9 @@ file is **not** the roadmap and is **not exhaustive**: it records suggested Lean
 reviewers converge on names and signatures; discharging every statement here neither finishes a
 layer nor the roadmap.
 
-The interpolation theorems are stated for arbitrary languages; their relational cores are proved
-first and transferred by the graph translation of Layer 6.
+Craig and Lyndon interpolation and PC separation are stated for arbitrary languages; their
+relational cores are proved first and transferred by the graph translation of Layer 6. Malitz
+interpolation is stated for relational languages.
 
 The infinitary syntax and semantics come from Tau Ceti's `TauCeti.ModelTheory.Infinitary.*`, and
 so do the definitions of this roadmap that Tau Ceti implements at this repository's pin (language
@@ -29,51 +28,20 @@ consistency properties, types and isolation, Morleyization, the graph translatio
 classes): they are used here under their Tau Ceti names. The theorems Tau Ceti proves at the pin,
 among them model existence and the theorems of Layers 6 and 8, are not restated here; the
 "Tau Ceti implementation" table of `README.md` names each with its Tau Ceti declaration. This file
-states the targets the pin lacks, and one adapter, `model_existence_omitting`, which takes the
-omitted types as a countable set of tagged types, the indexing of the omitting types theorem of
-Layer 4, where Tau Ceti takes a countable indexed family. Every definition below has an actual
-mathematical body; where a construction is specified in `README.md` but too long to prototype (the
-first-order Morley theory, the inseparability consistency property), the milestone is stated as an
-existence theorem or a property of the construction, never as a placeholder proposition. Names and
-namespaces are provisional.
+states targets the pin lacks. Every definition below has an actual mathematical body; where a
+construction is specified in `README.md` but too long to prototype (the first-order Morley theory,
+the inseparability consistency property), the milestone is stated as an existence theorem or a
+property of the construction, never as a placeholder proposition. Names and namespaces are
+provisional.
 -/
 
 @[expose] public section
 
-universe u v u₁ v₁ u₂ v₂ w w' uι
+universe u v u₁ v₁ u₂ v₂ w uι
 
 namespace TauCetiRoadmap.InfinitaryModelExistence
 
 open FirstOrder FirstOrder.Language FirstOrder.Language.Structure
-
-/-! ## Layer 3: consistency properties and model existence -/
-
-section ModelExistence
-
-variable {L : FirstOrder.Language.{u, v}}
-
-/-- **Layer 3 milestone, model existence with omission requests.** If, for each partial type `p`
-of a countable family and every tuple of Henkin constants, some formula of `p` can be refuted at
-that tuple consistently with any member, the countable named model also omits every `p`. With `P`
-empty this is `model_existence`; Layer 4 derives the omitting types theorem from it. The types
-form a countable set of tagged types, as in Layer 4; this adapter derives that form from Tau Ceti's
-`ConsistencyProperty.model_existence_omitting`, which takes a countable indexed family. -/
-theorem model_existence_omitting [Countable (Σ n, L.Functions n)]
-    [Countable (Σ n, L.Relations n)] (C : ConsistencyProperty L)
-    (P : Set (Σ n, Set (L[[ℕ]].BoundedFormulaω Empty n))) (hP : P.Countable)
-    (hPc : ∀ p ∈ P, p.2.Countable)
-    (hreq : ∀ p ∈ P, ∀ s ∈ C.sets, ∀ c : Fin p.1 → ℕ, ∃ ψ ∈ p.2,
-      insert (BoundedFormulaInf.substBounds (fun i => (L.con (c i)).term) ψ).not s ∈ C.sets)
-    {s : L[[ℕ]].Theoryω} (hs : s ∈ C.sets) (hsc : s.Countable) :
-    ∃ (M : Type w) (_ : L[[ℕ]].Structure M), Countable M ∧ s.Model M ∧
-      (∀ m : M, ∃ c : ℕ, (L.con c : M) = m) ∧ ∀ p ∈ P, OmitsType M p.2 := by
-  have := hP.to_subtype
-  obtain ⟨M, _, hc, -, hM, hsurj, homit⟩ :=
-    C.model_existence_omitting.{u, v, w} (ι := P) (n := fun p => p.1.1) (fun p => p.1.2)
-      (fun p => hPc p.1 p.2) (fun p => hreq p.1 p.2) hs hsc
-  exact ⟨M, _, hc, hM, hsurj, fun p hp => homit ⟨p, hp⟩⟩
-
-end ModelExistence
 
 /-! ## Layer 4: types and omitting types -/
 
@@ -85,13 +53,6 @@ variable {L : FirstOrder.Language.{u, v}}
 def fragmentType (A : L.Fragment) (M : Type w) [L.Structure M] {n : ℕ} (a : Fin n → M) :
     Set (L.BoundedFormulaω Empty n) :=
   {φ | (⟨n, φ⟩ : Σ n, L.BoundedFormulaω Empty n) ∈ A.toSet ∧ φ.Realize Empty.elim a}
-
-/-- **Layer 4 milestone.** `A`-elementary embeddings preserve `A`-types. This checks `fragmentType`
-against Tau Ceti's `AElementary`: it is `AElementary.realize_iff` at each member of `A`. -/
-theorem AElementary.fragmentType_comp {A : L.Fragment} {N : Type w} {M : Type w'}
-    [L.Structure N] [L.Structure M] {f : N ↪[L] M} (hf : AElementary A f) {n : ℕ}
-    (a : Fin n → N) : fragmentType A M (f ∘ a) = fragmentType A N a :=
-  Set.ext fun _ => and_congr_right fun h => hf.realize_iff h a
 
 /-- **Layer 4 milestone, the omitting types theorem for countable fragments**, with isolation in
 the sense of Tau Ceti's `Theoryω.IsolatesIn`. -/
@@ -160,16 +121,10 @@ section Interpolation
 
 variable {L : FirstOrder.Language.{u, v}}
 
-/-- **Layer 7 milestone, the relational core of Craig interpolation**, for relational languages
-of any cardinality. -/
-theorem craig_interpolation_relational [L.IsRelational] (φ ψ : L.Sentenceω)
-    (h : Sentenceω.Entails φ ψ) :
-    ∃ θ : L.Sentenceω, θ.relationsIn ⊆ φ.relationsIn ∩ ψ.relationsIn ∧
-      Sentenceω.Entails φ θ ∧ Sentenceω.Entails θ ψ := by
-  sorry
-
 /-- **Layer 7 milestone, Craig interpolation** for an arbitrary language, with no hypothesis on
-`L`: the relational core transferred by the graph translation of Layer 6. -/
+`L`: the relational core transferred by the graph translation of Layer 6 (the relational core
+`craig_interpolation_relational` is the same statement under `[L.IsRelational]`, without the
+function-symbol bound). -/
 theorem craig_interpolation (φ ψ : L.Sentenceω) (h : Sentenceω.Entails φ ψ) :
     ∃ θ : L.Sentenceω, θ.functionsIn ⊆ φ.functionsIn ∩ ψ.functionsIn ∧
       θ.relationsIn ⊆ φ.relationsIn ∩ ψ.relationsIn ∧
