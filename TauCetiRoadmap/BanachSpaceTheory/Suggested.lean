@@ -262,7 +262,8 @@ theorem kadec_snobar (F : Submodule 𝕜 E) [FiniteDimensional 𝕜 F] :
 
 /-- Garling–Gordon (Layer 7): for every `ε > 0`, a closed subspace `M` of finite codimension `n`
 of a normed space over `ℝ` or `ℂ` is the kernel of a projection of norm at most `√n + ε`
-(Garling–Gordon 1971), by John's decomposition on the dual of the quotient. -/
+(Garling–Gordon 1971; Pietsch, *Eigenvalues and s-Numbers*, 1987, 1.7.17), by John's
+decomposition on the dual of the quotient. -/
 theorem garling_gordon (M : Submodule 𝕜 E) (hM : IsClosed (M : Set E))
     [FiniteDimensional 𝕜 (E ⧸ M)] {ε : ℝ} (hε : 0 < ε) :
     ∃ P : E →L[𝕜] E, P.comp P = P ∧ LinearMap.ker P.toLinearMap = M ∧

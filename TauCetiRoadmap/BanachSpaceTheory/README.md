@@ -89,8 +89,8 @@ and files):
   Hilbert space.
 - From B6: the weak `p`-norm, the absolutely `p`-summing gauge and the Banach ideal `Πₚ(E,F)`
   with all its laws, Pietsch domination and factorization, and Grothendieck's inequality for
-  matrices and for finite families of bilinear forms on `C(K, 𝕜) × C(L, 𝕜)`, with the constants
-  `8` over `ℝ` and `16` over `𝕜`.
+  matrices and for one bounded bilinear form on `C(K, 𝕜) × C(L, 𝕜)` evaluated on finite families
+  with square functions at most one, with the constants `8` over `ℝ` and `16` over `𝕜`.
 - From B7: the Banach–Mazur distance with symmetry, the multiplicative triangle inequality and
   distance one exactly for isometric spaces, finite representability, local reflexivity, finite
   representability of `E**` in `E`, covering numbers of spheres, the Gaussian-maximum estimate,
@@ -149,9 +149,10 @@ real ones.
   `MeasureTheory.VectorMeasure` with `VectorMeasure.variation`, `VectorMeasure.mapRangeL` and the
   vector integral `∫ᵛ x, f x ∂[B; μ]`, `Measure.variation_withDensityᵥ`,
   `SignedMeasure.totalVariation_eq_variation`, signed and complex Radon–Nikodym derivatives,
-  `RealRMK.rieszMeasure`, `ContinuousMap.toLp_denseRange`, `Measure.Regular`, `Measure.haar`,
-  `OnePoint`, `MeasureTheory.AddContent`, `UnifIntegrable`, `UniformIntegrable`,
-  `gelfandStarTransform`.
+  `RealRMK.rieszMeasure`, `RealRMK.integral_rieszMeasure` and its `IsFiniteMeasure` instance on a
+  compact space, `CompactlySupportedContinuousMap.continuousMapEquiv`,
+  `ContinuousMap.toLp_denseRange`, `Measure.Regular`, `Measure.haar`, `OnePoint`,
+  `MeasureTheory.AddContent`, `UnifIntegrable`, `UniformIntegrable`, `gelfandStarTransform`.
 - `ConvexBody`, `EuclideanSpace`, `Measure.toSphere`, `gaussianReal`, `ProbabilityTheory.stdGaussian`
   (`Mathlib/Probability/Distributions/Gaussian/Multivariate.lean`), `ZMod`, `Nat.choose`,
   Bochner integration.
@@ -288,9 +289,12 @@ Layer 5:
   `MeasureTheory.exists_seq_continuous_norm_le_tendsto_integral_norm_sub`
   (`MeasureTheory/Function/ContinuousApproximation.lean`, finitely many finite weakly regular
   measures on a normal Borel space).
-- `TauCeti.RealRMK.posPart`, `TauCeti.RealRMK.negPart` and
+- `TauCeti.RealRMK.posPart`, `TauCeti.RealRMK.posPart_apply_of_nonneg`,
+  `TauCeti.RealRMK.negPart`, `TauCeti.RealRMK.negPart_apply` and
   `TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart`
-  (`MeasureTheory/Integral/RieszMarkovKakutani/Signed.lean:160,205,262`).
+  (`MeasureTheory/Integral/RieszMarkovKakutani/Signed.lean:160,188,205,211,262`; the last states
+  only the integral identity, on `C_c(X, ℝ)`, with measures that need not be finite), used also by
+  §4.4.
 - `MeasureTheory.Lp.dualOneEquiv` (`MeasureTheory/Function/L1Space/Dual.lean:102`, finite
   measure) and `MeasureTheory.Lp.toDual` (`MeasureTheory/Function/Lp/Duality.lean:431`, an
   isometry for σ-finite measures; surjectivity is not asserted there).
@@ -799,28 +803,35 @@ separable. For complex targets use the underlying real Banach space and prove co
 with complex scalar multiplication.
 
 Run this route for real `X`. Using the pinned integral bilinear forms, define the integral
-endomorphism ideal on `X*` and its norm by currying the trace-pairing dual. Construct the
-isometric comparison `A(X)* ≃ I(X*)`. For reflexive `X`, use scalar weak-star-dual-ball
-factorization; the pinned Riesz–Markov–Kakutani representation
-`TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart` of a bounded
-functional on `C(K, ℝ)`, `K` compact Hausdorff, which is order bounded, as the difference of the
-integrals against two finite regular measures whose total masses add up to its norm; and the
-reflexive-target density theorem just assigned to obtain `I(X*) ≃ N(X*)` with equality of
-integral and nuclear ideal norms, with the actual finite-rank/simple-density approximations and
-their norm bounds. Under the approximation property identify `X* ⊗̂π X` isometrically with
-`N(X)` through its quotient-norm nuclear map. If `u` represents `T`, prove that `Θ_X(u)`
-corresponds to the transpose `T′`. The reflexive isometry `J_X : X ≃ₗᵢ X**` gives
-`T = J_X⁻¹ ∘ T′′ ∘ J_X`; the nuclear ideal inequalities and the two contractive canonical maps
+endomorphism ideal on `X*` and its norm by currying the trace-pairing dual. Construct the isometric
+comparison `A(X)* ≃ I(X*)`. For reflexive `X`, use scalar weak-star-dual-ball factorization, the
+Riesz–Markov–Kakutani representation below and the reflexive-target density theorem just assigned to
+obtain `I(X*) ≃ N(X*)` with equality of integral and nuclear ideal norms, with the actual
+finite-rank/simple-density approximations and their norm bounds. The representation is that of a
+bounded functional `Λ` on `C(K, ℝ)`, `K` compact Hausdorff, identified with `C_c(K, ℝ)` by
+`CompactlySupportedContinuousMap.continuousMapEquiv`. Such a `Λ` is order bounded, since
+`Λ g ≤ ‖Λ‖ ‖f‖` whenever `0 ≤ g ≤ f`, so the pinned
+`TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart` writes it as the
+difference of the integrals against the Riesz measures of `TauCeti.RealRMK.posPart` and
+`TauCeti.RealRMK.negPart`. The two measures are finite because `K` is compact (Mathlib's
+`IsFiniteMeasure` instance for `RealRMK.rieszMeasure` on a compact space). Their total masses add up
+to `‖Λ‖`: by `RealRMK.integral_rieszMeasure` at `1`, `TauCeti.RealRMK.posPart_apply_of_nonneg` and
+`TauCeti.RealRMK.negPart_apply`, the sum is
+`posPart 1 + negPart 1 = 2 posPart 1 − Λ 1 = sup_{0 ≤ g ≤ 1} Λ(2g − 1)`, and the functions `2g − 1`
+with `0 ≤ g ≤ 1` are exactly the unit ball of `C(K, ℝ)`. Under the approximation property identify
+`X* ⊗̂π X` isometrically with `N(X)` through its quotient-norm nuclear map. If `u` represents `T`,
+prove that `Θ_X(u)` corresponds to the transpose `T′`. The reflexive isometry `J_X : X ≃ₗᵢ X**`
+gives `T = J_X⁻¹ ∘ T′′ ∘ J_X`; the nuclear ideal inequalities and the two contractive canonical maps
 yield `ν(T) ≤ ν(T′′) ≤ ν(T′) ≤ ν(T)`. Consequently `‖Θ_X u‖ = ν(T′) = ν(T) = ‖u‖π`, first on the
-defining comparisons and then on the completions, and the metric criterion supplies MAP. For
-complex `X`, the underlying real space is reflexive and has the approximation property, since a
-complex finite-rank operator is a real one. Given a compact `C ⊆ X`, a real-linear finite-rank
-`T` with `‖T‖ ≤ 1` within `ε` of the identity on `C ∪ iC` gives the complex-linear finite-rank
-`(T − iTi)/2`, of norm at most `‖T‖` and within `ε` of the identity on `C`. Keep
-zero spaces in scope by using contractive maps rather than requiring a map's norm to equal one.
-Without reflexivity the approximation property gives no uniform bound on the approximating
-finite-rank operators. This fixes the trace-pairing convention of the integral/nuclear
-comparison of Daws, §2.3, Theorems 2.3.14 and 2.3.23 (printed pp. 43–47).
+defining comparisons and then on the completions, and the metric criterion supplies MAP. For complex
+`X`, the underlying real space is reflexive and has the approximation property, since a complex
+finite-rank operator is a real one. Given a compact `C ⊆ X`, a real-linear finite-rank `T` with
+`‖T‖ ≤ 1` within `ε` of the identity on `C ∪ iC` gives the complex-linear finite-rank `(T − iTi)/2`,
+of norm at most `‖T‖` and within `ε` of the identity on `C`. Keep zero spaces in scope by using
+contractive maps rather than requiring a map's norm to equal one. Without reflexivity the
+approximation property gives no uniform bound on the approximating finite-rank operators. This fixes
+the trace-pairing convention of the integral/nuclear comparison of Daws, §2.3, Theorems 2.3.14 and
+2.3.23 (printed pp. 43–47).
 
 Construct Enflo's separable reflexive real counterexample
 (`exists_reflexive_not_hasApproximationProperty`) as a closed subspace of the native
@@ -919,8 +930,11 @@ Tau Ceti `TauCeti.HasApproximationProperty`, `TauCeti.HasMetricApproximationProp
 `TauCeti.hasApproximationProperty_iff_forall_isCompactOperator`,
 `LinearIsometry.exists_continuousLinearMap_of_doubleDual` (the direction from MAP to isometry of
 the metric criterion only),
-`TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart` (the
-integral/nuclear route); §§4.2–4.3; Daws §2.3; Enflo §§1–4.
+`TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart`,
+`TauCeti.RealRMK.posPart`, `TauCeti.RealRMK.negPart`, `TauCeti.RealRMK.posPart_apply_of_nonneg`,
+`TauCeti.RealRMK.negPart_apply`, Mathlib `RealRMK.rieszMeasure`, `RealRMK.integral_rieszMeasure`,
+`CompactlySupportedContinuousMap.continuousMapEquiv` (the integral/nuclear route); §§4.2–4.3;
+Daws §2.3; Enflo §§1–4.
 
 ### 4.5 Bourgain–Delbaen spaces and the scalar-plus-compact example (B4.1)
 
@@ -1370,7 +1384,8 @@ variation, and `‖φ‖ = |μ|(K)` (van Neerven, Theorem 4.2, p. 127, for `𝕜
 a locally compact Hausdorff space). Restrict to real-valued functions and represent the real and
 imaginary parts of `φ`: a bounded real functional on `C(K, ℝ)` is order bounded, so the pinned
 `TauCeti.RealRMK.integral_rieszMeasure_posPart_sub_integral_rieszMeasure_negPart` writes it as a
-difference of integrals against two finite regular measures. Reconstruct the scalar measure by
+difference of integrals against the Riesz measures of its positive and negative parts, regular
+measures that are finite because `K` is compact (§4.4). Reconstruct the scalar measure by
 `scalarMeasureOfReal` and the pinned reconstruction
 `scalarMeasureOfReal_realPart_add_I_smul_imagPart`, and extend from real tests by the pinned
 `𝕜`-homogeneity `integral_const_mul`. Uniqueness is the pinned
@@ -1756,8 +1771,8 @@ uses neither a noncommutative Khintchine theorem nor a predual cotype assertion.
 The real and complex matrix inequalities with constants `κ_ℝ = 8` and `κ_ℂ = 16` are the pinned
 `Matrix.abs_sum_sum_mul_inner_le_eight_mul` and `Matrix.norm_sum_sum_mul_inner_le_sixteen_mul`.
 The compact-space form for finite families is pinned as well: for compact normal `K, L`, a
-bilinear `B` on `C(K, 𝕜) × C(L, 𝕜)` with `‖B(f, g)‖ ≤ C ‖f‖ ‖g‖`, and families with
-`Σ_i |f_i|² ≤ 1` on `K` and `Σ_i |g_i|² ≤ 1` on `L`, `‖Σ_i B(f_i, g_i)‖ ≤ 16 C`
+bilinear `B` on `C(K, 𝕜) × C(L, 𝕜)` with `0 ≤ C` and `‖B(f, g)‖ ≤ C ‖f‖ ‖g‖`, and finite
+families with `Σ_i |f_i|² ≤ 1` on `K` and `Σ_i |g_i|² ≤ 1` on `L`, `‖Σ_i B(f_i, g_i)‖ ≤ 16 C`
 (`LinearMap.norm_sum_apply_apply_le_sixteen_mul`; over `ℝ` the bound `8 C` is
 `LinearMap.abs_sum_apply_apply_le_eight_mul`). From it derive the measure form by the
 Hahn–Banach separation argument: for compact Hausdorff `K, L` and a bounded bilinear
@@ -1857,13 +1872,14 @@ subspace `F` of dimension `n` of a normed `𝕜`-space is the range of a project
 Cauchy–Schwarz with `Σ c_i = n` and `‖·‖_F ≤ |·|₂` gives `‖P‖ ≤ √n`, over either field. Prove the
 Garling–Gordon projection theorem (`garling_gordon`), its dual: for every `ε > 0`, every closed
 subspace `M` of a normed `𝕜`-space `X` whose quotient `X/M` has finite dimension `n` is the
-kernel of a projection of norm at most `√n + ε` (Garling–Gordon 1971); by monotonicity of `√n`
-the same holds for codimension at most `n`. Run John's decomposition on the finite-dimensional
-dual `(X/M)*`, with contact points `φ_i ∈ (X/M)*`; represent the contact functionals `⟨φ_i, ·⟩`
-on `(X/M)*` by vectors `w_i ∈ X/M` of norm at most `1`, so that `f(w_i) = ⟨φ_i, f⟩` for every
-`f`, lift them to `x_i ∈ X` of norm less than `1 + ε′`, and set `P y = Σ c_i φ_i(π y) x_i`. Then
-`π ∘ P = π`, so `P² = P` and `ker P = ker π = M`; closedness of `M` makes
-`X/M` a normed space and `π` continuous. The lift of the quotient norm is the sole source of `ε`.
+kernel of a projection of norm at most `√n + ε` (Garling–Gordon 1971; Pietsch, *Eigenvalues and
+s-Numbers*, 1987, 1.7.17); by monotonicity of `√n` the same holds for codimension at most `n`.
+Run John's decomposition on the finite-dimensional dual `(X/M)*`, with contact points
+`φ_i ∈ (X/M)*`; represent the contact functionals `⟨φ_i, ·⟩` on `(X/M)*` by vectors
+`w_i ∈ X/M` of norm at most `1`, so that `f(w_i) = ⟨φ_i, f⟩` for every `f`, lift them to
+`x_i ∈ X` of norm less than `1 + ε′`, and set `P y = Σ c_i φ_i(π y) x_i`. Then `π ∘ P = π`, so
+`P² = P` and `ker P = ker π = M`; closedness of `M` makes `X/M` a normed space and `π`
+continuous. The lift of the quotient norm is the sole source of `ε`.
 
 - In John's position `B ⊆ K ⊆ √n B` for symmetric `K`.
 - The contact-point decomposition is a resolution of the identity: `Σ c_i |⟨u_i, x⟩|² = ‖x‖²`.
@@ -1891,7 +1907,8 @@ on `(X/M)*` by vectors `w_i ∈ X/M` of norm at most `1`, so that `f(w_i) = ⟨�
 
 *Needs:* Mathlib `ConvexBody`, `EuclideanSpace`, `LinearMap.det`, Lebesgue measure, Hahn–Banach
 (`exists_extension_norm_eq`), normed quotients; Tau Ceti `TauCeti.banachMazurDist`; Ball
-Lecture 3; Arias–Figiel–Johnson–Schechtman §1; Albiac–Kalton 13.1.5, 13.1.7; Garling–Gordon.
+Lecture 3; Arias–Figiel–Johnson–Schechtman §1; Albiac–Kalton 13.1.5, 13.1.7; Garling–Gordon;
+Pietsch, *Eigenvalues and s-Numbers*, 1.7.17.
 
 ### 7.3 Dvoretzky's theorem
 
@@ -1999,6 +2016,8 @@ contract. Within the roadmap: Layer 1, §4.4 (for §7.1), §6.1 (Gaussian model)
   (<https://math.uchicago.edu/~shmuel/AAT-readings/Combinatorial%20Geometry%2C%20Concentration%2C%20Real%20Algebraic%20Geometry/ball.pdf>).
 - D. J. H. Garling and Y. Gordon, *Relations between some constants associated with finite
   dimensional Banach spaces*, Israel J. Math. **9** (1971), 346–361.
+- A. Pietsch, *Eigenvalues and s-Numbers*, Cambridge Studies in Advanced Mathematics 13, 1987,
+  1.7.17 (the Garling–Gordon projection theorem).
 - G. A. Muñoz, Y. Sarantopoulos and A. Tonge, *Complexifications of real Banach spaces,
   polynomials and multilinear maps*, Studia Math. **134** (1999), 1–33
   (<https://doi.org/10.4064/sm-134-1-1-33>), Propositions 3, 4 and 7, pp. 5–9.
