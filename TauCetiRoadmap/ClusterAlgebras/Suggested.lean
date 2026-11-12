@@ -21,9 +21,9 @@ coefficients of the exchange polynomials live and how the polynomials are normal
 `ExchangeData` is the one type of states; a `Seed` adds a form with column-compatible
 weights and a faithful `BasedChart`. A based chart is presented by its normalized
 monomials, which README §0.4 identifies with a faithful chart of the based torus.
-One-step mutation is the relation `Seed.IsMutation`; a based chart is determined by its
-coordinates and form, so the relation determines the mutated seed, whose existence is a
-target of §1.2.
+The data of the mutated seed are defined explicitly (`ExchangeData.mutatedPolynomial`,
+`Seed.mutatedMonomial`). `Seed.IsMutation` says that a seed carries these data, and
+`Seed.existsUnique_isMutation` is the target of §1.2 that there is exactly one such seed.
 The classical headline statements use binary seeds over ℤ. The Starfish statement uses the
 realized coordinates over the chosen coefficient ring.
 
@@ -200,6 +200,14 @@ variable {𝕂 : Type*} [CommMonoidWithZero 𝕂] {R : Type*} [CommSemiring R] {
 def dividedColumn (d : ExchangeData 𝕂 row) (k : K) (i : I) : ℤ :=
   d.exchange.matrix i k / ((d.polynomial k).degree : ℤ)
 
+/-- The polynomials after mutation at `k` (§1.2): reverse the polynomial at `k`, dilate every
+other polynomial by `κ_{kj} = h_{k,r_k}^{[β_kj]_+} h_{k,0}^{-[-β_kj]_+}`, and normalize it. -/
+def mutatedPolynomial (c : CoefficientSystem 𝕂 R) (d : ExchangeData 𝕂 row) (k j : K) :
+    ExchangePolynomial 𝕂 :=
+  if j = k then (d.polynomial k).reverse
+  else c.normalize ((d.polynomial j).dilate ((d.polynomial k).dilationFactor
+    (d.exchange.matrix (row k) j / ((d.polynomial j).degree : ℤ))))
+
 /-- All polynomials are normalized. -/
 def IsNormalized (c : CoefficientSystem 𝕂 R) (d : ExchangeData 𝕂 row) : Prop :=
   ∀ k, c.normalizer (d.polynomial k) = 1
@@ -249,20 +257,36 @@ def exchangeElement (s : Seed c row u B) (k : K) : B :=
     algebraMap R B (c.toScalar ((s.state.polynomial k).coeff l)) *
       (s.chart.monomial (s.state.exchangeExponent k l.val) : B)
 
-/-- One-step mutation at `k` (§1.2), as a relation: the exchange element is a unit, the
-polynomial at `k` is reversed, every other polynomial is dilated by
-`κ_{kj} = h_{k,r_k}^{[β_kj]_+} h_{k,0}^{-[-β_kj]_+}` and normalized, and the coordinate at
-`k` becomes the exchange element. -/
+/-- The normalized monomials after mutation at `k` (§1.2):
+`M'(a) = u^{-Λ'(a_k e_k, a°)} (X'_k)^{a_k} M(a°)` with `a° = a - a_k e_k`. The coordinate at
+`k` becomes the exchange element and the other coordinates are unchanged. -/
+def mutatedMonomial (s : Seed c row u B) (k : K) (hE : IsUnit (s.exchangeElement k))
+    (a : I →₀ ℤ) : Bˣ :=
+  Units.map (algebraMap R B).toMonoidHom
+      (u ^ (-(a (row k) * ∑ j,
+        formMutation row s.state.exchange.matrix s.form k (row k) j *
+          (Finsupp.erase (row k) a) j))) *
+    hE.unit ^ a (row k) * s.chart.monomial (Finsupp.erase (row k) a)
+
+/-- `t` is the mutation of `s` at `k` (§1.2): the exchange element is a unit, and `t` has the
+mutated matrix, the same symmetrizer and weights, the mutated polynomials, the mutated form
+and the mutated normalized monomials. -/
 def IsMutation (s t : Seed c row u B) (k : K) : Prop :=
-  IsUnit (s.exchangeElement k) ∧
-  t.state.exchange.matrix = matrixMutation row s.state.exchange.matrix k ∧
-  t.state.exchange.symmetrizer = s.state.exchange.symmetrizer ∧
-  (∀ j, t.state.polynomial j = if j = k then (s.state.polynomial k).reverse else
-    c.normalize ((s.state.polynomial j).dilate ((s.state.polynomial k).dilationFactor
-      (s.state.exchange.matrix (row k) j / ((s.state.polynomial j).degree : ℤ))))) ∧
-  t.form = formMutation row s.state.exchange.matrix s.form k ∧ t.weight = s.weight ∧
-  (t.chart.coordinate (row k) : B) = s.exchangeElement k ∧
-  ∀ i, i ≠ row k → t.chart.coordinate i = s.chart.coordinate i
+  ∃ hE : IsUnit (s.exchangeElement k),
+    t.state.exchange.matrix = matrixMutation row s.state.exchange.matrix k ∧
+    t.state.exchange.symmetrizer = s.state.exchange.symmetrizer ∧
+    t.state.polynomial = s.state.mutatedPolynomial c k ∧
+    t.form = formMutation row s.state.exchange.matrix s.form k ∧
+    t.weight = s.weight ∧
+    t.chart.monomial = s.mutatedMonomial k hE
+
+/-- **Seed mutation** (§1.2): when the exchange element is a unit, the mutated data form a
+seed, and only one. Existence contains preservation of the symmetrizer, of column
+divisibility, of normalization and of column compatibility, quasi-commutation of the new
+monomials, and faithfulness of the new chart (§0.5). -/
+theorem existsUnique_isMutation (s : Seed c row u B) (k : K)
+    (hE : IsUnit (s.exchangeElement k)) : ∃! t, s.IsMutation t k := by
+  sorry
 
 /-- One mutation in some direction. -/
 def Step (s t : Seed c row u B) : Prop := ∃ k, s.IsMutation t k

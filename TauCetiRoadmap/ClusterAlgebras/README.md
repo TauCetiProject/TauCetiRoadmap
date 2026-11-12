@@ -818,7 +818,7 @@ degrees `r_k` divide every entry of column k. Put `β_k=b_{•k}/r_k`
 (`ExchangePolynomial.dilationFactor`).
 Mutation at k has three steps: mutate B̃ by §1.1 and reverse `H_k`; dilate
 every other polynomial to `H_j(κ_{kj}T)`; normalize it, so
-`H'_j=N(H_j(κ_{kj}T))`. The dilation is the propagation law of exchange
+`H'_j=N(H_j(κ_{kj}T))` (`ExchangeData.mutatedPolynomial`). The dilation is the propagation law of exchange
 patterns: mutation at k dilates every other exchange polynomial by a unit
 determined by the endpoint coefficients of `H_k` (FZ I, Definition 2.1,
 axiom (2.7), for binomials; Chekhov–Shapiro, (2.5)). It prescribes `H'_j` up
@@ -851,10 +851,10 @@ of d, and a based chart M for `(R,u,Λ)` in B (§0.4). Its exchange element
 X'_k = Σ_{l=0}^{r_k} φ(h_{k,l}) M(−e_k + l[β_k]_+ + (r_k−l)[−β_k]_+).
 ```
 
-Mutation at k (`Seed.IsMutation`, as a relation between the two seeds) is
-defined when `X'_k` is a unit of B. The new seed has state
-`μ_k(d)`, form `Λ'` of §1.1, the same weights, and the based chart with
-coordinate `X'_k` at `row(k)` and all other coordinates unchanged:
+Mutation at k (`Seed.IsMutation`) is defined when `X'_k` is a unit of B. The
+new seed has state `μ_k(d)`, form `Λ'` of §1.1, the same weights, and the
+based chart with coordinate `X'_k` at `row(k)` and all other coordinates
+unchanged (`Seed.mutatedMonomial`):
 
 ```
 M'(a) = u^{−Λ'(a_k e_k, a°)} (X'_k)^{a_k} M(a°),    a° = a − a_k e_k.
@@ -862,7 +862,8 @@ M'(a) = u^{−Λ'(a_k e_k, a°)} (X'_k)^{a_k} M(a°),    a° = a − a_k e_k.
 
 Prove quasi-commutation of the new coordinates for `Λ'` from column
 compatibility and faithfulness of the new chart from §0.5; neither is seed
-data. Prove that the exchange element of the new seed at k is `X_k`, so the
+data. These data then form a seed, the only one carrying them
+(`Seed.existsUnique_isMutation`). Prove that the exchange element of the new seed at k is `X_k`, so the
 reverse exchange is defined and recovers the seed. Prove extensionality,
 reindexing along equivalences commuting with row, transport along injective
 R-algebra maps of B, and transport along maps of coefficient systems, which
