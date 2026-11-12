@@ -203,7 +203,7 @@ Ceti now, named and stated as the proposal does, and replaced by Mathlib's decla
 lands.
 
 - [Mathlib #41946](https://github.com/leanprover-community/mathlib4/pull/41946): `initialSegment`,
-  `IsBranch` and `body` for `Descriptive.tree` (Layer 3).
+  the branch predicate and `body` for `Descriptive.tree` (Layer 3).
 
 Suggested homes:
 
@@ -397,8 +397,9 @@ Baire category theorem they are not Gδ; this is a model class (of the sentence
 
 Build, on Mathlib's `Descriptive.tree A`:
 
-- `initialSegment`, `IsBranch` and `body`, following Mathlib #41946, with monotonicity of `body` in the tree, the empty
-  tree's empty body, and closedness of `body T` in `ℕ → A` for discrete `A`;
+- `initialSegment`, the branch predicate and `body`, named and stated as in Mathlib #41946, with
+  monotonicity of `body` in the tree, the empty tree's empty body, and closedness of `body T` in
+  `ℕ → A` for discrete `A`;
 - the strict-extension relation `StrictExt T` on the nodes and `wellFounded_strictExt_iff`: it is
   well-founded exactly when `body T = ∅`. Neither direction uses finite branching. Every closed
   subset of `ℕ → A` is the body of the tree of initial segments of its points;
@@ -576,10 +577,10 @@ Every conjunction and disjunction is countable, so `pcSentence T` is an Lω₁ω
 the InfinitaryLogic connectives. Prove its specification (`Suggested.lean` records the two
 statements together as `exists_pcSentence`):
 
-- `realize_pcSentence_standardWitness`: if `(queryCode c, g)` is a branch of `T`, then `ℕ` with
+- **completeness**: if `(queryCode c, g)` is a branch of `T`, then `ℕ` with
   `c.toStructure` and `standardWitness g` (zero `{0}`, successor `n ↦ n + 1`, branch `g`) is a
   model;
-- `exists_code_of_realize_pcSentence`: every model `M`, of any cardinality and in any universe,
+- **soundness**: every model `M`, of any cardinality and in any universe,
   is countably infinite, and the numeral bijection `e : M ≃ ℕ` satisfies: the code
   `e.encodeVia`, together with the function read off `branch`, is a branch of `T`. No invariance
   is used.
@@ -600,24 +601,24 @@ the product σ-algebra (Borel in the sense of Convention 5) and isomorphism inva
    whose extension by `false` lies in `B`. Extension by `false` is measurable and commutes with the
    action, so `B₀` is measurable and invariant, and `B` is the preimage of `B₀` under Tau Ceti's
    reduct map `g.reductConfiguration` (measurable and equivariant by
-   `measurable_reductConfiguration` and `reductConfiguration_perm_smul`). Steps 1–4, for `L₀`, give `φ₀` with `B₀ = modelsOf φ₀`,
-   and `realize_sentenceInf_reductConfiguration` gives `B = modelsOf (g.onBoundedFormulaInf φ₀)`.
+   `measurable_reductConfiguration` and `reductConfiguration_perm_smul`). Steps 1–4, for `L₀`,
+   give `φ₀` with `B₀ = modelsOf φ₀`, and `realize_sentenceInf_reductConfiguration` gives `B = modelsOf (g.onBoundedFormulaInf φ₀)`.
    Steps 1–4 assume countably many relation symbols.
 1. `B` and its complement are Borel, hence analytic (`MeasurableSet.analyticSet`); take tree
    representations `T₀` of `B` and `T₁` of `Bᶜ` (Layer 3).
 2. **Disjointness.** No nonempty `L`-structure `M`, countable or not, lies in both
    `LHom.PCMem LHom.sumInl (pcSentence T₀)` and `LHom.PCMem LHom.sumInl (pcSentence T₁)`. Otherwise
-   `exists_code_of_realize_pcSentence`, applied to the `W`-part of each expansion (its reduct along
+   soundness of the PC sentence (5.2), applied to the `W`-part of each expansion (its reduct along
    `LHom.sumInr`), gives two bijections `e₀, e₁ : M ≃ ℕ` with
    `e₀.encodeVia ∈ B` and `e₁.encodeVia ∈ Bᶜ`; both codes name structures isomorphic to `M`, so
    invariance of `B` gives a contradiction. This is the only use of invariance. The step uses
-   `sumStructure_reducts`: an `(L.sum W)`-structure on `M` is the `sumStructure` of its reducts
+   that an `(L.sum W)`-structure on `M` is the `sumStructure` of its reducts
    along `LHom.sumInl` and `LHom.sumInr`, and when it is an expansion of `M` along `LHom.sumInl` its
    `L`-reduct is `M`'s own structure (extensionality, with `propext` for relations).
 3. `pcSeparation` (InfinitaryModelExistence) gives `θ : L.Sentenceω` true in every nonempty member
    of the projective class of `pcSentence T₀` and false in every nonempty member of that of
    `pcSentence T₁`.
-4. If `c ∈ B`, `realize_pcSentence_standardWitness` for `T₀` puts `ℕ` with `c.toStructure` in the
+4. If `c ∈ B`, completeness of the PC sentence (5.2) for `T₀` puts `ℕ` with `c.toStructure` in the
    projective class of `pcSentence T₀` (the expansion is the sum structure with
    `standardWitness g`), so `c ∈ modelsOf θ`. If `c ∉ B`, the same for `T₁` gives
    `c ∉ modelsOf θ`.
