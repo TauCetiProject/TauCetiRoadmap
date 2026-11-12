@@ -44,9 +44,9 @@ a smooth two-sphere (R4.9), the paraboloid crossing and vertex-pole theorems (R5
 vanishing of the first de Rham cohomology under positive Ricci curvature (R7.6), the vanishing of
 de Rham cohomology in every interior degree under a positive curvature operator (R7.7), the
 smooth-function duality for the Riemannian distance (R7.8),
-the separation of a connected closed manifold with vanishing first de Rham cohomology by a
-connected closed two-sided hypersurface, with the closures of the two components, and the
-two-sidedness of compact hypersurfaces of simply connected manifolds (R7.9),
+the separation of a connected manifold with vanishing first de Rham cohomology by a compact
+connected two-sided hypersurface, with the closures of the two components, and the
+two-sidedness of hypersurfaces with closed image in simply connected manifolds (R7.9),
 the identification of the smooth
 eigenfunctions of the round-sphere Laplacian with restrictions of harmonic homogeneous polynomials
 (R8.2) and the irreducibility of the complex harmonic polynomials of each degree under `SO(N)` for
@@ -577,18 +577,21 @@ variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'} [I'.Boundaryless]
   [TopologicalSpace S] [ChartedSpace H' S] [IsManifold I' ∞ S]
 
-/-- R7.9 (2): a closed embedded hypersurface of a simply connected manifold is two-sided. -/
-theorem exists_unitNormal_of_simplyConnectedSpace [SimplyConnectedSpace M] [CompactSpace S]
-    (hdim : Module.finrank ℝ E' + 1 = Module.finrank ℝ E)
-    {f : S → M} (hf : Manifold.IsSmoothEmbedding I' I ∞ f) :
+/-- R7.9 (2): an embedded hypersurface with closed image in a simply connected manifold is
+two-sided; the hypersurface need not be compact. -/
+theorem exists_unitNormal_of_simplyConnectedSpace [SimplyConnectedSpace M]
+    [SecondCountableTopology M] (hdim : Module.finrank ℝ E' + 1 = Module.finrank ℝ E)
+    {f : S → M} (hf : Manifold.IsSmoothEmbedding I' I ∞ f) (hclosed : IsClosed (range f)) :
     ∃ ν : ∀ x : S, TangentSpace I (f x),
       ContMDiff I' I.tangent ∞ (fun x ↦ TotalSpace.mk' E (f x) (ν x)) ∧
       ∀ x, ‖ν x‖ = 1 ∧ ∀ v : TangentSpace I' x, inner ℝ (ν x) (mfderiv I' I f x v) = 0 := by
   sorry
 
-/-- R7.9 (1): with `H¹_dR(M) = 0`, a connected closed two-sided hypersurface of a connected
-closed `M` separates it into two components, each with closure itself plus the hypersurface. -/
-theorem separates_of_subsingleton_deRhamCohomology_one [CompactSpace M] [ConnectedSpace M]
+/-- R7.9 (1): with `H¹_dR(M) = 0`, a compact connected two-sided hypersurface of a connected
+`M`, compact or not, separates it into two components, each with closure itself plus the
+hypersurface. -/
+theorem separates_of_subsingleton_deRhamCohomology_one [SecondCountableTopology M]
+    [ConnectedSpace M]
     (hH : Subsingleton (TauCeti.deRhamCohomology I M 1)) [CompactSpace S] [ConnectedSpace S]
     (hdim : Module.finrank ℝ E' + 1 = Module.finrank ℝ E)
     {f : S → M} (hf : Manifold.IsSmoothEmbedding I' I ∞ f) (ν : ∀ x : S, TangentSpace I (f x))
