@@ -926,7 +926,7 @@ Make that failure explicit on the Klein bottle
 to compare this model with the glued cylinder. Use AT's
 fundamental-group/abelianization APIs to construct the connected smooth cover `C=ℝ_s×(ℝ_y/2ℤ)` and its commuting
 deck transformations `A(s,y)=(s+1,−y)`, `B(s,y)=(s,y+1)`. Prove B has
-order2 and that these generate a free proper action of `H=ℤ⊕ℤ/2`, whose
+order 2 and that these generate a free proper action of `H=ℤ⊕ℤ/2`, whose
 quotient, a manifold by the pinned `TauCeti.instIsManifoldQuotient` with local
 diffeomorphism `TauCeti.isLocalDiffeomorph_quotientMk`, is the same Klein bottle X. The
 integral closed form α=ds on X is the pinned `TauCeti.SmoothMappingTorus.timeForm`,
@@ -955,7 +955,7 @@ In the preceding example the minimal period-kernel cover instead has
 deck group ℤ and kills b; distinguish it from the larger abelian cover C,
 whose period map has kernel ℤ/2. With downward monomial t=A⁻¹ and g=B,
 compare N1's completion to `(ℤ[ℤ/2])((t))`, retaining both coefficients at
-each period. Exhibit the nonzero factors 1−g and 1+g with product0. This
+each period. Exhibit the nonzero factors 1−g and 1+g with product 0. This
 geometric cover realizes a deck group with torsion. Apply N4's total-quotient
 construction to this ring with zero divisors.
 
@@ -2072,7 +2072,7 @@ using coherent critical/cell lifts when critical points/cells are present. The
 normalization is a determinant **volume**, not only a literal ordered basis of an
 empty chain module. In the zero-critical-point case CN=0 has determinant line
 canonically Nov; a nonsingular field supplies its Euler structure ξ₀, the volume
-at ξ₀ is1, and the volume at ξ₀+h is e^(image h). This preserves the nontrivial
+at ξ₀ is 1, and the volume at ξ₀+h is e^(image h). This preserves the nontrivial
 Euler-structure information even for the zero complex. Pin the action convention
 `τ(ξ+h)=e^(image h)τ(ξ)` and prove its comparison with Euler-chain/lift changes.
 Define refined τNov, τcell and I as H₁-equivariant maps from the Euler-structure
