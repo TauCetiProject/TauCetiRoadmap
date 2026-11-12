@@ -1,6 +1,6 @@
 # Roadmap: Ehrenfeucht–Mostowski models and Hanf numbers for Lω₁ω
 
-A first-order theory in a countable language with an infinite model has models of every infinite
+**Summary.** A first-order theory in a countable language with an infinite model has models of every infinite
 cardinality. An Lω₁ω sentence need not, even in a countable language: the Scott sentence of a
 countable structure can have only countable models, and for every countable ordinal α there are
 sentences whose largest models have cardinality exactly ℶ_(α+1). The **Morley–Hanf theorem** says
@@ -27,7 +27,7 @@ sentences, and the small-model and completion theory.
 It continues the [InfinitaryLogic roadmap](../../Completed/InfinitaryLogic/README.md), whose "Out of scope"
 list names Ehrenfeucht–Mostowski stretching, partition calculus and Morley–Hanf, and it consumes
 the [InfinitaryModelExistence](../InfinitaryModelExistence/README.md) roadmap for the specific interfaces listed under
-[Existing library and ownership](#existing-library-and-ownership).
+[Exact supplier contracts](#exact-supplier-contracts).
 
 Suggested homes:
 
@@ -39,9 +39,20 @@ TauCeti/ModelTheory/Infinitary/Hanf/      -- Hanf bounds, Morley–Hanf, sharpne
 TauCeti/ModelTheory/Infinitary/Small/     -- small structures, complete sentences, categoricity
 ```
 
-## Scope and dependency order
+## Scope and ownership
 
 Every layer below is required. The ordering is the dependency order: no layer uses a later one.
+This roadmap owns the partition results of Layer 0, indiscernible sequences and templates, Skolem
+towers and Ehrenfeucht–Mostowski models, Hanf bounds and Hanf numbers, smallness, complete
+sentences and categorical completions. Its suppliers are listed under
+[Exact supplier contracts](#exact-supplier-contracts), and what it leaves to other roadmaps under
+[Out of scope](#out-of-scope).
+
+## How to read the build
+
+Each row is one layer: what it builds, what it consumes, and the acceptance check that compiles
+without the later layers. Each layer ends with its worked examples, which check that the API
+describes real structures and are discharged alongside it, and with its dependencies.
 
 | Layer | Builds | Consumes | Acceptance check (compiles without later layers) |
 |---|---|---|---|
@@ -123,7 +134,7 @@ only through the upper bound and the existence of a global Hanf bound.
    the comparison, code a colouring of the increasing `n`-tuples of a well-ordered carrier, for
    each `n`, by an `n`-ary relation symbol of a countable language with an order symbol.)
 
-## Existing library and ownership
+## Exact supplier contracts
 
 The following are suppliers, not requests to rebuild their objects.
 
@@ -981,7 +992,7 @@ The following belong to separate roadmaps.
 - **[InfinitaryModelExistence](../InfinitaryModelExistence/README.md)**: countable fragments, consistency properties and model existence,
   omitting types, downward Löwenheim–Skolem, types and isolation, Morleyization, PC classes,
   interpolation and the well-ordering applications. Consumed here only through the IME sections
-  listed under [Existing library and ownership](#existing-library-and-ownership).
+  listed under [Exact supplier contracts](#exact-supplier-contracts).
 - **[CountableStructureSpaces](../CountableStructureSpaces/README.md), [BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md) and [CountableModelCounting](../CountableModelCounting/README.md)**: spaces of
   countable structures, López–Escobar, Borel equivalence relations, and counting countable models,
   including Morley's counting theorem and Vaught's conjecture.
@@ -1033,8 +1044,15 @@ results:
 - **Mathlib.** Layer 0 follows Mathlib's cardinal vocabulary (`Cardinal.beth`, `Order.succ`,
   `Cardinal.ord`) and adds the partition-relation vocabulary, which Mathlib lacks. The Skolem
   functions of Layer 2 follow the shape of `Language.skolem₁`. The Mathlib proposals listed under
-  [Existing library and ownership](#existing-library-and-ownership) fix shapes and are not
+  [Exact supplier contracts](#exact-supplier-contracts) fix shapes and are not
   dependencies.
+
+## Downstream consumers
+
+[CountableModelCounting](../CountableModelCounting/README.md) and
+[InfinitaryModelExistence](../InfinitaryModelExistence/README.md) leave Ehrenfeucht–Mostowski
+models, Hanf numbers, small models and complete sentences to this roadmap in their ownership
+sections; neither consumes its targets.
 
 ## Provenance
 
