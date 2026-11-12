@@ -43,7 +43,11 @@ connected closed positive-dimensional manifold (R4.8), the three simple closed g
 a smooth two-sphere (R4.9), the paraboloid crossing and vertex-pole theorems (R5a.3), Bochner's
 vanishing of the first de Rham cohomology under positive Ricci curvature (R7.6), the vanishing of
 de Rham cohomology in every interior degree under a positive curvature operator (R7.7), the
-smooth-function duality for the Riemannian distance (R7.8), the identification of the smooth
+smooth-function duality for the Riemannian distance (R7.8),
+the separation of a connected closed manifold with vanishing first de Rham cohomology by a
+connected closed two-sided hypersurface, with the closures of the two components, and the
+two-sidedness of compact hypersurfaces of simply connected manifolds (R7.9),
+the identification of the smooth
 eigenfunctions of the round-sphere Laplacian with restrictions of harmonic homogeneous polynomials
 (R8.2) and the irreducibility of the complex harmonic polynomials of each degree under `SO(N)` for
 `N ≥ 3` (R8.3).
@@ -559,6 +563,43 @@ theorem riemannianDist_eq_sSup_smooth (x y : M) :
   sorry
 
 end SmoothDistanceDuality
+
+/-! ## Layer 7: Separating and two-sided hypersurfaces -/
+
+section Hypersurfaces
+
+variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [FiniteDimensional ℝ E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  [I.Boundaryless] [TopologicalSpace M] [T2Space M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianBundle (fun x : M => TangentSpace I x)]
+  [IsContMDiffRiemannianBundle I ∞ E (fun x : M => TangentSpace I x)]
+  {E' H' S : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
+  [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'} [I'.Boundaryless]
+  [TopologicalSpace S] [ChartedSpace H' S] [IsManifold I' ∞ S]
+
+/-- R7.9 (2): a closed embedded hypersurface of a simply connected manifold is two-sided. -/
+theorem exists_unitNormal_of_simplyConnectedSpace [SimplyConnectedSpace M] [CompactSpace S]
+    (hdim : Module.finrank ℝ E' + 1 = Module.finrank ℝ E)
+    {f : S → M} (hf : Manifold.IsSmoothEmbedding I' I ∞ f) :
+    ∃ ν : ∀ x : S, TangentSpace I (f x),
+      ContMDiff I' I.tangent ∞ (fun x ↦ TotalSpace.mk' E (f x) (ν x)) ∧
+      ∀ x, ‖ν x‖ = 1 ∧ ∀ v : TangentSpace I' x, inner ℝ (ν x) (mfderiv I' I f x v) = 0 := by
+  sorry
+
+/-- R7.9 (1): with `H¹_dR(M) = 0`, a connected closed two-sided hypersurface of a connected
+closed `M` separates it into two components, each with closure itself plus the hypersurface. -/
+theorem separates_of_subsingleton_deRhamCohomology_one [CompactSpace M] [ConnectedSpace M]
+    (hH : Subsingleton (TauCeti.deRhamCohomology I M 1)) [CompactSpace S] [ConnectedSpace S]
+    (hdim : Module.finrank ℝ E' + 1 = Module.finrank ℝ E)
+    {f : S → M} (hf : Manifold.IsSmoothEmbedding I' I ∞ f) (ν : ∀ x : S, TangentSpace I (f x))
+    (hν : ContMDiff I' I.tangent ∞ (fun x ↦ TotalSpace.mk' E (f x) (ν x)))
+    (hν₁ : ∀ x, ‖ν x‖ = 1)
+    (hν₀ : ∀ x (v : TangentSpace I' x), inner ℝ (ν x) (mfderiv I' I f x v) = 0) :
+    ∃ A B : Set M, IsOpen A ∧ IsOpen B ∧ IsConnected A ∧ IsConnected B ∧ Disjoint A B ∧
+      A ∪ B = (range f)ᶜ ∧ closure A = A ∪ range f ∧ closure B = B ∪ range f := by
+  sorry
+
+end Hypersurfaces
 
 /-! ## Layer 8: Spherical harmonics -/
 
