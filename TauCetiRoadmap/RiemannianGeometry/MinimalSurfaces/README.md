@@ -75,7 +75,8 @@ Boundaries with the parent and with other roadmaps:
   distance barriers; R4.5 owns Bonnet–Myers; R7.0 owns the scalar Bochner identity; R1 owns
   the Euclidean limits of rescaled metrics. The sub-roadmap
   [Local geometry of Riemannian surfaces](../Surfaces/README.md) owns the intrinsic geometry
-  of surfaces (S1–S6). MS1 says which statement of each is consumed.
+  of surfaces (S1–S6). MS1 states what each of them supplies and which of these statements
+  the items consume.
 - [PositiveMass](../../PositiveMass/README.md) §3.1 owns the Gauss–Bonnet theorem for closed
   surfaces, built on S3; the opening of MS9 consumes it. The Euler characteristic, which
   defines the genus, and its multiplicativity under finite covers are Tau Ceti's
