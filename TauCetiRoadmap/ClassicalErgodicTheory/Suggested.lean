@@ -13,16 +13,15 @@ reviewers converge on names and signatures; discharging all of them finishes nei
 the roadmap. The admitted proofs are targets, not claimed implementations; definitions below have
 explicit bodies.
 
-Marked **stand-ins** cover objects consumed from open roadmap PRs that have no implementation:
-* `IsStrongMixing`, copied verbatim from the prototype of ProbabilisticAndMetricNumberTheory
-  (TauCetiRoadmap PR #1421, §4.6), checked against revision d311ebe1 of that PR;
-* `countablePartitionEntropy`, `iteratedPartitionLabel`, `partitionEntropyRate` and
-  `measureEntropy`, written from the README of GeometryOfNumbersAndQuadraticArithmetic
-  (TauCetiRoadmap PR #851, §4.2, revision 3b084ef8), whose prototype does not state them;
-* `conditionalPartitionEntropy`, the conditional-kernel formula for conditioning on a σ-algebra
-  from ArithmeticDynamics (TauCetiRoadmap PR #1335, §2.7).
-The owners' declarations are authoritative and are the only ones Tau Ceti implements. Names and
-namespaces of this roadmap's own targets are provisional.
+The marked **stand-in** `IsStrongMixing` is copied verbatim from the prototype of
+ProbabilisticAndMetricNumberTheory (TauCetiRoadmap PR #1421, §4.6), checked against revision
+d311ebe1 of that PR; the owner's declaration is authoritative.
+
+Kolmogorov–Sinai entropy is a target of this roadmap (README §4.0). `countablePartitionEntropy`,
+`conditionalPartitionEntropy`, `iteratedPartitionLabel`, `partitionEntropyRate` and
+`measureEntropy` carry the names and signatures that GeometryOfNumbersAndQuadraticArithmetic
+(TauCetiRoadmap PR #851, §4.2) uses for the same objects, so that one implementation serves both.
+Names and namespaces of this roadmap's own targets are provisional.
 -/
 
 set_option autoImplicit false
@@ -45,28 +44,49 @@ def IsStrongMixing {Ω : Type*} [MeasurableSpace Ω] (T : Ω → Ω) (μ : Proba
       Tendsto (fun n : ℕ => (μ : Measure Ω).real (A ∩ (T^[n]) ⁻¹' B)) atTop
         (𝓝 ((μ : Measure Ω).real A * (μ : Measure Ω).real B))
 
+end StandIns
+
+/-! ## Layer 4.0: partition entropy and Kolmogorov–Sinai entropy -/
+
+section PartitionEntropy
+
 variable {X : Type*} [MeasurableSpace X]
 
-/-- **Stand-in (PR #851 §4.2).** Entropy of a countable label, `∑ -pᵢ log pᵢ` in `ℝ≥0∞`. -/
+/-- Layer 4.0: entropy of a countable label, `∑ -pᵢ log pᵢ` in `ℝ≥0∞`. -/
 def countablePartitionEntropy (μ : Measure X) {ι : Type*} [Countable ι] (a : X → ι) : ℝ≥0∞ :=
   ∑' i, ENNReal.ofReal (Real.negMulLog (μ.real (a ⁻¹' {i})))
 
-/-- **Stand-in (PR #851 §4.2).** The length-`n` itinerary `(a x, a (T x), …, a (T^[n-1] x))`. -/
+/-- Layer 4.0: the length-`n` itinerary `(a x, a (T x), …, a (T^[n-1] x))`. -/
 def iteratedPartitionLabel {ι : Type*} (T : X → X) (a : X → ι) (n : ℕ) : X → (Fin n → ι) :=
   fun x k => a (T^[k] x)
 
-/-- **Stand-in (PR #851 §4.2).** The entropy rate `inf_{n ≥ 1} H(aⁿ)/n`. -/
+/-- Layer 4.0: the entropy rate `inf_{n ≥ 1} H(aⁿ)/n`. -/
 def partitionEntropyRate (μ : Measure X) (T : X → X) {ι : Type*} [Countable ι] (a : X → ι) :
     ℝ≥0∞ :=
   ⨅ (n : ℕ) (_ : 0 < n), countablePartitionEntropy μ (iteratedPartitionLabel T a n) / n
 
-/-- **Stand-in (PR #851 §4.2).** Kolmogorov–Sinai entropy: supremum of the rates of measurable
+/-- Layer 4.0: Kolmogorov–Sinai entropy: supremum of the rates of measurable
 `ℕ`-valued labels of finite entropy. -/
 def measureEntropy (μ : Measure X) (T : X → X) : ℝ≥0∞ :=
   ⨆ (a : X → ℕ) (_ : Measurable a) (_ : countablePartitionEntropy μ a < ⊤),
     partitionEntropyRate μ T a
 
-end StandIns
+/-- Layer 4.0: conditional entropy of a countable label given another,
+`∑ p_ij log (p_j / p_ij)`, zero-mass cells contributing zero. -/
+def conditionalPartitionEntropy (μ : Measure X) {ι κ : Type*} [Countable ι] [Countable κ]
+    (a : X → ι) (b : X → κ) : ℝ≥0∞ :=
+  ∑' p : ι × κ, ENNReal.ofReal
+    (μ.real ((fun x => (a x, b x)) ⁻¹' {p}) *
+      Real.log (μ.real (b ⁻¹' {p.2}) / μ.real ((fun x => (a x, b x)) ⁻¹' {p})))
+
+/-- Layer 4.0 item 5: the textbook definition through finite measurable partitions. -/
+theorem measureEntropy_eq_iSup_finite (μ : Measure X) [IsProbabilityMeasure μ] {T : X → X}
+    (hT : MeasurePreserving T μ μ) :
+    measureEntropy μ T =
+      ⨆ (n : ℕ) (a : X → Fin (n + 1)) (_ : Measurable a), partitionEntropyRate μ T a := by
+  sorry
+
+end PartitionEntropy
 
 /-! ## Layer 0: factors -/
 
@@ -406,18 +426,65 @@ theorem weakMixingVAdd_real_iff_weakMixing {t : ℝ} (ht : t ≠ 0) :
 
 end Layer3
 
+section AEFlows
+
+variable {X : Type*} [MeasurableSpace X] [StandardBorelSpace X] (μ : Measure X) [SigmaFinite μ]
+
+/-- Layer 3.5 item 2: Mackey's point realization of a jointly measurable family of
+measure-preserving maps satisfying the flow law almost everywhere. -/
+theorem exists_conullFlow_realization (T : ℝ → X → X) (hT : Measurable (Function.uncurry T))
+    (hpres : ∀ t, MeasurePreserving (T t) μ μ) (hzero : ∀ᵐ x ∂μ, T 0 x = x)
+    (hadd : ∀ s t, ∀ᵐ x ∂μ, T (s + t) x = T s (T t x)) :
+    ∃ (X₀ : Set X) (Φ : ℝ → X → X), MeasurableSet X₀ ∧ μ X₀ᶜ = 0 ∧
+      Measurable (Function.uncurry Φ) ∧ (∀ t, ∀ x ∈ X₀, Φ t x ∈ X₀) ∧
+      (∀ x ∈ X₀, Φ 0 x = x) ∧ (∀ s t, ∀ x ∈ X₀, Φ (s + t) x = Φ s (Φ t x)) ∧
+      ∀ t, Φ t =ᵐ[μ] T t := by
+  sorry
+
+/-- Layer 3.5 item 4: transport of densities by a measure-preserving flow. -/
+theorem map_withDensity_flow (Φ : ℝ → X → X) (hΦ : Measurable (Function.uncurry Φ))
+    (hpres : ∀ t, MeasurePreserving (Φ t) μ μ) (hinv : ∀ t, Φ (-t) ∘ Φ t =ᵐ[μ] id)
+    (hinv' : ∀ t, Φ t ∘ Φ (-t) =ᵐ[μ] id) {W : X → ℝ≥0∞} (hW : Measurable W) (t : ℝ) :
+    (μ.withDensity W).map (Φ t) = μ.withDensity (W ∘ Φ (-t)) := by
+  sorry
+
+end AEFlows
+
+section Correlations
+
+variable {X : Type*} [MeasurableSpace X] [AddAction ℝ X] (μ : Measure X)
+
+/-- Layer 3.6: the correlation of `f` and `g` at time `t` for a measurable real flow. -/
+def flowCorrelation (f g : X → ℂ) (t : ℝ) : ℂ :=
+  (∫ x, f (t +ᵥ x) * starRingEnd ℂ (g x) ∂μ) - (∫ x, f x ∂μ) * starRingEnd ℂ (∫ x, g x ∂μ)
+
+variable [MetricSpace X]
+
+/-- Layer 3.6: the Hölder norm `‖f‖_∞ + |f|_θ` used in correlation bounds. -/
+def holderNorm (θ : ℝ≥0) (f : X → ℂ) : ℝ :=
+  (⨆ x, ‖f x‖) + (nnHolderNorm θ f : ℝ)
+
+/-- Layer 3.6: exponential mixing of a real flow for `θ`-Hölder observables. -/
+def IsExponentiallyMixing (θ : ℝ≥0) : Prop :=
+  ∃ C κ : ℝ, 0 < κ ∧ ∀ f g : X → ℂ, MemHolder θ f → MemHolder θ g → ∀ t : ℝ, 0 ≤ t →
+    ‖flowCorrelation μ f g t‖ ≤ C * holderNorm θ f * holderNorm θ g * Real.exp (-κ * t)
+
+end Correlations
+
 section RelativeEntropy
 variable {X : Type*} [mX : MeasurableSpace X] [StandardBorelSpace X]
 variable (μ : Measure X) [IsProbabilityMeasure μ]
-/-- **Stand-in (PR #1335 §2.7).** Conditional entropy in its conditional-kernel form.
-The supplier interface is authoritative; conditioning is a sub-σ-algebra of the ambient space. -/
-def conditionalPartitionEntropy {A : Type*} [Countable A] (ξ : X → A) (𝒜 : {m : MeasurableSpace X // m ≤ mX}) : ℝ≥0∞ :=
+/-- Layer 4.0 item 3: conditional entropy given a sub-σ-algebra, in its conditional-kernel form
+on a standard Borel space (the README defines it through conditional expectations and proves
+agreement). -/
+def condPartitionEntropy {A : Type*} [Countable A] (ξ : X → A)
+    (𝒜 : {m : MeasurableSpace X // m ≤ mX}) : ℝ≥0∞ :=
   ∫⁻ x, countablePartitionEntropy (ProbabilityTheory.condExpKernel μ 𝒜.1 x) ξ ∂μ
 /-- Layer 4.8: relative partition entropy; limit theorems assume forward invariance of conditioning. -/
 def relativePartitionEntropyRate (T : X → X) {A : Type*} [Countable A]
     (ξ : X → A) (𝒜 : {m : MeasurableSpace X // m ≤ mX}) : ℝ≥0∞ :=
   ⨅ (n : ℕ) (_ : 0 < n),
-    conditionalPartitionEntropy μ (fun x => fun k : Fin n => ξ (T^[k] x)) 𝒜 / n
+    condPartitionEntropy μ (fun x => fun k : Fin n => ξ (T^[k] x)) 𝒜 / n
 /-- Relative Kolmogorov–Sinai entropy, retaining infinite values. -/
 def relativeMeasureEntropy (T : X → X) (𝒜 : {m : MeasurableSpace X // m ≤ mX}) : ℝ≥0∞ :=
   ⨆ (n : ℕ) (ξ : X → Fin (n + 1)) (_ : Measurable ξ),
@@ -540,7 +607,90 @@ theorem exists_isEquilibriumState [Nonempty X] {T : X → X} (hT : Continuous T)
     (φ : C(X, ℝ)) : ∃ ν, IsEquilibriumState T φ ν := by
   sorry
 
+/-- Layer 8.1: under finite topological entropy, equilibrium states are the measures attaining the
+real supremum of the textbook definition. -/
+theorem isEquilibriumState_iff_toReal {T : X → X} (hT : Continuous T)
+    (hfin : Dynamics.coverEntropy T univ < ⊤) (φ : C(X, ℝ)) (ν : ProbabilityMeasure X) :
+    IsEquilibriumState T φ ν ↔ ν ∈ invariantProbabilities T ∧
+      (measureEntropy (ν : Measure X) T).toReal + ∫ x, φ x ∂(ν : Measure X) =
+        ⨆ μ : invariantProbabilities T,
+          (measureEntropy ((μ : ProbabilityMeasure X) : Measure X) T).toReal +
+            ∫ x, φ x ∂((μ : ProbabilityMeasure X) : Measure X) := by
+  sorry
+
+/-- Layer 8.1: measures of maximal entropy under finite topological entropy. -/
+theorem isMeasureOfMaximalEntropy_iff_toReal {T : X → X} (hT : Continuous T)
+    (hfin : Dynamics.coverEntropy T univ < ⊤) (ν : ProbabilityMeasure X) :
+    IsMeasureOfMaximalEntropy T ν ↔ ν ∈ invariantProbabilities T ∧
+      (measureEntropy (ν : Measure X) T).toReal = (Dynamics.coverEntropy T univ).toReal := by
+  sorry
+
 end Variational
+
+section ThermodynamicFormalism
+
+variable {X : Type*} [MetricSpace X] [CompactSpace X] [MeasurableSpace X] [BorelSpace X]
+
+/-- Layer 8.4: Bowen's specification property with periodic shadowing, for a homeomorphism. -/
+def HasSpecification (T : X ≃ₜ X) : Prop :=
+  ∀ ε > 0, ∃ M : ℕ, ∀ (k : ℕ) (x : Fin k → X) (a b : Fin k → ℤ),
+    (∀ i, a i ≤ b i) → (∀ i j : Fin k, i < j → b i + M ≤ a j) →
+    ∀ (p : ℕ) (i₀ i₁ : Fin k), (∀ i, a i₀ ≤ a i ∧ b i ≤ b i₁) → b i₁ - a i₀ + M ≤ p →
+      ∃ y : X, (T ^ p) y = y ∧ ∀ i, ∀ n ∈ Set.Icc (a i) (b i),
+        dist ((T ^ n) y) ((T ^ n) (x i)) ≤ ε
+
+/-- Layer 8.4: the Bowen property of a potential. -/
+def HasBowenProperty (T : X → X) (φ : X → ℝ) : Prop :=
+  ∃ ε > 0, ∃ K : ℝ, ∀ (n : ℕ) (x y : X), (∀ k < n, dist (T^[k] x) (T^[k] y) ≤ ε) →
+    |birkhoffSum T φ n x - birkhoffSum T φ n y| ≤ K
+
+/-- Layer 8.4: Bowen's theorem: expansive homeomorphisms with specification have a unique
+equilibrium state for every potential with the Bowen property. Expansiveness is §5.3's
+`IsExpansive`, stated here through its metric form. -/
+theorem existsUnique_isEquilibriumState [Nonempty X] (T : X ≃ₜ X)
+    (hexp : ∃ δ > 0, ∀ x y : X, x ≠ y → ∃ n : ℤ, δ < dist ((T ^ n) x) ((T ^ n) y))
+    (hspec : HasSpecification T) (φ : C(X, ℝ)) (hφ : HasBowenProperty T φ) :
+    ∃! ν, IsEquilibriumState T φ ν := by
+  sorry
+
+/-- Layer 8.5: a function differentiable along flow lines with continuous derivative `G`
+satisfies the integrated coboundary identity of §8.2 item 6. -/
+theorem flow_coboundary_of_hasDerivAt (ϕ : Flow ℝ X) {u G : X → ℝ} (hu : Continuous u)
+    (hG : Continuous G) (hderiv : ∀ x, HasDerivAt (fun t => u (ϕ t x)) (G x) 0) (t : ℝ) (x : X) :
+    u (ϕ t x) - u x = ∫ s in (0 : ℝ)..t, G (ϕ s x) := by
+  sorry
+
+end ThermodynamicFormalism
+
+section SubshiftsOfFiniteType
+
+variable {ι : Type*} [Fintype ι]
+
+/-- Layer 8.4: the two-sided subshift of finite type with transition relation `A`. -/
+def sftTwoSided (A : ι → ι → Bool) : Set (ℤ → ι) :=
+  {x | ∀ n, A (x n) (x (n + 1)) = true}
+
+/-- Layer 8.4: the one-sided subshift of finite type with transition relation `A`. -/
+def sftOneSided (A : ι → ι → Bool) : Set (ℕ → ι) :=
+  {x | ∀ n, A (x n) (x (n + 1)) = true}
+
+/-- The sequence `(i, x 0, x 1, …)`. -/
+def consSeq (i : ι) (x : ℕ → ι) : ℕ → ι
+  | 0 => i
+  | n + 1 => x n
+
+/-- Layer 8.6: the Ruelle transfer operator of a potential on a one-sided subshift of finite type,
+`(L f) x = ∑_{σ y = x} exp (φ y) f y`, the sum over admissible first symbols. -/
+def ruelleOperator (A : ι → ι → Bool) (φ : (ℕ → ι) → ℝ) (f : (ℕ → ι) → ℝ) (x : ℕ → ι) : ℝ :=
+  ∑ i : ι, if A i (x 0) = true then Real.exp (φ (consSeq i x)) * f (consSeq i x) else 0
+
+/-- Layer 8.6 check: for the full shift and a potential depending on the first symbol, the
+constant function `1` is an eigenfunction with eigenvalue `∑ i, exp (w i)`. -/
+theorem ruelleOperator_fullShift_one (w : ι → ℝ) (x : ℕ → ι) :
+    ruelleOperator (fun _ _ => true) (fun y => w (y 0)) (fun _ => 1) x = ∑ i, Real.exp (w i) := by
+  sorry
+
+end SubshiftsOfFiniteType
 
 section MeasurableFlowEntropy
 
