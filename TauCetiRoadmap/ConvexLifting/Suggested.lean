@@ -1,11 +1,12 @@
 import Mathlib
 
 /-!
-# Exact lifting and matched finite outer approximations: suggested interfaces
+# Exact lifting and matched finite outer approximations: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. These are suggested
 forms, not an exhaustive checklist. The theorem targets are intentionally admitted
 with `sorry`; the definitions needed to state them have their actual bodies.
+Every headline theorem below is statable using the supplied definitions and pinned APIs.
 Compiling this file checks interfaces, not proofs of its admitted targets.
 -/
 
@@ -15,12 +16,16 @@ open Set
 
 namespace TauCetiRoadmap.ConvexLifting
 
+/-! ## Layer 1: exact composition lifts -/
+
 section Exact
 variable {X Y : Type*} [Preorder Y]
 
+/-- Points in the original domain satisfying the composed inequality. -/
 def originalSet (D : Set X) (g : X → Y) (h : Y → ℝ) (b : ℝ) : Set X :=
   {x | x ∈ D ∧ h (g x) ≤ b}
 
+/-- Admissible upper heights satisfying the outer budget, with the original domain retained. -/
 def liftedSet (D : Set X) (E : Set Y) (g : X → Y) (h : Y → ℝ)
     (b : ℝ) : Set (X × Y) :=
   {p | p.1 ∈ D ∧ p.2 ∈ E ∧ g p.1 ≤ p.2 ∧ h p.2 ≤ b}
@@ -47,18 +52,16 @@ theorem attainment_iff (f : X → ℝ) :
       ∃ x ∈ originalSet D g h b, IsMinOn f (originalSet D g h b) x := by
   sorry
 
-/-- The epigraph convention matches `ConvexOn.convex_epigraph`. -/
-theorem epigraph_composition_iff (p : X × ℝ) :
-    (p.1 ∈ D ∧ (h ∘ g) p.1 ≤ p.2) ↔
-      ∃ y ∈ E, g p.1 ≤ y ∧ h y ≤ p.2 ∧ p.1 ∈ D := by
-  sorry
-
 end Exact
 
-/-! Finite original problem data. Only the second coordinate block is integral;
-new argument and height coordinates are appended to the first, continuous block. -/
+/-! ## Layer 2: finite model formulations
+
+Only the second coordinate block is integral; new argument and height coordinates
+are appended to the first, continuous block. -/
+/-- Continuous coordinates paired with real coordinates on which integrality can be imposed. -/
 abbrev Point (n m : ℕ) := (Fin n → ℝ) × (Fin m → ℝ)
 
+/-- Finite nonlinear residuals, affine rows, a linear objective, and bounds for integer coordinates. -/
 structure FiniteModel (n m l r : ℕ) where
   g : Fin l → Point n m → ℝ
   A : Fin r → Fin n → ℝ
@@ -69,12 +72,15 @@ structure FiniteModel (n m l r : ℕ) where
   lo : Fin m → ℝ
   hi : Fin m → ℝ
 
+/-- Forget the appended continuous coordinates and retain the original integer block. -/
 def project {n m q : ℕ} (z : Point (n + q) m) : Point n m :=
   (fun i => z.1 (i.castAdd q), z.2)
 
+/-- Read the appended continuous argument or height coordinates. -/
 def height {n m q : ℕ} (z : Point (n + q) m) : Fin q → ℝ :=
   fun j => z.1 (j.natAdd n)
 
+/-- An affine expression in the original continuous and integer coordinates. -/
 def affineArgument {n m : ℕ} (a : Fin n → ℝ) (b : Fin m → ℝ)
     (offset : ℝ) (x : Point n m) : ℝ :=
   (∑ i, a i * x.1 i) + (∑ j, b j * x.2 j) + offset
@@ -82,15 +88,18 @@ def affineArgument {n m : ℕ} (a : Fin n → ℝ) (b : Fin m → ℝ)
 namespace FiniteModel
 variable {n m l r q : ℕ}
 
+/-- The linear objective in the two original coordinate blocks. -/
 def objective (d : FiniteModel n m l r) (x : Point n m) : ℝ :=
   (∑ i, d.c1 i * x.1 i) + ∑ j, d.c2 j * x.2 j
 
+/-- Domain, nonlinear and affine feasibility with bounded integral second coordinates. -/
 def feasibleOn (d : FiniteModel n m l r) (D : Set (Point n m)) : Set (Point n m) :=
   {x | x ∈ D ∧ (∀ j, d.g j x ≤ 0) ∧
     (∀ k, (∑ i, d.A k i * x.1 i) + (∑ j, d.B k j * x.2 j) ≤ d.rhs k) ∧
     ∃ y : Fin m → ℤ, (∀ j, d.lo j ≤ (y j : ℝ) ∧ (y j : ℝ) ≤ d.hi j) ∧
       x.2 = fun j => (y j : ℝ)}
 
+/-- The same rows and bounds with real second coordinates. -/
 def relaxationOn (d : FiniteModel n m l r) (D : Set (Point n m)) : Set (Point n m) :=
   {x | x ∈ D ∧ (∀ j, d.g j x ≤ 0) ∧
     (∀ k, (∑ i, d.A k i * x.1 i) + (∑ j, d.B k j * x.2 j) ≤ d.rhs k) ∧
@@ -192,25 +201,32 @@ theorem normalization_minimum_iff (d : FiniteModel n m l r) (D : Set (Point n m)
 
 end FiniteModel
 
+/-! ## Layer 3: matched actual-derivative approximations -/
+
 section Approximation
 variable {X : Type*} [NormedAddCommGroup X] [NormedSpace ℝ X] {p k : ℕ}
 
+/-- The affine component row formed from inner values and the supplied linear derivative. -/
 def componentRow (g : X → Fin p → ℝ) (a : X) (Dg : X →L[ℝ] (Fin p → ℝ))
     (x : X) : Fin p → ℝ := g a + Dg (x - a)
 
+/-- The outer affine row at the image of the same anchor. -/
 def outerRow (g : X → Fin p → ℝ) (h : (Fin p → ℝ) → ℝ) (a : X)
     (Dh : (Fin p → ℝ) →L[ℝ] ℝ) (y : Fin p → ℝ) : ℝ :=
   h (g a) + Dh (y - g a)
 
+/-- The composed affine row using continuous-linear-map composition. -/
 def directRow (g : X → Fin p → ℝ) (h : (Fin p → ℝ) → ℝ) (a : X)
     (Dg : X →L[ℝ] (Fin p → ℝ)) (Dh : (Fin p → ℝ) →L[ℝ] ℝ) (x : X) : ℝ :=
   h (g a) + (Dh.comp Dg) (x - a)
 
+/-- Original-domain points satisfying every direct row at the common anchors. -/
 def directOA (D : Set X) (g : X → Fin p → ℝ) (h : (Fin p → ℝ) → ℝ)
     (a : Fin k → X) (Dg : Fin k → X →L[ℝ] (Fin p → ℝ))
     (Dh : Fin k → (Fin p → ℝ) →L[ℝ] ℝ) (b : ℝ) : Set X :=
   {x | x ∈ D ∧ ∀ i, directRow g h (a i) (Dg i) (Dh i) x ≤ b}
 
+/-- One admissible height vector satisfying all component and outer rows. -/
 def sharedOA (D : Set X) (E : Set (Fin p → ℝ)) (g : X → Fin p → ℝ)
     (h : (Fin p → ℝ) → ℝ) (a : Fin k → X)
     (Dg : Fin k → X →L[ℝ] (Fin p → ℝ)) (Dh : Fin k → (Fin p → ℝ) →L[ℝ] ℝ)
@@ -218,7 +234,20 @@ def sharedOA (D : Set X) (E : Set (Fin p → ℝ)) (g : X → Fin p → ℝ)
   {z | z.1 ∈ D ∧ z.2 ∈ E ∧ ∀ i,
     componentRow g (a i) (Dg i) z.1 ≤ z.2 ∧ outerRow g h (a i) (Dh i) z.2 ≤ b}
 
-/-- Actual derivatives and one common anchor family give both weak containments. -/
+/-- Restricted outer domains retain component convexity, anchor membership,
+actual derivatives, and monotonicity of each outer linear derivative. -/
+theorem analytic_comparison (D : Set X) (E : Set (Fin p → ℝ)) (g : X → Fin p → ℝ)
+    (h : (Fin p → ℝ) → ℝ) (a : Fin k → X)
+    (Dg : Fin k → X →L[ℝ] (Fin p → ℝ)) (Dh : Fin k → (Fin p → ℝ) →L[ℝ] ℝ)
+    (b : ℝ) (hgE : MapsTo g D E)
+    (hc : ∀ j, ConvexOn ℝ D (fun x => g x j)) (hhc : ConvexOn ℝ E h)
+    (ha : ∀ i, a i ∈ D) (hg : ∀ i, HasFDerivAt g (Dg i) (a i))
+    (hh : ∀ i, HasFDerivAt h (Dh i) (g (a i))) (hD : ∀ i, Monotone (Dh i)) :
+    originalSet D g h b ⊆ Prod.fst '' sharedOA D E g h a Dg Dh b ∧
+      Prod.fst '' sharedOA D E g h a Dg Dh b ⊆ directOA D g h a Dg Dh b := by
+  sorry
+
+/-- Full-space monotonicity supplies the outer derivative condition for both weak containments. -/
 theorem fullspace_analytic_comparison (D : Set X) (g : X → Fin p → ℝ)
     (h : (Fin p → ℝ) → ℝ) (a : Fin k → X)
     (Dg : Fin k → X →L[ℝ] (Fin p → ℝ)) (Dh : Fin k → (Fin p → ℝ) →L[ℝ] ℝ)
@@ -226,20 +255,23 @@ theorem fullspace_analytic_comparison (D : Set X) (g : X → Fin p → ℝ)
     (hhc : ConvexOn ℝ Set.univ h) (ha : ∀ i, a i ∈ D)
     (hg : ∀ i, HasFDerivAt g (Dg i) (a i))
     (hh : ∀ i, HasFDerivAt h (Dh i) (g (a i))) :
-    (∀ i, HasFDerivAt (h ∘ g) ((Dh i).comp (Dg i)) (a i)) ∧
-      originalSet D g h b ⊆ Prod.fst '' sharedOA D Set.univ g h a Dg Dh b ∧
+    originalSet D g h b ⊆ Prod.fst '' sharedOA D Set.univ g h a Dg Dh b ∧
       Prod.fst '' sharedOA D Set.univ g h a Dg Dh b ⊆ directOA D g h a Dg Dh b := by
   sorry
 
 end Approximation
 
+/-! ## Layer 4: finite support elimination -/
+
 section FiniteRows
 variable {X I : Type*} {p k : ℕ}
 
+/-- One free height per component dominating its finite support rows and satisfying a sum budget. -/
 def sharedRows (D : Set X) (row : Fin p → I → X → ℝ)
     (H : Fin p → Finset I) (b : ℝ) : Set (X × (Fin p → ℝ)) :=
   {z | z.1 ∈ D ∧ (∀ j, ∀ i ∈ H j, row j i z.1 ≤ z.2 j) ∧ ∑ j, z.2 j ≤ b}
 
+/-- Separate free height vectors for each anchor, with a separate sum budget at each anchor. -/
 def independentRows (D : Set X) (row : Fin k → Fin p → X → ℝ)
     (b : Fin k → ℝ) : Set (X × (Fin k → Fin p → ℝ)) :=
   {z | z.1 ∈ D ∧ ∀ a, (∀ j, row a j z.1 ≤ z.2 a j) ∧ ∑ j, z.2 a j ≤ b a}
