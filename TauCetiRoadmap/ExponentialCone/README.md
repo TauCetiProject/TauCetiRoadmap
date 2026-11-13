@@ -21,17 +21,6 @@ supporting arguments, scalar identities and Checks remain mathematical requireme
 where they do not need separate prototype theorem names. Existing native convexity,
 closedness and scaling interfaces are used directly, without duplicate wrappers.
 
-## How to read the build
-
-The numbered mathematical subsections are addressable targets within four dependency
-layers. Each definition comes with its required API and discriminating Checks; all of
-these are part of the specification. `Suggested.lean` contains nine selected headline
-signatures with concrete definitions and admitted theorem bodies. A successful interface
-build checks that those signatures can be stated against the pinned suppliers; it does
-not prove admitted statements or replace the remaining README API and Checks. Implement
-the full mathematical requirements, including the scalar process identity, even where
-an elementary API consequence has no separate selected prototype.
-
 ## Conventions
 
 Use `Space = ℝ × ℝ × ℝ`, the right-associated product, with coordinates `(u,v,w)` in the
@@ -83,6 +72,17 @@ homogenization result is consumed or introduced. Tau Ceti's
 `ConvexOn.antitoneOn_mul_map_div` is a related scalar monotonicity theorem requiring
 a convex function vanishing at zero and a nonnegative fixed numerator. Since `exp(0)=1`,
 it does not supply this cone or its closure/softplus statements.
+
+## How to read the build
+
+Layer 1 constructs the positive branch and native closed cone, proves branch/zero-face
+membership through supporting halfspaces and density, and supplies the cone API.
+Layer 2 uses that membership API for exponential and logarithmic sections, logarithmic
+perspectives, positive-scale and zero-face softplus systems, and affine/logistic
+substitutions. Layer 3 aggregates the Layer 2 exponential section with finite
+nonnegative weights. Layer 4 uses Layers 1 and 3 for scalar and weighted process rows,
+and Layer 2 for exponential coefficients and affine right sides. The API bullets and
+Checks remain requirements, including scalar identities without a selected signature.
 
 ## Layer 1: cone geometry
 
@@ -168,9 +168,6 @@ Use native convexity, closedness and nonnegative scaling, including scalar zero,
 
 ### Examples
 
-- `(1,1,0)∈positive`: positive scale and `1*exp(0)=1≤1`.
-- `(0,1,0)∉positive`: the scale is positive but the required bound is `1≤0`.
-- `(0,0,0)∉positive`: the strict scale requirement `0<0` fails.
 - `(2,0,-1)∈cone` and in `closure positive`, witnessed by
   `(2+δ,δ,-1)` as `δ` decreases to zero. `(1,0,1)∉cone` because its zero-face argument
   is positive; the halfspace with `a=log 2` gives the impossible `2≤1`.
