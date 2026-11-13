@@ -1,287 +1,385 @@
-# Closed exponential cone and elementary conic representations
+# Roadmap: closed exponential cone and elementary conic representations
 
-Build a reusable real exponential cone with its exact zero face, then use its sections to
-represent exponential, logarithmic and softplus inequalities. The main applications are
-positive-scale perspectives and finite sums of nonnegatively weighted exponential terms.
-Scalar process and logistic-cost substitutions exercise the same API.
+**Summary.** Build a reusable real exponential cone with its literal zero face, elementary
+exponential/logarithmic sections, softplus perspectives and finite nonnegative-weight
+lifts. Scalar affine, logistic-cost and process substitutions exercise the same API.
 
-This is a specification for the mathematics, independent of any existing implementation.
-`Suggested.lean` gives selected interfaces in the namespace `ExponentialCone`. The markdown
-is definitive; the suggested signatures do not exhaust the basic API requested below.
+## Scope and ownership
 
-## Conventions and native foundations
+This roadmap owns the exponential-cone specialization and its elementary representations.
+It includes the usable membership and boundary API, the supporting-halfspace proof route,
+finite weighted lifting and every scalar substitution specified below. The scalar rows do
+not assert full process-design, disjunctive or statistical-model equivalence. General GDP
+hulls, generic recession/perspective theory, projection/dual/facial classifications,
+other cone families, smoothing accuracy, optimizer existence and empirical performance
+are outside this roadmap. These are known representations, without a novelty claim.
 
-Use `Space = ℝ × ℝ × ℝ`, the right-associated product, with coordinates `(u,v,w)` in the order
-(epigraph height, perspective scale, exponent numerator). In particular its projections are
-`q.1`, `q.2.1`, `q.2.2`. Let
+The markdown is definitive. `Suggested.lean` provides ten selected admitted headline
+signatures, three concrete definitions and one coordinate-type abbreviation in namespace
+`TauCetiRoadmap.ExponentialCone`. It is not an exhaustive checklist. The basic API,
+supporting arguments, scalar identities and Checks remain mathematical requirements even
+where they do not need separate prototype theorem names. Existing native convexity,
+closedness and scaling interfaces are used directly, without duplicate wrappers.
+
+## Conventions
+
+Use `Space = ℝ × ℝ × ℝ`, the right-associated product, with coordinates `(u,v,w)` in the
+order (epigraph height, perspective scale, exponent numerator), and projections
+`q.1`, `q.2.1`, `q.2.2`. Define the set
 
 ```text
-positive = {(u,v,w) | 0 < v ∧ v * exp(w/v) ≤ u}.
+positive = {(u,v,w) | 0 < v ∧ v*exp(w/v) ≤ u}.
 ```
 
-Use the existing Mathlib bundle `PointedCone ℝ Space` for `cone`. Its carrier must be exactly
+Use Mathlib's native `PointedCone ℝ Space` for
+`cone := (PointedCone.hull ℝ positive).closure`. Its required carrier is
 
 ```text
-K = {(u,v,w) | (0 < v ∧ v * exp(w/v) ≤ u) ∨ (v = 0 ∧ 0 ≤ u ∧ w ≤ 0)}.
+K = {(u,v,w) | (0<v ∧ v*exp(w/v)≤u) ∨ (v=0 ∧ 0≤u ∧ w≤0)}.
 ```
 
-A concrete native construction is
-`cone := (PointedCone.hull ℝ positive).closure`, followed by the carrier theorem
-`mem_cone_iff` identifying it with `K`. The equality `closure positive = (cone : Set Space)`
-is a required result, rather than an assumption about the construction. The positive branch
-is a `Set Space`: it excludes the origin. No quotient evaluated at scale zero defines `K`.
+Prove that carrier identification and `closure positive = (cone : Set Space)`; neither
+is a defining assumption. `positive` is a set excluding zero, rather than itself a
+`PointedCone`. Mathlib's `PointedCone` means a submodule over nonnegative scalars and
+includes zero; its separate `Salient` property expresses the stronger no-lines condition.
+No salience/proper-cone theorem is required here. Negative scales are excluded, and no
+quotient evaluated at zero substitutes for the literal zero face.
 
-Mathlib's `PointedCone` is a submodule over nonnegative scalars; its terminology means that
-the cone contains zero. It does not assert the stronger no-lines property called `Salient`.
-Use its existing zero/addition/scalar membership, coercion, extensionality and convexity APIs.
-Closedness of the displayed native construction follows from closure. Do not introduce new
-names merely to wrap `PointedCone.convex`, `PointedCone.smul_mem` or `isClosed_closure`.
+All scalar variables are real. Families have type `Fin n → ℝ` for arbitrary `n : ℕ`,
+including zero. Logarithms in equivalences have the explicit strict domains stated below:
+Mathlib's globally extended `Real.log` does not remove those hypotheses. Use the ordinary
+product topology on `Space`.
 
-The needed suppliers already exist: `Real.exp`, `Real.log`, `Real.add_one_le_exp`,
-`Real.log_le_iff_le_exp`, `Real.le_log_iff_exp_le`, finite sums, `Set.closure`, continuous
-product coordinates, and the cone APIs in `Mathlib/Geometry/Convex/Cone/Pointed.lean` and
-`Mathlib/Analysis/Convex/Cone/Closure.lean`. The prototype imports Mathlib and introduces no
-new generic convexity, cone-hull or homogenization API.
+## Exact supplier contracts
 
-Real logarithms use their ordinary positive domain in every equivalence below. Mathlib's
-`Real.log` is totalized, so the explicit strict hypotheses are part of the specification.
-All vector families below have type `Fin n → ℝ` for an arbitrary `n : ℕ`, including `n = 0`.
-All unqualified scalar variables are real.
+The prototype uses the roadmap's Lean4.36.0-rc2, Mathlib
+`1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti dependency
+`2fd255d997f47c0b5d834ee416c7015d55444ce5` interfaces. Suppliers are:
 
-## 1. Geometry and a usable membership API
+- Mathlib `PointedCone.hull`, the smallest pointed cone containing a set;
+  `PointedCone.closure`, whose carrier is the topological closure; and
+  `PointedCone.convex`, `PointedCone.smul_mem`, zero/addition membership, coercion and
+  extensionality. See `Mathlib/Geometry/Convex/Cone/Pointed.lean` and
+  `Mathlib/Analysis/Convex/Cone/Closure.lean`.
+- Mathlib `Real.exp`, its positivity/monotonicity and `Real.add_one_le_exp`; `Real.log`,
+  `Real.log_le_iff_le_exp`, `Real.le_log_iff_exp_le` and `Real.log_inv`, with their actual
+  domain premises; finite sums and monotone multiplication/summation.
+- Mathlib `Convex ℝ`, `IsClosed`, `closure`, continuity of coordinate projections and
+  affine expressions, closed intersections and metric closure membership.
 
-Develop positive-scale, zero-scale and negative-scale membership simplifications from
-`mem_cone_iff`. The zero section is exactly `0 ≤ u ∧ w ≤ 0`; negative scales have no points.
-Record explicit origin, positive-branch and nontrivial zero-face examples. Supply the
-following exponential-specific results, retaining their exact quantifiers:
+The construction uses `PointedCone.hull` and `PointedCone.closure`; no generic
+homogenization result is consumed or introduced. Tau Ceti's
+`ConvexOn.antitoneOn_mul_map_div` is a related scalar monotonicity theorem requiring
+a convex function vanishing at zero and a nonnegative fixed numerator. Since `exp(0)=1`,
+it does not supply this cone or its closure/softplus statements.
 
-- `zero_approximation`: if `0 ≤ u`, `w ≤ 0` and `0 < δ`, then
-  `(u+δ,δ,w) ∈ positive`.
-- `halfspace_iff`: `(u,v,w) ∈ cone` if and only if
-  `0 ≤ u ∧ 0 ≤ v ∧ ∀ a : ℝ, exp(a) * (w + (1-a)*v) ≤ u`.
-- `closure_positive`: `closure positive = (cone : Set Space)`.
+## Layer 1: cone geometry
 
-An elementary proof route starts with the tangent bound
-`exp(a) * (1+z-a) ≤ exp(z)`, using `Real.add_one_le_exp`. First characterize the literal
-branch-union set `K` by the displayed affine halfspaces. On the positive branch choose
-`a=w/v` for the converse. At scale zero, a hypothetical `w>0` is rejected by
-`a=log((u+1)/w)`, whose argument is positive because `u≥0`.
-The halfspace description makes `K` closed and closed under nonnegative conical
-combinations, and it contains `positive`. Thus the native closed cone-hull construction is
-contained in `K`. The explicit zero approximation proves the reverse inclusion through
-`closure positive`. This establishes the carrier identification and density without a
-circular dependence on either conclusion. Convexity and nonnegative scaling, including
-scalar zero, are then available through the native bundle.
+### Targets and basic API
 
-**Checks.** `(1,1,0) ∈ positive`; `(2,0,-1) ∈ cone` and belongs to `closure positive`;
-`(1,0,1) ∉ cone`. These last two points distinguish the literal face from a totalized
-quotient expression. The topology is the ordinary product topology on the three real
-coordinates.
+For `positive`, require extraction of `v>0` and `v*exp(w/v)≤u`, hence `u>0`;
+membership after increasing `u`; closure under addition of two members; and closure under
+strictly positive scalar multiplication. These use the same coordinate order. The origin
+and every zero-scale point are excluded from `positive`.
 
-## 2. Elementary sections and perspectives
+*Needs:* the definition of `positive`, positivity of `Real.exp`, ordered-field arithmetic;
+for addition, the supporting-halfspace characterization below (or its convexity argument)
+and positivity of the sum of two positive scales.
 
-Use cone membership directly in the scalar APIs. Require:
+`mem_cone_iff` identifies membership in the native `cone` with the displayed branch union.
+Require positive-scale simplification to `v*exp(w/v)≤u` under `v>0`, zero-scale
+simplification to `0≤u ∧ w≤0`, and impossibility under `v<0`.
 
-| Interface | Exact mathematical statement |
-| --- | --- |
-| `exponential_iff` | `exp(w) ≤ u ↔ (u,1,w) ∈ cone` |
-| `logarithm_cone_iff` | for `x>0`, `t ≤ log(x) ↔ (x,1,t) ∈ cone` |
-| `logarithm_perspective_iff` | for `x>0,y>0`, `t ≤ y*log(x/y) ↔ (x,y,t) ∈ cone` |
+*Needs:* native hull/closure supplier contracts and the noncircular halfspace/density route
+below. Sources: [T] (8.8), printed p.282; [C] §4.2, Lemma4.2.1, printed p.120;
+[M] §5.1, (5.1)–(5.3).
 
-Define the actual two-auxiliary system
+`halfspace_iff` requires exactly
+
+```text
+(u,v,w) ∈ cone ↔ 0≤u ∧ 0≤v ∧ ∀a:ℝ, exp(a)*(w+(1-a)*v)≤u.
+```
+
+Start from `exp(a)*(1+z-a)≤exp(z)`, obtained from `Real.add_one_le_exp (z-a)`.
+First characterize the literal set `K`: the converse uses `a=w/v` when `v>0`;
+at `v=0,w>0`, choose `a=log((u+1)/w)`, whose argument is strictly positive.
+The resulting closed affine halfspaces show that `K` is closed, contains `positive`
+and zero, and is closed under nonnegative conical combinations. Therefore the native
+closed cone generated by `positive` is contained in `K`.
+
+*Needs:* the literal branch union, exponential arithmetic and tangent bound, strict-log
+inversion, continuous affine inequalities and native hull/closure minimality. The
+supporting-halfspace route is supplied by [L], `halfspace_iff`; it differs from [M]'s
+Hessian proof and [C]'s source sequence, while retaining the same cone.
+
+For `u≥0,w≤0,δ>0`, require `(u+δ,δ,w)∈positive`, because `exp(w/δ)≤1`.
+These points converge to `(u,0,w)`. Prove `closure_positive`:
+
+```text
+closure positive = (cone : Set Space).
+```
+
+*Needs:* the explicit approximation, positive-branch inclusion, metric closure and the
+preceding closed-halfspace containment. This proves carrier identification/density
+without assuming either conclusion. Sources: [C] Lemma4.2.1, printed p.120, for the
+branch/face statement; [L], `zero_approximation` and `closure_positive`, for this specific
+approximation/proof route.
+
+Use native convexity, closedness and nonnegative scaling, including scalar zero, on `cone`.
+*Needs:* the displayed native bundle and its supplier contracts; no new wrapper theorems.
+
+### Examples and Checks
+
+- `(1,1,0)∈positive`: positive scale and `1*exp(0)=1≤1`.
+- `(0,1,0)∉positive`: the scale is positive but the required bound is `1≤0`.
+- `(0,0,0)∉positive`: the strict scale requirement `0<0` fails.
+- `(2,0,-1)∈cone` and in `closure positive`, witnessed by
+  `(2+δ,δ,-1)` as `δ` decreases to zero. `(1,0,1)∉cone` because its zero-face argument
+  is positive; the halfspace with `a=log 2` gives the impossible `2≤1`.
+- Cone scaling by zero gives the origin, which belongs to `cone`. The midpoint of
+  `(1,1,0)` and `(2,0,-1)` is `(3/2,1/2,-1/2)`; its lower bound is `exp(-1)/2≤3/2`.
+
+### Dependencies
+
+Exact supplier contracts → literal-set tangent/halfspace argument → native construction
+containment and explicit boundary approximation → membership and density. No application
+row is a prerequisite for geometry.
+
+## Layer 2: sections and perspectives
+
+### Targets and basic API
+
+Require the exponential and logarithmic sections
+
+```text
+exp(w)≤u ↔ (u,1,w)∈cone;
+for x>0: t≤log(x) ↔ (x,1,t)∈cone.
+```
+
+*Needs:* Layer1 unit-scale membership, respectively strict-domain log/exp inversion.
+Sources: [T] Table8.1, printed p.300, exponential/logarithm rows; [M] §§5.2.1–5.2.2,
+(5.4)–(5.5).
+
+`logarithm_perspective_iff`, for `x>0,y>0`, requires
+`t≤y*log(x/y) ↔ (x,y,t)∈cone`.
+
+*Needs:* positive-scale membership, `x/y>0`, and division by `y>0`.
+Sources: [T] Table8.1, printed p.300, logarithm perspective; [M] §5.1 (5.3) and
+§7.1.1's strictly positive-scale convention.
+
+Define the literal distinct-auxiliary system
 
 ```text
 softplusSystem x t y :=
-  ∃ u v : ℝ, u+v ≤ y ∧ (u,y,x-t) ∈ cone ∧ (v,y,-t) ∈ cone.
+  ∃u v:ℝ, u+v≤y ∧ (u,y,x-t)∈cone ∧ (v,y,-t)∈cone.
 ```
 
-The two witnesses are independent. Its three required identities are:
+Require `softplus_iff`: `log(1+exp x)≤t ↔ softplusSystem x t 1`, and
+`softplus_perspective_iff`, for `y>0`:
+`y*log(1+exp(x/y))≤t ↔ softplusSystem x t y`.
 
-- `softplus_iff`: `log(1+exp(x)) ≤ t ↔ softplusSystem x t 1`.
-- `softplus_perspective_iff`, for `y>0`:
-  `y*log(1+exp(x/y)) ≤ t ↔ softplusSystem x t y`.
-- `softplus_zero_iff`: `softplusSystem x t 0 ↔ 0 ≤ t ∧ x ≤ t`.
+*Needs:* Layer1 membership; the scalar identity
+`log(1+exp x)≤t ↔ exp(x-t)+exp(-t)≤1`; witnesses equal to these exponential lower
+bounds and their positively scaled versions. Sources: [T] Table8.1, printed p.300,
+softplus row; [M] §5.2.5 (5.8), and §7.1.1 Example7.1 for homogenizing the finite-sum
+representation on a positive scale. The source table uses `y∈[0,1]`; the scalar
+positive-scale identity here is explicitly required for every `y>0`.
 
-For unit scale rewrite softplus as `exp(x-t)+exp(-t) ≤ 1`; the exponentials are tight
-auxiliary witnesses. For positive scale use their scaled versions. At zero scale the
-explicit cone face and the sum bound force both auxiliary heights to zero. This last
-identity is a separate closed-face statement, not evaluation of the positive-scale scalar
-formula at zero.
+Require the separate closed-face identity
+`softplusSystem x t 0 ↔ 0≤t ∧ x≤t`. Its witnesses have zero heights, because
+nonnegative heights with sum at most zero both vanish. No totalized evaluation of the
+positive perspective at zero replaces it. Negative-scale systems are empty.
 
-**Checks.** Take `x=log(3)`, `t=log(4)`, with witnesses `u=3/4`, `v=1/4`. At scale `1/2`
-use input `log(3)/2`, height `log(4)/2`, and witnesses `3/8`, `1/8`. At zero scale,
-`softplusSystem 2 2 0` and `softplusSystem (-2) 0 0` hold, while
-`softplusSystem 2 1 0` fails.
+*Needs:* Layer1 literal zero/negative-scale API and the system's sum bound.
+Source convention: [T] §8.2.2 (8.16)–(8.17), printed p.286; the explicit zero identity
+is the derived face calculation in [L].
 
-## 3. Finite nonnegative-weight lifting
-
-`weighted_exponential_iff` owns the finite aggregation mechanism. For `d,s : Fin n → ℝ`,
-`L : ℝ`, and `∀ j, 0 ≤ d j`, require
+For finite affine score `r=(∑j,a_j*x_j)+b`, require
+`log(1+exp r)≤t ↔ softplusSystem r t 1`. Also require the scalar cost identities
 
 ```text
-(∑ j, d j * exp(s j)) ≤ L ↔
-  ∃ u : Fin n → ℝ,
-    (∑ j, d j * u j) ≤ L ∧ ∀ j, (u j,1,s j) ∈ cone.
+-log(1/(1+exp(-score)))≤t ↔ softplusSystem (-score) t 1;
+for y>0:
+-y*log(1/(1+exp(-score/y)))≤t ↔ softplusSystem (-score) t y.
 ```
 
-Choose `u j = exp(s j)` for the forward direction. For the converse, multiply each
-exponential lower bound by the corresponding nonnegative coefficient and sum. Zero
-coefficients remain permitted; negative coefficients are outside this statement. An empty
-family reduces both sides to `0 ≤ L`. This mechanism is used by the process rows below,
-with the corresponding scalar time transformation.
+*Needs:* scalar softplus/perspective identities and logarithm of a positive reciprocal.
+Sources: [T] Table8.1, printed p.300, logistic row, and (8.33), printed p.318;
+[A3] §4.2.3 (4.8), printed p.18; [V] §4.2.3 (10), printed p.273. The negative log
+of a sigmoid is a cost; the sigmoid probability itself is a different quantity.
 
-## 4. Source substitutions and application rows
+### Examples and Checks
 
-These are required support for the same mathematical component. They specialize the preceding
-interfaces and do not specify full process-design, disjunctive or statistical models.
+- `x=log 3,t=log 4` has tight softplus witnesses `3/4,1/4`; at scale `1/2`, input
+  `log 3/2` and height `log 4/2` have witnesses `3/8,1/8`.
+- The scalar sum identity gives `2≤1` when `x=t=0`, hence softplus infeasibility.
+- Zero-scale systems hold at `(x,t)=(2,2),(-2,0)` and fail at `(2,1)`.
+- The logarithm section holds at `x=2,t=log 2`; `x=0,t=0` is excluded from its domain:
+  totalized `0≤log 0` holds, while the cone would require `1≤0`.
+- For the logarithmic perspective use `x=1,y=1/2,t=log 2/2`: the cone bound is
+  `(1/2)*exp(log 2)=1`. For an empty affine score, take `b=0,t=log 2`.
+- Logistic score `-log 3` and height `log 4` give reciprocal `1/4` and cost `log 4`;
+  the positive-scale `1/2` version gives the corresponding half-height identity.
 
-### 4.1 Affine softplus and logistic cost
+### Dependencies
 
-For `a,x : Fin n → ℝ` and real `b,t`, `affine_softplus_iff` substitutes
-`(∑ j, a j*x j)+b` for the scalar softplus input.
+Layer1 → unit sections → scalar exponential-sum/softplus equivalence → positive
+perspectives and explicit zero face → affine/logistic substitutions. All logarithm
+arguments have stated or automatic positivity.
 
-`logistic_cost_iff` states
+## Layer 3: finite weighted lifting
+
+### Targets and basic API
+
+`weighted_exponential_iff` owns the finite aggregation mechanism. For `d,s:Fin n→ℝ`,
+arbitrary `L:ℝ`, and `∀j,0≤d_j`, require
 
 ```text
--log(1/(1+exp(-score))) ≤ t ↔ softplusSystem (-score) t 1.
+Σj d_j*exp(s_j)≤L ↔
+  ∃u:Fin n→ℝ, Σj d_j*u_j≤L ∧ ∀j,(u_j,1,s_j)∈cone.
 ```
 
-For `y>0`, `logistic_cost_perspective_iff` states
+*Needs:* Layer2 exponential section and finite sum monotonicity. Choose `u_j=exp(s_j)`
+forward; multiply the cone lower bounds by `d_j≥0` and sum backward. This is a derived
+finite aggregation argument, motivated by [T] Table8.1 printed p.300 and [M] §5.2.6
+(5.9), rather than a claim that those unweighted log-sum-exp rows state this arbitrary
+nonnegative-weight theorem. Zero coefficients and `n=0` are included; negative weights
+and infinite families are excluded.
+
+### Examples and Checks
+
+- Empty sums reduce both sides to `0≤L`: true at `L=0`, false at `L=-1`.
+- `d=(2,0),s=(log 3,0),L=6` has witnesses `(3,1)` and weighted sum `6`.
+- All-zero weights again give `0≤L`, while cone witnesses remain available.
+- Outside the domain, `d=-1,s=0,L=-2` makes `-1≤-2` false but admits lifted witness
+  `u=2`, since `-2≤-2` and `exp 0=1≤2`. This tests the nonnegative-weight premise.
+
+### Dependencies
+
+Layer2 exponential section → nonnegative multiplication → finite sum monotonicity.
+This layer supplies the aggregation mechanism for process rows.
+
+## Layer 4: affine exponential inequalities
+
+### Process targets and basic API
+
+`process_cone_iff`, for arbitrary real `u,x` and `t>0`, requires
+`(t*(u+1),t,x)∈cone ↔ exp(x/t)-1≤u`. The auxiliary `u` remains free.
+
+*Needs:* Layer1 positive-scale membership and multiplication/division by `t>0`.
+Sources: [T] (8.32), printed p.316, and [A1] (4.7), printed p.24, contain `t*u+1`;
+the selected `t*u+t=t*(u+1)` is printed in [A3] (4.7), p.17, and [V] (9), p.272.
+The correction changes the formula's time factor, not the scope to a full process model.
+
+`weighted_process_iff`, for `d,t,x:Fin n→ℝ`, `d_j≥0`, `t_j>0` and arbitrary real `L`,
+requires
 
 ```text
--y*log(1/(1+exp(-score/y))) ≤ t ↔ softplusSystem (-score) t y.
+Σj d_j*(exp(x_j/t_j)-1)≤L ↔
+  ∃u:Fin n→ℝ, Σj d_j*u_j≤L ∧ ∀j,(t_j*(u_j+1),t_j,x_j)∈cone.
 ```
 
-The logarithm's argument is positive automatically. These are scalar cost identities; the
-sigmoid probability and the negative log of that probability are different quantities.
-
-### 4.2 Process time factors and weighted rows
-
-For arbitrary real `u,x` and `t>0`, `process_cone_iff` requires
+*Needs:* the scalar process row and Layer3's nonnegative finite-sum mechanism, with
+tight witnesses `u_j=exp(x_j/t_j)-1`. Under the same hypotheses, for arbitrary real
+`s_j`, require the source residual form
 
 ```text
-(t*(u+1),t,x) ∈ cone ↔ exp(x/t)-1 ≤ u.
+Σj d_j*(exp(x_j/t_j)-1) - Σj s_j*x_j ≤ 0 ↔
+  ∃u, Σj d_j*u_j - Σj s_j*x_j ≤ 0 ∧ ∀j,(t_j*(u_j+1),t_j,x_j)∈cone.
 ```
 
-The auxiliary `u` is free. A nonnegative restriction would change the statement, since a
-negative input has a negative tight value `exp(x/t)-1`. For `d,t,x : Fin n → ℝ`,
-`∀ j,0≤d j`, `∀ j,0<t j`, and real `L`, `weighted_process_iff` requires
+*Needs:* the weighted process row with `L=Σj s_j*x_j`. Source locators are the same
+process equations above. No sign restriction on `s_j` or `x_j` is added by this substitution.
+
+### Affine-right-side targets and basic API
+
+`random_exponential_cone_iff`, for `a>0` and arbitrary real `s,R`, requires
+`a*exp(s)≤R ↔ ∃v:ℝ,a*v≤R ∧ (v,1,s)∈cone`.
+
+*Needs:* Layer2 exponential section and multiplication by positive `a`. Also require
+the scalar logarithmic identity `a*exp(s)≤R ↔ 0<R ∧ log(a)+s≤log(R)`.
+Its positivity conjunct is forced by `a*exp(s)>0` and cannot be dropped.
+
+For finite score `r=Σj q_j*x_j` and arbitrary real `b,c,z`, require both source forms
 
 ```text
-(∑ j, d j*(exp(x j/t j)-1)) ≤ L ↔
-  ∃ u : Fin n → ℝ, (∑ j, d j*u j) ≤ L ∧
-    ∀ j, (t j*(u j+1),t j,x j) ∈ cone.
+a*exp(r)≤b*z+c ↔ ∃v:ℝ,a*v≤b*z+c ∧ (v,1,r)∈cone;
+a*exp(r)≤b*z+c ↔ 0<b*z+c ∧ log(a)+r≤log(b*z+c),  for a>0.
 ```
 
-For arbitrary `s : Fin n → ℝ`, `source_process_iff` uses exactly the same hypotheses and
-replaces the two scalar comparisons with
+*Needs:* the preceding scalar cone/log identities with `s=r,R=b*z+c`.
+Sources: [T] (8.35), printed p.320; [A1] (4.10), p.27;
+[A3] (4.10), p.19; [V] (12), p.274. These substitutions do not assume
+or prove the separately displayed source cap on `z` or a full random GDP equivalence.
 
-```text
-(∑ j, d j*(exp(x j/t j)-1)) - (∑ j, s j*x j) ≤ 0
-```
+### Examples and Checks
 
-and
+- Process: `d=3,t=2,x=2*log 2,u=1,L=3` gives cone height and bound `4`, weighted sum
+  `3`. In residual form take `s=3/(2*log 2)`, so `s*x=3` and both residuals vanish.
+- `t=1,x=-1,u=exp(-1)-1<0` gives tight height `exp(-1)`; imposing `u≥0` would change
+  this scalar row. Retain zero-weight and empty-family checks, including failure at
+  empty budget `L=-1`.
+- Random scalar: `a=2,s=log 3,R=6,v=3` is tight; `R=0` is infeasible. For the affine
+  substitution take the one-coordinate score `q=1,x=log 3`, and
+  `b=-1,z=-3,c=3`, giving `b*z+c=6`. The negative slope tests the general identity,
+  rather than the source's positive sampling ranges. With an empty score and
+  `a=1,b=c=z=0`, the strict right-side guard fails and both sides are false.
 
-```text
-(∑ j, d j*u j) - (∑ j, s j*x j) ≤ 0,
-```
+### Dependencies
 
-respectively. Thus it follows from the weighted row with `L=∑ j,s j*x j`; it introduces
-no restriction on `s`.
+Layers1–2 supply scalar process/exponential sections. Layer3 supplies finite aggregation.
+The residual process row is a bound substitution; the affine random rows are score/right-side
+substitutions. None supplies a prerequisite to an earlier layer.
 
-**Checks.** A one-row instance has weight `3`, time `2`, input `2*log(2)`, tight auxiliary
-`1` and right side `3`. Also use input `-1`, time `1`, and auxiliary `exp(-1)-1<0`.
-Keep zero-weight and empty-row cases.
+## Downstream consumers
 
-### 4.3 Exponential coefficients and affine right sides
+Conic modeling can consume the elementary sections and finite auxiliary lifts directly.
+Generic composition/model lifting belongs to ConvexLifting, and boxed-union hulls to
+BoundedConicHulls; neither is a supplier required by this roadmap. OptimalTransport
+§§5.1–5.2,13.1–13.3 and VariationalMethods §2.1 are neighboring duality/entropy/optimization
+programs, without an asserted dependency on these scalar lifts. No new unrestricted
+homogenization or closed-perspective API is requested.
 
-For `a>0` and arbitrary real `s,R`, require
+## References and source versions
 
-```text
-random_exponential_cone_iff:
-  a*exp(s) ≤ R ↔ ∃ v : ℝ, a*v ≤ R ∧ (v,1,s) ∈ cone
-
-random_exponential_log_iff:
-  a*exp(s) ≤ R ↔ 0<R ∧ log(a)+s ≤ log(R).
-```
-
-The strict positivity of `R` is forced by the original inequality and stays as a conjunct
-on the right. `source_random_cone_iff` and `source_random_log_iff` substitute
-`s=∑ j,q j*x j` and `R=b*z+c`, for `q,x : Fin n → ℝ` and arbitrary real `b,c,z`, retaining
-only the hypothesis `a>0`. They neither assume nor prove a model-dependent cap on `z`.
-
-**Checks.** Use `a=2`, scalar score `log(3)` and `R=6`; the same right side can be written
-with `b=-1,z=-3,c=3`. A nonpositive right side is infeasible for every `a>0`. The negative
-slope example tests the general scalar identity, not the source's positive sampling scheme.
-
-## Dependencies and connections
-
-The order is native cone/set definitions; explicit approximation and halfspace proof;
-carrier identification and density; elementary slices and softplus; finite aggregation;
-then the application substitutions. Weighted process uses the scalar process identity and
-the same finite monotone-summation argument as Section 3. Source-process follows weighted
-process. Source-random follows the two scalar random identities. Affine/logistic identities
-follow softplus. No later application is a prerequisite for the core cone geometry.
-
-Tau Ceti's `ConvexOn.antitoneOn_mul_map_div` concerns a convex function vanishing at zero
-and a nonnegative fixed numerator. It is a related monotonicity theorem; `exp(0)=1` does not
-meet its zero-value hypothesis. `Set.homogenization` supplies a general closed cone-hull
-construction with closed-convex positive slices and a nonempty closed-convex recession
-slice. Reuse that generic theory wherever it is used; this roadmap does not add another
-homogenization definition or a general closed-perspective theorem. The cone construction
-above needs only the existing Mathlib cone API.
-
-The convex-duality and entropy targets in OptimalTransport Sections 5.1–5.2 and 13.1–13.3
-and the constrained-minimum bridge in VariationalMethods Section 2.1 are neighboring
-programs. This roadmap supplies the concrete exponential cone and elementary representation
-API; it does not claim those programs require the scalar lifts specified here.
-
-`Suggested.lean` contains 21 named target theorem signatures, three concrete definitions and
-one coordinate-type abbreviation. Three anonymous examples show existing convexity,
-closedness and nonnegative scaling APIs. Those generic facts need no duplicate wrappers.
-The signatures cover the main interfaces; the membership simplifications, examples and
-source substitutions above remain part of the requested usable API.
-
-## Sources and exact scope
-
-- D. E. Bernal Neira's doctoral thesis, Chapter 8: equation 8.8, Table 8.1 and
-  equations 8.32–8.35. The selected exponential portion is distinct from other cone families
-  and the full application/solver models in that chapter.
-- D. E. Bernal Neira and I. E. Grossmann,
+- **[T]** David E. Bernal Neira, *Modern Computational Approaches to Nonlinear Discrete
+  Optimization and Applications in Process Systems Engineering*, Carnegie Mellon University
+  doctoral thesis, **original May 2021 edition**. Chapter8: (8.8), printed p.282; (8.16)–(8.17),
+  p.286; Table8.1, p.300; (8.32), p.316; (8.33), p.318; (8.35), p.320. This reference
+  designates the original May 2021 thesis, distinct from the author-corrected November 2026 edition.
+- **[A1]/[A3]** Bernal/Grossmann, *Convex Mixed-Integer Nonlinear Programs Derived from
+  Generalized Disjunctive Programming using Cones*, [arXiv2109.09657v1](https://arxiv.org/abs/2109.09657v1),
+  20 September 2021, and [v3](https://arxiv.org/abs/2109.09657v3), 19 February 2024. Versions are
+  distinct: process/softplus (4.7)/(4.8) occur on v1 pp.24/26 and v3 pp.17/18; random
+  (4.10) is on v1 p.27 and v3 p.19. Appendix(A.9) gives the exponential-cone
+  background; (A.16)–(A.17) distinguish the perspective from its closure.
+- **[V]** David E. Bernal Neira and Ignacio E. Grossmann,
   [*Convex mixed-integer nonlinear programs derived from generalized disjunctive programming
-  using cones*](https://doi.org/10.1007/s10589-024-00557-9), Computational Optimization and
-  Applications 88 (2024), 251–312: Table 1, equations 9–12 and Appendix A9. The corresponding
-  [arXiv v1](https://arxiv.org/abs/2109.09657v1) and
-  [v3](https://arxiv.org/abs/2109.09657v3) are separate versions.
-- P. R. Chares, *Cones and Interior-Point Algorithms for Structured Convex Optimization
-  involving Powers and Exponentials*, Section 4.2, Lemma 4.2.1 and Section 4.2.1. Chares's
-  coordinates are `(argument,height,scale)`, so his `(z1,z2,z3)` corresponds to `(w,u,v)`
-  here. The thesis bibliography dates this work to 2009; the recovered academic-host
-  filename contains 2007, which does not establish a separate edition's identity.
-- MOSEK, [*Modeling Cookbook*, exponential cone chapter](https://docs.mosek.com/modeling-cookbook/expo.html),
-  Sections 5.1–5.2, and [Section 7.1.1](https://docs.mosek.com/modeling-cookbook/practical.html#perspective-functions).
-  The consulted online edition is 3.4.0; it is not identified with the exact 2018 edition
-  cited by the thesis. The thesis table credits this modeling source.
+  using cones*](https://doi.org/10.1007/s10589-024-00557-9), *Computational Optimization
+  and Applications* 88 (2024), 251–312, published online 20 February 2024: Table1; equations
+  (9),p.272; (10),p.273; (12),p.274; Appendix(A9),(A16)–(A17).
+- **[C]** Peter Robert Chares, *Cones and Interior-Point Algorithms for Structured Convex
+  Optimization involving Powers and Exponentials*, §4.2,Lemma4.2.1, **printed p.120**.
+  Coordinates `(z1,z2,z3)` correspond to `(w,u,v)` here. Bibliographic year: 2009 in [T];
+  Chares's title page is undated, so the year is not an edition identifier.
+- **[M]** MOSEK, [*Modeling Cookbook*3.4.0, exponential chapter](https://docs.mosek.com/modeling-cookbook/expo.html):
+  §5.1,(5.1)–(5.3); §§5.2.1–5.2.2,(5.4)–(5.5);
+  [§5.2.5,(5.8)](https://docs.mosek.com/modeling-cookbook/expo.html#softplus-function);
+  §5.2.6,(5.9); [§7.1.1,Example7.1 and Proof7.1](https://docs.mosek.com/modeling-cookbook/practical.html#perspective-functions).
+  These are section/equation locators in the 3.4.0 HTML edition. [T] cites a 2018
+  Cookbook without a version; this reference designates 3.4.0, with no identification
+  of those editions. Table8.1 credits the Cookbook as a modeling source.
+- **[L]** David E. Bernal Neira's [thesis formalization](https://github.com/bernalde/complete-retained-library/tree/59c355eb14ed1eff9664736428ca02b4543200b8),
+  exact commit59c355eb14ed1eff9664736428ca02b4543200b8, Apache-2.0: secondary interface/proof
+  source with canonical lineage `lean-modern/Chapter08ExponentialGeometry.lean` (notably
+  halfspace_iff and zero_approximation), `Chapter08ExponentialRows.lean` and `Chapter08ExponentialControls.lean`.
+  Adapted signatures are attributed in `Suggested.lean`; the native mathematical specification
+  governs the development.
+  Source notice: Copyright 2026 David E. Bernal Neira. Licensed under the Apache License,
+  Version 2.0; see the repository [LICENSE](../../LICENSE).
 
-As a secondary implementation source, the
-[existing thesis formalization](https://github.com/bernalde/complete-retained-library/tree/59c355eb14ed1eff9664736428ca02b4543200b8)
-contains retained exponential geometry and row conversions. Its declarations are source
-material for adaptation; the mathematics and native interfaces specified here govern the
-development.
-
-The source table and later application versions agree on distinct softplus auxiliaries.
-The thesis equation 8.33 and arXiv v1 equation 4.8 repeat the same auxiliary; the selected
-system follows Table 8.1, arXiv v3 equation 4.8 and the published equation 10. Similarly,
-the selected process coordinate is `t*u+t`, as in arXiv v3 equation 4.7 and published
-equation 9; thesis equation 8.32 and arXiv v1 equation 4.7 print `t*u+1`. These are
-version-specific correspondences, not an assertion that every source formula was already
-identical. The explicit zero face controls the quotient shorthand in the background.
-
-The written halfspace/approximation proof route differs from the Cookbook's Hessian
-argument and Chares's sequence; it proves the same specified cone after the coordinate
-permutation. The scalar representations are known mathematics, with no novelty claim.
-General GDP hull theorems, generic recession theory, projection algorithms, dual cones,
-facial/error-bound classifications, other table rows, smoothing accuracy, optimizer
-existence, statistical-model equivalence and solver/empirical performance are outside this
-roadmap. Bounded indicator-perspective and later quadratic GDP results do not expand this
-exponential-specific scope.
+The selected distinct-auxiliary softplus formula occurs in original Table8.1 and v3/VOR
+scalar equations; original thesis (8.33) and v1 (4.8) repeat `v`. The selected process height
+is `t*u+t` from v3/VOR; original thesis (8.32) and v1 (4.7) print `t*u+1`. The background's
+explicit branch/face definition controls its final quotient shorthand. Each formula uses
+the conventions and source version identified above.
