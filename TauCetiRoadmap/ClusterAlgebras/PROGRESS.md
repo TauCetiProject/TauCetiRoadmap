@@ -1,0 +1,12 @@
+# Progress log: ClusterAlgebras
+
+An append-only record of what landed on the ClusterAlgebras roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"90a709eb33d1b3b920233d1b4a96273538500d83","prs":[35513,35579],"roadmap":"ClusterAlgebras","to_sha":"1c6a1a4e61e51f1bcef7784fdd6d5131235b7299"}-->
+## ClusterAlgebras: 2026-11-10 to 2026-11-11 (`90a709e` to `1c6a1a4`)
+
+The cluster algebras roadmap has started at its two foundations: the coefficients and the exchange matrices. Fomin and Zelevinsky's [coefficient semifields](https://taucetiproject.org/docs/TauCeti/Algebra/Cluster/CoefficientSemifield/Basic.html#TauCeti.CoefficientSemifield), commutative groups with an auxiliary addition that multiplication distributes over, now exist with their homomorphisms, products, the one-element object and the units of suitable semifields such as the nonnegative rationals. Each one is [torsion-free](https://taucetiproject.org/docs/TauCeti/Algebra/Cluster/CoefficientSemifield/Basic.html#TauCeti.CoefficientSemifield.instHasUniqueRoots), and a new general instance, that [unique roots give two unique products](https://taucetiproject.org/docs/TauCeti/Algebra/Group/UniqueProds/TorsionFree.html#HasUniqueRoots.to_twoUniqueProds), makes the group ring ℤ[P] a domain (TauCeti#35513). The tropical and universal subtraction-free semifields are not there yet.
+
+On the matrix side, [exchange matrices](https://taucetiproject.org/docs/TauCeti/Algebra/Cluster/ExchangeMatrix/Basic.html#TauCeti.ExchangeMatrix) are extended integer matrices that carry a chosen skew-symmetrizer, and [matrix mutation](https://taucetiproject.org/docs/TauCeti/Algebra/Cluster/ExchangeMatrix/Mutation.html#TauCeti.matrixMutation) is defined on them. It is [an involution](https://taucetiproject.org/docs/TauCeti/Algebra/Cluster/ExchangeMatrix/Mutation.html#TauCeti.matrixMutation_involutive) and [preserves every skew-symmetrizer](https://taucetiproject.org/docs/TauCeti/Algebra/Cluster/ExchangeMatrix/Mutation.html#Matrix.IsSkewSymmetrizer.matrixMutation). It also commutes with passing to the principal block, with reindexing, with restriction and with block-diagonal sums (TauCeti#35579). The ice-quiver dictionary, the factorization of mutation through two involutive matrices, and rank invariance are still to come.
