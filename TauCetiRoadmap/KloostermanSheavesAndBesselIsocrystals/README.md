@@ -93,7 +93,8 @@ It leaves to other roadmaps, by section:
   duality, the Grothendieck–Ogg–Shafarevich formula, Tannakian generation, weights and the scalar
   Kloosterman F-isocrystal at every prime and every rank: **PadicDifferentialEquationsAndRigidCohomology**
   Layers RD.0–RD.6;
-  arithmetic `D`-module operations, Baldassarri's slope comparison, D'Addezio's monodromy
+  arithmetic `D`-module operations, detection of convergence of a connection on a curve over a
+  dense open, Baldassarri's slope comparison, D'Addezio's monodromy
   comparison, the Adolphson–Sperber degree and Hodge bound and Wan's facial and diagonal ordinarity
   criteria for exponential sums of nondegenerate Laurent polynomials are supplier gaps there; the minimal-slope reconstruction on curves:
   **PadicDifferentialEquationsAndRigidCohomologyPartII** §MS.4.6;
@@ -682,10 +683,15 @@ semi-infinite orbits (Xu–Zhu Theorems 3.5.1 and 3.5.3, pp. 33–34). With Frob
 the category `F-Sat_G` is equivalent to the category of `σ`-semilinear representations of `H(L) ⋊ ℤ`
 of Xu–Zhu §3.6, and that after the half twist by `c_q` the Tate-normalized subcategory is `Rep(H)`
 (Xu–Zhu Theorem 3.6.7, p. 36). For holonomic `D`-modules on `Gr_G ⊗ K` over a field `K` of characteristic
-zero, prove the same equivalence with `Rep(H)` (Beilinson–Drinfeld, *Quantization of Hitchin's
-integrable system*, §5.3). Prove that both equivalences are compatible with the `ℓ`-adic one of
+zero, prove the same equivalence with `Rep(H)`, `H` split over `K` and pinned by the semi-infinite
+orbits (Beilinson–Drinfeld, *Quantization of Hitchin's integrable system*, §5.3, p. 200, over `ℂ`).
+Over a general `K` this equivalence is part of the target; its route is that of the arithmetic case,
+with algebraic `D`-modules in place of arithmetic ones (the local acyclicity and hyperbolic
+localization of §1.2 proved for them in the same way) and no Frobenius structure. Prove that both
+equivalences are compatible with the `ℓ`-adic one of
 GlobalShtukasAndFunctionFieldLanglands §1.9 on characteristic polynomials of the hypercohomology of
 `IC_μ` stalks. *Needs:* §§1.1–1.2; GlobalShtukasAndFunctionFieldLanglands §§1.1–1.2, 1.5, 1.8;
+gap:relative-level-geometry; SpringerResolutionAndCharacteristicCycles Layer 9;
 ReductiveGroups Layers 1, 10.
 
 - The simple objects are `IC_μ = j_{μ,!+}(L_{Gr_μ}[⟨2ρ, μ⟩])` for dominant coweights `μ`, and the parity
@@ -713,7 +719,7 @@ in each theory: the Artin–Schreier sheaf, `E_{−π}` in the de Rham theory, t
 arithmetic theory. On the `γ` component define `A_γ = j_{γ,!}(A_ψφ)[dim Bun_G(0,2)]`. Prove: the canonical
 map `j_{γ,!}(A_ψφ) → j_{γ,+}(A_ψφ)` is an isomorphism; and restriction to the base point followed by the shift `[−dim Bun_G(0,2)]` induces an
 equivalence between `(V, A_ψφ)`-equivariant holonomic objects on `Bun_G(0,2)^γ × X` and holonomic objects
-on `X`, with quasi-inverse `M ↦ A_γ ⊠ M` (Xu–Zhu Lemma 4.1.4 and (4.1.3.2), pp. 38–39; HNY Lemma 2.3 and
+on `X`, with quasi-inverse `M ↦ A_γ ⊠ M` (Xu–Zhu §4.1.3, (4.1.3.1), pp. 38–39, and Lemma 4.1.4(i)–(ii), p. 39; HNY Lemma 2.3 and
 Definition 2.4, pp. 256–257). *Needs:* §§0.2–0.3, 1.1; PadicDifferentialEquationsAndRigidCohomology
 §RD.6.42.
 
@@ -924,8 +930,10 @@ differential operators, a filtered map whose associated graded is the classical 
 commutative subalgebras `A_y ⊂ End(Vac_y)` at the ramified points containing the image of `Z_y`, let `A`
 be the image of `A_H(U) ⊗ ⊗_y A_y` in `Γ(Bun_𝒢, D′)`. Prove: if `D′` is flat over `A`, then for every
 `χ ∈ Spec A` the module `ω^{−1/2} ⊗ (D′ ⊗_{A, χ} K)` is a Hecke eigensheaf whose eigenvalue is the
-`H`-local system of the oper underlying `χ` (Zhu Theorem 8 and Corollary 9, pp. 8–10, recording
-Beilinson–Drinfeld §§5.5 and 7.8). *Needs:* AffineLieAlgebras A7–A8; FormalConnectionsOpers F4, F6;
+`H`-local system of the oper underlying `χ` (Zhu Theorem 8 and Corollary 9, pp. 8–10, over `ℂ`,
+recording Beilinson–Drinfeld §§5.5 and 7.8). Over another algebraically closed field of characteristic
+zero the statement is part of the target, with the same proof from the critical centre of
+gap:critical-center-rational-forms and the de Rham case of §1.3. *Needs:* AffineLieAlgebras A7–A8; FormalConnectionsOpers F4, F6;
 SpringerResolutionAndCharacteristicCycles Layer 9; gap:critical-center-rational-forms; §§1.1, 1.3.
 
 **Checks.**
