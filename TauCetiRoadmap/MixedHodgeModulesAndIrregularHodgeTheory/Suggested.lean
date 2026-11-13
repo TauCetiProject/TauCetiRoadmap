@@ -9,7 +9,7 @@ and Tau Ceti, the headline theorems of the roadmap that are statable at the pins
 
 ## Stated here
 
-* Layer 12, target 12.6, the Adolphson–Sperber theorem: for a Laurent polynomial `φ` in `n`
+* Layer 10, target 10.6, the Adolphson–Sperber theorem: for a Laurent polynomial `φ` in `n`
   variables whose Newton polytope `Δ(φ) = conv({0} ∪ supp φ)` is full dimensional and which is
   nondegenerate on every nonempty face of `Δ(φ)` not containing the origin, the twisted de Rham
   complex of the torus with differential `d + dφ ∧` is exact outside degree `n`, and its
@@ -44,13 +44,13 @@ Each of the following needs a carrier that neither Mathlib nor Tau Ceti has at t
   Layer 7). Missing: the Deligne filtration, defined from the `F` and `V` filtrations of a mixed
   Hodge module, and polarized twistor `D`-modules.
 * The classical `tg` criterion and its zero-locus formula (Fresán–Sabbah–Yu, Theorem A.24 and
-  Example A.27; Layer 10), the Fourier costalk theorem and the Hodge numbers of the Fourier
-  transform of a pure Hodge module (Theorem A.30, Corollary A.31; Layer 11), and the monodromy
-  weights at infinity of `Π M` (Matsui–Takeuchi, Proposition A.3; Layer 11). Missing:
+  Example A.27; Layer 8), the Fourier costalk theorem and the Hodge numbers of the Fourier
+  transform of a pure Hodge module (Theorem A.30, Corollary A.31; Layer 9), and the monodromy
+  weights at infinity of `Π M` (Matsui–Takeuchi, Proposition A.3; Layer 9). Missing:
   exponential cohomology of a pair, which needs mixed Hodge modules and `Π`.
 * Agreement of the Newton and irregular Hodge filtrations (Yu, Theorem 4.6), model independence
   of the logarithmic irregular Hodge filtration and the filtered Künneth and duality theorems
-  (Chen–Yu, Theorem 1; Yu, Theorem 2.2) (Layer 12, targets 12.3, 12.7 and 12.9). Missing: the
+  (Chen–Yu, Theorem 1; Yu, Theorem 2.2) (Layer 10, targets 10.3, 10.7 and 10.9). Missing: the
   irregular Hodge filtration `F_irr` of a pair, defined through the Deligne filtration.
 -/
 
@@ -58,7 +58,7 @@ namespace TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory
 
 open MeasureTheory
 
-/-! ## Layer 12: Logarithmic and Newton descriptions of the filtration -/
+/-! ## Layer 10: Logarithmic and Newton descriptions of the filtration -/
 
 /-- The ring `ℂ[x₁^{±1}, …, x_n^{±1}]` of Laurent polynomials in `n` variables, the coordinate ring
 of the torus `T = (G_m)^n`, realized as the additive monoid algebra of the character lattice
