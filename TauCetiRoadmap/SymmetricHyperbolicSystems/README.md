@@ -129,8 +129,9 @@ compactness arguments, never in a final estimate.
   finite-dimensional space, the only integration by parts used in Layer 2.
 - `hasDerivAt_integral_of_dominated_loc_of_deriv_le`
   (`Mathlib/Analysis/Calculus/ParametricIntegral.lean:569`): differentiation of the energy in `t`.
-- `le_gronwallBound_of_liminf_deriv_right_le` and `norm_le_gronwallBound_of_norm_deriv_right_le`
-  (`Mathlib/Analysis/ODE/Gronwall.lean:112,134`): the continuous Grönwall inequality.
+- `le_gronwallBound_of_liminf_deriv_right_le` (`Mathlib/Analysis/ODE/Gronwall.lean:112`): the
+  continuous Grönwall inequality for a one-sided bound `f' ≤ K f + ε`, which is the form the
+  energy method supplies (§2.2, §2.3).
 - `discrete_gronwall` and `discrete_gronwall_Ico` (`Mathlib/Analysis/ODE/DiscreteGronwall.lean:80,98`):
   the discrete Grönwall inequality for `u (m+1) ≤ (1 + c m) u m + b m`.
 - `fwdDiff`, `fwdDiff_smul` and `fwdDiff_iter_eq_sum_shift` (`Mathlib/Algebra/Group/ForwardDiff.lean`):
@@ -190,8 +191,8 @@ in parallel after Layer 1; Layer 4 needs Layer 3; Layer 5 needs Layer 4; Layer 6
 
 ### 1.1 Continuous partial derivatives give `C¹`
 
-(Rudin, *Principles of Mathematical Analysis*, 3rd ed., Theorem 9.21, for maps between Euclidean
-spaces.)
+(Rudin, *Principles of Mathematical Analysis*, 3rd ed., Theorem 9.21, p. 219, for maps between
+Euclidean spaces.)
 
 Prove that a function `f : EuclideanSpace ℝ ι → G` (`ι` a finite type, `G` a real normed space)
 whose partial derivatives `gᵢ(x) = d/dr f(x + r eᵢ)|_{r=0}` exist at every point of an open set
@@ -219,8 +220,9 @@ Define the structure `LinearSystem n N` with fields `A0`, `A : Fin n → …` an
 `ℝ → EuclideanSpace ℝ (Fin n) → Matrix (Fin N) (Fin N) ℝ`; the entrywise derivatives `matDt` and
 `matDx` of the Conventions; the left-hand side
 `S.apply u t x = A⁰ ∂ₜu + Σⱼ Aʲ ∂ⱼu + B u` with the derivatives of the Conventions; the predicate
-`IsSymmetricHyperbolic S λ` (Friedrichs 1954; in the form used here, Métivier, Definition
-4.1.1); and the predicate `IsClassicalSolution S F T u`. The source `F` and
+`IsSymmetricHyperbolic S λ` (Friedrichs 1954, p. 348, where some combination `Σ ξ⁰_μ A^μ` is
+required to be positive definite; with the time coefficient `A⁰` positive definite, John 1982,
+Ch. 5 §3 (a), (3.1a), p. 163, and Métivier, Definition 4.1.1); and the predicate `IsClassicalSolution S F T u`. The source `F` and
 the initial value are not fields of the system.
 
 - `S.apply` is additive and homogeneous in `u` among functions differentiable in the relevant
@@ -281,8 +283,8 @@ Mathlib only.
 ### 2.1 The energy identity
 
 For a classical solution of a symmetric hyperbolic system with `A⁰`, `Aʲ` of class `C¹` and `B`
-continuous, prove the pointwise identity on `(0,T) × ℝⁿ` (Métivier, Lemma 4.2.1; John 1982,
-Ch. 5 §3 (a))
+continuous, prove the pointwise identity on `(0,T) × ℝⁿ` (John 1982, (3.5a)–(3.5b), p. 164, where
+`C = 2B − ∂ₜA⁰ − Σⱼ ∂ⱼAʲ` has `uᵀCu = −⟪Ku, u⟫`; Métivier, Lemma 4.2.1)
 
     ∂ₜ⟪A⁰u, u⟫ + Σⱼ ∂ⱼ⟪Aʲu, u⟫ = ⟪K u, u⟫ + 2⟪F, u⟫,
     K = ∂ₜA⁰ + Σⱼ ∂ⱼAʲ − B − Bᵀ,
@@ -307,7 +309,8 @@ Let `c ≥ 0` be a speed (Conventions), `A⁰` and `Aʲ` be `C¹` and `B` contin
 classical solution on `[0,T]`. If `u₀ = u 0` vanishes on the open ball `B(x₀, R)` and `F`
 vanishes on the open cone `{(t,x) : 0 ≤ t ≤ T, ‖x − x₀‖ < R − c t}`, then `u` vanishes on that
 cone. No bound on the coefficients outside the cone and no integrability of `u` is assumed.
-(Compare Lax 2006, Theorem 4.6, p. 44, where the domain of influence is bounded by the
+(Compare Lax 2006, Theorem 4.5, p. 43, uniqueness in a lens-shaped domain with a weakly
+spacelike face, and Theorem 4.6, p. 44, where the domain of influence is bounded by the
 characteristic conoid; the cone here uses the single speed `c`.)
 
 Proof route: for `ε > 0` put `ρ_ε(x) = √(ε² + ‖x − x₀‖²)`, which is smooth with
@@ -346,7 +349,7 @@ because `F = 0` where `φ > 0`; and `⟪Ku, u⟫ ≤ (κ/λ)⟪A⁰u, u⟫` for 
   classical solutions on `[0,T]` with the same `F` and the same initial value agree on
   `[0,T] × ℝⁿ`. Their difference vanishes on every cone of §2.2 with the speed of §1.2, and every
   point lies in such a cone.
-- **Integrated energy identity.** If `A⁰` and `Aʲ` are `C¹`, `B` is continuous, `F` is continuous
+- **Integrated energy identity** (John 1982, (3.6)–(3.8), p. 164, there for `u(·,0) = 0`). If `A⁰` and `Aʲ` are `C¹`, `B` is continuous, `F` is continuous
   on `[0,T] × ℝⁿ` and the classical solution `u` vanishes outside a bounded set of
   `[0,T] × ℝⁿ`, then for `0 ≤ t ≤ T`
 
@@ -355,7 +358,10 @@ because `F = 0` where `φ > 0`; and `⟪Ku, u⟫ ≤ (κ/λ)⟪A⁰u, u⟫` for 
   This is §2.1 integrated over `[0,t] × ℝⁿ`; the divergence terms `∂ⱼ⟪Aʲu, u⟫` integrate to `0`
   because `u(s,·)` has compact support. No bound on the `Aʲ` is needed. In `Suggested.lean` this
   is `integral_dotProduct_A0_sub_eq`, and the estimate below is `integral_dotProduct_A0_le`.
-- **Energy estimate** (Lax 2006, Theorem 4.3, p. 41; Métivier, Proposition 4.2.3). Under the
+- **Energy estimate** (Lax 2006, Theorem 4.3, pp. 41–42, for `A⁰ = 1` and `F = 0`; p. 45 notes
+  the extension to a positive symmetric `A⁰`; Métivier, Proposition 4.2.3; compare John
+  1982, (3.9)–(3.12a), p. 165, an integrated form for `u(·,0) = 0`, and the energy integral
+  inequality of Friedrichs 1954, §7, Theorem 7, p. 361). Under the
   hypotheses of the integrated identity (again no bound on the `Aʲ`
   is needed), if `ξ ⬝ᵥ (K(t,x) *ᵥ ξ) ≤ κ (ξ ⬝ᵥ ξ)` for all `(t,x)` and `ξ`, with `κ ≥ 0`, then for
   `0 ≤ t ≤ T`
@@ -391,7 +397,10 @@ because `F = 0` where `φ > 0`; and `⟪Ku, u⟫ ≤ (κ/λ)⟪A⁰u, u⟫` for 
 *Needs:* uniqueness: §2.2, §1.2 (linearity, speed). Integrated identity: §2.1; Mathlib's
 `hasDerivAt_integral_of_dominated_loc_of_deriv_le` and
 `integral_bilinear_fderiv_right_eq_neg_left_of_integrable`. Energy estimate: the integrated
-identity and `norm_le_gronwallBound_of_norm_deriv_right_le`. Time reversal: §1.2.
+identity and `le_gronwallBound_of_liminf_deriv_right_le`, applied on `[0,t]` to
+`G(s) = E(s) − ∫₀ˢ ‖F‖²` with `K = (κ+1)/λ` and `ε = K ∫₀ᵗ ‖F‖²`: then `G' ≤ K G + ε`, and
+`gronwallBound(E(0), K, ε, t) + ∫₀ᵗ ‖F‖² = e^{Kt}(E(0) + ∫₀ᵗ ‖F‖²)`, the stated bound. Time
+reversal: §1.2.
 
 ### Examples
 
@@ -451,7 +460,9 @@ supported grid functions prove:
 ### 3.2 The discrete Sobolev inequality
 
 This inequality turns the `ℓ²` bounds of Layer 5 into the pointwise bounds used in Layer 6; it is
-elementary, and its proof is given in full here. For `h > 0` and finitely supported `v`, prove
+elementary, and its proof is given in full here. It is the discrete analogue of the Sobolev
+inequality on a cube proved by induction over the coordinates in John 1982, Ch. 5 §3, Problem 3,
+(3.25a)–(3.25d), pp. 169–170 (John's main text uses the Fourier form (3.24), p. 169). For `h > 0` and finitely supported `v`, prove
 
     |v j|² ≤ Σ_{s ⊆ Fin n} ‖D₊^{1_s} v‖²_h        for every j,
 
@@ -519,7 +530,9 @@ Mathlib only.
 Throughout this layer and Layers 5 and 6, `n ≥ 1`, `A⁰ = 1` and every `Aⁱ(t,x)` is symmetric.
 Without symmetry the weights of §4.2 are not positive semidefinite and the one-step inequality
 fails (Check in §4.2). The existence proof of Layers 4–6 is the method of finite differences of
-John 1982, Ch. 5 §3 (b).
+John 1982, Ch. 5 §3 (b); Friedrichs 1954, §15, pp. 373–374, remarks that finite differences give
+an existence proof independent of his Hilbert-space method, and uses them in §§19–21 for
+regularity.
 
 ### 4.1 The scheme
 
@@ -551,13 +564,15 @@ and the iterates `u⁰ = u₀ ∘ gridPoint h`, `u^{m+1} = Q_{t_m} u^m` with `t_
 
 ### 4.2 Positive weights and the one-step energy inequality
 
-- **Positive-weights lemma** (Friedrichs' stability theorem, Lax 2006, Theorem 8.1, p. 85). For
+- **Positive-weights lemma** (Friedrichs' stability theorem, Lax 2006, Theorem 8.1, p. 85;
+  compare Friedrichs 1954, §19, (19.18)–(19.20), pp. 381–382, where non-negativity of the
+  coefficient matrices plays the same role for a one-sided difference scheme). For
   positive semidefinite `W₁, …, W_r ∈ ℝ^{N×N}` with `Σᵢ Wᵢ = 1`
   and any `v₁, …, v_r ∈ ℝᴺ`, `|Σᵢ Wᵢvᵢ|² ≤ Σᵢ ⟪Wᵢvᵢ, vᵢ⟫`. Proof: for any `w`,
   `⟪w, Σ Wᵢvᵢ⟫ = Σ⟪Wᵢw, vᵢ⟫ ≤ Σ⟪Wᵢw, w⟫^{1/2}⟪Wᵢvᵢ, vᵢ⟫^{1/2} ≤ |w|(Σ⟪Wᵢvᵢ, vᵢ⟫)^{1/2}`, using
   Cauchy–Schwarz for the positive semidefinite form `⟪Wᵢ·, ·⟫` and then for the sum.
 - **CFL condition** (Courant–Friedrichs–Lewy 1928, Part II §2, pp. 61–62; Lax 2006, (8.11),
-  p. 84). `n μ |⟪Aⁱ(t,x)ξ, ξ⟫| ≤ |ξ|²` for all `i, t, x, ξ`; for symmetric `Aⁱ` this is
+  p. 85, and in two space variables (8.70), p. 104). `n μ |⟪Aⁱ(t,x)ξ, ξ⟫| ≤ |ξ|²` for all `i, t, x, ξ`; for symmetric `Aⁱ` this is
   `n μ ‖Aⁱ(t,x)‖ ≤ 1` with the spectral norm. It makes the weights `(2n)⁻¹ ± (μ/2) Aⁱ(t, x_j)`
   positive semidefinite, and they sum to `1`.
 - **One-step inequality.** Assume the CFL condition at time `t`, the Lipschitz bound
@@ -618,7 +633,9 @@ Layer 3.
 
 ### 5.1 Difference quotients of the scheme
 
-The difference quotients of the scheme are estimated as in John 1982, Ch. 5 §3 (b). For a
+The difference quotients of the scheme are estimated as in John 1982, Ch. 5 §3 (b); the
+continuous analogue, differentiating the equation and applying the energy inequality, is
+John 1982, (3.20a)–(3.21), pp. 167–168. For a
 multi-index `α`, apply `D₊^α` to `u^{m+1} = P u^m + k(F − B u^m)` and expand with the
 Leibniz rule of §3.1. Prove the identity
 
@@ -693,8 +710,8 @@ condition, and `k = μ h`.
 
 ### 6.1 Compactness
 
-The passage to the limit follows John 1982, Ch. 5 §3 (b), with Arzelà–Ascoli in place of the
-compactness argument there. Let `U_h(t,x)` be the linear interpolation in `t` between `interp h u^m` at `t_m` and
+The passage to the limit follows John 1982, Ch. 5 §3 (b); compactness is obtained here from
+Arzelà–Ascoli. Let `U_h(t,x)` be the linear interpolation in `t` between `interp h u^m` at `t_m` and
 `interp h u^{m+1}` at `t_{m+1}`, for `0 ≤ t ≤ T + 1`, and let `W_{h,i}` be the same for
 `D₊ᵢ u^m`. By §5.2, §3.3 and §4.1:
 
@@ -747,7 +764,7 @@ The headline is `exists_isClassicalSolution_of_A0_eq_one` in `Suggested.lean`.
 ### 6.3 Convergence of the scheme
 
 By uniqueness (§2.3) every subsequential limit in §6.1 is the solution of §6.2 (compare Lax
-2006, Theorem 8.3, p. 87: a consistent and stable scheme converges), so
+2006, Theorem 8.3 and its Notes (1)–(2), p. 87: a consistent and stable scheme converges), so
 `U_h → u` uniformly on `[0,T] × ℝⁿ` as `h → 0` (Mathlib's `tendsto_of_subseq_tendsto`). At grid
 points: for every `ε > 0`, for all sufficiently small `h > 0`, all `m` with `m μ h ≤ T` and all
 `j`, `‖u^m(j) − u(m μ h, x_j)‖ ≤ ε`. No rate is claimed.
@@ -869,16 +886,20 @@ theorem (§7.3).
 ## References
 
 - K. O. Friedrichs, *Symmetric hyperbolic linear differential equations*, Comm. Pure Appl. Math.
-  7 (1954), 345–392. Cited at §1.2.
+  7 (1954), 345–392: p. 348 (definition), §7, Theorem 7, p. 361 (energy integral
+  inequality), §15, pp. 373–374, and §19, pp. 379–382 (difference operators). Cited at §1.2,
+  §2.3, Layer 4 and §4.2.
 - F. John, *Partial Differential Equations*, 4th ed., Applied Mathematical Sciences 1, Springer,
-  1982: Ch. 5, §3 (a) (the basic energy inequality) and (b) (existence of solutions by the
-  method of finite differences). Cited in the summary, §2.1, Layer 4, §4.3, §5.1, §5.2, §6.1 and §6.2.
+  1982: Ch. 5, §3 (a), pp. 163–170 (the basic energy inequality), and §3 (b) (existence of
+  solutions by the method of finite differences, announced on p. 167). Cited in the summary,
+  §1.2, §2.1, §2.3, §3.2, Layer 4, §4.3, §5.1, §5.2, §6.1 and §6.2.
 - R. Courant, K. Friedrichs, H. Lewy, *Über die partiellen Differenzengleichungen der
   mathematischen Physik*, Math. Ann. 100 (1928), 32–74. Cited at §4.2.
 - P. D. Lax, *Hyperbolic Partial Differential Equations*, Courant Lecture Notes in Mathematics
-  14, Courant Institute and American Mathematical Society, 2006: Theorem 4.3 and Theorem 4.6
-  (§4.3), Chapter 8 (finite difference approximation). Cited at §2.2, §2.3, §4.1, §4.2, §4.3 and §6.3.
-- W. Rudin, *Principles of Mathematical Analysis*, 3rd ed., McGraw-Hill, 1976: Theorem 9.21.
+  14, Courant Institute and American Mathematical Society, 2006: §4.3, pp. 41–45 (Theorems 4.3,
+  4.5, 4.6); §§8.1–8.3, pp. 83–88 ((8.9)–(8.11), Theorems 8.1 and 8.3); §8.7, pp. 103–104
+  ((8.69)–(8.70)). Cited at §2.2, §2.3, §4.1, §4.2, §4.3 and §6.3.
+- W. Rudin, *Principles of Mathematical Analysis*, 3rd ed., McGraw-Hill, 1976: Theorem 9.21, p. 219.
   Cited at §1.1.
 - G. Métivier, lecture notes, Chapter 4, *Symmetric systems. The L² linear theory*,
   https://www.math.u-bordeaux.fr/~gmetivie/NotesPisaChap4.pdf: Definition 4.1.1, Lemma 4.2.1,
