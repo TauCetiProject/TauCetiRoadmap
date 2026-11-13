@@ -283,7 +283,13 @@ Prove `existsUnique_isNormalizedWeil`: there is exactly one `W` with `IsNormaliz
 
 A proof route: `dim S − 2 dim S⁺ = qⁿ − (qⁿ + 1) = −1`. Taking determinants in `μ(g)μ(g′) = cμ(gg′)` on `S` and on `S⁺` gives `κ(g)κ(g′) = c(g, g′)⁻¹κ(gg′)`, so `κμ` is multiplicative. Rescaling `μ` by `a` multiplies `κ` by `a⁻¹`, so `κμ` is independent of the choice; and a scalar function `a` with `aW` normalized satisfies `a(g)^{qⁿ − (qⁿ + 1)} = 1`, so `a = 1`. The argument never uses perfectness of `Sp(V)`, which fails for `Sp₂(𝔽₃)`.
 
-Its API:
+The projector API follows by evaluating its formula pointwise, with `2 ≠ 0` in `ℂ` (the even and odd subspaces are those of N02, Theorem 4.2, pp. 20–22):
+
+- For every `f : X → ℂ`, applying `e` twice gives `e(e f) = e f`.
+- The image of `e` is exactly the even functions: `e f` satisfies `(e f)(−z) = (e f)(z)` for every `z`, and every even `f` satisfies `e f = f`.
+- The kernel of `e` is exactly the odd functions: `e f = 0` if and only if `f(−z) = −f(z)` for every `z`.
+
+The normalized Weil representation API:
 
 - `IsNormalizedWeil ψ W` holds for `W(g) = (det μ(g)/(det μ(g)|_{S⁺})²) μ(g)`.
 - The normalized `W` is a homomorphism with Egorov covariance, independent of the choice of `μ`.
@@ -292,6 +298,9 @@ Its API:
 
 **Checks.**
 
+- For `X = 𝔽₃`, with `δₐ` the indicator of `a`, `eδ₀ = δ₀`; the zero projector and the odd projector `(1 − R)/2` both give zero.
+- For `X = 𝔽₃`, `eδ₁ = (δ₁ + δ₂)/2`; the identity gives `δ₁`, while the unnormalized sum `1 + R` gives `δ₁ + δ₂`.
+- For `X = 𝔽₃`, `e(δ₁ − δ₂) = 0`; the identity gives the nonzero function `δ₁ − δ₂`.
 - For `n = 0`, `Sp(X × X*)` is trivial, `μ(1) = 1` by §2.1 and `W = 1`; the identity reads `1 = 1²` and does not exercise `κ`. For `q = 3`, `n = 1` and `g = u(1)`, `W(g) = diag(1, ζ, ζ)` on `δ₀, δ₁, δ₂` (§2.3) has determinant `ζ²`, and on `S⁺ = span(δ₀, δ₁ + δ₂)` it is `diag(1, ζ)`, so `(det W(g)|_{S⁺})² = ζ²` and the identity holds; after the twist `λ(g) = ζ` the left side is `ζ³ · ζ² = ζ²` and the right side `(ζ · ζ²)² = 1`.
 - For the `𝔽₃` plane, twisting the normalized `W` by a character `λ` of `Sp₂(𝔽₃)` of order 3 keeps Egorov covariance and multiplicativity, but `det(λW) = λ³ det W = det W` while `(det(λW)|_{S⁺})² = λ⁴(det W|_{S⁺})² = λ(det W|_{S⁺})²`, so the twist violates the identity wherever `λ ≠ 1`.
 - For the `𝔽₅` plane, `dim S⁺ = 3` and `dim S⁻ = 2`, so `5 − 2 · 3 = −1`; with the ratio inverted, `κ′ = (det μ|_{S⁺})²/det μ`, rescaling `μ` by `a` would multiply `κ′μ` by `a²` instead of leaving it fixed.
