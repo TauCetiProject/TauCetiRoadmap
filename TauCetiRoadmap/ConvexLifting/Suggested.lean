@@ -3,11 +3,9 @@ import Mathlib
 /-!
 # Exact lifting and matched finite outer approximations: target signatures
 
-The roadmap is `README.md`; this file is not the roadmap. These are suggested
-forms, not an exhaustive checklist. The theorem targets are intentionally admitted
-with `sorry`; the definitions needed to state them have their actual bodies.
-Every headline theorem below is statable using the supplied definitions and pinned APIs.
-Compiling this file checks interfaces, not proofs of its admitted targets.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
+headline theorems against the pinned APIs; every headline theorem is statable at the pins.
+These are suggested forms, not an exhaustive checklist. The markdown remains definitive.
 -/
 
 noncomputable section

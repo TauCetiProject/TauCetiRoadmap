@@ -153,7 +153,7 @@ For the analytic comparison after normalization, use the convex component `g(u)=
 - With `m=0`, `feasibleOn` equals `relaxationOn`; with no coordinates the objective is zero. All coordinate identities must cover empty blocks and empty row families.
 - Use `−1≤x≤1`, `z∈{0,1}`, `(x+z)²≤1`, objective `x+z`. Normalize with `u=x+z`, then use `u²−1≤v`, `v≤0`; the unshifted epigraph height is `v+1`. All three models attain `−1` at the lifts of `(−1,0)`.
 - The same model admits `(x,z)=(1/2,0)` with new argument `u=1/2`; normalization must keep that auxiliary coordinate continuous. The original point `(0,1/2)` belongs to the continuous relaxation and fails mixed feasibility.
-- With no coordinates the objective is zero, and graph insertion adds no coordinates when `q=0`. Finite bounds on the original integer block do not assert feasibility or compactness of the free-height set.
+- Graph insertion adds no coordinates when `q=0`. Finite bounds on the original integer block do not assert feasibility or compactness of the free-height set.
 
 ### Dependencies
 
@@ -211,7 +211,7 @@ Prove `fullspace_analytic_comparison` under component convexity on `D`, convexit
 The squared-component and affine examples below use the full height domain `E=ℝ²`; the remaining examples specify their own height domains.
 
 - For the squared-component/sum model on `[−1,1]²`, one anchor `(1,1)` and budget one give both `directOA` and the projection of `sharedOA` as the box intersected with `x₁+x₂≤3/2`. Repeating that anchor changes neither set. For affine `g(x)=x` and outer sum, both sets at budget one are the box intersected with `x₁+x₂≤1`, independently of the two anchors `(1,1)` and `(−1,−1)`.
-- With no anchors and `E=univ`, both finite projections are `D`. With `E=∅` and nonempty `D`, the shared projection is empty while the direct set is `D`; the height domain cannot be discarded.
+- With no anchors and `E=univ`, both finite projections are `D`. With no anchors, `E=∅` and nonempty `D`, the shared projection is empty while the direct set is `D`. With the anchor `(1,1)` and budget one from the preceding squared-component Check, the direct set is `D ∩ {x₁+x₂≤3/2}` and the shared projection is still empty; the height domain cannot be discarded.
 - For `g(x)=(x₁²,x₂²)`, outer sum, box `[−1,1]²`, anchors `(1,1)` and `(−1,−1)`, and budget `1/2`, direct rows give `|x₁+x₂|≤5/4`; shared heights give `|x₁|+|x₂|≤5/4`. Objective `−x₁+x₂` attains `−2`, `−5/4` and `−1` in direct, shared and original models; exact lifting retains `−1`.
 - For `D=E=ℝ`, `g(x)=x²`, `h=id` and budget `1/4`, shared heights at anchor zero project to `ℝ`, while the direct row at anchor one is `2x−1≤1/4`, or `x≤5/8`. Both contain the original interval `[−1/2,1/2]`, but `1` lies only in the first. This checks the common-anchor premise independently of validity of each relaxation.
 - For `g=id`, `h=exp`, anchor zero and budget two, the outer derivative is `1`; `G(x)=x` and `H(y)=1+y`. With `D=E=ℝ`, the shared and direct projections are `(−∞,1]`, containing the original `(−∞,log 2]`. With `D=E=[0,∞)`, the finite projections are `[0,1]`, containing the original `[0,log 2]`; `(0,0)` belongs to the shared set and the constraint `y≥0` is retained.
