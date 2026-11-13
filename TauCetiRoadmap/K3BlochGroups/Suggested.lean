@@ -1,6 +1,7 @@
 module
 
 public import Mathlib
+public import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Stable
 
 /-!
 # K3BlochGroups: target signatures
@@ -8,15 +9,23 @@ public import Mathlib
 The roadmap is README.md; this file is not the roadmap. It states the roadmap’s headline
 theorems against the pinned APIs: the integral diagonal of the antisymmetric tensor cokernel,
 the stability of general linear and symmetric groups, the power-map action on cyclic homology,
+the comparison of the Bloch groups of a discrete valuation ring and of its fraction field,
 the integral and characteristic-localized third homology of finite SL₂, the cyclic order of
 the finite-field Bloch group and the formally-real order-six theorem. The tensor cokernel,
-pre-Bloch presentation and symbols, and block inclusion are simple definitions on native carriers.
+the pre-Bloch presentation of a commutative ring and its symbols, block inclusion and
+GL-stability through degree three are simple definitions on native carriers.
 
 The homological Quillen K₃ comparison and its Hopf kernel lack a Quillen K-group carrier and
 plus-construction maps at the pins. The Milnor injection and motivic edge lack the shared
 Milnor and motivic carriers. The Suslin exact sequence, its finite-to-infinite compatibility,
 transcendental rigidity and arithmetic quotient theorems lack Quillen K₃, the Bloch boundary
 and enhanced Tor, and the configuration spectral sequences. The algebraically closed integral torsion comparison likewise lacks the shared K-group carriers.
+The Bloch–Wigner sequences over rings with many units and over local rings, and the comparison
+of the coinvariants of third homology of SL₂ of a local domain with indecomposable K₃, lack
+Quillen K₃ of a ring; the refined sequence for a local domain lacks the edge map from third
+homology of SL₂ to the refined Bloch group, built from the configuration spectral sequence.
+GL-stability through degree three is a predicate on Tau Ceti's stabilization, the hypothesis
+under which the README states the finite-residue cases.
 The finite Chern isomorphism also lacks finite-coefficient K-theory and its étale Chern map. The Rogers detector lacks
 the supplier’s interval Rogers function and its descent map. These headline results remain in
 the README with their full hypotheses. Finite-support certificates and generic kernel-fibre
@@ -53,24 +62,30 @@ theorem antisymSquare_diagonal_exact (A : Type*) [AddCommGroup A] :
         ∃ c : A, a - b = 2 • c) := by
   sorry
 
-/-- The unreduced free symbol on nonzero field elements, extended by zero at zero.
-In particular the raw symbol of one is still a free generator. -/
-noncomputable def preBlochRawSymbol {F : Type*} [Field F] (x : F) : FreeAbelianGroup Fˣ := by
+/-- The unreduced free symbol on a commutative ring: the basis vector of the unit when `x` is a
+unit, and zero otherwise. Over a field it is zero exactly at zero, and the raw symbol of one is
+still a free generator. -/
+noncomputable def preBlochRawSymbol {A : Type*} [CommRing A] (x : A) : FreeAbelianGroup Aˣ := by
   classical
-  exact if h : x ≠ 0 then FreeAbelianGroup.of (Units.mk0 x h) else 0
+  exact if h : IsUnit x then FreeAbelianGroup.of h.unit else 0
 
-/-- Suslin’s pre-Bloch presentation for any field: kill the symbol of one and precisely
-five-term expressions at admissible pairs, retaining integral diagonal torsion in its boundary. -/
-abbrev preBloch (F : Type*) [Field F] :=
-  (FreeAbelianGroup Fˣ) ⧸ AddSubgroup.closure
-    {r : FreeAbelianGroup Fˣ | r = preBlochRawSymbol (1 : F) ∨
-      ∃ x y : F, x ≠ 0 ∧ x ≠ 1 ∧ y ≠ 0 ∧ y ≠ 1 ∧ x ≠ y ∧
-        r = preBlochRawSymbol x - preBlochRawSymbol y + preBlochRawSymbol (y / x) -
-          preBlochRawSymbol ((1 - x⁻¹) / (1 - y⁻¹)) +
-          preBlochRawSymbol ((1 - x) / (1 - y))}
+/-- The pre-Bloch presentation of a commutative ring: kill the symbols of the units `u` with
+`1 - u` not a unit, and the five-term expressions at the admissible pairs, the pairs `x, y` with
+`x, 1 - x, y, 1 - y, x - y` units. Over a field the first family is the symbol of one and the
+second is Suslin's relation at `x ≠ y` in `F ∖ {0, 1}`. -/
+abbrev preBloch (A : Type*) [CommRing A] :=
+  (FreeAbelianGroup Aˣ) ⧸ AddSubgroup.closure
+    {r : FreeAbelianGroup Aˣ |
+      (∃ u : A, IsUnit u ∧ ¬ IsUnit (1 - u) ∧ r = preBlochRawSymbol u) ∨
+      ∃ x y : A, IsUnit x ∧ IsUnit (1 - x) ∧ IsUnit y ∧ IsUnit (1 - y) ∧ IsUnit (x - y) ∧
+        r = preBlochRawSymbol x - preBlochRawSymbol y +
+          preBlochRawSymbol (y * Ring.inverse x) -
+          preBlochRawSymbol ((1 - Ring.inverse x) * Ring.inverse (1 - Ring.inverse y)) +
+          preBlochRawSymbol ((1 - x) * Ring.inverse (1 - y))}
 
-/-- The pre-Bloch symbol, including its zero extension at zero; the presentation kills one. -/
-noncomputable def preBlochSymbol {F : Type*} [Field F] (x : F) : preBloch F :=
+/-- The pre-Bloch symbol, zero at every non-unit; the presentation kills it at every unit `u`
+with `1 - u` not a unit. -/
+noncomputable def preBlochSymbol {A : Type*} [CommRing A] (x : A) : preBloch A :=
   QuotientAddGroup.mk (preBlochRawSymbol x)
 
 /-! ## Layer 4: Configuration homology and the Suslin sequence -/
@@ -129,6 +144,47 @@ theorem symmetricGroup_homology_stable (n i : ℕ) (hi : 2 * i ≤ n)
     (hφ : φ.hom.toLinearMap = LinearMap.id) :
     Function.Bijective (groupHomology.map
       (Equiv.Perm.viaEmbeddingHom ⟨Fin.castSucc, Fin.castSucc_injective n⟩) φ i) := by
+  sorry
+
+/-- A commutative ring is GL-stable through degree three when, for every `i ≤ 3` and `n ≥ i`,
+the stabilization `GLₙ(A) → GLₙ₊₁(A)`, `g ↦ diag(g, 1)`, induces a bijection on integral
+homology in degree `i`, with the identity coefficient map. Mirzaii–Mokari, §1, p.4, for rings
+with many units; HomologicalStabilityOfGeneralLinearGroups §2.3 for semilocal rings whose
+residue fields are infinite. -/
+def IsGLStableThroughThree (A : Type u) [CommRing A] : Prop :=
+  ∀ i n : ℕ, i ≤ 3 → i ≤ n →
+    ∀ φ : Rep.trivial (ULift.{u} ℤ) (Matrix.GeneralLinearGroup (Fin n) A) (ULift.{u} ℤ) ⟶
+      Rep.res (TauCeti.stabilizeGL A (Nat.le_succ n))
+        (Rep.trivial (ULift.{u} ℤ) (Matrix.GeneralLinearGroup (Fin (n + 1)) A) (ULift.{u} ℤ)),
+      φ.hom.toLinearMap = LinearMap.id →
+      Function.Bijective (groupHomology.map (TauCeti.stabilizeGL A (Nat.le_succ n)) φ i)
+
+/-- For a discrete valuation ring `R` with fraction field `K` and residue field `k`, where `k` is
+infinite or has more than nine elements, and where `K` and `k` have equal characteristic or `k`
+is finite, the map of pre-Bloch groups induced by `R → K` restricts to a bijection from the
+kernel of the boundary `[x] ↦ x ∧ (1 - x)` of `R` onto that of `K`. When `k` is finite, `R` is
+assumed GL-stable through degree three. The displayed generator rules determine both
+boundaries and the map. Mirzaii–Mokari, Corollary 5.4, arXiv v2, p.17; Mirzaii, Corollary 6.3,
+arXiv v1, p.30. -/
+theorem bloch_dvr_equiv (R : Type u) (K : Type*) [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] [Field K] [Algebra R K] [IsFractionRing R K]
+    (hk : Infinite (IsLocalRing.ResidueField R) ∨ 9 < Nat.card (IsLocalRing.ResidueField R))
+    (hc : ringChar K = ringChar (IsLocalRing.ResidueField R) ∨
+      Finite (IsLocalRing.ResidueField R))
+    (hstab : Finite (IsLocalRing.ResidueField R) → IsGLStableThroughThree R) :
+    ∃ (dR : preBloch R →+ antisymSquare ℤ (Additive Rˣ))
+      (dK : preBloch K →+ antisymSquare ℤ (Additive Kˣ)) (φ : preBloch R →+ preBloch K),
+      (∀ (x : R) (hx : IsUnit x) (hx1 : IsUnit (1 - x)),
+        dR (preBlochSymbol x) = Submodule.Quotient.mk
+          (Additive.ofMul hx.unit ⊗ₜ[ℤ] Additive.ofMul hx1.unit)) ∧
+      (∀ (x : K) (hx : IsUnit x) (hx1 : IsUnit (1 - x)),
+        dK (preBlochSymbol x) = Submodule.Quotient.mk
+          (Additive.ofMul hx.unit ⊗ₜ[ℤ] Additive.ofMul hx1.unit)) ∧
+      (∀ x : R, IsUnit x → IsUnit (1 - x) →
+        φ (preBlochSymbol x) = preBlochSymbol (algebraMap R K x)) ∧
+      (∀ z, dR z = 0 → dK (φ z) = 0) ∧
+      (∀ z, dR z = 0 → φ z = 0 → z = 0) ∧
+      (∀ w, dK w = 0 → ∃ z, dR z = 0 ∧ φ z = w) := by
   sorry
 
 /-! ## Layer 5: Finite fields and arithmetic examples -/

@@ -12,7 +12,7 @@ AlgebraicTopology, Stages 2–5 and 8, owns singular homology, CW pairs, relativ
 
 GeneralAlgebraicKTheory §§13.8a–c owns Quillen's finite-field computation (Brauer lifting, the Adams fixed fibre and its homotopy groups), and its §§3.2, 3.12 and 3.14 identify πₙ(BGL(A)⁺) with Kₙ(A) for n≥1. KTheoryFiniteLocalFields §1.5 owns the restriction, transfer and Frobenius maps on the K-groups of finite fields. ArithmeticKTheory §§3.2–3.4, 4.1–4.4, 5.1, 5.3–5.4 and 8.10 supplies the number-field arithmetic; the Milnor-image and quotient consequences belong here.
 
-Layer 3 owns the shared integral pre-Bloch group, antisymmetric tensor cokernel, boundary, Bloch kernel and their field maps. Sections 3.4–3.5 provide the symbol-preserving equivalence between reduced and unreduced presentations, its natural boundary square and the induced equivalence on Bloch kernels. PolylogarithmFunctions supplies analytic functions and cross-ratios, not these algebraic carriers.
+Layer 3 owns the shared integral pre-Bloch group of a commutative ring, antisymmetric tensor cokernel, boundary, Bloch kernel and their maps under ring homomorphisms, with the refined pre-Bloch module and refined Bloch group of §3.17; §4.22 owns the Bloch–Wigner sequences over rings. Sections 3.4–3.5 provide the symbol-preserving equivalence between reduced and unreduced presentations, its natural boundary square and the induced equivalence on Bloch kernels. PolylogarithmFunctions supplies analytic functions and cross-ratios, not these algebraic carriers.
 
 PolylogarithmFunctions owns the interval Rogers function and the Bloch–Wigner function with their analytic identities (the interval function and endpoints are §6.1, reflection is §6.3, the exact interval pentagon is §6.4, and the midpoint value is §6.5). Downstream, Polylogarithms Layer 2 constructs the descended real regulator and compares it with the Borel regulator, PadicHodgeRegulators §4.7 evaluates the complex regulator on Suslin's Bloch classes, and Polylogarithms Layer 4 uses the rational-curve presentation of §4.21. Those weight-two regulator comparisons and their analytic scalars belong to these consumers, not to this roadmap. No regulator, dilogarithm or Habiro comparison is used to prove anything in this roadmap; the interval Rogers function enters only through the real detector of §5.8.
 
@@ -24,7 +24,7 @@ The normalized positive-characteristic integral K₃-torsion comparison is a con
 
 This roadmap also owns the following results, which the general roadmaps cited above do not state; each is specified where it is used. They are the finite-subwedge compatibility and arbitrary-index extension, H-space Hopf–Hurewicz argument and sphere-unit comparison (§1.5); the degree-three injectivity consequence of KTheoryFiniteLocalFields §§3.0, 3.0a and 6.10, the weight-two degree-zero comparison and the all-prime divisibility of K₄ of an algebraically closed field (§2.2); the unstable SL₂ symbol presentation (§4.5); the relation η³=12ν in the third stable stem (§4.9); the cyclic homology maps and homological stability of symmetric groups (§4.15); the π^s_*-module structure and unit splitting of the stable Atiyah–Hirzebruch spectral sequence of a classifying space (§4.16); rigidity under purely transcendental extension and the rational specialization of five-term relations (§4.21); and the finite-group stable-elements, duality and period theorems (§5.2).
 
-HomologicalStabilityOfGeneralLinearGroups owns homological stability for GLₙ of a commutative ring under Bass's stable range condition: unimodular frames, their complex and its acyclicity (its Layer 1), and van der Kallen's spectral sequence and stability theorem with the map `stabilization R n` (its §§2.2–2.4). It consumes this roadmap (see Downstream consumers), and this roadmap takes nothing from it. The two meet only in special cases. At m=0 the complex of §4.2 is the frame complex of its §1.2 over F shifted up one degree, and the acyclicity of §4.2 at m=0 is the field case of its §1.4, which holds there for every field; §4.2 is stated for every m, with the action of Aₙ,ₘ, and proved by Suslin's argument. `generalLinearStabilization` and `stabilization R n` are AlgebraicKTheory A1's block inclusion over a field and over a commutative ring, so one declaration serves both. Its §2.2 is the spectral sequence of van der Kallen's subgroups of GLₙ(R) on truncated frame complexes and converges to zero. The spectral sequence of §4.8 uses the whole frame complex, through frames of length n, and abuts to homology with coefficients in the top frame homology Uₙ, which carries Sₙ(F) and the Milnor quotient; that of §4.15 is the action of Σₙ on injective words. Neither is a case of its §2.2. The bijectivity of `generalLinear_homology_stable` for i≤n is stronger than its §§2.3 and 2.5 give over an infinite field.
+HomologicalStabilityOfGeneralLinearGroups owns homological stability for general linear groups of a commutative ring: van der Kallen's subgroups of GLₙ(R) and their spectral sequences (its §§1.1–1.2), the Nesterenko–Suslin property and Suslin's spectral sequence over semilocal rings with infinite residue fields (its §1.3), van der Kallen's theorem for the elementary subgroups (its §§2.1–2.2), bijectivity of Hₘ(GLₙ(R);ℤ)→Hₘ(GLₙ₊₁(R);ℤ) for m≤n over a semilocal ring whose residue fields are all infinite (its §2.3), and the comparison with BGLₙ(R)⁺ (its §2.4). Section 4.22 consumes its §2.3 for local rings with infinite residue fields. It consumes no section of this roadmap; its Examples record §§4.8 and 4.15. Over an infinite field its §§1.3 and 2.3 contain the spectral sequence and the range i≤n of §4.8; §4.8 proves that field case by Suslin's argument together with the Milnor quotient of §§4.5–4.8, which its scope leaves to this roadmap. Its stabilization is Tau Ceti's `TauCeti.stabilizeGL`, and `generalLinearStabilization` is the same block inclusion g↦diag(g,1) over a field. The spectral sequence of §4.15 is the action of Σₙ on injective words, not a case of its spectral sequences.
 
 Section 3.12 owns the local specialization adapter for smooth curves without a properness hypothesis, including its agreement with AlgebraicCurves Layer 12A on proper curves. Regularity, stalk dimension and the DVR criterion are the pinned inputs below, not new foundational constructions.
 
@@ -36,6 +36,8 @@ Write U(F)=Additive(Fˣ) and T(F)=U(F)⊗ℤU(F). Let τ exchange the two tensor
 
 P(F) denotes Suslin's pre-Bloch group and ∂[x]=x∧(1−x). B(F)=ker ∂. Symbols at 0 and 1 mean zero only when extending the reduced symbol map by convention; they are not free generators of the reduced presentation. A separate unreduced presentation has [1] as a generator and kills it explicitly. The symbols [0] and [∞] in a projective presentation are separate generators with the relations specified in Layer 3. The classes c and h(u)=[u]+[u⁻¹] use |F|≥4 whenever their choice independence or homomorphism property is used.
 
+For a commutative ring A write U(A)=Additive(Aˣ), Qₛ(A)=antisymSquare ℤ U(A), and a/b=ab⁻¹ when b is a unit. Let W_A be the set of x∈A such that x and 1−x are units, and call a pair (x,y) of elements of W_A admissible when x−y is a unit as well. P(A), its boundary ∂[x]=x∧(1−x) and B(A)=ker ∂ are defined for every commutative ring in §§3.3–3.5, and each field statement there is the instance A=F, where W_F=F−{0,1} and admissibility means x≠y. A ring homomorphism A→B maps W_A into W_B and admissible pairs to admissible pairs, but it can map a unit u with 1−u not a unit to a unit whose complement is a unit (ℤ→ℚ at u=−1).
+
 Use column coordinates x=[1:x], 0=[1:0] and ∞=[0:1], with the left matrix action. Upper triangular matrices then stabilize 0. The projective cross-ratio is normalized by cr(0,∞,1,x)=x. Swapping the first two entries gives x⁻¹. The Bloch boundary has the order x then 1−x; Goncharov's displayed boundary has the opposite order and hence the opposite sign. For example, the alternating valuation pairing (a,b)↦v₂(a)v₃(b)−v₃(a)v₂(b) sends ∂[3]=3∧(−2) over ℚ to −1. This pins the sign independently of a kernel calculation.
 
 K₃^ind(F)=K₃(F)/im(K₃ᴹ(F)→K₃(F)). It is not the quotient by torsion. The natural left term of the Suslin sequence is T̃(F), the enhanced Tor group, not an untwisted root subgroup. Its root-group model μ̃(F) is used only for abstract orders. The second Tate twist is the direct limit of μ_m⊗μ_m with the weight-two transition maps, equivalently Tor₁(μ,μ); it is not the ordinary tensor product of the divisible torsion group μ with itself, which is zero. An automorphism ζ↦ζᵃ acts on weight two by a².
@@ -44,7 +46,7 @@ For an abelian group M, M/n means M⊗ℤℤ/n=M/nM; M[n] is its n-torsion subgr
 
 ## Exact supplier contracts
 
-The target signatures use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The acceptance file uses only Mathlib; the Tau Ceti interfaces below are consumed by the mathematical development.
+The target signatures use Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`. The acceptance file uses Mathlib and Tau Ceti's `TauCeti.stabilizeGL`; the other Tau Ceti interfaces below are consumed by the mathematical development.
 
 ### From Mathlib
 
@@ -58,7 +60,7 @@ For §3.12 use `AlgebraicGeometry.Scheme.functionField` and its `IsFractionRing 
 
 ### From Tau Ceti
 
-`TauCeti.crossRatio_comp_eq_of_sub_eq_div` in `TauCeti/Algebra/Field/LinearFractional.lean` is the affine cross-ratio comparison used through PolylogarithmFunctions §5.8. `TauCeti.antisymmetricTensors` in `TauCeti/LinearAlgebra/TensorProduct/Symmetric.lean` is the negative eigenspace of the tensor flip; its comparison with the cokernel here requires two invertible.
+`TauCeti.crossRatio_comp_eq_of_sub_eq_div` in `TauCeti/Algebra/Field/LinearFractional.lean` is the affine cross-ratio comparison used through PolylogarithmFunctions §5.8. `TauCeti.antisymmetricTensors` in `TauCeti/LinearAlgebra/TensorProduct/Symmetric.lean` is the negative eigenspace of the tensor flip; its comparison with the cokernel here requires two invertible. `TauCeti.stabilizeGL` in `TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Stable.lean` is the stabilization g↦diag(g,1) from GLₘ(A) to GLₙ(A), m≤n, over a ring A; `IsGLStableThroughThree` of §4.22 is stated with it.
 
 Use `TauCeti.groupHomology.indIso_inv` in `TauCeti/RepresentationTheory/Homological/GroupHomology/Shapiro.lean`; `TauCeti.groupHomology.transfer`, `TauCeti.groupHomology.transfer_comp_map_subtype_id` and `TauCeti.groupHomology.map_comp_transfer` in `TauCeti/RepresentationTheory/Homological/GroupHomology/Transfer/Basic.lean`; `TauCeti.groupHomology.transfer_trans` in `TauCeti/RepresentationTheory/Homological/GroupHomology/Transfer/Trans.lean`; and `TauCeti.groupHomology.δ_naturality` in `TauCeti/RepresentationTheory/Homological/GroupHomology/LongExactSequence.lean`. These take actual representations over a commutative coefficient ring; transfer requires a finite-index subgroup. `TauCeti.groupCohomology.eq_zero_of_pow_nsmul_eq_zero_of_map_sylow_eq_zero` in `TauCeti/RepresentationTheory/Homological/GroupCohomology/Sylow.lean` supplies injectivity on the prime-primary subgroup for a finite group. Positive-degree localized cohomology is such torsion; degree zero is handled directly. `TauCeti.ContinuousCohomology.corestriction_mackey` in `TauCeti/RepresentationTheory/Homological/ContCohomology/Corestriction/Mackey/AllDegrees.lean` supplies the all-degree double-coset identity for an open subgroup U, a closed subgroup V and discrete coefficients on a profinite group. Section 5.2 compares its cochains with ordinary cochains for finite discrete groups before using that identity.
 
@@ -68,7 +70,7 @@ For §3.12 use `TauCeti.AlgebraicGeometry.isRegularLocalRing_stalk_of_smooth` in
 
 ### From TauCetiRoadmap.GeneralAlgebraicKTheory
 
-Sections 3.3–3.4 expose AlgebraicKTheory A1's stable GL(A)⊃E(A), entrywise ring maps and finite-stage colimits through their finite-stage identity aliases, and transport A1's Whitehead theorem to them, for associative unital A. Sections 3.2, 3.12 and 3.14 identify πₙ(BGL(A)⁺) with Kₙ(A) for n≥1. Sections 7.4 and 1.8 supply the external product K₂(A)×K₁(ℤ)→K₃(A⊗ℤ) and its right-unit comparison; commutativity of A is unnecessary. Sections 13.8a–c supply Brauer lifting, the Adams fixed-fibre model and Quillen's finite-field computation, including K₂(𝔽q)=0 and |K₃(𝔽q)|=q²−1, with continuity to algebraic closures of finite fields.
+Sections 3.3–3.4 expose AlgebraicKTheory A1's stable GL(A)⊃E(A), entrywise ring maps and finite-stage colimits through their finite-stage identity aliases, and transport A1's Whitehead theorem to them, for associative unital A. Sections 3.2, 3.12 and 3.14 identify πₙ(BGL(A)⁺) with Kₙ(A) for n≥1. Sections 7.4 and 1.8 supply the external product K₂(A)×K₁(ℤ)→K₃(A⊗ℤ) and its right-unit comparison; commutativity of A is unnecessary. Sections 13.8a–c supply Brauer lifting, the Adams fixed-fibre model and Quillen's finite-field computation, including K₂(𝔽q)=0 and |K₃(𝔽q)|=q²−1, with continuity to algebraic closures of finite fields. Sections 7.4–7.6 supply the internal product of a commutative ring A and the class [u]∈K₁(A) of a unit u, from which §2.1 forms the triple unit products [a]·[b]·[c]∈K₃(A).
 
 ### From TauCetiRoadmap.AlgebraicKTheory
 
@@ -78,7 +80,7 @@ Target A1 supplies the finite block inclusions g↦diag(g,1), stable GL(A), E(A)
 
 Sections 5.4 and 5.6 supply Milnor K-theory and its symbol presentation; §7.2 supplies Matsumoto's theorem; §§8.1–8.4 supply the products and graded comparison mₙ, including the ordered degree-three symbol formula. Section 5.12 supplies finite-field vanishing in degrees n≥2; §§5.13–5.14 supply unique divisibility over algebraically closed fields for n≥2, including repeated-root characteristic. Neither K₁ nor K₀ has that property. Section 10.32 supplies the number-field signature isomorphism K₃ᴹ(F)≃(real places → ℤ/2), where an all-negative triple has coordinate 1.
 
-Section 10.5 supplies the Bass–Tate sequence for F(t); Layer 9 supplies parameter-last Milnor residues. Section 11.3 supplies Dₙmₙ=(−1)ⁿ⁻¹mₙ₋₁rᵥ,ₙ for every DVR and the right-linear Quillen boundary D. Degree three therefore has positive sign. Use the product-normalized θ₂♮ of §8.1 in degree two: the unadjusted bar comparison θ₂ sends a unit product to the inverse Steinberg symbol and cannot replace m₂.
+Section 10.5 supplies the Bass–Tate sequence for F(t); Layer 9 supplies parameter-last Milnor residues. Section 11.3 supplies Dₙmₙ=(−1)ⁿ⁻¹mₙ₋₁rᵥ,ₙ for every DVR and the right-linear Quillen boundary D. Degree three therefore has positive sign. Use the product-normalized θ₂♮ of §8.1 in degree two: the unadjusted bar comparison θ₂ sends a unit product to the inverse Steinberg symbol and cannot replace m₂. Sections 6.4, 6.7 and 6.9 supply the Steinberg symbol {a,b}∈K₂(A) of two units of a commutative ring, the identity {a,1−a}=1 and skew-symmetry, which give the map Qₛ(A)→K₂(A), a∧b↦{a,b}, of §4.22. Section 13.3 supplies threefold stability, which §4.22 compares with the many-units condition.
 
 ### From TauCetiRoadmap.StableHomotopyKTheory
 
@@ -102,7 +104,11 @@ Section 1.5 supplies actual finite-field restriction, transfer and Frobenius. Se
 
 ### From TauCetiRoadmap.SchemeKTheoryOperations
 
-Section 3.6 supplies the affine/supported localization comparison, parameter specialization and the integral injection Kₙ(k)→Kₙ(A) for every algebraically closed k, nonzero commutative k-algebra A and degree n. Apply it to k=𝔽̄p and A=Ω in §2.2. Section 4.7 supplies the rational-function localization splitting used in §4.21; §5.2 supplies homotopy invariance for regular Noetherian schemes, §5.5 the projective bundle equivalence, and §6.4 universal higher operations and products. The integral injection and the natural Bott coefficient square prove K₄ divisibility before the positive-characteristic integral torsion comparison is constructed.
+Section 3.6 supplies the affine/supported localization comparison, parameter specialization and the integral injection Kₙ(k)→Kₙ(A) for every algebraically closed k, nonzero commutative k-algebra A and degree n. Apply it to k=𝔽̄p and A=Ω in §2.2. Section 4.7 supplies the rational-function localization splitting used in §4.21; §5.2 supplies homotopy invariance for regular Noetherian schemes, §5.5 the projective bundle equivalence, and §6.4 universal higher operations and products. The integral injection and the natural Bott coefficient square prove K₄ divisibility before the positive-characteristic integral torsion comparison is constructed. Its §4.7 supplies, for every equicharacteristic DVR O with fraction field L and residue field k, the Gersten short exact sequences 0→Kₙ(O)→Kₙ(L)→Kₙ₋₁(k)→0 used by the DVR comparison of §4.22.
+
+### From TauCetiRoadmap.HomologicalStabilityOfGeneralLinearGroups
+
+Section 2.3 supplies, for a semilocal commutative ring R whose residue fields are all infinite and every m≤n, bijectivity of Hₘ(GLₙ(R);ℤ)→Hₘ(GLₙ₊₁(R);ℤ) induced by the stabilization `TauCeti.stabilizeGL`, with the identity coefficient map. Section 4.22 uses it for local rings with infinite residue fields; no other section of that roadmap is used.
 
 ### From TauCetiRoadmap.ArithmeticKTheory
 
@@ -145,7 +151,7 @@ Sections 6.1 and 6.3–6.5 supply the interval Rogers function L (rogers, there 
 
 ## How to read the build
 
-Layer 1 produces the actual homological K₃ map and finite-chain equality witnesses. Layer 2 forms the indecomposable quotient and identifies the number-field decomposable subgroup by signs. Layer 3 constructs the symbolic presentations before comparing them, so torsion lost in a change of convention remains visible. Layer 4 constructs the infinite-field Suslin map, identifies its natural kernel and proves rigidity under purely transcendental extension, with the rational-curve presentation of the Bloch group. Layer 5 supplies the separate finite-field route and tests the integral arithmetic consequences. Layer 6 packages finite witnesses, root multiples and coefficient comparisons for downstream use. `Suggested.lean` records only the definitions and end statements expressible over the pinned carriers; the README specifies the complete construction.
+Layer 1 produces the actual homological K₃ map and finite-chain equality witnesses. Layer 2 forms the indecomposable quotient and identifies the number-field decomposable subgroup by signs. Layer 3 constructs the symbolic presentations, over commutative rings where the presentation allows it, before comparing them, so torsion lost in a change of convention remains visible. Layer 4 constructs the infinite-field Suslin map, identifies its natural kernel and proves rigidity under purely transcendental extension, with the rational-curve presentation of the Bloch group, and ends with the Bloch–Wigner sequences over rings. Layer 5 supplies the separate finite-field route and tests the integral arithmetic consequences. Layer 6 packages finite witnesses, root multiples and coefficient comparisons for downstream use. `Suggested.lean` records only the definitions and end statements expressible over the pinned carriers; the README specifies the complete construction.
 
 ## Layer 1: Homological K₃ of a ring
 
@@ -375,6 +381,8 @@ Define K_3^ind(F) as the cokernel of the degree-three Milnor-to-Quillen map, tog
 
 The sequence K_3^M(F) -> K_3(F) -> K_3^ind(F) -> 0 is exact and natural in F. Exactness on the left is not asserted here; it is the content of the injectivity theorem.
 
+For a commutative ring A define K₃^ind(A) as the quotient of K₃(A) by the subgroup generated by the triple products [a]·[b]·[c] of the classes in K₁(A) of units a, b, c, for the internal product of GeneralAlgebraicKTheory §§7.4–7.6. A ring homomorphism induces a map of these quotients, compatibly with the quotient maps, with identity and composition laws. For a field this is K₃^ind(F) above, because K2SymbolsBrauer §8.4 sends {a,b,c} to [a]·[b]·[c]. For a ring it is the cokernel of the map to K₃(A) from the Milnor group of A presented by symbols of units, whose image is the same subgroup (Mirzaii–Mokari, arXiv:1108.5452v2, introduction, p.1, and §1, pp.3–4); no Milnor K-theory of a ring is constructed here.
+
 The source locators for these statements are Weibel, K-book, Example IV.1.10.1 (PDF p. 274); Weibel, K-book, VI.5 opening (PDF p. 495).
 
 **Checks.**
@@ -387,8 +395,11 @@ The source locators for these statements are Weibel, K-book, Example IV.1.10.1 (
 - For Q the quotient is cyclic of order 24 while K_3 is cyclic of order 48.
 - For a number field the quotient has free rank r_2.
 - K_3(Q) modulo its torsion subgroup is 0, but K_3^ind(Q) ≅ Z/24: the indecomposable quotient is not the torsion-free quotient.
+- For the zero ring K₃ vanishes, so K₃^ind of the zero ring is zero; its only unit class is [1]=0.
+- For a field the ring definition divides by the same subgroup as the Milnor image, so over ℚ both give ℤ/24.
+- Over ℤ the units are ±1 and [1]=0, so the subgroup is generated by [−1]³, of order dividing two. Its image in K₃(ℚ) is m₃{−1,−1,−1}≠0 (§§2.2–2.3), so K₃^ind(ℤ) is K₃(ℤ) modulo a subgroup of order exactly two; a definition that divides by nothing fails this.
 
-*Needs:* Layer 1; the graded Milnor, motivic and number-field signature contracts.
+*Needs:* Layer 1; the graded Milnor, motivic and number-field signature contracts; GeneralAlgebraicKTheory §§7.4–7.6 for the quotient of a commutative ring.
 
 ### 2.2 Injectivity and the motivic edge
 
@@ -531,7 +542,7 @@ Use Layer 1, K2SymbolsBrauer §§5.4, 5.13–5.14, 7.2, 8.2–8.4 and 10.32 for 
 
 ## Layer 3: Bloch presentations with integral conventions
 
-All fields are permitted in the basic presentations. Every use of c and the inversion homomorphism states the additional size hypothesis |F|≥4. The main boundary takes values in an antisymmetric tensor cokernel, whose diagonal classes can have order two. Three other tensor targets and two different configuration presentations are compared only by named maps.
+The pre-Bloch presentation, its boundary and Bloch kernel (§§3.3–3.5) and the refined module (§3.17) are defined for every commutative ring, fields being the instance; the other constructions of this layer are over fields, and all fields are permitted in them. Every use of c and the inversion homomorphism states the additional size hypothesis |F|≥4. The main boundary takes values in an antisymmetric tensor cokernel, whose diagonal classes can have order two. Three other tensor targets and two different configuration presentations are compared only by named maps.
 
 ### 3.1 The antisymmetric tensor cokernel
 
@@ -607,106 +618,112 @@ The source locators for these statements are Weibel, K-book, Proof of Lemma VI.5
 
 ### 3.3 Admissible five-term relations
 
-For the unreduced carrier used by the acceptance statement, define `preBlochRawSymbol` on every field element: it is the basis vector of its unit when nonzero, and zero at zero. Its raw value at one is a free generator. This differs from the reduced rawSymbol below, whose value at one is zero.
+For the unreduced carrier used by the acceptance statement, define `preBlochRawSymbol` on every element of a commutative ring A: it is the basis vector of ℤ[Aˣ] at the element when the element is a unit, and zero otherwise. Over a field it is zero exactly at zero, and its raw value at one is a free generator. This differs from the reduced rawSymbol below, whose value at one is zero.
 
-- The unreduced raw symbol at zero is zero.
-- At a nonzero x its value is the basis vector of the unit x, so that basis vector is nonzero.
-- A field embedding sends this raw symbol to the raw symbol of the embedded element, with the identity and composition laws inherited from the free-group maps.
+- The unreduced raw symbol of a non-unit is zero; over a field, of zero.
+- At a unit x its value is the basis vector of x, so that basis vector is nonzero.
+- A ring homomorphism f sends the raw symbol of a unit x to the raw symbol of f(x), with the identity and composition laws inherited from the free-group maps on units. At a non-unit x with f(x) a unit it does not: 2∈ℤ has raw symbol zero, and 2∈ℚ does not. A field homomorphism preserves every raw symbol.
 
-For a field F and elements x, y of F with x and y outside the set consisting of 0 and 1 and with x different from y, the five-term element of the free abelian group on the symbols [z], z in F without 0, is [x] - [y] + [y/x] - [(1 - x⁽⁻¹⁾)/(1 - y⁽⁻¹⁾)] + [(1 - x)/(1 - y)]. The five-term subgroup is the subgroup generated by all these elements together with the element [1]. This is Suslin's normalisation, as presented in the K-book; the Calegari-Garoufalidis-Zagier normalisation indexes the same expression over the projective line and is compared in §§3.13–3.16.
+For a commutative ring A and an admissible pair (x, y) (Conventions), the five-term element of ℤ[Aˣ] is [x] − [y] + [y/x] − [(1 − x⁽⁻¹⁾)/(1 − y⁽⁻¹⁾)] + [(1 − x)/(1 − y)]. The five-term subgroup is generated by all these elements together with the raw symbols [u] of the units u for which 1 − u is not a unit. Over a field F the admissible pairs are the x ≠ y in F − {0, 1}, and the second family is the single element [1]. This is Suslin's normalisation, as presented in the K-book; Mirzaii and Mokari impose the same relation over a commutative ring on generators indexed by W_A, and Hutchinson indexes it by the pairs with x, y, x/y ∈ W_A, which are the admissible pairs. The Calegari-Garoufalidis-Zagier normalisation indexes the same expression over the projective line and is compared in §§3.13–3.16.
 
-Here F is a field; x and y lie in F, are different from 0 and 1, and are different from each other. The five arguments are then all defined and different from 0.
+Here A is a commutative ring and (x, y) is an admissible pair: x, 1 − x, y, 1 − y and x − y are units. The five arguments then lie in W_A, since 1 − y/x = (x − y)/x, 1 − (1 − x⁽⁻¹⁾)/(1 − y⁽⁻¹⁾) = (x − y)/((1 − y)x) and 1 − (1 − x)/(1 − y) = (x − y)/(1 − y). Conversely, for x, y ∈ W_A with y/x ∈ W_A the difference x − y is a unit.
 
-- The five-term element [x] − [y] + [y/x] − [(1 − x⁽⁻¹⁾)/(1 − y⁽⁻¹⁾)] + [(1 − x)/(1 − y)] attached to an admissible pair (x ≠ y, both in F − {0, 1}).
-- The subgroup generated by all five-term elements and by [1].
-- Membership in the five-term subgroup as a finite integer combination of five-term elements and of [1].
+- The five-term element [x] − [y] + [y/x] − [(1 − x⁽⁻¹⁾)/(1 − y⁽⁻¹⁾)] + [(1 − x)/(1 − y)] attached to an admissible pair.
+- The subgroup generated by all five-term elements and by the [u] with u a unit and 1 − u not a unit.
+- Membership in the five-term subgroup as a finite integer combination of five-term elements and of those symbols.
 
-- For an admissible pair, the five arguments are nonzero.
-- For an admissible pair, the five arguments are different from 1.
+- For an admissible pair, the five arguments are units.
+- For an admissible pair, the five arguments lie in W_A, so one minus each is a unit.
 - If (x, y) is admissible then so is (1 − y, 1 − x).
 
 - If (x, y) is admissible then so is (x⁽⁻¹⁾, y⁽⁻¹⁾).
 - fiveTerm (1 − y) (1 − x) = [1 − y] − [1 − x] + [(1 − x)/(1 − y)] − [(1 − x⁽⁻¹⁾)/(1 − y⁽⁻¹⁾)] + [y/x].
 - fiveTerm x⁽⁻¹⁾ y⁽⁻¹⁾ = [x⁽⁻¹⁾] − [y⁽⁻¹⁾] + [x/y] − [(1 − x)/(1 − y)] + [(1 − x⁽⁻¹⁾)/(1 − y⁽⁻¹⁾)].
 
-- A field homomorphism sends five-term elements to five-term elements.
+- A ring homomorphism sends admissible pairs to admissible pairs and five-term elements to five-term elements. It need not send the killed symbols [u] to killed symbols; a field homomorphism does, and so does a local homomorphism of local rings, since it maps 1 − u in the maximal ideal into the maximal ideal.
 
-For the reduced free carrier use RawSymbols F=ℤ[F−{0,1}] and extend its injection by rawSymbol 0=rawSymbol 1=0. Define Admissible x y by x,y≠0,1 and x≠y, and fiveTermRaw by the same five-term expression in this reduced carrier. Killing [1] identifies the unreduced and reduced quotient presentations. Prove that the extended symbol vanishes at zero and one and that reflection gives the displayed difference of universal classes. The checks below also require rawSymbol(2)≠0 over ℚ, the admissible pair (2,3), rejection of a diagonal pair, and fiveTermRaw(2,3)=[2]−[3]+[3/2]−[3/4]+[1/2].
+For the reduced free carrier use RawSymbols A=ℤ[W_A] and extend its injection by zero off W_A; over a field, rawSymbol 0=rawSymbol 1=0. Define Admissible x y as in the Conventions, and fiveTermRaw by the same five-term expression in this reduced carrier. Killing the symbols [u] of the units outside W_A identifies the unreduced and reduced quotient presentations. A ring homomorphism f maps W_A into W_B, so [x]↦[f(x)] is a map RawSymbols A→RawSymbols B preserving fiveTermRaw, with identity and composition laws; this is the map that descends to pre-Bloch groups in §3.4. Prove that the extended symbol vanishes off W_A and that reflection gives the displayed difference of universal classes. The checks below also require rawSymbol(2)≠0 over ℚ, the admissible pair (2,3), rejection of a diagonal pair over a field, and fiveTermRaw(2,3)=[2]−[3]+[3/2]−[3/4]+[1/2].
 
-The source locators for these statements are Weibel, K-book, VI.5.1 (PDF p. 495).
+The source locators for these statements are Weibel, K-book, VI.5.1 (PDF p. 495); Mirzaii–Mokari, arXiv:1108.5452v2, §3, p.6; Hutchinson, arXiv:1309.5010v2, §2.2, p.5.
 
 **Checks.**
 
-- For an admissible pair all five arguments are nonzero elements of F different from 1.
+- For an admissible pair all five arguments are nonzero elements of F different from 1, over a field F.
 - In the free abelian group, fiveTerm x y − fiveTerm (1 − y) (1 − x) = [x] + [1 − x] − [y] − [1 − y].
 - In the free abelian group, fiveTerm x y + fiveTerm x⁽⁻¹⁾ y⁽⁻¹⁾ + fiveTerm y x + fiveTerm y⁽⁻¹⁾ x⁽⁻¹⁾ = 2([y/x] + [x/y]).
 - Over F_4 with ω² + ω + 1 = 0, fiveTerm ω ω² = 3[ω] − 2[ω²].
-- The defining formula evaluated at x = y equals [1], so a definition that silently admits the diagonal changes nothing, whereas one that admits y = 1 produces a division by zero.
+- Over a field the defining formula evaluated at x = y equals [1], so a definition that silently admits the diagonal changes nothing, whereas one that admits y = 1 produces a division by zero.
 - In RawSymbols(ℚ), rawSymbol(0)=rawSymbol(1)=0, while rawSymbol(2) is nonzero.
 - In the unreduced free unit carrier over ℚ, the raw symbols at 0,1,2 are respectively 0,[1],[2]; the latter two are nonzero and distinct. Killing [1] is a quotient relation, not a raw-symbol convention.
-- Admissible(2,3) holds over ℚ, whereas Admissible(x,x) and Admissible(x,1) fail for every field element x.
+- Admissible(2,3) holds over ℚ, whereas over a field Admissible(x,x) and Admissible(x,1) fail for every element x.
 - For the reduced free carrier, fiveTermRaw(2,3)=[2]−[3]+[3/2]−[3/4]+[1/2].
+- Over ℤ the units are ±1, and 1−1=0 and 1−(−1)=2 are not units, so W_ℤ is empty, there is no admissible pair and both basis vectors [1] and [−1] of ℤ[ℤˣ] are killed. Under ℤ→ℚ the free map sends the killed [−1] to [−1], which is not in the five-term subgroup of ℚ: its boundary (−1)∧2 (§3.5) is detected by s(a)v₂(b)−s(b)v₂(a) mod 2, with s the sign. The map through RawSymbols ℤ=0 is the one that descends.
+- In the zero ring 0=1 is a unit and so is 1−0, so W is the single point 0, the pair (0,0) is admissible because 0−0 is a unit, and its five-term element is the basis vector [0]. Over a field a diagonal pair is never admissible.
+- Over the local ring ℤ_(3), W consists of the units congruent to 2 mod 3 and no pair is admissible, since then x−y lies in 3ℤ_(3). A definition admitting every pair x≠y in W would impose [2]=[5] from the pair (2,5): its three other arguments 5/2, 5/8 and 1/4 are units congruent to 1 mod 3, hence killed.
 
 *Needs:* the tensor, exterior-power and Matsumoto contracts; the preceding presentations in this layer.
 
-For a field F, a five-term certificate is a pair (a, k) of a finitely supported function a from admissible pairs — (x, y) with x, y in F − {0, 1} and x ≠ y — to Z, and an integer k. Its evaluation is Σ a(x, y) · R(x, y) + k[1] in the free abelian group on F − {0}, where R(x, y) = [x] − [y] + [y/x] − [(1 − x⁽−¹⁾)/(1 − y⁽−¹⁾)] + [(1 − x)/(1 − y)] is the five-term element of §3.3. A certificate is valid for ξ when its evaluation equals ξ; this is equality in the free abelian group on nonzero elements. Certificates form an abelian group under pointwise addition, and evaluation is a homomorphism. The certificate is Suslin's normalisation (K-book VI.5.1); a certificate in CGZ's normalisation over the projective line is a different object, compared through §3.13.
+For a commutative ring A, a five-term certificate is a pair (a, k) of a finitely supported function a from admissible pairs to Z and a finitely supported function k from the units u with 1 − u not a unit to Z. Its evaluation is Σ a(x, y) · R(x, y) + Σ k(u)[u] in ℤ[Aˣ], where R(x, y) = [x] − [y] + [y/x] − [(1 − x⁽−¹⁾)/(1 − y⁽−¹⁾)] + [(1 − x)/(1 − y)] is the five-term element of §3.3. Over a field k is an integer coefficient of [1]. A certificate is valid for ξ when its evaluation equals ξ; this is equality in the free abelian group on the units. Certificates form an abelian group under pointwise addition, and evaluation is a homomorphism. The certificate is Suslin's normalisation (K-book VI.5.1); a certificate in CGZ's normalisation over the projective line is a different object, compared through §3.13.
 
 Here, each pair in the list is admissible for the five-term relation.
 
-- A pair (a, k): a finitely supported function a from admissible pairs to Z, and the coefficient k ∈ Z of [1].
-- eval (a, k) = Σ a(x, y) R(x, y) + k[1] in the free abelian group on F − {0}.
-- eval of the indicator of (x, y) is R(x, y); eval (0, 1) = [1].
+- A pair (a, k): a finitely supported function a from admissible pairs to Z, and the coefficients k of the killed symbols; over a field, k ∈ Z is the coefficient of [1].
+- eval (a, k) = Σ a(x, y) R(x, y) + Σ k(u)[u] in ℤ[Aˣ].
+- eval of the indicator of (x, y) is R(x, y); over a field eval (0, 1) = [1].
 
 - eval 0 = 0.
 - eval (c + c') = eval c + eval c'; eval (−c) = −eval c.
 - Valid c ξ ⇔ eval c = ξ.
 
 - Valid c ξ and Valid c' ξ' imply Valid (c + c') (ξ + ξ'); Valid c ξ implies Valid (−c) (−ξ).
-- Under FreeAbelianGroup.equivFinsupp, Valid c ξ is equality of the integer coefficient at every nonzero field element; only the finite union of the two supports can have a nonzero coefficient.
+- Under FreeAbelianGroup.equivFinsupp, Valid c ξ is equality of the integer coefficient at every unit; only the finite union of the two supports can have a nonzero coefficient.
 - ξ lies in the five-term subgroup of §3.3 if and only if some certificate is valid for ξ.
 
-Provide FiveTermCertificate.map (For a field embedding σ: F → K, map σ c has eval (map σ c) = FreeAbelianGroup.map σ (eval c); map id = id and map (τ ∘ σ) = map τ ∘ map σ);
+Provide FiveTermCertificate.map (for a ring homomorphism σ: A → B that maps every unit u with 1 − u not a unit to a unit with the same property, in particular every field homomorphism and every local homomorphism of local rings, map σ c has eval (map σ c) = FreeAbelianGroup.map σ (eval c); map id = id and map (τ ∘ σ) = map τ ∘ map σ).
 
-The source locators for these statements are Weibel, K-book, Definition VI.5.1 (PDF p. 495); Weibel, K-book, Lemma VI.5.4(a), proof (PDF p. 497); Weibel, K-book, VI.5.1 (PDF p. 495).
+The source locators for these statements are Weibel, K-book, Definition VI.5.1 (PDF p. 495); Weibel, K-book, Lemma VI.5.4(a), proof (PDF p. 497); Weibel, K-book, VI.5.1 (PDF p. 495); Mirzaii–Mokari, arXiv:1108.5452v2, §3, p.6.
 
 **Checks.**
 
-- eval (0, 0) = 0 and eval (0, k) = k[1]; the certificate with no pairs is valid exactly for the multiples of [1].
+- Over a field, eval (0, 0) = 0 and eval (0, k) = k[1]; the certificate with no pairs is valid exactly for the multiples of [1].
 - Over Q, eval of the indicator of (2, 3) is [2] − [3] + [3/2] − [3/4] + [1/2].
 - For x ≠ y in F − {0, 1}, the certificate with coefficient 1 on (x, y) and −1 on (1 − y, 1 − x) is valid for ([x] + [1 − x]) − ([y] + [1 − y]); a five-term formula with [x/y] in place of [y/x] fails this.
-- (x, x) and (x, 1) are not admissible pairs; the second would require the symbol of a quotient with zero denominator.
+- Over a field (x, x) and (x, 1) are not admissible pairs; the second would require the symbol of a quotient with zero denominator.
+- Over ℤ the certificate with no pairs and k = 1 at −1 is valid for [−1]; FreeAbelianGroup.map along ℤ→ℚ sends its evaluation to [−1], for which no certificate over ℚ is valid, so map is not asserted for ℤ→ℚ.
 
 *Needs:* the free-symbol presentation of §3.3 and Mathlib finite supports. The quotient characterization and coefficient and CGZ transports are proved in §6.1.
 
-
 ### 3.4 The pre-Bloch presentation
 
-The native quotient `preBloch` in Suggested.lean is this unreduced presentation. Its symbol map `preBlochSymbol` is the quotient of preBlochRawSymbol; extending it to zero gives zero, while the relation [1]=0 kills its value at one.
+The native quotient `preBloch` in Suggested.lean is this unreduced presentation. Its symbol map `preBlochSymbol` is the quotient of preBlochRawSymbol; it is zero at every non-unit, and the relations kill its value at every unit u with 1 − u not a unit, which over a field is the relation [1]=0.
 
-For a field F define the pre-Bloch group P(F) as the abelian group presented by generators [x], one for each x in F without 0, subject to [1] = 0 and to all five-term relations. Equivalently it is the quotient of the free abelian group on F without 0 by the five-term subgroup.
+For a commutative ring A define the pre-Bloch group P(A) as the quotient of ℤ[Aˣ] by the five-term subgroup of §3.3: generators [x], one for each unit x, subject to [u] = 0 when 1 − u is not a unit and to the five-term relation at every admissible pair. For a field F this is the group presented by generators [x], x in F without 0, subject to [1] = 0 and to all five-term relations.
 
-Here F is any field. Restrictions to |F|≥4 belong only to the subsequent torsion identities.
+Here A is any commutative ring, including the zero ring. Restrictions to |F|≥4 belong only to the subsequent torsion identities over fields.
 
-- The pre-Bloch group P(F).
-- The class [x] of a nonzero element x.
-- [1] = 0.
+- The pre-Bloch group P(A).
+- The class [x] of a unit x.
+- [u] = 0 for a unit u with 1 − u not a unit; over a field, [1] = 0.
 
-- Every five-term element is zero in P(F).
-- A function on nonzero elements killing [1] and all five-term elements extends uniquely to a homomorphism out of P(F).
+- Every five-term element of an admissible pair is zero in P(A).
+- A function on units killing those [u] and all five-term elements extends uniquely to a homomorphism out of P(A).
 - lift f [x] = f x.
 
-- Two homomorphisms out of P(F) that agree on every generator [x] are equal.
-- P(F) is generated by the classes [x].
-- A field homomorphism induces a homomorphism of pre-Bloch groups, with map_id and map_comp.
+- Two homomorphisms out of P(A) that agree on every [x] with x ∈ W_A are equal.
+- P(A) is generated by the classes [x], x ∈ W_A.
+- A ring homomorphism f : A → B induces a homomorphism P(A) → P(B), [x] ↦ [f(x)] for x ∈ W_A, with map_id and map_comp. It is induced from the reduced presentation below; the free map on units does not descend in general (§3.3, Checks). Over fields it agrees with the free map on units.
 
-- The reduced presentation ℤ[F−{0,1}]/R₅ maps isomorphically to P(F) by [x]↦[x]; its inverse kills the unreduced [1] and preserves every other generator. These maps commute with every field embedding. Evaluation defined on the reduced presentation is transported along this isomorphism to P(F).
+- The reduced presentation ℤ[W_A]/R₅ maps isomorphically to P(A) by [x]↦[x]; its inverse kills the unreduced [u] with u outside W_A and preserves every other generator. These maps commute with every ring homomorphism. Evaluation defined on the reduced presentation is transported along this isomorphism to P(A).
 
-The source locators for these statements are Weibel, K-book, VI.5.1 (PDF p. 495).
+The source locators for these statements are Weibel, K-book, VI.5.1 (PDF p. 495); Mirzaii–Mokari, arXiv:1108.5452v2, §3, p.6; Hutchinson, arXiv:1309.5010v2, §2.2, p.5.
 
 **Checks.**
 
 - P(F_2) = 0: its only generator is [1].
 - P(F_3) ≅ ℤ, free on [−1], since there is no admissible pair; a definition that forgot [1] = 0 would give ℤ².
+- The value ℤ at 𝔽₃ is a property of this presentation: over 𝔽₃ the set W is {−1}, and −1 − (−1) = 0 is not a unit. The pre-Bloch group that Coronado and Hutchinson define for every commutative ring from unimodular rows is cyclic of order four on [−1] at 𝔽₃ (Coronado–Hutchinson, arXiv:2201.04996v3, Corollary 8.4, p.27), so that construction is a different functor on fields with fewer than four elements.
+- P(ℤ) = 0 and P of the zero ring is 0: W_ℤ is empty, and the zero ring's single generator [0] is its own five-term element (§3.3, Checks). A definition with generators indexed by all units and no killed symbols would give ℤ² for ℤ.
+- Over ℤ_(3) no pair is admissible, so P(ℤ_(3)) is free abelian on the units congruent to 2 mod 3; in particular [2] ≠ [5].
 - P(F_4) ≅ ℤ/5, from the relations 3[ω] − 2[ω²] and 3[ω²] − 2[ω].
 - P(F_5) ≅ ℤ/6 on [3], with [2] = 2[3] and [4] = 0.
 - The quotient symbol at 0 and 1 is zero, while over 𝔽₅ its values at 2 and 3 have orders three and six. A symbol map sending every input to zero fails these controls.
@@ -716,35 +733,35 @@ The source locators for these statements are Weibel, K-book, VI.5.1 (PDF p. 495)
 
 ### 3.5 The boundary, its kernel and Matsumoto exactness
 
-Construct the homomorphism from P(F) to the antisymmetric tensor quotient of the group of units of F sending [x] to x wedge (1 - x) for x different from 1, and [1] to 0. The sign convention is the one displayed here; the opposite sign gives the same kernel but a different map, and the choice is recorded rather than left implicit.
+For a commutative ring A construct the homomorphism ∂ from P(A) to Qₛ(A), the antisymmetric tensor quotient of the group of units of A, sending [x] to x ∧ (1 − x) for x ∈ W_A and the killed symbols to 0; over a field, [x] ↦ x ∧ (1 − x) for x ≠ 1 and [1] ↦ 0. It is well defined because the boundary of the five-term element of an admissible pair is a ∧ c + c ∧ a = 0, where a = x and c = (1 − x)/(1 − y): every argument and every complement in the five-term element is a product of x, y, 1 − x, 1 − y and x − y and their inverses, and the expansion leaves exactly a ⊗ c + c ⊗ a in the tensor square. That expansion uses only the multiplicative relations among these five units, so it holds over every commutative ring (Mirzaii–Mokari, arXiv:1108.5452v2, §3, p.7). The sign convention is the one displayed here; the opposite sign gives the same kernel but a different map, and the choice is recorded rather than left implicit.
 
-Here, the target is the antisymmetric tensor quotient of the multiplicative group of F, written additively.
+Here A is a commutative ring; the target is antisymSquare ℤ (Additive Aˣ), the antisymmetric tensor quotient of the units written additively.
 
-- The homomorphism P(F) → antisymSquare ℤ (Additive Fˣ).
-- The boundary of [x] is x ∧ (1 − x) for x ≠ 0, 1.
-- The boundary of [1] is zero.
+- The homomorphism P(A) → antisymSquare ℤ (Additive Aˣ).
+- The boundary of [x] is x ∧ (1 − x) for x ∈ W_A; over a field, for x ≠ 0, 1.
+- The boundary of a killed symbol is zero; over a field, the boundary of [1] is zero.
 
-- ∂([x] + [1 − x]) = 0 for x ∈ F − {0, 1}.
-- ∂([x] + [x⁽⁻¹⁾]) = x ∧ (−x) for x ∈ Fˣ.
-- The boundary commutes with the maps induced by a field homomorphism.
+- ∂([x] + [1 − x]) = 0 for x ∈ W_A.
+- ∂([x] + [x⁽⁻¹⁾]) = x ∧ (−x) for x ∈ W_A, and over a field for every x ∈ Fˣ.
+- The boundary commutes with the maps induced by a ring homomorphism.
 
-- Composing with antisymSquare.toExterior gives the classical boundary [x] ↦ x ∧ (1 − x) in ⋀[ℤ]^2 (Additive Fˣ).
+- Composing with antisymSquare.toExterior gives the classical boundary [x] ↦ x ∧ (1 − x) in ⋀[ℤ]^2 (Additive Aˣ).
 
-Define B(F), Suslin's Bloch group, as the kernel of the boundary from P(F) to the antisymmetric tensor quotient of the units of F. It is a subgroup of P(F), not a quotient, and the target of the boundary is the antisymmetric quotient rather than the exterior square.
+Define B(A) as the kernel of ∂ : P(A) → Qₛ(A); for a field it is Suslin's Bloch group B(F). It is a subgroup of P(A), not a quotient, and the target of the boundary is the antisymmetric quotient rather than the exterior square.
 
-Here F is any field. Restrictions to |F|≥4 belong only to the subsequent torsion identities.
+Here A is any commutative ring. Restrictions to |F|≥4 belong only to the subsequent torsion identities over fields.
 
-- The subgroup B(F) of P(F).
-- An element lies in B(F) exactly when its boundary vanishes.
-- A field homomorphism induces a homomorphism of Bloch groups.
+- The subgroup B(A) of P(A).
+- An element lies in B(A) exactly when its boundary vanishes.
+- A ring homomorphism induces a homomorphism of Bloch groups.
 
-- The inclusion of B(F) into P(F).
-- Two elements of B(F) are equal exactly when their images in P(F) are.
-- The symbol-preserving isomorphism of §3.4 commutes with the boundaries from the reduced and unreduced presentations into the same Qₛ(F), and restricts to an isomorphism of their kernels, natural for every field embedding. These identifications transport reduced-presentation evaluation to the shared P(F) and B(F).
+- The inclusion of B(A) into P(A).
+- Two elements of B(A) are equal exactly when their images in P(A) are.
+- The symbol-preserving isomorphism of §3.4 commutes with the boundaries from the reduced and unreduced presentations into the same Qₛ(A), and restricts to an isomorphism of their kernels, natural for every ring homomorphism. These identifications transport reduced-presentation evaluation to the shared P(A) and B(A).
 
-For every field F the sequence 0 -> B(F) -> P(F) -> antisymSquare of the units of F -> K_2(F) -> 0 is exact. In particular the cokernel of the boundary is Matsumoto's presentation of K_2(F).
+For every field F the sequence 0 -> B(F) -> P(F) -> antisymSquare of the units of F -> K_2(F) -> 0 is exact. In particular the cokernel of the boundary is Matsumoto's presentation of K_2(F). Over a ring with many units this exactness is part of manyUnits_blochWigner (§4.22).
 
-The source locators for these statements are Weibel, K-book, VI.5.1 (PDF p. 495).
+The source locators for these statements are Weibel, K-book, VI.5.1 (PDF p. 495); Mirzaii–Mokari, arXiv:1108.5452v2, §3, pp.6–7; Hutchinson, arXiv:1309.5010v2, §2.2, p.5, where the boundary is ordered (1 − x)∘x, the negative of ∂.
 
 **Checks.**
 
@@ -759,6 +776,8 @@ The source locators for these statements are Weibel, K-book, VI.5.1 (PDF p. 495)
 - B(F_4) = P(F_4) ≅ ℤ/5, because antisymSquare ℤ (Additive F_4ˣ) = 0.
 - B(F_5) has order 3, whereas the kernel of P(F_5) → ⋀²(F_5ˣ) = 0 is all of P(F_5), of order 6; and [−1] ∉ B(F_3). A definition with the exterior square as target fails both.
 - The element [x] + [1 - x] lies in B(F) for every admissible x.
+- Over ℚ the boundary of the five-term element at (2,3), computed in the full tensor square of the units before passing to Qₛ, is 2⊗(1/2)+(1/2)⊗2 = −2(2⊗2), of infinite order; in Qₛ(ℚ) it is zero. A boundary valued in the tensor square does not descend to P.
+- Over ℤ[1/2], W = {−1, 2, 1/2} and no pair is admissible, since the differences −3, −3/2 and 3/2 are not units; so P(ℤ[1/2]) is free on three symbols. In Qₛ(ℤ[1/2]) ≅ (ℤ/2)³, on (−1)∧(−1), (−1)∧2 and 2∧2, the boundary sends [−1] and [2] to (−1)∧2 and [1/2] to 2∧2, so B(ℤ[1/2]) has index four in P(ℤ[1/2]) and is free of rank three.
 
 *Needs:* §3.1, §3.4; the tensor, exterior-power and Matsumoto contracts; the preceding presentations in this layer.
 
@@ -1086,17 +1105,49 @@ The source locators for these statements are CGZ 2023, §2.1, p. 391, Lemma 2.2 
 
 *Needs:* §3.5, §3.6, §3.7, §3.8, §3.10, §3.11, §3.12, §3.13, §3.14, §3.15; the tensor, exterior-power and Matsumoto contracts; the preceding presentations in this layer.
 
+### 3.17 The refined pre-Bloch module
+
+For a commutative ring A let G_A=Aˣ/(Aˣ)², R_A=ℤ[G_A] its integral group ring, ⟨u⟩∈R_A the class of a unit u, I_A=ker(R_A→ℤ) the augmentation ideal and ⟪u⟫=⟨u⟩−1∈I_A. Define refinedPreBloch, RP(A), as the R_A-module generated by symbols [x], x∈W_A, subject, for every admissible pair (x,y), to the relation
+
+  [x]−[y]+⟨x⟩[y/x]−⟨x⁻¹−1⟩[(1−x⁻¹)/(1−y⁻¹)]+⟨1−x⟩[(1−x)/(1−y)]=0.
+
+All displayed arguments lie in W_A (§3.3), and x⁻¹−1=(1−x)/x is a unit. Under the augmentation every coefficient becomes 1, so the identity on generators induces refinedPreBloch.forget: RP(A)→P(A) through the reduced presentation of §3.4, and forget identifies the Aˣ-coinvariants RP(A)/I_A·RP(A) with P(A). Define refinedBoundary1, λ₁:RP(A)→I_A², by [x]↦⟪1−x⟫⟪x⟫, and refinedBoundary2, λ₂:RP(A)→Qₛ(A), as forget followed by the boundary ∂ of §3.5, with R_A acting on Qₛ(A) through the augmentation, so λ₂[x]=x∧(1−x). Hutchinson orders the second map (1−x)∘x, the negative of λ₂; the kernels agree. The map λ₁ kills every relation: written through the square classes of x, y, 1−x, 1−y and x−y, its value on the relation is zero already in the group ring of (ℤ/2)⁵, hence in R_A. Define RP₁(A)=ker λ₁ and refinedBloch, RB(A)=ker λ₁∩ker λ₂, with the forgetful map RB(A)→B(A). For a field this pair-of-maps model has the same kernel as Hutchinson's pullback-valued boundary, without requiring a second tensor quotient.
+
+Here A is a commutative ring; no size hypothesis enters the definitions. Statements over finite fields that need at least four elements carry that hypothesis where they are made (§§5.4–5.5).
+
+- refinedPreBloch.of, fiveTerm, lift and ext: an R_A-linear map out of RP(A) is determined by its values on the [x], and values killing every refined relation extend uniquely.
+- map, map_id and map_comp: a ring homomorphism f:A→B induces R_A→R_B and an R_A-semilinear map RP(A)→RP(B), [x]↦[f(x)], since f maps W_A into W_B and admissible pairs to admissible pairs.
+- refinedPreBloch.forget and its coinvariant isomorphism RP(A)_(Aˣ)≅P(A), natural in A.
+
+- λ₁ and λ₂ are R_A-linear with the displayed values on generators and commute with the maps induced by ring homomorphisms.
+- RP₁(A) and RB(A) with kernel membership, the inclusions RB(A)⊆RP₁(A)⊆RP(A), induced ring maps with identity and composition laws, and the forgetful map RB(A)→B(A).
+- After inverting 2, taking Aˣ-coinvariants identifies RP₁(A)[1/2] with P(A)[1/2] and RB(A)[1/2] with B(A)[1/2], and I_A·RB(A)[1/2]=I_A·RP₁(A)[1/2]. Inverting 2 makes coinvariants under the 2-torsion group G_A exact; the element (1+⟨−1⟩)[a]+⟪1−a⟫([a]+⟨−1⟩[a⁻¹]) of RP₁(A), a∈W_A, maps to 2[a].
+
+For a field F define refinedCrossRatio on a distinct quadruple of P¹(F) by choosing an SL₂(F) matrix sending its first two points to 0,∞. If the last two images are r,s∈Fˣ, send the quadruple to ⟨r⟩[s/r]∈RP(F). A different choice multiplies r,s by the same square, proving independence; its augmentation is §3.2's ordinary cross-ratio. Its API is normalized, sl2_invariant, gl2_equivariant with the determinant square class, fiveFaces giving the displayed relation, and field_map.
+
+The source locators for these statements are Hutchinson, arXiv:1309.5010v2, §2.3, p.6, for RP(A), the coinvariants, Λ=(λ₁,λ₂) and RB(A) over a commutative ring; §2.4 and Proposition 2.9, pp.6–7, for RP₁(A) and the coinvariants after inverting 2; Hutchinson 2013, arXiv v2, §§2.3–2.4, Lemmas 2.4–2.8, pp.5–9, for the field case; Lemma 2.1, Corollary 2.2 and §6.3, pp.5–7,32, for the refined cross-ratio.
+
+**Checks.**
+
+- Over F₄ every unit is a square, so R_F=ℤ, λ₁=0 and RP=P.
+- Over F₅, writing ε for the nonsquare class, λ₁[2]=0 but λ₁[3]=(ε−1)²=2(1−ε)≠0; dropping square-class coefficients changes the kernel.
+- The F₅ relation at (2,3) is (1−ε)[2]+ε[4]=0 and augments to [4]=0, as in P(F₅). For the refined cross-ratio, (0,∞,1,x) gives [x], (0,∞,a,b) gives ⟨a⟩[b/a], and scaling by a nonsquare changes the coefficient even when it fixes the ordinary cross-ratio. A repeated point lies outside this definition; only the bar comparison of §5.4 handles such bar tuples.
+- Over ℤ, W_ℤ is empty, so RP(ℤ)=0 although R_ℤ=ℤ[{±1}] has rank two.
+- For the zero ring G_A is trivial, R_A=ℤ, and the relation at the admissible pair (0,0) is [0]=0, so RP vanishes, as P does.
+
+*Needs:* §§3.3–3.5; §3.2 for the refined cross-ratio; Mathlib group rings, submodules and quotient modules.
+
 ### Examples
 
 For ℚ, ∂([2]+[−1])=2∧(−1)+(−1)∧2=0, while ∂[2] is nonzero of order two. For F₅, P=ℤ/6 on [3], B=ℤ/3 on [2], and the exterior-kernel group is all of P. For F₁₁, B=ℤ/6 on c, B_new=ℤ/3, and B_old=ℤ/6; κ_new is onto while κ_old has an order-two kernel and an order-two cokernel. Abstract equal orders do not identify the maps. The rational all-curve comparison retains the explicit kernel K_curv and its conditional vanishing statement.
 
 ### Dependencies
 
-Use Mathlib tensor products, free abelian groups, quotient modules, exterior powers, projectivization and general linear groups, with K2SymbolsBrauer §7.2 for Matsumoto. PolylogarithmFunctions §5.8 supplies the projective cross-ratio foundations used by the normalization adapter of §3.2. Smooth-curve specialization uses §3.12's local adapter from the pinned regular-stalk, dimension, DVR, fraction-field and residue-field inputs, followed by the local rational boundary lemma. AlgebraicCurves Layer 12A supplies the proper-curve order for the overlap comparison. No K₃-to-Bloch theorem is used to construct these presentations or their convention maps.
+Use Mathlib tensor products, free abelian groups, quotient modules, exterior powers, projectivization and general linear groups, with K2SymbolsBrauer §7.2 for Matsumoto. PolylogarithmFunctions §5.8 supplies the projective cross-ratio foundations used by the normalization adapter of §3.2. Smooth-curve specialization uses §3.12's local adapter from the pinned regular-stalk, dimension, DVR, fraction-field and residue-field inputs, followed by the local rational boundary lemma. AlgebraicCurves Layer 12A supplies the proper-curve order for the overlap comparison. No K₃-to-Bloch theorem is used to construct these presentations or their convention maps. Mathlib group rings and submodules carry the refined module of §3.17.
 
 ## Layer 4: Configuration homology and the Suslin sequence
 
-The homology arguments up to the infinite-field Suslin sequence assume F infinite unless a statement explicitly says otherwise. Independent vector frames prove the stability and Milnor quotient needed by the projective-configuration construction. The monomial calculation then identifies the integral kernel, including its enhancement at two. Section 4.9 proves the relation η³=12ν in StringOrientation S2.3's third stable stem; that calculation quotients by η³.
+The homology arguments up to the infinite-field Suslin sequence assume F infinite unless a statement explicitly says otherwise; §4.22 states the Bloch–Wigner sequences over commutative rings. Independent vector frames prove the stability and Milnor quotient needed by the projective-configuration construction. The monomial calculation then identifies the integral kernel, including its enhancement at two. Section 4.9 proves the relation η³=12ν in StringOrientation S2.3's third stable stem; that calculation quotients by η³.
 
 ### 4.0 Ordered configurations and augmentation
 
@@ -1392,7 +1443,7 @@ Let F be infinite and σ(a, b) = (b, a) on T_2. Under the Shapiro identification
 
 For F infinite, in the configuration spectral sequence of GL_2(F) on ℙ¹(F), E^2₍₀,₂₎ = H_2(T_2)_σ ≅ ∧²F^× ⊕ ∧̃²(F^×) (Künneth: σ exchanges the two copies of H_2(F^×) = ∧²F^× and acts on F^× ⊗ F^× by x ⊗ y ↦ −y ⊗ x), and d^3 : E^3₍₃,₀₎ = P(F) → E^3₍₀,₂₎ is the boundary [x] ↦ x ⊗ (1 − x) of Layer 3 followed by the split inclusion of ∧̃²(F^×). Hence E^∞₍₃,₀₎ = B(F) and E^∞₍₀,₂₎ ≅ ∧²F^× ⊕ K_2(F).
 
-The target rankTwo_d3_boundary uses the following explicit splitting and finite bar calculation. They also specify how to implement the calculation omitted from Suslin, Lemma 2.4, p.222. A readable calculation with a compressed spectral sequence is Mirzaii, arXiv:0807.2039v2, Lemma 4.1, pp.8–10; only that chain computation is used here, not its stronger claims about the torus image.
+The target rankTwo_d3_boundary uses the following explicit splitting and finite bar calculation. They also specify how to implement the calculation omitted from Suslin, Lemma 2.4, p.222. A readable calculation with a compressed spectral sequence is Mirzaii, arXiv:0807.2039v2, Lemma 4.1, pp.8–10, published in Math. Z. 268 (2011) with an erratum, Math. Z. 275 (2013), 653–655; only that chain computation is used here, not its stronger claims about the torus image or its main theorem.
 
 Fix the Shapiro representatives for columns 0,1,2 as (0), (∞,0), (∞,0,1). Then d(∞,0)=(0)−(∞), giving 1−σ; this avoids an unrecorded sign change from using (0,∞). On H₁(T₂), the class (a,1) maps to (a,a⁻¹) in multiplicative coordinates. The centre is Δ(a)=(a,a), whose image is σ-fixed. On the mixed H₁⊗H₁ Künneth term the swap sends a⊗b to −b⊗a. These pin the antisymmetric cokernel in the d³ target.
 
@@ -1758,13 +1809,39 @@ The source locators for these statements are Weibel, K-book VI, Exercise 5.8, ch
 
 *Needs:* §3.2, §3.4, §3.6, §3.12, §4.20; K2SymbolsBrauer §§10.5 and 11.3 and Layer 9; SchemeKTheoryOperations §§3.6, 4.7 and 5.2.
 
+### 4.22 The Bloch–Wigner sequences over rings
+
+Here A is a commutative ring, K₃^ind(A) is the quotient of §2.1, P(A), Qₛ(A), ∂ and B(A) are those of §§3.3–3.5, RB(A) is that of §3.17, K₂(A) is AlgebraicKTheory A5's stable K₂, μ(A) is the torsion subgroup of Aˣ and μ_(2^∞)(A) its 2-primary part.
+
+A has many units when for every finite family of surjective linear forms f₁,…,f_k:A²→A there is v∈A² with every fᵢ(v) a unit (Mirzaii–Mokari, arXiv:1108.5452v2, §1, p.4). Mirzaii's earlier definition asks the same of forms on Aⁿ for every n≥2 (Mirzaii, arXiv:0807.2039v2, Definition 1.4, p.3); the theorems below use the definition on A². A surjective form on A² is v↦av₁+bv₂ with aA+bA=A, so A has many units exactly when for every finite family of unimodular pairs (aᵢ,bᵢ) some t∈A makes every aᵢ+bᵢt a unit: adjoin the form v↦v₁, so that v₁ is a unit, and take t=v₂/v₁; conversely take v=(1,t). Many units therefore implies the threefold stability of K2SymbolsBrauer §13.3, which asks this of three pairs only. The converse fails for every finite field 𝔽_q with q≥4: it is threefold stable, but the q pairs (−c,1), c∈𝔽_q, exclude every t. Semilocal rings whose residue fields are all infinite have many units (Mirzaii–Mokari, §1, p.4), and so does every infinite field, where a unimodular pair excludes at most one t.
+
+`IsGLStableThroughThree` A means that for every i≤3 and n≥i the stabilization `TauCeti.stabilizeGL` from GLₙ(A) to GLₙ₊₁(A) induces a bijection on Hᵢ(−;ℤ), with the identity coefficient map. The proofs below use these isomorphisms, as Mirzaii–Mokari do for rings with many units (§1, p.4). HomologicalStabilityOfGeneralLinearGroups §2.3 proves them for every semilocal ring whose residue fields are all infinite, and §4.8 (`generalLinear_homology_stable`) for infinite fields. For a local ring whose residue field is finite with more than nine elements, Mirzaii proves the degree-two and degree-three instances (arXiv:1603.03649v1, Proposition 3.6(i), p.21, and Proposition 4.7, p.27), but no supplier states them; there, and for an arbitrary ring with many units, the theorems below carry `IsGLStableThroughThree` as a hypothesis.
+
+- manyUnits_blochWigner: let A have many units and satisfy `IsGLStableThroughThree`. Then there is an exact sequence T_A → K₃^ind(A) → P(A) → Qₛ(A) → K₂(A) → 0, where P(A)→Qₛ(A) is ∂, Qₛ(A)→K₂(A) sends a∧b to the Steinberg symbol {a,b} of K2SymbolsBrauer §§6.4 and 6.9, and the image of K₃^ind(A)→P(A) is B(A). The group T_A is the subquotient of H₃ of the monomial subgroup GM₂(A)=T₂⋊Σ₂ of GL₂(A) defined by Mirzaii and Mokari, and it sits in an exact sequence 0 → Tor₁^ℤ(μ(A),μ(A))_σ → T_A → H₁(Σ₂, μ_(2^∞)(A)⊗μ_(2^∞)(A)) → 0, where σ exchanges the two diagonal entries and acts on the tensor square by a⊗b↦−b⊗a. If A is moreover an integral domain, T_A→K₃^ind(A) is injective and T_A is T̃(A), so that 0 → T̃(A) → K₃^ind(A) → B(A) → 0 is exact. Here T̃(A) is Tor₁^ℤ(μ(A),μ(A)) when char A=2 or μ_(2^∞)(A) is infinite, and otherwise the extension 0→Tor₁^ℤ(μ(A),μ(A))→T̃(A)→ℤ/2→0 that does not split; the composite Tor₁^ℤ(μ(A),μ(A))→T̃(A)→K₃^ind(A) is induced by ξ↦diag(ξ,ξ⁻¹) from μ(A) to SL₂(A). (Mirzaii–Mokari, Theorem 5.1, pp.12–16; (4.3), Lemma 4.4 and Corollary 4.5, pp.9–12; §3, p.7, for 0→B(A)→P(A)→Qₛ(A)→K₂ᴹ(A)→0 and §1, p.4, for van der Kallen's K₂ᴹ(A)≅K₂(A).)
+- For an infinite field F, which has many units and satisfies `IsGLStableThroughThree` by §4.8, the domain case is the sequence of §4.20: in both the right-hand map is Suslin's map through H₃(GL₃(F)) of §4.14, so both left terms are its kernel, and T̃(F) is the group of §4.19.
+- localInfiniteResidue_blochWigner: let A be a local ring with infinite residue field k such that μ(A)→μ(k) is injective. Then 0 → T̃(A) → K₃^ind(A) → B(A) → 0 is exact, with no stability hypothesis: A has many units, and HomologicalStabilityOfGeneralLinearGroups §2.3 gives `IsGLStableThroughThree`. Injectivity on the left follows from the square with the sequence of §4.20 for k (Mirzaii–Mokari, Corollary 5.3, pp.16–17). That T_A is T̃(A) whenever A maps to a field injectively on roots of unity is Mirzaii, arXiv:1603.03649v1, Lemma 6.2, p.30.
+- localFiniteResidue_blochWigner: let A be a local ring whose residue field k is finite with more than nine elements, and not of order 16 or 32 unless A is an integral domain or an algebra over a field, and let A satisfy `IsGLStableThroughThree`. Then T_A → K₃^ind(A) → B(A) → 0 is exact, with T_A as above. If some ring map from A to a field is injective on μ(A), then 0 → T̃(A) → K₃^ind(A) → B(A) → 0 is exact, with the same left map (Mirzaii, arXiv:1603.03649v1, Theorem 6.1, p.30).
+- `bloch_dvr_equiv`: let R be a DVR with fraction field K and residue field k, where k is infinite or has more than nine elements, and either char K = char k or k is finite; when k is finite let R satisfy `IsGLStableThroughThree`. Then the map B(R)→B(K) induced by R→K is an isomorphism (Mirzaii–Mokari, Corollary 5.4, p.17, for k infinite; Mirzaii, arXiv:1603.03649v1, Corollary 6.3, p.30). Route: R is integrally closed, so μ(R)=μ(K), and the sequences above for R and of §4.20 for K reduce the claim to the bijectivity of K₃^ind(R)→K₃^ind(K) (Hutchinson, arXiv:1309.5010v2, Theorem 2.1, p.4). For that, compare the Gersten sequence 0→K₃(R)→K₃(K)→K₂(k)→0 with the residue r_(v,3):K₃ᴹ(K)→K₂ᴹ(k) of K2SymbolsBrauer §9.11 through its §11.3 square D₃m₃=m₂r_(v,3), and apply the snake lemma. Since m₂ is bijective, a triple unit product of K lies in K₃(R) exactly when it is m₃ of an element of ker r_(v,3), and that kernel is generated by symbols of units of R: modulo unit symbols an element of it lies in the kernel of Serre's map (K2SymbolsBrauer §9.12), hence is a sum of terms ±{u}·{1+m,π} with u a unit and m∈𝔪. Since k has more than two elements there is a unit a with ā≠0 and ā≠−(m/π)‾, so (1+m)(1+aπ)=1+cπ with c a unit; then {1+m,π}={1+cπ,π}−{1+aπ,π}, and the Steinberg relation at −cπ gives {1+cπ,π}={−c,1+cπ}, a unit symbol, and likewise for a. The Gersten sequence is SchemeKTheoryOperations §4.7 for equicharacteristic R; for finite k it follows here from K₂(k)=0 and the split surjectivity of the boundary K₄(K)→K₃(k), proved by the coefficient argument of Weibel, Corollary V.6.9.2, printed p.414.
+- localDomain_refinedBlochWigner: let A be a local integral domain whose residue field k is sufficiently large, that is infinite or of order p^f with (p−1)f>6. Then there is a natural exact sequence of R_A[1/2]-modules 0 → Tor₁^ℤ(μ(A),μ(A))[1/2] → H₃(SL₂(A),ℤ[1/2]) → RB(A)[1/2] → 0 (Hutchinson, arXiv:1309.5010v2, Theorem 3.22, p.15). The right-hand map is the edge map of the hyperhomology spectral sequence of SL₂(A) acting on the complex of tuples in general position of unimodular rows of A² modulo units. That complex is exact in degrees 1 to |k|−1 (Lemma 3.21, pp.14–15), and the inclusion of the diagonal torus into the Borel subgroup is a homology isomorphism through degree three for such k (Proposition 3.19 and Remark 3.20, p.14); the refined five-term relation of §3.17 is the resulting differential. No GL-stability enters.
+- localDomain_sl2_k3ind: under the same hypotheses the natural map H₃(SL₂(A),ℤ)→K₃^ind(A) induces an isomorphism H₃(SL₂(A),ℤ[1/2])_(Aˣ) ≅ K₃^ind(A)[1/2], when A also satisfies `IsGLStableThroughThree` if k is finite (Hutchinson, arXiv:1309.5010v2, Corollary 3.23, p.18). The map is stabilization to H₃(SL(A)), where SL(A)=E(A) for a local ring, followed by the inverse of §1.5's K₃(A)/(K₂(A)·[−1])≅H₃(E(A)) and the quotient to K₃^ind(A); K₂(A) is generated by the unit symbols of a commutative semilocal ring (K2SymbolsBrauer §6.18), so K₂(A)·[−1] consists of triple unit products by K2SymbolsBrauer §8.1. Take Aˣ-coinvariants of the refined sequence, use the coinvariant identification RB(A)[1/2]_(Aˣ)≅B(A)[1/2] of §3.17, and compare with the domain sequences above after inverting 2.
+
+**Checks.**
+
+- ℤ does not have many units: the pairs (0,1) and (1,1) need t=±1 and 1+t=±1, which no integer satisfies; nor does 𝔽₅, by the five pairs (−c,1). The product ℚ×ℚ has many units and is not local.
+- For the DVR ℤ_(2), with residue field 𝔽₂, W is empty, so B(ℤ_(2))=P(ℤ_(2))=0, while B(ℚ)≅ℤ/6, from K₃^ind(ℚ)≅ℤ/24 (§2.1) and T̃(ℚ)≅ℤ/4 (§4.19). For ℤ_(3), with residue field 𝔽₃, [2]+[−1] and [5]+[−4] are independent elements of B(ℤ_(3)), since 2,−1,5,−4 lie in W and P(ℤ_(3)) is free on W (§3.4). Both residue fields fall outside the bound of `bloch_dvr_equiv`, and both maps fail to be isomorphisms.
+- Over ℤ[1/2], which is not local and does not have many units (no t with t, t−1, t+1 all of the form ±2ᵏ), B is free of rank three (§3.5), while B(ℚ)≅ℤ/6.
+- For ℚ the domain sequence reads 0→ℤ/4→ℤ/24→ℤ/6→0, as in §4.20; with the untwisted Tor₁^ℤ(μ(ℚ),μ(ℚ))≅ℤ/2 on the left the orders would not multiply.
+- For the field 𝔽_11, sufficiently large since (11−1)·1>6, the refined sequence has left term Tor₁^ℤ(μ₁₀,μ₁₀)[1/2]≅ℤ/5; 𝔽₉ and 𝔽₁₆ are not sufficiently large, since (3−1)·2=4 and (2−1)·4=4.
+
+*Needs:* §1.5, §2.1, §§3.3–3.5, §3.17, §4.1, §4.8, §4.14, §4.19, §4.20; HomologicalStabilityOfGeneralLinearGroups §2.3; K2SymbolsBrauer §§6.4, 6.7, 6.9, 6.18, 8.1, 9.11, 9.12, 11.3 and 13.3; SchemeKTheoryOperations §§3.6 and 4.7; GeneralAlgebraicKTheory §§7.4–7.6 and §13.8c; AlgebraicKTheory A5; Tau Ceti `TauCeti.stabilizeGL` and the Shapiro interface `TauCeti.groupHomology.indIso_inv`.
+
 ### Examples
 
 The smallest frame algebra terms are S₀=ℤ, S₁=Fˣ and S₂=K₂ᴹ⊕ℤ; e=⟨1,1⟩ maps to (0,1). The projective triple stabilizer consists of scalar matrices diag(a,a). It is not diag(a,a⁻¹). On a cyclic root group C₇ the power-two map multiplies H₃ by four, exhibiting the second Tate twist. Over ℚ the enhanced kernel has order four, while ordinary Tor has order two. The equality 4·6=24 is compatible with the Suslin sequence; 2·6=24 is false.
 
 ### Dependencies
 
-Use Layers 1–3; the group-homology and algebraically closed K-theory contracts; StableHomotopyKTheory §§6.3, 7.1 and 7.27 for Barratt–Priddy, the first two stable stems and the Atiyah–Hirzebruch spectral sequence; StringOrientation S2.3 for π₃ˢ≅ℤ/24 in §§4.9 and 4.16; for §4.9, ArithmeticKTheory §7.5, BordismFormalGroups F3–F4 and GeneralizedCohomology G2 and G3 item 9; and, for §4.21, SchemeKTheoryOperations §§3.6, 4.7 and 5.2 and K2SymbolsBrauer Layer 9 and §§10.5 and 11.3. The general group-module hyperhomology construction comes first in §4.1. Frame products, the Milnor retraction and the simultaneous stability induction precede the GL₂/GL₃ edge maps. The Chern normalization and closure detector precede the enhanced-Tor identification. The finite-set exactness in §4.0 precedes symmetric-group stability and its finite-field specialization in Layer 5. The relation η³=12ν of §4.9 precedes the monomial homotopy of §4.16.
+Use Layers 1–3; the group-homology and algebraically closed K-theory contracts; for §4.22, HomologicalStabilityOfGeneralLinearGroups §2.3, K2SymbolsBrauer §§6.4–6.18, 8.1, 9.11–9.12, 11.3 and 13.3, SchemeKTheoryOperations §4.7 and Tau Ceti `TauCeti.stabilizeGL`; StableHomotopyKTheory §§6.3, 7.1 and 7.27 for Barratt–Priddy, the first two stable stems and the Atiyah–Hirzebruch spectral sequence; StringOrientation S2.3 for π₃ˢ≅ℤ/24 in §§4.9 and 4.16; for §4.9, ArithmeticKTheory §7.5, BordismFormalGroups F3–F4 and GeneralizedCohomology G2 and G3 item 9; and, for §4.21, SchemeKTheoryOperations §§3.6, 4.7 and 5.2 and K2SymbolsBrauer Layer 9 and §§10.5 and 11.3. The general group-module hyperhomology construction comes first in §4.1. Frame products, the Milnor retraction and the simultaneous stability induction precede the GL₂/GL₃ edge maps. The Chern normalization and closure detector precede the enhanced-Tor identification. The finite-set exactness in §4.0 precedes symmetric-group stability and its finite-field specialization in Layer 5. The relation η³=12ν of §4.9 precedes the monomial homotopy of §4.16.
 
 ## Layer 5: Finite fields and arithmetic examples
 
@@ -1882,19 +1959,7 @@ Here F is a finite field with cardinality q≥4 and prime characteristic ℓ. B�
 
 The refined construction has the following proof decomposition, with no infinite-set contraction used for a finite projective line. In this paragraph only, write E¹₍ₕ,c₎=H_h(SL₂(F),L_c) (homology index first), where L_c is free on distinct ordered (c+1)-tuples in P¹(F). Its total differential is the convention in §4.1 after exchanging the index names.
 
-- refinedPreBloch: for any field with at least four elements, put GF=Fˣ/(Fˣ)², RF=ℤ[GF], I=ker(RF→ℤ) and ⟪u⟫=⟨u⟩−1. Define RP(F) as the RF-module on reduced generators [x], x≠0,1, with the relations
-
-  [x]−[y]+⟨x⟩[y/x]−⟨x⁻¹−1⟩[(1−x⁻¹)/(1−y⁻¹)]+⟨1−x⟩[(1−x)/(1−y)]=0
-
-  for x,y≠0,1 and x≠y. All displayed arguments are then reduced generators. The API is refinedPreBloch.of, fiveTerm, lift and ext for the quotient universal property, and map, map_id, map_comp for field embeddings and their induced square-class ring maps. refinedPreBloch.forget sends [x] to the ordinary symbol and RF through augmentation; its coinvariant map is an isomorphism RP(F)₍Fˣ₎≅P(F). Define refinedBoundary1 by [x]↦⟪1−x⟫⟪x⟫ in I² and refinedBoundary2 by [x]↦x⊗(1−x) in Qₛ, on which RF acts through augmentation. The latter is the negative of Hutchinson's order convention. These maps respect every refined relation: the first follows either by expanding square classes or by the configuration differential below, and the second by augmentation and §3.5. Define refinedBloch as their simultaneous kernel and RP₁ as the first kernel. Their API has kernel membership, inclusions, induced field maps with identity/composition, and the forgetful map RB→B. This pair-of-maps model has the same kernel as Hutchinson's pullback-valued boundary, without requiring a second tensor quotient. Source: Hutchinson §§2.3–2.4, Lemmas 2.4–2.8, pp.5–9.
-
-  Define refinedCrossRatio on a distinct quadruple by choosing an SL₂ matrix sending its first two points to 0,∞. If the last two images are r,s∈Fˣ, send it to ⟨r⟩[s/r]. A different choice multiplies r,s by the same square, proving independence; its augmentation is §3.2's ordinary cross-ratio. Its API is normalized, sl2_invariant, gl2_equivariant with the determinant square class, fiveFaces giving the displayed relation, and field_map. This is Hutchinson Lemma 2.1, Corollary 2.2 and §6.3, pp.5–7,32.
-
-  **Checks.**
-
-  - Over F₄ every unit is a square, so RF=ℤ, λ₁=0 and RP=P.
-  - Over F₅, writing ε for the nonsquare class, λ₁[2]=0 but λ₁[3]=(ε−1)²=2(1−ε)≠0; dropping square-class coefficients changes the kernel.
-  - The F₅ relation at (2,3) is (1−ε)[2]+ε[4]=0 and augments to [4]=0. For the refined cross-ratio, (0,∞,1,x) gives [x], (0,∞,a,b) gives ⟨a⟩[b/a], and scaling by a nonsquare changes the coefficient even when it fixes the ordinary cross-ratio. A repeated point lies outside this definition; only the separate bar comparison handles such bar tuples.
+- refinedPreBloch: §3.17 defines RP(F), refinedBoundary1 λ₁, refinedBoundary2 λ₂, RP₁(F)=ker λ₁, refinedBloch RB(F) and refinedCrossRatio for every field, as the case A=F of its commutative-ring construction. The statements below use them for finite F with q≥4.
 - finiteConfiguration_lowDegree_comparison: specialize §4.0’s finite injective-word exactness to |P¹(Fq)|=q+1; its possible top augmented homology is in degree q+1. Thus H_i(L)=0 for 1≤i≤q−1. The other filtration of the double complex identifies hyperhomology with H_i(SL₂(F),ℤ) for i≤q−1, including degree three at q=4. See Hutchinson Lemmas 4.4–4.6, pp.19–21. The top homology is retained; the complex is not globally acyclic.
 - finiteConfiguration_barComparison: for any subgroup G≤SL₂(F) and q≥4, construct an augmentation-preserving equivariant chain map β from the homogeneous bar resolution through degree four to L. On each free bar basis element, lift the already determined boundary using H_i(L)=0 for 1≤i≤3 and exactness of the augmentation in degree zero; extend equivariantly. Work through the normalized bar quotient to send adjacent repeated group entries to zero. The same induction constructs a homotopy through degree three between any two choices. Consequently its degree-three coinvariant map is the spectral-sequence edge and is independent of all lifts. Its API is barComparison.aug, barComparison.d, barComparison.homotopy, barComparison.edge and naturality on induced homology. For a nontransitive action, choosing x and y outside G·x gives the explicit βx,y of Hutchinson §6.2, p.31; on four distinct orbit points it is their tuple, and on alternating orbit points it is the two tuples used in §5.5. The refined cross-ratio of Hutchinson §6.3, p.32, adds the SL₂ orbit square-class factor before its reduced symbol. **Checks.**
 
@@ -1916,7 +1981,7 @@ The source locators for these statements are Hutchinson 2013, arXiv v2, §4 Theo
 - The kernel for F₇ has order12 and the target has order4.
 - The kernel for a field of cardinality4 has order6 and target order5.
 
-*Needs:* §3.2, §3.5, §4.1, §4.0; Layers 1–4; the finite-field and arithmetic contracts.
+*Needs:* §3.2, §3.5, §3.17, §4.1, §4.0; Layers 1–4; the finite-field and arithmetic contracts.
 
 ### 5.5 The finite Bloch sequence and its orders
 
@@ -2324,14 +2389,16 @@ The supply direction for this interface is K3BlochGroups Layer 3 → ColemanInte
 
 Polylogarithms Layer 2 consumes the normalized K₃-to-Bloch map of Layer 4 for its descended real regulator and its Borel normalization, and its Layer 4 consumes the rational-curve presentation of §4.21 and the specialization lemma of §3.12. PadicHodgeRegulators consumes the Layer 3 carriers (§§3.1, 3.3–3.6); the configuration map, the natural Suslin sequence and its rational isomorphism (§§4.12–4.14, 4.20, 6.6) for its evaluation of the complex regulator on Bloch classes; and the root classes and finite quotients (§§6.3–6.6) for its local K₃ calculation. The weight-two regulator comparisons and their analytic scalars belong to these two consumers; this roadmap supplies them only the algebraic maps that those comparisons evaluate. HabiroNumberFields is an anticipated consumer of the integral maps, finite-field conventions and finite-coefficient comparison; no section-specific contract is asserted for it. EllipticKTheory is an anticipated consumer of the indecomposable quotient (§2.1), the two-torsion kernel bound (§2.2), the rational rank (§2.5) and the Suslin sequence (§4.20). The all-curve Goncharov kernel does not disappear through one of these consumer comparisons.
 
-HomologicalStabilityOfGeneralLinearGroups consumes the group-module hyperhomology of §4.1 for the spectral sequences of its §§2.2 and 2.5, and cites §4.2, `generalLinear_homology_stable` (§4.8) and `symmetricGroup_homology_stable` (§4.15) in its Examples. The boundary with it is stated under Scope and ownership.
-
 ## References
 
 - Charles A. Weibel, [*The K-book*, combined author draft, 29 August 2013](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf), I.3.8, IV.1 and VI.4–VI.5. “PDF p.” for this volume counts from its first page. Separate author chapters [III](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.III.pdf), [IV](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.IV.pdf), [V](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.V.pdf) and [VI](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.VI.pdf) have their own chapter pagination. The locators distinguish those editions.
 - A. A. Suslin, [*Homology of GLₙ, characteristic classes and Milnor K-theory*](https://www.mathnet.ru/eng/tm2280), Trudy Mat. Inst. Steklov. 165 (1984), 188–204, especially §§1–3 and Theorem 3.4. Page numbers refer to the Russian version of record.
 - A. A. Suslin, *K₃ of a field, and the Bloch group*, Proc. Steklov Inst. Math. 183 (1991), 217–239, §§1–5, especially Lemmas 4.1–4.4 and Sublemma 4.4.1, pp.227–229.
-- Behrooz Mirzaii, [*Bloch–Wigner theorem over rings with many units*, arXiv:0807.2039v2](https://arxiv.org/abs/0807.2039v2), Lemma 4.1, pp.8–10, for the explicit rank-two bar lift. Only that chain computation is used; stronger torus-kernel claims elsewhere in the paper are not inputs.
+- Behrooz Mirzaii, [*Bloch–Wigner theorem over rings with many units*, arXiv:0807.2039v2](https://arxiv.org/abs/0807.2039v2), Math. Z. 268 (2011), 329–346, Lemma 4.1, pp.8–10, for the explicit rank-two bar lift, and Definition 1.4, p.3, for the variant of the many-units condition on Aⁿ. Only that chain computation is used; stronger torus-kernel claims elsewhere in the paper are not inputs, and its main theorem is not cited. Its erratum: Behrooz Mirzaii, *Erratum to: Bloch–Wigner theorem over rings with many units*, Math. Z. 275 (2013), 653–655, cited by its locator.
+- Behrooz Mirzaii and Fatemeh Y. Mokari, [*A Bloch–Wigner theorem over rings with many units II*, arXiv:1108.5452v2](https://arxiv.org/abs/1108.5452v2), §1, p.4, for rings with many units; §3, pp.6–7, for the pre-Bloch and Bloch groups of a commutative ring; §4, pp.8–12, and Theorem 5.1 and Corollaries 5.3–5.4, pp.12–17. Locators use the arXiv pagination.
+- Behrooz Mirzaii, [*A Bloch–Wigner exact sequence over local rings*, arXiv:1603.03649v1](https://arxiv.org/abs/1603.03649v1), Propositions 3.6 and 4.7, pp.21 and 27, Theorem 6.1, Lemma 6.2 and Corollary 6.3, p.30. Locators use the arXiv pagination.
+- Kevin Hutchinson, [*The third homology of SL₂ of local rings*, arXiv:1309.5010v2](https://arxiv.org/abs/1309.5010v2), Theorem 2.1, p.4; §§2.2–2.4 and Proposition 2.9, pp.5–7; Proposition 3.19, Lemma 3.21, Theorem 3.22 and Corollary 3.23, pp.14–18. Locators use the arXiv pagination.
+- Rodrigo Cuitun Coronado and Kevin Hutchinson, [*Bloch groups of rings*, arXiv:2201.04996v3](https://arxiv.org/abs/2201.04996v3), Corollary 8.4, p.27, for the value at 𝔽₃ compared in §3.4.
 - Kevin Hutchinson, [*A Bloch–Wigner complex for SL₂*, arXiv:1107.0264v2](https://arxiv.org/abs/1107.0264v2), §§3–4 and 6–7. All locators to this work use the preprint pagination, not the journal pagination.
 - Marc Levine, [*The indecomposable K₃ of fields*](https://numdam.org/item/10.24033/asens.1585.pdf), Ann. Sci. ENS 22 (1989), 255–344, Theorems 4.11–4.12, pp.334–336.
 - Kevin Hutchinson, [*The Chern class for K₃ and the cyclic quantum dilogarithm*, arXiv:2104.14413v4 (2024)](https://arxiv.org/abs/2104.14413v4), §2.3, Theorem 2.10, p.4.
