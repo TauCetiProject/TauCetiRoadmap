@@ -254,7 +254,9 @@ def IsGeometricPoint (q : ℝ) {H : TauCeti.FiniteTypeCommHopfAlgCat.{0, 0} ℂ}
 
 /-- `r` is a positive real part of the point `s`: on every finite-dimensional `H`-comodule, `r`
 acts on the `μ`-eigenspace of `s` by the scalar `|μ|`. For a semisimple `s` this is satisfied by
-the positive real part `r(s)` of Ciubotaru–Harris, §10.1, and determines `r` (README §5.4). -/
+the positive real part `r(s)`, the component of `s` in the positive real factor of the polar
+decomposition of a maximal torus (Ciubotaru–Harris, §6 and §8.1, where it is written
+`q^(ℜ(s))`), and determines `r` (README §5.4). -/
 def IsPositiveRealPart {H : TauCeti.FiniteTypeCommHopfAlgCat.{0, 0} ℂ}
     (s r : WithConv (H →ₐ[ℂ] ℂ)) : Prop :=
   ∀ (M : TauCeti.FGComoduleCat.{0, 0, 0} ℂ H) (μ : ℂ) (v : M),
