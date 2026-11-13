@@ -18,7 +18,7 @@ for each headline are:
   and Artin reciprocity exist as `TauCeti.ClassFieldTheory.rayClassField` and
   `TauCeti.ClassFieldTheory.rayClassArtinEquiv`, but the norm limits of their p-units and class
   groups, CM theta values and elliptic-unit classes do not.
-* The scalar Tamagawa theorem and Beilinson-normalized all-prime character-wise equality
+* The scalar Tamagawa theorem and the integral all-prime character-wise equality
   (§§4.2–4.5): the arithmetic two-variable cohomology complexes, fundamental lines, perfect
   complex determinants and elliptic zeta classes are absent.
 * Rubin's two-variable theorem and normalized classical form (§4.8): the arithmetic norm limits
@@ -26,9 +26,9 @@ for each headline are:
 * The Katz main conjecture, its corrected one-variable control and anticyclotomic components
   (§§5.1–5.4), and Katz's functional equation and lambda identity (§5.5): the Katz measure,
   CM Coleman map and arithmetic control maps are absent, besides those norm-limit modules.
-* The CM explicit reciprocity and de Rham-normalized comparison (§§3.3, 7.2, 8.1–8.4): the
-  canonical CM-pair realizations, their period comparisons and the arithmetic elliptic-unit
-  classes are absent. A bare representation or measure would not state these headlines.
+* The de Rham-normalized CM comparison and the elliptic-unit/Beilinson–Kato bridge (§§7.2,
+  8.1–8.4): the canonical CM-pair realizations, their period comparisons and the arithmetic
+  elliptic-unit classes are absent. A bare representation or measure would not state these headlines.
 -/
 
 namespace TauCetiRoadmap.ModularIwasawaMainConjecturesPartII

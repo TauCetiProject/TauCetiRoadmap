@@ -1,6 +1,6 @@
 # Roadmap: main conjectures for modular forms and their families, part II — CM forms at every prime
 
-**Summary.** ModularIwasawaMainConjectures formulates Kato's cyclotomic main conjecture for a modular form (its §§0.6–0.7) and proves it in the ordinary, signed and family ranges where the automorphic reverse bounds apply. It stops before the forms with complex multiplication, where the residual image is dihedral and those bounds do not apply, and before the prime 2. This Part II proves the rational form of Kato's main conjecture for every CM newform of weight `k ≥ 2` at every prime `p`, including `p = 2` and `p = 3` (Burungale–Tian, Theorem 2.6). The route goes through the imaginary quadratic CM field `K`. Over the two-variable ray tower `K(p^∞f)` it builds the tower Iwasawa cohomology, the norm limits `h¹` of `p`-units and `h²` of class groups, Kato's CM theta functions and the elliptic units, Kato's CM realizations and his reciprocity law for elliptic units, and the elliptic-unit Euler system. With these it proves Johnson-Leung and Kings' main conjecture for every finite-order character at every prime and Rubin's two-variable main conjecture with its all-prime classical form. At a split prime it proves the Katz-measure form, its anticyclotomic `θ`-components and the λ-invariant identity used by Castella–Grossi–Lee–Skinner. It then proves the rational equivariant main conjecture over `ℤ_p[[Gal(K(p^∞f)/K)]] ⊗ ℚ`, with the Euler factors at the primes of `f` prime to `p` that its printed form omits. It identifies the elliptic-unit generator in the CM Iwasawa cohomology of KatoEulerSystems §4.4, and finally descends the equivariant equality to the cyclotomic tower over `ℚ` through Kato's comparison of elliptic units with Beilinson–Kato elements. The descent proves an equality, not just Kato's one-sided inequality.
+**Summary.** ModularIwasawaMainConjectures formulates Kato's cyclotomic main conjecture for a modular form (its §§0.6–0.7) and proves it in the ordinary, signed and family ranges where the automorphic reverse bounds apply. It stops before the forms with complex multiplication, where the residual image is dihedral and those bounds do not apply, and before the prime 2. This Part II proves the rational form of Kato's main conjecture for every CM newform of weight `k ≥ 2` at every prime `p`, including `p = 2` and `p = 3` (Burungale–Tian, Theorem 2.6). The route goes through the imaginary quadratic CM field `K`. Over the two-variable ray tower `K(p^∞f)` it builds the tower Iwasawa cohomology, the norm limits `h¹` of `p`-units and `h²` of class groups, the elliptic-unit module and its cotorsion, and the elliptic-unit Euler system, on Kato's CM theta functions, elliptic units, CM realizations and reciprocity law for elliptic units as NonordinaryCMSpecialValues states them for every prime. With these it proves Johnson-Leung and Kings' main conjecture for every finite-order character at every prime and Rubin's two-variable main conjecture with its all-prime classical form. At a split prime it proves the Katz-measure form, its anticyclotomic `θ`-components and the λ-invariant identity used by Castella–Grossi–Lee–Skinner. It then proves the rational equivariant main conjecture over `ℤ_p[[Gal(K(p^∞f)/K)]] ⊗ ℚ`, with the Euler factors at the primes of `f` prime to `p` that its printed form omits. It identifies the elliptic-unit generator in the CM Iwasawa cohomology of KatoEulerSystems §4.4, and finally descends the equivariant equality to the cyclotomic tower over `ℚ` through Kato's comparison of elliptic units with Beilinson–Kato elements. The descent proves an equality, not just Kato's one-sided inequality.
 
 ## Scope and ownership
 
@@ -8,8 +8,8 @@ This roadmap owns the Iwasawa theory of elliptic units over imaginary quadratic 
 
 - the arithmetic specialization of the completed group algebra to the CM ray group `Gal(K(p^∞f)/K)`, its normalization after inverting `p`, and the characteristic ideals over it (Layer 0);
 - the tower modules `h¹`, `h²`, their Kummer and Brauer comparisons, the Euler-factor sequence for `H²` and the weak Leopoldt and rank-one statements for the ray tower (Layer 1);
-- Kato's CM theta functions, canonical CM pairs, standard elliptic units, the elliptic-unit module and its cotorsion (Layer 2);
-- Kato's realizations `V(ψ)`, `S(ψ)` of a Hecke character of type `(−r, 0)` for every `r ≥ 1`, and his explicit reciprocity law for elliptic units (Layer 3);
+- the theta-function identities through Eisenstein–Kronecker series, the elliptic units `a ζ_m` of every modulus with their Euler-system norm relation, the squared-norm form of Kronecker's limit formula, the elliptic-unit module `z`, its auxiliary ideal and its cotorsion (Layer 2);
+- auxiliary ideals that make Kato's smoothed period formula invertible, for Hecke characters of type `(−r, 0)` and every `r ≥ 1` (Layer 3);
 - the elliptic-unit Euler system, the Tamagawa number conjecture at `s = 0` for abelian extensions of `K`, Rubin's Euler-system bound, Johnson-Leung–Kings' main conjecture and Rubin's Theorem 4.1 (Layer 4);
 - the Coleman power series of the height-one formal group of the CM curve at a split prime, the split-prime two-variable Coleman map, the elliptic-unit/Katz identification, the Katz form of the main conjecture, the anticyclotomic `θ`-component theorem and the functional-equation λ-identity (Layer 5);
 - the rational equivariant main conjecture with its Euler factors (Layer 6);
@@ -20,15 +20,15 @@ It leaves the following to their owners, by section:
 
 - The formulation of Kato's main conjecture, the modular Iwasawa datum and Kato's Iwasawa cohomology `H^i(T)` over `ℤ[ζ_{p^n}, 1/p]` are ModularIwasawaMainConjectures §§0.1, 0.6 and 0.7. The endpoint here is the rational form `KMC_ℚ` of §0.7 for CM forms; it is not a second definition.
 - Kato's zeta morphism `γ ↦ z_γ(f)` and the zeta submodule `Z(f)` are KatoEulerSystems §5.1, their critical interpolation is KatoEulerSystems §5.3, and the nonvanishing of twisted critical values (Jacquet–Shalika on the edge, Rohrlich's finiteness at the centre) is KatoEulerSystems §4.2. The rational and integral module structure of Kato's Theorem 12.4 for CM forms is KatoEulerSystems §4.4, and the rational Euler-system inequality is KatoEulerSystems §7.2 and PadicFamilies §4.0.3. Section 7.8 here identifies the elliptic-unit generator at height zero, which is stronger than the unmarked rank-one assertion and supplies the generator needed for equality descent. Section 7.9 keeps Kato's lattice inequality, whose additional conclusion at primes containing p under Rubin's condition (b) is distinct from the rational bound. The CM predicate and unnormalized Galois induction are AutomorphicGaloisRepresentations §3.15; §§7.1–7.2 here give the explicit weight dictionary and Kato's de Rham normalization.
-- NonordinaryCMSpecialValues §§2.1–2.2 supply existence and uniqueness of the ideal-indexed theta function and canonical CM pair. Sections 2.2–2.3 here retain the coprime-degree norm law and pointed Artin action, with the coprimality hypotheses needed to preserve the divisor and level. Its §§2.3–2.6 use a direct theta-value convention and have standing hypotheses p ≥ 5 inert and p ∤ h_K; §§2.4–3.3 here give the inverse-unit, cohomological and all-prime extensions, with the regulator factor at 2 kept explicit. The theta and canonical-pair constructions of §§2.1–2.2 are prime-independent.
-- The normalized theta unit `cθ` attached to an integer `c` prime to 6 and its distribution and isogeny laws are PadicFamilies §4.0.1. The ideal-indexed CM refinement `aθ_E` of Layer 2 differs in its index: it is attached to an ideal `a` of `O_K` and its norm law is along `O_K`-linear isogenies of degree prime to `N(a)`.
+- Kato's CM theta function `aθ_E` (uniqueness, the specialization `(c)θ_E = cθ_E`, the norm law along `O_K`-linear isogenies whose kernel meets `E[a]` trivially, and (15.4.3)–(15.4.4)), canonical CM pairs with their Artin action, the standard elliptic units `a z_f = aθ_E(α)⁻¹` with Kronecker's limit formula, the zeta element `z_{p∞f}` with its smoothing, integrality and finite-layer Kronecker formula, Kato's realizations `V_L(ψ)`, `V_{L_λ}(ψ)`, `S(ψ)` and `per_ψ` in the cohomological convention, the height-one explicit reciprocity law in the form Kato applies, and Kato's reciprocity law for elliptic units (Kato, Proposition 15.9) are NonordinaryCMSpecialValues §§2.1–2.6, stated there for every imaginary quadratic `K`, every prime `p` (2 and 3 included) and every `r ≥ 1`. Layers 2–3 here add the units `a ζ_m` of general modulus with their Euler norm relation, the squared-norm reading of Kronecker's formula, the module `z`, the ideal `J`, the level-change formula, cotorsion and the admissible auxiliary ideals.
+- The normalized theta unit `cθ` attached to an integer `c` prime to 6 and its distribution and isogeny laws are PadicFamilies §4.0.1.
 - The generalized Eisenstein–Kronecker series and their meromorphic continuation are AutomorphicPadicLFunctionsPartII §§3.3–3.4. Katz's two-variable `p`-adic measure on `Gal(K(p^∞f)/K)` at an ordinary prime is AutomorphicPadicLFunctionsPartII §8.5. The functional equation of Katz's measure is stated here (§5.5) because no supplier states it.
 - Iwasawa algebras of `ℤ_p^d × Δ`, twists `Tw_κ`, Iwasawa cohomology for a profinite group, Shapiro, descent and control are SelmerIwasawaCohomology §§3.0–3.3 and 3.7. The S-unit Kummer identification is SelmerIwasawaCohomology §0.9. The étale and Galois comparison in Kato's `j_*` convention is SelmerIwasawaCohomology §3.15. The local cofreeness at `p` for the CGLS characters is SelmerIwasawaCohomology §3.17.
 - Characteristic ideals, pseudo-null modules and determinants are PadicMeasuresIwasawaAlgebras §§4.1, 4.6 and 5.1.
 - Euler systems and their twists are EulerSystemsAndKolyvaginSystems §§2.2 and 2.5. Rubin's Iwasawa-theoretic theorems over `ℤ_p^d`-extensions (hypotheses, weak Leopoldt from an Euler system, divisibility) are EulerSystemsAndKolyvaginSystems §§8.1–8.2, 8.6, 8.14, 8.25 and 8.37.
-- The ideal isogenies of a CM elliptic curve, the CM period and de Rham pairings, the idele–torsion dictionary, ray-level fields and CM Hecke characters with their Tate components are ComplexMultiplicationAndExplicitReciprocity §§1.2, 2.2, 3.2, 4.1 and 4.2; the lattice–ideal dictionary of complex CM curves is ImaginaryQuadraticClassNumber §H3.1.
+- The full elliptic CM L-factorization and the weight-two CM induction comparison are ComplexMultiplicationAndExplicitReciprocity §4.2. Its ideal isogenies, CM periods, idele–torsion dictionary, ray-level fields and CM Tate components (§§1.2, 2.2, 3.2 and 4.1) enter through NonordinaryCMSpecialValues §§2.1–2.6.
 - The elliptic units of a rational CM curve `E/ℚ` with `End(E) = O_K` at a prime `p ≥ 5` of good ordinary reduction, built from Siegel functions on the ray class fields of its class-number-one field, the Coleman map of its formal group on the ray tower `K(𝔣p^∞)` with its explicit reciprocity law in Coleman form, the identification of `char((U_∞/𝒞̄_∞)^χ)` with Katz's measure and Rubin's two-variable main conjecture for such `E`, are NoncommutativeAndEquivariantIwasawa §4.3. The statements of Layers 4 and 5 differ from them by their generality: any imaginary quadratic `K` of any class number, Rubin's abelian `K₀ ⊃ H` with `p ∤ [K₀ : K]`, every prime in §4.5 and in the classical form of §4.8, the inert and ramified primes in §4.8(ii), and any CM curve with good reduction at the chosen split place in §5.1. The height-two Coleman interpolation at an inert prime is AnticyclotomicLocalUnits §1.1.
-- Kato's ideal-indexed elliptic units `a z_f` at every prime and every modulus, with their norm relations and the module `z`, are §§2.2–2.6 here. EllipticCurvePeriodsAndModularParametrizations takes, in its one-variable `𝔩`-adic tower over ring class fields, norm limits of closures of elliptic units given as norms of CM values of modular units in ray class fields; those units are built from the same modular units as the units of §2.4 and are not cited here, and nothing of that roadmap is restated.
+- The elliptic units `a ζ_m` of every modulus with their Euler-system norm relations, and the module `z`, are §§2.2 and 2.4 here. EllipticCurvePeriodsAndModularParametrizations takes, in its one-variable `𝔩`-adic tower over ring class fields, norm limits of closures of elliptic units given as norms of CM values of modular units in ray class fields; those units are built from the same modular units as the units of §2.2 and are not cited here, and nothing of that roadmap is restated.
 - The inert anticyclotomic main conjecture of Burungale–Kobayashi–Ota (their Theorems 6.1–6.2), with Rubin's signed `p`-adic L-function, the signed Selmer groups and their control, is InertAnticyclotomicCMMainConjecture. Nothing here is consumed from it, and nothing of it is restated here.
 
 The former numbering CZ.4 is now Layer 6 (rational-equivariant-main-conjecture is §6.2); CZ.5 is now Layer 7 (cm-contained-descent is §7.6, and cm-h2-torsion is supplied by KatoEulerSystems §4.4, with the identified-generator strengthening in §7.8); CZ.6 is now Layer 8 (cm-kato-main-conjecture is §8.6 and cm-kato-normalization-dictionary is §8.7).
@@ -46,6 +46,7 @@ The vanishing of the μ-invariant of anticyclotomic Katz `p`-adic L-functions (H
 - `V_{F_λ}(f)` is Kato's cohomological realization of a newform `f` (Kato, 8.3). It is the dual of the covariant representation, and geometric Frobenius at a good prime `ℓ` has characteristic polynomial `X² − a_ℓX + ε(ℓ)ℓ^{k−1}`. Étale cohomology of `O_{K′}[1/p]` with coefficients `T` means cohomology of `j_*T` along the generic point (Kato, 8.2): neither extension by zero nor unrestricted cohomology of a larger open set.
 - `G_∞ = Gal(ℚ(μ_{p^∞})/ℚ) ≅ ℤ_p^×`, including its torsion (`ℤ/(p − 1)` for odd `p`, `ℤ/2` for `p = 2`). `Λ = O_λ[[G_∞]]` and `Λ_ℚ = Λ[1/p]`.
 - The dual exponential is Kato's (PadicHodgeRegulators §1.4). Periods `per_ψ`, `per_f` are Kato's (15.8 and 6.3).
+- For `u ∈ ℂ^×`, `log|u|` in Kronecker's limit formula (§2.3) and in the regulator of §4.2 is taken with the squared norm `|u| = u·ū`, Dirichlet's normalization at a complex place; the Checks of §§2.3 and 4.2 pin it, and at `p = 2` it is part of the integral statements of Layer 4.
 
 ## Exact supplier contracts
 
@@ -53,9 +54,9 @@ The vanishing of the μ-invariant of anticyclotomic Katz `p`-adic L-functions (H
 
 - `ClassGroup` of `O_{K′}` gives the ideal class groups whose `p`-primary parts form `h²`.
 - `Module.length`, `IsLocalization.AtPrime` and `Ideal.height` give the height-one lengths in `ξ` and in Kato's length lemma. `Module.length` is the Krull dimension of the submodule lattice; it is `⊤` for a module of infinite length.
-- `NumberField.Units.logEmbedding` and `NumberField.Units.logEmbedding_eq_zero_iff` identify the kernel of the logarithmic embedding with torsion; `NumberField.Units.regulator` and `NumberField.Units.regulator_ne_zero` give the positive covolume, rather than a map or its injectivity. `NumberField.Units.torsion` is the group of roots of unity.
+- `NumberField.Units.logEmbedding` and `NumberField.Units.logEmbedding_eq_zero_iff` identify the kernel of the logarithmic embedding with torsion; `NumberField.Units.regulator` and `NumberField.Units.regulator_ne_zero` give the positive covolume, rather than a map or its injectivity. `NumberField.Units.logEmbedding` weights a complex place by `mult w = 2`, so this regulator is Dirichlet's, the squared-norm normalization of §4.2.
 - `NumberField.IsTotallyComplex` gives the absence of real places, which removes the dyadic real-place terms at `p = 2`.
-- `IsCyclotomicExtension` and `cyclotomicCharacter` give the cyclotomic fields and the character whose kernel is the auxiliary ideal of §2.6.
+- `IsCyclotomicExtension` and `cyclotomicCharacter` give the cyclotomic fields and the character whose kernel is the auxiliary ideal of §2.4.
 - `PowerSeries` and `MvPowerSeries` give the coordinate rings of `O[[Γ]]`.
 
 ### From Tau Ceti
@@ -68,13 +69,13 @@ The vanishing of the μ-invariant of anticyclotomic Katz `p`-adic L-functions (H
 
 GlobalNumberFields Layers 2 (moduli and ray class carriers), 9 (Hecke and ray class characters) and 10 (infinity types) supply moduli, characters and infinity types. ClassFieldTheory Layer 10 supplies the Brauer sequence and the sum of local invariants, Layer 11 global Artin reciprocity and Layer 13 ray class fields with their Artin isomorphisms. ProfiniteProPGroups Layer 9 ("The completed group algebra of the orientation image") specifies the completed group algebra.
 
-### From TauCetiRoadmap.ModularForms, EllipticCurves and ModularCurves
+### From TauCetiRoadmap.ModularForms and EllipticCurves
 
-ModularForms Layers 4–5 and 9 supply newforms, strong multiplicity one and the self-twist invariant, and Layer 7 their L-functions. EllipticCurves Layers 1–2 supply isogenies, formal groups, torsion and Tate modules. ModularCurves Layer 0 (relative effective Cartier divisors) and Layer 2 (isogenies and multiplication maps) supply the divisors and isogeny norms used for `aθ_E`.
+ModularForms Layers 4–5 and 9 supply newforms, strong multiplicity one and the self-twist invariant, and Layer 7 their L-functions. EllipticCurves Layer 1 supplies isogenies, invariant differentials and formal groups.
 
 ### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
 
-§4.1 supplies pseudo-null modules and pseudo-isomorphisms. §4.6 supplies `charIdeal` over a noetherian normal factorial domain, multiplicative in short exact sequences and invariant under pseudo-isomorphism. §5.1 supplies determinant lines of perfect complexes. Characteristic ideals over `R_O[1/p]` are formed on each normal factor by §4.6.
+Layer 1 supplies completed group rings and convolution, and Layer 4 Weierstrass theory and module structure, for the Coleman measures and one-variable specializations of Layer 5. §4.1 supplies pseudo-null modules and pseudo-isomorphisms. §4.6 supplies `charIdeal` over a noetherian normal factorial domain, multiplicative in short exact sequences and invariant under pseudo-isomorphism. §5.1 supplies determinant lines of perfect complexes. Characteristic ideals over `R_O[1/p]` are formed on each normal factor by §4.6.
 
 ### From SelmerIwasawaCohomology
 
@@ -86,15 +87,15 @@ ModularForms Layers 4–5 and 9 supply newforms, strong multiplicity one and the
 
 ### From IntegralIwasawaTheory
 
-§2.6 (weak Leopoldt in every cyclotomic tower) and §10.0 (compact coefficients, Shapiro and mapping fibres).
+§2.6 (weak Leopoldt in every cyclotomic tower), §7.1 (integral norm and interpolation on `O[[T]]` for unramified `O`), §7.2 (the normalized arithmetic Coleman map for odd `p`, whose factor `1 − Φ` the local Coleman measure of §5.1 follows) and §10.0 (compact coefficients, Shapiro and mapping fibres).
 
 ### From EulerSystemsAndKolyvaginSystems
 
 §2.2 (the module of Euler systems), §2.5 (twisting Euler systems by characters of finite order), §8.1 (`ℤ_p^d`-extensions in which no finite prime splits completely), §8.2 (Rubin's hypotheses `Hyp(K_∞, T)`), §8.6 (`Hyp(K_∞/K)`), §8.7 (the `Λ`-adic index of divisibility), §8.14 (invariance under twisting), §8.25 (weak Leopoldt from an Euler system, Rubin II.3.2) and §8.37 (Rubin's divisibility `char(X_∞) | ind_Λ(c)`, Rubin II.3.3).
 
-### From ComplexMultiplicationAndExplicitReciprocity and ImaginaryQuadraticClassNumber
+### From ComplexMultiplicationAndExplicitReciprocity
 
-ComplexMultiplicationAndExplicitReciprocity §1.2 (the Serre tensor by a CM ideal: for an integral ideal `a` the isogeny `[a] : E → a⁻¹ ⊗ E` has kernel `E[a]` and degree `N(a)`, and `a⁻¹ ⊗ E` has period lattice `a⁻¹Λ` when `E` has lattice `Λ`; the CM period and de Rham pairings), §2.2 (the idele–torsion dictionary), §3.2 (ray-level value fields), §4.1 (the CM Hecke character `ψ_A` and the one-dimensional CM components of the Tate module) and §4.2 (the full elliptic CM L-factorization and the weight-two CM induction comparison). ImaginaryQuadraticClassNumber §H3.1 (the dictionary between complex elliptic curves with CM by `O_K` and lattices that are fractional ideals, with the ideal action on lattices).
+§4.2 (the full elliptic CM L-factorization and the weight-two CM induction comparison).
 
 ### From AutomorphicGaloisRepresentations and AutomorphicGaloisRepresentationsPartII
 
@@ -104,11 +105,13 @@ AutomorphicGaloisRepresentations §3.15 supplies the CM predicate and algebraic-
 
 AnalyticNumberTheoryPartI §2.3a supplies continuation and the functional equation of unitary Hecke L-functions, with the norm shifts for algebraic Hecke characters. LFunctions Layer 7 (intrinsic nonvanishing) supplies that a nontrivial primitive finite-order Hecke L-function has no zero on `Re s = 1`.
 
+### From ColemanPowerSeries
+
+Layer 1 (integral norm, trace and Coleman interpolation over `O[[T]]`, `p = 2` included), §2.37 (the raw Coleman map `Col₀` from norm-compatible local units to measures on `ℤ_p^×`, through Coleman interpolation, the boundary `1 − φ` and the Amice transform), §2.39 (the sign-adjusted map `Col = −Col₀`, for every prime including 2) and §2.44 (Galois equivariance `Col₀(a·u) = a_*Col₀(u)`). Section 5.1 transports them along `θ : Ĝ_m → F` to the height-one formal group of a CM curve.
+
 ### From PadicHodgeRegulators
 
-§1.4 (Kato's dual exponential) and §1.7 (twists, restriction and corestriction for the Bloch–Kato maps).
-
-NonordinaryCMSpecialValues §2.5 supplies the applied relative-height-one theta reciprocity statement in its standing range p ≥ 5 inert and p ∤ h_K. Section 3.3 here owns the all-prime extension, including split, ramified and dyadic primes, and its inverse-unit normalization. The dual-exponential API alone is not an explicit reciprocity theorem.
+§1.4 (Kato's dual exponential).
 
 ### From AutomorphicPadicLFunctionsPartII
 
@@ -116,7 +119,7 @@ NonordinaryCMSpecialValues §2.5 supplies the applied relative-height-one theta 
 
 ### From NonordinaryCMSpecialValues
 
-Sections 2.1–2.2 supply the theta function and canonical CM pair. Sections 2.3–2.6 fix direct-unit and homological conventions in their standing range p ≥ 5 inert and p ∤ h_K; §§2.4–3.3 here compare them with the inverse-unit and cohomological realizations and extend the applied reciprocity to all primes. Only the construction and rigidity are imported without comparison; the coprime-degree isogeny law and preservation of a pointed level are the qualified statements of §§2.2–2.3.
+§2.1 (Kato's CM theta function `aθ_E` for `a` prime to 6: uniqueness, `(c)θ_E = cθ_E`, the norm law along `O_K`-linear isogenies whose kernel meets `E[a]` trivially, and (15.4.3)–(15.4.4)); §2.2 (canonical CM pairs of modulus `f`, their base change and Artin action; the standard elliptic units `a z_f = aθ_E(α)⁻¹` for `a` prime to `6f`, their unit property and norm compatibility in the `p`-tower; Kronecker's limit formula); §2.3 (the zeta element `z_{p∞f} ∈ H¹_{p∞f}(ℤ_p(1)) ⊗ Q(Λ)`, its independence of `a`, the integrality of `(N(a) − σ_a)·z_{p∞f}` and the finite-layer Kronecker formula (15.6.5)); §2.4 (the realizations `V_L(ψ)`, `V_{L_λ}(ψ)`, `S(ψ)`, `per_ψ` and the de Rham comparison, in the cohomological convention, for type `(−r, 0)` and every `r ≥ 1`); §2.5 (the height-one explicit reciprocity law in the form Kato applies); §2.6 (Kato's Proposition 15.9 and the smoothed period formula (15.9.1)–(15.9.2)). All of these are stated for every prime `p`. Its two Kronecker formulas are read with `log|u|` for the squared norm `|u| = u·ū`: its own Check `log|N_{K(3)/K}(a z_f)| = −12 log 3` for `K = ℚ(i)`, `f = (3)`, `a = (5)` holds in that reading, while the ordinary absolute value gives `−6 log 3` (§2.3).
 
 ### From PadicFamilies
 
@@ -140,7 +143,7 @@ PS.5.2 (the equivariant Tamagawa number conjecture `ETNC(M, O)` as a predicate: 
 
 ## How to read the build
 
-Layer 0 fixes the CM ray group, its Iwasawa algebra, the regular/singular dichotomy and `ξ`. Layer 1 builds the tower cohomology and the modules `h¹`, `h²`, and proves their comparisons and module structure, keeping the Euler terms at primes of `f` prime to `p`. Layer 2 constructs elliptic units and the module `z`, and proves Kronecker's limit formula and cotorsion. Layer 3 constructs Kato's CM realizations and proves his reciprocity law. Layer 4 proves the integral character-wise main conjecture of Johnson-Leung and Kings at every prime, and Rubin's theorem. Layer 5 treats split primes through Coleman maps and Katz's measure; it is used by no later layer. Layer 6 assembles the regular-prime lengths into the rational equivariant main conjecture. Layer 7 fixes the normalization of the supplied CM induction, identifies the elliptic-unit generator in the supplied rank-one cohomology and descends from the ray tower to the cyclotomic tower over `ℚ`. Layer 8 proves that elliptic units become Beilinson–Kato elements and deduces Kato's equality. Layers 7–8 use Layers 2–4 and 6, not Layer 5.
+Layer 0 fixes the CM ray group, its Iwasawa algebra, the regular/singular dichotomy and `ξ`. Layer 1 builds the tower cohomology and the modules `h¹`, `h²`, and proves their comparisons and module structure, keeping the Euler terms at primes of `f` prime to `p`. Layer 2 builds the elliptic units of every modulus and the module `z` on the theta functions, elliptic units and zeta element of NonordinaryCMSpecialValues, fixes the squared norm in Kronecker's limit formula and proves cotorsion. Layer 3 supplies auxiliary ideals for Kato's period formula, whose realizations and reciprocity law are NonordinaryCMSpecialValues §§2.4–2.6. Layer 4 proves the integral character-wise main conjecture of Johnson-Leung and Kings at every prime, and Rubin's theorem. Layer 5 treats split primes through Coleman maps and Katz's measure; it is used by no later layer. Layer 6 assembles the regular-prime lengths into the rational equivariant main conjecture. Layer 7 fixes the normalization of the supplied CM induction, identifies the elliptic-unit generator in the supplied rank-one cohomology and descends from the ray tower to the cyclotomic tower over `ℚ`. Layer 8 proves that elliptic units become Beilinson–Kato elements and deduces Kato's equality. Layers 7–8 use Layers 2–4 and 6, not Layer 5.
 
 ## Layer 0: the CM ray tower and its Iwasawa algebra
 
@@ -148,7 +151,7 @@ Layer 0 fixes the CM ray group, its Iwasawa algebra, the regular/singular dichot
 
 Define the *CM ray group* of `(K, p, f)` as `G = Gal(K(p^∞f)/K)` with its profinite topology. Through the global Artin map it is `lim_n RayClassGroup(p^n f)` (ClassFieldTheory Layer 13, GlobalNumberFields Layer 2). Define its Iwasawa algebra as `R_O = TauCeti.completedGroupAlgebra O G`. Prove that the torsion subgroup `Δ` of `G` is finite. Prove that `G/Δ ≅ ℤ_p²` maps isomorphically onto the Galois group of the `ℤ_p²`-extension of `K`: the unit rank of `K` is zero, so there is no Leopoldt defect, and the `ℤ_p`-rank is `r₂ + 1 = 2`. Prove that a chosen complement gives `R_O ≅ O[Δ][[S, T]]`, a three-dimensional semilocal ring (Burungale–Tian, §2.1.1, p. 3, BT line 136; Kato, 15.1, p. 250; Johnson-Leung–Kings, §4.1, p. 19). *Needs:* ClassFieldTheory Layer 13; GlobalNumberFields Layer 2; SelmerIwasawaCohomology §3.0; ProfiniteProPGroups Layer 9, "The completed group algebra of the orientation image".
 
-- Define J = ker(R → ℤ_p) for the cyclotomic character. Its quotient is ℤ_p, of dimension one, so its height is two in the three-dimensional ray algebra. Section 2.6 identifies its elliptic-unit smoothing generators.
+- Define J = ker(R → ℤ_p) for the cyclotomic character. Its quotient is ℤ_p, of dimension one, so its height is two in the three-dimensional ray algebra. Section 2.4 identifies its elliptic-unit smoothing generators.
 - For `f ∣ f′` restriction `G_{p∞f′} → G_{p∞f}` is onto and induces a surjection of Iwasawa algebras, compatible with composition and the identity.
 - Restriction to `K(μ_{p^∞})` induces `R_O → O[[G_∞]]`. It is onto when `K ⊄ ℚ(μ_{p^∞})`. When `K ⊂ ℚ(μ_{p^∞})` it is onto `O[[G′_∞]]` with `G′_∞ = Gal(ℚ(μ_{p^∞})/K)`, of index two in `G_∞`.
 - `R_O` is a domain exactly when `Δ` is trivial. It is always reduced, since it is torsion-free and embeds in `O[[Γ]] ⊗ Frac(O)[Δ]`. When `O` contains the values of the characters of `Δ`, it is a finite product of normal domains exactly when `p ∤ #Δ`.
@@ -288,183 +291,98 @@ Transport them to the lattice of a CM pair by a homothety; the factor `(dt/t)^{�
 - At a torsion point `z = ατ + β ≠ 0` the second identity specializes to the Siegel-unit formula `log|g_{α,β}| = E^{(0)}_{α,β}` (Kato, (3.8.4)(iii)).
 - `E(0, τ, z, s)` vanishes at `s = 0`, so `E^{(0)}` is a derivative and not a value. A definition by the value at 0 would give zero and break the second identity. Near z = 0 the theta function has order c²−1; for c = 5 the logarithmic derivative has leading coefficient +24/z, detecting the sign in E⁽¹⁾. For k = 2 and 3 the corresponding leading coefficients are −24/z² and +48/z³, with the powers of 2πi retained.
 
-### 2.2 Kato's CM theta function
+### 2.2 Elliptic units of every modulus
 
-Let `K′ ⊃ K` be a field and `E/K′` an elliptic curve with `O_K ≅ End(E)`, normalized so that `O_K → End(E) → End(Lie E) = K′` is the inclusion. For an ideal `a` of `O_K` prime to 6, use the theta function of NonordinaryCMSpecialValues §2.1, denoted aθ_E, the unique unit on `E ∖ E[a]` with divisor `N(a)·(0) − E[a]` and with `N_b(aθ_E) = aθ_E` for every integer `b` prime to `a`, `N_b` being the norm along multiplication by `b` (Kato, 15.4, p. 252; Johnson-Leung–Kings, §3.2, p. 14). The new comparison is the norm law for an O_K-linear isogeny of degree prime to N(a); the coprimality ensures a bijection on a-torsion. The construction, uniqueness, base change, integer specialization and cocycle are supplied by NonordinaryCMSpecialValues §2.1. *Needs:* NonordinaryCMSpecialValues §2.1; ModularCurves Layers 0 and 2; EllipticCurves Layers 1–2; ComplexMultiplicationAndExplicitReciprocity §1.2; ImaginaryQuadraticClassNumber §H3.1; PadicFamilies §4.0.1.
-
-- `div(aθ_E) = N(a)(0) − E[a]` as relative Cartier divisors.
-- Invariance under `N_b` for integers `b` prime to `a`, and uniqueness among units with that divisor and that invariance.
-- For `a = (c)` with `c ∈ ℤ` prime to 6, `aθ_E = cθ_E` of PadicFamilies §4.0.1 (Kato, (15.4.1)).
-- For an `O_K`-linear isogeny `E → E′` of degree prime to `N(a)`, the norm of `aθ_E` is `aθ_{E′}`. This is Kato's (15.4.2), whose printed form omits the coprimality.
-- For `a, b` prime to 6, `(bθ_E)^{N(a)} · (pr₁^* bθ_{E₁})⁻¹ = (aθ_E)^{N(b)} · (pr₂^* aθ_{E₂})⁻¹` with `E₁ = E/aE` and `E₂ = E/bE` (Kato, (15.4.3)).
-- Compatibility with base change `K′ → K″`.
-
-**Checks.**
-
-- The divisor has degree `N(a) − #E[a] = 0`, since `E[a]` has order `N(a)`.
-- For `a = O_K` the divisor is `(0) − (0) = 0` and `aθ_E = 1`.
-- For a primitive cube root of unity `u`, `u·aθ_E` has the same divisor and passes the `N_2` test, since `u^{2²−1} = u³ = 1`, but fails the `N_3` test, since `u^{3²−1} = u⁸ = u² ≠ 1`. Testing `N_2` alone does not determine the function.
-- For `N(a) > 1` the quotient `q : E → E/E[a]` has degree `N(a)`, not prime to `N(a)`. It sends the divisor `N(a)(0) − E[a]` to `N(a)(0) − N(a)(0) = 0`, so the norm is constant and cannot equal the nonconstant `aθ` on the quotient. This rules out the unrestricted isogeny law.
-
-### 2.3 Canonical CM pairs
-
-Let `f` be a nonzero ideal with `O_K^× → (O_K/f)^×` injective. A *CM pair of modulus `f`* over a field `K′ ⊃ K` is `(E, α)`, with `E/K′` as in §2.2 and `α ∈ E(K′)` a torsion point whose annihilator in `O_K` is `f`. Use the canonical CM pair, its rigidity and its universal base-change property from NonordinaryCMSpecialValues §2.2. It is the pair over K(f) with complex model (ℂ/f, 1 mod f). For finite abelian `K′/K`, `a` prime to f and to the ramification and `σ = (a, K′/K)`, there is a unique isomorphism `η_a : (E/aE, α mod aE) ≅ (E^{(σ)}, σ(α))` (Kato, 15.3 and (15.3.1)–(15.3.3), pp. 251–252; Johnson-Leung–Kings, §3.2, pp. 13–14). *Needs:* NonordinaryCMSpecialValues §2.2; ComplexMultiplicationAndExplicitReciprocity §§1.2, 2.2, 3.2; ImaginaryQuadraticClassNumber §H3.1; ClassFieldTheory Layer 13; Mathlib `NumberField.Units.torsion`.
-
-- Uniqueness of isomorphisms: an automorphism fixing `α` is a unit congruent to 1 modulo `f`, hence 1.
-- Base change along `K(f) → K′` is an equivalence onto CM pairs of modulus `f` over `K′`.
-- For (a, f) = 1, the Artin action of `a` is the quotient by `E[a]`, that is, the ideal isogeny `[a] : E → a⁻¹ ⊗ E` of ComplexMultiplicationAndExplicitReciprocity §1.2, of degree `N(a)`, with the point carried along; over `ℂ` it is `ℂ/Λ → ℂ/a⁻¹Λ` in the lattice dictionary of ImaginaryQuadraticClassNumber §H3.1.
-
-**Checks.**
-
-- For `K = ℚ(i)` and `f = (3)`, `μ_4 → 𝔽_9^×` is injective, so the canonical pair exists over `K(3)`, an extension of degree `#𝔽_9^×/4 = 2` over `K`.
-- For `K = ℚ(i)` and `f = (1 + i)`, `(O_K/f)^× = 1` and `μ_4` does not inject. The automorphism `i` fixes every point of annihilator `f`, so isomorphisms of pairs are not unique, and the definition must pass to a multiple of `f`.
-- For `f = (1 + i)^3` (norm 8), `(O_K/f)^×` has order 4 and `i ↦ i mod f` is injective, so `K(f) = K`. The canonical pair is a model over `ℚ(i)` with a rational point of annihilator `(1 + i)^3`.
-
-- With π = 1+i, level (π³) and a = (π), the quotient point has annihilator (π²), not (π³), although K((π³)) = K. Requiring (a,f) = 1 excludes this failed pointed action. For a = (5), 5−1 ∈ (π³) and the annihilator stays (π³).
-
-### 2.4 Standard elliptic units
-
-Fix a prime p. For `f` as in §2.3, `(E, α)` the canonical pair over `K(f)` and `a` prime to `6pf`, define the standard elliptic unit `a z_f = aθ_E(α)⁻¹ ∈ K(f)^×`. For general `m` prime to `a`, define `a ζ_m = N_{K(p^r m)/K(m)}(aθ_E(α)⁻¹)`, with `(E, α)` the canonical pair of modulus `p^r m`, for any `r ≥ 1` making units inject (Kato, 15.5, p. 253; Johnson-Leung–Kings, Definition 3.2 and Proposition 3.3, pp. 14–15, JLK line 600). *Needs:* §§2.2–2.3; §1.2; ClassFieldTheory Layer 13.
+Fix a prime `p` and an ideal `a` prime to `6p`. The standard elliptic units `a z_g = aθ_E(α)⁻¹` of NonordinaryCMSpecialValues §2.2 are defined for moduli `g` with injective units. For a nonzero ideal `m` prime to `a`, define `a ζ_m = N_{K(p^r m)/K(m)}(a z_{p^r m})`, for any `r ≥ 1` such that `O_K^× → (O_K/p^r)^×` is injective (Kato, 15.5, p. 253; Johnson-Leung–Kings, Definition 3.2 and Proposition 3.3, pp. 14–15, JLK line 600). *Needs:* NonordinaryCMSpecialValues §§2.1–2.2; §1.2; ClassFieldTheory Layer 13.
 
 - `a ζ_m` does not depend on `r`.
-- `a z_f` has valuation zero at every prime not dividing `f`. It is a unit when `f` has two distinct prime factors, and an `O_K[1/𝔮]`-unit when `f` is a power of a prime `𝔮`.
+- `a ζ_m` is a unit of `O_{K(m)}` when `p^r m` has two distinct prime factors, and a unit of `O_{K(m)}[1/p]` when `p^r m` is a power of a prime.
 - Norm relation: for a prime `𝔮` with `m𝔮` prime to `a`, `N_{K(m𝔮)/K(m)}(a ζ_{m𝔮}) = (a ζ_m)^{1 − Frob_𝔮⁻¹}` if `𝔮 ∤ pm`, and `= a ζ_m` if `𝔮 ∣ pm`.
-- Auxiliary independence: `(b z_f)^{N(a) − σ_a} = (a z_f)^{N(b) − σ_b}` for `a, b` prime to `6f` (Kato, (15.4.4)).
-- Galois action: `σ_c(a z_f)` is the theta value at the conjugate point, computed through `η_c`.
+- Auxiliary independence: `(b ζ_m)^{N(a) − σ_a} = (a ζ_m)^{N(b) − σ_b}` for `a, b` prime to `6p` and to `m`, from (15.4.4) of NonordinaryCMSpecialValues §2.1 by taking norms.
 
 **Checks.**
 
-- For `a = (5)` and `b = (7)` in `ℚ(i)` with `f` prime to `35`, the relation reads `(7 z_f)^{25 − σ_{(5)}} = (5 z_f)^{49 − σ_{(7)}}`. The unequal factors test the relation itself, which `a = b` would not.
-- For `K = ℚ(i)` and `f = (3)(1 + i)^3`, with two distinct prime factors, `a z_f` is a global unit of `K(f)`.
+- For `a = (5)` and `b = (7)` in `ℚ(i)` with `m` prime to `35`, the relation reads `(7 ζ_m)^{25 − σ_{(5)}} = (5 ζ_m)^{49 − σ_{(7)}}`. The unequal factors test the relation itself, which `a = b` would not.
+- For `K = ℚ(i)`, `p = 2` and `m = (3)`, `2^r m` has the two prime factors `(1 + i)` and `(3)`, so `a ζ_{(3)}` is a global unit of `K(3)`.
 - The cyclotomic units `1 − ζ_{p^n}` of `ℚ(μ_{p^n}) ⊂ K(p^n)` do not form this system. Their norms along the `ℤ_p`-direction transverse to the cyclotomic one are not compatible, and they carry no factor `N(a) − σ_a`.
-- Dropping the factor `1 − Frob_𝔮⁻¹` for `𝔮 ∤ pm` would make the family norm-compatible in every direction, which contradicts the Kronecker limit formula of §2.5.
+- Dropping the factor `1 − Frob_𝔮⁻¹` for `𝔮 ∤ pm` would make the family norm-compatible in every direction, which contradicts the Kronecker limit formula of §2.3.
 
-### 2.5 Kronecker's limit formula for elliptic units
+### 2.3 Kronecker's limit formula in the squared norm
 
-In this subsection and in the finite-level projection of §2.6, log|u| uses the squared complex norm |u| = u·ū. The Beilinson regulator r_B uses the ordinary absolute value, so r_D = 2r_B. For `f` with injective units, `a` prime to `6pf` and every character `χ` of `Gal(K(f)/K)`, prove (Kato, (15.5.1), p. 253):
+Kronecker's limit formula for `a z_f` and its finite-layer form for `z_{p∞f}` are NonordinaryCMSpecialValues §§2.2–2.3 (Kato, (15.5.1), p. 253, and (15.6.5), p. 255). This roadmap uses both with `log|u|` taken for the squared complex norm `|u| = u·ū`. Prove that they hold in this normalization and that the ordinary absolute value halves each left side: for `f` with injective units, `a` prime to `6f` and every character `χ` of `Gal(K(f)/K)`,
 
 ```text
-Σ_{σ ∈ Gal(K(f)/K)} χ(σ) log|σ(a z_f)| = (N(a) − χ(a)⁻¹) · lim_{s→0} s⁻¹ L_f(χ, s).
+Σ_{σ ∈ Gal(K(f)/K)} χ(σ) log|σ(a z_f)| = (N(a) − χ(a)⁻¹) · lim_{s→0} s⁻¹ L_f(χ, s),
 ```
 
-The route applies §2.1 at the canonical pair and sums over the ray classes through `η_c`. *Needs:* §§2.1, 2.3, 2.4; AnalyticNumberTheoryPartI §2.3a; GlobalNumberFields Layer 9.
+and, for finite `K ⊂ K′ ⊂ K(p^∞f)` and every nontrivial character `χ` of `Gal(K′/K)`, `Σ_σ χ(σ) log|σ(z_{K′})| = lim_{s→0} s⁻¹ L_{pf}(χ, s)`, with `z_{K′}` the image of `z_{p∞f}` in `O_{K′}[1/p]^× ⊗ ℚ` (Johnson-Leung–Kings, Proposition 3.3(4), pp. 14–15, JLK lines 613–620, holds in this normalization; it prints the ordinary absolute value). The route applies the second identity of §2.1 at the canonical pair and sums over the ray classes through the Artin action. The factor 2 comes from the variable: `E(0, τ, z, s)` sums `|z + λ|^{−s} = N(z + λ)^{−s/2}`, so the partial zeta functions occur at `s/2`. *Needs:* §2.1; NonordinaryCMSpecialValues §§2.2–2.3; AnalyticNumberTheoryPartI §2.3a; GlobalNumberFields Layer 9.
 
 **Checks.**
 
-- For the trivial character the finite-level smoothed formula involves the derivative at 0 of the partial zeta function prime to f; the unsmoothed projection in §2.6 excludes the trivial character.
-- If χ is nontrivial and `χ` is unramified at a prime `𝔩 ∣ f` with `χ(𝔩) = 1`, then `L_f(χ, s)` has a zero of order at least two at `0` and the left side vanishes: the unit of modulus `f` does not see that component.
+- For `K = ℚ(i)`, `f = (3)`, `a = (5)`, `τ = i`, `c = 5`, the ordinary theta logarithms at the two conjugate points `z = 1/3` and `z = (1 + i)/3` are approximately `0.6619210722` and `5.9297526599`, with sum `6.5916737320 = 6 log 3`. At `χ = 1` the right side is `24 · (−(log 3)/2) = −12 log 3`, since `L_f(1, s) = ζ_K(s)(1 − 9^{−s})` and `ζ_K(0) = −1/4`; the squared norm of the inverse unit gives `−12 log 3`, the ordinary absolute value `−6 log 3`.
+- In the same setting, for the quadratic `η` of `K(3) = ℚ(ζ_12)` over `K`, `η((5)) = 1` and `L′(η, 0) = L(χ_{−3}, 0)·L′(χ_{12}, 0) = (1/3)·log(2 + √3)`. The inverse unit has squared-norm weighted logarithm `10.5356631754 = 8 log(2 + √3) = 24·L′(η, 0)`; the ordinary absolute value gives half that value.
+- If `χ` is nontrivial and unramified at a prime `𝔩 ∣ f` with `χ(𝔩) = 1`, then `L_f(χ, s)` has a zero of order at least two at `0` and the left side vanishes: the unit of modulus `f` does not see that component. For the trivial character over `ℚ(i)` with `f = (3)` the derivative `−log(9)/4` is not zero: only a nontrivial character supplies the zero that the extra Euler factor raises to order two.
 - For `a = (5)` in `ℚ(i)` and `χ((5)) = −1`, the factor is `25 + 1 = 26`, and a factor `N(a) − χ(a)` would give the same value. When `χ(a) = i` the stated factor is `25 − i⁻¹ = 25 + i`, while `N(a) − χ(a)` gives `25 − i`: the inverse is detected only by non-real values.
 
-- For the trivial character over ℚ(i), f = (3), L_f(1,s) = ζ_K(s)(1−9^(−s)) has derivative −log(9)/4, not zero. Only a nontrivial character supplies the pre-existing zero that makes an additional vanishing Euler factor raise the order to at least two.
-- At τ = i, c = 5 and z = 1/3, the ordinary theta logarithms at the two quadratic conjugates are approximately 0.6619210722 and 5.9297526599. The inverse unit has squared-norm weighted logarithm 10.5356631754 = 8log(2+√3); the ordinary regulator gives half that value.
+### 2.4 The elliptic-unit module and its auxiliary ideal
 
-### 2.6 The elliptic-unit module and the auxiliary-free element
+Define `z ⊂ h¹` as the `R`-submodule generated by the norm-compatible families `(a z_{p^n f})_n`, over all ideals `a` prime to `6pf`. The zeta element `z_{p∞f} = (N(a) − σ_a)⁻¹·(a z_{p^n f})_n ∈ h¹ ⊗_R Q(R)`, its independence of `a ≠ O_K` and the integrality of `(N(a) − σ_a)·z_{p∞f}` are NonordinaryCMSpecialValues §2.3, read in `h¹` through §1.3 (Kato, 15.5–15.6 and (15.6.3)–(15.6.4), pp. 253–254; Burungale–Tian, §2.1.1, p. 3, BT line 144; Johnson-Leung–Kings, §§5.1, 5.3, pp. 23 and 25). Here `N(a) − σ_a` is a non-zero-divisor of `R`, because its image under every finite-order character `η`, `N(a) − η(σ_a)`, is nonzero. *Needs:* NonordinaryCMSpecialValues §2.3; §§1.2, 1.3, 2.2, 0.1; Mathlib `cyclotomicCharacter`.
 
-Define `z ⊂ h¹` as the `R`-submodule generated by the norm-compatible families `(a z_{p^n f})_n`, over all ideals `a` prime to `6pf`. Define `z_{p∞f} = (N(a) − σ_a)⁻¹·(a z_{p^n f})_n ∈ h¹ ⊗_R Q(R)` for any `a ≠ O_K` prime to `6pf` (Kato, 15.5–15.6 and (15.6.3)–(15.6.4), pp. 253–254; Burungale–Tian, §2.1.1, p. 3, BT line 144; Johnson-Leung–Kings, §§5.1, 5.3, pp. 23 and 25). Here `N(a) − σ_a` is a non-zero-divisor of `R`, because its image under every finite-order character `η`, `N(a) − η(σ_a)`, is nonzero. *Needs:* §§1.2, 1.3, 2.4, 0.1; Mathlib `cyclotomicCharacter`.
-
-- `z_{p∞f}` does not depend on `a`: `(N(b) − σ_b)·(a z) = (N(a) − σ_a)·(b z)` in `h¹`.
-- `(N(a) − σ_a)·z_{p∞f} ∈ H¹_{p∞f}(ℤ_p(1))` for every admissible `a`.
 - The ideal `J` generated by the elements `N(a) − σ_a` is the kernel of the cyclotomic character `R → ℤ_p`. `R/J ≅ ℤ_p` is pseudo-null, so `J_q = R_q` and `z_q = R_q·z_{p∞f}` at every height-one prime `q`.
 - For `f ∣ f′` the norm `h¹(f′) → h¹(f)` sends `z_{p∞f′}` to `∏_{𝔩 ∣ f′, 𝔩 ∤ pf} (1 − Frob_𝔩⁻¹)·z_{p∞f}`.
-- Under `h¹ ≅ H¹(O_K[1/pf], Ω(1))` (§§1.3, 1.5), the inverse-unit z_(p∞f) is compared with the Johnson-Leung–Kings element after the regulator normalization of §4.3; rationally their factor 2 is invertible.
+- Under `h¹ ≅ H¹(O_K[1/pf], Ω(1))` (§§1.3, 1.5), the families `(a z_{p^n f})_n` are the elliptic units of Johnson-Leung–Kings, Definition 3.2, built from the same inverse theta values; no power of 2 separates the two normalizations.
 
 **Checks.**
 
-- `R/J ≅ ℤ_p` with `g` acting through the cyclotomic character. The quotient has dimension one, so the localization of J is the unit ideal at every height-one prime. A fixed auxiliary factor need not be a unit there.
-- For admissible `a` with `N(a) > 1`, `(N(a) − σ_a)·z_{p∞f}` is the family `(a z_{p^n f})_n`. A definition with `1 − σ_a` or `N(a) − σ_a⁻¹` fails this test. The full ideal J clears the denominator at every height-one prime; a single factor can still vanish there.
+- `R/J ≅ ℤ_p` with `g` acting through the cyclotomic character. The quotient has dimension one, so the localization of `J` is the unit ideal at every height-one prime. A single factor `N(a) − σ_a` need not be a unit there; the full ideal `J` clears the denominator.
 - `ξ((h¹/z)_ℚ) = ξ(h¹_ℚ/R_ℚ·z_{p∞f})`, because `z` and `R·z_{p∞f}` differ only in codimension two.
+- Norm from a conductor enlarged by a tame prime with nontrivial Frobenius gives the factor `1 − Frob⁻¹`; replacing it by 1 would disagree with §1.5.
 
-For finite `K ⊂ K′ ⊂ K(p^∞f)`, let `z_{K′}` be the image of `z_{p∞f}` (§2.6) in `O_{K′}[1/p]^× ⊗ ℚ`. Prove that `Σ_σ χ(σ) log|σ(z_{K′})| = lim_{s→0} s⁻¹ L_{pf}(χ, s)` for every nontrivial `χ` of `Gal(K′/K)` (Kato, (15.6.5), p. 255; Johnson-Leung–Kings, Proposition 3.3(4), p. 14, with the squared norm retained). *Needs:* §§2.4–2.5 and the auxiliary independence above.
+### 2.5 Cotorsion of elliptic units
 
-**Checks.**
-
-- The finite-level projection formula uses the squared norm of §2.5; its ordinary Beilinson regulator is half the displayed leading coefficient.
-- Norm from a conductor enlarged by a tame prime with nontrivial Frobenius gives the factor 1−Frob⁻¹; replacing this by 1 would disagree with §1.5.
-- The ideal O_K as an auxiliary index gives N(a)−σ_a = 0; it is excluded before inverting the factor.
-
-### 2.7 Cotorsion of elliptic units
-
-Prove that `h¹/z` is a torsion `R`-module for every `p` and every `f`; equivalently, `z_{p∞f}` generates `h¹` at every height-zero prime (Burungale–Tian, §2.1.1, p. 3, BT line 145; Kato, 15.1, p. 251; Johnson-Leung–Kings, Theorem 3.9 and its proof, pp. 17–18, JLK line 727). The route works one height-zero prime at a time. On its component choose a finite-order `η` ramified at all primes above `p` with `η(Frob_𝔩) ≠ 1` at the primes `𝔩 ∣ f`, `𝔩 ∤ p`, where the component is unramified. Such `η` exist because `Frob_𝔩` has infinite order in `G/I_𝔩`. By §2.5 the archimedean regulator of the `η`-part of `z_{K′}` is the leading coefficient of `L_{pf}(η⁻¹, s)` at `s = 0`, which is nonzero by the functional equation and the nonvanishing of `L(η̄, 1)`. Since the regulator is injective on units modulo torsion, the `η`-part is nonzero, and §1.7 gives rank one. *Needs:* §§1.7, 2.5, 2.6; AnalyticNumberTheoryPartI §2.3a; LFunctions Layer 7; Mathlib `NumberField.Units.logEmbedding_eq_zero_iff`.
+Prove that `h¹/z` is a torsion `R`-module for every `p` and every `f`; equivalently, `z_{p∞f}` generates `h¹` at every height-zero prime (Burungale–Tian, §2.1.1, p. 3, BT line 145; Kato, 15.1, p. 251; Johnson-Leung–Kings, Theorem 3.9 and its proof, pp. 17–18, JLK line 727). The route works one height-zero prime at a time. On its component choose a finite-order `η` ramified at all primes above `p` with `η(Frob_𝔩) ≠ 1` at the primes `𝔩 ∣ f`, `𝔩 ∤ p`, where the component is unramified. Such `η` exist because `Frob_𝔩` has infinite order in `G/I_𝔩`. By §2.3 the archimedean regulator of the `η`-part of `z_{K′}` is the leading coefficient of `L_{pf}(η⁻¹, s)` at `s = 0`, which is nonzero by the functional equation and the nonvanishing of `L(η̄, 1)`. Since the regulator is injective on units modulo torsion, the `η`-part is nonzero, and §1.7 gives rank one. *Needs:* §§1.7, 2.3, 2.4; AnalyticNumberTheoryPartI §2.3a; LFunctions Layer 7; Mathlib `NumberField.Units.logEmbedding_eq_zero_iff`.
 
 ### Examples
 
-For `K = ℚ(i)`, `p = 2`, `f = (1)`, `R = ℤ_2[[ℤ_2²]]` is a domain, and §2.7 says that `z_{2∞} ≠ 0`. For `K = ℚ(√−3)` the auxiliary ideal must be prime to 6p; away from p = 5, 7, `a = (5)` (inert, norm 25) and a = (2 + √−3) (norm 7) give the factors `25 − σ_{(5)}` and `7 − σ_a` with `a` a prime above 7.
+For `K = ℚ(i)`, `p = 2`, `f = (1)`, `R = ℤ_2[[ℤ_2²]]` is a domain, and §2.5 says that `z_{2∞} ≠ 0`. For `K = ℚ(√−3)` the auxiliary ideal must be prime to 6p; away from p = 5, 7, `a = (5)` (inert, norm 25) and a = (2 + √−3) (norm 7) give the factors `25 − σ_{(5)}` and `7 − σ_a` with `a` a prime above 7.
 
 ### Dependencies
 
-Layer 1; Layer 0; NonordinaryCMSpecialValues §§2.1–2.2; AutomorphicPadicLFunctionsPartII §§3.3–3.4; PadicFamilies §4.0.1; ModularCurves Layers 0 and 2; EllipticCurves Layers 1–2; ComplexMultiplicationAndExplicitReciprocity §§1.2, 2.2, 3.2; ImaginaryQuadraticClassNumber §H3.1; ClassFieldTheory Layer 13; GlobalNumberFields Layer 9; AnalyticNumberTheoryPartI §2.3a; LFunctions Layer 7; Mathlib `NumberField.Units.regulator_ne_zero`, `NumberField.Units.torsion`, `cyclotomicCharacter`.
+Layer 1; Layer 0; NonordinaryCMSpecialValues §§2.1–2.3; AutomorphicPadicLFunctionsPartII §§3.3–3.4; PadicFamilies §4.0.1; ClassFieldTheory Layer 13; GlobalNumberFields Layer 9; AnalyticNumberTheoryPartI §2.3a; LFunctions Layer 7; Mathlib `NumberField.Units.regulator_ne_zero`, `NumberField.Units.logEmbedding_eq_zero_iff`, `cyclotomicCharacter`.
 
-## Layer 3: CM realizations and Kato's reciprocity law
+## Layer 3: admissible auxiliary ideals for Kato's period formula
 
-### 3.1 Kato's realization of a CM Hecke character
+### 3.1 Admissible auxiliary ideals
 
-Let `r ≥ 1` and let `ψ` be a Hecke character of `K` of type `(−r, 0)`, with values generating the finite extension `L = K(ψ(K̂^×)) ⊂ ℂ`. Choose `f` contained in the conductor of `ψ` with injective units, and let `(E, α)` be the canonical pair over `K(f)`. Define the Betti realization `V_L(ψ) = H¹(E(ℂ), ℚ)^{⊗r} ⊗_K L`, the tensor power over `K`. These are the cohomological realizations, compared with NonordinaryCMSpecialValues §2.4 by dualizing its homological convention. Define the étale realization `V_{L_λ}(ψ) = H¹_ét(E_{ℚ̄}, ℚ_p)^{⊗r} ⊗_{K ⊗ ℚ_p} L_λ` for a place `λ ∣ p` of `L`. Extend the natural `Gal(ℚ̄/K(f))`-action to `Gal(ℚ̄/K)` by `σ ↦ ψ(a)⁻¹ (J_a^*)^{⊗r} ∘ σ`, where J_a = η_a ∘ q_a : E → E^(σ_a) includes the quotient isogeny q_a : E → E/E[a], (a,f) = 1 and `σ|_{K(f)} = σ_a`; this is independent of `a`. Define the de Rham realization `S(ψ) ⊂ coLie(E)^{⊗r} ⊗_K L` as the invariants of the semilinear Gal(K(f)/K)-action through the pullbacks of the same J_a; the tensor power of coLie(E) is over K(f). Define the period map `per_ψ : S(ψ) → V_L(ψ) ⊗ ℂ` (Kato, 15.7–15.8 and (15.8.1), pp. 255–258; Burungale–Tian, §2.2.5, p. 5, BT lines 199–206). *Needs:* §2.3; ComplexMultiplicationAndExplicitReciprocity §§1.2, 4.1; AutomorphicGaloisRepresentationsPartII AG2.0; GlobalNumberFields Layers 9–10; EllipticCurves Layer 2.
-
-- `V_L(ψ)`, `S(ψ)` are one-dimensional over `L`, and `V_{L_λ}(ψ)` is one-dimensional over `L_λ`.
-- An idele `a` acts on `V_{L_λ}(ψ)` by `a_v^r ψ(a)⁻¹`, where `v` is the place of `K` under `λ`. For `a` prime to `pf` the Artin symbol `σ_a` acts by `ψ(a)⁻¹`, and the action factors through `G_{p∞f}`.
-- `S(ψ) ⊗_L L_λ ≅ D^j_dR(K ⊗ ℚ_p, V_{L_λ}(ψ))` for `1 ≤ j ≤ r` (Kato, (15.8.1)), from the filtered de Rham comparison for `E` over the completions of `K(f)`, with the CM action and tensor powers, descended through the semilinear action.
-- The constructions for `f ⊂ f′` are identified through the canonical isogenies of canonical pairs.
-- For `r = 1` and `ψ` the character of a CM elliptic curve, `V_{L_λ}(ψ)` is the corresponding one-dimensional component of ComplexMultiplicationAndExplicitReciprocity §4.1, dualized to Kato's cohomological convention.
-
-**Checks.**
-
-- At a prime `𝔮 ∤ pf` of `K` a Frobenius acts on `V_{L_λ}(ψ)` by `ψ(𝔮)⁻¹`. For `K = ℚ(i)`, `r = 1`, `ψ` the character of `y² = x³ − x` and `𝔮 = (2 + i)`, `ψ(𝔮)` has norm 5 and the eigenvalue `ψ(𝔮)⁻¹` has absolute value `5^{−1/2}`, not a root of unity.
-- `V_{L_λ}(ψ)` is ramified at `v`, because the idele action contains `a_v^r` with `r ≥ 1`. It is not a finite-order character.
-- `dim_L V_L(ψ) = 1` although `H¹(E(ℂ), ℚ)` has dimension two over `ℚ`. The tensor power is over `K`, and a tensor power over `ℚ` would have dimension `2^r`.
-
-### 3.2 The period evaluation
-
-With `K′ = K(g)` for `g = p^m f₀ ⊂ f` with injective units (`f₀` the prime-to-`p` part of `f`), `a` prime to 6pf, `ω` a basis of `coLie(E)` and `β ∈ H₁(E(ℂ), ℚ)` the image of `1` under `K ≅ H₁(ℂ/g, ℚ)`, put `ω_r = (r − 1)!⁻¹ (d/ω)^r log(aθ)(α_m) · ω^{⊗r}`. Prove that for every character `χ` of `Gal(K′/K)` (Kato, (15.9.1)–(15.9.2) and their proof, pp. 259–260):
+Let `r ≥ 1`, `ψ` a Hecke character of `K` of type `(−r, 0)` with values generating `L = K(ψ(K̂^×))`, `f` contained in the conductor of `ψ`, and `K′ = K(g)` for `g = p^m f₀ ⊂ f` with injective units (`f₀` the prime-to-`p` part of `f`). Let `(E, α)` be the canonical pair of NonordinaryCMSpecialValues §2.2 over `K(g)`, `ω` a basis of `coLie(E)`, `β ∈ H₁(E(ℂ), ℚ)` the image of `1` under `K ≅ H₁(ℂ/g, ℚ)`, and, for `a` prime to `6pf`, `ω_r = (r − 1)!⁻¹ (d/ω)^r log(aθ_E)(α) · ω^{⊗r}`. The smoothed period formula of NonordinaryCMSpecialValues §2.6 gives, for every character `χ` of `Gal(K′/K)` (Kato, (15.9.1)–(15.9.2), pp. 259–260):
 
 ```text
 Σ_σ χ(σ) per_ψ(σ(ω_r)) = (N(a) − ψ(a)χ(a)⁻¹) · L_{pf}(ψ̄, χ, r) · β^{⊗(−r)}.
 ```
 
-Consequently, when `N(a) − ψ(a)χ(a)⁻¹ ≠ 0` for every character `χ` of `Gal(K′/K)`, so that `N(a) − ψ(a)σ_a` is invertible in `L[Gal(K′/K)]`, the element `z = (N(a) − ψ(a)σ_a)⁻¹ω_r` satisfies `Σ_σ χ(σ) per_ψ(σ(z)) = L_{pf}(ψ̄, χ, r)·β^{⊗(−r)}`. Such auxiliary ideals exist for every `K′`. For `r ≠ 2`, `|ψ(a)| = N(a)^{r/2} ≠ N(a)` whenever `N(a) > 1`. For `r = 2`, any prime `a = 𝔮` split in `K` and prime to `6pf` works: `ψ(𝔮)/N(𝔮)` has absolute value one, but some power of it is a root of unity times `π/π̄` for a generator `π` of a power of `𝔮`, which is not a root of unity because `𝔮 ≠ 𝔮̄`. The route expresses `(d/ω)^r log θ` by §2.1 and re-indexes the lattice sum by `c ↦ cb` onto ideals in a ray class. It uses `ψ((c)) = c^r` for `c ≡ 1` modulo the conductor and `ψψ̄ = N^r`. *Needs:* §§2.1–2.3, 3.1; AnalyticNumberTheoryPartI §2.3a.
+Prove that for every such `K′` there is an `a` prime to `6pf` with `N(a) − ψ(a)χ(a)⁻¹ ≠ 0` for every character `χ` of `Gal(K′/K)`. For such `a`, `N(a) − ψ(a)σ_a` is invertible in `L[Gal(K′/K)]`, and `z = (N(a) − ψ(a)σ_a)⁻¹ω_r` satisfies `Σ_σ χ(σ) per_ψ(σ(z)) = L_{pf}(ψ̄, χ, r)·β^{⊗(−r)}`. For `r ≠ 2`, `|ψ(a)| = N(a)^{r/2} ≠ N(a)` whenever `N(a) > 1`. For `r = 2`, any prime `a = 𝔮` split in `K` and prime to `6pf` works: `ψ(𝔮)/N(𝔮)` has absolute value one, but some power of it is a root of unity times `π/π̄` for a generator `π` of a power of `𝔮`, which is not a root of unity because `𝔮 ≠ 𝔮̄`. The route uses `ψ((c)) = c^r` for `c ≡ 1` modulo the conductor and `ψψ̄ = N^r`. *Needs:* NonordinaryCMSpecialValues §§2.2, 2.4, 2.6; GlobalNumberFields Layers 9–10.
 
 **Checks.**
 
-- For r ≥ 3 and trivial χ both sides are absolutely convergent, and the identity is a rearrangement of lattice sums.
-- At r = 1 the value lies left of the absolute-convergence boundary 3/2, and at r = 2 it lies on the boundary 2. Both use the continued L-function.
-- The auxiliary factor can vanish. For type `(−r, 0)`, `ψ((c)) = c^r` for `c ≡ 1` modulo the conductor, so for `r = 2`, `c ∈ ℤ` prime to `6f` and `a = (c)`, `ψ(a) = c² = N(a)` and the factor is zero at the trivial character. The invertibility hypothesis on `a` is needed.
+- The auxiliary factor can vanish. For type `(−r, 0)`, `ψ((c)) = c^r` for `c ≡ 1` modulo the conductor, so for `r = 2`, `c ∈ ℤ` prime to `6f` with `c ≡ 1` modulo the conductor and `a = (c)`, `ψ(a) = c² = N(a)` and the factor is zero at the trivial character. The invertibility hypothesis on `a` is needed.
+- The congruence modulo the conductor is needed before writing `ψ((c)) = c²`. Let `ψ_E` be the character of `y² = x³ − x` over `ℚ(i)`, of conductor `(1 + i)³`, and `ε` the quartic ray class character modulo `(5)` with `ε(x) = i^{log₂(x mod (2 + i)) + log₂(x mod (2 − i))}`, discrete logarithms to the base 2 in `𝔽_5^×`; it is trivial on `i` (`3 + 1 ≡ 0 mod 4`) and is the Legendre symbol modulo 5 on rational integers. For `ψ = ψ_E²·ε`, of conductor dividing `(10)`, `ψ((7)) = (−7)²·(7/5) = −49`, while `41 ≡ 1 mod 10` gives `ψ((41)) = 41² = 1681`; at `χ = 1` the auxiliary factors are `98` and `0`. The quadratic ray character modulo `(3)` is trivial on rational integers prime to 3, so twisting by it instead would give `ψ((7)) = 49` and the factor `0`.
 - `|ψ(a)| = N(a)^{r/2}`, since `ψψ̄ = N^r` and `|ψ| = |ψ̄|`. For `r = 1` the factor satisfies `|N(a) − ψ(a)χ(a)⁻¹| ≥ N(a) − N(a)^{1/2} > 0`, so every auxiliary `a ≠ O_K` is admissible in weight two.
-
-- At r = 2, the finite part cannot be dropped: for the square of the Gaussian curve character twisted by the quadratic ray character modulo (3), ψ((7)) = −49 and ψ((41)) = 1681. At χ = 1 the auxiliary factors are 98 and 0, respectively. The congruence modulo the conductor is necessary before writing ψ((c)) = c².
-
-- Replacing ω by uω multiplies (d/ω)^r by u^(−r) and ω^(⊗r) by u^r, leaving ω_r unchanged.
-- Auxiliary inversion is performed only when every character scalar is nonzero; for r = 2 a split prime supplies such an index.
-- The character formula is compatible with trace to a smaller ray layer by summing its conjugates; it retains all removed Euler factors.
-
-### 3.3 Kato's explicit reciprocity law for elliptic units
-
-First prove the local theta-system reciprocity formula for every prime p. Let g = p^m f₀, m ≥ 1, with injective units, let (E,α) be its canonical CM pair and require good reduction at the place above p under consideration. Choose the CM-compatible torsion basis ξ = (ξ_n) of T_pE coming from the Betti class of 1 ∈ K, with [p]ξ_(n+1) = ξ_n. Write ν_n = ξ_n − α_n for its prime-to-p level translate and θ_n(z) = aθ_E(z − ν_n), where a is prime to 6pg. For every r ≥ 1 and every nonzero invariant differential ω, prove that cup product of the norm-compatible theta-value Kummer class with ξ^(⊗(−r)), followed by localization and Kato's dual exponential, is
-
-    p^(−mr) (r−1)!⁻¹ (d/ω)^r log θ_m(ξ_m) · ω^(⊗r).
-
-Here θ_n(ξ_n) = aθ_E(α_n), and the translated derivative at ξ_m is the derivative of aθ_E at α_m. The target uses the semilocal product of the relative O_𝔭-height-one CM division groups; the underlying p-height can be two. For inverse theta values, transport the sign by inversion of the Kummer class and fix it using the differential convention of §2.1. This local formula and its trace, differential-change and coefficient-change comparisons are the all-prime variant owned here; NonordinaryCMSpecialValues §2.5 supplies its p ≥ 5 inert, p ∤ h_K range (Kato, proof of Proposition 15.9, pp. 258–259). *Needs:* §§2.1–2.4, 3.1–3.2; PadicHodgeRegulators §§1.4, 1.7; SelmerIwasawaCohomology §3.6; NonordinaryCMSpecialValues §2.5 for its stated range; ComplexMultiplicationAndExplicitReciprocity §4.1.
-
-Let `r ≥ 1`, `ψ` of type `(−r, 0)`, `p` any prime, `f` contained in the conductor of `ψ`, `K′ ⊂ K(p^∞f)` finite over `K` and `γ ∈ V_L(ψ)`. Map `z_{p∞f}` along `H¹_{p∞f}(ℤ_p(1)) → H¹_{p∞f}(V_{L_λ}(ψ)(1)) → H¹(O_{K′}[1/p], V_{L_λ}(ψ)(1))`, the first map being `x ↦ x ⊗ γ`. Then localize at `p` and apply the dual exponential and (15.8.1). Prove that the image lies in `S(ψ) ⊗_K K′`, and that for every character `χ` of `Gal(K′/K)`, `Σ_σ χ(σ) per_ψ(σ(image)) = L_{pf}(ψ̄, χ, r)·γ` (Kato, Proposition 15.9 and its proof, pp. 258–260). The route reduces by traces to `K′ = K(g)` and by linearity to `γ = β^{⊗(−r)}`. It then applies the all-prime local formula above, transporting the direct theta values to the inverse convention, to the norm-compatible system of theta values `θ_n(ξ_n)` with `θ_n(z) = aθ(z − ν_n)`. Each `𝔭`-divisible group of `E` over a place of `K(g)` above `p` has relative `O_𝔭`-height one (underlying p-height two at inert or ramified p). Enlarge the level by an auxiliary prime away from 6pf so that the units congruent to 1 modulo the prime-to-place part of the level are trivial; the Serre–Tate criterion then gives good reduction at the places used in the reciprocity law. Descend by trace, retaining the auxiliary Euler factor and choosing its value nonzero by §3.2. The unit-injectivity condition for the full level alone does not imply good reduction at its own prime divisors. The result `p^{−mr}·ω_r` is then divided by `N(a) − ψ(a)σ_a`, and §3.2 is applied. *Needs:* PadicHodgeRegulators §§1.4, 1.7; NonordinaryCMSpecialValues §2.5; §§2.6, 3.1, 3.2, 1.3; the local formula above; NeronModelsAndSemistableAbelianVarieties §5.1.
-
-**Checks.**
-
-- For `χ` of conductor divisible by every prime of `pf`, `L_{pf}(ψ̄, χ, r) = L(ψ̄χ, r)`, the full Hecke value.
-- For `r = 1`, `K = ℚ(i)` and `ψ` the character of `y² = x³ − x`, the formula relates the localized elliptic units to `L(ψ̄χ, 1)`. At `p = 2`, `K ⊂ ℚ(μ_{2^∞})` and the statement is not excluded.
-- For additive torsion coordinates ξ = 1/5, α = 1/5 + 1/3 = 8/15, ν = ξ−α = −1/3, the translated argument ξ−ν is 8/15 = α. Using ξ+ν gives −2/15 instead and fails the theta-evaluation comparison.
-- The relative height is one at inert `p`, although the `p`-divisible group of `E` has height two there. A hypothesis "ordinary `p`-height one" would exclude inert primes, which the law covers.
+- At `r = 2` a split prime works and an inert one need not: for `ψ = ψ_E²` and `𝔮 = (2 + i)`, `ψ(𝔮) = (−1 + 2i)² = −3 − 4i`, and the factor `5 − ψ(𝔮)χ(𝔮)⁻¹` vanishes only if `χ(𝔮)⁻¹ = (−3 + 4i)/5`, which is not an algebraic integer and so not a root of unity; for the inert `(7)`, `ψ((7)) = 49` and the factor vanishes at `χ = 1`.
+- Replacing `ω` by `uω` multiplies `(d/ω)^r` by `u^{−r}` and `ω^{⊗r}` by `u^r`, leaving `ω_r` unchanged.
 
 ### Examples
 
-For a CM newform of weight `k` attached to `ψ` of type `(1 − k, 0) = (−r, 0)` with `r = k − 1`, Layer 3 is applied to that `ψ`. For `k = 2`, `r = 1`, the period evaluation is the classical one for the CM elliptic curve.
+For a CM newform of weight `k` attached to `ψ` of type `(1 − k, 0) = (−r, 0)` with `r = k − 1`, §3.1 supplies the auxiliary ideal used in §8.1. For `k = 2` every `a ≠ O_K` prime to `6pf` is admissible; for `k = 3` a split prime is used.
 
 ### Dependencies
 
-Layer 2; Layer 1 (§1.3); SelmerIwasawaCohomology §3.6; ComplexMultiplicationAndExplicitReciprocity §§1.2, 4.1; AutomorphicGaloisRepresentationsPartII AG2.0; GlobalNumberFields Layers 9–10; EllipticCurves Layer 2; PadicHodgeRegulators §§1.4, 1.7; NonordinaryCMSpecialValues §2.5; NeronModelsAndSemistableAbelianVarieties §5.1; AnalyticNumberTheoryPartI §2.3a.
+NonordinaryCMSpecialValues §§2.2, 2.4, 2.6; GlobalNumberFields Layers 9–10.
 
 ## Layer 4: the elliptic-unit Euler system and the integral character-wise main conjecture
 
 ### 4.1 The Euler system of elliptic units and its twists
 
-Fix `p` and an ideal `a` prime to `6p`, and let `𝒦` be the union of the `K(q)` over `q` prime to `a`. Prove that the classes `a ζ_m ∈ O_{K(m)}[1/p]^× ⊗ ℤ_p ⊂ H¹(O_{K(m)}[1/p], ℤ_p(1))` form an Euler system for `(𝒦, ℤ_p(1), pa)` in the sense of EulerSystemsAndKolyvaginSystems §2.2. Corestriction from `K(m𝔮)` to `K(m)` multiplies by `1 − Frob_𝔮⁻¹` for `𝔮 ∤ mpa` and by 1 otherwise. For a character `χ` of conductor `f_χ` prime to `a`, with values in a number field `E`, `O_p = O_E ⊗ ℤ_p` and canonical generator `t_p(χ)`, define the twisted classes `a ζ_m(χ) = tr_{K(f_χ m)/K(m)}(a ζ_{f_χ m} ⊗ t_p(χ))`. Prove that they form an Euler system for `(𝒦, O_p(χ)(1), p f_χ a)` with limit `a ζ(χ) ∈ H¹(O_K[1/p], Λ(χ)(1))`, `Λ = O_p[[Gal(K_∞/K)]]` (Johnson-Leung–Kings, §§3.1–3.4, Definition 3.1, Corollary 3.4, Definition 3.5, Proposition 3.6 and Lemma 3.7, pp. 13–16, JLK line 673). *Needs:* §§2.4, 1.1; EulerSystemsAndKolyvaginSystems §§2.2, 2.5, 8.1.
+Fix `p` and an ideal `a` prime to `6p`, and let `𝒦` be the union of the `K(q)` over `q` prime to `a`. Prove that the classes `a ζ_m ∈ O_{K(m)}[1/p]^× ⊗ ℤ_p ⊂ H¹(O_{K(m)}[1/p], ℤ_p(1))` form an Euler system for `(𝒦, ℤ_p(1), pa)` in the sense of EulerSystemsAndKolyvaginSystems §2.2. Corestriction from `K(m𝔮)` to `K(m)` multiplies by `1 − Frob_𝔮⁻¹` for `𝔮 ∤ mpa` and by 1 otherwise. For a character `χ` of conductor `f_χ` prime to `a`, with values in a number field `E`, `O_p = O_E ⊗ ℤ_p` and canonical generator `t_p(χ)`, define the twisted classes `a ζ_m(χ) = tr_{K(f_χ m)/K(m)}(a ζ_{f_χ m} ⊗ t_p(χ))`. Prove that they form an Euler system for `(𝒦, O_p(χ)(1), p f_χ a)` with limit `a ζ(χ) ∈ H¹(O_K[1/p], Λ(χ)(1))`, `Λ = O_p[[Gal(K_∞/K)]]` (Johnson-Leung–Kings, §§3.1–3.4, Definition 3.1, Corollary 3.4, Definition 3.5, Proposition 3.6 and Lemma 3.7, pp. 13–16, JLK line 673). *Needs:* §§2.2, 1.1; EulerSystemsAndKolyvaginSystems §§2.2, 2.5, 8.1.
 
 - For `K ⊂ F ⊂ L ⊂ 𝒦` with `G = Gal(L/F)`, the image of `ζ_L` under the integral character map `O_p[G] → O_p(χ)` is `ζ_F(χ)`. The map is the idempotent projection only when `#G` is invertible.
 - For a continuous `ρ : Γ → O_p^×`, the twisting isomorphism `Λ ≅ Λ(ρ)` sends `a ζ(χ)` to `a ζ(χρ)` (Johnson-Leung–Kings, Lemma 6.1).
@@ -478,11 +396,11 @@ Fix `p` and an ideal `a` prime to `6p`, and let `𝒦` be the union of the `K(q)
 
 ### 4.2 The scalar Tamagawa number conjecture at s = 0
 
-For a finite abelian extension F/K and every prime p, prove the scalar Tamagawa number conjecture for h⁰(F) at s = 0, with its rationality and integral scalar lattice: use PeriodsAndSpecialValues PS.5.2 with scalar order ℤ, and its scalar extensions to O_p. The fundamental line, compact-support comparison and leading term are those of Johnson-Leung–Kings, §2.2, (5)–(8), Theorem 2.6, pp. 9–11. This does not assert equivariant integrality over ℤ[Gal(F/K)]. The proof uses the analytic class number formula, including the root-of-unity denominator at p = 2 (Huber–Kings, Proposition 2.3.1, p. 18, for odd p; Johnson-Leung–Kings, Theorem 2.6, for every p). *Needs:* PeriodsAndSpecialValues PS.5.2; ArithmeticGaloisDuality §D7.5; PadicMeasuresIwasawaAlgebras §5.1; Mathlib `NumberField.Units.regulator`, `NumberField.IsTotallyComplex`.
+For a finite abelian extension F/K and every prime p, prove the scalar Tamagawa number conjecture for h⁰(F) at s = 0, with its rationality and integral scalar lattice: use PeriodsAndSpecialValues PS.5.2 with scalar order ℤ, and its scalar extensions to O_p. The fundamental line, compact-support comparison and leading term are those of Johnson-Leung–Kings, §2.2, (5)–(8), Theorem 2.6, pp. 9–11, with the regulator (6) taken in the squared norm: `u ↦ Σ_τ log(τ(u)·conj(τ(u)))·τ` over the embeddings `τ` of `F` over `K`, which is Dirichlet's normalization at the complex places of `F`. The source prints the ordinary absolute value in (6); with it the statement fails at p = 2 (Checks). This does not assert equivariant integrality over ℤ[Gal(F/K)]. The proof uses the analytic class number formula, with Dirichlet's regulator and the root-of-unity denominator at p = 2 (Huber–Kings, Proposition 2.3.1, p. 18, for odd p; Johnson-Leung–Kings, Theorem 2.6, for every p). *Needs:* PeriodsAndSpecialValues PS.5.2; ArithmeticGaloisDuality §D7.5; PadicMeasuresIwasawaAlgebras §5.1; Mathlib `NumberField.Units.regulator`, `NumberField.IsTotallyComplex`.
 
-For abelian L ⊃ F ⊃ K, let z_B(η) be the zeta element characterized by the Beilinson regulator r_B(z_B(η)) = L′(η, 0) in its character line; the rational direct sum and the tensor over η ∈ Ĝ_L ∖ Ĝ_F are the objects supplied by the scalar theorem, rather than independent integral statements for each character. Put z_B,p(η) = ∏_(𝔭∣p)(1 − η(𝔭)) z_B(η), where η(𝔭) = 0 at a ramified prime. If every removed Euler factor is nonzero, identify the tensor of its p-adic regulator lattices with ⊗_η Det⁻¹ RΓ(O_K[1/p], O_p(η⁻¹)(1)). The shift convention is Det(C[1]) = Det⁻¹(C), with exactly one inversion (Johnson-Leung–Kings, Proposition 2.9 and Corollary 2.11, pp. 11–13). When an Euler factor vanishes, retain the full local cohomology determinant and leading-term trivialization; a zero vector cannot generate the invertible line. Ramification at every prime above p is a sufficient nonvanishing condition for the vector formula used in §4.3. *Needs:* §1.1; the scalar theorem above; ArithmeticGaloisDuality §D7.5; PadicMeasuresIwasawaAlgebras §5.1.
+For abelian L ⊃ F ⊃ K, let z(η) be the zeta element characterized by r(z(η)) = L′(η, 0) in its character line, r being the squared-norm regulator above; the rational direct sum and the tensor over η ∈ Ĝ_L ∖ Ĝ_F are the objects supplied by the scalar theorem, rather than independent integral statements for each character. Put z_p(η) = ∏_(𝔭∣p)(1 − η(𝔭)) z(η), where η(𝔭) = 0 at a ramified prime. If every removed Euler factor is nonzero, identify the tensor of its p-adic regulator lattices with ⊗_η Det⁻¹ RΓ(O_K[1/p], O_p(η⁻¹)(1)). The shift convention is Det(C[1]) = Det⁻¹(C), with exactly one inversion (Johnson-Leung–Kings, Proposition 2.9 and Corollary 2.11, pp. 11–13). When an Euler factor vanishes, retain the full local cohomology determinant and leading-term trivialization; a zero vector cannot generate the invertible line. Ramification at every prime above p is a sufficient nonvanishing condition for the vector formula used in §4.3. *Needs:* §1.1; the scalar theorem above; ArithmeticGaloisDuality §D7.5; PadicMeasuresIwasawaAlgebras §5.1.
 
-- The zeta element is fixed by r_B and the specified character basis, so rescaling the basis transports the element and its lattice together.
+- The zeta element is fixed by r and the specified character basis, so rescaling the basis transports the element and its lattice together.
 - Euler removal is multiplicative over the primes above p and is 1 at a ramified prime.
 - Tensoring character lines commutes with scalar extension; it does not give separate integral projectors when p divides the group order.
 
@@ -491,24 +409,24 @@ For abelian L ⊃ F ⊃ K, let z_B(η) be the zeta element characterized by the 
 - For K = ℚ(i), ζ_K(0) = −1/4; its dyadic valuation is −2 and it is a unit at odd primes. The root denominator cannot be dropped.
 - A determinant lattice of valuation 1 has shifted determinant of valuation −1; inverting the shifted determinant would incorrectly restore +1.
 - Over ℤ₇[C₃] ≅ ℤ₇³ the tuple (1, 7, 1/7) has scalar determinant 1 but character valuations (0, 1, −1). Scalar integrality cannot be promoted to integral equivariant ETNC.
-- For K = ℚ(i), L = K(3) = K(√3), p = 13, the quadratic η has η(𝔭) = 1 at both primes above 13, since 4² = 3 modulo 13. Thus z_B,13(η) = 0 while the determinant line has rank one; the vector formula is inapplicable. At p = 3, η is ramified and both omitted local factors are 1.
+- For K = ℚ(i), L = K(3) = K(√3), p = 13, the quadratic η has η(𝔭) = 1 at both primes above 13, since 4² = 3 modulo 13. Thus z_13(η) = 0 while the determinant line has rank one; the vector formula is inapplicable. At p = 3, (3) is inert in K and η is ramified there, so the single omitted local factor is 1.
+- For `K = ℚ(i)` and `F = K(3) = ℚ(ζ₁₂)`, the unit `1 − ζ₁₂` has squared norms `2 − √3` and `2 + √3` at the two embeddings of `F` over `K`, so the squared-norm regulator is `R = log(2 + √3)`, and `ζ_F*(0) = ζ_K(0)·L′(η, 0) = (−1/4)(R/3) = −R/12 = −h_F R/w_F` with `h_F = 1` and `w_F = 12`, where `L′(η, 0) = L(χ_{−3}, 0)·L′(χ_{12}, 0) = R/3`. The ordinary absolute value gives the regulator `R/2`, and the scalar statement at `p = 2` would be off by the factor 2.
 
 ### 4.3 The regulator normalization of the elliptic zeta elements
 
-Let η have sufficiently large level to be ramified at every prime above p, and let a ≠ O_K be prime to 6pf_η. Denote by e_D(η⁻¹) the trace of the inverse theta value of §2.4 tensored with t_p(η⁻¹). Prove that e_D(η⁻¹) lies in H¹_f and
+Let η have sufficiently large level to be ramified at every prime above p, and let a ≠ O_K be prime to 6pf_η. Denote by e(η⁻¹) the trace of a ζ_(f_η) of §2.2 tensored with t_p(η⁻¹). Prove that e(η⁻¹) lies in H¹_f and
 
-    e_D(η⁻¹) = (N(a) − η(a)) z_B,p(η)/2.
+    e(η⁻¹) = (N(a) − η(a)) z_p(η).
 
-Here η(a) uses the inverse-Artin ideal convention of §4.1. This is the comparison of Kronecker's formula with the ordinary Beilinson regulator; the factor 1/2 is forced by r_D = 2r_B. Define e_B(η⁻¹) = 2e_D(η⁻¹) and, at every finite level and in the tower, aζ_B(χ) = 2aζ(χ). These are norm-compatible integral Euler-system classes. For n large, the tensor over characters of exact level n of (N(a) − η(a))⁻¹e_B(η⁻¹)O_p equals the tensor of Det⁻¹ RΓ(O_K[1/p], O_p(η⁻¹)(1)). Equivalently the tensor formed with e_D equals 2^(−m) times that lattice for m character factors (Johnson-Leung–Kings, (6), Definition 3.8, Theorem 3.9 and Corollary 3.10, pp. 9, 17–19, with the squared-norm convention of Kato (15.5.1) transported explicitly). The nonzero scalar N(a) − η(a) is invertible over the coefficient field because N(a) > 1 and η(a) is a root of unity. *Needs:* §§2.5, 4.1–4.2; Mathlib `NumberField.Units.logEmbedding_eq_zero_iff`.
+Here η(a) uses the inverse-Artin ideal convention of §4.1. This compares Kronecker's formula of §2.3 with the regulator of §4.2; both are taken in the squared norm, so no power of 2 enters. For n large, the tensor over characters of exact level n of (N(a) − η(a))⁻¹e(η⁻¹)O_p equals the tensor of Det⁻¹ RΓ(O_K[1/p], O_p(η⁻¹)(1)) (Johnson-Leung–Kings, (6), Definition 3.8, Theorem 3.9 and Corollary 3.10, pp. 9, 17–19). The source prints the ordinary absolute value both in (6) and in Proposition 3.3(4); each is off by the factor 2, the two factors cancel, and its Theorem 3.9 and Corollary 3.10 hold as printed. The nonzero scalar N(a) − η(a) is invertible over the coefficient field because N(a) > 1 and η(a) is a root of unity. *Needs:* §§2.2, 2.3, 4.1–4.2; Mathlib `NumberField.Units.logEmbedding_eq_zero_iff`.
 
-- Both e_D and e_B are non-torsion and lie on the same rational character line.
-- Changing from r_B to r_D changes the corresponding zeta generator to z_D = z_B/2, and changes its integral determinant lattice by the same factor; no dyadic unit is assumed.
+- e(η⁻¹) is non-torsion and lies on the rational character line of z_p(η).
+- Taking the regulator with the ordinary absolute value halves it, doubles the element it characterizes and multiplies the tensor lattice by 2^m for m character factors; at p = 2 that is not a unit, and the class-number Check of §4.2 excludes it.
 - The tensor identity is transported over the whole rational direct sum of the characters; it does not require individual integral idempotents at a wild character.
 
 **Checks.**
 
-- For K = ℚ(i), p = 3, η quadratic of conductor (3), a = (5), put R = log(2 + √3). Then r_B(e_D) = 4R and L′(η, 0) = R/3: (25 − 1)R/(2·3) = 4R. Omitting 1/2 gives 8R.
-- The doubled class has r_B(e_B) = 8R = 24R/3, exactly the z_B normalization.
+- For K = ℚ(i), p = 3, η quadratic of conductor (3), a = (5), put R = log(2 + √3). Then r(e(η⁻¹)) = 8R in the squared norm (§2.3) and (N(a) − η(a))·L′(η, 0) = (25 − 1)·R/3 = 8R, so e(η⁻¹) = (N(a) − η(a))z_p(η). The ordinary absolute value gives 4R and would insert a factor 1/2.
 - In a dyadic rank-one lattice, multiplying a generator by 2 increases its valuation by 1. For m character factors the tensor changes by 2^m, while at odd p this scalar is a unit.
 
 ### 4.4 Rubin's Euler-system bound for elliptic units
@@ -517,14 +435,14 @@ Let `η` have level large enough that `O_p(η)` is ramified at every place above
 
 1. `H²(O_K[1/p], Λ(η)(1))` is `Λ_O`-torsion.
 2. `H¹(O_K[1/p], Λ(η)(1))` has rank one.
-3. `H¹/Λ_O·a ζ_B(η)` is torsion, where aζ_B = 2aζ is §4.3's Beilinson-normalized system.
-4. At every height-one prime `𝔮` of `Λ_O`, `length H²_𝔮 ≤ length (H¹/Λ_O·a ζ_B(η))_𝔮`.
+3. `H¹/Λ_O·a ζ(η)` is torsion.
+4. At every height-one prime `𝔮` of `Λ_O`, `length H²_𝔮 ≤ length (H¹/Λ_O·a ζ(η))_𝔮`.
 
-Here the integral bound uses the B-normalized system of §4.3 throughout. The bound holds for `H²_0`, the kernel of localization to `⊕_{v∣p} H²(K_v, Λ(η)(1))`, and then for `H²`, because those local terms are finitely generated `O_p`-modules, hence pseudo-null. By twisting, the inequality holds for every `χ` at height-one primes; this is Rubin's inequality, Kato's Theorem 15.2(1) at regular primes; the unscaled integral version under Rubin's condition (b) is retained in §7.9. The route checks Rubin's hypotheses for the `ℤ_p²`-extension (no finite prime splits completely; rank-one coefficients; `τ = 1`). Weak Leopoldt from the non-torsion class of §4.3 gives (1), Tate's Euler characteristic gives (2), and Rubin's divisibility with the pseudo-isomorphism `H¹ → Λ_O ⊕ (torsion)` gives (4). *Needs:* §§4.1, 4.3, 1.1; EulerSystemsAndKolyvaginSystems §§8.1, 8.2, 8.6, 8.7, 8.14, 8.25, 8.37; ArithmeticGaloisDuality §R02.4.4; PadicMeasuresIwasawaAlgebras §4.1.
+The bound holds for `H²_0`, the kernel of localization to `⊕_{v∣p} H²(K_v, Λ(η)(1))`, and then for `H²`, because those local terms are finitely generated `O_p`-modules, hence pseudo-null. By twisting, the inequality holds for every `χ` at height-one primes; this is Rubin's inequality (Kato, Theorem 15.2(1), stated there at primes not containing `p` or under Rubin's condition (b) of §7.9). The route checks Rubin's hypotheses for the `ℤ_p²`-extension (no finite prime splits completely; rank-one coefficients; `τ = 1`). Weak Leopoldt from the non-torsion class of §4.3 gives (1), Tate's Euler characteristic gives (2), and Rubin's divisibility with the pseudo-isomorphism `H¹ → Λ_O ⊕ (torsion)` gives (4). *Needs:* §§4.1, 4.3, 1.1; EulerSystemsAndKolyvaginSystems §§8.1, 8.2, 8.6, 8.7, 8.14, 8.25, 8.37; ArithmeticGaloisDuality §R02.4.4; PadicMeasuresIwasawaAlgebras §4.1.
 
 **Checks.**
 
-- The inequality is integral for the B-normalized system at every p including 2; the factor 2 between B and D is retained rather than treated as a unit.
+- The inequality is integral for the elliptic units `a ζ` themselves at every `p` including 2, since EulerSystemsAndKolyvaginSystems §8.37 admits `p = 2`; stated for `2·a ζ` it would be weaker by one at the height-one prime `(2)` when `p = 2`.
 - For `η` of small level, unramified at a prime above `p`, the local `H⁰` can be nonzero and the large-level hypothesis fails. The general case comes from twisting, not from this statement directly.
 
 ### 4.5 The integral character-wise main conjecture at every prime
@@ -533,28 +451,27 @@ Let p be any prime, χ : G(f_χ) → E× a finite-order character, Γ = Gal(K_�
 
     s_a(χ) = N(a) − χ(σ_a)⁻¹[σ_a|Γ].
 
-Let J_χ be the ideal generated by these factors for a prime to 6pf_χ, equivalently the image of the ray-tower auxiliary ideal under the twisted character projection. Define ζ_D(χ) = s_a(χ)⁻¹aζ(χ), independent of a, and ζ_B(χ) = 2ζ_D(χ). The integral submodule J_χζ_B(χ) is generated by all aζ_B(χ), not by an arbitrarily chosen single smoothed class. These definitions use the inverse semilinearity of §1.1 and the regulator convention of §4.3; an untwisted denominator does not descend correctly (Johnson-Leung–Kings, §5.1, equation (17), pp. 23–24, with both normalizations transported).
+Let J_χ be the ideal generated by these factors for a prime to 6pf_χ, equivalently the image of the ray-tower auxiliary ideal under the twisted character projection. Define ζ(χ) = s_a(χ)⁻¹aζ(χ), independent of a. The integral submodule J_χζ(χ) is generated by all aζ(χ), not by an arbitrarily chosen single smoothed class. These definitions use the inverse semilinearity of §1.1 and the regulator convention of §4.3; an untwisted denominator does not descend correctly (Johnson-Leung–Kings, §5.1, equation (17), pp. 23–24).
 
-Prove the character-wise main conjecture: H⁰ = 0; H¹ has rank one; H² and H¹/J_χζ_B(χ) are torsion; and the inclusion of J_χζ_B(χ) into RΓ(O_K[1/p], Λ(χ)(1))[1] has divisor zero. Thus
+Prove the character-wise main conjecture: H⁰ = 0; H¹ has rank one; H² and H¹/J_χζ(χ) are torsion; and the inclusion of J_χζ(χ) into RΓ(O_K[1/p], Λ(χ)(1))[1] has divisor zero. Thus
 
-    length (H¹/J_χζ_B(χ))_q = length H²_q
+    length (H¹/J_χζ(χ))_q = length H²_q
 
-at every height-one q, including q containing p, and the associated determinant lattices agree (Johnson-Leung–Kings, Theorem 5.2 and §6, pp. 24, 29–33, in the Beilinson normalization of §4.3). In the inverse-unit normalization the corresponding quotient is H¹/(2J_χζ_D(χ)); multiplication by 2 is retained at p = 2. No condition p ∤ 6 or p ∤ [K(f_χ):K] is imposed. A route twists to large-level characters, applies the Euler-system bound of §4.4 to aζ_B and the determinant comparison at augmentation of §4.3, and uses effectivity to conclude that the divisor is zero. In that calculation Det(J_χζ_B) = s_a(χ)⁻¹Det(Λ_O aζ_B); both the twisted factor and the factor 2 occur before taking augmentation. *Needs:* §§4.1–4.4, 2.6; PadicMeasuresIwasawaAlgebras §§4.6, 5.1; SelmerIwasawaCohomology §3.7.
+at every height-one q, including q containing p, and the associated determinant lattices agree (Johnson-Leung–Kings, Theorem 5.2 and §6, pp. 24, 29–33). No condition p ∤ 6 or p ∤ [K(f_χ):K] is imposed. A route twists to large-level characters, applies the Euler-system bound of §4.4 to aζ and the determinant comparison at augmentation of §4.3, and uses effectivity to conclude that the divisor is zero. In that calculation Det(J_χζ) = s_a(χ)⁻¹Det(Λ_O aζ); the twisted factor occurs before taking augmentation. *Needs:* §§4.1–4.4, 2.4; PadicMeasuresIwasawaAlgebras §§4.6, 5.1; SelmerIwasawaCohomology §3.7.
 
-- Twisting χ by ρ transports J_χ and ζ_B(χ) by the same semilinear map.
+- Twisting χ by ρ transports J_χ and ζ(χ) by the same semilinear map.
 - The quotient by J_χ has support in codimension at least two; it is the character projection of the cyclotomic auxiliary ideal, not an unproved identification with the untwisted kernel.
-- After inverting p, the B- and D-normalized modules have the same characteristic ideal, since 2 is invertible there at every prime p.
 
 **Checks.**
 
 - For K = ℚ(i), p = 3, χ quadratic modulo (3), a = (2 + i), b = (7), the augmented factors are 5 − (−1) = 6 and 49 − 1 = 48. The normalized values are 6u/6 = 48u/48 = u. Untwisted factors give 6u/4 = 3u/2 and 48u/48 = u.
 - At χ = 1, J_χ is the cyclotomic auxiliary ideal, of height two; it is not principal, although every height-one localization is the unit ideal.
-- For K = ℚ(i), p = 2, χ = 1, both normalizations yield the same rational equality, but the integral modules J_χζ_B and J_χζ_D differ by 2. The theorem uses the former and does not silently cancel that dyadic factor.
-- Rubin's hypothesis p ∤ #μ(H) excludes p = 2 for ℚ(i), and p = 2, 3 for ℚ(√−3); the normalized character-wise statement includes these primes.
+- For K = ℚ(i), p = 2, χ = 1 and the height-one prime q = (2) of Λ_O = ℤ_2[[Γ]]: for a = (5), σ_a|Γ ≠ 1 since σ_a raises 2-power roots of unity to the power 25, so s_a = 25 − [σ_a|Γ] maps to 1 − [σ_a|Γ] ≠ 0 in 𝔽_2[[Γ]] and is a unit at q. Hence (J_χζ)_q = Λ_q·aζ, and §4.4, by twisting, gives length H²_q ≤ length(H¹/J_χζ)_q. A generator doubled by an ordinary-norm regulator would raise the right side by 1 at q and contradict the equality: the integral statement fixes the generator, not only its line.
+- Rubin's hypothesis p ∤ #μ(H) excludes p = 2 for ℚ(i), and p = 2, 3 for ℚ(√−3); the character-wise statement includes these primes.
 
 ### 4.6 The character-wise equality with tame Euler factors
 
-Suppose f_χ ∣ f. Define ζ_B(χ, f) = ∏_(𝔩∣f, 𝔩∤p)(1 − χ(𝔩)Frob_𝔩⁻¹)ζ_B(χ), with χ(𝔩) in the inverse-Artin convention and zero at a ramified prime. Prove that the inclusion J_χζ_B(χ, f) → RΓ(O_K[1/pf], Λ(χ)(1))[1] has divisor zero. In particular Det(H¹/J_χζ_B(χ, f)) ≅ Det H². The supported complexes contribute the inverse Euler determinant, compensated by the displayed factors (Johnson-Leung–Kings, Corollary 5.3, pp. 24–25). Use the same twisted smoothing ideal as §4.5. *Needs:* §§4.5, 1.5.
+Suppose f_χ ∣ f. Define ζ(χ, f) = ∏_(𝔩∣f, 𝔩∤p)(1 − χ(𝔩)Frob_𝔩⁻¹)ζ(χ), with χ(𝔩) in the inverse-Artin convention and zero at a ramified prime. Prove that the inclusion J_χζ(χ, f) → RΓ(O_K[1/pf], Λ(χ)(1))[1] has divisor zero. In particular Det(H¹/J_χζ(χ, f)) ≅ Det H². The supported complexes contribute the inverse Euler determinant, compensated by the displayed factors (Johnson-Leung–Kings, Corollary 5.3, pp. 24–25). Use the same twisted smoothing ideal as §4.5. *Needs:* §§4.5, 1.5.
 
 **Checks.**
 
@@ -564,7 +481,7 @@ Suppose f_χ ∣ f. Define ζ_B(χ, f) = ∏_(𝔩∣f, 𝔩∤p)(1 − χ(𝔩)
 
 ### 4.7 Rubin's Iwasawa modules
 
-Fix a prime `𝔭` of `K` above `p`, an abelian extension `K₀ ⊃ H` of `K` (with `H` the Hilbert class field) with `p ∤ [K₀ : K]`, and an abelian extension `K_∞ ⊃ K₀` of `K` with `Gal(K_∞/K₀) ≅ ℤ_p` or `ℤ_p²`. Assume Rubin's standing hypothesis `p ∤ #μ(H)`. Write E′_∞ for the norm limit of p-units. Define `A_∞`, `ℰ̄_∞`, `𝒞̄_∞`, `U_∞` and `X_∞` as norm limits over finite `F ⊂ K_∞` of: the `p`-parts of class groups; the closures of the global units and of Rubin's elliptic units in the local principal units at the primes above `𝔭`; the local principal units themselves; and the Galois groups of the maximal abelian `p`-extensions unramified outside the primes above `𝔭`. They are modules over `Λ = ℤ_p[[Gal(K_∞/K)]] = ⊕_χ Λ^χ`, `Λ^χ ≅ R_χ[[Γ]]` (Rubin 1991, §1, p. 27, and §4, pp. 36–37, Rubin91 lines 500–541). *Needs:* §§1.2, 2.4; ClassFieldTheory Layers 11–13; IntegralIwasawaTheory §10.0; PadicMeasuresIwasawaAlgebras §4.6.
+Fix a prime `𝔭` of `K` above `p`, an abelian extension `K₀ ⊃ H` of `K` (with `H` the Hilbert class field) with `p ∤ [K₀ : K]`, and an abelian extension `K_∞ ⊃ K₀` of `K` with `Gal(K_∞/K₀) ≅ ℤ_p` or `ℤ_p²`. Assume Rubin's standing hypothesis `p ∤ #μ(H)`. Write E′_∞ for the norm limit of p-units. Define `A_∞`, `ℰ̄_∞`, `𝒞̄_∞`, `U_∞` and `X_∞` as norm limits over finite `F ⊂ K_∞` of: the `p`-parts of class groups; the closures of the global units and of Rubin's elliptic units in the local principal units at the primes above `𝔭`; the local principal units themselves; and the Galois groups of the maximal abelian `p`-extensions unramified outside the primes above `𝔭`. They are modules over `Λ = ℤ_p[[Gal(K_∞/K)]] = ⊕_χ Λ^χ`, `Λ^χ ≅ R_χ[[Γ]]` (Rubin 1991, §1, p. 27, and §4, pp. 36–37, Rubin91 lines 500–541). *Needs:* §§1.2, 2.2; ClassFieldTheory Layers 11–13; IntegralIwasawaTheory §10.0; PadicMeasuresIwasawaAlgebras §4.6.
 
 - Each module is the direct sum of its `χ`-components `e_χ Y` over the irreducible `ℤ_p`-representations `χ` of `Δ = Gal(K₀/K)`; the idempotents are integral since `p ∤ #Δ`.
 - Class field theory gives the exact sequence `0 → ℰ̄_∞/𝒞̄_∞ → U_∞/𝒞̄_∞ → X_∞ → A_∞ → 0`, the limit of the finite-level sequences by exactness of compact inverse limits.
@@ -584,7 +501,7 @@ Under Rubin's hypotheses prove (Rubin 1991, Theorem 4.1 and Remarks (1)–(2), p
 - (i) If `p` splits in `K`, then `char(A_∞) = char(ℰ̄_∞/𝒞̄_∞)` and `char(X_∞) = char(U_∞/𝒞̄_∞)`.
 - (ii) If `p` is inert or ramified, then `char(A_∞)` divides `char(ℰ̄_∞/𝒞̄_∞)`, with `char(A_∞)^χ = char(ℰ̄_∞/𝒞̄_∞)^χ` for every irreducible `χ` nontrivial on the decomposition group of `𝔭` in `Δ`.
 
-Write I_Λ for the augmentation ideal of the two-variable algebra and p_(χ⁻¹) for the integral character projector when p ∤ #Δ. The class and closed-unit norm limits are defined without the standing μ(H) restriction as well. Dropping that restriction for this clause, for the full two-variable extension and p ∤ #Δ prove also the Beilinson-normalized classical form at every prime `p`, `2` and `3` included, with no condition on the splitting of `p` or on `χ`: `char(p_{χ⁻¹}A_∞) = char(p_{χ⁻¹}E_∞/I_Λ J_χζ_B(χ))`, integrally (Johnson-Leung–Kings, §5.4, pp. 26–27). For other one-variable quotients retain the control and Tor terms of §5.1; no arbitrary-line characteristic-ideal equality follows by ordinary tensor product. For the two-variable classical form, decompose `Ω_O = ∏_χ Λ(χ)` and identify the `χ`-parts with the cohomology of §4.5. The decomposition-group modules at `p` in Lemma 5.8's sequence are pseudo-null, so `H²` and `A_∞` have the same characteristic ideal; apply §§4.5–4.6. For (i)–(ii) a proof can follow either Rubin's Kolyvagin-system argument (Rubin 1991, §§8–10) or this classical form wherever Rubin's hypotheses imply `p ∤ #Δ`. For `E/ℚ` with `End(E) = O_K`, `p ≥ 5` of good ordinary reduction and `K_∞ = K(E[p^∞])`, the equalities of (i) are the Theorem of NoncommutativeAndEquivariantIwasawa §4.3, which the route does not reprove; the statement here differs by admitting any `K` of any class number, any abelian `K₀ ⊃ H` with `p ∤ [K₀ : K]`, the inert and ramified primes of (ii), and every prime in the classical form. *Needs:* §§4.5–4.7; PadicMeasuresIwasawaAlgebras §§4.1, 4.6; NoncommutativeAndEquivariantIwasawa §4.3.
+Write I_Λ for the augmentation ideal of the two-variable algebra and p_(χ⁻¹) for the integral character projector when p ∤ #Δ. The class and closed-unit norm limits are defined without the standing μ(H) restriction as well. Dropping that restriction for this clause, for the full two-variable extension and p ∤ #Δ prove also the classical form at every prime `p`, `2` and `3` included, with no condition on the splitting of `p` or on `χ`: `char(p_{χ⁻¹}A_∞) = char(p_{χ⁻¹}E_∞/I_Λ J_χζ(χ))`, integrally (Johnson-Leung–Kings, §5.4, pp. 26–27). For other one-variable quotients retain the control and Tor terms of §5.1; no arbitrary-line characteristic-ideal equality follows by ordinary tensor product. For the two-variable classical form, decompose `Ω_O = ∏_χ Λ(χ)` and identify the `χ`-parts with the cohomology of §4.5. The decomposition-group modules at `p` in Lemma 5.8's sequence are pseudo-null, so `H²` and `A_∞` have the same characteristic ideal; apply §§4.5–4.6. For (i)–(ii) a proof can follow either Rubin's Kolyvagin-system argument (Rubin 1991, §§8–10) or this classical form wherever Rubin's hypotheses imply `p ∤ #Δ`. For `E/ℚ` with `End(E) = O_K`, `p ≥ 5` of good ordinary reduction and `K_∞ = K(E[p^∞])`, the equalities of (i) are the Theorem of NoncommutativeAndEquivariantIwasawa §4.3, which the route does not reprove; the statement here differs by admitting any `K` of any class number, any abelian `K₀ ⊃ H` with `p ∤ [K₀ : K]`, the inert and ramified primes of (ii), and every prime in the classical form. *Needs:* §§4.5–4.7; PadicMeasuresIwasawaAlgebras §§4.1, 4.6; NoncommutativeAndEquivariantIwasawa §4.3.
 
 **Checks.**
 
@@ -660,7 +577,7 @@ For a finitely generated torsion A-module Y with Y/aY and Y[a] torsion over B, p
 
 On the full two-variable tower of §5.1, prove that the image of the closed inverse elliptic-unit module is J_aux,χ·ν_𝔭^χ on each χ-component. Here ν_𝔭 is Katz's measure of AutomorphicPadicLFunctionsPartII §8.5, with its period and conductor Euler factors fixed, and J_aux,χ is generated by the auxiliary factors N(a) − σ_a transported through the chosen local character. The sign in Col(a z) = (N(a) − σ_a)ν_𝔭 is the inverse-unit convention; a generator differing by a unit gives the same ideal. The exact image need not be principal. Its divisorial hull is (ν_𝔭^χ), since the auxiliary ideal becomes the unit ideal at height one. Consequently char(U_∞^χ/𝒞̄_∞^χ)·Λ_Ô^χ = (L_𝔭^χ), including the image-ideal correction C_loc of §5.1 before passing to characteristic ideals. Sources: Yager, Theorem 1 (class number one, p ≥ 5, good reduction); Rubin91, Remark (1) after Theorem 4.1, p. 37, for the general-field measure identification; NoncommutativeAndEquivariantIwasawa §4.3 for its exact image and rational-curve specialization.
 
-A route evaluates the local Coleman measure on the theta system through §3.3 and compares its moments with Katz interpolation on a dense family. It identifies each smoothed value, then the entire generated ideal. For an arbitrary one-variable quotient, specialize this exact image and use every Tor, K_Y and D_Y term of §5.1; the assertion is the resulting corrected divisor identity, not an unrestricted equality of the actual one-variable image with a principal Katz ideal. *Needs:* §§5.1, 3.3, 2.6; AutomorphicPadicLFunctionsPartII §8.5; NoncommutativeAndEquivariantIwasawa §4.3.
+A route evaluates the local Coleman measure on the theta system through NonordinaryCMSpecialValues §§2.5–2.6 and compares its moments with Katz interpolation on a dense family. It identifies each smoothed value, then the entire generated ideal. For an arbitrary one-variable quotient, specialize this exact image and use every Tor, K_Y and D_Y term of §5.1; the assertion is the resulting corrected divisor identity, not an unrestricted equality of the actual one-variable image with a principal Katz ideal. *Needs:* §§5.1, 2.4; NonordinaryCMSpecialValues §§2.1, 2.5, 2.6; AutomorphicPadicLFunctionsPartII §8.5; NoncommutativeAndEquivariantIwasawa §4.3.
 
 **Checks.**
 
@@ -720,7 +637,7 @@ For `K = ℚ(√−2)` and `p = 3` (split, since `−2 ≡ 1 mod 3`), the branch
 
 ### Dependencies
 
-Layer 4; Layer 3 (§3.3); Layer 2 (§§2.2, 2.6); IntegralIwasawaTheory §7.1; ColemanPowerSeries Layer 1; PadicMeasuresIwasawaAlgebras Layer 1 and §4.1; AutomorphicPadicLFunctionsPartII §8.5; NoncommutativeAndEquivariantIwasawa §4.3; SelmerIwasawaCohomology §§2.8, 3.17; EllipticCurves Layer 1.
+Layer 4; Layer 2 (§2.4); NonordinaryCMSpecialValues §§2.1, 2.5, 2.6; IntegralIwasawaTheory §§7.1, 7.2, 10.0; ColemanPowerSeries Layer 1 and §§2.37, 2.39, 2.44; PadicMeasuresIwasawaAlgebras Layers 1 and 4 and §§4.1, 5.1; AutomorphicPadicLFunctionsPartII §8.5; NoncommutativeAndEquivariantIwasawa §4.3; SelmerIwasawaCohomology §§2.8, 3.3, 3.17; EllipticCurves Layer 1.
 
 ## Layer 6: the rational equivariant main conjecture
 
@@ -732,7 +649,7 @@ For every prime `p` and nonzero `f`, prove that at every height-one prime `q` of
 length_{R_q} (h¹/z)_q = length_{R_q} (H²_{pf})_q = length_{R_q} h²_q + Σ_{𝔩 ∣ f, 𝔩 ∤ p} length_{R_q} ℤ_p[[G/D_𝔩]]_q.
 ```
 
-In particular `length h²_q = length (h¹/z)_q` whenever `q` lies on a component on which the inertia group of every such `𝔩` acts nontrivially (Johnson-Leung–Kings, §§7.1–7.2, Lemmas 7.1, 7.2, 7.6, 7.7 and the argument after Lemma 7.7, pp. 34–36, JLK lines 1412–1487; Burungale–Tian, proof of Theorem 2.1, p. 4, BT lines 155–157). The route extends scalars to `O` containing the values of the characters of `Δ`. At regular `q`, `(R_O)_q` is the localization of one factor `O[[Γ]](χ)` (§0.2), and the projection of `a ζ(f)` to that factor is `∏(1 − χ(𝔩)Frob_𝔩⁻¹)·a ζ(χ)` (Lemma 7.7). On that factor J_χ is the projected auxiliary ideal; its height-one localization is the whole ring. Since 2 is a unit at q ∌ p, §4.6 in the B normalization gives the first equality for the D-normalized inverse units as well via §§1.3 and 2.6. §§1.4–1.5 give the second. *Needs:* §§4.5, 4.6, 1.3–1.5, 2.6, 0.2.
+In particular `length h²_q = length (h¹/z)_q` whenever `q` lies on a component on which the inertia group of every such `𝔩` acts nontrivially (Johnson-Leung–Kings, §§7.1–7.2, Lemmas 7.1, 7.2, 7.6, 7.7 and the argument after Lemma 7.7, pp. 34–36, JLK lines 1412–1487; Burungale–Tian, proof of Theorem 2.1, p. 4, BT lines 155–157). The route extends scalars to `O` containing the values of the characters of `Δ`. At regular `q`, `(R_O)_q` is the localization of one factor `O[[Γ]](χ)` (§0.2), and the projection of `a ζ(f)` to that factor is `∏(1 − χ(𝔩)Frob_𝔩⁻¹)·a ζ(χ)` (Lemma 7.7). On that factor J_χ is the projected auxiliary ideal; its height-one localization is the whole ring, and §4.6 gives the first equality via §§1.3 and 2.4. §§1.4–1.5 give the second. *Needs:* §§4.5, 4.6, 1.3–1.5, 2.4, 0.2.
 
 ### 6.2 The rational equivariant main conjecture
 
@@ -742,7 +659,7 @@ For every prime `p` and nonzero `f`, prove the equality of ideals of `R[1/p] = �
 ξ((h¹/z)_ℚ) = ξ(h²_ℚ) · ∏_{𝔩 ∣ f, 𝔩 ∤ p} ξ(ℤ_p[[G/D_𝔩]]_ℚ),     equivalently     ξ((h¹/z)_ℚ) = ξ((H²_{pf})_ℚ).
 ```
 
-This corrects Burungale–Tian, Theorem 2.1 (BT lines 152–153), which prints `ξ(h²_ℚ) = ξ((h¹/z)_ℚ)`. Kato's quotation of Rubin (Kato, Theorem 15.2(2) and 15.6, pp. 251 and 255) has the same imprecision. The printed form holds in the ranges of §6.3. The modules are torsion by §§1.6 and 2.7, so both sides are defined. After inverting `p` every height-one prime is regular, and §6.1 gives the lengths. *Needs:* §§6.1, 1.6, 2.7, 1.5, 0.2.
+This corrects Burungale–Tian, Theorem 2.1 (BT lines 152–153), which prints `ξ(h²_ℚ) = ξ((h¹/z)_ℚ)`. Kato's quotation of Rubin (Kato, Theorem 15.2(2) and 15.6, pp. 251 and 255) has the same imprecision. The printed form holds in the ranges of §6.3. The modules are torsion by §§1.6 and 2.5, so both sides are defined. After inverting `p` every height-one prime is regular, and §6.1 gives the lengths. *Needs:* §§6.1, 1.6, 2.5, 1.5, 0.2.
 
 ### 6.3 Where the printed form holds
 
@@ -789,7 +706,7 @@ Choose the conjugate infinity type in that supplier's formula. After the half-no
 
 ### 7.2 Kato's de Rham normalization of CM induction
 
-For f and ψ of §7.1, let L = K(ψ(K̂×)), λ ∣ p and r = k−1. Use the cohomological dual of the induction of AutomorphicGaloisRepresentations §3.15 to identify V_(L_λ)(f) with Ind_(G_K)^(G_ℚ)V_(L_λ)(ψ). Fix an L-linear isomorphism S(ψ) ≅ S(f) ⊗_F L. Prove that there is a unique G_ℚ-isomorphism of these representations inducing that fixed isomorphism on D_dR^r. This is Kato's (15.11.1)–(15.11.2), Lemma 15.11(1), pp. 260–261; the construction uses the irreducibility of the supplied induction and the de Rham comparison. It does not construct a second unnormalized induction theorem. *Needs:* §§3.1, 7.1; AutomorphicGaloisRepresentations §§1.5, 3.15, 7.3; AutomorphicGaloisRepresentationsPartII AG2.0; ComplexMultiplicationAndExplicitReciprocity §4.2; PadicHodgeRegulators §1.4.
+For f and ψ of §7.1, let L = K(ψ(K̂×)), λ ∣ p and r = k−1. Use the cohomological dual of the induction of AutomorphicGaloisRepresentations §3.15 to identify V_(L_λ)(f) with Ind_(G_K)^(G_ℚ)V_(L_λ)(ψ). Fix an L-linear isomorphism S(ψ) ≅ S(f) ⊗_F L. Prove that there is a unique G_ℚ-isomorphism of these representations inducing that fixed isomorphism on D_dR^r. This is Kato's (15.11.1)–(15.11.2), Lemma 15.11(1), pp. 260–261; the construction uses the irreducibility of the supplied induction and the de Rham comparison. It does not construct a second unnormalized induction theorem. *Needs:* §7.1; NonordinaryCMSpecialValues §2.4; AutomorphicGaloisRepresentations §§1.5, 3.15, 7.3; AutomorphicGaloisRepresentationsPartII AG2.0; ComplexMultiplicationAndExplicitReciprocity §4.2; PadicHodgeRegulators §1.4.
 
 **Checks.**
 
@@ -805,7 +722,7 @@ For a finite place `λ` of `L` and a `Gal(ℚ̄/K)`-stable lattice `T ⊂ V_{L_�
 H¹_{p∞f}(T) → H¹(T̃)
 ```
 
-It is corestriction from `K(p^n f)` to `K ⊗ ℚ(ζ_{p^n})` (a field when `K ⊄ ℚ(ζ_{p^n})`, a finite étale algebra otherwise), followed by Shapiro and (15.11.2), in the limit. *Needs:* §§1.1, 7.2, 3.1, 0.1; SelmerIwasawaCohomology §§3.1–3.2.
+It is corestriction from `K(p^n f)` to `K ⊗ ℚ(ζ_{p^n})` (a field when `K ⊄ ℚ(ζ_{p^n})`, a finite étale algebra otherwise), followed by Shapiro and (15.11.2), in the limit. *Needs:* §§1.1, 7.2, 0.1; NonordinaryCMSpecialValues §2.4; SelmerIwasawaCohomology §§3.1–3.2.
 
 - The map is linear over `O_λ[[G_{p∞f}]] → O_λ[[G_∞]]`, or over `→ O_λ[[G′_∞]]` when `K ⊂ ℚ(μ_{p^∞})`.
 - At each level `n` it is the finite-level corestriction followed by Shapiro.
@@ -821,7 +738,7 @@ It is corestriction from `K(p^n f)` to `K ⊗ ℚ(ζ_{p^n})` (a field when `K �
 
 ### 7.4 Twisting the tower cohomology to CM coefficients
 
-Let `ψ` have conductor `f`, `T ⊂ V_{L_λ}(ψ)` a stable lattice and `χ_T : G_{p∞f} → O_λ^×` the character of `Gal(ℚ̄/K)` on `T(−1)`. Prove two things (Kato, 15.15 and proof of Proposition 15.17, p. 265, and proof of Lemma 15.13, p. 264; Johnson-Leung–Kings, Lemma 4.7, p. 22). First, `H^q_{p∞f}(T) ≅ (H^q_{p∞f}(ℤ_p(1)) ⊗ O_λ) ⊗ T(−1)`; with a basis `t` of `T(−1)`, `x ↦ x ⊗ t` is `Tw_{χ_T⁻¹}`-semilinear and carries `z ⊗ O_λ` to the span of `z_{p∞f} ⊗ T(−1)` at height one. Second, `H¹_{p∞f}(T)` is torsion-free of generic rank one, and `H¹_{p∞f}(V_{L_λ}(ψ))_q` is free of rank one at every height-one prime `q` lying over a height-zero prime of `O_λ[[G_∞]]`. *Needs:* §§1.1, 1.3, 1.7, 2.6, 3.1.
+Let `ψ` have conductor `f`, `T ⊂ V_{L_λ}(ψ)` a stable lattice and `χ_T : G_{p∞f} → O_λ^×` the character of `Gal(ℚ̄/K)` on `T(−1)`. Prove two things (Kato, 15.15 and proof of Proposition 15.17, p. 265, and proof of Lemma 15.13, p. 264; Johnson-Leung–Kings, Lemma 4.7, p. 22). First, `H^q_{p∞f}(T) ≅ (H^q_{p∞f}(ℤ_p(1)) ⊗ O_λ) ⊗ T(−1)`; with a basis `t` of `T(−1)`, `x ↦ x ⊗ t` is `Tw_{χ_T⁻¹}`-semilinear and carries `z ⊗ O_λ` to the span of `z_{p∞f} ⊗ T(−1)` at height one. Second, `H¹_{p∞f}(T)` is torsion-free of generic rank one, and `H¹_{p∞f}(V_{L_λ}(ψ))_q` is free of rank one at every height-one prime `q` lying over a height-zero prime of `O_λ[[G_∞]]`. *Needs:* §§1.1, 1.3, 1.7, 2.4; NonordinaryCMSpecialValues §2.4.
 
 ### 7.5 Kato's descent lemma
 
@@ -865,11 +782,11 @@ Let f be a CM newform attached to ψ of conductor f_ψ and type (1−k,0), L = K
 
 Prove that at every height-zero prime 𝔭 of Λ, with inverse image q in O_λ[[G_(p∞f_ψ)]], A = O_λ[[G_(p∞f_ψ)]]_q is a DVR, w generates the free rank-one ray-tower H¹_q and H²_q = 0. Prove also Z(ψ,T)_𝔭 = H¹(T̃)_𝔭, so the quotient of rational H¹ by Z(ψ,T)[1/p] is torsion. These are the identified-generator statements of Kato §15.15, p. 265, strengthened by the rational equivariant equality; they are distinct from the supplied unmarked module structure (Burungale–Tian, Theorem 2.3, p. 4).
 
-A route uses §7.5 or §7.6 to obtain the DVR. If w lies in its maximal ideal, finite-order characters through the cyclotomic quotient make its dual exponential zero except at finitely many zeros of the remaining nonzero power series. Section 3.3 and KatoEulerSystems §4.2 give infinitely many nonzero values on each component, a contradiction. The Hecke identity needed is
+A route uses §7.5 or §7.6 to obtain the DVR. If w lies in its maximal ideal, finite-order characters through the cyclotomic quotient make its dual exponential zero except at finitely many zeros of the remaining nonzero power series. NonordinaryCMSpecialValues §2.6 and KatoEulerSystems §4.2 give infinitely many nonzero values on each component, a contradiction. The Hecke identity needed is
 
     L_(pf_ψ)(ψ̄, χ₀ ∘ N_(K/ℚ), k−1) = L_({p})(f*, χ₀, k−1).
 
-At a split rational prime only the primes of K dividing f_ψ are omitted; an unramified conjugate prime still contributes on both sides. It is false to discard the whole rational Euler factor merely because one prime above it divides the conductor. Finally §6.1 and §1.4, twisted by §7.4, give length H²_q ≤ length(H¹_q/Aw) = 0. Descent gives the asserted generator in cyclotomic cohomology. *Needs:* §§7.1–7.6, 6.1, 3.3, 2.6, 1.4, 0.2; KatoEulerSystems §§4.2, 4.4; SelmerIwasawaCohomology §3.1.
+At a split rational prime only the primes of K dividing f_ψ are omitted; an unramified conjugate prime still contributes on both sides. It is false to discard the whole rational Euler factor merely because one prime above it divides the conductor. Finally §6.1 and §1.4, twisted by §7.4, give length H²_q ≤ length(H¹_q/Aw) = 0. Descent gives the asserted generator in cyclotomic cohomology. *Needs:* §§7.1–7.6, 6.1, 2.4, 1.4, 0.2; NonordinaryCMSpecialValues §2.6; KatoEulerSystems §§4.2, 4.4; SelmerIwasawaCohomology §3.1.
 
 - Z(ψ,T) changes by the same scalar as T and commutes with coefficient extension.
 - The generator at a height-zero prime is determined by the nonzero vector γ, not by an unspecified choice of a rank-one basis.
@@ -884,7 +801,7 @@ At a split rational prime only the primes of K dividing f_ψ are omitted; an unr
 
 ### 7.9 Kato's lattice inequality for CM forms
 
-Let `λ ∣ p` be a finite place of `L`, `𝔭` a height-one prime of `O_λ[[G_∞]]`, and assume either `p ∉ 𝔭`, or `p ∤ #μ(H)` and `p ∤ #Δ` (Rubin's condition (b)). For a stable lattice `T ⊂ V_{L_λ}(ψ)`, prove first that the image of z_(p∞f) ⊗ T(−1) belongs to H¹(T̃)_𝔭 under the stated condition, and let Z(ψ,T)_𝔭 be its O_λ[[G_∞]]_𝔭-span there. At a regular prime this agrees with §7.8's rationally generated submodule. This integrality is part of Kato's lattice comparison, not a definition by saturation. Prove that `length H²(T̃)_𝔭 ≤ length (H¹(T̃)_𝔭/Z(ψ, T)_𝔭)` (Kato, Proposition 15.17 and proof, p. 265). This is the CM case of the inequality of Kato's Theorem 12.5(3) in the form `Z(ψ, T)`, which §8.4 identifies rationally with `Z(f)`; it differs from the non-CM rational Euler-system bound of PadicFamilies §4.0.3 in two ways: it is stated for the elliptic-unit lattice `Z(ψ, T)`, and it holds at primes containing `p` under condition (b). The route applies §7.7 to `M₁ = H²_{p∞f}(T)_q` and `M₂ = H¹_{p∞f}(T)_q/A·(z_{p∞f} ⊗ T(−1))` over `A = O_λ[[G_{p∞f}]]_q`, with `a` the generator of §7.5(1): both vanish at the height-one prime `aA` of `A`, which lies over the height-zero prime of `O_λ[[G_∞]]` under `𝔭`, by §7.8, and their lengths at the other height-one primes of A are compared by Rubin's lattice bound on the unscaled elliptic units under condition (b), and at regular primes by §§4.4–4.6, where 2 is invertible; §§7.5–7.6 then descend. The length input is Lemma 14.15, pp. 243–244. *Needs:* §§7.3–7.8, 4.4.
+Let `λ ∣ p` be a finite place of `L`, `𝔭` a height-one prime of `O_λ[[G_∞]]`, and assume either `p ∉ 𝔭`, or `p ∤ #μ(H)` and `p ∤ #Δ` (Rubin's condition (b)). For a stable lattice `T ⊂ V_{L_λ}(ψ)`, prove first that the image of z_(p∞f) ⊗ T(−1) belongs to H¹(T̃)_𝔭 under the stated condition, and let Z(ψ,T)_𝔭 be its O_λ[[G_∞]]_𝔭-span there. At a regular prime this agrees with §7.8's rationally generated submodule. This integrality is part of Kato's lattice comparison, not a definition by saturation. Prove that `length H²(T̃)_𝔭 ≤ length (H¹(T̃)_𝔭/Z(ψ, T)_𝔭)` (Kato, Proposition 15.17 and proof, p. 265). This is the CM case of the inequality of Kato's Theorem 12.5(3) in the form `Z(ψ, T)`, which §8.4 identifies rationally with `Z(f)`; it differs from the non-CM rational Euler-system bound of PadicFamilies §4.0.3 in two ways: it is stated for the elliptic-unit lattice `Z(ψ, T)`, and it holds at primes containing `p` under condition (b). The route applies §7.7 to `M₁ = H²_{p∞f}(T)_q` and `M₂ = H¹_{p∞f}(T)_q/A·(z_{p∞f} ⊗ T(−1))` over `A = O_λ[[G_{p∞f}]]_q`, with `a` the generator of §7.5(1): both vanish at the height-one prime `aA` of `A`, which lies over the height-zero prime of `O_λ[[G_∞]]` under `𝔭`, by §7.8, and their lengths at the other height-one primes of A are compared by Rubin's lattice bound on the elliptic units under condition (b), and at regular primes by §§4.4–4.6; §§7.5–7.6 then descend. The length input is Lemma 14.15, pp. 243–244. *Needs:* §§7.3–7.8, 4.4.
 
 ### Examples
 
@@ -892,13 +809,13 @@ For `f = 32.2.a.a` and `p = 2`, `K = ℚ(i) ⊂ ℚ(μ_{2^∞})` and §7.6 appli
 
 ### Dependencies
 
-Layers 0–4 and 6; KatoEulerSystems §4.4; AutomorphicGaloisRepresentations §3.15; ModularForms Layers 5, 7, 9; GlobalNumberFields Layers 9–10; ComplexMultiplicationAndExplicitReciprocity §4.2; AutomorphicGaloisRepresentations §§1.5, 7.3; AutomorphicGaloisRepresentationsPartII AG2.0; AnalyticNumberTheoryPartI §2.3a; PadicHodgeRegulators §1.4; KatoEulerSystems §4.2; SelmerIwasawaCohomology §§3.1–3.3; PadicMeasuresIwasawaAlgebras §4.1; Mathlib `IsCyclotomicExtension`, `Module.length`, `IsLocalization.AtPrime`, `Ideal.height`.
+Layers 0–2, 4 and 6; NonordinaryCMSpecialValues §§2.4, 2.6; KatoEulerSystems §4.4; AutomorphicGaloisRepresentations §3.15; ModularForms Layers 5, 7, 9; GlobalNumberFields Layers 9–10; ComplexMultiplicationAndExplicitReciprocity §4.2; AutomorphicGaloisRepresentations §§1.5, 7.3; AutomorphicGaloisRepresentationsPartII AG2.0; AnalyticNumberTheoryPartI §2.3a; PadicHodgeRegulators §1.4; KatoEulerSystems §4.2; SelmerIwasawaCohomology §§3.1–3.3; PadicMeasuresIwasawaAlgebras §4.1; Mathlib `IsCyclotomicExtension`, `Module.length`, `IsLocalization.AtPrime`, `Ideal.height`.
 
 ## Layer 8: Kato's main conjecture for CM newforms at every prime
 
 ### 8.1 The archimedean normalization of the induction
 
-With (15.11.1) fixed, let `Ṽ_L(ψ) = V_L(ψ) ⊕ ιV_L(ψ)` be induced from `V_L(ψ)` to `Gal(ℂ/ℝ)`. Prove that there is a unique `Gal(ℂ/ℝ)`-isomorphism `Ṽ_L(ψ) ≅ V_L(f)` under which `per_f` corresponds to `per_ψ` (Kato, Lemma 15.11(2) with proof, pp. 261–262). It serves only to transport `γ ∈ V_L(ψ)` to `γ′ ∈ V_L(f)`. The route fixes a sign `±` and chooses `m ≥ 1` and `z ∈ S(ψ) ⊗ ℚ(ζ_m)`, `z′ ∈ S(f) ⊗ ℚ(ζ_m)` whose `χ`-twisted period sums are `L_S(ψ̄, χ, k − 1)γ` and `L_S(f*, χ, k − 1)γ′` for every `χ` of sign `±`, with some value nonzero. This uses §3.2, KatoEulerSystems §§4.2 and 5.3, and `L(f*, s) = L(ψ̄, s)`. The ratio of the images is fixed by `Gal(L(ζ_m)/L)`, hence lies in `L^×`. *Needs:* §§7.2, 3.1, 3.2; KatoEulerSystems §§4.2, 5.3.
+With (15.11.1) fixed, let `Ṽ_L(ψ) = V_L(ψ) ⊕ ιV_L(ψ)` be induced from `V_L(ψ)` to `Gal(ℂ/ℝ)`. Prove that there is a unique `Gal(ℂ/ℝ)`-isomorphism `Ṽ_L(ψ) ≅ V_L(f)` under which `per_f` corresponds to `per_ψ` (Kato, Lemma 15.11(2) with proof, pp. 261–262). It serves only to transport `γ ∈ V_L(ψ)` to `γ′ ∈ V_L(f)`. The route fixes a sign `±` and chooses `m ≥ 1` and `z ∈ S(ψ) ⊗ ℚ(ζ_m)`, `z′ ∈ S(f) ⊗ ℚ(ζ_m)` whose `χ`-twisted period sums are `L_S(ψ̄, χ, k − 1)γ` and `L_S(f*, χ, k − 1)γ′` for every `χ` of sign `±`, with some value nonzero. This uses §3.1, KatoEulerSystems §§4.2 and 5.3, and `L(f*, s) = L(ψ̄, s)`. The ratio of the images is fixed by `Gal(L(ζ_m)/L)`, hence lies in `L^×`. *Needs:* §§7.2, 3.1; NonordinaryCMSpecialValues §§2.4, 2.6; KatoEulerSystems §§4.2, 5.3.
 
 ### 8.2 The reciprocity law in `V(f)`-coefficients
 
@@ -908,7 +825,7 @@ Let `γ ∈ V_L(ψ)` with image `γ′ ∈ V_L(f)` under §8.1, `f` the conducto
 Σ_σ χ(σ) per_f(σ(image)) = L_{{p}}(f*, χ, k − 1) · (γ′)^±,   ± = χ(−1).
 ```
 
-Here `L_{{p}}` omits only the Euler factor at `p`. The route applies §3.3 and translates the periods by (15.11.1) and §8.1. It uses the identity `L_{pf}(ψ̄, χ ∘ N_{K/ℚ}, k − 1) = L_{{p}}(f*, χ, k − 1)` of §7.8, with the conductor-sensitive factor comparison of §7.8: ramified primes of K contribute 1, and a surviving unramified conjugate factor is retained on both sides. *Needs:* §§3.3, 7.3, 7.2, 7.8, 8.1.
+Here `L_{{p}}` omits only the Euler factor at `p`. The route applies NonordinaryCMSpecialValues §2.6 and translates the periods by (15.11.1) and §8.1. It uses the identity `L_{pf}(ψ̄, χ ∘ N_{K/ℚ}, k − 1) = L_{{p}}(f*, χ, k − 1)` of §7.8, with the conductor-sensitive factor comparison of §7.8: ramified primes of K contribute 1, and a surviving unramified conjugate factor is retained on both sides. *Needs:* §§7.3, 7.2, 7.8, 8.1; NonordinaryCMSpecialValues §2.6.
 
 **Checks.**
 
@@ -918,11 +835,11 @@ Here `L_{{p}}` omits only the Euler factor at `p`. The route applies §3.3 and t
 
 ### 8.3 The equivariant equality on `ψ`-components
 
-Let `ψ` have conductor `f`, `T ⊂ V_{L_λ}(ψ)` a stable lattice and `A = O_λ[[G_{p∞f}]]`. Take a height-one prime `q′` of `A` with `p ∉ q′`, contained in the inverse image `q` of a prime `𝔭 ∌ p` of `O_λ[[G_∞]]` (of `O_λ[[G′_∞]]` when `K ⊂ ℚ(μ_{p^∞})`). Prove that `length H²_{p∞f}(T)_{q′} = length (H¹_{p∞f}(T)/A·(z_{p∞f} ⊗ T(−1)))_{q′}` (Kato, 15.15 and the proof of Proposition 15.17, p. 265; Burungale–Tian, proof of Theorem 2.6, p. 5, BT lines 213–218). The route twists by §7.4 to the regular prime `Tw_{χ_T}(q′)` and applies §6.1. It then kills the Euler terms. For `g ∈ I_𝔩`, `g` has finite order and maps to 1 in `G_∞`, so `g − 1 ∈ q`. A height-one `q′ ⊂ q` contains `g − ζ` for a root of unity `ζ` with `ζ − 1 ∈ q`, and `p ∉ q` forces `ζ = 1`. After the twist the Euler module is killed by `χ_T(g)⁻¹g − 1 ≡ χ_T(g)⁻¹ − 1` modulo `q′`, which is nonzero in characteristic zero because `χ_T|_{I_𝔩} = ψ⁻¹|_{I_𝔩} ≠ 1`. Finally §1.4 replaces `h²` by `H²_{p∞f}(ℤ_p(1))`. *Needs:* §§6.1, 7.4, 1.4, 1.5, 2.6.
+Let `ψ` have conductor `f`, `T ⊂ V_{L_λ}(ψ)` a stable lattice and `A = O_λ[[G_{p∞f}]]`. Take a height-one prime `q′` of `A` with `p ∉ q′`, contained in the inverse image `q` of a prime `𝔭 ∌ p` of `O_λ[[G_∞]]` (of `O_λ[[G′_∞]]` when `K ⊂ ℚ(μ_{p^∞})`). Prove that `length H²_{p∞f}(T)_{q′} = length (H¹_{p∞f}(T)/A·(z_{p∞f} ⊗ T(−1)))_{q′}` (Kato, 15.15 and the proof of Proposition 15.17, p. 265; Burungale–Tian, proof of Theorem 2.6, p. 5, BT lines 213–218). The route twists by §7.4 to the regular prime `Tw_{χ_T}(q′)` and applies §6.1. It then kills the Euler terms. For `g ∈ I_𝔩`, `g` has finite order and maps to 1 in `G_∞`, so `g − 1 ∈ q`. A height-one `q′ ⊂ q` contains `g − ζ` for a root of unity `ζ` with `ζ − 1 ∈ q`, and `p ∉ q` forces `ζ = 1`. After the twist the Euler module is killed by `χ_T(g)⁻¹g − 1 ≡ χ_T(g)⁻¹ − 1` modulo `q′`, which is nonzero in characteristic zero because `χ_T|_{I_𝔩} = ψ⁻¹|_{I_𝔩} ≠ 1`. Finally §1.4 replaces `h²` by `H²_{p∞f}(ℤ_p(1))`. *Needs:* §§6.1, 7.4, 1.4, 1.5, 2.4.
 
 ### 8.4 Elliptic units become Beilinson–Kato elements
 
-Let `f` be a CM newform attached to `ψ`, with coefficients enlarged to `L ⊃ F`, and `γ ∈ V_L(ψ)` with image `γ′`. Prove that §7.3 sends `z_{p∞f} ⊗ γ ⊗ (ζ_{p^n})_n^{⊗(−1)}` to `z_{γ′}(f)`, the value at `γ′` of Kato's zeta morphism of KatoEulerSystems §5.1, extended `L`-linearly. Consequently the `Λ_ℚ`-span of the images of `z_{p∞f} ⊗ V_L(ψ)(−1)` is `Z(f) ⊗ L` (Kato, 15.16 and (15.16.1), p. 265; Burungale–Tian, proof of Theorem 2.6, BT lines 215–216). The route goes through `H¹(V(f))`, torsion-free of rank one over each component of `Λ_ℚ`, hence free of rank one over it (KatoEulerSystems §4.4), which contains both elements. Their dual-exponential images agree at every finite level and character, by §8.2 and KatoEulerSystems §5.3: both equal `L_{{p}}(f*, χ, k − 1)(γ′)^±`, since (15.11.1) and §8.1 were fixed compatibly. At the infinitely many characters with nonzero value (KatoEulerSystems §4.2), the dual exponential is injective on the specialized rank-one line. The difference therefore specializes to zero on a dense set and vanishes in the free rank-one module. *Needs:* §§8.2, 8.1, 7.8, 7.3, 7.2, 2.6; KatoEulerSystems §§4.2, 5.1, 5.3.
+Let `f` be a CM newform attached to `ψ`, with coefficients enlarged to `L ⊃ F`, and `γ ∈ V_L(ψ)` with image `γ′`. Prove that §7.3 sends `z_{p∞f} ⊗ γ ⊗ (ζ_{p^n})_n^{⊗(−1)}` to `z_{γ′}(f)`, the value at `γ′` of Kato's zeta morphism of KatoEulerSystems §5.1, extended `L`-linearly. Consequently the `Λ_ℚ`-span of the images of `z_{p∞f} ⊗ V_L(ψ)(−1)` is `Z(f) ⊗ L` (Kato, 15.16 and (15.16.1), p. 265; Burungale–Tian, proof of Theorem 2.6, BT lines 215–216). The route goes through `H¹(V(f))`, torsion-free of rank one over each component of `Λ_ℚ`, hence free of rank one over it (KatoEulerSystems §4.4), which contains both elements. Their dual-exponential images agree at every finite level and character, by §8.2 and KatoEulerSystems §5.3: both equal `L_{{p}}(f*, χ, k − 1)(γ′)^±`, since (15.11.1) and §8.1 were fixed compatibly. At the infinitely many characters with nonzero value (KatoEulerSystems §4.2), the dual exponential is injective on the specialized rank-one line. The difference therefore specializes to zero on a dense set and vanishes in the free rank-one module. *Needs:* §§8.2, 8.1, 7.8, 7.3, 7.2, 2.4; KatoEulerSystems §§4.2, 5.1, 5.3.
 
 **Checks.**
 
@@ -940,7 +857,7 @@ In the setting of §7.5 (or §7.6), let `𝔭 ∌ p`, `q` its inverse image, and
 4. `M₂[a] = 0`. The zeta generator embeds the torsion-free rank-one `H¹` as `A ⊂ H ⊂ Frac(A)` with `H_{(a)} = A_{(a)}`. If `ah ∈ A` with `h ∈ H`, then `h ∈ a⁻¹A ∩ A_{(a)} = A`, because `A` is factorial and `a` prime.
 5. The `M₁[a]` terms cancel, giving the equality.
 
-*Needs:* §§7.5–7.8, 7.4, 2.6.
+*Needs:* §§7.5–7.8, 7.4, 2.4.
 
 **Checks.**
 
@@ -997,7 +914,7 @@ For the congruent-number curve `y² = x³ − x` (32.2.a.a), `p = 2`, `f = (1 + 
 
 ### Dependencies
 
-Layers 0–4, 6 and 7; KatoEulerSystems §§4.2, 4.4, 5.1, 5.3; ModularIwasawaMainConjectures §§0.1, 0.6, 0.7; SelmerIwasawaCohomology §§3.7, 3.15; PadicMeasuresIwasawaAlgebras §4.6.
+Layers 0–4, 6 and 7; NonordinaryCMSpecialValues §§2.4, 2.6; KatoEulerSystems §§4.2, 4.4, 5.1, 5.3; ModularIwasawaMainConjectures §§0.1, 0.6, 0.7; SelmerIwasawaCohomology §§3.7, 3.15; PadicMeasuresIwasawaAlgebras §4.6.
 
 ## Downstream consumers
 
@@ -1005,13 +922,13 @@ The rank-zero `p`-converse for CM elliptic curves and CM newforms at every prime
 
 ## Worked examples
 
-- **The Gaussian field at `p = 2`.** `K = ℚ(i)`, `p = 2`, `f = (1)`: `Δ = 1`, `G ≅ ℤ_2²`, `R` is a domain, `h¹` is torsion-free of rank one, `z_{2∞} ≠ 0`, and §4.5 is an integral equality for the B-normalized module over `ℤ_2[[ℤ_2²]]`. Rubin's hypothesis excludes this case (`μ(K) = μ_4`); Johnson-Leung–Kings' theorem does not.
+- **The Gaussian field at `p = 2`.** `K = ℚ(i)`, `p = 2`, `f = (1)`: `Δ = 1`, `G ≅ ℤ_2²`, `R` is a domain, `h¹` is torsion-free of rank one, `z_{2∞} ≠ 0`, and §4.5 is an integral equality for the elliptic-unit module `J_χζ(χ)`, `χ = 1`, over `ℤ_2[[ℤ_2²]]`. Rubin's hypothesis excludes this case (`μ(K) = μ_4`); Johnson-Leung–Kings' theorem does not.
 - **A tame Euler factor.** `K = ℚ(i)`, `p = 5`, `f = (3)`: on the trivial finite-character component, where the inertia at (3), cyclic of order 8, acts trivially, `ξ((h¹/z)_ℚ) = ξ(h²_ℚ)·(1 − Frob_{(3)}⁻¹)`. On inertia-trivial components with finite Frobenius eigenvalue −1, the factor has augmentation 2 and is a unit; on inertia-nontrivial components the Euler module is zero.
 - **A residue-characteristic obstruction in Lemma 15.13.** For `K = ℚ(i)`, `p = 2` and `f = (3)`, `Δ ≅ ℤ/8` (§0.1), so `#Δ` is not invertible in residue characteristic 2, and the hypothesis of §7.5 fails at primes whose residue field has characteristic 2. Only primes not containing `p` enter §8.6.
 
 ## References
 
-- **BT.** Ashay A. Burungale and Ye Tian, *A rank zero p-converse to a theorem of Gross–Zagier, Kolyvagin and Rubin*, Annals of Mathematics 203 (2026); read as [arXiv:2506.03465v2](https://arxiv.org/abs/2506.03465v2), whose page numbers are used. §2.1.1, Theorems 2.1, 2.3, 2.4, 2.6, Remark 2.7, footnotes 3–4, pp. 3–5; proof of Theorem 3.1, p. 6.
+- **BT.** Ashay A. Burungale and Ye Tian, *A rank zero p-converse to a theorem of Gross–Zagier, Kolyvagin and Rubin*, Annals of Mathematics 203 (2026); read as [arXiv:2506.03465v2](https://arxiv.org/abs/2506.03465v2), whose numbering and page numbers are used. §2.1.1, Theorems 2.1, 2.3, 2.4, 2.6, Remark 2.7, footnotes 3–4, pp. 3–5; proof of Theorem 3.1, p. 6.
 - **Kato.** Kazuya Kato, *p-adic Hodge theory and values of zeta functions of modular forms*, Astérisque 295 (2004), 117–290, [Numdam](https://www.numdam.org/item/AST_2004__295__117_0.pdf). 3.8, 8.2–8.3, Theorems 12.4–12.5, Remark 12.8, Conjecture 12.10, Lemma 14.15, §15.
 - **JLK.** Jennifer Johnson-Leung and Guido Kings, *On the equivariant and the non-equivariant main conjecture for imaginary quadratic fields*, J. reine angew. Math. 653 (2011), 75–114; read as [arXiv:0804.2828v2](https://arxiv.org/abs/0804.2828v2), whose numbering is used.
 - **Rubin91.** Karl Rubin, *The "main conjectures" of Iwasawa theory for imaginary quadratic fields*, Inventiones Mathematicae 103 (1991), 25–68, [GDZ](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0103/LOG_0009.pdf). §§1, 4, Theorem 4.1 and Remarks.
