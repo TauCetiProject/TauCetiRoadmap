@@ -21,24 +21,25 @@ their `Specialization` order; posets are realised through Tau Ceti's order compl
 Headlines stated, with their README targets:
 
 * 1.2 `homotopic_iff_eqvGen`; 1.3 `exists_retraction_of_isBeatPoint`;
-  1.4 `exists_homeomorph_of_homotopyEquiv`;
-* 2.1 `exists_isWeakHomotopyEquivalence_realization`; 2.2 `exists_isWeakHomotopyEquivalence_faces`;
+  1.4 `exists_homeomorph_of_homotopyEquiv`; 1.5 `exists_invariant_core`,
+  `exists_fixedPoint_of_contractibleSpace`;
+* 2.1 `isWeakHomotopyEquivalence_of_isBasisLike`;
+  2.2 `exists_isWeakHomotopyEquivalence_realization`; 2.3 `exists_isWeakHomotopyEquivalence_faces`;
 * 3.1 `nonempty_homeomorph_nerve`; 3.2 `homotopic_realizationMap_of_le`;
   3.3 `contractibleSpace_of_conical`; 3.4 `exists_homotopyEquiv_of_contractible_fibres`;
-* 4.2 `exists_homotopyEquiv_elemAbelianToPSubgroup`; 4.3 `contractibleSpace_of_normal`;
-  4.4 `contractibleSpace_withUpperSet_iff`; 4.5 `not_connectedSpace_iff`;
-  4.6 `exists_normal_of_contractibleSpace`; 4.7 `eulerChar_pSubgroupPoset_modEq`.
+  3.5 `chainEulerChar_modEq_of_fixedPoints`;
+* 4.1 `exists_card_eq_iff_le_pRank`; 4.2 `exists_homotopyEquiv_elemAbelianToPSubgroup`;
+  4.3 `contractibleSpace_of_normal`; 4.4 `contractibleSpace_withUpperSet_iff`;
+  4.5 `not_connectedSpace_iff`; 4.6 `exists_normal_of_contractibleSpace`;
+  4.7 `eulerChar_pSubgroupPoset_modEq`.
 
 Not stated: README 3.4 (b), the fibre lemma for an arbitrary basic localizer, lacking
-HomotopyTheoryOfCategories' `IsBasicLocalizer` and `IsAsphericalFunctor`; README 4.1 (c), the
-dimension of `A_p(G)` as `m_p(G) - 1`, lacking LocalFiniteGroupTheory's `pRank`. The posets of
-4.1 are written with Mathlib's `IsPGroup`, and elementary abelian subgroups by the two conditions
-of LocalFiniteGroupTheory's `IsElementaryAbelian` (abelian, exponent `p`) written out, since that
-roadmap's declarations are not importable here; `O_p(G) ≠ 1` is written as the existence of a
-nontrivial normal `p`-subgroup, its equivalent form by LocalFiniteGroupTheory's `le_pCore`. The
-Euler characteristic in 4.7 is the alternating count of faces, which Tau Ceti's
-`AbstractSimplicialComplex.eulerChar_realization` identifies with the Euler characteristic of the
-realization.
+HomotopyTheoryOfCategories' `IsBasicLocalizer` and `IsAsphericalFunctor`. Elementary abelian
+subgroups are written by their two conditions (abelian, exponent dividing `p`), and `O_p(G) ≠ 1`
+as the existence of a nontrivial normal `p`-subgroup, its equivalent form by README 4.1 (d). The
+Euler characteristic `chainEulerChar` of 3.5 and 4.7 is the alternating count of faces, which Tau
+Ceti's `AbstractSimplicialComplex.eulerChar_realization` identifies with the Euler characteristic
+of the realization.
 -/
 
 @[expose] public section
@@ -82,12 +83,40 @@ theorem exists_homeomorph_of_homotopyEquiv [Finite X] [T0Space X] [Finite Y] [T0
     (hX : ∀ x : Specialization X, ¬ IsBeatPoint x) (hY : ∀ y : Specialization Y, ¬ IsBeatPoint y)
     (e : X ≃ₕ Y) : ∃ h : X ≃ₜ Y, ⇑h = ⇑e.toFun := sorry
 
-/-! ## Layer 2: McCord's theorem -/
+/-- **1.5.** A finite `T₀` space on which a group acts by homeomorphisms has an invariant core: an
+invariant subspace without beat points onto which it strongly deformation retracts. -/
+theorem exists_invariant_core {G : Type v} [Group G] [MulAction G X] [ContinuousConstSMul G X]
+    [Finite X] [T0Space X] :
+    ∃ Y : Set X, (∀ g : G, ∀ y ∈ Y, g • y ∈ Y) ∧ (∀ y : Specialization Y, ¬ IsBeatPoint y) ∧
+      ∃ r : C(X, Y), (∀ y : Y, r y = y) ∧
+        ((⟨Subtype.val, continuous_subtype_val⟩ : C(Y, X)).comp r).HomotopicRel
+          (ContinuousMap.id X) Y := sorry
 
-/-- **2.1.** McCord's theorem: the realization of the order complex of the specialization order
-of a finite `T₀` space maps to the space by a weak homotopy equivalence, sending each point to the
-largest vertex of its carrier. -/
-theorem exists_isWeakHomotopyEquivalence_realization [Finite X] [T0Space X] :
+/-- **1.5.** A group acting by homeomorphisms on a contractible finite `T₀` space has a fixed
+point. -/
+theorem exists_fixedPoint_of_contractibleSpace {G : Type v} [Group G] [MulAction G X]
+    [ContinuousConstSMul G X] [Finite X] [T0Space X] [ContractibleSpace X] :
+    ∃ x : X, ∀ g : G, g • x = x := sorry
+
+/-! ## Layer 2: McCord's theorems -/
+
+/-- **2.1.** A basis-like open cover: open sets covering the space such that every point of the
+intersection of two members lies in a member contained in that intersection. -/
+def IsBasisLike (𝒰 : Set (Set Y)) : Prop :=
+  (∀ U ∈ 𝒰, IsOpen U) ∧ (∀ y : Y, ∃ U ∈ 𝒰, y ∈ U) ∧
+    ∀ U ∈ 𝒰, ∀ V ∈ 𝒰, ∀ y ∈ U ∩ V, ∃ W ∈ 𝒰, y ∈ W ∧ W ⊆ U ∩ V
+
+/-- **2.1.** McCord's theorem on basis-like covers: a map restricting to weak homotopy
+equivalences over the members of a basis-like open cover of its target is a weak homotopy
+equivalence. -/
+theorem isWeakHomotopyEquivalence_of_isBasisLike (f : C(X, Y)) {𝒰 : Set (Set Y)}
+    (h𝒰 : IsBasisLike 𝒰) (hf : ∀ U ∈ 𝒰, (f.restrictPreimage U).IsWeakHomotopyEquivalence) :
+    f.IsWeakHomotopyEquivalence := sorry
+
+/-- **2.2.** McCord's theorem: the realization of the order complex of the specialization order
+of an Alexandrov-discrete `T₀` space maps to the space by a weak homotopy equivalence, sending each
+point to the largest vertex of its carrier. -/
+theorem exists_isWeakHomotopyEquivalence_realization [AlexandrovDiscrete X] [T0Space X] :
     ∃ f : C(AbstractSimplicialComplex.Realization (orderComplex (Specialization X)), X),
       (∀ x, Specialization.toEquiv (f x) ∈
           (AbstractSimplicialComplex.carrier (orderComplex (Specialization X)) x).1 ∧
@@ -97,10 +126,9 @@ theorem exists_isWeakHomotopyEquivalence_realization [Finite X] [T0Space X] :
 
 end FiniteSpaces
 
-/-- **2.2.** McCord's theorem for a simplicial complex on a finite vertex type: the carrier map
-from the realization to the face poset, with its upper-set topology, is continuous and a weak
-homotopy equivalence. -/
-theorem exists_isWeakHomotopyEquivalence_faces {ι : Type u} [Finite ι]
+/-- **2.3.** McCord's theorem for a simplicial complex: the carrier map from the realization to
+the face poset, with its upper-set topology, is continuous and a weak homotopy equivalence. -/
+theorem exists_isWeakHomotopyEquivalence_faces {ι : Type u}
     (K : AbstractSimplicialComplex ι) :
     ∃ f : C(AbstractSimplicialComplex.Realization K, WithUpperSet (Face K)),
       (∀ x, f x = WithUpperSet.toUpperSet (AbstractSimplicialComplex.carrier K x)) ∧
@@ -135,6 +163,20 @@ theorem exists_homotopyEquiv_of_contractible_fibres {P Q : Type u} [PartialOrder
         AbstractSimplicialComplex.Realization (orderComplex Q),
       ⇑e.toFun = ⇑(orderComplexMap f).realizationMap := sorry
 
+/-- **3.5.** The Euler characteristic of a preorder: the alternating count `Σ (-1) ^ (#σ + 1)` of
+its nonempty finite chains. -/
+noncomputable def chainEulerChar (T : Type u) [Preorder T] : ℤ :=
+  ∑ᶠ σ : Face (orderComplex T), (-1 : ℤ) ^ (σ.1.card + 1)
+
+/-- **3.5.** If a finite group `P` acts monotonically on a finite partial order `T` and the fixed
+subposet of every nontrivial subgroup has Euler characteristic `1`, then the Euler characteristic
+of `T` is congruent to `1` modulo `|P|`. -/
+theorem chainEulerChar_modEq_of_fixedPoints {P : Type v} {T : Type u} [Group P] [Finite P]
+    [PartialOrder T] [Finite T] [MulAction P T]
+    (hmono : ∀ (g : P) (x y : T), x ≤ y → g • x ≤ g • y)
+    (h : ∀ Q : Subgroup P, Q ≠ ⊥ → chainEulerChar {x : T // ∀ g ∈ Q, g • x = x} = 1) :
+    chainEulerChar T ≡ 1 [ZMOD (Nat.card P : ℤ)] := sorry
+
 /-! ## Layer 4: subgroup complexes -/
 
 section SubgroupComplexes
@@ -146,7 +188,7 @@ abbrev PSubgroupPoset : Type u :=
   {H : Subgroup G // H ≠ ⊥ ∧ IsPGroup p H}
 
 /-- **4.1.** Quillen's poset `A_p(G)` of nontrivial elementary abelian `p`-subgroups of `G`:
-abelian subgroups of exponent dividing `p`, ordered by inclusion. -/
+nontrivial abelian subgroups of exponent dividing `p`, ordered by inclusion. -/
 abbrev ElemAbelianPoset : Type u :=
   {H : Subgroup G // H ≠ ⊥ ∧ (∀ x ∈ H, ∀ y ∈ H, x * y = y * x) ∧ ∀ x ∈ H, x ^ p = 1}
 
@@ -156,7 +198,19 @@ def elemAbelianToPSubgroup : ElemAbelianPoset G p →o PSubgroupPoset G p where
   toFun H := ⟨H.1, H.2.1, fun g => ⟨1, Subtype.ext (by simpa using H.2.2.2 g.1 g.2)⟩⟩
   monotone' _ _ h := h
 
+/-- **4.1.** The `p`-rank `m_p(G)`: the largest `n` such that `G` has an abelian subgroup of
+exponent dividing `p` and order `p ^ n`. -/
+noncomputable def pRank : ℕ :=
+  sSup {n : ℕ | ∃ H : Subgroup G, (∀ x ∈ H, ∀ y ∈ H, x * y = y * x) ∧ (∀ x ∈ H, x ^ p = 1) ∧
+    Nat.card H = p ^ n}
+
 variable {G p}
+
+/-- **4.1.** The order complex of `A_p(G)` has a face with `n` vertices exactly when
+`1 ≤ n ≤ m_p(G)`: its dimension is `m_p(G) - 1`. -/
+theorem exists_card_eq_iff_le_pRank [Finite G] [Fact p.Prime] (n : ℕ) :
+    (∃ σ : Face (orderComplex (ElemAbelianPoset G p)), σ.1.card = n) ↔
+      1 ≤ n ∧ n ≤ pRank G p := sorry
 
 open scoped Classical in
 /-- **4.2.** The Brown–Quillen theorem: the inclusion `A_p(G) ⊆ S_p(G)` realizes to a homotopy
@@ -198,7 +252,7 @@ theorem exists_normal_of_contractibleSpace [Finite G] [Fact p.Prime] [Group.IsSo
 /-- **4.7.** Brown's homological Sylow theorem: the Euler characteristic of `S_p(G)`, the
 alternating count of the nonempty chains, is congruent to `1` modulo the `p`-part of `|G|`. -/
 theorem eulerChar_pSubgroupPoset_modEq [Finite G] [Fact p.Prime] :
-    (∑ᶠ σ : Face (orderComplex (PSubgroupPoset G p)), (-1 : ℤ) ^ (σ.1.card + 1)) ≡ 1
+    chainEulerChar (PSubgroupPoset G p) ≡ 1
       [ZMOD ((p ^ (Nat.card G).factorization p : ℕ) : ℤ)] := sorry
 
 end SubgroupComplexes
