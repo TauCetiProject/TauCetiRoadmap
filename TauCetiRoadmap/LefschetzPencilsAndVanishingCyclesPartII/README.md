@@ -109,8 +109,8 @@ integral curve containing any finite set of closed points; adding to that set a 
 dense open `U` makes the curve meet `U`, and densely, since the curve is integral. For
 `dim X = 0` there is no curve inside `X` (then `X = Spec 𝔽_q`); §2.4 covers that case with a
 constant morphism from `𝔸¹`. What Corollary 3.4 does not reach is a smooth chart of a stack, which
-is in general affine and not projective, and whose closure in a projective space need not be
-smooth. Poonen's Theorem 3.3 (p. 10) does apply to a smooth quasi-projective `X ⊆ ℙⁿ` with
+need not be projective, and whose closure in a projective space need not be smooth. Poonen's
+Theorem 3.3 (p. 10) does apply to a smooth quasi-projective `X ⊆ ℙⁿ` with
 `dim X ≥ 1`, giving a hypersurface `H` with `H ∩ X` smooth of dimension `dim X − 1` and containing
 finitely many prescribed closed points, but for non-projective `X` it does not assert that `H ∩ X`
 is connected, so cutting down to a curve in this way need not put the marked point and the added
@@ -230,6 +230,13 @@ maps.
 - `TauCeti.AlgebraicGeometry.Smooth.geometricallyIntegral` (module
   `TauCeti.AlgebraicGeometry.Morphisms.Smooth.GeometricallyIntegral`): a smooth, geometrically
   connected morphism is geometrically integral.
+- `TauCeti.AlgebraicGeometry.isRegularLocalRing_stalk_of_smooth` (module
+  `TauCeti.AlgebraicGeometry.Morphisms.Smooth.Regular`): a scheme smooth over a locally Noetherian
+  scheme with regular local rings has regular local rings; and
+  `TauCeti.AlgebraicGeometry.isIntegral_of_connected_of_isRegularLocalRing_stalk` (module
+  `TauCeti.AlgebraicGeometry.IrreducibleOfConnectedDomainStalk`): a connected locally Noetherian
+  scheme with regular local rings is integral. Used together in §2.4, with base `Spec k`, to
+  show that a connected scheme smooth over `k` is integral.
 - `TauCeti.AlgebraicGeometry.residueDegree_eq_one_of_section` and
   `TauCeti.AlgebraicGeometry.residueFieldMap_bijective_of_section` (module
   `TauCeti.AlgebraicGeometry.RationalPoint.Basic`): a point in the image of a section has residue
@@ -482,8 +489,11 @@ construction needs no case distinction, and the closed immersion of §1.3 is not
 §1.2, §2.1; SchemeAndStackFoundations §0.8
 `rational_point_component`; Mathlib `TopologicalSpace.NoetherianSpace.finite_irreducibleComponents`,
 `isClosed_connectedComponent`, `AlgebraicGeometry.Etale.etale_isStableUnderBaseChange`,
-`AffineSpace.smoothOfRelativeDimension_fin`, `AffineSpace.SpecIso_inv_over`,
-`MvPolynomial.uniqueAlgEquiv`.
+`AlgebraicGeometry.Etale.iff_smoothOfRelativeDimension_zero`,
+`AlgebraicGeometry.smoothOfRelativeDimension_comp`, `AffineSpace.smoothOfRelativeDimension_fin`,
+`AffineSpace.SpecIso`, `AffineSpace.SpecIso_inv_over`,
+`MvPolynomial.uniqueAlgEquiv`, and for the good open `AlgebraicGeometry.Scheme.Hom.isOpenMap`,
+`IsOpenMap.denseRange_of_isPreirreducibleSpace`, `IsOpen.dense`.
 
 API (each a target of this subsection):
 
@@ -579,10 +589,13 @@ into it. *Proof sketch.*
 1. *Chart.* By Tau Ceti `AlgebraicGeometry.Smooth.exists_etale_affineSpace` (Stacks, Lemma
    29.37.21 (054L)), applied to the smooth `V → Spec k` at `y`, shrink `V` to an affine open
    `V₀ ∋ y` with an étale `k`-morphism `π : V₀ → 𝔸^m_k` (Convention 2 carries its target
-   `𝔸(ULift.{u} (Fin m); Spec k)` to `Spec k[X_0, …, X_{m-1}]`). Since `V₀` is
-   smooth over `k` it is normal (Stacks, Lemma 33.25.4 (056T)), and as it is Noetherian it is a
-   disjoint union of integral open subschemes (Properties, Lemma 28.7.7 (033N)); replace `V₀` by an
-   affine open of the one through `y`. Compose `π` with the translation of `𝔸^m_k` by `−π(y)`,
+   `𝔸(ULift.{u} (Fin m); Spec k)` to `Spec k[X_0, …, X_{m-1}]`). The connected component of `V₀`
+   through `y` is open, since `V₀` is Noetherian (as for `W` in §2.2). It is integral, being
+   connected with regular local rings, as it is smooth over `k` (Tau Ceti
+   `TauCeti.AlgebraicGeometry.isRegularLocalRing_stalk_of_smooth` and
+   `TauCeti.AlgebraicGeometry.isIntegral_of_connected_of_isRegularLocalRing_stalk`; Stacks, Lemma
+   33.25.4 (056T), and Properties, Lemma 28.7.7 (033N)). Replace `V₀` by an affine open of it
+   containing `y`. Compose `π` with the translation of `𝔸^m_k` by `−π(y)`,
    which is defined over `k` because `y` is rational. `U ∩ V₀` is dense in `V₀` since `V₀` is open in
    `V`.
 2. *The curve.* Apply `exists_marked_etale_curve` to `(V₀, π, y, U ∩ V₀)` and compose `g` with the
@@ -594,10 +607,13 @@ into it. *Proof sketch.*
    morphism through `y` and `g⁻¹(U) = C`. This is why the conclusion asks for a morphism and not an
    immersion.
 
-*Needs:* §2.3; Tau Ceti `AlgebraicGeometry.Smooth.exists_etale_affineSpace`; Mathlib
+*Needs:* §2.3; Tau Ceti `AlgebraicGeometry.Smooth.exists_etale_affineSpace`, and for the
+shrinking step `TauCeti.AlgebraicGeometry.isRegularLocalRing_stalk_of_smooth` and
+`TauCeti.AlgebraicGeometry.isIntegral_of_connected_of_isRegularLocalRing_stalk`; Mathlib
 `Algebra.Etale.iff_exists_algEquiv_prod`, `AffineSpace.SpecIso`, `MvPolynomial.renameEquiv`,
-`Equiv.ulift`, and for the curve `𝔸¹_k` of step 3 `AffineSpace.smoothOfRelativeDimension_fin`
-transported as in §2.2; Stacks 056T and 033N for the shrinking step.
+`Equiv.ulift`, for the shrinking step `TopologicalSpace.NoetherianSpace.finite_irreducibleComponents`
+and `isClosed_connectedComponent`, and for the curve `𝔸¹_k` of step 3
+`AffineSpace.smoothOfRelativeDimension_fin` transported as in §2.2.
 
 **The marked residue fields.** In the situation of `exists_same_field_curve`, the residue fields
 `κ(c)` and `κ(y)` are both `k` and the map `κ(y) → κ(c)` induced by `g` is the identity of `k`
@@ -650,9 +666,14 @@ instance, `Algebra.Etale.baseChange`, `Algebra.Etale.iff_exists_algEquiv_prod`,
 `IsFractionRing.isAlgebraic_iff`, `isAlgebraic_algebraMap_iff`,
 `Ideal.under_ne_bot_of_algebraic_mem`, `AffineSpace.SpecIso`, `AffineSpace.SpecIso_inv_over`,
 `AffineSpace.smoothOfRelativeDimension_fin`, `MvPolynomial.uniqueAlgEquiv`,
-`MvPolynomial.renameEquiv`; Tau Ceti `AlgebraicGeometry.Smooth.exists_etale_affineSpace` (module
+`MvPolynomial.renameEquiv`, `TopologicalSpace.NoetherianSpace.finite_irreducibleComponents`,
+`isClosed_connectedComponent`; Tau Ceti `AlgebraicGeometry.Smooth.exists_etale_affineSpace` (module
 `TauCeti.AlgebraicGeometry.Morphisms.Smooth.EtaleCoordinates`),
-`TauCeti.AlgebraicGeometry.Smooth.geometricallyIntegral` and
+`TauCeti.AlgebraicGeometry.Smooth.geometricallyIntegral`,
+`TauCeti.AlgebraicGeometry.isRegularLocalRing_stalk_of_smooth` (module
+`TauCeti.AlgebraicGeometry.Morphisms.Smooth.Regular`),
+`TauCeti.AlgebraicGeometry.isIntegral_of_connected_of_isRegularLocalRing_stalk` (module
+`TauCeti.AlgebraicGeometry.IrreducibleOfConnectedDomainStalk`) and
 `TauCeti.AlgebraicGeometry.RationalPoint.Basic`.
 
 ## Downstream consumers
@@ -718,4 +739,6 @@ instance, `Algebra.Etale.baseChange`, `Algebra.Etale.iff_exists_algEquiv_prod`,
 - Tau Ceti: `TauCeti/RingTheory/MvPolynomial/Kronecker.lean`,
   `TauCeti/AlgebraicGeometry/Morphisms/Smooth/EtaleCoordinates.lean`,
   `TauCeti/AlgebraicGeometry/Morphisms/Smooth/GeometricallyIntegral.lean`,
+  `TauCeti/AlgebraicGeometry/Morphisms/Smooth/Regular.lean`,
+  `TauCeti/AlgebraicGeometry/IrreducibleOfConnectedDomainStalk.lean`,
   `TauCeti/AlgebraicGeometry/RationalPoint/Basic.lean`.
