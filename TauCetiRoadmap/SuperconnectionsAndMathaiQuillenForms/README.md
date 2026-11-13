@@ -146,6 +146,7 @@ character in cyclic homology, which is NoncommutativeGeometry's (N1–N2).
   `CliffordAlgebra.evenOdd` with its instance `CliffordAlgebra.gradedAlgebra`
   (`LinearAlgebra/CliffordAlgebra/Grading`), `QuadraticForm`.
 - Linear algebra: `Basis.det`, `Pi.basisFun`, `LinearMap.det`, `Matrix.det`, `Matrix.trace`,
+  `Matrix.trace_mul_pow_comm_of_ne_zero` (`LinearAlgebra/Matrix/Trace`),
   `Matrix.map`, `Matrix.fromBlocks`, `Matrix.conjTranspose`, `Matrix.unitaryGroup`, `Pi.single`.
 - Analysis: `NormedSpace.exp` (`Analysis/Normed/Algebra/Exponential`), `HasDerivAt`,
   `intervalIntegral`, `MeasureTheory.integral`, `EuclideanSpace`, `Real.exp`, `Real.pi`.
@@ -347,9 +348,11 @@ of `exp(−F)` gives `d/dt str exp(−𝔸_t²) = −d str(𝔸̇_t exp(−𝔸_
 Prove `trace_exp_sub_trace_exp`: for every complex `n × m` matrix `T` and `t ∈ ℂ`,
 `tr exp(−t T*T) − tr exp(−t TT*) = m − n`; it is the degree-zero component
 `str exp(−tX²) = m − n` of the character of `d + √t X` (Convention 3; Quillen 1985). Route: expand
-both exponentials; `tr((T*T)^k) = tr((TT*)^k)` for `k ≥ 1` by cyclicity of the trace, so only the
-constant terms `tr 1 = m` and `tr 1 = n` survive.
-*Needs:* Mathlib `NormedSpace.exp`, `Matrix.trace`, `Matrix.conjTranspose`.
+both exponentials; `tr((T*T)^k) = tr((TT*)^k)` for `k ≥ 1` (Mathlib's
+`Matrix.trace_mul_pow_comm_of_ne_zero`, for rectangular factors), so only the constant terms
+`tr 1 = m` and `tr 1 = n` survive.
+*Needs:* Mathlib `NormedSpace.exp`, `Matrix.trace`, `Matrix.trace_mul_pow_comm_of_ne_zero`,
+`Matrix.conjTranspose`.
 
 **Checks.**
 
