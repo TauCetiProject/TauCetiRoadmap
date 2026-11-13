@@ -47,9 +47,7 @@ The headlines of the README and their Lean forms here:
   ring (Layer 7): `globalDimension_mulOpposite` and
   `globalDimension_eq_projectiveDimension_quotient`.
 * Dominant dimension (Layer 7): `HasProjectiveInjectiveCoresolution`, the number
-  `dominantDimension` in `ℕ∞`, `two_le_dominantDimension_iff`, which identifies the bound
-  `2 ≤ dominantDimension Γ` with the explicit `HasProjectiveInjectiveCopresentation`, and the
-  left-right symmetry `dominantDimension_mulOpposite`.
+  `dominantDimension` in `ℕ∞`, and the left-right symmetry `dominantDimension_mulOpposite`.
 * The Morita-Tachikawa correspondence (Layer 7), on the predicate `IsGeneratorCogenerator` (a
   separator and coseparator of `mod A = FGModuleCat A`, with `isSeparator_iff_exists_retract` and
   `isGeneratorCogenerator_iff_forall_indecomposable`) and on `dominantDimension`: the forward
@@ -121,8 +119,7 @@ theorem isKrullSchmidt_of_module_finite (R : Type w) [CommRing R] [IsArtinianRin
   sorry
 
 /-- `G` is an **additive generator** of `C`: every object is a direct summand of a finite
-biproduct of copies of `G`, that is, `add G = C`. This unfolds `∀ X, TauCeti.additiveClosure G X`,
-for Tau Ceti's additive closure, which is later than the pinned revision. -/
+biproduct of copies of `G`, that is, `add G = C`. -/
 def IsAdditiveGenerator (G : C) : Prop :=
   ∀ X : C, ∃ n : ℕ, Nonempty (Retract X (⨁ fun _ : Fin n ↦ G))
 
@@ -306,13 +303,6 @@ theorem isGeneratorCogenerator_iff_forall_indecomposable {A : Type u} [Ring A] [
         ∀ I : FGModuleCat.{u} A, Injective I → Indecomposable I.obj → Nonempty (Retract I M) :=
   sorry
 
-/-- `dom.dim Γ ≥ 2`, in the explicit form: the regular module has an injective copresentation
-`0 → Γ → I⁰ → I¹` by finitely generated projective-injective modules. -/
-def HasProjectiveInjectiveCopresentation (Γ : Type u) [Ring Γ] : Prop :=
-  ∃ (I₀ I₁ : ModuleCat.{u} Γ) (f : ModuleCat.of Γ Γ ⟶ I₀) (g : I₀ ⟶ I₁) (hfg : f ≫ g = 0),
-    Mono f ∧ (ShortComplex.mk f g hfg).Exact ∧ Module.Finite Γ I₀ ∧ Module.Finite Γ I₁ ∧
-      Projective I₀ ∧ Injective I₀ ∧ Projective I₁ ∧ Injective I₁
-
 /-- `Γ` has a **projective-injective coresolution with `n` terms**: an exact sequence
 `0 → Γ → I⁰ → ⋯ → Iⁿ⁻¹` of left `Γ`-modules whose terms `Iⁱ` are finitely generated, projective
 and injective. In `S`, the object `S.obj 0` is zero, `S.obj 1` is the regular module and
@@ -331,15 +321,9 @@ self-injective ring, through `0 → Γ → Γ → 0 → 0 → ⋯`.
 This is the dominant dimension only for Artin algebras. For other rings the established notion asks
 the terms of the minimal injective coresolution to be flat (Hoshino), and the two differ already for
 `ℤ`: here `dominantDimension ℤ = 0`, while the flat version gives `1`. Following Xi, the flat
-version, if added later, is the *flat-dominant dimension* `flatDominantDimension`. -/
+version is the *flat-dominant dimension*. -/
 noncomputable def dominantDimension (Γ : Type u) [Ring Γ] : ℕ∞ :=
   ⨆ (n : ℕ) (_ : HasProjectiveInjectiveCoresolution Γ n), (n : ℕ∞)
-
-/-- Over any ring, `dom.dim Γ ≥ 2` exactly when the regular module has an injective copresentation
-`0 → Γ → I⁰ → I¹` by finitely generated projective-injective modules. -/
-theorem two_le_dominantDimension_iff (Γ : Type u) [Ring Γ] :
-    2 ≤ dominantDimension Γ ↔ HasProjectiveInjectiveCopresentation Γ :=
-  sorry
 
 /-- **Tachikawa**: for an Artin algebra the left and right dominant dimensions agree; the right
 dominant dimension is `dominantDimension Γᵐᵒᵖ`. -/

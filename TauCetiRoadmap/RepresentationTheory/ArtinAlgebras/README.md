@@ -270,7 +270,8 @@ The baseline is Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti
   `LinearMap.auslanderReitenExtEquiv` with its naturality
   `LinearMap.auslanderReitenExtEquiv_naturality`
   (`TauCeti.Algebra.Category.ModuleCat.AuslanderReiten.Basic`), and the existence of almost-split
-  sequences `ModuleCat.exists_isAlmostSplit_arTranslate`
+  sequences `ModuleCat.exists_isAlmostSplit_arTranslate` and its dual
+  `ModuleCat.exists_isAlmostSplit_of_not_injective`
   (`TauCeti.Algebra.Category.ModuleCat.AuslanderReiten.Sequence`).
 - The quiver of irreducible morphisms over a division ring `TauCeti.IrreducibleMorphismQuiver` with
   `TauCeti.IrreducibleMorphismQuiver.card_arrows`
@@ -463,10 +464,8 @@ and `TauCeti.QuiverRep.exists_equiv_iso_of_iso_biproduct`.
 
 **Additive generators** (`IsAdditiveGenerator`, in `Suggested.lean`). In a preadditive category
 `C` with finite biproducts, an object `G` with `add G = C`: every object is a direct summand of a
-finite biproduct of copies of `G`. Here `add G` is Tau Ceti's `TauCeti.additiveClosure G`
-(`TauCeti.CategoryTheory.Preadditive.AdditiveClosure`, later than the pinned revision), the
-retracts of the `Gⁿ`, with `TauCeti.additiveClosure_iff` unfolding it; so `add G = C` is
-`∀ X, TauCeti.additiveClosure G X`, and `Suggested.lean` states its unfolding. In a
+finite biproduct of copies of `G`. Here `add G` is the class of retracts of the finite biproducts
+`Gⁿ`, and `Suggested.lean` states `add G = C` in this unfolded form. In a
 Krull-Schmidt category this is equivalent to every indecomposable object being a direct summand of
 `G` (`isAdditiveGenerator_iff_forall_indecomposable`, in `Suggested.lean`): every object is a finite
 biproduct of indecomposables, and an indecomposable direct summand of a biproduct of copies of `G`
@@ -478,13 +477,6 @@ additive generator exactly when it has finitely many isomorphism classes of inde
 objects, and the sum of one indecomposable from each class is one (by uniqueness, 0.3; [Kr, Thm.
 4.2, p. 9]); an equivalence of categories carries additive generators to additive generators.
 Layer 7 uses the predicate in `mod A`, as `IsAdditiveGenerator (C := FGModuleCat A) M`.
-
-Tau Ceti's `TauCeti.IsAdditiveGenerator`
-(`TauCeti.CategoryTheory.Preadditive.KrullSchmidt.AdditiveGenerator`, also later than the pinned
-revision) is defined by the indecomposable form, in a preadditive category with binary biproducts.
-A target here: redefine `TauCeti.IsAdditiveGenerator G` as `∀ X, TauCeti.additiveClosure G X`,
-prove the Krull-Schmidt equivalence with the indecomposable form, and restate its API for the new
-definition.
 
 **Checks.**
 
@@ -1020,9 +1012,9 @@ in `mod A`, unique up to isomorphism (`CategoryTheory.ShortComplex.IsAlmostSplit
 module `M`, an almost-split sequence `0 → M → Y → τ⁻ M → 0` in `mod A`
 (`exists_isAlmostSplit_of_not_injective`, in `Suggested.lean`) ([ARS, Thm. V.1.15, p. 145]); this
 is 3.5 applied to `mod A`. Equivalently, every simple contravariant functor on `mod A` is finitely
-presented, and dually. Over a field the existence theorem is Tau Ceti's
-`ModuleCat.exists_isAlmostSplit_arTranslate`, its case `R = k`, which QuiverRepresentations 6E
-consumes.
+presented, and dually. Over a field the existence theorems are Tau Ceti's
+`ModuleCat.exists_isAlmostSplit_arTranslate` and `ModuleCat.exists_isAlmostSplit_of_not_injective`,
+their case `R = k`, of which QuiverRepresentations 6E consumes the first.
 
 **Source and sink maps**. Every indecomposable finitely
 generated module `M` has a minimal right almost-split map `Y → M` (for `M` projective, the inclusion
@@ -1040,7 +1032,8 @@ are not located in a read source.
 - The sink map of the projective `ℤ/p²ℤ` over `ℤ/p²ℤ` is the inclusion `pℤ/p²ℤ → ℤ/p²ℤ`.
 
 *Needs:* 3.5's existence; 4.2's formulas; 3.4's functorial picture; Tau Ceti
-`TauCeti.IsIrreducibleMorphism`, `ModuleCat.exists_isAlmostSplit_arTranslate`.
+`TauCeti.IsIrreducibleMorphism`, `ModuleCat.exists_isAlmostSplit_arTranslate`,
+`ModuleCat.exists_isAlmostSplit_of_not_injective`.
 
 ### Examples
 
@@ -1302,16 +1295,14 @@ notion asks the terms of the minimal injective coresolution to be flat rather th
 ([Ho, p. 275], for any ring); the two numbers already differ for `ℤ` (see the checks), and the flat
 version is out of scope (see "Scope and ownership"). Xi keeps the name *dominant dimension* for the
 projective version over Artin algebras and calls the flat version, following Hoshino, the
-*flat-dominant dimension* ([Xi, §1]); so if the flat version is added to Tau Ceti later, it should
-be `flatDominantDimension`, and `dominantDimension` keeps its name. The first two items below hold
-for any ring and the others are for Artin algebras. API:
+*flat-dominant dimension* ([Xi, §1]). The first two items below hold for any ring and the others
+are for Artin algebras. API:
 
 - truncation: dropping the last term of a coresolution with `n + 1` terms leaves one with `n`
   terms, so `n ≤ dom.dim Γ` exactly when `Γ` has a projective-injective coresolution with `n`
   terms;
 - `dom.dim Γ ≥ 2` exactly when there is an injective copresentation `0 → Γ → I⁰ → I¹` by finitely
-  generated projective-injective modules (`two_le_dominantDimension_iff`, in `Suggested.lean`, on
-  `HasProjectiveInjectiveCopresentation`), over any ring, by truncation and the case `n = 2`;
+  generated projective-injective modules, over any ring, by truncation and the case `n = 2`;
 - **the minimal injective coresolution**: for an Artin algebra `Γ` with minimal injective
   coresolution `0 → Γ → E⁰ → E¹ → ⋯` of the left regular module (2.3), `n ≤ dom.dim Γ` exactly when
   `E⁰, …, Eⁿ⁻¹` are projective, so `dominantDimension Γ` is the dominant dimension of [ARS, §VI.5,
@@ -1371,16 +1362,6 @@ The first three items are not located in a read source.
   that kills every map `M ⟶ A`, so it is zero; then finitely many maps `M ⟶ A` have images
   summing to `A`, and the resulting surjection `Mⁿ ⟶ A` splits; conversely every finitely
   generated module is a quotient of some `Aᵐ`;
-- **comparison with Tau Ceti's generators**: over any ring, `M` is a separator of `FGModuleCat A`
-  exactly when `TauCeti.Module.IsGenerator A M.obj` (`TauCeti.Algebra.Module.Generator`, later than
-  the pinned revision), the module-level notion, defined for all modules over any semiring, that
-  `A` is a quotient of a finite power `Mⁿ`
-  (`TauCeti.Module.isGenerator_iff_exists_surjective`): a surjection `Mⁿ ⟶ A` splits because `A`
-  is projective, so for finitely generated `M` both conditions say `A ∈ add M`
-  (`isSeparator_iff_exists_retract`). The two are kept side by side, linked by this equivalence, as
-  Mathlib links `Module.Injective` and `CategoryTheory.Injective`. With it, the double centralizer
-  property of a generator-cogenerator, used in the converse below, is Tau Ceti's
-  `TauCeti.toModuleEnd_moduleEnd_bijective_of_isGenerator`;
 - for an Artin algebra, `M` is a cogenerator of `mod A` exactly when `D_R A ∈ add M` (the same
   additive closure): a coseparator `M` of the finite-length category `mod A` admits an embedding
   of every object into some `Mⁿ`, which splits for the injective object `D_R A`; conversely every
@@ -1410,7 +1391,7 @@ These characterizations are not located in a read source.
 
 *Needs:* 0.5's Krull-Schmidt property of `mod A`; 2.3's duality for Artin algebras and injective
 hulls; Mathlib `CategoryTheory.IsSeparator`, `CategoryTheory.IsCoseparator`,
-`CategoryTheory.Retract`; Tau Ceti `TauCeti.Module.IsGenerator`.
+`CategoryTheory.Retract`.
 
 **Endomorphism algebras.** For `M` in `mod A`, `Module.End A M` (in Lean `Module.End A M.obj`, for
 `M : FGModuleCat A`) is an `R`-algebra through Mathlib's scoped `ModuleCat.Algebra` instances, and
@@ -1532,7 +1513,8 @@ isomorphism classes of Auslander algebras.
 *Needs:* 7.4's correspondence; 1.4's projective dimension bound; 0.5's additive generators; 7.1's
 Morita theory and projectivization; 7.2's global dimension and 7.3's dominant dimension, with their
 left-right symmetry; Mathlib `AlgCat`, `IsMoritaEquivalent` with `IsMoritaEquivalent.refl`,
-`IsMoritaEquivalent.symm` and `IsMoritaEquivalent.trans`, and `Quotient`.
+`IsMoritaEquivalent.symm` and `IsMoritaEquivalent.trans`, and `Quotient`; 2.3's duality for Artin
+algebras; Tau Ceti `TauCeti.IsRepresentationFinite` (6.1).
 
 ### Examples
 
