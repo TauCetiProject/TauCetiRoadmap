@@ -10,7 +10,7 @@ theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, when they a
 
 None of the headline theorems is statable at the pins, so nothing is stated here:
 
-* PEL small-slope classicality (README §2.8, with the dimension-one case §2.9) needs PEL
+* PEL small-slope classicality (README §2.9, with the dimension-one case §2.8) needs PEL
   Shimura varieties at Iwahori level, their rigid generic fibres, the sheaves `ω^κ`,
   overconvergent forms and the normalized `U_i` operators; none of these carriers exists.
 * The ordinary amplitude of the spherical operator on the p-rank-at-least-one special fibre
