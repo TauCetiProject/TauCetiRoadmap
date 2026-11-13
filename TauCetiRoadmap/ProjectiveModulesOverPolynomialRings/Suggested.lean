@@ -13,8 +13,9 @@ The API around each target, the special cases and the Checks stay in the README.
 Headlines stated, with their README targets:
 
 * 1.1 `exists_specialLinearGroup_row_pow`; 2.1 `isStablyFree_mvPolynomial`;
-* 3.1 `isExtendedFrom_iff_evalZero`; 3.2 `exists_ideal_isExtendedAfter_away`;
-  3.3 `isExtendedFrom_of_forall_isMaximal`; 3.4 `isExtendedFrom_mvPolynomial_of_forall_isMaximal`;
+* 3.1 `isExtendedFrom_iff_evalZero`; 3.2 `exists_unit_lift_dilation`;
+  3.3 `exists_ideal_isExtendedAfter_away`; 3.4 `isExtendedFrom_of_forall_isMaximal`;
+  3.5 `isExtendedFrom_mvPolynomial_of_forall_isMaximal`;
 * 4.1 `isPrincipalIdealRing_monicLocalization` and `isField_monicLocalization`;
   4.2 `free_of_free_monicLocalization_of_isLocalRing`;
   4.3 `isExtendedFrom_of_isExtendedFrom_monicLocalization`;
@@ -28,7 +29,9 @@ the routes of 2.1 and 5.4, whose statements use Mathlib's `Module.IsStablyFree` 
 `Module.IsUnimodular` alone. The base changes along `A[X] → B[X]` and
 `A[X₁, …, Xₙ] → B[X₁, …, Xₙ]` use Mathlib's `Polynomial.algebra` and
 `MvPolynomial.algebraMvPolynomial`, which are not global instances; they are installed locally
-inside the two predicates that need them.
+inside the two predicates that need them. In 3.2 the localisation of a not necessarily
+commutative `A`-algebra `R` at `f ∈ A` is `Localization.Away f ⊗[A] R`, and the substitution
+`X ↦ gX` is `Polynomial.eval₂ C (g • X)`.
 -/
 
 @[expose] public section
@@ -94,14 +97,29 @@ theorem isExtendedFrom_iff_evalZero [Algebra A[X] A] (hA : algebraMap A[X] A = e
     IsExtendedFrom A A[X] M ↔ Nonempty (M ≃ₗ[A[X]] A[X] ⊗[A] (A ⊗[A[X]] M)) := by
   sorry
 
-/-- **3.2.** The Quillen ideal: for a finitely presented `A[X]`-module `M`, the `a ∈ A` such that
+/-- **3.2.** Quillen's dilation lemma: let `R` be an `A`-algebra, not necessarily commutative,
+`f ∈ A`, and `θ` a unit of `R_f[X]` with `θ(0) = 1`, where `R_f = A_f ⊗[A] R`. Then there is `k`
+such that whenever `g₁ − g₂ ∈ fᵏA`, some unit `ψ` of `R[X]` with `ψ(0) = 1` has image
+`θ(g₁X) θ(g₂X)⁻¹` in `R_f[X]`, stated with the inverse multiplied out (Quillen 1976, Lemma 1,
+pp. 167–168). -/
+theorem exists_unit_lift_dilation (R : Type w) [Ring R] [Algebra A R] (f : A)
+    (θ : (Localization.Away f ⊗[A] R)[X]ˣ)
+    (hθ : (θ : (Localization.Away f ⊗[A] R)[X]).coeff 0 = 1) :
+    ∃ k : ℕ, ∀ g₁ g₂ : A, g₁ - g₂ ∈ Ideal.span {f ^ k} →
+      ∃ ψ : R[X]ˣ, (ψ : R[X]).coeff 0 = 1 ∧
+        (ψ : R[X]).map (Algebra.TensorProduct.includeRight : R →ₐ[A] Localization.Away f ⊗[A] R) *
+            (θ : (Localization.Away f ⊗[A] R)[X]).eval₂ C (g₂ • X) =
+          (θ : (Localization.Away f ⊗[A] R)[X]).eval₂ C (g₁ • X) := by
+  sorry
+
+/-- **3.3.** The Quillen ideal: for a finitely presented `A[X]`-module `M`, the `a ∈ A` such that
 `M_a` is extended from `A_a` form an ideal (Quillen 1976, proof of Theorem 1, p. 168). -/
 theorem exists_ideal_isExtendedAfter_away (M : Type v) [AddCommGroup M] [Module A[X] M]
     [Module.FinitePresentation A[X] M] :
     ∃ I : Ideal A, ∀ a : A, a ∈ I ↔ IsExtendedAfter A (Localization.Away a) M := by
   sorry
 
-/-- **3.3.** Quillen patching: a finitely presented `A[X]`-module that is extended at every
+/-- **3.4.** Quillen patching: a finitely presented `A[X]`-module that is extended at every
 maximal ideal of `A` is extended (Quillen 1976, Theorem 1, p. 168). -/
 theorem isExtendedFrom_of_forall_isMaximal (M : Type v) [AddCommGroup M] [Module A[X] M]
     [Module.FinitePresentation A[X] M]
@@ -109,7 +127,7 @@ theorem isExtendedFrom_of_forall_isMaximal (M : Type v) [AddCommGroup M] [Module
     IsExtendedFrom A A[X] M := by
   sorry
 
-/-- **3.4.** Quillen patching in `n` variables (Quillen 1976, Theorem 1′, p. 169). -/
+/-- **3.5.** Quillen patching in `n` variables (Quillen 1976, Theorem 1′, p. 169). -/
 theorem isExtendedFrom_mvPolynomial_of_forall_isMaximal (n : ℕ) (M : Type v) [AddCommGroup M]
     [Module (MvPolynomial (Fin n) A) M] [Module.FinitePresentation (MvPolynomial (Fin n) A) M]
     (h : ∀ (m : Ideal A) [m.IsMaximal], IsExtendedAfterMv A (Localization.AtPrime m) n M) :
