@@ -65,14 +65,14 @@ vanishing of `Tor` that Bhatt–Scholze Remark 10.13 derives from almost purity.
   and its universal property among perfectoid targets (§2.30), and integral perfectoidization with
   almost purity along an arbitrary finitely generated ideal (§2.31; Bhatt–Scholze Theorems 10.9
   and 10.11).
-- From EnhancedDerivedSheaves: Kunz's theorem that Frobenius of a regular `𝔽_p`-algebra is flat
-  (§E1.6, `frobenius_flat_of_isRegular`).
 - From DerivedDeRhamCohomology: Bhatt's ordinary flatness criterion over a noetherian base (§1.10).
 - From DeformationAndDerivedPatchingAlgebra: Cohen rings, their truncated formal smoothness and the
   lifting of a residue map from a Cohen ring to a complete local ring (§1.10), which gives the
   Frobenius lifts of the Cohen rings used in Q10.2 and Q10.4.
 - From StableReduction: syntomic morphisms (Layer 1), whose affine local model is Tau Ceti's
-  `TauCeti.Algebra.IsStandardSyntomicOfRelativeDimension`.
+  `TauCeti.Algebra.IsStandardSyntomicOfRelativeDimension`. Those of a fixed relative dimension `n`
+  are already Tau Ceti's `TauCeti.AlgebraicGeometry.SyntomicOfRelativeDimension n`; `IsSyntomic`
+  (Q7.2) lets the relative dimension vary with the chart.
 - From PerfectoidSpaces, the Tate-ring forms of Q5.1 (1) and Q5.3 (P1.4–P1.6); Q5.1 and Q5.3 state
   them for arbitrary complete rings, respectively integral perfectoid rings with torsion.
 - From Mathlib: the multiplicative identification of the tilt of a `p`-adically complete ring with
@@ -92,8 +92,10 @@ vanishing of `Tor` that Bhatt–Scholze Remark 10.13 derives from almost purity.
   (`Valuation.IsContinuous.cofinalValue_of_isTopologicallyNilpotent`), Wedhorn's description of
   continuous valuations through an ideal of definition
   (`TauCeti.ValuationSpectrum.cont_eq_spvOfIdeal_inter_setOfPred_forall_vlt_one`) and his valuative
-  criterion for integrality (`TauCeti.Huber.isIntegral_of_forall_continuous_valuation_le_one`), and
-  the affine blowup algebra with its universal property (`Ideal.affineBlowup`).
+  criterion for integrality (`TauCeti.Huber.isIntegral_of_forall_continuous_valuation_le_one`),
+  the affine blowup algebra with its universal property (`Ideal.affineBlowup`), and Kunz's theorem
+  that Frobenius of a regular local ring of characteristic `p` is flat
+  (`TauCeti.IsRegularLocalRing.flat_frobenius`).
 
 **Residue fields.** The perfectoid cover inside `(R⁺)^∧` of a complete regular local ring `R` of
 mixed characteristic (Q10.4) is constructed when the residue field is `F`-finite, the hypothesis of
@@ -106,7 +108,12 @@ here or by a supplier: Q10.2 gives a faithfully flat perfectoid cover of `R` wit
 (§4.1.1) and the algebraic tilting of étale cohomology (Theorem 2.2.7, EtaleDualityAndPerverseSheavesPartII
 §8.5) are consumers of this roadmap and are listed under "Downstream consumers". Arc covers and
 the tilting of complete arc covers (Česnavičius–Scholze Lemma 2.2.2) belong to
-ArcTopologyAndDescent §12.6, which does not use this roadmap.
+ArcTopologyAndDescent §12.6, which does not use this roadmap. Bhatt's cover of a `p`-torsion-free
+regular local ring by an integral perfectoid `K°`-algebra, `K = ℚ_p(p^{1/p^∞})^∧`, almost faithfully
+flat and faithfully flat when `p ∉ 𝔪²` (Bhatt Proposition 5.2), belongs to
+DirectSummandsAndBigCohenMacaulay §§3.2–3.3. Q10.2 differs in asking only for an integral perfectoid
+ring, in being faithfully flat in every case and in allowing equal characteristic `p`; in mixed
+characteristic its cover is built by perfecting a prism. Neither uses the other.
 
 ## Conventions
 
@@ -199,6 +206,10 @@ At the Mathlib revision pinned by the repository's `lake-manifest.json`.
 - `ValuationRing` (stated for domains), `ValuationRing.ValueGroup`, `IsAlgClosed`, `FractionRing`,
   `Localization.Away`, `Localization.AtPrime`, `integralClosure`, `AlgebraicClosure`,
   `IsIntegrallyClosed`, `nilradical`, `Ideal.jacobson`, `RingHom.eqLocus`.
+- `Ring.jacobson` (`Mathlib/RingTheory/Jacobson/Radical.lean`), `Ring.mem_jacobson_iff` and
+  `Ideal.jacobson_bot` (`Mathlib/RingTheory/Jacobson/Ideal.lean`): `x` lies in the Jacobson radical
+  of `R` iff `xy + 1` is a unit for every `y`, and the Jacobson radical is `Ideal.jacobson ⊥`. At `x = p` this is the
+  Jacobson-radical form of the `p`-Zariski condition (Q9.5).
 - `Module.Flat`, `Module.FaithfullyFlat`, `Algebra.FinitePresentation`, `Algebra.Etale`,
   `IsSMulRegular`, `RingTheory.Sequence.IsRegular`, `HenselianRing`, `IsRegularLocalRing`,
   `IsLocalRing.ResidueField`, `IsTopologicallyNilpotent`, `Valuation`.
@@ -246,6 +257,18 @@ At the Tau Ceti revision pinned by the repository's `lake-manifest.json`.
   `TauCeti.Algebra.IsStandardSyntomicOfRelativeDimension`. Flatness is part of the definition: for
   one equation, that a fibrewise nonzero hypersurface is automatically flat (Stacks
   Lemma 10.136.13, the case of one relation) is Q7.6 here.
+- `TauCeti.AlgebraicGeometry.SyntomicOfRelativeDimension n`
+  (`TauCeti/AlgebraicGeometry/Morphisms/Syntomic/Basic.lean`): a morphism of schemes that is
+  standard syntomic of relative dimension `n` on affine charts around every source point, with
+  flatness, local finite presentation, base change
+  (`syntomicOfRelativeDimension_isStableUnderBaseChange`), composition adding relative dimensions
+  (`syntomicOfRelativeDimension_comp`) and the affine criterion
+  `syntomicOfRelativeDimension_SpecMap_iff`: `Spec S → Spec R` is syntomic of relative dimension `n`
+  iff `R → S` is `RingHom.Locally (TauCeti.IsStandardSyntomicOfRelativeDimension n)`, the ring-map
+  form of `TauCeti/RingTheory/RingHom/StandardSyntomic.lean`. `IsSyntomic` (Q7.2) differs in letting
+  `n` depend on the chart: `ℤ → ℤ × ℤ[x]` is syntomic, with charts `ℤ` and `ℤ[x]` of relative
+  dimensions `0` and `1`, and is syntomic of no single relative dimension, as its fibres have
+  components of dimensions `0` and `1`.
 - `Valuation.IsContinuous` (`TauCeti/RingTheory/Valuation/Continuous/Basic.lean`): every set
   `{a : v(a) < v(b)}` is open. `Valuation.IsContinuous.lt_one_of_isTopologicallyNilpotent` and
   `Valuation.IsContinuous.cofinalValue_of_isTopologicallyNilpotent`
@@ -261,6 +284,10 @@ At the Tau Ceti revision pinned by the repository's `lake-manifest.json`.
   `Ideal.affineBlowupLift` (`TauCeti/RingTheory/Ideal/AffineBlowup.lean`): the subalgebra
   `A[I/a] ⊆ A[1/a]`, its elements `y/a^k` with `y ∈ I^k`, regularity of `a` on it and its universal
   property. The presentation by a regular sequence is Q7.5 here.
+- `TauCeti.IsRegularLocalRing.flat_frobenius` and `TauCeti.IsRegularRing.flat_frobenius`
+  (`TauCeti/RingTheory/RegularLocalRing/Frobenius.lean`): Kunz's theorem that the absolute Frobenius
+  `frobenius R p` of a regular local, respectively regular, ring of exponential characteristic `p`
+  is flat. Used in Q10.2.
 
 ### From TauCetiRoadmap.PerfectoidQuotients
 
@@ -310,6 +337,9 @@ At the Tau Ceti revision pinned by the repository's `lake-manifest.json`.
   initiality of `(A_inf(A), ker θ)`.
 - P4.15.4: André's `p`-completely faithfully flat integral perfectoid cover on which every monic
   polynomial of positive degree has a root (Bhatt–Scholze Theorem 7.14).
+- P4.15.5: `semiperfectoidPerfectoidization_surjective` (for a derived `p`-complete quotient `S` of
+  an integral perfectoid ring `A`, the map `A → S_perfd` is surjective; Bhatt–Scholze Theorem 7.4,
+  p. 56), used in Q10.5.
 - P7.16a: `exists_residueTower` and the Cohen presentations `cohen_unramified`, `cohen_ramified`,
   `cohen_equalCharacteristic` of a complete regular local ring.
 - P7.17: `RegularTower.exists_perfectoidTower`: for a complete regular local ring of mixed
@@ -336,11 +366,6 @@ At the Tau Ceti revision pinned by the repository's `lake-manifest.json`.
   perfectoid ring, `S_perfd` is a discrete perfectoid ring) and almost purity along an arbitrary
   finitely generated ideal `J` (for a finitely presented finite algebra finite étale away from
   `V(J)`, `R/pⁿ → S_perfd/pⁿ` is almost finite projective for `J_perfd = ker(R → (R/J)_perfd)`).
-
-### From TauCetiRoadmap.EnhancedDerivedSheaves
-
-- §E1.6: `frobenius_flat_of_isRegular` (Kunz: the absolute Frobenius of a regular ring of
-  characteristic `p` is flat).
 
 ### From TauCetiRoadmap.DerivedDeRhamCohomology
 
@@ -967,13 +992,19 @@ p. 24). Ind-syntomic does not include faithful flatness.
 
 *Needs:* StableReduction Layer 1; Tau Ceti
 `TauCeti.Algebra.IsStandardSyntomicOfRelativeDimension` and its localization, composition
-and base-change theorems in the supplier contract; Mathlib `Algebra.FinitePresentation`,
+and base-change theorems in the supplier contract, and
+`TauCeti.AlgebraicGeometry.SyntomicOfRelativeDimension` with
+`syntomicOfRelativeDimension_SpecMap_iff`; Mathlib `Algebra.FinitePresentation`,
 `Localization.Away`, `Ideal.span` and filtered colimits of commutative algebras.
 
 Its basic API consists of the following facts.
 
 - a standard syntomic algebra is syntomic (take `m = 1`, `g_1 = 1`); a syntomic algebra is flat and
   finitely presented, and ind-syntomic;
+- a ring map `R → S` that is locally standard syntomic of one relative dimension `n`, that is, with
+  `Spec S → Spec R` Tau Ceti's `SyntomicOfRelativeDimension n`
+  (`syntomicOfRelativeDimension_SpecMap_iff`), is syntomic: finitely many of its covering elements
+  already generate the unit ideal;
 - syntomic maps are stable under base change (Tau Ceti's base change of standard syntomic algebras
   and of localizations) and composition: for `R → S → T` with charts `S_g` standard syntomic over
   `R` and `T_h` standard syntomic over `S`, each `T_{hg} = T_h ⊗_S S_g` is standard syntomic over
@@ -1480,20 +1511,19 @@ faithfully flat over `A/ϖ`.
 
 ### Q9.5 `p`-Zariski rings and `p`-Zariskization
 
-Define `IsPZariski`: a ring `A` is *`p`-Zariski* if `1 + pA ⊆ A^×`, equivalently if `p` lies in the
-Jacobson radical (every maximal ideal) of `A`. The *`p`-Zariskization* of a ring `B` is the
-localization `B_{1+pB}` at the multiplicative set `1 + pB` (Česnavičius–Scholze Corollary 2.3.7 and
-first paragraph of its proof, p. 28).
+Define `IsPZariski`: a ring `A` is *`p`-Zariski* if `1 + pA ⊆ A^×`, equivalently, by Mathlib
+`Ring.mem_jacobson_iff` at `x = p`, if `p` lies in the Jacobson radical `Ring.jacobson A` (every
+maximal ideal) of `A`. The *`p`-Zariskization* of a ring `B` is the localization `B_{1+pB}` at the
+multiplicative set `1 + pB` (Česnavičius–Scholze Corollary 2.3.7 and first paragraph of its proof,
+p. 28).
 
-*Construction.* `1 + pB` is multiplicatively closed: `(1 + pb)(1 + pc) = 1 + p(b + c + pbc)`. The
-Jacobson-radical form is the characterization of `Ideal.jacobson ⊥` by units of `1 + xA`.
+*Construction.* `1 + pB` is multiplicatively closed: `(1 + pb)(1 + pc) = 1 + p(b + c + pbc)`.
 
-*Needs:* Mathlib `Ideal.jacobson`, `Localization`, `Module.FaithfullyFlat`,
-`IsAdicComplete.le_jacobson_bot` and `HenselianRing`.
+*Needs:* Mathlib `Ring.jacobson`, `Ring.mem_jacobson_iff`, `Ideal.jacobson_bot`, `Localization`,
+`Module.FaithfullyFlat`, `IsAdicComplete.le_jacobson_bot` and `HenselianRing`.
 
 Its basic API consists of the following facts.
 
-- `A` is `p`-Zariski iff `(p : A) ∈ Ideal.jacobson ⊥`;
 - the `p`-Zariskization of `B` is `p`-Zariski, and every ring map `B → C` to a `p`-Zariski ring
   extends uniquely through `B → B_{1+pB}`;
 - a `p`-adically complete ring is `p`-Zariski (Mathlib `IsAdicComplete.le_jacobson_bot`), and so is
@@ -1624,7 +1654,7 @@ flat.
 
 *Proof route.* Reduce to complete `R` (`R → R^∧` is faithfully flat and `R^∧` is regular local). In
 equal characteristic `p`, take the perfection `colim_F R`: it is faithfully flat by Kunz
-(`frobenius_flat_of_isRegular`, EnhancedDerivedSheaves §E1.6) and perfect, hence integral
+(Tau Ceti `TauCeti.IsRegularLocalRing.flat_frobenius`) and perfect, hence integral
 perfectoid. In mixed characteristic: if `a_0 ≠ 0`, evaluation at `x = 0` is a δ-map `A → W` with
 kernel in the Jacobson radical carrying `f` to an element of `p`-adic valuation one, so `δ(f)` is a
 unit and `f` is distinguished (PrismaticCohomology §§0.61–0.63); the case `a_0 = 0` is the same after
@@ -1636,8 +1666,9 @@ faithfully flat. Since `p` is regular on `R` and `R_∞[p] = 0`, both are `p`-to
 
 *Needs:* PerfectoidSpaces P4.15.2 and P7.16a (`cohen_unramified`, `cohen_ramified`,
 `cohen_equalCharacteristic`); DeformationAndDerivedPatchingAlgebra §1.10 (the Frobenius lift
-`φ_W`); PrismaticCohomology §§0.61–0.63, §0.79; EnhancedDerivedSheaves §E1.6;
-DerivedDeRhamCohomology §1.10; Mathlib `IsRegularLocalRing`, `PowerSeries`, `AdicCompletion`.
+`φ_W`); PrismaticCohomology §§0.61–0.63, §0.79; Tau Ceti
+`TauCeti.IsRegularLocalRing.flat_frobenius`; DerivedDeRhamCohomology §1.10; Mathlib
+`IsRegularLocalRing`, `PowerSeries`, `AdicCompletion`.
 
 **Checks.**
 
@@ -1772,40 +1803,31 @@ cover of Q10.4 this is Q10.6, Heitmann–Ma's theorem). `c = 0` is allowed (the 
 empty). As in Q10.6, `Suggested.lean` writes `S/pⁿ` and `R⁺/pⁿ` as base changes to
 `R/pⁿ` and lets `c_k` act through the first argument of `Tor`.
 
-*Proof route.* First enlarge the cover so that it contains compatible roots of `c` mapping to the
-given `c_k`. `R_∞` is `p`-torsion-free (flat over the domain `R`), so `ϖ := ((p♭)^{1/p})♯ ∈ R_∞` is
-a nonzerodivisor with `ϖ^p` a unit multiple of `p` and with compatible `p`-power roots. Apply Q9.1
-to `(R_∞, ϖ, {T − c})`: with `A'` the `p`-integral closure of `R_∞[T^{1/p^∞}][(T − c)/ϖ^m : m ≥ 0]`
-in `R_∞[T^{1/p^∞}][1/ϖ]` and `I'` its `ϖ`-divisible ideal, `A'/I'` is faithfully flat over `R_∞`
-(Q9.2 with Q7.4, as in the proof of Q9.3), `R'_∞ := (A'/I')^∧ = Â'` is integral perfectoid
-(`completion_pIntegralClosure_perfectoid`) and `ϖ`-torsion-free, and `R_∞/ϖ → R'_∞/ϖ` is
-faithfully flat; so `R/pⁿ → R'_∞/pⁿ` is flat for every `n`, and `R → R'_∞` is faithfully flat
-(DerivedDeRhamCohomology §1.10). The map `R_∞[T^{1/p^∞}] → (R⁺)^∧` over `R_∞ → (R⁺)^∧` sending
-`T^{1/pᵏ} ↦ c_k` kills `T − c`, so after inverting `ϖ` it carries `R_∞[T^{1/p^∞}][(T − c)/ϖ^m]` into
-`(R⁺)^∧`; since `(R⁺)^∧` is `p`-torsion-free and integral perfectoid (Q10.3), it is `p`-integrally
-closed in `(R⁺)^∧[1/p]` (`perfectoid_p_integral_closedness`), so `A'` maps into `(R⁺)^∧` with `I'`
-mapping to `0`, and completing gives an `R`-algebra map `R'_∞ → (R⁺)^∧` with `T^{1/pᵏ} ↦ c_k`. Thus
-`R'_∞` satisfies the hypotheses on `R_∞`, and it suffices to prove the theorem for `R'_∞`.
+*Proof route.* Put `P = (R⁺)^∧`, integral perfectoid by Q10.3, and
+`J := (cR_∞)_perfd = ker(R_∞ → (R_∞/c)_perfd)`. First, `c_k ∈ JP + pⁿP` for every `n`. The map
+`R_∞ → (R_∞/c)_perfd` is surjective (PerfectoidSpaces P4.15.5; Bhatt–Scholze Theorem 7.4, p. 56),
+so the `p`-adic completion of `P/JP = P ⊗_{R_∞} R_∞/J` is the completed tensor product
+`P ⊗̂_{R_∞} (R_∞/c)_perfd`; it is integral perfectoid (`perfectoid_completed_tensor`,
+PerfectoidQuotients §0.6, for `ϖ = ((p♭)^{1/p})♯`, whose `p`-th power is a unit multiple of `p`, so
+that `ϖ`-adic and `p`-adic completions agree), hence reduced (PerfectoidQuotients §0.4;
+Bhatt–Scholze, proof of Theorem 7.4, p. 62). The image of `c_k` in it has `pᵏ`-th power the image of
+`c ∈ J`, so it is zero, and `c_k` lies in the kernel `⋂ₙ (JP + pⁿP)` of `P → (P/JP)^∧`.
 
-Now `T = S ⊗_R R'_∞` is a finitely presented finite `R'_∞`-algebra, finite étale after inverting
-`c`. By almost purity along `(c)` (PrismaticCohomology §2.31), `R'_∞/pⁿ → T_perfd/pⁿ` is almost
-finite projective for `J := (cR'_∞)_perfd = ker(R'_∞ → (R'_∞/c)_perfd)`, and `T_perfd` is integral
-perfectoid (integral perfectoidization, PrismaticCohomology §2.31). As `R/pⁿ → R'_∞/pⁿ` is flat,
-`Tor_i^{R/pⁿ}(T_perfd/pⁿ, N) = Tor_i^{R'_∞/pⁿ}(T_perfd/pⁿ, R'_∞ ⊗_R N)`, which is killed by `J` for
+Now `T = S ⊗_R R_∞` is a finitely presented finite `R_∞`-algebra, finite étale after inverting
+`c`. By almost purity along `(c)` (PrismaticCohomology §2.31), `R_∞/pⁿ → T_perfd/pⁿ` is almost
+finite projective for `J`, and `T_perfd` is integral perfectoid (integral perfectoidization,
+PrismaticCohomology §2.31). As `R/pⁿ → R_∞/pⁿ` is flat,
+`Tor_i^{R/pⁿ}(T_perfd/pⁿ, N) = Tor_i^{R_∞/pⁿ}(T_perfd/pⁿ, R_∞ ⊗_R N)`, which is killed by `J` for
 `i > 0`, using that `c ∈ pR` and that the `p`-torsion of `T_perfd` is killed by all `p`-power roots
-of a unit multiple of `p` (Q5.4 (2) with PerfectoidQuotients §0.4). The root `T^{1/pᵏ}` is nilpotent
-in `R'_∞/c`, so it maps to zero in the integral perfectoid, hence reduced, ring `(R'_∞/c)_perfd`
-(Bhatt–Scholze, proof of Theorem 7.4, p. 62) and lies in `J`. The map `S/pⁿ → R⁺/pⁿ` factors as
-`S/pⁿ → T/pⁿ → T_perfd/pⁿ → R⁺/pⁿ`, the last by the universal property of `T → T_perfd`
-(PrismaticCohomology §2.30) applied to `T → (R⁺)^∧`; the image of `Tor_i^{R/pⁿ}(S/pⁿ, N)` in
-`Tor_i^{R/pⁿ}(R⁺/pⁿ, N)` lies in the image of `Tor_i^{R/pⁿ}(T_perfd/pⁿ, N)`, a `T_perfd`-submodule
-killed by `J`, in particular by `T^{1/pᵏ}`, which acts on `R⁺/pⁿ` as `c_k`. Without the enlargement
-the image is only known to be killed by the image of `(cT_perfd)_perfd`, which need not generate an
-ideal of `(R⁺)^∧` containing `c_k`.
+of a unit multiple of `p` (Q5.4 (2) with PerfectoidQuotients §0.4). The map `S/pⁿ → R⁺/pⁿ` factors
+as `S/pⁿ → T/pⁿ → T_perfd/pⁿ → R⁺/pⁿ`, the last by the universal property of `T → T_perfd`
+(PrismaticCohomology §2.30) applied to `T → P`; the image of `Tor_i^{R/pⁿ}(S/pⁿ, N)` in
+`Tor_i^{R/pⁿ}(R⁺/pⁿ, N)` lies in the image of `Tor_i^{R/pⁿ}(T_perfd/pⁿ, N)`, a submodule killed by
+`J`. As `R_∞` acts on `Tor_i^{R/pⁿ}(R⁺/pⁿ, N)` through the `P/pⁿ`-module structure, this image is
+killed by `JP + pⁿP`, which contains `c_k`.
 
-*Needs:* Q10.3, Q5.4, Q9.1, Q9.2, Q7.4; PerfectoidQuotients §§0.4–0.5; PrismaticCohomology
-§§2.30–2.31; PerfectoidSpaces P0.1–P0.2 and P0.11; DerivedDeRhamCohomology §1.10; Mathlib
-`CategoryTheory.Tor`, `Module.Flat`.
+*Needs:* Q10.3, Q5.4; PerfectoidQuotients §§0.4 and 0.6; PrismaticCohomology §§2.30–2.31;
+PerfectoidSpaces P0.1–P0.2, P0.11 and P4.15.5; Mathlib `CategoryTheory.Tor`, `Module.Flat`.
 
 **Checks.**
 
@@ -1821,22 +1843,12 @@ ideal of `(R⁺)^∧` containing `c_k`.
   `R[1/p] → S[1/p]` is finite étale while `S` contains no `p`-th root of `p`: the `p`-adic valuations
   of nonzero elements of `S` lie in `(1/2)ℕ`, which does not contain `1/p`. Over a ramified `R` the
   example fails: for `R = ℤ_p[p^{1/p}]`, `S = R[√p]` already contains `p^{1/p}`.
-- The enlargement of the cover matters only beyond unit multiples of elements with roots in `R_∞`.
-  An integral perfectoid `R_∞` contains compatible `p`-power roots `b_k = ((p♭)^{1/pᵏ})♯` of
-  `b_0 = vp` for a unit `v` of `R_∞` (Conventions; BMS1 Lemma 3.9), but need not contain a `p`-th
-  root of `p` itself: for `R = ℤ_p`, `p` odd, the completed `ℤ_p^{cycl}` of Q9.4 is a faithfully flat
-  integral perfectoid `R_∞` with a map to `(R⁺)^∧ = 𝒪_{ℂ_p}`, and contains none. For `c = pu` with
-  `u ∈ R^×` (for instance `c = p(1 + x)` in `R = ℤ_p⟦x⟧`), let `b̄_k` and `v̄` be the images of `b_k`
-  and `v` in `(R⁺)^∧`; then `c_k^{pᵏ} = (u/v̄) b̄_k^{pᵏ}`, so `c_k/b̄_k ∈ (R⁺)^∧[1/p]` has a unit
-  `pᵏ`-th power and is a unit of `(R⁺)^∧`, which is `p`-integrally closed in `(R⁺)^∧[1/p]` (as in
-  the proof route); and `b_k`
-  lies in `√(pR_∞) ⊆ (pR_∞)_perfd`, as `b_k^{pᵏ} = vp`. For `c = px` in `R = ℤ_p⟦x⟧` the roots
-  `p^{1/pᵏ}x^{1/pᵏ}` lie in the cover of Q10.4, which contains actual roots of `p` and `x`, up to
-  units of `R⁺`; for `c = p(x + p)` the roots of `x + p` are adjoined by no stage of Q10.4, and it is
-  the enlarged `R'_∞` that carries `T^{1/pᵏ} ↦ c_k`.
-- The image is annihilated through `R'_∞ → (R⁺)^∧`: a proof that only showed `J`-almost vanishing
-  of the middle `Tor` would conclude annihilation by the image of `J`, not by `c_k`, unless some
-  element of `J` maps to a unit multiple of `c_k`; the enlargement supplies `T^{1/pᵏ}`.
+- The step `c_k ∈ JP + pⁿP` needs no root of `c` in `R_∞`: for `R = ℤ_p`, `p` odd, `c = p` and
+  `R_∞` the completed `ℤ_p^{cycl}` of Q9.4, which contains no `p`-th root of `p`, the elements
+  `b_k = ((p♭)^{1/pᵏ})♯` satisfy `b_k^{pᵏ} = vp` with `v ∈ R_∞^×` (BMS1 Lemma 3.9), so they are
+  nilpotent modulo `p` and lie in `J`. In `P = 𝒪_{ℂ_p}` the image of `b_k` and `c_k = p^{1/pᵏ}` both
+  have valuation `1/pᵏ`, so `c_k` is a unit multiple of the image of `b_k` and lies in `JP`. A route
+  that asked for a `pᵏ`-th root of `c` in `R_∞` itself would already fail at `k = 1`.
 
 ### Q10.6 Almost vanishing of `Tor` for an `F`-finite residue field
 
@@ -1880,10 +1892,10 @@ of `F`-finite residue fields.
 
 ### Dependencies
 
-*Needs:* Layers Q5, Q7 and Q9; PerfectoidQuotients §§0.4–0.5; PerfectoidSpaces P0.1–P0.2, P0.11,
-P4.15.2, P7.16a and P7.17; PrismaticCohomology §§0.61–0.63, §0.79 and §§2.30–2.31; EnhancedDerivedSheaves §E1.6;
+*Needs:* Layer Q5; PerfectoidQuotients §§0.4–0.6; PerfectoidSpaces P0.1–P0.2, P0.11,
+P4.15.2, P4.15.5, P7.16a and P7.17; PrismaticCohomology §§0.61–0.63, §0.79 and §§2.30–2.31;
 DeformationAndDerivedPatchingAlgebra §1.10; DerivedDeRhamCohomology §1.10; Tau Ceti
-`TauCeti.Perfectoid.IsIntegralPerfectoid`.
+`TauCeti.Perfectoid.IsIntegralPerfectoid` and `TauCeti.IsRegularLocalRing.flat_frobenius`.
 
 ## Worked examples
 
