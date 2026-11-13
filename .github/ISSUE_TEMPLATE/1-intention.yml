@@ -178,6 +178,7 @@ body:
         - SeibergWittenTheory
         - SmoothBundlesConnections
         - SmoothRepresentationsOfLocalGroups
+        - SobolevMapsBetweenManifolds
         - SobolevPolynomialApproximation
         - SpecialFunctionsAiry
         - SpecialFunctionsEiLiErfIncompleteGamma
