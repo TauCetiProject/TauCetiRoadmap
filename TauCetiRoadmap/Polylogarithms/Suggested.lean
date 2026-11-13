@@ -6,7 +6,7 @@ import Mathlib
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned APIs: ideal volume, the Lobachevsky and Kummer formulas,
 the explicit trilogarithm relations, weight-three Zagier existence and every-family
-rationality, totally-real even-weight existence, and elliptic-kernel absolute convergence.
+rationality, and elliptic-kernel absolute convergence.
 The analytic functions are restated by the formulas of PolylogarithmFunctions; universal
 relation tests express the weight-three cycle condition on native tensor carriers.
 
@@ -195,7 +195,7 @@ example : LinearIndependent ℚ (![unitVector (2 : ℚ), unitVector (3 : ℚ), u
     rw [padicValRat.of_nat]
     split_ifs with h
     · subst q; simp
-    · simp [padicValNat_primes h]
+    · simp [multiplicity_primes h]
   have hv22 := hval 2 2
   have hv23 := hval 2 3
   have hv25 := hval 2 5
@@ -236,18 +236,6 @@ theorem zagier_three_everyFamily (F : Type u) [Field F] [NumberField F]
     (hc : ∀ j, IsCycle3 (c j)) :
     ∃ q : ℚ, normalizedPeriod 3 (fun i => (e i).embedding) c =
       (q : ℝ) * (NumberField.dedekindZeta F 3).re := by
-  sorry
-
-/-! ## Layer 4: inductive Bloch groups and the meaning of Zagier's statement -/
-
-/-- Over a totally real field an even weight has no rows, and the empty determinant is a
-nonzero rational multiple of `ζ_F(n)`: Borel's even-weight rationality, through
-BorelRegulators. -/
-theorem zagierExistence_totallyRealEven (F : Type u) [Field F] [NumberField F]
-    [NumberField.IsTotallyReal F] (n : ℕ) (hn : 2 ≤ n) (heven : Even n)
-    (σ : Fin 0 → F →+* ℂ) (c : Fin 0 → F →₀ ℚ) :
-    ∃ q : ℚ, q ≠ 0 ∧
-      normalizedPeriod n σ c = (q : ℝ) * (NumberField.dedekindZeta F n).re := by
   sorry
 
 /-! ## Layer 5: logarithmic currents and explicit regulators -/
