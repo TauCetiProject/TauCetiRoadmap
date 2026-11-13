@@ -3,69 +3,73 @@
 **Summary.** Build the commutative algebra of Serre's problem on Mathlib's carriers: modules over
 `A[X]` (`Polynomial`) and over `A[X₁, …, Xₙ]` (`MvPolynomial (Fin n) A`) for a commutative ring
 `A`, with Mathlib's `Module.Projective`, `Module.Free`, `Module.IsStablyFree`,
-`Module.IsUnimodular` and `Matrix.GeneralLinearGroup`. The end theorems are: a commutative ring is
-Hermite (every unimodular vector is the first column of an invertible matrix) exactly when every
-finitely generated stably free module over it is free, and Suslin's `r!` theorem, which makes
-`(a₀ ^ m₀, …, a_r ^ m_r)` the first row of a matrix of determinant one for every unimodular row
-`(a₀, …, a_r)` with `r ≥ 1`, positive exponents and `r! ∣ m₀ ⋯ m_r` (Layer 1); a projective
-module with a finite free resolution is stably free, finite free resolutions satisfy two out of
-three in short exact sequences, they pass from a Noetherian ring `B` all of whose finite modules
-have one to `B[X]`, and finitely generated projective modules over a polynomial ring over a field
-are stably free (Layer 2); an `A[X]`-module is extended from `A` exactly when it is
-`A[X] ⊗[A] M(0)`, the `a ∈ A` over which a finitely presented `A[X]`-module becomes extended form
-an ideal, and a finitely presented module over `A[X]` or `A[X₁, …, Xₙ]` that is extended at
-every maximal ideal of `A` is extended, Quillen's patching theorem (Layer 3); for the localisation
-`A⟨X⟩` of `A[X]` at the monic polynomials, `k⟨X⟩` is a principal ideal domain when `k` is one and
-a field when `k` is one, a finitely generated projective `A[X]`-module that is free over `A⟨X⟩`
-is free (Quillen's form of Horrocks' theorem, any commutative `A`), one that is extended from `A`
-over `A⟨X⟩` is extended (affine Horrocks), and finitely generated projective `A`-modules that
-become isomorphic over `A⟨X⟩` are isomorphic (Bass) (Layer 4); a unimodular vector over `A[X]`
-whose leading coefficients, for some formal degrees, generate the unit ideal is equivalent under
-`GLₙ(A[X])` to its value at `X = 0`, and the Quillen–Suslin theorem: over a principal ideal domain
-`k` every finitely generated projective `k[X₁, …, Xₙ]`-module is free and every unimodular vector
-over `k[X₁, …, Xₙ]` is completable, while over a Dedekind domain every finitely generated
-projective module over the polynomial ring is extended (Layer 5).
+`Module.IsUnimodular` and `Matrix.GeneralLinearGroup`. The end theorems are: Suslin's `r!`
+theorem, which makes `(a₀ ^ m₀, …, a_r ^ m_r)` the first row of a matrix of determinant one for
+every unimodular row `(a₀, …, a_r)` with `r ≥ 1`, positive exponents and `r! ∣ m₀ ⋯ m_r`
+(Layer 1); finitely generated projective modules over a polynomial ring over a field are stably
+free (Layer 2); an `A[X]`-module is extended from `A` exactly when it is `A[X] ⊗[A] M(0)`, the
+`a ∈ A` over which a finitely presented `A[X]`-module becomes extended form an ideal, and a
+finitely presented module over `A[X]` or `A[X₁, …, Xₙ]` that is extended at every maximal ideal
+of `A` is extended, Quillen's patching theorem (Layer 3); for the localisation `A⟨X⟩` of `A[X]`
+at the monic polynomials, `k⟨X⟩` is a principal ideal domain when `k` is one and a field when `k`
+is one; over a local ring `A`, a finitely generated projective `A[X]`-module that is free over
+`A⟨X⟩` is free (local Horrocks); over any commutative `A`, one that is extended from `A` over
+`A⟨X⟩` is extended (affine Horrocks), finitely generated projective `A`-modules that become
+isomorphic over `A⟨X⟩` are isomorphic (Bass), and one that is free over `A⟨X⟩` is free (Quillen's
+form of Horrocks' theorem) (Layer 4); a unimodular vector over `A[X]` whose leading coefficients,
+for some formal degrees, generate the unit ideal is equivalent under `GLₙ(A[X])` to its value at
+`X = 0`, and the Quillen–Suslin theorem: over a principal ideal domain `k` every finitely
+generated projective `k[X₁, …, Xₙ]`-module is free and every unimodular vector over
+`k[X₁, …, Xₙ]` is the first column of an invertible matrix, while over a Dedekind domain every
+finitely generated projective module over the polynomial ring is extended (Layer 5).
 
 Suggested home: `TauCeti/RingTheory/Polynomial/Projective/`.
 
 ## Scope and ownership
 
-**Owned here.** Completable vectors and Hermite rings, with the equivalence between completability
-of unimodular vectors and freeness of finitely generated stably free modules, and Suslin's `r!`
-theorem (Layer 1); finite free resolutions of modules over a commutative ring (finite length, finite
-free terms), their relation to stable freeness, two out of three, the passage to `B[X]`, and Serre's
-stable freeness over polynomial rings over a field (Layer 2); extended modules, base change of a
-polynomial module along `A → B`, the Quillen ideal and Quillen's patching theorem in one and in `n`
-variables (Layer 3); the monic polynomials, the ring `A⟨X⟩`, Quillen's Lemma 2, Horrocks' theorem in
-Quillen's global form and in its affine form, and Bass's theorem that `A⟨X⟩` reflects isomorphism
-(Layer 4); unimodular polynomial vectors with a unit head ideal, the Quillen–Suslin theorem over
-principal ideal domains, its extended form over Dedekind domains, and Suslin's completion theorem
-(Layer 5). A search of the roadmaps on main, of the open pull requests and of the maintainers'
-packages for Quillen–Suslin, Serre's problem on projective modules, Horrocks' theorem, Quillen
-patching, extended modules, monic localisation, Hermite rings, completable unimodular rows, Suslin's
-`n!` theorem, finite free resolutions in Lang's sense and the Bass–Quillen conjecture finds no other
-owner. PadicDifferentialEquationsAndRigidCohomology §RD.3.27 states a rigid-analytic Quillen–Suslin
-theorem over overconvergent power series rings, which is a different ring and stays there.
+**Owned here.** Suslin's `r!` theorem (Layer 1); Serre's stable freeness over polynomial rings
+over a field (Layer 2); extended modules, base change of a polynomial module along `A → B`, the
+Quillen ideal and Quillen's patching theorem in one and in `n` variables (Layer 3); the monic
+polynomials, the ring `A⟨X⟩` and its faithful flatness over `A`, Quillen's Lemma 2, Horrocks'
+theorem in its local, affine and global (Quillen's) forms, and Bass's theorem that `A⟨X⟩`
+reflects isomorphism (Layer 4); unimodular polynomial vectors with a unit head ideal, the
+Quillen–Suslin theorem over principal ideal domains, its extended form over Dedekind domains, and
+Suslin's completion theorem (Layer 5). A search of the roadmaps on main, of the open pull requests
+and of the maintainers' packages for Quillen–Suslin, Serre's problem on projective modules,
+Horrocks' theorem, Quillen patching, extended modules, monic localisation, Suslin's `n!` theorem
+and the Bass–Quillen conjecture finds no other owner of these.
+
+**Left to PadicDifferentialEquationsAndRigidCohomology.** Finite free resolutions (finite length,
+finite free terms) with two out of three, the stable freeness of a projective module with one,
+and their passage from a Noetherian ring `B` to `B[X]`
+(PadicDifferentialEquationsAndRigidCohomology §RD.0.55); unimodular vectors, their equivalence
+under `GLₙ`, the unimodular extension property and its equivalence with freeness of finitely
+generated stably free modules (PadicDifferentialEquationsAndRigidCohomology §RD.0.56 (b)). This
+roadmap states neither and consumes both (Exact supplier contracts). Target 5.1 here differs from
+§RD.0.56 (a): any commutative ring and a unit head ideal, instead of an integral domain and a
+monic entry. The rigid-analytic Quillen–Suslin theorem over overconvergent power series rings
+(PadicDifferentialEquationsAndRigidCohomology §RD.3.27) is a different ring and stays there.
 
 **Left to AlgebraicKTheory.** The elementary subgroups `Eₙ(R)`, Bass's stable range
 `HasStableRangeLE R s` and the stability theorems (AlgebraicKTheory 1.1, 4.1, 4.2), K₀ and K₁ of
 rings (AlgebraicKTheory 0.3, 2.1), Milnor patching (AlgebraicKTheory Layer 6), and the stably free
 non-free tangent module over the continuous functions on `S²` (AlgebraicKTheory 0.5). This roadmap
-states its results on `GLₙ` and `SLₙ` and uses none of these; the refinements of 5.1 and 1.3 with
+states its results on `GLₙ` and `SLₙ` and uses none of these; the refinements of 5.1 and 1.1 with
 `Eₙ(A[X])` in place of `GLₙ(A[X])` (Suslin's normality and stability theorems) are outside its
 scope.
 
 **Left to GeneralAlgebraicKTheory.** Polynomial invariance of K₀ of regular Noetherian rings
 (GeneralAlgebraicKTheory 10.12a) and the Fundamental Theorem (GeneralAlgebraicKTheory 9.16), which
-give `K₀(k[X₁, …, Xₙ]) = ℤ` and hence 2.4 by another route; 2.4 here is proved from 2.1 and 2.3,
-with no K-theory.
+give `K₀(k[X₁, …, Xₙ]) = ℤ` and hence 2.1 by another route; 2.1 here is proved from finite free
+resolutions (PadicDifferentialEquationsAndRigidCohomology §RD.0.55 (b) and (d)), with no K-theory.
 
 **Supplied by Mathlib and consumed by name.** Polynomials, multivariate polynomials, their
 evaluation and coefficient maps; localisations `Localization`, `Localization.Away`,
 `Localization.AtPrime`; tensor products and base change; projective, free, stably free, finite
 and finitely presented modules; unimodular elements; general and special linear groups; principal
-ideal domains, Dedekind domains, Noetherian rings and fields; the category `ModuleCat`; and
-freeness of finitely generated flat modules over a local ring
+ideal domains, Dedekind domains, Noetherian rings, local rings and fields; flat and faithfully
+flat modules, with the descent of finite generation and of flatness along a faithfully flat
+algebra; and freeness of finitely generated flat modules over a local ring
 (`Module.free_of_flat_of_isLocalRing`) and of finitely generated torsion-free modules over a
 principal ideal domain (`Module.free_of_finite_type_torsion_free'`).
 
@@ -80,7 +84,7 @@ PadicDifferentialEquationsAndRigidCohomology; and algorithms.
 
 1. **Vectors are columns.** `GLₙ(R)` acts on `Fin n → R` on the left by `Matrix.mulVec`, and a
    vector `v` is completable when it is the first column `i ↦ g i 0` of some `g`. Suslin's
-   theorem 1.3 produces a first row, `i ↦ α 0 i`; the transpose exchanges the two. Witness: over
+   theorem 1.1 produces a first row, `i ↦ α 0 i`; the transpose exchanges the two. Witness: over
    `ℤ` the matrix `!![2, 1; 3, 2]` has determinant `4 − 3 = 1` and first column `(2, 3)`, and its
    transpose has first row `(2, 3)`.
 2. **Extension of scalars.** A module over an `A`-algebra `R` is extended from `A` when it is
@@ -106,90 +110,57 @@ PadicDifferentialEquationsAndRigidCohomology; and algorithms.
   `Polynomial.natDegree`, `Polynomial.coeff`, `Polynomial.C`, `Polynomial.eval`,
   `Polynomial.evalRingHom`, `Polynomial.mapRingHom` (`Algebra/Polynomial/`),
   `Polynomial.algebra` (`RingTheory/PolynomialAlgebra`); `MvPolynomial`,
-  `MvPolynomial.algebraMvPolynomial` (`Algebra/MvPolynomial/Eval`).
+  `MvPolynomial.algebraMvPolynomial` (`Algebra/MvPolynomial/Eval`), `MvPolynomial.finSuccEquiv`
+  (`Algebra/MvPolynomial/Equiv`).
 - Modules: `Module.Projective` (`Algebra/Module/Projective`), `Module.Free`, `Module.Finite`,
   `Module.FinitePresentation` (`Algebra/Module/FinitePresentation`), `Module.IsStablyFree`
   (`Algebra/Module/StablyFree/Basic`), `Module.IsUnimodular` (`LinearAlgebra/Unimodular`),
-  `TensorProduct` with its left module structure, `LinearEquiv`, `LinearMap.ker`,
-  `LinearMap.range`, `ModuleCat`, `ModuleCat.of`, `ModuleCat.Hom.hom`
-  (`Algebra/Category/ModuleCat/Basic`), `Module.free_of_flat_of_isLocalRing`
-  (`RingTheory/LocalRing/Module`) and `Module.free_of_finite_type_torsion_free'`
-  (`LinearAlgebra/FreeModule/PID`).
+  `TensorProduct` with its left module structure, `LinearEquiv`,
+  `Module.finitePresentation_of_projective` (`Algebra/Module/FinitePresentation`),
+  `Module.free_of_flat_of_isLocalRing` (`RingTheory/LocalRing/Module`) and
+  `Module.free_of_finite_type_torsion_free'` (`LinearAlgebra/FreeModule/PID`).
+- Flatness: `Module.Flat`, `Module.FaithfullyFlat` and `Module.Flat.of_flat_tensorProduct`
+  (flatness descends along a faithfully flat algebra; `RingTheory/Flat/FaithfullyFlat/Basic`),
+  `Module.Finite.of_finite_tensorProduct_of_faithfullyFlat` (so does finite generation;
+  `RingTheory/Finiteness/Descent`).
 - Rings: `Ideal.span`, `Ideal.IsMaximal`, `Submonoid`, `Localization`, `Localization.Away`,
-  `Localization.AtPrime`, `IsDomain`, `IsField`, `IsPrincipalIdealRing`, `IsDedekindDomain`,
-  `IsNoetherianRing`; `Matrix.GeneralLinearGroup` (notation `GL`), `Matrix.SpecialLinearGroup`,
-  `Matrix.mulVec`; `Nat.factorial`, `Finset.prod`.
+  `Localization.AtPrime`, `IsDomain`, `IsField`, `IsLocalRing`, `IsPrincipalIdealRing`,
+  `IsDedekindDomain`, `IsNoetherianRing`; `Matrix.GeneralLinearGroup` (notation `GL`),
+  `Matrix.SpecialLinearGroup`, `Matrix.mulVec`; `Nat.factorial`, `Finset.prod`.
 
 **From Tau Ceti.** Nothing is consumed from the Tau Ceti library.
 
-**From other roadmaps.** Nothing is consumed from another roadmap.
+**From TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology.**
+
+- §RD.0.55, finite free resolutions: `HasFiniteFreeResolution R M` for `R` and `M` in one
+  universe, with (a) two out of three, (b) `HasFiniteFreeResolution.isStablyFree` (a projective
+  module with a finite free resolution is stably free), and (d)
+  `hasFiniteFreeResolution_polynomial` (if `R` is Noetherian and every finite `R`-module has a
+  finite free resolution, so has every finite `R[X]`-module). Used in 2.1.
+- §RD.0.56 (b), `hasUnimodularExtension_iff`: every unimodular `v : Fin (n + 1) → R` is carried to
+  `Pi.single 0 1` by some element of `GL (Fin (n + 1)) R` (equivalently, is the first column of
+  an invertible matrix) exactly when every finitely generated stably free `R`-module in the
+  universe of `R` is free. Used in 5.4.
 
 ## How to read the build
 
-Layer 1 sets up unimodular and completable vectors and Hermite rings and proves the translation
-between completability and freeness of stably free modules, with Suslin's `r!` theorem as an
-independent result on unimodular rows. Layer 2 is Lang's theory of finite free resolutions: a
-projective module with one is stably free, two out of three, and the passage to `B[X]`, which
-gives Serre's stable freeness over polynomial rings over a field. Layer 3 defines extended
-modules and base change of polynomial modules and proves Quillen's patching theorem through the
-Quillen ideal. Layer 4 inverts the monic polynomials: Quillen's Lemma 2, Horrocks' theorem in
-Quillen's form, the affine Horrocks theorem (local Horrocks plus Layer 3) and Bass's theorem on
-isomorphism over `A⟨X⟩`.
-Layer 5 assembles the Quillen–Suslin theorem: by induction on `n`, Lemma 2 makes `k⟨Xₙ⟩` a
-principal ideal domain, the induction hypothesis makes the module free over
-`k⟨Xₙ⟩[X₁, …, Xₙ₋₁]`, hence over `A⟨Xₙ⟩` for `A = k[X₁, …, Xₙ₋₁]`, and 4.2 descends freeness to
-`A[Xₙ]`; Dedekind domains add Layer 3. Suslin's route runs through Layers 1 and 2 and 5.1: stably
-free by 2.4, unimodular vectors completable by 5.1 and a change of variables, free by 1.2.
+Layer 1 is Suslin's `r!` theorem on unimodular rows, independent of the rest. Layer 2 applies the
+finite free resolutions of PadicDifferentialEquationsAndRigidCohomology §RD.0.55 to obtain Serre's
+stable freeness over polynomial rings over a field. Layer 3 defines extended modules and base
+change of polynomial modules and proves Quillen's patching theorem through the Quillen ideal.
+Layer 4 inverts the monic polynomials: Quillen's Lemma 2 and the faithful flatness of `A⟨X⟩`
+over `A`, then Horrocks' theorem over a local ring, the affine Horrocks theorem (local Horrocks
+at every maximal ideal plus Layer 3), Bass's theorem on isomorphism over `A⟨X⟩` and, from the
+last two, Horrocks' theorem in Quillen's form, with no projective line. Layer 5 assembles the
+Quillen–Suslin theorem: by induction on `n`, Lemma 2 makes `k⟨Xₙ⟩` a principal ideal domain, the
+induction hypothesis makes the module free over `k⟨Xₙ⟩[X₁, …, Xₙ₋₁]`, hence over `A⟨Xₙ⟩` for
+`A = k[X₁, …, Xₙ₋₁]`, and 4.5 descends freeness to `A[Xₙ]`; Dedekind domains add Layer 3; and
+PadicDifferentialEquationsAndRigidCohomology §RD.0.56 (b) turns freeness into completion of
+unimodular vectors. Unimodular polynomial vectors (5.1) use Layer 3.
 
-## Layer 1: unimodular vectors, completable vectors and Hermite rings
+## Layer 1: Suslin's `r!` theorem
 
-### 1.1 Completable vectors and Hermite rings
-
-Define `IsCompletable v` for `v : Fin (n + 1) → A`: some `g : GL (Fin (n + 1)) A` has `v` as its
-first column (Convention 1). Define `IsHermiteRing A`: every `v : Fin (n + 1) → A` with
-`Module.IsUnimodular A v`, that is with a linear functional taking the value `1` at `v`, is
-completable (Lombardi–Quitté, Section V.4, p. 259, definition before Proposition 4.6; and Section
-XVI.6, p. 936, for the name). Prove, as API, that `Module.IsUnimodular A v` holds exactly when
-the coordinates of `v` generate the unit ideal, that a completable vector is unimodular (the first
-row of `g⁻¹` is a functional taking the value `1`), that completability is invariant under the
-action of `GL (Fin (n + 1)) A`, and that both notions are preserved by ring homomorphisms.
-*Needs:* Mathlib `Matrix.GeneralLinearGroup`, `Module.IsUnimodular`, `Ideal.span`.
-
-**Checks.**
-
-- `(2, 3)` over `ℤ` is completable by `!![2, 1; 3, 2]` (Convention 1), while `(2, 4)` is not
-  unimodular, its coordinates generating `2ℤ`; a definition without the unimodularity hypothesis
-  would make `ℤ` non-Hermite through `(2, 4)`.
-- For `n = 0` a vector `(a)` is unimodular exactly when `a` is a unit, and then completable by the
-  `1 × 1` matrix `(a)`; requiring the matrix in `SL` instead of `GL` would fail at `a = −1` over
-  `ℤ`, since `SL₁(ℤ) = {1}`.
-- Over `R = ℝ[x, y, z] ⧸ (x² + y² + z² − 1)` the vector `(x, y, z)` is unimodular
-  (`x · x + y · y + z · z = 1`) and not completable: a completion would make the kernel of
-  `(x, y, z)ᵀ`, the module of polynomial tangent fields of the sphere, free, and its base change
-  to the continuous functions would trivialise the tangent bundle of `S²`, against the hairy ball
-  theorem (Swan 1962). So `R` is not a Hermite ring, while every field and every local ring is.
-
-### 1.2 Hermite rings and stably free modules
-
-Prove `isHermiteRing_iff`: for a commutative ring `A`, `IsHermiteRing A` holds if and only if
-every finitely generated `M : Type u` with `Module.IsStablyFree A M` is free (Lombardi–Quitté,
-Proposition V.4.6, p. 259, with `m = 0`; Lang, Algebra, Theorem XXI.3.6, as cited by Kedlaya,
-proof of Proposition 6.6, p. 15). Route: a unimodular `v` splits `Aⁿ⁺¹ = K ⊕ A v`, and `K` is
-stably free, free exactly when `v` is completable; conversely peel off one free summand at a time
-from `M ⊕ Aʳ ≅ Aⁿ⁺ʳ`.
-*Needs:* 1.1; Mathlib `Module.IsStablyFree`, `Module.Free`, `Module.Finite`.
-
-**Checks.**
-
-- Over a local ring both sides hold: finitely generated projective modules are free by
-  `Module.free_of_flat_of_isLocalRing`, and so every unimodular vector is completable.
-- Over the sphere ring `R` of 1.1, the tangent module `K = ker (x, y, z)ᵀ` satisfies
-  `K ⊕ R ≅ R³` and is not free, matching the non-completable `(x, y, z)`.
-- The finiteness hypothesis is the one of the source, where stably free modules are kernels of
-  surjective matrices; over the zero ring every module is free and every vector completable, and
-  the statement holds trivially.
-
-### 1.3 Suslin's `r!` theorem
+### 1.1 Suslin's `r!` theorem
 
 Prove `exists_specialLinearGroup_row_pow`: for a commutative ring `A`, `r ≥ 1`, a row
 `a : Fin (r + 1) → A` whose entries generate the unit ideal and positive exponents `m` with
@@ -204,112 +175,56 @@ Prove `exists_specialLinearGroup_row_pow`: for a commutative ring `A`, `r ≥ 1`
 - `r = 1`: every unimodular `(b₀, b₁)` with `b₀c₀ + b₁c₁ = 1` is the first row of
   `!![b₀, b₁; −c₁, c₀]`, of determinant `1`, so the theorem holds with no divisibility condition,
   as `1! = 1` says.
-- `r = 2` on the sphere ring `R` of 1.1: `(x, y, z)` with exponents `(1, 1, 1)` has
-  `2 ∤ 1` and is not completable (1.1, Checks), while `(x, y, z²)` with exponents `(1, 1, 2)`
-  satisfies `2 ∣ 2` and is the first row of a matrix of determinant one: the divisibility
-  condition is sharp in this case.
+- `r = 2` on the sphere ring `R = ℝ[x, y, z] ⧸ (x² + y² + z² − 1)`: the row `(x, y, z)` is
+  unimodular (`x · x + y · y + z · z = 1`) and is not the first row of an invertible matrix: a
+  completion would make the kernel `K` of `(x, y, z)ᵀ : R³ → R`, the module of polynomial tangent
+  fields of the sphere, free, and its base change to the continuous functions would trivialise
+  the tangent bundle of `S²`, against the hairy ball theorem (Swan 1962); `K ⊕ R ≅ R³`, so `K` is
+  stably free and not free. With exponents `(1, 1, 1)`, `2 ∤ 1`, and the theorem says nothing,
+  while `(x, y, z²)` with exponents `(1, 1, 2)` satisfies `2 ∣ 2` and is the first row of a matrix
+  of determinant one: the divisibility condition is sharp in this case.
 
 ### Examples
 
-- Every principal ideal domain is Hermite: a finitely generated stably free module is projective,
-  hence torsion-free, hence free (`Module.free_of_finite_type_torsion_free'`), and 1.2 applies.
-- Over `ℤ[X]`, `(1 + X, X)` is completable by `!![1 + X, 1; X, 1]`, of determinant `1`.
+- Over `ℤ`, `a = (2, 3)` and `m = (1, 2)` give the row `(2, 9)`, the first row of
+  `!![2, 9; 1, 5]`, of determinant `10 − 9 = 1`.
 
 ### Dependencies
 
-Mathlib only. Within the layer, 1.2 uses 1.1; 1.3 is independent of 1.2.
+Mathlib only.
 
-## Layer 2: finite free resolutions
+## Layer 2: Serre's stable freeness
 
-### 2.1 Finite free resolutions and stable freeness
-
-Define the inductive predicate `HasFiniteFreeResolution M` on `M : ModuleCat.{v} A`: a finite free
-`M` has one (constructor `free`), and so does `M` when some finite free `F` maps onto it with a
-kernel that has one (constructor `step`). This is a resolution
-`0 → Fₙ → ⋯ → F₀ → M → 0` of finite length by finite free modules (Lang, Algebra, Section XXI.2).
-Prove `HasFiniteFreeResolution.isStablyFree`: a projective module with a finite free resolution
-is stably free (Lang, Algebra, Theorem XXI.2.1, as cited by Kedlaya, proof of Proposition 6.6,
-p. 15). Route: the resolution of a projective module splits, so `M ⊕ F₁ ⊕ F₃ ⊕ ⋯` is isomorphic
-to `F₀ ⊕ F₂ ⊕ ⋯`.
-*Needs:* Mathlib `ModuleCat`, `ModuleCat.of`, `LinearMap.ker`, `Module.Free`, `Module.Finite`,
-`Module.Projective`, `Module.IsStablyFree`.
-
-**Checks.**
-
-- Over `ℤ`, `0 → ℤ → ℤ → ℤ/2 → 0` (multiplication by `2`) is a finite free resolution of `ℤ/2`
-  of length one: `step` applied to the reduction `ℤ → ℤ/2`, whose kernel `2ℤ` is free.
-- Over `ℤ/4`, the module `ℤ/2` has no finite free resolution: lengths are additive, so a
-  resolution would give `ℓ(ℤ/2) = (Σ (−1)ⁱ rank Fᵢ) · ℓ(ℤ/4)`, even, while `ℓ(ℤ/2) = 1`. A
-  definition allowing resolutions of infinite length would accept
-  `⋯ → ℤ/4 → ℤ/4 → ℤ/2 → 0` (multiplication by `2`).
-- Over `ℤ/6 ≅ ℤ/2 × ℤ/3`, the ideal `3ℤ/6 ≅ ℤ/2` is projective but has no finite free resolution:
-  its rank is `1` at the prime `(2)` and `0` at `(3)`, while a stably free module has constant
-  rank. A definition by finite projective resolutions would contain it, and 2.1 would fail.
-
-### 2.2 Two out of three
-
-Prove, for a short exact sequence `0 → M₁ → M → M₂ → 0` in `ModuleCat.{v} A` (an injective
-`f`, a surjective `g`, `range f = ker g`), that if two of `M₁`, `M`, `M₂` have finite free
-resolutions then so does the third: `HasFiniteFreeResolution.of_shortExact_left`,
-`HasFiniteFreeResolution.of_shortExact_middle` and `HasFiniteFreeResolution.of_shortExact_right`
-(Lang, Algebra, Theorem XXI.2.7, as cited by Kedlaya, proof of Proposition 6.5, p. 14). Route:
-horseshoe lemma for the middle term, mapping cones for the outer ones, and adding finite free
-summands to adjacent terms to turn stably free terms into free ones.
-*Needs:* 2.1; Mathlib `LinearMap.range`, `LinearMap.ker`.
-
-**Checks.**
-
-- `0 → ℤ → ℤ → ℤ/2 → 0` over `ℤ`: all three have resolutions; and `0 → ℤ/2 → ℤ/4 → ℤ/2 → 0`
-  over `ℤ` gives `ℤ/4` one from those of `ℤ/2`.
-- Over `ℤ/4`, the sequence `0 → ℤ/2 → ℤ/4 → ℤ/2 → 0` has a free middle term and outer terms
-  without resolutions (2.1, Checks): only one of three, so no conclusion is forced.
-- Over `ℤ/6`, the split sequence `0 → ℤ/2 → ℤ/6 → ℤ/3 → 0` has the same shape; asserting the
-  outer terms from the middle one alone would contradict 2.1, Checks.
-
-### 2.3 Polynomial extension
-
-Prove `hasFiniteFreeResolution_polynomial`: if `B` is Noetherian and every finite `B`-module in
-`ModuleCat.{u} B` has a finite free resolution, then every finite `B[X]`-module has one (Lang,
-Algebra, Theorem XXI.2.8, as cited by Kedlaya, proof of Proposition 6.5, pp. 14–15). Route: by
-2.2 and a filtration it suffices to treat `B[X] ⊗[B] N` and quotients `B[X] ⧸ (f)` of extended
-modules, which are resolved from resolutions over `B` and the sequence
-`0 → B[X] ⊗ N → B[X] ⊗ N → N → 0` (multiplication by `X`).
-*Needs:* 2.1, 2.2; Mathlib `Polynomial`, `IsNoetherianRing`, `Module.Finite`.
-
-**Checks.**
-
-- `B = ℤ`: the `ℤ[X]`-module `ℤ[X] ⧸ (2, X)` has the Koszul resolution
-  `0 → ℤ[X] → ℤ[X]² → ℤ[X] → ℤ[X] ⧸ (2, X) → 0`, maps `c ↦ (−Xc, 2c)` and `(a, b) ↦ 2a + Xb`.
-- `B = ℤ/4` does not satisfy the hypothesis (2.1, Checks), so 2.3 says nothing about
-  `(ℤ/4)[X]`; the hypothesis is on all finite modules, not only on `B` itself, which is free.
-- For `B` a field the hypothesis holds (every module is free), and two applications give the
-  Hilbert-syzygy statement over `B[X, Y]` used in 2.4.
-
-### 2.4 Serre's stable freeness
+### 2.1 Stable freeness over polynomial rings over a field
 
 Prove `isStablyFree_mvPolynomial`: over a field `k`, every finitely generated projective
-`k[X₁, …, Xₙ]`-module is stably free (proved by the route: 2.3 and induction on `n` give every
-finite module a finite free resolution, through `MvPolynomial (Fin (n + 1)) k ≃
-(MvPolynomial (Fin n) k)[X]`, and 2.1 concludes; Lombardi–Quitté, Section XVI.5, p. 919, for
-the attribution to Serre).
-*Needs:* 2.1, 2.3; Mathlib `MvPolynomial`, `Module.IsStablyFree`.
+`k[X₁, …, Xₙ]`-module in the universe of `k` is stably free (Lombardi–Quitté, Section XVI.5,
+p. 919, for the attribution to Serre). Route: by induction on `n`, every finite
+`k[X₁, …, Xₙ]`-module has a finite free resolution: for `n = 0` it is a finite free `k`-module,
+and the step is PadicDifferentialEquationsAndRigidCohomology §RD.0.55 (d) over the Noetherian ring
+`k[X₁, …, Xₙ]`, transported along `MvPolynomial.finSuccEquiv`; then §RD.0.55 (b) concludes.
+Prove, as API, that a finite free resolution is carried along a ring isomorphism together with
+its module.
+*Needs:* PadicDifferentialEquationsAndRigidCohomology §RD.0.55; Mathlib `MvPolynomial`,
+`MvPolynomial.finSuccEquiv`, `IsNoetherianRing`, `Module.IsStablyFree`.
 
 **Checks.**
 
 - `n = 0`: `MvPolynomial (Fin 0) k ≅ k`, over which every module is free.
 - `n = 1`: `k[X]` is a principal ideal domain, and the statement is the freeness of finitely
   generated projective modules, with the trivial complement.
-- The field cannot be replaced by `ℤ/6`: there `ℤ/2` is projective and not stably free (2.1,
-  Checks), and so is its extension `(ℤ/6)[X] ⊗ ℤ/2` over `(ℤ/6)[X]`.
+- The field cannot be replaced by `ℤ/6`: there `ℤ/2 ≅ 3ℤ/6` is projective of rank `1` at the
+  prime `(2)` and `0` at `(3)`, so not stably free, and so is its extension `(ℤ/6)[X] ⊗ ℤ/2`.
 
 ### Examples
 
-- Every ideal of `k[X, Y]` has a finite free resolution; for `(X, Y)` it is the Koszul complex
-  `0 → k[X, Y] → k[X, Y]² → (X, Y) → 0`.
+- The ideal `(X, Y)` of `k[X, Y]` has the Koszul resolution
+  `0 → k[X, Y] → k[X, Y]² → (X, Y) → 0`, maps `c ↦ (−Yc, Xc)` and `(a, b) ↦ Xa + Yb`; the
+  projective module `k[X, Y]` itself is free.
 
 ### Dependencies
 
-Mathlib only. Within the layer, 2.2 uses 2.1, 2.3 uses 2.1 and 2.2, and 2.4 uses 2.1 and 2.3.
+PadicDifferentialEquationsAndRigidCohomology §RD.0.55; Mathlib.
 
 ## Layer 3: extended modules and Quillen patching
 
@@ -337,16 +252,19 @@ isomorphism, that base change along `A → B` preserves extended modules, and th
 - `A[X] ⧸ (X − 1)` has `M(0) = 0` (Convention 2) and is not extended when `A ≠ 0`; specialising at
   `X = 1` instead would give `A` and fail to detect it.
 - For `M = ℤ[X] ⧸ (2, X)`, `IsExtendedAfter ℤ (Localization.Away 2) M` holds (the base change is
-  `0`), while `IsExtendedAfter ℤ (Localization.AtPrime (Ideal.span {3})) M` fails: the base change
-  is `𝔽₂` with `X` acting by `0`, as in the first Check.
+  `0`), while `IsExtendedAfter ℤ (Localization.AtPrime (Ideal.span {2})) M` fails: the base change
+  is `ℤ₍₂₎[X] ⧸ (2, X) = 𝔽₂` with `X` acting by `0`, its `M(0)` is `𝔽₂`, and
+  `ℤ₍₂₎[X] ⊗ 𝔽₂ = 𝔽₂[X] ≠ 𝔽₂`, as in the first Check. At `(3)` it would hold, `2` being a unit
+  of `ℤ₍₃₎` and the base change `0`.
 - Over the zero ring `B`, `IsExtendedAfter A B M` holds for every `M`.
 
 ### 3.2 The Quillen ideal
 
 Prove `exists_ideal_isExtendedAfter_away`: for a finitely presented `A[X]`-module `M`, there is an
 ideal `I` of `A` with `a ∈ I` exactly when `IsExtendedAfter A (Localization.Away a) M` (Quillen
-1976, proof of Theorem 1, p. 168; Lombardi–Quitté, proof of the local-global principle XVI.3.6,
-p. 909, for its matrix form).
+1976, proof of Theorem 1, p. 168; a different ideal with the same role, the `s` with `G(X + sY)`
+equivalent to `G(X)` over `A[X, Y]` for a matrix `G`, is in Lombardi–Quitté, proof of XVI.3.6,
+p. 909).
 Route: closure under multiples is base change along `A_a → A_(ab)`; closure under sums is Quillen's
 Lemma 1 (p. 167), which factors an automorphism of `A_(ab)[X] ⊗ N` congruent to the identity
 modulo `X` into automorphisms coming from `A_a` and `A_b` after a substitution `X ↦ (ab)ᵏX`.
@@ -413,32 +331,41 @@ p. 912). Prove `isPrincipalIdealRing_monicLocalization`: if `k` is a principal i
 is `k⟨X⟩`; and `isField_monicLocalization`: if `k` is a field, `k⟨X⟩` is a field (Quillen 1976,
 Lemma 2, p. 169). Route: `k⟨X⟩` is a localisation of the factorial ring `k[X]`, so factorial,
 and of dimension at most one because an ideal of `k[X]` of height greater than `dim k` contains a
-monic polynomial; for a field, every nonzero polynomial is a unit times a monic one.
+monic polynomial; for a field, every nonzero polynomial is a unit times a monic one. Prove, as
+API, that `A⟨X⟩` is a faithfully flat `A`-algebra (`Module.FaithfullyFlat`): `A[X]` is free over
+`A` and `A⟨X⟩` is a localisation of it, so `A⟨X⟩` is flat; and for a maximal ideal `m` of `A`
+the ideal `m[X]` contains no monic polynomial, its leading coefficient `1` not lying in `m`, so
+`m · A⟨X⟩ ≠ A⟨X⟩` (Lombardi–Quitté, Theorem VIII.6.1, items 1 and 3a, pp. 468–469).
 *Needs:* Mathlib `Polynomial.Monic`, `Submonoid`, `Localization`, `IsPrincipalIdealRing`,
-`IsField`.
+`IsField`, `Module.Flat`, `Module.FaithfullyFlat`.
 
 **Checks.**
 
 - `X² + 2 ∈ monicSubmonoid ℤ` and `2X + 1 ∉ monicSubmonoid ℤ`; for a nonzero ring `0` is not
-  monic, so `A⟨X⟩` is not the zero ring when `A` is not.
+  monic, so `A⟨X⟩` is not the zero ring when `A` is not, as faithful flatness requires.
 - In `ℤ⟨X⟩` the element `X` is a unit and `2` is not (Convention 4): `ℤ⟨X⟩` is a principal ideal
   domain strictly between `ℤ[X]` and `ℚ(X)`. Inverting all nonzero polynomials would give `ℚ(X)`,
-  over which every finitely generated projective module is free, and 4.2 with that ring would be
-  false (4.2, Checks, second item).
+  in which `2 · ℚ(X) = ℚ(X)` although `2ℤ ≠ ℤ`: that ring is flat over `ℤ` and not faithfully
+  flat, and 4.2 with a field of fractions in place of `A⟨X⟩` would be false (4.2, Checks, second
+  item).
 - For a field `k`, `k⟨X⟩ = k(X)`, as `isField_monicLocalization` says; for `k[Y]`, `k[Y]⟨X⟩` is
   not a field (`Y` is not a unit: `Y · p = s` with `s` monic in `X` would make the leading
   coefficient of `s` divisible by `Y`).
 
-### 4.2 Horrocks' theorem in Quillen's form
+### 4.2 Horrocks' theorem over a local ring
 
-Prove `free_of_free_monicLocalization`: for any commutative ring `A`, a finitely generated
-projective `A[X]`-module `P` such that `A⟨X⟩ ⊗[A[X]] P` is free over `A⟨X⟩` is free (Quillen 1976,
-Theorem 3, p. 169; for a local Noetherian `A`, Horrocks 1964, Theorem 1, as cited by Quillen 1976,
-p. 169; for a local `A`, Lombardi–Quitté, Theorem XVI.4.3, p. 912). Route (Quillen): `P` is free
-over `A[X]_f` for a monic `f`, so `P` glues with a trivial bundle on the complement of `X = 0`
-in `ℙ¹_A` to a vector bundle trivial at infinity; Theorem 2 of Quillen 1976 (local Horrocks plus
-3.3) makes it extended, and its restriction at `X = ∞` is free.
-*Needs:* 4.1, 3.3; Mathlib `Module.Projective`, `Module.Free`, `TensorProduct`.
+Prove `free_of_free_monicLocalization_of_isLocalRing`: for a local ring `A`, a finitely generated
+projective `A[X]`-module `P` such that `A⟨X⟩ ⊗[A[X]] P` is free over `A⟨X⟩` is free
+(Lombardi–Quitté, Theorem XVI.4.3, p. 912; for a local Noetherian `A`, in the form of a vector
+bundle on the projective line, Horrocks 1964, Theorem 1, as cited by Quillen 1976, p. 169).
+Route: `P` has constant rank `n`, `Spec A[X]` being connected. The monoid of monic polynomials and
+`1 + m[X]` are comaximal, `m` the maximal ideal (Lombardi–Quitté, Lemma XVI.4.4, p. 912). Choose
+`z ∈ P` that is part of a basis over `A⟨X⟩` and, modulo `m`, part of a basis over the principal
+ideal domain `(A ⧸ m)[X]`; then `P ⧸ A[X] z` is projective, being free after both comaximal
+localisations, and `P ≅ (P ⧸ A[X] z) ⊕ A[X]`, which by induction splits off free summands down to
+rank one. A rank-one `P₁` with `A⟨X⟩ ⊗ P₁` free is stably isomorphic to `A[X]`, hence isomorphic
+to it (Lombardi–Quitté, Lemma XVI.4.6, p. 913).
+*Needs:* 4.1; Mathlib `IsLocalRing`, `Module.Projective`, `Module.Free`, `TensorProduct`.
 
 **Checks.**
 
@@ -449,18 +376,25 @@ in `ℙ¹_A` to a vector bundle trivial at infinity; Theorem 2 of Quillen 1976 (
   `b² = c³` and `t ∉ A`), there is a finitely generated projective `A[X]`-module of rank one that
   is not free (Lombardi–Quitté, Section XVI.2, p. 900, Traverso–Swan theorem), while every such
   module becomes free over the field `Frac(A)(X)`.
-- Over the sphere ring `R` of 1.1, the extended module `R[X] ⊗[R] K` is not free (its value at
-  `X = 0` is `K`), so by 4.2 it is not free over `R⟨X⟩` either: the hypothesis of 4.2 is not
-  automatic for extended modules.
+- Projectivity cannot be dropped: over the local ring `ℤ₍₂₎`, `P = ℤ₍₂₎[X] ⧸ (2, X)` is finitely
+  generated with `ℤ₍₂₎⟨X⟩ ⊗ P = 0` (`X` is a unit there), free of rank `0`, while `P ≅ 𝔽₂` is a
+  nonzero torsion module, not free.
 
 ### 4.3 The affine Horrocks theorem
 
 Prove `isExtendedFrom_of_isExtendedFrom_monicLocalization`: a finitely generated projective
 `A[X]`-module `P` such that `A⟨X⟩ ⊗[A[X]] P` is extended from `A` is extended from `A`
-(Lombardi–Quitté, Theorem XVI.4.7, p. 914). Route: at each maximal ideal `m`, the module over
-`A_m[X]` becomes free over `A_m⟨X⟩` (finitely generated projective modules over the local ring
-`A_m` are free), hence free by 4.2, hence extended; 3.3 concludes.
-*Needs:* 3.1, 3.3, 4.1, 4.2; Mathlib `Module.free_of_flat_of_isLocalRing`.
+(Lombardi–Quitté, Theorem XVI.4.7, p. 914). Route: write `A⟨X⟩ ⊗[A[X]] P ≅ A⟨X⟩ ⊗[A] N`. This
+module is finitely generated projective over `A⟨X⟩`, so `N` is finitely generated and flat over
+`A` by descent along the faithfully flat `A → A⟨X⟩` (4.1;
+`Module.Finite.of_finite_tensorProduct_of_faithfullyFlat`, `Module.Flat.of_flat_tensorProduct`).
+At a maximal ideal `m`, `N_m` is finitely generated and flat over the local ring `A_m`, hence free
+(`Module.free_of_flat_of_isLocalRing`), so the base change of `P` to `A_m[X]` becomes free over
+`A_m⟨X⟩`, a localisation of `A_m ⊗[A] A⟨X⟩`; by 4.2 it is free, hence extended. `P` is finitely
+presented (`Module.finitePresentation_of_projective`), and 3.3 concludes.
+*Needs:* 3.1, 3.3, 4.1, 4.2; Mathlib `Module.Finite.of_finite_tensorProduct_of_faithfullyFlat`,
+`Module.Flat.of_flat_tensorProduct`, `Module.free_of_flat_of_isLocalRing`,
+`Module.finitePresentation_of_projective`.
 
 **Checks.**
 
@@ -487,14 +421,35 @@ XVI.4.8, p. 915).
   `c` and the unit `X − c` to `0`), and 4.4 is the statement that the base change still reflects
   isomorphism.
 
+### 4.5 Horrocks' theorem in Quillen's form
+
+Prove `free_of_free_monicLocalization`: for any commutative ring `A`, a finitely generated
+projective `A[X]`-module `P` such that `A⟨X⟩ ⊗[A[X]] P` is free over `A⟨X⟩` is free (Quillen 1976,
+Theorem 3, p. 169). Route: `A⟨X⟩ ⊗[A[X]] P ≅ A⟨X⟩ ⊗[A] Aʳ` is extended, so by 4.3
+`P ≅ A[X] ⊗[A] P(0)`; then `A⟨X⟩ ⊗[A] P(0) ≅ A⟨X⟩ ⊗[A] Aʳ`, and 4.4 gives `P(0) ≅ Aʳ`, so
+`P ≅ A[X]ʳ`. Quillen's own route glues `P` with a trivial bundle on the projective line; the
+route here needs no projective line.
+*Needs:* 4.3, 4.4; Mathlib `Module.Projective`, `Module.Free`, `TensorProduct`.
+
+**Checks.**
+
+- For a field `A`, `A⟨X⟩` is a field and the hypothesis always holds; the conclusion is the
+  freeness of finitely generated projective modules over the principal ideal domain `A[X]`.
+- Over the sphere ring `R` of 1.1, the extended module `R[X] ⊗[R] K` is not free (its value at
+  `X = 0` is `K`), so by 4.5 it is not free over `R⟨X⟩` either: the hypothesis of 4.5 is not
+  automatic for extended modules.
+- Over the zero ring every module is zero, hence free, and both sides hold; the statement needs no
+  locality, which 4.2 assumes.
+
 ### Examples
 
 - `ℤ⟨X⟩` is a principal ideal domain (4.1) over which every finitely generated projective module
-  is free; by 4.2 every finitely generated projective `ℤ[X]`-module is free.
+  is free; by 4.5 every finitely generated projective `ℤ[X]`-module is free.
 
 ### Dependencies
 
-Layer 3; Mathlib. Within the layer, 4.2 uses 4.1 and 3.3, 4.3 uses 4.2, and 4.4 uses 4.3.
+Layer 3; Mathlib. Within the layer, 4.2 uses 4.1; 4.3 uses 4.1, 4.2 and 3.3; 4.4 uses 4.1 and 4.3;
+and 4.5 uses 4.3 and 4.4.
 
 ## Layer 5: unimodular polynomial vectors and the Quillen–Suslin theorem
 
@@ -507,9 +462,14 @@ has `g.mulVec f = i ↦ C (eval 0 (f i))` (Lombardi–Quitté, Little Horrocks' 
 XVI.5.15, p. 924, stated there for `n ≥ 2`; Lang, Algebra, Section XXI.3, whose Theorem 3.4 is the
 form cited by Kedlaya, proof of Proposition 6.4, p. 14). Route: for `n = 2` an explicit matrix;
 for `n ≥ 3`, the local case by elementary operations lowering the degree of a monic entry
-(Lombardi–Quitté, Theorem XVI.5.14, p. 923), then patching of left equivalence over comaximal
-localisations (Lombardi–Quitté, local-global principle XVI.3.6 (2), p. 909).
-*Needs:* 1.1; Mathlib `Polynomial.coeff`, `Polynomial.natDegree`, `Polynomial.eval`,
+(Lombardi–Quitté, Theorem XVI.5.14, p. 923; over `A_m` an entry whose formal leading coefficient
+is a unit is made monic by a diagonal matrix), then a patching derived from 3.3: the local
+equivalences make `M = A[X]ⁿ ⧸ A[X] f` extended at every maximal ideal, `M` is finitely generated
+projective since `A[X] f` is a free direct summand of rank one, so by 3.3 and 3.1
+`M ≅ A[X] ⊗[A] (Aⁿ ⧸ A f(0)) ≅ A[X]ⁿ ⧸ A[X] f(0)`; both are quotients of `A[X]ⁿ` by a free
+direct summand of rank one, so this isomorphism and `f ↦ f(0)` combine to some
+`g : GL (Fin n) A[X]` with `g.mulVec f = f(0)`.
+*Needs:* 3.1, 3.3; Mathlib `Polynomial.coeff`, `Polynomial.natDegree`, `Polynomial.eval`,
 `Polynomial.C`, `Matrix.mulVec`, `Matrix.GeneralLinearGroup`.
 
 **Checks.**
@@ -531,8 +491,8 @@ Prove `free_mvPolynomial`: over a principal ideal domain `k`, every finitely gen
 Lombardi–Quitté, Corollary XVI.5.3, p. 918). Route (Quillen): induction on `n`. With
 `A = k[X₁, …, Xₙ₋₁]` and `T = Xₙ`, `A ⊗[k[T]] k⟨T⟩` is a polynomial ring in `n − 1` variables over
 the principal ideal domain `k⟨T⟩` (4.1), so the module is free over it by induction, hence free
-over `A⟨T⟩`, and 4.2 concludes.
-*Needs:* 4.1, 4.2; Mathlib `MvPolynomial`, `IsPrincipalIdealRing`,
+over `A⟨T⟩`, and 4.5 concludes.
+*Needs:* 4.1, 4.5; Mathlib `MvPolynomial`, `IsPrincipalIdealRing`,
 `Module.free_of_finite_type_torsion_free'` for `n = 0`.
 
 **Checks.**
@@ -562,39 +522,43 @@ hence extended, and 3.4 concludes.
 
 ### 5.4 Suslin's completion theorem
 
-Prove `isHermiteRing_mvPolynomial`: over a principal ideal domain `k`, every unimodular vector over
-`k[X₁, …, Xₙ]` is completable (Lombardi–Quitté, Theorem XVI.5.5, p. 920, for a field; Suslin
-1976). Proved by the route: 5.2 and 1.2.
-*Needs:* 1.2, 5.2.
+Prove `exists_generalLinearGroup_col_eq_of_isUnimodular`: over a principal ideal domain `k`, every
+`v : Fin (m + 1) → k[X₁, …, Xₙ]` with `Module.IsUnimodular` is the first column of some
+`g : GL (Fin (m + 1)) k[X₁, …, Xₙ]` (Lombardi–Quitté, Theorem XVI.5.5, p. 920, for a field;
+Suslin 1976). Route: by 5.2 every finitely generated stably free `k[X₁, …, Xₙ]`-module, being
+projective, is free, so PadicDifferentialEquationsAndRigidCohomology §RD.0.56 (b) gives some
+`h : GL` with `h.mulVec v = Pi.single 0 1`, and `g = h⁻¹` has first column `v`.
+*Needs:* 5.2; PadicDifferentialEquationsAndRigidCohomology §RD.0.56; Mathlib
+`Module.IsUnimodular`, `Matrix.GeneralLinearGroup`.
 
 **Checks.**
 
-- `n = 0`: principal ideal domains are Hermite (Layer 1, Examples).
-- `(1 + X, X)` over `ℤ[X]` is completable (Layer 1, Examples), as is every unimodular vector of
-  length two by the matrix of 1.3, Checks.
-- `(x, y, z)` over the sphere ring of 1.1 is not completable: the polynomial ring cannot be
-  replaced by a quotient.
+- `n = 0`: over a principal ideal domain every finitely generated stably free module is free
+  (`Module.free_of_finite_type_torsion_free'`); over `ℤ`, `(2, 3)` is the first column of
+  `!![2, 1; 3, 2]`, of determinant `4 − 3 = 1`, while `(2, 4)` is not unimodular.
+- `m = 0`: `(a)` is unimodular exactly when `a` is a unit, and is then the `1 × 1` matrix `(a)`;
+  requiring `g` in `SL` instead of `GL` would fail at `a = −1` over `ℤ`, since `SL₁(ℤ) = {1}`.
+- `(1 + X, X)` over `ℤ[X]` is the first column of `!![1 + X, 1; X, 1]`, of determinant
+  `(1 + X) − X = 1`; `(x, y, z)` over the sphere ring of 1.1 is not the first column of an
+  invertible matrix: the polynomial ring cannot be replaced by a quotient.
 
 ### Examples
 
 - Every finitely generated projective module over `ℤ[X₁, …, Xₙ]` and over `k[X₁, …, Xₙ]` for a
   field `k` is free (5.2).
-- Over `k[X, Y]` for a field `k`, the unimodular vector `(1 + XY, X², Y²)` is completable by 5.4;
-  a vector with an entry equal to `1` is completable by a permutation followed by elementary
-  matrices, the simplest instance.
+- Over `k[X, Y]` for a field `k`, the vector `(1 + XY, X², Y²)` is unimodular, since
+  `(1 − XY)(1 + XY) + Y² · X² = 1`, and is the first column of an invertible matrix by 5.4; a
+  vector with an entry equal to `1` is one by a permutation followed by elementary matrices, the
+  simplest instance.
 
 ### Dependencies
 
-Layers 1, 3 and 4; Mathlib. Within the layer, 5.3 and 5.4 use 5.2; 5.1 uses Layer 1 only.
+Layers 3 and 4; PadicDifferentialEquationsAndRigidCohomology §RD.0.56; Mathlib. Within the layer,
+5.3 and 5.4 use 5.2; 5.1 uses 3.1 and 3.3.
 
 ## Downstream consumers
 
 No roadmap on main or in the open pull requests cites ProjectiveModulesOverPolynomialRings.
-PadicDifferentialEquationsAndRigidCohomology §RD.3.27 follows Kedlaya's proof of a rigid-analytic
-Quillen–Suslin theorem, whose algebraic steps are the statements 1.2, 2.1, 2.2, 2.3 and 5.1 here
-(Kedlaya, §6, citing Lang's Theorems XXI.3.6, 2.1, 2.7, 2.8 and 3.4, the last for unimodular
-polynomial vectors, which 5.1 treats in Lombardi–Quitté's form); its proof sketch names
-Lang's Theorem XXI.3.4 and does not cite this roadmap.
 
 ## Research context
 
@@ -612,7 +576,7 @@ Quillen's comments (Quillen 1976, p. 170) and Bass (1973, §4.1) state the Bass�
 conjecture: for a regular Noetherian ring `A`, every finitely generated projective `A[T]`-module is
 extended from `A`, equivalently, by 3.3, every finitely generated projective module over `A[T]`
 for a regular local ring `A` is free. It holds when `dim A ≤ 2` (Quillen 1976, p. 170, citing
-Horrocks 1964 and Murthy 1965) and for regular rings essentially of finite type over a field
+Horrocks 1964 and Murthy 1966) and for regular rings essentially of finite type over a field
 (Lindel 1981); with Popescu's desingularization theorem (Popescu 1986, 1990; exposition in Swan
 1998) it follows whenever every local ring of `A` at a maximal ideal is unramified, in particular
 when `A` contains a field, and it is open for ramified regular local rings of mixed
@@ -622,9 +586,10 @@ infinite fields are proved with A¹-homotopy theory (Asok–Hoyois–Wendt 2018)
 question, that for a regular local ring `R` and a regular parameter `r` every finitely generated
 projective `R[1/r]`-module is free, implies the conjecture; it is known in equal characteristic
 and in dimension at most 3, and open in mixed characteristic (Česnavičius 2022, §2.2), while
-Quillen's global form of it is false (Swan 1978, §2). For the Hermite ring conjecture, that `A[X]`
-is Hermite whenever `A` is (Lombardi–Quitté, Section XVI.6, p. 936; Lam 2006), a counterexample is
-claimed in a preprint (Schäppi 2023).
+Quillen's global form of it is false (Swan 1978, §2). A ring is Hermite when every unimodular
+vector over it is the first column of an invertible matrix; for the Hermite ring conjecture, that
+`A[X]` is Hermite whenever `A` is (Lombardi–Quitté, Section XVI.6, p. 936; Lam 2006), a
+counterexample is claimed in a preprint (Schäppi 2023).
 
 ## References
 
@@ -656,8 +621,8 @@ claimed in a preprint (Schäppi 2023).
   doi:10.2307/1969915.
 - C. S. Seshadri, « Triviality of vector bundles over the affine space K² », *Proc. Nat. Acad.
   Sci. U.S.A.* 44 (1958), 456–458. doi:10.1073/pnas.44.5.456.
-- M. P. Murthy, « Projective modules over a class of polynomial rings », *Math. Z.* 88 (1965),
-  184–189. doi:10.1007/BF01112098.
+- M. P. Murthy, « Projective A[x]-modules », *J. London Math. Soc.* 41 (1966), 453–456.
+  doi:10.1112/jlms/s1-41.1.453.
 - L. N. Vaserstein, A. A. Suslin, « Serre's problem on projective modules over polynomial rings,
   and algebraic K-theory », *Math. USSR Izv.* 10 (1976), no. 5, 937–1001.
   doi:10.1070/IM1976v010n05ABEH001822.
