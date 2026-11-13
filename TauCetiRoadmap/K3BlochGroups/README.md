@@ -24,7 +24,9 @@ The normalized positive-characteristic integral K₃-torsion comparison is a con
 
 This roadmap also owns the following results, which the general roadmaps cited above do not state; each is specified where it is used. They are the finite-subwedge compatibility and arbitrary-index extension, H-space Hopf–Hurewicz argument and sphere-unit comparison (§1.5); the degree-three injectivity consequence of KTheoryFiniteLocalFields §§3.0, 3.0a and 6.10, the weight-two degree-zero comparison and the all-prime divisibility of K₄ of an algebraically closed field (§2.2); the unstable SL₂ symbol presentation (§4.5); the cyclic homology maps and homological stability of symmetric groups (§4.15); the π^s_*-module structure and unit splitting of the stable Atiyah–Hirzebruch spectral sequence of a classifying space (§4.16); rigidity under purely transcendental extension and the rational specialization of five-term relations (§4.21); and the finite-group stable-elements, duality and period theorems (§5.2).
 
-HomologicalStabilityOfGeneralLinearGroups §§1.3 and 2.3 owns the frame spectral sequence and homological stability over semilocal rings with infinite residue fields. Section 4.8 consumes their field specialization and owns the additional degeneration, frame-product and Milnor-quotient statements; §4.22 consumes the local infinite-residue specialization. The inclusion is the pinned `TauCeti.stabilizeGL`. SchemeKTheoryOperations §6.7 owns group hyperhomology for nonnegative complexes, its functoriality, quasi-isomorphism invariance, spectral sequences and Shapiro interface. Section 4.1 adds only the bounded-below shift adapter, the total-differential sign comparison and the configuration-to-coinvariant specialization. The symmetric-group spectral sequence of §4.15 uses injective words.
+HomologicalStabilityOfGeneralLinearGroups §§1.3 and 2.3 owns the frame spectral sequence and homological stability over semilocal rings with infinite residue fields. Section 4.8 consumes their field specialization and owns the additional degeneration, frame-product and Milnor-quotient statements; §4.22 consumes the local infinite-residue specialization. The inclusion is the pinned `TauCeti.stabilizeGL`. The former generalLinear_homology_stable target of §4.8 is now supplied by HomologicalStabilityOfGeneralLinearGroups §2.3; the former generalLinearStabilization is `TauCeti.stabilizeGL`. SchemeKTheoryOperations §6.7 owns group hyperhomology for nonnegative complexes, its functoriality, quasi-isomorphism invariance, spectral sequences and Shapiro interface. Section 4.1 adds only the bounded-below shift adapter, the total-differential sign comparison and the configuration-to-coinvariant specialization. The symmetric-group spectral sequence of §4.15 uses injective words.
+
+Tau Ceti supplies the multiplication-matrix embedding `TauCeti.unitsLeftMulMatrix`, its injectivity `TauCeti.unitsLeftMulMatrix_injective` and determinant formula `TauCeti.val_det_unitsLeftMulMatrix`. Section 5.1 owns its norm-one restriction to SL₂ and the basis-change comparison.
 
 Section 3.12 owns the local specialization adapter for smooth curves without a properness hypothesis, including its agreement with AlgebraicCurves Layer 12A on proper curves. Regularity, stalk dimension and the DVR criterion are the pinned inputs below, not new foundational constructions.
 
@@ -46,7 +48,7 @@ For an abelian group M, M/n means M⊗ℤℤ/n=M/nM; M[n] is its n-torsion subgr
 
 ## Exact supplier contracts
 
-The target signatures use Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`. The acceptance file uses Mathlib and Tau Ceti's `TauCeti.stabilizeGL`; the other Tau Ceti interfaces below are consumed by the mathematical development.
+The target signatures use Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`. The acceptance file uses Mathlib; the Tau Ceti interfaces below are consumed by the mathematical development.
 
 ### From Mathlib
 
@@ -61,6 +63,8 @@ For §3.12 use `AlgebraicGeometry.Scheme.functionField` and its `IsFractionRing 
 ### From Tau Ceti
 
 `TauCeti.crossRatio_comp_eq_of_sub_eq_div` in `TauCeti/Algebra/Field/LinearFractional.lean` is the affine cross-ratio comparison used through PolylogarithmFunctions §5.8. `TauCeti.antisymmetricTensors` in `TauCeti/LinearAlgebra/TensorProduct/Symmetric.lean` is the negative eigenspace of the tensor flip; its comparison with the cokernel here requires two invertible. `TauCeti.stabilizeGL` in `TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Stable.lean` is the stabilization g↦diag(g,1) from GLₘ(A) to GLₙ(A), m≤n, over a ring A; §4.22 uses its induced homology maps.
+
+For a finite basis e indexed by I of a semiring S with an algebra structure over a commutative semiring R, `TauCeti.unitsLeftMulMatrix e` embeds Sˣ in `GL I R`, with injectivity supplied by `TauCeti.unitsLeftMulMatrix_injective`. For R a commutative ring and S a ring, `TauCeti.val_det_unitsLeftMulMatrix` identifies its determinant with the algebra norm. All three declarations are in `TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/LeftMulMatrix.lean`; §5.1 specializes them to a quadratic field extension and a basis indexed by Fin 2.
 
 Use `TauCeti.groupHomology.indIso_inv` in `TauCeti/RepresentationTheory/Homological/GroupHomology/Shapiro.lean`; `TauCeti.groupHomology.transfer`, `TauCeti.groupHomology.transfer_comp_map_subtype_id` and `TauCeti.groupHomology.map_comp_transfer` in `TauCeti/RepresentationTheory/Homological/GroupHomology/Transfer/Basic.lean`; `TauCeti.groupHomology.transfer_trans` in `TauCeti/RepresentationTheory/Homological/GroupHomology/Transfer/Trans.lean`; and `TauCeti.groupHomology.δ_naturality` in `TauCeti/RepresentationTheory/Homological/GroupHomology/LongExactSequence.lean`. These take actual representations over a commutative coefficient ring; transfer requires a finite-index subgroup. `TauCeti.groupCohomology.eq_zero_of_pow_nsmul_eq_zero_of_map_sylow_eq_zero` in `TauCeti/RepresentationTheory/Homological/GroupCohomology/Sylow.lean` supplies injectivity on the prime-primary subgroup for a finite group. Positive-degree localized cohomology is such torsion; degree zero is handled directly. `TauCeti.ContinuousCohomology.corestriction_mackey` in `TauCeti/RepresentationTheory/Homological/ContCohomology/Corestriction/Mackey/AllDegrees.lean` supplies the all-degree double-coset identity for an open subgroup U, a closed subgroup V and discrete coefficients on a profinite group. Section 5.2 compares its cochains with ordinary cochains for finite discrete groups before using that identity.
 
@@ -1828,7 +1832,7 @@ The source locators for these statements are Weibel, K-book III, III.7.2(a), p61
 
 *Needs:* §2.1; Layers 1–4; the finite-field and arithmetic contracts.
 
-For a quadratic extension E/F of finite fields and a basis e:Fin2→E, let C¹=ker(N:Eˣ→Fˣ). Construct ιe:C¹→SL₂(F) by the matrix in e of multiplication by u. Its determinant is N(u)=1 and it is injective. A basis change conjugates the matrices by the actual change-of-basis element of GL₂(F). The field norm and matrix carriers are Mathlib’s; no second norm or special-linear group is defined.
+For a quadratic extension E/F of finite fields and a basis e:Fin2→E, let C¹=ker(N:Eˣ→Fˣ). Define ιe:C¹→SL₂(F) by restricting `TauCeti.unitsLeftMulMatrix e` to C¹ and corestricting to SL₂ using `TauCeti.val_det_unitsLeftMulMatrix` and N(u)=1. Inherit injectivity from `TauCeti.unitsLeftMulMatrix_injective`. Prove that a basis change conjugates the matrices by the actual change-of-basis element of GL₂(F).
 
 Here E/F is a quadratic extension of finite fields. e is an F-linear basis of E indexed by Fin 2; C¹ is the kernel of the norm homomorphism on units.
 
@@ -1838,7 +1842,7 @@ Here E/F is a quadratic extension of finite fields. e is an F-linear basis of E 
 
 - If U=e′⁻¹∘e in coordinates then ιe′(u)=Uιe(u)U⁻¹.
 
-These multiplication matrices are constructed before the group-homology calculation and use only Mathlib’s norm, basis and matrix APIs (CGZ 2023, §4.2, p.406).
+The norm-one restriction and basis-change comparison precede the group-homology calculation (CGZ 2023, §4.2, p.406).
 
 **Checks.**
 
@@ -1846,7 +1850,7 @@ These multiplication matrices are constructed before the group-homology calculat
 - Over 𝔽₄/𝔽₂, for ω²+ω+1=0 and basis (1,ω), multiplication by ω has matrix ((0,1),(1,1)), determinant 1 and trace 1.
 - At u=0 multiplication has determinant 0 and is excluded from C¹; a change of basis conjugates, rather than leaving each matrix entry fixed.
 
-*Needs:* Mathlib’s finite-dimensional algebra, field norm, linear maps and matrix groups; no homology input.
+*Needs:* `TauCeti.unitsLeftMulMatrix`, `TauCeti.unitsLeftMulMatrix_injective`, `TauCeti.val_det_unitsLeftMulMatrix`; Mathlib’s finite-dimensional algebra, field norm, linear maps and matrix groups; no homology input.
 
 ### 5.2 Unstable special-linear homology
 
