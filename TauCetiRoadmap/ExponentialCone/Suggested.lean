@@ -5,7 +5,7 @@ import Mathlib
 
 The roadmap is `README.md`; this file is not the roadmap. These are suggested forms for
 selected target interfaces, not an exhaustive checklist for the roadmap. The markdown remains
-definitive. All ten retained headlines are stated against Lean 4.36.0-rc2 and roadmap-pinned
+definitive. All nine retained headlines are stated against Lean 4.36.0-rc2 and roadmap-pinned
 Mathlib 1b1ccf4b088b32fa3f23f2de1127433254a81e1e; the Tau Ceti dependency is
 2fd255d997f47c0b5d834ee416c7015d55444ce5. They use existing APIs with concrete definitions.
 The theorems are intentionally admitted with `sorry`: elaboration checks interfaces, not proofs.
@@ -83,11 +83,6 @@ theorem weighted_exponential_iff {n : ℕ} (d s : Fin n → ℝ) (L : ℝ)
   sorry
 
 /-! ## Layer 4: affine exponential inequalities -/
-
-/-- A process time factor multiplies both the free auxiliary and the constant one. -/
-theorem process_cone_iff (u t x : ℝ) (ht : 0 < t) :
-    ((t * (u + 1), t, x) : Space) ∈ cone ↔ Real.exp (x/t)-1 ≤ u := by
-  sorry
 
 /-- Aggregate process rows at strictly positive times using nonnegative weights. -/
 theorem weighted_process_iff {n : ℕ} (d t x : Fin n → ℝ) (L : ℝ)

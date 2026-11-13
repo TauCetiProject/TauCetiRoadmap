@@ -14,12 +14,23 @@ hulls, generic recession/perspective theory, projection/dual/facial classificati
 other cone families, smoothing accuracy, optimizer existence and empirical performance
 are outside this roadmap. These are known representations, without a novelty claim.
 
-The markdown is definitive. `Suggested.lean` provides ten selected admitted headline
+The markdown is definitive. `Suggested.lean` provides nine selected admitted headline
 signatures, three concrete definitions and one coordinate-type abbreviation in namespace
 `TauCetiRoadmap.ExponentialCone`. It is not an exhaustive checklist. The basic API,
 supporting arguments, scalar identities and Checks remain mathematical requirements even
 where they do not need separate prototype theorem names. Existing native convexity,
 closedness and scaling interfaces are used directly, without duplicate wrappers.
+
+## How to read the build
+
+The numbered mathematical subsections are addressable targets within four dependency
+layers. Each definition comes with its required API and discriminating Checks; all of
+these are part of the specification. `Suggested.lean` contains nine selected headline
+signatures with concrete definitions and admitted theorem bodies. A successful interface
+build checks that those signatures can be stated against the pinned suppliers; it does
+not prove admitted statements or replace the remaining README API and Checks. Implement
+the full mathematical requirements, including the scalar process identity, even where
+an elementary API consequence has no separate selected prototype.
 
 ## Conventions
 
@@ -75,24 +86,49 @@ it does not supply this cone or its closure/softplus statements.
 
 ## Layer 1: cone geometry
 
-### Targets and basic API
+### 1.1 Positive branch
 
-For `positive`, require extraction of `v>0` and `v*exp(w/v)≤u`, hence `u>0`;
-membership after increasing `u`; closure under addition of two members; and closure under
-strictly positive scalar multiplication. These use the same coordinate order. The origin
-and every zero-scale point are excluded from `positive`.
+**API.** For `positive`, require:
+
+- From `(u,v,w)∈positive`, extract `v>0` and `v*exp(w/v)≤u`, hence `u>0`.
+- If `(u,v,w)∈positive` and `u≤u'`, then `(u',v,w)∈positive`.
+- The sum of two members of `positive` belongs to `positive`.
+- For every real `a>0`, multiplying all three coordinates of a member by `a`
+  gives another member of `positive`.
+- The origin and every zero-scale point are excluded from `positive`.
+
+**Checks.**
+
+- `(1,1,0)∈positive`: the scale is positive and `1*exp(0)=1≤1`.
+- `(0,1,0)∉positive`: positive scale alone cannot satisfy the height bound `1≤0`.
+- `(0,0,0)∉positive`: the strict scale condition `0<0` fails.
 
 *Needs:* the definition of `positive`, positivity of `Real.exp`, ordered-field arithmetic;
 for addition, the supporting-halfspace characterization below (or its convexity argument)
 and positivity of the sum of two positive scales.
 
-`mem_cone_iff` identifies membership in the native `cone` with the displayed branch union.
-Require positive-scale simplification to `v*exp(w/v)≤u` under `v>0`, zero-scale
-simplification to `0≤u ∧ w≤0`, and impossibility under `v<0`.
+### 1.2 Cone carrier and membership
+
+**API.** For the native `cone`, require:
+
+- `mem_cone_iff` identifies membership with the displayed positive-branch/zero-face union.
+- Under `v>0`, simplify membership to `v*exp(w/v)≤u`.
+- At `v=0`, simplify membership to `0≤u ∧ w≤0`; under `v<0`, membership is impossible.
+- Use native zero/addition membership, nonnegative scalar membership (including scalar
+  zero), convexity and closedness; require the halfspace and density bridges below.
+
+**Checks.**
+
+- `(1,1,0)∈cone`: its positive-branch bound is `1≤1`.
+- `(2,0,-1)∈cone`: the literal face conditions are `0≤2` and `-1≤0`.
+- `(1,0,1)∉cone`: the zero-face argument condition `1≤0` fails.
+- `(1,-1,0)∉cone`: neither a positive scale nor a zero scale is present.
 
 *Needs:* native hull/closure supplier contracts and the noncircular halfspace/density route
 below. Sources: [T] (8.8), printed p.282; [C] §4.2, Lemma4.2.1, printed p.120;
 [M] §5.1, (5.1)–(5.3).
+
+### 1.3 Supporting halfspaces
 
 `halfspace_iff` requires exactly
 
@@ -112,6 +148,8 @@ inversion, continuous affine inequalities and native hull/closure minimality. Th
 supporting-halfspace route is supplied by [L], `halfspace_iff`; it differs from [M]'s
 Hessian proof and [C]'s source sequence, while retaining the same cone.
 
+### 1.4 Carrier density and native cone API
+
 For `u≥0,w≤0,δ>0`, require `(u+δ,δ,w)∈positive`, because `exp(w/δ)≤1`.
 These points converge to `(u,0,w)`. Prove `closure_positive`:
 
@@ -128,7 +166,7 @@ approximation/proof route.
 Use native convexity, closedness and nonnegative scaling, including scalar zero, on `cone`.
 *Needs:* the displayed native bundle and its supplier contracts; no new wrapper theorems.
 
-### Examples and Checks
+### Examples
 
 - `(1,1,0)∈positive`: positive scale and `1*exp(0)=1≤1`.
 - `(0,1,0)∉positive`: the scale is positive but the required bound is `1≤0`.
@@ -147,7 +185,7 @@ row is a prerequisite for geometry.
 
 ## Layer 2: sections and perspectives
 
-### Targets and basic API
+### 2.1 Exponential and logarithmic sections
 
 Require the exponential and logarithmic sections
 
@@ -167,6 +205,8 @@ Sources: [T] Table8.1, printed p.300, exponential/logarithm rows; [M] §§5.2.1�
 Sources: [T] Table8.1, printed p.300, logarithm perspective; [M] §5.1 (5.3) and
 §7.1.1's strictly positive-scale convention.
 
+### 2.2 Softplus system and perspectives
+
 Define the literal distinct-auxiliary system
 
 ```text
@@ -174,9 +214,23 @@ softplusSystem x t y :=
   ∃u v:ℝ, u+v≤y ∧ (u,y,x-t)∈cone ∧ (v,y,-t)∈cone.
 ```
 
-Require `softplus_iff`: `log(1+exp x)≤t ↔ softplusSystem x t 1`, and
-`softplus_perspective_iff`, for `y>0`:
-`y*log(1+exp(x/y))≤t ↔ softplusSystem x t y`.
+**API.** For `softplusSystem`, require:
+
+- Extract two real witnesses `u,v`, their sum bound `u+v≤y`, and both cone memberships
+  from the system; conversely, these data construct the system. The two real witness
+  variables range independently.
+- `softplus_iff`: `log(1+exp x)≤t ↔ softplusSystem x t 1`.
+- `softplus_perspective_iff`, for `y>0`:
+  `y*log(1+exp(x/y))≤t ↔ softplusSystem x t y`.
+- At zero scale, `softplusSystem x t 0 ↔ 0≤t ∧ x≤t`; at a negative scale the system is empty.
+
+**Checks.**
+
+- `softplusSystem (log 3) (log 4) 1` has witnesses `3/4,1/4`, with sum `1`.
+- `softplusSystem 0 0 1` fails: the two exponential lower bounds have sum `1+1=2>1`.
+- `softplusSystem 2 2 0` holds with zero witnesses, whereas `softplusSystem 2 1 0`
+  fails because `2≤1` is false.
+- `softplusSystem 0 0 (-1)` fails because each cone membership would have negative scale.
 
 *Needs:* Layer1 membership; the scalar identity
 `log(1+exp x)≤t ↔ exp(x-t)+exp(-t)≤1`; witnesses equal to these exponential lower
@@ -185,14 +239,15 @@ softplus row; [M] §5.2.5 (5.8), and §7.1.1 Example7.1 for homogenizing the fin
 representation on a positive scale. The source table uses `y∈[0,1]`; the scalar
 positive-scale identity here is explicitly required for every `y>0`.
 
-Require the separate closed-face identity
-`softplusSystem x t 0 ↔ 0≤t ∧ x≤t`. Its witnesses have zero heights, because
+For the separate closed-face identity, the witnesses have zero heights, because
 nonnegative heights with sum at most zero both vanish. No totalized evaluation of the
 positive perspective at zero replaces it. Negative-scale systems are empty.
 
 *Needs:* Layer1 literal zero/negative-scale API and the system's sum bound.
 Source convention: [T] §8.2.2 (8.16)–(8.17), printed p.286; the explicit zero identity
 is the derived face calculation in [L].
+
+### 2.3 Affine softplus and logistic cost
 
 For finite affine score `r=(∑j,a_j*x_j)+b`, require
 `log(1+exp r)≤t ↔ softplusSystem r t 1`. Also require the scalar cost identities
@@ -208,7 +263,7 @@ Sources: [T] Table8.1, printed p.300, logistic row, and (8.33), printed p.318;
 [A3] §4.2.3 (4.8), printed p.18; [V] §4.2.3 (10), printed p.273. The negative log
 of a sigmoid is a cost; the sigmoid probability itself is a different quantity.
 
-### Examples and Checks
+### Examples
 
 - `x=log 3,t=log 4` has tight softplus witnesses `3/4,1/4`; at scale `1/2`, input
   `log 3/2` and height `log 4/2` have witnesses `3/8,1/8`.
@@ -229,7 +284,7 @@ arguments have stated or automatic positivity.
 
 ## Layer 3: finite weighted lifting
 
-### Targets and basic API
+### 3.1 Finite nonnegative-weight lifting
 
 `weighted_exponential_iff` owns the finite aggregation mechanism. For `d,s:Fin n→ℝ`,
 arbitrary `L:ℝ`, and `∀j,0≤d_j`, require
@@ -246,7 +301,7 @@ finite aggregation argument, motivated by [T] Table8.1 printed p.300 and [M] §5
 nonnegative-weight theorem. Zero coefficients and `n=0` are included; negative weights
 and infinite families are excluded.
 
-### Examples and Checks
+### Examples
 
 - Empty sums reduce both sides to `0≤L`: true at `L=0`, false at `L=-1`.
 - `d=(2,0),s=(log 3,0),L=6` has witnesses `(3,1)` and weighted sum `6`.
@@ -261,9 +316,9 @@ This layer supplies the aggregation mechanism for process rows.
 
 ## Layer 4: affine exponential inequalities
 
-### Process targets and basic API
+### 4.1 Process rows and time factors
 
-`process_cone_iff`, for arbitrary real `u,x` and `t>0`, requires
+For arbitrary real `u,x` and `t>0`, require the scalar process API identity
 `(t*(u+1),t,x)∈cone ↔ exp(x/t)-1≤u`. The auxiliary `u` remains free.
 
 *Needs:* Layer1 positive-scale membership and multiplication/division by `t>0`.
@@ -291,7 +346,7 @@ tight witnesses `u_j=exp(x_j/t_j)-1`. Under the same hypotheses, for arbitrary r
 *Needs:* the weighted process row with `L=Σj s_j*x_j`. Source locators are the same
 process equations above. No sign restriction on `s_j` or `x_j` is added by this substitution.
 
-### Affine-right-side targets and basic API
+### 4.2 Exponential coefficients and affine right sides
 
 `random_exponential_cone_iff`, for `a>0` and arbitrary real `s,R`, requires
 `a*exp(s)≤R ↔ ∃v:ℝ,a*v≤R ∧ (v,1,s)∈cone`.
@@ -312,7 +367,7 @@ Sources: [T] (8.35), printed p.320; [A1] (4.10), p.27;
 [A3] (4.10), p.19; [V] (12), p.274. These substitutions do not assume
 or prove the separately displayed source cap on `z` or a full random GDP equivalence.
 
-### Examples and Checks
+### Examples
 
 - Process: `d=3,t=2,x=2*log 2,u=1,L=3` gives cone height and bound `4`, weighted sum
   `3`. In residual form take `s=3/(2*log 2)`, so `s*x=3` and both residuals vanish.
