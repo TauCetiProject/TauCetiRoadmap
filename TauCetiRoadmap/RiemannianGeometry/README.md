@@ -2423,7 +2423,10 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
    The headline `exists_upper_barrier_laplaceBeltrami_le` states the first and last
    items as an existence statement: a function smooth at p̄, equal to ℓ there and at
    least `dist(p,·)` near p̄, whose Laplacian at p̄ is at most
-   `(n−1)s_κ′(ℓ)/s_κ(ℓ)`.
+   `(n−1)s_κ′(ℓ)/s_κ(ℓ)`. The Lean statement carries no dimension hypothesis:
+   for n=1 the bound is 0 and the arclength coordinate along γ, continued past
+   p̄, is such a function, with Laplacian 0; for n=0 no unit-speed geodesic
+   exists.
 
    Proof programme: the zero vectors at the points γ(t), t∈[0,ℓ], form a compact
    subset of the set of tangent vectors lying in `expDomain`, which is open in TM
@@ -3871,7 +3874,9 @@ Prove:
    neighbourhood of D̄. On a closed connected M
    the headline `exists_pos_eigenfunction_neg_laplaceBeltrami_add` states
    this among smooth functions, with μ₁ their least Rayleigh quotient
-   `(∫|∇u|²+∫qu²)/∫u²`.
+   `(∫|∇u|²+∫qu²)/∫u²`. The Lean statement carries no dimension hypothesis:
+   for m=0 a closed connected M is a point, Δ⁺=0, μ₁ is the value of q there
+   and φ₁=1.
 2. On a closed connected M there is a smooth h>0 with Lh=0 if and only if
    μ₁(L)=0.
 3. Strict domain monotonicity: for connected relatively compact smooth
