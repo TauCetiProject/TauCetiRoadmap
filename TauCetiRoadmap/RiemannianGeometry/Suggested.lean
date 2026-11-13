@@ -35,7 +35,9 @@ a compact geodesic interval (R2), the Morse index theorem on smooth endpoint-zer
 the integral homology of the based loop space of a round sphere (R3.3), the Rauch comparison
 under an upper sectional bound (R4.1), Günther's volume comparison under an upper sectional
 bound (R4.1), the Bishop–Gromov relative-volume monotonicity against the
-model of curvature `κ` (R4.1), Cartan–Hadamard (R4.4), Bonnet–Myers in its distance form and the
+model of curvature `κ` (R4.1),
+the Laplacian comparison at a possible cut point through smooth upper barriers (R4.1),
+Cartan–Hadamard (R4.4), Bonnet–Myers in its distance form and the
 finiteness of the fundamental group (R4.5), Synge's theorem in its even-dimensional and
 odd-dimensional forms (R4.6), the Euclidean and spherical cases of the Killing–Hopf classification
 of simply
@@ -47,7 +49,11 @@ of `Δ⁺ + q`, strict domain monotonicity of the lowest Dirichlet eigenvalue an
 Dirichlet problem on a compact manifold with boundary (R5c), Bochner's
 vanishing of the first de Rham cohomology under positive Ricci curvature (R7.6), the vanishing of
 de Rham cohomology in every interior degree under a positive curvature operator (R7.7), the
-smooth-function duality for the Riemannian distance (R7.8), the identification of the smooth
+smooth-function duality for the Riemannian distance (R7.8),
+the separation of a connected manifold with vanishing first de Rham cohomology by a compact
+connected two-sided hypersurface, with the closures of the two components, and the
+two-sidedness of hypersurfaces with closed image in simply connected manifolds (R7.9),
+the identification of the smooth
 eigenfunctions of the round-sphere Laplacian with restrictions of harmonic homogeneous polynomials
 (R8.2) and the irreducibility of the complex harmonic polynomials of each degree under `SO(N)` for
 `N ≥ 3` (R8.3).
@@ -304,6 +310,27 @@ theorem bishopGromov [ConnectedSpace M] [CompleteSpace M]
         modelBallVolume κ (Module.finrank ℝ E) s ≤
       (TauCeti.riemannianVolume I M (Metric.ball p r)).toReal /
         modelBallVolume κ (Module.finrank ℝ E) r := by
+  sorry
+
+/-- R4.1, Laplacian comparison through smooth upper barriers: for a unit-speed geodesic `γ` on
+`[0, ℓ]`, `ℓ > 0`, minimizing from `γ 0` to `γ ℓ`, with `Ric(γ′,γ′) ≥ (n−1)κ` along it and
+`ℓ < π/√κ` when `κ > 0`, some function smooth at `γ ℓ`, equal to `ℓ` there and at least
+`dist (γ 0)` near it, has Laplacian at most `(n−1) s_κ′(ℓ)/s_κ(ℓ)` at `γ ℓ`, which may be a cut
+point of `γ 0`. -/
+theorem exists_upper_barrier_laplaceBeltrami_le {γ : ℝ → M} {ℓ κ : ℝ} (hℓ : 0 < ℓ)
+    (hγ : TauCeti.Manifold.IsGeodesicCurveOn I γ (Icc 0 ℓ))
+    (hunit : ∀ t ∈ Icc 0 ℓ, ‖TauCeti.Manifold.curveVelocityWithin I γ (Icc 0 ℓ) t‖ = 1)
+    (hmin : dist (γ 0) (γ ℓ) = ℓ)
+    (hRic : ∀ t ∈ Icc 0 ℓ, ((Module.finrank ℝ E : ℝ) - 1) * κ ≤
+      (CovariantDerivative.leviCivitaConnection I M).ricciTensor (γ t)
+        (TauCeti.Manifold.curveVelocityWithin I γ (Icc 0 ℓ) t)
+        (TauCeti.Manifold.curveVelocityWithin I γ (Icc 0 ℓ) t))
+    (hmodel : 0 < κ → ℓ < Real.pi / Real.sqrt κ) :
+    ∃ f : M → ℝ, ContMDiffAt I 𝓘(ℝ, ℝ) ∞ f (γ ℓ) ∧ f (γ ℓ) = ℓ ∧
+      (∀ᶠ x in nhds (γ ℓ), dist (γ 0) x ≤ f x) ∧
+      TauCeti.Manifold.laplaceBeltrami I f (γ ℓ) ≤
+        ((Module.finrank ℝ E : ℝ) - 1) *
+          (TauCeti.curvatureCosine κ ℓ / TauCeti.curvatureSine κ ℓ) := by
   sorry
 
 /-- R4.4, Cartan–Hadamard: on a connected complete Riemannian manifold with nonpositive sectional
@@ -687,6 +714,46 @@ theorem riemannianDist_eq_sSup_smooth (x y : M) :
   sorry
 
 end SmoothDistanceDuality
+
+/-! ## Layer 7: Separating and two-sided hypersurfaces -/
+
+section Hypersurfaces
+
+variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [FiniteDimensional ℝ E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  [I.Boundaryless] [TopologicalSpace M] [T2Space M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianBundle (fun x : M => TangentSpace I x)]
+  [IsContMDiffRiemannianBundle I ∞ E (fun x : M => TangentSpace I x)]
+  {E' H' S : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
+  [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'} [I'.Boundaryless]
+  [TopologicalSpace S] [ChartedSpace H' S] [IsManifold I' ∞ S]
+
+/-- R7.9 (2): an embedded hypersurface with closed image in a simply connected manifold is
+two-sided; the hypersurface need not be compact. -/
+theorem exists_unitNormal_of_simplyConnectedSpace [SimplyConnectedSpace M]
+    [SecondCountableTopology M] (hdim : Module.finrank ℝ E' + 1 = Module.finrank ℝ E)
+    {f : S → M} (hf : Manifold.IsSmoothEmbedding I' I ∞ f) (hclosed : IsClosed (range f)) :
+    ∃ ν : ∀ x : S, TangentSpace I (f x),
+      ContMDiff I' I.tangent ∞ (fun x ↦ TotalSpace.mk' E (f x) (ν x)) ∧
+      ∀ x, ‖ν x‖ = 1 ∧ ∀ v : TangentSpace I' x, inner ℝ (ν x) (mfderiv I' I f x v) = 0 := by
+  sorry
+
+/-- R7.9 (1): with `H¹_dR(M) = 0`, a compact connected two-sided hypersurface of a connected
+`M`, compact or not, separates it into two components, each with closure itself plus the
+hypersurface. -/
+theorem separates_of_subsingleton_deRhamCohomology_one [SecondCountableTopology M]
+    [ConnectedSpace M]
+    (hH : Subsingleton (TauCeti.deRhamCohomology I M 1)) [CompactSpace S] [ConnectedSpace S]
+    (hdim : Module.finrank ℝ E' + 1 = Module.finrank ℝ E)
+    {f : S → M} (hf : Manifold.IsSmoothEmbedding I' I ∞ f) (ν : ∀ x : S, TangentSpace I (f x))
+    (hν : ContMDiff I' I.tangent ∞ (fun x ↦ TotalSpace.mk' E (f x) (ν x)))
+    (hν₁ : ∀ x, ‖ν x‖ = 1)
+    (hν₀ : ∀ x (v : TangentSpace I' x), inner ℝ (ν x) (mfderiv I' I f x v) = 0) :
+    ∃ A B : Set M, IsOpen A ∧ IsOpen B ∧ IsConnected A ∧ IsConnected B ∧ Disjoint A B ∧
+      A ∪ B = (range f)ᶜ ∧ closure A = A ∪ range f ∧ closure B = B ∪ range f := by
+  sorry
+
+end Hypersurfaces
 
 /-! ## Layer 8: Spherical harmonics -/
 
