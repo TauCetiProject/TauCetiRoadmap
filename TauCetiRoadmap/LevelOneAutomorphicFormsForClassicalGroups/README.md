@@ -28,19 +28,19 @@ This roadmap owns the level-one specialization and everything that is specific t
 Chenevier–Taïbi method: the set `Π_alg` and its counting functions; the archimedean ring `K∞` with
 its parity-truncated weight filtrations; the Rankin–Selberg explicit-formula bilinear forms, the
 Stark–Odlyzko cone inequality for pairs of level-one representations and the finite-dimensional
-quadratic minimization built on it, including the Rayleigh least-eigenvalue refinement (the
-Odlyzko kernel and test function are imported); Miller's vanishing theorem in its form on
-archimedean parameters; level-one Arthur parameters, their packet characters in the holomorphic cases and the
-triangular Euler–Poincaré relation; the masses of torsion classes, the spinor obstruction on
-their characteristic polynomials, resting on the imported Zassenhaus spinor-norm formula; Taïbi's
-explicit evaluation of the geometric side of the level-one `L²`-Lefschetz formula; the
-low-weight classifications; the genus-`g` unweighted theta map on even unimodular lattices, the
-harmonic theta map, first occurrence and the Rallis parameter relation at level one; the
-Siegel-modular-form inputs needed at level one (the Siegel operator and its standard-`L`-function
-relation, the vanishing and spanning theorems of the singular range, odd-weight boundary
-vanishing); the classification of Siegel eigenforms in low weight; the invariant alternating forms
-of Niemeier lattices, the Mathieu orbit-sum forms on the Leech lattice, the sublattices `Q_g` and
-the harmonic Leech theta series; and the stable range.
+quadratic minimization built on it, including the Rayleigh least-eigenvalue refinement (the Odlyzko
+kernel and test function are imported); Miller's vanishing theorem in its form on archimedean
+parameters; level-one Arthur parameters, the restrictions to their component groups of the packet
+characters in the scalar holomorphic cases, and the triangular Euler–Poincaré relation; the masses
+of torsion classes, the spinor obstruction on their characteristic polynomials, resting on the
+imported Zassenhaus spinor-norm formula; Taïbi's explicit evaluation of the geometric side of the
+level-one `L²`-Lefschetz formula; the low-weight classifications; the genus-`g` unweighted theta map
+on even unimodular lattices, the harmonic theta map, first occurrence and the Rallis parameter
+relation at level one; the Siegel-modular-form inputs needed at level one (the Siegel operator and
+its standard-`L`-function relation, the vanishing and spanning theorems of the singular range,
+odd-weight boundary vanishing); the classification of Siegel eigenforms in low weight; the invariant
+alternating forms of Niemeier lattices, the Mathieu orbit-sum forms on the Leech lattice, the
+sublattices `Q_g` and the harmonic Leech theta series; and the stable range.
 
 It leaves to named roadmaps, by section:
 
@@ -49,9 +49,10 @@ It leaves to named roadmaps, by section:
   discrete series, the `GL₂` adelization and algebraic modular forms for groups compact at
   infinity: AutomorphicFormsOnReductiveGroups §§2.2, 2.4, 2.5, 3.2, 3.4, 3.5, 4.2, 5.1, 5.5, 6.7,
   6.8, 7.2, 7.2a, 7.4 and 7.5.
-- Archimedean gamma and epsilon factors, Rankin–Selberg `L`-functions, their poles and functional
-  equations, and strong multiplicity one for isobaric sums: AutomorphicLFunctionsAndLocalFactors,
-  Conventions, §§AL.1.4, AL.3.6, AL.3.7 and AL.3.9.
+- Archimedean gamma and epsilon factors, the Jacquet–Shalika bound on Satake parameters,
+  Rankin–Selberg `L`-functions, their poles and functional equations, and strong multiplicity one for
+  isobaric sums: AutomorphicLFunctionsAndLocalFactors, Conventions, §§AL.1.4, AL.3.3.8, AL.3.6, AL.3.7
+  and AL.3.9.
 - Weil's explicit formula in Mestre's formalism, for an arbitrary pair of completed functions with
   products of gamma factors: AnalyticNumberTheoryPartI §§1.3 and 1.8.
 - The Odlyzko kernel `g = 2(u ∗ u)`, the test functions `g(x/b)/cosh(x/2)` and the nonnegativity of
@@ -59,8 +60,9 @@ It leaves to named roadmaps, by section:
   SmallRamificationAndAbelianVarietyBaseCases §§1.5–1.7.
 - The Zassenhaus spinor-norm formula for an isometry of a nondegenerate quadratic space over a
   field of characteristic different from `2`: SymplecticReidemeisterTorsionModSquares §4.1.
-- Conway's group `Co₀ = O(Leech)` as the isometry group of the Leech lattice, its Conway
-  generators and order, and the simplicity of `Co₁ = Co₀/{±1}`: CFSGBasicProperties P2-L; the
+- The identification of the permutation automorphism group of the Golay code with `M24`, Conway's
+  group `Co₀ = O(Leech)` as the isometry group of the Leech lattice, its Conway generators and
+  order, and the simplicity of `Co₁ = Co₀/{±1}`: CFSGBasicProperties P2-L; the
   average characteristic polynomial of `Co₀` on `Leech ⊗ ℚ` is requested from the same section
   (Exact supplier contracts).
 - Finite multiplicities of the discrete spectrum, the residual spectrum, Wallach's tempered
@@ -68,7 +70,8 @@ It leaves to named roadmaps, by section:
   AutomorphicSpectralTheory §§4.4, 4.5, 4.10, 6.9, 6.17, 6.19 and 6.20.
 - Global Arthur parameters, component groups, the epsilon character, local Arthur packets, the
   multiplicity formula, Adams–Johnson packets and the Mœglin–Renard description of packets with a
-  scalar unitary lowest-weight module, together with the standing premises under which they are
+  scalar unitary lowest-weight module, with the packet character of that module requested from the same
+  section (Exact supplier contracts), together with the standing premises under which they are
   stated: ModularityAndLanglandsExtensions, Exact supplier contracts, and §§3.4, 3.8, 3.15, 3.17,
   3.20, 3.21 and 3.22.
 - Classical automorphic forms on Shimura varieties, their cusp forms, Hecke operators and
@@ -96,9 +99,9 @@ It leaves to named roadmaps, by section:
   RepresentationTheory/LieHighestWeight Layer 6 and RepresentationTheory/ClassicalGroups Layers
   3–5. Split Chevalley–Demazure group schemes over `ℤ`: ReductiveGroups Layer 9.
 - The criterion that, for `k_g > g`, the holomorphic module `ρ_k` lies in the real Arthur packet of a
-  parameter with infinitesimal weights `0, ±(k_i − i)` exactly when the odd block has length one:
-  ModularityAndLanglandsExtensions §3.21. Section 3.5 here owns only its level-one consequences and
-  the explicit packet character.
+  parameter with infinitesimal weights `0, ±(k_i − i)` exactly when the odd block has length one, with
+  the packet character of CT20 (5.2.1): ModularityAndLanglandsExtensions §3.21. Section 3.5 here owns
+  only its level-one consequences.
 
 Already in the pinned libraries and consumed as is: the smooth split symplectic group scheme over
 `ℤ` and its matrix points (`TauCeti.Symplectic.groupScheme`, `TauCeti.Symplectic.pointsMulEquiv`,
@@ -268,6 +271,9 @@ sets of classes are counted as natural numbers only after their finiteness is pr
 - Conventions and §AL.1.4: the factors `Γ_ℝ` and `Γ_ℂ` with the normalization above, and the
   archimedean standard epsilon factor with `ε(1) = 1`, `ε(sgn) = i` and `ε(I_w) = i^{w+1}`
   (§AL.1.4.3).
+- §AL.3.3.8: the Jacquet–Shalika bound `p^{−1/2} < |α| < p^{1/2}` for every unitary-normalized
+  Satake root `α` of a unitary cuspidal representation at an unramified prime `p`; temperedness is not
+  asserted.
 - §AL.3.6: continuation of `Λ(s, π × π′)`, simple poles exactly at `s = 0, 1` when `π′ ≅ π^∨` up to
   a unitary norm twist (§AL.3.6.1), the functional equation (§AL.3.6.2) and boundary nonvanishing
   (§AL.3.6.3); §AL.3.9.2: boundedness in vertical strips; §AL.3.7: strong multiplicity one for
@@ -275,11 +281,12 @@ sets of classes are counted as natural numbers only after their finiteness is pr
 
 ### From TauCetiRoadmap.AnalyticNumberTheoryPartI
 
-- §1.3: the admissible test-function class `weil_test_function(c, F)`; §1.8: Weil's explicit
+- §1.3: the admissible test-function class `WeilTestFunction c F`; §1.8: Weil's explicit
   formula in Mestre's formalism for two completed functions with finitely many poles, finite-order
   growth in strips, gamma factors `∏ Γ(a_i s + b_i)` and Euler products with
   `|α_i(p)| ≤ p^c`, with zeros summed by symmetric heights. The Rankin–Selberg application in
-  §2.6 is a specialization of that statement with `c = 0`.
+  §2.6 is that statement with `c = 1`: the roots `α_i(p)α′_j(p)` have modulus less than `p` by
+  AutomorphicLFunctionsAndLocalFactors §AL.3.3.8.
 
 ### From TauCetiRoadmap.SmallRamificationAndAbelianVarietyBaseCases
 
@@ -322,6 +329,10 @@ sets of classes are counted as natural numbers only after their finiteness is pr
   Adams–Johnson parameters and the identification of real Arthur packets of cohomological
   parameters with Adams–Johnson packets. §3.22: the Mœglin–Renard criterion for a scalar unitary
   lowest-weight module of `Sp_{2g}(ℝ)` to lie in a real Arthur packet, with multiplicity one.
+- What ModularityAndLanglandsExtensions must provide (gap:scalar-lowest-weight-packet-character): for
+  `ψ` and the scalar module `π_g(k)` as in its §3.22, in both of its branches and for each of the two
+  classes of Whittaker datum, the value of the packet character of `π_g(k)` on every element of the
+  component group of `ψ` (MR18 Proposition 18.3 and Remarque 18.4, p. 46).
 
 ### From TauCetiRoadmap.AutomorphicBundles
 
@@ -410,9 +421,10 @@ sets of classes are counted as natural numbers only after their finiteness is pr
 
 ### From TauCetiRoadmap.CFSGBasicProperties
 
-- P2-L: Conway's group `Co₀ = O(Leech)`, the isometry group of the Leech lattice of
-  Rank24LatticeConstructions Layer 6, its Conway generators and the proof that they generate it, its
-  order, and the simplicity of `Co₁ = Co₀/{±1}`.
+- P2-L: the equivalence of the Golay permutation automorphism group with `M24`; Conway's group
+  `Co₀ = O(Leech)`, the isometry group of the Leech lattice of Rank24LatticeConstructions Layer 6, its
+  Conway generators and the proof that they generate it, its order, and the simplicity of
+  `Co₁ = Co₀/{±1}`.
 - What CFSGBasicProperties must provide (gap:conway-group-average-charpoly): the average
   characteristic polynomial of Conway's group on `Leech ⊗ ℚ`,
   `(1/|O(Leech)|) Σ_{γ ∈ O(Leech)} det(t − γ) = t²⁴ + t¹⁶ + t¹² + t⁸ + 1`, from the conjugacy classes
@@ -464,11 +476,13 @@ representation.
 - The rank is the common dimension of the Weil parameter `L(π∞)` and of the Satake classes.
 - The contragredient preserves `Π_alg`, the rank and the level, and is an involution on classes.
 - For every prime `p`, `π_p` is spherical, and `c_p(π)` is an unordered multiset of `m` nonzero complex
-  numbers of absolute value one by purity (§1.5), without a chosen order.
+  numbers `α` with `p^{−1/2} < |α| < p^{1/2}` (AutomorphicLFunctionsAndLocalFactors §AL.3.3.8),
+  without a chosen order.
 - The adelic description and the description by level-one cuspidal functions on
   `PGL_m(ℤ)\PGL_m(ℝ)` give the same set.
 
-*Needs:* AutomorphicFormsOnReductiveGroups §§2.5, 3.5, 4.2 and 5.1.
+*Needs:* AutomorphicFormsOnReductiveGroups §§2.5, 3.5, 4.2 and 5.1; AutomorphicLFunctionsAndLocalFactors
+§AL.3.3.8.
 
 **Checks.**
 
@@ -669,7 +683,7 @@ weight 22, which is `Sym²Δ₁₁`.
 ### Dependencies
 
 AutomorphicFormsOnReductiveGroups §§2.5, 3.5, 4.2, 5.1, 5.5; AutomorphicLFunctionsAndLocalFactors
-§§AL.1.4, AL.3.6; AutomorphicSpectralTheory §4.5; ModularityAndLanglandsExtensions §3.4;
+§§AL.1.4, AL.3.3.8, AL.3.6; AutomorphicSpectralTheory §4.5; ModularityAndLanglandsExtensions §3.4;
 ReductiveGroups Layer 9; LieHighestWeight Layer 6; ClassicalGroups Layer 3; Tau Ceti's symplectic
 group scheme.
 
@@ -684,7 +698,7 @@ nonnegative unit spheres, whose negative values exclude hypothetical classes.
 ### 2.1 Even test functions and the positivity condition
 
 Work with even real functions `F : ℝ → ℝ` of class `C²` with compact support, which lie in the
-admissible class `weil_test_function(0, F)` of AnalyticNumberTheoryPartI §1.3. Define
+admissible class `WeilTestFunction c F` of AnalyticNumberTheoryPartI §1.3 for every `c ≥ 0`. Define
 `F̂(ξ) = ∫ F(x) exp(−2πixξ) dx` for `ξ ∈ ℂ`; it is entire. Say that `F` satisfies (POS) when
 `F(x) ≥ 0` for real `x` and `Re F̂(ξ) ≥ 0` whenever `|Im ξ| ≤ 1/(4π)` (CT20 §2.3).
 
@@ -808,12 +822,14 @@ diagonal; and `C^F(π, π′) = A_F δ(π, π′) − J_F(L(π∞)L(π′∞)) �
 
 Prove that for every test function of §2.1, `B_f^F + B∞^F + (1/2) Z^F = A_F δ` as bilinear forms on
 `ℝ[Π_alg]` (CT20 (2.3.5)). Apply AnalyticNumberTheoryPartI §1.8 to `Λ₁(s) = Λ(s, π^∨ × π′)` and
-`Λ₂(s) = Λ(s, π × π′^∨)` with `c = 0`; the poles of `Λ(s, π^∨ × π′)` contribute exactly `δ(π, π′)` at
-`s = 0` and `s = 1`, the norm twists allowed by the pole theorem being excluded by the fixed unitary
-algebraic infinity types; then extend bilinearly.
+`Λ₂(s) = Λ(s, π × π′^∨)` with `c = 1`, which the Satake bound of §1.1 permits; every zero of
+`Λ(s, π^∨ × π′)` lies in `0 < Re s < 1`, by the boundary nonvanishing §AL.3.6.3 and the functional
+equation, so the zeros summed there are all of them. The poles of `Λ(s, π^∨ × π′)` contribute exactly
+`δ(π, π′)` at `s = 0` and `s = 1`, the norm twists allowed by the pole theorem being excluded by the
+fixed unitary algebraic infinity types; then extend bilinearly.
 
-*Needs:* §2.5; AnalyticNumberTheoryPartI §1.8; AutomorphicLFunctionsAndLocalFactors §§AL.3.6 and
-AL.3.9.2.
+*Needs:* §§1.1 and 2.5; AnalyticNumberTheoryPartI §1.8; AutomorphicLFunctionsAndLocalFactors
+§§AL.3.3.8, AL.3.6 and AL.3.9.2.
 
 **Checks.**
 
@@ -1106,8 +1122,8 @@ is the smallest case where the normalized minima differ.
 ### Dependencies
 
 AnalyticNumberTheoryPartI §§1.3, 1.8; SmallRamificationAndAbelianVarietyBaseCases §§1.5–1.7;
-AutomorphicLFunctionsAndLocalFactors §§AL.1.4, AL.3.6, AL.3.9.2; AutomorphicFormsOnReductiveGroups
-§7.2; ComputationalNumberTheory §§4.17, 4.17a, 4.26, 4.29–4.34; Mathlib's
+AutomorphicLFunctionsAndLocalFactors §§AL.1.4, AL.3.3.8, AL.3.6, AL.3.9.2;
+AutomorphicFormsOnReductiveGroups §7.2; ComputationalNumberTheory §§4.17, 4.17a, 4.26, 4.29–4.34; Mathlib's
 Rayleigh quotient and level-one dimension formula; Tau Ceti's level-one newform basis; Layer 1.
 
 ## Layer 3: Arthur parameters, packet characters and triangular counts
@@ -1222,12 +1238,11 @@ ModularityAndLanglandsExtensions §3.22.
 ### 3.5 The regular holomorphic packet
 
 Let `k_g > g` and let `ψ ∈ Ψ₁(Sp_{2g})` have infinitesimal weights `0, ±(k_i − i)`. The criterion that
-`ρ_k` lies in the real packet of `ψ` exactly when `d_{i₀} = 1`, with multiplicity one, is
-ModularityAndLanglandsExtensions §3.21 (its form of CT20 (5.2.1)), read on level-one parameters.
-Prove its level-one consequences: every `π_i` is regular, `I_odd = {i₀}`, and every `i ∈ I_even` has
-`n_id_i ≡ 0 mod 4`; and compute the packet character explicitly as `χ(s_i) = (−1)^{n_id_i/4}` for
-even `d_i` and `χ(s_i) = (−1)^{e_i}` for odd `d_i`, where `e_i` counts the odd `j ∈ {1, …, g}` with `k_j − j`
-a weight of `π_i` (CT20 §5.2.1, (5.2.1)).
+`ρ_k` lies in the real packet of `ψ` exactly when `d_{i₀} = 1`, with multiplicity one and with packet
+character `χ(s_i) = (−1)^{n_id_i/4}` for even `d_i` and `χ(s_i) = (−1)^{e_i}` for odd `d_i`, where `e_i`
+counts the odd `j ∈ {1, …, g}` with `k_j − j` a weight of `π_i`, is ModularityAndLanglandsExtensions
+§3.21 (its form of CT20 §5.2.1, (5.2.1)), read on level-one parameters. Prove its level-one
+consequences: every `π_i` is regular, `I_odd = {i₀}`, and every `i ∈ I_even` has `n_id_i ≡ 0 mod 4`.
 
 *Needs:* §§3.2, 3.4; ModularityAndLanglandsExtensions §3.21.
 
@@ -1309,7 +1324,7 @@ and `(−1)^{e_δ(π_i)}` when `d_i` is odd; the value does not depend on `δ` b
 `e₁ + e_{−1} = n_i/2` is even for odd `d_i` (CT20 §5.2.2, (5.2.2)–(5.2.3)). The proof uses the sign
 identity `(−1)^{⌊εa/2⌋} = ∏_{j=1}^{a} (−1)^{j−1}ε` for `ε = ±1` and `a ≥ 1`.
 
-*Needs:* §§3.2, 3.8.
+*Needs:* §§3.2, 3.8; ModularityAndLanglandsExtensions §3.22 with the packet character requested there.
 
 **Checks.**
 
@@ -1338,13 +1353,13 @@ Remark 5.3).
 ### 3.11 The even generators in case (H)
 
 Define `e_s(π)` in (H1) by positions in the list `(k − 1, k − 2, …, 1)`, and in (H2) by positions in the
-same list with `g − k + 1` omitted, renumbered `1, …, k′ − 1`. Prove `r(π) + 2e₁(π) + 2e_{−1}(π) = n_π`, and
-(CT20 §5.2.2, (5.2.5)–(5.2.8)): for `i ∈ I_even \ I₀`, `χ(s_i) = (−1)^{n_id_i/4}` for even `d_i` and
+same list with `g − k + 1` omitted, renumbered `1, …, k′ − 1`. Prove `r(π) + 2e₁(π) + 2e_{−1}(π) = n_π` (CT20
+(5.2.4)), and (CT20 §5.2.2, (5.2.5)–(5.2.7)): for `i ∈ I_even \ I₀`, `χ(s_i) = (−1)^{n_id_i/4}` for even `d_i` and
 `(−1)^{e_δ(π_i)}` for odd `d_i`; for `i ∈ I₀ ∩ I_even`, `i ≠ i₀`, necessarily `d_i = 1`, `r_i = 2` and
 `χ(s_i) = (−1)^{e_δ(π_i)} δ(−1)^{k′−1}`; if `i₀ ∈ I_even` then (H1) holds and `χ(s_{i₀}) = (−1)^{e_δ(π_{i₀})}`
 times `δ(−1)^{k−1}` when `n_{i₀} ≡ 0 mod 4`, and times `1` otherwise.
 
-*Needs:* §§3.2, 3.10.
+*Needs:* §§3.2, 3.10; ModularityAndLanglandsExtensions §3.22 with the packet character requested there.
 
 **Checks.**
 
@@ -1354,13 +1369,13 @@ times `δ(−1)^{k−1}` when `n_{i₀} ≡ 0 mod 4`, and times `1` otherwise.
 
 ### 3.12 The odd generators in case (H)
 
-Prove (CT20 §5.2.2, (5.2.9)–(5.2.12)): if `I_odd` is a singleton there are no odd-pair generators;
+Prove (CT20 §5.2.2, (5.2.8)–(5.2.10)): if `I_odd` is a singleton there are no odd-pair generators;
 otherwise `I_odd = {i₀, i₁, i₂}` with `d_{i₁} = 1` and `d_{i₂} = 2a − 1`, `a ≥ 1`. Let `P` be the condition
 that `L(π_{i₀},∞) + L(π_{i₂},∞)` contains both `1` and `e`. Then
 `χ(s_{i₁}s_{i₂}) = (−1)^{e_δ(π_{i₁}) + e_δ(π_{i₂}) + ⌊δ(−1)^{k′−a}a/2⌋}`, and `χ(s_{i₀}s_{i₂})` is
 `(−1)^{e_δ(π_{i₀}) + e_δ(π_{i₂})}` times `δ(−1)^{k−1}` if `P` holds and times `(−1)^{k−k′}` otherwise.
 
-*Needs:* §§3.2, 3.11.
+*Needs:* §§3.2, 3.11; ModularityAndLanglandsExtensions §3.22 with the packet character requested there.
 
 **Checks.**
 
@@ -1449,16 +1464,17 @@ nonsimple parameter has smaller rank, and the same class may occur with several 
 
 ### Examples
 
-For `Sp₄` and scalar weight `k ≥ 3`, the regular holomorphic parameters are `Δ_w[2] ⊕ [1]` with
-`w = 2k − 3` and the parameters `Δ_{w₁,w₂} ⊕ [1]` with `w₁ = 2k − 2`, `w₂ = 2k − 4`; the first contributes
-exactly when `k` is even. For `g = 1` a holomorphic parameter of weight `k` is a simple parameter of rank
+For `Sp₄` and scalar weight `k ≥ 3`, the regular holomorphic parameters are the simple parameters
+`π[1]` with `π ∈ Π_alg` orthogonal of rank five and weights `0, ±(k − 1), ±(k − 2)`, the parameters
+`Δ_w[2] ⊕ [1]` with `w = 2k − 3`, and the parameters `Δ_{w₁,w₂} ⊕ [1]` with `w₁ = 2k − 2`,
+`w₂ = 2k − 4`; the parameters `Δ_w[2] ⊕ [1]` contribute exactly when `k` is even. For `g = 1` a holomorphic parameter of weight `k` is a simple parameter of rank
 three with weights `0, ±(k − 1)`, the adjoint `Sym²Δ_{k−1}` of an elliptic eigenform of weight `k`; at
 `k = 12` it is `Sym²Δ₁₁`, the genus-one row of §7.9.
 
 ### Dependencies
 
-ModularityAndLanglandsExtensions §§3.4, 3.8, 3.15, 3.17, 3.20–3.22 with its standing premises;
-AutomorphicFormsOnReductiveGroups §§2.2, 6.7–6.8; AutomorphicSpectralTheory §§4.4–4.5, 6.19;
+ModularityAndLanglandsExtensions §§3.4, 3.8, 3.15, 3.17, 3.20–3.22 with its standing premises and the
+packet character requested from §3.22; AutomorphicFormsOnReductiveGroups §§2.2, 6.7–6.8; AutomorphicSpectralTheory §§4.4–4.5, 6.19;
 Layer 1.
 
 ## Layer 4: geometric torsion classes and exact mass recovery
@@ -1513,11 +1529,11 @@ centralizer at non-positive critical integers, which are rational. No sign or po
 
 ### 4.3 The trace formula and the proper Levi terms
 
-Prove `EP(G; λ) = T_geom(G; λ)`, where the elliptic part of `T_geom` is `T_ell` of §4.1 and every term
-for a proper Levi subgroup `GL₁^a × GL₂^b × G′` is an explicit rational combination of the `T_ell(G′; λ′)`
-for smaller `G′` and, when `b > 0`, of `T_ell(SO₃; λ″)`; the coefficients, Weyl-length signs and weight
-shuffles are those of Tai17 Theorems 3.3.3–3.3.5, and Levi factors `GL_d` with `d ≥ 3` contribute zero
-(CT20 (1.4.1)–(1.4.2); Tai17 §3.3.4).
+By AutomorphicSpectralTheory §6.20, `EP(G; λ) = T_geom(G; λ)`, where the elliptic part of `T_geom` is
+`T_ell` of §4.1. Prove that every term of `T_geom` for a proper Levi subgroup `GL₁^a × GL₂^b × G′` is an
+explicit rational combination of the `T_ell(G′; λ′)` for smaller `G′` and, when `b > 0`, of
+`T_ell(SO₃; λ″)`; the coefficients, Weyl-length signs and weight shuffles are those of Tai17 Theorems
+3.3.3–3.3.5, and Levi factors `GL_d` with `d ≥ 3` contribute zero (CT20 (1.4.1)–(1.4.2); Tai17 §3.3.4).
 
 *Needs:* §4.1; AutomorphicSpectralTheory §§6.19–6.20.
 
@@ -1815,25 +1831,22 @@ thus determined.
   fields (no enumeration of isotropic subspaces or Wall invariants); a hard index is one outside the
   condition, not one for which such algebra is shown to be necessary.
 
-### 4.18 The values of the masses
+### 4.18 Nonvanishing of the masses
 
-Prove that the masses of §§4.12–4.17 are the rational numbers listed in the tables accompanying CT20
-Theorems 6–7; this identifies each listed value with the intrinsic mass through §4.11. Prove further,
-for the groups of CT20 Theorem 6 (`SO_n` with `n ≤ 17` and `Sp_{2n}` with `2n ≤ 14`), that `m_P ≠ 0` for
-every `P ∈ P₁(G)` except six indices for `SO₁₃` and six for `SO₁₇` (CT20 Remark 3.10). No nonvanishing
-statement is made for `Sp₁₆`, whose `2521` masses are the values of §4.17.
+Prove, for the groups of CT20 Theorem 6 (`SO_n` with `n ≤ 17` and `Sp_{2n}` with `2n ≤ 14`), that
+`m_P ≠ 0` for every `P ∈ P₁(G)` except six indices for `SO₁₃` and six for `SO₁₇` (CT20 Remark 3.10).
+No nonvanishing statement is made for `Sp₁₆`, whose `2521` masses are the values of §4.17.
 
 *Needs:* §§4.11, 4.15, 4.17.
 
 **Checks.**
 
-- The `SO₃` row of the tables is `(−1/12, 1/4, 1/3)` on `P₁(SO₃)` = `{Φ₁³, Φ₁Φ₂², Φ₁Φ₃}`.
+- The `SO₃` masses of §4.12 are `(−1/12, 1/4, 1/3)` on `P₁(SO₃)` = `{Φ₁³, Φ₁Φ₂², Φ₁Φ₃}`, all nonzero.
 - Within the groups of CT20 Theorem 6 the number of exceptional zero masses is twelve in total, so `P₁`
   is almost sharp but not sharp there.
 - The nonvanishing clause has the range of Theorem 6: `Sp₁₄` satisfies `2n = 14 ≤ 14` and is covered,
   while `Sp₁₆` fails `16 ≤ 14` and is not; reading the clause for every group of §§4.12–4.17 would claim
   a fact about `Sp₁₆` that the cited remark does not contain.
-- A value table without the rank and vanishing statements of §4.11 does not determine the masses.
 
 ### Examples
 
@@ -1885,7 +1898,8 @@ ComputationalNumberTheory §5.1.
 Prove: for each integer `0 ≤ w ≤ 23` there is `ℓ > 0` such that `B∞^{F_ℓ}` is positive definite on
 `K∞^{≤w}`, hence the parameters of all `π ∈ Π_alg` of motivic weight at most `w` lie in an explicit finite
 set and each fibre has bounded cardinality; the set of such `π` is finite (CT20 Remark 2.11 and §1.3;
-CL14 IX Lemme 3.36). Positive definiteness on `K∞^{≤22}` and on `K∞^{≤23}` covers the two parities, and
+CL14 IX Lemmes 3.19, 3.27, 3.34 and 3.36 for weight at most 22, and Proposition 3.39 for weight 23).
+Positive definiteness on `K∞^{≤22}` and on `K∞^{≤23}` covers the two parities, and
 restricts to smaller weights of the same parity.
 
 *Needs:* §§2.8, 2.18.
@@ -2094,18 +2108,20 @@ Zharkovskaya relation, CT20 §5.3 footnote 17).
 
 ### 6.2 Boundary, vanishing and spanning theorems at level one
 
-Prove the following statements, each attributed and located in CT20:
+Prove the following statements:
 
 - Odd scalar weight: if `k` is odd and `g` is odd then `M_k(Γ_g) = 0`, since `−1 ∈ Γ_g` acts by `(−1)^{gk}`;
-  if `k` is odd and `g` is even then `M_k(Γ_g) = S_k(Γ_g)`, since `Φ_g` lands in `M_k(Γ_{g−1}) = 0`.
-- Negative scalar weight: `M_k(Γ_g) = 0` for `k < 0` and `g ≥ 1`.
-- Wallach: if `k_g > g` every square-integrable form of weight `k` is cuspidal (AutomorphicSpectralTheory
-  §4.10 through the adelic lift).
+  if `k` is odd and `g` is even then `M_k(Γ_g) = S_k(Γ_g)`, since `Φ_g` lands in `M_k(Γ_{g−1}) = 0` (CT20
+  §5.3.2, proof of Lemma 5.5 and Case (H2)).
+- Negative and zero scalar weight: for `g ≥ 1`, `M_k(Γ_g) = 0` when `k < 0`, and `M₀(Γ_g) = ℂ` consists of
+  the constants, so `S₀(Γ_g) = 0` (CT20 (5.5.2) at `k ≤ 0`, where `g > 2k`).
+- Wallach: if `k_g > g` every square-integrable form of weight `k` is cuspidal (CT20 §5.2.1;
+  AutomorphicSpectralTheory §4.10 through the adelic lift).
 - Weissauer: if `g ≥ 2k ≥ 0`, every element of `M_k(Γ_g)` is square-integrable, `M_k(Γ_g) = L²_k(Γ_g)` (CT20
   §5.5, from Weissauer's Satz 3).
 - Resnikoff and Freitag: `S_k(Γ_g) = 0` for `g > 2k` (CT20 (5.5.2)).
 - Freitag: for `g > 2k`, `M_k(Γ_g)` is spanned by theta series of even unimodular lattices of rank `2k` when
-  `k ≡ 0 mod 4`, and is `0` otherwise (CT20 (5.5.2)).
+  `k ≥ 0` and `k ≡ 0 mod 4`, and is `0` otherwise (CT20 (5.5.2)).
 
 *Needs:* §6.1; AutomorphicSpectralTheory §4.10; AutomorphicFormsOnReductiveGroups §7.2a with the
 extension requested there; §6.4 for the theta series in the last item.
@@ -2685,8 +2701,9 @@ stabilizer acts on `S` by even permutations. For each orbit of orientable `g`-su
 ### 8.4 The Mathieu forms on the Leech lattice
 
 Let `Ω` be a 24-element set and `G₂₄` the extended binary Golay code on `Ω` (AlgebraicCodingTheory Layer 5,
-`TauCeti.BinaryGolay.code`); define `M₂₄` as the group of permutations of `Ω` preserving `G₂₄`. Prove: its
-order is `244823040`, matching SporadicOrders Layer 1; `(1/|M₂₄|) Σ_{γ ∈ M₂₄} det(t − γ)` is
+`TauCeti.BinaryGolay.code`); define `M₂₄` as the group of permutations of `Ω` preserving `G₂₄`; by
+CFSGBasicProperties P2-L it is the group `M24` of SporadicOrders Layer 1, of order `244823040`. Prove:
+`(1/|M₂₄|) Σ_{γ ∈ M₂₄} det(t − γ)` is
 `t²⁴ − t²³ − t¹⁷ + 2t¹⁶ − t¹⁵ − t¹³ + 2t¹² − t¹¹ − t⁹ + 2t⁸ − t⁷ − t + 1` (CT19a Fact 1.1); a subset of `Ω` is
 `M₂₄`-orientable exactly when it is `C + P` with `C ∈ G₂₄` and `|P| ≤ 1`, or `|P| = 2` and `|P ∩ C| = 1` (CT19a
 Lemma 1.3). In the coordinates of `TauCeti.leechLattice` (Rank24LatticeConstructions Layer 6), which
@@ -2701,8 +2718,8 @@ product (CT19a Definition 1.5).
 - The `N`-invariants of `⋀^g ℚ^Ω` are `ℚσ_C` for `g ∈ {0, 8, 12, 16, 24}` and `0` otherwise (CT19a
   Proposition 1.4, proof).
 
-*Needs:* §8.3; AlgebraicCodingTheory Layer 5; SporadicOrders Layer 1; Rank24LatticeConstructions Layer 6;
-`TauCeti.BinaryGolay.code`, `TauCeti.BinaryGolay.weightEnumerator_code`, `TauCeti.leechLattice`.
+*Needs:* §8.3; AlgebraicCodingTheory Layer 5; SporadicOrders Layer 1; CFSGBasicProperties P2-L;
+Rank24LatticeConstructions Layer 6; `TauCeti.BinaryGolay.code`, `TauCeti.BinaryGolay.weightEnumerator_code`, `TauCeti.leechLattice`.
 
 **Checks.**
 
@@ -2883,7 +2900,7 @@ Prove (CT20 Proposition 5.14): for all integers `k, g ≥ 0` with `g ≥ 2k`, `d
 dimension is `0` unless `4 | k`. For `k = 0` it is `1`; for `k > 0` the map `ψ′ ⊕ [2(g − k) + 1] ↦ ψ′ ⊕ [2(g′ − k) + 1]`
 preserves occurrence and multiplicity by §8.11.
 
-*Needs:* §8.11.
+*Needs:* §§6.2, 8.11.
 
 **Checks.**
 
@@ -2966,6 +2983,8 @@ AutomorphicLFunctionsAndLocalFactors §AL.1.4; Tau Ceti's lattice carrier and Go
   companion note to [CT20], 2019.
 - [Mil02] S. D. Miller, *The highest lowest zero and other applications of positivity*,
   arXiv:math/0112196v1.
+- [MR18] C. Mœglin, D. Renard, *Sur les paquets d'Arthur de Sp(2n, ℝ) contenant des modules unitaires de
+  plus haut poids, scalaires*, arXiv:1802.04611v4.
 - [KT87] K. Koike, I. Terada, *Young-diagrammatic methods for the representation theory of the classical groups
   of type B, C, D*, J. Algebra 107 (1987), 466–511.
 
