@@ -606,13 +606,29 @@ No roadmap on main or in the open pull requests cites PosetHomotopyAndSubgroupCo
 
 ## Research context
 
+The posets of this roadmap carry more structure than their homotopy type. Webb conjectured that
+the orbit space of the realization of `S_p(G)` under the action of `G` is contractible (Webb
+1987), and Symonds proved it (Symonds 1998); homotopy equivalences of posets with a group action
+are treated by Thévenaz and Webb (1991), and Grodal relates subgroup complexes to higher limits
+over orbit categories (Grodal 2002). Smith's monograph (Smith 2011) surveys subgroup complexes.
+For the poset of cosets of proper subgroups of a finite group `G`, Brown showed that the reduced
+Euler characteristic is `-P_G(-1)`, where `P_G` is the probabilistic zeta function, built from
+Hall's Möbius inversion on the subgroup lattice (Brown 2000; Hall 1936). Shareshian and Woodroofe
+proved that this coset poset is never contractible, and record as open whether `P_G(-1)` is
+nonzero for every finite group `G` (Shareshian–Woodroofe 2016, §1.1).
+
 Quillen conjectured that `S_p(G)` has a contractible realization only when `G` has a nontrivial
-normal `p`-subgroup (Quillen 1978, Conjecture 2.9). He proved it for solvable groups (4.6), and
-Aschbacher and Smith proved it for `p > 5` under a restriction on unitary components, using the
-classification of finite simple groups; Piterman reduced its rational form to extensions of
-direct products of simple groups and proved it for groups of `p`-rank at most `4`. Stong's
-finite-space theorem (4.4) turns the conjecture into the statement that a homotopically trivial
-finite space `S_p(G)` is contractible as a finite space.
+normal `p`-subgroup (Quillen 1978, Conjecture 2.9). He proved it for solvable groups (4.6); it is
+known for `p`-solvable groups (new proofs in Díaz Ramos 2018) and for almost simple groups
+(Aschbacher–Kleidman 1990). Aschbacher and Smith proved it for `p > 5` under a restriction on
+unitary components, using the classification of finite simple groups (Aschbacher–Smith 1993);
+Piterman reduced its rational form to extensions of direct products of simple groups and proved
+it for groups of `p`-rank at most `4` (Piterman 2021); and Piterman and Smith extended the
+Aschbacher–Smith theorem to all odd primes under the same unitary restriction (Piterman–Smith
+2024). A proof of that restriction, and hence of the conjecture for every odd prime, is claimed in
+a preprint (Díaz Ramos 2023). For `p = 2` the conjecture is open, with partial results in
+Piterman–Smith (2024, §10). Stong's finite-space theorem (4.4) turns the conjecture into the
+statement that a homotopically trivial finite space `S_p(G)` is contractible as a finite space.
 
 ## References
 
@@ -640,3 +656,28 @@ finite space `S_p(G)` is contractible as a finite space.
   Math.* (2) 137 (1993), no. 3, 473–529. doi:10.2307/2946530.
 - K. I. Piterman, « An approach to Quillen's conjecture via centralisers of simple groups »,
   *Forum Math. Sigma* 9 (2021), e48. doi:10.1017/fms.2021.41. arXiv:2003.06384.
+- P. J. Webb, « A local method in group cohomology », *Comment. Math. Helv.* 62 (1987), no. 1,
+  135–167. doi:10.1007/BF02564442.
+- P. Symonds, « The orbit space of the p-subgroup complex is contractible », *Comment. Math.
+  Helv.* 73 (1998), no. 3, 400–405. doi:10.1007/s000140050061.
+- J. Thévenaz, P. J. Webb, « Homotopy equivalence of posets with a group action », *J. Combin.
+  Theory Ser. A* 56 (1991), no. 2, 173–181. doi:10.1016/0097-3165(91)90030-K.
+- J. Grodal, « Higher limits via subgroup complexes », *Ann. of Math.* (2) 155 (2002), no. 2,
+  405–457. doi:10.2307/3062122.
+- S. D. Smith, *Subgroup Complexes*, Mathematical Surveys and Monographs 179, American
+  Mathematical Society, 2011. doi:10.1090/surv/179.
+- K. S. Brown, « The coset poset and probabilistic zeta function of a finite group », *J.
+  Algebra* 225 (2000), no. 2, 989–1012. doi:10.1006/jabr.1999.8221.
+- P. Hall, « The Eulerian functions of a group », *Q. J. Math.* 7 (1936), 134–151.
+  doi:10.1093/qmath/os-7.1.134.
+- J. Shareshian, R. Woodroofe, « Order complexes of coset posets of finite groups are not
+  contractible », *Adv. Math.* 291 (2016), 758–773. doi:10.1016/j.aim.2015.10.018.
+  arXiv:1406.6067.
+- A. Díaz Ramos, « On Quillen's conjecture for p-solvable groups », *J. Algebra* 513 (2018),
+  246–264. doi:10.1016/j.jalgebra.2018.07.027.
+- M. Aschbacher, P. B. Kleidman, « On a conjecture of Quillen and a lemma of Robinson », *Arch.
+  Math.* 55 (1990), no. 3, 209–217. doi:10.1007/BF01191159.
+- K. I. Piterman, S. D. Smith, « Some results on Quillen's conjecture via equivalent-poset
+  techniques », *J. Comb. Algebra* 9 (2024), no. 3, 265–387. doi:10.4171/JCA/95.
+  arXiv:2204.13055.
+- A. Díaz Ramos, « Quillen's conjecture and unitary groups », preprint, 2023. arXiv:2303.15613.
