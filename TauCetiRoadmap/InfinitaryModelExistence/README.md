@@ -1120,16 +1120,6 @@ Among the targets that `Suggested.lean` states, Tau Ceti `2fd255d99` does not im
 `pcSeparation`, `relationsInSigned`, `lyndon_interpolation`, `universalSigned` or
 `malitz_interpolation`.
 
-**Provenance after the pin.** Later Tau Ceti work, which this repository does not pin and nothing
-here imports, is a further proof reference. At Tau Ceti commit
-[`d2083f0`](https://github.com/TauCetiProject/TauCeti/tree/d2083f0f1dd2136d02467ba36efbbe1af612e89c),
-every target in the list above has a declaration except `OmitsFOType`, `IsolatesFO`,
-`exists_countable_model_omitting_fo`, `lyndon_interpolation` and `malitz_interpolation`. There the
-first-order presentation is `model_morleyTheory_and_omitsType_iff_eq_morleyExpansion`
-(`ModelExistence/Presentation.lean`), and `pcSeparation` (`Interpolation/Craig.lean`) takes its
-hypothesis over countable structures in an arbitrary universe `Type w₀`; at `w₀ = 0` it is the
-statement of Layer 7.
-
 ## References
 
 * David Marker, *Lectures on Infinitary Model Theory*, Lecture Notes in Logic 46, Cambridge
