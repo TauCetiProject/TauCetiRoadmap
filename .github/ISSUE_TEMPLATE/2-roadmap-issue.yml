@@ -15,6 +15,7 @@ body:
       label: Roadmap area
       options:
         - AbhyankarLemma
+        - AdelicAlgebraicGroups
         - AdicEtaleGeometry
         - AdicSpacesPartII
         - AdicSpacesPartIII
@@ -172,6 +173,7 @@ body:
         - SchubertGeometry
         - SeibergWittenTheory
         - SmoothBundlesConnections
+        - SmoothRepresentationsOfLocalGroups
         - SobolevPolynomialApproximation
         - SpecialFunctionsAiry
         - SpecialFunctionsEiLiErfIncompleteGamma
@@ -179,6 +181,7 @@ body:
         - SpecialFunctionsParabolicCylinder
         - SpinGeometry
         - SporadicOrders
+        - StableHomotopyKTheory
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
