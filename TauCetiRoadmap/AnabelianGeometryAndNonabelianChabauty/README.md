@@ -18,7 +18,7 @@ PELModuli §M0.9 supplies continuous Galois classes for discrete geometric point
 
 HeightsRationalPointsAndObstructions §§1.15a–1.16 owns the integral formal groups, formal identity charts and normalized convergent formal logarithms. Layer 5 here owns their extension to the global abelian logarithm for arbitrary abelian varieties over finite p-adic fields, its compatible `ℂ_p` interface, the regular Coleman/abelian comparison, residue-chart specialization of analytic zero bounds and Mordell–Weil closure comparisons. RestrictedPowerSeries owns the restricted-series carriers and Strassmann theorem; ColemanIntegration owns the analytic Coleman algebra, primitives and polylogarithms. Layer 5 compares those supplied functions with the tensor paths of Layer 2. Effective Diophantine methods may use these comparisons and applications. The abstract neutral tensor reconstruction supplied by MotivesAndAlgebraicCycles §§6.1–6.3 and the character formulas in Layers 2 and 7 require no geometric motive or modular-form theory. Applications with a specified rank, finite local height-value sets or a complete list of zeros carry those facts as explicit hypotheses of the final theorem. The mathematical finiteness and height equations are targets here.
 
-ArithmeticKTheory §§3.2–3.4 owns arithmetic K-group finite generation and ranks; §7.0 here adds the higher étale Chern comparison and rational Tate cohomology. DiophantineApproximationAndTranscendence §4.5 owns rational S-unit equation finiteness. Its solutions (x,y) with x+y=1 correspond to the S-integral points of the thrice-punctured line by x↦(x,1−x), using Mathlib `Set.unitEquivUnitsInteger`. Section 7.5 owns the geometric Selmer dimension inequality and its Chabauty–Kim proof of finiteness, without a second S-unit acceptance theorem.
+ArithmeticKTheory §§3.2–3.4 owns arithmetic K-group finite generation and ranks. KTheoryFiniteLocalFields §1.8 owns the ℓ-adic étale Chern classes on the K-groups of schemes, its étale instance of the Chern classes of SchemeKTheoryOperations §7.3a. Section 7.0 here evaluates those classes on number rings, proves Soulé's comparison with Galois cohomology and derives rational Tate cohomology. DiophantineApproximationAndTranscendence §4.5 owns rational S-unit equation finiteness. Its solutions (x,y) with x+y=1 correspond to the S-integral points of the thrice-punctured line by x↦(x,1−x), using Mathlib `Set.unitEquivUnitsInteger`. Section 7.5 owns the geometric Selmer dimension inequality and its Chabauty–Kim proof of finiteness, without a second S-unit acceptance theorem.
 
 ## Conventions
 
@@ -58,7 +58,11 @@ The implementation interface consists of cocycle evaluation and extensionality, 
 
 ### From ArithmeticKTheory
 
-[ArithmeticKTheory](../ArithmeticKTheory/README.md) §§3.2–3.4 supplies projective Steinberg-homology finite generation, finite generation of every K-group of a number ring, the rational ring-to-field comparison in degrees at least two, the Borel ranks and finiteness of positive even K-groups. Use its common Quillen K-groups: for a number field F, k≥2, rank K_(2k−1)(𝒪_F) is r₁+r₂ for odd k and r₂ for even k, while K_(2k−2)(𝒪_F) is finite. Layer 7 constructs the higher étale Chern comparison on these groups.
+[ArithmeticKTheory](../ArithmeticKTheory/README.md) §§3.2–3.4 supplies projective Steinberg-homology finite generation, finite generation of every K-group of a number ring, the rational ring-to-field comparison in degrees at least two, the Borel ranks and finiteness of positive even K-groups. Use its common Quillen K-groups: for a number field F, k≥2, rank K_(2k−1)(𝒪_F) is r₁+r₂ for odd k and r₂ for even k, while K_(2k−2)(𝒪_F) is finite. Section 7.0 compares these groups with Galois cohomology through the Chern classes below.
+
+### From TauCetiRoadmap.KTheoryFiniteLocalFields
+
+[KTheoryFiniteLocalFields](../KTheoryFiniteLocalFields/README.md) §1.8 supplies the ℓ-adic étale Chern classes c_(i,j):K_(2i−j)(X)→H^j_cont(X,ℤ_ℓ(i)), with its index convention: weight i, cohomological degree j, source K_(2i−j). Use them for X=Spec 𝒪_F[1/p] with ℓ=p, together with their naturality in X, their description over rings of S-integers as the inverse limit of the finite-coefficient classes, and their transfer formula over fields, which carries the weight as a factor. Section 7.0 constructs no Chern classes of its own.
 
 ### From the geometric source reductions
 
@@ -8434,26 +8438,27 @@ Separate proved injectivity and conditional dimension estimates from the section
 
 ### 7.0 Rational Tate Selmer dimensions
 
-**Higher étale Chern comparison for number fields.** For p odd, a number field F, `k≥2`, `j∈{1,2}` and `T₀={v:v|p}`, construct the natural higher étale Chern maps `ch_(k,j):K_(2k−j)(𝒪_F)⊗ℤ_p→Hʲ(G_(F,T₀),ℤ_p(k))`. Use the same K-groups as [ArithmeticKTheory](../ArithmeticKTheory/README.md) §§3.2–3.4, finite-coefficient Tate twists and compact continuous cohomology. Construct the universal higher Chern classes on the K-space, their finite-coefficient maps and compatible inverse limits; identify the étale cohomology of `Spec 𝒪_F[1/p]` with this unramified Galois cohomology. Prove Soulé's surjectivity for both j, and finite kernel for j=1. The j=2 domain is finite by ArithmeticKTheory §3.4, so its target is finite as well. After inverting p the degree-one map is an isomorphism and degree two vanishes. No bound k<p is imposed.
+**Higher étale Chern comparison for number fields.** For p odd, a number field F, `k≥2`, `j∈{1,2}` and `T₀={v:v|p}`, let `ch_(k,j):K_(2k−j)(𝒪_F)⊗ℤ_p→Hʲ(G_(F,T₀),ℤ_p(k))` be the localization map `K_(2k−j)(𝒪_F)→K_(2k−j)(𝒪_F[1/p])`, followed by the p-adic Chern class c_(k,j) of [KTheoryFiniteLocalFields](../KTheoryFiniteLocalFields/README.md) §1.8 on `Spec 𝒪_F[1/p]`, extended ℤ_p-linearly, and by the identification of the continuous étale cohomology of `Spec 𝒪_F[1/p]` with this unramified Galois cohomology. That identification is a target here. The name `ch_(k,j)` is kept, but these maps are Chern classes, not components of a Chern character. Use the same K-groups as [ArithmeticKTheory](../ArithmeticKTheory/README.md) §§3.2–3.4, finite-coefficient Tate twists and compact continuous cohomology. Prove that the degree-one map has finite kernel, that both maps have finite cokernel, and that both are surjective for k<p. The j=2 domain is finite by ArithmeticKTheory §3.4; the target is finite because its rationalization vanishes. After inverting p the degree-one map is an isomorphism and degree two vanishes. These rational statements hold for every k≥2; only integral surjectivity carries the bound k<p.
 
-Require compatibility with number-field restriction, transfer and the localization map `𝒪_F→𝒪_F[1/p]`. Ordinary vector-bundle Chern classes are the degree-zero normalization, not substitutes for these higher maps. The rational étale regulator image in the Soulé target is the image of `ch_(k,1)⊗ℚ_p` under this identification.
+Require compatibility with number-field restriction and with the localization map `𝒪_F→𝒪_F[1/p]`. Compatibility with transfer holds in the form the sources prove for integral classes, with the weight as a factor. For a finite extension L/F, with N the K-theory transfer and corestriction, prove `k·(ch_(k,1)(Nx)−N ch_(k,1)(x))=0` for `x∈K_(2k−1)(𝒪_L)⊗ℤ_p`. To do so, map to `H¹(F,ℤ_p(k))`, where inflation is injective, by naturality along `𝒪_L[1/p]→L`, and apply the field formula of KTheoryFiniteLocalFields §1.8. Hence both maps commute with transfer after tensoring with ℚ, for j=2 because both rational targets vanish, and the degree-one map commutes with transfer integrally when p∤k. No transfer formula without the factor k is asserted. The rational étale regulator image in the Soulé target is the image of `ch_(k,1)⊗ℚ_p` under this identification.
 
 Its API has the following requirements.
 
-- The maps are natural under field extension and compatible with transfer and localization.
-- Both integral maps are surjective; the degree-one map has finite kernel.
+- The maps are natural under field extension and compatible with localization; they commute with transfer after tensoring with ℚ, and in degree one after multiplication by k.
+- The degree-one map has finite kernel; both maps have finite cokernel and are surjective for k<p.
 - Rationalization identifies the degree-one spaces and makes degree two zero.
 
 **Checks.**
 
 - For `F=ℚ,k=3`, the rational degree-one map has a one-dimensional source and nonzero image.
 - For `F=ℚ,k=2`, both rational targets vanish, but this makes no assertion that the integral K-groups vanish.
-- The case k=p is included for every odd p. A construction available only for k<p does not supply the target.
+- Integral surjectivity is not asserted for k≥p. Over a finite field, c_(k,1) is ±(k−1)! times an isomorphism (KTheoryFiniteLocalFields §1.8; [Charles Weibel](#reference-weibel-chern), Proposition 5.1, p. 24). It is therefore not surjective onto a nonzero p-primary group once p divides (k−1)!. The rational statements cover every k≥2.
+- For p dividing k, for instance k=p, the factor k in the degree-one transfer identity is not a unit in ℤ_p, so only the rational form gives commutation with transfer.
 - k=1 is excluded; the S-unit Kummer map has its separate localization and class-group terms.
 
-Source: [Christophe Soulé](#reference-soule), §6.1, pp. 246–247, including the distinction between surjectivity of both maps and the finite-kernel assertion for the first.
+Source: [Christophe Soulé](#reference-soule), §6.1, pp. 246–247, for surjectivity, the finite kernel in degree one and finiteness of `H²`. There, surjectivity comes from Soulé's 1979 Chern classes when i<p, and from Dwyer–Friedlander's étale K-theory maps, which are not these classes, in general. Soulé's integral transfer statement (§6.4, p. 249) also concerns Dwyer–Friedlander's maps. [Annette Huber and Jörg Wildeshaus](#reference-huber-wildeshaus), Appendix B.4: Lemma B.4.7, pp. 120–121, identifies Soulé's inverse limit of finite Chern classes on `𝒪_F[1/p]` with the Chern class into continuous étale cohomology. Theorem B.4.8, pp. 121–122, gives the rational isomorphism in degree one and the vanishing in degree two. [Charles Weibel](#reference-weibel-chern), Proposition 4.4, p. 22, proves the transfer identity with the weight factor over fields.
 
-*Needs:* [ArithmeticKTheory](../ArithmeticKTheory/README.md) §§3.2–3.4; [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md) §6.1; [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §§F.0–F.4 (étale coefficients and realization); [ArithmeticGaloisDuality](../ArithmeticGaloisDuality/README.md) §§R02.1–R02.2 (compact limits and continuous comparison). The universal higher classes and arithmetic Chern comparison are constructed here.
+*Needs:* [ArithmeticKTheory](../ArithmeticKTheory/README.md) §§3.2–3.4; [KTheoryFiniteLocalFields](../KTheoryFiniteLocalFields/README.md) §1.8 (ℓ-adic étale Chern classes, their inverse-limit description over rings of S-integers and the transfer formula with the weight factor); [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md) §6.1; [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §§F.0–F.4 (étale coefficients and realization); [ArithmeticGaloisDuality](../ArithmeticGaloisDuality/README.md) §§R02.1–R02.2 (compact limits and continuous comparison). The Galois/étale identification and Soulé's comparison for these classes are targets here.
 
 #### Rational Tate change of ramification
 
@@ -8469,7 +8474,7 @@ The API requires inflation invariance of rational Tate cohomology and compatibil
 
 Source: the localization and purity sequence of [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §F.6; the deduction from its residue terms uses the elementary finite-field procyclic cohomology calculation. [Christophe Soulé](#reference-soule), §6.1, pp. 246–247, supplies the minimal-ramification arithmetic input.
 
-*Needs:* [Higher étale Chern comparison for number fields](#70-rational-tate-selmer-dimensions); [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §F.6 (localization and purity); [ArithmeticGaloisDuality](../ArithmeticGaloisDuality/README.md) §§R02.1–R02.2; TauCetiRoadmap.ProfiniteCohomology (procyclic cohomology). GeometryOfNumbersAndQuadraticArithmetic precedes this roadmap; the arithmetic higher-K, higher-Chern and finite-T comparisons are owned here and precede Soulé's rational Tate specialization.
+*Needs:* [Higher étale Chern comparison for number fields](#70-rational-tate-selmer-dimensions); [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) §F.6 (localization and purity); [ArithmeticGaloisDuality](../ArithmeticGaloisDuality/README.md) §§R02.1–R02.2; TauCetiRoadmap.ProfiniteCohomology (procyclic cohomology). GeometryOfNumbersAndQuadraticArithmetic precedes this roadmap. The higher Chern classes are those of KTheoryFiniteLocalFields §1.8; Soulé's comparison for number rings and the finite-T comparisons are owned here and precede Soulé's rational Tate specialization.
 
 #### Soulé rational Tate cohomology
 
@@ -9052,6 +9057,14 @@ A theorem identifying all rational points from these equations assumes the state
 #### Reference: soule
 
 **Christophe Soulé.** Éléments cyclotomiques en K-théorie. Astérisque 147–148 (1987), 225–257. [Source](https://numdam.org/item/AST_1987__147-148__225_0.pdf).
+
+#### Reference: huber-wildeshaus
+
+**Annette Huber and Jörg Wildeshaus.** Classical motivic polylogarithm according to Beilinson and Deligne. Documenta Mathematica 3 (1998), 27–133; published PDF, journal pagination. [Source](https://www.maths.tcd.ie/EMIS/journals/DMJDMV/vol-03/03.pdf).
+
+#### Reference: weibel-chern
+
+**Charles Weibel.** Étale Chern classes at the prime 2. Author-hosted preprint, 37 pages; locators use its pagination. [Source](https://sites.math.rutgers.edu/~weibel/archive/papers-dir/chernclass.pdf).
 
 #### Reference: bianchi
 
