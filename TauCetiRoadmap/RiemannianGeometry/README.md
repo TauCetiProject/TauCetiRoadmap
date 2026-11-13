@@ -39,11 +39,20 @@ completeness of the quotient of a complete Riemannian manifold by a free properl
 discontinuous group of isometries, built on the library's quotient manifold, quotient
 metric and curvature naturality, and the space-form quotients; PseudodifferentialOperators P7a consumes
 these; R4.7 uses no PseudodifferentialOperators target, so P1.0 → R7 and R4.7 → P7a form
-no cycle. R5b owns the Dirichlet realization of the normal Jacobi operator: its
+no cycle. R5b owns the Dirichlet realization of a symmetric Schrödinger operator
+`∇*∇+K` on a Riemannian vector bundle with a metric connection, the normal
+Jacobi operator being the normal-bundle case: its
 form on W¹,²₀, the self-adjoint operator that form represents, built on Tau Ceti's
 Lax–Milgram solution operator, and its boundary-domain identification. It is
 stated for forms that are coercive after a shift with a compact dense embedding,
 the only case R5b uses; no general closed-form representation is a target here.
+R5c owns, on R5b's realization, the boundary estimates of every Sobolev
+order, the index on smooth sections, the scalar
+first-eigenfunction theory on closed connected manifolds and connected domains
+with strict domain monotonicity, and the scalar Dirichlet problem; on closed
+manifolds it consumes K5a's spectral decomposition,
+and for the ordered eigenvalues and the min–max principle
+[VariationalMethods](../VariationalMethods/README.md) 3.1 and 4.1–4.4.
 
 The following are already in Tau Ceti, and this roadmap cites them rather than
 restating them: the first and second Bianchi identities, the metric skew symmetry
@@ -624,6 +633,27 @@ symmetric, ‖S‖⁻¹ is the least value of B(v,v)/‖Jv‖² over the v with 
 Mathlib's Lax–Milgram equivalence `IsCoercive.continuousLinearEquivOfBilin` in
 `Mathlib/Analysis/InnerProductSpace/LaxMilgram.lean`.
 
+For R5c: `TauCeti.IsRegularValue` in `TauCeti/Geometry/Manifold/RegularValue.lean`, every
+point of the level a point where the manifold derivative is surjective, for the defining
+functions of item 3; `TauCeti.Manifold.laplaceBeltrami_eq_sum_hessian` in
+`TauCeti/Geometry/Manifold/Riemannian/Laplacian.lean`, Δf(x) is the sum of the values
+Hess f(e_i,e_i) of the scalar Hessian over every orthonormal basis (e_i) of T_xM; in
+`TauCeti/Geometry/Manifold/Riemannian/DivergenceTheorem.lean`, on a boundaryless manifold
+and for f of compact support, Green's first identity
+`TauCeti.Manifold.integral_mul_laplaceBeltrami`, `∫fΔg=−∫⟨grad f,grad g⟩` for f of class C¹
+and g of class C², and Green's second identity
+`TauCeti.Manifold.integral_mul_laplaceBeltrami_right_eq_left`, `∫fΔg=∫(Δf)g` for f and g of
+class C²; in `TauCeti/Analysis/Sobolev/W1p/`, for an open subset Ω of a finite-dimensional
+real inner-product space and 1≤p<∞: `TauCeti.W1p.posPartAbove` (`ChainRule.lean`), the
+truncation (u−k)⁺ of u∈W^(1,p)(Ω) at a level k≥0, again in W^(1,p)(Ω), with weak gradient
+`1_(u>k)∇u`, whose level-0 case is the positive part `TauCeti.W1p.posPart`;
+`TauCeti.W1p.posPart_mem_w1p0Submodule` (`Truncation.lean`), u⁺ lies in W^(1,p)₀(Ω) when u
+does; and `TauCeti.W1p0.extendByZeroL` (`Extension.lean`), extension by zero as a continuous
+linear map W^(1,p)₀(Ω)→W^(1,p)₀(Ω′) for Ω⊂Ω′, preserving the norms of the value and of the
+gradient; and, in `Spectrum.lean` of the R5b paragraph,
+`IsCoercive.finiteDimensional_eigenspace_formSolutionOperator`: for J compact, the
+eigenspaces of S at nonzero eigenvalues are finite-dimensional.
+
 For R6, `TauCeti.ae_forall_isManifoldNondegenerateCriticalPoint_norm_sq_sub_comp` in
 `TauCeti/Geometry/Manifold/Morse/SquaredDistance.lean`: for a C² map i:M→V with
 injective differential from a second-countable boundaryless C² manifold modelled on
@@ -743,10 +773,13 @@ The following contracts specify each supplier and section consumed.
   Its smooth-triangulation theorem (Whitehead: every smooth manifold admits a
   smooth triangulation) supplies smooth triangulation.
   R3.2 constructs the finite marked-point refinement and its marked-pair identification.
+  R5c uses the smooth collars of §1.1 and the gluing along the boundary of §1.3.
 - [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md), K5a: real/complex
   bundle Sobolev/Rellich, distributional regularity and global estimates for
   smooth Laplace-type systems, the formal-adjoint L² comparison, compact resolvent, Green operator,
-  real de Rham Hodge theorem and harmonic representatives. This roadmap owns
+  real de Rham Hodge theorem and harmonic representatives, and, for R5c, the
+  extension of smooth functions across a smooth boundary by a collar and the
+  half-space Seeley extension. This roadmap owns
   curvature identities and their geometric consequences, not another Hodge or
   bundle L² construction. [PDE](../PDE/README.md) supplies scalar weak-derivative,
   extension and elliptic estimates through K5a. The vector-valued
@@ -767,14 +800,22 @@ The following contracts specify each supplier and section consumed.
   Dirac-type theorem only the case D:E→E is assumed; R7.3 derives the
   D:E→F case from the composition and adjoint symbol formulas. R5b's normal
   Jacobi operator and R7's geometric operators are P1.0 differential operators.
-- [PDE A1–A6, D16–D19, E20–E22](../PDE/README.md): Sobolev, trace and
-  energy/interior estimates for R5b's normal-Jacobi Dirichlet specialization.
+- [PDE A1–A6, C13, D16–D19, E20–E22](../PDE/README.md): Sobolev, trace and
+  energy/interior estimates for R5b's Dirichlet specialization to a bundle
+  (E,∇,K), of which the normal Jacobi operator is a case; for R5c the
+  agreement of W¹,² with the Bessel-potential scale (A3), the embeddings (A4),
+  the trace kernel and extension operator (A6), the strong maximum principle
+  for variable symmetric principal coefficients (C13) and the global
+  `H^(k+2)` regularity of scalar operators (E20).
   R5b constructs its boundary H² estimate and exact operator domain; these are
   not supplied by closed-manifold K5a or PDE E's interior regularity theorem.
   The abstract coercive-form solution operator, its compactness, symmetry,
   eigenbasis and Rayleigh principle are Tau Ceti's (Tau Ceti contract, R5b
   paragraph); R5b constructs the self-adjoint operator its shifted form
   represents, its geometric form and its boundary-domain identification.
+- [VariationalMethods](../VariationalMethods/README.md) 3.1, 4.1–4.4: compact
+  form pairs, the ordered eigenbasis, expansions, Courant–Fischer and the
+  counting function, at 𝕜=ℝ, for R5c.
 - [GeneralizedCohomology G4.0b](../GeneralizedCohomology/README.md#g4-generalized-lerayhirsch-thom-and-euler-theory):
   smooth quaternionic projective and Stiefel carriers, the smooth Hopf
   quotient submersion and its classical homogeneous-space diffeomorphism.
@@ -3253,16 +3294,26 @@ sections, not the scalar inequality for every function on the cover.
 Prove the W¹,²_0 quadratic-form extension on relatively compact smooth
 domains and its agreement with the smooth form. Consume PDE A1–A6, D16–D19 and
 E20–E22's Sobolev, trace and bounded-domain elliptic/Dirichlet estimates, and own
-their finite-chart Riemannian normal-bundle specialization: actual
-metric/connection weights, trace-compatible transitions, bounded curvature
+their finite-chart specialization to bundles. Let E be a smooth real vector
+bundle of finite rank over a Riemannian manifold M, with a fibre metric, a
+metric connection ∇ (SmoothBundlesConnections B2–B4) and a smooth section K of
+End(E) with K_x symmetric for the fibre metric at every x, and let
+`L=∇*∇+K`, where `∇*∇` is PseudodifferentialOperators P1.0's connection
+Laplacian, with form `∫_D[⟨∇u,∇v⟩+⟨Ku,v⟩] dvol`. The normal Jacobi operator
+and the second-variation form Q above are the case M=P, E=ν_f, ∇=∇⊥ and
+`⟨Ku,v⟩=−Σ_i⟨R^N(u,e_i)e_i,v⟩−Σ_ij⟨B(e_i,e_j),u⟩⟨B(e_i,e_j),v⟩`. The
+specialization comprises actual
+metric/connection weights, trace-compatible transitions, bounded
 potential, coercive shift, form closure and compact embedding. On a relatively
-compact smooth domain D⊂P write V=W¹,²₀(D;ν), H=L²(D;ν), J:V→H for the
+compact smooth domain D⊂M write V=W¹,²₀(D;E), H=L²(D;E), J:V→H for the
 inclusion, injective and compact with dense range, and Q for the extended form,
-bounded and symmetric on V. Prove the coercive shift: with K the supremum over D
-of the curvature potential, `Q(u,u)≥‖∇⊥u‖²−K‖Ju‖²`, so there are c≥0 and α>0
+bounded and symmetric on V. Prove the coercive shift: for k₀≥0 with
+`⟨K_x e,e⟩≥−k₀|e|²` for every x∈D̄ and e∈E_x, `Q(u,u)≥‖∇u‖²−k₀‖Ju‖²`, so there
+are c≥0 and α>0
 with `Q(u,u)+c‖Ju‖²≥α‖u‖²_V` for every u∈V.
 
-Define the Dirichlet Jacobi operator L_D as the partial operator on H whose graph
+Define the Dirichlet operator L_D of L, the Dirichlet Jacobi operator in the
+normal-bundle case, as the partial operator on H whose graph
 is the set of pairs (Ju,f) with Q(u,v)=⟨f,Jv⟩ for every v∈V; injectivity and
 dense range of J make u and f unique, and its domain is the image under J of the
 u for which v↦Q(u,v) is bounded by a multiple of ‖Jv‖. Prove that L_D is
@@ -3310,9 +3361,10 @@ bundle Laplace theory and PDO P5/P6 does not supply a Dirichlet boundary theorem
   not bounded by a multiple of the L² norm of v, so φ∉dom L_D; s(π−s) lies in
   dom L_D with L_D(s(π−s))=2.
 
-Own the boundary H² estimate for the normal Jacobi operator on a relatively compact smooth domain D
-with smooth boundary and the actual smooth normal bundle/connection. For its
-normal Jacobi operator L, a weak u∈W¹,²₀ with Lu=f∈L² satisfies
+Own the boundary H² estimate for `L=∇*∇+K` on a relatively compact smooth domain D
+with smooth boundary and the actual smooth bundle E and connection ∇, in
+particular the normal bundle and ∇⊥. For
+L, a weak u∈W¹,²₀ with Lu=f∈L², that is Q(u,v)=⟨f,Jv⟩ for every v∈V, satisfies
 `‖u‖_(W²,²)≤C(‖f‖_(L²)+‖u‖_(L²))`. Construct the finite-chart bundle W²,²
 carrier and equivalent transition/trace norms. Prove the boundary estimate by
 smooth boundary flattening, localized tangential difference quotients and the
@@ -3320,10 +3372,10 @@ first-order energy estimate; control connection/metric commutators and recover
 the second normal derivative from the uniformly elliptic normal coefficient.
 The principal symbol is the scalar metric symbol times the identity. This
 boundary H² theorem is a target here, not an assumed PDE E theorem.
-Own the Dirichlet-domain identification: L_D has domain exactly W²,²(D;ν)∩W¹,²₀(D;ν), with graph norm
+Own the Dirichlet-domain identification: L_D has domain exactly W²,²(D;E)∩W¹,²₀(D;E), with graph norm
 equivalent to W²,². Compare it with the smooth differential operator and give
 interior/up-to-boundary higher regularity for smooth data by the same chart
-argument. No global Fredholm claim on arbitrary noncompact P is inferred.
+argument. No global Fredholm claim on an arbitrary noncompact base is inferred.
 
 Own the scalar Gauss equation of a minimal hypersurface with full scalar curvature:
 `Scal_P=Scal_N−2Ric_N(ν,ν)+(tr A)²−|A|²`, and
@@ -3335,6 +3387,338 @@ formulas require their own stated variation class and outward/normal
 second-fundamental-form signs; the compactly supported interior formula
 does not silently include them. CalibratedGeometry C6 retains its special
 Lagrangian/Hodge Hessian identity on its existing carrier.
+
+### R5c. Schrödinger operators on compact manifolds: spectrum, principal eigenfunction and Dirichlet problem
+
+R5b supplies the Dirichlet realization of a symmetric Schrödinger operator on
+a Riemannian vector bundle over a relatively compact smooth domain, the
+normal Jacobi operator being a case. R5c adds the closed manifolds, regularity
+up to the boundary at every order,
+the min–max characterization, the index on smooth sections and, for
+scalar operators, the theory of the lowest eigenvalue (simplicity, positivity,
+strict domain monotonicity), the first positive eigenvalue of Δ⁺ with its
+Rayleigh characterization, and the inhomogeneous Dirichlet problem with
+positivity.
+
+Let (M,g) be a Riemannian manifold of dimension m≥1, E→M a smooth real vector
+bundle of finite rank with a fibre metric and a metric connection ∇
+(SmoothBundlesConnections B2–B4), and K a smooth section of End(E) with K_x
+symmetric for the fibre metric at every x, as in R5b. The symmetric bundle
+Schrödinger operator is
+
+`L=∇*∇+K`,
+
+where `∇*∇` is PseudodifferentialOperators P1.0's connection Laplacian, the
+negative metric trace of the second covariant derivative. It is a P1.0
+differential operator of Laplace type with leading scale 1, formally
+self-adjoint for the canonical density. In the scalar case E is the trivial
+line with ∇=d and K is a smooth function q, and
+
+`L=Δ⁺+q`, that is `Lu=−Δu+qu`
+
+for Tau Ceti's `TauCeti.Manifold.laplaceBeltrami` Δ; prove this identification
+from `TauCeti.Manifold.laplaceBeltrami_eq_sum_hessian`. R5b's normal Jacobi
+operator is the case M=P, E=ν_f, ∇=∇⊥ and
+`⟨Ku,v⟩=−Σ_i⟨R^N(u,e_i)e_i,v⟩−Σ_ij⟨B(e_i,e_j),u⟩⟨B(e_i,e_j),v⟩`,
+and its hypersurface Jacobi operator is the scalar case `q=−(|A|²+Ric_N(ν,ν))`.
+
+The standing manifolds are boundaryless and no carrier for manifolds with
+boundary is introduced: as in R5b, a compact manifold with smooth boundary is
+the closure of a relatively compact smooth domain D⊂M, an open subset with
+compact closure each of whose boundary points has a chart of M in which D is
+the half-space x_m>0. Its boundary ∂D is a compact embedded hypersurface, and
+g, E, ∇ and K on D̄ are the restrictions of the data on M. The Dirichlet case
+is ∂D≠∅. In the closed case, ∂D=∅, D is a compact union of connected
+components of M; replace M by D, so that M is compact and D=M. Write C^∞(D̄;E)
+for the sections of E over D that are smooth up to the boundary, that is
+smooth on D with every derivative, in charts of M and smooth local frames of
+E, extending continuously to D̄, and C^∞_c(D;E) for the smooth sections with
+compact support in D.
+
+Write H=L²(D;E), V=W¹,²₀(D;E), which is W¹,²(M;E) in the closed case, J:V→H
+for the inclusion and
+
+`Q(u,v)=∫_D[⟨∇u,∇v⟩+⟨Ku,v⟩] dvol_g`.
+
+Fix k₀≥0 with `⟨K_x e,e⟩≥−k₀|e|²` for every x∈D̄ and e∈E_x. Then
+`Q(u,u)≥‖∇u‖²−k₀‖Ju‖²`, and the shifted form Q+c⟨J·,J·⟩ is coercive on V for
+every c>k₀.
+
+In the Dirichlet case R5b supplies, for (E,∇,K): the
+finite-chart Sobolev carriers and the W¹,²₀ form extension, the compact
+inclusion J with dense range, the self-adjoint Dirichlet operator L_D with
+`(L_D+c)⁻¹=S` for S Tau Ceti's `IsCoercive.formSolutionOperator` of the shifted
+form along J, the Hilbert basis of eigensections with eigenvalues κ−c, the
+least eigenvalue as the least Rayleigh quotient, the index statement on V, the
+boundary H² estimate, the operator domain W²,²∩W¹,²₀ and regularity up to the
+boundary for smooth data. Consume them; none is proved again here.
+Construct the finite-chart carriers W^(k,2)(D;E) for every k≥0 as
+R5b constructs W²,², and prove the boundary estimate at every order: for
+f∈W^(k,2)(D;E), a u∈V with Q(u,v)=⟨f,Jv⟩ for every v∈V lies in
+W^(k+2,2)(D;E), and
+
+`‖u‖_(W^(k+2,2))≤C_k(‖f‖_(W^(k,2))+‖u‖_(L²))`,
+
+by R5b's boundary flattening and tangential difference quotients applied to
+the tangentially differentiated equation, the equation itself giving the
+normal derivatives; for scalar L the boundary step is PDE E20's global
+H^(k+2) theorem in boundary charts. Prove that C^∞(D̄;E) is the intersection
+of the W^(k,2)(D;E), k≥0, from PDE A4's embeddings through A6's extension
+operator in boundary charts; in these terms R5b's regularity for smooth data
+is that f∈C^∞(D̄;E) gives u∈C^∞(D̄;E).
+
+In the closed case nothing of this is rebuilt: consume
+[ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) K5a. For c>k₀ the
+operator L+c is a formally self-adjoint nonnegative Laplace-type system on the
+compact boundaryless M, and K5a supplies its Gårding inequality, the
+compactness and dense range of J, its H² realization, self-adjoint with
+compact resolvent, a Hilbert basis of L²(M;E) of smooth eigensections, and
+elliptic regularity. Here V is K5a's first-order Sobolev space of E, and
+Q+c⟨J·,J·⟩ is K5a's energy form of L+c. Define L_D, for D=M, as that
+realization minus c. Prove
+that it does not depend on c, that `(L_D+c)⁻¹=S` for the solution operator S
+of Q+c⟨J·,J·⟩ along J as in R5b, and that its eigenvalues are those of L+c
+minus c.
+
+*Needs:* R5b (the Dirichlet realization for (E,∇,K)); ComplexKahlerGeometry
+K5a (closed case); PDE A4, A6 and E20; PseudodifferentialOperators P1.0 (the
+connection Laplacian); SmoothBundlesConnections B2–B4; Tau Ceti
+`TauCeti.Manifold.laplaceBeltrami`,
+`TauCeti.Manifold.laplaceBeltrami_eq_sum_hessian` and
+`IsCoercive.formSolutionOperator`.
+
+In both cases let D be nonempty and E of positive rank, so that H is
+infinite-dimensional, since m≥1. Deduce from the realization that the
+spectrum of L_D is real,
+consists of eigenvalues of finite multiplicity
+(`IsCoercive.finiteDimensional_eigenspace_formSolutionOperator`) and has no
+finite accumulation point. List the eigenvalues with multiplicity as
+
+`μ₁≤μ₂≤…`, `μ_k→+∞`,
+
+written μ_k(L,D), or μ_k(L) in the closed case. Prove that every eigensection
+lies in C^∞(D̄;E) and vanishes on ∂D, and that there is a Hilbert basis (u_k)
+of H with `Lu_k=μ_k u_k`. For the order and the variational characterization
+consume [VariationalMethods](../VariationalMethods/README.md) 3.1 and 4.1–4.4:
+J and Q with the coercive shift above form a compact form pair, μ_k is its
+eigenvalue λ_(k−1) in VariationalMethods' indexing from 0, its 4.2 identifies
+the μ_k with the numbers κ−c, κ the variational eigenvalues of Tau Ceti's
+basis `IsCoercive.exists_hilbertBasis_forall_apply_eq_smul_inner` as in R5b,
+and its Courant–Fischer theorem is the Rayleigh min–max characterization
+
+`μ_k=min_(W⊂V, dim W=k) max_(u∈W, u≠0) Q(u,u)/‖Ju‖²`,
+
+attained on the span of u₁,…,u_k; for k=1 it is
+`IsCoercive.isLeast_rayleighQuotient` for the shifted form. The abstract
+ordered eigenbasis and min–max theorem are not proved again here.
+
+Prove the index statement. Call a section admissible if it lies in C^∞(M;E)
+in the closed case, and in C^∞_c(D;E) in the Dirichlet case. Every admissible
+u lies in the domain of L_D with L_D u=Lu, so `⟨u,Lu⟩_(L²)=Q(u,u)`. The
+supremum of the dimensions of the spaces W of admissible sections with
+⟨u,Lu⟩<0 for every nonzero u∈W is finite and equals the number of k with
+μ_k<0, the number of negative eigenvalues counted with multiplicity. In the
+Dirichlet case the same holds, with the same number, for the spaces of
+sections in C^∞(D̄;E) vanishing on ∂D. A route: these sections lie in V, a
+section in C^∞(D̄;E) vanishing on ∂D being in W¹,²₀ by the trace-kernel
+theorem of PDE A6 in boundary charts, and C^∞_c(D;E) is dense in V. On V the
+supremum is the number of negative eigenvalues: this is the index statement
+of the realization above, the value at 0 of the counting function of
+VariationalMethods 4.4. Since Q is bounded on V, negative definiteness on a
+finite-dimensional subspace of V is stable under small perturbations of a
+basis in the norm of V, so such a subspace is approximated by one of the same
+dimension in C^∞_c(D;E).
+
+*Needs:* the realization above; VariationalMethods 3.1 and 4.1–4.4; PDE A6
+(the trace kernel); Tau Ceti
+`IsCoercive.finiteDimensional_eigenspace_formSolutionOperator`,
+`IsCoercive.exists_hilbertBasis_forall_apply_eq_smul_inner` and
+`IsCoercive.isLeast_rayleighQuotient`.
+
+**Scalar principal eigenfunction.** Let `L=Δ⁺+q` and let D be connected.
+Prove:
+
+1. μ₁(L,D) is simple, and its eigenspace is spanned by a φ₁∈C^∞(D̄) with φ₁>0
+   on D. In the Dirichlet case φ₁ vanishes on ∂D. The headline
+   `exists_pos_dirichletEigenfunction_neg_laplaceBeltrami_add` states the
+   Dirichlet case on D̄, a compact manifold with boundary modelled on
+   Mathlib's `𝓡∂ m`, among the functions smooth up to the boundary and
+   vanishing on it. Every compact Riemannian manifold with boundary arises
+   so: a collar (GeometricTopology §1.1), glued along the boundary (§1.3),
+   extends the manifold, and the metric extends across the boundary by
+   ComplexKahlerGeometry K5a's Seeley extension, staying positive definite on a
+   neighbourhood of D̄. On a closed connected M
+   the headline `exists_pos_eigenfunction_neg_laplaceBeltrami_add` states
+   this among smooth functions, with μ₁ their least Rayleigh quotient
+   `(∫|∇u|²+∫qu²)/∫u²`.
+2. On a closed connected M there is a smooth h>0 with Lh=0 if and only if
+   μ₁(L)=0.
+3. Strict domain monotonicity: for connected relatively compact smooth
+   domains D₁ and D₂ of M with D̄₁⊂D₂ and D₁≠D₂, where D₂ may be closed, that
+   is D₂=M for a compact connected M, `μ₁(L,D₁)>μ₁(L,D₂)`. The headline
+   `exists_rayleigh_lt_of_pos_dirichletEigenfunction` states it with
+   Dᵢ={ρᵢ<0} for smooth ρᵢ with regular value 0 and {ρᵢ≤0} compact, D₂=M
+   closed being ρ₂=−1. Every relatively compact smooth domain has such a ρ,
+   glued by a partition of unity from −x_m in boundary charts and ±1 away from
+   ∂D. μ₁(L,D₁) is given by a positive eigenfunction smooth up to ∂D₁ and
+   vanishing there (item 1), and μ₁(L,D₂)<μ₁(L,D₁) is written as a smooth
+   function supported in D₂ whose Rayleigh quotient is below μ₁(L,D₁).
+4. For q=0 on a closed connected M, μ₁(Δ⁺)=0 with eigenspace the constants,
+   the first positive eigenvalue `λ₁(Δ⁺)=μ₂(Δ⁺)` is positive and has a smooth
+   eigenfunction, and
+
+   `λ₁(Δ⁺)=inf{∫|∇f|²/∫f² : f∈C^∞(M), f≠0, ∫f=0}`,
+
+   the infimum being attained at the λ₁-eigenfunctions. The headline
+   `exists_pos_laplaceBeltrami_eigenvalue_isLeast` states the positivity of
+   λ₁(Δ⁺), its smooth eigenfunction and this characterization. It gives the
+   Poincaré–Wirtinger inequality `∫(f−a)²≤λ₁(Δ⁺)⁻¹∫|∇f|²` for f∈C^∞(M), a
+   the mean of f, with least constant λ₁(Δ⁺)⁻¹. R7.0's Lichnerowicz
+   bound is a lower bound for every positive eigenvalue; the existence of the
+   least one, its eigenfunction and this characterization are owned here.
+
+A route: for item 1, let u lie in the μ₁-eigenspace.
+Then |u|=u⁺+(−u)⁺∈V with Q(|u|,|u|)=Q(u,u) and ‖J|u|‖=‖Ju‖, by Tau Ceti's
+truncation `TauCeti.W1p.posPartAbove` at level 0 in charts. In the Dirichlet
+case it preserves the zero-boundary class
+(`TauCeti.W1p.posPart_mem_w1p0Submodule`); in the closed case there is no
+boundary condition, and V is W¹,² in charts by PDE A3.
+So |u| attains the least Rayleigh
+quotient and, by the expansion of Q in the eigenbasis (VariationalMethods
+4.3), lies in the μ₁-eigenspace; hence |u|∈C^∞(D̄). Write q−μ₁=c⁺−c⁻ with
+c⁺,c⁻≥0 continuous. Then `Δ|u|−c⁺|u|=−c⁻|u|≤0` for Tau Ceti's Δ, and the
+strong maximum principle of PDE C13 in charts (variable symmetric principal
+part, zeroth-order coefficient −c⁺≤0; Gilbarg–Trudinger, Theorem 3.5) makes
+the zero set of |u| open in D. It is closed and D is connected, so a nonzero
+u has no zero in D, hence one sign; and if the eigenspace had dimension at
+least 2, some nonzero element would vanish at a chosen point of D. For
+item 2, φ₁ is such an h when μ₁=0; conversely Green's identity
+`TauCeti.Manifold.integral_mul_laplaceBeltrami_right_eq_left` gives
+`μ₁∫φ₁h=∫(Lφ₁)h=∫φ₁Lh=0`, and ∫φ₁h>0. For item 3, extension by zero
+(`TauCeti.W1p0.extendByZeroL` in charts) maps V for D₁ into V for D₂ and
+preserves Q and the L² norm, so μ₁(L,D₂)≤μ₁(L,D₁). In case of equality the
+extension of the first eigenfunction of D₁ attains the least Rayleigh
+quotient on D₂, so it is a first eigenfunction there; it is continuous and
+vanishes on ∂D₁, which is nonempty and contained in D₂, against item 1. For
+item 4, a harmonic function f on a closed connected manifold is constant,
+since Green's first identity `TauCeti.Manifold.integral_mul_laplaceBeltrami`
+with g=f gives ∫|∇f|²=0; the functions of
+mean zero are the L²-orthogonal complement of u₁, so μ₂ is the constrained
+minimum of VariationalMethods 4.1 over the elements of V of mean zero, in
+which the smooth functions of mean zero are dense; and the
+Poincaré–Wirtinger inequality is the Rayleigh bound for f−a, which has mean
+zero, with equality at the λ₁-eigenfunctions.
+
+*Needs:* the realization and the min–max characterization above; PDE A3
+(closed case) and C13; VariationalMethods 4.1 and 4.3; GeometricTopology
+§1.1 and §1.3 and ComplexKahlerGeometry K5a's Seeley extension (for the
+headline on a manifold with boundary); Tau
+Ceti
+`TauCeti.W1p.posPartAbove`, `TauCeti.W1p.posPart_mem_w1p0Submodule`,
+`TauCeti.W1p0.extendByZeroL`, `TauCeti.Manifold.integral_mul_laplaceBeltrami`
+and `TauCeti.Manifold.integral_mul_laplaceBeltrami_right_eq_left`.
+
+**Scalar Dirichlet problem.** Let D be a relatively compact smooth domain
+such that every connected component of D̄ meets ∂D, let `L=Δ⁺+q`, and suppose
+μ₁(L,D)>0. Prove that for every f∈C^∞(D̄) and every smooth function φ on ∂D
+there is exactly one u∈C^∞(D̄) with
+
+`Lu=f on D`, `u=φ on ∂D`,
+
+and that u>0 on D̄ whenever f≥0 on D and φ>0 on ∂D. Prove the Friedrichs
+inequality in this form: if every connected component of D̄ meets ∂D, then
+μ₁(Δ⁺,D)>0, that is `‖Ju‖²≤μ₁(Δ⁺,D)⁻¹‖∇u‖²` on W¹,²₀(D). So the theorem holds
+for L=Δ⁺ with no hypothesis on the spectrum. The headline
+`existsUnique_dirichletProblem_neg_laplaceBeltrami_add` states it on D̄ as in
+item 1, with μ₁(L,D)>0 written as positivity of Q on the nonzero smooth
+functions vanishing on ∂D, which is equivalent because the first
+eigenfunctions are such functions, and with φ the restriction to ∂D of a
+smooth function on D̄.
+
+A route: for 0<t<1, `Q(u,u)≥t‖∇u‖²+((1−t)μ₁−tk₀)‖Ju‖²`, so Q is coercive on V
+for small t. Extend φ to a smooth Φ on M through a tubular neighbourhood of
+∂D (GeometricTopology Layer 1) and a cutoff. Lax–Milgram
+(`IsCoercive.continuousLinearEquivOfBilin`) gives a unique w∈V with
+Q(w,v)=⟨f−LΦ,Jv⟩ for every v∈V; w∈C^∞(D̄) by the boundary estimate, and
+u=Φ+w. Two solutions in C^∞(D̄) differ by an element of V, by the trace-kernel
+theorem, which solves the homogeneous weak equation and so vanishes. For
+positivity, u⁻=max(−u,0) has compact support in D, since u is continuous on D̄
+and positive on ∂D; so u⁻∈V, and `Q(u⁻,u⁻)=−∫f u⁻≤0` gives u⁻=0. With
+q=q⁺−q⁻, `Δu−q⁺u=−q⁻u−f≤0` for u≥0, so by PDE C13 the zero set of u is open
+and closed in D; u is positive near ∂D, which every component of D̄ meets, so u
+has no zero. For the Friedrichs inequality, Q≥0 when q=0, and an eigenfunction
+for the eigenvalue 0 has ∇u=0: it is locally constant on D, lies in C^∞(D̄)
+and vanishes on ∂D, which every component of D̄ meets, so it vanishes.
+
+*Needs:* the boundary estimate and the Rayleigh characterization of μ₁
+above; GeometricTopology Layer 1 (a tubular neighbourhood of ∂D); PDE A6 (the
+trace kernel) and C13; Mathlib `IsCoercive.continuousLinearEquivOfBilin`; Tau
+Ceti `TauCeti.W1p.posPartAbove` (u⁻ is the truncation of −u at level 0).
+
+For R5b's normal Jacobi operators these statements give: the Morse index of a
+minimal immersion over a closed source or over a relatively compact smooth
+domain D of its source, the supremum of the dimensions of the spaces of smooth
+normal fields, with compact support in D in the Dirichlet case, on which
+R5b's second-variation form is negative definite, is the number of negative
+eigenvalues of its normal Jacobi
+operator; a closed connected two-sided minimal hypersurface has a positive
+Jacobi function exactly when μ₁(L)=0; and on a stable two-sided minimal
+hypersurface, a connected relatively compact smooth domain D whose closure
+lies in a larger such domain has μ₁(L,D)>0, so that Lu=0 has exactly one
+solution with u=1 on ∂D, smooth up to the boundary and positive on D̄.
+
+The statements for scalar operators on bounded Euclidean domains are
+Gilbarg–Trudinger, Chapter 8: Theorems 8.12–8.14 for regularity up to the
+boundary, Theorem 8.37 for the eigenvalue sequence, its variational
+characterization and the eigenfunction basis, and Theorem 8.38 for the simple
+first eigenvalue with its positive eigenfunction.
+
+- In the Dirichlet and in the closed case, the eigenvalues `μ₁≤μ₂≤…→+∞` of
+  L_D have finite multiplicity and are
+  given by the min–max formula, and its eigensections are smooth up to the
+  boundary and contain a Hilbert basis of L²(D;E).
+- The index of ⟨u,Lu⟩ on smooth admissible sections is the number of negative
+  eigenvalues, with multiplicity.
+- For scalar L on a connected domain, μ₁ is simple with a positive
+  eigenfunction and decreases strictly when the domain grows; on a closed
+  connected M, Lh=0 has a positive solution exactly when μ₁=0.
+- On a closed connected M, `λ₁(Δ⁺)=μ₂(Δ⁺)>0` is the least Rayleigh quotient of
+  the smooth functions of mean zero.
+- If μ₁(L,D)>0, in particular for L=Δ⁺, the Dirichlet problem Lu=f, u=φ has
+  exactly one solution smooth up to the boundary, positive for f≥0 and φ>0.
+
+**Checks.**
+
+- Sign and closed spectrum. On the unit circle `Δ⁺=−d²/dx²` has eigenvalues
+  0,1,1,4,4,…: μ₁=0 is simple with constant eigenfunctions, and λ₁(Δ⁺)=1 with
+  eigenfunctions cos x and sin x and Rayleigh quotient ∫cos²x/∫sin²x=1. On the
+  unit two-sphere the eigenvalues are j(j+1), j≥0, with multiplicity 2j+1, so
+  λ₁=2 has multiplicity 3: simplicity is a statement about μ₁ only. With Tau
+  Ceti's Δ=div grad the operator is −Δ+q; reading it as Δ+q turns the circle
+  spectrum into 0,−1,−1,−4,…, unbounded below, and μ_k→+∞ fails.
+- Index and positive solutions. On the unit circle with q=−1 the eigenvalues
+  are k²−1, that is −1,0,0,3,3,…: the index is 1, and Lh=0 has the solutions
+  cos x and sin x but no positive one, as μ₁=−1≠0; for q=0, μ₁=0 and h=1. For
+  a smooth q≥0, not identically 0, on a closed connected M,
+  Q(u,u)=∫|∇u|²+∫qu² vanishes only for u=0 (u is a constant c with c²∫q=0),
+  so μ₁(Δ⁺+q)>0 and Lh=0 has only the solution 0. The totally geodesic
+  S² in the unit S³ has A=0 and Ric_N(ν,ν)=2, so L=Δ⁺−2 with eigenvalues
+  j(j+1)−2, that is −2, then 0 three times, then 4: index 1, nullity 3 and no
+  positive Jacobi function.
+- Dirichlet problem on D=(0,π)⊂ℝ, where Δ⁺+q with q constant has eigenvalues
+  k²+q and eigenfunctions sin kx, k≥1. For q=0, μ₁=1>0, and f=1, φ=1 give
+  u=1+x(π−x)/2>0. For q=−2, μ₁=−1<0 and 0 is not an eigenvalue: f=0, φ=1 has
+  the unique solution `u=cos(√2(x−π/2))/cos(√2π/2)`, with
+  u(π/2)=1/cos(√2π/2)≈−1.65<0, so positivity needs μ₁>0. For q=−1, μ₁=0, and
+  f=0, φ=1 has no solution, since cos x+b sin x equals −1 at π.
+- Domains and bundles. D₁=(π/4,3π/4) and D₂=(0,π) have μ₁(Δ⁺,D₁)=4>1=μ₁(Δ⁺,D₂);
+  an arc of length ℓ<2π of the unit circle has μ₁=(π/ℓ)²>¼, while μ₁=0 on the
+  circle. D=(0,π)∪(2π,3π) has μ₁=μ₂=1, with nonnegative first eigenfunctions
+  vanishing on a component, so connectedness is needed in item 1. On the
+  Möbius line bundle over the unit circle with its flat metric connection and
+  K=0, the sections are the functions with u(x+2π)=−u(x) and the eigenvalues
+  are (j+½)², j≥0, each of multiplicity 2: μ₁=μ₂=¼ and every eigensection has
+  a zero, so simplicity and positivity are scalar statements.
 
 ### Examples
 
@@ -3352,6 +3736,19 @@ boundary estimates and Tau Ceti's Lax–Milgram solution operator
 `IsCoercive.formSolutionOperator` with its eigenbasis and Rayleigh principle; its
 normal Jacobi operator, principal symbol and formal self-adjointness use
 PseudodifferentialOperators P1.0's operator, symbol and formal-adjoint carriers.
+R5b's Dirichlet realization is stated for a bundle with a metric connection of
+SmoothBundlesConnections B2–B4 and for P1.0's connection Laplacian.
+R5c uses R5b's Dirichlet realization with its PDE and Tau Ceti inputs, PDE
+A3, A4 and A6, C13's strong maximum principle and E20's global regularity,
+ComplexKahlerGeometry K5a on closed manifolds and its Seeley extension across a
+boundary, VariationalMethods 3.1 and
+4.1–4.4 for the ordered eigenvalues and the min–max principle,
+PseudodifferentialOperators
+P1.0's connection Laplacian, SmoothBundlesConnections B2–B4, GeometricTopology
+Layer 1's tubular neighbourhoods, collars (§1.1) and gluing along the boundary
+(§1.3), and Tau Ceti's Laplace–Beltrami
+operator,
+Green identities, Sobolev truncation and extension by zero.
 
 ## Layer 6: focal points and squared distance
 
@@ -4179,6 +4576,13 @@ minimization nor GeometricCurrents regularity enters R5b.
   University of Cambridge, Part II, Lent 2016, Problem 14, p. 2: every geodesic of
   the paraboloid z=x²+y² that is not a meridian meets itself infinitely often, used
   by R5a.3.
+- D. Gilbarg and N. S. Trudinger, *Elliptic Partial Differential Equations of
+  Second Order*, Classics in Mathematics, Springer, 2001, Chapter 8: Theorems
+  8.12–8.14 (regularity up to the boundary), Theorem 8.37 (the eigenvalue
+  sequence, its variational characterization and the eigenfunction basis) and
+  Theorem 8.38 (the first eigenvalue is simple with a positive eigenfunction),
+  for scalar operators on bounded Euclidean domains, and Theorem 3.5 (the
+  strong maximum principle), used by R5c.
 - S. Axler, P. Bourdon and W. Ramey, [*Harmonic Function Theory*](https://www.axler.net/HFT.pdf),
   second edition (2001), electronic version of 17 July 2020, Proposition 5.5,
   p. 76, and Theorem 5.7, p. 77: unique finite harmonic decomposition

@@ -18,6 +18,7 @@ public import TauCeti.Geometry.Manifold.Orientation.Basic
 public import TauCeti.RingTheory.MvPolynomial.Harmonic
 public import TauCeti.Geometry.Manifold.Riemannian.Laplacian
 public import TauCeti.Analysis.MvPolynomial.Sphere
+public import TauCeti.Geometry.Manifold.RegularValue
 
 /-!
 # Riemannian geometry: target signatures
@@ -40,7 +41,10 @@ finiteness of the fundamental group (R4.5), Synge's theorem in its even-dimensio
 odd-dimensional forms (R4.6), the three cases of the Killing–Hopf classification of simply
 connected space forms (R4.7), two distinct fixed-interval geodesics between distinct points of a
 connected closed positive-dimensional manifold (R4.8), the three simple closed geodesic images on
-a smooth two-sphere (R4.9), the paraboloid crossing and vertex-pole theorems (R5a.3), Bochner's
+a smooth two-sphere (R4.9), the paraboloid crossing and vertex-pole theorems (R5a.3),
+the first positive eigenvalue of `Δ⁺`, the closed-manifold and Dirichlet principal eigenfunctions
+of `Δ⁺ + q`, strict domain monotonicity of the lowest Dirichlet eigenvalue and the scalar
+Dirichlet problem on a compact manifold with boundary (R5c), Bochner's
 vanishing of the first de Rham cohomology under positive Ricci curvature (R7.6), the vanishing of
 de Rham cohomology in every interior degree under a positive curvature operator (R7.7), the
 smooth-function duality for the Riemannian distance (R7.8), the identification of the smooth
@@ -82,7 +86,9 @@ connection, absent at the pin; the vanishing of de Rham cohomology under a posit
 term `ℛ_p` and the parallelism of harmonic forms under a nonnegative one (R7.6), which need the
 Weitzenböck curvature term on `p`-forms, absent at the pin; and Takahashi's eigenmap theorem
 (R8.4), which needs the mean curvature of an isometric immersion into a round sphere, absent at
-the pin.
+the pin. The same holds for the Dirichlet realization (R5b) and for R5c's spectral decomposition,
+min–max formula and index for a bundle `(E, ∇, K)`, which need the `L²` space of sections of a
+vector bundle, absent at the pin.
 -/
 
 @[expose] public section
@@ -491,6 +497,138 @@ theorem paraboloid_vertex_pole
   sorry
 
 end Paraboloid
+
+/-! ## Layer 5: Schrödinger operators on closed manifolds and smooth domains -/
+
+section Schrodinger
+
+variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [FiniteDimensional ℝ E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  [I.Boundaryless] [TopologicalSpace M] [T2Space M] [ChartedSpace H M] [IsManifold I ∞ M]
+  [RiemannianBundle (fun x : M => TangentSpace I x)]
+  [IsContMDiffRiemannianBundle I ∞ E (fun x : M => TangentSpace I x)]
+  [MeasurableSpace M] [BorelSpace M] [SecondCountableTopology M]
+  [IsContinuousRiemannianBundle E (fun x : M => TangentSpace I x)]
+
+/-- R5c, item 4: on a closed connected Riemannian manifold of positive dimension the first
+positive eigenvalue `λ₁` of `Δ⁺ = −Δ` exists, has a smooth eigenfunction (`Δf = −λ₁ f` for Tau
+Ceti's `Δ = div grad`), and is the least Rayleigh quotient `∫|∇g|²/∫g²` of the smooth functions
+of mean zero. On the unit circle `λ₁ = 1` with `f = sin`. -/
+theorem exists_pos_laplaceBeltrami_eigenvalue_isLeast [CompactSpace M] [ConnectedSpace M]
+    [Nontrivial E] :
+    ∃ lam : ℝ, 0 < lam ∧
+      (∃ f : M → ℝ, ContMDiff I 𝓘(ℝ) ∞ f ∧ f ≠ 0 ∧
+        ∀ x, TauCeti.Manifold.laplaceBeltrami I f x = -lam * f x) ∧
+      ∀ g : M → ℝ, ContMDiff I 𝓘(ℝ) ∞ g → ∫ x, g x ∂TauCeti.riemannianVolume I M = 0 →
+        lam * ∫ x, g x ^ 2 ∂TauCeti.riemannianVolume I M ≤
+          ∫ x, ‖TauCeti.Manifold.mgradient I g x‖ ^ 2 ∂TauCeti.riemannianVolume I M := by
+  sorry
+
+/-- R5c, item 1 on a closed connected manifold: for a smooth `q` the lowest eigenvalue `μ` of
+`Δ⁺ + q` has a smooth positive eigenfunction `φ` spanning its eigenspace among smooth functions,
+and `μ` is the least Rayleigh quotient `(∫|∇u|² + ∫qu²)/∫u²`. -/
+theorem exists_pos_eigenfunction_neg_laplaceBeltrami_add [CompactSpace M] [ConnectedSpace M]
+    (q : M → ℝ) (hq : ContMDiff I 𝓘(ℝ) ∞ q) :
+    ∃ (mu : ℝ) (φ : M → ℝ), ContMDiff I 𝓘(ℝ) ∞ φ ∧ (∀ x, 0 < φ x) ∧
+      (∀ x, -TauCeti.Manifold.laplaceBeltrami I φ x + q x * φ x = mu * φ x) ∧
+      (∀ u : M → ℝ, ContMDiff I 𝓘(ℝ) ∞ u →
+        (∀ x, -TauCeti.Manifold.laplaceBeltrami I u x + q x * u x = mu * u x) →
+          ∃ c : ℝ, u = c • φ) ∧
+      ∀ u : M → ℝ, ContMDiff I 𝓘(ℝ) ∞ u →
+        mu * ∫ x, u x ^ 2 ∂TauCeti.riemannianVolume I M ≤
+          ∫ x, ‖TauCeti.Manifold.mgradient I u x‖ ^ 2 + q x * u x ^ 2
+            ∂TauCeti.riemannianVolume I M := by
+  sorry
+
+/-- R5c, item 3, strict domain monotonicity: let `D₁ = {ρ₁ < 0}` and `D₂ = {ρ₂ < 0}` be
+connected relatively compact smooth domains, cut out by smooth functions with regular value `0`,
+with `D̄₁ ⊆ D₂` and `D₁ ≠ D₂` (`ρ₂ = −1` gives `D₂ = M` closed). If `φ`, smooth up to `∂D₁`,
+positive on `D₁` and zero on `∂D₁`, solves `−Δφ + qφ = μφ` on `D₁`, so that
+`μ = μ₁(Δ⁺ + q, D₁)`, then a smooth `u` supported in `D₂` has `∫|∇u|² + ∫qu² < μ∫u²`, that is
+`μ₁(Δ⁺ + q, D₂) < μ₁(Δ⁺ + q, D₁)`. For `(π/4, 3π/4) ⊂ (0, π)` and `q = 0`, `μ = 4` with
+`φ = −cos 2x`, and a cut-off `sin` has quotient near `1`. -/
+theorem exists_rayleigh_lt_of_pos_dirichletEigenfunction (q : M → ℝ)
+    (hq : ContMDiff I 𝓘(ℝ) ∞ q) (ρ₁ ρ₂ : M → ℝ) (hρ₁ : ContMDiff I 𝓘(ℝ) ∞ ρ₁)
+    (hρ₂ : ContMDiff I 𝓘(ℝ) ∞ ρ₂) (hreg₁ : TauCeti.IsRegularValue I 𝓘(ℝ) ρ₁ 0)
+    (hreg₂ : TauCeti.IsRegularValue I 𝓘(ℝ) ρ₂ 0) (hcpt₁ : IsCompact {x | ρ₁ x ≤ 0})
+    (hcpt₂ : IsCompact {x | ρ₂ x ≤ 0}) (hconn₁ : IsConnected {x | ρ₁ x < 0})
+    (hconn₂ : IsConnected {x | ρ₂ x < 0}) (hsub : {x | ρ₁ x ≤ 0} ⊆ {x | ρ₂ x < 0})
+    (hne : {x | ρ₁ x < 0} ≠ {x | ρ₂ x < 0}) (mu : ℝ) (φ : M → ℝ)
+    (hφ : ContMDiffOn I 𝓘(ℝ) ∞ φ {x | ρ₁ x ≤ 0}) (hφpos : ∀ x, ρ₁ x < 0 → 0 < φ x)
+    (hφbd : ∀ x, ρ₁ x = 0 → φ x = 0)
+    (hφeq : ∀ x, ρ₁ x < 0 →
+      -TauCeti.Manifold.laplaceBeltrami I φ x + q x * φ x = mu * φ x) :
+    ∃ u : M → ℝ, ContMDiff I 𝓘(ℝ) ∞ u ∧ tsupport u ⊆ {x | ρ₂ x < 0} ∧
+      ∫ x, ‖TauCeti.Manifold.mgradient I u x‖ ^ 2 + q x * u x ^ 2
+          ∂TauCeti.riemannianVolume I M <
+        mu * ∫ x, u x ^ 2 ∂TauCeti.riemannianVolume I M := by
+  sorry
+
+end Schrodinger
+
+/-! ## Layer 5: Schrödinger operators on compact manifolds with boundary -/
+
+section SchrodingerDirichlet
+
+variable {m : ℕ} [NeZero m] {M : Type*} [TopologicalSpace M] [T2Space M]
+  [ChartedSpace (EuclideanHalfSpace m) M] [IsManifold (𝓡∂ m) ∞ M]
+  [RiemannianBundle (fun x : M => TangentSpace (𝓡∂ m) x)]
+  [IsContMDiffRiemannianBundle (𝓡∂ m) ∞ (EuclideanSpace ℝ (Fin m))
+    (fun x : M => TangentSpace (𝓡∂ m) x)]
+  [IsContMDiffRiemannianBundle (𝓡∂ m) 1 (EuclideanSpace ℝ (Fin m))
+    (fun x : M => TangentSpace (𝓡∂ m) x)]
+  [MeasurableSpace M] [BorelSpace M] [SecondCountableTopology M]
+  [IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin m))
+    (fun x : M => TangentSpace (𝓡∂ m) x)]
+
+/-- R5c, item 1 in the Dirichlet case: on a compact connected Riemannian manifold `M` with
+nonempty boundary, the closure `D̄` of a connected relatively compact smooth domain, and for a
+smooth `q`, the lowest Dirichlet eigenvalue `μ` of `Δ⁺ + q` has an eigenfunction `φ` smooth up to
+the boundary, positive on the interior and zero on the boundary, spanning the smooth
+eigenfunctions vanishing on the boundary, and `μ` is the least Rayleigh quotient of the smooth
+functions vanishing on the boundary. On `[0, π]`, `μ = 1 + q` for constant `q`, with `φ = sin`. -/
+theorem exists_pos_dirichletEigenfunction_neg_laplaceBeltrami_add [CompactSpace M]
+    [ConnectedSpace M] (hbd : ((𝓡∂ m).boundary M).Nonempty) (q : M → ℝ)
+    (hq : ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ q) :
+    ∃ (mu : ℝ) (φ : M → ℝ), ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ φ ∧
+      (∀ x ∈ (𝓡∂ m).interior M, 0 < φ x) ∧ (∀ x ∈ (𝓡∂ m).boundary M, φ x = 0) ∧
+      (∀ x ∈ (𝓡∂ m).interior M,
+        -TauCeti.Manifold.laplaceBeltrami (𝓡∂ m) φ x + q x * φ x = mu * φ x) ∧
+      (∀ u : M → ℝ, ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ u → (∀ x ∈ (𝓡∂ m).boundary M, u x = 0) →
+        (∀ x ∈ (𝓡∂ m).interior M,
+          -TauCeti.Manifold.laplaceBeltrami (𝓡∂ m) u x + q x * u x = mu * u x) →
+          ∃ c : ℝ, u = c • φ) ∧
+      ∀ u : M → ℝ, ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ u → (∀ x ∈ (𝓡∂ m).boundary M, u x = 0) →
+        mu * ∫ x, u x ^ 2 ∂TauCeti.riemannianVolume (𝓡∂ m) M ≤
+          ∫ x, ‖TauCeti.Manifold.mgradient (𝓡∂ m) u x‖ ^ 2 + q x * u x ^ 2
+            ∂TauCeti.riemannianVolume (𝓡∂ m) M := by
+  sorry
+
+/-- R5c, the scalar Dirichlet problem: on a compact Riemannian manifold `M` with boundary each
+of whose connected components meets the boundary, if the form `∫|∇u|² + ∫qu²` is positive on
+the nonzero smooth functions vanishing on the boundary, that is `μ₁(Δ⁺ + q) > 0`, then for
+smooth `f` and `Φ` exactly one `u` smooth up to the boundary solves `−Δu + qu = f` on the
+interior with `u = Φ` on the boundary, and `u > 0` when `f ≥ 0` and `Φ > 0` on the boundary.
+On `[0, π]` with `q = 0`, `f = 1`, `Φ = 1` it is `1 + x(π − x)/2`; for `q = −2` the solution
+with `f = 0`, `Φ = 1` is negative at `π/2`. -/
+theorem existsUnique_dirichletProblem_neg_laplaceBeltrami_add [CompactSpace M]
+    (hcomp : ∀ x : M, ∃ y ∈ connectedComponent x, y ∈ (𝓡∂ m).boundary M) (q : M → ℝ)
+    (hq : ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ q)
+    (hpos : ∀ u : M → ℝ, ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ u → (∀ x ∈ (𝓡∂ m).boundary M, u x = 0) →
+      u ≠ 0 → 0 < ∫ x, ‖TauCeti.Manifold.mgradient (𝓡∂ m) u x‖ ^ 2 + q x * u x ^ 2
+        ∂TauCeti.riemannianVolume (𝓡∂ m) M)
+    (f Φ : M → ℝ) (hf : ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ f) (hΦ : ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ Φ) :
+    (∃! u : M → ℝ, ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ u ∧ (∀ x ∈ (𝓡∂ m).boundary M, u x = Φ x) ∧
+      ∀ x ∈ (𝓡∂ m).interior M,
+        -TauCeti.Manifold.laplaceBeltrami (𝓡∂ m) u x + q x * u x = f x) ∧
+    ((∀ x, 0 ≤ f x) → (∀ x ∈ (𝓡∂ m).boundary M, 0 < Φ x) →
+      ∀ u : M → ℝ, ContMDiff (𝓡∂ m) 𝓘(ℝ) ∞ u → (∀ x ∈ (𝓡∂ m).boundary M, u x = Φ x) →
+        (∀ x ∈ (𝓡∂ m).interior M,
+          -TauCeti.Manifold.laplaceBeltrami (𝓡∂ m) u x + q x * u x = f x) →
+        ∀ x, 0 < u x) := by
+  sorry
+
+end SchrodingerDirichlet
 
 /-! ## Layer 7: Bochner vanishing -/
 
