@@ -38,12 +38,12 @@ def stabilizerAutEquiv (x : X) :
 
 /-- This comparison retains the literal acting element on the forward arrow. -/
 @[simp] theorem stabilizerAutEquiv_hom_label (x : X) (g : MulAction.stabilizer G x) :
-    ((stabilizerAutEquiv G X x g).hom).hom = (g : G) := rfl
+    ((stabilizerAutEquiv G X x g).asIso.hom).hom = (g : G) := rfl
 
 /-- The inverse comparison recovers that same label from an automorphism. -/
 @[simp] theorem stabilizerAutEquiv_symm_label (x : X)
     (a : Aut (CategoryTheory.ActionCategory.objEquiv G X x)) :
-    ((stabilizerAutEquiv G X x).symm a : G) = a.hom.hom := rfl
+    ((stabilizerAutEquiv G X x).symm a : G) = a.asIso.hom.hom := rfl
 end RetainedActions
 
 section Reynolds
