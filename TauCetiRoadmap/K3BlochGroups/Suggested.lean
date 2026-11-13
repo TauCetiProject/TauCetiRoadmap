@@ -1,31 +1,29 @@
 module
 
 public import Mathlib
-public import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Stable
 
 /-!
 # K3BlochGroups: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap’s headline
 theorems against the pinned APIs: the integral diagonal of the antisymmetric tensor cokernel,
-the stability of general linear and symmetric groups, the power-map action on cyclic homology,
-the comparison of the Bloch groups of a discrete valuation ring and of its fraction field,
+the stability of symmetric groups, the power-map action on cyclic homology,
+Bloch rigidity under rational-function extension, the comparison of the Bloch groups of a
+discrete valuation ring and of its fraction field,
 the integral and characteristic-localized third homology of finite SL₂, the cyclic order of
-the finite-field Bloch group and the formally-real order-six theorem. The tensor cokernel,
-the pre-Bloch presentation of a commutative ring and its symbols, block inclusion and
-GL-stability through degree three are simple definitions on native carriers.
+the finite-field Bloch group and the formally-real order-six theorem. The tensor cokernel
+and the pre-Bloch presentation of a commutative ring and its symbols are simple definitions
+on native carriers.
 
 The homological Quillen K₃ comparison and its Hopf kernel lack a Quillen K-group carrier and
 plus-construction maps at the pins. The Milnor injection and motivic edge lack the shared
 Milnor and motivic carriers. The Suslin exact sequence, its finite-to-infinite compatibility,
-transcendental rigidity and arithmetic quotient theorems lack Quillen K₃, the Bloch boundary
+K₃ transcendental rigidity and arithmetic quotient theorems lack Quillen K₃, the Bloch boundary
 and enhanced Tor, and the configuration spectral sequences. The algebraically closed integral torsion comparison likewise lacks the shared K-group carriers.
 The Bloch–Wigner sequences over rings with many units and over local rings, and the comparison
 of the coinvariants of third homology of SL₂ of a local domain with indecomposable K₃, lack
 Quillen K₃ of a ring; the refined sequence for a local domain lacks the edge map from third
 homology of SL₂ to the refined Bloch group, built from the configuration spectral sequence.
-GL-stability through degree three is a predicate on Tau Ceti's stabilization, the hypothesis
-under which the README states the finite-residue cases.
 The finite Chern isomorphism also lacks finite-coefficient K-theory and its étale Chern map. The Rogers detector lacks
 the supplier’s interval Rogers function and its descent map. These headline results remain in
 the README with their full hypotheses. Finite-support certificates and generic kernel-fibre
@@ -90,38 +88,6 @@ noncomputable def preBlochSymbol {A : Type*} [CommRing A] (x : A) : preBloch A :
 
 /-! ## Layer 4: Configuration homology and the Suslin sequence -/
 
-/-- AlgebraicKTheory A1's block inclusion on native field matrices, sending a matrix to
-`diag(g,1)`. The inverse block is `diag(g⁻¹,1)`; the sum of index types is reindexed by
-`finSumFinEquiv`. This adapter supplies the map in the stability headline below; over a field
-it is HomologicalStabilityOfGeneralLinearGroups §2.4's `stabilization`. -/
-def generalLinearStabilization (F : Type u) [Field F] (n : ℕ) :
-    Matrix.GeneralLinearGroup (Fin n) F →*
-      Matrix.GeneralLinearGroup (Fin (n + 1)) F :=
-  (Units.map (Matrix.reindexRingEquiv F (finSumFinEquiv :
-    Fin n ⊕ Fin 1 ≃ Fin (n + 1))).toMonoidHom).comp
-    { toFun := fun g =>
-        { val := Matrix.fromBlocks g.val 0 0 (1 : Matrix (Fin 1) (Fin 1) F)
-          inv := Matrix.fromBlocks g.inv 0 0 (1 : Matrix (Fin 1) (Fin 1) F)
-          val_inv := by simp [Matrix.fromBlocks_multiply, ← Matrix.fromBlocks_one]
-          inv_val := by simp [Matrix.fromBlocks_multiply, ← Matrix.fromBlocks_one] }
-      map_one' := by apply Units.ext; exact Matrix.fromBlocks_one
-      map_mul' := fun g h => by
-        apply Units.ext
-        simp [Matrix.fromBlocks_multiply] }
-
-/-- Over every infinite field, block inclusion induces an integral homology isomorphism
-in degree `i ≤ n`. Suslin 1984, Theorem 3.4, pp.196–198. Coefficients are transported to
-the field's universe, and the coefficient morphism is the identity. -/
-theorem generalLinear_homology_stable (F : Type u) [Field F] [Infinite F]
-    (n i : ℕ) (hi : i ≤ n)
-    (φ : Rep.trivial (ULift.{u} ℤ) (Matrix.GeneralLinearGroup (Fin n) F) (ULift.{u} ℤ) ⟶
-      Rep.res (generalLinearStabilization F n)
-        (Rep.trivial (ULift.{u} ℤ) (Matrix.GeneralLinearGroup (Fin (n + 1)) F)
-          (ULift.{u} ℤ)))
-    (hφ : φ.hom.toLinearMap = LinearMap.id) :
-    Function.Bijective (groupHomology.map (generalLinearStabilization F n) φ i) := by
-  sorry
-
 /-- `cyclicHomology_maps` (§4.15): the power-`a` endomorphism of a cyclic group of order `m`
 acts on `H_{2j-1}(C_m, ℤ) ≅ ℤ/m` by `a ^ j`, with the identity coefficient map. At `m = 7`,
 `a = 2`, `j = 2` this is multiplication by `4` on `H₃`, the weight-two action of §4.18. -/
@@ -146,32 +112,40 @@ theorem symmetricGroup_homology_stable (n i : ℕ) (hi : 2 * i ≤ n)
       (Equiv.Perm.viaEmbeddingHom ⟨Fin.castSucc, Fin.castSucc_injective n⟩) φ i) := by
   sorry
 
-/-- A commutative ring is GL-stable through degree three when, for every `i ≤ 3` and `n ≥ i`,
-the stabilization `GLₙ(A) → GLₙ₊₁(A)`, `g ↦ diag(g, 1)`, induces a bijection on integral
-homology in degree `i`, with the identity coefficient map. Mirzaii–Mokari, §1, p.4, for rings
-with many units; HomologicalStabilityOfGeneralLinearGroups §2.3 for semilocal rings whose
-residue fields are infinite. -/
-def IsGLStableThroughThree (A : Type u) [CommRing A] : Prop :=
-  ∀ i n : ℕ, i ≤ 3 → i ≤ n →
-    ∀ φ : Rep.trivial (ULift.{u} ℤ) (Matrix.GeneralLinearGroup (Fin n) A) (ULift.{u} ℤ) ⟶
-      Rep.res (TauCeti.stabilizeGL A (Nat.le_succ n))
-        (Rep.trivial (ULift.{u} ℤ) (Matrix.GeneralLinearGroup (Fin (n + 1)) A) (ULift.{u} ℤ)),
-      φ.hom.toLinearMap = LinearMap.id →
-      Function.Bijective (groupHomology.map (TauCeti.stabilizeGL A (Nat.le_succ n)) φ i)
+/-- For an infinite field or a finite field of cardinality at least four, the inclusion
+into its rational-function field induces an isomorphism on Bloch groups. The boundary and
+symbol-map rules determine the maps; the last three clauses express the induced kernel
+bijection. Weibel, K-book VI, Exercise 5.8; README §§4.21 and 6.6. -/
+theorem bloch_rationalFunctionField (F : Type u) [Field F]
+    (hF : Infinite F ∨ 4 ≤ Nat.card F) :
+    ∃ (dF : preBloch F →+ antisymSquare ℤ (Additive Fˣ))
+      (dK : preBloch (RatFunc F) →+ antisymSquare ℤ (Additive (RatFunc F)ˣ))
+      (φ : preBloch F →+ preBloch (RatFunc F)),
+      (∀ (x : F) (hx : IsUnit x) (hx1 : IsUnit (1 - x)),
+        dF (preBlochSymbol x) = Submodule.Quotient.mk
+          (Additive.ofMul hx.unit ⊗ₜ[ℤ] Additive.ofMul hx1.unit)) ∧
+      (∀ (x : RatFunc F) (hx : IsUnit x) (hx1 : IsUnit (1 - x)),
+        dK (preBlochSymbol x) = Submodule.Quotient.mk
+          (Additive.ofMul hx.unit ⊗ₜ[ℤ] Additive.ofMul hx1.unit)) ∧
+      (∀ x : F, IsUnit x → IsUnit (1 - x) →
+        φ (preBlochSymbol x) = preBlochSymbol (algebraMap F (RatFunc F) x)) ∧
+      (∀ z, dF z = 0 → dK (φ z) = 0) ∧
+      (∀ z, dF z = 0 → φ z = 0 → z = 0) ∧
+      (∀ w, dK w = 0 → ∃ z, dF z = 0 ∧ φ z = w) := by
+  sorry
 
 /-- For a discrete valuation ring `R` with fraction field `K` and residue field `k`, where `k` is
 infinite or has more than nine elements, and where `K` and `k` have equal characteristic or `k`
 is finite, the map of pre-Bloch groups induced by `R → K` restricts to a bijection from the
-kernel of the boundary `[x] ↦ x ∧ (1 - x)` of `R` onto that of `K`. When `k` is finite, `R` is
-assumed GL-stable through degree three. The displayed generator rules determine both
+kernel of the boundary `[x] ↦ x ∧ (1 - x)` of `R` onto that of `K`.
+The displayed generator rules determine both
 boundaries and the map. Mirzaii–Mokari, Corollary 5.4, arXiv v2, p.17; Mirzaii, Corollary 6.3,
 arXiv v1, p.30. -/
 theorem bloch_dvr_equiv (R : Type u) (K : Type*) [CommRing R] [IsDomain R]
     [IsDiscreteValuationRing R] [Field K] [Algebra R K] [IsFractionRing R K]
     (hk : Infinite (IsLocalRing.ResidueField R) ∨ 9 < Nat.card (IsLocalRing.ResidueField R))
     (hc : ringChar K = ringChar (IsLocalRing.ResidueField R) ∨
-      Finite (IsLocalRing.ResidueField R))
-    (hstab : Finite (IsLocalRing.ResidueField R) → IsGLStableThroughThree R) :
+      Finite (IsLocalRing.ResidueField R)) :
     ∃ (dR : preBloch R →+ antisymSquare ℤ (Additive Rˣ))
       (dK : preBloch K →+ antisymSquare ℤ (Additive Kˣ)) (φ : preBloch R →+ preBloch K),
       (∀ (x : R) (hx : IsUnit x) (hx1 : IsUnit (1 - x)),
