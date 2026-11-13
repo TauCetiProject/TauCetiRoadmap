@@ -34,7 +34,8 @@ extension, the behaviour of valuation rings under étale maps and henselization,
 henselization of a valued field, the tensor decomposition `L ⊗_K Kʰ ≅ ∏ L_wʰ`, the homogenization
 of finite-type algebras and finite modules, finite presentation of flat graded algebras and modules
 over a ring with finitely many primes detecting zero, and finite presentation of flat finite-type
-algebras and modules over valuation rings and Prüfer domains (Layer 1); the étale criterion for
+algebras over arbitrary domains, the flat-locus finite-presentation theorem, and finite
+modules flat over Prüfer domains (Layer 1); the étale criterion for
 unramified extensions, the ramification tower, the six extension classes, tame and separably tame
 fields, their tower laws and the comparison with perfection, with local fields and with complete
 discretely valued fields (Layer 2); the section theorem for pro-`p` kernels, maximal extensions
@@ -136,7 +137,8 @@ criteria (Layer 5); and the general tameness theorem with its separable export (
   respect to it. Changing the prolongation conjugates every field of the tower (§2.2).
 - **Henselian.** `K` is henselian when `HenselianLocalRing V`. The relative notion "henselian
   extension" (§2.5) means uniqueness of the prolongation to the extension field and does not say that
-  the extension field is henselian.
+  the extension field is henselian. Write `H_p = (ℚ, v_p)ʰ ⊂ ℚ_p` for the
+  henselization of the rational field at a prime `p` (§1.3).
 - **Height.** The height of `V` is Mathlib's `ringKrullDim V`; height `d < ∞` means that `Spec V`
   is a chain of exactly `d + 1` prime ideals, height `0` is the trivial valuation and height one is
   a nontrivial valuation with archimedean value group. Height is not completeness and does not bound
@@ -721,13 +723,13 @@ SchemeAndStackFoundations §0.13 (`henselization_integral_base_change`,
 
 **Checks.**
 - For henselian `K` there is one factor and the tensor product is the field `L`.
-- For `ℚ(√2)/ℚ` at `7` there are two factors, both `ℚ_7ʰ`; the tensor product is not a field. Counting
+- For `ℚ(√2)/ℚ` at `7` there are two factors, both `H_7`; the tensor product is not a field. Counting
   prolongations up to isomorphism would give one factor, because the two prolongations are
   conjugate.
 - For `L = K(t^{1/p})` over `K = 𝔽_p(t)` with the `t`-adic valuation the prolongation is unique and
   the tensor product is the field `Lʰ`; inseparability does not create factors.
 
-### 1.5 Flat finite-type algebras and modules over valuation rings and Prüfer domains
+### 1.5 Finite presentation over domains and Prüfer domains
 
 *Homogenization.* For a ring `R`, an `R`-algebra `B` of finite type and a finite `B`-module `M`,
 prove that there are a graded `R`-algebra `S = ⊕_{n≥0} S_n` with `S_0 = R`, generated as an
@@ -788,18 +790,33 @@ and descends to `R` through the finitely many primes `𝔭_j` (Stacks, Lemma 15.
 (Stacks, Lemma 15.26.6, tag 053E). The flatness hypothesis of the second statement is on `M`, not on
 `B`.
 
-Prove the same two statements for a Prüfer domain `A` (a domain whose localization at every maximal
-ideal is a valuation ring), of which the valuation-ring statements are the local case:
-`finitePresentation_of_flat_of_valuationRing_localization` (for `B` a finite-type `A`-algebra flat
-over `A`, `B` is finitely presented over `A`) and
-`module_finitePresentation_of_flat_of_valuationRing_localization` (for `B` a finite-type
-`A`-algebra and `M` a finite `B`-module flat as an `A`-module, with compatible `A`- and
-`B`-actions, `M` is finitely presented over `B`). The algebra statement is the Prüfer case of the
-theorem that a flat finite-type algebra over an arbitrary domain is finitely presented (Raynaud and
-Gruson 1971, Corollaire 3.4.7; invoked at this step in Temkin 2017, proof of Lemma 2.3.8, p. 106);
-this roadmap states and proves the Prüfer case only, by the route below, which needs no flattening
-technique. Route
-for both statements, as in the proof of Stacks tag 053E: over a Prüfer domain an `A`-module is flat
+*Algebras over domains.* Prove `finitePresentation_of_flat_of_isDomain`: for every domain `A`
+and every finite-type `A`-algebra `B` flat over `A`, `B` is finitely presented over `A`
+(Raynaud and Gruson 1971, Corollaire 3.4.7; Stacks, Proposition 38.13.10(1), tag 053G;
+Temkin 2017, proof of Lemma 2.3.8, p. 106).
+
+This section owns the flat-locus finite-presentation theorem used in the general-domain proof:
+for a ring `R` with finitely many weakly associated primes, a finitely presented `R`-algebra `C`
+and a finite `C`-module `N`, the set `U = {q ∈ Spec C | N_q is R-flat}` is open, and for each
+`g ∈ C` with `D(g) ⊆ U`, `N_g` is finitely presented over `C_g` and flat over `R`
+(Stacks, Lemma 38.13.7, tag 05IL). Here a weakly associated prime is a prime minimal over the
+annihilator of an element of the module; for the ring the module is `R` itself.
+Its local finite-presentation input is also owned here: for any ring `R`, finitely presented
+`R`-algebra `C`, finite `C`-module `N` and prime `q` of `C`, if `N_q` is flat over
+`R_(q ∩ R)`, then `N_q` is finitely presented over `C_q` (Stacks, Lemma 38.10.9, tag 05I7).
+Apply the flat-locus theorem with `R = A`, `C = A[X_1, …, X_n]`, `N = B` via a surjection
+`C → B`, and `g = 1`: a domain has just the weakly associated prime `(0)`, and `U = Spec C`.
+Finite presentation of the cyclic `C`-module `B` makes the kernel finitely generated, giving
+finite presentation as an `A`-algebra. *Needs:* the two finite-presentation inputs in this
+paragraph; Mathlib `Module.Flat`, `Algebra.FinitePresentation`, `Module.FinitePresentation`.
+
+*Modules over Prüfer domains.* Prove
+`module_finitePresentation_of_flat_of_valuationRing_localization`: for a Prüfer domain `A`
+(a domain whose localization at every maximal ideal is a valuation ring), a finite-type
+`A`-algebra `B` and a finite `B`-module `M` flat as an `A`-module, with compatible `A`- and
+`B`-actions, `M` is finitely presented over `B`. The valuation-ring statement is its local case.
+A route for this statement and the Prüfer case of the algebra theorem is the proof of Stacks tag 053E:
+over a Prüfer domain an `A`-module is flat
 exactly when it is torsion free
 (`Module.Flat.flat_iff_torsion_eq_bot_of_valuationRing_localization_isMaximal`); homogenize,
 `B = S_(f)` and `M = N_(f)`; replace `S` by its quotient by its `A`-torsion in the algebra case and
@@ -814,6 +831,11 @@ homogenization and graded finite presentation above; Mathlib `ValuationRing`, `M
 `Algebra.FinitePresentation`, `Module.FinitePresentation`.
 
 **Checks.**
+- For a field `k`, `A = k[x,y]` and `B = A[T]`, the algebra theorem gives one generator and zero relations.
+  The localization of `A` at `(x,y)` contains neither `x/y` nor `y/x`, so `A` is not Prüfer.
+- For a field `k`, `R = C = k[t]` and `N = R/(t)`, the flat locus is `D(t)`; on it `N` is zero and finitely
+  presented, whereas at `(t)` it is nonzero torsion and not flat. For `N = C`, the flat locus is
+  all of `Spec C`, with one module generator and zero relations.
 - Over a field every finite-type algebra is flat and finitely presented, by Hilbert's basis theorem.
 - `A/𝔪` for a valuation ring `A` whose maximal ideal `𝔪` is not finitely generated is of
   finite type and not finitely presented; it is not flat (it is torsion), so flatness cannot be
@@ -1081,7 +1103,7 @@ Ceti `TauCeti.Henselization.directLimitEquiv`.
 **Checks.**
 - Each of the six properties holds for the identity tower `K/K/K`.
 - The compositum identities depend on the chosen prolongation: for `ℚ(√2)/ℚ` at `7`, `Lʰ = L·Kʰ` holds
-  for each of the two prolongations, through the two embeddings `√2 ↦ ±s` of `L` into `ℚ_7ʰ`, where
+  for each of the two prolongations, through the two embeddings `√2 ↦ ±s` of `L` into `H_7`, where
   `s` is a `7`-adic square root of `2`.
 - Degrees are not preserved by arbitrary base change: `ℚ(√2) ⊗ ℚ_7` is not a field.
 
@@ -1403,7 +1425,7 @@ of §4.2; the statement here adds the Krull-valued form, the converse direction,
   `x = √2` is separable with its conjugate `−√2` in `L` and `‖x − (−x)‖ = ‖2s‖ = 1`, while `y = 3`
   has `‖x − y‖ = ‖s − 3‖ ≤ 1/7 < 1`, yet `x ∉ ℚ(y) = ℚ`; and `ℤ_(7)` is not henselian (`X² − 2` has
   two simple roots modulo `7` and none in `ℚ`).
-- For `K = ℚ_pʰ`, which is henselian and not complete, and `L` an algebraic closure of `K` with the
+- For `K = H_p`, which is henselian and not complete, and `L` an algebraic closure of `K` with the
   extended norm, Krasner's lemma over a henselian base applies while the complete-base instance
   `IsKrasner.of_completeSpace` does not; for `K = ℚ_p` both give `IsKrasner K L`.
 
@@ -1419,7 +1441,7 @@ simply be combined. *Needs:* §0.5, §2.5, §4.1; Tau Ceti `TauCeti.Henselizatio
 
 **Checks.**
 - For `L = Kʰ` take `E = K`.
-- At finite degree `[E : K] = [L : Kʰ]`; for `ℚ` at `p` and `L = ℚ_pʰ(√p)`, `E = ℚ(√p)` works.
+- At finite degree `[E : K] = [L : Kʰ]`; for `ℚ` at `p` and `L = H_p(√p)`, `E = ℚ(√p)` works.
 - For `K` henselian of height one, `Kʰ = K` and the statement holds with `E = L`.
 
 ### 4.3 Maximal separable wildness under henselization
@@ -1434,16 +1456,16 @@ For `K` of height one, prove that `E/K` is a maximal separable purely wild exten
   wild extension of `Kʰ`; but `√(1 + t)` lies in `Kʰ` (the residue polynomial `X² − 1` has the simple
   root `1`) and not in `ℚ(t)` (`1 + t` has a zero of order one at `t = −1`), so `K(√(1 + t)) ⊆ Kʰ ⊆ Kᵗ`
   makes `E/K` neither henselian (two prolongations to `K(√(1 + t))`) nor purely wild. The analogous
-  `ℚ(√2)/ℚ` at `7` tests nothing: there `Eʰ/Kʰ` is the identity of `ℚ_7ʰ`, which is not maximal,
+  `ℚ(√2)/ℚ` at `7` tests nothing: there `Eʰ/Kʰ` is the identity of `H_7`, which is not maximal,
   since the Eisenstein polynomial `X⁷ − 7` gives a separable purely wild extension of degree `7`, so
   both sides are false.
 - For `p = 1` both sides say `E = K` in characteristic zero.
 - Pure wildness is reflected by henselization only for henselian extensions. For a prime `ℓ ≠ p`,
   `E = ℚ(p^{1/ℓ})` over `ℚ` with the `p`-adic valuation is a henselian extension (`X^ℓ − p` is
   Eisenstein, so the prolongation is unique, with `e = ℓ`) and is tame, hence not purely wild, and
-  `Eʰ = ℚ_pʰ(p^{1/ℓ})` is tame of degree `ℓ` over `ℚ_pʰ`, hence still not purely wild. Without the
-  hypothesis it fails: `ℚ(√2)/ℚ` at `7` is not purely wild, since `ℚ(√2)` lies in `ℚ_7ʰ ⊆ Kᵗ` for
-  either prolongation, while `Eʰ/Kʰ` is the identity of `ℚ_7ʰ` and is purely wild.
+  `Eʰ = H_p(p^{1/ℓ})` is tame of degree `ℓ` over `H_p`, hence still not purely wild. Without the
+  hypothesis it fails: `ℚ(√2)/ℚ` at `7` is not purely wild, since `ℚ(√2)` lies in `H_7 ⊆ Kᵗ` for
+  either prolongation, while `Eʰ/Kʰ` is the identity of `H_7` and is purely wild.
 
 ### 4.4 The splitting theorem in height one
 
@@ -1474,8 +1496,8 @@ maximal purely wild extension is a `{p}`-extension (§2.6), hence trivial; §4.4
 
 ### Examples
 
-`ℚ` with the `p`-adic valuation: `ℚ` is dense in `ℚ_pʰ` and every finite separable extension of
-`ℚ_pʰ` descends to a henselian extension of `ℚ` of the same degree (§4.2). `f = (X − 1)(X + 1)` over
+`ℚ` with the `p`-adic valuation: `ℚ` is dense in `H_p` and every finite separable extension of
+`H_p` descends to a henselian extension of `ℚ` of the same degree (§4.2). `f = (X − 1)(X + 1)` over
 `ℚ` at `2` shows why uniqueness of the root pairing needs a tolerance strictly above `kras(f)`
 (§4.1).
 
@@ -1842,6 +1864,9 @@ when perfect and is always separably tame (§2.7).
   pp. 74–75; Proposition 18.6.8, p. 139; Proposition 18.6.14, p. 141.
 - **serre-cg**: J.-P. Serre, *Galois Cohomology*: I §3.4, Proposition 16; II §2.2,
   Proposition 3 and Corollary 1.
+- **stacks-more-flatness**: The Stacks Project Authors, *More on Flatness*: Lemma 38.10.9
+  (tag 05I7), Theorem 38.13.6 (tag 05IK), Lemma 38.13.7 (tag 05IL), and Proposition 38.13.10
+  (tag 053G).
 - **rg71**: M. Raynaud, L. Gruson, *Critères de platitude et de projectivité. Techniques de
   « platification » d'un module*, Inventiones Mathematicae 13 (1971), 1–89: Corollaire 3.4.7.
 

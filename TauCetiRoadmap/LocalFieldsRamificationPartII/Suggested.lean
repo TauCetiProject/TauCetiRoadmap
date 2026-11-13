@@ -27,8 +27,8 @@ Headline theorems stated below:
 * the Kuhlmann–Pank–Roquette splitting over a henselian valued field (Layer 3);
 * the profinite input of the splitting theorem: continuous sections of surjections with pro-`p`
   kernel onto groups of `p`-cohomological dimension at most one (Layer 3);
-* finite presentation of flat finite-type algebras, and of finite modules flat over the base, over
-  a Prüfer domain (Layer 1);
+* finite presentation of flat finite-type algebras over arbitrary domains, and of finite modules
+  flat over a Prüfer base (Layer 1);
 * Krasner's lemma over a henselian, not necessarily complete, rank-one normed field (Layer 4);
 * the algebraic Abhyankar inequality and the resulting height bound (Layer 5).
 
@@ -70,16 +70,13 @@ def IsSeparablyPClosed (P : Set ℕ) (K : Type*) [Field K] : Prop :=
   ∀ E : IntermediateField K (AlgebraicClosure K), FiniteDimensional K E →
     Algebra.IsSeparable K E → IsPNumber P (Module.finrank K E) → E = ⊥
 
-/-! ## Layer 1: finite presentation over Prüfer domains -/
+/-! ## Layer 1: finite presentation over domains and Prüfer domains -/
 
-/-- **Flat finite-type algebras over a Prüfer domain are finitely presented.** Let `A` be a
-domain whose localization at every maximal ideal is a valuation ring, and `B` an `A`-algebra of
-finite type that is flat over `A`. Then `B` is a finitely presented `A`-algebra. For a valuation
-ring this is Stacks, Lemma 15.26.6 (tag 053E); for a domain it is the domain case of
-Raynaud–Gruson, Corollaire 3.4.7. -/
-theorem finitePresentation_of_flat_of_valuationRing_localization (A B : Type*) [CommRing A]
-    [IsDomain A] [CommRing B] [Algebra A B] [Algebra.FiniteType A B] [Module.Flat A B]
-    (hA : ∀ (P : Ideal A), [P.IsMaximal] → ValuationRing (Localization P.primeCompl)) :
+/-- **Flat finite-type algebras over a domain are finitely presented.** Let `A` be a domain
+and `B` an `A`-algebra of finite type that is flat over `A`. Then `B` is a finitely presented
+`A`-algebra (Raynaud–Gruson, Corollaire 3.4.7; Stacks, Proposition 38.13.10, tag 053G). -/
+theorem finitePresentation_of_flat_of_isDomain (A B : Type*) [CommRing A]
+    [IsDomain A] [CommRing B] [Algebra A B] [Algebra.FiniteType A B] [Module.Flat A B] :
     Algebra.FinitePresentation A B := by
   sorry
 
