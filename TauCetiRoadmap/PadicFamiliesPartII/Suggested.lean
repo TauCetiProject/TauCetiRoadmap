@@ -17,8 +17,8 @@ None of the headline theorems is statable at the pins, so nothing is stated here
   (§3.3) and the vanishing of the localized Euler characteristic of the Klingen family
   (§3.5) need Siegel threefolds over `ℤ_p`, their toroidal compactifications, coherent
   cohomology of `Sym^k ω ⊗ det(ω)^r` and the Klingen family over `ℤ_p⟦ℤ_pˣ⟧`.
-* Hilbert derived ordinary control (§4.7), the weight-two doubling injection (§5.8) and the
-  rational ordinary comparison with at most one Klingen place (§6.7) need Hilbert–Siegel
+* Hilbert derived ordinary control (§5.3), the weight-two doubling injection (§6.3) and the
+  rational ordinary comparison with at most one Klingen place (§5.10) need Hilbert–Siegel
   moduli, partial Igusa towers, coherent cohomology of the dagger neighbourhoods of the
   multiplicative locus and analytic coefficient complexes.
 * The completed-cohomology Eichler–Shimura spectral sequence and the genus-two four-piece
@@ -32,7 +32,7 @@ None of the headline theorems is statable at the pins, so nothing is stated here
   Siegel threefolds.
 
 The only statement of the roadmap that is formulable on native carriers, the identities of
-the doubling companion operator `C(x, y) = (Tx + Uy, −x)` (§5.6), concerns arbitrary
+the doubling companion operator `C(x, y) = (Tx + Uy, −x)` (§6.1), concerns arbitrary
 endomorphisms of an arbitrary module and is algebra on its hypotheses; it is a README target,
 not a headline theorem.
 -/
