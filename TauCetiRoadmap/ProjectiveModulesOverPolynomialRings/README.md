@@ -598,14 +598,33 @@ Lang's Theorem XXI.3.4 and does not cite this roadmap.
 
 ## Research context
 
-Serre asked in 1955 whether finitely generated projective modules over `k[X₁, …, Xₙ]` are free;
-Quillen and Suslin answered it in 1976. Quillen's comments (Quillen 1976, p. 170) state what
-became the Bass–Quillen conjecture: for a regular Noetherian ring `A`, every finitely generated
-projective `A[T]`-module is extended from `A`, equivalently, by 3.3, every finitely generated
-projective module over `A[T]` for a regular local ring `A` is free. It holds when `dim A ≤ 2`
-(Quillen 1976, p. 170, citing Horrocks and Murthy) and for regular rings essentially of finite type
-over a field (Lindel 1981); the general case is open. The Hermite ring conjecture, that `A[X]` is
-Hermite whenever `A` is, is open as well (Lombardi–Quitté, Section XVI.6, p. 936).
+Serre asked whether finitely generated projective modules over `k[X₁, …, Xₙ]` are free (Serre
+1955). Seshadri (1958) settled two variables over a field, and Quillen (1976) and Suslin (1976)
+answered the question in general; the K₁ side, through unimodular rows and stable range, is in
+Vaserstein–Suslin (1976), and Lam (2006) gives a full account. Beyond polynomial rings stable
+freeness is weaker than freeness: the tangent bundle of the real 2-sphere gives a stably free
+module that is not free (Swan 1962), and stably free non-free modules also occur over affine
+algebras (Mohan Kumar 1985). Over a smooth affine algebra of dimension `d` over an algebraically
+closed field `k` in which `(d − 1)!` is invertible, stably free modules of rank `d − 1` are free
+(Fasel–Rao–Swan 2012).
+
+Quillen's comments (Quillen 1976, p. 170) and Bass (1973, §4.1) state the Bass–Quillen
+conjecture: for a regular Noetherian ring `A`, every finitely generated projective `A[T]`-module is
+extended from `A`, equivalently, by 3.3, every finitely generated projective module over `A[T]`
+for a regular local ring `A` is free. It holds when `dim A ≤ 2` (Quillen 1976, p. 170, citing
+Horrocks 1964 and Murthy 1965) and for regular rings essentially of finite type over a field
+(Lindel 1981); with Popescu's desingularization theorem (Popescu 1986, 1990; exposition in Swan
+1998) it follows whenever every local ring of `A` at a maximal ideal is unramified, in particular
+when `A` contains a field, and it is open for ramified regular local rings of mixed
+characteristic (Česnavičius 2022, §2.1). The analogue for Prüfer domains is due to Lequain–Simis
+(1980), and analogues for generically trivial torsors under isotropic reductive groups over
+infinite fields are proved with A¹-homotopy theory (Asok–Hoyois–Wendt 2018). Quillen's local
+question, that for a regular local ring `R` and a regular parameter `r` every finitely generated
+projective `R[1/r]`-module is free, implies the conjecture; it is known in equal characteristic
+and in dimension at most 3, and open in mixed characteristic (Česnavičius 2022, §2.2), while
+Quillen's global form of it is false (Swan 1978, §2). For the Hermite ring conjecture, that `A[X]`
+is Hermite whenever `A` is (Lombardi–Quitté, Section XVI.6, p. 936; Lam 2006), a counterexample is
+claimed in a preprint (Schäppi 2023).
 
 ## References
 
@@ -630,6 +649,38 @@ Hermite whenever `A` is, is open as well (Lombardi–Quitté, Section XVI.6, p. 
 - R. G. Swan, J. Towber, « A class of projective modules which are nearly free », *J. Algebra* 36
   (1975), 427–434. doi:10.1016/0021-8693(75)90143-X.
 - H. Lindel, « On the Bass–Quillen conjecture concerning projective modules over polynomial
-  rings », *Invent. Math.* 65 (1981), 319–324. doi:10.1007/BF01389017.
+  rings », *Invent. Math.* 65 (1981), 319–323. doi:10.1007/BF01389017.
 - T. Y. Lam, *Serre's Problem on Projective Modules*, Springer Monographs in Mathematics, Springer,
   2006. doi:10.1007/978-3-540-34575-6.
+- J.-P. Serre, « Faisceaux algébriques cohérents », *Ann. of Math.* (2) 61 (1955), 197–278.
+  doi:10.2307/1969915.
+- C. S. Seshadri, « Triviality of vector bundles over the affine space K² », *Proc. Nat. Acad.
+  Sci. U.S.A.* 44 (1958), 456–458. doi:10.1073/pnas.44.5.456.
+- M. P. Murthy, « Projective modules over a class of polynomial rings », *Math. Z.* 88 (1965),
+  184–189. doi:10.1007/BF01112098.
+- L. N. Vaserstein, A. A. Suslin, « Serre's problem on projective modules over polynomial rings,
+  and algebraic K-theory », *Math. USSR Izv.* 10 (1976), no. 5, 937–1001.
+  doi:10.1070/IM1976v010n05ABEH001822.
+- H. Bass, « Some problems in "classical" algebraic K-theory », in *"Classical" Algebraic
+  K-Theory, and Connections with Arithmetic*, Lecture Notes in Mathematics 342, Springer, 1973,
+  1–73. doi:10.1007/BFb0073718.
+- N. Mohan Kumar, « Stably free modules », *Amer. J. Math.* 107 (1985), no. 6, 1439–1444.
+  doi:10.2307/2374411.
+- J. Fasel, R. A. Rao, R. G. Swan, « On stably free modules over affine algebras », *Publ. Math.
+  IHÉS* 116 (2012), 223–243. doi:10.1007/s10240-012-0041-y. arXiv:1107.1051.
+- D. Popescu, « General Néron desingularization and approximation », *Nagoya Math. J.* 104
+  (1986), 85–115. doi:10.1017/S0027763000022698. Letter to the editor, *ibid.* 118 (1990),
+  45–53. doi:10.1017/S0027763000002981.
+- R. G. Swan, « Néron–Popescu desingularization », in *Lectures in Algebra and Geometry*
+  (Taipei, 1995), International Press, Cambridge, MA, 1998, 135–192. Zbl 0954.13003.
+- Y. Lequain, A. Simis, « Projective modules over R[X₁, …, Xₙ], R a Prüfer domain », *J. Pure
+  Appl. Algebra* 18 (1980), 165–171. doi:10.1016/0022-4049(80)90127-9.
+- R. G. Swan, « Projective modules over Laurent polynomial rings », *Trans. Amer. Math. Soc.* 237
+  (1978), 111–120. doi:10.1090/S0002-9947-1978-0469906-4.
+- K. Česnavičius, « Problems about torsors over regular rings », *Acta Math. Vietnam.* 47 (2022),
+  39–107. doi:10.1007/s40306-022-00477-y. arXiv:2201.06424.
+- A. Asok, M. Hoyois, M. Wendt, « Affine representability results in A¹-homotopy theory, II:
+  principal bundles and homogeneous spaces », *Geom. Topol.* 22 (2018), 1181–1225.
+  doi:10.2140/gt.2018.22.1181.
+- D. Schäppi, « A counterexample to the Hermite ring conjecture », preprint, 2023.
+  arXiv:2311.04104.
