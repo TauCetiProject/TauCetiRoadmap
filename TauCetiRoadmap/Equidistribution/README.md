@@ -151,11 +151,9 @@ At Mathlib `1b1ccf4b`:
   (Algebra/ContinuedFractions/Translations.lean); `GenContFract.of_h_eq_floor`,
   `GenContFract.of_s_succ` (Algebra/ContinuedFractions/Computation/Translations.lean);
   `GenContFract.exists_int_eq_of_partDen`, `GenContFract.of_partNum_eq_one`,
-  `GenContFract.of_one_le_get?_partDen`, `GenContFract.succ_nth_fib_le_of_nth_den`,
-  `GenContFract.of_den_mono`, `GenContFract.abs_sub_convs_le`, `GenContFract.sub_convs_eq`
-  (Algebra/ContinuedFractions/Computation/Approximations.lean);
-  `GenContFract.of_convergence` (Algebra/ContinuedFractions/Computation/ApproximationCorollaries.lean);
-  `GenContFract.terminates_iff_rat` (Algebra/ContinuedFractions/Computation/TerminatesIffRat.lean).
+  `GenContFract.of_one_le_get?_partDen`, `GenContFract.abs_sub_convs_le`,
+  `GenContFract.sub_convs_eq` (Algebra/ContinuedFractions/Computation/Approximations.lean);
+  `GenContFract.of_convergence` (Algebra/ContinuedFractions/Computation/ApproximationCorollaries.lean).
 - **Golden ratio.** `Real.goldenRatio`, `Real.goldenConj`, `Real.goldenRatio_sq`,
   `Real.goldenRatio_irrational`, `Real.coe_fib_eq`, `Real.fib_succ_sub_goldenRatio_mul_fib`,
   `Real.inv_goldenRatio` (NumberTheory/Real/GoldenRatio.lean); `Nat.fib_add_two`
@@ -358,9 +356,9 @@ API around the definition:
 
 - the recurrences `qₙ₊₂ = aₙ₊₂ qₙ₊₁ + qₙ` and `pₙ₊₂ = aₙ₊₂ pₙ₊₁ + pₙ` with `aₙ₊₂ : ℕ` the partial
   denominator (`GenContFract.nums_recurrence`, `GenContFract.dens_recurrence`,
-  `GenContFract.exists_int_eq_of_partDen`), with the proviso `¬ (cf ξ).TerminatedAt n` where the
-  recurrence needs the `(n + 1)`-st partial denominator to exist; for irrational `ξ` the proviso
-  is discharged by Tau Ceti's `Irrational.not_of_terminatedAt`;
+  `GenContFract.exists_int_eq_of_partDen`), with the proviso `¬ (cf ξ).TerminatedAt (n + 1)`, which
+  says that `aₙ₊₂` exists (the hypothesis `(cf ξ).s.get? (n + 1) = some _` of the recurrences); for
+  irrational `ξ` the proviso is discharged by Tau Ceti's `Irrational.not_of_terminatedAt`;
 - positivity of `qₙ`, and monotonicity of `qₙ` by Tau Ceti's `Real.monotone_den_convergent`; strict
   monotonicity of `qₙ` from index `1` needs `aₙ ≥ 1`, `GenContFract.of_one_le_get?_partDen`;
 - the Fibonacci lower bound `Nat.fib (n + 1) ≤ qₙ` for irrational `ξ` is Tau Ceti's
@@ -368,8 +366,8 @@ API around the definition:
 - `pₙ` and `qₙ` are coprime, and `pₙ qₙ₊₁ − pₙ₊₁ qₙ = (−1)ⁿ⁺¹`, from
   `GenContFract.determinant`;
 - the convergent is the reduced fraction, `Real.convergent ξ n = pₙ / qₙ`, which is the
-  definition read in the other direction (Hardy–Wright Theorems 149 and 150: the recurrences and the
-determinant).
+  definition read in the other direction (Hardy–Wright Ch. X, §10.2 *Convergents to a continued
+  fraction* and §10.4 *Simple continued fractions*).
 
 The cast identities, positivity, monotonicity and coprimality hold for every `ξ`. Strict
 monotonicity from index `1`, the determinant identity at `n` and the Fibonacci bound need
@@ -399,7 +397,9 @@ second, with `ξₙ₊₂ > 1`, the decrease. `GenContFract.abs_sub_convs_le` gi
 is not enough for the strict bound. The lower bound
 `1 / (convDen ξ n + convDen ξ (n + 1)) < |convErr ξ n|` is **not** restated here: it is
 DiophantineApproximationAndTranscendence §0.5, and consumers cite it there. *Needs:* §3.1;
-`GenContFract.sub_convs_eq`, `GenContFract.of_convergence` (Hardy–Wright Theorems 170–172).
+`GenContFract.sub_convs_eq`, `GenContFract.of_convergence` (Hardy–Wright Ch. X, §10.7 *The
+difference between the fraction and its convergents* and §10.8 *Infinite simple continued
+fractions*).
 
 **Checks.**
 
@@ -426,7 +426,7 @@ for irrational `ξ`, with `n ≥ 0` and no separate case: when `a₁ = 1` we hav
 (Legendre) for one direction and the determinant identity for the other. Derive that a
 denominator whose `‖q ξ‖` beats every smaller denominator is a convergent denominator.
 *Needs:* §§3.1 and 3.2; Mathlib `Real.exists_rat_eq_convergent`, `GenContFract.determinant`
-(Hardy–Wright Theorem 181; Khinchin §§6, 9, 16).
+(Hardy–Wright Ch. X; Khinchin §§6, 9, 16).
 
 **Checks.**
 
@@ -447,7 +447,7 @@ has
 
 - `ContFrac.exists_convDen_mul_abs_convErr_lt_inv_sqrt_five : convDen ξ k * |convErr ξ k| < 1 / √5`
 
-(Hardy–Wright Theorems 193–195; Khinchin §19), which records which rationals Hurwitz's theorem
+(Hardy–Wright Ch. X–XI; Khinchin §19), which records which rationals Hurwitz's theorem
 produces, namely convergents, three consecutive ones at a time. Prove the sharpness
 
 - `ContFrac.finite_setOf_abs_goldenRatio_sub_lt_of_sqrt_five_lt : √5 < c → {q : ℚ | |φ − q| < 1 / (c * q.den ^ 2)}.Finite`
@@ -456,7 +456,7 @@ and the limit `qₙ |convErr φ n| → 1/√5` along the convergents of `φ`, wh
 that `√5` cannot be improved for `φ`. The sharpness uses the explicit continued fraction of `φ`
 of §3.5 and `Real.fib_succ_sub_goldenRatio_mul_fib`. The sharpness at `φ` is not in Mathlib.
 *Needs:* §§3.2 and 3.5; Mathlib `Real.infinite_rat_abs_sub_lt_one_div_sqrt_five_mul_den_sq_of_irrational`
-(Hardy–Wright Theorems 193–195).
+(Hardy–Wright Ch. X–XI).
 
 **Checks.**
 
@@ -478,7 +478,7 @@ Prove that the continued fraction of `φ` is `[1; 1, 1, …]`,
 `ContFrac.convErr_goldenRatio : convErr φ n = −(ψ ^ (n + 1))` (`Real.fib_succ_sub_goldenRatio_mul_fib`;
 `convErr` is the negative of that lemma's left-hand side, hence the sign), so that
 `|convErr φ n| = φ ^ (−(n + 1))`; and `(Nat.fib (n + 1) : ℝ) / Nat.fib n → φ`, as the consumer
-of `GenContFract.of_convergence` (Hardy–Wright Theorems 193–195). *Needs:* §3.1.
+of `GenContFract.of_convergence` (Hardy–Wright Ch. X–XI). *Needs:* §3.1.
 
 **Checks.**
 
@@ -654,8 +654,8 @@ finite-`N` structure of the point set whose limit is ProbabilisticAndMetricNumbe
 - A. Ya. Khinchin, *Continued Fractions*, Dover, §§4–6 (convergents, best approximations), §16
   (Lagrange) and §19 (Hurwitz and `√5`).
 - G. H. Hardy and E. M. Wright, *An Introduction to the Theory of Numbers*, 6th ed., Ch. X–XI
-  (Theorem 181: convergents as best approximations; Theorems 193–195: Hurwitz and the golden
-  ratio).
+  (convergents as best approximations; Hurwitz and the golden ratio), cited by chapter and
+  section; the book's theorem numbers are not given.
 - V. T. Sós, *On the distribution mod 1 of the sequence nα*, Ann. Univ. Sci. Budapest 1 (1958)
   127–134; and N. B. Slater, *Gaps and steps for the sequence nθ mod 1*, Proc. Cambridge Philos.
   Soc. 63 (1967) 1115–1123 (the three-gap theorem with multiplicities through convergents).
