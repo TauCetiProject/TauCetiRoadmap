@@ -32,9 +32,8 @@ rotation is the most even rhythm.
 ## Scope and ownership
 
 This roadmap owns: the `ℕ`-orbit of a rotation of `AddCircle p` (periodic for finite order, dense
-for infinite order) and its cardinality for rational `α`; the identification of Tau Ceti's empirical
-measure of an orbit with Mathlib's, and the transfer of the equidistribution of `nα` to a circle of
-arbitrary period `T`; the integer numerator/denominator data of `GenContFract.of ξ` for real `ξ`,
+for infinite order) and its cardinality for rational `α`; the transfer of the equidistribution of `nα` to a
+circle of arbitrary period `T`; the integer numerator/denominator data of `GenContFract.of ξ` for real `ξ`,
 the alternation and decay of the convergent errors, the characterization of the convergent
 denominators as the best approximations of the second kind (Lagrange), the convergent form of
 Hurwitz's theorem, its sharpness at `φ`, and the continued fraction of `φ`; the three-gap theorem
@@ -63,10 +62,9 @@ stated directly in terms of `q · ‖q φ‖` and do not pass through `BadlyAppr
 It does not own homogeneous dynamics on `G/Γ`, unipotent flows or Ratner-type equidistribution
 (GeometryOfNumbersAndQuadraticArithmetic §4.2), equidistribution of small points of bounded
 height (ArithmeticDynamics), or effective Diophantine methods and exact rational point counts
-(EffectiveDiophantineMethods). Quantitative equidistribution of `{nα}`, including the discrepancy
-bound for badly approximable `α`, and Kronecker–Weyl in several dimensions are the subjects of
-ProbabilisticAndMetricNumberTheory §§2.5 and 2.7 and DiophantineApproximationAndTranscendence §0.4,
-which consume Layer 3 of this roadmap.
+(EffectiveDiophantineMethods). Kronecker–Weyl equidistribution in several dimensions is
+ProbabilisticAndMetricNumberTheory §2.5 (`linear_equidistribution_tfae`), and inhomogeneous
+Kronecker approximation is DiophantineApproximationAndTranscendence §0.4.
 
 ## Conventions
 
@@ -96,16 +94,18 @@ which consume Layer 3 of this roadmap.
   `Real.convs_eq_convergent`. The roadmap's integer data are `ContFrac.convNum ξ n`, the numerator
   of `Real.convergent ξ n`, and `ContFrac.convDen ξ n`, its denominator, so that
   `(GenContFract.of ξ).nums n` and `.dens n` are their casts to `ℝ` (Layer 3). Index from `0`:
-  `p₀/q₀ = ⌊ξ⌋/1`, and `q₀ = 1` (`GenContFract.zeroth_den_eq_one`). The partial denominators `aₙ`
-  are `(GenContFract.of ξ).partDens.get? n` (a `Stream'.Seq ℝ`), with `a₀` written
-  `(GenContFract.of ξ).h = ⌊ξ⌋` (`GenContFract.of_h_eq_floor`). The signed error is
+  `p₀/q₀ = ⌊ξ⌋/1`, and `q₀ = 1` (`GenContFract.zeroth_den_eq_one`). The partial denominators
+  are `a₀ = ⌊ξ⌋ = (GenContFract.of ξ).h` (`GenContFract.of_h_eq_floor`) and, for `n ≥ 0`,
+  `aₙ₊₁ = (GenContFract.of ξ).partDens.get? n` (a `Stream'.Seq ℝ`): Mathlib's stream index `n`
+  carries the `(n + 1)`-st quotient. Check: for `π`, `partDens.get? 0 = 7 = a₁`, and
+  `q₂ = a₂q₁ + q₀ = 15·7 + 1 = 106`. The signed error is
   `ContFrac.convErr ξ n := convDen ξ n * ξ − convNum ξ n`.
 - **The golden ratio.** `Real.goldenRatio = (1 + √5)/2`, notation `φ` in `Real`; its conjugate
   is `Real.goldenConj`, notation `ψ`. Fibonacci numbers are `Nat.fib` with `fib 0 = 0`,
   `fib 1 = 1`.
 - **Namespaces.** The roadmap's own declarations live in `Rotation` (Layers 1, 2 and 4) and
   `ContFrac` (Layer 3); every name qualified by `AddCircle`, `Real`, `GenContFract`, `Int` or
-  `Nat` is Mathlib's.
+  `Nat` is Mathlib's or Tau Ceti's.
 - **Generality.** Rotation and density statements are over `AddCircle p` for arbitrary real
   `p > 0`; equidistribution is over `AddCircle T`; continued fractions and the three-gap theorem
   are over `ℝ` with the circle of length `1`. Do not generalize the continued-fraction layer to
@@ -171,6 +171,16 @@ At Mathlib `1b1ccf4b`:
   terms of a sequence, with `TauCeti.Probability.integral_empiricalMeasure` (its integral is the
   average) and `TauCeti.Probability.empiricalMeasure_apply_toReal` (its mass of a measurable set
   is the proportion of terms in the set) (TauCeti/Probability/Process/EmpiricalMeasure.lean).
+- `Real.num_convergent`, `Real.den_convergent`, `Real.fib_succ_le_den_convergent`,
+  `Real.monotone_den_convergent`, `Real.abs_sub_convergent_le`,
+  `Real.one_div_lt_abs_sub_convergent` and `Irrational.not_of_terminatedAt`
+  (TauCeti/NumberTheory/DiophantineApproximation/ContinuedFractions.lean): the casts of the
+  convergent numerator and denominator to the continuants, the Fibonacci lower bound and
+  monotonicity of the denominators, the two-sided bounds on the convergent error, and the
+  non-termination of the continued fraction of an irrational number.
+- `AddCircle.torsionBy_eq_zmultiples` and `AddCircle.eq_torsionBy_of_natCard_eq`
+  (TauCeti/Algebra/AddCircle.lean): a finite subgroup of `AddCircle p` of cardinality `n` is the
+  `n`-torsion `(AddCircle p)[n]`.
 - `TauCeti.Probability.birkhoffAverage_tendsto_metProjection`, the mean ergodic theorem for
   Birkhoff averages (TauCeti/Probability/Ergodic/MeanErgodic.lean), the Tau Ceti realization of
   the completed Exchangeability roadmap's ergodic layer; it is not needed by any target here and
@@ -193,8 +203,9 @@ At Mathlib `1b1ccf4b`:
 
 ### From TauCetiRoadmap.DiophantineApproximationAndTranscendence
 
-§0.5: the lower bound `1/(qₖ(qₖ + qₖ₊₁)) < |ξ − pₖ/qₖ|` and the limsup formula for the
-irrationality exponent. §0.6: `BadlyApproximable` and its stability lemmas. §0.4: Kronecker
+§0.5: the lower bound `1/(qₖ(qₖ + qₖ₊₁)) < |ξ − pₖ/qₖ|` and the upper bound `|ξ − pₖ/qₖ| ≤ 1/(qₖ qₖ₊₁)`,
+which are Tau Ceti's `Real.one_div_lt_abs_sub_convergent` and `Real.abs_sub_convergent_le`, and the
+limsup formula for the irrationality exponent. §0.6: `BadlyApproximable` and its stability lemmas. §0.4: Kronecker
 approximation. Nothing of these is restated here; Layer 3 cites §0.5 for the lower bound on the
 convergent error and never reproves it.
 
@@ -235,8 +246,9 @@ For `q : ℚ` and `a = ((q * p : ℝ) : AddCircle p)`, Mathlib gives the group-t
 `addOrderOf a = q.den` (`AddCircle.addOrderOf_coe_rat`), the `ℕ`-orbit equals the `ℤ`-orbit as
 sets (`IsOfFinAddOrder.multiples_eq_zmultiples`), `n • a = m • a ↔ n ≡ m [MOD addOrderOf a]`
 (`nsmul_eq_nsmul_iff_modEq`), and `Nat.card (zmultiples a) = addOrderOf a` (`Nat.card_zmultiples`).
-Consume these and prove what is specific to the circle: the orbit is the finite set of
-`q.den`-torsion points `{x | q.den • x = 0}`, hence
+Consume these and prove what is specific to the circle: the orbit is the `q.den`-torsion
+`(AddCircle p)[q.den]`, by Tau Ceti's `AddCircle.eq_torsionBy_of_natCard_eq` applied to
+`zmultiples a`, whose `Nat.card` is `q.den`; hence
 
 - `Rotation.ncard_range_nsmul_coe_rat : (Set.range (· • a : ℕ → AddCircle p)).ncard = q.den`,
   through `Nat.card_zmultiples` and `AddSubmonoid.coe_multiples`-style bridges between the range
@@ -277,17 +289,14 @@ Suggested home: `TauCeti/Dynamics/Rotation/Equidistribution.lean`. Names live in
 
 Fix `T : ℝ` with `[Fact (0 < T)]`. The notion of an equidistributed sequence, Weyl's criterion and
 the equidistribution of `n • α + β` are ProbabilisticAndMetricNumberTheory §§2.1, 2.4 and 2.5,
-on `UnitAddCircle` and `UnitAddTorus d`; this layer adds the two statements about a circle of
-arbitrary period and about Tau Ceti's empirical measure that those sections do not make.
+on `UnitAddCircle` and `UnitAddTorus d`; this layer adds the statement about a circle of
+arbitrary period that those sections do not make.
 
 ### 2.1 Empirical measures of an orbit
 
-For `x₀ a : AddCircle T` and `N : ℕ`, prove
-
-- `Rotation.empiricalMeasure_const_add_nsmul :
-  (TauCeti.Probability.empiricalMeasure (fun n ↦ x₀ + n • a) N : Measure (AddCircle T)) = MeasureTheory.empiricalMeasure (a + ·) x₀ N`.
-
-Both sides average `N + 1` Dirac masses, and `(a + ·)^[k] x₀ = x₀ + k • a`. This makes
+For `x₀ a : AddCircle T` and `N : ℕ`, Tau Ceti's empirical measure of the sequence
+`n ↦ x₀ + n • a` equals Mathlib's empirical measure of the map `(a + ·)` at `x₀`; this is one
+`simp` and is not a target. Both sides average `N + 1` Dirac masses, and `(a + ·)^[k] x₀ = x₀ + k • a`. This makes
 `MeasureTheory.integral_empiricalMeasure_eq_birkhoffaverage` available on orbits, so that
 equidistribution of the orbit reads as convergence of the Birkhoff averages
 `birkhoffAverage ℂ (a + ·) f N x₀`. *Needs:* Tau Ceti `TauCeti.Probability.empiricalMeasure`;
@@ -297,7 +306,6 @@ Mathlib `MeasureTheory.empiricalMeasure`.
 
 - `N = 0`: both sides are the Dirac mass at `x₀`.
 - `a = 0`: both sides are the Dirac mass at `x₀` for every `N`.
-- `T`-periodicity: replacing `a` by `a + T` (the same point of the circle) changes neither side.
 
 ### 2.2 Equidistribution on a circle of any period
 
@@ -305,12 +313,12 @@ Prove
 
 - `Rotation.tendsto_empiricalMeasure_nsmul : addOrderOf a = 0 → Tendsto (TauCeti.Probability.empiricalMeasure (fun n ↦ n • a)) atTop (𝓝 haarAddCircle.toProbabilityMeasure)`
 
-for `a : AddCircle T`, by transferring ProbabilisticAndMetricNumberTheory §2.5 (its
-`UnitAddCircle` case, a point of infinite order being an irrational point) along the homeomorphism
-`AddCircle T ≃ UnitAddCircle` that rescales by `T`: it is an additive group isomorphism, so it
-preserves orders and maps orbits to orbits, and it carries `haarAddCircle` to `haarAddCircle` by
-uniqueness of the Haar probability measure. Weak convergence is carried by the push-forward
-because the homeomorphism is continuous. *Needs:* ProbabilisticAndMetricNumberTheory §§2.1 and
+for `a : AddCircle T`, by transferring ProbabilisticAndMetricNumberTheory §2.5
+`linear_equidistribution_tfae` at `d = Unit`, `β = 0`, whose hypothesis is equivalent to
+`addOrderOf a = 0` by §2.3. The transfer runs along the homeomorphism
+`AddCircle T ≃ₜ (Unit → UnitAddCircle)` that rescales by `T`; it is additive and carries
+`haarAddCircle` to `torusHaar Unit`. Weak convergence is carried by the push-forward because the
+homeomorphism is continuous. *Needs:* ProbabilisticAndMetricNumberTheory §§2.1, 2.3 and
 2.5 (Kuipers–Niederreiter Ch. 1 §2: Weyl's theorem on the equidistribution of `nα`); §2.1 of this
 layer.
 
@@ -318,7 +326,7 @@ layer.
 
 - `a = 0` has `addOrderOf a = 1 ≠ 0` and the empirical measures are Dirac at `0`, which do not
   converge to Haar.
-- `T = 1`: the statement is the `UnitAddCircle` case of §2.5, and `a = (√2 : UnitAddCircle)` has
+- `T = 1`: the statement is §2.5 at `d = Unit`, and `a = (√2 : UnitAddCircle)` has
   infinite order because `√2` is irrational.
 - `T = 2π`, `a = ((2π√2 : ℝ) : AddCircle (2π))`: infinite order, and the statement is the same as
   for `T = 1` after rescaling.
@@ -344,28 +352,28 @@ Fix `ξ : ℝ` and write `cf ξ := GenContFract.of ξ`.
 ### 3.1 Integer data
 
 Define `ContFrac.convNum ξ n : ℤ := (Real.convergent ξ n).num` and
-`ContFrac.convDen ξ n : ℕ := (Real.convergent ξ n).den`. Prove that their casts are the continuant
-numerators and denominators, `((convNum ξ n : ℤ) : ℝ) = (cf ξ).nums n` and
-`((convDen ξ n : ℕ) : ℝ) = (cf ξ).dens n`: the convergents are in lowest terms by the determinant
-formula `GenContFract.determinant` (all partial numerators are `1`, by `GenContFract.of_partNum_eq_one`),
-and `Real.convs_eq_convergent` identifies `(cf ξ).convs n` with `Real.convergent ξ n`. Build the
+`ContFrac.convDen ξ n : ℕ := (Real.convergent ξ n).den`. Tau Ceti's `Real.num_convergent` and `Real.den_convergent` identify their casts with
+`(cf ξ).nums n` and `(cf ξ).dens n`; they apply to `convNum` and `convDen` by unfolding. Build the
 API around the definition:
 
 - the recurrences `qₙ₊₂ = aₙ₊₂ qₙ₊₁ + qₙ` and `pₙ₊₂ = aₙ₊₂ pₙ₊₁ + pₙ` with `aₙ₊₂ : ℕ` the partial
   denominator (`GenContFract.nums_recurrence`, `GenContFract.dens_recurrence`,
   `GenContFract.exists_int_eq_of_partDen`), with the proviso `¬ (cf ξ).TerminatedAt n` where the
   recurrence needs the `(n + 1)`-st partial denominator to exist; for irrational `ξ` the proviso
-  is discharged by `GenContFract.terminates_iff_rat`;
-- positivity of `qₙ`, and strict monotonicity of `qₙ` from index `1` (`GenContFract.of_den_mono`
-  gives monotone; strictness needs `aₙ ≥ 1`, `GenContFract.of_one_le_get?_partDen`);
-- the Fibonacci lower bound `Nat.fib (n + 1) ≤ qₙ` for irrational `ξ`, from
-  `GenContFract.succ_nth_fib_le_of_nth_den`;
+  is discharged by Tau Ceti's `Irrational.not_of_terminatedAt`;
+- positivity of `qₙ`, and monotonicity of `qₙ` by Tau Ceti's `Real.monotone_den_convergent`; strict
+  monotonicity of `qₙ` from index `1` needs `aₙ ≥ 1`, `GenContFract.of_one_le_get?_partDen`;
+- the Fibonacci lower bound `Nat.fib (n + 1) ≤ qₙ` for irrational `ξ` is Tau Ceti's
+  `Real.fib_succ_le_den_convergent`, consumed, not a target;
 - `pₙ` and `qₙ` are coprime, and `pₙ qₙ₊₁ − pₙ₊₁ qₙ = (−1)ⁿ⁺¹`, from
   `GenContFract.determinant`;
 - the convergent is the reduced fraction, `Real.convergent ξ n = pₙ / qₙ`, which is the
-  definition read in the other direction (Hardy–Wright Ch. X).
+  definition read in the other direction (Hardy–Wright Theorems 149 and 150: the recurrences and the
+determinant).
 
-The statements hold for every `ξ`. *Needs:* Mathlib `Real.convergent`, `Real.convs_eq_convergent`,
+The cast identities, positivity, monotonicity and coprimality hold for every `ξ`. Strict
+monotonicity from index `1`, the determinant identity at `n` and the Fibonacci bound need
+`¬ (cf ξ).TerminatedAt n`, which holds for every `n` when `ξ` is irrational. *Needs:* Mathlib `Real.convergent`, `Real.convs_eq_convergent`,
 `GenContFract.determinant`, `GenContFract.dens_recurrence`.
 
 **Checks.**
@@ -385,13 +393,13 @@ The statements hold for every `ξ`. *Needs:* Mathlib `Real.convergent`, `Real.co
 
 Both inequalities need irrationality and are proved through the complete quotient
 `ξₙ₊₁ = [aₙ₊₁; aₙ₊₂, …]`: one has `|qₙ ξ − pₙ| = 1 / (ξₙ₊₁ qₙ + qₙ₋₁)` and
-`|convErr ξ (n + 1)| = |convErr ξ n| / ξₙ₊₁`, and for irrational `ξ` the complete quotient
+`|convErr ξ (n + 1)| = |convErr ξ n| / ξₙ₊₂`, and for irrational `ξ` the complete quotient
 satisfies `ξₙ₊₁ > aₙ₊₁ ≥ 1`. The first gives `|convErr ξ n| < 1/(aₙ₊₁ qₙ + qₙ₋₁) = 1/qₙ₊₁`, the
-second the decrease. `GenContFract.abs_sub_convs_le` gives only the non-strict inequality, so it
+second, with `ξₙ₊₂ > 1`, the decrease. `GenContFract.abs_sub_convs_le` gives only the non-strict inequality, so it
 is not enough for the strict bound. The lower bound
 `1 / (convDen ξ n + convDen ξ (n + 1)) < |convErr ξ n|` is **not** restated here: it is
 DiophantineApproximationAndTranscendence §0.5, and consumers cite it there. *Needs:* §3.1;
-`GenContFract.sub_convs_eq`, `GenContFract.of_convergence` (Hardy–Wright Ch. X).
+`GenContFract.sub_convs_eq`, `GenContFract.of_convergence` (Hardy–Wright Theorems 170–172).
 
 **Checks.**
 
@@ -519,6 +527,7 @@ and both occur as gaps then. *Needs:* Mathlib `Finset.sort`, `Int.fract_eq_fract
   `min 5 3`.
 - `N = 1`: the single point `0`, one gap of length `1`.
 - `N = 0`: no points, no gaps.
+- `α = √2`, `N = 3`: `η⁺ = √2 − 1` and `η⁻ = 3 − 2√2`; without `erase 0` the infimum would be `0`.
 
 ### 4.2 Three gaps, uniform in `α`
 
@@ -550,7 +559,8 @@ For irrational `α` and `N ≥ 2` define the return indices `r⁺` and `r⁻`: t
 of `orbitFract`) indices `< N` with `Int.fract (r⁺ * α) = etaPos α N` and
 `Int.fract (r⁻ * α) = 1 − etaNeg α N`. Prove that the gap `η⁺`
 occurs `N − r⁺` times, `η⁻` occurs `N − r⁻` times, and `η⁺ + η⁻` occurs `r⁺ + r⁻ − N` times
-(`Multiset.count`). *Needs:* §4.2.
+(`Multiset.count`) (Alessandri–Berthé, §3, *Three distance theorem*, p. 12 of the authors' copy,
+the three counts, with the returns of §4.4). *Needs:* §4.2.
 
 **Checks.**
 
@@ -613,7 +623,7 @@ present at any `N ≥ 2` are among three consecutive powers `φ^{−(j+2)}, φ^{
 for every `N ≥ 1`. This is the roadmap's precise form of "the golden rhythm is the most even":
 it consumes `ContFrac.convErr_goldenRatio` from §3.5 and the theorem of §4.4 with `aₖ₊₁ = 1`, so
 `m = 0` and the lengths are `|convErr φ k| = φ^{−(k+1)}`, `|convErr φ (k − 1)| = φ^{−k}` and
-their sum `φ^{−(k−1)}`. *Needs:* §§3.5 and 4.4.
+their sum `φ^{−(k−1)}` (corollary of §§3.5 and 4.4). *Needs:* §§3.5 and 4.4.
 
 **Checks.**
 
@@ -624,7 +634,7 @@ their sum `φ^{−(k−1)}`. *Needs:* §§3.5 and 4.4.
 
 - `α = 1/3`, `N = 5`: three points, one gap length `1/3`.
 - `α = √2`, `N = 3`: gap lengths `√2 − 1` (twice) and `3 − 2√2`.
-- `α = φ`: at `N = Fₖ` there are two gap lengths, at other `N` three, all powers of `φ⁻¹`.
+- `α = φ`: at `N = Fₖ ≥ 2` two gap lengths, at `N = 1` one, at every other `N` three, all powers of `φ⁻¹`.
 
 ### Dependencies
 
@@ -633,15 +643,9 @@ golden rotation.
 
 ## Downstream consumers
 
-Layer 3 is the interface for stating a Diophantine property of a real number through its
-convergents: DiophantineApproximationAndTranscendence §0.5 (the lower bound on the convergent
-error and the limsup formula for the irrationality exponent) and §0.6 (badly approximable
-numbers) are statements about the same convergents `Real.convergent ξ n`, and a contributor
-proving them uses the integer data `ContFrac.convNum`, `ContFrac.convDen` and the signed error
-`ContFrac.convErr` rather than redefining them. ProbabilisticAndMetricNumberTheory §2.5 and §2.7
-state the equidistribution and the discrepancy of `{nα}` for infinite `N`; Layer 4 is the
-finite-`N` structure of the same point set, and Layer 2 puts the orbit on a circle of any period
-in the empirical-measure form that §2.1 uses.
+No roadmap consumes this one. Layer 3 is stated on Mathlib's `Real.convergent`, the carrier of
+Tau Ceti's `Real.den_convergent`, so later roadmaps use it without conversion. Layer 4 is the
+finite-`N` structure of the point set whose limit is ProbabilisticAndMetricNumberTheory §2.5.
 
 ## References
 
@@ -665,5 +669,4 @@ in the empirical-measure form that §2.1 uses.
   §§1.1, 2.1, 4.4 (circle rotation, unique ergodicity, Weyl).
 - An existing Lean formalization of the three-gap theorem, uniform in `α`, by D. Kunert
   (`dkunert/three-gap-theorem-lean`, MIT), whose statement shape Layer 4 follows (uniform in `α`,
-  `Int.fract`, a multiset of gaps) because it is the stronger theorem; and an unmerged
-  Mathlib development for irrational `α` through Liang's proof, cited as a source.
+  `Int.fract`, a multiset of gaps) because it is the stronger theorem.

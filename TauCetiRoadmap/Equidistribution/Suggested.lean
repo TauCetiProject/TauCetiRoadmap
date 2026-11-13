@@ -18,10 +18,8 @@ The headline theorems are:
 
 * Layer 1: the rhythmic dichotomy for the `ℕ`-orbit of a point of `AddCircle p` (dense or
   finite, never both) and the number of points of the orbit of a rational multiple of the period;
-* Layer 2: the bridge between Tau Ceti's empirical measure of a sequence and Mathlib's
-  empirical measure of a map, and the equidistribution of the `ℕ`-orbit of a point of infinite
-  order in `AddCircle T`, as weak convergence of the empirical measures to the Haar probability
-  measure;
+* Layer 2: the equidistribution of the `ℕ`-orbit of a point of infinite order in `AddCircle T`,
+  as weak convergence of the empirical measures to the Haar probability measure;
 * Layer 3: the integer data of the convergents of a real number, the alternation and decay of
   the convergent errors, Lagrange's theorem that the convergent denominators are exactly the best
   approximations of the second kind, the convergent form of Hurwitz's theorem, its sharpness at
@@ -62,14 +60,6 @@ theorem ncard_range_nsmul_coe_rat {p : ℝ} [Fact (0 < p)] (q : ℚ) :
   sorry
 
 /-! ## Layer 2: equidistribution of the orbit -/
-
-/-- **Layer 2.** On an orbit of the rotation, Tau Ceti's empirical measure of the sequence
-`n ↦ x₀ + n • a` is Mathlib's empirical measure of the map `(a + ·)` at `x₀`: both average the
-first `N + 1` Dirac masses. -/
-theorem empiricalMeasure_const_add_nsmul {T : ℝ} [Fact (0 < T)] (x₀ a : AddCircle T) (N : ℕ) :
-    (TauCeti.Probability.empiricalMeasure (fun n : ℕ => x₀ + n • a) N : Measure (AddCircle T)) =
-      MeasureTheory.empiricalMeasure (a + ·) x₀ N :=
-  sorry
 
 /-- **Layer 2.** The `ℕ`-orbit of a point of infinite order in `AddCircle T` is equidistributed:
 its empirical probability measures converge weakly to the Haar probability measure. -/
