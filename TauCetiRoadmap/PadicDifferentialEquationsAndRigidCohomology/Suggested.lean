@@ -15,10 +15,12 @@ roadmap.
 The statements here are Arabia's controlled lifting for smooth algebras modulo an
 arbitrary ideal (RD.0.39), Frobenius lifts on the weak completion of a smooth algebra over
 a complete discrete valuation ring (RD.0.42), finite free resolutions (RD.0.55) and
-unimodular vectors over polynomial rings (RD.0.56), and the rigid-analytic
+unimodular vectors over polynomial rings (RD.0.56), the rigid-analytic
 Quillen–Suslin theorem over the Monsky–Washnitzer algebra (RD.3.27), to which RD.0.55 and
-RD.0.56 are the algebraic input. RD.0.42 and RD.3.27 are stated on Tau Ceti's
-`TauCeti.Dagger.weakCompletion` and `TauCeti.Dagger.washnitzerAlgebra`.
+RD.0.56 are the algebraic input, and Kedlaya's corrected denominator bound for hyperelliptic
+reduction (RD.7.13(b)). RD.0.42 and RD.3.27 are stated on Tau Ceti's
+`TauCeti.Dagger.weakCompletion` and `TauCeti.Dagger.washnitzerAlgebra`; RD.7.13(b) is stated
+in its polynomial form over `W(𝔽_q)`.
 
 The other analytic headline results of RD.0 (the Laurent, Robba and Amice carriers,
 Frobenius lifts on the Robba ring, Kedlaya's analytic rings, the extended Robba ring, the
@@ -45,9 +47,9 @@ hyper-Kloosterman sum and its numerical Deligne bound belong to CongruenceSpectr
 §§4.2a–4.2b; the Kloosterman F-isocrystal and its purity (RD.6.95, RD.6.97), which give a
 rigid proof of that bound, need the same absent carriers. RD.7's rigid–crystalline
 comparison with coefficients, equality of rigid, crystalline and étale Weil factors,
-abelian-variety comparison, crystalline lattice bounds and Kloosterman moment comparisons
-require the corresponding geometric cohomology and filtered comparison objects, also absent
-from the pins. The weight-separated extraction of integral factors that RD.7.5 adapts is
+abelian-variety comparison, crystalline lattice bounds, coefficient-congruence bounds for
+Frobenius polynomials of curves and Kloosterman moment comparisons require the corresponding
+geometric cohomology and filtered comparison objects, also absent from the pins. The weight-separated extraction of integral factors that RD.7.5 adapts is
 `degreeFactorExtraction` of DeligneWeightsAndPurity §4.4 and is not restated here.
 -/
 
@@ -240,5 +242,37 @@ theorem rigid_quillen_suslin {K : Type*} [NontriviallyNormedField K] [IsUltramet
   sorry
 
 end RD3
+
+/-! ## Layer RD.7: Coefficient comparisons and Weil factors -/
+
+namespace RD7
+
+open Polynomial
+
+/-- Kedlaya's corrected positive-power denominator bound (RD.7.13(b); Edixhoven, *Point
+counting after Kedlaya*, Lemma 4.3.5, with corrected degree and exponent). Let `p` be odd,
+`Q ∈ W(𝔽_q)[x]` monic of degree `2g + 1` with squarefree reduction and `B ∈ W(𝔽_q)[x]` of
+degree at most `2g`. On `y² = Q(x)` the identity `B·y^{2m+1} dx = b dx/y + d(F y)` reads
+`B·Q^{m+1} = b + F'·Q + F·Q'/2`; for the reduced `b` (degree `< 2g`) and its polynomial
+primitive `F` over the fraction field, the multiplier `p^⌊log_p((2g+1)(2m+3))⌋` makes every
+coefficient of `b` and of `F` integral. -/
+theorem hyperelliptic_reduction_denominator_bound {p : ℕ} [Fact p.Prime] (hp : p ≠ 2)
+    {n : ℕ} (g m : ℕ) (Q B : (WittVector p (GaloisField p n))[X]) (hQ : Q.Monic)
+    (hQdeg : Q.natDegree = 2 * g + 1)
+    (hQsq : Squarefree (Q.map (WittVector.constantCoeff (p := p))))
+    (hB : B.natDegree ≤ 2 * g)
+    (b F : (FractionRing (WittVector p (GaloisField p n)))[X]) (hb : b.degree < (2 * g : ℕ))
+    (h : (B * Q ^ (m + 1)).map (algebraMap _ _) =
+      b + derivative F * Q.map (algebraMap _ _) +
+        C (1 / 2) * F * derivative (Q.map (algebraMap _ _))) (i : ℕ) :
+    ((p : FractionRing (WittVector p (GaloisField p n))) ^
+        Nat.log p ((2 * g + 1) * (2 * m + 3)) * b.coeff i ∈
+        (algebraMap (WittVector p (GaloisField p n)) _).range) ∧
+      ((p : FractionRing (WittVector p (GaloisField p n))) ^
+        Nat.log p ((2 * g + 1) * (2 * m + 3)) * F.coeff i ∈
+        (algebraMap (WittVector p (GaloisField p n)) _).range) := by
+  sorry
+
+end RD7
 
 end TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology
