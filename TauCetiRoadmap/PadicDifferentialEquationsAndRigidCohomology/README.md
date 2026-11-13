@@ -65,7 +65,8 @@ differentials, smooth and étale algebras, Witt vectors with their Frobenius, th
 classification of isocrystals over an algebraically closed field (`WittVector.Isocrystal`,
 `isocrystal_classification`: only rank one, not Dieudonné–Manin), the reversed characteristic
 polynomial `Matrix.charpolyRev`, additive characters (`AddChar`), `WithSeminorms` and
-`IsUltrametricDist`. Tau Ceti supplies restricted power series and the one-variable Tate algebra
+`IsUltrametricDist`, and stably free modules and unimodular vectors (`Module.IsStablyFree`,
+`Module.IsUnimodular`). Tau Ceti supplies restricted power series and the one-variable Tate algebra
 with Weierstrass preparation, comodule categories with their rigid and symmetric structures and
 Tannakian reconstruction from a Hopf algebra (`TauCeti.FGComoduleCat`,
 `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`), Galois descent for semilinear
@@ -114,7 +115,7 @@ last is the only `ℓ`-adic geometric input, and it enters only the comparison o
  §§R07.4.7–R07.4.8 is a sibling consumer of the same objects in the perfect-residue case
  `W(k)[1/p], q = p`, `t ↦ t^p`; its §§R07.3.2–R07.3.3 (weak admissibility, Newton above Hodge) are
  used in RD.7.22.
-- RestrictedPowerSeries §§1.1–1.2, 5.1 and 7.1 supplies closed/open disc coefficients and simultaneous classical distinguished coordinates; RigidAnalyticGeometry §1.2 supplies classical affinoid normalization. RD.0.2 identifies its disc subcases with the supplied carriers and topologies; RD.3.26 supplies the additional compatible dagger-coordinate adapter.
+- RestrictedPowerSeries §§1.1–1.2, 5.1 and 7.1 supplies closed/open disc coefficients and simultaneous classical distinguished coordinates, and its §1.1, §§4.2–4.4 and §5.4 supply the multiplicative Gauss norm, Weierstrass division and preparation at every positive radius, and noetherianity at polyradii in `√|K^×|` used by RD.3.27; RigidAnalyticGeometry §1.2 supplies classical affinoid normalization. RD.0.2 identifies its disc subcases with the supplied carriers and topologies; RD.3.26 supplies the additional compatible dagger-coordinate adapter.
 - DerivedDeRhamCohomology §PD.6: divided powers, relative PD envelopes and completed envelopes.
 - CongruenceSpectralGap §§4.2a–4.2b: the coefficient-generic scalar hyper-Kloosterman sum, its
  eliminated-variable comparison and its numerical Deligne bound in every rank over every finite
@@ -150,6 +151,14 @@ last is the only `ℓ`-adic geometric input, and it enters only the comparison o
 The shared fixed-integral-weight overconvergent form spaces and their full-level Pan adapter are §RD.4.60(a). Their downstream weight-family refinements use the same section spaces; compact operators and classicality remain with the family development.
 
 **Shared formal differential theory.** This roadmap owns the cyclic-vector theorem over characteristic-zero differential fields with nonzero derivation (§RD.1.2–§RD.1.6) and finite-ramification formal normal forms, slopes and descent over `F((t))` (§RD.6.52a). FormalLaurentPuiseux owns the scalar Laurent/Puiseux fields and formal calculus. FormalConnectionsOpers F6 consumes the `F=ℂ` specialization of these differential-module results; its flag/oper equivalence and oper-specific lattice consequences belong there. There is no prerequisite from the oper development here.
+
+**Projective modules over polynomial rings.** This roadmap owns the algebra to which the
+rigid-analytic Quillen–Suslin theorem §RD.3.27 reduces: finite free resolutions with two out of
+three, stable freeness of projectives, base change and Serre's theorem over `R[t]` (§RD.0.55), and
+unimodular vectors over polynomial rings with the unimodular extension property (§RD.0.56). Both
+are stated over arbitrary commutative rings, with the noetherian and integral-domain hypotheses of
+Lang's Theorems XXI.2.8 and XXI.3.4, on Mathlib's `Module.IsStablyFree`, `Module.IsUnimodular`
+and `Polynomial`.
 
 **What builds on it.** Coleman integration uses the dagger Frobenius, the Monsky–Washnitzer
 comparison for affine curves, finiteness and the weights of `H¹` (Layers RD.0, RD.4–RD.6). The
@@ -308,12 +317,14 @@ Each item below is used as stated; the targets that use it are listed after it.
 - `IsAlgClosed.of_exists_root`: A field in which every monic irreducible polynomial has a root is algebraically closed. Used in RD.0.33.
 - `IsBezout`: The existing class saying every finitely generated ideal is principal. Used in RD.0.18, RD.0.24, RD.0.29, RD.0.30.
 - `IsDiscreteValuationRing`: Discrete valuation rings: local PIDs that are not fields. Used in RD.0.8, RD.0.26.
+- `Function.Exact`: Exactness `range f = ker g` of a pair of maps; with `f` injective and `g` surjective, a short exact sequence. Used in RD.0.55.
 - `IsGalois`: Galois field extensions (separable and normal). Used in RD.2.11, RD.2.18.
 - `IsGalois.mem_range_algebraMap_iff_fixed`: For a finite Galois extension `E/F`, an element of `E` lies in `F` exactly when every automorphism in `Gal(E/F)` fixes it. Used in RD.7.5.
 - `IsIntegrallyClosed.eq_map_mul_C_of_dvd`: Gauss's lemma: over an integrally closed domain `R` with fraction field `K`, a divisor in `K[X]` of a monic polynomial over `R` is, after normalising its leading coefficient, the image of a polynomial over `R`. Used in RD.7.4, RD.7.5.
 - `IsNilpotent`: Nilpotent elements (the residue of a unipotent `∇`-module). Used in RD.2.16.
-- `IsNoetherianRing`: Noetherian rings (dagger algebras, Lemma 7.3.4). Used in RD.5.51.
+- `IsNoetherianRing`: Noetherian rings (dagger algebras, Lemma 7.3.4). Used in RD.0.55, RD.5.51.
 - `IsPrimitiveRoot`: Primitive roots of unity, for `ζ_π = θ(1)`. Used in RD.6.46.
+- `IsSMulRegular`: Elements acting injectively on a module (nonzerodivisors). Used in RD.0.55.
 - `IsPrincipalIdealRing`: Rings all of whose ideals are principal. Used in RD.0.14, RD.3.27.
 - `LieModule.isNilpotent_derivedSeries_of_traceForm_eq_zero`: Cartan's criterion: if the trace form of a finite free representation `M` vanishes, then ⁅`L, L`⁆ acts nilpotently on `M` (characteristic zero domain). Used in RD.6.72.
 - `LieModule.isNilpotent_iff_forall`: Engel's theorem: a Lie module is nilpotent iff every element acts nilpotently (`L` noetherian). Used in RD.6.72.
@@ -327,6 +338,7 @@ Each item below is used as stated; the targets that use it are listed after it.
 - `LinearMap.range`: The image submodule of a linear map, used for the theta quotient. Used in RD.4.60.
 - `LinearMap.trace`: The trace of an endomorphism of a finite free module, used on finite-dimensional cohomology. Used in RD.6.5, RD.6.15, RD.6.16.
 - `Matrix.charpolyRev`: The reverse characteristic polynomial `det(1 − X·M)` of a square matrix; the convention of the Weil factors and of Tuitman's `χ(T)`. Used in RD.6.2, RD.7.18.
+- `Matrix.GeneralLinearGroup`: Invertible square matrices `GL_n(R)`, acting on vectors by `Matrix.mulVec`. Used in RD.0.56.
 - `Matrix.det`: Determinant of a finite square matrix over a commutative ring. Used in RD.1.4, RD.1.25.
 - `Matrix.reverse_charpoly`: The reverse of the characteristic polynomial equals charpolyRev. Used in RD.7.18.
 - `Module.Basis`: A basis Module.Basis `ι R M`, indexed by an arbitrary type `ι` and represented by a linear equivalence `M ≃ₗ[R] (ι →₀ R)`; used here with `ι =` Fin `n`. Used in RD.0.47, RD.0.48, RD.1.3.
@@ -334,15 +346,20 @@ Each item below is used as stated; the targets that use it are listed after it.
 - `Module.Dual`: The algebraic dual `V →ₗ[K] K`. Supplies finite-dimensional coefficient duals only; continuous strong duals and their topology in §RD.5.41 are separate targets, not this abbreviation. Used in RD.4.17, RD.5.41.
 - `Module.FaithfullyFlat`: Faithfully flat modules. Used in RD.0.32.
 - `Module.Flat.flat_iff_torsion_eq_bot_of_isBezout`: Over a Bézout domain a module is flat iff it is torsion-free. Used in RD.0.30; this criterion is consumed without a new flatness target.
-- `Module.Free`: Free modules (existence of a basis). Used in RD.0.30, RD.3.27.
-- `Module.Projective`: Projective modules. Used in RD.0.30, RD.3.27.
+- `Module.Finite`: Finitely generated modules. Used in RD.0.55, RD.0.56.
+- `Module.Flat`: Flat modules, for base change of finite free resolutions. Used in RD.0.55.
+- `Module.Free`: Free modules (existence of a basis). Used in RD.0.30, RD.0.55, RD.0.56, RD.3.27.
+- `Module.IsStablyFree`: `M × N` is free for some finite free `N`; with `Module.Finite` these are the stably free modules of Lang, Chapter XXI. Used in RD.0.55, RD.0.56.
+- `Module.IsUnimodular`: Some linear functional takes the value 1 at `v`; on `Fin n → R` this says the entries generate the unit ideal. Used in RD.0.56.
+- `Module.Projective`: Projective modules. Used in RD.0.30, RD.0.55, RD.3.27.
 - `Nat.choose`: Binomial coefficients. Used in RD.6.36.
 - `Padic`: The p-adic numbers `ℚ_[p]` with their norm (coefficient growth of the Liouville sequence). Used in RD.3.52.
 - `PadicInt`: The p-adic integers `ℤ_[p]` as the elements of `ℚ_[p]` of norm at most 1 (exponents of Kummer isocrystals). Used in RD.3.51, RD.3.52.
 - `PadicInt.instBinomialRing`: `ℤ_[p]` is a binomial ring, so `Ring.choose a n` lies in `ℤ_[p]` for `a ∈ ℤ_[p]`; Mathlib proves it by density of `ℕ` (`PadicInt.denseRange_natCast`). Used in RD.1.63.
 - `PerfectClosure`. Used in RD.0.51.
 - `PerfectField`: Perfect fields (every irreducible polynomial is separable). Algebraically closed fields are perfect by the instance IsAlgClosed.perfectField, which lives in Mathlib/FieldTheory/IsAlgClosed/Basic.lean. Used in RD.0.33.
-- `Polynomial`: Polynomials (Lemma 5.2.7). Used in RD.5.17.
+- `Polynomial`: Polynomials (Lemma 5.2.7; finite free resolutions and unimodular vectors over `R[t]`). Used in RD.0.55, RD.0.56, RD.5.17.
+- `Polynomial.Monic`: Polynomials with leading coefficient 1. Used in RD.0.56.
 - `Polynomial.Splits`. Used in RD.1.60.
 - `Polynomial.dvd_iff_isRoot`: `X−C(a)` divides a polynomial iff evaluation at a is zero, over a commutative ring. Used in RD.0.43.
 - `Polynomial.evalRingHom`: Evaluation at a ring element is a ring homomorphism over a commutative semiring. Used in RD.0.43.
@@ -362,7 +379,7 @@ Each item below is used as stated; the targets that use it are listed after it.
 - `SkewPolynomial`: Polynomial carrier with multiplication twisted by a MulSemiringAction: `X·a = φ(a)·X`. Supplies a multiplicative Frobenius-twist analogue after the action instance is provided; it does not supply differential Ore multiplication `X·a = a·X + δ(a)`. Used in RD.1.2, RD.1.21.
 - `Submodule.FG`: Finitely generated submodules (Lemma 7.3.4, finiteness of local cohomology). Used in RD.5.51.
 - `Submodule.mkQ`: The quotient projection `M→M/S` with its existing module structure. Used in RD.4.60, RD.5.23.
-- `TensorProduct`: Tensor products of modules, for the Künneth maps of complexes of K-vector spaces. Used in RD.3.28, RD.4.17, RD.5.92, RD.5.93.
+- `TensorProduct`: Tensor products of modules, for the Künneth maps of complexes of K-vector spaces and for base change of resolutions. Used in RD.0.55, RD.3.28, RD.4.17, RD.5.92, RD.5.93.
 - `UniformSpace.Completion`: The Hausdorff completion of a uniform space. Used in RD.0.33.
 - `WithSeminorms`: A topology induced by an indexed family of seminorms over a normed field; no real or complex scalar assumption. Used in RD.0.2, RD.5.40.
 - `WithSeminorms.continuous_of_isBounded`: Continuity of an isometrically semilinear map bounded by finite families of source seminorms. Used in RD.0.2.
@@ -621,6 +638,7 @@ Section numbers are those of the roadmaps named; each is built before this one.
 
 - §§1.1–1.2 and §7.1: closed- and open-disc coefficient carriers and Gauss topologies, identified coefficientwise in RD.0.2.
 - §5.1: simultaneous distinguished coordinates for `n>0`, consumed in RD.3.26.
+- §1.1 (multiplicative Gauss norms), §§4.2–4.4 (Weierstrass division and preparation at every positive radius, in several variables) and §5.4 (noetherianity at polyradii in `√|K^×|`): used in RD.3.27.
 
 **RigidAnalyticGeometry (main).**
 
@@ -667,8 +685,10 @@ over a completed algebraic closure follow, with semiunit presentations, matrix f
 Bézout property, closed ideals and analytic divisors (after Lazard), modules over Bézout domains and
 valuation p-bases. The dagger half proves existence of Frobenius lifts on Monsky–Washnitzer algebras
 and their uniqueness up to homotopy, through Arabia's controlled lifting and an explicit rational
-chain homotopy. The layer ends with the coefficient rings of Fargues–Fontaine in both coefficient
-characteristics.
+chain homotopy. It continues with the coefficient rings of Fargues–Fontaine in both coefficient
+characteristics, and ends with the commutative algebra behind the rigid-analytic Quillen–Suslin
+theorem §RD.3.27: finite free resolutions over a ring and its polynomial ring, and unimodular
+vectors over polynomial rings.
 
 ### RD.0.1 Laurent, Robba and Amice coefficient carriers
 
@@ -2173,6 +2193,89 @@ The API:
 - In equal characteristic, `π ↦ π` and `[x] ↦ x` identify `B^b` with Laurent series in `π` over `F` with bounded coefficients, and `|·|_ρ` with the sup norm on `|π| = ρ`.
 
 - For `E=ℚ_p` and `E′/E` unramified quadratic with `F` algebraically closed, `F⊗_{𝔽_p}𝔽_{p²}≅F×F`. The specified embedding selects one factor with residue `F`, and its Frobenius is the `p²`-power map.
+
+### RD.0.55 Finite free resolutions: two out of three, stable freeness, base change and Serre's theorem over `R[t]`
+
+**Definition.** Let `R` be a commutative ring. An `R`-module `M` has a finite free resolution of length at most `n`, `HasFiniteFreeResolutionLE R n M`, when `n = 0` and `M` is finite and free, or `n = m + 1` and some surjective linear map `(Fin k → R) →ₗ[R] M` has a kernel with a finite free resolution of length at most `m`. Unwound, this is an exact sequence `0 → F_n → ⋯ → F_0 → M → 0` of finite free `R`-modules. `HasFiniteFreeResolution R M` asks for one of some length. Stably free is Mathlib's `Module.IsStablyFree`: `M × N` is free for some finite free `N`.
+
+**Theorem.** Let `R` be a commutative ring.
+
+- (a) Two out of three. Let `0 → M₁ → M → M₂ → 0` be exact (an injective `f`, a surjective `g` and `Function.Exact f g`). If two of `M₁, M, M₂` have finite free resolutions, so does the third (`HasFiniteFreeResolution.extension`, `HasFiniteFreeResolution.kernel`, `HasFiniteFreeResolution.cokernel`).
+- (b) A projective module with a finite free resolution is stably free (`HasFiniteFreeResolution.isStablyFree`). A finite projective module has a finite free resolution iff it is stably free, and then it has one of length at most one (`hasFiniteFreeResolution_iff_isStablyFree`).
+- (c) Base change. If `A` is a flat `R`-algebra, a resolution of `M` of length at most `n` gives one of `A ⊗_R M` over `A` (`HasFiniteFreeResolutionLE.baseChange_of_flat`). Let `S → A` be a map of commutative rings and `g ∈ S` a nonzerodivisor on `S` whose image is a nonzerodivisor on `A`, with `S/gS → A/gA` bijective. For every `S`-module `N` killed by `g`, the map `N → A ⊗_S N, x ↦ 1 ⊗ x` is bijective, and a resolution of `N` over `S` of length at most `n` gives one of `A ⊗_S N` over `A` (`HasFiniteFreeResolutionLE.baseChange_of_isSMulRegular`).
+- (d) Serre. If `R` is noetherian and every finite `R`-module has a finite free resolution, every finite module over Mathlib's `Polynomial R` has one (`hasFiniteFreeResolution_polynomial`).
+
+*Hypotheses.*
+
+- Only (d) assumes `R` noetherian; (a)–(c) hold over every commutative ring.
+- The modules live in the universe of `R`, as do the kernels of maps out of `Fin k → R`.
+- Flatness is not assumed in the second half of (c); there `g` is a nonzerodivisor on `S` and on `A`.
+
+The API:
+
+- Monotonicity in the length, invariance under linear equivalence, and length zero for finite free modules.
+- Finite products: resolutions of `M` and `M'` give one of `M × M'`, of the larger length.
+- A module with a finite free resolution is finitely presented (Mathlib `Module.FinitePresentation`).
+- Schanuel: if `M` has a finite free resolution, so does the kernel of every surjection onto `M` from a finite free module. The length can grow: for a stably free, non-free `P` with `P ⊕ R ≅ Rᵐ`, the kernel `P` of the projection `Rᵐ → R` needs length one.
+
+*Proof sketch.*
+
+1. Schanuel's lemma makes the kernels of two surjections onto `M` from finite free modules isomorphic after adding the other free module. A finite free summand can be removed from a module with a finite free resolution by splitting it off the first term; together these give the Schanuel statement of the API.
+2. (a) Extensions: combine resolutions of `M₁` and `M₂` termwise (horseshoe lemma, by induction on the lengths). For the other two cases choose a surjection `F → M` from a finite free module and let `K` and `K₂` be the kernels of `F → M` and `F → M₂`; the snake lemma gives `0 → K → K₂ → M₁ → 0`. Cokernels: `K` has a resolution by the Schanuel statement, so `K₂` has one as an extension, and `0 → K₂ → F → M₂ → 0` gives one of `M₂`. Kernels: `K` and `K₂` have resolutions by the Schanuel statement, and the cokernel case gives one of `M₁` (Lang XXI.2.7).
+3. (b) Projectivity splits `0 → K → F_0 → M → 0`, so `K` is projective with a shorter resolution and is stably free by induction. Then `M ⊕ K ≅ F_0` makes `M` stably free. Conversely `M × N ≅ Rᵐ` with `N` finite free gives `0 → N → Rᵐ → M → 0` (Lang XXI.2.1).
+4. (c) Flat base change keeps the resolution exact with finite free terms. In the second case, `A ⊗_S N = (A/gA) ⊗_{S/gS} N ≅ N`. Since `g` is regular on `S` and on `A`, `Tor^S_1(A, S/gS) = 0`. Hence `Tor^S_i(A, N) = Tor^{S/gS}_i(S/gS, N) = 0` for `i ≥ 1`, and `A ⊗_S F_•` is exact.
+5. (d) A finite `R[t]`-module has a filtration with quotients `R[t]/P`, `P` prime, so by (a) it suffices to treat `R[t]/P`. Choose a prime `P` for which this fails with `p = P ∩ R` maximal; put `D = R/p` and `I = P/p[t] ⊆ D[t]`. If `I = 0` then `R[t]/P = R[t] ⊗_R R/p`, which has the resolution base-changed along the free extension `R → R[t]` by (c). Otherwise take `f ∈ I` of minimal degree. Dividing finitely many generators of `I` by `f` in `Frac(D)[t]`, minimality of the degree shows that a common denominator `a ∈ D ∖ 0` of the quotients kills `I/fD[t]`. For every prime-filtration factor `R[t]/Q` of `I/fD[t]`, `Q ∩ R` contains `p` and a lift of `a`, so `Q ∩ R ⊋ p` and the factor has a resolution by maximality. Now `fD[t] ≅ D[t]` has a resolution, and (a) applied to `0 → fD[t] → I → I/fD[t] → 0` and `0 → I → D[t] → R[t]/P → 0` gives one of `R[t]/P`, a contradiction (Lang XXI.2.8).
+
+*Sources.* Lang, *Algebra*, third edition, Chapter XXI, §2, Theorems 2.1, 2.7 and 2.8 (2.8 for noetherian `R`); Kedlaya, *Full faithfulness for overconvergent F-isocrystals*, Propositions 6.5 and 6.6, pp. 14–15 (arXiv v4), which apply them.
+
+*Needs:* Mathlib `Module.Free`; Mathlib `Module.Finite`; Mathlib `Module.Projective`; Mathlib `Module.IsStablyFree`; Mathlib `Module.Flat`; Mathlib `IsSMulRegular`; Mathlib `Function.Exact`; Mathlib `TensorProduct`; Mathlib `Polynomial`; Mathlib `IsNoetherianRing`.
+
+**Checks.**
+
+- `Fin k → R` has a resolution of length zero. Over `ℤ`, `ℤ/2` has the resolution `0 → ℤ →2 ℤ → ℤ/2 → 0` of length one and none of length zero, since it is not free.
+- The `ℤ`-module `ℚ` has no finite free resolution: it is not finitely generated.
+- Over `R = ℤ[√−5]` the ideal `I = (2, 1 + √−5)` is finite projective of rank one and not principal. It is not stably free: `I ⊕ Rᵃ ≅ R^(a+1)` would make `I ≅ ∧^(a+1)(I ⊕ Rᵃ)` free. By (b) it has no finite free resolution, although it is its own projective resolution of length zero.
+- Kernel case of (a): in `0 → 2ℤ → ℤ → ℤ/2 → 0` the right two terms have resolutions, and so does `2ℤ ≅ ℤ`.
+- Second case of (c): `S = ℤ[t]`, `A = ℤ⟦t⟧` (Mathlib `PowerSeries ℤ`), `g = t` and `N = ℤ`. Base change of `0 → S →t S → ℤ → 0` is `0 → A →t A → ℤ → 0`. With `A = ℤ[t]/(t²)` instead, `t` is not regular on `A`, and `ℤ` has no finite free resolution over `A`.
+- (d) with `R = ℤ`, where every finite module has a resolution of length at most one: the `ℤ[t]`-module `ℤ[t]/(2, t)` has the Koszul resolution `0 → ℤ[t] → ℤ[t]² → ℤ[t] → ℤ[t]/(2, t) → 0`.
+
+### RD.0.56 Unimodular vectors over polynomial rings and the unimodular extension property
+
+**Definition.** Let `R` be a commutative ring. A vector `v : Fin n → R` is unimodular when Mathlib's `Module.IsUnimodular R v` holds: its entries generate the unit ideal. Vectors `v` and `w` are equivalent, `UnimodularEquiv v w`, when `P.mulVec v = w` for some `P` in Mathlib's `Matrix.GeneralLinearGroup (Fin n) R`. The ring `R` has the unimodular extension property, `HasUnimodularExtension R`, when every unimodular `v : Fin (n + 1) → R` is equivalent to the first standard basis vector `Pi.single 0 1`. Equivalently, every unimodular vector is the first column of an invertible matrix.
+
+**Theorem.**
+
+- (a) Let `B` be an integral domain and `f : Fin n → B[t]` unimodular with one entry monic (Mathlib `Polynomial.Monic`). Then `f` is equivalent over `B[t]` to the vector `f(0)` of its constant terms, which is unimodular over `B` (`unimodularEquiv_C_eval_zero_of_monic`).
+- (b) `R` has the unimodular extension property iff every finite stably free `R`-module is free (`hasUnimodularExtension_iff`).
+
+*Hypotheses.*
+
+- In (a) one entry has leading coefficient 1. An entry whose leading coefficient is a unit is made monic by a diagonal invertible matrix.
+- In (b), finite stably free means Mathlib's `Module.Finite` with `Module.IsStablyFree`; `R` is any commutative ring, the zero ring included.
+
+The API:
+
+- `UnimodularEquiv` is an equivalence relation, preserves unimodularity, and is carried along ring homomorphisms applied to the matrix entries.
+- A vector with a unit entry, and every unimodular vector of length two, is equivalent to `Pi.single 0 1`; fields and local rings have the unimodular extension property.
+- The unimodular extension property is invariant under ring isomorphisms.
+
+*Proof sketch.*
+
+1. (a), local case (Horrocks). Over a local ring `B_m`, induction on the degree of the monic entry, by elementary operations and a look at the residue field, makes some entry a unit. This gives `f ∼ Pi.single 0 1`, and likewise `f(0) ∼ Pi.single 0 1`, over `B_m[t]`.
+2. (a), patching. The set of `c ∈ B` with `f(t + cy) ∼ f(t)` over `B[t, y]` is an ideal. For a maximal ideal `m`, the local equivalence over `B_m[t]` and a common denominator `c ∉ m` give an element of this ideal outside `m`; here `B ⊆ B_m` uses that `B` is a domain. So the ideal is the unit ideal. Take `c = 1` and set `t = 0` to get `f(y) ∼ f(0)` (Lang XXI.3.4).
+3. (b), forward direction. If `M ⊕ R ≅ Rᵐ`, the image `v` of the generator of `R` is unimodular, because the projection to `R` is a functional with value 1 at `v`. An invertible `P` with `P v = Pi.single 0 1` identifies `M ≅ Rᵐ/Rv` with `R^(m−1)`. Induct on the rank of the finite free complement (Lang XXI.3.6).
+4. (b), converse. For unimodular `v` with `φ(v) = 1`, `ker φ × R ≅ R^(n+1)`, so `ker φ` is finite stably free, hence free. Its rank is `n` over a nonzero commutative ring. Together with `v`, a basis of `ker φ` is a basis of `R^(n+1)`, and the matrix of this basis carries `Pi.single 0 1` to `v`.
+
+*Sources.* Lang, *Algebra*, third edition, Chapter XXI, §3, Theorems 3.4 (for an integral domain) and 3.6; Kedlaya, *Full faithfulness for overconvergent F-isocrystals*, Propositions 6.4 and 6.6, pp. 14–15 (arXiv v4), which apply them.
+
+*Needs:* Mathlib `Module.IsUnimodular`; Mathlib `Module.IsStablyFree`; Mathlib `Module.Free`; Mathlib `Module.Finite`; Mathlib `Matrix.GeneralLinearGroup`; Mathlib `Polynomial`; Mathlib `Polynomial.Monic`.
+
+**Checks.**
+
+- `n = 1`: a unimodular `(f_1)` with `f_1` monic is a unit of the domain `B[t]`, hence constant, so `f_1 = 1 = f_1(0)`.
+- `B = ℤ`, `f = (t² + 1, t)`: `(t² + 1) − t·t = 1`. The elementary matrices with rows `(1, −t), (0, 1)` and then `(1, 0), (−t, 1)` carry `f` to `(1, t)` and then to `(1, 0) = f(0)`.
+- `ℤ` has the unimodular extension property: the Euclidean algorithm brings a unimodular vector to `Pi.single 0 1` by elementary operations. By (b), finite stably free `ℤ`-modules are free.
+- Over the zero ring every vector is unimodular and equal to `Pi.single 0 1`.
 
 ### Examples
 
@@ -6269,15 +6372,17 @@ The API:
 
 *Hypotheses.* For the integral `O`-version `K` is complete and discretely valued, so the integral coordinate-change Lemma 6.3 applies. The K-version over a complete rank-one valued field needs the coordinate-change Lemma 6.2 beyond discrete valuations; that extension is §RD.3.26.
 
-*Proof sketch.*
+*Proof sketch.* Write `A = K⟨t_1,…,t_n⟩_ρ = B⟨t_n⟩_{ρ_n}` with `B = K⟨t_1,…,t_{n−1}⟩_{ρ'}`. By the hypothesis on `ρ`, `A` and `B` are noetherian (RestrictedPowerSeries §5.4), and they are integral domains because their Gauss norms are multiplicative (RestrictedPowerSeries §1.1). The algebra over arbitrary commutative rings is §RD.0.55 and §RD.0.56.
 
-1. Weierstrass preparation over `o⟨t⟩_ρ` (Kedlaya, Full faithfulness, Lemma 6.1) and Noether-normalisation changes of variables `T_j` (Lemmas 6.2, 6.3) reduce unimodular rows over `K⟨t⟩_ρ` to rows over polynomial rings in one variable over `K⟨t'⟩_{ρ'}`; Lang's Algebra Theorem XXI.3.4 and induction give the unimodular extension property (Proposition 6.4).
-2. Finite free resolutions by induction (Proposition 6.5), so finite projective modules are stably free and hence free (Proposition 6.6); pass to the direct limit over `ρ > 1` (Theorem 6.7).
-3. For a complete rank-one valued field use §RD.3.26 (Noether normalisation by a coordinate change over the valuation ring) in place of Lemma 6.2, and the finite free resolutions and unimodular extension of Propositions 6.4–6.6, which are algebra over the Tate algebra.
+1. Distinguished polynomials. After a coordinate change `T_j` (Kedlaya, Lemma 6.2, in the generality of §RD.3.26), finitely many nonzero elements of `A` become distinguished in `t_n`. Weierstrass preparation (Lemma 6.1; RestrictedPowerSeries §§4.3–4.4) writes each as a unit of `A` times a monic `g ∈ B[t_n]`. For such `g`, Weierstrass division (RestrictedPowerSeries §§4.2, 4.4) makes `B[t_n]/(g) → A/gA` bijective, and `g` is a nonzerodivisor in `B[t_n]` and in `A`.
+2. Unimodular extension (Kedlaya, Proposition 6.4), by induction on `n`. For a unimodular `f` over `A`, step 1 and a diagonal invertible matrix give `T_j(f) ∼ g` with entries in `B[t_n]` and `g_1` monic. The ideal of `B[t_n]` generated by the entries contains `g_1`, and its image in `B[t_n]/(g_1) = A/g_1A` is the unit ideal, so `g` is unimodular over `B[t_n]`. By §RD.0.56(a) (Lang XXI.3.4), `g ∼ g(0)` over `B[t_n]`; `g(0)` is unimodular over `B`, hence equivalent to `Pi.single 0 1` by induction, and applying `T_j^{−1}` gives `f ∼ Pi.single 0 1`.
+3. Finite free resolutions (Kedlaya, Proposition 6.5), by induction on `n`. A finite module is an iterated extension of cyclic modules `A/I`, so by §RD.0.55(a) (Lang XXI.2.7) it suffices to resolve `A/I` for `I ≠ 0`. By step 1, `T_j(I)` contains a monic `g ∈ B[t_n]`, and `N = A/T_j(I)` is a finite module over `A/gA = B[t_n]/(g)`, hence over `B[t_n]`. Every finite `B`-module has a finite free resolution by induction, so `N` has one over `B[t_n]` (§RD.0.55(d), Lang XXI.2.8). The second case of §RD.0.55(c) carries it to `A ⊗_{B[t_n]} N ≅ N` over `A`. This route needs no flatness of `A` over `B[t_n]`, which Kedlaya's identification `I ≅ J ⊗_{B[t]} A` uses implicitly.
+4. Freeness (Kedlaya, Proposition 6.6). A finite projective `A`-module has a finite free resolution by step 3, so it is stably free by §RD.0.55(b) (Lang XXI.2.1), and free by step 2 and §RD.0.56(b) (Lang XXI.3.6).
+5. Pass to the direct limit over `ρ > 1` (Theorem 6.7). For `O⟨t_1,…,t_n⟩†` with `K` discretely valued, Lemma 6.3 replaces Lemma 6.2 and `ρ` is replaced by `ρλ` for some `0 < λ ≤ 1`.
 
-*Sources.* Kedlaya, *Full faithfulness for overconvergent F-isocrystals*, Theorem 6.7, p. 15.
+*Sources.* Kedlaya, *Full faithfulness for overconvergent F-isocrystals*, §6: Lemma 6.1, p. 12; Lemmas 6.2–6.3, p. 13; Propositions 6.4–6.5, p. 14; Proposition 6.6 and Theorem 6.7, p. 15 (arXiv v4). Lang, *Algebra*, third edition, Chapter XXI, Theorems 2.1, 2.7 and 2.8 (§2) and 3.4 and 3.6 (§3), which are §RD.0.55 and §RD.0.56 here.
 
-*Needs:* AdicSpacesPartIV §F1.2 *Dagger algebras over a complete nonarchimedean field*; AdicSpacesPartIV §F1.3 *Fringe (radius-indexed) presentations of a dagger algebra*; AdicSpacesPartIV §F1.3 *The fringe (direct limit) topology on dagger algebras and their finite modules*; AdicSpacesPartIV §F1.9 *The module of (universally finite) differentials `Ω^1_A` of a dagger algebra and the exterior derivative*; AdicSpacesPartIV §F1.4 *The dagger (overconvergent completed) tensor product `A_1 ⊗†_B A_2`*; AdicSpacesPartIV §F1.4 *Rational localisation `A⟨f/g⟩†` of a dagger algebra and its universal property*; Mathlib `Module.Projective`; Mathlib `Module.Free`; Mathlib `IsPrincipalIdealRing`; §RD.3.26 *Distinguished coordinates and Noether normalisation over a rank-one valued field*.
+*Needs:* AdicSpacesPartIV §F1.2 *Dagger algebras over a complete nonarchimedean field*; AdicSpacesPartIV §F1.3 *Fringe (radius-indexed) presentations of a dagger algebra*; AdicSpacesPartIV §F1.3 *The fringe (direct limit) topology on dagger algebras and their finite modules*; AdicSpacesPartIV §F1.9 *The module of (universally finite) differentials `Ω^1_A` of a dagger algebra and the exterior derivative*; AdicSpacesPartIV §F1.4 *The dagger (overconvergent completed) tensor product `A_1 ⊗†_B A_2`*; AdicSpacesPartIV §F1.4 *Rational localisation `A⟨f/g⟩†` of a dagger algebra and its universal property*; Mathlib `Module.Projective`; Mathlib `Module.Free`; Mathlib `IsPrincipalIdealRing`; §RD.3.26 *Distinguished coordinates and Noether normalisation over a rank-one valued field*; §RD.0.55 *Finite free resolutions: two out of three, stable freeness, base change and Serre's theorem over `R[t]`*; §RD.0.56 *Unimodular vectors over polynomial rings and the unimodular extension property*; RestrictedPowerSeries §1.1 *Norms, completeness and approximation*; RestrictedPowerSeries §4.2 *Division with bounded quotient and remainder*; RestrictedPowerSeries §4.3 *Preparation and normalisation*; RestrictedPowerSeries §4.4 *Several variables*; RestrictedPowerSeries §5.4 *Positive polyradii and finite presentations*.
 
 **Checks.**
 
@@ -7028,7 +7133,7 @@ The Checks of the targets above are the worked examples of this layer.
 
 ### Dependencies
 
-Earlier layers: RD.0, RD.1. Other roadmaps: AdicCoefficientsAndComparisons, AdicEtaleGeometry, AdicSpacesPartII, AdicSpacesPartIII, AdicSpacesPartIV, CrystallineCohomology, DerivedDeRhamCohomology, EtaleCohomologyFoundations, InverseGaloisAndArithmeticFundamentalGroups, SchemeAndStackFoundations. Libraries: Mathlib.
+Earlier layers: RD.0, RD.1. Other roadmaps: AdicCoefficientsAndComparisons, AdicEtaleGeometry, AdicSpacesPartII, AdicSpacesPartIII, AdicSpacesPartIV, CrystallineCohomology, DerivedDeRhamCohomology, EtaleCohomologyFoundations, InverseGaloisAndArithmeticFundamentalGroups, RestrictedPowerSeries, RigidAnalyticGeometry, SchemeAndStackFoundations. Libraries: Mathlib.
 
 ## Layer RD.4: Rigid cohomology, supports and comparison maps
 
@@ -14677,6 +14782,7 @@ The following corrections to statements or proofs in the sources are used above.
 - Kiran `S`. Kedlaya, *Semistable reduction for overconvergent F-isocrystals, II: A valuation-theoretic approach*, arXiv:math/0508191v3 (Compositio Math. 144 (2008)). <https://arxiv.org/abs/math/0508191v3>
 - Kiran `S`. Kedlaya, *Semistable reduction for overconvergent F-isocrystals, IV: Local semistable reduction at nonmonomial valuations*, arXiv:0712.3400v4 (Compositio Math. 147 (2011)). <https://arxiv.org/abs/0712.3400v4>
 - Kiran `S`. Kedlaya, *Erratum for “Slope filtrations revisited”*, Documenta Mathematica 12 (2007), 361–362. <https://emis.muni.cz/journals/DMJDMV/vol-12/09.pdf>
+- Serge Lang, *Algebra*, third edition, Addison-Wesley, 1993; revised third edition, Graduate Texts in Mathematics 211, Springer, 2002. Chapter XXI (finite free resolutions, unimodular polynomial vectors and the Quillen–Suslin theorem).
 - Michel Lazard, *Les zéros des fonctions analytiques d’une variable sur un corps valué complet*, Publ. Math. IHÉS 14 (1962), 47–75. <https://www.numdam.org/article/PMIHES_1962__14__47_0.pdf>
 - `C`. Lazda, *Incarnations of Berthelot's conjecture*, `J`. Number Theory 166 (2016), 137–157.
 - Peigen Li, *Exponential sums and rigid cohomology*, Finite Fields and Their Applications 81 (2022), 102031. <https://bimsa.net/doc/publication/1445.pdf>
