@@ -59,8 +59,8 @@ It leaves to other roadmaps, by section:
   local finiteness, the dual category and projective envelopes: PadicLocalLanglandsForGL2Qp
   §§2.1–2.3; the classification of irreducible mod `p` representations of `GL₂(ℚ_p)`, the Hecke
   operator `T` on `I(σ_r)`, `End_G(I(σ_r)) ≅ k[T]` and freeness: §2.7; the failures for `F ≠ ℚ_p`
-  (non-finite-presentation of supersingulars): §2.9; blocks, the Gabriel decomposition and
-  projective envelopes: §§5.1, 5.3; the finite-residue fundamental characters and the
+  (non-finite-presentation of supersingulars): §2.9; blocks, their classification and Ext computations,
+  the Gabriel decomposition and projective envelopes: §§5.1–5.3; the finite-residue fundamental characters and the
   coefficient-linear torsion dual `Hom_𝒪(M, L/𝒪)` of a discrete torsion module: §0.3; Schikhof
   duality and admissible Banach representations: §0.1;
 - Serre weights of `GL₂(F)` for every local field including `F = ℚ_p`, `I(σ) = c-Ind_{KZ}^G σ`,
@@ -323,7 +323,8 @@ of Layer 7 is an upper bound under explicit multiplicity hypotheses.
   descent of irreducibles. The Serre weights, the compact induction and the Hecke operator it
   uses are the declarations of FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5.15 below.
 - §2.9: supersingular representations of `GL₂(F)`, `F ≠ ℚ_p`, are not finitely presented.
-- §5.1: blocks with fixed central character and finite block support of finite-length objects
+- §§5.1–5.2: blocks with fixed central character, finite block support of finite-length objects,
+  the finite lists of irreducibles in each block and their Ext computations, including `p = 2, 3`
   (used by §1.4); §5.3: projective envelopes.
 - What PadicLocalLanglandsForGL2Qp must provide (gap:ext1-finite-length-into-compact-induction):
   for `G′ = GL₂(ℚ_p)/p^ℤ`, a smooth finite-length `k[G′]`-representation `π` and a Serre weight
@@ -835,7 +836,7 @@ a finite-length smooth `k[G]`-module `π` with central character and every irred
 with central character, `Ext¹_G(π, π′)` is finite-dimensional, and nonzero for only finitely many
 isomorphism classes of `π′` (CDN23, Lemme 1.23, p. 18). Route: reduce to `π` irreducible, extend
 scalars to `k̄` by §0.6, separate central characters, and use the finite Ext computation inside a
-block. *Needs:* §0.6; PadicLocalLanglandsForGL2Qp §§2.7 and 5.1.
+block. *Needs:* §0.6; PadicLocalLanglandsForGL2Qp §§2.7, 5.1–5.2.
 
 **Checks.**
 
@@ -915,7 +916,7 @@ PadicLocalLanglandsForGL2Qp §§0.3, 2.7 (and its gap); NoncommutativeAndEquivar
 
 ### Dependencies
 
-Layer 0; PadicLocalLanglandsForGL2Qp §§0.3, 2.7, 2.9, 5.1 (with
+Layer 0; PadicLocalLanglandsForGL2Qp §§0.3, 2.7, 2.9, 5.1–5.2 (with
 gap:ext1-finite-length-into-compact-induction); FiniteFlatGroupsAndIntegralPadicHodgeTheory
 R07.5.15 (with gap:barthel-livne-finite-codimension); SmoothRepresentationsOfLocalGroups
 *smooth-dual*, *induction-exactness*; NoncommutativeAndEquivariantIwasawa §F.1.
@@ -1296,7 +1297,7 @@ Define, for `λ = ((a_i,b_i))` with `0 ≤ r_i ≤ p−1`, the labelled Serre we
 `(p − π)X⁰(T)` (BHHMS23, §2.1–2.2, pp. 11–14; BP12, equation (2), pp. 13–14, for the
 tensor-product form). Call `λ`
 *regular* when `0 ≤ r_i ≤ p−2` for all `i`, and `N`-deep when `N < r_i + 1 < p − N` for all `i`
-(BHHMS23, §2.4, pp. 15–17). *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5.15;
+(BHHMS23, §2.1, p. 12). *Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5.15;
 RepresentationTheory/QuiverRepresentations Layer 3.
 
 API:
@@ -1519,14 +1520,15 @@ API:
 ### 4.2 Quotient and central-regular-sequence comparisons
 
 Prove: if a closed normal analytic subgroup `N` of `G` acts trivially on admissible `V`, then
-`dim_G V = dim_{G/N} V` (BHHMS23, Lemma 5.1.2, p. 47). Let `U` be compact analytic without
-`p`-torsion, `R = k[[U]]` with its `𝔪`-adic filtration and `gr R` Auslander regular; let
-`z₁, …, z_r ∈ gr R` be a homogeneous central regular sequence generating `𝔍` with `gr R/𝔍` a
-commutative polynomial ring in `dim U − r` variables. If `𝔍` annihilates `gr M` for a finitely
-generated `R`-module `M` with good filtration, then `dim U − j_R(M)` is the Krull dimension of the
-support of `gr M` over `gr R/𝔍` (BHHMS23, Lemma 5.1.3, pp. 47–48). Route: the filtered grade
-equality of NoncommutativeAndEquivariantIwasawa §0.5, and for the central regular sequence the
+`dim_G V = dim_{G/N} V` (BHHMS23, Lemma 5.1.2, p. 47). Let `U` be a compact analytic pro-`p`
+group without `p`-torsion, `R = k[[U]]` with its complete separated augmentation-ideal filtration and
+`gr R` Auslander regular; let `z₁, …, z_r ∈ gr R` be a homogeneous central regular sequence
+generating `𝔍` with `gr R/𝔍` a commutative polynomial ring in `dim U − r` variables. If `𝔍` annihilates `gr M` for a finitely
+generated `R`-module `M` with a good separated filtration, then `dim U − j_R(M)` is the Krull
+dimension of the support of `gr M` over `gr R/𝔍` (BHHMS23, Lemma 5.1.3, pp. 47–48). Route: the
+filtered grade equality of NoncommutativeAndEquivariantIwasawa §0.5, and for the central regular sequence the
 change-of-rings spectral sequence, which shifts grade by `r` exactly as the dimension drops by `r`.
+For general compact analytic groups use restriction to an open uniform pro-`p` subgroup as in §4.1.
 *Needs:* §4.1; NoncommutativeAndEquivariantIwasawa §§0.5, F.1; Mathlib `ringKrullDim`.
 
 **Checks.**
@@ -1536,6 +1538,11 @@ change-of-rings spectral sequence, which shifts grade by `r` exactly as the dime
   and the formula is applied only to modules killed by the central `h`, over `k[e,f]`.
 - For `U = ℤ_p^d` and `𝔍 = 0`, the statement is the commutative equality
   `d − j(M) = dim Supp(gr M)`; for `M = k` it gives `0`.
+- The pro-`p` hypothesis excludes loss of an entire component: with `k = 𝔽₅`,
+  `U = C₂ × ℤ₅`, `S = k[[T]]`, one has `R = S × S` and augmentation ideal
+  `𝔪 = (T) × S`. For `M = k × S` the image filtration has `𝔪ⁿM = 0 × S` for `n ≥ 1`,
+  hence is not separated; `gr R = k[t]` and `gr M = k`. With `r = 0`,
+  `Hom_R(M,R) ≅ 0 × S ≠ 0` gives `dim U − j_R(M) = 1`, whereas `dim Supp(gr M) = 0`.
 
 ### 4.3 The nonuniform pro-p Iwahori valuation
 
