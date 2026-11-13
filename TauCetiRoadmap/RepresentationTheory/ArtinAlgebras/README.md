@@ -1014,7 +1014,7 @@ module `M`, an almost-split sequence `0 → M → Y → τ⁻ M → 0` in `mod A
 is 3.5 applied to `mod A`. Equivalently, every simple contravariant functor on `mod A` is finitely
 presented, and dually. Over a field the existence theorems are Tau Ceti's
 `ModuleCat.exists_isAlmostSplit_arTranslate` and `ModuleCat.exists_isAlmostSplit_of_not_injective`,
-their case `R = k`, of which QuiverRepresentations 6E consumes the first.
+their case `R = k`, both of which QuiverRepresentations 6E consumes.
 
 **Source and sink maps**. Every indecomposable finitely
 generated module `M` has a minimal right almost-split map `Y → M` (for `M` projective, the inclusion
