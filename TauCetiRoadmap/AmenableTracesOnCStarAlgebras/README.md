@@ -31,8 +31,8 @@ the pins lack, as its docstring records.
 This roadmap owns, in eight layers: tracial states of C*-algebras as positive functionals, the
 trace kernel, the tracial extension to the unitization and from closed ideals, the GNS data of a
 tracial state (vector trace, conjugation, right representation and the tensor functional
-`μ_τ`), the normalized matrix trace and 2-norm, and finite-dimensional approximation of traces
-(Layer 1); the completely positive contractions into matrix algebras with their 2-norm and norm
+`μ_τ`), the normalized matrix 2-norm and its trace comparisons, and finite-dimensional
+approximation of traces (Layer 1); the completely positive contractions into matrix algebras with their 2-norm and norm
 multiplicativity defects, asymptotic multiplicative domains, compressions, Ozawa's
 prescribed-trace matrix maps and the normal extension to the bidual (Layer 2); the definitions of
 amenable, quasidiagonal and uniform amenable traces and of a faithful amenable trace, their net,
@@ -65,8 +65,10 @@ representation, conjugation and tensor functional of the tracial GNS data, and t
 classes with their permanence. VonNeumannAlgebras V5 defines tracial states of von Neumann
 algebras on Mathlib's concrete `VonNeumannAlgebra` carrier and proves their uniqueness on
 factors; the C*-algebraic notion here agrees with it on a von Neumann algebra viewed as a
-C*-algebra, and the uniqueness of the trace on `M_k` is proved here on the `CStarMatrix` carrier,
-which differs from V3's finite-dimensional `B(H)`.
+C*-algebra. The normalized matrix-trace state and its uniqueness are consumed from
+VonNeumannAlgebras V0 and V3 through the identification of `CStarMatrix (Fin k) (Fin k) ℂ`
+with the operators on `ℂ^k`; §1.5 owns the normalized 2-norm comparisons and bimodule
+identification.
 
 Left to named roadmaps and consumed from them by section:
 
@@ -368,9 +370,10 @@ representation, the conjugation, the tensor functional, or the extensions of §1
   and product functionals `φ ⊗ ψ` with `‖φ ⊗ ψ‖ = ‖φ‖‖ψ‖`.
 - C5.4: the bounded product `∏_n M_{k_n}`, its `c₀` ideal `⊕_n M_{k_n}` and the quotient norm
   `limsup_n ‖a_n‖`.
-- C6.1, C6.2 and C6.5: nuclear completely positive contractions in the finite-set form, nuclear
-  C*-algebras (the identity is nuclear), the equivalence of nuclearity with injectivity of the
-  bidual, nuclearity of the unitization, of `C₀(X)` and of AF algebras (inductive limits of
+- C6.1, C6.2 and C6.5: nuclear completely positive contractions in the finite-set form and
+  general nuclear completely positive maps as their positive scalar multiples, independently
+  of the choice of scaling; nuclear C*-algebras (the identity is nuclear), the equivalence of
+  nuclearity with injectivity of the bidual, nuclearity of the unitization, of `C₀(X)` and of AF algebras (inductive limits of
   finite-dimensional algebras).
 - C7.1: exact C*-algebras; nuclear algebras are exact; exactness passes to C*-subalgebras and to
   the unitization; a C*-algebra is exact iff a (equivalently every) faithful representation
@@ -394,12 +397,16 @@ representation, the conjugation, the tensor functional, or the extensions of §1
 - V0: the state space with its weak-star topology, convex and compact for nonzero unital
   algebras; positivity of the unital extension of a positive functional to the unitization and
   the Cauchy–Schwarz inequality for positive functionals; unitary uniqueness of cyclic
-  representations; the faithful Gelfand–Naimark representation. The GNS cyclic vector and the
-  recovery of the functional are consumed from Tau Ceti's GNS module.
+  representations; the faithful Gelfand–Naimark representation; the normalized matrix-trace
+  state for `k ≥ 1`, transported to `CStarMatrix` through its identification with operators on
+  `ℂ^k`. The GNS cyclic vector and the recovery of the functional are consumed from Tau Ceti's
+  GNS module.
 - V1: the bicommutant theorem and Kaplansky density in bounded strong-star form.
 - V2: corners `pMp` on `pH` for `p ∈ M` or `p ∈ M'`, `(pMp)' = pM'p`, central supports.
 - V3: finite-dimensional C*-algebras as finite direct sums of matrix algebras with matrix units,
-  and the uniqueness of algebraic traces on finite-dimensional `B(H)` up to scalars.
+  and the uniqueness of algebraic traces on finite-dimensional `B(H)` up to scalars, hence
+  uniqueness of the normalized matrix-trace state on `M_k` for `k ≥ 1` under the same
+  matrix/operator identification.
 - V4: preduals, normal states (the monotone-net form on the strong operator topology) and normal
   representations; the GNS representation of a normal state is normal with von Neumann image;
   separability of the predual of a von Neumann algebra on a separable Hilbert space.
@@ -676,14 +683,14 @@ GNS data of the Conventions, the pinned Tau Ceti supplies the cyclic vector: `Ω
 (`TauCeti.CStarAction.IsKMSState.eq_zero_of_apply_toPreGNS_one_eq_zero` at `β = 0` for the
 trivial action, `τ` being a `0`-KMS state by §1.1). Prove: the vector state `τ''(x) = ⟪Ω, xΩ⟫`
 is a faithful normal tracial state of `M_τ` with `τ'' ∘ π_τ = τ`, faithfulness being the
-separating property (`τ''(x*x) = ‖xΩ‖²`); the right representation `π_τᵒᵖ` of `Aᵒᵖ` is a unital
-star homomorphism commuting with `π_τ`, with `π_τᵒᵖ(bᵒᵖ)Ω = b̂`, so `Ω` is cyclic for
-`π_τᵒᵖ(Aᵒᵖ) ⊆ M_τ'`; the conjugation `J(â) = (a*)^` extends to an antiunitary involution with
+separating property (`τ''(x*x) = ‖xΩ‖²`); the right representation `π_τᵒᵖ` of `Aᵒᵖ` is a
+star homomorphism, unital when `A` is unital, commuting with `π_τ`, with `π_τᵒᵖ(bᵒᵖ)Ω = b̂`,
+so `Ω` is cyclic for `π_τᵒᵖ(Aᵒᵖ) ⊆ M_τ'`; the conjugation `J(â) = (a*)^` extends to an antiunitary involution with
 `JM_τJ = M_τ'` and `π_τᵒᵖ(Aᵒᵖ)'' = M_τ'`, by identifying `L²(A,τ)` with the standard form
 `L²(M_τ, τ'')` of VonNeumannAlgebras V6 through `Ω`; and the product
-`π_τ × π_τᵒᵖ : A ⊙ Aᵒᵖ → B(L²(A,τ))`, `a ⊗ bᵒᵖ ↦ π_τ(a)π_τᵒᵖ(bᵒᵖ)`, is a unital star
-homomorphism whose vector functional at `Ω` is `μ_τ(a ⊗ bᵒᵖ) = τ(ab)` (brown2006, Chapter 2,
-lines 378–384, and §3.1, lines 793–801). Traciality of `τ''` passes from `π_τ(A)` to `M_τ` one
+`π_τ × π_τᵒᵖ : A ⊙ Aᵒᵖ → B(L²(A,τ))`, `a ⊗ bᵒᵖ ↦ π_τ(a)π_τᵒᵖ(bᵒᵖ)`, is a star
+homomorphism, unital when `A` is unital, whose vector functional at `Ω` is
+`μ_τ(a ⊗ bᵒᵖ) = τ(ab)` (brown2006, Chapter 2, lines 378–384, and §3.1, lines 793–801). Traciality of `τ''` passes from `π_τ(A)` to `M_τ` one
 variable at a time by Tau Ceti's von Neumann density theorem
 `VonNeumannAlgebra.exists_forall_norm_sub_apply_lt_of_mem_adjoin`: for `b ∈ A` the vector
 functionals `x ↦ ⟪Ω, x b̂⟫ = τ''(xπ_τ(b))` and `x ↦ ⟪(b*)^, xΩ⟫ = τ''(π_τ(b)x)` agree on
@@ -692,7 +699,8 @@ functionals `x ↦ ⟪Ω, x b̂⟫ = τ''(xπ_τ(b))` and `x ↦ ⟪(b*)^, xΩ�
 hence on `M_τ` (Kaplansky density with the strong-star continuity of `(x, y) ↦ ⟪x*Ω, yΩ⟫` on
 bounded sets is an alternative route). For nonunital `A`, `L²(A,τ) = L²(Ã,τ̃)` because
 `‖1̂ − ê‖² = τ̃((1 − e)²) ≤ 1 − τ(e)` along an approximate unit, and the statements are transported
-through the unitization extension of §1.3 (its ideal-extension part is not used). *Needs:* §1.1,
+through the unitization extension of §1.3, restricting the star homomorphisms to `Aᵒᵖ` and
+`A ⊙ Aᵒᵖ` without a unitality assertion (its ideal-extension part is not used). *Needs:* §1.1,
 §1.2, §1.3 (unitization extension); VonNeumannAlgebras V0 (unitary uniqueness), V1 (bicommutant,
 Kaplansky density for the 2-norm density), V4 (normality of vector states), V6 (standard form,
 `J`, `JMJ = M'`); Tau Ceti `PositiveLinearMap.gnsVector`, `PositiveLinearMap.norm_gnsVector`,
@@ -717,8 +725,9 @@ API:
   ultraweakly continuous (VonNeumannAlgebras V4).
 - `π_τᵒᵖ(bᵒᵖ)ĉ = (cb)^`, `π_τᵒᵖ(bᵒᵖ) = Jπ_τ(b*)J`, `π_τᵒᵖ` commutes with `π_τ`, and
   `π_τᵒᵖ(Aᵒᵖ)'' = JM_τJ = M_τ'`.
-- `μ_τ` is a positive functional on the star algebra `A ⊙ Aᵒᵖ` with `μ_τ(1) = 1` and
-  `μ_τ(a ⊗ bᵒᵖ) = τ(ab)`.
+- `μ_τ` is a positive functional on the star algebra `A ⊙ Aᵒᵖ` with
+  `μ_τ(a ⊗ bᵒᵖ) = τ(ab)`. If `A` is unital, `μ_τ(1) = 1`; otherwise it is the restriction
+  of `μ_τ̃` on `Ã ⊙ Ãᵒᵖ`, where `μ_τ̃(1) = 1`.
 - Naturality: for a unital star isomorphism `θ : A → B` and `τ ∈ T(B)`, the GNS data of `τ ∘ θ`
   and of `τ` are unitarily equivalent through `â ↦ (θa)^`.
 
@@ -736,19 +745,14 @@ API:
 - Nonunital `(c₀, Σ 2^{-n}δ_n)`: `L² = ℓ²(ℕ, 2^{-n})`, `π_τ` is multiplication, and
   `‖1̂ − ê_m‖² = Σ_{n>m} 2^{-n} = 2^{-m}` for the indicator `e_m` of `{1, …, m}`, so the
   transported `Ω = 1̂` is the limit of the `ê_m`; `M_τ = ℓ∞` contains `1` although `π_τ(c₀)` does
-  not.
+  not. Moreover `μ_τ(e_m ⊗ e_m) = τ(e_m) = 1 − 2^{-m}`, while `μ_τ̃(1) = 1`; every tensor
+  has diagonal in `c₀`, so `A ⊙ Aᵒᵖ` has no identity to evaluate.
 
 ### 1.5 The normalized trace and 2-norm on matrix algebras
 
 Define `tr_k = k⁻¹ · Matrix.trace` on `M_k` (`Mat`, `matrixTrace`) and the 2-norm
 `‖x‖₂ = tr_k(x*x)^{1/2}` (`matrixTwoNorm`) (brown2006, Chapter 2, lines 403–406;
-tikuisis-white-winter2017, §1, lines 362–364). Prove that for `k ≥ 1` `tr_k` is the unique
-tracial state of `M_k`: by Tau Ceti's trace duality `LinearMap.existsUnique_trace_mul_eq` a linear
-functional on `M_k` is `x ↦ Tr(ρx)` for a unique `ρ`, by
-`Matrix.mem_range_scalar_iff_trace_mul_mul_comm` it is tracial iff `ρ` is scalar, and `τ(1) = 1`
-forces `ρ = k⁻¹·1` (by hand, `τ(e_{ij}) = τ(e_{i1}e_{1j}) = τ(e_{1j}e_{i1})` is `0` for `i ≠ j` and
-independent of `i` for `i = j`); this is VonNeumannAlgebras V3's uniqueness of traces on
-finite-dimensional `B(H)`, proved on the `CStarMatrix` carrier. Prove that `‖·‖₂` is a norm,
+tikuisis-white-winter2017, §1, lines 362–364). Prove that `‖·‖₂` is a norm,
 equal to `k^{-1/2}` times the Frobenius norm of `Matrix.frobenius_norm_def`:
 `tr_k(x*y) = k⁻¹⟪x, y⟫_F` for Tau Ceti's complex Frobenius inner product
 `Matrix.frobeniusInnerProductSpace` (`Matrix.frobenius_inner_eq_trace_conjTranspose_mul`),
@@ -758,10 +762,11 @@ transported along `CStarMatrix.ofMatrix`, so the norm axioms and the Cauchy–Sc
 `y = 1`), and `‖x − cxc‖₂ ≤ 2‖x‖‖c − 1‖₂` for a positive contraction `c` (brown2006, Lemma 2.7,
 line 530). Prove that `x ⊗ yᵒᵖ ↦ (z ↦ xzy)` is a star isomorphism
 `M_k ⊗ M_kᵒᵖ ≅ B(L²(M_k, tr_k))`, isometric for the unique C*-norm of CStarAlgebras C5.1, whose
-vector state at `1` is `x ⊗ yᵒᵖ ↦ tr_k(xy)` (brown2006, proof of Theorem 3.1.6, lines 864–874).
+vector functional at `1` is `x ⊗ yᵒᵖ ↦ tr_k(xy)`, a state for `k ≥ 1`
+(brown2006, proof of Theorem 3.1.6, lines 864–874).
 The Frobenius inner product is unnormalized and carries the Frobenius norm, so neither it nor the
-trace duality supplies `tr_k`, `‖·‖₂` or their comparisons with the operator norm of
-`CStarMatrix`. *Needs:* §1.1; VonNeumannAlgebras V3; CStarAlgebras C5.1 (uniqueness of the
+trace duality supplies `‖·‖₂` or its comparisons with the operator norm of
+`CStarMatrix`. *Needs:* §1.1; VonNeumannAlgebras V0, V3; CStarAlgebras C5.1 (uniqueness of the
 C*-norm on `M_n ⊙ A`); Tau Ceti `LinearMap.existsUnique_trace_mul_eq`,
 `Matrix.mem_range_scalar_iff_trace_mul_mul_comm`, `Matrix.frobeniusInnerProductSpace`,
 `Matrix.frobenius_inner_eq_trace_conjTranspose_mul`; Mathlib `CStarMatrix`,
@@ -769,14 +774,13 @@ C*-norm on `M_n ⊙ A`); Tau Ceti `LinearMap.existsUnique_trace_mul_eq`,
 
 API:
 
-- `tr_k` is a tracial state of `M_k` for `k ≥ 1`, and the only one; `tr_0 = 0`.
 - `‖·‖₂` is a norm with the five inequalities above; `tr_k` and `‖·‖₂` are invariant under
   unitary conjugation.
 - Block additivity: for the block-diagonal embedding `M_k ⊕ M_l → M_{k+l}`,
   `tr_{k+l}(x ⊕ y) = (k tr_k(x) + l tr_l(y))/(k + l)`, and similarly for `‖·‖₂²`.
 - Tensor multiplicativity: under `M_k ⊗ M_l ≅ M_{kl}`, `tr_{kl}(x ⊗ y) = tr_k(x)tr_l(y)` and
   `‖x ⊗ y‖₂ = ‖x‖₂‖y‖₂`.
-- The bimodule identification `M_k ⊗ M_kᵒᵖ ≅ B(L²(M_k, tr_k))` with vector state `tr_k(xy)`.
+- The bimodule identification `M_k ⊗ M_kᵒᵖ ≅ B(L²(M_k, tr_k))` with vector functional `tr_k(xy)`.
 
 **Checks.**
 
@@ -785,6 +789,8 @@ API:
 - `x = e₁₂`, `y = e₂₁` in `M_2`: `xy = e₁₁`, `‖xy‖₂ = 2^{-1/2}`, and `‖x‖‖y‖₂ = 2^{-1/2}`, so
   `‖xy‖₂ ≤ ‖x‖‖y‖₂` is attained; `‖x‖₂‖y‖₂ = 1/2` is smaller, so the product of 2-norms is not an
   upper bound.
+- Transported trace agreement: `e₁₁ ∈ M_2` is the rank-one projection on `ℂ²`, so both
+  normalized traces give `tr_2(e₁₁) = 1/2`; on `e₁₂` both give `0`.
 - `k = 0`: `M_0` is the zero algebra, `tr_0 = 0` is not a state, and the uniqueness statement
   requires `k ≥ 1`.
 - Normalization against the Frobenius inner product: for `x = y = e₁₁ ∈ M_2`,
@@ -1585,11 +1591,12 @@ V13b.SpatialNorm, V13b; BanachSpaceTheory B1; Mathlib `CStarAlgebra.exists_sum_f
 
 ### 5.1 Nuclear and weakly nuclear maps; injectivity
 
-A map `θ : A → B` between C*-algebras is nuclear (`IsNuclearMap`) when on every finite set it
-is approximated in norm, to every tolerance, by composites `β ∘ α` of c.p.c. maps
-`α : A → M_n`, `β : M_n → B`; this is the finite-set form of CStarAlgebras C6.1, and `A` is
-nuclear when its identity is nuclear. Define a c.p.c. map `θ : A → M` into a von Neumann algebra
-to be weakly nuclear if there are nets of c.p.c. maps `α_i : A → M_{n_i}` and `β_i : M_{n_i} → M`
+A map `θ : A → B` between C*-algebras is nuclear (`IsNuclearMap`) when there is `C > 0` such
+that for every finite `F ⊆ A` and `ε > 0` there are c.p.c. maps `α : A → M_n`, `β : M_n → B`
+with `‖C · β(α(a)) − θ(a)‖ < ε` for all `a ∈ F`. This is the positive-scaling formulation of
+CStarAlgebras C6.1 for general nuclear completely positive maps; for c.p.c. `θ` it is equivalent
+to the formulation with `C = 1`. An algebra `A` is nuclear when its identity is nuclear. Define
+a c.p.c. map `θ : A → M` into a von Neumann algebra to be weakly nuclear if there are nets of c.p.c. maps `α_i : A → M_{n_i}` and `β_i : M_{n_i} → M`
 with `β_i(α_i(a)) → θ(a)` ultraweakly for every `a ∈ A` (brown2006, Theorem 3.2.2 (6), line 990).
 For a c.p.c. `β : M_n → M` prove that `[y_{kl}] ↦ Σ_{kl} β(e_{kl})y_{kl}` is a c.p.c. map
 `M_n(M') → B(H)`: writing the positive Choi matrix `[β(e_{kl})]` as `R*R` with
@@ -1610,8 +1617,8 @@ VonNeumannAlgebras V1, V13a (Arveson, projection definition of injectivity), V13
 
 API:
 
-- Nuclear maps are closed under composition with c.p.c. maps on either side; nuclear maps into a
-  von Neumann algebra are weakly nuclear.
+- Nuclear maps are closed under composition with c.p.c. maps on either side; nuclear c.p.c.
+  maps into a von Neumann algebra are weakly nuclear.
 - Weak nuclearity is closed under composition with c.p.c. maps on the domain side and under
   normal c.p.c. maps on the range side.
 - The commuting-range lemma for c.p.c. maps `M_n → M`.
@@ -1627,6 +1634,9 @@ API:
 - The commuting-range lemma fails without commutation: for `β = id : M_2 → M_2` and
   `y_{kl} = e_{lk}` (not in `M_2' = ℂ`) the map gives `Σ e_{kl}e_{lk} = 2·1`, while `[e_{lk}]` is
   the flip, of norm `1` in `M_2(M_2)`, so the bound fails.
+- `θ = 2·id_ℂ` is nuclear: take `C = 2`, `n = 1`, `α = β = id`, giving error `0`.
+  Without the scale, every c.p.c. composite has error at least `1` at `1`, so fails for
+  `F = {1}` and `ε = 1/2`.
 - A finite-dimensional `A = ⊕_i M_{n_i}` is nuclear through one matrix algebra (CStarAlgebras
   C6.1), and the zero map is nuclear through `n = 0`.
 
@@ -1723,9 +1733,9 @@ and `Suggested.lean` states the first four equivalences under that hypothesis as
 extends along a faithful nuclear representation by Arveson's theorem. Route: for unital `A` and a faithful representation `A ⊆ B(H)`, the inclusion is a
 nuclear map (CStarAlgebras C7.1), and (f) of §4.4 gives `Φ : B(H) → M_τ` with `π_τ = Φ|_A`, so
 `π_τ : A → M_τ` is nuclear (if `β ∘ α` approximates the inclusion on a finite set, `(Φ ∘ β) ∘ α`
-approximates `π_τ` there, with `Φ ∘ β : M_n → M_τ` c.p.c.); nuclear maps into `M_τ` are weakly
-nuclear, so §5.1 gives injectivity of `M_τ`, §5.2 gives uniform amenability and §3.3 returns to
-amenability. Nonunital exact algebras have exact unitization (CStarAlgebras C7.1, unitization
+approximates `π_τ` there, with `Φ ∘ β : M_n → M_τ` c.p.c., using the `C = 1` formulation
+for the inclusion); the nuclear c.p.c. map `π_τ` is weakly nuclear, so §5.1 gives injectivity of
+`M_τ`, §5.2 gives uniform amenability and §3.3 returns to amenability. Nonunital exact algebras have exact unitization (CStarAlgebras C7.1, unitization
 variants), and `M_τ = M_τ̃` (§1.4). The related group statement, that a discrete group with
 Kirchberg's factorization property is amenable exactly when its full group C*-algebra is locally
 reflexive, is kirchberg1993, Theorem 7.5, with Proposition 7.1 on exactness and tensor products

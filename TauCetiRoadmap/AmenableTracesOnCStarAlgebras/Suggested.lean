@@ -308,13 +308,16 @@ theorem isUniformAmenableTrace_iff_isAmenableTrace_gns (τ : A →P[ℂ] ℂ) (h
     IsUniformAmenableTrace τ ↔ IsAmenableTrace σ := by
   sorry
 
-/-- A map `θ : A → B` is nuclear: on every finite set it is approximated in norm, to every
-tolerance, by composites `A → M_n → B` of completely positive contractions, the finite-set form
-of CStarAlgebras C6.1 (README §5.1). `A` is nuclear when its identity is nuclear. -/
+/-- A map `θ : A → B` is nuclear: for one constant `C > 0`, on every finite set it is
+approximated in norm, to every tolerance, by `C` times composites `A → M_n → B` of completely
+positive contractions. This is CStarAlgebras C6.1's positive-scaling formulation for general
+nuclear completely positive maps (README §5.1). `A` is nuclear when its identity is nuclear. -/
 def IsNuclearMap {B : Type*} [NonUnitalCStarAlgebra B] [PartialOrder B] [StarOrderedRing B]
     (θ : A → B) : Prop :=
-  ∀ (F : Finset A) (ε : ℝ), 0 < ε → ∃ (n : ℕ) (α : A →CP Mat n) (β : Mat n →CP B),
-    (∀ a, ‖α a‖ ≤ ‖a‖) ∧ (∀ x, ‖β x‖ ≤ ‖x‖) ∧ ∀ a ∈ F, ‖β (α a) - θ a‖ < ε
+  ∃ C : ℝ, 0 < C ∧
+    ∀ (F : Finset A) (ε : ℝ), 0 < ε → ∃ (n : ℕ) (α : A →CP Mat n) (β : Mat n →CP B),
+      (∀ a, ‖α a‖ ≤ ‖a‖) ∧ (∀ x, ‖β x‖ ≤ ‖x‖) ∧
+        ∀ a ∈ F, ‖(C : ℂ) • β (α a) - θ a‖ < ε
 
 /-- **Nuclear C*-algebras.** Every tracial state of a nuclear C*-algebra is uniform amenable,
 hence amenable (README §5.3; brown2006, Theorem 4.2.1). -/
