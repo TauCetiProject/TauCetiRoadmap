@@ -19,6 +19,7 @@ and duality. Existing library results are inputs.
 | Densities for bounded-variation measures with reflexive Banach targets on finite measure spaces | [Banach space theory](../BanachSpaceTheory/README.md), B4.0, its finite-measure density prerequisite; §7 consumes this theorem and supplies the general RNP interface and its consequences |
 | The weakly-unconditionally-Cauchy criterion for spaces containing no copy of c₀ | [Banach space theory](../BanachSpaceTheory/README.md), B4.1; §6.4 applies this series criterion to Pettis integrability |
 | Scalar `Lᵖ` duality, scalar measure representation and scalar Dunford–Pettis theory | [Banach space theory](../BanachSpaceTheory/README.md), B5; §8 owns the Banach-valued duality theorem |
+| Finite measure algebras, their scalar L² separability criterion and nonatomic interval classification | [Von Neumann algebras](../VonNeumannAlgebras/README.md#layer-2-elementary-algebra-corners-and-tensors), V2; §3.3 extends the finite-set quotient to arbitrary measures and Banach-valued Lᵖ, and §7.5 constructs L¹ transport and RNP applications |
 
 Prove the finite-measure reflexive density theorem independently of §7–§8,
 and scalar duality independently of §8, to avoid circular dependencies.
@@ -82,7 +83,7 @@ default zero value is not evidence of integrability. Use
 means measurability of `s↦ A(s)x` for every fixed `x`.
 It is distinct from strong measurability into the operator-norm topology.
 
-## Existing results
+## Exact supplier contracts
 
 **From Mathlib.** Use the following native carriers and theorems, with the measure
 hypotheses in their declarations.
@@ -111,6 +112,9 @@ hypotheses in their declarations.
   `VectorMeasure.variation`, `Measure.withDensityᵥ` and the variation-of-density
   identity. [Variation][ml-variation] supplies `VectorMeasure.le_variation` and
   `VectorMeasure.exists_lt_sum_of_lt_variation` for the finite-partition formula.
+  [Density uniqueness][ml-density-unique] supplies `Integrable.withDensityᵥ_eq_iff`:
+  for integrable `f,g` and a complete target,
+  `μ.withDensityᵥ f = μ.withDensityᵥ g ↔ f =ᵐ[μ] g`, without σ-finiteness.
   Scalar signed/complex Radon–Nikodým theorems supply the scalar density
   input; a Banach-valued density theorem is a separate supplier below.
 - [Completion][ml-null] supplies `NullMeasurableSpace`, `Measure.completion` and
@@ -181,7 +185,15 @@ bounded-variation measures with reflexive targets, independently of the general 
 and duality theorems here. B5 supplies scalar Lᵖ duality and scalar measure
 representation.
 
-## Layer order
+**From [VonNeumannAlgebras](../VonNeumannAlgebras/README.md#layer-2-elementary-algebra-corners-and-tensors).**
+V2 supplies the finite measure algebra modulo null sets, its Boolean operations,
+measure and metric `μ(A△B)`, and the equivalence of its separability with scalar
+L² separability. It also supplies a measure-preserving Boolean isomorphism
+between any separable atomless probability measure algebra and that of `[0,1]`,
+preserving countable operations. Use this measure-theoretic classification
+independently of the operator-algebra comparison.
+
+## How to read the build
 
 Layers 1–3 establish measurability, the additional integral interfaces and Bochner-space
 comparisons. Layer 4 gives mixed-norm and tensor identifications; Layer 5 gives convolution
@@ -492,9 +504,12 @@ its norm bound.
 For `1≤ p<∞` and nonzero `Lᵖ(μ;X)`,
 characterize separability by separability of `X` and of the metric space of
 finite-measure measurable sets modulo null symmetric difference, with
-`d([A],[B])=μ(A△ B)`. Use `SeparationQuotient` of the finite-measure
+`d([A],[B])=μ(A△ B)`. Extend VonNeumannAlgebras V2's finite-measure
+construction to arbitrary `μ` using `SeparationQuotient` of the finite-measure
 subtype of native `MeasuredSets μ`, converting its finite-valued extended
-distance to a real distance. For finite `μ`, use the whole native carrier.
+distance to a real distance. For finite `μ`, identify this quotient isometrically
+with V2's measure algebra, preserving Boolean operations and measure, and use
+its scalar L² separability comparison.
 Identify separability of this quotient with `MeasureTheory.IsSeparable μ`
 and reuse `MeasureTheory.Lp.SecondCountableTopology` for the sufficient direction.
 Prove the converse and the equivalent measurable
@@ -516,7 +531,7 @@ and completion structures; prove the last assertion by cardinality.
 **API.**
 
 - Identify equality in the separation quotient with null symmetric difference, and expose its distance formula using the native quotient metric.
-- Descend union, intersection and difference to the quotient, with their metric estimates; for finite measures include complement to obtain the measure algebra.
+- Descend union, intersection and difference to the arbitrary-measure quotient, with their metric estimates; for finite measures transport V2's complement operation through the identification.
 - Prove invariance under completion and null modifications, and compatibility with restriction and measure-preserving maps.
 
 **Checks.**
@@ -525,7 +540,7 @@ and completion structures; prove the last assertion by cardinality.
 - For finite counting measure, the distance between two set classes is the cardinality of their symmetric difference.
 - On a purely infinite measure space, the finite-measure-set quotient and every finite-exponent Lᵖ space are zero; this checks the nonzero-space qualification in the separability criterion.
 
-*Needs:* §3.1–§3.2, native MeasuredSets, SeparationQuotient, measure separability and completion; the quotient comparisons are constructed here.
+*Needs:* §3.1–§3.2, VonNeumannAlgebras V2's finite measure algebra and scalar L² separability comparison, native MeasuredSets, SeparationQuotient, measure separability and completion.
 
 ### 3.4 Scalar evaluations and the Bochner space L∞(S;X)
 
@@ -562,8 +577,9 @@ Use zero spaces, uncountable counting measure, the infinite-measure singleton an
 
 ### Dependencies
 
-§1; native `Lᵖ`, closed graph and simple-density APIs. The finite-measure set quotient
-and its metric are part of this layer, with set operations and null-set transport.
+§1; native `Lᵖ`, closed graph and simple-density APIs; VonNeumannAlgebras V2's
+finite measure algebra and scalar L² comparison. This layer extends the finite-set
+quotient to arbitrary measures, with set operations and null-set transport.
 
 ## Layer 4: Minkowski's inequality, Fubini's theorem and projective tensor products
 
@@ -873,8 +889,9 @@ Connect null-set absolute continuity of a vector
 measure with absolute continuity of its variation. For finite total
 variation prove the equivalent small-set estimates in terms of
 `‖m(A)‖` and `|m|(A)`. Reuse the variation-of-density formula
-`|m|(A)=∫_A‖f‖`; prove density uniqueness, restriction, bounded
-pushforward in the target, and change to an equivalent scalar measure.
+`|m|(A)=∫_A‖f‖` and `Integrable.withDensityᵥ_eq_iff` for uniqueness of
+integrable densities. Prove restriction, bounded pushforward in the target,
+and change to an equivalent scalar measure.
 Include localization on finite-measure sets where the variation is bounded
 by a constant multiple of the reference measure.
 In particular, an integrable essentially bounded density satisfies
@@ -898,7 +915,7 @@ gluing of compatible densities along a finite-measure exhaustion.
 **API.**
 
 - Relate absolute continuity of a vector measure and of its variation, retaining finite-variation assumptions in the small-set criterion.
-- Prove uniqueness, restriction, bounded-target-map transport and equivalent-measure transport of integrable densities.
+- Prove restriction, bounded-target-map transport and equivalent-measure transport of integrable densities.
 - Prove the bounded-density variation estimate and the localization/gluing formulas.
 
 **Checks.**
@@ -907,7 +924,7 @@ gluing of compatible densities along a finite-measure exhaustion.
 - For m(A) = ∑_(j∈A) j^(−1)eⱼ in ℓ², total variation is infinite although the measure is norm-countably additive.
 - The zero vector measure has zero variation and is absolutely continuous with respect to every positive measure, including the zero measure.
 
-*Needs:* §1–§3, native vector-measure variation, scalar Radon–Nikodým and densities.
+*Needs:* §1–§3, native vector-measure variation, scalar Radon–Nikodým, densities and integrable-density uniqueness.
 
 ### 7.2 The Radon–Nikodým property
 
@@ -1021,10 +1038,10 @@ Obtain the σ-finite formulas by localization and gluing.
 
 ### 7.5 Universality of the unit interval [0,1]
 
-Prove that atomless probability spaces countably generated modulo null sets
-have the same measure algebra as `[0,1]`, with a measure-preserving Boolean
-isomorphism inducing the scalar
-`L¹` isometry. Include divisibility of atomless finite measures:
+Use VonNeumannAlgebras V2's measure-preserving Boolean isomorphism between
+the measure algebra of an atomless probability space countably generated
+modulo null sets and that of `[0,1]` to construct the induced scalar `L¹`
+linear isometry. Prove divisibility of atomless finite measures:
 for measurable `A` and `0≤ t≤1`, construct a measurable subset of
 measure `tμ(A)` and its complementary part in `A`. Prove the converse
 and the characterization for σ-finite measures.
@@ -1047,9 +1064,9 @@ examples for `1≤ p<∞` and scalar `Lᵖ` examples for `1<p<∞`.
 
 **API.**
 
-- Descend Boolean operations and the finite measure to the separation quotient of native MeasuredSets from §3.3.
-- Construct the measure-preserving Boolean equivalence and its inverse, preserving countable operations modulo null sets.
-- Induce the scalar L¹ linear isometry from indicator classes, then extend by density and verify its integral and norm formulas.
+- Construct scalar L¹ transport from a measure-preserving Boolean isomorphism by mapping indicator classes; prove independence of representatives and simple-function decompositions.
+- Prove linearity, preservation of the integral and norm, and extension by simple-function density.
+- Prove that transport by the inverse Boolean isomorphism gives the inverse L¹ isometry, and that transport respects composition.
 
 **Checks.**
 
@@ -1057,7 +1074,7 @@ examples for `1≤ p<∞` and scalar `Lᵖ` examples for `1<p<∞`.
 - The dyadic partitions of [0,1] have 2ⁿ cells of measure 2^(−n), and their refinements preserve Boolean operations modulo null sets.
 - Transport of an indicator class preserves its L¹ norm μ(A); the isometry is independent of the chosen representative of the measurable set.
 
-*Needs:* §3.3, §7.1, §7.3–§7.4 and BanachSpaceTheory B4.0 independent reflexive density.
+*Needs:* §3.3, §7.1, §7.3–§7.4, VonNeumannAlgebras V2's finite measure algebra and nonatomic interval classification, and BanachSpaceTheory B4.0 independent reflexive density.
 
 ### Examples
 
@@ -1066,8 +1083,9 @@ The harmonic-coordinate measure tests variation. Atomic measures, the infinite-m
 ### Dependencies
 
 §1–§3, native variation and scalar Radon–Nikodým APIs,
-scalar and Banach-valued conditional-expectation APIs, and the
-BanachSpaceTheory suppliers above. Prove §7.1 and §7.3 for a fixed
+scalar and Banach-valued conditional-expectation APIs, VonNeumannAlgebras V2's
+measure-algebra classification, and the BanachSpaceTheory suppliers above.
+Prove §7.1 and §7.3 for a fixed
 measure before using them in separable determination and universality.
 
 ## Layer 8: Duality of Bochner spaces
@@ -1141,6 +1159,9 @@ Infinite-measure atoms contribute no nonzero finite-exponent vectors. Include th
 for σ-finite atomic spaces. For uncountable `I`, bounded families
 need not have separable range, so the sequence-space infinity endpoint
 can differ from Bochner `L∞`.
+
+`exists_lpDualEquiv` states the arbitrary-index linear isometric equivalence
+and coordinate formula for complete X, including p=1 and q=∞, without an RNP assumption.
 
 (HvNVW, Proposition 1.3.3 and the atomic-measure discussion preceding it, pp. 39–40; the [errata][hvn-errata], entry for p. 39, give the atom-dependent functional bound.)
 
@@ -1287,7 +1308,7 @@ the corresponding preceding layers; native sequence-space and Hilbert
 APIs; B3's classical-space comparisons. Construct the dyadic functions and the
 closed `c₀` embeddings used in the last example, including their norm estimates.
 
-## Applications
+## Downstream consumers
 
 The integration, approximation and duality results support Banach-valued
 differentiation, harmonic analysis and stochastic integration.
@@ -1324,6 +1345,7 @@ differentiation, harmonic analysis and stochastic integration.
 [ml-measured-sets]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Measure/MeasuredSets.lean
 [ml-separable-measure]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Measure/SeparableMeasure.lean
 [ml-density]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/VectorMeasure/WithDensityVec.lean
+[ml-density-unique]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/VectorMeasure/WithDensity.lean
 [ml-variation]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/VectorMeasure/Variation/Basic.lean
 [tc-pettis]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Function/StronglyMeasurable/Pettis.lean
 [tc-caratheodory]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Function/StronglyMeasurable/Caratheodory.lean

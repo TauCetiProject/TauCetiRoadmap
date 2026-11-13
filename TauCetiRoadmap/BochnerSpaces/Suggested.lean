@@ -321,4 +321,15 @@ theorem norm_bochnerDualMap_linftySigma (g : linftySigma 𝕜 (StrongDual 𝕜 X
     ‖bochnerDualMap (X := X) 𝕜 μ 1 ∞ (g : Lp (StrongDual 𝕜 X) ∞ μ)‖ = ‖g‖ := by
   sorry
 
+/-- §8.3: vector-valued sequence duality on arbitrary index sets, including the
+ℓ¹–ℓ∞ endpoint, with the coordinate formula and no RNP assumption. -/
+theorem exists_lpDualEquiv [CompleteSpace X] {I : Type w} [DecidableEq I]
+    (p q : ℝ≥0∞) [Fact (1 ≤ p)] [Fact (1 ≤ q)] [p.HolderConjugate q]
+    (hp : p ≠ ∞) :
+    ∃ e : StrongDual 𝕜 (lp (fun _ : I => X) p) ≃ₗᵢ[𝕜]
+        lp (fun _ : I => StrongDual 𝕜 X) q,
+      ∀ (Φ : StrongDual 𝕜 (lp (fun _ : I => X) p)) (i : I) (x : X),
+        (e Φ) i x = Φ (lp.single p i x) := by
+  sorry
+
 end TauCetiRoadmap.BochnerSpaces
