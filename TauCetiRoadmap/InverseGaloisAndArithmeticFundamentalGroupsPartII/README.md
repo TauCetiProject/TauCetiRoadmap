@@ -90,8 +90,9 @@ It does not own, and consumes by name:
   the exact sequence of a based pair, relative simplicial approximation, Hurewicz and Whitehead:
   AlgebraicTopology Layers 2, 4, 5 and 8;
 - collars, tubular neighbourhoods, diffeomorphism groups of compact manifolds relative to the
-  boundary, isotopy extension and the restriction fibration, cutting a surface along a proper arc,
-  and Smale's disc theorem: GeometricTopology Layers 1 and 3 (§§3.3, 3.4) and §1.7.2;
+  boundary, isotopy extension and the restriction fibration, the mapping class group of a compact
+  surface and the triviality of that of the disc, cutting a surface along a proper arc, and
+  Smale's disc theorem: GeometricTopology Layers 1 and 3 (§§3.3, 3.4) and §1.7.2;
 - the block inclusions `TauCeti.BraidGroup.natAdd` and `TauCeti.BraidGroup.castAdd` of a braid
   group on the last and on the first strands of a larger one, with their values on generators
   `TauCeti.BraidGroup.natAdd_sigma` and `TauCeti.BraidGroup.castAdd_sigma`; the Serre fibrations
@@ -388,6 +389,9 @@ simplicial complex is `m`-connected when every simplicial map from a triangulate
   `e`, its orbits are open and it is a locally trivial principal bundle; with relative and
   continuous isotopy extension. §2.1 uses it with `N` a finite set and `M = int D`, where
   `Emb(N, M)` is the ordered configuration space.
+- §1.7.2: the mapping class group `Mod(F)` of a compact surface, the isotopy classes of
+  diffeomorphisms fixing `∂F` pointwise, the isotopies fixing `∂F` pointwise and taken in the
+  `C^∞` topology, whose convention §2.1 extends to marked points; the triviality of `Mod(D²)`.
 - §1.7.2, the cutting bullet: the complement of an open tube of a proper arc in a compact surface,
   its Euler characteristic and boundary circles, and the restriction to it of diffeomorphisms that
   are the identity on a closed tube of the arc.
@@ -415,9 +419,7 @@ cutting of §1.7.2 is along one proper arc).
 
 What GeometricTopology must provide (gap:geomtop-marked-disc-diffeomorphisms): in Layer 3, the
 closed subgroup `Diff(D, P; ∂D)` of `Diff(D, ∂D) = TauCeti.DiscDiff 2` preserving a finite set
-`P` of interior points setwise, and the bijectivity of the homomorphism
-`π_0 Diff(D, P; ∂D) → Mod(D, P)` to the topological mapping class group of the marked disc
-relative to `∂D` defined in §2.1.
+`P` of interior points setwise.
 
 ### From TauCetiRoadmap.DGAInfinity
 
@@ -1108,28 +1110,25 @@ open disc, this is the order of the real parts. The classical generator `σ_i`, 
 
 ### 2.1 The braid group as the mapping class group of the marked disc
 
-Define `Mod(D, P)` as the group, under composition, of isotopy classes relative to `∂D` of
-orientation-preserving homeomorphisms of `D` that fix `∂D` pointwise and preserve `P` setwise; an
-isotopy relative to `∂D` fixes `∂D` pointwise and preserves `P` setwise at every time. Write
-`Diff(D, ∂D)` for the group of diffeomorphisms of `D` fixing `∂D` pointwise (GeometricTopology
-Layer 3), which for `D` the closed unit disc of `ℝ²` is Tau Ceti's `TauCeti.DiscDiff 2`, and
-`Diff(D, P; ∂D)` for its closed subgroup of diffeomorphisms preserving `P` setwise; a
-diffeomorphism fixing `∂D` pointwise preserves the orientation. *Needs:* Tau Ceti
-`TauCeti.DiscDiff`; GeometricTopology Layer 3 (gap:geomtop-marked-disc-diffeomorphisms).
+Write `Diff(D, ∂D)` for the group of diffeomorphisms of `D` fixing `∂D` pointwise
+(GeometricTopology Layer 3), which for `D` the closed unit disc of `ℝ²` is Tau Ceti's
+`TauCeti.DiscDiff 2`, and `Diff(D, P; ∂D)` for its closed subgroup of diffeomorphisms preserving
+`P` setwise; a diffeomorphism fixing `∂D` pointwise preserves the orientation. Define
+`Mod(D, P) = π_0 Diff(D, P; ∂D)`, the group of isotopy classes relative to `∂D` of
+diffeomorphisms of `D` that fix `∂D` pointwise and preserve `P` setwise, an isotopy being a path
+in `Diff(D, P; ∂D)` for the `C^∞` topology. This is the convention of GeometricTopology §1.7.2
+with marked points added: `Mod(D, ∅)` is its `Mod(D²)`. *Needs:* Tau Ceti `TauCeti.DiscDiff`;
+GeometricTopology Layer 3 (gap:geomtop-marked-disc-diffeomorphisms), §1.7.2.
 
 - Restriction to `P` is a homomorphism `Mod(D, P) → Sym(P)`, whose kernel is the pure mapping
   class group of the classes fixing `P` pointwise.
-- `Mod(D, ∅)` is trivial: a homeomorphism of the disc fixing `∂D` pointwise is isotopic to the
-  identity relative to `∂D` through the coning isotopy that is the identity outside the disc of
-  radius `t` and a rescaled copy of the homeomorphism inside it (ALEX23, pp. 406–407).
 - `Mod(D, P)` acts on the isotopy classes of arcs of §2.2.
-- Inclusion induces a homomorphism `π_0 Diff(D, P; ∂D) → Mod(D, P)`, bijective by
-  GeometricTopology Layer 3 (gap:geomtop-marked-disc-diffeomorphisms).
 
 **Checks.**
 
-- `n = 0` and `n = 1`: the group is trivial. For `n = 1` the coning isotopy centred at the marked
-  point fixes that point at every time, so it is an isotopy relative to `∂D` and `P`.
+- `n = 0` and `n = 1`: the group is trivial. For `n = 0` it is `Mod(D²)`, trivial by
+  GeometricTopology §1.7.2; for `n = 1`, `Conf_1(int D) = int D` is contractible, so the exact
+  sequence of the identification below gives the trivial group.
 - A wrong model that lets isotopies move `∂D` would make the Dehn twist about a curve parallel to
   `∂D` trivial, by rotating a collar; for `n = 2` that twist is the full twist `σ_1²`, which in
   `Mod(D, P) ≅ ℤ` generates the subgroup of index two, so the half twist has infinite order here
@@ -1138,7 +1137,7 @@ diffeomorphism fixing `∂D` pointwise preserves the orientation. *Needs:* Tau C
   twist exchanges the two points and is excluded, as `Mod(D, P) → Sym(P)` records.
 
 Prove: there are compatible isomorphisms
-`π_0 Diff(D, P; ∂D) ≅ Mod(D, P) ≅ TauCeti.BraidGroup n ≅ π_1(Conf_n(int D), P)`, the last the
+`Mod(D, P) ≅ TauCeti.BraidGroup n ≅ π_1(Conf_n(int D), P)`, the last the
 identification of ReductiveGroups Layer 11A transported to the disc, under which the generator
 `σ_i` corresponds to the positive half twist exchanging the `i`-th and `(i+1)`-st points (EVW16 §2.1,
 p. 8; EVW16 lines 354–368). *Proof sketch.* The evaluation map `Diff(D, ∂D) → Conf_n(int D)`,
@@ -1165,8 +1164,8 @@ Being locally trivial, the bundle is a Serre fibration
 (`TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization`), and its lifting property
 identifies the relative homotopy groups of the based pair `(Diff(D, ∂D), Diff(D, P; ∂D))` with the
 homotopy groups of `Conf_n(int D)`; the exact sequence of that pair then makes the boundary map
-`π_1(Conf_n(int D), P) → π_0 Diff(D, P; ∂D)`, the class of a loop to the end of its lifted isotopy,
-an isomorphism. Compose it with `π_0 Diff(D, P; ∂D) ≅ Mod(D, P)` and with the isomorphism
+`π_1(Conf_n(int D), P) → π_0 Diff(D, P; ∂D) = Mod(D, P)`, the class of a loop to the end of its
+lifted isotopy, an isomorphism. Compose it with the isomorphism
 `π_1(Conf_n(int D), P) ≅ TauCeti.BraidGroup n` obtained from that of ReductiveGroups Layer 11A for
 the plane through its homeomorphism `Conf_n(ℂ) ≅ Conf_n(int D)`, which carries the base
 configuration `z_j = j` to `P`. Under it the native `TauCeti.BraidGroup.sigma (i − 1)` is the class
@@ -1189,7 +1188,7 @@ AlgebraicTopology §8.1 (the exact sequence of a based pair).
 
 **Checks.**
 
-- `n = 0, 1`: all four groups are trivial; `Conf_0` is a point and `Conf_1 = int D` is
+- `n = 0, 1`: all three groups are trivial; `Conf_0` is a point and `Conf_1 = int D` is
   contractible.
 - `n = 2`: `B_2 ≅ ℤ`, generated by the half twist, whose square is the Dehn twist about a curve
   around both points, a pure mapping class; `Conf_2(int D)` has the homotopy type of a circle.
@@ -1243,7 +1242,7 @@ the order of *Notes on the sources*). *Needs:* §2.1; GeometricTopology §3.3
   simplex does not depend on the representatives.
 - `A(S; Δ, Λ)` has no `q`-simplices for `q ≥ |Λ|`; in particular `A(D; {∗}, P)` has none for
   `q ≥ n`.
-- `Diff⁺(D, P; ∂D)` acts simplicially on `A(D; {∗}, P)`, preserving the order, and the action
+- `Diff(D, P; ∂D)` acts simplicially on `A(D; {∗}, P)`, preserving the order, and the action
   factors through `TauCeti.BraidGroup n` by §2.1.
 
 **Checks.**
@@ -1878,9 +1877,6 @@ following statements of the source are corrected where they are used.
 - [PAL60] R. S. Palais, *Local triviality of the restriction map for embeddings*, Comment. Math.
   Helv. 34 (1960), 305–312, [doi:10.1007/BF02565942](https://doi.org/10.1007/BF02565942),
   Theorem A and §3; cited by its locator.
-- [ALEX23] J. W. Alexander, *On the deformation of an n-cell*, Proc. Nat. Acad. Sci. USA 9 (1923),
-  406–407, [doi:10.1073/pnas.9.12.406](https://doi.org/10.1073/pnas.9.12.406); cited by its
-  locator.
 - [HAT91] A. Hatcher, *On triangulations of surfaces*, Topology Appl. 40 (1991), 189–194;
   [author's revised version](https://pi.math.cornell.edu/~hatcher/Papers/TriangSurf.pdf), the
   Theorem and its proof. Locators give the page and the line of the author's version.
