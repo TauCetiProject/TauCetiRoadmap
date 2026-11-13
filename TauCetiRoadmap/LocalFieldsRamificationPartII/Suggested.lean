@@ -27,8 +27,8 @@ Headline theorems stated below:
 * the Kuhlmann–Pank–Roquette splitting over a henselian valued field (Layer 3);
 * the profinite input of the splitting theorem: continuous sections of surjections with pro-`p`
   kernel onto groups of `p`-cohomological dimension at most one (Layer 3);
-* finite presentation of flat finite-type algebras over arbitrary domains, and of finite modules
-  flat over a Prüfer base (Layer 1);
+* finite presentation, over an arbitrary domain, of flat finite-type algebras and of finite
+  modules over finite-type algebras that are flat over the domain (Layer 1);
 * Krasner's lemma over a henselian, not necessarily complete, rank-one normed field (Layer 4);
 * the algebraic Abhyankar inequality and the resulting height bound (Layer 5).
 
@@ -70,7 +70,7 @@ def IsSeparablyPClosed (P : Set ℕ) (K : Type*) [Field K] : Prop :=
   ∀ E : IntermediateField K (AlgebraicClosure K), FiniteDimensional K E →
     Algebra.IsSeparable K E → IsPNumber P (Module.finrank K E) → E = ⊥
 
-/-! ## Layer 1: finite presentation over domains and Prüfer domains -/
+/-! ## Layer 1: finite presentation over domains -/
 
 /-- **Flat finite-type algebras over a domain are finitely presented.** Let `A` be a domain
 and `B` an `A`-algebra of finite type that is flat over `A`. Then `B` is a finitely presented
@@ -80,16 +80,14 @@ theorem finitePresentation_of_flat_of_isDomain (A B : Type*) [CommRing A]
     Algebra.FinitePresentation A B := by
   sorry
 
-/-- **Finite modules flat over a Prüfer domain are finitely presented.** Let `A` be a domain
-whose localization at every maximal ideal is a valuation ring, `B` an `A`-algebra of finite type
-and `M` a finite `B`-module that is flat as an `A`-module. Then `M` is a finitely presented
-`B`-module; the flatness hypothesis is on `M`, not on `B` (Stacks, Lemma 15.26.6, tag 053E, for a
-valuation ring). -/
-theorem module_finitePresentation_of_flat_of_valuationRing_localization (A B M : Type*)
+/-- **Finite modules flat over a domain are finitely presented.** Let `A` be a domain, `B` an
+`A`-algebra of finite type and `M` a finite `B`-module that is flat as an `A`-module. Then `M` is a
+finitely presented `B`-module; the flatness hypothesis is on `M`, not on `B` (Stacks,
+Proposition 38.13.10(2), tag 053G). -/
+theorem module_finitePresentation_of_flat_of_isDomain (A B M : Type*)
     [CommRing A] [IsDomain A] [CommRing B] [Algebra A B] [Algebra.FiniteType A B]
     [AddCommGroup M] [Module A M] [Module B M] [IsScalarTower A B M] [Module.Finite B M]
-    [Module.Flat A M]
-    (hA : ∀ (P : Ideal A), [P.IsMaximal] → ValuationRing (Localization P.primeCompl)) :
+    [Module.Flat A M] :
     Module.FinitePresentation B M := by
   sorry
 

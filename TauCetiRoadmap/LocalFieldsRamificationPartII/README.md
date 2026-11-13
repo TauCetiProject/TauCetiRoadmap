@@ -33,9 +33,9 @@ fields and split towers (Layer 0); normalization and prolongations of a valuatio
 extension, the behaviour of valuation rings under étale maps and henselization, the
 henselization of a valued field, the tensor decomposition `L ⊗_K Kʰ ≅ ∏ L_wʰ`, the homogenization
 of finite-type algebras and finite modules, finite presentation of flat graded algebras and modules
-over a ring with finitely many primes detecting zero, and finite presentation of flat finite-type
-algebras over arbitrary domains, the flat-locus finite-presentation theorem, and finite
-modules flat over Prüfer domains (Layer 1); the étale criterion for
+over a ring with finitely many primes detecting zero, the flat-locus finite-presentation theorem,
+and, over an arbitrary domain, finite presentation of flat finite-type algebras and of finite
+modules over finite-type algebras that are flat over the domain (Layer 1); the étale criterion for
 unramified extensions, the ramification tower, the six extension classes, tame and separably tame
 fields, their tower laws and the comparison with perfection, with local fields and with complete
 discretely valued fields (Layer 2); the section theorem for pro-`p` kernels, maximal extensions
@@ -729,7 +729,7 @@ SchemeAndStackFoundations §0.13 (`henselization_integral_base_change`,
 - For `L = K(t^{1/p})` over `K = 𝔽_p(t)` with the `t`-adic valuation the prolongation is unique and
   the tensor product is the field `Lʰ`; inseparability does not create factors.
 
-### 1.5 Finite presentation over domains and Prüfer domains
+### 1.5 Finite presentation over domains
 
 *Homogenization.* For a ring `R`, an `R`-algebra `B` of finite type and a finite `B`-module `M`,
 prove that there are a graded `R`-algebra `S = ⊕_{n≥0} S_n` with `S_0 = R`, generated as an
@@ -784,18 +784,12 @@ and descends to `R` through the finitely many primes `𝔭_j` (Stacks, Lemma 15.
   group `ℤ × ℤ` ordered lexicographically, has the least positive value `(0, 1)` and maximal ideal
   `(p)`, and `R[X]/(pX)` is finitely presented.
 
-*Valuation rings and Prüfer domains.* Let `A` be a valuation ring, `B` a finite-type `A`-algebra and
-`M` a finite `B`-module. Prove: if `B` is flat over `A`, then `B` is a finitely presented
-`A`-algebra; and if `M` is flat as an `A`-module, then `M` is a finitely presented `B`-module
-(Stacks, Lemma 15.26.6, tag 053E). The flatness hypothesis of the second statement is on `M`, not on
-`B`.
-
 *Algebras over domains.* Prove `finitePresentation_of_flat_of_isDomain`: for every domain `A`
 and every finite-type `A`-algebra `B` flat over `A`, `B` is finitely presented over `A`
 (Raynaud and Gruson 1971, Corollaire 3.4.7; Stacks, Proposition 38.13.10(1), tag 053G;
 Temkin 2017, proof of Lemma 2.3.8, p. 106).
 
-This section owns the flat-locus finite-presentation theorem used in the general-domain proof:
+This section owns the flat-locus finite-presentation theorem used in the general-domain proofs:
 for a ring `R` with finitely many weakly associated primes, a finitely presented `R`-algebra `C`
 and a finite `C`-module `N`, the set `U = {q ∈ Spec C | N_q is R-flat}` is open, and for each
 `g ∈ C` with `D(g) ⊆ U`, `N_g` is finitely presented over `C_g` and flat over `R`
@@ -810,13 +804,21 @@ Finite presentation of the cyclic `C`-module `B` makes the kernel finitely gener
 finite presentation as an `A`-algebra. *Needs:* the two finite-presentation inputs in this
 paragraph; Mathlib `Module.Flat`, `Algebra.FinitePresentation`, `Module.FinitePresentation`.
 
-*Modules over Prüfer domains.* Prove
-`module_finitePresentation_of_flat_of_valuationRing_localization`: for a Prüfer domain `A`
-(a domain whose localization at every maximal ideal is a valuation ring), a finite-type
-`A`-algebra `B` and a finite `B`-module `M` flat as an `A`-module, with compatible `A`- and
-`B`-actions, `M` is finitely presented over `B`. The valuation-ring statement is its local case.
-A route for this statement and the Prüfer case of the algebra theorem is the proof of Stacks tag 053E:
-over a Prüfer domain an `A`-module is flat
+*Modules over domains.* Prove `module_finitePresentation_of_flat_of_isDomain`: for every domain
+`A`, finite-type `A`-algebra `B` and finite `B`-module `M` flat as an `A`-module, with compatible
+`A`- and `B`-actions, `M` is finitely presented over `B` (Stacks, Proposition 38.13.10(2),
+tag 053G). The flatness hypothesis is on `M`, not on `B`. Route: choose a surjection
+`C = A[X_1, …, X_n] → B` with kernel `I`. Then `M` is a finite `C`-module, and every `M_q` is a
+localization of the `A`-flat module `M`, hence `A`-flat, so `U = Spec C` and the flat-locus
+theorem with `R = A`, `N = M` and `g = 1` makes `M` finitely presented over `C`. Since `IM = 0`,
+tensoring a presentation `C^m → C^k → M → 0` with `B = C/I` gives a presentation over `B`.
+*Needs:* the flat-locus theorem and its local input above; Mathlib `Module.Flat`,
+`Module.FinitePresentation`.
+
+*A second route over Prüfer domains.* Let `A` be a Prüfer domain (a domain whose localization at
+every maximal ideal is a valuation ring), for example a valuation ring, for which both theorems
+are Stacks, Lemma 15.26.6 (tag 053E). Over `A` both theorems also follow, without the flat-locus
+theorem, by the proof of Stacks tag 053E: over a Prüfer domain an `A`-module is flat
 exactly when it is torsion free
 (`Module.Flat.flat_iff_torsion_eq_bot_of_valuationRing_localization_isMaximal`); homogenize,
 `B = S_(f)` and `M = N_(f)`; replace `S` by its quotient by its `A`-torsion in the algebra case and
@@ -833,6 +835,10 @@ homogenization and graded finite presentation above; Mathlib `ValuationRing`, `M
 **Checks.**
 - For a field `k`, `A = k[x,y]` and `B = A[T]`, the algebra theorem gives one generator and zero relations.
   The localization of `A` at `(x,y)` contains neither `x/y` nor `y/x`, so `A` is not Prüfer.
+- For the same `A`, `B = A[T]/(xT)` and `M = B/(T) ≅ A`: `B` is not flat over `A`, since `x` kills
+  the nonzero element `T`, so the algebra theorem says nothing about `B`; but `M` is free of rank
+  one over `A`, and the module theorem holds with the presentation `B → B → M → 0` given by
+  multiplication by `T`.
 - For a field `k`, `R = C = k[t]` and `N = R/(t)`, the flat locus is `D(t)`; on it `N` is zero and finitely
   presented, whereas at `(t)` it is nonzero torsion and not flat. For `N = C`, the flat locus is
   all of `Spec C`, with one module generator and zero relations.
