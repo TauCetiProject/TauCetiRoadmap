@@ -31,8 +31,10 @@ Not statable at the pins:
   (Mathlib's `PeriodPair` gives the invariants `g₂`, `g₃` of a lattice, with no curve attached),
   Hecke `L`-functions of non-finite-order characters and the algebraicity of their normalised
   values with a `p`-adic avatar are missing.
-* Finis's theorem in weight one (§4.6): in addition, theta functions on CM lattices, Shintani
-  operators, integral theta functions and Finis's local invariant `b_ℓ` are missing.
+* Finis's divisibility theorem (§4.6), in every critical weight for split valuation primes
+  and in weight one for nonsplit valuation primes: in addition, theta functions on CM lattices,
+  Shintani operators, integral theta functions, Finis's local invariant `b_ℓ` and the ordinary
+  CM measure with its period-normalised critical moments are missing.
 * Kato's reciprocity law for CM characters (§2.6, Kato 2004, Proposition 15.9), the height-one
   explicit reciprocity law (§2.5) and the integral BKO class (§2.7): canonical CM pairs over ray
   class fields, Iwasawa cohomology of `O_{K'}[1/p]` with the CM coefficients `T_φ^∨(1)`,
