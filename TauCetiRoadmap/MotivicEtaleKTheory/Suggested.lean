@@ -13,9 +13,9 @@ theorems against the pinned APIs. None of the following headlines is statable at
   multi-relative cube K-theory lack scheme perfect K-spectra and their supported face
   diagrams, together with integral Adams operations on the associated pointed K-spaces.
   Integral Adams compatibility is asserted on those spaces and nonnegative homotopy groups.
-* Layer 2.0b: the operations induced by the supplied universal integral motivic Chern
-  classes lack scheme higher K-groups, higher Chow groups and their stabilized
-  classifying-sheaf models.
+* Layer 2.0b: the integral motivic Chern classes on higher K-groups, the motivic instance of
+  Chern classes for a cohomology theory, lack scheme higher K-groups, higher Chow groups,
+  functorial models of the motivic complexes and their stabilized classifying-sheaf models.
 * Layers 2.1–2.4: the geometric rational supported cycle-to-K comparison for regular
   quasi-projective schemes over every field, including full support, lacks supported scheme
   K-groups and higher-cycle restriction fibers. Its inverse agrees with the universal-class
@@ -40,9 +40,10 @@ theorems against the pinned APIs. None of the following headlines is statable at
 * Layers 6.1–6.3: the universal derived regulator with coherent restriction fibers,
   pullback and model independence lacks both its integral motivic source and geometric
   Deligne target, together with their enhanced restriction diagrams.
-* Layers 7.1–7.2: the independent Beilinson character and its equality with regulator
-  composed with higher Chern character lack actual scheme higher K-groups, universal
-  geometric Deligne Chern classes, and the two realization maps to be compared.
+* Layers 7.1–7.2: the independent Beilinson character, the real Deligne instance of Chern
+  classes for a cohomology theory, and its equality with regulator composed with higher
+  Chern character lack actual scheme higher K-groups, the Zariski sheaves of real Deligne
+  complexes with their universal Chern classes, and the two realization maps to be compared.
 * Layer 7.3: multiplicativity of the regulator on integral higher Chow groups lacks those
   groups, geometric Deligne cohomology, their products and the universal regulator.
 
