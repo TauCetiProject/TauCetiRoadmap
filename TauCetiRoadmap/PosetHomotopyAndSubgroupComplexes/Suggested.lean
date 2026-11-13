@@ -34,12 +34,15 @@ Headlines stated, with their README targets:
   4.7 `eulerChar_pSubgroupPoset_modEq`.
 
 Not stated: README 3.4 (b), the fibre lemma for an arbitrary basic localizer, lacking
-HomotopyTheoryOfCategories' `IsBasicLocalizer` and `IsAsphericalFunctor`. Elementary abelian
-subgroups are written by their two conditions (abelian, exponent dividing `p`), and `O_p(G) ≠ 1`
-as the existence of a nontrivial normal `p`-subgroup, its equivalent form by README 4.1 (d). The
-Euler characteristic `chainEulerChar` of 3.5 and 4.7 is the alternating count of faces, which Tau
-Ceti's `AbstractSimplicialComplex.eulerChar_realization` identifies with the Euler characteristic
-of the realization.
+HomotopyTheoryOfCategories' `IsBasicLocalizer` and `IsAsphericalFunctor`. The `p`-core and the
+`p`-rank are OddOrderTheorem's (§1.1 and §1.4), whose declarations are not importable here:
+elementary abelian subgroups are written by their two conditions (abelian, exponent dividing
+`p`), the `p`-rank `m_p(G)` in 4.1 as the supremum of the `k` such that `G` has such a subgroup of
+order `p ^ k`, and `O_p(G) ≠ 1` as the existence of a nontrivial normal `p`-subgroup, its
+equivalent form by OddOrderTheorem §1.1. The Euler characteristic `chainEulerChar` of 3.5 and 4.7
+is the alternating count of faces, which Tau Ceti's
+`AbstractSimplicialComplex.eulerChar_realization` identifies with the Euler characteristic of the
+realization.
 -/
 
 @[expose] public section
@@ -126,8 +129,10 @@ theorem exists_isWeakHomotopyEquivalence_realization [AlexandrovDiscrete X] [T0S
 
 end FiniteSpaces
 
-/-- **2.3.** McCord's theorem for a simplicial complex: the carrier map from the realization to
-the face poset, with its upper-set topology, is continuous and a weak homotopy equivalence. -/
+/-- **2.3.** The upper-set carrier-map variant of McCord's theorem for a simplicial complex,
+obtained from McCord's Theorem 2 through barycentric subdivision: the carrier map from the
+realization to the face poset, with its upper-set topology, is continuous and a weak homotopy
+equivalence. -/
 theorem exists_isWeakHomotopyEquivalence_faces {ι : Type u}
     (K : AbstractSimplicialComplex ι) :
     ∃ f : C(AbstractSimplicialComplex.Realization K, WithUpperSet (Face K)),
@@ -198,19 +203,16 @@ def elemAbelianToPSubgroup : ElemAbelianPoset G p →o PSubgroupPoset G p where
   toFun H := ⟨H.1, H.2.1, fun g => ⟨1, Subtype.ext (by simpa using H.2.2.2 g.1 g.2)⟩⟩
   monotone' _ _ h := h
 
-/-- **4.1.** The `p`-rank `m_p(G)`: the largest `n` such that `G` has an abelian subgroup of
-exponent dividing `p` and order `p ^ n`. -/
-noncomputable def pRank : ℕ :=
-  sSup {n : ℕ | ∃ H : Subgroup G, (∀ x ∈ H, ∀ y ∈ H, x * y = y * x) ∧ (∀ x ∈ H, x ^ p = 1) ∧
-    Nat.card H = p ^ n}
-
 variable {G p}
 
 /-- **4.1.** The order complex of `A_p(G)` has a face with `n` vertices exactly when
-`1 ≤ n ≤ m_p(G)`: its dimension is `m_p(G) - 1`. -/
+`1 ≤ n ≤ m_p(G)`, so that its dimension is `m_p(G) - 1`; the `p`-rank `m_p(G)` of OddOrderTheorem
+§1.4 is written out as the largest `k` such that `G` has an abelian subgroup of exponent dividing
+`p` and order `p ^ k`. -/
 theorem exists_card_eq_iff_le_pRank [Finite G] [Fact p.Prime] (n : ℕ) :
     (∃ σ : Face (orderComplex (ElemAbelianPoset G p)), σ.1.card = n) ↔
-      1 ≤ n ∧ n ≤ pRank G p := sorry
+      1 ≤ n ∧ n ≤ sSup {k : ℕ | ∃ H : Subgroup G, (∀ x ∈ H, ∀ y ∈ H, x * y = y * x) ∧
+        (∀ x ∈ H, x ^ p = 1) ∧ Nat.card H = p ^ k} := sorry
 
 open scoped Classical in
 /-- **4.2.** The Brown–Quillen theorem: the inclusion `A_p(G) ⊆ S_p(G)` realizes to a homotopy

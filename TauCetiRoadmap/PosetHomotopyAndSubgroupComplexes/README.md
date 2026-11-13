@@ -17,25 +17,25 @@ core, so that a contractible one has a fixed point (Layer 1); a continuous map t
 weak homotopy equivalences over the members of a basis-like open cover of its target is a weak
 homotopy equivalence; for an Alexandrov-discrete `T₀` space `X`, sending a point of the
 realization of the order complex of `Specialization X` to the largest vertex of its carrier is a
-weak homotopy equivalence onto `X`; and for every simplicial complex the carrier map onto the
-face poset with its upper-set topology is a weak homotopy equivalence (McCord's theorems,
-Layer 2); the realization of the order complex of a partial order is homeomorphic to the
-realization of its nerve; comparable monotone maps realize to homotopic maps; a preorder with a
-monotone `f` and an `x₀` such that `x ≤ f x ≥ x₀` for every `x` has a contractible realization;
-Quillen's fibre lemma, the case of posets of Quillen's Theorem A: a monotone map of partial
-orders all of whose fibres `f⁻¹(Q≤q)` have contractible realizations realizes to a homotopy
-equivalence; and for a finite group `P` acting monotonically on a finite partial order `T` such
-that the fixed subposet of every nontrivial subgroup has Euler characteristic `1`, the Euler
-characteristic of `T` is congruent to `1` modulo `|P|` (Layer 3); for a finite group `G` and a
-prime `p`, the order complex of the poset `A_p(G)` of nontrivial elementary abelian
-`p`-subgroups has chains of exactly the lengths `1, …, m_p(G)`, where `m_p(G)` is the `p`-rank;
-the inclusion of `A_p(G)` into the poset `S_p(G)` of nontrivial `p`-subgroups realizes to a
-homotopy equivalence; `S_p(G)` has a contractible realization when `G` has a nontrivial normal
-`p`-subgroup; as a finite space with its upper-set topology `S_p(G)` is contractible exactly when
-`G` has a nontrivial normal `p`-subgroup; when `p` divides `|G|`, the realization of `S_p(G)` is
-disconnected exactly when `G` has a strongly `p`-embedded subgroup; for solvable `G`, a
-contractible realization of `A_p(G)` forces a nontrivial normal `p`-subgroup; and the Euler
-characteristic of `S_p(G)` is congruent to `1` modulo the `p`-part of `|G|` (Layer 4).
+weak homotopy equivalence onto `X`; and for every simplicial complex the carrier map onto the face
+poset with its upper-set topology is a weak homotopy equivalence (McCord's theorems and the
+upper-set variant of the second, Layer 2); the realization of the order complex of a partial order
+is homeomorphic to the realization of its nerve; comparable monotone maps realize to homotopic maps;
+a preorder with a monotone `f` and an `x₀` such that `x ≤ f x ≥ x₀` for every `x` has a contractible
+realization; Quillen's fibre lemma, the case of posets of Quillen's Theorem A: a monotone map of
+partial orders all of whose fibres `f⁻¹(Q≤q)` have contractible realizations realizes to a homotopy
+equivalence; and for a finite group `P` acting monotonically on a finite partial order `T` such that
+the fixed subposet of every nontrivial subgroup has Euler characteristic `1`, the Euler
+characteristic of `T` is congruent to `1` modulo `|P|` (Layer 3); for a finite group `G` and a prime
+`p`, the order complex of the poset `A_p(G)` of nontrivial elementary abelian `p`-subgroups has
+chains of exactly the lengths `1, …, m_p(G)`, where `m_p(G)` is the `p`-rank (OddOrderTheorem §1.4);
+the inclusion of `A_p(G)` into the poset `S_p(G)` of nontrivial `p`-subgroups realizes to a homotopy
+equivalence; `S_p(G)` has a contractible realization when `G` has a nontrivial normal `p`-subgroup;
+as a finite space with its upper-set topology `S_p(G)` is contractible exactly when `G` has a
+nontrivial normal `p`-subgroup; when `p` divides `|G|`, the realization of `S_p(G)` is disconnected
+exactly when `G` has a strongly `p`-embedded subgroup; for solvable `G`, a contractible realization
+of `A_p(G)` forces a nontrivial normal `p`-subgroup; and the Euler characteristic of `S_p(G)` is
+congruent to `1` modulo the `p`-part of `|G|` (Layer 4).
 
 Suggested homes: `TauCeti/Topology/FiniteSpace/` for Layers 1–2,
 `TauCeti/AlgebraicTopology/SimplicialComplex/OrderComplex/` for Layer 3 and
@@ -46,18 +46,19 @@ Suggested homes: `TauCeti/Topology/FiniteSpace/` for Layers 1–2,
 **Owned here.** The homotopy theory of finite spaces: fences of comparable maps, beat points,
 strong deformation retractions onto the complement of a beat point, cores, Stong's
 classification and invariant cores of finite spaces with a group action (Layer 1); McCord's
-theorem on basis-like open covers and his weak homotopy equivalences between Alexandrov-discrete
-spaces and realizations of order complexes, in both directions (Layer 2); the homotopy theory of
-posets through their order complexes: the comparison of the order complex with the nerve, the
-homotopy property of comparable maps, conical contractibility, Quillen's fibre lemma and the
-Euler characteristic of a poset with a group action (Layer 3); the subgroup posets `S_p(G)` and
-`A_p(G)` with the conjugation action of `G`, the `p`-rank `m_p(G)` and the `p`-core `O_p(G)`, the
-Brown–Quillen homotopy equivalence, contractibility in the presence of a nontrivial normal
-`p`-subgroup, Stong's finite-space form of it, Quillen's connectivity criterion through strongly
-`p`-embedded subgroups, Quillen's theorem for solvable groups, and Brown's homological Sylow
-theorem (Layer 4). StableHomotopyKTheoryPartII's "McCord model" is Kuhn's model of a different
-construction, and the uses of Mathlib's `AlexandrovDiscrete` in TotallyDistributiveTopoi concern
-frames and sheaf topoi, not homotopy.
+theorem on basis-like open covers, his weak homotopy equivalence from the realization of the
+order complex onto an Alexandrov-discrete `T₀` space, and its upper-set carrier-map variant from
+a simplicial complex onto its face poset (Layer 2); the homotopy theory of posets through their
+order complexes: the comparison of the order complex with the nerve, the homotopy property of
+comparable maps, conical contractibility, Quillen's fibre lemma and the Euler characteristic of a
+poset with a group action (Layer 3); the subgroup posets `S_p(G)` and `A_p(G)` with the
+conjugation action of `G`, the dimension of `A_p(G)`, the Brown–Quillen homotopy equivalence,
+contractibility in the presence of a nontrivial normal `p`-subgroup, Stong's finite-space form of
+it, Quillen's connectivity criterion through strongly `p`-embedded subgroups, Quillen's theorem
+for solvable groups, and Brown's homological Sylow theorem (Layer 4).
+StableHomotopyKTheoryPartII's "McCord model" is Kuhn's model of a different construction, and the
+uses of Mathlib's `AlexandrovDiscrete` in TotallyDistributiveTopoi concern frames and sheaf
+topoi, not homotopy.
 
 **Left to StableHomotopyKTheory.** Quillen's Theorem A for realized nerves of small categories,
 `quillenTheoremA`, and its opposite-category dual (StableHomotopyKTheory §2.31). The fibre lemma
@@ -69,6 +70,14 @@ identification of the comma category `CostructuredArrow f.monotone.functor q` wi
 `W∞` (HomotopyTheoryOfCategories 2.1), and Theorem A for an arbitrary basic localizer,
 `mem_of_isAsphericalFunctor` (HomotopyTheoryOfCategories 2.4). Target 3.4 (b) is its case of a
 monotone map of partial orders; this roadmap restates neither the localizers nor Theorem A.
+
+**Left to OddOrderTheorem.** The `p`-core `O_p(G)`, the subgroup generated by the normal
+`p`-subgroups, with its laws: a normal `p`-subgroup containing every normal `p`-subgroup, equal
+to the intersection of the Sylow `p`-subgroups (OddOrderTheorem §1.1); elementary abelian
+`p`-groups, their structure as `𝔽_p`-vector spaces, and the `p`-rank `m_p(G)` (OddOrderTheorem
+§1.4). Neither section assumes odd order. This roadmap builds the posets `S_p(G)` and `A_p(G)`
+from Mathlib's `IsPGroup` and from these elementary abelian subgroups, and restates neither
+`O_p(G)` nor `m_p(G)`.
 
 **Supplied by Tau Ceti.** Order complexes and their functoriality
 (`TauCeti/AlgebraicTopology/SimplicialComplex/OrderComplex.lean`), barycentric subdivision as the
@@ -139,13 +148,15 @@ cohomology rings that Mathlib does not have.
   `ContinuousMap.HomotopicRel` (`Topology/Homotopy/Basic`), `ContinuousMap.HomotopyEquiv` with the
   notation `≃ₕ` (`Topology/Homotopy/Equiv`), `ContractibleSpace`
   (`Topology/Homotopy/Contractible`), `Homeomorph`, `ConnectedSpace`, `Relation.EqvGen`,
-  `MulAction`, `ContinuousConstSMul`.
+  `MulAction`, `ContinuousConstSMul`, `TopologicalSpace.IsTopologicalBasis` (`Topology/Bases`).
+- Orders: `OrderDual`, `OrderIso`.
 - Simplicial: `AbstractSimplicialComplex`, `PreAbstractSimplicialComplex`
   (`AlgebraicTopology/SimplicialComplex/Basic`), `CategoryTheory.nerve`, `SSet.toTop`
   (`AlgebraicTopology/SingularSet`), `Preorder.smallCategory`, `Monotone.functor`
   (`CategoryTheory/Category/Preorder`), `CategoryTheory.CostructuredArrow`.
-- Groups: `Subgroup`, `Subgroup.Normal`, `Subgroup.map`, `MulAut.conj`, `IsPGroup`
-  (`GroupTheory/PGroup`), `Sylow`, `Group.IsSolvable`, `Nat.factorization`, `Int.ModEq`, `finsum`.
+- Groups: `Subgroup`, `Subgroup.Normal`, `Subgroup.map`, `Subgroup.center`, `MulAut.conj`,
+  `IsPGroup` (`GroupTheory/PGroup`), `Sylow`, `Group.IsSolvable`, `Nat.factorization`, `Int.ModEq`,
+  `finsum`.
 
 **From Tau Ceti** (at the pin).
 
@@ -179,19 +190,28 @@ cohomology rings that Mathlib does not have.
 **From HomotopyTheoryOfCategories.** 2.1 (`IsBasicLocalizer`, `IsAsphericalFunctor`, `Winfty`)
 and 2.4 (`mem_of_isAsphericalFunctor`), for 3.4 (b).
 
+**From OddOrderTheorem.** §1.1: the `p`-core `O_p(H)` of a finite group `H`, the subgroup
+generated by the normal `p`-subgroups, a characteristic `p`-subgroup containing every normal
+`p`-subgroup and equal to the intersection of the Sylow `p`-subgroups; so `O_p(G) ≠ 1` exactly
+when `G` has a nontrivial normal `p`-subgroup. For 4.3 and 4.6. §1.4: elementary abelian
+`p`-groups (abelian with `e ^ p = 1` for every `e`), those of order `p ^ k` being `𝔽_p`-vector
+spaces of dimension `k` through `Additive`, and the `p`-rank `m_p(G)`, the largest `k` such that
+`G` has an elementary abelian `p`-subgroup of order `p ^ k`, with `m_p(H) ≤ m_p(G)` for `H ≤ G`.
+For 4.1 and 4.6.
+
 ## How to read the build
 
 Layer 1 is the homotopy theory of finite spaces on Mathlib's specialization order: homotopies are
-fences of comparable maps, beat points are removed by strong deformation retractions, minimal
-finite spaces are classified up to homeomorphism, and a group action keeps an invariant core.
-Layer 2 proves McCord's theorems: the local-to-global theorem for basis-like covers, then the
-weak equivalences between an Alexandrov-discrete `T₀` space and the realization of the order
-complex of its specialization order, and between a simplicial complex and its face poset. Layer 3
-is the homotopy theory of posets through their order complexes: the comparison with the nerve
-that lets Theorem A of StableHomotopyKTheory apply, the homotopy property, conical
+fences of comparable maps, beat points are removed by strong deformation retractions, minimal finite
+spaces are classified up to homeomorphism, and a group action keeps an invariant core. Layer 2
+proves McCord's theorems: the local-to-global theorem for basis-like covers, then the weak
+equivalences between an Alexandrov-discrete `T₀` space and the realization of the order complex of
+its specialization order, and, in an upper-set variant, between a simplicial complex and its face
+poset. Layer 3 is the homotopy theory of posets through their order complexes: the comparison with
+the nerve that lets Theorem A of StableHomotopyKTheory apply, the homotopy property, conical
 contractibility, the fibre lemma, and Euler characteristics of posets with a group action. Layer 4
 applies Layers 1–3 to the posets `S_p(G)` and `A_p(G)` of a finite group, with Mathlib's Sylow
-theory.
+theory and OddOrderTheorem's `p`-core and `p`-rank.
 
 ## Layer 1: finite spaces
 
@@ -243,21 +263,31 @@ comparable steps.
 
 ### 1.3 Beat points
 
-Define `IsBeatPoint x` for an element of a preorder: the elements strictly below `x` have a
-largest element (a down beat point), or the elements strictly above `x` have a smallest one (an
-up beat point) (Barmak 2011, Definition 1.3.3, p. 7). API: `x` is an up beat point of `P` exactly
-when it is a down beat point of `Pᵒᵈ`, so `IsBeatPoint` is invariant under passing to the opposite
-order; an order isomorphism `e` satisfies `IsBeatPoint (e x) ↔ IsBeatPoint x`. Prove
-`exists_retraction_of_isBeatPoint`: for a beat point `x` of a finite `T₀` space `X`, the space
-`{y // y ≠ x}` is a strong deformation retract of `X`, through a retraction `r` sending `x` to the
-largest element below it (or the smallest above it) and fixing every other point, with a homotopy
-from the inclusion composed with `r` to the identity, relative to `{y | y ≠ x}` (Barmak 2011,
-Proposition 1.3.4, pp. 7–8); the homotopy is the relative form of 1.2, since that composite is
-comparable with the identity and agrees with it off `x`. Prove that removing beat points one at a
-time ends at a subspace without beat points, a core, that the composite of the retractions is a
-strong deformation retraction of `X` onto the core, and that a finite `T₀` space is contractible
-exactly when one of its cores is a point.
-*Needs:* 1.1, 1.2; Mathlib `ContinuousMap.HomotopicRel`, `Specialization.toEquiv`.
+Define `IsBeatPoint x` for an element of a preorder: the elements strictly below `x` have a largest
+element (a down beat point), or the elements strictly above `x` have a smallest one (an up beat
+point) (Barmak 2011, Definition 1.3.3, p. 7). Prove `exists_retraction_of_isBeatPoint`: for a beat
+point `x` of a finite `T₀` space `X`, the space `{y // y ≠ x}` is a strong deformation retract of
+`X`, through a retraction `r` sending `x` to the largest element below it (or the smallest above it)
+and fixing every other point, with a homotopy from the inclusion composed with `r` to the identity,
+relative to `{y | y ≠ x}` (Barmak 2011, Proposition 1.3.4, pp. 7–8); the homotopy is the relative
+form of 1.2, since that composite is comparable with the identity and agrees with it off `x`. Prove
+that removing beat points one at a time from a finite `T₀` space `X` ends, since each removal lowers
+the number of points, at a subspace without beat points, a core of `X`.
+*Needs:* 1.1, 1.2; Mathlib `ContinuousMap.HomotopicRel`, `Specialization.toEquiv`, `OrderDual`,
+`OrderIso`.
+
+**API.**
+
+- Duality: `x` is an up beat point of `P` exactly when it is a down beat point of `Pᵒᵈ`, so
+  `IsBeatPoint` is invariant under passing to the opposite order.
+- Invariance: an order isomorphism `e : P ≃o Q` satisfies `IsBeatPoint (e x) ↔ IsBeatPoint x`.
+- Core inclusion: the inclusion of a core `Y` into `X` is continuous, and the specialization
+  order of the subspace `Y` is the order induced from `X`.
+- Core retraction: the composite `r : X → Y` of the retractions of the successive beat points is
+  continuous and fixes `Y` pointwise.
+- Relative composite: the inclusion composed with `r` is homotopic to the identity of `X`
+  relative to `Y`, each step being a homotopy relative to a set containing `Y`; so `Y` is a
+  strong deformation retract of `X` and its inclusion is a homotopy equivalence.
 
 **Checks.**
 
@@ -273,6 +303,9 @@ exactly when one of its cores is a point.
 - The retraction onto a core: in `0, 1 < 2`, removing `0` (retracted to `2`) and then `1`
   (retracted to `2`) gives the core `{2}`, and the composite retraction is the constant map at
   `2`, comparable with the identity; a singleton has no beat point.
+- A core is a subspace determined only up to homeomorphism: in the chain `0 < 1 < 2`, removing
+  `2` and then `1` gives the core `{0}`, removing `0` and then `1` gives `{2}`; the pseudo-circle
+  is its own core, with the identity as retraction.
 
 ### 1.4 Stong's classification
 
@@ -280,8 +313,9 @@ Prove `exists_homeomorph_of_homotopyEquiv`: a homotopy equivalence `e : X ≃ₕ
 `T₀` spaces without beat points has an underlying map that is a homeomorphism (Barmak 2011,
 Corollary 1.3.7, p. 8). The route: a self-map of a space without beat points homotopic to the
 identity is the identity, by 1.2 and induction on the fence, since a map comparable with the
-identity and different from it would produce a beat point. Hence two finite spaces are homotopy
-equivalent exactly when their cores are homeomorphic, and the core is unique up to homeomorphism.
+identity and different from it would produce a beat point. Hence two finite `T₀` spaces are
+homotopy equivalent exactly when their cores are homeomorphic, the core is unique up to
+homeomorphism, and a finite `T₀` space is contractible exactly when its core is a point.
 *Needs:* 1.2, 1.3; Mathlib `ContinuousMap.HomotopyEquiv`, `Homeomorph`.
 
 **Checks.**
@@ -331,13 +365,21 @@ Mathlib only. Within the layer, each target uses the previous ones.
 
 Define `IsBasisLike 𝒰` for a family `𝒰` of subsets of a space `B`: its members are open, they cover
 `B`, and every point of an intersection `U ∩ V` of two members lies in a member `W ⊆ U ∩ V`.
-API: a basis of the topology is basis-like; `{B}` is basis-like; the minimal open neighbourhoods
-of the points of an Alexandrov-discrete space form a basis-like cover. Prove
-`isWeakHomotopyEquivalence_of_isBasisLike`: if `f : C(E, B)` and `𝒰` is a basis-like open cover of
-`B` such that every restriction `f.restrictPreimage U : C(f ⁻¹' U, U)`, `U ∈ 𝒰`, is a weak
-homotopy equivalence, then `f` is a weak homotopy equivalence (McCord 1966, Theorem 6, p. 467).
+Prove `isWeakHomotopyEquivalence_of_isBasisLike`: if `f : C(E, B)` and `𝒰` is a basis-like open
+cover of `B` such that every restriction `f.restrictPreimage U : C(f ⁻¹' U, U)`, `U ∈ 𝒰`, is a
+weak homotopy equivalence, then `f` is a weak homotopy equivalence (McCord 1966, Theorem 6,
+p. 467).
 *Needs:* Tau Ceti `ContinuousMap.IsWeakHomotopyEquivalence`; Mathlib
-`ContinuousMap.restrictPreimage`.
+`ContinuousMap.restrictPreimage`, `TopologicalSpace.IsTopologicalBasis`.
+
+**API.**
+
+- A basis of the topology (`TopologicalSpace.IsTopologicalBasis`) is basis-like.
+- The one-set family `{B}` is basis-like.
+- The minimal open neighbourhoods of the points of an Alexandrov-discrete space form a basis-like
+  cover.
+- Restriction: for `U ∈ 𝒰`, the members of `𝒰` contained in `U`, read in the subspace `U`, form a
+  basis-like cover of `U`.
 
 **Checks.**
 
@@ -349,7 +391,8 @@ homotopy equivalence, then `f` is a weak homotopy equivalence (McCord 1966, Theo
   basis-like cover.
 - The one-set cover `{B}` is basis-like and the theorem reduces to its hypothesis; for the
   identity of a point both sides are weak equivalences. The empty family is not a cover of a
-  nonempty space.
+  nonempty space. Basis-like is weaker than a basis: for Sierpiński space `{B}` is basis-like,
+  but the open set `{True}` is not a union of its members.
 
 ### 2.2 From order complexes to Alexandrov-discrete spaces
 
@@ -386,18 +429,19 @@ between contractible spaces, a weak equivalence by
 
 ### 2.3 From simplicial complexes to face posets
 
-Prove `exists_isWeakHomotopyEquivalence_faces`: for a simplicial complex `K` on any vertex type,
-the carrier map from the realization of `K` to `WithUpperSet (Face K)`, faces ordered by
-inclusion, is continuous and a weak homotopy equivalence (McCord 1966, Theorem 3, p. 466). The
-preimage of the upper set of faces containing `σ` is the open star of `σ`. The route: the face
-poset's order complex is the barycentric subdivision of `K`
-(`TauCeti.PreAbstractSimplicialComplex.barycentricSubdivision_eq_orderComplex`), whose realization
-is homeomorphic to that of `K` by
-`AbstractSimplicialComplex.barycentricSubdivisionRealizationHomeomorph`, which sends a point of
-the open simplex of a chain `σ₀ ⊂ ⋯ ⊂ σₖ` into the open simplex of `σₖ`; so the carrier map
-composed with this homeomorphism is the map `μ` of 2.2 for `WithUpperSet (Face K)`, an
-Alexandrov-discrete `T₀` space whose specialization order is inclusion
-(`orderIsoSpecializationWithUpperSetTopology`), and 2.2 applies.
+Prove `exists_isWeakHomotopyEquivalence_faces`: for a simplicial complex `K` on any vertex type, the
+carrier map from the realization of `K` to `WithUpperSet (Face K)`, faces ordered by inclusion, is
+continuous and a weak homotopy equivalence. This is the upper-set carrier-map variant, obtained from
+McCord 1966, Theorem 2, p. 466, and barycentric subdivision (compare McCord 1966, Theorem 3, p. 466,
+and §6, p. 471, for the lower-set version). The preimage of the upper set of faces containing `σ` is
+the open star of `σ`. The route: the face poset's order complex is the barycentric subdivision of
+`K` (`TauCeti.PreAbstractSimplicialComplex.barycentricSubdivision_eq_orderComplex`), whose
+realization is homeomorphic to that of `K` by
+`AbstractSimplicialComplex.barycentricSubdivisionRealizationHomeomorph`, which sends a point of the
+open simplex of a chain `σ₀ ⊂ ⋯ ⊂ σₖ` into the open simplex of `σₖ`; so the carrier map composed
+with this homeomorphism is the map `μ` of 2.2 for `WithUpperSet (Face K)`, an Alexandrov-discrete
+`T₀` space whose specialization order is inclusion (`orderIsoSpecializationWithUpperSetTopology`),
+and 2.2 applies.
 *Needs:* 2.2; Tau Ceti `AbstractSimplicialComplex.Realization`,
 `AbstractSimplicialComplex.carrier`, `TauCeti.SetLike.Face`,
 `TauCeti.PreAbstractSimplicialComplex.barycentricSubdivision_eq_orderComplex`,
@@ -418,6 +462,11 @@ Alexandrov-discrete `T₀` space whose specialization order is inclusion
   would be a single point of the realization, not open. Infinite complexes are allowed: for the
   complex on `ℕ` whose faces are the singletons, the realization and the face poset are both
   discrete `ℕ` and the carrier map is a bijection.
+- The carrier map is not McCord's map of Theorem 3: on the edge `{0, 1}`, the point with weight
+  `1/4` on the vertex `1` lies in the open simplex of the subdivision chain `{0} ⊂ {0, 1}`.
+  McCord's map sends it to the smallest face `{0}` of that chain and is continuous for the lower
+  sets of faces; the carrier map sends it to `{0, 1}`, the largest, and is continuous for the
+  upper sets.
 
 ### Examples
 
@@ -432,11 +481,11 @@ Layer 1; Tau Ceti. Within the layer, 2.2 uses 2.1 and 2.3 uses 2.2.
 
 ### 3.1 Order complexes and nerves
 
-Prove `nonempty_homeomorph_nerve`: for a partial order `P`, the realization of
-`orderComplex P` is homeomorphic to `SSet.toTop.obj (nerve P)`, by the map that is affine on each
-simplex and sends the vertex `p` to the vertex of the nerve at `p`. Prove that it is natural in
-monotone maps: it carries `(orderComplexMap f).realizationMap` to the realization of the nerve
-map of `f.monotone.functor` (Quillen 1978, §1). The nondegenerate simplices of the nerve of a
+Prove `nonempty_homeomorph_nerve`: for a partial order `P`, the realization of `orderComplex P` is
+homeomorphic to `SSet.toTop.obj (nerve P)`, the classifying space of `P` in Quillen 1978, §1, by the
+map that is affine on each simplex and sends the vertex `p` to the vertex of the nerve at `p`. Prove
+that it is natural in monotone maps: it carries `(orderComplexMap f).realizationMap` to the
+realization of the nerve map of `f.monotone.functor`. The nondegenerate simplices of the nerve of a
 partial order are its strict chains, each determined by its vertices.
 *Needs:* Mathlib `CategoryTheory.nerve`, `SSet.toTop`, `Preorder.smallCategory`,
 `Monotone.functor`; Tau Ceti `TauCeti.AbstractSimplicialComplex.orderComplex`,
@@ -457,13 +506,13 @@ partial order are its strict chains, each determined by its vertices.
 ### 3.2 The homotopy property
 
 Prove `homotopic_realizationMap_of_le`: for monotone `f ≤ g : P →o Q` between preorders,
-`(orderComplexMap f).realizationMap` and `(orderComplexMap g).realizationMap` are homotopic
-(Quillen 1978, §1). The homotopy is the prism construction: for a chain `x₀ ≤ ⋯ ≤ xₙ` of `P`, the
-product of its closed simplex with `[0, 1]` is the union of the `n + 1` simplices of the prism,
-and the `i`-th is sent affinely onto `f x₀, …, f xᵢ, g xᵢ, …, g xₙ`, a chain of `Q` since
-`f xⱼ ≤ f xᵢ ≤ g xᵢ ≤ g xₖ` for `j ≤ i ≤ k`; the pieces agree on common faces. The straight-line
-homotopy `(1 − t) f + t g` is not available: the images of a chain under `f` and under `g`
-together need not form a chain.
+`(orderComplexMap f).realizationMap` and `(orderComplexMap g).realizationMap` are homotopic (the
+homotopy property of Quillen 1978, §1). The homotopy is the prism construction: for a chain
+`x₀ ≤ ⋯ ≤ xₙ` of `P`, the product of its closed simplex with `[0, 1]` is the union of the `n + 1`
+simplices of the prism, and the `i`-th is sent affinely onto `f x₀, …, f xᵢ, g xᵢ, …, g xₙ`, a chain
+of `Q` since `f xⱼ ≤ f xᵢ ≤ g xᵢ ≤ g xₖ` for `j ≤ i ≤ k`; the pieces agree on common faces. The
+straight-line homotopy `(1 − t) f + t g` is not available: the images of a chain under `f` and under
+`g` together need not form a chain.
 *Needs:* Tau Ceti `TauCeti.AbstractSimplicialComplex.orderComplexMap`,
 `PreAbstractSimplicialComplex.SimplicialMap.realizationMap`; Mathlib `ContinuousMap.Homotopic`.
 
@@ -483,7 +532,7 @@ together need not form a chain.
 
 Prove `contractibleSpace_of_conical`: a preorder `P` with an element `x₀` and a monotone
 `f : P →o P` such that `x ≤ f x ≥ x₀` for every `x` has a contractible realization (Quillen 1978,
-§1). By 3.2, the identity is homotopic to `f`, which is homotopic to the constant map at `x₀`. For
+1.5). By 3.2, the identity is homotopic to `f`, which is homotopic to the constant map at `x₀`. For
 a largest element `t` take `f` constant at `t` and `x₀ = t`; for a smallest element `b` take
 `x₀ = b` and `f = id`.
 *Needs:* 3.2.
@@ -509,19 +558,25 @@ and `Qᵒᵈ`, whose order complexes are those of `P` and `Q`. Derive both from 
 StableHomotopyKTheory §2.31, and its dual: `CostructuredArrow f.monotone.functor q` is isomorphic
 to the subposet `{p // f p ≤ q}` as a category, and 3.1 carries the homotopy equivalence of
 realized nerves to the realized order complexes.
+*Needs:* 3.1; StableHomotopyKTheory §2.31; Tau Ceti
+`TauCeti.AbstractSimplicialComplex.orderComplexMap`,
+`PreAbstractSimplicialComplex.SimplicialMap.realizationMap`; Mathlib `Monotone.functor`,
+`CategoryTheory.CostructuredArrow`, `ContinuousMap.HomotopyEquiv`, `OrderDual`.
 
 (b) For every basic localizer `W` (HomotopyTheoryOfCategories 2.1), a monotone map of partial
 orders all of whose fibres `{p // f p ≤ q}` are `W`-aspherical is in `W`: the instance of
 `mem_of_isAsphericalFunctor` (HomotopyTheoryOfCategories 2.4) at `f.monotone.functor`, through
 the same identification of comma categories with fibres.
-*Needs:* 3.1, 3.3; StableHomotopyKTheory §2.31; HomotopyTheoryOfCategories 2.1, 2.4; Mathlib
-`Monotone.functor`, `CategoryTheory.CostructuredArrow`, `ContinuousMap.HomotopyEquiv`.
+*Needs:* HomotopyTheoryOfCategories 2.1, 2.4; Mathlib `Monotone.functor`,
+`CategoryTheory.CostructuredArrow`.
 
 **Checks.**
 
 - For the inclusion of `{0}` into `Fin 2`, the fibre over `0` is `{0}` and over `1` is `{0}`:
   both contractible, and the inclusion of a point into an interval is a homotopy equivalence.
-  Both comma categories `CostructuredArrow f.monotone.functor q` are singletons.
+  Both comma categories `CostructuredArrow f.monotone.functor q` are singletons; for (b), a
+  category with one object has a terminal object, so it is `W`-aspherical for every basic
+  localizer `W`, and the inclusion lies in every `W`.
 - The fibres must be the lower fibres `f p ≤ q`, not the strict fibres `f p = q`: the bijection
   from the discrete two-element order `{a, b}` onto `Fin 2` has the points as strict fibres, all
   contractible, while the lower fibre over `1` is the discrete `{a, b}`; two points are not
@@ -534,20 +589,31 @@ the same identification of comma categories with fibres.
 ### 3.5 Euler characteristics of posets with a group action
 
 Define `chainEulerChar T`, the alternating count `Σ (-1)^(#σ + 1)` of the nonempty finite chains
-of a preorder `T` (Convention 5). API: for finite `T` it is the Euler characteristic of the
-realization (`AbstractSimplicialComplex.eulerChar_realization`), so it is `1` when the
-realization is contractible (`TauCeti.eulerChar_of_contractibleSpace`), in particular for a finite
-conical preorder (3.3). Prove `chainEulerChar_modEq_of_fixedPoints`: let a finite group `P` act on
-a finite partial order `T` by monotone maps; if for every nontrivial subgroup `Q ≤ P` the fixed
-subposet `T^Q` has `chainEulerChar T^Q = 1`, then `chainEulerChar T ≡ 1 mod |P|` (a combinatorial
-form of Brown 1975, Theorem 1, p. 3, for a finite group). The route: `P` acts by order
-automorphisms, so a chain mapped to itself is fixed pointwise and the chains fixed by `Q` are the
-chains of `T^Q`. For `H ≤ P` let `e(H)` be the signed count of the chains with stabilizer exactly
-`H`; then `chainEulerChar T^Q = Σ_{H ≥ Q} e(H)`. Downward induction gives `e(P) = 1` and
-`e(H) = 0` for `1 < H < P`, and `e(1) ≡ 0 mod |P|`, since `P` permutes the chains with trivial
-stabilizer in orbits of size `|P|`; so `chainEulerChar T = e(1) + 1`.
+of a preorder `T` (Convention 5). Prove `chainEulerChar_modEq_of_fixedPoints`: let a finite group
+`P` act on a finite partial order `T` by monotone maps; if for every nontrivial subgroup `Q ≤ P`
+the fixed subposet `T^Q` has `chainEulerChar T^Q = 1`, then `chainEulerChar T ≡ 1 mod |P|` (a
+combinatorial form of Brown 1975, Theorem 1, p. 3, for a finite group). The route: if `P = 1`,
+the congruence is modulo `1` and holds. Otherwise, `P` acts by order automorphisms, so a chain
+mapped to itself is fixed pointwise and the chains fixed by `Q` are the chains of `T^Q`. For
+`H ≤ P` let `e(H)` be the signed count of the chains with stabilizer exactly `H`; then
+`chainEulerChar T^Q = Σ_{H ≥ Q} e(H)`. Since `P` is among the nontrivial subgroups,
+`e(P) = chainEulerChar T^P = 1`; downward induction over the subgroups `1 < Q < P` gives
+`e(Q) = 0`; and `e(1) ≡ 0 mod |P|`, since `P` permutes the chains with trivial stabilizer in
+orbits of size `|P|`. So `chainEulerChar T = e(1) + 1`.
 *Needs:* 3.3; Tau Ceti `AbstractSimplicialComplex.eulerChar_realization`,
-`TauCeti.eulerChar_of_contractibleSpace`; Mathlib `MulAction`, `Subgroup`, `Int.ModEq`, `finsum`.
+`TauCeti.eulerChar_of_contractibleSpace`; Mathlib `MulAction`, `Subgroup`, `Int.ModEq`, `finsum`,
+`OrderDual`.
+
+**API.**
+
+- For finite `T`, `chainEulerChar T` is the Euler characteristic of the realization of
+  `orderComplex T` (`AbstractSimplicialComplex.eulerChar_realization`).
+- It is `1` when that realization is contractible (`TauCeti.eulerChar_of_contractibleSpace`), in
+  particular for a finite conical preorder (3.3); for a chain of `n ≥ 1` elements, the `2ⁿ − 1`
+  nonempty subchains give `Σ_{k = 1}^{n} (-1)^(k + 1) (n choose k) = 1`.
+- It is invariant under order isomorphisms, and `chainEulerChar Tᵒᵈ = chainEulerChar T`, since
+  `T` and `Tᵒᵈ` have the same chains.
+- For infinite `T` the `finsum` is `0` by convention; every statement here takes `T` finite.
 
 **Checks.**
 
@@ -562,6 +628,10 @@ stabilizer in orbits of size `|P|`; so `chainEulerChar T = e(1) + 1`.
   `Q` of order `2`, with `chainEulerChar = 3`; and `chainEulerChar T = 3` is `1 mod 2` but not
   `1 mod 4`. The poset `a, b < c` with `ℤ/2` swapping `a` and `b` satisfies the hypothesis
   (`T^Q = {c}`) and has `chainEulerChar = 3 − 2 = 1`.
+- The trivial group is a separate case of the route: `P = 1` acting on a two-point antichain
+  satisfies the hypothesis vacuously and `chainEulerChar T = 2 ≡ 1 mod 1`; here
+  `e(P) = e(1) = 2`, and the identity `chainEulerChar T = e(1) + 1` of the case `P ≠ 1` would
+  read `2 = 3`.
 
 ### Examples
 
@@ -573,37 +643,46 @@ stabilizer in orbits of size `|P|`; so `chainEulerChar T = e(1) + 1`.
 ### Dependencies
 
 Layer 1 for the finite-space reading; StableHomotopyKTheory §2.31 and HomotopyTheoryOfCategories
-2.1, 2.4 for 3.4; Mathlib; Tau Ceti. Within the layer, 3.3 uses 3.2, 3.4 uses 3.1 and 3.3, and
-3.5 uses 3.3.
+2.1, 2.4 for 3.4; Mathlib; Tau Ceti. Within the layer, 3.3 uses 3.2, 3.4 (a) uses 3.1, and 3.5
+uses 3.3.
 
 ## Layer 4: subgroup complexes
 
-### 4.1 The posets `S_p(G)` and `A_p(G)`, the `p`-rank and the `p`-core
+### 4.1 The posets `S_p(G)` and `A_p(G)`
 
 (a) Define `PSubgroupPoset G p`, the subgroups `H ≠ ⊥` with `IsPGroup p H`, and
 `ElemAbelianPoset G p`, the subgroups `H ≠ ⊥` that are abelian with `x ^ p = 1` for every
-`x ∈ H` (Quillen 1978, §2), both ordered by inclusion, with the order induced from `Subgroup G`.
-Define `elemAbelianToPSubgroup`, the inclusion, monotone and injective, an order embedding. Prove
-that conjugation by `g ∈ G`, `H ↦ gHg⁻¹`, is an order automorphism of both posets commuting with
-the inclusion, that conjugation by `1` is the identity and conjugation by `gh` is conjugation by
-`h` followed by conjugation by `g`: an action of `G` by order automorphisms.
+`x ∈ H`, for prime `p` the nontrivial elementary abelian `p`-subgroups of OddOrderTheorem §1.4
+(Quillen 1978, §2; Minian–Piterman 2018, p. 1), both ordered by inclusion. Define
+`elemAbelianToPSubgroup`, the inclusion. Prove that conjugation by `g ∈ G`, `H ↦ gHg⁻¹`, gives an
+action of `G` on both posets by order automorphisms commuting with the inclusion.
 
 (b) Prove that `S_p(P)` and `A_p(P)` are conical for a nontrivial `p`-group `P`: with `B` a
 central subgroup of order `p`, `A ≤ AB ≥ B`.
 
-(c) Define `pRank G p`, the `p`-rank `m_p(G)`: the largest `n` such that `G` has an abelian
-subgroup of exponent dividing `p` and order `p ^ n`. Prove `exists_card_eq_iff_le_pRank`: for a
-finite group `G` and a prime `p`, the order complex of `A_p(G)` has a face with `n` vertices
-exactly when `1 ≤ n ≤ m_p(G)`, so its dimension is `m_p(G) − 1` (the empty complex when
-`m_p(G) = 0`) (Quillen 1978, §2): a chain `E₁ < ⋯ < E_k` of elementary abelian subgroups has
-`|E_k| ≥ p ^ k`, a maximal flag of subspaces of an elementary abelian subgroup of rank `m_p(G)`
-has length `m_p(G)`, and subchains of a chain are chains.
+(c) Prove `exists_card_eq_iff_le_pRank`: for a finite group `G` and a prime `p`, the order complex
+of `A_p(G)` has a face with `n` vertices exactly when `1 ≤ n ≤ m_p(G)`, the `p`-rank of
+OddOrderTheorem §1.4, so its dimension is `m_p(G) − 1` (the empty complex when `m_p(G) = 0`). A
+chain `E₁ < ⋯ < E_k` of elementary abelian subgroups has `|E_k| ≥ p ^ k`; an elementary abelian
+subgroup of order `p ^ m_p(G)` is an `𝔽_p`-vector space of dimension `m_p(G)` (OddOrderTheorem
+§1.4), so a maximal flag of its nonzero subspaces has `m_p(G)` members; and subchains of a chain
+are chains. The Lean statement writes `m_p(G)` as the supremum of the `k` such that `G` has an
+abelian subgroup of exponent dividing `p` and order `p ^ k`, which is OddOrderTheorem's
+definition with its two conditions written out.
+*Needs:* OddOrderTheorem §1.4; 3.3; Mathlib `Subgroup`, `IsPGroup`, `Subgroup.center`,
+`MulAut.conj`, `Subgroup.map`.
 
-(d) Define the `p`-core `O_p(G)`, the subgroup generated by the normal `p`-subgroups of `G`. Prove
-that it is a normal `p`-subgroup containing every normal `p`-subgroup and that it is the
-intersection of the Sylow `p`-subgroups of `G`, so that `O_p(G) ≠ 1` exactly when `G` has a
-nontrivial normal `p`-subgroup.
-*Needs:* Mathlib `Subgroup`, `IsPGroup`, `MulAut.conj`, `Subgroup.map`, `Sylow`; 3.3.
+**API.**
+
+- Orders: `PSubgroupPoset G p` and `ElemAbelianPoset G p` carry the order induced from
+  `Subgroup G`, `H ≤ K ↔ H.1 ≤ K.1`.
+- Inclusion: `elemAbelianToPSubgroup` is monotone and injective, an order embedding; it needs no
+  primality, since `x ^ p = 1` for every `x` already gives `IsPGroup p`.
+- Conjugation: for `g ∈ G`, `H ↦ gHg⁻¹`, that is `Subgroup.map (MulAut.conj g).toMonoidHom`,
+  maps each poset to itself and is an order automorphism, with inverse conjugation by `g⁻¹`.
+- Identity and composition: conjugation by `1` is the identity, and conjugation by `gh` is
+  conjugation by `h` followed by conjugation by `g`.
+- Equivariance: conjugation commutes with `elemAbelianToPSubgroup`.
 
 **Checks.**
 
@@ -617,21 +696,18 @@ nontrivial normal `p`-subgroup.
   `1` and `2` vertices and none with `3`.
 - Primality matters for `ElemAbelianPoset`: for `p = 4` the cyclic group of order `4` is abelian
   with `x ^ 4 = 1` and lies in `ElemAbelianPoset` at `4`, although it is not elementary abelian
-  at any prime; the targets below assume `p` prime, and `elemAbelianToPSubgroup` needs no
-  primality, since `x ^ p = 1` already gives `IsPGroup p`.
+  at any prime; the targets below assume `p` prime.
 - Conjugation: in `𝔖₃`, conjugation by `(1 2 3)` sends `⟨(1 2)⟩` to `⟨(2 3)⟩`, in `S₂` and in
   `A₂`, and the same subgroup is reached along either path through the inclusion. Conjugation by
   `(1 2 3)` and then by `(1 3 2)` is the identity, as the composition law requires.
 - Conjugation is not translation: `H ↦ gH` sends `⟨(1 2)⟩` to the coset `(1 2 3)⟨(1 2)⟩`, which
   does not contain `1` and is not a subgroup; conjugation by a central element, such as the
   generator of the centre of `D₈`, fixes every subgroup.
-- The `p`-rank is not read off orders or exponents: `m₃(ℤ/3) = 1`; `m₂(ℤ/4) = 1`, although
-  `|ℤ/4| = 2²`; `m₂(Q₈) = 1`, since `Q₈` has a single subgroup of order `2`.
-- The `p`-core: `O₂(𝔖₄)` is the Klein four-group, the intersection of the three Sylow
-  `2`-subgroups `D₈`; `O₂(𝔖₃) = 1` and `O₃(𝔖₃) = 𝔄₃`; `O_p(P) = P` for a `p`-group `P`.
-- Excluded variants of the `p`-core: the subgroup generated by all `2`-subgroups of `𝔖₄`, normal
-  or not, contains every transposition and is `𝔖₄`; and the largest abelian normal `p`-subgroup
-  differs from `O₂` for `G = D₈`, where `O₂(D₈) = D₈` is not abelian.
+- (c) through the Lean form of `m_p(G)`, which is not read off orders or exponents:
+  `m₃(ℤ/3) = 1`; `m₂(ℤ/4) = 1`, although `|ℤ/4| = 2²`, since `ℤ/4` fails `x ^ 2 = 1`;
+  `m₂(Q₈) = 1`, since `Q₈` has a single subgroup of order `2`; `m₂(D₈) = 2`, by its Klein
+  four-groups; `m_p(1) = 0`, the supremum of `{0}`. In each case the longest chain of `A_p` has
+  `m_p` members.
 
 ### 4.2 The Brown–Quillen homotopy equivalence
 
@@ -639,8 +715,8 @@ Prove `exists_homotopyEquiv_elemAbelianToPSubgroup`: for a finite group `G` and 
 inclusion `A_p(G) → S_p(G)` realizes to a homotopy equivalence (Quillen 1978, Proposition 2.1).
 The route is 3.4: the fibre over `P ∈ S_p(G)` is `A_p(P)`, conical by 4.1 (b). The two finite
 spaces need not be homotopy equivalent: for `G = 𝔖₅` and `p = 2` the cores differ (Stong 1984,
-§3, recorded in Minian–Piterman 2018, Example 3.5), and the smallest example is `𝔖₃ ≀ ℤ/2`, of
-order `72` (Minian–Piterman 2018, Example 3.5 and Proposition 3.8).
+§3, recorded in Minian–Piterman 2018, p. 7), and the smallest example is `𝔖₃ ≀ ℤ/2`, of order
+`72` (Minian–Piterman 2018, Example 3.5 and Proposition 3.8, p. 7).
 *Needs:* 3.4, 4.1; Mathlib `Sylow`.
 
 **Checks.**
@@ -659,12 +735,14 @@ order `72` (Minian–Piterman 2018, Example 3.5 and Proposition 3.8).
 Prove `contractibleSpace_of_normal`: if `G` has a nontrivial normal `p`-subgroup `N`, the
 realization of `S_p(G)` is contractible (Quillen 1978, Proposition 2.4). The poset is conical
 (3.3): `Q ≤ QN ≥ N`, where `QN` is a `p`-subgroup since `N` is normal. Through 4.2 the
-realization of `A_p(G)` is contractible as well. By 4.1 (d), the hypothesis says `O_p(G) ≠ 1`.
-*Needs:* 3.3, 4.1, 4.2.
+realization of `A_p(G)` is contractible as well. Since `O_p(G)` is a normal `p`-subgroup
+containing every normal `p`-subgroup (OddOrderTheorem §1.1), the hypothesis says `O_p(G) ≠ 1`.
+*Needs:* 3.3, 4.1, 4.2; OddOrderTheorem §1.1.
 
 **Checks.**
 
-- `𝔖₄` with `p = 2` has the normal Klein four-group, and its `S₂` is contractible.
+- `𝔖₄` with `p = 2` has the normal Klein four-group `O₂(𝔖₄)`, the intersection of its three
+  Sylow `2`-subgroups, although none of them is normal, and its `S₂` is contractible.
 - `𝔖₃` with `p = 2` has no nontrivial normal `2`-subgroup, and `S₂(𝔖₃)` is three points, not
   contractible.
 - `QN` need not be elementary abelian when `Q` and `N` are: in the dihedral group of order `8`,
@@ -674,13 +752,13 @@ realization of `A_p(G)` is contractible as well. By 4.1 (d), the hypothesis says
 ### 4.4 Stong's finite-space form
 
 Prove `contractibleSpace_withUpperSet_iff`: `S_p(G)` with the upper-set topology is a contractible
-finite space exactly when `G` has a nontrivial normal `p`-subgroup (Stong 1984; Minian–Piterman
-2018, Proposition 2.1). One direction is the fence `id ≤ (Q ↦ QN) ≥ const N` of 1.2. For the
-other, `G` acts on the finite `T₀` space `S_p(G)` by conjugation, through homeomorphisms (4.1),
-and a contractible finite `T₀` space with a group action has a fixed point (1.5): a nontrivial
-`p`-subgroup fixed by conjugation, that is, normal. The analogous statement for `A_p(G)` fails in
-one direction (the group `((𝔄₄ × 𝔄₄) ⋊ ℤ/2) ⋊ ℤ/2` of order `576`, Minian–Piterman 2018,
-Example 3.7).
+finite space exactly when `G` has a nontrivial normal `p`-subgroup (Stong 1984, as stated in
+Minian–Piterman 2018, Proposition 2.1, p. 4). One direction is the fence `id ≤ (Q ↦ QN) ≥ const N`
+of 1.2. For the other, `G` acts on the finite `T₀` space `S_p(G)` by conjugation, through
+homeomorphisms (4.1), and a contractible finite `T₀` space with a group action has a fixed point
+(1.5): a nontrivial `p`-subgroup fixed by conjugation, that is, normal. The analogous statement for
+`A_p(G)` fails in one direction (the group `((𝔄₄ × 𝔄₄) ⋊ ℤ/2) ⋊ ℤ/2` of order `576`, Minian–Piterman
+2018, Example 3.7, p. 7).
 *Needs:* 1.2, 1.5, 4.1, 4.3.
 
 **Checks.**
@@ -720,7 +798,7 @@ contractible, then `G` has a nontrivial normal `p`-subgroup (Quillen 1978, Corol
 the case of solvable groups of Conjecture 2.9). Quillen's route proves more: for solvable `G`
 with `O_p(G) = 1`, the reduced homology of `A_p(G)` is nonzero in degree `m_p(G) − 1`, the
 dimension of 4.1 (c).
-*Needs:* 4.1, 4.2; Mathlib `Group.IsSolvable`.
+*Needs:* 4.1, 4.2; OddOrderTheorem §1.1, §1.4; Mathlib `Group.IsSolvable`.
 
 **Checks.**
 
@@ -762,8 +840,8 @@ order `|G|_p`, acting by conjugation (4.1): for every nontrivial `Q ≤ P` the f
 
 ### Dependencies
 
-Layers 1–3; Mathlib; Tau Ceti for 4.7. Within the layer, 4.2 uses 4.1, 4.3 uses 4.2, 4.4 uses
-4.3, and 4.5–4.7 use 4.1.
+Layers 1–3; OddOrderTheorem §1.1 and §1.4; Mathlib; Tau Ceti for 4.7. Within the layer, 4.2 uses
+4.1, 4.3 uses 4.2, 4.4 uses 4.3, and 4.5–4.7 use 4.1.
 
 ## Downstream consumers
 
@@ -772,16 +850,16 @@ through subgroup posets.
 
 ## Research context
 
-The posets of this roadmap carry more structure than their homotopy type. Webb conjectured that
-the orbit space of the realization of `S_p(G)` under the action of `G` is contractible (Webb
-1987), and Symonds proved it (Symonds 1998); homotopy equivalences of posets with a group action
-are treated by Thévenaz and Webb (1991), and Grodal relates subgroup complexes to higher limits
-over orbit categories (Grodal 2002). Smith's monograph (Smith 2011) surveys subgroup complexes.
-For the poset of cosets of proper subgroups of a finite group `G`, Brown showed that the reduced
-Euler characteristic is `-P_G(-1)`, where `P_G` is the probabilistic zeta function, built from
-Hall's Möbius inversion on the subgroup lattice (Brown 2000; Hall 1936). Shareshian and Woodroofe
-proved that this coset poset is never contractible, and record as open whether `P_G(-1)` is
-nonzero for every finite group `G` (Shareshian–Woodroofe 2016, §1.1).
+The posets of this roadmap carry more structure than their homotopy type. For a finite group `G` and
+a prime `p` dividing `|G|`, Webb conjectured that the orbit space of the realization of `S_p(G)`
+under conjugation is contractible (Webb 1987), and Symonds proved it (Symonds 1998); homotopy
+equivalences of posets with a group action are treated by Thévenaz and Webb (1991), and Grodal
+relates subgroup complexes to higher limits over orbit categories (Grodal 2002). Smith's monograph
+(Smith 2011) surveys subgroup complexes. For the poset of cosets of proper subgroups of a finite
+group `G`, Brown showed that the reduced Euler characteristic is `-P_G(-1)`, where `P_G` is the
+probabilistic zeta function, built from Hall's Möbius inversion on the subgroup lattice (Brown 2000;
+Hall 1936). Shareshian and Woodroofe proved that this coset poset is never contractible, and record
+as open whether `P_G(-1)` is nonzero for every finite group `G` (Shareshian–Woodroofe 2016, §1.1).
 
 Quillen conjectured that `S_p(G)` has a contractible realization only when `G` has a nontrivial
 normal `p`-subgroup (Quillen 1978, Conjecture 2.9). He proved it for solvable groups (4.6); it is
@@ -799,15 +877,15 @@ statement that a homotopically trivial finite space `S_p(G)` is contractible as 
 ## References
 
 - D. Quillen, « Homotopy properties of the poset of nontrivial p-subgroups of a group », *Adv.
-  Math.* 28 (1978), no. 2, 101–128. doi:10.1016/0001-8708(78)90058-0. Cited: §1 (the homotopy
-  property and conical contractibility), §2 (the posets `A_p(G)`, the `p`-rank), Propositions
-  1.6, 1.9, 2.1, 2.4, 2.6, 5.2, Conjecture 2.9, Corollary 12.2.
+  Math.* 28 (1978), no. 2, 101–128. doi:10.1016/0001-8708(78)90058-0. Cited: §1 (the
+  classifying space of a poset and the homotopy property), 1.5, Propositions 1.6, 1.9, 2.1, 2.4,
+  2.6, 5.2, Conjecture 2.9, Corollary 12.2, and §2 for `A_p(G)`.
 - K. S. Brown, « Euler characteristics of groups: the p-fractional part », *Invent. Math.* 29
   (1975), no. 1, 1–5. doi:10.1007/BF01405170. Theorem 1 (p. 3), the lemma to Theorem 2 (p. 3),
   Corollary 2 to Theorem 2 (p. 4).
 - M. C. McCord, « Singular homology groups and homotopy groups of finite topological spaces »,
   *Duke Math. J.* 33 (1966), 465–474. doi:10.1215/S0012-7094-66-03352-7. Theorems 2 and 3
-  (p. 466), Theorem 6 (p. 467), §5, Lemmas 3 and 7 (pp. 469–470).
+  (p. 466), Theorem 6 (p. 467), §5, Lemmas 3 and 7 (pp. 469–470), §6 (p. 471).
 - R. E. Stong, « Group actions on finite spaces », *Discrete Math.* 49 (1984), 95–100.
   doi:10.1016/0012-365X(84)90156-0. §3.
 - J. A. Barmak, *Algebraic Topology of Finite Topological Spaces and Applications*, Lecture Notes
@@ -818,8 +896,8 @@ statement that a homotopically trivial finite space `S_p(G)` is contractible as 
   (2008), no. 1, 87–104. arXiv:math/0611158.
 - E. G. Minian, K. I. Piterman, « The homotopy types of the posets of p-subgroups of a finite
   group », *Adv. Math.* 328 (2018), 1217–1233. doi:10.1016/j.aim.2017.12.022.
-  arXiv:1612.04302. Proposition 2.1, Examples 3.5 and 3.7, Proposition 3.8, numbered as in the
-  published version and in arXiv:1612.04302v1 (pp. 4 and 7 there).
+  arXiv:1612.04302. Proposition 2.1 (p. 4), Examples 3.5 and 3.7 and Proposition 3.8 (p. 7), and
+  the definitions of `S_p(G)` and `A_p(G)` (p. 1), numbered and paged as in arXiv:1612.04302v1.
 - M. Aschbacher, S. D. Smith, « On Quillen's conjecture for the p-groups complex », *Ann. of
   Math.* (2) 137 (1993), no. 3, 473–529. doi:10.2307/2946530.
 - K. I. Piterman, « An approach to Quillen's conjecture via centralisers of simple groups »,
