@@ -1299,7 +1299,7 @@ For a perfect field k, `W(k)`/`p^m` has support degree m; `Cone(1)` is zero and 
 
 ### Dependencies
 
-Layers 1–2; AlgebraicKTheory A2 and A4 for the determinant package and semilocal shortening; GeneralAlgebraicKTheory Layers 4–8 and 11, with §§3.3–3.4 and 3.14 for their classical K₁ transport; StableHomotopyKTheory Layer 5; EnhancedDerivedSheaves E.1 and E.4; SchemeAndStackFoundations SF.0, SF.2 and SF.4; JacobianChallenge A for divisor dictionaries. The canonical unit loop and transfer come from low-degree K-theory. Neither the scheme Bass theorem of Layer 5 nor the full tame-symbol presentation is an input.
+Layers 1–2; AlgebraicKTheory A2 and A4 for the determinant package and semilocal shortening; GeneralAlgebraicKTheory Layers 4–8 and 11, with §§3.3–3.4 and 3.14 for their classical K₁ transport; StableHomotopyKTheory Layer 5; EnhancedDerivedSheaves E1.9, E4.2, E4.5 and E5:presentability; SchemeAndStackFoundations §§0.24–0.26, 1.1, 2.18 and 5.4; JacobianChallenge A for divisor dictionaries. The canonical unit loop and transfer come from low-degree K-theory. Neither the scheme Bass theorem of Layer 5 nor the full tame-symbol presentation is an input.
 
 ## Layer 4: Descent and coniveau
 
@@ -1709,7 +1709,7 @@ Prove perfect v-hyperdescent: Perf on perfect qcqs schemes is a hypercomplete v-
 
 ### 4.11 Witt hyperdescent and support degree
 
-Continue on the qcqs perfect `F_p`-scheme site, with `n≥1` fixed for `W_n`. The Witt formal carrier and the mapping-space/effectivity comparisons are the E.4/SF.4 contracts; their finite-diagram and uniform Tor-bound content is needed here.
+Continue on the qcqs perfect `F_p`-scheme site, with `n≥1` fixed for `W_n`. The Witt thickenings `W_n(X)` are SchemeAndStackFoundations §§0.24–0.26, the formal Witt space is §3.8's, and the coefficient reconstruction from derived reductions is EnhancedDerivedSheaves E4.2 and E4.5; the finite-diagram and Tor-amplitude refinements of §1.7 are needed here.
 
 For every `n≥1`, prove that `Perf(W_n(X))` is a hypercomplete v-sheaf on perfect qcqs schemes. Before the induction construct perfect square-zero lifting: for a square-zero ring extension `A′→A` with kernel J and perfect P over A, the obstruction to lifting P lies in `Ext²_A(P,P⊗ᴸ_AJ)`; when it vanishes the space of lifts is a torsor under `Map_A(P,P⊗ᴸ_AJ[1])`. Construct this by lifting a bounded projective model: its squared differential gives the degree-two obstruction, correction of the differential gives degree-one choices, and degree-zero homotopies give automorphisms. Prove independence of the model and compatibility with pullback. Apply the theorem to `W_n→W_{n−1}`; its kernel is the Frobenius-twisted R-module, identified with R using perfectness. The resulting deformation and mapping complexes descend by `Perf(R)` v-hyperdescent and its quasicoherent coefficient comparison. The case `n=1` is that theorem itself. Induct on n, checking the obstruction and the full lift space, rather than substituting Witt thickenings into the perfect-scheme result. ([BS17, Theorem11.2(2), final sentence of its proof](https://arxiv.org/pdf/1507.06490v3)).
 
@@ -1785,7 +1785,7 @@ The derived h-descent theorem uses the derived Čech nerve even for classical sc
 
 ### Dependencies
 
-Layers 1–3; StableHomotopyKTheory Layers 5 and 7; GeneralAlgebraicKTheory §4.14 and its filtered continuity in §11.8; EnhancedDerivedSheaves E1, E2.8, E4 and E5:animation; SchemeAndStackFoundations §§0.24–0.26, 2.12–2.14 and SF.4–SF.5. Import Nisnevich topology, henselian points and abelian dimension bounds, together with perfect-scheme h-hyperdescent. The qcqs spectral criterion, h-to-v approximation, v-hyperdescent and Brown/coniveau filtered comparison are constructed here.
+Layers 1–3; StableHomotopyKTheory Layers 5 and 7; GeneralAlgebraicKTheory §4.14 and its filtered continuity in §11.8; EnhancedDerivedSheaves E1, E2.8, E4, E5:animation and E5:spectra-comparison; SchemeAndStackFoundations §§0.9, 0.15, 0.24–0.26, 2.12–2.14, 4.19, 5.4 and 5.7. Import Nisnevich topology, henselian points and abelian dimension bounds, together with perfect-scheme h-hyperdescent. The qcqs spectral criterion, h-to-v approximation, v-hyperdescent and Brown/coniveau filtered comparison are constructed here.
 
 ## Layer 5: Projective bundles, Bass theory and blowups
 
@@ -3056,17 +3056,17 @@ On smooth quasi-projective schemes over a field, which form a category 𝒱 as a
 
 ### 7.4 Euler transfers and geometric Riemann–Roch
 
-For the Euler transfer use proper morphisms of Noetherian schemes, perfect for the K-version. For Chow-valued GRR and its Hirzebruch consequence use proper morphisms between smooth quasi-projective varieties over an algebraically closed field. This source scope does not supply arithmetic-base Chow-valued GRR.
+For the Euler transfer use proper morphisms of Noetherian schemes, perfect for the K-version. For Chow-valued GRR and its Hirzebruch consequence use proper morphisms between smooth quasi-projective varieties over a field, the scope of SchemeAndStackFoundations §5.8. That supplier does not give Chow-valued GRR over an arithmetic base.
 
 Compare π₀ of the constructed proper G-transfer with `[F]`↦`Σ_q(−1)^q`[`R^qf_*F`]. For proper perfect f, compare the K-transfer with the same class under Cartan; closed-immersion direct image is underived. This identifies the geometric Euler pushforward used in Riemann–Roch with the actual K/G map. ([Weibel, Example II.8.2.3 (PDF p. 155)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Borel–Serre, §5d (p. 110)](http://www.numdam.org/item/10.24033/bsmf.1500.pdf)).
 
 *Needs:* §2.3, spectrum transfers; §2.6, Cartan; SchemeAndStackFoundations §5.7, geometric Euler transfer.
 
-For proper maps of smooth quasi-projective varieties over an algebraically closed field, geometric GRR becomes `ch(f_*x)td(T_Y)=f_*(ch(x)td(T_X))` for the K-transfer just compared. Here td has root a/`(1−e^{−a})`, with denominators 2,12,… retained. The target is this realization compatibility; the geometric GRR theorem is supplied by intersection theory in exactly this source scope. ([Borel–Serre, §7 (p.113), Lemmas 15–16 and §§9–16 (pp.114–135; PDF pp.19–40)](http://www.numdam.org/item/10.24033/bsmf.1500.pdf); [Weibel, Theorem II.8.10 (PDF p. 163)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+For proper maps of smooth quasi-projective varieties over a field, geometric GRR becomes `ch(f_*x)td(T_Y)=f_*(ch(x)td(T_X))` for the K-transfer just compared. Here td has root a/`(1−e^{−a})`, with denominators 2,12,… retained. The target is this realization compatibility; the geometric GRR theorem is supplied by SchemeAndStackFoundations §5.8 in this scope, and Borel–Serre prove it over an algebraically closed field. ([Borel–Serre, §1 (p.97) for the field, §7 (p.113), Lemmas 15–16 and §§9–16 (pp.114–135; PDF pp.19–40)](http://www.numdam.org/item/10.24033/bsmf.1500.pdf); [Weibel, Theorem II.8.10 (PDF p. 163)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 *Needs:* the Euler comparison above; §7.2, character comparison; SchemeAndStackFoundations §5.8, geometric GRR.
 
-For smooth projective X over an algebraically closed field, `χ(F)=deg(ch(F)td(T_X))`. On a smooth projective geometrically connected curve this gives `χ(O(D))=deg D+1−g`. Compare Serre duality, JacobianChallenge's curve RR and Tau Ceti's function-field RR using the existing point/divisor/cohomology dictionary; do not prove another curve RR theorem. ([Weibel, Theorem II.8.10 (PDF p. 163)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Borel–Serre, §7 (p. 113)](http://www.numdam.org/item/10.24033/bsmf.1500.pdf)).
+For smooth projective X over a field, `χ(F)=deg(ch(F)td(T_X))`. On a smooth projective geometrically connected curve this gives `χ(O(D))=deg D+1−g`. Compare Serre duality, JacobianChallenge's curve RR and Tau Ceti's function-field RR using the existing point/divisor/cohomology dictionary; do not prove another curve RR theorem. ([Weibel, Theorem II.8.10 (PDF p. 163)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Borel–Serre, §7 (p. 113)](http://www.numdam.org/item/10.24033/bsmf.1500.pdf)).
 
 *Needs:* the GRR comparison above; JacobianChallenge Layers A–C, degrees, curve duality and coherence.
 
@@ -3165,7 +3165,7 @@ The Chern character of `O(n)` on P¹ is 1+nH, with `H²=0`. On Pⁿ it sends `h=
 
 A connected smooth projective curve has the sharper integral calculation `K₀=ℤ⊕Pic` and `CH¹=Pic`. This does not follow merely by saying the Serre class is trivial: Soulé's class in weight one still permits bounded 2-primary torsion. The γ-valued character on higher K₁ projects its unit part onto `gr¹=O×⊗ℚ`. Its rank augmentation uses locally constant integers, and the abstract augmented-ring version requires its specified λ-section.
 
-For π:`P¹→Spec` k, `π_*O(n)=χ(O(n))=n+1`, including `n≤−2` where the contribution is negative H¹. Its Todd class is `1+H` and `deg((1+nH)(1+H))=n+1`. On a genus-one curve `χ(O(D))=deg D`. A finite morphism has no higher direct images, so its Euler transfer is its ordinary coherent direct image. The Chow-valued geometric GRR theorem here retains its algebraically closed field hypothesis.
+For π:`P¹→Spec` k, `π_*O(n)=χ(O(n))=n+1`, including `n≤−2` where the contribution is negative H¹. Its Todd class is `1+H` and `deg((1+nH)(1+H))=n+1`. On a genus-one curve `χ(O(D))=deg D`. A finite morphism has no higher direct images, so its Euler transfer is its ordinary coherent direct image. The Chow-valued geometric GRR theorem here is over a field; arithmetic bases are excluded. Over a field that is not algebraically closed, degrees count residue degrees: the conic `x²+y²+z²=0` over ℝ has no rational point, `χ(O)=1`, and `deg(td₁(T))=deg(c₁(T))/2=2/2=1`, because `c₁(T)` is the class of one closed point with residue field ℂ, of degree 2; a degree counting each closed point once would give `1/2`.
 
 For the K-valued Adams Riemann–Roch check, let `h=1−O(−1)` on P¹ and `k=2`. The cotangent line is `O(−2)=1−2h`, so `θ²(−T∨)=(2−2h)⁻¹=(1+h)`/2. Its Euler pushforward is `(1+1)`/`2=1=ψ²π_*1`. This computation fixes inverse, dual and denominator at once. With base `S=Spec F`, the field point X=S has homological operation ψᵏ, and `G₀(F)=ℤ` has its full dimension-zero filtration; higher G-groups are not placed there by that statement.
 
@@ -3210,7 +3210,7 @@ All statements above are mathematical targets. The locators refer to the followi
 - **Stacks.derived.** The Stacks Project Authors, [The Stacks Project, Chapter Derived Categories (tag 05QI)](https://stacks.math.columbia.edu/download/derived.pdf). Chapter PDF derived.pdf, version ed88ff78 compiled 14 July 2026.
 - **Schlichting.** Marco Schlichting, [Negative K-theory of derived categories](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/schlneg.pdf). Author preprint dated 16 June 2003 (28 pages), locators use the preprint pagination; published in Math. Z. 253 `(2006)`.
 - **Totaro.2004.** Burt Totaro, [The resolution property for schemes and stacks](https://arxiv.org/pdf/math/0207210). arXiv:math/0207210v1 (23 July 2002), 23 pages; published J. reine angew. Math. 577 `(2004)`. Locators use the arXiv version.
-- **Quillen.** Daniel Quillen, [Higher algebraic K-theory: I](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf). Published LNM 341 `(1973)`, pp.85–147, author-hosted scan. Two page sequences: scan header 77–139, LNM footer 85–147; physical PDF page = header−76 = LNM page−84. Theorem 5.13 is header p.127, LNM p.135, PDF p.51.
+- **Quillen.** Daniel Quillen, [Higher algebraic K-theory: I](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf). Published LNM 341 `(1973)`, pp.85–147, scan on a University of Rochester faculty page. Two page sequences: scan header 77–139, LNM footer 85–147; physical PDF page = header−76 = LNM page−84. Theorem 5.13 is header p.127, LNM p.135, PDF p.51.
 - **Thomason.1985.** R. W. Thomason, [Algebraic K-theory and étale cohomology](http://www.numdam.org/item/10.24033/asens.1495.pdf). Annales scientifiques de l'École Normale Supérieure `(4)` 18 `(1985)`, 437-552 (numdam copy; PDF page = printed page - 435)
 - **Stacks.Properties.** The Stacks Project Authors, [The Stacks Project, Chapter 28: Properties of Schemes](https://stacks.math.columbia.edu/download/properties.pdf). Chapter PDF; results cited by section and tag.
 - **Thomason93.** R. W. Thomason, [Les K-groupes d'un schéma éclaté et une formule d'intersection excédentaire](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf). Inventiones mathematicae 112 `(1993)`, 195–215, Göttingen digitisation-centre scan; PDF page = printed page − 193, including one cover page.
