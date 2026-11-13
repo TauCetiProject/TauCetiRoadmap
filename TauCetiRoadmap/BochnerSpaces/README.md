@@ -60,6 +60,10 @@ not assume that the entire target space is separable. Scalar weak measurability
 tests all continuous linear functionals; the exceptional null set may initially
 depend on the functional.
 
+Evaluation-generated σ-algebras are explicit structures, never global instances.
+Section 1.1 proves their comparison with the norm-Borel σ-algebra under its
+separability hypotheses.
+
 **Bochner spaces.** Unqualified `Lᵖ(μ;X)` means Mathlib's native
 `MeasureTheory.Lp X p μ`, with `p : ℝ≥0∞` and `1≤ p≤∞`.
 Use `MemLp`, `Integrable`, `Measure.restrict`, and the native Bochner integral.
@@ -103,6 +107,10 @@ hypotheses in their declarations.
   Use `tendsto_integral_of_dominated_convergence` from [dominated convergence][ml-dominated]
   and `integrable_map_measure` from [integrability][ml-integrable] for the native
   convergence and substitution results. The L¹ convergence version is an input too.
+- [Convex integration][ml-convex-integral] supplies `Convex.integral_mem`,
+  `Convex.set_average_mem` and `ConvexOn.map_integral_le` for closed-convex
+  barycentres, normalized averages and the continuous case of Jensen's inequality.
+  Section 2.2 supplies countable convex representations and the lower-semicontinuous case.
 - [Product integration][ml-prod] supplies `Integrable.prod_right_ae`,
   `Integrable.integral_prod_left` and `integral_prod` under their s-finiteness hypotheses.
   Section 2.4 supplies the finite-support localization for arbitrary measures.
@@ -111,7 +119,9 @@ hypotheses in their declarations.
   a.e.-convergent subsequences. Section 3 supplies the additional comparisons.
 - [Vector measures and densities][ml-density] supply `VectorMeasure`,
   `VectorMeasure.variation`, `Measure.withDensityᵥ` and the variation-of-density
-  identity. Scalar signed/complex Radon–Nikodým theorems supply the scalar density
+  identity. [Variation][ml-variation] supplies `VectorMeasure.le_variation` and
+  `VectorMeasure.exists_lt_sum_of_lt_variation` for the finite-partition formula.
+  Scalar signed/complex Radon–Nikodým theorems supply the scalar density
   input; a Banach-valued density theorem is a separate supplier below.
 - [Completion][ml-null] supplies `NullMeasurableSpace`, `Measure.completion` and
   `Measure.ae_completion`. [Measure exhaustion][ml-exhaustion] supplies
@@ -162,11 +172,6 @@ perturbations needed in §6.4. B4.0 supplies the finite-measure density theorem 
 bounded-variation measures with reflexive targets, independently of the general RNP
 and duality theorems here. B5 supplies scalar Lᵖ duality and scalar measure
 representation. These suppliers do not use §7 or §8 to establish their input theorems.
-
-For evaluation-generated measurable structures, follow the explicit, non-global-instance
-design of the [Mathlib cylinder σ-algebra proposal][ml-cylinder-pr]. Its weak-dual carrier
-does not identify the cylindrical and norm-Borel structures on a Banach space; §1 proves
-that comparison under its separability hypotheses.
 
 ## How to read the build
 
@@ -351,10 +356,13 @@ representation results are targets in addition to Hahn–Banach separation.
 For a probability measure, an integrable `f`, and
 a real-valued lower-semicontinuous convex `φ` with `φ∘ f`
 integrable, prove `φ(∫ f)≤∫φ(f)`, using existing Jensen and
-separation results wherever their hypotheses apply. Prove that the integral
-lies in every closed convex set containing `f` almost everywhere, and hence
-in the closed convex hull of its values on any measurable full-measure set.
-Give normalized-average versions on sets of finite positive measure.
+separation results wherever their hypotheses apply; `ConvexOn.map_integral_le`
+supplies the continuous case. Give the lower-semicontinuous inequality also for
+normalized averages on sets of finite positive measure.
+Use Mathlib's `Convex.integral_mem` and `Convex.set_average_mem` for membership
+of these integrals and averages in closed convex sets containing `f` almost
+everywhere. Deduce membership in the closed convex hull of the values on any
+measurable full-measure set.
 
 (HvNVW, Lemmas 1.2.9–1.2.10 and Propositions 1.2.11–1.2.12, pp. 18–20.)
 
@@ -803,8 +811,11 @@ here, not implicit consequences of the existence of a weak integral.
 ### 7.1 Vector measures and bounded variation
 
 Use native `VectorMeasure S X`, its variation measure
-and `μ.withDensityᵥ f`. Identify variation on a measurable set with the
-supremum over its finite measurable partitions. Record norm-countable
+and `μ.withDensityᵥ f`. Reuse Mathlib's `VectorMeasure.le_variation` and
+`VectorMeasure.exists_lt_sum_of_lt_variation` for the variation formula:
+on a measurable set, variation is the supremum in `ℝ≥0∞` of `∑ᵢ ‖m(Aᵢ)‖ₑ`
+over finite disjoint measurable families contained in it, equivalently over
+finite measurable partitions of it. Record norm-countable
 additivity and unconditionality of the sums defining a vector measure;
 bounded variation means that its variation measure is finite.
 Connect null-set absolute continuity of a vector
@@ -1222,16 +1233,22 @@ specified in the layers above.
   identification in §4.4.
 - The Mathlib and Tau Ceti modules in the supplier contracts specify the reused
   carriers and theorem interfaces.
+- **Related upstream design.** The [Mathlib cylinder σ-algebra proposal][ml-cylinder-pr]
+  guides the use of explicit evaluation-generated measurable structures in §1.1.
+  The construction and comparison theorems are targets here; the proposal is a
+  design reference rather than a pinned-library supplier.
 
 [ml-strong]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/StronglyMeasurable/Basic.lean
 [ml-aestrong]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/StronglyMeasurable/AEStronglyMeasurable.lean
 [ml-strong-lp]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/StronglyMeasurable/Lp.lean
 [ml-bochner]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Integral/Bochner/Basic.lean
 [ml-bochner-clm]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Integral/Bochner/ContinuousLinearMap.lean
+[ml-convex-integral]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/Convex/Integral.lean
 [ml-prod]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Integral/Prod.lean
 [ml-simple]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean
 [ml-lp-complete]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/LpSpace/Complete.lean
 [ml-density]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/VectorMeasure/WithDensityVec.lean
+[ml-variation]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/VectorMeasure/Variation/Basic.lean
 [tc-pettis]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Function/StronglyMeasurable/Pettis.lean
 [tc-caratheodory]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Function/StronglyMeasurable/Caratheodory.lean
 [tc-innerregular]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Function/StronglyMeasurable/InnerRegular.lean
