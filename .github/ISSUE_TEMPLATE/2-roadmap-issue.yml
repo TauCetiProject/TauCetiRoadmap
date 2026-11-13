@@ -14,80 +14,193 @@ body:
     attributes:
       label: Roadmap area
       options:
-        - AdicSpaces
+        - AbhyankarLemma
+        - AdicEtaleGeometry
         - AdicSpacesPartII
+        - AdicSpacesPartIII
+        - AdicSpacesPartIV
+        - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCurves
+        - AlgebraicKTheory
         - AlgebraicTopology
         - AlgebraicVectorBundles
-        - AnalyticToricGeometry
+        - AmenableGroups
+        - AnalyticNumberTheoryPartI
+        - ArithmeticInterpolationDeterminants
+        - AsymptoticExpansions
+        - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
+        - BordismFormalGroups
+        - BorelEquivalenceRelations
+        - CFSGBasicProperties
         - CFSGStatement
-        - Chebotarev
+        - CStarAlgebras
+        - CStarClassification
+        - CalibratedGeometry
+        - CategoricalOperatorAlgebras
+        - CharacteristicClasses
+        - ChevalleyGroups
         - ClassFieldTheory
+        - ClassicalArithmeticCompletion
         - ClassifyingSpaces
+        - ClusterAlgebras
+        - CoboundaryExpansion
         - CombinatorialHeegaardFloer
         - CompactOperators
-        - ConformalMapping
+        - ComplexCurveModuli
+        - ComplexKahlerGeometry
+        - ComplexManifolds
+        - ComplexTori
+        - ComputabilityTheory
+        - ConformalMappingPartII
+        - CountableModelCounting
         - DGAInfinity
         - DGFloer
-        - DenseGraphLimits
+        - DeRhamCohomologyAndDuality
+        - DerivedModuleAlgebra
+        - DiagrammaticCoherence
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
+        - DysonBrownianMotion
+        - ECM
+        - EllipticCohomology
         - EllipticCurves
-        - Exchangeability
+        - EllipticIntegrals
+        - EnhancedDerivedSheaves
+        - EquivariantIntersectionTheory
+        - EtaleCohomologyFoundations
+        - EtaleMassFormula
+        - FactorRigidity
+        - FinancialMathematics
+        - FiniteGroupExtensionSplitting
+        - FiniteSamplingDiscrepancy
+        - FlagVarieties
+        - Foams
         - FormalLaurentPuiseux
+        - FreeGroupsAndLimitGroups
+        - FreeProbability
         - FuchsianOrbifolds
         - GeneralizedCohomology
+        - GeometricCurrents
         - GeometricMeasureTheory
+        - GeometricRepresentationCategories
         - GeometricTopology
-        - GlobalNumberFields
+        - GlobalHolomorphicFunctions
         - GlobalQuadraticForms
+        - GraphConnectivityAndFlows
+        - GroebnerGeometry
         - GrothendieckEulerForms
+        - HamiltonianFloerOperations
         - HeegaardFloer
-        - HeightsAndUnits
-        - HopfRinow
-        - InfinitaryLogic
+        - HilbertModules
+        - HomotopySpheres
+        - HopfologicalAlgebra
+        - Hyperfunctions
+        - ImaginaryQuadraticClassNumber
+        - IndexTheory
+        - InfinitaryModelExistence
         - IntegralLattices
         - Isoperimetry
         - JacobianChallenge
-        - LocalFieldsRamification
-        - LocalGaloisGroups
+        - KacMoody
+        - KhovanovHomology
+        - LFunctions
+        - LieGroupoidsPoisson
+        - LinearFormsInLogarithms
+        - LocalPurity
+        - LocalVariationalFieldTheory
+        - MarkovChainsAndRenewal
         - MassFormula
+        - McKaySkewGroup
         - ModularCurves
         - ModularForms
+        - MorseNovikov
         - MorseTheory
+        - Neuromanifolds
         - NewtonPolygons
+        - NilpotentOrbits
         - NoncommutativeGeometry
-        - NumberFieldArithmetic
-        - OneParameterSemigroups
+        - NoncommutativeIntegration
+        - NoncongruenceModularForms
         - OperatorAlgebraDynamics
+        - OperatorKTheory
         - OperatorTheory
         - OptimalTransport
-        - OrthogonalSpinGroups
+        - Orbifolds
         - PDE
+        - PadicExtensionFamilies
         - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
-        - PeripheralActions
+        - PerfectoidSpaces
         - PivotalSpherical
-        - PolynomialGaloisGroups
-        - ProfiniteArithmetic
+        - Poincare3D
+        - PolylogarithmFunctions
+        - PositiveMass
+        - PositiveScalarCurvature
+        - PrimitivePrimeDivisors
         - ProfiniteCohomology
-        - ProfiniteProPGroups
+        - PseudodifferentialOperators
+        - PseudoholomorphicCurveAnalysis
+        - PurityOfBranchLocus
+        - QuadraticCharactersAndReduction
         - QuadraticFormInvariants
+        - QuantumEnvelopingAlgebras
         - QuantumGroups
-        - RealAlgebraicGeometry
+        - QuaternionicAnalysis
+        - RamificationOfCompleteDiscretelyValuedFields
+        - RandomMatrices
+        - Rank24LatticeConstructions
+        - RealAnalyticGeometry
         - ReductiveGroups
+        - ReductiveGroupsPartII
+        - ReflectionInvariantTheory
         - Regularity
         - RepresentationTheory
+        - ResolutionOfSingularitiesCharacteristicZero
         - RestrictedPowerSeries
+        - RicciFlow
+        - RiemannianGeometry
         - RigidAnalyticGeometry
+        - RootSystemsPartII
+        - SNumbers
+        - ScatteringDiagrams
         - SchemeAndStackFoundations
+        - SchubertGeometry
+        - SeibergWittenTheory
+        - SmoothBundlesConnections
+        - SobolevPolynomialApproximation
+        - SpecialFunctionsAiry
+        - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsHypergeometric
+        - SpecialFunctionsParabolicCylinder
+        - SpinGeometry
+        - SporadicOrders
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - StochasticCalculus
+        - StringOrientation
+        - Subfactors
+        - SubspaceTheorem
+        - SuccessiveMinima
+        - SymplecticFieldTheory
+        - SymplecticGeometry
+        - TangentialBordism
+        - TauberianBoundaryConvergence
+        - TaubesGromov
+        - TemperleyLieb
+        - TemperleyLiebOperatorAlgebras
+        - TensorProductCombinatorics
+        - ThetaSeries
+        - TopologicalKTheory
+        - TopologicalSheafCohomology
+        - TypeAHeckeAlgebras
+        - VariationalMethods
+        - VonNeumannAlgebras
         - Yamabe
+        - ZerosOfLFunctions
         - ZigzagPreprojective
     validations:
       required: true
