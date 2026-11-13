@@ -8,9 +8,9 @@ This roadmap owns the relative divided-power form functor and its triangular int
 
 The ordinary DG carrier, morphisms, tensor product and cohomology are already in the library: Tau Ceti’s DG algebra modules supply them. DerivedDeRhamCohomology §2.21 owns strict graded commutativity and odd-square-zero on the nonnegative DG carrier; Layer 0 uses these predicates and fixes connectedness. Mathlib supplies divided-power and exterior algebras, simplicial sets and Dold–Kan. DerivedModuleAlgebra §§0.DP.2–0.DP.3, 0.14–0.17 and 1.1–1.5 own homogeneous divided powers, general décalage, derived limits and derived completion; AlgebraicTopology Stage 6, item 0 owns countable module tower exactness. The retained rank-one coordinate target identifies these objects with a specific integral polynomial lattice; the coefficient calculation applies décalage to the relative simplex object.
 
-Generic polynomial forms, Sullivan/Hirsch constructions, polynomial homotopies and their existence/lifting/uniqueness theory are requested from AlgebraicTopologyPartII Layer 4 through the five exact contracts below, extending its rational sphere and loop-space direction. DGAInfinity Layer 3 owns homological transfer and the DG/A∞ formality predicates; Layer 8 owns Massey consequences and formality criteria. ArithmeticLocallySymmetricSpaces §ALS.F.5 owns the all-degree Chevalley–Eilenberg complex and its cohomology over characteristic-zero fields; the transgression and continuous presentation results here use that complex. Sullivan minimality and A∞ minimality are different notions. AlgebraicTopology Stage 6 and Tau Ceti’s singular cohomology modules retain ordinary cochains and cup products.
+Generic polynomial forms, Sullivan/Hirsch constructions, polynomial homotopies and their existence/lifting/uniqueness theory are requested from AlgebraicTopologyPartII through the five exact contracts below, extending its rational sphere and loop-space direction. DGAInfinity Layer 3 owns homological transfer and the DG/A∞ formality predicates; Layer 8 owns Massey consequences and formality criteria. ArithmeticLocallySymmetricSpaces §ALS.F.5 owns the all-degree Chevalley–Eilenberg complex and its cohomology over characteristic-zero fields; the transgression and continuous presentation results here use that complex. Sullivan minimality and A∞ minimality are different notions. AlgebraicTopology Stage 6 and Tau Ceti’s singular cohomology modules retain ordinary cochains and cup products.
 
-EtaleHomotopyTypes §§3.2–3.4 owns raw étale types, rigid hypercovers and their cohomology; its §6.7 owns the homotopy-limit Betti comparison for quasi-projective complex schemes with the p-completed type. AnabelianGeometryAndNonabelianChabauty §1.5 constructs the raw pointed étale homotopy type as an object of the homotopy category of pointed pro-spaces; the form functor needs a strict pro-simplicial representative with strict refinement maps, which is why the rigid object of EtaleHomotopyTypes §3.3 is consumed, and no target here uses §1.5. The finite-component hypercover presentation is requested from EtaleHomotopyTypes §§3.2–3.4 below. Sections 4.1a–4.4 compare its form algebra with the raw rigid-type algebra and use nerves of analytic open hypercovers with contractible pieces for separated finite-type complex schemes. EtaleCohomologyFoundations §§F.0–F.4 owns the finite and adic coefficient theories, finiteness, base change and Galois actions. ComplexComparisonPartII §§C6.0–C6.6 owns finite CW type and finite/adic Artin comparison; §C5.5 owns logarithmic de Rham complexes, and §C5.3 is the geometric Hodge supplier direction. MotivicEtaleKTheory §§3.1–3.2 and 3.4 owns the smooth logarithmic Dolbeault algebra and its compactification-independent mixed Hodge realization; its singular hyperresolution extension is requested below. MixedHodgeModulesAndIrregularHodgeTheory §§H.1/operations and H.1/weight-bounds treats quasi-projective varieties through mixed Hodge modules; the requested extension is Deligne’s hyperresolution realization for all separated finite-type complex schemes. ResolutionOfSingularitiesCharacteristicZero §§5.1–5.6 and 6.1–6.4 owns the characteristic-zero resolution, principalization and SNC compactification inputs, with their stated domains. SchemeAndStackFoundations §§4.17 and 4.19 retain SNC geometry and alterations. DeligneWeightsAndPurity §§0.1–0.18, 7.12, 7.14–7.15 and 8.20–8.24 retain scalar weights, finite-dimensional spectral linear algebra, proper and smooth cohomological bounds and proper smooth purity; the general ordinary-cohomology bound is requested below. ReductiveGroups Layers 5, 6 and 6A own finite-dimensional unipotent theory, complete reducibility and characteristic-zero Levi complements. The inverse-limit compatibility for the particular minimal-model automorphism tower is proved here. AnabelianGeometryAndNonabelianChabauty §§2.1–2.3 retains tensor reconstruction and the geometric unipotent group; this roadmap compares its general normal-variety instance with 1-minimal models.
+EtaleHomotopyTypes §§3.2–3.4 owns raw étale types, rigid hypercovers and their cohomology; its §6.7 owns the homotopy-limit Betti comparison for quasi-projective complex schemes with the p-completed type. AnabelianGeometryAndNonabelianChabauty §1.5 constructs the raw pointed étale homotopy type as an object of the homotopy category of pointed pro-spaces; the form functor needs a strict pro-simplicial representative with strict refinement maps, which is why the rigid object of EtaleHomotopyTypes §3.3 is consumed, and no target here uses §1.5. The finite-component hypercover presentation is requested from EtaleHomotopyTypes §§3.2–3.4 below. Sections 4.1a–4.4 compare its form algebra with the raw rigid-type algebra and use nerves of analytic open hypercovers with contractible pieces for separated finite-type complex schemes. EtaleCohomologyFoundations §§F.0–F.4 owns the finite and adic coefficient theories, finiteness, base change and Galois actions. ComplexComparisonPartII §§C6.0–C6.6 owns finite CW type and finite/adic Artin comparison; §C5.5 owns logarithmic de Rham complexes, and §C5.3 is the geometric Hodge supplier direction. MotivicEtaleKTheory §§3.1–3.2 and 3.4 owns the smooth logarithmic Dolbeault algebra and its compactification-independent mixed Hodge realization; its singular hyperresolution extension is requested below. MixedHodgeModulesAndIrregularHodgeTheory §§5.1–5.2 treats quasi-projective varieties through mixed Hodge modules; the requested extension is Deligne’s hyperresolution realization for all separated finite-type complex schemes. ResolutionOfSingularitiesCharacteristicZero §§5.1–5.6 and 6.1–6.4 owns the characteristic-zero resolution, principalization and SNC compactification inputs, with their stated domains. SchemeAndStackFoundations §§4.17 and 4.19 retain SNC geometry and alterations. DeligneWeightsAndPurity §§0.1–0.18, 7.12, 7.14–7.15 and 8.20–8.24 retain scalar weights, finite-dimensional spectral linear algebra, proper and smooth cohomological bounds and proper smooth purity; the general ordinary-cohomology bound is requested below. ReductiveGroups Layers 5, 6 and 6A own finite-dimensional unipotent theory, complete reducibility and characteristic-zero Levi complements. The inverse-limit compatibility for the particular minimal-model automorphism tower is proved here. AnabelianGeometryAndNonabelianChabauty §§2.1–2.3 retains tensor reconstruction and the geometric unipotent group; this roadmap compares its general normal-variety instance with 1-minimal models.
 
 No theorem here asserts a functorial choice of a model weight grading, a continuous action on an actual chosen minimal model, or conjugacy by an automorphism homotopic to identity. The last two stronger assertions are questions in Weil II §§5.3.9–5.3.10, p. 242 (weil-II line 3960). The correction to Morgan’s Theorem 9.2 distinguishes the canonical associated graded of indecomposables from the indecomposable space itself; Theorem 9.4’s presentation remains applicable (morgan-correction line 29).
 
@@ -62,17 +62,17 @@ Stage 4, item 7 supplies the CW realization of a native simplicial set; Stage 6 
 
 ### From TauCetiRoadmap.AlgebraicTopologyPartII
 
-The following five contracts specify the generic rational-homotopy extension of AlgebraicTopologyPartII Layer 4. AlgebraicTopology Stage 6 supplies ordinary cohomology and Stage 5 finite-cover descent; neither supplies the Sullivan or polynomial-form interface.
+The following five contracts specify the generic polynomial-form and Sullivan theory requested from AlgebraicTopologyPartII. AlgebraicTopology Stage 6 supplies ordinary cohomology and Stage 5 finite-cover descent; neither supplies the Sullivan or polynomial-form interface.
 
 What AlgebraicTopologyPartII must provide (gap:polynomial-forms-de-rham): For every simplicial set X and characteristic-zero field K, provide A_PL(Δʳ;K) as the polynomial/exterior algebra with Σxᵢ=1, Σdxᵢ=0 and d(xᵢ)=dxᵢ, and A_PL(X;K) as its degreewise compatible-family algebra, with equality detected by simplex evaluations, contravariant pullbacks and a natural multiplicative de Rham isomorphism H*(A_PL(X;K))≃H*(X,K); the simplex filtration counting both coordinates and differentials is preserved by d, faces and degeneracies, while the full compatible-family algebra permits unbounded simplexwise degrees (DGMS §2, Theorem 2.1, pp. 254–255; dgms line 448; Sullivan Theorem 7.1 and its polynomial-form example, pp. 296–299; sullivan line 1121).
 
 What AlgebraicTopologyPartII must provide (gap:sullivan-minimal-models): Over every characteristic-zero field define positive-degree Sullivan algebras as free graded-commutative algebras with ordered Hirsch extensions, call them minimal when generator differentials are decomposable, identify their indecomposable quotient M⁺/(M⁺)² with zero induced differential in the minimal case, prove that a DG map out of a Hirsch extension is determined by its restriction to the base and generator images satisfying the differential equation, and give every connected nonnegative commutative DG algebra ordered full and 1-minimal model maps, respectively quasi-isomorphisms and H¹ isomorphisms with H² injections, without a nilpotence hypothesis on a realizing space (Morgan Definitions 5.1–5.3 and Theorem 5.6, pp. 163–166; morgan line 1017; morgan line 1064).
 
-What AlgebraicTopologyPartII must provide (gap:sullivan-quasi-isomorphism-rigidity): For the Layer 4 rational-homotopy extension, every quasi-isomorphism between Sullivan minimal algebras over a characteristic-zero field is an algebra isomorphism (Morgan Proposition 5.9 and its degreewise application, p. 167; morgan line 1162).
+What AlgebraicTopologyPartII must provide (gap:sullivan-quasi-isomorphism-rigidity): Every quasi-isomorphism between Sullivan minimal algebras over a characteristic-zero field is an algebra isomorphism (Morgan Proposition 5.9 and its degreewise application, p. 167; morgan line 1162).
 
 What AlgebraicTopologyPartII must provide (gap:sullivan-homotopy-lifting): Over a characteristic-zero field define polynomial homotopies M→A⊗K[t,dt], d(t)=dt, with endpoint evaluations killing dt, and prove equal induced cohomology maps, constant paths, pre- and postcomposition, an equivalence relation for ordered positive-degree Sullivan sources with a single homotopy for transitivity, bijectivity [M,A]→[M,B] for every quasi-isomorphism A→B of nonnegative commutative DG algebras, and lifting of each automorphism of a connected target to a homotopy class of automorphisms of a chosen minimal model, without asserting a compatible choice of actual lifts (Morgan Proposition 5.5, Theorems 5.6–5.7 and the relative uniqueness argument, pp. 164–167; morgan line 1043; morgan line 1119; DGMS Theorem 1.2 and Corollaries 1.3–1.6, pp. 252–253; dgms line 331).
 
-What AlgebraicTopologyPartII must provide (gap:sullivan-scalar-extension): For the Layer 4 rational-homotopy extension, extension of scalars K→L between characteristic-zero fields carries a full or 1-minimal map M→A to a full or 1-minimal map M⊗_K L→A⊗_K L (Morgan Definition 5.3, p. 163; morgan line 1036; flat field extension preserves its cohomology conditions).
+What AlgebraicTopologyPartII must provide (gap:sullivan-scalar-extension): Extension of scalars K→L between characteristic-zero fields carries a full or 1-minimal map M→A to a full or 1-minimal map M⊗_K L→A⊗_K L (Morgan Definition 5.3, p. 163; morgan line 1036; flat field extension preserves its cohomology conditions).
 
 ### From TauCetiRoadmap.DerivedDeRhamCohomology
 
@@ -182,7 +182,7 @@ For the supplied Sullivan models, Λ(a₁), da=0 has Betti ranks (1,1,0) in degr
 
 ### Dependencies
 
-Tau Ceti’s graded DG carrier and cohomology; DGAInfinity Layer 1; AlgebraicTopologyPartII Layer 4 with polynomial-forms-de-rham, sullivan-minimal-models, sullivan-quasi-isomorphism-rigidity, sullivan-homotopy-lifting and sullivan-scalar-extension for the models used in the examples. Each target’s Needs line distinguishes its statement inputs from the inputs of the proposed route.
+Tau Ceti’s graded DG carrier and cohomology; DGAInfinity Layer 1; AlgebraicTopologyPartII with polynomial-forms-de-rham, sullivan-minimal-models, sullivan-quasi-isomorphism-rigidity, sullivan-homotopy-lifting and sullivan-scalar-extension for the models used in the examples. Each target’s Needs line distinguishes its statement inputs from the inputs of the proposed route.
 
 ## Layer 1: Relative divided-power simplex forms
 
@@ -355,7 +355,7 @@ There is a natural t-graded DG injection Ω(X,K)→A_PL(X;K)⊗K[t], sending x_i
 
 A proof can proceed as follows. Use the rational divided-power identification and homogenize barycentric forms by t. On cohomology tγ_n=(n+1)γ_(n+1); all transition scalars are invertible in K. Send the class aγₙ to a/n! to identify the eventual cohomology with H*(X,K). Use exactness of filtered module colimits and the polynomial de Rham theorem; no claim of a uniform degree bound on arbitrary compatible forms is required.
 
-*Needs:* AlgebraicTopologyPartII Layer 4 through gap:polynomial-forms-de-rham; §2.3; §1.1.
+*Needs:* AlgebraicTopologyPartII through gap:polynomial-forms-de-rham; §2.3; §1.1.
 
 **Checks.**
 
@@ -371,7 +371,7 @@ For the simplicial circle H¹(Ωₙ)=R for n≥1 and H¹(Ω₀)=0. On the two-to
 
 ### Dependencies
 
-Layer 1; Mathlib simplicial sets and Dold–Kan; the pinned simplicial cochain composite; AlgebraicTopology Stage 4, item 7 and Stage 6; AlgebraicTopologyPartII Layer 4 through gap:polynomial-forms-de-rham; DerivedModuleAlgebra §§0.14–0.17 for décalage. Each target’s Needs line distinguishes its statement inputs from the inputs of the proposed route.
+Layer 1; Mathlib simplicial sets and Dold–Kan; the pinned simplicial cochain composite; AlgebraicTopology Stage 4, item 7 and Stage 6; AlgebraicTopologyPartII through gap:polynomial-forms-de-rham; DerivedModuleAlgebra §§0.14–0.17 for décalage. Each target’s Needs line distinguishes its statement inputs from the inputs of the proposed route.
 
 ## Layer 3: Pro-simplicial completion and the homotopy algebra
 
@@ -558,7 +558,7 @@ If X descends to a variety X₀ over a countable field k₀ and k₁ is its alge
 
 A proof can proceed as follows. At fixed (p,n), prove that the simplicial coefficient object of §2.2 has finite skeletal width. A form at a finite-component stage is determined by its values on finitely many simplices in those degrees. The presentation contract gives a finite orbit of this truncated stage and finite-extension descent for its components and maps. Intersect the finitely many open stabilizers of these data and values; this subgroup fixes the form. A total form has finite bidegree support, so another finite intersection suffices. Transport actions through completion, scalar extension and stabilization as algebraic maps. For the raw rigid type no finite-component argument applies. Lift individual automorphisms of either representative to homotopy classes on a minimal model; these classes do not choose a group action by actual lifts.
 
-*Needs:* §4.1a; §4.1; §2.2 finite-width coefficient argument; EtaleHomotopyTypes §§3.2–3.4 through gap:finite-component-etale-presentation; EtaleCohomologyFoundations §§F.4.6 and F.10.1–F.10.2b; AlgebraicTopologyPartII Layer 4 through gap:sullivan-minimal-models, gap:sullivan-homotopy-lifting and gap:sullivan-quasi-isomorphism-rigidity for individual model lifts.
+*Needs:* §4.1a; §4.1; §2.2 finite-width coefficient argument; EtaleHomotopyTypes §§3.2–3.4 through gap:finite-component-etale-presentation; EtaleCohomologyFoundations §§F.4.6 and F.10.1–F.10.2b; AlgebraicTopologyPartII through gap:sullivan-minimal-models, gap:sullivan-homotopy-lifting and gap:sullivan-quasi-isomorphism-rigidity for individual model lifts.
 
 **Checks.**
 
@@ -589,7 +589,7 @@ Let X be a connected separated finite-type complex variety and M_Q→A_PL(X(C);Q
 
 A proof can proceed as follows. Use Ω(E_fin,ℤ/ℓ^r)→Ω(N,ℤ/ℓ^r) and a chosen nerve stage to obtain bidegree quasi-isomorphisms. Apply the proved ML comparison to pass to ℤ_ℓ, then rationalize and stabilize in t. Justify the integral-to-ℤ_ℓ cohomology comparison by finite CW type, not by an unrestricted tensor/Hom identity. Compare the rational stabilized nerve algebra to A_PL of a nerve stage, then along the supplied zigzag N^α←diag Sing(V^α)→Sing X(C) to A_PL(Sing X(C);Q), each map inducing a cohomology isomorphism, and use §4.1a’s quasi-isomorphism to A_ℓ,rig. Pass to minimal models using the declared Layer 0 contracts.
 
-*Needs:* §4.3; §4.1a; §3.4; §3.5; §2.5; AlgebraicTopologyPartII Layer 4 through gap:polynomial-forms-de-rham, gap:sullivan-minimal-models, gap:sullivan-homotopy-lifting, gap:sullivan-quasi-isomorphism-rigidity and gap:sullivan-scalar-extension; ComplexComparisonPartII §§C6.0, C6.3 and C6.6; AlgebraicTopology Stage 6.
+*Needs:* §4.3; §4.1a; §3.4; §3.5; §2.5; AlgebraicTopologyPartII through gap:polynomial-forms-de-rham, gap:sullivan-minimal-models, gap:sullivan-homotopy-lifting, gap:sullivan-quasi-isomorphism-rigidity and gap:sullivan-scalar-extension; ComplexComparisonPartII §§C6.0, C6.3 and C6.6; AlgebraicTopology Stage 6.
 
 **Checks.**
 
@@ -603,7 +603,7 @@ For Spec k, the realized algebra is quasi-isomorphic to ℚ_ℓ and the Galois a
 
 ### Dependencies
 
-Layers 2–3; SchemeAndStackFoundations §0.9; EtaleHomotopyTypes §§3.2–3.4 through gap:finite-component-etale-presentation; EtaleCohomologyFoundations §§F.2–F.4 and F.10.1–F.10.2b; ComplexComparisonPartII §§C6.0–C6.6 and compatible-good-cover-refinement; AlgebraicTopology Stages 5–6; AlgebraicTopologyPartII Layer 4 through the five contracts in Exact supplier contracts. Each target’s Needs line distinguishes its statement inputs from the inputs of the proposed route.
+Layers 2–3; SchemeAndStackFoundations §0.9; EtaleHomotopyTypes §§3.2–3.4 through gap:finite-component-etale-presentation; EtaleCohomologyFoundations §§F.2–F.4 and F.10.1–F.10.2b; ComplexComparisonPartII §§C6.0–C6.6 and compatible-good-cover-refinement; AlgebraicTopology Stages 5–6; AlgebraicTopologyPartII through the five contracts in Exact supplier contracts. Each target’s Needs line distinguishes its statement inputs from the inputs of the proposed route.
 
 ## Layer 5: Geometric cohomology and Frobenius weights
 
@@ -661,7 +661,7 @@ The interface has the following laws.
 
 A proof can proceed as follows. Represent subalgebras with inherited grading and differential; record finite positive generator sets and exhaustivity. For a fixed degree, finitely many positive-degree generators allow finitely many monomials, proving local finite-dimensionality and then local finiteness for stable automorphisms.
 
-*Needs:* AlgebraicTopologyPartII Layer 4 through gap:sullivan-minimal-models.
+*Needs:* AlgebraicTopologyPartII through gap:sullivan-minimal-models.
 
 **Checks.**
 
@@ -675,7 +675,7 @@ For a connected nonnegative commutative DG algebra A over a characteristic-zero 
 
 A proof can proceed as follows. Construct a countable sequence of finite Hirsch-extension blocks, closing each block under the finitely many differential dependencies. Use the homotopy lifting/obstruction calculation to replace an arbitrary automorphism by one adapted to those blocks. For degree-one extensions and higher degrees verify that finite cohomology is sufficient for the finite-block choices. Choose the exhaustive blocks over K before adapting any automorphism. Prove the adaptation by induction for an arbitrary automorphism over L on these scalar-extended blocks: the finite-dimensional cycle, boundary and obstruction kernels and images commute with flat field extension, and the Hirsch lifting equations are linear in each new generator image. Thus the chosen blocks retain the stable-representative property over L without selecting a new filtration there. Finite-dimensionality of M^i is not an assumption.
 
-*Needs:* AlgebraicTopologyPartII Layer 4 through gap:sullivan-minimal-models, gap:sullivan-homotopy-lifting and gap:sullivan-scalar-extension; §6.1.
+*Needs:* AlgebraicTopologyPartII through gap:sullivan-minimal-models, gap:sullivan-homotopy-lifting and gap:sullivan-scalar-extension; §6.1.
 
 **Checks.**
 
@@ -714,7 +714,7 @@ For M,σ as in the generalized-eigenvalue construction, every eigenvalue a on M^
 
 A proof can proceed as follows. Induct along minimal Hirsch extensions: closed generators obtain eigenvalues from new cohomology; generators killing relations obtain eigenvalues from decomposable cocycles in the preceding algebra. Multiplicativity propagates product expressions to monomials. The differential raises degree without changing eigenvalue, giving Σr_j≥n. For possibly infinite degree-one towers make the induction compatible with the finite blocks constructed in §6.2.
 
-*Needs:* §6.3; §6.2; AlgebraicTopologyPartII Layer 4 through gap:sullivan-minimal-models.
+*Needs:* §6.3; §6.2; AlgebraicTopologyPartII through gap:sullivan-minimal-models.
 
 **Checks.**
 
@@ -862,7 +862,7 @@ For a connected proper smooth variety X over an algebraically closed field k wit
 
 A proof can proceed as follows. Use DeligneWeightsAndPurity §§7.12 and 7.15 purity for proper smooth X, including nonprojective X; the smooth-projective result alone is insufficient. The weight-n part of M^n consists of cycles since d lands in M_n^(n+1)=0. For the chain-map condition, the image of a differential is a boundary and hence has zero cohomology class even when its weight equals the target degree. The bound and multiplicativity give compatibility with products. Purity makes the induced map on cohomology an isomorphism. Import the generic formality predicate and its Massey consequences from DGAInfinity.
 
-*Needs:* §8.1; §6.5; AlgebraicTopologyPartII Layer 4 through gap:sullivan-minimal-models; DGAInfinity Layers 3 and 8; DeligneWeightsAndPurity §§7.12, 7.15 and 8.20–8.24.
+*Needs:* §8.1; §6.5; AlgebraicTopologyPartII through gap:sullivan-minimal-models; DGAInfinity Layers 3 and 8; DeligneWeightsAndPurity §§7.12, 7.15 and 8.20–8.24.
 
 **Checks.**
 
@@ -884,7 +884,7 @@ The interface has the following laws.
 
 A proof can proceed as follows. Adjoin H¹ generators, then degree-one generators killing the H² kernel. Each finite degree-one stage has finite-dimensional H², so the kernel of its map to H²(A) is finite-dimensional even when H²(A) is infinite-dimensional. Adjoining generators for this kernel preserves finite stages. Use the Lie algebra carrier and the negative transpose of the quadratic differential at each finite stage. Compare this tower with the supplier’s unipotent fundamental group; the comparison is a separate target, not part of the definition.
 
-*Needs:* AlgebraicTopologyPartII Layer 4 through gap:sullivan-minimal-models; Mathlib Lie algebras and finite-dimensional linear duals; §6.5 only when a geometric model weight grading is used.
+*Needs:* AlgebraicTopologyPartII through gap:sullivan-minimal-models; Mathlib Lie algebras and finite-dimensional linear duals; §6.5 only when a geometric model weight grading is used.
 
 **Checks.**
 
@@ -1003,7 +1003,7 @@ For ℙ¹−{0,1,∞}, H¹=ℚ_ℓ(−1)², H²=0. Closed a,b have weight 2; adj
 
 ### Dependencies
 
-Layers 4–7; AlgebraicTopologyPartII Layer 4 through gap:sullivan-minimal-models; DeligneWeightsAndPurity §§7.12, 7.14–7.15 and 8.20–8.24 with arbitrary-base-weight-filtration, ordinary-cohomology-weight-bounds and normal-h1-weights; DGAInfinity Layers 3 and 8; AnabelianGeometryAndNonabelianChabauty §§2.1–2.3 with normal-variety-unipotent-category. ArithmeticLocallySymmetricSpaces §ALS.F.5 supplies the Chevalley–Eilenberg complex used by §§8.3t–8.3a. The purely algebraic construction of §8.3 only uses the subset stated in its Needs line. Each target’s Needs line distinguishes its statement inputs from the inputs of the proposed route.
+Layers 4–7; AlgebraicTopologyPartII through gap:sullivan-minimal-models; DeligneWeightsAndPurity §§7.12, 7.14–7.15 and 8.20–8.24 with arbitrary-base-weight-filtration, ordinary-cohomology-weight-bounds and normal-h1-weights; DGAInfinity Layers 3 and 8; AnabelianGeometryAndNonabelianChabauty §§2.1–2.3 with normal-variety-unipotent-category. ArithmeticLocallySymmetricSpaces §ALS.F.5 supplies the Chevalley–Eilenberg complex used by §§8.3t–8.3a. The purely algebraic construction of §8.3 only uses the subset stated in its Needs line. Each target’s Needs line distinguishes its statement inputs from the inputs of the proposed route.
 
 ## Downstream consumers
 
