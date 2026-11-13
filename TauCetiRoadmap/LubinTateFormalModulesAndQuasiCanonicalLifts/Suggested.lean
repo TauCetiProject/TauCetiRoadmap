@@ -135,11 +135,11 @@ variable {K : Type} [Field K] [ValuativeRel K] [TopologicalSpace K]
   [IsNonarchimedeanLocalField K]
 
 /-- **Primitive-root presentation of the Lubin–Tate division fields** (LT65, Theorem 2,
-pp.383–384; README §2.3). Let `K` be a nonarchimedean local field of characteristic zero with
+pp.383–384; README §2.3). Let `K` be a nonarchimedean local field, of either characteristic, with
 residue cardinality `q`, `π` a uniformizer and `f` a Lubin–Tate polynomial for `π`. If `t ∈ K̄` is a
 root of the iterate `f^{∘m}`, `m ≥ 1`, but not of `f^{∘(m−1)}`, then
 `[K(t) : K] = (q − 1) q ^ (m − 1)` and every root of `f^{∘m}` lies in `K(t)`. -/
-theorem finrank_adjoin_primitive_lubinTate_root [CharZero K] {π : 𝒪[K]} (hπ : Irreducible π)
+theorem finrank_adjoin_primitive_lubinTate_root {π : 𝒪[K]} (hπ : Irreducible π)
     {f : Polynomial 𝒪[K]} (hf : IsLubinTatePolynomial π (Nat.card 𝓀[K]) f)
     {m : ℕ} (hm : 1 ≤ m) {t : AlgebraicClosure K}
     (ht : Polynomial.aeval t ((f.comp)^[m] Polynomial.X) = 0)
@@ -156,7 +156,7 @@ series `[u⁻¹]_f`, characterized by zero constant term, linear coefficient `u�
 `f ∘ φ = φ ∘ f`, and let `P` be a polynomial congruent to `φ` modulo the iterate `f^{∘m}` in
 `O_K[[X]]`. Then every lift `σ` to the absolute Galois group of the arithmetic Artin symbol
 `Art_K(ϖ^r u)` sends each root `t` of `f^{∘m}` to `P(t)`, the value `[u⁻¹]_f(t)`. -/
-theorem artinMap_apply_lubinTate_root [CharZero K] {π : 𝒪[K]} (hπ : Irreducible π)
+theorem artinMap_apply_lubinTate_root {π : 𝒪[K]} (hπ : Irreducible π)
     {f : Polynomial 𝒪[K]} (hf : IsLubinTatePolynomial π (Nat.card 𝓀[K]) f)
     (ϖ : Kˣ) (hϖ : (ϖ : K) = π) (r : ℤ) (u : 𝒪[K]ˣ)
     {φ : PowerSeries 𝒪[K]} (hφ₀ : constantCoeff φ = 0) (hφ₁ : coeff 1 φ = ((u⁻¹ : 𝒪[K]ˣ) : 𝒪[K]))
@@ -176,7 +176,7 @@ pp.385–387). With `K`, `π` and `f` as above, `ϖ ∈ Kˣ` equal to `π`, and 
 absolute Galois group of the arithmetic Artin symbol `Art_K(x)` fixes every root of `f^{∘m}` if and
 only if `x ∈ ⟨ϖ⟩ · U(K, m)`, that is, the norm group of `K(f^{∘m} = 0)/K` is
 `π^ℤ · U(K, m)`, where `U(K, 0) = O_K^×` and `U(K, m) = 1 + 𝔪_K^m` only for `m ≥ 1`. -/
-theorem artinMap_fixes_lubinTate_roots_iff [CharZero K] {π : 𝒪[K]} (hπ : Irreducible π)
+theorem artinMap_fixes_lubinTate_roots_iff {π : 𝒪[K]} (hπ : Irreducible π)
     {f : Polynomial 𝒪[K]} (hf : IsLubinTatePolynomial π (Nat.card 𝓀[K]) f)
     (ϖ : Kˣ) (hϖ : (ϖ : K) = π) (m : ℕ) (x : Kˣ) :
     (∀ σ : Field.absoluteGaloisGroup K,
