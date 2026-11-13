@@ -37,8 +37,7 @@ statable at the pins. The headline theorems, and the carriers each one lacks, ar
 Stating any of these now would need a free `Prop` or a long ad hoc encoding of a deformation
 functor or an automorphic carrier, which the roadmap does not do. The README's other targets
 (near adequacy, the unavoidable dyadic dual Selmer class, patching over a weight algebra with
-torsion, the symplectic refinements of `GSp₄`-reasonableness) are targets and Checks of the
-README, not headline theorems.
+torsion, `GSp₄`-reasonableness) are targets and Checks of the README, not headline theorems.
 -/
 
 namespace TauCetiRoadmap.OrdinaryAutomorphicFormsAndModularityLiftingPartII
