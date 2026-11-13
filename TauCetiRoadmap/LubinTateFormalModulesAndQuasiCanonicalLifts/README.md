@@ -1807,8 +1807,10 @@ only for `a = 1`, since the residual `O_F`-action is faithful.
 
 For quadratic `F/F₀` and `s ≥ 0` define `O_s = O₀ + ϖ₀^s O_F`. Prove that every `O₀`-order in `O_F` is
 exactly one `O_s`, that the conductor of `O_s` is `ϖ₀^s O_F`, and that for `s ≥ 1`,
-`O_s^× = O₀^×(1 + ϖ₀^s O_F)` (G86, §5, Proposition 5.3, p.325; Y95, §5, Proposition 4, p.300). A proof
-route: with an integral basis `1, α` of `O_F`, an order containing `O₀` is `O₀ + ϖ₀^s O₀α`.
+`O_s^× = O₀^×(1 + ϖ₀^s O_F)` (G86, §5, p.325: the two cases, `O_F` or some `O_s` with `s ≥ 1`, for
+an order containing `O₀`, before Proposition 5.3, and Proposition 5.3(2) for
+`O_F^×/O_s^× ≅ (O_F/ϖ₀^s O_F)^×/(O₀/ϖ₀^s O₀)^×`). A proof route: with an integral basis `1, α` of
+`O_F`, an order containing `O₀` is `O₀ + ϖ₀^s O₀α`.
 
 API:
 
