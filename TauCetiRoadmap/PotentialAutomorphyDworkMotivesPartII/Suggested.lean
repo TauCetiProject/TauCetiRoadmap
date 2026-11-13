@@ -1,10 +1,12 @@
 import Mathlib
+import TauCeti.AlgebraicGeometry.EllipticCurve.PointCount
+import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.Algebraic
 
 /-!
 # Potential automorphy infrastructure, Part II, Dwork switching motives: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems that are statable against the pinned Mathlib, each with `sorry`, together with the few
+theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
 finite-data definitions those statements need (README §§1.4 and 6.2).
 
 Stated here:
@@ -18,6 +20,11 @@ Stated here:
   (§5.4, `qian_two_prime_hypergeometric_group`).
 * Qian's Gauss-sum formula for the determinant of a zero-shaped Dwork motive
   (§6.2, `zeroShaped_gauss_product`).
+* Elliptic curves over every prime field with every integer Frobenius trace `b` satisfying
+  `b ^ 2 ≤ 4 * p` (§9.13, `exists_ellipticCurve_frobeniusTrace`).
+* Hecke characters of a CM number field with infinity type `-a`, for any integer embedding
+  exponents `a` whose conjugate pair sums equal a fixed integer `w`
+  (§9.14, `exists_heckeCharacter_infinityType`).
 
 Levelt's rigidity theorem, which README §0.3 reads in this roadmap's order of the triple, is
 HypergeometricMotives §3.4 (`levelt_rigidity_field`); it is not restated here.
@@ -192,6 +199,26 @@ theorem zeroShaped_gauss_product {F R : Type*} [Field F] [Finite F] [CommRing R]
     (ψ : AddChar F R) (hψ : ψ.IsPrimitive) :
     ∏ b ∈ D.indexSet, ∏ j, qianGauss χ ψ (D.a j + b) =
       (∏ b ∈ D.indexSet, qianGauss χ ψ b) ^ n * (Nat.card F : R) ^ (n * (N - n) / 2) := by
+  sorry
+
+/-! ## Layer 9: Switching theorems -/
+
+/-- Every integer in the Hasse interval occurs as the Frobenius trace of an elliptic curve
+over a prime field, including characteristics two and three (Waterhouse, Theorem 4.1). -/
+theorem exists_ellipticCurve_frobeniusTrace (p : ℕ) [Fact p.Prime] (b : ℤ)
+    (hb : b ^ 2 ≤ 4 * (p : ℤ)) :
+    ∃ E : WeierstrassCurve (ZMod p), E.IsElliptic ∧ E.frobeniusTrace = b := by
+  sorry
+
+open NumberField TauCeti.GlobalNumberFields
+
+/-- For a CM number field, integer embedding exponents with constant conjugate pair sums
+occur, with negative sign, as the infinity type of a Hecke character, with no prescribed finite
+conductor (Barnet-Lamb–Gee–Geraghty–Taylor, Lemma A.2.4). -/
+theorem exists_heckeCharacter_infinityType (K : Type*) [Field K] [NumberField K] [IsCMField K]
+    (a : AlgebraicInfinityType K) (w : ℤ)
+    (ha : ∀ σ, a σ + a (ComplexEmbedding.conjugate σ) = w) :
+    ∃ χ : HeckeCharacter K, χ.infinityType = AlgebraicInfinityType.toContinuous (-a) := by
   sorry
 
 end TauCetiRoadmap.PotentialAutomorphyDworkMotivesPartII
