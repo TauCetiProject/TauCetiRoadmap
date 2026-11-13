@@ -114,7 +114,7 @@ Consume D1–D2, the full group C*-algebra and its universal integrated represen
 
 ### From TauCetiRoadmap.CStarAlgebras
 
-Consume C2, irreducible representations, primitive ideals, pure states and GNS. The dimension-bound and bounded-trace contracts below concern additional representation theory of these same C*-algebras.
+Consume C2, irreducible representations, primitive ideals, pure states and GNS. The polynomial-identity and bounded-trace contracts below concern additional representation theory of these same C*-algebras.
 
 **The polynomial-identity contract.** CStarAlgebras must supply the polynomial-identity theorem turning a uniform bound N on irreducible dimensions of a dense star subalgebra into the same dimension bound for irreducible Hilbert representations of its C*-completion, with the Hecke-corner compression comparison.
 
@@ -509,7 +509,7 @@ G a locally compact Hausdorff group with a regular left Haar measure μ; second 
 
 The headline statement in `Suggested.lean` is `raikov`, in filter form on C(G, ℂ) with the compact-open topology.
 
-One proof route is as follows. First reduce to σ-compact open subgroups H: every compact subset of G lies in one, every f ∈ L¹(G, μ) vanishes almost everywhere outside one (inner regularity of μ on sets of finite measure, Mathlib's instance from `Regular` to `InnerRegularCompactLTTop`: each set {|f| > 1/n} has finite measure and is approximated from inside by compact sets, whose union lies in a σ-compact open subgroup), and positive type and normalisation restrict to H; on such H the Haar measure is σ-finite and the duality contract applies. Uniform on compacta ⇒ weak-*: for f ∈ L¹ and ε > 0 choose a compact Q carrying all but ε of ∫|f|; on Q the functions are uniformly close, off Q they are bounded by 1 (BHV proof of C.5.6, first part). Weak-* ⇒ uniform on compacta: for a net φᵢ → φ in P₁(G) weak-*, choose f ∈ C_c(G) with f ≥ 0, ∫ f = 1 supported near e so that φ is close to 1 there; the convolutions f ∗ φᵢ converge to f ∗ φ uniformly on compacta (equicontinuity of translates of f in L¹), and the estimate |ψ(x) − (f ∗ ψ)(x)|² ≤ 2 Re(1 − ⟨ψ, f⟩)-type bound from positive-type-function (C.4.2(iii)) controls φᵢ − f ∗ φᵢ uniformly once ⟨φᵢ, f⟩ → ⟨φ, f⟩ is close to 1 (BHV proof of C.5.6, second part). Density: combine with positive-type-weak-star-compact.
+One proof route is as follows. First reduce to σ-compact open subgroups H: every compact subset of G lies in one, every f ∈ L¹(G, μ) vanishes almost everywhere outside one (inner regularity of μ on sets of finite measure, Mathlib's instance from `Regular` to `InnerRegularCompactLTTop`: each set {|f| > 1/n} has finite measure and is approximated from inside by compact sets, whose union lies in a σ-compact open subgroup), and positive type and normalisation restrict to H; on such H the restriction μ|_H is σ-finite, since it is finite on compact sets, and BanachSpaceTheory B5, `exists_lpInftyDualEquiv`, identifies L^∞(H, μ) with the dual of L¹(H, μ). Uniform on compacta ⇒ weak-*: for f ∈ L¹ and ε > 0 choose a compact Q carrying all but ε of ∫|f|; on Q the functions are uniformly close, off Q they are bounded by 1 (BHV proof of C.5.6, first part). Weak-* ⇒ uniform on compacta: for a net φᵢ → φ in P₁(G) weak-*, choose f ∈ C_c(G) with f ≥ 0, ∫ f = 1 supported near e so that φ is close to 1 there; the convolutions f ∗ φᵢ converge to f ∗ φ uniformly on compacta (equicontinuity of translates of f in L¹), and the estimate |ψ(x) − (f ∗ ψ)(x)|² ≤ 2 Re(1 − ⟨ψ, f⟩)-type bound from positive-type-function (C.4.2(iii)) controls φᵢ − f ∗ φᵢ uniformly once ⟨φᵢ, f⟩ → ⟨φ, f⟩ is close to 1 (BHV proof of C.5.6, second part). Density: combine with positive-type-weak-star-compact.
 
 **Checks.**
 
@@ -894,7 +894,7 @@ Let G be a reductive group over a p-adic field F of characteristic zero with com
 
 F of characteristic zero, as in Gan–Savin; G with compact centre, or all representations with a fixed unitary central character.
 
-One proof route is as follows. Use the tempered-dual local-topology supplier contract, not just the algebraic uniqueness of tempered support. With unitary central character fixed, the square-integrable stratum is locally discrete modulo the finite stabilizer of unramified twists; the local topology separates it from proper-Levi inductions.
+One proof route is as follows. Use the tempered-local-topology supplier contract, not just the algebraic uniqueness of tempered support. With unitary central character fixed, the square-integrable stratum is locally discrete modulo the finite stabilizer of unramified twists; the local topology separates it from proper-Levi inductions.
 
 For PGL₂(ℚ_p) the Steinberg representation is not a limit of unitary principal series i_B(`|·|^(itₙ)` ⊗ `|·|^(−itₙ)`): their limits are unitary principal series, which do not contain St. Isolation holds only in the tempered dual: in the full unitary dual of PGL₂(ℚ_p) the Steinberg representation is a limit of complementary series (SRU.4 steinberg-isolated, rank-one non-example).
 
