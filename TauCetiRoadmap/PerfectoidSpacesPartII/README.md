@@ -1671,11 +1671,20 @@ with proof, pp. 54–55; Remarque 4.2.2, p. 55). The statement is algebraic (no 
 `lim¹` over an ordered set may be computed on a cofinal subset. André presents it as a simplified form of a proposition of Scholze on the
 Hebbarkeitssatz (André A, §4.2.1, p. 54).
 
-*Proof sketch.* Let `R[j]_k = Σ_{s ∈ ℕ[1/p] ∩ [0, 1/pᵏ]} R·u^s_{[j]}`. Since `u^s_{[j′]}` maps to `0` in
-`R[j]` when `s(j′ − j) ≥ r`, the transition `R[j′] → R[j]` factors through `R[j]_k` for
-`j′ ≥ j + rpᵏ`, so `lim_j R[j] = lim_{j,k} R[j]_k`. `T^{1/p^k}` maps `R[j]_k` into the image `S_j` of
-`R`, so `(S_j)^a = lim_k (R[j]_k)^a`. The kernel of `R → S_j` is killed by `T^{r/j}` for `j = p^ℓ`, by
-comparing coefficients; hence `R^a = lim_j (S_j)^a = lim_j R[j]^a`.
+*Proof sketch.* Let `S_j ⊆ R[j]` be the image of `R`, and treat the two maps
+`R → lim_j S_j → lim_j R[j]` separately. For the second, let `R[j]_k ⊆ R[j]` be the `R`-span of the
+`u^s_{[j]}` with `s ≤ 1/pᵏ`. Going down from `j′` to `j` multiplies `u^s` by `ϖ^{(j′−j)s}`, which is
+`0` in `R` once `(j′ − j)s ≥ r`; so for `j′ ≥ j + rpᵏ` the transition lands in `R[j]_k`, and the
+systems `(R[j])_j` and `(R[j]_k)_{j,k}` interleave and have the same limit. For `s ≤ 1/pᵏ` the element
+`T^{1/p^k}u^s_{[j]} = ϖ^{js}T^{1/p^k − s}` comes from `R`, so `S_j ⊆ R[j]_k` with quotient killed by
+`T^{1/p^k}`; the decreasing intersection `⋂_k R[j]_k` therefore contains `S_j` with a quotient killed
+by every root of `T`, and by PerfectoidSpaces P0.27 the limits over `j` of the `S_j` and of the
+`R[j]` agree up to almost isomorphism. For the first map, take `j = p^ℓ` (these `j` are cofinal) and
+`a ∈ R` with image `0` in `R[j] = R[U^{1/p^∞}]/(T^{1/p^k}U^{1/p^k} − ϖ^{j/p^k})_k`. These generators
+divide one another, so `a` is a multiple of a single one, for some `k ≥ ℓ`, and comparing the
+coefficients of the powers of `U` gives `T^{r/j}a = 0`. The kernels of `R → S_j` decrease with `j`,
+and from `j` on they are killed by `T^{r/j}`; their `lim` and `lim¹`, which are the kernel and the
+cokernel of `R → lim_j S_j`, are therefore killed by every `T^{r/p^ℓ}`, hence almost zero.
 
 *Needs:* PerfectoidSpaces P0.27; Tau Ceti `TauCeti.Almost.BasicSetup.ofCompatibleRoots`.
 
@@ -2089,10 +2098,16 @@ category, so `A` may be assumed completely integrally closed in `A[1/g]`.
 
 *Proof sketch.* (1) Each `B_j` is finite étale over the perfectoid `A[j]`, hence perfectoid
 (PerfectoidSpaces P3.10); `B_i ⊗_{A[i]} A[j] ≅ B_j`, and `B_i` being finite projective over `A[i]` the
-tensor product is already complete, equal to `B_i{ϖʲ/g}`. (2) The integral closure of `A°` in `B′` maps
-to the integral closure of `A[j]°` in `B_j`, which is almost `B_j°` (PerfectoidSpaces P3.12); in the
-limit this gives `δ : B′ → B[1/g]`, and `δ_j` is a right inverse of the counit `η_j`; the adjunction of
-§3.11 forces `δ_jη_j = id`. (3) For injectivity, use §2.4(6) to embed `A[1/g]` into the algebraic
+tensor product is already complete, equal to `B_i{ϖʲ/g}`. (2) Write `η_j : B{ϖʲ/g} → B_j` for the
+counit. An element of `B′` integral over `A°` stays integral over `A[j]°` in every `B_j`, hence is
+power-bounded there (Tau Ceti `TauCeti.Huber.isPowerBounded_of_isIntegral`), and the compatible
+family of its images lies in `lim_j B_j° = B°` (§2.6). Inverting `ϖg`, which makes this integral
+closure all of `B′`, turns the resulting map into an `A[1/g]`-algebra map `δ : B′ → B[1/g]`; base
+change to `A[j]` followed by completion gives `δ_j : B_j → B{ϖʲ/g}`, and `η_j ∘ δ_j = id` because both
+sides are `A[j]`-linear and agree with the canonical map on `B′`. The family `(δ_j ∘ η_j)_j` and the
+identity are endomorphisms of `ς(B)` with the same composite `η` to `(B_j)_j`; `ς` is fully faithful
+(§3.11), so a morphism `ς(B) → (B_j)_j` factors through the counit in only one way, and
+`δ_j ∘ η_j = id`. (3) For injectivity, use §2.4(6) to embed `A[1/g]` into the algebraic
 projective limit `lim_j A[j]`, where `g` is invertible (it does not embed into the bounded uniform limit:
 `1/T` has unbounded annular norms). If `I = ker(B′ → lim_j B_j)` then `tr(xy)` maps to zero for `x ∈ I`
 and every `y ∈ B′`, so `tr(xy) = 0`, and nondegeneracy of the finite étale trace pairing gives `I = 0`.
@@ -2101,8 +2116,8 @@ concludes; in general, on each constant-rank component of positive rank `r`, emb
 first frame coordinate in its `S_r`-Galois frame torsor (AdicEtaleGeometry A4.3), apply the Galois
 case to the torsor and take `S_{r−1}`-invariants (§4.2(1)).
 
-*Needs:* §2.4, §3.10, §3.11, §4.2; AdicEtaleGeometry A4.3; PerfectoidSpaces P0.12, P0.14, P3.10,
-P3.12.
+*Needs:* §2.4, §2.6, §3.10, §3.11, §4.2; AdicEtaleGeometry A4.3; PerfectoidSpaces P0.12, P0.14,
+P3.10; Tau Ceti `TauCeti.Huber.isPowerBounded_of_isIntegral`.
 
 **Checks.**
 
@@ -2128,26 +2143,33 @@ system (`A°` is `ϖg`-adically complete because it is `ϖ`-adically complete). 
 subrings of `A[1/g]` and of `B[1/g]` (the latter with its topology as a finite `A[1/g]`-module) are
 `(ϖg)^{-1/p^∞}A°` and `(ϖg)^{-1/p^∞}B°`, almost equal to `A°` and `B°`.
 
-*Proof sketch.* Characteristic `0`, Galois case: put `B₂ = B ⊗_A B` and
-`B₂^{[j]} = B[j] ⊗_{A[j]} B[j]`; their completions are
-perfectoid with `(B̂₂)°^a = B°^a ⊗̂ B°^a` (PerfectoidSpaces P2.16) and `B̂₂[j] = B₂^{[j]}`. By §3.6,
-`lim A[j]° = A°_*`, `lim B[j]° = B°_*`, `lim B₂^{[j]°} = g^{-1/p^∞}B̂₂°`. Each `B[j]°^a` is `G`-Galois over
-`A[j]°^a` by almost purity (PerfectoidSpaces P3.13), so in the limit `(B°_*)^G = A°_*` and
-`(B̂₂°)_* ≅ ∏_G B°_*`; reducing modulo `p^m` gives the Galois property, hence finite étaleness by §4.1.
-After inverting `g`, `(B°/p)[1/g]` is almost flat over `(A°/p)[1/g]` in `(K°, K°°)`, `B[1/g]` is
-finite étale, hence flat, over `A[1/g]`, and `p` is a nonzerodivisor on the `K°`-torsion-free rings
+*Proof sketch.* Characteristic `0`, `B[1/g]` Galois with group `G`. Choose `r ∈ ℕ` with
+`ϖ^r ∈ p^mK°`. It suffices that `B°^a/ϖ^r` be `G`-Galois over `A°^a/ϖ^r`: base change along
+`A°/ϖ^r → A°/p^m` then gives the Galois property modulo `p^m` (§4.1). On the annulus `j`,
+`B[j] = B[1/g] ⊗_{A[1/g]} A[j]` is a finite étale `G`-torsor over the perfectoid `A[j]`, so `B[j]°^a`
+is `G`-Galois over `A[j]°^a` by almost purity (PerfectoidSpaces P3.13), and so is its reduction
+modulo `ϖ^r`. As `B[j]` is finite projective over `A[j]`, `B[j] ⊗_{A[j]} B[j]` needs no completion;
+it is the annular localisation at `j` of `B ⊗̂_A B`, which is perfectoid with unit ball almost
+`B° ⊗̂_{A°} B°` (PerfectoidSpaces P2.13, P2.16), and it is isomorphic to `∏_G B[j]`, so its unit ball
+is `∏_G B[j]°`. For each of the perfectoid algebras `A`, `B` and `B ⊗̂_A B`, §3.4 and §3.5 identify
+the unit ball modulo `ϖ^r`, up to almost isomorphism, with the limit over `j` of the annular unit
+balls modulo `ϖ^r`, as in the proof of §3.6(1); through this identification `G` acts on `B°^a/ϖ^r`.
+Invariants and finite products commute with limits, so `(B°^a/ϖ^r)^G = A°^a/ϖ^r`, and
+`b ⊗ b′ ↦ (γ(b)b′)_γ` is an isomorphism `B°^a/ϖ^r ⊗_{A°^a/ϖ^r} B°^a/ϖ^r ≅ ∏_G B°^a/ϖ^r`; finite
+étaleness follows by §4.1. After inverting `g`, `(B°/p)[1/g]` is almost flat over `(A°/p)[1/g]` in
+`(K°, K°°)`, `B[1/g]` is finite étale, hence flat, over `A[1/g]`, and `p` is a nonzerodivisor on the `K°`-torsion-free rings
 `A°[1/g]` and `B°[1/g]`; the principal almost-flatness criterion (*principal-almost-flatness*,
 below, with `C = A°[1/g]^a`, `M = B°[1/g]^a`, `f = p`) gives almost flatness of `B°[1/g]` over
 `A°[1/g]` in `(K°, K°°)`, and separatedness and isometry place the Galois idempotents in
-`ϖ^{-1/p^∞}B₂°[1/g]`. General case: reduce to the Galois case through the `S_r`-Galois frame torsor of
-`B[1/g]` (AdicEtaleGeometry A4.3) and its `S_{r−1}`-invariants (§4.2(1)). In characteristic `p` the
+`ϖ^{-1/p^∞}(B° ⊗_{A°} B°)[1/g]`. General case: reduce to the Galois case through the `S_r`-Galois
+frame torsor of `B[1/g]` (AdicEtaleGeometry A4.3) and its `S_{r−1}`-invariants (§4.2(1)). In characteristic `p` the
 statement is PerfectoidSpaces P3.3
 as above, transported to the setup `(V, m)` by PerfectoidSpaces P0.16; the reduction modulo `p` is the
 algebra itself, so no lifting from `p` is needed.
 
-*Needs:* §3.6, §4.1, §4.2, §4.3; the principal almost-flatness criterion
+*Needs:* §3.4, §3.5, §3.6, §4.1, §4.2, §4.3; the principal almost-flatness criterion
 (*principal-almost-flatness*, below); AdicEtaleGeometry A4.3; PerfectoidSpaces P0.11, P0.14, P0.16,
-P2.16, P3.3, P3.13.
+P2.13, P2.16, P3.3, P3.13.
 
 **Checks.**
 
@@ -2225,12 +2247,20 @@ pp. 67–68). Prove: with `B = ulim_j B′ ⊗_{A[1/g]} A[j]` (§4.3), `B = B̃`
 (Mathlib `integralClosure`); and `B̃^♮` is the largest perfectoid `A`-algebra contained in `B′`. Integral
 closure commutes with localisation, so `B̃[1/g] = B′ = B[1/g]`. The intended signature is a functor from
 finite étale `A[1/g]`-algebras to perfectoid `A`-algebras with an identification of its localisation at
-`g` with the identity. *Needs:* §2.3, §3.1, §3.7, §4.3, §4.4; Mathlib `integralClosure`.
+`g` with the identity. *Needs:* §2.3, §2.6, §3.1, §3.6, §3.7, §4.2, §4.3; PerfectoidSpaces P3.12;
+Tau Ceti `TauCeti.Huber.isPowerBounded_of_isIntegral`; Mathlib `integralClosure`.
 
-*Construction.* Replace `A°` by `g^{-1/p^∞}A°`. The integral closure of `A°` in `B′` maps into every
-`B_j°` (André A, Lemme 2.4.1(1)), hence into `B°`; this map of subrings of `B′` is injective, and
-surjective because `B°` is integral over `A°`, by the Galois invariants formula (André A, (5.6)) after
-reducing to the Galois case. For the almost comparison, let `x` satisfy a monic equation of degree `n`
+*Construction.* Write `S = g^{-1/p^∞}A°`, which maps into every `A[j]°` (§3.6(1)). By §4.3(3), `B°`
+is a subring of `B′ = B[1/g]`, as is `B̃° = S^+_{B′}`, so `B̃° = B°` is an equality of subrings of
+`B′`. An element of `B′` integral over `S` is integral over `A[j]°` in every `B_j`, hence
+power-bounded there (Tau Ceti `TauCeti.Huber.isPowerBounded_of_isIntegral`), and its compatible
+images lie in `lim_j B_j° = B°` (§2.6): so `B̃° ⊆ B°`. Conversely it suffices that `B°` be integral
+over `S`. If `B′` is Galois with group `G`, each `B_j` is a `G`-torsor over `A[j]` and `B_j°` is the
+integral closure of `A[j]°` in `B_j` (PerfectoidSpaces P3.12), so `(B_j°)^G = A[j]°`, and in the limit
+`(B°)^G = lim_j A[j]° = S` (§3.6(1)); an element `b ∈ B°` is then a root of `∏_{γ∈G}(X − γ(b))`, whose
+coefficients lie in `(B°)^G`. In general `B′` embeds in its frame torsor (§4.2(1)), and `B°` embeds
+in the unit ball of the torsor's annular envelope, which is integral over `S` by the Galois case. For
+the almost comparison, let `x` satisfy a monic equation of degree `n`
 with coefficients `b_i ∈ g^{-1/p^∞}A°`; for `ε = g^{1/p^l}`, multiplying by `εⁿ` gives a monic equation
 for `εx` with coefficients `ε^{n−i}b_i ∈ A°`, so every root of `g` sends `B̃°` into `(A°)^+_{B′}`, and
 the reverse inclusion is immediate. Maximality of `B̃^♮` follows from §3.7 and §3.1.
@@ -2304,17 +2334,26 @@ splitting algebra of its characteristic polynomial every root `α` has `α·f(α
 nilpotent, and `α` is integral over `S`; the trace, the sum of the roots, lies in `A[1/g]` and is
 integral over `S`. Finally `S` is integrally closed in `A[1/g]`: if `x` is integral over `S` of degree
 `d`, its powers lie in `Σ_{i<d} g^{-1}A°·xⁱ`, a finitely generated `A°`-module, because `gS ⊆ A°`, so
-`x ∈ S` by §3.6(2). (3), almost surjectivity: if `B′` is faithful, `B̃°` is a faithful `A°`-module, and since
-`A → B̃` is isometric, `B̃°/p` is faithful over `A°/p`; `B̃°^a/p` is finite étale over `A°^a/p`, so the
-trace is almost surjective modulo `p` onto `(A°^a)_* = g^{-1/p^∞}A°`. In characteristic `0`, both
+`x ∈ S` by §3.6(2). (3), almost surjectivity, first modulo `p`, onto `(A°^a)_* = S`. If `B′` is
+Galois with group `G`, then `B̃°^a/p` is `G`-Galois over `A°^a/p` by (2) in the form of §4.4, hence
+of rank `|G| ≥ 1` and faithfully flat (§4.1), and its trace is `Σ_{γ∈G} γ`, the reduction of
+`tr_{B′/A[1/g]}`. After base change to `B̃°^a/p` this trace becomes the sum map `∏_G B̃°^a/p → B̃°^a/p` (PerfectoidSpaces P0.12),
+which is onto, so by faithful flatness the trace is an epimorphism onto `A°^a/p`. For a general
+faithful `B′`, split `A[1/g]` along the rank of `B′`: the idempotents lie in `S`, which is integrally
+closed, and faithfulness makes every rank at least `1`. On a component of rank `r` the first frame
+coordinate embeds `B′` in its `S_r`-Galois frame torsor `T′` (§4.2(1)), and
+`tr_{T′/A[1/g]} = tr_{B′/A[1/g]} ∘ tr_{T′/B′}` (PerfectoidSpaces P0.12). The containment argument with
+`B′` as base shows that `tr_{T′/B′}` maps the integral closure of `S` in `T′` into `B̃°`, so the trace
+image of `B̃°` contains that of the integral closure of `S` in `T′`, which by the Galois case is almost
+all of `S` modulo `p`. In characteristic `0`, both
 `B̃°` and `A°` are `ϖ`-adically complete (§4.6), hence `p`-adically complete, because `p ∈ ϖK°` and
 `ϖ^N ∈ pK°` for large `N` (`0 < |p| ≤ |ϖ| < 1`), so the trace is almost surjective by the almost
 Nakayama lemma for complete modules (§3.3, *complete-almost-nakayama*, with `I = pV`). In
 characteristic `p`, `pK° = 0` while `ϖ^N ≠ 0`, so the two topologies differ; but the reduction
 modulo `p` is the trace itself, and its almost surjectivity modulo `p` is the claim.
 
-*Needs:* §2.3, §3.3 (*complete-almost-nakayama*), §3.6, §3.7, §4.4, §4.5, §4.6; PerfectoidSpaces
-P0.12, P0.14, P3.13; Tau Ceti `LinearMap.projectiveTrace`; Mathlib `integralClosure`,
+*Needs:* §2.3, §3.3 (*complete-almost-nakayama*), §3.6, §3.7, §4.1, §4.2, §4.4, §4.5, §4.6;
+PerfectoidSpaces P0.12, P0.14, P3.13; Tau Ceti `LinearMap.projectiveTrace`; Mathlib `integralClosure`,
 `Algebra.Etale`.
 
 **Checks.**
@@ -2385,10 +2424,11 @@ AdicSpacesPartII R0.9.
 
 ### Dependencies
 
-Layer 2, Layer 3; PerfectoidSpaces P0.8, P0.9, P0.11, P0.12, P0.14, P0.16, P0.25, P1.30, P2.16,
-P3.3, P3.10–P3.13; PerfectoidQuotients §1.4; AdicSpacesPartII R0.9;
+Layer 2, Layer 3; PerfectoidSpaces P0.8, P0.9, P0.11, P0.12, P0.14, P0.16, P0.25, P1.30, P2.13,
+P2.16, P3.3, P3.10–P3.13; PerfectoidQuotients §1.4; AdicSpacesPartII R0.9;
 AdicEtaleGeometry A4.3; Tau Ceti `TauCeti.Almost.BasicSetup`, `TauCeti.Algebra.IsFiniteEtaleTorsor`,
-`TauCeti.MulSemiringAction.tensorToPi`, `LinearMap.projectiveTrace`; Mathlib `Algebra.Etale`,
+`TauCeti.MulSemiringAction.tensorToPi`, `TauCeti.Huber.isPowerBounded_of_isIntegral`,
+`LinearMap.projectiveTrace`; Mathlib `Algebra.Etale`,
 `Module.FaithfullyFlat`, `integralClosure`.
 
 ## Layer 5: Purity and André's flatness theorem for Kummer towers
