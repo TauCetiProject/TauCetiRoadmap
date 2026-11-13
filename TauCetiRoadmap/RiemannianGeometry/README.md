@@ -19,6 +19,16 @@ surface Dirichlet energy, and the logarithmic cutoff at a point.
 It is independently definitive and states its boundaries with the
 milestones below.
 
+The sub-roadmap [Minimal surfaces](MinimalSurfaces/README.md) owns the theory of smooth
+minimal hypersurfaces built on R5a and R5b: minimal graphs, monotonicity for smooth proper
+minimal immersions and the boundary form of the tangency principle (the interior principle
+is GeometricCurrents G6's), the half-space theorem, local compactness and ε-regularity,
+the Morse index, the
+curvature estimate for stable surfaces, removable singularities, compactness under bounded
+total curvature, the Choi–Wang and Yang–Yau eigenvalue estimates, Frankel's theorem and
+Choi–Schoen compactness. It is independently definitive and states its boundaries with the
+milestones below.
+
 ## Scope and ownership
 
 This roadmap extends the curvature, Jacobi, comparison, immersion and Bochner
@@ -1059,7 +1069,10 @@ use the comparison or path-space theorems.
    `CovariantDerivative.secondCovariantDerivative_sub_swap`). R1 owns what goes
    beyond them: the moving-frame form of R and ∇R through the connection 1-forms of
    a smooth local frame, skew-symmetric for an orthonormal frame, with the frame
-   components smooth on the frame's domain.
+   components smooth on the frame's domain
+   (Bishop, *Riemannian Geometry*, §3.11, p. 13, the second structural equation
+   `Φ=dϕ+ϕ∧ϕ`; Bishop's curvature operator is the negative of ours, so his Φ is the
+   matrix of our R).
    For End-valued curvature match SBC B4's covariant exterior derivative and
    `Ω=dω+½[ω∧ω]`, `d_∇Ω=0`, explaining the equivalent matrix
    `F=dA+A∧A` convention: section coefficients are columns and
@@ -1088,7 +1101,9 @@ use the comparison or path-space theorems.
    `CovariantDerivative.hasParallelCurvature_iff_isLocallyConstant_scalarCurvature_of_finrank_eq_two`
    for surfaces: K is locally constant, hence constant on each connected surface.
    Flat curvature on an open set is equivalent
-   to a local Euclidean isometry around every point of that set. For the flat
+   to a local Euclidean isometry around every point of that set
+   (Barzen–Leymann, *Mathematics of Spacetime*, Theorem 7, p. 46, which cites Lee,
+   *Introduction to Riemannian Manifolds*, second edition, Theorem 7.10). For the flat
    implication use B5's local parallel frames, torsion-free closed coframes and
    DG's local primitives, then the shared manifold inverse-function theorem.
 4. Pin the mixed form of the polarization in item 2. For the covariant
@@ -2408,7 +2423,10 @@ Supply annulus/restricted-polar versions, the small-ball limit 1, measure-zero c
    The headline `exists_upper_barrier_laplaceBeltrami_le` states the first and last
    items as an existence statement: a function smooth at p̄, equal to ℓ there and at
    least `dist(p,·)` near p̄, whose Laplacian at p̄ is at most
-   `(n−1)s_κ′(ℓ)/s_κ(ℓ)`.
+   `(n−1)s_κ′(ℓ)/s_κ(ℓ)`. The Lean statement carries no dimension hypothesis:
+   for n=1 the bound is 0 and the arclength coordinate along γ, continued past
+   p̄, is such a function, with Laplacian 0; for n=0 no unit-speed geodesic
+   exists.
 
    Proof programme: the zero vectors at the points γ(t), t∈[0,ℓ], form a compact
    subset of the set of tangent vectors lying in `expDomain`, which is open in TM
@@ -3856,7 +3874,9 @@ Prove:
    neighbourhood of D̄. On a closed connected M
    the headline `exists_pos_eigenfunction_neg_laplaceBeltrami_add` states
    this among smooth functions, with μ₁ their least Rayleigh quotient
-   `(∫|∇u|²+∫qu²)/∫u²`.
+   `(∫|∇u|²+∫qu²)/∫u²`. The Lean statement carries no dimension hypothesis:
+   for m=0 a closed connected M is a point, Δ⁺=0, μ₁ is the value of q there
+   and φ₁=1.
 2. On a closed connected M there is a smooth h>0 with Lh=0 if and only if
    μ₁(L)=0.
 3. Strict domain monotonicity: for connected relatively compact smooth
@@ -5027,7 +5047,9 @@ DGFloer consumes R2–R3's fixed-interval Jacobi and path geometry for its free-
 applications. CalibratedGeometry C3 consumes R5a.1's relative volume, and
 AffineMorseLefschetz uses R5a/R6's real focal geometry. OptimalTransport Layer 7
 uses R4.6's cut-locus objects; SpectralManifolds uses R7.8's commutator-distance
-theorem. The following internal order separates the direct model and algebra
+theorem. The sub-roadmap [Minimal surfaces](MinimalSurfaces/README.md) consumes R1's
+Euclidean limits of rescaled metrics, R3, R4.1–R4.3, R4.5, R5a, R5b, R5c, R7.0, R7.6, R7.9
+and R8.2. The following internal order separates the direct model and algebra
 constructions from their comparison and analytic applications.
 
 R1's generic connection/tensor/submersion algebra precedes R2; R1's normal
@@ -5112,7 +5134,8 @@ minimization nor GeometricCurrents regularity enters R5b.
   dimension) and Problem 7.11, p. 50 (orientability in odd dimension), used by R4.6;
   Theorem 6.11, p. 41 (normal-coordinate expansion of the metric, used by R1.5),
   and §6.11 with Problem 6.12, p. 41 (the canonical frame by radial parallel
-  translation, used by R1.4).
+  translation, used by R1.4); §3.11, p. 13 (the second structural equation, used
+  by R1.1).
 - K.-K. Kwong, [Quantitative comparison theorems in Riemannian and Kähler geometry](https://arxiv.org/abs/1904.08595),
   arXiv:1904.08595v1 (2019), Theorem 10(2), p. 27: the polar volume-density lower
   bound under an upper sectional curvature bound, integrated to Günther's volume
@@ -5133,7 +5156,8 @@ minimization nor GeometricCurrents regularity enters R5b.
   loop space is homotopy-discrete).
 - J. Barzen and F. Leymann, [Mathematics of Spacetime: A Guided Tour Through The
   Underlying Differential Topology and Differential Geometry](https://arxiv.org/abs/2606.02616),
-  arXiv:2606.02616, Theorem 9, p. 60: the Killing–Hopf classification of complete
+  arXiv:2606.02616, Theorem 7, p. 46: a Riemannian manifold is flat exactly when its
+  curvature tensor vanishes, used by R1.1; Theorem 9, p. 60: the Killing–Hopf classification of complete
   simply connected manifolds of constant sectional curvature, used by R4.7; Lemma 35,
   pp. 61–62, and Lemma 36, p. 62: the curvature and Ricci tensors of a warped product,
   with the opposite curvature sign, used by R1.3.
