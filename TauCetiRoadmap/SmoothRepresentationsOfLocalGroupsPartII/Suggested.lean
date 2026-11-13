@@ -122,6 +122,17 @@ def WeaklyContainedInFamily {G : Type u} [Group G] [TopologicalSpace G]
     ∃ n : ℕ, ∃ a : Fin n → ι, ∃ z : ∀ j, H' (a j), ∀ g ∈ Q,
       ‖ptCoeff σ v g - ∑ j, ptCoeff (π (a j)) (z j) g‖ < ε
 
+/-- Milman's converse: if the closed convex hull of a set in a Hausdorff real locally
+convex topological vector space is compact, all its extreme points lie in the closure
+of the original set (BHV, proof of Proposition F.1.4). -/
+theorem extremePoints_closure_convexHull_subset_closure
+    {E : Type u} [AddCommGroup E] [Module ℝ E] [TopologicalSpace E]
+    [IsTopologicalAddGroup E] [ContinuousSMul ℝ E] [T2Space E]
+    [LocallyConvexSpace ℝ E] (F : Set E)
+    (hcompact : IsCompact (closure (convexHull ℝ F))) :
+    Set.extremePoints ℝ (closure (convexHull ℝ F)) ⊆ closure F := by
+  sorry
+
 /-- Weak-star compactness of the positive-type subunit ball: the image of the continuous
 positive-type functions with value at most one at the identity under the pairing with `L¹`
 is compact in the product topology on functions `L¹ → ℂ`, which is the weak-star topology
