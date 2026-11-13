@@ -445,7 +445,7 @@ A proof route is the following.
 - If π is finite, Y′ agrees with the Ferrand pinching of X along E → Z (NeronModelsAndSemistableAbelianVarietiesPartII §1.1, Ferrand geometric pushouts).
 - For Y = A²_k, J = (x, y): X = Bl_0 A², E ≅ P¹, H^0(X, O_X) = k[x, y], H^0(E, O_E) = k, and B′ = k[x, y] ×_k k = k[x, y], so Y′ = Y.
 - The pushout of X ← E → Z in schemes is not given by Ferrand's theorem when E → Z is not finite (E = P¹ → Z = point above); B′ is defined directly instead.
-- When Z is a point of a surface Y, the construction recovers a finite universal homeomorphism Y′ → Y that is an isomorphism away from Z.
+- For the cusp Y = Spec k[t², t³] and J = (t², t³): X = Bl_J Y = Spec k[t] (the chart of t² is A[t³/t²] = k[t], and the chart of t³ is its localization k[t, t⁻¹]), which is affine, so no thickening is needed, and X → Y is finite but not an isomorphism; JO_X = t²k[t], E = Spec k[t]/(t²), and B′ = k[t] `×_{k[t]/(t²)}` k = k + t²k[t] = k[t², t³], so Y′ = Y. Gluing along E instead of collapsing it to Z, that is, taking H^0(E, O_E) in place of A/J, would give B′ = k[t] and Y′ = X.
 
 These results apply to BS17, proof of Proposition 11.41, p. 53: replaces Y by Y′ so that Lemma 11.45 applies to a square whose structure-sheaf cohomology is a fibre sequence; §1.5: the inductive step on dim Y.
 
@@ -514,13 +514,12 @@ A proof route is the following.
 **Checks.**
 
 - For f: X ⊔ Z → Y with X, Z the two irreducible components of a nodal curve Y whose components are defined over k (for instance two lines meeting in a point), descent gives the Mayer–Vietoris sequence of §0.6.
-- Agreement with Berthelot–Bloch–Esnault's descent for proper hypercoverings (§2.6) in the range where both apply.
 
 ### Examples
 
 - For the fppf cover Spec `F_{p²}` → Spec F_p, W(F_p) = ℤ_p is the equalizer of the two maps `W(F_{p²})` ⇉ `W(F_{p²} ⊗ F_{p²})`.
 - For A = k[t], B = B′ = A/(t), the derived tensor product has π_1 = k (Tor_1) but W(k[t]/(t) ⊗^L k[t]/(t))[1/F] = W(k)[1/F] = W(k).
-- When Z is a point of a surface Y, the construction recovers a finite universal homeomorphism Y′ → Y that is an isomorphism away from Z.
+- For the cusp Y = Spec k[t², t³] with J = (t², t³), the finite pushout of §1.3 is Y itself (B′ = k + t²k[t] = k[t², t³]), although the blowup Spec k[t] → Y is not an isomorphism.
 - For X → Y a closed cover Y = X ∪ Z (disjoint union X ⊔ Z → Y), the sequence is the Mayer–Vietoris sequence.
 - For a closed cover Y = Y_1 ∪ Y_2, descent along Y_1 ⊔ Y_2 → Y recovers the Mayer–Vietoris sequence of §0.6 after inverting p.
 - For f: X ⊔ Z → Y with X, Z the two irreducible components of a nodal curve Y whose components are defined over k (for instance two lines meeting in a point), descent gives the Mayer–Vietoris sequence of §0.6.
@@ -555,7 +554,6 @@ A proof route is the following.
 **Checks.**
 
 - For the blowup of the vertex of the affine cone over a canonically embedded non-hyperelliptic smooth projective curve C of genus at least 3, with I the vertex ideal, R¹f_\*(WI′)_ℚ = 0 but R¹f_\*(I′) contains H¹(C, ω_C) = k. For Bl_0 A² instead, R¹f_\*(I′^r) = `⊕_{m≥0}` H¹(P¹, O(m+r)) = 0 for every r ≥ 0.
-- For a proper non-finite f whose restriction U′ → U is finite of degree 2, R^qf_\*(WI′_ℚ) = 0 for q ≥ 1.
 
 
 ### 2.2 Higher direct images of WO through the exceptional locus
@@ -1283,7 +1281,7 @@ A proof route is the following.
 
 **Checks.**
 
-- The normalization of a smooth integral scheme in a purely inseparable extension of its function field is Witt-rational.
+- Normality alone does not suffice in (i): the affine cone S over a smooth plane cubic E is normal and integral, and the blowup f: X → S of its vertex is a resolution with exceptional curve E, so `R¹f_*WO_{X,ℚ}` at the vertex is H¹(E, `WO_{E,ℚ}`) ≠ 0 (§2.2; of dimension 1 if E is ordinary and 2 if it is supersingular, §0.8). Hence S is not WO-rational, and by (i) it is not a topological finite quotient.
 
 
 ### 5.7 The Witt singularity complexes of an integral scheme
@@ -1353,7 +1351,6 @@ A proof route is the following.
 
 **Checks.**
 
-- A rational surface singularity (e.g. a du Val singularity in characteristic p with a rational resolution) is Witt-rational.
 - Negative control for normality: for the split nodal cubic S and its normalization f: P¹ → S, f is finite, so `R^{>0}f_*O_{P¹}` = 0 = `R^{>0}f_*ω_{P¹}`; but `f_*O_{P¹}` ≠ O_S, and H¹(S, WO_S)_K = K while H¹(P¹, WO)_K = 0, so S is not WO-rational: the node has two points in its fibre and condition (1) of §5.5 fails.
 
 
@@ -1581,7 +1578,6 @@ A proof route is the following.
 **Checks.**
 
 - A smooth plane conic (n = 2, d = 2) has q + 1 ≡ 1 mod q points.
-- A cubic surface in P³ (d = 3 ≤ 3) has |Z(F_q)| ≡ 1 mod q.
 - Degenerate plane conics over F_q: the double line x² = 0 has q + 1 points, the line pair xy = 0 has 2q + 1, and x² − ay² = 0 with a a nonsquare (q odd) has the single point [0 : 0 : 1]; all are ≡ 1 mod q, as the statement allows singular, reducible and nonreduced hypersurfaces.
 - Negative control for the degree condition: one cubic curve in ℙ² (d = 3 > 2 = n), an ordinary elliptic curve E over F_p, has p + 1 − a points with p ∤ a, which is not ≡ 1 mod p; for a degree-0 equation F = 1 the zero set is empty, 0 ≢ 1, which is why the elementary form requires d_j ≥ 1.
 - Over F_9 (p = 3), a nondegenerate ternary quadratic form, total degree 2 < 3 variables, has exactly 81 = 9² zeros in F_9³: divisible by q = 9, while Chevalley–Warning only asserts divisibility by 3. For r = 0 the projective count is |ℙⁿ(K)| = 1 + q + ⋯ + qⁿ ≡ 1 and the affine count is qⁿ with n ≥ 1.
@@ -1747,7 +1743,7 @@ A proof route is the following.
 
 **Checks.**
 
-- Smooth Fano varieties over algebraically closed fields are rationally chain connected (Kollár V.2.13), hence universally CH_0-trivial.
+- Negative control for rational chain connectedness: an elliptic curve E over k is smooth, projective and geometrically connected, but every morphism from a rational curve to E is constant, so E is not rationally chain connected (§6.11), and E is not universally CH_0-trivial: over an algebraic closure L of k(E), the L-point η given by the generic point of E has infinite order in E(L), since every torsion point of E(L) is defined over the algebraic closure of k in L, so [η] − [O] is a nonzero element of the kernel of deg: CH_0(E_L) ⊗ ℚ → ℚ, O being the origin (§6.10).
 
 
 ### 6.13 Vanishing of Witt vector cohomology of universally CH_0-trivial varieties
@@ -1785,7 +1781,6 @@ A proof route is the following.
 
 **Checks.**
 
-- A smooth cubic surface over F_q has ≡ 1 mod q points.
 - Projective space: |P^n(F_q)| = 1 + q + ⋯ + q^n ≡ 1 mod q.
 - Negative controls for (i): an ordinary elliptic curve E over F_p is smooth, projective and geometrically connected but not universally CH_0-trivial (§6.10), and |E(F_p)| = p + 1 − a with p ∤ a, so |E(F_p)| ≢ 1 mod p; for instance E: y² = x³ + x + 1 over F_5 has 2, 0, 2, 2, 2 affine points above x = 0, 1, 2, 3, 4, hence 9 ≡ 4 mod 5 points. A supersingular curve does not serve: E: y² = x³ − x over F_3 has the three points (0, 0), (1, 0), (2, 0) and the point at infinity, 4 ≡ 1 mod 3, although E is not universally CH_0-trivial, so the congruence does not imply the hypothesis; Spec `F_{q²}` over F_q is smooth and projective but neither geometrically connected (two points over `F̄_q`) nor universally CH_0-trivial (the difference of the two geometric points has degree 0 and is not torsion, there being no curves to move along), and has 0 ≢ 1 rational points; the empty scheme is excluded by geometric connectedness (its fibres are not connected spaces, which are nonempty) and has 0 points.
 
