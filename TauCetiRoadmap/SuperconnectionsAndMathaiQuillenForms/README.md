@@ -2,45 +2,49 @@
 
 **Summary.** Build Quillen's ℤ/2-graded Chern–Weil theory in two tiers. The algebraic tier works
 on Mathlib's carriers: `ZMod 2`-graded algebras `GradedAlgebra 𝒜` with `𝒜 : ZMod 2 → Submodule R
-A` over a commutative ring `R`, the super tensor product `A ⊗̂ End(R^(m|n))` written on matrices
-`Matrix (m ⊕ n) (m ⊕ n) A` with the Koszul sign rule, Mathlib's exterior algebra, and complex
-matrices. Its end theorems are: the exterior algebra is supercommutative, the product of
-`A ⊗̂ End(R^(m|n))` is associative and adds parities, and on a supercommutative `A` the supertrace
-satisfies `str(XY) = (-1)^(|X||Y|) str(YX)` for homogeneous `X`, `Y` (Layer 1); for a
-supercommutative differential graded algebra `(A, d)` and an odd supermatrix `Θ`, the curvature
-`F = dΘ + Θ²` of `d + Θ` satisfies the Bianchi identity, every `str(F^k)` is closed, and an even
-derivation `∂` commuting with `d` satisfies `∂ str(F^(k+1)) = (k + 1) d str((∂Θ) F^k)`; for every
-complex `n × m` matrix `T` and `t ∈ ℂ`, `tr exp(−t T*T) − tr exp(−t TT*) = m − n`; and Duhamel's
-formula `d/dt exp(F(t)) = ∫₀¹ exp(sF(t)) F′(t) exp((1 − s)F(t)) ds` in a real Banach algebra
-(Layer 2); the Berezin integral on `Λ(Rⁿ)` multiplies by `det f` under `Λ(f)`, the Pfaffian
-defined as a Berezin integral satisfies `Pf(Σ)² = det Σ` and `Pf(BΣBᵀ) = det B Pf(Σ)` for skew
-`Σ` over a commutative `ℚ`-algebra, and the standard Gaussian density on `ℝʳ` has integral `1`
-(Layer 3); for a skew-adjoint complex supermatrix `X`, `1 − X` is invertible, the Cayley transform
-`g = (1 + X)(1 − X)⁻¹` is unitary, and `εgε = g⁻¹` when `X` is odd (Layer 6). The bundle tier
-states the same theorems for smooth ℤ/2-graded vector bundles over a smooth manifold `M`: the
-Chern character form `φ str exp(−𝔸²)` of a superconnection is closed, its class is independent of
-`𝔸` and equals `ch(E⁺) − ch(E⁻)`, the character of `∇ + tX` is exact where `X` is invertible and
-tends to the character of `ker X` when that kernel has constant rank (Layer 4); the Mathai–Quillen
-Euler form `e_(∇,s)` of a section `s` of an oriented Euclidean bundle is closed, equals the
-Pfaffian form at `s = 0` and represents the Poincaré dual of `s⁻¹(0)` for transverse `s`, which
-gives `∫_M Pf(R/2π) = Σ ind = χ(M)` for the tangent bundle, and the Thom form `τ_∇` on the total
-space is closed, Gaussian on the fibres with fibre integral `1`, pulls back to `e_(∇,s)` along `s`
-and represents the Thom class (Layer 5); the invariant character forms `tr(F(dF)^(2k))` on the
-manifold of self-adjoint involutions and `tr((g⁻¹dg)^(2k−1))` on the unitary group are closed and
-invariant, the even ones representing a multiple of the Chern character of the tautological bundle
-(Layer 6).
+A` over a commutative ring `R`, Mathlib's graded tensor product `𝒜 ᵍ⊗[R] ℬ` with the block-parity
+grading `ℬ` of `Matrix (m ⊕ n) (m ⊕ n) R`, Mathlib's exterior algebra, and complex matrices. Its
+end theorems are: the exterior algebra is supercommutative, the linear equivalence
+`𝒜 ᵍ⊗[R] ℬ ≃ Matrix (m ⊕ n) (m ⊕ n) A` carries the product of the graded tensor product to the
+Koszul-signed matrix product and its grading to the parity of supermatrices, and on a
+supercommutative `A` the supertrace satisfies `str(XY) = (−1)^(|X||Y|) str(YX)` for homogeneous
+`X`, `Y` (Layer 1); a ℤ-graded differential graded algebra is a `ZMod 2`-graded one on its parity
+grading; for a supercommutative `ZMod 2`-graded differential graded algebra `(A, d)` and an odd
+supermatrix `Θ`, the curvature `F = dΘ + Θ²` of `d + Θ` satisfies the Bianchi identity, every
+`str(F^k)` is closed, and an even derivation `∂` commuting with `d` satisfies
+`∂ str(F^(k+1)) = (k + 1) d str((∂Θ) F^k)`; for every complex `n × m` matrix `T` and `t ∈ ℂ`,
+`tr exp(−t T*T) − tr exp(−t TT*) = m − n` (Layer 2); the Berezin integral on `Λ(Rⁿ)` multiplies by
+`det f` under `Λ(f)`, and the Pfaffian, defined over every commutative ring as the Berezin integral
+of the divided power `ω^[r]` of the two-form of `Σ`, satisfies `r! Pf(Σ) = ∫_B ω^r`,
+`Pf(Σ)² = det Σ` and `Pf(BΣBᵀ) = det B Pf(Σ)` for alternating `Σ` (`Σᵀ = −Σ`, zero diagonal), and
+the standard Gaussian density on `ℝʳ` has integral `1` (Layer 3); for a skew-adjoint complex
+supermatrix `X`, `1 − X` is invertible, the Cayley transform `g = (1 + X)(1 − X)⁻¹` is unitary, and
+`εgε = g⁻¹` when `X` is odd (Layer 6). The bundle tier states the same theorems for smooth
+ℤ/2-graded vector bundles over a smooth manifold `M`: the Chern character form `φ str exp(−𝔸²)` of
+a superconnection is closed, its class is independent of `𝔸` and equals `ch(E⁺) − ch(E⁻)`, the
+character of `∇ + tX` is exact where `X` is invertible and tends to the character of `ker X` when
+that kernel has constant rank (Layer 4); the Mathai–Quillen Euler form `e_(∇,s)` of a section `s`
+of an oriented Euclidean bundle is closed, equals the Pfaffian form at `s = 0` and represents the
+Poincaré dual of `s⁻¹(0)` for transverse `s`, which gives `∫_M Pf(R/2π) = Σ ind = χ(M)` for the
+tangent bundle, and the Thom form `τ_∇` on the total space is closed, Gaussian on the fibres with
+fibre integral `1`, pulls back to `e_(∇,s)` along `s` and represents the Thom class (Layer 5); for
+`k ≥ 1` the invariant character forms `tr(F(dF)^(2k))` on the manifold of self-adjoint involutions
+and `tr((g⁻¹dg)^(2k−1))` on the unitary group are closed and invariant, the even ones representing
+a multiple of the Chern character of the tautological bundle (Layer 6).
 
 Suggested home: `TauCeti/Algebra/Super/` for Layers 1–3 and 6.1, and
 `TauCeti/Geometry/Manifold/Superconnection/` for Layers 4, 5, 6.2.
 
 ## Scope and ownership
 
-**Owned here.** The supertrace on `A ⊗̂ End(R^(m|n))` and its graded-trace property, the parity
-involution and supercommutativity predicate on `ZMod 2`-graded algebras (Layer 1); Quillen's
-algebraic model of superconnections on a supercommutative differential graded algebra, the
-closedness of the components of the character, the algebraic transgression formula, the
-finite-dimensional McKean–Singer identity and Duhamel's formula (Layer 2); the Berezin integral on
-`Λ(Rⁿ)`, the Pfaffian of a skew matrix as a Berezin integral with its two identities, and the
+**Owned here.** The parity involution and supercommutativity predicate on `ZMod 2`-graded
+algebras, the block-parity grading of square matrices, the comparison of Mathlib's graded tensor
+product with Koszul-signed supermatrices, and the supertrace with its graded-trace property
+(Layer 1); Quillen's algebraic model of superconnections on a supercommutative `ZMod 2`-graded
+differential graded algebra, its comparison with Tau Ceti's ℤ-graded differential graded algebras,
+the closedness of the components of the character, the algebraic transgression formula and the
+finite-dimensional McKean–Singer identity (Layer 2); the Berezin integral on `Λ(Rⁿ)`, the Pfaffian
+of an alternating matrix over a commutative ring as a Berezin integral with its identities, and the
 normalization of the Gaussian density (Layer 3); superconnections on smooth ℤ/2-graded vector
 bundles, their Chern character forms, transgression forms and the character of `∇ + tX` (Layer
 4); the fibrewise Berezin integral, the Mathai–Quillen Euler and Thom forms, their localization on
@@ -71,15 +75,21 @@ associated with principal bundles (SmoothBundlesConnections B3.3), the exterior 
 derivative on bundle-valued forms, curvature and the Bianchi identity (B4.1). Layer 4 is the
 ℤ/2-graded extension of B4.1, built on its bundle-valued forms.
 
-**Left to OperatorTheory/SelfAdjointSpectralTheory.** The Cayley transform `U_A = (A − i)(A + i)⁻¹`
-of a self-adjoint operator and its unitarity (SelfAdjointSpectralTheory SA-D24, SA-D27). For a
-skew-adjoint `X` the transform of 6.1 is `g = −U_(−iX)` (Convention 5); 6.1 keeps the matrix
-adapter and the graded statement `εgε = g⁻¹`, which SA-D24 does not contain.
+**Compared with OperatorTheory/SelfAdjointSpectralTheory.** The Cayley transform
+`U_A = (A − i)(A + i)⁻¹` of a self-adjoint operator and its unitarity are
+SelfAdjointSpectralTheory's (SA-D24, SA-D27). For a skew-adjoint matrix `X` the transform of 6.1 is
+`g = −U_(−iX)` (Convention 5); 6.1 proves its finite-dimensional statements from Mathlib's matrices
+alone and adds the graded statement `εgε = g⁻¹`, which SA-D24 does not contain.
 
-**Supplied by Mathlib and consumed by name.** Graded algebras and their decompositions, the
-exterior and Clifford algebras with the even–odd grading, exterior powers and alternating maps,
-determinants, block matrices, the conjugate transpose and the unitary group, the exponential of a
-Banach algebra, derivatives and interval integrals.
+**Supplied by Mathlib and consumed by name.** Graded algebras and their decompositions, the graded
+tensor product of graded algebras with its Koszul sign, the exterior and Clifford algebras with the
+even–odd grading, exterior powers and alternating maps, determinants, block matrices, the conjugate
+transpose and the unitary group, the exponential of a Banach algebra, the Gaussian integral.
+
+**Supplied by Tau Ceti and consumed by name.** Duhamel's formula for the derivative of the
+exponential of a real Banach algebra, ℤ-graded differential graded algebras, smooth scalar and
+bundle-valued differential forms on manifolds with their paired wedge, and de Rham cohomology
+(Exact supplier contracts).
 
 **Out of scope.** Determinant line bundles of Fredholm families and the Quillen metric
 (HeegaardFloer F0.0 owns determinant lines of Fredholm families); Bismut's superconnection for
@@ -96,7 +106,8 @@ character in cyclic homology, which is NoncommutativeGeometry's (N1–N2).
 1. **The super tensor product.** A matrix `X : Matrix (m ⊕ n) (m ⊕ n) A` represents
    `∑ X k l ⊗ E k l` in `A ⊗̂ End(R^(m|n))`, the basis vectors indexed by `m` even and those by
    `n` odd, `|k|` their parity (`sPar`). The product is Quillen's
-   `(a ⊗ u)(b ⊗ v) = (−1)^(|u||b|) ab ⊗ uv`, which on matrices reads
+   `(a ⊗ u)(b ⊗ v) = (−1)^(|u||b|) ab ⊗ uv` (Garcia 2018, §A.1, (A.3)), the sign of Mathlib's
+   `GradedTensorProduct.tmul_coe_mul_coe_tmul`, which on matrices reads
    `(X ⋆ Y) k l = ∑ j, X k j σ^(|k| + |j|)(Y j l)`, `σ` the parity involution, and the
    supertrace is `str(a ⊗ u) = a str(u)`, so `str X = ∑ᵢ X i i − ∑ⱼ X j j` (even block minus odd
    block), with no sign depending on the parity of `X`, and `str(dX) = d str(X)` for the entrywise
@@ -108,20 +119,26 @@ character in cyclic homology, which is NoncommutativeGeometry's (N1–N2).
    used: it does not commute with the entrywise differential.
 2. **Superconnections and their character.** In Layers 2 and 4 the curvature of `𝔸 = d + Θ` is
    `𝔸² = dΘ + Θ²`, and the Chern character form is `ch(𝔸) = φ str exp(−𝔸²)`, where `φ`
-   multiplies forms of degree `2k` by `(2πi)^(−k)` (Berline–Getzler–Vergne, §1.4). For a
+   multiplies forms of degree `2k` and of degree `2k − 1` by `(2πi)^(−k)`, so that `φ d = d φ` on
+   odd forms (Berline–Getzler–Vergne, §1.4; Garcia 2018, §A.1, p. 24, writes the character with
+   `exp(∇²)` and multiplies its degree-`2p` part by `(−2πi)^(−p)`, the same form). For a
    connection `∇` on an ungraded bundle this is `tr exp((i/2π)F)`, CharacteristicClasses'
    normalization. Witness: on a line bundle with curvature `F = i dα` (CharacteristicClasses,
    Conventions), `φ(−F) = −i dα/(2πi) = −dα/2π` and `(i/2π)F = −dα/2π` agree; omitting `φ`
-   would give `−i dα`, which is not real.
+   would give `−i dα`, which is not real. On a form `β` of degree `2k − 1`,
+   `φ(dβ) = (2πi)^(−k) dβ = d(φβ)`; scaling odd forms by `(2πi)^(−k+1)` instead would break this.
 3. **The odd endomorphism.** In 2.5 and 4.4, `X = [[0, T*], [T, 0]]` is odd and self-adjoint,
    `T : E⁺ → E⁻`, so `X² = diag(T*T, TT*) ≥ 0` and `exp(−tX²)` decays as `t → ∞` where `T` is
    invertible. Witness: for `T = (a) : ℂ → ℂ`, `str exp(−tX²) = e^(−t|a|²) − e^(−t|a|²) = 0`, and
-   for `T : ℂ⁰ → ℂ` (so `m = 0`, `n = 1`) it is `−1 = m − n`. Quillen's skew-adjoint form
+   for `T : ℂ⁰ → ℂ` (so `m = 0`, `n = 1`) it is `−1 = m − n`. Quillen 1988 uses the skew-adjoint
    `[[0, −T*], [T, 0]]` and writes the character with `exp(𝔸²)`; in degree zero the two agree,
    `exp((iX)²) = exp(−X²)`, and `iX` is of Quillen's form for `iT`.
 4. **Berezin integral and orientation.** `∫_B` is the coefficient of `e₀ ∧ ⋯ ∧ e_(n−1)` in the
-   top-degree component (Wu 2006, §2.1), and the Pfaffian is `Pf(Σ) = ∫_B exp(∑_(i<j) Σᵢⱼ eᵢeⱼ)`,
-   in which only `ω^r / r!` reaches the top degree. Witness: `Pf([[0, a], [−a, 0]]) = a`, as in
+   top-degree component (Wu 2006, §2.1), and the Pfaffian of a `2r × 2r` matrix is
+   `Pf(Σ) = ∫_B ω^[r]`, where `ω = ∑_(i<j) Σᵢⱼ eᵢeⱼ` and `ω^[r]` is its `r`-th divided power, the
+   sum over the `r`-element sets of pairs `i < j` of the products of their terms; over a
+   `ℚ`-algebra `ω^[r] = ω^r / r!` and `Pf(Σ) = ∫_B exp(ω)`, Wu's `∫_B e^(½(·, Σ ·))` (Wu 2006,
+   §2.1). Witness: `Pf([[0, a], [−a, 0]]) = a`, as in
    CharacteristicClasses' Conventions; reversing the orientation (`e₁ ∧ e₀`) gives `−a`. The
    Mathai–Quillen forms carry the factor `(−1)^(r(r+1)/2) (2π)^(−r/2)` (Wu 2006, (2.5) and (2.7)),
    which makes the fibre form exactly the Gaussian density: on `ℝʳ` with `∇ = d`,
@@ -138,20 +155,43 @@ character in cyclic homology, which is NoncommutativeGeometry's (N1–N2).
 
 - Graded algebras: `GradedAlgebra`, `DirectSum.decompose`, `DirectSum.decomposeLinearEquiv`,
   `DirectSum.component` (`RingTheory/GradedAlgebra/Basic`, `Algebra/DirectSum/Decomposition`,
-  `Algebra/DirectSum/Module`), `ZMod`, `Submodule`.
-- Exterior and Clifford algebras: `ExteriorAlgebra`, `ExteriorAlgebra.ι`, `ExteriorAlgebra.map`,
+  `Algebra/DirectSum/Module`), `DirectSum.of`, `DirectSum.coeAddMonoidHom`, `ZMod`, `Submodule`.
+- Graded tensor product: `GradedTensorProduct` (notation `𝒜 ᵍ⊗[R] ℬ`), `GradedTensorProduct.of`,
+  `GradedTensorProduct.tmul`, its ring structure `GradedTensorProduct.instRing` and the sign rule
+  `GradedTensorProduct.tmul_coe_mul_coe_tmul` (`LinearAlgebra/TensorProduct/Graded/Internal`),
+  for an index with `Module (ZMod 2) (Additive ℤˣ)` (`Data/ZMod/IntUnitsPower`);
+  `matrixEquivTensor` (`RingTheory/MatrixAlgebra`).
+- Exterior and Clifford algebras: `ExteriorAlgebra`, `ExteriorAlgebra.ι`,
+  `ExteriorAlgebra.ι_add_mul_swap`, `ExteriorAlgebra.map`,
   the exterior powers `⋀[R]^i M` (`ExteriorAlgebra.exteriorPower`) and the instance
   `ExteriorAlgebra.gradedAlgebra` (`LinearAlgebra/ExteriorAlgebra/Basic`, `…/Grading`),
   `exteriorPower.alternatingMapLinearEquiv` (`LinearAlgebra/ExteriorPower/Basic`),
   `CliffordAlgebra.evenOdd` with its instance `CliffordAlgebra.gradedAlgebra`
   (`LinearAlgebra/CliffordAlgebra/Grading`), `QuadraticForm`.
+- Finite sums and products: `Finset.powersetCard`, `Finset.noncommProd`, `Commute`.
 - Linear algebra: `Basis.det`, `Pi.basisFun`, `LinearMap.det`, `Matrix.det`, `Matrix.trace`,
   `Matrix.trace_mul_pow_comm_of_ne_zero` (`LinearAlgebra/Matrix/Trace`),
   `Matrix.map`, `Matrix.fromBlocks`, `Matrix.conjTranspose`, `Matrix.unitaryGroup`, `Pi.single`.
 - Analysis: `NormedSpace.exp` (`Analysis/Normed/Algebra/Exponential`), `HasDerivAt`,
-  `intervalIntegral`, `MeasureTheory.integral`, `EuclideanSpace`, `Real.exp`, `Real.pi`.
+  `MeasureTheory.integral`, `EuclideanSpace`, `GaussianFourier.integral_rexp_neg_mul_sq_norm`
+  (`Analysis/SpecialFunctions/Gaussian/FourierTransform`), `Real.exp`, `Real.pi`.
 
-**From Tau Ceti.** Nothing is consumed from the Tau Ceti library.
+**From Tau Ceti** (at the pin).
+
+- Duhamel's formula (`TauCeti/Analysis/SpecialFunctions/Exponential`):
+  `TauCeti.hasFDerivAt_exp`, the Fréchet derivative `TauCeti.expFDeriv 𝕂 x` of the exponential
+  of a Banach algebra, and `TauCeti.expFDeriv_apply_eq_integral`,
+  `expFDeriv 𝕂 x y = ∫₀¹ exp((1 − s)x) y exp(sx) ds`, for 4.3 and 4.4.
+- Differential graded algebras (`TauCeti/Algebra/Homology/DG/Algebra/Defs`):
+  `TauCeti.IsDGAlgebra 𝒜 d` for `𝒜 : ℤ → Submodule R A`, for 2.1.
+- Differential forms (`TauCeti/Geometry/Manifold/DifferentialForm/Smooth`,
+  `…/DifferentialForm/Curvature`, `…/DifferentialForm/Wedge/Smooth/Bundle`): the smooth forms
+  `TauCeti.SmoothForm`, the smooth bundle-valued forms `TauCeti.SmoothBundleForm`, the
+  endomorphism-valued two-forms `TauCeti.CurvatureForm`, and the paired wedge
+  `TauCeti.SmoothBundleForm.wedgeWith`, the carriers of `Ω(M, E)` and `Ω(M, End E)` in Layers 4,
+  5 and 6.2.
+- De Rham cohomology (`TauCeti/Geometry/Manifold/DeRham/Basic`): `TauCeti.deRhamCohomology`, for
+  the classes of 4.3, 5.2–5.4 and 6.2.
 
 **From CharacteristicClasses.** Conventions (the normalization of Chern character and Pfaffian
 forms), for Conventions 2 and 4; C4, items 1–2 (Chern–Weil forms of connections, closedness,
@@ -167,23 +207,23 @@ cohomology), for Layers 4 and 5 and 6.2.
 **From SmoothBundlesConnections.** B3.3 (induced connections on associated vector bundles) and
 B4.1 (bundle-valued forms, the exterior covariant derivative, curvature, Bianchi), for 4.1–4.2.
 
-**From OperatorTheory/SelfAdjointSpectralTheory.** SA-D24 (the Cayley transform) and SA-D27 (its
-unitarity), for 6.1.
-
 ## How to read the build
 
-Layer 1 is linear algebra over a `ZMod 2`-graded algebra: supercommutativity, the super tensor
-product `A ⊗̂ End(R^(m|n))` on matrices and the supertrace. Layer 2 is Quillen's algebraic model:
-a supercommutative differential graded algebra plays the forms on `M`, an odd supermatrix plays
-`𝔸 − d` on a trivialized bundle, and the closedness and transgression of the character are proved
-for every component `str(F^k)`; the degree-zero McKean–Singer identity and Duhamel's formula supply
-the exponential. Layer 3 builds the Berezin integral and the Pfaffian, the algebra of the
-Mathai–Quillen forms. Layers 4 and 5 transport Layers 1–3 fibrewise to smooth bundles over the
-carriers of DifferentialGeometry and SmoothBundlesConnections and compare the resulting classes
-with CharacteristicClasses: Layer 4 for superconnections and Quillen's character of `∇ + tX`, Layer
-5 for the Mathai–Quillen Euler and Thom forms. Layer 6 treats the graded Cayley transform, whose
-algebra (6.1) uses only Mathlib, and the invariant character forms on Grassmannians and unitary
-groups (6.2), which use Layers 4 and DifferentialGeometry.
+Layer 1 is linear algebra over a `ZMod 2`-graded algebra: supercommutativity, the block-parity
+grading of matrices, the comparison of Mathlib's graded tensor product `A ⊗̂ End(R^(m|n))` with
+Koszul-signed supermatrices, and the supertrace. Layer 2 is Quillen's algebraic model: a
+supercommutative `ZMod 2`-graded differential graded algebra plays the forms on `M` (Tau Ceti's
+ℤ-graded ones give such algebras on their parity grading), an odd supermatrix plays `𝔸 − d` on a
+trivialized bundle, and the closedness and transgression of the character are proved for every
+component `str(F^k)`; the degree-zero McKean–Singer identity is the case `A = ℂ`. Layer 3 builds the
+Berezin integral and the Pfaffian, the algebra of the Mathai–Quillen forms. Layers 4 and 5 transport
+Layers 1–3 fibrewise to smooth bundles, on Tau Ceti's bundle-valued forms and the carriers of
+DifferentialGeometry and SmoothBundlesConnections, sum the components of the character with Tau
+Ceti's Duhamel formula, and compare the resulting classes with CharacteristicClasses: Layer 4 for
+superconnections and Quillen's character of `∇ + tX`, Layer 5 for the Mathai–Quillen Euler and Thom
+forms. Layer 6 treats the graded Cayley transform, whose algebra (6.1) uses only Mathlib, and the
+invariant character forms on Grassmannians and unitary groups (6.2), which use Layer 4 and
+DifferentialGeometry.
 
 ## Layer 1: superalgebras, supermatrices and the supertrace
 
@@ -194,10 +234,16 @@ Define `IsSuperCommutative 𝒜` for `𝒜 : ZMod 2 → Submodule R A`: homogene
 `a₀ + a₁ ↦ a₀ − a₁` through `DirectSum.decompose`, and its powers `parityPow 𝒜 k` for `k : ZMod 2`.
 Prove `isSuperCommutative_exteriorAlgebra`: the exterior algebra, graded by the parity of the
 degree (`CliffordAlgebra.evenOdd` of the zero quadratic form), is supercommutative, over every
-commutative ring (Quillen 1985; Berline–Getzler–Vergne, §1.3). Route: check it on products of
-generators, where `ι m ι m′ = −ι m′ ι m`, and extend by bilinearity and induction on length.
+commutative ring (Berline–Getzler–Vergne, §1.3, in Ch. 1, pp. 13–59). Route: check it on products
+of generators, where `ι m ι m′ = −ι m′ ι m`, and extend by bilinearity and induction on length.
 *Needs:* Mathlib `GradedAlgebra`, `DirectSum.decompose`, `CliffordAlgebra.evenOdd`,
 `ExteriorAlgebra`, `QuadraticForm`.
+
+**API.**
+
+- `parityInv 𝒜` is an `R`-algebra automorphism of `A` and an involution; it is `1` on `𝒜 0` and
+  `−1` on `𝒜 1`, and `parityPow 𝒜 (i + j) = parityPow 𝒜 i ∘ parityPow 𝒜 j`.
+- On `a ∈ 𝒜 i`, `parityPow 𝒜 k a = (−1)^(ik) a`.
 
 **Checks.**
 
@@ -213,34 +259,70 @@ generators, where `ι m ι m′ = −ι m′ ι m`, and extend by bilinearity an
 
 ### 1.2 The super tensor product with endomorphisms
 
-Define the parity `sPar` of `m ⊕ n` (`0` on `m`, `1` on `n`), the product `superMul 𝒜 X Y` of
-Convention 1, `(X ⋆ Y) k l = ∑ j, X k j σ^(|k| + |j|)(Y j l)`, and `IsSuperHomogeneous 𝒜 p X`:
-every entry `X k l` lies in `𝒜 (p + |k| + |l|)`. Prove `superMul_assoc` and
-`IsSuperHomogeneous.superMul` (parities add), the matrix form of the associativity of the super
-tensor product `A ⊗̂ End(R^(m|n))` (Quillen 1985; Berline–Getzler–Vergne, §1.3). Route: `σ` is an
-algebra automorphism with `σ² = 1`, so the two triple sums agree term by term.
-*Needs:* 1.1; Mathlib `Matrix`, `GradedAlgebra`.
+Define the parity `sPar` of `m ⊕ n` (`0` on `m`, `1` on `n`), the block-parity grading
+`blockGrading R m n : ZMod 2 → Submodule R (Matrix (m ⊕ n) (m ⊕ n) R)`, whose part of parity `i`
+consists of the matrices vanishing off the entries `(k, l)` with `|k| + |l| = i`, with its
+instance `GradedAlgebra (blockGrading R m n)` (the entrywise projections `blockPart`), so that
+`A ⊗̂ End(R^(m|n))` is Mathlib's `𝒜 ᵍ⊗[R] blockGrading R m n`. Define the product
+`superMul 𝒜 X Y` of Convention 1, `(X ⋆ Y) k l = ∑ j, X k j σ^(|k| + |j|)(Y j l)`,
+`IsSuperHomogeneous 𝒜 p X` (every entry `X k l` lies in `𝒜 (p + |k| + |l|)`), and the `R`-linear
+equivalence `superMatrixEquiv 𝒜 : 𝒜 ᵍ⊗[R] blockGrading R m n ≃ₗ[R] Matrix (m ⊕ n) (m ⊕ n) A`,
+`a ᵍ⊗ₜ E k l ↦ a E k l`, Mathlib's `matrixEquivTensor` read through `GradedTensorProduct.of`.
+Prove `superMatrixEquiv_mul`, that it carries the product of `𝒜 ᵍ⊗[R] blockGrading R m n` to
+`superMul`, and `isSuperHomogeneous_superMatrixEquiv_tmul`, that it carries `a ᵍ⊗ₜ b` with
+`a ∈ 𝒜 i` and `b` of block parity `j` to a supermatrix of parity `i + j` (Garcia 2018, §A.1, (A.3),
+p. 23, for `A = Ω(M)`; Berline–Getzler–Vergne, §1.3). Route: both sides are additive in each
+argument, so it suffices to compare `(a ᵍ⊗ₜ E k j)(b ᵍ⊗ₜ E j′ l)` for homogeneous `b`, where
+`GradedTensorProduct.tmul_coe_mul_coe_tmul` gives `(−1)^((|k| + |j|)|b|) ab ᵍ⊗ₜ E k j E j′ l` and
+`σ^(|k| + |j|)(b) = (−1)^((|k| + |j|)|b|) b`.
+*Needs:* 1.1; Mathlib `Matrix`, `GradedAlgebra`, `DirectSum.of`, `DirectSum.coeAddMonoidHom`,
+`GradedTensorProduct`, `GradedTensorProduct.of`, `GradedTensorProduct.tmul_coe_mul_coe_tmul`,
+`matrixEquivTensor`.
+
+**API.**
+
+- `superMul 𝒜` is `R`-bilinear, associative (transported from `GradedTensorProduct.instRing` by
+  `superMatrixEquiv_mul`), with two-sided unit `1`.
+- Parities add: `IsSuperHomogeneous 𝒜 p X` and `IsSuperHomogeneous 𝒜 q Y` give
+  `IsSuperHomogeneous 𝒜 (p + q) (X ⋆ Y)`, since a homogeneous supermatrix of parity `p` is a sum
+  of images `a ᵍ⊗ₜ E k l` with `|a| + |k| + |l| = p`.
+- `blockGrading R m n 0` is the block-diagonal matrices and `blockGrading R m n 1` the
+  block-off-diagonal ones (`Matrix.fromBlocks A 0 0 D` and `Matrix.fromBlocks 0 B C 0`).
+- The instance `blockGradedAlgebra` is built from the decomposition `blockDecompose` into the two
+  blocks, with `blockPart_mem`, `blockPart_zero_add_blockPart_one` and `blockPart_of_mem`.
 
 **Checks.**
 
 - For `A` trivially graded, `σ = 1` and `superMul` is the matrix product.
 - The Koszul sign: over `A = Λ(R¹)` with generator `e` and `m = n = 1`, the odd supermatrices
-  `E₂₁` (entry `1` at `(inr, inl)`) and `e E₁₁` give `E₂₁ ⋆ e E₁₁ = σ(e) E₂₁ = −e E₂₁`, Quillen's
-  `(1 ⊗ E₂₁)(e ⊗ E₁₁) = (−1)^(1·1) e ⊗ E₂₁`; the matrix product would give `+e E₂₁`.
-- In the other order, `e E₁₁ ⋆ E₁₂ = e E₁₂` with no sign, since `σ^(|1| + |1|) = σ⁰`.
-- The identity matrix is homogeneous of parity `0` and a two-sided unit of `superMul`, since
-  `σ(1) = 1`; `E₁₂` is homogeneous of parity `1`, and `e E₁₂` of parity `0`.
+  `E₂₁` (entry `1` at `(inr, inl)`) and `e E₁₁` give `E₂₁ ⋆ e E₁₁ = σ(e) E₂₁ = −e E₂₁`, and in
+  the graded tensor product `(1 ᵍ⊗ₜ E₂₁)(e ᵍ⊗ₜ E₁₁) = (−1)^(1·1) e ᵍ⊗ₜ E₂₁`; the matrix product
+  would give `+e E₂₁`, which is the ungraded `A ⊗ M₂(R)` of `matrixEquivTensor`.
+- In the other order, `e E₁₁ ⋆ E₁₂ = e E₁₂` with no sign, since `σ^(|1| + |1|) = σ⁰`, matching
+  `(e ᵍ⊗ₜ E₁₁)(1 ᵍ⊗ₜ E₁₂) = (−1)^(0·0) e ᵍ⊗ₜ E₁₂`.
+- The identity matrix has block parity `0` (`|k| + |k| = 0`) and is a two-sided unit of `superMul`,
+  since `σ(1) = 1`; `E₁₂` has block parity `1`, and `e E₁₂` has supermatrix parity `0`.
+- The grading of the entries is not the block grading of `ℬ`: with the trivial grading of `A`,
+  `E₁₂` has parity `1` although its entry `1` is even.
 
 ### 1.3 The supertrace
 
 Define `superTrace X = ∑ᵢ X i i − ∑ⱼ X j j`, the even diagonal block minus the odd one. Prove
 `superTrace_superMul_comm`: on a supercommutative `A`, for `X` of parity `p` and `Y` of parity
 `q`, `str(X ⋆ Y) = (−1)^(pq) str(Y ⋆ X)`, so the supertrace vanishes on supercommutators
-(Quillen 1985; Berline–Getzler–Vergne, §1.3; Wu 2006, §2.3). Route: compare the terms
-`X k l σ^(|k|+|l|)(Y l k)` and `Y l k σ^(|k|+|l|)(X k l)`; supercommutativity of the entries, of
-parities `p + |k| + |l|` and `q + |k| + |l|`, gives the sign `(−1)^(pq + |k| + |l|)`, which the
-signs `(−1)^(|k|)` and `(−1)^(|l|)` of the supertrace turn into `(−1)^(pq)`.
+(Garcia 2018, §A.1, (A.1) and (A.4), p. 23, for `A = ℂ` and its `Ω(M)`-linear extension;
+Berline–Getzler–Vergne, §1.3). Route: compare the terms `X k l σ^(|k|+|l|)(Y l k)` and
+`Y l k σ^(|k|+|l|)(X k l)`; supercommutativity of the entries, of parities `p + |k| + |l|` and
+`q + |k| + |l|`, gives the sign `(−1)^(pq + |k| + |l|)`, which the signs `(−1)^(|k|)` and
+`(−1)^(|l|)` of the supertrace turn into `(−1)^(pq)`.
 *Needs:* 1.1, 1.2.
+
+**API.**
+
+- `superTrace` is `R`-linear, and `str(a • X) = a str X` for `a` in the centre of `A`.
+- `str(X.map f) = f(str X)` for every additive map `f : A → A`; in particular
+  `str(dMat d X) = d(str X)` for the differential of 2.1.
+- `str 1 = m − n`.
 
 **Checks.**
 
@@ -266,33 +348,57 @@ signs `(−1)^(|k|)` and `(−1)^(|l|)` of the supertrace turn into `(−1)^(pq)
 
 ## Layer 2: superconnections in Quillen's algebraic model
 
-### 2.1 Supercommutative differential graded algebras
+### 2.1 Differential graded superalgebras
 
-Define the structure `SuperDGA 𝒜`: an `R`-linear map `d` that is odd (`d_mem`), satisfies the graded
-Leibniz rule `d(ab) = d(a) b + σ(a) d(b)` (`d_mul`) and `d ∘ d = 0` (`d_d`); the entrywise
-differential `dMat δ X` of a supermatrix, and the supercommutator
-`superComm 𝒜 p q X Y = X ⋆ Y − (−1)^(pq) Y ⋆ X` (Quillen 1985). Prove that `dMat` is an odd
-derivation of `superMul` on homogeneous supermatrices,
+Define the structure `SuperDGA 𝒜`, the `ZMod 2`-graded notion of a differential graded algebra: an
+`R`-linear map `d` that is odd (`d_mem`), satisfies the graded Leibniz rule
+`d(ab) = d(a) b + σ(a) d(b)` (`d_mul`) and `d ∘ d = 0` (`d_d`); the entrywise differential
+`dMat δ X` of a supermatrix, and the supercommutator `superComm 𝒜 p q X Y = X ⋆ Y − (−1)^(pq) Y ⋆ X`
+(Garcia 2018, §A.1, (A.5), p. 23; Wu 2006, §2.3). Define the parity regrading
+`parityGrading 𝒜 i = ⨆_(p ≡ i mod 2) 𝒜 p` of a ℤ-grading and prove
+`exists_superDGA_of_isDGAlgebra`: if `TauCeti.IsDGAlgebra 𝒜 d` and the parity regrading is a
+grading, then `d` is the differential of a `SuperDGA (parityGrading 𝒜)`. Prove that `dMat` is an
+odd derivation of `superMul` on homogeneous supermatrices,
 `d(X ⋆ Y) = dX ⋆ Y + (−1)^(|X|) X ⋆ dY`: it uses `d σ = −σ d`, which follows from `d_mem`.
-*Needs:* 1.2.
+Route: for the comparison, `d_mem` and `d_d` are `IsDGAlgebra.map_mem` and `IsDGAlgebra.sq_zero`,
+and `d_mul` is `IsDGAlgebra.leibniz` on each ℤ-homogeneous component of `a`, where `σ` acts by
+`(−1)^p = p.negOnePow`. Differential forms on `ℝᵈ`, ℤ-graded by degree, are the motivating
+instance.
+*Needs:* 1.2; Tau Ceti `TauCeti.IsDGAlgebra`.
+
+**API.**
+
+- `δ.d 1 = 0` and `δ.d (algebraMap R A r) = 0`.
+- `δ.d ∘ parityInv 𝒜 = −(parityInv 𝒜 ∘ δ.d)`.
+- `dMat δ` is `R`-linear and odd: it sends supermatrices of parity `p` to parity `p + 1`.
 
 **Checks.**
 
 - `d(1) = 0`: `d(1) = d(1 · 1) = 2 d(1)`.
-- The forms on `ℝᵈ`, or any `Λ(Rᵈ)` with `d = 0`, are instances; the parity of a form is its
-  degree mod 2, so `d` is odd.
+- `Λ(Rᵈ)` with `d = 0` is an instance, and so is `ℤ`, graded in degree `0`; the parity of a form is
+  its degree mod 2, so `d` is odd.
 - The ungraded Leibniz rule is wrong for forms: for `a = dx`, `b = y` on `ℝ²`,
   `d(dx · y) = d(y dx) = dy ∧ dx = −dx ∧ dy`, which is `d(dx) y + σ(dx) dy`, while
   `d(dx) y + dx dy` gives `+dx ∧ dy`.
+- The comparison keeps the sign: for `a ∈ 𝒜 p`, `σ(a) = (−1)^p a` in the parity regrading, which
+  is `p.negOnePow • a`, the sign of `TauCeti.IsDGAlgebra.leibniz`; with `σ = 1` the comparison
+  would fail on `dx · y` as above.
 
 ### 2.2 Superconnections, curvature and the Bianchi identity
 
 For an odd supermatrix `Θ`, the superconnection `𝔸 = d + Θ` on `A ⊗ R^(m|n)` has curvature
 `curvature δ Θ = dΘ + Θ ⋆ Θ`, and acts on a supermatrix `X` of parity `p` by
 `covD δ Θ p X = dX + [Θ, X]`. Prove `bianchi`: `[𝔸, 𝔸²] = 0`, `covD δ Θ 0 (curvature δ Θ) = 0`
-(Quillen 1985; Berline–Getzler–Vergne, §1.4). Route: `d(dΘ) = 0`, `d(Θ ⋆ Θ) = dΘ ⋆ Θ − Θ ⋆ dΘ` by
-2.1, and the cubic terms cancel.
+(Wu 2006, §2.3, the curvature `D² = R + ∇L + L²`; Berline–Getzler–Vergne, §1.4). Route:
+`d(dΘ) = 0`, `d(Θ ⋆ Θ) = dΘ ⋆ Θ − Θ ⋆ dΘ` by 2.1, and the cubic terms cancel.
 *Needs:* 2.1.
+
+**API.**
+
+- Leibniz rule: for `X` of parity `p` and `Y` of parity `q`,
+  `covD δ Θ (p + q) (X ⋆ Y) = covD δ Θ p X ⋆ Y + (−1)^p X ⋆ covD δ Θ q Y`, from 2.1 and
+  `[Θ, X ⋆ Y] = [Θ, X] ⋆ Y + (−1)^p X ⋆ [Θ, Y]`.
+- `covD δ Θ p` is `R`-linear and raises parity by `1`; `covD δ 0 p = dMat δ` on parity `p`.
 
 **Checks.**
 
@@ -306,12 +412,18 @@ For an odd supermatrix `Θ`, the superconnection `𝔸 = d + Θ` on `A ⊗ R^(m|
 
 ### 2.3 The Chern character is closed
 
-Define `superPow 𝒜 F k`. Prove `superTrace_dMat` (`str(dX) = d str(X)`) and
-`isClosed_superTrace_superPow`: on a supercommutative differential graded algebra, every
-component `str(F^k)` of the character of `d + Θ`, `F` its curvature, is closed (Quillen 1985;
-Berline–Getzler–Vergne, Proposition 1.41 and the proof of the closedness of `ch(𝔸)` in §1.4).
-Route: `d(F^k) = −[Θ, F^k]` by 2.2, and `str` kills supercommutators (1.3).
+Define `superPow 𝒜 F k`. Prove `isClosed_superTrace_superPow`: on a supercommutative differential
+graded superalgebra, every component `str(F^k)` of the character of `d + Θ`, `F` its curvature,
+is closed (Garcia 2018, §A.1, the first property after (A.7), p. 24; Wu 2006, §2.3, after (2.8);
+Berline–Getzler–Vergne, §1.4). Route: `covD δ Θ 0 (F^k) = 0` by Bianchi and the Leibniz rule of
+`covD` (2.2), and `str(covD δ Θ 0 Y) = d str(Y)` for every even `Y`, since `str(dMat δ Y) =
+d str(Y)` (1.3) and `str` kills the supercommutator `[Θ, Y]` (1.3).
 *Needs:* 1.3, 2.1, 2.2.
+
+**API.**
+
+- `superPow 𝒜 F (k + l) = superPow 𝒜 F k ⋆ superPow 𝒜 F l`, and `F^k` is even when `F` is.
+- On a supercommutative `A`, `str(covD δ Θ p X) = d str(X)` for `X` homogeneous of parity `p`.
 
 **Checks.**
 
@@ -324,11 +436,11 @@ Route: `d(F^k) = −[Θ, F^k]` by 2.2, and `str` kills supercommutators (1.3).
 ### 2.4 Transgression
 
 Prove `transgression`: for an even derivation `∂` of `A` that preserves the grading and commutes
-with `d`, `∂ str(F^(k+1)) = (k + 1) d str((∂Θ) ⋆ F^k)` (Quillen 1985; Berline–Getzler–Vergne,
-Proposition 1.41; Garcia 2016, (A.9), for the form `d/dt str e^(𝔸_t²) = d str(𝔸̇_t e^(𝔸_t²))`).
-For `A` the forms on `M` depending smoothly on a parameter `t` and `∂ = ∂/∂t`, summing the series
-of `exp(−F)` gives `d/dt str exp(−𝔸_t²) = −d str(𝔸̇_t exp(−𝔸_t²))`. Route: `∂F = [𝔸, ∂Θ]`, so
-`∂ str(F^(k+1)) = (k + 1) str([𝔸, ∂Θ] ⋆ F^k)` by graded cyclicity, which is
+with `d`, `∂ str(F^(k+1)) = (k + 1) d str((∂Θ) ⋆ F^k)` (Garcia 2018, §A.1, (A.9), p. 24, for the
+form `d/dt str e^(𝔸_t²) = d str(𝔸̇_t e^(𝔸_t²))`, which it cites as Berline–Getzler–Vergne,
+Proposition 1.41). For `A` the forms on `M` depending smoothly on a parameter `t` and `∂ = ∂/∂t`,
+summing the series of `exp(−F)` gives `d/dt str exp(−𝔸_t²) = −d str(𝔸̇_t exp(−𝔸_t²))`. Route:
+`∂F = [𝔸, ∂Θ]`, so `∂ str(F^(k+1)) = (k + 1) str([𝔸, ∂Θ] ⋆ F^k)` by graded cyclicity, which is
 `(k + 1) str([𝔸, (∂Θ) ⋆ F^k]) = (k + 1) d str((∂Θ) ⋆ F^k)` by Bianchi; no division is used.
 *Needs:* 1.3, 2.2, 2.3.
 
@@ -339,15 +451,17 @@ of `exp(−F)` gives `d/dt str exp(−𝔸_t²) = −d str(𝔸̇_t exp(−𝔸_
   integrates over `[0, 1]` to the Chern–Simons form whose differential is
   `str(F₁^(k+1)) − str(F₀^(k+1))`, the connection-path argument of CharacteristicClasses C4,
   item 1, in the ungraded case `n = 0`.
-- `k = 1`, `d = 0`: the right side is `0`, and so is the left, since
-  `str(Θ⁴) = str(Θ ⋆ Θ³) = −str(Θ³ ⋆ Θ) = −str(Θ⁴)` by 1.3; the identity needs no division by `2`
-  because the proof never isolates `str(Θ⁴)`.
+- `k = 1`, `d = 0`: the right side is `0`, and the left side is
+  `∑_(i=0..3) str(Θ^i ⋆ ∂Θ ⋆ Θ^(3−i)) = (1 − 1 + 1 − 1) str(∂Θ ⋆ Θ³) = 0` by 1.3; `str(Θ⁴)`
+  itself need not vanish (`A = 𝔽₂[x]`, `x` odd, `m = 1`, `n = 0`, `Θ = (x)`: `str(Θ⁴) = x⁴`,
+  while `∂ = x d/dx` gives `∂ x⁴ = 4x⁴ = 0`).
 
 ### 2.5 The degree-zero character: McKean–Singer in finite dimensions
 
 Prove `trace_exp_sub_trace_exp`: for every complex `n × m` matrix `T` and `t ∈ ℂ`,
 `tr exp(−t T*T) − tr exp(−t TT*) = m − n`; it is the degree-zero component
-`str exp(−tX²) = m − n` of the character of `d + √t X` (Convention 3; Quillen 1985). Route: expand
+`str exp(−tX²) = m − n` of the character of `d + √t X` (Convention 3; the degree-zero part of
+the character form of Wu 2006, §2.3, (2.8)). Route: expand
 both exponentials; `tr((T*T)^k) = tr((TT*)^k)` for `k ≥ 1` (Mathlib's
 `Matrix.trace_mul_pow_comm_of_ne_zero`, for rectangular factors), so only the constant terms
 `tr 1 = m` and `tr 1 = n` survive.
@@ -361,36 +475,17 @@ both exponentials; `tr((T*T)^k) = tr((TT*)^k)` for `k ≥ 1` (Mathlib's
 - `T = (1, 0) : ℂ² → ℂ` (`n = 1`, `m = 2`): `T*T = diag(1, 0)`, `TT* = (1)`, and
   `(e^(−t) + 1) − e^(−t) = 1 = 2 − 1`; with `T T*` and `T* T` exchanged the sign flips.
 
-### 2.6 Duhamel's formula
-
-Prove `hasDerivAt_exp_duhamel`: in a complete real normed algebra, if `F` has derivative `F′` at
-`t`, then `s ↦ exp(F(s))` has derivative `∫₀¹ exp(sF(t)) F′ exp((1 − s)F(t)) ds` at `t`
-(Duhamel's formula; Berline–Getzler–Vergne, Ch. 2). With a continuous trace `τ`, it gives
-`d/dt τ(exp F(t)) = τ(F′ exp F(t))`, and with a supertrace and `F(t)` even the same, which sums
-2.4 to the exponential. Route: `exp(F(t + h)) − exp(F(t)) = ∫₀¹ d/ds (exp(sF(t+h))
-exp((1 − s)F(t))) ds`, the derivative of the integrand being `exp(sF(t+h))(F(t+h) − F(t))
-exp((1 − s)F(t))`, and the series bounds of `NormedSpace.exp`.
-*Needs:* Mathlib `NormedSpace.exp`, `HasDerivAt`, `intervalIntegral`.
-
-**Checks.**
-
-- If `F(t)` and `F′` commute, the integrand is `exp(F(t)) F′`, the usual chain rule.
-- `𝔸 = M₂(ℝ)`, `F(s) = [[0, s], [0, 0]] + [[1, 0], [0, 0]]`: the formula gives the derivative of
-  the explicit `exp(F(s)) = [[e, s(e − 1)], [0, 1]]`, namely `[[0, e − 1], [0, 0]]`, while the
-  commutative guess `exp(F) F′ = [[0, e], [0, 0]]` is wrong.
-- The order of the factors matters: replacing the integrand by `exp(sF) exp((1 − s)F) F′` gives
-  `exp(F) F′`, the same wrong value.
-
 ### Examples
 
-- `A = Λ(ℝᵈ)` with `d = 0`, `Θ = X + θ` with `θ` an odd matrix of constant one-forms: all four
-  theorems are identities of polynomials in the entries.
+- `A = Λ(ℝᵈ)` with `d = 0`, `Θ = X + θ` with `θ` an odd matrix of constant one-forms: 2.2–2.4 are
+  identities of polynomials in the entries.
 - The trivial graded bundle `ℂ^(m|n)` over `M` with `𝔸 = d + √t X(x)`: Layer 4's 4.4 at the
   level of forms on a trivialization.
 
 ### Dependencies
 
-2.1 ← 1.2; 2.2 ← 2.1; 2.3 ← 1.3, 2.1, 2.2; 2.4 ← 1.3, 2.2, 2.3; 2.5, 2.6 ← Mathlib.
+2.1 ← 1.2, Tau Ceti `TauCeti.IsDGAlgebra`; 2.2 ← 2.1; 2.3 ← 1.3, 2.1, 2.2; 2.4 ← 1.3, 2.2, 2.3;
+2.5 ← Mathlib.
 
 ## Layer 3: the Berezin integral and the Pfaffian
 
@@ -415,31 +510,53 @@ preserves degrees and acts on the top degree by `det f`.
 
 ### 3.2 The Pfaffian as a Berezin integral
 
-Define `skewForm Σ = ∑_(i<j) Σᵢⱼ eᵢ eⱼ`, which is `½ (·, Σ ·)` for skew `Σ`, and
-`pfaffian Σ = (r!)⁻¹ ∫_B (skewForm Σ)^r` for a `2r × 2r` matrix over a commutative `ℚ`-algebra
-(Convention 4; Wu 2006, §2.1; Mathai–Quillen 1986). Prove `pfaffian_sq`, `Pf(Σ)² = det Σ`, and
-`pfaffian_mul_mul_transpose`, `Pf(BΣBᵀ) = det B Pf(Σ)`, for skew `Σ`. Route: the second by 3.1
-applied to `f = B` after `skewForm (BΣBᵀ) = Λ(B)(skewForm Σ)`; the first by reducing to a
-block-diagonal normal form over the fraction field of the generic skew matrix and the second
-identity, or by the Berezin integral over `Λ(R^(2r) ⊕ R^(2r))` of `exp(∑ Σᵢⱼ eᵢ fⱼ)`, which is
-`det Σ` up to the sign of the reordering.
-*Needs:* 3.1; Mathlib `Matrix.det`, `Matrix.transpose`.
+For a matrix `Σ` over a commutative ring, define `pairForm Σ (i, j) = Σᵢⱼ eᵢ eⱼ` on the pairs
+`ijPairs N` with `i < j`, the two-form `skewForm Σ = ∑_(i<j) Σᵢⱼ eᵢ eⱼ`, which is `½ (·, Σ ·)` for
+skew `Σ`, its divided powers `skewFormDivPow Σ r = ∑_S ∏_(p ∈ S) pairForm Σ p`, the sum over the
+`r`-element subsets `S` of `ijPairs N`, the product being `Finset.noncommProd` since two-forms
+commute (`commute_pairForm`), and `pfaffian Σ = ∫_B skewFormDivPow Σ r` for a `2r × 2r` matrix
+(Convention 4; Wu 2006, §2.1). Prove `factorial_mul_pfaffian`, `r! Pf(Σ) = ∫_B (skewForm Σ)^r`,
+for every matrix; and for alternating `Σ` (`Σᵀ = −Σ` and `Σᵢᵢ = 0`) `pfaffian_sq`,
+`Pf(Σ)² = det Σ`, and `pfaffian_mul_mul_transpose`, `Pf(BΣBᵀ) = det B Pf(Σ)`. Over a `ℚ`-algebra
+the first gives `Pf(Σ) = (r!)⁻¹ ∫_B ω^r = ∫_B exp(ω)`, Wu's definition. Route: the first because
+the terms `pairForm Σ p` commute and square to `0`, so `ω^r` is `r!` times the sum over
+`r`-element sets; the third by 3.1 applied to `f = B` after
+`skewFormDivPow (BΣBᵀ) r = Λ(B)(skewFormDivPow Σ r)`, the divided power of
+`skewForm (BΣBᵀ) = Λ(B)(skewForm Σ)`, which uses that `BΣBᵀ` is again alternating; the second by
+reduction to the generic alternating matrix over `ℤ[xᵢⱼ]`, an integral domain of characteristic
+`0`, where `r!` is not a zero divisor, the block-diagonal normal form over its fraction field and
+the third identity.
+*Needs:* 3.1; Mathlib `Matrix.det`, `Matrix.transpose`, `Finset.powersetCard`,
+`Finset.noncommProd`, `ExteriorAlgebra.ι_add_mul_swap`.
+
+**API.**
+
+- `skewForm Σ` and `pfaffian Σ` depend only on the entries `Σᵢⱼ` with `i < j`.
+- `commute_ι_mul_ι_ι`: `ι x ι y` commutes with every `ι z`, hence two-forms commute.
+- `skewFormDivPow Σ 0 = 1`, `skewFormDivPow Σ 1 = skewForm Σ`, and `pfaffian (c • Σ) = c^r Pf(Σ)`.
 
 **Checks.**
 
-- `Pf([[0, a], [−a, 0]]) = a` (Convention 4), with square `a² = det`.
-- For `Σ` block diagonal with blocks `[[0, aᵢ], [−aᵢ, 0]]`, `Pf(Σ) = a₁ ⋯ a_r`: the cross terms of
-  `ω^r` are `r!` copies of `a₁e₀e₁ ⋯ a_r e_(2r−2)e_(2r−1)`.
-- For `4 × 4`, `Pf = Σ₀₁Σ₂₃ − Σ₀₂Σ₁₃ + Σ₀₃Σ₁₂`; the missing `1/r!` would give twice it.
+- `Pf([[0, a], [−a, 0]]) = a` (Convention 4), with square `a² = det`; over `ℤ` or `𝔽₂`,
+  `Σ = [[0, 1], [−1, 0]]` gives `ω^[1] = e₀e₁` and `Pf = 1 = det`, a value a definition with
+  `(r!)⁻¹` cannot give outside `ℚ`-algebras.
+- For `Σ` block diagonal with blocks `[[0, aᵢ], [−aᵢ, 0]]`, `Pf(Σ) = a₁ ⋯ a_r`: the only
+  `r`-element set of pairs with nonzero product is `{(0, 1), (2, 3), …}`, while `ω^r` has `r!`
+  copies of `a₁e₀e₁ ⋯ a_r e_(2r−2)e_(2r−1)`.
+- For `4 × 4`, `Pf = Σ₀₁Σ₂₃ − Σ₀₂Σ₁₃ + Σ₀₃Σ₁₂`, from the three sets `{01, 23}`, `{02, 13}`,
+  `{03, 12}` with `e₀e₂e₁e₃ = −e₀e₁e₂e₃` and `e₀e₃e₁e₂ = e₀e₁e₂e₃`; the plain power `ω^r` gives
+  twice it.
 - `Σ = 0`: `Pf = 0` for `r ≥ 1` and `Pf = 1` for `r = 0`, the empty matrix with `det = 1`.
+- The zero diagonal is needed: over `𝔽₂`, `Σ = [[1, 1], [1, 1]]` satisfies `Σᵀ = −Σ`, has
+  `Pf = 1` and `det = 0`.
 
 ### 3.3 The Gaussian density
 
-Prove `integral_gaussian_density`: on `EuclideanSpace ℝ (Fin r)`,
-`∫ (2π)^(−r/2) exp(−|x|²/2) dx = 1`, the fibre integral of the Mathai–Quillen form on the trivial
-bundle (Mathai–Quillen 1986; Wu 2006, (2.1)). Route: Mathlib's Gaussian integral on a
-finite-dimensional inner product space.
-*Needs:* Mathlib `MeasureTheory.integral`, `EuclideanSpace`, the Gaussian integral.
+Prove that on `EuclideanSpace ℝ (Fin r)`, `∫ (2π)^(−r/2) exp(−|x|²/2) dx = 1`, the fibre integral
+of the Mathai–Quillen form on the trivial bundle (Wu 2006, §2.1, (2.1)). Route: Mathlib's
+`GaussianFourier.integral_rexp_neg_mul_sq_norm` with `b = 1/2`, which gives `(2π)^(r/2)`.
+*Needs:* Mathlib `MeasureTheory.integral`, `EuclideanSpace`,
+`GaussianFourier.integral_rexp_neg_mul_sq_norm`.
 
 **Checks.**
 
@@ -452,8 +569,8 @@ finite-dimensional inner product space.
 ### Examples
 
 - `Λ(R⁰) = R`: `∫_B = id`, `Pf` of the empty matrix is `1`.
-- `R = ℝ[a₀₁, …]`, the generic skew matrix: 3.2 there implies 3.2 for every skew matrix over every
-  commutative `ℚ`-algebra.
+- `R = ℤ[xᵢⱼ]`, the generic alternating matrix: 3.2 there implies 3.2 for every alternating matrix
+  over every commutative ring.
 
 ### Dependencies
 
@@ -463,13 +580,17 @@ finite-dimensional inner product space.
 
 ### 4.1 Graded bundles and the supertrace
 
-For a smooth ℤ/2-graded complex vector bundle `E = E⁺ ⊕ E⁻` over a smooth manifold `M`, identify
-`Ω(M, End E)` with `Ω(M) ⊗̂_(C^∞(M)) Γ(End E)` under Quillen's sign rule, and define the supertrace
+For a smooth ℤ/2-graded complex vector bundle `E = E⁺ ⊕ E⁻` over a smooth manifold `M`, realize
+`Ω(M, End E)` as Tau Ceti's `TauCeti.SmoothBundleForm` with values in the endomorphism bundle,
+make it a ℤ/2-graded algebra by `TauCeti.SmoothBundleForm.wedgeWith` for composition with
+Quillen's sign rule, identify it with `Ω(M) ⊗̂_(C^∞(M)) Γ(End E)`, and define the supertrace
 `str : Ω(M, End E) → Ω(M)`, `str(ω ⊗ u) = ω str(u)`. Prove that it is a graded trace and commutes
 with the exterior covariant derivative of a grading-preserving connection,
-`str[∇, α] = d str(α)` (Quillen 1985; Berline–Getzler–Vergne, §1.4). Route: 1.3 in local
-trivializations, where `Ω(U) ⊗̂ End(ℂ^(m|n))` is the algebra of Layer 1.
-*Needs:* 1.3; DifferentialGeometry Layers 0–1; SmoothBundlesConnections B4.1.
+`str[∇, α] = d str(α)` (Garcia 2018, §A.1, (A.2)–(A.4), p. 23; Wu 2006, §2.3). Route: 1.3 in
+local trivializations, where `Ω(U) ⊗̂ End(ℂ^(m|n))` is the algebra of Layer 1.
+*Needs:* 1.3; Tau Ceti `TauCeti.SmoothForm`, `TauCeti.SmoothBundleForm`,
+`TauCeti.SmoothBundleForm.wedgeWith`; DifferentialGeometry Layers 0–1; SmoothBundlesConnections
+B4.1.
 
 **Checks.**
 
@@ -482,10 +603,11 @@ trivializations, where `Ω(U) ⊗̂ End(ℂ^(m|n))` is the algebra of Layer 1.
 Define a superconnection on `E`: an odd `ℂ`-linear operator `𝔸` on `Ω(M, E)` with
 `𝔸(ωs) = dω s + (−1)^(|ω|) ω 𝔸s`. Prove that every superconnection is `∇ + θ` with `∇ = ∇⁺ ⊕ ∇⁻`
 a grading-preserving connection and `θ ∈ Ω(M, End E)` odd, that `𝔸²` is `Ω(M)`-linear, an even
-element of `Ω(M, End E)`, and the Bianchi identity `[𝔸, 𝔸²] = 0` (Quillen 1985;
-Berline–Getzler–Vergne, §1.4; Garcia 2016, §A.1). Route: the difference of two superconnections is
+element of `Ω(M, End E)`, and the Bianchi identity `[𝔸, 𝔸²] = 0` (Garcia 2018, §A.1, (A.5) and
+the paragraph after it, pp. 23–24; Wu 2006, §2.3; Berline–Getzler–Vergne, §1.4). Route: the
+difference of two superconnections is
 `Ω(M)`-linear, and Bianchi is 2.2 in a trivialization.
-*Needs:* 2.2, 4.1; SmoothBundlesConnections B3.3, B4.1.
+*Needs:* 2.2, 4.1; Tau Ceti `TauCeti.CurvatureForm`; SmoothBundlesConnections B3.3, B4.1.
 
 **Checks.**
 
@@ -500,12 +622,26 @@ Berline–Getzler–Vergne, §1.4; Garcia 2016, §A.1). Route: the difference of
 
 Prove that `ch(𝔸) = φ str exp(−𝔸²)` (Convention 2) is closed; that for a smooth family `𝔸_t`,
 `d/dt str exp(−𝔸_t²) = −d str(𝔸̇_t exp(−𝔸_t²))`, so the class of `ch(𝔸)` in
-`H^even(M; ℂ)` is independent of `𝔸`; and that it equals `ch(E⁺) − ch(E⁻)`, the difference of
-CharacteristicClasses' Chern character forms of `∇⁺` and `∇⁻` (Quillen 1985;
-Berline–Getzler–Vergne, Proposition 1.41 and §1.4; Garcia 2016, §A.1). Route: 2.3 and 2.4 in
-trivializations, summed with 2.6; for the last, the path `∇ + tθ`, `t ∈ [0, 1]`, joins `𝔸` to
-`∇⁺ ⊕ ∇⁻`, whose character is CharacteristicClasses C4, item 2, for each summand.
-*Needs:* 2.3, 2.4, 2.6, 4.2; CharacteristicClasses C4, items 1–2; DifferentialGeometry Layer 6.
+`H^even(M; ℂ)` (Tau Ceti's `TauCeti.deRhamCohomology` of the real and imaginary parts) is
+independent of `𝔸`; and that it equals `ch(E⁺) − ch(E⁻)`, the difference of
+CharacteristicClasses' Chern character forms of `∇⁺` and `∇⁻` (Garcia 2018, §A.1, the properties
+after (A.7), (A.8) and (A.9), p. 24; Wu 2006, §2.3, after (2.8); Berline–Getzler–Vergne,
+Proposition 1.41 and §1.4). Route: 2.3 and 2.4 in trivializations, summed to the exponential by
+Tau Ceti's Duhamel formula `TauCeti.hasFDerivAt_exp` with
+`TauCeti.expFDeriv_apply_eq_integral`; for the last, the path `∇ + tθ`, `t ∈ [0, 1]`, joins `𝔸`
+to `∇⁺ ⊕ ∇⁻`, whose character is CharacteristicClasses C4, item 2, for each summand.
+*Needs:* 2.3, 2.4, 4.2; Tau Ceti `TauCeti.hasFDerivAt_exp`, `TauCeti.expFDeriv_apply_eq_integral`,
+`TauCeti.deRhamCohomology`; CharacteristicClasses C4, items 1–2; DifferentialGeometry Layer 6.
+
+**API.**
+
+- With a continuous trace `τ` on a real Banach algebra and `F` differentiable at `t`,
+  `d/dt τ(exp F(t)) = τ(F′(t) exp F(t))`: by `TauCeti.expFDeriv_apply_eq_integral` the
+  derivative is `τ(∫₀¹ exp((1 − s)F) F′ exp(sF) ds)`, and cyclicity makes the integrand
+  `τ(F′ exp F)`; the same holds for a supertrace and `F(t)` even, which sums 2.4 to
+  `d/dt str exp(−𝔸_t²) = −d str(𝔸̇_t exp(−𝔸_t²))`.
+- `ch(𝔸 ⊕ 𝔸′) = ch(𝔸) + ch(𝔸′)` and `ch(f*𝔸) = f* ch(𝔸)` (Garcia 2018, (A.7) and the properties
+  after it).
 
 **Checks.**
 
@@ -525,11 +661,13 @@ of `U`, and on `U` the form `ch(𝔸₁)` is exact with primitive
 locally constant rank, so that `K = ker X` is a ℤ/2-graded subbundle with the compressed
 connection `∇^K = P_K ∇ P_K`, then `ch(𝔸_t) → ch(K⁺, ∇^K) − ch(K⁻, ∇^K)` as `t → ∞`, uniformly
 on compact subsets with all derivatives, and the difference is `d` of a convergent transgression
-integral (Quillen 1985; Berline–Getzler–Vergne, Ch. 9). Route: (a) from 4.3 and the bound
+integral (Wu 2006, §2.3, the formula after (2.8), for (a); Berline–Getzler–Vergne, Ch. 9, "The
+Index Bundle", pp. 263–310, for (b)). Route: (a) from 4.3 and the bound
 `|exp(−𝔸_t²)| ≤ C(1 + t)^N e^(−t² λ)` with `λ > 0` the smallest eigenvalue of `X²` on the compact
-set, by Duhamel's expansion (2.6) around `exp(−t²X²)`; (b) in a frame adapted to
+set, by the Duhamel expansion of `TauCeti.expFDeriv_apply_eq_integral` around `exp(−t²X²)`; (b)
+in a frame adapted to
 `E = K ⊕ K^⊥`, on which `X` is invertible, by the same expansion.
-*Needs:* 2.5, 2.6, 4.3; DifferentialGeometry Layer 6.
+*Needs:* 2.5, 4.3; Tau Ceti `TauCeti.expFDeriv_apply_eq_integral`; DifferentialGeometry Layer 6.
 
 **Checks.**
 
@@ -545,15 +683,18 @@ set, by Duhamel's expansion (2.6) around `exp(−t²X²)`; (b) in a frame adapte
 ### Examples
 
 - `M` a point: Layer 4 is Layer 2 with `A = ℂ`.
-- The Koszul complex of a section `s` of a Hermitian bundle `F` with `∇_s = ∇ + i(s + s*)` on
-  `ΛF` (Garcia 2016, §A.2–A.3): a superconnection of the form 4.4 whose `X` is invertible off
-  `s⁻¹(0)`.
+- The Koszul complex of a section `s` of a Hermitian bundle `F` with `∇_s = ∇ + i(s + s*)` on `ΛF`
+  (Garcia 2018, §A.2–A.3, (A.11) and (A.15), pp. 24–25): a superconnection of the form 4.4 whose `X`
+  is invertible off `s⁻¹(0)`.
 
 ### Dependencies
 
-4.1 ← 1.3, DifferentialGeometry Layers 0–1, SmoothBundlesConnections B4.1; 4.2 ← 2.2, 4.1,
-SmoothBundlesConnections B3.3, B4.1; 4.3 ← 2.3, 2.4, 2.6, 4.2, CharacteristicClasses C4, items 1–2,
-DifferentialGeometry Layer 6; 4.4 ← 2.5, 2.6, 4.3.
+4.1 ← 1.3, Tau Ceti (`TauCeti.SmoothForm`, `TauCeti.SmoothBundleForm`,
+`TauCeti.SmoothBundleForm.wedgeWith`), DifferentialGeometry Layers 0–1, SmoothBundlesConnections
+B4.1; 4.2 ← 2.2, 4.1, Tau Ceti (`TauCeti.CurvatureForm`), SmoothBundlesConnections B3.3, B4.1;
+4.3 ← 2.3, 2.4, 4.2, Tau Ceti (`TauCeti.hasFDerivAt_exp`, `TauCeti.expFDeriv_apply_eq_integral`,
+`TauCeti.deRhamCohomology`), CharacteristicClasses C4, items 1–2, DifferentialGeometry Layer 6;
+4.4 ← 2.5, 4.3, Tau Ceti (`TauCeti.expFDeriv_apply_eq_integral`).
 
 ## Layer 5: Mathai–Quillen Euler and Thom forms
 
@@ -563,7 +704,8 @@ For an oriented real vector bundle `E` of rank `r` with a Euclidean metric and a
 connection `∇` of curvature `R`, define the Berezin integral `∫_B : Ω(M, ΛE*) → Ω(M)` fibrewise
 (3.1 in oriented orthonormal frames) and prove that the Euler form
 `e(∇) = (2π)^(−r/2) ∫_B exp(½(·, R·))` equals `Pf(R/2π)`, CharacteristicClasses' Pfaffian form, and
-is `0` in odd rank (Mathai–Quillen 1986; Berline–Getzler–Vergne, §1.6; Wu 2006, (2.3)). Route: 3.2
+is `0` in odd rank (Wu 2006, §2.2, (2.3), p. 2; Wu 2006, §2.1, p. 1, for odd rank;
+Berline–Getzler–Vergne, §1.6). Route: 3.2
 fibrewise; orthonormal frame changes have `det = 1`, so 3.1 makes `∫_B` frame-independent.
 *Needs:* 3.1, 3.2; CharacteristicClasses C4, item 2; SmoothBundlesConnections B4.1.
 
@@ -576,12 +718,13 @@ fibrewise; orthonormal frame changes have `det = 1`, so 3.1 makes `∫_B` frame-
 ### 5.2 The Mathai–Quillen Euler form of a section
 
 For a smooth section `s`, define `e_(∇,s) = (−1)^(r(r+1)/2) (2π)^(−r/2) ∫_B exp(−S_(∇,s))` with
-`S_(∇,s) = ½|s|² + (∇s, ·) + ½(·, R·)` (Wu 2006, (2.4)–(2.5), following
+`S_(∇,s) = ½|s|² + (∇s, ·) + ½(·, R·)` (Wu 2006, §2.2, (2.4)–(2.5), p. 2, following
 Berline–Getzler–Vergne, §1.6). Prove that it is closed, that `e_(∇,βs)` has a class independent of
-`β ≥ 0`, with an explicit transgression form, and that `e_(∇,0) = e(∇)` for even `r`
-(Mathai–Quillen 1986). Route: `exp(−S_(∇,s))` is closed for the operator `d − ι_s` on
-`Ω(M, ΛE*)` (contraction by `s` in the Grassmann variables), which `∫_B` turns into `d`; the
-`β`-derivative is `(d − ι_s)`-exact.
+`β ≥ 0`, with an explicit transgression form, and that `e_(∇,0) = e(∇)` for even `r` (Wu 2006,
+§2.2, the paragraph after (2.5), p. 2). Route: `exp(−S_(∇,s))` is closed for the odd derivation
+`∇ + ι_s` of `Ω(M) ⊗̂ ΛE*`, where `ι_s(ω ⊗ e) = (−1)^(|ω|) ω ⊗ ι_s e` is the contraction by `s` in
+the Grassmann variables with the Koszul sign, since `(∇ + ι_s) S_(∇,s) = 0`; `∫_B` kills the image
+of `ι_s` and turns `∇` into `d`; the `β`-derivative is `(∇ + ι_s)`-exact.
 *Needs:* 3.1, 5.1; DifferentialGeometry Layer 6.
 
 **Checks.**
@@ -591,6 +734,9 @@ Berline–Getzler–Vergne, §1.6). Prove that it is closed, that `e_(∇,βs)` 
   (Convention 4), of integral `1` by 3.3.
 - `s = βx` on `ℝʳ`: `(2π)^(−r/2) β^r e^(−β²|x|²/2) dx`, of integral `1` for every `β > 0` and
   concentrating at `0` as `β → ∞`.
+- The sign of the operator: for `r = 1`, `E` trivial and flat, `S = ½s² + ds · e`; then
+  `d(½s²) = s ds` and `ι_s(ds · e) = −ds · s = −s ds`, so `(d + ι_s)S = 0`, while
+  `(d − ι_s)S = 2s ds`.
 
 ### 5.3 Localization and Poincaré–Hopf
 
@@ -598,7 +744,7 @@ Let `M` be closed and oriented and `s` transverse to the zero section, with `Z =
 by CharacteristicClasses C2, item 3. Prove: (a) `∫_M ω ∧ e_(∇,s) = ∫_Z ω` for every closed `ω` of
 degree `dim M − r`; (b) `∫_M φ ∧ e_(∇,βs) → ∫_Z φ` as `β → ∞` for every form `φ`; (c) for
 `E = TM` with the Levi-Civita connection and a vector field `s` with nondegenerate zeros,
-`∫_M Pf(R/2π) = ∑_(s(p)=0) sign det(∇s(p)) = χ(M)` (Mathai–Quillen 1986; Wu 2006, (2.6)).
+`∫_M Pf(R/2π) = ∑_(s(p)=0) sign det(∇s(p)) = χ(M)` (Wu 2006, §2.2, (2.6), p. 2, for (a) and (b)).
 Route: (a) by 5.2, Stokes and CharacteristicClasses C2, item 3, which identifies the class of
 `e(E)` with the Poincaré dual of `Z`; (b) by the Gaussian rescaling of 5.2's third Check in normal
 coordinates along `Z`; (c) from (a) with `ω = 1`, `β → 0` giving the Pfaffian, and C2, item 3's
@@ -614,16 +760,17 @@ sum-of-local-indices formula with `e(TM)[M] = χ(M)`.
 ### 5.4 The Thom form
 
 On the total space of `π : E → M`, with the tautological section `x` of `π*E`, define
-`τ_∇ = e_(π*∇, x)` (Wu 2006, (2.7)). Prove that `τ_∇` is closed, that its restriction to each fibre
-is the Gaussian `(2π)^(−r/2) e^(−|x|²/2) dx₁ ⋯ dx_r`, with fibre integral `1`, that
+`τ_∇ = e_(π*∇, x)` (Wu 2006, §2.2, (2.7), p. 2). Prove that `τ_∇` is closed, that its restriction to
+each fibre is the Gaussian `(2π)^(−r/2) e^(−|x|²/2) dx₁ ⋯ dx_r`, with fibre integral `1`, that
 `s*τ_∇ = e_(∇,s)` for every section `s`, in particular `0*τ_∇ = e(∇)`, and that for the
 fibrewise radial diffeomorphism `ρ` from the open unit disc bundle onto `E`, `ρ*τ_∇` extends by
 zero to a closed form with compact vertical support whose class is the real image of the Thom
-class `U_E` (Mathai–Quillen 1986; Berline–Getzler–Vergne, §1.6). Route: closedness from 5.2;
+class `U_E` (Wu 2006, §2.2, the paragraph after (2.7), p. 2; Berline–Getzler–Vergne, §1.6).
+Route: closedness from 5.2;
 the fibre value from Convention 4 and 3.3; `s*` by naturality of the construction; the class by
 C2, item 5's compact-support comparison and the characterization of `U_E` by fibre integral `1`
 (C2, item 1). The equivariant construction of `τ_∇` from the `SO(r)`-equivariant Gaussian on `ℝʳ`
-(Mathai–Quillen 1986) is a second route.
+(Wu 2006, §3.1, p. 3) is a second route.
 *Needs:* 3.3, 5.2; CharacteristicClasses C2, items 1, 5; DifferentialGeometry Layer 5.
 
 **Checks.**
@@ -655,11 +802,12 @@ Define `grading = 1 ⊕ −1` on `ℂ^(m|n)` and `cayley X = (1 + X)(1 − X)⁻
 `grading_mul_cayley_mul_grading`: if moreover `X` is odd, `εXε = −X`, then `εgε = g⁻¹`, so `εg`
 is a self-adjoint involution, the reflection `2P_W − 1` in a subspace `W`; this is Quillen's
 correspondence between odd skew-adjoint `X`, unitaries `g` with `εgε = g⁻¹` and `−1 ∉ spec(g)`,
-and subspaces `W` (Quillen 1988). Route: the eigenvalues of `X` are imaginary, so `1 − X` is
-invertible; unitarity is SelfAdjointSpectralTheory SA-D27 for `A = −iX` (Convention 5); `ε(1 ± X)ε
-= 1 ∓ X` and `1 + X`, `1 − X` commute.
-*Needs:* SelfAdjointSpectralTheory SA-D24, SA-D27; Mathlib `Matrix.unitaryGroup`,
-`Matrix.fromBlocks`.
+and subspaces `W` (Quillen 1988, the correspondence between subbundles and unitaries inverted by
+`ε`, as described in its review Zbl 0671.57013). Route: the eigenvalues of `X` are imaginary, so
+`1 − X` is invertible; `1 + X` and `1 − X` commute and `(1 ± X)* = 1 ∓ X`, so
+`g*g = (1 + X)⁻¹(1 − X)(1 + X)(1 − X)⁻¹ = 1`; `ε(1 ± X)ε = 1 ∓ X` gives
+`εgε = (1 − X)(1 + X)⁻¹ = g⁻¹`.
+*Needs:* Mathlib `Matrix.unitaryGroup`, `Matrix.conjTranspose`, `Matrix.fromBlocks`.
 
 **Checks.**
 
@@ -669,25 +817,30 @@ invertible; unitarity is SelfAdjointSpectralTheory SA-D27 for `A = −iX` (Conve
   `(1, −a)`, so `W` is the line it spans.
 - An even skew-adjoint `X = diag(iθ, 0)` gives `g = diag((1 + iθ)/(1 − iθ), 1)`, which commutes
   with `ε`, and `εgε = g ≠ g⁻¹` for `θ ≠ 0`: oddness is needed.
+- `X = (iθ)` on `ℂ`: `|(1 + iθ)/(1 − iθ)| = 1`, and `g = −U_(−iX)` with SelfAdjointSpectralTheory's
+  `U_A` at `A = θ` (Convention 5), the comparison with the operator Cayley transform.
 
 ### 6.2 Invariant character forms on Grassmannians and unitary groups
 
 On the manifold `Gr(V)` of self-adjoint involutions `F` of a finite-dimensional Hermitian space
 `V` (the disjoint union of the Grassmannians, through `W ↦ 2P_W − 1`) and on `U(V)`, prove that
-`tr(F(dF)^(2k))` and `tr((g⁻¹dg)^(2k−1))` are closed and `U(V)`-invariant, that
+`tr(F(dF)^(2k))` and `tr((g⁻¹dg)^(2k−1))` are closed and `U(V)`-invariant, and that for `k ≥ 1`
 `tr(F(dF)^(2k)) = 2^(2k+1) tr(P(dP)^(2k))` with `P = (1 + F)/2`, and that
 `(1/k!)(i/2π)^k tr(P(dP)^(2k))` is the degree-`2k` Chern character form of the tautological bundle
 `W` with the connection `P d P`, so the class of `tr(F(dF)^(2k))` is
-`2^(2k+1) k! (2π/i)^k ch_k(W)` (Quillen 1988). Route: `P dP P = 0` and `(dP)²` commutes with `P`,
-so the curvature of `P d P` is `P dP dP` and its `k`-th power `P(dP)^(2k)`; `tr((dP)^(2k)) = 0`
-by graded cyclicity of the trace on matrix-valued forms (1.3 with `n = 0`); closedness from
-`d tr(F(dF)^(2k)) = tr((dF)^(2k+1))`, which vanishes because `F² = 1` makes `F` anticommute with
-`dF`, so conjugating by `F` changes its sign.
+`2^(2k+1) k! (2π/i)^k ch_k(W)`, `k ≥ 1` (Quillen 1988, its forms `γ_(2k)` on `Gr(V)` and
+`γ_(2k−1)` on `U(V)`, as described in Zbl 0671.57013). Route: `F = 2P − 1` gives
+`tr(F(dF)^(2k)) = 2^(2k+1) tr(P(dP)^(2k)) − 2^(2k) tr((dP)^(2k))`; `P dP P = 0` and `(dP)²` commutes
+with `P`, so the curvature of `P d P` is `P dP dP` and its `k`-th power `P(dP)^(2k)`;
+`tr((dP)^(2k)) = 0` by graded cyclicity of the trace on matrix-valued forms (1.3 with `n = 0`);
+closedness from `d tr(F(dF)^(2k)) = tr((dF)^(2k+1))`, which vanishes because `F² = 1` makes `F`
+anticommute with `dF`, so conjugating by `F` changes its sign.
 *Needs:* 1.3, 4.3; CharacteristicClasses C4, item 2; DifferentialGeometry Layers 0–1, 6.
 
 **Checks.**
 
-- `k = 0`: `tr(F) = 2 dim W − dim V`, locally constant, and `ch₀(W) = dim W`.
+- `k = 0` is excluded: `tr(F) = 2 dim W − dim V` while `2 tr(P) = 2 dim W`; the identity uses
+  `tr((dP)^(2k)) = 0`, which needs `k ≥ 1`.
 - `V = ℂ²`, `Gr₁(ℂ²) = ℂP¹`: `∫ (i/2π) tr(P dP dP) = −1`, the degree of the tautological
   `O(−1)`, matching CharacteristicClasses' `c₁(O(−1)) = −h`.
 - `tr((g⁻¹dg)¹)` on `U(1)` is `i dθ`, of integral `2πi`; on `U(V)` the forms of even degree
@@ -701,8 +854,8 @@ by graded cyclicity of the trace on matrix-valued forms (1.3 with `n = 0`); clos
 
 ### Dependencies
 
-6.1 ← SelfAdjointSpectralTheory SA-D24, SA-D27, Mathlib; 6.2 ← 1.3, 4.3, CharacteristicClasses
-C4, item 2, DifferentialGeometry Layers 0–1, 6.
+6.1 ← Mathlib; 6.2 ← 1.3, 4.3, Tau Ceti (`TauCeti.SmoothForm`, `TauCeti.deRhamCohomology`),
+CharacteristicClasses C4, item 2, DifferentialGeometry Layers 0–1, 6.
 
 ## Downstream consumers
 
@@ -713,7 +866,7 @@ Laplacians on its own; NoncommutativeGeometry puts the local index formula outsi
 
 ## Research context
 
-Quillen introduced superconnections to give a heat-kernel proof of a local index theorem for
+Quillen (1985) introduced superconnections to give a heat-kernel proof of a local index theorem for
 families: the character of `∇ + √t D` for a family of Dirac operators `D` should represent the
 Chern character of the index bundle, with a limit as `t → 0` given by local geometry. Bismut
 (1986) carried this out with the superconnection that carries his name, and
@@ -750,11 +903,16 @@ Mathematics Institute) work on these questions.
 - J.-M. Bismut, « The Atiyah–Singer index theorem for families of Dirac operators: two heat
   equation proofs », *Invent. Math.* 83 (1986), 91–151. doi:10.1007/BF01388755. Zbl 0592.58047.
 - N. Berline, E. Getzler, M. Vergne, *Heat Kernels and Dirac Operators*, Grundlehren Math. Wiss.
-  298, Springer, 1992. doi:10.1007/978-3-642-58088-8. Zbl 0744.58001.
+  298, Springer, 1992. doi:10.1007/978-3-642-58088-8. Zbl 0744.58001. Chapter 1, « Background on
+  Differential Geometry », pp. 13–59, contains §1.3 (superspaces), §1.4 (superconnections) and
+  §1.6 (the Euler and Thom classes); Chapter 9, « The Index Bundle », pp. 263–310; Chapter 10,
+  « The Family Index Theorem », pp. 311–348.
 - S. Wu, « Mathai–Quillen formalism », in *Encyclopedia of Mathematical Physics*, vol. 3,
-  Elsevier, 2006, 390–399; arXiv:hep-th/0505003 (cited in the numbering of arXiv version 1).
+  Elsevier, 2006, 390–399; arXiv:hep-th/0505003 (cited in the numbering and pages of arXiv
+  version 1).
 - L. E. Garcia, « Superconnections, theta series, and period domains », *Adv. Math.* 329 (2018),
-  555–589; arXiv:1604.03897 (cited in the numbering of arXiv version 1, Appendix A).
+  555–589; arXiv:1604.03897 (cited in the numbering and pages of arXiv version 1, Appendix A,
+  pp. 23–25).
 - J.-M. Bismut, H. Gillet, C. Soulé, « Complex immersions and Arakelov geometry », in *The
   Grothendieck Festschrift*, vol. I, Progr. Math. 86, Birkhäuser, 1990, 249–331. Zbl 0744.14015.
 - S.-S. Chern, « A simple intrinsic proof of the Gauss–Bonnet formula for closed Riemannian
