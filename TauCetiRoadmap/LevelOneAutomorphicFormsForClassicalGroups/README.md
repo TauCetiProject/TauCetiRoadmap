@@ -242,13 +242,16 @@ sets of classes are counted as natural numbers only after their finiteness is pr
 ### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
 
 - §2.5: the Weil groups `W_ℝ` and `W_ℂ` and the bijection `recGL` between irreducible
-  Harish-Chandra modules of `GL_n(ℝ)` and `n`-dimensional semisimple representations of `W_ℝ`.
-  §2.2: Harish-Chandra finiteness. §2.4: discrete series of real reductive groups.
+  Harish-Chandra modules of `GL_n(ℝ)` and `n`-dimensional semisimple representations of `W_ℝ`, under
+  which the restriction to `ℂ^×` gives the infinitesimal character. §2.2: Harish-Chandra finiteness.
+  §2.4: discrete series of real reductive groups.
 - §§3.2, 3.4, 3.5 and 4.2: automorphic representations, restricted tensor products, Flath
   factorization with spherical local components, and cuspidal occurrences; specialized here to
   `PGL_m` over `ℚ` with every finite component spherical.
-- §5.1: the algebraicity conventions, including Chenevier–Taïbi's `IsAlgebraicCT`; §5.5: Clozel
-  purity for algebraic cuspidal representations of `GL_n`.
+- §5.1: the algebraicity conventions, including Chenevier–Taïbi's `IsAlgebraicCT` (the archimedean
+  condition of §1.1 here) and its agreement, for cuspidal representations of `PGL_n` over `ℚ`, with
+  algebraicity of the infinitesimal character, through §5.5; §5.5: Clozel purity for algebraic
+  cuspidal representations of `GL_n`.
 - §§6.7 and 6.8: holomorphic discrete series and coherent packets of `GSp_{2g}`, and the scalar
   holomorphic discrete series of `Sp_{2n}(ℝ)`.
 - What AutomorphicFormsOnReductiveGroups must provide (gap:sp2g-lowest-weight-modules): for every
@@ -571,13 +574,17 @@ Extend `Γ(s, −)` multiplicatively from `Γ(s, 1) = Γ_ℝ(s)`, `Γ(s, e) = Γ
 
 ### 1.5 Purity, symmetric weights and duality
 
-Prove: for `π ∈ Π_alg`, `ℝ_{>0}` acts trivially on `L(π∞)`, `−1` acts by a scalar, and all weights lie
-either in `ℤ` or in `½ + ℤ`; the weight multiset is stable under negation, and `π^∨` has the same
-archimedean parameter. The motivic weight `w(π)`, twice the largest weight, is a nonnegative
-integer (CT20 §1.2 and §2.1). These are statements about infinity types; they do not imply
-`π ≅ π^∨`.
+By the definition of §1.1, the weights of `π ∈ Π_alg` (those of `L(π∞)`, §1.4) lie all in `ℤ` or all
+in `½ + ℤ`. By AutomorphicFormsOnReductiveGroups §5.1, through Clozel purity (its §5.5), a unitary
+cuspidal representation `π` of `PGL_m(𝔸_ℚ)` satisfies the archimedean condition of §1.1 exactly when
+the infinitesimal character of `π∞` has its eigenvalues in `½ℤ` with integral differences, and by its
+§2.5 these eigenvalues are the weights of `L(π∞)` (CT20 §1.2 and §2.1; CL14 VIII §2.12 and
+Proposition 2.13). Prove that the weight multiset of `π ∈ Π_alg` is stable under negation and that
+`π^∨` has the same archimedean parameter. The motivic weight `w(π)`, twice the largest weight, is a
+nonnegative integer (CT20 §1.2 and §2.1). These are statements about infinity types; they do not
+imply `π ≅ π^∨`.
 
-*Needs:* §§1.1 and 1.4; AutomorphicFormsOnReductiveGroups §5.5.
+*Needs:* §§1.1 and 1.4; AutomorphicFormsOnReductiveGroups §§2.5, 5.1 and 5.5.
 
 **Checks.**
 
@@ -615,8 +622,9 @@ and with the scalar action of `−1` is determined by its weight vector when tha
 
 For `w ∈ W_m` define `N(w)` as the number of `π ∈ Π_alg` of rank `m` with weight vector `w`, and
 `N⊥(w)` as the number of self-dual ones; for `U ∈ K∞` define `N(U)` by fixing the whole parameter.
-Prove that these sets are finite (CT20 Problem 1 and §2.4.2), that `N⊥ ≤ N`, and that `π ↦ π^∨` acts
-on each fibre with fixed points exactly the self-dual classes, so `N − N⊥` is even.
+Prove that these sets are finite (CT20 Problem 1 and §2.4.1, after Corollary 2.3), that `N⊥ ≤ N`,
+and that `π ↦ π^∨` acts on each fibre with fixed points exactly the self-dual classes, so `N − N⊥`
+is even.
 
 - Each fibre at fixed rank and weight vector is finite.
 - `N⊥(w) ≤ N(w)` and `N(w) − N⊥(w)` is even.
