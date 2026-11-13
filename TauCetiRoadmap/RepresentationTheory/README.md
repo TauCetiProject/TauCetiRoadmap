@@ -47,6 +47,11 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
 - [**Compact groups, Haar measure, and the Peter-Weyl theorem**](CompactGroups/README.md) - Haar
   averaging and complete reducibility, matrix coefficients, Schur orthogonality in L²(G), the Peter-Weyl
   theorem, characters of compact groups, and the SU(2) and maximal-torus engine.
+- [**Compact groups, part II**](CompactGroupsPartII/README.md) - builds on the compact-groups roadmap:
+  the Hilbert-Schmidt energy identity for continuous kernels, invariant Hermitian metrics and unitary
+  equivalence from equal characters, G-finite vectors in Banach representations, countability and
+  metrizability, characters of arbitrary products, compact abelian Fourier theory, global forms with
+  their formal characters, and unitary SU(2) actions.
 - [**Lie groups and the Lie algebra correspondence**](LieGroups/README.md) - the smooth-group side:
   the exponential map and one-parameter subgroups, `Ad`/`ad`, the closed-subgroup theorem, the Lie
   functor and Baker-Campbell-Hausdorff, Lie's third theorem, maximal-torus conjugacy and the general
@@ -92,6 +97,15 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   smooth-group ↔ Lie-algebra correspondence that the highest-weight and compact-group roadmaps
   presuppose, and abstracts the general Weyl integration formula the compact-group roadmap proves only
   for SU(2).
+- **Compact groups → compact groups, part II.** Part II consumes the Haar, unitarization, Peter-Weyl,
+  character and SU(2) results of the compact-groups roadmap. For its global forms it consumes the
+  Lie-groups roadmap's exponential, automatic smoothness, Lie integration and covering groups (Layers
+  0 and 2-5), compact structure theory (Layer 5A), maximal tori, Weyl group and compact real roots
+  (Layer 6) and compact simply connected covers (Layer 7), the period and weight dictionary of a
+  compact torus from the [convexity and toric roadmap](../SymplecticGeometry/ConvexityToric/README.md)
+  (its T1), and the semisimple highest-weight modules already in Mathlib and Tau Ceti. Its
+  countability criterion consumes the separability criterion for Hilbert bases of the
+  [Banach-space-theory roadmap](../BanachSpaceTheory/README.md) (its B5).
 - **Spin representations complete the classical groups.** The spin and half-spin representations are the
   fundamental representations of types B and D that are not realized in tensor powers of the standard
   representation, so they finish the classical-groups picture.
