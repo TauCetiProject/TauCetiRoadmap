@@ -1,6 +1,8 @@
 module
 
 public import Mathlib
+public import TauCeti.RingTheory.Dagger.WashnitzerAlgebra
+public import TauCeti.RingTheory.Dagger.WeakCompletion.Basic
 
 /-!
 # P-adic differential equations, rigid cohomology and p-adic weights: target signatures
@@ -11,42 +13,49 @@ and Tau Ceti, each with `sorry`; discharging all of them finishes neither a laye
 roadmap.
 
 The statements here are Arabia's controlled lifting for smooth algebras modulo an
-arbitrary ideal (RD.0.39), the commutative algebra behind the rigid-analytic Quillen–Suslin
-theorem RD.3.27 (finite free resolutions, RD.0.55, and unimodular vectors over polynomial
-rings, RD.0.56), and the cyclic-vector theorem for a nonzero derivation over any
-characteristic-zero field (RD.1.7).
+arbitrary ideal (RD.0.39), Frobenius lifts on the weak completion of a smooth algebra over
+a complete discrete valuation ring (RD.0.42), finite free resolutions (RD.0.55) and
+unimodular vectors over polynomial rings (RD.0.56), the cyclic-vector theorem for a nonzero
+derivation over any characteristic-zero field (RD.1.7), and the rigid-analytic
+Quillen–Suslin theorem over the Monsky–Washnitzer algebra (RD.3.27), to which RD.0.55 and
+RD.0.56 are the algebraic input. RD.0.42 and RD.3.27 are stated on Tau Ceti's
+`TauCeti.Dagger.weakCompletion` and `TauCeti.Dagger.washnitzerAlgebra`.
 
-The analytic headline results of RD.0 require annular function rings, the Robba and
-Amice rings, weak completions and their topologies. These carriers are absent from the
-pins. The radii, break decompositions and Dieudonné–Manin theorems of RD.1 and the slope
-filtration, Tsuzuki finite monodromy, local monodromy and irregularity–Swan comparison
-of RD.2 require differential and Frobenius modules over those rings. Mathlib's
-`WittVector.Isocrystal` and its rank-one classification do not supply the ramified
-coefficient and general Frobenius categories of those targets.
+The other analytic headline results of RD.0 (the Laurent, Robba and Amice carriers,
+Frobenius lifts on the Robba ring, Kedlaya's analytic rings, the extended Robba ring, the
+Bézout property and closed ideals) require functions on annuli, the Robba and Amice rings
+and their topologies. These carriers are absent from the pins. The radii, break
+decompositions and Dieudonné–Manin theorems of RD.1 and the slope filtration, Tsuzuki finite
+monodromy, local monodromy and irregularity–Swan comparison of RD.2 require differential and
+Frobenius modules over those rings. Mathlib's `WittVector.Isocrystal` and its rank-one
+classification do not supply the ramified coefficient and general Frobenius categories of
+those targets.
 
 The frame independence, Dwork–Berthelot convergence, Katz–Crew correspondence and
 coefficient equivalences of RD.3 require tubes, strict neighbourhoods and convergent and
 overconvergent isocrystal categories. The Monsky–Washnitzer, Gysin, dagger and log
 comparisons of RD.4 and the finiteness, descent, full faithfulness, Poincaré duality,
-Künneth, Étesse descent and semistable reduction of RD.5 require these categories and rigid cohomology
-with its support functors. None of these coefficient or cohomology carriers exists
-at the pins.
+Künneth, Étesse descent and semistable reduction of RD.5 require these categories and rigid
+cohomology with its support functors. None of these coefficient or cohomology carriers
+exists at the pins.
 
-The Lefschetz trace formula, rationality of coefficient L-functions, index formulas,
-Fourier comparison and p-adic Weil II of RD.6 therefore have no signatures here. The
-scalar hyper-Kloosterman sum and its numerical Deligne bound belong to
-CongruenceSpectralGap §§4.2a–4.2b; the Kloosterman F-isocrystal and its purity (RD.6.95,
-RD.6.97), which give a rigid proof of that bound, need the same absent carriers. RD.7's rigid–crystalline comparison with coefficients, equality of
-rigid, crystalline and étale Weil factors, abelian-variety comparison, crystalline
-lattice bounds and Kloosterman moment comparisons require the corresponding geometric
-cohomology and filtered comparison objects, also absent from the pins. The weight-separated
-extraction of integral factors that RD.7.5 adapts is `degreeFactorExtraction` of
-DeligneWeightsAndPurity §4.4 and is not restated here.
+The Lefschetz trace formula, rationality of coefficient L-functions, index formulas, Fourier
+comparison and p-adic Weil II of RD.6 therefore have no signatures here. The scalar
+hyper-Kloosterman sum and its numerical Deligne bound belong to CongruenceSpectralGap
+§§4.2a–4.2b; the Kloosterman F-isocrystal and its purity (RD.6.95, RD.6.97), which give a
+rigid proof of that bound, need the same absent carriers. RD.7's rigid–crystalline
+comparison with coefficients, equality of rigid, crystalline and étale Weil factors,
+abelian-variety comparison, crystalline lattice bounds and Kloosterman moment comparisons
+require the corresponding geometric cohomology and filtered comparison objects, also absent
+from the pins. The weight-separated extraction of integral factors that RD.7.5 adapts is
+`degreeFactorExtraction` of DeligneWeightsAndPurity §4.4 and is not restated here.
 -/
 
 @[expose] public section
 
 namespace TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology
+
+/-! ## Layer RD.0: Coefficient rings and analytic foundations -/
 
 namespace RD0
 
@@ -79,6 +88,28 @@ theorem arabia_controlled_lifting
           (Ideal.map (algebraMap B E) (Ideal.map (algebraMap R B) I)) (hE s) =
             eI (hbar s) := by
   sorry
+
+section FrobeniusLift
+
+open TauCeti.Dagger IsLocalRing
+
+/-- Frobenius lifts on weak completions (RD.0.42): let `O` be a complete discrete valuation
+ring of characteristic zero with uniformiser `π` and residue characteristic `p`, and `σK` a
+ring endomorphism of `O` reducing to the `q`-power map of the residue field, `q = p ^ f`.
+The weak completion `S†` of a smooth `O`-algebra `S` has a `σK`-semilinear ring
+endomorphism `φ` with `φ x - x ^ q ∈ π S†` for every `x ∈ S†`. -/
+theorem exists_frobenius_lift_weakCompletion {O : Type*} [CommRing O] [IsDomain O]
+    [IsDiscreteValuationRing O] [IsAdicComplete (maximalIdeal O) O] [CharZero O]
+    {π : O} (hπ : Irreducible π) {p f : ℕ} [Fact p.Prime] [CharP (ResidueField O) p]
+    (σK : O →+* O) (hσK : ∀ a : O, σK a - a ^ (p ^ f) ∈ maximalIdeal O)
+    (S : Type*) [CommRing S] [Algebra O S] [Algebra.Smooth O S] :
+    ∃ φ : weakCompletion π S →+* weakCompletion π S,
+      (∀ a : O, φ (algebraMap O _ a) = algebraMap O _ (σK a)) ∧
+      ∀ x : weakCompletion π S,
+        φ x - x ^ (p ^ f) ∈ Ideal.span {algebraMap O (weakCompletion π S) π} := by
+  sorry
+
+end FrobeniusLift
 
 /-- `M` has a finite free resolution of length at most `n` (RD.0.55): for `n = 0`, `M` is finite
 and free; for `n + 1`, some surjection `Rᵏ → M` has a kernel with a finite free resolution of
@@ -191,6 +222,8 @@ theorem hasUnimodularExtension_iff {R : Type u} [CommRing R] :
 
 end RD0
 
+/-! ## Layer RD.1: Differential modules, radii and Frobenius slopes -/
+
 namespace RD1
 
 /-- A vector is cyclic when its successive covariant derivatives form a basis. -/
@@ -208,5 +241,24 @@ theorem katz_cyclic_vector {K V : Type*} [Field K] [CharZero K]
   sorry
 
 end RD1
+
+/-! ## Layer RD.3: Frames, convergent and overconvergent coefficients -/
+
+namespace RD3
+
+open TauCeti.Dagger
+
+/-- The rigid-analytic Quillen–Suslin theorem (RD.3.27; Kedlaya, *Full faithfulness for
+overconvergent F-isocrystals*, Proposition 6.6 and Theorem 6.7): over a complete field `K`
+with a nontrivial nonarchimedean absolute value, every finite projective module over the
+Monsky–Washnitzer algebra `K⟨t₁, …, tₙ⟩†` is free. -/
+theorem rigid_quillen_suslin {K : Type*} [NontriviallyNormedField K] [IsUltrametricDist K]
+    [CompleteSpace K] (n : ℕ) (M : Type*) [AddCommGroup M]
+    [Module (washnitzerAlgebra (Fin n) K) M] [Module.Finite (washnitzerAlgebra (Fin n) K) M]
+    [Module.Projective (washnitzerAlgebra (Fin n) K) M] :
+    Module.Free (washnitzerAlgebra (Fin n) K) M := by
+  sorry
+
+end RD3
 
 end TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology

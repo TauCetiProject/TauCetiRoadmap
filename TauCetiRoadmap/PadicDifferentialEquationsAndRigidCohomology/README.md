@@ -37,7 +37,7 @@ The layers are:
 | RD.0 | Coefficient rings and analytic foundations | Laurent and Robba carriers, Frobenius lifts on the Robba ring and on dagger algebras, Kedlaya's analytic rings, the extended Robba ring, Bézout property and closed ideals, valuation p-bases, Arabia's controlled lifting |
 | RD.1 | Differential modules, radii and Frobenius slopes | cyclic vectors, generic radius, Christol–Dwork, Dwork transfer, variation of subsidiary radii, differential Swan conductor, Frobenius modules, Dieudonné–Manin over the extended Robba ring, Harder–Narasimhan slopes, `(φ,∇)`-modules, Robba residue duality |
 | RD.2 | Local monodromy and ramification | isoclinic descent, Kedlaya's slope filtration theorem, Tsuzuki's theorem, the p-adic local monodromy theorem and its logarithmic form, Matsuda's decomposition, `irregularity = Swan`, André's local monodromy group |
-| RD.3 | Frames, convergent and overconvergent coefficients | frames, tubes, strict neighbourhoods, `j†`, overconvergent isocrystals and F-isocrystals, independence of the frame, Dwork–Berthelot convergence, convergent F-isocrystals, Katz–Crew |
+| RD.3 | Frames, convergent and overconvergent coefficients | frames, tubes, strict neighbourhoods, `j†`, overconvergent isocrystals and F-isocrystals, independence of the frame, Dwork–Berthelot convergence, convergent F-isocrystals, Katz–Crew, the rigid-analytic Quillen–Suslin theorem |
 | RD.4 | Rigid cohomology, supports and comparison maps | rigid cohomology with compact and closed supports, Frobenius, the Monsky–Washnitzer comparison, Gysin isomorphisms, log rigid cohomology with proper support, dagger comparisons, the rigid–crystalline comparison map |
 | RD.5 | Finiteness, descent, duality and semistable reduction | finiteness on curves and in general, cohomological descent, the trace map, Poincaré duality, Künneth, full faithfulness, Étesse's descent, extension across the boundary, semistable reduction, relative convergent cohomology |
 | RD.6 | Traces, conductors, Fourier transform and weights | closed-point Frobenius, `L`-functions, Dwork operators, the Lefschetz trace formula, Euler–Poincaré and Grothendieck–Ogg–Shafarevich formulas, the Fourier transform, `ι`-weights and p-adic Weil II, Kloosterman isocrystals |
@@ -66,8 +66,11 @@ classification of isocrystals over an algebraically closed field (`WittVector.Is
 `isocrystal_classification`: only rank one, not Dieudonné–Manin), the reversed characteristic
 polynomial `Matrix.charpolyRev`, additive characters (`AddChar`), `WithSeminorms` and
 `IsUltrametricDist`, and stably free modules and unimodular vectors (`Module.IsStablyFree`,
-`Module.IsUnimodular`). Tau Ceti supplies restricted power series and the one-variable Tate algebra
-with Weierstrass preparation, comodule categories with their rigid and symmetric structures and
+`Module.IsUnimodular`). Tau Ceti supplies restricted power series, Tate algebras in one and
+several variables with Weierstrass division and preparation, the Monsky–Washnitzer algebra
+(`TauCeti.Dagger.washnitzerAlgebra`), dagger algebras (`TauCeti.Dagger.IsDaggerAlgebra`), weak
+completions (`TauCeti.Dagger.weakCompletion`) and universally finite differentials
+(`TauCeti.Dagger.Omega`), comodule categories with their rigid and symmetric structures and
 Tannakian reconstruction from a Hopf algebra (`TauCeti.FGComoduleCat`,
 `TauCeti.Tannaka.pointsFunctorIsoTensorAutFunctor`), Galois descent for semilinear
 representations, the genus, Riemann–Roch spaces and Weil differentials of function fields, the
@@ -97,7 +100,8 @@ last is the only `ℓ`-adic geometric input, and it enters only the comparison o
  §RD.6.64 applies these results on Tau Ceti's finite-comodule carrier; the isocrystal
  categories and their monodromy groups are the applications here.
 - AdicSpacesPartIV: dagger algebras, weak completions, Monsky–Washnitzer algebras, dagger spaces
- and their de Rham complexes (Layer F1); AdicSpacesPartII R0 supplies affinoid geometry;
+ and their de Rham complexes (Layer F1); the algebras and the differentials have the Tau Ceti
+ carriers named above; AdicSpacesPartII R0 supplies affinoid geometry;
  AdicSpacesPartIII R2.3–R2.4 supplies Raynaud generic fibres, tubes and specialisation, and
  R3.2, R3.4 and R3.7 supply Kiehl's theorems, quasi-Stein spaces and proper GAGA. This roadmap
  builds Robba coefficients and Berthelot's coefficient and cohomology theory on these objects. A
@@ -123,7 +127,14 @@ last is the only `ℓ`-adic geometric input, and it enters only the comparison o
 - CrystallineCohomology: crystals, isocrystals and F-crystals,
  crystalline cohomology and its Frobenius, perfectness, Künneth, duality and the trace, logarithmic
  structures, log crystalline cohomology, Hyodo–Kato cohomology and log rigid Hyodo–Kato cohomology
- (§CR.6.5). The analytic convergent coefficient category and its convergence condition are §RD.3.34:
+ (§CR.6.5). It also owns constant-coefficient rigid cohomology of smooth finite-type `k`-schemes
+ (§CR.6.4 *Rigid cohomology of smooth strata*: dagger frames, frame independence, finiteness,
+ Frobenius bijectivity over perfect `k` and the proper smooth comparison with rational crystalline
+ cohomology). Berthelot's construction here (§§RD.4.8–RD.4.10) extends it to separated
+ finite-type schemes and overconvergent coefficients, and §RD.4.24 identifies the two on smooth
+ schemes with constant coefficients; §RD.4.38 is its proper smooth comparison on that
+ identification, and §§RD.5.66, RD.5.77 and RD.6.14 extend its finiteness and Frobenius
+ bijectivity to coefficients and supports. The analytic convergent coefficient category and its convergence condition are §RD.3.34:
  a topologically quasi-nilpotent connection is not automatically a convergent isocrystal. CR.1.2 supplies the general quasi-coherent crystal carrier and pullback; its named `FCrystal` contract is finite locally free with p-Frobenius. The coherent finite-type, ramified-base `F^a` adapter and two-sided isogeny condition used here are §RD.3.34a, as full subcategories and additional structure on that same crystal carrier.
 - LocallyAnalyticDistributions: nonarchimedean locally convex spaces, inductive and projective
  limits (Layer 0) and the Hahn–Banach theorem (§0.2). CompactOperators §§1.2–1.5
@@ -264,7 +275,7 @@ comparisons with library notions and non-examples that a wrong formalisation wou
 
 Each item below is used as stated; the targets that use it are listed after it.
 
-### From Mathlib (pinned at `6b7abb3c7686292736be2955bd3eb9ebf63b456a`)
+### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
 
 - `PowerSeries.IsRestricted` and `PowerSeries.isRestricted_iff'`: radius-weighted coefficient decay, used in RD.3.8 through `PowerSeries.mk`; radius 1 gives closed-disc coefficients.
 - `StrongDual` and `Mathlib.Topology.Algebra.Module.Spaces.ContinuousLinearMap`: continuous linear functionals with uniform convergence on von Neumann bounded sets, used in RD.5.41.
@@ -405,13 +416,17 @@ Each item below is used as stated; the targets that use it are listed after it.
 - `LinearMap.isStrictMap_prodMap_iff`: strictness of a finite product is componentwise; used with closedness of product ranges in RD.5.41.
 - `Submodule.liftQ` and `Submodule.Quotient.subsingleton_iff`: the universal map out of a range quotient, and its vanishing when the range is the full module. Used for the module-level theta presentation in RD.4.60.
 
-### From Tau Ceti (pinned at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`)
+### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
 
 - `TauCeti.LocalFieldsRamification.herbrand`, `TauCeti.LocalFieldsRamification.inverseHerbrand` and `TauCeti.LocalFieldsRamification.upperRamificationGroup`: the Herbrand order isomorphism on `[-1, ∞)`, its inverse and upper ramification groups for finite Galois extensions of nonarchimedean local fields. Their finite-residue-field domain is used in RD.2.44–RD.2.47 and RD.6.51; LocalFieldsRamification Layers 3–4 supply the general perfect-residue-field ramification package, agreeing with these declarations on the common domain.
 - `LinearMap.trace_eq_add_of_exact`: For an endomorphism of a short exact sequence `0 → N → M → Q → 0` of vector spaces with `M` finite-dimensional, trace `f =` trace `f_N +` trace `f_Q`. Used in RD.6.20.
 - `TauCeti.FGComoduleCat`: Finitely generated right comodules over a coalgebra, as a full subcategory of all comodules (finite-dimensional comodules over a field); the category `Rep_K(G)` of the recognition theorem. Used in RD.6.64.
 - `TauCeti.FGComoduleCat.instRigidCategory`: Finite-dimensional comodules over a commutative Hopf algebra over a field form a rigid monoidal category. Used in RD.6.64.
 - `TauCeti.FGComoduleCat.instSymmetricCategory`: The symmetric monoidal structure (tensor-product swap) on finite comodules over a commutative bialgebra. Used in RD.6.64.
+- `TauCeti.Dagger.washnitzerAlgebra` (`TauCeti/RingTheory/Dagger/WashnitzerAlgebra.lean`): the Monsky–Washnitzer algebra `R⟨X⟩†` over an ultrametric normed commutative ring `R`, the subalgebra of power series restricted at some constant radius `ρ > 1`; the coordinate algebra of AdicSpacesPartIV §§F1.1–F1.2. Used in RD.3.26 and RD.3.27, whose `rigid_quillen_suslin` is stated on it.
+- `TauCeti.Dagger.IsDaggerAlgebra` (`TauCeti/RingTheory/Dagger/DaggerAlgebra.lean`): a commutative `K`-algebra that is a quotient of some `washnitzerAlgebra (Fin n) K`, with no norm or topology fixed; the carrier of AdicSpacesPartIV §F1.2 *Dagger algebras over a complete nonarchimedean field*. Used in RD.3.26 and RD.3.28.
+- `TauCeti.Dagger.weakCompletion` (`TauCeti/RingTheory/Dagger/WeakCompletion/Basic.lean`): for `π ∈ O` and a finitely generated `O`-algebra `S`, the weak completion `S†` as an `O`-subalgebra of the `π`-adic completion, independent of the generators; the carrier of AdicSpacesPartIV §F1.5 *The Monsky–Washnitzer weak completion*. Used in RD.0.40–RD.0.42, whose `exists_frobenius_lift_weakCompletion` is stated on it.
+- `TauCeti.Dagger.Omega` (`TauCeti/RingTheory/Dagger/Omega/Basic.lean`): the universally finite module of differentials, the quotient of the Kähler differentials by the intersection of all submodules with finite quotient, free on the `dX_i` over `washnitzerAlgebra` in finitely many variables over a complete field; the carrier of AdicSpacesPartIV §F1.9 *The module of (universally finite) differentials*. Used in RD.3.28.
 - `TauCeti.GaloisDescent.liftBaseChange_injective_of_invariant`: Over a finite Galois `L/k`, an injective `k`-linear map into invariant vectors stays injective after scalar extension to `L` (Hilbert-Noether descent, injectivity half). Used in RD.2.24, RD.2.35.
 - `TauCeti.GaloisDescent.span_invariants_eq_top`: For a field `L` with finite automorphism group over `k`, the invariant vectors of a semilinear representation span it over `L` (Hilbert-Noether descent, surjectivity half). Used in RD.2.24, RD.2.35.
 - `TauCeti.Tannaka.fgPointTensorIsoEquiv`: For a commutative Hopf algebra `H` over a field `k` and a commutative `k`-algebra `A`, A-valued points of `H` are equivalent (as groups) to tensor automorphisms of scalar extension to A on finite-dimensional `H`-comodules. Used in RD.2.51.
@@ -425,6 +440,7 @@ Each item below is used as stated; the targets that use it are listed after it.
 
 ### From TauCetiRoadmap
 
+- AlgebraicKTheory §0.5: over `C(S², ℝ)` the module of continuous tangent fields is stably free (`P ⊕ R ≅ R³`) and not free (`tangentSections_stablyFree_not_free`). Used in a Check of RD.0.56.
 - AdicSpaces: adic spectra, rational subsets and the analytic vocabulary on which AdicSpacesPartII builds; used throughout Layers RD.3–RD.5 through AdicSpacesPartII.
 - LocalFieldsRamification, Layers 3–4: finite and absolute lower/upper ramification, Herbrand functions, subgroup and quotient compatibility, upper numbering on open subgroups, invariance under completed maximal unramified base change and the full Hasse–Arf theorem over complete discretely valued fields with any perfect residue field. The finite lower groups use `Ideal.ramificationGroup` and the real-indexed `TauCeti.IsLocalRing.ramificationGroupReal`; on finite residue fields this package agrees with the pinned Tau Ceti declarations listed above. ArithmeticGaloisRepresentations Layer 3 supplies representation breaks and conductors on this filtration, and §RD.2.45 extends their coefficient domain.
 - AlgebraicCurves, Layer 9: Kähler differentials of a function field are identified with Weil differentials compatibly with residues; regular differentials have dimension `g` and principal parts at the missing points of an affine curve have one-dimensional cokernel (residue theorem). Used in the index computation for affine curves (§RD.5.25).
@@ -527,10 +543,10 @@ Section numbers are those of the roadmaps named; each is built before this one.
 - §CR.1.3 (*Modules with integrable connection and their de Rham complexes*): used in RD.3.16.
 - §CR.1.3 (*Crystals, stratifications and quasi-nilpotent connections*): used in RD.3.35, RD.3.36, RD.4.36.
 - §CR.2.1 (*Enhanced crystalline direct image and global sections*): used in RD.5.109.
-- §CR.2.2 (*De Rham computation in a smooth ambient embedding*): used in RD.4.36, RD.4.37, RD.4.38, RD.7.14.
+- §CR.2.2 (*De Rham computation in a smooth ambient embedding*): used in RD.4.36, RD.4.37, RD.7.14.
 - §CR.2.2 (*Independence of the presentation and of the embedding*): used in RD.4.37.
-- §CR.2.2 (*Crystalline cohomology from an embedding*): used in RD.4.38, RD.7.10.
-- §CR.2.2 (*The relative PD Poincaré lemma*): used in RD.4.38, RD.5.98, RD.7.10.
+- §CR.2.2 (*Crystalline cohomology from an embedding*): used in RD.7.10.
+- §CR.2.2 (*The relative PD Poincaré lemma*): used in RD.5.98, RD.7.10.
 - §CR.2.3 (*Formal comparison with trace-free endomorphism coefficients*): used in RD.7.15, RD.7.20.
 - §CR.3.1 (*Crystalline cohomology from a finite affine cover: the alternating Čech complex*): used in RD.4.37, RD.5.98.
 - §CR.3.2 (*Proper smooth crystalline perfectness and reductions*): used in RD.4.38, RD.5.99, RD.5.108, RD.5.109, RD.5.110, RD.5.111.
@@ -551,6 +567,7 @@ Section numbers are those of the roadmaps named; each is built before this one.
 - §CR.6.1 (*Log de Rham–Witt model*): used in RD.7.20.
 - §CR.6.2 (*Hyodo–Kato comparison theorem*): used in RD.7.20.
 - §CR.6.4 (*Convergent complexes on tubes and Witt models*: the canonical relative and absolute convergent complexes, the tube support kernel, the signed monodromy triangle and the site comparison of the convergent logarithmic embedding complexes): transported in RD.4.42, RD.4.44–RD.4.45 and RD.4.48, including specialization, refinement and cocycle agreement.
+- §CR.6.4 (*Rigid cohomology of smooth strata*: constant-coefficient rigid cohomology of smooth finite-type `k`-schemes from dagger frames, its frame independence and finite-dimensionality, bijectivity of Frobenius for perfect `k` over `W(k)`, and for proper smooth schemes its identification with rational crystalline and convergent cohomology): used in RD.4.24 and RD.4.38; RD.4.10, RD.5.66, RD.5.77 and RD.6.14 extend its construction, finiteness and Frobenius bijectivity to overconvergent coefficients.
 - §CR.6.5 (*Proper log rigid and crystalline Hyodo–Kato cohomology*): used in RD.4.44, RD.4.48 and RD.7.20; its log rigid Hyodo–Kato complex and its proper completion map are canonical on the strictly semistable locally constant-coefficient overlap.
 - §§CR.1.2, CR.1.4, CR.3.2 and CR.3:Frobenius-isogeny.1: used in RD.3.37, RD.4.38, RD.7.1, RD.7.10.
 - §§CR.5.1–CR.5.4 and CR.6.4: used in RD.4.44, RD.4.45, RD.4.47, RD.4.49, RD.5.109, RD.5.111.
@@ -1813,12 +1830,12 @@ The API:
 
 ### RD.0.42 Existence of Frobenius lifts on the weak completion of a smooth `O_K`-algebra (van der Put; Arabia)
 
-**Theorem.** Let `O_K` be a complete discrete valuation ring of characteristic 0 with uniformiser `π` and residue field `k` containing `𝔽_q`, and `σ_K` a Frobenius lift on `K` (continuous, `σ_K(O_K) ⊆ O_K`, reducing to `x ↦ x^q`). Let `S` be a smooth finitely generated `O_K`-algebra and `S†` its weak completion (Monsky-Washnitzer; AdicSpacesPartIV §F1.5), so that `S†/πS† = S/πS =: S̄` is smooth over `k`. Then there is a ring endomorphism `φ` of `S†, σ_K`-semilinear over `O_K`, with `φ(x) − x^q ∈ πS†` for all `x ∈ S†`. It extends to a `K`-(semi)linear endomorphism of `S† ⊗ K` preserving `S†`, and its relative linearisation `S† ⊗_{O_K,σ_K} O_K → S†` (with weak completion of the tensor product) is finite flat. If `σ_K` is an automorphism, the semilinear ring map may also be viewed as finite flat. When `k = 𝔽_q` and `σ_K = id` (for instance `K` finite over `ℚ_p` with residue field `𝔽_q`), `φ` is an `O_K`-algebra endomorphism with `φ(x) − x^q ∈ πS†`, i.e. AlgHom.IsArithFrobAt `φ (πS†)` holds. Lifts are not unique; two of them are homotopic (the next target).
+**Theorem.** Let `O_K` be a complete discrete valuation ring of characteristic 0 with uniformiser `π` and residue field `k` of characteristic `p`, `q = p^f` a power of `p`, and `σ_K` a Frobenius lift on `K` (continuous, `σ_K(O_K) ⊆ O_K`, reducing to `x ↦ x^q`). Let `S` be a smooth finitely generated `O_K`-algebra and `S†` its weak completion (Monsky-Washnitzer; AdicSpacesPartIV §F1.5; Tau Ceti `TauCeti.Dagger.weakCompletion`), so that `S†/πS† = S/πS =: S̄` is smooth over `k`. Then there is a ring endomorphism `φ` of `S†, σ_K`-semilinear over `O_K`, with `φ(x) − x^q ∈ πS†` for all `x ∈ S†` (`exists_frobenius_lift_weakCompletion`). It extends to a `K`-(semi)linear endomorphism of `S† ⊗ K` preserving `S†`, and its relative linearisation `S† ⊗_{O_K,σ_K} O_K → S†` (with weak completion of the tensor product) is finite flat. If `σ_K` is an automorphism, the semilinear ring map may also be viewed as finite flat. When `k = 𝔽_q` and `σ_K = id` (for instance `K` finite over `ℚ_p` with residue field `𝔽_q`), `φ` is an `O_K`-algebra endomorphism with `φ(x) − x^q ∈ πS†`, i.e. AlgHom.IsArithFrobAt `φ (πS†)` holds. Lifts are not unique; two of them are homotopic (the next target).
 
 *Hypotheses.*
 
 - `S` smooth and of finite type over `O_K; S†` is the Monsky-Washnitzer weak completion (the subring of the `π`-adic completion of elements `Σ_j p_j(x_1, …, x_n)` with `p_j ∈ π^j O_K[X]` of degree `≤ λ(j+1)`).
-- `k` need not be finite; for `k` ⊋ `𝔽_q` the lift is `σ_K`-semilinear (a K-linear map `S†^{σ_K} → S†` lifting the relative Frobenius).
+- `k` need not be finite or contain `𝔽_q`; for `k ≠ 𝔽_q` the lift is `σ_K`-semilinear (a K-linear map `S†^{σ_K} → S†` lifting the relative Frobenius).
 
 *Proof sketch.*
 
@@ -2276,6 +2293,7 @@ The API:
 - `B = ℤ`, `f = (t² + 1, t)`: `(t² + 1) − t·t = 1`. The elementary matrices with rows `(1, −t), (0, 1)` and then `(1, 0), (−t, 1)` carry `f` to `(1, t)` and then to `(1, 0) = f(0)`.
 - `ℤ` has the unimodular extension property: the Euclidean algorithm brings a unimodular vector to `Pi.single 0 1` by elementary operations. By (b), finite stably free `ℤ`-modules are free.
 - Over the zero ring every vector is unimodular and equal to `Pi.single 0 1`.
+- A ring without the property: over `R = C(S², ℝ)` the coordinate vector `v = (x₀, x₁, x₂)` is unimodular, since `Σ xᵢ² = 1`, but no invertible `P` has `P v = Pi.single 0 1`. Such a `P` would make `R³/Rv`, which is isomorphic to the module `{w : Σ xᵢwᵢ = 0}` of continuous tangent fields on `S²`, free of rank two, whereas that module is stably free and not free (AlgebraicKTheory §0.5). Both sides of (b) are false for this `R`, and a definition satisfied by every ring fails this Check.
 
 ### Examples
 
@@ -2283,7 +2301,7 @@ The Checks of the targets above are the worked examples of this layer.
 
 ### Dependencies
 
-Earlier layers: none. Other roadmaps: AdicSpacesPartIV, LocallyAnalyticDistributions, NoncommutativeAndEquivariantIwasawa, PadicFunctionalAnalysis, SchemeAndStackFoundations. Libraries: Mathlib.
+Earlier layers: none. Other roadmaps: AdicSpacesPartIV, AlgebraicKTheory, LocallyAnalyticDistributions, NoncommutativeAndEquivariantIwasawa, PadicFunctionalAnalysis, SchemeAndStackFoundations. Libraries: Mathlib and Tau Ceti.
 
 ## Layer RD.1: Differential modules, radii and Frobenius slopes
 
@@ -6368,7 +6386,7 @@ The API:
 
 ### RD.3.27 Rigid-analytic Quillen-Suslin: finite projective modules over `K⟨t_1`..`t_n⟩†` are free
 
-**Theorem.** Every finite projective module over `K⟨t_1`,..., `t_n⟩†` (overconvergent power series) is free; the same holds over `O⟨t_1`,..., `t_n⟩†` when `K` is discretely valued. More precisely, for `K` complete with nontrivial nonarchimedean absolute value and `ρ = (ρ_i)` with some power of each `ρ_i` in `|K^×|`, every finite projective module over the ring `K⟨t⟩_ρ` of series converging on the closed polydisc of polyradius `ρ` is free.
+**Theorem.** Every finite projective module over `K⟨t_1`,..., `t_n⟩†` (overconvergent power series, Tau Ceti `TauCeti.Dagger.washnitzerAlgebra`) is free, for `K` complete with a nontrivial nonarchimedean absolute value (`rigid_quillen_suslin`); the same holds over `O⟨t_1`,..., `t_n⟩†` when `K` is discretely valued. More precisely, for `K` complete with nontrivial nonarchimedean absolute value and `ρ = (ρ_i)` with some power of each `ρ_i` in `|K^×|`, every finite projective module over the ring `K⟨t⟩_ρ` of series converging on the closed polydisc of polyradius `ρ` is free.
 
 *Hypotheses.* For the integral `O`-version `K` is complete and discretely valued, so the integral coordinate-change Lemma 6.3 applies. The K-version over a complete rank-one valued field needs the coordinate-change Lemma 6.2 beyond discrete valuations; that extension is §RD.3.26.
 
@@ -7133,7 +7151,7 @@ The Checks of the targets above are the worked examples of this layer.
 
 ### Dependencies
 
-Earlier layers: RD.0, RD.1. Other roadmaps: AdicCoefficientsAndComparisons, AdicEtaleGeometry, AdicSpacesPartII, AdicSpacesPartIII, AdicSpacesPartIV, CrystallineCohomology, DerivedDeRhamCohomology, EtaleCohomologyFoundations, InverseGaloisAndArithmeticFundamentalGroups, RestrictedPowerSeries, RigidAnalyticGeometry, SchemeAndStackFoundations. Libraries: Mathlib.
+Earlier layers: RD.0, RD.1. Other roadmaps: AdicCoefficientsAndComparisons, AdicEtaleGeometry, AdicSpacesPartII, AdicSpacesPartIII, AdicSpacesPartIV, CrystallineCohomology, DerivedDeRhamCohomology, EtaleCohomologyFoundations, InverseGaloisAndArithmeticFundamentalGroups, RestrictedPowerSeries, RigidAnalyticGeometry, SchemeAndStackFoundations. Libraries: Mathlib and Tau Ceti.
 
 ## Layer RD.4: Rigid cohomology, supports and comparison maps
 
@@ -7390,7 +7408,7 @@ The API:
 
 ### RD.4.10 Rigid cohomology `Hⁱ_rig(X/K, E)`
 
-**Definition.** Let `X` be a separated `k`-scheme of finite type and `E` an overconvergent `(F-)`isocrystal on `X/K`. Choose a compactification `X ⊂ Y` (`Y` proper over `k`; Nagata) and a closed immersion `Y → P` into a formal `O_K`-scheme `P` smooth in a neighbourhood of `X` (such a frame exists when `X` is quasi-projective: take `Y` the closure of `X` in `P^n_k` and `P = P̂^n_{O_K}`). The rigid cohomology complex is `RΓ_rig(X/K, E) := RΓ(]Y[_P, DR†(E))` in the derived category of K-vector spaces and `Hⁱ_rig(X/K, E) := Hⁱ(]Y[_P, j†(E ⊗ Ω^•))`. By §RD.4.8 and §RD.4.9 this is independent of `(Y, P)` up to canonical, compatible isomorphisms. For `X` admitting no global frame the definition is made with universally de Rham descendable hypercoverings (Chiarellotto–Tsuzuki, Section 10), which agrees with the frame definition whenever a frame exists (their Theorem 10.6.1). Each `Hⁱ_rig(X/K, E)` is a K-vector space; finite dimensionality is a theorem (§RD.5.76), not part of the output type.
+**Definition.** Let `X` be a separated `k`-scheme of finite type and `E` an overconvergent `(F-)`isocrystal on `X/K`. Choose a compactification `X ⊂ Y` (`Y` proper over `k`; Nagata) and a closed immersion `Y → P` into a formal `O_K`-scheme `P` smooth in a neighbourhood of `X` (such a frame exists when `X` is quasi-projective: take `Y` the closure of `X` in `P^n_k` and `P = P̂^n_{O_K}`). The rigid cohomology complex is `RΓ_rig(X/K, E) := RΓ(]Y[_P, DR†(E))` in the derived category of K-vector spaces and `Hⁱ_rig(X/K, E) := Hⁱ(]Y[_P, j†(E ⊗ Ω^•))`. By §RD.4.8 and §RD.4.9 this is independent of `(Y, P)` up to canonical, compatible isomorphisms. For `X` admitting no global frame the definition is made with universally de Rham descendable hypercoverings (Chiarellotto–Tsuzuki, Section 10), which agrees with the frame definition whenever a frame exists (their Theorem 10.6.1). Each `Hⁱ_rig(X/K, E)` is a K-vector space; finite dimensionality is a theorem (§RD.5.76), not part of the output type. For smooth `X` and the constant isocrystal this is the theory of CrystallineCohomology §CR.6.4 *Rigid cohomology of smooth strata*, with which §RD.4.24 identifies it; this target extends it to separated finite-type `X` and to overconvergent coefficients.
 
 *Hypotheses.*
 
@@ -7772,7 +7790,7 @@ The API:
 
 ### RD.4.24 The Monsky–Washnitzer comparison: rigid cohomology of a smooth affine is the de Rham cohomology of its dagger algebra
 
-**Theorem.** Let `X` be a smooth affine `k`-scheme with a smooth lift `𝒳 = Spec 𝒜` over `O_K, A = 𝒜† ⊗ K` the weak completion (a dagger algebra of MW-type with special fibre `X`), `σ` a Frobenius lift on `A` and `E ∈` F-`Isoc†(X/K)` with associated `(σ,∇)`-module `M` (§RD.3.32). Then there is a canonical isomorphism `Hⁱ_rig(X/K, E) ≅ Hⁱ(M ⊗_A Ω^•_{A/K})` for all `i`, functorial in `E` and in `X`, and compatible with the Frobenius (`Φ` on the left, `F ⊗ ∧^i dσ` on the right). For a smooth affine weak lift and `E ∈ Isoc†(X/K)`, the finite projective `A†_K`-module `M` with integrable, Taylor-overconvergent connection computes ordinary rigid cohomology by `M ⊗ Ω^•_{A†_K/K}`. The F-isocrystal comparison is its specialisation with Frobenius; integrability alone is not sufficient.
+**Theorem.** Let `X` be a smooth affine `k`-scheme with a smooth lift `𝒳 = Spec 𝒜` over `O_K, A = 𝒜† ⊗ K` the weak completion (a dagger algebra of MW-type with special fibre `X`), `σ` a Frobenius lift on `A` and `E ∈` F-`Isoc†(X/K)` with associated `(σ,∇)`-module `M` (§RD.3.32). Then there is a canonical isomorphism `Hⁱ_rig(X/K, E) ≅ Hⁱ(M ⊗_A Ω^•_{A/K})` for all `i`, functorial in `E` and in `X`, and compatible with the Frobenius (`Φ` on the left, `F ⊗ ∧^i dσ` on the right). For a smooth affine weak lift and `E ∈ Isoc†(X/K)`, the finite projective `A†_K`-module `M` with integrable, Taylor-overconvergent connection computes ordinary rigid cohomology by `M ⊗ Ω^•_{A†_K/K}`. The F-isocrystal comparison is its specialisation with Frobenius; integrability alone is not sufficient. For the constant coefficient these isomorphisms, glued over finite covers by smooth affines, identify `RΓ_rig(X/K)` of every smooth separated `k`-scheme `X` of finite type with the constant-coefficient complex of CrystallineCohomology §CR.6.4 *Rigid cohomology of smooth strata*; for perfect `k` and `K = W(k)[1/p]` the identification respects Frobenius.
 
 *Hypotheses.*
 
@@ -7787,9 +7805,11 @@ The API:
 4. Canonicity: another lift gives an isomorphic dagger algebra, and the comparison maps differ by the functoriality isomorphism (van der Put, Corollary 2.4.5).
 5. Use the no-`F` coefficient equivalence of Berthelot 96-03 Proposition 2.5.2(ii), with Taylor convergence imposed, and Corollary 2.5.6 for lifted maps. Take a projective closure of the weak affine lift. Coherent acyclicity on strict-neighbourhood affinoids and filtered global forms identify the coefficient hypercohomology with `M ⊗ Ω^•_{A†_K/K}`. The constant-coefficient radius calculation in Berthelot (Finitude, 1997) Proposition 1.10 is applied termwise to the coherent coefficient realization, not cited as a theorem for arbitrary coefficients. Graph common frames and the relative Poincaré comparison supply functoriality.
 
+6. Constant coefficients: on a smooth affine with a smooth weak lift, the dagger frame of CrystallineCohomology §CR.6.4 computes the same de Rham complex of `A`. Both identifications are natural for maps of such affines with lifted maps (step 4), so étale-proper de Rham descent (§RD.4.7) over a finite affine cover, whose intersections are again smooth affines, glues them; Frobenius lifts on the frames give the Frobenius compatibility.
+
 *Sources.* Berthelot, *Cohomologie rigide et cohomologie rigide à supports propres, première partie*, §2.1.2, pp. 49–50; Kedlaya, *Finiteness of rigid cohomology with coefficients*, Remark 4.3.3, p. 27; Kedlaya, *Fourier transforms and p-adic 'Weil II'*, Section 2.4, p. 16; Crew, *Finiteness theorems for the cohomology of an overconvergent isocrystal on a curve*, (8.1.1), p. 749; Berthelot, *Finitude et pureté cohomologique en cohomologie rigide*, Proposition 1.10 and proof, pp. 15–16; Berthelot, *Cohomologie rigide et cohomologie rigide `à` supports propres, première partie*, Proposition 2.5.2(ii), global pp. 82–83 (II, pp. 36–37); Corollary 2.5.6, global p. 86 (II, p. 40).
 
-*Needs:* §RD.4.10 *Rigid cohomology `Hⁱ_rig(X/K, E)`*; §RD.3.32 *Overconvergent F-isocrystals on a smooth affine variety are `(σ,∇)`-modules over its dagger algebra*; §RD.4.1 *Monsky–Washnitzer cohomology of a `(σ,∇)`-module*; §RD.4.18 *The Frobenius on rigid cohomology*; §RD.4.23 *Independence of the Frobenius from the chosen lift*; AdicSpacesPartIII §R3.2 *Kiehl's theorem: coherent sheaves on a strongly noetherian Tate affinoid are the `M̃`*; AdicSpacesPartIII §R3.4 *Kiehl's Theorem `B` on quasi-Stein spaces*; AdicSpacesPartIII §R3.4 *Acyclicity of direct images along quasi-Stein inclusions*; §RD.3.29 *On the Monsky–Washnitzer frame of a smooth affine, global sections give an equivalence with `A†_K`-modules*; §RD.3.17 *The coordinate criterion for convergence and overconvergence of a connection*.
+*Needs:* §RD.4.10 *Rigid cohomology `Hⁱ_rig(X/K, E)`*; §RD.4.7 *Étale-proper de Rham descent*; CrystallineCohomology §CR.6.4 *Rigid cohomology of smooth strata*; §RD.3.32 *Overconvergent F-isocrystals on a smooth affine variety are `(σ,∇)`-modules over its dagger algebra*; §RD.4.1 *Monsky–Washnitzer cohomology of a `(σ,∇)`-module*; §RD.4.18 *The Frobenius on rigid cohomology*; §RD.4.23 *Independence of the Frobenius from the chosen lift*; AdicSpacesPartIII §R3.2 *Kiehl's theorem: coherent sheaves on a strongly noetherian Tate affinoid are the `M̃`*; AdicSpacesPartIII §R3.4 *Kiehl's Theorem `B` on quasi-Stein spaces*; AdicSpacesPartIII §R3.4 *Acyclicity of direct images along quasi-Stein inclusions*; §RD.3.29 *On the Monsky–Washnitzer frame of a smooth affine, global sections give an equivalence with `A†_K`-modules*; §RD.3.17 *The coordinate criterion for convergence and overconvergence of a connection*.
 
 **Checks.**
 
@@ -8082,20 +8102,19 @@ The API:
 
 ### RD.4.38 The rational rigid–crystalline comparison for smooth proper varieties
 
-**Theorem.** Let `k` be a perfect field of characteristic `p, W = W(k), K_0 = W[1/p]`, and `X` a smooth proper `k`-scheme. There is a canonical isomorphism `Hⁱ_rig(X/K_0) ≅ Hⁱ_crys(X/W) ⊗_W K_0` for every `i`, functorial in `X`, and compatible with finite extension of scalars: `Hⁱ_rig(X/K) = Hⁱ_rig(X/K_0) ⊗_{K_0} K` for `K/K_0` finite. Here `Hⁱ_crys(X/W)` is the crystalline cohomology of CrystallineCohomology §§CR.1.2, CR.1.4, CR.3.2 and CR.3:Frobenius-isogeny.1 (finitely generated over `W`; only its tensor product with `K_0` is used). With coefficients: for an F-crystal `M` of finite locally free modules with associated convergent (`=` overconvergent, `X` proper) F-isocrystal `E, Hⁱ(X_crys, M) ⊗ Q ≅ Hⁱ_rig(X, E)` (Ogus).
+**Theorem.** Let `k` be a perfect field of characteristic `p, W = W(k), K_0 = W[1/p]`, and `X` a smooth proper `k`-scheme. There is a canonical isomorphism `Hⁱ_rig(X/K_0) ≅ Hⁱ_crys(X/W) ⊗_W K_0` for every `i`, functorial in `X`, and compatible with finite extension of scalars: `Hⁱ_rig(X/K) = Hⁱ_rig(X/K_0) ⊗_{K_0} K` for `K/K_0` finite. Here `Hⁱ_crys(X/W)` is the crystalline cohomology of CrystallineCohomology §§CR.1.2, CR.1.4, CR.3.2 and CR.3:Frobenius-isogeny.1 (finitely generated over `W`; only its tensor product with `K_0` is used). The isomorphism is the proper smooth comparison of CrystallineCohomology §CR.6.4 *Rigid cohomology of smooth strata*, read through the identification of §RD.4.24; this target adds its functoriality in `X` and the extension of scalars. With coefficients (proved in §RD.7.14): for an F-crystal `M` of finite locally free modules with associated convergent (`=` overconvergent, `X` proper) F-isocrystal `E, Hⁱ(X_crys, M) ⊗ Q ≅ Hⁱ_rig(X, E)` (Ogus).
 
 *Hypotheses.* `k` perfect; `X` smooth and proper over `k; W = W(k), K_0 = W[1/p]`.
 
 *Proof sketch.*
 
-1. `X` proper: the compactification is `X` itself, so strict neighbourhoods are trivial and rigid cohomology equals Berthelot's naive cohomology `Hⁱ(]X[_P, Ω^•)` for a closed embedding `X ↪ P` into a formal `W`-scheme smooth near `X` (Berthelot (2.4); §RD.4.10; independence of `P`, §RD.3.21). For non-embeddable `X` use a Čech covering by embeddable opens (Berthelot (1.5)).
-2. Crystalline cohomology is computed by the p-adically completed de Rham complex of the PD envelope of `X` in `P` (CrystallineCohomology Layer CR.2), with independence of the embedding.
-3. Apply §RD.4.36 and §RD.4.37, using the global p-adic formal embedding and descent comparison in CrystallineCohomology §CR.2.2. Čech descent gives the comparison for a non-embeddable smooth proper variety. The later coefficient and linear `q`-Frobenius comparison is §RD.7.14.
-4. Functoriality in `X` and base change in `K` follow from functoriality of both constructions in the embedding.
+1. `X` is smooth, so §RD.4.24 identifies `RΓ_rig(X/K_0)` with the constant-coefficient complex of CrystallineCohomology §CR.6.4, compatibly with Frobenius.
+2. `X` is proper and smooth, so CrystallineCohomology §CR.6.4 identifies that complex with `RΓ_crys(X/W) ⊗_W K_0`.
+3. Functoriality in `X` (including morphisms over ring endomorphisms of `W`, as §RD.7.1 uses for the absolute Frobenius) follows from the naturality of both identifications; extension of scalars to a finite `K/K_0` is §RD.4.31. The coefficient form and the linear `q`-Frobenius comparison are §RD.7.14.
 
 *Sources.* Berthelot, *Géométrie rigide et cohomologie des variétés algébriques de caractéristique `p`*, Proposition 2, p. 14, and (2.4), p. 19; Kedlaya, *Notes on isocrystals*, Theorem 8.3 (Ogus), p. 20.
 
-*Needs:* §RD.4.10 *Rigid cohomology `Hⁱ_rig(X/K, E)`*; §RD.3.21 *Independence of the frame: canonical equivalences between categories of overconvergent isocrystals*; CrystallineCohomology §CR.2.2 *Crystalline cohomology from an embedding*; CrystallineCohomology §CR.2.2 *The relative PD Poincaré lemma*; CrystallineCohomology §§CR.1.2, CR.1.4, CR.3.2 and CR.3:Frobenius-isogeny.1; CrystallineCohomology §CR.3.2 *Proper smooth crystalline perfectness and reductions*; CrystallineCohomology §CR.3.4 *Semilinear crystalline Frobenius and linearization*; §RD.4.37 *Berthelot's comparison morphism is a quasi-isomorphism for smooth `X`*; CrystallineCohomology §CR.2.2 *De Rham computation in a smooth ambient embedding*.
+*Needs:* §RD.4.10 *Rigid cohomology `Hⁱ_rig(X/K, E)`*; §RD.4.24 *The Monsky–Washnitzer comparison: rigid cohomology of a smooth affine is the de Rham cohomology of its dagger algebra*; §RD.4.31 *Base change of rigid cohomology along finite extensions of the coefficient field*; CrystallineCohomology §CR.6.4 *Rigid cohomology of smooth strata*; CrystallineCohomology §§CR.1.2, CR.1.4, CR.3.2 and CR.3:Frobenius-isogeny.1; CrystallineCohomology §CR.3.2 *Proper smooth crystalline perfectness and reductions*; CrystallineCohomology §CR.3.4 *Semilinear crystalline Frobenius and linearization*.
 
 **Checks.**
 
@@ -10147,7 +10166,7 @@ The API:
 
 ### RD.5.66 Finite dimensionality of rigid cohomology on smooth varieties, and with supports
 
-**Theorem.** Let `k` be a field of characteristic `p` and `E ∈` F-`Isoc†(X/K)`. (a) If `X` is smooth over `k, Hⁱ_rig(X/K, E)` is finite dimensional for all `i`. (b) If `X` is smooth over `k` and `Z ⊂ X` is a closed immersion of a geometrically reduced `k`-scheme of finite type, `Hⁱ_{Z,rig}(X/K, E)` is finite dimensional for all `i`.
+**Theorem.** Let `k` be a field of characteristic `p` and `E ∈` F-`Isoc†(X/K)`. (a) If `X` is smooth over `k, Hⁱ_rig(X/K, E)` is finite dimensional for all `i`. (b) If `X` is smooth over `k` and `Z ⊂ X` is a closed immersion of a geometrically reduced `k`-scheme of finite type, `Hⁱ_{Z,rig}(X/K, E)` is finite dimensional for all `i`. For the constant isocrystal, (a) is the finiteness of CrystallineCohomology §CR.6.4 *Rigid cohomology of smooth strata* read through §RD.4.24; this target owns (a) for overconvergent F-isocrystals and (b), which its induction proves together.
 
 *Hypotheses.* Frobenius structure on `E`; smooth `X`.
 
