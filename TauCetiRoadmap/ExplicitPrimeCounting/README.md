@@ -1405,30 +1405,18 @@ being `486`), which is therefore not a hypothesis of any theorem here.
   second clause fails on `(1426.47…, 1427)`, where `θ` is constant (at `x = 1426.9`,
   `x − θ(x) = 74.07…` exceeds `1.95 √x = 73.65…`), so it starts at `1427`.
 - *ButheFinerRange*: `−0.8 √x ≤ x − ψ(x) ≤ 0.81 √x` for `100 ≤ x ≤ 5·10¹⁰` (`buthe-2018` §6, (6.2));
-  and, for each row `(x₀, M⁻, M⁺)` of its Table 1 and every `x ∈ [x₀, 2x₀]`,
-  `M⁻ √x ≤ x − ψ(x) ≤ M⁺ √x`, the rows being, for `x₀ = 2^j·10¹⁰` with `j = 0, …, 6`:
-  `(−0.77, 0.85)`, `(−0.75, 0.64)`, `(−0.73, 0.80)`, `(−0.80, 0.86)`, `(−0.88, 0.68)`,
-  `(−0.88, 0.78)`, `(−0.66, 0.74)`; for `x₀ = 2^j·10¹²`, `j = 0, …, 6`: `(−0.80, 0.81)`,
-  `(−0.79, 0.76)`, `(−0.73, 0.73)`, `(−0.80, 0.76)`, `(−0.80, 0.68)`, `(−0.67, 0.93)`,
-  `(−0.78, 0.77)`; for `x₀ = 2^j·10¹⁴`, `j = 0, …, 6`: `(−0.79, 0.72)`, `(−0.60, 0.76)`,
-  `(−0.65, 0.73)`, `(−0.81, 0.88)`, `(−0.66, 0.86)`, `(−0.74, 0.86)`, `(−0.73, 0.66)`; and for
-  `x₀ = 2^j·10¹⁶`, `j = 0, …, 9`: `(−0.88, 0.74)`, `(−0.87, 0.70)`, `(−0.65, 0.73)`,
-  `(−0.82, 0.77)`, `(−0.71, 0.92)`, `(−0.78, 0.71)`, `(−0.94, 0.82)`, `(−0.94, 0.75)`,
-  `(−0.82, 0.86)`, `(−0.83, 0.94)`. Consequence (a theorem): under *ButheFinerRange*,
+  and, for each of the thirty-one rows `(x₀, M⁻, M⁺)` of its Table 1 (lines 685–704), at
+  `x₀ = 2^j·10¹⁰`, `2^j·10¹²` and `2^j·10¹⁴` for `0 ≤ j ≤ 6` and at `x₀ = 2^j·10¹⁶` for `0 ≤ j ≤ 9`,
+  and every `x ∈ [x₀, 2x₀]`, `M⁻ √x ≤ x − ψ(x) ≤ M⁺ √x`; among them `(8·10¹⁰, −0.80, 0.86)` and
+  `(1.6·10¹¹, −0.88, 0.68)`. Consequence (a theorem): under *ButheFinerRange*,
   `−0.88 √x ≤ x − ψ(x) ≤ 0.86 √x` for `100 ≤ x ≤ 3.2·10¹³`, from the first clause up to `5·10¹⁰` and
-  the rows from `4·10¹⁰` to `1.6·10¹³`. These are the rows `(c, C)` of
+  the rows from `4·10¹⁰` to `1.6·10¹³`, whose `M⁻` are at least `−0.88` and whose `M⁺` are at most
+  `0.86`, both bounds being attained at the two rows above. These are the rows `(c, C)` of
   Broadbent–Kadiri–Lumley–Ng–Wilk's lower bounds for `θ` (§3.7), with `ButheVerified` the row
   `(0.94, 0.94)` to `10¹⁹`. The proposition also asserts the rows of the source's Table 2, for
-  Riemann's weighted count `π*` (`buthe-2018` §6, Table 2): for each row `(x₀, M⁻, M⁺)`
-  and every `t ∈ [x₀, 2x₀]`, `M⁻ √t/log t ≤ li t − π*(t) ≤ M⁺ √t/log t`, the rows being, for
-  `x₀ = 2^j·10¹⁰`, `j = 0, …, 6`: `(−0.87, 0.95)`, `(−0.84, 0.73)`, `(−0.82, 0.89)`,
-  `(−0.89, 0.95)`, `(−0.97, 0.76)`, `(−0.96, 0.86)`, `(−0.74, 0.82)`; for `x₀ = 2^j·10¹²`,
-  `j = 0, …, 6`: `(−0.88, 0.89)`, `(−0.87, 0.84)`, `(−0.81, 0.81)`, `(−0.87, 0.84)`,
-  `(−0.87, 0.76)`, `(−0.74, 1)`, `(−0.85, 0.84)`; for `x₀ = 2^j·10¹⁴`, `j = 0, …, 6`:
-  `(−0.86, 0.79)`, `(−0.67, 0.83)`, `(−0.72, 0.80)`, `(−0.87, 0.95)`, `(−0.72, 0.93)`,
-  `(−0.80, 0.92)`, `(−0.79, 0.72)`; and for `x₀ = 2^j·10¹⁶`, `j = 0, …, 9`: `(−0.94, 0.80)`,
-  `(−0.93, 0.76)`, `(−0.71, 0.79)`, `(−0.88, 0.83)`, `(−0.77, 0.98)`, `(−0.84, 0.77)`, `(−1, 0.88)`,
-  `(−1, 0.80)`, `(−0.87, 0.91)`, `(−0.88, 0.99)`. The source obtains them from its Table 1 through
+  Riemann's weighted count `π*` (`buthe-2018` §6, Table 2, lines 800–819): for each row
+  `(x₀, M⁻, M⁺)`, at the same thirty-one `x₀`, and every `t ∈ [x₀, 2x₀]`,
+  `M⁻ √t/log t ≤ li t − π*(t) ≤ M⁺ √t/log t`. The source obtains them from its Table 1 through
   the analogue for `π*` and `ψ` of the transfer of §0.4 (its Lemma 2) at `a = 100`; they are assumed
   here as printed.
 - *ButheLemma3Constant*: `π(1500) − li 1500 + (1500 − θ(1500))/log 1500 ≤ 0`, that is
@@ -2005,18 +1993,13 @@ Büthe's own tables for that theorem (`buthe-2016` Theorem 1, Tables 1 and 2), e
 `(b, T, δ₀)` conditional on `RH` at its own height `T`: the table propositions *Buthe2016Table1* and
 *Buthe2016Table2* assert, for each row, that the error `e^{αε}(E₁ + E₂ + E₃)` of the theorem at the
 row's parameters, with `c/ε ≤ T`, is at most `δ₀` for every `x ≥ e^b`; and the theorem gives, for
-each row, that `RH(T)` and the row's proposition imply `|ψ(x) − x| ≤ δ₀ x` for every `x ≥ e^b`. The
-rows of Table 1, with `T = 3.5·10⁹` at `b = 45` and `T = 3.061·10¹⁰` otherwise, are `(b, δ₀)` =
-`(45, 1.11742·10⁻⁸)`, `(50, 1.16465·10⁻⁹)`, `(55, 2.88434·10⁻¹⁰)`, `(60, 2.08162·10⁻¹⁰)`,
-`(65, 1.96865·10⁻¹⁰)`, `(70, 1.91910·10⁻¹⁰)`, `(80, 1.84848·10⁻¹⁰)`, `(90, 1.79330·10⁻¹⁰)`,
-`(100, 1.75185·10⁻¹⁰)`, `(500, 1.47067·10⁻¹⁰)`, `(1000, 1.43770·10⁻¹⁰)` and `(3000, 1.41594·10⁻¹⁰)`;
-those of Table 2, with `T = 8.5·10¹¹` at `b = 55` and `T = 2.445·10¹²` otherwise, are
-`(55, 1.12494·10⁻¹⁰)`, `(60, 1.22147·10⁻¹¹)`, `(65, 3.57125·10⁻¹²)`, `(70, 2.79233·10⁻¹²)`,
-`(75, 2.70358·10⁻¹²)`, `(80, 2.61079·10⁻¹²)`, `(90, 2.52129·10⁻¹²)`, `(100, 2.45229·10⁻¹²)`,
-`(500, 1.99986·10⁻¹²)`, `(1000, 1.94751·10⁻¹²)`, `(2000, 1.92155·10⁻¹²)`, `(3000, 1.91298·10⁻¹²)`
-and `(4000, 1.90866·10⁻¹²)`. Every height of Table 1 is at most `30 610 046 000` and every height of
-Table 2 at most `3 000 175 332 800`, so `RH(30 610 046 000)`, respectively `RH(3 000 175 332 800)`
-(§1.1), gives each row its hypothesis by antitonicity.
+each row, that `RH(T)` and the row's proposition imply `|ψ(x) − x| ≤ δ₀ x` for every `x ≥ e^b`.
+Table 1 (lines 587–601) has twelve rows, from `b = 45` to `b = 3000`, at heights `T ≤ 3.061·10¹⁰`,
+among them `(45, 3.5·10⁹, 1.11742·10⁻⁸)`; Table 2 (lines 636–651) has thirteen rows, from `b = 55`
+to `b = 4000`, at heights `T ≤ 2.445·10¹²`, among them `(4000, 2.445·10¹², 1.90866·10⁻¹²)`. Every
+height of Table 1 is therefore at most `30 610 046 000` and every height of Table 2 at most
+`3 000 175 332 800`, so `RH(30 610 046 000)`, respectively `RH(3 000 175 332 800)` (§1.1), gives
+each row its hypothesis by antitonicity.
 
 Instances (`johnston-2022` Corollary 3.3): under `RH(3 000 175 332 800)` the four bounds hold for
 every `x ≤ 1.101·10²⁶` in their ranges; Büthe's criterion alone gives `x ≤ 2.169·10²⁵`.
@@ -2823,59 +2806,17 @@ Zero inputs of this section:
   Cully-Hugill–Trudgian's divisor sum) and the subconvexity constant `0.77` in place of Hiary's
   `0.63`, so they are not ExplicitZetaBounds §8.3's closed forms, which that section states at every
   verification height. The parameters `(σ, α, δ, d)` behind each row, and the resulting constants,
-  are those of their Tables 7–7′ (`H₀ = 3·10¹²`, `k = 1`, `μ = 1.2362`), at
-  `σ ∈ {0.6, 0.7, 0.8, 0.9, 0.91, …, 0.999}`, and the proposition asserts their rows as well (their
+  are those of their Tables 7–7′ (`H₀ = 3·10¹²`, `k = 1`, `μ = 1.2362`), each with one row at each
+  of the twenty-two abscissae `σ = 0.6, 0.7, 0.8, 0.9`, `σ = 0.91, 0.92, …, 0.99` and
+  `σ = 0.991, 0.992, …, 0.999`, and the proposition asserts their rows as well (their
   Theorem 2.7 and Remark 2.8): for each row `(σ, α, δ, d, C₁, c₁, C₂, c₂)`, every
   `H ∈ [1002, 3·10¹²)` and every `T ≥ 3·10¹²`,
   `N°(σ, T) ≤ ((T − H) log T/(2πd)) log(1 + C₁ (log T)^{4 − 2σ} T^{8(1−σ)/3}/(T − H)) + C₂ log² T/(2πd)`
   and `N°(σ, T) ≤ c₁ T^{8(1−σ)/3} (log T)^{5−2σ} + c₂ log² T`, with `c_i = C_i/(2πd)` up to the
-  rounding of `d`. Table 7, with the subconvexity constant `0.77`, has the rows
-  `(0.600, 0.2745, 0.3089, 0.3411, 6.2364, 2.9101, 11.3289, 5.2863)`,
-  `(0.700, 0.2166, 0.3088, 0.3398, 10.3372, 4.8414, 9.5857, 4.4894)`,
-  `(0.800, 0.1594, 0.3089, 0.3382, 16.5703, 7.7978, 7.8423, 3.6905)`,
-  `(0.900, 0.1041, 0.3092, 0.3360, 25.3876, 12.0272, 6.0986, 2.8891)`,
-  `(0.910, 0.0988, 0.3093, 0.3357, 26.4101, 12.5219, 5.9242, 2.8088)`,
-  `(0.920, 0.0935, 0.3094, 0.3354, 27.4551, 13.0286, 5.7497, 2.7285)`,
-  `(0.930, 0.0883, 0.3094, 0.3351, 28.5212, 13.5467, 5.5753, 2.6481)`,
-  `(0.940, 0.0831, 0.3095, 0.3348, 29.6068, 14.0756, 5.4009, 2.5677)`,
-  `(0.950, 0.0780, 0.3096, 0.3344, 30.7097, 14.6145, 5.2264, 2.4872)`,
-  `(0.960, 0.0730, 0.3098, 0.3341, 31.8278, 15.1623, 5.0520, 2.4067)`,
-  `(0.970, 0.0681, 0.3099, 0.3337, 32.9584, 15.7180, 4.8775, 2.3261)`,
-  `(0.980, 0.0633, 0.3101, 0.3333, 34.0986, 16.2804, 4.7031, 2.2455)`,
-  `(0.990, 0.0586, 0.3103, 0.3329, 35.2449, 16.8481, 4.5286, 2.1648)`,
-  `(0.991, 0.0582, 0.3103, 0.3329, 35.3598, 16.9051, 4.5111, 2.1567)`,
-  `(0.992, 0.0577, 0.3103, 0.3329, 35.4746, 16.9621, 4.4937, 2.1486)`,
-  `(0.993, 0.0572, 0.3103, 0.3328, 35.5895, 17.0192, 4.4762, 2.1406)`,
-  `(0.994, 0.0568, 0.3103, 0.3328, 35.7044, 17.0762, 4.4588, 2.1325)`,
-  `(0.995, 0.0563, 0.3104, 0.3327, 35.8193, 17.1334, 4.4413, 2.1244)`,
-  `(0.996, 0.0559, 0.3104, 0.3327, 35.9342, 17.1905, 4.4239, 2.1163)`,
-  `(0.997, 0.0554, 0.3104, 0.3326, 36.0492, 17.2477, 4.4064, 2.1083)`,
-  `(0.998, 0.0550, 0.3104, 0.3326, 36.1641, 17.3049, 4.3890, 2.1002)` and
-  `(0.999, 0.0545, 0.3104, 0.3326, 36.2790, 17.3621, 4.3715, 2.0921)`. Table 7′, the same
+  rounding of `d`. Table 7 is computed with the subconvexity constant `0.77`; among its rows is
+  `(0.900, 0.1041, 0.3092, 0.3360, 25.3876, 12.0272, 6.0986, 2.8891)`. Table 7′ is the same
   computation with the subconvexity constant `0.618` of ExplicitZetaBounds §4.7 (Hiary–Patel–Yang,
-  given `HiaryRecord` from `t = 3`), whose rows hold under `HiaryRecord` in addition, has the rows
-  `(0.600, 0.2746, 0.3117, 0.3447, 4.3794, 2.0222, 11.3310, 5.2321)`,
-  `(0.700, 0.2167, 0.3116, 0.3434, 7.9114, 3.6667, 9.5879, 4.4437)`,
-  `(0.800, 0.1595, 0.3117, 0.3417, 13.8214, 6.4369, 7.8445, 3.6533)`,
-  `(0.900, 0.1042, 0.3120, 0.3394, 23.0787, 10.8209, 6.1007, 2.8604)`,
-  `(0.910, 0.0988, 0.3121, 0.3392, 24.2157, 11.3634, 5.9263, 2.7810)`,
-  `(0.920, 0.0935, 0.3122, 0.3389, 25.3914, 11.9255, 5.7519, 2.7015)`,
-  `(0.930, 0.0883, 0.3123, 0.3386, 26.6053, 12.5070, 5.5774, 2.6219)`,
-  `(0.940, 0.0831, 0.3124, 0.3382, 27.8565, 13.1077, 5.4030, 2.5423)`,
-  `(0.950, 0.0781, 0.3125, 0.3379, 29.1439, 13.7272, 5.2285, 2.4627)`,
-  `(0.960, 0.0731, 0.3126, 0.3375, 30.4659, 14.3650, 5.0541, 2.3831)`,
-  `(0.970, 0.0682, 0.3127, 0.3372, 31.8207, 15.0203, 4.8796, 2.3033)`,
-  `(0.980, 0.0634, 0.3129, 0.3368, 33.2058, 15.6923, 4.7051, 2.2235)`,
-  `(0.990, 0.0587, 0.3131, 0.3364, 34.6186, 16.3799, 4.5307, 2.1437)`,
-  `(0.991, 0.0582, 0.3131, 0.3363, 34.7613, 16.4495, 4.5132, 2.1357)`,
-  `(0.992, 0.0577, 0.3131, 0.3363, 34.9042, 16.5192, 4.4958, 2.1277)`,
-  `(0.993, 0.0573, 0.3131, 0.3362, 35.0474, 16.5890, 4.4783, 2.1197)`,
-  `(0.994, 0.0568, 0.3132, 0.3362, 35.1908, 16.6590, 4.4609, 2.1117)`,
-  `(0.995, 0.0564, 0.3132, 0.3362, 35.3344, 16.7292, 4.4434, 2.1037)`,
-  `(0.996, 0.0559, 0.3132, 0.3361, 35.4782, 16.7994, 4.4260, 2.0958)`,
-  `(0.997, 0.0555, 0.3132, 0.3361, 35.6223, 16.8698, 4.4085, 2.0878)`,
-  `(0.998, 0.0550, 0.3132, 0.3360, 35.7666, 16.9404, 4.3911, 2.0798)` and
-  `(0.999, 0.0546, 0.3133, 0.3360, 35.9111, 17.0110, 4.3736, 2.0718)`.
+  given `HiaryRecord` from `t = 3`), and its rows hold under `HiaryRecord` in addition.
 - *JohnstonYangDensityTable* (`johnston-yang-2023` lines 204–217, Lemma 2.6, and lines 1049–1073,
   Table 3): for every row `(σ, C₁, C₂)` of the table, `σ` from `0.980` to `0.999` in steps of
   `0.001` and the limiting row `σ = 1`, and every `T ≥ 3 000 175 332 800`,
@@ -2986,15 +2927,12 @@ against the offset `Li`.
   `[e¹⁰, e²⁰⁰⁰⁰]` and, below `10¹⁹`, the `π` clause of `ButheVerified`.
 - Consequences, under *FioriKadiriSwidinskyPiTables*, the hypotheses of §3.7, `ButheVerified` and
   those of *FioriKadiriSwidinskyPsiRow* (their Corollaries 23, 24 and 26):
-  - for each row `(A, B, C, log x₀)` of `(0.000120, 1/4, 1, 22.955)`, `(0.826, 1/4, 1, 1)`,
-    `(1.41, 1/2, 1.5, 2)`, `(1.76, 1, 1.5, 3)`, `(2.22, 3/2, 1.5, 3)`, `(12.4, 3/2, 1.9, 1)`,
-    `(38.8, 3/2, 1.95, 1)`, `(121.107, 3/2, 2, 1)` and `(6.60, 2, 2, 3)`,
-    `E_π(x) ≤ ε_{A,B,C,5.5666305}(x)` for every `x ≥ x₀`;
-  - `E_π(x) ≤ 2 log x/√x` for `1 ≤ log x ≤ 57`, `≤ (log x)^{3/2}/√x` for `1 ≤ log x ≤ 65.65`,
-    `≤ log² x/(8π √x)` for `8 ≤ log x ≤ 60.8`, `≤ log² x/√x` for `1 ≤ log x ≤ 70.6`,
-    `≤ log³ x/√x` for `1 ≤ log x ≤ 80`, `≤ x^{−1/3}` for `1 ≤ log x ≤ 80.55`, `≤ x^{−1/4}` for
-    `1 ≤ log x ≤ 107.6`, `≤ x^{−1/5}` for `1 ≤ log x ≤ 134.8`, `≤ x^{−1/10}` for `1 ≤ log x ≤ 270.8`,
-    `≤ x^{−1/50}` for `1 ≤ log x ≤ 1358.6` and `≤ x^{−1/100}` for `1 ≤ log x ≤ 3757.6`;
+  - for each of the nine rows `(A, B, C, log x₀)` of their Table 6 (lines 1347–1370),
+    `E_π(x) ≤ ε_{A,B,C,5.5666305}(x)` for every `x ≥ x₀`; among them `(0.826, 1/4, 1, 1)`, the input
+    of the `0.4298` bound below, and `(121.107, 3/2, 2, 1)`, the row of their Corollary 22 (§3.4);
+  - for each of the eleven rows of their Table 7 (lines 1371–1384), `E_π(x)` is at most the row's
+    function of `x` on the row's range of `log x`; among them `E_π(x) ≤ log² x/(8π √x)` for
+    `8 ≤ log x ≤ 60.8`;
   - `|π(x) − Li x| ≤ 0.4298 x/log x` for every `x ≥ 2`, stated
     from the row `(0.826, 1/4, 1, 1)` above as its input. Route: for `x ≥ e` that row, whose shape is at most
     `0.826 (1/4)^{1/4} e^{−1/2} = 0.3543` (its maximum, at `log x = R/4`); for `2 ≤ x < e`,
@@ -3296,13 +3234,11 @@ them.
   Route: Table 15's row from `e²⁹` and *Axler2024Range* on `[1 757 126 630 797, e²⁹]`.
 
 - The values of `a₂(b) = (1 + 1.93378·10⁻⁸) max(f(e^b), f(2^{⌊b/log 2⌋ + 1}))` (§0.3) at the paper's
-  points (the table after its Corollary 5.1): `a₂(b) ≤ u` for `(b, u)` equal to `(20, 1.4263)`,
-  `(25, 1.2196)`, `(30, 1.1211)`, `(35, 1.07087)`, `(40, 1.04320)`, `(43, 1.03253)`,
-  `(50, 1.01718)`, `(100, 1 + 2.421·10⁻⁴)`, `(150, 1 + 3.749·10⁻⁶)`, `(200, 1 + 7.712·10⁻⁸)`,
-  `(250, 1 + 2.024·10⁻⁸)` and `(300, 1 + 1.936·10⁻⁸)` (arXiv v2, lines 509–512). The printed
-  `1.07086` at `b = 35` is below the formula's `1.0708607`, so `1.07087` is stated; every other
-  printed value is at least the formula's (`a₂(200) = 1 + 7.7118·10⁻⁸`,
-  `a₂(300) = 1 + 1.9352·10⁻⁸`).
+  points (the table after its Corollary 5.1, arXiv v2, lines 509–512): `a₂(b) ≤ u` for each of its
+  twelve pairs `(b, u)`, `20 ≤ b ≤ 300`, with `u = 1.07087` at `b = 35`, where the printed `1.07086`
+  is below the formula's `1.0708607`; among them `(40, 1.04320)`, the value in *PsiThetaUpper*
+  `(1 + 1.93378·10⁻⁸, 1.04320, e⁴⁰)` (§2.2). Every other printed value is at least the formula's (at
+  `b = 200` the formula gives `1 + 7.7118·10⁻⁸` against the printed `1 + 7.712·10⁻⁸`).
 - The strip constants (the paper's Lemma 8, (3.11) and Corollary 8.1): for `1 ≤ k ≤ 5` and `b < b′`
   with `b ≥ max(7, 2k)`, `|θ(x) − x| ≤ B_k(b, b′) x/log^k x` for `e^b ≤ x ≤ e^{b′}`, where
   `B_k(b, b′) = sup_{e^b ≤ x ≤ e^{b′}} log^k x (a₁(b) x^{−1/2} + a₂(b) x^{−2/3} + ε(b))`, with `ε` the rows of
