@@ -10,8 +10,8 @@ headline theorems against the pinned APIs, where their carriers exist.
 The proper hyperbolic Isom theorem over sub-p-adic fields is statable through
 Mathlib's finite étale scheme-map categories and constant-cover functors. It includes
 the number-field Isom theorem and requires no rational point on either curve.
-The S-integral finiteness consequence for the thrice-punctured line is the S-unit
-theorem of DiophantineApproximationAndTranscendence §4.5 and is not restated here.
+The S-integral finiteness consequence for the thrice-punctured line is the
+S-unit theorem of DiophantineApproximationAndTranscendence §4.5 and is not restated here.
 
 The other headline signatures require objects absent at the pins. Layer 0's topological
 nonabelian torsor classification, twisting and exact sequences need the native continuous
@@ -41,6 +41,18 @@ namespace TauCetiRoadmap.AnabelianGeometryAndNonabelianChabauty
 
 universe u
 
+open AlgebraicGeometry CategoryTheory in
+/-- Finite étale morphisms of schemes: the meet of the finite and the étale morphism
+properties. -/
+abbrev finiteEtale : MorphismProperty Scheme.{u} :=
+  @AlgebraicGeometry.IsFinite ⊓ @AlgebraicGeometry.Etale
+
+open AlgebraicGeometry CategoryTheory in
+/-- Finite étale morphisms are stable under base change, because finite morphisms and
+étale morphisms are. -/
+instance finiteEtale_isStableUnderBaseChange : finiteEtale.{u}.IsStableUnderBaseChange :=
+  MorphismProperty.IsStableUnderBaseChange.inf
+
 open CategoryTheory AlgebraicGeometry in
 /-- An equivalence of finite étale cover categories compatible with constant covers
 comes from a unique base-field isomorphism of proper hyperbolic curves over a sub-p-adic
@@ -61,16 +73,11 @@ theorem anabelian_isom
     [FiniteDimensional K (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology
       (TauCeti.AlgebraicGeometry.InvertibleSheaf.trivial Y).obj 1)]
     (hX : 2 ≤ X.genus K) (hY : 2 ≤ Y.genus K) :
-    let P : MorphismProperty Scheme.{u} := @AlgebraicGeometry.IsFinite ⊓ @AlgebraicGeometry.Etale
-    letI : P.IsStableUnderBaseChange := {
-      of_isPullback := fun sq hf =>
-        ⟨MorphismProperty.of_isPullback (P := @AlgebraicGeometry.IsFinite) sq hf.1,
-          MorphismProperty.of_isPullback (P := @AlgebraicGeometry.Etale) sq hf.2⟩ }
-    ∀ e : P.Over ⊤ X ≌ P.Over ⊤ Y,
-      Nonempty (MorphismProperty.Over.pullback P ⊤ (X ↘ Spec (.of K)) ⋙ e.functor ≅
-        MorphismProperty.Over.pullback P ⊤ (Y ↘ Spec (.of K))) →
+    ∀ e : (finiteEtale.{u}).Over ⊤ X ≌ (finiteEtale.{u}).Over ⊤ Y,
+      Nonempty (MorphismProperty.Over.pullback finiteEtale.{u} ⊤ (X ↘ Spec (.of K)) ⋙ e.functor ≅
+        MorphismProperty.Over.pullback finiteEtale.{u} ⊤ (Y ↘ Spec (.of K))) →
       ∃! f : X ≅ Y, f.hom.IsOver (Spec (.of K)) ∧
-        Nonempty (e.functor ≅ MorphismProperty.Over.pullback P ⊤ f.inv) := by
+        Nonempty (e.functor ≅ MorphismProperty.Over.pullback finiteEtale.{u} ⊤ f.inv) := by
   sorry
 
 end TauCetiRoadmap.AnabelianGeometryAndNonabelianChabauty
