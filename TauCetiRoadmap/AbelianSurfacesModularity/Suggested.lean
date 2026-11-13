@@ -17,21 +17,21 @@ No headline theorem of this roadmap is statable at these pins:
   and their attached Galois representations.
 * The exact local realization theorem at 2 (§4.10) lacks the odd-theta moduli space
   and the polarized genus-two Jacobian and ordinary reduction interfaces.
-* The 2–3 switch and the infinite fixed-mod-3 realization (§§6.2–6.3) lack the
+* The 2–3 switch and the infinite fixed-mod-3 realization (§§5.2–5.3) lack the
   odd-theta family, its Jacobian torsion and integral ordinary local conditions.
-* Odd-prime modularity transfer, fifteen-image modularity, Theorem A, good-ordinary
-  genus-two modularity, Theorem B and bad-at-2 modularity (Layer 7) lack the GSp₄
-  automorphic carriers, ordinary attachments and abelian-surface H¹ realization
-  with its reduction and polarization conditions.
+* Odd-prime modularity transfer, fifteen-image and surjective-mod-3 modularity,
+  good-ordinary and quintic genus-two modularity and bad-at-2 modularity (Layer 6)
+  lack the GSp₄ automorphic carriers, ordinary attachments and abelian-surface H¹
+  realization with its reduction and polarization conditions.
 * The coefficient-box modularity lower density (§8.1) lacks the genus-two
   coefficient-family modularity predicate on its actual Jacobians.
 * Odd potentially abelian rank-four automorphy and modularity of 32 of 34 Galois
-  types (§§8.2–8.4) lack the de Rham condition on p-adic Galois representations,
+  types (§§7.1–7.3) lack the de Rham condition on p-adic Galois representations,
   automorphic induction, the isobaric automorphic representation and compatible
   system carriers, and the endomorphism-type realization dictionary; the pinned
   algebraic Hecke characters alone do not supply them.
 * Prescribed-mod-2 ordinary realization and residual weight-two modularity
-  (§§8.7–8.8) lack ordinary finite flat group schemes with integral Cartier
+  (§§9.3–9.4) lack ordinary finite flat group schemes with integral Cartier
   self-duality, polarized abelian-surface torsion and ordinary GSp₄ attachment.
 
 The native abelian-variety scheme carrier does not supply these realizations.
