@@ -15,8 +15,7 @@ roadmap.
 The statements here are Arabia's controlled lifting for smooth algebras modulo an
 arbitrary ideal (RD.0.39), Frobenius lifts on the weak completion of a smooth algebra over
 a complete discrete valuation ring (RD.0.42), finite free resolutions (RD.0.55) and
-unimodular vectors over polynomial rings (RD.0.56), the cyclic-vector theorem for a nonzero
-derivation over any characteristic-zero field (RD.1.7), and the rigid-analytic
+unimodular vectors over polynomial rings (RD.0.56), and the rigid-analytic
 Quillen–Suslin theorem over the Monsky–Washnitzer algebra (RD.3.27), to which RD.0.55 and
 RD.0.56 are the algebraic input. RD.0.42 and RD.3.27 are stated on Tau Ceti's
 `TauCeti.Dagger.weakCompletion` and `TauCeti.Dagger.washnitzerAlgebra`.
@@ -29,7 +28,8 @@ decompositions and Dieudonné–Manin theorems of RD.1 and the slope filtration,
 monodromy, local monodromy and irregularity–Swan comparison of RD.2 require differential and
 Frobenius modules over those rings. Mathlib's `WittVector.Isocrystal` and its rank-one
 classification do not supply the ramified coefficient and general Frobenius categories of
-those targets.
+those targets. The cyclic-vector theorem that RD.1.7 applies is FormalConnectionsOpers §6.2
+and is not restated here.
 
 The frame independence, Dwork–Berthelot convergence, Katz–Crew correspondence and
 coefficient equivalences of RD.3 require tubes, strict neighbourhoods and convergent and
@@ -221,26 +221,6 @@ theorem hasUnimodularExtension_iff {R : Type u} [CommRing R] :
   sorry
 
 end RD0
-
-/-! ## Layer RD.1: Differential modules, radii and Frobenius slopes -/
-
-namespace RD1
-
-/-- A vector is cyclic when its successive covariant derivatives form a basis. -/
-def CyclicFor {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
-    (D : V → V) (n : ℕ) (v : V) : Prop :=
-  ∃ b : Module.Basis (Fin n) K V, ∀ i, b i = (D^[i.val]) v
-
-/-- The cyclic-vector theorem over any characteristic-zero differential field with
-a nonzero derivation (RD.1.7). The connection is additive and satisfies Leibniz. -/
-theorem katz_cyclic_vector {K V : Type*} [Field K] [CharZero K]
-    [AddCommGroup V] [Module K V] [FiniteDimensional K V]
-    (δ : Derivation ℤ K K) (hδ : δ ≠ 0) (D : V →+ V)
-    (hD : ∀ (a : K) (v : V), D (a • v) = δ a • v + a • D v) :
-    ∃ v : V, CyclicFor (K := K) D (Module.finrank K V) v := by
-  sorry
-
-end RD1
 
 /-! ## Layer RD.3: Frames, convergent and overconvergent coefficients -/
 
