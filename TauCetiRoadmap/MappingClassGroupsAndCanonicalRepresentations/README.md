@@ -2469,12 +2469,13 @@ component of `C̄ ∖ C°` maps to a product of nonnegative powers of the meridi
 
 ### 7.3 Quasi-unipotent boundary monodromy
 
-Prove: for `g ≥ 3`, a local system on `C°` as in §7.2 whose monodromy is induced from a
-representation of a finite-index subgroup of `PMod(g, n + 1)` has quasi-unipotent local monodromy
+Prove: for `g ≥ 3`, every local system on `C°` as in §7.2 has quasi-unipotent local monodromy
 along `C̄ ∖ C°`; the same holds for a projective local system with values in `PGL_r(ℂ)`, tested
-through its faithful adjoint representation `Ad ∘ ρ̂` (Landesman–Litt, Lemma 8.3.3, p. 40). Apply
-§7.1 to the multitwists of §7.2, and use that commuting quasi-unipotent matrices have
-quasi-unipotent product. *Needs:* §§3.4, 7.1, 7.2.
+through its faithful adjoint representation `Ad ∘ ρ̂` (Landesman–Litt, proof of Lemma 8.3.3,
+p. 40). Since `C° → M_{g,n+1}` is finite étale, the fundamental group of each connected component
+of `C°` is a finite-index subgroup of `PMod(g, n + 1)`, and the monodromy is a representation of
+it. Apply §7.1 to that subgroup and the multitwists of §7.2, and use that commuting
+quasi-unipotent matrices have quasi-unipotent product. *Needs:* §§3.4, 7.1, 7.2.
 
 **Checks.**
 
@@ -3264,6 +3265,16 @@ with a local monodromy of infinite order is an infinite-image example. *Needs:* 
 - On `Σ_{0,4}` the character `c₁ ↦ 2, c₂ ↦ 1/2, c₃ ↦ 1, c₄ ↦ 1` is determined by its local
   monodromies, hence MCG-finite, with infinite image.
 
+### Examples
+
+- On `π₁(Σ_{1,1})`, free on `a, b`, the representation of §12.5 with `λ = 2`, `a ↦ diag(2, 1/2)` and
+  `b ↦ [[0, 1], [−1, 0]]`, is MCG-finite of rank two with infinite image, and `r² = 4 ≥ g + 1 = 2`;
+  every MCG-finite character of the same group has finite image (§3.3), so two is the least rank of
+  an MCG-finite representation of `π₁(Σ_{1,1})` with infinite image.
+- For `F₂` the representation of §12.1 has rank three and sends the basis to `I₃ + E₁₃` and
+  `I₃ + E₂₃`; its conjugacy class is fixed by every automorphism of `F₂` and its image is infinite.
+  With `N = 2 = 2g` the bound `r² < g + 1 = 2` of §9.7 allows only `r ≤ 1`, and `3² = 9 ≥ 2`.
+
 ### Dependencies
 
 Layers 0–3, 5 and 9; Mathlib `FreeGroup`.
@@ -3421,8 +3432,6 @@ The following statements of the sources are corrected in the targets cited.
   rigidity only; rigidity follows after quasi-unipotence of local monodromy (§§5.9, 7.4; the authors'
   erratum fixes the order), and the compactification needs a log resolution after normalization
   (§7.2).
-- Landesman–Litt, Remark 10.2.2, p. 52: the argument shows finiteness of rank-two MCG-finite
-  representations for every `g ≥ 2`, not only `g = 2, 3` (§12.6).
 - Aramayona–Souto, proof of Lemma 2.5, p. 11: the restriction of the induced representation contains
   `ρ` as a direct summand; it is not a sum of copies of `ρ` (§7.1, with the `A₃ ⊂ S₃` check).
 - Landesman–Litt 2022, Corollary 6.1.2, p. 35, and its special case Corollary 1.3.6, p. 7: for
