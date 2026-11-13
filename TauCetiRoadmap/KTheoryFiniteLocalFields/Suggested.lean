@@ -1,4 +1,6 @@
 import Mathlib
+import TauCeti.NumberTheory.ClassFieldTheory.Brauer.RootsOfUnity
+import TauCeti.NumberTheory.ClassFieldTheory.Local.Symbol
 
 /-!
 # K-theory of finite and local fields: target signatures
@@ -8,19 +10,19 @@ import Mathlib
 discharging them does not replace the constructions and API required by the roadmap.
 
 The stated results are Izhboldin's characteristic-`p` torsion theorem (§3.0), Moore's
-intrinsic local K₂ structure theorem (§3.5), the Cohen–Witt coefficient embedding for
-complete mixed-characteristic DVRs with arbitrary perfect residue field (§5.2), and
-uncountability and higher unique divisibility of local Milnor groups (§6.10). The degreewise
-Milnor groups are concrete integral tensor powers of additive field units modulo adjacent
-Steinberg relations. In degree two this is the Matsumoto presentation, identified with
+intrinsic local K₂ structure theorem and its normalization by the norm-residue symbol (§3.5),
+and uncountability and higher unique divisibility of local Milnor groups (§6.10). The
+degreewise Milnor groups are concrete integral tensor powers of additive field units modulo
+adjacent Steinberg relations. In degree two this is the Matsumoto presentation, identified with
 Quillen K₂ by the supplied comparison. The maximal divisible subgroup is defined on
-Mathlib's additive subgroups.
+Mathlib's additive subgroups. The norm-residue symbol is Tau Ceti's cohomological local symbol:
+the cup product of two Kummer classes along the pairing of a primitive root of unity, followed
+by the normalized local invariant.
 
 The remaining headline statements require carriers absent from the pins. The completed KU
 and finite-field refinements require KU spectra, Adams operations and the Brauer fibre;
 henselian rigidity, higher local K-groups and their arithmetic completion maps require
-higher algebraic K-theory and its coefficient and completion spectra. The normalized
-norm-residue identification in Moore's theorem requires the full local norm-residue symbol.
+higher algebraic K-theory and its coefficient and completion spectra.
 Bloch–Gabber–Kato requires Cartier and logarithmic Witt differentials; motivic comparison
 and étale descent require cycle complexes, Milnor products and norms, and twisted étale
 cohomology. The logarithmic trace, Witt–Bott comparison
@@ -83,16 +85,22 @@ theorem moore_localK2 (E : Type*) [Field E] [ValuativeRel E] [TopologicalSpace E
       ⨅ n : {n : ℕ // 0 < n}, (nsmulAddMonoidHom (α := milnorK E 2) n.val).range := by
   sorry
 
-/-! ## Layer 5: logarithmic Witt and residue-characteristic calculations -/
-
-/-- §5.2, Cohen–Witt: a complete mixed-characteristic DVR with perfect residue field
-receives an injective Witt-vector coefficient map lifting the residue identity. -/
-theorem exists_wittVector_coefficientEmbedding (p : ℕ) [Fact p.Prime]
-    (A : Type*) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A] [CharZero A]
-    [IsAdicComplete (IsLocalRing.maximalIdeal A) A]
-    [CharP (IsLocalRing.ResidueField A) p] [PerfectRing (IsLocalRing.ResidueField A) p] :
-    ∃ f : WittVector p (IsLocalRing.ResidueField A) →+* A, Function.Injective f ∧
-      (IsLocalRing.residue A).comp f = WittVector.constantCoeff := by
+/-- §3.5, Moore's theorem with its normalization: for `w = #μ(E)` and a primitive `w`-th root
+of unity `ζ`, the norm-residue symbol of exponent `w` (the cup product of the Kummer classes of
+`a` and `b` along the pairing of `ζ`, read through the local invariant `H²(E, μ_w) ≃ ℤ/w`)
+descends to a homomorphism on `K₂(E)` that maps the torsion subgroup bijectively onto `ℤ/w`. -/
+theorem moore_normResidue (E : Type) [Field E] [ValuativeRel E] [TopologicalSpace E]
+    [IsNonarchimedeanLocalField E] (w : ℕ) [NeZero w]
+    (hw : w = Nat.card (CommGroup.torsion Eˣ)) (hwu : IsUnit (w : E))
+    (ζ : E) (hζ : IsPrimitiveRoot ζ w) :
+    ∃ h : milnorK E 2 →+ ZMod w,
+      (∀ a b : Eˣ, h (Submodule.Quotient.mk
+          (PiTensorProduct.tprod ℤ (fun i : Fin 2 => Additive.ofMul (![a, b] i)))) =
+        TauCeti.ClassFieldTheory.localSymbol (TauCeti.ClassFieldTheory.kummerCupPairing ζ hζ)
+          (TauCeti.ClassFieldTheory.h2MuEquivZMod E hwu)
+          (TauCeti.ClassFieldTheory.kummerClass E hwu a)
+          (TauCeti.ClassFieldTheory.kummerClass E hwu b)) ∧
+      Function.Bijective (h.comp (AddCommGroup.torsion (milnorK E 2)).subtype) := by
   sorry
 
 /-! ## Layer 6: completed and integral higher K-groups of local fields -/
