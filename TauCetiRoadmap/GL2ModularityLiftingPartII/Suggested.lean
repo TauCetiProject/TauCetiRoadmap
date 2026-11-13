@@ -11,32 +11,33 @@ headline theorems against the pinned APIs. The minimal weight-one modularity and
 finite-image theorems are stated below using native Galois groups, primes of the algebraic integers
 and classical newforms. The other headlines lack the following arithmetic carriers.
 
-* Balanced coherent homology (Layer 1): missing the integral Katz Hodge cohomology
-  and compact dual coherent homology of the actual diamond-level curves, with Hecke action.
+* Type-bundle local freeness, arbitrary coefficient base change and cusp-corrected duality
+  (Layer 0): missing the compactified modular-curve cover and its invariant-pushforward bundles.
+* Balanced coherent homology, without and with contragredient types (Layer 1): missing the
+  integral Katz Hodge cohomology and compact dual coherent homology of the actual diamond-level
+  curves, with Hecke action.
 * Arithmetic Hasse doubling and ordinary image algebras (Layer 2): missing Katz weight-one
   forms over finite coefficient quotients and the compatible high-weight ordinary Hecke images.
 * Torsion weight-one local–global compatibility in all three Frobenius cases (Layer 3):
   missing the actual Katz torsion Hecke image and its arithmetic Galois representation.
-* Minimal weight-one R = T and conductor rank one, including torsion (Layer 4):
+* Localized Bianchi amplitude and balancedness, including the conditional 3-primary case
+  (Layer 5): missing arithmetic PGL₂ orbifold homology with the prescribed Hecke localization,
+  minimal-type coefficients and stabilizer/duality comparison.
+* Minimal weight-one R = T and conductor rank one, including torsion (Layer 6):
   missing the minimal global deformation ring, conductor Katz module and its Hecke image.
-* Type-bundle local freeness, arbitrary coefficient base change and cusp-corrected duality
-  (Layer 5): missing the compactified modular-curve cover and its invariant-pushforward bundles.
 * Minimal weight-one R = T with vexing types and its generic rank (Layer 6): missing
   the CDT coefficient bundles, their Hecke images and the matching minimal deformation ring.
-* Global scalar type-three comparison and integral character twisting (Layer 7):
+* Conditional minimal Bianchi R = T (Layer 6): missing the matched minimal deformation
+  ring and Hecke homology image on which the all-level Conjecture A hypothesis is stated.
+* Dimension-zero Bianchi complete intersection and exact generic rank (Layer 6):
+  missing that same arithmetic Hecke ring and its actual finite-level automorphic type spaces.
+* Minimal semistable Bianchi modularity lifting (Layer 7): missing the exact local
+  minimality conditions, residual minimal-level homology and matched automorphic realization.
+* Global scalar type-three comparison and integral character twisting (Layer 8):
   missing the matching ordinary global deformation family and character-restricted Hecke images.
-* Scalar-Frobenius multiplicity two (Layer 7): missing J₁(N*) with its Hecke action
+* Scalar-Frobenius multiplicity two (Layer 8): missing J₁(N*) with its Hecke action
   and the Galois action on its torsion. Tau Ceti's modular symbols and their `heckeTAlgebra`
   carry no such Galois action or comparison with J₁(N*)[m].
-* Localized Bianchi amplitude and balancedness, including the conditional 3-primary case
-  (Layer 9): missing arithmetic PGL₂ orbifold homology with the prescribed Hecke localization,
-  minimal-type coefficients and stabilizer/duality comparison.
-* Conditional minimal Bianchi R = T (Layer 10): missing the matched minimal deformation
-  ring and Hecke homology image on which the all-level Conjecture A hypothesis is stated.
-* Dimension-zero Bianchi complete intersection and exact generic rank (Layer 10):
-  missing that same arithmetic Hecke ring and its actual finite-level automorphic type spaces.
-* Minimal semistable Bianchi modularity lifting (Layer 10): missing the exact local
-  minimality conditions, residual minimal-level homology and matched automorphic realization.
 
 The native classical newform carrier states the characteristic-zero modularity conclusion;
 it does not replace integral Katz forms in the R = T headlines above.
@@ -50,7 +51,7 @@ namespace TauCetiRoadmap.GL2ModularityLiftingPartII
 open scoped Pointwise
 
 
-/-! ## Layer 4: Minimal weight-one R = T -/
+/-! ## Layer 7: Modularity lifting and finite image -/
 
 /-- The ClassicalSerreModularity unramifiedness interface specialized to GL₂:
 all inertia at primes of the algebraic integers above ℓ acts trivially. -/
