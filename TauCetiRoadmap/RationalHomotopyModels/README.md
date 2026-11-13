@@ -10,7 +10,8 @@ induced by a quasi-isomorphism `A → B` for a Sullivan algebra `M` (2.4) and th
 commutative DG algebras (2.5); every graded-commutative DG algebra concentrated in degrees `≥ 0`
 with `H⁰ = K` has a minimal Sullivan model and an `i`-minimal model for each `i` (3.1, 3.2), a
 quasi-isomorphism between minimal Sullivan algebras is an isomorphism (3.3), minimal models are
-unique up to isomorphism (3.4) and compatible with extension of scalars (3.5). Polynomial forms:
+unique up to isomorphism and carry the automorphisms of the algebra they model up to homotopy
+(3.4), and are compatible with extension of scalars (3.5). Polynomial forms:
 the simplicial commutative DG algebra `A_PL(Δ•)` (4.1), its Poincaré lemma and extendability
 (4.2), `A_PL(X)` for a simplicial set `X` (4.3), and the polynomial de Rham theorem
 `H(A_PL(X; K)) ≅ H*(X; K)` as graded algebras (4.4), for spaces through the singular simplicial
@@ -46,18 +47,16 @@ identification of the generators of a minimal model with dual rational homotopy,
 classification and Quillen's equivalence for simply connected spaces; formality of commutative DG
 algebras (commutative zigzags), its criteria and the `ddᶜ`-lemma argument.
 
-**The boundary with AlgebraicTopologyPartII.** EllAdicHomotopyTypesAndWeights requests five
-contracts, `polynomial-forms-de-rham`, `sullivan-minimal-models`,
-`sullivan-quasi-isomorphism-rigidity`, `sullivan-homotopy-lifting` and `sullivan-scalar-extension`,
-from AlgebraicTopologyPartII Layer 4. That layer consists of §§4.1–4.6 (tame polynomials, the
-bouquet theorem, Hilton's decomposition, rational homotopy of spheres through the Serre spectral
-sequence and rational Hurewicz, wedge ranks, the double-loop model) and contains neither `A_PL` nor
-Sullivan algebras. The five contracts are owned here, with the statements requested there:
+**The boundary with AlgebraicTopologyPartII.** The five polynomial-form and Sullivan contracts of
+EllAdicHomotopyTypesAndWeights are owned here, with the statements specified there:
 `polynomial-forms-de-rham` is §§4.1–4.4; `sullivan-minimal-models` is §§1.1–1.3, 3.1 and 3.2;
-`sullivan-quasi-isomorphism-rigidity` is §3.3; `sullivan-homotopy-lifting` is §§2.1–2.4;
-`sullivan-scalar-extension` is §3.5. Nothing of AlgebraicTopologyPartII §§4.1–4.6 is restated
-here: the rational homotopy groups of spheres and bouquets and the double-loop model stay there,
-and the models of spheres below are Examples of 3.1 and 6.2.
+`sullivan-quasi-isomorphism-rigidity` is §3.3; `sullivan-homotopy-lifting` is §§2.1–2.4 with the
+automorphism statement of §3.4; `sullivan-scalar-extension` is §3.5. Nothing of
+AlgebraicTopologyPartII §§4.1–4.6 (tame polynomials, the bouquet theorem, Hilton's decomposition,
+rational homotopy of spheres through the Serre spectral sequence and rational Hurewicz, wedge
+ranks, the double-loop model) is restated here: the rational homotopy groups of spheres and
+bouquets and the double-loop model stay there, and the models of spheres below are Examples of
+3.1 and 6.2.
 
 **Left to other roadmaps.**
 
@@ -74,7 +73,7 @@ and the models of spheres below are Examples of 3.1 and 6.2.
   Lie algebra over a field of characteristic zero, in all degrees, is
   ArithmeticLocallySymmetricSpaces §ALS.F.5; 5.2 extends it to graded Lie algebras of finite type in
   positive degrees with their Sullivan structure, and for an ordinary finite-dimensional Lie algebra
-  placed in degree `1` the two agree (5.2, Checks).
+  placed in degree `0` the two agree (5.2).
 - *Topology.* Singular sets, realization, homotopy groups, Hurewicz and Whitehead theorems and
   singular cohomology with its cup product are AlgebraicTopology's (Stages 4, 6, 8) and Mathlib's;
   the Kan–Quillen model structure on simplicial sets is GeneralizedCohomology G2.1; rational
@@ -100,8 +99,9 @@ Lie algebras, polynomial forms) and their comparison with simply connected space
   `|x| = |y| = 1`, `xy = −yx` and `d(xz) = −x · dz` when `dx = 0`; for `|x| = 2`, `|y| = 3`,
   `xy = yx`.
 - **Connected.** A commutative DG algebra `A` concentrated in degrees `≥ 0` is connected when
-  `H⁰(A) = K`, without requiring `A⁰ = K` (Morgan, §5). Witness: `A_PL(Δ¹) = Λ(t, dt)` has
-  `A⁰ = K[t]` and `H⁰ = K` (4.2).
+  `H⁰(A) = K`, without requiring `A⁰ = K` (the standing hypothesis `H⁰(A) = k` of Morgan, §2,
+  p. 142, where the word "connected" means the stronger `A⁰ = k`). Witness:
+  `A_PL(Δ¹) = Λ(t, dt)` has `A⁰ = K[t]` and `H⁰ = K` (4.2).
 - **Quasi-isomorphisms.** A DG map `f` is a quasi-isomorphism when `f.cohomologyMap` is bijective,
   that is, an isomorphism in every degree, products included.
 - **Sullivan generators.** Generators `x i` are indexed by a well-ordered type, have degree `≥ 1`,
@@ -109,8 +109,9 @@ Lie algebras, polynomial forms) and their comparison with simply connected space
   Félix– Halperin–Thomas index the same condition by an exhaustive filtration `V(0) ⊆ V(1) ⊆ ⋯`; the
   two agree, since `d (x i)` involves finitely many generators and the level of `x i` (one more than
   the largest level of a generator in `d (x i)`) is finite by well-founded induction. Witness:
-  `Λ(x₁, y₁, z₁)`, `dx = yz`, `dy = zx`, `dz = xy`, has a free underlying algebra but no such order,
-  so it is not a Sullivan algebra (Hess, Example 1.12).
+  the cyclic `Λ(x₁, y₁, z₁)`, `dx = yz`, `dy = zx`, `dz = xy`, has a free underlying algebra but no
+  such order, so it is not a Sullivan algebra (a cyclic variant of Hess, Example 1.12, which has
+  `dz = yx`; the argument is the same, `d` being injective on degree `1`).
 - **DG Lie algebras.** Homological: `L = ⊕ Lₙ`, `d` of degree `−1`,
   `[x, y] = −(−1)^(|x||y|) [y, x]`, `[x, [y, z]] = [[x, y], z] + (−1)^(|x||y|) [y, [x, z]]`,
   `d[x, y] = [dx, y] + (−1)^|x| [x, dy]`; reduced means `Lₙ = 0` for `n ≤ 0` (Quillen). Witness: for
@@ -158,7 +159,8 @@ Lie algebras, polynomial forms) and their comparison with simply connected space
 - `TauCeti/Algebra/Homology/DG/Algebra/Hom/Basic.lean`: `TauCeti.DGAlgHom`, `TauCeti.DGAlgHom.id`,
   `TauCeti.DGAlgHom.comp`.
 - `TauCeti/Algebra/Homology/DG/Algebra/Cohomology.lean`: `TauCeti.IsDGAlgebra.Cohomology`,
-  `TauCeti.IsDGAlgebra.cohomologyGrading` and its `GradedAlgebra` instance;
+  `TauCeti.IsDGAlgebra.cohomologyGrading` and its `GradedAlgebra` instance,
+  `TauCeti.algEquivCohomologyOfZero` (7.1, Checks);
   `TauCeti/Algebra/Homology/DG/Algebra/Hom/Cohomology.lean`: `TauCeti.DGAlgHom.cohomologyMap`,
   `TauCeti.DGAlgHom.cohomologyMap_comp`.
 - `TauCeti/Algebra/Homology/DG/Algebra/BaseChange.lean`: `TauCeti.IsDGAlgebra.baseChange`;
@@ -202,8 +204,9 @@ Layer 2 builds the polynomial interval and the homotopy theory of maps out of Su
 lifting (2.2), homotopy (2.3), the bijection on homotopy classes (2.4), and the model structure
 (2.5). Layer 3 proves the theorems on minimal models: existence (3.1, 3.2) by adding generators
 degree by degree, with the lifting of 2.2 and 2.4; rigidity (3.3) by induction on the generators;
-uniqueness (3.4) from 2.4 and 3.3; scalar extension (3.5). Layer 4 builds polynomial forms and the
-polynomial de Rham theorem from the Poincaré lemma and extendability (4.2). Layer 5 is the algebra
+uniqueness and automorphisms (3.4) from 2.4, 3.1 and 3.3; scalar extension (3.5). Layer 4
+builds polynomial forms and the polynomial de Rham theorem from the Poincaré lemma and
+extendability (4.2). Layer 5 is the algebra
 of DG Lie algebras and Quillen's functors; it uses Layer 1 (5.2, 5.3). Layer 6 compares with spaces
 through Layers 3 and 4 (6.1–6.3) and Layer 5 (6.4). Layer 7 is formality, on Layers 1 and 3. The
 hardest targets are 4.4, 6.3 and 6.4.
@@ -259,11 +262,12 @@ induced on the indecomposables `Q(A) = A⁺ / A⁺ · A⁺ ≅ V` (Morgan, note 
 - `Λ(u₁, v₂)`, `du = v`, ordered `v < u`, is Sullivan but not minimal: `du = v` is not in
   `A⁺ · A⁺`, and its indecomposable differential `Q(d)(u) = v` is nonzero; its cohomology is `K`,
   so it is a non-minimal Sullivan model of `K`.
-- Hess's `Λ(x₁, y₁, z₁)` with `dx = yz`, `dy = zx`, `dz = xy` has a decomposable differential and a
-  free underlying algebra, yet is not Sullivan: no generator has zero differential, so no ordering
-  starts. A minimality notion not requiring Sullivan would accept it; it is the Chevalley–Eilenberg
-  algebra of the Lie algebra with brackets `[X, Y] = Z` and cyclic, and its cohomology is
-  `Λ(ω₃)`, `ω = xyz`.
+- The cyclic `Λ(x₁, y₁, z₁)` with `dx = yz`, `dy = zx`, `dz = xy` has a decomposable differential
+  and a free underlying algebra, yet is not Sullivan: `d` is injective on degree `1`, so no
+  generator of any presentation has zero differential and no ordering starts. A minimality notion
+  not requiring Sullivan would accept it; up to the sign of all three generators it is the
+  Chevalley–Eilenberg algebra of the Lie algebra with brackets `[X, Y] = Z` and cyclic (5.2,
+  Checks), and its cohomology is `Λ(ω₃)`, `ω = xyz`.
 
 ### 1.3 Maps out of free graded-commutative algebras
 
@@ -323,7 +327,8 @@ Proposition 5.5).
 
 Prove `IsSullivanAlgebra.exists_lift`: for a Sullivan algebra `M`, a graded-commutative DG algebra
 `B`, a DG algebra `C`, a surjective quasi-isomorphism `π : B → C` and a DG map `g : M → C`, there is
-a DG map `h : M → B` with `π ∘ h = g` (Hess, Proposition 1.13; Sullivan, Proposition (3.5)). The
+a DG map `h : M → B` with `π ∘ h = g` (Hess, Proposition 1.13; Sullivan, Proposition (3.5) for
+lifting up to homotopy). The
 relative form: for a relative Sullivan algebra `A → A ⊗ ΛV`, a lift extending a given map on `A`
 exists when `π` is a surjective quasi-isomorphism, and two lifts are homotopic relative to `A`
 (Hess, Proposition 1.13). Route: extend over the generators in order; the obstruction for `x i`
@@ -353,23 +358,21 @@ post-composition (Morgan, Proposition 5.5; Sullivan, Corollary (3.4); Hess, Prop
 
 - Reflexivity uses the constant homotopy; symmetry uses `t ↦ 1 − t` on `I`, a DG automorphism
   exchanging `ε₀` and `ε₁`.
-- Equal cohomology maps: `∫₀¹ (H(a)) + ∫₀¹ (H(da)) = f₁(a) − f₀(a)` (Morgan, Proposition 5.5), a
-  chain homotopy on underlying complexes; for `M = Λ(e₁)` and `e ↦ a`, `e ↦ 2a` into `Λ(a₁)` the
+- Equal cohomology maps: `d ∫₀¹ H(a) + ∫₀¹ H(da) = f₁(a) − f₀(a)` (Morgan, Proposition 5.5), a
+  chain homotopy on underlying complexes; on `M = Λ(e₁)`, `A = Λ(s, ds)` (`|s| = 0`) and
+  `H(e) = d(s ⊗ t)` it reads `d(s) = ds = f₁(e) − f₀(e)`, while without the outer `d` the two sides
+  would have degrees `0` and `1`; for `M = Λ(e₁)` and `e ↦ a`, `e ↦ 2a` into `Λ(a₁)` the
   cohomology maps `1` and `2` differ, so these maps are not homotopic.
 - Transitivity uses that `M` is Sullivan: two homotopies glue through the lifting lemma 2.2 applied
   to the surjective quasi-isomorphism `A ⊗ A_PL(Δ²) → (A ⊗ I) ×_A (A ⊗ I)`, restriction to the horn
   `Λ²₁`, which is a single homotopy `M → A ⊗ A_PL(Δ²)` restricting to the composite on the third
   edge.
 
-### 2.4 Homotopy classes and automorphisms
+### 2.4 Homotopy classes
 
 For a Sullivan algebra `M` and a quasi-isomorphism `ψ : A → B` of graded-commutative DG algebras
 concentrated in degrees `≥ 0`, prove that `ψ ∘ − : [M, A] → [M, B]` is a bijection on homotopy
-classes (Sullivan, Corollary (3.6); Morgan, Theorem 5.7). For a minimal model `ρ : M → A` of a
-connected `A` and a DG automorphism `α` of `A`, prove that there is an automorphism `β` of `M`
-with `ρ ∘ β` homotopic to `α ∘ ρ`, unique up to homotopy; no compatible choice of actual lifts is
-asserted (Morgan, Theorem 5.6 and its uniqueness argument). *Needs:* 2.2, 2.3; 3.3 for `β` an
-isomorphism.
+classes (Sullivan, Corollary (3.6); Morgan, Theorem 5.7). *Needs:* 2.2, 2.3.
 
 **Checks.**
 
@@ -378,26 +381,36 @@ isomorphism.
   degree `1`, a homotopy changes it by a coboundary). The inclusion `Λ(a₁) → Λ(a₁, u₁, v₂)`,
   `du = v`, is a quasi-isomorphism and `[M, Λ(a, u, v)] = K` again, while the augmentation
   `Λ(a₁) → K`, not a quasi-isomorphism, collapses `K` to `[M, K] = 0`.
-- Automorphisms: for the model `Λ(x₂, y₃) → K[x]/(x²)`, `dy = x²`, the automorphism `x ↦ λx`
-  (`λ ≠ 0`) of the target lifts to `β(x) = λx`, `β(y) = λ²y`; a lift with `β(y) = λy` fails
-  `dβ(y) = β(dy) = λ²x²` unless `λ = 1`.
+- The source must be Sullivan: for `M = K[x]/(x²)`, `|x| = 2`, `d = 0`, and the quasi-isomorphism
+  `ψ : Λ(x₂, y₃) → K[x]/(x²)`, `dy = x²`, `y ↦ 0`, a DG map `φ : M → Λ(x, y)` sends `x` to some
+  `cx`, and `(cx)² = c²x² = 0` in `Λ(x, y)` forces `c = 0`; so no `ψ ∘ φ` induces the identity on
+  `H²`, and the class of the identity of `M` is not in the image.
 
 ### 2.5 The model structure on commutative DG algebras
 
 Prove that commutative DG algebras over `K` concentrated in degrees `≥ 0` form a model category
 (`HomotopicalAlgebra.ModelCategory`) whose weak equivalences are the quasi-isomorphisms and
-fibrations the surjections; cofibrant objects are the retracts of Sullivan algebras, and the
-homotopy category is the localization at quasi-isomorphisms (Bousfield–Gugenheim, the model
-category of commutative DG algebras; Hess, §1, before Proposition 1.13). *Needs:* 2.2, 2.3; Mathlib
-`HomotopicalAlgebra.ModelCategory`, `MorphismProperty.Localization`.
+fibrations the surjections; every Sullivan algebra is cofibrant (2.2), hence so is every retract of
+one, and the homotopy category is the localization at quasi-isomorphisms (Bousfield–Gugenheim, the
+model category of commutative DG algebras; Hess, §1, before Proposition 1.13). The converse, that
+a cofibrant `A` with `A⁰ = K` is a retract of a Sullivan algebra, is proved in 3.1 from the
+existence of Sullivan models. *Needs:* 2.2, 2.3; Mathlib `HomotopicalAlgebra.ModelCategory`,
+`MorphismProperty.Localization`.
 
 **Checks.**
 
-- `K → Λ(t, dt)` is an acyclic cofibration (a Sullivan extension by `t`, `dt`, with `H = K`), and
-  `Λ(t, dt) → K × K`, `(ε₀, ε₁)`, is a fibration: `A ⊗ I` is a path object.
+- `K → Λ(t, dt)` is an acyclic cofibration (free on `t` of degree `0` and `dt`, with `H = K`; not
+  a Sullivan extension, whose generators have degree `≥ 1`), and `Λ(t, dt) → K × K`, `(ε₀, ε₁)`,
+  is a fibration: `A ⊗ I` is a path object. So cofibrant objects need not have `A⁰ = K`:
+  `Λ(t, dt)⁰ = K[t]`, while every retract `R` of a Sullivan algebra `S` has `R⁰ = S⁰ = K`.
 - A surjection that is not a quasi-isomorphism, `Λ(a₁) → K`, is a fibration but not acyclic.
-- Hess's `Λ(x₁, y₁, z₁)` (1.2, Checks) is not a Sullivan algebra, and `Λ(ω₃) → Λ(x, y, z)`,
-  `ω ↦ xyz`, is a quasi-isomorphism from a Sullivan algebra: its cofibrant replacement.
+- The cyclic `Λ(x₁, y₁, z₁)` (1.2, Checks) is not a Sullivan algebra, and `Λ(ω₃) → Λ(x, y, z)`,
+  `ω ↦ xyz`, is a quasi-isomorphism from a Sullivan algebra: a Sullivan model of it.
+- Cofibrant objects in degree `0` are not all retracts of free algebras: `K[x, y]/(xy)` in degree
+  `0` with `d = 0` is cofibrant (a map from it to `C` lands in `Z⁰(C) = H⁰(C)`, on which a
+  surjective quasi-isomorphism is bijective), yet it is a retract of no free graded-commutative
+  algebra on generators of degree `≥ 0`, whose degree-`0` part is a polynomial ring and has no
+  zero divisors.
 
 ### Examples
 
@@ -406,7 +419,8 @@ category of commutative DG algebras; Hess, §1, before Proposition 1.13). *Needs
 
 ### Dependencies
 
-Layer 1; Tau Ceti DG tensor product; Mathlib model categories and localization.
+Layer 1; DerivedDeRhamCohomology §2.21; Tau Ceti DG tensor product; Mathlib model categories and
+localization.
 
 ## Layer 3: minimal models
 
@@ -417,9 +431,12 @@ Prove `exists_minimalModel`: over `K` of characteristic zero, every graded-commu
 Sullivan algebra `M`, with generators indexed by a well-ordered type in the universe of `K` and `A`,
 and a quasi-isomorphism `M → A` (Morgan, Theorem 5.6 with `i = ∞`; Sullivan, §5). No nilpotence or
 simple connectivity is assumed; with degree-one cohomology the generators are added in an order of
-type `ω²` and then reindexed (Morgan, proof of Theorem 5.6). *Needs:* 1.2, 1.3, 2.2;
-DerivedDeRhamCohomology §2.21; Tau Ceti `TauCeti.IsDGAlgebra.cohomologyGrading`; Mathlib
-`Module.finrank`.
+type `ω²` and then reindexed (Morgan, proof of Theorem 5.6). With 2.5, prove that the cofibrant
+objects `A` with `A⁰ = K` are exactly the retracts of Sullivan algebras: tensoring a Sullivan model
+`M → A` with one contractible `Λ(a, da)` for each homogeneous `a ∈ A` of positive degree gives a
+surjective quasi-isomorphism from a Sullivan algebra, through which the identity of a cofibrant `A`
+lifts. *Needs:* 1.2, 1.3, 2.2, 2.5 (cofibrant objects); DerivedDeRhamCohomology §2.21; Tau Ceti
+`TauCeti.IsDGAlgebra.cohomologyGrading`; Mathlib `Module.finrank`.
 
 **Checks.**
 
@@ -449,7 +466,8 @@ and an injection on `H^(i+1)` (Morgan, Definition 5.3 and Theorem 5.6). For `i =
 
 Prove `IsMinimalSullivanAlgebra.bijective_of_bijective_cohomologyMap`: a quasi-isomorphism between
 minimal Sullivan algebras over `K` of characteristic zero is an isomorphism (Morgan, Proposition 5.9
-with `i = ∞`; Sullivan, Corollary (4.2); Hess, Proposition 1.18 for the relative form). Route: by
+with `i = ∞`; Hess, Proposition 1.18 for the relative form; Sullivan, Corollary (4.2) for the
+twisted-coefficient form without the ordering condition). Route: by
 2.4 the map has a homotopy inverse; homotopic maps between minimal algebras induce the same map on
 indecomposables (1.2), so the map is an isomorphism on `Q(M)` and hence on `M`. *Needs:* 1.2, 2.3,
 2.4.
@@ -462,13 +480,16 @@ indecomposables (1.2), so the map is an isomorphism on `Q(M)` and hence on `M`. 
 - The projection `Λ(x₂, y₃) → K[x]/(x²)`, `y ↦ 0`, is a quasi-isomorphism and not injective; its
   target is not a Sullivan algebra, which is where the theorem fails.
 
-### 3.4 Uniqueness
+### 3.4 Uniqueness and automorphisms
 
 Prove `exists_iso_of_minimalModels`: two minimal Sullivan models `M → A`, `N → A` of the same
 graded-commutative `A` concentrated in degrees `≥ 0` are isomorphic as DG algebras; the
 isomorphism can be chosen compatible with the two maps up to homotopy and is then unique up to
-homotopy (Morgan, Theorem 5.6; Hess,
-Proposition 1.18). *Needs:* 2.4, 3.3; DerivedDeRhamCohomology §2.21.
+homotopy (Morgan, Theorem 5.6; Hess, Proposition 1.18). For a minimal model `ρ : M → A` of a
+connected `A` and a DG automorphism `α` of `A`, prove that there is an automorphism `β` of `M`
+with `ρ ∘ β` homotopic to `α ∘ ρ`, unique up to homotopy; no compatible choice of actual lifts is
+asserted (Morgan, Theorem 5.6 and its uniqueness argument). *Needs:* 2.4, 3.1, 3.3;
+DerivedDeRhamCohomology §2.21.
 
 **Checks.**
 
@@ -477,15 +498,23 @@ Proposition 1.18). *Needs:* 2.4, 3.3; DerivedDeRhamCohomology §2.21.
   (the second through `u, v ↦ 0`) and are not isomorphic (different dimensions in degree `1`).
 - For `ℂP²` the model `Λ(x₂, y₅)`, `dy = x³`, is unique: a second model `Λ(x′₂, y′₅)` with
   `dy′ = c x′³`, `c ≠ 0`, is isomorphic by `y′ ↦ c⁻¹ y′`.
+- Automorphisms: for the model `Λ(x₂, y₃) → K[x]/(x²)`, `dy = x²`, the automorphism `x ↦ λx`
+  (`λ ≠ 0`) of the target lifts to `β(x) = λx`, `β(y) = λ²y`; a lift with `β(y) = λy` fails
+  `dβ(y) = β(dy) = λ²x²` unless `λ = 1`.
 
 ### 3.5 Extension of scalars
 
 Prove `IsMinimalSullivanAlgebra.baseChange`: for a field extension `K → L`, the base change
 `L ⊗_K M` with differential `1 ⊗ d` (Tau Ceti `TauCeti.IsDGAlgebra.baseChange`) is a minimal
-Sullivan algebra on the generators `1 ⊗ x i`; and a full or `i`-minimal model `M → A` gives a full
-or `i`-minimal model `L ⊗_K M → L ⊗_K A`, since `L` is flat over `K` and
-`H(L ⊗_K A) = L ⊗_K H(A)` (Morgan, Definition 5.3). *Needs:* 1.2, 3.2; Tau Ceti
-`TauCeti.IsDGAlgebra.baseChange`; Mathlib `GradedAlgebra.baseChange`, `LinearMap.baseChange`.
+Sullivan algebra on the generators `1 ⊗ x i`. Prove `exists_baseChange_quasiIso` and
+`exists_baseChange_iMinimal`: the base change `F : L ⊗_K M → L ⊗_K A` of a DG map `f : M → A`,
+`F(1 ⊗ m) = 1 ⊗ f(m)`, is a quasi-isomorphism when `f` is, and induces isomorphisms on `Hᵖ` for
+`p ≤ i` and an injection on `H^(i+1)` when `f` does; so a full or `i`-minimal model `M → A` gives a
+full or `i`-minimal model `L ⊗_K M → L ⊗_K A` (the conditions of Morgan, Definition 5.3, which are
+preserved because `L ⊗_K −` is exact and `H(L ⊗_K A) = L ⊗_K H(A)`). *Needs:* 1.2, 3.2; Tau Ceti
+`TauCeti.IsDGAlgebra.baseChange`, `TauCeti.DGAlgHom.cohomologyMap`,
+`TauCeti.IsDGAlgebra.cohomologyGrading`; Mathlib `GradedAlgebra.baseChange`,
+`LinearMap.baseChange`.
 
 **Checks.**
 
@@ -614,44 +643,57 @@ Thomas, §21). *Needs:* Mathlib `LieAlgebra` (degree zero), `GradedLieAlgebra` (
   `GradedLieAlgebra`, unsigned, agrees with this one exactly when all degrees are even.
 - Odd elements: `[x, x]` may be nonzero (the free graded Lie algebra on one generator of degree `1`
   has basis `x`, `[x, x]`), while the unsigned convention would force `[x, x] = 0`.
-- `d[x, y] = [dx, y] + (−1)^|x| [x, dy]`: for `x` of degree `1` and `dy ≠ 0`, the sign is `−1`;
-  the plus sign would contradict `d² = 0` on `[x, [x, x]]`.
+- `d[x, y] = [dx, y] + (−1)^|x| [x, dy]`: for `x` of degree `2` and `u = dx` of degree `1`,
+  antisymmetry gives `[x, u] = −[u, x]`; the signed rule gives `d[x, u] = [u, u]` and
+  `d[u, x] = −[u, u]`, while the plus sign gives `[u, u]` for both and forces `2[u, u] = 0`, false
+  in the free DG Lie algebra on `x` and `u = dx`, which contains the free graded Lie algebra on
+  `u`.
 
 ### 5.2 Chevalley–Eilenberg cochains as Sullivan algebras
 
 For a DG Lie algebra `L` of finite type with `Lₙ = 0` for `n ≤ 0`, define
-`C*(L) = (Λ(sL)^∨, d₀ + d₁)`, `d₀` dual to `d_L` and `d₁` dual to the bracket; prove that it is a
-Sullivan algebra with generators `(sL)^∨` of degree `n + 1` dual to `Lₙ`, minimal exactly when
-`d_L = 0` (Félix–Halperin–Thomas, §23). For a finite-dimensional Lie algebra `𝔤` in degree `0`,
-the same formula gives the Chevalley–Eilenberg cochain algebra `Λ𝔤^∨` of
-ArithmeticLocallySymmetricSpaces §ALS.F.5, generated in degree `1`, with
-`dxᵢ = ∑ cⁱⱼₖ xⱼ xₖ` for `[eⱼ, eₖ] = ∑ cⁱⱼₖ eᵢ` (Sullivan, §2, (2.1), the degree one case); prove
-that it is a Sullivan algebra exactly when `𝔤` is nilpotent. *Needs:* 5.1, 1.2;
+`C*(L) = (Λ(sL)^∨, d₀ + d₁)`, `d₀` dual to `d_L` and `d₁` dual to the bracket, with the signs
+`⟨d₀ξ, sy⟩ = −⟨ξ, s d_L y⟩` and `ι_sb ι_sa (d₁ξ) = −(−1)^|a| ⟨ξ, s[a, b]⟩`, where `ι_sa` is the
+contraction with `sa`, the derivation of `Λ(sL)^∨` of degree `−|sa|` extending `⟨−, sa⟩`; prove
+that it is a Sullivan algebra with generators `(sL)^∨` of degree `n + 1` dual to `Lₙ`, minimal
+exactly when `d_L = 0` (Félix–Halperin–Thomas, §23). For a finite-dimensional Lie algebra `𝔤` in
+degree `0`, the same formula gives the Chevalley–Eilenberg cochain algebra `Λ𝔤^∨` of
+ArithmeticLocallySymmetricSpaces §ALS.F.5, generated in degree `1`: the convention reads
+`(dξ)(a, b) = −ξ([a, b])`, that is `dxᵢ = −∑_{j<k} cⁱⱼₖ xⱼ xₖ` for `[eⱼ, eₖ] = ∑ cⁱⱼₖ eᵢ` and the
+dual basis `xᵢ` (the degree one case of Sullivan, §2, (2.1), with the sign fixed by this
+convention); prove that it is a Sullivan algebra exactly when `𝔤` is nilpotent. *Needs:* 5.1, 1.2;
 ArithmeticLocallySymmetricSpaces §ALS.F.5.
 
 **Checks.**
 
-- The Lie algebra with `[X, Y] = Z` and cyclic (`𝔰𝔬(3)`), not nilpotent, gives Hess's
-  `Λ(x, y, z)`, `dx = yz` and cyclic, which is not a Sullivan algebra (1.2, Checks).
-- The Heisenberg Lie algebra `[X, Y] = Z`, nilpotent, gives `Λ(x, y, z)` with `dz = ±xy` and
-  `dx = dy = 0`, the Heisenberg Sullivan algebra (Layer 1, Examples).
+- The Lie algebra with `[X, Y] = Z` and cyclic (`𝔰𝔬(3)`), not nilpotent, gives `Λ(x, y, z)` with
+  `dx = −yz`, `dy = −zx`, `dz = −xy`, which negating the three generators identifies with the
+  cyclic algebra of 1.2, Checks: not a Sullivan algebra.
+- The Heisenberg Lie algebra `[X, Y] = Z`, nilpotent, gives `Λ(x, y, z)` with `dz = −xy` and
+  `dx = dy = 0`, isomorphic to the Heisenberg Sullivan algebra of Layer 1, Examples (`dz = xy`)
+  by `z ↦ −z`; with `+∑_{j<k}` one would get `xy`, with the sum over all `j, k` twice that.
 - `L` abelian with `d_L = 0`: `C*(L) = Λ(sL)^∨` with `d = 0`, minimal; `L = ⟨u₁, v₂⟩` with
-  `d_L v = u` gives `Λ(u′₂, v′₃)` with `du′ = ±v′`, a linear differential: not minimal, and
-  `H = K`.
+  `d_L v = u` gives `Λ(u′₂, v′₃)` (`u′`, `v′` dual to `su`, `sv`) with
+  `⟨du′, sv⟩ = −⟨u′, su⟩ = −1`, so `du′ = −v′`, a linear differential: not minimal, and `H = K`.
 
 ### 5.3 The homotopy Lie algebra of a minimal Sullivan algebra
 
 For a minimal Sullivan algebra `(ΛV, d)` with `V` of finite type, define `L_V` with
-`(L_V)ₙ = (V^(n+1))^∨` and the bracket dual to the quadratic part `d₁ : V → Λ²V`; prove that it is a
-graded Lie algebra, the Jacobi identity coming from `d² = 0` (Sullivan, §2, Theorem (2.1);
-Félix–Halperin–Thomas, §21). *Needs:* 1.2, 5.1.
+`(L_V)ₙ = (V^(n+1))^∨`, so that `sL_V = V^∨`, and the bracket dual to the quadratic part
+`d₁ : V → Λ²V` with the sign of 5.2, `ι_sb ι_sa (d₁v) = −(−1)^|a| ⟨v, s[a, b]⟩`, so that
+`(ΛV, d₁)` is the cochain algebra of `(L_V, 0)`; prove that it is a graded Lie algebra, the Jacobi
+identity coming from `d² = 0` (Sullivan, §2, Theorem (2.1); Félix–Halperin–Thomas, §21). *Needs:*
+1.2, 5.1, 5.2.
 
 **Checks.**
 
 - `Λ(x₂, y₃)`, `dy = x²`: `L` has basis `a` (degree `1`, dual to `x`) and `b` (degree `2`, dual to
-  `y`) with `[a, a] = ±2b ≠ 0`; the factor `2` comes from `x² = x · x`.
+  `y`); `ι_sa` is a derivation of degree `−2`, so `ι_sa ι_sa (x²) = ι_sa (2x) = 2`, and
+  `2 = −(−1)^1 ⟨y, s[a, a]⟩` gives `[a, a] = 2b ≠ 0`; the factor `2` comes from `x² = x · x`.
 - `Λ(x₃)`: `L = ⟨a₂⟩`, abelian.
-- The Heisenberg algebra: `L₀ = ⟨X, Y, Z⟩` with `[X, Y] = ±Z`, the Heisenberg Lie algebra.
+- The Heisenberg algebra of Layer 1, Examples (`dz = xy`): `L₀ = ⟨X, Y, Z⟩` dual to `x, y, z`, with
+  `ι_sY ι_sX (xy) = 1 = −⟨z, s[X, Y]⟩`, so `[X, Y] = −Z`, the Heisenberg Lie algebra after
+  `Z ↦ −Z`; 5.2 sends `(L₀, [X, Y] = −Z)` back to `dz = xy`.
 
 ### 5.4 Quillen's functors
 
@@ -698,7 +740,8 @@ Bousfield–Gugenheim); `A_PL` and `⟨−⟩` form a Quillen pair between `SSet
 ### 6.2 Generators and rational homotopy
 
 For a simply connected Sullivan algebra `(ΛV, d)` of finite type, prove that the unit
-`ΛV → A_PL⟨ΛV⟩` is a quasi-isomorphism and `π_n⟨ΛV⟩ ≅ Hom(Vⁿ, ℚ)` (Hess, Theorem 1.24;
+`ΛV → A_PL⟨ΛV⟩` is a quasi-isomorphism; if `(ΛV, d)` is moreover minimal, prove
+`π_n⟨ΛV⟩ ≅ Hom(Vⁿ, ℚ)` (Hess, Theorem 1.24, whose second part is stated there without minimality;
 Félix–Halperin–Thomas, §17). For a simply connected space `X` of finite rational type with minimal
 model `(ΛV, d) → A_PL(X)`, prove `Vⁿ ≅ Hom(πₙ(X), ℚ)` (Hess, after Definition 1.27). *Needs:*
 3.1, 4.5, 6.1; Mathlib `HomotopyGroup`, `SimplyConnectedSpace`; AlgebraicTopology §§8.3, 8.5.
@@ -709,6 +752,9 @@ model `(ΛV, d) → A_PL(X)`, prove `Vⁿ ≅ Hom(πₙ(X), ℚ)` (Hess, after D
 - `X = S²`: `V = ⟨x₂, y₃⟩`, so `π₂ ⊗ ℚ = π₃ ⊗ ℚ = ℚ` and `πₙ ⊗ ℚ = 0` for `n ≥ 4`, although
   `π₄(S²) = ℤ/2 ≠ 0`.
 - `X = ℂP²`: `V = ⟨x₂, y₅⟩`, so `π₅(ℂP²) ⊗ ℚ = ℚ` (from `S⁵ → ℂP²`), and `π₃(ℂP²) ⊗ ℚ = 0`.
+- Minimality is needed for the second half: `Λ(u₂, v₃)`, `du = v`, ordered `v < u`, is a simply
+  connected Sullivan algebra of finite type, quasi-isomorphic to `ℚ`, so `⟨ΛV⟩` is contractible
+  and `π₂⟨ΛV⟩ = 0`, while `Hom(V², ℚ) = ℚ`.
 
 ### 6.3 Sullivan's classification
 
@@ -770,8 +816,9 @@ commutativity. A space is formal when `A_PL(X)` is. *Needs:* 3.1, 2.4; Tau Ceti
 
 **Checks.**
 
-- A DG algebra with `d = 0` is formal (`M = A`, both maps the identity and
-  `TauCeti.algEquivCohomologyOfZero`).
+- A graded-commutative DG algebra with `d = 0` is formal (`M = A`, both maps the identity and
+  `TauCeti.algEquivCohomologyOfZero`); `M₂(K)` in degree `0` with `d = 0` is not, since a
+  quasi-isomorphism `M → M₂(K)` would make `H⁰(M) ≅ M₂(K)`, while `H(M)` is graded-commutative.
 - `Λ(x₂, y₃)`, `dy = x²`, is formal: `x ↦ [x]`, `y ↦ 0` is a quasi-isomorphism to
   `K[x]/(x²)` (3.3, Checks).
 - The Heisenberg algebra `Λ(x₁, y₁, z₁)`, `dz = xy`, is not formal: `xz` is closed and not exact,
@@ -843,12 +890,10 @@ Layers 1–3; DGAInfinity Layers 3 and 8; ComplexKahlerGeometry §6.3; Different
 
 ## Downstream consumers
 
-No roadmap on main or in the open pull requests cites RationalHomotopyModels.
-EllAdicHomotopyTypesAndWeights consumes, in its open pull request, the five contracts
-`polynomial-forms-de-rham`, `sullivan-minimal-models`, `sullivan-quasi-isomorphism-rigidity`,
-`sullivan-homotopy-lifting` and `sullivan-scalar-extension`, addressed there to
-AlgebraicTopologyPartII Layer 4; they are §§4.1–4.4, 1.1–1.3 with 3.1–3.2, 3.3, 2.1–2.4 and 3.5
-here (Scope and ownership).
+EllAdicHomotopyTypesAndWeights consumes `polynomial-forms-de-rham` (§§4.1–4.4),
+`sullivan-minimal-models` (§§1.1–1.3, 3.1, 3.2), `sullivan-quasi-isomorphism-rigidity` (§3.3),
+`sullivan-homotopy-lifting` (§§2.1–2.4 and the automorphism statement of §3.4) and
+`sullivan-scalar-extension` (§3.5).
 
 ## Research context
 

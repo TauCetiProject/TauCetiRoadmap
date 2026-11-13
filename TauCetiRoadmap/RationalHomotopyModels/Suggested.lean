@@ -37,22 +37,27 @@ Headline theorems stated here:
 * README 3.4, `exists_iso_of_minimalModels`: two minimal models of the same algebra are isomorphic.
 * README 3.5, `IsMinimalSullivanAlgebra.baseChange`: minimality is preserved by extension of
   scalars.
+* README 3.5, `exists_baseChange_quasiIso`: the base change of a quasi-isomorphism is a
+  quasi-isomorphism.
+* README 3.5, `exists_baseChange_iMinimal`: the base change of a map with the cohomology conditions
+  of an `i`-minimal model has them.
 * README 7.2, `IsMinimalSullivanAlgebra.isFormal_of_complement`: the Deligne–Griffiths–Morgan–
   Sullivan sufficient criterion for formality of a minimal Sullivan algebra.
 * README 7.3, `isFormal_of_ddc`: a commutative DG algebra satisfying the `ddᶜ`-lemma is formal.
 
-Not stated: README 2.1, 2.3 and 2.4 (polynomial homotopies, the bijection `[M, A] ≅ [M, B]` and
-the lifting of automorphisms), lacking the polynomial interval `Λ(t, dt)` as a `ℤ`-graded
-`GradedAlgebra` on which `TauCeti.isDGAlgebra_gradedTensorGrading` could form `A ⊗ Λ(t, dt)`;
-README 2.5, the model structure, lacking that interval and the commutative DG algebras as a
-category; the quasi-isomorphism half of README 3.5, lacking the base change of a
-`TauCeti.DGAlgHom`. Not stated: README Layer 4 (polynomial forms `A_PL` and the polynomial de
-Rham theorem), lacking the simplicial commutative DG algebra `Λ(t₀, …, tₙ, dt₀, …, dtₙ)/(∑ tᵢ − 1,
-∑ dtᵢ)` on a pinned carrier and the cohomology ring of a simplicial set; README Layer 5, lacking
-a differential graded Lie algebra with Koszul signs on a pinned carrier (Mathlib's
-`GradedLieAlgebra` has no signs) and the Chevalley–Eilenberg cochains of a graded Lie algebra;
-README Layer 6, lacking Layer 4 and the spatial realization; README 7.4, compact Kähler
-manifolds, lacking the smooth de Rham DG algebra on a pinned carrier.
+Not stated: README 2.1, 2.3 and 2.4 (polynomial homotopies and the bijection
+`[M, A] ≅ [M, B]`), lacking the polynomial interval `Λ(t, dt)` as a `ℤ`-graded `GradedAlgebra` on
+which `TauCeti.isDGAlgebra_gradedTensorGrading` could form `A ⊗ Λ(t, dt)`; for the same reason,
+the statements up to homotopy of README 3.4 (compatibility and uniqueness of the isomorphism, and
+the lifting of automorphisms); README 2.5, the model structure, and the characterisation of cofibrant
+objects in README 3.1, lacking that interval and the commutative DG algebras as a category. Not
+stated: README Layer 4 (polynomial forms `A_PL` and the polynomial de Rham theorem), lacking the
+simplicial commutative DG algebra `Λ(t₀, …, tₙ, dt₀, …, dtₙ)/(∑ tᵢ − 1, ∑ dtᵢ)` on a pinned
+carrier and the cohomology ring of a simplicial set; README Layer 5, lacking a differential graded
+Lie algebra with Koszul signs on a pinned carrier (Mathlib's `GradedLieAlgebra` has no signs) and
+the Chevalley–Eilenberg cochains of a graded Lie algebra; README Layer 6, lacking Layer 4 and the
+spatial realization; README 7.4, compact Kähler manifolds, lacking the smooth de Rham DG algebra on
+a pinned carrier.
 
 Conventions (README §Conventions): cohomological grading, differentials of degree `+1`;
 generators of Sullivan algebras have degree `≥ 1`; the ground field has characteristic zero
@@ -165,7 +170,7 @@ variable {K : Type u} [Field K] [CharZero K] {A : Type v} [Ring A] [Algebra K A]
 
 /-- README 2.2. The lifting lemma: a morphism from a Sullivan algebra lifts through every
 surjective quasi-isomorphism of DG algebras whose source is graded-commutative (Hess,
-Proposition 1.13; Sullivan, Proposition (3.5)). -/
+Proposition 1.13; Sullivan, Proposition (3.5) for lifting up to homotopy). -/
 theorem IsSullivanAlgebra.exists_lift (hA : IsDGAlgebra 𝒜 d) (hx : IsSullivanAlgebra 𝒜 d x deg)
     {B : Type*} [Ring B] [Algebra K B] {ℬ : ℤ → Submodule K B} [GradedAlgebra ℬ]
     {dB : B →ₗ[K] B} (hB : IsDGAlgebra ℬ dB)
@@ -214,7 +219,8 @@ theorem exists_iMinimalModel (hA : IsDGAlgebra 𝒜 d)
           Set.InjOn f.cohomologyMap (hM.cohomologyGrading (i + 1)) := sorry
 
 /-- README 3.3. A quasi-isomorphism between minimal Sullivan algebras is an isomorphism (Morgan,
-Proposition 5.9 with `i = ∞`; Sullivan, Corollary (4.2)). -/
+Proposition 5.9 with `i = ∞`; Hess, Proposition 1.18 for the relative form; Sullivan,
+Corollary (4.2) for the twisted-coefficient form without the ordering condition). -/
 theorem IsMinimalSullivanAlgebra.bijective_of_bijective_cohomologyMap
     {ι : Type w} [LinearOrder ι] [WellFoundedLT ι] {x : ι → A} {deg : ι → ℕ}
     (hA : IsDGAlgebra 𝒜 d) (hx : IsMinimalSullivanAlgebra 𝒜 d x deg)
@@ -241,12 +247,42 @@ theorem exists_iso_of_minimalModels (hA : IsDGAlgebra 𝒜 d)
 
 /-- README 3.5. Extension of scalars along a field extension `K → L` carries a minimal Sullivan
 algebra `(ΛV, d)` to the minimal Sullivan algebra `(Λ(L ⊗ V), 1 ⊗ d)` on the same generators
-(Morgan, Definition 5.3). -/
+(the conditions of Morgan, Definition 5.3, which are preserved because `L ⊗_K −` is exact). -/
 theorem IsMinimalSullivanAlgebra.baseChange {ι : Type w} [LinearOrder ι] [WellFoundedLT ι]
     {x : ι → A} {deg : ι → ℕ} (hx : IsMinimalSullivanAlgebra 𝒜 d x deg)
     (L : Type*) [Field L] [Algebra K L] :
     IsMinimalSullivanAlgebra (fun p ↦ (𝒜 p).baseChange L) (d.baseChange L)
       (fun i ↦ (1 : L) ⊗ₜ[K] x i) deg := sorry
+
+/-- README 3.5. The base change `L ⊗_K M → L ⊗_K A` of a quasi-isomorphism `f : M → A` along a
+field extension `K → L` is a quasi-isomorphism, so the base change of a minimal model is a minimal
+model (the conditions of Morgan, Definition 5.3, which are preserved because `L ⊗_K −` is
+exact). -/
+theorem exists_baseChange_quasiIso (hA : IsDGAlgebra 𝒜 d)
+    {M : Type*} [Ring M] [Algebra K M] {ℳ : ℤ → Submodule K M} [GradedAlgebra ℳ]
+    {dM : M →ₗ[K] M} (hM : IsDGAlgebra ℳ dM)
+    (f : DGAlgHom hM hA) (hf : Function.Bijective f.cohomologyMap)
+    (L : Type*) [Field L] [Algebra K L] :
+    ∃ F : DGAlgHom (hM.baseChange L) (hA.baseChange L),
+      (∀ m : M, F ((1 : L) ⊗ₜ[K] m) = (1 : L) ⊗ₜ[K] f m) ∧
+        Function.Bijective F.cohomologyMap := sorry
+
+/-- README 3.5. The base change `L ⊗_K M → L ⊗_K A` of a map `f : M → A` inducing isomorphisms on
+cohomology in degrees `≤ i` and an injection in degree `i + 1` has the same property, so the base
+change of an `i`-minimal model is an `i`-minimal model (the conditions of Morgan, Definition 5.3,
+which are preserved because `L ⊗_K −` is exact). -/
+theorem exists_baseChange_iMinimal (hA : IsDGAlgebra 𝒜 d)
+    {M : Type*} [Ring M] [Algebra K M] {ℳ : ℤ → Submodule K M} [GradedAlgebra ℳ]
+    {dM : M →ₗ[K] M} (hM : IsDGAlgebra ℳ dM) (f : DGAlgHom hM hA) (i : ℕ)
+    (hbij : ∀ p : ℤ, p ≤ i →
+      Set.BijOn f.cohomologyMap (hM.cohomologyGrading p) (hA.cohomologyGrading p))
+    (hinj : Set.InjOn f.cohomologyMap (hM.cohomologyGrading (i + 1)))
+    (L : Type*) [Field L] [Algebra K L] :
+    ∃ F : DGAlgHom (hM.baseChange L) (hA.baseChange L),
+      (∀ m : M, F ((1 : L) ⊗ₜ[K] m) = (1 : L) ⊗ₜ[K] f m) ∧
+        (∀ p : ℤ, p ≤ i → Set.BijOn F.cohomologyMap ((hM.baseChange L).cohomologyGrading p)
+          ((hA.baseChange L).cohomologyGrading p)) ∧
+        Set.InjOn F.cohomologyMap ((hM.baseChange L).cohomologyGrading (i + 1)) := sorry
 
 end Layer3
 
