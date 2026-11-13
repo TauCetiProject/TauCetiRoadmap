@@ -437,15 +437,20 @@ Let `R` be a commutative semiring, `u∈Rˣ` a unit, `L` a finite free lattice
 and `Λ:L×L→ℤ` an alternating bilinear form. Bilinearity and `Λ(0,a)=Λ(a,0)=0`
 give a normalized factor set `α(a,b)=u^{Λ(a,b)}` on `Multiplicative L`.
 Define `T(R,u,Λ)` as `TauCeti.twistedMonoidAlgebra` for this factor set.
-Over a commutative ring this is the full `QuantumMonoidAlgebra` of
-ScatteringDiagrams §4.3 with `q=u` and `β=Λ`. The positive degree datum can
-be `(L,{0},0)` for this use of the full algebra. Use §4.3's coefficient and
-lattice maps over rings. Write `X^a` for the basis monomial at `a∈L`.
+Write `X^a` for its basis monomial at `a∈L`.
 The multiplication rule
 `X^a X^b=u^{Λ(a,b)}X^{a+b}` gives inverse monomial `X^{-a}` and the untwisted
 product at `u=1`. For `Λ=0` use `TwistedMonoidAlgebra.monoidAlgebraEquiv`.
 Quantum cluster notation takes `u=v` and `q_cl=v²`, so
 `X_i X_j=v^{2Λ_ij}X_j X_i`.
+
+Over a commutative ring, let `z^a` denote the basis monomial of the full
+`QuantumMonoidAlgebra` of ScatteringDiagrams §4.3 with `q=u` and `β=Λ`.
+The positive degree datum can be `(L,{0},0)` for this use of the full algebra.
+The unit and multiplication rules for `z^a` give an `R`-algebra map from
+`T(R,u,Λ)` by `TwistedMonoidAlgebra.lift` of `a↦z^a`. Prove that it is an
+isomorphism since it sends the basis `X^a` to the basis `z^a`. Transport
+§4.3's coefficient and lattice maps along this isomorphism at their source and target.
 
 For a basis of `L`, construct the quantum polynomial and mixed Laurent subalgebras by
 support, with monomial bases and localization at selected monomials. Universal
@@ -480,8 +485,12 @@ form on `ℤ^I` and B an R-algebra, not necessarily commutative. A based chart
 R-combinations of the `M(a)` have unique coefficients. Its coordinates
 (`BasedChart.coordinate`) are `X_i=M(e_i)`, and its chart map
 (`BasedChart.eval`) sends a finitely supported family f to `Σ_a f_aM(a)`.
-This is the underlying linear map of `TwistedMonoidAlgebra.lift` applied to
-the monomial family. Prove that the chart map is injective and that the
+Let `χ:T(R,u,Λ)→ₐ[R]B` be `TwistedMonoidAlgebra.lift` applied to the
+monomial family. The chart map on coefficient families is the composition
+of the inverse basis representation (`TwistedMonoidAlgebra.basis` with
+`repr.symm`), `f↦Σ_a f_aX^a`, with the underlying linear map of `χ`.
+Here the basis index `Multiplicative (ℤ^I)` is identified with `ℤ^I`.
+Prove that the chart map is injective and that the
 ordered-product formula determines a based chart from its coordinates.
 Transport based charts along reindexing and injective R-algebra maps of B.
 Prove that `M(a)=χ(X^a)` gives a bijection from injective
