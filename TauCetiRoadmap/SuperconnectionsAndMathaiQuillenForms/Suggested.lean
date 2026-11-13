@@ -4,43 +4,50 @@ public import Mathlib
 public import TauCeti.Algebra.Homology.DG.Algebra.Defs
 
 /-!
-# Superconnections and Mathai–Quillen forms: target signatures
+# Superconnections, Quillen's character forms and Mathai–Quillen forms: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
-This file states the roadmap's headline theorems against the pinned Mathlib, each with `sorry`,
-together with the definitions their statements need, all with real bodies on native carriers.
-The API around each target, the special cases and the Checks stay in the README.
+This file states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti, each
+with `sorry`, together with the definitions their statements need, all with real bodies on native
+carriers. The API around each target, the special cases and the Checks stay in the README.
 
 Headlines stated, with their README targets:
 
-* 1.1 `isSuperCommutative_exteriorAlgebra`;
-  1.2 `superMatrixEquiv_mul` and `isSuperHomogeneous_superMatrixEquiv_tmul`;
+* 1.2 `superMatrixEquiv_mul` and `isSuperHomogeneous_superMatrixEquiv_tmul`;
   1.3 `superTrace_superMul_comm`;
 * 2.1 `exists_superDGA_of_isDGAlgebra`; 2.2 `bianchi`; 2.3 `isClosed_superTrace_superPow`;
   2.4 `transgression`; 2.5 `trace_exp_sub_trace_exp`;
 * 3.1 `berezin_map`; 3.2 `factorial_mul_pfaffian`, `pfaffian_sq` and
   `pfaffian_mul_mul_transpose`;
-* 6.1 `isUnit_one_sub_of_skew`, `cayley_mem_unitaryGroup` and `grading_mul_cayley_mul_grading`.
+* 6.1 `isUnit_one_sub_of_skew`, `cayley_mem_unitaryGroup`, `grading_mul_cayley_mul_grading` and
+  `cayley_cayleyInv`.
 
 The theorems `commute_ι_mul_ι_ι` and `commute_pairForm` are proved: the product over a set of
 pairs in the definition of `skewFormDivPow` needs them. The instance `blockGradedAlgebra` is proved
 with its decomposition `blockDecompose`, so that `superMatrixEquiv` is defined on Mathlib's graded
-tensor product.
+tensor product. The theorem `exists_superDGA_of_isDGAlgebra` takes the `GradedAlgebra` instance of
+the parity regrading as an argument; README 2.1 constructs it, and it is unique.
 
+Not stated: README 1.1's supercommutativity of the exterior algebra, which is Mathlib's
+`CliffordAlgebra.map_mul_map_of_isOrtho_of_mem_evenOdd` with both isometries the identity.
 Not stated: README 3.3 (the Gaussian density has integral `1`), which is Mathlib's
 `GaussianFourier.integral_rexp_neg_mul_sq_norm` at `b = 1/2`.
 Not stated: Layers 4 and 5 (superconnections on ℤ/2-graded smooth bundles, their Chern character
-forms and the character of `∇ + tX`, the Berezin integral along the fibres of a Euclidean bundle,
-the Mathai–Quillen Euler and Thom forms and their localization). Tau Ceti has smooth
+forms, the character of `∇ + tX` and the projection onto a kernel of locally constant rank, the
+Berezin integral along the fibres of a Euclidean bundle, the Mathai–Quillen Euler and Thom forms
+and their localization). Tau Ceti has smooth
 bundle-valued forms (`TauCeti.SmoothBundleForm`, with `TauCeti.SmoothBundleForm.wedgeWith`) and de
 Rham cohomology (`TauCeti.deRhamCohomology`); the headlines lack, at the pins, the exterior
 covariant derivative of a connection on `TauCeti.SmoothBundleForm`, the ℤ/2-graded algebra
 `Ω(M, End E)` with its exponential, and the Berezin integral along the fibres of a vector bundle
 with the fibre integration of forms; those are SmoothBundlesConnections' (B4.1) and
-CharacteristicClasses' (C2, item 5). Not stated: README 6.2 (the invariant character forms on
-Grassmannians and unitary groups), lacking the manifold structures of the space of self-adjoint
-involutions of `ℂⁿ` and of `Matrix.unitaryGroup` at the pins. The algebraic Layers 1–3 and 6.1
-are the local models of those statements and are stated in full.
+CharacteristicClasses' (C2, item 5). Not stated: README 6.2 (the embedding of the complex
+Grassmannians as self-adjoint involutions, their tautological bundles and the invariant character
+forms), lacking at the pins the smooth structure of `TauCeti.finiteGrassmannian`
+(GeneralizedCohomology G4.0b), smooth subbundles (LieGroupoidsPoisson G0.1) and matrix-valued
+differential forms on these manifolds; its charts are the Cayley correspondence of 6.1, stated
+below. The algebraic Layers 1–3 and 6.1 are the local models of those statements and are stated
+in full.
 -/
 
 @[expose] public section
@@ -59,12 +66,6 @@ parities `i` and `j` commute up to the Koszul sign `(-1) ^ (i * j)`. -/
 def IsSuperCommutative (𝒜 : ZMod 2 → Submodule R A) : Prop :=
   ∀ (i j : ZMod 2) (a b : A), a ∈ 𝒜 i → b ∈ 𝒜 j →
     a * b = (-1 : R) ^ (i.val * j.val) • (b * a)
-
-/-- **1.1.** The exterior algebra, graded by the parity of the degree (Mathlib's
-`CliffordAlgebra.evenOdd` of the zero quadratic form), is supercommutative. -/
-theorem isSuperCommutative_exteriorAlgebra (M : Type*) [AddCommGroup M] [Module R M] :
-    IsSuperCommutative (CliffordAlgebra.evenOdd (0 : QuadraticForm R M)) := by
-  sorry
 
 /-- **1.1.** The parity involution `a₀ + a₁ ↦ a₀ - a₁` of a `ZMod 2`-graded algebra. -/
 noncomputable def parityInv (𝒜 : ZMod 2 → Submodule R A) [GradedAlgebra 𝒜] (a : A) : A :=
@@ -400,7 +401,7 @@ theorem pfaffian_mul_mul_transpose {r : ℕ} (B : Matrix (Fin (2 * r)) (Fin (2 *
 
 end Pfaffian
 
-/-! ## Layer 6: the Cayley transform of odd skew-adjoint endomorphisms -/
+/-! ## Layer 6: the Cayley transform and invariant character forms -/
 
 /-- **6.1.** The grading operator `ε = 1 ⊕ -1` of `ℂ^(m|n)`. -/
 def grading : Matrix (m ⊕ n) (m ⊕ n) ℂ :=
@@ -409,6 +410,10 @@ def grading : Matrix (m ⊕ n) (m ⊕ n) ℂ :=
 /-- **6.1.** The Cayley transform `(1 + X) (1 - X)⁻¹`. -/
 noncomputable def cayley (X : Matrix (m ⊕ n) (m ⊕ n) ℂ) : Matrix (m ⊕ n) (m ⊕ n) ℂ :=
   (1 + X) * (1 - X)⁻¹
+
+/-- **6.1.** The inverse Cayley transform `(g - 1) (g + 1)⁻¹`. -/
+noncomputable def cayleyInv (g : Matrix (m ⊕ n) (m ⊕ n) ℂ) : Matrix (m ⊕ n) (m ⊕ n) ℂ :=
+  (g - 1) * (g + 1)⁻¹
 
 /-- **6.1.** `1 - X` is invertible for a skew-adjoint `X`. -/
 theorem isUnit_one_sub_of_skew {X : Matrix (m ⊕ n) (m ⊕ n) ℂ} (hX : Xᴴ = -X) :
@@ -425,6 +430,14 @@ transform. -/
 theorem grading_mul_cayley_mul_grading {X : Matrix (m ⊕ n) (m ⊕ n) ℂ} (hX : Xᴴ = -X)
     (hodd : grading * X * grading = -X) :
     grading * cayley X * grading = (cayley X)⁻¹ := by
+  sorry
+
+/-- **6.1.** The converse: a unitary `g` with `ε g ε = g⁻¹` and `-1 ∉ spec g` is the Cayley
+transform of `X = cayleyInv g`, which is skew-adjoint and odd. -/
+theorem cayley_cayleyInv {g : Matrix (m ⊕ n) (m ⊕ n) ℂ} (hg : g ∈ unitaryGroup (m ⊕ n) ℂ)
+    (hε : grading * g * grading = g⁻¹) (h1 : IsUnit (g + 1)) :
+    (cayleyInv g)ᴴ = -cayleyInv g ∧ grading * cayleyInv g * grading = -cayleyInv g ∧
+      cayley (cayleyInv g) = g := by
   sorry
 
 end TauCetiRoadmap.SuperconnectionsAndMathaiQuillenForms
