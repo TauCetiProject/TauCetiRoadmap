@@ -232,6 +232,16 @@ def sharedOA (D : Set X) (E : Set (Fin p → ℝ)) (g : X → Fin p → ℝ)
   {z | z.1 ∈ D ∧ z.2 ∈ E ∧ ∀ i,
     componentRow g (a i) (Dg i) z.1 ≤ z.2 ∧ outerRow g h (a i) (Dh i) z.2 ≤ b}
 
+/-- One admissible common height vector, with exact rows on the selected coordinates. -/
+def sharedOAOn (J : Set (Fin p)) (D : Set X) (E : Set (Fin p → ℝ))
+    (g : X → Fin p → ℝ) (h : (Fin p → ℝ) → ℝ) (a : Fin k → X)
+    (Dg : Fin k → X →L[ℝ] (Fin p → ℝ)) (Dh : Fin k → (Fin p → ℝ) →L[ℝ] ℝ)
+    (b : ℝ) : Set (X × (Fin p → ℝ)) :=
+  {z | z.1 ∈ D ∧ z.2 ∈ E ∧ ∀ i,
+    componentRow g (a i) (Dg i) z.1 ≤ z.2 ∧
+    (∀ j ∈ J, z.2 j = componentRow g (a i) (Dg i) z.1 j) ∧
+    outerRow g h (a i) (Dh i) z.2 ≤ b}
+
 /-- Restricted outer domains retain component convexity, anchor membership,
 actual derivatives, and monotonicity of each outer linear derivative. -/
 theorem analytic_comparison (D : Set X) (E : Set (Fin p → ℝ)) (g : X → Fin p → ℝ)
@@ -255,6 +265,20 @@ theorem fullspace_analytic_comparison (D : Set X) (g : X → Fin p → ℝ)
     (hh : ∀ i, HasFDerivAt h (Dh i) (g (a i))) :
     originalSet D g h b ⊆ Prod.fst '' sharedOA D Set.univ g h a Dg Dh b ∧
       Prod.fst '' sharedOA D Set.univ g h a Dg Dh b ⊆ directOA D g h a Dg Dh b := by
+  sorry
+
+/-- Exact rows on selected coordinates permit either sign there in the outer derivative. -/
+theorem affine_coordinate_comparison (J : Set (Fin p)) (D : Set X) (E : Set (Fin p → ℝ))
+    (g : X → Fin p → ℝ) (h : (Fin p → ℝ) → ℝ) (a : Fin k → X)
+    (Dg : Fin k → X →L[ℝ] (Fin p → ℝ)) (Dh : Fin k → (Fin p → ℝ) →L[ℝ] ℝ)
+    (b : ℝ) (hgE : MapsTo g D E)
+    (haff : ∀ i, ∀ x ∈ D, ∀ j ∈ J, componentRow g (a i) (Dg i) x j = g x j)
+    (hc : ∀ j ∉ J, ConvexOn ℝ D (fun x => g x j)) (hhc : ConvexOn ℝ E h)
+    (ha : ∀ i, a i ∈ D) (hg : ∀ i, HasFDerivAt g (Dg i) (a i))
+    (hh : ∀ i, HasFDerivAt h (Dh i) (g (a i)))
+    (hD : ∀ i v, 0 ≤ v → (∀ j ∈ J, v j = 0) → 0 ≤ Dh i v) :
+    originalSet D g h b ⊆ Prod.fst '' sharedOAOn J D E g h a Dg Dh b ∧
+      Prod.fst '' sharedOAOn J D E g h a Dg Dh b ⊆ directOA D g h a Dg Dh b := by
   sorry
 
 end Approximation

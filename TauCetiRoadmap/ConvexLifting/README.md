@@ -23,7 +23,7 @@ Finite models have an original continuous block and an original integer block. A
 
 The analytic layer uses real normed spaces and `Fin p → ℝ` with coordinatewise order. Derivatives are continuous linear maps witnessed by `HasFDerivAt`. A comparison uses the same finite anchors and the corresponding inner and outer derivatives throughout, with one common vector of heights. Finite nonempty maxima use `Finset.sup'`; empty supports have a separate statement.
 
-The Layer 3 comparison assumes monotonicity in every height coordinate and uses inequalities for those heights. TS05 §2, pp. 226–228, retains affine inner coordinates by equalities and needs monotonicity only in the other coordinates. The version allowing outer derivatives of either sign on affine coordinates is outside Layer 3. Layer 2 retains its normalization equalities by exact substitution.
+Layer 3 includes inequality heights with monotone outer linear derivatives, and exact height rows on a selected set `J` of coordinates. In the latter comparison, outer derivatives may have either sign on `J`; they must be nonnegative on nonnegative directions vanishing on `J`. TS05 §2, pp. 226–228, retains affine inner coordinates by equalities and needs coordinate monotonicity only in the other coordinates. §3.2 gives the precise finite, scalar-budget adaptation. Layer 2 retains its normalization equalities by exact substitution.
 
 ## Exact supplier contracts
 
@@ -32,7 +32,7 @@ The Layer 3 comparison assumes monotonicity in every height coordinate and uses 
 - Use `Set.MapsTo`, `MonotoneOn`, images and preimages for graph and projection maps.
 - Use `IsMinOn`, `isMinOn_iff` and `IsMinOn.comp_of_mapsTo` from `Mathlib/Order/Filter/Extr.lean`. Retain feasibility separately, without a replacement minimizer predicate or generic transport wrapper.
 - Use `ConvexOn`, `ConvexOn.convex_epigraph`, `convexOn_iff_convex_epigraph` and affine pullbacks from `Mathlib/Analysis/Convex/Function.lean`.
-- Use `HasFDerivAt`, continuous-linear-map composition and the chain rule. For tangent support, restrict to the affine line through two domain points and use `ConvexOn.le_slope_of_hasDerivAt` from `Mathlib/Analysis/Convex/Deriv.lean`.
+- Use `HasFDerivAt`, continuous-linear-map composition and `HasFDerivAt.comp` from `Mathlib/Analysis/Calculus/FDeriv/Comp.lean`. `ConvexOn.le_slope_of_hasDerivAt` from `Mathlib/Analysis/Convex/Deriv.lean` is a scalar-variable secant lemma. Build the general normed-space tangent-support bridge specified in §3.1 by restriction to an affine line; the scalar lemma alone is not that bridge.
 - Use `Finset.sup'`, `Finset.sup'_le_iff`, `Finset.le_sup'` and `Finset.exists_mem_eq_sup'` from `Mathlib/Data/Finset/Lattice/Fold.lean`, together with finite sums. Finite maximum attainment is existing infrastructure.
 
 ## How to read the build
@@ -142,7 +142,7 @@ Under `d.g i x = Σ_j weight i j * component j x` and `0 ≤ weight i j`, build 
 - With `q=0` and one original nonlinear residual, the decomposition identity makes that residual zero. There are no component-height nonlinear rows and the added budget row is `0≤0`.
 - In the normalized mixed example, `u=1/2` has component residual `u²−1=−3/4`; choose stored height `v=−3/4`. The budget `v≤0` holds, the unshifted epigraph height `v+1` is `1/4`, and both added coordinates have zero objective coefficient.
 
-For the analytic comparison after normalization, use the convex component `g(u)=u²−1`, outer function `h(t)=t` and budget zero. At `u=−1`, the inner derivative is `−2` and the outer derivative is `1`. This is within Layer 3's monotone-outer hypotheses; the normalization does not assert a comparison for affine `g=id` under the nonmonotone outer square.
+For the analytic comparison after normalization, use the convex component `g(u)=u²−1`, outer function `h(t)=t` and budget zero. At `u=−1`, the inner derivative is `−2` and the outer derivative is `1`. This is within Layer 3's monotone-outer hypotheses. For affine `g=id` under the outer square, §3.2 instead uses exact height rows in `affine_coordinate_comparison`.
 
 *Needs:* §2.1, nonnegative finite sums, explicit decomposition and §1.2.
 
@@ -163,20 +163,23 @@ For the analytic comparison after normalization, use the convex component `g(u)=
 
 ### 3.1 Rows and finite sets
 
-For a common family `a : Fin k → X`, build `componentRow`, `outerRow`, `directRow`, `directOA` and `sharedOA` by
+For a common family `a : Fin k → X`, build `componentRow`, `outerRow`, `directRow`, `directOA`, `sharedOA` and `sharedOAOn` using
 
     G_i(x) = g(a_i) + Dg_i(x−a_i)
     H_i(y) = h(g(a_i)) + Dh_i(y−g(a_i))
     C_i(x) = h(g(a_i)) + (Dh_i ∘ Dg_i)(x−a_i).
 
-`directOA` retains `x∈D` and every `C_i(x)≤b`. `sharedOA` retains `x∈D`, `y∈E` and every `G_i(x)≤y`, `H_i(y)≤b`, for one common `y`. These are the matched linearization constructions of TS05 §2, Theorem 1, pp. 227–228, in the specialization monotone in every height coordinate.
+`directOA` retains `x∈D` and every `C_i(x)≤b`. `sharedOA` retains `x∈D`, `y∈E` and every `G_i(x)≤y`, `H_i(y)≤b`, for one common `y`. `sharedOAOn J` keeps those conditions and also requires `y_j=G_i(x)_j` for every anchor `i` and `j∈J`. The common height vector must satisfy all anchors at once. These are the matched linearization constructions of TS05 §2, Theorem 1, pp. 227–228, with exact rows on the selected coordinates.
 
 **API.**
 
+- Prove the general normed-space tangent-support lemma: for a real normed space `X`, `f : X → ℝ`, `A : Set X`, `L : X →L[ℝ] ℝ`, `ConvexOn ℝ A f`, `a∈A`, `x∈A` and `HasFDerivAt f L a`, prove `f a + L (x−a) ≤ f x`. Establish convexity of `q(t)=f(a+t•(x−a))` on `[0,1]` by the affine pullback and convexity of `A`. Transport the actual derivative to `q'(0)=L(x−a)`, then apply the scalar `ConvexOn.le_slope_of_hasDerivAt` at `0<1`. This is a supporting target of this layer, including the affine-line derivative and endpoint evaluations; no interior-anchor or open-domain hypothesis is needed.
 - For the three rows, give anchor evaluation and `H_i(G_i(x))=C_i(x)`.
-- For `componentRow`, derive componentwise support from component convexity on `D`, anchor and query membership, and the actual inner derivative.
-- For `outerRow`, derive support on `E` from outer convexity, anchor-image and query membership, and the actual outer derivative. For `directRow`, consume the actual chain-rule derivative via `HasFDerivAt.comp`.
-- For `directOA` and `sharedOA`, give membership descriptions and graph witnesses under the support hypotheses. Keep the common anchor family and retained `E` visible.
+- For `componentRow`, transport `HasFDerivAt g (Dg i) (a i)` through coordinate evaluation and use the tangent-support bridge to derive support for each convex component on `D`. Establish the exact-row condition on `D` for affine component maps with their actual derivatives.
+- For `outerRow`, use the same bridge to derive support on `E` from outer convexity, anchor-image and query membership, and the actual outer derivative. For `directRow`, consume the actual chain-rule derivative via `HasFDerivAt.comp`.
+- For `directOA`, `sharedOA` and `sharedOAOn`, give membership descriptions and graph witnesses under their respective support and exact-row hypotheses. Keep the common anchor family and retained `E` visible.
+- For `sharedOAOn`, prove that forgetting its equalities gives a subset of `sharedOA`, that `sharedOAOn ∅` equals `sharedOA`, and that `J'⊆J` gives `sharedOAOn J ⊆ sharedOAOn J'` with all other parameters fixed. Retain both domain filters in each statement.
+- For a linear functional `L`, prove that `0≤L v` for every `v≥0` vanishing on `J` is equivalent to nonnegative coordinate coefficients `L(e_j)` for `j∉J`, where `e_j` is the coordinate unit vector. At `J=∅`, prove equivalence with `Monotone L`. At `J=univ`, the condition holds for every `L` because the only permitted direction is zero.
 
 **Checks.**
 
@@ -192,13 +195,33 @@ Prove `analytic_comparison`: assume `MapsTo g D E`, each component of `g` convex
     S ⊆ Prod.fst '' sharedOA D E g h a Dg Dh b
       ⊆ directOA D g h a Dg Dh b.
 
-This combines the graph witness and component/outer supports with the row comparison in TS05 Theorem 1, pp. 227–228. The first inclusion does not require monotonicity of `h` itself. When using exact-lift projection from Layer 1, retain its `MonotoneOn h E` premise.
+This combines the graph witness and component/outer supports with the finite row comparison. The first inclusion does not require monotonicity of `h` itself. When using exact-lift projection from Layer 1, retain its `MonotoneOn h E` premise.
+
+Prove `affine_coordinate_comparison` for `J : Set (Fin p)` with the same domains, anchors, rows and budget, under precisely these premises:
+
+- `MapsTo g D E`;
+- exact rows on `J`: `G_i(x)_j=g(x)_j` for every `i`, `x∈D` and `j∈J`;
+- `ConvexOn ℝ D (fun x => g x j)` for each `j∉J`;
+- `ConvexOn ℝ E h`;
+- `a_i∈D` for every `i`;
+- actual `HasFDerivAt g (Dg i) (a i)` for every `i`;
+- actual `HasFDerivAt h (Dh i) (g(a_i))` for every `i`;
+- `0≤Dh_i(v)` for every `i` and every coordinatewise `v≥0` with `v_j=0` for `j∈J`.
+
+Prove both weak inclusions:
+
+    S ⊆ Prod.fst '' sharedOAOn J D E g h a Dg Dh b
+      ⊆ directOA D g h a Dg Dh b.
+
+For the first inclusion, insert the graph height `y=g(x)`. Use exact rows on `J`, component support elsewhere, `MapsTo` for the height domain, and outer support `H_i(g(x))≤h(g(x))≤b`. For the second, set `v=y−G_i(x)`. Its coordinates are nonnegative and vanish on `J`, so the restricted positivity and linearity give `C_i(x)=H_i(G_i(x))≤H_i(y)≤b`. This second step is a comparison of affine rows; it does not require `G_i(x)∈E` or evaluation of `h` there. The equality-coordinate condition is exactness on `D`, not global affinity on `X`; global affine components supply it. No monotonicity of `h` or sign restriction on the outer coefficients in `J` is assumed.
+
+The case `J=∅` recovers `analytic_comparison`, using the linear-functional equivalence from §3.1. This equality-coordinate theorem adapts TS05 §2, Theorem 1, pp. 227–228. The source uses affine inner coordinates and range monotonicity in the others; this target instead states the sufficient directional-derivative condition explicitly at the selected anchors. It does not assert equivalence with the source's range-monotonicity assumptions or convexity of the whole composition under those anchorwise conditions. The source compares epigraph pairs `(γ,x)`; the target uses scalar `h` and the fixed-budget slice `γ=b`, retaining `D` and `E`. It neither proves the full source epigraph statement as written nor extends Layer 1's exact composition lift to equality coordinates.
 
 Prove `fullspace_analytic_comparison` under component convexity on `D`, convexity and monotonicity of `h` on the full outer space, anchors in `D` and the same actual derivatives. Derive monotonicity of every `Dh i` from positive directional difference quotients, then specialize the preceding comparison to `E=univ`. Monotonicity only on an arbitrary restricted `E` does not imply that linear-derivative condition.
 
 **API.**
 
-- Follow component support, outer support, derivative monotonicity and the identity `H_i(G_i(x))=C_i(x)`; no desired-inclusion premise or cut-validity oracle is allowed.
+- Follow the tangent-support bridge, graph insertion, exact rows on `J` and the cone-difference comparison above; use derivative monotonicity when `J=∅`. No desired-inclusion premise or cut-validity oracle is allowed.
 - Use the existing chain rule for the derivative of `h ∘ g`; it is part of the analytic interpretation of the direct rows.
 - Derive weak objective-value order at actual feasible minimizers of these nested sets, keeping memberships and `IsMinOn`. Do not infer attainment or strict improvement from containment.
 
@@ -216,9 +239,13 @@ The squared-component and affine examples below use the full height domain `E=�
 - For `D=E=ℝ`, `g(x)=x²`, `h=id` and budget `1/4`, shared heights at anchor zero project to `ℝ`, while the direct row at anchor one is `2x−1≤1/4`, or `x≤5/8`. Both contain the original interval `[−1/2,1/2]`, but `1` lies only in the first. This checks the common-anchor premise independently of validity of each relaxation.
 - For `g=id`, `h=exp`, anchor zero and budget two, the outer derivative is `1`; `G(x)=x` and `H(y)=1+y`. With `D=E=ℝ`, the shared and direct projections are `(−∞,1]`, containing the original `(−∞,log 2]`. With `D=E=[0,∞)`, the finite projections are `[0,1]`, containing the original `[0,log 2]`; `(0,0)` belongs to the shared set and the constraint `y≥0` is retained.
 
+- For `X=ℝ`, one height coordinate, `D=E=ℝ`, `g(x)=x`, `h(y)=y²`, anchor `−1` and budget one, `G(x)=x`, `H(y)=−2y−1` and `C(x)=−2x−1`. Inequality heights allow `y≥max(x,−1)` and project to all of `ℝ`, while the direct set is `[−1,∞)`. With `J={0}`, `sharedOAOn` imposes `y=x` and its projection is `[−1,∞)`, containing the original `[−1,1]`. The actual outer derivative `v↦−2v` is negative on positive directions; it satisfies the restricted condition because a direction vanishing on `J` is zero. Thus `affine_coordinate_comparison` applies and `analytic_comparison` does not.
+- For `X=ℝ`, `g(x)=(x,x²)`, `h(u,v)=u²+v`, full height domain `E=ℝ²`, `D=ℝ`, anchor `−1`, budget two and `J` the first coordinate, the rows are `G(x)=(x,−2x−1)`, `H(y)=−2y₁+y₂−1` and `C(x)=−4x−2`. The outer derivative has coefficients `(−2,1)` and is nonnegative on every direction `(0,t)` with `t≥0`. Exactness of `y₁=x` gives both the shared projection and direct set `[−1,∞)`, containing the original `[−1,1]`. The permitted cone includes nonzero directions.
+- At `J=∅`, the row set is `sharedOA`; at `J=univ`, all rows are exact and no component-convexity premise remains. With no anchors, `sharedOAOn` is `D×E` and `directOA` is `D`; `MapsTo` supplies a graph height for each `x∈D`. The empty-height-domain examples above fail `MapsTo` when `D` is nonempty and therefore are not instances of either comparison theorem. With zero height coordinates there is a unique height vector; retain its membership in `E`, and, when there is at least one anchor, every row budget reduces to the same scalar condition `h(0)≤b`.
+
 ### Dependencies
 
-The restricted theorem supplies both containments with explicit derivative monotonicity. The full-space theorem derives that condition. Finite model adapters are unnecessary for the abstract analytic comparison; §2 supplies concrete formulations when required.
+The restricted inequality-height theorem uses explicit derivative monotonicity; the equality-coordinate theorem uses restricted directional positivity and exact rows on `J`. The full-space theorem derives derivative monotonicity from monotonicity of `h`. All use the general tangent-support bridge built in §3.1. Finite model adapters are unnecessary for these abstract analytic comparisons; §2 supplies concrete formulations when required.
 
 ## Layer 4: finite support elimination
 
