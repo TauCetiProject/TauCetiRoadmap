@@ -22,7 +22,7 @@ Definitions in SRU.0 and the coefficient definition in SRU.1 allow any topologic
 
 For SRU.5 and the simplified SRU.7 dictionary, G is quasi-simple, split and adjoint, with fixed B ⊃ T and hyperspecial K. The residue cardinality q is an integer ≥ 2. Normalize val(ϖ) = 1, |ϖ| = q⁻¹, δ_P(m) = |det(Ad(m)|Lie N)|, and normalized induction by δ_P^(1/2). Put χ_s = s ∘ val_T, s = s_c q^ν, where s_c is compact and ν is real. In this sign convention, dominant ν gives the spherical subrepresentation of X(ν), equivalently the quotient of X(−ν). The trivial representation has ν = ρ. On PGL₂, t = q^(1/2) in diag(t,t⁻¹) gives χ_s = δ_B^(−1/2), so X(s) = Ind_B^G 1 contains 1. On a compact unitary character with value i, c(π,1)(g) = i while Tau Ceti’s opposite-slot matrix coefficient is −i; evaluation at g⁻¹ reconciles them. These two-term witnesses fix both conventions wherever used.
 
-Root coordinates follow CH26 §§6.3–6.11, including its reversed classical numbering and Bourbaki exceptional numbering. Dominant alcoves include their faces on chamber walls through zero. Half-integral means pairing in ½ℤ, including zero weights, and “geometric” here is exactly this real-part condition, with no algebraicity imposed on s_c. The split and nonsplit generic temperedness tests and the finite extraneous-point lists assume s_c = 1 or a central compact factor. General noncentral compact parts use the centralizer theorem of SRU.7.13. The split companion in SRU.6 retains its full isogeny. The adjoint/simply-connected distinction is retained in every representation-weight test.
+Simple coroots αᵢ^∨ and fundamental weights ωᵢ form dual bases in the span of the coroots, ⟨αᵢ^∨, ωⱼ⟩ = δᵢⱼ, with the dot product of the coordinates below as the pairing and εᵢ the standard basis vectors. For PGL(n) the simple coroots are εᵢ − εᵢ₊₁ in the hyperplane of coordinate sum zero. The other classical types are numbered from the end of the Dynkin diagram carrying the double bond or the fork: α₁^∨ = 2ε₁ for SO(2n+1), α₁^∨ = ε₁ for PSp(2n), α₁^∨ = ε₁ + ε₂ and α₂^∨ = ε₂ − ε₁ for PSO(2n), and αᵢ^∨ = εᵢ − εᵢ₋₁ for the remaining i. The exceptional types use Bourbaki's numbering of the coroot system: for E₈, α₁^∨ = ½(1, −1, −1, −1, −1, −1, −1, 1), α₂^∨ = ε₁ + ε₂ and αᵢ^∨ = εᵢ₋₁ − εᵢ₋₂ for 3 ≤ i ≤ 8, and E₇ and E₆ use the first seven and six of these; for F₄, α₁^∨ = (1, −1, −1, −1), α₂^∨ = (0, 0, 0, 2), α₃^∨ = (0, 0, 1, −1) and α₄^∨ = (0, 1, −1, 0); for G₂, α₁^∨ = (2/3, −1/3, −1/3) and α₂^∨ = (−1, 1, 0) in the plane of coordinate sum zero. BC1 (§3.4, p. 18, and §7.2.4, p. 47) and CH26 (§§6.4–6.11, PDF pp. 20–24) use the same coordinates. Dominant alcoves include their faces on chamber walls through zero. Half-integral means pairing in ½ℤ, including zero weights, and “geometric” here is exactly this real-part condition, with no algebraicity imposed on s_c. The split and nonsplit generic temperedness tests and the finite extraneous-point lists assume s_c = 1 or a central compact factor. General noncentral compact parts use the centralizer theorem of SRU.7.13. The split companion in SRU.6 retains its full isogeny. The adjoint/simply-connected distinction is retained in every representation-weight test.
 
 For a group in universe u, positive-type functions and their quotient give a small unitary dual in universe max(u,0). Hilbert models and Hilbert sums may use larger universes; equality in the dual means existence of a unitary intertwining equivalence. No chosen orthonormal basis or separability of an arbitrary Hilbert space enters a definition. Second countability is invoked where sequences replace nets.
 
@@ -168,7 +168,7 @@ Consume §7.0b, the finite-place GLₙ unitary classification and its unitary in
 
 ## How to read the build
 
-SRU.0 constructs the coefficient and Hilbert-space objects; SRU.1 turns them into weak containment and Fell closure. SRU.2 compares this analytic theory with the supplied smooth category. SRU.3 studies limits and SRU.4 proves isolation. SRU.5 can begin its root and spherical-parameter calculations from the smooth and invariant-form interfaces without waiting for isolation; SRU.6 extends that classification to nonsplit unramified groups. SRU.7 uses the general Aubert involution and enhanced Hecke classification to organize all spherical complementary series. Each Needs line separates a statement’s carriers from the additional inputs of the indicated proof route. Within a layer the subsections are grouped by topic; where a Needs line cites a later subsection of the same layer (SRU.3.4 uses SRU.3.5, which uses SRU.3.6; SRU.4.1, 4.4 and 4.5 use the inputs of SRU.4.9; SRU.5.3 uses SRU.5.4; SRU.5.4, 5.5, 5.8–5.10 and 5.26 use SRU.5.27; SRU.7.4 uses SRU.7.5; SRU.7.11 uses SRU.7.12), the cited subsection does not depend on the citing one, so the internal dependency graph is acyclic. The explicit regions of SRU.5.28 depend on SRU.5.27 and the root data only, and SRU.5.11 consumes them.
+SRU.0 constructs the coefficient and Hilbert-space objects; SRU.1 turns them into weak containment and Fell closure. SRU.2 compares this analytic theory with the supplied smooth category. SRU.3 studies limits and SRU.4 proves isolation. SRU.5 can begin its root and spherical-parameter calculations from the smooth and invariant-form interfaces without waiting for isolation; SRU.6 extends that classification to nonsplit unramified groups. SRU.7 uses the general Aubert involution and enhanced Hecke classification to organize all spherical complementary series. Each Needs line separates a statement’s carriers from the additional inputs of the indicated proof route. Within a layer the subsections are grouped by topic; where a Needs line cites a later subsection of the same layer (SRU.3.4 uses SRU.3.5, which uses SRU.3.6; SRU.4.1, 4.4 and 4.5 use the inputs of SRU.4.9; SRU.5.3 uses SRU.5.4; SRU.5.4, 5.5, 5.8–5.11 and 5.19 use SRU.5.20; SRU.5.11, 5.14 and 5.15 use SRU.5.21, which depends on SRU.5.20 and the root data only; SRU.7.4 uses SRU.7.5; SRU.7.11 uses SRU.7.12), the cited subsection does not depend on the citing one, so the internal dependency graph is acyclic.
 
 ## Layer SRU.0: Unitary representations and functions of positive type
 
@@ -960,7 +960,7 @@ Let G = 𝐆(F) with 𝐆 a split connected reductive group over a p-adic field 
 
 G = 𝐆(F) with 𝐆 split connected reductive over a p-adic field F of characteristic zero (its centre may be noncompact, as for Levi subgroups); pinning over O, hyperspecial K = 𝐆(O), Iwahori I; the K-compatible Whittaker character ψ_K. π irreducible admissible.
 
-One proof route is as follows. st_G has nonzero I-fixed vectors, so π^I ≠ 0 and π lies in the Iwahori block (SR.3.4 borel-casselman-block); π^I is a simple H(G, I)-module. Barbasch–Moy identify the ψ_K-Whittaker functionals on Iwahori-spherical π with the sign-isotypic part of π^I under the finite Hecke algebra: with the conductor convention above, the I-fixed part of the Gelfand–Graev representation c-Ind_U^G ψ_K is the H(G, I)-module induced from the sign character of H(K, I) (BM94). This computation uses only the pinning, the Iwahori factorisation and H(K, I) ≅ H(W, q), so it applies to every split connected reductive group; for a Levi subgroup M the finite Hecke algebra of W_M is the tensor product of those of the simple factors, and its sign character is the tensor product of their sign characters. Containing st_G is equivalent to the sign character occurring in π^I (steinberg-k-types for almost simple G; for general split reductive G the same Bruhat computation of SRU.4.2 at the level of K/K⁺). The Gelfand–Graev identification and the Whittaker/sign equivalence hold over every nonarchimedean local field; that all-characteristic statement, without the K-type reformulation, is the split generic/sign adapter of SRU.5.27, which SRU.5.5 and SRU.6.2 consume.
+One proof route is as follows. st_G has nonzero I-fixed vectors, so π^I ≠ 0 and π lies in the Iwahori block (SR.3.4 borel-casselman-block); π^I is a simple H(G, I)-module. Barbasch–Moy identify the ψ_K-Whittaker functionals on Iwahori-spherical π with the sign-isotypic part of π^I under the finite Hecke algebra: with the conductor convention above, the I-fixed part of the Gelfand–Graev representation c-Ind_U^G ψ_K is the H(G, I)-module induced from the sign character of H(K, I) (BM94). This computation uses only the pinning, the Iwahori factorisation and H(K, I) ≅ H(W, q), so it applies to every split connected reductive group; for a Levi subgroup M the finite Hecke algebra of W_M is the tensor product of those of the simple factors, and its sign character is the tensor product of their sign characters. Containing st_G is equivalent to the sign character occurring in π^I (steinberg-k-types for almost simple G; for general split reductive G the same Bruhat computation of SRU.4.2 at the level of K/K⁺). The Gelfand–Graev identification and the Whittaker/sign equivalence hold over every nonarchimedean local field; that all-characteristic statement, without the K-type reformulation, is the split generic/sign adapter of SRU.5.20, which SRU.5.5 and SRU.6.2 consume.
 
 When the semisimple rank of 𝐆 is positive, the trivial representation does not contain st_G and is not generic; the Steinberg representation contains st_G and is generic. For a split torus 𝐆 = T, U = 1, W = 1, I = K = T(O) and st_G = 1_K: the trivial representation, and every unramified character, satisfies π^I ≠ 0, contains st_G and is generic with one-dimensional Whittaker space, so the three conditions hold together; a ramified character has π^I = 0 and lies outside the statement. For GL₂(ℚ_p), an irreducible unramified principal series i_B(χ) contains st_G (its Iwahori invariants are the regular H(W, q)-module) and is generic. For SL₂(ℚ₃) and the unramified quadratic character χ, i_B(χ) has two constituents; the K-spherical one has one-dimensional K- and I-fixed spaces on which T_s acts by q = 3, so it contains no sign character and is not ψ_K-generic, although it is generic for a Whittaker character of conductor ℤ₃; the other constituent is ψ_K-generic and contains st_G. For the Levi M of block type (2,2) in PGL₄, with one-dimensional split centre and W_M = S₂ × S₂, the sign type of H(W_M, q) is the tensor product of the two rank-one sign types, each of multiplicity one.
 
@@ -1133,7 +1133,7 @@ For PGL₂ with s=diag(t,t⁻¹), reducibility occurs exactly at t²=`q^(±1)`. 
 
 Additional inputs for this route: CH26, §6, after Definition 6.3, p. 17; BC1, §3.1, pp. 16–17.
 
-*Needs:* SRU.5 / real-satake-parameter; SmoothRepresentationsOfLocalGroups SR.2 / principal-series-jacquet; SmoothRepresentationsOfLocalGroups SR.1 / iwahori-matsumoto; ReductiveGroupsPartII RG2.5 / langlands-dual-group; SRU.5.27, full-root-datum Hecke comparison.
+*Needs:* SRU.5 / real-satake-parameter; SmoothRepresentationsOfLocalGroups SR.2 / principal-series-jacquet; SmoothRepresentationsOfLocalGroups SR.1 / iwahori-matsumoto; ReductiveGroupsPartII RG2.5 / langlands-dual-group; SRU.5.20, full-root-datum Hecke comparison.
 
 ### 5.5 Generic spherical representations (*spherical-generic-criterion*)
 
@@ -1141,13 +1141,13 @@ In the setting of real-satake-parameter, each X(s) has a unique generic irreduci
 
 k a nonarchimedean local field of any characteristic with residue field 𝔽_q, G = 𝐆(k) for 𝐆 quasi-simple, split and adjoint, K = 𝐆(O) hyperspecial, B ⊃ T a Borel subgroup and maximal split torus, based root datum (X, Φ, X^∨, Φ^∨, Π), Weyl group W, longest element w₀, Coxeter number h, dual group G^∨ over ℂ with maximal torus T^∨ = X ⊗ ℂ^× (Ciubotaru–Harris §6 setting).
 
-One proof route is as follows. Uniqueness of the generic constituent: SRU.3 rodier-heredity for P = B. If X(s) is irreducible, L(s) = X(s) is generic (every principal series is generic). If L(s) is generic, its Iwahori-fixed H(K, I)-module contains both the trivial character (spherical) and the sign character (generic, by the split generic/sign adapter of SRU.5.27, valid over every nonarchimedean local field; G is adjoint, so T(k) permutes the generic characters transitively and genericity does not depend on the Whittaker datum); for adjoint G Barbasch–Moy show this forces L(s) = X(s) (Barbasch–Ciubotaru §1.2, [BM4]). Tempered spherical: ν = 0 (spherical-tempered-criterion), so |α^∨(s)| = 1 ≠ `q^(±1)` and X(s) is irreducible (unramified-principal-series-irreducibility), hence generic.
+One proof route is as follows. Uniqueness of the generic constituent: SRU.3 rodier-heredity for P = B. If X(s) is irreducible, L(s) = X(s) is generic (every principal series is generic). If L(s) is generic, its Iwahori-fixed H(K, I)-module contains both the trivial character (spherical) and the sign character (generic, by the split generic/sign adapter of SRU.5.20, valid over every nonarchimedean local field; G is adjoint, so T(k) permutes the generic characters transitively and genericity does not depend on the Whittaker datum); for adjoint G Barbasch–Moy show this forces L(s) = X(s) (Barbasch–Ciubotaru §1.2, [BM4]). Tempered spherical: ν = 0 (spherical-tempered-criterion), so |α^∨(s)| = 1 ≠ `q^(±1)` and X(s) is irreducible (unramified-principal-series-irreducibility), hence generic.
 
 The trivial representation L(ρ) is not generic (rank ≥ 1), and X(ρ) is reducible. Every L(s_c) with s_c compact is generic and equal to X(s_c).
 
 Additional inputs for this route: BC1, §1.2, p. 2; §3.1, pp. 16–17.
 
-*Needs:* SRU.5 / real-satake-parameter; SRU.5 / spherical-tempered-criterion; SRU.5 / unramified-principal-series-irreducibility; SRU.3 / rodier-heredity; SRU.5.27, split generic/sign adapter.
+*Needs:* SRU.5 / real-satake-parameter; SRU.5 / spherical-tempered-criterion; SRU.5 / unramified-principal-series-irreducibility; SRU.3 / rodier-heredity; SRU.5.20, split generic/sign adapter.
 
 ### 5.6 Hermitian spherical representations (*spherical-hermitian-criterion*)
 
@@ -1203,7 +1203,7 @@ For PGL₂ this is the classical complementary series 0 ≤ ⟨α^∨, ν⟩ < 1
 
 Additional inputs for this route: BC1, §3.1–3.2, pp. 16–17.
 
-*Needs:* SRU.5 / generic-unitary-region; SRU.2 / unitary-induction; SRU.5 / unramified-principal-series-irreducibility; SRU.5 / spherical-hermitian-criterion; SRU.5.27, signature constancy.
+*Needs:* SRU.5 / generic-unitary-region; SRU.2 / unitary-induction; SRU.5 / unramified-principal-series-irreducibility; SRU.5 / spherical-hermitian-criterion; SRU.5.20, signature constancy.
 
 ### 5.9 Unbounded regions are not unitary (*unbounded-not-unitary*)
 
@@ -1217,7 +1217,7 @@ For PGL₂, ν with ⟨α^∨, ν⟩ > 1 gives X(ν) irreducible but not unitary
 
 Additional inputs for this route: BCP, §5.2, Lemma (2) and following explanation, p. 53.
 
-*Needs:* SRU.5 / generic-unitary-region; SmoothRepresentationsOfLocalGroups SR.2 / principal-series-jacquet; SmoothRepresentationsOfLocalGroups SR.2 / casselman-pairing; SRU.5 / unramified-principal-series-irreducibility; SRU.5.27, detecting signatures.
+*Needs:* SRU.5 / generic-unitary-region; SmoothRepresentationsOfLocalGroups SR.2 / principal-series-jacquet; SmoothRepresentationsOfLocalGroups SR.2 / casselman-pairing; SRU.5 / unramified-principal-series-irreducibility; SRU.5.20, detecting signatures.
 
 ### 5.10 Barbasch–Moy: unitarity through the Iwahori–Hecke algebra (*barbasch-moy-unitarity*)
 
@@ -1229,21 +1229,21 @@ One proof route is as follows. The Borel–Casselman equivalence V ↦ V^I (SR.3
 
 The trivial and Steinberg representations correspond under the Iwahori–Matsumoto involution; both are unitary. For non-real s_c the unitarity of L(s_c s_ν) is decided in the graded Hecke algebra of `Z_(G^∨)(s_c)`, not of G^∨ (the noncentral-compact dependence).
 
-*Needs:* SmoothRepresentationsOfLocalGroups SR.3 / borel-casselman-block; SmoothRepresentationsOfLocalGroups SR.1 / iwahori-matsumoto; SmoothRepresentationsOfLocalGroups SR.1 / bernstein-presentation; SRU.2 / unitary-structure; SRU.5.27, characteristic-independent affine/graded comparison.
+*Needs:* SmoothRepresentationsOfLocalGroups SR.3 / borel-casselman-block; SmoothRepresentationsOfLocalGroups SR.1 / iwahori-matsumoto; SmoothRepresentationsOfLocalGroups SR.1 / bernstein-presentation; SRU.2 / unitary-structure; SRU.5.20, characteristic-independent affine/graded comparison.
 
 ### 5.11 Classification of the generic unitary spherical dual (*generic-unitary-classification*)
 
-In the setting of real-satake-parameter, U₀^g is the intersection of `C_(0,h)` with a union of 2^d alcoves of C₀ including A₀, where d = 0 for PGL(n) and SO(2n+1), ⌊(n−1)/2⌋ for PSp(2n), n − 1 for PSO(4n) (n ≥ 2) and PSO(4n+2) (n ≥ 1), 1 for G₂, F₄, E₆, 3 for E₇ and 4 for E₈ (Ciubotaru–Harris Theorem 6.9, on the hermitian locus `C_(0,h)`). Explicitly (Barbasch–Ciubotaru §3.2–3.4), where the letters name the type of the root system Φ^∨ of the dual group, which is the root system of the Hecke algebra in BC1 §3.3: the C formula applies to G = SO(2n+1) (dual Sp(2n)), the B formula to G = PSp(2n) (dual Spin(2n+1)), and type D is self-dual. Type A: ν = (ν₁, …, ν_k, (0,) −ν_k, …, −ν₁) with 0 ≤ ν₁ ≤ ⋯ ≤ ν_k < ½; dual type C (G = SO(2n+1)): 0 ≤ ν₁ ≤ ⋯ ≤ νₙ < ½; dual types B and D (G = PSp(2n), PSO(2n)): the alternating conditions of Barbasch–Ciubotaru Theorem 3.3, made precise in SRU.5.28; G₂: {3ν₁ + 2ν₂ < 1} ∪ {2ν₁ + ν₂ < 1 < 3ν₁ + ν₂}; F₄ (coordinates of BC1 §3.4): {2ν₁ < 1} ∪ {ν₁ + ν₂ + ν₃ − ν₄ < 1 < ν₁ + ν₂ + ν₃ + ν₄}; E₆, E₇, E₈: the 2, 8 and 16 alcoves of Barbasch–Ciubotaru §7.2. The type-A case is part of Tadić's classification of the unitary dual of GL(n), owned upstream by AutomorphicSpectralTheory §7.0b. (CH26, Theorem 6.9, PDF p. 18)
+In the setting of real-satake-parameter, U₀^g is the intersection of `C_(0,h)` with a union of 2^d alcoves of C₀ including A₀, where d = 0 for PGL(n) and SO(2n+1), ⌊(n−1)/2⌋ for PSp(2n), n − 1 for PSO(4n) (n ≥ 2) and PSO(4n+2) (n ≥ 1), 1 for G₂, F₄, E₆, 3 for E₇ and 4 for E₈ (Ciubotaru–Harris Theorem 6.9, on the hermitian locus `C_(0,h)`). Explicitly (Barbasch–Ciubotaru §3.2–3.4), where the letters name the type of the root system Φ^∨ of the dual group, which is the root system of the Hecke algebra in BC1 §3.3: the C formula applies to G = SO(2n+1) (dual Sp(2n)), the B formula to G = PSp(2n) (dual Spin(2n+1)), and type D is self-dual. Type A: ν = (ν₁, …, ν_k, (0,) −ν_k, …, −ν₁) with 0 ≤ ν₁ ≤ ⋯ ≤ ν_k < ½; dual type C (G = SO(2n+1)): 0 ≤ ν₁ ≤ ⋯ ≤ νₙ < ½; dual types B and D (G = PSp(2n), PSO(2n)): the alternating conditions of Barbasch–Ciubotaru Theorem 3.3, made precise in SRU.5.21; G₂: {3ν₁ + 2ν₂ < 1} ∪ {2ν₁ + ν₂ < 1 < 3ν₁ + ν₂}; F₄ (coordinates of BC1 §3.4): {2ν₁ < 1} ∪ {ν₁ + ν₂ + ν₃ − ν₄ < 1 < ν₁ + ν₂ + ν₃ + ν₄}; E₆, E₇, E₈: the 2, 8 and 16 alcoves of Barbasch–Ciubotaru §7.2. The type-A case is part of Tadić's classification of the unitary dual of GL(n), owned upstream by AutomorphicSpectralTheory §7.0b. (CH26, Theorem 6.9, PDF p. 18)
 
 k a nonarchimedean local field of any characteristic with residue field 𝔽_q, G = 𝐆(k) for 𝐆 quasi-simple, split and adjoint, K = 𝐆(O) hyperspecial, B ⊃ T a Borel subgroup and maximal split torus, based root datum (X, Φ, X^∨, Φ^∨, Π), Weyl group W, longest element w₀, Coxeter number h, dual group G^∨ over ℂ with maximal torus T^∨ = X ⊗ ℂ^× (Ciubotaru–Harris §6 setting).
 
-One proof route is as follows. By barbasch-moy-unitarity the question is the unitarity of spherical modules of the graded Hecke algebra at real parameter ν. The signature forms and the detecting Weyl types of SRU.5.27 determine the unitary regions; their constancy holds on each irreducible hermitian region. The case analysis is Barbasch (classical types), Ciubotaru (F₄, E₆) and Barbasch–Ciubotaru (E₇, E₈, and G₂, F₄ in their coordinates), and Tadić for GL(n); its Weyl-type signature calculations and characteristic-independent comparison are the targets of SRU.5.27, with the explicit output inequalities in SRU.5.28.
+One proof route is as follows. By barbasch-moy-unitarity the question is the unitarity of spherical modules of the graded Hecke algebra at real parameter ν. The signature forms and the detecting Weyl types of SRU.5.20 determine the unitary regions; their constancy holds on each irreducible hermitian region. The case analysis is Barbasch (classical types), Ciubotaru (F₄, E₆) and Barbasch–Ciubotaru (E₇, E₈, and G₂, F₄ in their coordinates), and Tadić for GL(n); its Weyl-type signature calculations and characteristic-independent comparison are the targets of SRU.5.20, with the explicit output inequalities in SRU.5.21.
 
 For PGL₂, d = 0 and U₀^g = A₀. For G = PSp₄ (dual type B₂), ν = (0, ¾) satisfies the B condition with i = 2, since ¾ < 1 − 0, and its highest-coroot value ¾ < 1 puts it in A₀; reading the C formula for G = PSp₄ would wrongly require ¾ < ½. For G₂, d = 1: U₀^g has the fundamental alcove {3ν₁ + 2ν₂ < 1} and the second alcove {2ν₁ + ν₂ < 1 < 3ν₁ + ν₂} in Barbasch–Ciubotaru's coordinates.
 
 Additional inputs for this route: BC1, §3.2 Theorem, §3.3 Theorem, §3.4 Proposition, pp. 17–18.
 
-*Needs:* SRU.5 / barbasch-moy-unitarity; SRU.5 / generic-unitary-region; SRU.5 / fundamental-alcove-unitary; SRU.5 / unbounded-not-unitary; SRU.5.27; AutomorphicSpectralTheory §7.0b.
+*Needs:* SRU.5 / barbasch-moy-unitarity; SRU.5 / generic-unitary-region; SRU.5 / fundamental-alcove-unitary; SRU.5 / unbounded-not-unitary; SRU.5.20; AutomorphicSpectralTheory §7.0b.
 
 ### 5.12 Nonzero integral root values are not unitary (*integral-root-wall*)
 
@@ -1269,135 +1269,53 @@ For PGL₂ (rank one) ε = ¼ is possible: ⟨α^∨, ν⟩ = ¼ gives ⟨±α^�
 
 *Needs:* SRU.5 / half-integral-parameter; SRU.5 / unbounded-not-unitary; SRU.5 / generic-unitary-region.
 
-### 5.14 Half-integral generic unitary points for PGL(n) (*half-integral-type-a*)
+### 5.14 Types whose only half-integral generic unitary point is the origin (*half-integral-origin-only*)
 
-For G = PGL(n) in the setting of real-satake-parameter, write a dominant hermitian ν in standard coordinates as (a₁, …, a_k, −a_k, …, −a₁) for n = 2k and (a₁, …, a_k, 0, −a_k, …, −a₁) for n = 2k + 1, with a₁ ≥ ⋯ ≥ a_k ≥ 0; the generic unitary region is 0 ≤ a_k ≤ ⋯ ≤ a₁ < ½ ((6.15), Tadić). Then `U₀^(g,½)` = {0, ½ω_k} for n = 2k (the point a₁ = ⋯ = a_k = ¼) and `U₀^(g,½)` = {0} for n odd (Ciubotaru–Harris §6.3). (CH26, §6.3, PDF p. 20)
+In the setting of real-satake-parameter, put `U₀^(g,½)` := U₀^g ∩ `C₀^(½)`. The level of a positive coroot β^∨ is ⟨β^∨, ρ⟩, the sum of its coefficients in the simple coroots, and the maximal level r₀ of G is the largest r such that ⟨β^∨, ν⟩ < 1 for every ν ∈ U₀^g and every positive coroot β^∨ of level r (r₀ ≥ 1 by unbounded-not-unitary and genericity). If G is PGL(n) with n odd, or of type E₆, E₈, F₄ or G₂, then `U₀^(g,½)` = {0}. For PGL(n) with n odd, the bound of the fundamental alcove and the hermitian condition leave no nonzero candidate. In the exceptional types the bounds at level r₀ and half-integral-reduction leave only the candidates ½ω₂ (E₆), ½ω₁ and ½ω₈ (E₈), ½ω₁ (F₄) and ½ω₂ (G₂), in the numbering of Conventions, and each of them pairs to 1 with the highest coroot γ^∨, so it lies on a reducibility wall. (CH26, Theorem 6.14 and §§6.3, 6.7–6.9 and 6.11, PDF pp. 19–24)
 
-G = PGL(n), n ≥ 2; standard coordinates of Ciubotaru–Harris §6.3.
+G = PGL(n) with n ≥ 3 odd, or G split adjoint of type E₆, E₈, F₄ or G₂; numbering and coordinates of Conventions.
 
-One proof route is as follows. For n = 2k, ν is half-integral for the adjoint representation iff a_k ∈ ¼ℤ and the consecutive differences νᵢ − νᵢ₊₁ lie in ½ℤ; inside (6.15) this leaves a₁ = ⋯ = a_k ∈ {0, ¼}, i.e. ν ∈ {0, ½ω_k}, and ½ω_k satisfies (6.15). For n odd, half-integrality forces every aᵢ ∈ ½ℤ, and (6.15) leaves only aᵢ = 0.
+One proof route is as follows. For PGL(n), U₀^g = A₀ ∩ `C_(0,h)` (d = 0 in generic-unitary-classification), so ν₁ + ⋯ + νₙ₋₁ < 1 in fundamental-weight coordinates; with every νᵢ ∈ {0, ½} (half-integral-reduction) at most one νᵢ is nonzero, and the hermitian condition νᵢ = νₙ₋ᵢ (spherical-hermitian-criterion) allows this only for i = n/2, which is not an index when n is odd. For the exceptional types write a coroot by its coefficients in the simple coroots. G₂ has r₀ = 3 with the single coroot (2, 1), so 2ν₁ + ν₂ < 1 (BC1, §3.4, Proposition (1), p. 18); F₄ has r₀ = 9 with the single coroot (1, 2, 4, 2), the vector (1, 1, 1, −1), so ν₁ + 2ν₂ + 4ν₃ + 2ν₄ < 1 (BC1, §3.4, Proposition (2), p. 18); E₆ and E₈ have the coroots of explicit-regions. With νᵢ ∈ {0, ½} these leave ν₁ = 0 for G₂; ν₂ = ν₃ = ν₄ = 0 for F₄; ν₃ = ν₄ = ν₅ = 0 and, by the hermitian condition ν₁ = ν₆, ν₁ = ν₆ = 0 for E₆; ν₂ = ⋯ = ν₇ = 0 and ν₁ + ν₈ < 1 for E₈. The highest coroots (3, 2) of G₂, (2, 3, 4, 2) of F₄, (1, 2, 2, 3, 2, 1) of E₆ and (2, 3, 4, 6, 5, 4, 3, 2) of E₈ have coefficient 2 at every surviving index, so each surviving nonzero candidate pairs to 1 with γ^∨ and is not generic (unramified-principal-series-irreducibility).
 
-For PGL₂ (k = 1), `U₀^(g,½)` = {0, ½ω₁}, the complementary-series point with ⟨α^∨, ν⟩ = ½. For PGL₃, `U₀^(g,½)` = {0}.
+For PGL₃, `U₀^(g,½)` = {0}. For E₆ the hermitian condition is needed: ½ω₁ satisfies the level-9 bound (value ½) but is not hermitian, since w₀ ≠ −1. For E₈, ⟨γ^∨, ½ω₈⟩ = ½ · 2 = 1. For G₂, ½ω₂ is the real part of the witness of g2-noncentral-witness; with s_c = 1 it is not generic.
 
-*Needs:* SRU.5 / half-integral-reduction; SRU.5 / generic-unitary-classification; SRU.5 / spherical-hermitian-criterion.
+*Needs:* SRU.5 / half-integral-reduction; SRU.5 / generic-unitary-classification; SRU.5 / spherical-hermitian-criterion; SRU.5 / unramified-principal-series-irreducibility; SRU.5 / explicit-regions.
 
-### 5.15 Half-integral generic unitary points for SO(2n+1) (*half-integral-type-b*)
+### 5.15 Types with nonzero half-integral generic unitary points (*half-integral-alcove-points*)
 
-For G = SO(2n+1), with coroots α₁^∨ = 2ε₁, αᵢ^∨ = −εᵢ₋₁ + εᵢ (2 ≤ i ≤ n), weights ω₁ = ½(ε₁ + ⋯ + εₙ), ωᵢ = εᵢ + ⋯ + εₙ and highest coroot γ^∨ = 2εₙ (Ciubotaru–Harris §6.4): the only coroot of the maximal level r₀ = 2n − 1 is γ^∨ (Barbasch, Theorem 3.1), the unitary bound reads ν₁ + 2ν₂ + ⋯ + 2νₙ < 1, and `U₀^(g,½)` = {0, ½ω₁}; ⟨γ^∨, ½ω₁⟩ = ½, so ½ω₁ lies in A₀. (CH26, §6.4, PDF p. 20)
+In the setting of real-satake-parameter, the nonzero points of `U₀^(g,½)` are: ½ω_(n/2) for PGL(n) with n even, in standard coordinates the point (¼, …, ¼, −¼, …, −¼); ½ω₁ for SO(2n+1); ½ωₙ for PSp(2n); ½ω₁, ½ω₂ and ½ωₙ for PSO(2n) with n ≥ 4 even, and ½ωₙ for PSO(2n) with n ≥ 3 odd; and ½ω₇ for E₇, in the numbering of Conventions. Each of them pairs to ½ with the highest coroot γ^∨, so it lies in A₀ ∩ `C_(0,h)` and L(ν) is unitary; every other nonzero candidate left by the bounds at the maximal level and half-integral-reduction is not hermitian or pairs to 1 with γ^∨. (CH26, Theorem 6.14 and §§6.3–6.6 and 6.10, PDF pp. 19–24)
 
-G = SO(2n+1); coordinates of Ciubotaru–Harris §6.4.
+G = PGL(n) with n ≥ 2 even, SO(2n+1) with n ≥ 1, PSp(2n) with n ≥ 2, PSO(2n) with n ≥ 3, or split adjoint E₇; numbering and coordinates of Conventions, in which εⱼ = α₁^∨ + ⋯ + αⱼ^∨ for PSp(2n).
 
-One proof route is as follows. By generic-unitary-classification every ν ∈ U₀^g has ⟨γ^∨, ν⟩ < 1, i.e. ν₁ + 2ν₂ + ⋯ + 2νₙ < 1. With νᵢ ∈ {0, ½} (half-integral-reduction) this forces ν₂ = ⋯ = νₙ = 0, leaving 0 and ½ω₁, and ½ω₁ ∈ A₀ is unitary (fundamental-alcove-unitary).
-
-For SO(3) ≅ PGL₂ (n = 1), the result agrees with half-integral-type-a: {0, ½ω₁}.
-
-*Needs:* SRU.5 / half-integral-reduction; SRU.5 / generic-unitary-classification; SRU.5 / fundamental-alcove-unitary.
-
-### 5.16 Half-integral generic unitary points for PSp(2n) (*half-integral-type-c*)
-
-For n ≥ 2, for G = PSp(2n), with coroots α₁^∨ = ε₁, αᵢ^∨ = −εᵢ₋₁ + εᵢ, weights ωᵢ = εᵢ + ⋯ + εₙ and highest coroot γ^∨ = εₙ₋₁ + εₙ (Ciubotaru–Harris §6.5): the maximal level is r₀ = n for n odd and n + 1 for n even, with the coroots (6.16), (6.17); the resulting bounds force ν₁ = ⋯ = `ν_(⌊n/2⌋)` = 0 and `Σ_(j > ⌊n/2⌋)` νⱼ < 1, leaving ½ωⱼ for j > ⌊n/2⌋, of which ½ωⱼ (j < n) lie on the wall ⟨γ^∨, ν⟩ = 1. Hence `U₀^(g,½)` = {0, ½ωₙ}, with ⟨γ^∨, ½ωₙ⟩ = ½. (CH26, §6.5, PDF p. 20)
-
-G = PSp(2n); coordinates of Ciubotaru–Harris §6.5. n ≥ 2 for the displayed `ε_(n−1)`+ε_n formula; the rank-one case PSp₂ = PGL₂ is handled by half-integral-type-a.
-
-One proof route is as follows. The coroots of level r₀ give the inequalities 2ν₁ + ν₂ + ⋯ < 1, …, displayed in §6.5 for n odd and even (generic-unitary-classification, after Barbasch Theorem 3.1). With νᵢ ∈ {0, ½} (half-integral-reduction) they force ν₁ = ⋯ = `ν_(⌊n/2⌋)` = 0 and at most one νⱼ = ½ with j > ⌊n/2⌋. For ⌊n/2⌋ < j < n, ⟨γ^∨, ½ωⱼ⟩ = 1, so ½ωⱼ is not generic; ½ωₙ ∈ A₀ is unitary (fundamental-alcove-unitary).
-
-For PSp(2) ≅ PGL₂, {0, ½ω₁} as in type A. For PSp(4), the candidates ½ω₁ (excluded by ν₁ = 0) and ½ω₂ leave `U₀^(g,½)` = {0, ½ω₂}. For n=1 use PSp₂=PGL₂ and type A₁; do not interpret ε₀ in the rank ≥2 formula.
-
-*Needs:* SRU.5 / half-integral-reduction; SRU.5 / generic-unitary-classification; SRU.5 / fundamental-alcove-unitary; SRU.5 / generic-unitary-region.
-
-### 5.17 Half-integral generic unitary points for PSO(2n) (*half-integral-type-d*)
-
-For G = PSO(2n), with coroots α₁^∨ = ε₁ + ε₂, αᵢ^∨ = −εᵢ₋₁ + εᵢ, weights ω₁ = ½(ε₁ + ⋯ + εₙ), ω₂ = ½(−ε₁ + ε₂ + ⋯ + εₙ), ωᵢ = εᵢ + ⋯ + εₙ (i ≥ 3) and highest coroot γ^∨ = εₙ₋₁ + εₙ (Ciubotaru–Harris §6.6): for n even the maximal level is r₀ = n − 1 with the coroots (6.18), and `U₀^(g,½)` = {0, ½ω₁, ½ω₂, ½ωₙ}; for n odd hermitian parameters need ν₁ = ν₂, which excludes ½ω₁ and ½ω₂, and `U₀^(g,½)` = {0, ½ωₙ}. All listed nonzero points pair with γ^∨ to ½ and lie in A₀. (CH26, §6.6, PDF p. 21)
-
-G = PSO(2n), n ≥ 3; coordinates of Ciubotaru–Harris §6.6. For irreducible type D use n ≥ 4; D₃ is interpreted through A₃, and D₂ through A₁ × A₁.
-
-One proof route is as follows. For n even the level-r₀ coroots (6.18) force ν₃ = ⋯ = `ν_(n/2)` = 0 and at most one of ν₁, ν₂, νⱼ (j > n/2) equal to ½ (generic-unitary-classification, half-integral-reduction). The points ½ωⱼ with n/2 < j < n lie on the wall ⟨γ^∨, ν⟩ = 1; ½ω₁, ½ω₂, ½ωₙ pair with γ^∨ to ½ and lie in A₀, hence are unitary. For n odd, w₀ν = −ν forces ν₁ = ν₂ (spherical-hermitian-criterion), excluding ½ω₁ and ½ω₂.
+One proof route is as follows. Unitarity of each listed point is fundamental-alcove-unitary. PGL(n), n = 2k: as in half-integral-origin-only, ν₁ + ⋯ + νₙ₋₁ < 1 and νᵢ = νₙ₋ᵢ leave only ν_k = ½, and γ^∨ = α₁^∨ + ⋯ + αₙ₋₁^∨ pairs to ½ with ½ω_k. SO(2n+1): U₀^g = A₀ ∩ `C_(0,h)` (d = 0), and γ^∨ = 2εₙ = α₁^∨ + 2α₂^∨ + ⋯ + 2αₙ^∨ is the only coroot of level r₀ = 2n − 1, so ν₁ + 2ν₂ + ⋯ + 2νₙ < 1 leaves ½ω₁, with ⟨γ^∨, ½ω₁⟩ = ½. PSp(2n): εᵢ + εⱼ (i < j) has level i + j and ⟨εᵢ + εⱼ, ν⟩ = 2(ν₁ + ⋯ + νᵢ) + νᵢ₊₁ + ⋯ + νⱼ. For n odd, r₀ = n with the coroots εᵢ + εₙ₋ᵢ (1 ≤ i < n/2) and εₙ; for n even, r₀ = n + 1 with the coroots εᵢ + εₙ₊₁₋ᵢ (1 ≤ i ≤ n/2) (CH26, §6.5, PDF pp. 20–21; the regions are those of BC1, §3.3, Theorem, p. 18). They force ν₁ = ⋯ = ν_(⌊n/2⌋) = 0 and at most one νⱼ = ½; the highest coroot εₙ₋₁ + εₙ has coefficient 2 at αⱼ^∨ for j < n and 1 at αₙ^∨, so ½ωⱼ (⌊n/2⌋ < j < n) lies on its wall and ½ωₙ pairs to ½. PSO(2n), n even: r₀ = n − 1 with the coroots ε₁ + εₙ, εₙ − ε₁ and εᵢ + εₙ₊₁₋ᵢ (2 ≤ i ≤ n/2) (CH26, §6.6, PDF p. 21); they force ν₃ = ⋯ = ν_(n/2) = 0 and at most one of ν₁, ν₂ and νⱼ (j > n/2) equal to ½. The highest coroot εₙ₋₁ + εₙ = α₁^∨ + α₂^∨ + 2(α₃^∨ + ⋯ + αₙ₋₁^∨) + αₙ^∨ puts ½ωⱼ (n/2 < j < n) on its wall and pairs to ½ with ½ω₁, ½ω₂ and ½ωₙ. PSO(2n), n odd: w₀ν = −ν forces ν₁ = ν₂ (spherical-hermitian-criterion), so the first standard coordinate (ν₁ − ν₂)/2 vanishes and the condition of explicit-regions becomes the PSp(2n − 2) condition in the remaining standard coordinates, with the same levels; hence r₀ = n with the coroots εᵢ + εₙ₊₂₋ᵢ (2 ≤ i ≤ (n + 1)/2). The coroot ε₂ + εₙ gives ν₁ + ν₂ + ⋯ + νₙ < 1, so ν₁ = ν₂ = 0 and at most one νⱼ = ½; the coroot with i = (n + 1)/2 forces ν₃ = ⋯ = ν_((n+1)/2) = 0; the same highest coroot leaves only ½ωₙ off its wall. E₇: the four coroots of level r₀ = 9 in explicit-regions force ν₃ = ν₄ = ν₅ = ν₆ = 0 and at most one of ν₁, ν₂, ν₇ equal to ½, and the highest coroot (2, 2, 3, 4, 3, 2, 1) puts ½ω₁ and ½ω₂ on its wall and pairs to ½ with ½ω₇.
 
 **Checks.**
 
-- D₂ is reducible with root system A₁ × A₁; the simple-type formula is not applied at n = 2. D₃ has the A₃ list {0,½ω₃} in this numbering.
+- D₂ is reducible with root system A₁ × A₁; the simple-type formula is not applied at n = 2. D₃ has the A₃ list {0, ½ω₃} in this numbering, where α₃^∨ is the middle node of A₃.
+- For PSp(4) the candidates are ½ω₁, excluded by the level-3 bound 2ν₁ + ν₂ < 1, and ½ω₂, with ⟨γ^∨, ½ω₂⟩ = ½; so `U₀^(g,½)` = {0, ½ω₂}. For n = 1 use PSp₂ = PGL₂ and type A₁; the rank-≥ 2 formula has no ε₀.
+- For PSO(10) (n = 5) the point ν₁ = ν₂ = ½ is hermitian but has ⟨ε₂ + ε₅, ν⟩ = 1, and ½ω₄ has ⟨γ^∨, ½ω₄⟩ = 1; only ½ωₙ = ½ω₅ survives, with value ½.
 
-For PSO(8) (n = 4) the three nonzero points ½ω₁, ½ω₂, ½ω₄ are permuted by triality. For PSO(6) ≅ PGL₄ (n = 3), {0, ½ω₃} matches half-integral-type-a with k = 2 under the isomorphism.
+For PGL₂ (k = 1), `U₀^(g,½)` = {0, ½ω₁}, the complementary-series point with ⟨α^∨, ν⟩ = ½; SO(3) ≅ PGL₂ and PSp₂ = PGL₂ give the same list. For PSO(8) the three nonzero points ½ω₁, ½ω₂, ½ω₄ are permuted by triality. For PSO(6) ≅ PGL₄ (n = 3), {0, ½ω₃} matches the PGL₄ point under the isomorphism. ½ω₇ is the E₇ point that fundamental-separators removes with the 56-dimensional representation (pairing ¾).
 
-*Needs:* SRU.5 / half-integral-reduction; SRU.5 / generic-unitary-classification; SRU.5 / fundamental-alcove-unitary; SRU.5 / spherical-hermitian-criterion.
+*Needs:* SRU.5 / half-integral-reduction; SRU.5 / generic-unitary-classification; SRU.5 / fundamental-alcove-unitary; SRU.5 / spherical-hermitian-criterion; SRU.5 / unramified-principal-series-irreducibility; SRU.5 / explicit-regions.
 
-### 5.18 Half-integral generic unitary points for G₂ (*half-integral-type-g2*)
+### 5.16 Half-integral generic unitary spherical parameters (*half-integral-generic-unitary*)
 
-For G = G₂ in Bourbaki coordinates (6.19), the unique coroot of the maximal level r₀ = 3 is β^∨ = 2α₁^∨ + α₂^∨, giving the unitary bound 2ν₁ + ν₂ < 1 ((6.20)); hence ν₁ = 0, ν₂ ∈ {0, ½}, and ½ω₂ lies on the wall ⟨γ^∨, ν⟩ = 1 for the highest coroot γ^∨ = 3α₁^∨ + 2α₂^∨. So `U₀^(g,½)` = {0} (Ciubotaru–Harris §6.7). (CH26, §6.7, PDF p. 22)
-
-G = G₂; coordinates (6.19).
-
-One proof route is as follows. The level bound is from Ciubotaru's classification (generic-unitary-classification, Ciubotaru F₄ paper Appendix B as cited). 2ν₁ < 1 with ν₁ ∈ ½ℤ gives ν₁ = 0; ν₂ < 1 gives ν₂ ∈ {0, ½}; ⟨3α₁^∨ + 2α₂^∨, ½ω₂⟩ = 1.
-
-½ω₂ is the real part of the G₂ witness of g2-noncentral-witness, which is not generic for s_c = 1.
-
-*Needs:* SRU.5 / half-integral-reduction; SRU.5 / generic-unitary-classification.
-
-### 5.19 Half-integral generic unitary points for F₄ (*half-integral-type-f4*)
-
-For G = F₄ in the coordinates (6.21), the unique coroot of the maximal level r₀ = 9 is β^∨ = (1, 1, 1, −1) = α₁^∨ + 2α₂^∨ + 4α₃^∨ + 2α₄^∨, giving ν₁ + 2ν₂ + 4ν₃ + 2ν₄ < 1 ((6.22)); hence ν₂ = ν₃ = ν₄ = 0, ν₁ ∈ {0, ½}, and ½ω₁ lies on the wall of the highest coroot γ^∨ = (2, 0, 0, 0). So `U₀^(g,½)` = {0} (Ciubotaru–Harris §6.8). (CH26, §6.8, PDF p. 22)
-
-G = F₄; coordinates (6.21).
-
-One proof route is as follows. The level bound comes from Ciubotaru's F₄ table (generic-unitary-classification). The inequality with νᵢ ∈ `½ℤ_(≥0)` leaves ν = 0 or ½ω₁, and ⟨γ^∨, ½ω₁⟩ = 1.
-
-In the coordinates (6.21), ⟨(2,0,0,0), ½ω₁⟩ = ⟨(2,0,0,0), (½,0,0,0)⟩ = 1.
-
-*Needs:* SRU.5 / half-integral-reduction; SRU.5 / generic-unitary-classification.
-
-### 5.20 Half-integral generic unitary points for E₆ (*half-integral-type-e6*)
-
-For G = E₆ in the coordinates (6.28), hermitian parameters satisfy ν₁ = ν₆ and ν₃ = ν₅; the unique coroot of the maximal level r₀ = 9 is β^∨ = α₁^∨ + α₂^∨ + 2α₃^∨ + 2α₄^∨ + 2α₅^∨ + α₆^∨ ((6.29)), giving 2ν₃ < 1, 2ν₄ < 1, 2ν₅ < 1 and ν₁ + ν₂ + ν₆ < 1; hence the only nonzero candidate is ½ω₂, which lies on the wall of the highest coroot. So `U₀^(g,½)` = {0} (Ciubotaru–Harris §6.11). (CH26, §6.11, PDF p. 24)
-
-G = E₆; coordinates (6.28).
-
-One proof route is as follows. The level bound is from Ciubotaru's E₆ paper and Barbasch–Ciubotaru §7.2.1 (generic-unitary-classification). ν₃ = ν₄ = ν₅ = 0; ν₁ = ν₆ with ν₁ + ν₂ + ν₆ < 1 forces ν₁ = ν₆ = 0; ½ω₂ pairs to 1 with γ^∨.
-
-The hermitian condition is needed: ½ω₁ alone satisfies the level bound but is not hermitian for E₆ (w₀ ≠ −1).
-
-*Needs:* SRU.5 / half-integral-reduction; SRU.5 / generic-unitary-classification; SRU.5 / spherical-hermitian-criterion.
-
-### 5.21 Half-integral generic unitary points for E₇ (*half-integral-type-e7*)
-
-For G = E₇ in the coordinates (6.26), the coroots of the maximal level r₀ = 9 are the four listed in (6.27) (labels 46–49 of Barbasch–Ciubotaru), giving 2ν₃, 2ν₄, 2ν₅, 2ν₆ < 1 and ν₁ + ν₂ + ν₇ < 1; the candidates ½ω₁, ½ω₂ lie on the wall of the highest coroot γ^∨ = −ε₇ + ε₈, while ⟨γ^∨, ½ω₇⟩ = ½. So `U₀^(g,½)` = {0, ½ω₇} (Ciubotaru–Harris §6.10). (CH26, §6.10, PDF p. 23)
-
-G = E₇; coordinates (6.26).
-
-One proof route is as follows. The level bound is from Barbasch–Ciubotaru §7.2.2 (generic-unitary-classification). The inequalities leave ν₃ = ⋯ = ν₆ = 0 and at most one of ν₁, ν₂, ν₇ equal to ½. ½ω₁, ½ω₂ are on the wall γ^∨ = 1; ½ω₇ is in A₀, hence unitary (fundamental-alcove-unitary).
-
-½ω₇ is the extra E₇ point that fundamental-separators removes using the 56-dimensional representation (pairing ¾).
-
-*Needs:* SRU.5 / half-integral-reduction; SRU.5 / generic-unitary-classification; SRU.5 / fundamental-alcove-unitary.
-
-### 5.22 Half-integral generic unitary points for E₈ (*half-integral-type-e8*)
-
-For G = E₈ in the coordinates (6.23)–(6.24), the coroots of the maximal level r₀ = 15 are the four listed in (6.25) (labels 89–92 of Barbasch–Ciubotaru), giving 2ν₂, 2ν₃, 4ν₄, 3ν₅, 2ν₆, 2ν₇ < 1 and ν₁ + ν₈ < 1; the candidates ½ω₁ and ½ω₈ lie on the wall of the highest coroot γ^∨ = ε₇ + ε₈. So `U₀^(g,½)` = {0} (Ciubotaru–Harris §6.9). (CH26, §6.9, PDF p. 22)
-
-G = E₈; coordinates (6.23)–(6.24).
-
-One proof route is as follows. The level bound is from Barbasch–Ciubotaru §7.2.3 (generic-unitary-classification). The inequalities leave ν₂ = ⋯ = ν₇ = 0 and ν₁, ν₈ ∈ {0, ½}, not both ½. ⟨γ^∨, ½ω₁⟩ = ⟨γ^∨, ½ω₈⟩ = 1.
-
-In (6.24), ω₈ = ε₇ + ε₈, so ⟨ε₇ + ε₈, ½ω₈⟩ = 1.
-
-*Needs:* SRU.5 / half-integral-reduction; SRU.5 / generic-unitary-classification.
-
-### 5.23 Half-integral generic unitary spherical parameters (*half-integral-generic-unitary*)
-
-In the setting of real-satake-parameter, `U₀^(g,½)` := U₀^g ∩ `C₀^(½)` is {0, `½ω_(n/2)`} for PGL(n), n even, and {0} for n odd; {0, ½ω₁} for SO(2n+1); {0, ½ωₙ} for PSp(2n); {0, ½ω₁, ½ω₂, ½ωₙ} for PSO(2n), n even, and {0, ½ωₙ} for n odd; {0, ½ω₇} for E₇; {0} for G₂, F₄, E₆, E₈ (Ciubotaru–Harris Theorem 6.14, numbering of §§6.3–6.11); every nonzero element lies in the fundamental alcove A₀, and `U₀^(g,½)` = {0} unless G is of type `A_(n−1)` (n even), B, C, D or E₇. (CH26, Theorem 6.14, PDF p. 19)
+In the setting of real-satake-parameter, `U₀^(g,½)` := U₀^g ∩ `C₀^(½)` is {0, `½ω_(n/2)`} for PGL(n), n even, and {0} for n odd; {0, ½ω₁} for SO(2n+1); {0, ½ωₙ} for PSp(2n); {0, ½ω₁, ½ω₂, ½ωₙ} for PSO(2n), n even, and {0, ½ωₙ} for n odd; {0, ½ω₇} for E₇; {0} for G₂, F₄, E₆, E₈ (Ciubotaru–Harris Theorem 6.14, in the numbering of Conventions); every nonzero element lies in the fundamental alcove A₀, and `U₀^(g,½)` = {0} unless G is of type `A_(n−1)` (n even), B, C, D or E₇. (CH26, Theorem 6.14, PDF p. 19)
 
 k a nonarchimedean local field of any characteristic with residue field 𝔽_q, G = 𝐆(k) for 𝐆 quasi-simple, split and adjoint, K = 𝐆(O) hyperspecial, B ⊃ T a Borel subgroup and maximal split torus, based root datum (X, Φ, X^∨, Φ^∨, Π), Weyl group W, longest element w₀, Coxeter number h, dual group G^∨ over ℂ with maximal torus T^∨ = X ⊗ ℂ^× (Ciubotaru–Harris §6 setting).
 
-One proof route is as follows. Assemble the nine type-by-type computations; the common strategy (Ciubotaru–Harris, proof of Theorem 6.14) is: the classification gives a maximal level r₀ ≥ 1 with ⟨α^∨, ν⟩ < 1 for all coroots of that level; the half-integral points satisfying these inequalities either lie on a reducibility wall (not generic) or are among the listed exceptions, all of which lie in A₀.
+One proof route is as follows. Every quasi-simple split adjoint type is covered by half-integral-origin-only or half-integral-alcove-points: in each, the bounds at the maximal level r₀ ≥ 1 and half-integral-reduction leave finitely many candidates ½ωᵢ, each either on the wall of the highest coroot (not generic) or one of the listed points of A₀.
 
 For G₂, a generic unitary spherical L(ν) with real ν half-integral for the adjoint representation is tempered.
 
-*Needs:* SRU.5 / half-integral-type-a; SRU.5 / half-integral-type-b; SRU.5 / half-integral-type-c; SRU.5 / half-integral-type-d; SRU.5 / half-integral-type-g2; SRU.5 / half-integral-type-f4; SRU.5 / half-integral-type-e6; SRU.5 / half-integral-type-e7; SRU.5 / half-integral-type-e8.
+*Needs:* SRU.5 / half-integral-origin-only; SRU.5 / half-integral-alcove-points.
 
-### 5.24 Fundamental representations separate the extra half-integral points (*fundamental-separators*)
+### 5.17 Fundamental representations separate the extra half-integral points (*fundamental-separators*)
 
 In the setting of half-integral-generic-unitary: `½ω_(n/2)` is not half-integral for the defining representation V(ω₁^∨) of SL(n) (n even); ½ω₁ is not half-integral for the defining representation V(ωₙ^∨) of Sp(2n) (G = SO(2n+1)); ½ωₙ is not half-integral for the spin representation V(ω₁^∨) of Spin(2n+1) (G = PSp(2n)); for G = PSO(2n), ½ωₙ is not half-integral for the spin representation V(ω₁^∨) and ½ω₁, ½ω₂ are not for the defining representation V(ωₙ^∨); and ½ω₇ is not half-integral for the 56-dimensional V(ω₇^∨) of E₇ (Ciubotaru–Harris Proposition 6.31). The pairings are ¼ in the classical cases and ¾ for E₇. For type D both the spin and the defining representation are needed. (CH26, Proposition 6.31, PDF p. 24)
 
-Numbering of Ciubotaru–Harris §§6.3–6.11.
+Numbering of Conventions.
 
 One proof route is as follows. By the highest-weight half-integrality test of LieHighestWeightPartII N5 it suffices to compute ⟨λ^∨, ν⟩ for the listed highest weights, which are ¼ (classical) and ¾ (E₇).
 
@@ -1405,7 +1323,7 @@ For PGL₂ (n = 2), ⟨ω₁^∨, ½ω₁⟩ = ¼ for the standard representatio
 
 *Needs:* LieHighestWeightPartII N5 (highest-weight half-integrality); SRU.5 / half-integral-generic-unitary; RepresentationTheory/LieHighestWeight / Layer 4-the-classification-of-finite-dimensional-irreducibles.
 
-### 5.25 The local generic temperedness test (*generic-temperedness-test*)
+### 5.18 The local generic temperedness test (*generic-temperedness-test*)
 
 In the setting of real-satake-parameter, let s = s_c·s_ν with s_c = 1 or s_c central in G^∨ (the real or central-compact sector). If L(s) is generic and unitary, then s is geometric for the adjoint representation of G^∨ and for the fundamental representations of fundamental-separators iff ν = 0, i.e. iff L(s) = L(s_c) is tempered (Ciubotaru–Harris Corollary 6.32(1), corrected scope). As printed, for arbitrary s_c, the statement is false: see g2-noncentral-witness. (CH26, Corollary 6.32(1), PDF p. 25)
 
@@ -1417,7 +1335,7 @@ For G = PGL₂ and s real with ν = ½ω₁ (a complementary-series point), the 
 
 *Needs:* SRU.5 / half-integral-generic-unitary; SRU.5 / fundamental-separators; SRU.5 / spherical-tempered-criterion; SRU.5 / generic-unitary-region.
 
-### 5.26 The G₂ witness for noncentral compact parts (*g2-noncentral-witness*)
+### 5.19 The G₂ witness for noncentral compact parts (*g2-noncentral-witness*)
 
 Let G be split G₂ over k and s_c ∈ T^∨ the involution with (aα₁^∨ + bα₂^∨)(s_c) = (−1)^a (α₁^∨ the short simple coroot); its centraliser in G^∨ has type A₁ × Ã₁. For ν = ½ω₂ and s = s_c s_ν, X(s) is irreducible, L(s) = X(s) is generic and unitary, s is geometric for every representation of G^∨, and ν ≠ 0. Hence Corollary 6.32(1) fails for noncentral s_c, and the real part ½ω₂ is an extraneous point of CS(G₂, 0). (CH26, Corollary 6.32(1), tested on the explicitly specified parameter, PDF p. 25)
 
@@ -1427,9 +1345,9 @@ One proof route is as follows. On the positive coroots (a, b) = (1,0), (0,1), (1
 
 L(s_ν) itself (real part only) is not generic: ⟨3α₁^∨ + 2α₂^∨, ν⟩ = 1, so ν ∉ U₀^g; the unitarity of L(s) is governed by the centraliser of s_c, not by U₀^g.
 
-*Needs:* SRU.5 / unramified-principal-series-irreducibility; SRU.5 / fundamental-alcove-unitary; SRU.5 / half-integral-parameter; SRU.5 / spherical-hermitian-criterion; SRU.5.27, compact-centralizer signature comparison.
+*Needs:* SRU.5 / unramified-principal-series-irreducibility; SRU.5 / fundamental-alcove-unitary; SRU.5 / half-integral-parameter; SRU.5 / spherical-hermitian-criterion; SRU.5.20, compact-centralizer signature comparison.
 
-### 5.27 Signature and characteristic-independent Hecke comparison (*signature-hecke-comparison*)
+### 5.20 Signature and characteristic-independent Hecke comparison (*signature-hecke-comparison*)
 
 For each reduced based root datum, each compact semisimple central character and its associated positive Hecke parameters, construct the long-intertwiner hermitian forms on spherical standard modules and compute their signatures on the detecting finite Weyl types. Prove constancy on each irreducible hermitian region and equivalence of positivity with unitarity of the corresponding spherical module. State the *-compatible affine-to-graded equivalence with the full lattice and centralizer action, not just a root-system type. These are the inputs used for the exclusion beyond a simple-root value 1 and for the all-type alcove theorem. Prove the comparison algebraically at the level of Hecke algebras, so it applies equally to mixed- and equal-characteristic local fields after the supplied Iwahori equivalence (BC1 §§1.2, 3.1–3.4 and 7.2; BCP §5.2, pp. 53–54; BC3 Theorems 1.3.1 and 1.4.1).
 
@@ -1442,7 +1360,7 @@ One proof route is as follows. G = ⊔_(x ∈ W̃) U x I by the Iwasawa decompos
 **Checks.**
 
 - In rank one the normalized intertwiner has positive form for 0 ≤ ⟨α^∨,ν⟩ < 1 and a detecting negative direction past 1; the reducible endpoint has separate trivial and Steinberg constituents.
-- For the noncentral G₂ involution the centralizer is A₁ × A₁ and all six coroot values listed in SRU.5.26 avoid q and q⁻¹; using the ambient real G₂ chamber would give the wrong answer.
+- For the noncentral G₂ involution the centralizer is A₁ × A₁ and all six coroot values listed in SRU.5.19 avoid q and q⁻¹; using the ambient real G₂ chamber would give the wrong answer.
 - At q = 2 and q = 3 the two finite-Hecke eigenvalues are respectively (2,−1) and (3,−1), still distinct over ℂ; no good-prime restriction is inserted.
 - For the split torus 𝐆 = 𝔾_m, U = 1, W = 1, H(K, I) = ℂ and sgn is the trivial character; c-Ind_U^G ψ_K = C_c^∞(F^×), whose O^×-fixed vectors form ℂ[X_*(T)] = ℂ[ℤ], free of rank one on the indicator of O^×; every unramified character has Whittaker dimension 1, the multiplicity of sgn in its one-dimensional I-fixed space.
 - For GL₂(F) the trivial representation has π^I the trivial character of H(W, q) (T_s acts by q), in which sgn has multiplicity 0, and Hom_U(1, ψ_K) = 0; the Steinberg representation has St^I = sgn and Whittaker dimension 1; an irreducible unramified principal series has π^I ≅ H(W, q), in which sgn occurs once, and is generic with one-dimensional Whittaker space, in agreement with the GL₂ multiplicity-one theorem of SR.2.3. For the SL₂(ℚ₃) constituent of SRU.4.3 with T_s = 3 on its one-dimensional I-fixed space the formula gives Whittaker dimension 0 for ψ_K, although that constituent is generic for a character of conductor ℤ₃: the formula is for ψ_K only.
@@ -1453,106 +1371,19 @@ One proof route is as follows. G = ⊔_(x ∈ W̃) U x I by the Iwasawa decompos
 
 The highest-weight half-integrality test consumed from LieHighestWeightPartII N5 says that for adjoint-half-integral ν, all weights of V(λ^∨) pair in ½ℤ exactly when λ^∨ does. On PGL₂, the standard highest weight pairs with ½ω₁ to ¼, so that representation fails the test even though the adjoint test passes (CH26 Lemma 6.30, p. 24).
 
-### 5.28 Explicit classical and exceptional regions (*explicit-regions*)
+### 5.21 Explicit classical and exceptional regions (*explicit-regions*)
 
 The condition for dual types B and D in SRU.5.11 (G = PSp(2n) and G = PSO(2n)) has the following precise meaning in the coordinates of BC1 §3.3. After the dominant ordering and, in type D, the sign symmetry of the first standard coordinate, write 0 ≤ a₁ ≤ ⋯ ≤ aₙ < 1. Put a₀ = 0 solely for this endpoint convention. There is an index 1 ≤ i ≤ n such that aᵢ < 1−aᵢ₋₁, and, if i < n, 1−aᵢ₋₁ < aᵢ₊₁ < ⋯ < aₙ. For each j with i ≤ j < n, the open interval (aⱼ,aⱼ₊₁) contains an odd number, counted with multiplicity, of the values 1−aₗ for 1 ≤ l < i. Retain the hermitian condition from SRU.5.6. This includes the rank-one range 0 ≤ a₁ < 1 without referring to an out-of-range coordinate (BC1 §3.3, p. 18).
 
-For E₆, E₇ and E₈, let bⱼ(ν) = ⟨βⱼ,ν⟩, where the coroots βⱼ are defined by the vectors below in the standard eight-coordinate realizations of CH26 §§6.9–6.11. Restrict throughout to dominant hermitian ν. A row (L,H) denotes the set on which every bⱼ with j in L is strictly below 1 and every bⱼ with j in H is strictly above 1. The unitary region is the union of the following rows. The dominant inequalities are imposed in every row, including chamber faces where a simple-root value is zero (BC1 §7.2.1–§7.2.4, pp. 46–47).
-
-| Type | L | H |
-| --- | --- | --- |
-| E6 | 36 | ∅ |
-| E6 | 34 | 35 |
-| E7 | 63 | ∅ |
-| E7 | 61 | 62 |
-| E7 | 58, 59 | 60 |
-| E7 | 53, 54, 55 | 56, 57 |
-| E7 | 46, 47, 48, 49 | 50, 51, 52 |
-| E7 | 53, 59 | 56 |
-| E7 | 49, 53, 54 | 52, 56 |
-| E7 | 47, 48, 49, 53 | 51, 52 |
-| E8 | 120 | ∅ |
-| E8 | 113, 114 | 115 |
-| E8 | 109, 110 | 111, 112 |
-| E8 | 91, 92, 97, 98 | 95, 96, 101 |
-| E8 | 90, 91, 92, 97 | 94, 95, 96 |
-| E8 | 89, 90, 91, 92 | 93, 94, 95, 96 |
-| E8 | 104, 110 | 107, 112 |
-| E8 | 104, 105, 106 | 107, 108 |
-| E8 | 118 | 119 |
-| E8 | 97, 110 | 101, 112 |
-| E8 | 97, 105, 106 | 101, 108 |
-| E8 | 116 | 117 |
-| E8 | 97, 98, 106 | 101, 102 |
-| E8 | 97, 98, 99 | 96, 101, 102 |
-| E8 | 97, 98, 99, 100 | 101, 102, 103 |
-| E8 | 114 | 112 |
-
-The next table gives 2βⱼ, so every listed integer vector is divided by 2. The labels are local to their type; no enumeration of unstated roots is assumed.
-
-| Type | j | 2βⱼ |
-| --- | --- | --- |
-| E6 | 34 | (-1,1,-1,1,1,-1,-1,1) |
-| E6 | 35 | (-1,-1,1,1,1,-1,-1,1) |
-| E6 | 36 | (1,1,1,1,1,-1,-1,1) |
-| E7 | 46 | (-1,1,-1,1,1,-1,-1,1) |
-| E7 | 47 | (-1,1,1,-1,-1,1,-1,1) |
-| E7 | 48 | (1,-1,-1,1,-1,1,-1,1) |
-| E7 | 49 | (0,0,0,0,2,2,0,0) |
-| E7 | 50 | (-1,-1,1,1,1,-1,-1,1) |
-| E7 | 51 | (-1,1,-1,1,-1,1,-1,1) |
-| E7 | 52 | (1,-1,-1,-1,1,1,-1,1) |
-| E7 | 53 | (1,1,1,1,1,-1,-1,1) |
-| E7 | 54 | (-1,-1,1,1,-1,1,-1,1) |
-| E7 | 55 | (-1,1,-1,-1,1,1,-1,1) |
-| E7 | 56 | (1,1,1,1,-1,1,-1,1) |
-| E7 | 57 | (-1,-1,1,-1,1,1,-1,1) |
-| E7 | 58 | (1,1,1,-1,1,1,-1,1) |
-| E7 | 59 | (-1,-1,-1,1,1,1,-1,1) |
-| E7 | 60 | (1,1,-1,1,1,1,-1,1) |
-| E7 | 61 | (1,-1,1,1,1,1,-1,1) |
-| E7 | 62 | (-1,1,1,1,1,1,-1,1) |
-| E7 | 63 | (0,0,0,0,0,0,-2,2) |
-| E8 | 89 | (1,-1,1,1,1,1,-1,1) |
-| E8 | 90 | (1,1,-1,1,1,-1,1,1) |
-| E8 | 91 | (1,1,1,-1,-1,1,1,1) |
-| E8 | 92 | (-1,-1,-1,1,-1,1,1,1) |
-| E8 | 93 | (-1,1,1,1,1,1,-1,1) |
-| E8 | 94 | (1,-1,1,1,1,-1,1,1) |
-| E8 | 95 | (1,1,-1,1,-1,1,1,1) |
-| E8 | 96 | (-1,-1,-1,-1,1,1,1,1) |
-| E8 | 97 | (0,0,0,0,0,0,-2,2) |
-| E8 | 98 | (-1,1,1,1,1,-1,1,1) |
-| E8 | 99 | (1,-1,1,1,-1,1,1,1) |
-| E8 | 100 | (1,1,-1,-1,1,1,1,1) |
-| E8 | 101 | (0,0,0,0,0,-2,0,2) |
-| E8 | 102 | (-1,1,1,1,-1,1,1,1) |
-| E8 | 103 | (1,-1,1,-1,1,1,1,1) |
-| E8 | 104 | (0,0,0,0,-2,0,0,2) |
-| E8 | 105 | (-1,1,1,-1,1,1,1,1) |
-| E8 | 106 | (1,-1,-1,1,1,1,1,1) |
-| E8 | 107 | (0,0,0,-2,0,0,0,2) |
-| E8 | 108 | (-1,1,-1,1,1,1,1,1) |
-| E8 | 109 | (0,0,-2,0,0,0,0,2) |
-| E8 | 110 | (-1,-1,1,1,1,1,1,1) |
-| E8 | 111 | (0,-2,0,0,0,0,0,2) |
-| E8 | 112 | (1,1,1,1,1,1,1,1) |
-| E8 | 113 | (2,0,0,0,0,0,0,2) |
-| E8 | 114 | (-2,0,0,0,0,0,0,2) |
-| E8 | 115 | (0,2,0,0,0,0,0,2) |
-| E8 | 116 | (0,0,2,0,0,0,0,2) |
-| E8 | 117 | (0,0,0,2,0,0,0,2) |
-| E8 | 118 | (0,0,0,0,2,0,0,2) |
-| E8 | 119 | (0,0,0,0,0,2,0,2) |
-| E8 | 120 | (0,0,0,0,0,0,2,2) |
+For E₆, E₇ and E₈ the generic unitary region is the set of dominant hermitian ν in a union of 2, 8 and 16 alcoves of C₀ respectively, the fundamental alcove A₀ among them (BC1, §3.2, Theorem, p. 17; the alcoves are listed by their bounding coroots in §§7.2.1–7.2.3, pp. 46–47). SRU.5 uses these lists only through one bound. Write a positive coroot by its coefficients in the simple coroots of Conventions and call their sum its level. Every ν ∈ U₀^g satisfies ⟨β^∨, ν⟩ < 1 for the coroot (1, 1, 2, 2, 2, 1) of E₆, of level 9; for the coroots (1, 1, 2, 2, 2, 1, 0), (1, 1, 2, 2, 1, 1, 1), (1, 1, 1, 2, 2, 1, 1) and (0, 1, 1, 2, 2, 2, 1) of E₇, of level 9; and for the coroots (1, 2, 2, 4, 3, 2, 1, 0), (1, 2, 2, 3, 3, 2, 1, 1), (1, 2, 2, 3, 2, 2, 2, 1) and (1, 1, 2, 3, 3, 2, 2, 1) of E₈, of level 15. These are all the positive coroots of those levels, each alcove of the union lies below 1 on each of them, and in each type some alcove of the union lies above 1 on a coroot of the next level, so 9, 9 and 15 are the maximal levels r₀ of half-integral-origin-only (CH26, (6.25), (6.27) and (6.29), PDF pp. 23–24).
 
 **Checks.**
 
-- At ν = 0 all bⱼ are 0, so the first row of each type holds and every row with nonempty H fails. This gives the tempered parameter and detects reversed inequalities.
-- The displayed E₆, E₇ and E₈ unions have respectively 2, 8 and 16 rows. Their highest coroots are β₃₆, β₆₃ and β₁₂₀; the Euclidean squared length of each is 2, matching the simply-laced normalization.
+- At ν = 0 every coroot pairs to 0, so 0 satisfies each bound at the maximal level and lies in A₀, the tempered parameter; a bound written as ⟨β^∨, ν⟩ > 1 would exclude it.
+- The listed coroots have coefficient sums 9, 9 and 15, while the highest coroots (1, 2, 2, 3, 2, 1), (2, 2, 3, 4, 3, 2, 1) and (2, 3, 4, 6, 5, 4, 3, 2) have levels h − 1 = 11, 17 and 29. Bounding by the highest coroot alone describes A₀ and discards the other 1, 7 and 15 alcoves; bounding by the simple coroots alone (unbounded-not-unitary) admits ½ω₄ of E₈, whose simple-coroot values are 0 and ½, although it pairs to 2 with (1, 2, 2, 4, 3, 2, 1, 0).
 - In type B₂, (a₁,a₂) = (0,¾) uses i = 2 and gives a₂ < 1−a₁. In B₃, (1/5,2/5,9/10) uses i = 2, and exactly the one number 4/5 lies between 2/5 and 9/10. A parity condition allowing zero such numbers would admit the wrong regions.
 
-*Needs:* SRU.5.27; LieHighestWeight Layers 1–2 for the fixed root pairing; BC1 §§3.3 and 7.2.
+*Needs:* SRU.5.20; LieHighestWeight Layers 1–2 for the fixed root pairing; BC1 §§3.3 and 7.2.
 
 ### Examples
 
@@ -1560,7 +1391,7 @@ In type A₁ the nonzero adjoint-half-integral unitary point is ½ω₁; its pai
 
 ### Dependencies
 
-The statement carriers and the proposed proof inputs are the individual Needs lines above. This layer consumes SRU.0–SRU.2, the Whittaker heredity input of SRU.3.7 and its characteristic-independent generic/sign adapter in SRU.5.27. The root and weight calculations consume LieHighestWeight and LieHighestWeightPartII N5; signature comparisons are targets of this layer.
+The statement carriers and the proposed proof inputs are the individual Needs lines above. This layer consumes SRU.0–SRU.2, the Whittaker heredity input of SRU.3.7 and its characteristic-independent generic/sign adapter in SRU.5.20. The root and weight calculations consume LieHighestWeight and LieHighestWeightPartII N5; signature comparisons are targets of this layer.
 
 ## Layer SRU.6: Unramified nonsplit groups
 
@@ -1602,13 +1433,13 @@ In the setting of tau-fixed-dual-group, for every real ν ∈ t'^∨_ℝ, L^G(ν
 
 k a nonarchimedean local field, G = 𝐆(k) with 𝐆 quasi-simple of adjoint type, quasi-split, split over an unramified extension and not split, with k'/k the unramified extension of least degree d splitting 𝐆; A a maximal split torus, M = Z_G(A), K a special maximal compact subgroup attached to A, B ⊃ A a Borel subgroup (Ciubotaru–Harris §7). ν real.
 
-One proof route is as follows. Use the arbitrary-root-datum unitary equivalences of BC3 Theorems 1.3.1 and 1.4.1 and Corollary 6.2.6, retaining the sign type that detects genericity. Prove the affine-to-graded *-comparison on root data and positive parameters, independently of local-field characteristic. Identify the Hecke parameters and lattice of G with those of its split companion; transport invariant hermitian forms and the spherical and sign types in both directions. This includes the Sp(2n) versus PSp(2n) isogeny adapter, rather than silently applying an adjoint-only classification. Genericity on both sides is read through the generic/sign adapters of SRU.5.27: for G with the K-compatible datum ψ_K of the unramified adapter, and for the split companion G(τ) with its own ψ_K, L(ν) is generic iff its I-fixed module contains the sign character of the finite Hecke algebra, which is the notion of generic module that BC3 transport.
+One proof route is as follows. Use the arbitrary-root-datum unitary equivalences of BC3 Theorems 1.3.1 and 1.4.1 and Corollary 6.2.6, retaining the sign type that detects genericity. Prove the affine-to-graded *-comparison on root data and positive parameters, independently of local-field characteristic. Identify the Hecke parameters and lattice of G with those of its split companion; transport invariant hermitian forms and the spherical and sign types in both directions. This includes the Sp(2n) versus PSp(2n) isogeny adapter, rather than silently applying an adjoint-only classification. Genericity on both sides is read through the generic/sign adapters of SRU.5.20: for G with the K-compatible datum ψ_K of the unramified adapter, and for the split companion G(τ) with its own ψ_K, L(ν) is generic iff its I-fixed module contains the sign character of the finite Hecke algebra, which is the notion of generic module that BC3 transport.
 
 For ν = 0 both sides are unitary principal series and the statement is immediate. For G = PSU(2,2) the generic unitary real spherical parameters are those of SO₅ (type B₂) in SRU.5 generic-unitary-classification.
 
 Additional inputs for this route: BC3, §1.3, p. 3; Corollary 6.2.6, p. 29; BC3, §1.3, Theorem 1.3.1; §1.4, Theorem 1.4.1, pp. 3–4; §6.2, Corollary 6.2.6 and Example 6.2.7, p. 29.
 
-*Needs:* SRU.6 / tau-fixed-dual-group; SRU.5 / barbasch-moy-unitarity; SRU.5 / spherical-generic-criterion; SmoothRepresentationsOfLocalGroups SR.3; SRU.5.27, lattice and generic/sign comparison.
+*Needs:* SRU.6 / tau-fixed-dual-group; SRU.5 / barbasch-moy-unitarity; SRU.5 / spherical-generic-criterion; SmoothRepresentationsOfLocalGroups SR.3; SRU.5.20, lattice and generic/sign comparison.
 
 ### 6.3 The generic temperedness test for nonsplit unramified groups (*nonsplit-generic-temperedness*)
 
@@ -1624,15 +1455,15 @@ For G of type ²E₆, G(τ) = F₄ and the adjoint representation alone forces �
 
 ### 6.4 The residual candidate for the odd quasi-split unitary group (*odd-unitary-residual*)
 
-Let G be the quasi-split form of PSU(2n+1): G^∨ = SL(2n+1, ℂ), G^∨(τ) = SO(2n+1, ℂ), G(τ) = Sp(2n). Assume L^G(ν) is generic and unitary, ν is real, and the geometric half-integrality test holds for every finite-dimensional representation of the ambient dual SL(2n+1,ℂ). Under these hypotheses, the argument of nonsplit-generic-temperedness leaves the two possibilities ν = 0 and ν = ½ωₙ (the G(τ)-weight in the numbering of Ciubotaru–Harris §6.5): the adjoint representation of G^∨ restricts to contain the adjoint representation of G^∨(τ), which leaves {0, ½ωₙ} (SRU.5 half-integral-type-c for PSp(2n)), and ½ωₙ is excluded for PSp(2n) only by the spin representation of Spin(2n+1, ℂ), which does not factor through SO(2n+1, ℂ) and so does not occur in any representation of SL(2n+1, ℂ) (Ciubotaru–Harris Remark 7.6). This is not an automorphic counterexample. (CH26, Remark 7.6, PDF p. 27)
+Let G be the quasi-split form of PSU(2n+1): G^∨ = SL(2n+1, ℂ), G^∨(τ) = SO(2n+1, ℂ), G(τ) = Sp(2n). Assume L^G(ν) is generic and unitary, ν is real, and the geometric half-integrality test holds for every finite-dimensional representation of the ambient dual SL(2n+1,ℂ). Under these hypotheses, the argument of nonsplit-generic-temperedness leaves the two possibilities ν = 0 and ν = ½ωₙ (the G(τ)-weight in the numbering of Conventions): the adjoint representation of G^∨ restricts to contain the adjoint representation of G^∨(τ), which leaves {0, ½ωₙ} (SRU.5 half-integral-alcove-points for PSp(2n)), and ½ωₙ is excluded for PSp(2n) only by the spin representation of Spin(2n+1, ℂ), which does not factor through SO(2n+1, ℂ) and so does not occur in any representation of SL(2n+1, ℂ) (Ciubotaru–Harris Remark 7.6). This is not an automorphic counterexample. (CH26, Remark 7.6, PDF p. 27)
 
 G the quasi-split adjoint unitary group in 2n + 1 variables over k. L^G(ν) generic unitary, ν real, and the half-integrality condition holds in every finite-dimensional ambient-dual representation; the Sp/PSp comparison requires the full-isogeny adapter of SRU.6.2.
 
-One proof route is as follows. nonsplit-unitary-transfer and SRU.5 half-integral-type-c for PSp(2n) give ν ∈ {0, ½ωₙ}. Representations of SL(2n+1, ℂ) restrict to SO(2n+1, ℂ), on which the centre of Spin(2n+1, ℂ) acts trivially; the spin representation is faithful on that centre, so it is not a constituent.
+One proof route is as follows. nonsplit-unitary-transfer and SRU.5 half-integral-alcove-points for PSp(2n) give ν ∈ {0, ½ωₙ}. Representations of SL(2n+1, ℂ) restrict to SO(2n+1, ℂ), on which the centre of Spin(2n+1, ℂ) acts trivially; the spin representation is faithful on that centre, so it is not a constituent.
 
 For n = 1 (PSU(3)), G(τ) = SL₂ and the residual candidate is ½ω₁, the half-integral complementary-series point of SL₂.
 
-*Needs:* SRU.6 / nonsplit-unitary-transfer; SRU.5 / half-integral-type-c; SRU.5 / fundamental-separators; SRU.6.2, full-isogeny adapter.
+*Needs:* SRU.6 / nonsplit-unitary-transfer; SRU.5 / half-integral-alcove-points; SRU.5 / fundamental-separators; SRU.6.2, full-isogeny adapter.
 
 ### Examples
 
@@ -1826,11 +1657,11 @@ The central point itself is never extraneous. For Sp(6) and O^∨ = (2,2,2), ½h
 
 ### 7.10 Extraneous points for symplectic and spin duals (*extraneous-classical*)
 
-In the setting of extraneous-point, with G of connected centre and s = s_c q^ν with s_c = 1 or s_c central in G^∨: (1) if G^∨ = Sp(2n) and O^∨ has partition with rᵢ parts equal to i (Σ i rᵢ = 2n, rᵢ even for i odd), so that Z(O^∨) = `∏_(i odd)` Sp(rᵢ) × `∏_(j even)` O(rⱼ), the extraneous real parts are ½h^∨ + ½ `Σ_(j even, rⱼ ≥ 3)` εⱼ `v_(rⱼ)`, εⱼ ∈ {0, 1} not all zero, where for an orthogonal factor so(r), r ≥ 3, with standard coordinates ε₁, …, `ε_(⌊r/2⌋)` on its Cartan subalgebra (the weights of its defining representation are the ±εᵢ, together with 0 for r odd) the vector direction is v_r := `ε_(⌊r/2⌋)`: for r ≥ 5 it is the fundamental coweight `ω_(⌊r/2⌋)` of SRU.5.16–5.17 in the reversed numbering of Ciubotaru–Harris, for r = 3 it is ε₁ = ω₁ of B₁, and for r = 4 it is ε₂ = ω₁ + ω₂ for D₂ = A₁ × A₁, which is not a fundamental coweight; (2) if G^∨ = Spin(n) and O^∨ has rᵢ parts equal to i (Σ i rᵢ = n, rᵢ even for i even), the extraneous real parts are ½h^∨ + ½ `Σ_(i odd, rᵢ ≥ 3)` εᵢ `v_(rᵢ)` with the same vector directions, Σ εᵢ even and not all εᵢ zero (Ciubotaru–Harris Theorem 8.5(1)–(2), which print the fundamental coweight `ω_(⌊r/2⌋)` for every r ≥ 3; for r = 4 that is the spin-type weight ½(−ε₁ + ε₂) of D₂, whose half-shift is not geometric). These lists are not asserted for noncentral compact parts. (CH26, Theorem 8.5(1)–(2), PDF p. 28)
+In the setting of extraneous-point, with G of connected centre and s = s_c q^ν with s_c = 1 or s_c central in G^∨: (1) if G^∨ = Sp(2n) and O^∨ has partition with rᵢ parts equal to i (Σ i rᵢ = 2n, rᵢ even for i odd), so that Z(O^∨) = `∏_(i odd)` Sp(rᵢ) × `∏_(j even)` O(rⱼ), the extraneous real parts are ½h^∨ + ½ `Σ_(j even, rⱼ ≥ 3)` εⱼ `v_(rⱼ)`, εⱼ ∈ {0, 1} not all zero, where for an orthogonal factor so(r), r ≥ 3, with standard coordinates ε₁, …, `ε_(⌊r/2⌋)` on its Cartan subalgebra (the weights of its defining representation are the ±εᵢ, together with 0 for r odd) the vector direction is v_r := `ε_(⌊r/2⌋)`: for r ≥ 5 it is the fundamental coweight `ω_(⌊r/2⌋)` of SRU.5.15 in the reversed numbering of Conventions, for r = 3 it is ε₁ = ω₁ of B₁, and for r = 4 it is ε₂ = ω₁ + ω₂ for D₂ = A₁ × A₁, which is not a fundamental coweight; (2) if G^∨ = Spin(n) and O^∨ has rᵢ parts equal to i (Σ i rᵢ = n, rᵢ even for i even), the extraneous real parts are ½h^∨ + ½ `Σ_(i odd, rᵢ ≥ 3)` εᵢ `v_(rᵢ)` with the same vector directions, Σ εᵢ even and not all εᵢ zero (Ciubotaru–Harris Theorem 8.5(1)–(2), which print the fundamental coweight `ω_(⌊r/2⌋)` for every r ≥ 3; for r = 4 that is the spin-type weight ½(−ε₁ + ε₂) of D₂, whose half-shift is not geometric). These lists are not asserted for noncentral compact parts. (CH26, Theorem 8.5(1)–(2), PDF p. 28)
 
 k a nonarchimedean local field (any characteristic) with residue field 𝔽_q, G = 𝐆(k) with 𝐆 quasi-simple and split, I ⊂ K = 𝐆(O) an Iwahori subgroup, G^∨ the complex dual group with Lie algebra g^∨ (Ciubotaru–Harris §8 setting). G of connected centre s = s_c q^ν with s_c = 1 or s_c central in G^∨.
 
-One proof route is as follows. Write ℜ(s) = ½h^∨ + ν with ν ∈ CS(G(O^∨), 0)₀ (centralizer-reduction). ½h^∨ is half-integral for every representation (sl₂-theory), so ν is half-integral for every representation of g^∨ and for the adjoint representation of z(O^∨). Apply SRU.5 half-integral-generic-unitary to each simple factor of z(O^∨): ν is 0 or an exception of Theorem 6.14 on each factor. Standard representation of G^∨: it forces νᵢ = 0 on the factors that are not of the listed orthogonal type, and on an orthogonal factor so(r) acting on the multiplicity space of the parts of size j it forces every standard coordinate ⟨εᵢ, ν⟩ into ½ℤ, because the weights of the standard representation restricted to so(r) × sl₂ are ±εᵢ (and 0 for r odd) plus the weights of the j-dimensional sl₂-module, which are half-integers for Sp(2n) (j even) and integers for Spin(n) (j odd). The nonzero candidates on so(r) are the half-integral generic unitary points of its root system: SRU.5.16 for r odd, r ≥ 5, and SRU.5.17 for r even, r ≥ 6, where the standard-coordinate condition removes the spin points ½ω₁, ½ω₂ and leaves ½v_r; for r = 3 the root system A₁ with root ε₁ leaves the single point ½ε₁; for r = 4 the root system A₁ × A₁ with roots ε₁ ± ε₂ leaves the points with ⟨ε₁, ν⟩, ⟨ε₂, ν⟩ ∈ ½ℤ and |⟨ε₁ ± ε₂, ν⟩| < 1, whose nonzero Weyl orbit is that of ½ε₂, while the single-factor points ¼(ε₁ ± ε₂) = ½ω₁, ½ω₂ fail the standard-coordinate condition. For Spin(n) the spin modules impose the parity Σ εᵢ even; the remaining points are half-integral for G^∨ (Ciubotaru–Harris, proof of Theorem 8.5, cases (2)–(3); the rank-one and D₂ cases are proved here separately).
+One proof route is as follows. Write ℜ(s) = ½h^∨ + ν with ν ∈ CS(G(O^∨), 0)₀ (centralizer-reduction). ½h^∨ is half-integral for every representation (sl₂-theory), so ν is half-integral for every representation of g^∨ and for the adjoint representation of z(O^∨). Apply SRU.5 half-integral-generic-unitary to each simple factor of z(O^∨): ν is 0 or an exception of Theorem 6.14 on each factor. Standard representation of G^∨: it forces νᵢ = 0 on the factors that are not of the listed orthogonal type, and on an orthogonal factor so(r) acting on the multiplicity space of the parts of size j it forces every standard coordinate ⟨εᵢ, ν⟩ into ½ℤ, because the weights of the standard representation restricted to so(r) × sl₂ are ±εᵢ (and 0 for r odd) plus the weights of the j-dimensional sl₂-module, which are half-integers for Sp(2n) (j even) and integers for Spin(n) (j odd). The nonzero candidates on so(r) are the half-integral generic unitary points of its root system: the PSp case of SRU.5.15 for r odd, r ≥ 5, and its PSO case for r even, r ≥ 6, where the standard-coordinate condition removes the spin points ½ω₁, ½ω₂ and leaves ½v_r; for r = 3 the root system A₁ with root ε₁ leaves the single point ½ε₁; for r = 4 the root system A₁ × A₁ with roots ε₁ ± ε₂ leaves the points with ⟨ε₁, ν⟩, ⟨ε₂, ν⟩ ∈ ½ℤ and |⟨ε₁ ± ε₂, ν⟩| < 1, whose nonzero Weyl orbit is that of ½ε₂, while the single-factor points ¼(ε₁ ± ε₂) = ½ω₁, ½ω₂ fail the standard-coordinate condition. For Spin(n) the spin modules impose the parity Σ εᵢ even; the remaining points are half-integral for G^∨ (Ciubotaru–Harris, proof of Theorem 8.5, cases (2)–(3); the rank-one and D₂ cases are proved here separately).
 
 Remark 8.6: for Sp(6) and O^∨ = (2,2,2) (r₂ = 3), the unique extraneous real part is ½h^∨ + ½v₃ = ½h^∨ + ½ε₁ = (0, ½, 1) up to W. For Sp(8) and O^∨ = (2,2,2,2) (r₂ = 4, Z(O^∨) = O(4)), the shift ½v₄ = ½ε₂ gives the dominant real part (0, ½, ½, 1) in the reversed coordinates: the weights of the standard representation are ±⟨εᵢ, ν⟩ ± ½, hence 0, ±½ and ±1, all in ½ℤ, and the two A₁ factors of so(4) pair with ½ε₂ to ½ < 1; the printed shift ½ω₂ = ¼(−ε₁ + ε₂) would give the weights ±¼ and ±¾, which are not half-integral, so it is neither geometric nor extraneous. For O^∨ with every rⱼ ≤ 2 (j even), there are no extraneous points.
 
@@ -1842,9 +1673,9 @@ In the setting of extraneous-point, with G of connected centre and s = s_c q^ν 
 
 k a nonarchimedean local field (any characteristic) with residue field 𝔽_q, G = 𝐆(k) with 𝐆 quasi-simple and split, I ⊂ K = 𝐆(O) an Iwahori subgroup, G^∨ the complex dual group with Lie algebra g^∨ (Ciubotaru–Harris §8 setting). G of connected centre s = s_c q^ν with s_c = 1 or s_c central in G^∨.
 
-One proof route is as follows. As in extraneous-classical, ν ∈ CS(G(O^∨), 0)₀ is, on each simple factor of z(O^∨), 0 or an exception of Theorem 6.14; the exceptional orbits and centraliser types come from the tables of nilpotent orbits (the orbit-tables contract). For each remaining candidate compute the simple-root and fundamental-weight pairings of G^∨; the survivors are those listed (Ciubotaru–Harris, proof of Theorem 8.5, case (4)); the F₄, B₃ coordinate is corrected by an orthogonal decomposition. The Levi of type B₃ has ½h^∨ = ω₁ + ω₂ = (5/2, ½, ½, ½) in (6.21), and its centraliser direction (0, 0, 1, −1) is orthogonal to it, so the stratum's real parts are ω₁ + ω₂ + t(0, 0, 1, −1), of squared norm 7 + 2t², with complementary series 0 ≤ t < 1. The point ω₁ + ½ω₃ + ½ω₄ = (5/2, 1, ½, 0) is a coordinate permutation, hence a Weyl conjugate, of ω₁ + ω₂ + ½(0, 0, 1, −1) = (5/2, ½, 1, 0), the stratum point with t = ½ and squared norm 15/2; the printed ω₁ + ω₂ + ½ω₃ + ½ω₄ = (4, 3/2, 1, ½) has squared norm 39/2, which in this stratum would force t = 5/2, outside the complementary series. Ciubotaru's B₃ row (CiF4, §3.2, p. 14) is read with 3/2 − ν in its second coordinate: as printed, with 3/2 + ν, its direction is not orthogonal to the central point (3/2, 3/2, 3/2, ½), which is recorded as a misprint.
+One proof route is as follows. As in extraneous-classical, ν ∈ CS(G(O^∨), 0)₀ is, on each simple factor of z(O^∨), 0 or an exception of Theorem 6.14; the exceptional orbits and centraliser types come from the tables of nilpotent orbits (the orbit-tables contract). For each remaining candidate compute the simple-root and fundamental-weight pairings of G^∨; the survivors are those listed (Ciubotaru–Harris, proof of Theorem 8.5, case (4)); the F₄, B₃ coordinate is corrected by an orthogonal decomposition. The Levi of type B₃ has ½h^∨ = ω₁ + ω₂ = (5/2, ½, ½, ½) in the F₄ coordinates of Conventions, and its centraliser direction (0, 0, 1, −1) is orthogonal to it, so the stratum's real parts are ω₁ + ω₂ + t(0, 0, 1, −1), of squared norm 7 + 2t², with complementary series 0 ≤ t < 1. The point ω₁ + ½ω₃ + ½ω₄ = (5/2, 1, ½, 0) is a coordinate permutation, hence a Weyl conjugate, of ω₁ + ω₂ + ½(0, 0, 1, −1) = (5/2, ½, 1, 0), the stratum point with t = ½ and squared norm 15/2; the printed ω₁ + ω₂ + ½ω₃ + ½ω₄ = (4, 3/2, 1, ½) has squared norm 39/2, which in this stratum would force t = 5/2, outside the complementary series. Ciubotaru's B₃ row (CiF4, §3.2, p. 14) is read with 3/2 − ν in its second coordinate: as printed, with 3/2 + ν, its direction is not orthogonal to the central point (3/2, 3/2, 3/2, ½), which is recorded as a misprint.
 
-For F₄ and O^∨ = B₃ the corrected point ω₁ + ½ω₃ + ½ω₄ has Euclidean coordinates (5/2, 1, ½, 0) in (6.21). After the sign correction it is Weyl-conjugate to Ciubotaru's B₃ parameter at ν = ½, namely (2, 1, 3/2, ½): the reflection in α₁^∨ = (1, −1, −1, −1) sends it to (5/2, ½, 1, 0), a coordinate permutation of (5/2, 1, ½, 0). The printed value of CH26 Theorem 8.5(3) has squared norm 39/2 and lies outside the stratum's complementary series. For G₂ the restricted sector has no extraneous point, while the noncentral witness s_c `s_(½ω₂)` is extraneous.
+For F₄ and O^∨ = B₃ the corrected point ω₁ + ½ω₃ + ½ω₄ has coordinates (5/2, 1, ½, 0) in the F₄ coordinates of Conventions. After the sign correction it is Weyl-conjugate to Ciubotaru's B₃ parameter at ν = ½, namely (2, 1, 3/2, ½): the reflection in α₁^∨ = (1, −1, −1, −1) sends it to (5/2, ½, 1, 0), a coordinate permutation of (5/2, 1, ½, 0). The printed value of CH26 Theorem 8.5(3) has squared norm 39/2 and lies outside the stratum's complementary series. For G₂ the restricted sector has no extraneous point, while the noncentral witness s_c `s_(½ω₂)` is extraneous.
 
 *Needs:* SRU.7 / centralizer-reduction; SRU.7 / extraneous-point; SRU.5 / half-integral-generic-unitary; SRU.5 / g2-noncentral-witness; SRU.7 / e8-4a1-exclusion; LieHighestWeightPartII N3, orbit-tables contract.
 
@@ -1876,7 +1707,7 @@ For s_c central, `Z_(G^∨)(s_c)` = G^∨ and the statement reduces to SRU.5. Fo
 
 Additional inputs for this route: CH26, §6.12, Corollary 6.32, p. 25.
 
-*Needs:* SRU.5 / barbasch-moy-unitarity; SRU.5 / g2-noncentral-witness; SRU.7 / kazhdan-lusztig-parameters; SRU.5.27; LieHighestWeightPartII N0–N3, graded-open-orbit contract.
+*Needs:* SRU.5 / barbasch-moy-unitarity; SRU.5 / g2-noncentral-witness; SRU.7 / kazhdan-lusztig-parameters; SRU.5.20; LieHighestWeightPartII N0–N3, graded-open-orbit contract.
 
 ### Examples
 
@@ -1897,7 +1728,7 @@ Types and Moy–Prasad extensions, parahoric centers, density and trace Paley–
 - GS23: Wee Teck Gan and Gordan Savin, *The local Langlands conjecture for G_2*. Forum of Mathematics, Pi 11 (2023), e28, published version. The arXiv v2 numbering differs. [Legal source](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/2479D805B0F248C91A33671F3A03752E/S2050508623000276a.pdf/local_langlands_conjecture_for_g2.pdf).
 - CH26: Dan Ciubotaru and Michael Harris, *On the generalized Ramanujan and Arthur conjectures over function fields*. arXiv:2311.15300v1; all numbering here refers to v1. [Legal source](https://arxiv.org/abs/2311.15300v1).
 - BHV: Bachir Bekka, Pierre de la Harpe and Alain Valette, *Kazhdan's Property (T)*. Cambridge University Press, 2008, published text in the UNIGE institutional repository; PDF page numbers include its front matter. [Legal source](https://access.archive-ouverte.unige.ch/access/metadata/19c0d173-9917-4a95-b246-5f2eda3727b9/download).
-- Ber92: Joseph Bernstein, notes by Karl E. Rumelhart, *Representations of p-adic groups (Harvard lectures, Fall 1992)*. author copy [Legal source](https://personal.math.ubc.ca/~cass/research/pdf/bernstein.pdf).
+- Ber92: Joseph Bernstein, notes by Karl E. Rumelhart, *Representations of p-adic groups (Harvard lectures, Fall 1992)*. Copy on William Casselman's UBC page [Legal source](https://personal.math.ubc.ca/~cass/research/pdf/bernstein.pdf).
 - Cas95: William Casselman, *Introduction to the theory of admissible representations of p-adic reductive groups*. draft of 1 May 1995, author copy [Legal source](https://personal.math.ubc.ca/~cass/research/pdf/p-adic-book.pdf).
 - Cas80: William Casselman, *The unramified principal series of p-adic groups I. The spherical function*. Compositio Mathematica 40 (1980), no. 3, 387–406 (Numdam) [Legal source](http://www.numdam.org/item/CM_1980__40_3_387_0.pdf).
 - HO: Volker Heiermann and Eric Opdam, *On the tempered L-function conjecture*. arXiv:0908.0699v4; published American Journal of Mathematics 135 (2013), no. 3, 777–799 [Legal source](https://arxiv.org/abs/0908.0699v4).
