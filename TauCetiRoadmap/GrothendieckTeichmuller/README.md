@@ -85,8 +85,7 @@ dimension `3g − 3 + n ≤ 2` (Grothendieck 1984, §2).
 
 The boundary in one sentence: if a statement is about pro-words, about `P̂₄` or `K̂(0,5)`, or about
 pairs `(λ, f)`, it is here; if it mentions a Galois group, a curve or a configuration space, it is
-not here, and its inputs other than `GT̂` are in BelyiMaps or in
-InverseGaloisAndArithmeticFundamentalGroups.
+not here.
 
 ## Conventions
 
