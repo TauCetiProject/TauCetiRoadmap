@@ -209,9 +209,9 @@ cites its theorems. Files are under `TauCeti/ModelTheory/`.
   `TauCeti.RelationalConfiguration.modelsOf_scottSentenceAtLevel`; `IsIsolatingRank` with
   `TauCeti.IsIsolatingRank.isolates_of_le`, `TauCeti.IsIsolatingRank.of_le`,
   `TauCeti.IsIsolatingRank.exists_unbounded_of_not_countable` and
-  `exists_rank_bound_of_countable_isoClasses` (the target `exists_bound_of_countable`, for any
-  invariant map below `ω₁`); `TauCeti.isIsolatingRank_scottHeight` and `TauCeti.exists_isIsolatingRank`,
-  which need no countability of `L`; `mk_isoClasses_le_aleph_one_of_countable_levels`, also without
+  `exists_rank_bound_of_countable_isoClasses` (for any invariant map below `ω₁`);
+  `TauCeti.isIsolatingRank_scottHeight` and `TauCeti.exists_isIsolatingRank`, which need no
+  countability of `L`; `mk_isoClasses_le_aleph_one_of_countable_levels`, also without
   countability of `L`; `Setoid.IsolatedBy`, written `R.IsolatedBy E`, with
   `Setoid.IsolatedBy.countable_quotient` and `Setoid.IsolatedBy.lift_mk_quotient_le`; and the
   level-by-level transfer `bfTupleSetoid`, `bfExtensionSpectra`, `bfTupleSetoid_add_one_iff`,
@@ -452,7 +452,7 @@ Build:
   below `ω₁` lying above an isolating rank is one, so the contract does not determine the rank and
   no least isolating rank is asserted); `exists_unbounded_of_not_countable` (on a set meeting
   uncountably many classes, every isolating rank lies below one that is unbounded there);
-  `exists_bound_of_countable` (countably many classes give a bound).
+  `TauCeti.exists_rank_bound_of_countable_isoClasses` (countably many classes give a bound).
 * **The instance.** Tau Ceti's `TauCeti.isIsolatingRank_scottHeight`: `c ↦ scottHeight ℕ` of the decoded structure is
   an isolating rank (S5). In (S5)'s convention the Scott height of `M : Type w` lies in
   `Ordinal.{w}` and external stabilization quantifies over all countable `N : Type`, finite ones
@@ -519,7 +519,7 @@ down to `ρ c` and isolation), hence has Borel graph. Build:
 * The internal form: if `internalScottRank` of every model on `ℕ` is at most `β < ω₁`, the same
   conclusions, via (S5)'s comparison (the external height is then at most `β + ω < ω₁`).
 * The converse direction, for sentences: if `φ` has countably many countable models then every
-  isolating rank is bounded on `modelsOf φ` (`exists_bound_of_countable`).
+  isolating rank is bounded on `modelsOf φ` (`TauCeti.exists_rank_bound_of_countable_isoClasses`).
 
 **Acceptance check.** Let `φ` say that `E` is an equivalence relation all of whose classes are
 infinite. Every countable model is homogeneous (a finite partial isomorphism extends to an
@@ -628,10 +628,10 @@ of a countable list of sentences, measurable and isomorphism invariant. Build:
   classes.
 
 **4f. Fragment spectra.** For a countable fragment `F` (M1) and arity `n`, with (M2)'s slice
-`Fragment.slice F n` and realized truth assignment: the coded type `F.pointedType c a`, the realized
+`Fragment.slice F n` and realized truth assignment: the coded type of `a` at `c`, the realized
 truth assignment of `a` in the decoded structure, jointly measurable in the code and the tuple,
-and transported along isomorphisms of codes by (M2); the spectrum `F.typeSpectrum n C`, the types
-realized by `n`-tuples of members of `C`, counted across `C`;
+and transported along isomorphisms of codes by (M2); the type spectrum of `C` at arity `n`, the
+types realized by `n`-tuples of members of `C`, counted across `C`;
 spectrum equivalence ("same realized `F`-types at arity `n`") has Borel graph and is refined by
 isomorphism. Prove, for Borel `C`, thin iff every countable fragment has a countable spectrum at
 every arity ((E1), relative form, for spectrum equivalence in one direction, its Cantor-family
@@ -663,13 +663,13 @@ The targets, against (M3)'s objects:
   two previous items, a class of base codes carries a Cantor antichain, or is thin, exactly when its
   image does.
 
-**4h. Rank analyses of thinness.** `ThinRankAnalysis r A`, the evidence for the standard route to
-thinness (a rank below `ω₁`, countable fixed-rank antichains, and a bound on the rank over a
-continuously embedded Cantor subcopy of any Cantor antichain), with `no_cantorAntichain` and
-`isThinOn` derived from it, not stored in it. The tail lemma: if for every list `θ` some threshold
-`b < ω₁` makes the spectrum of `θ` on `{c ∈ C | b ≤ r c}` countable, then `r` is bounded below `ω₁`
-on the range of every Borel `f : (ℕ → Bool) → RelationalConfiguration L ℕ` into `C` with pairwise
-non-isomorphic values.
+**4h. Rank analyses of thinness.** A rank analysis of thinness for `r` on `A`, the evidence for the
+standard route to thinness (a rank below `ω₁`, countable fixed-rank antichains, and a bound on the
+rank over a continuously embedded Cantor subcopy of any Cantor antichain), with the absence of a
+Cantor antichain and thinness derived from it, not stored in it. The tail lemma: if for every list
+`θ` some threshold `b < ω₁` makes the spectrum of `θ` on `{c ∈ C | b ≤ r c}` countable, then `r` is
+bounded below `ω₁` on the range of every Borel `f : (ℕ → Bool) → RelationalConfiguration L ℕ` into
+`C` with pairwise non-isomorphic values.
 
 **Acceptance check.** In a countable relational language, a concentrated class is back-and-forth
 scattered (4d), hence thin (4a), with no analyticity hypothesis.
@@ -745,12 +745,12 @@ Prove, with exactly the hypotheses shown:
 
 * `MinimallyUncountableOn K`: `K` meets uncountably many classes, and for every sentence `θ` one of
   `K ∩ modelsOf θ`, `K \ modelsOf θ` meets only countably many (cuts range over sentences, not
-  arbitrary invariant sets); `Sentenceω.MinimallyUncountable φ` for `K = modelsOf φ`, with the
-  literal form through `φ ⊓ θ` and `φ ⊓ θ.not`.
-* `BoundedRankOn ρ K`, `UnboundedRankOn ρ K` for an arbitrary `ρ`, with monotonicity, the empty
-  class, and countable unions (regularity of `ℵ₁`); `MinimallyUnboundedOn ρ K` (unbounded, and every
-  sentence cut has a side on which `ρ` is bounded below `ω₁`, with the strict bound `ρ c < β` of
-  `IsIsolatingRank.countable_isoClasses_iff_bounded`).
+  arbitrary invariant sets); the sentence form for `K = modelsOf φ`, with the literal form through
+  `φ ⊓ θ` and `φ ⊓ θ.not`.
+* Boundedness and unboundedness of `ρ` below `ω₁` on `K`, for an arbitrary `ρ`, with monotonicity,
+  the empty class, and countable unions (regularity of `ℵ₁`); `MinimallyUnboundedOn ρ K`
+  (unbounded, and every sentence cut has a side on which `ρ` is bounded below `ω₁`, with the strict
+  bound `ρ c < β` of `IsIsolatingRank.countable_isoClasses_iff_bounded`).
 * The generic engine: for a smallness predicate closed under subsets and countable unions, if `K`
   is not small, every sentence cut has a small side, and `K` meets countably many classes at level
   `α < ω₁`, then some level-`α` class of a member of `K` is not small and its complement in `K` is.
