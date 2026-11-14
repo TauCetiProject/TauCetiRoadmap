@@ -186,7 +186,7 @@ For example, for the identity of X the comparison is the identity of O⁺_X/p^n.
 
 ### D7.3 Universal homeomorphisms induce isomorphisms of diamonds
 
-**Theorem.** Let f : X → X' be a universal homeomorphism of analytic pre-adic spaces over Spa(ℚ_p,ℤ_p). Then f^♦ : X^♦ → X'^♦ is an isomorphism over Spd ℚ_p. The intermediate residue-preserving theorem has the same conclusion for any morphism f which is a homeomorphism and identifies every completed residue field together with its valuation subring.
+**Theorem.** Take analytic pre-adic spaces X and X' over Spa(ℚ_p,ℤ_p). Diamondification turns any universal homeomorphism f : X → X' into an isomorphism f^♦ : X^♦ → X'^♦ over Spd ℚ_p. In the intermediate residue-preserving theorem, f is instead any morphism that is a homeomorphism and identifies, point by point, each completed residue field along with its valuation subring; the conclusion is unchanged.
 
 The general statement uses AdicSpacesPartII R0.18 (gap:completed-residue-fields-general-universal-homeomorphisms) to reduce to that intermediate theorem. D7.1 gives the finite locally finite-type case directly; no finite-type restriction is imposed on the headline.
 
@@ -650,7 +650,7 @@ For example, Spd(A) for a formal Huber pair satisfies the criterion with (Spd A^
 
 ### D8.13 Formally closed subsheaves of Spd(A) have reduction Spec(A/J)
 
-**Lemma.** Let (A, A) be a formal Huber pair over ℤ_p and F → Spd(A) a formally closed immersion. Then (F^red)^⋄ = Spec(A/J)^⋄ for some open ideal J ⊂ A; in particular F^red is represented by the perfection of a closed subscheme of Spec(A_red).
+**Lemma.** Fix a formal Huber pair (A, A) over ℤ_p. Every formally closed immersion F → Spd(A) admits an open ideal J ⊂ A with (F^red)^⋄ = Spec(A/J)^⋄. In particular F^red is representable: some closed subscheme of Spec(A_red) has a perfection that represents it.
 
 *Proof sketch.* Pull back F → Spd(A) to a v-cover by totally disconnected perfectoid spaces. On each such space the parent classifies closed sub-v-sheaves by weakly generalizing closed subsets. Descent for closed immersions and for subobjects gives the corresponding closed subset |F| in Spo(A,A); this does not assume that Spd(A) itself is totally disconnected. By formal adicness |(F^red)^⋄| = |F| ∩ |Spec(A_red)^⋄|, and by D8.12 it is a schematic closed subset of Spo(A, A). D7.9 identifies it with V(J) for an open ideal J.
 
@@ -1273,7 +1273,7 @@ For example, for X = Y = `P^n_(O_E)` the endomorphisms of (P^n)^♢ over Spd O_E
 
 ### D10.13 Full faithfulness on absolutely weakly normal formal and proper schemes
 
-**Theorem.** (1) For an affine formal scheme Spf A over O_E with finitely generated ideal of definition I, and B the I-adic completion of the absolute weak normalization of A, Spf(B)^♢ → Spf(A)^♢ is an isomorphism. (2) The functor 𝔛 ↦ 𝔛^♢ from absolutely weakly normal formal schemes flat, separated and topologically of finite type over O_E to v-sheaves over Spd O_E is fully faithful. (3) For a proper flat O_E-scheme X, X^awn is proper and flat and (X^awn)^♢ → X^♢ is an isomorphism; X ↦ X^♢ is fully faithful on proper flat absolutely weakly normal O_E-schemes.
+**Theorem.** (1) For an affine formal scheme Spf A over O_E with finitely generated ideal of definition I, and B the I-adic completion of the absolute weak normalization of A, Spf(B)^♢ → Spf(A)^♢ is an isomorphism. (2) On formal schemes over O_E that are topologically of finite type, separated, flat and absolutely weakly normal, 𝔛 ↦ 𝔛^♢ is a fully faithful functor into v-sheaves over Spd O_E. (3) For a proper flat O_E-scheme X, X^awn is proper and flat and (X^awn)^♢ → X^♢ is an isomorphism; X ↦ X^♢ is fully faithful on proper flat absolutely weakly normal O_E-schemes.
 
 Use the standing FS convention: continuous structure maps are allowed, including the (π,q)-adic formal disc. Absolute weak normality (AGLR Definition 2.12) and absolute weak normalization are requested from SchemeAndStackFoundations §0.26 (gap:absolute-weak-normality-formal), whose characteristic-p weak normality covers only reduced schemes of finite type over a perfect field. Absolute weak normality is seminormality together with the condition that for every prime ℓ, an equality ℓ^ℓ a = b^ℓ has a unique c with a = c^ℓ and b = ℓc. This is not closure under arbitrary ℓ-th roots. For 𝔽_p-algebras it is equivalent to perfectness.
 
@@ -1572,7 +1572,7 @@ Applications include Gleason §5: Demazure resolutions of B_dR⁺-Grassmannians 
 
 ### D11.11 Rich smelted kimberlites
 
-**Definition.** A smelted kimberlite K = (F, D) is rich if F is valuative, D is a cJ-diamond, |F^red| is locally noetherian and sp_D : |D| → |F^red| is surjective; a kimberlite G is rich if (G, G^an) is. Constructible formal neighbourhoods and étale formal neighbourhoods preserve rich smelted kimberlites.
+**Definition.** Call a smelted kimberlite K = (F, D) rich when four conditions hold: the space |F^red| is locally noetherian, the specialization map sp_D : |D| → |F^red| is surjective, D is a cJ-diamond, and F is valuative. A kimberlite G is called rich when the pair (G, G^an) is rich. Richness of smelted kimberlites passes to constructible formal neighbourhoods and to étale formal neighbourhoods.
 
 Richness and topological normality are distinct predicates with separate APIs (D11.12).
 
