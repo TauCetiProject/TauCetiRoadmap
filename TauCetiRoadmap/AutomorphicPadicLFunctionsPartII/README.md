@@ -241,7 +241,9 @@ One proof route is to use the imported finite-étale algebra and trace and restr
 
 *Needs:* §0.2; AbelianSchemesAndArithmeticModuliPartII P2.5; SchemeAndStackFoundations §2.7.
 
-### 1.2 Equivariant residue and inverse-limit comparison
+### 1.2 Equivariant Eisenstein–Kronecker classes and their flat derivatives
+
+This section computes the equivariant support cohomology of the completed Poincaré coefficient, defines from it the class EK(h) with residue h, and differentiates its flat image to ∇^a EK♮(h). §3.1 consumes the inverse-limit comparison of §1.2, §§3.6 and 6.3 consume the class of §1.3, §§2.1 and 2.4 consume the derivatives of §1.4, and §2.8 consumes §§1.3–1.4.
 
 Put F_n=P^(n)⊗Ω_A^d and F=P_hat⊗Ω_A^d. The imported completed Poincaré trace gives H^i(A,Γ,F)=0 for i<d and H^d(A,Γ,F)≃R. For I the ideal of D, local complete-intersection duality gives Ext^q(I^k/I^(k+1),F_n)=0 for q<d and H^(q−d)(D,Hom(I^k/I^(k+1),i*P^(n))) for q≥d. Consequently support cohomology vanishes below d and contains R[D]^Γ canonically in degree d; its map to H^d(A,Γ,F) is Tr_(D/R). Prove H^(d−1)(U,Γ,F)≃lim_n H^(d−1)(U,Γ,F_n), including the vanishing inverse-limit obstruction used in Corollary 2.35. Do not infer vanishing of higher equivariant cohomology from the underlying coherent calculation.
 
@@ -258,9 +260,7 @@ One proof route is to import the top coherent Poincaré calculation and the equi
 
 *Needs:* §1.1; AbelianSchemesAndArithmeticModuliPartII P2.3/P2.8; AbelianSchemesAndArithmeticModuliPartII P2.8; SchemeAndStackFoundations §§2.19–2.20; SchemeAndStackFoundations §2.7; SchemeAndStackFoundations §2.23; SchemeAndStackFoundations §2.23 (gap:equivariant-poincare-limit).
 
-### 1.3 Equivariant coherent Eisenstein–Kronecker class
-
-Define EK_(Γ,A):R[D]^(0,Γ)→H^(d−1)(U,Γ,P_hat⊗Ω_A^d) as the unique preimage of the canonical degree-d support class of h under localization. This is an injective R-linear map with residue h and is compatible with its images at every finite Poincaré level. The definition uses derived equivariant sections in the category of Γ-linearized sheaves, not invariants taken after cohomology. Its naturality includes permitted flat base change, pullback through compatible isogeny/residue diagrams, and restriction of Γ.
+**1.3 Equivariant coherent Eisenstein–Kronecker class.** Define EK_(Γ,A):R[D]^(0,Γ)→H^(d−1)(U,Γ,P_hat⊗Ω_A^d) as the unique preimage of the canonical degree-d support class of h under localization. This is an injective R-linear map with residue h and is compatible with its images at every finite Poincaré level. The definition uses derived equivariant sections in the category of Γ-linearized sheaves, not invariants taken after cohomology. Its naturality includes permitted flat base change, pullback through compatible isogeny/residue diagrams, and restriction of Γ.
 
 Assume trace-zero datum and the residue calculation.
 
@@ -282,9 +282,7 @@ One proof route uses trace zero to place the support class of h in the localizat
 
 *Needs:* §1.2; AbelianSchemesAndArithmeticModuliPartII P2.6; SchemeAndStackFoundations §2.23; SchemeAndStackFoundations §2.7.
 
-### 1.4 Flat derivatives of the coherent class
-
-Let EK♮(h) be the image of EK(h) under P_hat→P_hat♮. Its a-th total derivative is ∇^a EK♮(h) in H^(d−1)(U,Γ,TSym^a Ω_A¹⊗P_hat♮⊗Ω_A^d). Iterate the integrable Poincaré connection with its symmetric tensor convention, so that subsequent projection to a multi-index a produces the factorial a! in the analytic evaluation. The construction is made at finite levels and assembled as a compatible pro-class.
+**1.4 Flat derivatives of the coherent class.** Let EK♮(h) be the image of EK(h) under P_hat→P_hat♮. Its a-th total derivative is ∇^a EK♮(h) in H^(d−1)(U,Γ,TSym^a Ω_A¹⊗P_hat♮⊗Ω_A^d). Iterate the integrable Poincaré connection with its symmetric tensor convention, so that subsequent projection to a multi-index a produces the factorial a! in the analytic evaluation. The construction is made at finite levels and assembled as a compatible pro-class.
 
 Assume standard residue data; the imported universal vector extension, Poincaré connection and divided symmetric power convention.
 
@@ -317,7 +315,9 @@ Earlier layers 0; AbelianSchemesAndArithmeticModuliPartII P2.5; SchemeAndStackFo
 
 ## Layer 2: Critical evaluation and integral refinement
 
-### 2.1 Torsion specialization and group-cohomology moments
+### 2.1 Critical Eisenstein classes at torsion points
+
+This section specializes the derivatives of §1.4 at a Γ-fixed torsion point to the moment classes Eis^(b,a)_Γ(h,x) and caps their critical components to the classes EK^(β,a)_Γ(h,x). §§2.3, 2.4, 4.3 and 6.3 consume the critical classes of §2.2, and §2.5 consumes the moments of §2.1.
 
 Let x∈U(R) be fixed by Γ and killed by φ:A→B with φ∨ étale (equivalently the required lifted universal-extension map is étale). Pull ∇^a EK♮(h) back to x, apply the imported torsion splitting and the b-th moment, and use affine equivariant/coherent comparison. This defines Eis^(b,a)_Γ(h,x)∈H^(d−1)(Γ,TSym^a ω_A⊗TSym^b H⊗det ω_A). Here a,b are total nonnegative degrees; in multi-index notation a,β denote multi-indices with these total degrees. The splitting is the one normalized by the Poincaré rigidification, not an arbitrary trivialization at x.
 
@@ -343,9 +343,7 @@ One proof route is to evaluate the finite-level derivative on x, then take mom_b
 
 *Needs:* §1.4; AbelianSchemesAndArithmeticModuliPartII P2.5; AbelianSchemesAndArithmeticModuliPartII P2.1; SchemeAndStackFoundations §§2.6 and 2.23.
 
-### 2.2 Orientation-normalized critical Eisenstein classes
-
-First take Γ torsion-free of rank d−1. Project Eis^(b,a) through H→ω_A∨, then to the critical (a,β) component C_(a,β). Cap with the fundamental class of BΓ=Γ\EΓ, EΓ={(r_i)>0:∏r_i=1}, using the orientation ∧_(i<d)dr_i/r_i. An ordering of Σ also identifies det ω_A with the multidegree-one tensor line; the two permutation signs cancel. Use the rank-one divided-tensor identification u^[a]⊗u↦u^[a+1] on each weight line, rather than shuffle multiplication. This gives EK^(β,a)_Γ(h,x)∈TSym^(a+1)ω_A⊗TSym^βω_A∨. Its coordinate in the chosen divided-power bases is denoted e_(β,a). For Γ with finite torsion T, define the normalized version only after |T| is a unit: choose a free complement Γ₀, evaluate there, and divide by |T|. Prove independence of the complement after this localization. No integral map on arbitrary H^(d−1)(Γ,−) for all torsion Γ is asserted.
+**2.2 Orientation-normalized critical Eisenstein classes.** First take Γ torsion-free of rank d−1. Project Eis^(b,a) through H→ω_A∨, then to the critical (a,β) component C_(a,β). Cap with the fundamental class of BΓ=Γ\EΓ, EΓ={(r_i)>0:∏r_i=1}, using the orientation ∧_(i<d)dr_i/r_i. An ordering of Σ also identifies det ω_A with the multidegree-one tensor line; the two permutation signs cancel. Use the rank-one divided-tensor identification u^[a]⊗u↦u^[a+1] on each weight line, rather than shuffle multiplication. This gives EK^(β,a)_Γ(h,x)∈TSym^(a+1)ω_A⊗TSym^βω_A∨. Its coordinate in the chosen divided-power bases is denoted e_(β,a). For Γ with finite torsion T, define the normalized version only after |T| is a unit: choose a free complement Γ₀, evaluate there, and divide by |T|. Prove independence of the complement after this localization. No integral map on arbitrary H^(d−1)(Γ,−) for all torsion Γ is asserted.
 
 Assume critical β−a−1∈CI_L(Γ); Nf∈R× for this evaluation; torsion-free Γ for the integral version. For the torsion-normalized extension, |Γ_tors|∈R× is an explicit extra hypothesis.
 
@@ -372,7 +370,9 @@ One proof route is to use coefficient-invariants. The native logarithmic unit la
 
 *Needs:* §2.1; §0.3; SchemeAndStackFoundations §2.23 (gap:equivariant-poincare-limit); Mathlib `NumberField.Units.logEmbeddingEquiv`; Mathlib `NumberField.Units.instZLattice_unitLattice`; AbelianSchemesAndArithmeticModuliPartII P0.4–P0.5; AlgebraicTopology Stage 5 items 3–4 and Stage 8 items 5, 7 and 8; AlgebraicTopology Stage 6 (gap:torus-cap-projection).
 
-### 2.3 Change of unit subgroup with its normalization
+### 2.3 Unit-index law and conductor-refined evaluation
+
+This section provides the index law of the critical classes under change of torsion-free unit subgroup, and the refined critical classes over R without inverting Nf with their comparison to the unrefined ones after inverting Nf. §5.4 consumes §§2.3 and 2.5, and §§7.2 and 8.3 consume §2.3.
 
 For torsion-free Γ′⊂Γ of finite index m, restriction of the equivariant class followed by the critical cap construction satisfies EK^(β,a)_(Γ′)(h,x)=m·EK^(β,a)_Γ(h,x). The same formula holds for the torsion-normalized extensions when both torsion orders are units. For integral classes with torsion orders nonunits retain the torsion-free value and its multiplicity; do not cancel m without a divisibility theorem for that particular class.
 
@@ -389,9 +389,7 @@ One proof route is to use the finite covering BΓ′→BΓ, cap-product projecti
 
 *Needs:* §2.2; AlgebraicTopology Stage 5 items 3–4 and Stage 8 items 5, 7 and 8; AlgebraicTopology Stage 6 (gap:torus-cap-projection).
 
-### 2.4 Refined evaluation without inverting the conductor norm
-
-Let x be f-torsion, c≠O_L coprime to f, Nc∈R×, D=A[c], and B=A(f⁻¹). Without assuming Nf∈R×, map EK♮_A(h) to the pullback of P_hat♮_B via [f]_# and transport the determinant by [f]∨*. Differentiate using the connection on B, evaluate at x (whose image in B is zero), take the moment at e_B, project and cap for a torsion-free Γ. This gives _[f]EK^(β,a)_(Γ,B)(h,x)∈TSym^(a+1)ω_B⊗TSym^βω_B∨ over R. The residue function is h and the conductor ideal is f.
+**2.4 Refined evaluation without inverting the conductor norm.** Let x be f-torsion, c≠O_L coprime to f, Nc∈R×, D=A[c], and B=A(f⁻¹). Without assuming Nf∈R×, map EK♮_A(h) to the pullback of P_hat♮_B via [f]_# and transport the determinant by [f]∨*. Differentiate using the connection on B, evaluate at x (whose image in B is zero), take the moment at e_B, project and cap for a torsion-free Γ. This gives _[f]EK^(β,a)_(Γ,B)(h,x)∈TSym^(a+1)ω_B⊗TSym^βω_B∨ over R. The residue function is h and the conductor ideal is f.
 
 Assume standard based data for A and B; x∈U and fixed by torsion-free Γ; critical indices. [f] itself and its dual may fail to be étale. The unit conductor is excluded: f=O_L forces x=e, which lies in D=A[c], so x∉U.
 
@@ -415,9 +413,7 @@ One proof route is to push the Poincaré coefficient before differentiating so s
 
 *Needs:* §1.4; §2.2; AbelianSchemesAndArithmeticModuliPartII P2.4; AbelianSchemesAndArithmeticModuliPartII P2.7; ComplexMultiplicationAndExplicitReciprocity §1.2.
 
-### 2.5 Comparison of refined and unrefined evaluations
-
-After the injective scalar extension R→R[1/Nf], the two classes satisfy TSym^(a+1)([f]*) (_[f]EK_(Γ,B)^(β,a))=TSym^β([f]_#)(EK_(Γ,A)^(β,a)), with coefficient lines transported as in equation (2.5.1). Thus the right-hand transported ordinary class has its coordinate in R in the mixed bases of A and B∨. The statement first uses torsion-free Γ; a torsion-normalized version carries its separate index/divisibility condition.
+**2.5 Comparison of refined and unrefined evaluations.** After the injective scalar extension R→R[1/Nf], the two classes satisfy TSym^(a+1)([f]*) (_[f]EK_(Γ,B)^(β,a))=TSym^β([f]_#)(EK_(Γ,A)^(β,a)), with coefficient lines transported as in equation (2.5.1). Thus the right-hand transported ordinary class has its coordinate in R in the mixed bases of A and B∨. The statement first uses torsion-free Γ; a torsion-normalized version carries its separate index/divisibility condition.
 
 Assume the hypotheses of §2.4; R⊂ℂ so the indicated scalar extension is injective.
 
@@ -463,7 +459,9 @@ One proof route filters P♮^(n) by its truncation kernels π*Sym^k(H) of P2.2. 
 
 *Needs:* AbelianSchemesAndArithmeticModuliPartII P2.2, P2.5, P2.6 and P3.3; ComplexComparisonPartII C5.1 and C5.2; SchemeAndStackFoundations §2.7, §§2.19–2.20 and §2.23.
 
-### 2.7 The de Rham polylogarithm class with residue h
+### 2.7 The de Rham polylogarithm and its comparison with the coherent class
+
+Over a field of characteristic zero this section defines the class pol_Γ(h) with residue h and shows that the Hodge-to-de Rham edge map sends EK♮_Γ(h) to it; §3.6 consumes both.
 
 In the situation of §2.6, for h∈k[D]^(0,Γ) define pol_Γ(h)∈H^(2d−1)_dR(U,Γ;P̂♮) as the unique class whose residue in H^(2d)_(D,dR)(A,Γ;P̂♮) is h placed in the TSym⁰-component of the torsion splitting. Existence and uniqueness are the exact sequence of §2.6, since h has trace zero. Its images pol_Γ^(n)(h) at the finite levels form the compatible system determined by the limit; at a single finite level the residue alone does not determine a class. No identification with a realization of the motivic polylogarithm is asserted: the de Rham class is defined by its residue on the coefficient P̂♮≃Log.
 
@@ -487,9 +485,7 @@ One proof route defines the class through the exact sequence of §2.6 and obtain
 
 *Needs:* §2.6; AbelianSchemesAndArithmeticModuliPartII P2.5.
 
-### 2.8 Comparison with the de Rham polylogarithm
-
-For k a field of characteristic zero, the Hodge-to-de Rham edge map sends EK♮_Γ(h) to pol_Γ(h). The edge map is induced by the inclusion of complexes (P♮^(n)⊗Ω^d_A)[−d]→DR(P♮^(n)), which is Γ-equivariant and compatible with the transition maps. It gives H^(d−1)(U,Γ;P̂♮⊗Ω^d_A)→H^(2d−1)_dR(U,Γ;P̂♮), from the coherent degree d−1 to the de Rham degree 2d−1.
+**2.8 Comparison with the de Rham polylogarithm.** For k a field of characteristic zero, the Hodge-to-de Rham edge map sends EK♮_Γ(h) to pol_Γ(h). The edge map is induced by the inclusion of complexes (P♮^(n)⊗Ω^d_A)[−d]→DR(P♮^(n)), which is Γ-equivariant and compatible with the transition maps. It gives H^(d−1)(U,Γ;P̂♮⊗Ω^d_A)→H^(2d−1)_dR(U,Γ;P̂♮), from the coherent degree d−1 to the de Rham degree 2d−1.
 
 Assume the hypotheses of §1.3 over S=Spec k, with k a field of characteristic zero, and the hypotheses of §2.6. No comparison over arbitrary characteristic-zero bases is claimed.
 
@@ -625,7 +621,9 @@ One proof route applies ThetaSeries Layer 1, items 1A, 1E and 1F, to x↦barx^ν
 
 *Needs:* §3.3; ThetaSeries Layer 1 (1A, 1E, 1F), 2A and 2C; Mathlib `fourier_gaussian_innerProductSpace`; Mathlib `mellin`; Mathlib `Complex.Gamma_eq_integral`.
 
-### 3.5 Residue-normalized Eisenstein–Kronecker current
+### 3.5 The Eisenstein–Kronecker current and the classes it represents
+
+This section provides the residue-normalized compatible current Φ and proves that it represents EK_Γ(h) and, through its flat image, pol_Γ(h). §4.3 consumes the current of §3.5 and the representation of §3.6.
 
 Let vol(A)=∫_A ∧_i(dz_i∧dbarz_i)=(-2i)^d times the positive real covolume of Λ, so vol(A)≠0. Put C=(2πi)^d/vol(A)=(−π)^d/covol_Leb(Λ), vol=C·∧_i(dz_i∧dbarz_i), χ_ℓ(z)=exp(2πi⟨ℓ,z⟩), and v_ℓ=Σ_i(barℓ_i/r_i)∂/∂barz_i for ℓ in the standard alternating dual lattice. For b,j≥0 set Φ_s^(b,j)=(-1)^(j+b)Γ(s)/j! · Σ_t h(t) Σ_(ℓ≠0) v_ℓ^[b] χ_ℓ(z−t) (π‖ℓ/√r‖²)^(−s) ι_(v_ℓ)(dι_(v_ℓ))^j vol. Define Φ^(n)=Σ_(b≤n,0≤j<d) Φ_(b+j+1)^(b,j), by meromorphic regularization in the current topology. Terms with j≥d vanish. The factor (-1)^b corrects the inverse-power binomial expansion in the d+ν convention. With u_i=dr_i/r_i and E=−Σr_i∂_(r_i), contraction has coefficient (-1)^(j+1)j! C in the epsilon expansion of Lemma 3.16; at j=d−1 it is (-1)^(d(d+1)/2)d! C·(barℓ/r)^1·(∧_(i<d)u_i)∧(∧_i dz_i). Away from D these currents are smooth and have the corresponding K-series expressions.
 
@@ -652,9 +650,7 @@ One proof route is to use polynomial-growth Fourier coefficients to define distr
 
 *Needs:* §3.2; §3.4; AbelianSchemesAndArithmeticModuliPartII P3.2/P3.4; AbelianSchemesAndArithmeticModuliPartII P0.3/P0.5.
 
-### 3.6 The current realizes the coherent class
-
-The corrected compatible current Φ satisfies ∇″Φ=δ_h·vol and is ∇″-closed on U. Under the trace-normalized current/coherent comparison it represents EK_Γ(h). Its flat universal-extension image, a ∇-closed current with ∇Φ=δ_h·vol, represents under the analytic de Rham comparison the class pol_Γ(h) of §2.7, base changed along the chosen embedding into ℂ. The zero Fourier term disappears because Tr(h)=0; no unregularized pointwise convergence at a torsion pole is asserted.
+**3.6 The current realizes the coherent class.** The corrected compatible current Φ satisfies ∇″Φ=δ_h·vol and is ∇″-closed on U. Under the trace-normalized current/coherent comparison it represents EK_Γ(h). Its flat universal-extension image, a ∇-closed current with ∇Φ=δ_h·vol, represents under the analytic de Rham comparison the class pol_Γ(h) of §2.7, base changed along the chosen embedding into ℂ. The zero Fourier term disappears because Tr(h)=0; no unregularized pointwise convergence at a torsion pole is asserted.
 
 Assume corrected current, residue convention, torsion-free Borel model and finite-level comparison.
 
@@ -707,7 +703,9 @@ One proof route is to check the Γ-invariance of the summand using the critical 
 
 *Needs:* §0.1; §3.3.
 
-### 4.2 Fibre integration of Kronecker series
+### 4.2 The explicit critical class by unit-torus fibre integration
+
+This section expresses the orbit series of §4.1 as fibre integrals of Kronecker series over BΓ and deduces the formula for EK^(β,a)_Γ(h,x) in analytic and algebraic bases, with the class sign ε(d,a,β). §§5.4 and 8.3 consume §4.3, and §§7.1 and 8.5 use its class sign.
 
 Let Γ be torsion-free and let T_Γ(t′) be the finite orbit of the torsion class t′ in (ℚ⊗Λ)/Λ. For critical β−α with α≥1, Γ(α+s)E^(β,α)(t′,s;Λ,Γ) equals d·Σ_(t∈T_Γ(t′))∫_(BΓ) Γ(|α|+ds)·K^(β+α)(H_r,t,0,|α|+ds,Λ)·∏_i(πr_i)^(α_i+s)/π^(|α|+ds) ·∧_(i<d)dr_i/r_i. Here Γ(α+s)=∏_iΓ(α_i+s). The leading d is the Jacobian of (r,u)↦(ur_i) on the product-one r-torus. Establish the equality in the half-plane Re(s)>1+(|β|−|α|)/(2d) of §4.1, which is exactly the region Re(|α|+ds)>d+(|α|+|β|)/2 where the Kronecker series K^(β+α) converges, and its meromorphic continuation to the regular critical evaluation. The sum is over every torsion point in the orbit, not over one orbit representative.
 
@@ -725,9 +723,7 @@ One proof route is to unfold BΓ and the unit orbit simultaneously; use absolute
 
 *Needs:* §4.1; §3.4; §3.1; Mathlib `Complex.Gamma_eq_integral`; Mathlib `mellin`.
 
-### 4.3 Explicit critical class in analytic and algebraic bases
-
-For torsion-free Γ the corrected conventions give EK^(β,a)_Γ(h,x)=ε(d,a,β)·a!·Σ_(t∈Γ\D) h(−t)E^(β,a+1)(t+x,0;Λ,Γ) dz^[a+1]⊗ubar^[β], where ε(d,a,β)=(-1)^(d(d+1)/2+|a|+|β|+1); in terms of the value index α=a+1 this is (-1)^(d(d−1)/2+|α|+|β|+1). The top-degree BΓ representative is the top contraction of the corrected current, projected to (a,β), differentiated by a, and evaluated at x; it carries ε(d,a,β) in place of the sign (-1)^(d(d−1)/2) of Proposition 3.23, and the fibre integral of §4.2 and the oriented cap add no further sign. In the algebraic bases replace ubar^[β] by q^(−β)ω_A∨^[β], q=⟨barω_A,ω_A∨⟩_dR, the conjugate de Rham pairing of ComplexMultiplicationAndExplicitReciprocity §1.2; the conjugation in q survives the comparison, and §5.1 later converts q into the dual period Ω∨. For torsion Γ use only the localized normalization of Layer 2. The formula includes the residue-to-current and orientation compatibility. The moment map of §7.1 identifies its moments with these coordinates, and the linear combinations of §7.4 and weighted pushforward of §8.3 retain ε(d,a,β).
+**4.3 Explicit critical class in analytic and algebraic bases.** For torsion-free Γ the corrected conventions give EK^(β,a)_Γ(h,x)=ε(d,a,β)·a!·Σ_(t∈Γ\D) h(−t)E^(β,a+1)(t+x,0;Λ,Γ) dz^[a+1]⊗ubar^[β], where ε(d,a,β)=(-1)^(d(d+1)/2+|a|+|β|+1); in terms of the value index α=a+1 this is (-1)^(d(d−1)/2+|α|+|β|+1). The top-degree BΓ representative is the top contraction of the corrected current, projected to (a,β), differentiated by a, and evaluated at x; it carries ε(d,a,β) in place of the sign (-1)^(d(d−1)/2) of Proposition 3.23, and the fibre integral of §4.2 and the oriented cap add no further sign. In the algebraic bases replace ubar^[β] by q^(−β)ω_A∨^[β], q=⟨barω_A,ω_A∨⟩_dR, the conjugate de Rham pairing of ComplexMultiplicationAndExplicitReciprocity §1.2; the conjugation in q survives the comparison, and §5.1 later converts q into the dual period Ω∨. For torsion Γ use only the localized normalization of Layer 2. The formula includes the residue-to-current and orientation compatibility. The moment map of §7.1 identifies its moments with these coordinates, and the linear combinations of §7.4 and weighted pushforward of §8.3 retain ε(d,a,β).
 
 Assume standard datum, x outside D; β−a−1 critical; torsion-free Γ for the integral cap. The analytic trace convention of §3.2 is used.
 
@@ -788,7 +784,9 @@ One proof route identifies H₁(A∨(ℂ),ℤ) with Hom(H₁(A(ℂ),ℤ),ℤ) th
 
 *Needs:* §0.2; ComplexMultiplicationAndExplicitReciprocity §1.2; AbelianSchemesAndArithmeticModuli A2.2, A4.3, A5.1 and A5.3; ComplexComparisonPartII C5.1; AbelianSchemesAndArithmeticModuliPartII P2.4; Mathlib `FractionalIdeal.dual_eq_mul_inv` and `coeIdeal_differentIdeal`.
 
-### 5.2 Critical-value normalization
+### 5.2 Normalized critical values of partial Hecke L-functions
+
+This section provides the period normalization 𝒩_(α,β) and the expression of partial Hecke L-functions as unit-orbit series. §§5.4 and 8.5 consume §5.2, and §§5.6 and 8.1 consume §5.3.
 
 For α:Σ→ℕ with α≥1 and β:barΣ→ℕ set 𝒩_(α,β)(v)=(∏_σ(α_σ−1)!)·(2πi)^(Σβ)·v/(Ω^α(Ω∨)^β), with all period coordinates nonzero, since they compare the chosen Betti and differential bases. Here Ω^α and (Ω∨)^β are products over their respective embedding sets and no factorial of a total degree is substituted for the product. This normalization is ℂ-linear in v. It is defined for any complex value; algebraicity and integrality of particular L-values are theorem targets, not fields of this definition.
 
@@ -814,9 +812,7 @@ One proof route is to use finite products and ordinary complex powers on these c
 
 *Needs:* §5.1; §0.1.
 
-### 5.3 Partial Hecke L-functions as unit-orbit series
-
-Use the ideal-theoretic convention χ((λ))=λ^(β−α) for λ≡1 mod f. For a ray class [b] prime to f, L_f(χ,s,[b])=χ(b)Nb^(−s) E^(β,α)(1,s;f b⁻¹,O_f×). The L-function is the AutomorphicLFunctionsAndLocalFactors AL.1 Hecke L-function with the following explicit normalization: if μ(σ)+μ(barσ)=w, set χᵘ(a)=χ(a)Na^(−w/2), so L_f(χ,s)=L_f(χᵘ,s−w/2). At finite uniformizers the idelic unitary avatar takes value χᵘ(v); its archimedean component is fixed by triviality on L×. Apply AutomorphicLFunctionsAndLocalFactors AL.1 in that convention, transporting its gamma factors through the same shift. At s=0 the identity supplies its critical value, and finite sums over the ray classes give L_f(χ,0). For f=O_L omit the zero vector in the lattice sum.
+**5.3 Partial Hecke L-functions as unit-orbit series.** Use the ideal-theoretic convention χ((λ))=λ^(β−α) for λ≡1 mod f. For a ray class [b] prime to f, L_f(χ,s,[b])=χ(b)Nb^(−s) E^(β,α)(1,s;f b⁻¹,O_f×). The L-function is the AutomorphicLFunctionsAndLocalFactors AL.1 Hecke L-function with the following explicit normalization: if μ(σ)+μ(barσ)=w, set χᵘ(a)=χ(a)Na^(−w/2), so L_f(χ,s)=L_f(χᵘ,s−w/2). At finite uniformizers the idelic unitary avatar takes value χᵘ(v); its archimedean component is fixed by triviality on L×. Apply AutomorphicLFunctionsAndLocalFactors AL.1 in that convention, transporting its gamma factors through the same shift. At s=0 the identity supplies its critical value, and finite sums over the ray classes give L_f(χ,0). For f=O_L omit the zero vector in the lattice sum.
 
 Assume χ algebraic critical of conductor f; b integral prime to f; ideal/Artin convention fixed.
 
@@ -851,7 +847,9 @@ One proof route is to apply §2.5 to A(a)→A(b⁻¹) with the bases [f]*([b]*)�
 
 *Needs:* §2.5; §4.3; §5.1; §5.2; §2.3.
 
-### 5.5 Torsion distribution and the smoothing identity
+### 5.5 Smoothed differences of partial critical values
+
+This section provides the distribution identity of the unit-orbit Eisenstein values under an auxiliary ideal c and the integrality of the normalized smoothed differences of partial critical values. §5.7 consumes §5.6, and §8.3 consumes the distribution of §5.5.
 
 For a=f b⁻¹ and c prime to fb, summing E^(β,α)(t+1,0;a,O_f×) over unit orbits t∈c⁻¹a/a gives E^(β,α)(1,0;c⁻¹a,O_f×). Thus the trace-zero function h_c=Nc·1_e−1 gives Nc E(1,0;a)−E(1,0;c⁻¹a). This identity uses a disjoint decomposition of the actual unit-orbit sets, not a sum over every point followed by division by the unit-group size.
 
@@ -868,9 +866,7 @@ One proof route is to decompose c⁻¹a+1 into the Γ-translates of a+t+1 and pa
 
 *Needs:* §4.1; §1.1.
 
-### 5.6 Integral differences of partial critical values
-
-For f≠O_L and the based period datum, 𝒩_(α,β)(χ(c)Nc L_f(χ,0,[b])−L_f(χ,0,[bc]))∈O_E R[1/(f N(bc))], where O_E R is the subring of ℂ generated by R and the integers of the character value field E. χ(b) may have denominators at Nb, so its integrality is proved in O_E[1/Nb] rather than asserted unconditionally.
+**5.6 Integral differences of partial critical values.** For f≠O_L and the based period datum, 𝒩_(α,β)(χ(c)Nc L_f(χ,0,[b])−L_f(χ,0,[bc]))∈O_E R[1/(f N(bc))], where O_E R is the subring of ℂ generated by R and the integers of the character value field E. χ(b) may have denominators at Nb, so its integrality is proved in O_E[1/Nb] rather than asserted unconditionally.
 
 Assume χ critical of conductor f with values in E; b,c prime to f and each other.
 
@@ -950,7 +946,9 @@ Earlier layers 0, 1, 2, 3, 4; ComplexMultiplicationAndExplicitReciprocity §§1.
 
 ## Layer 6: Ordinary levels and p-adic theta coordinates
 
-### 6.1 Ordinary lifted types and CM level structures
+### 6.1 Ordinary CM level structures and p-adic periods
+
+This section provides the p-ordinary condition on lifted types, the ordinary level structures with the isogenies q_n, and the canonical differentials with the unit p-adic periods Ω_p and Ω_p∨. §§6.3, 6.4, 7.2, 7.3, 7.4 and 8.5 consume them.
 
 Fix a prime p∤d_L, p noninvertible on the arithmetic model, embeddings of algebraic numbers into ℂ and ℂ_p, and a lifted type Σ. It is p-ordinary when the sets of p-adic places induced by Σ and barΣ are disjoint and together cover all places over p; this definition applies to L containing K, without requiring L itself CM. Write O_L⊗ℤ_p=O_L(Σ_p)⊕O_L(barΣ_p). A Γ₀₀(p∞)-structure consists of O_L-equivariant compatible identifications μ_(p∞)⊗O_L(Σ_p)≃A[p∞]^connected and μ_(p∞)⊗O_L(barΣ_p)≃A∨[p∞]^connected. A Γ_arith-structure includes the compatible full connected and étale trivializations. Set p_Σ=∏_(v∈Σ_p)v and A_(n)=A(barp_Σ^n); q_n=[barp_Σ^n]:A_(n)→A is étale, with kernel A_(n)[barp_Σ^n], while its dual is connected. Via Weil pairings these data are equivalent to the specified trivializations of the complementary étale kernels. A prime-to-p ideal Betti structure induces them using the chosen compatible roots exp(2πi/p^n). In particular formal A≃Gm_hat⊗O_L(Σ_p), formal A∨≃Gm_hat⊗O_L(barΣ_p), with character modules the corresponding dual Tate modules. The paired isogeny [p_Σ^n]:A→A_(n) composes with q_n to [p^n]. The primes 2 and 3 are included whenever the stated unramified and ordinary hypotheses hold.
 
@@ -977,9 +975,7 @@ One proof route is to specialize the generic connected/étale and Cartier-dual t
 
 *Needs:* §0.2; §5.1; ComplexMultiplicationAndExplicitReciprocity §1.2; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.7/R07.1.9/R07.1.13 (gap:ordinary-cm-pairings); AbelianSchemesAndArithmeticModuliPartII P4.1.
 
-### 6.2 Canonical differentials and p-adic periods
-
-The ordinary level structures induce canonical bases ω_can(A), ω_can(A∨) on the cotangent weight lines of the two formal tori. Define unit-valued periods Ω_p and Ω_p∨ by ω_A=Ω_p·ω_can(A) and ω_A∨=Ω_p∨·ω_can(A∨). These are componentwise units because both sides are bases. Prime-to-p O_L-isogenies transport the canonical bases and periods by Lemma 5.8. All algebraic objects are first built over the noetherian model and then base changed to O_(ℂ_p); no noetherianity assertion about O_(ℂ_p) is made.
+**6.2 Canonical differentials and p-adic periods.** The ordinary level structures induce canonical bases ω_can(A), ω_can(A∨) on the cotangent weight lines of the two formal tori. Define unit-valued periods Ω_p and Ω_p∨ by ω_A=Ω_p·ω_can(A) and ω_A∨=Ω_p∨·ω_can(A∨). These are componentwise units because both sides are bases. Prime-to-p O_L-isogenies transport the canonical bases and periods by Lemma 5.8. All algebraic objects are first built over the noetherian model and then base changed to O_(ℂ_p); no noetherianity assertion about O_(ℂ_p) is made.
 
 Assume ordinary based datum, chosen Γ₀₀-levels and compatible embeddings; algebraic bases integral at p.
 
@@ -1003,7 +999,9 @@ One proof route is to pull back invariant dlog differentials from the formal mul
 
 *Needs:* §6.1; §5.1; AbelianSchemesAndArithmeticModuliPartII P4.2.
 
-### 6.3 The p-adic theta function of a residue class
+### 6.3 The p-adic theta function and its canonical moments
+
+This section provides the theta class θ_Γ(h,y) in Γ-coinvariants and the canonical formal derivatives and embedding monomials t^a s^β in which its moments are read. §7.1 consumes both, and §7.2 consumes §6.3.
 
 For a torsion section y∈U killed by an isogeny with étale dual, restrict EK_Γ(h) to the formal neighborhood of y, translate to the identity, and use the imported ordinary Poincaré trivialization on formal A×formal A∨. Put M=H⁰(formal A×formal A∨,O)⊗det ω_A, with Γ acting through the Γ-linearization of the Poincaré trivialization and the inverse Σ-weight on det ω_A; under the level identifications of §6.1, Γ acts on O_L⊗ℤ_p by multiplication by units, freely on (O_L⊗ℤ_p)×. The restricted class lies in H^(d−1)(Γ,M). Cap it with the same torsion-free oriented fundamental cycle: the local-coefficient cap lands in H₀(Γ,M)=M_Γ, the Γ-coinvariants. Identify det ω_A using ω_can(A). This defines θ_Γ(h,y)∈M_Γ, integral over O_(ℂ_p). It is not an element of M^Γ, and no retraction M_Γ→M^Γ is used: for d≥2 the group Γ is infinite, the closure of Γ in (O_L⊗ℤ_p)× contains a copy of ℤ_p acting freely on the units, and a bounded measure invariant under it vanishes there, so a bounded Γ-invariant formal function has Amice measure zero on (O_L⊗ℤ_p)×. For critical (a,β) the moment coordinate M→TSym^(a+1)ω_A⊗TSym^βω_A∨ is Γ-invariant, so it factors through M_Γ; every later use of θ is such a Γ-invariant functional or a pushforward along a Γ-invariant map. For arbitrary torsion y the same procedure gives a generic-fiber class; integrality then requires an extra argument. For a finite-index torsion-free Γ′⊂Γ, the projection M_(Γ′)→M_Γ sends θ_(Γ′) to [Γ:Γ′]θ_Γ by the finite-cover projection formula.
 
@@ -1036,9 +1034,7 @@ One proof route is to apply AbelianSchemesAndArithmeticModuliPartII P4.2–P4.3 
 
 *Needs:* §1.3; §2.2; §6.2; AbelianSchemesAndArithmeticModuliPartII P4.3; AbelianSchemesAndArithmeticModuliPartII P4.2; AlgebraicTopology Stage 6 (gap:torus-cap-projection).
 
-### 6.4 Canonical formal derivatives and embedding monomials
-
-For a≥0 on Σ and β≥0 on barΣ let ∂_A^a∂_(A∨)^β g be the coefficient of the invariant differentiated formal function in the canonical divided-power differential bases, evaluated at the identity. Under the level identification O_L⊗ℤ_p=O_L(Σ_p)⊕O_L(barΣ_p), define t^a s^β(t,s)=∏_(σ∈Σ)σ(t)^a_σ∏_(barσ∈barΣ)barσ(s)^β_barσ through the chosen embeddings into O_(ℂ_p). The generic Amice moment formula identifies these canonical derivatives with monomial integrals. This target specializes that formula to the CM bases and the Hodge moment maps; it does not re-own multivariate Amice theory.
+**6.4 Canonical formal derivatives and embedding monomials.** For a≥0 on Σ and β≥0 on barΣ let ∂_A^a∂_(A∨)^β g be the coefficient of the invariant differentiated formal function in the canonical divided-power differential bases, evaluated at the identity. Under the level identification O_L⊗ℤ_p=O_L(Σ_p)⊕O_L(barΣ_p), define t^a s^β(t,s)=∏_(σ∈Σ)σ(t)^a_σ∏_(barσ∈barΣ)barσ(s)^β_barσ through the chosen embeddings into O_(ℂ_p). The generic Amice moment formula identifies these canonical derivatives with monomial integrals. This target specializes that formula to the CM bases and the Hodge moment maps; it does not re-own multivariate Amice theory.
 
 Assume ordinary levels and canonical bases; nonnegative indices; formal functions over O_(ℂ_p).
 
@@ -1100,7 +1096,9 @@ One proof route is to apply the inverse Amice equivalence to θ, which has integ
 
 *Needs:* §6.3; §6.4; PadicMeasuresIwasawaAlgebras §§2.1–2.2 (gap:integral-multivariate-amice); Mathlib `AbstractMeasure`.
 
-### 7.2 p-power translation with Weil-pairing weights
+### 7.2 Finite-level translation and the partial Fourier transform
+
+This section provides the translation formula for theta classes along q_n with Weil-pairing weights and the normalized partial Fourier transform P_A. §7.4 consumes both, §8.1 consumes the transform of §7.3, and §8.5 refers to their pairing signs.
 
 Let q_n:A_(n)=A(barp_Σ^n)→A be as in §6.1; pull back D and h to D′ and h′. For Γ-invariant s∈A[p_Σ^n], t∈A∨[barp_Σ^n], let s′ be the unique p_Σ^n-torsion lift of s and x′ the unique f-torsion lift of x. At this finite level choose a finite-index torsion-free Γ_n⊂Γ fixing x′, s′, every point of ker q_n, and all finite-level translation data. Such a subgroup exists as the kernel of the action on those finite sets. Then
 (T_s×T_t)*θ_(Γ_n,A)(h,x)=Σ_(u∈ker q_n)⟨u,t⟩_(q_n)·q_(n),# θ_(Γ_n,A_(n))(h′,x′+s′+u).
@@ -1123,9 +1121,7 @@ One proof route is to compare the supported residue functions under the Poincar�
 
 *Needs:* §6.3; §6.1; §2.3; AlgebraicTopology Stage 6 (gap:torus-cap-projection); AbelianSchemesAndArithmeticModuliPartII P4.3; AbelianSchemesAndArithmeticModuliPartII P2.4.
 
-### 7.3 Normalized partial Fourier transform
-
-At level p^n let x∈A_(n)∨[p_Σ^n], y∈A_(n)[p_Σ^n], and z∈A_(n)[barp_Σ^n]. With q_n=[barp_Σ^n]:A_(n)→A, the perfect pairing for [p_Σ^n]:A→A_(n) pairs q_n(y) with x. For a function ρ on the two étale coordinate modules define P_Aρ(y,z)=p^(−dn)Σ_x⟨q_n(y),x⟩_[p_Σ^n]⁻¹ρ(x,z). Fourier transformation acts only in the Σ-direction; the other variable is retained. The generic-fiber denominator p^(dn) is mandatory. Under the complex ideal uniformization this becomes the normalized finite trace-exponential sum exp(−2πi Tr_(L/ℚ)(xy)) in equation (5.5.11), with the ideal-coordinate denominators specified there.
+**7.3 Normalized partial Fourier transform.** At level p^n let x∈A_(n)∨[p_Σ^n], y∈A_(n)[p_Σ^n], and z∈A_(n)[barp_Σ^n]. With q_n=[barp_Σ^n]:A_(n)→A, the perfect pairing for [p_Σ^n]:A→A_(n) pairs q_n(y) with x. For a function ρ on the two étale coordinate modules define P_Aρ(y,z)=p^(−dn)Σ_x⟨q_n(y),x⟩_[p_Σ^n]⁻¹ρ(x,z). Fourier transformation acts only in the Σ-direction; the other variable is retained. The generic-fiber denominator p^(dn) is mandatory. Under the complex ideal uniformization this becomes the normalized finite trace-exponential sum exp(−2πi Tr_(L/ℚ)(xy)) in equation (5.5.11), with the ideal-coordinate denominators specified there.
 
 Assume chosen compatible Γ₀₀-levels and primitive p^n-th roots; functions at a finite level; generic coefficient field containing the roots.
 
@@ -1179,7 +1175,9 @@ Earlier layers 0, 1, 2, 3, 4, 5, 6; AutomorphicLFunctionsAndLocalFactors AL.0, �
 
 ## Layer 8: Ray-class interpolation and bounded desmoothing
 
-### 8.1 Katz’s local factor for a lifted ordinary type
+### 8.1 The local factor and the auxiliary smoothing atoms
+
+This section provides the local factor Local(χ,Σ) of a lifted ordinary type and the smoothing measures δ_c and δ′_(c′) on G_f. §8.3 consumes both, §8.4 consumes the measures of §8.2, and §8.5 consumes the local factor of §8.1.
 
 Let χ have infinity type β−α and conductor dividing p∞f. Define χ_fin on (O_L⊗ℤ_p)× by χ((λ))=χ_fin(λ)·λ^(β−α) for λ prime to pf and congruent to 1 modulo f, with μ evaluated at the embedding σ in the exponent. Put Ftilde(x,y)=χ_fin(x⁻¹,y). For each v|p extend its v-component to O_(L,v) by the constant function 1 when v∈Σ_p and that unit-character component is trivial, and by zero off the units otherwise. Let F be the product. Choose ∏_(v∈Σ_p)v^(a_v)=(c)b with c≡1 mod f and b prime to p. Then Local(χ,Σ)=c^(α−β)·(PF)(c⁻¹)/χ(b), where c^(α−β) means (N_(L/K)c)^α₀/(overline(N_(L/K)c))^β₀ in the chosen embedding indices. Prove this scalar is nonzero, independent of the conductor decomposition, and compatible with the AutomorphicLFunctionsAndLocalFactors AL.1 trace-character Gauss-sum convention. Distinguish F from the zero extension of Ftilde; their difference at an unramified Σ-place produces an Euler factor.
 
@@ -1206,9 +1204,7 @@ One proof route is to choose c by approximation in the required ray congruence c
 
 *Needs:* §7.3; §5.3; AutomorphicLFunctionsAndLocalFactors AL.1, “Local epsilon factors and Gauss sums”.
 
-### 8.2 Auxiliary-ideal smoothing measures
-
-On G_f=Gal(L(p∞f)/L), with arithmetic Artin convention fixed by ClassFieldTheory Layers 11–13, define δ_c=Nc·δ_1−δ_(Art(c)⁻¹). Its value at a continuous character χ is Nc−χ(c)⁻¹. In conductor one also define δ′_(c′)=δ_1−δ_(Art(c′)), with value 1−χ(c′). The products of these atoms with a measure mean convolution in the imported Iwasawa/measure algebra. In particular δ_c is different from the scalar factor χ(c)Nc−1 in the complex integrality theorem; they differ by the unit χ(c).
+**8.2 Auxiliary-ideal smoothing measures.** On G_f=Gal(L(p∞f)/L), with arithmetic Artin convention fixed by ClassFieldTheory Layers 11–13, define δ_c=Nc·δ_1−δ_(Art(c)⁻¹). Its value at a continuous character χ is Nc−χ(c)⁻¹. In conductor one also define δ′_(c′)=δ_1−δ_(Art(c′)), with value 1−χ(c′). The products of these atoms with a measure mean convolution in the imported Iwasawa/measure algebra. In particular δ_c is different from the scalar factor χ(c)Nc−1 in the complex integrality theorem; they differ by the unit χ(c).
 
 Assume c prime to pf; c′ prime to pc when used; norm embedded into the coefficient ring.
 
