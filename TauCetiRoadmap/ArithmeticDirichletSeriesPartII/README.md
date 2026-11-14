@@ -1262,9 +1262,10 @@ for finite sums and the coefficient bound give `|S_d(X) − S_c(X)| ≤ S_b(X)` 
 `0` is suppressed on both sides). Divide by `X^a (log X)ᵏ` and use
 `1 / (log X)^(k − l) → 0`, where `k − l ≥ 1`; conclude by the squeeze theorem. *Needs:* §4.3; Tau Ceti `TauCeti.summatory`.
 
-*Source.* Wood (2019), §7, p. 417: the number of homomorphisms that are not surjective is bounded
-in terms of a constant and the asymptotics of the coefficients of the series attached to the next
-smaller group, whose pole has order `2^(r−1) < 2^r`. The theorem above is the generic analytic form
+*Source.* Wood (2019), §7, p. 417. There, homomorphisms with a proper subgroup as image are
+compared with the group one step smaller: a constant and the coefficient asymptotics of that
+group's series bound their count from above, and that series has a pole of order
+`2^(r−1) < 2^r`. The theorem above is the generic analytic form
 of that step, with a coefficientwise majorant; the arithmetic construction of the majorant and the
 proof of its hypotheses are arithmetic input to the application.
 
