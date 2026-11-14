@@ -45,12 +45,12 @@ milestones and an acceptance check that compiles without later layers.
 | 1 | The pointwise topology on `Equiv.Perm α`, S∞ as a Polish group, the logic action, orbits = isomorphism classes, invariance and the invariant σ-algebra | 0; Mathlib group actions; BorelEquivalenceRelations (products of analytic sets) |
 | 2 | Satisfaction and model classes `modelsOf φ`: Borel, invariant, standard Borel; Gδ model classes | 0–1; InfinitaryLogic Layer 0; BorelEquivalenceRelations (Gδ subspaces) |
 | 3 | Trees: bodies, well-foundedness, heights, Kleene–Brouwer, the boundedness theorem, tree representations of analytic sets | 0; Mathlib analytic sets and `Descriptive.tree` |
-| 4 | Borel back-and-forth equivalence, the isomorphism relation, Borel isomorphism classes, the external Scott height, Borel isomorphism under bounded height, forced back-and-forth trees and uniform separation | 1–3; InfinitaryLogic Layers 1–3 |
+| 4 | Borel back-and-forth equivalence, the isomorphism relation, Borel isomorphism classes, the external Scott height, Borel isomorphism under bounded height, forced back-and-forth trees and uniform separation | 1–3; InfinitaryLogic Layers 1–3; BorelEquivalenceRelations (products of analytic sets) |
 | 5 | López–Escobar: PC sentences of trees, both directions, the action form, the invariant σ-algebra, invariant analytic classes as PC classes | 2–4; InfinitaryModelExistence PC-separation |
 | 6 | Invariant analytic separation; the well-order class: boundedness, not analytic, not Borel, coded undefinability | 1–5; BorelEquivalenceRelations (invariant Lusin separation) |
 
 Besides Mathlib and Tau Ceti, the layers consume four general lemmas of the sibling roadmap
-[BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md) (Layers 1, 2 and 6) and one theorem of the sibling roadmap
+[BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md) (Layers 1, 2, 4 and 6) and one theorem of the sibling roadmap
 [InfinitaryModelExistence](../InfinitaryModelExistence/README.md) (Layer 5), all stated exactly under
 [the supplier contracts](#exact-supplier-contracts). In Layer 6 only `exists_sentence_separating` uses
 Layer 5; the well-order results use Layers 0–3 and the easy direction of López–Escobar.
@@ -672,7 +672,8 @@ height is the right parameter for the height comparison.
 
 ### Dependencies
 
-Layers 1–3. InfinitaryLogic Layers 1–3, implemented in Tau Ceti.
+Layers 1–3. InfinitaryLogic Layers 1–3, implemented in Tau Ceti; `AnalyticSet.prod` of
+BorelEquivalenceRelations, implemented in Tau Ceti.
 
 ## Layer 5 — The López–Escobar theorem
 
