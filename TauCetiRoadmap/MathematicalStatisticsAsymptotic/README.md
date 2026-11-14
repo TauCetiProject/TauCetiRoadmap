@@ -36,8 +36,9 @@ consume its empirical-process toolkit and its limits of experiments. The headlin
 listed under [Supplied to later roadmaps](#supplied-to-later-roadmaps), and their names and
 statements are part of the contract of this roadmap.
 
-`Suggested.lean` states every headline of Layers 1–9 against the pinned Mathlib and Tau Ceti,
-with the definitions those statements need.
+`Suggested.lean` states, against the pinned Mathlib and Tau Ceti, every headline below that
+carries a Lean name, with the definitions those statements need. The remaining targets are
+stated in prose with their locators or proof routes.
 
 Suggested home: `TauCeti/Statistics/Asymptotic/`, with one subdirectory per layer.
 
@@ -66,7 +67,8 @@ The roadmap is complete when Tau Ceti proves all of the following.
    one-step and discretized one-step estimators, M-estimators with Lipschitz criteria, the rate theorem,
    misspecified maximum likelihood, sample quantiles and the Bahadur representation.
 6. **Projections and U- and L-statistics.** The Hájek projection and its limit theorem, the
-   nondegenerate U-statistic theorem, the Hoeffding decomposition, degenerate quadratic
+   nondegenerate U-statistic theorem, the Hoeffding decomposition with the optimality of
+   U-statistics over every family containing the finitely supported laws, degenerate quadratic
    U-statistics, L-statistics and the trimmed mean.
 7. **Limits of experiments.** Le Cam's first and third lemmas, differentiability in quadratic
    mean and local asymptotic normality, the expansion of the Kullback–Leibler divergence, the
@@ -89,10 +91,10 @@ The numbers are those of the layers below, and `k.n` names subsection `n` of Lay
   lemma on a fixed space, i.i.d. sequences and the weak law, and contiguity with its sufficient
   uniform-integrability criterion:
   [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 8.1–8.6;
-- the definition of the U-statistic (Foundations 2.4) and the optimality of U-statistics among
-  unbiased estimators over a family closed under finite mixtures that contains the Dirac laws
-  (Foundations 4.2). The family of all laws with `E h² < ∞` is such a family, so the optimality
-  half of the Hoeffding statement is Foundations 4.2 and 6.3 only states the decomposition;
+- the definition of the U-statistic, the completeness of symmetric statistics (Foundations 2.4)
+  and the optimality of U-statistics among unbiased estimators over a family closed under binary
+  mixtures and complete for the identity statistic (Foundations 4.2). 6.3 transfers that
+  optimality to every family of laws that contains the finitely supported laws;
 - the empirical distribution function, the sample quantile and the Huber score (Foundations 9.1
   and 9.2);
 - the scalar central limit theorem `tendstoInDistribution_inv_sqrt_mul_sum_sub`, the Cramér–Wold
@@ -163,7 +165,7 @@ These headlines are the contract with the later statistics roadmaps; their names
 
 These are fixed for every target. A statement that departs from them is a different target.
 
-- **Namespace.** The implementation is in `TauCeti`, with Mathlib's `ProbabilityTheory` and
+- **Namespace.** The implementation is in the Tau Ceti namespace, with Mathlib's `ProbabilityTheory` and
   `MeasureTheory` opened throughout. `Suggested.lean` states the prototypes in the namespace
   `TauCetiRoadmap.MathematicalStatisticsAsymptotic`.
 - **Samples.** A sample of size `n` from `P` on a measurable space `X` is `x : Fin n → X` under
@@ -184,8 +186,8 @@ These are fixed for every target. A statement that departs from them is a differ
   `TendstoInProbability μ X l c`: `μ i {ω | ε ≤ dist (X i ω) c} → 0` for every `ε > 0`. For a
   constant family of measures it is Mathlib's `TendstoInMeasure`, the convention of Foundations,
   and 1.1 proves the adapter. **Boundedness in probability** on varying spaces is
-  `IsBoundedInProbabilityAlong`, which is Foundations' `IsBoundedInProbability` for a constant
-  family and `l = atTop`.
+  `IsBoundedInProbabilityAlong`, which is the boundedness in probability of Foundations 8.2 for
+  a constant family and `l = atTop`.
 - **Convergence in law of measurable maps** is Mathlib's `TendstoInDistribution X l Z μ μ'`,
   which allows the spaces `Ω i` to vary. Limits are given either as a random variable `Z` or, with
   `Z = id`, as a law.
@@ -240,8 +242,10 @@ These are fixed for every target. A statement that departs from them is a differ
   vanishes, so it is not used as a definition. 7.3 proves the equivalence.
 - **VC dimension.** The VC dimension of a family of sets is the largest size of a shattered
   finite set, as in Mathlib's `Finset.vcDim`, with values in `ℕ∞`. This is the `V(C)` of van der
-  Vaart–Wellner (2023), §2.6.1, p. 199. Van der Vaart (1998) uses the VC index, the least size of
-  a set that is not shattered, which is the dimension plus one.
+  Vaart–Wellner (2023), §2.6.1, p. 199. Van der Vaart (1998) uses the VC index, the least `n`
+  such that no set of size `n` is shattered, which is the dimension plus one for a nonempty
+  family. The empty family shatters no set, so its index is `0`, while `vcDimSet` gives it
+  dimension `0`.
 - **Entropy.** Bracketing and covering numbers have values in `ℕ∞`, entropy integrals in `ℝ≥0∞`,
   and an infinite number contributes `∞` to the integrand, so that a finite entropy integral
   asserts finiteness of the numbers.
@@ -316,6 +320,12 @@ its Brownian motion files (`Mathlib/Probability/BrownianMotion/`) define `IsPreB
   `TauCeti.Probability.noncentralChiSquaredMeasure` with
   `map_norm_sq_multivariateGaussian_noncentral` and `HasLaw.norm_sq_multivariateGaussian`
   (`TauCeti/Probability/Distributions/NoncentralChiSquared/Gaussian.lean`).
+- **Gaussian projections:** `Submodule.map_norm_sq_starProjection_stdGaussian`
+  (`TauCeti/Probability/Distributions/Gaussian/Projection.lean`): the squared norm of the
+  orthogonal projection of a standard Gaussian vector onto a subspace `K` is `χ²` with
+  `finrank K` degrees of freedom, including rank `0`. The norm laws of Gaussian projections are
+  owned by [StandardDistributions](../StandardDistributions/README.md) §5.3; 1.3 and 8.4 use
+  this theorem and do not restate it.
 - **Multinomial laws:** `TauCeti.Probability.multinomialMeasure` with
   `isProbabilityMeasure_multinomialMeasure`, `multinomialToEuclidean` and
   `covMatrix_map_multinomialToEuclidean_multinomialMeasure`
@@ -337,26 +347,31 @@ its Brownian motion files (`Mathlib/Probability/BrownianMotion/`) define `IsPreB
 
 [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) is the base.
 This roadmap consumes:
-- 2.4: the U-statistic `uStatistic`, the average of a kernel over injections `Fin m → Fin n`;
+- 2.4: the U-statistic `uStatistic`, the average of a kernel over injections `Fin m → Fin n`,
+  and the completeness of symmetric statistics over a family closed under binary mixtures and
+  complete for the identity statistic (6.3);
 - 4.2: the optimality of U-statistics among unbiased estimators (6.3);
-- 8.1–8.3: the adapters to Mathlib's convergence, `IsBoundedInProbability` and the algebra of
-  convergence in probability on a fixed space;
-- 8.4: Slutsky's lemma without separability and the delta method
-  `tendstoInDistribution_delta_method`;
-- 8.5: `IsIndependentIdenticallyDistributed` and the weak law of large numbers;
+- 4.3: the information matrix `(∫ sᵢ sⱼ dP)ᵢⱼ` of a vector score, which this roadmap uses as
+  `fisherInformation` (7.3);
+- 8.1–8.3: the adapters to Mathlib's convergence, boundedness in probability on a fixed space
+  and the algebra of convergence in probability there;
+- 8.4: Slutsky's lemma without separability and the first-order delta method;
+- 8.5: the i.i.d. predicate and the weak law of large numbers;
 - 8.6: `IsContiguous`, its transfer of convergence in probability, and the sufficient condition
-  `isContiguous_of_absolutelyContinuous_of_uniformlyIntegrable`;
+  for contiguity by absolute continuity and uniform integrability;
 - 9.1: the empirical distribution function and the sample quantile, with the Galois inequality;
 - 9.2: the Huber score, its derivative identity and the Kolmogorov–Smirnov statistic.
 
 `Suggested.lean` carries local copies of `IsContiguous`, `uStatistic`, the empirical
-distribution function of a finite sample (`empiricalCdf`), `sampleQuantile` and `huberScore`, each with a
-docstring naming its owner.
+distribution function of a finite sample (`empiricalCdf`), `sampleQuantile`, `huberScore` and the
+information matrix `fisherInformation`, each with a docstring naming its owner. Foundations' own
+`fisherInformation` is the scalar information of a one-parameter family; the matrix version
+here is a different declaration and keeps this roadmap's name.
 
 ### From StochasticCalculus
 
 [StochasticCalculus](../StochasticCalculus/README.md) owns the construction of Brownian motion.
-This roadmap consumes its §1.2 (`exists_wienerMeasure`, Wiener measure on `C(ℝ≥0, ℝ)`) and its
+This roadmap consumes its §1.2 (the existence of Wiener measure on `C(ℝ≥0, ℝ)`) and its
 §1.4 (the Brownian bridge law on `[0, T]` with covariance `min(s, t) - st/T`), at `T = 1`, as a
 Borel probability measure on `C(unitInterval, ℝ)` with centred Gaussian marginals of covariance
 `min(s, t) - st`. 3.4 uses it only through these marginals. Its §1.5 (Donsker's invariance
@@ -387,8 +402,10 @@ limits from the null to local alternatives, local asymptotic normality reduces e
 problem to a Gaussian shift, and Anderson's lemma solves the Gaussian shift. Layer 8 applies
 Layer 7 to tests, and Layer 9 applies Layers 4–5 to robust functionals.
 
-The layers are in build order: each layer needs only earlier layers and the suppliers. Layer 7
-needs only Layer 1 and Foundations and may be built directly after Layer 1.
+The layers are in build order: each layer needs only earlier layers and the suppliers. Within
+Layer 5 the order is 5.1 → 5.6 → 5.5 (see Layer 5). Apart from the maximum likelihood theorem of
+7.3, which uses 5.5, Layer 7 needs only Layers 1–2 and Foundations and may be built directly
+after Layer 2.
 
 ## Layer 1: limit theorems in Euclidean space
 
@@ -396,7 +413,7 @@ needs only Layer 1 and Foundations and may be built directly after Layer 1.
 
 - `TendstoInProbability μ X l c` and `IsBoundedInProbabilityAlong μ X l` (Conventions). For a
   constant family of finite measures the first is `TendstoInMeasure μ X l (fun _ ↦ c)` and the
-  second is Foundations' `IsBoundedInProbability` at `l = atTop`.
+  second is the boundedness in probability of Foundations 8.2 at `l = atTop`.
 - The algebra of Foundations 8.3 on varying spaces: sums and constant multiples of sequences
   tending to `0` tend to `0`; continuous mapping at a constant; `O_P(1) · o_P(1) = o_P(1)`; a
   sequence that converges in law is bounded in probability; convergence of each coordinate in
@@ -419,8 +436,15 @@ bounds the integral over the non-measurable part from above. Mathlib's
 
 - `TendstoInProbability`: on `Ωₙ = Fin n → ℝ` under `N(0, 1)^n`, the sample mean tends to `0`
   (variance `1/n`); the first coordinate does not, its law being `N(0, 1)` for every `n`.
+- `TendstoInProbability` needs no measurability: on `Ωₙ = [0, 1]` with Lebesgue measure,
+  `Xₙ = n⁻¹ 1_A` for a non-measurable `A` tends to `0` in probability (the set `{ε ≤ Xₙ}` is
+  empty once `n > 1/ε`), while `Xₙ = 1_A` does not: for `ε ≤ 1` the set `{ε ≤ Xₙ}` is `A`, of
+  positive outer measure.
 - `IsBoundedInProbabilityAlong`: `√n · (sample mean)` is bounded in probability (it is `N(0, 1)`
   for every `n`); `n · (sample mean)` is not, being `N(0, n)`.
+- `IsBoundedInProbabilityAlong` along a filter: the constant sequence `Xᵢ = i` on a one-point
+  space is bounded along any filter `l` that contains a bounded set of indices, such as the
+  principal filter of `{0, 1}`, and is not bounded along `atTop`.
 
 ### 1.2 Lindeberg–Feller and the multivariate central limit theorem
 
@@ -466,8 +490,6 @@ theorem. The Lindeberg condition gives `maxᵢ Var Yₙ,ᵢ → 0`, which contro
 - **The noncentral chi-squared form** (`map_quadForm_inv_multivariateGaussian`): for `S` positive
   definite, the law of `xᵀ S⁻¹ x` under `N(m, S)` is the noncentral chi-squared law with `k`
   degrees of freedom and noncentrality `mᵀ S⁻¹ m`.
-- **Idempotent covariance** (`map_norm_sq_multivariateGaussian_of_isIdempotent`): if `S` is
-  symmetric and idempotent of rank `r`, then `‖X‖²` is `χ²_r` under `N(0, S)`.
 - **Singular covariance** (`map_quadForm_pseudoInverse_multivariateGaussian`): if `S` is positive
   semidefinite of rank `q`, then `xᵀ S⁺ x` is `χ²_q` under `N(0, S)`, with `S⁺` the Moore–Penrose
   inverse, Tau Ceti's `Matrix.covariancePseudoInverse`.
@@ -475,22 +497,26 @@ theorem. The Lindeberg condition gives `maxᵢ Var Yₙ,ᵢ → 0`, which contro
   eigenvalues of `S` (van der Vaart, Lemma 17.1, p. 242).
 
 *Proof route.* Write `S = A Aᵀ` with `A = S^{1/2}`; `A⁻¹ X` is `N(A⁻¹ m, I)`, and Tau Ceti's
-`map_norm_sq_multivariateGaussian_noncentral` gives the law of its squared norm. For the
-idempotent case, diagonalize `S` by an orthogonal matrix: the eigenvalues are `0` and `1`, with
-`1` of multiplicity `rank S = trace S`, and Tau Ceti's `HasLaw.norm_sq_multivariateGaussian`
-applies to the `r` nonzero coordinates. For the singular form, diagonalize `S = U D Uᵀ`; then
+`map_norm_sq_multivariateGaussian_noncentral` gives the law of its squared norm. A symmetric
+idempotent `S` is the orthogonal projection onto its range `K`, and `N(0, S)` is the image of the
+standard Gaussian under that projection (Gaussian transport: both are centred Gaussian with
+covariance `S Sᵀ = S`), so `‖X‖²` is `χ²_{rank S}` by Tau Ceti's
+`Submodule.map_norm_sq_starProjection_stdGaussian`; this is the form used in 8.4. For the
+singular form, diagonalize `S = U D Uᵀ`; then
 `S⁺ = U D⁺ Uᵀ`, and `xᵀ S⁺ x = ∑_{dⱼ > 0} (Uᵀx)ⱼ²/dⱼ` is a sum of `q` squares of independent standard
 normal variables.
 
 *Needs:* Mathlib `multivariateGaussian`, `Matrix.IsHermitian.spectral_theorem`; Tau Ceti
-`chiSquaredMeasure`, `noncentralChiSquaredMeasure`.
+`chiSquaredMeasure`, `noncentralChiSquaredMeasure`, `Submodule.map_norm_sq_starProjection_stdGaussian`.
 
 **Checks.**
 
 - `k = 1`, `S = (σ²)`, `m = (a)`: the form `x²/σ²` under `N(a, σ²)` has noncentrality `a²/σ²`.
-- `S = I - u uᵀ` with `‖u‖ = 1` is idempotent of rank `k - 1`, so `‖X‖²` is `χ²_{k-1}`; this is
-  the Pearson covariance of 8.4 with `u = (√p₁, …, √pₖ)`.
-- `S = 0` has rank `0`, and `‖X‖² = 0` has law `χ²_0 = δ₀` (Tau Ceti `chiSquaredMeasure_zero`).
+- `S = I - u uᵀ` with `‖u‖ = 1` is the projection onto `u^⊥`, of rank `k - 1`, so `‖X‖²` is
+  `χ²_{k-1}` under `N(0, S)` by the Tau Ceti projection theorem; this is the Pearson covariance of
+  8.4 with `u = (√p₁, …, √pₖ)`. The singular form gives the same law, since `S⁺ = S`.
+- `S = 0` has rank `0`, `S⁺ = 0`, and `xᵀ S⁺ x = 0` has law `χ²_0 = δ₀` (Tau Ceti
+  `chiSquaredMeasure_zero`).
 - Singular form with `S = diag(2, 0)`: `S⁺ = diag(1/2, 0)` and `x₁²/2` with `x₁ ~ N(0, 2)` is `χ²_1`;
   the ordinary inverse does not exist.
 
@@ -567,6 +593,10 @@ side's infimum. The indicator case is Mathlib's `measurableSet_toMeasurable` and
   the empty set of integrable majorants and is the junk value `0`.
 - `outerIntegral`: subadditivity is strict for `s.indicator 1` and `sᶜ.indicator 1` with `s` the
   Bernstein set: the sum of the outer integrals is `2` and the outer integral of the sum is `1`.
+- `outerLIntegral`: for the Bernstein set `s`, `outerLIntegral μ (s.indicator 1) = 1`, the outer
+  measure of `s`, while the lower Lebesgue integral `∫⁻ (s.indicator 1) dμ` is `0`; so the outer
+  integral is not Mathlib's `lintegral` of a non-measurable function.
+- `outerLIntegral`: for measurable `f` it is `∫⁻ f dμ`, by taking `g = f`.
 
 ### 2.2 Weak convergence in the sense of Hoffmann-Jørgensen
 
@@ -575,7 +605,8 @@ side's infimum. The indicator case is Mathlib's `measurableSet_toMeasurable` and
   (van der Vaart–Wellner, Def 1.3.7, p. 20). Asymptotic measurability: the outer and inner
   integrals of `f ∘ Xᵢ` have the same limit behaviour, `outer - inner → 0`, for every bounded
   continuous `f`.
-- **Portmanteau** (van der Vaart–Wellner, Thm 1.3.4, p. 17; van der Vaart, Lemma 18.9, p. 259):
+- **Portmanteau** (`tendstoInOuterDistribution_iff_limsup_le`; van der Vaart–Wellner, Thm 1.3.4,
+  p. 17; van der Vaart, Lemma 18.9, p. 259):
   the definition is equivalent to `liminf (μᵢ)_*(Xᵢ ∈ G) ≥ L(G)` for open `G`, with the inner
   probability, to `limsup μᵢ*(Xᵢ ∈ F) ≤ L(F)` for closed `F`, with the outer probability, and to convergence of outer integrals of bounded
   Lipschitz functions. **Bounded Lipschitz metric**: when `L` is concentrated on a separable
@@ -584,9 +615,9 @@ side's infimum. The indicator case is Mathlib's `measurableSet_toMeasurable` and
   with `BL₁` the functions bounded by `1` and `1`-Lipschitz; the uniformity over `BL₁` comes from
   approximating `BL₁` uniformly on a compact set of large `L`-mass by a finite family. Weak convergence implies asymptotic measurability, and convergence to a
   tight limit implies asymptotic tightness (van der Vaart–Wellner, Lemma 1.3.8, p. 20).
-- **Prohorov's theorem for arbitrary maps**: an asymptotically tight and asymptotically measurable
-  sequence has a subsequence converging to a tight Borel law (van der Vaart–Wellner, Thm 1.3.9,
-  p. 20; van der Vaart, Thm 18.12, p. 260).
+- **Prohorov's theorem for arbitrary maps** (`exists_strictMono_tendstoInOuterDistribution`): an
+  asymptotically tight and asymptotically measurable sequence has a subsequence converging to a
+  tight Borel law (van der Vaart–Wellner, Thm 1.3.9(ii), p. 20; van der Vaart, Thm 18.12, p. 260).
 - **Measurable maps** (`tendstoInOuterDistribution_iff_tendstoInDistribution`): for a.e.-measurable
   `Xᵢ` the definition is Mathlib's `TendstoInDistribution X l id μ L`.
 - **The bridge to Mathlib** (`TendstoInOuterDistribution.tendstoInDistribution_comp`): if
@@ -624,6 +655,12 @@ limit makes the bounded Lipschitz functions convergence-determining. Prohorov us
 - Tightness needs `K` nonempty: `Metric.infDist x ∅ = 0`, so with `K = ∅` the condition would hold
   for every sequence, including `Xₙ = n` in `ℝ`.
 - For a constant sequence of measurable maps the definition reduces to `L` being the law of `X₀`.
+- `IsAsymptoticallyTight`: `Xₙ = n` in `ℝ` is not asymptotically tight; a single measurable map
+  into a Polish space, repeated, is, by Mathlib's tightness of one Borel probability measure on
+  a Polish space.
+- `IsAsymptoticallyTight` does not imply asymptotic measurability: the Bernstein indicators above
+  take values in the compact set `{0, 1}`, so they are asymptotically tight, yet they converge to
+  no law. This is why Prohorov's theorem assumes both.
 
 ### 2.3 The space `ℓ^∞(T)`
 
@@ -662,7 +699,21 @@ Cauchy criterion in the bounded Lipschitz metric give the limit, which lies in `
   the map is not Borel measurable. The same holds for `x ↦ 1{x ≤ t} - t`, and for every `n`.
 - `liftLinfty`: `t ↦ t` on `T = ℝ` is unbounded and lifts to `0`; on `T = [0, 1]` it lifts to
   itself, of norm `1`.
+- `liftLinfty`: `n ↦ (-1)ⁿ` on `T = ℕ` is bounded but not convergent and lifts to itself, of norm
+  `1`; boundedness, not continuity or convergence, decides the lift.
+- `liftLinfty`: the constant `c` lifts to the constant `c`, of norm `|c|`, on every nonempty `T`.
 - `marginal`: for `t = (0, 1)` and `z = 1_{[1/2, 1]}` on `[0, 1]`, the marginal is `(0, 1)`.
+- `marginal`: with `m = 0` it is the zero vector of `EuclideanSpace ℝ (Fin 0)` for every `z`.
+- `marginal`: at a repeated point `t = (s, s)` both coordinates equal `z(s)`, and
+  `marginal t (a z + w) = a · marginal t z + marginal t w`.
+- `IsAsymptoticallyUniformlyEquicontinuous`: a process constant in `t`, `Xᵢ(t) = Zᵢ`, satisfies it
+  for every `ρ`, since all increments vanish.
+- `IsAsymptoticallyUniformlyEquicontinuous`: the fixed path `Xᵢ = 1_{[1/2, 1]}` on `[0, 1]` with
+  `ρ(s, t) = |s - t|` fails it, since every `δ > 0` admits `s < 1/2 ≤ t` with `ρ(s, t) < δ` and
+  increment `1`.
+- `IsAsymptoticallyUniformlyEquicontinuous`: on `T = {0, 1}` with `ρ ≡ 0` and `Xᵢ = (0, Z)`,
+  `Z ~ N(0, 1)`, it fails, since `ρ(0, 1) < δ` for every `δ` and `P(|Z| > ε) > 0` does not depend
+  on `i`.
 
 ### 2.4 Brownian bridge laws
 
@@ -684,6 +735,12 @@ Cauchy criterion in the bounded Lipschitz metric give the limit, which lies in `
   which vanishes at `s = 0` and at `t = 1`.
 - For a finite `T`, `ℓ^∞(T)` is `ℝ^T`, every law is tight, and the bridge law is the multivariate
   Gaussian with the displayed covariance.
+- For `P` uniform on `[0, 1]` and the half-line indicators, the bridge covariance at `s = 1/4`,
+  `t = 1/2` is `1/4 - 1/8 = 1/8`, and the variance at the endpoint `t = 1` is `F(1)(1 - F(1)) = 0`:
+  the marginal at `t = 1` is the Dirac law at `0`.
+- The centring is part of the definition: a law whose marginal at `(t₁)` is `N(c, σ²)` with
+  `c ≠ 0` is not a bridge law, since the marginal of `IsBrownianBridgeLaw` is
+  `multivariateGaussian 0 _`, with mean `0`.
 
 ### Examples
 
@@ -724,14 +781,25 @@ limits in law gives the bridge marginals; tightness of `L` is part of the defini
 
 **Checks.**
 
-- `IsDonsker`: a finite class of square-integrable functions is Donsker, by 1.2 and 2.3 (any
-  semimetric on a finite set is totally bounded, and equicontinuity is trivial for `δ` below the
-  least distance).
+- `IsDonsker`: a finite class of square-integrable functions is Donsker, by 1.2 and 2.3 with
+  `ρ` the discrete metric (distance `1` between distinct points): the modulus over `ρ(s, t) < δ`
+  is `0` for `δ < 1`, so equicontinuity holds. A semimetric that identifies distinct functions
+  does not serve: for `f₀ = 0`, `f₁(x) = x` under Rademacher `P` and `ρ ≡ 0`, the modulus contains
+  the increment `𝔾ₙ f₁`, whose limit law is `N(0, 1)`, not `δ₀`.
 - `IsGlivenkoCantelli`: for `P` uniform on `[0, 1]` and the class of indicators of finite subsets
   `A`, `P 1_A = 0` while `ℙₙ 1_A = 1` for `A` the set of sample points, so the supremum is `1` for
   every `n` and the class is not Glivenko–Cantelli.
 - `IsDonsker`: the single function `f(x) = x` under a law with infinite variance is not Donsker,
   as its marginal `√n (X̄ - μ)` does not converge in law.
+- `IsGlivenkoCantelli`: the half-line indicators are Glivenko–Cantelli for every `P` (the
+  classical theorem of 3.4); the single function `f(x) = x` under the standard Cauchy law is not,
+  since `ℙₙ f` is standard Cauchy for every `n` while `P f` is the junk value `0`.
+- `empiricalProcess`: for `n = 1`, `P` uniform on `[0, 1]`, `f_t = 1_{(-∞, t]}` and the sample
+  point `1/2`, it is `t ↦ 1{1/2 ≤ t} - F(t)`, of norm `1/2`.
+- `empiricalProcess`: for `n = 0` it is `0`, since `√0 = 0`.
+- `empiricalProcess`: for `f_t(x) = t x` on `T = ℝ` the path `t ↦ √n t x̄` is unbounded whenever
+  `x̄ ≠ 0` and lifts to the junk value `0`; `IsDonsker` excludes such classes by its boundedness
+  clause.
 
 ### 3.2 Bracketing and covering numbers
 
@@ -748,8 +816,8 @@ limits in law gives the bridge marginals; tightness of `L` is part of the defini
   bracket of size `2ε` is within `ε` of every function in it; and the external covering numbers
   dominate Mathlib's `Metric.externalCoveringNumber` of the image of `f` in the space `Lʳ(Q)`,
   with equality when `f_t ∈ Lʳ(Q)` for every `t`.
-- **Lipschitz parametric classes**: if `Θ ⊆ ℝ^d` is bounded and `|f_{θ₁}(x) - f_{θ₂}(x)| ≤
-  m(x) ‖θ₁ - θ₂‖` with `‖m‖_{P,r} < ∞`, then
+- **Lipschitz parametric classes**: if `Θ ⊆ ℝ^d` is bounded and
+  `|f_{θ₁}(x) - f_{θ₂}(x)| ≤ m(x) ‖θ₁ - θ₂‖` with `‖m‖_{P,r} < ∞`, then
   `N_[](ε ‖m‖_{P,r}, f, Lʳ(P)) ≤ K (diam Θ / ε)^d` for `0 < ε < diam Θ`, with `K` depending only
   on `d` (van der Vaart, Ex 19.7, p. 271). Such a class has a finite bracketing entropy integral.
 
@@ -764,8 +832,26 @@ limits in law gives the bridge marginals; tightness of `L` is part of the defini
   `L¹(P)`-size `ε` and `L²(P)`-size `√ε`, and fewer than `2/ε` of them suffice, so
   `N_[](ε, f, L²(P)) ≤ 2/ε²` for `0 < ε < 1` (van der Vaart, Ex 19.6, p. 271). The integral of
   `√(log(2/ε²))` over `(0, 1]` is finite.
-- `coveringNumberLp`: the constants `f_t = t`, `t ∈ ℝ`, have infinite covering numbers in every
-  `Lʳ(Q)`, so both entropy integrals are `∞`.
+- `bracketingNumber`: the two constants `{0, 1}` under any probability `P` have bracketing number
+  `1` for `ε ≥ 1` (the bracket `[0, 1]`) and `2` for `ε < 1`.
+- `coveringNumberLp`: for a probability `Q`, `0 < r ≤ ∞` and every finite `ε`, the constants
+  `f_t = t`, `t ∈ ℝ`, have infinite covering and bracketing numbers in `Lʳ(Q)`, since
+  `‖s - t‖_{Lʳ(Q)} = |s - t|`; so the bracketing entropy integral is `∞`. The exponent `r = 0` is
+  excluded: Mathlib's `eLpNorm` with exponent `0` is `0`, and one centre covers the class.
+- `coveringNumberLp`: for `ε ≥ 1` and a probability `Q`, the zero function is within `ε` of every
+  indicator in `Lʳ(Q)`, so the half-line indicators have covering number `1`.
+- `coveringNumberLp`: a single function has covering number `1` for every `ε ≥ 0`.
+- `uniformEntropyIntegral`: a single function `f` with envelope `F = |f|` has every covering number
+  `1` and integral `0`; the half-line indicators with `F = 1` have a finite integral by 3.5.
+- `uniformEntropyIntegral`: the indicators of finite subsets of `[0, 1]` with `F = 1` have integral
+  `∞`: under `Q` uniform on `m` points the `2^m` traces are pairwise at `L²(Q)`-distance at least
+  `m^{-1/2}`, so the covering number at `ε < 1/(2√m)` is at least `2^m`, and the integrand is at
+  least of order `1/ε`.
+- `IsPointwiseSeparable`: the half-line indicators are pointwise separable, with
+  `1_{(-∞, q]} → 1_{(-∞, t]}` pointwise as rational `q` decrease to `t`.
+- `IsPointwiseSeparable`: every class indexed by a countable `T` is pointwise separable.
+- `IsPointwiseSeparable`: the singleton indicators `1_{{t}}`, `t ∈ [0, 1]`, are not: for `t`
+  outside a countable `T₀`, `1_{{s_j}}(t) = 0` for every `j`, which does not tend to `1_{{t}}(t) = 1`.
 
 ### 3.3 Maximal inequalities
 
@@ -774,20 +860,28 @@ Here `E* Z` for a nonnegative, possibly non-measurable `Z` is `outerLIntegral μ
 - **Finite sub-Gaussian maximum** (`integral_sup'_le_of_hasSubgaussianMGF`): if each of
   `Y₀, …, Y_{N-1}` has a sub-Gaussian moment generating function with parameter `c`, then
   `E max_j Y_j ≤ √(2 c log N)`. No independence is assumed.
-- **Symmetrization**: `E* sup_t |ℙₙ f_t - P f_t| ≤ 2 E* sup_t |n⁻¹ ∑ᵢ εᵢ f_t(Xᵢ)|` for independent
-  Rademacher signs `εᵢ`, and the same for every nondecreasing convex function of the supremum (van
-  der Vaart–Wellner, Lemma 2.3.1, p. 172).
-- **Chaining**: for a separable process with sub-Gaussian increments with respect to a semimetric
-  `d`, `E* sup_{d(s,t) ≤ δ} |X_s - X_t| ≤ K ∫₀^δ √(log D(ε, d)) dε` with `D` the packing number
-  (van der Vaart–Wellner, Thm 2.2.4, p. 147, for the function `ψ₂`), with `D` Mathlib's
-  `Metric.packingNumber`.
-- **Bracketing maximal inequality**: for a class with `P f_t² < δ²` and envelope `F`,
-  `E* sup_t |√n (ℙₙ - P) f_t| ≲ J_[](δ, f, L²(P)) + √n P* F 1{F > √n a(δ)}` with
-  `a(δ) = δ / √(log N_[](δ, f, L²(P)))` (van der Vaart, Lemma 19.34, p. 286), built on the
-  finite-class Bernstein bound (van der Vaart, Lemmas 19.32 and 19.33, p. 285).
+- **Symmetrization** (`outerLIntegral_iSup_le_two_mul_rademacher`): for `n ≥ 1` and integrable
+  `f_t`, `E* sup_t |ℙₙ f_t - P f_t| ≤ 2 E* sup_t |n⁻¹ ∑ᵢ εᵢ f_t(Xᵢ)|` for independent Rademacher
+  signs `εᵢ`, and the same for every nondecreasing convex function of the supremum (van der
+  Vaart–Wellner, Lemma 2.3.1, p. 172).
+- **Chaining** (`outerLIntegral_iSup_sub_le_packingEntropyIntegral`): for a separable process
+  with sub-Gaussian increments with respect to a semimetric `d` (here `X_s - X_t` has a
+  sub-Gaussian moment generating function with parameter `d(s, t)²`),
+  `E* sup_{d(s,t) ≤ δ} |X_s - X_t| ≤ K ∫₀^δ √(log D(ε, d)) dε` for a universal `K`, with `D`
+  Mathlib's `Metric.packingNumber` (van der Vaart–Wellner, Thm 2.2.4, p. 147, for the function
+  `ψ₂`, and Cor 2.2.9, p. 152).
+- **Bracketing maximal inequality** (`outerLIntegral_iSup_empiricalProcess_le_bracketing`): for a
+  class of square-integrable `f_t` with `P f_t² < δ²` and a measurable envelope `F`,
+  `E* sup_t |√n (ℙₙ - P) f_t| ≤ K (δ + J_[](δ, f, L²(P)) + √n P F 1{F > √n a(δ)})` for a
+  universal `K`, with `a(δ) = δ / √(Log N_[](δ, f, L²(P)))` and `Log x = max 1 (log x)` (van der
+  Vaart, Lemma 19.34, p. 286; `Log` is defined on p. 284). The source's entropy integral has the
+  integrand `√(Log N_[])`, which exceeds `√(log N_[])` by at most `1`; the term `δ` accounts for
+  the difference, and it cannot be dropped: for a single bounded function the entropy integral
+  with `log` is `0` and the truncation term vanishes for large `n`. The inequality is built on
+  the finite-class Bernstein bound (van der Vaart, Lemmas 19.32 and 19.33, p. 285).
 
-*Proof route.* The sub-Gaussian maximum: by Jensen, `exp(λ E max Yⱼ) ≤ E exp(λ max Yⱼ) ≤
-∑ⱼ E exp(λ Yⱼ) ≤ N exp(c λ²/2)`; take logarithms and choose `λ = √(2 log N / c)`. Symmetrization:
+*Proof route.* The sub-Gaussian maximum: by Jensen,
+`exp(λ E max Yⱼ) ≤ E exp(λ max Yⱼ) ≤ ∑ⱼ E exp(λ Yⱼ) ≤ N exp(c λ²/2)`; take logarithms and choose `λ = √(2 log N / c)`. Symmetrization:
 introduce an independent ghost sample, use Jensen to insert it, and use that
 `f(Xᵢ) - f(Xᵢ')` is symmetric. Chaining: dyadic nets at scales `2^{-j} δ`, telescoping links, and
 the finite maximum at each scale. Conditionally on the sample, Rademacher sums are sub-Gaussian by
@@ -811,7 +905,8 @@ brackets and truncation, using Bernstein's inequality for the finite classes.
   `N_[](ε, f, L¹(P)) < ∞` for every `ε > 0` and each `f_t` is integrable, the class is
   Glivenko–Cantelli (van der Vaart, Thm 19.4, p. 270; van der Vaart–Wellner, Thm 2.4.1, p. 185).
 - **Donsker under bracketing** (`isDonsker_of_bracketingEntropyIntegral_lt_top`): if
-  `J_[](1, f, L²(P)) < ∞` and the centred values are bounded at every point, the class is Donsker
+  every `f_t` belongs to `L²(P)`, `J_[](1, f, L²(P)) < ∞` and the centred values are bounded at
+  every point, the class is Donsker
   (van der Vaart, Thm 19.5, p. 270; van der Vaart–Wellner, Thm 2.5.6, p. 194).
 - **The classical Glivenko–Cantelli theorem**: `sup_t |Fₙ(t) - F(t)| → 0` almost surely, the
   Kolmogorov–Smirnov statistic of Foundations 9.2 being measurable (van der Vaart, Thm 19.1,
@@ -841,10 +936,13 @@ the existence of `B`.
 
 **Checks.**
 
+- Square integrability is needed in the bracketing Donsker theorem: the single function
+  `f(x) = x` under the standard Cauchy law has bracketing number `1` (the bracket `[f, f]`) and
+  entropy integral `0`, yet `√n (ℙₙ f - P f)` is Cauchy with scale `√n`, which is not tight.
 - `isDonsker_indicator_Iic` for `P = δ₀`: `Fₙ = F` for every sample, the empirical process is
   `0`, and the bridge has covariance `F(s ∧ t) - F(s)F(t) = 0`, the Dirac law at `0`.
-- The `F`-bridge at `t` with `F(t) = 1/2` has variance `1/4`, the largest possible; at `F(t) ∈
-  {0, 1}` it vanishes.
+- The `F`-bridge at `t` with `F(t) = 1/2` has variance `1/4`, the largest possible; at
+  `F(t) ∈ {0, 1}` it vanishes.
 - For `P` uniform on `[0, 1]`, `x ↦ x ∘ F` is `x` on `[0, 1]`, extended by the constants `x(0)`
   to the left and `x(1)` to the right, which vanish `B`-almost surely; so the limit is the
   standard bridge itself.
@@ -895,6 +993,8 @@ suprema to countable ones, so the conditional expectations are those of measurab
   the dimension is `1`. Intervals shatter `{a < b}` but cannot pick out `{a, c}` from `{a < b < c}`,
   so the dimension is `2`.
 - `vcDimSet`: all finite subsets of `ℕ` have dimension `∞`.
+- `vcDimSet`: the empty family and the family `{∅}` both have dimension `0`, the first shattering
+  no set and the second only `∅`; the power set of a three-point `X` has dimension `3`.
 - Sauer–Shelah with `d = 1` and `n = 3`: at most `1 + 3 = 4` traces, attained by half-lines on
   three points (`∅` and the three initial segments).
 
@@ -941,7 +1041,8 @@ Layers 1–2; Mathlib's strong law, sub-Gaussian and shattering files; Stochasti
   `dom φ` into `dom ψ`, then `ψ ∘ φ` is Hadamard differentiable with derivative `ψ' ∘ φ'` (van
   der Vaart, Thm 20.9, p. 298).
 - In finite dimensions, with `dom` a neighbourhood of `θ` and `D₀ = D`, Hadamard differentiability
-  is Mathlib's `HasFDerivAt`; in general `HasFDerivAt` implies it, for every `dom` and `D₀`.
+  is Mathlib's `HasFDerivAt`. In general, if `θ ∈ dom` and `HasFDerivAt φ φ' θ`, then
+  `HasHadamardDerivWithinAt φ dom D₀ φ' θ` for every tangent set `D₀`.
 - `quantileFunctional p z = sInf {x | p ≤ z(x)}` on `ℓ^∞(ℝ)`.
 - **The quantile functional** (`hasHadamardDerivWithinAt_quantileFunctional`): for `0 < p < 1`, if
   the distribution function `F` of `P` has `F(ξ) = p` and a derivative `f > 0` at `ξ`, then the
@@ -967,6 +1068,8 @@ at `ξ` gives `hₙ(ξₙ ± εₙ) → h(ξ)`; solve for `(ξₙ - ξ)/tₙ`.
   continuous direction `h = 1` the quantile of `F + t` is `1/2 - t` and the quotient is
   `-1 = -h(ξ)/f`.
 - `h ↦ -h(ξ)/f` is continuous linear on `ℓ^∞(ℝ)` with norm `1/f`.
+- `HasHadamardDerivWithinAt` requires `θ ∈ dom`: for `φ = id`, `θ = 0` and `dom = ∅`, the Fréchet
+  derivative is `id`, but the predicate is false because its first conjunct `0 ∈ ∅` fails.
 
 ### 4.2 The functional delta method
 
@@ -999,7 +1102,8 @@ hence in outer probability.
 - **Argmax continuous mapping** (`tendstoInOuterDistribution_argmax`): let `Mₙ` and `M` be random
   criteria on a metric space `H` such that, for every compact `K ⊆ H`, `Mₙ → M` weakly in
   `ℓ^∞(K)`. If almost every sample path of `M` is upper semicontinuous with a unique maximizer
-  `T`, `T` is a tight random element, `T̂ₙ` is asymptotically tight and
+  `T`, `T` is a tight random element, `T̂ₙ` is uniformly tight (for every `ε > 0` a compact set
+  contains `T̂ₙ` with outer probability at least `1 - ε` for all large `n`) and
   `Mₙ(T̂ₙ) ≥ sup_h Mₙ(h) - o_P(1)`, then `T̂ₙ → T` weakly in `H` (van der Vaart, Cor 5.58, p. 81,
   for `H = ℝ^k`; Thm 5.56, p. 80; van der Vaart–Wellner, Thm 3.2.2, p. 394).
 
@@ -1020,6 +1124,13 @@ tightness of `T̂ₙ` and `T` removes `K`.
   maximizers are `Zₙ` and `Z`, and the theorem gives `Zₙ → Z`.
 - The uniqueness hypothesis is needed: for `M ≡ 0` every point is a maximizer, and `T̂ₙ` may
   oscillate between `0` and `1` while satisfying every other hypothesis.
+- Uniform tightness cannot be weakened to asymptotic tightness (closeness to a compact set) in an
+  infinite-dimensional `H`: in `ℓ²([0, 1])` let `ω` be uniform on `[0, 1]`, `T̂ₙ = e_ω/(n + 1)`,
+  `M(h) = -‖h - e₀‖²` and `Mₙ = M` except `Mₙ(T̂ₙ) = 1`. Every compact set meets the spikes
+  `{e_ω/(n + 1)}` in a countable set of `ω`, so the restrictions to compacts agree almost surely
+  and `Mₙ → M` there; `T̂ₙ → 0` is asymptotically tight and maximizes `Mₙ`, but the maximizer of
+  `M` is `e₀`. No compact set contains `T̂ₙ` with positive probability, so uniform tightness
+  fails.
 
 ### Examples
 
@@ -1039,6 +1150,10 @@ The law `P` of the observations need not belong to a model unless a statement sa
 *Asymptotically linear* means `√n(θ̂ₙ - θ₀) + V⁻¹ n^{-1/2} ∑ᵢ ψ(xᵢ) → 0` in probability for an
 influence function `-V⁻¹ψ`; by 1.1 and 1.2 such an estimator converges in law to
 `N(0, V⁻¹ Cov(ψ) V⁻ᵀ)` (`zEstimator_tendstoInDistribution`).
+
+The subsections are numbered by topic. The internal build order is 5.1 → 5.6 → 5.5: the
+M-estimator theorem of 5.5 takes its `√n` rate from the rate theorem of 5.6, which needs only
+5.1. Every other subsection needs only earlier ones.
 
 ### 5.1 Consistency
 
@@ -1109,9 +1224,16 @@ and Mathlib's `klDiv_eq_zero_iff`). Upper semicontinuity and monotone convergenc
   `E D² log p_θ = -I(θ)`, a consistent root of the likelihood equation satisfies
   `√n(θ̂ₙ - θ) = I(θ)⁻¹ n^{-1/2} ∑ᵢ ℓ̇_θ(xᵢ) + o_P(1)`, hence `→ N(0, I(θ)⁻¹)`; and with probability
   tending to one the likelihood equation has a consistent root, which a consistent sequence of
-  maximizers is (van der Vaart, Thms 5.41 and 5.42, p. 68). Under differentiability in quadratic
-  mean and a Lipschitz log-likelihood, the same conclusion holds for consistent maximizers
-  (van der Vaart, Thm 5.39, p. 65).
+  maximizers is (van der Vaart, Thms 5.41 and 5.42, p. 68). These are the case `ψ_θ = ℓ̇_θ` of
+  the classical Z-estimator theorem (`zEstimator_asymptotically_linear_of_contDiffOn`): if
+  `θ ↦ ψ_θ(x)` is twice continuously differentiable on a ball around `θ₀` with second
+  derivatives dominated by an integrable function, `P ψ_{θ₀} = 0`, `ψ_{θ₀} ∈ L²(P)` and
+  `V = P ψ̇_{θ₀}` is invertible, every consistent approximate root is asymptotically linear with
+  influence function `-V⁻¹ψ_{θ₀}` (van der Vaart, Thm 5.41, p. 68); and under the same hypotheses
+  there are estimators converging to `θ₀` in probability that are roots with probability tending
+  to one (`exists_tendstoInProbability_root_of_contDiffOn`; van der Vaart, Thm 5.42, p. 68). The
+  form under differentiability in quadratic mean, for consistent maximizers, is in 7.3, since
+  it uses Layer 7.
 
 *Proof route.* By the asymptotic equicontinuity lemma (3.6) applied to each coordinate class
 with the random index `θ̂ₙ`, `𝔾ₙ ψ_{θ̂ₙ} - 𝔾ₙ ψ_{θ₀} → 0` in probability. Hence
@@ -1144,9 +1266,11 @@ one-step estimator with sample splitting belongs to MathematicalStatisticsSemipa
   `V`. If `θ̃ₙ` is `√n`-consistent and `V̂ₙ → V` in probability, the one-step estimator
   `θ̂ₙ = θ̃ₙ - V̂ₙ⁻¹ Ψₙ(θ̃ₙ)` satisfies `√n(θ̂ₙ - θ₀) = -V⁻¹ √n Ψₙ(θ₀) + o_P(1)` (van der Vaart,
   Thm 5.45, p. 72).
-- **Discretized preliminary estimators**: if `θ̃ₙ` takes values in the grid `n^{-1/2} ℤ^k`, it
-  suffices that the displayed expansion hold along every deterministic `θₙ = θ₀ + O(n^{-1/2})`
-  (van der Vaart, Thm 5.48, p. 73).
+- **Discretized preliminary estimators** (`oneStep_asymptotically_linear_of_discretized`): if
+  `θ̃ₙ` takes values in the grid `n^{-1/2} ℤ^k`, it suffices that the expansion
+  `√n(Ψₙ(θₙ) - Ψₙ(θ₀)) - V √n(θₙ - θ₀) → 0` in probability hold along every deterministic
+  `θₙ = θ₀ + n^{-1/2} hₙ` with `hₙ` bounded (van der Vaart, Thm 5.48, p. 73, with condition
+  (5.47), p. 72).
 - The uniform expansion holds for `Ψₙ = ℙₙ ψ_θ` under the hypotheses of the Lipschitz form in 5.3,
   and under those of maximum likelihood in 5.3 with `V̂ₙ = n⁻¹ D² ℓₙ(θ̃ₙ)`, the one-step
   estimator is asymptotically `N(0, I(θ₀)⁻¹)` without any root of the likelihood equation.
@@ -1284,17 +1408,21 @@ Layers 1–4 and Foundations 8.5, 9.1–9.2.
 - `hajekProjection P T x = ∑ᵢ E(T | Xᵢ = xᵢ) - (n - 1) E T` for independent coordinates with laws
   `P i`, the conditional expectations written as integrals over the other coordinates.
 - **Orthogonality** (`integral_sub_hajekProjection_mul_eq_zero`): for square-integrable `T`, the
-  residual `T - T̂` is orthogonal in `L²` to every sum `∑ᵢ gᵢ(xᵢ)` with `gᵢ ∈ L²(P i)`, so `T̂` is
-  the `L²` projection onto the closed space of such sums (van der Vaart, Lemma 11.10, p. 157).
-- **The projection theorem**: if `Var Tₙ / Var Sₙ → 1` for the projections `Sₙ` of `Tₙ` onto
-  closed linear spaces containing the constants, then
+  residual `T - T̂` is orthogonal in `L²` to every sum `∑ᵢ gᵢ(xᵢ)` with `gᵢ ∈ L²(P i)`. For
+  `n ≥ 1` these sums contain the constants and `T̂` is one of them, so `T̂` is the `L²` projection
+  onto the closed space of such sums (van der Vaart, Lemma 11.10, p. 157). For `n = 0` the space
+  of empty sums is `{0}` and the formula gives `T̂ = E T`, not the projection.
+- **The projection theorem** (`tendsto_integral_sq_standardized_sub_of_isProjection`): if
+  `Var Tₙ / Var Sₙ → 1` for the projections `Sₙ` of `Tₙ` onto closed linear spaces containing the
+  constants (so that `Tₙ - Sₙ` is orthogonal to `Sₙ` and to `1`), then
   `(Tₙ - E Tₙ)/sd(Tₙ) - (Sₙ - E Sₙ)/sd(Sₙ) → 0` in `L²` (van der Vaart, Thm 11.2, p. 154). With the
   Hájek projection and the Lindeberg condition on its summands (1.2),
   `(Tₙ - E Tₙ)/sd(Tₙ) → N(0, 1)`.
 
 *Proof route.* Orthogonality: Fubini on `Measure.pi`, and `E(gᵢ(Xᵢ) | Xⱼ) = E gᵢ(Xᵢ)` for
-`j ≠ i`. The projection theorem: `E(Tₙ Sₙ) = E Sₙ²` by the projection property, so the `L²` norm of
-the difference of the standardized variables is `2 - 2 sd(Sₙ)/sd(Tₙ) → 0`.
+`j ≠ i`. The projection theorem: `E(Tₙ Sₙ) = E Sₙ²` by the projection property, so the squared
+`L²` norm of the difference of the standardized variables is `2 - 2 sd(Sₙ)/sd(Tₙ) → 0`, and the
+norm tends to `0` with it.
 
 *Needs:* 1.2; Mathlib `Measure.pi`, `MemLp`.
 
@@ -1303,6 +1431,11 @@ the difference of the standardized variables is `2 - 2 sd(Sₙ)/sd(Tₙ) → 0`.
 - `T(x) = x₁ x₂` with centred `P`: `E(T | X₁) = X₁ E X₂ = 0`, the projection is `0`, and `T` is
   orthogonal to every sum of one-coordinate functions.
 - `T(x) = ∑ᵢ xᵢ`: the projection is `T` itself.
+- `hajekProjection` at `n = 0` with `T ≡ 1`: the formula gives `0 - (-1) · 1 = 1`, while the
+  projection onto the empty sums `{0}` is `0`; the projection statement needs `n ≥ 1`.
+- The normalization of the projection theorem: for independent standard normal `X`, `Y`,
+  `T = X + Y` and its projection `S = X` onto the span of `1` and `X`, the squared `L²` norm of
+  `T/√2 - X` is `2 - √2 ≈ 0.586` and its norm is `√(2 - √2) ≈ 0.765`; here `Var T / Var S = 2`.
 
 ### 6.2 Nondegenerate U-statistics
 
@@ -1330,30 +1463,51 @@ subsamples sharing `c` points; then 6.1 and the central limit theorem (1.2).
 
 ### 6.3 The Hoeffding decomposition and degenerate U-statistics
 
-- **Hoeffding decomposition**: for a square-integrable symmetric kernel of order `m` there are
-  symmetric canonical kernels `h_j` of orders `1 ≤ j ≤ m`, with zero conditional expectation in
-  each argument, such that `Uₙ - θ = ∑_j (m choose j) U_{n,j}` with `U_{n,j}` the U-statistic of
-  `h_j`; the terms are orthogonal in `L²`, `h₁ = g - θ`, and
-  `Var Uₙ = ∑_j (m choose j)² / (n choose j) · E h_j²` (by the same argument as van der Vaart, Thm 12.3, p. 162).
-  The optimality of `Uₙ` among unbiased estimators over the laws with `E h² < ∞` is Foundations
-  4.2, which applies because that family contains the Dirac laws and is closed under finite
-  mixtures.
+- `hoeffdingProjection P h S y`, the conditional expectation of `h` given the coordinates in `S`,
+  evaluated at `y` (the other coordinates integrated out under `P`), and
+  `hoeffdingKernel P h S = ∑_{T ⊆ S} (-1)^{|S| - |T|} hoeffdingProjection P h T`.
+- **Hoeffding decomposition** (`uStatistic_hoeffding_decomposition`): for a square-integrable
+  symmetric kernel `h` of order `m` and `n ≥ m`, `Uₙ - θ` is the sum over nonempty `S ⊆ Fin m`
+  of the U-statistics of the kernels `h_S`; each `h_S` is canonical (its integral in any one
+  coordinate of `S` vanishes a.e.), and
+  `Var Uₙ = ∑_{j=1}^m (m choose j)² / (n choose j) · E h_{S_j}²` with `S_j = {0, …, j - 1}` (by the
+  same argument as van der Vaart, Thm 12.3, p. 162). By symmetry the `(m choose j)` sets of size
+  `j` give the same statistic, `U_{n,j}`, the U-statistic of order `j` of the symmetric canonical
+  kernel `h_j = h_{S_j}`, so `Uₙ - θ = ∑_j (m choose j) U_{n,j}`; the terms are orthogonal in `L²`
+  and `h₁ = g - θ`. For `n < m` there are no injections, `Uₙ = 0`, and neither identity is
+  asserted.
+- **Optimality**: let `C` be a family of laws on `X`, with measurable singletons, that contains the
+  finitely supported laws, and let `h` be measurable, symmetric and square-integrable under every
+  `P ∈ C`, with `n ≥ m`. Every estimator `δ` of `P ↦ ∫ h dPᵐ` that is unbiased and
+  square-integrable under every `Pⁿ`, `P ∈ C`, has `Var_P δ ≥ Var_P Uₙ` for every `P ∈ C`.
 - **The eigen-expansion of a degenerate kernel**: for symmetric `h ∈ L²(P ⊗ P)`, the integral
   operator `a ↦ ∫ h(·, y) a(y) dP(y)` on `L²(P)` is compact and self-adjoint; its eigenvalues
   `λⱼ` and orthonormal eigenfunctions `φⱼ` give `h = ∑ⱼ λⱼ φⱼ ⊗ φⱼ` in `L²(P ⊗ P)` with
   `∑ⱼ λⱼ² < ∞`, and `∑ⱼ λⱼ (Zⱼ² - 1)` converges in `L²` for independent standard normal `Zⱼ`.
 - **Degenerate quadratic U-statistics** (`tendstoInDistribution_degenerate_uStatistic`): if
   moreover `∫ h(x, y) dP(y) = 0` for every `x`, then `n Uₙ → ∑ⱼ λⱼ (Zⱼ² - 1)` in law (van der
-  Vaart, Thm 12.10, p. 169).
+  Vaart, Thm 12.10, p. 169). The eigenvalues are indexed by `ℕ`, a finite expansion being padded
+  with `λⱼ = 0`, and orthonormality is required only among the `φⱼ` with `λⱼ ≠ 0`, so that a
+  finite-dimensional `L²(P)` is covered.
 
-*Proof route.* The decomposition is inclusion–exclusion over subsets of the arguments of `h`,
-with orthogonality from canonicity. The eigen-expansion is Mathlib's spectral theorem
+*Proof route.* The decomposition is inclusion–exclusion over subsets of the arguments of `h`
+(Möbius inversion on the subset lattice gives `∑_{S} h_S = h` with `h_∅ = θ`), with
+orthogonality from canonicity. Optimality is not Foundations 4.2 applied to `C` directly, since a
+family of laws with `E h² < ∞` need not be closed under mixtures. Instead: replace `δ` by its
+average `δ̄` over the permutations of the sample, which is unbiased with variance at most that of
+`δ` under every `Pⁿ` (Jensen). The finitely supported laws form a family closed under binary
+mixtures and complete for the identity statistic (Dirac laws separate points), so by the
+completeness of symmetric statistics (Foundations 2.4) the symmetric statistic `δ̄ - Uₙ`, of mean
+`0` under every `Qⁿ` with `Q` finitely supported, vanishes `Qⁿ`-a.e. for each such `Q`. Every
+`x ∈ Xⁿ` is an atom of `Qⁿ` for `Q` the uniform law on the coordinates of `x`, so `δ̄ = Uₙ` at every
+point; hence `Var_P δ ≥ Var_P δ̄ = Var_P Uₙ` for every `P ∈ C`. The eigen-expansion is Mathlib's spectral theorem
 `ContinuousLinearMap.orthogonalComplement_iSup_eigenspaces_eq_bot`, compactness from
 `isCompactOperator_of_tendsto` applied to the finite-rank truncations of `h` in an orthonormal
 basis of `L²(P ⊗ P)`. For the limit: for a finite truncation `h_N = ∑_{j<N} λⱼ φⱼ ⊗ φⱼ`,
 `n U_n(h_N) = (n/(n-1)) ∑_{j<N} λⱼ ((n^{-1/2} ∑ᵢ φⱼ(Xᵢ))² - n⁻¹ ∑ᵢ φⱼ(Xᵢ)²)`, which converges by the
 multivariate central limit theorem and the weak law; the variance identity of the Hoeffding
-decomposition bounds `E(n Uₙ(h - h_N))²` by `2 ∑_{j ≥ N} λⱼ²`, uniformly in `n`.
+decomposition gives `E(n Uₙ(h - h_N))² = (2n/(n - 1)) ∑_{j ≥ N} λⱼ² ≤ 4 ∑_{j ≥ N} λⱼ²` for
+`n ≥ 2`, uniformly in `n`.
 
 *Needs:* 1.2, 6.1, 6.2; Mathlib spectral theorem; Foundations 2.4, 4.2, 8.5.
 
@@ -1362,8 +1516,23 @@ decomposition bounds `E(n Uₙ(h - h_N))²` by `2 ∑_{j ≥ N} λⱼ²`, unifor
 - `h(x, y) = xy` under `N(0, 1)`: one eigenvalue `1` with eigenfunction `x`, and
   `n Uₙ = ((∑ xᵢ)² - ∑ xᵢ²)/(n - 1) → Z² - 1`.
 - Variance formula with `m = 2`, `h(x, y) = (x - y)²/2` under `N(0, 1)`: `h₁(x) = (x² - 1)/2` with
-  `E h₁² = 1/2`, `h₂(x, y) = -xy` with `E h₂² = 1`, giving `Var Uₙ = 4 · (1/2)/n + 1/(n(n-1)/2) =
-  2/(n - 1)`, the variance of the sample variance of a standard normal sample.
+  `E h₁² = 1/2`, `h₂(x, y) = -xy` with `E h₂² = 1`, giving
+  `Var Uₙ = 4 · (1/2)/n + 1/(n(n-1)/2) = 2/(n - 1)`, the variance of the sample variance of a
+  standard normal sample.
+- `hoeffdingProjection`: for `S = ∅` it is the constant `θ = ∫ h dPᵐ`, and for `S = Fin m` it is
+  `h(y)`, since `P` is a probability measure.
+- `hoeffdingKernel` with `m = 1`: `h_∅ = θ` and `h_{{0}} = h - θ`; with `m = 2` and
+  `h(x, y) = (x - y)²/2` under `N(0, 1)`, `h_{{0}}(y) = (y₀² - 1)/2` and `h_{{0,1}}(y) = -y₀ y₁`, the
+  kernels of the variance Check above.
+- `hoeffdingKernel`: for the product kernel `h(y) = y₀ y₁` under a centred `P`, `h_{{0}} = 0` and
+  `h_{{0,1}} = h`, so the decomposition has the single degenerate term.
+- The decomposition needs `n ≥ m`: for `n = 1`, `m = 2` and `h ≡ 1`, `Uₙ = 0` (no injections) and
+  `θ = 1`, while every `h_S` with `S` nonempty vanishes, so the identity would read `-1 = 0`.
+- The tail bound has the factor `2n/(n - 1)`: for `h(x, y) = xy` under `N(0, 1)`, `N = 0` and
+  `n = 2`, `n Uₙ = 2 X₁ X₂` has second moment `4 = (2 · 2/1) · 1`, above `2 ∑ λⱼ² = 2`.
+- Finite-dimensional `L²(P)`: for `P = (δ₋₁ + δ₁)/2` and `h(x, y) = xy`, `L²(P)` has dimension `2`
+  and `h` has the single nonzero eigenvalue `1` with `φ₀(x) = x`; padding `λⱼ = 0`, `φⱼ = 0` for
+  `j ≥ 1` meets the hypotheses, and `n Uₙ → Z² - 1`.
 
 ### 6.4 L-statistics and the trimmed mean
 
@@ -1373,8 +1542,9 @@ decomposition bounds `E(n Uₙ(h - h_N))²` by `2 ∑_{j ≥ N} λⱼ²`, unifor
   `(0, 1)` and continuous at `F(y)` for Lebesgue-almost every `y`, then
   `√n (Lₙ - E Lₙ) → N(0, σ²(φ, F))` with
   `σ²(φ, F) = ∬ φ(F(x)) φ(F(y)) (F(x ∧ y) - F(x)F(y)) dx dy` (van der Vaart, Thm 22.3, p. 318).
-- **The trimmed mean**: for `0 < α < 1/2`, the average `Tₙ` of the order statistics with
-  `⌊αn⌋ < i ≤ n - ⌊αn⌋` satisfies, without moment conditions, when `{x | F(x) ∈ {α, 1 - α}}` is
+- `trimmedMean α x`, the average of the order statistics `X_(i)` with `⌊αn⌋ < i ≤ n - ⌊αn⌋`.
+- **The trimmed mean** (`tendstoInDistribution_trimmedMean`): for `0 < α < 1/2`, `Tₙ = trimmedMean α`
+  satisfies, without moment conditions, when `{x | F(x) ∈ {α, 1 - α}}` is
   Lebesgue-null,
   `√n (Tₙ - μ_α) → N(0, (1 - 2α)^{-2} ∫_a^b ∫_a^b (F(x ∧ y) - F(x)F(y)) dx dy)` with
   `a = F^{-1}(α)`, `b = F^{-1}(1 - α)` and `μ_α = (1 - 2α)⁻¹ ∫_α^{1-α} F^{-1}(u) du` (van der Vaart,
@@ -1396,6 +1566,15 @@ over `u`) with the classical Donsker theorem (3.4).
   (Hoeffding's covariance identity).
 - Trimmed mean of `N(0, 1)` at `α = 0.1`: `b = 1.2816`, and both the double integral and the
   symmetric formula give variance `1.0604`, against `1` for the mean and `π/2` for the median.
+- `lStatistic` at `n = 1` is `φ(1/2) x₀`; for `φ(u) = 1{u > 1/2}` and `n = 3` it is `x_(3)/3`, a
+  function of the largest observation only, which distinguishes it from any symmetric weighting.
+- `trimmedMean`: for `n = 3` and `α = 1/3`, `⌊αn⌋ = 1` and the statistic is the median `x_(2)`;
+  for `n = 3` and `α = 0.1`, `⌊αn⌋ = 0` and it is the sample mean.
+- `trimmedMean`: for `n = 10`, `α = 0.25` and the sample `(1, 2, …, 9, 100)`, `⌊αn⌋ = 2` and the
+  statistic is the mean of `3, …, 8`, which is `5.5`, unaffected by the outlier.
+- Trimmed mean of the uniform law on `[0, 1]` at `α = 1/4`: `a = 1/4`, `b = 3/4`, `μ_α = 1/2`, and
+  both the double integral and the symmetric formula give variance `4 · (1/24) = 1/6`, against
+  `1/12` for the mean.
 
 ### Examples
 
@@ -1428,10 +1607,10 @@ subsequence has a convergent subsequence (Mathlib `isCompact_closure_of_isTightM
 For the forward direction, contiguity makes the mass of `Qₙ` singular to `Pₙ` and the mass where
 `dQₙ/dPₙ > M` small, uniformly, which gives `∫ v dV ≥ 1` by the portmanteau with truncation, and
 `≤ 1` by Fatou. For the converse, if `Pₙ(Aₙ) → 0` but `Qₙ(Aₙ) ≥ ε` along a subsequence, pass to a
-further subsequence on which the laws converge; then `Qₙ(Aₙ) ≤ ∫_{Aₙ} (dQₙ/dPₙ ∧ M) dPₙ +
-∫ (dQₙ/dPₙ - M)⁺ dPₙ + Qₙ^⊥(Ωₙ)`, and mean `1` of the limit makes the last two small for large `M`.
-Mutual contiguity: by the multiplicative LAN and Slutsky (1.1), `dQₙ,ₕ/dQₙ,₀ → exp(⟪h, Z⟫ - hᵀIh/2)`
-with `Z ~ N(0, I)`, which is lognormal with mean `1`; the reverse direction uses the positivity of
+further subsequence on which the laws converge; then
+`Qₙ(Aₙ) ≤ ∫_{Aₙ} (dQₙ/dPₙ ∧ M) dPₙ + ∫ (dQₙ/dPₙ - M)⁺ dPₙ + Qₙ^⊥(Ωₙ)`, and mean `1` of the
+limit makes the last two small for large `M`. Mutual contiguity: by the multiplicative LAN and
+Slutsky (1.1), `dQₙ,ₕ/dQₙ,₀ → exp(⟪h, Z⟫ - hᵀIh/2)` with `Z ~ N(0, I)`, which is lognormal with mean `1`; the reverse direction uses the positivity of
 the limit (van der Vaart, Lemma 6.4 (ii)).
 
 *Needs:* 1.1; Foundations 8.6; Mathlib `Measure.rnDeriv`, `ProbabilityMeasure`, `MapClusterPt`.
@@ -1443,6 +1622,10 @@ the limit (van der Vaart, Lemma 6.4 (ii)).
 - `Pₙ = N(0, 1)^{⊗n}`, `Qₙ = N(1, 1)^{⊗n}`: `log(dQₙ/dPₙ) ~ N(-n/2, n)`, the laws of the ratio
   converge to `δ₀`, of mean `0 ≠ 1`, and indeed `Aₙ = {x̄ > 1/2}` has `Pₙ(Aₙ) → 0`,
   `Qₙ(Aₙ) → 1`.
+- `likelihoodRatioLaw P P = δ₁`; for `Q` singular to `P`, `dQ/dP = 0` `P`-a.e. and the law is
+  `δ₀`, of mean `0`: the law records only the absolutely continuous part of `Q`.
+- `likelihoodRatioLaw P Q` for `P = N(0, 1)`, `Q = N(μ, 1)` is the lognormal law of `e^Y` with
+  `Y ~ N(-μ²/2, μ²)`, of mean `1`.
 
 ### 7.2 Le Cam's third lemma
 
@@ -1481,7 +1664,8 @@ integrability that 7.1 gives. The Gaussian form identifies `∫ 1_B(s) e^λ dN(s
   `∫ (√p_η - √p_θ - ½ ⟪η - θ, ℓ̇⟫ √p_θ)² dν = o(‖η - θ‖²)` as `η → θ` within `s`. The case
   `s = univ` is the differentiability in quadratic mean of van der Vaart, (7.1), p. 93; a set `s`
   serves models on closed parameter sets and the one-sided paths of semiparametric models.
-- `fisherInformation P ℓ̇ = E ℓ̇ ℓ̇ᵀ`.
+- `fisherInformation P ℓ̇ = E ℓ̇ ℓ̇ᵀ`, the information matrix of Foundations 4.3, positive
+  semidefinite when `ℓ̇ ∈ L²(P)`.
 - **Local asymptotic normality of smooth models**
   (`tendstoInProbability_likelihoodRatio_of_hasQMDWithinAt`): if the model is differentiable in
   quadratic mean at `θ` within `s`, then for every convergent `hₙ → h` with `θ + hₙ/√n ∈ s`,
@@ -1501,7 +1685,16 @@ integrability that 7.1 gives. The Gaussian form identifies `∫ 1_B(s) e^λ dN(s
   p. 95). In particular a location family `f(x - θ)` with `f` positive and continuously
   differentiable and finite Fisher information `∫ f'²/f` is differentiable in quadratic mean
   with score `-(f'/f)(x - θ)` (van der Vaart, Ex 7.8, p. 96).
-- **The Kullback–Leibler expansion**: if, in addition, the densities `p_{θ+h}` for `h` near `0`
+- **Maximum likelihood under differentiability in quadratic mean**
+  (`mle_asymptotically_linear_of_hasQMDWithinAt`): if the model is differentiable in quadratic
+  mean at `θ₀` with nonsingular information `I`, the log-likelihood satisfies
+  `|log p_{θ₁}(x) - log p_{θ₂}(x)| ≤ L(x) ‖θ₁ - θ₂‖` on a ball around `θ₀` for `P_{θ₀}`-almost
+  every `x` with `L ∈ L²(P_{θ₀})` (the densities being positive there), and `θ̂ₙ` is a consistent
+  maximizer up to `o_P(n⁻¹)`, then `√n(θ̂ₙ - θ₀) = I⁻¹ n^{-1/2} ∑ᵢ ℓ̇(xᵢ) + o_P(1)`, hence
+  `→ N(0, I⁻¹)` (van der Vaart, Thm 5.39, p. 65). The proof applies the M-estimator theorem of
+  5.5 with `m_θ = log p_θ` and `V = -I`, the second-order expansion of `θ ↦ P_{θ₀} log p_θ` coming
+  from quadratic-mean differentiability.
+- **The Kullback–Leibler expansion** (`isLittleO_klDiv_sub_quadForm`): if, in addition, the densities `p_{θ+h}` for `h` near `0`
   are positive on a common set and vanish off it, and `h ↦ p_{θ+h}(x)` and
   `h ↦ p_{θ+h}(x) log(p_{θ+h}(x)/p_θ(x))` are twice continuously differentiable with first and
   second derivatives dominated near `0` by a `ν`-integrable function, then
@@ -1517,7 +1710,8 @@ probability tends to one. Lemma 7.6 is Vitali's convergence theorem for the diff
 of `√p_θ`. The Kullback–Leibler expansion is Taylor's formula under the integral
 (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`) with `∫ ṗ = 0` and `∫ p̈ = 0`.
 
-*Needs:* 1.1, 1.2; Foundations 8.5; Mathlib `Measure.withDensity`, `klDiv`, Vitali's theorem.
+*Needs:* 1.1, 1.2, 5.5; Foundations 4.3, 8.5; Mathlib `Measure.withDensity`, `klDiv`, Vitali's
+theorem.
 
 **Checks.**
 
@@ -1529,6 +1723,18 @@ of `√p_θ`. The Kullback–Leibler expansion is Taylor's formula under the int
 - Laplace location `e^{-|x - θ|}/2`: not continuously differentiable at `x = θ`, but
   differentiable in quadratic mean with score `sign(x - θ)` and `I = 1` (van der Vaart, Ex 7.8,
   p. 96), so the sufficient condition is not necessary.
+- `fisherInformation`: the exponential model `θ e^{-θx}` has score `1/θ - x` and `I(θ) = 1/θ²`;
+  the score `s = (1, x)` under `N(0, 1)` gives the identity matrix.
+- `fisherInformation` needs `ℓ̇ ∈ L²`: for the density `2 (1 + x)⁻³` on `x ≥ 0` and `s = (1, x)`,
+  the junk value of the nonintegrable `x²` gives `[[1, 1], [1, 0]]`, which is not positive
+  semidefinite (the example of Foundations 4.3).
+- `IsLocallyAsymptoticallyNormal`: the Gaussian shift `Qₙ,ₕ = N(h/√n, 1)^{⊗n}` satisfies it with
+  `I = 1` and `Δₙ = n^{-1/2} ∑ xᵢ`, exactly.
+- `IsLocallyAsymptoticallyNormal` requires `I` positive definite: the constant experiment
+  `Qₙ,ₕ = Qₙ,₀` has ratio `1` and satisfies the expansion with `I = 0`, `Δₙ = 0`, and is excluded.
+- `IsLocallyAsymptoticallyNormal` fails for the uniform family on `[0, θ]` at rate `√n`: for
+  `h > 0` the ratio `dP^n_{θ+h/√n}/dP^n_θ = (1 + h/(θ√n))^{-n}` tends to `0` on the event where it
+  is positive, so no Gaussian expansion holds.
 
 ### 7.4 The asymptotic representation theorem
 
@@ -1607,24 +1813,42 @@ after the same averaging. The convolution theorem is the representation theorem 
 
 - **Local asymptotic minimax** (`lintegral_multivariateGaussian_le_localMinimax`): in a locally
   asymptotically normal sequence (fixed-`h` form), for a lower semicontinuous bowl-shaped `ℓ`,
-  local targets `cₙ(h) → Ah` and any measurable `Zₙ` bounded in `Qₙ,₀`-probability,
+  local targets `cₙ(h) → Ah` and every measurable estimator sequence `Zₙ`, with no tightness
+  hypothesis,
   `sup_{H finite} liminf_n max_{h ∈ H} E_{Qₙ,ₕ} ℓ(Zₙ - cₙ(h)) ≥ ∫ ℓ dN(0, A I⁻¹ Aᵀ)` (van der
-  Vaart, Thm 8.11, p. 118, under the tightness of `Zₙ`, which its proof uses).
+  Vaart, Thm 8.11, p. 118; by the same argument as van der Vaart–Wellner, Thm 3.12.5, p. 563,
+  with proof on pp. 563–565, whose subconvex losses are the lower semicontinuous bowl-shaped
+  ones, and Ex 3.12.6, p. 565, for Borel estimators in a separable Banach space).
 - **Attainment**: for an i.i.d. model differentiable in quadratic mean and an estimator with
   `√n(Tₙ - θ) = I⁻¹Δₙ + o_P(1)`, equality holds for every bounded continuous bowl-shaped `ℓ`.
 
-*Proof route.* Van der Vaart's proof: along a subsequence realizing the `liminf` for a finite
-`H`, tightness and the representation theorem (7.4) give a limit `T` in the Gaussian shift; lower
-semicontinuity and the portmanteau give `liminf E ℓ(Zₙ - cₙ(h)) ≥ E_h ℓ(T - Ah)`; letting `H`
-increase to a dense set and using Prop 8.6 (7.5) on the Bayes risks for priors uniform on large
-cubes gives the bound. Attainment is 7.5 (efficient estimators are regular) with the portmanteau.
+*Proof route.* Van der Vaart–Wellner's proof of Thm 3.12.5, which needs no tightness of `Zₙ`.
+(a) First let `ℓ(y) = ∑_{i ≤ r} 1_{Kᵢᶜ}(Bᵢ y)` for linear maps `Bᵢ : ℝ^m → ℝ^{pᵢ}` and compact,
+convex, symmetric `Kᵢ ⊆ ℝ^{pᵢ}`. Regard `Bᵢ(Zₙ - cₙ(h))` as a map into the one-point
+compactification of `ℝ^{pᵢ}`, which is compact metrizable, so every sequence of laws there is
+tight. Along a subsequence realizing the `liminf` over an increasing sequence of finite sets of
+local parameters, Prokhorov's theorem and Le Cam's third lemma (7.2) give limits at every `h`,
+and the representation of 7.4 on the compactification identifies them, averaged over
+`h ~ N(0, λ⁻¹ I)`, as the laws of `Gλ + Wλ` with `Gλ` Gaussian and `Wλ` independent of it. The
+portmanteau on the open sets `Kᵢᶜ` bounds the minimax risk below by `∑ᵢ P(Gλᵢ + Wλᵢ ∉ Kᵢ)`, at
+least `∑ᵢ P(Gλᵢ ∉ Kᵢ)` by Anderson's lemma (7.5); let `λ ↓ 0`. The point at infinity lies outside
+every `Kᵢ`, so mass escaping to infinity only increases the risk. (b) A general lower
+semicontinuous bowl-shaped `ℓ` is the increasing limit of
+`ℓ_r = 2^{-r} ∑_{i ≤ 2^{2r}} 1{ℓ > i 2^{-r}}`, and each sublevel set `{ℓ ≤ c}` is closed, convex
+and symmetric, hence the countable intersection of slabs `{|⟪bⱼ, y⟫| ≤ cⱼ}`, so `1{ℓ > c}` is the
+increasing limit of losses of the form (a) with boxes `Kᵢ`. Each such loss is below `ℓ`, so the
+bound of (a) holds for it, and monotone convergence under `N(0, A I⁻¹ Aᵀ)` gives the bound for
+`ℓ`. Attainment is 7.5 (efficient estimators are regular) with the portmanteau.
 
-*Needs:* 7.4, 7.5; Foundations 8.2.
+*Needs:* 2.2, 7.2, 7.4, 7.5; Mathlib Prokhorov's theorem and `OnePoint`; Foundations 8.2.
 
 **Checks.**
 
 - Gaussian shift `N(θ, 1)` with `Tₙ = x̄ₙ` and squared error truncated at `1`: every local risk
   equals `E min(Z², 1)` for `Z ~ N(0, 1)`, which is the bound.
+- No tightness is assumed: in the scalar Gaussian shift the estimator `Zₙ ≡ n` is measurable and
+  not bounded in probability; its local risks under squared error diverge, and the theorem
+  applies to it.
 - The constant estimator `Tₙ = θ₀` has local risk `ℓ(-h)` at `h`, and the supremum over finite `H`
   is `sup ℓ`, which exceeds the bound for a nonconstant loss.
 
@@ -1654,7 +1878,8 @@ theorem (7.5).
 
 - Hodges' estimator at `θ = 0`: limit variance `0 < 1 = I(0)⁻¹`, on the null set `{0}`.
 - Its maximal local risk under squared error truncated at `1` is `min(h², 1) → 1` at the point
-  `h` for large `h`, above the bound `E min(Z², 1) ≈ 0.6` of 7.6.
+  `h` for large `h`, above the bound `E min(Z², 1) = 1 - 2φ(1) ≈ 0.5161` of 7.6, with `φ` the
+  standard normal density.
 
 ### Examples
 
@@ -1664,8 +1889,9 @@ theorem (7.5).
 
 ### Dependencies
 
-Layer 1, Foundations 8.2, 8.5 and 8.6, Mathlib's disintegration and Gaussian measures, and Tau
-Ceti's `unitIntervalCoding`.
+Layers 1–2 (the portmanteau and Prohorov's theorem in 7.6), Layer 5 for the maximum likelihood
+theorem of 7.3 (through 5.5), Foundations 4.3, 8.2, 8.5 and 8.6, Mathlib's disintegration and
+Gaussian measures, and Tau Ceti's `unitIntervalCoding`.
 
 ## Layer 8: asymptotic tests and efficiency
 
@@ -1674,7 +1900,17 @@ power `πₙ(θ) = E_θ φₙ`.
 
 ### 8.1 Likelihood ratio, Wald and score tests
 
-- **The three classical tests**: let `Θ ⊆ ℝ^k` be open, `Θ₀ = {c = 0}` for a continuously
+- **The simple hypothesis** (`tendstoInDistribution_likelihoodRatio_wald_score`): for `θ = θ₀`, in a
+  model with positive densities, differentiable in quadratic mean at `θ₀` with positive definite
+  information `I` and a log-likelihood that is Lipschitz near `θ₀` with a square-integrable
+  constant, and a measurable maximum likelihood estimator `θ̂ₙ` consistent under `P_{θ₀}`, the
+  statistics `λₙ = 2(ℓₙ(θ̂ₙ) - ℓₙ(θ₀))`, `Wₙ = n (θ̂ₙ - θ₀)ᵀ I (θ̂ₙ - θ₀)` and
+  `Sₙ = n⁻¹ (∑ᵢ ℓ̇(xᵢ))ᵀ I⁻¹ (∑ᵢ ℓ̇(xᵢ))` differ by `o_P(1)` under `P_{θ₀}` (van der Vaart, §16.3,
+  p. 231; Lehmann, Thm 7.7.3, p. 535, under the classical conditions), and under
+  `P_{θ₀ + h/√n}` the statistic `λₙ` converges to the noncentral chi-squared law with `k` degrees
+  of freedom and noncentrality `hᵀ I h` (by Le Cam's third lemma, 7.2, applied to
+  `Δₙ = n^{-1/2} ∑ᵢ ℓ̇(xᵢ)`, whose limit under the alternative is `N(I h, I)`).
+- **The three classical tests for a composite hypothesis**: let `Θ ⊆ ℝ^k` be open, `Θ₀ = {c = 0}` for a continuously
   differentiable `c : Θ → ℝ^q` with `C = Dc(θ₀)` of rank `q`, and let the maximum likelihood
   hypotheses of 5.3 hold at `θ₀ ∈ Θ₀` with `I` continuous at `θ₀`. For consistent maximizers
   `θ̂ₙ` over `Θ` and `θ̃ₙ` over `Θ₀`, the likelihood ratio statistic
@@ -1694,7 +1930,9 @@ power `πₙ(θ) = E_θ φₙ`.
   and `Θ` that are consistent under every `P_{θ + h/√n}`, and local sets `Hₙ → H`,
   `Hₙ,₀ → H₀`. Then under `P_{θ + h/√n}`,
   `λₙ → inf_{g ∈ H₀} ‖I^{1/2}(X - g)‖² - inf_{g ∈ H} ‖I^{1/2}(X - g)‖²` with `X ~ N(h, I⁻¹)` (van der
-  Vaart, Thm 16.7, p. 233).
+  Vaart, Thm 16.7, p. 233). The infima are over the sets themselves (subtypes in Lean); both sets
+  contain `0`, since `θ ∈ Θ₀ ⊆ Θ`, and the quadratic form is nonnegative, so they are genuine
+  infima.
 - Special cases: for an interior `θ` and `H₀` a linear subspace of dimension `l`, the null limit is
   `χ²_{k-l}`; for `Θ = [0, ∞)` and `Θ₀ = {0}`, it is `½ δ₀ + ½ χ²_1`. For polyhedral cones the
   limit is a chi-bar-squared law, whose identification belongs to
@@ -1715,6 +1953,13 @@ score statistics are quadratic in `√n(θ̂ₙ - θ₀)` and `Δₙ` up to `o_P
   noncentral `χ²_1` with noncentrality `h²` under `h/√n`.
 - `Θ = [0, ∞)`, `Θ₀ = {0}`, `I = 1`, `h = 0`: the limit is `X² - (X⁻)² = (X⁺)²` with `X ~ N(0, 1)`,
   which is `0` with probability `1/2` and `χ²_1` otherwise.
+- The infima must be over the sets: with `I = 1`, `H₀ = {0}`, `H = ℝ` and `Y = 1`, the limit
+  statistic is `(1 - 0)² - 0 = 1`. A bounded infimum `⨅ g ∈ H₀` over all `g : ℝ` in Lean would
+  insert the junk value `0` for every `g ∉ H₀` and give `0`, turning the limit `χ²_1` into `δ₀`.
+- `quadForm`: `quadForm (1) h = h²` in dimension `1`, and `quadForm I 0 = 0` for every `I`.
+- `quadForm` sees only the symmetric part of `I`: for `I = [[0, 1], [0, 0]]`,
+  `quadForm I v = v₀ v₁`, the same as for `[[0, 1/2], [1/2, 0]]`, and it takes the value `-1` at
+  `v = (1, -1)`; the theorems that need nonnegativity assume `I` positive definite.
 
 ### 8.2 The asymptotic power envelope
 
@@ -1798,6 +2043,11 @@ uniform.
   and `π²/9 ≈ 1.097`.
 - Epanechnikov `(3/4)(1 - x²)` on `[-1, 1]`: `σ² = 1/5`, `∫ f² = 3/5`, and
   `12 · (1/5) · (9/25) = 108/125 = 0.864`.
+- The variance factor is `∫ x² f - (∫ x f)²`, computed from two integrals: for `f = 1_{[1, 2]}`
+  the mean is `3/2`, the second moment `7/3` and `∫ f² = 1`, so the right side is
+  `12 · (1/12) · 1 = 1`. Integrating `x² f(x) - (3/2)²` over all of `ℝ` instead would give the
+  junk value `0` of a nonintegrable Bochner integral, and the uncentred second moment would give
+  `12 · (7/3) = 28`.
 
 ### 8.4 Pearson's tests and the generalized method of moments
 
@@ -1813,23 +2063,30 @@ uniform.
   Pearson's statistic by `o_P(1)`.
 - **Generalized method of moments** (`gmm_tendstoInDistribution`): let `m(x, θ) ∈ ℝ^q`, `q ≥ k`,
   with `P m(·, θ₀) = 0`, positive definite covariance `Ω`, `θ ↦ m(x, θ)` continuously
-  differentiable on a ball with integrable supremum of the derivative norm, and
-  `G = P D_θ m(·, θ₀)` of rank `k`. If `Wₙ → W` positive definite in probability and `θ̂ₙ → θ₀` in
+  differentiable on a ball `B` around `θ₀` with `‖D_θ m(x, θ)‖ ≤ D(x)` for all `θ ∈ B` and an
+  integrable `D`, and `G = P D_θ m(·, θ₀)` of rank `k`. If `Wₙ → W` positive definite in probability and `θ̂ₙ → θ₀` in
   probability minimizes `m̄ₙ(θ)ᵀ Wₙ m̄ₙ(θ)`, then
-  `√n(θ̂ₙ - θ₀) → N(0, (GᵀWG)⁻¹ GᵀWΩWG (GᵀWG)⁻¹)`. The choice `W = Ω⁻¹` minimizes the covariance in
-  the Loewner order, and with `Wₙ = Ω̂ₙ⁻¹`, `Ω̂ₙ → Ω`, the overidentification statistic
-  `n m̄ₙ(θ̂ₙ)ᵀ Wₙ m̄ₙ(θ̂ₙ) → χ²_{q-k}`.
+  `√n(θ̂ₙ - θ₀) → N(0, (GᵀWG)⁻¹ GᵀWΩWG (GᵀWG)⁻¹)`.
+- **The optimal weight** (`posSemidef_gmm_covariance_sub_optimal`): for `G` of rank `k` and
+  positive definite `Ω`, `W`, the matrix `(GᵀWG)⁻¹ GᵀWΩWG (GᵀWG)⁻¹ - (GᵀΩ⁻¹G)⁻¹` is positive
+  semidefinite, so `W = Ω⁻¹` minimizes the covariance in the Loewner order.
+- **Overidentification** (`tendstoInDistribution_gmm_overidentification`): under the hypotheses
+  above with measurable `m` and weights `Wₙ → Ω⁻¹` in probability, for instance `Wₙ = Ω̂ₙ⁻¹` with
+  `Ω̂ₙ → Ω`, the statistic `n m̄ₙ(θ̂ₙ)ᵀ Wₙ m̄ₙ(θ̂ₙ) → χ²_{q-k}`.
+- None of the cited texts treats the generalized method of moments; the three statements carry
+  the proof route below in place of a locator.
 
 *Proof route.* Pearson: `(Nᵢ - npᵢ)/√(npᵢ)` is `n^{-1/2}` times a sum of `n` i.i.d. vectors with
 covariance `I - √p √pᵀ`, the covariance `diag(p) - ppᵀ` of one trial (Tau Ceti
-`covMatrix_map_multinomialToEuclidean_multinomialMeasure`) scaled by `diag(p)^{-1/2}`, so
-1.2 and the idempotent case of 1.3 give `χ²_{k-1}`; the multinomial count is the sum of `n`
+`covMatrix_map_multinomialToEuclidean_multinomialMeasure`) scaled by `diag(p)^{-1/2}`. That
+covariance is the orthogonal projection onto `√p^⊥`, so 1.2 and the Tau Ceti projection theorem
+`Submodule.map_norm_sq_starProjection_stdGaussian` (as in 1.3) give `χ²_{k-1}`; the multinomial count is the sum of `n`
 independent one-trial counts. Estimated parameters: the delta method for `p(ϑ̂ₙ)` turns the
 standardized vector into the projection of the limit onto the orthogonal complement of the
 range of the `d` columns of `diag(p)^{-1/2} Dp(ϑ₀)` within `√p^⊥`, idempotent of rank `k - 1 - d`.
 The likelihood ratio statistic: Taylor expansion of `x log(x/y)` at `x = y`. GMM: the first-order
 condition `D m̄ₙ(θ̂ₙ)ᵀ Wₙ m̄ₙ(θ̂ₙ) = 0`, the mean value theorem coordinatewise with the uniform law of
-large numbers for `D_θ m` on the ball (3.4 with the integrable supremum), and 1.2. The Loewner
+large numbers for `D_θ m` on the ball (3.4 with the integrable envelope `D`), and 1.2. The Loewner
 optimality is `(GᵀWG)⁻¹ GᵀWΩWG (GᵀWG)⁻¹ - (GᵀΩ⁻¹G)⁻¹ = A Ω Aᵀ ⪰ 0` with
 `A = (GᵀWG)⁻¹GᵀW - (GᵀΩ⁻¹G)⁻¹GᵀΩ⁻¹`. The overidentification statistic is the singular form of 1.3
 for the projection of rank `q - k`.
@@ -1845,6 +2102,10 @@ for the projection of rank `q - k`.
   degree of freedom.
 - GMM with `q = k` (exactly identified): `G` is invertible and the covariance is `G⁻¹ Ω G⁻ᵀ` for
   every `W`; the overidentification statistic is `0`, matching `χ²_0`.
+- The envelope must bound the derivative on the whole ball: for `m(x, θ) = x + θ/(1 - θ²)` on the
+  ball `(-1, 1)` the derivative norms are unbounded and no integrable `D` exists, so the
+  hypothesis fails. A real supremum `⨆_θ ‖D_θ m(x, θ)‖` of an unbounded family would be the junk
+  value `0` and integrable.
 
 ### Examples
 
@@ -1886,27 +2147,38 @@ functional at `(1 - ε)F + εδₓ`, `(1 - ε) λ(θ_ε) + ε ψ(x - θ_ε) = 0`
   sensitivity is `∞`.
 - `ψ = ψₖ` at `F = N(0, 1)`: `γ = 2Φ(k) - 1`, `IF(x) = ψₖ(x)/(2Φ(k) - 1)`, and the gross-error
   sensitivity is `k/(2Φ(k) - 1)`.
+- `HasInfluenceFunction` for a constant functional `T ≡ c` holds with `IF ≡ 0`; for
+  `T(G) = G((-∞, t₀])` it holds with `IF(x) = 1{x ≤ t₀} - F(t₀)`, since the contaminated value is
+  `(1 - ε)F(t₀) + ε 1{x ≤ t₀}`, linear in `ε`.
+- `HasInfluenceFunction` is a right derivative at every `x`: for `T(G) = G({0})` at a continuous
+  `F`, the contaminated value is `ε 1{x = 0}`, so `IF = 1_{{0}}`, which is nonzero although
+  `F({0}) = 0`.
 
 ### 9.2 Hadamard differentiable functionals
 
 - **Influence function and asymptotic normality**
   (`tendstoInDistribution_of_hasHadamardDerivWithinAt_cdf`): let `T` on `ℓ^∞(ℝ)` be Hadamard
   differentiable at `F` within the monotone functions and tangentially to all of `ℓ^∞(ℝ)`, with
-  derivative `T'_F`, and let `IF(x) = T'_F(1_{[x, ∞)} - F)` be measurable and square-integrable.
+  derivative `T′_F`, and let `IF(x) = T′_F(1_{[x, ∞)} - F)` be measurable and square-integrable.
   Then `∫ IF dF = 0`, `IF` is the influence function of `T` on the contaminations, and for
   measurable `T(Fₙ)`,
   `√n(T(Fₙ) - T(F)) = n^{-1/2} ∑ᵢ IF(xᵢ) + o_P(1) → N(0, ∫ IF² dF)` (van der Vaart, §20.1, p. 291,
   and Thm 20.8, p. 297).
 - **Tangential differentiability**: if `T` is Hadamard differentiable only tangentially to a closed
   subspace carrying the limit `B ∘ F` of `√n(Fₙ - F)`, as for quantiles (4.1), then
-  `√n(T(Fₙ) - T(F)) → T'_F(B ∘ F)`, a centred normal law.
+  `√n(T(Fₙ) - T(F)) → T′_F(B ∘ F)`, a centred normal law.
 
 *Proof route.* The functional delta method (4.2) with the classical Donsker theorem (3.4); the
-derivative is linear, so `T'_F(√n(Fₙ - F)) = n^{-1/2} ∑ᵢ T'_F(1_{[xᵢ, ∞)} - F)` exactly — the
+derivative is linear, so `T′_F(√n(Fₙ - F)) = n^{-1/2} ∑ᵢ T′_F(1_{[xᵢ, ∞)} - F)` exactly — the
 empirical distribution function is `n⁻¹ ∑ᵢ 1_{[xᵢ, ∞)}` — and 1.2 gives the limit. The influence
 function: `t ↦ F + t(1_{[x, ∞)} - F)` is the contamination, and Hadamard differentiability along
-the constant direction gives the derivative. The mean of `IF` vanishes since
-`∫ (1_{[x, ∞)}(t) - F(t)) dF(x) = 0` for every `t` and `T'_F` commutes with this Bochner integral.
+the constant direction gives the derivative. The mean of `IF` vanishes by a law of large numbers
+argument, not by commuting `T′_F` with an integral (the map `x ↦ 1_{[x, ∞)} - F` is not Bochner
+integrable in `ℓ^∞(ℝ)`: for `F` uniform its values are pairwise at distance `1`). By the delta
+method `T′_F(√n(Fₙ - F))` converges in law, so it is bounded in probability; it equals
+`n^{-1/2} ∑ᵢ IF(xᵢ)` exactly, so `n⁻¹ ∑ᵢ IF(xᵢ) → 0` in probability; the weak law gives
+`n⁻¹ ∑ᵢ IF(xᵢ) → ∫ IF dF`, hence `∫ IF dF = 0`, and the scalar central limit theorem gives the
+limit `N(0, ∫ IF² dF)`.
 
 *Needs:* 3.4, 4.2; Foundations 9.1.
 
@@ -1921,11 +2193,13 @@ the constant direction gives the derivative. The mean of `IF` vanishes since
 
 - **Influence function of the median**: if `F` has a unique median `m` and a positive density `f`
   continuous at `m`, the median functional has `IF(x) = (1/2 - 1{x ≤ m})/f(m)` for `x ≠ m`,
-  asymptotic variance `1/(4 f(m)²)` and gross-error sensitivity `1/(2 f(m))`.
+  asymptotic variance `1/(4 f(m)²)` and gross-error sensitivity `1/(2 f(m))` (the case `p = 1/2`
+  of van der Vaart, Ex 20.5, p. 294, for quantiles).
 - **The contamination bound** (`median_mem_Icc_of_contamination`): for `F` continuous and strictly
   increasing, `0 ≤ ε < 1/2` and any law `H`, every median of `G = (1 - ε)F + εH` lies in
   `[F^{-1}((1/2 - ε)/(1 - ε)), F^{-1}(1/(2(1 - ε)))]`; the bounds are attained by `H = δ_y` with
-  `y` far to the left and far to the right.
+  `y` far to the left and far to the right. None of the cited texts states this bound; it carries
+  the proof route below in place of a locator.
 
 *Proof route.* The influence function is 9.2 with the quantile derivative of 4.1, or 9.1 with
 `ψ = sign`. The bound: `G(x) ≥ (1 - ε)F(x)` and `G(x) ≤ (1 - ε)F(x) + ε`, so `G(x) ≥ 1/2` forces
@@ -1942,16 +2216,21 @@ the quantile Galois inequality (Tau Ceti `quantile_le_iff`) converts these into 
 
 ### 9.4 Breakdown points
 
-- `breakdownPoint T x`: the least fraction `m/n` of coordinates of the sample `x` whose arbitrary
-  replacement makes `T` unbounded.
+- `breakdownPoint T x ∈ [0, ∞]`: the least fraction `m/n` of coordinates of the sample `x` whose
+  arbitrary replacement makes `T` unbounded, and `∞` when no `m ≤ n` does (in particular for
+  `n = 0`); this is `m*/n` for the replacement number `m*` of Jurečková–Sen, (2.3.16), p. 26.
 - **Mean and median** (`breakdownPoint_sampleMean_and_median`): the sample mean has breakdown point
   `1/n` at every sample of size `n ≥ 1`, and the sample median of `2m + 1` observations has
   breakdown point `(m + 1)/(2m + 1)`, which tends to `1/2`.
 - **Least squares** has breakdown point `1/n` at every regression sample with a design of full
   rank.
 - **Least median of squares**: for a regression sample with `p ≥ 2` coefficients in general
-  position (any `p` observations determine the coefficient vector uniquely), the least median of
-  squares estimator has breakdown point `(⌊n/2⌋ - p + 2)/n` (Rousseeuw 1984, Thm 1).
+  position (any `p` observations determine the coefficient vector uniquely) and `n ≥ 2p`, every
+  selection of a minimizer of the median squared residual (the order statistic of rank
+  `⌊n/2⌋ + 1` of the squared residuals) has breakdown point `(⌊n/2⌋ - p + 2)/n` (Rousseeuw 1984,
+  Thm 1). The condition `n ≥ 2p` gives `⌊n/2⌋ ≥ p`, so the minimizing half-sample determines the
+  fit; without it the formula can be `0` or negative, as for `n = 8`, `p = 6`, where `0`
+  replacements cannot break a fixed estimate.
 - **Least absolute deviations** has breakdown point `1/n` when whole pairs `(xᵢ, yᵢ)` may be
   replaced (Jurečková–Sen, §4.8, p. 176).
 
@@ -1970,13 +2249,21 @@ point `x` and a response `y = c x` with large `c` forces the fit through it.
   points and the median between the original extremes.
 - `n = 1`: the mean and the median both have breakdown point `1`.
 - Least median of squares with `n = 20` and `p = 2`: `(10 - 2 + 2)/20 = 1/2`.
+- `breakdownPoint` of a constant estimator is `∞` at every sample: no replacement makes it
+  unbounded, and the infimum over the empty set of fractions is `⊤`.
+- `breakdownPoint` at `n = 0` is `∞`: the only `m` is `0`, and the image of the one empty sample is
+  a point, which is bounded.
 
 ### 9.5 Hampel's optimality and Huber's minimax property
 
-- **Hampel's optimality**: for `c > √(π/2)`, among `φ` with `∫ φ dΦ = 0`, `∫ x φ(x) dΦ(x) = 1` and
-  `sup |φ| ≤ c`, the integral `∫ φ² dΦ` is uniquely minimized by `φ = ψₖ/(2Φ(k) - 1)`, where `k > 0`
-  solves `k/(2Φ(k) - 1) = c`. Equivalently, `ψₖ` minimizes the asymptotic variance among location
-  M-estimators with gross-error sensitivity at most `c` at the normal model.
+- **Hampel's optimality** (`integral_sq_huberScore_le_of_abs_le`): for `c > √(π/2)` let `k > 0`
+  solve `k/(2Φ(k) - 1) = c`. Among measurable `φ` with `∫ φ dΦ = 0`, `∫ x φ(x) dΦ(x) = 1` and
+  `|φ| ≤ c`, the integral `∫ φ² dΦ` is minimized by `φ = ψₖ/(2Φ(k) - 1)`, and every minimizer
+  agrees with it `Φ`-almost everywhere, that is, the minimizer is unique in `L²(Φ)`. Equivalently,
+  `ψₖ` minimizes the asymptotic variance among location M-estimators with gross-error
+  sensitivity at most `c` at the normal model (van der Vaart, Ex 5.29, pp. 59–60, with the
+  normalization `P ψ' = 1`, which is `∫ x ψ(x) dΦ(x) = 1` after integration by parts against the
+  normal density).
 - **Huber's minimax property** (`huber_minimax`): for `0 < ε < 1` let `k > 0` solve
   `2φ(k)/k - 2Φ(-k) = ε/(1 - ε)` and let `G₀` have density `(1 - ε)φ(x)` for `|x| ≤ k` and
   `(1 - ε)φ(k) e^{k² - k|x|}` for `|x| > k`. With
@@ -1987,8 +2274,10 @@ point `x` and a response `y = c x` with large `c` forces the fit through it.
   `ψ` with `∫ ψ' dG₀ ≠ 0`, so `(ψₖ, G₀)` is a saddle point.
 
 *Proof route.* Hampel: the Lagrangian `∫ (φ² - 2aφx) dΦ` with the pointwise constraint `|φ| ≤ c`
-is minimized pointwise by `φ = max(-c, min(c, ax))`, and the normalization fixes `a`; uniqueness
-from strict convexity of `φ ↦ φ²`. Huber: the mass of `ψₖ²` beyond `±k` is `k²`, the largest
+is minimized pointwise by `φ = max(-c, min(c, ax))`, and the normalization fixes `a`; the
+pointwise minimizer is unique at every `x`, so a feasible `φ` with the same integral agrees with
+it `Φ`-a.e. Pointwise uniqueness fails: changing the minimizer at the single point `0` from `0`
+to `c` changes no constraint and no integral. Huber: the mass of `ψₖ²` beyond `±k` is `k²`, the largest
 value of `ψₖ²`, and the denominator counts only `(-k, k)`, so moving the contaminating mass outside
 `(-k, k)` maximizes `V`; `G₀` puts its contamination there, the equation for `k` is
 `∫_{|x| > k} dG₀ = ε + (1 - ε)(2Φ(-k))`, and `V(ψₖ, G₀) = 1/I(G₀)` is the identity
@@ -2055,9 +2344,6 @@ under this roadmap.
   It needs the law of the iterated logarithm for the oscillation modulus of the uniform empirical
   process, and neither Mathlib nor Tau Ceti has a law of the iterated logarithm; 5.8 owns the
   representation in probability.
-- **The local asymptotic minimax theorem without tightness**: the form of 7.6 for arbitrary
-  estimator sequences, which needs a compactification of the range of `Zₙ` and van der Vaart's
-  Thm 8.11 in its general form; 7.6 owns the form for sequences bounded in probability.
 - **Hampel's general optimal bounded-influence estimators** beyond the location case of 9.5.
 - **Further empirical-process theory**: Talagrand's and Bousquet's concentration inequalities,
   multiplier and exchangeable bootstrap central limit theorems, empirical processes of dependent
@@ -2098,11 +2384,7 @@ The map, which is not prescriptive, lists files of `CKSD/Asymptotics/`:
 
 Related libraries:
 - [Statlib](https://github.com/stat-lib/statlib) develops contiguity on sample spaces varying along
-  a filter, quadratic-mean differentiability (`QMD.HasQuadraticMeanDerivWithinAt`, the model of
-  `HasQMDWithinAt` in 7.3), the squared Hellinger distance and a weak law of large numbers.
-- No open Mathlib pull request on the Lindeberg–Feller theorem, the multivariate central limit
-  theorem, Glivenko–Cantelli or Donsker theorems, Hadamard differentiability or sub-Gaussian
-  maximal inequalities was found.
+  a filter, quadratic-mean differentiability (the model of `HasQMDWithinAt` in 7.3), the squared Hellinger distance and a weak law of large numbers.
 
 ## References
 

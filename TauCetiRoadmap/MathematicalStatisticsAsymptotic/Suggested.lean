@@ -7,13 +7,25 @@ public import TauCeti.Probability.Distributions.NoncentralChiSquared.Gaussian
 public import TauCeti.Probability.Distributions.Multinomial.Moments
 public import TauCeti.Probability.Quantile
 public import TauCeti.Analysis.Matrix.CovariancePseudoInverse
+public import TauCeti.Probability.Distributions.Gaussian.Projection
+public import TauCeti.Probability.Distributions.Gaussian.Cdf
+public import TauCeti.Probability.Distributions.Gaussian.Quantile
+public import TauCeti.Probability.Distributions.Laplace.Basic
+public import TauCeti.Probability.Distributions.Logistic.Basic
+public import TauCeti.Probability.Distributions.Multinomial.Basic
+public import TauCeti.Probability.Process.EmpiricalMeasure
+public import TauCeti.Probability.Kernel.Randomization
+public import TauCeti.Data.Fin.Tuple.OrderStatistic
+public import TauCeti.Analysis.InnerProductSpace.MoorePenrose
 
 /-!
 # Asymptotic and robust statistics: target signatures
 
 This file is not the roadmap: the roadmap is `README.md`, and this file is not an exhaustive
-checklist. It states the headline theorems of every layer against the pinned Mathlib and Tau
-Ceti, each with `sorry`, together with the definitions their statements need.
+checklist. It states, against the pinned Mathlib and Tau Ceti and each with `sorry`, every
+headline of the README that carries a Lean name, together with the definitions their statements
+need. Every such headline has a native carrier at the pin; the README's other targets are
+corollaries, instances or prose statements with their own locators or proof routes.
 
 The conventions of the README are used throughout. Statistics of a sample of size `n` are maps
 on `Fin n → X` under `Measure.pi (fun _ ↦ P)`; sequences of statistics live on spaces that vary
@@ -24,7 +36,9 @@ outer expectations of bounded continuous functions converge to the integrals und
 limit law. For measurable maps it is Mathlib's `TendstoInDistribution`.
 
 Definitions owned by `MathematicalStatisticsFoundations` appear as local copies with a docstring
-naming their owner. The implementation namespace of the README is `TauCeti`; the prototypes live
+naming their owner: contiguity, the U-statistic, the empirical distribution function, the sample
+quantile, the Huber score and the information matrix of a vector score (Foundations 4.3, here
+`fisherInformation`; Foundations' own `fisherInformation` is the scalar information). The implementation namespace of the README is `TauCeti`; the prototypes live
 in this roadmap's namespace.
 -/
 
@@ -137,13 +151,6 @@ theorem map_quadForm_inv_multivariateGaussian (m : EuclideanSpace ℝ (Fin k))
     (multivariateGaussian m S).map (fun x ↦ (WithLp.ofLp x) ⬝ᵥ (S⁻¹ *ᵥ WithLp.ofLp x)) =
       TauCeti.Probability.noncentralChiSquaredMeasure k
         ((WithLp.ofLp m) ⬝ᵥ (S⁻¹ *ᵥ WithLp.ofLp m)).toNNReal := sorry
-
-/-- **1.3** Under `N(0, S)` with `S` a symmetric idempotent matrix of rank `r`, the squared norm
-has the chi-squared law with `r` degrees of freedom. -/
-theorem map_norm_sq_multivariateGaussian_of_isIdempotent (S : Matrix (Fin k) (Fin k) ℝ)
-    (hS : S.IsHermitian) (hidem : IsIdempotentElem S) :
-    (multivariateGaussian 0 S).map (fun x ↦ ‖x‖ ^ 2) =
-      TauCeti.Probability.chiSquaredMeasure S.rank := sorry
 
 /-- **1.3** Singular covariance: under `N(0, S)` with `S` positive semidefinite of rank `q`, the
 quadratic form in the Moore–Penrose inverse `S⁺` has the chi-squared law with `q` degrees of
@@ -260,6 +267,28 @@ theorem TendstoInOuterDistribution.of_tendstoInProbability_dist {E : Type*} [Pse
     (h : TendstoInOuterDistribution X l L μ)
     (hXY : TendstoInProbability μ (fun i ω ↦ dist (Y i ω) (X i ω)) l 0) :
     TendstoInOuterDistribution Y l L μ := sorry
+
+/-- **2.2** The portmanteau theorem for outer weak convergence: closed sets with the outer
+probability, and open sets with the inner probability `1 - μ (X ⁻¹' Gᶜ)`. -/
+theorem tendstoInOuterDistribution_iff_limsup_le {E : Type*} [PseudoMetricSpace E]
+    [MeasurableSpace E] [BorelSpace E] {μ : ∀ i, Measure (Ω i)} [∀ i, IsProbabilityMeasure (μ i)]
+    {X : ∀ i, Ω i → E} {l : Filter ι} {L : Measure E} [IsProbabilityMeasure L] :
+    (TendstoInOuterDistribution X l L μ ↔
+      ∀ F : Set E, IsClosed F → limsup (fun i ↦ μ i (X i ⁻¹' F)) l ≤ L F) ∧
+    (TendstoInOuterDistribution X l L μ ↔
+      ∀ G : Set E, IsOpen G → L G ≤ liminf (fun i ↦ 1 - μ i (X i ⁻¹' Gᶜ)) l) := sorry
+
+/-- **2.2** Prohorov's theorem for arbitrary maps: an asymptotically tight and asymptotically
+measurable sequence (outer minus inner integrals of every bounded continuous function tend to
+`0`) has a subsequence converging weakly to a tight Borel law. -/
+theorem exists_strictMono_tendstoInOuterDistribution {E : Type*} [MetricSpace E]
+    [MeasurableSpace E] [BorelSpace E] {Ωn : ℕ → Type*} [∀ n, MeasurableSpace (Ωn n)]
+    {μ : ∀ n, Measure (Ωn n)} [∀ n, IsProbabilityMeasure (μ n)] (X : ∀ n, Ωn n → E)
+    (htight : IsAsymptoticallyTight X atTop μ)
+    (hmeas : ∀ f : E →ᵇ ℝ, Tendsto (fun n ↦ outerIntegral (μ n) (fun ω ↦ f (X n ω)) -
+      innerIntegral (μ n) (fun ω ↦ f (X n ω))) atTop (𝓝 0)) :
+    ∃ φ : ℕ → ℕ, StrictMono φ ∧ ∃ L : Measure E, IsProbabilityMeasure L ∧ IsTightMeasureSet {L} ∧
+      TendstoInOuterDistribution (fun j ↦ X (φ j)) atTop L (fun j ↦ μ (φ j)) := sorry
 
 /-- **2.3** The space `ℓ^∞(T)` of bounded real functions on `T` with the supremum norm. -/
 abbrev Linfty (T : Type*) := lp (fun _ : T ↦ ℝ) ∞
@@ -392,6 +421,48 @@ theorem integral_sup'_le_of_hasSubgaussianMGF {Ω₀ : Type*} [MeasurableSpace �
     ∫ ω, (Finset.univ.sup' (Finset.univ_nonempty_iff.2 ⟨⟨0, hN⟩⟩) fun j ↦ Y j ω) ∂μ ≤
       Real.sqrt (2 * c * Real.log N) := sorry
 
+/-- **3.3** Symmetrization: for `n ≥ 1`, the outer expectation of `sup_t |ℙₙ f_t - P f_t|` is at
+most twice that of `sup_t |n⁻¹ ∑ᵢ εᵢ f_t(xᵢ)|` with independent Rademacher signs `εᵢ`. -/
+theorem outerLIntegral_iSup_le_two_mul_rademacher (P : Measure X) [IsProbabilityMeasure P]
+    (f : T → X → ℝ) (hf : ∀ t, Measurable (f t) ∧ Integrable (f t) P) (n : ℕ) (hn : 1 ≤ n) :
+    outerLIntegral (Measure.pi fun _ : Fin n ↦ P) (fun x ↦ ⨆ t,
+        ENNReal.ofReal |(n : ℝ)⁻¹ * ∑ i, f t (x i) - ∫ y, f t y ∂P|) ≤
+      2 * outerLIntegral ((Measure.pi fun _ : Fin n ↦ P).prod
+          (Measure.pi fun _ : Fin n ↦ (2 : ℝ≥0∞)⁻¹ • (Measure.dirac (1 : ℝ) + Measure.dirac (-1))))
+        (fun z ↦ ⨆ t, ENNReal.ofReal |(n : ℝ)⁻¹ * ∑ i, z.2 i * f t (z.1 i)|) := sorry
+
+/-- **3.3** Chaining: for a separable process with sub-Gaussian increments, variance proxy
+`d(s, t)²`, the outer expectation of the modulus `sup_{d(s,t) ≤ δ} |Y_s - Y_t|` is at most a
+universal constant times the packing entropy integral `∫₀^δ √(log D(ε, d)) dε`. -/
+theorem outerLIntegral_iSup_sub_le_packingEntropyIntegral :
+    ∃ K : ℝ, ∀ {Ω₀ T : Type*} [MeasurableSpace Ω₀] [PseudoMetricSpace T] (μ : Measure Ω₀)
+      [IsProbabilityMeasure μ] (Y : T → Ω₀ → ℝ),
+      (∀ s t, HasSubgaussianMGF (fun ω ↦ Y s ω - Y t ω) (nndist s t ^ 2) μ) →
+      (∃ T₀ : Set T, T₀.Countable ∧ ∀ᵐ ω ∂μ, ∀ t, ∃ u : ℕ → T, (∀ j, u j ∈ T₀) ∧
+        Tendsto u atTop (𝓝 t) ∧ Tendsto (fun j ↦ Y (u j) ω) atTop (𝓝 (Y t ω))) →
+      ∀ δ : ℝ, 0 < δ →
+        outerLIntegral μ (fun ω ↦ ⨆ (s : T) (t : T) (_ : dist s t ≤ δ),
+            ENNReal.ofReal |Y s ω - Y t ω|) ≤
+          ENNReal.ofReal K * ∫⁻ ε in Set.Ioc 0 δ,
+            (if Metric.packingNumber ε.toNNReal (Set.univ : Set T) = ⊤ then ⊤ else
+              ENNReal.ofReal (Real.sqrt (Real.log
+                (Metric.packingNumber ε.toNNReal (Set.univ : Set T)).toNat))) := sorry
+
+/-- **3.3** The bracketing maximal inequality: for a class with `P f_t² < δ²` and a measurable
+envelope `F`, `E* sup_t |𝔾ₙ f_t| ≤ K (δ + J_[](δ) + √n P F 1{F > √n a(δ)})` with
+`a(δ) = δ / √(max 1 (log N_[](δ)))`, for a universal constant `K`. The term `δ` accounts for
+the integrand `√(max 1 (log N))` of the source, which exceeds `√(log N)` by at most `1`. -/
+theorem outerLIntegral_iSup_empiricalProcess_le_bracketing :
+    ∃ K : ℝ, ∀ {X T : Type*} [MeasurableSpace X] (P : Measure X) [IsProbabilityMeasure P]
+      (f : T → X → ℝ) (δ : ℝ), 0 < δ → (∀ t, Measurable (f t) ∧ MemLp (f t) 2 P) →
+      (∀ t, ∫ x, f t x ^ 2 ∂P < δ ^ 2) → ∀ F : X → ℝ, Measurable F → (∀ t x, |f t x| ≤ F x) →
+      ∀ n : ℕ, outerLIntegral (Measure.pi fun _ : Fin n ↦ P) (fun x ↦ ⨆ t,
+          ENNReal.ofReal |Real.sqrt n * ((n : ℝ)⁻¹ * ∑ i, f t (x i) - ∫ y, f t y ∂P)|) ≤
+        ENNReal.ofReal K * (ENNReal.ofReal δ + bracketingEntropyIntegral P f δ +
+          ENNReal.ofReal (Real.sqrt n) *
+          ∫⁻ x, ENNReal.ofReal ((Set.indicator {y | Real.sqrt n * (δ / Real.sqrt (max 1 (Real.log
+            (bracketingNumber 2 P f (ENNReal.ofReal δ)).toNat))) < F y} F) x) ∂P) := sorry
+
 /-- **3.4** Glivenko–Cantelli under finite `L¹(P)` bracketing numbers. -/
 theorem isGlivenkoCantelli_of_bracketingNumber_lt_top (P : Measure X) [IsProbabilityMeasure P]
     (f : T → X → ℝ) (hf : ∀ t, Integrable (f t) P)
@@ -518,7 +589,8 @@ theorem tendstoInOuterDistribution_functional_delta_method {D F : Type*} [Normed
       TendstoInProbability μ
         (fun (n : ℕ) ω ↦ r n • (φ (Tn n ω) - φ θ) - φ' (r n • (Tn n ω - θ))) atTop 0 := sorry
 
-/-- **4.3** The argmax continuous mapping theorem. -/
+/-- **4.3** The argmax continuous mapping theorem. The estimators are uniformly tight: for
+every `ε > 0` a compact set carries them with outer probability at least `1 - ε` eventually. -/
 theorem tendstoInOuterDistribution_argmax {H : Type*} [MetricSpace H] [MeasurableSpace H]
     [BorelSpace H] (μ : ∀ n, Measure (Ω n)) [∀ n, IsProbabilityMeasure (μ n)]
     (M : ∀ n, Ω n → H → ℝ) {Ω' : Type*} [MeasurableSpace Ω'] (μ' : Measure Ω')
@@ -532,7 +604,8 @@ theorem tendstoInOuterDistribution_argmax {H : Type*} [MetricSpace H] [Measurabl
     (T : Ω' → H) (hT : Measurable T) (hTtight : IsTightMeasureSet {μ'.map T})
     (husc : ∀ᵐ ω ∂μ', UpperSemicontinuous (M₀ ω))
     (huniq : ∀ᵐ ω ∂μ', ∀ h, h ≠ T ω → M₀ ω h < M₀ ω (T ω))
-    (Tn : ∀ n, Ω n → H) (htight : IsAsymptoticallyTight Tn atTop μ) (R : ∀ n, Ω n → ℝ)
+    (Tn : ∀ n, Ω n → H) (htight : ∀ ε > 0, ∃ K : Set H, IsCompact K ∧
+      ∀ᶠ n in atTop, (μ n).real {ω | Tn n ω ∉ K} ≤ ε) (R : ∀ n, Ω n → ℝ)
     (hR : TendstoInProbability μ R atTop 0) (hmax : ∀ n ω h, M n ω h ≤ M n ω (Tn n ω) + R n ω) :
     TendstoInOuterDistribution Tn atTop (μ'.map T) μ := sorry
 
@@ -612,6 +685,43 @@ theorem zEstimator_tendstoInDistribution (P : Measure X) [IsProbabilityMeasure P
     TendstoInDistribution (fun (n : ℕ) x ↦ Real.sqrt n • (θhat n x - θ₀)) atTop Z
       (fun n ↦ ℙ[P, n]) μ' := sorry
 
+/-- **5.3** The classical Z-estimator theorem: let `θ ↦ ψ_θ(x)` be twice continuously
+differentiable on a ball around `θ₀` with second derivatives dominated by an integrable `D`,
+`P ψ_{θ₀} = 0`, `ψ_{θ₀} ∈ L²(P)` and `V = P ψ̇_{θ₀}` invertible. Then every consistent
+approximate root of `∑ᵢ ψ_θ(xᵢ) = 0` is asymptotically linear with influence
+function `-V⁻¹ψ_{θ₀}`. The case `ψ_θ = ℓ̇_θ` is the asymptotic normality of maximum
+likelihood. -/
+theorem zEstimator_asymptotically_linear_of_contDiffOn (P : Measure X) [IsProbabilityMeasure P]
+    (ψ : 𝔼ₖ → X → 𝔼ₖ) (hψ : ∀ θ, Measurable (ψ θ)) (θ₀ : 𝔼ₖ) (r : ℝ) (hr : 0 < r)
+    (D : X → ℝ) (hD : Integrable D P)
+    (hC2 : ∀ x, ContDiffOn ℝ 2 (fun θ ↦ ψ θ x) (Metric.ball θ₀ r))
+    (hdom : ∀ x, ∀ θ ∈ Metric.ball θ₀ r, ‖iteratedFDeriv ℝ 2 (fun θ ↦ ψ θ x) θ‖ ≤ D x)
+    (hzero : ∫ x, ψ θ₀ x ∂P = 0) (hL2 : MemLp (ψ θ₀) 2 P)
+    (hint : Integrable (fun x ↦ fderiv ℝ (fun θ ↦ ψ θ x) θ₀) P) (V : 𝔼ₖ ≃L[ℝ] 𝔼ₖ)
+    (hV : ∫ x, fderiv ℝ (fun θ ↦ ψ θ x) θ₀ ∂P = (V : 𝔼ₖ →L[ℝ] 𝔼ₖ)) (θhat : ∀ n, (Fin n → X) → 𝔼ₖ)
+    (hcons : TendstoInProbability (fun n ↦ ℙ[P, n]) θhat atTop θ₀)
+    (happrox : TendstoInProbability (fun n ↦ ℙ[P, n])
+      (fun (n : ℕ) x ↦ (Real.sqrt n)⁻¹ • ∑ i, ψ (θhat n x) (x i)) atTop 0) :
+    TendstoInProbability (fun n ↦ ℙ[P, n])
+      (fun (n : ℕ) x ↦ Real.sqrt n • (θhat n x - θ₀) +
+        V.symm ((Real.sqrt n)⁻¹ • ∑ i, ψ θ₀ (x i))) atTop 0 := sorry
+
+/-- **5.3** Existence of consistent roots: under the hypotheses of
+`zEstimator_asymptotically_linear_of_contDiffOn`, there are
+estimators converging to `θ₀` in probability that are roots of `∑ᵢ ψ_θ(xᵢ) = 0` with
+probability tending to one. -/
+theorem exists_tendstoInProbability_root_of_contDiffOn (P : Measure X) [IsProbabilityMeasure P]
+    (ψ : 𝔼ₖ → X → 𝔼ₖ) (hψ : ∀ θ, Measurable (ψ θ)) (θ₀ : 𝔼ₖ) (r : ℝ) (hr : 0 < r)
+    (D : X → ℝ) (hD : Integrable D P)
+    (hC2 : ∀ x, ContDiffOn ℝ 2 (fun θ ↦ ψ θ x) (Metric.ball θ₀ r))
+    (hdom : ∀ x, ∀ θ ∈ Metric.ball θ₀ r, ‖iteratedFDeriv ℝ 2 (fun θ ↦ ψ θ x) θ‖ ≤ D x)
+    (hzero : ∫ x, ψ θ₀ x ∂P = 0) (hL2 : MemLp (ψ θ₀) 2 P)
+    (hint : Integrable (fun x ↦ fderiv ℝ (fun θ ↦ ψ θ x) θ₀) P) (V : 𝔼ₖ ≃L[ℝ] 𝔼ₖ)
+    (hV : ∫ x, fderiv ℝ (fun θ ↦ ψ θ x) θ₀ ∂P = (V : 𝔼ₖ →L[ℝ] 𝔼ₖ)) :
+    ∃ θhat : ∀ n, (Fin n → X) → 𝔼ₖ,
+      TendstoInProbability (fun n ↦ ℙ[P, n]) θhat atTop θ₀ ∧
+      Tendsto (fun n ↦ ℙ[P, n] {x | ∑ i, ψ (θhat n x) (x i) = 0}) atTop (𝓝 1) := sorry
+
 /-- **5.4** One-step estimators: a Newton step from a `√n`-consistent preliminary estimator. -/
 theorem oneStep_asymptotically_linear {Ω : ℕ → Type*} [∀ n, MeasurableSpace (Ω n)]
     (μ : ∀ n, Measure (Ω n)) [∀ n, IsProbabilityMeasure (μ n)] (Ψn : ∀ n, Ω n → 𝔼ₖ → 𝔼ₖ)
@@ -622,6 +732,23 @@ theorem oneStep_asymptotically_linear {Ω : ℕ → Type*} [∀ n, MeasurableSpa
     (hbdd : ∀ C > 0, ∀ (n : ℕ) ω, BddAbove (range fun θ : Metric.closedBall θ₀ (C / Real.sqrt n) ↦
       ‖Real.sqrt n • (Ψn n ω θ - Ψn n ω θ₀) - V (Real.sqrt n • ((θ : 𝔼ₖ) - θ₀))‖))
     (θtilde : ∀ n, Ω n → 𝔼ₖ) (htight : IsBoundedInProbabilityAlong μ
+      (fun (n : ℕ) ω ↦ Real.sqrt n • (θtilde n ω - θ₀)) atTop)
+    (Vhat : ∀ n, Ω n → 𝔼ₖ ≃L[ℝ] 𝔼ₖ)
+    (hVhat : TendstoInProbability μ (fun (n : ℕ) ω ↦ ((Vhat n ω : 𝔼ₖ →L[ℝ] 𝔼ₖ))) atTop (V : 𝔼ₖ →L[ℝ] 𝔼ₖ))
+    (htightΨ : IsBoundedInProbabilityAlong μ (fun (n : ℕ) ω ↦ Real.sqrt n • Ψn n ω θ₀) atTop) :
+    TendstoInProbability μ (fun (n : ℕ) ω ↦ Real.sqrt n • (θtilde n ω - (Vhat n ω).symm (Ψn n ω (θtilde n ω)) - θ₀)
+      + V.symm (Real.sqrt n • Ψn n ω θ₀)) atTop 0 := sorry
+
+/-- **5.4** Discretized one-step estimators: when the preliminary estimator takes values in the
+grid `n^{-1/2} ℤ^k`, the expansion of `Ψₙ` is needed only along deterministic local parameters
+`θ₀ + n^{-1/2} hₙ` with `hₙ` bounded. -/
+theorem oneStep_asymptotically_linear_of_discretized {Ω : ℕ → Type*} [∀ n, MeasurableSpace (Ω n)]
+    (μ : ∀ n, Measure (Ω n)) [∀ n, IsProbabilityMeasure (μ n)] (Ψn : ∀ n, Ω n → 𝔼ₖ → 𝔼ₖ)
+    (θ₀ : 𝔼ₖ) (V : 𝔼ₖ ≃L[ℝ] 𝔼ₖ)
+    (hdet : ∀ h : ℕ → 𝔼ₖ, (∃ C, ∀ n, ‖h n‖ ≤ C) → TendstoInProbability μ (fun (n : ℕ) ω ↦
+      Real.sqrt n • (Ψn n ω (θ₀ + (Real.sqrt n)⁻¹ • h n) - Ψn n ω θ₀) - V (h n)) atTop 0)
+    (θtilde : ∀ n, Ω n → 𝔼ₖ) (hgrid : ∀ n ω j, ∃ z : ℤ, θtilde n ω j = z / Real.sqrt n)
+    (htight : IsBoundedInProbabilityAlong μ
       (fun (n : ℕ) ω ↦ Real.sqrt n • (θtilde n ω - θ₀)) atTop)
     (Vhat : ∀ n, Ω n → 𝔼ₖ ≃L[ℝ] 𝔼ₖ)
     (hVhat : TendstoInProbability μ (fun (n : ℕ) ω ↦ ((Vhat n ω : 𝔼ₖ →L[ℝ] 𝔼ₖ))) atTop (V : 𝔼ₖ →L[ℝ] 𝔼ₖ))
@@ -704,6 +831,18 @@ theorem integral_sub_hajekProjection_mul_eq_zero {n : ℕ} (P : Fin n → Measur
     (g : Fin n → X → ℝ) (hg : ∀ i, MemLp (g i) 2 (P i)) :
     ∫ x, (T x - hajekProjection P T x) * ∑ i, g i (x i) ∂(Measure.pi P) = 0 := sorry
 
+/-- **6.1** The projection theorem: if `Sₙ` is the projection of `Tₙ` onto a closed subspace of
+`L²` containing the constants, so that `Tₙ - Sₙ` is orthogonal to `Sₙ` and to `1`, and
+`Var Tₙ / Var Sₙ → 1`, then the standardized difference tends to `0` in squared `L²` norm. -/
+theorem tendsto_integral_sq_standardized_sub_of_isProjection {Ωn : ℕ → Type*}
+    [∀ n, MeasurableSpace (Ωn n)] (μ : ∀ n, Measure (Ωn n)) [∀ n, IsProbabilityMeasure (μ n)]
+    (T S : ∀ n, Ωn n → ℝ) (hT : ∀ n, MemLp (T n) 2 (μ n)) (hS : ∀ n, MemLp (S n) 2 (μ n))
+    (horth : ∀ n, ∫ ω, (T n ω - S n ω) * S n ω ∂(μ n) = 0)
+    (hconst : ∀ n, ∫ ω, (T n ω - S n ω) ∂(μ n) = 0)
+    (hvar : Tendsto (fun n ↦ Var[T n; μ n] / Var[S n; μ n]) atTop (𝓝 1)) :
+    Tendsto (fun n ↦ ∫ ω, ((T n ω - ∫ ω', T n ω' ∂(μ n)) / Real.sqrt Var[T n; μ n] -
+      (S n ω - ∫ ω', S n ω' ∂(μ n)) / Real.sqrt Var[S n; μ n]) ^ 2 ∂(μ n)) atTop (𝓝 0) := sorry
+
 /-- **6.2** Asymptotic normality of a nondegenerate U-statistic with a square-integrable
 symmetric kernel: `√n (Uₙ - θ) → N(0, m² ζ₁)`. -/
 theorem tendstoInDistribution_uStatistic (P : Measure X) [IsProbabilityMeasure P] (m : ℕ)
@@ -717,13 +856,44 @@ theorem tendstoInDistribution_uStatistic (P : Measure X) [IsProbabilityMeasure P
         (uStatistic (m + 1) n h x - ∫ y, h y ∂(Measure.pi fun _ : Fin (m + 1) ↦ P))) atTop Z
       (fun n ↦ Measure.pi fun _ : Fin n ↦ P) μ' := sorry
 
+/-- **6.3** The conditional expectation `E(h(X₁, …, X_m) | X_i, i ∈ S)` of a kernel of `m`
+coordinates, evaluated at `y`: the coordinates outside `S` are integrated out under `P`. -/
+def hoeffdingProjection (P : Measure X) {m : ℕ} (h : (Fin m → X) → ℝ) (S : Finset (Fin m))
+    (y : Fin m → X) : ℝ :=
+  ∫ z, h (fun i ↦ if i ∈ S then y i else z i) ∂(Measure.pi fun _ : Fin m ↦ P)
+
+/-- **6.3** The Hoeffding kernel `h_S = ∑_{T ⊆ S} (-1)^{|S| - |T|} E(h | X_T)`. -/
+def hoeffdingKernel (P : Measure X) {m : ℕ} (h : (Fin m → X) → ℝ) (S : Finset (Fin m))
+    (y : Fin m → X) : ℝ :=
+  ∑ T ∈ S.powerset, (-1 : ℝ) ^ (S.card - T.card) * hoeffdingProjection P h T y
+
+/-- **6.3** The Hoeffding decomposition of a U-statistic of a square-integrable symmetric kernel
+of order `m ≤ n`: `Uₙ - θ` is the sum over nonempty `S` of the U-statistics of the Hoeffding
+kernels `h_S`, each `h_S` is canonical (its integral in any one coordinate of `S` vanishes), and
+`Var Uₙ = ∑_{j=1}^m C(m, j)² / C(n, j) · E h_{S_j}²` with `S_j = {0, …, j - 1}`. -/
+theorem uStatistic_hoeffding_decomposition (P : Measure X) [IsProbabilityMeasure P] {m n : ℕ}
+    (hmn : m ≤ n) (h : (Fin m → X) → ℝ) (hmeas : Measurable h)
+    (hsymm : ∀ (σ : Equiv.Perm (Fin m)) y, h (y ∘ σ) = h y)
+    (hL2 : MemLp h 2 (Measure.pi fun _ : Fin m ↦ P)) :
+    (∀ x : Fin n → X, uStatistic m n h x - ∫ y, h y ∂(Measure.pi fun _ : Fin m ↦ P) =
+      ∑ S ∈ Finset.univ.filter (fun S : Finset (Fin m) ↦ S.Nonempty),
+        uStatistic m n (hoeffdingKernel P h S) x) ∧
+    (∀ S : Finset (Fin m), ∀ i ∈ S, ∀ᵐ y ∂(Measure.pi fun _ : Fin m ↦ P),
+      ∫ z, hoeffdingKernel P h S (Function.update y i z) ∂P = 0) ∧
+    Var[uStatistic m n h; Measure.pi fun _ : Fin n ↦ P] =
+      ∑ j ∈ Finset.Icc 1 m, ((m.choose j : ℝ) ^ 2 / n.choose j) *
+        ∫ y, hoeffdingKernel P h (Finset.univ.filter fun i : Fin m ↦ (i : ℕ) < j) y ^ 2
+          ∂(Measure.pi fun _ : Fin m ↦ P) := sorry
+
 /-- **6.3** The limit law of a degenerate quadratic U-statistic: `n Uₙ → ∑ λⱼ (Zⱼ² - 1)`, for
-the eigenvalues `λⱼ` and orthonormal eigenfunctions `φⱼ` of the kernel operator. -/
+the eigenvalues `λⱼ` and orthonormal eigenfunctions `φⱼ` of the kernel operator. A finite
+expansion is padded with `λⱼ = 0`; orthonormality is required only for the indices with
+`λⱼ ≠ 0`. -/
 theorem tendstoInDistribution_degenerate_uStatistic (P : Measure X) [IsProbabilityMeasure P]
     (h : X → X → ℝ) (hmeas : Measurable (Function.uncurry h)) (hsymm : ∀ x y, h x y = h y x)
     (hL2 : MemLp (Function.uncurry h) 2 (P.prod P)) (hdeg : ∀ x, ∫ y, h x y ∂P = 0)
     (lam : ℕ → ℝ) (φ : ℕ → X → ℝ) (hφ : ∀ j, MemLp (φ j) 2 P)
-    (horth : ∀ i j, ∫ x, φ i x * φ j x ∂P = if i = j then 1 else 0)
+    (horth : ∀ i j, lam i ≠ 0 → lam j ≠ 0 → ∫ x, φ i x * φ j x ∂P = if i = j then 1 else 0)
     (hexp : Tendsto (fun N ↦ eLpNorm (fun z : X × X ↦
       h z.1 z.2 - ∑ j ∈ Finset.range N, lam j * φ j z.1 * φ j z.2) 2 (P.prod P)) atTop (𝓝 0))
     {Ω' : Type*} [MeasurableSpace Ω'] {μ' : Measure Ω'} [IsProbabilityMeasure μ']
@@ -746,6 +916,27 @@ theorem tendstoInDistribution_lStatistic (P : Measure ℝ) [IsProbabilityMeasure
       (cdf P (min x y) - cdf P x * cdf P y)).toNNReal) μ') :
     TendstoInDistribution (fun (n : ℕ) x ↦ Real.sqrt n * (lStatistic φ x -
         ∫ y, lStatistic φ y ∂(Measure.pi fun _ : Fin n ↦ P))) atTop Z
+      (fun n ↦ Measure.pi fun _ : Fin n ↦ P) μ' := sorry
+
+/-- **6.4** The `α`-trimmed mean: the average of the order statistics `X₍ᵢ₎` with
+`⌊αn⌋ < i ≤ n - ⌊αn⌋` (one-based). -/
+def trimmedMean (α : ℝ) {n : ℕ} (x : Fin n → ℝ) : ℝ :=
+  ((n : ℝ) - 2 * ⌊α * n⌋₊)⁻¹ * ∑ i : Fin n,
+    if ⌊α * n⌋₊ ≤ (i : ℕ) ∧ (i : ℕ) < n - ⌊α * n⌋₊ then x (Tuple.sort x i) else 0
+
+/-- **6.4** Asymptotic normality of the trimmed mean without moment conditions, when `F` has no
+flats at heights `α` and `1 - α`: the centring is `(1 - 2α)⁻¹ ∫_α^{1-α} F⁻¹(u) du` and the
+variance `(1 - 2α)⁻² ∫_a^b ∫_a^b (F(x ∧ y) - F(x)F(y)) dx dy` with `a = F⁻¹(α)`,
+`b = F⁻¹(1 - α)`. -/
+theorem tendstoInDistribution_trimmedMean (P : Measure ℝ) [IsProbabilityMeasure P] (α : ℝ)
+    (hα0 : 0 < α) (hα1 : α < 1 / 2)
+    (hflat : volume {x | cdf P x = α ∨ cdf P x = 1 - α} = 0)
+    {Ω' : Type*} [MeasurableSpace Ω'] {μ' : Measure Ω'} [IsProbabilityMeasure μ'] {Z : Ω' → ℝ}
+    (hZ : HasLaw Z (gaussianReal 0 ((1 - 2 * α)⁻¹ ^ 2 *
+      ∫ x in P.quantile α..P.quantile (1 - α), ∫ y in P.quantile α..P.quantile (1 - α),
+        (cdf P (min x y) - cdf P x * cdf P y)).toNNReal) μ') :
+    TendstoInDistribution (fun (n : ℕ) x ↦ Real.sqrt n * (trimmedMean α x -
+        (1 - 2 * α)⁻¹ * ∫ u in α..1 - α, P.quantile u)) atTop Z
       (fun n ↦ Measure.pi fun _ : Fin n ↦ P) μ' := sorry
 
 end Layer6
@@ -808,7 +999,8 @@ def HasQMDWithinAt (ν : Measure X) (p : 𝔼ₖ → X → ℝ) (s : Set 𝔼ₖ
     Tendsto (fun η ↦ (‖η - θ‖ ^ 2)⁻¹ * ∫ x, (Real.sqrt (p η x) - Real.sqrt (p θ x) -
       (2 : ℝ)⁻¹ * ⟪η - θ, score x⟫_ℝ * Real.sqrt (p θ x)) ^ 2 ∂ν) (𝓝[s] θ) (𝓝 0)
 
-/-- **7.3** The Fisher information matrix `E ℓ̇ ℓ̇ᵀ` of a score under `P`. -/
+/-- Local copy of the information matrix of `MathematicalStatisticsFoundations` 4.3: the
+matrix `E ℓ̇ ℓ̇ᵀ` of a score `ℓ̇` under `P`. -/
 def fisherInformation (P : Measure X) (score : X → 𝔼ₖ) : Matrix (Fin k) (Fin k) ℝ :=
   Matrix.of fun i j ↦ ∫ x, score x i * score x j ∂P
 
@@ -830,6 +1022,66 @@ theorem tendstoInProbability_likelihoodRatio_of_hasQMDWithinAt (ν : Measure X)
           (2 : ℝ)⁻¹ * (WithLp.ofLp h₀ ⬝ᵥ (fisherInformation
             (ν.withDensity fun y ↦ ENNReal.ofReal (p θ y)) score *ᵥ WithLp.ofLp h₀)))) atTop 1 :=
   sorry
+
+/-- **7.3** Asymptotic linearity of maximum likelihood in a model differentiable in quadratic
+mean at `θ₀` with nonsingular information and a log-likelihood that is Lipschitz near `θ₀` with
+a square-integrable constant: a consistent near-maximizer of the log-likelihood satisfies
+`√n(θ̂ₙ - θ₀) = I⁻¹ n^{-1/2} ∑ᵢ ℓ̇(xᵢ) + o_P(1)`. -/
+theorem mle_asymptotically_linear_of_hasQMDWithinAt (ν : Measure X) (p : 𝔼ₖ → X → ℝ)
+    (hp : ∀ θ, Measurable (p θ) ∧ 0 ≤ p θ)
+    (hprob : ∀ θ, IsProbabilityMeasure (ν.withDensity fun x ↦ ENNReal.ofReal (p θ x)))
+    (θ₀ : 𝔼ₖ) (score : X → 𝔼ₖ) (hscore : Measurable score)
+    (hqmd : HasQMDWithinAt ν p univ θ₀ score)
+    (hI : (fisherInformation (ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)) score).det ≠ 0)
+    (r : ℝ) (hr : 0 < r) (L : X → ℝ)
+    (hL : MemLp L 2 (ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)))
+    (hpos : ∀ᵐ x ∂(ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)),
+      ∀ θ ∈ Metric.ball θ₀ r, 0 < p θ x)
+    (hlip : ∀ᵐ x ∂(ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)),
+      ∀ θ₁ ∈ Metric.ball θ₀ r, ∀ θ₂ ∈ Metric.ball θ₀ r,
+        |Real.log (p θ₁ x) - Real.log (p θ₂ x)| ≤ L x * ‖θ₁ - θ₂‖)
+    (θhat : ∀ n, (Fin n → X) → 𝔼ₖ)
+    (hcons : TendstoInProbability
+      (fun n ↦ Measure.pi fun _ : Fin n ↦ ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x))
+      θhat atTop θ₀)
+    (R : ∀ n, (Fin n → X) → ℝ)
+    (hR : TendstoInProbability
+      (fun n ↦ Measure.pi fun _ : Fin n ↦ ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x))
+      (fun (n : ℕ) x ↦ n * R n x) atTop 0)
+    (hmax : ∀ (n : ℕ) x θ, ∑ i, Real.log (p θ (x i)) / n ≤
+      ∑ i, Real.log (p (θhat n x) (x i)) / n + R n x) :
+    TendstoInProbability
+      (fun n ↦ Measure.pi fun _ : Fin n ↦ ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x))
+      (fun (n : ℕ) x ↦ Real.sqrt n • (θhat n x - θ₀) -
+        Matrix.toEuclideanCLM (𝕜 := ℝ)
+          (fisherInformation (ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)) score)⁻¹
+          ((Real.sqrt n)⁻¹ • ∑ i, score (x i))) atTop 0 := sorry
+
+/-- **7.3** The Kullback–Leibler expansion `KL(P_{θ+h} ‖ P_θ) = ½ hᵀ I h + o(‖h‖²)`, when the
+densities near `θ` share a support `A`, and `h ↦ p_{θ+h}(x)` and
+`h ↦ p_{θ+h}(x) log(p_{θ+h}(x) / p_θ(x))` are twice continuously differentiable near `0` with
+first and second derivatives dominated by a `ν`-integrable `D`; `I` is the information of the
+score `ṗ_θ / p_θ`. -/
+theorem isLittleO_klDiv_sub_quadForm (ν : Measure X) (p : 𝔼ₖ → X → ℝ)
+    (hp : ∀ θ, Measurable (p θ) ∧ 0 ≤ p θ)
+    (hprob : ∀ θ, IsProbabilityMeasure (ν.withDensity fun x ↦ ENNReal.ofReal (p θ x)))
+    (θ : 𝔼ₖ) (r : ℝ) (hr : 0 < r) (A : Set X) (hA : MeasurableSet A)
+    (hsupp : ∀ h ∈ Metric.ball (0 : 𝔼ₖ) r, ∀ x, 0 < p (θ + h) x ↔ x ∈ A)
+    (hC2 : ∀ x, ContDiffOn ℝ 2 (fun h ↦ p (θ + h) x) (Metric.ball 0 r) ∧
+      ContDiffOn ℝ 2 (fun h ↦ p (θ + h) x * Real.log (p (θ + h) x / p θ x)) (Metric.ball 0 r))
+    (D : X → ℝ) (hD : Integrable D ν)
+    (hdom : ∀ x, ∀ h ∈ Metric.ball (0 : 𝔼ₖ) r,
+      ‖fderiv ℝ (fun h ↦ p (θ + h) x) h‖ ≤ D x ∧
+      ‖iteratedFDeriv ℝ 2 (fun h ↦ p (θ + h) x) h‖ ≤ D x ∧
+      ‖fderiv ℝ (fun h ↦ p (θ + h) x * Real.log (p (θ + h) x / p θ x)) h‖ ≤ D x ∧
+      ‖iteratedFDeriv ℝ 2 (fun h ↦ p (θ + h) x * Real.log (p (θ + h) x / p θ x)) h‖ ≤ D x) :
+    (fun h : 𝔼ₖ ↦ (InformationTheory.klDiv
+        (ν.withDensity fun x ↦ ENNReal.ofReal (p (θ + h) x))
+        (ν.withDensity fun x ↦ ENNReal.ofReal (p θ x))).toReal -
+      (2 : ℝ)⁻¹ * (WithLp.ofLp h ⬝ᵥ (fisherInformation
+        (ν.withDensity fun x ↦ ENNReal.ofReal (p θ x))
+        (fun x ↦ (p θ x)⁻¹ • gradient (fun η ↦ p η x) θ) *ᵥ WithLp.ofLp h))) =o[𝓝 0]
+      fun h ↦ ‖h‖ ^ 2 := sorry
 
 /-- **7.3** Local asymptotic normality of a sequence of experiments indexed by local parameters
 in `ℝᵏ`, with information `I` and central sequence `Δ`, at every fixed local parameter `h`. -/
@@ -894,15 +1146,15 @@ theorem lintegral_multivariateGaussian_le_conv (S : Matrix (Fin m) (Fin m) ℝ)
     (M : Measure (EuclideanSpace ℝ (Fin m))) [IsProbabilityMeasure M] :
     ∫⁻ x, ℓ x ∂(multivariateGaussian 0 S) ≤ ∫⁻ x, ℓ x ∂((multivariateGaussian 0 S).conv M) := sorry
 
-/-- **7.6** The local asymptotic minimax theorem, for estimator sequences that are uniformly
-tight at the centre: the local maximal risk over finite sets is at least the Gaussian risk. -/
+/-- **7.6** The local asymptotic minimax theorem: for every measurable estimator sequence and
+every lower semicontinuous bowl-shaped loss, the local maximal risk over finite sets is at least
+the Gaussian risk. -/
 theorem lintegral_multivariateGaussian_le_localMinimax (Q : ∀ n, 𝔼ₖ → Measure (Ω n))
     [∀ n h, IsProbabilityMeasure (Q n h)] (I : Matrix (Fin k) (Fin k) ℝ) (Δ : ∀ n, Ω n → 𝔼ₖ)
     (hLAN : IsLocallyAsymptoticallyNormal Q I Δ) (A : Matrix (Fin m) (Fin k) ℝ)
     (c : ℕ → 𝔼ₖ → EuclideanSpace ℝ (Fin m))
     (hc : ∀ h, Tendsto (fun n ↦ c n h) atTop (𝓝 (WithLp.toLp 2 (A *ᵥ WithLp.ofLp h))))
     (Zn : ∀ n, Ω n → EuclideanSpace ℝ (Fin m)) (hZ : ∀ n, Measurable (Zn n))
-    (htight : IsBoundedInProbabilityAlong (fun n ↦ Q n 0) Zn atTop)
     (ℓ : EuclideanSpace ℝ (Fin m) → ℝ≥0∞) (hℓ : LowerSemicontinuous ℓ)
     (hsymm : ∀ x, ℓ (-x) = ℓ x) (hconv : ∀ a, Convex ℝ {x | ℓ x ≤ a}) :
     ∫⁻ x, ℓ x ∂(multivariateGaussian 0 (A * I⁻¹ * Aᵀ)) ≤
@@ -942,9 +1194,11 @@ def quadForm (I : Matrix (Fin k) (Fin k) ℝ) (v : 𝔼ₖ) : ℝ := WithLp.ofLp
 
 /-- **8.1** The likelihood ratio statistic on converging local parameter sets: under
 `θ + h / √n` its limit is `inf_{H₀} ‖I^{1/2}(X - g)‖² - inf_H ‖I^{1/2}(X - g)‖²` with
-`X ~ N(h, I⁻¹)`. -/
+`X ~ N(h, I⁻¹)`. The infima run over the subtypes `H₀` and `H`; both sets contain `0` (by the
+limit clause of `hH` with `u = 0`, since `θ ∈ Θ₀ ⊆ Θ`), and the quadratic form is nonnegative,
+so the infima are genuine. -/
 theorem tendstoInDistribution_likelihoodRatio_localSets (ν : Measure X) (p : 𝔼ₖ → X → ℝ)
-    (hp : ∀ θ, Measurable (p θ) ∧ 0 < p θ)
+    (hp : ∀ θ, Measurable (p θ) ∧ ∀ x, 0 < p θ x)
     (hprob : ∀ θ, IsProbabilityMeasure (ν.withDensity fun x ↦ ENNReal.ofReal (p θ x)))
     (Θ Θ₀ : Set 𝔼ₖ) (hΘ₀ : Θ₀ ⊆ Θ) (θ : 𝔼ₖ) (hθ : θ ∈ Θ₀) (score : X → 𝔼ₖ)
     (hqmd : HasQMDWithinAt ν p univ θ score)
@@ -967,17 +1221,57 @@ theorem tendstoInDistribution_likelihoodRatio_localSets (ν : Measure X) (p : �
         ∀ᶠ n : ℕ in atTop, θ + (Real.sqrt n)⁻¹ • u n ∈ G') ∧
       ∀ (φ : ℕ → ℕ), StrictMono φ → ∀ (u : ℕ → 𝔼ₖ) (g : 𝔼ₖ), Tendsto u atTop (𝓝 g) →
         (∀ j, θ + (Real.sqrt (φ j))⁻¹ • u j ∈ G') → g ∈ G)
+    (hLR : ∀ n, Measurable fun x : Fin n → X ↦
+      ∑ i, Real.log (p (θhat n x) (x i)) - ∑ i, Real.log (p (θtilde n x) (x i)))
     (h : 𝔼ₖ) {Ω' : Type*} [MeasurableSpace Ω'] {μ' : Measure Ω'} [IsProbabilityMeasure μ']
     (Y : Ω' → 𝔼ₖ) (hY : HasLaw Y (multivariateGaussian h
       (fisherInformation (ν.withDensity fun x ↦ ENNReal.ofReal (p θ x)) score)⁻¹) μ') :
     TendstoInDistribution (fun (n : ℕ) x ↦
         2 * (∑ i, Real.log (p (θhat n x) (x i)) - ∑ i, Real.log (p (θtilde n x) (x i)))) atTop
-      (fun ω ↦ (⨅ g ∈ H₀, quadForm (fisherInformation
-          (ν.withDensity fun x ↦ ENNReal.ofReal (p θ x)) score) (Y ω - g)) -
-        ⨅ g ∈ H, quadForm (fisherInformation
-          (ν.withDensity fun x ↦ ENNReal.ofReal (p θ x)) score) (Y ω - g))
+      (fun ω ↦ (⨅ g : H₀, quadForm (fisherInformation
+          (ν.withDensity fun x ↦ ENNReal.ofReal (p θ x)) score) (Y ω - (g : 𝔼ₖ))) -
+        ⨅ g : H, quadForm (fisherInformation
+          (ν.withDensity fun x ↦ ENNReal.ofReal (p θ x)) score) (Y ω - (g : 𝔼ₖ)))
       (fun (n : ℕ) ↦ Measure.pi fun _ : Fin n ↦
         ν.withDensity fun x ↦ ENNReal.ofReal (p (θ + (Real.sqrt n)⁻¹ • h) x)) μ' := sorry
+
+/-- **8.1** The likelihood ratio, Wald and score statistics for the simple hypothesis `θ = θ₀`:
+`λₙ = 2(ℓₙ(θ̂ₙ) - ℓₙ(θ₀))`, `Wₙ = n (θ̂ₙ - θ₀)ᵀ I (θ̂ₙ - θ₀)` and `Sₙ = n⁻¹ (∑ᵢ ℓ̇(xᵢ))ᵀ I⁻¹ (∑ᵢ ℓ̇(xᵢ))`
+differ by `o_P(1)` under `P_{θ₀}`, and under `P_{θ₀ + h/√n}` the likelihood ratio statistic
+converges to the noncentral chi-squared law with `k` degrees of freedom and noncentrality
+`hᵀ I h`. -/
+theorem tendstoInDistribution_likelihoodRatio_wald_score (ν : Measure X) (p : 𝔼ₖ → X → ℝ)
+    (hp : ∀ θ, Measurable (p θ) ∧ ∀ x, 0 < p θ x)
+    (hprob : ∀ θ, IsProbabilityMeasure (ν.withDensity fun x ↦ ENNReal.ofReal (p θ x)))
+    (θ₀ : 𝔼ₖ) (score : X → 𝔼ₖ) (hscore : Measurable score)
+    (hqmd : HasQMDWithinAt ν p univ θ₀ score)
+    (hI : (fisherInformation (ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)) score).PosDef)
+    (L : X → ℝ) (hL : MemLp L 2 (ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)))
+    (hlip : ∀ᶠ θ₁ in 𝓝 θ₀, ∀ᶠ θ₂ in 𝓝 θ₀, ∀ x,
+      |Real.log (p θ₁ x) - Real.log (p θ₂ x)| ≤ L x * ‖θ₁ - θ₂‖)
+    (θhat : ∀ n, (Fin n → X) → 𝔼ₖ) (hθmeas : ∀ n, Measurable (θhat n))
+    (hhat : ∀ n x η, ∑ i, Real.log (p η (x i)) ≤ ∑ i, Real.log (p (θhat n x) (x i)))
+    (hcons : TendstoInProbability (fun (n : ℕ) ↦ Measure.pi fun _ : Fin n ↦
+        ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)) θhat atTop θ₀)
+    (hLR : ∀ n, Measurable fun x : Fin n → X ↦ ∑ i, Real.log (p (θhat n x) (x i)))
+    {Ω' : Type*} [MeasurableSpace Ω'] {μ' : Measure Ω'} [IsProbabilityMeasure μ']
+    (Z : 𝔼ₖ → Ω' → ℝ) (hZ : ∀ h, HasLaw (Z h) (TauCeti.Probability.noncentralChiSquaredMeasure k
+      (quadForm (fisherInformation (ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)) score)
+        h).toNNReal) μ') :
+    TendstoInProbability (fun (n : ℕ) ↦ Measure.pi fun _ : Fin n ↦
+        ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x))
+      (fun (n : ℕ) x ↦ 2 * (∑ i, Real.log (p (θhat n x) (x i)) - ∑ i, Real.log (p θ₀ (x i))) -
+        n * quadForm (fisherInformation (ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)) score)
+          (θhat n x - θ₀)) atTop 0 ∧
+    TendstoInProbability (fun (n : ℕ) ↦ Measure.pi fun _ : Fin n ↦
+        ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x))
+      (fun (n : ℕ) x ↦ 2 * (∑ i, Real.log (p (θhat n x) (x i)) - ∑ i, Real.log (p θ₀ (x i))) -
+        (n : ℝ)⁻¹ * quadForm (fisherInformation (ν.withDensity fun x ↦
+          ENNReal.ofReal (p θ₀ x)) score)⁻¹ (∑ i, score (x i))) atTop 0 ∧
+    ∀ h : 𝔼ₖ, TendstoInDistribution (fun (n : ℕ) x ↦
+        2 * (∑ i, Real.log (p (θhat n x) (x i)) - ∑ i, Real.log (p θ₀ (x i)))) atTop (Z h)
+      (fun (n : ℕ) ↦ Measure.pi fun _ : Fin n ↦
+        ν.withDensity fun x ↦ ENNReal.ofReal (p (θ₀ + (Real.sqrt n)⁻¹ • h) x)) μ' := sorry
 
 /-- **8.2** The asymptotic power envelope for one-sided tests of `ψ(θ) ≤ 0` in a locally
 asymptotically normal model. -/
@@ -1015,7 +1309,8 @@ the `t` test, `12 σ² (∫ f²)²`, is at least `108/125` for every probability
 theorem le_twelve_mul_variance_mul_sq_integral_sq (f : ℝ → ℝ) (hf : Measurable f) (hf0 : 0 ≤ f)
     (hint : ∫ x, f x = 1) (h2 : Integrable (fun x ↦ x ^ 2 * f x))
     (hf2 : Integrable (fun x ↦ f x ^ 2)) :
-    (108 / 125 : ℝ) ≤ 12 * (∫ x, x ^ 2 * f x - (∫ x, x * f x) ^ 2) * (∫ x, f x ^ 2) ^ 2 := sorry
+    (108 / 125 : ℝ) ≤ 12 * ((∫ x, x ^ 2 * f x) - (∫ x, x * f x) ^ 2) * (∫ x, f x ^ 2) ^ 2 :=
+  sorry
 
 attribute [local instance] TauCeti.Probability.isProbabilityMeasure_multinomialMeasure
 
@@ -1030,14 +1325,15 @@ theorem tendstoInDistribution_pearson {ι : Type*} [Fintype ι] [DecidableEq ι]
       (fun n ↦ TauCeti.Probability.multinomialMeasure n p) μ' := sorry
 
 /-- **8.4** Asymptotic normality of the generalized method of moments estimator with weight
-limit `W`. -/
+limit `W`; the derivative of the moment function is dominated on a ball by an integrable `D`. -/
 theorem gmm_tendstoInDistribution (P : Measure X) [IsProbabilityMeasure P] {q : ℕ}
     (mfun : X → 𝔼ₖ → EuclideanSpace ℝ (Fin q)) (θ₀ : 𝔼ₖ) (hm0 : ∫ x, mfun x θ₀ ∂P = 0)
     (hmeas : ∀ θ, Measurable fun x ↦ mfun x θ) (hL2 : MemLp (fun x ↦ mfun x θ₀) 2 P)
     (Ωm : Matrix (Fin q) (Fin q) ℝ) (hΩ : Ωm = TauCeti.covMatrix (P.map fun x ↦ mfun x θ₀))
     (hΩpos : Ωm.PosDef) (r : ℝ) (hr : 0 < r)
     (hC1 : ∀ x, ContDiffOn ℝ 1 (mfun x) (Metric.ball θ₀ r))
-    (hdom : Integrable (fun x ↦ ⨆ θ : Metric.ball θ₀ r, ‖fderiv ℝ (mfun x) θ‖) P)
+    (D : X → ℝ) (hD : Integrable D P)
+    (hDb : ∀ x, ∀ θ ∈ Metric.ball θ₀ r, ‖fderiv ℝ (mfun x) θ‖ ≤ D x)
     (G : Matrix (Fin q) (Fin k) ℝ)
     (hG : ∀ v, WithLp.toLp 2 (G *ᵥ WithLp.ofLp v) = ∫ x, fderiv ℝ (mfun x) θ₀ v ∂P)
     (hrank : G.rank = k) (W : Matrix (Fin q) (Fin q) ℝ) (hW : W.PosDef)
@@ -1053,6 +1349,42 @@ theorem gmm_tendstoInDistribution (P : Measure X) [IsProbabilityMeasure P] {q : 
     (hZ : HasLaw Z (multivariateGaussian 0 ((Gᵀ * W * G)⁻¹ * Gᵀ * W * Ωm * W * G *
       (Gᵀ * W * G)⁻¹)) μ') :
     TendstoInDistribution (fun (n : ℕ) x ↦ Real.sqrt n • (θhat n x - θ₀)) atTop Z
+      (fun n ↦ Measure.pi fun _ : Fin n ↦ P) μ' := sorry
+
+/-- **8.4** The optimal weight `W = Ω⁻¹`: the generalized method of moments covariance with
+weight `W` dominates `(Gᵀ Ω⁻¹ G)⁻¹` in the Loewner order. -/
+theorem posSemidef_gmm_covariance_sub_optimal {q : ℕ} (G : Matrix (Fin q) (Fin k) ℝ)
+    (hrank : G.rank = k) (Ωm W : Matrix (Fin q) (Fin q) ℝ) (hΩ : Ωm.PosDef) (hW : W.PosDef) :
+    ((Gᵀ * W * G)⁻¹ * Gᵀ * W * Ωm * W * G * (Gᵀ * W * G)⁻¹ - (Gᵀ * Ωm⁻¹ * G)⁻¹).PosSemidef :=
+  sorry
+
+/-- **8.4** The overidentification statistic: under the hypotheses of `gmm_tendstoInDistribution`
+with weights `Wₙ → Ω⁻¹`, `n m̄ₙ(θ̂ₙ)ᵀ Wₙ m̄ₙ(θ̂ₙ) → χ²_{q-k}`. -/
+theorem tendstoInDistribution_gmm_overidentification (P : Measure X) [IsProbabilityMeasure P]
+    {q : ℕ} (mfun : X → 𝔼ₖ → EuclideanSpace ℝ (Fin q)) (θ₀ : 𝔼ₖ)
+    (hm0 : ∫ x, mfun x θ₀ ∂P = 0) (hmeas : Measurable (Function.uncurry mfun))
+    (hL2 : MemLp (fun x ↦ mfun x θ₀) 2 P)
+    (Ωm : Matrix (Fin q) (Fin q) ℝ) (hΩ : Ωm = TauCeti.covMatrix (P.map fun x ↦ mfun x θ₀))
+    (hΩpos : Ωm.PosDef) (r : ℝ) (hr : 0 < r)
+    (hC1 : ∀ x, ContDiffOn ℝ 1 (mfun x) (Metric.ball θ₀ r))
+    (D : X → ℝ) (hD : Integrable D P)
+    (hDb : ∀ x, ∀ θ ∈ Metric.ball θ₀ r, ‖fderiv ℝ (mfun x) θ‖ ≤ D x)
+    (G : Matrix (Fin q) (Fin k) ℝ)
+    (hG : ∀ v, WithLp.toLp 2 (G *ᵥ WithLp.ofLp v) = ∫ x, fderiv ℝ (mfun x) θ₀ v ∂P)
+    (hrank : G.rank = k)
+    (Wn : ∀ n, (Fin n → X) → Matrix (Fin q) (Fin q) ℝ) (hWmeas : ∀ n, Measurable (Wn n))
+    (hWn : ∀ i j, TendstoInProbability (fun n ↦ Measure.pi fun _ : Fin n ↦ P)
+      (fun n x ↦ Wn n x i j) atTop (Ωm⁻¹ i j))
+    (θhat : ∀ n, (Fin n → X) → 𝔼ₖ) (hθ : ∀ n, Measurable (θhat n))
+    (hcons : TendstoInProbability (fun n ↦ Measure.pi fun _ : Fin n ↦ P) θhat atTop θ₀)
+    (hmin : ∀ (n : ℕ) x θ,
+      let mbar := fun η ↦ WithLp.ofLp ((n : ℝ)⁻¹ • ∑ i, mfun (x i) η)
+      mbar (θhat n x) ⬝ᵥ (Wn n x *ᵥ mbar (θhat n x)) ≤ mbar θ ⬝ᵥ (Wn n x *ᵥ mbar θ))
+    {Ω' : Type*} [MeasurableSpace Ω'] {μ' : Measure Ω'} [IsProbabilityMeasure μ'] {Z : Ω' → ℝ}
+    (hZ : HasLaw Z (TauCeti.Probability.chiSquaredMeasure (q - k)) μ') :
+    TendstoInDistribution (fun (n : ℕ) x ↦
+        let mbar := WithLp.ofLp ((n : ℝ)⁻¹ • ∑ i, mfun (x i) (θhat n x))
+        (n : ℝ) * (mbar ⬝ᵥ (Wn n x *ᵥ mbar))) atTop Z
       (fun n ↦ Measure.pi fun _ : Fin n ↦ P) μ' := sorry
 
 end Layer8
@@ -1107,19 +1439,36 @@ theorem median_mem_Icc_of_contamination (F H : Measure ℝ) [IsProbabilityMeasur
       (MeasureTheory.Measure.quantile F (1 / (2 * (1 - ε)))) := sorry
 
 /-- **9.4** The finite-sample replacement breakdown point of an estimator at a sample: the least
-fraction `m / n` of coordinates whose replacement can make the estimator unbounded. -/
+fraction `m / n` of coordinates whose replacement can make the estimator unbounded, and `⊤` when
+no number `m ≤ n` of replacements does (in particular for `n = 0`). -/
 def breakdownPoint {E F : Type*} [PseudoMetricSpace F] {n : ℕ} (T : (Fin n → E) → F)
-    (x : Fin n → E) : ℝ :=
-  sInf {r | ∃ m ≤ n, r = (m : ℝ) / n ∧
-    ¬ Bornology.IsBounded (T '' {y | (Finset.univ.filter fun i ↦ y i ≠ x i).card ≤ m})}
+    (x : Fin n → E) : ℝ≥0∞ :=
+  ⨅ (m : ℕ) (_ : m ≤ n)
+    (_ : ¬ Bornology.IsBounded (T '' {y | (Finset.univ.filter fun i ↦ y i ≠ x i).card ≤ m})),
+    (m : ℝ≥0∞) / n
 
 /-- **9.4** The sample mean has breakdown point `1/n`, and the sample median of `2m + 1`
 observations has breakdown point `(m + 1)/(2m + 1)`. -/
 theorem breakdownPoint_sampleMean_and_median (n m : ℕ) (hn : 0 < n) (x : Fin n → ℝ)
     (y : Fin (2 * m + 1) → ℝ) :
-    breakdownPoint (fun z : Fin n → ℝ ↦ (n : ℝ)⁻¹ * ∑ i, z i) x = 1 / n ∧
+    breakdownPoint (fun z : Fin n → ℝ ↦ (n : ℝ)⁻¹ * ∑ i, z i) x = 1 / (n : ℝ≥0∞) ∧
       breakdownPoint (fun z : Fin (2 * m + 1) → ℝ ↦ sampleQuantile z (1 / 2)) y =
-        (m + 1 : ℝ) / (2 * m + 1) := sorry
+        ((m + 1 : ℕ) : ℝ≥0∞) / ((2 * m + 1 : ℕ) : ℝ≥0∞) := sorry
+
+/-- **9.5** Hampel's optimality: let `k > 0` and `c = k / (2Φ(k) - 1)` (every `c > √(π/2)` has
+exactly one such `k`). Among measurable `φ` with `∫ φ dΦ = 0`, `∫ x φ(x) dΦ(x) = 1` and
+`|φ| ≤ c`, the normalized Huber score `ψₖ / (2Φ(k) - 1)` minimizes `∫ φ² dΦ`, and every minimizer
+agrees with it `Φ`-almost everywhere. -/
+theorem integral_sq_huberScore_le_of_abs_le (k c : ℝ) (hk : 0 < k)
+    (hc : c = k / (2 * cdf (gaussianReal 0 1) k - 1)) (φ : ℝ → ℝ) (hφ : Measurable φ)
+    (h0 : ∫ x, φ x ∂(gaussianReal 0 1) = 0) (h1 : ∫ x, x * φ x ∂(gaussianReal 0 1) = 1)
+    (hb : ∀ x, |φ x| ≤ c) :
+    ∫ x, (huberScore k x / (2 * cdf (gaussianReal 0 1) k - 1)) ^ 2 ∂(gaussianReal 0 1) ≤
+        ∫ x, φ x ^ 2 ∂(gaussianReal 0 1) ∧
+      (∫ x, φ x ^ 2 ∂(gaussianReal 0 1) =
+          ∫ x, (huberScore k x / (2 * cdf (gaussianReal 0 1) k - 1)) ^ 2 ∂(gaussianReal 0 1) →
+        φ =ᵐ[gaussianReal 0 1] fun x ↦ huberScore k x / (2 * cdf (gaussianReal 0 1) k - 1)) :=
+  sorry
 
 /-- **9.5** Huber's minimax property: in the symmetric gross-error neighbourhood of `N(0, 1)`,
 the Huber score `ψₖ` has largest asymptotic variance `∫ ψₖ² dG / G((-k, k))²` at the least
@@ -1167,5 +1516,73 @@ end Layer9
 #check @Finset.card_shatterer_le_sum_vcDim
 #check @Metric.externalCoveringNumber
 #check @ContinuousLinearMap.orthogonalComplement_iSup_eigenspaces_eq_bot
+#check @MeasureTheory.TendstoInMeasure
+#check @Finset.vcDim
+#check @MeasureTheory.TendstoInDistribution.continuous_comp
+#check @MeasureTheory.tendstoInDistribution_of_tendstoInMeasure_sub
+#check @MeasureTheory.TendstoInDistribution.prodMk_of_tendstoInMeasure_const
+#check @MeasureTheory.tendstoInDistribution_iff_forall_integral_rclike_tendsto
+#check @MeasureTheory.tendsto_iff_forall_lipschitz_integral_tendsto
+#check @ProbabilityTheory.charFun_multivariateGaussian
+#check @ProbabilityTheory.stdGaussian
+#check @ProbabilityTheory.IsGaussian
+#check @ProbabilityTheory.isGaussian_map_of_measurable
+#check @ProbabilityTheory.covarianceBilin
+#check @ProbabilityTheory.IsGaussianProcess
+#check @isCompact_closure_of_isTightMeasureSet
+#check @MeasureTheory.isTightMeasureSet_of_isCompact_closure
+#check @ProbabilityTheory.HasSubgaussianMGF.measure_ge_le
+#check @ProbabilityTheory.HasSubgaussianMGF.sum_of_iIndepFun
+#check @Finset.Shatters
+#check @Metric.coveringNumber
+#check @Metric.packingNumber
+#check @Convex.radon_partition
+#check @lp.completeSpace
+#check @lp.evalCLM
+#check @ContinuousMap
+#check @ContinuousLinearMap.finite_dimensional_eigenspace
+#check @isCompactOperator_of_tendsto
+#check @MeasureTheory.Measure.rnDeriv
+#check @MeasureTheory.llr
+#check @InformationTheory.klDiv
+#check @InformationTheory.klDiv_eq_zero_iff
+#check @MeasureTheory.tvDist
+#check @MeasureTheory.Measure.conv
+#check @MeasureTheory.Measure.mconv
+#check @ProbabilityTheory.IsPreBrownianReal
+#check @Matrix.covariancePseudoInverse
+#check @LinearMap.moorePenroseInverse
+#check @TauCeti.Probability.chiSquaredMeasure
+#check @TauCeti.Probability.chiSquaredMeasure_zero
+#check @TauCeti.Probability.map_norm_sq_multivariateGaussian_noncentral
+#check @ProbabilityTheory.HasLaw.norm_sq_multivariateGaussian
+#check @Submodule.map_norm_sq_starProjection_stdGaussian
+#check @TauCeti.Probability.multinomialToEuclidean
+#check @TauCeti.Probability.covMatrix_map_multinomialToEuclidean_multinomialMeasure
+#check @MeasureTheory.Measure.quantile_le_iff
+#check @TauCeti.Probability.quantile_gaussianReal
+#check @TauCeti.Probability.cdf_gaussianReal_eq
+#check @TauCeti.Probability.hasDerivAt_cdf_gaussianReal
+#check @TauCeti.Probability.laplaceMeasure
+#check @TauCeti.Probability.logisticMeasure
+#check @TauCeti.Probability.empiricalFiniteMeasure
+#check @TauCeti.orderStatistic
+#check @TauCeti.Probability.unitIntervalCoding
+#check @TauCeti.Probability.map_volume_unitIntervalCoding
+#check @Matrix.IsHermitian.spectral_theorem
+#check @MeasureTheory.measurableSet_toMeasurable
+#check @MeasureTheory.measure_toMeasurable
+#check @MeasureTheory.toMeasurable
+#check @TotallyBounded
+#check @ProbabilityTheory.hasSubgaussianMGF_of_mem_Icc_of_integral_eq_zero
+#check @ProbabilityTheory.strong_law_ae
+#check @hasDerivAt_integral_of_dominated_loc_of_deriv_le
+#check @MeasureTheory.Measure.withDensity
+#check @ProbabilityTheory.condDistrib
+#check @StandardBorelSpace
+#check @VitaliFamily
+#check @OnePoint
+#check @MeasureTheory.IsTightMeasureSet
+#check @Tuple.sort
 
 end TauCetiRoadmap.MathematicalStatisticsAsymptotic
