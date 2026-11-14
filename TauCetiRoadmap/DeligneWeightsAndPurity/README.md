@@ -266,7 +266,7 @@ graded quotients. Uses: [0.19](#019-scalar-and-weildeligne-purity-comparisons), 
 
 Constructible adic and rational coefficient categories from constructible integral models, finite coefficient extension, and the Tate line with geometric Frobenius `q⁻¹`; Weil descent is constructed in §5.2 here. Compare inverse arithmetic action on roots of unity. Uses: [0.15](#015-twists-vb-and-tate-twists-vr), [5.12](#512-boundary-mixedness-and-extension-of-purity), [5.2](#52-weil-sheaves-and-étale-descent), [5.3](#53-punctual-purity-and-finite-mixed-filtrations).
 
-Bounded constructible derived categories and cohomology sheaves over finite fields and `ℤ[1/ℓ]`; six operations, localization and Leray/Künneth with finite filtrations. The profinite-`π₁` description of lisse rational objects applies to the full subcategory admitting a global lisse integral lattice over a finite coefficient field; it includes every lisse object on a normal scheme. General lisse objects remain in the constructible category, with integral models that need only be constructible. For Weil sheaves the lattice condition concerns the underlying geometric sheaf. Include vanishing positive local `Ext` for lisse sheaves, generic constructibility/base change, tame `j_*` and monodromy base change, `Hⁱ_c=0` for `i>2dim X`, and finite evaluations detecting `H⁰`. Uses: [7.1](#71-weil-ii-12-weight-conventions-for-dwp7dwp9-imported-from-dwp5), [7.3](#73-dévissages-a-b-f-of-the-direct-image-theorem), [7.4](#74-dévissages-c-d-e-of-the-direct-image-theorem), [7.5](#75-generic-smoothness-and-tame-covers-of-a-lisse-sheaf-on-a-curve-weil-ii-α-β), [7.7](#77-the-direct-image-theorem-for-a-tame-smooth-projective-relative-curve), [7.10](#710-delignes-integrality-theorem-sga-7-xxi-522), [8.1](#81-mixed-complexes-and-complexes-of-weights--w), [8.3](#83-generic-mixedness-of-ri-f_-over-a-base-of-finite-type-over-ℤ1ℓ), [8.4](#84-ri-f_-of-a-mixed-sheaf-is-mixed), [8.5](#85-stability-of-mixed-complexes-under-the-six-operations-and-duality), [8.8](#88-rf_-preserves-complexes-of-weights--w), [8.11](#811-weight-estimates-for-the-six-operations), [8.14](#814-geometric-monodromy-and-geometrically-semisimple-lisse-sheaves), [8.15](#815-the-ext-sequence-of-lisse-sheaves-over-a-finite-field), [8.17](#817-the-decomposition-of-an-ι-mixed-sheaf-by-weights-modulo-ℤ), [8.18](#818-the-weight-filtration-of-a-lisse-mixed-sheaf), [8.19](#819-delignes-semisimplicity-theorem-pure-lisse-sheaves-are-geometrically-semisimple), [8.24](#824-the-weight-spectral-sequence-of-a-normal-crossings-compactification), [9.1](#91-the-lefschetz-operator-of-a-line-bundle), [9.10](#910-hard-lefschetz-for-potentially-pure-complexes).
+Bounded constructible derived categories and cohomology sheaves over finite fields and `ℤ[1/ℓ]`; six operations, localization and Leray/Künneth with finite filtrations. The profinite-`π₁` description of lisse rational objects applies to the full subcategory admitting a global lisse integral lattice over a finite coefficient field; it includes every lisse object on a normal scheme. General lisse objects remain in the constructible category, with integral models that need only be constructible. For Weil sheaves the lattice condition concerns the underlying geometric sheaf. Include vanishing positive local `Ext` for lisse sheaves, generic constructibility/base change, tame `j_*` and monodromy base change, `Hⁱ_c=0` for `i>2dim X`, and finite evaluations detecting `H⁰`. Uses: [7.1](#71-weil-ii-12-weight-conventions-for-dwp7dwp9-imported-from-dwp5), [7.3](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.4](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.5](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.7](#77-the-direct-image-theorem-for-a-tame-smooth-projective-relative-curve), [7.10](#710-delignes-integrality-theorem-sga-7-xxi-522), [8.1](#81-mixed-complexes-and-complexes-of-weights--w), [8.3](#83-generic-mixedness-of-ri-f_-over-a-base-of-finite-type-over-ℤ1ℓ), [8.4](#84-ri-f_-of-a-mixed-sheaf-is-mixed), [8.5](#85-stability-of-mixed-complexes-under-the-six-operations-and-duality), [8.8](#88-rf_-preserves-complexes-of-weights--w), [8.11](#811-weight-estimates-for-the-six-operations), [8.14](#814-geometric-monodromy-and-geometrically-semisimple-lisse-sheaves), [8.15](#815-the-ext-sequence-of-lisse-sheaves-over-a-finite-field), [8.17](#817-the-decomposition-of-an-ι-mixed-sheaf-by-weights-modulo-ℤ), [8.18](#818-the-weight-filtration-of-a-lisse-mixed-sheaf), [8.19](#819-delignes-semisimplicity-theorem-pure-lisse-sheaves-are-geometrically-semisimple), [8.24](#824-the-weight-spectral-sequence-of-a-normal-crossings-compactification), [9.1](#91-the-lefschetz-operator-of-a-line-bundle), [9.10](#910-hard-lefschetz-for-potentially-pure-complexes).
 
 #### EtaleCohomologyFoundations §§F.0, `F`.`4` (constructible coefficients and adic realization)
 
@@ -323,7 +323,7 @@ Geometric abelianized finite-field curve Weil groups are finite prime-to-`p` by 
 
 #### ArithmeticGaloisRepresentations §5.13 (degree-refined function-field Chebotarev)
 
-*Chebotarev for function fields* supplies, for every connected finite étale Galois cover of an open of a curve, the constant-field degree congruences, the degree-by-degree count `(#B/#H_geom) q^n/n + O(q^(n/2)/n)` with constant independent of `n`, Dirichlet density and Frobenius density. Section `3.7` here adds only the geometric-Frobenius inversion and the uniform conditional-mass argument for Haar-null sets. The connected double-cover zeta comparison excluding the quadratic exception is in §5.16 here; it uses DWP.1, without DWP.10. Uses: [3.7](#37-the-frobenius-elements-landing-in-a-haar-null-set-have-density-zero), [5.16](#516-the-abstract-hadamardde-la-vallée-poussin-theorem).
+*Chebotarev for function fields* supplies, for every connected finite étale Galois cover of an open of a curve, the constant-field degree congruences, the degree-by-degree count `(#B/#H_geom) q^n/n + O(q^(n/2)/n)` with constant independent of `n`, Dirichlet density and Frobenius density. Section `3.7` here adds only the geometric-Frobenius inversion and the uniform conditional-mass argument for Haar-null sets. The connected double-cover zeta comparison excluding the quadratic exception is in §5.16 here; it uses DWP.1, without DWP.10. Uses: [3.7](#34-excluded-degree-divisors-and-a-density-zero-excluded-set-of-points), [5.16](#516-the-abstract-hadamardde-la-vallée-poussin-theorem).
 
 #### InverseGaloisAndArithmeticFundamentalGroups §IG.0.3 (local systems) and §IG.5.7 (finite-cover criterion and dense-open surjectivity)
 
@@ -331,7 +331,7 @@ For normal connected `X` and dense open `U`, surjectivity `π₁(U)→π₁(X)`,
 
 #### EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)
 
-Arithmetic/geometric fundamental-group sequence, connected-cover classification and tame specialization; retain constant-field and component comparisons. The dense-open criterion is InverseGaloisAndArithmeticFundamentalGroups §IG.5.7; the dominant finite-index extension is proved in §5.8 here. Uses: [3.1](#31-arithmetic-descent-of-the-pencil-radical-quotient), [3.5](#35-weil-i-lemma-611-the-arithmetic-monodromy-of-ℱ-is-open-in-h), [5.1](#51-the-weil-group-of-a-finite-field-scheme), [5.5](#55-finite-geometric-monodromy-and-rank-one-normalization), [5.15](#515-specialization-of-geometric-monodromy), [3.2](#32-weil-i-lemma-64-geometrically-constant-lisse-sheaves-come-from-𝔽_q), [5.8](#58-functoriality-of-determinantal-weights).
+Arithmetic/geometric fundamental-group sequence, connected-cover classification and tame specialization; retain constant-field and component comparisons. The dense-open criterion is InverseGaloisAndArithmeticFundamentalGroups §IG.5.7; the dominant finite-index extension is proved in §5.8 here. Uses: [3.1](#31-arithmetic-descent-of-the-pencil-radical-quotient), [3.5](#34-excluded-degree-divisors-and-a-density-zero-excluded-set-of-points), [5.1](#51-the-weil-group-of-a-finite-field-scheme), [5.5](#55-finite-geometric-monodromy-and-rank-one-normalization), [5.15](#515-specialization-of-geometric-monodromy), [3.2](#32-geometrically-constant-lisse-sheaves-come-from-𝔽_q), [5.8](#58-functoriality-of-determinantal-weights).
 
 The arithmetic/geometric exact sequence for geometrically connected finite-field schemes and its Weil pullback over geometric Frobenius `ℤ`. Uses: [8.14](#814-geometric-monodromy-and-geometrically-semisimple-lisse-sheaves), [8.15](#815-the-ext-sequence-of-lisse-sheaves-over-a-finite-field).
 
@@ -351,7 +351,7 @@ Use derived nearby cycles and the specialization/vanishing triangle, with its Ga
 
 Quasi-unipotent inertia, `N:V→V(−1)`, centered monodromy filtration, primitive `SL₂` strings, Clebsch–Gordan tensor compatibility, duality and relative filtration criteria, with geometric-Frobenius signs. Uses: [5.11](#511-the-local-weightmonodromy-theorem-on-a-curve), [5.12](#512-boundary-mixedness-and-extension-of-purity).
 
-Quasi-unipotent nearby inertia, tame character, `N` and monodromy filtrations in the geometric/arithmetic setting of WII 6.1.12. Boundary traits over any `ℓ`-invertible field have pro-`p` wild inertia (trivial in characteristic zero), with no map from pro-`p` to pro-`ℓ` for `p≠ℓ`. Uses: [8.6](#86-mixed-sheaves-on-the-special-fibre-with-an-action-of-the-generic-galois-group), [8.7](#87-nearby-cycles-of-a-mixed-sheaf-are-mixed), [7.5](#75-generic-smoothness-and-tame-covers-of-a-lisse-sheaf-on-a-curve-weil-ii-α-β).
+Quasi-unipotent nearby inertia, tame character, `N` and monodromy filtrations in the geometric/arithmetic setting of WII 6.1.12. Boundary traits over any `ℓ`-invertible field have pro-`p` wild inertia (trivial in characteristic zero), with no map from pro-`p` to pro-`ℓ` for `p≠ℓ`. Uses: [8.6](#86-mixed-sheaves-on-the-special-fibre-with-an-action-of-the-generic-galois-group), [8.7](#87-nearby-cycles-of-a-mixed-sheaf-are-mixed), [7.5](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves).
 
 #### LefschetzPencilsAndVanishingCycles §§2.4–2.8 (quadratic singularities and branch orientation)
 
@@ -371,7 +371,7 @@ Use the pencil after a permitted Veronese re-embedding and finite extension of t
 
 #### LefschetzPencilsAndVanishingCycles §§4.1–4.5 (global vanishing cycles)
 
-The arithmetic vanishing subsheaf of `Rⁿf_*ℚ_ℓ`, its pairing into `ℚ_ℓ(−n)`, and geometric constancy of the other degrees, the quotient by vanishing cycles, and the radical. Uses: [3.2](#32-weil-i-lemma-64-geometrically-constant-lisse-sheaves-come-from-𝔽_q), [6.1](#61-vanishing-cycles-with-unipotent-boundary-coefficients).
+The arithmetic vanishing subsheaf of `Rⁿf_*ℚ_ℓ`, its pairing into `ℚ_ℓ(−n)`, and geometric constancy of the other degrees, the quotient by vanishing cycles, and the radical. Uses: [3.2](#32-geometrically-constant-lisse-sheaves-come-from-𝔽_q), [6.1](#61-vanishing-cycles-with-unipotent-boundary-coefficients).
 
 #### LefschetzPencilsAndVanishingCycles §4.1 (direct images of a pencil)
 
@@ -448,13 +448,13 @@ EtaleCohomologyFoundations §F.10.1, frobeniusFixedPoints).
 
 #### EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)
 
-Finite cohomology and the coefficient Grothendieck–Lefschetz formula `Z(U₀,F₀,t)=∏ det(1−Ft,Hⁱ_c)^{(−1)^{i+1}}`; curve/Jacobian fixed-point formula `1−Tr(α′)+deg α`; proper base change on pencil fibres; Frobenius-equivariant Künneth and Leray with finite abutment filtrations. Include descent of pencils, singular/sign data and coefficient models, and trace splitting for finite surjective curve covers, including ramified covers. Uses: [2.1](#21-the-weil-i-curve-coefficient-interface), [2.4](#24-compact-cohomology-and-the-l-function-of-2kf), [2.10](#210-corollary-38-the-coarse-bound-on-h_cu-f), [1.6](#16-the-weil-estimate-for-curves-through-the-jacobian), [3.3](#33-the-zeta-functions-of-the-fibres-split-into-a-constant-part-and-the-ℱ-part), [4.1](#41-the-half-unit-bound-in-even-dimension), [4.2](#42-purity-in-the-middle-degree), [5.2](#52-weil-sheaves-and-étale-descent), [5.10](#510-initial-cohomological-and-boundary-weight-bounds), [5.12](#512-boundary-mixedness-and-extension-of-purity), [5.15](#515-specialization-of-geometric-monodromy), [5.18](#518-the-strict-initial-h-bound), [6.2](#62-reality-of-curve-cohomological-factors), [6.3](#63-square-improvement-on-the-product-of-a-curve), [10.5](#105-delignes-frobenius-equidistribution-theorem), [5.9](#59-delignes-generalized-majoration-theorem).
+Finite cohomology and the coefficient Grothendieck–Lefschetz formula `Z(U₀,F₀,t)=∏ det(1−Ft,Hⁱ_c)^{(−1)^{i+1}}`; curve/Jacobian fixed-point formula `1−Tr(α′)+deg α`; proper base change on pencil fibres; Frobenius-equivariant Künneth and Leray with finite abutment filtrations. Include descent of pencils, singular/sign data and coefficient models, and trace splitting for finite surjective curve covers, including ramified covers. Uses: [2.1](#21-the-weil-i-curve-coefficient-interface), [2.4](#24-compact-cohomology-and-the-l-function-of-2kf), [2.10](#29-the-fundamental-estimate-and-coarse-curve-bounds), [1.6](#16-the-weil-estimate-for-curves-through-the-jacobian), [3.3](#33-the-zeta-functions-of-the-fibres-split-into-a-constant-part-and-the-ℱ-part), [4.1](#41-the-half-unit-bound-in-even-dimension), [4.2](#42-purity-in-the-middle-degree), [5.2](#52-weil-sheaves-and-étale-descent), [5.10](#510-initial-cohomological-and-boundary-weight-bounds), [5.12](#512-boundary-mixedness-and-extension-of-purity), [5.15](#515-specialization-of-geometric-monodromy), [5.18](#518-the-strict-initial-h-bound), [6.2](#62-reality-of-curve-cohomological-factors), [6.3](#63-square-improvement-on-the-product-of-a-curve), [10.5](#105-delignes-frobenius-equidistribution-theorem), [5.9](#59-delignes-generalized-majoration-theorem).
 
-Proper, smooth and compact-support base change, étale invariance under universal homeomorphisms and open/closed excision. Include the coefficient trace/Euler formula; the dense-open affine fibration used for integrality is constructed in the fibration reduction before §7.10 here. Uses: [7.3](#73-dévissages-a-b-f-of-the-direct-image-theorem), [7.4](#74-dévissages-c-d-e-of-the-direct-image-theorem), [7.5](#75-generic-smoothness-and-tame-covers-of-a-lisse-sheaf-on-a-curve-weil-ii-α-β), [7.6](#76-reduction-of-the-direct-image-theorem-to-a-tame-smooth-projective-relative-curve), [7.7](#77-the-direct-image-theorem-for-a-tame-smooth-projective-relative-curve), [7.10](#710-delignes-integrality-theorem-sga-7-xxi-522), [7.15](#715-purity-for-proper-smooth-varieties-and-rational-homology-manifolds-over-a-finite-field), [8.3](#83-generic-mixedness-of-ri-f_-over-a-base-of-finite-type-over-ℤ1ℓ), [8.21](#821-ri-f_ℚ_ℓ-of-a-proper-smooth-morphism-is-potentially-punctually-pure), [8.23](#823-semisimplicity-of-ri-f_ℚ_ℓ-for-a-proper-smooth-family), [8.24](#824-the-weight-spectral-sequence-of-a-normal-crossings-compactification), [9.4](#94-arithmetic-models-of-a-polarised-smooth-projective-variety-and-cospecialisation).
+Proper, smooth and compact-support base change, étale invariance under universal homeomorphisms and open/closed excision. Include the coefficient trace/Euler formula; the dense-open affine fibration used for integrality is constructed in the fibration reduction before §7.10 here. Uses: [7.3](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.4](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.5](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.6](#76-reduction-of-the-direct-image-theorem-to-a-tame-smooth-projective-relative-curve), [7.7](#77-the-direct-image-theorem-for-a-tame-smooth-projective-relative-curve), [7.10](#710-delignes-integrality-theorem-sga-7-xxi-522), [7.15](#715-purity-for-proper-smooth-varieties-and-rational-homology-manifolds-over-a-finite-field), [8.3](#83-generic-mixedness-of-ri-f_-over-a-base-of-finite-type-over-ℤ1ℓ), [8.21](#821-ri-f_ℚ_ℓ-of-a-proper-smooth-morphism-is-potentially-punctually-pure), [8.23](#823-semisimplicity-of-ri-f_ℚ_ℓ-for-a-proper-smooth-family), [8.24](#824-the-weight-spectral-sequence-of-a-normal-crossings-compactification), [9.4](#94-arithmetic-models-of-a-polarised-smooth-projective-variety-and-cospecialisation).
 
 #### AlgebraicCurves, Layer `12` (function-field/curve dictionary)
 
-Smooth projective compactification of a smooth curve over a perfect field, with finite reduced étale boundary. Uses: [7.5](#75-generic-smoothness-and-tame-covers-of-a-lisse-sheaf-on-a-curve-weil-ii-α-β).
+Smooth projective compactification of a smooth curve over a perfect field, with finite reduced étale boundary. Uses: [7.5](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves).
 
 #### ArithmeticDirichletSeries, Layer `8` (Landau positivity)
 
@@ -507,7 +507,7 @@ Uniform density of matrix coefficients and square-character approximation for th
 
 #### RepresentationTheory/CompactGroups, Layers `0`, `6` and the `SU(2)` engine case (Haar probability, characters and `SU(2)`)
 
-Normalized Haar, character orthogonality, class-function density and conjugacy separation, including `SU(2)` density `(2/π)sin²θ`. The compact-quotient disintegration, continuous clopen conditional masses and Dini uniform decay are targets of §3.7 here; the nullity of proper algebraic subsets of `ℓ`-adic symplectic cosets is a target of §3.6 here. Uses: [5.16](#516-the-abstract-hadamardde-la-vallée-poussin-theorem), [5.17](#517-the-compact-form-of-weil-monodromy), [5.19](#519-character-decay-and-degree-fibre-equidistribution), [10.6](#106-finite-field-satotate-for-elliptic-families), [3.7](#37-the-frobenius-elements-landing-in-a-haar-null-set-have-density-zero), [3.6](#36-weil-i-lemma-612-the-eigenvalue-δa-locus-is-closed-and-haar-null).
+Normalized Haar, character orthogonality, class-function density and conjugacy separation, including `SU(2)` density `(2/π)sin²θ`. The compact-quotient disintegration, continuous clopen conditional masses and Dini uniform decay are targets of §3.7 here; the nullity of proper algebraic subsets of `ℓ`-adic symplectic cosets is a target of §3.6 here. Uses: [5.16](#516-the-abstract-hadamardde-la-vallée-poussin-theorem), [5.17](#517-the-compact-form-of-weil-monodromy), [5.19](#519-character-decay-and-degree-fibre-equidistribution), [10.6](#106-finite-field-satotate-for-elliptic-families), [3.7](#34-excluded-degree-divisors-and-a-density-zero-excluded-set-of-points), [3.6](#34-excluded-degree-divisors-and-a-density-zero-excluded-set-of-points).
 
 #### RepresentationTheory/SchurWeyl, Layer `9` (symplectic pair contractions)
 
@@ -1119,7 +1119,9 @@ Take `U` affine and `F₀≠0`. Import the curve coinvariant description of `H²
 
 (Sources: [WI](#references), §3, (3.7), p. 285; [WI](#references), §2, Scholie (2.10), p. 282.)
 
-### 2.5. Lemma `3.3`: nonnegative rational `log`-derivatives of even tensor powers
+### 2.5. Positivity of the local factors of even tensor powers
+
+This group provides nonnegative coefficients for the local factors of even tensor powers under hypothesis (iii) of 2.9, through their logarithmic derivatives (2.5); §2.9 uses 2.6, and §5.8 refers to 2.6.
 
 Under hypothesis (iii) of Theorem `3.2`, for every even integer `2k` and every `x ∈ |U₀|`, the power series `t (d/dt) log det(1 − F_x t, ⊗^{2k}F₀)⁻¹` has nonnegative rational coefficients.
 
@@ -1127,15 +1129,16 @@ Under hypothesis (iii) of Theorem `3.2`, for every even integer `2k` and every `
 
 (Sources: [WI](#references), §3, Lemme (3.3), p. 284.)
 
-### 2.6. Lemma `3.4`: local factors of even tensor powers have nonnegative coefficients
-
+**2.6. Local factors of even tensor powers have nonnegative coefficients.**
 Under hypothesis (iii) of Theorem `3.2`, for every even `2k` and `x ∈ |U₀|`, the local factor `det(1 − F_x t^{deg x}, ⊗^{2k}F₀)⁻¹ ∈ ℚ[[t]]` has constant term `1` and nonnegative coefficients.
 
-*Needs:* [2.5](#25-lemma-33-nonnegative-rational-log-derivatives-of-even-tensor-powers).
+*Needs:* [2.5](#25-positivity-of-the-local-factors-of-even-tensor-powers).
 
 (Sources: [WI](#references), §3, Lemme (3.4), p. 284.)
 
-### 2.7. Lemma `3.5`: factors of a product of positive power series converge at least as far
+### 2.7. Coefficient, convergence and pole comparison for products of positive power series
+
+This group compares the factors of a product of power series having constant term `1` and nonnegative coefficients with the product: coefficients and radii of convergence (2.7), then poles (2.8). §2.9 uses 2.8, §§5.8–5.9 use 2.7–2.8 and §5.10 uses 2.7.
 
 Take power series `f_i = Σ_n a_{i,n} t^n`, indexed by a countable set, each having constant term `1` and real coefficients `≥ 0`, with `ord(f_i − 1) → ∞`, and form their product `f = ∏_i f_i = Σ_n a_n t^n`. Each coefficient of a factor is then bounded by the corresponding coefficient of the product, `a_{i,n} ≤ a_n` for every `i` and `n`; so no `f_i` has a smaller radius of absolute convergence than `f`.
 
@@ -1143,39 +1146,38 @@ Take power series `f_i = Σ_n a_{i,n} t^n`, indexed by a countable set, each hav
 
 (Sources: [WI](#references), §3, Lemme (3.5), p. 284.)
 
-### 2.8. Lemma `3.6`: poles of the factors lie no closer than the poles of the product
-
+**2.8. Poles of the factors lie no closer than the poles of the product.**
 Keep the setting of Lemma `3.5`, and assume in addition that `f` and every `f_i` are Taylor expansions at `0` of meromorphic functions on `ℂ`. For each `i`, the infimum of the moduli of the poles of `f_i` is then at least the same infimum for `f`: `inf`{`|z| : f_i` has a pole at `z`} `≥ inf`{`|z| : f` has a pole at `z`}.
 
-*Needs:* [2.7](#27-lemma-35-factors-of-a-product-of-positive-power-series-converge-at-least-as-far).
+*Needs:* [2.7](#27-coefficient-convergence-and-pole-comparison-for-products-of-positive-power-series).
 
 (Sources: [WI](#references), §3, Lemme (3.6), p. 284.)
 
-### 2.9. Weil `I`, Theorem `3.2`: the fundamental estimate
+### 2.9. The fundamental estimate and coarse curve bounds
+
+This group provides the weight of `F₀` under hypotheses (i)–(iii) of 2.9 and the resulting eigenvalue bounds on `H¹_c(U, F)` and `H¹(ℙ¹, j_*F)` (2.10–2.11); §3.11 uses 2.9 and 2.11.
 
 Let `U₀ ⊆ ℙ¹` over `𝔽_q` be open, `F₀` a lisse `ℚ_ℓ`-sheaf on `U₀`, and `β ∈ ℤ`. Assume (i) `F₀` carries a nondegenerate alternating pairing `ψ : F₀ ⊗ F₀ → ℚ_ℓ(−β)`; (ii) the image of the geometric fundamental group `π₁(U, ū)` in `GL(F_ū)` is an open subgroup of `Sp(F_ū, ψ)`; (iii) for every `x ∈ |U₀|`, `det(1 − F_x t, F₀)` has rational coefficients. Then `F₀` has weight `β`: every eigenvalue of every `F_x` is an algebraic number all of whose complex conjugates have absolute value `q_x^{β/2}`.
 
 Use openness in `Sp`, rational local factors of the fixed `ℚ_ℓ` sheaf, and the specified pairing; the proof proceeds without a cohomological purity input.
 
-*Needs:* [2.1](#21-the-weil-i-curve-coefficient-interface), [2.4](#24-compact-cohomology-and-the-l-function-of-2kf), [2.6](#26-lemma-34-local-factors-of-even-tensor-powers-have-nonnegative-coefficients), [2.8](#28-lemma-36-poles-of-the-factors-lie-no-closer-than-the-poles-of-the-product), [0.16](#016-eigenvalues-under-a-frobenius-equivariant-perfect-pairing), [0.13](#013-eigenvalues-of-tensor-products-contragredients-and-hom-spaces), [0.1](#01-weil-q-numbers-of-integer-weight).
+*Needs:* [2.1](#21-the-weil-i-curve-coefficient-interface), [2.4](#24-compact-cohomology-and-the-l-function-of-2kf), [2.6](#25-positivity-of-the-local-factors-of-even-tensor-powers), [2.8](#27-coefficient-convergence-and-pole-comparison-for-products-of-positive-power-series), [0.16](#016-eigenvalues-under-a-frobenius-equivariant-perfect-pairing), [0.13](#013-eigenvalues-of-tensor-products-contragredients-and-hom-spaces), [0.1](#01-weil-q-numbers-of-integer-weight).
 
 (Sources: [WI](#references), §3, Théorème (3.2), p. 284; [WI](#references), §3, proof of (3.2), p. 285.)
 
-### 2.10. Corollary `3.8`: the coarse bound on `H¹_c(U, F)`
-
+**2.10. The coarse bound on `H¹_c(U, F)`.**
 Under the hypotheses of Theorem `3.2`, with `U` affine, every eigenvalue `α` of `F^*` on `H¹_c(U, F)` is an algebraic number, and every complex conjugate of `α` satisfies `|α| ≤ q^{β/2 + 1}`.
 
-*Needs:* [2.9](#29-weil-i-theorem-32-the-fundamental-estimate), [2.1](#21-the-weil-i-curve-coefficient-interface), [2.2](#22-open-subgroups-of-spvℚ_ℓ-are-zariski-dense), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#etalecohomologyfoundations-f3-f5f6-extreme-degree-curve-cohomology).
+*Needs:* [2.9](#29-the-fundamental-estimate-and-coarse-curve-bounds), [2.1](#21-the-weil-i-curve-coefficient-interface), [2.2](#22-open-subgroups-of-spvℚ_ℓ-are-zariski-dense), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#etalecohomologyfoundations-f3-f5f6-extreme-degree-curve-cohomology).
 
 (Sources: [WI](#references), §3, Corollaire (3.8), p. 286.)
 
-### 2.11. Corollary `3.9`: the two-sided coarse bound on `H¹(ℙ¹, j_*F)`
-
+**2.11. The two-sided coarse bound on `H¹(ℙ¹, j_*F)`.**
 Let `j : U → ℙ¹` be the inclusion. Under the hypotheses of Theorem `3.2`, every eigenvalue `α` of `F^*` on `H¹(ℙ¹, j_*F)` is an algebraic number, and every complex conjugate of `α` satisfies `q^{β/2} ≤ |α| ≤ q^{β/2 + 1}`; in Deligne's notation `q^{(β+1)/2 − 1/2} ≤ |α| ≤ q^{(β+1)/2 + 1/2}`.
 
 Use the imported duality pairing for `H¹(ℙ¹,j_*F)`.
 
-*Needs:* [2.10](#210-corollary-38-the-coarse-bound-on-h_cu-f), [0.16](#016-eigenvalues-under-a-frobenius-equivariant-perfect-pairing), [EtaleCohomologyFoundations §§F.5–F.6, 0.11 (curve duality)](#etalecohomologyfoundations-f5f6-011-curve-duality).
+*Needs:* [2.10](#29-the-fundamental-estimate-and-coarse-curve-bounds), [0.16](#016-eigenvalues-under-a-frobenius-equivariant-perfect-pairing), [EtaleCohomologyFoundations §§F.5–F.6, 0.11 (curve duality)](#etalecohomologyfoundations-f5f6-011-curve-duality).
 
 (Sources: [WI](#references), §3, Corollaire (3.9), p. 286; [WI](#references), §3, Corollaire (3.9), p. 287.)
 
@@ -1199,7 +1201,7 @@ For a finite-field Lefschetz pencil on a geometrically connected smooth projecti
 
 (Sources: [WI](#references), §6, (6.1), pp. 294–295.)
 
-### 3.2. Weil I Lemma `6.4`: geometrically constant lisse sheaves come from `𝔽_q`
+### 3.2. Geometrically constant lisse sheaves come from `𝔽_q`
 
 Let `U₀` be geometrically connected over `𝔽_q` and let `𝒢₀` be a lisse `ℚ_ℓ`-sheaf on `U₀` whose pullback `𝒢` to `U` is constant. Then there are `ℓ`-adic units `α_i ∈ ℚ̄_ℓ` with `det(1 − F_x t^{deg x}, 𝒢₀) = ∏_i(1 − α_i^{deg x} t^{deg x})` for every `x ∈ |U₀|`. In fact `𝒢₀` is the pullback of its direct image to `Spec 𝔽_q`, a representation `G₀` of `Gal(𝔽̄_q/𝔽_q)`, and `∏(1 − α_i t) = det(1 − F t, G₀)`.
 
@@ -1215,11 +1217,13 @@ In the setting of [3.1](#31-arithmetic-descent-of-the-pencil-radical-quotient), 
 
 Cancel common `α_i` and `β_j` first. Rationality of the fibre zeta functions is an input, while their purity is not.
 
-*Needs:* [3.1](#31-arithmetic-descent-of-the-pencil-radical-quotient), [3.2](#32-weil-i-lemma-64-geometrically-constant-lisse-sheaves-come-from-𝔽_q), [0.8](#08-multiplicativity-of-the-characteristic-polynomial-along-an-invariant-subspace), [1.10](#110-rational-finite-field-zeta-functions), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
+*Needs:* [3.1](#31-arithmetic-descent-of-the-pencil-radical-quotient), [3.2](#32-geometrically-constant-lisse-sheaves-come-from-𝔽_q), [0.8](#08-multiplicativity-of-the-characteristic-polynomial-along-an-invariant-subspace), [1.10](#110-rational-finite-field-zeta-functions), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
 
 (Sources: [WI](#references), §6, (6.4), p. 296; [WI](#references), §1, (1.5.4), p. 276.)
 
-### 3.4. Weil I Lemma `6.7`: a family is determined by its `n`-th powers for enough `n`
+### 3.4. Excluded degree divisors and a density-zero excluded set of points
+
+This group supplies two exclusion statements, and §§3.8 and 3.10 use 3.4 and 3.7: a finite family is determined up to order by its `n`-th powers for all large `n` divisible by no element of a finite set `K` not containing `1` (3.4), and the points `x` at which some `δ_j^{deg x}` is an eigenvalue of `F_x` on `ℱ₀` have density zero (3.5–3.7).
 
 Fix a finite set `K` of nonnegative integers, none equal to `1`. Two families `(δ_j)_{j ≤ Q}` and `(ε_j)_{j ≤ Q}` of elements of a field coincide up to order as soon as their `n`-th powers `(δ_j^n)` and `(ε_j^n)` coincide up to order for every sufficiently large `n` that no element of `K` divides.
 
@@ -1229,21 +1233,19 @@ The finite families retain multiplicities and the excluded divisor set does not 
 
 (Sources: [WI](#references), §6, proof of (6.7), p. 297.)
 
-### 3.5. Weil I Lemma `6.11`: the arithmetic monodromy of `ℱ₀` is open in `H`
-
+**3.5. The arithmetic monodromy of `ℱ₀` is open in `H`.**
 Let `d` be the fixed odd pencil fibre dimension and `ℱ₀≠0` its supplied radical quotient with pairing into `ℚ_ℓ(−d)`. Use the arithmetic coordinate `a∈ℤ̂`, where geometric Frobenius of a degree-`e` point has `a=−e`. In a fixed finite `ℓ`-adic coefficient model define `H={(a,g)∈ℤ̂×GSp(ℱ,ψ): μ(g)=q^(−da)}`. Then (arithmetic degree,`ρ`)`:π₁(U₀)→H` has open image `H₁`, compact because `π₁(U₀)` is profinite. Its degree-zero image is open in `Sp` for the `ℓ`-adic topology.
 
 *Needs:* [3.1](#31-arithmetic-descent-of-the-pencil-radical-quotient), [LefschetzPencilsAndVanishingCycles §§5.7–5.8 (compact symplectic groups and Kazhdan–Margulis)](#lefschetzpencilsandvanishingcycles-5758-compact-symplectic-groups-and-kazhdanmargulis), [EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)](#etalecohomologyfoundations-f0a1f0a2-and-inversegaloisandarithmeticfundamentalgroups-ig12ig13-arithmetic-exact-sequence-covers-and-specialization).
 
 (Sources: [WI](#references), §6, (6.10), p. 297; Lemme (6.11), p. 298.)
 
-### 3.6. Weil I Lemma `6.12`: the eigenvalue-`δ^a` locus is closed and Haar-null
-
+**3.6. The eigenvalue-`δ^a` locus is closed and Haar-null.**
 For an `ℓ`-adic unit `δ` in the fixed finite coefficient field, the locus `Z_δ={(a,g)∈H₁: δ^a is an eigenvalue of g}` is closed and null in each arithmetic-degree fibre, hence Haar-null in `H₁`. For a bad geometric eigenvalue `δ₀^e` the arithmetic-degree locus uses `δ=δ₀⁻¹`, since `a(F_x)=−e`.
 
 The unit condition defines `δ^a` for `a∈ℤ̂`. A zero quotient has empty eigenvalue locus.
 
-*Needs:* [3.5](#35-weil-i-lemma-611-the-arithmetic-monodromy-of-ℱ-is-open-in-h), [RepresentationTheory/CompactGroups, Layers 0, 6 and the SU(2) engine case (Haar probability, characters and SU(2))](#representationtheorycompactgroups-layers-0-6-and-the-su2-engine-case-haar-probability-characters-and-su2).
+*Needs:* [3.5](#34-excluded-degree-divisors-and-a-density-zero-excluded-set-of-points), [RepresentationTheory/CompactGroups, Layers 0, 6 and the SU(2) engine case (Haar probability, characters and SU(2))](#representationtheorycompactgroups-layers-0-6-and-the-su2-engine-case-haar-probability-characters-and-su2).
 
 (Sources: [WI](#references), §6, Lemme (6.12), p. 298; [WI](#references), §6, proof of (6.12), p. 298.)
 
@@ -1259,13 +1261,12 @@ roots and `Z_δ` is empty. *Needs:* ReductiveGroupsPartII §RG2.0.2 (analytic ch
 Haar Jacobians); RepresentationTheory/CompactGroups, Layer `0` (Haar); §2.2.
 (Source: [WI](#references), Lemma 6.12 and proof, p. 298.)
 
-### 3.7. The Frobenius elements landing in a Haar-null set have density zero
-
+**3.7. The Frobenius elements landing in a Haar-null set have density zero.**
 Let `δ_1`, `…`, `δ_Q` be `ℓ`-adic units. The set `L` of `x ∈ |U₀|` such that some `δ_j^{deg x}` is an eigenvalue of `F_x` on `ℱ₀` has Dirichlet density `0`. More precisely, the proportion of the closed points of degree `n` that lie in `L` tends to `0` as `n → ∞`. In particular, for every sufficiently large `n` there are closed points of degree `n` outside `L`.
 
 Use finite-quotient Chebotarev with constant-field congruences, then approximate the closed null locus by open neighbourhoods of arbitrarily small Haar measure.
 
-*Needs:* [3.6](#36-weil-i-lemma-612-the-eigenvalue-δa-locus-is-closed-and-haar-null), [3.5](#35-weil-i-lemma-611-the-arithmetic-monodromy-of-ℱ-is-open-in-h), [ArithmeticGaloisRepresentations §5.13 (degree-refined function-field Chebotarev)](#arithmeticgaloisrepresentations-513-degree-refined-function-field-chebotarev), [RepresentationTheory/CompactGroups, Layers 0, 6 and the SU(2) engine case (Haar probability, characters and SU(2))](#representationtheorycompactgroups-layers-0-6-and-the-su2-engine-case-haar-probability-characters-and-su2).
+*Needs:* [3.6](#34-excluded-degree-divisors-and-a-density-zero-excluded-set-of-points), [3.5](#34-excluded-degree-divisors-and-a-density-zero-excluded-set-of-points), [ArithmeticGaloisRepresentations §5.13 (degree-refined function-field Chebotarev)](#arithmeticgaloisrepresentations-513-degree-refined-function-field-chebotarev), [RepresentationTheory/CompactGroups, Layers 0, 6 and the SU(2) engine case (Haar probability, characters and SU(2))](#representationtheorycompactgroups-layers-0-6-and-the-su2-engine-case-haar-probability-characters-and-su2).
 
 (Sources: [WI](#references), §6, (6.13), p. 298.)
 
@@ -1295,41 +1296,40 @@ density-zero assertion of §3.7, with constant-field congruences kept throughout
 integration; ArithmeticGaloisRepresentations §5.13 (*Chebotarev for function fields*). (Source: [WI](#references), proof of (6.13),
 p. 298, with compact-quotient Haar integration and the Dini argument.)
 
-### 3.8. Weil I Proposition `6.6`: the denominator of (6.6.1) away from `K` and `L`
+### 3.8. Rational local factors of the radical quotient and the coarse bound on `H¹(D, j_*ℱ)`
+
+This group shows that `det(1 − F_x t, ℱ₀)` has rational coefficients (3.10), through the denominator statement 3.8 and the characterisation 3.9, and deduces the coarse bound 3.11 that §4.1 uses.
 
 Given `ℓ`-adic units `(γ_i)_{i ≤ P}` and `(δ_j)_{j ≤ Q}` with `γ_i ≠ δ_j`, attach to each `x ∈ |U₀|` the rational function `det(1 − F_x t, ℱ₀)·∏_i(1 − γ_i^{deg x} t) / ∏_j(1 − δ_j^{deg x} t)`. One can choose a density-zero set `L ⊂ |U₀|` and a finite set `K` of nonnegative integers different from `1` so that, whenever `x ∉ L` and no element of `K` divides `deg x`, this function in lowest terms still has the full product `∏_j(1 − δ_j^{deg x} t)` as denominator.
 
 Exclude both collisions between constant factors and collisions with the quotient spectrum.
 
-*Needs:* [3.7](#37-the-frobenius-elements-landing-in-a-haar-null-set-have-density-zero), [3.4](#34-weil-i-lemma-67-a-family-is-determined-by-its-n-th-powers-for-enough-n).
+*Needs:* [3.7](#34-excluded-degree-divisors-and-a-density-zero-excluded-set-of-points), [3.4](#34-excluded-degree-divisors-and-a-density-zero-excluded-set-of-points).
 
 (Sources: [WI](#references), §6, Proposition (6.6), p. 296; [WI](#references), §6, (6.13), p. 298.)
 
-### 3.9. Weil I Proposition `6.8`: an intrinsic characterisation of the `γ`-polynomial
-
+**3.9. An intrinsic characterisation of the `γ`-polynomial.**
 Put `R(t) = ∏(1 − γ_i t)` and `S(t) = ∏(1 − δ_j t)` for families `(γ_i)_{i ≤ P}` and `(δ_j)_{j ≤ Q}` of `ℓ`-adic units. Then `S(t)` divides `R(t)` provided that `∏_j(1 − δ_j^{deg x} t)` divides `∏_i(1 − γ_i^{deg x} t)·det(1 − F_x t, ℱ₀)` at every `x ∈ |U₀|`. Among all `S(t)` meeting this hypothesis, `R(t)` is therefore their least common multiple, so the polynomials `∏(1 − γ_i^{deg x}t)·det(1 − F_x t, ℱ₀)` single out the `γ`-family intrinsically.
 
-*Needs:* [3.8](#38-weil-i-proposition-66-the-denominator-of-661-away-from-k-and-l).
+*Needs:* [3.8](#38-rational-local-factors-of-the-radical-quotient-and-the-coarse-bound-on-hd-j_ℱ).
 
 (Sources: [WI](#references), §6, Proposition (6.8), p. 297.)
 
-### 3.10. Weil I Theorem `6.2`: the local factors of the radical quotient have rational coefficients
-
+**3.10. The local factors of the radical quotient have rational coefficients.**
 In the setting of [3.1](#31-arithmetic-descent-of-the-pencil-radical-quotient), for every `x ∈ |U₀|`, `det(1 − F_x t, ℱ₀) ∈ ℚ[t]`.
 
 The zero quotient has factor `1`; the nonzero case uses rational zeta functions, open monodromy and Chebotarev.
 
-*Needs:* [3.3](#33-the-zeta-functions-of-the-fibres-split-into-a-constant-part-and-the-ℱ-part), [3.8](#38-weil-i-proposition-66-the-denominator-of-661-away-from-k-and-l), [3.9](#39-weil-i-proposition-68-an-intrinsic-characterisation-of-the-γ-polynomial), [3.4](#34-weil-i-lemma-67-a-family-is-determined-by-its-n-th-powers-for-enough-n), [3.7](#37-the-frobenius-elements-landing-in-a-haar-null-set-have-density-zero).
+*Needs:* [3.3](#33-the-zeta-functions-of-the-fibres-split-into-a-constant-part-and-the-ℱ-part), [3.8](#38-rational-local-factors-of-the-radical-quotient-and-the-coarse-bound-on-hd-j_ℱ), [3.9](#38-rational-local-factors-of-the-radical-quotient-and-the-coarse-bound-on-hd-j_ℱ), [3.4](#34-excluded-degree-divisors-and-a-density-zero-excluded-set-of-points), [3.7](#34-excluded-degree-divisors-and-a-density-zero-excluded-set-of-points).
 
 (Sources: [WI](#references), §6, Théorème (6.2), p. 295; [WI](#references), §6, (6.9), p. 297.)
 
-### 3.11. Weil I Corollary `6.3`: the coarse bound on `H¹(D, j_*ℱ)`
-
+**3.11. The coarse bound on `H¹(D, j_*ℱ)`.**
 Let `d` be the odd pencil fibre dimension and `j : U → D` the inclusion. Every eigenvalue `α` of `F^*` on `H¹(D, j_*ℱ)` is an algebraic number, and every complex conjugate satisfies `q^{(d+1)/2 − 1/2} ≤ |α| ≤ q^{(d+1)/2 + 1/2}`.
 
 Use `2.9` with `β` equal to the odd pencil fibre dimension, combining the supplied pairing and open image with `3.10`.
 
-*Needs:* [3.10](#310-weil-i-theorem-62-the-local-factors-of-the-radical-quotient-have-rational-coefficients), [3.1](#31-arithmetic-descent-of-the-pencil-radical-quotient), [2.9](#29-weil-i-theorem-32-the-fundamental-estimate), [2.11](#211-corollary-39-the-two-sided-coarse-bound-on-hℙ-j_f), [LefschetzPencilsAndVanishingCycles §§5.7–5.8 (compact symplectic groups and Kazhdan–Margulis)](#lefschetzpencilsandvanishingcycles-5758-compact-symplectic-groups-and-kazhdanmargulis).
+*Needs:* [3.10](#38-rational-local-factors-of-the-radical-quotient-and-the-coarse-bound-on-hd-j_ℱ), [3.1](#31-arithmetic-descent-of-the-pencil-radical-quotient), [2.9](#29-the-fundamental-estimate-and-coarse-curve-bounds), [2.11](#29-the-fundamental-estimate-and-coarse-curve-bounds), [LefschetzPencilsAndVanishingCycles §§5.7–5.8 (compact symplectic groups and Kazhdan–Margulis)](#lefschetzpencilsandvanishingcycles-5758-compact-symplectic-groups-and-kazhdanmargulis).
 
 (Sources: [WI](#references), §6, Corollaire (6.3), p. 295.)
 
@@ -1349,7 +1349,7 @@ The first reduction gives a half-unit error in even middle dimension. Large even
 
 Let `X₀` be smooth projective of pure even dimension `d` over `𝔽_q`, `ℓ ≠` char `𝔽_q`. Every eigenvalue `α` of geometric Frobenius on `Hᵈ(X,ℚ_ℓ)` is algebraic; every complex conjugate satisfies `q^(d/2−1/2) ≤ |α| ≤ q^(d/2+1/2)`. No semisimplicity or degeneration of Leray is required. The induction retains `E∩E⊥` and covers zero vanishing cycles, a zero radical quotient, and a nonzero quotient.
 
-*Needs:* [3.11](#311-weil-i-corollary-63-the-coarse-bound-on-hd-j_ℱ), [3.2](#32-weil-i-lemma-64-geometrically-constant-lisse-sheaves-come-from-𝔽_q), [0.12](#012-weights-under-a-finite-extension-of-the-finite-base-field), [LefschetzPencilsAndVanishingCycles §4.1 (direct images of a pencil)](#lefschetzpencilsandvanishingcycles-41-direct-images-of-a-pencil), [LefschetzPencilsAndVanishingCycles §§3.4–3.5 (existence and finite-field descent of pencils)](#lefschetzpencilsandvanishingcycles-3435-existence-and-finite-field-descent-of-pencils), [EtaleCohomologyFoundations §F.7 (blow-ups and weak Lefschetz)](#etalecohomologyfoundations-f7-blow-ups-and-weak-lefschetz), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
+*Needs:* [3.11](#38-rational-local-factors-of-the-radical-quotient-and-the-coarse-bound-on-hd-j_ℱ), [3.2](#32-geometrically-constant-lisse-sheaves-come-from-𝔽_q), [0.12](#012-weights-under-a-finite-extension-of-the-finite-base-field), [LefschetzPencilsAndVanishingCycles §4.1 (direct images of a pencil)](#lefschetzpencilsandvanishingcycles-41-direct-images-of-a-pencil), [LefschetzPencilsAndVanishingCycles §§3.4–3.5 (existence and finite-field descent of pencils)](#lefschetzpencilsandvanishingcycles-3435-existence-and-finite-field-descent-of-pencils), [EtaleCohomologyFoundations §F.7 (blow-ups and weak Lefschetz)](#etalecohomologyfoundations-f7-blow-ups-and-weak-lefschetz), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
 
 (Sources: [WI](#references), Weil I §7, Lemme (7.1) and (7.1.1)–(7.1.5), pp. 298–300.)
 
@@ -1720,7 +1720,7 @@ the ordered-field exponential nonnegativity statement specified here;
 
 For a normal connected `X₀` of finite type over `𝔽_q`, the irreducible constituents of a lisse `ι`-real sheaf are punctually `ι`-pure. More precisely, on a smooth curve let `r` be its maximal determinantal weight; every stalk eigenvalue has `ι`-weight `≤r`, and each irreducible constituent of determinantal weight `β` is punctually pure of weight `β`. No open symplectic-image or rational-coefficient hypothesis is imposed.
 
-*Needs:* [5.4](#54-totally-real-and-ι-real-sheaves), [5.6](#56-determinantal-weights-of-irreducible-constituents), [5.7](#57-unipotent-radical-and-central-degree-in-weil-monodromy), fixed-`ι` even-tensor positivity above, [2.7](#27-lemma-35-factors-of-a-product-of-positive-power-series-converge-at-least-as-far), [2.8](#28-lemma-36-poles-of-the-factors-lie-no-closer-than-the-poles-of-the-product), [0.13](#013-eigenvalues-of-tensor-products-contragredients-and-hom-spaces), [LefschetzPencilsAndVanishingCycles §§3.6, 5.1 and §5.15 here (curve reduction and monodromy specialization)](#lefschetzpencilsandvanishingcycles-36-51-and-515-here-curve-reduction-and-monodromy-specialization), [0.14](#014-eigenvalues-of-exterior-powers), [5.8](#58-functoriality-of-determinantal-weights), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#etalecohomologyfoundations-f3-f5f6-extreme-degree-curve-cohomology), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
+*Needs:* [5.4](#54-totally-real-and-ι-real-sheaves), [5.6](#56-determinantal-weights-of-irreducible-constituents), [5.7](#57-unipotent-radical-and-central-degree-in-weil-monodromy), fixed-`ι` even-tensor positivity above, [2.7](#27-coefficient-convergence-and-pole-comparison-for-products-of-positive-power-series), [2.8](#27-coefficient-convergence-and-pole-comparison-for-products-of-positive-power-series), [0.13](#013-eigenvalues-of-tensor-products-contragredients-and-hom-spaces), [LefschetzPencilsAndVanishingCycles §§3.6, 5.1 and §5.15 here (curve reduction and monodromy specialization)](#lefschetzpencilsandvanishingcycles-36-51-and-515-here-curve-reduction-and-monodromy-specialization), [0.14](#014-eigenvalues-of-exterior-powers), [5.8](#58-functoriality-of-determinantal-weights), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#etalecohomologyfoundations-f3-f5f6-extreme-degree-curve-cohomology), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
 
 (Sources: [WII](#references), §1.5 Théorème (1.5.1), Lemme (1.5.2), proof (1.5.3), pp. 164–165.)
 
@@ -1728,7 +1728,7 @@ For a normal connected `X₀` of finite type over `𝔽_q`, the irreducible cons
 
 For `j:U₀→C₀` with `C₀` smooth projective over `𝔽_q` and `ℱ` lisse punctually `ι`-pure of real weight `β`, boundary eigenvalues of `j_*ℱ` have `ι`-weight `≤β`, and those on `H¹_c(U,ℱ)` have weight `≤β+2`. These initial non-strict bounds precede the strict analytic bound and the sharp curve theorem.
 
-*Needs:* [5.3](#53-punctual-purity-and-finite-mixed-filtrations), [5.4](#54-totally-real-and-ι-real-sheaves), [5.9](#59-delignes-generalized-majoration-theorem), [2.7](#27-lemma-35-factors-of-a-product-of-positive-power-series-converge-at-least-as-far), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#etalecohomologyfoundations-f3-f5f6-extreme-degree-curve-cohomology).
+*Needs:* [5.3](#53-punctual-purity-and-finite-mixed-filtrations), [5.4](#54-totally-real-and-ι-real-sheaves), [5.9](#59-delignes-generalized-majoration-theorem), [2.7](#27-coefficient-convergence-and-pole-comparison-for-products-of-positive-power-series), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [EtaleCohomologyFoundations §§F.3, F.5–F.6 (extreme-degree curve cohomology)](#etalecohomologyfoundations-f3-f5f6-extreme-degree-curve-cohomology).
 
 (Sources: [WII](#references), §1.8 Lemme (1.8.1) and Remarque (1.8.2), p. 175.)
 
@@ -2151,7 +2151,9 @@ Its API includes:
 
 (Sources: [WII](#references), §3.3, (3.3.2), p. 205.)
 
-### 7.3. Dévissages (a), (b), (f) of the direct-image theorem
+### 7.3. Dévissage of the direct-image property and tame covers on curves
+
+This group provides the reduction steps for the property `P_n(f)` (7.3–7.4) and the tame finite étale covers of a lisse sheaf on a curve (7.5); §7.6 uses all three, §7.7 uses 7.3 and §§8.3–8.4 use 7.4.
 
 Fix `n ∈ ℤ` and a separated morphism `f : X → Y` of schemes of finite type over `ℤ[1/ℓ]`. A sheaf `ℱ` on `X` has property `P_n(f)` if each `R^i f_!ℱ` is mixed of weights `≤ n + i`. (a) Given a short exact sequence `0 → ℱ′ → ℱ → ℱ″ → 0`, the middle term `ℱ` inherits `P_n(f)` from `ℱ′` and `ℱ″` together, and the subsheaf `ℱ′` inherits it from `ℱ` and `ℱ″` together; when the sequence is split, `ℱ` alone passes `P_n(f)` on to `ℱ′`. (b) For an open immersion `j : U → X` with closed complement `i : S → X`, knowing `P_n(f∘j)` for `j*ℱ` and `P_n(f∘i)` for `i*ℱ` is enough to conclude `P_n(f)` for `ℱ`. (f) Suppose `f` quasi-finite. A sheaf `ℱ` that is punctually pure of weight `m` then has `R^i f_!ℱ = 0` for all `i ≠ 0`, and `f_!ℱ = R⁰f_!ℱ` is again punctually pure of weight `m`; together with (a) this yields `P_n(f)` for every `ℱ` mixed of weights `≤ n`. All of this remains valid in the `ι`-setting, where '`ι`-mixed of `ι`-weights `≤ β + i`' with `β ∈ ℝ` takes the place of 'mixed of weights `≤ n + i`', and also, when `X` lies over `𝔽_q`, for Weil sheaves.
 
@@ -2159,29 +2161,27 @@ Fix `n ∈ ℤ` and a separated morphism `f : X → Y` of schemes of finite type
 
 (Sources: [WII](#references), §3, (3.3.1) a), b), f), p. 204; [WII](#references), §3, (3.3.1) f), p. 204.)
 
-### 7.4. Dévissages (c), (d), (e) of the direct-image theorem
-
+**7.4. Dévissage along the target, through a factorisation and under universal homeomorphisms.**
 The property `P_n(f)` is that of DWP.7/devissage-in-the-sheaf-and-the-source. (c) Split the target into an open `j : V → Y` and its closed complement `i : T → Y`, and write `f_V`, `f_T` for the base changes of `f` to these pieces. Then `P_n(f)` holds for `ℱ` exactly when `P_n(f_V)` holds for `ℱ|X_V` and `P_n(f_T)` holds for `ℱ|X_T`; more generally, for a sheaf `𝒢` on `Y` the condition 'mixed of weights `≤ m`' holds if and only if it holds for both `𝒢|V` and `𝒢|T`. (d) Factor `f = g ∘ h` through separated finite-type morphisms `h : X → Z` and `g : Z → Y`. Once every `R^p g_! R^q h_!ℱ` is known to be mixed of weights `≤ n + p + q`, `P_n(f)` holds for `ℱ`; this covers the case where `ℱ` has `P_n(h)` and each `R^q h_!ℱ` has `P_{n+q}(g)`. (e) Base change along a universal homeomorphism `g : Y′ → Y` (that is, `g` integral, radicial and surjective) does not affect the property: with `f′ : X′ → Y′` the base change of `f` and `ℱ′` the pullback of `ℱ`, `P_n(f)` for `ℱ` is equivalent to `P_n(f′)` for `ℱ′`. Two instances are `Y′ = Y_red` and, for normal integral `Y`, the normalisation of `Y` in a purely inseparable extension of its function field. Statements (c)–(e) carry over to `ι`-mixed sheaves with real weights.
 
-*Needs:* [7.3](#73-dévissages-a-b-f-of-the-direct-image-theorem), [7.1](#71-weil-ii-12-weight-conventions-for-dwp7dwp9-imported-from-dwp5), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
+*Needs:* [7.3](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.1](#71-weil-ii-12-weight-conventions-for-dwp7dwp9-imported-from-dwp5), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
 
 (Sources: [WII](#references), §3, (3.3.1) c), d), e), p. 204; [WII](#references), §3, (3.3.1) e), p. 204.)
 
-### 7.5. Generic smoothness and tame covers of a lisse sheaf on a curve (Weil II `(α)`, `(β)`)
-
+**7.5. Generic smoothness and tame covers of a lisse sheaf on a curve.**
 Take a field `K` with `ℓ` invertible in `K`, a separated `K`-scheme `C` of finite type and of dimension `1`, and a lisse `ℚ̄_ℓ`-sheaf `ℱ` on `C`. `(α)` For a suitable finite set `Σ` of closed points of `C_red`, the open subscheme `C′ = C_red − Σ` is `K`-smooth. `(β)` The restriction `ℱ|C′` is a direct summand of `u_*u*ℱ = Ru_*u*ℱ` for some finite étale surjective morphism `u : D = D̄ − E → C′`, where `D̄` is a smooth projective `K`-curve and `E ⊂ D̄` a reduced divisor étale over `K`, chosen so that `u*ℱ` is tamely ramified along `E`. Both assertions are to be read after `K` has been replaced by a suitable finite purely inseparable extension; for perfect `K` no such replacement is needed.
 
 Trace followed by adjunction multiplies by the cover degree on each component, which is invertible in `ℚ̄_ℓ`.
 
 *Needs:* [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness), [AlgebraicCurves, Layer 12 (function-field/curve dictionary)](#algebraiccurves-layer-12-function-fieldcurve-dictionary), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [LefschetzPencilsAndVanishingCycles §§1.1–1.6 (inertia, monodromy and relative filtrations)](#lefschetzpencilsandvanishingcycles-1116-inertia-monodromy-and-relative-filtrations).
 
-(Sources: [WII](#references), §3, proof of (3.3.1), p. 205.)
+(Sources: [WII](#references), §3, proof of (3.3.1), `(α)`, `(β)`, p. 205.)
 
 ### 7.6. Reduction of the direct-image theorem to a tame smooth projective relative curve
 
 Assume Theorem 3.3.1 holds for every quadruple `(f̄, D, ℱ, Y)` of the following kind: `Y` is an integral regular scheme of finite type over `ℤ[1/ℓ]` (the source's '`Y_red` lisse'); `f̄ : X̄ → Y` is projective and smooth of pure relative dimension `1`; `D ⊂ X̄` is a divisor finite étale over `Y`; `X = X̄ − D` with `f = f̄|X`; and `ℱ` is a lisse sheaf on `X`, punctually pure of weight `n` and tamely ramified along `D`. Then Theorem 3.3.1 holds for every separated morphism of schemes of finite type over `ℤ[1/ℓ]` and every sheaf mixed of weights `≤ n`. The same reduction holds for `ι`-mixed sheaves with real weights.
 
-*Needs:* [7.3](#73-dévissages-a-b-f-of-the-direct-image-theorem), [7.4](#74-dévissages-c-d-e-of-the-direct-image-theorem), [7.5](#75-generic-smoothness-and-tame-covers-of-a-lisse-sheaf-on-a-curve-weil-ii-α-β), [ModularCurves §0E and SchemeAndStackFoundations §0.9 (spreading out)](#modularcurves-0e-and-schemeandstackfoundations-09-spreading-out), [SchemeAndStackFoundations §0.9 and LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7 (Noetherian approximation and arithmetic models)](#schemeandstackfoundations-09-and-lefschetzpencilsandvanishingcycles-7b3-7b7-noetherian-approximation-and-arithmetic-models), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
+*Needs:* [7.3](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.4](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.5](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [ModularCurves §0E and SchemeAndStackFoundations §0.9 (spreading out)](#modularcurves-0e-and-schemeandstackfoundations-09-spreading-out), [SchemeAndStackFoundations §0.9 and LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7 (Noetherian approximation and arithmetic models)](#schemeandstackfoundations-09-and-lefschetzpencilsandvanishingcycles-7b3-7b7-noetherian-approximation-and-arithmetic-models), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
 
 (Sources: [WII](#references), §3, proof of (3.3.1), p. 205.)
 
@@ -2189,7 +2189,7 @@ Assume Theorem 3.3.1 holds for every quadruple `(f̄, D, ℱ, Y)` of the followi
 
 In the reduced situation of DWP.7/spreading-out-to-a-tame-relative-curve (`f̄ : X̄ → Y` projective and smooth of pure relative dimension `1` over an integral regular `Y` of finite type over `ℤ[1/ℓ]`, `j : X = X̄ − D → X̄` with `i : D → X̄` the inclusion of a divisor finite étale over `Y`, and `ℱ` lisse on `X`, punctually pure of weight `n` and tamely ramified along `D`), `R^i f_!ℱ` is mixed of weights `≤ n + i` for every `i`. More precisely `Rf_!ℱ = Rf̄_*(j_!ℱ)`; `R^i f̄_*(j_*ℱ)` is punctually pure of weight `n + i`; and `i*j_*ℱ` carries the filtration induced by the local monodromy filtration `M` along `D`, with `Gr^M_k(i*j_*ℱ)` zero for `k > 0` and punctually pure of weight `n + k` on `D` for `k ≤ 0`. The `ι`-version holds with `n` replaced by `β ∈ ℝ`.
 
-*Needs:* [7.6](#76-reduction-of-the-direct-image-theorem-to-a-tame-smooth-projective-relative-curve), [7.3](#73-dévissages-a-b-f-of-the-direct-image-theorem), [6.4](#64-purity-of-parabolic-curve-cohomology), [5.11](#511-the-local-weightmonodromy-theorem-on-a-curve), [5.12](#512-boundary-mixedness-and-extension-of-purity), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
+*Needs:* [7.6](#76-reduction-of-the-direct-image-theorem-to-a-tame-smooth-projective-relative-curve), [7.3](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [6.4](#64-purity-of-parabolic-curve-cohomology), [5.11](#511-the-local-weightmonodromy-theorem-on-a-curve), [5.12](#512-boundary-mixedness-and-extension-of-purity), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
 
 (Sources: [WII](#references), §3, proof of (3.3.1), p. 205.)
 
@@ -2419,7 +2419,7 @@ Its API includes:
 
 Let `S` be a scheme of finite type over `ℤ[1/ℓ]`, `f : X → Y` a morphism of `S`-schemes of finite type, and `ℱ` a mixed sheaf on `X`. Then there is a dense open `U ⊂ S` over which all the sheaves `R^i f_*ℱ` are mixed.
 
-*Needs:* [7.8](#78-delignes-fundamental-theorem-ri-f_-of-a-mixed-sheaf-of-weights--n-has-weights--n--i), [7.1](#71-weil-ii-12-weight-conventions-for-dwp7dwp9-imported-from-dwp5), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#etalecohomologyfoundations-f5f6-smooth-purity-and-poincaré-duality), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [8.1](#81-mixed-complexes-and-complexes-of-weights--w), [7.4](#74-dévissages-c-d-e-of-the-direct-image-theorem).
+*Needs:* [7.8](#78-delignes-fundamental-theorem-ri-f_-of-a-mixed-sheaf-of-weights--n-has-weights--n--i), [7.1](#71-weil-ii-12-weight-conventions-for-dwp7dwp9-imported-from-dwp5), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#etalecohomologyfoundations-f5f6-smooth-purity-and-poincaré-duality), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [8.1](#81-mixed-complexes-and-complexes-of-weights--w), [7.4](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves).
 
 (Sources: [WII](#references), §6, Lemme (6.1.3), p. 244.)
 
@@ -2427,7 +2427,7 @@ Let `S` be a scheme of finite type over `ℤ[1/ℓ]`, `f : X → Y` a morphism o
 
 Let `f : X → Y` be a morphism of schemes of finite type over `𝔽_p` (Weil sheaves), or of finite type over `ℤ[1/ℓ]` in the context of Weil II (6.1.1) `b`) (after inverting finitely many primes), and `ℱ` a mixed sheaf on `X`. Then every `R^i f_*ℱ` is mixed.
 
-*Needs:* [8.3](#83-generic-mixedness-of-ri-f_-over-a-base-of-finite-type-over-ℤ1ℓ), [7.8](#78-delignes-fundamental-theorem-ri-f_-of-a-mixed-sheaf-of-weights--n-has-weights--n--i), [7.4](#74-dévissages-c-d-e-of-the-direct-image-theorem), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness).
+*Needs:* [8.3](#83-generic-mixedness-of-ri-f_-over-a-base-of-finite-type-over-ℤ1ℓ), [7.8](#78-delignes-fundamental-theorem-ri-f_-of-a-mixed-sheaf-of-weights--n-has-weights--n--i), [7.4](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness).
 
 (Sources: [WII](#references), §6, Théorème (6.1.2), p. 243; [WII](#references), §6, after (6.1.2), p. 243.)
 
