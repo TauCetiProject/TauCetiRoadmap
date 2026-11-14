@@ -2073,8 +2073,11 @@ uniform.
 - **Overidentification** (`tendstoInDistribution_gmm_overidentification`): under the hypotheses
   above with measurable `m` and weights `Wₙ → Ω⁻¹` in probability, for instance `Wₙ = Ω̂ₙ⁻¹` with
   `Ω̂ₙ → Ω`, the statistic `n m̄ₙ(θ̂ₙ)ᵀ Wₙ m̄ₙ(θ̂ₙ) → χ²_{q-k}`.
-- None of the cited texts treats the generalized method of moments; the three statements carry
-  the proof route below in place of a locator.
+- The three statements are Hansen (1982), Thm 3.1, p. 1042 (asymptotic normality), Thm 3.2,
+  p. 1048 (the optimal weight), and Lemma 4.2, pp. 1049–1050 (the overidentification statistic,
+  `χ²` with `r - q` degrees of freedom in his notation), specialized to i.i.d. data, which satisfy
+  his stationarity, ergodicity and martingale-difference assumptions 3.1 and 3.5. Hansen's
+  estimators solve `a_N g_N(b) = 0`; the minimizer of `m̄ₙᵀ Wₙ m̄ₙ` corresponds to `a* = Gᵀ W`.
 
 *Proof route.* Pearson: `(Nᵢ - npᵢ)/√(npᵢ)` is `n^{-1/2}` times a sum of `n` i.i.d. vectors with
 covariance `I - √p √pᵀ`, the covariance `diag(p) - ppᵀ` of one trial (Tau Ceti
@@ -2224,13 +2227,16 @@ the quantile Galois inequality (Tau Ceti `quantile_le_iff`) converts these into 
   breakdown point `(m + 1)/(2m + 1)`, which tends to `1/2`.
 - **Least squares** has breakdown point `1/n` at every regression sample with a design of full
   rank.
-- **Least median of squares**: for a regression sample with `p ≥ 2` coefficients in general
-  position (any `p` observations determine the coefficient vector uniquely) and `n ≥ 2p`, every
-  selection of a minimizer of the median squared residual (the order statistic of rank
-  `⌊n/2⌋ + 1` of the squared residuals) has breakdown point `(⌊n/2⌋ - p + 2)/n` (Rousseeuw 1984,
-  Thm 1). The condition `n ≥ 2p` gives `⌊n/2⌋ ≥ p`, so the minimizing half-sample determines the
-  fit; without it the formula can be `0` or negative, as for `n = 8`, `p = 6`, where `0`
-  replacements cannot break a fixed estimate.
+- **Least median of squares**: for a regression sample with `p ≥ 2` coefficients, no design row
+  `xᵢ = 0`, observations in general position (any `p` observations determine the coefficient
+  vector uniquely), and no vertical hyperplane of `ℝ^{p+1}` (a `p`-dimensional subspace containing
+  the `y`-axis) containing more than `⌊n/2⌋` observations, every selection of a minimizer of the
+  median squared residual (the order statistic of rank `⌊n/2⌋ + 1` of the squared residuals) has
+  breakdown point `(⌊n/2⌋ - p + 2)/n` (Rousseeuw 1984, Thm 1, p. 872, with the standing assumptions
+  of §2, p. 872). Under general position at most `p - 1` design rows lie in a hyperplane of the
+  design space, so the vertical-hyperplane condition is `p - 1 ≤ ⌊n/2⌋`. Without it the formula
+  can be `0` or negative, as for `n = 8`, `p = 6`, where `0` replacements cannot break a fixed
+  estimate.
 - **Least absolute deviations** has breakdown point `1/n` when whole pairs `(xᵢ, yᵢ)` may be
   replaced (Jurečková–Sen, §4.8, p. 176).
 
@@ -2303,7 +2309,8 @@ Cauchy–Schwarz inequality `(∫ ψ' dG₀)² = (∫ ψ ψₖ dG₀)² ≤ ∫ 
   `E ψ(ε) = 0`, `E ψ(ε)² < ∞`, `E(ψ(ε - t) - ψ(ε))² → 0` as `t → 0`, and `t ↦ E ψ(ε - t)` with
   derivative `-γ < 0` at `0`. Then every sequence of minimizers satisfies
   `√n(β̂ₙ - β) = (Q⁻¹/(γ√n)) ∑ᵢ xᵢ ψ(εᵢ) + o_P(1) → N(0, (E ψ(ε)²/γ²) Q⁻¹)` (Jurečková–Sen, §5.5,
-  p. 215, Thm 5.5.1, p. 218; Hjort–Pollard 1993, Thm 2.2).
+  p. 215, Thm 5.5.1, p. 218; Hjort–Pollard 1993, Thm 2.2, p. 4, applied to least squares and least
+  absolute deviations in §3D, pp. 7–8).
 - Least squares is `ρ(u) = u²/2` with `E ε² < ∞` and `γ = 1`; least absolute deviations is
   `ρ(u) = |u|` when `F` has median `0` and a derivative `F'(0) > 0`, with `γ = 2F'(0)`.
 
@@ -2399,5 +2406,7 @@ The locators refer to these editions; page numbers are printed page numbers.
 - P. J. Huber, Robust estimation of a location parameter, *Ann. Math. Statist.* 35 (1964), 73–101.
 - P. J. Rousseeuw, Least median of squares regression, *J. Amer. Statist. Assoc.* 79 (1984),
   871–880.
+- L. P. Hansen, Large sample properties of generalized method of moments estimators,
+  *Econometrica* 50 (1982), 1029–1054.
 - N. L. Hjort and D. Pollard, Asymptotics for minimisers of convex processes, preprint 1993,
   arXiv:1107.3806.
