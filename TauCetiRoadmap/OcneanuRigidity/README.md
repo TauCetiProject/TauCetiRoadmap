@@ -884,6 +884,12 @@ an indecomposable one every simple is a summand of some `a ⊙ m`, for fixed `m`
 `Fintype.card κ ≤ K²`. The passage from indecomposability to irreducibility is
 [Ostrik] §2.1, Lemma 1, p. 3; combine it with the bound of 6.7. *Needs:* 6.7.
 
+Over `Vec_G` for finite `G` with `char k ∤ |G|`, equivalence classes of indecomposable
+semisimple module categories are parametrized by pairs `(H, [ψ])`, with `H ≤ G` and
+`[ψ] ∈ H²(H, kˣ)`, modulo simultaneous `G`-conjugation. For each subgroup conjugacy
+representative `H`, this means taking the `N_G(H)`-orbits in `H²(H, kˣ)`; the simple labels
+are `G/H` ([EGNO] Example 7.4.10 and Exercise 7.4.11, p. 137).
+
 **Checks.**
 
 - over `Vec(C₂)` the indecomposable module categories are `Vec(C₂)` (rank `2`) and `Vec`
@@ -892,10 +898,12 @@ an indecomposable one every simple is a summand of some `a ⊙ m`, for fixed `m`
   it does not split; the nonempty condition excludes it.
 - For the diagonal `Vec` action on `Vec²`, the action graph has two isolated vertices,
   and all Hom spaces from the first summand to the second have dimension `0`; it is decomposable.
-
-Over `Vec_G` with `char k ∤ |G|`, the indecomposables correspond to
-  subgroups `H` up to conjugacy with a class in `H²(H, kˣ)`, and `(H, 1)` has `κ = G/H`
-  ([EGNO] Example 7.4.10, p. 137).
+- Over ℂ, let `H = C₃²` and `G = H ⋊ ⟨t⟩`, where `t` has order `2` and
+  `t(a,b) = (−a,b)`. For a primitive cube root `ζ`, the cocycles
+  `α((a,b),(c,d)) = ζ^(ad)` and `α⁻¹` have distinct commutators `ζ` and `ζ⁻¹` on
+  `((1,0),(0,1))`, but conjugation by `t` exchanges them. Thus the three classes
+  `H²(H, ℂˣ) ≅ C₃` give two normalizer orbits `{0}` and `{1,2}`, hence two module
+  equivalence classes with this stabilizer, both of rank `|G/H| = 18/9 = 2`.
 
 ### Examples
 
@@ -1136,7 +1144,7 @@ and their semisimple module categories.
   Theorem 3.11 (pp. 18–19), Lemma 2.5 (p. 7), Corollary 3.12 (p. 18), Lemma 3.17 and Corollary 3.18 (pp. 24–25),
   Remark 3.19 (p. 26), Remark 5.2 (p. 35). Page numbers for [GHS] and [ENO] refer to the cited arXiv versions.
 - [EGNO] P. Etingof, S. Gelaki, D. Nikshych, V. Ostrik, *Tensor Categories*, AMS Mathematical
-  Surveys and Monographs 205 (2015): Proposition 7.1.6 (p. 133), Example 7.4.10 (p. 137),
+  Surveys and Monographs 205 (2015): Proposition 7.1.6 (p. 133), Example 7.4.10 and Exercise 7.4.11 (p. 137),
   Example 7.22.5 (p. 184), Theorem 9.1.4 (p. 276), Corollaries 9.1.6 and 9.1.8 (p. 277),
   Lemma 9.3.1 and Theorem 9.3.2 (p. 279).
 - [BB] M. Barr, J. Beck, *Homology and standard constructions*, in Seminar on Triples and
