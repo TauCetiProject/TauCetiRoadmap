@@ -51,7 +51,7 @@ open scoped unitInterval BigOperators Topology NNReal
 
 namespace TauCetiRoadmap.RandomGraphs
 
-/-! ## General Fraïssé and rooted interfaces (Milestones 1–3) -/
+/-! ## General Fraïssé and rooted interfaces (Layers 1–3) -/
 
 section Fraisse
 
@@ -91,7 +91,7 @@ theorem exists_equiv_comp_eq_of_isExtensionPair
 
 end Fraisse
 
-/-! ## Native realization and finite rank (Milestones 0, 5) -/
+/-! ## Native realization and finite rank (Layers 0, 5) -/
 
 variable {V : Type u} {W : Type v}
 
@@ -164,7 +164,7 @@ theorem binomialRandom_map_comap [Countable V] [Countable W] (p : I)
       SimpleGraph.binomialRandom V p := by
   sorry
 
-/-! ## Actual requests, extension syntax and the Rado graph (Milestone 4) -/
+/-! ## Actual requests, extension syntax and the Rado graph (Layer 4) -/
 
 /-- `x` is an extension witness for the request `(U, Z)` in `G`: it lies outside `U` and `Z`, is
 adjacent to every vertex of `U`, and to no vertex of `Z`. -/
@@ -284,7 +284,7 @@ def Language.Theory.HasQuantifierElimination {L : FirstOrder.Language.{u, v}} (T
     Prop :=
   ∀ {α : Type} (φ : L.Formula α), Language.Theory.IsQFEquivalent T φ
 
-/-! ## Finite-rank agreement and genuine QE targets (Milestone 5) -/
+/-! ## Finite-rank agreement and genuine QE targets (Layer 5) -/
 
 /-- `T_R` is complete. -/
 theorem radoAxioms_isComplete : radoAxioms.IsComplete := by
@@ -538,7 +538,7 @@ theorem typesWith_firstOrderAtomicDiagram_eq_singleton {M : Type w} [Language.gr
       {radoAxioms.typeOf a} := by
   sorry
 
-/-! ## Witness counts and explicit error profiles (Milestones 6–7) -/
+/-! ## Witness counts and explicit error profiles (Layers 6–7) -/
 
 /-- The probability `p^r (1 - p)^s` that a given outside vertex witnesses a request with `r`
 positive and `s` negative vertices. -/
@@ -667,7 +667,7 @@ theorem ae_eventually_all_bounded_rank_varying
         (Satisfies (X n ω) φ ↔ Satisfies TauCeti.radoGraph φ) := by
   sorry
 
-/-! ## Rooted formulas (Milestone 8)
+/-! ## Rooted formulas (Layer 8)
 
 Fin (m + n) makes the first m named vertices available at every index.
 The full conditioned law and finite-pattern-mixture API are specified in the README.
@@ -728,7 +728,7 @@ theorem firstOrder_limit_firstVertices {m : ℕ} (p : I)
         (1 - (p : ℝ)) ^ (m.choose 2 - H.edgeSet.ncard) * rootedTruth φ (a H))) := by
   sorry
 
-/-! ## Graph properties (Milestone 8.2) -/
+/-! ## Graph properties (Layer 8.2) -/
 
 /-- Every fixed finite graph occurs as an induced subgraph asymptotically almost surely. -/
 theorem tendsto_binomialRandom_nonempty_embedding {k : ℕ} (p : I)
@@ -768,7 +768,7 @@ theorem tendsto_binomialRandom_isVertexConnected (p : I)
         {G | G.IsVertexConnected k}).toReal) atTop (𝓝 1) := by
   sorry
 
-/-! ## Infinite laws and existing graphon samplers (Milestone 9) -/
+/-! ## Infinite laws and existing graphon samplers (Layer 9) -/
 
 open TauCeti.DenseGraphLimits
 
@@ -875,7 +875,7 @@ theorem binomialRandom_mutuallySingular (p q : I) (hpq : p ≠ q) :
     SimpleGraph.binomialRandom ℕ p ⟂ₘ SimpleGraph.binomialRandom ℕ q := by
   sorry
 
-/-! ## Infinitary distinctions (Milestone 10)
+/-! ## Infinitary distinctions (Layer 10)
 
 The sentences are Tau Ceti's `L_{ω₁,ω}` sentences `Language.graph.Sentenceω`, with first-order
 conjuncts and disjuncts embedded by `BoundedFormula.toInf`. -/
@@ -928,7 +928,7 @@ theorem not_tendsto_binomialRandom_evenSentenceInf (p : I) (l : ℝ) :
       atTop (𝓝 l) := by
   sorry
 
-/-! ## Concrete FO formulas and Poisson endpoints (Milestones 8, 11) -/
+/-! ## Concrete FO formulas and Poisson endpoints (Layers 8, 11) -/
 
 /-- The sentence `∃ x y z, Adj(x, y) ∧ Adj(x, z) ∧ Adj(y, z)`: the graph contains a triangle. -/
 def triangleSentence : Language.graph.Sentence :=

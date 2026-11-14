@@ -1,9 +1,10 @@
 # Roadmap: random graphs, Fraïssé limits, and first-order asymptotic laws
 
-Develop the classical Fraïssé construction and the probability/model-theory interfaces that
-identify the first-order asymptotic theory of binomial random graphs with the theory of the
-Rado graph. The development includes quantitative bounds, rooted formulas, almost-sure
-stabilization on joint samples, and precise comparisons with graphon sampling and sparse graphs.
+**Summary.** Develop the classical Fraïssé construction and the probability/model-theory
+interfaces that identify the first-order asymptotic theory of binomial random graphs with the
+theory of the Rado graph. The development includes quantitative bounds, rooted formulas,
+almost-sure stabilization on joint samples, and precise comparisons with graphon sampling and
+sparse graphs.
 
 The principal theorem is the graph case of the Glebskii–Kogan–Liogon'kii–Talanov/Fagin
 zero–one law. For every fixed `p ∈ (0, 1)` and every sentence `φ` in the first-order
@@ -11,8 +12,9 @@ language of simple graphs,
 
     lim_{n→∞} Pr(G(n, p) ⊨ φ) = 𝟙[R ⊨ φ],
 
-where `R` is a constructed Rado graph and `𝟙[R ⊨ φ]` is `1` if `R ⊨ φ` and `0` otherwise. A finite extension property gives a uniform error
-bound for all sentences of each fixed quantifier rank. Its summability yields eventual
+where `R` is a constructed Rado graph and `𝟙[R ⊨ φ]` is `1` if `R ⊨ φ` and `0` otherwise. A
+finite extension property gives a uniform error bound for all sentences of each fixed quantifier
+rank. Its summability yields eventual
 agreement with `R` almost surely under any joint realization of the prescribed finite laws.
 
 The reusable material is part of the specification: representative families and their ages;
@@ -20,33 +22,43 @@ extension-rich chains and direct-limit factorization; rooted embeddings and isom
 finite edge patterns and witness counts; actual first-order extension sentences; finite-rank
 truth preservation; and measurable satisfaction events.
 
-## Scope and dependency order
+## Scope and ownership
 
-Every milestone below is required. The scope includes general classical Fraïssé existence
-with function symbols, graph-specific quantifier elimination and primeness, the fixed and
-varying-parameter binomial models specified below, uniformly nondegenerate graphons, and the
-two explicit Poisson examples in Milestone 11.
+Every layer below is required, and the order of the layers is the dependency order: no layer uses
+a later one. The scope includes general classical Fraïssé existence with function symbols,
+graph-specific quantifier elimination and primeness, the fixed and varying-parameter binomial
+models specified below, uniformly nondegenerate graphons, and the two explicit Poisson examples
+in Layer 11.
 
-| Milestone | Construction and endpoint | Inputs |
+This roadmap owns representative families and strong amalgamation, extension-rich chains, the
+general Fraïssé existence theorem and its rooted consequences; bounded extension `EP_{≤d}`,
+witness counts and the first-order extension sentences; the natural-valued quantifier rank and
+its bridge to Tau Ceti's ordinal rank; the effective coding of first-order formulas for a general
+language, and computable quantifier elimination and decidability for the Rado theory; and the
+probabilistic theory of Layers 6–11, including the factorial-moment Poisson criterion. Its
+suppliers are listed under [Exact supplier contracts](#exact-supplier-contracts), and what it
+leaves to other roadmaps under [Out of scope](#out-of-scope).
+
+## How to read the build
+
+Each row is one layer: what it builds and what it consumes. Each layer ends with its worked
+examples, which check that the API describes real structures and are discharged alongside it,
+and with its dependencies.
+
+| Layer | Builds | Consumes |
 | --- | --- | --- |
-| 0 | Native graph, language, finite-pattern and satisfaction interfaces | Mathlib graph/model-theory/measure APIs |
+| 0 | Native graph, language, finite-pattern and satisfaction interfaces | Mathlib graph/model-theory/measure APIs; Tau Ceti graph coding; CountableStructureSpaces Layer 0 |
 | 1 | Representative families, ages and separate ordinary/strong amalgamation | Mathlib Fraïssé predicates; 0 for graph examples |
 | 2 | Extension-rich chains and general Fraïssé existence | 1; Mathlib direct limits |
 | 3 | Rooted universality and uniqueness; finite, empty and rational-order examples | 1–2; Mathlib partial equivalences and order theory |
-| 4 | Extension axioms, a concrete Rado graph and its Fraïssé identification | 0–3 |
-| 5 | Finite rank, EF truth preservation, complete Rado theory, QE and graph-specific primeness | 4; InfinitaryLogic finite games/back-and-forth |
+| 4 | Extension axioms, a concrete Rado graph and its Fraïssé identification | 0–3; Tau Ceti extension property and Rado graph |
+| 5 | Finite rank, EF truth preservation, complete Rado theory, QE, the effective formula coding, decidability and graph-specific primeness | 0, 3, 4; Tau Ceti finite games, back-and-forth and atomic diagrams |
 | 6 | Exact witness laws and quantitative extension-failure bounds | 0, 4; native Bernoulli/binomial probability |
 | 7 | Finite FO limits, uniform rank bounds and joint almost-sure stabilization | 5–6; Borel–Cantelli |
 | 8 | Rooted logical limits and worked asymptotic graph properties | 3–7; native connectivity/clique APIs |
 | 9 | Infinite random graphs, graphon compatibility and invariant-event laws | 0, 4–7; DenseGraphLimits and Exchangeability |
 | 10 | Actual infinitary comparison and nonconvergence examples | 4, 7, 9; InfinitaryLogic syntax |
 | 11 | A reusable Poisson criterion; sparse triangles and a graphon FO counterexample | 0, 6, 9; finite counting, integration, native Poisson law |
-
-The general theories of atomic models, definitional expansions, effective Fraïssé
-constructions, and invariant-measure existence for arbitrary isomorphism classes are outside
-this roadmap. So are the AFP characterization, Shelah–Spencer laws, general sparse FO
-convergence laws, Hamiltonicity thresholds and the uniform distribution on unlabeled graphs.
-The finite probability model here is the native labeled binomial model.
 
 ## Conventions
 
@@ -85,7 +97,7 @@ The finite probability model here is the native labeled binomial model.
    the ergodic array API. First-order sentence satisfaction is invariant under all
    permutations. Natural-initial-window density events need only have the former invariance.
 
-## Existing library and ownership
+## Exact supplier contracts
 
 The following are suppliers, not requests to rebuild their objects.
 
@@ -130,7 +142,7 @@ Use `TauCeti.EFStrategy`, `TauCeti.BFEquiv`,
 `SimpleGraph.sameAtomicType_iff` and `SimpleGraph.Iso.toLanguageEquiv`, and the finite-round
 soundness of `TauCeti.EFStrategy.bfEquiv` with `TauCeti.BFEquiv.realize_iff_of_qrank_le`
 (`TauCeti.ModelTheory.BackAndForth.Karp`).
-Milestone 5 adds the natural-valued first-order rank and its identification with the ordinal
+Layer 5 adds the natural-valued first-order rank and its identification with the ordinal
 rank of `BoundedFormula.toInf` to these shared APIs; it does not introduce another game,
 back-and-forth relation or soundness theorem.
 
@@ -150,18 +162,18 @@ declares them with the proposals' statements, under the same paths relative to i
   the graph-language extension property `Language.graph.ExtensionProperty`,
   `Language.graph.ExtensionProperty.embedding_from_countable`, and
   `Language.graph.ExtensionProperty.isFraisseLimit_finite_graphs`, identifying a countable structure with the
-  property as the Fraïssé limit of finite simple graphs (Milestone 4).
+  property as the Fraïssé limit of finite simple graphs (Layer 4).
 - The [quantifier-elimination proposal](https://github.com/leanprover-community/mathlib4/pull/41113):
   `Language.Theory.IsQFEquivalent` and `Language.Theory.HasQuantifierElimination`, with the
   reduction to finite variable types; its
   [extension-pair companion](https://github.com/leanprover-community/mathlib4/pull/41115)
-  derives quantifier elimination from extension pairs (Milestone 5).
+  derives quantifier elimination from extension pairs (Layer 5).
 
 Graph-specific adapters and probabilistic consequences belong here. Generic samplers,
 representation theorems and general EF machinery retain their existing owners.
 Each implementation consumes the narrow supplier it needs, not an entire supplier roadmap.
 
-## Milestone 0 — Native graph and logical probability interfaces
+## Layer 0 — Native graph and logical probability interfaces
 
 *Needs:* Mathlib `SimpleGraph.binomialRandom` with its Bernoulli-product presentation, the graph
 language and structure adapters, bounded formulas and realization; Tau Ceti
@@ -233,13 +245,51 @@ forms, bounds in `[0, 1]`, negation/complement, finite Boolean combinations, and
 transport of the law. Distinguish these event identities from any unsupported claim that
 satisfaction itself commutes with restriction.
 
-**Connections.** These interfaces supply both the extension-axiom probabilities and the
-graphon mixture evaluations. The graph-language adapters also identify the age of the Rado graph.
+**Checks** (`Satisfies`).
 
-## Milestone 1 — Representative families and amalgamation
+- `∃x∃y Adj(x, y)` holds in `K₂` and fails in the edgeless graph on `Fin 2`.
+- `∀x ⊥` holds on `Fin 0`, where raw realization is still meaningful, and fails in `K₁`.
+- `∃x Adj(x, x)` fails in every simple graph, `K₁` and `K₂` included.
+
+**Checks** (`SatisfiesFormula`).
+
+- `Adj(x₀, x₁)` holds in `K₂` at `(0, 1)` and fails at `(0, 0)`, since simple graphs are loopless.
+- `x₀ = x₁` holds at `(0, 0)` and fails at `(0, 1)`.
+- `∃y Adj(x₀, y)` holds at the vertex `0` of `K₂` and fails at the vertex of `K₁`.
+
+**Checks** (`sentenceProbability`).
+
+- For `∃x∃y Adj(x, y)` the values at `n = 0, 1, 2` are `0, 0, p`.
+- At `n = 2` the endpoints `p = 0` and `p = 1` give `0` and `1` for the same sentence.
+- For `∀x ⊥` the value is `1` at `n = 0` and `0` for every `n ≥ 1`, whatever `p` is.
+
+API: `Satisfies` and `SatisfiesFormula` unfold to Mathlib's realization under `G.structure`,
+commute with the Boolean connectives, and are invariant under graph isomorphism through
+`SimpleGraph.Iso.toLanguageEquiv` and Mathlib's realization transport; `sentenceProbability`
+carries the real and `ℝ≥0∞` forms, bounds, complement and restriction laws listed above.
+
+### Examples
+
+- The vertex swap of `K₂` is an automorphism, and realization transport along it gives each
+  sentence the same truth value on both sides.
+- For two specified pairs, one required present and one required absent, the pattern probability
+  is `p (1 - p)`, which is `1/4` at `p = 1/2`; the empty pattern has probability `1`, and at
+  `p = 0` and `p = 1` the pattern has probability `0`.
+- Restricting `G(Fin 3, p)` along an injection `Fin 2 ↪ Fin 3` gives `G(Fin 2, p)`: the edge of
+  `Fin 2` has probability `p` on both sides.
+
+### Dependencies
+
+Mathlib's binomial random graphs, graph language and bounded-formula realization; Tau Ceti's graph
+coding, configuration events and `SimpleGraph.Iso.toLanguageEquiv`; CountableStructureSpaces
+Layer 0 for `toStructure_toRelationalConfiguration`. These interfaces supply the extension-axiom
+probabilities of Layer 6 and the graphon mixture evaluations of Layer 9, and the graph-language
+adapters identify the age of the Rado graph in Layer 4.
+
+## Layer 1 — Representative families and amalgamation
 
 *Needs:* Mathlib `age`, `Hereditary`, `JointEmbedding`, `Amalgamation`, `IsFraisse` and the
-quotient-by-isomorphism convention; Milestone 0 for the finite-graph free amalgam.
+quotient-by-isomorphism convention; Layer 0 for the finite-graph free amalgam.
 
 For a family `F_i` of actual finitely generated structures, define its isomorphism closure
 `{A : ∃ i, A ≅ F_i}`. Prove membership, reindexing, duplicate-representative
@@ -283,14 +333,21 @@ orders; the order chosen between new points is construction data.
 - Finite sets of size at most `1`, in the empty language, have AP but not strong AP: the two
   one-element extensions of the empty root would need two distinct new points.
 
-**Examples.** Finite sets of size at most `m` have ordinary AP.
+### Examples
+
+Finite sets of size at most `m` have ordinary AP.
 For `m ≥ 1` they need not have strong AP: two `m`-element extensions of a common
 `(m - 1)`-element root cannot have disjoint new images in an `m`-element amalgam.
 This example pins the distinction; the class at `m = 0` consists of empty structures.
 
-## Milestone 2 — Extension-rich chains and Fraïssé existence
+### Dependencies
 
-*Needs:* Milestone 1; Mathlib direct limits, `DirectLimit.exists_fg_substructure_in_Sigma`,
+Mathlib's `age`, `Hereditary`, `JointEmbedding`, `Amalgamation` and `IsFraisse`; Layer 0 for the
+finite-graph free amalgam. Layers 2–4 use the representative families and factorization.
+
+## Layer 2 — Extension-rich chains and Fraïssé existence
+
+*Needs:* Layer 1; Mathlib direct limits, `DirectLimit.exists_fg_substructure_in_Sigma`,
 `age_directLimit` and `IsFraisseLimit` with its uniqueness.
 
 ### 2.1 Chains, factorization and extension requests
@@ -343,14 +400,24 @@ contains arbitrarily large finite subsets of its members, and the resulting tran
 of an infinite countable limit to `ℕ`. The existence theorem itself adds neither
 `Infinite M` nor `Nonempty M`.
 
-**Generality examples.** In the language of successor and predecessor, the structure on
-`ℤ` is generated by `{0}` and has an infinite carrier. Verify this and use it as a
-root/factorization example. The finite-set examples from Milestone 1 verify finite and empty
-limits without encoding them into an infinite carrier.
+### Examples
 
-## Milestone 3 — Rooted extension, universality and comparison
+- In the language of successor and predecessor, the structure on `ℤ` is generated by `{0}` and
+  has an infinite carrier. Verify this and use it as a root/factorization example.
+- The finite-set examples from Layer 1 verify finite and empty limits without encoding them into
+  an infinite carrier: in the empty language the classes of sets of size at most `0` and at most
+  `2` have limits with `0` and `2` elements.
+- The chain `Fin 0 ⊂ Fin 1 ⊂ Fin 2 ⊂ ⋯` of finite sets has direct limit `ℕ`, and the embedding of
+  a two-element set onto `{0, 1}` factors through stage `2`.
 
-*Needs:* Milestones 1–2; Mathlib `IsExtensionPair`, `embedding_from_cg`, `equiv_between_cg`, and
+### Dependencies
+
+Layer 1; Mathlib's direct limits, `DirectLimit.exists_fg_substructure_in_Sigma`, `age_directLimit`
+and the uniqueness of Fraïssé limits. Layers 3 and 4 use the existence theorem.
+
+## Layer 3 — Rooted extension, universality and comparison
+
+*Needs:* Layers 1–2; Mathlib `IsExtensionPair`, `embedding_from_cg`, `equiv_between_cg`, and
 for the examples `isFraisse_finite_linear_order` and `isFraisseLimit_of_countable_nonempty_dlo`.
 
 Given a finitely generated root `A` and actual embeddings
@@ -371,24 +438,32 @@ embeddings. Export rooted universality for every countably generated source whos
 is contained in the class. Its target need not be countable. Derive rooted uniqueness of
 two Fraïssé limits, and finite-tuple versions with exact evaluation equations.
 
-**Worked examples.**
-
-1. Recover the `Fin m` limits and extend prescribed injections/bijections over finite roots.
-2. Instantiate the new representative and rooted APIs for finite linear orders and
-   `(ℚ, <)`. Compare with Mathlib's existing
-   `isFraisse_finite_linear_order` and `isFraisseLimit_of_countable_nonempty_dlo`.
-3. Use an arbitrary finite induced graph as a prescribed root in the Rado applications
-   of Milestones 4, 5 and 8.
-
 The selected-family rooted strengthening of `PotentialIso` is a separate extension of
 the InfinitaryLogic API. These Fraïssé targets use the stated `IsExtensionPair`
 theorems and do not assume that strengthening as an unstated supplier.
 
-## Milestone 4 — Graph extension axioms and the Rado graph
+### Examples
+
+1. Recover the `Fin m` limits and extend prescribed injections/bijections over finite roots.
+   With root `A = M` finite and `a_M` the identity, the equation forces `e = a_N`.
+2. Instantiate the new representative and rooted APIs for finite linear orders and
+   `(ℚ, <)`. Compare with Mathlib's existing
+   `isFraisse_finite_linear_order` and `isFraisseLimit_of_countable_nonempty_dlo`. In `(ℚ, <)`
+   the root `0 ↦ 0`, `1 ↦ 2` extends to the order isomorphism `x ↦ 2x`.
+3. Use an arbitrary finite induced graph as a prescribed root in the Rado applications
+   of Layers 4, 5 and 8.
+
+### Dependencies
+
+Layers 1–2; Mathlib's `IsExtensionPair`, `embedding_from_cg` and `equiv_between_cg`, and for the
+examples `isFraisse_finite_linear_order` and `isFraisseLimit_of_countable_nonempty_dlo`. Layers 4, 5
+and 8 use rooted universality.
+
+## Layer 4 — Graph extension axioms and the Rado graph
 
 ### 4.1 Combinatorial and syntactic extension
 
-*Needs:* Milestone 0; Tau Ceti `SimpleGraph.HasExtensionProperty`,
+*Needs:* Layer 0; Tau Ceti `SimpleGraph.HasExtensionProperty`,
 `SimpleGraph.HasExtensionProperty.exists_adj_iff` and `SimpleGraph.Iso.toLanguageEquiv`.
 
 Define the witness predicate and `EP_{≤d}` by their actual finite-set
@@ -428,20 +503,48 @@ Construct the finite conjunction expressing `EP_{≤d}` and prove the
 correspondence. Expose reordering and permutation of the positive and negative tuples.
 No probabilistic theorem may take this semantic correspondence as an unproved parameter.
 
-**Checks.** On `Fin 0` budget `0` fails: the empty request has no witness. On `K₁` budget `0`
-holds and budget `1` fails, since the request with one positive vertex has no neighbour to use.
-On the 4-cycle budget `1` holds and budget `2` fails: two adjacent vertices have no common
-neighbour. On `K₁`, `E_{0,0}` holds while `E_{1,0}` and `E_{0,1}` fail; `E_{0,1}` fails only
-because the witness must differ from the listed vertex.
+**Checks** (`IsExtensionWitness`).
+
+- In `K₁`, the vertex `0` witnesses the empty request.
+- In `K₁`, no vertex witnesses `U = {0}`, `Z = ∅`: the only vertex lies in `U`.
+- In `K₂`, the vertex `1` witnesses `U = {0}`, `Z = ∅`, and no vertex witnesses `U = ∅`,
+  `Z = {0}`: the vertex `1` is adjacent to `0`, and `0` lies in `Z`.
+
+**Checks** (`HasExtensionUpTo`).
+
+- On `Fin 0`, budget `0` fails: the empty request has no witness.
+- On `K₁`, budget `0` holds and budget `1` fails, since the request with one positive vertex has
+  no neighbour to use.
+- On the 4-cycle, budget `1` holds and budget `2` fails: two adjacent vertices have no common
+  neighbour.
+
+**Checks** (`extensionSentence`).
+
+- On `K₁`, `E_{0,0}` holds while `E_{1,0}` and `E_{0,1}` fail; `E_{0,1}` fails only because the
+  witness must differ from the listed vertex.
+- On `Fin 0`, `E_{0,0}` fails, as budget `0` does.
+- On the 4-cycle, `E_{1,0}` and `E_{0,1}` hold and `E_{2,0}` fails.
+
+**Checks** (`Language.graph.ExtensionProperty`).
+
+- `K₁` fails it: the request `A = {0}`, `B = ∅` has no witness outside `A`.
+- In the Rado graph the request `A = {0}`, `B = {1}` has the witness `5`: bit `0` of `5` is `1`
+  and bit `1` of `5` is `0`.
+- A structure with empty carrier fails it, at the empty request.
+
+API: monotonicity of `HasExtensionUpTo` in the budget, isomorphism and complement transport,
+restriction of requests and avoidance of a prescribed finite set, as listed above; for
+`extensionSentence`, the realization equivalence and the permutation of the positive and negative
+tuples.
 
 ### 4.2 Existence and identification
 
-*Needs:* 4.1; Milestones 1–3; Tau Ceti `TauCeti.radoGraph`,
+*Needs:* 4.1; Layers 1–3; Tau Ceti `TauCeti.radoGraph`,
 `TauCeti.hasExtensionProperty_radoGraph`, `SimpleGraph.HasExtensionProperty.isExtensionPair`,
 `SimpleGraph.HasExtensionProperty.nonempty_iso` and `TauCeti.nonempty_iso_radoGraph_iff`.
 
-Prove that the class of all finite simple graph structures is Fraïssé using Milestone 1.
-Construct its limit using Milestone 2 and prove that it satisfies `EP`. Conversely,
+Prove that the class of all finite simple graph structures is Fraïssé using Layer 1.
+Construct its limit using Layer 2 and prove that it satisfies `EP`. Conversely,
 a countable graph with `EP` has this age and is ultrahomogeneous, hence is the same
 Fraïssé limit. State this converse as `Language.graph.ExtensionProperty.isFraisseLimit_finite_graphs`
 of the graph-characterization proposal, together with
@@ -466,21 +569,36 @@ The supplier provides countable uniqueness (`SimpleGraph.HasExtensionProperty.no
 characterization `TauCeti.nonempty_iso_radoGraph_iff` of the countable graphs isomorphic to `R`
 (`ModelTheory/Scott/RandomGraph.lean`) and the extension-pair bridge. Export, in addition, the characterization of `R` as the Fraïssé limit,
 the complement isomorphism, universality for countable graphs, rooted universality into any
-extension-property graph (from Milestone 3), and extension of finite induced isomorphisms to
+extension-property graph (from Layer 3), and extension of finite induced isomorphisms to
 automorphisms. Give explicit finite graph embeddings, including complete, empty, path and
 cycle graphs.
 
-**Checks.** The empty graph and `K₂` belong to the class of finite simple graphs; a one-point
-structure whose adjacency relation is reflexive fails the simple-graph axioms, and the Rado graph
-fails finiteness. `K₂` embeds in the Rado graph on `{0, 1}` (bit `0` of `1` is `1`) and the
-edgeless two-vertex graph on `{0, 2}` (bit `0` of `2` is `0`); `K₁` is not the limit, since `K₂`
-is outside its age.
+**Checks** (`finiteGraphs`).
 
-## Milestone 5 — Finite rank, Rado theory and elimination
+- The empty graph and `K₂` belong to it.
+- A one-point structure whose adjacency relation is reflexive does not: it fails the
+  simple-graph axioms.
+- The Rado graph does not: it is infinite.
+
+### Examples
+
+- `K₂` embeds in the Rado graph on `{0, 1}` (bit `0` of `1` is `1`) and the edgeless two-vertex
+  graph on `{0, 2}` (bit `0` of `2` is `0`).
+- `K₁` is not the limit of the finite simple graphs, since `K₂` is outside its age.
+- The pairs `(0, 1)`, `(0, 2)`, `(1, 3)` and `(1, 1)` are, in that order, an edge, a nonedge, an
+  edge and a diagonal pair of the Rado graph, in both the ordered and the symmetric presentation.
+
+### Dependencies
+
+Layers 0–3; Tau Ceti's `SimpleGraph.HasExtensionProperty`, `TauCeti.radoGraph` and their API from
+the InfinitaryLogic random-graph worked example. Layers 5–10 use the extension predicates, the
+extension sentences and the Rado graph.
+
+## Layer 5 — Finite rank, Rado theory and elimination
 
 ### 5.1 Shared finite-logic foundations
 
-*Needs:* Milestone 0; 4.1 for the extension strategy; Tau Ceti `EFStrategy`, `BFEquiv`,
+*Needs:* Layer 0; 4.1 for the extension strategy; Tau Ceti `EFStrategy`, `BFEquiv`,
 `TauCeti.EFStrategy.bfEquiv`, `TauCeti.BFEquiv.realize_iff_of_qrank_le`,
 `TauCeti.BFEquiv.elementarilyEquivalent`, `BoundedFormula.realize_toInf`,
 `SimpleGraph.sameAtomicType_iff` and the infinitary quantifier rank with
@@ -508,7 +626,18 @@ With the declarations above it gives the first-order form directly: tuples joine
 strategy agree on every native formula of `foRank` at most `k`. Formulas over `Fin m` are moved to
 the bound-position presentation explicitly. The graph specialization then uses
 `sameAtomicType_iff`. The finite graph signature enters the later enumeration of diagrams for
-quantifier elimination. Check: `∀x∃y Adj(x,y)` has `foRank` 2 and ordinal rank 2.
+quantifier elimination.
+
+**Checks** (`foRank`).
+
+- An atom such as `Adj(x₀, x₁)` has rank `0`, as does `⊥`.
+- `∀x∃y Adj(x, y)` has rank `2`, and its ordinal rank under `BoundedFormula.toInf` is `2`.
+- An implication of formulas of ranks `1` and `2` has rank `2`, the maximum; an additive
+  convention would give `3`.
+
+API: the constructor equations, including those of the derived connectives and `∃`; invariance
+under renaming of free variables and the substitution laws; `foRank_eq_zero_iff_isQF`; and the
+bridge `(BoundedFormula.toInf φ).qrank = foRank φ`.
 
 For graphs satisfying `EP_{≤d}`, construct the finite-round extension
 strategy starting at two tuples with the same equality and adjacency pattern. If the
@@ -526,7 +655,7 @@ Handle rank `0` directly, and verify the indexing at ranks `1, 2, 3`.
 
 ### 5.2 Complete theory and QE
 
-*Needs:* 4.1–4.2, 5.1; Milestone 3 rooted universality; Mathlib `Theory.IsComplete`,
+*Needs:* 4.1–4.2, 5.1; Layer 3 rooted universality; Mathlib `Theory.IsComplete`,
 `Cardinal.Categorical`, `CompleteType`, `typesWith`, `typeOf`, `ElementaryEmbedding`,
 `BoundedFormula.listEncode` with `BoundedFormula.encoding`, `Primcodable` and `Computable`; Tau Ceti `firstOrderAtomicDiagram` and
 `realize_firstOrderAtomicDiagram_iff_sameAtomicType`.
@@ -549,7 +678,7 @@ Prove quantifier elimination for actual first-order formulas, including formulas
 free variables. The meaning of a tuple's diagram is Tau Ceti's atomic-diagram semantics:
 `AtomicIdx.toFormula`, `firstOrderAtomicDiagram` and
 `realize_firstOrderAtomicDiagram_iff_sameAtomicType`, applied to the graph language through the
-instance `Finite (Σ l, Language.graph.Relations l)`, which is a target of this milestone. That
+instance `Finite (Σ l, Language.graph.Relations l)`, which is a target of this layer. That
 diagram is a classical finite
 conjunction and is noncomputable, so it supplies the semantics but not the algorithm.
 
@@ -617,11 +746,43 @@ the target model need not be countable. Give the atomicity and primeness stateme
 after naming a finite tuple, with the elementary embedding retaining the prescribed
 parameter values.
 
-**Checks.** Modulo `T_R`, `∃y Adj(x₀, y)` eliminates to `⊤` (it holds in every model, by
-`E_{1,0}`) and `∃x Adj(x, x)` to `⊥`. In the Rado graph the pairs `(0, 0)`, `(0, 1)` and `(0, 2)`
-have three different diagrams (`x₀ = x₁`; `x₀ ≠ x₁` and adjacent; `x₀ ≠ x₁` and nonadjacent), so
-they isolate three different types in `T_R.CompleteType (Fin 2)`; the first pair shows that
-equality atoms are needed, the last two that adjacency atoms are.
+**Checks** (`radoAxioms`).
+
+- The Rado graph is a model.
+- The countable edgeless graph is not: it fails `E_{1,0}`.
+- `K₁` is not, as `T_R` has no finite models: it fails `E_{1,0}`.
+
+**Checks** (`Language.Theory.IsQFEquivalent`).
+
+- Modulo `T_R`, `∃y Adj(x₀, y)` is equivalent to `⊤` (it holds in every model, by `E_{1,0}`) and
+  `∃x Adj(x, x)` to `⊥`.
+- Modulo `Language.Theory.simpleGraph`, `∃y Adj(x₀, y)` has no quantifier-free equivalent: every
+  quantifier-free formula in `x₀` takes the same value at the vertex of `K₁` and at a vertex of
+  `K₂`, where `∃y Adj(x₀, y)` is false and true.
+- Every quantifier-free formula is quantifier-free equivalent to itself modulo every theory.
+
+**Checks** (`Language.Theory.HasQuantifierElimination`).
+
+- `T_R` has it.
+- `Language.Theory.simpleGraph` does not, by the previous Check.
+- An unsatisfiable theory has it: every formula is equivalent to `⊥` modulo it.
+
+**Checks** (`boundedCode` and `boundedDecode`).
+
+- Decoding the code of `⊥`, and of an implication, returns the formula.
+- The code of a formula's list encoding with one more symbol appended decodes to `none`:
+  Mathlib's list decoder returns the formula, but re-encoding it does not reproduce the number.
+- `x₀ = x₀` has the same code over `Fin 1` and over `Fin 2`, since a variable is coded by its
+  value in every context.
+- In a language with one unary function symbol `s`, the code of `s(x₀) = x₀` over `Fin 1`
+  decodes to that formula.
+
+**Checks** (atomic isolation).
+
+- In the Rado graph the pairs `(0, 0)`, `(0, 1)` and `(0, 2)` have three different diagrams:
+  `x₀ = x₁`; `x₀ ≠ x₁` and adjacent; `x₀ ≠ x₁` and nonadjacent.
+- They isolate three different types in `T_R.CompleteType (Fin 2)`.
+- The first pair shows that equality atoms are needed, the last two that adjacency atoms are.
 
 ### 5.3 Finite consequences
 
@@ -635,7 +796,30 @@ the probabilistic limit theorem.
 The first-order isolation assertions here use the finite graph language. No theorem
 asserts that arbitrary-language ultrahomogeneity alone implies first-order isolation.
 
-## Milestone 6 — Witness counts and extension-failure estimates
+**Checks** (`radoAxiomsUpTo`).
+
+- `radoAxiomsUpTo 0` adds `E_{0,0}` to the simple-graph axioms; `radoAxiomsUpTo 1` adds
+  `E_{0,0}`, `E_{1,0}` and `E_{0,1}`.
+- `K₁` is a model of `radoAxiomsUpTo 0` but not of `radoAxiomsUpTo 1`.
+- `∀x∃y Adj(x, y)`, of rank `2`, follows from `radoAxiomsUpTo 1` by `E_{1,0}` and holds in `R`;
+  it does not follow from `radoAxiomsUpTo 0`, of which `K₁` is a model, which the rank bound
+  `d + 1 = 1` allows.
+
+### Examples
+
+- `K₁` and `K₂` both satisfy `EP_{≤0}` and differ on `∃x∃y Adj(x, y)`, of rank `2`: the bound
+  `d + 1` in the rank agreement is sharp at `d = 0`.
+- For the root of length `m = 2` and `q = 1` further round, the budget is `m + q - 1 = 2`: the
+  common-neighbour query at two vertices is a request of size `2`.
+- The decision map answers true on the triangle sentence and false on `∃x Adj(x, x)`.
+
+### Dependencies
+
+Layers 0, 3 and 4; Tau Ceti's finite EF games, back-and-forth relations, Karp's theorem, quantifier
+rank and atomic diagrams; Mathlib's complete types, list encoding and computability. Layers 7 and 8
+use the rank agreement, and Layer 7 the decision map.
+
+## Layer 6 — Witness counts and extension-failure estimates
 
 *Needs:* 0.2; 4.1 for the witness predicate, bounded extension and the extension sentences;
 StandardDistributions binomial law.
@@ -679,11 +863,45 @@ Supply nonnegativity, complement symmetry, finite-union bounds and limits. For f
 `C_{d,p} n^d e^(-c_{d,p} n)` bound for sufficiently large `n`, with `c_{d,p} > 0`.
 The empty request and the absence of candidates are required boundary checks.
 
-## Milestone 7 — FO asymptotics and almost-sure stabilization
+**Checks** (`witnessProbability`).
+
+- At `p = 1/2` and `r = s = 1` it is `1/4`.
+- For `r = s = 0` it is `1` for every `p`: every candidate witnesses the empty request.
+- At `p = 0` and `r = 1` it is `0`.
+
+**Checks** (`witnessCount`).
+
+- With two candidates the count takes the values `0`, `1` and `2`.
+- With no candidates it is `0`.
+- In `K₂` with `U = {0}`, `Z = ∅` and `C = {1}` it is `1`.
+
+**Checks** (`extensionError`, written `B_d(n, p)`).
+
+- `B_0(0, p) = 1`: the only term is `0^0 = 1`.
+- `B_0(1, p) = 0`.
+- On `Fin 3` budget `1` always fails, since every vertex would need exactly one neighbour, and
+  indeed `1 ≤ B_1(3, 1/2) = 3/2`; also `B_2(4, 1/2) = 29/2`.
+
+API: `witnessCount` is monotone in `C` and additive over disjoint candidate sets; `extensionError`
+is nonnegative, symmetric under `p ↦ 1 - p` and monotone in `d`.
+
+### Examples
+
+- At `p = 1/2`, `r = s = 1` and two candidates the masses of `0, 1, 2, 3` witnesses are
+  `9/16, 6/16, 1/16, 0`, and the no-witness mass is `(1 - 1/4)^2 = 9/16`.
+- At `p = 1/2`, `d = 1` and `n = 4`, `B_1(4, 1/2) = 1 ≤ 16 e^(-3/2) ≈ 3.57`.
+- At `p = 1/2` and `d = 1`, `B_1(n, 1/2) = 2n · 2^(1-n)` for `n ≥ 1`, a summable sequence.
+
+### Dependencies
+
+0.2; 4.1 for the witness predicate, bounded extension and the extension sentences;
+StandardDistributions for the binomial law. Layers 7–9 use the failure bounds.
+
+## Layer 7 — FO asymptotics and almost-sure stabilization
 
 ### 7.1 Finite laws
 
-*Needs:* 5.1–5.3; Milestone 6.
+*Needs:* 5.1–5.3; Layer 6.
 
 For `qr(φ) ≤ d + 1` and `n ≥ d`, prove the explicit estimate
 
@@ -691,7 +909,7 @@ For `qr(φ) ≤ d + 1` and `n ≥ d`, prove the explicit estimate
 
 It is uniform over all sentences of the indicated rank. Derive the fixed-`p` zero–one
 law, the equality of the almost-sure theory with `Th(R)` (the semantic
-consequence closure of `T_R`), and independence of this theory from `p ∈ (0, 1)`. The decision map of Milestone 5 computes the limiting truth
+consequence closure of `T_R`), and independence of this theory from `p ∈ (0, 1)`. The decision map of Layer 5 computes the limiting truth
 value; the rank supplies the error profile. Classical compactness alone is not claimed
 to compute either of them.
 
@@ -701,12 +919,12 @@ consequences of the positive finite-law probabilities, not inputs to the constru
 of `R` or to completeness.
 
 Export a transfer theorem for any concrete graph property implied by a fixed extension
-budget, with the corresponding failure bound. Milestone 8 supplies actual graph
+budget, with the corresponding failure bound. Layer 8 supplies actual graph
 properties and proves these deterministic implications.
 
 ### 7.2 Varying parameters
 
-*Needs:* 7.1; Milestone 6.
+*Needs:* 7.1; Layer 6.
 
 Let `p_n ∈ [0, 1]` and `δ_n = min(p_n, 1 - p_n)`. For each fixed `d ≥ 1`, prove
 bounded-rank convergence whenever
@@ -753,15 +971,35 @@ Prove the varying-parameter version under the all-rank condition of 7.2, and the
 abstract version under summability of the extension-failure probabilities.
 Instantiate it on the nested initial windows of the native infinite binomial graph.
 
-These are derivations, not cited theorems: the inputs are the summable bounds of Milestone 6
+These are derivations, not cited theorems: the inputs are the summable bounds of Layer 6
 and 7.2, the first Borel–Cantelli lemma `measure_limsup_atTop_eq_zero`, which needs no
 independence, and the rank agreement of 5.1.
 
-## Milestone 8 — Rooted laws and asymptotic graph examples
+**Checks** (`radoTruth`).
+
+- The triangle sentence has value `1`.
+- `∃x Adj(x, x)` has value `0`.
+- `∀x∃y Adj(x, y)` has value `1`, by `E_{1,0}`.
+
+### Examples
+
+- For `∃x∃y Adj(x, y)` the probability is `1 - (1 - p)^C(n, 2)`, which tends to `1`, its Rado
+  truth value; at the excluded endpoint `p = 0` it is `0` for every `n`.
+- The alternating parameters `1/3, 2/3, 1/3, …` satisfy the all-rank condition, with
+  `δ_n = 1/3`.
+- `p_n = 1/log(n + 2)` for large `n` satisfies the all-rank condition, since `n^a / log(n + 2)`
+  tends to infinity for every `a > 0`.
+
+### Dependencies
+
+Layers 5–6; Mathlib's `measure_limsup_atTop_eq_zero`; Tau Ceti's `SimpleGraph.restrictFin`.
+Layers 8–9 use the finite laws and the joint statements.
+
+## Layer 8 — Rooted laws and asymptotic graph examples
 
 ### 8.1 Finite named roots
 
-*Needs:* 0.2; 4.2 rooted universality; the tuple form of 5.1; Milestone 6; 7.1.
+*Needs:* 0.2; 4.2 rooted universality; the tuple form of 5.1; Layer 6; 7.1.
 
 For a fixed graph `H` on `Fin m`, condition `G(n, p)` on inducing `H` on the first
 `m` vertices, for `n ≥ m` and `0 < p < 1`. Prove positivity and the exact probability of
@@ -771,7 +1009,7 @@ Choose an induced copy of `H` in `R` using rooted universality. For every formul
 `ψ(x₀, …, x_{m-1})`, prove that its conditional limiting truth is the truth in
 this rooted `R`, independent of the chosen copy. Supply a quantitative bound using the
 tuple version of finite-rank agreement; division by the explicitly positive root-event
-probability gives a valid bound from Milestone 6.
+probability gives a valid bound from Layer 6.
 
 Also prove the unconditioned fixed-tuple limit
 
@@ -782,8 +1020,31 @@ This is a finite, effectively determined polynomial expression. Include the exam
 `ψ(x₀, x₁) = Adj(x₀, x₁)`, whose limit is `p`. This does not contradict
 the sentence zero–one law: it is a formula evaluated at random named vertices.
 
-**Checks.** For `ψ = Adj(x₀, x₁)` the conditioned limits are `1` on `H = K₂` and `0` on the
-edgeless `H`, and their mixture with weights `p` and `1 - p` is the unconditioned limit `p`.
+**Checks** (`firstVertices`).
+
+- For `m = 2` and `n = 1` its image in `Fin 3` is `{0, 1}`.
+- For `m = 0` its image is empty.
+- It sends `i` to `i`.
+
+**Checks** (`rootEvent`).
+
+- For `m = 2` and `H = K₂` its probability under `G(2 + n, p)` is `p`; for the edgeless `H` it
+  is `1 - p`.
+- For `m = 0` it is the whole space, of probability `1`.
+- At `p = 0` the event for `H = K₂` has probability `0`, so positivity needs `0 < p`.
+
+**Checks** (`rootedProbability`).
+
+- At `p = 1/2`, `H = K₂` and `φ = Adj(x₀, x₁)` it is `1` for every `n`.
+- For the edgeless `H` and the same `φ` it is `0`.
+- At `p = 0` and `H = K₂` the denominator is `0` and the real quotient is `0`; the limit
+  theorems assume `0 < p < 1`, where the denominator is positive.
+
+**Checks** (`rootedTruth`).
+
+- `Adj(x₀, x₁)` has value `1` at `(0, 1)` in the Rado graph and `0` at `(0, 2)`.
+- `x₀ = x₁` has value `1` at `(3, 3)`.
+- `∃y (Adj(x₀, y) ∧ Adj(x₁, y))` has value `1` at `(0, 1)`, by `E_{2,0}`.
 
 ### 8.2 Graph properties
 
@@ -817,11 +1078,24 @@ by one FO sentence; its probabilistic application follows from a stronger fixed 
 condition. Include a worked calculation at `p = 1/2` and the low extension budgets
 `d = 0, 1, 2`.
 
-## Milestone 9 — Infinite laws and graphon connections
+### Examples
+
+- For `ψ = Adj(x₀, x₁)` the conditioned limits are `1` on `H = K₂` and `0` on the edgeless `H`,
+  and their mixture with weights `p` and `1 - p` is the unconditioned limit `p`.
+- `EP_{≤2}` gives diameter at most `2`; a finite complete graph has diameter `1` and fails
+  `EP_{≤1}`, so the nonedge half of "diameter exactly `2`" is needed.
+- For `k = 0` the clique event always holds, and for `k = 2` it asks for an edge and a nonedge.
+
+### Dependencies
+
+Layers 3–7; Mathlib's `CliqueFree`, `degree` and `diam`; Tau Ceti's `SimpleGraph.IsVertexConnected`
+from GraphConnectivityAndFlows.
+
+## Layer 9 — Infinite laws and graphon connections
 
 ### 9.1 Infinite binomial graphs
 
-*Needs:* 0.3; 4.1–4.2; Milestone 6; 7.3.
+*Needs:* 0.3; 4.1–4.2; Layer 6; 7.3.
 
 For each finite extension request in the native `G(ℕ, p)` law, prove that the
 event of having no witness has probability `0`. Take the countable intersection over
@@ -831,7 +1105,7 @@ requests and derive
 
 Prove measurability of this particular isomorphism class by its extension-axiom
 description. Export avoidance of every finite set and infinitely many witnesses,
-the finite-window law, and the joint eventual statements from Milestone 7.
+the finite-window law, and the joint eventual statements from Layer 7.
 
 ### 9.2 Graphon sampling
 
@@ -868,10 +1142,10 @@ applies) each edge has probability `3/8`, while two edges at a common vertex are
 with probability `∫(1/4 + x/4)² dx = 7/48`, not `9/64`. This is an application of the
 existing sampler to the newly proved conditional witness bounds. The conditional witness
 probabilities and the displayed bound are computed from the sampler's definition, as in
-Milestone 6; no external theorem is cited for them.
+Layer 6; no external theorem is cited for them.
 
 Mere almost-everywhere positivity and strict inequality from `1` supply the infinite
-Rado theorem, not the uniform finite estimate. Milestone 11 gives a concrete graphon
+Rado theorem, not the uniform finite estimate. Layer 11 gives a concrete graphon
 where finite FO zero–one fails despite almost-sure infinite Rado support.
 
 ### 9.3 Invariant-event laws and mixtures
@@ -919,7 +1193,28 @@ under `G(ℕ, q)`, probability zero there. At `p = 0`, `q = 1` its masses are `1
 separating initial-window density events are invariant under finitely supported permutations;
 do not claim invariance under all relabelings.
 
-## Milestone 10 — Infinitary distinctions with actual sentences
+**Checks** (`windowEdgeDensity`).
+
+- For the empty graph it is `0` at every `n`.
+- For the complete graph it is `0` at `n = 0, 1` and `1` for every `n ≥ 2`.
+- For the Rado graph it is `2/3` at `n = 3`: of the pairs in `{0, 1, 2}`, `{0, 1}` and `{1, 2}`
+  are edges and `{0, 2}` is not.
+
+### Examples
+
+- The half-empty/half-complete mixture gives the sentence "there exists an edge" probability
+  exactly `1/2`, although each graphon gives it `0` or `1`.
+- The constant graphon with value `1/2` has the law `G(ℕ, 1/2)`, and the product graphon `xy`
+  satisfies the hypothesis of the infinite Rado theorem: for a root label `x > 0` the positive
+  request succeeds with probability `x/2 > 0`.
+- At `p = 0` and `q = 1` the edge-density separator has masses `1` and `0`.
+
+### Dependencies
+
+Layers 0 and 4–7; DenseGraphLimits for the samplers, their consistency, sampling convergence and
+mixtures; Exchangeability for the ergodic array theory. Layers 10–11 use the infinite laws.
+
+## Layer 10 — Infinitary distinctions with actual sentences
 
 *Needs:* 4.1; 7.1; 9.1; Tau Ceti infinitary syntax and semantics and
 `SimpleGraph.HasExtensionProperty.realize_scottSentence_iff`.
@@ -947,7 +1242,47 @@ Use the existing `L_{ω₁,ω}` syntax, native FO embedding and realization API:
 These are separate assertions: mismatch with infinite truth and genuine failure of
 finite-probability convergence. Neither is a failure of the FO theorem.
 
-## Milestone 11 — Poisson limits and sharp scope comparisons
+**Checks** (`SatisfiesInf`).
+
+- The embedded triangle sentence holds in `K₃` and fails in `K₂`, as the first-order sentence
+  does.
+- `Θ_R` holds in the Rado graph and fails in `K₁`.
+- A countable disjunction holds when one disjunct does: `Θ_even` holds on `Fin 2` through
+  `CardEq(2)`.
+
+**Checks** (`radoSentenceInf`).
+
+- It holds in the Rado graph.
+- It fails in `K₁` and in every finite graph, which has no witness outside a listing of its
+  whole carrier.
+- It fails in the countable edgeless graph, at `E_{1,0}`.
+
+**Checks** (`cardEq`).
+
+- `CardEq(0)` holds on `Fin 0` and fails on `Fin 1`.
+- `CardEq(1)` holds on `Fin 1` and fails on `Fin 2`.
+- `CardEq(m)` fails on `ℕ` for every `m`.
+
+**Checks** (`evenSentenceInf`).
+
+- It holds on `Fin 0` and on `Fin 2`.
+- It fails on `Fin 1`.
+- It fails on `ℕ`.
+
+### Examples
+
+- Under `G(ℕ, 1/2)`, `Θ_R` has probability `1`; on `Fin 0` and `Fin 1` it has probability `0`
+  at `p = 0` and at `p = 1`.
+- The probabilities of `Θ_even` at `n = 0, 1, 2, 3` are `1, 0, 1, 0`, with subsequence limits
+  `1` and `0`.
+- `Θ_R` and the Scott sentence of `R` agree on graphs of every cardinality.
+
+### Dependencies
+
+Layers 4, 7 and 9; Tau Ceti's Lω₁ω syntax and semantics and
+`SimpleGraph.HasExtensionProperty.realize_scottSentence_iff`.
+
+## Layer 11 — Poisson limits and sharp scope comparisons
 
 ### 11.1 Discrete factorial-moment criterion
 
@@ -1047,6 +1382,51 @@ This gives a concrete failure of finite FO zero–one for a fixed graphon with a
 ergodic infinite law concentrated on the Rado isomorphism class. It also explains why
 the uniform lower/upper bounds in the finite graphon theorem do mathematical work.
 
+**Checks** (`triangleSentence` and `triangleCount`).
+
+- The sentence fails in `K₂` and holds in `K₃`; its rank is `3`.
+- The counts on `K₂`, `K₃` and `K₄` are `0`, `1` and `4`; ordered embeddings would give `0`, `6`
+  and `24`.
+- The sentence holds exactly when the count is positive, on each of these graphs.
+
+**Checks** (`noIsolatedSentence` and `isolatedCount`).
+
+- The sentence holds on `Fin 0`, fails in `K₁` and holds in `K₂`; its rank is `2`.
+- The counts on `Fin 0`, `K₁`, `K₂` and the edgeless graph on `Fin 2` are `0`, `1`, `0` and `2`.
+- The sentence holds exactly when the count is `0`, on each of these graphs.
+
+**Checks** (`productGraphon`).
+
+- Its values at `(0, 1)`, `(1, 1)` and `(1/2, 1/2)` are `0`, `1` and `1/4`.
+- It is symmetric.
+- It takes values in `[0, 1]`, and `0 < xy < 1` off a null set.
+
+### Examples
+
+- With `λ = 0` the Poisson law is the point mass at `0`; the Bernoulli laws with parameter `1/n`
+  satisfy the factorial-moment hypotheses and are at total-variation distance `1/n` from it.
+- For `c = 0` and `c = 1` the triangle limits are `0` and `1 - e^(-1/6) ≈ 0.1535`.
+- For the graphon `xy`, the factorial-moment limits at `k = 0, 1, 2` are `1, 2, 4`, and the
+  no-isolated-vertex limit is `e^(-2) ≈ 0.1353`, while the infinite sample satisfies the
+  sentence with probability `1`.
+
+### Dependencies
+
+Layers 0, 6 and 9; Mathlib's `Nat.descFactorial`, `ProbabilityTheory.poissonMeasure`,
+`cliqueFinset` and integration on `ℕ` and on `[0, 1]^k`.
+
+## Out of scope
+
+The general theories of atomic models, definitional expansions, effective Fraïssé
+constructions, and invariant-measure existence for arbitrary isomorphism classes are outside
+this roadmap. So are the AFP characterization, Shelah–Spencer laws, general sparse FO
+convergence laws, Hamiltonicity thresholds and the uniform distribution on unlabeled graphs.
+The finite probability model here is the native labeled binomial model. The full extension
+predicate and the Rado graph belong to the InfinitaryLogic worked example in Tau Ceti; the
+decoding identity of the graph coding, and the measurability of Lω₁ω sentence events on
+`SimpleGraph ℕ`, belong to CountableStructureSpaces; the primitive-recursive syntax of the group
+language belongs to FreeGroupsAndLimitGroups.
+
 ## Completion criteria
 
 Each introduced definition comes with its basic rewriting, transport and boundary-case
@@ -1074,7 +1454,7 @@ discharge its corresponding target.
 Use Mathlib's existing and emerging API shape. Follow the design of the general existence
 construction in [Gabin Kolly's Fraïssé-existence proposal for Mathlib](https://github.com/leanprover-community/mathlib4/pull/18876)
 and [its prerequisite](https://github.com/leanprover-community/mathlib4/pull/18749), and of the
-graph characterization of Milestone 4 in his
+graph characterization of Layer 4 in his
 [graph-characterization proposal](https://github.com/leanprover-community/mathlib4/pull/20649).
 Coordinate the theory-level quantifier-elimination endpoint with the
 [quantifier-elimination proposal](https://github.com/leanprover-community/mathlib4/pull/41113) and
@@ -1125,6 +1505,13 @@ Coordinate with source authors before integrating their code, following the repo
 porting policy and applicable licenses. Independent proofs still cite relevant design
 work. No unmerged mathlib branch or external formalization is a runtime dependency.
 
+## Downstream consumers
+
+No roadmap on main, and none of the sibling roadmaps InfinitaryModelExistence,
+CountableStructureSpaces, BorelEquivalenceRelations, CountableModelCounting and HanfNumbers,
+consumes a target of this roadmap. CountableStructureSpaces mentions the Rado graph only through
+Tau Ceti's InfinitaryLogic declarations.
+
 ## Mathematical references
 
 - R. Fagin, [Probabilities on finite models](https://homepages.math.uic.edu/~lreyzin/s15_mcs590/fagin76.pdf),
@@ -1142,7 +1529,7 @@ work. No unmerged mathlib branch or external formalization is a runtime dependen
   §1.3 introduces extension statements over rooted graphs. Definition 2.3 and
   Theorem 2.2.3 show that graphs with the `k`-extension property form one `(k + 1)`-round
   Ehrenfeucht class, the source of the `EP_{≤d}`/rank-`(d + 1)` indexing of
-  Milestone 5; Theorems 2.3.1–2.3.2 relate Ehrenfeucht values to quantifier depth, with
+  Layer 5; Theorems 2.3.1–2.3.2 relate Ehrenfeucht values to quantifier depth, with
   designated vertices for the rooted form. Theorems 9.1.3–9.1.4 are the dense
   varying-parameter laws: the fixed-rank condition of 7.2 sharpens the hypothesis of
   Theorem 9.1.3, and the all-rank condition is that of Theorem 9.1.4.
@@ -1157,10 +1544,10 @@ work. No unmerged mathlib branch or external formalization is a runtime dependen
   signature, a nonempty finite or countable set of finitely generated structures with HP, JEP
   and AP has a limit of cardinality at most `ℵ₀` with that age, ultrahomogeneous and
   unique up to isomorphism; Theorem 7.1.7 (p. 329) is its converse. Lemma 7.1.6 and the chain
-  construction (1.8) (pp. 328–329) correspond to Milestone 2. Lemmas 7.1.3–7.1.4
+  construction (1.8) (pp. 328–329) correspond to Layer 2. Lemmas 7.1.3–7.1.4
   (pp. 326–327) extend a prescribed embedding of a finitely generated substructure to an
-  embedding or isomorphism, the rooted statements of Milestone 3, for structures that are at
-  most countable. Milestones 2 and 3 assume less: existence uses countability of the function
+  embedding or isomorphism, the rooted statements of Layer 3, for structures that are at
+  most countable. Layers 2 and 3 assume less: existence uses countability of the function
   symbols only and proceeds through representative families, and the rooted embedding allows a
   target of any cardinality; the constructions specified there supply these variants.
 - P. J. Cameron, [The random graph](https://arxiv.org/abs/1301.7544), arXiv:1301.7544v1
