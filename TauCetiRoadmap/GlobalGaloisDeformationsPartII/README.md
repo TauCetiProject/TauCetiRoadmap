@@ -1187,7 +1187,9 @@ The Checks in §§6.2–6.6 give the worked examples for this layer.
 
 ## Layer 7: Levi-valued residual representations
 
-### 7.1 Changing the residual lattice to a Levi projection
+### 7.1 Parabolic extensions of Levi-valued residual representations and the Levi lattice change
+
+This part provides the passage between a Levi-valued residual representation and a parabolic extension of it: the lattice change to the Levi projection (§7.1), controlled extension spaces (§7.2), an extension with full abelian radical image (§7.3), local lifts at its new places (§7.4) and the removal of adjoint invariants (§7.5). Sections 7.6, 8.5, 9.4 and 9.5 consume it, and §8.11 uses §7.2.
 
 Let G be connected reductive and ρ:Γ→G(O) continuous with residual image in a parabolic P=MU. After a finite totally ramified coefficient extension O′/O there is g∈G(Frac O′) such that gρg⁻¹ is O′-valued and its reduction is the Levi projection of ρ̄. If P is minimal containing the residual image this reduction is its G-semisimplification. Conjugation preserves the characteristic-zero Zariski closure up to conjugacy, but need not preserve the full integral congruence kernel. (FKP22, Lemma 6.1 and proof, pp.27–28.)
 
@@ -1200,8 +1202,7 @@ One proof route proceeds as follows. Choose a cocharacter with zero weights on M
 
 *Needs:* ReductiveGroups Layer 7; ReductiveGroups Layer 8; ArithmeticGaloisRepresentations §§1.1–1.2, 1.6–1.11; ArithmeticGaloisRepresentations §1.11; ReductiveGroupsPartII RG2.1, the finite-image semisimplification contract and the parabolic adjoint filtration contract.
 
-### 7.2 Arbitrarily large controlled extension spaces
-
+**7.2 Arbitrarily large controlled extension spaces.**
 Let W≠0 and W′ be finite `F_p[Γ_{F,S}]`-modules and let 0≠W⁰⊂W be an F_p-subspace. For every integer d there is a finite set T outside S, trivial for both W and W′ and with q_v≡1 mod p, such that dim_Fp `H¹_L(Γ_{F,S∪T},W)>d`, where L_v=0 at old places and at new places inertia takes values in W⁰. The new sets may avoid any fixed finite set. (FKP22, Lemma 6.2, pp.28–29.)
 
 One proof route proceeds as follows. Choose completely split primes for both coefficient actions and μ_p. At each new prime the allowed local space exceeds the unramified space by dim W⁰. Apply Greenberg–Wiles and the local-condition comparison formula to obtain an unbounded lower bound.
@@ -1213,8 +1214,7 @@ One proof route proceeds as follows. Choose completely split primes for both coe
 
 *Needs:* ArithmeticGaloisDuality §R02.5.1 and the function-field Selmer numerics contract; ArithmeticGaloisDuality R02.5, change of local condition, and the function-field Selmer numerics contract; Chebotarev Layer 10; FunctionFieldArithmetic §5.8; §0.4.
 
-### 7.3 Parabolic representations with full abelian radical image
-
+**7.3 Parabolic representations with full abelian radical image.**
 For connected G, P=MU, a Levi-valued residual ρ̄ and an abelian M-normalized product A⊂U of root subgroups, there are finitely many ρ̄-trivial new primes T and `ρ̄′:Γ_{F,S∪T}→A⋊M` with projection ρ̄, image containing A(k), and local restrictions conjugate to ρ̄ at every old place. At each new place the image lies in A(k) and inertia in a single chosen root subgroup. (FKP22, Lemma 6.3, p.29.)
 
 One proof route proceeds as follows. Use the split semidirect product to identify lifts of ρ̄ with continuous cocycles in A(k). For every prime-field line in each selected root coordinate use the controlled extension-space theorem to obtain a nontrivially ramified class supported at disjoint new primes. Sum these classes; local inertia supplies generators for all A(k), while zero old local classes give conjugacy there.
@@ -1226,8 +1226,7 @@ One proof route proceeds as follows. Use the split semidirect product to identif
 
 *Needs:* §7.2; §1.6; Tau Ceti `TauCeti.ContCohomology.H1`.
 
-### 7.4 Local lifts of abelian-unipotent residual image
-
+**7.4 Local lifts of abelian-unipotent residual image.**
 Let q_v≡1 mod p, p odd, and let the local residual image lie in an abelian root subgroup A(k), with inertia in U_α(k). It has an O-valued lift after coefficient extension: choose lifts u₁∈A(O),u₂∈U_α(O), put t=α∨(√q_v) with √q_v≡1 mod ϖ, and send σ_v to tu₁ and τ_v to u₂. If a fixed multiplier μ is required, multiply the Frobenius value by a central lift of μ(σ_v) and verify that μ is unramified and residually trivial here. The central multiplier lift uses the prime-to-p central isogeny; the formula without the central factor has trivial multiplier. (FKP22, Lemma 6.4, pp.29–30.)
 
 One proof route proceeds as follows. Use Hensel for the specified square root. The coroot acts on its root group with weight 2 and A is abelian, giving the tame relation. The central correction changes the quotient without changing the tame conjugation relation.
@@ -1239,8 +1238,7 @@ One proof route proceeds as follows. Use Hensel for the specified square root. T
 
 *Needs:* §0.1; ReductiveGroups Layer 7; ReductiveGroups Layer 8; ArithmeticGaloisRepresentations Layer 2; LocalGaloisDeformationRings §2.28 and the root cocycle lattice contract and the smooth local approximation contract.
 
-### 7.5 Removing adjoint invariants by an extension
-
+**7.5 Removing adjoint invariants by an extension.**
 Assume p≫G, H⁰(Γ_F,M)=z(m)∩g^der for Levi-valued ρ̄ and the local regular μ-lifts. Choose A as in the faithful-center root subgroup theorem. The parabolic extension ρ̄′ can be chosen with H⁰(Γ_F,Adρ̄′ g^der)=0 and with all required local μ-lifts. If H⁰(Γ_F,M*)=0 then also H⁰(Γ_F,(Adρ̄′ g^der)*)=0. For the latter comparison use the joint images of (ρ̄′,κ̄) and (ρ̄,κ̄), which have the same prime-to-p quotient; invariance vanishing does not follow merely from equality of semisimplifications. Here M in H⁰ is the derived adjoint module Lie(Gᵈᵉʳ)⊗k of the Conventions, not the Levi of §§7.1 and 7.3, and z(m) is the centre of the Lie algebra of the Levi containing the image of ρ̄. (FKP22, Lemma 6.5 and proof of Corollary 6.6, p.30.)
 
 One proof route proceeds as follows. The new image contains A(k) and, by the semidirect-product splitting, the original Levi image. Old invariants therefore lie in the Levi center, and faithfulness of its action on a kills them. For the twisted module compare the joint cyclotomic images and their p-kernels. Use the explicit unipotent local lift at new primes and the unchanged old local classes.
@@ -1252,7 +1250,9 @@ One proof route proceeds as follows. The new image contains A(k) and, by the sem
 
 *Needs:* §1.6; §7.3; §7.4; §0.3; ReductiveGroups Layer 7; ReductiveGroupsPartII RG2.1, the large-prime unipotent exponential contract; ArithmeticGaloisRepresentations §1.11; ReductiveGroupsPartII RG2.1, the finite-image semisimplification contract and the parabolic adjoint filtration contract.
 
-### 7.6 Geometric lifts of Levi-valued residual representations
+### 7.6 Geometric lifts of Levi-valued residual representations, with torus and GSp₄ Siegel cases
+
+This part provides, under the arithmetic selection hypothesis of §3.2, the Levi theorem named under Downstream consumers (§7.6), which supplies derived-dense lifts with the original actual reduction, together with its torus criterion (§7.7) and a GSp₄ Siegel example (§7.8).
 
 Assume the arithmetic selection hypothesis of §3.2 for the residual parabolic extension to which the global lifting theorem is applied. Let G be connected, F totally real, and ρ̄ odd with image in a Levi M of P. Assume p≫G, regular geometric local μ-lifts, H⁰(Γ_F,Lie(Gᵈᵉʳ)⊗k)=z(m)∩g^der and H⁰(Γ_F,(Lie(Gᵈᵉʳ)⊗k)*)=0. Here Lie(Gᵈᵉʳ)⊗k with Ad∘ρ̄ action is the derived adjoint module written M in the Conventions, the star is the twisted dual of the Conventions, and z(m) is the centre of the Lie algebra m of the Levi M; in this section the letter M denotes the Levi. Suppose either μ_p⊄F(Adρ̄), or P is maximal, ρ̄ is absolutely M-irreducible and satisfies the D alternative of maximal separation. Then after finite coefficient extension there is a finitely ramified geometric fixed-μ lift of the original ρ̄ whose Zariski closure contains G^der. The conclusion is derived Zariski density, not necessarily full integral congruence image after changing its residual lattice. (FKP22, Corollary 6.6 and proof, pp.30–31.)
 
@@ -1268,8 +1268,7 @@ One proof route proceeds as follows. Create the full abelian-root extension and 
 
 *Needs:* §7.5; §1.5; §1.10; §6.3; §7.1; §0.2; ReductiveGroups Layer 7; LocalGaloisDeformationRings §3.11 and the smooth local approximation contract.
 
-### 7.7 The torus criterion
-
+**7.7 The torus criterion.**
 Assume the arithmetic selection hypothesis of §3.2 for the residual parabolic extension to which the global lifting theorem is applied. For ρ̄ valued in a split maximal torus T, the equality H⁰(Γ_F,M)=t∩g^der holds precisely when every root character α∘ρ̄ is nontrivial. The dual invariant condition additionally excludes κ̄⁻¹ from the toral and root constituents. Together with p≫G, the Borel separation criterion, oddness and the required local lifts, these hypotheses imply the Levi geometric lifting theorem. Merely requiring that the image lie in no proper subtorus is insufficient. (FKP22, Remark 6.7, p.31; Lemma A.18, p.51.)
 
 One proof route proceeds as follows. Decompose g^der into t^der and its root lines. Read the two invariant conditions from the actual characters. Apply the Borel criterion and the Levi theorem.
@@ -1280,8 +1279,7 @@ One proof route proceeds as follows. Decompose g^der into t^der and its root lin
 
 *Needs:* §1.12; §7.6; ReductiveGroups Layer 7.
 
-### 7.8 A GSp₄ Siegel example
-
+**7.8 A GSp₄ Siegel example.**
 Assume the arithmetic selection hypothesis of §3.2 for the residual parabolic extension to which the global lifting theorem is applied. Let r be the absolutely irreducible residual classical newform representation of weight a≥2, and δ an odd residual character, placed in the GSp₄ Siegel Levi as (r,δ). Assume neither Sym²r⊗δ⁻¹ nor Sym²(r∨)⊗δ has a trivial constituent or a κ̄⁻¹ constituent, and that the Levi derived adjoint part has no κ̄⁻¹ constituent. Set χ=det(r)δ⁻¹ and impose D(1,1,4); for prime-field valued χ it suffices and is equivalent to require ord(χᵇκ̄)≥5 for every |b|≤2. Use a de Rham lift of δ of weight w such that w is outside {0,1−a,2−2a}. Then the weights {0,1−a,w,w+a−1} are distinct in the standing HT(κ)=−1 convention. With the required local fixed-multiplier lifts and sufficiently large p, §7.6 gives a geometric GSp₄ lift with derived Zariski-dense image. The constituent and separation exclusions depend on δ; absolute irreducibility of r alone does not imply them. (FKP22, Example 6.8, p.31; Example A.16, p.50.)
 
 One proof route proceeds as follows. Use the matrix formula for both radical representations and the adjoint quotient character χ=det(r)δ⁻¹. Use the newform lift and a de Rham lift of δ to obtain regular local lifts of the Levi representation. Apply maximal separation and the Levi geometric lifting theorem.
@@ -1303,7 +1301,9 @@ ReductiveGroups Layer 7; ReductiveGroups Layer 8; ArithmeticGaloisRepresentation
 
 ## Layer 8: Actual reductions of modular forms
 
-### 8.1 Modularity of an actual residual representation
+### 8.1 Actual residual modularity and the residual GL₂ inputs
+
+This part provides the predicate of actual modularity (§8.1), the residual hypotheses and the determinant matching for odd GL₂ extensions (§§8.2–8.3), and modularity after semisimplification, which does not control the extension class (§8.4). Sections 8.5, 8.7 and 8.10 consume it.
 
 For ρ̄:Γ_Q→GL₂(k), Modular(ρ̄,r,N) means that there are a normalized cuspidal newform f∈S_r(Γ₁(N)), r≥2, an embedding of its coefficient field into Q̄_p, a finite coefficient extension E containing the resulting representation, a Γ_Q-stable O_E-lattice Λ⊂E² and an embedding k_E→k̄ such that Λ/m_EΛ is isomorphic over k̄ to ρ̄. Isomorphism concerns the entire representation, including its extension class; no semisimplification is taken. (FKP22, §1, p.2; §7 preceding Lemma 7.3, p.35.)
 
@@ -1323,8 +1323,7 @@ The API has the following mathematical properties.
 
 *Needs:* AutomorphicGaloisRepresentations Layer 1; ArithmeticGaloisRepresentations §§1.1–1.2, 1.6–1.11.
 
-### 8.2 Residual hypotheses for nonsplit odd GL₂ extensions
-
+**8.2 Residual hypotheses for nonsplit odd GL₂ extensions.**
 Let F be totally real, p≥3, and ρ̄ a nonsplit extension of 1 by χ̄ with χ̄(c_v)=−1 and χ̄≠κ̄⁻¹. Then C1–C4 hold. The exceptional case χ̄=κ̄ is included when it is different from κ̄⁻¹; it requires its own cocycle calculation rather than the distinct-character argument. (FKP22, Lemma 7.1 and proof, pp.32–33.)
 
 One proof route proceeds as follows. Compute the unique invariant and quotient lines of the nonsplit trace-zero adjoint representation. Restrict to the elementary abelian p-Sylow of the finite residual splitting group and take prime-to-p quotient invariants. Exclude most character coincidences by oddness. For χ̄=κ̄ compute cocycle values on an F_p-basis of the unipotent p-Sylow and use the boundary map to kill the remaining one-dimensional H¹. Use the unique adjoint quotient line to verify prime-field C3 via scalar-extension twists.
@@ -1336,8 +1335,7 @@ One proof route proceeds as follows. Compute the unique invariant and quotient l
 
 *Needs:* §0.3; ArithmeticGaloisDuality §R02.2.1; ArithmeticGaloisRepresentations §§1.1–1.2, 1.6–1.11.
 
-### 8.3 Matching the local and global determinant
-
+**8.3 Matching the local and global determinant.**
 For F=Q, r≥2 and the odd residual extension of 1 by χ̄, set `μ=κ^{r−1}[χ̄κ̄^{1−r}]`. After coefficient extension, the local ordinary potentially crystalline lift can be chosen with an unramified quotient and determinant μω₀, where ω₀ has finite p-power order, trivial residual reduction and ω₀(Art_Qp(p))=1. Local and global Kronecker–Weber extend ω₀ to Γ_Q, unramified away from p. At Serre weight the crystalline ordinary choice can be retained with the compatible determinant. An arbitrary unramified factor in a previously chosen quotient must be removed locally before this global extension step. (FKP22, Proof of Theorem 7.4, p.36; proof of Lemma 7.2, pp.33–35.)
 
 One proof route proceeds as follows. Use the local potentially crystalline/crystalline lift and separate its finite inertial character from its unramified quotient character. Twist by the finite inertial normalization so ω₀ is trivial on the chosen uniformizer. Extend that character through Q_p× and the p-power cyclotomic extension of Q. At the other places use the fixed-determinant local-lifting export.
@@ -1349,8 +1347,7 @@ One proof route proceeds as follows. Use the local potentially crystalline/cryst
 
 *Needs:* LocalGaloisDeformationRings §2.14; LocalGaloisDeformationRings §§3.11, 8.5, 8.10; LocalGaloisDeformationRings §§6.5, 6.17 and the GL₂ local determinant normalization contract; ClassFieldTheory Layer 7; AlgebraicModularFormsAndSerreWeights Layer 4; ClassFieldTheory Layer 13.
 
-### 8.4 Modularity after semisimplification
-
+**8.4 Modularity after semisimplification.**
 Every continuous odd ρ̄:Γ_Q→GL₂(k) has semisimplification isomorphic to the semisimplification of a reduction of a newform representation of some weight r≥2 and level N. In the irreducible case use Serre modularity; in the reducible case use an Eisenstein eigenform, make it cuspidal modulo p and apply Deligne–Serre lifting. This gives no control of the original extension class or a prescribed weight and level. (FKP22, Lemma 7.3 and proof, p.35.)
 
 One proof route proceeds as follows. Invoke the existing Serre theorem in the irreducible case. In the reducible case choose the Eisenstein series with the two specified residual characters. Use an auxiliary prime or a theta iterate to make a cuspidal mod-p eigensystem, then lift it by the existing eigenform-lifting theorem.
@@ -1362,7 +1359,9 @@ One proof route proceeds as follows. Invoke the existing Serre theorem in the ir
 
 *Needs:* ClassicalSerreModularity R27.6, Full classical Serre theorem; AlgebraicModularFormsAndSerreWeights Layer 5, Deligne–Serre eigenvalue lifting; AlgebraicModularFormsAndSerreWeights Layer 4; AutomorphicGaloisRepresentations Layer 1.
 
-### 8.5 Modularity of reducible odd representations
+### 8.5 Actual modularity of reducible odd GL₂ representations
+
+This part provides, under the arithmetic selection hypothesis of §3.2, actual modularity of reducible odd residual representations over ℚ (§8.5), the Hamblen–Ramakrishna statement it implies (§8.6) and the totally real conditional consequence (§8.7); these modularity applications supply the extension-sensitive residual witnesses named under Downstream consumers.
 
 Assume the arithmetic selection hypothesis of §3.2 for the lifting datum used below. For p≥3 and a continuous residual representation `ρ̄:Γ_{Q,S}→GL₂(k)` that is an extension of 1 by χ̄ with χ̄(c)=−1 and χ̄≠κ̄⁻¹, the actual representation is modular. For every r≥2 it is modular of weight r at some level; at r=k(ρ̄|Γ_Qp), Serre’s local weight, it is modular at a level prime to p. Split extensions are included. The scalar local ratio `χ̄|Γ_{ℚ_p}=1` is included for every odd p; at p=3 it is distinct from the excluded ratio ω. (FKP22, Theorem 7.4 (Theorem B) and proof, pp.35–36; Pan22, Introduction, Theorem 1.0.2, p.3 (arXiv:1901.07166v2).)
 
@@ -1375,8 +1374,7 @@ One proof route proceeds as follows. For a nonsplit extension verify C1–C4 dir
 
 *Needs:* §8.1; §8.2; §8.3; §6.4; §7.1; §7.3; AutomorphicGaloisRepresentations Layer 5; AlgebraicModularFormsAndSerreWeights Layer 4; LocalGaloisDeformationRings §§6.5, 6.17 and §2.28; ClassicalSerreModularity §I.1, `I.1/residually-reducible-ordinary-lifting`; GL2ModularityLifting §10.15 and the unconditional Pan–Fontaine–Mazur contract.
 
-### 8.6 The Hamblen–Ramakrishna specialization
-
+**8.6 The Hamblen–Ramakrishna specialization.**
 Assume the arithmetic selection hypothesis of §3.2 for the lifting datum used below. The reducible modularity theorem implies the earlier Hamblen–Ramakrishna statement for a nonsplit odd extension with `χ̄≠κ̄^{±1}`, χ̄²≠1, the specified nondegenerate local behavior at p and k generated by χ̄-values. These extra assumptions are unnecessary for this new conclusion. No prime-field multiplicity-freeness assertion is used. (FKP22, Theorem A, pp.2–3; Theorem 7.4, pp.35–36.)
 
 One proof route proceeds as follows. Check that the older hypotheses imply p≥3, oddness and χ̄≠κ̄⁻¹. Apply the actual modularity theorem and discard its stronger weight/level conclusions.
@@ -1388,8 +1386,7 @@ One proof route proceeds as follows. Check that the older hypotheses imply p≥3
 
 *Needs:* §8.5.
 
-### 8.7 The totally real conditional consequence
-
+**8.7 The totally real conditional consequence.**
 Assume the arithmetic selection hypothesis of §3.2 for the lifting datum used below. Over a totally real F, a nonsplit odd extension of 1 by χ̄≠κ̄⁻¹ with the local ordinary μ-lifts admits the geometric irreducible lift of the sl₂ theorem. Whenever the hypotheses of a Skinner–Wiles theorem over F hold for that lift, Theorem B of OrdinaryAutomorphicFormsAndModularityLifting §5.3 under its Hypothesis H, or the totally real route of ClassicalSerreModularity §I.1 at the hypotheses stated there, it is Hilbert modular and its original integral lattice realizes the actual residual representation. This does not assert modularity over every totally real field without the modularity theorem’s extra hypotheses. (FKP22, Remark 7.5, p.36.)
 
 One proof route proceeds as follows. Apply the direct GL₂ residual criterion and choose the ordinary local components. Construct the lift and check every hypothesis of the imported totally real modularity theorem. Use its automorphic Galois representation comparison to retain the original residual lattice.
@@ -1401,7 +1398,9 @@ One proof route proceeds as follows. Apply the direct GL₂ residual criterion a
 
 *Needs:* §8.2; §6.4; ClassicalSerreModularity §I.1; OrdinaryAutomorphicFormsAndModularityLifting §5.3; AutomorphicGaloisRepresentations Layer 3.
 
-### 8.8 Infinitely many actual extension classes
+### 8.8 Infinitely many extension classes and finitely many reductions at fixed weight and level
+
+This part shows why one fixed weight and level cannot accommodate all extension classes with a given semisimplification: infinitely many extension classes (§8.8), the stable-lattice segment and its reductions (§8.9), finiteness of actual reductions at fixed weight and level (§8.10) and the resulting boundary of fixed-level lifting methods (§8.11).
 
 Let Γ be finite, L an infinite field and χ:Γ→L×. If dim_L H¹(Γ,L(χ))>1 or dim_L H¹(Γ,L(χ⁻¹))>1, there are infinitely many pairwise nonisomorphic two-dimensional Γ-representations over L with semisimplification 1⊕χ. For χ≠1 the nonsplit classes in each orientation are projective spaces of the corresponding H¹; for χ=1 identify the two orientation copies. (FKP22, Lemma 7.6, pp.36–37.)
 
@@ -1426,8 +1425,7 @@ One proof route proceeds as follows. Identify extensions of the two characters w
 
 *Needs:* Mathlib `Representation`; Mathlib `Representation.IntertwiningMap`; Mathlib `Representation.Equiv`; Mathlib `Rep.of`; Mathlib `groupCohomology.H1`.
 
-### 8.9 The stable-lattice segment and its reductions
-
+**8.9 The stable-lattice segment and its reductions.**
 For an irreducible continuous ρ:Γ→GL₂(E) with residual semisimplification χ₁⊕χ₂ and χ₁≠χ₂, the homothety classes of stable O_E-lattices form a finite segment in the existing Bruhat–Tits tree. Use IntegralHeckeAndGaloisDeterminants §1.4, “Classical Ribet lattice”, for nonsplit reductions in the two opposite orientations. This section adds that they are the endpoint reductions, that interior vertices give the split representation, and that the endpoint classes are invariant under coefficient extension. After any finite extension E′/E the two indecomposable reduction classes are their scalar extensions, and newly subdivided interior vertices contribute only the split class. If the residual representation is absolutely irreducible, use the existing unique-homothety theorem instead. A stable lattice exists; the coefficient action is bounded and the characteristic-zero representation is irreducible. (FKP22, Proof of Proposition 7.7, p.37; Bellaïche–Chenevier (2014), Propositions 11 and 32, cited there; BC14, Lemma 10 and Proposition 11, pp.9–10; Definitions 29–30 and Proposition 32, pp.16–17 (author preprint pagination), cited by locator; Ribet10, §1.2, Proposition 1.4 and Lemmas 1.3–1.5, pp.6–7; §1.3, Exercises 1.5–1.7 and 1.10, p.8.)
 
 The apartment formula is Λ_s=Oe₁⊕ϖˢOe₂ with −min_g v(b_g)≤s≤min_g v(c_g). The minima range over the actual image, and irreducibility ensures that each family has a nonzero entry and a finite minimum. Individual zero entries have valuation ∞; no degree or index is assigned to a nonexistent minimum. Extension multiplies both bounds by the ramification index. This proves the coefficient-extension endpoint assertion directly from integral eigenprojectors; it does not require an assertion that every stable vertex over the extension descends.
@@ -1441,8 +1439,7 @@ One proof route proceeds as follows. Identify stable lattices with fixed vertice
 
 *Needs:* IntegralHeckeAndGaloisDeterminants §1.4, Classical Ribet lattice; ReductiveGroupsPartII RG2.2; ArithmeticGaloisRepresentations §§1.6, 1.11.
 
-### 8.10 Finitely many actual reductions at fixed weight and level
-
+**8.10 Finitely many actual reductions at fixed weight and level.**
 Fix p odd, N≥1,r≥2 and distinct residual characters 1,χ̄ with χ̄ odd. Only finitely many isomorphism classes over k̄ of residual representations with semisimplification 1⊕χ̄ arise from stable lattices in newform representations of weight r and level N, even allowing arbitrary finite coefficient extensions and all residual embeddings. Thus a finite quotient Γ of Γ_Q with dim H¹(Γ,k̄(χ̄))>1 has infinitely many extensions of this semisimplification, only finitely many of which occur at that fixed weight and level. (FKP22, Proposition 7.7, p.37.)
 
 For one newform f, one prime 𝔭 of its coefficient field K_f above p and one embedding of the residue field k_𝔭 into k̄, the bound of three counts the two indecomposable endpoint classes and the split class, after allowing all coefficient extensions. Since p is odd, complex conjugation has eigenvalues 1,−1 and `ρ_{f,ι}` is realized over `K_{f,𝔭}`; embeddings ι over the same 𝔭 differ by an automorphism of Q̄_p, which acts on reductions through the residual embedding, and a larger residual field adds no class. The split class 1⊕χ̄ is one class for all of them, so f contributes at most 1+2Σ_𝔭 f_𝔭≤2[K_f:Q]+1 classes, f_𝔭 the residue degree. The split class can first appear when an edge is subdivided, so only the two indecomposable classes, rather than all reductions, are asserted to be invariant under coefficient extension.
@@ -1455,8 +1452,7 @@ One proof route proceeds as follows. There are finitely many normalized eigenfor
 
 *Needs:* §8.9; §8.8; §8.1; AutomorphicGaloisRepresentations Layer 1; AlgebraicModularFormsAndSerreWeights Layer 4.
 
-### 8.11 The boundary of fixed-level lifting methods
-
+**8.11 The boundary of fixed-level lifting methods.**
 Fix an odd χ̄:`Γ_{Q,S}`→k×. After a finite enlargement S′⊃S by χ̄-trivial primes of norm ≡1 mod p, with S′ depending on χ̄, there is a finite quotient Γ of `Γ_{Q,S′}`, through which χ̄ factors, with dim H¹(Γ,k̄(χ̄))>1. For the fixed set S itself no such quotient need exist: inflation from a finite quotient through which χ̄ factors is injective on H¹, so dim H¹(Γ,k̄(χ̄))≤dim_k H¹(`Γ_{Q,S}`,k(χ̄)), which can equal 1. The resulting infinite family with the same semisimplification cannot all be realized by modular lifts at any one fixed weight and level. Therefore a lifting argument that forces one fixed modular weight and ramification level for every member cannot prove the actual reducible modularity theorem. This is a precise obstruction to that method, not a claim that every reducible deformation ring fails a particular finiteness lemma. (FKP22, Remark 7.8, p.37, where S is taken sufficiently large; Lemma 6.2, p.28.)
 
 One proof route proceeds as follows. Apply §7.2 to W=W′=k(χ̄), viewed as an 𝔽_p-module, with W⁰ a nonzero 𝔽_p-line and d=[k:𝔽_p]; the enlargement S′=S∪T is the finite set T supplied there, so dim_k H¹(`Γ_{Q,S′}`,k(χ̄))≥2. Choose two k-independent cocycles; the homomorphism g↦(χ̄(g),c₁(g),c₂(g)) into k²⋊k× has open kernel, and Γ is the resulting finite quotient, on which both cocycles are inflated. Extend coefficients to k̄ and apply the projective-family infinitude. Apply fixed-weight-and-level finiteness.
@@ -1479,7 +1475,9 @@ AutomorphicGaloisRepresentations Layer 1; ArithmeticGaloisRepresentations §§1.
 
 ## Layer 9: Automorphy over function fields
 
-### 9.1 Actual residual automorphy over function fields
+### 9.1 Actual residual automorphy over function fields from the lifting hypotheses
+
+This part defines actual residual automorphy over a global function field (§9.1) and proves it, under the arithmetic selection hypothesis of §3.2, for residual GL_n representations satisfying C1–C4 (§9.2). Sections 9.3, 9.4 and 9.5 consume §9.2.
 
 For a global function field F of characteristic ℓ≠p, Automorphic(ρ̄) means that there are a cuspidal automorphic representation π of GL_n(A_F) with finite-order central character, an identification C≅Q̄_p, a finite coefficient field E, a stable O_E-lattice in its Lafforgue representation, and a residual embedding giving an isomorphism of the full lattice reduction with ρ̄ over k̄. Equivalently via the imported Langlands correspondence, ρ̄ has an integral lift that is irreducible, finitely ramified and has finite-order determinant. (FKP22, §8 preceding Theorem 8.1, pp.37–38.)
 
@@ -1499,8 +1497,7 @@ The API has the following mathematical properties.
 
 *Needs:* AutomorphicLFunctionsAndLocalFactors §AL.3 and the function-field Langlands lattice witness contract; ArithmeticGaloisRepresentations §§1.1–1.2, 1.6–1.11.
 
-### 9.2 Automorphy from the lifting hypotheses
-
+**9.2 Automorphy from the lifting hypotheses.**
 Assume the arithmetic selection hypothesis of §3.2 for the lifting datum used below. For F a global function field of characteristic ℓ≠p, p≫n and `ρ̄:Γ_{F,S}→GL_n(k)` satisfying C1–C4, the actual residual representation is automorphic. Choose the fixed determinant to be the Teichmüller lift of detρ̄, hence finite order. Equal-characteristic local lifts exist, and since p∤n their determinants can be corrected by an n-th root in 1+ϖO. (FKP22, Theorem 8.1 and proof, p.38.)
 
 One proof route proceeds as follows. Import the equal-characteristic local lifting theorem and normalize the determinant by its unique pro-p n-th root. Apply the global geometric lifting theorem in characteristic ℓ. Full derived congruence image makes the characteristic-zero GL_n representation irreducible. Apply the two-way Lafforgue correspondence and retain the integral lattice.
@@ -1512,7 +1509,9 @@ One proof route proceeds as follows. Import the equal-characteristic local lifti
 
 *Needs:* §9.1; §6.3; LocalGaloisDeformationRings §2.30; AutomorphicLFunctionsAndLocalFactors §AL.3 and the function-field Langlands lattice witness contract; ArithmeticGaloisDuality §R02.4.3 and the function-field Selmer numerics contract; FunctionFieldArithmetic §5.8.
 
-### 9.3 The irreducible function-field specialization
+### 9.3 Automorphy of irreducible, two-block and separated direct-sum residual representations
+
+This part applies §9.2 to irreducible residual representations (§9.3), extensions of two absolutely irreducible blocks (§9.4) and separated direct sums (§9.5); they serve the function-field consumers named under Downstream consumers.
 
 Assume the arithmetic selection hypothesis of §3.2 for the lifting datum used below. The theorem applies to an absolutely GL_n-irreducible residual representation whose restriction to `Γ_{F(ζ_p)}` remains absolutely irreducible and for which [F(ζ_p):F]>a_GL_n, with p≫n. Absolute irreducibility over F alone does not imply C1–C4 uniformly in F for a bound depending only on n. For fixed F a sufficient prime bound may also depend on its constant field. The stronger unramified-outside-S lifting theorem from de Jong–Gaitsgory is an independent imported result, not a consequence of this method. (FKP22, Remark 8.2, p.38; FKP19 Corollary A.7, pp.63–64.)
 
@@ -1527,8 +1526,7 @@ One proof route proceeds as follows. Use the irreducible residual criteria under
 
 *Needs:* §1.1; §1.2; §1.5; §9.2; §0.3.
 
-### 9.4 Automorphy for two absolutely irreducible blocks
-
+**9.4 Automorphy for two absolutely irreducible blocks.**
 Assume the arithmetic selection hypothesis of §3.2 for the residual parabolic extension to which the global lifting theorem is applied. Let ρ̄ be an extension of absolutely irreducible r₂ by r₁ of dimensions n₂,n₁ over a global function field, n=n₁+n₂ and p≫n. Require r₁≄r₂ and r₁≄r₂κ̄⁻¹, and for d=gcd(n₁,n₂), `χ=(det r₁)^{n₂/d}(det r₂)^{−n₁/d}`, require [F(ζ_p):F(ζ_p)∩F(χ)]>b(n₁,n₂). Then ρ̄ is automorphic. For a split sum only r₁≄r₂ is needed in the second condition, since one may choose the orientation after the cyclotomic-degree check. For the nonsplit case, noninjectivity of the image projection to the Levi must be proved, using complete reducibility of small finite-group representations. (FKP22, Corollary 8.3 (Theorem C) and proof, pp.38–39.)
 
 One proof route proceeds as follows. Apply maximal separation to the primitive determinant-ratio character to obtain C3,C4. For a nonsplit representation show that an injective image projection would force complete reducibility by the small-representation theorem; then apply the maximal-parabolic criteria of §1.8 and the function-field theorem. For a split sum choose an orientation avoiding the inverse-cyclotomic coincidence; both orientations cannot fail under the degree bound. Create a nonsplit extension, lift it automorphically, and change the residual lattice to the original split sum.
@@ -1540,8 +1538,7 @@ One proof route proceeds as follows. Apply maximal separation to the primitive d
 
 *Needs:* §1.10; §1.8; §7.3; §7.1; §9.2; ArithmeticGaloisRepresentations §§7.2–7.7 and the small-dimensional extension splitting contract; AutomorphicLFunctionsAndLocalFactors §AL.3 and the function-field Langlands lattice witness contract.
 
-### 9.5 Automorphy of separated direct sums
-
+**9.5 Automorphy of separated direct sums.**
 Assume the arithmetic selection hypothesis of §3.2 for the residual parabolic extension to which the global lifting theorem is applied. Let `ρ̄=⊕_{i=1}^r r_i` with r>1, each r_i absolutely irreducible of dimension n_i, p≫Σn_i, and r_i≄r_jψ for all i≠j and ψ∈{1,κ̄,κ̄⁻¹}. For `χ_ij=(det r_i)^{n_j}(det r_j)^{−n_i}`, require the joint condition [F(ζ_p):F(ζ_p)∩F(χ_ij:i≠j)]>b(n). Then ρ̄ is automorphic. Separate lower bounds for the pairwise fields do not replace the joint condition. (FKP22, Corollary 8.4 and Lemma A.9, pp.39–40,46–47.)
 
 One proof route proceeds as follows. Apply the GL_n block criterion of §1.7 to obtain the invariant conditions and cyclotomic exclusion. Apply the Levi lifting argument in positive characteristic with finite determinant; its proof has no oddness or archimedean step there. Use Lafforgue and the residual lattice change to retain the original direct sum.
