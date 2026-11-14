@@ -710,9 +710,12 @@ make it a ℤ/2-graded algebra by `TauCeti.SmoothBundleForm.wedgeWith` for compo
 Quillen's sign rule, identify it with `Ω(M) ⊗̂_(C^∞(M)) Γ(End E)`, and define the supertrace
 `str : Ω(M, End E) → Ω(M)`, `str(ω ⊗ u) = ω str(u)`. Prove that it is a graded trace and commutes
 with the exterior covariant derivative of a grading-preserving connection,
-`str[∇, α] = d str(α)` (Garcia 2018, §A.1, (A.2)–(A.4), p. 23; Wu 2006, §2.3). Route: 1.3 in
-local trivializations, where `Ω(U) ⊗̂ End(ℂ^(m|n))` is the algebra of Layer 1.
-*Needs:* 1.3; Tau Ceti `TauCeti.SmoothForm`, `TauCeti.SmoothBundleForm`,
+`str[∇, α] = d str(α)` (Garcia 2018, §A.1, (A.1)–(A.4), p. 23, and Wu 2006, §2.3, for the algebra
+and the supertrace; Berline–Getzler–Vergne, §1.4, for the identity with the covariant derivative).
+Route: 1.3 in local trivializations, where `Ω(U) ⊗̂ End(ℂ^(m|n))` is the algebra of Layer 1 and
+`∇ = d + Θ` with `Θ` a block-diagonal matrix of one-forms, odd in the total grading; there
+`str[∇, α] = d str(α)` is 2.3's `str(covD δ Θ p X) = d str(X)`.
+*Needs:* 1.3, 2.3; Tau Ceti `TauCeti.SmoothForm`, `TauCeti.SmoothBundleForm`,
 `TauCeti.SmoothBundleForm.wedgeWith`; DifferentialGeometry Layers 0–1; SmoothBundlesConnections
 B4.1.
 
@@ -814,8 +817,8 @@ odd, so `K = ker X = im P_K` is a smooth ℤ/2-graded subbundle `K⁺ ⊕ K⁻ =
 `dim ker T − dim ker T* = rk E⁺ − rk E⁻`, then `ch(𝔸_t) → ch(K⁺, ∇^K) − ch(K⁻, ∇^K)` as
 `t → ∞` for the compressed connection `∇^K = P_K ∇ P_K`, uniformly on compact subsets with all
 derivatives, and the difference is `d` of a convergent transgression integral (Wu 2006, §2.3, the
-formula after (2.8), for (a); Berline–Getzler–Vergne, Ch. 9, "The Index Bundle", pp. 263–310, for
-(b)). Route: (a) from 4.3 and the bound `|exp(−𝔸_t²)| ≤ C(1 + t)^N e^(−t² λ)` with `λ > 0` the
+formula after (2.8), for (a); Berline–Getzler–Vergne, §9.1, in Ch. 9, pp. 263–310, for (b)).
+Route: (a) from 4.3 and the bound `|exp(−𝔸_t²)| ≤ C(1 + t)^N e^(−t² λ)` with `λ > 0` the
 smallest eigenvalue of `X²` on the compact set, by the Duhamel expansion of
 `TauCeti.expFDeriv_apply_eq_integral` around `exp(−t²X²)`; the projection: at a point `x₀` the
 nonzero eigenvalues of the self-adjoint `X(x₀)` lie outside `[−2ρ, 2ρ]` for some `ρ > 0`, so near
@@ -826,6 +829,15 @@ integral is the spectral projection of `X` for `{0}`; `ε(w − X)⁻¹ε = (w +
 which `X` is invertible, by the same expansion as (a).
 *Needs:* 2.5, 4.3; Tau Ceti `TauCeti.expFDeriv_apply_eq_integral`; Mathlib `circleIntegral`;
 LieGroupoidsPoisson G0.1; SmoothBundlesConnections B2.2; DifferentialGeometry Layer 6.
+
+**API.**
+
+- `P_K² = P_K = P_K*` and `X P_K = P_K X = 0`.
+- `P_K` does not depend on `ρ` below the smallest nonzero `|eigenvalue|` of `X` on the
+  neighbourhood.
+- Naturality: for a smooth map `f`, `f*P_K` is the projection of `f*X`.
+- Direct sums: for `X ⊕ X′` on `E ⊕ E′`, with kernels `K` and `K′`, `P_(K ⊕ K′) = P_K ⊕ P_K′`.
+- `∇^K = P_K ∇ P_K` is a connection on `K`, Hermitian and grading-preserving.
 
 **Checks.**
 
@@ -859,7 +871,7 @@ LieGroupoidsPoisson G0.1; SmoothBundlesConnections B2.2; DifferentialGeometry La
 
 ### Dependencies
 
-4.1 ← 1.3, Tau Ceti (`TauCeti.SmoothForm`, `TauCeti.SmoothBundleForm`,
+4.1 ← 1.3, 2.3, Tau Ceti (`TauCeti.SmoothForm`, `TauCeti.SmoothBundleForm`,
 `TauCeti.SmoothBundleForm.wedgeWith`), DifferentialGeometry Layers 0–1, SmoothBundlesConnections
 B4.1; 4.2 ← 2.2, 4.1, Tau Ceti (`TauCeti.CurvatureForm`), SmoothBundlesConnections B3.3, B4.1;
 4.3 ← 2.3, 2.4, 4.2, Tau Ceti (`TauCeti.hasFDerivAt_exp`, `TauCeti.expFDeriv_apply_eq_integral`,
@@ -943,7 +955,10 @@ of `ι_s` and turns `∇` into `d`; the `β`-derivative is `(∇ + ι_s)`-exact.
 ### 5.3 Localization and Poincaré–Hopf
 
 Let `M` be closed and oriented and `s` transverse to the zero section, with `Z = s⁻¹(0)` oriented
-by CharacteristicClasses C2, item 3. Prove: (a) `∫_M ω ∧ e_(∇,s) = ∫_Z ω` for every closed `ω` of
+tangent-first: an oriented basis of `T_pZ` followed by normal vectors that `∇s(p)` maps to an
+oriented basis of `E_p` is an oriented basis of `T_pM`; for even `r` the order is immaterial. This
+is the orientation taken from CharacteristicClasses C2, item 3, and the one for which (b) holds
+with `φ` to the left of `e_(∇,βs)`. Prove: (a) `∫_M ω ∧ e_(∇,s) = ∫_Z ω` for every closed `ω` of
 degree `dim M − r`; (b) `∫_M φ ∧ e_(∇,βs) → ∫_Z φ` as `β → ∞` for every form `φ`; (c) for
 `E = TM` with the Levi-Civita connection and a vector field `s` with nondegenerate zeros,
 `∫_M e(∇) = ∑_(s(p)=0) sign det(∇s(p)) = χ(M)`, where `e(∇) = Pf(R/2π)` when `dim M` is even and
@@ -964,6 +979,14 @@ rescaling of 5.2's third Check in normal coordinates along `Z`; (c) from (a) wit
 - Reversing the orientation of `E` changes both sides of (a) by a sign.
 - `dim M = 0`, `M` a finite set of points with orientations `o(p)`: `TM = 0`, `e(∇) = o`, and
   `∫_M e(∇) = ∑ o(p)² = #M = χ(M)`, while `∫_M Pf = ∑ o(p)` would differ when some `o(p) = −1`.
+- The orientation of `Z` in odd rank: `M = T² = ℝ²/ℤ²` oriented by `dx ∧ dy`, `E` the trivial
+  oriented line, `∇ = d`, `s = sin 2πx`, so `Z = {x = 0} ⊔ {x = ½}`, and `φ = f dy`. Here
+  `e_(d,βs) = g_β(s) s′ dx` with `g_β(u) = (2π)^(−1/2) β e^(−β²u²/2)`, of integral `1`, so
+  `φ ∧ e_(d,βs) = −f g_β(s) s′ dx ∧ dy` and
+  `∫_M φ ∧ e_(d,βs) → −∫ f(0, y) dy + ∫ f(½, y) dy`, since `s′ > 0` at `x = 0` and `s′ < 0` at
+  `x = ½`. Tangent-first, `{x = 0}` is oriented by `−∂_y`, as `(−∂_y, ∂_x)` is an oriented basis
+  and `ds(∂_x) > 0`, and `{x = ½}` by `∂_y`, as `(∂_y, −∂_x)` is oriented and `ds(−∂_x) > 0`, so
+  `∫_Z φ` is that limit; orienting `Z` normal-first gives the opposite sign on both circles.
 
 ### 5.4 The Thom form
 
@@ -1102,6 +1125,15 @@ anticommute with `dF`, so conjugating by `F` changes its sign.
 `Manifold.IsSmoothEmbedding`; CharacteristicClasses C4, item 2; DifferentialGeometry Layers 0–1, 6;
 GeneralizedCohomology G4.0b; LieGroups Layer 2; LieGroupoidsPoisson G0.1.
 
+**API.**
+
+- Equivariance: `F_(uW) = u F_W u⁻¹` for `u ∈ U(V)`.
+- Complements: `F_(W^⊥) = −F_W`, since `P_(W^⊥) = 1 − P_W`; for `V = ℂ` this is
+  `F_0 = −1 = −F_ℂ`.
+- Stabilization: for `V ⊂ V ⊕ V′`, the map `W ↦ W ⊕ 0` of `Gr_p(V)` into `Gr_p(V ⊕ V′)` pulls
+  `tr(P(dP)^(2k))` back to itself, the projection being `P_W ⊕ 0`.
+- The connection `P d P` is Hermitian for the metric induced on the tautological bundle.
+
 **Checks.**
 
 - `V = ℂ`: `Gr₀(ℂ)` and `Gr₁(ℂ)` are the points `F = −1` and `F = 1`, of trace `2p − 1` and
@@ -1185,8 +1217,8 @@ Mathematics Institute) work on these questions.
 - N. Berline, E. Getzler, M. Vergne, *Heat Kernels and Dirac Operators*, Grundlehren Math. Wiss.
   298, Springer, 1992. doi:10.1007/978-3-642-58088-8. Zbl 0744.58001. Chapter 1, « Background on
   Differential Geometry », pp. 13–59, contains §1.3 (superspaces), §1.4 (superconnections) and
-  §1.6 (the Euler and Thom classes); Chapter 9, « The Index Bundle », pp. 263–310; Chapter 10,
-  « The Family Index Theorem », pp. 311–348.
+  §1.6 (the Euler and Thom classes); Chapter 9, « The Index Bundle », pp. 263–310, contains §9.1
+  (the index bundle in finite dimensions); Chapter 10, « The Family Index Theorem », pp. 311–348.
 - S. Wu, « Mathai–Quillen formalism », in *Encyclopedia of Mathematical Physics*, vol. 3,
   Elsevier, 2006, 390–399; arXiv:hep-th/0505003 (cited in the numbering and pages of arXiv
   version 1).
