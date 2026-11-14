@@ -2252,13 +2252,15 @@ module of a Shimura-curve Jacobian, producing a `GL₂`-type realisation over `F
 retains irreducibility of the restriction, and the descent lemma of §5.2 returns a realisation
 over F.
 
-Even degree with an indecomposable place. Apply §5.0b with `S = {v}`: it gives `F′/F`, disjoint as
-before, in which v splits completely, and a weight-two form over `F′` matching `ρ|G_{F′}` and
-square-integrable at every place above v. The even-degree case of §5.0c realises `ρ|G_{F′}`
-whatever the parity of `[F′:ℚ]`, and §5.2 again descends to F.
+Even degree with an indecomposable place. Here §5.0b is run with the one-element set `S = {v}`.
+Its output is an extension `F′/F`, subject to the same disjointness as in the odd-degree branch,
+that splits v completely, together with a form of weight two on `F′` whose p-adic representation is
+`ρ|G_{F′}` and whose automorphic representation is square-integrable at each place of `F′` over v.
+For either parity of `[F′:ℚ]`, the even-degree case of §5.0c now yields a realisation of
+`ρ|G_{F′}`, which §5.2 once more brings down to F.
 
-The rational case is the application used below: over `ℚ` the degree is one, so no finite-place
-hypothesis is needed, and (A2) holds because `[ℚ(ζ₅):ℚ] = 4`. Thus every such `ρ : G_ℚ → GL₂(ℚ̄_p)`
+Below, the theorem is applied with `F = ℚ`. There `[F:ℚ] = 1` is odd, which removes the finite-place
+hypothesis, and `[ℚ(ζ₅):ℚ] = 4` makes (A2) automatic. Thus every such `ρ : G_ℚ → GL₂(ℚ̄_p)`
 with (A1) comes from an abelian variety of `GL₂`-type over `ℚ`.
 
 This is Snowden, Proposition 9.4.1, p. 29, and its proof, p. 30, whose two cases are the two
