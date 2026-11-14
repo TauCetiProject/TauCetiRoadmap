@@ -1852,10 +1852,11 @@ is a unique commutative square with rows `G(A) ≅ 𝕄(G)^{V=1}` (§5.2) and
 nonzerodivisor ([CS24] Proposition 4.2.10 and Claims 4.2.10.1–4.2.10.2, pp. 43–45). Each `A_i` is
 perfectoid (perfect if `p = 0` in `A_i`; otherwise `A_i[1/p]` is a complete algebraically closed
 nonarchimedean field, perfectoid by PerfectoidSpaces §P3.7, with ring of integers `A_i` by §P1.25), and
-a target of this subsection is the structure of `Spec ∏ V_i` for valuation rings `V_i`: its connected
-components are the spectra of the ultraproducts `∏_𝒰 V_i`, and if all fraction fields are algebraically
-closed, every quasi-compact open has no nonsplit étale covers and its connected components are spectra
-of valuation rings with algebraically closed fraction fields ([CS24] Lemma 2.2.4, pp. 19–20).
+this subsection must also establish what `Spec ∏ V_i` looks like for valuation rings `V_i`: taking `Spec`
+of the ultraproducts `∏_𝒰 V_i` yields precisely its connected components, and once each `V_i` has an
+algebraically closed fraction field, any quasi-compact open of `Spec ∏ V_i` admits only split étale
+covers, while every connected component of such an open is the spectrum of a valuation ring whose
+fraction field is algebraically closed ([CS24] Lemma 2.2.4, pp. 19–20).
 Route: decompose `I` to assume `a` a nonzerodivisor; the valuative criterion gives `G(A) = G(A[1/a])`
 and `H^1(A[1/a], G) = 0`, the Bégueri resolution `H^{≥2} = 0`; embed `G` Zariski-locally into an abelian
 scheme `B` (FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.40), so `G ⊂ B[p^n]`, and reduce by
