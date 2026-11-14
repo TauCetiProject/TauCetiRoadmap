@@ -146,7 +146,7 @@ The headline signatures use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` a
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
-- **SchemeAndStackFoundations §3.3**: Integrate the native smooth connected algebraic curve, smooth proper completion and finite puncture set from AlgebraicCurves. Analytification belongs to Layer 0, not this request. Use §3.3’s `cohomologyDim_zero_structureModule` for H⁰(X̄,O)=K on a smooth proper geometrically connected curve over algebraically closed K, used with proper GAGA for analytic connectedness. Consumed by [2.1 Semistable vertex set](#21-semistable-vertex-set), [1.4 Connected algebraic curves remain connected](#14-connected-algebraic-curves-remain-connected).
+- **SchemeAndStackFoundations §3.3**: Integrate the native smooth connected algebraic curve, smooth proper completion and finite puncture set from AlgebraicCurves. Analytification belongs to Layer 0, not this request. Use §3.3’s `cohomologyDim_zero_structureModule` for H⁰(X̄,O)=K on a smooth proper geometrically connected curve over algebraically closed K, used with proper GAGA for analytic connectedness. Consumed by [2.1 Semistable vertex sets and their skeleta](#21-semistable-vertex-sets-and-their-skeleta), [1.4 Connected algebraic curves remain connected](#14-connected-algebraic-curves-remain-connected).
 - SchemeAndStackFoundations §4.12 (`chow_lemma`): A projective modification of a proper variety, used in §6.4 to prove the model-function estimate on projective models and descend it by projection.
 - **SchemeAndStackFoundations §§5.2–5.3**: Residue-field cycle degrees, `Chow.c1` and `proper_pushforward`. Section 5.9 treats fields, Dedekind bases and arithmetic surfaces; geometric model specialization is constructed in §6.1a and arbitrary-rank-one descent in §6.2.
 
@@ -1067,7 +1067,9 @@ Layer 0 spectra, completed residue fields and analytic charts; Tau Ceti restrict
 
 Construct finite marked skeleta and their global retraction from annular charts, then compare them to the imported combinatorial dual graph. Semistable existence over a nonnoetherian rank-one valuation ring is an owned theorem. The noncompact theory uses locally finite triangulations and formal gluing rather than an unjustified finite graph.
 
-### 2.1 Semistable vertex set
+### 2.1 Semistable vertex sets and their skeleta
+
+This section defines semistable vertex sets V and the skeleton Σ(X,V) with its completed skeleton in X̄ᵃⁿ. Sections 2.3–2.7, 2.11, 2.21 and 5.4 need them.
 
 Define *semistable vertex sets and skeleta*. Call a finite set V ⊂ X̄ᵃⁿ consisting of type-2 points a semistable vertex set when every connected component of X̄ᵃⁿ∖V is an open ball except for finitely many, which are open annuli, and each puncture lies in an open-ball component that contains no other puncture.
 
@@ -1092,9 +1094,7 @@ For the construction, use the native algebraic curve and its Layer 0 Berkovich a
 
 **Check.** Two punctures in one complementary ball invalidate the candidate.
 
-### 2.2 Skeleton of a semistable decomposition
-
-Construct *skeleton*. For a semistable V, define Σ(X,V) as V union the intrinsic skeleta of the generalized open annulus components of Xᵃⁿ minus V. A punctured ball contributes a ray. Its completed skeleton is the closure in X̄ᵃⁿ.
+**2.2 Skeleton of a semistable decomposition.** Construct *skeleton*. For a semistable V, define Σ(X,V) as V union the intrinsic skeleta of the generalized open annulus components of Xᵃⁿ minus V. A punctured ball contributes a ray. Its completed skeleton is the closure in X̄ᵃⁿ.
 
 Provide the following interface:
 
@@ -1111,19 +1111,21 @@ Provide the following interface:
 
 For the construction, take the union in the analytic point space using Layer 1 annulus skeleta. Define the completed-skeleton accessor by closure; equality with Σ union D is proved separately.
 
-*Needs:* [2.1 Semistable vertex set](#21-semistable-vertex-set); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification).
+*Needs:* [2.1 Semistable vertex sets and their skeleta](#21-semistable-vertex-sets-and-their-skeleta); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, On the structure of non-archimedean analytic curves](https://sites.lsa.umich.edu/sdpayne/wp-content/uploads/sites/1450/2025/08/StructureOfNonarchimedeanCurves.pdf?download=1), Definitions 3.3 and 3.5, printed pp. 102–103. The corresponding arXiv numbering is the same.
 
 **Check.** A puncture belongs to the completed skeleton but not to Xᵃⁿ.
 
-### 2.3 Limit boundaries of semistable components
+### 2.3 Topology of the skeleton and its complement
+
+This section describes Σ and its complement: the limit boundaries of the complementary components, the open balls off Σ, the closure and compactness of Σ, and the characterization of Σ by closed unit-ball neighborhoods. Sections 2.7, 2.9, 2.18 and 2.20 need these results.
 
 Prove *component limit boundary*. An open-ball component has one boundary vertex. An open annulus of logarithmic length ℓ has its skeleton parametrization extending continuously from (0,ℓ) to [0,ℓ], with both ends in V, possibly equal. A punctured ball has the extension [0,∞] with one end in V and one in D.
 
 For the proof, BPR Proposition 2.10 yields limits of regular-function norms as logarithmic radius tends to zero. Lemma 2.13 gives constant norms off the annular skeleton; use a zero-free collar to check endpoint continuity, then compactness. Apply the same norm-limit argument at both annulus ends or at the puncture. The annular integral-slope formula and constancy on complementary balls give the required limits; the corrected logarithmic coordinate tends to zero at a normalized unit-radius boundary.
 
-*Needs:* [2.1 Semistable vertex set](#21-semistable-vertex-set); TropicalAndBerkovichArithmetic Layer 0; [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification); [1.6 Integral slopes of analytic units](#16-integral-slopes-of-analytic-units).
+*Needs:* [2.1 Semistable vertex sets and their skeleta](#21-semistable-vertex-sets-and-their-skeleta); TropicalAndBerkovichArithmetic Layer 0; [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification); [1.6 Integral slopes of analytic units](#16-integral-slopes-of-analytic-units).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, On the structure of non-archimedean analytic curves](https://sites.lsa.umich.edu/sdpayne/wp-content/uploads/sites/1450/2025/08/StructureOfNonarchimedeanCurves.pdf?download=1), Lemma 3.2 with proof, printed pp. 101–102. The corresponding arXiv numbering is the same.
 
@@ -1131,43 +1133,39 @@ For the proof, BPR Proposition 2.10 yields limits of regular-function norms as l
 
 In the annular collar argument use a logarithmic radius tending to zero and test the scalar |f(φ(z))| against the real interval (c₁,c₂). For the component argument choose the connected neighborhood disjoint from V, so it lies in one component of the complement. These are the typed collar and neighborhood conditions for BPR structure Lemmas 3.2 and 3.4(4), arXiv pp. 8–9 (published pp. 102–103).
 
-### 2.4 Ball components off the skeleton
-
-Prove *skeleton complement balls*. Every component B of Xᵃⁿ minus Σ is an open ball with a singleton limit boundary in Σ.
+**2.4 Ball components off the skeleton.** Prove *skeleton complement balls*. Every component B of Xᵃⁿ minus Σ is an open ball with a singleton limit boundary in Σ.
 
 For the proof, combine the component boundary lemma with BPR Lemma 2.12 for an annulus minus its intrinsic skeleton.
 
-*Needs:* [2.2 Skeleton of a semistable decomposition](#22-skeleton-of-a-semistable-decomposition); [2.3 Limit boundaries of semistable components](#23-limit-boundaries-of-semistable-components); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification).
+*Needs:* [2.2 Skeleton of a semistable decomposition](#21-semistable-vertex-sets-and-their-skeleta); [2.3 Topology of the skeleton and its complement](#23-topology-of-the-skeleton-and-its-complement); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, On the structure of non-archimedean analytic curves](https://sites.lsa.umich.edu/sdpayne/wp-content/uploads/sites/1450/2025/08/StructureOfNonarchimedeanCurves.pdf?download=1), Lemma 3.4(3), printed p. 102. The corresponding arXiv numbering is the same.
 
 **Check.** The boundary point may lie in an edge interior, not in V.
 
-### 2.5 Closure and punctures of the skeleton
-
-Prove *completed skeleton boundary*. Σ is closed in Xᵃⁿ, its limit boundary in X̄ᵃⁿ is D, and its closure is Σ union D. It is compact exactly when D is empty.
+**2.5 Closure and punctures of the skeleton.** Prove *completed skeleton boundary*. Σ is closed in Xᵃⁿ, its limit boundary in X̄ᵃⁿ is D, and its closure is Σ union D. It is compact exactly when D is empty.
 
 For the proof, use the finitely many segments and rays with their endpoint extensions. For D empty the union is compact; any omitted puncture is a limit point preventing compactness in the Hausdorff proper analytification.
 
-*Needs:* [2.2 Skeleton of a semistable decomposition](#22-skeleton-of-a-semistable-decomposition); [2.3 Limit boundaries of semistable components](#23-limit-boundaries-of-semistable-components); TropicalAndBerkovichArithmetic Layer 0; [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification).
+*Needs:* [2.2 Skeleton of a semistable decomposition](#21-semistable-vertex-sets-and-their-skeleta); [2.3 Topology of the skeleton and its complement](#23-topology-of-the-skeleton-and-its-complement); TropicalAndBerkovichArithmetic Layer 0; [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, On the structure of non-archimedean analytic curves](https://sites.lsa.umich.edu/sdpayne/wp-content/uploads/sites/1450/2025/08/StructureOfNonarchimedeanCurves.pdf?download=1), Lemma 3.4(1)–(2), Definition 3.5, printed pp. 102–103. The corresponding arXiv numbering is the same.
 
 **Check.** A punctured-ball ray is not compact, and its added endpoint is not at finite path distance.
 
-### 2.6 Disc characterization of the skeleton
-
-Prove *skeleton disc characterization*. Σ consists of the points admitting no affinoid neighborhood isomorphic to a closed unit ball and disjoint from V.
+**2.6 Disc characterization of the skeleton.** Prove *skeleton disc characterization*. Σ consists of the points admitting no affinoid neighborhood isomorphic to a closed unit ball and disjoint from V.
 
 For the proof, off Σ, use the complementary open ball. For x in Σ outside V, any connected candidate neighborhood disjoint from V stays in the same annulus component. Apply BPR Proposition 2.4.
 
-*Needs:* [2.2 Skeleton of a semistable decomposition](#22-skeleton-of-a-semistable-decomposition); [2.4 Ball components off the skeleton](#24-ball-components-off-the-skeleton); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification).
+*Needs:* [2.2 Skeleton of a semistable decomposition](#21-semistable-vertex-sets-and-their-skeleta); [2.4 Ball components off the skeleton](#23-topology-of-the-skeleton-and-its-complement); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, On the structure of non-archimedean analytic curves](https://sites.lsa.umich.edu/sdpayne/wp-content/uploads/sites/1450/2025/08/StructureOfNonarchimedeanCurves.pdf?download=1), Lemma 3.4(4), printed pp. 102–103. The corresponding arXiv numbering is the same.
 
 **Check.** The disjointness from V cannot be omitted in the connected-neighborhood argument.
 
-### 2.7 Retraction onto the skeleton
+### 2.7 Continuous retraction and connectedness of the skeleton
+
+This section constructs the retraction τ_V of Xᵃⁿ onto Σ, proves its continuity, and deduces that Σ and its completed skeleton are connected. Sections 2.13 and 3.6 need the retraction, and §§2.18, 2.20 and 5.1 its continuity.
 
 Construct *retraction to the skeleton*. Define τ_V:Xᵃⁿ→Σ to fix Σ and send every other point to the unique boundary point of its complementary open-ball component. Continuity is a separate lemma.
 
@@ -1186,19 +1184,17 @@ Provide the following interface:
 
 For the construction, use the unique boundary supplied by skeleton-complement-balls, and the identity on Σ.
 
-*Needs:* [2.2 Skeleton of a semistable decomposition](#22-skeleton-of-a-semistable-decomposition); [2.4 Ball components off the skeleton](#24-ball-components-off-the-skeleton); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification).
+*Needs:* [2.2 Skeleton of a semistable decomposition](#21-semistable-vertex-sets-and-their-skeleta); [2.4 Ball components off the skeleton](#23-topology-of-the-skeleton-and-its-complement); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, On the structure of non-archimedean analytic curves](https://sites.lsa.umich.edu/sdpayne/wp-content/uploads/sites/1450/2025/08/StructureOfNonarchimedeanCurves.pdf?download=1), Definition 3.7, printed p. 103. The corresponding arXiv numbering is the same.
 
 **Check.** On P¹ with vertices ζ(0,r) and ζ(0,1), 0<r<1, the interior point ζ(0,√r) is fixed at coordinate −log(r)/2, rather than rounded to either endpoint.
 
-### 2.8 Continuity of skeletal retraction
-
-Prove *continuous retraction*. τ_V is continuous and restricts on each complementary generalized annulus to its intrinsic retraction.
+**2.8 Continuity of skeletal retraction.** Prove *continuous retraction*. τ_V is continuous and restricts on each complementary generalized annulus to its intrinsic retraction.
 
 For the proof, the annulus assertion follows from BPR Lemma 2.12. Supply the vertex-neighborhood proof left as an exercise in Lemma 3.8. Continuity at vertices is proved by the star-neighborhood argument below; continuity on the complementary components alone is insufficient.
 
-*Needs:* [2.7 Retraction onto the skeleton](#27-retraction-onto-the-skeleton); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification).
+*Needs:* [2.7 Continuous retraction and connectedness of the skeleton](#27-continuous-retraction-and-connectedness-of-the-skeleton); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, On the structure of non-archimedean analytic curves](https://sites.lsa.umich.edu/sdpayne/wp-content/uploads/sites/1450/2025/08/StructureOfNonarchimedeanCurves.pdf?download=1), Lemma 3.8, printed p. 103. The corresponding arXiv numbering is the same.
 
@@ -1206,13 +1202,11 @@ For the proof, the annulus assertion follows from BPR Lemma 2.12. Supply the ver
 
 At a vertex there may be infinitely many residue-ball directions. Given a neighborhood in the skeleton, cut the finitely many incident annuli inside that neighborhood and use local analytic connectedness to build a star neighborhood in the curve. Include entire sufficiently small residual ball directions; verify that their retractions stay at the vertex. Apply the same neighborhood argument with the time coordinate to prove continuity of the strong homotopy at the vertex, not only on open annuli. BPR structure Lemma 3.8, p. 9 leaves this continuity argument to the reader. Use the resulting star lemma also for marked rays and the strong deformation theorem.
 
-### 2.9 Connectedness of the skeleton
-
-Prove *connected skeleton*. Both Σ and its completed skeleton are connected.
+**2.9 Connectedness of the skeleton.** Prove *connected skeleton*. Both Σ and its completed skeleton are connected.
 
 For the proof, use connectedness of the curve analytification, continuity and surjectivity of τ, then connectedness of its closure in the proper completion. The connectedness target is supplied by proper GAGA and the classical-endpoint removal argument.
 
-*Needs:* [2.8 Continuity of skeletal retraction](#28-continuity-of-skeletal-retraction); [2.5 Closure and punctures of the skeleton](#25-closure-and-punctures-of-the-skeleton); TropicalAndBerkovichArithmetic Layer 0; [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification); [1.4 Connected algebraic curves remain connected](#14-connected-algebraic-curves-remain-connected).
+*Needs:* [2.8 Continuity of skeletal retraction](#27-continuous-retraction-and-connectedness-of-the-skeleton); [2.5 Closure and punctures of the skeleton](#23-topology-of-the-skeleton-and-its-complement); TropicalAndBerkovichArithmetic Layer 0; [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification); [1.4 Connected algebraic curves remain connected](#14-connected-algebraic-curves-remain-connected).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, On the structure of non-archimedean analytic curves](https://sites.lsa.umich.edu/sdpayne/wp-content/uploads/sites/1450/2025/08/StructureOfNonarchimedeanCurves.pdf?download=1), Proposition 3.9, printed p. 103. The corresponding arXiv numbering is the same.
 
@@ -1242,7 +1236,7 @@ Admissible semistable formal model; 0<|a|<1; special-fiber normalizations define
 
 For the proof, use formal étale charts to identify analytic fibers and glue Gauss intervals along generic points. For the converse cover by vertex affinoids and annular edge domains and glue their canonical formal models; uniqueness uses admissible-model comparison.
 
-*Needs:* [2.10 Rank-one semistable reduction](#210-rank-one-semistable-reduction); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [2.2 Skeleton of a semistable decomposition](#22-skeleton-of-a-semistable-decomposition); AdicSpacesPartIII §R2.3 (`raynaud-generic-fibre`); TauCetiRoadmap.StableReduction Layer 1; [0.22 Berkovich analytification](#022-berkovich-analytification).
+*Needs:* [2.10 Rank-one semistable reduction](#210-rank-one-semistable-reduction); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [2.2 Skeleton of a semistable decomposition](#21-semistable-vertex-sets-and-their-skeleta); AdicSpacesPartIII §R2.3 (`raynaud-generic-fibre`); TauCetiRoadmap.StableReduction Layer 1; [0.22 Berkovich analytification](#022-berkovich-analytification).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, On the structure of nonarchimedean analytic curves](https://arxiv.org/abs/1404.0279v1), Proposition 4.3, Theorem 4.6, §4.9, Proposition 4.10 and Theorem 4.11, pp. 11–15. Formal fibers and the vertex-set/model correspondence, including the metric and order relation.
 
@@ -1270,7 +1264,7 @@ Smooth proper connected curve over algebraically closed K for finite-point refin
 
 For the proof, insert points on annular edges and in finitely many ball branches, using a larger initial semistable model if necessary. Uniqueness of paths proves retraction composition. Base change of uv=a preserves −log|a|; regularization subdivides the edge rather than changing its total length.
 
-*Needs:* [2.11 Formal models and metric dual graphs](#211-formal-models-and-metric-dual-graphs); [2.7 Retraction onto the skeleton](#27-retraction-onto-the-skeleton); [1.7 Virtual annuli and metric descent](#17-virtual-annuli-and-metric-descent); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification).
+*Needs:* [2.11 Formal models and metric dual graphs](#211-formal-models-and-metric-dual-graphs); [2.7 Continuous retraction and connectedness of the skeleton](#27-continuous-retraction-and-connectedness-of-the-skeleton); [1.7 Virtual annuli and metric descent](#17-virtual-annuli-and-metric-descent); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, On the structure of nonarchimedean analytic curves](https://arxiv.org/abs/1404.0279v1), Theorem 4.11, Corollary 4.23 and §5.3, pp. 13–18. Model domination/refinement and the corrected union-of-subedges statement. [Jérôme Poineau and Daniele Turchetti, Berkovich curves and Schottky uniformization](https://arxiv.org/pdf/2010.09043v1), §I.7, pp. 26–29; §II.2, pp. 40–43. Base-change and stable-genus cautions.
 
@@ -1386,11 +1380,13 @@ Finite semistable vertex set; finite split marks; use the analytic topology on s
 
 For the proof, glue the annular radial homotopies and rooted-ball contraction while fixing each vertex. At a vertex use star neighborhoods with finitely many annular cuts and all but finitely many attached residue balls. Continuity at these vertices, including infinitely many ball directions, is the vertex-neighborhood argument specified above; componentwise continuity does not suffice.
 
-*Needs:* [2.8 Continuity of skeletal retraction](#28-continuity-of-skeletal-retraction); [2.4 Ball components off the skeleton](#24-ball-components-off-the-skeleton); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation).
+*Needs:* [2.8 Continuity of skeletal retraction](#27-continuous-retraction-and-connectedness-of-the-skeleton); [2.4 Ball components off the skeleton](#23-topology-of-the-skeleton-and-its-complement); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, On the structure of nonarchimedean analytic curves](https://arxiv.org/abs/1404.0279v1), §2.3, p. 4 and Lemma 3.8, p. 9. The annular homotopy is recalled in §2.3. Lemma 3.8 states continuous retraction only; it does not prove the strong homotopy, and its vertex-continuity exercise remains an additional proof target. [Jérôme Poineau and Daniele Turchetti, Berkovich curves and Schottky uniformization](https://arxiv.org/pdf/2010.09043v1), Lemmas I.7.8–I.7.9 and Propositions I.7.10–I.7.11, pp. 28–29; paragraph following Theorem II.2.20, p. 43. Explicit local disc/annulus homotopies and the global strong-retraction assertion. Prove gluing and continuity at every vertex direction using the star-neighborhood argument.
 
-### 2.19 Contractions of genus-zero vertices
+### 2.19 Contractions, minimal skeleta and stable vertex sets
+
+This section provides the genus-zero vertex contractions and, from them, the intrinsic description and uniqueness of the minimal skeleton when χ(X)≤0 and of the stable vertex set when χ(X)<0.
 
 Prove *genus zero contractions*. Let V be a semistable vertex set of a smooth punctured curve and x∈V have genus zero. In the completed skeleton, a valence-one x can be removed if its adjoining edge has other endpoint outside the puncture set D; delete x and that edge interior. A valence-two x incident to two distinct edges can be removed if their two other endpoints are not both in D; join these edges, adding their lengths. A single self-loop contributes two tangent directions but is not a pair of distinct edges and cannot be suppressed by this rule. The resulting V\{x} is semistable.
 
@@ -1406,49 +1402,41 @@ For the proof, translate the genus-zero component contraction of BL85 Lemma 6.1 
 
 Prove the required formal genus-zero contractions over the possibly nonnoetherian rank-one valuation ring. For a genus-zero component of valence at most two, construct the coarser formal covering that contracts that component; its remaining formal fiber is a genus-zero curve with at most two peripheral discs, hence a ball or an annulus. Bosch–Lütkebohmert (1985), Lemma 6.1, p. 372 uses their formal contraction construction 3.9 and genus comparison 4.6; see also BPR structure Proposition 4.21, p. 16. A rational tail can be removed only under the stated puncture exclusions. A bridge contraction replaces its two distinct adjacent annuli by one whose thickness is their sum. Preserve the one-point and one-vertex-loop exceptions explicitly retained in §6, p. 371. These contractions underlie the intrinsic minimal skeleton and the stable-vertex existence and uniqueness arguments; the DVR contraction theorem is a compatibility case.
 
-### 2.20 Intrinsic minimal skeleton
-
-Prove *intrinsic minimal skeleton*. If χ(X)=2−2g(X̄)−#D≤0 and V is inclusion-minimal, Σ(X,V) is the locus with no affinoid neighborhood isomorphic to the closed unit ball.
+**2.20 Intrinsic minimal skeleton.** Prove *intrinsic minimal skeleton*. If χ(X)=2−2g(X̄)−#D≤0 and V is inclusion-minimal, Σ(X,V) is the locus with no affinoid neighborhood isomorphic to the closed unit ball.
 
 For the proof, use the exact genus-zero tail/bridge contraction theorem and semistable refinement. If a minimal skeleton met a forbidden closed-ball neighborhood, refine at its Gauss boundary; its retract in the contractible ball would be a finite tree with a genus-zero vertex of valence below two. The contraction contradicts minimality when χ≤0.
 
-*Needs:* [2.14 Existence of a semistable vertex set](#214-existence-of-a-semistable-vertex-set); [2.6 Disc characterization of the skeleton](#26-disc-characterization-of-the-skeleton); [2.8 Continuity of skeletal retraction](#28-continuity-of-skeletal-retraction); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification); [2.19 Contractions of genus-zero vertices](#219-contractions-of-genus-zero-vertices); [2.12 Vertex genera and analytic genus](#212-vertex-genera-and-analytic-genus).
+*Needs:* [2.14 Existence of a semistable vertex set](#214-existence-of-a-semistable-vertex-set); [2.6 Disc characterization of the skeleton](#23-topology-of-the-skeleton-and-its-complement); [2.8 Continuity of skeletal retraction](#27-continuous-retraction-and-connectedness-of-the-skeleton); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification); [2.19 Contractions, minimal skeleta and stable vertex sets](#219-contractions-minimal-skeleta-and-stable-vertex-sets); [2.12 Vertex genera and analytic genus](#212-vertex-genera-and-analytic-genus).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, On the structure of non-archimedean analytic curves](https://sites.lsa.umich.edu/sdpayne/wp-content/uploads/sites/1450/2025/08/StructureOfNonarchimedeanCurves.pdf?download=1), Theorem 4.22(1), printed p. 112. The corresponding arXiv numbering is the same.
 
 **Check.** The χ≤0 restriction excludes the unpunctured projective line.
 
-### 2.21 Stable vertices of a hyperbolic curve
-
-Prove *stable vertex characterization*. For χ(X)<0 and inclusion-minimal V, V is stable and equals the points of Σ of valence at least three or positive vertex genus. The genus of a type-2 point is the genus of the smooth proper curve over the residue field with function field the residue field of its completed residue field.
+**2.21 Stable vertices of a hyperbolic curve.** Prove *stable vertex characterization*. For χ(X)<0 and inclusion-minimal V, V is stable and equals the points of Σ of valence at least three or positive vertex genus. The genus of a type-2 point is the genus of the smooth proper curve over the residue field with function field the residue field of its completed residue field.
 
 For the proof, remove each allowable genus-zero low-valence vertex by the exact contraction theorem. Under χ<0 the exceptional one/two-puncture configurations cannot exhaust the curve. The remaining vertices are exactly positive-genus points or topological vertices of valence at least three.
 
-*Needs:* [2.14 Existence of a semistable vertex set](#214-existence-of-a-semistable-vertex-set); [2.2 Skeleton of a semistable decomposition](#22-skeleton-of-a-semistable-decomposition); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification); [2.19 Contractions of genus-zero vertices](#219-contractions-of-genus-zero-vertices); [2.12 Vertex genera and analytic genus](#212-vertex-genera-and-analytic-genus).
+*Needs:* [2.14 Existence of a semistable vertex set](#214-existence-of-a-semistable-vertex-set); [2.2 Skeleton of a semistable decomposition](#21-semistable-vertex-sets-and-their-skeleta); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification); [2.19 Contractions, minimal skeleta and stable vertex sets](#219-contractions-minimal-skeleta-and-stable-vertex-sets); [2.12 Vertex genera and analytic genus](#212-vertex-genera-and-analytic-genus).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, On the structure of non-archimedean analytic curves](https://sites.lsa.umich.edu/sdpayne/wp-content/uploads/sites/1450/2025/08/StructureOfNonarchimedeanCurves.pdf?download=1), Definition 4.20 and Theorem 4.22(2), printed pp. 111–112. The corresponding arXiv numbering is the same.
 
 **Check.** A positive-genus vertex remains even at valence below three.
 
-### 2.22 Uniqueness of the minimal skeleton
-
-Prove *unique minimal skeleton*. For χ(X)≤0 there is a unique set-theoretic minimal skeleton.
+**2.22 Uniqueness of the minimal skeleton.** Prove *unique minimal skeleton*. For χ(X)≤0 there is a unique set-theoretic minimal skeleton.
 
 For the proof, a finite vertex set has a minimal subset, and the intrinsic description is independent of that choice.
 
-*Needs:* [2.20 Intrinsic minimal skeleton](#220-intrinsic-minimal-skeleton); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification).
+*Needs:* [2.20 Intrinsic minimal skeleton](#219-contractions-minimal-skeleta-and-stable-vertex-sets); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, On the structure of non-archimedean analytic curves](https://sites.lsa.umich.edu/sdpayne/wp-content/uploads/sites/1450/2025/08/StructureOfNonarchimedeanCurves.pdf?download=1), Corollary 4.23, printed p. 112. The corresponding arXiv numbering is the same.
 
 **Check.** A Tate curve has one minimal circle but many minimal one-point vertex sets.
 
-### 2.23 Uniqueness of stable vertices
-
-Prove *unique stable vertex set*. For χ(X)<0 there is a unique stable vertex set.
+**2.23 Uniqueness of stable vertices.** Prove *unique stable vertex set*. For χ(X)<0 there is a unique stable vertex set.
 
 For the proof, the intrinsic minimal skeleton is independent of a vertex presentation. Its positive-genus points and valence-at-least-three points are intrinsic and form the stable set when χ<0. The contraction theorem shows that any stable semistable presentation is minimal, giving uniqueness.
 
-*Needs:* [2.22 Uniqueness of the minimal skeleton](#222-uniqueness-of-the-minimal-skeleton); [2.21 Stable vertices of a hyperbolic curve](#221-stable-vertices-of-a-hyperbolic-curve); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification); [2.19 Contractions of genus-zero vertices](#219-contractions-of-genus-zero-vertices); [2.12 Vertex genera and analytic genus](#212-vertex-genera-and-analytic-genus).
+*Needs:* [2.22 Uniqueness of the minimal skeleton](#219-contractions-minimal-skeleta-and-stable-vertex-sets); [2.21 Stable vertices of a hyperbolic curve](#219-contractions-minimal-skeleta-and-stable-vertex-sets); [1.5 Annular skeleton and deformation](#15-annular-skeleton-and-deformation); [0.22 Berkovich analytification](#022-berkovich-analytification); [2.19 Contractions, minimal skeleta and stable vertex sets](#219-contractions-minimal-skeleta-and-stable-vertex-sets); [2.12 Vertex genera and analytic genus](#212-vertex-genera-and-analytic-genus).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, On the structure of non-archimedean analytic curves](https://sites.lsa.umich.edu/sdpayne/wp-content/uploads/sites/1450/2025/08/StructureOfNonarchimedeanCurves.pdf?download=1), Corollary 4.23, printed p. 112. The corresponding arXiv numbering is the same.
 
@@ -1613,7 +1601,7 @@ Provide the following interface:
 
 For the construction, extend point retraction linearly and use compatibility of graph retractions. For closed points compare the sum of geometric conjugates, including inseparable multiplicities, with the degree convention.
 
-*Needs:* [2.7 Retraction onto the skeleton](#27-retraction-onto-the-skeleton); [2.13 Refinement and valued extension](#213-refinement-and-valued-extension); [3.2 Divisors and rank on metric graphs](#32-divisors-and-rank-on-metric-graphs).
+*Needs:* [2.7 Continuous retraction and connectedness of the skeleton](#27-continuous-retraction-and-connectedness-of-the-skeleton); [2.13 Refinement and valued extension](#213-refinement-and-valued-extension); [3.2 Divisors and rank on metric graphs](#32-divisors-and-rank-on-metric-graphs).
 
 [Matthew Baker, Specialization of linear systems from curves to graphs](https://arxiv.org/pdf/math/0701075v4), §2, pp. 5–10. Specialization in the discrete-model range. [Omid Amini and Matthew Baker, Linear series on metrized complexes of algebraic curves](https://arxiv.org/pdf/1204.3508v3), §4.3, pp. 21–22. Analytic retraction and geometric-point specialization over arbitrary complete algebraically closed K.
 
@@ -1949,7 +1937,7 @@ Require m_Trop(w)=1 for every w∈Γ′, including isolated points outside the v
 
 For the proof, at each value-group-rational tropical point, multiplicity one forces a unique generically reduced initial component and one relative-multiplicity-one Shilov lift. On edges the multiplicity formula forces expansion one. Uniqueness at vertices glues these lifts into a graph; intrinsic retraction and properness prove the inverse is continuous. Extend across non-value-group points on edges by their adjacent intervals. For an isolated non-value-group point the explicit multiplicity-one hypothesis gives, after valued base extension, a unique Shilov point of its tropical affinoid fiber, descending that point independently of the extension.
 
-*Needs:* [4.6 Tropical multiplicity formula for curves](#46-tropical-multiplicity-formula-for-curves); [4.5 Relative point and edge multiplicities](#45-relative-point-and-edge-multiplicities); [2.8 Continuity of skeletal retraction](#28-continuity-of-skeletal-retraction).
+*Needs:* [4.6 Tropical multiplicity formula for curves](#46-tropical-multiplicity-formula-for-curves); [4.5 Relative point and edge multiplicities](#45-relative-point-and-edge-multiplicities); [2.8 Continuity of skeletal retraction](#27-continuous-retraction-and-connectedness-of-the-skeleton).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, Nonarchimedean geometry, tropicalization, and metrics on curves](https://arxiv.org/abs/1104.0320v3), Theorem 1.4, p. 3; Theorems 5.24–5.25, Remarks 5.26–5.27 and Corollary 5.28, pp. 27–28. Multiplicity one gives a unique positive-relative-multiplicity lift and unit expansion on the stated locus; continuity and compactness identify the intrinsic graph metrics.
 
@@ -2004,7 +1992,7 @@ Prove *faithful tropicalization and expansion factors*. Given a finite graph Γ 
 
 For the proof, cover the finite embedded graph by finitely many closed skeletal segments. Use unit-slope functions to make the expansion gcd one, and add finitely many separating coordinates for pairs in distinct graph neighborhoods. The resulting toric refinement is locally isometric and injective on the compact graph, hence faithful.
 
-*Needs:* [2.2 Skeleton of a semistable decomposition](#22-skeleton-of-a-semistable-decomposition); AnalyticToricGeometry Layer 0 and §4.0 small-fan extension and valued toric comparisons; [5.2 Faithful tropicalization on a graph](#52-faithful-tropicalization-on-a-graph); [5.3 Functions separating edges and vertices](#53-functions-separating-edges-and-vertices).
+*Needs:* [2.2 Skeleton of a semistable decomposition](#21-semistable-vertex-sets-and-their-skeleta); AnalyticToricGeometry Layer 0 and §4.0 small-fan extension and valued toric comparisons; [5.2 Faithful tropicalization on a graph](#52-faithful-tropicalization-on-a-graph); [5.3 Functions separating edges and vertices](#53-functions-separating-edges-and-vertices).
 
 [Matthew Baker, Sam Payne, Joseph Rabinoff, Nonarchimedean geometry, tropicalization, and metrics on curves](https://arxiv.org/abs/1104.0320v3), Theorem 1.1, p. 2; Theorems 5.20–5.21 and proofs, p. 26. The finite-graph existence theorem follows from finitely many separating unit-slope coordinates. Use the residue lifting, annular approximation and rational sublevel constructions specified in the preceding separating-functions target.
 
