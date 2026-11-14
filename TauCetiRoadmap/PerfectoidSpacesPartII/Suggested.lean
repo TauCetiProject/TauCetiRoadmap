@@ -41,7 +41,8 @@ Stated here:
   README §2.3; and the complete integral closedness of the root saturation in `R[1/g]` (README
   §3.6(3); André, *Le lemme d'Abhyankar perfectoïde*, Lemme 4.2.3):
   `rootSaturation_completelyIntegrallyClosed`. Both hold for every compatible system of roots,
-  with no regularity of `g`.
+  with no regularity of `g` (Théorème 4.2.2 assumes `g` a nonzerodivisor; the general case of the
+  first is derived from Lemme 4.2.3, README §3.6).
 * The trace clause of André's perfectoid Abhyankar lemma (README §4.7(3); André, *Le lemme
   d'Abhyankar perfectoïde*, Théorème 0.3.1(3) and Proposition 5.3.1(3)), in the integral-closure
   model `B̃°` of README §4.6: `abhyankar_trace_almost_surjective`, with the trace of a finite
@@ -373,7 +374,9 @@ def rootSaturation {R : Type u} [CommRing R] [TopologicalSpace R] [Nonarchimedea
 Let `K` be a perfectoid field (given by the criterion: its norms accumulate at `1`, `‖p‖ < 1` and
 Frobenius is surjective on `K°/p`), `R` a perfectoid Tate ring which is a topological
 `K`-algebra, and `g ∈ R°` with a compatible system of `p`-power roots `g m` (`g 0 = g`,
-`g (m + 1) ^ p = g m`). No regularity of `g` is assumed; `R°` acts on `R[1/g]` through its image.
+`g (m + 1) ^ p = g m`). No regularity of `g` is assumed (André's Théorème 4.2.2 assumes `g` a
+nonzerodivisor; the general case is derived from Lemme 4.2.3, README §3.6); `R°` acts on `R[1/g]`
+through its image.
 In `R[1/g]`, the root saturation
 `rootSaturation p g hg = g^{-1/p^∞} R° = {b | g^{1/p^m} b ∈ R° for all m}` equals the complete
 integral closure of the image of `R°`, the set of `b` whose powers all lie in one finitely

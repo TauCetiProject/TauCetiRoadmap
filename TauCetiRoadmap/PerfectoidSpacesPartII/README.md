@@ -1724,8 +1724,11 @@ cokernel of `R → lim_j S_j`, are therefore killed by every `T^{r/p^ℓ}`, henc
 
 Let `A` be a perfectoid `K`-algebra and `g ∈ A°` an element admitting a root system in `A` (its
 roots lie in `A°`, since `A°` is integrally closed). Clauses (1)–(3) need no further hypothesis on
-`g`; when `g` is a zero divisor, `A° → A[1/g]` is not injective, and the closures of (2) and of
-§2.3 are those of its image. In (4) `g` is a nonzerodivisor because multiplication by `g` is
+`g`. André proves (1) and (2) for a nonzerodivisor `g` (André A, Théorème 4.2.2, p. 55) and states
+(3) with no hypothesis on `g` (Lemme 4.2.3, p. 56); the general case of (1) follows by the same
+proof, whose inputs (§2.3, §3.3–§3.5) assume nothing on `g`, and (2) is derived here from (3) (proof
+sketch below). When `g` is a zero divisor, `A° → A[1/g]` is not injective, and the closures of (2)
+and of §2.3 are those of its image. In (4) `g` is a nonzerodivisor because multiplication by `g` is
 isometric. Prove (André A, Théorème 4.2.2 with proof, pp. 55–56;
 Lemme 4.2.3 and Remarque 4.2.4, p. 56):
 
@@ -2003,7 +2006,8 @@ Let `(V, m)` be a basic setup (Tau Ceti `TauCeti.Almost.BasicSetup`), `A → B` 
 `B ⊗_A B → ∏_G B`, `b ⊗ b′ ↦ (γ(b)b′)_γ`. Define `A → B` to be **`G`-Galois** if `B^G = A` (the invariants
 being the kernel of `B → ∏_G B`, `b ↦ (γb − b)_γ`) and `B ⊗_A B → ∏_G B` is an isomorphism; equivalently
 `(B_*)^G = A_*` and `(B ⊗_A B)_* → ∏_G B_*` is an isomorphism (André A, §§1.9.1–1.9.2, formula (1.1) and
-footnote 6, pp. 8–9). Prove (André A, Proposition 1.9.1 with proof, pp. 9–10): a `G`-Galois extension is
+footnote 6, pp. 8–9). Prove (André A, Proposition 1.9.1 with proof, pp. 9–10, and Remarques 1.8.1(1)–(2),
+p. 8, for faithful flatness and the trace epimorphism): a `G`-Galois extension is
 faithfully flat, the sum of conjugates `t = Σ_{γ∈G} γ : B → A` is an epimorphism, and the extension is
 finite étale of rank `|G|` with trace `t`; `G`-Galois extensions are stable under base
 change and descend along faithfully flat maps; for an intermediate extension `C` with `C → B`
@@ -3133,6 +3137,15 @@ The statements above incorporate the following corrections; each is paraphrased 
 - André A, Proposition 4.4.4, proof (3), p. 63: the trace argument embeds `A[1/g]` into the uniform limit
   of the `A[j]`; for `A = K⟨T^{1/p^∞}⟩`, `g = T`, the element `1/T` has annular norms `|ϖ|^{−j}` and is not
   in the bounded uniform limit. §4.3 uses the algebraic limit `lim_j A[j]`, where `g` is invertible.
+- André A, Proposition 4.2.1, proof, pp. 54–55: the generators in the presentation of `S_j` and in
+  their divisibility are printed `T^{1/p^k}U^{1/p^k} − ϖ^{1/p^k}`; by (4.3) they are
+  `T^{1/p^k}U^{1/p^k} − ϖ^{j/p^k}`, the form the same paragraph uses to factor an element of the
+  kernel, and §3.5 uses this form.
+- André A, §4.4.2, p. 61: for an almost perfectoid `C`, `C[j] ≅ C^♮[j]` is deduced from Lemme 2.6.2,
+  which assumes that `g` is a nonzerodivisor of `C^♮` and that `C` lies in `C^♮[1/g]`; both fail for
+  the algebra `C = B × K`, `g = (T₁, 0)`, of §3.3, last Check. §3.3 proves the isomorphism for every
+  `g` from the invariance §2.4(5), with `ψ` the multiplication by `ug` for a nonzero `u ∈ K°°`, and
+  §3.10 uses it.
 - André B, proof of Lemme A.2.1, p. 90: the dual used for the generator criterion is written with
   `S`-linear maps from `S` to `R`; it is `Hom_R(S, R)`, and `1` is a finite sum `Σ_i f_i(s_i)` (§5.1).
 - André B, arXiv:1609.00345v1, §5.5, p. 14: the definition of almost purity for a module map tests a
