@@ -1418,7 +1418,9 @@ Under this premise prove boundedness and uniqueness relative to the realization,
 - T-exactness alone would allow a realization killing a nonzero object; conservative cohomology and the resulting conservative realization prevent that candidate.
 - In a mixed heart, extensions between pure objects need not split; the pure semisimplicity consequence must not be applied to all objects.
 
-### 7.6a Semialgebraic and equivariant cohomology
+### 7.6a Real equivariant cohomology, its duality and cycle operations
+
+This group constructs semialgebraic and equivariant cohomology over every real closed field, its duality and real-locus decomposition, Steenrod squares and the equivariant cycle and Borel–Haefliger classes. Sections 0.5a–0.6 use it for their real instances, and it precedes §§7.7–7.15.
 
 For every real closed `R` and `C=R(i)`, construct the locally semialgebraic spaces `X(R)` and `X(C)` for separated finite-type `X/R`, using affine charts and gluing without a quasiprojectivity assumption. Construct their semialgebraic sheaf sites, integral cohomology, compact supports and locally constant coefficient systems. Define `G=Gal(C/R)`-equivariant sheaves and cohomology as derived invariant sections, including supports and the sign twists `ℤ(j)`. Give pullback, localization, coefficient sequences, products, extension along real closed field extensions and its invariance for these finite-type data. Over the actual real numbers construct comparison with singular and Borel equivariant cohomology. Construct restriction, norm, the real-complex exact sequences and Hochschild–Serre, with their products and boundary maps. This constructs the theory used by §§0.5a–0.6 and 7.7–7.15; polynomial quantifier elimination supplies only its semialgebraic input. (Benoist–Wittenberg I, §§1.1.1–1.1.3, pp.9–12, equations (1.1)–(1.9); its semialgebraic sources Delfs–Knebusch and Delfs, as cited there.)
 
@@ -1429,9 +1431,7 @@ For every real closed `R` and `C=R(i)`, construct the locally semialgebraic spac
 - The semialgebraic interval is connected with `H⁰=ℤ` over every real closed field, including non-Archimedean ones. This uses semialgebraic connectedness rather than order-topological connectedness.
 - Empty spaces have zero cohomology, and a split two-point real scheme has two degree-zero summands. Real closed extension preserves these computations.
 
-### 7.6b Duality, real-locus decomposition and cycle operations
-
-On the theory of §7.6a construct semialgebraic dualizing complexes, proper traces, Poincaré duality with the orientation local system, and equivariant purity for smooth pairs. Give products, projection and base-change formulas, compatible restriction/corestriction and real-locus localization. Prove the mod-two real-locus decomposition `H_G^m(X(R),𝔽₂)≃⊕_{p=0}^m H^p(X(R),𝔽₂)` and the integral sign-twisted decomposition with its coefficient-reduction map; do not infer integral product formulas from the mod-two formula. Construct Steenrod squares with naturality, Cartan and Thom identities, the equivariant integral algebraic cycle map and Borel–Haefliger classes. Prove their proper-pushforward, pullback, product and boundary compatibilities and the real-locus component equations of Benoist–Wittenberg I Theorem 1.18, including Theorem 1.21's proper-pushforward compatibility. Supply these operations with supports to §§0.5a–0.5b's duality/Gersten construction and coniveau restriction. (Benoist–Wittenberg I, §§1.1.4–1.6, pp.12–34, equations (1.16), (1.21), (1.26), (1.29)–(1.31), Definition 1.19 and Theorems 1.18, 1.21; semialgebraic duality: Delfs, *Homology of Locally Semialgebraic Spaces*, Chapter III §9, Theorem 9.3, as used there.)
+**7.6b Duality, real-locus decomposition and cycle operations.** On the theory of §7.6a construct semialgebraic dualizing complexes, proper traces, Poincaré duality with the orientation local system, and equivariant purity for smooth pairs. Give products, projection and base-change formulas, compatible restriction/corestriction and real-locus localization. Prove the mod-two real-locus decomposition `H_G^m(X(R),𝔽₂)≃⊕_{p=0}^m H^p(X(R),𝔽₂)` and the integral sign-twisted decomposition with its coefficient-reduction map; do not infer integral product formulas from the mod-two formula. Construct Steenrod squares with naturality, Cartan and Thom identities, the equivariant integral algebraic cycle map and Borel–Haefliger classes. Prove their proper-pushforward, pullback, product and boundary compatibilities and the real-locus component equations of Benoist–Wittenberg I Theorem 1.18, including Theorem 1.21's proper-pushforward compatibility. Supply these operations with supports to §§0.5a–0.5b's duality/Gersten construction and coniveau restriction. (Benoist–Wittenberg I, §§1.1.4–1.6, pp.12–34, equations (1.16), (1.21), (1.26), (1.29)–(1.31), Definition 1.19 and Theorems 1.18, 1.21; semialgebraic duality: Delfs, *Homology of Locally Semialgebraic Spaces*, Chapter III §9, Theorem 9.3, as used there.)
 
 **Checks.**
 
@@ -1440,7 +1440,9 @@ On the theory of §7.6a construct semialgebraic dualizing complexes, proper trac
 - Purity for a smooth codimension-`c` complex pair shifts degree by `2c` and twist by `c`; the real-locus mod-two Thom isomorphism instead shifts degree by `c`.
 - The trace pairs complementary degrees and uses the orientation sheaf; an integral untwisted orientation on a nonorientable real component is not supplied. A norm of a nonreal point has degree two.
 
-### 7.7 Integral and real admissible Hodge targets
+### 7.7 Admissible Hodge targets and their divisor, zero-cycle and blowup cases
+
+This group defines the integral, real and real-closed admissible Hodge targets with their surjectivity predicates, and proves surjectivity for divisors, zero-cycles and projective space together with birational invariance of the defects. The detectors of §7.9 and the defect comparison of §7.12 are defined on these targets; the acceptance targets of §7.14 and downstream integral and real arithmetic geometry use them.
 
 For smooth proper complex `X` and `k≥0`, define integral Hodge classes as the inverse image of `H^{k,k}` in `H^{2k}(X,ℤ(k))`; integral Hodge means surjectivity from `CH^k(X)`, with defect its cokernel. Include the subgroup, cycle factorization, rationalization and defect-zero APIs. Every torsion cohomology class lies in this subgroup. (Benoist–Wittenberg I, §2.1, pp.35–36.)
 
@@ -1458,9 +1460,7 @@ If complex rational Hodge holds, prove rational surjectivity of the real target 
 - In top degree `k=d` the off-diagonal vanishings hold by dimension. For divisors they follow from `H²(O)=0` and its conjugate.
 - A non-Archimedean real closed field with off-diagonal cohomology does not acquire an analytic predicate from this construction.
 
-### 7.8 Divisors, zero-cycles, projective space and blowups
-
-Prove the complex integral divisor theorem `Pic→Hdg²(ℤ(1))` and its real equivariant counterpart `Pic→Hdg_G²(ℤ(1))`. For arbitrary real closed `R`, prove `H²(O_X)=0` implies surjectivity `Pic(X)→H_G²(X(C),ℤ(1))`, using Kummer comparison and the torsion-free divisor cokernel. The last proof is algebraic/semialgebraic and does not invoke analytic Hodge theory over `R`. (Benoist–Wittenberg I, Propositions 2.8–2.9, pp.39–40; Benoist, real period–index paper, proofs of Proposition 1.2 and Proposition 6.6.)
+**7.8 Divisors, zero-cycles, projective space and blowups.** Prove the complex integral divisor theorem `Pic→Hdg²(ℤ(1))` and its real equivariant counterpart `Pic→Hdg_G²(ℤ(1))`. For arbitrary real closed `R`, prove `H²(O_X)=0` implies surjectivity `Pic(X)→H_G²(X(C),ℤ(1))`, using Kummer comparison and the torsion-free divisor cokernel. The last proof is algebraic/semialgebraic and does not invoke analytic Hodge theory over `R`. (Benoist–Wittenberg I, Propositions 2.8–2.9, pp.39–40; Benoist, real period–index paper, proofs of Proposition 1.2 and Proposition 6.6.)
 
 For every smooth proper pure `d`-fold over a real closed field, prove surjectivity for zero-cycles to the admissible group. Identify generators from a real point in each semialgebraic connected component and norms of complex points in each complex component. Prove the real-closed property in every codimension on projective space, generated by hyperplane powers. Keep the unit and out-of-range zero conventions. (Benoist–Wittenberg I, Propositions 2.10 and 2.15, pp.40,43–44.)
 
@@ -1476,7 +1476,9 @@ in codimension `k`, and preservation of the Hodge subgroup over `ℝ`. Terms out
 - With codimension-three center and `k=2`, the extra terms have `i=0,1` and powers `ξ¹,ξ⁰`, checking the index reversal.
 - A norm of a nonreal point has degree two. Dividing by two proves a rational statement and cannot prove the integral zero-cycle statement by itself.
 
-### 7.9 One-cycle detectors, genus and torsion descent
+### 7.9 Genus detectors, real one-cycle obstructions and torsion descent
+
+This group constructs the one-cycle detectors and genus criteria on the admissible targets, classifies detector failures as topological, Hodge and cycle obstructions, and constructs the explicit real examples of §7.11 with odd-Euler-characteristic torsion descent. Downstream integral and real arithmetic geometry uses the genus detectors, and the acceptance targets of §7.14 use §7.11.
 
 Here `R` is real closed and `X/R` smooth proper geometrically integral of dimension `d≥1`. Define `M=𝔽₂` if `X(R)=∅`, and otherwise `M=H^{d-1}(X(R),𝔽₂)`, with dual respectively `𝔽₂` or `H¹(X(R),𝔽₂)` by total Poincaré duality. Use the detector `ψ:A_G^{2d-2}→M`: cup with `ω²` followed by `H_G^{2d}(ℤ(d+1))≃𝔽₂` in the empty case, and the Borel–Haefliger component otherwise. Define `ψ':Pic(X_C)^G[2^∞]→M^*` by the Brauer descent obstruction in the empty case and the Borel–Haefliger class of torsion line bundles otherwise; when a real point exists `Pic(X)=Pic(X_C)^G`. Prove their images are exact annihilators. (Benoist–Wittenberg I, Definitions 3.1–3.2 and Theorem 3.3, pp.46–49.)
 
@@ -1494,9 +1496,7 @@ This last statement requires no integral Hodge conjecture. (Benoist–Wittenberg
 - The existence of an even-genus curve from a real point uses `d≥2`; an odd-genus curve with real points in dimension one is a counterexample to dropping it.
 - The norm's image is admissible and equals the kernel; it need not equal the whole admissible group when `M≠0`.
 
-### 7.10 Obstruction predicates, surfaces and descent of algebraicity
-
-Define a topological detector obstruction as failure of surjectivity of `ψ`. Over `ℝ`, define a Hodge obstruction as surjective `ψ` but failure on `Hdg_G{}_0`, and a cycle obstruction as surjectivity on that Hodge subgroup but failure of `φ`. Over arbitrary real closed fields with `H²(O)=0`, a cycle obstruction means surjective `ψ` but nonsurjective `φ`. Supply membership, transport and implication APIs. Topological failure requires `Pic(X_C)[2]≠0`; Hodge failure requires `H²(O)≠0`; cycle failure contradicts the real integral Hodge property. These predicates classify detector failures, not all integral Hodge defects. (Benoist–Wittenberg I, §3.6.1, pp.54–55.)
+**7.10 Obstruction predicates, surfaces and descent of algebraicity.** Define a topological detector obstruction as failure of surjectivity of `ψ`. Over `ℝ`, define a Hodge obstruction as surjective `ψ` but failure on `Hdg_G{}_0`, and a cycle obstruction as surjectivity on that Hodge subgroup but failure of `φ`. Over arbitrary real closed fields with `H²(O)=0`, a cycle obstruction means surjective `ψ` but nonsurjective `φ`. Supply membership, transport and implication APIs. Topological failure requires `Pic(X_C)[2]≠0`; Hodge failure requires `H²(O)≠0`; cycle failure contradicts the real integral Hodge property. These predicates classify detector failures, not all integral Hodge defects. (Benoist–Wittenberg I, §3.6.1, pp.54–55.)
 
 Assuming `H²(O)=0` and real integral Hodge for one-cycles, prove that all curve classes and two-primary torsion divisor classes are exact orthogonal complements on the real locus. If additionally `d≥2` or `X(R)=∅`, prove existence of an even-geometric-genus curve exactly when `Pic(X)[2^∞]→Pic(X_C)^G[2^∞]` is onto. The dimension-or-emptiness condition repairs the unqualified assertion: a real-point odd-genus curve disproves it in dimension one. If `Pic(X_C)[2]=0`, the curve class map is onto and an even-genus curve exists; in dimension one this torsion hypothesis forces genus zero. (Benoist–Wittenberg I, Theorem 3.16, p.55, with the curve-existence conditions of Proposition 3.9.)
 
@@ -1512,9 +1512,7 @@ Under `Pic(X_C)[2]=0`, `H²(O)=0` and surjectivity of the complex integral one-c
 - Surjective `φ` without the complex algebraicity and Picard-torsion conditions is not a proof of real integral Hodge.
 - On a real Enriques surface a nonorientable component makes the canonical Borel–Haefliger class nonzero and its orthogonal complement proper.
 
-### 7.11 Explicit obstructions and the Euler-characteristic restriction
-
-Construct the real geometric examples below with their specified cohomological properties. Real Enriques surfaces with a nonorientable component require the classification/existence input. For a sharp surface bound, construct a conic bundle over a real elliptic curve with two real components, smooth above its real locus and with connected nonempty total real locus, and calculate `dim H¹=2`, `dim H¹_alg=1`. The bundle and class calculation remain needed. Construct a real K3 with nonzero topological `H¹` but zero algebraic `H¹`, including its real-locus topology and the vanishing of the Borel–Haefliger image. (Benoist–Wittenberg I, Examples 4.1–4.3, pp.58–59, Remarks 3.21, p.57.)
+**7.11 Explicit obstructions and the Euler-characteristic restriction.** Construct the real geometric examples below with their specified cohomological properties. Real Enriques surfaces with a nonorientable component require the classification/existence input. For a sharp surface bound, construct a conic bundle over a real elliptic curve with two real components, smooth above its real locus and with connected nonempty total real locus, and calculate `dim H¹=2`, `dim H¹_alg=1`. The bundle and class calculation remain needed. Construct a real K3 with nonzero topological `H¹` but zero algebraic `H¹`, including its real-locus topology and the vanishing of the Borel–Haefliger image. (Benoist–Wittenberg I, Examples 4.1–4.3, pp.58–59, Remarks 3.21, p.57.)
 
 There is an explicit obstruction to the displayed Campedelli construction. For a primitive eighth root `ζ` set
 `f[x₀:…:x₆]=[ζx̄₁:x̄₀:ζ²x̄₃:x̄₂:ζ³x̄₅:x̄₄:x̄₆]`.
@@ -1547,7 +1545,9 @@ Finally, for the anisotropic smooth projective quadric of dimension `n` over rea
 - Empty-real conic genus zero is the even-genus base in the parity criterion. Curves in its fibers are included in the degeneration argument, not discarded by calling every curve a multisection.
 - The anisotropic-quadric threshold is six versus seven; the constant-class test applies only in positive even codimension.
 
-### 7.12 Unramified defects, coefficient boundaries and torsion cycles
+### 7.12 Unramified defects and torsion one-cycles, with quartic threefolds
+
+This group identifies the torsion integral Hodge defect for one-cycles with unramified cohomology under universal surface support, constructs the coefficient-boundary and torsion Abel–Jacobi comparisons, and applies them to quartic threefolds. It takes the diagonal-support bounds and Gersten constructions of Layer 0 as prerequisites; downstream integral and real arithmetic geometry uses the unramified defects.
 
 For smooth proper geometrically integral `X/R`, `d≥3`, assume universal support of `CH₀` on a surface after every algebraically closed extension. Let `ℋ_X^q(A(j))` be the Zariski sheaf of the equivariant cohomology presheaf, and let its subscript zero mean the kernel of restriction to the real-locus sheaf of `H^q(G,A(j))`. Prove the canonical identification
 `H^{d-3}(X,ℋ_X^d(ℚ/ℤ(d-1))_0) ≃ coker(CH₁(X)→A_G^{2d-2})_tors`.
@@ -1568,9 +1568,7 @@ For smooth connected projective complex `X`, `d≥3`, with `CH₀` supported on 
 - The boundary raises degree by one and keeps twist `d-1`. Its source-zero notation is a preimage, not the kernel of `∂`.
 - The orthogonality here pairs torsion curves with all divisors. The earlier theorem pairs all curves with torsion divisors; interchanging them changes the assertion.
 
-### 7.13 Quartic threefold calculations and their hypotheses
-
-For a smooth quartic `X⊂ℙ⁴_R` with empty real locus, assuming real integral Hodge for one-cycles, prove
+**7.13 Quartic threefold calculations and their hypotheses.** For a smooth quartic `X⊂ℙ⁴_R` with empty real locus, assuming real integral Hodge for one-cycles, prove
 `CH₁(X)_tors≃𝔽₂⊕(ℚ/ℤ)^30`.
 Assume the explicit cohomological data `H_G⁴(ℤ(2))≃ℤ⊕𝔽₂`, primitivity of the norm of a line and rank thirty for `H_G³(ℤ(2))`. Use universal surface support and the coefficient-boundary and torsion-cycle comparisons of §7.12 to deduce the displayed Chow torsion. The numerical cohomology data are hypotheses, with their integral lattice and norm structure retained. Over `ℝ`, the real-empty Fano-threefold theorem removes the integral Hodge premise. Over arbitrary real closed fields retain it. (Benoist–Wittenberg I, Proposition 5.7 and Lemmas 5.8–5.9, pp.70–71; II, Theorem 7.1 and Corollary 7.2, pp.389–390.)
 
