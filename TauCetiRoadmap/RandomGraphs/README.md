@@ -373,10 +373,15 @@ request when some `j ≥ i` admits `g : B ↪ D_j` with
 
     g ∘ f = d_{i,j}.
 
-Expose this extension property and representative coverage as mathematical properties
-of the sequence. Prove the direct-limit finite-extension property, ultrahomogeneity and
-exact age from them. The public API must also serve requests over a finitely generated
-substructure of a stage, by factorization and amalgamation.
+Expose stage membership (every stage `D_i` lies in the representative class), this
+extension property and representative coverage as mathematical properties of the sequence.
+For a representative class with HP and AP, prove the direct-limit finite-extension property,
+ultrahomogeneity and exact age from these three. Stage membership cannot be dropped: a stage
+with no embedding into any member of the class serves every request on it vacuously (see the
+Examples). The public API must also serve requests over a finitely generated substructure of
+a stage, by factorization and amalgamation; that step amalgamates the stage and the target
+over the substructure, so it needs the stage in the class, and HP puts the stage ages in the
+class.
 
 ### 2.2 Construction
 
@@ -419,6 +424,12 @@ of an infinite countable limit to `ℕ`. The existence theorem itself adds neith
   `2` have limits with `0` and `2` elements.
 - The chain `Fin 0 ⊂ Fin 1 ⊂ Fin 2 ⊂ ⋯` of finite sets has direct limit `ℕ`, and the embedding of
   a two-element set onto `{0, 1}` factors through stage `2`.
+- For the class of finite graphs, the constant chain with every stage `R ⊔ K₁` (the Rado graph
+  and an isolated vertex) and identity transitions covers every finite graph, and every request
+  on it is served vacuously, since an infinite stage embeds in no finite graph. Its limit is not
+  ultrahomogeneous: no automorphism moves the isolated vertex to a vertex of `R`, and that vertex
+  does not extend to an edge. The criterion excludes the chain, because its stages are not
+  finite graphs.
 
 ### Dependencies
 
