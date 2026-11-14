@@ -612,9 +612,15 @@ RD.1.41, RD.5.2; for the generic case §RD.1.72 and
 
 **Checks.**
 
-- An injection over `E†` need not stay injective after `E`-linearisation: for `α ∈ E ∖ E†`, the map
-  `(E†)² → E`, `(a, b) ↦ a + αb` is injective on `(E†)²` and its `E`-linearisation has a
-  one-dimensional kernel. The rank conclusion concerns `Top(M)`, not `M`.
+- An injection over `E†` need not stay injective after `E`-linearisation. Take `K = ℚ_p`, `σ = id`,
+  `q = p`, `φ(t) = t^p`, `M†` with basis `e_1, e_2`, `φ(e_1) = p·e_1` and `φ(e_2) = e_2 + t⁻¹e_1`
+  (slopes 1 and 0), `P = E(−1)` (Frobenius `p`) and `α = Σ_(n≥0) p^n t^(−p^n)`. Then `α ∈ E` and
+  `α = t⁻¹ + p·φ(α)`, while `α ∉ E†` since `|p^n|·ρ^(−p^n) → ∞` for every `ρ < 1`. The map
+  `f(a·e_1 + b·e_2) = a − αb` is a `φ`-morphism `M → P`, because
+  `f(φ_M(a·e_1 + b·e_2)) − φ_P(f(a·e_1 + b·e_2)) = (t⁻¹ − α + p·φ(α))·φ(b) = 0`; it is injective on
+  `M†`, since `a = αb` with `b ≠ 0` would put `α` in `E†`; and its `E`-linearisation kills the
+  slope-zero line `E·(e_2 + αe_1)`. Here `λmax(M) = 1 = slope(P)`, `E·f(M†) = P` and
+  `rank Top(M) = 1 = rank P`, while `rank M = 2`: the rank conclusion concerns `Top(M)`, not `M`.
 - For `M† = E†` with slope 0 and `P = E` with `f` the identity, both sides of the rank bound are 1.
 - For `M† = E†` of slope 0, `P = E²` of slope 0 and `f` the inclusion into the first coordinate,
   `f|_(M†)` is injective, `λmax(M) = 0 = slope(P)`, `rank Top(M) = 1 < 2 = rank P` and
@@ -850,8 +856,8 @@ For a `(φ,∇)`-module `M` over `B ∈ {E, E_η, E_α}` (with `k` perfect), pro
 filtration `0 = P_0 ⊊ P_1 ⊊ ⋯ ⊊ P_r = M` by `(φ,∇)`-submodules whose grades `G_i = P_i/P_(i−1)` are PBQ
 with strictly decreasing maximal slopes `λ_1 > λ_2 > ⋯ > λ_r`; `P_1` is the largest PBQ submodule of
 maximal slope `λmax(M)`, called the maximally PBQ submodule, and `P_(i+1)/P_i` is the maximally PBQ
-submodule of `M/P_i`. For `M = 0` the filtration has length zero (Tsuzuki, Theorem 3.19(1) and
-Definition 3.20, p. 16; Chiarellotto–Tsuzuki, Proposition 5.4 and Corollary 5.5, p. 56).
+submodule of `M/P_i`. For `M = 0` the filtration has length zero (Tsuzuki, Theorem 3.19(1), p. 16,
+and Definition 3.20, p. 17; Chiarellotto–Tsuzuki, Proposition 5.4 and Corollary 5.5, p. 56).
 
 Proof route. Take the preimage in `M` of the maximal-slope summand of `B(M)` under MS.0.7; if it is
 PBQ it is `P_1`, and otherwise it is proper and its own maximally PBQ submodule, by induction on rank,
@@ -1680,7 +1686,7 @@ that for a finite étale morphism `f : Y → X` of smooth connected `k`-schemes,
 if and only if `f^*M†` is, and `f_*N†` is saturated whenever `N†` on `Y` is; that saturation is
 preserved by finite coefficient extension with compatible Frobenius, on each connected component of
 the base change, and by replacing `σ` with a positive power; and that on a curve PBQ and saturation
-remain independent properties (Tsuzuki, Corollary 5.5 and Proposition 5.6, pp. 25–26, for morphisms of
+remain independent properties (Tsuzuki, Corollary 5.5 and Proposition 5.6, p. 25, for morphisms of
 connected schemes; the pushforward assertion uses exactness of finite étale pushforward, which
 Proposition 5.6 does not state).
 

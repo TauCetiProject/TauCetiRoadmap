@@ -59,6 +59,10 @@ few lines. The headline theorems and what each lacks:
   of a curve and its local fields with their Frobenius lifts, derivations and embeddings, and
   convergent and overconvergent F-isocrystals on a curve with their generic and local
   realisations, pullback and direct image.
+* The two-step PBQ filtration from the Legendre family (README MS.2.8; Tsuzuki §3.9) lacks
+  overconvergent F-isocrystals on `P¹ ∖ {0, 1, ∞}` over `𝔽_p`, the Legendre object (the relative
+  rigid `H¹` of the Legendre family) and its twist by a quadratic character, extensions of
+  overconvergent F-isocrystals, and their PBQ filtrations and generic slopes.
 * Local graded recovery, the curve irreducibility criterion and curve graded recovery (README
   MS.3.6, MS.4.3, MS.4.4; Tsuzuki, Theorem 4.11, Proposition 6.2, Theorem 6.4) lack, beyond
   these carriers, saturated quotients of `(φ,∇)`-modules over the bounded Robba field and of
