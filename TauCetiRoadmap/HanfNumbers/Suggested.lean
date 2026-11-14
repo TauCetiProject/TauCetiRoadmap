@@ -9,10 +9,9 @@ public import TauCeti.ModelTheory.Scott.Sentence
 /-!
 # Ehrenfeucht–Mostowski models and Hanf numbers for Lω₁ω: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. The statements here suggest Lean forms for the milestones, so that contributors and
-reviewers converge on names and signatures; discharging all of them finishes neither a layer nor
-the roadmap.
+**This file is not the roadmap.** The roadmap is README.md. This file states the roadmap's
+headline theorems against the pinned Mathlib and Tau Ceti, each with sorry, with the definitions
+they need.
 
 Everything is stated over the pinned Tau Ceti library: the infinitary syntax and satisfaction of
 the InfinitaryLogic roadmap (`FirstOrder.Language.BoundedFormulaω`, `Sentenceω`,
