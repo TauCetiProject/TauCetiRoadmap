@@ -627,9 +627,12 @@ for the last, from Mathlib.
   of topology, and nothing needs to: only the Cantor form is moved.
 - `MeasureTheory.AnalyticSet.exists_nat_bool_injection_of_not_countable` (perfect set theorem for
   analytic sets), not in Tau Ceti at the pin and a target of `Suggested.lean`: an uncountable
-  analytic subset of a Hausdorff space contains the range of a continuous injection of Cantor
-  space. Write it as the range of a continuous `g` on a Polish space; the relation `g a = g b` is
-  closed; Silver's theorem gives a Cantor antichain `h` for it, and `g ∘ h` is the injection.
+  analytic subset of a Hausdorff space contains the range of a continuous injection of Cantor space
+  (B. D. Miller, *Forceless, ineffective, powerless proofs*, Lecture I, Exercise 16 (Souslin), p. 8,
+  stated as a dichotomy for an analytic Hausdorff space `X` itself; the target is its nontrivial
+  half for the subspace `A`). Write it as the range of a continuous `g` on a Polish space; the
+  relation `g a = g b` is closed; Silver's theorem gives a Cantor antichain `h` for it, and `g ∘ h`
+  is the injection.
 
   *Needs:* Mathlib `MeasureTheory.analyticSet_iff_exists_polishSpace_range`, `isClosed_diagonal`;
   Tau Ceti `Setoid.silver_dichotomy`, `Setoid.HasCantorAntichainOn.exists_injective`.
@@ -696,10 +699,11 @@ All but `isSmooth_of_isClosed` is consumed from Tau Ceti (`BorelReducibility.lea
   Such a relation is bireducible with equality on `Quotient E`, whose quotient σ-algebra is then
   discrete (`Setoid.borelBireducible_bot_quotient`).
 - `isSmooth_of_isClosed`, not in Tau Ceti at the pin and a target of `Suggested.lean`: a closed
-  equivalence relation on a Polish space is smooth. For basic open sets `U` and `V` with
-  `U ×ˢ V` disjoint from the graph of `E`, the saturations of `U` and `V` are disjoint invariant
-  analytic sets; invariant Lusin separation (Layer 2.2) separates them by an invariant Borel set;
-  the countably many separators separate the classes.
+  equivalence relation on a Polish space is smooth (Harrington–Kechris–Louveau 1990, Corollary 1.2,
+  p. 905, for Gδ relations, derived there from their dichotomy; the Gδ form is not a target here).
+  For basic open sets `U` and `V` with `U ×ˢ V` disjoint from the graph of `E`, the saturations of
+  `U` and `V` are disjoint invariant analytic sets; invariant Lusin separation (Layer 2.2) separates
+  them by an invariant Borel set; the countably many separators separate the classes.
 
   *Needs:* Mathlib `IsClosed.analyticSet`, `MeasurableSet.analyticSet`,
   `TopologicalSpace.exists_countable_basis`; Tau Ceti
@@ -919,7 +923,8 @@ is the proof map of the Silver and G₀ formalization.
   Logic* 18 (2012), no. 4, 554–575. The classical proof of the G₀ dichotomy, the independence
   lemma for G_S and Silver's theorem from it.
 - B. D. Miller, *Forceless, ineffective, powerless proofs of descriptive dichotomy theorems*,
-  lecture notes; Lecture I is Silver's theorem by the category route.
+  lecture notes; Lecture I is Silver's theorem by the category route,
+  <https://glimmeffros.github.io/unpublished/parisone.pdf>.
 - K. Kuratowski and S. Ulam, "Quelques propriétés topologiques du produit combinatoire",
   *Fundamenta Mathematicae* 19 (1932), 247–251.
 - J. Mycielski, "Independent sets in topological algebras", *Fundamenta Mathematicae* 55 (1964),
@@ -935,6 +940,6 @@ is the proof map of the Silver and G₀ formalization.
   analytic equivalence relations.
 - L. A. Harrington, A. S. Kechris and A. Louveau, "A Glimm–Effros dichotomy for Borel equivalence
   relations", *Journal of the American Mathematical Society* 3 (1990), 903–928. Cited for the
-  out-of-scope general dichotomy.
+  out-of-scope general dichotomy and, by Corollary 1.2, for 5.2.
 - `cameronfreer/infinitary-logic`, Lean 4 formalization of infinitary logic and the descriptive
   set theory above, revision `518a366`.
