@@ -487,6 +487,7 @@ inductive Sym (U : Type) (Lc : FirstOrder.Language.{0, 0}) : ℕ → Type
 def lang (U : Type) (Lc : FirstOrder.Language.{0, 0}) : FirstOrder.Language.{0, 0} :=
   ⟨fun _ => PEmpty, Sym U Lc⟩
 
+/-- The assembled language is relational: it has no function symbols. -/
 instance (U : Type) (Lc : FirstOrder.Language.{0, 0}) : (lang U Lc).IsRelational :=
   fun _ => inferInstanceAs (IsEmpty PEmpty)
 
