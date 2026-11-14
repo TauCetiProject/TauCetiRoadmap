@@ -310,7 +310,7 @@ The exterior algebra, graded by `CliffordAlgebra.evenOdd` of the zero form, sati
 `IsSuperCommutative`, over every commutative ring: Mathlib's
 `CliffordAlgebra.map_mul_map_of_isOrtho_of_mem_evenOdd` with both isometries the identity
 `QuadraticMap.Isometry.id 0`, every two vectors being orthogonal for the zero form
-(Berline–Getzler–Vergne, §1.3, in Ch. 1, pp. 13–59).
+(Berline–Getzler–Vergne, §1.3).
 *Needs:* Mathlib `GradedAlgebra`, `DirectSum.decompose`, `CliffordAlgebra.evenOdd`,
 `CliffordAlgebra.map_mul_map_of_isOrtho_of_mem_evenOdd`, `QuadraticMap.Isometry.id`,
 `ExteriorAlgebra`, `QuadraticForm`.
