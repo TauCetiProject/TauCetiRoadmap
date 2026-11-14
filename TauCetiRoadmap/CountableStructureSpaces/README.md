@@ -455,9 +455,9 @@ Baire category theorem they are not Gδ; this is a model class (of the sentence
 *Needs:* L0 (`toStructure_toRelationalConfiguration`, for the graph events); L1.2; TC `modelsOf`,
 `measurableSet_setOf_realize`, `measurableSet_modelsOf`, `standardBorelSpace_modelsOf`,
 `Language.Equiv.mem_modelsOf_iff`, `BoundedFormulaInf.freeVarSupport`, `BoundedFormula.toInf`,
-`SimpleGraph.toRelationalConfiguration`, `SimpleGraph.measurable_toRelationalConfiguration`; M `IsUniversal`, `IsExistential`,
-`BoundedFormula.alls`, `MeasurableSet.isClopenable`; BorelEquivalenceRelations `IsGδ.polishSpace`,
-`IsGδ.standardBorelSpace`.
+`SimpleGraph.toRelationalConfiguration`, `SimpleGraph.measurable_toRelationalConfiguration`; M
+`IsUniversal`, `IsExistential`, `BoundedFormula.alls`, `MeasurableSet.isClopenable`;
+BorelEquivalenceRelations `IsGδ.polishSpace`, `IsGδ.standardBorelSpace`.
 
 ### Examples
 
@@ -655,9 +655,9 @@ where Tau Ceti's `orbitRank a` asks for agreement at every level.
   all of whose prefixes satisfy a condition) of the condition that the tuples `bfLeft s` and
   `bfRight s` have the same atomic type: step `2 i` answers element `i` of the left structure,
   step `2 i + 1` element `i` of the right one, so `bfLeft s` lists the left elements and the left
-  answers, and `bfRight s` the corresponding right ones. Prove `body_bfTree_nonempty_iff` (a branch is
-  an isomorphism and conversely, every element of both structures being scheduled), the root and
-  empty-tree lemmas (a disagreeing nullary relation empties the tree), closed node sets for every
+  answers, and `bfRight s` the corresponding right ones. Prove `body_bfTree_nonempty_iff` (a
+  branch is an isomorphism and conversely, every element of both structures being scheduled), the
+  root and empty-tree lemmas (a disagreeing nullary relation empties the tree), closed node sets for every
   relational `L` (`isClosed_setOf_mem_bfTree`; clopen when `L` has finitely many relation
   symbols), and `lt_treeHeight_bfTree`: `BFEquiv β` of the empty tuples gives
   `β < treeHeight (bfTree c d)`, a node's rank being at least the back-and-forth level of its
@@ -730,8 +730,8 @@ language on a countable carrier.
 ### 5.2 The PC sentence of a tree
 
 Let `W = pcWitnessLanguage` be the relational vocabulary whose relation symbols `PCWitnessRel` are
-a unary `zero`, a binary `succ` and a binary `branch`. For `k : ℕ` let `νₖ(x)` be the first-order numeral formula: `ν₀(x) := zero(x)`
-and `νₖ₊₁(x) := ∃ y, νₖ(y) ∧ succ(y, x)`. For `i : ℕ` let `χᵢ` be the sentence "the `i`-th
+a unary `zero`, a binary `succ` and a binary `branch`. For `k : ℕ` let `νₖ(x)` be the first-order
+numeral formula: `ν₀(x) := zero(x)` and `νₖ₊₁(x) := ∃ y, νₖ(y) ∧ succ(y, x)`. For `i : ℕ` let `χᵢ` be the sentence "the `i`-th
 atom holds at the numerals": if the enumeration of atoms sends `i` to `atom R v`, then
 `χᵢ := ∃ y₀ … y_{l-1}, ⋀ⱼ ν_{v j}(yⱼ) ∧ R(y₀, …, y_{l-1})`, and otherwise `χᵢ := ⊥` (matching the
 padding of `queryCode`). For a tree `T` on `Bool × ℕ`, `pcSentence T : (L.sum W).Sentenceω` is
@@ -976,9 +976,9 @@ Discharge these alongside the layers; they check that the API describes real spa
    are coanalytic, not analytic, and an analytic set of them has bounded order types.
 4. **Graphs.** Through `SimpleGraph.toRelationalConfiguration`, the satisfaction event of every
    Lω₁ω graph sentence is measurable on `SimpleGraph ℕ` (`measurableSet_setOf_realize_graph`), and
-   the isomorphism class of any fixed countable graph is a Borel set of graphs. For the Rado graph this class is the model class of the conjunction of the
-   simple-graph axioms and the extension axioms (those of the InfinitaryLogic random-graph worked
-   example), a Gδ set.
+   the isomorphism class of any fixed countable graph is a Borel set of graphs. For the Rado graph
+   this class is the model class of the conjunction of the simple-graph axioms and the extension
+   axioms (those of the InfinitaryLogic random-graph worked example), a Gδ set.
 5. **Orbits as back-and-forth classes.** For a code `c`, its orbit is
    `modelsOf (scottSentence ℕ)` for the structure `c` names, and it is also the
    `bfEquivSetoid L ℕ β`-class of `c` for every `β ≥ scottHeight` of that structure, by the height
