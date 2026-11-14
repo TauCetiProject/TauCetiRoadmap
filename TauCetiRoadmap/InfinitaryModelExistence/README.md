@@ -195,7 +195,11 @@ once, generic in the carrier `ι` wherever the statement allows.
   the symbols occurring in a formula. Equality is logical: it contributes the function symbols of
   its terms and no relation symbol. Constructor equations, and the laws for the derived
   connectives, `alls`/`exs`, `iInfAlong`/`iSupAlong` (padding contributes nothing), `reindex`,
-  `substBounds` (the function symbols of the substituted terms are added) and
+  `substBounds` (the relation symbols are unchanged, and
+  `functionsIn φ ⊆ functionsIn (substBounds σ φ) ⊆ functionsIn φ ∪ ⋃ i, Term.functionsIn (σ i)`:
+  a bound position that does not occur contributes nothing, so at `φ = ⊥` and `σ 0 = c` the three
+  sets are `∅`, `∅` and `{c}`; Tau Ceti's `relationsIn_substBounds`,
+  `functionsIn_subset_functionsIn_substBounds` and `functionsIn_substBounds_subset`) and
   `onBoundedFormulaInf` (images of the occurrence sets).
 * `functionsIn_countable`, `relationsIn_countable`: at a countable carrier the occurrence sets are
   countable, since a formula is a countably branching well-founded tree. Use sets, not `Finset`s.
