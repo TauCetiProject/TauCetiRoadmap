@@ -524,10 +524,18 @@ Layer 2; supplier contracts of Layer 10.
 `I : C ⥤ Center C`, `I X = ⨁_S S ⊗ X ⊗ Sᘁ` over
 `SimpleClasses C`, with its half-braiding defined and the hexagon proved, two-sided adjoint to
 `Center.forget C`, exact and faithful. It is canonically the right adjoint (an end). The left
-adjoint is canonically the coend `⨁_S S ⊗ X ⊗ ᘁS`, identified with `I` through
-`(doubleDualTrace a_S)⁻¹ •` the mate of a chosen `a_S : S ≅ Sᘁᘁ`, which does not depend on the choice. The underlying-object formula is [ENO] §5.8, Proposition 5.4,
+adjoint is canonically the coend `⨁_S S ⊗ X ⊗ ᘁS`. The identification with `I`, from the
+induction summand `S ⊗ X ⊗ Sᘁ` to the coinduction summand `S ⊗ X ⊗ ᘁS`, is
+`doubleDualTrace (a_S.inv)ᘁ •` the left mate `ᘁ(a_S.hom)` of a chosen `a_S : S ≅ Sᘁᘁ`; rescaling
+`a_S` by a unit `c` scales the mate by `c` and the scalar by `c⁻¹`, so it does not depend on the
+choice. The underlying-object formula is [ENO] §5.8, Proposition 5.4,
 preprint p. 21; the half-braiding and both adjunctions are a deduction from 3.3–3.4, with the unit
-and counit of 11.2, and do not use the semisimplicity of the centre. *Needs:* Layer 3 (3.3, 3.4); Tau Ceti
+and counit of 11.2, and do not use the semisimplicity of the centre.
+Check: in `FDRep ℂ S₃` with `a_S` the canonical pivotal isomorphism, the 2-dimensional simple has
+scalar `doubleDualTrace (a_S.inv)ᘁ = 2`, so its summand contributes `2 · 2 = 4` to 11.2 and the
+total is `1 + 1 + 4 = 6 = |S₃|`; the scalar `(doubleDualTrace a_S.hom)⁻¹ = 1/2` would give a
+total of `3` instead. In `Vec_G` the two scalars agree, so `Vec_G` does not distinguish them.
+*Needs:* Layer 3 (3.3, 3.4); 6.1; Tau Ceti
 `CategoryTheory.Center.instAbelian`, `CategoryTheory.Center.rigidCategory`.
 
 ### 11.2 The averaging identity
