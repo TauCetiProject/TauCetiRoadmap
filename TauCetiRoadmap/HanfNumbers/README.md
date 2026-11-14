@@ -231,23 +231,8 @@ chooses witnesses inside one structure without changing the language, while the 
 language by function symbols so that witnesses become terms, which a term model over an arbitrary
 index order needs. Its elementarity statement is an application of IME's Tarski–Vaught test.
 
-The following Mathlib proposals fix the shape of corresponding objects. Tau Ceti builds those
-objects named and stated as these proposals do, and Mathlib's declarations replace them wherever
-Mathlib has equivalents.
-
-- [Mathlib #42758](https://github.com/leanprover-community/mathlib4/pull/42758): infinitary syntax
-  and semantics, followed by the parent roadmap.
-- [Mathlib #42189](https://github.com/leanprover-community/mathlib4/pull/42189): languages with
-  countably many symbols, relating `Language.card ≤ ℵ₀` to the unbundled countability instances
-  used here.
-
-Mathlib has no infinite Ramsey theorem, no Erdős–Rado theorem and no partition-relation
-vocabulary at the pinned revision. The proposals
-[Mathlib #43488](https://github.com/leanprover-community/mathlib4/pull/43488) (finite Ramsey for
-graphs and the infinite Ramsey theorem for pairs) and
-[Mathlib #40782](https://github.com/leanprover-community/mathlib4/pull/40782) (monochromatic
-subsets for edge labellings) concern finite and pair colourings of graphs; Layer 0 colours
-increasing tuples of a linear order of arbitrary arity and cardinality and does not depend on them.
+Neither pinned library has an infinite Ramsey theorem, an Erdős–Rado theorem or partition-relation
+vocabulary; Layer 0 colours increasing tuples of a linear order of every arity and cardinality.
 
 ## Layer 0 — The partition calculus of the Morley–Hanf proof
 
@@ -1170,9 +1155,7 @@ results:
   ownership section records.
 - **Mathlib.** Layer 0 follows Mathlib's cardinal vocabulary (`Cardinal.beth`, `Order.succ`,
   `Cardinal.ord`) and adds the partition-relation vocabulary, which Mathlib lacks. The Skolem
-  functions of Layer 2 follow the shape of `Language.skolem₁`. The Mathlib proposals listed under
-  [Exact supplier contracts](#exact-supplier-contracts) fix shapes and are not
-  dependencies.
+  functions of Layer 2 follow the shape of `Language.skolem₁`.
 
 ## Downstream consumers
 
