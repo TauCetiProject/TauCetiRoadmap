@@ -753,7 +753,7 @@ group homology, representations, monoid algebras and their gradings.
 ## Layer 1: graded K-complexes and homological degree bounds
 
 Throughout, `(G, c)` is nonsplitting, `D` is admissible, `U = U_D`, `a = D d`, and `R̄ = R/UR`.
-The layer shows that `R` behaves as if it had cohomological dimension one (EVW16 §4, p. 15).
+What this layer proves is that `R` acts like a ring of cohomological dimension one (EVW16 §4, p. 15).
 
 ### 1.1 Support degree and internal shift
 
