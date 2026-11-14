@@ -801,6 +801,20 @@ after naming a finite tuple, with the elementary embedding retaining the prescri
 - In a language with one unary function symbol `s`, the code of `s(x₀) = x₀` over `Fin 1`
   decodes to that formula.
 
+**Checks** (`FormulaAlphabet`).
+
+- For the graph language, every term in the alphabet is a variable.
+- `⊥` with `n` bound positions is encoded as the one-symbol list carrying the tag `n + 2`, so the
+  codes of `⊥` differ for different `n`.
+- An equality atom is encoded by its two terms, and a relation atom by its symbol, a tag and its
+  terms, so `x₀ = x₁` and `Adj(x₀, x₁)` have different codes.
+
+**Checks** (`graphRelationsEquiv`).
+
+- It sends `adj` to `()`, and its inverse sends `()` to `adj`, of arity `2`.
+- `Σ l, Language.graph.Relations l` has exactly one element, which gives the `Finite` instance.
+- No graph relation symbol has an arity other than `2`.
+
 **Checks** (atomic isolation).
 
 - In the Rado graph the pairs `(0, 0)`, `(0, 1)` and `(0, 2)` have three different diagrams:
