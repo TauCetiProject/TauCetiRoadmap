@@ -322,8 +322,10 @@ It leaves to other roadmaps, by section:
   `TauCeti.Huber.PairOfDefinition` (`TauCeti/RingTheory/Huber/Basic.lean`), `TauCeti.Huber.IsBounded`
   (`Bounded.lean`), `TauCeti.Huber.IsPowerBounded`, `TauCeti.Huber.powerBoundedSubring`,
   `TauCeti.Huber.topologicallyNilpotentIdeal` and `TauCeti.Huber.isPowerBounded_of_isIntegral`
-  (`PowerBounded.lean`), `TauCeti.Huber.IsUniform` (`Uniform.lean`). `Suggested.lean` uses the
-  first five; the power-bounded subring is the `A°` of every statement.
+  (`PowerBounded.lean`), `TauCeti.Huber.IsUniform` (`Uniform.lean`). `Suggested.lean` uses
+  `TauCeti.Huber.IsTateRing`, `TauCeti.Huber.PairOfDefinition` and
+  `TauCeti.Huber.powerBoundedSubring` with `TauCeti.Huber.mem_powerBoundedSubring`; the power-bounded
+  subring is the `A°` of every statement.
 - Rational localisation: `TauCeti.ValuationSpectrum.rationalSubset`,
   `TauCeti.Huber.PairOfDefinition.completionLocObj` (the completed localisation `A⟨T/s⟩` of one
   presentation), `TauCeti.Huber.PairOfDefinition.completedPlusSubring` (its plus ring,
@@ -1169,8 +1171,10 @@ Remarques 2.6.4, pp. 29–30):
    differs from `inf_m |(g/λ)^m a|`;
 4. the uniformization `A{λ/g}^u` is left adjoint, on uniform `K⟨T⟩`-algebras, to the inclusion of
    those in which `T/λ` is invertible with power-bounded inverse;
-5. (Gabber's invariance) if `g` is a nonzerodivisor and `A ⊆ A′ ⊆ A[1/g]` is a Banach algebra
-   extension, then `A{λ/g} → A′{λ/g}` is an isomorphism of Banach algebras;
+5. (Gabber's invariance) if `ι : A → A′` is an injective continuous map of Banach `K`-algebras and
+   `ψ : A′ → A` a continuous `A`-linear map with `ι ∘ ψ` the multiplication by `u·g^N` for some
+   `u ∈ K^×` and `N ≥ 0`, then `A{λ/g} → A′{λ/g}` is an isomorphism of Banach algebras; such a `ψ`
+   exists when `g` is a nonzerodivisor and `A ⊆ A′ ⊆ A[1/g]` is a Banach algebra extension;
 6. if `A` is uniform and `g` a nonzerodivisor, `A° → lim_{λ→0} A{λ/g}°` is injective.
 
 `A{λ/g}` need not be uniform; only its uniformization is used in `K-uBan`. Restriction maps between
@@ -1180,8 +1184,11 @@ individual annuli need not be injective.
 multiplicative point `x` the Gauss extension satisfies `‖(fU − 1)h‖_x = max(1, |f(x)|)‖h‖_x ≥ ‖h‖_x`,
 and taking the supremum over `x` bounds multiplication by `fU − 1` below, so its image is complete and
 closed. (2) from the presentations and universal properties; for `|g − h| < |λ|` use the convergent
-expansion `1/h = Σ_{m≥0}(g − h)^m/g^{m+1}` in `A{λ/g}`. (5) by Baire and the open mapping theorem,
-multiplication by a power `g^N` maps `A′` continuously into `A`. (6) for nonzero `a` and a
+expansion `1/h = Σ_{m≥0}(g − h)^m/g^{m+1}` in `A{λ/g}`. (5) Injectivity of `ι` gives
+`ψ(x)ψ(y) = u·g^N·ψ(xy)` and `ψ(ι(a)) = u·g^N·a`, so `(u·g^N)^{−1}ψ` is a continuous ring map
+`A′ → A{λ/g}` extending the canonical map of `A`; by the universal property it induces the inverse.
+For `A ⊆ A′ ⊆ A[1/g]`, Baire and the open mapping theorem make multiplication by some power `g^N` a
+continuous map `A′ → A`, which is such a `ψ` with `u = 1`. (6) for nonzero `a` and a
 nonzerodivisor `g`, `ag ≠ 0`; the spectral seminorm of a uniform Banach algebra is a norm, so some
 bounded multiplicative seminorm `x` has `|a(x)g(x)| > 0` (AdicSpacesPartIII R3.5, R3.9); for nonzero
 `λ ∈ K°` with `|λ| ≤ |g(x)|` the point `x` extends to `A{λ/g}`, where it detects the image of `a`.
@@ -1197,7 +1204,9 @@ Its API consists of the following facts.
 - For `|λ| ≤ |μ|` there is a map `A{λ/g} → A{μ/g}` and `A{μ/g} ≅ A{λ/g}{μ/g}`.
 - If `|g − h| < |λ|` then `A{λ/g} ≅ A{λ/h}`.
 - The quotient norm of the image of `a` is `inf_{h ∈ A⟨U⟩} ‖a + ((g/λ)U − 1)h‖_Gauss`.
-- Gabber's invariance under Banach extensions `A ⊆ A′ ⊆ A[1/g]` for a nonzerodivisor `g`.
+- Gabber's invariance: a continuous injective `ι : A → A′` with a continuous `A`-linear
+  `ψ : A′ → A` such that `ι ∘ ψ = u·g^N` (`u ∈ K^×`) induces `A{λ/g} ≅ A′{λ/g}`; for a
+  nonzerodivisor `g`, every Banach extension `A ⊆ A′ ⊆ A[1/g]` has such a `ψ`.
 - For uniform `A` and a nonzerodivisor `g`, `A° → lim_λ A{λ/g}°` is injective.
 - A bounded multiplicative seminorm `x` on `A` with `|g(x)| ≥ |λ|` extends to `A{λ/g}`; consequently
   the norm of the image of `a` is at least `|a(x)|`.
@@ -1555,7 +1564,7 @@ modulo `ϖ^{1/p} → ϖ`, and that over an almost perfectoid `A`, `(·)°^a` is 
 perfectoid, almost finite étale `A`-algebras to finite étale `A°^a`-algebras (André A, Lemme 3.5.5 and
 Proposition 3.5.6, p. 48). Perfectoid implies almost perfectoid, not conversely, even when `g` is a
 nonzerodivisor. The intended signature is a predicate on uniform Banach `K⟨T^{1/p^∞}⟩`-algebras.
-*Needs:* §2.2, §3.1; the almost Nakayama lemma for complete modules (*complete-almost-nakayama*,
+*Needs:* §2.2, §2.4, §3.1; the almost Nakayama lemma for complete modules (*complete-almost-nakayama*,
 below); PerfectoidSpaces P0.9, P0.14, P0.16, P3.11; Tau Ceti
 `TauCeti.Almost.BasicSetup.ofCompatibleRoots`.
 
@@ -1585,6 +1594,10 @@ Its API consists of the following facts.
   `ϖ^{1/p} → ϖ`.
 - Over an almost perfectoid `A`, `(·)°^a` is an equivalence from almost perfectoid almost finite étale
   `A`-algebras to finite étale `A°^a`-algebras.
+- For almost perfectoid `B` and `g = T·1`, with no hypothesis on `g`, the counit induces
+  `B^♮{λ/g} ≅ B{λ/g}` for every `0 ≠ λ ∈ K°`: the counit is injective (§3.1), and for nonzero
+  `u ∈ K°°` the element `ug ∈ m` kills the cokernel of `B^♮° → B°`, so multiplication by `ug` is a map
+  `ψ : B → B^♮` as in §2.4(5).
 
 **Checks.**
 
@@ -1596,6 +1609,12 @@ Its API consists of the following facts.
   constant nor divisible by a root of `T₁` nor by `T₂`), and modulo the roots of `T₁` the image of `B` is
   not perfect. A definition equating almost perfectoid with perfectoid fails here.
 - `B` is almost perfectoid iff the counit `B^♮ → B` of §3.1 is an almost isomorphism in `(V, m)`.
+- The annular invariance needs no regularity. Let `C = B × K`, with `B` as above and `T^{1/p^k}` acting
+  by `(T₁^{1/p^k}, 0)`, so that `g = (T₁, 0)` is a zero divisor and the nonzerodivisor case of
+  §2.4(5) does not apply to the counit of `C`. Both `C{ϖʲ/g}` and `C^♮{ϖʲ/g} = (B^♮ × K){ϖʲ/g}` are
+  `P{ϖʲ/T₁} × 0`: the factor `K` dies since `g` is `0` there, and `B^♮ ⊆ B ⊆ P ⊆ B^♮[1/T₁]` (the
+  last because `T₁^{1/p^k}P ⊆ B` and the cokernel of `B^♮° → B°` is killed by `m`) lets that case
+  apply inside the domain `P`.
 
 **Supporting result: the almost Nakayama lemma for complete modules** (*complete-almost-nakayama*).
 Let `(V, m)` be any basic setup, `I ⊆ V` an ideal and `f : M → N` a morphism of almost `V`-modules
@@ -1704,9 +1723,10 @@ cokernel of `R → lim_j S_j`, are therefore killed by every `T^{r/p^ℓ}`, henc
 ### 3.6 André's perfectoid Riemann extension theorem
 
 Let `A` be a perfectoid `K`-algebra and `g ∈ A°` an element admitting a root system in `A` (its
-roots lie in `A°`, since `A°` is integrally closed). Clauses (1) and (3) need no further hypothesis
-on `g`; (2) assumes that `g` is a nonzerodivisor of `A`, so that `A° ⊆ A[1/g]`, and in (4) it is one
-because multiplication by `g` is isometric. Prove (André A, Théorème 4.2.2 with proof, pp. 55–56;
+roots lie in `A°`, since `A°` is integrally closed). Clauses (1)–(3) need no further hypothesis on
+`g`; when `g` is a zero divisor, `A° → A[1/g]` is not injective, and the closures of (2) and of
+§2.3 are those of its image. In (4) `g` is a nonzerodivisor because multiplication by `g` is
+isometric. Prove (André A, Théorème 4.2.2 with proof, pp. 55–56;
 Lemme 4.2.3 and Remarque 4.2.4, p. 56):
 
 1. `lim_j A{ϖʲ/g}° = g^{-1/p^∞}A°`;
@@ -1720,7 +1740,8 @@ Lemme 4.2.3 and Remarque 4.2.4, p. 56):
 4. if multiplication by `g` is isometric, `ulim_j A{ϖʲ/g} = g^{-1/p^∞}A`, the complete integral
    closure of `A` in `A[1/g]`;
 5. (1) and (2) hold for almost perfectoid `A` (§3.3) as well, under the same hypotheses on `g`,
-   since `A^♮` still contains the roots of `g` and has the same root saturation.
+   since `A^♮` still contains the roots of `g` and has the same root saturation and the same annular
+   localisations (§3.3).
 
 The roots of `g` are part of the hypothesis: without them André only shows, under an Ax–Sen–Tate type
 invariance, that the limit is contained in the complete integral closure (André A, Remarque 4.2.5,
@@ -1737,14 +1758,15 @@ in the image of `R°` for every `m`), and the complete integral closure written 
 system `g m` of `p`-power roots in `R°` and with no regularity hypothesis (a continuous
 `K⟨T^{1/p^∞}⟩`-algebra structure on `R` is the same datum, §2.3): an element `b` of `R[1/g]` such that
 some finitely generated `rootSaturation p g hg`-submodule of `R[1/g]` contains every power `bⁿ` lies
-in `rootSaturation p g hg`. Statements (1) and (4) need the Banach localisations `A{λ/g}` with their
+in `rootSaturation p g hg`. Neither statement assumes regularity of `g`; `R°` acts on `R[1/g]`
+through its image. Statements (1) and (4) need the Banach localisations `A{λ/g}` with their
 transition maps and uniform limits, which the pins lack.
 
 *Proof sketch.* For almost perfectoid `A` pass to the perfectoid `A^♮`, which contains the roots of
-`g` and has almost the same unit ball (§3.3); so let `A` be perfectoid. (1): for `r ∈ ℕ[1/p]`, §3.4
-makes `A{ϖʲ/g}°/ϖ^r` almost equal to the root localisation `(A°/ϖ^r)[j]`, and §3.5 makes
-`A°/ϖ^r → lim_j A{ϖʲ/g}°/ϖ^r` an almost isomorphism. The unit balls are `ϖ`-adically complete and
-limits commute with limits, so letting `r` grow makes `A° → lim_j A{ϖʲ/g}°` an almost isomorphism.
+`g`, has almost the same unit ball and has the same annular localisations (§3.3); so let `A` be
+perfectoid. (1): for `r ∈ ℕ[1/p]`, §3.4 makes `A{ϖʲ/g}°/ϖ^r` almost equal to the root
+localisation `(A°/ϖ^r)[j]`, and §3.5 makes `A°/ϖ^r → lim_j A{ϖʲ/g}°/ϖ^r` an almost isomorphism.
+The unit balls are `ϖ`-adically complete and limits commute with limits, so letting `r` grow makes `A° → lim_j A{ϖʲ/g}°` an almost isomorphism.
 Almost elements, a right adjoint, preserve this limit; by §2.3 they are `g^{-1/p^∞}A°` for `A°`, and
 the ring itself for each `A{ϖʲ/g}°`, where `g` is a unit. (3): by §2.3 it suffices that
 `g^{-1/p^∞}B°` be `p`-root closed in `B°[1/g]`. Let `a ∈ B°[1/g]` with `a^p ∈ g^{-1/p^∞}B°`, and
@@ -1754,8 +1776,11 @@ So `a_j^p` is power-bounded, hence so is `a_j`, spectral unit balls being `p`-ro
 by (1) for `B` the family `(a_j)` comes from some `a′ ∈ g^{-1/p^∞}B°`. Write `a − a′ = y/g^N` with
 `y ∈ B°`: `y` dies in every `B{ϖʲ/g}°`, so the almost isomorphism of (1) gives `ϖg·y = 0`, hence
 `gy = 0` as `ϖ` is a unit of `B`, and `a = a′`. This is the first condition of §2.3; the sixth is
-(3), and for a nonzerodivisor `g` the fourth is (2). Regularity of `g` enters none of these steps, so
-(1) and (3) hold for every `g` with a root system.
+(3). (2) follows from (3): the generators of a finitely generated module over the image of `A°`
+containing every `bⁿ` span a finitely generated `g^{-1/p^∞}A°`-module containing them; conversely
+`g·g^{-1/p^∞}A°` lies in the image of `A°`, so the powers of an element of the root saturation lie
+in the cyclic module generated by `1/g`. Regularity of `g` enters none of these steps, so (1)–(3)
+hold for every `g` with a root system.
 
 *Needs:* §2.2, §2.3, §2.6, §3.1, §3.3, §3.4, §3.5; PerfectoidSpaces P1.1, P1.11; Mathlib
 `Submodule.FG`.
@@ -1768,7 +1793,8 @@ by (1) for `B` the family `(a_j)` comes from some `a′ ∈ g^{-1/p^∞}B°`. Wr
   `A[1/g] = K` (the first factor), and the image of `A°` and the root saturation are both `K°`. If
   every power of `b ∈ K` lies in `K°c₁ + ⋯ + K°c_k`, then `|b|ⁿ ≤ max_i |c_i|` for all `n`, so
   `|b| ≤ 1` and `b ∈ K°`; for `b = ϖ^{−1}` the norms `|ϖ|^{−n}` are unbounded and no such module
-  exists. A form of (3) that assumed `g` regular would not apply to this algebra. For `g = 0` (all
+  exists. Since `A°` acts on `K` through its image `K°`, the same computation gives (2). A form of
+  (2) or (3) that assumed `g` regular would not apply to this algebra. For `g = 0` (all
   roots `0`) both `A[1/g]` and the root saturation are the zero ring, and (3) holds trivially.
 - For `g` a unit both sides of (2) are `A°`: an element of `A` whose powers lie in a finitely
   generated `A°`-submodule is power-bounded because `A` is uniform.
@@ -1872,7 +1898,7 @@ Lemma 2.4.2(iii), pp. 22–23. To see that every `s^ε`, `ε = 1/p^l`, kills the
 ### 3.10 compatible systems of perfectoid algebras on the annuli
 
 Let `A` be an almost perfectoid `K⟨T^{1/p^∞}⟩`-algebra with `g = T·1` and `A[j] := A{ϖʲ/g}`, a
-perfectoid `K⟨T^{1/p^∞}⟩`-algebra (§3.4, via `A[j] ≅ A^♮[j]`). Define the category
+perfectoid `K⟨T^{1/p^∞}⟩`-algebra (§3.4, via `A[j] ≅ A^♮[j]`, §3.3). Define the category
 **`2-lim A[j]-Perf`** whose objects are projective systems `(B_j)_{j∈ℕ}` of perfectoid
 `A[j]`-algebras such that, in the factorisation `B_i → B_i{ϖʲ/g} → B_j` of each transition
 (`i ≥ j`), the second map is an isomorphism, and whose morphisms are compatible families of continuous
@@ -1882,8 +1908,8 @@ algebra maps (André A, §4.4.2, formula (4.16) and footnote 22, p. 61). Localis
 objects of Thomason's 2-limits, so `2-lim A[j]-Perf` is a categorical 2-limit. The intended signature
 is a category with the two functors. *Needs:* §2.4, §2.6, §3.3, §3.4.
 
-*Construction.* `B[j] ≅ B ⊗̂_A A[j]` by §2.4(2); `B[j]` is perfectoid since `B[j] ≅ B^♮[j]` by
-Gabber's invariance and §3.4.
+*Construction.* `B[j] ≅ B ⊗̂_A A[j]` by §2.4(2); `B[j]` is perfectoid since `B[j] ≅ B^♮[j]` (§3.3,
+which needs no regularity of `g`) and `B^♮[j]` is perfectoid (§3.4).
 
 Its API consists of the following facts.
 
@@ -1978,7 +2004,8 @@ Let `(V, m)` be a basic setup (Tau Ceti `TauCeti.Almost.BasicSetup`), `A → B` 
 being the kernel of `B → ∏_G B`, `b ↦ (γb − b)_γ`) and `B ⊗_A B → ∏_G B` is an isomorphism; equivalently
 `(B_*)^G = A_*` and `(B ⊗_A B)_* → ∏_G B_*` is an isomorphism (André A, §§1.9.1–1.9.2, formula (1.1) and
 footnote 6, pp. 8–9). Prove (André A, Proposition 1.9.1 with proof, pp. 9–10): a `G`-Galois extension is
-finite étale of rank `|G|` with trace the sum of conjugates; `G`-Galois extensions are stable under base
+faithfully flat, the sum of conjugates `t = Σ_{γ∈G} γ : B → A` is an epimorphism, and the extension is
+finite étale of rank `|G|` with trace `t`; `G`-Galois extensions are stable under base
 change and descend along faithfully flat maps; for an intermediate extension `C` with `C → B`
 `H`-Galois for a subgroup `H`, `C ⊗_A B ≅ ∏_{G/H} B` and `C` is finite étale of rank `[G : H]` over `A`.
 Galois for almost algebras implies neither that `B_*` is Galois over `A_*` nor that `B_!!` is Galois
@@ -1987,7 +2014,7 @@ For `m = V` it is Tau Ceti's `TauCeti.Algebra.IsFiniteEtaleTorsor` (AdicEtaleGeo
 Galois map `TauCeti.MulSemiringAction.tensorToPi` is André's map composed with the swap of the two
 tensor factors. The
 intended signature is a predicate on a finite group acting on an extension of almost algebras.
-*Needs:* PerfectoidSpaces P0.8, P0.9, P0.11, P0.12, P0.14, P0.25; Tau Ceti `TauCeti.Almost.BasicSetup`,
+*Needs:* PerfectoidSpaces P0.1, P0.8, P0.9, P0.11, P0.12, P0.14, P0.25; Tau Ceti `TauCeti.Almost.BasicSetup`,
 `TauCeti.Algebra.IsFiniteEtaleTorsor`, `TauCeti.MulSemiringAction.tensorToPi`.
 
 *Construction.* This is the classical argument for Galois extensions of rings with an `η ∈ m`
@@ -1996,8 +2023,16 @@ times the idempotent of that coordinate to `Σ_i b_i ⊗ b′_i` with `b_i, b′
 `B_* ⊗_{A_*} B_* → (B ⊗_A B)_*` is an almost isomorphism) gives `Σ_i b_ib′_i = η` and
 `Σ_i γ(b_i)b′_i = 0` for `γ ≠ 1`. With `t = Σ_{γ∈G} γ` this yields `Σ_i t(bb_i)b′_i = ηb`, so `η·id_B`
 factors through a finite free module and `B` is almost finite projective (PerfectoidSpaces P0.11).
-After base change to `B` the extension is `B → ∏_G B`, of rank `|G|` with trace the sum of the
-coordinates, and both facts descend along `A → B`. Along `A → A′` the isomorphism condition commutes
+The same relations give `η = Σ_i t(b_i)b′_i`; applying every `γ` and multiplying writes `η^{|G|}` as
+a sum of products of `|G|` values `t(b_i)` with coefficients that are sums over `G`-orbits, hence
+lie in `(B_*)^G = A_*`. So `η^{|G|}` lies in the ideal `I = t(B_*)` of `A_*`; the `|G|`-th powers of
+the elements of `m` generate `m` (condition (B), which PerfectoidSpaces P0.1 proves for every basic
+setup; GR, Proposition 2.1.7(ii), p. 8), so `m·A_* ⊆ I` and `t` is an epimorphism. `B` is
+flat, being almost projective (PerfectoidSpaces P0.11); and for `ε ∈ m` and `c ∈ B_*` with
+`t(c) = ε`, the map `N ⊗_A B → N`, `n ⊗ b ↦ t(cb)n`, composed with `n ↦ n ⊗ 1` is multiplication
+by `ε`, so `N ⊗_A B ≅ 0` forces `N ≅ 0` and `B` is faithfully flat. After base change to `B` the
+extension is `B → ∏_G B`, of rank `|G|` with trace the sum of the coordinates, and both facts
+descend along `A → B`. Along `A → A′` the isomorphism condition commutes
 with `⊗_A A′`; for invariants, `B′ = B ⊗_A A′` is faithfully flat over `A′`, and after `⊗_{A′} B′`
 (flat) the map `A′ → B′^G` becomes the map from `B′` onto the diagonal of `∏_G B′`, which is all of
 its `G × 1`-invariants. Both conditions descend along faithfully flat `A → A′` (PerfectoidSpaces
@@ -2012,6 +2047,8 @@ Its API consists of the following facts.
   `B ⊗_A C → ∏_{χ ∈ X} C`.
 - A `G`-Galois extension is finite étale of rank `|G|` (PerfectoidSpaces P0.14), and
   `Tr_{B/A}(b) = Σ_{γ ∈ G} γ(b)`.
+- A `G`-Galois extension is faithfully flat (PerfectoidSpaces P0.11), and its trace `B → A` is an
+  epimorphism.
 - If `A → B` is `G`-Galois so is `A′ → B ⊗_A A′`; conversely for faithfully flat `A → A′`.
 - If `C → B` is `H`-Galois for `H ≤ G` then `C ⊗_A B ≅ ∏_{G/H} B` and `C` is finite étale of rank
   `[G : H]` over `A`.
@@ -2023,7 +2060,9 @@ Its API consists of the following facts.
 - `A → ∏_G A`, with `G` permuting the factors by translation, is `G`-Galois (the trivial torsor).
 - For `m = V = ℤ` and `G = ℤ/2` acting on `ℤ[i]` by conjugation, `ℤ → ℤ[i]` is not Galois: the
   canonical map sends the basis `1⊗1, 1⊗i, i⊗1, i⊗i` to `(1,1), (i,i), (i,−i), (−1,1)`, whose span has
-  index `4` in `ℤ[i]²`, with cokernel `(ℤ/2)²`; over `V = ℤ[1/2]` it becomes Galois.
+  index `4` in `ℤ[i]²`, with cokernel `(ℤ/2)²`; over `V = ℤ[1/2]` it becomes Galois. The trace
+  `a + bi ↦ 2a` has image `2ℤ` over `ℤ`, and over `ℤ[1/2]` it is onto (`1/2 ↦ 1`), as a Galois
+  extension requires.
 - Convention witness: for `G = ℤ/2` acting on `B = A × A` by swapping, André's map sends
   `(1,0) ⊗ (1,0)` to `((1,0), (0,0))` (the component at the swap is `γ(1,0)·(1,0) = (0,1)(1,0) = 0`) and
   `tensorToPi` sends it to the same element, while `(1,0) ⊗ (0,1)` goes to `((0,0),(0,1))` under André's
@@ -2424,7 +2463,7 @@ AdicSpacesPartII R0.9.
 
 ### Dependencies
 
-Layer 2, Layer 3; PerfectoidSpaces P0.8, P0.9, P0.11, P0.12, P0.14, P0.16, P0.25, P1.30, P2.13,
+Layer 2, Layer 3; PerfectoidSpaces P0.1, P0.8, P0.9, P0.11, P0.12, P0.14, P0.16, P0.25, P1.30, P2.13,
 P2.16, P3.3, P3.10–P3.13; PerfectoidQuotients §1.4; AdicSpacesPartII R0.9;
 AdicEtaleGeometry A4.3; Tau Ceti `TauCeti.Almost.BasicSetup`, `TauCeti.Algebra.IsFiniteEtaleTorsor`,
 `TauCeti.MulSemiringAction.tensorToPi`, `TauCeti.Huber.isPowerBounded_of_isIntegral`,
@@ -2962,7 +3001,12 @@ integral over `A`, and normality of `A` gives `b ∈ A`.
 `A[1/(pg)]` and `p` is invertible in `Â_∞∞`. By §4.7(1)–(2), `B°` is almost the integral model of the
 largest perfectoid intermediate algebra and `B°/p^m` is almost finite étale over `Â°_∞∞/p^m`; `B′` is
 faithful over `Â_∞∞[1/g]` (`A → B` injective and `Â_∞∞` flat), so the almost finite étale algebra is
-almost faithfully flat, hence almost pure (§5.2). The two setups of the statement share their ideal
+almost faithfully flat. As in the proof of §4.7(3), split `Â_∞∞[1/g]` along the rank `r` of `B′`,
+which faithfulness makes positive, and embed `B′` in its `S_r`-Galois frame torsor (§4.2(1)); modulo
+`p^m` the integral model of the torsor is almost Galois over `Â°_∞∞/p^m` and over `B°/p^m` (§4.4),
+both extensions are almost faithfully flat (§4.1), and flatness and faithfulness of a composite
+`C₁ → C₂ → C₃` with `C₂ → C₃` faithfully flat descend to `C₁ → C₂`. So `Â°_∞∞/p^m → B°/p^m` is almost
+faithfully flat, hence almost pure (§5.2). The two setups of the statement share their ideal
 `T^{1/p^∞}K°°_∞[T^{1/p^∞}]`, so a module is almost zero in one exactly when it is in the other. In the
 second, the inclusion `S ⊆ Â°_∞∞` is an almost isomorphism, its cokernel being killed by `K°°_∞`
 (§5.11); composing it with the theorem makes `S/p^m → B°/p^m` almost pure. This map is
@@ -2986,7 +3030,8 @@ written for `A[1/(pg)] ⊗_A B = B[1/(pg)]`, `p`-torsion-freeness as Mathlib `Is
 `g ∉ pA` as `g ∉ Ideal.span {p}`. The corollary for `S` follows from the theorem through §5.2 and §5.11 and
 is not stated separately.
 
-*Needs:* §4.7, §5.2, §5.4, §5.6, §5.10, §5.11; PerfectoidSpaces P0.11, P0.16; Mathlib `AdicCompletion`,
+*Needs:* §4.1, §4.2, §4.4, §4.7, §5.2, §5.4, §5.6, §5.10, §5.11; AdicEtaleGeometry A4.3;
+PerfectoidSpaces P0.11, P0.16; Mathlib `AdicCompletion`,
 `Localization.Away`, `integralClosure`, `Algebra.Etale`, `Algebra.TensorProduct.leftAlgebra`,
 `IsReduced`, `IsSMulRegular`.
 
@@ -3026,7 +3071,8 @@ is not stated separately.
 ### Dependencies
 
 Layer 2, Layer 3, Layer 4; PerfectoidSpaces P0.6, P0.9, P0.11, P0.16, P0.25, P1.2, P1.11, P1.30,
-P2.2, P2.3, P3.13; PerfectoidQuotients §1.4; DerivedDeRhamCohomology §1.10; DeformationAndDerivedPatchingAlgebra §1.13; Tau Ceti
+P2.2, P2.3, P3.13; PerfectoidQuotients §1.4; AdicEtaleGeometry A4.3; DerivedDeRhamCohomology §1.10;
+DeformationAndDerivedPatchingAlgebra §1.13; Tau Ceti
 `TauCeti.Almost.BasicSetup`; Mathlib
 `WittVector`, `MvPowerSeries`, `MvPolynomial`, `Polynomial.cyclotomic`, `Localization.Away`, `integralClosure`,
 `Algebra.adjoin`, `Subalgebra.inclusion`, `IsIntegralClosure.finite`, `AdicCompletion`, `IsAdicComplete`,
