@@ -25,8 +25,7 @@ core of [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations
 
 The material is the standard graduate content of van der Vaart (1998) and van der
 Vaart–Wellner (2023), with the robust theory of Jurečková–Sen and Lehmann (1999) (see
-[References](#references)). Each headline carries a locator in a text listed under References,
-except the contamination bound for the median in 9.3, which carries a proof route.
+[References](#references)). Each headline carries a locator in a text listed under References.
 
 **This roadmap is a supplier.** The roadmaps
 [MathematicalStatisticsSemiparametric](../MathematicalStatisticsSemiparametric/README.md),
@@ -2221,8 +2220,11 @@ limit `N(0, ∫ IF² dF)`.
 - **The contamination bound** (`median_mem_Icc_of_contamination`): for `F` continuous and strictly
   increasing, `0 ≤ ε < 1/2` and any law `H`, every median of `G = (1 - ε)F + εH` lies in
   `[F^{-1}((1/2 - ε)/(1 - ε)), F^{-1}(1/(2(1 - ε)))]`; the bounds are attained by `H = δ_y` with
-  `y` far to the left and far to the right. None of the cited texts states this bound; it carries
-  the proof route below in place of a locator.
+  `y` far to the left and far to the right (Huber–Ronchetti, §4.2, (4.2), pp. 72–73, for
+  `F = Φ`, where the maximum absolute bias is the solution `x₀` of `(1 - ε)Φ(x₀) = 1/2`, attained
+  with all contaminating mass on one side. The book remarks that its argument uses only the
+  symmetry and unimodality of `Φ`; the one-sided computation of the bound uses only that `F` is
+  continuous and strictly increasing).
 
 *Proof route.* The influence function is 9.2 with the quantile derivative of 4.1, or 9.1 with
 `ψ = sign`. The bound: `G(x) ≥ (1 - ε)F(x)` and `G(x) ≤ (1 - ε)F(x) + ε`, so `G(x) ≥ 1/2` forces
@@ -2433,6 +2435,7 @@ The locators refer to these editions; page numbers are printed page numbers.
 - J. Jurečková and P. K. Sen, *Robust Statistical Procedures: Asymptotics and Interrelations*,
   Wiley, 1996.
 - E. L. Lehmann, *Elements of Large-Sample Theory*, Springer, 1999.
+- P. J. Huber and E. M. Ronchetti, *Robust Statistics*, 2nd ed., Wiley, 2009.
 - P. J. Huber, Robust estimation of a location parameter, *Ann. Math. Statist.* 35 (1964), 73–101.
 - P. J. Rousseeuw, Least median of squares regression, *J. Amer. Statist. Assoc.* 79 (1984),
   871–880.
