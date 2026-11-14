@@ -651,9 +651,11 @@ where Tau Ceti's `orbitRank a` asks for agreement at every level.
 
 ### 4.4 Forced back-and-forth trees and uniform separation
 
-- `bfTree c d : tree ℕ`, the forced back-and-forth tree: step `2 i` answers element `i` of the
-  left structure, step `2 i + 1` element `i` of the right one, and a node is in the tree when the
-  two tuples it decodes have the same atomic type. Prove `body_bfTree_nonempty_iff` (a branch is
+- `bfTree c d : tree ℕ`, the forced back-and-forth tree, the `prefixTree` (the finite sequences
+  all of whose prefixes satisfy a condition) of the condition that the tuples `bfLeft s` and
+  `bfRight s` have the same atomic type: step `2 i` answers element `i` of the left structure,
+  step `2 i + 1` element `i` of the right one, so `bfLeft s` lists the left elements and the left
+  answers, and `bfRight s` the corresponding right ones. Prove `body_bfTree_nonempty_iff` (a branch is
   an isomorphism and conversely, every element of both structures being scheduled), the root and
   empty-tree lemmas (a disagreeing nullary relation empties the tree), closed node sets for every
   relational `L` (`isClosed_setOf_mem_bfTree`; clopen when `L` has finitely many relation
@@ -727,8 +729,8 @@ language on a countable carrier.
 
 ### 5.2 The PC sentence of a tree
 
-Let `W = pcWitnessLanguage` be the relational vocabulary with a unary `zero`, a binary `succ` and
-a binary `branch`. For `k : ℕ` let `νₖ(x)` be the first-order numeral formula: `ν₀(x) := zero(x)`
+Let `W = pcWitnessLanguage` be the relational vocabulary whose relation symbols `PCWitnessRel` are
+a unary `zero`, a binary `succ` and a binary `branch`. For `k : ℕ` let `νₖ(x)` be the first-order numeral formula: `ν₀(x) := zero(x)`
 and `νₖ₊₁(x) := ∃ y, νₖ(y) ∧ succ(y, x)`. For `i : ℕ` let `χᵢ` be the sentence "the `i`-th
 atom holds at the numerals": if the enumeration of atoms sends `i` to `atom R v`, then
 `χᵢ := ∃ y₀ … y_{l-1}, ⋀ⱼ ν_{v j}(yⱼ) ∧ R(y₀, …, y_{l-1})`, and otherwise `χᵢ := ⊥` (matching the
@@ -746,9 +748,9 @@ Every conjunction and disjunction is countable, so `pcSentence T` is an Lω₁ω
 the InfinitaryLogic connectives. Prove its specification (`Suggested.lean` records the two
 statements together as `exists_pcSentence`):
 
-- **completeness**: if `(queryCode c, g)` is a branch of `T`, then `ℕ` with
-  `c.toStructure` and `standardWitness g` (zero `{0}`, successor `n ↦ n + 1`, branch `g`) is a
-  model;
+- **completeness**: if `(queryCode c, g)` is a branch of `T`, then `ℕ` with `c.toStructure` and
+  `standardWitness g` (relations `standardWitnessRel g`: zero `{0}`, successor `n ↦ n + 1`, branch
+  `g`) is a model;
 - **soundness**: every model `M`, of any cardinality and in any universe,
   is countably infinite, and the numeral bijection `e : M ≃ ℕ` satisfies: the code
   `e.encodeVia`, together with the function read off `branch`, is a branch of `T`. No invariance
@@ -893,8 +895,9 @@ For a relational `L` with a distinguished binary relation symbol `lt`, let `code
 relation a code assigns to `lt` and `wellOrderClass lt` the codes for which it is a (strict)
 well-order of `ℕ`. Prove:
 
-- `isomorphismInvariant_wellOrderClass`, and that the complement of `wellOrderClass lt` is
-  analytic, so `wellOrderClass lt` is coanalytic: the strict linear orders form a closed set, and
+- `isomorphismInvariant_wellOrderClass`, and `analyticSet_compl_wellOrderClass` (with countably
+  many relation symbols): the complement of `wellOrderClass lt` is analytic, so `wellOrderClass lt`
+  is coanalytic: the strict linear orders form a closed set, and
   a strict linear order fails to be a well-order exactly when it has a descending sequence, a
   projection of a closed subset of the product with Baire space;
 - `exists_mem_wellOrderClass_type_eq`: every `β` with `ω ≤ β < ω₁` is the order type of some code
