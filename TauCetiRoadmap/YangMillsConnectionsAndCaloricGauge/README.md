@@ -774,7 +774,11 @@ and lines 982–989).
 
 *Needs:* Tau Ceti `TauCeti.WeakDerivStep`; gap `vector-valued-wkp` (PDE); Mathlib `MeasureTheory.Lp`; 1.1.
 
-### 2.2 Approximation by smooth `G`-valued maps
+### 2.2 Approximation, group operations and Maurer–Cartan forms on the critical class
+
+Smooth `G`-valued approximation (2.2), continuity of products and inverses (2.3), and of Maurer–Cartan
+forms and the adjoint action (2.4) on `G^{k,d/k}`. They are used by 2.5, by rough connections, gauge
+invariance and patching (3.1–3.3), by 4.1 and 4.3, and by gauges at infinity (5.1–5.3).
 
 Prove: for `O ∈ G^{k,d/k}_loc(X)`, an open `U` with compact closure in `X`, open `V`, `W ⊆ U` with
 `V ∩ W = ∅`, and `ε > 0`, there is `O' ∈ G^{k,d/k}_loc(X)` equal to `O` almost everywhere on `V`
@@ -808,8 +812,7 @@ needs no more than `V ∩ W = ∅`.
 *Needs:* PDE §1.2 (Tau Ceti `TauCeti.Wkp.dense_contDiffOn_representatives`), §1.4 (Sobolev embedding
 `W^{k,d/k} ⊆ W^{1,d}`) and §1.5 (Poincaré on balls); 1.2; 2.1.
 
-### 2.3 Products and inverses
-
+**2.3 Products and inverses.**
 Prove that pointwise multiplication `G^{k,d/k}_loc(X) × G^{k,d/k}_loc(X) → G^{k,d/k}_loc(X)` and
 inversion `O ↦ O⁻¹` are continuous, with `∂_j(O⁻¹) = −O⁻¹(∂_j O)O⁻¹`, and the same on `G^{k,d/k}(U)` for
 a bounded Lipschitz domain `U` (OhTataru-TopClass Lemmas 3.1 and 3.3, lines 1000–1102). Route: `O⁻¹ = O*`
@@ -822,8 +825,7 @@ convergence along almost everywhere convergent subsequences. The critical produc
 
 *Needs:* PDE §1.4 (iterated embeddings on bounded Lipschitz domains); 2.1, 2.2.
 
-### 2.4 Maurer–Cartan forms and the adjoint action
-
+**2.4 Maurer–Cartan forms and the adjoint action.**
 Prove (OhTataru-TopClass Lemma 3.4, lines 1109–1135): `O ↦ O;x` and `O ↦ O⁻¹∂_x O` are continuous
 `G^{k,d/k}_loc(X) → W^{k−1,d/k}_loc(X; 𝔤)` (with values in `𝔤` almost everywhere); for `0 ≤ k' < k`,
 `(O, B) ↦ Ad(O)B` is continuous `G^{k,d/k}_loc(X) × W^{k',d/k}_loc(X; 𝔤) → W^{k',d/k}_loc(X; 𝔤)`;
@@ -948,7 +950,11 @@ Prove: for `A ∈ W^{1,d/2}_loc(X; 𝔤 ⊗ (ℝ^d)*)` and `O ∈ G^{2,d/2}_loc(
 
 *Needs:* 1.3, 2.4, 3.1.
 
-### 3.3 Patching to a global gauge
+### 3.3 Global potentials and concentration radii
+
+Patching to a global potential with bounds (3.3) and the inner and outer concentration radii (3.4).
+The good gauge on a ball (4.4) and the good global gauge theorem (5.2) take both; 4.2, 6.4, 7.2 and
+10.1 use the patching.
 
 Prove: every `G^{2,d/2}_loc` bundle on `X = B_R` or `X = ℝ^d` admits a global gauge, and every connection
 on it has a global potential in `W^{1,d/2}_loc(X)`. Quantitatively, fix `R ≥ 1` and a covering margin
@@ -979,8 +985,7 @@ with the same centres already cover `B_R`; then `ℓ = ½`.
 
 *Needs:* 2.2–2.5, 3.1.
 
-### 3.4 Concentration radii
-
+**3.4 Concentration radii.**
 For `D ∈ A^{1,d/2}_loc(X)` and `ε > 0` define the inner concentration radius
 `r_c^ε[D] = sup{r > 0 : ‖F‖_{L^{d/2}(B_r(x) ∩ X)} ≤ ε for all x ∈ X}` and, for `X = ℝ^d`, the outer
 concentration radius `R_c^ε[D] = inf{r > 0 : ‖F‖_{L^{d/2}(ℝ^d ∖ B_r(x))} ≤ ε for some x}`
@@ -1188,7 +1193,11 @@ Layers 2–3; PDE §1.4, §1.6, §2.3, §7.1–7.2; the gaps `lp-neumann-ball`, 
 
 Throughout this layer `d ≥ 3`. Fix a smooth cut-off `η : ℝ^d → [0, 1]` with `η = 0` on `B₁` and `η = 1` off `B₂`.
 
-### 5.1 Good representatives and gauges at infinity
+### 5.1 Gauges at infinity and the good global gauge
+
+Good representatives and gauges at infinity (5.1), the good global gauge theorem (5.2), and the
+uniqueness of gauges at infinity up to homotopy and constants (5.3). The topological class (5.4) and
+the trivial class (5.5) rest on 5.2–5.3, and characteristic numbers (6.1) on 5.1.
 
 For a global potential `A ∈ W^{1,d/2}_loc(ℝ^d; 𝔤 ⊗ (ℝ^d)*)` define a good representative as a pair
 `(O_(∞), B)` of a smooth map `O_(∞) : ℝ^d ∖ {0} → G` that is homogeneous of degree `0` and a
@@ -1215,8 +1224,7 @@ lines 382–390 and Theorem 1.3, lines 226–235).
 
 *Needs:* 1.3, 2.4; PDE §1.4.
 
-### 5.2 The good global gauge theorem
-
+**5.2 The good global gauge theorem.**
 Prove (OhTataru-TopClass Theorem 1.5, lines 361–375, proof lines 1562–1617): there is `ε_* > 0` such that
 for every `D ∈ A^{1,d/2}_loc(ℝ^d)` with `F ∈ L^{d/2}(ℝ^d)`, `r_c^{ε_*}[D] ≥ r` and `R_c^{ε_*}[D] ≤ R`,
 `0 < r ≤ R`, there is a centre `x₀` and a global gauge such that in the translated
@@ -1251,8 +1259,7 @@ statement above assumes it on `ℝ^d`.
 
 *Needs:* gap `hardy-inequality` (PDE); 2.2, 2.5, 3.3, 3.4, 4.2, 4.4, 5.1.
 
-### 5.3 Gauges at infinity are unique up to homotopy and constants
-
+**5.3 Gauges at infinity are unique up to homotopy and constants.**
 Prove (OhTataru-TopClass Proposition 1.6 and Remark 1.7, lines 397–405, proof lines 1666–1686): let
 `A, A'` be global potentials of the same connection, `A' = P·A` with `P ∈ G^{2,d/2}_loc(ℝ^d)`, with good
 representatives `(O_(∞), B)` and `(O'_(∞), B')`. Then `O'_(∞)|_{S^{d−1}}` is homotopic to
@@ -1284,7 +1291,11 @@ otherwise (5.1, Checks).
 
 *Needs:* gap `hardy-inequality` (PDE); 2.2, 2.4, 2.5, 5.1.
 
-### 5.4 The topological class
+### 5.4 The topological class, the trivial class and `Top(4, G) ≅ π₃(G)`
+
+The class `[A] ∈ Top(d, G)` with its well-definedness, gauge invariance and locality (5.4), the
+characterisation of the trivial class (5.5), and `Top(4, G) ≅ π₃(G)` for connected `G` (5.6). Layer 6
+consumes them: 6.2 the class, 6.3 the trivial class, 6.4 the identification with `π₃`.
 
 Define `Top(d, G)` as the quotient of the free homotopy classes `[S^{d−1}, G]` by the action of `G × G`
 through `(c, c')·[O] = [cOc'⁻¹]`, and the topological class `[A] ∈ Top(d, G)` of a connection with
@@ -1322,8 +1333,7 @@ For connected `G` the quotient map `[S^{d−1}, G] → Top(d, G)` is a bijection
 
 *Needs:* 2.5, 3.2, 5.2, 5.3; PDE §1.4.
 
-### 5.5 The trivial class
-
+**5.5 The trivial class.**
 Prove (OhTataru-TopClass Corollary 1.11 and Remark 1.12, lines 451–466; OhTataru-Threshold Theorem 2.16,
 lines 1066–1067): a connection with `L^{d/2}` curvature lies in the class of `0` (the class of constant
 maps) exactly when it is gauge equivalent, by some `P ∈ G^{2,d/2}_loc(ℝ^d)`, to a potential in
@@ -1340,8 +1350,7 @@ the `Ẇ^{1,d/2}` norm of that potential in terms of the curvature is asserted.
 
 *Needs:* 2.5, 5.2, 5.3, 5.4.
 
-### 5.6 Topological classes in dimension four
-
+**5.6 Topological classes in dimension four.**
 Prove: for connected `G`, the map from the based homotopy classes of pointed maps `(S³, e₁) → (G, 1)` to
 `[S³, G]` forgetting the base point is a bijection (a free map `O` is homotopic to the based map
 `O(e₁)⁻¹O`, and a free homotopy `H` between based maps yields the based homotopy `H(t, e₁)⁻¹H(t, ·)`), so
@@ -1874,7 +1883,7 @@ Prove: every `u ∈ Ḣ^σ` has a `(−σ₁, σ₂)`-admissible envelope with `
 `MeasureTheory.Lp.toTemperedDistribution`, `MeasureTheory.eLpNorm_le_eLpNorm_fderiv_of_eq`;
 PDE §6.3, §7.1–7.3 (the decomposition pattern and Bernstein, with the homogeneous targets above).
 
-### 8.2 Solvability for the covariant Laplacian
+### 8.2 The inverse of the covariant Laplacian on `Ḣ^{σ−2}` and `ℓ¹L²`
 
 For `A ∈ Ḣ¹` put `Δ_A = D^ℓ D_ℓ`. Prove (OhTataru-YMHF Theorems 4.1–4.2, lines 955–1175): for
 `0 < σ < 2` and `F ∈ Ḣ^{σ−2}` there is a unique `B ∈ Ḣ^σ` with `Δ_A B = F` and
@@ -1917,7 +1926,11 @@ existence and the uniqueness class for forcing in no `Ḣ^{σ−2}` are supplied
 
 *Needs:* PDE §3.2 (weak maximum principle), §7.1–7.3; 8.1.
 
-### 8.3 The covariant heat operator: `L²` theory
+### 8.3 Bounds and decay for the linear covariant heat equation
+
+`Ḣ^σ` well-posedness with envelope, `ℓ²L¹` and decay bounds (8.3), and frequency-localised `Ẇ^{σ,p}`
+bounds for coefficients whose blocks decay in heat time (8.4). The covariant bounds (9.2), local
+well-posedness (9.3, using both), continuation (9.4) and flat limits (9.5) consume them.
 
 Fix `S ∈ (0,∞]` and `J = [0,S)`. On `ℝ⁴ × J` let `A ∈ L^∞(J; Ḣ¹)` with `F ∈ L²(J; Ḣ¹)` and `∂_s A ∈ L²(J; L²)`, and consider
 `∂_s B_j − Δ_A B_j − 2[F_j^k, B_k] = G_j + D^k H_kj` (OhTataru-YMHF (4.9), lines 1176–1183). Prove
@@ -1981,8 +1994,7 @@ which tends to `0` as `S → ∞`.
 
 *Needs:* PDE §6.1, §6.3, §7.1, §7.2; Mathlib `MeasureTheory.eLpNorm_le_eLpNorm_fderiv_of_eq`; 8.1, 8.2.
 
-### 8.4 The covariant heat operator: `L^p` parabolic regularity
-
+**8.4 Frequency-localised `Ẇ^{σ,p}` bounds.**
 Assume `‖P_k A(s)‖_{Ḣ¹} ≲ c_k(1 + 2^{2k}s)^{−N}` for all `s > 0` with `(c_k) ∈ ℓ²` and `N > 2`. Prove
 (OhTataru-YMHF Theorems 4.7–4.8, lines 1346–1530): for `−2 < σ < 4/p`, `2 ≤ p ≤ ∞` and
 `0 < δ ≤ min{4/p − σ, 2 + σ}`, with the sequence `c_k` of the hypothesis a `(−δ, S)` envelope,
@@ -2025,7 +2037,11 @@ distributions; Layer 1.
 
 ## Layer 9: the Yang–Mills heat flow on `ℝ⁴`
 
-### 9.1 The covariant, dynamic and linearised flows
+### 9.1 The heat flows, covariant bounds and local well-posedness
+
+The covariant, dynamic and linearised flows with their gauge fixings (9.1), weighted covariant bounds
+(9.2), and local well-posedness in the local caloric gauge (9.3). Continuation (9.4) needs all three;
+flat limits (9.5) and the Dichotomy Theorem (9.6) build on them, and 10.3 and 10.5 use 9.2 and 9.1.
 
 Here `J = [0,S)` for `0 < S ≤ ∞`, with initial trace at `s = 0`. Define a covariant Yang–Mills heat flow on `ℝ⁴ × J` as a connection `A_j dx^j + A_s ds` solving
 `F_sj = D^ℓ F_ℓj`, with `F_sj = ∂_s A_j − ∂_j A_s + [A_s, A_j]`; a dynamic Yang–Mills heat flow as
@@ -2065,8 +2081,7 @@ lines 1541–1607). Prove, for regular solutions:
 
 *Needs:* 1.3; PDE §6.3.
 
-### 9.2 Covariant bounds
-
+**9.2 Covariant bounds.**
 Prove (OhTataru-YMHF Proposition 5.7, Corollary 5.8 and Lemma 5.17, lines 1628–1801 and 1986–2000): for a
 regular covariant flow on `J = [0, s₁)` with `‖F‖_{L³(J; L³)} ≤ Q`, the weighted bounds
 `‖s^{n/2} D^{(n)}_x F‖_{L^∞(J, ds/s; L²)} + ‖s^{(n+1)/2} D^{(n+1)}_x F‖_{L²(J, ds/s; L²)} ≲ Q_n(‖F(0)‖_{L²}, Q)` for
@@ -2090,8 +2105,7 @@ parabolic scaling; the extra `1/4 − 1/p` printed in Corollary 5.8 is incompati
 
 *Needs:* 8.1, 8.3 (covariant parabolic estimates), 9.1; PDE §1.4 (Sobolev interpolation).
 
-### 9.3 Local well-posedness in the local caloric gauge
-
+**9.3 Local well-posedness in the local caloric gauge.**
 Define a regular solution as `A ∈ C(J; Ḣ¹ ∩ Ḣ³)` solving (5.21), and an `Ḣ¹` solution on `J = [0, s₀)` as
 `A ∈ C(J; Ḣ¹)` that is, on every compact subinterval, the `C(·; Ḣ¹)`-limit of regular solutions
 (OhTataru-YMHF Lemmas 5.16 and 5.26, lines 1963–1980 and 2336–2340). Prove (Theorem 5.9, lines 1873–1875):
@@ -2117,7 +2131,11 @@ infinitesimal de Turck trick), with 8.3–8.4.
 
 *Needs:* 8.1–8.4, 9.1, 9.2.
 
-### 9.4 Caloric size, continuation and small energy
+### 9.4 Long-time behaviour: caloric size, flat limits, dichotomy and threshold
+
+The caloric size with continuation and small-energy global existence (9.4), convergence to a flat
+connection with the `C¹` limit map (9.5), and the Dichotomy (9.6) and Threshold (9.7) Theorems. The
+caloric gauge (10.2) consumes 9.4, 9.5 and 9.7; 10.3 uses 9.4–9.5, and 10.4–10.5 use 9.5.
 
 Define the caloric size `Q(a) = ‖F‖_{L³([0,∞); L³)}` when `s₀(a) = ∞`, and `Q(a) = ∞` otherwise
 (OhTataru-YMHF (2.5) and (5.40), lines 419–425 and 1940–1942). Prove (Theorem 5.10, Theorem 5.11,
@@ -2147,8 +2165,7 @@ Corollaries 5.12–5.14, lines 1878–1948):
 
 *Needs:* 8.3, 9.1–9.3.
 
-### 9.5 Convergence to a flat connection
-
+**9.5 Convergence to a flat connection.**
 Prove (OhTataru-YMHF Corollary 5.15 and Lemma 5.33, lines 1952–1957 and 2509–2555): for a global `Ḣ¹`
 solution with `Q(a) ≤ Q < ∞` the limit `A_∞ = lim_{s→∞} A(s)` exists in `Ḣ¹` (in `ℋ` for `a ∈ ℋ`) and is flat;
 the linearised solution with data `b ∈ Ḣ^σ`, `−1 < σ ≤ 1` (resp. `b ∈ ℋ`), has a limit `B_∞` in `Ḣ^σ`
@@ -2234,8 +2251,7 @@ neither place gives a proof, and that range is not stated here.
 
 *Needs:* 8.1 (homogeneous product bounds); 8.2 (for `σ = 1`), 8.3 (bounds, `ℓ²L¹` bound and decay); 9.1–9.4.
 
-### 9.6 The Dichotomy Theorem
-
+**9.6 The Dichotomy Theorem.**
 Prove (OhTataru-YMHF Theorem 6.1, lines 2562–2589, with Lemmas 6.2–6.5, lines 2605–2786): for `a ∈ Ḣ¹`,
 either `s₀(a) = ∞` and `Q(a) < ∞`, or there are heat-times `s_n ↗ s₀(a)`, points `x_n ∈ ℝ⁴`,
 scales `r_n > 0` with `r_n² ≤ s_n` (and `r_n → 0` when `s₀(a) < ∞`), `s`-independent gauge transformations
@@ -2254,8 +2270,7 @@ without showing that their centres converge, and the statement above omits that 
 
 *Needs:* 4.1, 7.1, 7.2, 9.1–9.4.
 
-### 9.7 The Threshold Theorem
-
+**9.7 The Threshold Theorem.**
 Prove (OhTataru-YMHF Theorem 6.6, lines 2833–2837, proof lines 2852–2990): for noncommutative `G` and every
 `E < 2E_GS` there is `Q_E < ∞` such that every `a ∈ Ḣ¹(ℝ⁴)` with `ℰ_e(a) ≤ E` has `s₀(a) = ∞` and
 `Q(a) ≤ Q_E`. Route: a contradiction argument with a sequence of data, interval selection by the energy
@@ -2287,7 +2302,11 @@ Layers 1 (1.3), 8; Layers 4, 6 and 7 for 9.6–9.7; PDE §1.4 (9.2), §6.3; §8.
 
 ## Layer 10: the caloric gauge and the caloric manifold
 
-### 10.1 Flat `Ḣ¹` connections are pure gauges
+### 10.1 Pure gauges and the caloric gauge
+
+Flat `Ḣ¹` connections as pure gauges (10.1) supply the gauge of `Cal`, and 10.2 defines caloric
+connections and proves existence, uniqueness and regularity of `Cal`. The caloric bounds (10.3), the
+caloric manifold (10.4) and its tangent spaces (10.5) consume 10.2.
 
 Prove (OhTataru-YMHF line 552–560 and 584–592, Lemma 7.3, lines 3163–3211; OhTataru-TopClass Lemma 3.17,
 lines 1487–1496): for flat `a ∈ Ḣ¹(ℝ⁴)` there is `O ∈ G^{2,2}_loc(ℝ⁴)` with `O·a = 0`, i.e. `a = O⁻¹∂_x O`, and
@@ -2307,8 +2326,7 @@ restriction-Besov hypothesis, obtained from the flat div–curl system when `a �
 
 *Needs:* 3.3, 4.1, 4.3, 8.1.
 
-### 10.2 Caloric connections and the caloric gauge
-
+**10.2 Caloric connections and the caloric gauge.**
 For the normalised gauge use the real Banach space `𝔘` of matrix-valued functions
 `U ∈ C₀(ℝ⁴; M_N(ℂ))` whose distributional derivative belongs to `Ḣ¹`, with norm
 `‖U‖_∞ + ‖∂U‖_{Ḣ¹}`. Here `C₀` means continuous and tending to zero at infinity.
@@ -2371,7 +2389,11 @@ as in §9.5. This is a Banach-space derivative assertion, including continuity i
 
 *Needs:* 8.1 (homogeneous products), 8.2 (elliptic inverse); 7.7, 9.4, 9.5 (Fréchet regularity and operator-norm continuity), 9.7, 10.1.
 
-### 10.3 Caloric connections lie in `ℋ`
+### 10.3 The caloric manifold in `ℋ` and its tangent spaces
+
+Caloric connections lie in `ℋ` with uniform heat-flow bounds (10.3), form a `C¹` split submanifold of
+`ℋ` (10.4), and have tangent spaces with the projection `Π_a` and the nonlinear div–curl decomposition
+(10.5). 10.4 and 10.5 use 10.3; the submanifold theorem with its tangent spaces is an end theorem.
 
 Prove (OhTataru-YMHF Proposition 7.7, lines 3286–3290, from Lemma 5.30, line 2419–2423;
 OhTataru-Threshold Theorem 2.8, lines 912–917): for `a ∈ 𝒞_Q` with `ℰ_e(a) ≤ E`, its heat flow satisfies
@@ -2401,8 +2423,7 @@ homogeneous `Ẇ^{1,4/3}` (line 2423); the inhomogeneous bound is false (Checks)
 
 *Needs:* 9.2, 9.4, 9.5, 10.2.
 
-### 10.4 The caloric manifold
-
+**10.4 The caloric manifold.**
 Define a `C¹` split submanifold of a real Banach space `𝔅` as a subset `S` such that every `a ∈ S` has an open
 neighbourhood `U`, a closed subspace `E ⊆ 𝔅` with `Submodule.ClosedComplemented`, an open `V ⊆ E` and a chart
 `φ : V → 𝔅` with image `S ∩ U` that is a `C¹` smooth embedding in Mathlib's sense,
@@ -2471,8 +2492,7 @@ with `Manifold.IsImmersion.isDiffImmersionAt`, `TopologicalSpace.Opens.instChart
 `ContDiffAt.toOpenPartialHomeomorph`, `ContDiffAt.to_localInverse`; PDE §3.2 (weak maximum principle);
 8.1 (homogeneous product bounds), 8.2, 10.2, 10.3.
 
-### 10.5 Tangent spaces and the nonlinear div–curl decomposition
-
+**10.5 Tangent spaces and the nonlinear div–curl decomposition.**
 For `a ∈ 𝒞` let `B` solve the linearised flow (5.23) around the heat flow of `a` with `B(0) = b`. Prove
 (OhTataru-YMHF Definition 2.21, lines 604–610, lines 3347–3361, Proposition 7.9 and Theorem 2.22,
 lines 3363–3385 and 613–619):

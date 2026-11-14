@@ -56,7 +56,7 @@ By layer:
   instanton numbers give equal classes in `Top(4, SU(2))`): (c).
 * Layer 7, regularity, removable singularities and decay of harmonic Yang–Mills connections
   (§§7.2–7.3): (a) and (b). The sharp energy gap (§7.5) and the attained ground state (§7.7): (b).
-* Layer 8, solvability for the covariant Laplacian (§8.2) and the covariant parabolic estimates
+* Layer 8, the inverse of the covariant Laplacian (§8.2) and the covariant parabolic estimates
   with decay (§§8.3–8.4): (b) and (d).
 * Layer 9, local well-posedness, stability and continuation (§§9.3–9.4), flat limits of the
   nonlinear and linearised flows (§9.5), and the Dichotomy (§9.6) and Threshold (§9.7) Theorems:
