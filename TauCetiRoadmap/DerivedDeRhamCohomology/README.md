@@ -1955,10 +1955,10 @@ Mathlib `DividedPowers.OfSquareZero.dividedPowers`; Mathlib `dividedPowersBot`.
   operations of degree at least 2 vanish.
 - `A=𝔽_p`: `pA=0` and `γ` is the divided power structure of the zero ideal.
 
-**Compatibility of divided powers with a base.** Let `(A,I,γ)` and `(B,J,δ)` be divided power rings and
-`φ:A→B` a ring map (`I` need not map into `J`). `δ` is compatible with `γ` if there is a divided power
-structure `γ̄` on the ideal `J+IB` such that `φ` is a divided power morphism `(I,γ)→(J+IB,γ̄)` and the
-identity of `B` is a divided power morphism `(J,δ)→(J+IB,γ̄)`.
+**Compatibility of divided powers with a base.** Consider two divided power rings `(A,I,γ)` and `(B,J,δ)`
+joined by a ring map `φ:A→B`, where `I` is not required to map into `J`. Call `δ` compatible with `γ` when
+the ideal `J+IB` carries a divided power structure `γ̄` turning two maps into divided power morphisms: `φ`,
+viewed as a map `(I,γ)→(J+IB,γ̄)`, and the identity of `B`, viewed as a map `(J,δ)→(J+IB,γ̄)`.
 
 *Hypotheses.* `(A,I,γ)` and `(B,J,δ)` are divided power rings; `φ:A→B` is a ring homomorphism.
 
@@ -2188,13 +2188,13 @@ derivation criterion. The functoriality in `M` is not covered there.) *Needs:* M
 - For `A=ℤ_(p)`, `I=(p)` with its canonical divided powers and `M=A`: `δ_p(p+z)=p^p/p!+(p^(p−1)/(p−1)!)·z`.
 - For `I=0` the structure on `J=M` is `δ_n(z)=0` for `n≥2`, the divided powers of an ideal of square zero.
 
-**Divided powers on a second-order thickening.** Let `(A,I,γ)` be a PD ring, `M` and `N` `A`-modules and
-`q:M×M→N` an `A`-bilinear map. Let `B=A⊕M⊕N` with multiplication
-`(x,z,w)(x′,z′,w′)=(xx′,xz′+x′z,xw′+x′w+q(z,z′)+q(z′,z))` and `J=I⊕M⊕N`. Then
-`δ_n(x,z,w)=(γ_n(x),γ_{n−1}(x)z,γ_{n−1}(x)w+γ_{n−2}(x)q(z,z))`, for `(x,z,w)∈J` and `n≥1`, with the
-conventions `γ₀=1` and `γ₋₁=0`, is a PD structure on `J`, and `A→B` is a PD homomorphism `(A,I,γ)→(B,J,δ)`
-(Stacks Lemma 60.3.2). For `N=0` this is the PD structure on `A⊕M` of *Divided powers on a square-zero
-extension*.
+**Divided powers on a second-order thickening.** Start from a PD ring `(A,I,γ)`, two `A`-modules `M` and
+`N`, and an `A`-bilinear map `q:M×M→N`. Equip `B=A⊕M⊕N` with the product
+`(x,z,w)(x′,z′,w′)=(xx′,xz′+x′z,xw′+x′w+q(z,z′)+q(z′,z))`, and on its subset `J=I⊕M⊕N` define, for `n≥1`
+and `(x,z,w)∈J`, the operations `δ_n(x,z,w)=(γ_n(x),γ_{n−1}(x)z,γ_{n−1}(x)w+γ_{n−2}(x)q(z,z))`, reading
+`γ₀=1` and `γ₋₁=0` by convention. These operations form a PD structure on `J`, and with it `A→B` becomes a
+PD homomorphism `(A,I,γ)→(B,J,δ)` (Stacks Lemma 60.3.2). The special case `N=0` gives back the PD
+structure on `A⊕M` of *Divided powers on a square-zero extension*.
 
 *Hypotheses.* `(A,I,γ)` is a PD ring; `M` and `N` are `A`-modules; `q:M×M→N` is `A`-bilinear, not assumed
 symmetric. The formula uses `γ₀(x)=1` and `γ₋₁(x)=0`, so `δ₁(x,z,w)=(x,z,w)`.
@@ -2431,12 +2431,12 @@ Mathlib `DividedPowers.SubDPIdeal` and `DividedPowers.Quotient.dividedPowers`.
 - `compatible_containing_base`: For `B=A=ℤ/4`, `I=J=(2)` with canonical base powers, `D=A`,
   `K=(2)` and `D/K=𝔽₂`, agreeing with the preceding envelope.
 
-**Pushouts of divided power rings.** The category of PD rings, with objects the triples `(A,I,γ)` and
-morphisms the PD homomorphisms, has all colimits (Stacks, Divided Power Algebra, Lemma 23.3.4). Let
-`(B,J,δ)←(A,I,γ)→(B′,J′,δ′)` be PD homomorphisms and `(B″,J″,δ″)` their pushout. Then (1)
-`B″/J″=B/J⊗_{A/I}B′/J′`; (2) the map `φ:B⊗_AB′→B″` is surjective; (3) `φ` maps `J⊗_AB′+B⊗_AJ′` onto `J″`
-(Remark 23.3.5). The map `φ` need not be an isomorphism: the forgetful functor `(A,I,γ)↦A` does not
-commute with colimits (Remark 23.3.6).
+**Pushouts of divided power rings.** PD rings `(A,I,γ)`, with PD homomorphisms as arrows, form a
+category in which all colimits exist (Stacks, Divided Power Algebra, Lemma 23.3.4). Given PD
+homomorphisms `(B,J,δ)←(A,I,γ)→(B′,J′,δ′)`, write `(B″,J″,δ″)` for their pushout and `φ:B⊗_AB′→B″` for
+the induced ring map. Remark 23.3.5 describes the pushout through `φ`: (1) `B″/J″=B/J⊗_{A/I}B′/J′`;
+(2) `φ` is onto; (3) `J″` is the image under `φ` of `J⊗_AB′+B⊗_AJ′`. In general `φ` is not an isomorphism,
+because forgetting the divided powers, `(A,I,γ)↦A`, does not preserve colimits (Remark 23.3.6).
 
 *Hypotheses.* `(A,I,γ)`, `(B,J,δ)` and `(B′,J′,δ′)` are PD rings, with PD homomorphisms from the first to
 the other two.
@@ -2525,11 +2525,15 @@ the generated ideal*; §PD.2 *The scalar-extension coefficient formula*; Mathlib
 - (2) needs `γ′` to be an extension of `γ`: for `A=𝔽_p`, `I=0` and `A′=B=𝔽_p[t]/(t^p)` with `I′=J=(t)` and
   `γ′_n(t)=tⁿ/n! (n<p)`, 0 `(n≥p)`, `D_(B,γ′)(J)=B` but `D_(B,0)(J)=𝔽_p⟨t⟩`.
 
-**Exact base change of divided power envelopes.** (1) Let `(A,I,γ)` be a divided power ring and `B→B′` a
-homomorphism of `A`-algebras such that `B/IB→B′/IB′` is flat and `Tor₁^B(B′,B/IB)=0` (equivalently, `IB⊗_B B′→B′` is injective). Then for every ideal `J` of `B` with `IB⊆J` the canonical map `D_(B,γ)(J)⊗_B B′→D_(B′,γ)(JB′)` is an isomorphism. (2) Let `(B,I,γ)→(B′,I′,γ′)` be a homomorphism of divided power
-rings and `I⊆J⊆B`, `I′⊆J′⊆B′` ideals such that `B/I→B′/I′` is flat and `J′=JB′+I′`. Then the canonical map
-`D_(B,γ)(J)⊗_B B′→D_(B′,γ′)(J′)` is an isomorphism. In both cases the canonical map is the `B′`-linear
-extension of the divided power morphism between the envelopes given by `PDEnvelope.map`.
+**Exact base change of divided power envelopes.** Under either of two sets of hypotheses, forming the
+envelope commutes with `−⊗_B B′`. In each case the comparison map meant is the `B′`-linear extension of the
+divided power morphism of envelopes supplied by `PDEnvelope.map`. (1) Fix a divided power ring `(A,I,γ)`
+and a map `B→B′` of `A`-algebras along which `B/IB→B′/IB′` is flat and `Tor₁^B(B′,B/IB)=0` (that is,
+`IB⊗_B B′→B′` is injective). For any ideal `J` of `B` subject to `IB⊆J`, the comparison
+`D_(B,γ)(J)⊗_B B′→D_(B′,γ)(JB′)` is then an isomorphism. (2) Here the divided power base itself moves,
+along a morphism `(B,I,γ)→(B′,I′,γ′)` of divided power rings, and the ideals `I⊆J⊆B` and `I′⊆J′⊆B′` are
+tied together by `J′=JB′+I′`. Assuming in addition that `B/I→B′/I′` is flat, the comparison
+`D_(B,γ)(J)⊗_B B′→D_(B′,γ′)(J′)` is an isomorphism.
 
 *Hypotheses.* (1): `(A,I,γ)` is a divided power ring; `B→B′` is a map of `A`-algebras; `B/IB→B′/IB′` is
 flat; `Tor₁^B(B′,B/IB)=0`; `J` is an ideal of `B` with `IB⊆J`. (2): `(B,I,γ)→(B′,I′,γ′)` is a divided power
