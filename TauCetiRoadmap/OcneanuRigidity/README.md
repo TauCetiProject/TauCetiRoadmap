@@ -38,7 +38,7 @@ Suggested home: `TauCeti/CategoryTheory/Monoidal/DavydovYetter/` for Layers 0 to
   `k` of any characteristic. The core hypothesis is that the global dimension is nonzero; Layer 9
   removes it in characteristic zero. Symbol and module presentations use commutative rings;
   deformations use the Artinian coefficient category `C_k` and `k⟦t⟧`.
-- **Owned here.** Everything in the Summary. In particular: the centre `RelCenter F` of a
+- **Owned here.** Everything in the Summary. In particular: the centre Z(F) of a
   non-unitary tensor functor and its induction functors; comonad cohomology; Davydov–Yetter
   cohomology; presentations of module categories by symbols; the orbit-counting lemma.
 - **Not owned here.**
@@ -75,11 +75,11 @@ Suggested home: `TauCeti/CategoryTheory/Monoidal/DavydovYetter/` for Layers 0 to
 - **Centre of a functor.** For a monoidal functor `F : C ⥤ D`, a half-braiding relative to `F` on
   `X : D` is a natural family `β Y : X ⊗ F.obj Y ≅ F.obj Y ⊗ X`, in the direction of Mathlib's
   `HalfBraiding`, compatible with `F`'s tensorator `μ` and unit as in [GHS] (3.7) and (3.9).
-- **Tensor powers.** `tensorFun F n : (Fin n → C) ⥤ D` sends `(X₀, …, X_{n−1})` to
-  `F X₀ ⊗ (F X₁ ⊗ (⋯ ⊗ F X_{n−1}))`, right-nested, with `tensorFun F 0 = 𝟙_ D`.
-- **Davydov–Yetter cochains** ([GHS] Definition 3.3, (3.10)–(3.12)). For `X Y : RelCenter F` the
+- **Tensor powers.** The n-fold tensor functor Tₙ(F) : (Fin n → C) ⥤ D sends `(X₀, …, X_{n−1})` to
+  `F X₀ ⊗ (F X₁ ⊗ (⋯ ⊗ F X_{n−1}))`, right-nested, with T₀(F) = 𝟙_D.
+- **Davydov–Yetter cochains** ([GHS] Definition 3.3, (3.10)–(3.12)). For X, Y ∈ Z(F) the
   `n`-cochains are the natural transformations
-  `tensorFun F n ⋙ tensorLeft X.1 ⟶ tensorFun F n ⋙ tensorRight Y.1`. The differential of `f`
+  X ⊗ Tₙ(F)(−) ⟶ Tₙ(F)(−) ⊗ Y. The differential of `f`
   at `(X₀, …, Xₙ)` is
 
   `(F X₀ ◁ f_{X₁…Xₙ}) ∘ (β^X_{X₀} ▷ …) + ∑_{i=1}^{n} (−1)^i f_{X₀,…,X_{i−1}⊗X_i,…,Xₙ} + (−1)^{n+1} (… ◁ β^Y_{Xₙ}) ∘ (f_{X₀…X_{n−1}} ▷ F Xₙ)`
@@ -88,7 +88,7 @@ Suggested home: `TauCeti/CategoryTheory/Monoidal/DavydovYetter/` for Layers 0 to
   `F X_{i−1} ⊗ F X_i` with `F (X_{i−1} ⊗ X_i)` through `μ` and rebracket by `D`'s associators. In
   degree `0` the cochains are `X.1 ⟶ Y.1` and the differential is
   `f ↦ (F X₀ ◁ f) ∘ β^X_{X₀} − β^Y_{X₀} ∘ (f ▷ F X₀)`. Trivial coefficients mean
-  `X = Y = 𝟙_ (RelCenter F)`.
+  X = Y = 𝟙_Z(F).
 - **Comonad cochains.** For a comonad `G` on a `k`-linear category and objects `X`, `Y`, the
   complex has `Hom (G^{n+1} X, Y)` in degree `n`: `Hom (-, Y)` applied to the augmented resolution
   of target 2.1, then Mathlib's `alternatingCofaceMapComplex`.
@@ -120,6 +120,8 @@ Suggested home: `TauCeti/CategoryTheory/Monoidal/DavydovYetter/` for Layers 0 to
   `MonoidalLeftAction`, `curriedActionMop`, `Functor.LeftLinear`, `Functor.pi`.
 - Homological: `Comonad`, `Adjunction.toComonad`, `SimplicialObject.Augmented.ExtraDegeneracy`
   and `ExtraDegeneracy.homotopyEquiv` (`Mathlib/AlgebraicTopology/ExtraDegeneracy.lean`),
+  `SimplexCategory.rev`, `SimplexCategory.rev_map_δ`, `SimplexCategory.rev_map_σ`
+  (`Mathlib/AlgebraicTopology/SimplexCategory/Rev.lean`),
   `alternatingCofaceMapComplex`, `HomologicalComplex.homology`.
 - Commutative algebra: `Ideal.iInf_pow_eq_bot_of_isLocalRing` (Krull intersection),
   `PrimeSpectrum.isConstructible_comap_image` (Chevalley),
@@ -169,18 +171,23 @@ form in Layer 9.
 
 ### 0.1 Tensor powers of a functor
 
-For `F : C ⥤ D` monoidal, `tensorFun F n` as in the
-conventions, with the isomorphisms `tensorFun F (n+1) ≅ F ⊗ tensorFun F n` and the merge
+For `F : C ⥤ D` monoidal, Tₙ(F) as in the
+conventions, with the isomorphisms Tₙ₊₁(F) ≅ F ⊗ Tₙ(F) and the merge
 isomorphisms identifying the component at `(…, X_{i−1} ⊗ X_i, …)` with a restriction of
-`tensorFun F (n+1)` through `μ`. It is `k`-linear in each variable when `F` is. *Needs:* Mathlib
-`Functor.pi`.
+Tₙ₊₁(F) through `μ` ([GHS] (3.4)–(3.5), p. 12; at arity zero take the value
+at `k` of the source's zero-fold tensor functor). For `k`-linear `C` and `D`, assume
+`MonoidalPreadditive D` and `MonoidalLinear k D`; if `F` is `k`-linear, the tensor-power functor
+is `k`-linear in each slot. *Needs:* Mathlib `Functor.pi`, `MonoidalPreadditive`, `MonoidalLinear`.
 
 **Checks.**
 
-- in `Vec` with `F = 𝟭`, objects of dimensions `2, 3`: `tensorFun` in arities `0, 1, 2` has
+- in `Vec` with `F = 𝟭`, objects of dimensions `2, 3`: the tensor functor in arities `0, 1, 2` has
   dimensions `1, 2, 6`, detecting a zero-fold tensor incorrectly set to zero.
 - Merging three vector spaces has dimension `(2·3)·4 = 2·(3·4) = 24`.
 - Additivity in a slot gives `(2 + 3)·4 = 2·4 + 3·4 = 20`, while a constant functor does not.
+- With direct sum as tensor on finite-dimensional vector spaces and `F = id`, fixing the
+  second slot at `k` sends the first-slot zero map to `diag(0,1) ≠ diag(0,0)`; this monoidal
+  structure fails the tensor-linearity hypotheses.
 
 ### 0.2 Natural transformations on semisimple products
 
@@ -193,13 +200,17 @@ needed. Corollary: Davydov–Yetter cochain spaces are finite-dimensional when `
 
 **Checks.**
 
-- for `Φ = Ψ = tensorFun (𝟭 Vec) 2` the natural endomorphisms form `k`, one simple tuple.
-  For the real rotation representation `V` of `C₃` over `ℝ`, `dim End V = 2`: the split hypothesis
-  excludes it. A Frobenius-twisted functor shows that additivity alone is not enough.
+- For the two-fold tensor functor on `Vec`, natural endomorphisms form `k`, agreeing with
+  the one simple tuple's endomorphism space of dimension `1`.
+- For the real rotation representation `V` of `C₃`, `dim End V = 2`, whereas the scalar
+  subspace has dimension `1`: the split hypothesis excludes it.
+- Over `k = 𝔽̄₂`, the additive Frobenius twist sends scalar `a` to `a²`. For a root of
+  `a² + a + 1 = 0`, `a² − a = 1`, so naturality forces every component of a transformation
+  from the identity to the twist to be zero, although `Hom(k,k) = k`; slot linearity excludes it.
 
 ### 0.3 Linear endofunctors
 
-For a `k`-linear category `M` with finite biproducts, `LinearEnd k M`
+For a `k`-linear category `M` with finite biproducts, Endₖ(M)
 is the full subcategory of `M ⥤ M` on additive `k`-linear functors, with `Φ ⊗ Ψ := Ψ ⋙ Φ` (the
 reverse of Mathlib's `endofunctorMonoidalCategory`, so that a left action is monoidal into it).
 Instances: `MonoidalCategory`, `Preadditive`, `Linear k`, `MonoidalPreadditive`,
@@ -215,13 +226,13 @@ Instances: `MonoidalCategory`, `Preadditive`, `Linear k`, `MonoidalPreadditive`,
 ### 0.4 The action functor
 
 A `MonoidalLeftAction C M`, `k`-linear in each variable, gives a
-`k`-linear monoidal functor `actionFunctor : C ⥤ LinearEnd k M`, `X ↦ (X ⊙ -)`, corresponding to
+`k`-linear monoidal functor A : C ⥤ Endₖ(M), `X ↦ (X ⊙ -)`, corresponding to
 Mathlib's `curriedActionMop`. *Needs:* 0.3.
 
 **Checks.**
 
 - `Vec(C₂)` acting on itself: `g` acts by the swap and `g²` by the identity, and
-  `actionFunctor` sends `μ` to the canonical isomorphism.
+  the action functor sends `μ` to the canonical isomorphism.
 - in the regular `Vec(S₃)` action, with `a = (12)`, `b = (23)`, applying the image of
   `a ⊗ b` to `δ_e` gives `δ_(123)`, whereas reversed composition gives `δ_(132)`.
 - over ℂ in the `Vec` action on `Vec`, the image of `2·id_k` at `k³` is `2 I₃`; the zero
@@ -245,11 +256,11 @@ objects `F X`.
 ### 1.1 The relative centre
 
 ([GHS] Definitions 3.1, 3.2, arXiv:1910.06094v2 p. 13).
-`RelHalfBraiding F X` as in the conventions, and `RelCenter F := Σ X : D, RelHalfBraiding F X`,
-with morphisms commuting with the half-braidings.
+Define the relative centre Z(F) to have objects of `D` equipped with a relative half-braiding
+as in the conventions, and morphisms commuting with the half-braidings.
 
 - Tensor product and unit make the relative centre monoidal.
-- The forgetful functor `RelCenter.forget F` is faithful and monoidal.
+- The forgetful functor U_F : Z(F) ⥤ D is faithful and monoidal.
 - The relative centre is preadditive and `k`-linear and has finite biproducts.
 
 **Checks.**
@@ -263,15 +274,15 @@ with morphisms commuting with the half-braidings.
 
 ### 1.2 Functoriality
 
-`RelCenter.idEquiv : RelCenter (𝟭 C) ≌ Center C`, monoidal, identifying
-half-braidings. `RelCenter.map F : Center C ⥤ RelCenter F`, sending `(X, β)` to `(F X, F β)`
-transported along `μ`, monoidal. *Needs:* 1.1.
+Construct the monoidal equivalence Z(id_C) ≌ `Center C` identifying half-braidings,
+and the monoidal functor J_F : `Center C` ⥤ Z(F), sending `(X, β)` to `(F X, F β)`
+transported along `μ`. *Needs:* 1.1.
 
 **Checks.**
 
-- `Center (Vec(C₂))` over `ℂ` has four simple classes, as does `RelCenter (𝟭 Vec(C₂))`;
+- `Center (Vec(C₂))` over `ℂ` has four simple classes, as does Z(id_Vec(C₂));
   thus the identity comparison preserves the four labels.
-- Along the forgetful functor in that example, `RelCenter.map` keeps characters `±1`,
+- Along the forgetful functor in that example, the induced functor keeps characters `±1`,
   so the two half-braidings on the underlying one-dimensional space remain distinct.
 - Over ℂ for `F = id` on `Vec`, the unit and its image both have half-braiding scalar `1`;
   the scalar map `2` is sent to `2`, excluding a zero map on morphisms.
@@ -280,16 +291,15 @@ transported along `μ`, monoidal. *Needs:* 1.1.
 
 For a dagger tensor functor `F` between
 C*-tensor categories, CategoricalOperatorAlgebras CA6's unitary relative centre is equivalent, as
-a monoidal category, to the full subcategory of `RelCenter F` on unitary half-braidings. *Needs:*
+a monoidal category, to the full subcategory of Z(F) on unitary half-braidings. *Needs:*
 1.1; CategoricalOperatorAlgebras CA6.
 
 ### 1.4 Induction
 
-`RelCenter.induction F : D ⥤ RelCenter F`, with underlying object
+Define induction I_F : D ⥤ Z(F), with underlying object
 `⨁ S : SimpleClasses C, F S.repr ⊗ V ⊗ F (S.reprᘁ)` and half-braiding as in PivotalSpherical 11.1
-with `F` inserted, using `Functor.mapExactPairing`. It is the right adjoint of `forget F`:
-`forgetInductionAdjunction F`, whose counit is the projection onto the `𝟙`-summand. At `F = 𝟭 C`,
-through `idEquiv`, it is PivotalSpherical 11.1's `I`. `F ⋙ induction F ≅ I ⋙ RelCenter.map F`.
+with `F` inserted, using `Functor.mapExactPairing`. The adjunction U_F ⊣ I_F has counit the projection onto the `𝟙`-summand. At `F = 𝟭 C`,
+through 1.2's equivalence, it is PivotalSpherical 11.1's `I`. Prove F ⋙ I_F ≅ I ⋙ J_F.
 *Needs:* 1.2; PivotalSpherical 11.1.
 
 **Checks.**
@@ -303,10 +313,9 @@ through `idEquiv`, it is PivotalSpherical 11.1's `I`. `F ⋙ induction F ≅ I �
 
 ### 1.5 Coinduction
 
-([GHS] (3.14), p. 15). `RelCenter.coinduction F : D ⥤ RelCenter F`, with
+([GHS] (3.14), p. 15). Define coinduction L_F : D ⥤ Z(F), with
 underlying object `⨁ S, F S.repr ⊗ V ⊗ F (ᘁS.repr)`, the finite-biproduct form of the coend
-`∫^X F(X) ⊗ V ⊗ F(ᘁX)`, with half-braiding from the left pairings `(ᘁS, S)`. It is the left
-adjoint of `forget F`: `coinductionForgetAdjunction F`, with unit the inclusion of the
+`∫^X F(X) ⊗ V ⊗ F(ᘁX)`, with half-braiding from the left pairings `(ᘁS, S)`. The adjunction L_F ⊣ U_F has unit the inclusion of the
 `𝟙`-summand and counit assembled from the half-braiding and the evaluations of the left pairings.
 Neither adjunction involves a choice. *Needs:* 1.2.
 
@@ -323,9 +332,9 @@ Neither adjunction involves a choice. *Needs:* 1.2.
 
 For each simple `T` choose `a_T : T ≅ Tᘁᘁ`; its left mate is
 `ᘁa_T.hom : Tᘁ ⟶ ᘁT`, using the canonical mixed-dual identifications. Define
-`θ : coinduction F ≅ induction F` by setting its inverse on the last factor of the `T`-summand
+θ : L_F ≅ I_F by setting its inverse on the last factor of the `T`-summand
 to `(doubleDualTrace a_T.hom)⁻¹ • F.map (ᘁa_T.hom)`, and define `θ.hom` by inversion.
-The trace is nonzero by PivotalSpherical 6.1. The comparison is a morphism in `RelCenter F`
+The trace is nonzero by PivotalSpherical 6.1. The comparison is a morphism in Z(F)
 and does not depend on the choices. *Needs:* 1.4, 1.5; PivotalSpherical 6.1.
 
 **Checks.**
@@ -333,11 +342,16 @@ and does not depend on the choices. *Needs:* 1.4, 1.5; PivotalSpherical 6.1.
 - in `Vec` over ℂ, `a = 3 • can` has mate factor `3` and trace `3`, giving
   `θ.inv = 3/3 = 1` and `θ.hom = 1`, as for `a = can`; scaling the inverse mate instead gives
   `1/9`, which fails choice independence.
+- For the two-dimensional simple of `Repℂ(S₃)`, the canonical bidual map gives comparison
+  factor `1/2`; rescaling it by `3` gives `3/6 = 1/2`, not `1/18`.
+- At `V = 0`, both functors have underlying object `0`, and both comparison maps are
+  the unique map `0 ⟶ 0`; their composite is `0 = 𝟙 0`.
 
 ### 1.7 The averaging identity
 
-For every `Z : RelCenter F`,
-`(forgetInductionAdjunction F).unit.app Z ≫ θ.inv.app (forget F Z) ≫ (coinductionForgetAdjunction F).counit.app Z = normGlobalDim C • 𝟙 Z`. The `S`-summand
+For every Z ∈ Z(F),
+the composite of the unit of U_F ⊣ I_F, θ⁻¹ at U_F Z and the counit of L_F ⊣ U_F
+is `normGlobalDim C • 𝟙 Z`. The `S`-summand
 contributes `squaredNorm a_S` for `a_S : S ≅ Sᘁᘁ`, with no pivotal structure. This is not stated in the sources; the
 computation is that of [EGNO] Lemma 9.3.1 and the proof of Theorem 9.3.2 (p. 279), and at
 `F = 𝟭 C` the statement is PivotalSpherical 11.2. *Needs:* 1.6; PivotalSpherical 6.2.
@@ -350,10 +364,9 @@ computation is that of [EGNO] Lemma 9.3.1 and the proof of Theorem 9.3.2 (p. 279
 ### 1.8 The central comonad and relative projectivity
 
 ([GHS] Definition 2.4, p. 7).
-`RelCenter.comonad F := (coinductionForgetAdjunction F).toComonad`, with underlying functor
-`forget F ⋙ coinduction F`. An object `X` is `G`-projective when the counit `G X ⟶ X` has a
-section. If `C` is separable, every `Z : RelCenter F` is `RelCenter.comonad F`-projective, with
-section `(normGlobalDim C)⁻¹ • ((forgetInductionAdjunction F).unit.app Z ≫ θ.inv.app (forget F Z))`.
+Define the central comonad G_F on Z(F) from L_F ⊣ U_F, with underlying functor U_F ⋙ L_F. An object `X` is `G`-projective when the counit `G X ⟶ X` has a
+section. If `C` is separable, every Z ∈ Z(F) is G_F-projective, with section the unit of U_F ⊣ I_F followed by θ⁻¹ at U_F Z,
+scaled by `normGlobalDim C`⁻¹.
 *Needs:* 1.7.
 
 **Checks.**
@@ -380,7 +393,7 @@ and 1.
 
 ### 2.1 The augmented resolution
 
-([BB] §1). `Comonad.resolution G X : SimplicialObject.Augmented 𝒵` with `G^{n+1} X` in degree `n` and augmentation `ε : G X ⟶ X`. The face `d_i` applies the
+([BB] §1). Construct the augmented simplicial resolution of `X`, an object of `SimplicialObject.Augmented 𝒵`, with `G^{n+1} X` in degree `n` and augmentation `ε : G X ⟶ X`. The face `d_i` applies the
 counit at position `i`, counted from the outermost factor; the degeneracy `s_i` applies the comultiplication at position `i`. Prove
 the simplicial identities and functoriality in `X`. *Needs:* Mathlib `Comonad`,
 `SimplicialObject.Augmented`.
@@ -397,22 +410,33 @@ the simplicial identities and functoriality in `X`. *Needs:* Mathlib `Comonad`,
 
 ### 2.2 Free objects
 
-For `X = G W`, the comultiplication at `W` gives an `ExtraDegeneracy` of
-`Comonad.resolution G (G W)`. This strengthens the projectivity of free objects in [GHS]
-Lemma 2.5(1), p. 7, by constructing the extra degeneracy from the comonad identities
-([BB] §1). *Needs:* 2.1.
+For `X = G W`, comultiplication at `W` gives a right extra degeneracy of the
+resolution: the augmentation section is `Δ_W` and the degree-`n` map is `G^{n+1}(Δ_W)`.
+Its splitting face is the last face. Precompose the simplicial part by `SimplexCategory.rev.op`,
+keeping the augmentation, to obtain Mathlib's left `ExtraDegeneracy`. This strengthens the
+projectivity of free objects in [GHS] Lemma 2.5(1), p. 7, using the comonad identities
+([BB] §1). *Needs:* 2.1; Mathlib `SimplexCategory.rev`, `SimplexCategory.rev_map_δ`,
+`SimplexCategory.rev_map_σ`.
 
 **Checks.**
 
 - for `G = 𝟭`, `X = k`, the extra degeneracy is the identity and gives `dh + hd = 1` on the
   augmented complex `k → k → k → ⋯` with differentials `1, 0, 1, …`.
+- For the C₂ comonad of 2.1, `W = k` trivial and `X = G W`, the right extra degeneracy
+  sends `e ⊗ g` to `e ⊗ g ⊗ e`; the outermost face gives `g ⊗ e ≠ e ⊗ g`.
+- On the reversed resolution, the zeroth face is the original last face, which sends
+  `e ⊗ g ⊗ e` to `e ⊗ g`, giving the required identity.
 
 ### 2.3 Extra codegeneracies
 
 The cosimplicial dual of Mathlib's `ExtraDegeneracy`: an extra
-codegeneracy on an augmented cosimplicial object in a preadditive category gives a homotopy
-equivalence between its alternating coface complex and the augmentation in degree `0`.
-*Needs:* Mathlib `ExtraDegeneracy.homotopyEquiv`.
+codegeneracy on an augmented cosimplicial object in a preadditive category with a zero object
+(`HasZeroObject`) gives a homotopy equivalence between its alternating coface complex and the
+augmentation in degree `0`. For a right extra codegeneracy, reverse the cofaces first.
+Reversal multiplies the degree-`n` cochain differential by `(−1)^{n+1}`; multiplication in
+degree `n` by `q_n = (−1)^{n(n+1)/2}` is a cochain isomorphism between the reversed and original
+complexes, since `q_{n+1} = (−1)^{n+1} q_n`. Transport the homotopy equivalence along it.
+*Needs:* Mathlib `ExtraDegeneracy.homotopyEquiv`, `SimplexCategory.rev`.
 
 **Checks.**
 
@@ -421,10 +445,15 @@ equivalence between its alternating coface complex and the augmentation in degre
 - For the zero object, the contracting equation is `0 + 0 = 𝟙 0 = 0`.
 - On the constant object `ℂ`, a proposed zero extra codegeneracy fails the splitting equation
   `0·1 = 0 ≠ 1`, excluding a contraction unconnected to the augmentation.
+- The one-object ℂ-linear category with endomorphism ring ℂ has `id = 1 ≠ 0` and hence
+  no zero object. Its constant extra codegeneracy is `1`, but the single-degree complex
+  cannot be formed there; the zero-object hypothesis excludes it.
+- In degrees `0,1,2,3`, the comparison factors are `1,−1,−1,1`; the differential factors
+  `−1,1,−1` satisfy `q_{n+1} = (−1)^{n+1} q_n` in each of the first three degrees.
 
 ### 2.4 The cochain complex
 
-`Comonad.cochainComplex G X Y : CochainComplex (ModuleCat k) ℕ`, as
+Define the comonad cochain complex C_G(X,Y) in `CochainComplex (ModuleCat k) ℕ` as
 in the conventions, with its augmentation from `Hom (X, Y)`. It is contravariant in `X` and
 covariant in `Y`. *Needs:* 2.1.
 
@@ -443,7 +472,9 @@ covariant in `Y`. *Needs:* 2.1.
 
 ([GHS] Proposition 2.12, p. 10; [BB] §4). If `X` is `G`-projective, the
 augmented cochain complex is exact: `H^0 ≅ Hom (X, Y)` and `H^n = 0` for `n ≥ 1`. The proof makes
-`X` a retract of `G X` and uses 2.2, 2.3 and functoriality. *Needs:* 2.2, 2.3, 2.4.
+`X` a retract of `G X`, applies `Hom(-,Y)` to the reversed resolution of 2.2, and transports
+the contraction back by 2.3 before using functoriality. The zero object needed in 2.3 is
+that of `ModuleCat k`. *Needs:* 2.2, 2.3, 2.4.
 
 **Checks.**
 
@@ -461,14 +492,16 @@ Mathlib comonads, simplicial objects, extra degeneracies and alternating coface 
 
 ## Layer 3: Davydov–Yetter cohomology
 
-Keep the hypotheses of Layer 1, and let `X Y : RelCenter F`.
+Keep the hypotheses of Layer 1, and let X, Y ∈ Z(F).
 
 ### 3.1 The complex
 
-([GHS] Definition 3.3, p. 14). `DYComplex F X Y : CochainComplex (ModuleCat k) ℕ` with the cochains and differential of the conventions, and
-`DYCohomology F X Y n := (DYComplex F X Y).homology n`. `δ ≫ δ = 0` for any monoidal functor
-between monoidal categories. Write `DYComplex F` for trivial coefficients and `DYComplex C` for
-`F = 𝟭 C`. *Needs:* 0.1, 1.1.
+([GHS] Definition 3.3, p. 14). Define the Davydov–Yetter complex C_DY(F;X,Y) in
+`CochainComplex (ModuleCat k) ℕ` with the cochains and differential of the conventions,
+and write H_DYⁿ(F;X,Y) for its degree-`n` homology. Prove `δ ≫ δ = 0` for a
+`k`-linear monoidal functor between `k`-linear monoidal categories with bilinear tensoring;
+this identity does not require the source to be fusion.
+Omit the coefficients for trivial coefficients, and write C_DY(C) and H_DYⁿ(C) for `F = 𝟭 C`. *Needs:* 0.1, 1.1.
 
 **Checks.**
 
@@ -481,7 +514,7 @@ between monoidal categories. Write `DYComplex F` for trivial coefficients and `D
 
 ### 3.2 Functoriality
 
-Morphisms of `RelCenter F` act on coefficients; a monoidal natural
+Morphisms of Z(F) act on coefficients; a monoidal natural
 isomorphism `F ≅ F'` and precomposition by a monoidal equivalence `C' ≌ C` induce
 isomorphisms of complexes after transporting coefficients. The coefficient maps are defined
 termwise; on cohomology they give [GHS] Corollary 3.12, p. 18. The isomorphisms under change of
@@ -490,30 +523,36 @@ functor and source are constructed from Definition 3.3, p. 14, by transport. *Ne
 ### 3.3 Low degrees
 
 ([GHS] Remark 3.7, p. 15). For trivial coefficients and `End (𝟙_ D) = k` (for
-example `F = 𝟭 C`), the degree-0 differential vanishes, and `DYCohomology F 1` is the space of
+example `F = 𝟭 C`), the degree-0 differential vanishes, and H_DY¹(F) is the space of
 derivations: natural `θ : F ⟶ F` with `θ_{X⊗Y} ∘ μ = μ ∘ (θ_X ▷ F Y + F X ◁ θ_Y)`. In general it is
 derivations modulo inner derivations. *Needs:* 3.1.
 
 **Checks.**
 
 - `Vec(C₃)` in characteristic `3` with `θ(g) = 1`: `δθ(g,g) = 1 − 2 + 1 = 0`, a nonzero
-  derivation. For `actionFunctor` of `Vec(C₂)` on `Vec × Vec`, `End (𝟙_ D) = k²` and `f = (1, 0)`
+  derivation. For the action functor of `Vec(C₂)` on `Vec × Vec`, `End (𝟙_ D) = k²` and `f = (1, 0)`
   has `δ⁰ f ≠ 0`.
 
 ### 3.4 Comparison
 
 ([GHS] Theorem 3.11, pp. 18–19, and §3.4). For `C` fusion,
-`DYComplex F X Y ≅ Comonad.cochainComplex (RelCenter.comonad F) X Y`. In degree `n` it composes
-the adjunction isomorphisms of `coinductionForgetAdjunction F` with 0.2.
-`(forget F ⋙ coinduction F)^n` has underlying object
+C_DY(F;X,Y) ≅ C_G(X,Y) for G = G_F. In degree `n` it composes
+the adjunction isomorphisms of L_F ⊣ U_F with 0.2, multiplied by
+`q_n = (−1)^{n(n+1)/2}`. The unsigned comparison uses the innermost-first faces of [GHS]
+(2.14), p. 8; the factor transports it to 2.1's outermost-first convention as in 2.3.
+(U_F ⋙ L_F)ⁿ has underlying object
 `⨁_{S₁…Sₙ} F Sₙ ⊗ ⋯ ⊗ F S₁ ⊗ X ⊗ F (ᘁS₁) ⊗ ⋯ ⊗ F (ᘁSₙ)`, and the left pairings identify maps out
 of it with cochains, with no choices. Verifying that the differentials agree is the content.
-*Needs:* 0.2, 1.8, 2.4, 3.1.
+*Needs:* 0.2, 1.8, 2.3, 2.4, 3.1.
 
 **Checks.**
 
 - `Vec(C₂)` over `ℂ`, trivial coefficients: both complexes have dimensions `1, 2, 4` in
   degrees `0, 1, 2`.
+- For the forgetful functor `Vec(C₂) ⥤ Vec` over ℂ with trivial and sign half-braidings
+  as coefficients, the scalar cochain `1` has raw outermost-first differential `−1 − 1 = −2`.
+  The degree-one comparison factor `−1` converts this to `2 = 1 − (−1)`, the
+  Davydov–Yetter differential.
 
 ### Examples
 
@@ -529,19 +568,20 @@ Layers 0–2, specifically the tensor powers, relative centre, central comonad a
 
 ([ENO] Theorem 2.27, arXiv:math/0203060v11 p. 9;
 [GHS] Corollary 3.18 and Remark 3.19, pp. 25–26; [ENO] §9.1, p. 43). Let `C` be fusion over `k` and separable, and `D`, `F` as in Layer
-1. Then `DYCohomology F X Y n = 0` for all `X Y : RelCenter F` and `n ≥ 1`. *Needs:* 1.8, 2.5,
+1. Then H_DYⁿ(F;X,Y) = 0 for all X, Y ∈ Z(F) and `n ≥ 1`. *Needs:* 1.8, 2.5,
 3.4.
 
 **Checks.**
 
-- `Vec(S₃)` over `ℂ`: `DYCohomology` is `H^n(S₃, ℂ) = 0` in degrees `1, 2`.
+- `Vec(S₃)` over `ℂ`: Davydov–Yetter cohomology is `H^n(S₃, ℂ) = 0` in degrees `1, 2`.
 
 ### 4.2 Specializations
 
-Each a named theorem: `DYCohomology C n = 0` for `n ≥ 1`;
-`DYCohomology F n = 0` for every `k`-linear monoidal `F : C ⥤ D`; the cohomology of `actionFunctor`
+Each a named theorem: H_DYⁿ(C) = 0 for `n ≥ 1`;
+H_DYⁿ(F) = 0 for every `k`-linear monoidal `F : C ⥤ D`; the cohomology of the action functor
 for a `k`-linear left module category `M` with finite biproducts vanishes in positive degrees;
-`DYCohomology (𝟭 C) X X 1 = 0` for `X = idEquiv.inverse.obj ((Center.ofBraided C).obj Y)` when `C` is braided.
+H_DY¹(id_C;X,X) = 0 for `X` the image of `(Center.ofBraided C).obj Y`
+under the inverse of 1.2's equivalence when `C` is braided.
 *Needs:* 0.4, 1.2, 4.1.
 
 **Checks.**
@@ -551,7 +591,7 @@ for a `k`-linear left module category `M` with finite biproducts vanishes in pos
 ### 4.3 Sharpness in positive characteristic
 
 ([EGNO] Example 7.22.5, p. 184). For `Vec(ℤ/p)`
-over `k` of characteristic `p`, `DYCohomology C 1 ≅ Hom (ℤ/p, k) ≠ 0` and `normGlobalDim = 0`.
+over `k` of characteristic `p`, H_DY¹(C) ≅ Hom(ℤ/p, k) ≠ 0 and `normGlobalDim = 0`.
 *Needs:* 3.3.
 
 **Checks.**
@@ -590,7 +630,7 @@ and `s_ā⁻¹`. No pivotal structure is used. *Needs:* PivotalSpherical 6.1, 6.
 Let `A ↠ A'` be a surjection in `C_k` whose kernel `I` satisfies
 `𝔪_A · I = 0`. For lifts `Q₁ Q₂ : FSymbols A N` of `P` with equal images in `A'`, write
 `Q₂.F = (1 + θ) · Q₁.F`; since `𝔪_A · I = 0`, `θ = (Q₂.F − Q₁.F) · P.Finv` with entries in `I`.
-Through 0.2 and the left basis of `Hom((a ⊗ b) ⊗ c, d)`, `θ` is a 3-cocycle of `DYComplex (Model P)` tensored with `I`. For `γ` a 2-cochain tensored with `I`, `θ = −δγ` if and only if
+Through 0.2 and the left basis of `Hom((a ⊗ b) ⊗ c, d)`, `θ` is a 3-cocycle in the Davydov–Yetter complex of `Model P` tensored with `I`. For `γ` a 2-cochain tensored with `I`, `θ = −δγ` if and only if
 `Q₂ = g • Q₁` with `g^{ab}_c = 1 + γ^{ab}_c`, acting by the gauge formula of
 PresentationsOfMonoidalCategories with unconstrained unit components. *Needs:* 0.2, 3.1, 5.1;
 SchemeAndStackFoundations §4.2.
@@ -615,9 +655,9 @@ normalized gauge with the same action, and preserves `g.map π = 1`. *Needs:* 5.
 ### 5.4 The R-dictionary
 
 For `R₁ R₂ : RSymbols (P.map (algebraMap k A))` with equal images in
-`A'`, write `R₂ = (1 + β) R₁`. For each `a`, `β` at `a` is a 1-cocycle of `DYComplex (Model P)`
-with coefficients `idEquiv.inverse.obj ((Center.ofBraided (Model P)).obj (Model.simple a))` (for the reduction of
-`R₁`), tensored with `I`; `hexagon_forward` is exactly `δ¹ = 0`. Coboundaries `δ f`,
+`A'`, write `R₂ = (1 + β) R₁`. For each `a`, `β` at `a` is a 1-cocycle in the Davydov–Yetter complex of `Model P`
+with coefficients given by transporting `(Center.ofBraided (Model P)).obj (Model.simple a)`
+through the inverse of 1.2's equivalence (for the reduction of `R₁`), tensored with `I`; `hexagon_forward` is exactly `δ¹ = 0`. Coboundaries `δ f`,
 `f ∈ End (Model.simple a) ⊗ I = I`, vanish by naturality of the braiding. *Needs:* 1.2, 3.1.
 
 ### 5.5 Formal rigidity of fusion categories
@@ -625,7 +665,7 @@ with coefficients `idEquiv.inverse.obj ((Center.ofBraided (Model P)).obj (Model.
 ([ENO] Theorem 2.28, p. 9, and §9.1, p. 43; [EGNO] Theorem 9.1.4,
 p. 276, in characteristic zero). For every `A` in `C_k` and every lift `Q` of `P` to `A`, there is a normalized gauge `g`
 over `A` with `g.map π = 1` and `Q = g • P.map (algebraMap k A)`. Induction along the
-`𝔪_A`-adic filtration, using 5.2, 5.3 and `DYCohomology (Model P) 3 = 0`; units lift.
+`𝔪_A`-adic filtration, using 5.2, 5.3 and H_DY³(Model P) = 0; units lift.
 *Needs:* 4.2, 5.2, 5.3.
 
 **Checks.**
@@ -673,9 +713,12 @@ that `P` satisfies PresentationsOfMonoidalCategories Layer 5's rigidity criterio
 
 ### 6.1 Data
 
-`TauCeti.ModuleRules N κ` is `Nm : ι → κ → κ → ℕ` with
-`Nm_{u m}^n = if m = n then 1 else 0`. `TauCeti.ModuleSymbols P Nm` holds `M`, `Minv`, both
-inverse laws, the module pentagon and the module triangle.
+Define module rules for `N` on `κ` as multiplicities `Nm : ι → κ → κ → ℕ` with
+`Nm_{u m}^n = if m = n then 1 else 0`. A module-symbol presentation `Q` over `P` with rules `Nm`
+consists of `M`, `Minv`, both
+inverse laws, the module pentagon and the module triangle. These are the coordinate equations
+of [Ostrik] Definition 6 and Remark 3, pp. 5–6; their commutative-ring form is a deduction by
+writing the coherence diagrams in the specified bases, with both inverse matrices retained.
 
 - `M^{a b m}_n : Matrix (Σ c, Fin N_{ab}^c × Fin Nm_{cm}^n) (Σ p, Fin Nm_{bm}^p × Fin Nm_{ap}^n) R`
   is defined by the left and right bases of `Hom((a ⊗ b) ⊙ m, n)` and `Hom(a ⊙ (b ⊙ m), n)`,
@@ -685,7 +728,8 @@ inverse laws, the module pentagon and the module triangle.
   `N_{XY}^Z` becomes `Nm_{XY}^Z` whenever `Y ∈ κ` (the index sets of `i₃`, `k`, `m`, `n`, `z`). It
   is Mathlib's pentagon for `MonoidalLeftAction`.
 - The **module triangle** is `M^{a u m}_n[(a,0,j),(m,0,l)] = if j = l then 1 else 0`.
-- `ext` on `M`, `reindex` along `τ : κ ≃ κ'`, `map` along ring maps.
+- Prove that the associator matrices determine the presentation, and define relabeling
+  along `τ : κ ≃ κ'` and base change along ring maps.
 
 **Checks.**
 
@@ -698,10 +742,10 @@ inverse laws, the module pentagon and the module triangle.
 
 ### 6.2 The model
 
-`ModuleSymbols.Model Q` has objects `κ → FintypeCat` and grade-wise `Mat R`
+The module model Mod(Q) has objects `κ → FintypeCat` and grade-wise `Mat R`
 morphisms, `Preadditive`, `Linear R`, finite biproducts, essentially small;
 `(X ⊙ Y)_n = Σ a m, X_a × Y_m × Fin Nm_{am}^n`, with `(αₗ_ X Y Z).inv` built from `M` as
-`(α_ X Y Z).inv` is built from `F`. **Main theorem:** `MonoidalLeftAction (Model P) (Model Q)`,
+`(α_ X Y Z).inv` is built from `F`. **Main theorem:** `Model P` acts on Mod(Q) by a `MonoidalLeftAction`,
 `R`-linear in each variable. *Needs:* 6.1; PresentationsOfMonoidalCategories Layer 1.
 
 **Checks.**
@@ -717,9 +761,9 @@ morphisms, `Preadditive`, `Linear R`, finite biproducts, essentially small;
 
 Take `C` as in PresentationsOfMonoidalCategories Layer 2
 with a normalized fusion basis, `M` `R`-linear with finite biproducts and a `MonoidalLeftAction C M` `R`-linear in each variable, `IsSplitSimpleFamily R T` for `T : κ → M`, and a normalized action
-basis `φ^{am→n}_i` with `φ^{um→m}_0` the left unitor. Extraction gives `Nm` and a `ModuleSymbols`
-over the extracted `P`; reconstruction is an `R`-linear equivalence `Model Q ≌ M` which is a module
-functor along `Model P ≌ C`; extracting from `Model Q` returns `Q`. *Needs:* 6.2; PivotalSpherical 3.3;
+basis `φ^{am→n}_i` with `φ^{um→m}_0` the left unitor. Extraction gives `Nm` and a module-symbol presentation
+over the extracted `P`; reconstruction is an `R`-linear equivalence Mod(Q) ≌ M which is a module
+functor along `Model P ≌ C`; extracting from Mod(Q) returns `Q`. *Needs:* 6.2; PivotalSpherical 3.3;
 PresentationsOfMonoidalCategories §§2.2–2.3.
 
 **Checks.**
@@ -735,9 +779,9 @@ A module gauge is a family of units `h^{am}_n` of
 `M' = H_L · M · H_R⁻¹`, `H_L[(c,i,j),(c,i,j')] = h^{cm}_n[j,j']`,
 `H_R[(p,k,l),(p,k',l')] = h^{bm}_p[k,k'] h^{ap}_n[l,l']`, both zero off the diagonal. At
 `(a, u, m, n)` the module triangle gives `M' = (h^{um}_m)⁻¹ · 1`, so a gauge preserving the
-triangle has `h^{um}_m = 1`, with no rescaling. Classification: `Model Q` and `Model Q'` are
+triangle has `h^{um}_m = 1`, with no rescaling. Classification: Mod(Q) and Mod(Q′) are
 equivalent as `R`-linear module categories over `Model P`, by a module functor over the identity,
-if and only if `Q' = h • Q.reindex τ`. *Needs:* 6.3.
+if and only if `Q'` is obtained by relabeling `Q` along some bijection `τ` and then applying a module gauge `h`. *Needs:* 6.3.
 
 **Checks.**
 
@@ -761,23 +805,29 @@ Over a field, `Nm_{ā m}^n = Nm_{a n}^m`, from the adjunction
 ### 6.6 Dictionary and formal rigidity
 
 ([ENO] Corollary 2.35, p. 10, and §9.1, p. 43;
-[EGNO] Corollary 9.1.6(i), p. 277, in characteristic zero). As in 5.2, with `θ` a 2-cocycle for `actionFunctor : Model P ⥤ LinearEnd k (Model Q)`,
+[EGNO] Corollary 9.1.6(i), p. 277, in characteristic zero). As in 5.2, with `θ` a 2-cocycle for the action functor Model P ⥤ Endₖ(Mod(Q)),
 and `θ = −δγ` for a 1-cochain `γ` if and only if `Q₂ = (1 + γ) • Q₁`. For separable `Model P`,
 every lift of `Q` to `A` in `C_k`, with `P` replaced by its constant lift, is
-`h • Q.map (algebraMap k A)` with `h.map π = 1`; likewise over `k⟦t⟧`. *Needs:* 0.4, 4.2, 6.4.
+the scalar extension of `Q` acted on by a module gauge `h` reducing to the identity; likewise over `k⟦t⟧`. *Needs:* 0.4, 4.2, 6.4.
 
 ### 6.7 Bounds on module fusion rules
 
 Over a field, let `(M_a)_{mn} = Nm_{am}^n` and
 `K := max_c ∑_{a,b} N_{ab}^c`. Then `M_b M_a = ∑_c N_{ab}^c M_c` and `M_ā = M_aᵀ`, so
-`M_Σ := ∑_a M_a` is symmetric with `M_Σ² ≤ K · M_Σ` entrywise. Hence every `Nm_{am}^n ≤ K`, each
-row of `M_Σ` has at most `K²` nonzero entries, and for each `κ` there are finitely many
-`ModuleRules N κ` with these identities. *Needs:* 6.5.
+`A := M_Σ = ∑_a M_a` is symmetric with `A² ≤ K · A` entrywise. The bound is a deduction
+from this inequality, viewing `A` as a real matrix and using the Euclidean operator norm:
+for nonnegative symmetric `A`, it gives `‖A‖ ≤ K`, hence `A_{ii} ≤ K`
+and `∑_j A_{ij}² = (A²)_{ii} ≤ K A_{ii} ≤ K²`. Thus every `Nm_{am}^n ≤ K`, each row has at
+most `K²` nonzero entries, and for each `κ` there are finitely many module rules with these
+identities. Compare [Ostrik] §2.1, Proposition 1, p. 2, for finiteness of irreducible based
+modules. *Needs:* 6.5.
 
 **Checks.**
 
 - the regular module of `C₂`: `K = 2`, `M_Σ = [[1,1],[1,1]]`, `M_Σ² = 2 M_Σ`. `Vec(C₂)`
   acting on `Vec`: `M_Σ = [2]`, `M_Σ² = [4] = K M_Σ`.
+- For the regular Fibonacci module, `K = 3` and `A = [[1,1],[1,2]]`; then
+  `A² = [[2,3],[3,5]] ≤ [[3,3],[3,6]] = K A`. The row-square sums `2,5` are at most `9`.
 
 ### 6.8 Indecomposable module categories
 
@@ -785,7 +835,8 @@ A module category is indecomposable when it is nonzero
 and not equivalent to a direct sum of two nonzero module subcategories. For models: `κ` is
 nonempty and the graph on `κ` with an edge `m – n` whenever some `Nm_{am}^n ≠ 0` is connected. In
 an indecomposable one every simple is a summand of some `a ⊙ m`, for fixed `m`, so
-`Fintype.card κ ≤ K²`. *Needs:* 6.7.
+`Fintype.card κ ≤ K²`. The passage from indecomposability to irreducibility is
+[Ostrik] §2.1, Lemma 1, p. 3; combine it with the bound of 6.7. *Needs:* 6.7.
 
 **Checks.**
 
@@ -812,11 +863,11 @@ Layers 0 and 4; PresentationsOfMonoidalCategories Layers 0–3 and 5; PivotalSph
 
 ### 7.1 Coordinate rings
 
-`FSymbols.coordRing N := MvPolynomial V ℤ ⧸ J`, with `V` the entries of
+Construct the F-symbol coordinate ring A_N = `MvPolynomial V ℤ ⧸ J`, with `V` the entries of
 `F` and `Finv` and `J` generated by the inverse laws, the pentagon and the triangle, with a
-bijection `FSymbols R N ≃ (FSymbols.coordRing N →+* R)` natural in `R`. For `P` over a field `K`:
-finitely generated `K`-algebras `RSymbols.coordRing P` and `ModuleSymbols.coordRing P Nm` with the
-same property. *Needs:* PresentationsOfMonoidalCategories Layer 0; 6.1.
+bijection between `FSymbols R N` and ring maps A_N → R, natural in `R`. For `P` over a field `K`,
+construct finitely generated `K`-algebras representing its R-symbols and module-symbol
+presentations with fixed rules `Nm`. *Needs:* PresentationsOfMonoidalCategories Layer 0; 6.1.
 
 **Checks.**
 
@@ -831,8 +882,8 @@ same property. *Needs:* PresentationsOfMonoidalCategories Layer 0; 6.1.
 
 The normalized gauge group is represented by the tensor product of
 `GeneralLinear.coordinateHopfAlgebra ℤ (N_{ab}^c)` over triples with `a, b ≠ u`, with a coaction
-on `FSymbols.coordRing N` representing the gauge action; likewise the module gauge group on
-`ModuleSymbols.coordRing P Nm`. The fusion and separable locus is the principal open where
+on the F-symbol coordinate ring representing the gauge action; likewise the module gauge group on
+the module-symbol coordinate ring. The fusion and separable locus is the principal open where
 `∏_a s_a` and `∑_a (s_a s_ā)⁻¹` are units; it is gauge invariant. *Needs:* 7.1, 5.1; Tau Ceti
 `GeneralLinear.coordinateHopfAlgebra`.
 
@@ -978,7 +1029,7 @@ Let `F` be the algebraic closure
 of the prime field in `K`. Every separable fusion category over `K` is equivalent to
 `Model (P.map (algebraMap F K))` for some `P : FSymbols F N`; for such `P`, every braiding is
 `R.map (algebraMap F K)` for some `R : RSymbols P`, and every module category is equivalent to
-`ModuleSymbols.Model (Q.map (algebraMap F K))` for some `Q` over `P`. This is deduced from 7.5; [EGNO] Corollary 9.1.8, p. 277, gives
+the module model of the scalar extension of `Q` from `F` to `K` for some `Q` over `P`. This is deduced from 7.5; [EGNO] Corollary 9.1.8, p. 277, gives
 the characteristic-zero field-of-definition result. *Needs:* 7.5, 8.1, 8.2, 8.4.
 
 **Checks.**
@@ -1038,5 +1089,6 @@ and their semisimple module categories.
 - A. Davydov, *Twisting of monoidal structures*, arXiv:q-alg/9703001.
 - D. Yetter, *Braided deformations of monoidal categories and Vassiliev invariants*, Contemp.
   Math. 230 (1998).
-- V. Ostrik, *Module categories, weak Hopf algebras and modular invariants*, Transform. Groups 8
-  (2003).
+- [Ostrik] V. Ostrik, *Module categories, weak Hopf algebras and modular invariants*, Transform.
+  Groups 8 (2003), arXiv:math/0111139v1: §2.1, Proposition 1 (p. 2), Lemma 1 (p. 3),
+  Definition 6 and Remark 3 (pp. 5–6). Page numbers refer to this arXiv version.
