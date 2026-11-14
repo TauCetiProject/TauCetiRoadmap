@@ -1248,10 +1248,12 @@ continuous valuation `v` on `A` with `v(A) ≤ 1` satisfies `v(a − a'♯) ≤ 
 in particular `v(a) ≤ v(ϖ^{pm})` iff `v(a'♯) ≤ v(ϖ^{pm})` (Česnavičius–Scholze Lemma 2.3.1,
 (2.3.1.1)–(2.3.1.2), and proof, pp. 22–23; an integral variant of Scholze Corollary 6.7 (i)).
 
-*Proof route.* The second assertion follows from the first by the ultrametric inequality. Replace
-`ϖ` by `ρ` with `ρ^p` a unit multiple of `p` (Q5.3): this does not increase `v(ϖ)^p` and only
-enlarges the set of valuations. Choose `ξ` with `(ξ − [ξ̄])/p` a unit of `W(A♭)`, `ξ̄ = ξ mod p`, a
-lift `z_0 ∈ W(A♭)` of `a`, and define
+*Proof route.* It suffices to argue with an element `ρ` such that `p` is a unit multiple of `ρ^p`
+(Q5.3) in place of `ϖ`: for each `v`, `v(ρ)^p` is at most `v(ϖ)^p`, and every valuation allowed for
+`ϖ` is also allowed for `ρ`, so the bound for `ρ` implies the bound for `ϖ`. Once that bound holds,
+the equivalence in the last clause of the statement is a consequence of the ultrametric inequality.
+Fix a lift `z_0 ∈ W(A♭)` of `a` and an element `ξ` such that, writing `ξ̄ = ξ mod p`, the quotient
+`(ξ − [ξ̄])/p` is a unit of `W(A♭)`; then set
 `z_{n+1} = [z̄_n] − [ξ̄]((ξ − [ξ̄])/p)^{−1}((z_n − [z̄_n])/p)`; put `a' = z̄_m`. For the tilted
 valuation `v♭` of Q8.2, write `|z|_sup ≤ γ` for the family of inequalities `v♭(z_(j)) ≤ γ` over the
 Teichmüller expansion `z = Σ [z_(j)] pʲ`; Witt addition and multiplication preserve these bounds, and
