@@ -174,9 +174,9 @@ this repository's Tau Ceti pin (2fd255d99). Syntax and semantics are in the name
   `Fin m → Fin n`, and invariance under isomorphism (`TauCeti.BFEquiv`, `BFEquiv.refl`,
   `BFEquiv.symm`, `BFEquiv.trans`, `BFEquiv.comp`, `FirstOrder.Language.Equiv.bfEquiv`);
 * `countable_potentialIso_iff_iso` and `potentialIso_iff_bfEquiv_all`;
-* the Scott formulas `scottFormula a α` with `realize_scottFormula_iff_bfEquiv`, so that for
-  `α < ω₁` the class `{d | bfEquivSetoid L ℕ α c d}` is the model class of the sentence
-  `scottFormula (Fin.elim0) α` of the structure decoded from `c`;
+* the Scott formulas `scottFormula a α` with `realize_scottFormula_iff_bfEquiv`, so that, with
+  countably many relation symbols and `α < ω₁`, the class `{d | bfEquivSetoid L ℕ α c d}` is the
+  model class of the sentence `scottFormula (Fin.elim0) α` of the structure decoded from `c`;
 * `SelfStabilizesCompletely`, `selfStabilizationOrdinal`, `orbitRank`, `internalScottRank` and
   `internalScottRank_lt_omega_one`.
 
@@ -445,10 +445,13 @@ Build:
   classes (well defined by `isoSetoid_le_bfEquivSetoid`) and its surjectivity, so
   `#(Quotient (bfEquivSetoidOn φ β)) ≤ #(Quotient (isoSetoidOn ℕ φ))`. For `β < ω₁`,
   `bfEquivSetoidOn φ β` has Borel graph (S4 restricted to the Borel set `modelsOf φ`).
-* **Scott sentences cut out levels.** For `α < ω₁`, `modelsOf (c.scottSentenceAtLevel α) =
-  {d | bfEquivSetoid α c d}`, where `c.scottSentenceAtLevel α` is the parent's
-  `scottFormula Fin.elim0 α` of the structure decoded from `c`, read as a sentence. Every level
-  class is therefore a sentence cut.
+* **Scott sentences cut out levels.** With countably many relation symbols and `α < ω₁`,
+  `modelsOf (c.scottSentenceAtLevel α) = {d | bfEquivSetoid α c d}`, where
+  `c.scottSentenceAtLevel α` is the parent's `scottFormula Fin.elim0 α` of the structure decoded
+  from `c`, read as a sentence. Every level class is therefore a sentence cut. With uncountably
+  many it fails: for unary `P_r`, `r ∈ ℝ`, the level-1 class of the code with every `P_r` empty is
+  that code alone, and a sentence mentions only countably many symbols, so it keeps its truth value
+  when an unmentioned `P_s` is made true at one element.
 * **Isolating ranks.** `IsIsolatingRank ρ` for `ρ : RelationalConfiguration L ℕ → Ordinal.{0}`, with
   exactly three fields: invariance under isomorphism, values below `ω₁`, and isolation
   (`bfEquivSetoid (ρ c) c d` implies `c ≈ d`). API: `isolates_of_le` (isolation at every level at or
@@ -758,11 +761,12 @@ Prove, with exactly the hypotheses shown:
   is not small, every sentence cut has a small side, and `K` meets countably many classes at level
   `α < ω₁`, then some level-`α` class of a member of `K` is not small and its complement in `K` is.
   Instances: "meets countably many classes" and "`ρ` bounded".
-* Every cut by a level class has a small side (level classes are sentence cuts, Layer 1).
+* With countably many relation symbols, every cut by a level class has a small side (level
+  classes are sentence cuts, Layer 1).
 * Thinness from sentence cuts: if every sentence cut of `K` has a side meeting countably many
   classes, `K` is thin (4e, single-sentence splits); so a minimally uncountable class is thin.
-* `minimallyUncountableOn_modelsOf_iff`: the models of `φ` are minimally uncountable iff they are
-  concentrated and meet uncountably many classes.
+* `minimallyUncountableOn_modelsOf_iff`: with countably many relation symbols, the models of `φ`
+  are minimally uncountable iff they are concentrated and meet uncountably many classes.
 * `minimallyUncountableOn_modelsOf_iff_minimallyUnboundedOn`: for every isolating rank `ρ`, the
   models of `φ` are minimally uncountable iff they are back-and-forth scattered and `ρ` is
   minimally unbounded on them (Montalbán's minimally unbounded sentences). On a scattered class,
@@ -775,9 +779,9 @@ Prove, with exactly the hypotheses shown:
 Part 2, Ch. XII §2 (Lemmas XII.5–XII.6 and Theorem XII.7), restated in the `BFEquiv` convention of
 the parent roadmap. In order:
 
-1. **Level classes are sentences.** Layer 1's `modelsOf_scottSentenceAtLevel`
-   (Montalbán's Lemma XII.5, with `bfEquivSetoid β` in place of his `≡_β`; the hierarchies differ,
-   but the statement holds for either).
+1. **Level classes are sentences.** With countably many relation symbols, Layer 1's
+   `modelsOf_scottSentenceAtLevel` (Montalbán's Lemma XII.5, with `bfEquivSetoid β` in place of his
+   `≡_β`; the hierarchies differ, but the statement holds for either).
 2. **Saturation of a sentence.** `exists_bfLevel_saturated_modelsOf`: for every sentence `θ` there
    is `β₀ < ω₁` such that for every `β ≥ β₀`, `bfEquivSetoid β`-equivalent codes agree on `θ`.
    Proof: (S7) applied to the Borel, hence analytic, set of pairs in `modelsOf θ × (modelsOf θ)ᶜ`,
@@ -805,12 +809,13 @@ the parent roadmap. In order:
    unbounded, so `α s + ω` is a uniform offset that suffices. It is proved directly in the
    one-element convention, not translated from Montalbán's `≡_{α_i + 3}`, whose `≡_β` moves blocks.
    The conclusion is at `α i` with no offset.
-4. **The splitting tree.** Let `modelsOf Θ` be back-and-forth scattered and meet uncountably many
-   isomorphism classes, and suppose no `Θ ⊓ θ` has minimally uncountable models. Call a set
-   *large* if it meets uncountably many isomorphism classes. Put `α_0 :=` the saturation level of
-   `Θ`. Since `modelsOf Θ` meets countably many level-`α_0` classes and is large, the class `C_∅` of
-   some `A_∅ ∈ modelsOf Θ` is large, and `C_∅ ⊆ modelsOf Θ` by saturation. Build codes `A_σ` (`σ`
-   a finite binary word) and an increasing sequence `α_i < ω₁` with `α_{i+1} ≥ α_i + ω` such that
+4. **The splitting tree.** Let `L` have countably many relation symbols, let `modelsOf Θ` be
+   back-and-forth scattered and meet uncountably many isomorphism classes, and suppose no `Θ ⊓ θ`
+   has minimally uncountable models. Call a set *large* if it meets uncountably many isomorphism
+   classes. Put `α_0 :=` the saturation level of `Θ`. Since `modelsOf Θ` meets countably many
+   level-`α_0` classes and is large, the class `C_∅` of some `A_∅ ∈ modelsOf Θ` is large, and
+   `C_∅ ⊆ modelsOf Θ` by saturation. Build codes `A_σ` (`σ` a finite binary word) and an
+   increasing sequence `α_i < ω₁` with `α_{i+1} ≥ α_i + ω` such that
    each class `C_σ := {d | bfEquivSetoid α_|σ| A_σ d}` is large and contained in `modelsOf Θ`, and
    `A_{σ0}`, `A_{σ1}` are `bfEquivSetoid α_|σ|`-equivalent to `A_σ` but not
    `bfEquivSetoid α_{|σ|+1}`-equivalent to each other. At length `n`, for each of the `2^n`
