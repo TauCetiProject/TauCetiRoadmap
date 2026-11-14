@@ -1181,9 +1181,9 @@ orbit relation, *finite_quotient_chart* and their Checks are README only.
 ### P8.14 Zariski-closed embeddings
 
 **Zariski-closed embeddings of perfectoid spaces and Zariski-open subsets.**
-(*zariski-closed-embedding*) A map of perfectoid spaces `Z → X` is a Zariski-closed embedding if
-for every open affinoid perfectoid `U ⊆ X` the base change `Z ×_X U → U` is a Zariski-closed
-embedding of affinoid perfectoid spaces, i.e. a closed immersion ([ECD] Definition 5.6) whose image
+(*zariski-closed-embedding*) Given a map of perfectoid spaces `Z → X`, pull it back along each
+open affinoid perfectoid `U ⊆ X`, and call the map a Zariski-closed embedding when each pullback
+`Z ×_X U → U` is one between affinoid perfectoids, i.e. a closed immersion ([ECD] Definition 5.6) whose image
 is the vanishing locus of an ideal `I ⊆ O_X(U)` ([ECD] Definition 5.7(i)), which is then the
 universal perfectoid space over that Zariski-closed subset ([Torsion] Lemma II.2.2) and
 equivalently, by [ECD] 5.8, a strongly Zariski-closed immersion `Spa(S, S⁺) → U` with
@@ -1249,9 +1249,9 @@ the pair `P` of *TowerGeometry.basePair* at `K`, so `K⁺` can also be a smaller
 Being a field as an abstract ring and a complete Tate ring does not supply these
 normed-field hypotheses.
 
-**Analytically separated perfectoid spaces.** (*analytically-separated*) A perfectoid space `X`
-over a nonarchimedean field `Spa(K, K⁺)` is analytically separated if the diagonal
-`X → X ×_{Spa(K, K⁺)} X` is a Zariski-closed embedding; the fibre product over `Spa(K, K⁺)` is
+**Analytically separated perfectoid spaces.** (*analytically-separated*) Let `X` be a perfectoid
+space over a nonarchimedean field `Spa(K, K⁺)`. We call `X` analytically separated when its
+diagonal `X → X ×_{Spa(K, K⁺)} X` is among the Zariski-closed embeddings of P8.14; that fibre product is
 perfectoid (for `K` not perfectoid, by the uniform completed tensor product of [P2.17](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces)). The notion
 is stronger than separatedness of `X^◇ → Spd(K, K⁺)` ([ECD] Definition 10.7, p. 51). Define
 *PerfectoidSpace.IsAnalyticallySeparated* (the diagonal over `Spa(K, K⁺)` is a Zariski-closed
@@ -1546,12 +1546,14 @@ here.
 The next two subsections define good towers and prove that their limits have perfectoid finite
 quotients.
 
-**Good towers.** (*good-tower*) Fix a nonarchimedean field `K`. A good tower is a cofiltered
-inverse system `(X_i)_{i∈I}` of locally noetherian adic spaces over `Spa K` such that (1) each
-`X_i` is the analytification of a projective variety over `K` and the transition maps are finite;
-(2) `X = lim_i X_i^◇` is a perfectoid space; (3) there are two coverings of `X` by open affinoid
-perfectoid subsets `U_j, V_j` with the closure of `U_j` contained in `V_j` for all `j`, and
-`U_j, V_j` the preimages of open affinoids `U_{j,i_j}, V_{j,i_j} ⊆ X_{i_j}` for some `i_j ∈ I`.
+**Good towers.** (*good-tower*) Over a nonarchimedean field `K`, take an inverse system
+`(X_i)_{i∈I}`, indexed by a cofiltered `I`, whose terms are locally noetherian adic spaces over
+`Spa K`. We call it a good tower when three requirements hold. (1) All transition maps are
+finite, and every level `X_i` is obtained by analytifying a projective `K`-variety. (2) The limit
+`X = lim_i X_i^◇` of the associated diamonds is a perfectoid space. (3) `X` admits two covers
+`(U_j)` and `(V_j)` by open affinoid perfectoid subsets, indexed alike, such that each `U_j` has
+its closure inside `V_j` and, for some level `i_j ∈ I`, `U_j` and `V_j` are pulled back from open
+affinoids `U_{j,i_j}, V_{j,i_j} ⊆ X_{i_j}`.
 Condition (3) gives the closure hypothesis of *perfectoid-finite-quotient*. Define *PerfectoidSpace.GoodTower* (the structure:
 projective analytifications, finite transitions, perfectoid limit, paired finite-level affinoid
 covers with closures) and *PerfectoidSpace.GoodTower.limit* (the perfectoid space
@@ -2500,9 +2502,10 @@ finite locally free modules.
 **Descent of `O` and `O⁺` along a torsor after product with a smooth weight space.**
 (*weight-extension-of-function-descent*) Let `L₀ ⊇ ℚ_p` be a complete discretely valued field
 with perfect residue field and `L ⊇ L₀` a perfectoid field (as in [BHW] §1.5, where `L` is a
-perfectoid extension of `ℚ_p^cyc`). Let `Y` be an affinoid adic space over `L₀` that is either a
-smooth rigid space or a perfectoid space, `Γ` a profinite group, `X ∈ Y_proet` an affinoid
-perfectoid pro-étale `Γ`-torsor with `h : X → Y`, and `𝒰` a smooth adic space over `L`. Put
+perfectoid extension of `ℚ_p^cyc`). Fix a profinite group `Γ` and a smooth adic space `𝒰` over
+`L`. Over `L₀` take an affinoid adic space `Y`, required to be a smooth rigid space or a
+perfectoid space, and an affinoid perfectoid pro-étale `Γ`-torsor `X ∈ Y_proet`, with structure
+map `h : X → Y`. Put
 `X_L := X ×_{L₀} Spa L` and `Y_L := Y ×_{L₀} Spa L`. The geometric statement is made over the
 common perfectoid base field `L`, as in [BHW] Lemma 3.7: `X_L` is perfectoid
 ([P2.17](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces)) — its affinoid rings are the *uniform* completions
