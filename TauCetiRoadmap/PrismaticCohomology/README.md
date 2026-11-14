@@ -1203,7 +1203,7 @@ A is a δ-ring; `rad(A)` is the Jacobson radical. For `(1)`: `d`, `p ∈ rad(A)`
 
 **§0.63 Local distinguished generators of a prism ideal.**
 
-Let A be a δ-ring. (a) (Lemma 2.25) If `d`, `p ∈ rad(A)`, then `d` is distinguished if and only if `p ∈ (d, φ(d))`; in particular distinguishedness depends only on the ideal `(d)`. `(b)` (Lemma 3.1) Let `I ⊂ A` be a locally principal ideal with `p`, `I ⊂ rad(A)`. The following are equivalent: `(1) p ∈ I^p + φ(I)A`; `(2) p ∈ I + φ(I)A`; `(3)` one can choose a δ-map `A→A′`, obtained as an ind-Zariski localization and faithfully flat, for which `IA′=(d)`, `δ(d)` is a unit, and both `d` and `p` lie in `rad(A′)`.
+Let A be a δ-ring. (a) (Lemma 2.25) Suppose `d`, `p ∈ rad(A)`. Membership `p ∈ (d, φ(d))` is then equivalent to `d` being distinguished, so whether `d` is distinguished is decided by the ideal `(d)` alone. `(b)` (Lemma 3.1) Let `I ⊂ A` be a locally principal ideal with `p`, `I ⊂ rad(A)`. The following are equivalent: `(1) p ∈ I^p + φ(I)A`; `(2) p ∈ I + φ(I)A`; `(3)` one can choose a δ-map `A→A′`, obtained as an ind-Zariski localization and faithfully flat, for which `IA′=(d)`, `δ(d)` is a unit, and both `d` and `p` lie in `rad(A′)`.
 
 A is a δ-ring; in (a) `d`, `p ∈ rad(A)`; in `(b) I` is locally principal and `p`, `I ⊂ rad(A)`. No global generator of `I` is assumed in `(b)`.
 
@@ -1241,7 +1241,7 @@ A δ-ring A is perfect if `φ` is an isomorphism. The following categories are e
 
 **§0.66 Perfect elements have rank one.**
 
-Let A be a δ-ring and `x ∈ A`. Then `δ(x^{p^n}) ∈ p^n A` for all `n ≥ 0`. In particular, if A is p-adically separated and `y ∈ A` admits a `p^n-th` root for every `n`, then `δ(y) = 0 (y` has rank `1`); in particular `φ(y) = y^p` (the converse needs A p-torsion-free).
+For a δ-ring A, any `x ∈ A` and any `n ≥ 0`, one has `δ(x^{p^n}) ∈ p^n A`. As a consequence, when A is p-adically separated, each `y ∈ A` possessing `p^n-th` roots for all `n` is killed by `δ`, that is `δ(y) = 0 (y` has rank `1`), and therefore `φ(y) = y^p`; deducing rank one from `φ(y) = y^p` alone requires A to be p-torsion-free.
 
 A is a δ-ring; for the second statement A is p-adically separated.
 
@@ -1504,7 +1504,7 @@ For perfect `(A,I)`, consume boundedness from PerfectoidSpaces §P4.15.2. Retain
 
 **§0.87 Regular sequences in a transversal prism.**
 
-Let `(A, I)` be a prism and `d ∈ I` a distinguished element. If `(p, d)` is a regular sequence in A, then for all `r`, `s ≥ 0` with `r ≠ s` the sequences `(p, φ^r(d))` and `(φ^r(d), φ^s(d))` are regular.
+Fix a prism `(A, I)` and a distinguished element `d ∈ I`, and assume the sequence `(p, d)` is regular in A. Regularity then passes to Frobenius iterates: for every choice of `r`, `s ≥ 0` subject to `r ≠ s`, both `(φ^r(d), φ^s(d))` and `(p, φ^r(d))` are regular sequences.
 
 `(A, I)` prism; `d ∈ I` distinguished; `(p, d)` regular (the prism is transversal: `A/I` is p-torsion-free). The proof uses that `p` lies in the Jacobson radical and that A is p-adically separated, both consequences of derived `(p, I)-completeness` with p-torsion-freeness.
 
