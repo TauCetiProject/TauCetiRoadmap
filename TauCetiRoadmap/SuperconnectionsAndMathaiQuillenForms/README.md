@@ -817,7 +817,7 @@ odd, so `K = ker X = im P_K` is a smooth ℤ/2-graded subbundle `K⁺ ⊕ K⁻ =
 `dim ker T − dim ker T* = rk E⁺ − rk E⁻`, then `ch(𝔸_t) → ch(K⁺, ∇^K) − ch(K⁻, ∇^K)` as
 `t → ∞` for the compressed connection `∇^K = P_K ∇ P_K`, uniformly on compact subsets with all
 derivatives, and the difference is `d` of a convergent transgression integral (Wu 2006, §2.3, the
-formula after (2.8), for (a); Berline–Getzler–Vergne, §9.1, in Ch. 9, pp. 263–310, for (b)).
+formula after (2.8), for (a); Berline–Getzler–Vergne, §9.1, for (b)).
 Route: (a) from 4.3 and the bound `|exp(−𝔸_t²)| ≤ C(1 + t)^N e^(−t² λ)` with `λ > 0` the
 smallest eigenvalue of `X²` on the compact set, by the Duhamel expansion of
 `TauCeti.expFDeriv_apply_eq_integral` around `exp(−t²X²)`; the projection: at a point `x₀` the
@@ -1055,7 +1055,7 @@ in a subspace `W`. Prove the converse, `cayley_cayleyInv`: a unitary `g` with `�
 correspondence between odd skew-adjoint `X`, unitaries `g` with `εgε = g⁻¹` and `−1 ∉ spec(g)`,
 and subspaces `W` with `W ∩ E⁻ = 0` and `dim W = m`: for `X = [[0, −T*], [T, 0]]`,
 `W = (1 − X)E⁺` is the graph of `−T` (Quillen 1988, the correspondence between subbundles and
-unitaries inverted by `ε`, as stated in its review Zbl 0671.57013). Route: the eigenvalues of `X`
+unitaries inverted by `ε`). Route: the eigenvalues of `X`
 are imaginary, so `1 − X` is invertible; `1 + X` and `1 − X` commute and `(1 ± X)* = 1 ∓ X`, so
 `g*g = (1 + X)⁻¹(1 − X)(1 + X)(1 − X)⁻¹ = 1`; `ε(1 ± X)ε = 1 ∓ X` gives
 `εgε = (1 − X)(1 + X)⁻¹ = g⁻¹`. For `W`, `v ∈ E⁺` gives
@@ -1106,7 +1106,7 @@ with the connection `s ↦ P ds`. Then prove that `tr(F(dF)^(2k))` on `Gr_p(V)` 
 `tr(F(dF)^(2k)) = 2^(2k+1) tr(P(dP)^(2k))`, and that `(1/k!)(i/2π)^k tr(P(dP)^(2k))` is the
 degree-`2k` Chern character form of `W` with the connection `P d P`, so the class of
 `tr(F(dF)^(2k))` is `2^(2k+1) k! (2π/i)^k ch_k(W)`, `k ≥ 1` (Quillen 1988, its forms `γ_(2k)` on
-`Gr(V)` and `γ_(2k−1)` on `U(V)`, as stated in its review Zbl 0671.57013). Route: in the graph
+`Gr(V)` and `γ_(2k−1)` on `U(V)`). Route: in the graph
 chart at `W₀`, `W` is the graph of `A ∈ Hom(W₀, W₀^⊥)` and
 `P_W = [[(1 + A*A)⁻¹, (1 + A*A)⁻¹A*], [A(1 + A*A)⁻¹, A(1 + A*A)⁻¹A*]]` is smooth in `A`, with
 `dF_W = 2[[0, Ȧ*], [Ȧ, 0]]` at `A = 0`, injective onto the part of `Herm(V)` anticommuting with
