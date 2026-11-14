@@ -526,8 +526,9 @@ Borel graph. Build:
   cardinality form (E2) to the same relations.
 * The textbook form with external Scott height: if `scottHeight M ≤ β < ω₁` for every countable
   model `M : Type` of `φ`, the same two conclusions.
-* The internal form: if `internalScottRank` of every model on `ℕ` is at most `β < ω₁`, the same
-  conclusions, via (S5)'s comparison (the external height is then at most `β + ω < ω₁`).
+* The internal form, `countableModelCount_le_aleph0_or_hasPerfectlyMany_of_internalScottRank_le`:
+  if `internalScottRank` of every model on `ℕ` is at most `β < ω₁`, the same conclusions, via
+  (S5)'s comparison (the external height is then at most `β + ω < ω₁`).
 * The converse direction, for sentences, with no countability of `L`: if `φ` has countably many
   countable models then every isolating rank is bounded on `modelsOf φ`
   (`TauCeti.exists_rank_bound_of_countable_isoClasses`).
@@ -616,12 +617,12 @@ implies scattered.
 **4d. Concentration.** `ConcentratedAtBFLevels C`: at each level `α < ω₁` some centre `k` (possibly
 outside `C`, depending on `α`) has all but countably many classes of `C` in its level-`α` class.
 Prove: monotonicity; countably many classes imply concentrated; concentrated implies `BFScattered`
-(hence thin, with countably many relation symbols); **saturation**: if `B` and `C \ B` are analytic
-and `B` is closed under isomorphism within `C`, then from some `α < ω₁` on,
-`bfEquivSetoid`-equivalent members of `C` lie on the same side of `B` (by S7), and conversely
-saturation at a single level implies that invariance; and **one side is small**: for concentrated
-`C` and such a `B` (or `B = C ∩ D` with `D` Borel and `C` analytic), `B` or `C \ B` meets only
-countably many classes.
+(`ConcentratedAtBFLevels.bfScattered`; hence thin, with countably many relation symbols);
+**saturation**: if `B` and `C \ B` are analytic and `B` is closed under isomorphism within `C`,
+then from some `α < ω₁` on, `bfEquivSetoid`-equivalent members of `C` lie on the same side of `B`
+(by S7), and conversely saturation at a single level implies that invariance; and **one side is
+small**: for concentrated `C` and such a `B` (or `B = C ∩ D` with `D` Borel and `C` analytic),
+`B` or `C \ B` meets only countably many classes.
 
 **Checks.**
 
@@ -936,12 +937,15 @@ classes. It builds only what that needs.
 
 **The witness.** Fix `U = ℕ`, the empty component language, default component `B_* = ℕ`, components
 `B u = Fin (u + 1)`, and allowed sets `A n = {u | u ≤ n}`. The *rows* are the nondecreasing finite
-words `p` over `ℕ` with `p[i] ≤ i`. The relational language `lang ℕ` has `row` (unary), `own`
-(binary), and `lab τ` (unary) for each nonempty word `τ` over `ℕ`; the base structure `M` has the
-rows and, for each row `p` and label `τ`, a fiber `Fin (last τ + 1)` if `τ` is a prefix of `p` and
-`ℕ` otherwise, with `row`, `own(x, p)` and `lab τ` interpreted as membership. For `z : ℕ → Bool` the
-path `π_z (2n) = n`, `π_z (2n + 1) = n + (z n : ℕ)` is allowed, nondecreasing, and injective in `z`;
-the companion `N_z` adds one row following `π_z` (its fiber at a prefix of `π_z` of length `k` is
+words `p` over `ℕ` with `p[i] ≤ i`. The labels `Label ℕ` are the nonempty words over `ℕ`. The
+relational language `lang ℕ Language.empty`, with symbols `Sym ℕ Language.empty`, has `row`
+(unary), `own` (binary) and `lab τ` (unary) for each label `τ`; its constructors `lift` and
+`lift0`, which lift the relations of the component language, give no symbols here, since the
+empty language has none. The base structure `M` has the rows and, for each row `p` and label `τ`,
+a fiber `Fin (last τ + 1)` if `τ` is a prefix of `p` and `ℕ` otherwise, with `row`, `own(x, p)`
+and `lab τ` interpreted as membership. For `z : ℕ → Bool` the path `π_z (2n) = n`,
+`π_z (2n + 1) = n + (z n : ℕ)` is allowed, nondecreasing, and injective in `z`; the companion `N_z`
+adds one row following `π_z` (its fiber at a prefix of `π_z` of length `k` is
 `Fin (π_z (k - 1) + 1)`, and `ℕ` elsewhere). `M` and every `N_z` are countably infinite.
 
 **Targets and conventions.**
