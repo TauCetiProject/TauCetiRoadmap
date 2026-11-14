@@ -55,7 +55,7 @@ counts countable models through the interface of Layer 4.
 
 Every layer below is required.
 
-| Layer | Builds | Consumes | Example (compiles without later layers) |
+| Layer | Covers | Consumes | Example (compiles without later layers) |
 | --- | --- | --- | --- |
 | 0 | Word cylinders and the coordinate flip; functional Borel graphs; the cardinality bound for standard Borel spaces; perfect and Cantor antichains with transport; countable splits | Mathlib Polish, perfect-set, Cantor-scheme, analytic-set and standard-Borel APIs; Tau Ceti's Cantor-space instances, Gδ subspaces, analytic-set closure and saturation, Borel graph theorem, Borel perfect set theorem and cardinality of perfect sets | an uncountable Borel subset of ℝ contains a Cantor copy |
 | 1 | Baire-measurable maps continuous on comeagre Gδ sets; Cantor subcopies; the graphs G_S, dense and sparse word sets, the canonical words, Miller's independence lemma | 0; Mathlib Baire-category API; Tau Ceti's Kuratowski–Ulam and Mycielski | every Borel equivalence relation on Cantor space with countable classes is meagre in the square |
@@ -63,6 +63,12 @@ Every layer below is required.
 | 3 | The fusion construction and the G₀ dichotomy, oriented and symmetric | 1, 2 | G₀ has no countable Borel coloring, and a non-dense word set can give a 2-colorable G_S |
 | 4 | Silver's theorem (Polish, standard Borel, cardinal and relative forms); the perfect set theorem for analytic sets; the consumer interface | 0, 1, 3 | Silver for equality on an uncountable Polish space recovers the perfect set theorem |
 | 5 | Borel reducibility; smoothness and its characterizations; closed relations are smooth; Silver in reducibility form; E₀, its generic ergodicity and non-smoothness | 0–4 | E₀ is Borel, has a continuous Cantor antichain, and is not smooth |
+
+The table specifies what each layer covers, not what remains to be written. At the pin, Tau
+Ceti implements every item of the *Covers* column except the perfect set theorem for analytic
+sets (4.2) and the smoothness of closed relations (5.2); those two theorems and worked examples
+3, 5 and 8 are the remaining work. Everything else is consumed from Tau Ceti, not rebuilt; see
+[How to read the build](#how-to-read-the-build).
 
 The ordering is the dependency order. Layers 1 and 2 can proceed in parallel once Layer 0
 exists; Layer 3 needs both; Layer 4 needs Layer 3 and Layer 1; Layer 5 needs Layer 4 only for
@@ -790,10 +796,11 @@ Discharge these alongside the layers; they check that the API describes real rel
 
 ## Completion criteria
 
-Each introduced definition comes with its basic rewriting, monotonicity and transport API and
-the stated examples. The headline theorems are assembled from these APIs, without hypotheses
-asserting a homomorphism, a meagre pullback, a Cantor antichain or a separating family that the
-roadmap is meant to prove.
+Each definition of the layers comes with its basic rewriting, monotonicity and transport API and
+the stated examples; at the pin the definitions are Tau Ceti's, and the open targets of kind 3
+under [How to read the build](#how-to-read-the-build) are proved on Tau Ceti's carriers. The
+headline theorems are assembled from these APIs, without hypotheses asserting a homomorphism, a
+meagre pullback, a Cantor antichain or a separating family that the roadmap is meant to prove.
 
 The following chains must be visible in the exported results:
 
