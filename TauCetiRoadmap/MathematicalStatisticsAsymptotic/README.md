@@ -29,12 +29,11 @@ Vaart–Wellner (2023), with the robust theory of Jurečková–Sen and Lehmann 
 section or equation locator with its printed page in a text listed under References; corollaries
 and adaptations are derived in the proof routes.
 
-**This roadmap is a supplier.** The planned roadmaps MathematicalStatisticsSemiparametric,
-MathematicalStatisticsHigherOrderAndResampling, MathematicalStatisticsNonparametric and
-MathematicalStatisticsHighDimensional, which are not yet submitted, consume its empirical-process
-toolkit and its limits of experiments. The headlines they use are listed under
-[Supplied to later roadmaps](#supplied-to-later-roadmaps), and their names and statements are part
-of the contract of this roadmap.
+**This roadmap is a supplier.** It supplies its empirical-process toolkit and its limits of
+experiments to MathematicalStatisticsSemiparametric, MathematicalStatisticsHigherOrderAndResampling,
+MathematicalStatisticsNonparametric and MathematicalStatisticsHighDimensional. The headlines they
+use are listed under [Supplied to later roadmaps](#supplied-to-later-roadmaps), and their names
+and statements are part of the contract of this roadmap.
 
 `Suggested.lean` states, against the pinned Mathlib and Tau Ceti, the headlines below that carry
 a Lean name, each with every conclusion the README attaches to it, and the definitions those
