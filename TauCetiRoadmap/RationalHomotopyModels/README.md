@@ -100,8 +100,10 @@ Lie algebras, polynomial forms) and their comparison with simply connected space
 
 ## Conventions
 
-- **Ground field.** `K` is a field. Every theorem about Sullivan algebras, polynomial forms or DG
-  Lie algebras assumes `[CharZero K]`; spaces use `K = ℚ` unless `K` is named. Witness: over `𝔽₂`
+- **Ground field.** `K` is a field. The universal property of 1.1 and every theorem of Layers 2–7
+  assume `[CharZero K]`; the definitions of Layer 1 and 7.1 and the two criteria of 1.2 and 1.3 are
+  stated over an arbitrary field, where they hold (both sides of each criterion are derivations
+  determined on generators). Spaces use `K = ℚ` unless `K` is named. Witness: over `𝔽₂`
   the algebra `𝔽₂[e]`, `|e| = 1`, is graded-commutative (all signs are `+1`) with `e² ≠ 0`, so
   graded commutativity alone does not give odd squares zero; over `ℚ`, `e² = −e²` gives `e² = 0`.
 - **Grading of commutative DG algebras.** Cohomological: `d` has degree `+1`,
@@ -202,8 +204,8 @@ Lie algebras, polynomial forms) and their comparison with simply connected space
 **From DGAInfinity.** Layer 0: coaugmented tensor coalgebras, their coderivations and conilpotence
 filtration (5.4). Layer 1: DG algebras, morphisms, tensor products and cohomology with the `+1`
 convention. Layer 3: the formality predicate for DG and `A∞` algebras (7.1). Layer 4: the cobar
-construction of a coaugmented conilpotent DG coalgebra (5.4). Layer 8: Massey products (7.2,
-Examples).
+construction of a coaugmented conilpotent DG coalgebra (5.4). Layer 8: Massey products and
+their comparison with the transferred operations (7.4).
 
 **From DerivedDeRhamCohomology.** §2.21: strict graded commutativity and odd squares zero on the
 nonnegative unital DG carrier. Suggested.lean writes the defining identity
@@ -1127,7 +1129,8 @@ DerivedDeRhamCohomology §2.21, with cohomology algebra `TauCeti.deRhamAlgebra` 
 hypotheses of 7.3 and is formal; hence the real homotopy type of a compact Kähler manifold is a
 formal consequence of its real cohomology ring and all Massey products vanish
 (Deligne–Griffiths–Morgan–Sullivan, §6, Main Theorem (i) and Corollary 1; Sullivan, Theorem
-(12.1)). *Needs:* 7.1, 7.3; ComplexKahlerGeometry §6.3; DifferentialGeometry §§0.1, 0.4, 1.1–1.4
+(12.1)). *Needs:* 7.1, 7.3; DGAInfinity Layer 3 (formality as a DG algebra) and
+Layer 8 (Massey products); ComplexKahlerGeometry §6.3; DifferentialGeometry §§0.1, 0.4, 1.1–1.4
 and 6.1; DerivedDeRhamCohomology §2.21; Tau Ceti `TauCeti.SmoothForm`, `TauCeti.SmoothForm.wedge`,
 `TauCeti.SmoothForm.wedge_assoc_apply`, `TauCeti.SmoothForm.wedge_comm`, `TauCeti.mextDerivₗ`,
 `TauCeti.SmoothForm.mextDeriv_mextDeriv`, `TauCeti.SmoothForm.mextDeriv_wedge_apply`,
