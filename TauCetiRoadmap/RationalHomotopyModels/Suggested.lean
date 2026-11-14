@@ -45,19 +45,23 @@ Headline theorems stated here:
   Sullivan sufficient criterion for formality of a minimal Sullivan algebra.
 * README 7.3, `isFormal_of_ddc`: a commutative DG algebra satisfying the `ddᶜ`-lemma is formal.
 
-Not stated: README 2.1, 2.3 and 2.4 (polynomial homotopies and the bijection
-`[M, A] ≅ [M, B]`), lacking the polynomial interval `Λ(t, dt)` as a `ℤ`-graded `GradedAlgebra` on
-which `TauCeti.isDGAlgebra_gradedTensorGrading` could form `A ⊗ Λ(t, dt)`; for the same reason,
-the statements up to homotopy of README 3.4 (compatibility and uniqueness of the isomorphism, and
-the lifting of automorphisms); README 2.5, the model structure, and the characterisation of cofibrant
-objects in README 3.1, lacking that interval and the commutative DG algebras as a category. Not
-stated: README Layer 4 (polynomial forms `A_PL` and the polynomial de Rham theorem), lacking the
-simplicial commutative DG algebra `Λ(t₀, …, tₙ, dt₀, …, dtₙ)/(∑ tᵢ − 1, ∑ dtᵢ)` on a pinned
-carrier and the cohomology ring of a simplicial set; README Layer 5, lacking a differential graded
-Lie algebra with Koszul signs on a pinned carrier (Mathlib's `GradedLieAlgebra` has no signs) and
-the Chevalley–Eilenberg cochains of a graded Lie algebra; README Layer 6, lacking Layer 4 and the
-spatial realization; README 7.4, compact Kähler manifolds, lacking the smooth de Rham DG algebra on
-a pinned carrier.
+Not stated: README 2.1, 2.3 and 2.4 (polynomial homotopies, the square `Λ(t, dt) ⊗ Λ(t, dt)` and the
+bijection `[M, A] ≅ [M, B]`), lacking the polynomial interval `Λ(t, dt)` as a `ℤ`-graded
+`GradedAlgebra` on which `TauCeti.isDGAlgebra_gradedTensorGrading` could form `A ⊗ Λ(t, dt)`; for
+the same reason, the statements up to homotopy of README 3.4 (compatibility and uniqueness of the
+isomorphism, and the lifting of automorphisms); README 2.5, the model structure, and the
+characterisation of cofibrant objects in README 3.1, lacking that interval and the commutative DG
+algebras as a category. Not stated: README Layer 4 (polynomial forms `A_PL` and the polynomial de
+Rham theorem), lacking the simplicial commutative DG algebra
+`Λ(t₀, …, tₙ, dt₀, …, dtₙ)/(∑ tᵢ − 1, ∑ dtᵢ)` on a pinned carrier and the cohomology ring of a
+simplicial set; README Layer 5, lacking a differential graded Lie algebra with Koszul signs on a
+pinned carrier (Mathlib's `GradedLieAlgebra` has no signs), the Chevalley–Eilenberg cochains of a
+graded Lie algebra and cocommutative DG coalgebras; README Layer 6, lacking Layer 4, the spatial
+realization and, for Quillen's functor `λ` and equivalence (README 6.4, 6.5), the Kan loop group,
+complete Hopf algebras and simplicial Lie algebras; README 7.4, compact Kähler manifolds, lacking
+compact Kähler manifolds on a pinned carrier and the graded ring structure on
+`⨁ₖ TauCeti.SmoothForm I M ℝ k` that makes it a `TauCeti.IsDGAlgebra`, itself a target of README
+7.4.
 
 Conventions (README §Conventions): cohomological grading, differentials of degree `+1`;
 generators of Sullivan algebras have degree `≥ 1`; the ground field has characteristic zero
