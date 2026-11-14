@@ -943,9 +943,16 @@ The clause checks, each a target:
   support, and interpret it in each witness by an element witnessing the negated instance.
 * **Equality.** A closed term `t` of `L[[ℕ]]` mentions finitely many constants. `eq_refl` adds
   `t = t`, placing the new rational constants of `t` and interpreting its new Henkin constants. For
-  `eq_name`, choose a Henkin constant `c` (odd index) occurring neither in `σ` nor in `t`, and
-  interpret it in each witness as the value of `t`; nothing else changes, since `c` occurs nowhere
-  else. For `eq_subst`, the equation `t = t'` lies in `{φ} ∪ σ`, so every witness satisfies it.
+  `eq_name`, the witnesses must first interpret every constant of `t`. Place the rational constants
+  of `t` not occurring in `σ` one at a time: Placement for `d_q` gives, for every `α`, an
+  `α`-witness for `σ + (d_q = d_q)`, to which Placement applies again for the next one, so the gap
+  conditions and the terminal reserve hold for the enlarged list of named rationals. Then interpret
+  the Henkin constants of `t` not occurring in `σ` arbitrarily (the model is nonempty), which
+  touches neither the chain nor the positions. Now `t` has a value in each witness. Choose a
+  Henkin constant `c` (odd index) occurring neither in `σ` nor in `t`, and interpret it as that
+  value; `c` is not a rational constant, so it needs no position, and `σ + (c = t)` holds. The
+  added sentence mentions only `c` and the finitely many constants of `t`, so it is finitely
+  supported. For `eq_subst`, the equation `t = t'` lies in `{φ} ∪ σ`, so every witness satisfies it.
   If `inst φ t ∈ {φ} ∪ σ`, every witness satisfies it too, hence `inst φ t'`. If `inst φ t ∈ D`,
   place its rational constants that are new, after which `inst φ t'` holds because `t` and `t'`
   have the same value.
