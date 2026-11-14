@@ -327,7 +327,9 @@ Layer 0; AInfCohomology AI.1–AI.5; CrystallineCohomology CR.1–CR.4 and Padic
 
 ## Layer 2: Canonical and relative infinitesimal `B_dR⁺` cohomology
 
-### 2.1 Very small affinoid embeddings
+### 2.1 Local envelope models on very small affinoids
+
+AInfCohomology §AI.6.5 supplies, on very small affinoids, the embeddings, infinitesimal envelopes, noetherian approximation, completed smooth lifts, envelope normal forms and refinement maps recorded in §§2.1–2.6. The relative infinitesimal site of §2.18 and the Čech–de Rham comparison of §2.19 consume the envelope of §2.2, and the absolute and relative agreement of §2.23 uses the refinement maps of §2.6.
 
 Use AInfCohomology §AI.6.5’s very-small-affinoid basis and enlarged Laurent presentations, with common coordinate refinements. The presentation includes the torus coordinates and the redundant units making it surjective.
 
@@ -335,9 +337,7 @@ Use AInfCohomology §AI.6.5’s very-small-affinoid basis and enlarged Laurent p
 
 *Needs:* AInfCohomology §AI.6.5.
 
-### 2.2 Presented infinitesimal envelope
-
-Use AInfCohomology §AI.6.5’s infinitesimal envelope `D_Σ(R)` and `AInf.bdr_infinitesimal_envelope` coordinate, universal-map, enlargement and derivation API. Its presentation is `P_Σ=lim_n(B_dR⁺/ξ^n)⟨X_u^{±1}⟩`, and its completion is along the whole kernel of `e:P_Σ→R`, including the coordinate relations.
+**2.2 Presented infinitesimal envelope.** Use AInfCohomology §AI.6.5’s infinitesimal envelope `D_Σ(R)` and `AInf.bdr_infinitesimal_envelope` coordinate, universal-map, enlargement and derivation API. Its presentation is `P_Σ=lim_n(B_dR⁺/ξ^n)⟨X_u^{±1}⟩`, and its completion is along the whole kernel of `e:P_Σ→R`, including the coordinate relations.
 
 The underlying algebraic completion is `AdicCompletion (RingHom.ker e) P`. For a refinement `g:P→P′` with `e′∘g=e`, use the supplied induced map between the completions. For finitely generated `ker e`, a `P`-algebra `S` complete for an ideal `J` containing the image of `ker e` receives a unique ring map from the completion extending its structure map; finite generation makes extensions automatically continuous. These are properties of the supplier's envelope. The projection and extensionality API is Mathlib's `AdicCompletion.evalₐ`, `AdicCompletion.evalₐ_of`, `AdicCompletion.ext_evalₐ` and `AdicCompletion.isAdicComplete`.
 
@@ -351,39 +351,33 @@ The underlying algebraic completion is `AdicCompletion (RingHom.ker e) P`. For a
 
 *Needs:* AInfCohomology §AI.6.5; Mathlib `AdicCompletion`.
 
-### 2.3 Noetherian approximation for embeddings
-
-Use AInfCohomology §AI.6.5’s smooth noetherian approximation of very small affinoids, retaining the torus chart, surjective Laurent presentation and specified `C`-valued fibre.
+**2.3 Noetherian approximation for embeddings.** Use AInfCohomology §AI.6.5’s smooth noetherian approximation of very small affinoids, retaining the torus chart, surjective Laurent presentation and specified `C`-valued fibre.
 
 (Bhatt–Morrow–Scholze, Lemmas 13.7–13.10, pp.106–109.)
 
 *Needs:* AInfCohomology §AI.6.5.
 
-### 2.4 Completed smooth lift over `B_dR⁺`
-
-Use AInfCohomology §AI.6.5’s completed smooth lift `R_A⊗̂_A B_dR⁺` for a chosen lift `A→B_dR⁺`, with its flatness, `ξ`-completeness, reduction to `R` and topologically free finite reductions. No section on all of `C` is chosen.
+**2.4 Completed smooth lift over `B_dR⁺`.** Use AInfCohomology §AI.6.5’s completed smooth lift `R_A⊗̂_A B_dR⁺` for a chosen lift `A→B_dR⁺`, with its flatness, `ξ`-completeness, reduction to `R` and topologically free finite reductions. No section on all of `C` is chosen.
 
 (Bhatt–Morrow–Scholze, Lemma 13.11, pp.109–110.)
 
 *Needs:* AInfCohomology §AI.6.5.
 
-### 2.5 Embedding envelope normal form
-
-Use AInfCohomology §AI.6.5’s normal form `D_Σ(R)≃(R_A⊗̂_A B_dR⁺)[[X_u−ũ:u∈Σ\{T₁,…,T_d}]]`, valid for `Σ` sufficiently large: `Σ` is enlarged, as in Bhatt–Morrow–Scholze Lemma 13.7, until the approximation data `(A, R_A, Σ_A)` descend with `Σ_A` carried into `Σ`. The torus coordinates lift by étaleness; only redundant units contribute formal variables. For a `Σ` that is not large enough, the lift of `R_A` into the envelope need not exist, and no normal form is asserted.
+**2.5 Embedding envelope normal form.** Use AInfCohomology §AI.6.5’s normal form `D_Σ(R)≃(R_A⊗̂_A B_dR⁺)[[X_u−ũ:u∈Σ\{T₁,…,T_d}]]`, valid for `Σ` sufficiently large: `Σ` is enlarged, as in Bhatt–Morrow–Scholze Lemma 13.7, until the approximation data `(A, R_A, Σ_A)` descend with `Σ_A` carried into `Σ`. The torus coordinates lift by étaleness; only redundant units contribute formal variables. For a `Σ` that is not large enough, the lift of `R_A` into the envelope need not exist, and no normal form is asserted.
 
 (Bhatt–Morrow–Scholze, Lemma 13.7, p.106, and Lemma 13.12(ii), pp.110–111.)
 
 *Needs:* AInfCohomology §AI.6.5.
 
-### 2.6 Embedding independence and de Rham reduction
-
-Use AInfCohomology §AI.6.5’s refinement quasi-isomorphisms, de Rham reduction and comparison of spreading lifts, including the common-enlargement cocycle. These are the transition maps used by the relative agreement theorem in §2.23.
+**2.6 Embedding independence and de Rham reduction.** Use AInfCohomology §AI.6.5’s refinement quasi-isomorphisms, de Rham reduction and comparison of spreading lifts, including the common-enlargement cocycle. These are the transition maps used by the relative agreement theorem in §2.23.
 
 (Bhatt–Morrow–Scholze, Lemma 13.13 and Definition 13.14, pp.111–112.)
 
 *Needs:* AInfCohomology §AI.6.5.
 
-### 2.7 Spreading out proper smooth rigid spaces
+### 2.7 Proper spreading, canonical `B_dR⁺` cohomology and its period comparison over `C`
+
+AInfCohomology §AI.6.5 supplies the canonical `B_dR⁺` cohomology `K_dR⁺` of a proper smooth rigid space over `C`, with its spreading input, its finite freeness and its local and global period maps to étale cohomology. The degenerations of §§2.14–2.15 consume §§2.7, 2.9 and 2.11, the agreement of §2.23 consumes §2.8, and the proper rigid period comparison of §4.11 consumes §§2.8 and 2.11.
 
 Use AInfCohomology §AI.6.5’s proper smooth spreading theorem, including descent of proper flat formal deformations, effectivity, the smooth parameter neighbourhood and the specified fibre identification. It applies without projectivity.
 
@@ -391,39 +385,33 @@ Use AInfCohomology §AI.6.5’s proper smooth spreading theorem, including desce
 
 *Needs:* AInfCohomology §AI.6.5.
 
-### 2.8 Canonical `B_dR⁺` cohomology
-
-Write `K_dR⁺(X)` for the canonical deformation cohomology supplied by AInfCohomology §AI.6.5, defined on the very-small basis by the refinement system of envelope de Rham complexes. Consume its pullbacks, derived `ξ`-completeness, proper smooth perfectness and canonical derived `C`-reduction to `RΓ_dR(X/C)`.
+**2.8 Canonical `B_dR⁺` cohomology.** Write `K_dR⁺(X)` for the canonical deformation cohomology supplied by AInfCohomology §AI.6.5, defined on the very-small basis by the refinement system of envelope de Rham complexes. Consume its pullbacks, derived `ξ`-completeness, proper smooth perfectness and canonical derived `C`-reduction to `RΓ_dR(X/C)`.
 
 (Bhatt–Morrow–Scholze, Definition 13.18, p.114.)
 
 *Needs:* AInfCohomology §AI.6.5.
 
-### 2.9 Finite freeness of `B_dR⁺` cohomology
-
-Use `AInf.canonical_deformation_free` of AInfCohomology §AI.6.5: for proper smooth `X/C`, every `H^i(K_dR⁺(X))` is finite free and its `C`-specialization is `H_dR^i(X/C)`. This uses proper spreading and a connection, rather than perfectness alone.
+**2.9 Finite freeness of `B_dR⁺` cohomology.** Use `AInf.canonical_deformation_free` of AInfCohomology §AI.6.5: for proper smooth `X/C`, every `H^i(K_dR⁺(X))` is finite free and its `C`-specialization is `H_dR^i(X/C)`. This uses proper spreading and a connection, rather than perfectness alone.
 
 (Bhatt–Morrow–Scholze, Theorem 13.19, p.114.)
 
 *Needs:* AInfCohomology §AI.6.5.
 
-### 2.10 Local `B_dR` period comparison map
-
-Use AInfCohomology §AI.6.5’s `AInf.canonical_bdr_etale_map`, with degree-zero coordinates `X_u↦[u♭]`, its normalized logarithmic Koszul operators and compatibility with coordinate/tower refinements. The map is defined on the common all-coordinate tower.
+**2.10 Local `B_dR` period comparison map.** Use AInfCohomology §AI.6.5’s `AInf.canonical_bdr_etale_map`, with degree-zero coordinates `X_u↦[u♭]`, its normalized logarithmic Koszul operators and compatibility with coordinate/tower refinements. The map is defined on the common all-coordinate tower.
 
 (Bhatt–Morrow–Scholze, Theorem 13.1 proof, p.115; Proposition 12.9.)
 
 *Needs:* AInfCohomology §AI.6.5.
 
-### 2.11 Canonical de Rham period comparison
-
-Use `AInf.canonical_rational_comparison` of AInfCohomology §AI.6.5: for proper smooth `X/C`, the canonical deformation-to-étale map becomes an equivalence after `ξ` inversion, with target `RΓ_ét(X,ℤ_p)⊗^L B_dR`. Its filtered enhancement over `C` is constructed in §4.11.
+**2.11 Canonical de Rham period comparison.** Use `AInf.canonical_rational_comparison` of AInfCohomology §AI.6.5: for proper smooth `X/C`, the canonical deformation-to-étale map becomes an equivalence after `ξ` inversion, with target `RΓ_ét(X,ℤ_p)⊗^L B_dR`. Its filtered enhancement over `C` is constructed in §4.11.
 
 (Bhatt–Morrow–Scholze, Theorem 13.1 and proof, pp.104,115.)
 
 *Needs:* AInfCohomology §AI.6.5.
 
-### 2.12 Descended de Rham lattice
+### 2.12 Descended de Rham lattice and filtered comparison over `K`
+
+AInfCohomology §AI.6.5 supplies the descent to `K` of §§2.9 and 2.11: the de Rham lattice over `K` and its filtered comparison. They are consumed by §2.14 and by §§3.4, 4.4, 4.10, 5.9 and 6.4.
 
 For proper smooth `X₀/K`, `K` complete discretely valued with perfect residue field, use the descended identification in `AInf.canonical_deformation_free` and map agreement in `AInf.canonical_rational_comparison` of AInfCohomology §AI.6.5. They identify `H^i(K_dR⁺(X₀⊗̂_K C))` with `H_dR^i(X₀/K)⊗_K B_dR⁺` through the unique continuous lift `K→B_dR⁺`.
 
@@ -431,15 +419,15 @@ For proper smooth `X₀/K`, `K` complete discretely valued with perfect residue 
 
 *Needs:* AInfCohomology §AI.6.5.
 
-### 2.13 Filtered de Rham comparison over `K`
-
-For proper smooth `X₀/K` in §2.12, use AInfCohomology §AI.6.5’s descended filtered comparison and `AInf.canonical_rational_comparison`. For arithmetic equivariance take `C=widehat(K̄)`. Its de Rham filtration is the convolution `Fil^r(H_dR⊗B_dR)=Σ_a Fil^a H_dR⊗Fil^{r−a}B_dR`, and the étale side has the period filtration. The supplier includes agreement with the structural-period-sheaf map.
+**2.13 Filtered de Rham comparison over `K`.** For proper smooth `X₀/K` in §2.12, use AInfCohomology §AI.6.5’s descended filtered comparison and `AInf.canonical_rational_comparison`. For arithmetic equivariance take `C=widehat(K̄)`. Its de Rham filtration is the convolution `Fil^r(H_dR⊗B_dR)=Σ_a Fil^a H_dR⊗Fil^{r−a}B_dR`, and the étale side has the period filtration. The supplier includes agreement with the structural-period-sheaf map.
 
 (Bhatt–Morrow–Scholze, Theorem 13.1 proof, p.115; Scholze, p-adic Hodge theory, Theorem 8.4 and its proof, pp.48–49.)
 
 *Needs:* AInfCohomology §AI.6.5.
 
-### 2.14 Hodge–de Rham degeneration
+### 2.14 Hodge–de Rham and Hodge–Tate degeneration
+
+For proper smooth rigid spaces over `C`, the two degeneration theorems are proved here from §§2.7, 2.9, 2.11 and 2.13, the second from the first. The proper-curve interface of §4.12 consumes the Hodge–de Rham degeneration.
 
 For every proper smooth rigid `X/C` in characteristic zero, prove `E₁^{a,b}=H^b(X,Ω_X^a)⇒H_dR^{a+b}(X/C)` degenerates at `E₁`. If `X` descends to `K`, apply the strict filtered comparison and the finite-dimensional cohomology inputs. In general use the proper smooth family and constancy of relative cohomology ranks to pass from descended fibres to `X`.
 
@@ -449,9 +437,7 @@ In degree `n`, obtain `dim_C H_dR^n(X)=Σ_{a+b=n}dim_C H^b(X,Ω_X^a)`. This is t
 
 *Needs:* Layer 2.7 (Spreading out proper smooth rigid spaces); Layer 2.13 (Filtered de Rham comparison over `K`); AdicSpacesPartIII §§R3.6–R3.7.
 
-### 2.15 Hodge–Tate degeneration
-
-For proper smooth `X/C`, prove degeneration at `E₂` of `E₂^{a,b}=H^a(X,Ω_X^b)(−b)⇒H_ét^{a+b}(X,ℚ_p)⊗C`. The sign of the Tate twist is `−b` in the Hodge–Tate convention fixed above. Derive the dimension equality from the canonical finite-free `B_dR⁺` lattice and Hodge–de Rham degeneration, using the proper primitive finiteness theorem to identify the étale rank.
+**2.15 Hodge–Tate degeneration.** For proper smooth `X/C`, prove degeneration at `E₂` of `E₂^{a,b}=H^a(X,Ω_X^b)(−b)⇒H_ét^{a+b}(X,ℚ_p)⊗C`. The sign of the Tate twist is `−b` in the Hodge–Tate convention fixed above. Derive the dimension equality from the canonical finite-free `B_dR⁺` lattice and Hodge–de Rham degeneration, using the proper primitive finiteness theorem to identify the étale rank.
 
 A degree-two class on `P¹` has `b=1` and twist `(−1)`; this is the basic sign check. Degeneration supplies a filtration with these associated graded pieces. It does not supply a canonical splitting in every descended family. Preserve the spectral-sequence indexing independently of the `E₁` indexing of the preceding de Rham sequence.
 
@@ -459,7 +445,9 @@ A degree-two class on `P¹` has `b=1` and twist `(−1)`; this is the basic sign
 
 *Needs:* Layer 2.14 (Hodge–de Rham degeneration); Layer 2.9 (Finite freeness of `B_dR⁺` cohomology); Layer 2.11 (Canonical de Rham period comparison); PadicHodgeTheory §§2.1–2.7.
 
-### 2.16 The canonical `B_dR⁺` lattice in good reduction
+### 2.16 The canonical `B_dR⁺` lattice in good reduction and agreement of period maps
+
+For a proper smooth formal scheme over `O_C`, AInfCohomology §AI.6.5 supplies the crystalline identification of the canonical `B_dR⁺` lattice and the agreement of the integral-derived and rational period maps. Section 3.3 consumes §2.16, §5.3 consumes both, and §6.4 consumes §2.17.
 
 For proper smooth formal `𝔛/O_C`, generic fibre `X_C` and `Y=𝔛_{O_C/p}`, use `AInf.integral_deformation_agreement` of AInfCohomology §AI.6.5: `RΓ_crys(Y/A_cris)⊗^L_{A_cris}B_dR⁺≃K_dR⁺(X_C)`. Its degreewise lattice form uses the supplied rational crystalline-freeness bridge.
 
@@ -467,9 +455,7 @@ For proper smooth formal `𝔛/O_C`, generic fibre `X_C` and `Y=𝔛_{O_C/p}`, u
 
 *Needs:* AInfCohomology §AI.6.5.
 
-### 2.17 Agreement of integral and rational period maps
-
-Use `AInf.integral_deformation_agreement` and `AInf.canonical_rational_comparison` of AInfCohomology §AI.6.5 for equality of the integral-derived and rational period maps after `B_dR` extension, including the descended structural-period-sheaf comparison. The equality uses their common Teichmüller coordinates, logarithmic Koszul corrections, refinements and descent.
+**2.17 Agreement of integral and rational period maps.** Use `AInf.integral_deformation_agreement` and `AInf.canonical_rational_comparison` of AInfCohomology §AI.6.5 for equality of the integral-derived and rational period maps after `B_dR` extension, including the descended structural-period-sheaf comparison. The equality uses their common Teichmüller coordinates, logarithmic Koszul corrections, refinements and descent.
 
 (Bhatt–Morrow–Scholze, Theorem 14.5(i) proof, p.121; Theorem 13.1 proof, p.115.)
 
