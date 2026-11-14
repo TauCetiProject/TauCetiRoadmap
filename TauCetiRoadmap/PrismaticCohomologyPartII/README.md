@@ -790,7 +790,9 @@ Site cohomology below assumes X bounded. All site prisms are bounded; an initial
 
 **Proof route.** Category: triples `(A, I, u)` with the maps of prisms of PrismaticCohomology §0.73 compatible with the structure maps; composition and identities are those of prisms (Bhatt–Scholze F-crystals, Definition 2.3; Bhatt–Lurie, Definition 4.4.27).
 
-### 4.3 Cartier–Witt divisors
+### 4.3 The Cartier–Witt stack with its atlas and prism charts
+
+These sections provide the Cartier–Witt stack WCart built from Cartier–Witt divisors, its presentation as `[WCart₀/W^×]`, and the points `ρ_A` of prisms, with the transversal coproducts that give their fibre products over WCart, and the flatness criterion for `ρ_A`. Sections 4.9–4.10, 4.12, 4.15–4.19 and 4.26 consume them.
 
 For p-nilpotent `R, WCart(R)` is the full subgroupoid of Cart`(W(R))` with `(a)` nilpotent image under `I→W(R)→R` and `(b) δ(α(I))` generating `W(R)`. Equivalently `α(y)₀` are nilpotent and `α(y)₁` generate R, since `δ(x)₀=x₁` and Witt vectors with unit zeroth coordinate are units. Principal objects are multiplication by f with `f₀` nilpotent and `f₁ a unit`, equivalently `f=ΣV^n[a_n]` with these conditions on `a₀,a₁`. Set `WCart(R)=∅` otherwise. An invertible ideal inclusion `I⊂W(R)` satisfies these conditions iff `(W(R),I)` is a prism and p,I have nilpotent images in R.
 
@@ -818,8 +820,7 @@ Use the natural Witt δ-structure, not reconstruction from F in the presence of 
 
 **Proof route.** Definition: Bhatt–Lurie, Definition 3.1.4, on the generalized Cartier divisors of the previous target and the Witt vectors of Mathlib (WittVector, with constantCoeff for restriction).
 
-### 4.4 The Cartier–Witt stack WCart
-
+**4.4 The Cartier–Witt stack WCart.**
 Witt base change gives a coherent groupoid-valued functor WCart on rings, supported on `Spf Z_p`, and an fpqc stack: `WCart(R)≃`Desc`(WCart(S^⊗_R(•+1)))` for faithfully flat `R→S`. Restriction `W(R)→R` gives `μ:WCart→`Cart`=[A¹/G_m]`, factoring through `[Â¹/G_m]`; its image ideal is nil, hence is never Cartier for `R≠0`. Nontrivial automorphisms prevent WCart from being a formal scheme.
 
 The variance is `R→S` giving `WCart(R)→WCart(S)`, correcting BL22 Remark 3.1.7. Do not use flatness of `W(R)→W(S)`, which can fail even for flat `R→S`.
@@ -844,8 +845,7 @@ The variance is `R→S` giving `WCart(R)→WCart(S)`, correcting BL22 Remark 3.1
 
 **Proof route.** Pullback: `W(f)` is a δ-map with `W(f)(x)_i = f(x_i)` (Mathlib WittVector.map), so conditions (a) and (b) of §4.3 in coordinate form are preserved; the pseudofunctor structure is that of Cart applied to W (the preceding targets).
 
-### 4.5 Presentation of WCart as the quotient [WCart_0 / W^×]
-
+**4.5 Presentation of WCart as the quotient [WCart_0 / W^×].**
 Distinguished Witt vectors `WCart₀` are represented by `Spf A⁰, A⁰=Z[a₀,a₁^±1,a₂,…]^∧_(p,a₀)`. Multiplication by `W×` gives `WCart=[WCart₀/W×]`, both as Zariski and fpqc quotient: every divisor is locally principal and arrows between f,g are the units u with `g=uf`. Thus `WCart₀×_WCart WCart₀≃WCart₀×W×`, and the atlas has `(n+1)`-fold fibre power `Spf A⁰×(W×)^n`.
 
 `W×` is flat affine, possibly infinite type. Quotient stacks are SchemeAndStackFoundations §1.21’s construction; the fpqc quotient uses §4.4. Apply §4.0’s `FormalQCoh.classifyingStackComodules` and `FormalQCoh.quotientDescent` to this group and its action on `WCart₀`.
@@ -856,8 +856,7 @@ Distinguished Witt vectors `WCart₀` are represented by `Spf A⁰, A⁰=Z[a₀,
 
 **Proof route.** By the description of morphisms between principalized divisors (§4.3), the map `WCart_0 → WCart` is `W^×`-equivariant and induces a fully faithful map from the prestack quotient; it remains to show Zariski-local essential surjectivity (Bhatt–Lurie, Proposition 3.2.3 and Remark 3.2.2).
 
-### 4.6 Transversal prisms and coproducts of prisms
-
+**4.6 Transversal prisms and coproducts of prisms.**
 For the prism charts used in Cartier–Witt geometry, import the algebraic transversal approximations, coproducts and residue-field lifts of §3.7, with their canonical prism-map cocones and base-change maps.
 
 Only transversal×bounded coproducts are used. General prism coproducts would require animation. Flatness is tested by p-complete flatness modulo the prism ideals.
@@ -868,8 +867,7 @@ Only transversal×bounded coproducts are used. General prism coproducts would re
 
 **Proof route.** Use the δ-ring and transversal-coproduct results owned by §3.7, with their algebraic universal properties.
 
-### 4.7 The point ρ_A : Spf(A) → WCart of a prism
-
+**4.7 The point ρ_A : Spf(A) → WCart of a prism.**
 A ring map `f:A→R` from a prism lifts uniquely to a δ-map `A→W(R)`. Its pullback of I is a generalized Cartier divisor, Cartier–Witt iff `f(I+(p))` is nilpotent. This defines functorial `ρ_A:Spf_(p,I)A→WCart` with `μρ_A` the pullback of `I⊂A`. For crystalline prisms it is the point `(W(R),p·)`, denoted `ρ_dR` for `A=Z_p`. The atlas `A⁰` of §4.5 has the Witt-Frobenius δ-structure and `I⁰=(a₀)`, is transversal, and maps `(A⁰,I⁰)→(B,J)` classify generators of J by `a₀↦d; ρ_(A⁰)` is the atlas.
 
 `(A, I)` is any prism; boundedness is needed only where `D(Spf A)` is identified with complete complexes. The δ-lift f̃ exists because W is right adjoint to the forgetful functor from δ-rings (§0.56). The condition for a Cartier–Witt divisor is that f is continuous for the `(p, I)`-adic topology on A and the discrete topology on R.
@@ -891,8 +889,7 @@ A ring map `f:A→R` from a prism lifts uniquely to a δ-map `A→W(R)`. Its pul
 
 **Proof route.** `Δ`-lift: the adjunction δ-rings ⇄ rings with right adjoint W gives f̃ with `f̃(a)_0 = f(a)` (PrismaticCohomology §0.56). Conditions (a) and (b) of §4.3: the image of `f̃^*(I)` in R is `f(I)R`; and `p ∈ I + φ(I)A` (PerfectoidSpaces §P4.15.2) with δ-compatibility of f̃ shows that `δ(f̃(I))` generates the unit ideal of `W(R)` once `f(I)` and `f(p)` are nilpotent (Bhatt–Lurie, Construction 3.2.4).
 
-### 4.8 Fibre products of prisms over WCart and flatness of ρ_A
-
+**4.8 Fibre products of prisms over WCart and flatness of ρ_A.**
 (1) For bounded A and transversal B, their prism coproduct C represents `Spf A×_WCart Spf B`. (2) Every prism point `ρ_B` is affine; (3) for bounded B it is flat iff B is transversal, and faithfully flat if also `B≠0`. The `(n+1)`-fold atlas fibre powers are therefore `Spf A^n`, where `A^n` is the coproduct of `n+1` universal oriented prisms; this is its cosimplicial Čech nerve.
 
 Apply `Prismatic.WCart.prismPoint` and its prism-map naturality from §4.7 to the algebraic cocones of §4.6. The pulled-back Cartier–Witt divisors agree canonically on `Spf C`, compatibly with base change and iterated cocones. This makes the coproduct chart a common refinement of the two prism charts over WCart.
@@ -1482,7 +1479,9 @@ The two complete ideals in BS22’s printed comparison are distinct, as above. `
 
 **Proof route.** The prism `(A, ([p]_q))` is the q-de Rham prism of PrismaticCohomology §0.77, with the present `[p]_q` as its distinguished element. The identities `[p]_q (q−1) = q^p − 1` and `[p]_1 = p` are the identities `Φ_p(q)·(q−1) = q^p − 1` and `Φ_p(1) = p` for the p-th cyclotomic polynomial, which Mathlib has (cyclotomic_prime, cyclotomic_prime_mul_X_sub_one, eval_one_cyclotomic_prime).
 
-### 5.2 q-PD pairs
+### 5.2 q-PD pairs and their envelopes
+
+These sections provide q-PD pairs with their reduction modulo `q−1` and homological properties, the smallest and largest q-PD ideals, the pair `(A_inf,(ξ))`, and q-PD envelopes with their base change and their PD and prismatic descriptions. Sections 5.9–5.16, 5.19, 5.21–5.23 and 5.26 consume them.
 
 A `QPDPair` is a δ-pair `(D,I)` over `(A,(q−1))`, with D,I derived `(p,[p]_q)`-complete, satisfying (1) `φ(I)⊂[p]_qD` and `γ(I)⊂I`; (2) `[p]_q` regular with `D/[p]_q` of bounded p-torsion; and (3) `D/(q−1)` p-torsion-free of finite p-complete Tor-amplitude over D. These make `(D,([p]_q))` a bounded prism and D classically adically complete. This is a property, not extra choices. Pair maps preserve `δ,q,I`. The full δ-PD subcategory is `q=1`. Complete flatness over A suffices for the last two conditions; so does a p-complete p-regular D with `q=1`.
 
@@ -1511,8 +1510,7 @@ Completeness of the ideal is part of the definition (BS22 Remark 16.3`(a)`, Coro
 
 **Proof route.** State the data (D, I, the δ-A-algebra structure) and the conditions; by conditions (1) and (2) the operation `γ` of §5.1 is defined on I.
 
-### 5.3 δ-PD pairs and reduction modulo q − 1
-
+**5.3 δ-PD pairs and reduction modulo q − 1.**
 A δ-ring D with `q=1` and ideal I is a δ-PD pair iff D is p-regular and D,I are p-adically complete with `x^n/n!∈I` for every `x∈I,n>0`. Reduction (`D,I)↦(D/(q−1),I` mod `q−1`) is left adjoint to inclusion of δ-PD pairs into q-PD pairs. Thus δ-PD pairs are precisely complete p-regular PD pairs carrying the specified δ-structure (DerivedDeRhamCohomology Layer PD).
 
 Divided powers must lie in I, not just D; p-regularity makes them unique.
@@ -1523,8 +1521,7 @@ Divided powers must lie in I, not just D; p-regularity makes them unique.
 
 **Proof route.** (⇐ of the characterization) With `q = 1` one has `[p]_q = p` and `γ(x) = x^p/p`, which lies in I by the divided-power hypothesis; D is p-torsion-free and p-complete, so `(D, (p))` is a bounded prism, and `D/(q−1) = D` gives condition (3) of §5.2.
 
-### 5.4 Homological properties of q-PD pairs
-
+**5.4 Homological properties of q-PD pairs.**
 (1) For q-PD `(D,I)`, D is derived f-complete for `f∈I`. (2) Completed reduction modulo `q−1` is conservative on complete complexes and (3) commutes with cosimplicial totalizations in `D≥0`. (4) If `I₀⊃(q−1)` satisfies the algebraic q-PD conditions and D is complete, completing `I₀` inside D gives a q-PD pair. (5) Likewise, completely flat δ-A extension to a complete D′, followed by completing the image ideal, preserves q-PD pairs.
 
 `(3)`: the cosimplicial complexes must be derived `(p,[p]_q)`-complete; the source’s abbreviated term omits the completeness condition (the corresponding correction). `(4)`: the source states it for a q-PD pair `(D, I)`; since the ideal of a q-PD pair is already derived complete that statement is empty, and the proof of `(5)` and of Theorem 16.17 apply `(4)` to an ideal that is not known to be complete. The target states the form that the printed proof of `(4)` proves. Completion, conservativity (derived Nakayama) and Tor-amplitude are imported from DerivedModuleAlgebra §§1.1–1.8 and DerivedDeRhamCohomology Layer 1. The totalization exchange is the exchange of completed base change and totalization of PrismaticCohomology §1.10, with the hypotheses verified in the q-PD application in the Layer 3 subsection *Imported completed base change and totalization*: §5.2 supplies finite complete Tor-amplitude for `D→D/(q−1)`, and §5.10 supplies complete, discrete Čech terms.
@@ -1535,8 +1532,7 @@ Divided powers must lie in I, not just D; p-regularity makes them unique.
 
 **Proof route.** `(1)` For `f ∈ I, φ(f) = f^p + pδ(f) ∈ [p]_q D`, so `f^p ∈ (p, [p]_q)`; derived `(p,[p]_q)`-completeness gives derived f^p-completeness, hence derived f-completeness.
 
-### 5.5 Higher q-divided powers and the smallest and largest q-PD ideals
-
+**5.5 Higher q-divided powers and the smallest and largest q-PD ideals.**
 (a) For δ-A-algebras, `[p]_qz=φ(f)` implies `φ(z−δ(f))∈[p]_qD`. Hence `γ` preserves `N(D)` when `[p]_q` is regular. (b) For complete D satisfying conditions (2) and (3) of §5.2, `(q−1)D` is the smallest and `N(D)` the largest q-PD ideal. (c) In particular `(A,(q−1))` is initial among q-PD pairs, and `(D,(q−1))` is q-PD for complete completely flat `D/A`.
 
 `(a)` is stated for every δ-A-algebra, with no torsion-freeness, flatness or completeness. The source states it for `[p]_q`-torsion-free D and proves it by reduction to a universal case whose flatness is taken from Proposition 3.13; that proposition concerns the completed envelope, so the printed argument covers derived `(p,[p]_q)`-complete D, which is all the source uses. The proof steps give a direct argument. `(b)`: the coefficient algebra must carry a compatible δ-structure, a condition omitted in the source’s notation. A q-PD ideal of D is an ideal I such that `(D, I)` is a q-PD pair.
@@ -1547,8 +1543,7 @@ Divided powers must lie in I, not just D; p-regularity makes them unique.
 
 **Proof route.** `(a)`, direct argument: apply `δ` to `[p]_q·z = φ(f)` and use `δ∘φ = φ∘δ` and the product formula for `δ: φ(δ(f)) = δ(z)·φ([p]_q) + z^p·δ([p]_q)`. With `φ([p]_q) = [p]_q^p + pδ([p]_q)` this gives `φ(z) − φ(δ(f)) = (1 − δ([p]_q))·φ(z) − δ(z)·[p]_q^p`, which lies in `[p]_q D` by the congruence `δ([p]_q) ≡ 1` mod `[p]_q` of §5.1.
 
-### 5.6 The q-PD pair (A_inf, (ξ))
-
+**5.6 The q-PD pair (A_inf, (ξ)).**
 In the completed perfection `A∞` of the q-prism, `ξ=φ^−1([p]_q)` gives q-PD `(A∞,(ξ))`. For characteristic-zero perfectoid C with chosen compatible primitive p-power roots, set `Ainf=W`(O_Cflat), `q=[ε]`. This is perfect and flat over `Z_p[[q−1]]; ξ=Σ_(i<p)[ε^(i/p)]` generates `ker θ` and gives q-PD `(Ainf,(ξ))`, with quotient `O_C`. Also `ξtilde=φξ=[p]_q` generates `ker(θφ^−1)`, and `q−1=(q^(1/p)−1)ξ`. The automorphism `φ` carries the prism `(ξ)` to `([p]_q)`.
 
 The ideals do not depend on the cyclotomic choice. PerfectoidSpaces supplies `Ainf, θ` and its perfect prism.
@@ -1559,8 +1554,7 @@ The ideals do not depend on the cyclotomic choice. PerfectoidSpaces supplies `Ai
 
 **Proof route.** Conditions (2) and (3) of §5.2: `A_∞` and `A_inf` are `(p,[p]_q)`-completely flat over `A (A_∞` is a completed colimit along the flat Frobenius of A; for `A_inf, (p, q−1)` is a regular sequence and `A_inf/(p, q−1) = O_C^♭/(ε−1)` is flat over `F_p`), so the remark after Definition 16.2 applies; flatness over the noetherian ring A follows from complete flatness and derived completeness (the implication quoted in Notation 17.1; DerivedDeRhamCohomology Layer 1).
 
-### 5.7 q-PD envelopes
-
+**5.7 q-PD envelopes.**
 For q-PD `(D,I)`, complete completely flat δ-D-algebra P and finite completely D-regular sequence `x_i`, put `J=(IP,x_i)`, the algebraically generated ideal. The completed animated δ-envelope `E=P{φ(x_i)/[p]_q}` is discrete, completely flat over D and `[p]_q`-regular. The smallest complete `γ`-stable ideal K containing the image of J makes `(E,K)` q-PD, universally among q-PD pairs receiving `(P,J)`. If the discrete quotient `P/J` is derived p-complete, the natural map `P/J→E/K` is an isomorphism. Write `E=D_(J,q)(P)`; it is independent of generators. The construction extends to Zariski-locally such ideals and completed filtered colimits of such pairs; the uncompleted quotient equivalence retains the hypothesis that the final `P/J` is derived p-complete.
 
 `(D, I)` is a q-PD pair; P is derived `(p,[p]_q)`-complete and `(p,[p]_q)`-completely flat over D; the sequence is `(p,[p]_q)`-completely regular relative to D (DerivedDeRhamCohomology Layer 1's notion, BS22 Definition 2.42). Completeness of P alone does not imply completeness of `P/J`; the extended ideal IP need not be closed. The completeness hypothesis on `P/J` is additional to the printed Lemma 16.10(2). Since `q−1∈J`, derived p-completeness of `P/J` is equivalent to derived `(p,[p]_q)`-completeness. Equivalently, J is derived complete as a P-submodule, by the fibre sequence `J→P→P/J`. For a completed ideal, its construction must identify this discrete complete quotient; no arbitrary derived completion is presumed discrete. Section 5.10 supplies that identification for the locally regular and completed-colimit presentations used there. Free adjunction of elements to simplicial δ-rings is PrismaticCohomology §0.60.
@@ -1596,8 +1590,7 @@ For q-PD `(D,I)`, complete completely flat δ-D-algebra P and finite completely 
 
 For the quotient assertion with `P/J` derived complete, the completed PD-envelope map modulo `q−1` gives a surjection `E→P/J`. Its kernel is derived complete by the fibre sequence and is `γ`-stable. The divided-power generation argument of BS22 Lemma 16.11 identifies it with K. Without quotient completeness, construct K by completing the algebraic `γ`-stable ideal, using §5.4; universality uses completeness of the target ideal and asserts no uncompleted quotient equivalence.
 
-### 5.8 q-PD envelopes: base change, PD envelopes and prismatic envelopes
-
+**5.8 q-PD envelopes: base change, PD envelopes and prismatic envelopes.**
 (a) Under §5.7’s hypotheses, envelopes commute with completed derived q-PD base change. (b) Modulo `q−1` they are the p-completed PD envelope of J mod `q−1` relative to (`D/(q−1),I` mod `q−1`), with K the complete PD ideal. Quotient equivalences with an algebraic `P′/J′` after base change retain §5.7’s derived p-completeness hypothesis on that quotient. (c) For p-regular `Z_p`-algebras B and I generated by a mod-p regular sequence, the PD ideal of `D_I(B)` is the smallest containing I and closed under `f↦f^p/p`. (d) The q-PD envelope is also the prismatic envelope of `(P,([p]_q,φ(x_i)))` over `(D,([p]_q))`; at `q=1` this is `P{φ(x_i)/p}^∧`, the p-completed PD envelope.
 
 `(b)`: the comparison uses the p-completed PD envelope. Completion is implicit in the source statement but explicit in its proof and Remark 16.16 (the corresponding correction). `(c)`: regularity of the ideal modulo p means generation by a sequence regular modulo p, the precise interpretation used here. `(d)` is not printed as a statement; it is the content of the first step of the proof of Lemma 16.10 and of the reference to Proposition 3.13 in the proof of Lemma 16.7. PD envelopes and their ideals are owned by DerivedDeRhamCohomology §§PD.1–PD.2, PD.4–PD.7; CrystallineCohomology §§CR.DDR.5.20–CR.DDR.5.21.
@@ -1713,7 +1706,9 @@ For q-PD `(D,I)` and smooth `R/D/I`, put `R¹=R⊗̂_(D/I,φ_D)D/[p]_q`; `φ_D(I
 
 **Proof route.** Construction of `α`: for `(E, J)` in the site, `φ_E(J) ⊂ [p]_q E`, so `φ_E` induces `a φ_D`-linear map `R → E/J → E/([p]_q)`, hence a D-linear map `R^{(1)} → E/([p]_q)` and an object of the prismatic site of `R^{(1)}` over `(D, ([p]_q))`; evaluating the prismatic structure sheaf gives `α`.
 
-### 5.14 Framed D-algebras and framed q-PD data
+### 5.14 Framed q-PD data and their q-de Rham complexes
+
+These sections provide framed q-PD data, the extension of their automorphisms and q-derivatives to the q-PD envelope, and the framed q-de Rham complex with its Frobenius and coordinate-injective functoriality. Sections 5.18–5.22 and 5.26 consume them.
 
 Take q-PD `(D,I)` flat over `A=Z_p[[q−1]]` and smooth `R/D/I`. Import §5.0’s complete ind-étale framing `D[X_s]^∧→P` and its `γ_s,∇_s`, twisted Leibniz and q-de Rham complex. Add the unique δ-D-structure `δ(X_s)=0`, preserved by `γ_s; P` is A-flat, so `(q−1)X_s` is regular. A framed datum `(P,S,J)` adds a surjection `P→R` with kernel J. Its maps preserve coordinates by an injection `S→S′` and send J into J′. The named datum also retains the étale reduction and complete flatness hypotheses below.
 
@@ -1743,8 +1738,7 @@ The topology is `(p,q−1)`, not merely p-adic: scaling must be infinitesimally 
 
 **Proof route.** Import from Layer 5.0 the framed algebra `(P, S)` with its automorphisms and q-derivatives, for the base ring D, the element q and the ideal `(p, q−1)`: the automorphism of `D[S]^∧` scaling `X_s` by q is congruent to the identity modulo the topologically nilpotent element `(q−1)X_s`, so it extends uniquely along the completely ind-étale framing (Construction 16.19).
 
-### 5.15 Extension of the automorphisms and q-derivatives to the q-PD envelope
-
+**5.15 Extension of the automorphisms and q-derivatives to the q-PD envelope.**
 Let `(P,S,J)` be a framed q-PD datum, D flat over `A=Z_p[[q−1]], t=q−1` and `E=D_{J,q}(P)`. Construct commuting continuous δ-D-algebra automorphisms `γ_s` of E extending those on P, and continuous D-linear maps `∇_s:E→E` extending its q-derivatives. Require
 
 ```text
@@ -1781,8 +1775,7 @@ The coefficient is integral. Its q-PD ideal is `K⊕Eε`, quotient `E/K`; evalua
 
 **Proof route.** Verify the displayed integral Frobenius on the finite free thickening and use its q-PD ideal to extend the coordinate map through the envelope. The two evaluations give `γ_s` and its divided difference, and the rank-four two-direction thickening gives commutativity and naturality without cancelling `X_s` (BS22 Construction 16.20 and Lemma 16.21, pp.114–115).
 
-### 5.16 The q-de Rham complex of a framed q-PD datum
-
+**5.16 The q-de Rham complex of a framed q-PD datum.**
 For framed `(P,S,J)`, set `E=D_(J,q)(P)`. Define its q-de Rham complex as the completed cochain Koszul complex of §5.15’s commuting `∇_s`, with term `E⊗̂_PΩ̂^i_(P/D)` and `d(f)=Σ∇_s(f)dX_s`. If `J=(q−1)P` and `I=(q−1), E=P` and this is §5.0. Coordinate-injective maps give complex maps; coordinate identifications need not. Modulo `q−1` it is de Rham of the reduced PD envelope. The identity `∇_sφ=[p]_qX_s^(p−1)φ∇_s` gives Frobenius `f dX_(s₁)⋯↦φ(f)∏[p]_qX_(s_j)^(p−1)dX_(s₁)⋯`. On unit coordinates it identifies with `Koszul((γ_s−1)/(q−1))=η_(q−1)Koszul(γ_s−1)`. The polynomial version uses the constructed operators; abstract quotient uniqueness still requires coordinate regularity.
 
 `(P, S, J)` is a framed q-PD datum; D is flat over A. For infinite S use degreewise completed free exterior modules over E and the sum of all `∇_s` in the differential, with §5.0’s summability hypothesis. Finite-subset Koszul complexes on the fixed E do not form a direct system under coordinate inclusions. For the functoriality in coordinate-injective maps, the source prints the last sentence of Construction 16.20 with the framing `A[{X_s}] → P`; the framing `D[{X_s}] → P` is meant. The Frobenius formula is not printed in §16; it follows from the δ-thickening construction of §5.15, with `φ(ε)=[p]_qX_s^(p−1)ε`, and is what the Frobenius compatibility in Theorem 17.2 uses. The Koszul complex of commuting endomorphisms and the identification on unit coordinates are AInfCohomology Layer AI.1's (BMS1 Definition 7.1, Lemma 7.9); the Koszul complex of q-derivations is Layer 5.0's.
