@@ -4,7 +4,7 @@ The [mass formula roadmap](../MassFormula/README.md) counts the totally ramified
 non-archimedean local field `K`: Serre's formula `∑_{L ∈ σ_K(n)} q^{-c(L)} = n`. This roadmap
 removes the restriction to total ramification, and to fields. Its summit is the mass formula of
 [Bhargava 2007, Thm. 1.1]: summed over the isomorphism classes of étale `K`-algebras `A` of degree
-`n`, `∑_{[A]} 1/(#Aut_K(A) · q^{v(Disc A)}) = ∑_{k=0}^{n−1} q(k, n − k) · q^{−k}`, where `q` is the
+`n`, `∑_{[A]} 1/(#Aut_K(A) · q^{v(Disc A)}) = ∑_{k=0}^{n} q(k, n − k) · q^{−k}`, where `q` is the
 residue cardinality, `v(Disc A)` the valuation in `K` of the discriminant of `A`, and `q(k, m)` the
 number of partitions of `k` into at most `m` parts. Together with its refinements by splitting type
 and by ramification partition, it is the local input to Bhargava's heuristics for the density of
@@ -79,8 +79,7 @@ It does not own:
 - **Serre's Theorem 1**, `∑_{L ∈ σ_K(n)} q^{−c(L)} = n` in `ℝ≥0∞` for every non-archimedean local
   field and `0 < n`; Lean form `MassFormula.tsum_one_div_natCard_residueField_pow_wildExponent`.
   Applied in §2.1 to each unramified extension `K_f`.
-- **The orbit count** for `σ_K(n)`, `MassFormula.ncard_isomorphic_mul_natCard_algEquiv`, which
-  §1.3 generalizes to every finite subextension.
+- **The orbit count** for `σ_K(n)`, `MassFormula.ncard_isomorphic_mul_natCard_algEquiv`.
 - **The discriminant exponent of a subextension** and its invariance under `K`-isomorphism
   (MassFormula Layer 0).
 
@@ -88,10 +87,16 @@ In Tau Ceti these are `TauCeti.tsum_one_div_natCard_residueField_pow_wildExponen
 (`TauCeti/NumberTheory/LocalField/MassFormula/Main.lean`), `TauCeti.ncard_isomorphic_mul_natCard_algEquiv`
 (`MassFormula/Orbit.lean`), `IntermediateField.discriminantExponent` and
 `IntermediateField.discriminantExponent_eq_of_algEquiv` (`MassFormula/Basic.lean`). Consume them by
-those names. `Suggested.lean` states `intermediateFieldDiscriminantExponent` with the body of the
+those names. The orbit count there is the totally ramified case of
+`IntermediateField.ncard_isomorphic_mul_natCard_algEquiv_of_isSepClosed`
+(`TauCeti/FieldTheory/IntermediateField/Isomorphic.lean`), for any finite separable `E/K` inside a
+separably closed `Ω`; §1.3 consumes that one. `Suggested.lean` states `intermediateFieldDiscriminantExponent` with the body of the
 Tau Ceti declaration, and cites Theorem 1 from the README.
 
-### From [LocalFieldsRamification, layer 2 unramified extensions and Frobenius](../../Completed/LocalFieldsRamification/README.md), implemented in Tau Ceti
+### From [LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md), implemented in Tau Ceti
+
+Layer 2 (unramified extensions and Frobenius):
+
 
 - **Unramified extensions**: `TauCeti.unramifiedExtension K Ω f`, the unique unramified
   subextension of degree `f ≥ 1` of a separably closed `Ω` (`TauCeti.existsUnique_isUnramified_finrank_eq`,
@@ -102,10 +107,16 @@ Tau Ceti declaration, and cites Theorem 1 from the README.
   `TauCeti.isTotallyRamified_unramifiedExtension_inertiaDegree` and
   `TauCeti.finrank_unramifiedExtension_inertiaDegree_eq_ramificationIndex`
   (`Unramified/Factorization.lean`).
+
+Layer 3 (the discriminant):
+
 - **The discriminant tower law** `δ(M/K) = [M:L] δ(L/K) + f(L/K) δ(M/L)` for a separable tower:
   `TauCeti.discriminantExponent_tower` (`Discriminant/Tower.lean`); its vanishing on unramified
   extensions, `TauCeti.discriminantExponent_eq_zero_iff`; and its invariance,
   `TauCeti.discriminantExponent_eq_of_algEquiv` (`Discriminant/Basic.lean`).
+
+Layer 0 (residue degree and the structure adapters):
+
 - **Residue degree**: `TauCeti.inertiaDegree` with `TauCeti.ramificationIndex_mul_inertiaDegree`
   (`InertiaDegree.lean`).
 - **The structure adapters** `TauCeti.finiteIntermediateFieldValuativeRel`,
@@ -156,7 +167,9 @@ contract (invariance under `K`-isomorphism); Mathlib `IntermediateField.fixedFie
   fixed field is `⊥`.
 - For `X = Gal(K^sep/K)/H` with `H` the fixing subgroup of `ℚ_2(i)` over `K = ℚ_2`, the weight is
   `2`, the discriminant exponent of `ℚ_2(i)`.
-- A disjoint union of two actions has the sum of the weights.
+- A disjoint union of two finite actions has the sum of the weights. Finiteness is needed: `∑ᶠ` is
+  `0` when infinitely many orbits have nonzero weight, so countably many copies `X` of the
+  `ℚ_2(i)` orbit above have `d(X) = d(X ⊔ Y) = 0` with `d(Y) = 2`.
 
 ### 0.2 Galois sets
 
@@ -184,11 +197,10 @@ stabilizer of any point (`GaloisSet.discriminantExponent_of_isTransitive`). **Th
 bridge** (`tsum_isTransitive`): for `n ≥ 1`, the transitive Galois sets with stabilizer `H` of `0`
 correspond to the bijections `G/H ≅ Fin n` sending `H` to `0`, of which there are `(n − 1)!`, and the
 open subgroups of index `n` correspond to the subextensions of degree `n` through `fixedField`. So
-for every weight `g` on subextensions invariant under `K`-isomorphism, the sum over transitive
+for every weight `g` on subextensions, the sum over transitive
 Galois sets of `g` at the fixed field of the stabilizer of `0` is `(n − 1)!` times
 `∑_{[L:K] = n} g(L)`, summed over subextensions of `SeparableClosure K`. Layer 2 applies it with
-`g = q^{−d}` restricted to residue degree `f`. *Needs:* 0.2; the MassFormula contract (invariance
-under `K`-isomorphism).
+`g = q^{−d}` restricted to residue degree `f`. *Needs:* 0.2.
 
 **Checks.**
 
@@ -285,12 +297,13 @@ it. **The residue degree is an invariant of the `K`-isomorphism class**, junk ca
 (`intermediateFieldInertiaDegree_eq_of_algEquiv`, from the invariance of `TauCeti.inertiaDegree`
 under isomorphism of the residue fields). **The orbit count for every finite subextension**
 (`ncard_isomorphic_mul_natCard_algEquiv_eq_finrank`): `L/K` separable of degree `n` has `n`
-embeddings into `SeparableClosure K`, and those with a given image form an `Aut_K(L)`-torsor;
-`TauCeti.ncard_isomorphic_mul_natCard_algEquiv` is the totally ramified case, under a different
-name since its signature differs. With it a sum over `K`-isomorphism classes weighted by
+embeddings into `SeparableClosure K`, and those with a given image form an `Aut_K(L)`-torsor. It is
+`IntermediateField.ncard_isomorphic_mul_natCard_algEquiv_of_isSepClosed` with
+`Ω = SeparableClosure K`; reuse that theorem rather than prove it again. With it a sum over `K`-isomorphism classes weighted by
 `1/#Aut_K` is `1/n` times the sum over subextensions, and 1.2's identity becomes the subfield
 form. *Needs:* 1.1; the LocalFieldsRamification contract
-(`IntermediateField.le_maximalUnramifiedExtension_iff`, `TauCeti.existsUnique_isUnramified_finrank_eq`).
+(`IntermediateField.le_maximalUnramifiedExtension_iff`, `TauCeti.existsUnique_isUnramified_finrank_eq`);
+the MassFormula contract (the general orbit count).
 
 **Checks.**
 
@@ -402,7 +415,7 @@ Mathlib `Equiv.Perm.card_of_cycleType`.
 ### 3.3 the summit
 
 For every `n`, `M_n(K) = ∑_{k=0}^{n} q(k, n − k) · q^{−k}` ([Bhargava 2007, Thm. 1.1 and Prop. 2.3,
-with §8 for an arbitrary non-archimedean local field]; `etaleMass_eq`). For `n ≥ 1` the term
+with the Appendix for an arbitrary non-archimedean local field]; `etaleMass_eq`). For `n ≥ 1` the term
 `k = n` is `q(n, 0) = 0`, so this is Bhargava's `∑_{k=0}^{n−1}`; at `n = 0` both sides are `1`.
 Every Galois set has a ramification partition of some `k ≤ n` into at most `n − k` parts, and
 summing 3.2 over these partitions gives the formula. With 0.4 it is
@@ -422,6 +435,13 @@ Bhargava's statement over étale algebras. *Needs:* 0.4, 3.2; Mathlib `Nat.Parti
 Layer 2; Mathlib's cycle-type counts and partitions. The combinatorial core of 3.2,
 `∑_{π(σ) = π} 1/#Aut(σ) = 1`, is independent of the arithmetic and can be built first.
 
+## Downstream consumers
+
+The `p`-adic extension families roadmap (PadicExtensionFamilies) consumes Layer 1: the
+classification of 1.1, the automorphism count and weighted identity of 1.2, and the subfield form
+and orbit count of 1.3. The arithmetic statistics roadmaps use the masses of Layer 3 as the local
+factors of Bhargava's density constants.
+
 ## Long horizon (a roadmap for a future roadmap; do not attempt it here)
 
 [Kedlaya 2007] reformulates the mass of Galois sets with values in a group `Γ ⊆ GL_n`, weighted by
@@ -436,7 +456,7 @@ direction, not to be worked on under this roadmap.
 
 - M. Bhargava, *Mass formulae for extensions of local fields, and conjectures on the density of
   number field discriminants*, IMRN **2007**, rnm052, doi:10.1093/imrn/rnm052. Numbering of the
-  published article: Thm. 1.1, Props. 2.1–2.3, eqs. (2.1)–(2.4), and §8 for arbitrary local fields
+  published article: Thm. 1.1, Props. 2.1–2.3, eqs. (2.1)–(2.4), and the Appendix for arbitrary local fields
   (the preprint numbers them Theorem 1 and Propositions 1–3).
 - J-P. Serre, *Une «formule de masse» pour les extensions totalement ramifiées de degré donné
   d'un corps local*, C. R. Acad. Sci. Paris **286** (1978), 1031–1036, through the mass formula
