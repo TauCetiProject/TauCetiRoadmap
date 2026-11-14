@@ -1,0 +1,485 @@
+module
+
+public import Mathlib
+public import TauCeti.Algebra.Module.ZLattice.RealModel
+public import TauCeti.Algebra.Module.ZLattice.SuccessiveMinima
+public import TauCeti.LinearAlgebra.IntegralLattice.PosDef.SuccessiveMinima
+public import TauCeti.NumberTheory.HurwitzClassNumber
+
+/-!
+# Geometry of numbers and quadratic arithmetic: target signatures
+
+**This file is not the roadmap and is not exhaustive.** The roadmap is `README.md`. This file
+states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti; discharging them
+finishes neither a layer nor the roadmap. Each theorem is a proof target marked with `sorry`.
+
+The statements cover the intrinsic covolume identities (Layer 0), the comparison of the real
+successive minima of the real model with the squared-norm successive minima of a positive definite
+integral lattice (Layer 1), atomic normal forms over DVRs of any characteristic (Layer 2), finite
+hermitian embedding counts (Layer 3), Ratner's three theorems, Oppenheim, Duke, Gauss's
+three-square formula, Siegel's three-square lower bound, critical-lattice existence,
+Dani–Margulis nondivergence, Siegel's mean value theorem, Banaszczyk's transference bound and the
+covering transference bound (Layer 4), the LLL short-vector approximation factor (Layer 5), and
+Arf's theorems over a finite field of characteristic two (Layer 6), whose `𝔽₂` instances are
+GeometricTopology Layer 4.3.1's finite quadratic Arf algebra. The definitions below specify
+only the Euclidean unit ball as a convex body, finite counts, shells, the covering radius, star
+bodies, lattice transforms, reducedness and the Arf class used in these statements. All have real
+bodies on native carriers; the real model, both kinds of successive minima and Hurwitz class
+numbers use Tau Ceti.
+
+Henk's and Davenport's lattice-point counts (§4.1) are SieveMethodsAndPrimePatterns §0.11a, and
+Howe–Moore, Moore ergodicity (§§4.2.1–4.2.2) and Mahler's criterion (§4.5.8) are
+ProbabilisticAndMetricNumberTheory §§4.9a–4.9b; the comments in Layer 4 name them.
+
+The upper half of Minkowski's second theorem is Tau Ceti's
+`ZLattice.prod_successiveMin_mul_measure_le_two_pow_mul_covolume`, so it is not restated here.
+
+The Cho–Yamauchi formula and Siegel-polynomial functional equation (§3.2) are not statable at
+the pins, which do not provide the local hermitian density, normalized Siegel polynomial or
+integral overlattice construction with its dual quotient and elementary divisors. The adelic mass
+identity, orthogonal Tamagawa number and maximal-lattice mass formula (§3.3) need the
+number-ring genus class set, adelic orthogonal quotient measures and smooth maximal
+orthogonal stabilizer models, which the pins lack; Layers 2–3 specify them. The signed
+hermitian Witt classification and transfer theorems (§2.9) need their signed Witt quotients,
+which the pins lack.
+
+Hermitian delooping (§6.7.19), derived localization (§6.9), periodicity, finite-field comparisons
+and integral L-theory (§§6.10–6.11) are not statable at the pins, which have no hermitian
+Q/Grothendieck–Witt spaces, hermitian suspension, common spectrum category or Poincaré
+structures. Exact structures and DG categories alone do not supply those objects. The integral
+Wall form and formation groups of §6.8 and their calculations feed only the integral L-theory
+above and are stated in the README with it. The number-ring homotopy-limit comparison
+and the higher integer Grothendieck–Witt groups are outside this roadmap.
+-/
+
+@[expose] public section
+
+noncomputable section
+open scoped BigOperators Pointwise Topology NNReal ENNReal
+open MeasureTheory Module
+
+namespace TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
+
+/-! ## Layer 0: Lattices, Gram determinants and covolumes -/
+
+section Covolumes
+variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+  [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
+
+/-- The intrinsic covolume of the projection of `Δ` to `Wᗮ` is `covol Δ / covol (Δ ∩ W)` (0.3.1). -/
+theorem covolume_projection
+    (Δ : Submodule ℤ E) [DiscreteTopology Δ] [IsZLattice ℝ Δ]
+    (W : Submodule ℝ E)
+    (hW : Submodule.span ℝ (ZLattice.comap ℝ Δ W.subtype : Set W) = ⊤) :
+    ZLattice.covolume
+      (Δ.map (Wᗮ.orthogonalProjectionOnto.toLinearMap.restrictScalars ℤ)) =
+      ZLattice.covolume Δ / ZLattice.covolume (ZLattice.comap ℝ Δ W.subtype) := by sorry
+
+/-- In a self-dual lattice the primitive intersections with `W` and `Wᗮ` have equal intrinsic
+covolumes (0.3.3). -/
+theorem primitive_orthogonal_covolume
+    (Δ : Submodule ℤ E) [DiscreteTopology Δ] [IsZLattice ℝ Δ]
+    (hΔ : LinearMap.BilinForm.dualSubmodule (innerₗ E) Δ = Δ) (W : Submodule ℝ E)
+    (hW : Submodule.span ℝ (ZLattice.comap ℝ Δ W.subtype : Set W) = ⊤) :
+    ZLattice.covolume (ZLattice.comap ℝ Δ Wᗮ.subtype) =
+      ZLattice.covolume (ZLattice.comap ℝ Δ W.subtype) := by sorry
+
+end Covolumes
+
+/-! ## Layer 1: Elementary volume bounds and squared-norm minima -/
+
+/-- The closed Euclidean unit ball, as a convex body (1.2.14, 4.4.13). -/
+def euclideanUnitBall {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+    [FiniteDimensional ℝ E] : ConvexBody E where
+  carrier := Metric.closedBall 0 1
+  convex' := convex_closedBall 0 1
+  isCompact' := isCompact_closedBall 0 1
+  nonempty' := ⟨0, Metric.mem_closedBall_self zero_le_one⟩
+
+/-- **Squared-norm and real successive minima** (1.2.14): for a positive definite integral
+lattice `L` in a rational vector space, the `(i+1)`-st squared-norm successive minimum, a natural
+number, is the square of the `(i+1)`-st successive minimum of its real model for the closed unit
+ball. The index is transported along `rank L = dim_ℝ` of the real model space. -/
+theorem sqSuccessiveMin_eq_sq_successiveMin {V : Type*} [AddCommGroup V] [Module ℚ V]
+    (L : TauCeti.IntegralLattice V) (hL : L.IsPosDef) (i : Fin (finrank ℤ L)) :
+    ((L.successiveMinimum i : ℕ) : ℝ) =
+      ZLattice.successiveMin (L.realModel hL) euclideanUnitBall
+        (Fin.cast (TauCeti.IntegralLattice.RealModelSpace.finrank_eq (M := L) (hM := hL)).symm
+          i) ^ 2 := by
+  sorry
+
+/-! ## Layer 2: Integral quadratic and hermitian lattices -/
+
+section AtomicDVRForms
+variable {R : Type*} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] {n : ℕ}
+
+/-- Voight's atomic integral quadratic forms over a DVR (2.6.1): a unit unary form, or, when `2`
+is not a unit, a binary form `[a, b, c]` with `v(b) < v(2a) ≤ v(2c)` and `a` or `b` a unit. -/
+def IsAtomicIntegralQuadraticForm (q : QuadraticForm R (Fin n → R)) : Prop :=
+  (∃ (a : R) (e : (Fin n → R) ≃ₗ[R] R), IsUnit a ∧ ∀ x, q x = a * (e x) ^ 2) ∨
+  (¬ IsUnit (2 : R) ∧ ∃ (a b c : R) (e : (Fin n → R) ≃ₗ[R] (Fin 2 → R)),
+    IsDiscreteValuationRing.addVal R b < IsDiscreteValuationRing.addVal R (2 * a) ∧
+    IsDiscreteValuationRing.addVal R (2 * a) ≤ IsDiscreteValuationRing.addVal R (2 * c) ∧
+    (IsUnit a ∨ IsUnit b) ∧
+    ∀ x, q x = a * (e x 0) ^ 2 + b * (e x 0) * (e x 1) + c * (e x 1) ^ 2)
+
+/-- Every quadratic form on a finite projective module over a DVR, of any characteristic, has
+an integral orthogonal decomposition into ordered uniformizer powers of atomic blocks and
+a zero summand (2.6.11). The zero summand records the infinite exponents. -/
+theorem atomic_normal_form {M : Type*} [AddCommGroup M] [Module R M]
+    [Module.Finite R M] [Module.Projective R M] (q : QuadraticForm R M)
+    (π : R) (hπ : Irreducible π) :
+    ∃ (s z : ℕ) (size : Fin s → ℕ) (exponent : Fin s → ℕ)
+      (blocks : (i : Fin s) → QuadraticForm R (Fin (size i) → R))
+      (e : M ≃ₗ[R] (((i : Fin s) → Fin (size i) → R) × (Fin z → R))),
+      Monotone exponent ∧ (∀ i, size i = 1 ∨ size i = 2) ∧
+      (∀ i, IsAtomicIntegralQuadraticForm (blocks i)) ∧
+      ∀ x, q x = ∑ i, π ^ exponent i * blocks i ((e x).1 i) := by sorry
+
+end AtomicDVRForms
+
+/-! ## Layer 3: Representation densities, mass and theta coefficients -/
+
+section FiniteHermitianCounts
+variable {A : Type*} [CommRing A] [StarRing A] {m n : ℕ}
+
+/-- The number of injective solutions of `Xᴴ G X = B` over a finite ring with involution
+(3.1.2). -/
+def hermitianEmbeddingCount [Finite A] (G : Matrix (Fin m) (Fin m) A)
+    (B : Matrix (Fin n) (Fin n) A) : ℕ :=
+  Nat.card {X : Matrix (Fin m) (Fin n) A //
+    X.conjTranspose * G * X = B ∧ Function.Injective X.mulVec}
+
+/-- **The finite hermitian embedding count** (3.1.3), with the radical dimension `a` of the source
+retained in the product. -/
+theorem finite_hermitian_isometry_formula {F : Type*} [Field F] [StarRing F]
+    [Finite F] (q : ℕ) (hq : 2 ≤ q)
+    (hcard : Nat.card F = q ^ 2) (hstar : ∀ x : F, star x = x ^ q)
+    (G : Matrix (Fin m) (Fin m) F) (B : Matrix (Fin n) (Fin n) F)
+    (hG : G.conjTranspose = G) (hB : B.conjTranspose = B)
+    (hGnd : G.det ≠ 0) (hmn : n ≤ m) :
+    (hermitianEmbeddingCount G B : ℚ) = (q : ℚ) ^ (n * (2 * m - n)) *
+      ∏ i ∈ Finset.range (n + finrank F (LinearMap.ker B.mulVecLin)),
+        (1 - (-(q : ℚ)) ^ ((i : ℤ) - (m : ℤ))) := by sorry
+
+end FiniteHermitianCounts
+
+/-! ## Layer 4: Lattice points, star bodies and homogeneous dynamics -/
+
+-- Supplied by `TauCetiRoadmap.SieveMethodsAndPrimePatterns` §0.11a (4.1):
+-- `SieveLattice.lattice_count_lt_successive_minima` (4.1.12), and
+-- `SieveLattice.SemialgebraicMultiset`, `SieveLattice.multisetLatticeCount` and
+-- `SieveLattice.multisetVolume` with `SieveLattice.davenport_multiset_estimate` (4.1.13).
+
+-- Supplied by `TauCetiRoadmap.ProbabilisticAndMetricNumberTheory` §4.9a (4.2.1–4.2.2):
+-- `MetricNumberTheory.howe_moore_of_cartan`, `MetricNumberTheory.howe_moore` and
+-- `MetricNumberTheory.moore_ergodicity`.
+
+section Ratner
+open scoped Manifold ContDiff
+variable {E G : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [hdim : FiniteDimensional ℝ E] [CompleteSpace E] [TopologicalSpace G] [ChartedSpace E G]
+  [Group G] [LieGroup 𝓘(ℝ, E) (minSmoothness ℝ 3) G] [IsTopologicalGroup G]
+  [hmanifold : IsManifold 𝓘(ℝ, E) ∞ G]
+  [T2Space G] [SecondCountableTopology G] [hconn : ConnectedSpace G]
+  [hsemisimple : LieAlgebra.IsSemisimple ℝ (GroupLieAlgebra 𝓘(ℝ, E) G)]
+  {d : ℕ} (ρ : G →* Matrix.GeneralLinearGroup (Fin d) ℝ)
+  (hρ : Topology.IsClosedEmbedding ρ)
+  (Γ : Subgroup G) [DiscreteTopology Γ]
+  [MeasurableSpace (G ⧸ Γ)] [BorelSpace (G ⧸ Γ)]
+  (μ : Measure (G ⧸ Γ)) [IsProbabilityMeasure μ]
+  (hμ : ∀ g : G, MeasurePreserving (fun x : G ⧸ Γ => g • x) μ μ)
+  (U : Subgroup G) [ConnectedSpace U]
+  (hU : U = Subgroup.closure {g : G | ∃ u : ℝ → G,
+    Continuous u ∧ u 0 = 1 ∧ (∀ s t, u (s + t) = u s * u t) ∧
+    (∀ t, u t ∈ U ∧ IsNilpotent ((ρ (u t) : Matrix (Fin d) (Fin d) ℝ) - 1)) ∧
+    g ∈ Set.range u})
+
+include ρ hρ μ hμ hU hdim hmanifold hconn hsemisimple
+
+/-- **Ratner's orbit-closure theorem** (4.2.4): an orbit of a connected subgroup generated
+by one-parameter unipotents has a closed homogeneous closure supporting an invariant
+probability. This probability expresses finite volume of the homogeneous orbit. -/
+theorem ratner_orbit_closure (x : G ⧸ Γ) :
+    ∃ L : Subgroup G, U ≤ L ∧ IsClosed (L : Set G) ∧ ConnectedSpace L ∧
+      closure (Set.range (fun u : U => u • x)) = Set.range (fun l : L => l • x) ∧
+      ∃ ν : Measure (G ⧸ Γ), IsProbabilityMeasure ν ∧
+        ν (Set.range (fun l : L => l • x))ᶜ = 0 ∧
+        ∀ l : L, MeasurePreserving (fun y : G ⧸ Γ => l • y) ν ν := by sorry
+
+/-- **Ratner's measure-classification theorem** (4.2.5): every ergodic invariant probability
+for the unipotent-generated subgroup is the homogeneous probability of a closed orbit. -/
+theorem ratner_measure_classification (ν : Measure (G ⧸ Γ)) [IsProbabilityMeasure ν]
+    (hν : ErgodicSMul U (G ⧸ Γ) ν) :
+    ∃ (L : Subgroup G) (x : G ⧸ Γ), U ≤ L ∧ IsClosed (L : Set G) ∧
+      ConnectedSpace L ∧ IsClosed (Set.range (fun l : L => l • x)) ∧
+      ν (Set.range (fun l : L => l • x))ᶜ = 0 ∧
+      ∀ l : L, MeasurePreserving (fun y : G ⧸ Γ => l • y) ν ν := by sorry
+
+omit [ConnectedSpace U] hU in
+/-- **Ratner's equidistribution theorem** (4.2.6): each one-parameter unipotent trajectory
+equidistributes in a closed finite-volume homogeneous orbit against compactly supported
+continuous observables. -/
+theorem ratner_equidistribution (u : ℝ → G) (hu : Continuous u) (hu0 : u 0 = 1)
+    (humul : ∀ s t, u (s + t) = u s * u t)
+    (hunip : ∀ t, IsNilpotent ((ρ (u t) : Matrix (Fin d) (Fin d) ℝ) - 1))
+    (x : G ⧸ Γ) :
+    ∃ L : Subgroup G, IsClosed (L : Set G) ∧ ConnectedSpace L ∧
+      (∀ t, u t ∈ L) ∧ IsClosed (Set.range (fun l : L => l • x)) ∧
+      closure (Set.range (fun t : ℝ => u t • x)) = Set.range (fun l : L => l • x) ∧
+      ∃ ν : Measure (G ⧸ Γ), IsProbabilityMeasure ν ∧
+        ν (Set.range (fun l : L => l • x))ᶜ = 0 ∧
+        (∀ l : L, MeasurePreserving (fun y : G ⧸ Γ => l • y) ν ν) ∧
+        ∀ f : G ⧸ Γ → ℝ, Continuous f → HasCompactSupport f →
+          Filter.Tendsto (fun T : ℝ => (∫ t in (0 : ℝ)..T, f (u t • x)) / T)
+            Filter.atTop (nhds (∫ y, f y ∂ν)) := by sorry
+
+end Ratner
+
+section Oppenheim
+
+/-- **Margulis's theorem** (Oppenheim conjecture, 4.3.1): a nondegenerate indefinite form in at
+least three variables that is not proportional to a rational form has dense values on `ℤⁿ`. -/
+theorem oppenheim_values {n : ℕ} (hn : 3 ≤ n) (q : QuadraticForm ℝ (Fin n → ℝ))
+    (hnd : (QuadraticMap.associated q).SeparatingLeft)
+    (hind : (∃ x, q x > 0) ∧ (∃ x, q x < 0))
+    (hirr : ¬ ∃ c : ℝ, c ≠ 0 ∧ ∀ z : Fin n → ℤ,
+      ∃ r : ℚ, q (fun i => (z i : ℝ)) = c * (r : ℝ)) :
+    Dense (Set.range (fun z : Fin n → ℤ => q (fun i => (z i : ℝ)))) := by sorry
+
+end Oppenheim
+
+/-- The integer points of the sphere `x² + y² + z² = n`. -/
+def ternaryShell (n : ℕ) : Set (Fin 3 → ℤ) := {v | ∑ i, v i ^ 2 = (n : ℤ)}
+
+/-- **Duke's equidistribution theorem** (4.3.2): normalized shell averages converge to the
+normalized rotation-invariant surface integral along admissible squarefree radii. -/
+theorem duke_sphere_equidistribution
+    (f : EuclideanSpace ℝ (Fin 3) → ℝ) (hf : ContinuousOn f (Metric.sphere 0 1)) :
+    Filter.Tendsto
+      (fun n : ℕ => (∑' v : ternaryShell n,
+        f ((Real.sqrt n)⁻¹ • WithLp.toLp 2 (fun i => (v.1 i : ℝ)))) /
+          (Nat.card (ternaryShell n) : ℝ))
+      (Filter.atTop ⊓ Filter.principal {n : ℕ | 0 < n ∧ Squarefree n ∧ n % 8 ≠ 7})
+      (nhds ((∫ x : Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1,
+        f x ∂(volume : Measure (EuclideanSpace ℝ (Fin 3))).toSphere) /
+          (volume : Measure (EuclideanSpace ℝ (Fin 3))).toSphere.real Set.univ)) := by sorry
+
+/-- **Gauss's three-square theorem** in Hurwitz form: `r₃(n) = 12 (H(4n) - 2 H(n))`, with Tau Ceti's
+Hurwitz class number, including imprimitive classes and their stabilizer weights. -/
+theorem three_square_hurwitz {n : ℕ} (hn : 0 < n) :
+    (Nat.card (ternaryShell n) : ℚ) =
+      12 * (TauCeti.hurwitzClassNumber (4 * n) - 2 * TauCeti.hurwitzClassNumber n) := by sorry
+
+/-- The ineffective lower bound for three-square representations on the positive squarefree
+sequence excluding `7 mod 8` (4.3), including the small discriminants with extra units. -/
+theorem siegel_three_square_lower_bound (ε : ℝ) (hε : 0 < ε) :
+    ∃ c : ℝ, 0 < c ∧ ∀ n : ℕ, 0 < n → Squarefree n → n % 8 ≠ 7 →
+      c * Real.rpow (n : ℝ) (1 / 2 - ε) ≤ (Nat.card (ternaryShell n) : ℝ) := by sorry
+
+section Transference
+variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
+
+/-- The covering radius `μ(L) = sup_x inf_{v ∈ L} ‖x - v‖` (4.4.2), with values in `[0, ∞]`; for a
+discrete `L` it is finite exactly when `L` spans `E`. -/
+def latticeCoveringRadius (L : Submodule ℤ E) : ℝ≥0∞ :=
+  ⨆ x : E, Metric.infEDist x (L : Set E)
+
+/-- **Banaszczyk's transference bound** (4.4.13): for a discrete full lattice `L` in a Euclidean
+space of dimension `n` and its dual `L*` under the inner product, `λ_i(L) λ_(n+1-i)(L*) ≤ n` for the
+Euclidean unit ball, indexing from zero. -/
+theorem euclidean_dual_transference_upper (L : Submodule ℤ E) [DiscreteTopology L]
+    [IsZLattice ℝ L] (i : Fin (finrank ℝ E)) :
+    ZLattice.successiveMin L euclideanUnitBall i *
+        ZLattice.successiveMin (LinearMap.BilinForm.dualSubmodule (innerₗ E) L)
+          euclideanUnitBall i.rev ≤ finrank ℝ E := by
+  sorry
+
+/-- **The covering transference bound** (4.4.14): for a discrete full lattice `L` in a Euclidean
+space of dimension `n ≥ 1`, `1/2 ≤ μ(L) λ_1(L*) ≤ n`, with `μ` the covering radius and `λ_1(L*)`
+the first minimum of the dual lattice for the Euclidean unit ball. -/
+theorem covering_dual_transference (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
+    (hn : 0 < finrank ℝ E) :
+    1 / 2 ≤ (latticeCoveringRadius L).toReal *
+        ZLattice.successiveMin (LinearMap.BilinForm.dualSubmodule (innerₗ E) L)
+          euclideanUnitBall ⟨0, hn⟩ ∧
+      (latticeCoveringRadius L).toReal *
+        ZLattice.successiveMin (LinearMap.BilinForm.dualSubmodule (innerₗ E) L)
+          euclideanUnitBall ⟨0, hn⟩ ≤ finrank ℝ E := by
+  sorry
+
+end Transference
+
+section StarBodies
+variable (E : Type*) [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+
+/-- A star body, given by its continuous nonnegative positively homogeneous gauge (4.5.1);
+convexity, boundedness and definiteness are not assumed. -/
+structure StarBody where
+  gauge : E → ℝ
+  continuous : Continuous gauge
+  nonneg : ∀ x, 0 ≤ gauge x
+  homogeneous : ∀ (a : ℝ), 0 ≤ a → ∀ x, gauge (a • x) = a * gauge x
+
+variable {E}
+
+/-- A lattice is admissible when the open sublevel `gauge < 1` contains no nonzero lattice point
+(4.5.1). -/
+def StarBody.admissible (K : StarBody E) (L : Submodule ℤ E) : Prop :=
+  ∀ x ∈ L, x ≠ 0 → 1 ≤ K.gauge x
+
+/-- A star body is of finite type when some full discrete lattice is admissible (4.5.1). -/
+def StarBody.IsFiniteType (K : StarBody E) : Prop :=
+  ∃ (L : Submodule ℤ E) (_ : DiscreteTopology L) (_ : IsZLattice ℝ L), K.admissible L
+
+end StarBodies
+
+section CriticalDeterminants
+variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+  [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
+
+/-- The critical determinant `Δ(K)`: the infimum of covolumes of admissible full lattices
+(4.5.2); it is `0` for a body that is not of finite type. -/
+def criticalDeterminant (K : StarBody E) : ℝ :=
+  sInf {d | ∃ (L : Submodule ℤ E) (_ : DiscreteTopology L) (_ : IsZLattice ℝ L),
+    K.admissible L ∧ d = ZLattice.covolume L}
+
+/-- **Mahler's theorem** (4.5.9): every star body of finite type, bounded or not, has a critical
+lattice. -/
+theorem critical_lattice_exists (K : StarBody E) (hK : K.IsFiniteType) :
+    ∃ (L : Submodule ℤ E) (_ : DiscreteTopology L) (_ : IsZLattice ℝ L),
+      K.admissible L ∧ ZLattice.covolume L = criticalDeterminant K := by sorry
+
+end CriticalDeterminants
+
+section SiegelTransform
+variable {E : Type*} [AddCommGroup E] [Module ℤ E]
+
+/-- The Siegel transform `Σ_{v ∈ L ∖ 0} f(v)` (4.6). -/
+def siegelTransform (L : Submodule ℤ E) (f : E → ℝ) : ℝ :=
+  ∑' v : {v : L // (v : E) ≠ 0}, f (v.val : E)
+
+/-- The nonnegative lattice transform, allowing infinite sums (4.6.1). -/
+def siegelTransformNonneg (L : Submodule ℤ E) (f : E → ℝ≥0∞) : ℝ≥0∞ :=
+  ∑' v : {v : L // (v : E) ≠ 0}, f (v.val : E)
+
+end SiegelTransform
+
+section UnimodularLattices
+variable {n : ℕ} (Γ : Subgroup (Matrix.SpecialLinearGroup (Fin n) ℝ))
+  (hΓ : ∀ g : Matrix.SpecialLinearGroup (Fin n) ℝ,
+    g ∈ Γ ↔ ∀ i j, ∃ z : ℤ, (z : ℝ) = (g : Matrix (Fin n) (Fin n) ℝ) i j)
+
+include hΓ
+
+-- Supplied by `TauCetiRoadmap.ProbabilisticAndMetricNumberTheory` §4.9b (4.5.8):
+-- `MetricNumberTheory.mahler_relativelyCompact_iff`, in the max norm on `ℝⁿ`.
+
+/-- **Dani–Margulis nondivergence** (4.2.3): every trajectory of a one-parameter unipotent
+in the space of unimodular lattices spends uniformly almost all of each initial time interval
+in one compact set. -/
+theorem dani_margulis_nondivergence (hn : 2 ≤ n)
+    (u : ℝ → Matrix.SpecialLinearGroup (Fin n) ℝ) (hu : Continuous u) (hu0 : u 0 = 1)
+    (humul : ∀ s t, u (s + t) = u s * u t)
+    (hunip : ∀ t, IsNilpotent ((u t : Matrix (Fin n) (Fin n) ℝ) - 1))
+    (x : Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ) (ε : ℝ) (hε : 0 < ε) :
+    ∃ C : Set (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ), IsCompact C ∧
+      ∀ T : ℝ, 0 < T → (1 - ε) * T ≤
+        volume.real {t : ℝ | t ∈ Set.Icc 0 T ∧ u t • x ∈ C} := by sorry
+
+/-- **Siegel's mean value theorem** (4.6.1): the nonzero-vector lattice transform is
+integrable and has the same integral as the original integrable function on `ℝⁿ`.
+The quotient measure is the invariant probability, and `n ≥ 2`. -/
+theorem siegel_mean_value (hn : 2 ≤ n)
+    [MeasurableSpace (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ)]
+    [BorelSpace (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ)]
+    (μ : Measure (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ)) [IsProbabilityMeasure μ]
+    (hμ : ∀ g : Matrix.SpecialLinearGroup (Fin n) ℝ,
+      MeasurePreserving (fun x : Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ => g • x) μ μ)
+    (f : EuclideanSpace ℝ (Fin n) → ℝ) (hf : Integrable f) :
+    let F := fun x : Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ =>
+      siegelTransform (Submodule.span ℤ (Set.range (fun j : Fin n =>
+        WithLp.toLp 2 (fun i => (x.out : Matrix (Fin n) (Fin n) ℝ) i j)))) f
+    Integrable F μ ∧ ∫ x, F x ∂μ = ∫ y, f y := by sorry
+
+/-- The Tonelli form of Siegel's mean value theorem (4.6.1), including infinite values. -/
+theorem siegel_mean_value_nonneg (hn : 2 ≤ n)
+    [MeasurableSpace (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ)]
+    [BorelSpace (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ)]
+    (μ : Measure (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ)) [IsProbabilityMeasure μ]
+    (hμ : ∀ g : Matrix.SpecialLinearGroup (Fin n) ℝ,
+      MeasurePreserving (fun x : Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ => g • x) μ μ)
+    (f : EuclideanSpace ℝ (Fin n) → ℝ≥0∞) (hf : Measurable f) :
+    let F := fun x : Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ =>
+      siegelTransformNonneg (Submodule.span ℤ (Set.range (fun j : Fin n =>
+        WithLp.toLp 2 (fun i => (x.out : Matrix (Fin n) (Fin n) ℝ) i j)))) f
+    Measurable F ∧ ∫⁻ x, F x ∂μ = ∫⁻ y, f y := by sorry
+
+end UnimodularLattices
+
+/-! ## Layer 5: LLL-reduced bases -/
+
+section LLL
+variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] {n : ℕ}
+
+/-- The Gram–Schmidt coefficient `μ_{ij} = ⟨b_i, b*_j⟩/‖b*_j‖²` (5.1.1). -/
+def lllCoefficient (b : Fin n → E) (i j : Fin n) : ℝ :=
+  inner ℝ (b i) (InnerProductSpace.gramSchmidt ℝ b j) /
+    ‖InnerProductSpace.gramSchmidt ℝ b j‖ ^ 2
+
+/-- LLL-reduced at `δ = 3/4` (5.1.2): independent, size-reduced, and Lovász. -/
+def IsLLLReduced (b : Fin n → E) : Prop :=
+  LinearIndependent ℝ b ∧
+  (∀ i j, j < i → |lllCoefficient b i j| ≤ 1/2) ∧
+  (∀ i j, j.val + 1 = i.val →
+    (3/4 - (lllCoefficient b i j) ^ 2) * ‖InnerProductSpace.gramSchmidt ℝ b j‖ ^ 2 ≤
+      ‖InnerProductSpace.gramSchmidt ℝ b i‖ ^ 2)
+
+/-- **The LLL approximation factor** (5.1.4): `‖b₀‖² ≤ 2^{n-1} ‖x‖²` for nonzero `x` in the
+integer span. -/
+theorem lll_short_vector_factor (b : Fin n → E) (h : IsLLLReduced b) (hn : 0 < n)
+    (x : E) (hx : x ∈ Submodule.span ℤ (Set.range b)) (h0 : x ≠ 0) :
+    ‖b ⟨0, hn⟩‖ ^ 2 ≤ (2 : ℝ) ^ (n - 1) * ‖x‖ ^ 2 := by sorry
+
+end LLL
+
+/-! ## Layer 6: Hermitian K-theory of exact categories -/
+
+section ArfInvariant
+
+/-- The Arf class of a quadratic form over a finite field `K` of characteristic two, in `ZMod 2`
+(6.8): `0` when `|K|` times the number of zeros of `q` exceeds `|V|`, and `1` otherwise. For a
+nonsingular form it is the absolute trace of the Arf invariant in `K/℘(K)`; over `𝔽₂` it is the
+value the form takes on more than half of the vectors. -/
+def finiteArfInvariant {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
+    (q : QuadraticMap K V K) : ZMod 2 :=
+  if Nat.card V < Nat.card K * Nat.card {x : V // q x = 0} then 0 else 1
+
+variable {K V W : Type*} [Field K] [Finite K] [CharP K 2]
+  [AddCommGroup V] [Module K V] [Module.Finite K V]
+  [AddCommGroup W] [Module K W] [Module.Finite K W]
+
+/-- (6.8) Over a finite field of characteristic two, a nonsingular quadratic form has a
+Lagrangian, a subspace of half the dimension on which it vanishes, exactly when its Arf class is
+zero. At `K = 𝔽₂` this is GeometricTopology Layer 4.3.1's Lagrangian criterion; this roadmap adds
+the extension to every finite field of characteristic two. -/
+theorem finiteArfInvariant_eq_zero_iff_exists_lagrangian (q : QuadraticMap K V K)
+    (hq : (QuadraticMap.polarBilin q).Nondegenerate) :
+    finiteArfInvariant q = 0 ↔ ∃ L : Submodule K V,
+      2 * finrank K L = finrank K V ∧ ∀ x ∈ L, q x = 0 := by
+  sorry
+
+/-- **Arf's classification over a finite field of characteristic two** (6.8): nonsingular
+quadratic forms of equal dimension are isometric exactly when their Arf classes agree. At
+`K = 𝔽₂` this is GeometricTopology Layer 4.3.1's classification by dimension and Arf invariant;
+this roadmap adds the extension to every finite field of characteristic two. -/
+theorem quadraticMap_equivalent_iff_finiteArfInvariant (q : QuadraticMap K V K)
+    (q' : QuadraticMap K W K) (hq : (QuadraticMap.polarBilin q).Nondegenerate)
+    (hq' : (QuadraticMap.polarBilin q').Nondegenerate)
+    (hdim : finrank K V = finrank K W) :
+    q.Equivalent q' ↔ finiteArfInvariant q = finiteArfInvariant q' := by
+  sorry
+
+end ArfInvariant
+
+end TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
