@@ -876,17 +876,18 @@ constant coefficients, extended to local coefficients as described)
   is connected with two path components, so sheaf `H⁰` with constant `ℤ` is `ℤ` while singular
   `H⁰` is `ℤ²`; it is not locally path-connected at the points of its limit segment.
 
-### ALS.F.4 Equivariant sheaves for topological groups
+### ALS.F.4 Equivariant module sheaves on spaces with a topological group action
 
-Define LocallySymmetric.EquivariantSheaf. Let `G` be a topological group, `R` a commutative ring
-and `X` a `G`-space, that is, a topological space with a continuous right action `m : X × G → X`;
-write `p : X × G → X` for the projection. A `G`-equivariant sheaf of `R`-modules on `X` is a sheaf
-`F` of `R`-modules with an isomorphism `θ : p^*F ≅ m^*F` satisfying the cocycle condition on
-`X × G × G`; these form an abelian category `Sh_G(X, R)`, which for discrete `G` is
-the category of module sheaves with a compatible isomorphism for each group element.
-Prove: (i) if `q : X → X/G`
-is a locally trivial `G`-torsor, `q^* : Sh(X/G, R) → Sh_G(X, R)` is an equivalence with inverse
-`F ↦ (q_*F)^G`; (ii) if `X` is compact, the global sections of every object of `Sh_G(X, R)` form a
+Define LocallySymmetric.EquivariantSheaf, the abelian category `Sh_G(X, R)` of `G`-equivariant
+sheaves of `R`-modules on `X`. Here `R` is a commutative ring, `G` is a topological group, and `X`
+is a `G`-space: a topological space on which `G` acts continuously from the right through
+`m : X × G → X`. An object is a sheaf `F` of `R`-modules on `X` together with an isomorphism
+`θ : p^*F ≅ m^*F`, where `p : X × G → X` denotes the projection, and `θ` is required to obey the
+cocycle condition on `X × G × G`. For discrete `G`, `Sh_G(X, R)` amounts to module sheaves equipped
+with mutually compatible isomorphisms, one attached to each element of `G`.
+Prove: (i) for a locally trivial `G`-torsor `q : X → X/G`, pulling back gives an equivalence
+`q^* : Sh(X/G, R) → Sh_G(X, R)`, and `F ↦ (q_*F)^G` is its inverse; (ii) if `X` is compact, the
+global sections of every object of `Sh_G(X, R)` form a
 smooth
 `G`-representation; (iii) taking the stalk is an equivalence from `Sh_G(pt, R)` to the smooth
 `R[G]`-modules of SmoothRepresentationsOfLocalGroups SR.0; (iv) for compact `X`, the functor
@@ -4653,16 +4654,17 @@ ALS.F.7 (cohomological representations).
 
 ### ALS.5b.8 Rational cohomology at a non-Eisenstein ideal is cuspidal and lives in [q₀, q₀ + ℓ₀]
 
-Prove LocallySymmetric.nonEisenstein_cuspidal_range. Let `F` be an imaginary CM field with maximal
-totally real subfield `F⁺`, fix `ι : Q̄_p ≅ ℂ`, let `q₀ = [F⁺ : ℚ] n(n − 1)/2` and
-`ℓ₀ = [F⁺ : ℚ] n − 1`, let `K ⊂ GL_n(𝔸_F^∞)` be good and `V_λ` the `𝒪`-lattice of highest weight `λ`
-(ALS.F.7). (1) If `π` is
-cuspidal regular algebraic of weight `ιλ` with `(π^∞)^K ≠ 0`, the Hecke eigensystem of `(ι⁻¹π^∞)^K`
-factors through `T^S → T^S(K, λ)`. (2) If `𝔪 ⊂ T^S(K, V_λ)` is a maximal ideal of Galois type with
-`ρ̄_𝔪` absolutely irreducible, then `H^j(X_K, V_λ)_𝔪[1/p] ≠ 0` only for `j ∈ [q₀, q₀ + ℓ₀]`, and if
-one of these groups is nonzero all are; and every homomorphism `f : T^S(K, V_λ)_𝔪 → Q̄_p` is the
-eigensystem of `(ι⁻¹π^∞)^K` for a cuspidal regular algebraic `π` of weight `ιλ`, with `r_ι(π)`
-residually isomorphic to `ρ̄_𝔪`. The proof: by ALS.5b.4 the cohomology
+Prove LocallySymmetric.nonEisenstein_cuspidal_range. Throughout, `F` is an imaginary CM field whose
+maximal totally real subfield is `F⁺`, `ι : Q̄_p ≅ ℂ` is fixed, `K ⊂ GL_n(𝔸_F^∞)` is good, `V_λ` is
+the `𝒪`-lattice of highest weight `λ` (ALS.F.7), and the degree window is cut out by
+`q₀ = [F⁺ : ℚ] n(n − 1)/2` and `ℓ₀ = [F⁺ : ℚ] n − 1`. The target concerns a maximal ideal
+`𝔪 ⊂ T^S(K, V_λ)` of Galois type whose `ρ̄_𝔪` is absolutely irreducible. For such `𝔪`,
+`H^j(X_K, V_λ)_𝔪[1/p] ≠ 0` forces `j ∈ [q₀, q₀ + ℓ₀]`, and within that range the groups are
+either all zero or all nonzero. Moreover, any homomorphism `f : T^S(K, V_λ)_𝔪 → Q̄_p` arises as
+the eigensystem of `(ι⁻¹π^∞)^K` for some cuspidal regular algebraic `π` of weight `ιλ` such that
+`r_ι(π)` is residually isomorphic to `ρ̄_𝔪`. Also prove, as a lemma: whenever a cuspidal regular
+algebraic `π` of weight `ιλ` satisfies `(π^∞)^K ≠ 0`, the Hecke eigensystem carried by
+`(ι⁻¹π^∞)^K` factors through `T^S → T^S(K, λ)`. The proof: by ALS.5b.4 the cohomology
 decomposes over associate classes; a proper class `{Q}` carries only eigensystems of induced
 representations, whose Galois representations are reducible by
 ALS.5b.7 (i), so it dies at `𝔪`; on the cuspidal summand
