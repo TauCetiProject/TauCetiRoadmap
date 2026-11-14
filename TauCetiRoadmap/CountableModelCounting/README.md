@@ -391,6 +391,15 @@ Build:
   `HasPerfectlyManyCountableModels φ` (a perfect set at the tier `ℕ` or at some `Fin n`). With (E0),
   a perfect set gives `𝔠 ≤ #(Quotient (isoSetoidOn α φ))`, hence
   `HasPerfectlyManyCountableModels.countableModelCount_eq : countableModelCount φ = 𝔠`.
+
+  **Checks.**
+  * True for `∃ x ∀ y, y = x` with countably many unary predicates at `Fin 1` (the Layer 0
+    acceptance check).
+  * False for `⊤` in the empty language at `ℕ`: there is exactly one code, and a single point is
+    not perfect.
+  * At `Fin 0`, for `⊤`: true with infinitely many nullary relation symbols (countably many), since
+    the codes are then the points of `ℕ → Bool` and isomorphism is equality; false with none, since
+    there is then exactly one code.
 * **The finite-tier dichotomy.** `countable_or_hasPerfectSetOfNonisoModelsOn_fin`: (E1), relative
   form, on the Borel set `modelsOf φ` of codes on `Fin n`, with `R` and `F` both isomorphism (Borel
   by `RelationalConfiguration.measurableSet_setOf_isoSetoid`). Its second alternative is a
@@ -551,6 +560,14 @@ Build:
   `ℕ`); a thin sentence has at most `ℵ₁` models on `ℕ`, and countably many classes at every level;
   fewer than `𝔠` models on `ℕ` implies thin.
 
+  **Checks.**
+  * `∃ x ∀ y, y = x` with countably many unary predicates is thin, since it has no models on `ℕ`,
+    although it has a perfect set of pairwise non-isomorphic countable models (at `Fin 1`).
+  * "`E` is an equivalence relation" is not thin: the acceptance check below gives a perfect set.
+  * "`E` is an equivalence relation with all classes infinite" is thin: its models on `ℕ` fall into
+    `ℵ₀` isomorphism classes (Layer 2 acceptance check), while a perfect set of pairwise
+    non-isomorphic models would give `𝔠`.
+
 **Acceptance check.** For `φ` saying that `E` is an equivalence relation, give the explicit perfect
 set: split `ℕ` into an infinite reservoir and disjoint blocks `B_k` of size `k + 2`; for
 `z : ℕ → Bool` let `f z` make `B_k` one class when `z k = true` and split it into singletons
@@ -603,8 +620,29 @@ saturation at a single level implies that invariance; and **one side is small**:
 `C` and such a `B` (or `B = C ∩ D` with `D` Borel and `C` analytic), `B` or `C \ B` meets only
 countably many classes.
 
+**Checks.**
+
+* `∅` is concentrated, with any centre.
+* A set meeting countably many isomorphism classes is concentrated, with any code as centre at
+  every level.
+* The models on `ℕ` of "`E` is an equivalence relation" are not concentrated. In the family `f` of
+  the Layer 3 acceptance check, "some class has exactly `k + 2` elements" is a first-order sentence
+  of quantifier depth `k + 3`, true in `f z` exactly when `z k = true`; so `f z` and `f z′` are not
+  `bfEquivSetoid (k + 3)`-equivalent when `z k ≠ z′ k`. At level `ω` a centre is therefore
+  equivalent to at most one `f z`, and the codes outside its level-`ω` class meet `𝔠` isomorphism
+  classes.
+
 **4e. Sentence spectra and Borel observables.** `sentenceTheory θ c : ℕ → Bool`, the truth sequence
-of a countable list of sentences, measurable and isomorphism invariant. Build:
+of a countable list of sentences, measurable and isomorphism invariant.
+
+**Checks.**
+
+* `θ n = ⊤` for every `n` gives the constant sequence `true` at every code.
+* With unary `P_n` (`n ∈ ℕ`) and `θ n = ∃ x, P_n x`, the code in which `P_0` holds only at `0` and
+  every other `P_n` is empty gives `true` exactly at `n = 0`.
+* Isomorphic codes give equal sequences.
+
+Build:
 
 * *relative López–Escobar*: for a standard Borel `X`, a Borel `f : X → RelationalConfiguration L ℕ`
   and a Borel `U ⊆ X` with `x ∈ U ↔ y ∈ U` whenever `f x ≈ f y`, some sentence `θ` has
@@ -651,6 +689,14 @@ The targets, against (M3)'s objects:
   `φ` at `v` in the decoded structure;
 * `morleyBase`, reading off the base bits (the reduct `(lhomMorleyize Φ).reductConfiguration`), a
   left inverse of `morleyCode Φ`, which is therefore injective;
+
+  **Checks.** For `morleyCode` and `morleyBase`:
+  * For `Φ = ∅`, `L.morleyize ∅` has only the symbols of `L`, and `morleyCode ∅` and
+    `morleyBase ∅` are mutually inverse relabellings.
+  * For `Φ = {⟨1, ⊤⟩}`, the bit of the new unary symbol is `true` at every element in every code
+    `morleyCode Φ c`.
+  * Two codes of `L.morleyize Φ` that differ only in that bit have the same `morleyBase`, so
+    `morleyBase` is not injective.
 * decoding agreement: `(morleyCode Φ c).toStructure` is (M3)'s `morleyExpansion Φ` of
   `c.toStructure`;
 * `measurableEmbedding_morleyCode`: Borel because satisfaction is Borel in the code, injective,
@@ -685,6 +731,14 @@ apart.
 
 * `HasVaughtDichotomy φ := countableModelCount φ ≤ ℵ₀ ∨ HasPerfectlyManyCountableModels φ`;
 * `HasVaughtCount φ := countableModelCount φ ≤ ℵ₀ ∨ countableModelCount φ = 𝔠`.
+
+**Checks.**
+
+* `∃ x ∀ y, y = x` with countably many unary predicates satisfies both, with count `𝔠`; its
+  dichotomy holds only through the perfect set at `Fin 1`.
+* `⊤` in the empty language (pure sets) satisfies both, with count `ℵ₀`, and so does Ehrenfeucht's
+  example (Worked examples), with count `3`.
+* The first implies the second, by `HasPerfectlyManyCountableModels.countableModelCount_eq`.
 
 **The conjectures.** Each quantifies over relational `L : Language.{0, 0}` with
 `[Countable (Σ l, L.Relations l)]`, because a countable language can always be presented in
@@ -735,6 +789,12 @@ Prove, with exactly the hypotheses shown:
   transferring the count of countable models across InfinitaryModelExistence's graph translation;
   that transfer is outside this series of roadmaps and must reuse that roadmap's translation and
   its semantic API;
+
+  **Checks.** For `modelsOfTheory`:
+  * `T = ∅` gives every code on `ℕ`.
+  * `T = {∃ x ∀ y, y = x}` gives `∅`.
+  * In the language of one unary `P`, `T = {∀ x, P x}` gives exactly one code, the one with `P`
+    true everywhere.
 * universes: `vaughtConjecture_iff_forall_universe`, the conjecture over `Language.{0, 0}` equals
   the conjecture over countable relational languages in any universe, by the transport results of
   Layer 0 ((M4)'s `smallPresentationEquiv`, `LEquiv.lift_countableModelCount_onBoundedFormulaInf`,
@@ -747,10 +807,27 @@ Prove, with exactly the hypotheses shown:
   `K ∩ modelsOf θ`, `K \ modelsOf θ` meets only countably many (cuts range over sentences, not
   arbitrary invariant sets); the sentence form for `K = modelsOf φ`, with the literal form through
   `φ ⊓ θ` and `φ ⊓ θ.not`.
+
+  **Checks.**
+  * `∅` fails: it meets no class.
+  * The models on `ℕ` of "`E` is an equivalence relation" fail: "some class has exactly `2`
+    elements" leaves `𝔠` classes on each side (the codes `f z` of the Layer 3 acceptance check with
+    `z 0 = true`, respectively `z 0 = false`).
+  * The codes on `ℕ` of well-orders fail: "there is a last element" leaves `ℵ₁` classes on each side
+    (the countable infinite successor ordinals and limit ordinals).
 * Boundedness and unboundedness of `ρ` below `ω₁` on `K`, for an arbitrary `ρ`, with monotonicity,
   the empty class, and countable unions (regularity of `ℵ₁`); `MinimallyUnboundedOn ρ K`
   (unbounded, and every sentence cut has a side on which `ρ` is bounded below `ω₁`, with the strict
   bound `ρ c < β` of `IsIsolatingRank.countable_isoClasses_iff_bounded`).
+
+  **Checks.** For `MinimallyUnboundedOn`:
+  * `∅` fails: `β = 0` bounds `ρ` on it.
+  * For an isolating rank `ρ`, a nonempty set inside the isomorphism class of `c` fails: `ρ c + 1`
+    bounds `ρ` on it.
+  * On the codes on `ℕ` of well-orders it fails for the Scott height: these codes are
+    back-and-forth scattered (countably many level-`β` classes of countable ordinals for each
+    `β < ω₁`), and both sides of "there is a last element" meet `ℵ₁` classes, so by 4b every
+    isolating rank, the Scott height included, is unbounded on both sides.
 * The generic engine: for a smallness predicate closed under subsets and countable unions, if `K`
   is not small, every sentence cut has a small side, and `K` meets countably many classes at level
   `α < ω₁`, then some level-`α` class of a member of `K` is not small and its complement in `K` is.
