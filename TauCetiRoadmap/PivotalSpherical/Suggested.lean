@@ -10,7 +10,6 @@ import TauCeti.CategoryTheory.Monoidal.Center.Rigid
 import TauCeti.CategoryTheory.Semisimple.Basic
 import TauCeti.CategoryTheory.Semisimple.Rigid
 import TauCeti.CategoryTheory.Simple.Classes
-import TauCeti.CategoryTheory.Semisimple.Rigid
 import TauCeti.CategoryTheory.Semisimple.FrobeniusPerron
 import TauCeti.CategoryTheory.Monoidal.Pivotal.FrobeniusSchur
 import TauCeti.CategoryTheory.Monoidal.Center.Simple
@@ -53,18 +52,6 @@ section ScalarTrace
 
 variable (R : Type w) [CommRing R] {C : Type u} [Category.{v} C] [MonoidalCategory C]
   [RigidCategory C] [Preadditive C] [Linear R C] [MonoidalPreadditive C] [MonoidalLinear R C]
-
-/-- **The left trace on an object with scalar endomorphisms** is the scalar times the left
-dimension. The pinned field form, for a simple object over an algebraically closed field, is a
-corollary by Schur's lemma. -/
-theorem leftTrace_eq_smul_leftDim_of_bijective [PivotalCategory C] {X : C}
-    (hX : Function.Bijective (algebraMap R (End X))) (f : End X) :
-    leftTrace f.asHom = (RingEquiv.ofBijective _ hX).symm f • leftDim X := sorry
-
-/-- **The right trace on an object with scalar endomorphisms.** -/
-theorem rightTrace_eq_smul_rightDim_of_bijective [PivotalCategory C] {X : C}
-    (hX : Function.Bijective (algebraMap R (End X))) (f : End X) :
-    rightTrace f.asHom = (RingEquiv.ofBijective _ hX).symm f • rightDim X := sorry
 
 /-- **`dim_L X ≫ dim_R X` does not depend on the pivotal structure** when `X` has scalar
 endomorphisms: two pivotal structures differ on `X` by a unit scalar and its inverse. -/
@@ -169,25 +156,34 @@ variable (k : Type w) [Field k] [IsAlgClosed k] (C : Type u) [Category.{v} C]
   [Simple (𝟙_ C)] [Fintype (SimpleClasses C)]
 
 /-- **The global dimension without a pivotal structure** (6.2): the sum of the squared norms of
-the simple representatives, each for some isomorphism to its double dual. -/
-noncomputable def normGlobalDim : 𝟙_ C ⟶ 𝟙_ C :=
-  ∑ S : SimpleClasses C,
-    squaredNorm (Classical.choice (nonempty_iso_rightDual_rightDual S.repr))
+the simple representatives, for a family of isomorphisms to their double duals. Over a field with
+split simples the value does not depend on the family (`squaredNorm_congr`), and families exist by
+`TauCeti.nonempty_iso_rightDual_rightDual`. -/
+noncomputable def normGlobalDim (a : ∀ S : SimpleClasses C, S.repr ≅ ((S.repr)ᘁ : C)ᘁ) :
+    𝟙_ C ⟶ 𝟙_ C :=
+  ∑ S : SimpleClasses C, squaredNorm (a S)
 
 include k in
 /-- **The Radford isomorphism** (6.7; EGNO, Theorem 7.19.1 and Corollary 7.19.3): in a fusion
-category the quadruple dual is monoidally isomorphic to the identity. -/
+category the quadruple dual is monoidally isomorphic to the identity, by the isomorphism
+characterized on simple objects (EGNO, Theorem 7.21.7). -/
 theorem exists_radfordIso :
-    ∃ e : 𝟭 C ≅ doubleRightDualFunctor C ⋙ doubleRightDualFunctor C, NatTrans.IsMonoidal e.hom :=
+    ∃ e : 𝟭 C ≅ doubleRightDualFunctor C ⋙ doubleRightDualFunctor C, NatTrans.IsMonoidal e.hom ∧
+      ∀ (L : C) [Simple L] (a : L ≅ (Lᘁ : C)ᘁ),
+        (λ_ L).inv ≫ doubleDualTrace a.hom ▷ L ≫ (λ_ L).hom ≫ e.hom.app L =
+          (λ_ L).inv ≫ doubleDualTrace (rightAdjointMate a.inv) ▷ L ≫ (λ_ L).hom ≫ a.hom ≫
+            (doubleRightDualFunctor C).map a.hom :=
   sorry
 
 /-- **Nonvanishing in characteristic zero** (6.9; Etingof–Nikshych–Ostrik, Theorem 2.3), with no
 pivotal structure. -/
-theorem normGlobalDim_ne_zero [CharZero k] : normGlobalDim C ≠ 0 := sorry
+theorem normGlobalDim_ne_zero [CharZero k] (a : ∀ S : SimpleClasses C, S.repr ≅ ((S.repr)ᘁ : C)ᘁ) :
+    normGlobalDim C a ≠ 0 := sorry
 
 include k in
 /-- **Comparison with the pivotal global dimension** (6.2). -/
-theorem normGlobalDim_eq_globalDim [PivotalCategory C] : normGlobalDim C = globalDim C := sorry
+theorem normGlobalDim_eq_globalDim [PivotalCategory C]
+    (a : ∀ S : SimpleClasses C, S.repr ≅ ((S.repr)ᘁ : C)ᘁ) : normGlobalDim C a = globalDim C := sorry
 
 end Radford
 
@@ -197,7 +193,8 @@ theorem existsUnique_pivotalCategory_of_normGlobalDim (C : Type u) [Category.{v}
     [MonoidalCategory C] [RigidCategory C] [Abelian C] [MonoidalPreadditive C] [Linear ℂ C]
     [MonoidalLinear ℂ C] [IsFiniteSemisimpleCategory C] [∀ X Y : C, FiniteDimensional ℂ (X ⟶ Y)]
     [Simple (𝟙_ C)] [EssentiallySmall.{w} C] [Fintype (SimpleClasses C)]
-    (h : normGlobalDim C = (frobeniusPerronGlobalDim.{w} ℂ C : ℂ) • 𝟙 (𝟙_ C)) :
+    (a : ∀ S : SimpleClasses C, S.repr ≅ ((S.repr)ᘁ : C)ᘁ)
+    (h : normGlobalDim C a = (frobeniusPerronGlobalDim.{w} ℂ C : ℂ) • 𝟙 (𝟙_ C)) :
     ∃! P : PivotalCategory C,
       (∀ X : C, @leftDim C _ _ _ P X = (frobeniusPerronDim.{w} ℂ X : ℂ) • 𝟙 (𝟙_ C)) ∧
         @SphericalCategory C _ _ _ P := sorry
@@ -253,8 +250,11 @@ theorem finite_simpleClasses_center : Finite (SimpleClasses (Center C)) := sorry
 dimension of the centre is the square of that of `C`. The centre's semisimplicity and finiteness
 enter as the (propositional) instances proved above. -/
 theorem normGlobalDim_center [IsFiniteSemisimpleCategory (Center C)]
-    [Fintype (SimpleClasses (Center C))] :
-    (Center.forget C).map (normGlobalDim (Center C)) = normGlobalDim C ≫ normGlobalDim C := sorry
+    [Fintype (SimpleClasses (Center C))]
+    (a : ∀ S : SimpleClasses C, S.repr ≅ ((S.repr)ᘁ : C)ᘁ)
+    (b : ∀ S : SimpleClasses (Center C), S.repr ≅ ((S.repr)ᘁ : Center C)ᘁ) :
+    (Center.forget C).map (normGlobalDim (Center C) b) = normGlobalDim C a ≫ normGlobalDim C a :=
+  sorry
 
 /-- **The dimension of the centre** is the square of the global dimension, for the canonical
 structures on the centre and the pivotal structure it inherits from `C`. -/
