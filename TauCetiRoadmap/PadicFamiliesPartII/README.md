@@ -341,7 +341,9 @@ The basic properties are:
 - Type C with `d = 1, a = 2` (Siegel threefold) gives `n = 3`; type A with `d = a = b = 1` gives `n = 1`.
 - Replacing `x_i` by `u x_i` for a totally positive unit u changes the polarization on `A/L`; equality of the two operators holds only after the induced identification of the polarization data, so an unadorned equality is not part of the definition.
 
-### 1.3 Degree monotonicity and rigidity
+### 1.3 Degree dynamics of the normalized U operators
+
+The behaviour of the degree coordinate of §1.1 under the operators `U_i` of §1.2: monotonicity with its rigid equality case, then, in §1.4, uniform progress on closed degree bands. §2.2 and §5.8 consume these statements.
 
 Prove: if y lies in `U_i({x})` then `δ_i(y) ≥ δ_i(x)` and `δ_j(y) = δ_j(x)` for `j ≠ i`; if `δ_i(y) = δ_i(x)` then `H_i` is a truncated Barsotti–Tate group of level one, `A[π_i]` splits as the direct sum of `H_i` and a totally isotropic truncated Barsotti–Tate group, and `δ_i(x)` is an integer (BPS Propositions 3.1.1–3.1.3, HAL pp. 15–16).
 
@@ -355,9 +357,7 @@ A proof route: the isogeny induces a generic isomorphism `H_{i,x} → H_{i,y}`, 
 - At a non-integral degree, equality is impossible: for the modular curve a point of degree `1/(p+1)` is moved strictly.
 - The multiplicative endpoint is fixed: at `δ_i = d_i a_i` the inequality forces equality.
 
-### 1.4 Uniform progress on degree bands
-
-Prove: for integers `0 ≤ n ≤ d_i a_i − 1` and rationals `0 < η ≤ ν < 1` there is an integer N with `U_i^N(δ_i^{−1}([d_i a_i − n − ν, d_i a_i])) ⊂ δ_i^{−1}([d_i a_i − n − η, d_i a_i])`, the other coordinates being preserved; and the analogous statement for `∏_i U_i` on products of bands (BPS Proposition 3.2.1 and Corollary 3.2.2, HAL pp. 16–17).
+**1.4 Uniform progress on degree bands.** Prove: for integers `0 ≤ n ≤ d_i a_i − 1` and rationals `0 < η ≤ ν < 1` there is an integer N with `U_i^N(δ_i^{−1}([d_i a_i − n − ν, d_i a_i])) ⊂ δ_i^{−1}([d_i a_i − n − η, d_i a_i])`, the other coordinates being preserved; and the analogous statement for `∏_i U_i` on products of bands (BPS Proposition 3.2.1 and Corollary 3.2.2, HAL pp. 16–17).
 
 A proof route: on the quasi-compact band `V = δ_i^{−1}([d_i a_i − n − ν, d_i a_i − n − η])` the increment `δ_i(p₂(u)) − δ_i(p₁(u))` is the valuation of an analytic function on `p₁^{−1}(V)`, hence attains a minimum ε, which is positive by §1.3 because V contains no integral degree; take N larger than `(ν − η)/ε`.
 
@@ -414,7 +414,9 @@ A proof route: by §1.4 every closed band `δ_i^{−1}([d_i a_i − ν, d_i a_i]
 - Changing N to `N+1` after the image lies in the original domain gives `α_i^{−N−1}U_i^{N+1}f = α_i^{−N}U_i^N(α_i^{−1}U_i f) = α_i^{−N}U_i^N f`.
 - The region reached is bounded by the first integral wall `δ_i = d_i a_i − 1`, where §1.3 allows a fixed point and progress stops.
 
-### 2.3 The bad-complement filtration
+### 2.3 Contracting Kassaei path sums
+
+The path sums `f_N` from which §2.7 builds the continuation, with what they rest on: the filtration by bad complements, the decomposition of `U_i^N` by first good step (§2.4), the contraction of the bad operator in the region of §2.1 (§2.5), and the bounds and compatible reductions of the sums (§2.6). §2.7 consumes them, and §2.8 carries out the continuation of §§2.2–2.7 on the smooth compactification of each modular-curve component.
 
 On a quasi-compact degree box `V` and for rational `β > 0` let `N(x, β)` count the complements L at x (for the place i) whose Morita degree is at least `1 − β`, and `V_k = {N(x,β) ≥ k}`. Let `B_k` parametrize ordered k-tuples of distinct complements, with finite étale projection `p_k : B_k → X` and quotient coordinates `q_j : B_k → X`. Prove that the `V_k` form a finite decreasing sequence of quasi-compact opens with `V_0 = V`; the bad locus `B_{k,β} ⊂ B_k` is quasi-compact open with image `V_k`; and over `V_k ∖ V_{k+1}` the bad and good first projections are finite étale (BPS Definitions 4.3.2–4.3.5, Lemma 4.3.6, Proposition 4.3.7, HAL pp. 20–21; Lemma 4.4.3, HAL p. 24). Each coordinate `q_j` is used separately; the product map `B_k → X^k` is not finite étale.
 
@@ -433,9 +435,7 @@ The basic properties are:
 - The differences `V_k ∖ V_{k+1}` are not open in general, so they do not form the admissible cover used for gluing; the strict neighbourhoods of §2.6 do.
 - For `k = 2` on the modular curve, `B_2` is finite étale over X and has dimension one while `X²` has dimension two, so `B_2 → X²` is not finite étale; only the coordinates `q_j` are used.
 
-### 2.4 First-good path decomposition
-
-For `N ≥ 1` partition the length-N paths of the correspondence by their first good step: `T_j` is j bad steps followed by one good step (`0 ≤ j < N`) and `R_N` is N bad steps. Prove `U_i^N = Σ_{j=0}^{N−1} U_i^{N−1−j} ∘ T_j + R_N` in the correspondence-composition order, where the left factor carries the remaining arbitrary steps; after contravariant pullback the terms become the bad-then-good section operators of §2.6 (BPS Theorem 4.4.1, HAL p. 22; Proposition 4.3.10, HAL p. 21).
+**2.4 First-good path decomposition.** For `N ≥ 1` partition the length-N paths of the correspondence by their first good step: `T_j` is j bad steps followed by one good step (`0 ≤ j < N`) and `R_N` is N bad steps. Prove `U_i^N = Σ_{j=0}^{N−1} U_i^{N−1−j} ∘ T_j + R_N` in the correspondence-composition order, where the left factor carries the remaining arbitrary steps; after contravariant pullback the terms become the bad-then-good section operators of §2.6 (BPS Theorem 4.4.1, HAL p. 22; Proposition 4.3.10, HAL p. 21).
 
 *Needs:* §2.3; §2.2.
 
@@ -445,9 +445,7 @@ For `N ≥ 1` partition the length-N paths of the correspondence by their first 
 - At `N = 1` the identity is `U_i = T_0 + R_1`, the decomposition into good and bad parts.
 - Dropping the left factors `U_i^{N−1−j}` loses every word whose good step is not the last one; at `N = 2` the word GB would be missing.
 
-### 2.5 Bad-path contraction
-
-Prove: on a region where the bad complements have degree at least `1 − ε`, the normalized bad operator has norm at most `p^{n_i − (1−ε)c_i}`, so that `α_i^{−1}U_i^bad` has norm at most `q_i = p^{n_i + s_i − (1−ε)c_i} < 1` in the region of §2.1 (BPS Lemma 4.4.5, HAL p. 25; Lemmas 4.5.3 and 4.5.5, HAL p. 27).
+**2.5 Bad-path contraction.** Prove: on a region where the bad complements have degree at least `1 − ε`, the normalized bad operator has norm at most `p^{n_i − (1−ε)c_i}`, so that `α_i^{−1}U_i^bad` has norm at most `q_i = p^{n_i + s_i − (1−ε)c_i} < 1` in the region of §2.1 (BPS Lemma 4.4.5, HAL p. 25; Lemmas 4.5.3 and 4.5.5, HAL p. 27).
 
 A proof route: bound each weight component through the coefficient representation; insert the degree lower bound, which needs `c_i > 0` (§2.1); apply the nonarchimedean trace bound and the scalar `p^{−n_i}`.
 
@@ -459,9 +457,7 @@ A proof route: bound each weight component through the coefficient representatio
 - With `c = 3`, `s = 0` the exponent `3 − 3(1−ε)` is positive for every `ε ∈ (0,1)`.
 - With a negative terminal weight `c < 0` the inequality `ν ≥ 1 − ε` multiplied by c reverses, so the bound cannot be inserted as stated; §2.1 excludes this case.
 
-### 2.6 Kassaei path sums
-
-Define `f_N = Σ_{j=0}^{N−1} α_i^{−j−1} (bad^j ∘ good)(f)` on the strict neighbourhoods of the bad strata. Prove that the `f_N` are uniformly bounded, that their differences on overlaps have norm at most `M q_i^N`, and that for integers `A_N → ∞` below the resulting valuation bound (reduced by the fixed loss `n_i + s_i`) the reductions modulo `p^{A_N}` glue and are compatible from `N+1` to N (BPS Definition 4.5.2, Lemmas 4.5.3 and 4.5.5, Propositions 4.5.6–4.5.7, HAL pp. 27–29).
+**2.6 Kassaei path sums.** Define `f_N = Σ_{j=0}^{N−1} α_i^{−j−1} (bad^j ∘ good)(f)` on the strict neighbourhoods of the bad strata. Prove that the `f_N` are uniformly bounded, that their differences on overlaps have norm at most `M q_i^N`, and that for integers `A_N → ∞` below the resulting valuation bound (reduced by the fixed loss `n_i + s_i`) the reductions modulo `p^{A_N}` glue and are compatible from `N+1` to N (BPS Definition 4.5.2, Lemmas 4.5.3 and 4.5.5, Propositions 4.5.6–4.5.7, HAL pp. 27–29).
 
 *Needs:* §2.5; gap:bounded-section-gluing.
 
