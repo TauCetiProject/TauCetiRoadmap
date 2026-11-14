@@ -3011,10 +3011,11 @@ and polarized descent), A2.8 (projective presentations over normal bases).
 
 ### 7.33 Isotriviality on curves of degree zero
 
-Prove `SemiAbelianScheme.isotrivial_of_degree_le_zero`: let `C` be a proper smooth irreducible curve
-over an algebraically closed field and `G → C` a semi-abelian scheme with `deg ω_{G/C} ≤ 0`. Then
-some positive power of `ω_{G/C}` is trivial, so the degree is `0`, and `G` is an extension of an
-isotrivial abelian scheme by a torus. Reduce by the torus part (6.2) to generically abelian `G`,
+Prove `SemiAbelianScheme.isotrivial_of_degree_le_zero`. The base is an irreducible curve `C`, smooth
+and proper over an algebraically closed field, carrying a semi-abelian scheme `G → C` whose Hodge
+line satisfies `deg ω_{G/C} ≤ 0`. Two conclusions follow. First, `ω_{G/C}^{⊗n} ≅ 𝒪_C` for some
+`n ≥ 1`, which forces `deg ω_{G/C} = 0`. Second, `G` contains a torus `T` over `C` whose quotient
+`G/T` is an isotrivial abelian scheme. Reduce by the torus part (6.2) to generically abelian `G`,
 then by Zarhin's trick (PadicDifferentialEquationsAndRigidCohomology §RD.5.116) to principal
 polarizations; all sections of `ω^{⊗n}` are then zero or nowhere zero, so the theta constants are
 constant and `G` has potentially good reduction everywhere and constant moduli ([FC], Chapter V,
@@ -4173,11 +4174,12 @@ residue `K`, and `R^{(0)}` is a Noetherian subring surjecting onto `V` with gene
 (Dimitrov, Définition 5.3). Put `J = ker(R^{(0)} → V)`, choose a lift `π̃` of a uniformizer, and set
 `R^{(i)} = R^{(0)}[J/π̃^i]`. A permitted `Spec R → Y°` extends to the boundary completion of `Y*`
 over `Spf R^{(i)}` for some `i`, as in Remarque 5.7; permitted maps to the affine charts are defined
-in the same way using `Spf A_j`. Require that `f°` is permitted (it sends the boundary to the
-boundary: for every permitted point `Spec K → (Spec A_1)°` coming from a formal map
-`Spf V → Spf A_1` of finite type, the extension to `Spec V` of the composite to a proper compactification sends
-the closed point outside `Y°`); and for every complete discrete valuation ring `V` with fraction
-field `K`: (i) the sequence of permitted `K`-points
+in the same way using `Spf A_j`. The map `f°` must itself be permitted, meaning that it respects
+boundaries as follows. Whenever a permitted point `Spec K → (Spec A_1)°` arises from a finite-type
+formal map `Spf V → Spf A_1`, compose it with `f°` and the inclusion of `Y°` into a proper
+compactification, then extend over `Spec V`; the closed point of `Spec V` must land outside `Y°`.
+In addition, require for every complete discrete valuation ring `V` with fraction field `K`: (i)
+the sequence of permitted `K`-points
 `(Spec A_2)°(K)_permis ⇒ (Spec A_1)°(K)_permis → Y°(K)_permis` is exact, and (ii) for every thickening
 `(R, R^{(0)})` of `(K, V)`, every permitted
 `Spec K → (Spec A_1)°` with a permitted map `Spec R → Y°` extending its composite lifts uniquely to
