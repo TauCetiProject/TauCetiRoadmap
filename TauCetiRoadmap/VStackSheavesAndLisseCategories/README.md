@@ -847,7 +847,9 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 - Affine one-space has condensed points the underlying condensed set of `A`.
 - For `R[x₁,…,x_n]` the points are `A^n`, preserving sheaf products; the constant two-element accessible functor fails even the empty-cover sheaf condition.
 
-### VS2.4. Solid sheaf category, cutoff structure, four operations and relative homology
+### VS2.4. Solid sheaves on small v-stacks: operations, homology, torsion comparisons, field invariance and duality
+
+This section supplies the solid coefficient formalism on small v-stacks: solid sheaves and their four operations, relative homology, the torsion–solid embeddings, geometric field-extension invariance and proper smooth solid duality. The lisse categories and completed ULA comparisons of VS3, the solid descent, partial-support and stratum results of VS4 and the lisse duality of VS5.3 consume it.
 
 The free pro-étale chart objects define sheaf solidity. Constructible inverse-limit presentations establish the abelian and derived structure at compatible cutoffs, after which the four operations and their adjoints give relative homology. Keep the projection formula for homology separate from the stronger hypotheses needed for ordinary pushforward.
 
@@ -918,9 +920,7 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 - Identity homology and its adjunction recover identity.
 - For separated étale maps the torsion comparison gives the existing extension-by-zero functor.
 
-### VS2.5. Generic naive and contravariant torsion–solid comparisons
-
-Distinguish the naive covariant torsion realization from the contravariant solid dual of an overconvergent object. The finite Tor-amplitude condition belongs to the tensor comparison, and boundedness or finite cohomological dimension belongs to the pushforward comparison.
+**VS2.5. Generic naive and contravariant torsion–solid comparisons.** Distinguish the naive covariant torsion realization from the contravariant solid dual of an overconvergent object. The finite Tor-amplitude condition belongs to the tensor comparison, and boundedness or finite cohomological dimension belongs to the pushforward comparison.
 
 #### Torsion embeddings into solid categories
 
@@ -930,9 +930,7 @@ Throughout this target, `Λ=ℤ/n` with `n` prime to `p` for the dual embedding;
 
 *Needs:* [VS2/solid-four-operations](#four-operations-for-solid-sheaves), [VS2/relative-solid-homology](#relative-solid-homology), [VS2/breen-deligne-resolution](#breendeligne-resolution), DiamondSixOperations §§S2.2–S2.4, DiamondSixOperations §S2.4, [VS2/solid-sheaf-structure-and-completion](#solid-sheaf-structure-and-completion).
 
-### VS2.6. Generic geometric field-extension invariance and proper smooth solid duality
-
-Geometric field-extension full faithfulness follows by reduction to the corresponding étale invariance statements. Proper smooth duality additionally uses finite dimension, the diagonal and the torsion comparison; properness alone is insufficient.
+**VS2.6. Generic geometric field-extension invariance and proper smooth solid duality.** Geometric field-extension full faithfulness follows by reduction to the corresponding étale invariance statements. Proper smooth duality additionally uses finite dimension, the diagonal and the torsion comparison; properness alone is insufficient.
 
 #### Solid geometric field-extension invariance
 
@@ -1257,7 +1255,9 @@ Throughout this target, `E` is a nonarchimedean local field with residue field `
 
 *Needs:* [VS4/classifying-stack-equivalence](#sheaves-and-smooth-representations), [VS4/contractibility-of-connected-banach-colmez-torsors](#banachcolmez-torsor-invariance), [VS3/lisse-comparisons](#discrete-and-torsion-lisse-comparisons), [VS2/solid-geometric-base-change](#solid-geometric-field-extension-invariance), [VS2/relative-solid-homology](#relative-solid-homology), [VS4.0, bundle-stack geometry](#vs40-bundle-stacks-newton-strata-and-contracting-charts), SmoothRepresentationsOfLocalGroups §§SR.0d.2 and SR.2.1.
 
-### VS4.3. Strict chart cohomology, formal-neighborhood comparison and stratum extension
+### VS4.3. Stratum extensions, HN localization and compact generators of `Bun_G` coefficients
+
+This section supplies strict locality of the bundle chart, the lisse stratum extensions `L_b`, the HN semiorthogonal decomposition with geometric invariance, and the compact generators of the torsion and lisse `Bun_G` categories. The duality, Künneth and lisse ULA results of VS5 consume them, and IgusaVarietiesAndTorsionConcentration §3.0f uses the stratum extensions and compact generators.
 
 The contracting action on the framed chart reduces torsion sections to the origin. Exact pro-`p` invariants then identify the quotient-chart sections. In lisse coefficients combine the bundle chart homology with its stratum pullback to construct the left adjoint.
 
@@ -1292,9 +1292,7 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 - For `c-Ind_K Λ` its image is the generator `f_K♯Λ`.
 - On an open basic stratum `L_b` agrees with lisse open extension by homology.
 
-### VS4.4. HN localization, geometric invariance, compact generators and finite support
-
-Order the finite HN pieces of a quasicompact open and use their restriction/extension adjunctions. Handle arbitrary opens through compatible quasicompact exhaustions. Compact induction on each stratum supplies compact generators; finite HN support is part of the compactness criterion.
+**VS4.4. HN localization, geometric invariance, compact generators and finite support.** Order the finite HN pieces of a quasicompact open and use their restriction/extension adjunctions. Handle arbitrary opens through compatible quasicompact exhaustions. Compact induction on each stratum supplies compact generators; finite HN support is part of the compactness criterion.
 
 #### HN localization and geometric invariance
 
@@ -1324,7 +1322,9 @@ The off-diagonal `BC(O(1))` in the automorphisms of `O⊕O(1)` survives in the n
 
 Use compact generation and the stratum extension adjunction to represent the homology pairing by Bernstein–Zelevinsky duals. Keep the canonical homology adjunction separate from a Haar-dependent trivialization of the torsion dualizing object. Torsion and lisse ULA are characterized by perfection of the full derived invariant complex, with categorical Künneth and coefficient-change interfaces for the Hecke consumers.
 
-### VS5.1. Torsion homology/Haar dualizing object, BZ and Verdier reflexivity
+### VS5.1. Bernstein–Zelevinsky duality, Verdier exchange, Künneth formulas and perfect-invariant ULA on `Bun_G`
+
+This section supplies, for prime-to-`p` torsion and for relative-discrete lisse coefficients on `Bun_G`, the homology pairing and its Bernstein–Zelevinsky duality, Verdier exchange, the Künneth formula and the characterization of ULA objects by perfect derived invariants. The coefficient change of VS5.4 consumes the lisse duality and ULA results, and the lisse Künneth formula uses the torsion one.
 
 The torsion homology pairing on compact objects is representable. Chart generators and their normalized compact inductions verify involutivity. Verdier exchange then gives the stratumwise reflexivity test, using the full derived invariant complex.
 
@@ -1375,9 +1375,7 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 - For `G=1` and perfect coefficients the representative is the ordinary derived coefficient dual.
 - A normalized stratum compact induction dualizes to its chart generator, as in V.5.1.
 
-### VS5.2. Torsion ULA, perfect invariant admissibility and Künneth
-
-Prove the exterior-product Hom comparison on compact induction generators and extend it by compact generation. The ULA comparison is then detected stratum by stratum by perfect pro-`p` invariants. The product of categories here is the presentable stable categorical tensor product.
+**VS5.2. Torsion ULA, perfect invariant admissibility and Künneth.** Prove the exterior-product Hom comparison on compact induction generators and extend it by compact generation. The ULA comparison is then detected stratum by stratum by perfect pro-`p` invariants. The product of categories here is the presentable stable categorical tensor product.
 
 #### `Bun_G` torsion Künneth formula
 
@@ -1395,9 +1393,7 @@ Throughout this target, `E` is a nonarchimedean local field with residue field `
 
 *Needs:* [VS1/smooth-ula-criterion](#smoothness-and-duality-criteria), [VS5/torsion-kunneth](#bun_g-torsion-künneth-formula), [VS5/bernstein-zelevinsky-duality](#torsion-bernsteinzelevinsky-duality), [VS4/strata-are-classifying-stacks](#coefficients-on-newton-strata), SmoothRepresentationsOfLocalGroups §§SR.0d.2 and SR.2.1.
 
-### VS5.3. Integral/rational lisse duality, Künneth and perfect invariant ULA
-
-Repeat the compact homology-pairing construction with solid tensor and the lisse adjoints. Define lisse `Bun_G` ULA by its explicit product comparison, and identify it with perfect derived invariants. Verdier exchange is the asserted lisse duality statement; no lisse reflexivity theorem is added.
+**VS5.3. Integral/rational lisse duality, Künneth and perfect invariant ULA.** Repeat the compact homology-pairing construction with solid tensor and the lisse adjoints. Define lisse `Bun_G` ULA by its explicit product comparison, and identify it with perfect derived invariants. Verdier exchange is the asserted lisse duality statement; no lisse reflexivity theorem is added.
 
 #### Lisse Bernstein–Zelevinsky duality
 
