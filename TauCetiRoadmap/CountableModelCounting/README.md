@@ -824,10 +824,6 @@ Prove, with exactly the hypotheses shown:
   * `∅` fails: `β = 0` bounds `ρ` on it.
   * For an isolating rank `ρ`, a nonempty set inside the isomorphism class of `c` fails: `ρ c + 1`
     bounds `ρ` on it.
-  * On the codes on `ℕ` of well-orders it fails for the Scott height: these codes are
-    back-and-forth scattered (countably many level-`β` classes of countable ordinals for each
-    `β < ω₁`), and both sides of "there is a last element" meet `ℵ₁` classes, so by 4b every
-    isolating rank, the Scott height included, is unbounded on both sides.
 * The generic engine: for a smallness predicate closed under subsets and countable unions, if `K`
   is not small, every sentence cut has a small side, and `K` meets countably many classes at level
   `α < ω₁`, then some level-`α` class of a member of `K` is not small and its complement in `K` is.
