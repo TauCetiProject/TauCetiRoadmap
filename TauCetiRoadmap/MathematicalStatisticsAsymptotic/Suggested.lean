@@ -760,7 +760,7 @@ theorem oneStep_asymptotically_linear_of_discretized {Ω : ℕ → Type*} [∀ n
 theorem mEstimator_asymptotically_linear (P : Measure X) [IsProbabilityMeasure P]
     (m : 𝔼ₖ → X → ℝ) (hm : ∀ θ, Measurable (m θ)) (θ₀ : 𝔼ₖ) (mdot : X → 𝔼ₖ)
     (hdiff : ∀ᵐ x ∂P, HasGradientAt (fun θ ↦ m θ x) (mdot x) θ₀) (L : X → ℝ) (hL : MemLp L 2 P)
-    (hlip : ∀ᶠ θ₁ in 𝓝 θ₀, ∀ᶠ θ₂ in 𝓝 θ₀, ∀ x, |m θ₁ x - m θ₂ x| ≤ L x * ‖θ₁ - θ₂‖)
+    (hlip : ∃ r > 0, ∀ θ₁ ∈ Metric.ball θ₀ r, ∀ θ₂ ∈ Metric.ball θ₀ r, ∀ x, |m θ₁ x - m θ₂ x| ≤ L x * ‖θ₁ - θ₂‖)
     (V : Matrix (Fin k) (Fin k) ℝ) (hVsymm : V.IsHermitian) (hV : V.det ≠ 0)
     (htaylor : (fun θ ↦ ∫ x, m θ x ∂P - ∫ x, m θ₀ x ∂P -
         (2 : ℝ)⁻¹ * (WithLp.ofLp (θ - θ₀) ⬝ᵥ (V *ᵥ WithLp.ofLp (θ - θ₀)))) =o[𝓝 θ₀]
@@ -884,6 +884,24 @@ theorem uStatistic_hoeffding_decomposition (P : Measure X) [IsProbabilityMeasure
       ∑ j ∈ Finset.Icc 1 m, ((m.choose j : ℝ) ^ 2 / n.choose j) *
         ∫ y, hoeffdingKernel P h (Finset.univ.filter fun i : Fin m ↦ (i : ℕ) < j) y ^ 2
           ∂(Measure.pi fun _ : Fin m ↦ P) := sorry
+
+/-- **6.3** Optimality of U-statistics: over a family of laws that contains every finitely
+supported law, the U-statistic has the least variance among unbiased square-integrable
+estimators of `P ↦ ∫ h dPᵐ`. The family is indexed by `ι` so that each product law carries its
+instances. -/
+theorem variance_uStatistic_le_of_unbiased [MeasurableSingletonClass X] {ι : Type*}
+    (P : ι → Measure X) [∀ i, IsProbabilityMeasure (P i)]
+    (hfin : ∀ (s : Finset X) (w : X → ℝ≥0∞), ∑ x ∈ s, w x = 1 →
+      ∃ i, P i = ∑ x ∈ s, w x • Measure.dirac x)
+    {m n : ℕ} (hmn : m ≤ n) (h : (Fin m → X) → ℝ) (hmeas : Measurable h)
+    (hsymm : ∀ (σ : Equiv.Perm (Fin m)) y, h (y ∘ σ) = h y)
+    (hL2 : ∀ i, MemLp h 2 (Measure.pi fun _ : Fin m ↦ P i))
+    (δ : (Fin n → X) → ℝ) (hδ : Measurable δ)
+    (hδL2 : ∀ i, MemLp δ 2 (Measure.pi fun _ : Fin n ↦ P i))
+    (hunb : ∀ i, ∫ x, δ x ∂(Measure.pi fun _ : Fin n ↦ P i) =
+      ∫ y, h y ∂(Measure.pi fun _ : Fin m ↦ P i)) (i : ι) :
+    Var[uStatistic m n h; Measure.pi fun _ : Fin n ↦ P i] ≤
+      Var[δ; Measure.pi fun _ : Fin n ↦ P i] := sorry
 
 /-- **6.3** The limit law of a degenerate quadratic U-statistic: `n Uₙ → ∑ λⱼ (Zⱼ² - 1)`, for
 the eigenvalues `λⱼ` and orthonormal eigenfunctions `φⱼ` of the kernel operator. A finite
@@ -1204,7 +1222,7 @@ theorem tendstoInDistribution_likelihoodRatio_localSets (ν : Measure X) (p : �
     (hqmd : HasQMDWithinAt ν p univ θ score)
     (hI : (fisherInformation (ν.withDensity fun x ↦ ENNReal.ofReal (p θ x)) score).PosDef)
     (L : X → ℝ) (hL : MemLp L 2 (ν.withDensity fun x ↦ ENNReal.ofReal (p θ x)))
-    (hlip : ∀ᶠ θ₁ in 𝓝 θ, ∀ᶠ θ₂ in 𝓝 θ, ∀ x,
+    (hlip : ∃ r > 0, ∀ θ₁ ∈ Metric.ball θ r, ∀ θ₂ ∈ Metric.ball θ r, ∀ x,
       |Real.log (p θ₁ x) - Real.log (p θ₂ x)| ≤ L x * ‖θ₁ - θ₂‖)
     (θhat θtilde : ∀ n, (Fin n → X) → 𝔼ₖ) (hhat : ∀ n x, θhat n x ∈ Θ ∧
       ∀ η ∈ Θ, ∑ i, Real.log (p η (x i)) ≤ ∑ i, Real.log (p (θhat n x) (x i)))
@@ -1247,7 +1265,7 @@ theorem tendstoInDistribution_likelihoodRatio_wald_score (ν : Measure X) (p : �
     (hqmd : HasQMDWithinAt ν p univ θ₀ score)
     (hI : (fisherInformation (ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)) score).PosDef)
     (L : X → ℝ) (hL : MemLp L 2 (ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)))
-    (hlip : ∀ᶠ θ₁ in 𝓝 θ₀, ∀ᶠ θ₂ in 𝓝 θ₀, ∀ x,
+    (hlip : ∃ r > 0, ∀ θ₁ ∈ Metric.ball θ₀ r, ∀ θ₂ ∈ Metric.ball θ₀ r, ∀ x,
       |Real.log (p θ₁ x) - Real.log (p θ₂ x)| ≤ L x * ‖θ₁ - θ₂‖)
     (θhat : ∀ n, (Fin n → X) → 𝔼ₖ) (hθmeas : ∀ n, Measurable (θhat n))
     (hhat : ∀ n x η, ∑ i, Real.log (p η (x i)) ≤ ∑ i, Real.log (p (θhat n x) (x i)))
@@ -1272,6 +1290,60 @@ theorem tendstoInDistribution_likelihoodRatio_wald_score (ν : Measure X) (p : �
         2 * (∑ i, Real.log (p (θhat n x) (x i)) - ∑ i, Real.log (p θ₀ (x i)))) atTop (Z h)
       (fun (n : ℕ) ↦ Measure.pi fun _ : Fin n ↦
         ν.withDensity fun x ↦ ENNReal.ofReal (p (θ₀ + (Real.sqrt n)⁻¹ • h) x)) μ' := sorry
+
+/-- **8.1** The likelihood ratio, Wald and score statistics for the composite hypothesis
+`c(θ) = 0`, with `c` continuously differentiable, `c θ₀ = 0` and derivative `C` of rank `q` at
+`θ₀`. Under `P_{θ₀}` the likelihood ratio statistic `λₙ = 2(ℓₙ(θ̂ₙ) - ℓₙ(θ̃ₙ))` converges to
+`χ²_q`, the Wald statistic `n c(θ̂ₙ)ᵀ [C I⁻¹ Cᵀ]⁻¹ c(θ̂ₙ)` differs from it by `o_P(1)`, and so does
+the score statistic `n⁻¹ (∑ᵢ s_{θ̃ₙ}(xᵢ))ᵀ I⁻¹ (∑ᵢ s_{θ̃ₙ}(xᵢ))`, given the stochastic
+differentiability of the scores at `θ₀` (`hsexp`). Here `I` is the information at `θ₀`; with a
+consistent estimate of `I` in its place the statements are unchanged, by Slutsky. -/
+theorem tendstoInDistribution_likelihoodRatio_wald_score_composite {q : ℕ} (ν : Measure X)
+    (p : 𝔼ₖ → X → ℝ) (hp : ∀ θ, Measurable (p θ) ∧ ∀ x, 0 < p θ x)
+    (hprob : ∀ θ, IsProbabilityMeasure (ν.withDensity fun x ↦ ENNReal.ofReal (p θ x)))
+    (θ₀ : 𝔼ₖ) (s : 𝔼ₖ → X → 𝔼ₖ) (hs : ∀ θ, Measurable (s θ))
+    (hqmd : HasQMDWithinAt ν p univ θ₀ (s θ₀))
+    (hI : (fisherInformation (ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)) (s θ₀)).PosDef)
+    (L : X → ℝ) (hL : MemLp L 2 (ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)))
+    (hlip : ∃ r > 0, ∀ θ₁ ∈ Metric.ball θ₀ r, ∀ θ₂ ∈ Metric.ball θ₀ r, ∀ x,
+      |Real.log (p θ₁ x) - Real.log (p θ₂ x)| ≤ L x * ‖θ₁ - θ₂‖)
+    (c : 𝔼ₖ → EuclideanSpace ℝ (Fin q)) (hc : ContDiff ℝ 1 c) (hc0 : c θ₀ = 0)
+    (C : Matrix (Fin q) (Fin k) ℝ)
+    (hC : ∀ v, fderiv ℝ c θ₀ v = WithLp.toLp 2 (C *ᵥ WithLp.ofLp v)) (hCrank : C.rank = q)
+    (θhat θtilde : ∀ n, (Fin n → X) → 𝔼ₖ) (hθmeas : ∀ n, Measurable (θhat n) ∧ Measurable (θtilde n))
+    (hhat : ∀ n x η, ∑ i, Real.log (p η (x i)) ≤ ∑ i, Real.log (p (θhat n x) (x i)))
+    (htilde : ∀ n x, c (θtilde n x) = 0 ∧
+      ∀ η, c η = 0 → ∑ i, Real.log (p η (x i)) ≤ ∑ i, Real.log (p (θtilde n x) (x i)))
+    (hcons : TendstoInProbability (fun (n : ℕ) ↦ Measure.pi fun _ : Fin n ↦
+        ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)) θhat atTop θ₀ ∧
+      TendstoInProbability (fun (n : ℕ) ↦ Measure.pi fun _ : Fin n ↦
+        ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)) θtilde atTop θ₀)
+    (hLR : ∀ n, Measurable (fun x : Fin n → X ↦ ∑ i, Real.log (p (θhat n x) (x i))) ∧
+      Measurable (fun x : Fin n → X ↦ ∑ i, Real.log (p (θtilde n x) (x i))))
+    (hsexp : TendstoInProbability (fun (n : ℕ) ↦ Measure.pi fun _ : Fin n ↦
+        ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x))
+      (fun (n : ℕ) x ↦ (Real.sqrt n)⁻¹ • ∑ i, (s (θtilde n x) (x i) - s θ₀ (x i)) +
+        Matrix.toEuclideanCLM (𝕜 := ℝ)
+          (fisherInformation (ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)) (s θ₀))
+          (Real.sqrt n • (θtilde n x - θ₀))) atTop 0)
+    {Ω' : Type*} [MeasurableSpace Ω'] {μ' : Measure Ω'} [IsProbabilityMeasure μ']
+    (Z : Ω' → ℝ) (hZ : HasLaw Z (TauCeti.Probability.chiSquaredMeasure q) μ') :
+    TendstoInDistribution (fun (n : ℕ) x ↦
+        2 * (∑ i, Real.log (p (θhat n x) (x i)) - ∑ i, Real.log (p (θtilde n x) (x i)))) atTop Z
+      (fun (n : ℕ) ↦ Measure.pi fun _ : Fin n ↦
+        ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)) μ' ∧
+    TendstoInProbability (fun (n : ℕ) ↦ Measure.pi fun _ : Fin n ↦
+        ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x))
+      (fun (n : ℕ) x ↦ n * quadForm (C * (fisherInformation (ν.withDensity fun x ↦
+          ENNReal.ofReal (p θ₀ x)) (s θ₀))⁻¹ * C.transpose)⁻¹ (c (θhat n x)) -
+        2 * (∑ i, Real.log (p (θhat n x) (x i)) - ∑ i, Real.log (p (θtilde n x) (x i))))
+      atTop 0 ∧
+    TendstoInProbability (fun (n : ℕ) ↦ Measure.pi fun _ : Fin n ↦
+        ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x))
+      (fun (n : ℕ) x ↦ (n : ℝ)⁻¹ * quadForm (fisherInformation (ν.withDensity fun x ↦
+          ENNReal.ofReal (p θ₀ x)) (s θ₀))⁻¹ (∑ i, s (θtilde n x) (x i)) -
+        2 * (∑ i, Real.log (p (θhat n x) (x i)) - ∑ i, Real.log (p (θtilde n x) (x i))))
+      atTop 0 := sorry
 
 /-- **8.2** The asymptotic power envelope for one-sided tests of `ψ(θ) ≤ 0` in a locally
 asymptotically normal model. -/

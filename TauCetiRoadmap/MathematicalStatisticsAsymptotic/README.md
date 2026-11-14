@@ -25,7 +25,8 @@ core of [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations
 
 The material is the standard graduate content of van der Vaart (1998) and van der
 Vaart–Wellner (2023), with the robust theory of Jurečková–Sen and Lehmann (1999) (see
-[References](#references)). Each headline carries a locator in a text listed under References.
+[References](#references)). Each headline carries a locator in a text listed under References,
+except the contamination bound for the median in 9.3, which carries a proof route.
 
 **This roadmap is a supplier.** The roadmaps
 [MathematicalStatisticsSemiparametric](../MathematicalStatisticsSemiparametric/README.md),
@@ -442,6 +443,9 @@ bounds the integral over the non-measurable part from above. Mathlib's
   positive outer measure.
 - `IsBoundedInProbabilityAlong`: `√n · (sample mean)` is bounded in probability (it is `N(0, 1)`
   for every `n`); `n · (sample mean)` is not, being `N(0, n)`.
+- `IsBoundedInProbabilityAlong` is not a moment condition: on `[0, 1]` with Lebesgue measure,
+  `Xₙ = n 1_{[0, 1/n]}` has mean `1` for every `n` and is bounded in probability, since
+  `μ{C < Xₙ} ≤ 1/n` for every `C`.
 - `IsBoundedInProbabilityAlong` along a filter: the constant sequence `Xᵢ = i` on a one-point
   space is bounded along any filter `l` that contains a bounded set of indices, such as the
   principal filter of `{0, 1}`, and is not bounded along `atTop`.
@@ -847,6 +851,8 @@ limits in law gives the bridge marginals; tightness of `L` is part of the defini
   `∞`: under `Q` uniform on `m` points the `2^m` traces are pairwise at `L²(Q)`-distance at least
   `m^{-1/2}`, so the covering number at `ε < 1/(2√m)` is at least `2^m`, and the integrand is at
   least of order `1/ε`.
+- `uniformEntropyIntegral` with `F = 0`: no measure `Q` has `‖F‖_{Q,2} > 0`, so the supremum is
+  over an empty index and the integral is `0` for every class.
 - `IsPointwiseSeparable`: the half-line indicators are pointwise separable, with
   `1_{(-∞, q]} → 1_{(-∞, t]}` pointwise as rational `q` decrease to `t`.
 - `IsPointwiseSeparable`: every class indexed by a countable `T` is pointwise separable.
@@ -1292,7 +1298,8 @@ ball.
 
 - **M-estimators with a Lipschitz criterion** (`mEstimator_asymptotically_linear`): let
   `θ ↦ m_θ(x)` be differentiable at `θ₀` for `P`-almost every `x` with gradient `ṁ(x)`, Lipschitz
-  near `θ₀` with a square-integrable constant `L(x)`, and let `θ ↦ P m_θ` have a second-order
+  on a common ball around `θ₀` (one radius for all pairs `θ₁, θ₂` and all `x`) with a
+  square-integrable constant `L(x)`, and let `θ ↦ P m_θ` have a second-order
   expansion at its maximum `θ₀` with nonsingular symmetric `V`. If `θ̂ₙ → θ₀` in probability and
   `ℙₙ m_{θ̂ₙ} ≥ sup_θ ℙₙ m_θ - o_P(n⁻¹)`, then `θ̂ₙ` is asymptotically linear with influence
   function `-V⁻¹ ṁ` (van der Vaart, Thm 5.23, p. 53).
@@ -1476,7 +1483,7 @@ subsamples sharing `c` points; then 6.1 and the central limit theorem (1.2).
   kernel `h_j = h_{S_j}`, so `Uₙ - θ = ∑_j (m choose j) U_{n,j}`; the terms are orthogonal in `L²`
   and `h₁ = g - θ`. For `n < m` there are no injections, `Uₙ = 0`, and neither identity is
   asserted.
-- **Optimality**: let `C` be a family of laws on `X`, with measurable singletons, that contains the
+- **Optimality** (`variance_uStatistic_le_of_unbiased`): let `C` be a family of laws on `X`, with measurable singletons, that contains the
   finitely supported laws, and let `h` be measurable, symmetric and square-integrable under every
   `P ∈ C`, with `n ≥ m`. Every estimator `δ` of `P ↦ ∫ h dPᵐ` that is unbiased and
   square-integrable under every `Pⁿ`, `P ∈ C`, has `Var_P δ ≥ Var_P Uₙ` for every `P ∈ C`.
@@ -1519,8 +1526,11 @@ decomposition gives `E(n Uₙ(h - h_N))² = (2n/(n - 1)) ∑_{j ≥ N} λⱼ² �
   `E h₁² = 1/2`, `h₂(x, y) = -xy` with `E h₂² = 1`, giving
   `Var Uₙ = 4 · (1/2)/n + 1/(n(n-1)/2) = 2/(n - 1)`, the variance of the sample variance of a
   standard normal sample.
-- `hoeffdingProjection`: for `S = ∅` it is the constant `θ = ∫ h dPᵐ`, and for `S = Fin m` it is
-  `h(y)`, since `P` is a probability measure.
+- `hoeffdingProjection` with `S = ∅` is the constant `θ = ∫ h dPᵐ`.
+- `hoeffdingProjection` with `S = Fin m` is `h(y)`, since `P` is a probability measure.
+- `hoeffdingProjection` integrates out exactly the coordinates outside `S`: for the Rademacher law,
+  `h(y) = y₀² + y₁` and `S = {0}`, its value at `(2, 3)` is `4`, while `h(2, 3) = 7` and
+  `∫ h dP² = 1`.
 - `hoeffdingKernel` with `m = 1`: `h_∅ = θ` and `h_{{0}} = h - θ`; with `m = 2` and
   `h(x, y) = (x - y)²/2` under `N(0, 1)`, `h_{{0}}(y) = (y₀² - 1)/2` and `h_{{0,1}}(y) = -y₀ y₁`, the
   kernels of the variance Check above.
@@ -1885,7 +1895,12 @@ theorem (7.5).
 
 - Pitman's location experiment `f(x - θ)` with `f` of finite Fisher information `I_f`: by 7.3 it
   is locally asymptotically normal, and by 7.6 no estimator has local asymptotic squared-error
-  risk below `1/I_f`; the one-step estimator of 5.4 attains it.
+  risk below `1/I_f`. The efficient one-step estimator of 5.4 attains the Gaussian limit law
+  `N(0, 1/I_f)`; its squared-error risk converges to `1/I_f` when the scaled squared errors are
+  uniformly integrable, and its local supremum risk does when they are uniformly integrable
+  uniformly over the local alternatives. Convergence in law alone does not suffice: in the normal
+  location model, an ancillary event of probability `1/n` on which the one-step output is moved by
+  `n` keeps the limit law `N(0, 1)` but has scaled risk `1 + n²`.
 
 ### Dependencies
 
@@ -1902,15 +1917,16 @@ power `πₙ(θ) = E_θ φₙ`.
 
 - **The simple hypothesis** (`tendstoInDistribution_likelihoodRatio_wald_score`): for `θ = θ₀`, in a
   model with positive densities, differentiable in quadratic mean at `θ₀` with positive definite
-  information `I` and a log-likelihood that is Lipschitz near `θ₀` with a square-integrable
-  constant, and a measurable maximum likelihood estimator `θ̂ₙ` consistent under `P_{θ₀}`, the
+  information `I` and a log-likelihood that is Lipschitz on a common ball around `θ₀` with a
+  square-integrable constant, and a measurable maximum likelihood estimator `θ̂ₙ` consistent under `P_{θ₀}`, the
   statistics `λₙ = 2(ℓₙ(θ̂ₙ) - ℓₙ(θ₀))`, `Wₙ = n (θ̂ₙ - θ₀)ᵀ I (θ̂ₙ - θ₀)` and
   `Sₙ = n⁻¹ (∑ᵢ ℓ̇(xᵢ))ᵀ I⁻¹ (∑ᵢ ℓ̇(xᵢ))` differ by `o_P(1)` under `P_{θ₀}` (van der Vaart, §16.3,
   p. 231; Lehmann, Thm 7.7.3, p. 535, under the classical conditions), and under
   `P_{θ₀ + h/√n}` the statistic `λₙ` converges to the noncentral chi-squared law with `k` degrees
   of freedom and noncentrality `hᵀ I h` (by Le Cam's third lemma, 7.2, applied to
   `Δₙ = n^{-1/2} ∑ᵢ ℓ̇(xᵢ)`, whose limit under the alternative is `N(I h, I)`).
-- **The three classical tests for a composite hypothesis**: let `Θ ⊆ ℝ^k` be open, `Θ₀ = {c = 0}` for a continuously
+- **The three classical tests for a composite hypothesis**
+  (`tendstoInDistribution_likelihoodRatio_wald_score_composite`): let `Θ ⊆ ℝ^k` be open, `Θ₀ = {c = 0}` for a continuously
   differentiable `c : Θ → ℝ^q` with `C = Dc(θ₀)` of rank `q`, and let the maximum likelihood
   hypotheses of 5.3 hold at `θ₀ ∈ Θ₀` with `I` continuous at `θ₀`. For consistent maximizers
   `θ̂ₙ` over `Θ` and `θ̃ₙ` over `Θ₀`, the likelihood ratio statistic
@@ -1926,7 +1942,7 @@ power `πₙ(θ) = E_θ φₙ`.
 - **The likelihood ratio on converging local sets**
   (`tendstoInDistribution_likelihoodRatio_localSets`): let the model be differentiable in
   quadratic mean at `θ ∈ Θ₀` with nonsingular information, with a log-likelihood that is
-  Lipschitz near `θ` with a square-integrable constant, maximum likelihood estimators over `Θ₀`
+  Lipschitz on a common ball around `θ` with a square-integrable constant, maximum likelihood estimators over `Θ₀`
   and `Θ` that are consistent under every `P_{θ + h/√n}`, and local sets `Hₙ → H`,
   `Hₙ,₀ → H₀`. Then under `P_{θ + h/√n}`,
   `λₙ → inf_{g ∈ H₀} ‖I^{1/2}(X - g)‖² - inf_{g ∈ H} ‖I^{1/2}(X - g)‖²` with `X ~ N(h, I⁻¹)` (van der
@@ -1992,10 +2008,13 @@ its power by the displayed envelope. Attainment is Le Cam's third lemma (7.2).
   `θₙ` for every `θₙ → 0` from above, with `μ` differentiable at `0` and `σ` continuous at `0` with
   `σ(0) > 0`, the test rejecting when `√n(Tₙ - μ(0)) > σ(0) z_α` has power at `h/√n` tending to
   `1 - Φ(z_α - h μ'(0)/σ(0))` for `h ≥ 0` (van der Vaart, Thm 14.7, p. 195).
-- **Pitman efficiency**: for two such sequences of tests, in models with `P_{n,θ} → P_{n,0}` in
-  total variation as `θ → 0` for each `n`, the Pitman relative efficiency is the ratio of the
-  efficacies `(μᵢ'(0)/σᵢ(0))²`, for every `α`, power `γ` and sequence of alternatives `θ_ν ↓ 0`
-  (van der Vaart, Thm 14.19, p. 201). With nondecreasing power functions, asymptotic normality
+- **Pitman efficiency**: for two such sequences of tests with `μᵢ'(0) > 0` and `σᵢ(0) > 0`, in
+  models with `P_{n,θ} → P_{n,0}` in total variation as `θ → 0` for each `n`, let `n_{ν,i}` be the
+  least sample size at which the test based on `Tₙ,ᵢ` has level at most `α` and power at least
+  `γ` at `θ_ν`. The Pitman relative efficiency `lim n_{ν,2}/n_{ν,1}` is the ratio of the
+  efficacies `(μᵢ'(0)/σᵢ(0))²`, for every `0 < α < γ < 1` and every sequence of alternatives
+  `θ_ν ↓ 0` (van der Vaart, Thm 14.19, pp. 201–202). The positive slopes are needed: the upper-tail
+  test based on `-X̄` under `N(θ, 1)` has power below `α` at every `θ > 0` and never reaches `γ`. With nondecreasing power functions, asymptotic normality
   along `θₙ = O(n^{-1/2})` suffices.
 - **The three one-sample tests**: the sign statistic `n⁻¹ #{i | xᵢ > 0}`, the Wilcoxon signed-rank
   statistic, defined as the U-statistic of order `2` with kernel `1{x₁ + x₂ > 0}` (Foundations 2.4),
@@ -2027,9 +2046,10 @@ mean with `μ(θ) = 1 - F(-θ)`; the Wilcoxon statistic has `μ(θ) = P(X₁ + X
 Lindeberg theorem (1.2) and 6.2 along `θₙ`. The Hodges–Lehmann bound: minimize `∫ f²` at fixed
 variance, a convex problem whose Lagrangian solution is the Epanechnikov density
 `(3/4)(1 - x²)⁺` by the pointwise inequality `f² - 2f(a - b x²) ≥ -(a - b x²)⁺²` integrated against
-the constraints. The unimodal bound: a symmetric unimodal density is a mixture of uniform
-densities `1_{[-u, u]}/(2u)` (Khinchine's representation), and `σ² f(0)²` is minimized by a single
-uniform.
+the constraints. The unimodal bound: for symmetric unimodal `f`, `M = f(0) = sup f`, and
+`a = 1/(2M)`, the integrand `(x² - a²)(f(x) - M 1_{[-a, a]}(x))` is nonnegative everywhere, and
+integrating it gives `σ² - 1/(12 M²) ≥ 0`, so `4σ² f(0)² ≥ 1/3`. For the uniform law on
+`[-1/2, 1/2]` both sides are `1/12`.
 
 *Needs:* 1.2, 6.2; Foundations 2.4, 9.2; Tau Ceti `laplaceMeasure`, `logisticMeasure`.
 
@@ -2227,16 +2247,19 @@ the quantile Galois inequality (Tau Ceti `quantile_le_iff`) converts these into 
   breakdown point `(m + 1)/(2m + 1)`, which tends to `1/2`.
 - **Least squares** has breakdown point `1/n` at every regression sample with a design of full
   rank.
-- **Least median of squares**: for a regression sample with `p ≥ 2` coefficients, no design row
-  `xᵢ = 0`, observations in general position (any `p` observations determine the coefficient
+- **Least median of squares**: consider a regression sample with `p ≥ 2` coefficients, no design
+  row `xᵢ = 0`, observations in general position (any `p` observations determine the coefficient
   vector uniquely), and no vertical hyperplane of `ℝ^{p+1}` (a `p`-dimensional subspace containing
-  the `y`-axis) containing more than `⌊n/2⌋` observations, every selection of a minimizer of the
-  median squared residual (the order statistic of rank `⌊n/2⌋ + 1` of the squared residuals) has
-  breakdown point `(⌊n/2⌋ - p + 2)/n` (Rousseeuw 1984, Thm 1, p. 872, with the standing assumptions
-  of §2, p. 872). Under general position at most `p - 1` design rows lie in a hyperplane of the
-  design space, so the vertical-hyperplane condition is `p - 1 ≤ ⌊n/2⌋`. Without it the formula
-  can be `0` or negative, as for `n = 8`, `p = 6`, where `0` replacements cannot break a fixed
-  estimate.
+  the `y`-axis) containing more than `⌊n/2⌋` observations. Breakdown is taken for the set of all
+  minimizers of the median squared residual (the order statistic of rank `⌊n/2⌋ + 1` of the
+  squared residuals): it breaks down when the set of minimizers over the corrupted samples is
+  unbounded. Its breakdown point is `(⌊n/2⌋ - p + 2)/n` (Rousseeuw 1984, Thm 1, p. 872, with the
+  standing assumptions of §2, p. 872; the proof on p. 878 constructs an unbounded family of
+  minimizers, which is why the set-valued form is the one proved). Every selection of a minimizer
+  therefore has breakdown point at least `(⌊n/2⌋ - p + 2)/n`, and a particular selection can do
+  better. Under general position at most `p - 1` design rows lie in a hyperplane of the design
+  space, so the vertical-hyperplane condition is `p - 1 ≤ ⌊n/2⌋`. Without it the formula can be
+  `0` or negative, as for `n = 8`, `p = 6`, where `0` replacements cannot break a fixed estimate.
 - **Least absolute deviations** has breakdown point `1/n` when whole pairs `(xᵢ, yᵢ)` may be
   replaced (Jurečková–Sen, §4.8, p. 176).
 
@@ -2259,6 +2282,11 @@ point `x` and a response `y = c x` with large `c` forces the fit through it.
   unbounded, and the infimum over the empty set of fractions is `⊤`.
 - `breakdownPoint` at `n = 0` is `∞`: the only `m` is `0`, and the image of the one empty sample is
   a point, which is bounded.
+- The selection matters: for `n = 6`, `p = 3`, rows `(1, t, t²)`, `t = 0, …, 5`, and responses `0`,
+  the formula gives `2/6`. The minimum-norm minimizer stays `0` after any two replacements, since
+  four zero residuals remain, so that selection breaks down only at `3/6`. With three replacements,
+  the responses at `t = 3, 4, 5` replaced by `A(t - 2)`, the minimum-norm minimizer is
+  `(0, -A/6, A/6)`, which is unbounded in `A`.
 
 ### 9.5 Hampel's optimality and Huber's minimax property
 
