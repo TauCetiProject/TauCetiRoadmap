@@ -69,7 +69,7 @@ about them. All of these except `frattiniKernel` now live in Tau Ceti under the 
 `TauCeti` namespace, so the statements below are made about the Tau Ceti objects directly. Apart
 from the compatibility names described below, only three local names remain: the notation `ẑ` for
 `Additive TauCeti.zHat.{0}` (the old file's convention, kept: Tau Ceti's `zHat` is
-universe-polymorphic, and the notation pins universe `0`, which needs `quotPrecheck` off), the
+universe-polymorphic, and the notation pins universe `0` by a type ascription), the
 README's alias `padicPow ℓ hG x u` for `TauCeti.IsProP.padicPow`, and the README's `HeisenbergZp p`
 for `TauCeti.HeisenbergGroup ℤ_[p]`. The old targets map as follows: `frattiniKernel P` is
 `(MulAut.mapQuotient (frattini P)).ker`; `nonempty_ringEquiv_pi` is the named
@@ -149,8 +149,6 @@ not those later declarations.
 
 -/
 
-set_option autoImplicit false
-
 namespace TauCetiRoadmap.ProfiniteArithmetic
 
 open TauCeti
@@ -160,11 +158,10 @@ universe u v
 
 /-! ## Layer 0: the ring structure on the profinite integers -/
 
-set_option quotPrecheck false in
 /-- The additive presentation of Tau Ceti's profinite integers `TauCeti.zHat`, the carrier of the
 ring of Layer 0. This is notation, not a new type. Tau Ceti's `zHat` is universe-polymorphic;
-this file works with `zHat.{0}`, which needs the notation's precheck switched off. -/
-scoped notation "ẑ" => Additive TauCeti.zHat.{0}
+the type ascription fixes the universe `0`. -/
+scoped notation "ẑ" => Additive (TauCeti.zHat : Type)
 
 namespace zHat
 
