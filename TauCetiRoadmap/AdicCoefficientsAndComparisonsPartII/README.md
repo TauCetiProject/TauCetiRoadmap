@@ -478,7 +478,9 @@ The statements and routes use Mathlib `AlgebraicGeometry.Scheme.residueField`; M
 
 ## Layer PA.1: Riemann–Zariski spaces of pointed schemes
 
-### 1.1 Pointed schemes and their modifications
+### 1.1 Pointed Riemann–Zariski spaces, valuative points and compactness
+
+This section provides pointed schemes and their modifications, the Riemann–Zariski space of a pointed scheme, its valuative points, and the compactness and valuative description of §PA.1.4. §§PA.3.4 and PA.5.3 use that compactness, and §PA.2.2 uses the modifications of §PA.1.1.
 
 By a pointed scheme we mean a field K, a quasi-compact quasi-separated scheme X and a K-valued point ε : Spec K → X. To map (Spec K′ → X′) to (Spec K → X) one gives a commuting square, namely morphisms j : Spec K′ → Spec K and f : X′ → X compatible with the two points. When j is invertible and f is proper, the map is called a modification; f is not asked to be surjective. Such a modification is tight when the point Spec K → X′ that it carries is schematically dominant. Dominance of ε itself is not assumed, so char K and the generic characteristic of X can differ.
 
@@ -508,8 +510,7 @@ For X integral and ε the generic point, tight modifications are exactly the mod
 
 *Needs:* Mathlib `AlgebraicGeometry.IsProper`; Mathlib `AlgebraicGeometry.QuasiCompact`; Mathlib `AlgebraicGeometry.QuasiSeparated`; TauCetiRoadmap.SchemeAndStackFoundations §§4.11–4.20.
 
-### 1.2 Riemann–Zariski space of a pointed scheme
-
+**1.2 Riemann–Zariski space of a pointed scheme.**
 For a pointed scheme ε : Spec K → X, RZ_K(X) := lim_i X_i, the limit in locally ringed spaces over all modifications X_i → X of ε. Its underlying space is lim |X_i| with projections π_i, its structure sheaf is colim π_i⁻¹ `O_{X_i}`, so `O_{RZ,x}` = colim `O_{X_i,π_i(x)}`. Constructible subsets are the preimages π_i⁻¹(C) of constructible C ⊆ X_i, and they generate the constructible topology.
 
 Work under these precise hypotheses: ε a pointed scheme.
@@ -537,8 +538,7 @@ For ε dominant with X = Spec A, RZ_K(Spec A) is the Riemann–Zariski space of 
 
 *Needs:* §PA.1.1; Mathlib `WithConstructibleTopology`.
 
-### 1.3 Valuative points of a pointed scheme
-
+**1.3 Valuative points of a pointed scheme.**
 For a pointed scheme ε : Spec K → X, Val_K(X) is the set of isomorphism classes of morphisms Spec O → X extending ε, where O ⊆ K is a valuation ring of K (with Spec K → Spec O the generic point). By the valuative criterion of separatedness the morphism is determined by O when X is separated.
 
 Work under these precise hypotheses: ε a pointed scheme.
@@ -566,8 +566,7 @@ For X proper over Spec Z (or separated), Val_K(X) is the set of valuation rings 
 
 *Needs:* Mathlib `ValuationSubring`; Mathlib `AlgebraicGeometry.IsSeparated.valuativeCriterion`; §PA.1.1.
 
-### 1.4 Compactness and the valuative description of RZ spaces
-
+**1.4 Compactness and the valuative description of RZ spaces.**
 Let ε : Spec K → X be a pointed scheme and 𝔛 = RZ_K(X). (i) 𝔛 is compact in the constructible topology and quasi-compact in the Zariski topology. (ii) Every stalk `O_{𝔛,x}` is a valuation ring of K, and x ↦ (Spec `O_{𝔛,x}` → X) is a bijection 𝔛 → Val_K(X).
 
 Work under these precise hypotheses: ε a pointed scheme (X qcqs).
@@ -580,7 +579,9 @@ For X = Spec A and ε dominant this recovers the classical compactness of the Za
 
 *Needs:* §PA.1.2; §PA.1.3; Mathlib `compactSpace_withConstructibleTopology`; Mathlib `AlgebraicGeometry.IsProper.eq_valuativeCriterion`; Mathlib `LocalSubring.exists_le_valuationSubring`.
 
-### 1.5 Functoriality of Riemann–Zariski spaces
+### 1.5 Restriction maps and the valuation spaces Val_K of fields
+
+This section provides the restriction map ψ along a morphism of pointed schemes, its openness for finite-type morphisms, and the space Val_K of valuation rings of a field with its subsets Val_K(X)′ and the maps `ψ_{L/K}`. §§PA.2.1, PA.2.2, PA.2.5, PA.3.3 and PA.3.6 use §PA.1.7, and §PA.2.4 uses §PA.1.6.
 
 A morphism of pointed schemes (j : Spec L → Spec K, f : Y → X) induces ψ : Val_L(Y) → Val_K(X), sending Spec O → Y to the factorisation of Spec O → Y → X through Spec(O ∩ K), and a compatible morphism of locally ringed spaces RZ_L(Y) → RZ_K(X).
 
@@ -609,8 +610,7 @@ For L/K a field extension and X = Y = Spec Z, ψ is restriction of valuation rin
 
 *Needs:* §PA.1.2; §PA.1.3; §PA.1.4.
 
-### 1.6 Openness of the restriction map
-
+**1.6 Openness of the restriction map.**
 Let (Spec L → Y) → (Spec K → X) be a morphism of pointed schemes with Y → X of finite type. Then ψ : Val_L(Y) → Val_K(X) is open and continuous for both the Zariski and the constructible topologies; in particular it takes constructible sets to constructible sets.
 
 Work under these precise hypotheses: Y → X of finite type; X, Y qcqs.
@@ -623,8 +623,7 @@ For L/K finite and X = Y = Spec Z, `ψ_{L/K}` : Val_L → Val_K is open and cont
 
 *Needs:* §PA.1.5; §PA.1.4; §PA.0.6; Mathlib `AlgebraicGeometry.Flat.generalizingMap`; Mathlib `AlgebraicGeometry.isOpenMap_of_generalizingMap`; Mathlib `AlgebraicGeometry.Scheme.Hom.isConstructible_image`; Mathlib `LocalSubring.exists_le_valuationSubring`.
 
-### 1.7 Absolute Riemann–Zariski spaces and centres
-
+**1.7 Absolute Riemann–Zariski spaces and centres.**
 For a field K, Val_K := Val_K(Spec Z) is the set of all valuation rings of K, identified with Tau Ceti's valuation spectrum of K (equivalence classes of valuations); as a topological space it is the Zariski–Riemann space Spv K of ClassicalAdicEtaleCohomology §2.4, the valuation rings of K with the topology generated by the sets {V : a ∈ V}, a ∈ K. For a pointed scheme ε : Spec K → X let Val_K(X)′ ⊆ Val_K be the image of Val_K(X) → Val_K: the valuation rings of K with a centre on X extending ε. For a field extension L/K, `ψ_{L/K}` : Val_L → Val_K is O ↦ O ∩ K. If X is separated, Val_K(X) → Val_K is injective; the converse fails for a fixed pointed scheme.
 
 Work under these precise hypotheses: K a field; ε a pointed scheme for Val_K(X)′.
@@ -681,7 +680,9 @@ The statements and routes use §PA.0.6; Mathlib `AlgebraicGeometry.IsProper`; Ma
 
 ## Layer PA.2: Tame distillation for field extensions
 
-### 2.1 Tame, wild and unramified loci
+### 2.1 Tame, wild and unramified loci, tameness conditions and tower laws
+
+This section provides the tame, wild and unramified loci of an algebraic extension, the S-, X- and P-tameness conditions defined by them, and their behaviour in towers and composita. §§PA.3.3, PA.3.4 and PA.3.5 use these conditions, and §§PA.2.4 and PA.2.5 use §PA.2.3.
 
 Let L/K be an algebraic extension of fields. For x ∈ Val_L, L/K is x-tame if it is tame (LocalFieldsRamificationPartII GF.2) for the valuation of L given by x and the valuation `ψ_{L/K}(x)` of K. The tame locus is `Val^t_{L/K}` := {x ∈ Val_L : L/K is x-tame}, the wild locus `Val^w_{L/K}` := Val_L ∖ `Val^t_{L/K}`, and the unramified locus `Val^u_{L/K}` is defined in the same way with 'unramified' (GF.2) in place of 'tame'.
 
@@ -711,8 +712,7 @@ If char K = 0 then the residue characteristic of the trivial valuation is 0 and 
 
 *Needs:* §PA.1.7; TauCetiRoadmap.LocalFieldsRamificationPartII GF.2/tame-extension; TauCetiRoadmap.LocalFieldsRamificationPartII GF.2/unramified-extension.
 
-### 2.2 S-tameness and P-tameness
-
+**2.2 S-tameness and P-tameness.**
 Let L/K be algebraic and S ⊆ Val_L. L/K is S-tame if S ⊆ `Val^t_{L/K}`; X-tame for a pointed scheme Spec L → X if it is Val_L(X)′-tame; absolutely tame if `Val^t_{L/K}` = Val_L. For S ⊆ Val_L, char(S) is the set of nonzero residue characteristics of the elements of S. For a set of primes P, L/K is P-tame if `char(Val^w_{L/K})` ∩ P = ∅, and a field K is P-tame if K^a/K is. Separable P-tameness of K asks this for K^s/K.
 
 Work under these precise hypotheses: L/K algebraic; S ⊆ Val_L; P a set of primes.
@@ -745,8 +745,7 @@ At every valuation of residue characteristic zero, every algebraic extension is 
 
 *Needs:* §PA.2.1; §PA.1.7; §PA.1.1.
 
-### 2.3 Tame and unramified loci in towers and composita
-
+**2.3 Tame and unramified loci in towers and composita.**
 (i) For a tower of algebraic extensions L/l/k: `Val^t_{L/k}` = `Val^t_{L/l}` ∩ `ψ_{L/l}⁻¹(Val^t_{l/k})`, and the same for unramified loci. (ii) If l/k and K/k are subextensions of L/k with L = Kl, then `ψ_{L/l}⁻¹(Val^t_{l/k})` ⊆ `Val^t_{L/K}` and `ψ_{L/l}⁻¹(Val^u_{l/k})` ⊆ `Val^u_{L/K}`.
 
 Work under these precise hypotheses: All fields inside one algebraic extension.
@@ -759,7 +758,9 @@ For k = Q, l = Q(i), L = Q(i, √3): the point over 3 lies in `Val^t_{L/k}`, and
 
 *Needs:* §PA.2.1; TauCetiRoadmap.LocalFieldsRamificationPartII GF.2/tower-laws; TauCetiRoadmap.LocalFieldsRamificationPartII GF.2/tame-extension.
 
-### 2.4 Openness of the tame and unramified loci
+### 2.4 Open tame loci and tame distillation of finite field extensions
+
+This section provides the openness of the tame and unramified loci of a finite extension L/K and, from it, for constructibly compact S ⊆ Val_L with wild primes set P, a P-extension K′/K over which LK′ is tame on the preimage of S, separable when L/K is (§PA.2.6). §PA.3.6 uses §PA.2.5, and §PA.3.7 uses §PA.2.6.
 
 For a finite extension L/K, the tame locus `Val^t_{L/K}` and the unramified locus `Val^u_{L/K}` are open subsets of Val_L.
 
@@ -773,8 +774,7 @@ For L = Q(i), K = Q the tame locus is Val_L minus the single point over 2, which
 
 *Needs:* §PA.2.1; §PA.2.3; §PA.1.6; TauCetiRoadmap.LocalFieldsRamificationPartII GF.2/unramified-etale-criterion; TauCetiRoadmap.LocalFieldsRamificationPartII GF.1/normalization-and-prolongations; Mathlib `Algebra.IsEtaleAt.exists_isStandardEtale`.
 
-### 2.5 Tame distillation for finite field extensions
-
+**2.5 Tame distillation for finite field extensions.**
 Let L/K be a finite field extension, S ⊆ Val_L compact in the constructible topology, and P := char(S ∩ `Val^w_{L/K}`) the wild primes set of S. Then there are a finite extension L′/L and a tower L′/K′/K with K′/K a P-extension and L′/K′ S′-tame, where S′ := `ψ_{L′/L}⁻¹(S)`. Moreover for any maximal P-extension K̄/K one can take K′ ⊆ K̄ and L′ = LK′.
 
 Work under these precise hypotheses: L/K finite; S ⊆ Val_L constructibly compact.
@@ -787,8 +787,7 @@ If S ⊆ `Val^t_{L/K}` then P = ∅ and one may take K′ = K, L′ = L. For L =
 
 *Needs:* §PA.2.4; §PA.2.3; LocalFieldsRamificationPartII GF.6, general-tameness and separable-p-closed-tameness; §PA.1.7; TauCetiRoadmap.LocalFieldsRamificationPartII GF.0/maximal-p-extension; TauCetiRoadmap.LocalFieldsRamificationPartII GF.0/p-extensions.
 
-### 2.6 Separable tame distillation for finite separable extensions
-
+**2.6 Separable tame distillation for finite separable extensions.**
 Let L/K be finite separable, S ⊆ Val_L constructibly compact and P = char(S ∩ `Val^w_{L/K}`). For any maximal separable P-extension K̄^s/K there is a finite separable P-extension K′/K with K′ ⊆ K̄^s such that L′ = LK′ is S′-tame over K′, S′ = `ψ_{L′/L}⁻¹(S)`. In particular L′/K is separable.
 
 Work under these precise hypotheses: L/K finite separable; S constructibly compact.
@@ -811,7 +810,9 @@ The statements and routes use §PA.1.1; §PA.1.6; §PA.1.7; TauCetiRoadmap.Local
 
 ## Layer PA.3: Tame distillation for alterations
 
-### 3.1 Inertia, tame actions and inertia specialization
+### 3.1 Finite group actions, inertia and tame Galois coverings
+
+This section provides decomposition and inertia groups of finite group actions on schemes, tame, inertia specializing and admissible actions, and Galois alterations and tame Galois coverings. §§PA.3.4 and PA.6.11 use §§PA.3.1 and PA.3.2, and §§PA.4.4 and PA.5.6 use the inertia specializing actions of §PA.3.1.
 
 Let a finite group G act on a scheme X by automorphisms. For x ∈ X the decomposition group D_x is the stabilizer of the point x, and the inertia group G_x ⊆ D_x consists of the g ∈ D_x acting trivially on κ(x). The action is tame if |G_x| is invertible in κ(x) for every x, inertia specializing if G_x ⊆ G_y whenever y specializes x, and admissible if every orbit lies in a G-stable affine open (so that X/G exists by gluing the affine invariant quotients). For H ≤ G the fixed-point subscheme X^H is the simultaneous equalizer of h and the identity, h ∈ H; on a non-separated scheme its immersion need not be closed. EtaleCohomologyFoundations §F.0.A1 `SchemeInertia` gives D_y and I_y for the Galois group acting on Nor_L(X) → X, X normal integral; this target extends them to finite group actions on arbitrary schemes and agrees with them on Nor_L(X).
 
@@ -850,8 +851,7 @@ One proof route is as follows. Define D_x via Mathlib's `MulAction.stabilizer` f
 
 *Needs:* Mathlib `MulAction.stabilizer`; Mathlib `AlgebraicGeometry.Scheme.residueField`; TauCetiRoadmap.SchemeAndStackFoundations §1.17; Tau Ceti `TauCeti.AffineInvariantQuotient.projection` and its finite-group API; TauCetiRoadmap.EtaleCohomologyFoundations §F.0.A1.
 
-### 3.2 Galois alterations and tame Galois coverings
-
+**3.2 Galois alterations and tame Galois coverings.**
 Let f : Y → X be an alteration of integral schemes and G = Aut_X(Y). f is Galois (de Jong) if Y/G → X is generically radicial, equivalently k(Y)/k(X) is a purely inseparable K/k(X) followed by a Galois k(Y)/K with Aut_X(Y) = Gal(k(Y)/K); separable Galois if moreover f is generically étale. A Galois covering is a finite separable Galois alteration, and it is tame if the action of Aut_X(Y) on Y is tame. ILO X 3.3.1 calls a G-equivariant alteration with trivial action on X, free action on the generic points and η_Y/G ≅ η_X a separable G-alteration.
 
 Work under these precise hypotheses: X, Y integral noetherian; f an alteration.
@@ -882,7 +882,9 @@ Nor_L(X) → X is a Galois covering for X normal integral and L/k(X) finite Galo
 
 *Needs:* §PA.0.3; §PA.3.1; Mathlib `IsGalois`; Mathlib `IsPurelyInseparable`; Mathlib `Algebra.IsSeparable`.
 
-### 3.3 Wild primes set of an alteration
+### 3.3 Factorization of alterations into tame Galois coverings and P-alterations
+
+This section provides the wild primes set P of an alteration Y → X and an alteration Y′ → Y for which Y′ → X factors as a tame Galois covering followed by a P-alteration (§PA.3.6, which uses §§PA.3.3–PA.3.5), with its separable variant (§PA.3.7). §PA.5.6 uses §§PA.3.6 and PA.3.7, and §PA.6.3 uses §PA.3.7.
 
 For an alteration f : Y → X of integral noetherian schemes, `P^w_{Y/X}` := `char(Val_{k(Y)}(X)′ ∩ Val^w_{k(Y)/k(X)})`, the residue characteristics of the valuations of k(Y) centred on X at which k(Y)/k(X) is wild. It is contained in char(X), and every element is at most deg f.
 
@@ -912,8 +914,7 @@ Spec Z[i] → Spec Z has P^w = {2}.
 
 *Needs:* §PA.1.7; §PA.2.1; §PA.2.2; §PA.0.3; §PA.0.1.
 
-### 3.4 Tame Galois coverings after modification
-
+**3.4 Tame Galois coverings after modification.**
 Let X be a noetherian universally Japanese integral scheme and L/k(X) a finite Galois extension that is X-tame. Then there is a modification X′ → X such that Nor_L(X′) → X′ is a tame Galois covering.
 
 Work under these precise hypotheses: X noetherian, universally Japanese, integral; L/k(X) finite Galois and X-tame.
@@ -926,8 +927,7 @@ If L/k(X) has degree invertible on X, X′ = X works.
 
 *Needs:* Mathlib Scheme.Hom.normalization and SchemeAndStackFoundations §0.20; §PA.3.1; §PA.3.2; §PA.1.4; §PA.2.2.
 
-### 3.5 Galois closures preserve S-tameness
-
+**3.5 Galois closures preserve S-tameness.**
 Let L/K be a finite separable extension with Galois closure L′/K, T ⊆ Val_K, S := `ψ_{L/K}⁻¹(T)` and S′ := `ψ_{L′/K}⁻¹(T)`. Then L/K is S-tame if and only if L′/K is S′-tame.
 
 Work under these precise hypotheses: L/K finite separable; L′ a Galois closure.
@@ -940,8 +940,7 @@ For K = Q, L = Q(∛2), T = Val_Q ∖ {Z_(2), Z_(3)}: L/K is S-tame and so is it
 
 *Needs:* §PA.2.2; §PA.2.3; Mathlib `IsGalois`.
 
-### 3.6 Tame distillation of alterations
-
+**3.6 Tame distillation of alterations.**
 Let X be a noetherian universally Japanese integral scheme, Y → X an alteration and P = `P^w_{Y/X}` its wild primes set. Then there is an alteration Y′ → Y such that the composite Y′ → X factors as a tame Galois covering Y′ → X′ followed by a P-alteration X′ → X.
 
 Work under these precise hypotheses: X noetherian, universally Japanese, integral; Y → X an alteration (Y integral).
@@ -954,8 +953,7 @@ If Y → X is tame (P = ∅) then X′ → X is a modification.
 
 *Needs:* §PA.3.4; §PA.3.5; Mathlib Scheme.Hom.normalization and SchemeAndStackFoundations §0.20; §PA.3.3; §PA.2.5; §PA.1.7; §PA.0.4; TauCetiRoadmap.SchemeAndStackFoundations §§4.11–4.20.
 
-### 3.7 Separable tame distillation of alterations
-
+**3.7 Separable tame distillation of alterations.**
 Let X be a noetherian universally Japanese integral scheme, Y → X a separable alteration and P = `P^w_{Y/X}`. Then there is a separable alteration Y′ → Y such that Y′ → X factors as a tame Galois covering Y′ → X′ followed by a separable P-alteration X′ → X.
 
 Work under these precise hypotheses: X noetherian, universally Japanese, integral; Y → X a separable alteration.
