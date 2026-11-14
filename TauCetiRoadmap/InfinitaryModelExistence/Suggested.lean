@@ -26,9 +26,12 @@ so do the definitions of this roadmap that Tau Ceti implements at this repositor
 maps, occurrence sets, bound substitution, theories and entailment, fragments, `A`-elementarity,
 consistency properties, types and isolation, Morleyization, the graph translation and projective
 classes): they are used here under their Tau Ceti names. The theorems Tau Ceti proves at the pin,
-among them model existence and the theorems of Layers 6 and 8, are not restated here; the
-"Tau Ceti implementation" table of `README.md` names each with its Tau Ceti declaration. This file
-states targets the pin lacks. Every definition below has an actual mathematical body; where a
+among them model existence, the realization and occurrence laws of the graph translation (Layer 6)
+and the theorems of Layer 8, are not restated here; the "Tau Ceti implementation" table of
+`README.md` names each with its Tau Ceti declaration. The other theorems of Layer 6, entailment
+transfer and the polarity laws of the two translations (which need `relationsInSigned` below), are
+targets the pin lacks; `README.md` specifies them and this file does not state them. This file
+states only targets the pin lacks. Every definition below has an actual mathematical body; where a
 construction is specified in `README.md` but too long to prototype (the first-order Morley theory,
 the inseparability consistency property), the milestone is stated as an existence theorem or a
 property of the construction, never as a placeholder proposition.
