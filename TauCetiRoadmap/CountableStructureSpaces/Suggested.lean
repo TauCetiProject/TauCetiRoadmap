@@ -305,6 +305,16 @@ theorem exists_uniform_bfSeparation [L.IsRelational]
       ¬ @BFEquiv L _ ℕ ℕ p.1.toStructure p.2.toStructure β 0 Fin.elim0 Fin.elim0 := by
   sorry
 
+/-- **Layer 4 milestone, uniform separation of two classes.** If no element of the analytic class
+`B` is isomorphic to an element of the analytic class `C`, one countable back-and-forth level
+separates every pair from `B × C`: `exists_uniform_bfSeparation` applied to `B ×ˢ C`. -/
+theorem exists_uniform_bfSeparation_prod [L.IsRelational]
+    {B C : Set (RelationalConfiguration L ℕ)} (hB : AnalyticSet B) (hC : AnalyticSet C)
+    (hBC : ∀ c ∈ B, ∀ d ∈ C, ¬ (isoSetoid L ℕ) c d) :
+    ∃ β < (Ordinal.omega 1 : Ordinal.{0}), ∀ c ∈ B, ∀ d ∈ C,
+      ¬ @BFEquiv L _ ℕ ℕ c.toStructure d.toStructure β 0 Fin.elim0 Fin.elim0 := by
+  sorry
+
 /-- **Layer 4 milestone.** Isomorphism on a model class is Borel exactly when one countable
 back-and-forth level decides it there. -/
 theorem measurableSet_iso_inter_iff_exists_bfLevel [L.IsRelational]

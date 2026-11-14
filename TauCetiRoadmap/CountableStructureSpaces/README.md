@@ -620,8 +620,12 @@ Still to build: `stabilizesCompletely_iff_univ`, `selfStabilizationOrdinal_le_sc
   `β < treeHeight (bfTree c d)`, a node's rank being at least the back-and-forth level of its
   tuples.
 - `exists_uniform_bfSeparation`: an analytic set of non-isomorphic pairs of codes is separated at
-  one level `β < ω₁`, by the boundedness theorem applied to the forced trees. Its form for two
-  analytic classes `B`, `C` with no element of `B` isomorphic to an element of `C`.
+  one level `β < ω₁`, by the boundedness theorem applied to the forced trees.
+- `exists_uniform_bfSeparation_prod`, the form for two classes: if `B` and `C` are analytic and
+  no element of `B` is isomorphic to an element of `C`, some `β < ω₁` makes no `c ∈ B` and
+  `d ∈ C` back-and-forth equivalent at `β`, that is, `BFEquiv β` fails for their empty tuples.
+  This is `exists_uniform_bfSeparation` applied to `B ×ˢ C`, which is analytic by
+  `AnalyticSet.prod`.
 - `measurableSet_iso_inter_iff_exists_bfLevel`: isomorphism restricted to `modelsOf φ` is Borel
   exactly when some `β < ω₁` makes `bfEquivSetoid L ℕ β` agree with isomorphism on `modelsOf φ`. The
   forward direction applies uniform separation to the complement, which is Borel and hence
@@ -637,7 +641,7 @@ yet `BFEquiv k` relates it to a finite pure set of size `k` for every finite `k`
 height is the right parameter for the height comparison.
 
 *Needs:* L3 (`treeHeight`, `analytic_treeHeight_bounded`); L4.1; TC `SameAtomicType`, `BFEquiv`; M
-`MeasurableSet.analyticSet`.
+`MeasurableSet.analyticSet`; BorelEquivalenceRelations `AnalyticSet.prod`.
 
 ### Examples
 
