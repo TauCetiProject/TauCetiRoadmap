@@ -3,10 +3,10 @@ import TauCeti.Algebra.Group.ElementaryTwoQuotient.Basic
 import TauCeti.InformationTheory.Coding.Weight.Enumerator
 
 /-!
-# Fixed fibers, parity obstructions and finite reduced-multiplier calculations
+# Fixed fibers, parity obstructions and finite reduced-multiplier calculations: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for headline results; discharging them
+`README.md`. This file states the roadmap's headline theorems against the pinned APIs; discharging them
 finishes neither a layer nor the roadmap.
 
 The statements on the pinned carriers are positive-degree integral-homology finiteness and
@@ -37,9 +37,34 @@ open scoped TensorProduct
 
 namespace TauCetiRoadmap.InductionRestrictionPartII
 
+/-! ## Layer RS.0: Exactness and Hall-coinvariant homology comparisons -/
+
 /-- Native integral second group homology, used as an abbreviation throughout the README. -/
 abbrev Multiplier (G : Type) [Group G] : Type :=
   groupHomology.H2 (Rep.trivial ℤ G ℤ)
+
+/-- RS.0.2: positive-degree integral homology of a finite group is finite. -/
+theorem integralHomology_finite (G : Type) [Group G] [Finite G] (n : ℕ) :
+    Finite (groupHomology (Rep.trivial ℤ G ℤ) (n + 1)) := by
+  sorry
+
+/-- RS.0.3: inclusion identifies the conjugation coinvariants of a normal Hall subgroup's
+multiplier with the Hall-primary part of the ambient multiplier, with the specified map. -/
+theorem multiplier_hallPart (G : Type) [Group G] [Finite G]
+    (H : Subgroup G) [H.Normal] (hcoprime : Nat.Coprime (Nat.card H) H.index)
+    (ρ : Representation ℤ G (Multiplier H))
+    (hρ : ∀ g z, ρ g z = groupHomology.map
+      (A := Rep.trivial ℤ H ℤ) (B := Rep.trivial ℤ H ℤ)
+      (MulAut.conjNormal g).toMonoidHom (Rep.ofHom ⟨LinearMap.id, by intro h; rfl⟩) 2 z) :
+    let ι := groupHomology.map (A := Rep.trivial ℤ H ℤ) (B := Rep.trivial ℤ G ℤ)
+      H.subtype (Rep.ofHom ⟨LinearMap.id, by intro h; rfl⟩) 2
+    (∃ e : Representation.Coinvariants ρ ≃+ LinearMap.range ι.hom,
+      ∀ z, (e (Representation.Coinvariants.mk ρ z) : Multiplier G) = ι z) ∧
+    (∀ z : Multiplier G, z ∈ LinearMap.range ι.hom ↔
+      ∃ k : ℕ, (Nat.card H) ^ k • z = 0) := by
+  sorry
+
+/-! ## Layer RS.4: Fixed fibers, square obstructions and parity -/
 
 /-- **The torsion-image filtration** `B_t` (RS.4.8): the image of the `2^t`-torsion of `A` in
 `B = A / A²`. -/
@@ -51,6 +76,44 @@ def torsionImageFiltration (A : Type) [CommGroup A] (t : ℕ) :
 the square class of `b` belongs to `B_t`. -/
 def obstructionThreshold {A : Type} [CommGroup A] [Finite A] (b : A) : ℕ :=
   sInf {t : ℕ | elementaryTwoQuotientMk b ∈ torsionImageFiltration A t}
+
+/-- RS.4.10: the finite abelian power equation is solvable exactly at the two-adic
+obstruction threshold. Inverting its right side gives the same solvability condition. -/
+theorem two_adic_survival {A : Type} [CommGroup A] [Finite A] (b : A) (q : ℕ) (hq : Odd q)
+    (hq1 : 1 < q) :
+    (∃ h : A, h ^ (q - 1) = b ^ ((q - 1) / 2)) ↔
+      obstructionThreshold b + 1 ≤ padicValNat 2 (q - 1) := by
+  sorry
+
+/-- RS.4.18: the translated weight polynomial gives the generating series of all integer
+degrees with prescribed parities and a nonnegative coordinate lower bound. -/
+theorem parity_degree_generatingSeries (N N₀ : ℕ) (C : Set (Fin N → ZMod 2)) :
+    PowerSeries.mk (fun n : ℕ ↦ (Nat.card {m : Fin N → ℤ //
+      (∀ i, (N₀ : ℤ) ≤ m i) ∧ (fun i ↦ (m i : ZMod 2)) ∈ C ∧
+        ∑ i, m i = (n : ℤ)} : ℤ)) =
+      (PowerSeries.X : PowerSeries ℤ) ^ (N * N₀) *
+        (Set.weightPolynomial ((fun ε : Fin N → ZMod 2 ↦
+          fun i ↦ ε i + (N₀ : ZMod 2)) '' C)).toPowerSeries *
+        (PowerSeries.invOfUnit (1 - PowerSeries.X ^ 2 : PowerSeries ℤ) 1) ^ N := by
+  sorry
+
+/-! ## Layer RS.6: Finite marked-group comparisons and applications -/
+
+/-- RS.6.1: a normal odd-order subgroup of index two accounts for the entire multiplier
+through its conjugation coinvariants; the ambient multiplier has odd order. -/
+theorem odd_index_two_reduction (G : Type) [Group G] [Finite G]
+    (H : Subgroup G) [H.Normal] (hodd : Odd (Nat.card H)) (hidx : H.index = 2)
+    (ρ : Representation ℤ G (Multiplier H))
+    (hρ : ∀ g z, ρ g z = groupHomology.map
+      (A := Rep.trivial ℤ H ℤ) (B := Rep.trivial ℤ H ℤ)
+      (MulAut.conjNormal g).toMonoidHom (Rep.ofHom ⟨LinearMap.id, by intro h; rfl⟩) 2 z) :
+    (∃ e : Multiplier G ≃+ Representation.Coinvariants ρ,
+      ∀ z, e (groupHomology.map
+        (A := Rep.trivial ℤ H ℤ) (B := Rep.trivial ℤ G ℤ)
+        H.subtype (Rep.ofHom ⟨LinearMap.id, by intro h; rfl⟩) 2 z) =
+          Representation.Coinvariants.mk ρ z) ∧
+    Odd (Nat.card (Multiplier G)) := by
+  sorry
 
 /-- The cyclic group of order two. -/
 abbrev C₂ : Type := Multiplicative (ZMod 2)
@@ -99,63 +162,6 @@ def antidiagonalInclusion (G : Type) [CommGroup G] : G →* sumKernelModel G :=
     ((MonoidHom.id G).prod invMonoidHom)).codRestrict (sumKernelModel G) (by
     intro g
     simp [sumKernelModel, MonoidHom.mem_ker, abelianizedSum])
-
-/-- RS.0.2: positive-degree integral homology of a finite group is finite. -/
-theorem integralHomology_finite (G : Type) [Group G] [Finite G] (n : ℕ) :
-    Finite (groupHomology (Rep.trivial ℤ G ℤ) (n + 1)) := by
-  sorry
-
-/-- RS.0.3: inclusion identifies the conjugation coinvariants of a normal Hall subgroup's
-multiplier with the Hall-primary part of the ambient multiplier, with the specified map. -/
-theorem multiplier_hallPart (G : Type) [Group G] [Finite G]
-    (H : Subgroup G) [H.Normal] (hcoprime : Nat.Coprime (Nat.card H) H.index)
-    (ρ : Representation ℤ G (Multiplier H))
-    (hρ : ∀ g z, ρ g z = groupHomology.map
-      (A := Rep.trivial ℤ H ℤ) (B := Rep.trivial ℤ H ℤ)
-      (MulAut.conjNormal g).toMonoidHom (Rep.ofHom ⟨LinearMap.id, by intro h; rfl⟩) 2 z) :
-    let ι := groupHomology.map (A := Rep.trivial ℤ H ℤ) (B := Rep.trivial ℤ G ℤ)
-      H.subtype (Rep.ofHom ⟨LinearMap.id, by intro h; rfl⟩) 2
-    (∃ e : Representation.Coinvariants ρ ≃+ LinearMap.range ι.hom,
-      ∀ z, (e (Representation.Coinvariants.mk ρ z) : Multiplier G) = ι z) ∧
-    (∀ z : Multiplier G, z ∈ LinearMap.range ι.hom ↔
-      ∃ k : ℕ, (Nat.card H) ^ k • z = 0) := by
-  sorry
-
-/-- RS.4.10: the finite abelian power equation is solvable exactly at the two-adic
-obstruction threshold. Inverting its right side gives the same solvability condition. -/
-theorem two_adic_survival {A : Type} [CommGroup A] [Finite A] (b : A) (q : ℕ) (hq : Odd q)
-    (hq1 : 1 < q) :
-    (∃ h : A, h ^ (q - 1) = b ^ ((q - 1) / 2)) ↔
-      obstructionThreshold b + 1 ≤ padicValNat 2 (q - 1) := by
-  sorry
-
-/-- RS.4.18: the translated weight polynomial gives the generating series of all integer
-degrees with prescribed parities and a nonnegative coordinate lower bound. -/
-theorem parity_degree_generatingSeries (N N₀ : ℕ) (C : Set (Fin N → ZMod 2)) :
-    PowerSeries.mk (fun n : ℕ ↦ (Nat.card {m : Fin N → ℤ //
-      (∀ i, (N₀ : ℤ) ≤ m i) ∧ (fun i ↦ (m i : ZMod 2)) ∈ C ∧
-        ∑ i, m i = (n : ℤ)} : ℤ)) =
-      (PowerSeries.X : PowerSeries ℤ) ^ (N * N₀) *
-        (Set.weightPolynomial ((fun ε : Fin N → ZMod 2 ↦
-          fun i ↦ ε i + (N₀ : ZMod 2)) '' C)).toPowerSeries *
-        (PowerSeries.invOfUnit (1 - PowerSeries.X ^ 2 : PowerSeries ℤ) 1) ^ N := by
-  sorry
-
-/-- RS.6.1: a normal odd-order subgroup of index two accounts for the entire multiplier
-through its conjugation coinvariants; the ambient multiplier has odd order. -/
-theorem odd_index_two_reduction (G : Type) [Group G] [Finite G]
-    (H : Subgroup G) [H.Normal] (hodd : Odd (Nat.card H)) (hidx : H.index = 2)
-    (ρ : Representation ℤ G (Multiplier H))
-    (hρ : ∀ g z, ρ g z = groupHomology.map
-      (A := Rep.trivial ℤ H ℤ) (B := Rep.trivial ℤ H ℤ)
-      (MulAut.conjNormal g).toMonoidHom (Rep.ofHom ⟨LinearMap.id, by intro h; rfl⟩) 2 z) :
-    (∃ e : Multiplier G ≃+ Representation.Coinvariants ρ,
-      ∀ z, e (groupHomology.map
-        (A := Rep.trivial ℤ H ℤ) (B := Rep.trivial ℤ G ℤ)
-        H.subtype (Rep.ofHom ⟨LinearMap.id, by intro h; rfl⟩) 2 z) =
-          Representation.Coinvariants.mk ρ z) ∧
-    Odd (Nat.card (Multiplier G)) := by
-  sorry
 
 /-- RS.6.8: the degree-two Künneth comparison for abelian groups, with the two inclusion
 maps and the oriented cross-factor tensor classes specified. -/

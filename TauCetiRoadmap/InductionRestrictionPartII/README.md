@@ -1783,6 +1783,9 @@ multiplier isomorphisms as explicit hypotheses.
 
 ## Downstream consumers
 
+ArithmeticStatisticsPartVIII §5.21 consumes RS.4.2–RS.4.5 and RS.4.18 for its stable
+Hurwitz-component counts; the geometric component comparison belongs there.
+
 ArithmeticStatisticsPartV, in §3.27 *Nonabelian quadratic moments* and its *Supporting
 arithmetic and moment arguments*, uses the power laws and reduced-cover homology image of RS.1,
 the restricted kernel action and degree restrictions of RS.3, the fixed-fiber counts and parity
