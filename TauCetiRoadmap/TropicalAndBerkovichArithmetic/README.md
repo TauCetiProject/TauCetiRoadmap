@@ -1069,7 +1069,7 @@ Construct finite marked skeleta and their global retraction from annular charts,
 
 ### 2.1 Semistable vertex set
 
-Define *semistable vertex sets and skeleta*. A semistable vertex set is a finite set V of type-2 points of X̄ᵃⁿ whose complement is a disjoint union of open balls and finitely many open annuli, with the punctures in distinct open-ball components.
+Define *semistable vertex sets and skeleta*. Call a finite set V ⊂ X̄ᵃⁿ consisting of type-2 points a semistable vertex set when every connected component of X̄ᵃⁿ∖V is an open ball except for finitely many, which are open annuli, and each puncture lies in an open-ball component that contains no other puncture.
 
 Provide the following interface:
 
@@ -2000,7 +2000,7 @@ Establish three analytic approximation inputs in addition to algebraic Riemann�
 
 ### 5.4 Faithful tropicalization of a finite subgraph
 
-Prove *faithful tropicalization and expansion factors*. Every finite embedded Γ in H°(Xᵃⁿ) admits a closed embedding of X into a quasiprojective toric K-variety meeting its dense torus T such that Γ maps isometrically onto its tropical image. Metrics are the subgraph length metrics. H° is the non-leaf locus, excluding classical and type-4 points.
+Prove *faithful tropicalization and expansion factors*. Given a finite graph Γ embedded in H°(Xᵃⁿ), there exist a quasiprojective toric K-variety with dense torus T and a closed embedding of X in it, with image meeting T, for which tropicalization restricts to an isometry from Γ onto its image. Metrics are the subgraph length metrics. H° is the non-leaf locus, excluding classical and type-4 points.
 
 For the proof, cover the finite embedded graph by finitely many closed skeletal segments. Use unit-slope functions to make the expansion gcd one, and add finitely many separating coordinates for pairs in distinct graph neighborhoods. The resulting toric refinement is locally isometric and injective on the compact graph, hence faithful.
 
