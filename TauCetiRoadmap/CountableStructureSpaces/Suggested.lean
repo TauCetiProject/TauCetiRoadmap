@@ -32,10 +32,9 @@ equivalence and the Scott analysis (`TauCeti.BFEquiv`, `TauCeti.scottSentence`,
 `TauCeti.SelfStabilizesCompletely`, `TauCeti.scottHeight`), the coding space
 `TauCeti.RelationalConfiguration` with its topology, decoding, logic action, model classes and
 isomorphism and back-and-forth setoids, the permutation-group topology, and projective classes
-(`FirstOrder.Language.LHom.PCMem`). The library's theorems are cited, not restated. Three targets
+(`FirstOrder.Language.LHom.PCMem`). The library's theorems are cited, not restated. Two targets
 are proved in place: `isomorphismInvariant_modelsOf`, which CountableModelCounting consumes by
-name; `orbitRank_le_scottHeight`, from the target `selfStabilizationOrdinal_le_scottHeight`; and
-the graph events `measurableSet_setOf_realize_graph`, from the target
+name, and the graph events `measurableSet_setOf_realize_graph`, from the target
 `toStructure_toRelationalConfiguration` and the library.
 The PC sentence of a tree is recorded by its specification (`exists_pcSentence`); the
 README gives its explicit construction.
@@ -240,20 +239,6 @@ theorem selfStabilizationOrdinal_le_scottHeight [L.IsRelational] (M : Type w) [L
     [Countable M] :
     selfStabilizationOrdinal (L := L) M ≤ scottHeight (L := L) M := by
   sorry
-
-/-- **Layer 4 milestone, comparison with `internalScottRank`.** -/
-theorem internalScottRank_le_succ_scottHeight [L.IsRelational] (M : Type w) [L.Structure M]
-    [Countable M] :
-    internalScottRank (L := L) M ≤ Order.succ (scottHeight (L := L) M) := by
-  sorry
-
-/-- **Layer 4 milestone, comparison with orbit ranks.** In a countable structure every tuple has
-orbit rank at most the Scott height: the library's `orbitRank_le_selfStabilizationOrdinal` with
-`selfStabilizationOrdinal_le_scottHeight`. -/
-theorem orbitRank_le_scottHeight [L.IsRelational] {M : Type w} [L.Structure M] [Countable M]
-    {n : ℕ} (a : Fin n → M) :
-    orbitRank (L := L) a ≤ scottHeight (L := L) M :=
-  (orbitRank_le_selfStabilizationOrdinal a).trans (selfStabilizationOrdinal_le_scottHeight M)
 
 /-- **Layer 4 milestone, isomorphism is Borel under bounded Scott height.** -/
 theorem measurableSet_iso_inter_of_scottHeight_le [L.IsRelational]
@@ -483,11 +468,6 @@ theorem analyticSet_compl_wellOrderClass [L.IsRelational] [∀ n, Countable (L.R
     (lt : L.Relations 2) : AnalyticSet (wellOrderClass lt)ᶜ := by
   sorry
 
-/-- **Layer 6, the tree of descending sequences** of a code: the finite sequences strictly
-decreasing for the distinguished relation. -/
-def descTree [L.IsRelational] (lt : L.Relations 2) (c : RelationalConfiguration L ℕ) : tree ℕ :=
-  prefixTree fun s => ∀ (i : ℕ) (h : i + 1 < s.length), codeRel lt c s[i + 1] s[i]
-
 /-- **Layer 6 milestone, boundedness for analytic classes of well-orders.** -/
 theorem analytic_type_bounded [L.IsRelational]
     (lt : L.Relations 2) {A : Set (RelationalConfiguration L ℕ)} (hA : AnalyticSet A)
@@ -510,20 +490,6 @@ theorem not_measurableSet_wellOrderClass [L.IsRelational] [∀ n, Countable (L.R
 well-orders as its coded models. -/
 theorem not_exists_modelsOf_eq_wellOrderClass [L.IsRelational] [∀ n, Countable (L.Relations n)]
     (lt : L.Relations 2) : ¬ ∃ φ : L.Sentenceω, modelsOf φ = wellOrderClass lt := by
-  sorry
-
-/-! ## Worked examples -/
-
-/-- **Worked example.** A pure set of `m` elements has Scott height `m + 1`, although its internal
-Scott rank is `1`. -/
-theorem scottHeight_fin_pureSet (m : ℕ) :
-    @scottHeight Language.empty _ (Fin m) Language.emptyStructure = (m : Ordinal.{0}) + 1 := by
-  sorry
-
-/-- **Worked example.** The countably infinite pure set has Scott height `ω`, so the `+ ω` in
-`scottHeight_le_internalScottRank_add_omega0` is attained. -/
-theorem scottHeight_nat_pureSet :
-    @scottHeight Language.empty _ ℕ Language.emptyStructure = Ordinal.omega0 := by
   sorry
 
 end TauCetiRoadmap.CountableStructureSpaces

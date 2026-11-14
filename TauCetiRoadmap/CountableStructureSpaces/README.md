@@ -566,8 +566,8 @@ statements below fix how the later layers use it.
 bound for arbitrary `N` follows from `SelfStabilizesCompletely.bfEquiv_add_one_of_isSuccLimit` at
 the limit level `β + ω` and `bfEquiv_of_le_of_forall_add_one`
 (`ModelTheory/Scott/Stabilization.lean`).
-Still to build: `stabilizesCompletely_iff_univ`, `selfStabilizationOrdinal_le_scottHeight`,
-`internalScottRank_le_succ_scottHeight` and `orbitRank_le_scottHeight`. The statements:
+Still to build: `stabilizesCompletely_iff_univ` and `selfStabilizationOrdinal_le_scottHeight`.
+The statements:
 
 - `StabilizesCompletely.bfEquiv_of_le` and `StabilizesCompletely.mono`: external stabilization at
   `β` makes `BFEquiv β` imply `BFEquiv γ` for every `γ ≥ β`, and persists at every `γ ≥ β`, by
@@ -590,12 +590,12 @@ Still to build: `stabilizesCompletely_iff_univ`, `selfStabilizationOrdinal_le_sc
     applied to a copy of `M` in `Type`, is internal stabilization at `β`;
   - `scottHeight_le_selfStabilizationOrdinal_add_omega0` (every `M`), from the constant-chain
     bound at `s(M)`;
-  - `internalScottRank_le_succ_scottHeight` (countable `M`) and
+  - SR(M) ≤ SH(M) + 1 for countable `M` (from `selfStabilizationOrdinal_le_scottHeight` and Tau
+    Ceti's `internalScottRank_le_succ_selfStabilizationOrdinal`) and
     `scottHeight_le_internalScottRank_add_omega0` (every `M`), combining the above with the
     InfinitaryLogic comparisons `s(M) ≤ SR(M) ≤ s(M) + 1`;
-  - `orbitRank_le_scottHeight` (countable `M`): every tuple of `M` has orbit rank at most SH(M),
-    by Tau Ceti's `orbitRank_le_selfStabilizationOrdinal` and
-    `selfStabilizationOrdinal_le_scottHeight`.
+  - every tuple of a countable `M` has orbit rank at most SH(M), by Tau Ceti's
+    `orbitRank_le_selfStabilizationOrdinal` and `selfStabilizationOrdinal_le_scottHeight`.
 
   So s(M) ≤ SH(M) ≤ s(M) + ω and SR(M) ≤ SH(M) + 1 ≤ SR(M) + ω + 1. The bound SH ≤ SR + ω is
   attained by the countably infinite pure set (SR = 1, SH = ω), and the pure sets of size `m`
@@ -857,12 +857,13 @@ well-order of `ℕ`. Prove:
   projection of a closed subset of the product with Baire space;
 - `exists_mem_wellOrderClass_type_eq`: every `β` with `ω ≤ β < ω₁` is the order type of some code
   in the class (transport `β.ToType ≃ ℕ`; the other relations are empty);
-- `descTree lt c`, the tree of strictly `codeRel lt c`-decreasing finite sequences, with clopen
-  node sets, `body (descTree lt c) = ∅` exactly when `codeRel lt c` is well-founded, and, for a
-  well-order, its order type at most `treeHeight (descTree lt c)` (a node ending at `x` has rank
-  the order type of the predecessors of `x`);
+- the descending-sequence tree of `c`, the tree of strictly `codeRel lt c`-decreasing finite
+  sequences, with clopen node sets, empty body exactly when `codeRel lt c` is well-founded, and,
+  for a well-order, its order type at most the `treeHeight` of that tree (a node ending at `x` has
+  rank the order type of the predecessors of `x`);
 - `analytic_type_bounded`, for every relational `L`: an analytic class of coded well-orders has
-  order types bounded below `ω₁`, by `analytic_treeHeight_bounded` applied to `descTree`;
+  order types bounded below `ω₁`, by `analytic_treeHeight_bounded` applied to the
+  descending-sequence trees;
 - `not_analyticSet_wellOrderClass`, for every relational `L`, from `analytic_type_bounded` and
   `exists_mem_wellOrderClass_type_eq`, and, with countably many relation symbols,
   `not_measurableSet_wellOrderClass`, since Borel sets are then analytic;
@@ -884,11 +885,11 @@ for arbitrary `L`. Counting statements belong to the CountableModelCounting road
 
 **Checks.**
 
-- `descTree` of the code of `(ℕ, <)` is the tree of strictly decreasing sequences, of height
-  `ω + 1`, which bounds the order type `ω`;
-- `descTree` of the code of `(ℤ, <)` transported to `ℕ` has a branch;
+- the descending-sequence tree of the code of `(ℕ, <)` is the tree of strictly decreasing
+  sequences, of height `ω + 1`, which bounds the order type `ω`;
+- the descending-sequence tree of the code of `(ℤ, <)` transported to `ℕ` has a branch;
 - the code of `(ℕ, ≤)` is not in `wellOrderClass lt`, since a well-order here is strict, and its
-  `descTree` has the constant branch `0, 0, 0, …`.
+  descending-sequence tree has the constant branch `0, 0, 0, …`.
 
 ### Dependencies
 
@@ -905,9 +906,9 @@ Discharge these alongside the layers; they check that the API describes real spa
    height comparison. Take tuples with the same equality type and `d` distinct entries in pure
    sets of sizes `m` and `m'` (finite or `ℵ₀`), and let `r = m - d`, `r' = m' - d` be the numbers
    of remaining elements. Then `BFEquiv k` holds exactly when `r = r'` or both `r` and `r'` are at
-   least `k`. Hence `scottHeight (Fin m) = m + 1` (`scottHeight_fin_pureSet`; at a level `k ≤ m`
-   take `d = m - k` against a set of size `m + 1`), and `scottHeight ℕ = ω`
-   (`scottHeight_nat_pureSet`; at a finite level `k` compare with a set of size `d + k`). All of
+   least `k`. Hence `scottHeight (Fin m) = m + 1` (at a level `k ≤ m` take `d = m - k` against a
+   set of size `m + 1`), and `scottHeight ℕ = ω` (at a finite level `k` compare with a set of size
+   `d + k`). All of
    them have internal Scott rank `1`: the infinite one attains `SH ≤ SR + ω`, and the finite ones
    show that no bound `SH ≤ SR + n` with finite `n` holds.
 2. **One unary predicate.** The map `c ↦ (n ↦ c.eval (atom P ![n]))` is a homeomorphism onto Cantor space,
