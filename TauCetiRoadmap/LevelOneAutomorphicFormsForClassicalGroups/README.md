@@ -889,7 +889,10 @@ parameters satisfying the bound form a finite set.
 - Finiteness of the candidate set needs a proved positive-definite lower bound for `B∞^F`, not an
   approximate eigenvalue.
 
-### 2.9 Admissible quadruples and their Gram matrices
+### 2.9 Admissible quadruples and the computation of their cone minimum
+
+This section provides the matrices `β` of admissible quadruples, their minimum `μ_F(Q)` on the nonnegative unit
+sphere and its computation by least eigenvalues of principal submatrices; §§2.13, 2.14 and 2.16 use them.
 
 An admissible quadruple `Q = (r, U, δ, m)` consists of `r ≥ 1`, `U_i ∈ K∞`, `δ_i ∈ {0, 1}` and integers
 `m_i > 0`, such that `ε(U_iU_j) ∈ {±1}` whenever `δ_iδ_j = 1`. For real `A_F, B_F` define the real
@@ -909,8 +912,7 @@ symmetric matrix `β_ij = (A_F/m_i) δ_ij − J_F(U_iU_j) − (B_F/4) δ_iδ_j (
 - Vectors on a coordinate face such as `(1, 0)` belong to `D₂`; strict positivity of the coordinates
   is not required.
 
-### 2.10 A local Rayleigh minimum is a least eigenvector
-
+**2.10 A local Rayleigh minimum is a least eigenvector.**
 Prove: for a self-adjoint operator `T` on a nonzero finite-dimensional real inner product space, every
 local minimum of `v ↦ ⟨Tv, v⟩` on the unit sphere is an eigenvector for the least eigenvalue of `T`
 (CT20 Lemma 2.6). The pinned `IsSelfAdjoint.hasEigenvector_of_isLocalExtrOn` gives `Tx = λx`; if
@@ -926,8 +928,7 @@ local minimum of `v ↦ ⟨Tv, v⟩` on the unit sphere is an eigenvector for th
   eigenvector but not a local minimum, and the statement does not apply to it.
 - The library theorem alone does not give minimality: `(0, 1)` above satisfies its conclusion.
 
-### 2.11 The principal-face spectral criterion
-
+**2.11 The principal-face spectral criterion.**
 Prove: for an admissible `Q`, `μ_F(Q)` is the minimum, over the nonempty `I ⊂ {1, …, r}` for which the
 least eigenvalue `λ_I` of the principal submatrix `β_I` has an eigenvector with all `I`-coordinates
 strictly positive, of `λ_I`; every global minimizer on `D_r` has a support `I` of this form (CT20
@@ -944,8 +945,7 @@ Proposition 2.5). A minimizer with support `I` is an interior local minimum on t
 - Enumerating all nonempty supports is part of the statement; omitting `I = {1}` in the previous
   example would give no candidate at all.
 
-### 2.12 The two-coordinate criterion
-
+**2.12 The two-coordinate criterion.**
 Prove: for `β = [[a, b], [b, c]]` with `a, c ≥ 0`, there is a nonzero `t ≥ 0` with `tᵀβt < 0` exactly when
 `b < 0` and `b² > ac` (CT20 Example 2.7). If a diagonal entry is negative the corresponding coordinate
 vector already gives a negative value.
@@ -958,7 +958,10 @@ vector already gives a negative value.
 - `a = c = 1`, `b = 2` has the same determinant `−3` but is nonnegative on the cone.
 - `b² = ac` with `b ≤ 0` gives minimum `0`, not a negative value.
 
-### 2.13 Equal block coordinates
+### 2.13 Repeated blocks, self-duality flags and compressed quadruples
+
+This section treats repeated blocks and added self-duality flags: equal minimizer coordinates, monotonicity and
+compression; §2.17 uses §§2.14–2.15 to bound `C^F(x, x)` by `β_Q^F(t, t)`.
 
 Prove: if `A_F > 0`, `μ_F(Q) < 0` and `(U_i, δ_i, m_i) = (U_j, δ_j, m_j)`, then every minimizer `t ∈ D_r`
 has `t_i = t_j` (CT20 Lemma 2.8). Equalizing the pair at fixed `t_i + t_j` strictly lowers the positive
@@ -973,8 +976,7 @@ diagonal contribution, so a negative minimum would be beaten after renormalizati
 - Without `μ_F(Q) < 0` the conclusion fails: for `β = diag(1, 1)` every unit vector is a minimizer.
 - With `A_F = 0` the diagonal term no longer separates `t_i` from `t_j`.
 
-### 2.14 Monotonicity in forced self-duality
-
+**2.14 Monotonicity in forced self-duality.**
 Prove: for admissible `Q = (r, U, δ, m)` and `Q′ = (r, U, δ′, m)` with `δ′ ≥ δ` and `B_F ≥ 0`,
 `β_{Q′}(x, y) ≤ β_Q(x, y)` for all `x, y ≥ 0`, hence `μ_F(Q′) ≤ μ_F(Q)` (CT20 Remark 2.10). The new terms
 have coefficient `−B_F(1 − ε)/4 ≤ 0`.
@@ -987,8 +989,7 @@ have coefficient `−B_F(1 − ε)/4 ≤ 0`.
 - `δ′` must itself be admissible: activating a pair with `ε = i` is not allowed even if `δ` was.
 - For `ε = 1` on the newly active pair the entry is unchanged.
 
-### 2.15 Multiplicity compression
-
+**2.15 Multiplicity compression.**
 For a quadruple with repeated identical blocks, compare the expanded quadruple (all `m = 1`) with the
 compressed one (diagonal `A_F/m_i`, same kernel `J_F(U_iU_j) + (B_F/4)δ_iδ_j(1 − ε(U_iU_j))`). The
 multiplicity lift `x_{i,r} = t_i/m_i` of ComputationalNumberTheory §4.34 gives
@@ -1324,7 +1325,10 @@ level-one parameters.
 - Infinitesimal character alone does not decide membership: ModularityAndLanglandsExtensions §3.22's third Check gives a parameter
   with the infinitesimal character of `ρ₁^{(2)}` whose packet does not contain it.
 
-### 3.9 The packet character in case (I)
+### 3.9 Packet characters in the scalar cases (I) and (H)
+
+This section computes the packet character on `C_ψ` in case (I) and, through the compact remainder, in case (H),
+and shows that the test `χ = ε_ψ` is well defined; §7.5 uses §3.9, and §§7.6, 7.7 and 8.11 use §§3.10–3.12.
 
 Prove: in case (I), for `i ∈ I_even` and a sign `s`, let `e_s(π_i)` be the number of `1 ≤ j ≤ k − 1` with
 `(−1)^j = s` and `k − j` a weight of `π_i`. For either `δ = ±1`, `χ(s_i) = (−1)^{n_id_i/4}` when `d_i` is even
@@ -1341,8 +1345,7 @@ identity `(−1)^{⌊εa/2⌋} = ∏_{j=1}^{a} (−1)^{j−1}ε` for `ε = ±1` 
 - For odd `d_i` and `n_i = 2`, `e₁ + e_{−1} = 1` would be odd; it does not occur because then `π_i` has
   `n_id_i ≡ 2 mod 4`, which case (I) excludes for `i ≠ i₀`.
 
-### 3.10 The compact remainder in case (H)
-
+**3.10 The compact remainder in case (H).**
 Prove: in case (H), removing `e^{k′}[2(g − k′) + 1]` from `ψ_ℝ` leaves `ψ′` of dimension `2k′` and
 determinant `e^{k′}`, an Adams–Johnson parameter for the compact group `SO(2k′)`; every `π_i` satisfies
 `(R_k)`, every `π_i` with `i ≠ i₀` is regular, and the only nonregular possibilities are (H1) with
@@ -1358,8 +1361,7 @@ Remark 5.3).
 - In (H1) one cannot replace `(R_k)` by full regularity: the double-zero branch is nonregular.
 - `ψ′` is multiplicity free, which is what bounds every nonzero weight multiplicity by one.
 
-### 3.11 The even generators in case (H)
-
+**3.11 The even generators in case (H).**
 Define `e_s(π)` in (H1) by positions in the list `(k − 1, k − 2, …, 1)`, and in (H2) by positions in the
 same list with `g − k + 1` omitted, renumbered `1, …, k′ − 1`. Prove `r(π) + 2e₁(π) + 2e_{−1}(π) = n_π` (CT20
 (5.2.4)), and (CT20 §5.2.2, (5.2.5)–(5.2.7)): for `i ∈ I_even \ I₀`, `χ(s_i) = (−1)^{n_id_i/4}` for even `d_i` and
@@ -1375,8 +1377,7 @@ times `δ(−1)^{k−1}` when `n_{i₀} ≡ 0 mod 4`, and times `1` otherwise.
 - `r + 2e₁ + 2e_{−1} = n` holds for `π = 1` in (H1) with `k` even: `r = 1`, `e₁ = e_{−1} = 0`, `n = 1`.
 - Every exponent is an integer in its branch: `n_id_i/4` appears only when `n_id_i ≡ 0 mod 4`.
 
-### 3.12 The odd generators in case (H)
-
+**3.12 The odd generators in case (H).**
 Prove (CT20 §5.2.2, (5.2.8)–(5.2.10)): if `I_odd` is a singleton there are no odd-pair generators;
 otherwise `I_odd = {i₀, i₁, i₂}` with `d_{i₁} = 1` and `d_{i₂} = 2a − 1`, `a ≥ 1`. Let `P` be the condition
 that `L(π_{i₀},∞) + L(π_{i₂},∞)` contains both `1` and `e`. Then
@@ -1392,8 +1393,7 @@ that `L(π_{i₀},∞) + L(π_{i₂},∞)` contains both `1` and `e`. Then
   double zero and does not contain `e`.
 - At `a = 1`, `⌊δ(−1)^{k′−1}/2⌋` is `0` for `δ(−1)^{k′−1} = 1` and `−1` otherwise.
 
-### 3.13 Independence of choices
-
+**3.13 Independence of choices.**
 Prove: the formulas of §§3.9, 3.11 and 3.12 define the same character of `C_ψ` for `δ = 1` and `δ = −1`;
 in (H) they do not depend on the admissible `i₀` or on the labelling of the other odd blocks; and at
 `k = g`, where (I) and (H1) may both hold, they agree (CT20 §5.2.2 and Remark 5.4). Hence `χ = ε_ψ` is a
@@ -1753,7 +1753,10 @@ agrees with `ModularForm.dimension_level_one`.
 - At `k = 5`: `dim S₁₂ = (2·5 + 1)/12 − (−1)⁵/4 − (−1)/3 − 1/2 = 1`.
 - The identity mass is negative and the masses at orders `4` and `6` vanish, as §4.7 predicts.
 
-### 4.13 Coarse mass tables
+### 4.13 Mass tables through SO₁₇ and Sp₁₆
+
+This section determines every mass of the permitted `SO_d`, `d ≤ 17`, and of `Sp_{2n}`, `n ≤ 8`; §7.3 uses all of
+it, §§4.18, 5.4 and 5.10 use the tables, and §§5.3, 5.6 and 5.9 use the 27 known classes of §4.14.
 
 Prove (CT20 §3.3 and Table 4): using only §2.8 with `m = 1`, that is
 `J_{F_ℓ}(U(λ)²) > A_{F_ℓ}` at some `ℓ ∈ (1/4)ℤ ∩ [1/2, 20]`, one obtains sets `Λ` satisfying §4.11 for
@@ -1770,8 +1773,7 @@ statements about explicit rational matrices.
 - For `Sp₁₄` the coarse method gives only `974` rows at `w = 90`, fewer than `1158` columns; it does not
   determine the `Sp₁₄` masses.
 
-### 4.14 The twenty-seven known classes
-
+**4.14 The twenty-seven known classes.**
 Prove: the coarse masses and §3.16 give the existence, with exact multiplicities, of 27 regular
 self-dual classes of motivic weight at most 24: the 11 of §5.3, the 13 top-simple classes of weight 23
 of §5.6, and the 3 regular self-dual classes of weight 24 of §5.10 (CT20 §3.3 and footnote 13). Grouped
@@ -1786,8 +1788,7 @@ existence statement; exhaustion is Layer 5.
 - `dim S₂₄(SL₂(ℤ)) = 2` while `S₂₃ = 0`.
 - Collapsing `Δ₂₃^a` and `Δ₂₃^b` into one class changes the diagonal of every Gram matrix that uses them.
 
-### 4.15 Refined mass tables
-
+**4.15 Refined mass tables.**
 Prove (CT20 §3.3 and Theorem 6): using §2.17 with `δ = m = 1` and the known set of the 27 classes, one
 obtains sets `Λ` of sizes `1274` (weights with `2w(λ)₁ ≤ 36`) for `Sp₁₄`, `1810` (`≤ 28`) for `SO₁₆` and
 `3477` (`≤ 63`) for `SO₁₇`, whose matrices have full column ranks `1158`, `992` and `2948`. Hence all masses
@@ -1802,8 +1803,7 @@ of `SO_d`, `d ≤ 17` with discrete series, and of `Sp_{2n}`, `n ≤ 7`, are det
   needed.
 - The input classes come from §4.14, which uses only coarse masses.
 
-### 4.16 Easy and hard indices of Sp₁₆
-
+**4.16 Easy and hard indices of Sp₁₆.**
 For `P ∈ P(Sp₁₆)` and a prime `p`, write `P = ∏_m ∏_{k ∈ S(p,m)} Φ_{mp^k}^{d(p,m,k)}` over `m` prime to `p`.
 Call `P` easy when for every `p` and `m`, `|S(p, m)| ≤ 2`, and when `|S(p, m)| = 2` then `0 ∈ S(p, m)` for
 odd `p`, and `0 ∈ S(p, m)` or `1 ∈ S(p, m)` for `p = 2` (CT20 §3.3). The hard indices are the others.
@@ -1820,8 +1820,7 @@ odd `p`, and `0 ∈ S(p, m)` or `1 ∈ S(p, m)` for `p = 2` (CT20 §3.3). The ha
 - At odd `p`, `S = {1, 2}` is hard.
 - At `p = 2`, `S = {1, 3}` passes and `S = {2, 3}` fails.
 
-### 4.17 The masses of Sp₁₆
-
+**4.17 The masses of Sp₁₆.**
 Prove (CT20 Theorem 7 and §3.3): the masses `m_P` for easy `P` are given by Taïbi's direct computation of
 the orbital integrals (Tai17 §3.2) with the normalized local measures; after subtracting their
 contribution, a set `Λ` of `1086` weights with `2w(λ)₁ ≤ 36` satisfying (P1′) gives a full-column-rank
@@ -1937,7 +1936,10 @@ non-self-dual pair).
 - `Δ₂₁,₁₃` has weights `±21/2, ±13/2` and rank four; `Sym²Δ₁₁` has rank three and weights `−11, 0, 11`.
 - Every witness is read with the coefficients `1/m`, not `1/√m`.
 
-### 5.4 The weight-23 cover and its residual parameters
+### 5.4 Residual parameters in motivic weight 23
+
+This section provides the residual set `V` of weight-23 parameters left by the exclusions and the fibre at `U_exc`,
+empty or a dual pair of non-self-dual classes; §§5.6 and 5.7 use both parts.
 
 Prove (CT20 §4.1): at `ℓ = 487/50` the form `B∞^{F_ℓ}` is positive definite on `K∞^{≤23}`. Let `U₂` be the
 effective `U ∈ K∞^{≤23}` containing `I₂₃` with `J_{F_ℓ}(U²) ≤ A_{F_ℓ}/2`, and `U₁` those with
@@ -1966,8 +1968,7 @@ archimedean parameter `U_exc`.
   lower end of the range `14 ≤ dim U ≤ 42` that the statement gives for `V` (CT20 Proposition 4.1, after
   its statement); that range is a bound, and no element of `V` is claimed to have dimension `14`.
 
-### 5.5 The exceptional two-class parameter
-
+**5.5 The exceptional two-class parameter.**
 Prove (CT20 Proposition 4.1(1)): among weight-23 parameters with `I₂₃` repeated, a fibre with at least
 two classes can occur only at `U_exc`, and then it is `{π, π^∨}` with `π` non-self-dual. At `U_exc`,
 `J_{F_ℓ}(U_exc²) > A_{F_ℓ}/3` for `ℓ = 487/50` gives at most two classes (§2.8). Since `U_exc ∉ V` (§5.4),
@@ -2451,7 +2452,10 @@ masses are known by §§4.13–4.17; there is no bound on `k₁`.
 - `g = 9` is not covered: the recursion would need masses of groups of dual dimension `19`, such as
   `Sp₁₈`, which §4 does not determine.
 
-### 7.4 The regular enumeration in weight at most 13
+### 7.4 Cusp eigenparameters in weight at most 13
+
+This section determines the standard parameters of the cusp eigenforms of weight at most 13, for `k_g > g` and for
+scalar weight with `g ≥ k`; §7.8 uses §7.4, and §7.9 uses §§7.4–7.7.
 
 Prove (CT20 §5.3.1): for `13 ≥ k₁ ≥ ⋯ ≥ k_g > g ≥ 1`, every block of a contributing parameter lies in `L₂₄`,
 the 27 classes of the Layer 5 Examples; counting the two `Δ₂₃` classes separately there are `223` candidate
@@ -2467,8 +2471,7 @@ eigenparameters, `29` have nonscalar weight and `29` scalar weight.
 - The weight `k_i` is recovered as `a_i + i` from the ordered positive infinitesimal weights `a_i`.
 - `29 + 29 = 58`.
 
-### 7.5 Scalar case (I) in low weight
-
+**7.5 Scalar case (I) in low weight.**
 Prove (CT20 §5.3.2, case (I)): for scalar `1 ≤ k ≤ 13` and `g ≥ k`, a realized case-(I) parameter has
 `g = k = 12` and `ψ = Δ₁₁[12] ⊕ [1]`, which passes the sign test and gives one cuspidal eigenline in
 `S₁₂(Γ₁₂)`. A block crossing zero must be `Δ₁₁[12]`, which forces the distinguished block to be trivial;
@@ -2484,8 +2487,7 @@ parameter does not have.
 - Square-integrability alone does not give cuspidality in singular weight; the argument through §6.1 is
   needed.
 
-### 7.6 Scalar case (H1) in low weight
-
+**7.6 Scalar case (H1) in low weight.**
 Prove (CT20 §5.3.2, case (H1), Lemmas 5.5–5.7): for `1 ≤ k ≤ 13`, `g ≥ k` and a realized case-(H1)
 parameter, every block lies in `L₂₄` and `π_{i₀} = 1`; the alternative `π_{i₀} = Sym²Δ₁₁` forces
 `(g, k) = (14, 13)` and `ψ = Sym²Δ₁₁[3] ⊕ Δ₁₁[8] ⊕ [3] ⊕ [1]`, which fails the sign test at the `Δ₁₁[8]`
@@ -2502,8 +2504,7 @@ for `k = 4, 8, 12`, and by §6.10 every realized lift is noncuspidal except `g =
   `(−1)^{a/2}` with `a = k ≡ 2 mod 4` is `−1` against `ε = 1`.
 - The degree of the genus-12 form is exactly `12`; this uses §6.8, not the table of §7.9.
 
-### 7.7 Scalar case (H2) in low weight
-
+**7.7 Scalar case (H2) in low weight.**
 Prove (CT20 §5.3.2, case (H2), Lemmas 5.8–5.9): for `1 ≤ k ≤ 13` and `g ≥ k`, a realized case-(H2) parameter
 has `π_{i₀} = 1`, `k` odd and `g` even; if another zero-weight block is nontrivial it is `Sym²Δ₁₁` with
 `d = 1`, `k = 13`, `g = 24` and a third trivial block of length at least five. The sign test at the
@@ -2688,7 +2689,10 @@ Prove (CT20 Remark 5.11): for `k = 4, 8, 12` and every `g`, `dim M_k(Γ_g) = Σ_
 - The weight-12 sequence equals the cumulative degree distribution of §6.8, as it must since `θ_g` is
   surjective and the eigenvectors of degree at most `g` map injectively.
 
-### 8.3 An orbit basis of exterior invariants
+### 8.3 Invariant alternating forms and the Leech theta coefficients
+
+This section determines the invariant alternating forms of Niemeier lattices, through the Mathieu forms on the
+Leech lattice, and the Leech theta coefficients, unconditionally; §8.8 uses §8.6 and §8.10 uses §§8.5–8.6.
 
 Prove (CT19a Fact 1.2): let a finite group `H` act on a finite set `Ω`, and call a subset `S` orientable when its
 stabilizer acts on `S` by even permutations. For each orbit of orientable `g`-subsets choose a representative
@@ -2706,8 +2710,7 @@ stabilizer acts on `S` by even permutations. For each orbit of orientable `g`-su
   2-subsets, not orientable (the transposition in the stabilizer swaps the two points), and
   `(⋀²ℚ³)^{S₃} = 0`.
 
-### 8.4 The Mathieu forms on the Leech lattice
-
+**8.4 The Mathieu forms on the Leech lattice.**
 Let `Ω` be a 24-element set and `G₂₄` the extended binary Golay code on `Ω` (AlgebraicCodingTheory Layer 5,
 `TauCeti.BinaryGolay.code`); define `M₂₄` as the group of permutations of `Ω` preserving `G₂₄`; by
 CFSGBasicProperties P2-L it is the group `M24` of SporadicOrders Layer 1, of order `244823040`. Prove:
@@ -2737,8 +2740,7 @@ Rank24LatticeConstructions Layer 6; `TauCeti.BinaryGolay.code`, `TauCeti.BinaryG
   `σ_C` is `N`-invariant, while `C + {p}` with `p ∉ C` is negated by the complement of `C`.
 - A non-orientable subset gives `σ = 0`: its stabilizer contains an odd permutation of it.
 
-### 8.5 Invariant alternating forms of Niemeier lattices
-
+**8.5 Invariant alternating forms of Niemeier lattices.**
 Define `invariantAlternatingForms L g`, for `L : TauCeti.IntegralLattice V`, as the subspace of alternating
 `g`-forms `ω : Vᵍ → ℚ` with `ω(e v₁, …, e v_g) = ω(v₁, …, v_g)` for every `e : TauCeti.IntegralLattice.Isometry L L`.
 Prove:
@@ -2788,8 +2790,7 @@ Mathlib `AlternatingMap`.
   `(t − 1)²⁴`, whose `t²³` coefficient is `−24 = (−1)¹ dim ⋀¹`; for `{±1}` it is `((t − 1)²⁴ + (t + 1)²⁴)/2`,
   with the odd-degree coefficients `0`, as the invariants of `⋀^g` under `−1` vanish for odd `g`.
 
-### 8.6 The Leech theta coefficients
-
+**8.6 The Leech theta coefficients.**
 Define `thetaCoefficient L ω T`, for an alternating `g`-form `ω` and a `g × g` rational matrix `T`, as the sum of
 `ω(x)` over the `x ∈ Lᵍ` with `Gram(x) = T`; it is the Fourier coefficient at `T/2` of the theta series
 `Σ_{x ∈ Lᵍ} ω(x) exp(πi tr(Gram(x)τ))`, a finite sum when `L` is positive definite. Prove
@@ -2884,7 +2885,10 @@ Prove (CT20 Corollary 5.13; CT19a Corollary 4.3 and Theorem 4.4): for every `g �
 - For `g = 9` the source is `0` by §8.5 and the target is `0` by odd genus.
 - The image eigenform has the parameter of §7.10, by §6.9 for `n = 24`.
 
-### 8.11 Stable parameters
+### 8.11 The stable range g ≥ 2k
+
+This section shows that for `g ≥ 2k` the parameters and signs do not depend on `g`, and deduces the stable
+dimensions, the bijectivity of `Φ_{g+1}` and, for `4 | k`, the theta isomorphism `θ_g`.
 
 Prove (CT20 Proposition 5.14, proof): for `k ≥ 1` and `g ≥ 2k`, every eigenform in `M_k(Γ_g) = L²_k(Γ_g)` (§6.2) has
 parameter `ψ = ψ′ ⊕ [2(g − k) + 1]` in case (H1) with trivial distinguished block, `k` even, and `ψ′_ℝ` an
@@ -2902,8 +2906,7 @@ identified through the blocks; for a symplectic block `d_i ≤ k < 2(g′ − k)
 - `k = 2`: the sign `(−1)^{k/2} = −1 ≠ 1`, so `M₂(Γ_g) = 0` for `g ≥ 4`.
 - `k = 0` is excluded here and treated in §8.12.
 
-### 8.12 Stable dimensions
-
+**8.12 Stable dimensions.**
 Prove (CT20 Proposition 5.14): for all integers `k, g ≥ 0` with `g ≥ 2k`, `dim M_k(Γ_g) = dim M_k(Γ_{2k})`, and this
 dimension is `0` unless `4 | k`. For `k = 0` it is `1`; for `k > 0` the map `ψ′ ⊕ [2(g − k) + 1] ↦ ψ′ ⊕ [2(g′ − k) + 1]`
 preserves occurrence and multiplicity by §8.11.
@@ -2916,8 +2919,7 @@ preserves occurrence and multiplicity by §8.11.
 - `k = 0`: the constants, of dimension `1` in every genus, including `g = 0`.
 - `k = 4`: `dim M₄(Γ_g) = 1 = |X₈|` for `g ≥ 8`, consistent with §8.2.
 
-### 8.13 The stable Siegel operator
-
+**8.13 The stable Siegel operator.**
 Prove (CT20 Corollary 5.15(1)): for `k, g ≥ 0` with `g ≥ 2k`, `Φ_{g+1} : M_k(Γ_{g+1}) → M_k(Γ_g)` is bijective.
 It is injective because `S_k(Γ_{g+1}) = 0` for `g + 1 > 2k` (§6.2), and the dimensions agree by §8.12.
 
@@ -2930,8 +2932,7 @@ It is injective because `S_k(Γ_{g+1}) = 0` for `g + 1 > 2k` (§6.2), and the di
 - At `g = 2k − 1` the statement is not claimed: injectivity of `Φ_{2k}` would need `S_k(Γ_{2k}) = 0`, which
   §6.2 gives only in genus above `2k`.
 
-### 8.14 The stable theta isomorphism
-
+**8.14 The stable theta isomorphism.**
 Prove (CT20 Corollary 5.15(2)): for `4 | k` and `g ≥ 2k`, `θ_g : ℂ[X_{2k}] → M_k(Γ_g)` is an isomorphism. Injectivity at
 `g = 2k` holds because the Fourier coefficient at the full Gram matrix of a basis of `L` distinguishes isometry
 classes, and propagates by `Φ θ_{g+1} = θ_g`; surjectivity for `g > 2k` is Freitag's theorem of §6.2, and at
