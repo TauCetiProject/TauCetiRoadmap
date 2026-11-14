@@ -113,7 +113,9 @@ For `s ∈ S_n^f` and `μ ∈ (ℤⁿ)^f` put `s_τ = s₀ s_{f−1} ⋯ s₁`, 
 - For `f = 1`, `p = 7`, `s = 1`, `μ = (0,0)` the reduction is `ω₁ ⊕ 1`. Using the arithmetic Artin normalization without inversion would give `ω₁^{−1} ⊕ 1`, a different multiset since `ω₁` has order 6.
 - For `n = 3`, `f = 1`, `s = (1 2 3)` and `μ = 0`: `η = (2,1,0)`, `r = 3`, `f′ = 3`, `α′₁ = s^{−1}·η = (1,0,2)`, `α′₂ = (0,2,1)`, and the exponents are `2 + p`, `1 + 2p²`, `2p + p²`, permuted cyclically by multiplication by `p` modulo `p³ − 1` (at `p = 5`: `7, 51, 35`). The other action `(s·x)_i = x_{s(i)}` gives `2 + p²`, `1 + 2p`, `p + 2p²` (at `p = 5`: `27, 11, 55`), the type of `s^{−1}`.
 
-### 0.2 Generic tame types
+### 0.2 Genericity and lowest-alcove presentations
+
+This section provides genericity of tame types and of residual representations, the orientation of a fixed lowest-alcove presentation, and the loss of at most one unit of depth between two lowest-alcove presentations; 0.5, 1.1, 1.4, 2.3, 3.7, 3.9, 4.1 and 5.2 use its parts.
 
 A tame type `τ` is **`N`-generic** if `τ ≅ τ(s, λ+η)` for some `s` and some `λ` that is `N`-deep; a **lowest-alcove presentation** is a pair `(s, μ)` with `μ` 0-deep and `τ ≅ τ(s, μ+η)` (BHHMS23, Definition 2.3.3, pp. 14–15). A continuous `ρ̄ : G_K → GL_n(𝔽)` is `N`-generic if `(ρ̄^ss)|_{I_K} ≅ τ(s, μ)` for some `s` and some `μ` with `μ − η` `N`-deep (BHHMS23, Definition 2.3.4, p. 15). The shift by `η` sits in the type input and not in the residual input, so both conditions are depth of the same alcove coordinate. Residual genericity is a condition on semisimplified inertia and does not assert that `ρ̄` is semisimple. *Needs:* 0.1; `ModpRepresentationsOfGL2OverLocalFields` §§3.1, 3.4 (for `n = 2`).
 
@@ -127,9 +129,7 @@ A tame type `τ` is **`N`-generic** if `τ ≅ τ(s, λ+η)` for some `s` and so
 - For `n = 2`, at `N = 12` an integer `d` with `12 < d < p − 12` exists only for `p ≥ 26`, hence `p ≥ 29`; for `p = 23` the range `12 < d < 11` is empty.
 - A nonsplit extension of two characters and their direct sum have the same residual genericity; only the direct sum satisfies the semisimplicity hypothesis of Layer 4.
 
-### 0.3 Orientation of a tame type
-
-For a fixed lowest-alcove presentation `(s, μ)` define the **orientation** `s′_{or,j′} = s₁^{−1} s₂^{−1} ⋯ s_{f′−1−j′}^{−1} ∈ S_n`, indices on `s` modulo `f` and the empty product equal to `1`; then `s′_{or,j′+kf} = s_τ^k s′_{or,j′}` (BHHMS23, §2.3, p. 15). Prove that when `μ` is 0-deep, `s′_{or,j′}` is the unique element with `(s′_{or,j′})^{−1} a′^(j′)` dominant, and that `(s′_{or,−j′})^{−1} α′_{j′} = s_{j′}^{−1}(μ_{j′} + η)` (BHHMS23, Remark 2.3.6 and equation (13), p. 15). *Needs:* 0.1, 0.2.
+**0.3 Orientation of a tame type.** For a fixed lowest-alcove presentation `(s, μ)` define the **orientation** `s′_{or,j′} = s₁^{−1} s₂^{−1} ⋯ s_{f′−1−j′}^{−1} ∈ S_n`, indices on `s` modulo `f` and the empty product equal to `1`; then `s′_{or,j′+kf} = s_τ^k s′_{or,j′}` (BHHMS23, §2.3, p. 15). Prove that when `μ` is 0-deep, `s′_{or,j′}` is the unique element with `(s′_{or,j′})^{−1} a′^(j′)` dominant, and that `(s′_{or,−j′})^{−1} α′_{j′} = s_{j′}^{−1}(μ_{j′} + η)` (BHHMS23, Remark 2.3.6 and equation (13), p. 15). *Needs:* 0.1, 0.2.
 
 - The orientation is the stated partial product, with upper endpoint `f′ − 1 − j′`.
 - Its inverse orders `a′^(j′)` decreasingly, uniquely under the strict alcove inequalities.
@@ -141,9 +141,7 @@ For a fixed lowest-alcove presentation `(s, μ)` define the **orientation** `s�
 - For `f = 1`, `s = w`: `f′ = 2`, and the orientations at `j′ = 0, 1` are `w` and `1`. The formula with upper endpoint `j′` instead of `f′ − 1 − j′` gives `1` and `w`, and fails.
 - For `f = 1`, `p = 5`, `s = w`, `μ = (1,0)`: `α′₀ = (2,0)`, `α′₁ = (0,2)`, `a′^(0) = (2,10)`, `a′^(1) = (10,2)`, and the orientations are `w`, `1`. Ordering `α′₀ = (2,0)` instead of `a′^(0)` would give `1` at index `0`.
 
-### 0.4 Depth under change of presentation
-
-Prove: if `τ` is `N`-generic with `N ≥ 1`, every lowest-alcove presentation of `τ` is `(N−1)`-deep (LLHL19, Proposition 2.2.15, p. 14; BHHMS23, Remark 2.3.5, p. 15). The same one-unit loss lets a 13-generic semisimple `ρ̄ : G_K → GL₂(𝔽)` be put in the normalized 12-deep form of the Conventions (BHHMS23, §4.1, pp. 24–25). Route: two lowest-alcove presentations differ by an element `t_ν σ` of the extended affine Weyl group that stabilizes the lowest alcove, and `|⟨ν, α^∨⟩| ≤ 1` for every root `α`; the new weight is the image of the old one under `t_ν σ` up to a correction pairing to at most one with every coroot, so each root coordinate loses at most one unit of depth. *Needs:* 0.2; `ModpRepresentationsOfGL2OverLocalFields` §§3.1, 3.2 (for `n = 2`).
+**0.4 Depth under change of presentation.** Prove: if `τ` is `N`-generic with `N ≥ 1`, every lowest-alcove presentation of `τ` is `(N−1)`-deep (LLHL19, Proposition 2.2.15, p. 14; BHHMS23, Remark 2.3.5, p. 15). The same one-unit loss lets a 13-generic semisimple `ρ̄ : G_K → GL₂(𝔽)` be put in the normalized 12-deep form of the Conventions (BHHMS23, §4.1, pp. 24–25). Route: two lowest-alcove presentations differ by an element `t_ν σ` of the extended affine Weyl group that stabilizes the lowest alcove, and `|⟨ν, α^∨⟩| ≤ 1` for every root `α`; the new weight is the image of the old one under `t_ν σ` up to a correction pairing to at most one with every coroot, so each root coordinate loses at most one unit of depth. *Needs:* 0.2; `ModpRepresentationsOfGL2OverLocalFields` §§3.1, 3.2 (for `n = 2`).
 
 **Checks.**
 
@@ -174,7 +172,9 @@ Here `n = 2`. Let `τ = τ(sw^{−1}, μ − sw^{−1}ν)` with `ν ∈ η + Λ_
 
 The category of Kisin modules with descent and its coefficient base change are imported (gap:descent-kisin-modules). This layer owns the coordinate descriptions on that category, in every rank `n`: normalized Frobenius matrices, shapes, gauge bases and their existence.
 
-### 1.1 Eigenbasis Frobenius matrices
+### 1.1 Frobenius matrices and shapes in an eigenbasis
+
+This section provides the normalized Frobenius matrices of a Kisin module with descent in an eigenbasis, with the minor criterion for the Hodge bound, and the shape of a residual module, which does not depend on the eigenbasis for a fixed presentation of `τ`; 1.3 uses both, 2.1 and 7.4 use the matrices, and 4.2 uses the shape.
 
 Let `R` be a complete Noetherian local `𝒪`-algebra with residue field `𝔽` and `𝔐 ∈ Y^{[0,h],τ}(R)` of rank `n` with an eigenbasis `β` for a fixed 1-deep lowest-alcove presentation `(s, μ)`. Decompose `𝔖_{L′,R} = (W(k′) ⊗_{ℤ_p} R)⟦u′⟧` along `σ_{−j′}`, so that `φ` sends `𝔐^(j′)` to `𝔐^(j′+1)`. Define `C^(j′)` by `β^(j′+1) C^(j′) = φ_𝔐(φ*β^(j′))` and the **normalized Frobenius matrix** `A^(j′) = Ad((ṡ′_{or,j′+1})^{−1} (u′)^{−a′^(j′+1)})(C^(j′))`, where `Ad(g)(C) = g C g^{−1}`; the order of the two conjugating factors is part of the definition (BHHMS23, Definition 3.1.1 and Remarks 3.1.2–3.1.3, pp. 18–19). Prove that `A^(j′) ∈ M_n(R⟦v⟧)`, that it is upper triangular modulo `v`, that it depends only on `j′` modulo `f`, and that on `𝒪`-flat `p`-complete `R` the Hodge bound `𝔐 ∈ Y^{≤λ,τ}(R)` holds exactly when, for `1 ≤ i ≤ n`, the `i × i` minors of `A^(j)` are divisible by `(v+p)` to the sum of the `i` smallest entries of `λ_j` (BHHMS23, p. 19). *Needs:* 0.1, 0.3; `LocalGaloisDeformationRings` §6.9 with gap:descent-kisin-modules; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.4.2, R07.4.36.
 
@@ -189,9 +189,7 @@ Let `R` be a complete Noetherian local `𝒪`-algebra with residue field `𝔽` 
 - Over `ℚ` put `P = [[0,1],[1,0]]`, `D = diag(1,2)` and `C = [[0,1],[0,0]]`: then `Ad(P^{−1}D)(C) = [[0,0],[1/2,0]]` while `Ad(DP^{−1})(C) = [[0,0],[2,0]]`. The off-diagonal entry detects the order of conjugation; a diagonal `C` would not.
 - For `λ_j = (2,1)` every entry of `A^(j)` is divisible by `v + p` and `det A^(j)` by `(v+p)³`; for `λ_j = (3,0)` only `det A^(j)` is constrained, by `(v+p)³`.
 
-### 1.2 Shape of a Kisin module
-
-Let `I ⊂ GL_n(𝔽⟦v⟧)` be the Iwahori subgroup of matrices upper triangular modulo `v`. A residual `𝔐 ∈ Y^{[0,h],τ}(𝔽)` has **shape** `w̃ = (w_j t^{ν_j})_j` if `I A^(j) I = I ẇ_j v^{ν_j} I` in `GL_n(𝔽((v)))` for every `j`, where `v^ν = diag(v^{ν_1}, …, v^{ν_n})` (BHHMS23, Definition 3.1.4, p. 19). Prove the shape is independent of the eigenbasis for a fixed presentation of `τ`: a change of eigenbasis multiplies `A^(j)` on both sides by elements of `I`. *Needs:* 1.1; `LocalGaloisDeformationRings` §6.9 with gap:descent-kisin-modules.
+**1.2 Shape of a Kisin module.** Let `I ⊂ GL_n(𝔽⟦v⟧)` be the Iwahori subgroup of matrices upper triangular modulo `v`. A residual `𝔐 ∈ Y^{[0,h],τ}(𝔽)` has **shape** `w̃ = (w_j t^{ν_j})_j` if `I A^(j) I = I ẇ_j v^{ν_j} I` in `GL_n(𝔽((v)))` for every `j`, where `v^ν = diag(v^{ν_1}, …, v^{ν_n})` (BHHMS23, Definition 3.1.4, p. 19). Prove the shape is independent of the eigenbasis for a fixed presentation of `τ`: a change of eigenbasis multiplies `A^(j)` on both sides by elements of `I`. *Needs:* 1.1; `LocalGaloisDeformationRings` §6.9 with gap:descent-kisin-modules.
 
 For `n = 3` and a lowest-alcove presentation `(s, μ)` of `τ` with `μ` 1-deep, prove that the normalized Frobenius matrix and the shape are those of `LocalGaloisDeformationRings` §6.9: `(s, μ)` is a lowest-alcove presentation of `τ` there, with the same entries and the same ordering of the characters of `τ`; an eigenbasis for it here is an eigenbasis there; for every `j` the matrix `A^(j)` of 1.1 is §6.9's Frobenius matrix at the same index `j`; and a residual module has shape `w̃` here exactly when it has shape `w̃` there, where for a type that is not principal series §6.9 reads the shape after base change to `K′` (LLHL19, Definition 3.2.11, p. 21). No index is relabelled. The formula of 0.1 is that of LLHL19 (Definition 2.2.1 and equation (3.1), pp. 10 and 18), which reads the index `j` of `(s, μ)` as the embedding `σ₀ ∘ Frob_p^{−j}` instead of `σ_j`; this reading is the incompatibility recorded in BHHMS23, Remark 2.3.2 (p. 14), and it changes neither the characters, nor their order, nor the Kisin summands, which both sides take along `σ_{−j′}` (BHHMS23, §3.1.1, p. 18; LLHLM18, pp. 10–11). Route: §6.9's Frobenius matrix is the matrix of the partial Frobenius on the shifted isotypic bases (LLHLM18, Definition 2.11 and Proposition 2.13, p. 14), which conjugates `C^(j′)` first by `ṡ^{−1}` and then by `diag((u′)^{−a_{s(1)}}, …, (u′)^{−a_{s(n)}})`, with `a = a′^(j′+1)` and `s` the orientation at `j′ + 1` (LLHLM18, Definition 2.6, p. 12), which is `s′_{or,j′+1}` (LLHL19, proof of Proposition 3.2.9, p. 21); since `diag(x_{s(1)}, …, x_{s(n)}) ṡ^{−1} = ṡ^{−1} diag(x)`, this is the conjugation of 1.1. *Needs:* 1.1; `LocalGaloisDeformationRings` §6.9 with gap:descent-kisin-modules.
 
@@ -207,7 +205,9 @@ For `n = 3` and a lowest-alcove presentation `(s, μ)` of `τ` with `μ` 1-deep,
 - Multiplying by an element of `I` on either side preserves the shape, whereas swapping the two diagonal powers, `diag(v, v²)`, gives the other extreme shape `t^(1,2)`.
 - For `n = 3`, `f = 3`, `s = (1, 1, 1)` and the residual module in `Y^{[0,2],τ}(𝔽)` whose matrices in an eigenbasis are `A^(0) = diag(v², v, 1)`, `A^(1) = diag(v, 1, 1)` and `A^(2) = 1`, the shape is `(t^(2,1,0), t^(1,0,0), 1)` here and in §6.9. Reading §6.9's index `j` as `−j`, as the change of embedding labels might suggest, gives `(t^(2,1,0), 1, t^(1,0,0))`, and the reversed index `f − 1 − j` of the star operation gives `(1, t^(1,0,0), t^(2,1,0))`; neither is the shape. At `f = 2` the first misreading is invisible, since `−1 ≡ 1` modulo 2.
 
-### 1.3 Gauge basis
+### 1.3 Gauge bases of lifts of a residual module
+
+This section provides gauge bases for the lifts of a fixed residual module with a residual gauge basis, their existence for `(h+1)`-generic `τ`, and the residual-trivial `f`-periodic diagonal tuples by which two of them differ; 4.2, 5.2 and 5.7 use it.
 
 Fix a residual module `𝔐̄ ∈ Y^{[0,h],τ}(𝔽)` with a **residual gauge basis** `β̄`, that is, an eigenbasis of `𝔐̄` whose matrices `A^(j)` satisfy over `𝔽` the two conditions below (BHHMS23, §3.1.1, p. 19, after LLHL19, Definition 3.2.23, p. 26), and let `w̃_j = w_j t^{ν_j}` be its shape. For a lift `𝔐` over `R` with `𝔐 ⊗_R 𝔽 ≅ 𝔐̄`, a **gauge basis** is an eigenbasis `β` lifting `β̄` such that, for `1 ≤ i, k ≤ n`, `A^(j)_{ik} ∈ v^{[i>k]} R[v+p]` and `deg_v A^(j)_{ik} ≤ ν_{j,k} − [i < w_j(k)]`, with equality when `i = w_j(k)` (BHHMS23, Definition 3.1.6 and Proposition 3.1.5(i)–(ii), pp. 19–20). A negative bound forces the entry to vanish; the leading coefficients in the equality positions are units by the residual shape. *Needs:* 1.1, 1.2.
 
@@ -222,9 +222,7 @@ Fix a residual module `𝔐̄ ∈ Y^{[0,h],τ}(𝔽)` with a **residual gauge ba
 - For `t^(2,1)` the pivot degrees are `2` and `1` and the upper-right entry has degree `≤ 0`; for `w t^(2,1)` the pivots are the off-diagonal entries, of degrees `1` (upper right) and `2` (lower left, including the factor `v`).
 - A nontrivial `f`-periodic diagonal element of `ker(T(R) → T(𝔽))` gives a second gauge basis; literal uniqueness fails.
 
-### 1.4 Existence of gauge bases
-
-Prove: if `τ` is `(h+1)`-generic and `𝔐 ∈ Y^{[0,h],τ}(R)` reduces to the fixed residual module, a gauge basis lifting the residual gauge basis `β̄` of 1.3 exists, and two gauge bases differ by a unique `f`-periodic tuple in `ker(T(R) → T(𝔽))` (BHHMS23, Proposition 3.1.5, p. 19). Route: use the eigenbasis-change formula and the height bound to remove coefficients above the allowed degrees along the `𝔪_R`-adic filtration; the `(h+1)`-generic inequalities make the off-diagonal corrections contracting, and completeness gives the limit; the same estimates on the ratio of two gauge bases kill everything but residual-trivial diagonal scalings. *Needs:* 1.3, 0.2; `LocalGaloisDeformationRings` §6.9 with gap:descent-kisin-modules; `DeformationAndDerivedPatchingAlgebra` §1.8.
+**1.4 Existence of gauge bases.** Prove: if `τ` is `(h+1)`-generic and `𝔐 ∈ Y^{[0,h],τ}(R)` reduces to the fixed residual module, a gauge basis lifting the residual gauge basis `β̄` of 1.3 exists, and two gauge bases differ by a unique `f`-periodic tuple in `ker(T(R) → T(𝔽))` (BHHMS23, Proposition 3.1.5, p. 19). Route: use the eigenbasis-change formula and the height bound to remove coefficients above the allowed degrees along the `𝔪_R`-adic filtration; the `(h+1)`-generic inequalities make the off-diagonal corrections contracting, and completeness gives the limit; the same estimates on the ratio of two gauge bases kill everything but residual-trivial diagonal scalings. *Needs:* 1.3, 0.2; `LocalGaloisDeformationRings` §6.9 with gap:descent-kisin-modules; `DeformationAndDerivedPatchingAlgebra` §1.8.
 
 **Checks.**
 
@@ -244,7 +242,9 @@ Layer 0; `LocalGaloisDeformationRings` §6.9 with gap:descent-kisin-modules; `Fi
 
 Monodromy is an analytic condition. Its Frobenius recursion produces one specific series; the finite-jet form retains the remainder of that series. At `h = 3` the value and derivative equations carry different `p`-adic accuracies, and the remainders are never replaced by unrelated small perturbations.
 
-### 2.1 Monodromy derivation
+### 2.1 Monodromy derivation and the monodromy condition
+
+This section provides the monodromy derivation of a Kisin module with descent and the monodromy condition, which holds exactly when the derivation preserves `𝔐^rig`; 2.3 writes the condition as explicit equations, and 5.7 uses it.
 
 Let `R` be an `𝒪`-flat complete Noetherian local `𝒪`-algebra with residue field `𝔽` (for instance `𝒪⟦x₁,…,x_k⟧`, the chart rings of Layer 5 and their quotients, or the ring of integers of a finite extension of `E` with residue field `𝔽`), `𝒪^rig_R = lim_n R⟦u′, (u′)^n/p⟧[1/p]`, `λ = ∏_{n≥0} φ^n(E(u′)/p)` and `N_∇ = −u′λ d/du′`. For `𝔐 ∈ Y^{[0,h],τ}(R)` and `𝔐^rig = 𝔐 ⊗ 𝒪^rig_R`, prove that `𝔐^rig[1/λ]` carries a unique **monodromy derivation** `N_𝔐` over `N_∇` with `N_𝔐 φ_𝔐 = E(u′) φ_𝔐 N_𝔐` and `N_𝔐 ≡ 0` modulo `u′` (BHHMS23, Proposition 3.1.7, p. 20, after Kisin06, Corollary 1.3.15). It decomposes along the embeddings; write `N^(j′)_{𝔐,β}` for its matrix in an eigenbasis `β`. BHHMS23 §3.1.2 states this for `p`-adically complete `𝒪`-flat `𝒪`-algebras topologically of finite type and applies it to complete local rings in the proof of Proposition 4.2.1 (pp. 28–29); the statement here is for the complete local rings, on which `Y^{[0,h],τ}(R)` and its eigenbases are defined (gap:descent-kisin-modules). Route: iterate the Frobenius equation from the derivative of `C`; the growing Frobenius powers of `u′` make the series converge after inverting `λ`; a difference of two solutions satisfies a contracting homogeneous equation with zero constant term. *Needs:* 1.1; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.4.1, R07.4.6 with gap:relative-monodromy-criterion; `LocalGaloisDeformationRings` §6.9 with gap:descent-kisin-modules.
 
@@ -259,9 +259,7 @@ Let `R` be an `𝒪`-flat complete Noetherian local `𝒪`-algebra with residue 
 - For the trivial rank-one module (`φ(e) = e`, `N_𝔐(e) = 0`), apply the Frobenius rule to `u′e`: the left side is `N_∇((u′)^p)e = −p(u′)^p λ e` and the right side is `E φ(N_∇(u′)) e = −E (u′)^p φ(λ) e`; they agree because `λ = (E/p) φ(λ)`. Omitting `E` would give `−(u′)^p φ(λ) e`, which differs.
 - For `N_𝔐(e) = 0` and the analytic unit `B = 1 + u′`, the basis `eB` has monodromy coefficient `B^{−1}N_∇(B) = −u′λ/(1+u′)`; conjugating the zero matrix alone would give zero.
 
-### 2.2 Monodromy condition
-
-For `h ≥ 1`, `𝔐` satisfies the **monodromy condition** if `λ^{h−1} N^(j′)_{𝔐,β}` vanishes to order at least `h − 1` at `u′ = (−p)^{1/e′}` for every `j′` (BHHMS23, Definition 3.1.8, p. 20). Prove that this is equivalent to `N_𝔐(𝔐^rig) ⊆ 𝔐^rig`, hence independent of `β`, and that it depends only on `j′` modulo `f` (BHHMS23, p. 20, after LLHLM18, Proposition 5.3, p. 47, and Theorem 6.14, p. 63). Under gap:relative-monodromy-criterion this is the condition cutting out potentially crystalline lifts in the tame-type charts; it does not replace a general potentially semistable condition by `N = 0`. *Needs:* 2.1; gap:relative-monodromy-criterion.
+**2.2 Monodromy condition.** For `h ≥ 1`, `𝔐` satisfies the **monodromy condition** if `λ^{h−1} N^(j′)_{𝔐,β}` vanishes to order at least `h − 1` at `u′ = (−p)^{1/e′}` for every `j′` (BHHMS23, Definition 3.1.8, p. 20). Prove that this is equivalent to `N_𝔐(𝔐^rig) ⊆ 𝔐^rig`, hence independent of `β`, and that it depends only on `j′` modulo `f` (BHHMS23, p. 20, after LLHLM18, Proposition 5.3, p. 47, and Theorem 6.14, p. 63). Under gap:relative-monodromy-criterion this is the condition cutting out potentially crystalline lifts in the tame-type charts; it does not replace a general potentially semistable condition by `N = 0`. *Needs:* 2.1; gap:relative-monodromy-criterion.
 
 - The condition is order-`(h−1)` vanishing at the root of `E`.
 - It holds exactly when `N_𝔐` preserves `𝔐^rig`.
@@ -295,7 +293,9 @@ Layers 0–1; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.4.1, R07.4.6
 
 The normalized residual modules are built from monomial Frobenius matrices. Their classification with fixed tame inertia uses a primitivity condition. Restriction to `G_{K∞}` is treated twice: full faithfulness on `Hom` needs a cyclotomic-free tensor, while 2-genericity yields a bijection on isomorphisms. The layer ends with the framed deformation ring of `G_{K∞}`, which fails Mazur's finiteness condition and is used in Layer 7.
 
-### 3.1 Good tame presentations
+### 3.1 Monomial residual representations and their classification
+
+This section provides good tame presentations, monomial étale `φ`-modules with their contravariant realization `V*_K`, the identification of tame quotients along the Kummer tower, the tame representations `V(w̃, D)` with their unramified twists, and the classification by them of semisimple residual representations with fixed tame inertia; 4.1 and 7.1 use 3.3, 4.2 uses 3.2 and 3.6, and 3.9 uses 3.4.
 
 For `(s, μ) ∈ S_n^f × (ℤⁿ)^f` let `d(i)` be the length of the orbit of `i ∈ {1, …, n}` under `s_τ`. The pair is **good** if, for each `i` and each proper divisor `d` of `d(i)`, the integer `Σ_{j=0}^{f d(i) − 1} p^j (s₁^{−1} ⋯ s_j^{−1} μ_j)_i` is not divisible by `(q^{d(i)} − 1)/(q^d − 1)` (BHHMS23, Definition 3.2.1 and Remark 3.2.2, p. 22). No `η` is inserted. A singleton orbit imposes no condition; in rank two a two-cycle requires non-divisibility by `q + 1`. *Needs:* 0.1; `LocalFieldsRamification` Layer 4.
 
@@ -309,9 +309,7 @@ For `(s, μ) ∈ S_n^f × (ℤⁿ)^f` let `d(i)` be the length of the orbit of `
 - For `f = 1`, `s = w`, `μ = (a, a)` gives exponent `(p+1)a`, divisible by `p + 1`: not good.
 - For `f = 1`, `s = w`, `μ = (1, 0)` gives exponents `1` and `p`, neither divisible by `p + 1`: good, with a primitive niveau-two orbit.
 
-### 3.2 Alcove presentations are good
-
-Prove: if `μ − η ∈ C₀`, i.e. `0 < ⟨μ_j, α^∨⟩ < p` for every `j` and every positive root `α` (for `n = 2`: `0 < μ_{j,1} − μ_{j,2} < p`), then `(s, μ)` is good for every `s ∈ S_n^f` (BHHMS23, Lemma 3.2.3, p. 22). Route: fix `i` and put `c_k = (s_τ^{−k} ν)_i` with `ν = Σ_{j<f} p^j s₁^{−1} ⋯ s_j^{−1} μ_j`, so that the exponent is `y = Σ_{k<d(i)} q^k c_k`; each `c_k − c_ℓ` with `k ≢ ℓ` modulo `d(i)` has `p`-adic digits `±⟨μ_j, α^∨⟩` for positive roots `α`, all nonzero and of absolute value `< p`, so `0 < |c_k − c_ℓ| < q`. Divisibility of `y` by `(q^{d(i)} − 1)/(q^d − 1)` means `q^d y ≡ y` modulo `q^{d(i)} − 1`, and `q^d y − y ≡ Σ_{k<d(i)} q^k (c_{k−d} − c_k)` with indices of `c` modulo `d(i)`, whose digits are nonzero, of absolute value `< q`, and add up to `0`; this sum is nonzero modulo `q` and of absolute value `< q^{d(i)} − 1`, so it is not divisible by `q^{d(i)} − 1`. For a two-cycle this says `c₀ − c₁ ≢ 0` modulo `q + 1`. *Needs:* 3.1; `ModpRepresentationsOfGL2OverLocalFields` §3.1 (for `n = 2`).
+**3.2 Alcove presentations are good.** Prove: if `μ − η ∈ C₀`, i.e. `0 < ⟨μ_j, α^∨⟩ < p` for every `j` and every positive root `α` (for `n = 2`: `0 < μ_{j,1} − μ_{j,2} < p`), then `(s, μ)` is good for every `s ∈ S_n^f` (BHHMS23, Lemma 3.2.3, p. 22). Route: fix `i` and put `c_k = (s_τ^{−k} ν)_i` with `ν = Σ_{j<f} p^j s₁^{−1} ⋯ s_j^{−1} μ_j`, so that the exponent is `y = Σ_{k<d(i)} q^k c_k`; each `c_k − c_ℓ` with `k ≢ ℓ` modulo `d(i)` has `p`-adic digits `±⟨μ_j, α^∨⟩` for positive roots `α`, all nonzero and of absolute value `< p`, so `0 < |c_k − c_ℓ| < q`. Divisibility of `y` by `(q^{d(i)} − 1)/(q^d − 1)` means `q^d y ≡ y` modulo `q^{d(i)} − 1`, and `q^d y − y ≡ Σ_{k<d(i)} q^k (c_{k−d} − c_k)` with indices of `c` modulo `d(i)`, whose digits are nonzero, of absolute value `< q`, and add up to `0`; this sum is nonzero modulo `q` and of absolute value `< q^{d(i)} − 1`, so it is not divisible by `q^{d(i)} − 1`. For a two-cycle this says `c₀ − c₁ ≢ 0` modulo `q + 1`. *Needs:* 3.1; `ModpRepresentationsOfGL2OverLocalFields` §3.1 (for `n = 2`).
 
 **Checks.**
 
@@ -319,9 +317,7 @@ Prove: if `μ − η ∈ C₀`, i.e. `0 < ⟨μ_j, α^∨⟩ < p` for every `j` 
 - The wall `μ₁ − μ₂ = 0` gives `c₀ = c₁` and exponent `(q+1)c₀`: the hypothesis `μ − η ∈ C₀` is needed.
 - `f = 2`, `p = 3`, digit differences `δ₀ = 2`, `δ₁ = −1`: `|δ₀ + 3δ₁| = 1`, nonzero and `< 9 = q`; the leading nonzero digit dominates.
 
-### 3.3 Monomial étale φ-modules and their contravariant realization
-
-For a tuple `w̃_j = w_j t^{ν_j}` and `D = (D_j) ∈ T(𝔽)^f`, define the **monomial étale `φ`-module** `𝓜(w̃, D)`: the free module of rank `n` over `k((v)) ⊗_{𝔽_p} 𝔽` whose semilinear Frobenius on component `j` has matrix `D_j w̃_j` in the standard basis (BHHMS23, Definition 3.2.4, p. 22, after LLHL19, Definition 3.1.1, p. 16). Here `k((v)) = 𝒪_ℰ/p` for the Kummer tower of `−p`, and `𝓜(w̃, D)` is an object of the étale `φ`-module category of `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.4.39 with coefficients `A = 𝔽`; each monomial matrix, a diagonal matrix with entries in `𝔽^× v^ℤ` times a permutation matrix, is invertible, so the linearized Frobenius is an isomorphism. For an étale `φ`-module `M` over `k((v)) ⊗_{𝔽_p} 𝔽` define its **contravariant realization** `V*_K(M) = Hom_{k((v)) ⊗ 𝔽, φ}(M, k((v))^sep ⊗_{𝔽_p} 𝔽)`, with `G_{K∞}` acting on `k((v))^sep = 𝒪̂_{ℰ^ur}/p` through the field-of-norms identification of §R07.4.5. Prove that `V*_K(M) ≅ T_𝔽(M^∨)`, where `M^∨` is the dual module with the dual Frobenius and `T_𝔽` the covariant functor of §R07.4.39; hence `V*_K` is an exact, rank-preserving anti-equivalence onto continuous `𝔽`-representations of `G_{K∞}`, compatible with tensor products (BHHMS23, §3.2, p. 22, after LLHL19, §3.1). Record the star operation of the Conventions on monomial tuples: it is an anti-isomorphism, not an index-preserving homomorphism. *Needs:* `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.4.5, R07.4.39.
+**3.3 Monomial étale φ-modules and their contravariant realization.** For a tuple `w̃_j = w_j t^{ν_j}` and `D = (D_j) ∈ T(𝔽)^f`, define the **monomial étale `φ`-module** `𝓜(w̃, D)`: the free module of rank `n` over `k((v)) ⊗_{𝔽_p} 𝔽` whose semilinear Frobenius on component `j` has matrix `D_j w̃_j` in the standard basis (BHHMS23, Definition 3.2.4, p. 22, after LLHL19, Definition 3.1.1, p. 16). Here `k((v)) = 𝒪_ℰ/p` for the Kummer tower of `−p`, and `𝓜(w̃, D)` is an object of the étale `φ`-module category of `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.4.39 with coefficients `A = 𝔽`; each monomial matrix, a diagonal matrix with entries in `𝔽^× v^ℤ` times a permutation matrix, is invertible, so the linearized Frobenius is an isomorphism. For an étale `φ`-module `M` over `k((v)) ⊗_{𝔽_p} 𝔽` define its **contravariant realization** `V*_K(M) = Hom_{k((v)) ⊗ 𝔽, φ}(M, k((v))^sep ⊗_{𝔽_p} 𝔽)`, with `G_{K∞}` acting on `k((v))^sep = 𝒪̂_{ℰ^ur}/p` through the field-of-norms identification of §R07.4.5. Prove that `V*_K(M) ≅ T_𝔽(M^∨)`, where `M^∨` is the dual module with the dual Frobenius and `T_𝔽` the covariant functor of §R07.4.39; hence `V*_K` is an exact, rank-preserving anti-equivalence onto continuous `𝔽`-representations of `G_{K∞}`, compatible with tensor products (BHHMS23, §3.2, p. 22, after LLHL19, §3.1). Record the star operation of the Conventions on monomial tuples: it is an anti-isomorphism, not an index-preserving homomorphism. *Needs:* `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.4.5, R07.4.39.
 
 - The module carries the standard component bases with Frobenius matrices `D_j w̃_j`.
 - It is the residual specialization of the imported coefficient category, with its semilinearity convention.
@@ -335,9 +331,7 @@ For a tuple `w̃_j = w_j t^{ν_j}` and `D = (D_j) ∈ T(𝔽)^f`, define the **m
 - Variance: for `f = 1` and the rank-one module `M = (k((v)) ⊗ 𝔽) e` with `φ(e) = αe`, `α ∈ 𝔽^×`, `V*_K(M)` is spanned by `e ↦ c` with `φ(c) = αc`, and an arithmetic Frobenius lift acts on it by `α`; `T_𝔽(M)` is spanned by `b ⊗ e` with `αφ(b) = b`, on which the same element acts by `α^{−1}`. Using the covariant `T_𝔽` in place of `V*_K` would invert the unramified twist of 3.5.
 - For `f = 2`, the star factor at index `0` uses the original index `1`, and the star of a product is the product of stars in reversed order.
 
-### 3.4 Tame monomial representations
-
-Prove first that restriction along `G_{K∞} ⊆ G_K` induces an isomorphism of tame quotients `G_{K∞}/(G_{K∞} ∩ P_K) ≅ G_K/P_K` that maps the image of `G_{K∞} ∩ I_K` onto `I_K/P_K`; in particular an arithmetic Frobenius lift can be chosen in `G_{K∞}`, a continuous representation of `G_K` that is trivial on `P_K` is determined up to isomorphism by its restriction to `G_{K∞}`, and `ρ^ss|_{G_{K∞}} ≅ (ρ|_{G_{K∞}})^ss` for every finite-dimensional continuous `𝔽`-representation `ρ` of `G_K` (BHHMS23, proof of Corollary 3.2.9, p. 24; LLHL19, §3.1). Route: each `K(p_n)/K` is totally ramified of degree `p^n` (the polynomial `x^{p^n} + p` is Eisenstein; `LocalFieldsRamification` Layer 3), so a finite subextension of `K∞ ∩ K^t`, with `K^t` the maximal tamely ramified extension, is totally ramified of `p`-power degree and tame, hence trivial; Galois theory then identifies the image of `G_{K∞}` in `Gal(K^t/K)` with all of it, with kernel `G_{K∞} ∩ P_K`, and the same argument over `K^ur` handles inertia; semisimplifications factor through `G_K/P_K` since `P_K` is pro-`p` and acts unipotently.
+**3.4 Tame monomial representations.** Prove first that restriction along `G_{K∞} ⊆ G_K` induces an isomorphism of tame quotients `G_{K∞}/(G_{K∞} ∩ P_K) ≅ G_K/P_K` that maps the image of `G_{K∞} ∩ I_K` onto `I_K/P_K`; in particular an arithmetic Frobenius lift can be chosen in `G_{K∞}`, a continuous representation of `G_K` that is trivial on `P_K` is determined up to isomorphism by its restriction to `G_{K∞}`, and `ρ^ss|_{G_{K∞}} ≅ (ρ|_{G_{K∞}})^ss` for every finite-dimensional continuous `𝔽`-representation `ρ` of `G_K` (BHHMS23, proof of Corollary 3.2.9, p. 24; LLHL19, §3.1). Route: each `K(p_n)/K` is totally ramified of degree `p^n` (the polynomial `x^{p^n} + p` is Eisenstein; `LocalFieldsRamification` Layer 3), so a finite subextension of `K∞ ∩ K^t`, with `K^t` the maximal tamely ramified extension, is totally ramified of `p`-power degree and tame, hence trivial; Galois theory then identifies the image of `G_{K∞}` in `Gal(K^t/K)` with all of it, with kernel `G_{K∞} ∩ P_K`, and the same argument over `K^ur` handles inertia; semisimplifications factor through `G_K/P_K` since `P_K` is pro-`p` and acts unipotently.
 
 Then define `V(w̃, D)` as the unique tame continuous `𝔽`-representation of `G_K` whose restriction to `G_{K∞}` is `V*_K(𝓜(w̃, D))` (BHHMS23, Definition 3.2.5, p. 22). Uniqueness is up to the isomorphism fixed by the tame restriction equivalence. For arbitrary `w̃` no semisimplicity is claimed. Route: `V*_K(𝓜(w̃, D))` factors through the tame quotient of `G_{K∞}` (LLHL19, Proposition 3.1.2, p. 16), which the first part identifies with that of `G_K`. *Needs:* 3.3; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §R07.4.39; `LocalFieldsRamification` Layers 3 and 4 (Eisenstein extensions are totally ramified; the maximal tamely ramified extension `K^t` with `P_K = Gal(K̄/K^t)`); `ModpRepresentationsOfGL2OverLocalFields` §3.4 (for `n = 2`); Mathlib `Field.absoluteGaloisGroup`.
 
@@ -353,9 +347,7 @@ Then define `V(w̃, D)` as the unique tame continuous `𝔽`-representation of `
 - For a rank-one cycle with product `α` of the `D` entries, arithmetic Frobenius acts by `α`, not `α^{−1}`, in this contravariant convention.
 - The total ramification of `p`-power degree is needed: the cyclotomic tower `K(μ_{p^∞})` contains the tame extension `K(μ_p) = K((−p)^{1/(p−1)})` of degree `p − 1`, so its Galois group maps onto a proper subgroup of `G_K/P_K`, missing the elements acting nontrivially on `μ_p`. For the Kummer tower, `[K(p₁) : K] = p` is prime to `p − 1`.
 
-### 3.5 Unramified twists
-
-Prove: for `λ = (λ_j) ∈ (𝔽^×)^f`, `V(w̃, λD) ≅ V(w̃, D) ⊗ nr(∏_j λ_j)` (BHHMS23, Lemma 3.2.6, p. 23). Route: tensor with the rank-one module with `φ_j = λ_j`; a diagonal basis change concentrates the scalars in one component; the contravariant realization gives arithmetic Frobenius `∏_j λ_j`, by the variance Check of 3.3. *Needs:* 3.3, 3.4; `LocalFieldsRamification` Layers 2 and 4 (arithmetic Frobenius on the unramified quotient, defining `nr`).
+**3.5 Unramified twists.** Prove: for `λ = (λ_j) ∈ (𝔽^×)^f`, `V(w̃, λD) ≅ V(w̃, D) ⊗ nr(∏_j λ_j)` (BHHMS23, Lemma 3.2.6, p. 23). Route: tensor with the rank-one module with `φ_j = λ_j`; a diagonal basis change concentrates the scalars in one component; the contravariant realization gives arithmetic Frobenius `∏_j λ_j`, by the variance Check of 3.3. *Needs:* 3.3, 3.4; `LocalFieldsRamification` Layers 2 and 4 (arithmetic Frobenius on the unramified quotient, defining `nr`).
 
 **Checks.**
 
@@ -363,9 +355,7 @@ Prove: for `λ = (λ_j) ∈ (𝔽^×)^f`, `V(w̃, λD) ≅ V(w̃, D) ⊗ nr(∏_
 - `λ = (1, …, 1)` gives the identity twist.
 - `f = 2`, `λ = (c, c^{−1})` gives the trivial twist although both components change.
 
-### 3.6 Classification with fixed tame inertia
-
-Prove: if `w̃* = t^{μ′} s′` and `(s′, μ′)` is good, then every `V(w̃, D)`, `D ∈ T(𝔽)^f`, is semisimple with `V(w̃, D)|_{I_K} ≅ τ(s′, μ′)`; conversely, for every semisimple `ρ : G_K → GL_n(𝔽)` with `ρ|_{I_K} ≅ τ(s′, μ′)` there are a finite extension `𝔽′/𝔽` and `D ∈ T(𝔽′)^f` with `ρ ⊗_𝔽 𝔽′ ≅ V(w̃, D)`, the latter formed over `𝔽′`, and one can take `𝔽′ = 𝔽` when the `n` characters of `τ(s′, μ′)` are pairwise distinct (BHHMS23, Proposition 3.2.7 and equation (19), p. 23, stated there with `𝔽′ = 𝔽` in all cases, which the first Check below contradicts). No injectivity in `D` is asserted. Route: `V(w̃, D)` splits along the orbits of `s′_τ` into blocks, each irreducible because `(s′, μ′)` is good (LLHL19, Proposition 3.1.2, p. 16; BHHMS23, Remark 3.2.2, p. 22), so it is semisimple with the stated inertia. Conversely, after a finite extension of `𝔽`, `ρ` is a direct sum of irreducibles `ρ_i` whose restrictions to `I_K` are the systems of the orbits; when the characters are pairwise distinct this holds over `𝔽`, the eigenlines of one orbit spanning a `G_K`-stable subspace. For an orbit of length `d`, `ρ_i` and the matching block of `V(w̃, D)` are induced from the unramified extension of `K` of degree `d` by characters that agree on inertia, so they differ by an unramified character of that extension, and rescaling one entry of `D` on the orbit realizes it; the scalar rescaling of 3.5 reaches only the characters whose value at Frobenius is a `d`-th power. *Needs:* 3.1, 3.3, 3.4, 3.5; `LocalFieldsRamification` Layer 4.
+**3.6 Classification with fixed tame inertia.** Prove: if `w̃* = t^{μ′} s′` and `(s′, μ′)` is good, then every `V(w̃, D)`, `D ∈ T(𝔽)^f`, is semisimple with `V(w̃, D)|_{I_K} ≅ τ(s′, μ′)`; conversely, for every semisimple `ρ : G_K → GL_n(𝔽)` with `ρ|_{I_K} ≅ τ(s′, μ′)` there are a finite extension `𝔽′/𝔽` and `D ∈ T(𝔽′)^f` with `ρ ⊗_𝔽 𝔽′ ≅ V(w̃, D)`, the latter formed over `𝔽′`, and one can take `𝔽′ = 𝔽` when the `n` characters of `τ(s′, μ′)` are pairwise distinct (BHHMS23, Proposition 3.2.7 and equation (19), p. 23, stated there with `𝔽′ = 𝔽` in all cases, which the first Check below contradicts). No injectivity in `D` is asserted. Route: `V(w̃, D)` splits along the orbits of `s′_τ` into blocks, each irreducible because `(s′, μ′)` is good (LLHL19, Proposition 3.1.2, p. 16; BHHMS23, Remark 3.2.2, p. 22), so it is semisimple with the stated inertia. Conversely, after a finite extension of `𝔽`, `ρ` is a direct sum of irreducibles `ρ_i` whose restrictions to `I_K` are the systems of the orbits; when the characters are pairwise distinct this holds over `𝔽`, the eigenlines of one orbit spanning a `G_K`-stable subspace. For an orbit of length `d`, `ρ_i` and the matching block of `V(w̃, D)` are induced from the unramified extension of `K` of degree `d` by characters that agree on inertia, so they differ by an unramified character of that extension, and rescaling one entry of `D` on the orbit realizes it; the scalar rescaling of 3.5 reaches only the characters whose value at Frobenius is a `d`-th power. *Needs:* 3.1, 3.3, 3.4, 3.5; `LocalFieldsRamification` Layer 4.
 
 **Checks.**
 
@@ -373,7 +363,9 @@ Prove: if `w̃* = t^{μ′} s′` and `(s′, μ′)` is good, then every `V(w̃
 - `f = 1`, `s′ = w`, primitive exponent: every member is irreducible and induced from the unramified quadratic extension.
 - `D` and `D′` with the same products on each orbit give isomorphic representations: the parametrization is not injective.
 
-### 3.7 Cyclotomic-free representations
+### 3.7 Restriction to `G_{K∞}` and the framed ring of `G_{K∞}`
+
+This section provides cyclotomic freeness of `ad(ρ̄)` for 2-generic `ρ̄` and `p > 2`, bijectivity of restriction to `G_{K∞}` on `Hom` when `ρ₁^∨ ⊗ ρ₂` is cyclotomic free and on isomorphisms when `ρ₁` is 2-generic, and the framed deformation ring of `G_{K∞}`; 5.7 uses 3.7 and 3.8, and 7.3 uses all four parts.
 
 A finite-dimensional continuous `𝔽`-representation `ρ` of `G_K` is **cyclotomic free** if there is an unramified extension `K′/K` of degree prime to `p` over which `ρ` is upper triangular and `H⁰(G_{K′}, (ρ|_{G_{K′}})^ss ⊗ ω^{−1}) = 0` (BHHMS23, before Lemma 3.2.8, p. 23, after LLHLM18, Definition 3.8, p. 29). The choice of `K′` is existential. On a triangularization this excludes `ω` as a diagonal constituent; it does not exclude the trivial character.
 
@@ -392,9 +384,7 @@ Prove: if `p > 2`, `ρ₁ : G_K → GL_n(𝔽)` is 2-generic (0.2) and `ρ₂ : 
 - `f = 1`, `ρ̄ = nr(α)ω^a ⊕ nr(β)ω^b`: `ad(ρ̄)^ss = 1 ⊕ 1 ⊕ ω^{a−b} ⊕ ω^{b−a}` is cyclotomic free exactly when `a − b ≢ ±1` modulo `p − 1`. For normalized data `a − b = r + 1` with `12 < r + 1 < p − 12`, and the condition holds; for `ρ̄ = ω ⊕ 1`, which is not 2-generic, `a − b = 1` and `ad(ρ̄)` is not cyclotomic free.
 - `n = 1`, `p = 2`: every character is 2-generic, since `GL₁` has no roots, and `ad(ρ̄)` is the trivial character, which is `ω` because `ω` is trivial for `p = 2`; it is not cyclotomic free, so the hypothesis `p > 2` is needed.
 
-### 3.8 Cyclotomic-free restriction on Hom
-
-Prove: if `ρ₁^∨ ⊗ ρ₂` is cyclotomic free, restriction `Hom_{G_K}(ρ₁, ρ₂) → Hom_{G_{K∞}}(ρ₁, ρ₂)` is bijective (BHHMS23, Lemma 3.2.8, pp. 23–24). The tensor hypothesis is required; full faithfulness on all residual representations is not asserted. Route: view `Hom` as invariants of `ρ₁^∨ ⊗ ρ₂`; apply gap:kummer-restriction-invariants over the triangularizing extension and descend; restriction is injective on underlying linear maps. *Needs:* 3.7; gap:kummer-restriction-invariants.
+**3.8 Cyclotomic-free restriction on Hom.** Prove: if `ρ₁^∨ ⊗ ρ₂` is cyclotomic free, restriction `Hom_{G_K}(ρ₁, ρ₂) → Hom_{G_{K∞}}(ρ₁, ρ₂)` is bijective (BHHMS23, Lemma 3.2.8, pp. 23–24). The tensor hypothesis is required; full faithfulness on all residual representations is not asserted. Route: view `Hom` as invariants of `ρ₁^∨ ⊗ ρ₂`; apply gap:kummer-restriction-invariants over the triangularizing extension and descend; restriction is injective on underlying linear maps. *Needs:* 3.7; gap:kummer-restriction-invariants.
 
 **Checks.**
 
@@ -402,9 +392,7 @@ Prove: if `ρ₁^∨ ⊗ ρ₂` is cyclotomic free, restriction `Hom_{G_K}(ρ₁
 - `ρ₁ = 1`, `ρ₂ = ω`, `K = ℚ_p`: the hypothesis fails; `Hom_{G_K}` is zero and the theorem asserts nothing about `Hom_{G_{K∞}}`.
 - Restriction is always injective, so only surjectivity uses the hypothesis.
 
-### 3.9 Descent of isomorphisms
-
-Prove: if `ρ₁ : G_K → GL_n(𝔽)` is 2-generic and `ρ₂` is a finite-dimensional continuous `𝔽`-representation of `G_K`, restriction `Isom_{G_K}(ρ₁, ρ₂) → Isom_{G_{K∞}}(ρ₁, ρ₂)` is bijective (BHHMS23, Corollary 3.2.9, p. 24). Route: by 3.4 semisimplification commutes with restriction to `G_{K∞}` and tame representations are determined by their restrictions, so a restricted isomorphism forces `ρ₁^ss ≅ ρ₂^ss`; then `ρ₁^∨ ⊗ ρ₂` is cyclotomic free by 3.7, and 3.8 applies; a descended invertible map has an equivariant inverse. If the right side is empty so is the left. For `n = 1` and `p = 2`, where 3.7 does not apply, `ρ₁` is a character of odd order, hence tame, and a character `ρ₂` with the same restriction to `G_{K∞}` is isomorphic to it by 3.4, both sets being `𝔽^×`. *Needs:* 0.2, 3.4, 3.7, 3.8.
+**3.9 Descent of isomorphisms.** Prove: if `ρ₁ : G_K → GL_n(𝔽)` is 2-generic and `ρ₂` is a finite-dimensional continuous `𝔽`-representation of `G_K`, restriction `Isom_{G_K}(ρ₁, ρ₂) → Isom_{G_{K∞}}(ρ₁, ρ₂)` is bijective (BHHMS23, Corollary 3.2.9, p. 24). Route: by 3.4 semisimplification commutes with restriction to `G_{K∞}` and tame representations are determined by their restrictions, so a restricted isomorphism forces `ρ₁^ss ≅ ρ₂^ss`; then `ρ₁^∨ ⊗ ρ₂` is cyclotomic free by 3.7, and 3.8 applies; a descended invertible map has an equivariant inverse. If the right side is empty so is the left. For `n = 1` and `p = 2`, where 3.7 does not apply, `ρ₁` is a character of odd order, hence tame, and a character `ρ₂` with the same restriction to `G_{K∞}` is isomorphic to it by 3.4, both sets being `𝔽^×`. *Needs:* 0.2, 3.4, 3.7, 3.8.
 
 **Checks.**
 
@@ -412,9 +400,7 @@ Prove: if `ρ₁ : G_K → GL_n(𝔽)` is 2-generic and `ρ₂` is a finite-dime
 - `ρ₁ = ρ₂` 2-generic: the bijection on automorphism groups is the statement for `Aut`.
 - The conclusion is about isomorphisms; `Hom_{G_K}(ρ₁, ρ₂)` for 2-generic `ρ₁` and `ρ₂ = ρ₁ ⊗ ω` is not covered.
 
-### 3.10 Framed deformation rings of `G_{K∞}`
-
-For a profinite group `Γ` and continuous `ρ̄ : Γ → GL_n(𝔽)` put `R□_{ρ̄,Γ} = lim_H R□_{ρ̄,Γ/H}`, the limit over the open normal subgroups `H ⊆ ker ρ̄` with the transition maps induced by inflation, each term the framed deformation ring of the finite group `Γ/H` (`PadicLocalLanglandsForGL2Qp` §0.4; a finite group satisfies `Φ_p`). Prove that `R□_{ρ̄,Γ}` is a profinite local `𝒪`-algebra that pro-represents the framed deformation functor of `ρ̄` on Artinian local `𝒪`-algebras with residue field `𝔽`, with continuous tangent space `Z¹(Γ, ad ρ̄)`; that it is §0.4's `R□_ρ̄` when `Γ` satisfies `Φ_p`; that a continuous homomorphism `Γ′ → Γ` induces a continuous local map `R□_{ρ̄,Γ′} → R□_{ρ̄,Γ}`, in particular `R□_{ρ̄|G_{K∞}} → R□_ρ̄` for `G_{K∞} ⊆ G_K`; and that a continuous local `𝒪`-algebra map from `R□_{ρ̄,Γ}` to a complete Noetherian local `𝒪`-algebra `B` with residue field `𝔽` that is injective on `𝔽[ε]`-points (`ε² = 0`) is surjective. BHHMS23 uses this ring for `Γ = G_{K∞}` in the proof of Proposition 4.3.1, Claim 1 (p. 37). Route: an Artinian local `𝒪`-algebra with residue field `𝔽` is finite, so a continuous lift to it factors through some `Γ/H`; each `R□_{ρ̄,Γ/H}` is compact, so continuous maps from the limit to a finite ring factor through one term; for the last assertion the image is compact, hence closed, and contains lifts of a basis of `𝔪_B/(𝔪_B² + ϖB)`. *Needs:* `PadicLocalLanglandsForGL2Qp` §0.4; `LocalGaloisDeformationRings` §1.1; `DeformationAndDerivedPatchingAlgebra` §§1.8, 1.9.
+**3.10 Framed deformation rings of `G_{K∞}`.** For a profinite group `Γ` and continuous `ρ̄ : Γ → GL_n(𝔽)` put `R□_{ρ̄,Γ} = lim_H R□_{ρ̄,Γ/H}`, the limit over the open normal subgroups `H ⊆ ker ρ̄` with the transition maps induced by inflation, each term the framed deformation ring of the finite group `Γ/H` (`PadicLocalLanglandsForGL2Qp` §0.4; a finite group satisfies `Φ_p`). Prove that `R□_{ρ̄,Γ}` is a profinite local `𝒪`-algebra that pro-represents the framed deformation functor of `ρ̄` on Artinian local `𝒪`-algebras with residue field `𝔽`, with continuous tangent space `Z¹(Γ, ad ρ̄)`; that it is §0.4's `R□_ρ̄` when `Γ` satisfies `Φ_p`; that a continuous homomorphism `Γ′ → Γ` induces a continuous local map `R□_{ρ̄,Γ′} → R□_{ρ̄,Γ}`, in particular `R□_{ρ̄|G_{K∞}} → R□_ρ̄` for `G_{K∞} ⊆ G_K`; and that a continuous local `𝒪`-algebra map from `R□_{ρ̄,Γ}` to a complete Noetherian local `𝒪`-algebra `B` with residue field `𝔽` that is injective on `𝔽[ε]`-points (`ε² = 0`) is surjective. BHHMS23 uses this ring for `Γ = G_{K∞}` in the proof of Proposition 4.3.1, Claim 1 (p. 37). Route: an Artinian local `𝒪`-algebra with residue field `𝔽` is finite, so a continuous lift to it factors through some `Γ/H`; each `R□_{ρ̄,Γ/H}` is compact, so continuous maps from the limit to a finite ring factor through one term; for the last assertion the image is compact, hence closed, and contains lifts of a basis of `𝔪_B/(𝔪_B² + ϖB)`. *Needs:* `PadicLocalLanglandsForGL2Qp` §0.4; `LocalGaloisDeformationRings` §1.1; `DeformationAndDerivedPatchingAlgebra` §§1.8, 1.9.
 
 - `R□_{ρ̄,Γ}` pro-represents framed lifts of `ρ̄` to Artinian coefficients, functorially in `Γ`.
 - Its continuous tangent space is `Z¹(Γ, ad ρ̄)`.
@@ -440,7 +426,9 @@ Layers 0–1; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` §§R07.4.5, R07.4.3
 
 From this layer on the normalized data of the Conventions are fixed. A type is attached to each tuple of the three shapes; the two extreme shapes, read at the reversed index, encode the Serre weights.
 
-### 4.1 Admissible tame types
+### 4.1 Admissible types and their semisimple residual Kisin modules
+
+This section provides, for each `w̃ ∈ Adm∨`, the type `τ_{w̃}` with an `(N−1)`-deep presentation and the semisimple residual Kisin module of shape `w̃` realizing `ρ̄|_{G_{K∞}}`, unique up to isomorphism, with a monomial residual gauge basis; 4.3 uses the types, and 5.2 and 5.7 use the residual module.
 
 For `w̃ ∈ Adm∨` write `w̃* = t^ν w` and define the **admissible type** `τ_{w̃} = τ(sw^{−1}, μ − sw^{−1}ν)` with lowest-alcove presentation `(s(τ), μ(τ)) = (sw^{−1}, μ − sw^{−1}ν − η)` (BHHMS23, §4.1, p. 25). Prove that this presentation is `(N−1)`-deep. Explicitly, `μ(τ)_j + η_j` is `(r_j, 0)` or `(r_j + 1, −1)` according to the pair `(t^{ν_j} w_j, s_j)` (BHHMS23, p. 25). *Needs:* 0.1, 0.2, 3.3; `ModpRepresentationsOfGL2OverLocalFields` §3.1.
 
@@ -454,9 +442,7 @@ For `w̃ ∈ Adm∨` write `w̃* = t^ν w` and define the **admissible type** `�
 - At `f = 1`, `U₁* = t^(2,1)` while `U₂* = t^(2,1) w`; the order of the factors distinguishes the two presentations.
 - At `N = 12` the type coordinates are at least 11-deep: `11 ≥ h + 1 = 4` and `L = 11` satisfies `L ≥ 3` and `(L−1)(p−1) ≥ 3`.
 
-### 4.2 Semisimple residual Kisin modules
-
-Prove: for every `w̃ ∈ Adm∨` there is, up to isomorphism, a unique semisimple `𝔐̄ ∈ Y^{≤(3,0),τ_{w̃}}(𝔽)` of shape `w̃` with `T*_dd(𝔐̄) ≅ ρ̄|_{G_{K∞}}`, and it has an eigenbasis with `A^(j) = D_j w̃_j`, `D_j ∈ T(𝔽)`, which is a residual gauge basis in the sense of 1.3 (BHHMS23, Lemma 4.1.1, pp. 25–26, and the opening of §4.2, p. 28). Uniqueness is of an isomorphism class, not of `D` or of a gauge basis, and is not asserted for non-semisimple modules. Route: the monomial module with `A = D w̃` obeys the `(3,0)` bound; its étale matrix is `(D w̃ (sw^{−1})^* t^{(μ − sw^{−1}ν)^*})_j = (D s^* t^{μ^*})_j`, whose contravariant realization (3.3) is `T*_dd` of the module, and 3.2 with 3.6 choose `D`; uniqueness compares two lattices using `3 < ⟨μ(τ)_j + η_j, α^∨⟩ < p − 4`. *Needs:* 4.1, 1.2, 1.3, 1.4, 3.2, 3.6; gap:descent-kisin-modules.
+**4.2 Semisimple residual Kisin modules.** Prove: for every `w̃ ∈ Adm∨` there is, up to isomorphism, a unique semisimple `𝔐̄ ∈ Y^{≤(3,0),τ_{w̃}}(𝔽)` of shape `w̃` with `T*_dd(𝔐̄) ≅ ρ̄|_{G_{K∞}}`, and it has an eigenbasis with `A^(j) = D_j w̃_j`, `D_j ∈ T(𝔽)`, which is a residual gauge basis in the sense of 1.3 (BHHMS23, Lemma 4.1.1, pp. 25–26, and the opening of §4.2, p. 28). Uniqueness is of an isomorphism class, not of `D` or of a gauge basis, and is not asserted for non-semisimple modules. Route: the monomial module with `A = D w̃` obeys the `(3,0)` bound; its étale matrix is `(D w̃ (sw^{−1})^* t^{(μ − sw^{−1}ν)^*})_j = (D s^* t^{μ^*})_j`, whose contravariant realization (3.3) is `T*_dd` of the module, and 3.2 with 3.6 choose `D`; uniqueness compares two lattices using `3 < ⟨μ(τ)_j + η_j, α^∨⟩ < p − 4`. *Needs:* 4.1, 1.2, 1.3, 1.4, 3.2, 3.6; gap:descent-kisin-modules.
 
 **Checks.**
 
@@ -546,7 +532,9 @@ Let `I^poly_j = (G₁, …, G₅)` and let `P^poly_{j,21}` and `P^poly_{j,30}` b
 - Over `ℤ` with `p = 3`, `κ = −1`, `x = 2`, `y = 3`: `(6 + 3)(6 − 3)/(−1) = −27`.
 - At `κ = 1` the hypersurface is `(xy + p)²`; this degenerate value violates the unit hypothesis on `κ − 1` used in 5.4.
 
-### 5.3 Irreducible crossing equations
+### 5.3 Crossing primes and effective solution of the chart equations
+
+This section provides primality of crossing elements in power series over a complete discrete valuation ring, the `p³` Jacobian bound for the chart equations of 5.2, and the effective Newton step giving a map `R/I^poly → R/I∞`, surjective for `N ≥ 12`; 5.8 uses 5.3 and 5.5.
 
 Let `𝒪` be a complete discrete valuation ring with uniformiser `ϖ`, `A = 𝒪⟦x₁, …, x_n⟧` with `n ≥ 2`, `d > 0` and `u ∈ A^×`. Prove that `x₁x₂ + ϖ^d u` is prime, that `(x₁x₂ + ϖ^d u) ≠ (x₁)`, and that if `u₁ ≢ u₂` modulo `𝔪_A` then `(x₁x₂ + ϖ^d u₁) ≠ (x₁x₂ + ϖ^d u₂)` (BHHMS23, Lemma 3.3.1, p. 24). The first assertion is `crossing_prime` in `Suggested.lean`; the source proves irreducibility, and primality is added here. Route: substitute `x₂ ↦ x₁ + x₂`; Weierstrass preparation in `x₁` over `𝒪⟦x₂, …, x_n⟧` reduces a factorization to a root `b` in the maximal ideal; `b² + b x₂ + ϖ^d u(b, …) = 0` forces `ϖ^d | b` or `ϖ^d | b + x₂`, contradicting that `u` is a unit; `A` is a regular local ring, by Mathlib's instance for the discrete valuation ring `𝒪`, `TauCeti.PowerSeries.isRegularLocalRing` one variable at a time and `MvPowerSeries.finSuccEquiv`, hence factorial (`PurityForFlatCohomology` §7.4), so the irreducible element is prime; comparing constant terms after Weierstrass preparation distinguishes the ideals. *Needs:* Mathlib `PowerSeries.exists_isWeierstrassFactorization`, `PowerSeries.isWeierstrassDivision_weierstrassDiv_weierstrassMod`, `MvPowerSeries`, `MvPowerSeries.finSuccEquiv`, `IsRegularLocalRing.of_ringEquiv`, `IsDiscreteValuationRing`, `IsAdicComplete`; Tau Ceti `TauCeti.PowerSeries.isRegularLocalRing`; `PurityForFlatCohomology` §7.4.
 
@@ -562,9 +550,7 @@ Let `𝒪` be a complete discrete valuation ring with uniformiser `ϖ`, `A = �
 - Two variables do not suffice for the Tau Ceti factoriality theorem in dimension at most two: `𝒪⟦x₁, x₂⟧` has Krull dimension three, so primality needs the general Auslander–Buchsbaum theorem.
 - Ramified `𝒪` is allowed: `p = ϖ^e · (unit)`, so `xy + up` with `u` a unit is a crossing element with `d = e`.
 
-### 5.4 Effective Jacobian bound
-
-For each chart let `B_j` be the dense polynomial ring of 5.2 in its eight parameters over `𝒪`, with the starred coordinate that divides `G₅` inverted: `e₁₁*` in chart 1 (where `G₅ = e₁₁* X((a₁−1)(a₁−2)XY − 2p)` with `X = c₁₂/e₁₁*`, `Y = d₂₁/d₂₂*`), `e₂₂*` in chart 3, none in chart 2. In `B_j`, `G₁, …, G₄` are the parameters `d₁₁, c₂₂, c₂₁, c₁₁` in chart 1 (respectively `c₂₁, c₁₂, c₁₁, c₂₂` in chart 2 and `d₂₂, c₁₁, c₁₂, c₂₂` in chart 3) plus polynomials in the other four parameters, and `G₅` involves only those other four. Let `J₅` be the ideal of `5 × 5` minors of the Jacobian matrix of `(G₁, …, G₅)` in the eight parameters. Prove `p³ ∈ (G₁, …, G₅) + J₅`, and `p² ∈ (G₁, …, G₅) + J₅` in charts 1 and 3, in `B_j` (BHHMS23, Lemma 4.2.3, p. 31). In chart 2, with `x, y, κ` and `F = κ^{−1}(xy + p)(xy + κp)` as in 5.2, the relevant minors contain `F_x`, and the identity `(2(κ+1)xy + p(κ−1)²)F − ((κ+1)xy + p(κ²+1)) x F_x = p³(κ−1)²` gives the claim since `κ − 1` is a unit. In the outer charts, with `e₁₁*` (respectively `e₂₂*`) a unit, the remaining hypersurface is a unit multiple of `H = X(cXY − 2p)` with `c = (a−1)(a−2)` a unit, and `p·H_X + cY(X·H_X − 2Y·H_Y) = −2p²`. The exponent is in `p`, not `ϖ`. *Needs:* 5.2; Mathlib `Polynomial.derivative`, `Ideal.span_le`.
+**5.4 Effective Jacobian bound.** For each chart let `B_j` be the dense polynomial ring of 5.2 in its eight parameters over `𝒪`, with the starred coordinate that divides `G₅` inverted: `e₁₁*` in chart 1 (where `G₅ = e₁₁* X((a₁−1)(a₁−2)XY − 2p)` with `X = c₁₂/e₁₁*`, `Y = d₂₁/d₂₂*`), `e₂₂*` in chart 3, none in chart 2. In `B_j`, `G₁, …, G₄` are the parameters `d₁₁, c₂₂, c₂₁, c₁₁` in chart 1 (respectively `c₂₁, c₁₂, c₁₁, c₂₂` in chart 2 and `d₂₂, c₁₁, c₁₂, c₂₂` in chart 3) plus polynomials in the other four parameters, and `G₅` involves only those other four. Let `J₅` be the ideal of `5 × 5` minors of the Jacobian matrix of `(G₁, …, G₅)` in the eight parameters. Prove `p³ ∈ (G₁, …, G₅) + J₅`, and `p² ∈ (G₁, …, G₅) + J₅` in charts 1 and 3, in `B_j` (BHHMS23, Lemma 4.2.3, p. 31). In chart 2, with `x, y, κ` and `F = κ^{−1}(xy + p)(xy + κp)` as in 5.2, the relevant minors contain `F_x`, and the identity `(2(κ+1)xy + p(κ−1)²)F − ((κ+1)xy + p(κ²+1)) x F_x = p³(κ−1)²` gives the claim since `κ − 1` is a unit. In the outer charts, with `e₁₁*` (respectively `e₂₂*`) a unit, the remaining hypersurface is a unit multiple of `H = X(cXY − 2p)` with `c = (a−1)(a−2)` a unit, and `p·H_X + cY(X·H_X − 2Y·H_Y) = −2p²`. The exponent is in `p`, not `ϖ`. *Needs:* 5.2; Mathlib `Polynomial.derivative`, `Ideal.span_le`.
 
 **Checks.**
 
@@ -573,9 +559,7 @@ For each chart let `B_j` be the dense polynomial ring of 5.2 in its eight parame
 - Chart 1 without inverting `e₁₁*`: at `e₁₁* = X = d₁₁ = c₁₁ = c₂₁ = c₂₂ = 0` every `G_i` vanishes and the row of `G₅` in the Jacobian is zero, so every `5 × 5` minor vanishes and no power of `p` lies in `(G₁, …, G₅) + J₅`; the inversion is needed.
 - With `κ = 1` the right side vanishes and the argument gives nothing, matching the repeated factor `(xy + p)²` of 5.2.
 
-### 5.5 Effective chart approximation
-
-Prove: let `A` be a `p`-adically complete Noetherian `p`-torsion-free `𝒪`-algebra and `G` one of the three chart systems in the eight parameters of 5.2; if `a ∈ A⁸` is a point at which the coordinate inverted in 5.4 (`e₁₁*` in chart 1, `e₂₂*` in chart 3, none in chart 2) is a unit of `A`, and `G(a) ∈ p^n A⁵` with `n > 6`, there is `a° ∈ A⁸` with `G(a°) = 0` and `a° − a ∈ p^{n−3} A⁸` (BHHMS23, proof of Proposition 4.2.1, pp. 31–32; Elkik73, §0.2 and Lemme 1, pp. 555–557, with `h = 3`). Consequently, with `n = N − 5`, the actual chart `A = R/I∞` receives an `𝒪`-algebra map `R/I^poly → R/I∞` congruent to the natural map modulo `p^{N−8}`, surjective for `N ≥ 12`; the images in `R/I∞` of the coordinates of `R_j` satisfy the unit hypothesis, since the starred ones reduce to nonzero elements of `𝔽`. Route: by 5.4, `p³` lies in the evaluated minor ideal, so the adjugate gives a right inverse of the Jacobian after division by `p³`; a correction in `p^{n−3}A⁸` raises the error to `p^{2(n−3)}`, with `2(n−3) > n`; iterate and use completeness; tensor over `j` and extend continuously; surjectivity holds on relative cotangent spaces. *Needs:* 5.2, 5.4; Mathlib `IsAdicComplete`, `Matrix.adjugate`; `DeformationAndDerivedPatchingAlgebra` §§1.8, 1.9, 1.12.
+**5.5 Effective chart approximation.** Prove: let `A` be a `p`-adically complete Noetherian `p`-torsion-free `𝒪`-algebra and `G` one of the three chart systems in the eight parameters of 5.2; if `a ∈ A⁸` is a point at which the coordinate inverted in 5.4 (`e₁₁*` in chart 1, `e₂₂*` in chart 3, none in chart 2) is a unit of `A`, and `G(a) ∈ p^n A⁵` with `n > 6`, there is `a° ∈ A⁸` with `G(a°) = 0` and `a° − a ∈ p^{n−3} A⁸` (BHHMS23, proof of Proposition 4.2.1, pp. 31–32; Elkik73, §0.2 and Lemme 1, pp. 555–557, with `h = 3`). Consequently, with `n = N − 5`, the actual chart `A = R/I∞` receives an `𝒪`-algebra map `R/I^poly → R/I∞` congruent to the natural map modulo `p^{N−8}`, surjective for `N ≥ 12`; the images in `R/I∞` of the coordinates of `R_j` satisfy the unit hypothesis, since the starred ones reduce to nonzero elements of `𝔽`. Route: by 5.4, `p³` lies in the evaluated minor ideal, so the adjugate gives a right inverse of the Jacobian after division by `p³`; a correction in `p^{n−3}A⁸` raises the error to `p^{2(n−3)}`, with `2(n−3) > n`; iterate and use completeness; tensor over `j` and extend continuously; surjectivity holds on relative cotangent spaces. *Needs:* 5.2, 5.4; Mathlib `IsAdicComplete`, `Matrix.adjugate`; `DeformationAndDerivedPatchingAlgebra` §§1.8, 1.9, 1.12.
 
 **Checks.**
 
@@ -584,7 +568,9 @@ Prove: let `A` be a `p`-adically complete Noetherian `p`-torsion-free `𝒪`-alg
 - The unit hypothesis cannot be dropped: `A = ℤ_p`, chart 1, `n = 7`, `e₁₁* = X = p³`, `Y = d₂₂* = 1` and the other four coordinates solving `G₁ = … = G₄ = 0` give `G₅(a) = p⁶((a₁−1)(a₁−2)p³ − 2p)`, of valuation `7`; every `a° ≡ a` modulo `p⁴` keeps `e₁₁*` and `X` of valuation `3` and the last factor of valuation `1`, so `G₅(a°) ≠ 0`.
 - A surjection from a model with the right dimension does not by itself identify the rings; 5.6 and 5.8 are still needed.
 
-### 5.6 Nonempty Hodge profiles
+### 5.6 Nonempty Hodge profiles and the gauge–Galois comparison
+
+This section provides potentially crystalline lifts of `ρ̄` of type `τ_{w̃}` for every `w̃ ∈ Adm∨` and every profile `λ ∈ {(3,0),(2,1)}^f`, after a finite extension of `E`, and the isomorphism `R^{≤(3,0),τ}_ρ̄⟦X₁, …, X_{2f}⟧ ≅ A∞⟦Y₁, …, Y₄⟧` with the actual chart; 5.8 and 6.1 use both.
 
 Prove: for every `w̃ ∈ Adm∨` and every `λ ∈ {(3,0),(2,1)}^f`, `ρ̄` has a potentially crystalline lift of inertial type `τ_{w̃}` and labelled Hodge–Tate weights `λ` after a finite extension of `E`; so all `2^f` profile loci are nonempty (BHHMS23, proof of Proposition 4.2.1 and equation (26), p. 32; GHLS17, Theorem D, p. 4, and Theorem 3.1.5, p. 21). This is not deduced from the dimension theorem. Route: 4.3 gives a weight in `JH(σ̄(τ) ⊗ N ∘ det) ∩ W(ρ̄)`; for `λ_j = (3,0)` tensor with the algebraic representation of highest weight `(2,0)`, whose decomposition `L(a,b) ⊗ L(2,0) ≅ L(a+2,b) ⊕ L(a+1,b+1) ⊕ L(a,b+2)` for `2 ≤ a − b ≤ p − 3` contains the middle shift `(1,1)`; for `λ_j = (2,1)` tensor with `det`; the constituents of `σ(τ)` are 7-deep; then apply gap:ghls-existence. *Needs:* 4.3, 0.5; `ModpRepresentationsOfGL2OverLocalFields` §5.5; `LocalGaloisDeformationRings` §§3.4, 8.10 with gap:ghls-existence.
 
@@ -594,9 +580,7 @@ Prove: for every `w̃ ∈ Adm∨` and every `λ ∈ {(3,0),(2,1)}^f`, `ρ̄` has
 - For `f = 1` there are two profiles and two nonempty loci, which with 5.8 gives two components.
 - The decomposition of `L(a,b) ⊗ L(2,0)` needs `2 ≤ a − b ≤ p − 3`; the 7-deep constituents satisfy it.
 
-### 5.7 Gauge and Galois deformation comparison
-
-For the fixed residual module and type let `A∞ = R/I∞`. Prove that there is an `𝒪`-algebra isomorphism `R^{≤(3,0),τ}_ρ̄⟦X₁, …, X_{2f}⟧ ≅ A∞⟦Y₁, …, Y₄⟧`, compatible with every additional Hodge-bound condition (BHHMS23, equation (22) and its explanation, p. 29). The `2f` variables are the residual-trivial diagonal gauge choices and the four variables the Galois framing; no determinant is fixed. Route: gap:descent-kisin-modules and gap:relative-monodromy-criterion identify Kisin modules of type `τ` with height and monodromy conditions and potentially crystalline lifts; 4.2 fixes the residual chart; since `ad(ρ̄)` is cyclotomic free (3.7), 3.8 identifies morphisms of deformations with those of their restrictions to `G_{K∞}`; diagonal gauge choices form a formally smooth `2f`-dimensional family and framings a 4-dimensional one. *Needs:* 5.1, 4.2, 1.4, 2.2, 3.7, 3.8; `LocalGaloisDeformationRings` §§1.1, 1.2, 1.8, 3.4; `DeformationAndDerivedPatchingAlgebra` §1.9; gaps descent-kisin-modules, relative-monodromy-criterion.
+**5.7 Gauge and Galois deformation comparison.** For the fixed residual module and type let `A∞ = R/I∞`. Prove that there is an `𝒪`-algebra isomorphism `R^{≤(3,0),τ}_ρ̄⟦X₁, …, X_{2f}⟧ ≅ A∞⟦Y₁, …, Y₄⟧`, compatible with every additional Hodge-bound condition (BHHMS23, equation (22) and its explanation, p. 29). The `2f` variables are the residual-trivial diagonal gauge choices and the four variables the Galois framing; no determinant is fixed. Route: gap:descent-kisin-modules and gap:relative-monodromy-criterion identify Kisin modules of type `τ` with height and monodromy conditions and potentially crystalline lifts; 4.2 fixes the residual chart; since `ad(ρ̄)` is cyclotomic free (3.7), 3.8 identifies morphisms of deformations with those of their restrictions to `G_{K∞}`; diagonal gauge choices form a formally smooth `2f`-dimensional family and framings a 4-dimensional one. *Needs:* 5.1, 4.2, 1.4, 2.2, 3.7, 3.8; `LocalGaloisDeformationRings` §§1.1, 1.2, 1.8, 3.4; `DeformationAndDerivedPatchingAlgebra` §1.9; gaps descent-kisin-modules, relative-monodromy-criterion.
 
 **Checks.**
 
@@ -626,7 +610,9 @@ Layers 0–4; `LocalGaloisDeformationRings` §§1.1, 1.2, 1.8, 3.4, 3.9, 3.10, 8
 
 The fixed-profile rings are imported; Layer 5 defines their union. The explicit presentation identifies the profile kernels; the special-fibre computation reduces each exact-profile chart to products of pairs of variables. Formal smoothness belongs to each component, not to their union.
 
-### 6.1 Single-type deformation presentation
+### 6.1 Single-type presentation and its Hodge-labelled components
+
+This section provides, for each `w̃ ∈ Adm∨`, the presentation of `R^{≤(3,0),τ_{w̃}}_ρ̄` by the transported ideals of 5.8, with the profile kernels generated by prime sums, and its `2^f` irreducible components, one for each profile; 6.3 and 7.4 use 6.1, and 7.3 uses both parts.
 
 Prove: for each `w̃ ∈ Adm∨`, with `ψ`, `I_j` and `P_{j,λ}` of 5.8, there is an `𝒪`-algebra isomorphism `R^{≤(3,0),τ_{w̃}}_ρ̄⟦X₁, …, X_{2f}⟧ ≅ (R/Σ_j I_j)⟦Y₁, …, Y₄⟧` under which, for each `λ ∈ {(3,0),(2,1)}^f`, the kernel of the surjection onto `R^{λ,τ_{w̃}}_ρ̄⟦X₁, …, X_{2f}⟧` is generated by the prime `Σ_j P_{j,λ_{f−1−j}}` (BHHMS23, Proposition 4.2.1, pp. 28–33). The sums, not the individual local ideals, are the meaningful kernels. Route: combine 5.7 and 5.8; to identify a `(2,1)` coordinate, every entry of `A` at that embedding is divisible by `z`; if that coordinate were `(3,0)` on a surviving component, the factor equations and finite-height relations would put `p` in the prime, contradicting `𝒪`-flatness; induct over embeddings. *Needs:* 5.1, 5.6, 5.7, 5.8, 5.2; `DeformationAndDerivedPatchingAlgebra` §4.7.
 
@@ -636,9 +622,7 @@ Prove: for each `w̃ ∈ Adm∨`, with `ψ`, `I_j` and `P_{j,λ}` of 5.8, there 
 - One isomorphism handles every `λ`; choosing a separate comparison per component would not identify the union.
 - For `f = 1` the two kernels are `P_{0,(3,0)}` and `P_{0,(2,1)}`, and their intersection is `I_0`.
 
-### 6.2 Hodge-labelled components
-
-Prove: `R^{≤(3,0),τ_{w̃}}_ρ̄` is reduced and `𝒪`-flat with exactly `2^f` irreducible components, the `Spec R^{λ,τ_{w̃}}_ρ̄` for `λ ∈ {(3,0),(2,1)}^f`; each is a domain of relative dimension `f + 4`, geometrically integral after finite coefficient extension; each fixed-profile generic fibre is regular (BHHMS23, Proposition 4.2.1, pp. 28–33; dimension in the proof of Proposition 4.3.1, p. 38). This is a statement about complete local rings, not about algebraic `E`-schemes of finite type. Route: the model's component description and `DeformationAndDerivedPatchingAlgebra` §4.6; `ψ` preserves everything; `3f + 4 − 2f = f + 4`; regularity from `LocalGaloisDeformationRings` §3.10. *Needs:* 6.1, 5.8; `DeformationAndDerivedPatchingAlgebra` §4.6; `LocalGaloisDeformationRings` §§3.9, 3.10.
+**6.2 Hodge-labelled components.** Prove: `R^{≤(3,0),τ_{w̃}}_ρ̄` is reduced and `𝒪`-flat with exactly `2^f` irreducible components, the `Spec R^{λ,τ_{w̃}}_ρ̄` for `λ ∈ {(3,0),(2,1)}^f`; each is a domain of relative dimension `f + 4`, geometrically integral after finite coefficient extension; each fixed-profile generic fibre is regular (BHHMS23, Proposition 4.2.1, pp. 28–33; dimension in the proof of Proposition 4.3.1, p. 38). This is a statement about complete local rings, not about algebraic `E`-schemes of finite type. Route: the model's component description and `DeformationAndDerivedPatchingAlgebra` §4.6; `ψ` preserves everything; `3f + 4 − 2f = f + 4`; regularity from `LocalGaloisDeformationRings` §3.10. *Needs:* 6.1, 5.8; `DeformationAndDerivedPatchingAlgebra` §4.6; `LocalGaloisDeformationRings` §§3.9, 3.10.
 
 **Checks.**
 
@@ -698,7 +682,9 @@ applied to the full coupled series of each type with its constants `a_i`. Write 
 - For `U₂`, setting `b = 0` recovers the middle single-type étale matrix with no change of coordinates.
 - Changing the shape at a different embedding changes the constants `a_i` and the transported tails at this embedding: equality of local shape codes does not determine the transported ideal.
 
-### 7.2 Deformation union for a Serre weight
+### 7.2 Deformation ring of a Serre weight and its presentation
+
+This section provides `R^{≤(3,0),σ}_ρ̄`, the union of the single-type rings over `X(σ)`, and its presentation in the common chart of 7.1, with `4^f` components and `p ∈ I_{w̃} + I_{w̃′}`; the presentation is an end theorem, and 7.4 uses 7.3.
 
 Define `R^{≤(3,0),σ}_ρ̄` as the quotient of `R□_ρ̄` by the intersection of the kernels of `R□_ρ̄ → R^{≤(3,0),τ_{w̃}}_ρ̄` over `w̃ ∈ X(σ)` (BHHMS23, opening of §4.3, p. 34). Prove that it is the maximal reduced `𝒪`-flat quotient parametrizing potentially crystalline lifts with profiles in `{(3,0),(2,1)}^f` and some tame type `τ` with `σ ∈ JH(σ̄(τ) ⊗ N_{k/𝔽_p} ∘ det)`; the identification uses the exhaustion statement of 4.3. *Needs:* 5.1, 4.3; `DeformationAndDerivedPatchingAlgebra` §4.7; `PadicLocalLanglandsForGL2Qp` §0.4.
 
@@ -713,9 +699,7 @@ Define `R^{≤(3,0),σ}_ρ̄` as the quotient of `R□_ρ̄` by the intersection
 - A point of either allowed type factors through the intersection kernel; the sum of the kernels would require both types at once.
 - At `f = 2` there are four single-type maps and sixteen pairs `(λ, w̃)` indexing components.
 
-### 7.3 Multiple-type deformation presentation
-
-Prove: `R^{≤(3,0),σ}_ρ̄⟦X₁, …, X_{2f}⟧ ≅ (S/⋂_{w̃ ∈ X(σ)} I_{w̃})⟦Y₁, …, Y₄⟧` as `𝒪`-algebras, compatibly with each single-type quotient; the ring is reduced and `𝒪`-flat with `4^f` irreducible components indexed by `(λ, w̃) ∈ {(3,0),(2,1)}^f × X(σ)`, with kernels generated by `Σ_j P_{w̃,j,λ_{f−1−j}}`, each of relative dimension `f + 4`; distinct type ideals satisfy `p ∈ I_{w̃} + I_{w̃′}` (BHHMS23, Proposition 4.3.1 and its proof, pp. 34–38). The type ideals need not be comaximal in the integral ring. Route: the common étale module gives a continuous map from the framed deformation ring `R□_{ρ̄|G_{K∞}}` of 3.10 (not Noetherian) to the chart with four framing variables, surjective by 3.10 once it is injective on `𝔽[ε]`-points: for an infinitesimal basis change `1 + εM_j` with worst pole order `k_j`, `p k_j ≤ k_{j−1} + r_j + 3 < k_{j−1} + p − 1` forces `max k_j ≤ 0`, and 3.8, with `ad(ρ̄)` cyclotomic free by 3.7, kills the remaining endomorphisms; every characteristic-zero point of the intersection lies on a single-type branch, potentially crystalline by 6.1, and 3.9 descends the framed identification to `G_K`; for `w̃ ≠ w̃′` choose an embedding where the shapes differ and use the common equations, together with `a₂ ≢ 1` and `a₁ + a₂ ≡ 2` modulo `p`, to get `p ∈ I_{w̃} + I_{w̃′}`; dimensions `(f + 4) + 2f = 3f + 4` (with `LocalGaloisDeformationRings` §3.10). *Needs:* 7.1, 7.2, 6.1, 6.2, 3.7, 3.8, 3.9, 3.10; `PadicLocalLanglandsForGL2Qp` §0.4; `DeformationAndDerivedPatchingAlgebra` §§1.9, 4.7; `LocalGaloisDeformationRings` §3.10; gap:descent-kisin-modules.
+**7.3 Multiple-type deformation presentation.** Prove: `R^{≤(3,0),σ}_ρ̄⟦X₁, …, X_{2f}⟧ ≅ (S/⋂_{w̃ ∈ X(σ)} I_{w̃})⟦Y₁, …, Y₄⟧` as `𝒪`-algebras, compatibly with each single-type quotient; the ring is reduced and `𝒪`-flat with `4^f` irreducible components indexed by `(λ, w̃) ∈ {(3,0),(2,1)}^f × X(σ)`, with kernels generated by `Σ_j P_{w̃,j,λ_{f−1−j}}`, each of relative dimension `f + 4`; distinct type ideals satisfy `p ∈ I_{w̃} + I_{w̃′}` (BHHMS23, Proposition 4.3.1 and its proof, pp. 34–38). The type ideals need not be comaximal in the integral ring. Route: the common étale module gives a continuous map from the framed deformation ring `R□_{ρ̄|G_{K∞}}` of 3.10 (not Noetherian) to the chart with four framing variables, surjective by 3.10 once it is injective on `𝔽[ε]`-points: for an infinitesimal basis change `1 + εM_j` with worst pole order `k_j`, `p k_j ≤ k_{j−1} + r_j + 3 < k_{j−1} + p − 1` forces `max k_j ≤ 0`, and 3.8, with `ad(ρ̄)` cyclotomic free by 3.7, kills the remaining endomorphisms; every characteristic-zero point of the intersection lies on a single-type branch, potentially crystalline by 6.1, and 3.9 descends the framed identification to `G_K`; for `w̃ ≠ w̃′` choose an embedding where the shapes differ and use the common equations, together with `a₂ ≢ 1` and `a₁ + a₂ ≡ 2` modulo `p`, to get `p ∈ I_{w̃} + I_{w̃′}`; dimensions `(f + 4) + 2f = 3f + 4` (with `LocalGaloisDeformationRings` §3.10). *Needs:* 7.1, 7.2, 6.1, 6.2, 3.7, 3.8, 3.9, 3.10; `PadicLocalLanglandsForGL2Qp` §0.4; `DeformationAndDerivedPatchingAlgebra` §§1.9, 4.7; `LocalGaloisDeformationRings` §3.10; gap:descent-kisin-modules.
 
 **Checks.**
 
@@ -723,7 +707,9 @@ Prove: `R^{≤(3,0),σ}_ρ̄⟦X₁, …, X_{2f}⟧ ≅ (S/⋂_{w̃ ∈ X(σ)} I
 - At `f = 1`: four components of relative dimension `5`.
 - The tangent bound uses `r_j + 3 < p − 1`, true since `r_j + 1 < p − 12`.
 
-### 7.4 Exact small-weight ideals
+### 7.4 Small-weight ideals and the integral component intersection
+
+This section provides the exact small-weight ideals `Q₁, Q₂, Q₃` in the common charts with their relation to the transported primes, and, as an end theorem, the integral relation `p ∈ (Q₁ ∩ Q₂) + P_{w̃,j,(3,0)}` with its `Q₂ ∩ Q₃` analogue; 7.5 uses 7.4.
 
 In a Table 4 ring define the **exact small-weight ideals**
 
@@ -758,9 +744,7 @@ as ideals of `S_j`, extended to `S` (BHHMS23, Lemma 4.3.2, p. 39). Prove: for `w
 - With the same data `Q₂` vanishes at `(0, 1, 0, 0, 0, −5, 0)`: `d₁₁d₂₂ + 5 = 0`.
 - Table 5 `Q₃` vanishes at `(0, 0, 0, 5, 0, 0, 25)`.
 
-### 7.5 Integral component intersection
-
-Prove: for `0 ≤ j ≤ f − 1` and `w̃ ∈ X(σ)` with `i(w̃)_{f−1−j} = 2`, in `S`,
+**7.5 Integral component intersection.** Prove: for `0 ≤ j ≤ f − 1` and `w̃ ∈ X(σ)` with `i(w̃)_{f−1−j} = 2`, in `S`,
 
 ```text
 p ∈ (Q₁^(j) ∩ Q₂^(j)) + P_{w̃,j,(3,0)}   if θ(σ)_{f−1−j} = U₃,
