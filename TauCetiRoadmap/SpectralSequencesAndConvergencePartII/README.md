@@ -1318,8 +1318,9 @@ With `F` additive, `K` and `I` as in 2.4, define the *second hypercohomology spe
   and `2`; all `d_r` vanish for degree reasons, and the abutment agrees with 2.4's Check.
 - For `K = A[0]`, `″E_2^{p,0} = R^pF(A)` and the sequence degenerates at page `2`.
 - *The Cartan–Eilenberg conditions are needed.* For `F` the identity of abelian groups and the
-  column resolution of 2.3's third Check, the second spectral sequence of that double complex has
-  its only nonzero class `ℤ/2` at `(1, 0)` (horizontal kernel of `×2` on `ℚ/ℤ`, in row `1`), while
+  column resolution of 2.3's second Check (*Column resolutions are not enough*), the second
+  spectral sequence of that double complex has its only nonzero class `ℤ/2` at `(1, 0)` (horizontal
+  kernel of `×2` on `ℚ/ℤ`, in row `1`), while
   `″E_2^{p,q} = R^pF(H^q K)` has it at `(0, 1)`. Both converge to `H^1(K) = ℤ/2`, with different
   filtrations.
 
@@ -1497,15 +1498,18 @@ grothendieck1957 line 1330–1337, Théorème 2.4.1):
 - for `F` left exact and `m ≥ 1`, if `R^qF(A) = 0` for `0 < q < m`, then
   `R^jG(F(A)) ≅ R^j(G ∘ F)(A)` for `j < m` and
   `0 → R^mG(F(A)) → R^m(G ∘ F)(A) → G(R^mF(A)) → R^{m+1}G(F(A)) → R^{m+1}(G ∘ F)(A)` is exact;
-- for `F` merely additive, the same two statements with `R⁰F(A)` in place of `F(A)`, their maps
-  being the edge morphisms of SpectralSequencesAndConvergence §3.6 and `d₂` (`F(A)` itself is wrong
-  there: for `F = − ⊗ ℤ/2`, `G` the identity and `A = ℤ`, the case `j = 0` reads
+- for `F` merely additive, the same two statements with `R⁰F(A)` in place of `F(A)` (`F(A)` itself
+  is wrong there: for `F = − ⊗ ℤ/2`, `G` the identity and `A = ℤ`, the case `j = 0` reads
   `R⁰G(R⁰F(ℤ)) = 0 = R⁰(G ∘ F)(ℤ)`, while `G(F(ℤ)) = ℤ/2`);
 - *naturality in the functors:* natural transformations `α : F ⟶ F′` and `β : G ⟶ G′`, between pairs
   satisfying 3.1's condition, induce morphisms of composite-functor spectral sequences
   (SpectralSequencesAndConvergence §3.3) whose page-`2` components are `R^pG(R^qα)` and `R^pβ(R^qF)`
   and whose abutment components are those of `Mathlib`'s
   `CategoryTheory.NatTrans.rightDerivedFunctorPlus`; the morphisms are natural in `A`.
+
+For both left exact and merely additive `F`, the transgression is `d₂` in the five-term sequence
+and `d_{m+1}` in the extended sequence, using the row-gap identifications with page `m + 1`. The
+other maps are the edge morphisms of SpectralSequencesAndConvergence §3.6.
 
 Route: SpectralSequencesAndConvergence §3.6 applied to the first-quadrant convergence of 3.2; the
 double complex `G(I)` of 3.2 for `X = A[0]` is first-quadrant, so 1.3(a′), through the flip,
@@ -1523,6 +1527,10 @@ maps, 1.3(a′) and ArithmeticGaloisDuality §D7.1; Mathlib
 - For the coextension example of 3.2, the five-term sequence reads
   `0 → 0 → ℤ/2 → ℤ/2 → 0 → ℤ/2`, with the middle map an isomorphism.
 - If `F` is exact the hypothesis holds for every `m`, and `R^jG(F(A)) ≅ R^j(G ∘ F)(A)` for all `j`.
+- *The page of the transgression.* For `m = 2`, the row-gap hypothesis gives `E₂^{p,1} = 0`.
+  The differential `d₂ : E₂^{0,2} → E₂^{2,1}` therefore vanishes; the required map to
+  `E₂^{3,0}` is `d₃ : E₃^{0,2} → E₃^{3,0}`, with both page-`3` terms identified with their
+  page-`2` terms. Its bidegree is `(3, −2)`, whereas `d₂` has bidegree `(2, −1)`.
 - *The third map can be nonzero.* For `ℤ → ℤ/4`, `F = ModuleCat.coextendScalars` (`Hom_ℤ(ℤ/4, −)`,
   which preserves injectives by 3.1's third Check) and `G = Hom_{ℤ/4}(ℤ/2, −)`, so that
   `G ∘ F ≅ Hom_ℤ(ℤ/2, −)`, at `A = ℤ/2` (4.4(b) with `M = N = ℤ/2`): `R^qF(ℤ/2) = Ext^q_ℤ(ℤ/4, ℤ/2)`
