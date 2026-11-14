@@ -1,0 +1,81 @@
+# Bibliographic keys. Locators refer to printed pages.
+schema = 1
+
+[sources.thomassen1992]
+title = "The Jordan–Schönflies theorem and the classification of surfaces"
+authors = ["Carsten Thomassen"]
+year = 1992
+locators = ["American Mathematical Monthly 99, pp. 116–131", "Lemmas 2.3–2.4, pp. 119–120: polygonal separation and crosscuts", "Lemma 2.5, p. 120: polygonal K3,3 obstruction", "Theorem 2.12, p. 122: Jordan separation", "Lemma 2.13, pp. 122–123: crosscuts", "Theorem 3.1, pp. 123–125: prescribed-boundary Schoenflies extension"]
+
+[sources.thomassen_blueprint]
+title = "Jordan–Schoenflies formalization blueprint"
+authors = ["alonamaloh"]
+url = "https://github.com/alonamaloh/jordan-schoenflies"
+locators = ["Statement-level blueprint for the planar separation and Schoenflies route"]
+
+[sources.rourke_sanderson]
+title = "Introduction to Piecewise-Linear Topology"
+authors = ["C. P. Rourke", "B. J. Sanderson"]
+locators = ["Chapters 1–3: simplicial and PL vocabulary"]
+
+[sources.newman]
+title = "Elements of the Topology of Plane Sets of Points"
+authors = ["M. H. A. Newman"]
+locators = ["Classical plane topology background"]
+
+[sources.munkres_differential]
+title = "Elementary Differential Topology"
+authors = ["James R. Munkres"]
+locators = ["§4: smoothing of maps and manifolds", "§5: manifolds with boundary"]
+
+[sources.whitehead1940]
+title = "On C1-complexes"
+authors = ["J. H. C. Whitehead"]
+year = 1940
+url = "https://doi.org/10.2307/1968861"
+locators = ["Annals of Mathematics 41, pp. 809–824"]
+
+[sources.munkres1960]
+title = "Obstructions to the smoothing of piecewise-differentiable homeomorphisms"
+authors = ["James R. Munkres"]
+year = 1960
+url = "https://doi.org/10.2307/1970228"
+locators = ["Annals of Mathematics 72, pp. 521–554"]
+
+[sources.kuiper1965]
+title = "On the smoothings of triangulated and combinatorial manifolds"
+authors = ["N. H. Kuiper"]
+year = 1965
+locators = ["In Differential and Combinatorial Topology, Princeton University Press"]
+
+[sources.cannon]
+title = "Topology as Fluid Geometry, Volume 2: Two-Dimensional Spaces"
+authors = ["James W. Cannon"]
+locators = ["Point-set examples; chapters 5, 6, 8, 10 and 11 for the continuum-theory prospectus"]
+
+[sources.pachner1990]
+title = "Shellings of simplicial balls and P.L. manifolds with boundary"
+authors = ["Udo Pachner"]
+year = 1990
+url = "https://doi.org/10.1016/0012-365X(90)90178-K"
+locators = ["Discrete Mathematics 81, pp. 37–47"]
+
+[sources.moise]
+title = "Geometric Topology in Dimensions 2 and 3"
+authors = ["Edwin E. Moise"]
+year = 1977
+locators = ["§5, pp. 42–45: PL maps and coning", "§6, p. 46: strong positivity", "Theorems 6.2–6.4, pp. 46–50: PL approximation", "Theorem 8.2, pp. 58–59: open-set triangulation", "Theorem 8.3, pp. 60–62: Radó", "Theorem 8.4, p. 63: same-image approximation", "Theorem 8.5, p. 64: Hauptvermutung", "§§21–22, pp. 147–164: Euler characteristic and classification"]
+
+[sources.epstein1966]
+title = "Curves on 2-manifolds and isotopies"
+authors = ["D. B. A. Epstein"]
+year = 1966
+url = "https://doi.org/10.1007/BF02392203"
+locators = ["Acta Math. 115, pp. 83–107", "Theorem 2.1, p. 86: two-sided curves", "Theorem 3.1, p. 89: proper arcs", "Theorems 3.3–3.4, pp. 90–91: one-sided curves and Möbius bands", "Theorem 4.1, p. 91: based curves", "Theorems 6.3–6.4, pp. 99–103: homeomorphism isotopies"]
+
+[sources.kulpa1998]
+title = "Poincaré and domain invariance theorem"
+authors = ["Władysław Kulpa"]
+year = 1998
+url = "https://dml.cz/dmlcz/702050"
+locators = ["Acta Univ. Carolin. Math. Phys. 39, no. 1–2, pp. 127–136", "p. 127: preliminary zero-avoidance lemma", "pp. 128–129: invariance-of-domain deduction", "pp. 132–133: finite affine interpolation proof of the lemma"]
