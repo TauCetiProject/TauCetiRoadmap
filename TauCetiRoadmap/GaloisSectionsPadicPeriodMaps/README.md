@@ -572,7 +572,9 @@ The API includes the following facts.
 
 *Needs:* §2.1; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §1.3, flag bundles; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.5, A3.7, A4.3–A4.4, A6.30–A6.31, polarised cohomology and Weil restriction; TauCetiRoadmap.ReductiveGroups Layers 0 and 3; Tau Ceti `TauCeti.Symplectic.groupScheme`.
 
-### 2.3 The orbit lemma for retwisted filtrations
+### 2.3 Orbits of retwisted filtrations and the dimensions of their automorphism groups
+
+This section gives the orbit criterion for the retwists M(Φ) and the dimension bounds for Aut(D) and Aut^GSp(D). Sections 4.5 and 5.2 use the orbit criterion of §2.3; §7.3 uses it with the bounds of §2.4.
 
 Fix a filtered discrete (φ, N, G_v)-module D = (D_pst, D_dR, c_BO), and write G for the flag variety parametrising those filtrations of D_dR whose dimension data agree with those of the filtration carried by D. Given Φ₁, Φ₂ ∈ G(K_v), some element of Aut(D_pst)(ℚₚ), acting as in §2.2, carries Φ₁ to Φ₂ precisely when M(Φ₁) and M(Φ₂) are isomorphic as filtered discrete (φ, N, G_v)-modules. It follows that the points Φ ∈ G(K_v) for which M(Φ) lies in a prescribed isomorphism class, or in any one of finitely many prescribed classes, sit inside some closed ℚₚ-subvariety Z of `Res^{K_v}_{ℚₚ} G` with dim Z ≤ `dim_{ℚₚ} Aut(D_pst)`. The same argument proves the symplectic analogue, in which Aut^GSp(D_pst) acts on the Lagrangian Grassmannian of a symplectic D_dR.
 
@@ -588,9 +590,7 @@ A proof can proceed as follows. An isomorphism is determined by its potentially 
 
 *Needs:* §2.2; §2.1; TauCetiRoadmap.MordellLawrenceVenkatesh §4.3 (Frobenius-centralizer orbits); TauCetiRoadmap.ReductiveGroups Layers 0 and 3.
 
-### 2.4 Dimension bounds for automorphism groups
-
-(1) For a (φ, N, G_v)-module D of ℚₚⁿʳ-dimension d, End(D) is a finite-dimensional ℚₚ-algebra, the natural map `ℚₚⁿʳ ⊗_{ℚₚ} End(D) → End_{ℚₚⁿʳ}(D)` is injective, Aut(D) is an affine algebraic group over ℚₚ, and `dim_{ℚₚ} Aut(D) ≤ d²`. (2) For a symplectic (φ, N, G_v)-module (D, L, ω) of rank 2d, Aut^GSp(D) is an affine algebraic group over ℚₚ of dimension ≤ d(2d + 1) + 1, the dimension of `GSp_{2d}`.
+**2.4 Dimension bounds for automorphism groups.** (1) For a (φ, N, G_v)-module D of ℚₚⁿʳ-dimension d, End(D) is a finite-dimensional ℚₚ-algebra, the natural map `ℚₚⁿʳ ⊗_{ℚₚ} End(D) → End_{ℚₚⁿʳ}(D)` is injective, Aut(D) is an affine algebraic group over ℚₚ, and `dim_{ℚₚ} Aut(D) ≤ d²`. (2) For a symplectic (φ, N, G_v)-module (D, L, ω) of rank 2d, Aut^GSp(D) is an affine algebraic group over ℚₚ of dimension ≤ d(2d + 1) + 1, the dimension of `GSp_{2d}`.
 
 The injectivity uses both the G_v-action and the Frobenius φ: the G_v-action alone gives only traces to `K_{v,0}`.
 
@@ -613,7 +613,7 @@ For the unit, End=ℚₚ and Aut=G_m; for zero, Aut=1 but Aut^GSp=G_m. In rank 2
 
 TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract; TauCetiRoadmap.CohomologyComparisons §§6.4–6.7, naturality, cup products, trace-normalised Tate line and first Chern classes; TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry §1.3, flag bundles; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.5, A3.7, A4.3–A4.4, A6.30–A6.31, polarised cohomology and Weil restriction; TauCetiRoadmap.ReductiveGroups Layers 0 and 3; Tau Ceti `TauCeti.Symplectic.groupScheme`; TauCetiRoadmap.MordellLawrenceVenkatesh §4.3 (Frobenius-centralizer orbits); TauCetiRoadmap.MordellLawrenceVenkatesh §§0.4–0.5, 0.9–0.12, 0.18; Mathlib `Matrix.symplecticGroup`. Internal dependencies are specified in each subsection.
 
-## Layer 3: Self-conjugate places and average Hodge–Tate weights
+## Layer 3: Self-conjugacy of places and the global weight identity
 
 ### 3.1 Conjugate and self-conjugate places
 
@@ -647,7 +647,9 @@ The API includes the following facts.
 
 *Needs:* TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; Mathlib `NumberField.IsCMField`; Mathlib `NumberField.IsCMField.ringOfIntegersComplexConj`.
 
-### 3.2 Hodge–Tate weights of pure characters at conjugate places
+### 3.2 The weight identity for pure characters and induced representations
+
+For ℚₚ^×-valued pure characters the Hodge–Tate weights at conjugate places above p sum to the purity weight (§3.2); at a self-conjugate place this describes the character locally (§3.3) and, through the determinant of an induced representation, gives the average Hodge–Tate weight n/2 (§3.4). The principal trichotomy, §6.8, uses §3.4.
 
 Let K be a number field, p a prime and χ: G_K → ℚₚ^× a continuous character that is unramified and pure of weight n ∈ Z outside a finite set of places (WeightsInEtaleCohomology Layer R34.1) and de Rham at every place above p. For a place v | p let r_v be the Hodge–Tate weight of χ|G_v, the integer r with `(C_p(r) ⊗ χ|G_v)^{G_v}` ≠ 0, equivalently the filtration jump of D_dR(χ|G_v). If v and v′ above p are conjugate (§3.1), then `r_v + r_{v′} = n`. In particular, at a self-conjugate place v above p, n is even and r_v = n/2.
 
@@ -664,9 +666,7 @@ A proof can proceed as follows. Translate χ into an idele class character. Loca
 
 *Needs:* §3.1; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; TauCetiRoadmap.WeightsInEtaleCohomology Layer R34.1 and §R34.2, geometric-Frobenius purity and integrality.
 
-### 3.3 Pure characters at self-conjugate places
-
-Let χ: G_K → ℚₚ^× be as in §3.2 and v a self-conjugate place above p. Then `χ|G_v = χ₀ · χ_cyc^{−n/2}` with χ₀ a character of G_v of finite order. If K has no CM subfield, `χ · χ_cyc^{n/2}` is itself of finite order on G_K.
+**3.3 Pure characters at self-conjugate places.** Let χ: G_K → ℚₚ^× be as in §3.2 and v a self-conjugate place above p. Then `χ|G_v = χ₀ · χ_cyc^{−n/2}` with χ₀ a character of G_v of finite order. If K has no CM subfield, `χ · χ_cyc^{n/2}` is itself of finite order on G_K.
 
 χ is ℚₚ^×-valued; for the ℚ̄ₚ^×-valued CM character of §3.2, χ|G_v is a Lubin–Tate character and n is odd.
 
@@ -680,9 +680,7 @@ A proof can proceed as follows. Twist to weight zero. With no CM subfield all lo
 
 *Needs:* §3.2; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; TauCetiRoadmap.ClassFieldTheory Layers 7 and 11; TauCetiRoadmap.GlobalNumberFields Layers 2, 7 and 8.
 
-### 3.4 Average Hodge–Tate weight at a self-conjugate place
-
-Let L/K be a finite extension of number fields, V a continuous ℚₚ-representation of G_L that is de Rham at every place of L above p and unramified and pure of weight n outside a finite set, and v a self-conjugate place of K above p. Then `Σ_{w | v} [L_w : K_v] Σ_{i∈Z} i·dim_{L_w} gr^i_F D_dR,w(V) = n·[L : K]·dim_{ℚₚ}(V)/2`, where D_dR,w(V) := D_dR(V|G_w). When V≠0, equivalently the average Hodge–Tate weight of `Ind_{G_L}^{G_K}V` at v (the filtration weight of MordellLawrenceVenkatesh §§1.2, 1.4–1.16) is n/2.
+**3.4 Average Hodge–Tate weight at a self-conjugate place.** Let L/K be a finite extension of number fields, V a continuous ℚₚ-representation of G_L that is de Rham at every place of L above p and unramified and pure of weight n outside a finite set, and v a self-conjugate place of K above p. Then `Σ_{w | v} [L_w : K_v] Σ_{i∈Z} i·dim_{L_w} gr^i_F D_dR,w(V) = n·[L : K]·dim_{ℚₚ}(V)/2`, where D_dR,w(V) := D_dR(V|G_w). When V≠0, equivalently the average Hodge–Tate weight of `Ind_{G_L}^{G_K}V` at v (the filtration weight of MordellLawrenceVenkatesh §§1.2, 1.4–1.16) is n/2.
 
 v is self-conjugate on K; no condition is put on the places of L. V is a representation over ℚₚ, so det Ind V is ℚₚ^×-valued and §3.2 applies.
 
@@ -709,7 +707,9 @@ TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; Mathlib `NumberFiel
 
 ## Layer 4: Model-free period maps control D_pst
 
-### 4.1 Transport of D_pst on a spherical polyannulus
+### 4.1 Transport of D_pst on spherical polyannuli and closed polydiscs
+
+This section constructs the transport isomorphism on a spherical polyannulus and extends it to closed polydiscs. Section 4.3 combines §4.1 and §4.2.
 
 Let K_v be a finite extension of ℚₚ, R_v = `O_v⟨t₁^{±1}, …, t_n^{±1}⟩` and U = Sp(R_v[1/p]) the spherical polyannulus over K_v. Let (𝔼, E, c) be a de Rham pair on U (PadicHodgeTheory §7.3) whose filtered flat bundle E has a full basis of horizontal sections. Then for all y₀, y ∈ U(K_v) there is a unique isomorphism of (φ, N, G_v)-modules `T_{y₀,y}`: `D_pst(𝔼_{ȳ₀})` → D_pst(𝔼_ȳ) such that, after extending scalars to K̄_v, it corresponds through c_BO and the fibre comparisons `c_{y₀}`: `D_dR(𝔼_{ȳ₀})` ≅ `E_{y₀}` and c_y to 1 ⊗ `T^∇_{y₀,y}`: K̄_v ⊗ `E_{y₀}` → K̄_v ⊗ E_y.
 
@@ -731,9 +731,7 @@ A proof can proceed as follows. Use these equivalences to regard a finite free i
 
 *Needs:* TauCetiRoadmap.AdicEtaleGeometry §§A1.1, A1.3, finite-etale-local-to-global; TauCetiRoadmap.AdicSpacesPartII Layer R1; TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups §IG.0.3; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.2–7.3, 8.1–8.2 and the horizontal-period contract; §2.1.
 
-### 4.2 Reduction from closed polydiscs to spherical polyannuli
-
-If the conclusion of §4.1 holds for spherical polyannuli over every finite extension of ℚₚ, then it holds for every closed polydisc U over K_v, every de Rham pair on U whose bundle has a full basis of horizontal sections and every y₀, y ∈ U(K_v).
+**4.2 Reduction from closed polydiscs to spherical polyannuli.** If the conclusion of §4.1 holds for spherical polyannuli over every finite extension of ℚₚ, then it holds for every closed polydisc U over K_v, every de Rham pair on U whose bundle has a full basis of horizontal sections and every y₀, y ∈ U(K_v).
 
 The residue field of K_v is arbitrary; the case k_v = F₂ needs the unramified extensions of degrees 2 and 3.
 
@@ -747,7 +745,9 @@ A proof can proceed as follows. If the residue field has more than two elements,
 
 *Needs:* §4.1; TauCetiRoadmap.LocalFieldsRamification Layers 0, 2 and 4.
 
-### 4.3 Horizontal de Rham transport of D_pst
+### 4.3 Horizontal transport of D_pst and period-map control of local representations
+
+This section states horizontal transport for de Rham pairs, applies it to the cohomology of smooth proper families, and concludes that the v-adic period map determines the local Galois representations of the fibres. Section 5.3 uses §4.3 and §4.5.
 
 Let U be a rigid-analytic space over a finite extension K_v of ℚₚ isomorphic to a closed polydisc or a spherical polyannulus, and (𝔼, E, c) a de Rham pair on U whose filtered flat bundle E has a full basis of horizontal sections. Then for all y₀, y ∈ U(K_v) there is a unique isomorphism of (φ, N, G_v)-modules `T_{y₀,y}`: `D_pst(𝔼_{ȳ₀})` ≅ D_pst(𝔼_ȳ) whose K̄_v-extension corresponds, through c_BO and the fibre comparisons `c_{y₀}`, c_y, to 1 ⊗ `T^∇_{y₀,y}`. By uniqueness (a consequence by functoriality), these isomorphisms satisfy `T_{y,y} = id` and `T_{y₁,y₂} ∘ T_{y₀,y₁} = T_{y₀,y₂}`, and are compatible with tensor products and morphisms of de Rham pairs.
 
@@ -763,9 +763,7 @@ A proof can proceed as follows. Combine the polyannulus theorem with polydisc re
 
 *Needs:* §4.1; §4.2.
 
-### 4.4 Period maps control D_pst in smooth proper families
-
-Let π: X → Y be a smooth proper morphism of smooth varieties over a finite extension K_v of ℚₚ, i ≥ 0, and U ⊆ Y^an an admissible open isomorphic to a closed polydisc over which H^i_dR(X/Y)^an has a full basis of horizontal sections for the Gauss–Manin connection. Then for all y₀, y ∈ U(K_v) there is a unique isomorphism of (φ, N, G_v)-modules `T_{y₀,y}`: `D_pst(H^i_ét(X_{y₀,K̄_v}, ℚₚ))` ≅ `D_pst(H^i_ét(X_{y,K̄_v}, ℚₚ))` whose K̄_v-extension corresponds, through c_BO and Scholze's comparison c_dR: `D_dR(H^i_ét(X_{y,K̄_v}, ℚₚ))` ≅ H^i_dR(X_y/K_v) at y₀ and at y, to 1 ⊗ `T^∇_{y₀,y}`: `H^i_dR(X_{y₀}/K_v)` → H^i_dR(X_y/K_v), the parallel transport composed with the base-change isomorphisms. In other words, H^i_pst(X_y/ℚₚⁿʳ) is constant on U(K_v) as a (φ, N, G_v)-module, and only the Hodge filtration moves.
+**4.4 Period maps control D_pst in smooth proper families.** Let π: X → Y be a smooth proper morphism of smooth varieties over a finite extension K_v of ℚₚ, i ≥ 0, and U ⊆ Y^an an admissible open isomorphic to a closed polydisc over which H^i_dR(X/Y)^an has a full basis of horizontal sections for the Gauss–Manin connection. Then for all y₀, y ∈ U(K_v) there is a unique isomorphism of (φ, N, G_v)-modules `T_{y₀,y}`: `D_pst(H^i_ét(X_{y₀,K̄_v}, ℚₚ))` ≅ `D_pst(H^i_ét(X_{y,K̄_v}, ℚₚ))` whose K̄_v-extension corresponds, through c_BO and Scholze's comparison c_dR: `D_dR(H^i_ét(X_{y,K̄_v}, ℚₚ))` ≅ H^i_dR(X_y/K_v) at y₀ and at y, to 1 ⊗ `T^∇_{y₀,y}`: `H^i_dR(X_{y₀}/K_v)` → H^i_dR(X_y/K_v), the parallel transport composed with the base-change isomorphisms. In other words, H^i_pst(X_y/ℚₚⁿʳ) is constant on U(K_v) as a (φ, N, G_v)-module, and only the Hodge filtration moves.
 
 No reduction hypothesis on π: K_v is any finite extension of ℚₚ, and π need not extend to any model. c_dR is Scholze's comparison isomorphism, constructed from the relative comparison (PadicHodgeTheory §7.3); the statement is for that c_dR (Betts–Stix Remark 3.4).
 
@@ -780,9 +778,7 @@ A proof can proceed as follows. Proper smooth pushforward of the unit de Rham pa
 
 *Needs:* §4.3; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract; TauCetiRoadmap.ComplexComparisonPartII §C5.2, Gauss–Manin connection and comparison with complex parallel transport; TauCetiRoadmap.AdicSpacesPartII Layer R1, rigid analytification; TauCetiRoadmap.MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract.
 
-### 4.5 Period maps control the local Galois representations
-
-Let π: X → Y, i and U ∋ y₀ be as in §4.4, and `Φ_{y₀}`: U → `G^an_{y₀}` the v-adic period map of the filtered flat bundle H^i_dR(X/Y)^an (of the model-free period-map contract), `G_{y₀}` the flag variety of filtrations of `H^i_dR(X_{y₀}/K_v)` with the dimension data of its Hodge filtration. For a filtration Φ ∈ `G_{y₀}(K_v)` let M^i(Φ) := (`H^i_pst(X_{y₀}/ℚₚⁿʳ)`, `H^i_dR(X_{y₀}/K_v)` filtered by Φ, c_dR ∘ c_BO), the retwist of §2.2. Then H^i_pH(X_y/K_v) ≅ `M^i(Φ_{y₀}(y))` as filtered discrete (φ, N, G_v)-modules for every y ∈ U(K_v). Hence, D_pH being fully faithful, `Φ_{y₀}(y)` determines the isomorphism class of the G_v-representation `H^i_ét(X_{y,K̄_v}, ℚₚ)`, and two points y, y′ ∈ U(K_v) with `Φ_{y₀}(y)`, `Φ_{y₀}(y′)` in one `Aut(H^i_pst(X_{y₀}))(ℚₚ)`-orbit have isomorphic local representations.
+**4.5 Period maps control the local Galois representations.** Let π: X → Y, i and U ∋ y₀ be as in §4.4, and `Φ_{y₀}`: U → `G^an_{y₀}` the v-adic period map of the filtered flat bundle H^i_dR(X/Y)^an (of the model-free period-map contract), `G_{y₀}` the flag variety of filtrations of `H^i_dR(X_{y₀}/K_v)` with the dimension data of its Hodge filtration. For a filtration Φ ∈ `G_{y₀}(K_v)` let M^i(Φ) := (`H^i_pst(X_{y₀}/ℚₚⁿʳ)`, `H^i_dR(X_{y₀}/K_v)` filtered by Φ, c_dR ∘ c_BO), the retwist of §2.2. Then H^i_pH(X_y/K_v) ≅ `M^i(Φ_{y₀}(y))` as filtered discrete (φ, N, G_v)-modules for every y ∈ U(K_v). Hence, D_pH being fully faithful, `Φ_{y₀}(y)` determines the isomorphism class of the G_v-representation `H^i_ét(X_{y,K̄_v}, ℚₚ)`, and two points y, y′ ∈ U(K_v) with `Φ_{y₀}(y)`, `Φ_{y₀}(y′)` in one `Aut(H^i_pst(X_{y₀}))(ℚₚ)`-orbit have isomorphic local representations.
 
 As in §4.4; the filtration of the bundle is the Hodge filtration, which is Griffiths transverse, though Definition 3.1 does not need this.
 
@@ -806,7 +802,9 @@ TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the 
 
 ## Layer 5: Period maps of abelian-by-finite families
 
-### 5.1 The symplectic pair of p-adic Hodge cohomology of a fibre
+### 5.1 The symplectic pairs of p-adic Hodge cohomology and their Lagrangian retwists
+
+This section makes `H^{≤1}_pH` of a fibre a symplectic pair in MF(φ, N, G_v) and retwists it by Lagrangians to the pairs `M^{≤1}(Φ)`. Section 5.3 uses both; §§5.4, 6.3, 7.1, 7.4, 7.6 and 7.7 use §5.2.
 
 Let X → Y′ → Y be an abelian-by-finite family over a scheme Y of characteristic zero with polarisation λ and locally constant relative dimension over Y′ as in §1.2, K_v a finite extension of ℚₚ and y ∈ Y(K_v). Then Scholze's comparison c_dR identifies the étale and de Rham first Chern classes of λ, c₁^ét(λ) ↔ c₁^dR(λ), so that the étale pairing ω_λ^ét and the de Rham pairing ω_λ^dR correspond, and `H^{≤1}_pH(X_y/K_v)` := (H⁰_pH(X_y/K_v), H¹_pH(X_y/K_v)) with pairing ω_λ^pH: ∧²H¹_pH → H⁰_pH⟨−1⟩ (components D_pst(ω_λ^ét) and ω_λ^dR) is a symplectic pair in MF(φ, N, G_v). It is isomorphic to `D_pH(H^{≤1}_ét(X_{y,K̄_v}, ℚₚ))` as a symplectic pair.
 
@@ -832,9 +830,7 @@ The API includes the following facts.
 
 *Needs:* TauCetiRoadmap.MordellLawrenceVenkatesh gap:variable-rank-abelian-by-finite; §1.1; §1.2; §2.1; TauCetiRoadmap.CohomologyComparisons §§6.4–6.7, naturality, cup products, trace-normalised Tate line and first Chern classes; TauCetiRoadmap.MordellLawrenceVenkatesh §§2.1–2.4 and the model-free polarised-fibre contract.
 
-### 5.2 The symplectic pairs `M^{≤1}(Φ)` of Lagrangian filtrations
-
-Let X → Y′ → Y be an abelian-by-finite family over a smooth K_v-variety Y and y₀ ∈ Y(K_v), allowing locally constant relative dimension over Y′ via gap:variable-rank-abelian-by-finite. Use the Lagrangian period variety `H_{y₀}`, namely the K_v-variety of Lagrangian `H⁰_dR(X_{y₀}/K_v)`-submodules of `H¹_dR(X_{y₀}/K_v)` (the period variety MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract of the symplectic module H¹_dR over the finite étale algebra `H⁰_dR(X_{y₀}/K_v)` = `O(Y′_{y₀})`), a closed subvariety of the flag variety `G_{y₀}`. For Φ ∈ `H_{y₀}(K_v)`, M¹(Φ) := (`H¹_pst(X_{y₀}/ℚₚⁿʳ)`, `H¹_dR(X_{y₀}/K_v)`, c_dR ∘ c_BO) with the filtration F^i = H¹_dR for i ≤ 0, F¹ = Φ, F^i = 0 for i ≥ 2, and M⁰ := `H⁰_pH(X_{y₀}/K_v)`. Then M¹(Φ) is a symplectic M⁰-module in MF(φ, N, G_v) for the pairing ω_λ^pH, and `M^{≤1}(Φ)` := (M⁰, M¹(Φ)) is a symplectic pair. The Hodge filtration point Φ₀ = `F¹H¹_dR(X_{y₀})` gives `M^{≤1}(Φ₀)` = `H^{≤1}_pH(X_{y₀}/K_v)`.
+**5.2 The symplectic pairs `M^{≤1}(Φ)` of Lagrangian filtrations.** Let X → Y′ → Y be an abelian-by-finite family over a smooth K_v-variety Y and y₀ ∈ Y(K_v), allowing locally constant relative dimension over Y′ via gap:variable-rank-abelian-by-finite. Use the Lagrangian period variety `H_{y₀}`, namely the K_v-variety of Lagrangian `H⁰_dR(X_{y₀}/K_v)`-submodules of `H¹_dR(X_{y₀}/K_v)` (the period variety MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract of the symplectic module H¹_dR over the finite étale algebra `H⁰_dR(X_{y₀}/K_v)` = `O(Y′_{y₀})`), a closed subvariety of the flag variety `G_{y₀}`. For Φ ∈ `H_{y₀}(K_v)`, M¹(Φ) := (`H¹_pst(X_{y₀}/ℚₚⁿʳ)`, `H¹_dR(X_{y₀}/K_v)`, c_dR ∘ c_BO) with the filtration F^i = H¹_dR for i ≤ 0, F¹ = Φ, F^i = 0 for i ≥ 2, and M⁰ := `H⁰_pH(X_{y₀}/K_v)`. Then M¹(Φ) is a symplectic M⁰-module in MF(φ, N, G_v) for the pairing ω_λ^pH, and `M^{≤1}(Φ)` := (M⁰, M¹(Φ)) is a symplectic pair. The Hodge filtration point Φ₀ = `F¹H¹_dR(X_{y₀})` gives `M^{≤1}(Φ₀)` = `H^{≤1}_pH(X_{y₀}/K_v)`.
 
 Φ is Lagrangian for ω_λ^dR, which is what makes the retwisted pairing a morphism of filtered modules into M⁰⟨−1⟩.
 
@@ -903,7 +899,9 @@ TauCetiRoadmap.MordellLawrenceVenkatesh gap:variable-rank-abelian-by-finite; Tau
 
 ## Layer 6: The Lawrence–Venkatesh loci and the principal trichotomy
 
-### 6.1 S-good symplectic pairs
+### 6.1 S-good pairs, the Lawrence–Venkatesh locus and its period-domain finiteness criterion
+
+This section defines S-good symplectic pairs, the local Lawrence–Venkatesh locus they interpolate and its counterpart in the period domain, with the criterion reducing finiteness of the locus to density of period maps and non-density in the period domain. Sections 6.4, 6.6, 6.9 and 7.1 use §6.1, §9.1 uses §6.2, and §§7.4, 7.5 and 7.8 use §6.3.
 
 Let K be a number field, S a finite set of places of K and p a prime. A symplectic pair (A, V) of continuous ℚₚ-representations of G_K (§1.1) is S-good when: (i) A is unramified outside S; (ii) V is unramified, pure and integral of weight 1 outside S (WeightsInEtaleCohomology Layer R34.1); (iii) V is de Rham at every place above p with Hodge–Tate weights in {0, 1}. It is Artin S-good if moreover A has finite image. For split A this is a permutation representation and has integer Frobenius polynomials of weight 0; finite image alone does not impose integer Frobenius polynomials for an arbitrary algebra.
 
@@ -937,9 +935,7 @@ The API includes the following facts.
 
 *Needs:* §1.1; TauCetiRoadmap.WeightsInEtaleCohomology Layer R34.1 and §R34.2, geometric-Frobenius purity and integrality; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract; TauCetiRoadmap.ArithmeticGaloisRepresentations §§1.3, 1.12, 2.1, induction, Mackey and local restriction; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16.
 
-### 6.2 The Lawrence–Venkatesh locus
-
-Let K be a number field, Y/K a smooth projective geometrically connected curve, X → Y′ → Y an abelian-by-finite family, p a prime, v a place of K above p and S a finite set of places containing the places above p∞ and the places of bad reduction of the family (a place u is of good reduction when the family extends to an abelian-by-finite family over a smooth proper model of Y over O_u). The Lawrence–Venkatesh locus `Y(K_v)^LV_{X,S}` ⊆ Y(K_v) is the set of y_v for which some S-good pair (A, V) (§6.1) satisfies `H^{≤1}_ét(X_{y_v,K̄_v}, ℚₚ)` ≅ (A|G_v, V|G_v) as symplectic pairs of G_v-representations; (A, V) interpolates y_v. Requiring (A, V) Artin S-good gives the same set. Its split algebra has finite image and is therefore de Rham at v, so the D_pH expressions in the period-domain locus are defined.
+**6.2 The Lawrence–Venkatesh locus.** Let K be a number field, Y/K a smooth projective geometrically connected curve, X → Y′ → Y an abelian-by-finite family, p a prime, v a place of K above p and S a finite set of places containing the places above p∞ and the places of bad reduction of the family (a place u is of good reduction when the family extends to an abelian-by-finite family over a smooth proper model of Y over O_u). The Lawrence–Venkatesh locus `Y(K_v)^LV_{X,S}` ⊆ Y(K_v) is the set of y_v for which some S-good pair (A, V) (§6.1) satisfies `H^{≤1}_ét(X_{y_v,K̄_v}, ℚₚ)` ≅ (A|G_v, V|G_v) as symplectic pairs of G_v-representations; (A, V) interpolates y_v. Requiring (A, V) Artin S-good gives the same set. Its split algebra has finite image and is therefore de Rham at v, so the D_pH expressions in the period-domain locus are defined.
 
 S suitable: containing the places above p and ∞ and those of bad reduction; enlarging S enlarges the locus. Only the single place v is interpolated, unlike the adelic locus of §1.7.
 
@@ -964,9 +960,7 @@ The API includes the following facts.
 
 *Needs:* §6.1; §1.2; §1.7; TauCetiRoadmap.MordellLawrenceVenkatesh §§2.1–2.4 and the model-free polarised-fibre contract.
 
-### 6.3 The Lawrence–Venkatesh locus in the period domain
-
-In the setting of §6.2, let y₀ ∈ Y(K_v) and `H_{y₀}` the Lagrangian period domain (§5.2). Then `H_{y₀}(K_v)^LV_{X,S}` ⊆ `H_{y₀}(K_v)` is the set of Lagrangians Φ for which some S-good pair (A, V), with A|G_v de Rham, satisfies `M^{≤1}(Φ)` ≅ (D_pH(A|G_v), D_pH(V|G_v)) as symplectic pairs in MF(φ, N, G_v). For a closed polydisc `U_{y₀}` ∋ y₀ as in §5.3, `Φ_{y₀}(U_{y₀}(K_v) ∩ Y(K_v)^LV_{X,S})` ⊆ `H_{y₀}(K_v)^LV_{X,S}`. Consequently `Y(K_v)^LV_{X,S}` is finite as soon as, for every y₀ ∈ Y(K_v), (i) `Φ_{y₀}` has Zariski-dense image in `H_{y₀}` and (ii) `H_{y₀}(K_v)^LV_{X,S}` is not Zariski dense in `H_{y₀}`.
+**6.3 The Lawrence–Venkatesh locus in the period domain.** In the setting of §6.2, let y₀ ∈ Y(K_v) and `H_{y₀}` the Lagrangian period domain (§5.2). Then `H_{y₀}(K_v)^LV_{X,S}` ⊆ `H_{y₀}(K_v)` is the set of Lagrangians Φ for which some S-good pair (A, V), with A|G_v de Rham, satisfies `M^{≤1}(Φ)` ≅ (D_pH(A|G_v), D_pH(V|G_v)) as symplectic pairs in MF(φ, N, G_v). For a closed polydisc `U_{y₀}` ∋ y₀ as in §5.3, `Φ_{y₀}(U_{y₀}(K_v) ∩ Y(K_v)^LV_{X,S})` ⊆ `H_{y₀}(K_v)^LV_{X,S}`. Consequently `Y(K_v)^LV_{X,S}` is finite as soon as, for every y₀ ∈ Y(K_v), (i) `Φ_{y₀}` has Zariski-dense image in `H_{y₀}` and (ii) `H_{y₀}(K_v)^LV_{X,S}` is not Zariski dense in `H_{y₀}`.
 
 Y is a smooth projective curve, so Y(K_v) is compact and covered by finitely many discs `U_{y₀}(K_v)` (Betts–Stix Remark 5.11 uses properness of Y).
 
@@ -992,7 +986,9 @@ The API includes the following facts.
 
 *Needs:* §6.2; §6.1; §5.2; §5.3; §2.1; TauCetiRoadmap.HeightsRationalPointsAndObstructions §§2.3a, 2.11, proper local-point compactness and product topology, and §2.11a, local étale charts; TauCetiRoadmap.MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract.
 
-### 6.4 Interpolating pairs are S-good
+### 6.4 The projected adelic locus and the rational points lie in the S-good locus
+
+This section shows that a pair interpolating an adelic point is S-good, so that the projection of the adelic Lawrence–Venkatesh locus and the image of Y(K) lie in `Y(K_v)^LV_{X,S}`. Section 9.3 uses §6.4, §9.2 uses §6.5, and §9.6 uses both.
 
 Let X → Y′ → Y, p and S be as in §6.2 (S suitable). If (A, V) interpolates an adelic point (y_u)_u ∈ Y(A_K)^LV_X (§1.7), then (A, V) is S-good. Hence Y(K_v)^LV_X ⊆ `Y(K_v)^LV_{X,S}` for every p-adic place v.
 
@@ -1008,9 +1004,7 @@ A proof can proceed as follows. At every good place outside S the fibre pair is 
 
 *Needs:* §1.7; §6.1; §6.2; TauCetiRoadmap.ArithmeticGaloisRepresentations §§1.3, 1.12, 2.1, induction, Mackey and local restriction; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract; TauCetiRoadmap.WeightsInEtaleCohomology Layer R34.1 and §R34.2, geometric-Frobenius purity and integrality.
 
-### 6.5 Rational points lie in the Lawrence–Venkatesh locus
-
-For every abelian-by-finite family X → Y′ → Y over a smooth projective geometrically connected curve Y/K, every prime p, every place v | p and every suitable S, the image of Y(K) in Y(K_v) lies in `Y(K_v)^LV_{X,S}`; each y ∈ Y(K) is interpolated by `H^{≤1}_ét(X_{y,K̄}, ℚₚ)` with its G_K-action.
+**6.5 Rational points lie in the Lawrence–Venkatesh locus.** For every abelian-by-finite family X → Y′ → Y over a smooth projective geometrically connected curve Y/K, every prime p, every place v | p and every suitable S, the image of Y(K) in Y(K_v) lies in `Y(K_v)^LV_{X,S}`; each y ∈ Y(K) is interpolated by `H^{≤1}_ét(X_{y,K̄}, ℚₚ)` with its G_K-action.
 
 S suitable for the family.
 
@@ -1066,7 +1060,9 @@ A proof can proceed as follows. The abelian fibres are geometrically connected, 
 
 *Needs:* §1.2; TauCetiRoadmap.MordellLawrenceVenkatesh §§2.1–2.4 and the model-free polarised-fibre contract.
 
-### 6.8 The principal trichotomy
+### 6.8 The principal trichotomy and the loci of types (a), (b) and (c)
+
+This section proves the principal trichotomy for symplectic pairs at a self-conjugate place and defines the loci of types (a), (b) and (c), whose union then contains `Y(K_v)^LV_{X,S}`. Sections 7.4, 7.7, 8.1, 8.4 and 9.1 use the types of §6.9.
 
 Let K be a number field, v a self-conjugate place above p (§3.1) and (A, V) a symplectic pair of continuous ℚₚ-representations of G_K with V of rank 2d > 0 over A, de Rham at the places above p, with Hodge–Tate weights in {0, 1} at v, and unramified and pure of weight 1 outside a finite set. Let Σ = `Σ_A = Hom_{ℚₚ-alg}(A, ℚₚ)`, and for ψ ∈ Σ let G_ψ ≤ G_K be its stabiliser, `G_{w_ψ}` = G_ψ ∩ G_v, and `V_ψ = ℚₚ ⊗_{A,ψ} V`. Then at least one of the following holds: (a) some ψ ∈ Σ has `[G_v : G_{w_ψ}]` ≥ 4 and V_ψ is GSp-irreducible as a symplectic representation of G_ψ; (b) some ψ ∈ Σ has `[G_v : G_{w_ψ}]` ≥ 4 and V_ψ has a non-zero isotropic G_ψ-subrepresentation W with dim F¹D_dR,w_ψ(W) ≥ ½ `dim_{ℚₚ} W` (average Hodge–Tate weight ≥ 1/2 at w_ψ); (c) the number of ψ ∈ Σ with `[G_v : G_{w_ψ}]` < 4 is at least #Σ/(d + 1). When A is split (A ≅ ℚₚ^n as a ℚₚ-algebra, as for every algebra H⁰_ét of a fibre), #Σ = `dim_{ℚₚ}(A)` and (c) reads `#{ψ : [G_v : G_{w_ψ}] < 4}` ≥ `dim_{ℚₚ}(A)/(d + 1)`.
 
@@ -1083,9 +1079,7 @@ A proof can proceed as follows. Reduce to each orbit of the finite G_K-set Σ us
 
 *Needs:* §1.1; §3.1; §3.4; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16.
 
-### 6.9 Types (a), (b), (c) and their loci
-
-Let S be a finite set of places, p a prime and v a place above p. (a) An S-good pair (A, V) of G_K-representations is of type (a) if some ψ ∈ Σ_A has `[G_v : G_{w_ψ}]` ≥ 4 and V_ψ is GSp-irreducible as a symplectic representation of G_ψ. (b) A symplectic pair (A, V) of de Rham G_v-representations is of type (b) if some ψ ∈ Σ_A has `[G_v : G_{w_ψ}]` ≥ 4 and V_ψ has a non-zero isotropic `G_{w_ψ}`-subrepresentation of average Hodge–Tate weight ≥ 1/2. (c) For d > 0, an algebra A in G_v-representations is of type (c) if `#{ψ ∈ Σ_A : [G_v : G_{w_ψ}] < 4}` ≥ `dim_{ℚₚ}(A)/(d + 1)`. For an abelian-by-finite family of constant relative dimension d > 0 and suitable S: `Y(K_v)^LV_{X,S,(a)}` is the set of y_v interpolated by an S-good pair of type (a); `Y(K_v)^LV_{X,(b)}` the set of y_v with `H^{≤1}_ét(X_{y_v,K̄_v})` of type (b); `Y(K_v)^LV_{X,(c)}` the set of y_v with `H⁰_ét(X_{y_v,K̄_v})` of type (c). If v is self-conjugate, `Y(K_v)^LV_{X,S}` ⊆ `Y(K_v)^LV_{X,S,(a)}` ∪ `Y(K_v)^LV_{X,(b)}` ∪ `Y(K_v)^LV_{X,(c)}`.
+**6.9 Types (a), (b), (c) and their loci.** Let S be a finite set of places, p a prime and v a place above p. (a) An S-good pair (A, V) of G_K-representations is of type (a) if some ψ ∈ Σ_A has `[G_v : G_{w_ψ}]` ≥ 4 and V_ψ is GSp-irreducible as a symplectic representation of G_ψ. (b) A symplectic pair (A, V) of de Rham G_v-representations is of type (b) if some ψ ∈ Σ_A has `[G_v : G_{w_ψ}]` ≥ 4 and V_ψ has a non-zero isotropic `G_{w_ψ}`-subrepresentation of average Hodge–Tate weight ≥ 1/2. (c) For d > 0, an algebra A in G_v-representations is of type (c) if `#{ψ ∈ Σ_A : [G_v : G_{w_ψ}] < 4}` ≥ `dim_{ℚₚ}(A)/(d + 1)`. For an abelian-by-finite family of constant relative dimension d > 0 and suitable S: `Y(K_v)^LV_{X,S,(a)}` is the set of y_v interpolated by an S-good pair of type (a); `Y(K_v)^LV_{X,(b)}` the set of y_v with `H^{≤1}_ét(X_{y_v,K̄_v})` of type (b); `Y(K_v)^LV_{X,(c)}` the set of y_v with `H⁰_ét(X_{y_v,K̄_v})` of type (c). If v is self-conjugate, `Y(K_v)^LV_{X,S}` ⊆ `Y(K_v)^LV_{X,S,(a)}` ∪ `Y(K_v)^LV_{X,(b)}` ∪ `Y(K_v)^LV_{X,(c)}`.
 
 Type (c) uses `dim_{ℚₚ}(A)`; its fibre applications use split algebras, for which dim A=#Σ_A and the cardinality form of the trichotomy applies. Type (b) is local: a global G_ψ-subrepresentation as in the trichotomy restricts to a `G_{w_ψ}`-subrepresentation.
 
@@ -1127,7 +1121,9 @@ TauCetiRoadmap.HeightsRationalPointsAndObstructions §§2.3a, 2.11, proper local
 
 ## Layer 7: Finiteness for points of types (a) and (b)
 
-### 7.1 The finite sets T_i of local classes of type (a)
+### 7.1 Local classes of type (a) and their non-density in each Weil-restricted factor
+
+This section defines the sets T_i of local classes of type (a), proves them finite, and shows that their Lagrangians are not Zariski dense after Weil restriction when `[L_{w_i} : K_v]` ≥ 4. Section 7.4 uses §7.1 and §7.3.
 
 In the setting of §5.4, with S suitable, let d_i := dim `X_{y′_i}` (the relative dimension at y′_i, which may vary with i under gap:variable-rank-abelian-by-finite), δ := deg(Y′ → Y) and B := `dim_{K_v} H¹_dR(X_{y₀}/K_v)` = `Σ_j 2d_j·[L_{w_j} : K_v]`, the total rank of H¹ of the base fibre; for constant relative dimension d, B = 2dδ. Use the bounded-degree form of T_i: the set of isomorphism classes of symplectic modules D of rank 2d_i over the unit object 1 of `MF(φ, N, G_{w_i})` for which there exist: a finite extension L/K of degree ≤ δ, unramified outside S; a v-adic place w_i of L with `L_{w_i}` ≅ K_v(y′_i) over K_v; and a GSp-irreducible symplectic representation V of G_L of rank 2d_i, de Rham at the places above p and unramified and pure of weight 1 outside the places above S, every Frobenius eigenvalue there being an algebraic integer of degree over ℚ at most B; with D ≅ `D_pH,w_i(V|G_{w_i})` as symplectic filtered discrete (φ, N, `G_{w_i}`)-modules. `H_{y′_i}(L_{w_i})_(a)` ⊆ `H_{y′_i}(L_{w_i})` is the set of Lagrangians Φ′_i with [M¹_i(Φ′_i)] ∈ T_i.
 
@@ -1159,9 +1155,7 @@ The API includes the following facts.
 
 *Needs:* TauCetiRoadmap.MordellLawrenceVenkatesh gap:variable-rank-abelian-by-finite; §5.2; §5.4; §2.1; §6.1; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16 and gap:symplectic-faltings-finiteness; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract.
 
-### 7.2 Finiteness of the sets T_i
-
-Each set T_i of §7.1 is finite.
+**7.2 Finiteness of the sets T_i.** Each set T_i of §7.1 is finite.
 
 S finite; δ, d_i and the root-degree bound B of §7.1 are fixed.
 
@@ -1175,9 +1169,7 @@ A proof can proceed as follows. Hermite finiteness bounds the extensions L/K of 
 
 *Needs:* §7.1; TauCetiRoadmap.ArithmeticGaloisDuality §R02.3.1, Hermite finiteness with bounded degree and ramification set; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16 and gap:symplectic-faltings-finiteness.
 
-### 7.3 Non-density of type (a) Lagrangians after Weil restriction
-
-If `[L_{w_i} : K_v]` ≥ 4, then `H_{y′_i}(L_{w_i})_(a)` is not Zariski dense in `Res^{L_{w_i}}_{K_v} H_{y′_i}`. It may be dense in `H_{y′_i}` itself; the Weil restriction to K_v is essential.
+**7.3 Non-density of type (a) Lagrangians after Weil restriction.** If `[L_{w_i} : K_v]` ≥ 4, then `H_{y′_i}(L_{w_i})_(a)` is not Zariski dense in `Res^{L_{w_i}}_{K_v} H_{y′_i}`. It may be dense in `H_{y′_i}` itself; the Weil restriction to K_v is essential.
 
 `[L_{w_i} : K_v]` ≥ 4 and d_i ≥ 1.
 
@@ -1193,7 +1185,9 @@ A proof can proceed as follows. Each orbit has dimension at most d_i(2d_i+1), af
 
 *Needs:* §7.1; §7.2; §2.3; §2.4; TauCetiRoadmap.MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.5, A3.7, A4.3–A4.4, A6.30–A6.31, polarised cohomology and Weil restriction.
 
-### 7.4 Non-density of the type (a) period locus
+### 7.4 The type (a) period locus: non-density and finiteness under full monodromy
+
+This section shows that the type (a) period locus is not Zariski dense and that the type (a) locus is finite for a family with full monodromy. Section 9.1 uses §7.5.
 
 For y₀ ∈ Y(K_v), let `H_{y₀}(K_v)^LV_{X,S,(a)}` be the set of Lagrangians Φ ∈ `H_{y₀}(K_v)` for which some S-good pair (A, V) of type (a) satisfies `M^{≤1}(Φ)` ≅ (D_pH(A|G_v), D_pH(V|G_v)) as symplectic pairs in MF(φ, N, G_v). Then `H_{y₀}(K_v)^LV_{X,S,(a)}` is not Zariski dense in `H_{y₀}`.
 
@@ -1219,9 +1213,7 @@ The API includes the following facts.
 
 *Needs:* §7.1; §7.3; §5.4; §5.2; §6.9; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract.
 
-### 7.5 Finiteness of the type (a) locus under full monodromy
-
-If X → Y′ → Y has full monodromy (MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract, for some complex embedding of K_v), then `Y(K_v)^LV_{X,S,(a)}` is finite.
+**7.5 Finiteness of the type (a) locus under full monodromy.** If X → Y′ → Y has full monodromy (MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract, for some complex embedding of K_v), then `Y(K_v)^LV_{X,S,(a)}` is finite.
 
 Y a smooth projective geometrically connected curve; S suitable.
 
@@ -1253,7 +1245,9 @@ A proof can proceed as follows. Split the Weil restriction over K̄_v into the f
 
 *Needs:* §5.2; §5.4; §2.1; TauCetiRoadmap.MordellLawrenceVenkatesh §§3.1–3.19 and the model-free period-map contract; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.7 and the four-isotropic-Lagrangian contract; TauCetiRoadmap.AbelianSchemesAndArithmeticModuli §§A3.5, A3.7, A4.3–A4.4, A6.30–A6.31, polarised cohomology and Weil restriction.
 
-### 7.7 Non-density of the type (b) period locus
+### 7.7 The type (b) period locus: non-density and finiteness under full monodromy
+
+This section shows that the type (b) period locus is not Zariski dense and that the type (b) locus is finite for a family with full monodromy. Section 9.1 uses §7.8.
 
 For y₀ ∈ Y(K_v), let `H_{y₀}(K_v)^LV_{X,(b)}` be the set of Φ ∈ `H_{y₀}(K_v)` with `M^{≤1}(Φ)` ≅ (D_pH(A), D_pH(V)) for some symplectic pair (A, V) of de Rham G_v-representations of type (b). Then `H_{y₀}(K_v)^LV_{X,(b)}` is not Zariski dense in `H_{y₀}`.
 
@@ -1277,9 +1271,7 @@ The API includes the following facts.
 
 *Needs:* §7.6; §5.4; §5.2; §6.9; TauCetiRoadmap.PadicHodgeTheory §§3.3–3.5, 5.1, 5.3, 7.3, 8.1–8.2 and the horizontal-period contract.
 
-### 7.8 Finiteness of the type (b) locus under full monodromy
-
-If X → Y′ → Y has full monodromy, then `Y(K_v)^LV_{X,(b)}` is finite.
+**7.8 Finiteness of the type (b) locus under full monodromy.** If X → Y′ → Y has full monodromy, then `Y(K_v)^LV_{X,(b)}` is finite.
 
 Y a smooth projective geometrically connected curve.
 
@@ -1303,7 +1295,9 @@ TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; TauCetiRoadmap.Padi
 
 ## Layer 8: Kodaira–Parshin families and points of type (c)
 
-### 8.1 The proportion of points in small G_v-orbits
+### 8.1 Counting points in small G_v-orbits
+
+This section defines the proportion size_v of points in G_v-orbits of size less than 4, counts the quadratic and cubic subfields n_v, and bounds by n_v·k^g the torsion classes of a curve that lie in such orbits. Section 8.4 uses §§8.1–8.3, and §8.5 uses §8.2.
 
 Let K_v be a finite extension of ℚₚ and Σ a non-empty finite set with a continuous action of G_v. Then size_v(Σ) := #{x ∈ Σ : the G_v-orbit of x has fewer than 4 elements}/#Σ ∈ [0, 1]. If f: Σ → Σ′ is G_v-equivariant and surjective and all its fibres have the same positive cardinality, then size_v(Σ) ≤ size_v(Σ′). For a nonzero split algebra A in G_v-representations and d > 0, A is of type (c) (§6.9) exactly when size_v(Σ_A) ≥ 1/(d + 1); here #Σ_A=dim A>0.
 
@@ -1332,9 +1326,7 @@ The API includes the following facts.
 
 *Needs:* Mathlib `MulAction.orbit`; TauCetiRoadmap.LocalFieldsRamification Layers 2 and 4, the unramified quotient for the C₄ Check; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.7 and the four-isotropic-Lagrangian contract; §6.9.
 
-### 8.2 Counting the quadratic and cubic extensions of a local field
-
-For a finite extension K_v of ℚₚ let n_v be the number of subfields L ⊆ K̄_v with [L : K_v] ∈ {2, 3}. Then n_v is finite and bounded in terms of [K_v : ℚₚ] (so, for places of a number field K, in terms of K). If v ∤ 6 then n_v = 7: K_v has three quadratic extensions; if q_v ≡ 1 mod 3 it has four cubic extensions, all Galois, and if q_v ≡ 2 mod 3 it has one Galois cubic extension and three conjugate non-Galois ones.
+**8.2 Counting the quadratic and cubic extensions of a local field.** For a finite extension K_v of ℚₚ let n_v be the number of subfields L ⊆ K̄_v with [L : K_v] ∈ {2, 3}. Then n_v is finite and bounded in terms of [K_v : ℚₚ] (so, for places of a number field K, in terms of K). If v ∤ 6 then n_v = 7: K_v has three quadratic extensions; if q_v ≡ 1 mod 3 it has four cubic extensions, all Galois, and if q_v ≡ 2 mod 3 it has one Galois cubic extension and three conjugate non-Galois ones.
 
 The count is of subfields of a fixed algebraic closure; conjugate non-Galois extensions are counted separately.
 
@@ -1357,9 +1349,7 @@ The API includes the following facts.
 
 *Needs:* TauCetiRoadmap.LocalFieldsRamification Layers 0–2 and 4, finite extensions, power classes, unramified extensions and the tame quotient; TauCetiRoadmap.ClassFieldTheory Layer 5, the Kummer correspondence for the quadratic and normal cubic Checks; Mathlib `IntermediateField`; TauCetiRoadmap.LocalGaloisGroups Layer 7.
 
-### 8.3 Few torsion classes lie in small G_v-orbits
-
-Let Y be a smooth projective geometrically connected curve of genus g over a finite extension K_v of ℚₚ, and k ≥ 1 an odd integer prime to p with gcd(k, q_v^i − 1) = 1 for i = 1, 2, 3. Let M := `H¹_ét(Y_{K̄_v}, ℤ/k)` ≅ `(ℤ/k)^{2g}` with its G_v-equivariant perfect alternating Weil pairing M × M → μ_k^∨. For every open G_w ≤ G_v of index 2 or 3, `M^{G_w}` is isotropic, so `#M^{G_w}` ≤ k^g; hence at most n_v·k^g elements of M lie in G_v-orbits of size less than 4.
+**8.3 Few torsion classes lie in small G_v-orbits.** Let Y be a smooth projective geometrically connected curve of genus g over a finite extension K_v of ℚₚ, and k ≥ 1 an odd integer prime to p with gcd(k, q_v^i − 1) = 1 for i = 1, 2, 3. Let M := `H¹_ét(Y_{K̄_v}, ℤ/k)` ≅ `(ℤ/k)^{2g}` with its G_v-equivariant perfect alternating Weil pairing M × M → μ_k^∨. For every open G_w ≤ G_v of index 2 or 3, `M^{G_w}` is isotropic, so `#M^{G_w}` ≤ k^g; hence at most n_v·k^g elements of M lie in G_v-orbits of size less than 4.
 
 p ∤ k, so μ_k is unramified at v and an element of G_v acts on it through its image in the Galois group of the residue field. No reduction hypothesis on Y at v (contrast MordellLawrenceVenkatesh Layer LV.11, admissible primes and the Mordell theorem, which uses good reduction).
 
@@ -1373,7 +1363,9 @@ A proof can proceed as follows. For a subgroup of index 2 or 3 its residue degre
 
 *Needs:* §8.2; TauCetiRoadmap.MordellLawrenceVenkatesh §§0.4–0.5, 0.9–0.12, 0.18; TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§0.3, 0.5, curve H¹ duality and equivariant alternating cup product; Mathlib `MulAction.orbit`.
 
-### 8.4 Kodaira–Parshin families have no points of type (c)
+### 8.4 A Kodaira–Parshin family with no points of type (c) at each finite place
+
+This section gives conditions on the odd prime q under which the Kodaira–Parshin family X_q has no points of type (c) at v, and shows that such a q exists at every finite place. Sections 8.6 and 9.1 use §8.4 and §8.5.
 
 Let Y be a smooth projective geometrically connected curve of genus g ≥ 2 over a number field K, v a finite place above p, and X_q → Y′_q → Y the Kodaira–Parshin family with parameter an odd prime q (MordellLawrenceVenkatesh Layer LV.8 and the characteristic-zero local-fibre contract), of relative dimension d_q = (g − 1/2)(q − 1). Suppose (1) q − 1 is divisible neither by 4 nor by any odd prime dividing q_v(q_v + 1)(q_v³ − 1), and (2) q − 1 ≥ 9n_v. Then `Y(K_v)^LV_{X_q,(c)}` = ∅; equivalently `size_v(Y′_{q,y}(K̄_v))` < 1/(d_q + 1) for every y ∈ Y(K_v).
 
@@ -1390,9 +1382,7 @@ A proof can proceed as follows. The local-fibre contract gives an equivariant eq
 
 *Needs:* TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.8 and the characteristic-zero local-fibre contract; TauCetiRoadmap.MordellLawrenceVenkatesh §§0.4–0.5, 0.9–0.12, 0.18; §8.1; §8.3; §8.2; §6.9; §6.7; Mathlib `hasSum_zeta_four`.
 
-### 8.5 Choosing the Kodaira–Parshin parameter
-
-For every finite place v of K there is an odd prime q satisfying the conditions of §8.4; for such q the Kodaira–Parshin family X_q → Y′_q → Y has constant positive relative dimension, full monodromy, and `Y(K_v)^LV_{X_q,(c)}` = ∅.
+**8.5 Choosing the Kodaira–Parshin parameter.** For every finite place v of K there is an odd prime q satisfying the conditions of §8.4; for such q the Kodaira–Parshin family X_q → Y′_q → Y has constant positive relative dimension, full monodromy, and `Y(K_v)^LV_{X_q,(c)}` = ∅.
 
 K is a number field, Y/K is a smooth projective geometrically connected curve of genus g≥2, and v is any finite place. The auxiliary prime q may depend on v through its residue cardinality and n_v.
 
@@ -1430,7 +1420,7 @@ Over ℚ₅ the quadratic subfields are ℚ₅(√2), ℚ₅(√5), ℚ₅(√10
 
 TauCetiRoadmap.LocalFieldsRamification Layer 1, power classes and the dyadic square-class count; TauCetiRoadmap.ClassFieldTheory Layer 5, Kummer theory; Mathlib `MulAction.orbit`; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.7 and the four-isotropic-Lagrangian contract; TauCetiRoadmap.LocalFieldsRamification Layers 0, 2 and 4; Mathlib `IntermediateField`; TauCetiRoadmap.MordellLawrenceVenkatesh §§0.4–0.5, 0.9–0.12, 0.18; TauCetiRoadmap.EtaleDualityAndPerverseSheaves §§0.3, 0.5, curve H¹ duality and equivariant alternating cup product; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.8 and the characteristic-zero local-fibre contract; Mathlib `hasSum_zeta_four`; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.10, Kodaira–Parshin full monodromy; Mathlib `Nat.forall_exists_prime_gt_and_eq_mod`; TauCetiRoadmap.MordellLawrenceVenkatesh §§1.2, 1.4–1.16; TauCetiRoadmap.MordellLawrenceVenkatesh Layer LV.11, admissible primes and the Mordell theorem; TauCetiRoadmap.Chebotarev Layers 10, 13 and 14, Dirichlet density, prime counting and natural density. Internal dependencies are specified in each subsection.
 
-## Layer 9: Finiteness of the Lawrence–Venkatesh locus and Theorems A and B
+## Layer 9: Finiteness of the Lawrence–Venkatesh locus, of Selmer localisations and of finite-descent projections
 
 ### 9.1 Finiteness of the Lawrence–Venkatesh locus at self-conjugate places
 
@@ -1477,7 +1467,7 @@ A proof can proceed as follows. For the chosen family combine section interpolat
 
 *Needs:* §1.8; §6.4; §9.1; §0.3.
 
-### 9.4 Theorem A: finiteness of the Selmer section image
+### 9.4 Finiteness of the Selmer section image when K has no CM subfield
 
 Suppose no subfield of the number field K is a CM field, and let Y be a smooth projective geometrically connected K-curve of genus at least 2. However the finite place v of K is chosen, the map loc_v: Sec^Sel(Y/K) → Y(K_v) has finite image, so only finitely many K_v-points of Y arise by localising Selmer sections.
 
@@ -1494,7 +1484,7 @@ A proof can proceed as follows. Without a CM subfield every finite place is self
 
 *Needs:* §9.3; §3.1; §0.3; TauCetiRoadmap.AnabelianGeometryAndNonabelianChabauty §7.1 (NC.6), section classes, rational-point section map, Kummer comparison and the field-general injectivity criterion.
 
-### 9.5 Theorem B: finiteness of the projections of the finite descent locus
+### 9.5 Finiteness of the projections of the finite descent locus when K has no CM subfield
 
 Take K and Y as in §9.4: K is a number field none of whose subfields is a CM field, and Y is a smooth projective geometrically connected K-curve of genus at least 2. Projecting the finite descent locus `Y(A_K)_•^{f-cov}` (§0.4) onto Y(K_v), at any finite place v of K, gives a finite set.
 
