@@ -165,7 +165,9 @@ The API includes:
 - In the same field at `p = 3`, `χ(3) = −1`: `R = ∅` and `R′ = {(3)}`; counting every prime above `p` as exceptional would give `r = 1` and a false trivial zero.
 - For a nontrivial totally even `χ` the set `R` is still defined, but `H` is totally real, has no complex conjugation, and `L(χ, 0) = 0` because the archimedean factors have poles at `s = 0`; the totally odd hypothesis is needed both for the minus parts and for `D_χ ≠ 0`.
 
-### 0.2 Odd p-units and divisor components
+### 0.2 The χ-components and Gross's regulator
+
+This section provides the χ-components `U_χ` and `X_χ` with the maps `o_p^χ` and `ℓ_p^χ`, the valuation isomorphism between them, and Gross's regulator `R_p(χ)` with its coordinate formula `det(−L)/det(O)`. Layer 1 (1.1, 1.2, 1.4, 1.7, 1.9), the boundary statement 0.9 and Layer 5 (5.1, 5.2, 5.4, 5.5, 5.8) consume it.
 
 Let `S_H` be the primes of `H` above `p` and use Mathlib `U = Set.unit S_H H`, identified with `𝒪_H[1/p]^×` through `Set.unitEquivUnitsInteger`. Define `X = ⊕_{𝔓|p} ℤ·[𝔓]` with their `G`-actions, the minus parts `U^- = {u : c·u = −u}` (multiplicatively `c(u) = u⁻¹`) and `X^-`, and the χ-components `U_χ ⊆ U^- ⊗_ℤ E` and `X_χ ⊆ X^- ⊗_ℤ E` as the χ⁻¹-eigenspaces. Write `o_p(u) = (ord_𝔓 u)_𝔓` for the additive-order form of the supplied `Set.unitValuation`, and define Gross's signed logarithm map `ℓ_p(u) = (−ℓ_𝔓(u))_𝔓`, extended `E`-linearly; both are `G`-equivariant and restrict to maps `o_p^χ, ℓ_p^χ : U_χ → X_χ` (Dasgupta–Kakde–Ventullo §1, pp. 835–836; §5.1, p. 865). *Needs:* 0.1; DirichletPadicLFunctions §0.6 (`localIwasawaLog`); Mathlib `Set.unit`, `Set.unitEquivUnitsInteger`, `FreeAbelianGroup`, `TensorProduct`; Tau Ceti `Set.unitValuation`, `Set.unitValuation_ker`.
 
@@ -183,15 +185,11 @@ The API includes:
 - For `H = ℚ(i)`, `p = 5`, `u = (2+i)/(2−i)`: `c(u) = u⁻¹`, so `u ∈ U^-`, and since `G = {1, c}` with `χ(c) = −1` it lies in the χ⁻¹-eigenspace. At `𝔓 = (2+i)`, `ord_𝔓(u) = 1` (the supplied multiplicative valuation has exponent `−1`) and the signed logarithm coordinate is `−log_5(u)` under the embedding `H_𝔓 ≅ ℚ_5` with `i ≡ −2 (mod 5)`.
 - For `𝔮 ∈ R′` the permutation module on the primes above `𝔮` has zero χ⁻¹-part: its decomposition group `D_𝔮` is nontrivial and `χ` is nontrivial on it by faithfulness, so `e_χ` kills `Ind_{D_𝔮}^G 1`.
 
-### 0.3 Valuation isomorphism and rank
-
-Prove that `o_p : U^- ⊗ ℚ → X^- ⊗ ℚ` is an isomorphism of `ℚ[G]`-modules; consequently `o_p^χ : U_χ → X_χ` is an `E`-linear isomorphism, `dim_E U_χ = dim_E X_χ = r`, and for any `E`-basis `u_1, …, u_r` of `U_χ` the matrix `O = (ord_{𝔓_i}(u_j))` has nonzero determinant. Moreover the χ-projections of the `R_H`-units (units of `𝒪_H` away from the primes above `R`) span `U_χ` (Dasgupta–Kakde–Ventullo §1, (5)–(6), pp. 835–836; §1.1, pp. 837–838). The route: by Dirichlet's unit theorem the units of `H` and of its maximal totally real subfield `H⁺` have equal rank, so ordinary units have zero minus part after tensoring with `ℚ`; this identifies the kernel. The finite-index image theorem `TauCeti.finiteIndex_range_unitValuation`, applied to `S_H`, gives surjectivity after rationalization. Decomposing the permutation modules by decomposition groups gives a one-dimensional χ⁻¹-summand exactly for `𝔮 ∈ R`, spanned by `x_i` of 0.2, and the same divisor argument on the `R_H`-units gives the spanning statement. *Needs:* 0.2; Mathlib `NumberField.Units.finrank_eq`, `NumberField.RingOfIntegers.instFintypeClassGroup`; Tau Ceti `Set.unitValuation_ker`, `TauCeti.finiteIndex_range_unitValuation`.
+**0.3 Valuation isomorphism and rank.** Prove that `o_p : U^- ⊗ ℚ → X^- ⊗ ℚ` is an isomorphism of `ℚ[G]`-modules; consequently `o_p^χ : U_χ → X_χ` is an `E`-linear isomorphism, `dim_E U_χ = dim_E X_χ = r`, and for any `E`-basis `u_1, …, u_r` of `U_χ` the matrix `O = (ord_{𝔓_i}(u_j))` has nonzero determinant. Moreover the χ-projections of the `R_H`-units (units of `𝒪_H` away from the primes above `R`) span `U_χ` (Dasgupta–Kakde–Ventullo §1, (5)–(6), pp. 835–836; §1.1, pp. 837–838). The route: by Dirichlet's unit theorem the units of `H` and of its maximal totally real subfield `H⁺` have equal rank, so ordinary units have zero minus part after tensoring with `ℚ`; this identifies the kernel. The finite-index image theorem `TauCeti.finiteIndex_range_unitValuation`, applied to `S_H`, gives surjectivity after rationalization. Decomposing the permutation modules by decomposition groups gives a one-dimensional χ⁻¹-summand exactly for `𝔮 ∈ R`, spanned by `x_i` of 0.2, and the same divisor argument on the `R_H`-units gives the spanning statement. *Needs:* 0.2; Mathlib `NumberField.Units.finrank_eq`, `NumberField.RingOfIntegers.instFintypeClassGroup`; Tau Ceti `Set.unitValuation_ker`, `TauCeti.finiteIndex_range_unitValuation`.
 
 The isomorphism is of rationalized minus modules, not of the integral groups `U^-` and `X^-`. When `r = 0` both spaces are zero and `o_p^χ` is the unique map between them. In the coordinates `x_i`, the matrix of `o_p^χ` is `O` and the matrix of `ℓ_p^χ` is `−L` with `L = (ℓ_{𝔓_i}(u_j))`, where complete splitting identifies `H_{𝔓_i} = F_{𝔮_i}`.
 
-### 0.4 Gross's p-adic regulator
-
-Define Gross's regulator `R_p(χ) = det_E(ℓ_p^χ ∘ (o_p^χ)⁻¹)`, the determinant of an endomorphism of `X_χ` (Mathlib `LinearMap.det`). Prove that for every choice of primes `𝔓_i | 𝔮_i` and every `E`-basis `(u_j)` of `U_χ`, `R_p(χ) = det(−L)/det(O)` with `O_{ij} = ord_{𝔓_i}(u_j)` and `L_{ij} = log_p N_{F_{𝔮_i}/ℚ_p}(u_j)` (Dasgupta–Kakde–Ventullo §1, the definition preceding Conjecture 2 and (6), p. 836; §1.1, (8), p. 838). The route: in the basis `x_i` of 0.3 the endomorphism has matrix `(−L)O⁻¹`; apply `LinearMap.det_toMatrix`, `Matrix.det_mul` and `Matrix.det_nonsing_inv`. *Needs:* 0.3; Mathlib `LinearMap.det`, `LinearMap.det_toMatrix`, `Matrix.det_mul`, `Matrix.det_nonsing_inv`.
+**0.4 Gross's p-adic regulator.** Define Gross's regulator `R_p(χ) = det_E(ℓ_p^χ ∘ (o_p^χ)⁻¹)`, the determinant of an endomorphism of `X_χ` (Mathlib `LinearMap.det`). Prove that for every choice of primes `𝔓_i | 𝔮_i` and every `E`-basis `(u_j)` of `U_χ`, `R_p(χ) = det(−L)/det(O)` with `O_{ij} = ord_{𝔓_i}(u_j)` and `L_{ij} = log_p N_{F_{𝔮_i}/ℚ_p}(u_j)` (Dasgupta–Kakde–Ventullo §1, the definition preceding Conjecture 2 and (6), p. 836; §1.1, (8), p. 838). The route: in the basis `x_i` of 0.3 the endomorphism has matrix `(−L)O⁻¹`; apply `LinearMap.det_toMatrix`, `Matrix.det_mul` and `Matrix.det_nonsing_inv`. *Needs:* 0.3; Mathlib `LinearMap.det`, `LinearMap.det_toMatrix`, `Matrix.det_mul`, `Matrix.det_nonsing_inv`.
 
 The endomorphism has source and target `X_χ`; the conjugate composite `(o_p^χ)⁻¹ ∘ ℓ_p^χ` on `U_χ` has the same determinant and characteristic polynomial. This regulator differs from Gross's original normalization by `(−1)^r ∏_{𝔮|p} f_𝔮` (Dasgupta–Kakde–Ventullo, footnote 1, p. 836); the normalization here is that of the end theorem.
 
@@ -363,15 +361,15 @@ Prove that the rationalized Kummer map identifies `U_χ` with the subspace of `H
 
 At finite coefficient levels the class-group term is present; it disappears only after rationalization. The same pairing order is used in the global invariant sum and in the local evaluation identity; swapping the two degree-one arguments changes the sign (ArithmeticGaloisDuality §R02.4.2). At primes above `p` the dual condition is the unit-Kummer condition, not ordinary unramifiedness of `E(χ)(1)`.
 
-### 1.3 Orthogonality from Poitou–Tate duality
+### 1.3 Orthogonality between restricted classes and p-units
+
+This section proves the orthogonality `∑_{i=1}^r (res_{𝔮_i} κ)(u) = 0` between restricted classes and `U_χ`, from Poitou–Tate duality and, independently (1.4), from global reciprocity. The cohomological formula for the regulator 1.9 and the determinant computations 5.1 and 5.4 consume it.
 
 Prove that for every finite-dimensional `V`, every `κ ∈ H¹_R(G_F, V(χ⁻¹))` and every `u ∈ U_χ`, `∑_{i=1}^r (res_{𝔮_i} κ)(u) = 0` in `V`, the evaluation using the chosen `𝔓_i` and the identification `H_{𝔓_i} = F_{𝔮_i}` (Dasgupta–Kakde–Ventullo Proposition 2.1, Proof 1, pp. 843–844). The route: for `V = E` pair `κ` with the Kummer class of `u`; the sum of local invariants of a global cup product is zero by the rational Poitou–Tate sequence; at `𝔮 ∉ R` the two local conditions annihilate each other; at `𝔮 ∈ R` the local term is the universal sign times the evaluation, so the sign cancels; the real-place terms at `p = 2` vanish after tensoring with `E`. Recombine coordinates for general `V`. *Needs:* 1.2; ArithmeticGaloisDuality §§R02.4.3, D7.6.
 
 For `r = 0` the sum is empty and the statement is `0 = 0`.
 
-### 1.4 Orthogonality from global reciprocity
-
-Prove the same identity by class field theory, independently of Poitou–Tate (Dasgupta–Kakde–Ventullo Proposition 2.1, Proof 2, (23)–(24), pp. 844–845). The route: positive-degree cohomology of the finite group `G` vanishes on `E`-spaces, so inflation–restriction identifies `H¹(G_F, V(χ⁻¹))` with the χ⁻¹-equivariant continuous homomorphisms `G_H^{ab} → V`; for an `R_H`-unit, its principal idele has trivial global Artin symbol; away from the primes above `R` its components are local units at which an unramified class vanishes; summing over the primes above `𝔮_i` and projecting with `e_χ`, equivariance turns the sum into a nonzero multiple of the sum over the chosen `𝔓_i`, and one divides by that scalar in `E`. Conclude by the spanning statement of 0.3 and `E`-linearity. *Needs:* 0.3, 1.1; ClassFieldTheory Layers 11 and 13; ArithmeticGaloisDuality §R02.2.3.
+**1.4 Orthogonality from global reciprocity.** Prove the same identity by class field theory, independently of Poitou–Tate (Dasgupta–Kakde–Ventullo Proposition 2.1, Proof 2, (23)–(24), pp. 844–845). The route: positive-degree cohomology of the finite group `G` vanishes on `E`-spaces, so inflation–restriction identifies `H¹(G_F, V(χ⁻¹))` with the χ⁻¹-equivariant continuous homomorphisms `G_H^{ab} → V`; for an `R_H`-unit, its principal idele has trivial global Artin symbol; away from the primes above `R` its components are local units at which an unramified class vanishes; summing over the primes above `𝔮_i` and projecting with `e_χ`, equivariance turns the sum into a nonzero multiple of the sum over the chosen `𝔓_i`, and one divides by that scalar in `E`. Conclude by the spanning statement of 0.3 and `E`-linearity. *Needs:* 0.3, 1.1; ClassFieldTheory Layers 11 and 13; ArithmeticGaloisDuality §R02.2.3.
 
 Global reciprocity is used on the profinite quotient of the idele class group; the uncompleted idele class group is not identified with a Galois group. Division takes place in `E`, so the argument holds at `p = 2`.
 
@@ -381,7 +379,9 @@ Prove that the product of restrictions `H¹_R(G_F, V(χ⁻¹)) → ∏_{𝔮∈R
 
 When `R = ∅` this gives `H¹_∅ = 0`. For `r > 1` the product over all of `R` is needed: a single inertia restriction is not injective in general.
 
-### 1.6 Cyclotomic classes
+### 1.6 The cyclotomic subspace and the cohomological formula for the regulator
+
+This section provides the cyclotomic subspace `H¹_cyc(χ)`, of dimension `r`, Greenberg's invariant `L_alg(χ) = det X/det Y` and its equality `L_alg(χ) = R_p(χ)` with Gross's regulator. The Gross–Stark theorem 5.6 consumes it.
 
 Define `H¹_cyc(χ) ⊆ H¹_R(G_F, E(χ⁻¹))` as the classes whose restriction at each `𝔮_j ∈ R` lies in `E·o_j + E·ℓ_j` (with `ℓ_j` unsigned), and for a family `κ_1, …, κ_m` define the coefficient matrices `X = (x_{ij})`, `Y = (y_{ij})` by `res_{𝔮_j} κ_i = x_{ij} o_j + y_{ij} ℓ_j`; the map `κ ↦ (y_j)_j` is the logarithmic coordinate (Dasgupta–Kakde–Ventullo §1.2, pp. 838–839). *Needs:* 1.1, 1.5.
 
@@ -398,15 +398,11 @@ The API includes:
 - If every logarithmic coefficient of a class in `H¹_cyc` is zero, all its inertia restrictions vanish (since `o_j` is unramified and `ℓ_j` is not), so it is zero by 1.5; an arbitrary tuple of valuation coefficients is therefore not realized by a global class.
 - For a local homomorphism `2o_j + 3ℓ_j` the extracted coefficients are `(x_j, y_j) = (2, 3)`; reversing the convention gives `(3, 2)` and inverts Greenberg's invariant.
 
-### 1.7 Dimension of the cyclotomic subspace
-
-Prove that the logarithmic coordinate `H¹_cyc(χ) → E^r` is an isomorphism; in particular `dim_E H¹_cyc(χ) = r` and for every basis `κ_i` the matrix `Y` is invertible (Dasgupta–Kakde–Ventullo §1.2, p. 839; Dasgupta–Darmon–Pollack Lemma 1.5 and its proof, pp. 455–456). The route: by the rational Poitou–Tate sequence and 1.2, the image of the global restriction to `W = ⊕_j (E o_j + E ℓ_j)` is the annihilator of `U_χ` under evaluation; the evaluation map `W → U_χ^∨` is surjective because its restriction to the valuation summand has matrix `O` with `det O ≠ 0` (0.3); the kernel has dimension `2r − r = r` and, by 1.5, is identified with `H¹_cyc(χ)`; the logarithmic coordinate is injective by Check 2 of 1.6, hence an isomorphism. *Needs:* 0.3, 1.2, 1.5, 1.6; ArithmeticGaloisDuality §§R02.4.3, D7.6.
+**1.7 Dimension of the cyclotomic subspace.** Prove that the logarithmic coordinate `H¹_cyc(χ) → E^r` is an isomorphism; in particular `dim_E H¹_cyc(χ) = r` and for every basis `κ_i` the matrix `Y` is invertible (Dasgupta–Kakde–Ventullo §1.2, p. 839; Dasgupta–Darmon–Pollack Lemma 1.5 and its proof, pp. 455–456). The route: by the rational Poitou–Tate sequence and 1.2, the image of the global restriction to `W = ⊕_j (E o_j + E ℓ_j)` is the annihilator of `U_χ` under evaluation; the evaluation map `W → U_χ^∨` is surjective because its restriction to the valuation summand has matrix `O` with `det O ≠ 0` (0.3); the kernel has dimension `2r − r = r` and, by 1.5, is identified with `H¹_cyc(χ)`; the logarithmic coordinate is injective by Check 2 of 1.6, hence an isomorphism. *Needs:* 0.3, 1.2, 1.5, 1.6; ArithmeticGaloisDuality §§R02.4.3, D7.6.
 
 For `r = 0` the subspace is zero. The proof handles every `r` directly rather than iterating the rank-one lemma.
 
-### 1.8 Greenberg's algebraic invariant
-
-For an ordered basis `κ_1, …, κ_r` of `H¹_cyc(χ)` define `L_alg(χ) = det X / det Y` (Dasgupta–Kakde–Ventullo §1.2, the definition of the algebraic invariant, p. 839). *Needs:* 1.7; Mathlib `Matrix.det_mul`.
+**1.8 Greenberg's algebraic invariant.** For an ordered basis `κ_1, …, κ_r` of `H¹_cyc(χ)` define `L_alg(χ) = det X / det Y` (Dasgupta–Kakde–Ventullo §1.2, the definition of the algebraic invariant, p. 839). *Needs:* 1.7; Mathlib `Matrix.det_mul`.
 
 The API includes:
 
@@ -420,9 +416,7 @@ The API includes:
 - For the zero space the value is `1` (empty determinants).
 - For `X = diag(2,5)` and `Y = diag(3,7)` the value is `10/21`; left multiplication of both by `diag(4,1)` leaves `40/84 = 10/21`, while multiplying only `X` gives `40/21`.
 
-### 1.9 The cohomological formula for the regulator
-
-Prove `L_alg(χ) = R_p(χ)` (Dasgupta–Kakde–Ventullo §1.2, the comparison following Proposition 1, p. 839). The route: evaluate `res_{𝔮_j} κ_i = x_{ij} o_j + y_{ij} ℓ_j` at each `u_k` and sum over `j`; orthogonality (1.3 or 1.4) gives `XO + YL = 0`, so `X = −Y L O⁻¹` and `det X/det Y = det(−L)/det O`. *Needs:* 0.4, 1.3 or 1.4, 1.8; Mathlib `Matrix.det_mul`.
+**1.9 The cohomological formula for the regulator.** Prove `L_alg(χ) = R_p(χ)` (Dasgupta–Kakde–Ventullo §1.2, the comparison following Proposition 1, p. 839). The route: evaluate `res_{𝔮_j} κ_i = x_{ij} o_j + y_{ij} ℓ_j` at each `u_k` and sum over `j`; orthogonality (1.3 or 1.4) gives `XO + YL = 0`, so `X = −Y L O⁻¹` and `det X/det Y = det(−L)/det O`. *Needs:* 0.4, 1.3 or 1.4, 1.8; Mathlib `Matrix.det_mul`.
 
 For `r = 1` the relation is `x·o(u) + y·ℓ(u) = 0`, so `x/y = −ℓ(u)/o(u)`. No extra `(−1)^r` occurs: the regulator carries the sign of its signed logarithm.
 
@@ -603,7 +597,9 @@ Layer 0 (for the analytic invariants); NoncommutativeAndEquivariantIwasawa §F.5
 
 Throughout, `a = L^*_an(χ) ≠ 0`, `s = s_χ ≥ r ≥ 1`, and `ε_J = ∏_{j∈J} ε_j` for `J ⊆ {1, …, r}`. Checks of the quotient algebras also use formal parameters satisfying the displayed algebraic hypotheses; such a ring need not arise from a Gross–Stark datum.
 
-### 3.1 The Case 1 Artin algebra
+### 3.1 The Artin algebras of Cases 1–3
+
+This section defines the Artin algebras `W_1`, `W_2` and `W_3` of Cases 1–3 of 2.4 by generators and relations, each with its universal property. Their normal forms 3.4–3.6, the infinitesimal characters 4.4 and the inverse-character determinant 5.4 consume them.
 
 Define `W_1 = E[π, ε_1, …, ε_r] / (π^{s+1}, ε_i², πε_i, ε_1⋯ε_r + (−1)^s a π^s)`, a `Λ_(1)`-algebra by sending the uniformizer to `π`, with augmentation sending `π` and every `ε_i` to `0` (Dasgupta–Kakde–Ventullo Theorem 3.3, pp. 850–852). *Needs:* 2.1, 2.4.
 
@@ -620,9 +616,7 @@ The API includes:
 - For `r = 2`: `ε_1² = 0` but `ε_1ε_2 = (−1)^{s+1}aπ^s ≠ 0`; setting all products of distinct `ε_i` to zero gives a different ring.
 - The empty product is never imposed: for `r = 0` and `s ≥ 1` the relation would read `1 + (−1)^s aπ^s = 0`, making the nilpotent `π` invertible and the ring zero. At the arithmetic rank-zero values `s = 0`, `a = 1`, it reads `2 = 0`, again giving the zero ring over `E`; for the unrelated formal value `s = 0`, `a = −1`, it imposes no relation and the quotient is `E`. None is the positive-rank construction.
 
-### 3.2 The Case 2 Artin algebra
-
-For `R′ = ∅`, `W ∈ Λ_(1)` with `w = ν_1(W) ≠ 0`, define `W_2 = E[π, ε_1, …, ε_r, y] / (π^{s+1}, y^{s+1}, y(π − y), π^s W − y^s (W + 1), ε_i², πε_i, yε_i, ∏ε_i + (−1)^s a(π^s − y^s))`, where `W` stands for its `π`-Taylor polynomial modulo `π^{s+1}` (Dasgupta–Kakde–Ventullo §3.4, the definition before Theorem 3.6, p. 853). *Needs:* 2.1, 2.4.
+**3.2 The Case 2 Artin algebra.** For `R′ = ∅`, `W ∈ Λ_(1)` with `w = ν_1(W) ≠ 0`, define `W_2 = E[π, ε_1, …, ε_r, y] / (π^{s+1}, y^{s+1}, y(π − y), π^s W − y^s (W + 1), ε_i², πε_i, yε_i, ∏ε_i + (−1)^s a(π^s − y^s))`, where `W` stands for its `π`-Taylor polynomial modulo `π^{s+1}` (Dasgupta–Kakde–Ventullo §3.4, the definition before Theorem 3.6, p. 853). *Needs:* 2.1, 2.4.
 
 The API includes:
 
@@ -637,9 +631,7 @@ The API includes:
 - For `w = −1`: `π^s = 0` while `y^s ≠ 0`, and `(π − y)^s = −y^s ≠ 0`; for `r = s = 1` the ring is `E[y]/(y²)` with `ε_1 = −ay`.
 - For `w ≠ 0`, `π^s − y^s = y^s/w`; replacing the difference `π^s − y^s` by `π^s` in the top relation would make `∏ε_i = 0` when `w = −1` and lose that case.
 
-### 3.3 The Case 3 Artin algebra
-
-For `R′ = ∅` and `s > t ≥ r`, write `W = π^{s−t} W_0` with `c = ν_1(W_0) = (−1)^{s−t} L^*_an(χ)/L^*_an(χ⁻¹) ≠ 0`, and define `W_3 = E[π, ε_1, …, ε_r, y] / (π^{s+1}, y^{t+1}, y(π − y), π^t W − y^t, ε_i², πε_i, yε_i, ∏ε_i + (−1)^s aπ^s)` (Dasgupta–Kakde–Ventullo §3.5 and Theorem 3.8, pp. 855–856). *Needs:* 2.1, 2.4.
+**3.3 The Case 3 Artin algebra.** For `R′ = ∅` and `s > t ≥ r`, write `W = π^{s−t} W_0` with `c = ν_1(W_0) = (−1)^{s−t} L^*_an(χ)/L^*_an(χ⁻¹) ≠ 0`, and define `W_3 = E[π, ε_1, …, ε_r, y] / (π^{s+1}, y^{t+1}, y(π − y), π^t W − y^t, ε_i², πε_i, yε_i, ∏ε_i + (−1)^s aπ^s)` (Dasgupta–Kakde–Ventullo §3.5 and Theorem 3.8, pp. 855–856). *Needs:* 2.1, 2.4.
 
 The API includes:
 
@@ -654,25 +646,25 @@ The API includes:
 - In that example `y ≠ 0` has zero class in `𝔪/𝔪²`, but `yW_3/y²W_3 = E·y` is one-dimensional.
 - For `s = t + 1`, `c = −L^*_an(χ)/L^*_an(χ⁻¹)` and the inverse-character top product has sign `(−1)^{t+1}`; with `c` of the wrong sign the two expressions for `∏ε_i` disagree.
 
-### 3.4 Normal form in Case 1
+### 3.4 Normal forms and leading lines of the Artin algebras
+
+This section gives `E`-bases of `W_1`, `W_2` and `W_3`, the nonzero class of `π^r` (Case 1) or of `z^r` with `z = π − y` (Cases 2 and 3) in `𝔪^r/𝔪^{r+1}`, and in Case 3 the one-dimensional quotients `y^nW_3/y^{n+1}W_3`. The Hecke images 3.8–3.10 and the leading-term comparisons 5.2 and 5.4 consume it.
 
 Prove that `1, π, …, π^{s−1}` together with `ε_J` for every nonempty `J ⊆ {1, …, r}` is an `E`-basis of `W_1`, so `dim_E W_1 = 2^r + s − 1`; equivalently one may use `π^s` and omit `ε_R`, where `R` also denotes the index set `{1, …, r}`. Prove that `π^r` has nonzero class in `𝔪^r/𝔪^{r+1}` (Dasgupta–Kakde–Ventullo, proof of Theorem 3.3, pp. 851–852; §5.1, p. 867). The route: every monomial with a repeated `ε_i` or a mixed `πε_i` factor is zero, leaving powers of `π` and squarefree `ε`-products; the top relation with `a ≠ 0` eliminates `π^s` or `ε_R`; multiplication on the proposed basis is well defined because the only overlap involves the top term multiplied by `𝔪`, which is zero both ways. If `s = r`, `𝔪^{r+1} = 0` and `π^r = ±a⁻¹ε_R ≠ 0`; if `s > r`, `𝔪^{r+1}` is spanned by `π^{r+1}, …, π^s`. *Needs:* 3.1.
 
 The count uses `2^r`, not `2^s`: for `r = 2`, `s = 3`, the dimension is `6`.
 
-### 3.5 Normal form in Case 2
-
-Prove that `1, π, …, π^{s−1}`, `y, …, y^s` and `ε_J` for `∅ ≠ J ⊊ {1, …, r}` form an `E`-basis of `W_2`, so `dim_E W_2 = 2^r + 2s − 2`. With `z = π − y`, prove `z^n = π^n − y^n` for `n ≥ 1`, `yz = 0`, and that `z^r` has nonzero class in `𝔪^r/𝔪^{r+1}`; the whole degree-`r` graded piece is not claimed to be one-dimensional when `s > r` (Dasgupta–Kakde–Ventullo, proof of Theorem 3.6, pp. 854–855; §5.1, pp. 867–868). The route: `πy = y²` reduces mixed monomials to powers of `y`; `w ≠ 0` eliminates `π^s = (w + 1)y^s/w` (also at `w = −1`, where it gives `π^s = 0`) and the top relation eliminates `ε_R = (−1)^{s+1}a y^s/w`; overlaps of top relations are annihilated by `𝔪`. For `r = s`, `z^r = y^s/w` spans `𝔪^r` and `𝔪^{r+1} = 0`; for `r < s`, `π^r − y^r` is a combination of two basis vectors not in the span of `𝔪^{r+1}`. *Needs:* 3.2.
+**3.5 Normal form in Case 2.** Prove that `1, π, …, π^{s−1}`, `y, …, y^s` and `ε_J` for `∅ ≠ J ⊊ {1, …, r}` form an `E`-basis of `W_2`, so `dim_E W_2 = 2^r + 2s − 2`. With `z = π − y`, prove `z^n = π^n − y^n` for `n ≥ 1`, `yz = 0`, and that `z^r` has nonzero class in `𝔪^r/𝔪^{r+1}`; the whole degree-`r` graded piece is not claimed to be one-dimensional when `s > r` (Dasgupta–Kakde–Ventullo, proof of Theorem 3.6, pp. 854–855; §5.1, pp. 867–868). The route: `πy = y²` reduces mixed monomials to powers of `y`; `w ≠ 0` eliminates `π^s = (w + 1)y^s/w` (also at `w = −1`, where it gives `π^s = 0`) and the top relation eliminates `ε_R = (−1)^{s+1}a y^s/w`; overlaps of top relations are annihilated by `𝔪`. For `r = s`, `z^r = y^s/w` spans `𝔪^r` and `𝔪^{r+1} = 0`; for `r < s`, `π^r − y^r` is a combination of two basis vectors not in the span of `𝔪^{r+1}`. *Needs:* 3.2.
 
 At `w = −1` the surviving top element is `y^s`, not `π^s`. The published dimension count is corrected to `2^r + 2s − 2`; for `r = 2`, `s = 3` it is `8`.
 
-### 3.6 Normal forms and two filtrations in Case 3
-
-Prove that `1, π, …, π^s`, `y, …, y^{t−1}` and `ε_J` for `∅ ≠ J ⊊ {1, …, r}` form an `E`-basis of `W_3`, so `dim_E W_3 = 2^r + s + t − 2`; that `z^r` has nonzero class in `𝔪^r/𝔪^{r+1}`; and that `𝔪·yW_3 = y²W_3` and, for `1 ≤ n ≤ t`, `y^nW_3/y^{n+1}W_3` is one-dimensional over `E`, spanned by `y^n` (Dasgupta–Kakde–Ventullo Theorem 3.8, p. 856; §5.2, pp. 867–868). The route: reduce with `πy = y²`, replace `y^t` by `cπ^s` and `ε_R` by its multiple of `π^s`; multiplying either top relation by `𝔪` gives zero, so overlaps agree. Since `r ≤ t < s`, the term `π^r` of `z^r` cannot lie in `𝔪^{r+1}`, and when `r = t` the term `y^r = cπ^s` already lies in `𝔪^{r+1}`. Multiplying `y` by `π` or `y` gives `y²` and by `ε_i` gives `0`, so `y^nW_3` is spanned by `y^n, …, y^t` with `y^t = cπ^s ≠ 0`. *Needs:* 3.3.
+**3.6 Normal forms and two filtrations in Case 3.** Prove that `1, π, …, π^s`, `y, …, y^{t−1}` and `ε_J` for `∅ ≠ J ⊊ {1, …, r}` form an `E`-basis of `W_3`, so `dim_E W_3 = 2^r + s + t − 2`; that `z^r` has nonzero class in `𝔪^r/𝔪^{r+1}`; and that `𝔪·yW_3 = y²W_3` and, for `1 ≤ n ≤ t`, `y^nW_3/y^{n+1}W_3` is one-dimensional over `E`, spanned by `y^n` (Dasgupta–Kakde–Ventullo Theorem 3.8, p. 856; §5.2, pp. 867–868). The route: reduce with `πy = y²`, replace `y^t` by `cπ^s` and `ε_R` by its multiple of `π^s`; multiplying either top relation by `𝔪` gives zero, so overlaps agree. Since `r ≤ t < s`, the term `π^r` of `z^r` cannot lie in `𝔪^{r+1}`, and when `r = t` the term `y^r = cπ^s` already lies in `𝔪^{r+1}`. Multiplying `y` by `π` or `y` gives `y²` and by `ε_i` gives `0`, so `y^nW_3` is spanned by `y^n, …, y^t` with `y^t = cπ^s ≠ 0`. *Needs:* 3.3.
 
 The `y`-adic filtration differs from the `𝔪`-adic one: `y^t ∈ 𝔪^s`. The final line `y^rW_3/y^{r+1}W_3` must not be replaced by `𝔪^r/𝔪^{r+1}`, in which `y^r` vanishes when `r = t < s`.
 
-### 3.7 The Fourier Hecke orbit and the auxiliary operator
+### 3.7 The Hecke homomorphism to the Artin algebra
+
+This section defines the Fourier Hecke orbit of the cusp form `F` of 2.6 and the auxiliary operator `Y`, and identifies the Hecke image with `W_1`, `W_2` or `W_3` according to the case, giving the homomorphism `φ : T → W` with explicit images of the Hecke operators. Layer 4 consumes it (4.1, 4.5).
 
 Let `F = t·e·F̃` (2.6) and `c : S°(𝔫,χ)_(1) → ∏_𝔞 Λ_(1)` the injective Fourier map (PadicFamilies §5.11). Define `ℋ` as the image of the Hecke span of `F` under `c` modulo `π^{s+1}`, a finite `E[π]/(π^{s+1})`-module, and `φ : T → End_E(ℋ)` the induced action. When `R′ = ∅`, choose a prime `𝔮 ∤ 𝔫p` with `χ(𝔮) ≠ 1` and define `Y = (T_𝔮 − 1 − χε(𝔮)) / ((χ(𝔮) − 1)(1 − ε(𝔮))/π) ∈ T̃_(1)`, whose denominator is a unit of `Λ_(1)` with residue `−(χ(𝔮) − 1) log_p⟨N𝔮⟩ ≠ 0`; write `y` for its image (Dasgupta–Kakde–Ventullo §3.3, (32), p. 850; §3.4, (40) and the definition of `Y`, p. 853). *Needs:* 2.1, 2.6; PadicFamilies §5.11 (through gap:dyadic-hilbert-hida-localization and gap:p-ramified-hilbert-hida-localization where `p = 2` or `𝔣_p ≠ 1`); Chebotarev Layer 10; DirichletPadicLFunctions §0.6.
 
@@ -689,21 +681,15 @@ The API includes:
 - `π^{s+1}` acts as zero on `ℋ`, while the order-`s` terms used in the normal forms remain visible.
 - If `χ(𝔮) = 1` the denominator of `Y` lies in `πΛ_(1)` and is not a unit; if `χ(𝔮) ≠ 1` its residue is `−(χ(𝔮) − 1)log_p⟨N𝔮⟩`, nonzero because `⟨N𝔮⟩ ≠ 1` for an integer `N𝔮 ≥ 2` (at `p = 2`, `⟨N𝔮⟩ = ±N𝔮`).
 
-### 3.8 The Hecke image in Case 1
-
-Prove that in Case 1 the image of `T ⊗ E` in `End_E(ℋ)` is isomorphic to `W_1`, giving a `Λ`-algebra homomorphism `T → W_1` with `T_𝔩 ↦ 1 + χε(𝔩)` for `𝔩 ∤ 𝔫p`, `U_𝔩 ↦ 1` for `𝔩 | 𝔫` or `𝔩 ∈ R′`, and `U_{𝔮_i} ↦ 1 + ε_i` (Dasgupta–Kakde–Ventullo Theorem 3.3 and its proof, pp. 850–852). The route: the leading correction and the `U_𝔮` identities of 2.2 give `ε_i² = πε_i = 0` and the top relation; this yields a surjection from `W_1`; on the proposed basis applied to `F`, distinct `π`-orders separate `1, π, …, π^{s−1}`, and at order `s` the squarefree operators give nonzero multiples of distinct stabilized `E_1(1, χ_{R′∪J})`, whose `q`-expansions are independent by a triangular argument on prime-power ideals with each pattern of divisibility by the `𝔮_i`; `t` acts invertibly on that space and `e` as the identity. *Needs:* 2.2, 2.5, 2.6, 3.4, 3.7.
+**3.8 The Hecke image in Case 1.** Prove that in Case 1 the image of `T ⊗ E` in `End_E(ℋ)` is isomorphic to `W_1`, giving a `Λ`-algebra homomorphism `T → W_1` with `T_𝔩 ↦ 1 + χε(𝔩)` for `𝔩 ∤ 𝔫p`, `U_𝔩 ↦ 1` for `𝔩 | 𝔫` or `𝔩 ∈ R′`, and `U_{𝔮_i} ↦ 1 + ε_i` (Dasgupta–Kakde–Ventullo Theorem 3.3 and its proof, pp. 850–852). The route: the leading correction and the `U_𝔮` identities of 2.2 give `ε_i² = πε_i = 0` and the top relation; this yields a surjection from `W_1`; on the proposed basis applied to `F`, distinct `π`-orders separate `1, π, …, π^{s−1}`, and at order `s` the squarefree operators give nonzero multiples of distinct stabilized `E_1(1, χ_{R′∪J})`, whose `q`-expansions are independent by a triangular argument on prime-power ideals with each pattern of divisibility by the `𝔮_i`; `t` acts invertibly on that space and `e` as the identity. *Needs:* 2.2, 2.5, 2.6, 3.4, 3.7.
 
 The argument proves the top product nonzero even when `s > r`.
 
-### 3.9 The Hecke image in Case 2
-
-Prove that in Case 2 the image is isomorphic to `W_2`, with `T_𝔩 ↦ 1 + χε(𝔩) + (χ(𝔩) − 1)((1 − ε(𝔩))/π) y` for `𝔩 ∤ 𝔫p`, `U_𝔩 ↦ 1 + ((ε(𝔩) − 1)/π) y` for `𝔩 | 𝔫`, and `U_{𝔮_i} ↦ 1 + ε_i` (Dasgupta–Kakde–Ventullo Theorem 3.6 and its proof, pp. 853–855; Remark 3.7, p. 855). The route: compute on `F̃` that `Y² = πY`, `Y^{s+1} = 0`, `π^sW = Y^s(W + 1)`, `ε_i² = πε_i = Yε_i = 0` and the top relation, and pass through `t·e`; this gives a surjection from `W_2`. For `w ≠ −1` compare the leading terms of `π^jF` and `Y^jF` and apply `Y`: the coefficients `α, β` satisfy `α(1 + w) + βw = 0` and `α + β = 0`, hence vanish; proceed by order below `s`. For `w = −1` begin with the pair `F, YF`, then `πF, Y²F`, and at the last order use that `Y` kills `ε_JF` and `Y^sF` while `π^{s−1}YF` has nonzero leading term. The remaining stabilized Eisenstein `q`-expansions are independent by the triangular argument. *Needs:* 2.2, 2.5, 2.6, 3.5, 3.7.
+**3.9 The Hecke image in Case 2.** Prove that in Case 2 the image is isomorphic to `W_2`, with `T_𝔩 ↦ 1 + χε(𝔩) + (χ(𝔩) − 1)((1 − ε(𝔩))/π) y` for `𝔩 ∤ 𝔫p`, `U_𝔩 ↦ 1 + ((ε(𝔩) − 1)/π) y` for `𝔩 | 𝔫`, and `U_{𝔮_i} ↦ 1 + ε_i` (Dasgupta–Kakde–Ventullo Theorem 3.6 and its proof, pp. 853–855; Remark 3.7, p. 855). The route: compute on `F̃` that `Y² = πY`, `Y^{s+1} = 0`, `π^sW = Y^s(W + 1)`, `ε_i² = πε_i = Yε_i = 0` and the top relation, and pass through `t·e`; this gives a surjection from `W_2`. For `w ≠ −1` compare the leading terms of `π^jF` and `Y^jF` and apply `Y`: the coefficients `α, β` satisfy `α(1 + w) + βw = 0` and `α + β = 0`, hence vanish; proceed by order below `s`. For `w = −1` begin with the pair `F, YF`, then `πF, Y²F`, and at the last order use that `Y` kills `ε_JF` and `Y^sF` while `π^{s−1}YF` has nonzero leading term. The remaining stabilized Eisenstein `q`-expansions are independent by the triangular argument. *Needs:* 2.2, 2.5, 2.6, 3.5, 3.7.
 
 For `r = s = 1` and `w ∉ {0, −1}`, `W_2 = E[π]/(π²)` with `y = wπ/(1 + w)` (3.2), and the image of `U_𝔩` for `𝔩 | 𝔫` is `1 + (w/(1 + w)) log_p⟨N𝔩⟩ π`, which need not be `1`. For `r = 1` and `s ≥ 2` there is no such formula: by 3.5 the classes of `π` and `y` are independent in `𝔪/𝔪²` (for `s = 2` the basis is `1, π, y, y²`), so the image of `U_𝔩` is `1 + log_p⟨N𝔩⟩ y` modulo `𝔪²` and is not a polynomial in `π`. The proof of 3.9 itself never divides by `w + 1`.
 
-### 3.10 The Hecke image in Case 3
-
-Prove that in Case 3 the image is isomorphic to `W_3`, with the formulas of 3.9 (Dasgupta–Kakde–Ventullo Theorem 3.8 and its proof, p. 856). The route: the Case 2 computation does not use `w ≠ 0`; the stronger identities `Y^{t+1}F = 0` and `Y^tF = π^tWF` give a surjection from `W_3`. Put `d = s − t ≥ 1`: `π^jF` has order `j` with leading term `E_1(1, χ_S)`, `Y^iF` has order `d + i` with leading term `cE_1(1, χ_S)`, `Y^tF = cπ^sF`, and `Y` kills every `ε_JF` with `J ≠ ∅`. In a relation among the basis vectors, increasing orders first remove the coefficients of `π^jF` for `j ≤ d`; then for `m = 1, …, t − 1` apply `Y^{t−m}`: terms `π^jF` with `j ≥ d + m` vanish modulo `π^{s+1}` (their order is at least `2s − t ≥ s + 1`), terms `Y^iF` with `i > m` vanish, and the remaining term is the coefficient of `Y^mF` times `cπ^sF`; then comparing order `d + m` removes the coefficient of `π^{d+m}F`. Finally `π^sF` and the `ε_JF`, `∅ ≠ J ⊊ R`, have independent stabilized Eisenstein leading terms. *Needs:* 2.2, 2.5, 2.6, 3.6, 3.7.
+**3.10 The Hecke image in Case 3.** Prove that in Case 3 the image is isomorphic to `W_3`, with the formulas of 3.9 (Dasgupta–Kakde–Ventullo Theorem 3.8 and its proof, p. 856). The route: the Case 2 computation does not use `w ≠ 0`; the stronger identities `Y^{t+1}F = 0` and `Y^tF = π^tWF` give a surjection from `W_3`. Put `d = s − t ≥ 1`: `π^jF` has order `j` with leading term `E_1(1, χ_S)`, `Y^iF` has order `d + i` with leading term `cE_1(1, χ_S)`, `Y^tF = cπ^sF`, and `Y` kills every `ε_JF` with `J ≠ ∅`. In a relation among the basis vectors, increasing orders first remove the coefficients of `π^jF` for `j ≤ d`; then for `m = 1, …, t − 1` apply `Y^{t−m}`: terms `π^jF` with `j ≥ d + m` vanish modulo `π^{s+1}` (their order is at least `2s − t ≥ s + 1`), terms `Y^iF` with `i > m` vanish, and the remaining term is the coefficient of `Y^mF` times `cπ^sF`; then comparing order `d + m` removes the coefficient of `π^{d+m}F`. Finally `π^sF` and the `ε_JF`, `∅ ≠ J ⊊ R`, have independent stabilized Eisenstein leading terms. *Needs:* 2.2, 2.5, 2.6, 3.6, 3.7.
 
 The proof uses only `s > t ≥ r`. When `t = 1` there are no basis vectors `Y^iF` and the argument goes directly to the final comparison.
 
@@ -731,15 +717,15 @@ The residue characteristic of `Â` is zero, so `1 ≠ χ` residually also at `p 
 - In every factor, complex conjugation `c` at a real place has `det ρ_H(c) = χε(c) = −1`, because `ε_cyc(c) = −1`, `⟨−1⟩ = 1` and so `ε(c) = 1`; with `ρ_H(c)² = 1` the eigenvalues are `1` and `−1` and the trace is `0`. A determinant `χ` in place of `χε` gives the same value at `c`; the two are told apart at `Frob_𝔩`, where `χε(𝔩) ≡ χ(𝔩)(1 + log_p⟨N𝔩⟩ π)` modulo `π²` differs from `χ(𝔩)` because `⟨N𝔩⟩ ≠ 1` for the integer `N𝔩 ≥ 2`.
 - The factors of `K` are not in bijection with the eigenfamilies: take the two-dimensional local domain `Λ_H = 𝒪_E[[T]][y]/(y² − T²(T + p))` with `√p ∈ E` (finite over `𝒪_E[[T]]`, so of dimension `2`, with the prime chain `(0) ⊊ (T, y) ⊊ (ϖ_E, T, y)`; a domain, since `T + p` is not a square in `𝒪_E[[T]]`). Its localization at the height-one prime `(T, y)`, the unique prime above `(T)`, is a one-dimensional local domain with residue field `E`, and the completion of that localization is `E[[T]][y]/((y − Ts)(y + Ts))` with `s = √(T + p) ∈ E[[T]]^×`, reduced with two minimal primes, and its total quotient ring `E((T)) × E((T))` has two fields receiving the single field `L_H`. This tests the ring interface only and asserts no family realizing it.
 
-### 4.2 A simultaneous good Galois element
+### 4.2 The matrix entries in a τ-adapted basis
+
+This section provides a good element `τ` and, in a basis of eigenvectors of `ρ(τ)`, the upper-entry class `[κ] ∈ H¹(G_F, B̄(χ⁻¹))` and the integral diagonal entries with images `ψ_1`, `ψ_2` under `φ_𝔪 : Â → W`, built from the infinitesimal cyclotomic characters. The local statements 4.6, 4.7 and 4.8 and the determinant computations 5.1 and 5.3 consume it.
 
 Prove that there is `τ ∈ G_F` with `χ(τ) ≠ 1` such that, for every eigenfamily `H` and every `𝔮 | p` (in `R` and in `R′`), the ordinary invariant line of `ρ_H|G_𝔮` is neither eigenline of `ρ_H(τ)`; the two eigenvalues of `ρ(τ)` lie in `Â` with residues `1` and `χ(τ)` (Dasgupta–Kakde–Ventullo Lemmas 4.2–4.3, pp. 858–860; Lemmas 4.6–4.7, p. 864). The route: for a line `v` its stabilizer `G_v` is closed; if `χ(G_v) ≠ 1` and `G_v` had finite index, diagonalize an element of `G_v` with distinct residual eigenvalues, take the lower entry in the order `(1, χ)` (a χ-cocycle), or in the reversed order the lower entry times `χ⁻¹` (a χ⁻¹-cocycle), restrict to `G_v`, where it vanishes, use injectivity of finite-index restriction on `E`-coefficients and the coboundary normalization at the diagonal element, and conclude by Nakayama on the finite off-diagonal module that `ρ_H` is reducible, a contradiction. So each relevant stabilizer is either contained in `ker χ` or of infinite index, hence closed with empty interior; a finite union of such sets cannot cover the nonempty open coset `{χ = χ(τ_0)}` with `χ(τ_0) ≠ 1`; Hensel's lemma gives the eigenvalues. *Needs:* 4.1; IntegralHeckeAndGaloisDeterminants §1.3; ArithmeticGaloisDuality §R02.2.3; Mathlib `HenselianRing`.
 
 The line-avoidance is required at every `𝔮 | p`, not only at `𝔮 ∈ R`: 4.6 and 4.7 divide by the local comparison coefficients at `𝔮 ∈ R′`. Only ordinary invariant lines are used.
 
-### 4.3 The adapted extension class
-
-Using `τ`, write `ρ(σ) = [[a(σ), b(σ)], [c(σ), d(σ)]]` in a basis of eigenvectors with `ρ(τ) = diag(λ_1, λ_2)`, `λ_1 ≡ 1`, `λ_2 ≡ χ(τ)`. Define `B ⊆ K` as the `Â`-module generated by the `b(σ)`, `B̄ = B/𝔪B`, and `κ(σ) = b̄(σ)χ⁻¹(σ)`; prove that `a(σ), d(σ) ∈ Â` with residues `1` and `χ(σ)`, that `B` is a finite `Â`-module, that `B̄` is a finite-dimensional `E`-space on which `κ` is continuous for the `p`-adic topology, and that `κ` is a continuous cocycle for the action `χ⁻¹` with `κ(τ) = 0`, defining `[κ] ∈ H¹(G_F, B̄(χ⁻¹))` (Dasgupta–Kakde–Ventullo §4.2, (65)–(69), pp. 861–862). The route: the henselian multiplicity-free GMA theorem (IntegralHeckeAndGaloisDeterminants §1.3) gives the idempotents and integrality of the diagonal; the extension-module identification and injection (§1.4) interpret the upper off-diagonal span; finite generation is proved by clearing denominators through the finite coefficient orders `Λ_H` and their lattices before passing to `Â` and `B̄`; the cocycle identity comes from `b(στ) = a(σ)b(τ) + b(σ)d(τ)` after reduction and multiplication by `χ⁻¹(στ)`. *Needs:* 1.1, 4.1, 4.2; IntegralHeckeAndGaloisDeterminants §§1.3, 1.4.
+**4.3 The adapted extension class.** Using `τ`, write `ρ(σ) = [[a(σ), b(σ)], [c(σ), d(σ)]]` in a basis of eigenvectors with `ρ(τ) = diag(λ_1, λ_2)`, `λ_1 ≡ 1`, `λ_2 ≡ χ(τ)`. Define `B ⊆ K` as the `Â`-module generated by the `b(σ)`, `B̄ = B/𝔪B`, and `κ(σ) = b̄(σ)χ⁻¹(σ)`; prove that `a(σ), d(σ) ∈ Â` with residues `1` and `χ(σ)`, that `B` is a finite `Â`-module, that `B̄` is a finite-dimensional `E`-space on which `κ` is continuous for the `p`-adic topology, and that `κ` is a continuous cocycle for the action `χ⁻¹` with `κ(τ) = 0`, defining `[κ] ∈ H¹(G_F, B̄(χ⁻¹))` (Dasgupta–Kakde–Ventullo §4.2, (65)–(69), pp. 861–862). The route: the henselian multiplicity-free GMA theorem (IntegralHeckeAndGaloisDeterminants §1.3) gives the idempotents and integrality of the diagonal; the extension-module identification and injection (§1.4) interpret the upper off-diagonal span; finite generation is proved by clearing denominators through the finite coefficient orders `Λ_H` and their lattices before passing to `Â` and `B̄`; the cocycle identity comes from `b(στ) = a(σ)b(τ) + b(σ)d(τ)` after reduction and multiplication by `χ⁻¹(στ)`. *Needs:* 1.1, 4.1, 4.2; IntegralHeckeAndGaloisDeterminants §§1.3, 1.4.
 
 The API includes:
 
@@ -757,9 +743,7 @@ The API includes:
 
 The cocycle is `b̄χ⁻¹`, not `b̄`. Only the diagonal entries are integral by this argument; no realization of `ρ` over `Â` is assumed.
 
-### 4.4 Infinitesimal cyclotomic characters
-
-For `ε(σ) = ∑_{j≥0} a_j(σ) π^j` with `a_0 = 1`, define in `W_2` or `W_3` the characters `ε_y(σ) = ∑_j a_j(σ) y^j` and `ε_z(σ) = ∑_j a_j(σ) z^j` with `z = π − y`, and put `(ψ_1, ψ_2) = (1, χε)` in Case 1 and `(ε_y, χε_z)` in Cases 2 and 3 (Dasgupta–Kakde–Ventullo §4.3, (70)–(74), p. 862). Prove that these are continuous characters with `ε_y = 1 + ((ε − 1)/π) y`, `ε_z = 1 + ((ε − 1)/π) z` and `ε_y ε_z = ε`. The route: the sums are finite by nilpotence; `πy = y²` and `πz = z²` turn them into the displayed linear expressions, and `yz = 0` gives the product. *Needs:* 2.1, 3.2, 3.3; Mathlib `PowerSeries.coeff`.
+**4.4 Infinitesimal cyclotomic characters.** For `ε(σ) = ∑_{j≥0} a_j(σ) π^j` with `a_0 = 1`, define in `W_2` or `W_3` the characters `ε_y(σ) = ∑_j a_j(σ) y^j` and `ε_z(σ) = ∑_j a_j(σ) z^j` with `z = π − y`, and put `(ψ_1, ψ_2) = (1, χε)` in Case 1 and `(ε_y, χε_z)` in Cases 2 and 3 (Dasgupta–Kakde–Ventullo §4.3, (70)–(74), p. 862). Prove that these are continuous characters with `ε_y = 1 + ((ε − 1)/π) y`, `ε_z = 1 + ((ε − 1)/π) z` and `ε_y ε_z = ε`. The route: the sums are finite by nilpotence; `πy = y²` and `πz = z²` turn them into the displayed linear expressions, and `yz = 0` gives the product. *Needs:* 2.1, 3.2, 3.3; Mathlib `PowerSeries.coeff`.
 
 The API includes:
 
@@ -773,31 +757,29 @@ The API includes:
 - At `y = 0` one gets `ε_y = 1` and `ε_z = ε`.
 - In `E[y′, z′]/(y′², z′²)`, put `π = y′ + z′` and take the series `ε(X) = (1 + LX)²` with `L ∈ E`, `L ≠ 0`. Then `ε(y′)ε(z′) = 1 + 2Lπ + 4L²y′z′`, while `ε(π) = 1 + 2Lπ + 2L²y′z′`; their difference is `2L²y′z′ ≠ 0`. The linear formulas of the theorem cannot be used here because `πy′ = y′z′ ≠ y′² = 0`. Imposing `y′z′ = 0` makes the difference zero, as in `W_2` and `W_3`.
 
-### 4.5 Refined diagonal entries
-
-Prove that `φ` extends uniquely to `φ_𝔪 : Â → W` and that `φ_𝔪(a(σ)) = ψ_1(σ)` and `φ_𝔪(d(σ)) = ψ_2(σ)` for every `σ ∈ G_F` (Dasgupta–Kakde–Ventullo Lemma 4.4, (72)–(78), pp. 862–863). The route: `W` is an Artin local `E`-algebra, so the map extends through localization and completion; the Hecke formulas of 3.8–3.10 give `trace = ψ_1 + ψ_2` at Frobenius elements, and 4.1 with IntegralHeckeAndGaloisDeterminants §4.1 extends it to all `σ`; the determinant is `ψ_1ψ_2 = χε`; the eigenvalues at `τ` map to `ψ_1(τ), ψ_2(τ)`; comparing traces at `σ` and `στ` gives a linear system with determinant `ψ_2(τ) − ψ_1(τ)`, a unit since its residue is `χ(τ) − 1`. *Needs:* 4.1, 4.3, 4.4; IntegralHeckeAndGaloisDeterminants §4.1; Chebotarev Layer 10.
+**4.5 Refined diagonal entries.** Prove that `φ` extends uniquely to `φ_𝔪 : Â → W` and that `φ_𝔪(a(σ)) = ψ_1(σ)` and `φ_𝔪(d(σ)) = ψ_2(σ)` for every `σ ∈ G_F` (Dasgupta–Kakde–Ventullo Lemma 4.4, (72)–(78), pp. 862–863). The route: `W` is an Artin local `E`-algebra, so the map extends through localization and completion; the Hecke formulas of 3.8–3.10 give `trace = ψ_1 + ψ_2` at Frobenius elements, and 4.1 with IntegralHeckeAndGaloisDeterminants §4.1 extends it to all `σ`; the determinant is `ψ_1ψ_2 = χε`; the eigenvalues at `τ` map to `ψ_1(τ), ψ_2(τ)`; comparing traces at `σ` and `στ` gives a linear system with determinant `ψ_2(τ) − ψ_1(τ)`, a unit since its residue is `χ(τ) − 1`. *Needs:* 4.1, 4.3, 4.4; IntegralHeckeAndGaloisDeterminants §4.1; Chebotarev Layer 10.
 
 Equality of residual traces alone does not determine the two images; the τ-diagonal basis and the actual traces do.
 
-### 4.6 Invertible local comparison coefficients
+### 4.6 Local behaviour of the off-diagonal entries
+
+This section writes the off-diagonal entries on each `G_𝔮`, `𝔮 | p`, through comparison coefficients that are units of `K`, and proves that `[κ]` lies in `H¹_R(G_F, B̄(χ⁻¹))` and is locally trivial at every `𝔮 ∈ R′`. The second-order bound 4.8–4.9 and the determinant computations 5.1 and 5.3 consume it.
 
 For each `𝔮 | p` let `M_𝔮 = [[A_𝔮, B_𝔮], [C_𝔮, D_𝔮]]` be the change of basis from an ordinary basis at `𝔮` to the τ-basis. Prove that `A_𝔮` and `C_𝔮` are units of `K` and that for `σ ∈ G_𝔮`, `b(σ) = (A_𝔮/C_𝔮)(χεη_𝔮⁻¹(σ) − a(σ))` and `c(σ) = (C_𝔮/A_𝔮)(χεη_𝔮⁻¹(σ) − d(σ))` (Dasgupta–Kakde–Ventullo §4.4, (79)–(80) and Lemma 4.6, pp. 863–864; §5.2, p. 867). The route: in each field factor a zero `A_𝔮` or `C_𝔮` would make the ordinary line an eigenline of `ρ_H(τ)`, excluded by 4.2; compare first columns of `ρ(σ)M_𝔮 = M_𝔮 [[χεη_𝔮⁻¹, ∗], [0, η_𝔮]]` and divide in `K`. *Needs:* 4.1, 4.2, 4.3.
 
 The quotients `A_𝔮/C_𝔮` need not lie in `Â`; cancellation is justified only in `K`.
 
-### 4.7 Restricted ramification of the class
-
-Prove that `[κ] ∈ H¹_R(G_F, B̄(χ⁻¹))` and that `[κ]` is locally trivial at every `𝔮 ∈ R′` (Dasgupta–Kakde–Ventullo Lemma 4.7, p. 864). The route: at `𝔩 ∤ p`, restrict to `G_H` to make the action trivial; by local class field theory the inertia image is a quotient of the local units, which are a finite group times a pro-`ℓ` group (`ℓ` the residue characteristic); a continuous homomorphism from the finite part to the torsion-free `B̄` is zero, and the compact image of the pro-`ℓ` part lies in a `p`-adic lattice, so it is both pro-`ℓ` and pro-`p`, hence zero; descend by finite-index averaging. At `𝔮 ∈ R′` choose `σ̃ ∈ G_𝔮` with `χ(σ̃) ≠ 1`: `χεη_𝔮⁻¹(σ̃) − a(σ̃)` is a unit of `Â`, so `A_𝔮/C_𝔮 ∈ B` by 4.6, and reducing gives `κ(σ) = (1 − χ⁻¹(σ))·(A_𝔮/C_𝔮 mod 𝔪B)` on `G_𝔮`, a coboundary. *Needs:* 1.1, 4.3, 4.6; ClassFieldTheory Layer 7; ArithmeticGaloisDuality §R02.2.3.
+**4.7 Restricted ramification of the class.** Prove that `[κ] ∈ H¹_R(G_F, B̄(χ⁻¹))` and that `[κ]` is locally trivial at every `𝔮 ∈ R′` (Dasgupta–Kakde–Ventullo Lemma 4.7, p. 864). The route: at `𝔩 ∤ p`, restrict to `G_H` to make the action trivial; by local class field theory the inertia image is a quotient of the local units, which are a finite group times a pro-`ℓ` group (`ℓ` the residue characteristic); a continuous homomorphism from the finite part to the torsion-free `B̄` is zero, and the compact image of the pro-`ℓ` part lies in a `p`-adic lattice, so it is both pro-`ℓ` and pro-`p`, hence zero; descend by finite-index averaging. At `𝔮 ∈ R′` choose `σ̃ ∈ G_𝔮` with `χ(σ̃) ≠ 1`: `χεη_𝔮⁻¹(σ̃) − a(σ̃)` is a unit of `Â`, so `A_𝔮/C_𝔮 ∈ B` by 4.6, and reducing gives `κ(σ) = (1 − χ⁻¹(σ))·(A_𝔮/C_𝔮 mod 𝔪B)` on `G_𝔮`, a coboundary. *Needs:* 1.1, 4.3, 4.6; ClassFieldTheory Layer 7; ArithmeticGaloisDuality §R02.2.3.
 
 The additive group `B̄` is not profinite; only compact images lie in lattices. The local unit group away from `p` is not pro-`ℓ`; its finite torsion part is treated separately.
 
-### 4.8 Generation by exceptional inertia
+### 4.8 Exceptional inertia and the second-order bound
+
+This section proves that `B` is generated by the `b(σ)` with `σ` in exceptional inertia and deduces `𝔪B ⊆ ∑_i α_i 𝔪²` inside `K`. The determinant computation 5.1 consumes it.
 
 Prove that `B` is generated as an `Â`-module by the `b(σ)` with `σ ∈ I_𝔮`, `𝔮 ∈ R` (Dasgupta–Kakde–Ventullo Lemma 4.8, pp. 864–865). The route: let `B_I` be the submodule so generated; the induced class with values in `(B/B_I)/𝔪(B/B_I)` lies in `H¹_R` and has zero inertia restriction at every `𝔮 ∈ R`, so it is zero by 1.5; it is a coboundary vanishing at `τ`, so it is the zero function; its values generate the quotient, which is therefore zero, and Nakayama on the finite module `B/B_I` gives `B = B_I`. *Needs:* 1.5, 4.3, 4.7.
 
-### 4.9 The second-order bound
-
-With `α_i = A_{𝔮_i}/C_{𝔮_i} ∈ K`, prove `B ⊆ ∑_i α_i 𝔪` and hence `𝔪B ⊆ ∑_i α_i 𝔪²` inside `K` (Dasgupta–Kakde–Ventullo Lemma 4.9, p. 865). The route: for `σ ∈ I_{𝔮_i}`, `χ(σ) = η_i(σ) = 1` and `ε(σ) − a(σ) ∈ 𝔪`, so 4.6 puts `b(σ)` in `α_i𝔪`; apply 4.8 and multiply by `𝔪`. All sums and products are `Â`-submodules of `K`; no integrality of `α_i` is assumed. *Needs:* 4.6, 4.8.
+**4.9 The second-order bound.** With `α_i = A_{𝔮_i}/C_{𝔮_i} ∈ K`, prove `B ⊆ ∑_i α_i 𝔪` and hence `𝔪B ⊆ ∑_i α_i 𝔪²` inside `K` (Dasgupta–Kakde–Ventullo Lemma 4.9, p. 865). The route: for `σ ∈ I_{𝔮_i}`, `χ(σ) = η_i(σ) = 1` and `ε(σ) − a(σ) ∈ 𝔪`, so 4.6 puts `b(σ)` in `α_i𝔪`; apply 4.8 and multiply by `𝔪`. All sums and products are `Â`-submodules of `K`; no integrality of `α_i` is assumed. *Needs:* 4.6, 4.8.
 
 ### Examples
 
@@ -809,21 +791,19 @@ Layers 1 and 3; PadicFamilies §§5.12–5.13 (through gap:dyadic-hilbert-hida-l
 
 ## Layer 5: determinants and the Gross–Stark theorem
 
-### 5.1 The exact determinant before Artin specialization
+### 5.1 The determinant comparisons in positive rank
+
+This section proves `L_an = R_p` for `r ≥ 1` from the arithmetic determinant: for `χ` in each of Cases 1–3 (5.1–5.2) and, in Case 3, for `χ⁻¹` through the lower-entry class (5.3–5.4). The Gross–Stark theorem 5.6 consumes it.
 
 For an `E`-basis `u_1, …, u_r` of `U_χ` with matrices `O` and `L` (0.4), prove that there is an `r × r` matrix with entries in `𝔪 ⊂ Â` whose determinant is zero in `Â` and whose image under `φ_𝔪` has entries `L_{ij} z + O_{ij} ε_i + n_{ij}` with `n_{ij} ∈ 𝔪_W²`, where `z = π` in Case 1 and `z = π − y` in Cases 2 and 3; consequently `det(L_{ij} z + O_{ij} ε_i + n_{ij}) = 0` in `W` (Dasgupta–Kakde–Ventullo §5.1, (81)–(86), pp. 865–866). The route: write each `u_j` as a finite `E`-combination of actual `p`-units; lift the local symbols `rec(u_j)` at `𝔓_i` to elements of `G_{𝔮_i}` and extend `a`, `b` and `η_i⁻¹ε` linearly to the corresponding group-algebra elements `σ_{ij}`; orthogonality (1.3) applied to `[κ]` gives `∑_i b(σ_{ij}) ∈ 𝔪B`; by 4.6 `b(σ_{ij}) = α_i h_{ij}` with `h_{ij} ∈ 𝔪`, and by 4.9 the error is `∑_i α_i q_{ij}` with `q_{ij} ∈ 𝔪²`; so `∑_i α_i(h_{ij} − q_{ij}) = 0` exactly. The weighted matrix has rows summing to zero, so its determinant vanishes in `K`; cancel the unit `∏α_i` in `K`; the unweighted matrix has entries in `Â`, so its determinant vanishes in `Â ⊆ K`. Apply `φ_𝔪`: `η_i⁻¹(rec u) = U_{𝔮_i}^{o_i(u)} ↦ 1 + o_i(u)ε_i` and `ε(rec u) ≡ 1 + ℓ_i(u)π` modulo `𝔪_W²` (Conventions), while `φ_𝔪(a)` contributes `0` (Case 1) or `ℓ_i(u)y` (Cases 2, 3). *Needs:* 0.4, 1.3, 4.5, 4.6, 4.7, 4.9; ClassFieldTheory Layer 7; Mathlib `Matrix.det`.
 
 The `𝔪B` error is absorbed using `𝔪²` before taking the determinant; discarding it first only places the determinant in a larger module. The `α_i` are cancelled in `K` and the determinant is then returned to `Â` before applying `φ_𝔪`.
 
-### 5.2 The leading-term comparison for the oriented character
-
-Prove, for `r ≥ 1`, that `det(L) z^r + det(O) ∏_i ε_i = 0` in `𝔪_W^r/𝔪_W^{r+1}` and that in each of Cases 1–3, `L_an(χ) = R_p(χ)`; in particular if `s > r` then `det L = 0` and both sides vanish (Dasgupta–Kakde–Ventullo §5.1, (85)–(87), pp. 866–867). The route: every term of the determinant containing some `n_{ij}` has at least `r + 1` factors from `𝔪_W`; every term mixing a `z` factor and an `ε_i` factor vanishes since `zε_i = 0`; what remains is `det(L)z^r + det(O)∏ε_i`. If `s = r` the top relation gives `∏ε_i = (−1)^{r+1} L_an(χ) z^r` (Case 1 directly; Case 2 through `π^s − y^s = z^s`; Case 3 has `s > r`); if `s > r`, `∏ε_i ∈ 𝔪_W^s ⊆ 𝔪_W^{r+1}`. Cancel the nonzero class of `z^r` (3.4–3.6) and use `det O ≠ 0`: `L_an(χ) = (−1)^r det L/det O = R_p(χ)`. *Needs:* 0.4, 0.5, 3.4, 3.5, 3.6, 5.1.
+**5.2 The leading-term comparison for the oriented character.** Prove, for `r ≥ 1`, that `det(L) z^r + det(O) ∏_i ε_i = 0` in `𝔪_W^r/𝔪_W^{r+1}` and that in each of Cases 1–3, `L_an(χ) = R_p(χ)`; in particular if `s > r` then `det L = 0` and both sides vanish (Dasgupta–Kakde–Ventullo §5.1, (85)–(87), pp. 866–867). The route: every term of the determinant containing some `n_{ij}` has at least `r + 1` factors from `𝔪_W`; every term mixing a `z` factor and an `ε_i` factor vanishes since `zε_i = 0`; what remains is `det(L)z^r + det(O)∏ε_i`. If `s = r` the top relation gives `∏ε_i = (−1)^{r+1} L_an(χ) z^r` (Case 1 directly; Case 2 through `π^s − y^s = z^s`; Case 3 has `s > r`); if `s > r`, `∏ε_i ∈ 𝔪_W^s ⊆ 𝔪_W^{r+1}`. Cancel the nonzero class of `z^r` (3.4–3.6) and use `det O ≠ 0`: `L_an(χ) = (−1)^r det L/det O = R_p(χ)`. *Needs:* 0.4, 0.5, 3.4, 3.5, 3.6, 5.1.
 
 Only the nonzero line `E·z^r` is used; the graded piece need not be one-dimensional. `L^*_an` enters only when `s = r`.
 
-### 5.3 The lower-entry class in Case 3
-
-In Case 3 define `C ⊆ K` as the `Â`-module generated by the `c(σ)` and `C̄ = C/𝔪C`; prove that `c̄` is a continuous cocycle for the action `χ` with `c̄(τ) = 0`, defining `[c] ∈ H¹_R(G_F, C̄(χ))` (restricted cohomology for `χ⁻¹` in place of `χ`); with `β_i = C_{𝔮_i}/A_{𝔮_i}` and `𝔶 = φ_𝔪⁻¹(yW_3) ⊆ Â`, prove that `C` is generated by the `c(σ)` with `σ` in exceptional inertia, that `C ⊆ ∑_i β_i 𝔶` and hence `𝔪C ⊆ ∑_i β_i 𝔪𝔶` (Dasgupta–Kakde–Ventullo §5.2 and Lemma 5.1, pp. 867–868). The route: use the GMA adapter of 4.3 for the lower entry, with the identity `c(στ′) = c(σ)a(τ′) + d(σ)c(τ′)`, which reduces to the χ-action; the away-from-`p` argument of 4.7 applies, and all primes above `p` are in `R` since `R′ = ∅`; for `σ ∈ I_𝔮`, `φ_𝔪(ε(σ) − d(σ)) = ε(σ) − χ(σ)ε_z(σ) = ε_y(σ) − 1 ∈ yW_3` (using `χ = η_𝔮 = 1` there, `ε = ε_yε_z` and `yz = 0`), so 4.6 puts `c(σ)` in `β_i𝔶`; generation follows from 1.5 for `χ⁻¹`, the τ-normalized coboundary argument and Nakayama. *Needs:* 1.5, 4.3, 4.4, 4.5, 4.6, 4.7; IntegralHeckeAndGaloisDeterminants §1.4.
+**5.3 The lower-entry class in Case 3.** In Case 3 define `C ⊆ K` as the `Â`-module generated by the `c(σ)` and `C̄ = C/𝔪C`; prove that `c̄` is a continuous cocycle for the action `χ` with `c̄(τ) = 0`, defining `[c] ∈ H¹_R(G_F, C̄(χ))` (restricted cohomology for `χ⁻¹` in place of `χ`); with `β_i = C_{𝔮_i}/A_{𝔮_i}` and `𝔶 = φ_𝔪⁻¹(yW_3) ⊆ Â`, prove that `C` is generated by the `c(σ)` with `σ` in exceptional inertia, that `C ⊆ ∑_i β_i 𝔶` and hence `𝔪C ⊆ ∑_i β_i 𝔪𝔶` (Dasgupta–Kakde–Ventullo §5.2 and Lemma 5.1, pp. 867–868). The route: use the GMA adapter of 4.3 for the lower entry, with the identity `c(στ′) = c(σ)a(τ′) + d(σ)c(τ′)`, which reduces to the χ-action; the away-from-`p` argument of 4.7 applies, and all primes above `p` are in `R` since `R′ = ∅`; for `σ ∈ I_𝔮`, `φ_𝔪(ε(σ) − d(σ)) = ε(σ) − χ(σ)ε_z(σ) = ε_y(σ) − 1 ∈ yW_3` (using `χ = η_𝔮 = 1` there, `ε = ε_yε_z` and `yz = 0`), so 4.6 puts `c(σ)` in `β_i𝔶`; generation follows from 1.5 for `χ⁻¹`, the τ-normalized coboundary argument and Nakayama. *Needs:* 1.5, 4.3, 4.4, 4.5, 4.6, 4.7; IntegralHeckeAndGaloisDeterminants §1.4.
 
 The API includes:
 
@@ -838,9 +818,7 @@ The API includes:
 - On exceptional inertia the image of `ε − d` is a multiple of `y`, even when `y` has zero class in `𝔪_W/𝔪_W²`.
 - For `r = t = 1`, `s = 2`, `yW_3 = E·cπ²` is a nonzero line; the degree-one maximal-ideal quotient would lose it.
 
-### 5.4 The inverse-character determinant in Case 3
-
-Prove that in Case 3, `L_an(χ⁻¹) = R_p(χ⁻¹)`: for a basis of `U_{χ⁻¹}` with matrices `O⁻, L⁻`, `det(L⁻) y^r + det(O⁻)(−1)^{t+1} L^*_an(χ⁻¹) y^t = 0` in `y^rW_3/y^{r+1}W_3` (Dasgupta–Kakde–Ventullo §5.2, (88)–(89), p. 868). The route: repeat 5.1 with `c`, `β_i` and orthogonality for `χ⁻¹`, absorbing the error with `𝔪C ⊆ ∑β_i𝔪𝔶`; after `φ_𝔪` the entries are `L⁻_{ij} y + O⁻_{ij} ε_i + n_{ij}` with `n_{ij} ∈ 𝔪_W yW_3 = y²W_3`; a determinant term involving an error either contains an `ε` factor and vanishes, or lies in `y^{r+1}W_3`; the top product is `(−1)^{t+1}L^*_an(χ⁻¹)y^t` (3.3). If `t = r`, cancel the nonzero line `y^r` (3.6) and divide by `det O⁻`; if `t > r`, `y^t` is zero in the quotient, so `det L⁻ = 0` and `L_an(χ⁻¹) = 0`. *Needs:* 0.4, 0.5, 1.3, 3.6, 5.3.
+**5.4 The inverse-character determinant in Case 3.** Prove that in Case 3, `L_an(χ⁻¹) = R_p(χ⁻¹)`: for a basis of `U_{χ⁻¹}` with matrices `O⁻, L⁻`, `det(L⁻) y^r + det(O⁻)(−1)^{t+1} L^*_an(χ⁻¹) y^t = 0` in `y^rW_3/y^{r+1}W_3` (Dasgupta–Kakde–Ventullo §5.2, (88)–(89), p. 868). The route: repeat 5.1 with `c`, `β_i` and orthogonality for `χ⁻¹`, absorbing the error with `𝔪C ⊆ ∑β_i𝔪𝔶`; after `φ_𝔪` the entries are `L⁻_{ij} y + O⁻_{ij} ε_i + n_{ij}` with `n_{ij} ∈ 𝔪_W yW_3 = y²W_3`; a determinant term involving an error either contains an `ε` factor and vanishes, or lies in `y^{r+1}W_3`; the top product is `(−1)^{t+1}L^*_an(χ⁻¹)y^t` (3.3). If `t = r`, cancel the nonzero line `y^r` (3.6) and divide by `det O⁻`; if `t > r`, `y^t` is zero in the quotient, so `det L⁻ = 0` and `L_an(χ⁻¹) = 0`. *Needs:* 0.4, 0.5, 1.3, 3.6, 5.3.
 
 The comparison uses `t = s_{χ⁻¹}`, so at `t = r` the leading term is `L_an(χ⁻¹)`. The quotient line is one-dimensional even when `y^r ∈ 𝔪_W^{r+1}`.
 
