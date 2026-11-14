@@ -1078,7 +1078,9 @@ Layers 1–3; the K3BlochGroups integral-comparison contract; the HabiroNumberFi
 
 ## Layer 5: formal admissibility and Gaussian comparison
 
-### 5.1 Plethystic coefficients and root expansions
+### 5.1 The formal Nahm series and its admissibility
+
+This part defines plethystic coefficients and admissibility, constructs the formal Nahm series with its deformed solution, integral shift ratios and residue potential, and proves its admissibility by the orbit route, independently of the Gaussian comparison. The level series and coefficient scheme of §§5.5–5.7, the modified potential of §6.3, the auxiliary products of §6.5 and the collections of §§7.1–7.2 consume it.
 
 Use the owner's formal Pochhammer symbol in `ℚ(q)[[T]]`, its Euler coefficients and the embedding in `ℤ((q))[[T]]`. In particular `(T;q⁻¹)_∞=(qT;q)_∞⁻¹` is an identity obtained by the rational-function automorphism q↦q⁻¹. It is not a product converging q-adically with base q⁻¹. Supply the augmentation-complete multivariate mvLog and mvExp, with inverse laws over a ℚ-algebra, the coefficient formula and their product/sum laws. All substitutions have zero augmentation. This is the local interface to the supplier's one-variable identities (GSWZ §2.1, (46)–(59), pp. 18–20).
 
@@ -1174,9 +1176,7 @@ For the potential, discriminant and root units of an admissible series, use the 
 - MvLog(1+t₁t₂)=t₁t₂−t₁²t₂²/2+t₁³t₂³/3−…, mvExp∘mvLog is the identity on (1−t₁)⁻¹, and a series with constant coefficient 2 lies outside the domain of mvLog.
 - In rank zero F=1, V=0, δ=U_m=1 and every product is empty. In mixed variables divisibility ℓ|n means divisibility of every coordinate, including its zero coordinates.
 
-### 5.2 The formal Nahm series and its defining equations
-
-For every symmetric integral A, with no positivity restriction, define `formalExponent A n=(nᵀAn+diag(A)·n)/2∈ℤ`. Prove that twice formalExponent equals its numerator, including evenness of that numerator, by separating diagonal and paired off-diagonal terms. Define `formalNahmSeries A`, written F_A, by
+**5.2 The formal Nahm series and its defining equations.** For every symmetric integral A, with no positivity restriction, define `formalExponent A n=(nᵀAn+diag(A)·n)/2∈ℤ`. Prove that twice formalExponent equals its numerator, including evenness of that numerator, by separating diagonal and paired off-diagonal terms. Define `formalNahmSeries A`, written F_A, by
 
 ```text
 F_A(t,q)=∑_{n∈ℕ^N} (−1)^(diag(A)·n) q^((nᵀAn+diag(A)·n)/2)
@@ -1230,9 +1230,7 @@ For the deformed Nahm solution and discriminant, use the following API (GSWZ (34
 - A=−1 has formal exponent −3 at n=2. The 2×2 all-ones matrix is valid although singular.
 - The empty matrix gives F=1 and δ=1. An odd diagonal uses the signed equations, not the positive unsigned system of Layer 1.
 
-### 5.3 Integral shifts, root orbits and the potential
-
-Define the shift ratio R_a=σ^aF_A/F_A for a∈ℤ^N and `G_j=R_{e_j}`. Prove integrality `R_a∈1+(t)ℤ[q,q⁻¹][[t]]`, including negative a; prove the cocycle law
+**5.3 Integral shifts, root orbits and the potential.** Define the shift ratio R_a=σ^aF_A/F_A for a∈ℤ^N and `G_j=R_{e_j}`. Prove integrality `R_a∈1+(t)ℤ[q,q⁻¹][[t]]`, including negative a; prove the cocycle law
 `R_{a+b}=R_a σ^aR_b`, R₀=1, and
 `1−G_j=(−q)^(A_jj)t_j R_{A_{*,j}}`.
 Use coordinate telescoping and inverse units for negative shifts; a product indexed from zero to a negative A_jj is not a definition. For m≥0 define the finite orbitRatio
@@ -1291,9 +1289,7 @@ For the Nahm residue potential and logarithmic Hessian, use the following API (G
 - `V_{−1}=t−3t²/4+10t³/9−35t⁴/16+…`; the statement is not restricted to nonnegative A.
 - At m=2 the A=0 residue is +t_j²/4+… and the A=3 residue is `−t²/4−5t⁴/16+…`. A coordinate not divisible by m contributes zero residue.
 
-### 5.4 Finite support and the elementary Dwork identity
-
-Prove admissibility of the formal Nahm series for every symmetric integral A. From integral shift ratios derive
+**5.4 Finite support and the elementary Dwork identity.** Prove admissibility of the formal Nahm series for every symmetric integral A. From integral shift ratios derive
 `L_n(q)[n_j]_q∈ℤ[q,q⁻¹]` for every j, where `[r]_q=(1−q^r)/(1−q)`. Thus a possible non-Laurent denominator is a simple cyclotomic factor whose order divides every nonzero coordinate of n. Induct on total degree. At each such order use §5.3's all-root residue identity, subtracting the already known proper-divisor contributions; a remaining pole would change a forbidden or already prescribed residue. Monic cyclotomic division preserves integral Laurent coefficients. This proves finite support of `c_{n,i},` not just the existence of an infinite Euler product. Source: GSWZ Theorem 6, (81)–(89), pp. 24–25. *Needs:* §§5.1–5.3. The orbit proof makes this theorem independent of the Gaussian regularity obligations below.
 
 For an admissible F prove admissible_dworkLog directly from its plethystic sum:
@@ -1313,7 +1309,9 @@ At q=ζ_m+x, p∤m, this belongs to `(p/x)ℤ_(p)[ζ_m][[t,x]]` coefficientwise.
 - The wrong-sign version of A=1 gives `L₂=q²/(1+q)`, which is excluded by the root residue calculation.
 - The Dwork logarithm at m=1 can have a pole at x=0. Requiring it to lie in pℤ_p[[x]] would erase the regulator term needed in §6.3.
 
-### 5.5 Congruence sums and the level-admissibility definition
+### 5.5 Level series, the Gaussian collection and the coefficient scheme
+
+This part provides the congruence series and their level admissibility, the formal Gaussian collection with the comparisons that identify its refined pieces with those series, and the nondegenerate coefficient algebra to which that collection is continued, with the rank-one WKB normalisation. Section 6.3 consumes the whole part; §§6.1, 6.2 and 7.4 use the Gaussian comparison, and §§6.1 and 6.4 the coefficient algebra.
 
 For m≥1 and 0≤k_j<m define the normalised congruenceNahmSeries
 
@@ -1381,9 +1379,7 @@ For the restricted Adams coefficients and level admissibility, use the following
 - For `(t;q^m)_∞`, the coefficients at m-smooth positive s are `(1−q^m)/(s(1−q^(ms)))`. At m=2,s=2 this is `1/(2(1+q²))`.
 - At A=0,m=2,c=2 the residue's t² coefficient is 1/4. The order c=4 is outside the restricted residue assertion and cannot be used to discard its Φ₄ pole.
 
-### 5.6 Formal Gaussian integration and its comparison obligations
-
-Extend §2.4's formalGaussian to the following h-scaled weighted domain, for an invertible symmetric Λ over a ℚ-algebra:
+**5.6 Formal Gaussian integration and its comparison obligations.** Extend §2.4's formalGaussian to the following h-scaled weighted domain, for an invertible symmetric Λ over a ℚ-algebra:
 
 ```text
 ⟨P(w,h)⟩_Λ = [ exp((h/2)∑_{i,j}(Λ⁻¹)_ij ∂_{w_i}∂_{w_j})P ]_{w=0}.
@@ -1490,9 +1486,7 @@ For the formal local remainder and Gaussian collection, use the following API (G
 - For A=0 the final two-variable collection factors into reciprocal Pochhammer series. Its regularity must be coefficientwise in each variable, not merely in total degree.
 - At A=1,m=3 the refined recurrence's sign is negative. Inverting its recursion factor before taking x=0 is essential.
 
-### 5.7 The coefficient scheme and rank-one WKB structure
-
-Define the nondegenerate deformed solution algebra
+**5.7 The coefficient scheme and rank-one WKB structure.** Define the nondegenerate deformed solution algebra
 
 ```text
 S_A=ℤ[t_i,t_i⁻¹,z_i,z_i⁻¹,T] /
@@ -1554,7 +1548,9 @@ Layer 1 only for shared equations and discriminants; HabiroCyclotomicCompletions
 
 ## Layer 6: Frobenius and Habiro module membership
 
-### 6.1 Full coefficient algebras and divisibility transfer
+### 6.1 The p-adic local inputs to membership
+
+This part provides the Frobenius lift and divisibility transfer on the full coefficient algebra, the localisation of Gaussian coefficients, the integral first jet of a refined piece, and the modified potential with its regulator specialisation and Frobenius congruences. Section 6.4, whose Needs line is §§6.1–6.3, consumes them for membership; §7.4 also uses §6.2's Wick formula.
 
 For a prime p with p∤2m use the unique Frobenius lift on the p-completion of S_A^(m), and on its Kummer extension w_j^m=z_j. It covers `t_j^(1/m)↦t_j^(p/m)` and ζ_m↦ζ_m^p, lifts z_j↦z_j^p modulo p, and acts on the square-root generator T on every component. Prove functoriality for maps over the fixed Laurent Λ-base and for changes of base whose p-complete base maps satisfy f∘ψ_p=ψ′_p∘f. Under this hypothesis prove the coefficient-algebra square by uniqueness of the étale Frobenius lift. Root-coordinate substitutions and nondegenerate specialisations are compatible only when they satisfy this base square; existence of a map on p-completions alone is insufficient. These are applications of QWittVectors §6.1’s Completed étale Frobenius theorem on the perfectly covered Laurent Λ-base specified above, with the coefficient algebra of §5.7, rather than a new construction of Witt Frobenius. Source: GSWZ §2.7, (169)–(170), pp. 36–37. *Needs:* §5.7 and the étale Frobenius supplier.
 
@@ -1584,9 +1580,7 @@ For the p-saturation, use the following API (GSWZ (39), p. 14; (170), pp. 36–3
 - In rank zero the z-equations disappear but the two square-root components still remain after 2 is inverted.
 - For A=0,m=1,t=2,z=−1,δ=−1 in ℤ[1/6,T]/(T²+1), the p=5 base square compares 2⁵=32 with 2; its difference 30 is nonzero in the 5-completion, so this étale specialisation is excluded from Frobenius naturality. At t=1 the base square instead compares 1 with 1.
 
-### 6.2 A first-jet integrality calculation
-
-Define the polynomial Jet(C,b,Q,T₃,U₄,c) over a characteristic-zero field, for a finite coordinate set, by
+**6.2 A first-jet integrality calculation.** Define the polynomial Jet(C,b,Q,T₃,U₄,c) over a characteristic-zero field, for a finite coordinate set, by
 
 ```text
 c +½∑_iQ_iC_ii +½∑_{i,j}b_i b_j C_ij
@@ -1631,9 +1625,7 @@ For the Gaussian first jet, use the following API (GSWZ (110), (114), (118), pp.
 - At A=3,m=1 the jet is `−(z−1)(28z²−99z+108)/(12(2z−3)³)`. Substituting `t=(z−1)z⁻³` in the rational first correction of GSWZ (242), p. 49, gives exactly this expression. The exponential in this comparison is exp(V/h), h=log(1+x); retaining a literal exp(V/x) instead introduces exp(V/2) into the leading factor and −V/12 into the first relative coefficient. Removing N/24 changes the jet by −1/24.
 - Changing the w_j roots permutes the coefficient components. Vanishing of the total constant does not invalidate membership in their local span, but does prevent normalising that sum by its constant.
 
-### 6.3 The modified potential and the local regulator
-
-Consume PadicHodgeRegulators §4.7 and §§5.6–5.9: for p>3 and a finite unramified étale ℚ_p-algebra L (in particular L=K_p), the isomorphism
+**6.3 The modified potential and the local regulator.** Consume PadicHodgeRegulators §4.7 and §§5.6–5.9: for p>3 and a finite unramified étale ℚ_p-algebra L (in particular L=K_p), the isomorphism
 `D_L:K₃(L;ℤ_p)≃p²𝒪_L`, its normalized comparison with the Bloch presentation, and generation by completed classes of prime-to-p roots whose every component is different from 1; from ColemanIntegration Layer L2 consume the reflection identity and integral modified polylogarithms. This is the exact local input of GSWZ Lemma 3.1, Propositions 3.2–3.3 and Theorem 9, (174)–(183), pp. 37–39. Retain the completed source and the supplier’s coefficient-map and product compatibility when applying this isomorphism.
 
 Write `φ_p(z_i)=z_i^p exp(pη_i)`, where η_i is defined by the convergent logarithm on 1+pŜ_p, and β_j=∑_iA_ijη_i. Put y_j=1−z_j. Define the algebraic p-adic expression
@@ -1689,7 +1681,9 @@ For the intrinsic modified potential, use the following API (GSWZ (130), (132)�
 - A formal t-series can diverge at t=1 even if each coefficient is algebraic. W_p's convergent p-adic formula is the object specialised.
 - The regulator sign does not determine whether a finite Chern class or its inverse indexes the Kummer torsor. That comparison is required separately next.
 
-### 6.4 Kummer orientation, coefficient extension and membership
+### 6.4 Membership of the regular Nahm collection and its product gluing
+
+This part states membership of the regular Nahm collection at a nondegenerate signed solution in its K₃-indexed Habiro module on orders prime to Δ, together with the auxiliary products and the integral descent and gluing equations of the unpowered product that its proof requires. Section 6.6 and §§7.1, 7.3 and 7.4 consume it.
 
 Let ξ be the integral Bloch/K₃ class of a nondegenerate signed solution over K, retaining the convention-change choices from Layer 1. Let `ε_m(ξ)=c_fixed,m(ξ)²` be the all-order Chern square of HabiroNumberFields §1.15, with its chosen K₃/Bloch comparison; it is not defined by a cyclic-regulator value. Prove nahmConstant_kummerOrientation on the universal Kummer algebra. The full cyclic product and fractional product satisfy `D_fractional(w)^m=D_ζ(w)`; the product `∏D_ζ(w_j)/D_ζ(1)` is P_ζ(ξ) modulo m-th powers. The cyclic factor appearing in the corrected U_m has the inverse P class. Track the additional z-powers, square-root determinant, finite k-sum and normalisation to identify its class with ε_m, including the exact power and inversion relating the supplier's Chern square to R_ζ on its domain. The module index cannot be chosen merely to make this identity hold. The calibration assembled in §2.7 uses HabiroNumberFields §§1.10 and 1.14 only under finiteChern_normalization_comparison and on §1.13's good-order domain. At other orders the independently defined ε_m remains available, but nahmConstant_kummerOrientation must prove the comparison directly; neither the calibrated exponent nor its sign extends there by assertion.
 
@@ -1744,9 +1738,7 @@ For the finite-presentation specialisation, use the following API (GSWZ (169)–
 - Specialising the signed cubic sends its defining equation to z³−z+1=0. Rotating an m-th root changes the level map by the corresponding Kummer automorphism.
 - A proposed specialisation with z=0 or δ=0 cannot preserve the localised units. Evaluating the infinite series ∑tⁿ at t=1 is undefined and is not this finite-presentation map.
 
-### 6.5 Auxiliary systems and the all-order gluing target
-
-For a unit q, γ≥1, arbitrary signed shifts μ=(μ₁,…,μ_γ),ν and arbitrary formal series F⁺,F⁻ over a commutative coefficient ring, define two auxiliary products:
+**6.5 Auxiliary systems and the all-order gluing target.** For a unit q, γ≥1, arbitrary signed shifts μ=(μ₁,…,μ_γ),ν and arbitrary formal series F⁺,F⁻ over a commutative coefficient ring, define two auxiliary products:
 
 ```text
 Ψ_{μ,ν}(t)=∏_{i=1}^γ F⁺(q^(γμ_i)t^γ) F⁻(q^(−ν)t),
@@ -1851,7 +1843,9 @@ Layer 5; QWittVectors §6.1; the HabiroNumberFields arithmetic contract, with th
 
 ## Layer 7: explicit collections and exports
 
-### 7.1 Symmetrisation and residues
+### 7.1 Symmetrisation and the explicit examples
+
+This part provides the general symmetrisation with its product formula and all-root membership, and the explicit cubic, quartic, knot, p-adic and modular examples. Section 7.6 exports their membership; its Needs line is §§7.1–7.5.
 
 For a symmetric integral A define the rational summation kernel
 
@@ -1946,9 +1940,7 @@ For the generalised Gaussian binomial, use the following API (GW Proposition 1.1
 - Changing the order of Kummer roots leaves the finite sum unchanged. Dropping the factor m^N fails already for m=2 in rank one.
 - μ=ν=0 gives ordinary symmetrisation. The shifted identity retains both parameter families; collapsing them loses a q-shift equation.
 
-### 7.2 The signed cubic and its small primes
-
-Take A=3, z³−z+1=0 and K=ℚ(z). The discriminant is −23 and 𝒪_K=ℤ[z]. Prove the exact identities
+**7.2 The signed cubic and its small primes.** Take A=3, z³−z+1=0 and K=ℚ(z). The discriminant is −23 and 𝒪_K=ℤ[z]. Prove the exact identities
 
 ```text
 δ=−z²−z−2,      δ⁻¹=(2z²+3z−9)/23.
@@ -1991,9 +1983,7 @@ State cubicSmallPrimeDescent: the residue descendants descend from `H_{R₆}` to
 - The first three order-one coefficients lie in ℤ[z,1/23], but this checks neither higher coefficients nor the p=2,3 equations at other roots.
 - The product with s₁,…,s₆ above gives `1+t+3t²+12t³+55t⁴+273t⁵+1428t⁶+…`, checking the sign −ns_n.
 
-### 7.3 A nonabelian quartic and its arithmetic
-
-Let `A=((8,5),(5,4))`. Prove that the complete torus-solution algebra is the product of two quartic factors: eliminating the second coordinate gives the two polynomials in GSWZ (257)–(258), with any coordinate-hyperplane factor discarded only after unit localisation. The second factor has `u⁴−u³+3u²−3u+1=0`, `v=u³+3u`, field discriminant 229 and S₄ normal closure. Prove these finite algebraic claims and nonvanishing of a Bloch–Wigner regulator for its class by a proved nonzero bound at one complex embedding. Its non-torsion does not follow from merely comparing discriminants. For the other factor choose a root u of `u⁴+u³+3u²−3u−1=0` and define
+**7.3 A nonabelian quartic and its arithmetic.** Let `A=((8,5),(5,4))`. Prove that the complete torus-solution algebra is the product of two quartic factors: eliminating the second coordinate gives the two polynomials in GSWZ (257)–(258), with any coordinate-hyperplane factor discarded only after unit localisation. The second factor has `u⁴−u³+3u²−3u+1=0`, `v=u³+3u`, field discriminant 229 and S₄ normal closure. Prove these finite algebraic claims and nonvanishing of a Bloch–Wigner regulator for its class by a proved nonzero bound at one complex embedding. Its non-torsion does not follow from merely comparing discriminants. For the other factor choose a root u of `u⁴+u³+3u²−3u−1=0` and define
 the quartic coordinate pair (u,v), where `v=(−9u³−6u²−25u+37)/5`.
 This is the degree-four orbit with D₄ normal closure, not the other S₄ orbit in GSWZ (258). For the distinguished real example choose the embedding whose coordinates lie in (0,1). Supply coordinate extensionality, field-map naturality and exact quotient-polynomial witnesses for
 
@@ -2051,9 +2041,7 @@ For the quartic coordinates and normalised sum, use the following API (GSWZ (256
 - At the positive real embedding, the displayed a₁ is approximately −0.03163535, whereas the formal h-coefficient of the canonical t=(1,1) sum is approximately −0.82468690. The shift and q-direction distinguish these two expansions; the three displayed coefficients satisfy the exact ε-to-x conversion.
 - The complex embedding and its conjugate give opposite regulator values, one dependent pair for this signature (2,1), through Layer 1. A small computed value is neither their exact vanishing nor an exact 60-torsion witness.
 
-### 7.4 Knot data, figure-eight and the cubic pair
-
-Record the three formal matrices
+**7.4 Knot data, figure-eight and the cubic pair.** Record the three formal matrices
 
 ```text
 A_(4₁)=((1,1),(1,1)),
@@ -2135,9 +2123,7 @@ For the figure-eight completed transport, use the following API (GSWZ (276)–(2
 - Equality of selected trace-field factors is weaker than equality of full solution algebras. The degree-three real pretzel component survives separately.
 - Equality modulo 6-torsion of Bloch classes does not canonically identify integral K₃ lifts or global module generators.
 
-### 7.5 p-adic calculations and modular examples
-
-Use Mathlib `HenselianRing.is_henselian` and `IsAdicComplete.henselianRing` for simple-root lifting in general complete coefficient rings; hensels_lemma in the p-adic integer file is specifically over ℤ_p and is not used as a theorem over every DVR. For a finite étale ℤ_p-algebra with a specified integral monic monogenic presentation P whose power-basis index is prime to p, identify its unique continuous Frobenius lift with the unique roots of P congruent to the p-th powers of the residue generators. Prove preservation of P, reduction compatibility and functoriality of evaluations of the Nahm coordinates and δ, using the generic Hensel theorem and QWittVectors §6.1. A presentation with bad index at p does not identify the field’s étale decomposition from its polynomial reduction. Source: GSWZ §4.4, (264)–(275), pp. 53–54. *Needs:* the finite field presentation and Hensel hypotheses as explicit inputs.
+**7.5 p-adic calculations and modular examples.** Use Mathlib `HenselianRing.is_henselian` and `IsAdicComplete.henselianRing` for simple-root lifting in general complete coefficient rings; hensels_lemma in the p-adic integer file is specifically over ℤ_p and is not used as a theorem over every DVR. For a finite étale ℤ_p-algebra with a specified integral monic monogenic presentation P whose power-basis index is prime to p, identify its unique continuous Frobenius lift with the unique roots of P congruent to the p-th powers of the residue generators. Prove preservation of P, reduction compatibility and functoriality of evaluations of the Nahm coordinates and δ, using the generic Hensel theorem and QWittVectors §6.1. A presentation with bad index at p does not identify the field’s étale decomposition from its polynomial reduction. Source: GSWZ §4.4, (264)–(275), pp. 53–54. *Needs:* the finite field presentation and Hensel hypotheses as explicit inputs.
 
 Define the scalar `rationalGaussTaylor(m)=a_m` by a_m=1 for m odd, 0 for m≡2 mod4 and 2 for m≡0 mod4; the formula also assigns 2 at m=0, which is excluded from root-indexed assertions. Its associated constant series is `PowerSeries.C a_m`. Prove naturality of that series under coefficient maps, vanishing of every positive-degree coefficient, and `rationalGaussTaylor_eq_gaussSum`: for m>0,
 
@@ -2195,7 +2181,9 @@ For the Rogers–Ramanujan residue kernel and family, use the following API (GSW
 - At the specified negative quadratic root, the raw Rogers–Ramanujan residue is F₁=−1/2−√5/10. The normalized §7.1 residue is −F₁=1/2+√5/10=δ⁻¹ and satisfies −5(−F₁)²+5(−F₁)=1; using the raw polynomial with that normalized value gives the wrong sign.
 - The Rogers–Ramanujan F₁ and F₂ are conjugate and distinct. At m=5, choosing a compatible embedding is essential for the value 0 or −1.
 
-### 7.6 Degree-zero cohomology and coefficient lines
+### 7.6 Exports to Habiro cohomology
+
+This part carries actual Habiro elements to degree-zero Habiro cohomology, transports the K₃-indexed lines, and states the separate higher-degree comparison target. These are the roadmap's exports: the geometric application described under Downstream consumers uses the degree-zero comparison and line transport, and its higher-dimensional form the data of §7.7.
 
 For a number field K and R=𝒪_K[1/Δ] étale over ℤ after the stated localisation, use the exact supplier comparisons with the direction fixed in the introduction:
 
@@ -2231,9 +2219,7 @@ For the degree-zero export and transported line, use the following API (Wagner C
 - The involution of split B exchanges its two trivial-line components; composing that pullback twice is the identity.
 - If B splits, the comparison and Picard statements act on every factor, not only a chosen embedding.
 
-### 7.7 The precise higher-cohomology interface
-
-The type of the preceding export is degree zero for Spec R, étale of relative dimension zero over Spec ℤ[1/Δ]. State higherHabiroComparison as a separate geometric comparison target at the full generality of the intended cohomology theory. Garoufalidis–Wheeler Definition 1.2, p. 5, defines H(V) for an R-module with compatible p-adic Frobenius automorphisms at all but finitely many primes, R étale over ℤ[λ]. The rational series at every root must converge on the **whole** open p-adic unit disc and satisfy Frobenius reexpansion for every m at almost every p. In the smooth proper setting of (13)–(14), pp. 5–6, take every degree n and V=Hⁿ_dR(X/B) modulo torsion; no degree-zero restriction is imposed on that construction.
+**7.7 The precise higher-cohomology interface.** The type of the preceding export is degree zero for Spec R, étale of relative dimension zero over Spec ℤ[1/Δ]. State higherHabiroComparison as a separate geometric comparison target at the full generality of the intended cohomology theory. Garoufalidis–Wheeler Definition 1.2, p. 5, defines H(V) for an R-module with compatible p-adic Frobenius automorphisms at all but finitely many primes, R étale over ℤ[λ]. The rational series at every root must converge on the **whole** open p-adic unit disc and satisfy Frobenius reexpansion for every m at almost every p. In the smooth proper setting of (13)–(14), pp. 5–6, take every degree n and V=Hⁿ_dR(X/B) modulo torsion; no degree-zero restriction is imposed on that construction.
 
 Keep the affine push-forward theorem distinct. Garoufalidis–Wheeler Theorem 1.18, (50)–(53), pp. 12–13, starts with an étale map ℤ[x,λ]→R′, X=Spec R′ over `B′=Spec ℤ[λ,1/Δ(λ)]`, an analytic relative Habiro element f whose Taylor series have positive radius at every prime-ideal completion, and a relative top form ω fixed by the p-Frobenius for almost all p. Its map is
 `f↦[fω]∈H_naive^N(X/B′)`, N the number of x variables. Positive radius in this analytic input and whole-unit-disc convergence in H(V) are separate conditions whose preservation is part of the theorem; they must not be interchanged in a comparison.
