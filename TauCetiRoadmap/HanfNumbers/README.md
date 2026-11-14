@@ -952,10 +952,12 @@ Using IME's `infinitaryType` and `realizedTypes` (IME 4.1):
 - `IsLω₁ωSmall M`: for every `n`, `(realizedTypes M n).Countable`, i.e. `M` realizes countably many
   complete Lω₁ω-types in `n` variables (smallness in Marker's notes, Definition 6.11, p. 77).
 - API: invariance under isomorphism; every countable structure is small; smallness descends to
-  reducts along a language map (types of the reduct are determined by types in the expansion);
-  potentially isomorphic structures realize the same complete types, so smallness transfers along
-  `PotentialIso`; if every tuple's complete type is determined by its orbit under a group of
-  automorphisms with countably many orbits on `n`-tuples for each `n`, the structure is small.
+  reducts along a language map (types of the reduct are determined by types in the expansion); for
+  relational `L`, potentially isomorphic structures realize the same complete types (through a
+  tuple back-and-forth system, `TauCeti.potentialIso_iff_exists_isTupleBFSystem`), so smallness
+  transfers along `PotentialIso`; if every tuple's complete type is determined by its orbit under a
+  group of automorphisms with countably many orbits on `n`-tuples for each `n`, the structure is
+  small.
 
 **Checks.**
 
