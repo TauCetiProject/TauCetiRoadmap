@@ -290,10 +290,10 @@ For a linear order `I` and a colour type `C`:
 
 API: homogeneity is inherited by subsets and transported along order embeddings and order
 isomorphisms; the restriction of a colouring along an order embedding has the pulled-back
-homogeneous sets; `IsHomogeneousOn` implies `IsEndHomogeneousOn`; monotonicity of
-`PartitionRel` (larger source, smaller target, fewer colours); and the order-free form, the same
-relation stated with colourings of `n`-element subsets `{s : Finset X // s.card = n}`. The order-free form shows that
-`PartitionRel` does not depend on the linear order chosen on a set of cardinality `κ`, so a
+homogeneous sets; `IsHomogeneousOn` implies `IsEndHomogeneousOn`; monotonicity of `PartitionRel`
+(larger source, smaller target, fewer colours); and the order-free form, the same relation stated
+with colourings of `n`-element subsets `{s : Finset X // s.card = n}`. The order-free form shows
+that `PartitionRel` does not depend on the linear order chosen on a set of cardinality `κ`, so a
 statement proved for well-orders (`κ.ord.ToType`) holds for every linear order of that cardinality.
 
 ### 0.2 Pigeonhole
@@ -472,10 +472,10 @@ Fix a countable language `L₀ : Language.{0, 0}` and a countable set `Γ₀` of
 positions containing `x₀ = x₁` and the atomic formula `R(x₀, …, x_{l-1})` for every relation symbol
 `R` of `L₀`. Build, by recursion on `k : ℕ`, languages `L_k` and countable formula sets `Γ_k`:
 
-- `L_{k+1} = L_k.sum (skolemSymbols Γ_k)`, where `skolemSymbols Γ_k` has one `n`-ary function
-  symbol `f_ψ` for each `ψ ∈ Γ_k` of arity `n + 1` (the `n + 1`-st position is the witnessed
-  variable) and no relation symbols. This is the shape of Mathlib's `Language.skolem₁`, restricted
-  to `Γ_k`.
+- `L_{k+1}` is the sum (`Language.sum`) of `L_k` and the language of Skolem symbols for `Γ_k`, which
+  has one `n`-ary function symbol `f_ψ` for each `ψ ∈ Γ_k` of arity `n + 1` (the `n + 1`-st position
+  is the witnessed variable) and no relation symbols. This is the shape of Mathlib's
+  `Language.skolem₁`, restricted to `Γ_k`.
 - `Γ_{k+1}` is the closure of the image of `Γ_k` in `L_{k+1}` (under `onBoundedFormulaInf` of the
   inclusion, which commutes with term substitution by `onBoundedFormulaInf_substBounds`), together
   with the Skolem formulas `∀-closure of (∃y ψ(x̄, y) → ψ(x̄, f_ψ(x̄)))` for `ψ ∈ Γ_k`, under
@@ -657,16 +657,16 @@ Suggested home: `TauCeti/ModelTheory/Infinitary/Hanf/{Defs, Approximation, Morle
 
 *Needs:* Convention 6; IME 0.1.
 
-`HasArbLargeModels φ`, `IsHanfBound φ κ`, `hanfNumber φ` (Convention 6), with:
-`IsHanfBound.mono`; every sentence has a Hanf bound (if `φ` lacks arbitrarily large models, some
-cardinal bounds all its models; Keisler–Knight, Theorem 1.6.1, for any set of sentences);
-the infimum is attained, so the Hanf number is a Hanf bound; the Hanf number lies below every Hanf
-bound, `κ` is a Hanf bound exactly when the Hanf number is at most `κ`, and `κ` lies below the Hanf
-number exactly when it is not a Hanf bound; invariance of all three notions under sentence
-equivalence and under `onBoundedFormulaInf` along an injective language map (IME 0.1). The
-invariance uses that the Hanf predicates count only nonempty models (Convention 6): a nonempty
-model of `φ` expands to a model of its image, interpreting the new symbols arbitrarily, and a model
-of the image restricts to a model of `φ` on the same carrier.
+`HasArbLargeModels φ`, `IsHanfBound φ κ`, `hanfNumber φ` (Convention 6), with: monotonicity of Hanf
+bounds (a cardinal at least a Hanf bound is a Hanf bound); every sentence has a Hanf bound (if `φ`
+lacks arbitrarily large models, some cardinal bounds all its models; Keisler–Knight, Theorem 1.6.1,
+for any set of sentences); the infimum is attained, so the Hanf number is a Hanf bound; the Hanf
+number lies below every Hanf bound, `κ` is a Hanf bound exactly when the Hanf number is at most `κ`,
+and `κ` lies below the Hanf number exactly when it is not a Hanf bound; invariance of all three
+notions under sentence equivalence and under `onBoundedFormulaInf` along an injective language map
+(IME 0.1). The invariance uses that the Hanf predicates count only nonempty models (Convention 6): a
+nonempty model of `φ` expands to a model of its image, interpreting the new symbols arbitrarily, and
+a model of the image restricts to a model of `φ` on the same carrier.
 
 **Checks.**
 
@@ -781,9 +781,9 @@ Targets:
   arbitrarily large models (`HasArbLargeModels φ`), and `ℶ_ω₁` is a Hanf bound for every Lω₁ω
   sentence, over any language.
 - The Hanf number of every Lω₁ω sentence is at most `ℶ_ω₁`.
-- **`morley_hanf_theory`**: a countable `T : Theoryω L` (IME 1.1), through `Theoryω.conjunction`,
-  satisfying the Morley–Hanf hypothesis
-  has models of every infinite cardinality.
+- **The countable-theory form**: a countable `T : Theoryω L` (IME 1.1), through
+  `Theoryω.conjunction`, satisfying the Morley–Hanf hypothesis has models of every infinite
+  cardinality.
 - **`morley_omitting_types`** (Morley 1965; Marker's notes, Corollary 5.8, p. 58, for a countable
   signature, models of cardinality exactly `ℶ_α` and the conclusion of arbitrarily large models):
   over any language, let `T` be a first-order theory and
@@ -836,12 +836,11 @@ Suggested home: `TauCeti/ModelTheory/Infinitary/Hanf/{Global, Ladder, VonNeumann
 *Needs:* 3.1, 3.4.
 
 `IsLω₁ωHanfBound κ`: `κ : Cardinal.{w}` is a Hanf bound for every sentence of every language in
-`Language.{u, v}`. `lomega1omegaHanfNumber` is the least such cardinal. Targets:
-`beth_omega_one_isLω₁ωHanfBound` (from `morley_hanf`), the attained infimum, the universal property
-(the global Hanf number is at most `κ` exactly when `κ` is a global Hanf bound), and the
-bounded-spectrum criterion
-`lt_lomega1omegaHanfNumber_of_maximal_model`: a sentence with a nonempty model of cardinality at
-least `κ` and no model of cardinality greater than `κ` shows `κ < lomega1omegaHanfNumber`.
+`Language.{u, v}`. `lomega1omegaHanfNumber` is the least such cardinal. Targets: the global
+bound, that `ℶ_ω₁` is a global Hanf bound (from `morley_hanf`); the attained infimum; the universal
+property (the global Hanf number is at most `κ` exactly when `κ` is a global Hanf bound); and the
+bounded-spectrum criterion: a sentence with a nonempty model of cardinality at least `κ` and no
+model of cardinality greater than `κ` shows `κ < lomega1omegaHanfNumber`.
 
 ### 4.2 The beth ladder
 
@@ -863,9 +862,9 @@ conjunction of:
 Index sets are countable because `α + 2 < ω₁`, so the conjunctions and disjunctions are coded into
 `ℕ` with `iInfAlong`/`iSupAlong`. Targets:
 
-- **`realize_ladderSentence_iff`**: satisfaction is the conjunction of the six semantic clauses,
-  as a structure `IsLadderModel`.
-- **Upper bound**, `card_le_beth_of_isLadderModel`: in a model, `#U_i ≤ ℶ_i` by well-founded
+- **Ladder satisfaction**: satisfaction of the ladder sentence is the conjunction of the six
+  semantic clauses above, read in the structure; a structure satisfying them is a **ladder model**.
+- **Ladder cardinal bound**: in a ladder model, `#U_i ≤ ℶ_i` by well-founded
   induction on `i`. At `⊥`, `U_⊥` is covered by the countably many constants. At a successor `i +
   1`, sending `x` to its set of `E`-predecessors is injective (extensionality) into the powerset of
   `U_i`, giving `#U_{i+1} ≤ 2^{ℶ_i} = ℶ_{i+1}`. At a limit, `U_j` is a countable union of smaller
@@ -883,8 +882,8 @@ Index sets are countable because `α + 2 < ω₁`, so the conjunctions and disju
 
 *Needs:* 4.1, 4.2; Mathlib `Cardinal.beth_limit`.
 
-- **`beth_succ_lt_lomega1omegaHanfNumber`**: `ℶ_(α+1) < lomega1omegaHanfNumber` for every `α < ω₁`.
-- **`iSup_beth_succ_omega_one`**: `⨆_{α < ω₁} ℶ_(α+1) = ℶ_ω₁`, from `Cardinal.beth_limit` and
+- **Successor-beth lower bound**: `ℶ_(α+1) < lomega1omegaHanfNumber` for every `α < ω₁`.
+- **Cofinal beth supremum**: `⨆_{α < ω₁} ℶ_(α+1) = ℶ_ω₁`, from `Cardinal.beth_limit` and
   cofinality of the successors in the limit `ω₁`.
 - **`lomega1omegaHanfNumber_eq_beth_omega_one`** (headline): `Hanf(Lω₁ω) = ℶ_ω₁` (Keisler–Knight,
   Theorem 1.6.2, where the Hanf number has the cofinal form of Convention 5; both forms have the
@@ -1002,20 +1001,20 @@ relation symbols.
 - `⊥` is not complete: it has no model.
 - The Scott sentence of `(ℚ, <)` is complete (`isCompleteSentence_scottSentence`).
 
-- **`exists_countable_potentialIso_of_isLω₁ωSmall`** (countable companion): a small structure `M` is
-  potentially isomorphic to a countable structure (Marker's notes, the remark after Definition 6.11,
-  p. 77, as `L∞ω`-equivalence, which Karp's theorem identifies with potential isomorphism; the
-  Exercise 2.34, p. 22, that it cites assumes `M` countable). Let `F` be the fragment generated by
-  isolating formulas `χ_p` of `exists_isolatingFormula` for all realized types `p` of all arities,
-  together with their one-variable existential closures (the isolator seed of IME 4.1); it is
-  countable by `Fragment.generated_countable`. Take `M₀ ⊆ M` countable with
-  `AElementary F M₀.subtype` by `exists_countable_aElementary_substructure` with `X = ∅` (IME 2.3; a
-  relational language has no function symbols). The pairs of tuples of `M₀` and `M` with the same
-  complete type in `M` form a tuple back-and-forth system. Going back, let `ā` from `M₀` and `b̄`
-  from `M` have the same type and `d ∈ M`, and put `q = tp(b̄ d)`. Then `M ⊨ ∃y χ_q(b̄, y)`, so
-  `M ⊨ ∃y χ_q(ā, y)`, so `M₀ ⊨ ∃y χ_q(ā, y)` by `F`-elementarity, and a witness `c ∈ M₀` has
-  `tp(ā c) = q` in `M`. Going forth, the witness is found in `M` directly. Conclude with the
-  parent's `potentialIso_iff_exists_isTupleBFSystem`.
+- **Countable companion**: a small structure `M` is potentially isomorphic to a countable structure
+  (Marker's notes, the remark after Definition 6.11, p. 77, as `L∞ω`-equivalence, which Karp's
+  theorem identifies with potential isomorphism; the Exercise 2.34, p. 22, that it cites assumes `M`
+  countable). Let `F` be the fragment generated by isolating formulas `χ_p` of
+  `exists_isolatingFormula` for all realized types `p` of all arities, together with their
+  one-variable existential closures (the isolator seed of IME 4.1); it is countable by
+  `Fragment.generated_countable`. Take `M₀ ⊆ M` countable with `AElementary F M₀.subtype` by
+  `exists_countable_aElementary_substructure` with `X = ∅` (IME 2.3; a relational language has no
+  function symbols). The pairs of tuples of `M₀` and `M` with the same complete type in `M` form a
+  tuple back-and-forth system. Going back, let `ā` from `M₀` and `b̄` from `M` have the same type
+  and `d ∈ M`, and put `q = tp(b̄ d)`. Then `M ⊨ ∃y χ_q(b̄, y)`, so `M ⊨ ∃y χ_q(ā, y)`, so
+  `M₀ ⊨ ∃y χ_q(ā, y)` by `F`-elementarity, and a witness `c ∈ M₀` has `tp(ā c) = q` in `M`. Going
+  forth, the witness is found in `M` directly. Conclude with the parent's
+  `potentialIso_iff_exists_isTupleBFSystem`.
 - **`isCompleteSentence_scottSentence`**: the Scott sentence of a countable structure `M₀` is
   complete. A model `N` of it, of any cardinality, satisfies `BFEquiv β` with `M₀` at every level
   (`TauCeti.bfEquiv_of_realize_scottSentence`, from the parent's
@@ -1030,8 +1029,8 @@ relation symbols.
   `Fragment.generated {⟨0, σ⟩}` (IME 1.2, 2.3); `σ` decides `scottSentence M₀`, which `M₀`
   satisfies, so every model of `σ`, `M` included, is potentially isomorphic to `M₀` and realizes
   only its countably many types.
-- **`exists_isCompleteSentence_entails`**: if a small `M` satisfies `φ`, a complete `σ` with
-  `M ⊨ σ` entails `φ` on all models.
+- **Complete strengthening**: if a small `M` satisfies `φ`, a complete `σ` with `M ⊨ σ` entails
+  `φ` on all models.
 
 ### 5.5 Categorical completions
 
