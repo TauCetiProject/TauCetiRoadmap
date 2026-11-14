@@ -132,11 +132,11 @@ or interpolation theorems (checked at the pinned Mathlib); all are targets here.
 
 This roadmap owns the objects in the layers below. Its sibling roadmaps consume them:
 
-* **[CountableStructureSpaces](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)**
+* **[CountableStructureSpaces](../CountableStructureSpaces/README.md)**
   (spaces of countable structures and López–Escobar) consumes exactly `PCMem` and `pcSeparation`,
   in the sum-language form of Layer 7, for the hard direction of López–Escobar. It owns the
   structure space, López–Escobar and the non-Borelness of the well-order class.
-* **[HanfNumbers](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1319)**
+* **[HanfNumbers](../HanfNumbers/README.md)**
   (Ehrenfeucht–Mostowski models and Hanf numbers) consumes:
   * from 0.1, `onBoundedFormulaInf` and `realize_onBoundedFormulaInf`;
   * from 0.2, `functionsIn`, `relationsIn`, their countability lemmas and
