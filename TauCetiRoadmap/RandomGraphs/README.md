@@ -268,6 +268,23 @@ and introduce no edges between the two new parts. Prove the native embedding, in
 and edge-description facts. For finite linear orders give a strong amalgam respecting both
 orders; the order chosen between new points is construction data.
 
+**Checks** (isomorphism closure).
+
+- The closure of the empty family is empty.
+- The closure of the family consisting of two copies of `K₁` is the class of one-vertex
+  graph-language structures whose vertex is not adjacent to itself, the same as for the family with
+  one copy: duplicate representatives change nothing.
+- `K₂` is not in that closure, since it has two vertices.
+
+**Checks** (strong AP).
+
+- Finite graphs: two edges sharing a root vertex amalgamate freely in three vertices, and the two
+  images meet exactly in the root.
+- Finite linear orders: the extensions `a < b` and `a < c` of the root `a` amalgamate as
+  `a < b < c`, with `b ≠ c`.
+- Finite sets of size at most `1`, in the empty language, have AP but not strong AP: the two
+  one-element extensions of the empty root would need two distinct new points.
+
 **Examples.** Finite sets of size at most $`m`$ have ordinary AP.
 For $`m\ge1`$ they need not have strong AP: two $`m`$-element extensions of a common
 $`(m-1)`$-element root cannot have disjoint new images in an $`m`$-element amalgam.
@@ -396,8 +413,18 @@ Prove the adapter between the graph-facing and graph-language forms: under
 `SimpleGraph.structure`, `G.HasExtensionProperty` holds exactly when the graph-language
 extension property holds, stated as `Language.graph.ExtensionProperty` in the
 graph-characterization proposal (a witness outside $`A\cup B`$ related by the adjacency symbol to all of $`A`$
-and none of $`B`$). Give `Language.Equiv.toSimpleGraphIso`, the converse of Tau Ceti's
-`SimpleGraph.Iso.toLanguageEquiv`, and transport both across it.
+and none of $`B`$). Give the converse of Tau Ceti's `SimpleGraph.Iso.toLanguageEquiv`, turning an
+equivalence of the structures `G.structure` and `H.structure` into a graph isomorphism `G ≃g H` with
+the same underlying bijection, with both round trips, and transport both forms of the extension
+property across it.
+
+**Checks** (the converse of `SimpleGraph.Iso.toLanguageEquiv`).
+
+- On `K₂`, the identity equivalence of structures gives the identity isomorphism, and the
+  equivalence swapping the two vertices gives the swap automorphism.
+- Applied to `SimpleGraph.Iso.toLanguageEquiv e`, it returns `e`: the underlying bijections agree.
+- Between `K₂` and the edgeless graph on `Fin 2` there is no structure equivalence, matching the
+  absence of a graph isomorphism: adjacency of `0` and `1` holds on one side only.
 
 Construct an actual first-order sentence $`E_{r,s}`$ asserting extension for every
 injectively listed $`(r+s)`$-tuple, with the first $`r`$ entries positive and the last $`s`$

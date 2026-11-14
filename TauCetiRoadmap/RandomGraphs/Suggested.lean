@@ -57,18 +57,6 @@ section Fraisse
 
 variable {L : FirstOrder.Language.{u, v}}
 
-def representativeClass {ι : Type z} (F : ι → Bundled.{w} L.Structure) :
-    Set (Bundled.{w} L.Structure) :=
-  {M | ∃ i, Nonempty (M ≃[L] F i)}
-
-/-- Strong AP requires the two image sets to meet exactly over the root. -/
-def StrongAmalgamation (K : Set (Bundled.{w} L.Structure)) : Prop :=
-  ∀ (A B C : Bundled.{w} L.Structure) (f : A ↪[L] B) (g : A ↪[L] C),
-    A ∈ K → B ∈ K → C ∈ K →
-      ∃ (D : Bundled.{w} L.Structure) (i : B ↪[L] D) (j : C ↪[L] D),
-        D ∈ K ∧ i.comp f = j.comp g ∧
-          Set.range i ∩ Set.range j = Set.range (i.comp f)
-
 /-- No relation-symbol countability, nonempty-carrier or infinitude premise. -/
 theorem exists_isFraisseLimit_of_isFraisse
     [Countable (Σ n, L.Functions n)]
@@ -166,14 +154,6 @@ theorem hasExtensionProperty_iff (G : SimpleGraph V) :
 theorem HasExtensionProperty.infinite {G : SimpleGraph V} (hG : G.HasExtensionProperty) :
     Infinite V := by
   sorry
-
-/-- The converse of Tau Ceti's `SimpleGraph.Iso.toLanguageEquiv`: an equivalence of the
-graph-language structures is a graph isomorphism. -/
-def Language.Equiv.toSimpleGraphIso {G : SimpleGraph V} {H : SimpleGraph W}
-    (e : @Language.Equiv Language.graph V W G.structure H.structure) : G ≃g H :=
-  letI := G.structure
-  letI := H.structure
-  ⟨e.toEquiv, fun {a b} => e.map_rel Language.adj ![a, b]⟩
 
 /-- The `(r, s)` extension axiom: for all pairwise distinct `y₀, …, y_{r+s-1}` some `z`, distinct
 from every `yᵢ`, is adjacent to the first `r` and not adjacent to the last `s`. -/
