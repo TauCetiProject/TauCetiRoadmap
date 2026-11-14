@@ -266,7 +266,7 @@ For the proof, If f is not in `U_p`: in case `(i) f = p g` and `R(f) = ℤ + p R
 
 p prime.
 
-For the proof, If S subset `R' = R(f')` has index p, then `S = ℤ +` pR' `+ ℤ θ` for `θ` well defined in `(R'/ℤ)/p`; extending to a normal basis `<1, ω, θ>` of R', `S = <1, p ω, θ>` is a ring iff `d' = 0` mod p, i.e. the image of `θ` is a zero of f' mod p. Then `f(x, y) = a' p^2 x^3 + b' p x^2 y + c' x y^2 + (d'/p) y^3` is the form of the basis `<1, p ω, θ>` (BST, proof of Propositions `15-16`).
+For the proof, A subring S of index p in `R' = R(f')` has the shape `S = ℤ +` pR' `+ ℤ θ`, where only the class of `θ` in `(R'/ℤ)/p` matters. Choosing ω so that `<1, ω, θ>` is a normal basis of R' gives `S = <1, p ω, θ>`. Closure of this lattice under multiplication reduces to one congruence on the last coefficient of f', namely `d' = 0` mod p; equivalently, f' mod p vanishes at the point determined by `θ`. When the congruence holds, rescaling the coefficients of f' produces the form of S in the basis `<1, p ω, θ>`, which is `f(x, y) = a' p^2 x^3 + b' p x^2 y + c' x y^2 + (d'/p) y^3` (BST, proof of Propositions `15-16`).
 
 *Needs:* ArithmeticStatisticsPartI, cubic ring of a binary cubic form (Cubic supplier conventions), AnalyticNumberTheoryPartII §5.5 (normal-basis normalization).
 
@@ -1118,7 +1118,7 @@ The required API is:
 
 - `F_U(x, z) = (a_2 x^2 + m x z + c_2 z^2)^2 - 4 (b_1 x + b_3 z)(a x^3 + a_3 x^2 z + c_1 x z^2 + c z^3)`.
 
-For the proof, Lines through `(0:1:0)` are parametrized by `(x:z)`. Their residual homogeneous quadratic has discriminant `F_U`. In characteristic different from 2, when `f_1(x,z) ≠ 0` its two residual intersection points are rational (with multiplicity) iff `F_U(x,z)` is a square. The direction `f_1(x,z)=0` requires the separate linear/tangent case; the polynomial construction and invariant identities impose neither restriction. `I(F_U) = c_4(U)` and `J(F_U) = 2 c_6(U)` for `b = 0`: polynomial identities (Cremona-Fisher-Stoll: 'a generic computation shows that the genus one models `(3.4)` and `(3.5)` have the same discriminant', here with `c_4`, `c_6` themselves).
+For the proof, Lines through `(0:1:0)` are parametrized by `(x:z)`. Their residual homogeneous quadratic has discriminant `F_U`. In characteristic different from 2, when `f_1(x,z) ≠ 0` its two residual intersection points are rational (with multiplicity) iff `F_U(x,z)` is a square. The direction `f_1(x,z)=0` requires the separate linear/tangent case; the polynomial construction and invariant identities impose neither restriction. For `b = 0`, both `I(F_U) = c_4(U)` and `J(F_U) = 2 c_6(U)` are identities between polynomials in the coefficients; Cremona-Fisher-Stoll check symbolically, with indeterminate coefficients, that the two genus one models `(3.4)` and `(3.5)` have equal discriminants, and the analogous check here concerns `c_4` and `c_6` themselves.
 
 *Needs:* ternary cubic forms and their invariants (§1.7), ArithmeticStatisticsPartI, binary quartic form (§0.3), ArithmeticStatisticsPartI, binary quartic invariants (§0.3).
 
@@ -1176,7 +1176,7 @@ For the proof, For almost all p, f is already `ℤ_p`-integral (finitely many de
 
 - If a rational local matrix `γ` at the only bad prime p also belongs to `GL2(ℤ_q)` at every `q ≠ p` (equivalently `γ` and `γ^{-1}` have entries in `ℤ[1/p]`), it works globally. Rationality alone is insufficient: `diag(1/3,1)` is integral and invertible over `ℤ_2`, but sends `x⁴+y⁴` to `x⁴/9+9y⁴`, introducing a denominator at 3.
 
-**Integral representatives of locally soluble quartics.** Let f in `V_Q` be locally soluble with integral invariants I, J such that `2^4 . 3 | I` and `2^6 . 3^3 | J` (equivalently `I = -48A`, `J = -1728B` with A, B in `ℤ`) and `4I^3 - J^2 ≠ 0`. Then f is `PGL2(Q)`-equivalent to an integral binary quartic form.
+**Integral representatives of locally soluble quartics.** Every locally soluble f in `V_Q` is `PGL2(Q)`-equivalent to a binary quartic form with integer coefficients, provided its invariants I, J are integers with `4I^3 - J^2 ≠ 0`, `2^4 . 3 | I` and `2^6 . 3^3 | J` (that is, `I = -48A` and `J = -1728B` for some A, B in `ℤ`).
 
 Only `ℚ_p`-solubility for every p is used (`ℝ`-solubility is not needed for integrality).
 
@@ -1192,7 +1192,7 @@ For the proof, Put `A = -I/48`, `B = -J/1728` in `ℤ`. For every p, f is `ℚ_p
 
 - Every 2-Selmer element of `y^2 = x^3 - 2` is represented by an integral quartic with invariants `(0, 3456)`.
 
-**Binary quartic parametrization of two selmer.** Let `E = E_{A,B}` : `y^2 = x^3 + Ax + B` with A, B in `ℤ`, `4A^3 + 27B^2 ≠ 0`, and `I = I(E) = -3A`, `J = J(E) = -27B`. Then the elements of the 2-Selmer group of E are in bijection with the `PGL2(Q)`-equivalence classes of locally soluble integral binary quartic forms with invariants `2^4 I = -48A` and `2^6 J = -1728B`. The bijection sends the class of g to `z(g)`, an element of Tau Ceti's `selmerGroup₂` of `E_{2^4 I, 2^6 J}` : `y^2 = x^3 + 1296 A x + 46656 B`, transported to E by the variable change `x ↦ 36x`, `y ↦ 216y`. The integral forms with a rational linear factor and these invariants form one `PGL2(Q)`-class, corresponding to the identity. Stabilizers: `Stab_{PGL2(Q)}(g)` is isomorphic to `E(Q)[2]` for every such g.
+**Binary quartic parametrization of two selmer.** Fix A, B in `ℤ` with `4A^3 + 27B^2 ≠ 0`, write `E = E_{A,B}` : `y^2 = x^3 + Ax + B`, and put `I = I(E) = -3A`, `J = J(E) = -27B`. Consider the integral binary quartic forms g that are locally soluble and have invariants `2^4 I = -48A` and `2^6 J = -1728B`. Taking the class of g to `z(g)` gives a bijection from their `PGL2(Q)`-equivalence classes onto E's 2-Selmer group; here `z(g)` lies in Tau Ceti's `selmerGroup₂` of `E_{2^4 I, 2^6 J}` : `y^2 = x^3 + 1296 A x + 46656 B` and is carried over to E through the variable change `x ↦ 36x`, `y ↦ 216y`. Among these forms, the ones with a rational linear factor make up a single `PGL2(Q)`-class, which goes to the identity. For every such g, the stabilizer `Stab_{PGL2(Q)}(g)` is isomorphic to `E(Q)[2]`.
 
 A, B integers (the minimal-pair condition is not needed; it pins the curve within its isomorphism class, as in EllipticCurves Layer 8). The rescaling by `2^4`, `2^6` is forced: Lemma 3.4's divisibility hypotheses hold for `(2^4 I, 2^6 J)` and not in general for `(I, J)`. `PGL2(Q)`-classes of rational forms, each represented by integral forms; two integral forms in one class need not be `GL2(ℤ)`-equivalent (the rational-orbit weights used by downstream Selmer means count this).
 
