@@ -1332,13 +1332,15 @@ Erdős–Rado bound `ℶₙ(κ)⁺` in place of the source's coarser ladder, and
 term models (a schema completion over `ℕ` followed by an eventual-equality quotient over `J`) by one
 Ehrenfeucht–Mostowski term model built directly from a Skolem template. Credit
 `cameronfreer/infinitary-logic` in ported files and record intentional divergences from it. The map
-below is "where to look", not a specification. Paths are relative to
-`https://github.com/cameronfreer/infinitary-logic/blob/518a366cba97b1ae8c4dc64a297a396939bc3e0b/`.
+below is "where to look", not a specification. Module paths below are relative to the
+[`InfinitaryLogic/`](https://github.com/cameronfreer/infinitary-logic/tree/518a366cba97b1ae8c4dc64a297a396939bc3e0b/InfinitaryLogic)
+directory at that commit; the linked dependency script is relative to the repository root.
 
 - **Dependency cone.** The repository's guard
   [`scripts/check_morley_hanf_deps.lean`](https://github.com/cameronfreer/infinitary-logic/blob/518a366cba97b1ae8c4dc64a297a396939bc3e0b/scripts/check_morley_hanf_deps.lean)
   certifies that `morley_hanf` uses no declaration of `Combinatorics/InfiniteRamsey.lean`,
-  `Combinatorics/InfiniteRamseyFamily.lean` or the legacy `Combinatorics/ErdosRado.lean`, and that
+  `Combinatorics/InfiniteRamseyFamily.lean` or the legacy `Combinatorics/ErdosRado.lean` (moved out
+  of the tree to the branch `archive/legacy-erdos-rado` by `dd5bd5c`, before this commit), and that
   it uses `finiteArityHomogeneousUpTo_beth_stage`. A declaration-level cone computation at this
   commit confirms that the partition results it uses are those of
   `Combinatorics/PairErdosRadoGeneral.lean` (the point pigeonhole
