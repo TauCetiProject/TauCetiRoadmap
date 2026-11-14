@@ -655,7 +655,7 @@ Prove, in the form used by Finis: let `E` be an elliptic curve over `F̄_ℓ` wi
 
 ### 4.5 Nonvanishing of theta functions modulo ℓ
 
-Prove: let `ℓ ≠ p` be primes, `p` odd and split in `K`, and `d_0` a positive integer prime to `p`. For `m` large enough, for every character `λ` appearing in the Shintani representation on `T^{prim}_{d_0 p^m}` there is an `ℓ`-integral representative `ϑ` of the `λ`-eigenspace with `v_ℓ(l(ϑ)/w_K) = 0` (Finis, Theorem 4.1, p.795, FINIS06 line 1221). Proof route: fix the restriction of `λ` to `Λ_{d_0D}` and write the eigenfunctions explicitly (Lemma 4.2); assuming infinitely many eigenspaces with `v_ℓ(l(ϑ)/w_K) > 0`, reduce modulo `ℓ` and apply Galois conjugation to place infinitely many `p`-power torsion points on a subvariety `D_{n_1} ⊂ E^r` in characteristic `ℓ` (Lemmas 4.3–4.4); §4.4 gives a translate of an explicit abelian subvariety inside `D_{n_1}`, contradicted for large `n_1` (Lemmas 4.6–4.7, pp.795–807). *Needs:* §§4.2–4.4.
+Prove: fix an odd prime `p` that splits in `K`, a prime `ℓ ≠ p`, and a positive integer `d_0` coprime to `p`. Once the level `m` is sufficiently large, the following holds for each character `λ` that occurs when the Shintani operators act on `T^{prim}_{d_0 p^m}`: some `ℓ`-integral representative `ϑ` of its `λ`-eigenspace satisfies `v_ℓ(l(ϑ)/w_K) = 0` (Finis, Theorem 4.1, p.795, FINIS06 line 1221). Proof route: fix the restriction of `λ` to `Λ_{d_0D}` and write the eigenfunctions explicitly (Lemma 4.2); assuming infinitely many eigenspaces with `v_ℓ(l(ϑ)/w_K) > 0`, reduce modulo `ℓ` and apply Galois conjugation to place infinitely many `p`-power torsion points on a subvariety `D_{n_1} ⊂ E^r` in characteristic `ℓ` (Lemmas 4.3–4.4); §4.4 gives a translate of an explicit abelian subvariety inside `D_{n_1}`, contradicted for large `n_1` (Lemmas 4.6–4.7, pp.795–807). *Needs:* §§4.2–4.4.
 
 **Checks.**
 
@@ -679,10 +679,10 @@ For `k > 1`, prove the change-of-weight comparison: choose a character `σ` of t
 
 ### 4.6 Finis's divisibility theorem
 
-Prove: let `d` and `k` be fixed positive integers, `p` an odd prime split in `K` (the tower prime), `ℓ` an odd prime different from `p` (the valuation prime), and `Ω` the period of a pair `(E, ω)` as in §4.3. For all but finitely many anticyclotomic Hecke characters `λ` of `K` of conductor dividing `dDp^∞`, Finis type `(−k, k−1)` and `W(λ) = +1`:
+Prove: fix positive integers `d` and `k`, a tower prime `p` that is odd and splits in `K`, and an odd valuation prime `ℓ ≠ p`; write `Ω` for the period attached to a pair `(E, ω)` chosen as in §4.3. Consider the Hecke characters `λ` of `K` that are anticyclotomic, have Finis type `(−k, k−1)`, satisfy `W(λ) = +1` and have conductor dividing `dDp^∞`. Outside a finite set of these `λ`, one has:
 
-- if `ℓ` splits in `K`, `v_ℓ(Ω^(1−2k)(k−1)!(2π/√D)^(k−1) W_ℓ(λ) L(0, λ)) = Σ_{q inert} μ_ℓ(λ_q)`;
-- if `ℓ` is inert or ramified in `K` and `k = 1`, `v_ℓ(Ω⁻¹ D^{1/4} L(0, λ)) = Σ_{q ≠ ℓ inert} μ_ℓ(λ_q) + b_ℓ(λ_ℓ, w(λ))`;
+- when `ℓ` is split in `K`: `v_ℓ(Ω^(1−2k)(k−1)!(2π/√D)^(k−1) W_ℓ(λ) L(0, λ)) = Σ_{q inert} μ_ℓ(λ_q)`;
+- when `k = 1` and `ℓ` is inert or ramified in `K`: `v_ℓ(Ω⁻¹ D^{1/4} L(0, λ)) = Σ_{q ≠ ℓ inert} μ_ℓ(λ_q) + b_ℓ(λ_ℓ, w(λ))`;
 
 and for every such `λ` (finite exception set or not) the left side is at least the right side, except possibly for `K = Q(√−3)`, `ℓ = 3`. The displayed normalised values are algebraic (Finis, Theorem 1.1, p.769, FINIS06 lines 101–122; proof, pp.793–795). Proof route: for `k = 1`, §4.3's identity reduces the equality to `v_ℓ(l(ϑ_λ)/w_K) = 0` for almost all `λ`, which is §4.5; §4.5a gives the split case for `k > 1`. *Needs:* §§4.1–4.5a.
 
