@@ -142,7 +142,8 @@ The full extension predicate and the Rado graph belong to the InfinitaryLogic wo
 this roadmap consumes them and does not maintain a second extension predicate or Rado graph.
 Its additions on that side are bounded extension $`\mathrm{EP}_{\le d}`$, witness-count
 interfaces, actual first-order extension sentences, the general Fraïssé construction with its
-rooted consequences, computable quantifier elimination, and the probabilistic theory.
+rooted consequences, the effective coding of first-order formulas for a general language,
+computable quantifier elimination, and the probabilistic theory.
 
 The following Mathlib proposals fix the shape of corresponding targets here. They are built in
 Tau Ceti now, named and stated as these proposals do, and replaced by Mathlib's declarations
@@ -550,7 +551,7 @@ Handle rank $`0`$ directly, and verify the indexing at ranks $`1,2,3`$.
 
 *Needs:* 4.1–4.2, 5.1; Milestone 3 rooted universality; Mathlib `Theory.IsComplete`,
 `Cardinal.Categorical`, `CompleteType`, `typesWith`, `typeOf`, `ElementaryEmbedding`,
-`BoundedFormula.encoding` and `Computable`; Tau Ceti `firstOrderAtomicDiagram` and
+`BoundedFormula.listEncode` with `BoundedFormula.encoding`, `Primcodable` and `Computable`; Tau Ceti `firstOrderAtomicDiagram` and
 `realize_firstOrderAtomicDiagram_iff_sameAtomicType`.
 
 Let $`T_R`$ be the native simple-graph theory together with all $`E_{r,s}`$.
@@ -586,17 +587,25 @@ quantifier-free equivalent modulo $`T_R`$ proves neither theorem, since it gives
 on codes. Finite equality-and-adjacency patterns provide a proof route, through these supporting
 results:
 
-- an **effective coding of graph formulas** as the input and output format of the two maps:
-  Mathlib's structural list encoding `BoundedFormula.encoding` followed by an explicit numbering
-  of its symbol alphabet, uniform in the free-variable context `Fin m` (not
-  `Encodable.ofCountable`, whose classical enumeration has no effective content), with decoding
-  that accepts exactly the formula codes (Mathlib's list decoder ignores trailing symbols, so
-  this needs a re-encoding check) and its round-trip law, and computability on codes of the syntax operations the maps
-  use: the constructors (`⊥`, equality and adjacency atoms between variables, implication,
-  universal quantification) and case analysis on the outermost constructor. They are stated here
-  for the graph language as supporting targets for the two theorems; a coding interface for a
-  general language, shared with FreeGroupsAndLimitGroups, is proposed under
-  [Coordination and provenance](#coordination-and-provenance);
+- the **effective coding of first-order formulas**, the input and output format of the two
+  maps, owned by this roadmap for a general language `L` (`FormulaAlphabet`, `boundedCode`,
+  `boundedDecode`): Mathlib's structural list encoding `BoundedFormula.listEncode` followed by the
+  numbering of its symbol alphabet. Decoding at a given number of bound positions accepts exactly
+  the formula codes (Mathlib's list decoder ignores trailing symbols, so this needs a re-encoding
+  check), with the round-trip laws `boundedDecode_boundedCode` and `boundedDecode_eq_some_iff`. The
+  effective claims assume an **effective presentation** of `L`: `Primcodable` symbol families,
+  so that symbols are computably decoded, with the arity of a symbol computable from its code. An
+  `Encodable` instance alone, such as `Encodable.ofCountable`, has no effective content and is not
+  enough. The contexts `Fin m ⊕ Fin n` are coded by value, so the codes are uniform in `m` and `n`.
+  Under these hypotheses, prove that the term constructors (variables, function applications
+  from a symbol code and the list of argument codes) and case analysis on terms are computable on
+  codes (`computable_termCode`), and likewise the formula constructors (`⊥`, equality, relation
+  application, implication, universal quantification) and case analysis on the outermost
+  constructor, returning the codes of the immediate subformulas, of the relation symbol and of
+  the terms of an atom (`computable_boundedCode`). The graph language is effectively presented,
+  with no function symbols and one relation symbol of arity `2`; this is the case the two maps
+  use, in which terms are variables and an atom is coded by the codes of two variables. A
+  language with a unary function symbol is an instance too, with terms that are not variables;
 - a computable representation of finite equality-and-adjacency patterns on `Fin m`, with
   its consistency test;
 - a correctness bridge proving that the formula of each consistent pattern and
@@ -1187,30 +1196,21 @@ Coordinate the theory-level quantifier-elimination endpoint with the
 its [extension-pair companion](https://github.com/leanprover-community/mathlib4/pull/41115).
 These are design and provenance references, not assumptions that their code is in Mathlib.
 
-**A shared formula coding.** [FreeGroupsAndLimitGroups §3.1](../FreeGroupsAndLimitGroups/README.md#31-the-language-of-groups-and-its-coefficient-extensions)
-builds the same kind of structure on Mathlib's `BoundedFormula.listEncode` for the group language
-with coefficient constants: validity of codes, connectives and quantifiers, claimed primitive
-recursive, with codes that carry the number of bound variables. Neither roadmap states its
-coding for a general language. The proposal is one interface for a general `L`, owned where it
-first lands and consumed by the other roadmap, with the graph coding of 5.2 as an instance. The
-round trip carries over unchanged, since `boundedDecode_boundedCode` uses only
-`BoundedFormula.encoding.decode_encode`. The effective claims do not: `Encodable` instances on
-`Σ n, L.Functions n` and `Σ n, L.Relations n` are not presumed sufficient, because an encoding
-such as `Encodable.ofCountable` has no effective content. The interface needs:
-
-- an effective presentation of the language: computably decodable (for the group roadmap,
-  `Primcodable`) symbol families, with the arity of a symbol computable from its code;
-- the arity operations of the encoding: building and taking apart a function or relation
-  application from a symbol code and a list of argument codes of the matching length (the graph
-  language has no function symbols, so its terms are variables; the group language's are not);
-- exact decoding at a given number of bound variables, with a computable validity test, since
-  Mathlib's list decoder ignores trailing symbols, and the round-trip law;
-- uniformity in the free-variable context, given its own effective presentation;
-- computability of the constructors and of case analysis on codes, and primitive recursiveness
-  where FreeGroupsAndLimitGroups claims it.
+**Ownership of the formula coding.** This roadmap owns the general effective coding of first-order
+formulas in 5.2; no other roadmap states one for a general language.
+[FreeGroupsAndLimitGroups §3.1](../FreeGroupsAndLimitGroups/README.md#31-the-language-of-groups-and-its-coefficient-extensions)
+specifies a coding on the same Mathlib list encoding for the group language with coefficient
+constants, with codes that carry the number of bound variables, and claims primitive recursiveness
+of its validity test and of substitution, renaming, connectives, quantifiers and prenex forms. That
+development stays there and is cited, not restated. The interface here is stated for every
+effectively presented language, so it applies to that language as well (which has function
+symbols, so its terms are not variables), and the graph coding of 5.2 is its instance at the graph
+language. Mathlib's `ModelTheory/Encoding.lean` lists `Primcodable` instances for terms and formulas
+and computability facts about their operations as future work; when they land, Mathlib's
+declarations replace the corresponding ones here.
 
 The graph-specific pattern representation, quantifier-elimination map and decision procedure of
-5.2 stay in this roadmap and do not depend on how that interface is settled.
+5.2 stay in this roadmap.
 
 On the Tau Ceti side, the extension predicate and Rado graph come from the InfinitaryLogic
 random-graph worked example (`Combinatorics/SimpleGraph/ExtensionProperty.lean` and

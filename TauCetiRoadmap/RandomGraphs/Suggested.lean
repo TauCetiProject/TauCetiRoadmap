@@ -321,20 +321,132 @@ theorem radoAxiomsUpTo_models_iff (d : ℕ) (φ : Language.graph.Sentence)
     radoAxiomsUpTo d ⊨ᵇ φ ↔ Satisfies TauCeti.radoGraph φ := by
   sorry
 
-/-! ### Effective syntax for graph formulas
+/-! ### Effective syntax for first-order formulas
 
-Computable quantifier elimination and decidability are stated over a fixed structural coding of
-graph formulas by natural numbers: Mathlib's list encoding `BoundedFormula.encoding`, followed by
-an explicit numbering of its symbol alphabet. The coding is not `Encodable.ofCountable`, whose
-classical enumeration carries no effective content. The context type is a parameter; for
-`Fin m` the code does not depend on `m`, which the maps receive separately. The README proposes a
-coding interface for a general language, shared with FreeGroupsAndLimitGroups, of which these
-graph statements are an instance. -/
+Computable quantifier elimination and decidability are stated over a structural coding of formulas
+by natural numbers: Mathlib's list encoding `BoundedFormula.listEncode`, followed by the `Encodable`
+numbering of its symbol alphabet. The coding is stated for a general language `L`. Its effective
+content needs an effective presentation of `L`: `Primcodable` symbol families, with the arity of a
+symbol computable from its code. An `Encodable` instance such as `Encodable.ofCountable` carries no
+effective content. The free-variable context `Fin m` and the bound positions `Fin n` are coded by
+their values, so the codes are uniform in `m` and `n`. The graph language is the instance used by
+the quantifier-elimination and decision theorems below. -/
 
+section Coding
+
+/-- The symbol alphabet of Mathlib's list encoding of `L`-formulas with free variables in `α`: a
+term over `α ⊕ Fin k` for some `k`, a relation symbol, or a natural-number tag. -/
+abbrev FormulaAlphabet (L : FirstOrder.Language.{u, v}) (α : Type w) :=
+  (Σ k, L.Term (α ⊕ Fin k)) ⊕ ((Σ l, L.Relations l) ⊕ ℕ)
+
+variable {L : FirstOrder.Language.{u, v}}
+
+section Encodable
+
+variable [Encodable (Σ l, L.Functions l)] [Encodable (Σ l, L.Relations l)]
+
+/-- The code of an `L`-formula with free variables in `α` and `n` bound positions: the number of
+its list encoding. -/
+def boundedCode {α : Type w} [Encodable α] {n : ℕ} (φ : L.BoundedFormula α n) : ℕ :=
+  Encodable.encode (φ.listEncode : List (FormulaAlphabet L α))
+
+/-- Decoding at a given context and number of bound positions. Mathlib's list decoder ignores
+trailing symbols, so the candidate is kept only if re-encoding it reproduces `c`; every other
+number decodes to `none`. -/
+def boundedDecode (L : FirstOrder.Language.{u, v}) [Encodable (Σ l, L.Functions l)]
+    [Encodable (Σ l, L.Relations l)] (α : Type w) [Encodable α] (n : ℕ) (c : ℕ) :
+    Option (L.BoundedFormula α n) :=
+  ((Encodable.decode c : Option (List (FormulaAlphabet L α))).bind fun l =>
+    (BoundedFormula.encoding.decode l).bind fun φ =>
+      if h : φ.1 = n then some (h ▸ φ.2) else none).filter fun φ => boundedCode φ == c
+
+/-- Decoding the code of a formula returns that formula. -/
+theorem boundedDecode_boundedCode {α : Type w} [Encodable α] {n : ℕ}
+    (φ : L.BoundedFormula α n) : boundedDecode L α n (boundedCode φ) = some φ := by
+  have h := BoundedFormula.encoding.decode_encode (⟨n, φ⟩ : Σ n, L.BoundedFormula α n)
+  simp only [BoundedFormula.encoding_encode, BoundedFormula.encoding_decode] at h
+  simp [boundedCode, boundedDecode, h]
+
+/-- `boundedDecode` succeeds exactly on codes of formulas. -/
+theorem boundedDecode_eq_some_iff {α : Type w} [Encodable α] {n c : ℕ}
+    {φ : L.BoundedFormula α n} : boundedDecode L α n c = some φ ↔ boundedCode φ = c := by
+  refine ⟨fun h => ?_, fun h => h ▸ boundedDecode_boundedCode φ⟩
+  simp only [boundedDecode, Option.filter_eq_some_iff, beq_iff_eq] at h
+  exact h.2
+
+end Encodable
+
+section Effective
+
+variable [Primcodable (Σ l, L.Functions l)] [Primcodable (Σ l, L.Relations l)]
+
+open Encodable in
+/-- **Effective syntax of terms.** For an effectively presented language, the codes of terms over
+`Fin m ⊕ Fin n` are built and taken apart computably, uniformly in `m` and `n`: a variable from
+the code of the variable, an application from the code of its function symbol and the list of
+codes of its arguments; conversely the kind of a term (`0` for a variable, `1` for an
+application), the code of its variable or symbol, and the codes of its arguments. -/
+theorem computable_termCode
+    (hfun : Computable (Sigma.fst : (Σ l, L.Functions l) → ℕ)) :
+    ∃ (mkVar : ℕ → ℕ) (mkFunc : ℕ → List ℕ → ℕ) (tag head : ℕ → ℕ) (args : ℕ → List ℕ),
+      Computable mkVar ∧ Computable₂ mkFunc ∧ Computable tag ∧ Computable head ∧ Computable args ∧
+      ∀ {m n : ℕ} (t : L.Term (Fin m ⊕ Fin n)),
+        match t with
+        | .var x => mkVar (encode x) = encode t ∧ tag (encode t) = 0 ∧ head (encode t) = encode x
+        | @Term.func _ _ l f ts =>
+            mkFunc (encode (⟨l, f⟩ : Σ l, L.Functions l)) (List.ofFn fun i => encode (ts i)) =
+                encode t ∧
+              tag (encode t) = 1 ∧ head (encode t) = encode (⟨l, f⟩ : Σ l, L.Functions l) ∧
+              args (encode t) = List.ofFn fun i => encode (ts i) := by
+  sorry
+
+open Encodable BoundedFormula in
+/-- **Effective syntax of formulas.** For an effectively presented language, the codes of formulas
+over `Fin m` with `n` bound positions are built and taken apart computably, uniformly in `m` and
+`n`: `⊥` from `n`, an equality from `n` and the codes of its two terms, a relation application
+from `n`, the code of its symbol and the codes of its arguments, an implication from the codes of
+its two parts, and a universal quantification from the code of its body. Conversely the outermost
+constructor (tagged `0` to `4` in that order), the codes of the immediate subformulas, the code of
+the relation symbol and the codes of the terms of an atom are computable from the code. -/
+theorem computable_boundedCode
+    (hfun : Computable (Sigma.fst : (Σ l, L.Functions l) → ℕ))
+    (hrel : Computable (Sigma.fst : (Σ l, L.Relations l) → ℕ)) :
+    ∃ (mkBot : ℕ → ℕ) (mkEq : ℕ × ℕ × ℕ → ℕ) (mkRel : ℕ × ℕ × List ℕ → ℕ)
+      (mkImp : ℕ → ℕ → ℕ) (mkAll : ℕ → ℕ) (tag left right : ℕ → ℕ) (args : ℕ → List ℕ),
+      Computable mkBot ∧ Computable mkEq ∧ Computable mkRel ∧ Computable₂ mkImp ∧
+      Computable mkAll ∧
+      Computable tag ∧ Computable left ∧ Computable right ∧ Computable args ∧
+      ∀ {m n : ℕ} (φ : L.BoundedFormula (Fin m) n),
+        match φ with
+        | falsum => mkBot n = boundedCode φ ∧ tag (boundedCode φ) = 0
+        | equal t₁ t₂ => mkEq (n, encode t₁, encode t₂) = boundedCode φ ∧
+            tag (boundedCode φ) = 1 ∧ args (boundedCode φ) = [encode t₁, encode t₂]
+        | @rel _ _ _ l R ts =>
+            mkRel (n, encode (⟨l, R⟩ : Σ l, L.Relations l), List.ofFn fun i => encode (ts i)) =
+                boundedCode φ ∧
+              tag (boundedCode φ) = 2 ∧
+              left (boundedCode φ) = encode (⟨l, R⟩ : Σ l, L.Relations l) ∧
+              args (boundedCode φ) = List.ofFn fun i => encode (ts i)
+        | imp φ₁ φ₂ => mkImp (boundedCode φ₁) (boundedCode φ₂) = boundedCode φ ∧
+            tag (boundedCode φ) = 3 ∧ left (boundedCode φ) = boundedCode φ₁ ∧
+            right (boundedCode φ) = boundedCode φ₂
+        | all ψ => mkAll (boundedCode ψ) = boundedCode φ ∧ tag (boundedCode φ) = 4 ∧
+            left (boundedCode φ) = boundedCode ψ := by
+  sorry
+
+end Effective
+
+end Coding
+
+/-! ### The graph language as an effectively presented language -/
+
+/-- The graph language has no function symbols. -/
 instance : IsEmpty (Σ l, Language.graph.Functions l) :=
   ⟨fun ⟨_, f⟩ => (f : Empty).elim⟩
 
-instance : Encodable (Σ l, Language.graph.Functions l) := IsEmpty.toEncodable
+/-- The empty family of graph function symbols, numbered through `Empty`. -/
+instance : Primcodable (Σ l, Language.graph.Functions l) :=
+  Primcodable.ofEquiv Empty (Equiv.equivEmpty _)
 
 /-- The graph language has the single relation symbol `adj`. -/
 def graphRelationsEquiv : (Σ l, Language.graph.Relations l) ≃ Unit where
@@ -343,73 +455,12 @@ def graphRelationsEquiv : (Σ l, Language.graph.Relations l) ≃ Unit where
   left_inv := by rintro ⟨_, ⟨⟩⟩; rfl
   right_inv _ := rfl
 
-instance : Encodable (Σ l, Language.graph.Relations l) := Encodable.ofEquiv _ graphRelationsEquiv
+/-- The one graph relation symbol, numbered through `Unit`. -/
+instance : Primcodable (Σ l, Language.graph.Relations l) :=
+  Primcodable.ofEquiv Unit graphRelationsEquiv
 
 /-- The finite graph signature, needed by Tau Ceti's `TauCeti.firstOrderAtomicDiagram`. -/
 instance : Finite (Σ l, Language.graph.Relations l) := Finite.of_equiv _ graphRelationsEquiv.symm
-
-/-- The symbol alphabet of Mathlib's list encoding of graph formulas over `α`. -/
-abbrev GraphAlphabet (α : Type) :=
-  (Σ k, Language.graph.Term (α ⊕ Fin k)) ⊕ ((Σ l, Language.graph.Relations l) ⊕ ℕ)
-
-/-- The code of a graph formula with free variables in `α` and `n` bound positions. -/
-def boundedCode {α : Type} [Encodable α] {n : ℕ} (φ : Language.graph.BoundedFormula α n) : ℕ :=
-  Encodable.encode (φ.listEncode : List (GraphAlphabet α))
-
-/-- Decoding at a given context and number of bound positions. Mathlib's list decoder ignores
-trailing symbols, so the candidate is kept only if re-encoding it reproduces `c`; every other
-number decodes to `none`. -/
-def boundedDecode (α : Type) [Encodable α] (n : ℕ) (c : ℕ) :
-    Option (Language.graph.BoundedFormula α n) :=
-  ((Encodable.decode c : Option (List (GraphAlphabet α))).bind fun l =>
-    (BoundedFormula.encoding.decode l).bind fun φ =>
-      if h : φ.1 = n then some (h ▸ φ.2) else none).filter fun φ => boundedCode φ == c
-
-theorem boundedDecode_boundedCode {α : Type} [Encodable α] {n : ℕ}
-    (φ : Language.graph.BoundedFormula α n) : boundedDecode α n (boundedCode φ) = some φ := by
-  have h := BoundedFormula.encoding.decode_encode (⟨n, φ⟩ : Σ n, Language.graph.BoundedFormula α n)
-  simp only [BoundedFormula.encoding_encode, BoundedFormula.encoding_decode] at h
-  simp [boundedCode, boundedDecode, h]
-
-/-- `boundedDecode` succeeds exactly on codes of formulas. -/
-theorem boundedDecode_eq_some_iff {α : Type} [Encodable α] {n c : ℕ}
-    {φ : Language.graph.BoundedFormula α n} : boundedDecode α n c = some φ ↔ boundedCode φ = c := by
-  refine ⟨fun h => ?_, fun h => h ▸ boundedDecode_boundedCode φ⟩
-  simp only [boundedDecode, Option.filter_eq_some_iff, beq_iff_eq] at h
-  exact h.2
-
-/-- **Effective syntax, constructors.** The codes of `⊥`, of equality and adjacency atoms between
-variables (given by their codes in `Fin m ⊕ Fin n`), of implications and of universal
-quantifications are computable from the codes of their parts, uniformly in `m` and `n`. -/
-theorem computable_boundedCode_constructors :
-    ∃ (bot : ℕ → ℕ) (eq adj : ℕ × ℕ × ℕ → ℕ) (imp : ℕ → ℕ → ℕ) (all : ℕ → ℕ),
-      Computable bot ∧ Computable eq ∧ Computable adj ∧ Computable₂ imp ∧ Computable all ∧
-      ∀ {m n : ℕ}, bot n = boundedCode (⊥ : Language.graph.BoundedFormula (Fin m) n) ∧
-        (∀ x y : Fin m ⊕ Fin n,
-          eq (n, Encodable.encode x, Encodable.encode y) =
-              boundedCode ((Term.var x).bdEqual (Term.var y)) ∧
-            adj (n, Encodable.encode x, Encodable.encode y) =
-              boundedCode (Relations.boundedFormula₂ Language.adj (Term.var x) (Term.var y))) ∧
-        (∀ φ ψ : Language.graph.BoundedFormula (Fin m) n,
-          imp (boundedCode φ) (boundedCode ψ) = boundedCode (φ.imp ψ)) ∧
-        ∀ φ : Language.graph.BoundedFormula (Fin m) (n + 1),
-          all (boundedCode φ) = boundedCode φ.all := by
-  sorry
-
-open BoundedFormula in
-/-- **Effective syntax, case analysis.** The outermost constructor of a formula and the codes of
-its immediate subformulas are computable from its code, uniformly in `m` and `n`. -/
-theorem computable_boundedCode_cases :
-    ∃ (tag left right : ℕ → ℕ), Computable tag ∧ Computable left ∧ Computable right ∧
-      ∀ {m n : ℕ} (φ : Language.graph.BoundedFormula (Fin m) n),
-        match φ with
-        | falsum => tag (boundedCode φ) = 0
-        | equal _ _ => tag (boundedCode φ) = 1
-        | rel _ _ => tag (boundedCode φ) = 2
-        | imp φ₁ φ₂ => tag (boundedCode φ) = 3 ∧ left (boundedCode φ) = boundedCode φ₁ ∧
-            right (boundedCode φ) = boundedCode φ₂
-        | all ψ => tag (boundedCode φ) = 4 ∧ left (boundedCode φ) = boundedCode ψ := by
-  sorry
 
 /-- **Computable quantifier elimination modulo `T_R`.** A computable map on codes, taking the
 context size `m` as input, that sends the code of each formula over `Fin m` to the code of a
