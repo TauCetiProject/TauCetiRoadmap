@@ -590,17 +590,17 @@ Fix `g ≥ 1`. Let `𝔄_g` be the Deligne–Mumford stack over `ℤ` of princip
 of relative dimension `g`, with universal abelian scheme `A` and coarse space `A_g`; fix `r > 0` with
 `ω_{A/𝔄_g}^{⊗r}` descending to a very ample line bundle on `A_g ⊗ ℚ`, let `Ā_g/ℚ ⊆ ℙ^N_ℚ` be the
 resulting projective minimal (Baily–Borel) compactification, `Ā_g/ℤ` its closure in `ℙ^N_ℤ` and
-`M = O(1)`. Construct the correspondence stack for dimension `g` (Faltings 1983, §2, Lemma 2, p. 352): a proper
-integral Deligne–Mumford stack `J` over `Spec(ℤ)`, an open substack `U ⊆ J` and a proper morphism `ψ : U → 𝔄_g`
-extending to `ψ̄ : J ⊗ ℚ → Ā_g/ℚ`, together with
+`M = O(1)`. Construct the correspondence stack for dimension `g` (Faltings 1983, §2, Lemma 2, p. 352) as one
+record. Its base is a proper morphism `ψ : U → 𝔄_g` out of an open substack `U ⊆ J`, where `J` is an integral
+Deligne–Mumford stack proper over `Spec(ℤ)`, and an extension `ψ̄ : J ⊗ ℚ → Ā_g/ℚ` of `ψ`; its remaining fields are:
 
-- (a) a stable curve `q : C → J` of some genus `g̃ ≥ max(g, 2)` (the stable curve);
-- (b) a line subbundle `L ⊆ Λ^g q_*(ω_{C/J})` which is locally a direct summand
+- (a) a curve `q : C → J`, stable of a genus `g̃` that satisfies `g̃ ≥ max(g, 2)` (the stable curve);
+- (b) a line bundle `L ⊆ Λ^g q_*(ω_{C/J})`, embedded there as a local direct summand
   (the Hodge subline);
-- (c) over `U`, homomorphisms `α : Pic^τ(C/J) → ψ^*A` and `β : ψ^*A → Pic^τ(C/J)` with `α ∘ β = [d]` for
-  some integer `d ≠ 0` (the two Picard homomorphisms);
-- (d) over `J ⊗ ℚ` an isomorphism `L^{⊗r} ≅ ψ̄^*M`, where over `U ⊗ ℚ` the bundle `L` is the image of
-  `α^* : ψ^*ω_{A/𝔄_g} → Λ^g q_*(ω_{C/J})` and the isomorphism restricts to the `ψ^*`-pull-back of
+- (c) an integer `d ≠ 0` and, on `U`, a pair of homomorphisms `α : Pic^τ(C/J) → ψ^*A`, `β : ψ^*A → Pic^τ(C/J)`
+  whose composite is `α ∘ β = [d]` (the two Picard homomorphisms);
+- (d) an isomorphism `L^{⊗r} ≅ ψ̄^*M` on `J ⊗ ℚ`; on `U ⊗ ℚ` it is required that `L` equal the image of
+  `α^* : ψ^*ω_{A/𝔄_g} → Λ^g q_*(ω_{C/J})` and that the isomorphism be the `ψ^*`-pull-back of
   `ω^{⊗r} ≅ M` (the generic image identification, the modular-line comparison);
 - (e) `ψ̄` is surjective and `ψ̄^{−1}(A_g ⊗ ℚ) ⊆ U` (surjectivity of the generic projection).
 
@@ -1151,14 +1151,14 @@ Throughout, `K` is a number field of degree `m`, `R = O_K`, `A/R` is semiabelian
 ### R28.2.1 Lemma 5: the isogeny height formula
 
 Use, as an alias, the isogeny height formula from ArakelovGeometryAndAbelianHeights §§4.1–4.2
-(Faltings 1983, §4, pp. 357–358, Lemma 5): let `A_1, A_2` be semiabelian over
-`Spec(R)` of relative dimension `g` with proper generic fibres, `s` the zero section of `A_1`, and
-`φ : A_1 → A_2` an isogeny (by R28.1.2 it suffices to give `φ` on generic fibres). Then `φ` is flat,
-`G = ker φ` is a quasi-finite flat commutative group scheme over `R` (in general not finite),
-`φ^* : ω_{A_2/R} → ω_{A_1/R}` is injective with `#(ω_{A_1/R}/φ^*ω_{A_2/R}) = #s^*(Ω^1_{A_1/A_2}) = #s^*(Ω^1_{G/R})`,
-and
-`h(A_2) = h(A_1) + ½·log deg(φ) − (1/m)·log #s^*(Ω^1_{G/R})`,
-where `deg φ` is the degree of `φ_K`.
+(Faltings 1983, §4, pp. 357–358, Lemma 5). It concerns an isogeny `φ : A_1 → A_2` between semiabelian
+schemes `A_1, A_2` over `Spec(R)`, both of relative dimension `g` and with proper generic fibres; by R28.1.2
+it is enough to prescribe `φ` on generic fibres. Writing `s` for the zero section of `A_1`, `G = ker φ`
+and `deg φ` for the degree of `φ_K`, the formula is
+`h(A_2) = h(A_1) + ½·log deg(φ) − (1/m)·log #s^*(Ω^1_{G/R})`.
+Its integral part asserts that `φ` is flat, that `G` is a commutative group scheme over `R` which is flat
+and quasi-finite (in general not finite), and that the pull-back `φ^* : ω_{A_2/R} → ω_{A_1/R}` is injective,
+its cokernel having order `#(ω_{A_1/R}/φ^*ω_{A_2/R}) = #s^*(Ω^1_{A_1/A_2}) = #s^*(Ω^1_{G/R})`.
 
 *Proof route.* Extend `φ` and a quasi-inverse `ψ : A_2 → A_1` with `ψ ∘ φ = [deg φ]` on generic fibres over
 `Spec(R)` (R28.1.2); `ψ ∘ φ = [deg φ]` then holds over `R` because both sides agree on the schematically
@@ -1215,14 +1215,15 @@ closed, `s^*(Ω^1_{G/R})` is a quotient of the rank-`g` locally free `s^*(Ω^1_{
 
 ### R28.2.3 Lemma 6: inertia on the quotient by the formal part
 
-Let `v_i | l`, `K_i = K_{v_i}` with valuation ring `R_i` and closed point `s_i`, and let `Â` be the formal
-completion of `A_{R_i}` along the whole special fibre. Write the special fibre as an extension
-`0 → T_s → A_s → B_s → 0` of an abelian variety by a torus and lift `T_s` to a torus `T` over `R_i`. Then
-`Ĥ_i = Â[l^∞]` is the formal completion of an `l`-divisible group `H_i` over `R_i`, `H_i ⊗ K_i` is an
-`l`-divisible subgroup of `A[l^∞] ⊗ K_i`, and likewise for `T[l^∞]`, giving lattices
-`T_l(T) ⊆ T_l(H_i) ⊆ T_l(A)`. Prove trivial inertia on the Tate quotient (Faltings 1983, §4, pp. 358–359, Lemma 6):
-the inertia group `I_i ⊆ D_i = Gal(K̄_i/K_i)` acts trivially on `T_l(A)/T_l(H_i)`, and `D_i/I_i ≅ ℤ̂` acts on it
-through a finite quotient.
+Fix a place `v_i | l`; put `K_i = K_{v_i}`, with valuation ring `R_i` and closed point `s_i`, and let
+`I_i ⊆ D_i = Gal(K̄_i/K_i)` be the inertia group. The special fibre sits in an exact sequence
+`0 → T_s → A_s → B_s → 0` with `T_s` a torus and `B_s` an abelian variety, and `T` is a torus over `R_i` lifting
+`T_s` (NeronModelsAndSemistableAbelianVarieties §3.13). Denote by `Â` the formal completion of `A_{R_i}` along its
+entire special fibre; its `l`-power torsion `Ĥ_i = Â[l^∞]` is the formal completion of an `l`-divisible group
+`H_i` over `R_i`. On generic fibres, `H_i ⊗ K_i` and the base change of `T[l^∞]` are both `l`-divisible subgroups
+of `A[l^∞] ⊗ K_i`, and their Tate modules are nested lattices `T_l(T) ⊆ T_l(H_i) ⊆ T_l(A)`. Prove trivial
+inertia on the Tate quotient (Faltings 1983, §4, pp. 358–359, Lemma 6): `I_i` acts trivially on
+`T_l(A)/T_l(H_i)`, and `D_i/I_i ≅ ℤ̂` acts on it through a finite quotient.
 
 *Proof route.* A polarization of `A_K` gives an alternating, `D_i`-equivariant, nondegenerate pairing
 `T_l(A) × T_l(A) → ℤ_l(1)`. The toric part `T_l(T)` is orthogonal to the fixed part `T_l(H_i)` (Grothendieck's
@@ -2900,12 +2901,13 @@ rather than an additional unconditional rational-point target.
 Parshin's construction attaches to each `x ∈ X(K)`, over a finite extension `K_1` independent of `x`, a
 curve `Y(x)` with good reduction outside a finite set independent of `x` and a finite map `Y(x) → X_{K_1}` ramified
 exactly over `x`; by R28.5.15 the `Y(x)` lie in finitely many isomorphism classes, and by de Franchis' theorem each
-admits finitely many non-constant maps to `X`, so finitely many `x` occur. In Faltings' version: after a field
-extension there is an unramified covering `φ : X_1 → X` of degree `k > 2`; Lemma 4 makes the fibres `φ^{−1}(x)` split
-over a fixed `K_1`; for `y ∈ φ^{−1}(x)` and `D = φ^{−1}(x) − {y}`, doubling on the generalized Jacobian of `(X_1, D)` gives a
-covering `Y(x) → X_1` ramified exactly over `D`, with bad reduction only above `2`, at the bad places of `X_1`, and
-where `φ` ramifies modulo `v`. Faltings refers to Parshin for the details and uses tacitly that `Y(x)` has genus at
-least `2`, de Franchis' theorem, and a field of definition of `Y(x)` independent of `x`;
+admits finitely many non-constant maps to `X`, so finitely many `x` occur. Faltings 1983 obtains `Y(x)` from an
+auxiliary unramified cover `φ : X_1 → X` of degree `k > 2`, which exists once the field is enlarged. By Lemma 4 all
+fibres `φ^{−1}(x)` are split over one fixed `K_1`. Choosing `y ∈ φ^{−1}(x)` and putting `D = φ^{−1}(x) − {y}`, one takes
+for `Y(x) → X_1` the cover ramified exactly over `D` that multiplication by `2` on the generalized Jacobian of
+`(X_1, D)` produces; its reduction is good except above `2`, at the bad places of `X_1`, and at the places `v` modulo
+which `φ` ramifies. The details are left to Parshin, and three inputs are used without comment: the genus of `Y(x)`
+being at least `2`, de Franchis' theorem, and a field of definition of `Y(x)` independent of `x`;
 these are precisely the geometric inputs specified above.
 
 **Checks.** The covering has degree `k > 2`, so deleting one point of a split fibre leaves at least
