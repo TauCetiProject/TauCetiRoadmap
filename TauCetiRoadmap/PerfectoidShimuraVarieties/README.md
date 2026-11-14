@@ -802,7 +802,7 @@ Use AutomorphicBundles §§10.2–10.3’s chart, boundary-extension and normali
 
 ([Heuer], §2.7, Lemma 2.25 and Proposition 2.26, pp. 15–16.)
 
-A strict and explicit neighbourhood of the ordinary locus in the minimal compactification becomes affinoid perfectoid at infinite level and satisfies the Hebbarkeitssatz with respect to the boundary.
+Passing to infinite level turns an explicit strict neighbourhood of the ordinary locus, taken inside the minimal compactification, into an affinoid perfectoid space on which the Hebbarkeitssatz holds relative to the boundary.
 
 *Needs:* AutomorphicBundles §§10.2–10.3; §1.21; §1.5; §1.6; ShimuraCompactifications Layer 7; PerfectoidSpaces §§P3.10, P3.13, P7.12, P5.9; ShimuraVarieties §8.20.
 
