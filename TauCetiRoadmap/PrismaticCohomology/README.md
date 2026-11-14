@@ -1051,7 +1051,9 @@ The quotient structure and this unique factorization use the ordinary ideal quot
 
 *Needs:* §0.3, §0.29, Mathlib `Ideal.subset_span`, Mathlib `Submodule.span_induction`, Mathlib `Ideal.span`, Mathlib `Function.iterate_zero_apply`, §0.13, Mathlib `Function.iterate_succ_apply'`, Mathlib `Ideal.span_le`, Mathlib `RingHom.ker`, Mathlib `RingHom.mem_ker`, §0.9, Mathlib `Ideal.Quotient.mk`, Mathlib `Ideal.Quotient.eq_zero_iff_mem`, Mathlib `Ideal.Quotient.lift`, Mathlib `Ideal.Quotient.lift_mk`, Mathlib `Ideal.Quotient.mk_surjective`, Mathlib `Ideal.Quotient.ringHom_ext`.
 
-### 0.55 Free δ-rings
+### 0.55 Free and cofree δ-rings: the two adjoints of the forgetful functor
+
+The free δ-ring on a set (§0.55) and the cofree Witt δ-ring with its δ-unit (§0.56) are consumed together by §§0.60, 0.65, 0.90, 0.92 and 1.7, and are the headline statements `Delta.freeDelta_universal` and `Delta.witt_cofree` of Suggested.lean.
 
 Extend the p-local free object of PerfectoidSpaces §P4.15.2 integrally: the free δ-ring on `S` is `Z[x_(s,n)]`, `δx_(s,n)=x_(s,n+1)`, `φx_(s,n)=x_(s,n)^p+px_(s,n+1)`, for any set `S`. Its universal map sends `x_(s,n)` to `δ^n(f_s)`; `φ` is faithfully flat, and after inverting `p` the `φ^n(x_(s,0))` are polynomial generators.
 
@@ -1073,7 +1075,7 @@ Extend the p-local free object of PerfectoidSpaces §P4.15.2 integrally: the fre
 
 **Proof route.** Put `A_n=Z[x₀,…,x_n]`. For `n≥1`, `A_n` is finite free of rank `pⁿ` over `φ(A_(n−1))[x_n]`, with basis `∏_(j<n)x_j^(a_j)`, `0≤a_j<p`, by the triangular monic relations. Hence `φ(A_(n−1))→A_n` is faithfully flat, as a polynomial extension followed by a finite free map. The initial integer map is the identity. Pass to the filtered colimit and finite subsets of the generator set (BS22 Lemma 2.11, pp.15–16).
 
-### 0.56 Limits, colimits and Witt vectors of δ-rings
+**§0.56 The cofree Witt δ-ring and its δ-unit.**
 
 δ-rings have all limits and colimits, preserved by the forgetful functor. The free functor is its left adjoint and the cofree Witt δ-ring its right adjoint; the API below specifies both the integral operation and the adjunction, without ghost injectivity or cancellation of `p`.
 
@@ -1165,7 +1167,9 @@ Animation, sifted extension and pushouts use EnhancedDerivedSheaves §§E5:anima
 
 **Proof route.** Animate finite free objects and their polynomial operations, then use completed pushouts and the completion adjunction (BS22 Remarks 2.37, 2.45, pp.24,27).
 
-### 0.61 Distinguished elements
+### 0.61 Distinguished generators, p-torsion and perfect δ-rings
+
+Provides distinguished generators and their local existence (§§0.61–0.63) and p-torsion, perfect δ-rings and their distinguished elements (§§0.64–0.67), consumed by the prism sections §§0.74 and 0.76–0.82, by §1.17, and in Layer 2 by §§2.13, 2.19–2.21, 2.23, 2.24 and 2.27.
 
 Consume distinguishedness from PerfectoidSpaces §P4.15.2. The additional API is δ-functoriality, generator changes (§§0.62–0.63) and the integral witnesses: `δ(p)=1−p^(p−1)`, `[p]_q`, Fontaine `ξ`, and Eisenstein generators with `φ(u)=u^p`.
 
@@ -1188,8 +1192,6 @@ A is a δ-ring for the prime `p`.
 - In the universal `δ-Z_(p)-algebra` with `δ(d)` inverted, `d` is distinguished but `d∉pA`: modulo `p` it remains a nonzero polynomial variable. Thus distinguished does not mean `p` times a unit.
 
 **Proof route.** Apply `δ` functoriality and the product formula to generator changes, and compute the distinguished witnesses (BS22 Definition 2.19 and Lemmas 2.23–2.25, pp.18–19).
-
-### 0.62–0.67 Regularity and perfect delta rings
 
 **§0.62 Factors of distinguished elements.**
 
@@ -1263,7 +1265,9 @@ First statement: A perfect and p-complete. Second statement: A p-torsion-free, p
 
 *Needs:* §0.3, §0.61, Mathlib `Ideal.jacobson`, Mathlib `Ideal.mem_jacobson_bot`, §0.57, §0.5, Mathlib `Module.FaithfullyFlat`, Mathlib `IsReduced`, §0.13, §0.6, §0.56, Mathlib `PerfectRing`, Mathlib `WittVector.frobenius_bijective`, Mathlib `WittVector.isAdicCompleteIdealSpanP`, Mathlib `WittVector`, DerivedModuleAlgebra §§0.1–0.17, 0.25, §0.55, Mathlib `WittVector.teichmuller`, Mathlib `nonZeroDivisors`.
 
-### 0.68 The PD envelope of the free δ-ring as a δ-pushout
+### 0.68 PD envelopes as δ-envelopes
+
+Identifies divided-power envelopes with δ-envelopes, for the free δ-ring (§0.68) and for regular sequences (§0.69); §0.69 is consumed by §0.71, by §§1.14, 1.15 and 1.17, and by §§2.20–2.21.
 
 Import the restricted p-local PD identities of PerfectoidSpaces §P4.15.2: for p-regular `δ-Z_(p)-algebras`, existence of `z^p/p!` implies all divided powers, and `Z_(p){x,φ(x)/p}` is the PD envelope of `(x)`. The extra target is the animated assertion: the displayed `free-δ` pushout `Z_(p){z}←Z_(p){y}→Z_(p){x}`, `y↦pz,φ(x)`, is also a pushout of underlying animated rings and is discrete.
 
@@ -1275,7 +1279,7 @@ A is a p-torsion-free `Z_(p)-algebra` with a δ-structure. The inverse of every 
 
 **Proof route.** Consume the restricted PD identity and check the animated pushout on the free polynomial resolution (BS22 Lemmas 2.35–2.36 and Remark 2.37, pp.22–24).
 
-### 0.69 PD envelopes of regular sequences are δ-envelopes
+**§0.69 PD envelopes of regular sequences are δ-envelopes.**
 
 For p-regular `Z_(p)-algebra B` and finite mod-p Koszul-regular `f_i`, the derived base change of the universal polynomial PD envelope along `x_i↦f_i` is discrete, p-regular and `D_(f)(B)`, compatibly with base changes retaining those hypotheses. If `B=A` is a δ-algebra, `A{φ(f_i)/p}` is this envelope, finitely presented as a `δ-A-algebra`; it is `φ*` of `A{f_i/p}`, the universal p-regular `δ-A-algebra` making `I=(f_i)` divisible by `p`. The twist is essential: for `Z_(p)[x]`, the envelopes `A{x/p}` for `φ(x)=x^p` and `φ(x)=x^p+p` are incomparable.
 
@@ -1349,7 +1353,9 @@ Import the prism predicates from PerfectoidSpaces §P4.15.2. Build their categor
 
 **Proof route.** Use the imported rigidity to identify extended ideals; complete flat base change supplies the categorical flat interface (BS22 Definition 3.2, p.28).
 
-### 0.74 Crystalline prisms
+### 0.74 Crystalline, Breuil–Kisin, q-de Rham and universal oriented prisms
+
+Constructs explicit prisms: crystalline (§0.74), Breuil–Kisin (§0.76), q-de Rham (§0.77) and universal oriented (§0.78). §0.74 is consumed by §§1.14, 1.17, 1.22, 1.26, 2.19 and 2.20, and §0.78 by §§1.17–1.18.
 
 Crystalline prisms are precisely (A,(p)) for p-torsion-free p-adically complete δ-rings A; construct the specialization interface below, including `Z_p`, `W(k)` for perfect `F_p-algebras k`, and `Z_p⟨x⟩` with `φ(x)=x^p`.
 
@@ -1376,7 +1382,7 @@ A is a δ-ring, p-torsion-free and classically p-adically complete.
 
 **Proof route.** p-regularity identifies derived and ordinary p-completion and makes `(p)` an invertible prism ideal (BS22 Example 3.3, p.29).
 
-### 0.76 The Breuil–Kisin prism
+**§0.76 The Breuil–Kisin prism.**
 
 For a complete mixed-characteristic DVR `O_K` with arbitrary perfect residue field `k`, choose `π` and its Eisenstein polynomial `E∈W(k)[u]`, of degree `[K:W(k)[1/p]]`. Construct the bounded oriented Breuil–Kisin prism `(W(k)[[u]],(E))`, `φ(u)=u^p`, reduction `u↦π`. It is nonperfect; every generator of the kernel is distinguished.
 
@@ -1400,7 +1406,7 @@ For a complete mixed-characteristic DVR `O_K` with arbitrary perfect residue fie
 
 **Proof route.** The Eisenstein constant term makes `δ(E)` a unit; regularity and completeness verify the prism conditions (BS22 Example 3.3, p.29).
 
-### 0.77 The q-de Rham prism
+**§0.77 The q-de Rham prism.**
 
 `A = Z_p[[q − 1]]` with the δ-structure determined by `φ(q) = q^p` (equivalently `δ(q) = 0`), and `I = ([p]_q)`, where `[p]_q = (q^p − 1)/(q − 1) = 1 + q +` … `+ q^{p−1}` is the p-th cyclotomic polynomial evaluated at `q`. Then `(A, I)` is a bounded, oriented, non-perfect prism with `A/I = Z_p[ζ_p]`. The ideal of the prism is `([p]_q)`, not `(q − 1)`: `(A, (q − 1))` is not a prism.
 
@@ -1424,7 +1430,7 @@ For a complete mixed-characteristic DVR `O_K` with arbitrary perfect residue fie
 
 **Proof route.** Compute `δ([p]_q)` modulo `(p,q−1)`, then use the cyclotomic quotient and completeness (BS22 Example 3.3, p.29).
 
-### 0.78 The universal oriented prism
+**§0.78 The universal oriented prism.**
 
 An oriented prism adds a generator `d` of `I`. Construct the universal one as the `(p,d)-completion` of `Z_(p){d,δ(d)^−1}`; its unique lift to `(A,(d_A))` sends `d` to `d_A`. Its quotient is p-torsion-free, and `A/(p,d)→A/(p,d^p)`, `x↦x^p`, is faithfully flat. The API retains both the orientation and its forgetful map.
 
@@ -1450,7 +1456,9 @@ It is universal among oriented prisms, not among orientable ones. This is the Fr
 
 **Proof route.** Invert `δ(d)` in the free δ-ring and complete; polynomial coordinates modulo `(p,d)` give the displayed Frobenius flatness (BS22 Example 3.4, p.29).
 
-### 0.79 Rigidity of maps of prisms
+### 0.79 Rigidity, completeness and torsion bounds for prisms
+
+Provides rigidity of maps of prisms (§0.79), principality of `φ(I)A` (§0.80) and the completeness and torsion properties of bounded and perfect prisms (§§0.81–0.82). §0.79 is consumed by §§1.1, 1.2, 1.5, 2.7 and 2.29, and §0.81 by §§1.1, 1.3, 1.7, 1.11, 1.18, 1.20, 1.23, 1.24, 2.16 and 2.29.
 
 Consume rigidity `I⊗_A` B≅J from PerfectoidSpaces §P4.15.2. Retain the converse: a derived `(p,I)-complete δ-A-algebra B` gives a prism (B,IB) exactly when `B` is I-torsion-free.
 
@@ -1462,7 +1470,7 @@ Consume rigidity `I⊗_A` B≅J from PerfectoidSpaces §P4.15.2. Retain the conv
 
 **Proof route.** Apply the imported local distinguished-generator argument; regularity of the extended invertible ideal is exactly the missing prism condition (BS22 Lemma 3.5, p.29).
 
-### 0.80 The Frobenius pullback of a prism ideal is principal
+**§0.80 The Frobenius pullback of a prism ideal is principal.**
 
 Let `(A, I)` be a prism. Then `φ(I)A` is a principal ideal and each of its generators is a distinguished element. Both `φ^*I=I⊗_{A,φ}A` and the ideal `I^p` are free A-modules of rank one.
 
@@ -1476,7 +1484,7 @@ Let `(A, I)` be a prism. Then `φ(I)A` is a principal ideal and each of its gene
 
 **Proof route.** Use local generators and glue the canonical trivializations of `φ*I` and `I^p` (BS22 Lemma 3.6, p.29).
 
-### 0.81 Properties of bounded prisms
+**§0.81 Completeness, flat complexes and local orientation of bounded prisms.**
 
 For bounded prisms, A is classically complete. Every derived `(p,I)-complete`, completely flat A-complex `M` is discrete and classically complete, with no `I^n-torsion` and bounded p-torsion modulo `I^n`, all `n≥0`. Complete (faithfully) flat `δ-A-algebras` correspond to (faithfully) flat prism maps `B↦(B,IB)`. There is a completely faithfully flat ind-Zariski completed δ-extension orienting `I=(d)`, still bounded, with `d` distinguished regular.
 
@@ -1488,7 +1496,7 @@ For bounded prisms, A is classically complete. Every derived `(p,I)-complete`, c
 
 **Proof route.** Apply the bounded-torsion completion and complete-flatness criteria locally on an orientation (BS22 Lemma 3.7, pp.30–31).
 
-### 0.82 Properties of perfect prisms
+**§0.82 The sharp torsion bound for perfect prisms.**
 
 For perfect `(A,I)`, consume boundedness from PerfectoidSpaces §P4.15.2. Retain the sharp bound `(A/I)[p^∞]=(A/I)[p]` and the regularity consequences under §0.67’s separatedness hypotheses.
 
@@ -1754,7 +1762,9 @@ Boundedness is essential to pushout discreteness. Completeness, finite covers, s
 
 **Proof route.** Apply complete faithfully flat descent to the completed tensor Čech nerve, then its affine acyclicity criterion (BS22 Corollary 3.12, p.33).
 
-### 1.2 The relative prismatic site (X/A)_Δ
+### 1.2 The relative prismatic site and the complexes `Δ_{X/A}`, `Δ̄_{X/A}`
+
+Provides the relative site (§1.2), its morphism to the étale topos (§1.3), relative prismatic and Hodge–Tate cohomology with Breuil–Kisin twists (§§1.4–1.5) and their independence of the topology (§1.6). They are consumed by §§1.7–1.9, 1.11, 1.12, 1.19, 1.21–1.23 and 1.27, and in Layer 2 by §§2.1, 2.2, 2.5, 2.9, 2.10, 2.12 and 2.16.
 
 For a p-adic formal `X` over `A/I`, define the relative site by bounded prisms under `(A,I)` with `Spf(B/IB)→X` and the induced finite-family flat topology. If `h_X(B)=Hom_(A/I)(Spf(B/IB),X)` on the slice `(∗/A)_Δ`, then `h_X` is a sheaf and `Shv((X/A)_Δ)=Shv((∗/A)_Δ)_(/h_X)`. Thus `X→Y` induces the corresponding topos morphism; on an affine `X=Spf R` use the API below.
 
@@ -1783,7 +1793,7 @@ For a p-adic formal `X` over `A/I`, define the relative site by bounded prisms u
 
 **Proof route.** Use the category of elements of `h_X` in the bounded-prism slice; §1.1 gives sheaf descent (BS22 Definition 4.1, pp.35–36).
 
-### 1.3 The morphism from the prismatic topos to the étale topos
+**§1.3 The morphism from the prismatic topos to the étale topos.**
 
 For smooth formal `X/(A/I)`, the reduction functor `μ:(X/A)_Δ→fSch_/X` sends `(B,g,f)` to `Spf(B/IB)→X` and is cocontinuous for the étale topology. Composing its topos morphism with restriction to `X_ét` gives `ν_X`. For étale `U→X`, `(U/A)_Δ` is the slice over `U`; restriction preserves sheaves and (`ν_`*F)(U)=H⁰((U/A)_Δ,F). For abelian F, R^iν_*`F` is the sheafification of these `H^i`.
 
@@ -1795,7 +1805,7 @@ The construction only needs p-adic formal `X`, though comparisons assume smoothn
 
 **Proof route.** Lift completely étale maps uniquely in prisms to prove cocontinuity; compute direct image on each étale slice (BS22 §4.2, pp.37–38).
 
-### 1.4 Relative prismatic cohomology `Δ_{X/A}`
+**§1.4 Relative prismatic cohomology `Δ_{X/A}`.**
 
 For smooth formal `X/A/I` set `Δ_(X/A)=Rν_*O_Δ` and `RΓ_Δ(X/A)=RΓ(X_ét,Δ_(X/A))`; for p-completely smooth `R` use its affine value. These are `(p,I)-complete E∞-A-algebras`. Their evaluation, cup product, variance, negative-degree vanishing and prism base change are specified below; the Čech model is §1.8 and Frobenius §1.9.
 
@@ -1823,7 +1833,7 @@ For smooth formal `X/A/I` set `Δ_(X/A)=Rν_*O_Δ` and `RΓ_Δ(X/A)=RΓ(X_ét,Δ
 
 **Proof route.** Apply enhanced derived pushforward to `O_Δ` and the complete affine Čech model (BS22 Construction 4.4, p.37).
 
-### 1.5 Hodge–Tate cohomology `Δ̄_{X/A}` and Breuil–Kisin twists of `A/I`-modules
+**§1.5 Hodge–Tate cohomology `Δ̄_{X/A}` and Breuil–Kisin twists of `A/I`-modules.**
 
 For smooth `X/A/I` define `Δ̄_(X/A)=Rν_*Ō_Δ≃Δ_(X/A)⊗^L_A A/I`, with its `O_X-algebra` structure; use the same reduction on affines. With the twists below, the coefficient extension gives the triangle `Δ̄{i+1}→Δ⊗^L_A I^i/I^(i+2)→Δ̄{i}`, `i≥0`.
 
@@ -1850,7 +1860,7 @@ For smooth `X/A/I` define `Δ̄_(X/A)=Rν_*Ō_Δ≃Δ_(X/A)⊗^L_A A/I`, with it
 
 **Proof route.** Reduction by the invertible ideal commutes with the site limit; its length-two coefficient extension gives the triangle (BS22 Construction 4.9, pp.39–40).
 
-### 1.6 Flat, étale, Nisnevich and Zariski topologies compute the same cohomology
+**§1.6 Flat, étale, Nisnevich and Zariski topologies compute the same cohomology.**
 
 On the category underlying `(X/A)_Δ` consider the topologies whose covers are the maps of prisms (B,IB) `→` (C,IC) that are `(p,I)-completely` étale covers, Nisnevich covers or Zariski covers. There are morphisms of topoi `Shv((X/A)_Δ) → Shv((X/A)_{Δ,ét}) → Shv((X/A)_{Δ,Nis}) → Shv((X/A)_{Δ,Zar})`, and the derived pushforward along each of them carries `O_Δ` to `O_Δ` and `Ō_Δ` to `Ō_Δ`. Hence `RΓ((X/A)_Δ, O_Δ)` and `RΓ((X/A)_Δ, Ō_Δ)` may be computed in any of the four topologies. The same holds for coefficients in a crystal in `(p,I)-complete` complexes, that is, an assignment `(B,g,f) ↦ M(B) ∈ D_{(p,I)-comp}(B)` compatible with completed base change.
 
@@ -1927,7 +1937,9 @@ Apply the objectwise Frobenius lift of the δ-sheaf `O_Δ`, then `Rν_*` and glo
 
 **Proof route.** Apply the natural δ-Frobenius to the structure sheaf and its functorial Čech resolution (BS22 Construction 4.4, p.37).
 
-### 1.10 Base change along maps of finite complete Tor amplitude
+### 1.10 Base change, étale localisation and the Bockstein
+
+Provides base change along maps of finite complete Tor amplitude (§1.10), étale localisation of `Δ̄` (§1.11) and the Bockstein `β_I` (§1.12), consumed by the Hodge–Tate comparison §§1.16–1.20 and by §§1.14 and 1.26.
 
 Consume oriented affine base change from PerfectoidSpaces §P4.15.3. For smooth `R/A/I` and any bounded-prism map `A→A′`, the base-changed presentation computes `Δ_(R′/A′)`, `R′=R⊗̂_AA′`. If `A′` has finite `(p,I)-complete` Tor-amplitude over A, tensor commutes with totalization, giving `Δ⊗̂^L_AA′≃Δ_(R′/A′)` and the corresponding Hodge–Tate iso. This step extends to unoriented bases before §1.21 removes its `Tor` bound.
 
@@ -1953,7 +1965,7 @@ is an equivalence. Completion uses the image ideal `JC′`; the terms need not a
 
 **Proof route.** Finite partial totalizations commute with completed tensor by exactness. A Koszul complex on finite generators of `J` and the finite complete Tor-amplitude give a fixed integer `c` such that completed base change sends `D≥n(C)` into `D≥n−c(C′)`. Thus the errors of the partial totalizations tend uniformly to arbitrarily high degrees, and the comparison survives the inverse limit (BS22 Lemma 4.22, p.44). For prismatic base change the Čech terms are discrete, so their common lower bound is zero. Apply the helper to oriented base change termwise, then descend orientations (BS22 Lemma 4.20, p.43).
 
-### 1.11 Étale localisation of Hodge–Tate cohomology
+**§1.11 Étale localisation of Hodge–Tate cohomology.**
 
 Use PerfectoidSpaces §P4.15.3 and PerfectoidQuotients §0.0 for the oriented affine inputs. For completely étale `R→S` between smooth `A/I-algebras`, extend to the formal relative site: in algebraic variance, restriction has left adjoint `(B,R→B/IB)↦(B_S,S→B_S/IB_S)`, where `B_S` is the unique complete étale δ-B lift of `(B/IB)⊗̂^L_RS`. It preserves coproducts and weak initiality; `Δ̄_(R/A)⊗̂^L_RS≃Δ̄_(S/A)`.
 
@@ -1965,7 +1977,7 @@ Use PerfectoidSpaces §P4.15.3 and PerfectoidQuotients §0.0 for the oriented af
 
 **Proof route.** Use PerfectoidQuotients §0.0’s complete étale δ-lift to construct the adjoint and compare the two Čech augmentations (BS22 Lemma 4.21, pp.43–44, using Lemma 2.18, pp.17–18).
 
-### 1.12 The Bockstein differential on twisted Hodge–Tate cohomology
+**§1.12 The Bockstein differential on twisted Hodge–Tate cohomology.**
 
 For smooth `R` or formal `X`, the connecting maps of §1.5 give `β_I` on `H^`*(Δ̄){*}, with the square-zero and signed Leibniz laws below. Consequently `β_I∘η⁰` is an `A/I-derivation` and induces `η¹` from the p-completed differentials (finite projective for smooth `R`).
 
@@ -1991,7 +2003,9 @@ For smooth `R` or formal `X`, the connecting maps of §1.5 give `β_I` on `H^`*(
 
 **Proof route.** Take the connecting morphism of the coefficient triangle and its multiplicative structure (BS22 Construction 4.9, pp.39–40).
 
-### 1.13 The relative Frobenius of a polynomial Čech nerve is a cosimplicial quasi-isomorphism on modules
+### 1.13 Prismatic cohomology of the Frobenius twist computes crystalline cohomology
+
+Provides the crystalline comparison for smooth (§1.14) and syntomic (§1.15) algebras, with the relative-Frobenius lemma they use (§1.13) and its Laurent variant (§1.13a). §1.14 is consumed by §§1.16, 1.21, 1.22, 1.26, 2.14 and 2.19.
 
 Use the affine characteristic-p input of PerfectoidSpaces §P4.15.3. The extra coefficient statement: for any polynomial `B/k`, `char(k)=p`, its Čech nerve `B^•` and relative Frobenius `B^(•,1)→B^•`, every cosimplicial `B^(•,1)-module N` has `N→N⊗_(B^(•,1))B^•` a quasi-iso on unnormalized cochains. No variable-set finiteness is needed.
 
@@ -2003,7 +2017,7 @@ The tensor is termwise. BS22’s monoid partition uses residues `{0,…,p−1}^r
 
 **Proof route.** Decompose polynomial monomials by their residues modulo `p`; the relative Frobenius Čech summands contract after adjoining coefficients (BS22 Lemma 5.4, pp.46–49).
 
-### 1.13a Laurent relative Frobenius on a Čech nerve
+**§1.13a Laurent relative Frobenius on a Čech nerve.**
 
 For a characteristic-p ring `k`, an arbitrary set `S`, `G=⊕_(s∈S)ℤ` and `B=k[G]`, let `B^n=B^(⊗_k(n+1))` be the Čech nerve and put `B^(•,(1))=B^•⊗_(k,Frob_k)k`. Prove that for every cosimplicial `B^(•,(1))-module N`, the comparison `N→N⊗_(B^(•,(1)))B^•` induces a quasi-isomorphism of unnormalized cochain complexes of k-modules. The tensor product is ordinary and degreewise. Relative Frobenius is free in every degree, but `N` need not be k-flat. The free abelian group may have infinite rank; arbitrary nonfree groups and monoids with p-torsion are not included. (BS22, Lemma 5.4 and proof, pp.48–49, for the polynomial argument; K1, Appendix B, Lemma B.4, pp.61–62, for its Laurent application.)
 
@@ -2020,7 +2034,7 @@ The split factor has degree-n basis `(G/pG)^(n+1)`. Its pointed augmentation, te
 
 *Needs:* §1.13, Mathlib `AlgebraicTopology.alternatingCofaceMapComplex`, EnhancedDerivedSheaves §§E1.1–E1.4 (module tensor products), and the coface-compatible splitting in this section.
 
-### 1.14 The crystalline comparison
+**§1.14 The crystalline comparison.**
 
 For a crystalline prism (A,(p)), a PD ideal `I` containing `p` and smooth `R/(A/I)`, put `R^(1)=R⊗_(A/I,ψ)A/p`, where `ψ:A/I→A/p` is induced by Frobenius, which kills `I/p`. Then `Δ_(R^(1)/A)≃RΓ_crys(R/A)`, canonically as `E∞-A-algebras` with Frobenius. Crystalline cohomology is the derived limit over the PD thickenings `A/p^n`. For `I=(p)`, the comparison is induced by `φ_A`* C^•→D^•, where C^• is the prismatic Čech–Alexander object and D^• the p-completed PD envelope object of the same presentation; φ_A* `C^•` computes `Δ_(R^(1)/A)`.
 
@@ -2032,7 +2046,7 @@ For a crystalline prism (A,(p)), a PD ideal `I` containing `p` and smooth `R/(A/
 
 **Proof route.** Compare Frobenius-twisted prismatic envelopes with PD envelopes termwise and totalize (BS22 Theorem 5.2, pp.44–45).
 
-### 1.15 The crystalline comparison for syntomic algebras
+**§1.15 The crystalline comparison for syntomic algebras.**
 
 Let (A,(p)) be a crystalline prism, `J ⊂ A` a PD ideal with `p ∈ J`, and `R` a syntomic `A/J-algebra` (flat, of finite presentation, with local complete intersection fibres). Put `R^{(1)} := R ⊗_{A/J,ψ} A/p`. Then there is a canonical Frobenius-compatible isomorphism of `E_∞-A-algebras RΓ((R^{(1)}/A)_Δ, O_Δ) ≃ RΓ_crys(R/A)`, where the left side is the cohomology of the prismatic site of `R^{(1)}` and the right side is crystalline cohomology relative to the PD thickening `Spec(A/J) ⊂ Spf(A)`. For `R` smooth this is §1.14.
 
@@ -2044,7 +2058,9 @@ Let (A,(p)) be a crystalline prism, `J ⊂ A` a PD ideal with `p ∈ J`, and `R`
 
 **Proof route.** Use the same regular PD-envelope calculation for syntomic presentations and flat descent (BS22 Remark 5.3, p.45).
 
-### 1.16 The Hodge–Tate comparison in characteristic p
+### 1.16 Hodge–Tate cohomology as twisted differential forms
+
+The comparison theorem §1.20 rests on the characteristic-p case (§1.16), the map to a crystalline prism (§1.17), the affine line (§1.18) and the map `η^*` (§1.19). §1.20 is consumed by §§1.21, 1.23, 1.26 and in Layer 2 by §§2.1–2.3, 2.8, 2.9 and 2.23; §1.19 also by §§1.21, 2.3 and 2.5.
 
 Consume the affine crystalline Hodge–Tate calculation from PerfectoidSpaces §P4.15.3. For smooth `S/A/p` extend it to the sheaf-level DGA: `β_p(f)²=0` even at `p=2`, giving `η`*:Ω*`≃(H*Δ̄,β_p)`, with `H^i=Ω^i{−i}`. The induced crystalline `Δ` base-change isos hold for all crystalline prism maps, with twists trivialized by `p`.
 
@@ -2056,7 +2072,7 @@ Consume the affine crystalline Hodge–Tate calculation from PerfectoidSpaces §
 
 **Proof route.** Use crystalline Cartier on affine charts and glue; the dyadic square-zero identity is integral (BS22 Corollary 5.5 and proof, pp.49–50).
 
-### 1.17 Mapping an oriented prism to a crystalline one
+**§1.17 Mapping an oriented prism to a crystalline one.**
 
 Assume (A,(d)) oriented, `A/d` p-torsion-free and `A/(p,d)→A/(p,d^p)`, `x↦x^p`, flat. Then `B=A{φ(d)/p}^∧_p` is discrete, p-torsion-free, `(p,d)-complete` and the PD envelope of `(d)`. The prism map `α=can∘φ_A` has the API below. Mod `p` it factors `A/p→A/(p,d)→A/(p,d^p)→B/p=D_(d)(A/p)`: the legs have finite `Tor` amplitude, are faithfully flat, and are free respectively. Hence completed `α-pullback` is conservative with finite complete `Tor` amplitude and identifies both `Δ` and `Δ̄` of every p-completely smooth `R` with their base changes.
 
@@ -2082,7 +2098,7 @@ Assume (A,(d)) oriented, `A/d` p-torsion-free and `A/(p,d)→A/(p,d^p)`, `x↦x^
 
 **Proof route.** Compute the PD envelope after the twisted map α; its three mod-p factors give conservative finite-Tor pullback (BS22 Construction 6.1, pp.51–52).
 
-### 1.18 The Hodge–Tate comparison for the affine line and the vanishing of β(f)²
+**§1.18 The Hodge–Tate comparison for the affine line and the vanishing of β(f)².**
 
 Consume the oriented affine-line comparison of PerfectoidSpaces §P4.15.3; descend to bounded invertible `I`. For `R=A/I⟨X⟩`, `η⁰:R≃H⁰Δ̄`, `η¹:Ω¹≃H¹Δ̄{1}` and `H^i=0` for `i>1`. The integral one-variable calculation proves `β_I(f)²=0` on every smooth formal `X/A/I`, including at `p=2`.
 
@@ -2094,7 +2110,7 @@ Consume the oriented affine-line comparison of PerfectoidSpaces §P4.15.3; desce
 
 **Proof route.** Reduce the affine line to the crystalline case by §1.17 and descend its square-zero generator identity (BS22 Lemma 4.10, p.39, and Proposition 6.2, pp.51–52).
 
-### 1.19 The Hodge–Tate comparison map η^*
+**§1.19 The Hodge–Tate comparison map `η^*`.**
 
 For smooth formal `X/A/I`, extend `η⁰` uniquely to the DGA map `η`*:Ωhat*`→H`*(Δ̄){*}; on a form `f₀df₁∧⋯∧df_i` it is `f₀β_I(f₁)⋯β_I(f_i)`. The maps are `O_X-linear`, natural in `X` and in bounded prisms; they depend only on the `E∞-object Δ` and its reduced `O_X-algebra` structure. The affine and differential compatibilities are recorded below.
 
@@ -2118,7 +2134,7 @@ For smooth formal `X/A/I`, extend `η⁰` uniquely to the DGA map `η`*:Ωhat*`�
 
 **Proof route.** Square-zero Bockstein generators give the universal exterior-algebra map; the signed Leibniz rule identifies differentials (BS22 Construction 4.9 and Lemma 4.10, pp.39–40).
 
-### 1.20 The Hodge–Tate comparison theorem
+**§1.20 The Hodge–Tate comparison theorem.**
 
 Extend PerfectoidSpaces §P4.15.3 by canonical twists and étale gluing: on smooth formal `X/A/I`, `η`*:Ω*`≃(H`*Δ̄{*`},β_I`) is a DGA iso. Thus `Δ̄` is perfect with `H^i=Ω^i{−i}`, zero above relative dimension. On affine `X=Spf R` this is `Ω^i{−i}≃H^i(Δ⊗^L_AA/I)`.
 
@@ -2663,7 +2679,9 @@ For perfectoid `R` with `(A,(d))=(A_inf(R),ker θ)`, put `R_∞=R⟨X₁^(1/p^�
 
 **Proof route.** The restricted monomial basis proves complete freeness; compute the regular prismatic envelope and transport by Frobenius in characteristic `p` (BS22 Proposition 7.10, p.59).
 
-### 2.22 Perfection of derived prismatic cohomology and perfectoidization
+### 2.22 Perfected prismatic cohomology and perfectoidization over a fixed perfect prism
+
+Defines `Δ_perf` and `S_perfd` relative to a fixed perfect prism and proves their comparison with the unperfected theory (§2.23), coconnectivity (§2.24) and symmetric monoidality (§2.25). §2.27 consumes all four, §2.26 consumes §§2.22 and 2.25, §2.30 consumes §2.24 and §2.31 consumes §2.25.
 
 For an animated p-complete `A/I-algebra S` over a perfect prism `(A,I)`, define the perfected object and perfectoidization by the completed Frobenius colimit and reduction specified below. Here they remain relative to this base; §2.30 proves independence and dependence only on `π₀`. The semiperfectoid universal quotient is imported from PerfectoidSpaces §§P4.15.2–P4.15.3 and agrees when the animated perfectoidization is connective (§2.27).
 
@@ -2693,7 +2711,7 @@ All statements here are relative to the fixed perfect base. The general base-ind
 
 **Proof route.** Take the completed colimit of the Frobenius-semilinear system, then reduce by `I` (BS22 Definition 8.2, p.63).
 
-### 2.23 Comparison of the perfected and the unperfected theory
+**§2.23 Comparison of the perfected and the unperfected theory.**
 
 For perfect A and animated `S/A/I`, `Δ→Δperf` is initial among maps of `E∞-algebras` with invertible Frobenius, and is an iso iff `φ` on `Δ` is. For perfectoid `S` it is `Ainf(S)`, `Δ̄=S`, `Lhat_(S/(A/I))=0` and `S_perfd=S`. Evaluation at perfect prisms factors uniquely through `Δperf`, giving a map to `lim_(S→R′ perfectoid)Ainf(R′)`. In characteristic `p`, Frobenius on conjugate `gr_i` is induced by Frobenius on `L` and vanishes for `i≠0`, giving `S_perfd=colim_φ S`. For `F_p[x]`, `Δ̄` retains nonzero `Ω¹` while `S_perfd=F_p[x^(1/p^∞)]` is discrete; perfection forgets these positive pieces.
 
@@ -2705,7 +2723,7 @@ That the map in `(3)` is an equivalence is BS22 Proposition 8.5; `(3)` only cons
 
 **Proof route.** Use the localization universal property of the colimit. After the characteristic-p conjugate-filtration comparison, apply the supplied generic animated-perfection theorems to identify the colimit with the discrete perfection of `π₀S` (BS22 Example 8.3, p.63).
 
-### 2.24 Coconnectivity of perfectoidizations
+**§2.24 Coconnectivity of perfectoidizations.**
 
 For perfect (A,(d)) and animated `S/A/I`, `Δperf` and `S_perfd` lie in `D≥0`. `H⁰Δperf` is a p-regular p-complete perfect `δ-A-algebra`, with its unique Frobenius lift, `d` regular, and `H⁰Δperf/p` embedding in `H⁰(Δperf/p)`. This is coconnectiveness, not a claim that these outputs are animated.
 
@@ -2721,7 +2739,7 @@ Prerequisite API: the natural underlying-spectrum `P⁰` operation on characteri
 
 **Proof route.** Construct `P⁰` using the supplied Tate constructions and the class `1∈π₁(k^{tC_p})` for discrete characteristic-p k, following Lur11 Construction 2.2.6: it kills positive homotopy and is Frobenius on discrete inputs, so perfected totalizations are coconnective (Lur11 Construction 2.2.6, pp.34–35; BS22 Lemma 8.4, p.63).
 
-### 2.25 Perfectoidization is symmetric monoidal
+**§2.25 Perfectoidization is symmetric monoidal.**
 
 Over perfect A, both `Δperf` and `S_perfd` preserve completed derived pushouts and the tensor unit. For `S₁←S₃→S₂` they identify the completed tensor product over their `S₃-value` with the value on `S₁⊗̂^L_(S₃)S₂`. A perfectoid base mapping to `S₃` suffices for the unbased statement; completions are `(p,I)` for `Δperf` and `p` for perfectoidization.
 
