@@ -455,6 +455,10 @@ the metric is uniformly positive definite.
 
 ### 2.2 Interior estimates
 
+*Sources:* [Chodosh, proof of Lemma 19.1, with the interior Schauder estimate (A.2) of
+Appendix A], for the bootstrap; the Hölder bound on Du is PDE E23 applied to the
+divergence-form equation satisfied by `D_k u`, and the factor `R^(1−k)` is the scaling Check.
+
 If u solves the minimal-surface equation on the ball `B_R ⊂ ℝⁿ` with `|Du| ≤ M`, then for every
 `k ≥ 2`
 
@@ -620,7 +624,8 @@ a separate topological condition at the domain boundary.
 2.5 there. In particular, let `s > 0`, and let D project diffeomorphically onto a Euclidean
 disk `B_s(x₀)` whose closure avoids the origin, with the closure of D contained in `Ω_1`.
 Suppose both u and `u ∘ τ_1` have gradient norm at most M on D. If w is positive on D, apply
-2.5 in the planar coordinates to obtain, on its concentric half-disk,
+2.5 in the planar coordinates with `R = s` to obtain, on the part of D lying over
+`B_(s/2)(x₀)`,
 
 `sup w ≤ C inf w`, `|Dw| ≤ (C/s) w`,
 
@@ -638,8 +643,9 @@ every `w_k` unchanged.
   `(x,y) = (ρ cos θ, ρ sin θ)`, `u_x = −y/ρ²`, `u_y = x/ρ²`, `u_xx = 2xy/ρ⁴`, `u_yy = −2xy/ρ⁴`
   and `u_xy = (y² − x²)/ρ⁴`, and the left-hand side of the minimal-surface equation of 2.1 is
   `(2x³y − 2xy³ + 2xy(y² − x²))/ρ⁸ = 0`. Its separation is `w ≡ 2π`.
-- For `c ≠ 0`, `u = cθ` parametrizes one component away from the axis of a helicoid of pitch
-  `2πc`, with `w ≡ 2πc`. At `c = 0` the parametrization covers the punctured plane. On every
+- For `c ≠ 0`, `u = cθ` parametrizes one component away from the axis of the helicoid
+  `(v cos t, v sin t, ct)`, of pitch c in R5a's convention (rise `2πc` per turn), with
+  `w ≡ 2πc`. At `c = 0` the parametrization covers the punctured plane. On every
   fixed relatively compact parameter domain in P, `u = cθ` converges smoothly to zero as
   `c → 0`.
 - If every `w_k` vanishes, u descends to a function on `π(Ω)`. For the half-catenoid
@@ -654,8 +660,8 @@ every `w_k` unchanged.
   the vacuous inequality `w > 0` on `Ω_1` does not imply injectivity when angular sections
   are disconnected. If u is zero on the first component and one on the second, `w = 0`
   vacuously but `w_2 = 1` on the first component, so u does not descend to `π(Ω)`.
-- On a positive-pitch helicoid, the local Harnack ratio is one and `Dw = 0`. Under dilation
-  by λ, its pitch and separation become `2πλc`.
+- On the helicoid with `c > 0`, the local Harnack ratio is one and `Dw = 0`. Under dilation
+  by λ, c becomes λc and the separation becomes `2πλc`.
 
 *Needs:* 2.1, 2.5.
 
