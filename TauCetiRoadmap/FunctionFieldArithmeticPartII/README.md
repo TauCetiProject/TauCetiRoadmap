@@ -7383,7 +7383,9 @@ Layers 2 and 4; SchemeAndStackFoundations §§3.3–3.7 and JacobianChallenge La
 
 ## Layer 6: Signed adelic root groupoids
 
-### 6.1 Modified local units at ramified places
+### 6.1 Modified units, generic frames and the adelic root Picard groupoid
+
+These sections provide the modified local units at ramified places, root lines with a generic trivialization, and the presentation of root Picard k-points as a double quotient of ideles; §§9.2, 10.1, 10.2, 10.13, 10.14, 10.17 and 10.18 consume them.
 
 At x∈R let O_(√x)×={(u,v)∈O_x××k(x)× : ū=v²}, with componentwise multiplication. For x∉R use O_x×. Let O_(√R)× be their product. Its map to adelic units forgets v and has kernel ∏_(x∈R)μ₂(k(x)); do not assume it is injective.
 
@@ -7411,8 +7413,7 @@ The square operation on residue elements is not additive in odd characteristic; 
 
 *Needs:* FunctionFieldArithmetic §§2–4.
 
-### 6.2 Root lines with a generic trivialization
-
+**6.2 Root lines with a generic trivialization.**
 Let G_R(X) be the groupoid of (L,K_R,ι,τ_η), where (L,K_R,ι) is the k-point of Pic_X^√R and τ_η:L|Spec F≅F is an F-linear trivialization. An arrow (φ,ψ) satisfies φ|R∘ι=ι′∘ψ^(⊗2) and τ′_η∘φ_η=τ_η. Tensor product multiplies generic trivializations, the unit has its standard generic trivialization, and duality inverts it. Forgetting τ_η maps to the root Picard groupoid. Degree is deg L and may have either sign.
 
 k is a finite field of odd characteristic; X/k is a smooth projective geometrically connected curve, F=k(X), and R is a reduced finite closed subscheme, possibly empty. Places are all closed points of X, including the points outside an affine chart. F_x is the normalized completed valuation field, O_x its valuation ring, and κ_x its residue field. The curve/place and residue identifications use the named suppliers. I=∏′_x F_x× relative to O_x×; U=∏_x O_x×; H=O_(√R)× is the modified-unit group. Write p:H→I for its homomorphism. Set E(a)=Σ_x ord_x(a_x)[x], with ord_x(π_x)=1. All groupoids retain labelled morphisms. A right arrow h:a→b means b=a p(h); a double arrow (f,h):a→b means b=diag(f) a p(h). Local root-unit coordinates satisfy ū_x=v_x².
@@ -7445,8 +7446,7 @@ The forgetful functor remembers the entire root-line triple and forgets exactly 
 
 *Needs:* §4.1 (the graded root Picard stack); SchemeAndStackFoundations §3.4; `TauCeti.AlgebraicGeometry.InvertibleSheaf`; SchemeAndStackFoundations §§3.3–3.7; SchemeAndStackFoundations §3.3; AlgebraicCurves Layer 12.
 
-### 6.3 The adelic root Picard groupoid
-
+**6.3 The adelic root Picard groupoid.**
 There is an equivalence Pic_X^√R(k)≃F×\A_F×/O_(√R)× as a double-action groupoid. The right action uses the noninjective homomorphism to idele units. Degree and all stabilizers are retained. At x∉R, π_x⁻¹ represents O_X(x)^♮.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used.
@@ -7461,7 +7461,9 @@ For R=∅ recover the Picard groupoid, not just the class group; root-unit kerne
 
 *Needs:* §6.1 (modified local units at ramified places); §4.1 (the graded root Picard stack); FunctionFieldArithmetic §§2–4; SchemeAndStackFoundations §§3.3–3.7.
 
-### 6.4 The modified-unit kernel and residue-square quotient
+### 6.4 Idele gluing of root lines and the signed root-divisor groupoid
+
+These sections provide the kernel and residue-square quotient of the modified units, the fully framed and signed root-divisor groupoids, idele gluing, and the fibres, arrows, stabilizers and degrees of the right and double quotients; §10.10 consumes the signed root-divisor groupoid of §6.6.
 
 The projection H→U has kernel canonically ∏_(x∈R) μ₂(κ_x), via the retained root coordinates, and image U_sq={u∈U : ū_x is a square in κ_x× for every x∈R}. Reduction followed by residue square class induces U/p(H) ≅ ∏_(x∈R) κ_x×/(κ_x×)². Thus 1→∏ μ₂(κ_x)→H→U→∏ κ_x×/(κ_x×)²→1 is exact as a sequence of abelian groups. The last arrow is onto. At R=∅ its last two nontrivial terms identify H with U. No fibre-product ring is required.
 
@@ -7477,8 +7479,7 @@ For a branch point in odd characteristic, the coordinate (1,−1) is a nonidenti
 
 *Needs:* §6.1 (modified local units at ramified places); FunctionFieldArithmetic §§2–4; `MonoidHom.eqLocus`; `ValuationSubring.surjective_unitGroupToResidueFieldUnits`.
 
-### 6.5 The fully framed root Picard groupoid
-
+**6.5 The fully framed root Picard groupoid.**
 Let F_R(X) have objects (L,K_R,ι,τ_η,(τ_x)_x,(t_x)_(x∈R)), extending G_R(X). Each τ_x is an O_x-linear isomorphism L⊗O_x≅O_x; each t_x is a κ_x-linear isomorphism K_x≅κ_x, and (τ_x mod m_x)∘ι_x=t_x^(⊗2). Morphisms preserve the root triple and every frame. The transition coefficient is a_x=τ_η∘τ_x^(-1) after extension to F_x. There is no extra summability axiom: for an algebraic line bundle and a rational frame these coefficients are units at all but finitely many x. The forgetful functor to G_R forgets τ_x and t_x. Tensor and dual are componentwise.
 
 k is a finite field of odd characteristic; X/k is a smooth projective geometrically connected curve, F=k(X), and R is a reduced finite closed subscheme, possibly empty. Places are all closed points of X, including the points outside an affine chart. F_x is the normalized completed valuation field, O_x its valuation ring, and κ_x its residue field. The curve/place and residue identifications use the named suppliers. I=∏′_x F_x× relative to O_x×; U=∏_x O_x×; H=O_(√R)× is the modified-unit group. Write p:H→I for its homomorphism. Set E(a)=Σ_x ord_x(a_x)[x], with ord_x(π_x)=1. All groupoids retain labelled morphisms. A right arrow h:a→b means b=a p(h); a double arrow (f,h):a→b means b=diag(f) a p(h). Local root-unit coordinates satisfy ū_x=v_x².
@@ -7511,8 +7512,7 @@ All its automorphism groups are trivial, including the root-line automorphisms, 
 
 *Needs:* §6.2 (root lines with a generic trivialization); FunctionFieldArithmetic §§2–4; AlgebraicCurves Layer 12; `ValuationSubring.surjective_unitGroupToResidueFieldUnits`.
 
-### 6.6 The signed root-divisor groupoid
-
+**6.6 The signed root-divisor groupoid.**
 Define Div^√R(X) to be the action groupoid A_F×/O_(√R)× for the homomorphism O_(√R)×→A_F×. It contains signed divisors in all degrees; neither quotient by F× nor an effectivity condition is imposed. The forgetful map to A_F×/O×=Div(X) uses E(a)=Σ_x v_x(a_x)x. With this valuation convention its Abel–Jacobi functor lands in the double quotient Pic_X^√R(k) and has underlying line bundle O_X(−E(a)), with the retained square-root line along R. The quadratic character is pulled back along this functor. Effective section moduli are a separate construction; they are not identified with this entire groupoid.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used.
@@ -7544,8 +7544,7 @@ At R=∅, both x and −x occur as signed divisors; neither is discarded by an e
 
 *Needs:* §6.1 (modified local units at ramified places); §6.3 (the adelic root Picard groupoid); FunctionFieldArithmetic §§2–4; SchemeAndStackFoundations §§3.3–3.7; `CategoryTheory.Groupoid`.
 
-### 6.7 Idele gluing with the sign fixed by local lattices
-
+**6.7 Idele gluing with the sign fixed by local lattices.**
 The coefficient functor F_R(X)→Discrete(I), A↦(τ_η∘τ_x^(-1))_x, is an equivalence. Its inverse sends a to the line L(a)=O_X(−E(a)) as a subsheaf of the constant rational line F, whose completed lattice is a_xO_x, together with τ_η the rational identity, τ_x division by a_x, K_R=O_R, t_x=1 and ι_x sending 1 to the residue of the completed basis a_x. This is a symmetric monoidal equivalence for tensor product versus idele multiplication. Its coefficient equations commute with the F××H frame changes specified above.
 
 k is a finite field of odd characteristic; X/k is a smooth projective geometrically connected curve, F=k(X), and R is a reduced finite closed subscheme, possibly empty. Places are all closed points of X, including the points outside an affine chart. F_x is the normalized completed valuation field, O_x its valuation ring, and κ_x its residue field. The curve/place and residue identifications use the named suppliers. I=∏′_x F_x× relative to O_x×; U=∏_x O_x×; H=O_(√R)× is the modified-unit group. Write p:H→I for its homomorphism. Set E(a)=Σ_x ord_x(a_x)[x], with ord_x(π_x)=1. All groupoids retain labelled morphisms. A right arrow h:a→b means b=a p(h); a double arrow (f,h):a→b means b=diag(f) a p(h). Local root-unit coordinates satisfy ū_x=v_x².
@@ -7561,8 +7560,7 @@ The coefficient π_x maps to O_X(−x), and π_x^(-1) maps to O_X(x). The constr
 
 *Needs:* gap:completed-lattice-root-dictionary; §6.5 (the fully framed root Picard groupoid); FunctionFieldArithmetic §§2–4; SchemeAndStackFoundations §§3.3–3.7; AlgebraicCurves Layer 12.
 
-### 6.8 The signed right quotient represents generically framed root lines
-
+**6.8 The signed right quotient represents generically framed root lines.**
 The right-action groupoid Div^√R(X)=I//H is symmetrically monoidally equivalent to G_R(X). The functor sends a to (L(a),K_R(a),ι(a),τ_η). A labelled arrow h=(u,v):a→b=a p(h) acts by the identity on the rational line and by v_x^(-1) on the standard root lines. Under this equivalence E:I//H→Discrete(Div(X)) is the negative of the divisor of the rational section sent to 1 by τ_η; the line is O_X(−E). The induced functor Q to the double-action presentation sends a to a and h to (1,h). The geometric square with G_R(X)→Pic_X^√R(k) commutes up to a specified monoidal natural isomorphism.
 
 k is a finite field of odd characteristic; X/k is a smooth projective geometrically connected curve, F=k(X), and R is a reduced finite closed subscheme, possibly empty. Places are all closed points of X, including the points outside an affine chart. F_x is the normalized completed valuation field, O_x its valuation ring, and κ_x its residue field. The curve/place and residue identifications use the named suppliers. I=∏′_x F_x× relative to O_x×; U=∏_x O_x×; H=O_(√R)× is the modified-unit group. Write p:H→I for its homomorphism. Set E(a)=Σ_x ord_x(a_x)[x], with ord_x(π_x)=1. All groupoids retain labelled morphisms. A right arrow h:a→b means b=a p(h); a double arrow (f,h):a→b means b=diag(f) a p(h). Local root-unit coordinates satisfy ū_x=v_x².
@@ -7582,8 +7580,7 @@ Forgetting the remaining generic frame is the double-quotient inclusion h↦(1,h
 
 *Needs:* §6.6 (the signed root-divisor groupoid); §6.3 (the adelic root Picard groupoid); §6.2 (root lines with a generic trivialization); §6.7 (idele gluing with the sign fixed by local lattices); `CategoryTheory.ActionCategory`.
 
-### 6.9 Signed divisor fibres with their square classes and stabilizers
-
+**6.9 Signed divisor fibres with their square classes and stabilizers.**
 For each signed divisor D of X, the fibre of E:I//H→Discrete(Div(X)) is nonempty. Its isomorphism classes form a torsor under U/p(H)≅∏_(x∈R)κ_x×/(κ_x×)². Every object has automorphism group canonically ker p≅∏_(x∈R)μ₂(κ_x), using its arrow labels. Choosing an idele with E(a)=D and representatives of the square classes yields an equivalence with the disjoint union, indexed by that square-class product, of the classifying groupoid of ∏μ₂(κ_x). This last presentation depends on the choices; the torsor action and the labelled stabilizer identification do not. For r=#|R| there are 2^r components, each with automorphism group of order 2^r.
 
 k is a finite field of odd characteristic; X/k is a smooth projective geometrically connected curve, F=k(X), and R is a reduced finite closed subscheme, possibly empty. Places are all closed points of X, including the points outside an affine chart. F_x is the normalized completed valuation field, O_x its valuation ring, and κ_x its residue field. The curve/place and residue identifications use the named suppliers. I=∏′_x F_x× relative to O_x×; U=∏_x O_x×; H=O_(√R)× is the modified-unit group. Write p:H→I for its homomorphism. Set E(a)=Σ_x ord_x(a_x)[x], with ord_x(π_x)=1. All groupoids retain labelled morphisms. A right arrow h:a→b means b=a p(h); a double arrow (f,h):a→b means b=diag(f) a p(h). Local root-unit coordinates satisfy ū_x=v_x².
@@ -7599,8 +7596,7 @@ For R=∅ every divisor fibre is contractible, yielding the ordinary discrete si
 
 *Needs:* §6.6 (the signed root-divisor groupoid); §6.4 (the modified-unit kernel and residue-square quotient); FunctionFieldArithmetic §§2–4; `CategoryTheory.ActionCategory.stabilizerIsoEnd`; `FiniteField.unit_isSquare_iff`.
 
-### 6.10 Full morphism descent for the Picard double quotient
-
+**6.10 Full morphism descent for the Picard double quotient.**
 For a,b∈I, gluing gives a bijection {(f,h)∈F××H : b=diag(f)a p(h)} ≅ Isom_(Pic_X^√R(k))(L(a)^♮,L(b)^♮). If h=(u,v), the line map is multiplication by f on the rational line and the root map is multiplication by v_x^(-1). These bijections preserve identity, composition, tensor product and inverse. Every root-line triple admits generic and compatible local/root frames, so they give the Lemma A.5 equivalence with full faithfulness and essential surjectivity. Q:I//H→I//(F××H) is faithful, with arrow label h↦(1,h), and is the functor that forgets the generic frame.
 
 k is a finite field of odd characteristic; X/k is a smooth projective geometrically connected curve, F=k(X), and R is a reduced finite closed subscheme, possibly empty. Places are all closed points of X, including the points outside an affine chart. F_x is the normalized completed valuation field, O_x its valuation ring, and κ_x its residue field. The curve/place and residue identifications use the named suppliers. I=∏′_x F_x× relative to O_x×; U=∏_x O_x×; H=O_(√R)× is the modified-unit group. Write p:H→I for its homomorphism. Set E(a)=Σ_x ord_x(a_x)[x], with ord_x(π_x)=1. All groupoids retain labelled morphisms. A right arrow h:a→b means b=a p(h); a double arrow (f,h):a→b means b=diag(f) a p(h). Local root-unit coordinates satisfy ū_x=v_x².
@@ -7617,8 +7613,7 @@ For R=∅ every Picard automorphism is a scalar in k×, so the result cannot be 
 
 *Needs:* §6.3 (the adelic root Picard groupoid); §6.8 (the signed right quotient represents generically framed root lines); §6.7 (idele gluing with the sign fixed by local lattices); `CategoryTheory.ActionCategory.stabilizerIsoEnd`; SchemeAndStackFoundations §3.4.
 
-### 6.11 The stabilizer extension in the double quotient
-
+**6.11 The stabilizer extension in the double quotient.**
 For every idele a, its automorphism group in the double-action presentation is canonically A_R={(c,(v_x)) : c∈k×, v_x∈κ_x×, v_x²=c^(-1) for every x∈R}, under componentwise multiplication. Let C_R={c∈k× : c is a square in every κ_x×}. Projection gives an exact sequence 1→∏_(x∈R)μ₂(κ_x)→A_R→C_R→1. This sequence is not asserted to split. For finite odd k, C_R=(k×)² if R has an odd-degree closed point, and C_R=k× if every closed branch point has even degree; the latter includes R=∅. At R=∅, A_R=k×.
 
 k is a finite field of odd characteristic; X/k is a smooth projective geometrically connected curve, F=k(X), and R is a reduced finite closed subscheme, possibly empty. Places are all closed points of X, including the points outside an affine chart. F_x is the normalized completed valuation field, O_x its valuation ring, and κ_x its residue field. The curve/place and residue identifications use the named suppliers. I=∏′_x F_x× relative to O_x×; U=∏_x O_x×; H=O_(√R)× is the modified-unit group. Write p:H→I for its homomorphism. Set E(a)=Σ_x ord_x(a_x)[x], with ord_x(π_x)=1. All groupoids retain labelled morphisms. A right arrow h:a→b means b=a p(h); a double arrow (f,h):a→b means b=diag(f) a p(h). Local root-unit coordinates satisfy ū_x=v_x².
@@ -7634,8 +7629,7 @@ For X=P¹/F₅ and R={0}, v↦(v^(-2),v) identifies A_R with F₅×≅C₄. The 
 
 *Needs:* §6.10 (full morphism descent for the Picard double quotient); §6.4 (the modified-unit kernel and residue-square quotient); SchemeAndStackFoundations §3.7; `FiniteField.unit_isSquare_iff`.
 
-### 6.12 The valuation divisor and Picard degree have opposite signs
-
+**6.12 The valuation divisor and Picard degree have opposite signs.**
 Let Φ:I//(F××H)≃Pic_X^√R(k) be the equivalence with the corrected frame-ratio convention. For a∈I, the ordinary line of Φ(a) is O_X(−E(a)) and deg Φ(a)=−deg E(a)=−Σ_x ord_x(a_x)[κ_x:k]. The same formula holds for Q(a) from the right quotient, is invariant under every labelled double arrow, and defines its integer grading. Tensor product adds this grading; duality negates it. After forgetting root data to the ordinary Picard groupoid, the square from I//H through E and D↦O_X(−D) commutes. The separate Q-leg retains the root data; for nonempty R the retained root-sign arrows prevent a factorization of the root Picard functor through the discrete ordinary divisor groupoid. At x∉R, a_x=π_x^(-1), a_y=1 elsewhere gives E=−[x] and Φ(a)=O_X(x)^♮ of degree [κ_x:k].
 
 k is a finite field of odd characteristic; X/k is a smooth projective geometrically connected curve, F=k(X), and R is a reduced finite closed subscheme, possibly empty. Places are all closed points of X, including the points outside an affine chart. F_x is the normalized completed valuation field, O_x its valuation ring, and κ_x its residue field. The curve/place and residue identifications use the named suppliers. I=∏′_x F_x× relative to O_x×; U=∏_x O_x×; H=O_(√R)× is the modified-unit group. Write p:H→I for its homomorphism. Set E(a)=Σ_x ord_x(a_x)[x], with ord_x(π_x)=1. All groupoids retain labelled morphisms. A right arrow h:a→b means b=a p(h); a double arrow (f,h):a→b means b=diag(f) a p(h). Local root-unit coordinates satisfy ū_x=v_x².
@@ -8264,7 +8258,9 @@ Layer 5 ordered root divisors; Layer 2 regularity and DM locus; DeligneWeightsAn
 
 ## Layer 8: High-degree effective descent
 
-### 8.0 The scheme projective-space input
+### 8.0 Abel–Jacobi fibre charts and simple connectivity of the weighted quotient
+
+These sections provide the projective-space input, high-degree section evaluation, the affine and family charts of the Abel–Jacobi fibres, and the simple connectivity of the weighted quotient; §§8.8, 8.9 and 8.11–8.13 consume them.
 
 Prove that for every algebraically closed field K and every r≥0, every connected finite étale cover of ℙ^r_K has degree one. For r=0 the only connected finite étale K-algebra is K; for r=1 Riemann–Hurwitz gives 2g(Y)−2=−2m, so g(Y)=1−m≥0 forces m=1. For r≥2 apply gap:normal-proper-hyperplane-covers to a hyperplane ℙ^(r−1)⊂ℙ^r. Every connected finite étale cover stays connected on that hyperplane, where induction forces degree one. This supplies the scheme input to the weighted quotient argument in §§8.7 and 8.9. (SGA1 line 8606, Exposé XI, Proposition 1.1, printed p.285, recomposed p.219; SGA1 line 8303, Exposé X, Lemme 2.10, printed p.274, recomposed p.210; SGA1 line 8308, Corollaire 2.11.)
 
@@ -8276,8 +8272,7 @@ Prove that for every algebraically closed field K and every r≥0, every connect
 
 *Needs:* EtaleCohomologyFoundations §F.0.2 (finite-cover dictionary); gap:normal-proper-hyperplane-covers from EtaleCohomologyFoundations §F.0.2; SchemeAndStackFoundations §3.2 (curve Riemann–Hurwitz).
 
-### 8.1 High-degree section evaluation is surjective
-
+**8.1 High-degree section evaluation is surjective.**
 If d≥ρ+max(2g−1,1), then for a degree-d line bundle L, H¹(X,L(−R))=0. In families, π_*L and π_*L(−R) are vector bundles of ranks d−g+1 and d−ρ−g+1, commute with base change, and π_*L→π_*(L|_R) is surjective.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used.
@@ -8292,8 +8287,7 @@ The bound counts deg R, including residue-field degrees.
 
 *Needs:* §4.1 (the graded root Picard stack); SchemeAndStackFoundations §§3.3–3.7.
 
-### 8.2 Split quadratic section coordinates
-
+**8.2 Split quadratic section coordinates.**
 For a commutative ring A and index types I,J, quadraticSection sends (u,α) in A^I x A^J to (u,(α_j^2)_j). In a split family chart I indexes the evaluation kernel and J the root coordinates. This is the section coordinate in E only: the full fibre-product chart sends (u,α) to ((u,α^2),α), retaining α. This polynomial function is neither asserted linear nor invertible.
 
 A is any commutative ring, including a nonreduced ring; I and J are arbitrary index types. Finite I,J are used for affine schemes.
@@ -8325,8 +8319,7 @@ At I=J=Fin 1 over ℤ, (2,3) maps to (2,9). Over 𝔽₃[ε]/(ε^2), (0,ε) is n
 
 *Needs:* `mul_pow`; `map_pow`; `sq_eq_zero_iff`; `DualNumber`; `DualNumber.eps_pow_two`.
 
-### 8.3 The Abel–Jacobi affine fibre chart
-
+**8.3 The Abel–Jacobi affine fibre chart.**
 At a fixed geometric root-Picard object (L,K_R,ι), the two-fibre of AJ_d is M=H⁰(X,L) minus {0}×_(H⁰(R,L|_R))H⁰(R,K_R), with the second map α↦ι(α²). For ρ>0 and the degree bound, a splitting of evaluation identifies M≃A^n minus {0}, n=d−g+1. Scaling K_R by λ and L by λ² gives weights two on n−ρ coordinates and one on ρ coordinates.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used. ρ>0 and d≥ρ+max(2g−1,1).
@@ -8341,8 +8334,7 @@ M itself is not asserted simply connected in positive characteristic.
 
 *Needs:* §8.1 (high-degree section evaluation is surjective); §5.9 (root Abel–Jacobi maps).
 
-### 8.4 The family Abel–Jacobi fibre chart
-
+**8.4 The family Abel–Jacobi fibre chart.**
 For a root Picard object b=(L,K_R,ι) on X_T, with T locally Noetherian over k, put E=pi_*L, U=pi_*L(-R), G=pi_R*(L|R), H=pi_R*K_R, and q:H→G induced by α→ι(α^2). The imported high-degree vanishing yields a universally base-change-compatible exact sequence 0→U→E→G→0 of locally free sheaves of ranks a,n,ρ, and H has rank ρ. Define C_hat_b=V(E) x_(V(G)) V(H), with V(F) parametrizing sections of F, and C_b as the inverse image of V(E) minus its zero section. Then C_b is the two-pullback T x_(P_d) S_d. Etale locally on T, split R_T, choose frames and an evaluation splitting σ; the isomorphism (u,α)→(u+σ(q(α)),α) identifies C_hat_b with A_T^n and C_b with A_T^n minus the zero section as open schemes. These presentations and their effective opens commute with every base change T_prime→T, without a flatness or reducedness assumption on T_prime.
 
 k is a finite field of characteristic p different from 2; X/k is a smooth projective geometrically connected curve of genus g. R is a reduced finite effective divisor, including the empty divisor; ρ=deg(R) is its length over k, not its number of closed points. d is an integer with d≥ρ+max(2g-1,1); n=d-g+1 and a=n-ρ, so a≥1. P_d denotes the degree-d root Picard stack of Layer 4, S_d the effective root section stack of Layer 5, and f=AJ_d:S_d→P_d forgets both sections. Coefficients are finite rank-one O_E/ϖ^m local systems, then lisse ℚ̄_ℓ sheaves via the local adic formalism, with ℓ different from p. T is locally Noetherian over k for the coherent pushforward theorem; base changes from T may be arbitrary. No rational point on X and no global Poincare line bundle on a Picard scheme are chosen.
@@ -8378,8 +8370,7 @@ For g=1,ρ=1,d=2, the ranks are (a,n,ρ)=(1,2,1), and the split equation is s=(u
 
 *Needs:* §8.2 (split quadratic section coordinates); §8.1 (high-degree section evaluation is surjective); §5.9 (root Abel–Jacobi maps); §5.1 (whole and effective root symmetric powers); SchemeAndStackFoundations §§1.18–1.23; SchemeAndStackFoundations §3.3; SchemeAndStackFoundations §3.7; `TauCeti.AlgebraicGeometry.InvertibleSheaf`.
 
-### 8.5 A projective cover of the weighted quotient
-
+**8.5 A projective cover of the weighted quotient.**
 For n≥ρ+1 and ρ≥1, set a=n−ρ. The coordinate map [x₁,…,x_a,y₁,…,y_ρ]↦[x₁²,…,x_a²,y₁,…,y_ρ] defines a finite cover P^(n−1)→[A^n minus {0}/G_m], with weights (2^a,1^ρ). Its generic Galois group is μ₂^a.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used. ρ≥1; n≥ρ+1; a=n−ρ.
@@ -8394,8 +8385,7 @@ The positive weight-one block is essential; the all-weight-two quotient has resi
 
 *Needs:* §8.3 (the Abel–Jacobi affine fibre chart); SchemeAndStackFoundations §§1.18–1.23; SchemeAndStackFoundations §§3.3–3.7.
 
-### 8.6 Nontrivial intermediate weighted covers ramify
-
+**8.6 Nontrivial intermediate weighted covers ramify.**
 A proper subgroup Γ⊊μ₂^a gives an intermediate cover of the weighted quotient that is ramified along at least one coordinate divisor x_i=0 in a chart where a weight-one coordinate y_ρ is nonzero. Hence such an intermediate cover cannot be finite étale.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used. ρ≥1; n≥ρ+1.
@@ -8410,8 +8400,7 @@ The nonempty subset I and the weight-one affine chart are both required.
 
 *Needs:* §8.5 (a projective cover of the weighted quotient).
 
-### 8.7 Simple connectivity of the weighted quotient
-
+**8.7 Simple connectivity of the weighted quotient.**
 After base change to an algebraically closed field K of characteristic not two, the weighted quotient [A_K^n minus {0}/G_m,K] with weights (2^(n−ρ),1^ρ), ρ≥1 and n≥ρ+1, has no nontrivial connected finite étale cover. Thus every rank-one lisse ℚ̄_ℓ-local system on the original quotient is geometrically constant.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used. ρ≥1; n≥ρ+1. The simple-connectivity assertion is on the geometric base change to an algebraically closed field K; ρ≥1 and n≥ρ+1.
@@ -8426,7 +8415,9 @@ At ρ=0 the proof does not apply; the ordinary Abel–Jacobi argument uses ordin
 
 *Needs:* §8.5 (a projective cover of the weighted quotient); §8.6 (nontrivial intermediate weighted covers ramify); EtaleCohomologyFoundations §§F.0.2, F.0.A1–F.0.A2 and F.3a; §8.0 (the scheme projective-space input); SchemeAndStackFoundations §§3.3–3.7.
 
-### 8.8 Triviality of the symmetric sheaf along Abel–Jacobi fibres
+### 8.8 Descent of the symmetric sheaf along high-degree Abel–Jacobi maps
+
+These sections descend the symmetric local system L_d along the root Abel–Jacobi map to the degree-d root Picard stack for d≥ρ+max(2g−1,1), including the case R=∅; §§9.3, 9.4, 9.5 and 9.12 consume this descent through §8.13.
 
 Under the high-degree bound and ρ>0, L_d restricts to a constant sheaf on each geometric two-fibre M of AJ_d.
 
@@ -8442,8 +8433,7 @@ This does not invoke false simple connectivity of punctured affine space.
 
 *Needs:* §8.3 (the Abel–Jacobi affine fibre chart); §8.7 (simple connectivity of the weighted quotient); §7.11 (symmetric local systems by descent and lisse extension).
 
-### 8.9 The proper scalar quotient of a family chart
-
+**8.9 The proper scalar quotient of a family chart.**
 For b and C_b as above, define Q_b=[C_b/G_m,T]. If ρ>0 the scalar c acts by (s,α)→(c^2 s,c α); its automorphism of b is (c^2 id_L,c id_K_R). If ρ=0 use the ordinary scalar c id_L and weight one on s. The map C_b→S_d is 2-equivariant for this scalar action and the trivial action on S_d, hence induces h_b:Q_b→S_d. The projection q_b:Q_b→T is proper smooth surjective with geometrically connected, geometrically simply connected tame DM fibres of dimension n-1. For ρ>0 it is étale locally W(2^a,1^ρ); for ρ=0 it is the ordinary projective bundle parametrizing lines in E. All data are functorial in b and commute with base change. Although f h_b and b q_b agree after pullback to C_b, they are generally not 2-isomorphic on Q_b: the scalar descent twists the Picard object. No factorization over P_d is claimed.
 
 k is a finite field of characteristic p different from 2; X/k is a smooth projective geometrically connected curve of genus g. R is a reduced finite effective divisor, including the empty divisor; ρ=deg(R) is its length over k, not its number of closed points. d is an integer with d≥ρ+max(2g-1,1); n=d-g+1 and a=n-ρ, so a≥1. P_d denotes the degree-d root Picard stack of Layer 4, S_d the effective root section stack of Layer 5, and f=AJ_d:S_d→P_d forgets both sections. Coefficients are finite rank-one O_E/ϖ^m local systems, then lisse ℚ̄_ℓ sheaves via the local adic formalism, with ℓ different from p.
@@ -8479,8 +8469,7 @@ For (a,ρ)=(1,1), the fibre is W(2,1), with a degree-two projective cover; on y�
 
 *Needs:* §8.4 (the family Abel–Jacobi fibre chart); §8.5 (a projective cover of the weighted quotient); §8.6 (nontrivial intermediate weighted covers ramify); §8.7 (simple connectivity of the weighted quotient); SchemeAndStackFoundations §§1.18–1.23; EtaleCohomologyFoundations §§F.0.2, F.0.A1–F.0.A2 and F.3a; the scheme projective-space target in Layer 8.
 
-### 8.10 The canonical local descent line
-
+**8.10 The canonical local descent line.**
 Let F be a rank-one lisse sheaf on S_d. For every b:T→P_d as in the family construction, set F_Q=h_b^*F on Q_b and M_b=(q_b)_*F_Q at finite coefficient level. Proper degree-zero base change and the geometric simple connectivity of Q_b give a canonical evaluation isomorphism e_b:q_b^*M_b→F_Q. M_b is lisse of rank one, and its pullback to the C_b is canonically F|C_b. Define the adic and ℚ̄_ℓ version by compatible local coefficient lattices and reduction, invert ℓ, and extend coefficients; it is independent of these presentations. Base change, isomorphisms of b, and morphisms of F give coherent comparison maps for M_b, including composition and identity laws.
 
 k is a finite field of characteristic p different from 2; X/k is a smooth projective geometrically connected curve of genus g. R is a reduced finite effective divisor, including the empty divisor; ρ=deg(R) is its length over k, not its number of closed points. d is an integer with d≥ρ+max(2g-1,1); n=d-g+1 and a=n-ρ, so a≥1. P_d denotes the degree-d root Picard stack of Layer 4, S_d the effective root section stack of Layer 5, and f=AJ_d:S_d→P_d forgets both sections. Coefficients are finite rank-one O_E/ϖ^m local systems, then lisse ℚ̄_ℓ sheaves via the local adic formalism, with ℓ different from p. F is an arbitrary rank-one lisse input on S_d; it need not be the particular symmetric local system L_d. The generic stack-lisse interfaces listed in §§7.4–7.5 (lisse descent and degree-zero proper base change) are required and are not claimed present in a scheme-only supplier.
@@ -8515,8 +8504,7 @@ A geometrically constant arithmetic line with geometric Frobenius eigenvalue ζ_
 
 *Needs:* §8.9 (the proper scalar quotient of a family chart); §7.11 (symmetric local systems by descent and lisse extension); EtaleCohomologyFoundations §§F.0.2, F.0.A1–F.0.A2 and F.3a; the scheme projective-space target in Layer 8.
 
-### 8.11 Effective high-degree Abel–Jacobi descent
-
+**8.11 Effective high-degree Abel–Jacobi descent.**
 At d≥ρ+max(2g-1,1), inverse image along f=AJ_d:S_d→P_d is fully faithful on rank-one lisse ℚ̄_ℓ sheaves and every rank-one lisse sheaf F on S_d is in its essential image. In particular there is a rank-one L_d^Pic with a comparison θ:f^*L_d^Pic isomorphic to the unshifted symmetric rank-one L_d from Layer 7. Given two pairs (M,θ),(M_prime,θ_prime) for the same F, there is exactly one isomorphism M→M_prime whose pullback intertwines the two comparisons. This uniqueness is for the normalized pair, not for the underlying sheaf with its scalar automorphisms. Descent, comparisons, tensor operations and any supplied geometric-Frobenius structure are compatible with base change over k. The empty-R branch uses ordinary projective quotients.
 
 k is a finite field of characteristic p different from 2; X/k is a smooth projective geometrically connected curve of genus g. R is a reduced finite effective divisor, including the empty divisor; ρ=deg(R) is its length over k, not its number of closed points. d is an integer with d≥ρ+max(2g-1,1); n=d-g+1 and a=n-ρ, so a≥1. P_d denotes the degree-d root Picard stack of Layer 4, S_d the effective root section stack of Layer 5, and f=AJ_d:S_d→P_d forgets both sections. Coefficients are finite rank-one O_E/ϖ^m local systems, then lisse ℚ̄_ℓ sheaves via the local adic formalism, with ℓ different from p.
@@ -8533,8 +8521,7 @@ For g=1,R empty,d=1 the local quotient is P^0, while the fibre is G_m; the theor
 
 *Needs:* §8.4 (the family Abel–Jacobi fibre chart); §8.10 (the canonical local descent line); §4.1 (the graded root Picard stack); §5.9 (root Abel–Jacobi maps); §7.11 (symmetric local systems by descent and lisse extension); EtaleCohomologyFoundations §§F.0.2, F.0.A1–F.0.A2 and F.3a; the scheme projective-space target in Layer 8.
 
-### 8.12 High-degree descent with empty ramification
-
+**8.12 High-degree descent with empty ramification.**
 When R=∅ and d≥max(2g−1,1), the symmetric local system descends along the ordinary Abel–Jacobi map to the degree-d Picard stack. The ordinary scalar action has weight one; the projective fibre quotient is P^(d−g).
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used.
@@ -8549,8 +8536,7 @@ For g=d=1 the fixed-object fibre over a chart point is G_m, whereas its scalar q
 
 *Needs:* §8.11 (effective high-degree Abel–Jacobi descent); §8.4 (the family Abel–Jacobi fibre chart); §8.9 (the proper scalar quotient of a family chart); §8.10 (the canonical local descent line); §7.11 (symmetric local systems by descent and lisse extension); §7.26 (multiplicativity on every effective degree); SchemeAndStackFoundations §§3.3–3.7; EtaleCohomologyFoundations §§F.0.2, F.0.A1–F.0.A2 and F.3a; the scheme projective-space target in Layer 8.
 
-### 8.13 High-degree root Abel–Jacobi descent
-
+**8.13 High-degree root Abel–Jacobi descent.**
 For d≥ρ+max(2g−1,1), L_d descends to a rank-one local system L_d^Pic on Pic_X^√R,d with AJ_d*L_d^Pic≅L_d. Descent and its comparison are unique up to the canonical isomorphism compatible with pullback; the pullback functor is fully faithful in this setting.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used.
@@ -8575,7 +8561,9 @@ Layers 4–5 and 7; SchemeAndStackFoundations §3.3 and JacobianChallenge Layer 
 
 ## Layer 9: Normalized characters in every integer degree
 
-### 9.1 Effective auxiliary divisors away from R
+### 9.1 Divisor tensor lines and the character local system in every Picard degree
+
+These sections attach Frobenius tensor lines to effective and signed divisors away from R and, by translation along effective auxiliary divisors, extend the high-degree descent to a character local system in every integer Picard degree; §§9.8, 9.10–9.12, 9.15, 9.17, 10.7 and 10.11 consume them.
 
 For every integer d and bound B there exists an effective divisor D on U=X−R with d+deg D≥B. The construction requires no rational point of degree one. For two choices D,E, a common effective enlargement is D+E.
 
@@ -8591,8 +8579,7 @@ A closed point of degree greater than one still suffices to reach the bound, tho
 
 *Needs:* §5.1 (whole and effective root symmetric powers); SchemeAndStackFoundations §§3.3–3.7.
 
-### 9.2 The tensor line attached to an effective divisor
-
+**9.2 The tensor line attached to an effective divisor.**
 For an effective D=Σn_x x supported on U, define the Frobenius line L_D as the tensor product of the fibres of L over all geometric points above x, each repeated n_x times, with its Frobenius permutation descent. This is the value of L_(deg D) at the canonical root divisor O(D)^♮.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used.
@@ -8619,8 +8606,7 @@ At a nonrational closed point, use all geometric conjugates, not one arbitrarily
 
 *Needs:* §7.11 (symmetric local systems by descent and lisse extension); §7.26 (multiplicativity on every effective degree); §6.3 (the adelic root Picard groupoid).
 
-### 9.3 Multiplication in high Picard degrees
-
+**9.3 Multiplication in high Picard degrees.**
 For d,e≥B, mult*L_(d+e)^Pic≅L_d^Pic⊠L_e^Pic on the product Pic^√R,d×Pic^√R,e. The pullback comparison uses AJ_d×AJ_e, not AJ_(d+e).
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used.
@@ -8635,8 +8621,7 @@ The corrected diagram has a product domain, matching the multiplicative target.
 
 *Needs:* §8.13 (high-degree root Abel–Jacobi descent); §7.26 (multiplicativity on every effective degree); §5.9 (root Abel–Jacobi maps).
 
-### 9.4 Translation of high-degree descent
-
+**9.4 Translation of high-degree descent.**
 If D is effective away from R and both d and d+deg D satisfy the high-degree bound, there is a canonical isomorphism t_D*L_(d+deg D)^Pic≅L_d^Pic⊗L_D.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used.
@@ -8651,8 +8636,7 @@ The divisor D is effective so the effective symmetric-power map exists.
 
 *Needs:* §8.13 (high-degree root Abel–Jacobi descent); §9.2 (the tensor line attached to an effective divisor); §7.26 (multiplicativity on every effective degree); §5.9 (root Abel–Jacobi maps).
 
-### 9.5 The character local system in every Picard degree
-
+**9.5 The character local system in every Picard degree.**
 For d∈Z choose effective D⊂U with d+deg D≥B=ρ+max(2g−1,1) and set L_d^Pic=t_D*L_(d+deg D)^Pic⊗L_D⁻¹. The comparison and cocycle lemmas identify different choices canonically; the resulting graded sheaf is L^Pic on the whole root Picard stack.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used.
@@ -8679,8 +8663,7 @@ Negative degrees are included; no passage through a chosen Pic^0 origin is used.
 
 *Needs:* §9.1 (effective auxiliary divisors away from R); §9.2 (the tensor line attached to an effective divisor); §8.13 (high-degree root Abel–Jacobi descent).
 
-### 9.6 Admissible auxiliary divisor index
-
+**9.6 Admissible auxiliary divisor index.**
 For fields k,F with a k-algebra structure on F, S a set of places, and integers d,B, define auxiliaryDivisors(S,d,B) as the set of TauCeti divisors D with 0≤D coefficientwise, D(P)=0 for every P in S, and B≤d+degree(D). Degree is the residue-degree-weighted homomorphism at the pin. Under the point-place dictionary for the curve, take S to be the places of R; this is exactly the effective away-divisor choice set in the underlying auxiliary-divisors target.
 
 The definition needs only Field k, Field F, Algebra k F. Nonemptiness additionally assumes IsFunctionField k F and an explicit place P outside S; no residue-degree-one condition. The geometric comparison uses X as in the conventions and the degree-preserving point-place dictionary.
@@ -8715,8 +8698,7 @@ Equality of and geometric choice conditions must preserve residue degrees, effec
 
 *Needs:* `TauCeti.Divisor`; `TauCeti.Divisor.degree`; `TauCeti.Divisor.degree_add`; `TauCeti.Divisor.degree_nonneg`; `TauCeti.Divisor.degree_zero`; `TauCeti.Divisor.degree_ofPoint`; `TauCeti.Divisor.exists_le_degree_add_nsmul_ofPoint`; `TauCeti.AlgebraicGeometry.WeilDivisor.ofPoint`; §9.1 (effective auxiliary divisors away from R); SchemeAndStackFoundations §§3.3–3.7.
 
-### 9.7 Signed divisor tensor line
-
+**9.7 Signed divisor tensor line.**
 Extend the effective tensor line of §9.2 to the free abelian group Div(U). For D=sum_x n_x[x] with n_x in Z, tensor, for each closed x, all conjugate geometric stalk lines of L over x, each to power n_x (negative power means dual), with the cyclic Frobenius permutation and local action. Equivalently for D=A-C with A,C effective away from R, set Λ_D=Λ_A tensor Λ_C^dual. The effective sum comparison induces canonical decomposition-independent identifications and a symmetric monoidal functor to the groupoid of one-dimensional ℚ̄_ℓ vector spaces with continuous k-Galois action. Its value agrees with the underlying effective line for effective D; no ordering or chosen geometric lift belongs to the data.
 
 k is a finite field of odd characteristic; X/k is a smooth projective geometrically connected curve of genus g; R is a reduced finite closed subscheme, ρ=deg R, U=X minus R. ℓ is a prime different from char(k); coefficients are ℚ̄_ℓ. The input L is an arbitrary rank-one lisse local system on the square-root curve X_1^√R, with its k-descent. Inertia over R has order dividing two; global monodromy is not assumed quadratic. Use the root Picard stack P^d of triples (M,K_R,i:K_R tensor K_R isomorphic to M restricted to R), and the unshifted symmetric local systems of §7.12 L_n and high-degree descents H_n for n at least B=ρ+max(2g-1,1). Use geometric Frobenius throughout; all sheaf maps are Frobenius-equivariant.
@@ -8748,7 +8730,9 @@ The construction is independent of expressing a divisor as a difference of effec
 
 *Needs:* §9.2 (the tensor line attached to an effective divisor); §7.26 (multiplicativity on every effective degree); §7.28 (associativity of symmetric multiplicativity); §7.29 (symmetry and degree-zero unit); SchemeAndStackFoundations §§3.3–3.7.
 
-### 9.8 Canonical independence of the auxiliary divisor
+### 9.8 Independence of choices, Abel–Jacobi pullback and multiplication in every degree
+
+These sections identify the choices of auxiliary divisor canonically and coherently, and give the Abel–Jacobi comparison in every effective degree, multiplication in every integer degree and the universal property of normalized presentations; §§9.13–9.18, 10.2, 10.7 and 10.20 consume them.
 
 For effective D,E giving high degrees, the two constructions of L_d^Pic are canonically identified by translating each once more to the high degree d+deg D+deg E and using L_(D+E)≅L_D⊗L_E.
 
@@ -8764,8 +8748,7 @@ The comparison is a specified isomorphism, not just existence of isomorphic shea
 
 *Needs:* §9.4 (translation of high-degree descent); §9.5 (the character local system in every Picard degree); §7.28 (associativity of symmetric multiplicativity); §7.29 (symmetry and degree-zero unit).
 
-### 9.9 Cocycle for auxiliary-divisor comparisons
-
+**9.9 Cocycle for auxiliary-divisor comparisons.**
 For any three effective choices D,E,F the canonical comparison D→E followed by E→F is the comparison D→F. Comparisons are unchanged by further common effective enlargement.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used.
@@ -8780,8 +8763,7 @@ A mere pairwise choice of isomorphisms would not satisfy this test.
 
 *Needs:* §9.8 (canonical independence of the auxiliary divisor); §7.28 (associativity of symmetric multiplicativity); §7.29 (symmetry and degree-zero unit).
 
-### 9.10 Abel–Jacobi pullback in every effective degree
-
+**9.10 Abel–Jacobi pullback in every effective degree.**
 For every d≥0, AJ_d*L_d^Pic≅L_d canonically. Choose an effective D away from R reaching B; the translated comparison and multiplication cancel L_D.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used.
@@ -8796,8 +8778,7 @@ The proof cannot take an arbitrary signed divisor D because X_(deg D) is an effe
 
 *Needs:* §9.9 (cocycle for auxiliary-divisor comparisons); §9.5 (the character local system in every Picard degree); §7.26 (multiplicativity on every effective degree); §5.9 (root Abel–Jacobi maps).
 
-### 9.11 Multiplication in every integer degree
-
+**9.11 Multiplication in every integer degree.**
 For all d,e∈Z there is a canonical isomorphism μ_(d,e):mult*L_(d+e)^Pic≅L_d^Pic⊠L_e^Pic. It is the high-degree isomorphism transported by independent effective divisors D,E and normalized using L_(D+E)≅L_D⊗L_E.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used.
@@ -8812,8 +8793,7 @@ All terms are sheaves on Picard components, never L_d on a symmetric-power space
 
 *Needs:* §9.3 (multiplication in high Picard degrees); §9.8 (canonical independence of the auxiliary divisor); §9.9 (cocycle for auxiliary-divisor comparisons); §9.2 (the tensor line attached to an effective divisor).
 
-### 9.12 Universal property of normalized character presentations
-
+**9.12 Universal property of normalized character presentations.**
 Fix d in Z and the geometric conventions. For every effective admissible D let Q_D=t_D^*H_(d+degD) tensor Λ_D^dual. Write c_DE:Q_D isomorphic to Q_E for §9.8’s canonical comparisons and q_D:Q_D isomorphic to P_d for their canonical identifications with the all-degree character of §9.5. They satisfy q_E composed with c_DE=q_D. For any lisse sheaf M on P^d, precomposition with all q_D gives a bijection from Hom(P_d,M) to families f_D:Q_D→M satisfying f_E composed with c_DE=f_D for every D,E. Consequently any lisse sheaf equipped with compatible isomorphisms from all Q_D has a unique isomorphism from P_d respecting every normalization. This uniqueness includes the comparison data, not the bare underlying sheaf.
 
 k is a finite field of odd characteristic; X/k is a smooth projective geometrically connected curve of genus g; R is a reduced finite closed subscheme, ρ=deg R, U=X minus R. ℓ is a prime different from char(k); coefficients are ℚ̄_ℓ. The input L is an arbitrary rank-one lisse local system on the square-root curve X_1^√R, with its k-descent. Inertia over R has order dividing two; global monodromy is not assumed quadratic. Use the root Picard stack P^d of triples (M,K_R,i:K_R tensor K_R isomorphic to M restricted to R), and the unshifted symmetric local systems of §7.12 L_n and high-degree descents H_n for n at least B=ρ+max(2g-1,1). Use geometric Frobenius throughout; all sheaf maps are Frobenius-equivariant.
@@ -8829,7 +8809,9 @@ A scalar twist of q_D0 at one choice and no others is not a compatible family un
 
 *Needs:* §9.1 (effective auxiliary divisors away from R); §9.5 (the character local system in every Picard degree); §9.8 (canonical independence of the auxiliary divisor); §9.9 (cocycle for auxiliary-divisor comparisons); §8.13 (high-degree root Abel–Jacobi descent).
 
-### 9.13 The unit trivialization of the character sheaf
+### 9.13 Unit, associativity, symmetry and translation laws, also on whole section spaces
+
+These sections give the unit trivialization, associativity, commutativity and unit laws and coherent signed translation of the character sheaf, and its pullback with multiplication to the whole section spaces; §§10.2 and 10.11 consume them.
 
 At the root-Picard tensor unit e, the pullback e*L^Pic is canonically ℚ̄_ℓ, via the degree-zero effective Abel–Jacobi comparison.
 
@@ -8845,8 +8827,7 @@ The unit fixes the scalar normalization of multiplication maps.
 
 *Needs:* §9.10 (Abel–Jacobi pullback in every effective degree); §7.11 (symmetric local systems by descent and lisse extension); §5.9 (root Abel–Jacobi maps).
 
-### 9.14 Associativity of character multiplication
-
+**9.14 Associativity of character multiplication.**
 For all integers d,e,f, the two composites of μ for the three-degree product agree under the Picard and sheaf associators.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used.
@@ -8861,8 +8842,7 @@ A multiplicative structure is proved through this equality; it is not assumed as
 
 *Needs:* §9.11 (multiplication in every integer degree); §9.9 (cocycle for auxiliary-divisor comparisons); §7.28 (associativity of symmetric multiplicativity).
 
-### 9.15 Character sheaves on whole section spaces
-
+**9.15 Character sheaves on whole section spaces.**
 For every integer degree in which the whole section moduli problem is defined, set L̂_d=ÂJ_d*L_d^Pic. On the effective open it is canonically L_d for d≥0. This is a pullback along the entire whole map, so its zero-section stalks remain rank one.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used.
@@ -8889,8 +8869,7 @@ Do not replace this by extension by zero from the effective open.
 
 *Needs:* §9.5 (the character local system in every Picard degree); §9.10 (Abel–Jacobi pullback in every effective degree); §5.9 (root Abel–Jacobi maps).
 
-### 9.16 Commutativity and the normalized unit laws
-
+**9.16 Commutativity and the normalized unit laws.**
 The multiplication μ_(d,e) commutes with exchanging factors, and its restrictions along e×id and id×e are the identity unit maps after the canonical unit trivialization.
 
 Throughout this subsection, k is finite of characteristic p≠2; X/k is smooth, projective and geometrically connected; R⊂X is a reduced finite divisor, possibly empty; ρ=deg R, and g is the curve genus. Coefficients are ℚ̄_ℓ with ℓ≠p; geometric Frobenius is used.
@@ -8905,8 +8884,7 @@ No extra scalar or Frobenius twist is permitted in the unit laws.
 
 *Needs:* §9.11 (multiplication in every integer degree); §9.13 (the unit trivialization of the character sheaf); §7.29 (symmetry and degree-zero unit); §9.9 (cocycle for auxiliary-divisor comparisons).
 
-### 9.17 Coherent signed character translation
-
+**9.17 Coherent signed character translation.**
 For d in Z and any signed divisor D supported on U, let δ_D be its canonical root Picard k-point given by O_X(D), with the trivial root over R determined by the rational section there; put t_D(M)=M tensor δ_D. There is a canonical Frobenius-equivariant isomorphism θ_(d,D):t_D^*P_(d+degD) isomorphic to P_d tensor Λ_D, where P_d is the all-degree character of §9.5 and Λ_D is the signed line. It agrees with the effective translation of §9.10 when D≥0. With t_E composed with t_D=t_(D+E), θ_(d,D+E) equals the composite t_D^*θ_(d+degD,E) followed by θ_(d,D) tensor id and Λ_D tensor Λ_E identified with Λ_(D+E). The zero comparison is the identity and the D,-D composite is the identity after evaluation. These equalities are taken with the specified Picard and sheaf associators, not on trace functions alone.
 
 k is a finite field of odd characteristic; X/k is a smooth projective geometrically connected curve of genus g; R is a reduced finite closed subscheme, ρ=deg R, U=X minus R. ℓ is a prime different from char(k); coefficients are ℚ̄_ℓ. The input L is an arbitrary rank-one lisse local system on the square-root curve X_1^√R, with its k-descent. Inertia over R has order dividing two; global monodromy is not assumed quadratic. Use the root Picard stack P^d of triples (M,K_R,i:K_R tensor K_R isomorphic to M restricted to R), and the unshifted symmetric local systems of §7.12 L_n and high-degree descents H_n for n at least B=ρ+max(2g-1,1). Use geometric Frobenius throughout; all sheaf maps are Frobenius-equivariant.
@@ -8922,8 +8900,7 @@ For d=-1 and D=-[x] at an away degree-two point, the map is t_-x^*P_-3 isomorphi
 
 *Needs:* §9.7 (signed divisor tensor line); §9.12 (universal property of normalized character presentations); §9.10 (Abel–Jacobi pullback in every effective degree); §9.5 (the character local system in every Picard degree); §9.11 (multiplication in every integer degree); §9.13 (the unit trivialization of the character sheaf); §9.14 (associativity of character multiplication); §9.16 (commutativity and the normalized unit laws); §4.1 (the graded root Picard stack).
 
-### 9.18 Character comparison on the full section space
-
+**9.18 Character comparison on the full section space.**
 For d,e≥0 let X̂_d be the whole root-section space of §5.1, ÂJ_d its forgetful map and L̂_d=ÂJ_d^*P_d on all of X̂_d. Pulling multiplication of §9.11, μ_(d,e) through the square ÂJ_(d+e) composed with âdd_(d,e)=mult composed with (ÂJ_d times ÂJ_e) gives a canonical isomorphism âdd_(d,e)^*L̂_(d+e) isomorphic to L̂_d external-tensor L̂_e. The isomorphisms obey associativity, symmetry and the unit diagrams for the effective empty-section object. On the effective opens they are the underlying symmetric multiplication α_(d,e). At every geometric pair of objects, including either or both global sections equal to zero, this remains an isomorphism of rank-one stalks. No extension by zero from the effective open is used.
 
 A proof route uses the following steps. Use the compatibility of root addition (§5.5) with the root Abel–Jacobi maps (§5.9) on the entire section spaces, including zero sections.
