@@ -689,11 +689,13 @@ on the continuous packaging of its §6.1 residual representation. The conductor 
 of the actual residual module, with the convention fixed above.
 
 Absolute irreducibility means irreducibility after extension from `𝔽_p` to every
-field containing it. The passage from irreducibility over `𝔽_p` uses oddness.
-Complex conjugation has eigenvalues `1,-1`, distinct because `p` is odd. If an
-irreducible two-dimensional representation split into two characters over an algebraic
-closure, those lines would be its complex-conjugation eigenlines, already defined over
-`𝔽_p`. This contradicts irreducibility over `𝔽_p`. This argument uses
+field containing it. The step from irreducibility over `𝔽_p` to absolute
+irreducibility relies on oddness. Suppose that, over an algebraic closure, an
+irreducible two-dimensional representation broke up as a sum of two characters. Each
+of the two lines would be stable under complex conjugation and so would be an
+eigenline of it. The representation would then fail to be irreducible over `𝔽_p`,
+since those eigenlines are defined over `𝔽_p` already: as `p` is odd, the eigenvalues
+`1,-1` of complex conjugation are distinct. This argument uses
 the base field ℚ and the oddness hypothesis; it is not a statement about every
 two-dimensional representation of every group over a finite field.
 
