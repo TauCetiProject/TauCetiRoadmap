@@ -9,6 +9,8 @@ public import TauCeti.Combinatorics.DenseGraphLimits.ExchangeableGraphLaw.Infini
 public import TauCeti.Combinatorics.DenseGraphLimits.ExchangeableGraphLaw.Relational.Ergodic
 public import TauCeti.Combinatorics.SimpleGraph.Connectivity.VertexConnectivity
 public import TauCeti.Combinatorics.SimpleGraph.ExtensionProperty
+public import TauCeti.Combinatorics.SimpleGraph.RelationalConfiguration
+public import TauCeti.ModelTheory.RelationalConfiguration.ModelsOf
 public import TauCeti.ModelTheory.Scott.AtomicDiagram
 public import TauCeti.ModelTheory.Scott.RandomGraph
 public import TauCeti.ModelTheory.Infinitary.Semantics
@@ -123,8 +125,16 @@ theorem foRank_eq_zero_iff_isQF
     foRank φ = 0 ↔ φ.IsQF := by
   sorry
 
-theorem measurableSet_satisfies [Countable V] (φ : Language.graph.Sentence) :
-    MeasurableSet {G : SimpleGraph V | Satisfies G φ} := by
+/-- **Joint measurability of realization.** For a fixed graph formula with finitely many free
+variables on a countable discrete carrier, realization is measurable jointly in the graph, the
+free-variable assignment and the bound-variable tuple. At fixed assignments, sentences included,
+the event is the pullback of Tau Ceti's `TauCeti.RelationalConfiguration.measurableSet_setOf_realize`
+(applied to `BoundedFormula.toInf φ`) along `SimpleGraph.toRelationalConfiguration`; the joint
+statement is a countable union of rectangles over the assignments. -/
+theorem measurableSet_realize_jointly [Countable V] [MeasurableSpace V] [DiscreteMeasurableSpace V]
+    {α : Type w} [Finite α] {n : ℕ} (φ : Language.graph.BoundedFormula α n) :
+    MeasurableSet {x : SimpleGraph V × (α → V) × (Fin n → V) |
+      @BoundedFormula.Realize _ V x.1.structure _ _ φ x.2.1 x.2.2} := by
   sorry
 
 theorem satisfies_iso {G : SimpleGraph V} {H : SimpleGraph W}

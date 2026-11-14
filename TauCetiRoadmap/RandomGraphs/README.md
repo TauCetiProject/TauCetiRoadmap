@@ -105,6 +105,7 @@ The following are suppliers, not requests to rebuild their objects.
 | [InfinitaryLogic, Layer 1](../../Completed/InfinitaryLogic/README.md) | Finite EF strategies, ordinal back-and-forth and selected-family potential isomorphism |
 | [InfinitaryLogic, random-graph worked example](../../Completed/InfinitaryLogic/README.md) | The canonical full extension predicate `SimpleGraph.HasExtensionProperty` with `SimpleGraph.HasExtensionProperty.exists_adj_iff` (a witness outside a listed tuple realizing any adjacency pattern compatible with its repetitions); the Rado graph `TauCeti.radoGraph` with `TauCeti.hasExtensionProperty_radoGraph` (`Combinatorics/SimpleGraph/ExtensionProperty.lean`); the extension-pair bridge `SimpleGraph.HasExtensionProperty.isExtensionPair`, countable uniqueness `SimpleGraph.HasExtensionProperty.nonempty_iso`, the characterization `TauCeti.nonempty_iso_radoGraph_iff` of the countable graphs isomorphic to the Rado graph, and the infinitary characterization `SimpleGraph.HasExtensionProperty.realize_scottSentence_iff`: for a countable graph with the extension property, its Scott sentence holds in a graph of any cardinality exactly when that graph has the extension property (`ModelTheory/Scott/RandomGraph.lean`); files at Tau Ceti `2fd255d99` |
 | [Tau Ceti `ModelTheory/Scott/AtomicDiagram.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Scott/AtomicDiagram.lean) at `2fd255d99` (the finite companion of the parent's infinitary `atomicDiagram`) | `TauCeti.AtomicIdx.toFormula : AtomicIdx L n → L.BoundedFormula Empty n`; for `[Finite (Σ k, L.Relations k)]`, `TauCeti.firstOrderAtomicDiagram (a : Fin n → M) : L.BoundedFormula Empty n`, the finite conjunction `BoundedFormula.iInf` over `AtomicIdx L n` of the tests true of `a` and the negations of those false of it (`firstOrderAtomicDiagram_def`); and, for relational `L`, `realize_firstOrderAtomicDiagram_iff_sameAtomicType : (firstOrderAtomicDiagram a).Realize v b ↔ SameAtomicType a b` for `b : Fin n → N` in any structure. The tuple occupies bound positions |
+| [Tau Ceti `ModelTheory/RelationalConfiguration/ModelsOf.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/RelationalConfiguration/ModelsOf.lean) and [`Combinatorics/SimpleGraph/RelationalConfiguration.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Combinatorics/SimpleGraph/RelationalConfiguration.lean) at `2fd255d99` | `TauCeti.RelationalConfiguration.measurableSet_setOf_realize`: on a countable carrier, the configurations realizing an infinitary formula with countable branching, at fixed free- and bound-variable assignments, form a measurable set; `RelationalConfiguration.toStructure_ofStructure`; the graph coding `SimpleGraph.toRelationalConfiguration` with `SimpleGraph.measurable_toRelationalConfiguration` and, on a countable carrier, `SimpleGraph.measurableEmbedding_toRelationalConfiguration`. Their pullback is the fixed-assignment graph event of 0.3 |
 | [DenseGraphLimits, Layers 9a–c](../../Completed/DenseGraphLimits/README.md) | Finite and infinite graphon sampling, finite restrictions, exchangeable graph laws, dissociation, mixtures and sampling convergence |
 | [Exchangeability, array layers](../../Completed/Exchangeability/README.md) | Generic array exchangeability, dissociation and ergodic/extreme-measure machinery |
 | [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md) | Vertex connectivity `SimpleGraph.IsVertexConnected` (Tau Ceti `Combinatorics/SimpleGraph/Connectivity/VertexConnectivity.lean`; `k : ℕ∞`, more than `k` vertices and connected after deleting fewer than `k`), deletion, separators and their graph interfaces |
@@ -163,8 +164,9 @@ Each implementation consumes the narrow supplier it needs, not an entire supplie
 
 *Needs:* Mathlib `SimpleGraph.binomialRandom` with its Bernoulli-product presentation, the graph
 language and structure adapters, bounded formulas and realization; Tau Ceti
-`SimpleGraph.Iso.toLanguageEquiv` and the measurable structure of
-`TauCeti.Combinatorics.SimpleGraph.Measurable`.
+`SimpleGraph.Iso.toLanguageEquiv`, the measurable structure of
+`TauCeti.Combinatorics.SimpleGraph.Measurable`, `TauCeti.RelationalConfiguration.measurableSet_setOf_realize`,
+`SimpleGraph.measurableEmbedding_toRelationalConfiguration` and `BoundedFormula.realize_toInf`.
 
 ### 0.1 Graph/language transport
 
@@ -200,12 +202,28 @@ Do not introduce a second random-graph measure.
 ### 0.3 Satisfaction as an event
 
 Give the countable vertex carrier its discrete measurable structure and the finite
-assignment spaces their product measurable structures. For each fixed first-order bounded
-formula with finitely many free variables, prove joint measurability of realization in
-the graph and its free- and bound-variable assignments. Prove the sentence specialization
-and invariance under graph isomorphism and relabeling. The quantifier step is a countable
-union or intersection over actual vertices. Countability alone is not a substitute for
-the stated measurable structure on an assignment carrier.
+assignment spaces their product measurable structures.
+
+At fixed assignments the graph event belongs to Tau Ceti and is not restated here. For a
+countable carrier `V`, a graph formula `φ` and fixed free- and bound-variable assignments, the
+set of graphs `G` whose structure `G.structure` realizes `φ` there is the preimage, under the
+measurable map `SimpleGraph.toRelationalConfiguration` (`SimpleGraph.measurable_toRelationalConfiguration`;
+a measurable embedding by `SimpleGraph.measurableEmbedding_toRelationalConfiguration`), of the
+configuration event of `BoundedFormula.toInf φ`. That event is measurable by
+`TauCeti.RelationalConfiguration.measurableSet_setOf_realize`, which covers every infinitary
+formula with countable branching, and `BoundedFormula.realize_toInf` with
+`RelationalConfiguration.toStructure_ofStructure` identifies the two realizations. The sentence
+events used by the satisfaction probabilities below are the case of empty assignments. On `ℕ`,
+the event of `∃x∃y Adj(x,y)` is the countable union over pairs `u ≠ v` of the cylinders
+`{G | G.Adj u v}`.
+
+The target here is joint measurability. For a fixed graph formula with finitely many free
+variables, prove that realization is measurable on the product of the graph space with the
+free- and bound-variable assignment spaces (`measurableSet_realize_jointly`). From the
+fixed-assignment events this is a countable union over the assignments, each term a measurable
+rectangle with a singleton; it needs measurable singletons in the product structure on the
+assignment spaces, and countability of the carrier alone is not a substitute for that
+structure. Prove invariance of the events under graph isomorphism and relabeling.
 
 Define the finite satisfaction probability directly by evaluating
 `binomialRandom (Fin n) p` on the native realization event. Expose real and `ℝ≥0∞`
