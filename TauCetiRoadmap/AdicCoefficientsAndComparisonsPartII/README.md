@@ -480,7 +480,7 @@ The statements and routes use Mathlib `AlgebraicGeometry.Scheme.residueField`; M
 
 ### 1.1 Pointed schemes and their modifications
 
-A pointed scheme is a morphism ε : Spec K → X with K a field and X quasi-compact and quasi-separated. A morphism (Spec K′ → X′) → (Spec K → X) is a compatible pair j : Spec K′ → Spec K, f : X′ → X; it is a modification if j is an isomorphism and f is proper (not necessarily surjective), and a modification is tight if Spec K → X′ is schematically dominant. The point need not be dominant: char K may differ from the generic characteristic of X.
+By a pointed scheme we mean a field K, a quasi-compact quasi-separated scheme X and a K-valued point ε : Spec K → X. To map (Spec K′ → X′) to (Spec K → X) one gives a commuting square, namely morphisms j : Spec K′ → Spec K and f : X′ → X compatible with the two points. When j is invertible and f is proper, the map is called a modification; f is not asked to be surjective. Such a modification is tight when the point Spec K → X′ that it carries is schematically dominant. Dominance of ε itself is not assumed, so char K and the generic characteristic of X can differ.
 
 Work under these precise hypotheses: X quasi-compact and quasi-separated; K any field.
 
@@ -1165,7 +1165,7 @@ The statements and routes use TauCetiRoadmap.ResolutionOfSingularitiesCharacteri
 
 ### 5.1 Multipointed curves and their stable modifications
 
-Let S be a scheme. A multipointed S-curve (C, D) is a pair of flat finitely presented morphisms C → S and D → S of pure relative dimensions one and zero with a closed immersion D → C over S; C need not be proper or separated over S. It is semistable if C → S is flat with geometric fibres having at most ordinary double points, D → S is étale and D misses the non-smooth locus of C → S. A modification (C′, D′) → (C, D) is a pair of modifications (proper, isomorphisms on schematically dense opens); it is semistable if (C′, D′) is, and stable if moreover no geometric fibre C′_s has an exceptional component (a P^1 meeting D′_s ∪ `(C′_s)^{sing}` in at most two points and contracted to a point of C_s). For S integral with generic point η, an η-modification is one that is an isomorphism over η.
+Throughout, S is a scheme. A multipointed S-curve (C, D) consists of two flat, finitely presented S-schemes, C of pure relative dimension one and D of pure relative dimension zero, together with a closed S-immersion D → C; neither properness nor separatedness of C over S is assumed. Call (C, D) semistable when three conditions hold: C → S is flat and each of its geometric fibres has no singularities other than ordinary double points; D is étale over S; and D avoids the locus where C → S fails to be smooth. A modification (C′, D′) → (C, D) consists of a modification C′ → C and a modification D′ → D, each proper and restricting to an isomorphism on schematically dense opens; it is semistable exactly when its source (C′, D′) is. Say that a component of a geometric fibre C′_s is exceptional if it is a P^1 that collapses to a point of C_s and has at most two points in common with D′_s ∪ `(C′_s)^{sing}`. A semistable modification is stable when no geometric fibre C′_s contains an exceptional component. If S is integral with generic point η, the η-modifications are the modifications that restrict to isomorphisms over η.
 
 Work under these precise hypotheses: S a scheme (integral, quasi-compact and quasi-separated for η-modifications).
 
@@ -1201,7 +1201,7 @@ One proof route is as follows. Define the predicates fibrewise; semistability is
 
 ### 5.2 Stable modification theorem: projectivity
 
-For a multipointed S-curve (C, D) with a semistable modification (C′, D′), the sheaf `ω_{(C′,D′)/S}` is C-ample if and only if the modification is stable. In particular every stable modification C^st → C is projective.
+Take a multipointed S-curve (C, D) and a semistable modification (C′, D′) → (C, D). Stability of this modification is equivalent to `ω_{(C′,D′)/S}` being C-ample, that is, ample relative to C. Hence C^st → C is a projective morphism whenever it is a stable modification.
 
 Work under these precise hypotheses: (C, D) a multipointed S-curve; (C′, D′) → (C, D) a semistable modification.
 
@@ -1601,7 +1601,7 @@ Taking ℓ = 2 and k = F_3, every F_3-variety has an odd-degree alteration by a 
 
 ### 6.8 Gabber's prime-to-ℓ alteration theorem over a one-dimensional base
 
-Let S be a separated integral noetherian excellent regular scheme of dimension one with generic point η, X a separated flat S-scheme of finite type, ℓ a prime invertible on S and Z ⊆ X nowhere dense closed. Then there are a finite extension η′/η of degree prime to ℓ, with S′ the normalization of S in η′, a projective ℓ′-alteration h : X̃ → X over S′ → S with X̃ regular and quasi-projective over S′, an snc divisor T̃ on X̃ and a finite set Σ of closed points of S′ such that: (i) outside Σ, X̃ → S′ is smooth and T̃ is a relative normal crossings divisor; (ii) étale-locally at every geometric point of a fibre over s′ ∈ Σ, (X̃, T̃) is (`S′[u^{±1}, t]/(u^b t^a − π)`, `V(t_{r+1} ⋯ t_m)`) with gcd(p, a, b) = 1 (§PA.4.8); (iii) h⁻¹(Z)_red is a sub-divisor of `⋃_{s′ ∈ Σ}` `(X̃_{s′})_red` ∪ T̃.
+Suppose that S is a one-dimensional scheme which is separated, integral, noetherian, excellent and regular, with generic point η; that X is an S-scheme of finite type, separated and flat over S; that ℓ is a prime invertible on S; and that Z is a nowhere dense closed subset of X. Under these assumptions there exist data (η′, S′, h, T̃, Σ) as follows: a finite extension η′/η whose degree is prime to ℓ, together with the normalization S′ of S in η′; a projective ℓ′-alteration h : X̃ → X lying over S′ → S, where X̃ is regular and quasi-projective over S′; an snc divisor T̃ on X̃; and a finite set Σ of closed points of S′. These data have three properties. (i) Smoothness off Σ: over the complement of Σ in S′, the morphism X̃ → S′ is smooth and T̃ is a relative normal crossings divisor. (ii) Local model over Σ, in the sense of §PA.4.8: at each geometric point of a fibre above some s′ ∈ Σ, the pair (X̃, T̃) is étale-locally isomorphic to (`S′[u^{±1}, t]/(u^b t^a − π)`, `V(t_{r+1} ⋯ t_m)`), where gcd(p, a, b) = 1. (iii) Boundary containment: the reduced preimage h⁻¹(Z)_red is a sub-divisor of `⋃_{s′ ∈ Σ}` `(X̃_{s′})_red` ∪ T̃, the union of T̃ with the reduced fibres over Σ.
 
 Work under these precise hypotheses: S separated integral noetherian excellent regular, dim S = 1; X separated flat of finite type over S; ℓ invertible on S.
 
