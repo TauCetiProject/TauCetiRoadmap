@@ -1171,7 +1171,10 @@ with integral singular–étale comparison.)
   The genus-one quotient will be obtained by invariants, not by replacing
   the whole H¹ lattice by one elliptic factor.
 
-### 3.2 Vanishing cycles as adjacent differences
+### 3.2 Vanishing cycles and the two monodromies in one basis
+
+This group gives the vanishing cycles and the two monodromy transformations
+in the single marked basis of §3.1; §7.1 evaluates them on characters.
 
 Keep the marking of §3.1 and move R_s=(s/n)a as s approaches 1/2,
 so R_s approaches a/(2n).
@@ -1196,8 +1199,7 @@ factors in the transvection and leaves its contribution unchanged. Replacing
 the adjacent differences by a_i would give rank m and the wrong invariant
 trivial-character subspace.
 
-### 3.3 The two transformations in one basis
-
+**3.3 The two transformations in one basis.**
 Define the light **`cyclicLaplacian m`** as the circulant integral matrix
 for `2−u−u⁻¹` on Z[Z/m]. Its `(i,j)` entry is
 `2 δ_ij − δ_(i,j+1) − δ_(i,j−1)`, with multiplicities even when the two
@@ -1255,7 +1257,11 @@ as they stand.
 
 ## Layer 4: Character systems, elliptic endpoints and integral congruences
 
-### 4.1 The rank-two realizations on the shared carrier
+### 4.1 The character systems and their two elliptic endpoints
+
+This group constructs the systems V_θ and identifies V₁ with H¹(B_t) and an
+order-three V_η with H¹(A_t). Section 4.4 uses these ends; §§8.1–8.3
+consume the systems, their coefficient embeddings and A_t.
 
 For any number field k, odd n≥3, t∈U(k) and F=k(μ_n), define
 **`characterSystem θ`** by the actual θ-eigenspaces
@@ -1304,8 +1310,7 @@ its specified finite realization extension is inferred.
   through j_ℓ. Replacing θ by an unrelated conjugate at one prime would
   not meet the common-polynomial comparison used in Layer 8.
 
-### 4.2 Quotient realizations and the second elliptic curve
-
+**4.2 Quotient realizations and the second elliptic curve.**
 The target **`character_order_quotient`** identifies the θ-part for an
 order-m character of μ_n with the corresponding primitive part of H¹(C_m).
 Pullback along C_n→C_m is an isomorphism onto the invariants of its kernel
@@ -1346,7 +1351,10 @@ cover and reflection from Layer 1.
   rational isomorphism of the required subspaces, but is not asserted to be
   an integral isomorphism at primes dividing that degree.
 
-### 4.3 Integral character evaluation
+### 4.3 Integral character lattices and the three congruences
+
+This group builds the integral lattices T_θ and the congruence chain from V_η
+to V₁, whose rows §5.2 and the lifting table of §8.3 consume.
 
 For t,F as above, fix ℓ and a finite coefficient extension L/Q_ℓ containing
 j_ℓ(M), with valuation ring O and maximal ideal 𝔪. Use the actual deck action
@@ -1382,8 +1390,7 @@ deck action because μ_n⊂F, so it descends through the tensor quotient.
   The asserted rank-two G_F-stable lattice is over F=k(μ_n), not over k
   without a descent argument.
 
-### 4.4 The three congruences with their exact coefficient primes
-
+**4.4 The three congruences with their exact coefficient primes.**
 Now let n=3p with p>3 prime, choose η of order three and ψ of order p, and
 put χ=ηψ, of order 3p. The target **`prime_switch_congruences`** is
 
@@ -1533,7 +1540,11 @@ with the quadratic K is at most two; Q(ζ₅) would require index four.
   the abelian extension F/K preserves this subgroup. A statement for p=3
   using perfectness would fail.
 
-### 5.2 The exact lifting theorem applied at three and p
+### 5.2 Unrestricted lifting and the independent elliptic seed
+
+This group supplies the unrestricted lifting theorem and the independent
+elliptic residual criterion; §8.3 applies the first in each lift, and §8.2
+applies the second to A_t.
 
 Prove **`potentiallySemistableCM`**, the unrestricted CN Theorem 5.2,
 using CrystallineLocalGlobalCompatibilityCM's qualified lifting export and
@@ -1595,8 +1606,7 @@ crystallinity of its Galois realization, and is proved in §8.1. Places with
 ramified finite-order quadratic characters remain allowed in the ordinary
 Steinberg alternative.
 
-### 5.3 The independently modular elliptic starting point
-
+**5.3 The independently modular elliptic starting point.**
 Prove **`cm_modularity`**, the CN elliptic residual criterion: for any CM
 number field L with ζ₅∉L and elliptic A/L, if for some ℓ∈{3,5} its mod-ℓ
 representation is decomposed generic and absolutely irreducible on
@@ -1639,7 +1649,12 @@ modular-curve point computation is a prerequisite.
 
 ## Layer 6: Prescribing reduction in local parameter opens
 
-### 6.1 Local constancy of finite torsion, including residue-prime torsion
+### 6.1 Local constancy of reduction type and full toric monodromy
+
+This group proves local constancy, near a point of an abelian scheme over a
+local field, of finite torsion and, after one finite extension, of toric rank
+and good Newton polygon, and full monodromy rank for totally toric abelian
+varieties. Section 6.5 applies §6.3, and §6.6 applies §6.4.
 
 For a finite extension L/Q_r, a smooth L-variety X, an abelian scheme
 A→X, a point x₀∈X(L), and an integer N≥1, prove
@@ -1663,8 +1678,7 @@ characteristic-r special fiber is étale: ordinary and supersingular
 r-divisible groups remain different. An empty local open would give no
 specialization; the construction contains x₀.
 
-### 6.2 A finite set of full Tate-module Frobenius polynomials
-
+**6.2 A finite set of full Tate-module Frobenius polynomials.**
 Fix g≥1 and a local field L with residue cardinality Q>1. For a semistable
 g-dimensional abelian variety A/L and an auxiliary odd prime d≠r, choose
 an arithmetic Frobenius lift on the full covariant V_d(A). The target
@@ -1698,8 +1712,7 @@ not just the inertia invariants.
 - At g=0 the polynomial is 1 and the rank is zero, but it supplies no
   ordinary/supersingular distinction; later type conclusions use g≥1.
 
-### 6.3 Local constancy of toric rank and Newton polygon
-
+**6.3 Local constancy of toric rank and Newton polygon.**
 Let A→X,x₀,L be as in §6.1, with relative dimension g≥1. Prove
 **`local_reduction_constancy`**: there is a finite extension L'/L and a
 nonempty neighborhood of x₀ such that all nearby fibers over L' are
@@ -1727,8 +1740,7 @@ polynomials coincide, fixing the toric rank and good Newton polygon.
 - The fixed extension L' works on a whole neighborhood; an extension
   chosen separately for each point would not be the stated local family result.
 
-### 6.4 Full monodromy rank in the totally toric case
-
+**6.4 Full monodromy rank in the totally toric case.**
 For any g-dimensional abelian A over a local field L/Q_r which becomes
 semistable of toric rank g, prove **`totally_toric_monodromy_rank`**: N on
 WD(H¹(A,Q_d)) has rank g for every coefficient prime d, including d=r.
@@ -1756,7 +1768,11 @@ Good reduction has N=0 and cannot enter the totally toric conclusion for
 g>0. In all cases N²=0 for an abelian H¹, so rank g is the maximum in
 dimension 2g; higher nilpotency is not inferred.
 
-### 6.5 Pulling the neighborhood back to the original parameter line
+### 6.5 Local parameter opens with prescribed character types
+
+This group gives nonempty opens in U(k_v₀) on which every character system
+has the local type of E. Layer 7 and §8.2 choose the parameter inside them;
+§§8.1 and 8.3 consume the types and the fixed semistabilizing extensions.
 
 Set n=3p and F=k(μ_n). Given any finite set S of finite places of k
 containing all those above 3p, construct **`local_type_opens`**: for every
@@ -1799,8 +1815,7 @@ additional finitely many local constraints intersected when nonempty.
 - Every v above v₀ is included before selecting t. One chosen embedding
   into a completion of F would not suffice for the global lifting theorem.
 
-### 6.6 Characterwise local types
-
+**6.6 Characterwise local types.**
 For t in the opens of §6.5 prove **`character_local_types`** at every v|3p
 for each of the n characters θ. Let ℓ be the residue characteristic of v.
 If E is potentially good ordinary, V_(θ,ℓ) is
@@ -1851,7 +1866,11 @@ source-specific targets here.
 
 ## Layer 7: One specialization with all residual conditions
 
-### 7.1 Geometric irreducibility and a regular word
+### 7.1 Residual irreducibility and genericity inputs
+
+This group supplies the residual inputs assembled in §7.4: irreducibility and
+a common regular word for the three character pairs, and genericity of V₁,p
+for every parameter, which the lifting table of §8.3 also uses.
 
 For the pairs `(m,ℓ)=(3,p),(3,5),(p,3)`, evaluate the two common-basis
 monodromies of §3.3 at every primitive order-m character. Since ℓ∤m,
@@ -1900,8 +1919,7 @@ the formula on arbitrary matrices alone does not assert geometric image.
   Nonzero entries on just one root would fail both the fixed-line and
   non-CM arguments.
 
-### 7.2 Genericity of the original elliptic endpoint
-
+**7.2 Genericity of the original elliptic endpoint.**
 For K imaginary quadratic and p,F as in §5.1, prove
 **`original_endpoint_generic`**: for every t∈U(K), the mod-p representation
 of V₁=H¹(B_t) is absolutely irreducible on G_(F(ζ_p)) and decomposed
@@ -1948,7 +1966,11 @@ at d=1 it is smaller. p=3 cannot be used for the perfectness argument.
 A rational prime merely splitting in K but not in the relevant cyclotomic
 constants need not satisfy q≡1 mod p and is not the witness chosen here.
 
-### 7.3 Hilbert specialization with the constant-field quotient retained
+### 7.3 The simultaneous specialization and its Hilbert input
+
+Applying Hilbert specialization to the Weil restriction of U, this group
+produces one t in all the prescribed opens with every residual condition and
+A_t non-CM; §5.3 and Layer 8 use this t.
 
 Let W⊂A^d_Q be nonempty open, D/Q finite Galois and
 `π₁(W)↠H↠Gal(D/Q)` a finite quotient compatible with the arithmetic
@@ -1977,8 +1999,7 @@ Hilbert specialization can still choose a rational nonsquare such as 17;
 local splitting does not force a disconnected global fiber. These are
 applications of the imported Hilbert theorem, not new definitions in Lean.
 
-### 7.4 Weil restriction and simultaneous specialization
-
+**7.4 Weil restriction and simultaneous specialization.**
 Return first to an arbitrary number field k, non-CM E/k and sufficiently
 large p as in §7.2. Let F=k(μ₃p), and let S be a finite set of finite
 places of k containing all places above 3p. For each v₀∈S prescribe a
@@ -2084,7 +2105,10 @@ all-character/all-conjugate deduction are the new application here.
 
 ## Layer 8: Three lifts, descent and the full modularity theorem
 
-### 8.1 Changing coefficient prime and recovering automorphic local types
+### 8.1 Automorphy of the four character systems over F
+
+This group realizes V_η, V_χ, V_ψ and V₁ over F=K(μ₃p) by cuspidal
+weight-zero PGL₂ representations; §8.4 descends the realization of V₁.
 
 Prove **`character_automorphy_change_prime`**: if a weight-zero regular
 algebraic cuspidal π realizes one member of V_θ, it realizes every member,
@@ -2120,8 +2144,7 @@ case genericity, rather than an assumed monodromy equality for arbitrary
 nonselfdual π, selects Steinberg. A ramified quadratic twist need not
 be spherical and remains permitted in the ordinary alternative.
 
-### 8.2 The starting elliptic curve
-
+**8.2 The starting elliptic curve.**
 Now specialize to imaginary quadratic K and F=K(μ₃p). Choose t from
 §7.4 inside the opens from §6.5. By §4.2, V_η=H¹(A_t), and by §7.4
 A_t is non-CM, its mod-5 residual representation is decomposed generic
@@ -2137,8 +2160,7 @@ congruence. This is the only invocation of a modularity criterion at
 five. Its local five-adic proof is §0.3 and §5.3; the new local
 opens here were imposed at three and p.
 
-### 8.3 The lifting table with every hypothesis attached
-
+**8.3 The lifting table with every hypothesis attached.**
 The target **`three_lift_automorphy`** constructs cuspidal weight-zero
 PGL₂ representations realizing V_χ,V_ψ,V₁ in that order. The common
 specialization and coefficient conventions are fixed throughout.
@@ -2184,7 +2206,11 @@ At no point is the original E[3] or E[5] required to be irreducible.
   good over F_v. The local splitting B_t≅E in §6.5 makes V₁ potentially
   crystalline but not crystalline over F_v.
 
-### 8.4 Descent of the same representation, then removal of the twist
+### 8.4 The non-CM realization over K and its local comparisons
+
+This group descends the realization of V₁ from §8.3 to K, untwists it to E,
+and proves the all-prime, local and complex comparisons that the endpoint in
+§8.6 combines with the CM branch.
 
 Prove **`cyclic_representation_descent`** for a prime-cyclic CM extension
 L'/L: if a continuous semisimple rank-two representation r of G_L has
@@ -2223,8 +2249,7 @@ The cubic scalar witness modulo seven has δ=2 and δ⁻¹=4:
 inverse direction; the Hecke-character comparison itself uses the
 supplier's reciprocity convention.
 
-### 8.5 All coefficient primes, finite places and the complex parameter
-
+**8.5 All coefficient primes, finite places and the complex parameter.**
 Apply §0.3 to the now modular non-CM E/K to obtain one π_E with trivial
 central character realizing H¹(E) for every prime ℓ and every coefficient
 isomorphism. Prove **`elliptic_full_local_comparison`**:
