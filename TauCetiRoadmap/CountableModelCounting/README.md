@@ -929,7 +929,7 @@ Discharge these alongside the layers.
 * **One element, many predicates** (Layer 0 acceptance): continuum many pairwise non-isomorphic
   one-element structures, a perfect set at the tier `Fin 1`, and no models on `ℕ`. Morley's theorem
   and the bounded-rank dichotomy are witnessed here only through a finite tier
-  (`hasPerfectSetOfNonisoModelsOn_fin_one_unaryPredicates`).
+  (the Layer 0 acceptance check).
 * **Equivalence relations with infinite classes** (Layer 2 acceptance): internal Scott rank `1`,
   exactly `ℵ₀` models.
 * **Equivalence relations** (Layer 3 acceptance): an explicit perfect set;
