@@ -685,6 +685,23 @@ theorem graphon_firstOrder_limit (K : Graphon Ω μ)
       atTop (𝓝 (radoTruth φ)) := by
   sorry
 
+/-- **Joint stabilization for uniformly nondegenerate graphons.** If `ε ≤ K ≤ 1 - ε` almost
+everywhere, with `0 < ε ≤ 1/2`, and `X n` are random graphs on one probability space with the finite
+sample laws `sampleGraph K n`, with no assumption on their joint law, then almost surely, for every
+rank bound `d`, eventually every sentence of rank at most `d + 1` has the same truth value in
+`X n` as in the Rado graph. -/
+theorem graphon_ae_eventually_all_bounded_rank (K : Graphon Ω μ)
+    (ε : ℝ) (hε0 : 0 < ε) (hε1 : ε ≤ 1 / 2)
+    (hK : ∀ᵐ z ∂μ.prod μ, ε ≤ K z.1 z.2 ∧ K z.1 z.2 ≤ 1 - ε)
+    {Ξ : Type w'} [MeasurableSpace Ξ] (ν : Measure Ξ) [IsProbabilityMeasure ν]
+    (X : ∀ n : ℕ, Ξ → SimpleGraph (Fin n))
+    (hX : ∀ n, Measurable (X n))
+    (hlaw : ∀ n, ν.map (X n) = sampleGraph K n) :
+    ∀ᵐ ξ ∂ν, ∀ d : ℕ, ∀ᶠ n : ℕ in atTop,
+      ∀ φ : Language.graph.Sentence, foRank φ ≤ d + 1 →
+        (Satisfies (X n ξ) φ ↔ Satisfies TauCeti.radoGraph φ) := by
+  sorry
+
 /-- For a fixed graphon, a measurable event invariant under the finitely supported permutations
 of `ℕ` has probability `0` or `1`. -/
 theorem infiniteSampleLaw_zero_one_of_invariant (K : Graphon Ω μ)

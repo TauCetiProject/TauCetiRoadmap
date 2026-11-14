@@ -924,7 +924,15 @@ $`0\lt \varepsilon\le1/2`$, prove
 ```
 
 Derive the finite FO Rado-truth law, uniform rank estimates and arbitrary-coupling
-almost-sure stabilization for these graphon sample laws. This is an application of the
+almost-sure stabilization for these graphon sample laws. The last is
+`graphon_ae_eventually_all_bounded_rank`: for a probability space `(Ξ, ν)` and measurable
+`X n : Ξ → SimpleGraph (Fin n)` with `ν.map (X n) = sampleGraph K n`, and no assumption on the
+joint law, almost surely, for every `d`, eventually every sentence of rank at most `d + 1` has
+its Rado truth value in `X n`. The displayed bound is summable in `n` for each `d`, so the first
+Borel–Cantelli lemma applies as in 7.3. The binomial theorems of 7.3 do not cover this case,
+because the edges of a graphon sample are dependent: for `W(x, y) = 1/4 + xy/2` (so `ε = 1/4`
+applies) each edge has probability `3/8`, while two edges at a common vertex are both present
+with probability `∫(1/4 + x/4)² dx = 7/48`, not `9/64`. This is an application of the
 existing sampler to the newly proved conditional witness bounds. The conditional witness
 probabilities and the displayed bound are computed from the sampler's definition, as in
 Milestone 6; no external theorem is cited for them.
