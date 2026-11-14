@@ -458,7 +458,12 @@ Lemma 47.9.6, tag 0BJC.) *Needs:* the composite-support and ring-map targets; th
 - For `A = k⟦x, y⟧`, `N = A`, `(a, b) = (x, y)`: `H^2_{(x,y)}(A) ≠ 0` while `H^0` and `H^1` vanish; with
   `b = y` regular, `H^2_{(x,y)}(A) = H^1_{(x)}(H^1_{(y)}(A))`.
 
-### K0.2 The annihilator product
+### K0.2 Annihilator products, CM-secant sequences, Schenzel's bound and parameters
+
+This section provides the annihilator product, secant and CM-secant sequences, Schenzel's torsion
+bound with its consequences for Cohen–Macaulay modules, and the extension of CM-secant sequences to
+parameters with the `p`-standard comparison. It is consumed by K0.7, by Layer K1 (prefix quotients),
+by K2.2–K2.4 and by K4.1 and K4.4–K4.6.
 
 **The local-cohomology annihilator product.** For a commutative ring `R`, an ideal `J`, an
 `R`-module `M` and a natural number `d`, define
@@ -499,7 +504,7 @@ p. 10; Lemma 3.6, p. 11.) *Needs:* Mathlib `localCohomology`, `Module.annihilato
   (from the summand `k`) and `Ann H^1_𝔪(M) = (y)` (from `H^1_𝔪(k⟦x⟧) = k((x))/k⟦x⟧`), so
   `a_𝔪(M, 2) = (xy, y²)`, while the intersection is `(y)`; `y ∉ (xy, y²)`.
 
-### K0.3 Secant sequences
+**K0.3 Secant sequences.**
 
 **Prefix quotients.** For an arbitrary `R`-module `M` and a finite list `rs`, the notation
 `prefixQuotient M rs` means `M ⧸ (Ideal.ofList rs • ⊤)`. This is a specialization of Mathlib's
@@ -585,7 +590,7 @@ tag 00KQ, for `R/Ann M`.) *Needs:* K0.3's secant API; Mathlib finite prime avoid
 - `M = R = ℚ⟦X⟧` has the secant parameter list `[X]`.
 - `[X]` on `ℚ⟦X⟧⟦Y⟧` extends by `[Y]`, with dimensions `2 → 1 → 0`.
 
-### K0.4 CM-secant sequences
+**K0.4 CM-secant sequences.**
 
 **The Cohen–Macaulay condition through local cohomology.** For a finite module `N` over a Noetherian
 local ring, say that the low local cohomology of `N` vanishes when `H^j_𝔪(N) = 0` for every natural
@@ -655,7 +660,7 @@ SchemeAndStackFoundations §0.17 `Module.IsCohenMacaulay`, §2.7 (depth and loca
   CM-secant (`y ∈ 𝔪`, the terminal quotient `k⟦x,y⟧/(x², y)` has dimension `0`), although `R` is not
   Cohen–Macaulay; and `[y]` is not regular on `R`, since `y·x̄ = 0`.
 
-### K0.5 Schenzel's torsion bound
+**K0.5 Schenzel's torsion bound.**
 
 **Schenzel's bound.** Let `r₁, …, rₛ` (`s ≥ 1`) be secant for a finite module `M` over a Noetherian
 local ring, and let `d = dim Supp M`. Then `a_𝔪(M, d)` kills every element of `M/(r₁, …, r_{s-1})M`
@@ -715,7 +720,7 @@ The CM API is built after this bound:
 - For `M = R = ℚ⟦X⟧` and `[X²]`, the `X²`-torsion is zero and the terminal quotient is the
   Cohen–Macaulay zero-dimensional module `R/(X²)`.
 
-### K0.6 Parameters and `p`-standard systems
+**K0.6 Parameters and `p`-standard systems.**
 
 **Extension to parameters.** Every CM-secant sequence `r₁, …, rₛ` for a nonzero finite module `M` over
 a Noetherian local ring extends to a CM-secant system of parameters `r₁, …, rₛ, q₁, …, q_e` with
@@ -1094,7 +1099,11 @@ p. 15, where the `i`-th factor is the `i`-th prefix ideal.) *Needs:* Mathlib `Id
 - A zero first entry kills every positive prefix product: `I_s = 0` for `[0, b]` and `s ≥ 1`, even when
   `b` is a unit.
 
-### K2.2 Kawasaki's conditions
+### K2.2 Kawasaki's conditions, their validity for CM-secant prefixes and their robustness
+
+This section defines Kawasaki's conditions, proves that every initial segment of a CM-secant
+sequence satisfies them, and shows that they persist under auxiliary secant quotients. It is
+consumed by K4.1, K4.3, K4.4 and K4.5.
 
 **Kawasaki's conditions.** Let `M` be a finite module over a Noetherian local ring `(R, 𝔪)` and
 `rs = (r₁, …, rₛ)` a list. Say that `rs` satisfies Kawasaki's conditions on `M` when, for every list
@@ -1130,7 +1139,7 @@ The API:
 - For `M = R = ℚ⟦X⟧` and `[X]`: (i) holds because `X` is regular, (ii) is vacuous, and (iii) holds
   because the only secant lists for `M/XM = ℚ` are empty.
 
-### K2.3 Kawasaki's proposition
+**K2.3 Kawasaki's proposition.**
 
 Throughout, `M` is a finite module over a Noetherian local ring `(R, 𝔪)`, `r₁, …, rₜ` is CM-secant for
 `M`, `0 ≤ s ≤ t`, and `r'₁, …, r'_{s'} ∈ 𝔪` is secant for `M/(r₁, …, rₛ)M`. The three clauses are kept
@@ -1326,7 +1335,7 @@ pp. 12–13.) *Needs:* the three targets above; K2.2.
 - For `R=M=k⟦x,y⟧`, the full CM-secant list `[x,y]` and both its prefixes satisfy the
   conditions; on `R/(x)` the `yᵐ`-torsion in clause (ii) is zero for every `m>0`.
 
-### K2.4 Robustness
+**K2.4 Robustness.**
 
 **Robustness under auxiliary quotients.** If `rs = (r₁, …, rₛ)` satisfies Kawasaki's conditions on
 `M` and `r'₁, …, r'_{s'}` is secant for `M/(rs)M`, then `rs` satisfies Kawasaki's conditions on
@@ -1368,7 +1377,12 @@ torsion supported on the exceptional divisor. The layer builds the graded module
 modules and the sheaf, compares the sheaf with the strict transform, records the product-of-ideals
 identities, and bounds the dimension of the support.
 
-### K3.1 The graded Rees module
+### K3.1 The Rees module, its chart modules and the module blowing-up
+
+This section builds the graded Rees module `⊕ IⁿM`, the chart modules `M_(a) ⊆ M[1/a]`,
+homogeneous module localization on the supplied graded-module sheaf, and the module blowing-up
+`Bl_I(M)` with its chartwise Cohen–Macaulay predicate. It is consumed by K3.4–K3.6, K4.1–K4.3,
+K4.5 and K4.6.
 
 **The Rees module.** For an ideal `I` of a commutative ring `R` and an `R`-module `M`, the Rees
 module is the `reesAlgebra I`-submodule of the polynomial module `PolynomialModule R M` consisting
@@ -1416,7 +1430,7 @@ The API:
 - For `R = ℤ`, `I = (2)` and `M = ℤ/2`, the monomial `1·t` does not lie in it (`2·(ℤ/2) = 0`), whereas
   `M ⊗ R[It]` has the nonzero degree-one part `ℤ/2 ⊗ 2ℤ ≅ ℤ/2`.
 
-### K3.2 Chart modules
+**K3.2 Chart modules.**
 
 The modules in this subsection live over the chart rings `R[I/a]` fixed in the supplier contracts.
 
@@ -1470,7 +1484,7 @@ Mathlib `LocalizedModule`, `LocalizedModule.mkLinearMap`,
 - For `R = M = k⟦x, y⟧/(xy)`, `I = (x)`, `a = x`: `M⟨x^∞⟩ = (y)`, so `M_(x) ≅ k⟦x⟧`, not `M`.
 - For `M = R`, `M_(a) = R[I/a]`.
 
-### K3.3 The module blowing-up
+**K3.3 The module blowing-up.**
 
 **Homogeneous module localization and the graded-module sheaf.** For an ℕ-graded commutative
 ring `S` and a ℤ-graded `S`-module `N = ⊕_{n∈ℤ} N_n`, with `S_i N_j ⊆ N_{(i:ℤ)+j}`, construct the
@@ -1895,7 +1909,11 @@ K3.3; K0.5 (regularity of parameters on Cohen–Macaulay modules); SchemeAndStac
   regularity on `M/I_tⁿM` the map has a kernel: for `M = k⟦x⟧`, `I = (x)` and `r' = x`, which is not
   regular on `M/IM = k`, `xM/x·xM = k` but `x·(M/xM) = 0`.
 
-### K4.2 The principal and two-generator charts
+### K4.2 Depth at closed points through principal and two-generator charts
+
+This section describes the stalks of the successive blowing-ups at closed points through the
+principal and two-generator charts, proves Kawasaki's two local-cohomology claims for these stalks,
+and runs the depth induction. K4.5 consumes the resulting depth bound.
 
 **The first two stages.** For `s = 0`, `I₀ = R` and `Bl_{I₀}(M) = tilde M` on `Spec R`. For `s = 1`,
 `I₁ = (r₁)`, `Bl_{(r₁)}(Spec R) = Spec R/R⟨r₁^∞⟩` and `Bl_{(r₁)}(M)` is the sheaf of `M/M⟨r₁^∞⟩`, on which
@@ -1950,7 +1968,7 @@ K3.3, K3.5, K3.6; TauCetiRoadmap StableReduction Layer 4; SchemeAndStackFoundati
 - For `R'=k⟦x,y⟧/(xy)`, numerator `y` and denominator `x`, the intermediate ring
   `R'[T]/(xT−y)` has `x²T=0`; removal of `x`-power torsion kills `T` and `y`, giving `k⟦x⟧`.
 
-### K4.3 Kawasaki's two local-cohomology claims
+**K4.3 Kawasaki's two local-cohomology claims.**
 
 Keep the notation of K4.2, with `s ≥ 2`, `rs` secant for `M` and every initial segment of `rs`
 satisfying Kawasaki's conditions on `M`.
@@ -2043,7 +2061,7 @@ Theorem 3.14, (3.14.8) and (3.14.10), p. 16, with the relation `r_bT − r_a`.) 
 - For `N=k⟦x,y⟧` and `(a,b)=(x,y)`, `H¹_{(x,y)}(N)=0`, and `yT−x` kills its
   polynomial base change.
 
-### K4.4 The depth induction
+**K4.4 The depth induction.**
 
 **Depth at closed points.** Let `rs = (r₁, …, rₛ)` be secant for `M`, with every initial segment satisfying
 Kawasaki's conditions on `M`. Then at every closed point of `Bl_{I_s}(Spec R)` lying over `𝔪` (every closed
