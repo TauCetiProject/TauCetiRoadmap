@@ -68,8 +68,11 @@ Suggested home: `TauCeti/CategoryTheory/Monoidal/DavydovYetter/` for Layers 0 to
   [Fintype (SimpleClasses C)] [Simple (𝟙_ C)] [∀ X Y : C, FiniteDimensional k (X ⟶ Y)]`, as
   instance arguments, not bundled. Scalars `𝟙_ C ⟶ 𝟙_ C` are read in `k` through
   `TauCeti.endAlgEquivOfSimple k (𝟙_ C)`.
-- **Separable.** `C` is separable when `normGlobalDim C ≠ 0`, with `normGlobalDim` the squared-norm
-  global dimension of PivotalSpherical 6.2. This is a hypothesis on theorems, not a class.
+- **Separable.** `C` is separable when `normGlobalDim C a ≠ 0`, with `normGlobalDim` the
+  squared-norm global dimension of PivotalSpherical 6.2. It takes a family
+  `a : ∀ S : SimpleClasses C, S.repr ≅ (S.reprᘁ)ᘁ`, and its value does not depend on `a`
+  (PivotalSpherical 6.1). Below, `normGlobalDim C` abbreviates `normGlobalDim C a` for any such
+  family. This is a hypothesis on theorems, not a class.
 - **Duals.** Right duals are primary: `η_ X Xᘁ : 𝟙_ C ⟶ X ⊗ Xᘁ`, `ε_ X Xᘁ : Xᘁ ⊗ X ⟶ 𝟙_ C`,
   `fᘁ` the right adjoint mate. The image of an exact pairing under a monoidal functor is
   `CategoryTheory.Functor.mapExactPairing`.
