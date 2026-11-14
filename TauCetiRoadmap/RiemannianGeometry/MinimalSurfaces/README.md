@@ -29,7 +29,8 @@ build, Layer k being MSk, and own:
   Riemannian manifold, its interior estimates, the small-data Dirichlet problem with its
   foliation by minimal graphs, graphical neighbourhoods under a curvature bound with the
   scaling laws, the linear equation satisfied by the difference of two sheets with its
-  Harnack and gradient estimates, and multi-valued graphs.
+  Harnack and gradient estimates, and multi-valued graphs with their deck overlaps,
+  separation, injectivity criterion and local estimates.
 - MS3: monotonicity for proper minimal immersions with its affine-plane rigidity case, the
   boundary form of the tangency principle, the convex hull property, the maximum principle
   in a small ball, the mean value inequality, the improved Kato inequality and the
@@ -101,12 +102,9 @@ Boundaries with the parent and with other roadmaps:
   as their single owner. A roadmap that needs this bound for a holomorphic map of degree d
   on a compact Riemann surface, as CanonicalModelsAndGonality §8.4 does,
   cites 10.3 and 10.4.
-- The one-sided curvature estimate [CM4, Theorem 0.2] and the uniqueness of the helicoid use
-  most of this sub-roadmap, especially the curvature estimate of MS7 and the graphical
-  neighbourhoods and multi-valued graphs of MS2, together with the multi-valued graph
-  machinery of [CM4]; they are outside this sub-roadmap. So are the strong half-space theorem
-  (the version for two disjoint surfaces), existence theory (the Plateau problem) and
-  singular hypersurfaces.
+- Global structure theory for embedded minimal disks lies outside this sub-roadmap. So do the
+  strong half-space theorem (the version for two disjoint surfaces), existence theory (the
+  Plateau problem) and singular hypersurfaces.
 
 ## Conventions
 
@@ -554,7 +552,7 @@ rescaled metrics (MS1).
 
 ### 2.5 Several sheets
 
-*Sources:* [CM, §1.7]; [Chodosh, Proposition 19.3, Lemma 33.2].
+*Sources:* [CM, §1.9]; [Chodosh, Proposition 19.3, Lemma 33.2].
 
 If `u₁` and `u₂` solve the minimal-surface equation in a fixed compact coordinate cylinder over
 `B_R ⊂ ℝⁿ` in a Riemannian `(n+1)`-manifold (or in `ℝ^(n+1)`) with `|Du_i| ≤ M`, then
@@ -582,29 +580,76 @@ the gradient bound).
 
 ### 2.6 Multi-valued graphs
 
-*Sources:* [CM4, §0, notation for multi-valued graphs].
+*Sources:* [CM4, §0, notation for multi-valued graphs]; [CM, §1.9, multi-valued graphs].
 
 In `ℝ³`, let `P = {(ρ,θ) : ρ > 0, θ ∈ ℝ}` be the universal cover of the punctured plane, with
-covering map `(ρ,θ) ↦ (ρ cos θ, ρ sin θ)`. A graph over a domain `Ω ⊂ P` is the surface
-`{(ρ cos θ, ρ sin θ, u(ρ,θ))}`; since the covering map is a local isometry, it is minimal
-precisely when u solves the minimal-surface equation in the local coordinates
-`(ρ cos θ, ρ sin θ)`. Its separation is `w(ρ,θ) = u(ρ,θ+2π) − u(ρ,θ)` wherever both terms are
-defined. No later item of this sub-roadmap consumes 2.6; its consumer is the multi-valued graph
-analysis of [CM4] and the one-sided curvature estimate.
+covering map `π(ρ,θ) = (ρ cos θ, ρ sin θ)`. Equip P with the pullback Euclidean metric
+`dρ² + ρ²dθ²`; π is a local isometry and every deck translation below is an isometry. All
+gradient norms in this item use this metric. A `C²` function `u : Ω → ℝ` on an open `Ω ⊂ P`
+parametrizes the graph by `G_u(ρ,θ) = (ρ cos θ, ρ sin θ, u(ρ,θ))`. The covering map is a local
+isometry, so `G_u` is a minimal immersion precisely when u solves the minimal-surface equation
+of 2.1 in the local coordinates `(ρ cos θ, ρ sin θ)`.
+
+**Deck overlaps and separation.** For `k ∈ ℤ`, write `τ_k(ρ,θ) = (ρ,θ+2πk)` and
+`Ω_k = {p ∈ Ω | τ_k p ∈ Ω}`. On `Ω_k`, define `w_k(p) = u(τ_k p) − u(p)`; the adjacent-sheet
+separation is `w = w_1`. Develop the domain and translation API, including `Ω_0 = Ω`,
+`w_0 = 0`, and, whenever `p, τ_k p, τ_(k+ℓ) p ∈ Ω`,
+
+`w_(k+ℓ)(p) = w_k(p) + w_ℓ(τ_k p)`, `w_(-k)(τ_k p) = −w_k(p)`.
+
+For a positive integer k, `w_k` is the sum of k consecutive translates of w wherever all
+intermediate points lie in Ω. If `w_k = 0` on `Ω_k` for every k, then u descends to a
+single-valued function on `π(Ω)`; when Ω is invariant under every deck translation, the
+condition `w = 0` alone suffices. The map `G_u` is injective exactly when `w_k(p) ≠ 0` for every
+`k ≠ 0` and `p ∈ Ω_k`: two parameter points have the same first two coordinates exactly when
+they differ by a deck translation. For `0 < r < R` and an open interval `I ⊂ ℝ`, let
+`Ω = (r,R) × I`. If `w > 0` on `Ω_1`, then `G_u` is injective, because I contains every
+intermediate translate; the same holds for `w < 0`. If `Ω_1` is nonempty, injectivity
+conversely makes the continuous w have one strict sign there, because `Ω_1` is connected.
+State injectivity of the parametrization, rather than embeddedness of its image, which needs
+a separate topological condition at the domain boundary.
+
+**Local elliptic estimates.** If u is a `C²` solution of the minimal-surface equation, then
+`u ∘ τ_k` is another solution on `Ω_k`, and `w_k` satisfies the linear elliptic equation of
+2.5 there. In particular, let `s > 0`, and let D project diffeomorphically onto a Euclidean
+disk `B_s(x₀)` whose closure avoids the origin, with the closure of D contained in `Ω_1`.
+Suppose both u and `u ∘ τ_1` have gradient norm at most M on D. If w is positive on D, apply
+2.5 in the planar coordinates to obtain, on its concentric half-disk,
+
+`sup w ≤ C inf w`, `|Dw| ≤ (C/s) w`,
+
+with C depending only on M. The bounds apply to positive separation; injectivity alone does
+not choose its sign.
+
+**Euclidean scaling.** For `λ > 0`, set `u_λ(ρ,θ) = λ u(ρ/λ,θ)` on the scaled domain
+`λΩ = {(λρ,θ) | (ρ,θ) ∈ Ω}`. It solves the minimal-surface equation whenever u does, and
+its separation obeys `w_(u_λ,k)(ρ,θ) = λ w_(u,k)(ρ/λ,θ)`. Vertical translation of u leaves
+every `w_k` unchanged.
 
 **Checks.**
 
-- The helicoid `(ρ cos θ, ρ sin θ, θ)` is the graph of `u = θ` over P. In the local coordinates
+- One component of the helicoid minus its axis is the graph of `u = θ` over P. In local coordinates
   `(x,y) = (ρ cos θ, ρ sin θ)`, `u_x = −y/ρ²`, `u_y = x/ρ²`, `u_xx = 2xy/ρ⁴`, `u_yy = −2xy/ρ⁴`
   and `u_xy = (y² − x²)/ρ⁴`, and the left-hand side of the minimal-surface equation of 2.1 is
   `(2x³y − 2xy³ + 2xy(y² − x²))/ρ⁸ = 0`. Its separation is `w ≡ 2π`.
-- `u = cθ`, for a constant c, is the helicoid of pitch `2πc`, with `w ≡ 2πc`; as `c → 0` the
-  sheets collapse onto the punctured plane.
-- A function with `u(ρ,θ+2π) = u(ρ,θ)`, such as the half-catenoid `u = arccosh ρ` on `{ρ > 1}`,
-  is a graph over a domain of the punctured plane and has `w ≡ 0`.
+- For `c ≠ 0`, `u = cθ` parametrizes one component away from the axis of a helicoid of pitch
+  `2πc`, with `w ≡ 2πc`. At `c = 0` the parametrization covers the punctured plane. On every
+  fixed relatively compact parameter domain in P, `u = cθ` converges smoothly to zero as
+  `c → 0`.
+- If every `w_k` vanishes, u descends to a function on `π(Ω)`. For the half-catenoid
+  `u = arccosh ρ` on `{ρ > 1}`, this projected domain is `{x ∈ ℝ² | ‖x‖ > 1}`.
 - Domain: for `Ω = {ρ > 0, 0 < θ < 3π}`, w is defined on `{0 < θ < π}` only.
 - Where it is defined, w is a difference of two solutions, so it satisfies the linear equation
   of 2.5; on the helicoid `w = 2π` is constant, and that equation has `c = 0`.
+- For `u(ρ,θ) = cθ` on a strip of angular width greater than `2π`, `w_k = 2πkc` wherever
+  defined. The parametrization is injective for `c ≠ 0` and is not injective for `c = 0`,
+  although the latter image is an embedded annulus.
+- For `Ω = (1,2) × ((0,π/4) ∪ (4π,4π+π/4))` and `u = 0`, `Ω_1` is empty but `Ω_2` is not:
+  the vacuous inequality `w > 0` on `Ω_1` does not imply injectivity when angular sections
+  are disconnected. If u is zero on the first component and one on the second, `w = 0`
+  vacuously but `w_2 = 1` on the first component, so u does not descend to `π(Ω)`.
+- On a positive-pitch helicoid, the local Harnack ratio is one and `Dw = 0`. Under dilation
+  by λ, its pitch and separation become `2πλc`.
 
 *Needs:* 2.1, 2.5.
 
@@ -2244,8 +2289,7 @@ two-sidedness in the simply connected case.
 ## Downstream consumers
 
 No roadmap on main consumes this sub-roadmap. The parent's R1, R3, R4, R5a, R5b, R5c, R7 and
-R8.2 and the surfaces sub-roadmap supply it and take nothing back. The one-sided curvature
-estimate and the uniqueness of the helicoid [CM4] consume MS2 and MS7.
+R8.2 and the surfaces sub-roadmap supply it and take nothing back.
 
 ## References
 
