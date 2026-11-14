@@ -2145,7 +2145,7 @@ The following arithmetic-input conventions apply to every solution datum of §§
 
 *Needs:* §2.9; §2.10; §2.1; §0.4; Mathlib `Matrix.linftyOpNormedRing`; Mathlib `Matrix.linfty_opNorm_def`; Mathlib `Units.oneSub`; Mathlib `tsum_geometric_le_of_norm_lt_one`; §0.2; §0.1.
 
-### 2.12 Lemma 1.1: solutions with large `|Y|` approximate a real root
+### 2.12 Solutions with large `|Y|` approximate a real root
 
 Let (g, m) be a Thue equation with exact constants `ĉ_1 ≥ C_1, 0 < ĉ_2 ≤ C_2, Ŷ_0 ≥ Y_0, Ŷ_1 ≥ max(Ŷ_0, (4ĉ_1)^{1/(n−2)}) (§2.11)`, and let `(X, Y) ∈ thueSolutions g m, β^{(i)} := X − Yξ^{(i)}`. (i)
 If `|Y| > Ŷ_0` then `s ≥ 1` and there is `i_0 ∈ {1, …, s}` (a real root) with `|β^{(i_0)}| ≤ ĉ_1·|Y|^{−(n−1)}` and `|β^{(i)}| ≥ ĉ_2·|Y|` for all `i ≠ i_0`. In particular, if `s = 0` then every
@@ -2173,7 +2173,8 @@ is stated for q in lowest terms, which is why `den(X/Y) ≤ |Y|` is used.)
 
 *Needs:* §2.11; §2.9; Mathlib `Real.exists_rat_eq_convergent`; Mathlib `Real.convergent`.
 
-### 2.13 Lemma 1.2: the unit equation and a small nonzero linear form in logarithms
+### 2.13 A small nonzero linear form in logarithms and the initial exponent bound
+For a solution with large `|Y|`, this group provides a nonzero linear form in logarithms `Λ` that decays exponentially in the exponents, and the initial exponent bound `K_3`; §§2.16, 2.19–2.20 and 6.36 consume it.
 
 Let (g, m) be a Thue equation with `s ≥ 1`, a factor covering `(ε, M) (§2.10)` and exact constants
 `(§2.11)`. Let `(X, Y)` be a solution with `|Y| > Ŷ_1*, i_0` the real index of §2.12, and write `X − Yξ = ±μ∏_{i≤r}ε_i^{a_i}` with `μ ∈ M`, a `∈ ℤ^r`. Choose j, k with `i_0, j, k` pairwise distinct and either `j, k ≤ s` (real case) or `ξ^{(k)} = conj ξ^{(j)}` (complex case); such j, k exist because `n ≥ 3`. Put `δ_μ := ((ξ^{(i_0)} − ξ^{(j)})/(ξ^{(i_0)} − ξ^{(k)}))·(μ^{(k)}/μ^{(j)})`. Siegel's identity
@@ -2209,8 +2210,7 @@ of Lemma 2.4, p. 110.)
 
 *Needs:* §2.12; §2.10; §2.11; DiophantineApproximationAndTranscendence §4.3 (Siegel identity); Mathlib `Complex.log`; Mathlib `Complex.arg`.
 
-### 2.14 Lemmas 2.1–2.2: the exponents are logarithmic in `|Y|` and `Λ` decays exponentially
-
+**2.14 The exponents are logarithmic in `|Y|` and `Λ` decays exponentially.**
 In the setting of §2.13, let A `:= max_{i≤r}|a_i|` and let `ĉ_4, ĉ_5, ĉ_6, Ŷ_2′` be exact constants
 `(§2.11)`. (Lemma `2.1`) If `|Y| > max(Ŷ_1, 2|m|^{1/n}, μ̂_+/ĉ_2)` then `ĉ_4|Y| > 1` and A `< ĉ_5·Real.log(ĉ_4|Y|)`. (Lemma `2.2`) If `|Y| > Ŷ_2′` then `|Λ| < ĉ_6·exp(−(n/ĉ_5)·A)`.
 
@@ -2235,8 +2235,7 @@ together A `< C_5 log(C_4|Y|) ≤ ĉ_5 log(ĉ_4|Y|)`. Lemma `2.2: |Y| > exp(A/ĉ
 
 *Needs:* §2.13; §2.12; §2.11.
 
-### 2.15 Lemmas 2.3–2.4 with Matveev's bound: the initial exponent bound
-
+**2.15 The initial exponent bound from Matveev's bound.**
 In the setting of §2.13 and §2.14, fix the real index `i_0 ≤ s`, the representative `μ ∈ M` and the
 indices j, k, and let c be the value of a MatveevConstantData `(§2.2)` for the family of
 nonzero logarithms of §2.13 (d) (at most r + 1 logarithms in the real case, at most r + 2 in the
@@ -2244,7 +2243,7 @@ complex case) with degree bound `D := n(n −` 1)(n − 2), admissible through h
 §0.10) and the logarithm enclosures of §2.1. Put `C_7 := c, Ĉ_8 ≥ 1 + Real.log(r + 2)` (rational), a
 `:= (ĉ_5/n)(ℓ⁺(ĉ_6) + C_7Ĉ_8), b := ĉ_5C_7/n`, and let `K_3` be a rational with `K_3 ≥ max(1, 2a + 2b(ℓ⁺(2b) − 1))`, ℓ⁺ denoting upper ends of `ED.2` rational logarithm/error bounds logarithm
 enclosures. Then every solution `(X, Y)` with `|Y| > Ŷ_2′`, real index `i_0` and representative `μ`
-satisfies A `≤ K_3` (and `|a_0| ≤ 1 + rK_3/2` in the complex case).
+satisfies A `≤ K_3` (and `|a_0| ≤ 1 + rK_3/2` in the complex case). (TdW Lemmas 2.3–2.4.)
 
 Work under the following conditions. `Λ ≠ 0` by §2.13 (a); this is the nonvanishing hypothesis of the
 imported lower bound The Matveev datum is admissible for the actual family; heights of
@@ -6544,7 +6543,8 @@ p.891.)
 
 *Needs:* AnabelianGeometryAndNonabelianChabauty §§6.1–6.8; §6.3; §6.2; §6.13; §6.15; §6.16; ColemanIntegration §L1.19; §4.2.
 
-### 6.5 The explicit set-up: affine chart, basis of differentials and Tate class
+### 6.5 Explicit set-up, connection and Hodge filtration of `A_Z` on an affine chart
+This group provides an explicit set-up on an affine chart and the connection, gauge data and Hodge filtration data `(η, b_Fil, γ_Fil)` of `A_Z` there; §§6.10–6.11, 6.13–6.14, 6.17, 6.22–6.23 and 6.27 consume it.
 
 An explicit quadratic Chabauty set-up over `Q` consists of: a smooth projective geometrically
 connected curve X/Q of genus `g ≥ 2`; an affine open `Y ⊂ X` over `Q`; a base point `b ∈ Y(Q)` integral at
@@ -6620,8 +6620,7 @@ p.913.)
 
 *Needs:* AnabelianGeometryAndNonabelianChabauty §§6.1–6.8; AnabelianGeometryAndNonabelianChabauty §§2.0–2.7; Mathlib Matrix; Mathlib `Matrix.fromBlocks`; Mathlib `Matrix.transpose`.
 
-### 6.6 The connection of `A_Z` on the affine chart and the uniqueness of `η`
-
+**6.6 The connection of `A_Z` on the affine chart and the uniqueness of `η`.**
 In an explicit set-up, there is a trivialisation `s_0(b, ·) : (Q ⊕ V_dR ⊕ Q(1)) ⊗ O_Y ≅ A_Z(b)|_Y (26)` in which `∇ = d + Λ` with `Λ = −[[0, 0, 0], [ω, 0, 0], [η, ωᵀZ, 0]] (27)`, in the ordered basis `1, T_0, …, T_{2g−1}, S`, where `ω = (ω_0, …, ω_{2g−1})ᵀ` and `η` is a differential in the span of `ω_{2g}, …, ω_{2g+d−2}`. Moreover `η` is the unique differential in that span for which `d + Λ` extends to a
 connection on `X` without singularities (Lemma `4.10`); equivalently, with the gauge data of
 gauge-transformation, `Res_x(Ω_xᵀ Z dΩ_x − η) = 0` for every `x ∈ D (30)`. In terms of residues: `η = Σ_k c_k ω_{2g+k}` where `(c_k)` is the unique solution of `Σ_k c_k Res_x(ω_{2g+k}) = Res_x(Ω_xᵀ Z dΩ_x)` for
@@ -6654,8 +6653,7 @@ and (30), pp.915–916.)
 
 *Needs:* §6.5; AnabelianGeometryAndNonabelianChabauty §§2.0–2.7; AnabelianGeometryAndNonabelianChabauty §§6.1–6.8.
 
-### 6.7 Gauge transformations at the points at infinity
-
+**6.7 Gauge transformations at the points at infinity.**
 In an explicit set-up, for `x ∈ D` with local parameter `t_x` over `L`, a trivialisation `s_x` of `A_Z` over
 `L[[t_x]]` with connection d exists because every unipotent connection on a formal disc is trivial,
 and the gauge transformation `C_x := s_x^(−1)` ∘ `s_0 ∈ End(Q ⊕ V_dR ⊕ Q(1)) ⊗ L((t_x))` satisfies
@@ -6695,8 +6693,7 @@ v4).)
 
 *Needs:* §6.5; §6.6; Mathlib LaurentSeries; Mathlib Derivation; Mathlib Matrix.
 
-### 6.8 Explicit Hodge filtration of `A_Z` (BDMTV Theorem 4.11)
-
+**6.8 Explicit Hodge filtration of `A_Z`.**
 In an explicit set-up with gauge data `(Ω_x, g_x)_{x ∈ D}`, let `N = (0_g, 1_g)ᵀ ∈ M_{2g×g}(Q)`, the
 matrix of `Fil⁰V_dR` ↪ `V_dR`. (i) There are unique `γ_Fil ∈ O(Y)` and `b_Fil = (b_g, …, b_{2g−1})ᵀ ∈ Q^g`
 such that `γ_Fil(b) = 0` and `g_x + γ_Fil − b_Filᵀ Nᵀ Ω_x − Ω_xᵀ Z N Nᵀ Ω_x ∈ L[[t_x]]` for every `x ∈ D (32)`. (ii) A basis of `Fil⁰A_Z|_Y` in the trivialisation (26) is `{1 + γ_Fil S, T_g + b_g S, …, T_{2g−1} + b_{2g−1} S} (33)`; equivalently, with `Q ⊕ V_dR ⊕ Q(1)` filtered by `Fil^(−1) =` everything,
@@ -6735,8 +6732,7 @@ p.916.)
 
 *Needs:* §6.5; §6.7; §6.6; AnabelianGeometryAndNonabelianChabauty §§2.0–2.7; AnabelianGeometryAndNonabelianChabauty §§6.1–6.8.
 
-### 6.9 Finite principal-part characterization of the Hodge filtration data `(η, b_Fil, γ_Fil)`
-
+**6.9 Finite principal-part characterization of the Hodge filtration data `(η, b_Fil, γ_Fil)`.**
 For the actual affine coordinate ring and boundary expansions of §6.5, characterize
 `(η,b_Fil,γ_Fil)` by the residue equations (30) and regularity equations (32).
 Suppose sufficient Laurent truncation and pole bounds are supplied: they bound products of
@@ -6917,7 +6913,7 @@ Put `A=Γ(Y,O_Y), K=Q(X)=Frac(A)`. Put `V_dR=H¹_dR(X)^*` with dual basis `T_i`.
 
 *Needs:* §6.11; §6.10; ColemanIntegration §L1.20; ColemanIntegration §L1.8; AnabelianGeometryAndNonabelianChabauty §§2.0–2.7.
 
-### 6.13 The local height at `p` of `A_Z(b, x)` (BDMTV Lemma 5.5)
+### 6.13 The local height at `p` of `A_Z(b, x)`
 
 Let s be a splitting of the Hodge filtration of `V_dR` with idempotents `s_1, s_2` onto `s(V_dR/Fil⁰)` and
 `Fil⁰`, and `χ_p` the local component of the fixed idèle class character. For `x ∈ X(Q_p) ∩ ]U[`, with
@@ -7402,7 +7398,8 @@ For the actual Q-curve `X_s(13)` identified with `xs13Quartic=0`, its Jacobian `
 
 *Needs:* §6.23a; §6.5; AnabelianGeometryAndNonabelianChabauty §§6.1–6.8; PadicDifferentialEquationsAndRigidCohomology §RD.7.18; ModularCurvesPartII §17.2; §6.19.
 
-### 6.23a First chart of `X_s(13)`: the model and differential basis
+### 6.23a First chart of `X_s(13)`: quadratic Chabauty data and the rational points on `]U_1[`
+This group provides the model and differential basis, Hodge filtration data, Frobenius lift, functions `θ_{Z_i}` and height matrices `T_1, T_2` of `X_s(13)` on its first chart, and the rational points on `]U_1[`; §6.22 and §§6.27–6.29 consume it.
 
 Under the explicit arithmetic-data hypotheses below, on `Y = {Z ≠ 0} ⊂ {Q = 0}` with coordinates `x =`
 `X/Z`, `y = Y/Z`, base point `b = P2 = (0, 0)` and `Q_y := ∂Q/∂y`, the six differentials `ω = (1, x, y, −160x⁴/3 + 736x³/3 − 16x²y/3 + 436x²/3 −` 440xy/3 `+ 68y²/3, −80x³/3 + 44x² −` 40xy/3 `+ 68y²/3 − 32, −16x²y + 28x² + 72xy − 4y² − 160x/3 + 272/3)·dx/Q_y` are of the second kind, the first three are
@@ -7445,8 +7442,7 @@ the pole-order calculation gives the stated basis of `H⁰(X,O(2D))`.
 *Needs:* §6.18; AlgebraicCurves Layers 9–10 (residues and plane-curve canonical divisors);
 PadicDifferentialEquationsAndRigidCohomology §RD.7.18; ColemanIntegration §L0.2.
 
-### 6.23 First chart of `X_s(13)`: Hodge filtration data
-
+**6.23 First chart of `X_s(13)`: Hodge filtration data.**
 Use the model, boundary, differential basis and coordinate ring of §6.23a and the
 Tate classes Z1,Z2 of §6.22. The Hodge filtration data of `A_{Z1}, A_{Z2}` are `η_{Z1} = −(44x² + (148/3)`xy `+ 8y²)dx/Q_y, η_{Z2} = (−40x² + 148xy + 36y²)dx/Q_y, β_Fil,Z1 = (0, 0, 0, 0, 1/2, 1/2)ᵀ, β_Fil,Z2 = (0, 0, 0, 0`, −1/2,
 −5/2)ᵀ, `γ_Fil,Z1 = 5y/6 + 3x/2, γ_Fil,Z2 =` −5y/6 − 15x/2.
@@ -7484,8 +7480,7 @@ p.930.)
 
 *Needs:* §6.9; §6.8; §6.22; §6.23a.
 
-### 6.24 First chart of `X_s(13)`: Frobenius lift and the functions `θ_{Z_i}`
-
+**6.24 First chart of `X_s(13)`: Frobenius lift and the functions `θ_{Z_i}`.**
 Given the following explicit Frobenius, cohomology and precision data at `p=17` on `U_1:=Y_F17∩{Q_y≠0}`,
 the geometric Frobenius-structure and splitting formulas identify the supplied local series `θ_Z` with
 `h_17(A_Z(P2,x))` for `Z=Z1,Z2` on every stated disc. The lift and coefficient tables are hypotheses,
@@ -7536,8 +7531,7 @@ Accept the actual dagger lift `Φ`, the `6×6` Frobenius matrix `F` and exact pr
 
 *Needs:* PadicDifferentialEquationsAndRigidCohomology §RD.7.18; §6.11; §6.12; §6.13; §6.15; §6.23; ColemanIntegration §L1.6.
 
-### 6.25 Equivariant heights and the matrices `T_1, T_2` for `X_s(13)`
-
+**6.25 Equivariant heights and the matrices `T_1, T_2` for `X_s(13)`.**
 Conditional on the explicit arithmetic-input hypotheses listed below, let `a_3 := a_3(f) = −α² − 2α`,
 a generator of `K`, and `ι(a_3)` the matrix of `T_3` on `H¹_dR(X)` (Eichler–Shimura); let s be a
 K-equivariant splitting of the Hodge filtration, so that the global height h is K-equivariant (AnabelianGeometryAndNonabelianChabauty §§6.1–6.8,
@@ -7578,8 +7572,7 @@ Certify the actual `E₁(P5)` p-adic log vector, inert cubic coefficient field a
 
 *Needs:* AnabelianGeometryAndNonabelianChabauty §§6.1–6.8; §6.13; §6.24; §6.21; §6.19; ModularCurvesPartII §11.8; §4.2.
 
-### 6.26 Rational points of `X_s(13)` on the first chart `]U_1[`
-
+**6.26 Rational points of `X_s(13)` on the first chart `]U_1[`.**
 Under the explicit finite-data hypotheses below, on each of the 17 residue discs of `]U_1[ ⊂ X(Q_17)`,
 all zeros of `det T_1` and of `det T_2` are simple, and the only common zeros are P1, P2, P3 and P5.
 Hence `X_s(13)(Q) ∩ ]U_1[ = {P1, P2, P3, P5}`.
