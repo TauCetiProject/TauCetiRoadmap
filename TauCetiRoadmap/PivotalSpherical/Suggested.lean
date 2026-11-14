@@ -237,6 +237,24 @@ theorem leftTrace_unit {C : Type u} [Category.{v} C] [MonoidalCategory C] [Rigid
 theorem leftDim_eq_rightDim_rightDual {C : Type u} [Category.{v} C] [MonoidalCategory C]
     [RigidCategory C] [PivotalCategory C] (X : C) : leftDim X = rightDim (Xᘁ : C) := sorry
 
+/-- **The left trace on an object with scalar endomorphisms.** Over a commutative ring `R`, if
+`algebraMap R (End X)` is bijective then the left trace of `f` is its scalar times the left
+dimension. The simple-object form over an algebraically closed field is a corollary by Schur's
+lemma. The right-trace, spherical-trace and tensor-product forms are stated alongside. -/
+theorem leftTrace_eq_smul_leftDim (R : Type w) [CommRing R] {C : Type u} [Category.{v} C]
+    [MonoidalCategory C] [RigidCategory C] [PivotalCategory C] [Preadditive C] [Linear R C]
+    [MonoidalPreadditive C] [MonoidalLinear R C] {X : C}
+    (hX : Function.Bijective (algebraMap R (End X))) (f : End X) :
+    leftTrace (X := X) f = (RingEquiv.ofBijective _ hX).symm f • leftDim X := sorry
+
+/-- **`dim_L X · dim_R X` does not depend on the pivotal structure** when `X` has scalar
+endomorphisms: two pivotal structures differ on `X` by a unit scalar and its inverse. -/
+theorem leftDim_comp_rightDim_eq (R : Type w) [CommRing R] {C : Type u} [Category.{v} C]
+    [MonoidalCategory C] [RigidCategory C] [Preadditive C] [Linear R C]
+    [MonoidalPreadditive C] [MonoidalLinear R C] (P Q : PivotalCategory C) {X : C}
+    (hX : Function.Bijective (algebraMap R (End X))) :
+    (letI := P; leftDim X ≫ rightDim X) = (letI := Q; leftDim X ≫ rightDim X) := sorry
+
 /-- `[#42191]` **Spherical category**: a pivotal category whose left and right traces agree on every
 endomorphism (HPT §2.1). Field name follows `CategoryTheory.SphericalCategory` in #42191. -/
 class SphericalCategory (C : Type u) [Category.{v} C] [MonoidalCategory C] [RigidCategory C]
@@ -260,6 +278,23 @@ roadmap covers any of it. The fusion hypotheses are carried as ordinary instance
 than bundled: that is what the generality bar in `README.md` asks for, and it keeps the coefficient
 field and the structures visible to elaboration and to `simp`. That is an API argument, not a
 logical one; a `Prop`-valued `IsFusion k C` could perfectly well mention `k`. -/
+
+/-- **The composition pairing** out of an object with scalar endomorphisms, over a commutative
+ring: `f ≫ g = homPairing R S X hS f g • 𝟙 S`. No abelian structure is needed. -/
+noncomputable def homPairing (R : Type w) [CommRing R] {C : Type u} [Category.{v} C]
+    [Preadditive C] [Linear R C] (S X : C) (hS : Function.Bijective (algebraMap R (End S))) :
+    (S ⟶ X) →ₗ[R] (X ⟶ S) →ₗ[R] R := sorry
+
+/-- **Perfectness for a split simple family.** If `S : ι → C` is hom-orthogonal, every `S i` has
+scalar endomorphisms, and every object is a finite biproduct of copies of the `S i`, then each
+composition pairing is perfect. The field case (simple `S` in a finite semisimple abelian category
+over an algebraically closed field) is a corollary. -/
+theorem isPerfPair_homPairing (R : Type w) [CommRing R] {C : Type u} [Category.{v} C]
+    [Preadditive C] [Linear R C] [Limits.HasFiniteBiproducts C] {ι : Type*} [Finite ι]
+    (S : ι → C) (hS : ∀ i, Function.Bijective (algebraMap R (End (S i))))
+    (horth : HomOrthogonal S)
+    (hdec : ∀ X : C, ∃ (κ : Type) (_ : Fintype κ) (f : κ → ι), Nonempty (X ≅ ⨁ (S ∘ f)))
+    (i : ι) (X : C) : (homPairing R (S i) X (hS i)).IsPerfPair := sorry
 
 /-- **Finite semisimple category**: every object is a finite biproduct of simple objects.
 
@@ -408,23 +443,24 @@ end FDRep
 
 /-! ## Layer 8: the pointed categories `Vec^ω_G` and their pivotal structures
 
-`Vec^ω_G` is the category of `G`-graded finite-dimensional `k`-vector spaces with associator on the
-simple objects `δ_g` twisted by a normalized 3-cocycle `ω`. It is a pointed tensor category (fusion
-for `G` finite); its pivotal structures form a torsor over `Hom(G, kˣ)`. The degree-3 cocycle
+`Vec^ω_G` is the category of finitely supported `G`-graded `R`-modules with finitely generated
+projective components, over a commutative ring `R`, with associator on the objects `δ_g` twisted by
+a normalized 3-cocycle `ω`. Over a field it is a pointed tensor category (fusion for `G` finite).
+Its pivotal structures form a torsor over `Hom(G, Rˣ)`. The degree-3 cocycle
 predicate is built from the general `groupCohomology`/`inhomogeneousCochains` differential (Mathlib's
 bespoke API stops at `cocycles₂`). -/
 
 section Pointed
-variable (k : Type u) [Field k] (G : Type) [Group G]
+variable (R : Type u) [CommRing R] (G : Type) [Group G]
 
-/-- **Normalized 3-cocycle predicate** on `ω : G → G → G → kˣ` (trivial `G`-action on `kˣ`): the
+/-- **Normalized 3-cocycle predicate** on `ω : G → G → G → Rˣ` (trivial `G`-action on `Rˣ`): the
 cocycle identity, which is the pentagon for `Vec^ω_G`, together with normalization.
 
 Written out rather than derived, because it needs no API that does not already exist. Mathlib's
-`groupCohomology A n` takes `A : Rep k G` with additive coefficients, so relating this to
-`inhomogeneousCochains` means passing through `Additive kˣ` as a trivial `Rep ℤ G`; that comparison
+`groupCohomology A n` takes `A : Rep R G` with additive coefficients, so relating this to
+`inhomogeneousCochains` means passing through `Additive Rˣ` as a trivial `Rep ℤ G`; that comparison
 is a theorem to prove, and this equation is the definition. -/
-def IsThreeCocycle (ω : G → G → G → kˣ) : Prop :=
+def IsThreeCocycle (ω : G → G → G → Rˣ) : Prop :=
   (∀ g h k l : G, ω h k l * ω g (h * k) l * ω g h k = ω (g * h) k l * ω g h (k * l)) ∧
     (∀ h k : G, ω 1 h k = 1) ∧ (∀ g k : G, ω g 1 k = 1) ∧ (∀ g h : G, ω g h 1 = 1)
 
@@ -432,42 +468,43 @@ def IsThreeCocycle (ω : G → G → G → kˣ) : Prop :=
 monoidal structure below is built only for genuine cocycles, never an arbitrary `ω`. Cohomologous
 cocycles give monoidally equivalent categories. -/
 structure ThreeCocycle where
-  /-- The underlying `kˣ`-valued function. -/
-  ω : G → G → G → kˣ
+  /-- The underlying `Rˣ`-valued function. -/
+  ω : G → G → G → Rˣ
   /-- It is a normalized 3-cocycle. -/
-  isCocycle : IsThreeCocycle k G ω
+  isCocycle : IsThreeCocycle R G ω
 
-/-- **The pointed category `Vec^ω_G`**: `G`-graded finite-dimensional `k`-vector spaces with the
-associator twisted by the bundled cocycle. Simple objects `δ_g`, `δ_g ⊗ δ_h = δ_{gh}`, unit `δ_e`,
-and `δ_gᘁ = δ_{g⁻¹}`.
+/-- **The pointed category `Vec^ω_G`**: finitely supported `G`-graded `R`-modules with finitely
+generated projective components, with the associator twisted by the bundled cocycle. Objects `δ_g`
+with `End δ_g = R`, `δ_g ⊗ δ_h = δ_{gh}`, unit `δ_e`, and `δ_gᘁ = δ_{g⁻¹}`. Projective components
+make it rigid.
 
-⚠ The objects must be **finitely supported** families, not all of `GradedObject G (FGModuleCat k)`.
-That type is the full function type `G → FGModuleCat k`, and for infinite `G` the convolution tensor
-product is a coproduct over a fibre equivalent to `G`, which `FGModuleCat` does not have. The
-universe is `Type (u+1)` for `k : Type u`, not `Type u`. -/
-def VecTwisted (c : ThreeCocycle k G) : Type (u + 1) := sorry
+⚠ The objects must be **finitely supported** families, not all of `GradedObject G (ModuleCat R)`.
+That type is the full function type `G → ModuleCat R`, and for infinite `G` the convolution tensor
+product is a coproduct over a fibre equivalent to `G`, which leaves the finitely generated
+modules. The universe is `Type (u+1)` for `R : Type u`, not `Type u`. -/
+def VecTwisted (c : ThreeCocycle R G) : Type (u + 1) := sorry
 
-noncomputable instance (c : ThreeCocycle k G) : Category (VecTwisted k G c) := sorry
-noncomputable instance (c : ThreeCocycle k G) : MonoidalCategory (VecTwisted k G c) := sorry
-noncomputable instance (c : ThreeCocycle k G) : RigidCategory (VecTwisted k G c) := sorry
+noncomputable instance (c : ThreeCocycle R G) : Category (VecTwisted R G c) := sorry
+noncomputable instance (c : ThreeCocycle R G) : MonoidalCategory (VecTwisted R G c) := sorry
+noncomputable instance (c : ThreeCocycle R G) : RigidCategory (VecTwisted R G c) := sorry
 
 /-- **A pivotal structure on `Vec^ω_G` always exists.** -/
-noncomputable instance (c : ThreeCocycle k G) : PivotalCategory (VecTwisted k G c) := sorry
+noncomputable instance (c : ThreeCocycle R G) : PivotalCategory (VecTwisted R G c) := sorry
 
 /-- **Classification of pivotal structures on `Vec^ω_G`**: the type of pivotal structures is (non
-canonically — a torsor) in bijection with the characters `Hom(G, kˣ)`, the bijection depending on the
+canonically — a torsor) in bijection with the characters `Hom(G, Rˣ)`, the bijection depending on the
 canonical pivotal structure determined by the cocycle as basepoint. -/
-noncomputable def VecTwisted.pivotal_equiv_characters (c : ThreeCocycle k G) :
-    PivotalCategory (VecTwisted k G c) ≃ (G →* kˣ) := sorry
+noncomputable def VecTwisted.pivotal_equiv_characters (c : ThreeCocycle R G) :
+    PivotalCategory (VecTwisted R G c) ≃ (G →* Rˣ) := sorry
 
 /-- **Frobenius–Schur indicators** (Ng–Schauenburg) of the simple object `δ_g`, computed from the
 pivotal structure. Indexed by a **positive** natural.
 
 ⚠ These are invariants of the pivotal structure and do not determine it. For `G = ℤ` every
 nontrivial `δ_g` has `Hom(𝟙, δ_g^{⊗n}) = 0` for all `n > 0`, so no collection of indicators recovers
-a character `ℤ → kˣ`. The completeness statement needs hypotheses on `G`. -/
-noncomputable def frobeniusSchurIndicator (c : ThreeCocycle k G) [PivotalCategory (VecTwisted k G c)]
-    (n : ℕ+) (g : G) : 𝟙_ (VecTwisted k G c) ⟶ 𝟙_ (VecTwisted k G c) := sorry
+a character `ℤ → Rˣ`. The completeness statement needs hypotheses on `G`. -/
+noncomputable def frobeniusSchurIndicator (c : ThreeCocycle R G) [PivotalCategory (VecTwisted R G c)]
+    (n : ℕ+) (g : G) : 𝟙_ (VecTwisted R G c) ⟶ 𝟙_ (VecTwisted R G c) := sorry
 
 end Pointed
 

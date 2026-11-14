@@ -91,7 +91,14 @@ requests as part of discharging it.
 
 - **Generality bar.** The *definitions* — dual functor, double-dual functor, pivotal structure,
   left/right trace and dimension, spherical — are stated for a **general rigid monoidal category** and
-  carry no finiteness or semisimplicity hypotheses. The *classification* results — the universal
+  carry no finiteness or semisimplicity hypotheses. Results that only need the endomorphisms of
+  particular objects to be scalars (traces on such objects, dual bases, `Vec^ω_G` and its pivotal
+  structures) are stated over a **commutative ring** `R`, with the hypothesis
+  `Function.Bijective (algebraMap R (End X))` on each such object `X` (Mathlib's
+  `Algebra R (End X)` for `[Linear R C]`). Over an algebraically closed field `k`, a simple object
+  with finite-dimensional endomorphisms satisfies it by Schur's lemma, so the field statements
+  are corollaries rather than separate developments. The ring generality is what reducing a
+  category modulo a prime needs. The *classification* results — the universal
   grading group `U(C)`, `Aut_⊗(𝟭_C) ≅ Hom(U(C), kˣ)`, the pivotal-structure torsor, the `Vec^ω_G`
   count, Frobenius–Perron dimension — are stated for a **fusion category over an algebraically closed
   field `k` of characteristic 0**. Spell each hypothesis on the result that needs it, as ordinary
@@ -234,6 +241,8 @@ you what to *name* things, not whether to *do* them.
 - **Finite semisimple categories, the simple-class API, the Grothendieck based ring, and
   Perron–Frobenius** (Layers 3 to 5). None of this exists in Mathlib or in any other Tau Ceti
   roadmap, and every fusion-level statement rests on it.
+- **Traces on objects with scalar endomorphisms** and **dual bases of morphisms**, over a
+  commutative ring (Layers 2 and 3).
 - **Left and right dimension**, **quantum and global dimension**, **Frobenius–Perron dimension**.
 - `RigidCategory (FDRep k G)` and the identification of its trace with the linear trace.
 - **`Vec^ω_G`** and the classification of its pivotal structures; a degree-3 cocycle API;
@@ -345,6 +354,16 @@ is the most valuable part of this layer.
   `dim_L X = dim_R Xᘁ`, multiplicativity on `⊗`, `dim_L 𝟙_C = 1`, and additivity on direct sums
   (which needs a preadditive or additive ambient category; carry that hypothesis on the statement
   rather than assuming it for the layer).
+- **Traces on objects with scalar endomorphisms.** Over a commutative ring `R`, with
+  `[Preadditive C] [Linear R C] [MonoidalPreadditive C] [MonoidalLinear R C]`, let `X` satisfy
+  `hX : Function.Bijective (algebraMap R (End X))` and write `r_f` for the scalar of
+  `f : End X`. Then `leftTrace f = r_f • leftDim X` and `rightTrace f = r_f • rightDim X` (and
+  `trace f = r_f • quantumDim X` when spherical). For two pivotal structures `P` and `Q`,
+  `leftDim X ≫ rightDim X` is the same for both, because they differ on `X` by a unit scalar and
+  its inverse. When `𝟙_ C` also has scalar endomorphisms, `leftTrace (f ⊗ₘ g)` and
+  `leftDim (X ⊗ Y)` are the products of the scalars, and likewise on the right. The versions for
+  a simple `X` over an algebraically closed field, with `FiniteDimensional k (X ⟶ X)`, follow by
+  Schur's lemma and are stated too.
 - **`SphericalCategory C`** — a pivotal category with `leftTrace f = rightTrace f` for **every**
   endomorphism `f` (equivalently, in the fusion case, `dim_L X = dim_R X` for every object)
   *(also in flight as #42191, with `trace` for the common value)*. Ours either way: that `trace` is
@@ -359,6 +378,30 @@ Grothendieck ring for a monoidal category, and no Perron–Frobenius theorem. No
 roadmap covers any of it, so this roadmap owns it. It is the largest and most reusable body of work
 here, and nothing in it is specific to pivotal structures.
 
+- **Dual bases of morphisms, over a commutative ring.** This item needs no abelian structure.
+  Take `C` preadditive and `R`-linear over a commutative ring `R`, and `S : C` with
+  `hS : Function.Bijective (algebraMap R (End S))`.
+  - The **composition pairing** `homPairing R S X : (S ⟶ X) →ₗ[R] (X ⟶ S) →ₗ[R] R`, defined by
+    `f ≫ g = homPairing R S X f g • 𝟙 S`, with `homPairing_comp`.
+  - For a basis `b` of `S ⟶ X` indexed by a finite type, when the pairing is perfect, the **dual
+    basis** `b.homDual` of `X ⟶ S`, characterized by
+    `b i ≫ b.homDual j = if i = j then 𝟙 S else 0`, with its coordinate formulas.
+  - The **canonical element** `∑ i, b.homDual i ⊗ b i` is natural in `X` and independent of `b`
+    (stated through an arbitrary bilinear map, as in `sum_homDual_comp`).
+  - **Split simple families.** Let `S : ι → C` with `ι` finite, `C` with finite biproducts, every
+    `S i` with scalar endomorphisms, `HomOrthogonal S`, and every object isomorphic to
+    `⨁ (S ∘ f)` for some `f : κ → ι` with `κ` finite. Then for each `i` and `X`, the modules
+    `S i ⟶ X` and `X ⟶ S i` are free of finite rank, the pairing is perfect (under
+    `X ≅ ⨁ (S ∘ f)` it is the dot product on `R^{f⁻¹(i)}`), and the **completeness relation**
+    `∑ i, ∑ j, (b i).homDual j ≫ b i j = 𝟙 X` holds for any choice of bases `b i` of `S i ⟶ X`.
+    For an additive `R`-linear functor `F : C ⥤ D` and `T : D` with scalar endomorphisms whose
+    pairings with `F.obj B` and with each `F.obj (S i)` are perfect, the canonical element of
+    `T ⟶ F.obj B` factors through the constituents `S i` of `B`, as in
+    `sum_homDual_eq_sum_map_homDual`.
+  - In a finite semisimple abelian category over an algebraically closed field (below), the
+    representatives of `SimpleClasses C` form such a family once their endomorphisms are
+    finite-dimensional, and a simple `S` has a perfect pairing with any `X`. State both, so that
+    the field forms of the dual-basis API are corollaries.
 - **`IsFiniteSemisimpleCategory C`** on a `k`-linear abelian category: every object is a finite
   biproduct of simple objects. The name says *finite* because that is what is meant; there is no
   separate artinian or Karoubian hypothesis, since finite decompositions give finite length and
@@ -505,30 +548,36 @@ isomorphism.
 
 ### Layer 8: the pointed categories `Vec^ω_G` and their pivotal structures
 
-- **`Vec^ω_G`.** For a group `G`, a field `k`, and a normalized 3-cocycle `ω ∈ Z³(G, kˣ)`, the
-  category of `G`-graded finite-dimensional `k`-vector spaces with associator on the simple objects
-  `δ_g` given by multiplication by `ω(g,h,k)`. It is a **pointed tensor category** — a **fusion**
-  category exactly when `G` is finite: simple objects `{δ_g}_{g∈G}`, `δ_g ⊗ δ_h = δ_{gh}`, unit `δ_e`,
-  and rigidity with `δ_gᘁ = δ_{g⁻¹}` (structure maps built from `ω`), so `δ_gᘁᘁ = δ_g`. ⚠ The
-  underlying objects must be **finitely supported** graded objects, not all of
+- **`Vec^ω_G`.** For a group `G`, a commutative ring `R`, and a normalized 3-cocycle
+  `ω ∈ Z³(G, Rˣ)`, the category of finitely supported `G`-graded `R`-modules whose components are
+  finitely generated projective, with associator on `δ_g ⊗ δ_h ⊗ δ_l` given by multiplication by
+  `ω(g,h,l)`. Here `δ_g` is `R` in degree `g`, `δ_g ⊗ δ_h = δ_{gh}`, the unit is `δ_e`, and it is
+  rigid with `δ_gᘁ = δ_{g⁻¹}` (structure maps built from `ω`), so `δ_gᘁᘁ = δ_g`. Projective
+  components are what make it rigid: they are exactly the dualizable modules. Each `δ_g` has
+  `End δ_g = R`, so the scalar-endomorphism results of Layers 2 and 3 apply. Over a field `k`
+  this is the **pointed tensor category** of finite-dimensional graded vector spaces, a **fusion**
+  category exactly when `G` is finite, with simple objects `{δ_g}_{g∈G}`. ⚠ The underlying
+  objects must be **finitely supported** graded objects, not all of
   `GradedObject G (FGModuleCat k)`: that type is the full function type `G → FGModuleCat k`, and for
   infinite `G` the convolution tensor product is a coproduct over a fibre equivalent to `G`, which
   `FGModuleCat` does not have. Pin the support condition in the definition. The pivotal
-  classification below then holds for any `G`; the fusion-level invariants (Frobenius–Perron and
-  global dimension) need `G` finite.
+  classification below then holds for any `G` and any commutative ring; the fusion-level
+  invariants (Frobenius–Perron and global dimension) need a field and `G` finite.
   - Build a **degree-3 cocycle** predicate `IsThreeCocycle ω` and the normalization
     conditions from the general `groupCohomology`/`inhomogeneousCochains` differential (Mathlib's
     bespoke API stops at degree 2); cohomologous cocycles give monoidally equivalent categories.
 - **Classification of pivotal structures on `Vec^ω_G`.** The double dual `(-)ᘁᘁ` is naturally
   isomorphic to the identity by a **canonical** scalar-valued iso determined by `ω`; a pivotal
   structure is that canonical one twisted by a **character**, so pivotal structures on `Vec^ω_G` form
-  a **torsor over `Hom(G, kˣ)`** (in particular a pivotal structure always exists). Identify the
+  a **torsor over `Hom(G, Rˣ)`** (in particular a pivotal structure always exists). The input is
+  that a natural endomorphism of the identity of finitely generated projective `R`-modules is
+  multiplication by an element of `R`, since `R` itself is one of them. Identify the
   **spherical** ones among them.
 - **Frobenius–Schur indicators.** Define the Ng–Schauenburg indicators `ν_n` from the pivotal
   structure, for `n` a **positive** natural (use `ℕ+`, or carry `0 < n`), and compute them on the
   `δ_g`. They are invariants of the pivotal structure; they do **not** determine it in general. For
   `G = ℤ`, `Hom(𝟙, δ_g^{⊗n}) = 0` for every nontrivial `δ_g` and every `n > 0`, so no collection of
-  indicators recovers a character `ℤ → kˣ`. State the hypotheses under which they are complete.
+  indicators recovers a character `ℤ → Rˣ`. State the hypotheses under which they are complete.
   ⚠ This roadmap owns only the categorical `ν_n`. The finite-group `ν₂` belongs to
   [`RepresentationTheory/CharacterTheory`](../RepresentationTheory/CharacterTheory/README.md), which
   already asks that its `FDRep` indicator agree with the categorical one; that agreement theorem is
@@ -700,7 +749,7 @@ the hypothesis is usually invisible, which is exactly why it must be named here.
 ## Worked examples (acceptance criteria)
 
 - **`FDRep G` is spherical** with `dim V = finrank k V` and `tr = ` ordinary trace (Layer 7).
-- **`Vec^ω_G` pivotal structures ↔ `Hom(G, kˣ)`**, a torsor; a pivotal structure always exists; the
+- **`Vec^ω_G` pivotal structures ↔ `Hom(G, Rˣ)`**, a torsor; a pivotal structure always exists; the
   spherical ones are identified (Layer 8).
 - **Frobenius–Schur indicators** of the `δ_g` in `Vec^ω_G`, and of the irreducibles in `FDRep G`,
   computed from the pivotal structure (Layers 7–8).
