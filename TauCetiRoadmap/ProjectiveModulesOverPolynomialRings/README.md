@@ -49,6 +49,12 @@ roadmap states neither and consumes both (Exact supplier contracts). Target 5.1 
 monic entry. The rigid-analytic Quillen–Suslin theorem over overconvergent power series rings
 (PadicDifferentialEquationsAndRigidCohomology §RD.3.27) is a different ring and stays there.
 
+**Left to RelativeFarguesFontaine.** Glueing pairs `(R → R′, f)` and the gluing of a finitely
+generated projective `R′`-module with a finitely generated projective `R_f`-module along an
+isomorphism over `R′_f` (RelativeFarguesFontaine §6.4 and §6.5), which contains the gluing over two
+comaximal localisations used in 4.4. This roadmap states no gluing theorem and consumes this one
+(Exact supplier contracts).
+
 **Left to AlgebraicKTheory.** The elementary subgroups `Eₙ(R)`, Bass's stable range
 `HasStableRangeLE R s` and the stability theorems (AlgebraicKTheory 1.1, 4.1, 4.2), K₀ and K₁ of
 rings (AlgebraicKTheory 0.3, 2.1), Milnor patching (AlgebraicKTheory Layer 6), and the stably free
@@ -69,9 +75,12 @@ rings `Module.End`; projective, free, stably free, finite and finitely presented
 elements; general and special linear groups; principal ideal domains, Dedekind domains and their
 localisations at nonzero primes, which are discrete valuation rings, Noetherian rings, local rings
 and fields; flat and faithfully flat modules, with the descent of finite generation and of flatness
-along a faithfully flat algebra; and freeness of finitely generated flat modules over a local ring
+along a faithfully flat algebra; freeness of finitely generated flat modules over a local ring
 (`Module.free_of_flat_of_isLocalRing`) and of finitely generated torsion-free modules over a
-principal ideal domain (`Module.free_of_finite_type_torsion_free'`).
+principal ideal domain (`Module.free_of_finite_type_torsion_free'`); the primes of a
+localisation, Gauss's lemma for primitive polynomials, and the fact that a ring whose prime ideals
+are principal is a principal ideal ring; and the transport of a finitely generated module to the
+universe of its ring (`Shrink`).
 
 **Out of scope.** Suslin's theorem that stably free modules of rank at least `dim A` over an affine
 algebra over an algebraically closed field are free (Suslin 1977, Theorem 1), which needs dimension
@@ -110,13 +119,17 @@ overconvergent rings of PadicDifferentialEquationsAndRigidCohomology; and algori
   `Polynomial.natDegree`, `Polynomial.coeff`, `Polynomial.C`, `Polynomial.X`, `Polynomial.eval`,
   `Polynomial.eval₂` (over a not necessarily commutative coefficient ring), `Polynomial.map`,
   `Polynomial.evalRingHom`, `Polynomial.mapRingHom` (`Algebra/Polynomial/`),
-  `Polynomial.algebra` (`RingTheory/PolynomialAlgebra`); `MvPolynomial`,
+  `Polynomial.algebra` (`RingTheory/PolynomialAlgebra`), `Polynomial.primPart`
+  (`RingTheory/Polynomial/Content`), `Polynomial.IsPrimitive.dvd_iff_fraction_map_dvd_fraction_map`
+  (Gauss's lemma; `RingTheory/Polynomial/GaussLemma`); `MvPolynomial`,
   `MvPolynomial.algebraMvPolynomial` (`Algebra/MvPolynomial/Eval`), `MvPolynomial.finSuccEquiv`
   (`Algebra/MvPolynomial/Equiv`).
 - Modules: `Module.Projective` (`Algebra/Module/Projective`), `Module.Free`, `Module.Finite`,
-  `Module.FinitePresentation` (`Algebra/Module/FinitePresentation`), `Module.IsStablyFree`
-  (`Algebra/Module/StablyFree/Basic`), `Module.IsUnimodular` (`LinearAlgebra/Unimodular`),
-  `TensorProduct` with its left module structure, `LinearEquiv`,
+  `Module.FinitePresentation` (`Algebra/Module/FinitePresentation`), `Module.IsStablyFree` and
+  `Module.IsStablyFree.of_shrink` (`Algebra/Module/StablyFree/Basic`), `Module.Finite.small` (a
+  finitely generated module is small in the universe of its ring; `RingTheory/Finiteness/Small`),
+  `Shrink.linearEquiv` (`Algebra/Module/Shrink`), `Module.IsUnimodular`
+  (`LinearAlgebra/Unimodular`), `TensorProduct` with its left module structure, `LinearEquiv`,
   `Module.finitePresentation_of_projective` (`Algebra/Module/FinitePresentation`),
   `Module.free_of_flat_of_isLocalRing` (`RingTheory/LocalRing/Module`) and
   `Module.free_of_finite_type_torsion_free'` (`LinearAlgebra/FreeModule/PID`).
@@ -125,8 +138,12 @@ overconvergent rings of PadicDifferentialEquationsAndRigidCohomology; and algori
   `Module.Finite.of_finite_tensorProduct_of_faithfullyFlat` (so does finite generation;
   `RingTheory/Finiteness/Descent`).
 - Rings: `Ideal.span`, `Ideal.IsMaximal`, `Submonoid`, `Localization`, `Localization.Away`,
-  `Localization.AtPrime`, `IsDomain`, `IsField`, `IsLocalRing`, `IsPrincipalIdealRing`,
-  `IsDedekindDomain`, `IsDiscreteValuationRing` (`RingTheory/DiscreteValuationRing/Basic`),
+  `Localization.AtPrime`, `IsLocalization.isDomain_localization` (`RingTheory/Localization/Defs`),
+  `IsLocalization.orderIsoOfPrime` (the primes of a localisation; `RingTheory/Localization/Ideal`),
+  `IsDomain`, `IsField`, `IsLocalRing`, `IsPrincipalIdealRing`, `IsPrincipalIdealRing.of_prime`
+  (a ring whose prime ideals are principal is a principal ideal ring;
+  `RingTheory/PrincipalIdealDomainOfPrime`), `IsDedekindDomain`, `IsDiscreteValuationRing`
+  (`RingTheory/DiscreteValuationRing/Basic`),
   `IsLocalization.AtPrime.isDiscreteValuationRing_of_dedekind_domain` (the localisation of a
   Dedekind domain at a nonzero prime is a discrete valuation ring; `RingTheory/DedekindDomain/Dvr`),
   `IsNoetherianRing`; `Module.End` (`Algebra/Module/LinearMap/End`) and
@@ -148,6 +165,17 @@ overconvergent rings of PadicDifferentialEquationsAndRigidCohomology; and algori
   an invertible matrix) exactly when every finitely generated stably free `R`-module in the
   universe of `R` is free. Used in 5.4.
 
+**From TauCetiRoadmap.RelativeFarguesFontaine.**
+
+- §6.4, `GlueingPair R′ f` for an `R`-algebra `R′` and `f ∈ R`, both rings in one universe: for
+  every `n`, `R ⧸ fⁿR → R′ ⧸ fⁿR′` is bijective, and `R → R′` is bijective on `f`-power torsion.
+- §6.5, `beauvilleLaszlo_effective`: for a glueing pair `(R → R′, f)`, a localisation `L` of `R′`
+  away from `f` that is an `R_f`-algebra, a finitely generated projective `R′`-module `M′`, a
+  finitely generated projective `R_f`-module `M₁` and an `L`-linear isomorphism
+  `α : L ⊗[R′] M′ ≅ L ⊗[R_f] M₁`, all in the universe of `R`, there are a finitely generated
+  projective `R`-module `M` in that universe and isomorphisms `R′ ⊗[R] M ≅ M′` and
+  `R_f ⊗[R] M ≅ M₁` compatible with `α`. Used in 4.4.
+
 ## How to read the build
 
 Layer 1 is Suslin's `r!` theorem on unimodular rows, independent of the rest. Layer 2 applies the
@@ -157,14 +185,15 @@ of polynomial modules, proves Quillen's dilation lemma on units of polynomial ri
 necessarily commutative algebra, and from it Quillen's patching theorem through the Quillen ideal.
 Layer 4 inverts the monic polynomials: Quillen's Lemma 2 and the faithful flatness of `A⟨X⟩` over
 `A`, then Horrocks' theorem over a local ring, the affine Horrocks theorem (local Horrocks at every
-maximal ideal plus Layer 3), Bass's theorem on isomorphism over `A⟨X⟩` and, from the last two,
-Horrocks' theorem in Quillen's form, with no projective line. Layer 5 assembles the Quillen–Suslin
-theorem: by induction on `n`, Lemma 2 makes `k⟨Xₙ⟩` a principal ideal domain, the induction
-hypothesis makes the base change of the module to `k⟨Xₙ⟩[X₁, …, Xₙ₋₁]`, a localisation of `A[Xₙ]`
-for `A = k[X₁, …, Xₙ₋₁]`, free, hence its base change to `A⟨Xₙ⟩`, and 4.5 descends freeness to
-`A[Xₙ]`; Dedekind domains add Layer 3; and PadicDifferentialEquationsAndRigidCohomology §RD.0.56 (b)
-turns freeness into completion of unimodular vectors. Target 5.1, on unimodular polynomial
-vectors, uses Layer 3.
+maximal ideal plus Layer 3), Bass's theorem on isomorphism over `A⟨X⟩` (with `Y = 1/X`, a gluing
+over `A[Y]` by RelativeFarguesFontaine §6.5, then the affine Horrocks theorem over `A[Y]`) and, from
+the last two, Horrocks' theorem in Quillen's form, with no projective line. Layer 5 assembles the
+Quillen–Suslin theorem: by induction on `n`, Lemma 2 makes `k⟨Xₙ⟩` a principal ideal domain, the
+induction hypothesis makes the base change of the module to `k⟨Xₙ⟩[X₁, …, Xₙ₋₁]`, a localisation
+of `A[Xₙ]` for `A = k[X₁, …, Xₙ₋₁]`, free, hence its base change to `A⟨Xₙ⟩`, and 4.5 descends
+freeness to `A[Xₙ]`; Dedekind domains add Layer 3; and
+PadicDifferentialEquationsAndRigidCohomology §RD.0.56 (b) turns freeness into completion of
+unimodular vectors. Target 5.1, on unimodular polynomial vectors, uses Layer 3.
 
 ## Layer 1: Suslin's `r!` theorem
 
@@ -206,15 +235,22 @@ Mathlib only.
 ### 2.1 Stable freeness over polynomial rings over a field
 
 Prove `isStablyFree_mvPolynomial`: over a field `k`, every finitely generated projective
-`k[X₁, …, Xₙ]`-module in the universe of `k` is stably free (Lombardi–Quitté, Section XVI.5,
-p. 919, for the attribution to Serre). Route: by induction on `n`, every finite
-`k[X₁, …, Xₙ]`-module has a finite free resolution: for `n = 0` it is a finite free `k`-module,
-and the step is PadicDifferentialEquationsAndRigidCohomology §RD.0.55 (d) over the Noetherian ring
-`k[X₁, …, Xₙ]`, transported along `MvPolynomial.finSuccEquiv`; then §RD.0.55 (b) concludes.
-Prove, as API, that a finite free resolution is carried along a ring isomorphism together with
-its module.
+`k[X₁, …, Xₙ]`-module (in any universe) is stably free (Lombardi–Quitté, Section XVI.5, p. 919,
+for the attribution to Serre). Route: by induction on `n`, every finite `k[X₁, …, Xₙ]`-module in
+the universe of `k` has a finite free resolution: for `n = 0` it is a finite free `k`-module, and
+the step is PadicDifferentialEquationsAndRigidCohomology §RD.0.55 (d) over the Noetherian ring
+`k[X₁, …, Xₙ]`, transported along `MvPolynomial.finSuccEquiv`. A finitely generated module `P` is
+small in the universe of `k` (`Module.Finite.small`); its `Shrink` is finitely generated projective
+through `Shrink.linearEquiv`, §RD.0.55 (b) makes it stably free, and
+`Module.IsStablyFree.of_shrink` returns to `P`.
+
+The API:
+
+- A finite free resolution is carried along a ring isomorphism together with its module.
+
 *Needs:* PadicDifferentialEquationsAndRigidCohomology §RD.0.55; Mathlib `MvPolynomial`,
-`MvPolynomial.finSuccEquiv`, `IsNoetherianRing`, `Module.IsStablyFree`.
+`MvPolynomial.finSuccEquiv`, `IsNoetherianRing`, `Module.IsStablyFree`, `Module.Finite.small`,
+`Shrink.linearEquiv`, `Module.IsStablyFree.of_shrink`.
 
 **Checks.**
 
@@ -246,15 +282,26 @@ map is extended from `B`; and `IsExtendedAfterMv A B n M`, the same over `A[X₁
 (Convention 3). Prove `isExtendedFrom_iff_evalZero`: `M` is extended from `A` if and only if
 `M ≅ A[X] ⊗[A] M(0)`, stated for an instance `Algebra A[X] A` whose `algebraMap` is
 `Polynomial.evalRingHom 0` (Quillen 1976, p. 168, where `N ≅ M/TM`; Lombardi–Quitté, Fact
-XVI.1.1, p. 899). Prove, as API, that `IsExtendedFrom` is invariant under `R`-linear
-isomorphism, that base change along `A → B` preserves extended modules, and that
-`IsExtendedAfter A A M` is `IsExtendedFrom A A[X] M` through `A[X] ⊗[A[X]] M ≅ M`. Prove, as API
-for `IsExtendedAfterMv`: invariance under `A[X₁, …, Xₙ]`-linear isomorphism of `M`; for `B = A`,
-`IsExtendedAfterMv A A n M` is `IsExtendedFrom A A[X₁, …, Xₙ] M` through
-`A[X₁, …, Xₙ] ⊗[A[X₁, …, Xₙ]] M ≅ M`; for a `B`-algebra `C`, `IsExtendedAfterMv A B n M` implies
-`IsExtendedAfterMv A C n M`, through the associativity of base change,
-`C[X₁, …, Xₙ] ⊗ (B[X₁, …, Xₙ] ⊗ M) ≅ C[X₁, …, Xₙ] ⊗ M`; for `n = 0` it always holds; and for
-`n = 1` it is `IsExtendedAfter`, through `A[X₁] ≅ A[X]` and `B[X₁] ≅ B[X]`.
+XVI.1.1, p. 899).
+
+The API:
+
+- `IsExtendedFrom A R M` and `IsExtendedAfter A B M` are invariant under linear isomorphism of `M`
+  (over `R`, resp. `A[X]`).
+- Base change along `A → B` preserves extended modules:
+  `B[X] ⊗[A[X]] (A[X] ⊗[A] N) ≅ B[X] ⊗[B] (B ⊗[A] N)`, so `IsExtendedFrom A A[X] M` implies
+  `IsExtendedAfter A B M`.
+- For `B = A`, `IsExtendedAfter A A M` is `IsExtendedFrom A A[X] M`, through
+  `A[X] ⊗[A[X]] M ≅ M`.
+- `IsExtendedAfterMv A B n M` is invariant under `A[X₁, …, Xₙ]`-linear isomorphism of `M`.
+- For `B = A`, `IsExtendedAfterMv A A n M` is `IsExtendedFrom A A[X₁, …, Xₙ] M`, through
+  `A[X₁, …, Xₙ] ⊗[A[X₁, …, Xₙ]] M ≅ M`.
+- For a `B`-algebra `C`, `IsExtendedAfterMv A B n M` implies `IsExtendedAfterMv A C n M`, through
+  the associativity of base change, `C[X₁, …, Xₙ] ⊗ (B[X₁, …, Xₙ] ⊗ M) ≅ C[X₁, …, Xₙ] ⊗ M`.
+- For `n = 0`, `IsExtendedAfterMv A B 0 M` always holds.
+- For `n = 1`, `IsExtendedAfterMv A B 1 M` is `IsExtendedAfter A B M`, through `A[X₁] ≅ A[X]` and
+  `B[X₁] ≅ B[X]`.
+
 *Needs:* Mathlib `TensorProduct`, `LinearEquiv`, `Polynomial.algebra`,
 `MvPolynomial.algebraMvPolynomial`, `Polynomial.evalRingHom`.
 
@@ -391,15 +438,29 @@ Define `monicSubmonoid A`, the submonoid of `A[X]` of monic polynomials (closed 
 `Localization (monicSubmonoid A)` (Quillen 1976, p. 169; Lombardi–Quitté, Notation XVI.4.2,
 p. 912). Prove `isPrincipalIdealRing_monicLocalization`: if `k` is a principal ideal domain, so
 is `k⟨X⟩`; and `isField_monicLocalization`: if `k` is a field, `k⟨X⟩` is a field (Quillen 1976,
-Lemma 2, p. 169). Route: `k⟨X⟩` is a localisation of the factorial ring `k[X]`, so factorial,
-and of dimension at most one because an ideal of `k[X]` of height greater than `dim k` contains a
-monic polynomial; for a field, every nonzero polynomial is a unit times a monic one. Prove, as
-API, that `A⟨X⟩` is a faithfully flat `A`-algebra (`Module.FaithfullyFlat`): `A[X]` is free over
-`A` and `A⟨X⟩` is a localisation of it, so `A⟨X⟩` is flat; and for a maximal ideal `m` of `A`
-the ideal `m[X]` contains no monic polynomial, its leading coefficient `1` not lying in `m`, so
-`m · A⟨X⟩ ≠ A⟨X⟩` (Lombardi–Quitté, Theorem VIII.6.1, items 1 and 3a, pp. 468–469).
+Lemma 2, p. 169). Route: `k⟨X⟩` is a domain, the monic polynomials being nonzero
+(`IsLocalization.isDomain_localization`). Its primes are the extensions of the primes of `k[X]`
+containing no monic polynomial (`IsLocalization.orderIsoOfPrime`), so by
+`IsPrincipalIdealRing.of_prime` it suffices that every such prime `Q` of `k[X]` is principal. If
+`Q ∩ k = (p) ≠ 0`, then `Q = p k[X]`: otherwise `Q ⧸ p k[X]` is a nonzero prime of `(k ⧸ p)[X]`
+over the field `k ⧸ p` and contains the image of a monic polynomial, whose monic lift lies in `Q`.
+If `Q ≠ 0` and `Q ∩ k = 0`, then `Q · Frac(k)[X]` is generated by a primitive `f ∈ k[X]`
+(`Polynomial.primPart`), and `Q = f k[X]` by Gauss's lemma
+(`Polynomial.IsPrimitive.dvd_iff_fraction_map_dvd_fraction_map`). For a field, every nonzero
+polynomial is a unit times a monic one.
+
+The API:
+
+- `A⟨X⟩` is a faithfully flat `A`-algebra (`Module.FaithfullyFlat`): `A[X]` is free over `A` and
+  `A⟨X⟩` is a localisation of it, so `A⟨X⟩` is flat; and for a maximal ideal `m` of `A` the
+  ideal `m[X]` contains no monic polynomial, its leading coefficient `1` not lying in `m`, so
+  `m · A⟨X⟩ ≠ A⟨X⟩` (Lombardi–Quitté, Theorem VIII.6.1, items 1 and 3a, pp. 468–469).
+
 *Needs:* Mathlib `Polynomial.Monic`, `Submonoid`, `Localization`, `IsPrincipalIdealRing`,
-`IsField`, `Module.Flat`, `Module.FaithfullyFlat`.
+`IsPrincipalIdealRing.of_prime`, `IsLocalization.isDomain_localization`,
+`IsLocalization.orderIsoOfPrime`, `Polynomial.primPart`,
+`Polynomial.IsPrimitive.dvd_iff_fraction_map_dvd_fraction_map`, `IsField`, `Module.Flat`,
+`Module.FaithfullyFlat`.
 
 **Checks.**
 
@@ -470,8 +531,24 @@ presented (`Module.finitePresentation_of_projective`), and 3.4 concludes.
 
 Prove `nonempty_linearEquiv_of_monicLocalization`: finitely generated projective `A`-modules `P`
 and `Q` with `A⟨X⟩ ⊗[A] P ≅ A⟨X⟩ ⊗[A] Q` over `A⟨X⟩` are isomorphic (Lombardi–Quitté, Theorem
-XVI.4.8, p. 915).
-*Needs:* 4.1, 4.3; Mathlib `Module.Projective`, `TensorProduct`.
+XVI.4.8, p. 915). Route (Lombardi–Quitté, proof of Theorem XVI.4.8, p. 915): write `P ≅ Im F` and
+`Q ≅ Im G` for idempotent matrices `F, G ∈ Mₙ(A)`, enlarged by zero blocks so that the
+isomorphism over `A⟨X⟩` is a conjugation by an elementary matrix (Lombardi–Quitté, enlargement
+lemma V.2.10, p. 253); clearing a monic common denominator `s` gives `H ∈ Mₙ(A[X])` with
+`HF = GH` and monic determinant `sⁿ`. With `Y = 1/X` and `d` the largest degree of an entry of
+`H`, `H′ = Yᵈ H(1/Y)` lies in `Mₙ(A[Y])`, satisfies `H′F = GH′` and has determinant `Yʳ h` with
+`h(0) = 1`; so `H′` is invertible over `A[Y]_(Yh)` and identifies `A[Y]_(Yh) ⊗[A] P` with
+`A[Y]_(Yh) ⊗[A] Q`. Since `h` is a unit modulo every `Yᵐ` and `Y` is a nonzerodivisor of `A[Y]`
+and of `A[Y]_h`, `(A[Y] → A[Y]_h, Y)` is a glueing pair (RelativeFarguesFontaine §6.4), and
+RelativeFarguesFontaine §6.5 glues `A[Y]_Y ⊗[A] P` and `A[Y]_h ⊗[A] Q` along this identification
+to a finitely generated projective `A[Y]`-module `M`; both pieces are finitely generated, hence
+small in the universe of `A` (`Module.Finite.small`), and §6.5 is applied to their `Shrink`
+copies. The monic `Y` is a unit of `A[Y]_Y`, so `A⟨Y⟩` is a localisation of `A[Y]_Y` and
+`A⟨Y⟩ ⊗[A[Y]] M ≅ A⟨Y⟩ ⊗[A] P` is extended from `A`; by 4.3 over `A[Y]`, `M ≅ A[Y] ⊗[A] N` for
+an `A`-module `N`, so `M(1) ≅ N ≅ M(0)`. Evaluation at `Y = 1` factors through `A[Y]_Y`, and
+evaluation at `Y = 0` through `A[Y]_h` since `h(0) = 1`; hence `P ≅ M(1) ≅ M(0) ≅ Q`.
+*Needs:* 4.1, 4.3; RelativeFarguesFontaine §6.4, §6.5; Mathlib `Module.Projective`,
+`TensorProduct`, `Localization.Away`, `Module.Finite.small`, `Shrink.linearEquiv`.
 
 **Checks.**
 
@@ -482,6 +559,12 @@ XVI.4.8, p. 915).
   `A⟨X⟩` has no ring map back to `A` over `A` when `A ≠ 0` (it would send the unit `X` to a unit
   `c` and the unit `X − c` to `0`), and 4.4 is the statement that the base change still reflects
   isomorphism.
+- The route needs a monic determinant. For `A = ℤ`, `P = Q = ℤ`, `F = G = (1)` and `H = (X + 2)`,
+  `H′ = 1 + 2Y = h` is comaximal with `Y` (`h − 2Y = 1`), and the glued module is
+  `{(a, h a) : a ∈ ℤ[Y]_Y ∩ ℤ[Y]_h = ℤ[Y]}`, free of rank one with `M(1) = M(0) = ℤ`. For
+  `H = (2X + 1)`, which is not a unit of `ℤ⟨X⟩` (Convention 4), `Y H(1/Y) = 2 + Y` and
+  `(Y, 2 + Y) = (Y, 2)` is not the unit ideal, so the two localisations do not cover
+  `Spec ℤ[Y]` and no gluing is available.
 
 ### 4.5 Horrocks' theorem in Quillen's form
 
@@ -510,8 +593,8 @@ route here needs no projective line.
 
 ### Dependencies
 
-Layer 3; Mathlib. Within the layer, 4.2 uses 4.1; 4.3 uses 4.1, 4.2 and 3.4; 4.4 uses 4.1 and 4.3;
-and 4.5 uses 4.3 and 4.4.
+Layer 3; RelativeFarguesFontaine §6.4 and §6.5 (in 4.4); Mathlib. Within the layer, 4.2 uses
+4.1; 4.3 uses 4.1, 4.2 and 3.4; 4.4 uses 4.1 and 4.3; and 4.5 uses 4.3 and 4.4.
 
 ## Layer 5: unimodular polynomial vectors and the Quillen–Suslin theorem
 

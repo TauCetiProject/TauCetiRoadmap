@@ -26,8 +26,9 @@ Headlines stated, with their README targets:
 Every headline of the README is stated. Finite free resolutions and the unimodular extension
 property are PadicDifferentialEquationsAndRigidCohomology's (§RD.0.55, §RD.0.56) and enter only
 the routes of 2.1 and 5.4, whose statements use Mathlib's `Module.IsStablyFree` and
-`Module.IsUnimodular` alone. The base changes along `A[X] → B[X]` and
-`A[X₁, …, Xₙ] → B[X₁, …, Xₙ]` use Mathlib's `Polynomial.algebra` and
+`Module.IsUnimodular` alone; the gluing of finitely generated projective modules over a glueing
+pair is RelativeFarguesFontaine's (§6.4, §6.5) and enters only the route of 4.4. The base changes
+along `A[X] → B[X]` and `A[X₁, …, Xₙ] → B[X₁, …, Xₙ]` use Mathlib's `Polynomial.algebra` and
 `MvPolynomial.algebraMvPolynomial`, which are not global instances; they are installed locally
 inside the two predicates that need them. In 3.2 the localisation of a not necessarily
 commutative `A`-algebra `R` at `f ∈ A` is `Localization.Away f ⊗[A] R`, and the substitution
@@ -57,8 +58,8 @@ theorem exists_specialLinearGroup_row_pow {A : Type u} [CommRing A] {r : ℕ} (h
 /-! ## Layer 2: Serre's stable freeness -/
 
 /-- **2.1.** Serre: a finitely generated projective module over a polynomial ring in finitely
-many variables over a field is stably free. -/
-theorem isStablyFree_mvPolynomial (k : Type u) [Field k] (n : ℕ) (P : Type u) [AddCommGroup P]
+many variables over a field, in any universe, is stably free. -/
+theorem isStablyFree_mvPolynomial (k : Type u) [Field k] (n : ℕ) (P : Type v) [AddCommGroup P]
     [Module (MvPolynomial (Fin n) k) P] [Module.Finite (MvPolynomial (Fin n) k) P]
     [Module.Projective (MvPolynomial (Fin n) k) P] :
     Module.IsStablyFree (MvPolynomial (Fin n) k) P := by
