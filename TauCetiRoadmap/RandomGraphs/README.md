@@ -710,11 +710,10 @@ The two endpoints are computability theorems on codes of formulas.
 `Computable₂` map taking `m` and a code such that, for every formula over `Fin m`, the output is
 the code of a quantifier-free formula over the same context with the same realizations in every
 model of `T_R`. **Decidability** (`exists_computable_decide_rado`): there is a `Computable` map on
-codes of sentences answering truth in the Rado graph. Prove that these computable maps exist on
-the effective coding, with the stated semantic correctness. That each formula has some
-quantifier-free equivalent modulo `T_R` proves neither theorem, since it gives no computable map
-on codes. Finite equality-and-adjacency patterns provide a proof route, through these supporting
-results:
+codes of sentences answering truth in the Rado graph. A computability proof needs an explicit
+witness: define both maps in Lean and prove these theorems for them. That each formula has some
+quantifier-free equivalent modulo `T_R` discharges neither theorem, since it gives no computable
+map on codes. The proof goes through finite equality-and-adjacency patterns; build:
 
 - the **effective coding of first-order formulas**, the input and output format of the two
   maps, owned by this roadmap for a general language `L` (`FormulaAlphabet`, `boundedCode`,
@@ -731,7 +730,10 @@ results:
   codes (`computable_termCode`), and likewise the formula constructors (`⊥`, equality, relation
   application, implication, universal quantification) and case analysis on the outermost
   constructor, returning the codes of the immediate subformulas, of the relation symbol and of
-  the terms of an atom (`computable_boundedCode`). The graph language is effectively presented,
+  the terms of an atom (`computable_boundedCode`). Decoding is computable too: the validity test
+  (whether a number is the code of a formula over `Fin m` with `n` bound positions) and the exact
+  decoding map are computable on codes, so the maps of the two endpoints can read their input;
+  the round-trip laws alone do not give this. The graph language is effectively presented,
   with no function symbols and one relation symbol of arity `2`; this is the case the two maps
   use, in which terms are variables and an atom is coded by the codes of two variables. A
   language with a unary function symbol is an instance too, with terms that are not variables;
@@ -742,10 +744,9 @@ results:
   conversion between free-variable and bound-variable presentations made explicit;
 - pattern elimination: every formula is equivalent modulo `T_R` to a finite Boolean
   combination of pattern formulas, computably from its code, with semantic correctness. A
-  quantifier over such a combination reduces to the one-point extensions of each pattern that are
-  consistent. The resulting map on codes is computable, its outputs are quantifier-free in the
-  sense of the native `IsQF`, and on sentences it decides truth in the Rado graph, which proves
-  both theorems.
+  quantifier over such a combination is eliminated by testing which one-point extensions of each
+  pattern are consistent. This gives the QE map, with the native `IsQF` proofs of its outputs,
+  and on sentences the decision map.
 
 Export also the theory-level property in the vocabulary of the quantifier-elimination proposal,
 `Language.Theory.HasQuantifierElimination radoAxioms` (`radoAxioms_hasQuantifierElimination`):
