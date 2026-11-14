@@ -260,7 +260,9 @@ theorem IsCofinallyApproximated.decide {σ : L'.Sentenceω}
       IsCofinallyApproximated.{w} σ pos (insert ψ neg) := by
   sorry
 
-/-- **Layer 3 milestone, disjunction witnesses.** -/
+/-- **Layer 3 milestone, disjunction witnesses.** If a cofinally approximated condition declares a
+countable disjunction `iSup ψs` true, then for a single index `i`, adding the disjunct `ψs i` as
+true keeps the condition cofinally approximated. -/
 theorem IsCofinallyApproximated.exists_iSup_witness {σ : L'.Sentenceω}
     {pos neg : Set (Σ n, L'.BoundedFormulaω Empty n)}
     (h : IsCofinallyApproximated.{w} σ pos neg) {n : ℕ}
@@ -268,7 +270,9 @@ theorem IsCofinallyApproximated.exists_iSup_witness {σ : L'.Sentenceω}
     ∃ i, IsCofinallyApproximated.{w} σ (insert ⟨n, ψs i⟩ pos) neg := by
   sorry
 
-/-- **Layer 3 milestone, conjunction witnesses.** -/
+/-- **Layer 3 milestone, conjunction witnesses.** If a cofinally approximated condition declares a
+countable conjunction `iInf ψs` false, then for a single index `i`, adding the conjunct `ψs i` as
+false keeps the condition cofinally approximated. -/
 theorem IsCofinallyApproximated.exists_iInf_witness {σ : L'.Sentenceω}
     {pos neg : Set (Σ n, L'.BoundedFormulaω Empty n)}
     (h : IsCofinallyApproximated.{w} σ pos neg) {n : ℕ}
