@@ -15,6 +15,7 @@ Headlines stated, with their README targets:
 
 * 1.2 `GeometricFormula.realize_hom` and `GeometricFormula.realize_toInf`;
   1.3 `CatStructure.isModel_ofStructure_iff`; 1.4 `CatStructure.IsModel.map`;
+  1.5 `exists_morleyization`;
 * 2.2 (b) `GeometricFormula.exists_interp_eq_iSup_exs`; 2.3 `exists_isClassifyingSite`;
   2.4 `IsClassifyingSite.exists_equivalence` and `IsClassifyingSite.exists_interp_eq_of_subobject`;
   2.5 `IsClassifyingSite.exists_quotient_topology` and
@@ -234,6 +235,19 @@ theorem CatStructure.IsModel.map {C D : Type u} [SmallCategory C] [SmallCategory
     {M : CatStructure L (Sheaf J (Type u))} (hM : M.IsModel T)
     (F : Sheaf J (Type u) ⥤ Sheaf K (Type u)) [PreservesFiniteLimits F] [F.IsLeftAdjoint] :
     (M.map F).IsModel T :=
+  sorry
+
+/-- **1.5.** Morleyization: every first-order theory `T` has a coherent geometric theory `T'` over
+an expansion `L'` of `L` whose set-models satisfy `T`, every model of `T` in sets having exactly one
+expansion to a set-model of `T'`. -/
+theorem exists_morleyization (T : L.Theory) :
+    ∃ (L' : FirstOrder.Language.{u₁, max u₁ u₂}) (ϕ : L →ᴸ L') (T' : GeometricTheory.{0} L'),
+      (∀ (M : Type v) [L.Structure M] [L'.Structure M] [ϕ.IsExpansionOn M],
+        T'.IsSetModel M → T.Model M) ∧
+      ∀ (M : Type v) [L.Structure M], T.Model M →
+        ∃! S : L'.Structure M,
+          @FirstOrder.Language.LHom.IsExpansionOn L L' ϕ M _ S ∧
+            @GeometricTheory.IsSetModel L' T' M S :=
   sorry
 
 /-! ## Layer 2: classifying topoi -/

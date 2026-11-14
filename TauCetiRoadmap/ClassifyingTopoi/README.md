@@ -463,6 +463,37 @@ induction on `φ`; the order of subobjects is preserved because `F` preserves mo
   `Pi.lift fun i => Pi.π _ (Fin.castAdd 1 i)`: it contains `(0, 5)` and not `(5, 0)`. The pullback
   along the second projection would be `{(x₀, x₁) | x₁ = 0}`.
 
+### 1.5 Morleyization
+
+Prove `exists_morleyization`: for every first-order theory `T : L.Theory` there are a language
+`L'`, an expansion `ϕ : L →ᴸ L'` and a geometric theory `T'` over `L'` with only finite
+disjunctions such that every set-model of `T'`, as an `L'`-structure expanding an `L`-structure,
+satisfies `T`, and every model of `T` in sets has exactly one `L'`-structure expanding it that is a
+set-model of `T'`. Here `L'` adds to `L` an `n`-ary relation symbol `R_φ` for every
+`φ : L.Formula (Fin n)`, and `T'` says, by geometric sequents, that `R_φ` is interpreted by `φ`:
+`R_φ ⊣⊢ φ` for atomic `φ`, `R_(φ ⊓ ψ) ⊣⊢ R_φ ∧ R_ψ`, `R_(φ ⊔ ψ) ⊣⊢ R_φ ∨ R_ψ`,
+`R_(∃ φ) ⊣⊢ ∃ x R_φ`, `R_φ ∧ R_(∼φ) ⊢ ⊥` and `⊤ ⊢ R_φ ∨ R_(∼φ)`, `R_(∀ φ) ⊢ R_φ` (in the
+extended context) and `⊤ ⊢ R_(∀ φ) ∨ ∃ x R_(∼φ)`, with `⊤ ⊢ R_ψ` for each axiom `ψ` of `T`
+(Elephant, D1.5, the Morleyization of a first-order theory). Route: on a set-model of `T'`,
+induction on `φ` shows that `R_φ` is interpreted by `φ`, so the reduct satisfies `T`; conversely
+the canonical expansion, `R_φ` interpreted by `φ`, satisfies each sequent, and it is the only
+one, since the same induction determines every `R_φ`.
+*Needs:* 1.1, 1.2; Mathlib `FirstOrder.Language.LHom`, `LHom.IsExpansionOn`, `Theory.Model`,
+`Formula`, `BoundedFormula`.
+
+**Checks.**
+
+- Negation needs both sequents. Over the language of one unary relation `P`, the theory
+  `{∀ x, ∼P x}` has as models the sets with `P` empty; without `⊤ ⊢ R_φ ∨ R_(∼φ)`, interpreting
+  `R_(∼P x)` by `∅` on a two-element set with `P = ∅` would give a set-model of `T'` whose reduct
+  satisfies `T` but whose `R_(∼P x)` is not `∼P x`, and uniqueness would fail.
+- The universal quantifier needs the second sequent. With `R_(∀ φ) ⊢ R_φ` alone, interpreting
+  `R_(∀ x, P x)` by `False` is allowed on any structure, so the model `PUnit` with `P` true of its
+  point would have two expansions.
+- `T'` is coherent: its disjunctions are `⊥` and binary, so the statement holds with
+  `GeometricTheory.{0}`; an encoding of `∀` by the disjunction over all elements of a model would
+  need disjunctions indexed by the model and could not be fixed independently of it.
+
 ### Examples
 
 - For the trivial topology on `Discrete PUnit`, `Sheaf ⊥ (Type u) ≌ Type u`
