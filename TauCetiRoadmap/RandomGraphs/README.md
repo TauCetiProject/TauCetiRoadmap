@@ -396,6 +396,12 @@ theorem exists_isFraisseLimit_of_isFraisse
       IsFraisseLimit K M
 ```
 
+Hodges (*Model Theory*, §7.1) proves Fraïssé's theorem (Theorem 7.1.2, p. 326) for a countable
+signature and a nonempty, at most countable set of finitely generated structures with HP, JEP and
+AP, building the limit as the union of a chain (Lemma 7.1.6 with condition (1.8), pp. 328–329);
+Theorem 7.1.7 (p. 329) is the converse. The theorem here assumes only countably many function
+symbols, proceeds through representative families, and keeps the original carrier universe.
+
 Combine this with existing necessity and uniqueness. Supply infinitude when the class
 contains arbitrarily large finite subsets of its members, and the resulting transport
 of an infinite countable limit to `ℕ`. The existence theorem itself adds neither
@@ -433,6 +439,11 @@ Mathlib's countably-generated back-and-forth construction.
 The supplied root is the initial partial isomorphism. Keep it in the conclusion; do not
 replace it by the unrooted assertion that some isomorphism exists. Do not assume an empty
 partial isomorphism exists in languages with incompatible constants or nullary facts.
+
+Hodges's Lemmas 7.1.3–7.1.4 (pp. 326–327) extend a prescribed embedding of a finitely generated
+substructure to an embedding, or to an isomorphism, for structures that are at most countable and
+weakly homogeneous. The hypothesis here is Mathlib's `IsExtensionPair`, and the rooted embedding
+allows a target of any cardinality.
 
 Derive extension-pair criteria from age inclusion and extension of representative
 embeddings. Export rooted universality for every countably generated source whose age
@@ -647,6 +658,13 @@ root tuple has length `m` and there are `q ≥ 1` additional rounds, the suffici
 is `d = m + q - 1`. When a played vertex repeats an earlier coordinate, reuse its mate; otherwise
 serve the corresponding extension request. This is a tuple-budget bound, not a
 bound ignoring the named root.
+
+Spencer (*The Strange Logic of Random Graphs*) calls `EP_{≤k}` the `k`-Alice's Restaurant
+property (Definition 2.3, p. 31, which also asks for more than `k` vertices; that follows from
+`EP_{≤k}` here) and proves that the graphs with it form one `(k + 1)`-round Ehrenfeucht class
+(Theorem 2.2.3, p. 31). His Theorems 2.3.1–2.3.2 (p. 32) identify `k`-round Ehrenfeucht
+equivalence with agreement on sentences of quantifier depth `k`, and with designated vertices on
+formulas of the remaining depth. These give the `EP_{≤d}`/rank-`(d + 1)` indexing used here.
 
 In particular (`satisfies_iff_of_extension`), if `G, H` satisfy `EP_{≤d}` and
 `qr(φ) ≤ d + 1`, then
@@ -928,6 +946,15 @@ in `R` has finite models of every sufficiently large cardinality. These are
 consequences of the positive finite-law probabilities, not inputs to the construction
 of `R` or to completeness.
 
+Spencer's Theorem 0.1.2 (p. 4) is the zero–one law for `G(n, 1/2)`. Cameron's Theorem 6 (p. 10)
+states, for uniform finite graphs, the equivalence of almost-sure truth, truth in `R` and
+consequence of the extension axioms, and its proof uses the ordered-tuple bound of Layer 6 at
+`p = 1/2`, with `n^(r+s)` in place of `(n)_{r+s}`. Fagin proves the limit law (Theorem 2 and Corollary 3, p. 52) and the finite models of
+every sufficiently large cardinality (Corollary 5, p. 53) for all structures over a finite
+relational vocabulary under the uniform measure. The fixed interior `p`, the restriction to
+loopless undirected graphs and the explicit rank-uniform bound are this roadmap's statements,
+proved by the same route.
+
 Export a transfer theorem for any concrete graph property implied by a fixed extension
 budget, with the corresponding failure bound. Layer 8 supplies actual graph
 properties and proves these deterministic implications.
@@ -957,6 +984,11 @@ valid `unitInterval` value assigned at the finitely many remaining indices.
 The weaker fixed-`d` divergence condition by itself gives convergence of probabilities.
 Do not infer summability or joint almost-sure stabilization from it without an
 additional summability estimate.
+
+Spencer's Theorems 9.1.3–9.1.4 (p. 122) are the dense varying-parameter laws. Theorem 9.1.3 assumes
+`p_n ≫ n^(-1/d) (ln n)^(1/d)` and `1 - p_n ≫ n^(-1/d) (ln n)^(1/d)` for sentences of quantifier
+depth `d + 1`; the fixed-rank condition here is weaker. The all-rank condition here is equivalent
+to the hypothesis of Theorem 9.1.4, that `p_n ≥ n^(-ε)` and `1 - p_n ≥ n^(-ε)` for every `ε > 0`.
 
 ### 7.3 Joint almost-sure statements
 
@@ -1119,6 +1151,10 @@ event of having no witness has probability `0`. Take the countable intersection 
 requests and derive (`ae_isomorphic_rado`)
 
     Pr(G(ℕ, p) ≅ R) = 1,  0 < p < 1.
+
+Cameron's Fact 1 (p. 1), with its proof and the remark following it (p. 2), is this statement at
+`p = 1/2` and its extension to every fixed `0 < p < 1`. His property (∗) leaves implicit that the
+witness differs from the negative vertices; the requests here make it explicit.
 
 Prove measurability of this particular isomorphism class by its extension-axiom
 description. Export avoidance of every finite set and infinitely many witnesses,
@@ -1326,6 +1362,11 @@ For total variation use the countable discrete formula
 `½ Σ_j |ν_n{j} - Poisson(λ){j}|`.
 Handle `λ = 0`.
 
+Bollobás (*Random Graphs*, Theorems 1.21–1.22, pp. 25–26) proves the criterion: convergence of
+every factorial moment to that of a limit whose factorial moments satisfy a growth condition gives
+convergence in distribution, and for Poisson laws of bounded mean the total-variation distance tends
+to zero.
+
 This convergence criterion is a target here. Defining the Poisson law in
 StandardDistributions does not discharge it. Use native `Nat.descFactorial`,
 `ProbabilityTheory.poissonMeasure`, integration and convergence notions.
@@ -1359,7 +1400,12 @@ distinct triangles has strictly more. Thus any overlapping list has total `e - v
 and the overlap contribution tends to zero. Make this finite classification/counting bound an
 explicit lemma, not a probabilistic independence assumption for overlapping copies. This
 calculation is a derivation from the clique count and the edge/vertex bound above, not a cited
-theorem.
+theorem. Bollobás's Theorem 4.1 (p. 79) is the Poisson limit for copies of a fixed strictly
+balanced graph at its threshold, and his Corollary 4.9 (p. 83) the cycle case at `p ~ c/n`. Erdős
+and Rényi (*On the evolution of random graphs*, §3, Theorem 3a, p. 34) prove the cycle case in the
+model with a fixed number `N(n) ~ cn` of edges: the number of cycles of order `k` has the Poisson
+limit of mean `(2c)^k/(2k)`. With `n p_n → c` the expected number of edges is about `c n/2`, so
+for triangles this mean is `c³/6`, as here.
 
 Construct the actual rank-`3` triangle sentence (`triangleSentence`) and identify its
 satisfaction with `T_n > 0` (`satisfies_triangleSentence`). Derive
@@ -1555,21 +1601,21 @@ Tau Ceti's InfinitaryLogic declarations.
   corresponding statements for undirected loopless graphs, proved by the same route, and cover
   every fixed interior binomial parameter.
 - J. Spencer, *The Strange Logic of Random Graphs*, Algorithms and Combinatorics 22,
-  Springer, 2001. Theorem 0.1.2 is the Fagin–GKLT law at `p = 1/2` and Theorem 0.1.5 the
-  uniqueness of the countable graph with the extension ("Alice's Restaurant") property;
-  §1.3 introduces extension statements over rooted graphs. Definition 2.3 and
-  Theorem 2.2.3 show that graphs with the `k`-extension property form one `(k + 1)`-round
+  Springer, 2001. Theorem 0.1.2 (p. 4) is the Fagin–GKLT law at `p = 1/2` and Theorem 0.1.5
+  (p. 6) the uniqueness of the countable graph with the extension ("Alice's Restaurant")
+  property; §1.3 (p. 17) introduces extension statements over rooted graphs. Definition 2.3 and
+  Theorem 2.2.3 (p. 31) show that graphs with the `k`-extension property form one `(k + 1)`-round
   Ehrenfeucht class, the source of the `EP_{≤d}`/rank-`(d + 1)` indexing of
-  Layer 5; Theorems 2.3.1–2.3.2 relate Ehrenfeucht values to quantifier depth, with
-  designated vertices for the rooted form. Theorems 9.1.3–9.1.4 are the dense
-  varying-parameter laws: the fixed-rank condition of 7.2 sharpens the hypothesis of
-  Theorem 9.1.3, and the all-rank condition is that of Theorem 9.1.4.
+  Layer 5; Theorems 2.3.1–2.3.2 (p. 32) relate Ehrenfeucht values to quantifier depth, with
+  designated vertices for the rooted form. Theorems 9.1.3–9.1.4 (p. 122) are the dense
+  varying-parameter laws: the fixed-rank condition of 7.2 is weaker than the hypothesis of
+  Theorem 9.1.3, and the all-rank condition is equivalent to that of Theorem 9.1.4.
 - B. Bollobás, *Random Graphs*, 2nd ed., Cambridge Studies in Advanced Mathematics 73,
   Cambridge University Press, 2001.
-  Theorems 1.21–1.22 give Poisson convergence from convergence of factorial moments, the
-  criterion of 11.1. Theorem 4.1 gives the Poisson limit for copies of a fixed strictly
-  balanced graph at its threshold, and Corollary 4.9 the cycle case at `p ~ c/n`; for
-  triangles this is the `Poisson(c³/6)` limit of 11.2.
+  Theorems 1.21–1.22 (pp. 25–26) give Poisson convergence from convergence of factorial moments,
+  the criterion of 11.1. Theorem 4.1 (p. 79) gives the Poisson limit for copies of a fixed
+  strictly balanced graph at its threshold, and Corollary 4.9 (p. 83) the cycle case at
+  `p ~ c/n`; for triangles this is the `Poisson(c³/6)` limit of 11.2.
 - W. Hodges, *Model Theory*, Encyclopedia of Mathematics and its Applications 42, Cambridge
   University Press, 1993, §7.1. Theorem 7.1.2 (p. 326) is Fraïssé's theorem: for a countable
   signature, a nonempty finite or countable set of finitely generated structures with HP, JEP
@@ -1589,9 +1635,12 @@ Tau Ceti's InfinitaryLogic declarations.
   categoricity, Proposition 11 (p. 9); truth in `R`, consequence of the extension axioms and
   the uniform finite limit law, Theorem 6 (p. 10).
 - P. Erdős and A. Rényi,
-  [On the evolution of random graphs](https://www.renyi.hu/~p_erdos/1960-10.pdf):
-  classical sparse small-subgraph asymptotics. The native model and normalization in
-  this roadmap are specified in 11.2.
+  [On the evolution of random graphs](https://www.renyi.hu/~p_erdos/1960-10.pdf),
+  *Publ. Math. Inst. Hung. Acad. Sci.* 5 (1960), 17–61: classical sparse small-subgraph
+  asymptotics. §3, Theorem 3a (p. 34) is the Poisson limit, of mean `(2c)^k/(2k)`, for the number
+  of cycles of order `k` in the model with `N(n) ~ cn` edges chosen uniformly. The native model
+  and normalization in this roadmap are specified in 11.2, which derives the binomial case
+  independently.
 - The linked Mathlib Fraïssé, order, semantics and probability files fix the formal
   conventions. The displayed estimates and factorial-moment calculations give the
   precise proof obligations for the quantitative and graphon comparison targets.
