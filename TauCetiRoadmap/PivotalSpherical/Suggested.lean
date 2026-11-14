@@ -223,11 +223,12 @@ theorem leftTrace_eq_rightTrace_mate {C : Type u} [Category.{v} C] [MonoidalCate
     [RigidCategory C] [PivotalCategory C] {X : C} (f : X ⟶ X) :
     leftTrace f = rightTrace (rightAdjointMate f) := sorry
 
-/-- **The left trace is monoidal**: `leftTrace (f ⊗ₘ g) = leftTrace f ≫ leftTrace g` modulo the unit
-unitor. Ours. -/
+/-- **The left trace of a tensor product** is a nested loop: the left trace of `f` acts on `Y` from
+the left, inside the left trace of `g`. Multiplicativity needs the hypothesis that this action agrees
+with the action from the right; it is false in general (2 × 2 matrices of vector spaces). Ours. -/
 theorem leftTrace_tensor {C : Type u} [Category.{v} C] [MonoidalCategory C] [RigidCategory C]
     [PivotalCategory C] {X Y : C} (f : X ⟶ X) (g : Y ⟶ Y) :
-    leftTrace (f ⊗ₘ g) = (λ_ (𝟙_ C)).inv ≫ (leftTrace f ⊗ₘ leftTrace g) ≫ (λ_ (𝟙_ C)).hom := sorry
+    leftTrace (f ⊗ₘ g) = leftTrace ((λ_ Y).inv ≫ leftTrace f ▷ Y ≫ (λ_ Y).hom ≫ g) := sorry
 
 /-- **The left trace of a scalar is itself.** Ours. -/
 theorem leftTrace_unit {C : Type u} [Category.{v} C] [MonoidalCategory C] [RigidCategory C]
@@ -245,15 +246,7 @@ theorem leftTrace_eq_smul_leftDim (R : Type w) [CommRing R] {C : Type u} [Catego
     [MonoidalCategory C] [RigidCategory C] [PivotalCategory C] [Preadditive C] [Linear R C]
     [MonoidalPreadditive C] [MonoidalLinear R C] {X : C}
     (hX : Function.Bijective (algebraMap R (End X))) (f : End X) :
-    leftTrace (X := X) f = (RingEquiv.ofBijective _ hX).symm f • leftDim X := sorry
-
-/-- **`dim_L X · dim_R X` does not depend on the pivotal structure** when `X` has scalar
-endomorphisms: two pivotal structures differ on `X` by a unit scalar and its inverse. -/
-theorem leftDim_comp_rightDim_eq (R : Type w) [CommRing R] {C : Type u} [Category.{v} C]
-    [MonoidalCategory C] [RigidCategory C] [Preadditive C] [Linear R C]
-    [MonoidalPreadditive C] [MonoidalLinear R C] (P Q : PivotalCategory C) {X : C}
-    (hX : Function.Bijective (algebraMap R (End X))) :
-    (letI := P; leftDim X ≫ rightDim X) = (letI := Q; leftDim X ≫ rightDim X) := sorry
+    leftTrace (X := X) f.asHom = (RingEquiv.ofBijective _ hX).symm f • leftDim X := sorry
 
 /-- `[#42191]` **Spherical category**: a pivotal category whose left and right traces agree on every
 endomorphism (HPT §2.1). Field name follows `CategoryTheory.SphericalCategory` in #42191. -/
@@ -290,7 +283,7 @@ scalar endomorphisms, and every object is a finite biproduct of copies of the `S
 composition pairing is perfect. The field case (simple `S` in a finite semisimple abelian category
 over an algebraically closed field) is a corollary. -/
 theorem isPerfPair_homPairing (R : Type w) [CommRing R] {C : Type u} [Category.{v} C]
-    [Preadditive C] [Linear R C] [Limits.HasFiniteBiproducts C] {ι : Type*} [Finite ι]
+    [Preadditive C] [Linear R C] [Limits.HasFiniteBiproducts C] {ι : Type*}
     (S : ι → C) (hS : ∀ i, Function.Bijective (algebraMap R (End (S i))))
     (horth : HomOrthogonal S)
     (hdec : ∀ X : C, ∃ (κ : Type) (_ : Fintype κ) (f : κ → ι), Nonempty (X ≅ ⨁ (S ∘ f)))

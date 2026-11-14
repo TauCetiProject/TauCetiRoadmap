@@ -144,7 +144,7 @@ requests as part of discharging it.
   (Selinger, *A survey of graphical languages*, Lem 4.11); prove it rather than assume it.
 - **Traces are morphisms `𝟙_C ⟶ 𝟙_C`.** The left and right traces of an endomorphism, and the left and
   right dimensions of an object, are endomorphisms of the unit. Write the type as `𝟙_ C ⟶ 𝟙_ C`,
-  matching #42191; `End (𝟙_ C)` is definitionally the same thing (`End X := X ⟶ X`) and may be used
+  matching #42191; `End X` bundles a morphism `X ⟶ X`; use `End.of` and `.asHom` to cross this boundary
   where the monoid structure is what matters. Over a fusion category `End 𝟙_C ≅ k`, so traces are
   scalars, but the definitions do not need that.
 - **Vocabulary.** Use Mathlib's `RigidCategory`, `Xᘁ`, `η_`/`ε_`, `ExactPairing.rightMate`,
@@ -346,12 +346,18 @@ is the most valuable part of this layer.
 
   Basic theory (the point of a roadmap: the whole basic API, not just the headline, and none of it is
   upstream or in flight): `leftTrace (𝟙 X)` and the dimensions below; **cyclicity**
-  `leftTrace (f ≫ g) = leftTrace (g ≫ f)` for `f : X ⟶ Y`, `g : Y ⟶ X`; **monoidality**
-  `leftTrace (f ⊗ₘ g) = leftTrace f ≫ leftTrace g` modulo unitors; the value on a scalar
+  `leftTrace (f ≫ g) = leftTrace (g ≫ f)` for `f : X ⟶ Y`, `g : Y ⟶ X`; the **nested-loop tensor formula**
+  `leftTrace (f ⊗ₘ g) = leftTrace ((λ_ Y).inv ≫ leftTrace f ▷ Y ≫ (λ_ Y).hom ≫ g)` and its
+  right-handed mirror, with **multiplicativity** `leftTrace (f ⊗ₘ g) = leftTrace f ≫ leftTrace g`
+  under the hypothesis that `leftTrace f` acts on `Y` in the same way from the left and from the
+  right (automatic when `C` is braided or `End (𝟙_ C)` is the scalars). ⚠ Unconditional
+  multiplicativity is false: in the pivotal category of `2 × 2` matrices of `ℚ`-vector spaces,
+  `f = 𝟙 E₁₂` and `g = 𝟙 E₂₁` give `(1, 0)` on the left and `(0, 1) ≫ (1, 0) = (0, 0)` on the
+  right; the value on a scalar
   `a : 𝟙_C ⟶ 𝟙_C` is `a`; `leftTrace f = rightTrace fᘁ`; and `ℤ`- or `k`-linearity where the ambient
   category is preadditive or linear (state the hypothesis, do not assume it globally).
 - **Left and right dimension** `dim_L X = leftTrace (𝟙 X)`, `dim_R X = rightTrace (𝟙 X)`, with
-  `dim_L X = dim_R Xᘁ`, multiplicativity on `⊗`, `dim_L 𝟙_C = 1`, and additivity on direct sums
+  `dim_L X = dim_R Xᘁ`, multiplicativity on `⊗` under the same hypothesis, `dim_L 𝟙_C = 1`, and additivity on direct sums
   (which needs a preadditive or additive ambient category; carry that hypothesis on the statement
   rather than assuming it for the layer).
 - **Traces on objects with scalar endomorphisms.** Over a commutative ring `R`, with
@@ -382,25 +388,28 @@ here, and nothing in it is specific to pivotal structures.
   Take `C` preadditive and `R`-linear over a commutative ring `R`, and `S : C` with
   `hS : Function.Bijective (algebraMap R (End S))`.
   - The **composition pairing** `homPairing R S X : (S ⟶ X) →ₗ[R] (X ⟶ S) →ₗ[R] R`, defined by
-    `f ≫ g = homPairing R S X f g • 𝟙 S`, with `homPairing_comp`.
+    `f ≫ g = homPairing R S X f g • 𝟙 S`, compatible with composition on the `X` side.
   - For a basis `b` of `S ⟶ X` indexed by a finite type, when the pairing is perfect, the **dual
     basis** `b.homDual` of `X ⟶ S`, characterized by
     `b i ≫ b.homDual j = if i = j then 𝟙 S else 0`, with its coordinate formulas.
   - The **canonical element** `∑ i, b.homDual i ⊗ b i` is natural in `X` and independent of `b`
     (stated through an arbitrary bilinear map, as in `sum_homDual_comp`).
-  - **Split simple families.** Let `S : ι → C` with `ι` finite, `C` with finite biproducts, every
-    `S i` with scalar endomorphisms, `HomOrthogonal S`, and every object isomorphic to
+  - **Split simple families.** Let `S : ι → C`, with `ι` arbitrary, `C` with finite biproducts,
+    every `S i` with scalar endomorphisms, `HomOrthogonal S`, and every object isomorphic to
     `⨁ (S ∘ f)` for some `f : κ → ι` with `κ` finite. Then for each `i` and `X`, the modules
     `S i ⟶ X` and `X ⟶ S i` are free of finite rank, the pairing is perfect (under
     `X ≅ ⨁ (S ∘ f)` it is the dot product on `R^{f⁻¹(i)}`), and the **completeness relation**
-    `∑ i, ∑ j, (b i).homDual j ≫ b i j = 𝟙 X` holds for any choice of bases `b i` of `S i ⟶ X`.
+    `∑ i ∈ s, ∑ j, (b i).homDual j ≫ b i j = 𝟙 X` holds for any finite `s` containing the image
+    of `f` and any choice of bases `b i` of `S i ⟶ X`. The version for finite `ι`, summing over
+    all of `ι`, is a corollary.
     For an additive `R`-linear functor `F : C ⥤ D` and `T : D` with scalar endomorphisms whose
     pairings with `F.obj B` and with each `F.obj (S i)` are perfect, the canonical element of
     `T ⟶ F.obj B` factors through the constituents `S i` of `B`, as in
     `sum_homDual_eq_sum_map_homDual`.
   - In a finite semisimple abelian category over an algebraically closed field (below), the
     representatives of `SimpleClasses C` form such a family once their endomorphisms are
-    finite-dimensional, and a simple `S` has a perfect pairing with any `X`. State both, so that
+    finite-dimensional, with no finiteness hypothesis on `SimpleClasses C` (finitely supported
+    `ℤ`-graded complex vector spaces are an example with infinitely many classes), and a simple `S` has a perfect pairing with any `X`. State both, so that
     the field forms of the dual-basis API are corollaries.
 - **`IsFiniteSemisimpleCategory C`** on a `k`-linear abelian category: every object is a finite
   biproduct of simple objects. The name says *finite* because that is what is meant; there is no
@@ -575,9 +584,13 @@ isomorphism.
     generated projective `R`-modules is multiplication by its value on `R`, since every element of
     `P` is the image of a map `R ⟶ P`. Morphisms preserve degree, so a natural automorphism of
     `𝟭` is a function `G → Rˣ`, and monoidality on `δ_g ⊗ δ_h = δ_{gh}` makes it a character.
-  - **The basepoint.** With evaluation scalars `1` on the `δ_g`, the canonical pivotal structure
-    has component `ω(g, g⁻¹, g)` on `δ_g` (the exponent's sign depends on the associator and duality
-    conventions, which the implementation pins). Its monoidality is an identity in `Rˣ` that
+  - **The basepoint.** With the associator acting on `(δ_g ⊗ δ_h) ⊗ δ_l` by `ω(g,h,l)`, fix the
+    right dual of `δ_g` to be `δ_{g⁻¹}` with evaluation `1` and coevaluation `ω(g, g⁻¹, g)⁻¹`. The
+    canonical pivotal structure has component `ω(g, g⁻¹, g)` on `δ_g`. Check: on `C₃` over `ℚ`,
+    let `ω` be the normalized coboundary of `b` with `b(1,2) = 2` and `b = 1` otherwise, so that
+    `ω(1,2,1) = 1/2`; the coevaluation of `δ_1` is `2`, its pivotal component `1/2`, and both
+    dimensions are `1`, while the inverse component `2` gives right dimension `4` and left
+    dimension `1/4`. Its monoidality is an identity in `Rˣ` that
     follows from the cocycle condition alone. It is **not** a consequence of the field case
     applied factorwise: the values of `ω` may generate a group such as `(ℤ/2)²`, which embeds in
     the units of no field. Identify the
