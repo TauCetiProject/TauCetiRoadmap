@@ -1829,7 +1829,7 @@ Layer 1 item 2 (the cubical Serre spectral sequence).
 - For the double cover `S¹ → S¹`, `H_*(S¹; ℤ[ℤ/2])` with the swap action is `H_*(S¹)`, the
   homology of the total space.
 
-### 5.5 Classes living over the fundamental class
+### 5.5 Fibre shriek maps and the top column of the index spectral sequence
 
 Construct the source's Definition 2.3 and the chain characterization of Proposition 2.5 with
 the coefficient and orientation data. For an oriented closed connected `B^n` (or over `𝔽₂`),
@@ -3701,7 +3701,11 @@ view of symplectic cohomology*, §§3 and 7; Abouzaid, Chapter 1; Hofer–Salamo
 Floer–Hofer–Salamon; Hutchings §§7.5–7.6 and 8.2; Lee I–II.
 ## Layer 8: the DG Floer toolset
 
-### 8.1 Representing chain systems for Floer moduli spaces
+### 8.1 The DG Floer complex, its continuation maps and their homotopies
+
+This section provides the DG Floer complex, built from representing chain systems for the Floer
+moduli spaces and the Barraud–Cornea twisting cocycle, with its continuation maps and the chain
+homotopies between them. 8.6 and 8.7 use 8.3–8.5.
 
 Consume Layer 7 item 2's all-dimensional aspherical and atoroidal topological corner
 compactifications, ordered orientations and product faces, then Layer 0's relative
@@ -3720,8 +3724,7 @@ all-dimensional carrier input. *Needs:* Layer 7 item 2, Layer 0 item 1.
 - A system in which one chain is replaced by a homologous chain is again a representing chain
   system, and the two are homologous through the specified family.
 
-### 8.2 The Barraud–Cornea twisting cocycle
-
+**8.2 The Barraud–Cornea twisting cocycle.**
 Construct the twisting cocycle in `C_*(Ω𝓛X)` (the source's Definition 3.7), prove the twisting
 equation of Proposition 3.8 and uniqueness up to homology (Proposition 3.9). *Needs:* item 1,
 Tau Ceti `TauCeti.MooreLoopSpace` and `TauCeti.TwistingCocycle`.
@@ -3738,8 +3741,7 @@ Tau Ceti `TauCeti.MooreLoopSpace` and `TauCeti.TwistingCocycle`.
   lies in `C_*(Ω𝓛X)` and the Morse cocycle in `C_*(ΩX)`, and no map of chains goes back along
   `X → 𝓛₀X`.
 
-### 8.3 The DG Floer complex
-
+**8.3 The DG Floer complex.**
 Define the DG Floer complex `FC_*(H, J, Ξ; 𝓕)` (the source's Definition 3.12) and prove its
 independence of `(J, Ξ)` up to chain homotopy equivalence (Proposition 3.13). *Needs:* items
 1–2, Tau Ceti `TauCeti.TwistingCocycle.twistedCochainComplex` and
@@ -3752,8 +3754,7 @@ independence of `(J, Ξ)` up to chain homotopy equivalence (Proposition 3.13). *
 - Changing `Ξ` by a homologous representing system changes the complex by a continuation
   isomorphism, not by the identity.
 
-### 8.4 Continuation
-
+**8.4 Continuation.**
 Construct representing chain systems for continuation moduli spaces (Proposition 3.14,
 Definition 3.15) and their uniqueness (Proposition 3.16); continuation cocycles (Definition 3.17,
 Propositions 3.18 and 3.19); the continuation map (Definition 3.21) and its filtration estimate
@@ -3780,8 +3781,7 @@ Layer 7 items 2 and 4, Tau Ceti `TauCeti.ContinuationCocycle`.
 - The composition of two continuation cocycles is a continuation cocycle for the composed
   homotopy, up to a parametrized cocycle.
 
-### 8.5 Homotopies
-
+**8.5 Homotopies.**
 Construct representing chain systems for parametrized moduli spaces (Proposition 3.30),
 parametrized cocycles (Definition 3.31, Proposition 3.32) and the chain homotopy between
 continuation maps (Definition 3.35). *Needs:* item 4, Tau Ceti `TauCeti.ParametrizedCocycle`.
@@ -3793,7 +3793,7 @@ continuation maps (Definition 3.35). *Needs:* item 4, Tau Ceti `TauCeti.Parametr
 - The chain-homotopy equation `Ψ¹ − Ψ⁰ = D⁻h + hD⁺` holds with the signs of Tau Ceti's
   `TauCeti.ParametrizedCocycle` (the source's Definition 1.11).
 
-### 8.6 Closed manifolds
+### 8.6 The constant-loop comparison, the index spectral sequence and Theorem J
 
 Prove that continuation maps are homotopy equivalences (Proposition 3.36) and the comparison
 `FH_*(X; 𝓕) ≅ H_{*+n}(X; i_X^*𝓕)` in the contractible component (Theorem 3.37), where
