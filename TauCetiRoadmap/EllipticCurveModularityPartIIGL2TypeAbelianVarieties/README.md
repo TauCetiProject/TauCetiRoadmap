@@ -284,7 +284,7 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), §2, p. 3.
 
-### 1.3 Ribet's Theorem 2.1: primitive, simple and maximal endomorphism field
+### 1.3 Centralizer and simple-power decomposition: primitive, simple and maximal endomorphism field
 
 Prove the following. For `GL₂(E)`-type A, put `X = End⁰_ℚ(A)`. The centralizer of E in X is E. Its centre F lies in E; with `n = [E : F]`, one has `X ≃ M_n(F)` and an E-equivariant ℚ-isogeny `A ∼ E ⊗_F B`, where B is ℚ-simple, `End⁰_ℚ(B) = F` and B has `GL₂(F)`-type. Thus primitivity, ℚ-simplicity, and the assertion that X is a number field of degree dim A are equivalent. Under these equivalent conditions the given copy of E is all of X.
 
@@ -483,7 +483,9 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), §3, p. 4.
 
-### 2.3 Ribet's Lemma 3.1: the determinant is `ε·χ_ℓ`
+### 2.3 The determinant `ε·χ_ℓ` and oddness of the system
+
+This group provides the determinant character ε, with `det ρ_λ = εχ_ℓ`, and the oddness of every λ-adic component. §§3.2 and 5.8 consume both, §§2.6, 2.8 and 3.4 the determinant, and §4.3 the oddness.
 
 Prove the following. One finite-order E-valued character ε works for all λ: `det ρ_λ = εχ_ℓ` for `λ | ℓ`. It is unramified at all good primes, has `N_{E/ℚ}(ε) = 1`, and may be viewed as a Dirichlet character supported only at bad primes. Consequently `d_p = ε(p)p` at every good p.
 
@@ -514,8 +516,7 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), Lemma 3.1, p. 4; [Ribet92](#references), proof of Lemma 3.1, p. 5.
 
-### 2.4 Ribet's Lemma 3.2: the system is odd
-
+**2.4 The system is odd.**
 Prove the following. For every complex conjugation c in `G_ℚ`, `ε(c) = 1` and `det ρ_λ(c) = −1`. Thus ε is even and every λ-adic component is odd in the sense of ArithmeticGaloisRepresentations §4.1.
 
 The proof uses the following steps.
@@ -535,7 +536,9 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), Lemma 3.2, p. 5; [Ribet92](#references), proof of Lemma 3.2, p. 5.
 
-### 2.5 Ribet's Proposition 3.3: absolute irreducibility
+### 2.5 Absolute irreducibility and the field of Frobenius traces
+
+This group provides the absolute irreducibility of each `ρ_λ`, with commutant `E_λ`, and the arithmetic of the good Frobenius traces: the relation `a_p = ε(p)ā_p`, the generation of E by the traces, and the totally real subfield F with E/F abelian. §§3.5 and 4.3 consume the irreducibility, and §§3.3, 3.4, 3.7, 3.9 and 5.8 the statements on traces.
 
 Prove the following. Every `ρ_λ` is absolutely irreducible, and its commutant as a `ℚ_ℓ[G_ℚ]`-module is `E_λ`. For the whole Tate module over an open subgroup `H = G_K`, the more general comparison is `End_{ℚ_ℓ[H]} V_ℓ(A) = End⁰_K(A) ⊗ ℚ_ℓ`.
 
@@ -553,8 +556,7 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), Proposition 3.3, p. 5.
 
-### 2.6 Ribet's Proposition 3.4: `a_p = ε(p)·ā_p`
-
+**2.6 The relation `a_p = ε(p)·ā_p`.**
 Prove the following. Write bar for the canonical involution of E from Layer 1. At every good prime p, `a_p = ε(p)ā_p`. On representations this is `V_σ ≃ V_{σ̄} ⊗ σ(ε)` for every `σ : E ↪ ℚ̄_ℓ`, where `V_σ = V_ℓ(A) ⊗_{E⊗ℚ_ℓ,σ} ℚ̄_ℓ` and `σ̄ = σ ∘ bar`.
 
 The proof uses the following steps.
@@ -572,8 +574,7 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), Proposition 3.4, p. 6.
 
-### 2.7 Ribet's Proposition 3.5: the traces generate E
-
+**2.7 The traces generate E.**
 Prove the following. Deleting any finite set S′ containing the bad primes leaves enough Frobenius traces to generate the whole field: `E = ℚ(a_p : p ∉ S′)`.
 
 The proof uses the following steps.
@@ -590,8 +591,7 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), Proposition 3.5, p. 6.
 
-### 2.8 Ribet's Proposition 3.6: `F = ℚ(a_p²/ε(p))` is totally real and E/F is abelian
-
+**2.8 `F = ℚ(a_p²/ε(p))` is totally real and E/F is abelian.**
 Prove the following. The subfield `F = ℚ(a_p²/ε(p) : p ∉ S)` of E is totally real, and E/F is an abelian extension.
 
 The proof uses the following steps.
@@ -608,7 +608,9 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), Proposition 3.6, p. 7.
 
-### 2.9 Ribet's Lemma 3.7: residual absolute irreducibility for almost all λ
+### 2.9 Residual irreducibility, bounded conductors and good-prime crystallinity
+
+This group provides the hypotheses of the weight-two Serre step: absolute irreducibility of `A′[λ]` for almost all λ, bounded conductors of the λ-adic and residual representations, and crystallinity with weights 0 and 1 at good primes with finite flat λ-torsion. §3.2 consumes all three; §§2.3 and 4.3 also use §2.11.
 
 Prove the following. For an integral model A′, the `G_ℚ`-action on `A′[λ]` is absolutely irreducible for all but finitely many maximal ideals λ of `𝒪_E`. In dimension one this specializes to the almost-all irreducibility of elliptic prime torsion in R29.1.
 
@@ -626,8 +628,7 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), Lemma 3.7, p. 7.
 
-### 2.10 Bounded conductors of the λ-adic and residual representations
-
+**2.10 Bounded conductors of the λ-adic and residual representations.**
 Prove the following. Let `cond(A) = ∏_p p^{f_p(A)}`, with `f_p(A)` the Artin conductor exponent of `V_ℓ(A)` for an auxiliary `ℓ ≠ p`. For λ of residue degree one over ℓ, the prime-to-ℓ conductors satisfy `N(ρ̄_λ) | N(ρ_λ) | cond(A)`. Scalar restriction in the proof retains the factor `[E_λ : ℚ_ℓ]`, even when the residue degree is one.
 
 The proof uses the following steps.
@@ -646,8 +647,7 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), proof of Lemma 4.1, p. 8.
 
-### 2.11 Crystalline with Hodge–Tate weights {0, 1} at good primes; finite flat residual representations
-
+**2.11 Crystalline with Hodge–Tate weights {0, 1} at good primes; finite flat residual representations.**
 Prove the following. At a good coefficient prime ℓ, each `ρ_λ|_{G_{ℚ_ℓ}}` for `λ | ℓ` is crystalline. After extension through any embedding `E_λ ↪ ℚ̄_ℓ` its weights are 0 and 1, once each. The λ-torsion of an integral model extends to a finite flat group scheme over `ℤ_ℓ`. With `χ_ℓ` of weight 1, this is the regular weight pair (1,0).
 
 The proof uses the following steps.
@@ -716,7 +716,9 @@ The defining property has the following consequences.
 
 Sources: [KW-I](#references), §10.2, p. 21; [Ribet92](#references), §1, p. 2.
 
-### 3.2 Residual Serre witnesses of weight two at bounded level
+### 3.2 Residual Serre witnesses and one newform with the exact coefficients of A
+
+This group provides a normalized weight-two newform f of level `N_f` dividing `cond(A)` and a field isomorphism `j : K_f ≃ E` with `j(a_p(f)) = a_p(A)` and `j(ε_f(p)) = ε(p)` for p outside S with `p ∤ N_f`. §§3.5, 3.9 and 4.3 consume f and j.
 
 Prove the following. Choose an integral model A′. There are infinitely many maximal ideals λ of `𝒪_E` with residue degree one above odd good primes ℓ that are unramified in E and for which `ρ̄_λ` is absolutely irreducible. For each such λ, obtain a normalized weight-two newform `g_λ` of level `N_λ` dividing `cond(A)` from which `ρ̄_λ ⊗ 𝔽̄_ℓ` arises in the sense of the residual attachment predicate of AlgebraicModularFormsAndSerreWeights §7.5 (R15.6). Its coefficient-place comparison supplies a prime λ′ of `K_{g_λ}` above ℓ and compatible residue embeddings. The integral-model comparison identifies the semisimple reduction of the newform representation with `ρ̄_λ ⊗ 𝔽̄_ℓ`. Thus both Frobenius traces and determinants agree for every p outside `S ∪ {ℓ}`. The nebentypus is allowed to depend on λ.
 
@@ -740,8 +742,7 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), Lemma 4.1 and Lemma 4.2, p. 8; [Ribet92](#references), proof of Theorem 4.4, p. 8.
 
-### 3.3 One newform for infinitely many λ
-
+**3.3 One newform for infinitely many λ.**
 Prove the following. From the witnesses choose one normalized weight-two newform f, of level `N_f` dividing `cond(A)`, that occurs for an infinite subset `Λ_f`. For each λ in this subset there is a ring homomorphism `φ_λ` : `𝒪_{K_f} → 𝔽_λ = 𝔽_ℓ` carrying `a_p(f)` to the reduction of `a_p(A)` for all p outside `S ∪ {ℓ}`. These maps use the whole ring of integers; the finite coefficient-order index is excluded before choosing the infinite subset.
 
 The proof uses the following steps.
@@ -760,8 +761,7 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), proof of Theorem 4.4, pp. 8–9.
 
-### 3.4 Exact coefficients: `K_f ≅ E` with `a_p(f) ↦ a_p(A)`
-
+**3.4 Exact coefficients: `K_f ≅ E` with `a_p(f) ↦ a_p(A)`.**
 Prove the following. The infinitely many reductions determine a field isomorphism `j : K_f ≃ E`. For every p outside S with `p ∤ N_f`, it satisfies `j(a_p(f)) = a_p(A)` and `j(ε_f(p)) = ε(p)`.
 
 The final field comparison uses the native `TauCeti.CoefficientField f`.
@@ -820,7 +820,7 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), proof of Theorem 4.4, p. 8.
 
-### 3.6 Modularity of abelian varieties of GL₂-type (Ribet's Theorem 4.4, Khare–Wintenberger Corollary 10.2(i))
+### 3.6 Modularity of abelian varieties of GL₂-type
 
 Prove the following. If A is ℚ-simple of GL₂-type, there is a normalized weight-two newform f on `Γ₁(N_f)` and a ℚ-isogeny `A_f → A`. The isomorphism `K_f ≃ End⁰_ℚ(A)` identifies the Hecke action with the endomorphism action. Composing with `J₁(N_f) → A_f` makes A modular at `N_f`. Every GL₂-type variety over ℚ is modular, including the powers described in Layer 1; the latter conclusion uses enough oldform copies at a suitable larger level.
 
@@ -1080,7 +1080,7 @@ With the given level-23 data, `n = 2` and the conductor formula reads `23² = 52
 
 *Needs:* Layers 2–3; AutomorphicGaloisRepresentations §§4.4–4.9, 6.4 and 7.3; AutomorphicGaloisRepresentationsPartII AG2.P; SmallRamificationAndAbelianVarietyBaseCases §5.0d; NeronModelsAndSemistableAbelianVarieties §§5.4–5.7 and 6.10; ModularForms Layers 5–8; EllipticCurveModularity Layers R29.4–R29.6.
 
-## Layer 5: ℚ-curves as factors of abelian varieties of GL₂-type
+## Layer 5: ℚ-curves, their cocycles and their GL₂-type factors
 
 First define the geometric ℚ-curve property. The cocycle and restriction-of-scalars argument then assume non-CM and use a common finite Galois field where all chosen conjugate isogenies are defined. The endomorphism algebra is obtained from those maps; its action on the Lie algebra determines the dimension of the projector image.
 
@@ -1177,7 +1177,9 @@ these actions and the additive presentation of multiplication. (Ribet92, Theorem
 - The coefficient embedding `ℚˣ → ℚ̄ˣ` induces the canonical map on `H²`, commuting
   with inflation; it is not a change to the natural Galois action.
 
-### 5.2 The cocycle of a non-CM ℚ-curve
+### 5.2 The cocycle, its splitting and the endomorphism algebra of the Weil restriction
+
+This group provides, for a non-CM ℚ-curve, the class `[c_C]`, a splitting α with its character `ε_C` and field `E_α`, the identification of `End⁰_ℚ(B)`, for `B = Res_{K/ℚ} C₀`, with the twisted group algebra R together with `ω : R → E_α`, and the R-module isomorphism `Lie(B/ℚ) ≃ R`. §§5.6 and 5.8 consume it.
 
 Construct the following data. For non-CM C₀/K, choose K-isogenies `μ_g : ᵍC₀ → C₀` over a finite Galois K/ℚ, normalized by `μ₁ = id`. Form `c(g,h) = μ_g ∘ ᵍμ_h ∘ μ_{gh}⁻¹` in `Hom⁰`. Its value is a nonzero rational scalar, and c is a 2-cocycle for the trivial action on ℚˣ. Inflate its class to continuous `H²(G_ℚ,ℚˣ)`. This class depends only on the geometric isogeny class, independently of the field, model and chosen isogenies. Its degree relation is `c(g,h)² = deg μ_g deg μ_h / deg μ_{gh}`. Since C₀ is non-CM, `End⁰_K(C₀) = ℚ` and every element of `Hom⁰_K(ᵍC₀, C₀)` is a rational multiple of `μ_g`; `μ_{gh}⁻¹` is the inverse in `Hom⁰`, isogenies being invertible up to isogeny.
 
@@ -1214,8 +1216,7 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), proof of Theorem 6.1, p. 13.
 
-### 5.3 Tate's theorem: `H²(G_ℚ, ℚ̄^×) = 0` for the trivial action, and the splitting map α
-
+**5.3 Tate's theorem: `H²(G_ℚ, ℚ̄^×) = 0` for the trivial action, and the splitting map α.**
 Prove that continuous `H²(G_ℚ,ℚ̄ˣ)` vanishes when ℚ̄ˣ is discrete with trivial action. Therefore the geometric cocycle has a locally constant splitting α with `c(g,h) = α(g)α(h)/α(gh)`. Enlarge K to a finite Galois field K′ through which α factors. Then `ε_C(g) = α(g)²/deg μ_g` is a finite-order Dirichlet character, and the field `E_α = ℚ(α(g) : g ∈ G_ℚ)` is an abelian extension of ℚ.
 
 The proof uses the following steps.
@@ -1237,8 +1238,7 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), Theorem 6.3, p. 13; [Ribet92](#references), proof of Theorem 6.3, p. 13.
 
-### 5.4 Ribet's Lemma 6.4: the endomorphism algebra of `Res_{K/ℚ} C₀` is a twisted group algebra
-
+**5.4 The endomorphism algebra of `Res_{K/ℚ} C₀` is a twisted group algebra.**
 Prove the following. Use a common finite Galois K/ℚ where both the conjugate isogenies and the splitting α are defined. The actual `B = Res_{K/ℚ} C₀` is an abelian variety of dimension `[K:ℚ]`. Its rational endomorphisms identify with `⊕_σ Hom⁰_K(σC₀,C₀)`. The `μ_σ` give a basis `λ_σ` satisfying `λ_σλ_τ = c(σ,τ)λ_{στ}`, hence `End⁰_ℚ(B) ≃ R = ℚ^c[Gal(K/ℚ)]`. This algebra is semisimple, and `λ_σ ↦ α(σ)` gives a surjective ℚ-algebra map `ω : R → E_α`.
 
 The proof uses the following steps.
@@ -1256,8 +1256,7 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), Lemma 6.4, p. 14; [Ribet92](#references), §6, p. 14.
 
-### 5.5 Ribet's Proposition 6.5 and Corollary 6.6: `B_K ~ R ⊗ C₀` and `Lie(B)` is free of rank one
-
+**5.5 `B_K ~ R ⊗ C₀` and `Lie(B)` is free of rank one.**
 Prove the following. Write `T = ∏_σ C_σ` with each `C_σ` a copy of C₀ over K. On T let `λ_g` carry `C_σ` to `C_{gσ}` by the rational scalar `c(g,σ)`. The map `ι : T → B_K = ∏_σ σC₀` in the isogeny category sends `C_σ` to the `σ⁻¹C₀` factor by `σ⁻¹μ_σ`. It is R-equivariant for this source action and the structural target action. Taking Lie algebras and descending the semisimple multiplicities proves `Lie(B/ℚ) ≃ R` as R-modules.
 
 The proof uses the following steps.
@@ -1274,7 +1273,7 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), Proposition 6.5, p. 15; [Ribet92](#references), Corollary 6.6, p. 15.
 
-### 5.6 Ribet's Theorem 6.1: non-CM ℚ-curves are factors of GL₂-type varieties
+### 5.6 Non-CM ℚ-curves are factors of GL₂-type varieties
 
 Prove the following. For a non-CM ℚ-curve, let π be the central projector of R onto the `E_α` factor. Take the image A of a positive integer multiple of π acting on B. It is a ℚ-simple, primitive `GL₂(E_α)`-type variety with `End⁰_ℚ(A) = E_α` and `dim A = [E_α:ℚ]`. Over K it is isogenous to `C₀^{dim A}`; thus C is a geometric simple factor of A.
 
@@ -1311,7 +1310,7 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), Theorem 6.1, p. 12; [Ribet92](#references), proof of Theorem 6.1, p. 15.
 
-### 5.7 Ribet's Corollary 6.2, unconditional: ℚ-curves are quotients of `J₁(N)` over ℚ̄
+### 5.7 Non-CM ℚ-curves are quotients of `J₁(N)` over ℚ̄
 
 Prove the following. Every non-CM ℚ-curve is a geometric quotient of some positive-level `J₁(N)`. More precisely choose a weight-two newform f at level N and a finite Galois K′/ℚ with a model C₀ of C such that `(A_f)_{K′}` is K′-isogenous to `C₀^{[K_f:ℚ]}`. The forward assertion follows by applying Layer 3 to the projector variety. Ribet’s converse from geometric factors to ℚ-curves belongs to the broader building-block theory.
 
@@ -1336,7 +1335,7 @@ The proof uses the following steps.
 
 Sources: [Ribet92](#references), Corollary 6.2, p. 12; [FLHS15](#references), §12, p. 18.
 
-### 5.8 ℚ-curves over quadratic fields (Ribet §7)
+### 5.8 Weil restriction of a ℚ-curve over a quadratic field with a K-defined conjugate isogeny
 
 Prove the following. Let K/ℚ be quadratic, σ its nontrivial automorphism, and C₀/K non-CM with a K-isogeny `μ : σC₀ → C₀`. Write `μ ∘ σμ = [m]`, where m is a nonzero integer. The Weil-restriction endomorphism algebra is `ℚ[X]/(X²−m)`, and the character `θ = α²/deg μ` has `θ(σ) = sign(m)`. If m is a square, the algebra is `ℚ × ℚ` and C₀ is K-isogenous to a rational elliptic curve. If m is not a square, `B = Res_{K/ℚ} C₀` is a primitive `GL₂(ℚ(√m))`-type surface, with determinant character `ε = θ`; its endomorphism field is real exactly when θ is trivial. Imaginary K forces `m > 0`. Thus in the nonsquare case at least one of K and `ℚ(√m)` is real, and imaginary K makes B a Γ₀ quotient. In the square case its rational elliptic factors are Γ₀ modular.
 
