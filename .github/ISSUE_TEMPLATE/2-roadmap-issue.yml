@@ -15,6 +15,7 @@ body:
       label: Roadmap area
       options:
         - AbhyankarLemma
+        - AdelicAlgebraicGroups
         - AdicEtaleGeometry
         - AdicSpacesPartII
         - AdicSpacesPartIII
@@ -22,10 +23,13 @@ body:
         - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCurves
+        - AlgebraicKTheory
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AmenableGroups
         - AnalyticNumberTheoryPartI
+        - AnalyticNumberTheoryPartII
+        - ArithmeticInterpolationDeterminants
         - AsymptoticExpansions
         - BanachAlgebras
         - BanachSpaceTheory
@@ -35,6 +39,9 @@ body:
         - CFSGBasicProperties
         - CFSGStatement
         - CStarAlgebras
+        - CStarClassification
+        - CalibratedGeometry
+        - CategoricalOperatorAlgebras
         - CharacteristicClasses
         - ChevalleyGroups
         - ClassFieldTheory
@@ -56,8 +63,10 @@ body:
         - DeRhamCohomologyAndDuality
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
+        - DiamondsAndVStacks
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
+        - DysonBrownianMotion
         - ECM
         - EllipticCohomology
         - EllipticCurves
@@ -71,6 +80,7 @@ body:
         - FiniteGroupExtensionSplitting
         - FiniteSamplingDiscrepancy
         - FlagVarieties
+        - Foams
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
         - FreeProbability
@@ -80,6 +90,7 @@ body:
         - GeometricMeasureTheory
         - GeometricRepresentationCategories
         - GeometricTopology
+        - GlobalHolomorphicFunctions
         - GlobalQuadraticForms
         - GraphConnectivityAndFlows
         - GroebnerGeometry
@@ -87,9 +98,11 @@ body:
         - HamiltonianFloerOperations
         - HeegaardFloer
         - HilbertModules
+        - HomotopySpheres
         - HopfologicalAlgebra
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
+        - IndexTheory
         - InfinitaryModelExistence
         - IntegralLattices
         - Isoperimetry
@@ -115,16 +128,19 @@ body:
         - NoncommutativeIntegration
         - NoncongruenceModularForms
         - OperatorAlgebraDynamics
+        - OperatorKTheory
         - OperatorTheory
         - OptimalTransport
         - Orbifolds
         - PDE
+        - PadicExtensionFamilies
         - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
         - PerfectoidSpaces
         - PivotalSpherical
         - Poincare3D
         - PolylogarithmFunctions
+        - PositiveMass
         - PositiveScalarCurvature
         - PrimitivePrimeDivisors
         - ProfiniteCohomology
@@ -147,6 +163,7 @@ body:
         - RepresentationTheory
         - ResolutionOfSingularitiesCharacteristicZero
         - RestrictedPowerSeries
+        - RicciFlow
         - RiemannianGeometry
         - RigidAnalyticGeometry
         - RootSystemsPartII
@@ -156,6 +173,8 @@ body:
         - SchubertGeometry
         - SeibergWittenTheory
         - SmoothBundlesConnections
+        - SmoothRepresentationsOfLocalGroups
+        - SobolevMapsBetweenManifolds
         - SobolevPolynomialApproximation
         - SpecialFunctionsAiry
         - SpecialFunctionsEiLiErfIncompleteGamma
@@ -163,22 +182,28 @@ body:
         - SpecialFunctionsParabolicCylinder
         - SpinGeometry
         - SporadicOrders
+        - StableHomotopyKTheory
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - StochasticCalculus
+        - StringOrientation
         - Subfactors
         - SubspaceTheorem
         - SuccessiveMinima
         - SymplecticFieldTheory
         - SymplecticGeometry
+        - TangentialBordism
         - TauberianBoundaryConvergence
         - TaubesGromov
         - TemperleyLieb
+        - TemperleyLiebOperatorAlgebras
         - TensorProductCombinatorics
         - ThetaSeries
         - TopologicalKTheory
         - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
+        - VariationalMethods
         - VonNeumannAlgebras
         - Yamabe
         - ZerosOfLFunctions

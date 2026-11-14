@@ -4,7 +4,8 @@
 coordinates and normal strips with their Jacobians and the polar length and area formulas,
 integration up to normal cut times on surface domains, Gauss–Bonnet for disks with corners
 together with the turning theorem for curves with corners, normal balls in nonpositive
-curvature without completeness, and conformal invariance of the surface Dirichlet energy.
+curvature without completeness, conformal invariance of the surface Dirichlet energy, and
+the logarithmic cutoff at a point, whose Dirichlet energy tends to zero.
 Every statement is local: the ambient surface is boundaryless and never assumed complete,
 and the domains inside it may have boundary and corners.
 
@@ -27,6 +28,10 @@ This sub-roadmap of [RiemannianGeometry](../README.md) is independently definiti
   chart, and normal balls under `K ≤ 0` on such a ball.
 - Layer 5: conformal invariance of the surface Dirichlet energy, under a conformal rescaling
   and under a conformal diffeomorphism.
+- Layer 6: the logarithmic cutoff at the centre of a metric normal ball of a surface, with
+  Dirichlet energy `2π/log(δ/ε)` up to an error of order `1/log(δ/ε)²`, the approximation in
+  `W^(1,2)` of compactly supported `C^k` functions by functions vanishing near a finite set,
+  and the extension of quadratic-form inequalities across that set.
 
 Boundaries with the parent and with other roadmaps:
 
@@ -59,6 +64,16 @@ Boundaries with the parent and with other roadmaps:
   Math. 115 (1966), 83–107, Theorem 1.7). That classification is surface topology outside
   this sub-roadmap and is owned by no roadmap cited here, so it is not an input, and the
   chart hypothesis is Layer 4's stated generality rather than a step of its proof.
+- PositiveMass §3.3 owns the logarithmic cutoff at infinity on the complete stable surface
+  of its three-dimensional route, and ComplexCurveModuli D6 owns the Dirichlet energy
+  minimizer of an annulus with its capacity and modulus identity. Layer 6 owns the cutoff at
+  a point of a surface, as an explicit competitor with its energy bound; it solves no
+  extremal problem and defines no capacity.
+- Layer 6 is two-dimensional, the borderline case for the Dirichlet energy. In dimension
+  `n ≥ 3` the energy of a cutoff at a point also tends to zero, already for the linear cutoff
+  `(r − ε)/ε` on `[ε, 2ε]`, of Euclidean energy `(2ⁿ − 1) ω_n ε^(n−2)` with `ω_n` the volume
+  of the unit ball, and in dimension one the energy of every cutoff is at least `2/δ`.
+  Neither statement is a target here.
 
 ## Conventions
 
@@ -122,6 +137,9 @@ opposite sign convention would give `−cot φ₀`.
   `Orientation.oangle` (`Mathlib/Geometry/Euclidean/Angle/Oriented/Basic.lean`): the rotation
   by `+π/2` and the oriented angle of an oriented real inner product plane, the inward conormal
   and the signed exterior angle of Layer 3.2.
+- `Real.smoothTransition` (`Mathlib/Analysis/SpecialFunctions/SmoothTransition.lean`): a
+  smooth nondecreasing function equal to `0` on `(−∞, 0]` and to `1` on `[1, ∞)`, the
+  transition profile of Layer 6.1.
 
 ### From Tau Ceti
 
@@ -138,6 +156,12 @@ surface.
   the energy first variation `hasDerivAt_energy` (`…/Riemannian/FirstVariation.lean`); the
   completeness theory of `…/Geodesic/HopfRinow.lean`. These are the Layers 0–4 of the
   completed [HopfRinow](../../../Completed/HopfRinow/README.md) roadmap.
+- `TauCeti.Manifold.exists_isNormalDomain_ball` and
+  `isCompact_riemannianExp_image_closedBall` (`…/Geodesic/Normal/Basic.lean`);
+  `IsNormalDomain.image_riemannianExp_ball`, `IsNormalDomain.image_riemannianExp_closedBall`
+  and `IsNormalDomain.dist_riemannianExp_eq_of_mem_ball` (`…/Geodesic/Gauss/Distance.lean`):
+  small geodesic balls are metric balls, with radial length equal to distance and compact
+  closed balls, so every point has a radius satisfying 1.1's hypotheses; used by Layer 6.2.
 - `alongCurveWithin` (`Geometry/Manifold/VectorBundle/CovariantDerivative/AlongCurve/Basic.lean`)
   and `curveVelocityWithin` (`Geometry/Manifold/MFDeriv/Curve.lean`): the covariant
   derivative along a curve that defines the signed geodesic curvature of Layer 1.2.
@@ -156,7 +180,9 @@ surface.
   `isOpen_normalExpDomain`, `contMDiffOn_normalExp` (`…/Riemannian/Regularity.lean`) and
   `exists_partialDiffeomorph_normalExp_subset` (`…/Riemannian/Coordinates.lean`): the normal
   exponential of an embedding and its tube.
-- `TauCeti.Manifold.mgradient` (`Geometry/Manifold/Riemannian/Gradient/Basic.lean`).
+- `TauCeti.Manifold.mgradient` (`Geometry/Manifold/Riemannian/Gradient/Basic.lean`), with
+  its product rule `mgradient_mul` (same file) and its chain rule `mgradient_comp_deriv`
+  (`…/Riemannian/Gradient/ChainRule.lean`), used by Layer 6.
 - `TauCeti.Manifold.Orientation` and `orientationAt` (`Geometry/Manifold/Orientation/Basic.lean`):
   an orientation of the surface and the orientation it induces on each tangent plane, the
   orientation carrier of Layer 3.2.
@@ -219,8 +245,9 @@ moving-endpoint variation. Layer 3 proves the disk Gauss–Bonnet formula with c
 Stokes and local connection forms, independently of Layers 1–2, and extends R4.9.6a's
 turning theorem to corners. Layer 4 fills simple closed curves in a one-chart ball with
 disks and uses Layer 3's disk formula to exclude geodesic bigons and loops. Layer 5 is
-independent of Layers 1–4. The Lean name at each target is its signature in
-`Suggested.lean`.
+independent of Layers 1–4. Layer 6 builds the logarithmic cutoff from Layer 1's polar
+coordinates and polar length and is independent of Layers 2–5. The Lean name at each target
+is its signature in `Suggested.lean`.
 
 ## Layer 1 (S1): polar coordinates and normal strips
 
@@ -748,12 +775,160 @@ metrics, pp. 15–25). Lean name: `integral_norm_mgradient_sq_comp_eq_of_pullbac
 The two pinned conformal lemmas, the pullback metric, the pinned isometry invariance of the
 Riemannian volume and DifferentialGeometry 12.2's chain rule. Independent of Layers 1–4.
 
+## Layer 6 (S6): the logarithmic cutoff
+
+### 6.1 The cutoff and its energy
+
+Let p lie on a smooth Riemannian surface Σ, let `R > 0` satisfy 1.1's normal-ball hypotheses
+at p, and let `0 < 4ε ≤ δ < R`. Put `Λ = log(δ/ε)` and `λ(r) = log(r/ε)/Λ`, and let τ be
+Mathlib's `Real.smoothTransition`: smooth and nondecreasing, `0` on `(−∞, 0]` and `1` on
+`[1, ∞)`. Define
+
+`ψ_ε(r) = λ(r) τ(log₂(r/ε)) + (1 − λ(r)) (1 − τ(log₂(δ/r)))` for `r > 0`, `ψ_ε(0) = 0`,
+
+`χ_ε(x) = ψ_ε(d(p, x))`.
+
+Prove that `ψ_ε` is smooth and nondecreasing on `[0, ∞)`, equal to `0` on `[0, ε]`, to
+`λ(r) τ(log₂(r/ε))` on `[ε, 2ε]`, to the logarithmic interpolation `λ(r)` on `[2ε, δ/2]`, to
+`1 − (1 − λ(r)) τ(log₂(δ/r))` on `[δ/2, δ]` and to `1` on `[δ, ∞)`, with
+`0 ≤ ψ_ε′(r) ≤ c₀/(rΛ)` for `c₀ = 1 + sup τ′`. Prove that `χ_ε : Σ → [0, 1]` is smooth,
+vanishes on the closed ε-ball about p and equals `1` outside the open δ-ball, and that its
+Dirichlet energy `E(χ_ε) = ∫_Σ |grad χ_ε|² dμ` satisfies
+
+`|E(χ_ε) − 2π/Λ| ≤ C/Λ²`,
+
+with a constant C independent of ε. In particular `E(χ_ε) → 0` and `Λ E(χ_ε) → 2π` as
+`ε → 0⁺` with δ fixed: this is the classical statement that a point of a Riemannian surface
+has zero capacity for the Dirichlet energy (Chodosh, *Introduction to minimal surfaces*,
+proof of Lemma 5.8, p. 20, for the planar interpolation between the radii `ε²` and ε, of
+energy `2π/|log ε|`). Lean names: `logCutoffProfile` for `ψ_ε` and
+`exists_abs_integral_norm_mgradient_logCutoff_sub_le`.
+
+Write `r = d(p, ·)`, which is `|log_p|` on the open R-ball. By 1.1's metric
+`dr² + j² dθ²`, r is smooth with `|grad r| = 1` on the punctured R-ball, so
+`|grad χ_ε| = ψ_ε′ ∘ r` there by the chain rule `mgradient_comp_deriv`, and `grad χ_ε = 0`
+where `r ≤ ε` or `r ≥ δ`. The open sets `{r < R}` and `{r > δ}` cover Σ because `δ < R`; on
+the first `χ_ε = ψ_ε ∘ r` with `ψ_ε = 0` near `0`, and on the second `χ_ε = 1`, which gives
+the smoothness. Integrating in 1.1's polar coordinates against 1.4's length `L(r)`,
+
+`E(χ_ε) = ∫_ε^δ ψ_ε′(r)² L(r) dr`.
+
+Let `κ₀ = sup_(B_δ(p)) |K|`, finite because the closed δ-ball is compact, and
+`M = sup_(0<r≤δ) L(r)/r`. From 1.4's integrated forms, `M ≤ 2π + κ₀ V(δ)` and
+`|L(r) − 2πr| ≤ κ₀ M r³/6` for `0 < r ≤ δ`. On `[2ε, δ/2]`, where
+`ψ_ε′ = 1/(rΛ)`, the energy is `Λ⁻² ∫ L(r) r⁻² dr`, which differs from
+`2π(Λ − 2 log 2)/Λ²` by at most `κ₀ M δ²/(48Λ²)`; on each of `[ε, 2ε]` and `[δ/2, δ]` it is
+at most `c₀² M log 2/Λ²`. Hence the bound holds with
+`C = 4π log 2 + (2c₀² log 2 + κ₀ δ²/48) M`, which is controlled by δ, by κ₀ and by the area
+`V(δ)` of `B_δ(p)`.
+
+**API.**
+
+- Radial integration: `∫_(B_δ(p)) g(d(p, x)) dμ = ∫₀^δ g(r) L(r) dr` for every nonnegative
+  measurable g on `(0, δ)`, from 1.1's area measure `j dr dθ` and Fubini.
+- `1 − χ_ε ≤ log(2δ/r)/Λ` on `B_δ(p)`, hence `∫_Σ (1 − χ_ε)² dμ ≤ M δ²/Λ²`, and
+  `χ_ε(x) → 1` as `ε → 0⁺` for every `x ≠ p`.
+- `1 − χ_ε` and `grad χ_ε` vanish outside the closed δ-ball, which is compact, and `χ_ε`
+  is a nondecreasing function of `d(p, ·)`.
+
+**Checks.**
+
+- Euclidean plane, the interpolation λ on the whole of `[ε, δ]`:
+  `∫_ε^δ (rΛ)⁻² 2πr dr = 2π/Λ` exactly. With `δ = 1` and `ε = e⁻¹⁰` this is `0.6283`.
+- Curved surfaces, the same integral with the same δ and ε:
+  `(2π/Λ²) ∫_ε^δ sin r/r² dr = 0.6232` on the unit sphere and
+  `(2π/Λ²) ∫_ε^δ sinh r/r² dr = 0.6337` on the hyperbolic plane. The value `2π/Λ` is the
+  leading term and not an identity; the deviations `∓0.005` are of the order `δ²/Λ²`.
+- Euclidean plane, the smooth `χ_ε`: by scale invariance `E(χ_ε) = 2π/Λ + c/Λ²` for every
+  ε, with `c = 4π log 2 (∫₀¹ (τ + vτ′)² dv − 1) ≈ 3.84`. At `Λ = 10` this is `0.6667`
+  against `2π/Λ = 0.6283`: the correction is of order `1/Λ²` and is not a power of ε.
+- Negative control for the logarithm: the linear cutoff `(r − ε)/ε` on `[ε, 2ε]` in the
+  plane has energy `ε⁻² · 3πε² = 3π` for every ε.
+- Negative control for the dimension: on the line, a `C¹` function χ with `χ(0) = 0` and
+  `χ = 1` outside `(−δ, δ)` has `∫ χ′² ≥ 2/δ`, by Cauchy–Schwarz on each side of `0`.
+
+*Needs:* 1.1, 1.4; `Real.smoothTransition`; `mgradient_comp_deriv`; DifferentialGeometry
+12.4.
+
+### 6.2 Removal of finitely many points
+
+Let B be a finite subset of a smooth Riemannian surface Σ. Prove that every point b of Σ
+has a radius satisfying 1.1's hypotheses: in a normal ball of radius `R′` at b, which exists by
+`exists_isNormalDomain_ball`, every `0 < R < R′` does, since
+`IsNormalDomain.image_riemannianExp_ball` and
+`IsNormalDomain.image_riemannianExp_closedBall` identify the geodesic balls of radius R with
+the metric balls, `IsNormalDomain.dist_riemannianExp_eq_of_mem_ball` gives
+`d(b, exp_b v) = |v|`, and `isCompact_riemannianExp_image_closedBall` gives compactness of
+the closed ball. Fix `δ > 0` such that every `b ∈ B` has such a radius `R_b > δ` and the
+closed δ-balls about distinct points of B are disjoint. For `0 < 4ε ≤ δ` put
+`χ_ε^B = ∏_(b ∈ B) χ_ε^b`, with `χ_ε^b` the cutoff of 6.1 at b, and `φ_ε = χ_ε^B φ` for a
+real function φ on Σ. Let `1 ≤ k ≤ ∞` and let φ be `C^k` with compact support. Prove:
+
+- `φ_ε` is `C^k` with compact support inside that of φ, it vanishes on the closed ε-ball
+  about every point of B, equals φ outside the open δ-balls, and `|φ_ε| ≤ |φ|`;
+- `E(χ_ε^B) = Σ_(b ∈ B) E(χ_ε^b)`, so `|E(χ_ε^B) − 2π|B|/Λ| ≤ C_B/Λ²` with `C_B` the sum
+  of 6.1's constants;
+- with `M_b` the constant M of 6.1 at b,
+  `∫ |φ_ε − φ|² dμ ≤ (sup |φ|)² Σ_b M_b δ²/Λ²` and
+  `∫ |grad φ_ε − grad φ|² dμ ≤ 2 (sup |grad φ|)² Σ_b M_b δ²/Λ² + 2 (sup |φ|)² E(χ_ε^B)`,
+  so both tend to `0` as `ε → 0⁺` with δ fixed: `φ_ε → φ` in `W^(1,2)`;
+- `∫ |grad φ_ε|² dμ → ∫ |grad φ|² dμ`, and `∫ V φ_ε² dμ → ∫ V φ² dμ` for every continuous
+  `V : Σ → ℝ`.
+
+Deduce the extension of a quadratic-form inequality across B: if V is continuous and
+`∫ V φ² dμ ≤ ∫ |grad φ|² dμ` for every `C^k` function φ whose compact support does not
+meet B, then the same inequality holds for every `C^k` function φ with compact support
+(Chodosh, Lemma 33.5, p. 81, for one point, smooth φ and the stability form of a minimal
+surface). Lean name: `integral_mul_sq_le_integral_norm_mgradient_sq_of_finite`. The product
+rule
+`grad φ_ε − grad φ = (χ_ε^B − 1) grad φ + φ grad χ_ε^B` is `mgradient_mul`; on `B_δ(b)` the
+other factors of `χ_ε^B` equal `1`, so its energy is the sum of the energies of its factors
+and `1 − χ_ε^B = 1 − χ_ε^b` there.
+
+**Checks.**
+
+- The empty set: `χ_ε^B = 1`, `φ_ε = φ` and every bound is `0`.
+- Plane, `B = {0}`, `δ = 1` and φ smooth with compact support, equal to `1` on the closed
+  unit disk: `φ_ε = χ_ε` there, so `∫ |grad φ_ε − grad φ|² = E(χ_ε) → 0` and
+  `∫ |φ_ε − φ|² ≤ 2π/Λ² → 0`, while `φ(0) − φ_ε(0) = 1` for every ε. The convergence is in
+  `W^(1,2)` and is not uniform.
+- Plane, `B = {(−1, 0), (1, 0)}` and `δ = 1/2`: the closed balls are disjoint and
+  `E(χ_ε^B) = 2 E(χ_ε)`.
+- Negative control for the dimension: on the line with `B = {0}` and
+  `V(x) = 1/(4 max(1, x²))`, Hardy's inequality `∫₀^∞ φ²/x² ≤ 4 ∫₀^∞ φ′²` gives
+  `∫ V φ² ≤ ∫ φ′²` for every `C¹` function φ with compact support not containing `0`. A
+  `C¹` function equal to `1` on `[−1, 1]`, supported in `[−1 − T, 1 + T]` with
+  `|φ′| ≤ 2/T`, has `∫ φ′² ≤ 8/T` and `∫ V φ² ≥ 1/2`, so the inequality fails for it once
+  `T > 16`.
+
+*Needs:* 6.1; `exists_isNormalDomain_ball`, `IsNormalDomain.image_riemannianExp_ball`,
+`IsNormalDomain.image_riemannianExp_closedBall`,
+`IsNormalDomain.dist_riemannianExp_eq_of_mem_ball`,
+`isCompact_riemannianExp_image_closedBall`; `mgradient_mul`.
+
+### Examples
+
+- The logarithmic interpolation between two radii `a < b` in the plane has energy
+  `2π/log(b/a)`, whether it isolates a point, `a → 0`, or infinity, `b → ∞`: with `a = R`
+  and `b = R²` it is `2π/log R`, the cutoff at infinity of PositiveMass §3.3, which is the
+  image of the cutoff at a point under the inversion `z ↦ 1/z`, a conformal map to which 5.2
+  applies.
+- The two negative controls for the dimension, and the linear cutoff of energy `3π`: on a
+  surface the linear cutoff fails and the logarithmic one succeeds.
+
+### Dependencies
+
+Layer 1's polar coordinates and polar length; Mathlib's smooth transition; the pinned
+gradient chain and product rules and normal-ball distance identities; DifferentialGeometry
+12.4 for the area measure in polar coordinates. Independent of Layers 2–5 and of every
+completeness or curvature-sign hypothesis.
+
 ## Downstream consumers
 
 PositiveMass §3.1 consumes Layer 3's disk formula with corners, its boundary term against
 local connection forms and its cancellation along common edges, and builds the
-compact-surface theorem on them. No roadmap on main consumes this sub-roadmap;
-RiemannianGeometry R1, R2, R3, R4.2, R4.9.6a and R6 supply it and take nothing back.
+compact-surface theorem on them. RiemannianGeometry R1, R2, R3, R4.2, R4.9.6a and R6 supply
+this sub-roadmap and take nothing back.
 
 ## References
 
@@ -780,3 +955,10 @@ RiemannianGeometry R1, R2, R3, R4.2, R4.9.6a and R6 supply it and take nothing b
   Theorem 1.7: the disk-filling theorem on arbitrary surfaces, which Layer 4 does not own.
 - J. M. Lee and T. H. Parker, *The Yamabe problem*, Bull. Amer. Math. Soc. 17 (1987), 37–91,
   p. 42: the coordinate expression of the Riemannian density.
+- O. Chodosh,
+  [*Introduction to minimal surfaces*](https://web.stanford.edu/~ochodosh/Math286-min-surf.pdf),
+  lecture notes for Math 286, Stanford University, Winter 2025, version of 15 September
+  2025: the proof of Lemma 5.8, p. 20 (the planar logarithmic cutoff between the radii `ε²`
+  and ε, of Dirichlet energy `2π/|log ε|`), and Lemma 33.5, p. 81 (stability of a minimal
+  surface extends across a point, by approximating test functions by functions vanishing
+  near the point with convergence of the Dirichlet energy).
