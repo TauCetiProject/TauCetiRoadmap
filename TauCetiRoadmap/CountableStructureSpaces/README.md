@@ -173,7 +173,7 @@ The following are suppliers, not requests to rebuild their objects.
 | Tau Ceti, `ModelTheory/BackAndForth/` (InfinitaryLogic Layer 1) | `TauCeti.BFEquiv` (for relational `L`) with `refl`, `symm`, `trans` (across three structures), `mono`, `comp`, the successor and limit laws `add_one` and `limit`, `Language.Equiv.bfEquiv`, `potentialIso_iff_bfEquiv_all`, `countable_potentialIso_iff_iso`, `SameAtomicType` |
 | Tau Ceti, `ModelTheory/Scott/` (InfinitaryLogic Layers 2–3) | `SelfStabilizesCompletely` with `bfEquiv_of_le`, `exists_complete_self_stabilization`, `selfStabilizationOrdinal` with its attainment and its bound below `ω₁`, `scottFormula` with `realize_scottFormula_iff_bfEquiv`, `scottSentence` with `realize_scottSentence_iff` and `scott_isomorphism`, `orbitRank`, `internalScottRank`, `selfStabilizationOrdinal_le_internalScottRank`, `internalScottRank_le_succ_selfStabilizationOrdinal`, `internalScottRank_empty` |
 | Tau Ceti, `ModelTheory/Scott/Height.lean` (most of Layer 4.2 here) | `StabilizesCompletely` with `bfEquiv_of_le` and `mono`; `scottHeight` with `stabilizesCompletely_scottHeight`, `scottHeight_lt_omega_one`, `Language.Equiv.scottHeight_eq`, `scottHeight_le_selfStabilizationOrdinal_add_omega0`, `scottHeight_le_internalScottRank_add_omega0` and `nonempty_equiv_of_bfEquiv_of_scottHeight_le` (with `N` in any universe); the countable constant-chain case `SelfStabilizesCompletely.stabilizesCompletely_add_omega0` |
-| Tau Ceti, `ModelTheory/RelationalConfiguration/` (most of Layers 0, 1.2, 2 and 4.1 here) | `RelationalConfiguration` with `Atom`, `atom` and `eval`, its topology, σ-algebra, compactness and, for countably many relation symbols and a countable carrier, its Polish and Borel instances, `isClopen_setOf_eval`, `mk_le_continuum`; `toStructure` and `ofStructure` with both round trips; `Equiv.encodeVia` with `nonempty_equiv_encodeVia`, `encodeVia_trans` and `realize_encodeVia`; the action of `Equiv.Perm α` with `eval_perm_smul`; `isoSetoid` with `isoSetoid_eq_orbitRel` and `analyticSet_setOf_isoSetoid`; `IsomorphismInvariant` with its lattice API and `analyticSet_iUnion_smul`; `modelsOf` with its constructor equations, `measurableSet_setOf_realize`, `measurableSet_modelsOf` and `standardBorelSpace_modelsOf`; `measurableSet_setOf_bfEquiv`; `bfEquivSetoid` with `measurableSet_setOf_bfEquivSetoid` and `isoSetoid_le_bfEquivSetoid`; in `LanguageMap.lean`, `LHom.reductConfiguration` with `measurable_reductConfiguration`, `reductConfiguration_perm_smul` and `realize_sentenceInf_reductConfiguration`. In `Combinatorics/SimpleGraph/RelationalConfiguration.lean`: `SimpleGraph.toRelationalConfiguration` with `measurableEmbedding_toRelationalConfiguration`. The orbit, saturation and isomorphism-invariance results there assume `[L.IsRelational]`; the targets here that are stated for every language stay targets |
+| Tau Ceti, `ModelTheory/RelationalConfiguration/` (most of Layers 0, 1.2, 2 and 4.1 here) | `RelationalConfiguration` with `Atom`, `atom` and `eval`, its topology, σ-algebra, compactness and, for countably many relation symbols and a countable carrier, its Polish and Borel instances, `isClopen_setOf_eval`, `mk_le_continuum`; `toStructure` and `ofStructure` with both round trips; `Equiv.encodeVia` with `nonempty_equiv_encodeVia`, `encodeVia_trans` and `realize_encodeVia`; the action of `Equiv.Perm α` with `eval_perm_smul`; `isoSetoid` with `isoSetoid_eq_orbitRel` and `analyticSet_setOf_isoSetoid`; `IsomorphismInvariant` with its lattice API and `analyticSet_iUnion_smul`; `modelsOf` with its constructor equations, `measurableSet_setOf_realize`, `measurableSet_modelsOf` and `standardBorelSpace_modelsOf`; `measurableSet_setOf_bfEquiv`; `bfEquivSetoid` with `measurableSet_setOf_bfEquivSetoid` and `isoSetoid_le_bfEquivSetoid`; in `LanguageMap.lean`, `LHom.reductConfiguration` with `measurable_reductConfiguration`, `reductConfiguration_perm_smul` and `realize_sentenceInf_reductConfiguration`. In `Combinatorics/SimpleGraph/RelationalConfiguration.lean`: `SimpleGraph.toRelationalConfiguration` with `measurable_toRelationalConfiguration` and `measurableEmbedding_toRelationalConfiguration` (not the identity of its decoded structure with `G.structure`, which is a target of Layer 0). The orbit, saturation and isomorphism-invariance results there assume `[L.IsRelational]`; the targets here that are stated for every language stay targets |
 | Tau Ceti, `Topology/Algebra/Group/Perm.lean` (most of Layer 1.1 here) | the topology on `Equiv.Perm α`, `Equiv.Perm.hasBasis_nhds_one_fixingSubgroup` (indexed by finite sets), the topological-group instance and, for countable `α`, the Polish instance |
 | BorelEquivalenceRelations, as implemented at the pin | `IsGδ.polishSpace` (Mathlib's declaration) and `IsGδ.standardBorelSpace` (a Gδ subset of a Polish space is Polish, resp. standard Borel, in the subspace structures), `MeasureTheory.AnalyticSet.prod`, and `Setoid.exists_invariant_measurableSet_separating` (for an analytic equivalence relation `E` on a Hausdorff space whose open sets are measurable, and analytic `A`, `B` with disjoint `E`-saturations, some `E`-saturated Borel `C` contains `A` and is disjoint from `B`; for `B` saturated, disjointness of the saturations is disjointness of `A` and `B`). Nothing else |
 | InfinitaryModelExistence, PC classes and Craig interpolation | `LHom.PCMem`, Tau Ceti's implementation of that roadmap's projective-class predicate (`ModelTheory/Interpolation/PCClass.lean`), and the single theorem `pcSeparation` stated below, which is that roadmap's contract and is not at the pin; nothing else |
@@ -240,7 +240,8 @@ Polish and Borel instances, the cardinality bound, continuity of each coordinate
 and the coordinatewise continuity criterion (`continuous_iff`), and the graph coding as a
 measurable embedding whose range is the set of symmetric irreflexive codes
 (`range_toRelationalConfiguration`). Still to build: the finite-cylinder basis, the query code,
-the equality case of the cardinality bound and closedness of the range of the graph coding.
+the equality case of the cardinality bound, closedness of the range of the graph coding and the
+decoded structure of the graph coding.
 
 The specification, for every language `L` and carrier `α`:
 
@@ -276,15 +277,19 @@ The specification, for every language `L` and carrier `α`:
   has cardinality `2 ^ #(Atom L α)`: one unary predicate on `ℝ` already gives `2 ^ 𝔠`;
 - the **graph coding** `SimpleGraph.toRelationalConfiguration`, `G ↦ ofStructure` of
   `G.structure`, a measurable embedding for Mathlib's σ-algebra on graphs, whose
-  range is the closed set of codes of symmetric irreflexive relations.
+  range is the closed set of codes of symmetric irreflexive relations, and whose decoded structure
+  is `G.structure` (`toStructure_toRelationalConfiguration`). In Tau Ceti's file, where the body of
+  the coding is visible, that identity is `toStructure_ofStructure`; the body is not exposed to
+  importing modules and the pin states no such lemma, so it is a target here (home: Tau Ceti's
+  `Combinatorics/SimpleGraph/RelationalConfiguration.lean`).
 
 ⚠ **API warning.** `RelationalConfiguration L α` is a `def`, not an `abbrev` of the function
 type, so the action of Layer 1 is an instance on the coding space rather than a global instance
 on `Atom L α → Bool` competing with Mathlib's pointwise instances on Pi types. Keep new instances
 on the synonym.
 
-*Needs:* TC `RelationalConfiguration` with `toStructure`, `ofStructure`, `Equiv.encodeVia`,
-`isClopen_setOf_eval`, `continuous_eval`, `continuous_iff`, `mk_le_continuum`,
+*Needs:* TC `RelationalConfiguration` with `toStructure`, `ofStructure`, `toStructure_ofStructure`,
+`Equiv.encodeVia`, `isClopen_setOf_eval`, `continuous_eval`, `continuous_iff`, `mk_le_continuum`,
 `SimpleGraph.toRelationalConfiguration`; M `Encodable.ofCountable`, `IsClosedEmbedding`,
 `PolishSpace`, `StandardBorelSpace`, the measurable space on `SimpleGraph V`.
 
@@ -402,7 +407,7 @@ and the constructor equations, measurability of satisfaction (`measurableSet_set
 `measurableSet_modelsOf`) and `standardBorelSpace_modelsOf`, all on every countable carrier, and
 `Language.Equiv.mem_modelsOf_iff` across carriers, from which `isomorphismInvariant_modelsOf`
 follows in one step; clopenability is Mathlib's `MeasurableSet.isClopenable` applied to
-`measurableSet_modelsOf`. Still to build: locality and the Gδ model classes.
+`measurableSet_modelsOf`. Still to build: locality, the Gδ model classes and the graph events.
 
 The specification, for relational `L`:
 
@@ -428,11 +433,13 @@ The specification, for relational `L`:
   property under finite and countable conjunction. For a first-order sentence embedded by `toInf`:
   a quantifier-free matrix gives clopen sets, a universal sentence (`IsUniversal`) a closed set,
   and a `∀∃` sentence (`ψ.alls` with `ψ.IsExistential`) a Gδ set (`isGδ_modelsOf_toInf_alls`);
-- **graph events**: satisfaction of every Lω₁ω sentence is a measurable event on `SimpleGraph ℕ`.
-  This is Tau Ceti's `measurableSet_modelsOf` (or `measurableSet_setOf_realize`, for fixed
-  assignments) pulled back along the measurable graph coding
-  `SimpleGraph.toRelationalConfiguration` (`measurable_toRelationalConfiguration`), whose decoded
-  structure is `G.structure`; it is the library's result, not a separate target here.
+- **graph events**: `measurableSet_setOf_realize_graph`, satisfaction of every Lω₁ω sentence is a
+  measurable event on `SimpleGraph ℕ`. The decoded structure of `G.toRelationalConfiguration` is
+  `G.structure` (`toStructure_toRelationalConfiguration`, Layer 0), so the event is the preimage of
+  `modelsOf φ`, measurable by Tau Ceti's `measurableSet_modelsOf`, under the measurable graph
+  coding (`SimpleGraph.measurable_toRelationalConfiguration`). `Suggested.lean` proves it that way,
+  with no other input; the same pullback of `measurableSet_setOf_realize` gives the events at fixed
+  assignments.
 
 ⚠ **API warning.** A model class need not be Gδ, so do not install a `PolishSpace` instance on
 `modelsOf φ` in its subspace topology. In the language of one unary predicate `P`, the codes with
@@ -441,9 +448,10 @@ Baire category theorem they are not Gδ; this is a model class (of the sentence
 `⋁ₖ "at most k elements satisfy P"`). Model classes are standard Borel in the subspace
 σ-algebra, and that is the general statement.
 
-*Needs:* L0; L1.2; TC `modelsOf`, `measurableSet_setOf_realize`, `measurableSet_modelsOf`,
-`standardBorelSpace_modelsOf`, `Language.Equiv.mem_modelsOf_iff`,
-`BoundedFormulaInf.freeVarSupport`, `BoundedFormula.toInf`; M `IsUniversal`, `IsExistential`,
+*Needs:* L0 (`toStructure_toRelationalConfiguration`, for the graph events); L1.2; TC `modelsOf`,
+`measurableSet_setOf_realize`, `measurableSet_modelsOf`, `standardBorelSpace_modelsOf`,
+`Language.Equiv.mem_modelsOf_iff`, `BoundedFormulaInf.freeVarSupport`, `BoundedFormula.toInf`,
+`SimpleGraph.toRelationalConfiguration`, `SimpleGraph.measurable_toRelationalConfiguration`; M `IsUniversal`, `IsExistential`,
 `BoundedFormula.alls`, `MeasurableSet.isClopenable`; BorelEquivalenceRelations `IsGδ.polishSpace`,
 `IsGδ.standardBorelSpace`.
 
@@ -913,9 +921,9 @@ Discharge these alongside the layers; they check that the API describes real spa
    single orbit (Cantor's theorem, through Mathlib's DLO back-and-forth), hence a Polish space
    on which S∞ acts transitively. In a language with a strict order symbol the well-ordered codes
    are coanalytic, not analytic, and an analytic set of them has bounded order types.
-4. **Graphs.** Through `SimpleGraph.toRelationalConfiguration`, the satisfaction event of every Lω₁ω graph sentence is
-   measurable on `SimpleGraph ℕ`, and the isomorphism class of any fixed countable graph is a
-   Borel set of graphs. For the Rado graph this class is the model class of the conjunction of the
+4. **Graphs.** Through `SimpleGraph.toRelationalConfiguration`, the satisfaction event of every
+   Lω₁ω graph sentence is measurable on `SimpleGraph ℕ` (`measurableSet_setOf_realize_graph`), and
+   the isomorphism class of any fixed countable graph is a Borel set of graphs. For the Rado graph this class is the model class of the conjunction of the
    simple-graph axioms and the extension axioms (those of the InfinitaryLogic random-graph worked
    example), a Gδ set.
 5. **Orbits as back-and-forth classes.** For a code `c`, its orbit is

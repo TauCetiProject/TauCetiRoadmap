@@ -32,9 +32,11 @@ equivalence and the Scott analysis (`TauCeti.BFEquiv`, `TauCeti.scottSentence`,
 `TauCeti.SelfStabilizesCompletely`, `TauCeti.scottHeight`), the coding space
 `TauCeti.RelationalConfiguration` with its topology, decoding, logic action, model classes and
 isomorphism and back-and-forth setoids, the permutation-group topology, and projective classes
-(`FirstOrder.Language.LHom.PCMem`). The library's theorems are cited, not restated. Two targets
+(`FirstOrder.Language.LHom.PCMem`). The library's theorems are cited, not restated. Three targets
 are proved in place: `isomorphismInvariant_modelsOf`, which CountableModelCounting consumes by
-name, and `orbitRank_le_scottHeight`, from the target `selfStabilizationOrdinal_le_scottHeight`.
+name; `orbitRank_le_scottHeight`, from the target `selfStabilizationOrdinal_le_scottHeight`; and
+the graph events `measurableSet_setOf_realize_graph`, from the target
+`toStructure_toRelationalConfiguration` and the library.
 The PC sentence of a tree is recorded by its specification (`exists_pcSentence`); the
 README gives its explicit construction.
 -/
@@ -72,6 +74,15 @@ noncomputable def queryCode [∀ n, Countable (L.Relations n)] (c : RelationalCo
 /-- **Layer 0 milestone.** The query code is a closed embedding into Cantor space. -/
 theorem isClosedEmbedding_queryCode [∀ n, Countable (L.Relations n)] :
     IsClosedEmbedding (queryCode (L := L)) := by
+  sorry
+
+/-- **Layer 0, the graph coding decodes to the graph's structure.** The coding
+`SimpleGraph.toRelationalConfiguration` is `ofStructure` of `G.structure`, so decoding it gives back
+`G.structure`. In Tau Ceti's file, where the coding's body is visible, this is
+`toStructure_ofStructure`; the body is not exposed to importing modules, and the pin states no such
+lemma. -/
+theorem toStructure_toRelationalConfiguration {V : Type*} (G : SimpleGraph V) :
+    G.toRelationalConfiguration.toStructure = G.structure := by
   sorry
 
 /-! ## Layer 1: the logic action of `S∞`
@@ -119,6 +130,18 @@ theorem isGδ_modelsOf_toInf_alls [L.IsRelational] {n : ℕ} (ψ : L.BoundedForm
     (hψ : ψ.IsExistential) :
     IsGδ (modelsOf (ψ.alls.toInf (ι := ℕ)) : Set (RelationalConfiguration L ℕ)) := by
   sorry
+
+/-- **Layer 2, graph events.** Satisfaction of an `Lω₁ω` sentence is a measurable event on graphs
+on `ℕ`: the preimage of the model class (`measurableSet_modelsOf`) under the measurable graph coding
+(`SimpleGraph.measurable_toRelationalConfiguration`), whose decoded structure is `G.structure`
+(`toStructure_toRelationalConfiguration`). -/
+theorem measurableSet_setOf_realize_graph (φ : Language.graph.Sentenceω) :
+    MeasurableSet {G : SimpleGraph ℕ | @SentenceInf.Realize Language.graph ℕ φ ℕ G.structure} := by
+  convert (measurableSet_modelsOf (V := ℕ) φ).preimage
+    SimpleGraph.measurable_toRelationalConfiguration using 1
+  ext G
+  rw [Set.mem_preimage, mem_modelsOf, toStructure_toRelationalConfiguration]
+  rfl
 
 /-! ## Layer 3: trees, the analytic tree representation and boundedness -/
 
