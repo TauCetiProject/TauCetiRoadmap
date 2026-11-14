@@ -10,8 +10,11 @@ model `U` of the theory in `Sheaf J (Type u)`, through which every model of the 
 sheaf topos `Sheaf K (Type u)` of a small site `(D, K)` is the image of `U` under a left exact left
 adjoint, fully faithfully on homomorphisms. The end theorems are: geometric formulas are preserved
 by homomorphisms of structures and translate into Tau Ceti's infinitary formulas with the same
-satisfaction, the categorical semantics in `Type u` is the set-theoretic one, and left exact left
-adjoints between sheaf topoi map models to models (Layer 1); the models of a Horn theory are the
+satisfaction, the categorical semantics in `Type u` is the set-theoretic one, left exact left
+adjoints between sheaf topoi map models to models, and every first-order theory `T : L.Theory` has
+a geometric theory in `GeometricTheory.{0}`, over a language receiving `L`, whose set-models
+restrict to models of `T`, every model of `T` having exactly one expansion that is a set-model
+(Layer 1); the models of a Horn theory are the
 filtering functors on its classifying category of Horn formulas, and in every sheaf topos a
 geometric formula is a `u`-small disjunction of existential quantifications of Horn formulas; every
 geometric theory over a language `L : FirstOrder.Language.{u₁, u₂}` has a classifying site in `Type
@@ -43,8 +46,9 @@ Suggested home: `TauCeti/ModelTheory/Geometric/` for Layer 1 and
 ## Scope and ownership
 
 **Owned here.** Geometric logic over a single-sorted first-order language (formulas, sequents,
-theories, their set-theoretic and categorical semantics, homomorphisms of structures and the inverse
-image of a structure along a functor preserving finite products, Layer 1); the classifying category
+theories, their set-theoretic and categorical semantics, homomorphisms of structures, the inverse
+image of a structure along a functor preserving finite products, and the coherent theory of the
+Morleyization of a first-order theory, Layer 1); the classifying category
 of a Horn theory, the normal form of geometric formulas, classifying sites and their universal
 property, the existence and uniqueness of classifying topoi, the correspondence between quotient
 theories and finer topologies on a classifying site, and Morita equivalence of geometric theories
@@ -100,6 +104,15 @@ LocallyPresentableCategories 1.5 that 3.5 (a′) uses and the Examples of Layer 
 defines only the category `SetModel T` of the set-models of one theory, in 3.5, to state finite
 presentability and presentation by a formula.
 
+**Left to InfinitaryModelExistence.** The Morleyization of a language by a family of formulas, its
+inclusion of languages and the canonical expansion of a structure (InfinitaryModelExistence 5.1,
+in Tau Ceti as `FirstOrder.Language.morleyize`, `FirstOrder.Language.lhomMorleyize` and
+`FirstOrder.Language.morleyExpansion`), which 1.5 uses for the family of the finitary formulas
+without building a language of its own. InfinitaryModelExistence 5.2 presents the canonical
+expansion by a fragment of `L_{ω₁ω}` through first-order sentences `R_φ ↔ …` and omitted types;
+1.5 owns only the presentation for finitary formulas by geometric sequents, which have no
+implication and no universal quantifier.
+
 **Supplied by Tau Ceti.** The syntax and set-theoretic semantics of `L_{∞ω}`,
 `FirstOrder.Language.BoundedFormulaInf` (`TauCeti/ModelTheory/Infinitary/Syntax`) and
 `FirstOrder.Language.BoundedFormulaInf.Realize` (`Infinitary/Semantics`), into which 1.2
@@ -109,11 +122,12 @@ disjunctions all branch over the one carrier of the formula, while each disjunct
 formula has an index type of its own.
 
 **Supplied by Mathlib and consumed by name.** First-order languages, terms, structures and their
-homomorphisms (`Mathlib.ModelTheory`), the language of rings and its term operations, Grothendieck
-topologies with their complete lattice, sheaves, sheafification, sheaves for the trivial topology
-as presheaves, subobjects with pullback, images and existential quantification, the skeleton of
-finite sets, the simplex category and `SingleObj`, and finitely presented rings with the finite
-presentability of their objects in `CommRingCat`.
+homomorphisms, first-order formulas and theories with their models, and maps of languages with
+their expansions (`Mathlib.ModelTheory`), the language of rings and its term operations,
+Grothendieck topologies with their complete lattice, sheaves, sheafification, sheaves for the
+trivial topology as presheaves, subobjects with pullback, images and existential quantification,
+the skeleton of finite sets, the simplex category and `SingleObj`, and finitely presented rings
+with the finite presentability of their objects in `CommRingCat`.
 
 **Out of scope.** Many-sorted theories (every theory here has one sort; the many-sorted
 statements are the same with families of carriers); proof systems for geometric logic and the
@@ -189,7 +203,11 @@ and the representation of a topos by a localic groupoid (Joyal–Tierney 1984).
   `FirstOrder.Language.Hom.map_rel`, `FirstOrder.Language.Functions.apply₁`,
   `FirstOrder.Language.empty`, and `FirstOrder.Language.ring` with its `Zero`, `One`, `Add`, `Mul`
   and `Neg` instances on terms and `FirstOrder.Ring.compatibleRingOfRing`
-  (`ModelTheory/Algebra/Ring/Basic`).
+  (`ModelTheory/Algebra/Ring/Basic`); for 1.5, `FirstOrder.Language.BoundedFormula` with its
+  constructors `falsum`, `equal`, `rel`, `imp` and `all`, `FirstOrder.Language.Theory`
+  (`ModelTheory/Syntax`), `FirstOrder.Language.BoundedFormula.Realize`,
+  `FirstOrder.Language.Theory.Model` (`ModelTheory/Semantics`), `FirstOrder.Language.LHom` and
+  `FirstOrder.Language.LHom.IsExpansionOn` (`ModelTheory/LanguageMap`).
 - Subobjects and limits: `Subobject` with its `⊓` and `⊤`, `Subobject.pullback`, `Subobject.exists`,
   `Subobject.arrow` and `Subobject.underlying` (`CategoryTheory/Subobject/Basic`), `imageSubobject`,
   `equalizerSubobject` (`CategoryTheory/Subobject/Limits`), `Over`, `Over.mk`
@@ -231,8 +249,13 @@ and the representation of a topos by a localic groupoid (Joyal–Tierney 1984).
 **From Tau Ceti** (at the pin). `FirstOrder.Language.BoundedFormulaInf` with its constructors
 `equal`, `rel` and `iSup` and its `⊤`, `⊥`, `⊓` and `ex` (`TauCeti/ModelTheory/Infinitary/Syntax`),
 and `FirstOrder.Language.BoundedFormulaInf.Realize` (`TauCeti/ModelTheory/Infinitary/Semantics`),
-for 1.2; `CategoryTheory.GrothendieckTopology.isSheaf_Γ` (`Scheme.Γ` is a sheaf for every
-subcanonical topology on schemes) and `AlgebraicGeometry.Scheme.Ga`, both in
+for 1.2; `FirstOrder.Language.BoundedFormula.toOmega` (`TauCeti/ModelTheory/Infinitary/Syntax`),
+`FirstOrder.Language.BoundedFormula.realize_toInf` (`TauCeti/ModelTheory/Infinitary/Semantics`),
+`FirstOrder.Language.morleyize`, `FirstOrder.Language.morleyRel`,
+`FirstOrder.Language.lhomMorleyize` and `FirstOrder.Language.morleyExpansion`
+(`TauCeti/ModelTheory/ModelExistence/Morleyization`), for 1.5;
+`CategoryTheory.GrothendieckTopology.isSheaf_Γ` (`Scheme.Γ` is a sheaf for every subcanonical
+topology on schemes) and `AlgebraicGeometry.Scheme.Ga`, both in
 `TauCeti/AlgebraicGeometry/Sites/Big/StructureSheaf.lean`, for 4.2.
 
 **From GrothendieckTopoi.** Conventions 1 (sizes) and 4 (the direction of 2-cells), for Conventions
@@ -253,16 +276,21 @@ for 2.5; 6.1 (points of a topos, `nonempty_point_equivalence`), for the Examples
 `exists_equiv_presheaf_iff_essential_points`), 6.6 (`IsIrreducibleObject` and
 `isIrreducibleObject_iff_projective_preservesCoproducts`), for 3.5 and 3.6.
 
+**From InfinitaryModelExistence.** 5.1 (the Morleyization `morleyize L Φ` of a language by a family
+of formulas, `lhomMorleyize Φ` and the canonical expansion `morleyExpansion Φ M`), for 1.5.
+
 **From LocallyPresentableCategories.** 1.5 (finitely accessible categories are `Ind A`), for 3.5 and
 the Examples of Layer 3; 3.1 (theories with finite limits and their categories of models) and 3.5
 (essentially algebraic theories), for the Examples of Layer 3.
 
 ## How to read the build
 
-Layer 1 is geometric logic on Mathlib, with Tau Ceti for one translation: syntax, the set-theoretic
+Layer 1 is geometric logic on Mathlib, with Tau Ceti for one translation and for the Morleyization
+of a language: syntax, the set-theoretic
 semantics with its preservation by homomorphisms, structures and models in a category with finite
-limits, images and small coproducts, the transport of a model along a left exact left adjoint, and
-the translation into Tau Ceti's infinitary formulas. Layer 2 defines classifying sites through the
+limits, images and small coproducts, the transport of a model along a left exact left adjoint, the
+translation into Tau Ceti's infinitary formulas, and the coherent theory of the Morleyization of a
+first-order theory. Layer 2 defines classifying sites through the
 universal property of Layer 1's transport, builds the classifying category of a Horn theory and the
 normal form of geometric formulas, proves the existence of classifying sites by the syntactic site
 and their uniqueness, with the definability of the subobjects of powers of the generic model,
@@ -466,33 +494,85 @@ induction on `φ`; the order of subobjects is preserved because `F` preserves mo
 ### 1.5 Morleyization
 
 Prove `exists_morleyization`: for every first-order theory `T : L.Theory` there are a language
-`L'`, an expansion `ϕ : L →ᴸ L'` and a geometric theory `T'` over `L'` with only finite
-disjunctions such that every set-model of `T'`, as an `L'`-structure expanding an `L`-structure,
-satisfies `T`, and every model of `T` in sets has exactly one `L'`-structure expanding it that is a
-set-model of `T'`. Here `L'` adds to `L` an `n`-ary relation symbol `R_φ` for every
-`φ : L.Formula (Fin n)`, and `T'` says, by geometric sequents, that `R_φ` is interpreted by `φ`:
-`R_φ ⊣⊢ φ` for atomic `φ`, `R_(φ ⊓ ψ) ⊣⊢ R_φ ∧ R_ψ`, `R_(φ ⊔ ψ) ⊣⊢ R_φ ∨ R_ψ`,
-`R_(∃ φ) ⊣⊢ ∃ x R_φ`, `R_φ ∧ R_(∼φ) ⊢ ⊥` and `⊤ ⊢ R_φ ∨ R_(∼φ)`, `R_(∀ φ) ⊢ R_φ` (in the
-extended context) and `⊤ ⊢ R_(∀ φ) ∨ ∃ x R_(∼φ)`, with `⊤ ⊢ R_ψ` for each axiom `ψ` of `T`
-(Elephant, D1.5, the Morleyization of a first-order theory). Route: on a set-model of `T'`,
-induction on `φ` shows that `R_φ` is interpreted by `φ`, so the reduct satisfies `T`; conversely
-the canonical expansion, `R_φ` interpreted by `φ`, satisfies each sequent, and it is the only
-one, since the same induction determines every `R_φ`.
-*Needs:* 1.1, 1.2; Mathlib `FirstOrder.Language.LHom`, `LHom.IsExpansionOn`, `Theory.Model`,
-`Formula`, `BoundedFormula`.
+`L' : FirstOrder.Language.{u₁, max u₁ u₂}`, a map of languages `ϕ : L →ᴸ L'` and a geometric theory
+`T' : GeometricTheory.{0} L'`, its disjunctions indexed by types in `Type`, such that (a) for every
+type `M` with an `L`-structure and an `L'`-structure on which `ϕ` is an expansion
+(`ϕ.IsExpansionOn M`), if `M` is a set-model of `T'` then `M` is a model of `T`, and (b) on every
+model `M` of `T` there is exactly one `L'`-structure for which `ϕ` is an expansion and `M` is a
+set-model of `T'` (Elephant, D1.5.13).
+
+The language and the expansion are Tau Ceti's (InfinitaryModelExistence 5.1) and are not built
+again: with `Φ` the set of the `⟨n, φ.toOmega⟩` for `φ : L.BoundedFormula Empty n`, the finitary
+formulas in `n` bound positions seen in `L_{ω₁ω}` by `FirstOrder.Language.BoundedFormula.toOmega`,
+take `L' = FirstOrder.Language.morleyize L Φ` and `ϕ = FirstOrder.Language.lhomMorleyize Φ`; the
+structure of (b) is `FirstOrder.Language.morleyExpansion Φ M`, in which the symbol `R_φ` of `φ`
+(`FirstOrder.Language.morleyRel`) holds at `x : Fin n → M` exactly when `φ.Realize Empty.elim x`
+(`FirstOrder.Language.BoundedFormula.realize_toInf`). This target adds the theory `T'`. Write `R_φ`
+also for the atomic geometric formula `rel R_φ fun i => var i` in context `Fin n`. `T'` has one
+group of sequents for each `φ : L.BoundedFormula Empty n`, by the constructor of `φ` among the five
+of Mathlib's `BoundedFormula`:
+
+- `falsum`: `R_φ ⊢ bot`;
+- `equal t₁ t₂` and `rel R ts`: `R_φ ⊢ φ'` and `φ' ⊢ R_φ`, where `φ'` is the atomic geometric
+  formula of `L'` with the same symbols, moved by `ϕ`, its terms relabelled from `Empty ⊕ Fin n`
+  to `Fin n`;
+- `φ₁.imp φ₂`: `R_φ ∧ R_φ₁ ⊢ R_φ₂`, `R_φ₂ ⊢ R_φ` and `⊤ ⊢ R_φ ∨ R_φ₁`;
+- `φ₁.all`, with `φ₁` in `n + 1` bound positions: `R_φ[Fin.castAdd 1] ⊢ R_φ₁` in context
+  `Fin (n + 1)` (1.1, API), and `⊤ ⊢ R_φ ∨ ex R_(φ₁.imp falsum)` in context `Fin n`;
+
+and the sequent `⊤ ⊢ R_ψ` in context `Fin 0` for each axiom `ψ ∈ T`. Mathlib's `∼`, `⊤`, `⊓`, `⊔`
+and `∃'` are abbreviations built from these constructors (`φ ⊓ ψ` is `∼(φ.imp ∼ψ)` and `∼φ` is
+`φ.imp falsum`), so they carry no sequents of their own. The disjunctions of `T'` are `bot` and the
+binary one, indexed by `PEmpty` and `Bool`: `T'` is a coherent theory.
+
+Route: let an `L'`-structure on `M` expand the `L`-structure and be a set-model of `T'`. By
+induction on `φ`, `R_φ` holds at `x` exactly when `φ.Realize Empty.elim x`: the sequents of `imp`
+place `R_φ` between `R_φ₂ ∨ ¬R_φ₁` and `R_φ₁ → R_φ₂`, which agree classically; those of `all` give
+`R_φ ⊆ ∀ a, R_φ₁` and, with the case of `φ₁.imp falsum`, the converse, the bound variable being
+the last one in both syntaxes (Convention 2 and Mathlib's `Fin.snoc`). So every axiom of `T` holds,
+which is (a), and the structure is the canonical expansion, the function symbols and the relation
+symbols of `L` being fixed by `ϕ.IsExpansionOn M`: this is the uniqueness of (b). Conversely the
+canonical expansion of a model of `T` satisfies every sequent.
+*Needs:* 1.1, 1.2; InfinitaryModelExistence 5.1; Tau Ceti `FirstOrder.Language.morleyize`,
+`FirstOrder.Language.lhomMorleyize`, `FirstOrder.Language.morleyRel`,
+`FirstOrder.Language.morleyExpansion`, `FirstOrder.Language.BoundedFormula.toOmega`,
+`FirstOrder.Language.BoundedFormula.realize_toInf`; Mathlib `FirstOrder.Language.LHom`,
+`FirstOrder.Language.LHom.IsExpansionOn`, `FirstOrder.Language.Theory`,
+`FirstOrder.Language.Theory.Model`, `FirstOrder.Language.BoundedFormula`,
+`FirstOrder.Language.BoundedFormula.Realize`, `Fin.snoc`.
 
 **Checks.**
 
-- Negation needs both sequents. Over the language of one unary relation `P`, the theory
-  `{∀ x, ∼P x}` has as models the sets with `P` empty; without `⊤ ⊢ R_φ ∨ R_(∼φ)`, interpreting
-  `R_(∼P x)` by `∅` on a two-element set with `P = ∅` would give a set-model of `T'` whose reduct
-  satisfies `T` but whose `R_(∼P x)` is not `∼P x`, and uniqueness would fail.
-- The universal quantifier needs the second sequent. With `R_(∀ φ) ⊢ R_φ` alone, interpreting
-  `R_(∀ x, P x)` by `False` is allowed on any structure, so the model `PUnit` with `P` true of its
-  point would have two expansions.
-- `T'` is coherent: its disjunctions are `⊥` and binary, so the statement holds with
-  `GeometricTheory.{0}`; an encoding of `∀` by the disjunction over all elements of a model would
-  need disjunctions indexed by the model and could not be fixed independently of it.
+- The third sequent of `imp` is needed. For the empty theory and any structure `M`, interpret
+  `R_φ` by `False` for the sentence `φ = falsum.imp falsum` (Mathlib's `⊤`) and every other `R_χ`
+  by recursion on `χ` from these values: `R_χ₁ → R_χ₂` for `imp`, `∀ a, R_χ₁` for `all`, the
+  canonical values at `falsum`, `equal` and `rel`. Every sequent holds except `⊤ ⊢ R_φ ∨ R_falsum`:
+  `R_φ ∧ R_falsum ⊢ R_falsum` and `R_falsum ⊢ R_φ` hold because `R_falsum` is `False`. Without that
+  sequent `M` would have two expansions, this one and the canonical one, where `R_φ` is `True`.
+- The second sequent of `all` is needed. Over the language of one unary relation `P`, for the empty
+  theory and `M = PUnit` with `P` true of its point, interpret `R_φ` by `False` for the sentence
+  `φ = ∀ x, P x`, the `all` of the atomic formula `P x₀` in one bound position, and every other
+  `R_χ` by the same recursion. Every sequent holds except
+  `⊤ ⊢ R_φ ∨ ex R_((P x₀).imp falsum)`, whose two disjuncts are false;
+  `R_φ[Fin.castAdd 1] ⊢ R_(P x₀)` holds because `R_φ` is `False`. The canonical value of `R_φ` is
+  `True`: two expansions again.
+- The sequents of the axioms select the models. Let `T = {∀ x, ∼P x}` and `M = PUnit`. If `P` is
+  empty, `R_(P x₀)` is empty, `R_((P x₀).imp falsum)` is the point by `⊤ ⊢ R_φ ∨ R_φ₁`, and
+  `R_(∀ x, ∼P x)` is `True` by the second sequent of `all`, since
+  `R_(((P x₀).imp falsum).imp falsum)` is empty; `⊤ ⊢ R_ψ` holds, and there is one expansion, as
+  in (b). If `P` holds of the point, `R_((P x₀).imp falsum)` is empty by
+  `R_φ ∧ R_φ₁ ⊢ R_falsum` and `R_falsum ⊢ bot`, so `R_(∀ x, ∼P x)` is `False` by the first sequent
+  of `all`, and `⊤ ⊢ R_ψ` fails: no expansion is a set-model of `T'`, as (a) requires. Without the
+  sequents `⊤ ⊢ R_ψ`, (a) would fail on this `M`.
+- The empty structure, for a language without constants. A sentence `φ₁.all` is true there. Its
+  first sequent, in context `Fin 1`, has no assignment, and its second, in context `Fin 0`, has the
+  empty assignment and a false `ex`, so `R_(φ₁.all)` is `True`. Relations of positive arity on the
+  empty type are unique, so (b) holds with `M` empty. Stating the second sequent of `all` in the
+  context `Fin 1` of the first would leave it without assignment, and `R_(φ₁.all)` could be
+  `False`: a second expansion.
+- A theory without models: for `T = {falsum}`, `T'` contains `⊤ ⊢ R_falsum` and `R_falsum ⊢ bot` in
+  context `Fin 0`, where every type has the empty assignment, so `T'` has no set-model, the empty
+  type included, and (a) and (b) hold with no instance.
 
 ### Examples
 
@@ -500,11 +580,15 @@ one, since the same induction determines every `R_φ`.
   (`sheafBotEquivalence` and evaluation), and 1.3 makes models there the set-models.
 - For a continuous map of spaces, the inverse image of sheaves is a left exact left adjoint
   (GrothendieckTopoi 2.4), so 1.4 carries a sheaf of local rings to a sheaf of local rings.
+- The Morleyization of the empty theory over the language of one unary relation `P` (1.5): on
+  `Bool` with `P = {true}`, the one expansion that is a set-model has `R_(P x₀) = {true}`,
+  `R_((P x₀).imp falsum) = {false}`, and `R_(∀ x, P x)` and `R_(∀ x, ∼P x)` both `False`.
 
 ### Dependencies
 
-Mathlib; Tau Ceti for 1.2; GrothendieckTopoi 1.2 and 1.4 for 1.4, and 2.4 for the Examples. Within
-the layer, each target uses the previous ones.
+Mathlib; Tau Ceti for 1.2 and 1.5; InfinitaryModelExistence 5.1 for 1.5; GrothendieckTopoi 1.2 and
+1.4 for 1.4, and 2.4 for the Examples. Within the layer, 1.2, 1.3 and 1.4 each use the previous
+targets, and 1.5 uses 1.1 and 1.2.
 
 ## Layer 2: classifying topoi
 

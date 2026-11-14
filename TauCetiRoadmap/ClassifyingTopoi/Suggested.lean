@@ -237,9 +237,10 @@ theorem CatStructure.IsModel.map {C D : Type u} [SmallCategory C] [SmallCategory
     (M.map F).IsModel T :=
   sorry
 
-/-- **1.5.** Morleyization: every first-order theory `T` has a coherent geometric theory `T'` over
-an expansion `L'` of `L` whose set-models satisfy `T`, every model of `T` in sets having exactly one
-expansion to a set-model of `T'`. -/
+/-- **1.5.** Morleyization: every first-order theory `T` has a geometric theory `T'`, with
+disjunctions indexed by types in `Type`, over a language `L'` receiving `L`, such that the
+set-models of `T'` expanding an `L`-structure satisfy `T`, and every model of `T` in sets has
+exactly one expansion that is a set-model of `T'`. -/
 theorem exists_morleyization (T : L.Theory) :
     ∃ (L' : FirstOrder.Language.{u₁, max u₁ u₂}) (ϕ : L →ᴸ L') (T' : GeometricTheory.{0} L'),
       (∀ (M : Type v) [L.Structure M] [L'.Structure M] [ϕ.IsExpansionOn M],
