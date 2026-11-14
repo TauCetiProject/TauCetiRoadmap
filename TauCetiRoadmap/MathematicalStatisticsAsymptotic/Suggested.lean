@@ -481,6 +481,11 @@ in `ℓ^∞(ℝ)` to the `F`-Brownian bridge. -/
 theorem isDonsker_indicator_Iic (P : Measure ℝ) [IsProbabilityMeasure P] :
     IsDonsker P (fun t x ↦ (Set.Iic t).indicator (fun _ ↦ (1 : ℝ)) x) := sorry
 
+/-- **3.4** The classical Glivenko–Cantelli theorem: the half-line indicators form a
+Glivenko–Cantelli class for every `P` on `ℝ`. -/
+theorem isGlivenkoCantelli_indicator_Iic (P : Measure ℝ) [IsProbabilityMeasure P] :
+    IsGlivenkoCantelli P (fun t x ↦ (Set.Iic t).indicator (fun _ ↦ (1 : ℝ)) x) := sorry
+
 /-- **3.4** The `F`-Brownian bridge is the image of the standard Brownian bridge on `C([0,1])`
 under `x ↦ x ∘ F`. The standard bridge law `B` is the one built by StochasticCalculus §1.4; here
 it enters through its defining marginals. -/
@@ -637,7 +642,10 @@ theorem tendstoInProbability_of_isWellSeparated {Θ : Type*} [MetricSpace Θ]
     TendstoInProbability μ θhat atTop θ₀ := sorry
 
 /-- **5.2** Wald's consistency theorem for maximum likelihood on a compact parameter space. Every
-`p θ` is a probability density with respect to `ν`. -/
+`p θ` is a probability density with respect to `ν`. For every `θ` and every ball about `θ` of
+radius at most some `r₀ > 0`, the supremum of `log(p_{θ'}/p_{θ₀})` over the ball is measurable
+and its positive part, computed in `ℝ≥0∞` so that an unbounded supremum is not read as `0`, has
+finite integral. -/
 theorem tendstoInProbability_mle_of_isCompact {Θ : Type*} [MetricSpace Θ] [CompactSpace Θ]
     (ν : Measure X) (p : Θ → X → ℝ) (hp : ∀ θ, Measurable (p θ) ∧ ∀ x, 0 < p θ x)
     (θ₀ : Θ) [IsProbabilityMeasure (ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x))]
@@ -645,9 +653,9 @@ theorem tendstoInProbability_mle_of_isCompact {Θ : Type*} [MetricSpace Θ] [Com
     (hident : ∀ θ, ν.withDensity (fun x ↦ ENNReal.ofReal (p θ x)) =
       ν.withDensity (fun x ↦ ENNReal.ofReal (p θ₀ x)) → θ = θ₀)
     (husc : ∀ᵐ x ∂ν, UpperSemicontinuous fun θ ↦ Real.log (p θ x))
-    (hball : ∀ θ, ∃ r > 0, Measurable (fun x ↦ ⨆ θ' : Metric.ball θ r,
+    (hball : ∀ θ, ∃ r₀ > 0, ∀ r ∈ Set.Ioc 0 r₀, Measurable (fun x ↦ ⨆ θ' : Metric.ball θ r,
         Real.log (p θ'.1 x) - Real.log (p θ₀ x)) ∧
-      ∫⁻ x, ENNReal.ofReal (⨆ θ' : Metric.ball θ r, Real.log (p θ'.1 x) - Real.log (p θ₀ x))
+      ∫⁻ x, ⨆ θ' : Metric.ball θ r, ENNReal.ofReal (Real.log (p θ'.1 x) - Real.log (p θ₀ x))
         ∂(ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)) < ⊤)
     (θhat : ∀ n, (Fin n → X) → Θ) (R : ∀ n, (Fin n → X) → ℝ)
     (hR : TendstoInProbability (fun n ↦ ℙ[ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x), n])
@@ -1026,7 +1034,8 @@ def fisherInformation (P : Measure X) (score : X → 𝔼ₖ) : Matrix (Fin k) (
 
 /-- **7.3** Local asymptotic normality of the product experiments of a model that is
 differentiable in quadratic mean: along local parameters `hₙ → h` with `θ + hₙ / √n ∈ s`, the
-likelihood ratio is `exp(⟪h, Δₙ⟫ - hᵀ I h / 2 + o_P(1))` with the normalized score `Δₙ`. -/
+likelihood ratio is `exp(⟪h, Δₙ⟫ - hᵀ I h / 2 + o_P(1))` with the normalized score `Δₙ`; at an
+interior point of `s` the score has mean `0`. -/
 theorem tendstoInProbability_likelihoodRatio_of_hasQMDWithinAt (ν : Measure X)
     (p : 𝔼ₖ → X → ℝ) (hp : ∀ θ, Measurable (p θ) ∧ 0 ≤ p θ)
     (hprob : ∀ θ, IsProbabilityMeasure (ν.withDensity fun x ↦ ENNReal.ofReal (p θ x)))
@@ -1040,7 +1049,8 @@ theorem tendstoInProbability_likelihoodRatio_of_hasQMDWithinAt (ν : Measure X)
         (Measure.pi fun _ : Fin n ↦ ν.withDensity fun y ↦ ENNReal.ofReal (p θ y)) x).toReal *
         Real.exp (-⟪h₀, (Real.sqrt n)⁻¹ • ∑ i, score (x i)⟫_ℝ +
           (2 : ℝ)⁻¹ * (WithLp.ofLp h₀ ⬝ᵥ (fisherInformation
-            (ν.withDensity fun y ↦ ENNReal.ofReal (p θ y)) score *ᵥ WithLp.ofLp h₀)))) atTop 1 :=
+            (ν.withDensity fun y ↦ ENNReal.ofReal (p θ y)) score *ᵥ WithLp.ofLp h₀)))) atTop 1 ∧
+    (θ ∈ interior s → ∫ x, score x ∂(ν.withDensity fun y ↦ ENNReal.ofReal (p θ y)) = 0) :=
   sorry
 
 /-- **7.3** Asymptotic linearity of maximum likelihood in a model differentiable in quadratic
@@ -1523,8 +1533,8 @@ theorem hasInfluenceFunction_mFunctional (ψ : ℝ → ℝ) (hψc : Continuous �
     HasInfluenceFunction T F fun x ↦ ψ (x - T F) / γ := sorry
 
 /-- **9.2** The influence function and asymptotic normality of a Hadamard-differentiable
-functional of the distribution function: `IF(x) = T'(1_{[x, ∞)} - F)` and
-`√n (T(Fₙ) - T(F)) → N(0, ∫ IF² dF)`. -/
+functional of the distribution function: `IF(x) = T'(1_{[x, ∞)} - F)` has mean `0`, it is the
+influence function of `G ↦ T(G)` at `F`, and `√n (T(Fₙ) - T(F)) → N(0, ∫ IF² dF)`. -/
 theorem tendstoInDistribution_of_hasHadamardDerivWithinAt_cdf (P : Measure ℝ)
     [IsProbabilityMeasure P] (T : Linfty ℝ → ℝ) (T' : Linfty ℝ →L[ℝ] ℝ)
     (hT : HasHadamardDerivWithinAt T {z | Monotone (z : ℝ → ℝ)} univ T'
@@ -1535,7 +1545,9 @@ theorem tendstoInDistribution_of_hasHadamardDerivWithinAt_cdf (P : Measure ℝ)
     (hTmeas : ∀ n : ℕ, Measurable fun x : Fin n → ℝ ↦ T (liftLinfty (empiricalCdf x)))
     {Ω' : Type*} [MeasurableSpace Ω'] {μ' : Measure Ω'} [IsProbabilityMeasure μ'] {Z : Ω' → ℝ}
     (hZ : HasLaw Z (gaussianReal 0 (∫ x, IF x ^ 2 ∂P).toNNReal) μ') :
-    ∫ x, IF x ∂P = 0 ∧ TendstoInDistribution (fun (n : ℕ) (x : Fin n → ℝ) ↦
+    ∫ x, IF x ∂P = 0 ∧
+      HasInfluenceFunction (fun G ↦ T (liftLinfty fun t ↦ cdf G t)) P IF ∧
+      TendstoInDistribution (fun (n : ℕ) (x : Fin n → ℝ) ↦
         Real.sqrt n * (T (liftLinfty (empiricalCdf x)) - T (liftLinfty fun t ↦ cdf P t))) atTop Z
       (fun n ↦ Measure.pi fun _ : Fin n ↦ P) μ' := sorry
 
@@ -1583,7 +1595,9 @@ theorem integral_sq_huberScore_le_of_abs_le (k c : ℝ) (hk : 0 < k)
 
 /-- **9.5** Huber's minimax property: in the symmetric gross-error neighbourhood of `N(0, 1)`,
 the Huber score `ψₖ` has largest asymptotic variance `∫ ψₖ² dG / G((-k, k))²` at the least
-favourable law `G₀`, where it equals `1 / I(G₀)`. -/
+favourable law `G₀`, where it equals `1 / I(G₀)`. The law `G₀` lies in the neighbourhood, as
+`(1 - ε)Φ + εH₀` with `H₀` symmetric and carried by `{|x| > k}`, and `ψₖ` is its score
+`-(log g₀)'`. -/
 theorem huber_minimax (ε : ℝ) (hε : ε ∈ Set.Ioo (0 : ℝ) 1) (k : ℝ) (hk : 0 < k)
     (hkeq : 2 * Real.exp (-k ^ 2 / 2) / Real.sqrt (2 * Real.pi) / k -
       2 * cdf (gaussianReal 0 1) (-k) = ε / (1 - ε))
@@ -1593,7 +1607,14 @@ theorem huber_minimax (ε : ℝ) (hε : ε ∈ Set.Ioo (0 : ℝ) 1) (k : ℝ) (h
     (H : Measure ℝ) [IsProbabilityMeasure H] (hH : H.map Neg.neg = H) :
     let V : Measure ℝ → ℝ := fun G ↦ (∫ x, huberScore k x ^ 2 ∂G) / (G.real (Set.Ioo (-k) k)) ^ 2
     V (ENNReal.ofReal (1 - ε) • gaussianReal 0 1 + ENNReal.ofReal ε • H) ≤ V G₀ ∧
-      V G₀ = (∫ x, huberScore k x ^ 2 ∂G₀)⁻¹ := sorry
+      V G₀ = (∫ x, huberScore k x ^ 2 ∂G₀)⁻¹ ∧
+      (∃ H₀ : Measure ℝ, IsProbabilityMeasure H₀ ∧ H₀.map Neg.neg = H₀ ∧
+        H₀ (Set.Icc (-k) k) = 0 ∧
+        G₀ = ENNReal.ofReal (1 - ε) • gaussianReal 0 1 + ENNReal.ofReal ε • H₀) ∧
+      ∀ x, HasDerivAt (fun y ↦ Real.log ((1 - ε) *
+        if |y| ≤ k then Real.exp (-y ^ 2 / 2) / Real.sqrt (2 * Real.pi)
+        else Real.exp (-k ^ 2 / 2) / Real.sqrt (2 * Real.pi) * Real.exp (k ^ 2 - k * |y|)))
+        (-huberScore k x) x := sorry
 
 /-- **9.5** The lower half of Huber's saddle point: at the least favourable law `G₀`, every
 bounded score `ψ`, absolutely continuous on every bounded interval, with `ψ'` integrable under
