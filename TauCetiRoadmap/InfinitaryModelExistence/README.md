@@ -260,11 +260,16 @@ once, generic in the carrier `ι` wherever the statement allows.
 * `inst φ t` for `φ : BoundedFormulaInf L ι Empty 1` and a closed term `t`, the instantiation used
   by the quantifier clauses of Layer 3, and the **instances** `substBounds (fun i => L.con (c i))`
   of a formula with `n` bound positions at a tuple `c : Fin n → γ` of constants.
-* `BoundedFormulaInf.toFormula` (bound positions become free variables `α ⊕ Fin n`) and
+* The infinitary form of Mathlib's `BoundedFormula.toFormula` (bound positions become free
+  variables `α ⊕ Fin n`) and
   `constantsVarsEquiv : BoundedFormulaInf L[[γ]] ι α n ≃ BoundedFormulaInf L ι (γ ⊕ α) n`, the
-  infinitary forms of Mathlib's `BoundedFormula.toFormula` and `BoundedFormula.constantsVarsEquiv`,
-  with their realization laws. They are how constants are abstracted into variables, and back,
-  in the Craig and omitting-types arguments.
+  infinitary form of Mathlib's `BoundedFormula.constantsVarsEquiv`, with their realization laws.
+  They are how constants are abstracted into variables, and back, in the Craig and omitting-types
+  arguments.
+
+  *Needs* (for the form of `toFormula`, which Tau Ceti lacks at the pin): the constructors,
+  `TauCeti.BoundedFormulaInf.relabel` and `BoundedFormulaInf.Realize` with their realization laws
+  (InfinitaryLogic), by the recursion of Mathlib's `BoundedFormula.toFormula`.
 * `onBoundedFormulaInf_substBounds`: language maps commute with bound substitution,
   `onBoundedFormulaInf g (substBounds σ φ) = substBounds (g.onTerm ∘ σ) (onBoundedFormulaInf g φ)`.
 * `IsAtomic`, the predicate picking out equalities and relation instances.
