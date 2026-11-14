@@ -689,11 +689,14 @@ theorem ae_windowEdgeDensity (p : I) :
       Tendsto (windowEdgeDensity G) atTop (𝓝 (p : ℝ)) := by
   sorry
 
-/-- A concrete measurable separator, not an isomorphism-invariant event. -/
-theorem binomialRandom_singular_separator (p q : I) (hpq : p ≠ q) :
-    ∃ S : Set (SimpleGraph ℕ), MeasurableSet S ∧
-      SimpleGraph.binomialRandom ℕ p S = 1 ∧
-      SimpleGraph.binomialRandom ℕ q S = 0 := by
+/-- **Mutual singularity.** For `p ≠ q` the labeled laws `G(ℕ, p)` and `G(ℕ, q)` are mutually
+singular, in Mathlib's `MeasureTheory.Measure.MutuallySingular`, although for `p, q ∈ (0, 1)` both
+are concentrated on the Rado isomorphism class. The witness is the edge-density separator
+`{G | windowEdgeDensity G → p}`: it is measurable, has `G(ℕ, p)`-probability one by
+`ae_windowEdgeDensity` at `p` and `G(ℕ, q)`-probability zero by the same theorem at `q`. It is
+invariant under finitely supported permutations but is not an isomorphism-invariant event. -/
+theorem binomialRandom_mutuallySingular (p q : I) (hpq : p ≠ q) :
+    SimpleGraph.binomialRandom ℕ p ⟂ₘ SimpleGraph.binomialRandom ℕ q := by
   sorry
 
 /-! ## Infinitary distinctions (Milestone 10)

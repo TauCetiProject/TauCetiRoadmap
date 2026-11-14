@@ -919,10 +919,16 @@ normalization, to prove
 
 Set the displayed density to $`0`$ at $`n=0,1`$. The limit holds for every $`p\in[0,1]`$,
 the endpoints included ($`G(\mathbb N,0)`$ and $`G(\mathbb N,1)`$ are the empty and complete graphs).
-For distinct $`p,q\in[0,1]`$ derive mutual singularity of the labeled infinite laws.
-For $`p,q\in(0,1)`$ this holds although each gives probability one to the Rado isomorphism class.
-The separating initial-window density events are measurable and invariant under
-finitely supported permutations; do not claim invariance under all relabelings.
+For distinct $`p,q\in[0,1]`$ derive mutual singularity of the labeled infinite laws, stated
+with Mathlib's `MeasureTheory.Measure.MutuallySingular` as
+`SimpleGraph.binomialRandom ℕ p ⟂ₘ SimpleGraph.binomialRandom ℕ q`
+(`binomialRandom_mutuallySingular`). For $`p,q\in(0,1)`$ this holds although each gives
+probability one to the Rado isomorphism class. The witness is the edge-density separator
+`{G | windowEdgeDensity G → p}`: it is measurable,
+has probability one under `G(ℕ, p)` and, since the densities converge to `q ≠ p` almost surely
+under `G(ℕ, q)`, probability zero there. At `p = 0`, `q = 1` its masses are `1` and `0`. The
+separating initial-window density events are invariant under finitely supported permutations;
+do not claim invariance under all relabelings.
 
 ## Milestone 10 — Infinitary distinctions with actual sentences
 
