@@ -30,7 +30,8 @@ characteristic of `T` is congruent to `1` modulo `|P|` (Layer 3); for a finite g
 `p`, the order complex of the poset `A_p(G)` of nontrivial elementary abelian `p`-subgroups has
 chains of exactly the lengths `1, …, m_p(G)`, where `m_p(G)` is the `p`-rank (OddOrderTheorem §1.4);
 the inclusion of `A_p(G)` into the poset `S_p(G)` of nontrivial `p`-subgroups realizes to a homotopy
-equivalence; `S_p(G)` has a contractible realization when `G` has a nontrivial normal `p`-subgroup;
+equivalence; `S_p(G)` has a contractible realization when `G`, finite or not, has a nontrivial
+normal `p`-subgroup;
 as a finite space with its upper-set topology `S_p(G)` is contractible exactly when `G` has a
 nontrivial normal `p`-subgroup; when `p` divides `|G|`, the realization of `S_p(G)` is disconnected
 exactly when `G` has a strongly `p`-embedded subgroup; for solvable `G`, a contractible realization
@@ -83,7 +84,12 @@ from Mathlib's `IsPGroup` and from these elementary abelian subgroups, and resta
 (`TauCeti/AlgebraicTopology/SimplicialComplex/OrderComplex.lean`), barycentric subdivision as the
 order complex of the face poset and its realization homeomorphism (`Subdivision/Basic.lean`,
 `Subdivision/Homeomorph.lean`), weak realizations of abstract simplicial complexes and their
-carriers (`Realization/Basic.lean`), realized simplicial maps (`Realization/Map.lean`), the Euler
+carriers (`Realization/Basic.lean`), their local path-connectedness
+(`Realization/LocallyPathConnected.lean`), the open star of a set of vertices and its homotopy
+equivalence with the full subcomplex on those vertices (`Restriction.lean`,
+`Realization/Star/Retraction.lean`, `Realization/Star/HomotopyEquiv.lean`), the contractibility
+of the realization of a cone (`IsCone.lean`, `Realization/Cone.lean`), realized simplicial maps
+(`Realization/Map.lean`), the Euler
 characteristic of a realization as the alternating count of faces
 (`Realization/CWComplex/EulerCharacteristic.lean`), the Euler characteristic of a contractible
 space (`TauCeti/AlgebraicTopology/Cellular/EulerCharacteristic/FiniteCWType.lean`) and weak
@@ -147,16 +153,19 @@ cohomology rings that Mathlib does not have.
   `ContinuousMap.restrictPreimage` (`Topology/ContinuousMap/Basic`), `ContinuousMap.Homotopic`,
   `ContinuousMap.HomotopicRel` (`Topology/Homotopy/Basic`), `ContinuousMap.HomotopyEquiv` with the
   notation `≃ₕ` (`Topology/Homotopy/Equiv`), `ContractibleSpace`
-  (`Topology/Homotopy/Contractible`), `Homeomorph`, `ConnectedSpace`, `Relation.EqvGen`,
-  `MulAction`, `ContinuousConstSMul`, `TopologicalSpace.IsTopologicalBasis` (`Topology/Bases`).
+  (`Topology/Homotopy/Contractible`), `Homeomorph`, `ConnectedSpace`, `Joined`,
+  `PathConnectedSpace` (`Topology/Connected/PathConnected`), `LocallyPathConnectedSpace`,
+  `pathConnectedSpace_iff_connectedSpace` (`Topology/Connected/LocallyPathConnected`),
+  `Relation.EqvGen`, `MulAction`, `ContinuousConstSMul`, `TopologicalSpace.IsTopologicalBasis`
+  (`Topology/Bases`).
 - Orders: `OrderDual`, `OrderIso`.
 - Simplicial: `AbstractSimplicialComplex`, `PreAbstractSimplicialComplex`
   (`AlgebraicTopology/SimplicialComplex/Basic`), `CategoryTheory.nerve`, `SSet.toTop`
   (`AlgebraicTopology/SingularSet`), `Preorder.smallCategory`, `Monotone.functor`
   (`CategoryTheory/Category/Preorder`), `CategoryTheory.CostructuredArrow`.
 - Groups: `Subgroup`, `Subgroup.Normal`, `Subgroup.map`, `Subgroup.center`, `MulAut.conj`,
-  `IsPGroup` (`GroupTheory/PGroup`), `Sylow`, `Group.IsSolvable`, `Nat.factorization`, `Int.ModEq`,
-  `finsum`.
+  `IsPGroup`, `IsPGroup.center_nontrivial`, `IsPGroup.to_sup_of_normal_right`
+  (`GroupTheory/PGroup`), `Sylow`, `Group.IsSolvable`, `Nat.factorization`, `Int.ModEq`, `finsum`.
 
 **From Tau Ceti** (at the pin).
 
@@ -172,7 +181,19 @@ cohomology rings that Mathlib does not have.
 - `TauCeti.SetLike.Face` (`TauCeti/AlgebraicTopology/SimplicialComplex/Basic.lean`);
   `AbstractSimplicialComplex.Realization`, `AbstractSimplicialComplex.carrier`,
   `AbstractSimplicialComplex.vertex`
-  (`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/Basic.lean`).
+  (`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/Basic.lean`);
+  `AbstractSimplicialComplex.instLocallyPathConnectedSpaceRealization`
+  (`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/LocallyPathConnected.lean`).
+- `AbstractSimplicialComplex.restrict`
+  (`TauCeti/AlgebraicTopology/SimplicialComplex/Restriction.lean`);
+  `AbstractSimplicialComplex.openStarRealizationSet`
+  (`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/Star/Retraction.lean`);
+  `AbstractSimplicialComplex.openStarHomotopyEquiv`
+  (`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/Star/HomotopyEquiv.lean`).
+- `PreAbstractSimplicialComplex.IsCone`
+  (`TauCeti/AlgebraicTopology/SimplicialComplex/IsCone.lean`);
+  `AbstractSimplicialComplex.contractibleSpace_realization_of_isCone`
+  (`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/Cone.lean`).
 - `PreAbstractSimplicialComplex.SimplicialMap.realizationMap`
   (`TauCeti/AlgebraicTopology/SimplicialComplex/Realization/Map.lean`).
 - `AbstractSimplicialComplex.eulerChar_realization`
@@ -180,6 +201,8 @@ cohomology rings that Mathlib does not have.
   `TauCeti.eulerChar_of_contractibleSpace`
   (`TauCeti/AlgebraicTopology/Cellular/EulerCharacteristic/FiniteCWType.lean`).
 - `ContinuousMap.IsWeakHomotopyEquivalence`, `ContinuousMap.IsWeakHomotopyEquivalence.comp`,
+  `ContinuousMap.IsWeakHomotopyEquivalence.exists_joined`,
+  `ContinuousMap.IsWeakHomotopyEquivalence.joined_iff`,
   `ContinuousMap.HomotopyEquiv.isWeakHomotopyEquivalence`,
   `ContinuousMap.isWeakHomotopyEquivalence_of_contractibleSpace`
   (`TauCeti/Topology/Homotopy/HomotopyGroup/WeakHomotopyEquivalence.lean`).
@@ -210,8 +233,8 @@ its specialization order, and, in an upper-set variant, between a simplicial com
 poset. Layer 3 is the homotopy theory of posets through their order complexes: the comparison with
 the nerve that lets Theorem A of StableHomotopyKTheory apply, the homotopy property, conical
 contractibility, the fibre lemma, and Euler characteristics of posets with a group action. Layer 4
-applies Layers 1–3 to the posets `S_p(G)` and `A_p(G)` of a finite group, with Mathlib's Sylow
-theory and OddOrderTheorem's `p`-core and `p`-rank.
+applies Layers 1–3 to the posets `S_p(G)` and `A_p(G)` of a group, finite in every target but
+4.3, with Mathlib's Sylow theory and OddOrderTheorem's `p`-core and `p`-rank.
 
 ## Layer 1: finite spaces
 
@@ -401,16 +424,42 @@ the map `μ` from the realization of `orderComplex (Specialization X)` to `X` se
 largest vertex of its carrier (a chain, so the largest vertex exists) is continuous and a weak
 homotopy equivalence (McCord 1966, Theorem 2, p. 466). Continuity: the preimage of an open, that
 is upper, set `U` is the union of the open stars of the vertices in `U`. The route is 2.1 for the
-basis-like cover by the minimal open neighbourhoods `U_x = {y | x ≤ y}`:
-`μ⁻¹(U_x) = ⋃_{y ≥ x} star(y)`, and this deformation retracts onto the realization of the order
-complex of `U_x`, a cone with vertex `x` (McCord 1966, §5, Lemmas 3 and 7, pp. 469–470); `U_x` has
-the smallest element `x` and is contractible by 1.2; the restriction of `μ` over `U_x` is a map
+basis-like cover by the minimal open neighbourhoods `U_x = {y | x ≤ y}`.
+`μ⁻¹(U_x) = ⋃_{y ≥ x} star(y)` is the open star `AbstractSimplicialComplex.openStarRealizationSet`
+of the vertex set `U_x`, homotopy equivalent by `AbstractSimplicialComplex.openStarHomotopyEquiv`
+to the realization of the full subcomplex on `U_x` (`AbstractSimplicialComplex.restrict`), the
+order complex of `U_x`, a cone with vertex `x` (compare McCord 1966, §5, Lemmas 3 and 7,
+pp. 469–470): adjoining the smallest element `x` to a chain of `U_x` gives a chain
+(`PreAbstractSimplicialComplex.IsCone`), so this realization is contractible
+(`AbstractSimplicialComplex.contractibleSpace_realization_of_isCone`). The subspace `U_x` has the
+smallest element `x` and is contractible by 1.2; the restriction of `μ` over `U_x` is a map
 between contractible spaces, a weak equivalence by
 `ContinuousMap.isWeakHomotopyEquivalence_of_contractibleSpace`.
+
+Prove that for a partial order `P` the realization of `orderComplex P` is connected exactly when
+`P` is nonempty and any two of its elements `a`, `b` are joined by a fence, a sequence
+`a = x₀, x₁, …, xₖ = b` whose consecutive terms are comparable. The route is the bijection of `μ`
+on path components (`ContinuousMap.IsWeakHomotopyEquivalence.exists_joined` and
+`ContinuousMap.IsWeakHomotopyEquivalence.joined_iff`) for the Alexandrov-discrete `T₀` space
+`WithUpperSet P`, whose specialization order is `P` (`orderIsoSpecializationWithUpperSetTopology`),
+with 1.1: comparable points of `WithUpperSet P` are joined by a path, and the class of a point
+under the fence relation is an upper and a lower set, hence open and closed, so the path
+components of `WithUpperSet P` are these classes. The realization is locally path-connected
+(`AbstractSimplicialComplex.instLocallyPathConnectedSpaceRealization`), so it is connected exactly
+when it is path-connected (`pathConnectedSpace_iff_connectedSpace`).
 *Needs:* 1.1, 1.2, 2.1; Tau Ceti `TauCeti.AbstractSimplicialComplex.orderComplex`,
 `AbstractSimplicialComplex.Realization`, `AbstractSimplicialComplex.carrier`,
+`AbstractSimplicialComplex.restrict`, `AbstractSimplicialComplex.openStarRealizationSet`,
+`AbstractSimplicialComplex.openStarHomotopyEquiv`, `PreAbstractSimplicialComplex.IsCone`,
+`AbstractSimplicialComplex.contractibleSpace_realization_of_isCone`,
+`AbstractSimplicialComplex.instLocallyPathConnectedSpaceRealization`,
 `ContinuousMap.IsWeakHomotopyEquivalence`,
-`ContinuousMap.isWeakHomotopyEquivalence_of_contractibleSpace`; Mathlib `AlexandrovDiscrete`.
+`ContinuousMap.IsWeakHomotopyEquivalence.exists_joined`,
+`ContinuousMap.IsWeakHomotopyEquivalence.joined_iff`,
+`ContinuousMap.isWeakHomotopyEquivalence_of_contractibleSpace`; Mathlib `AlexandrovDiscrete`,
+`WithUpperSet`, `orderIsoSpecializationWithUpperSetTopology`,
+`Topology.IsUpperSet.toAlexandrovDiscrete`, `Joined`, `ConnectedSpace`,
+`pathConnectedSpace_iff_connectedSpace`.
 
 **Checks.**
 
@@ -418,7 +467,8 @@ between contractible spaces, a weak equivalence by
   vertex `False` to `True`, and it is a weak equivalence between contractible spaces. The
   preimage of `U_False = {False, True}` is the whole edge `[0, 1] = star(False) ∪ star(True)`,
   while `star(False)` alone is `[0, 1)`: the preimage of a minimal open set is a union of open
-  stars, not one.
+  stars, not one. The preimage of `U_True = {True}` is the open star `(0, 1]` of the vertex set
+  `{True}`, homotopy equivalent to the realization of the full subcomplex on `{True}`, a point.
 - For the pseudo-circle the order complex is a square, the realization is a circle, and the map
   is a weak equivalence: `π₁` of the pseudo-circle is `ℤ`, although the pseudo-circle has no beat
   point and more than one point, so it is not contractible (1.3).
@@ -426,6 +476,10 @@ between contractible spaces, a weak equivalence by
   point of the open edge of Sierpiński space to `False` would pull back the open set `{True}` to
   a single vertex, which is not open. Infinite spaces are allowed: for discrete `ℕ` the order
   complex has only vertices, its realization is discrete `ℕ` and `μ` is the identity.
+- Connectivity: the empty poset has the empty realization, which is not connected; the discrete
+  two-element order has a two-point realization, and no fence joins its elements; in the poset
+  `0, 1 < 2` the fence `0, 2, 1` joins the incomparable `0` and `1`, and the realization, two
+  edges glued at `2`, is connected, so a single comparison in place of a fence would be wrong.
 
 ### 2.3 From simplicial complexes to face posets
 
@@ -635,8 +689,10 @@ orbits of size `|P|`. So `chainEulerChar T = e(1) + 1`.
 
 ### Examples
 
-- The face poset of a simplicial complex has an order complex, its barycentric subdivision,
-  homotopy equivalent to the complex (2.3 and 3.1).
+- The face poset of a simplicial complex has an order complex, its barycentric subdivision, whose
+  realization is homeomorphic to that of the complex
+  (`AbstractSimplicialComplex.barycentricSubdivisionRealizationHomeomorph`), and homeomorphic to
+  the realized nerve of the face poset (3.1).
 - Removing from a finite poset a point whose upper or lower link is contractible does not change
   the homotopy type of the realization (3.4 applied to the inclusion).
 
@@ -656,9 +712,11 @@ uses 3.3.
 (Quillen 1978, §2; Minian–Piterman 2018, p. 1), both ordered by inclusion. Define
 `elemAbelianToPSubgroup`, the inclusion. Prove that conjugation by `g ∈ G`, `H ↦ gHg⁻¹`, gives an
 action of `G` on both posets by order automorphisms commuting with the inclusion.
+*Needs:* Mathlib `Subgroup`, `IsPGroup`, `MulAut.conj`, `Subgroup.map`.
 
-(b) Prove that `S_p(P)` and `A_p(P)` are conical for a nontrivial `p`-group `P`: with `B` a
-central subgroup of order `p`, `A ≤ AB ≥ B`.
+(b) Prove that `S_p(P)` and `A_p(P)` are conical for a nontrivial finite `p`-group `P`: with `B` a
+central subgroup of order `p`, which exists since the centre of `P` is nontrivial, `A ≤ AB ≥ B`.
+*Needs:* (a), 3.3; Mathlib `Subgroup.center`, `IsPGroup`, `IsPGroup.center_nontrivial`.
 
 (c) Prove `exists_card_eq_iff_le_pRank`: for a finite group `G` and a prime `p`, the order complex
 of `A_p(G)` has a face with `n` vertices exactly when `1 ≤ n ≤ m_p(G)`, the `p`-rank of
@@ -669,8 +727,7 @@ subgroup of order `p ^ m_p(G)` is an `𝔽_p`-vector space of dimension `m_p(G)`
 are chains. The Lean statement writes `m_p(G)` as the supremum of the `k` such that `G` has an
 abelian subgroup of exponent dividing `p` and order `p ^ k`, which is OddOrderTheorem's
 definition with its two conditions written out.
-*Needs:* OddOrderTheorem §1.4; 3.3; Mathlib `Subgroup`, `IsPGroup`, `Subgroup.center`,
-`MulAut.conj`, `Subgroup.map`.
+*Needs:* (a); OddOrderTheorem §1.4.
 
 **API.**
 
@@ -732,12 +789,15 @@ spaces need not be homotopy equivalent: for `G = 𝔖₅` and `p = 2` the cores 
 
 ### 4.3 Contractibility when `O_p(G) ≠ 1`
 
-Prove `contractibleSpace_of_normal`: if `G` has a nontrivial normal `p`-subgroup `N`, the
-realization of `S_p(G)` is contractible (Quillen 1978, Proposition 2.4). The poset is conical
-(3.3): `Q ≤ QN ≥ N`, where `QN` is a `p`-subgroup since `N` is normal. Through 4.2 the
-realization of `A_p(G)` is contractible as well. Since `O_p(G)` is a normal `p`-subgroup
-containing every normal `p`-subgroup (OddOrderTheorem §1.1), the hypothesis says `O_p(G) ≠ 1`.
-*Needs:* 3.3, 4.1, 4.2; OddOrderTheorem §1.1.
+Prove `contractibleSpace_of_normal`: for any group `G` and prime `p`, if `G` has a nontrivial
+normal `p`-subgroup `N`, the realization of `S_p(G)` is contractible (Quillen 1978,
+Proposition 2.4). The poset is conical (3.3): `Q ≤ QN ≥ N`, where `QN` is a `p`-subgroup, an
+extension of `Q/(Q ∩ N)` by `N` (`IsPGroup.to_sup_of_normal_right`, which assumes no finiteness).
+For finite `G`, the realization of `A_p(G)` is contractible as well, through 4.2, and since
+`O_p(G)` is a normal `p`-subgroup containing every normal `p`-subgroup (OddOrderTheorem §1.1), the
+hypothesis says `O_p(G) ≠ 1`.
+*Needs:* 3.3, 4.1, 4.2; OddOrderTheorem §1.1; Mathlib `Subgroup.Normal`,
+`IsPGroup.to_sup_of_normal_right`.
 
 **Checks.**
 
@@ -748,6 +808,12 @@ containing every normal `p`-subgroup (OddOrderTheorem §1.1), the hypothesis say
 - `QN` need not be elementary abelian when `Q` and `N` are: in the dihedral group of order `8`,
   with `N` a Klein four-group (normal, of index `2`) and `Q` a reflection subgroup outside `N`,
   `QN` is the whole group; the argument is made in `S_p(G)` and transported by 4.2.
+- `G` need not be finite: for `G = ℤ × ℤ/2`, `p = 2` and `N = 0 × ℤ/2`, every element outside `N`
+  has infinite order, so `N` is the only nontrivial `2`-subgroup, `S₂(G) = {N}` is one point and
+  its realization is contractible. For the infinite dihedral group `ℤ ⋊ ℤ/2` and `p = 2`, the
+  nontrivial `2`-subgroups are the subgroups of order `2` generated by the reflections, infinitely
+  many, pairwise incomparable and none normal: the hypothesis fails, and the realization is an
+  infinite discrete space.
 
 ### 4.4 Stong's finite-space form
 
@@ -775,11 +841,12 @@ homeomorphisms (4.1), and a contractible finite `T₀` space with a group action
 Prove `not_connectedSpace_iff`: for `p` dividing `|G|`, the realization of `S_p(G)` is
 disconnected exactly when `G` has a strongly `p`-embedded subgroup, a proper subgroup `M`
 containing a Sylow `p`-subgroup such that `p` does not divide `|M ∩ gMg⁻¹|` for `g ∉ M` (Quillen
-1978, Proposition 5.2). The route: `G` acts transitively on the components, each containing a
-Sylow subgroup, and the stabilizer of the component of a Sylow subgroup `P` is strongly
-`p`-embedded when proper; conversely, a strongly `p`-embedded `M` contains the stabilizer, by a
-double-coset count showing `|G : M| ≡ 1 mod p`.
-*Needs:* 1.1, 3.1, 4.1; Mathlib `Sylow`, `MulAut.conj`, `Subgroup.map`.
+1978, Proposition 5.2). The route: by 2.2 the components of the realization correspond to the
+classes of `S_p(G)` under the fence relation of comparable subgroups; `G` acts transitively on
+them, each containing a Sylow subgroup, and the stabilizer of the component of a Sylow subgroup
+`P` is strongly `p`-embedded when proper; conversely, a strongly `p`-embedded `M` contains the
+stabilizer, by a double-coset count showing `|G : M| ≡ 1 mod p`.
+*Needs:* 1.1, 2.2, 4.1; Mathlib `Sylow`, `MulAut.conj`, `Subgroup.map`.
 
 **Checks.**
 

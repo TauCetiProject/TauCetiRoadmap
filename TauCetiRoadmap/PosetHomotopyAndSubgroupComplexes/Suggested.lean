@@ -222,9 +222,9 @@ theorem exists_homotopyEquiv_elemAbelianToPSubgroup [Finite G] [Fact p.Prime] :
         AbstractSimplicialComplex.Realization (orderComplex (PSubgroupPoset G p)),
       ⇑e.toFun = ⇑(orderComplexMap (elemAbelianToPSubgroup G p)).realizationMap := sorry
 
-/-- **4.3.** If `G` has a nontrivial normal `p`-subgroup, then `S_p(G)` has a contractible
-realization. -/
-theorem contractibleSpace_of_normal [Finite G] [Fact p.Prime] (N : Subgroup G) [N.Normal]
+/-- **4.3.** If a group `G`, finite or not, has a nontrivial normal `p`-subgroup, then `S_p(G)` has
+a contractible realization. -/
+theorem contractibleSpace_of_normal [Fact p.Prime] (N : Subgroup G) [N.Normal]
     (hN : N ≠ ⊥) (hNp : IsPGroup p N) :
     ContractibleSpace
       (AbstractSimplicialComplex.Realization (orderComplex (PSubgroupPoset G p))) := sorry
