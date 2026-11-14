@@ -120,12 +120,6 @@ theorem isGδ_modelsOf_toInf_alls [L.IsRelational] {n : ℕ} (ψ : L.BoundedForm
     IsGδ (modelsOf (ψ.alls.toInf (ι := ℕ)) : Set (RelationalConfiguration L ℕ)) := by
   sorry
 
-/-- **Layer 2 graph example.** Satisfaction of an `Lω₁ω` sentence is a measurable event on
-graphs on `ℕ`. -/
-theorem measurableSet_setOf_realize_graph (φ : Language.graph.Sentenceω) :
-    MeasurableSet {G : SimpleGraph ℕ | @SentenceInf.Realize Language.graph ℕ φ ℕ G.structure} := by
-  sorry
-
 /-! ## Layer 3: trees, the analytic tree representation and boundedness -/
 
 /-- The first `n` values of a sequence. Named and stated as in Mathlib PR #41946. -/

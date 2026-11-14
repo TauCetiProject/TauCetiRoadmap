@@ -402,7 +402,7 @@ and the constructor equations, measurability of satisfaction (`measurableSet_set
 `measurableSet_modelsOf`) and `standardBorelSpace_modelsOf`, all on every countable carrier, and
 `Language.Equiv.mem_modelsOf_iff` across carriers, from which `isomorphismInvariant_modelsOf`
 follows in one step; clopenability is Mathlib's `MeasurableSet.isClopenable` applied to
-`measurableSet_modelsOf`. Still to build: locality, the Gδ model classes and the graph events.
+`measurableSet_modelsOf`. Still to build: locality and the Gδ model classes.
 
 The specification, for relational `L`:
 
@@ -428,8 +428,11 @@ The specification, for relational `L`:
   property under finite and countable conjunction. For a first-order sentence embedded by `toInf`:
   a quantifier-free matrix gives clopen sets, a universal sentence (`IsUniversal`) a closed set,
   and a `∀∃` sentence (`ψ.alls` with `ψ.IsExistential`) a Gδ set (`isGδ_modelsOf_toInf_alls`);
-- **graph events**: `measurableSet_setOf_realize_graph`, satisfaction of every Lω₁ω sentence is a
-  measurable event on `SimpleGraph ℕ`, through `SimpleGraph.toRelationalConfiguration`.
+- **graph events**: satisfaction of every Lω₁ω sentence is a measurable event on `SimpleGraph ℕ`.
+  This is Tau Ceti's `measurableSet_modelsOf` (or `measurableSet_setOf_realize`, for fixed
+  assignments) pulled back along the measurable graph coding
+  `SimpleGraph.toRelationalConfiguration` (`measurable_toRelationalConfiguration`), whose decoded
+  structure is `G.structure`; it is the library's result, not a separate target here.
 
 ⚠ **API warning.** A model class need not be Gδ, so do not install a `PolishSpace` instance on
 `modelsOf φ` in its subspace topology. In the language of one unary predicate `P`, the codes with
