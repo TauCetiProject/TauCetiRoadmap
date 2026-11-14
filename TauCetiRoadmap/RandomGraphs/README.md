@@ -575,14 +575,16 @@ instance `Finite (Σ l, Language.graph.Relations l)`, which is a target of this 
 diagram is a classical finite
 conjunction and is noncomputable, so it supplies the semantics but not the algorithm.
 
-The two endpoints are computability theorems on codes of formulas. **Computable quantifier
-elimination** is a `Computable₂` map taking `m` and a code, such that for every formula over
-`Fin m` the output is the code of a quantifier-free formula over the same context with the same
-realizations in every model of $`T_R`$. **Decidability** is a `Computable` map on codes of
-sentences answering truth in the Rado graph. A computability proof needs an explicit witness:
-define both maps in Lean and prove these theorems for them. That each formula has some
-quantifier-free equivalent modulo $`T_R`$ does not discharge either theorem. The proof goes
-through finite patterns; build:
+The two endpoints are computability theorems on codes of formulas.
+**Computable quantifier elimination** (`exists_computable_quantifierElimination`): there is a
+`Computable₂` map taking `m` and a code such that, for every formula over `Fin m`, the output is
+the code of a quantifier-free formula over the same context with the same realizations in every
+model of $`T_R`$. **Decidability** (`exists_computable_decide_rado`): there is a `Computable` map on
+codes of sentences answering truth in the Rado graph. Prove that these computable maps exist on
+the effective coding, with the stated semantic correctness. That each formula has some
+quantifier-free equivalent modulo $`T_R`$ proves neither theorem, since it gives no computable map
+on codes. Finite equality-and-adjacency patterns provide a proof route, through these supporting
+results:
 
 - an **effective coding of graph formulas** as the input and output format of the two maps:
   Mathlib's structural list encoding `BoundedFormula.encoding` followed by an explicit numbering
@@ -602,9 +604,10 @@ through finite patterns; build:
   conversion between free-variable and bound-variable presentations made explicit;
 - pattern elimination: every formula is equivalent modulo $`T_R`$ to a finite Boolean
   combination of pattern formulas, computably from its code, with semantic correctness. A
-  quantifier over such a combination is eliminated by testing which one-point extensions of each
-  pattern are consistent. This gives the QE map, with the native `IsQF` proofs of its outputs,
-  and on sentences the decision map.
+  quantifier over such a combination reduces to the one-point extensions of each pattern that are
+  consistent. The resulting map on codes is computable, its outputs are quantifier-free in the
+  sense of the native `IsQF`, and on sentences it decides truth in the Rado graph, which proves
+  both theorems.
 
 Export also the theory-level property in the vocabulary of the quantifier-elimination proposal,
 `Language.Theory.HasQuantifierElimination radoAxioms` (`radoAxioms_hasQuantifierElimination`):
