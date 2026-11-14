@@ -710,7 +710,9 @@ For a locally algebraic generic rank-one parameter with an infinitesimal nonsmoo
 
 Glue the localized module to its period lattice. The two flags then meet in X=g̃×_g g̃, whose components and Cartan maps come from the Springer roadmap. Pass from the D_pdR frame to the Galois frame only after the smooth relative dimensions have been recorded. Component detection must see infinitesimal character directions, rather than only closed points.
 
-### 6.1 Robba deformation gluing through the period lattice
+### 6.1 Gluing and the double-flag formal local model
+
+This part glues Robba deformations from their localization and positive period lattice, proves relative representability and the dimension of the framed localized functor, and shows that the framed functor `X^pdR_(D,F)` is formally smooth over the completion of X=g̃×_g g̃ at x_pdR. Its consumers are §§6.5–6.6, §6.9, §7.4, §8.1, §9.6 and §12.4.
 
 For D such that W⁺=W_dR⁺(D) is almost de Rham, with M=D[1/t] and W=W_dR(M) (hence almost de Rham), deformation groupoids satisfy `X_D ~= X_M x_(X_W) X_(W^(+))`. With a fixed localized flag, `X_(D,F) ~= X_(M,F) x_(X_W) X_(W^(+))`; the same identities hold with compatible D_pdR frames, which exist because W is almost de Rham. The flag on D is required only after inverting t, not integrally.
 
@@ -728,9 +730,7 @@ One proof proceeds as follows. Apply coefficient Berger equivalence to reconstru
 
 - Negative control: over ℚ₃ with n=1, a rank-one D=R_E(δ) whose parameter has Sen weight 1/2 (δ(u)=exp((1/2)log u) on a small open subgroup of units) has D_pdR(W_dR(D))=0, so it is outside the domain and cannot carry a rank-one D_pdR frame; δ=x² has W_dR⁺(D) almost de Rham with period rank one and admits the frame.
 
-### 6.2 Representability of the comparison morphisms
-
-Assume W_dR⁺(D) is almost de Rham as in §6.1 and the localized triangulation admits a locally algebraic parameter δ∈T₀ⁿ. The morphisms X_M→X_W, `X_(M,F) -> X_(W,F)`, `X_D -> X_(W^(+))`, and `X_(D,F) -> X_(W^(+),F)` are relatively prorepresentable; the last two are base changes of the first two. They satisfy the relative Schlessinger fibre-product criterion and have finite-dimensional relative tangent spaces. The character-weight map T̂_δⁿ→t̂₀ is formally smooth of relative dimension n.
+**6.2 Representability of the comparison morphisms.** Assume W_dR⁺(D) is almost de Rham as in §6.1 and the localized triangulation admits a locally algebraic parameter δ∈T₀ⁿ. The morphisms X_M→X_W, `X_(M,F) -> X_(W,F)`, `X_D -> X_(W^(+))`, and `X_(D,F) -> X_(W^(+),F)` are relatively prorepresentable; the last two are base changes of the first two. They satisfy the relative Schlessinger fibre-product criterion and have finite-dimensional relative tangent spaces. The character-weight map T̂_δⁿ→t̂₀ is formally smooth of relative dimension n.
 
 The localized triangulation of M admits a locally algebraic parameter (BHS19 line 2305), which makes W and W⁺ almost de Rham, and that parameter lies in T₀ⁿ, the standing assumption of BHS19 from Lemma 3.5.3 on (BHS19 line 2321); finiteness of the relative tangent spaces uses dim H¹(R_E(δ)[1/t])=d for δ∈T₀.
 
@@ -748,9 +748,7 @@ One proof proceeds as follows. Identify relative fibres with deformations equipp
 
 - For n=1 the condition T₀¹ is vacuous, so the weight-1/2 rank-one character of §6.1 satisfies it; it is excluded only by the locally algebraic requirement, since its W_dR has D_pdR=0. The parameter x² satisfies both.
 
-### 6.3 Framed localized deformation dimension
-
-For locally algebraic generic δ, `X^pdR_(M,F)` is prorepresented by a formally smooth complete local E-algebra of dimension d(n²+n(n+1)/2). Adding fixed rank-one graded bases instead gives a smooth rigidified functor of dimension n+dn(n+1)/2; forgetting those bases has relative dimension n. The n graded rescalings must not be counted as dn.
+**6.3 Framed localized deformation dimension.** For locally algebraic generic δ, `X^pdR_(M,F)` is prorepresented by a formally smooth complete local E-algebra of dimension d(n²+n(n+1)/2). Adding fixed rank-one graded bases instead gives a smooth rigidified functor of dimension n+dn(n+1)/2; forgetting those bases has relative dimension n. The n graded rescalings must not be counted as dn.
 
 (BHS19 Corollary 3.5.6 and Proposition 3.5.7, pp. 358–359; BHS19 line 2369.)
 
@@ -764,9 +762,7 @@ One proof proceeds as follows. Combine §5.3 with §1.4 and relative representab
 
 - For n=1,d=1, the dimensions are 2 and 2, and adding a period frame then forgetting a graded frame contributes 1−1=0.
 
-### 6.4 The double-flag formal local model
-
-Assume δ locally algebraic generic and W⁺ regular. Set x_pdR=(α⁻¹D_pdR(F_•),α⁻¹HodgeFlag(W⁺),N) in X=g̃×_g g̃. The functor `X^pdR_(W^(+),F)` is represented by `X_hat_(x_pdR)`; `X^pdR_(D,F) -> X_hat_(x_pdR)` is formally smooth of relative dimension dn(n+1)/2. Its completed local ring is a formal power-series algebra of that relative dimension over the completed incidence local ring.
+**6.4 The double-flag formal local model.** Assume δ locally algebraic generic and W⁺ regular. Set x_pdR=(α⁻¹D_pdR(F_•),α⁻¹HodgeFlag(W⁺),N) in X=g̃×_g g̃. The functor `X^pdR_(W^(+),F)` is represented by `X_hat_(x_pdR)`; `X^pdR_(D,F) -> X_hat_(x_pdR)` is formally smooth of relative dimension dn(n+1)/2. Its completed local ring is a formal power-series algebra of that relative dimension over the completed incidence local ring.
 
 (BHS19 Corollary 3.5.8, pp. 359–360; BHS19 line 2421.)
 
@@ -780,7 +776,9 @@ One proof proceeds as follows. Take the fibre product of the two framed simultan
 
 - For n=1,d=2, incidence dimension 2 plus relative dimension 2 gives 4; replacing the incidence completion by its zero fibre would lose two weight coordinates.
 
-### 6.5 Component deformation conditions
+### 6.5 Incidence components and the Galois component rings
+
+This part pulls the components X_w back to the framed deformation functors, proves that their rings are normal domains told apart by the weight graph, and descends them to the framed Galois ring `R_(r,F)`, whose minimal primes are indexed by S(x_pdR), with its tangent dimensions and relative-position support. Its consumers are §§7.4–7.5, §8.5, §8.7 and §9.2.
 
 For w∈(S_n)^Σ define `X^(pdR,w)_(D,F)=X^pdR_(D,F) x_(X_hat) X_hat_w` and similarly for the lattice–flag functor. Let S(x_pdR)={w:x_pdR∈X_w}. Descend the condition after forgetting α; G-equivariance of X_w makes the unframed condition independent of α. Empty components are retained as empty functors, not zero rings declared to be domains.
 
@@ -810,9 +808,7 @@ The reusable interface has the following properties.
 
 - For n=1 the Weyl group has size 1; a component missing the residual point has 0 residual objects and no local domain is asserted.
 
-### 6.6 Normality of the framed component rings
-
-For w∈S(x_pdR), `X^(pdR,w)_(D,F)` is represented by a complete local normal domain of dimension d(n²+n(n+1)/2), formally smooth over `X_hat_(w,x_pdR)` with relative dimension dn(n+1)/2. Cohen–Macaulayness follows from the imported local-model CM theorem and formal smoothness; neither conclusion asserts smoothness of X_w.
+**6.6 Normality of the framed component rings.** For w∈S(x_pdR), `X^(pdR,w)_(D,F)` is represented by a complete local normal domain of dimension d(n²+n(n+1)/2), formally smooth over `X_hat_(w,x_pdR)` with relative dimension dn(n+1)/2. Cohen–Macaulayness follows from the imported local-model CM theorem and formal smoothness; neither conclusion asserts smoothness of X_w.
 
 (BHS19 Corollary 3.5.11 and its proof, p. 361; Cohen–Macaulayness through Proposition 2.3.3 as used in Corollary 3.7.10, p. 371; BHS19 line 2479.)
 
@@ -826,9 +822,7 @@ One proof proceeds as follows. Use normality and CM of the supplier’s incidenc
 
 - A normal singular local domain can have embedding dimension larger than its Krull dimension, so normality supplies no equality of those dimensions.
 
-### 6.7 Weight-graph detection of a component
-
-Let `Theta=(kappa_triangulation,kappa_Hodge):X_(D,F) -> (t x_(t/S) t)^completion_(0,0)`. For w∈S(x_pdR), its restriction to `X^w_(D,F)` factors through the completed graph `T_(w')={(z,(w')^(-1)z)}` if and only if w′=w; the framed version is equivalent. This is scheme-theoretic factorization, including nilpotent Artinian weight directions.
+**6.7 Weight-graph detection of a component.** Let `Theta=(kappa_triangulation,kappa_Hodge):X_(D,F) -> (t x_(t/S) t)^completion_(0,0)`. For w∈S(x_pdR), its restriction to `X^w_(D,F)` factors through the completed graph `T_(w')={(z,(w')^(-1)z)}` if and only if w′=w; the framed version is equivalent. This is scheme-theoretic factorization, including nilpotent Artinian weight directions.
 
 (BHS19 Corollary 3.5.12, pp. 361–362; BHS19 line 2500.)
 
@@ -842,9 +836,7 @@ One proof proceeds as follows. Identify Θ with the two Cartan projections in th
 
 - For the cycle w=(123) acting by (wz)_i=z_(w⁻¹i), z=(ε,2ε,3ε) gives w⁻¹z=(2ε,3ε,ε), whereas wz=(3ε,ε,2ε).
 
-### 6.8 Framed Galois component rings
-
-Let r:G_K→GL_n(E) have D=D_r and a generic locally algebraic localized triangulation, with regular W⁺. The framed Galois functor `X_(r,F)` is prorepresented by a reduced equidimensional complete local ring `R_(r,F)` of dimension n²+dn(n+1)/2. Its minimal primes p_w are indexed by S(x_pdR); `R_(r,F)/p_w` is a normal domain representing `X^w_(r,F)`. Its Θ-map factors through T_w and no other weight graph.
+**6.8 Framed Galois component rings.** Let r:G_K→GL_n(E) have D=D_r and a generic locally algebraic localized triangulation, with regular W⁺. The framed Galois functor `X_(r,F)` is prorepresented by a reduced equidimensional complete local ring `R_(r,F)` of dimension n²+dn(n+1)/2. Its minimal primes p_w are indexed by S(x_pdR); `R_(r,F)/p_w` is a normal domain representing `X^w_(r,F)`. Its Θ-map factors through T_w and no other weight graph.
 
 (BHS19 Theorem 3.6.2, pp. 362–364; BHS19 line 2567.)
 
@@ -858,9 +850,7 @@ A proof route uses the étale Robba–Galois equivalence and the framed deformat
 
 - For n=1,d=2 the dimension is 1+2=3, with one component.
 
-### 6.9 Tangent dimensions and relative-position support
-
-For w∈S(x_pdR), `dim_E T X^w_(r,F)=n^2-dn^2+dn(n+1)/2+dim_E T_(x_pdR) X_w`. If w_x is the relative position of the two flags, then w_x≤w is necessary for w∈S(x_pdR). Sufficiency is asserted at N=0, not for an arbitrary nonzero nilpotent N.
+**6.9 Tangent dimensions and relative-position support.** For w∈S(x_pdR), `dim_E T X^w_(r,F)=n^2-dn^2+dn(n+1)/2+dim_E T_(x_pdR) X_w`. If w_x is the relative position of the two flags, then w_x≤w is necessary for w∈S(x_pdR). Sufficiency is asserted at N=0, not for an arbitrary nonzero nilpotent N.
 
 (BHS19 Corollary 3.6.3 and Proposition 3.6.4, pp. 364–365; BHS19 line 2596.)
 
@@ -1368,7 +1358,9 @@ Fix D∈ΦΓ_nc(φ,h), n≥2, φ_i/φ_j∉{1,|·|_K} for ordered i≠j, strictly
 
 The second branch studies a module whose every refinement is noncritical, without assuming étaleness. The injection between two overlapping rank-(n−1) endpoints retains information lost by their isomorphism classes. The single-embedding modification itself is PadicHodgeTheory §5.2's (gap:selective-modification); this layer builds its endpoint and refinement diagrams.
 
-### 10.1 Generic noncritical crystabelline Hodge parameters
+### 10.1 Crystabelline modules and their endpoint injection
+
+This part fixes the category ΦΓ_nc(φ,h), the canonical rank-(n−1) endpoints D₁ and C₁ with the injection ι_D:D₁→C₁, the bound dim Hom(D₁,C₁)≤2, and the recovery of D from (D₁,C₁,[ι_D],φ_n) when K=ℚₚ. Its consumers are §§10.5–10.6, §11.2, §11.6, §§13.1–13.2, §13.5 and §13.10.
 
 Fix generic φ and labelled weights h that are weakly decreasing at every embedding (h_(τ,1)≥⋯≥h_(τ,n)), as in the Ding setting. ΦΓ_nc(φ,h) consists of rank-n crystabelline Robba modules with D[1/t]≅⊕_i R(φ_i)[1/t] and Hodge–Tate–Sen weights h such that each of the n! Frobenius refinements is noncritical, meaning its i-th graded piece has weights exactly h_i. Call such a module regular when every h_τ is strictly decreasing. The module D of Layers 10–13 is regular; its modification D_σ of §10.5 lies in ΦΓ_nc(φ,T_σh), where T_σh agrees with h at σ and has every weight at τ≠σ equal to h_(τ,n) (Ding25 line 554), without the regularity assumption. For w∈S_n the corresponding integral triangulation has successive parameters `phi_(w^(-1)(i)) z^(h_i)`. No étaleness is required. The permutation is common to the embeddings, whereas the BHS weight permutation lies in (S_n)^Σ.
 
@@ -1402,9 +1394,7 @@ The reusable interface has the following properties.
 
 - Negative control for regularity: for d=2, n=3 and off-σ weights (3,1,0), the modified off-σ weights are (0,0,0). They are weakly but not strictly decreasing, so D_σ lies in ΦΓ_nc(φ,T_σh) but is not regular, while D with weights (3,1,0) is regular; a definition requiring strict decrease would leave T_σ without a target.
 
-### 10.2 Canonical labelled crystabelline subquotients
-
-For each proper nonempty subset r⊂{1,…,n} of size k, construct the canonical rank-k D_r⊂D with localized Frobenius labels r and weights (h₁,…,h_k), and `D^r=D/D_(r^(c))`, with labels r and weights `(h_(n-k+1),...,h_n)`. Put `D_1=D_(1,...,n-1)` and `C_1=D^(1,...,n-1)`. The composite ι_D:D₁→D→C₁ is injective. Its source and target both have rank n−1, and their ordered weight lists differ.
+**10.2 Canonical labelled crystabelline subquotients.** For each proper nonempty subset r⊂{1,…,n} of size k, construct the canonical rank-k D_r⊂D with localized Frobenius labels r and weights (h₁,…,h_k), and `D^r=D/D_(r^(c))`, with labels r and weights `(h_(n-k+1),...,h_n)`. Put `D_1=D_(1,...,n-1)` and `C_1=D^(1,...,n-1)`. The composite ι_D:D₁→D→C₁ is injective. Its source and target both have rank n−1, and their ordered weight lists differ.
 
 (Ding25 §2.1, p. 11; exact sequences (2.1)–(2.2), p. 11; Ding25 line 458.)
 
@@ -1432,9 +1422,7 @@ The reusable interface has the following properties.
 
 - For n=3,h=(3,1,0), D₁ has weights (3,1) and C₁ weights (1,0); both have rank 2 and localized labels {1,2}.
 
-### 10.3 The rank-(n−1) injection pencil
-
-For D∈ΦΓ_nc(φ,h), dim_E Hom(D₁,C₁)≤2. It is two exactly when n≥3 and for each i<n the quotient `(D_1)^(r_i)` is isomorphic to the submodule `(C_1)_(r_i)`, where r_i={1,…,n−1} minus {i}. In that case the quotient–isomorphism–inclusion maps α_i are pairwise linearly independent and noninjective of rank n−2. In particular the dimension is always two when n=3, and when n=4 and K=ℚₚ.
+**10.3 The rank-(n−1) injection pencil.** For D∈ΦΓ_nc(φ,h), dim_E Hom(D₁,C₁)≤2. It is two exactly when n≥3 and for each i<n the quotient `(D_1)^(r_i)` is isomorphic to the submodule `(C_1)_(r_i)`, where r_i={1,…,n−1} minus {i}. In that case the quotient–isomorphism–inclusion maps α_i are pairwise linearly independent and noninjective of rank n−2. In particular the dimension is always two when n=3, and when n=4 and K=ℚₚ.
 
 (Ding25 Proposition 2.2 and Remark 2.3, pp. 11–12; Ding25 line 484.)
 
@@ -1448,9 +1436,7 @@ One proof proceeds as follows. Use the localized direct sum to describe morphism
 
 - At n=3, dim Hom=2 and the two exceptional maps have rank 1; at n=4,K=ℚₚ, the three exceptional maps have rank 2 but are only pairwise independent in a 2-dimensional space.
 
-### 10.4 Recovering a Hodge extension from its injection line
-
-The cup/pushout pairing `Ext^1(R(phi_n z^(h_n)),D_1) x Hom(D_1,C_1) -> Ext^1(R(phi_n z^(h_n)),C_1)` has an annihilator of ι_D of dimension d and containing the nonzero extension line E[D] from `0 -> D_1 -> D -> R(phi_n z^(h_n)) -> 0`. For K=ℚₚ this annihilator equals E[D], so (D₁,C₁,[ι_D],φ_n) determines D up to isomorphism. For general K the dimension d statement alone does not give recovery.
+**10.4 Recovering a Hodge extension from its injection line.** The cup/pushout pairing `Ext^1(R(phi_n z^(h_n)),D_1) x Hom(D_1,C_1) -> Ext^1(R(phi_n z^(h_n)),C_1)` has an annihilator of ι_D of dimension d and containing the nonzero extension line E[D] from `0 -> D_1 -> D -> R(phi_n z^(h_n)) -> 0`. For K=ℚₚ this annihilator equals E[D], so (D₁,C₁,[ι_D],φ_n) determines D up to isomorphism. For general K the dimension d statement alone does not give recovery.
 
 (Ding25 Proposition 2.4, pp. 12–13; Ding25 line 534.)
 
@@ -1560,7 +1546,9 @@ Fix D∈ΦΓ_nc(φ,h), n≥2, φ_i/φ_j∉{1,|·|_K} for ordered i≠j, strictly
 
 Use LocalGaloisDeformationRings §1.23's deformation functors and identify the tangent subspaces of their simultaneous refinements. First establish the graded paraboline quotient isomorphism directly, then prove refinement generation in Layer 13. Reversing that order would create a circular argument.
 
-### 11.1 Rank-one self-extensions as character derivatives
+### 11.1 Refinement derivatives and the zero-parameter quotient
+
+This part defines the ordered character derivatives κ_w on the refinement deformation spaces, proves their surjectivity, the de Rham preimage formula and Weyl transport, and forms the common kernel Ext¹₀ with its quotient barExt¹ and the de Rham subspace up to scalar twist. Its consumers are §§11.6–11.8, §12.1, §§12.6–12.7, §13.3 and §§13.6–13.9.
 
 Use the supplier’s identification of first-order deformations with Ext¹(D,D), where ε acts on an extension by projection followed by inclusion. In rank one Ext¹(R(δ),R(δ))≅Hom_cont(K×,E), with ψ corresponding to δ(1+εψ). The smooth subspace has dimension 1, the locally σ-analytic subspace dimension 2, and the full space dimension d+1. These normalizations fix the signs of all κ-maps below.
 
@@ -1576,9 +1564,7 @@ A proof route uses Herr–Yoneda Ext and local Galois/Robba deformation equivale
 
 - For ψ=log_σ normalized to vanish at ϖ, the uniformizer value is 1 and the σ-unit derivative is ε; at d=2 the smooth, σ-analytic and full dimensions are 1,2,3.
 
-### 11.2 Refinement deformation spaces and parameter derivatives
-
-For each refinement w let Ext¹_w(D,D) be the subspace of first-order deformations lifting its integral triangulation. Define κ_w:Ext¹_w→Hom_cont((K×)^n,E) from the derivatives of its n lifted characters, in their ordered graded positions. Ext¹_g(D,D) denotes the de Rham first-order subspace. The underlying deformation functors and their representing rings are imported; this target specifies their simultaneous refinement subspaces and derivatives.
+**11.2 Refinement deformation spaces and parameter derivatives.** For each refinement w let Ext¹_w(D,D) be the subspace of first-order deformations lifting its integral triangulation. Define κ_w:Ext¹_w→Hom_cont((K×)^n,E) from the derivatives of its n lifted characters, in their ordered graded positions. Ext¹_g(D,D) denotes the de Rham first-order subspace. The underlying deformation functors and their representing rings are imported; this target specifies their simultaneous refinement subspaces and derivatives.
 
 (Ding25 §2.3.1, (2.11)–(2.12) and Proposition 2.10, pp. 15–16; Ding25 line 679.)
 
@@ -1606,9 +1592,7 @@ The reusable interface has the following properties.
 
 - For a scalar derivative ψ, κ_w=(ψ,…,ψ); if ψ is logarithmic the twist is not de Rham, whereas unramified ψ is smooth and de Rham.
 
-### 11.3 Dimensions and Weyl transport of refinement tangents
-
-For the individual tangent spaces with the dimensions supplied by LocalGaloisDeformationRings §1.23, prove that each κ_w is surjective and κ_w⁻¹(Hom_sm(T(K),E))=Ext¹_g. On Ext¹_g, prove `kappa_(w_2)=(w_2 w_1^(-1)) kappa_(w_1)`, with the permutation action matching the ordered character positions.
+**11.3 Dimensions and Weyl transport of refinement tangents.** For the individual tangent spaces with the dimensions supplied by LocalGaloisDeformationRings §1.23, prove that each κ_w is surjective and κ_w⁻¹(Hom_sm(T(K),E))=Ext¹_g. On Ext¹_g, prove `kappa_(w_2)=(w_2 w_1^(-1)) kappa_(w_1)`, with the permutation action matching the ordered character positions.
 
 (Ding25 Proposition 2.10 and Lemma 2.11, pp. 16–17; Ding25 line 679.)
 
@@ -1622,9 +1606,7 @@ One proof proceeds as follows. Compute H⁰ and H² of ad D by genericity and ap
 
 - On smooth tuples, for w₁=e,w₂=(123), (a₁,a₂,a₃) maps to (a₃,a₁,a₂); for w₂=s∈S₂ the tuple (1,2) maps to (2,1).
 
-### 11.4 The common zero-parameter quotient
-
-Let Ext¹₀(D,D)=ker κ_w; it is independent of w, lies in Ext¹_g and has dimension 1−n+dn(n−1)/2. Put barExt¹=Ext¹/Ext¹₀ and similarly for subspaces containing Ext¹₀. Then barExt¹_w≅Hom_cont(T(K),E), barExt¹_g≅Hom_sm(T(K),E), and dim barExt¹=dn(n+1)/2+n. This full-kernel identity applies to the regular original D and must not be transferred unchanged to D_σ.
+**11.4 The common zero-parameter quotient.** Let Ext¹₀(D,D)=ker κ_w; it is independent of w, lies in Ext¹_g and has dimension 1−n+dn(n−1)/2. Put barExt¹=Ext¹/Ext¹₀ and similarly for subspaces containing Ext¹₀. Then barExt¹_w≅Hom_cont(T(K),E), barExt¹_g≅Hom_sm(T(K),E), and dim barExt¹=dn(n+1)/2+n. This full-kernel identity applies to the regular original D and must not be transferred unchanged to D_σ.
 
 (Ding25 §2.3.1, (2.14)–(2.16), p. 17; Ding25 line 714.)
 
@@ -1652,9 +1634,7 @@ The reusable interface has the following properties.
 
 - At n=2,d=1 the kernel dimension is 1−2+1=0 and quotient dimension 5; at n=3,d=1 they are 1 and 9.
 
-### 11.5 De Rham deformation directions up to scalar twist
-
-Define `Ext^1_(g')(D,D)` as de Rham deformations up to a rank-one character twist. Let `Hom_(g')(T(K),E)=Hom_sm(T(K),E)+{psi o det:psi in Hom_cont(K^*,E)}`. Then `Ext^1_(g')=kappa_w^(-1)(Hom_(g'))` for every w and has dimension 1+d(n(n−1)/2+1). Weyl transport of κ holds on this larger subspace.
+**11.5 De Rham deformation directions up to scalar twist.** Define `Ext^1_(g')(D,D)` as de Rham deformations up to a rank-one character twist. Let `Hom_(g')(T(K),E)=Hom_sm(T(K),E)+{psi o det:psi in Hom_cont(K^*,E)}`. Then `Ext^1_(g')=kappa_w^(-1)(Hom_(g'))` for every w and has dimension 1+d(n(n−1)/2+1). Weyl transport of κ holds on this larger subspace.
 
 (Ding25 §2.3.1, (2.17), p. 18; Ding25 line 789.)
 
@@ -1928,7 +1908,9 @@ Fix D∈ΦΓ_nc(φ,h), n≥2, φ_i/φ_j∉{1,|·|_K} for ordered i≠j, strictly
 
 Pullback and pushout must come from the same extension. Their signed image is the compatibility relation; the product of their separate images loses the required datum. Higher intertwining identifies that relation with the kernel of the sum of the two paraboline maps. The original and single-embedding exact sequences recover different amounts of Hodge data.
 
-### 13.1 Pullback and pushout along a Hodge injection
+### 13.1 Injection images and the matched relation
+
+This part defines the pullback and pushout images of a map ι:D₁→C₁ and its signed matched relation I_ι, computes their dimensions, and proves that among injective maps each of them determines the map up to E×. Its consumers are §13.6, §13.9, §13.10 and §13.11.
 
 For ι:D₁→C₁ define ι⁻:Ext¹(C₁,D₁)→Ext¹(D₁,D₁) by pullback and ι⁺:Ext¹(C₁,D₁)→Ext¹(C₁,C₁) by pushout. Write Ext¹_ι for their respective image subspaces. Both maps are E-linear and preserve de Rham local conditions. This notation includes noninjective ι, but later rigidity theorems specify injectivity.
 
@@ -1958,9 +1940,7 @@ The reusable interface has the following properties.
 
 - For ι=0, pullback and pushout give maps 0 with image {0}; for ι=id both are identity with image the full self-Ext space.
 
-### 13.2 Dimensions of the exceptional noninjective images
-
-Assume dim Hom(D₁,C₁)=2 and use the rank-(n−2) maps α_i. Each `Ext^1_(alpha_i)` has dimension (n−1)(n−2)d. For distinct i,j their intersection has dimension (n−1)(n−3)d+d−1 and their sum has dimension 1+n(n−2)d. Both assertions hold on the D₁ and on the C₁ side.
+**13.2 Dimensions of the exceptional noninjective images.** Assume dim Hom(D₁,C₁)=2 and use the rank-(n−2) maps α_i. Each `Ext^1_(alpha_i)` has dimension (n−1)(n−2)d. For distinct i,j their intersection has dimension (n−1)(n−3)d+d−1 and their sum has dimension 1+n(n−2)d. Both assertions hold on the D₁ and on the C₁ side.
 
 (Ding25 Lemma 2.28 and proof, p. 26; Ding25 line 1140.)
 
@@ -1974,9 +1954,7 @@ One proof proceeds as follows. Express the image as the kernel of pullback to th
 
 - At n=4,d=1, the dimensions are 6,3,9=6+6−3; the n≥3 pencil hypothesis excludes a negative n−3 rank term at n=2.
 
-### 13.3 Self-extension images determine the injection line
-
-If ι:D₁→C₁ is injective, both Ext¹_ι image spaces have dimension 1+(n−1)(n−2)d and contain the relevant de Rham self-Ext space. For any ι′, equality of either image with the corresponding image of ι is equivalent to ι′=aι for a∈E×. Put φ_end=(φ₁,…,φₙ₋₁), the ordered refinement shared by D₁ and C₁, and T_end=(G_m)^(n−1). Let κ_end,D₁:Ext¹_g(D₁,D₁)→Hom_sm(T_end(K),E) and κ_end,C₁:Ext¹_g(C₁,C₁)→Hom_sm(T_end(K),E) be the §11.2 derivative maps of this ordered refinement restricted to de Rham self-extensions. For every M∈Ext¹_g(C₁,D₁), `kappa_end,D1(iota^(-)M)=kappa_end,C1(iota^(+)M)` as ordered (n−1)-tuples.
+**13.3 Self-extension images determine the injection line.** If ι:D₁→C₁ is injective, both Ext¹_ι image spaces have dimension 1+(n−1)(n−2)d and contain the relevant de Rham self-Ext space. For any ι′, equality of either image with the corresponding image of ι is equivalent to ι′=aι for a∈E×. Put φ_end=(φ₁,…,φₙ₋₁), the ordered refinement shared by D₁ and C₁, and T_end=(G_m)^(n−1). Let κ_end,D₁:Ext¹_g(D₁,D₁)→Hom_sm(T_end(K),E) and κ_end,C₁:Ext¹_g(C₁,C₁)→Hom_sm(T_end(K),E) be the §11.2 derivative maps of this ordered refinement restricted to de Rham self-extensions. For every M∈Ext¹_g(C₁,D₁), `kappa_end,D1(iota^(-)M)=kappa_end,C1(iota^(+)M)` as ordered (n−1)-tuples.
 
 (Ding25 Proposition 2.29 and Lemma 2.30, pp. 26–28; Ding25 line 1168.)
 
@@ -1992,9 +1970,7 @@ One proof proceeds as follows. Compute the kernel from torsion period invariants
 
 - At n=3, an unramified scalar twist direction ψ gives the ordered pair (ψ,ψ) on both endpoints; a map that reversed the endpoint order would send a general pair (ψ₁,ψ₂) to (ψ₂,ψ₁) and is not the derivative of the ordered refinement φ_end, so the comparison is between two coordinates in fixed order, not one character.
 
-### 13.4 The signed matched-extension relation
-
-Define I_ι as the image of M↦(ι⁻M,−ι⁺M) in Ext¹(D₁,D₁)×Ext¹(C₁,C₁). Equivalently its points are pairs arising from one common extension with the indicated minus sign. For native linear maps f:U→V and g:U→W this is `LinearMap.range` applied to the product of f and −g; it is a submodule, not the product of the two separate ranges.
+**13.4 The signed matched-extension relation.** Define I_ι as the image of M↦(ι⁻M,−ι⁺M) in Ext¹(D₁,D₁)×Ext¹(C₁,C₁). Equivalently its points are pairs arising from one common extension with the indicated minus sign. For native linear maps f:U→V and g:U→W this is `LinearMap.range` applied to the product of f and −g; it is a submodule, not the product of the two separate ranges.
 
 (Ding25 Formula (2.36) and Corollary 2.31, p. 28; Ding25 line 1224.)
 
@@ -2026,9 +2002,7 @@ The reusable interface has the following properties.
 
 - The product of the separate ranges contains (1,0), but the matched relation does not; scaling both maps by 2 still gives the anti-diagonal.
 
-### 13.5 The matched relation determines the Hodge injection
-
-For injective ι and ι′, `I_iota=I_(iota')` if and only if ι′∈E×ι. For D,D′ in the nonempty family ΦΓ_nc(D₁,C₁,φ_n) with the same fixed endpoints, equality `I_D=I_(D')` is equivalent to equality of the injection lines; when K=ℚₚ it is equivalent to D≅D′.
+**13.5 The matched relation determines the Hodge injection.** For injective ι and ι′, `I_iota=I_(iota')` if and only if ι′∈E×ι. For D,D′ in the nonempty family ΦΓ_nc(D₁,C₁,φ_n) with the same fixed endpoints, equality `I_D=I_(D')` is equivalent to equality of the injection lines; when K=ℚₚ it is equivalent to D≅D′.
 
 The family consists of isomorphism classes with the displayed endpoint identifications and Hom(D₁,D)=Hom(D,C₁)=E.
 
@@ -2044,7 +2018,9 @@ One proof proceeds as follows. Project the common signed relation onto either se
 
 - At d=1 equal injection lines recover isomorphic D; at d=2 the earlier annihilator has dimension 2, so no unmodified isomorphism conclusion is made.
 
-### 13.6 The first/last-filtration higher-intertwining criterion
+### 13.6 Higher intertwining and the recovery sequence for D
+
+For the regular module D this part proves the first/last-filtration higher-intertwining criterion, the spanning of Ext¹(D,D) by the two paraboline spaces and by all noncritical refinements, and the short exact sequence 0→L→V→barExt¹(D,D)→0 whose kernel determines the line of ι_D. Its consumers are §§13.12–13.13 and §13.15, and §11.7 refers to §13.8.
 
 Let F be D₁⊂D and G be `R(phi_n z^(h_1)) subset D`. In filtration order, F has graded pieces D₁ of rank n−1 and `R(phi_n z^(h_n))`, and G has graded pieces `R(phi_n z^(h_1))` and C₁ of rank n−1; first-order deformations of a rank-one module are Hom(K×,E) by §11.1. Define κ_F=(κ_(F,1),κ_(F,2)):Ext¹_F(D,D)→Ext¹(D₁,D₁)×Hom(K×,E) as §11.6's graded map of F. Define κ_G=(κ_(G,1),κ_(G,2)):Ext¹_G(D,D)→Ext¹(C₁,C₁)×Hom(K×,E) as §11.6's graded map of G, whose target in filtration order is Hom(K×,E)×Ext¹(C₁,C₁), followed by the exchange of the two factors: κ_(G,1) records the quotient C₁ and κ_(G,2) the rank-one submodule. The partial maps κ_(σ,F) and κ_(σ,G) on the partial paraboline spaces of §12.2, for D and for D_σ, are defined in the same way, κ_(σ,G) with the same exchange. These conventions are used in §§13.6–13.15.
 
@@ -2064,9 +2040,7 @@ One proof proceeds as follows. Twist by 1−εψ to reduce to ψ=0. Identify the
 
 - At n=3,d=1 the filtration-ordered target of G is Hom(K×,E)×Ext¹(C₁,C₁), of dimensions (2,5), whereas κ_G lands in Ext¹(C₁,C₁)×Hom(K×,E), of dimensions (5,2). For the scalar deformation D⊗R(1+εψ) the filtration-ordered output of G is (ψ,C₁⊗R(1+εψ)), and κ_G gives (C₁⊗R(1+εψ),ψ): κ_(G,2)=ψ and κ_(G,1)=ι_D⁺(0)⊗R(1+εψ) with M=0, as asserted. Without the exchange the second coordinate would be C₁⊗R(1+εψ), not ψ.
 
-### 13.7 Two paraboline spaces span self-Ext
-
-dim(Ext¹_F∩Ext¹_G)=1+(n²−2n+2)d, and Ext¹_F+Ext¹_G=Ext¹(D,D). Here each of Ext¹_F and Ext¹_G has dimension 1+(n²−n+1)d. Compute dim(F+G)=dim F+dim G−dim(F∩G), subtracting the whole intersection dimension including its constant term.
+**13.7 Two paraboline spaces span self-Ext.** dim(Ext¹_F∩Ext¹_G)=1+(n²−2n+2)d, and Ext¹_F+Ext¹_G=Ext¹(D,D). Here each of Ext¹_F and Ext¹_G has dimension 1+(n²−n+1)d. Compute dim(F+G)=dim F+dim G−dim(F∩G), subtracting the whole intersection dimension including its constant term.
 
 (Ding25 Corollary 2.33, p. 29; Ding25 line 1263.)
 
@@ -2080,9 +2054,7 @@ One proof proceeds as follows. Use the higher-intertwining criterion, the rank-o
 
 - At n=2,d=1 the dimensions are 4,4,3 and 5=4+4−3; forgetting the intersection constant term would give 6.
 
-### 13.8 All noncritical refinements span the tangent space
-
-The sum map `directSum_(w in S_n) Ext^1_w(D,D) -> Ext^1(D,D)` is surjective, and remains surjective after quotienting by Ext¹₀. This is proved by rank induction from the first/last-filtration spanning theorem and the graded refinement preimage formula, rather than using this result as its own prerequisite.
+**13.8 All noncritical refinements span the tangent space.** The sum map `directSum_(w in S_n) Ext^1_w(D,D) -> Ext^1(D,D)` is surjective, and remains surjective after quotienting by Ext¹₀. This is proved by rank induction from the first/last-filtration spanning theorem and the graded refinement preimage formula, rather than using this result as its own prerequisite.
 
 (Ding25 Proposition 2.12, p. 18, with the rank-induction proof indicated there using Corollary 2.33, p. 29; Ding25 line 801.)
 
@@ -2096,9 +2068,7 @@ One proof proceeds as follows. For rank one there is a single refinement. Use §
 
 - At n=3,d=1 the first/last spaces have dimensions 8 and intersection dimension 6, giving 10; induction through rank-two graded pieces supplies all six refinements.
 
-### 13.9 The higher-intertwining relation on tangent quotients
-
-Set V=(barExt¹(D₁,D₁)×Hom(K×,E))⊕(barExt¹(C₁,C₁)×Hom(K×,E)). Define L(D,D₁,C₁) to consist of ((a,ψ),(b,−ψ)) for which representatives ã,b̃ satisfy (ã⊗R(1−εψ), b̃⊗R(1+εψ))∈I_D. Existence of such representatives is required; an unqualified condition on arbitrary representatives before quotienting is insufficient.
+**13.9 The higher-intertwining relation on tangent quotients.** Set V=(barExt¹(D₁,D₁)×Hom(K×,E))⊕(barExt¹(C₁,C₁)×Hom(K×,E)). Define L(D,D₁,C₁) to consist of ((a,ψ),(b,−ψ)) for which representatives ã,b̃ satisfy (ã⊗R(1−εψ), b̃⊗R(1+εψ))∈I_D. Existence of such representatives is required; an unqualified condition on arbitrary representatives before quotienting is insufficient.
 
 (Ding25 Definition preceding Corollary 2.34, p. 30; Ding25 line 1274.)
 
@@ -2128,9 +2098,7 @@ The reusable interface has the following properties.
 
 - For a scalar twist, (1−εψ)(1+εψ)=1 and the scalar entries ψ,−ψ sum to 0.
 
-### 13.10 A tangent presentation that recovers the Hodge parameter
-
-There is a natural short exact sequence 0→L(D,D₁,C₁)→V→barExt¹(D,D)→0, where the last map adds the two paraboline classes. For fixed endpoints and φ_n, L(D,D₁,C₁)=L(D′,D₁,C₁) if and only if ι_D′∈E×ι_D; for K=ℚₚ this is equivalent to D≅D′.
+**13.10 A tangent presentation that recovers the Hodge parameter.** There is a natural short exact sequence 0→L(D,D₁,C₁)→V→barExt¹(D,D)→0, where the last map adds the two paraboline classes. For fixed endpoints and φ_n, L(D,D₁,C₁)=L(D′,D₁,C₁) if and only if ι_D′∈E×ι_D; for K=ℚₚ this is equivalent to D≅D′.
 
 (Ding25 Corollary 2.34 and (2.40), p. 30; Ding25 line 1292.)
 
@@ -2144,7 +2112,9 @@ One proof proceeds as follows. Use §13.7 for surjectivity after quotienting. Us
 
 - At n=2,d=1, dim V=8 and target dimension 5, so dim L=3, agreeing with the first/last intersection.
 
-### 13.11 Partial extension images recover the modified injection
+### 13.11 Single-embedding recovery and partial generation
+
+This part carries the image rigidity, the higher-intertwining criterion and the recovery sequence over to partial extensions of D_σ, identifies that sequence with the σ-partial sequence of D through T_σ, and proves that partial refinement spaces generate all partial deformations. It is the single-embedding end target of the crystabelline branch: through §§13.14–13.15 the σ-Hodge filtration of D is recovered.
 
 For injective ι_σ:D₁,σ→C₁,σ, use Ext¹_σ(C₁,σ,D₁,σ) in the pullback and pushout maps. Their image dimensions are 1+(n−1)(n−2), they contain the respective de Rham self-Ext spaces, and equality of either image determines ι_σ up to E×. The signed relation `I_(D_sigma)` determines D_σ up to isomorphism for every K.
 
@@ -2160,9 +2130,7 @@ One proof proceeds as follows. Repeat the torsion-quotient image computation wit
 
 - At n=2 the partial injective-image dimension is 1 and the zero map has image dimension 0.
 
-### 13.12 Higher intertwining with one varying Hodge embedding
-
-For `D_tilde_sigma in Ext^1_(sigma,F)(D_sigma,D_sigma)` with κ_(σ,F)(D̃_σ)=(D̃₁,σ,ψ), ψ∈Hom_σ(K×,E), the additional G-filtration exists exactly when `D_tilde_1,sigma tensor R_(K,E[eps]/eps^2)(1-eps psi)` belongs to the partial injection image. In this case κ_(σ,G,2)(D̃_σ)=ψ, and a common M∈Ext¹_σ(C₁,σ,D₁,σ) gives D̃₁,σ=ι_(D_σ)⁻M⊗R(1+εψ) and κ_(σ,G,1)(D̃_σ)=ι_(D_σ)⁺M⊗R(1+εψ), with κ_(σ,G) exchanged as in §13.6.
+**13.12 Higher intertwining with one varying Hodge embedding.** For `D_tilde_sigma in Ext^1_(sigma,F)(D_sigma,D_sigma)` with κ_(σ,F)(D̃_σ)=(D̃₁,σ,ψ), ψ∈Hom_σ(K×,E), the additional G-filtration exists exactly when `D_tilde_1,sigma tensor R_(K,E[eps]/eps^2)(1-eps psi)` belongs to the partial injection image. In this case κ_(σ,G,2)(D̃_σ)=ψ, and a common M∈Ext¹_σ(C₁,σ,D₁,σ) gives D̃₁,σ=ι_(D_σ)⁻M⊗R(1+εψ) and κ_(σ,G,1)(D̃_σ)=ι_(D_σ)⁺M⊗R(1+εψ), with κ_(σ,G) exchanged as in §13.6.
 
 (Ding25 Theorem 2.37, p. 31; Ding25 line 1349.)
 
@@ -2176,9 +2144,7 @@ One proof proceeds as follows. Repeat the first/last-filtration kernel argument 
 
 - At ψ=0 the partial criterion is exactly membership in the partial injection image.
 
-### 13.13 The single-embedding higher-intertwining relation
-
-Set V_σ=(barExt¹_σ(D₁,σ,D₁,σ)×Hom_σ(K×,E))⊕(barExt¹_σ(C₁,σ,C₁,σ)×Hom_σ(K×,E)), using the modified de Rham zero subspaces. Define L_σ(D_σ,D₁,σ,C₁,σ) by the signed opposite-twist representative condition with `I_(D_sigma)`, exactly as in §13.9. Both the C₁,σ endpoint and the σ-subscript on the partial condition are essential.
+**13.13 The single-embedding higher-intertwining relation.** Set V_σ=(barExt¹_σ(D₁,σ,D₁,σ)×Hom_σ(K×,E))⊕(barExt¹_σ(C₁,σ,C₁,σ)×Hom_σ(K×,E)), using the modified de Rham zero subspaces. Define L_σ(D_σ,D₁,σ,C₁,σ) by the signed opposite-twist representative condition with `I_(D_sigma)`, exactly as in §13.9. Both the C₁,σ endpoint and the σ-subscript on the partial condition are essential.
 
 (Ding25 Definition preceding Corollary 2.38, pp. 31–32; Ding25 line 1356.)
 
@@ -2204,9 +2170,7 @@ The reusable interface has the following properties.
 
 - At n=2,d=2 the modified endpoint quotients use the zero de Rham kernel, giving endpoint dimensions 2 and scalar dimensions 2; both scalar entries are ψ and −ψ.
 
-### 13.14 The single-embedding recovery exact sequence
-
-There is a short exact sequence 0→L_σ(D_σ,D₁,σ,C₁,σ)→V_σ→barExt¹_σ(D_σ,D_σ)→0. For fixed endpoints and φ_n, equality of these L_σ relations is equivalent to D_σ≅D′_σ, for every finite K/ℚₚ. Hence the relation determines the original σ-Hodge filtration.
+**13.14 The single-embedding recovery exact sequence.** There is a short exact sequence 0→L_σ(D_σ,D₁,σ,C₁,σ)→V_σ→barExt¹_σ(D_σ,D_σ)→0. For fixed endpoints and φ_n, equality of these L_σ relations is equivalent to D_σ≅D′_σ, for every finite K/ℚₚ. Hence the relation determines the original σ-Hodge filtration.
 
 (Ding25 Corollary 2.38 and (2.42), p. 32; Ding25 line 1367.)
 
@@ -2220,9 +2184,7 @@ One proof proceeds as follows. Apply the partial higher-intertwining criterion t
 
 - For d=1 these dimensions and the entire sequence equal the unmodified ones.
 
-### 13.15 Modification identifies the two recovery sequences
-
-Let V(D₁,C₁)_σ be the partial subspace of V and L(D,D₁,C₁)_σ=L∩V_σ. Modification T_σ identifies its exact sequence 0→L_σ→V_σ→barExt¹_σ(D,D)→0 with the modified sequence of §13.14, by isomorphisms on all three terms. Thus the original module’s partial tangent relation recovers its σ-Hodge filtration.
+**13.15 Modification identifies the two recovery sequences.** Let V(D₁,C₁)_σ be the partial subspace of V and L(D,D₁,C₁)_σ=L∩V_σ. Modification T_σ identifies its exact sequence 0→L_σ→V_σ→barExt¹_σ(D,D)→0 with the modified sequence of §13.14, by isomorphisms on all three terms. Thus the original module’s partial tangent relation recovers its σ-Hodge filtration.
 
 (Ding25 Proposition 2.39, p. 32; Ding25 line 1386.)
 
@@ -2234,9 +2196,7 @@ One proof proceeds as follows. Use §12.7 for the two endpoint and target quotie
 
 - At n=3,d=2 the original and modified partial quotient targets both have dimension 9, each V-term dimension 14 and each relation dimension 5; quotienting removes kernels of dimensions 4 and 1 respectively.
 
-### 13.16 Partial refinement spaces generate all partial deformations
-
-For both D and D_σ the map `directSum_(w in S_n) Ext^1_(sigma,w) -> Ext^1_sigma` is surjective, as is its barExt quotient. This generation statement includes the original and modified modules with their different zero kernels.
+**13.16 Partial refinement spaces generate all partial deformations.** For both D and D_σ the map `directSum_(w in S_n) Ext^1_(sigma,w) -> Ext^1_sigma` is surjective, as is its barExt quotient. This generation statement includes the original and modified modules with their different zero kernels.
 
 (Ding25 Corollary 2.40 and its proof, p. 32; Ding25 line 1396.)
 
