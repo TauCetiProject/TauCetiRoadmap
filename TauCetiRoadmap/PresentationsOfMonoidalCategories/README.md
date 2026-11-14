@@ -139,16 +139,16 @@ Layers 5 and 6 exist.
 
 ### From PivotalSpherical, as targets
 
-- Layer 3, *Dual bases of morphisms, over a commutative ring*: for a split simple family, the
-  Hom modules into and out of each member are free of finite rank, the composition pairing is
-  perfect, dual bases `b.homDual` exist, and the completeness relation holds.
-- Layer 8, `Vec^ω_G`: `VecTwisted R G c` for a normalized 3-cocycle `c` with values in `Rˣ`.
+- Layer 3.3, *Split simple families*: the hypothesis `IsSplitSimpleFamily R S`, and for it the
+  freeness of the Hom modules into and out of each member, the perfect composition pairing, dual
+  bases `b.homDual`, and the completeness relation.
+- Layer 8.1, `Vec^ω_G`: `VecTwisted R G ω` for a normalized 3-cocycle `ω` with values in `Rˣ`.
 
 ## How to read the build
 
 Each layer lists its targets in dependency order. A target's *Needs:* clause names what it uses
 beyond the earlier targets of its own layer. `Suggested.lean` gives the data of Layer 0 and the
-hypothesis `IsSplitSimpleBasis` real bodies, with the equations above written out index by index.
+the equations above written out index by index.
 
 ## Layer 0: the data
 
@@ -208,20 +208,15 @@ hypothesis `IsSplitSimpleBasis` real bodies, with the equations above written ou
 
 ## Layer 2: extraction and reconstruction
 
-*Needs:* Layers 0 and 1; PivotalSpherical Layer 3, *Dual bases of morphisms, over a
-commutative ring*; Mathlib `HomOrthogonal.matrixDecomposition`, `Monoidal.induced`.
+*Needs:* Layers 0 and 1; PivotalSpherical Layer 3.3 (`IsSplitSimpleFamily` and its dual-basis
+results); Mathlib `HomOrthogonal.matrixDecomposition`, `Monoidal.induced`.
 
-- `TauCeti.IsSplitSimpleBasis R S`, for `S : ι → C` in an `R`-linear category with finite
-  biproducts, holds when:
-  - `algebraMap R (End (S a))` is bijective for each `a`;
-  - `HomOrthogonal S`;
-  - every object is isomorphic to `⨁ (S ∘ f)` for some finite `f`.
-
-  These are the hypotheses of PivotalSpherical's split simple families, bundled, so its
-  freeness, perfect-pairing, dual-basis and completeness results apply verbatim.
-- `Model P` with `Model.simple` satisfies `IsSplitSimpleBasis`.
+- The hypothesis on `S : ι → C` throughout is PivotalSpherical's `IsSplitSimpleFamily R S`: each
+  `S a` has endomorphisms `R`, `HomOrthogonal S`, and every object is a finite biproduct of members.
+  Its freeness, perfect-pairing, dual-basis and completeness results apply verbatim.
+- `Model P` with `Model.simple` satisfies `IsSplitSimpleFamily`.
 - **Extraction.** Take `C` monoidal with `MonoidalPreadditive` and `MonoidalLinear R`, together
-  with `IsSplitSimpleBasis R S`, an isomorphism `𝟙_ C ≅ S u` and a normalized fusion basis. Put
+  with `IsSplitSimpleFamily R S`, an isomorphism `𝟙_ C ≅ S u` and a normalized fusion basis. Put
   `N_{ab}^c = Module.finrank R (S a ⊗ S b ⟶ S c)`. Then:
   - the left and right families are bases;
   - the `F` they define is an `FSymbols R N`.
@@ -231,7 +226,8 @@ commutative ring*; Mathlib `HomOrthogonal.matrixDecomposition`, `Monoidal.induce
 - **Comparison with PivotalSpherical (over a field `k`):** these need a field because those
   definitions are stated for abelian categories, and `Model P` is not abelian over `ℤ`
   (`2 : simple u ⟶ simple u` is mono and epi but not an isomorphism).
-  - For `[Abelian C]`, `IsSplitSimpleBasis k S` holds iff all of:
+  - For `[Abelian C]` and `S` injective on isomorphism classes, `IsSplitSimpleFamily k S` holds
+    iff all of:
     - `IsFiniteSemisimpleCategory C`;
     - `S` represents `SimpleClasses C` bijectively;
     - every simple has `finrank k End = 1`.
@@ -242,7 +238,7 @@ commutative ring*; Mathlib `HomOrthogonal.matrixDecomposition`, `Monoidal.induce
 
 - The real two-dimensional rotation representation of `C₃` in `FDRep ℝ C₃` fails
   `bijective_algebraMap`, since its endomorphisms are `ℂ`.
-- Over `ℤ`, `Model P` satisfies `IsSplitSimpleBasis ℤ Model.simple` but is not abelian.
+- Over `ℤ`, `Model P` satisfies `IsSplitSimpleFamily ℤ Model.simple` but is not abelian.
 - For `FDRep ℂ A₄` with its simples, extraction gives `N_{33}^3 = 2`, and the extracted `F`
   satisfies the pentagon as pinned, for any normalized fusion basis.
 
@@ -272,10 +268,10 @@ commutative ring*; Mathlib `HomOrthogonal.matrixDecomposition`, `Monoidal.induce
   - Other gauges fixing `P` give nontrivial autoequivalences: for `Vec^ω_G` they are the
     2-cocycles.
 - **Comparison with `Vec^ω_G`** ([EGNO] Ex. 2.3.8, p. 28; Prop. 2.6.1, p. 33). For a finite
-  group `G`, a commutative ring `R` and a normalized 3-cocycle `c` with values `c.ω : G → G → G → Rˣ`,
-  take `N_{gh}^l = [gh = l]` and `F^{ghl}_{ghl} = c.ω(g,h,l)⁻¹`. The resulting model is
-  `R`-linearly monoidally equivalent to the full subcategory of free objects of PivotalSpherical's
-  `VecTwisted R G c`, whose associator acts on `(δ_g ⊗ δ_h) ⊗ δ_l` by `c.ω(g,h,l)`; over a field
+  group `G`, a commutative ring `R` and a normalized 3-cocycle `ω : G → G → G → Rˣ`, take
+  `N_{gh}^l = [gh = l]` and `F^{ghl}_{ghl} = ω(g,h,l)⁻¹`. The resulting model is `R`-linearly
+  monoidally equivalent to the full subcategory of free objects of PivotalSpherical's
+  `VecTwisted R G ω`, whose associator acts on `(δ_g ⊗ δ_h) ⊗ δ_l` by `ω(g,h,l)`; over a field
   that subcategory is all of `VecTwisted`. Cohomologous cocycles are gauge equivalent.
 
 **Checks.**

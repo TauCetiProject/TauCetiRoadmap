@@ -9,10 +9,10 @@ contributors and reviewers converge on names and signatures; discharging all of 
 finishes neither a layer nor the roadmap. `sorry` is allowed in this human-owned roadmap
 library — these are goals, not proofs.
 
-The data of Layer 0 (`FusionRules`, `FSymbols`, `RSymbols`) and the hypothesis
-`IsSplitSimpleBasis` of Layer 2 are given real bodies, with the equations pinned in the
-`Conventions` section of `README.md` written out index by index. The headlines that need only
-these are stated below.
+The data of Layer 0 (`FusionRules`, `FSymbols`, `RSymbols`) are given real bodies, with the
+equations pinned in the `Conventions` section of `README.md` written out index by index. The
+headlines that need only these are stated below. The hypothesis of Layer 2 is PivotalSpherical's
+`IsSplitSimpleFamily`, which is not restated here.
 
 Not stated here, because they are about the constructed category `FSymbols.Model P` with its
 monoidal structure, which is a construction rather than a signature: the Layer 1 main theorem
@@ -141,24 +141,5 @@ structure RSymbols {K : Type v} [CommRing K] {ι : Type u} [Fintype ι] [Decidab
 theorem RSymbols.N_comm {K : Type v} [CommRing K] [Nontrivial K] {ι : Type u} [Fintype ι]
     [DecidableEq ι] {N : FusionRules ι} {P : FSymbols K N} (_Q : RSymbols P) (a b c : ι) :
     N.N a b c = N.N b a c := sorry
-
-/-- **A split simple basis** `S : ι → C` of an `R`-linear category with finite biproducts: each
-`S a` has endomorphisms `R` (`algebraMap R (End (S a))` bijective), the family is
-hom-orthogonal, and every object is a finite biproduct of members of the family. These are the
-hypotheses of PivotalSpherical's dual-basis results for split simple families, bundled. -/
-structure IsSplitSimpleBasis (R : Type v) [CommRing R] {C : Type u} [Category.{w} C]
-    [Preadditive C] [Linear R C] [HasFiniteBiproducts C] {ι : Type*} (S : ι → C) : Prop where
-  bijective_algebraMap : ∀ a, Function.Bijective (algebraMap R (End (S a)))
-  homOrthogonal : HomOrthogonal S
-  exists_iso_biproduct : ∀ X : C, ∃ (κ : Type) (_ : Fintype κ) (f : κ → ι),
-    Nonempty (X ≅ ⨁ (S ∘ f))
-
-/-- **The extracted multiplicities.** For a split simple basis over a nontrivial ring, the Hom
-modules `S a ⊗ S b ⟶ S c` are free of finite rank (PivotalSpherical Layer 3), and their ranks
-are the fusion rules of the extracted data. -/
-noncomputable def IsSplitSimpleBasis.N {R : Type v} [CommRing R] {C : Type u} [Category.{w} C]
-    [Preadditive C] [Linear R C] [HasFiniteBiproducts C] [MonoidalCategory C]
-    {ι : Type*} {S : ι → C} (_h : IsSplitSimpleBasis R S) (a b c : ι) : ℕ :=
-  Module.finrank R (S a ⊗ S b ⟶ S c)
 
 end TauCetiRoadmap.PresentationsOfMonoidalCategories
