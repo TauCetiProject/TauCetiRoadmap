@@ -1,387 +1,274 @@
-import Mathlib.Analysis.Normed.Group.Ultra
-import Mathlib.Analysis.Normed.Operator.Banach
-import Mathlib.Analysis.Normed.Unbundled.RingSeminorm
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Analysis.SpecificLimits.Normed
-import Mathlib.Topology.ContinuousMap.ZeroAtInfty
-import Mathlib.Topology.Instances.ZMod
-import Mathlib.Topology.Algebra.TopologicallyNilpotent
-import Mathlib.NumberTheory.Padics.MahlerBasis
-import Mathlib.NumberTheory.Padics.Measure.AmiceTransform
-import Mathlib.NumberTheory.Padics.Complex
-import Mathlib.RingTheory.PowerSeries.Restricted
-import Mathlib.RingTheory.PowerSeries.Binomial
-import Mathlib.RingTheory.PowerSeries.Evaluation
-import Mathlib.RingTheory.PowerSeries.Substitution
-import Mathlib.RingTheory.Noetherian.Defs
-import TauCeti.RingTheory.Huber.Basic
-import TauCeti.NumberTheory.Padics.PadicIntegers
+module
+
+public import Mathlib
+public import TauCeti.RingTheory.Huber.Basic
+public import TauCeti.RingTheory.Huber.Padic.Basic
+public import TauCeti.NumberTheory.Padics.PadicIntegers
+public import TauCeti.NumberTheory.Padics.Distribution.Amice.Basis
+public import TauCeti.NumberTheory.Padics.Distribution.Amice.Character
+public import TauCeti.NumberTheory.Padics.Distribution.LocallyAnalytic
+public import TauCeti.RingTheory.PowerSeries.OpenDisc.Basic
+public import TauCeti.NumberTheory.Padics.WeightSpace
+public import TauCeti.NumberTheory.Padics.Measure.CharacterIntegral
+public import TauCeti.Analysis.Normed.Module.Bases.Orthonormal
+public import TauCeti.NumberTheory.Padics.Measure.CompletedGroupAlgebra
+public import TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.PowerSeries
+public import TauCeti.Topology.Algebra.Group.Profinite.ProP.PadicInt.Basic
 
 /-!
-# P-adic functional analysis: representative interfaces
+# p-adic functional analysis: target signatures
 
-`README.md` is the mathematical specification. These signatures fix selected conventions and
-supplier contracts, not an exhaustive checklist. Definitions have mathematical bodies; `sorry`
-marks unproved roadmap targets. No admitted instance enters typeclass search.
+**This file is not the roadmap and is not exhaustive.** The roadmap is `README.md`, which is
+definitive. This file states, against the pinned Mathlib and Tau Ceti, the headline theorems of
+the roadmap that the pinned libraries do not already prove: Amice's theorem (§4.4), the analytic
+level of an additive character (§4.6), the Amice bijection between locally analytic distributions
+and series on the open unit disc (§4.7), the adic universal character, the Amice-coordinate
+comparison and separation by weights (§5.3), the analytic level of a weight on `ℤ_pˣ` (§5.4), the
+scalar analytic factors `κ(cz + d)` of a weight (§5.5), and joint injectivity of the annular
+evaluations (§5.6). It uses the pinned carriers
+`TauCeti.AnalyticStage` with `TauCeti.AnalyticStage.amiceMap` and `TauCeti.AnalyticStage.eval`
+(§§4.4, 4.6, 5.4), `PadicInt.addChar_of_value_at_one` and `TauCeti.amiceRadius` (§§4.6, 5.4), the
+algebraic direct limit `TauCeti.LocallyAnalytic` with `TauCeti.LocallyAnalytic.ofStage` and
+`PowerSeries.OnOpenDisc` (§4.7), `TauCeti.WeightSpace` with `TauCeti.WeightSpace.finiteChar` and
+`TauCeti.WeightSpace.coord` (§§5.3–5.5), `TauCeti.padicUnitsDepth` (§§5.3–5.5),
+`TauCeti.padicUnitsGenerator` with Mathlib's `NormedSpace.exp`, `NormedSpace.log` and `PowerSeries`
+(§5.5),
+`AbstractMeasure` with `ContinuousMonoidHom.characterIntegralAlgHom`, the completed-group-algebra
+equivalence `AbstractMeasure.completedGroupAlgebraEquiv` with the power-series coordinate
+`TauCeti.completedGroupAlgebra.powerSeriesCoordinate` (§5.3), and Mathlib's `MvPowerSeries`,
+`Ideal.span` and `PadicComplex` for the model `ℤ_p⟦T, U⟧ / (TU − p)` of the annular ring `H`
+and its points (§5.6). The two definitions `distributions` and `binomialLA` exist only to state
+the §4.7 bijection. Every result the pinned libraries already prove is cited by name in the
+README, not restated here. The form of §5.4 for the principal part `s ↦ κ(γ^s)` is
+`exists_eval_eq_addChar_iff` at `t = T_κ`, through the pinned
+`TauCeti.WeightSpace.principalChar_eq_addChar_of_value_at_one`, so it is not restated; the form on
+`ℤ_pˣ` is `exists_eval_eq_weight_iff`, stated on the stage carrier with the evaluation restricted
+to the units.
 
-This file uses the native Mahler isometry, Amice transform and topological Huber predicates.
-It constructs neither a second Tate algebra, a distribution topology, nor a completed group
-algebra. The chosen unit `γ` is a parameter in the character signatures; the production choice
-is `exp(q)` with `q=4` at `p=2`.
-
-Banach modules use the existing normed additive group, module, contractive scalar-action,
-ultrametric and completeness classes. There is no replacement `BanachModule` class.
-The normed `IsTate` below concerns a specified norm; it is not the topological
-`TauCeti.Huber.IsTateRing`. The explicit bridge below uses the native topological predicates.
-
-General coefficient extension of measures, completed tensors, and the completed group algebra
-are imported interfaces in the README, not placeholder definitions in this file. Do not import
-this roadmap prototype into production mathematics; implement its targets in the library.
+The analytic extension of a weight in §5.5 is written by its defining formula
+`exp((log y / p^(h')) · log(1 + t))`, so no new definition is needed for it. One headline target
+is not stated here: the Banach–Tate structure of §5.6, since the gauge on `H[1/T]`, its
+completeness and the continuity of the annular evaluations need a normed-ring structure on
+`H[1/T]`, which the pins lack. The remaining targets of §§4.4–5.6 are specified in the README.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.PadicFunctionalAnalysis
 
 open Filter Topology
-open scoped ZeroAtInfty Classical PowerSeries.WithPiTopology
+open scoped ZeroAtInfty
 
 noncomputable section
 
-universe u
-
-/-! ## Layers 0–1: Tate data, gauges and operator norms -/
-
-def IsMultiplicative {R : Type*} [Norm R] [Mul R] (a : R) : Prop :=
-  ∀ x, ‖a * x‖ = ‖a‖ * ‖x‖
-
-/-- Chosen normed data; the intended production name is `NormedRing.PseudoUniformizer`.
-Unlike `Huber.IsPseudoUniformizer`, this requires exact scaling for the specified norm. -/
-structure PseudoUniformizer (R : Type*) [NormedRing R] where
-  unit : Rˣ
-  isMultiplicative : IsMultiplicative (unit : R)
-  norm_pos : 0 < ‖(unit : R)‖
-  norm_lt_one : ‖(unit : R)‖ < 1
-
-/-- A property of the specified norm, intended as `NormedRing.IsTate` in production.
-Completeness and the ultrametric property are separate hypotheses. -/
-class IsTate (R : Type*) [NormedRing R] : Prop where
-  exists_pseudoUniformizer : Nonempty (PseudoUniformizer R)
-
-/-- The topological implication does not require completeness or exact scaling. -/
-theorem PseudoUniformizer.isTopologicallyNilpotent {R : Type*} [NormedRing R]
-    (ϖ : PseudoUniformizer R) : IsTopologicallyNilpotent (ϖ.unit : R) :=
-  tendsto_pow_atTop_nhds_zero_of_norm_lt_one ϖ.norm_lt_one
-
-/-- Normed data gives the existing topological pseudouniformiser predicate. -/
-theorem PseudoUniformizer.isPseudoUniformizer {R : Type*} [NormedRing R]
-    (ϖ : PseudoUniformizer R) : TauCeti.Huber.IsPseudoUniformizer (ϖ.unit : R) :=
-  ⟨ϖ.unit.isUnit, ϖ.isTopologicallyNilpotent⟩
-
-/-- Once §0.4 supplies the unit-ball pair of definition, this is the native Tate class.
-No converse instance is installed for an arbitrary compatible norm. -/
-theorem PseudoUniformizer.isTateRing {R : Type*} [NormedCommRing R]
-    [TauCeti.Huber.IsHuberRing R] (ϖ : PseudoUniformizer R) :
-    TauCeti.Huber.IsTateRing R where
-  exists_isPseudoUniformizer := ⟨ϖ.unit, ϖ.isPseudoUniformizer⟩
-
-/-- Numerical gauge, depending on all three choices (§0.4). -/
-def tateGauge {A : Type*} [CommRing A] (A₀ : Subring A) (ϖ : Aˣ) (a : ℝ) (x : A) : ℝ :=
-  sInf ((fun n : ℤ ↦ a ^ (-n)) '' {n | ((ϖ ^ (-n) : Aˣ) : A) * x ∈ A₀})
-
-section Gauge
-
-variable {A : Type*} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
-    (A₀ : Subring A) (ϖ : Aˣ) (a : ℝ) (ha : 1 < a)
-    (hϖ : (ϖ : A) ∈ A₀) (hnil : IsTopologicallyNilpotent (ϖ : A))
-    (hb : (𝓝 (0 : A)).HasBasis (fun _ : ℕ ↦ True)
-      (fun n ↦ {x | ((ϖ ^ (-(n : ℤ)) : Aˣ) : A) * x ∈ A₀}))
-
-include ha hϖ hnil hb
-
-theorem exists_tateSeminorm :
-    ∃ α : RingSeminorm A, (∀ x, α x = tateGauge A₀ ϖ a x) ∧
-      (∀ x y, α (x + y) ≤ max (α x) (α y)) ∧
-      (𝓝 (0 : A)).HasBasis (fun ε : ℝ ↦ 0 < ε) (fun ε ↦ {x | α x < ε}) := by
-  sorry
-
-theorem tateGauge_eq_zero_iff :
-    (∀ x, tateGauge A₀ ϖ a x = 0 ↔ x ∈ closure ({0} : Set A)) ∧
-      ((∀ x, tateGauge A₀ ϖ a x = 0 ↔ x = 0) ↔ T2Space A) := by
-  sorry
-
-theorem tateGauge_equiv (B₀ : Subring A) (hϖB : (ϖ : A) ∈ B₀)
-    (hB : (𝓝 (0 : A)).HasBasis (fun _ : ℕ ↦ True)
-      (fun n ↦ {x | ((ϖ ^ (-(n : ℤ)) : Aˣ) : A) * x ∈ B₀})) :
-    ∃ C : ℝ, 0 < C ∧ ∀ x,
-      tateGauge A₀ ϖ a x ≤ C * tateGauge B₀ ϖ a x ∧
-      tateGauge B₀ ϖ a x ≤ C * tateGauge A₀ ϖ a x := by
-  sorry
-
-theorem tateGauge_rpow (b : ℝ) (hb' : 1 < b) (x : A) :
-    tateGauge A₀ ϖ b x = (tateGauge A₀ ϖ a x) ^ (Real.log b / Real.log a) := by
-  sorry
-
-end Gauge
-
-/-- The formula of Mathlib #42865; production uses `ContinuousLinearMap.opNorm`.
-This local prototype does not install a competing norm instance. -/
-def opNorm {R M N : Type*} [Semiring R] [SeminormedAddCommGroup M] [Module R M]
-    [SeminormedAddCommGroup N] [Module R N] (u : M →L[R] N) : ℝ :=
-  sInf {c | 0 ≤ c ∧ ∀ x, ‖u x‖ ≤ c * ‖x‖}
-
-theorem le_opNorm {R M N : Type*} [NormedRing R] [IsTate R]
-    [NormedAddCommGroup M] [Module R M] [IsBoundedSMul R M]
-    [NormedAddCommGroup N] [Module R N] [IsBoundedSMul R N]
-    (u : M →L[R] N) (x : M) : ‖u x‖ ≤ opNorm u * ‖x‖ := by
-  sorry
-
-theorem opNorm_eq {K M N : Type*} [NontriviallyNormedField K]
-    [NormedAddCommGroup M] [NormedSpace K M]
-    [NormedAddCommGroup N] [NormedSpace K N] (u : M →L[K] N) :
-    opNorm u = ‖u‖ := rfl
-
-/-! ## Layer 2: native models, coefficient norms and strict splitting -/
-
-/-- A coordinate vector, with its decay proof rather than an admitted construction. -/
-def single {I E : Type*} [TopologicalSpace I] [DiscreteTopology I]
-    [NormedAddCommGroup E] (i : I) (x : E) : C₀(I, E) :=
-  ⟨⟨Pi.single i x, continuous_of_discreteTopology⟩, by
-    rw [cocompact_eq_cofinite]
-    apply tendsto_const_nhds.congr'
-    filter_upwards [Filter.eventually_cofinite_ne i] with j hj
-    simp [hj]⟩
-
-/-- Coefficient norms are essential here: norms of `a i • e i` would allow torsion. -/
-def IsOrthonormalFamily (R : Type*) [NormedRing R] {I M : Type*}
-    [NormedAddCommGroup M] [Module R M] (e : I → M) : Prop :=
-  ∀ (s : Finset I) (a : I → R), ‖∑ i ∈ s, a i • e i‖₊ = s.sup fun i ↦ ‖a i‖₊
-
-/-- A topological basis predicate; equivalence with a complete model needs completeness. -/
-def IsOrthonormalBasis (R : Type*) [NormedRing R] {I M : Type*}
-    [NormedAddCommGroup M] [Module R M] (e : I → M) : Prop :=
-  IsOrthonormalFamily R e ∧ Dense (Submodule.span R (Set.range e) : Set M)
-
-def IsONable (R : Type*) (M : Type u) [NormedRing R] [NormedAddCommGroup M] [Module R M] : Prop :=
-  ∃ (I : Type u) (_ : TopologicalSpace I) (_ : DiscreteTopology I),
-    Nonempty (M ≃ₗᵢ[R] C₀(I, R))
-
-section OrthonormalBasis
-
-variable {R I M : Type*} [NormedCommRing R] [IsUltrametricDist R]
-    [NormOneClass R] [CompleteSpace R]
-    [TopologicalSpace I] [DiscreteTopology I]
-    [NormedAddCommGroup M] [Module R M] [IsBoundedSMul R M]
-    [IsUltrametricDist M] [CompleteSpace M]
-
-/-- A specified basis gives coordinates and unconditional reconstruction, with no global choice. -/
-theorem exists_linearIsometryEquiv_of_isOrthonormalBasis (e : I → M)
-    (he : IsOrthonormalBasis R e) :
-    ∃ c : M ≃ₗᵢ[R] C₀(I, R), (∀ i, c (e i) = single i 1) ∧
-      ∀ x, HasSum (fun i ↦ (c x) i • e i) x := by
-  sorry
-
-/-- Either a basis or a model isometry can be the user's starting point (§2.2). -/
-theorem exists_isOrthonormalBasis_iff :
-    (∃ e : I → M, IsOrthonormalBasis R e) ↔ Nonempty (M ≃ₗᵢ[R] C₀(I, R)) := by
-  sorry
-
-end OrthonormalBasis
-
-def IsPotentiallyONable (R : Type*) (M : Type u) [NormedRing R] [NormedAddCommGroup M]
-    [Module R M] : Prop :=
-  ∃ (I : Type u) (_ : TopologicalSpace I) (_ : DiscreteTopology I),
-    Nonempty (M ≃L[R] C₀(I, R))
-
-/-- A concrete continuous retract; no speculative projective-module instance. -/
-def HasPr (R : Type*) (M : Type u) [NormedRing R] [NormedAddCommGroup M] [Module R M] : Prop :=
-  ∃ (I : Type u) (_ : TopologicalSpace I) (_ : DiscreteTopology I)
-    (i : M →L[R] C₀(I, R)) (r : C₀(I, R) →L[R] M), ∀ x, r (i x) = x
-
-/-- Output first: columns are images of input vectors, as for `LinearMap.toMatrix`. -/
-def matrixCoeff {R I J : Type*} [NormedCommRing R]
-    [TopologicalSpace I] [DiscreteTopology I] [TopologicalSpace J] [DiscreteTopology J]
-    (u : C₀(J, R) →L[R] C₀(I, R)) (i : I) (j : J) : R :=
-  u (single j 1) i
-
-/-- The input-first coefficients used by LocallyAnalyticDistributions.
-This only reindexes coefficients; it does not construct another operator on `C₀`.
-Composition reverses matrix product order in this convention. -/
-def matrixCoeffInputFirst {R I J : Type*} [NormedCommRing R]
-    [TopologicalSpace I] [DiscreteTopology I] [TopologicalSpace J] [DiscreteTopology J]
-    (u : C₀(J, R) →L[R] C₀(I, R)) (j : J) (i : I) : R :=
-  matrixCoeff u i j
-
-theorem exists_finset_norm_le {R I : Type*} [NormedCommRing R] [IsUltrametricDist R]
-    [NormOneClass R] [CompleteSpace R] [IsTate R] [IsNoetherianRing R]
-    [TopologicalSpace I] [DiscreteTopology I] (P : Submodule R C₀(I, R)) (hP : P.FG) :
-    ∃ (S : Finset I) (C : ℝ), 0 < C ∧ ∀ f ∈ P,
-      ‖f‖ ≤ C * (S.sup fun i ↦ ‖f i‖₊) := by
-  sorry
-
-theorem exists_continuousLinearEquiv_prod_of_countableType
-    {K M E N : Type*} [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
-    [NormedAddCommGroup M] [NormedSpace K M] [IsUltrametricDist M] [CompleteSpace M]
-    [NormedAddCommGroup E] [NormedSpace K E] [IsUltrametricDist E] [CompleteSpace E]
-    [NormedAddCommGroup N] [NormedSpace K N] [IsUltrametricDist N] [CompleteSpace N]
-    (e : ℕ → E) (he : Dense (Submodule.span K (Set.range e) : Set E))
-    (i : M →L[K] E) (q : E →L[K] N) (hi : Topology.IsClosedEmbedding i)
-    (hq : Function.Surjective q) (hex : LinearMap.range i.toLinearMap = LinearMap.ker q.toLinearMap) :
-    ∃ d : E ≃L[K] M × N, (∀ m, d (i m) = (m, 0)) ∧ ∀ x, (d x).2 = q x := by
-  sorry
-
-/-! ## Layer 3: bounded Amice and the integral dual ball -/
-
-section Measures
-
 variable {p : ℕ} [Fact p.Prime]
 
-/-- The coefficient model of §3.2 is already Mathlib's module-valued Mahler isometry. -/
-theorem nonempty_mahler_coordinates {E : Type*} [NormedAddCommGroup E]
+/-! ## Layer 4: Analytic stages and distributions on `ℤ_p` -/
+
+/-- **Amice's theorem** (§4.4; [Am] Théorème 2, p. 150, with `uₙ = n`; [Col] Théorème I.4.7,
+p. 15). For a complete ultrametric normed
+module `E` with contractive `ℤ_p`-action, the pinned Amice map
+`(cₙ) ↦ ∑ₙ ⌊n/pʰ⌋! (x choose n) • cₙ`, `C₀(ℕ, E) → LA_h(E)`, is bijective and preserves norms.
+The pinned library proves only that it is norm-nonincreasing
+(`TauCeti.AnalyticStage.norm_amiceMap_le`). -/
+theorem amiceMap_bijective_and_norm_eq (h : ℕ) {E : Type*} [NormedAddCommGroup E]
     [Module ℤ_[p] E] [IsBoundedSMul ℤ_[p] E] [IsUltrametricDist E] [CompleteSpace E] :
-    Nonempty (C₀(ℕ, E) ≃ₗᵢ[ℤ_[p]] C(ℤ_[p], E)) :=
-  ⟨(PadicInt.mahlerEquiv E).symm⟩
-
-/-- The consumer's Mahler-term formula agrees with the native Amice transform. -/
-theorem coeff_amiceTransform_eq_mahlerTerm {R : Type*} [NormedCommRing R]
-    [Algebra ℤ_[p] R] [IsBoundedSMul ℤ_[p] R]
-    (μ : AbstractMeasure ℤ_[p] R R) (n : ℕ) :
-    (AbstractMeasure.amiceTransform μ).coeff n = μ (PadicInt.mahlerTerm (1 : R) n) := by
-  rw [AbstractMeasure.coeff_amiceTransform]
-  congr 1
-
-theorem norm_toCLMEquiv_eq_iSup_coeff {K : Type*} [NontriviallyNormedField K]
-    [IsUltrametricDist K] [CompleteSpace K] [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K]
-    (μ : AbstractMeasure ℤ_[p] K K) :
-    ‖AbstractMeasure.toCLMEquiv μ‖ = ⨆ n, ‖(AbstractMeasure.amiceTransform μ).coeff n‖ := by
+    Function.Bijective (TauCeti.AnalyticStage.amiceMap p h ℤ_[p] (E := E)) ∧
+      ∀ c : C₀(ℕ, E), ‖TauCeti.AnalyticStage.amiceMap p h ℤ_[p] c‖ = ‖c‖ := by
   sorry
 
-theorem mem_range_amiceTransform_iff {K : Type*} [NontriviallyNormedField K]
-    [IsUltrametricDist K] [CompleteSpace K] [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K]
-    (F : PowerSeries K) :
-    (∃ μ : AbstractMeasure ℤ_[p] K K, AbstractMeasure.amiceTransform μ = F) ↔
-      ∃ C : ℝ, 0 ≤ C ∧ ∀ n, ‖F.coeff n‖ ≤ C := by
+/-- **Amice's basis of `LA_h(ℤ_p)`** (§4.4; [Am] Théorème 2, p. 150, with `uₙ = n`; [Col]
+Théorème I.4.7, p. 15): the disc expansions of
+the polynomials `e_{h,n}(x) = ⌊n/pʰ⌋! (x choose n)` form an orthonormal basis of the analytic
+stage `LA_h(ℤ_p)` over `ℤ_p`. -/
+theorem isOrthonormalBasis_amiceTerm (h : ℕ) :
+    TauCeti.IsOrthonormalBasis ℤ_[p]
+      (fun n : ℕ ↦ TauCeti.AnalyticStage.amiceTerm p h n (1 : ℤ_[p])) := by
   sorry
 
-theorem existsUnique_integral_iff_norm_le_one (ν : AbstractMeasure ℤ_[p] ℚ_[p] ℚ_[p]) :
-    (∃! μ : AbstractMeasure ℤ_[p] ℤ_[p] ℤ_[p], ∀ f : C(ℤ_[p], ℤ_[p]),
-      ν ((⟨fun x : ℤ_[p] ↦ (x : ℚ_[p]), continuous_subtype_val⟩ : C(ℤ_[p], ℚ_[p])).comp f) =
-        (μ f : ℚ_[p])) ↔ ‖AbstractMeasure.toCLMEquiv ν‖ ≤ 1 := by
+/-- **The analytic level of an additive character** (§4.6; [Am] Théorème 3 and Corollaire 1(c),
+pp. 159–161; [Col] Théorème I.4.7, p. 15, with the coefficient criterion
+`TauCeti.tendsto_amiceCharCoeff_iff`; the "if" direction is the argument of [Col] Lemme II.2.1,
+p. 30). For a complete ultrametric normed
+`ℚ_p`-algebra `K` with multiplicative norm, such as a complete normed field over `ℚ_p`, and a
+topologically nilpotent `t`, the character `χ_t(x) = (1 + t)^x` is the evaluation of a vector of
+the analytic stage `LA_h(K)` exactly when `‖t‖ < r_h = p^(−1/((p−1)pʰ))`. The pinned library
+proves the "if" direction (`TauCeti.AnalyticStage.eval_addCharExpansion`); the "only if" needs
+Amice's theorem. -/
+theorem exists_eval_eq_addChar_iff (h : ℕ) {K : Type*} [NormedRing K] [NormMulClass K]
+    [NormOneClass K] [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [Module ℚ_[p] K]
+    [NormSMulClass ℚ_[p] K] [IsUltrametricDist K] [CompleteSpace K] {t : K}
+    (ht : Tendsto (t ^ ·) atTop (𝓝 0)) :
+    (∃ f : TauCeti.AnalyticStage p h K,
+        ⇑(TauCeti.AnalyticStage.eval ℤ_[p] f) = PadicInt.addChar_of_value_at_one t ht) ↔
+      ‖t‖ < TauCeti.amiceRadius p h := by
   sorry
 
-def phiMeasure (R : Type*) [NormedCommRing R] :
-    AbstractMeasure ℤ_[p] R R →ₗ[R] AbstractMeasure ℤ_[p] R R :=
-  AbstractMeasure.map ⟨fun x ↦ (p : ℤ_[p]) * x, continuous_const.mul continuous_id⟩
+/-- **Locally analytic distributions on `ℤ_p`** (§4.7; [Col] §II.2, p. 29). The `K`-linear forms
+on the algebraic direct limit `LA(ℤ_p, K) = TauCeti.LocallyAnalytic p K K` whose restriction to
+every analytic stage `LA_h(K)` is continuous for the stage norm. No topology on `LA(ℤ_p, K)` is
+used. -/
+def distributions (K : Type*) [NormedField K] [NormedAlgebra ℚ_[p] K] [Algebra ℤ_[p] K]
+    [IsBoundedSMul ℤ_[p] K] [IsUltrametricDist K] [CompleteSpace K] :
+    Submodule K (TauCeti.LocallyAnalytic p K K →ₗ[K] K) where
+  carrier := {μ | ∀ h, Continuous (μ ∘ₗ TauCeti.LocallyAnalytic.ofStage K h)}
+  zero_mem' h := by rw [LinearMap.zero_comp]; exact continuous_zero
+  add_mem' hμ hν h := by simpa [LinearMap.add_comp] using (hμ h).add (hν h)
+  smul_mem' c μ hμ h := by simpa [LinearMap.smul_comp] using (hμ h).const_smul c
 
-theorem amiceTransform_phiMeasure (μ : AbstractMeasure ℤ_[p] ℤ_[p] ℤ_[p]) :
-    AbstractMeasure.amiceTransform (phiMeasure ℤ_[p] μ) =
-      PowerSeries.subst ((1 + PowerSeries.X) ^ p - 1 : PowerSeries ℤ_[p])
-        (AbstractMeasure.amiceTransform μ) := by
+/-- **The binomial function** `x ↦ (x choose n)` as an element of `LA(ℤ_p, K)`: the level-zero
+vector `TauCeti.AnalyticStage.amiceTerm p 0 n ((n!)⁻¹ • 1)`. By
+`TauCeti.AnalyticStage.eval_amiceTerm` it evaluates to `x ↦ (x choose n)`, the factor
+`⌊n / p⁰⌋! = n!` of Amice's polynomial cancelling `(n!)⁻¹`. -/
+def binomialLA (K : Type*) [NormedField K] [NormedAlgebra ℚ_[p] K] [Algebra ℤ_[p] K]
+    [IsBoundedSMul ℤ_[p] K] [IsUltrametricDist K] [CompleteSpace K] (n : ℕ) :
+    TauCeti.LocallyAnalytic p K K :=
+  TauCeti.LocallyAnalytic.ofStage K 0
+    (TauCeti.AnalyticStage.amiceTerm p 0 n (((n.factorial : ℚ_[p])⁻¹) • (1 : K)))
+
+/-- The normalisation of `binomialLA`: its function is the Mahler term `x ↦ (x choose n) • 1`.
+Without the factor `(n!)⁻¹` it would be `n! (x choose n)`. -/
+example (K : Type*) [NormedField K] [NormedAlgebra ℚ_[p] K] [Algebra ℤ_[p] K]
+    [IsBoundedSMul ℤ_[p] K] [IsUltrametricDist K] [CompleteSpace K] (n : ℕ) :
+    TauCeti.LocallyAnalytic.eval K (binomialLA (p := p) K n) = PadicInt.mahlerTerm (1 : K) n := by
+  rw [binomialLA, TauCeti.LocallyAnalytic.eval_ofStage, TauCeti.AnalyticStage.eval_amiceTerm,
+    pow_zero, Nat.div_one, ← Nat.cast_smul_eq_nsmul ℚ_[p], smul_smul,
+    mul_inv_cancel₀ (by exact_mod_cast n.factorial_ne_zero), one_smul]
+
+/-- **The Amice transform of locally analytic distributions** (§4.7; [Col] Théorème II.2.2,
+p. 30; the one-variable case of [ST] Theorem 2.2, p. 9). For a complete normed extension `K` of
+`ℚ_p`, the transform `μ ↦ A_μ = ∑ₙ μ((x choose n)) Tⁿ` sends every distribution to a series on the
+open unit disc, and every series on the open unit disc is `A_μ` for exactly one distribution `μ`. -/
+theorem amiceTransform_distribution_bijective (K : Type*) [NormedField K]
+    [NormedAlgebra ℚ_[p] K] [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [IsUltrametricDist K]
+    [CompleteSpace K] :
+    (∀ μ ∈ distributions (p := p) K,
+        (PowerSeries.mk fun n ↦ μ (binomialLA (p := p) K n)).OnOpenDisc 1) ∧
+      ∀ F : PowerSeries K, F.OnOpenDisc 1 →
+        ∃! μ, μ ∈ distributions (p := p) K ∧ ∀ n, μ (binomialLA (p := p) K n) = F.coeff n := by
   sorry
 
-end Measures
+/-! ## Layer 5: Characters, specialisation and coefficient rings -/
 
-/-! ## Layer 4: analytic stages and the two quantitative seminorms -/
+section Adic
 
-section Stages
+variable {S : Type*} [CommRing S] [UniformSpace S] [IsUniformAddGroup S] [IsTopologicalRing S]
+  [IsLinearTopology S S] [CompleteSpace S] [T2Space S] [Algebra ℤ_[p] S] [ContinuousSMul ℤ_[p] S]
 
-variable (p : ℕ) [Fact p.Prime]
-
-abbrev LocallyAnalytic (h : ℕ) (E : Type*) [NormedAddCommGroup E] :=
-  C₀(ZMod (p ^ h) × ℕ, E)
-
-/-- This is the evaluation relation, not a claim that all coefficient modules embed. -/
-def IsDiscRealization {E : Type*} [NormedAddCommGroup E] [Module ℤ_[p] E]
-    (h : ℕ) (c : LocallyAnalytic p h E) (f : ℤ_[p] → E) : Prop :=
-  ∀ (a : ZMod (p ^ h)) (w : ℤ_[p]),
-    f ((a.val : ℤ_[p]) + (p : ℤ_[p]) ^ h * w) = ∑' n : ℕ, w ^ n • c (a, n)
-
-def amiceDualNorm {K : Type*} [NormedField K] (h : ℕ) (F : PowerSeries K) : ℝ :=
-  ⨆ n, ‖F.coeff n‖ * ‖((n / p ^ h).factorial : ℚ_[p])‖
-
-def amiceDiscNorm {K : Type*} [NormedField K] (h : ℕ) (F : PowerSeries K) : ℝ :=
-  ⨆ n : ℕ, ‖F.coeff n‖ * (p : ℝ) ^ (-((n : ℝ) / (((p : ℝ) - 1) * (p : ℝ) ^ h)))
-
-variable {p} {K : Type*} [NontriviallyNormedField K]
-    [NormedAlgebra ℚ_[p] K] [IsUltrametricDist K] [CompleteSpace K]
-
-/-- Restrictedness on all smaller discs prevents a junk real supremum. -/
-theorem amiceDiscNorm_le_amiceDualNorm (h : ℕ) (F : PowerSeries K)
-    (hF : ∀ ρ : ℝ, 0 < ρ → ρ < 1 → F.IsRestricted ρ) :
-    amiceDiscNorm p h F ≤ amiceDualNorm p h F := by
+/-- **The adic universal character** (§5.3, adic target; the case `S = 𝒪_(ℂ_p)`, which holds the
+values of every `ℂ_p`-valued weight, is [RJW] Remark 3.47, p. 25, for odd `p`, through
+`ℤ_pˣ = μ_(p−1) × (1 + pℤ_p)`; `p = 2` runs the same way with `q = 4`).
+Over a complete separated linearly topologised `ℤ_p`-algebra `S`, a finite part
+`η : (ℤ/qℤ)ˣ →* Sˣ` and a coordinate `z` that is topologically nilpotent in the sense of
+`PowerSeries.HasEval` determine a unique weight with that finite part and coordinate
+`κ(γ) - 1 = z`, where `γ = exp q`. No norm on `S` is assumed; the pinned
+`TauCeti.WeightSpace.ofCoord` is the normed case. -/
+theorem exists_character_of_hasEval
+    (η : (ZMod (p ^ TauCeti.padicUnitsDepth p))ˣ →* Sˣ) {z : S} (hz : PowerSeries.HasEval z) :
+    ∃! κ : TauCeti.WeightSpace p S, κ.finiteChar = η ∧ κ.coord = z := by
   sorry
 
-theorem amiceDualNorm_le_amiceDiscNorm (h : ℕ) (F : PowerSeries K)
-    (hF : ∀ ρ : ℝ, 0 < ρ → ρ < 1 → F.IsRestricted ρ) :
-    amiceDualNorm p h F ≤ p * amiceDiscNorm p (h + 1) F := by
+/-- **The binomial formula for an adic weight** (§5.3, adic target). If the coordinate of a weight
+`κ` with values in `S` is topologically nilpotent, then `κ(x) = η(x mod q) · (1 + T_κ) ^ s(x)`,
+where `x ↦ (x mod q, s(x))` is the pinned decomposition `ℤ_pˣ ≃ₜ* (ℤ/qℤ)ˣ × ℤ_p` and the power is
+the binomial series evaluated at `T_κ`. -/
+theorem eq_aeval_binomialSeries (κ : TauCeti.WeightSpace p S)
+    (hκ : PowerSeries.HasEval κ.coord) (x : ℤ_[p]ˣ) :
+    (κ x : S) = (κ.finiteChar (TauCeti.padicIntUnitsEquivZModUnitsProd p x).1 : S) *
+      PowerSeries.aeval (R := ℤ_[p]) hκ (PowerSeries.binomialSeries ℤ_[p]
+        (Multiplicative.toAdd (TauCeti.padicIntUnitsEquivZModUnitsProd p x).2)) := by
   sorry
 
-/-- The derivative functional is an unbounded measure sequence but a valid distribution. -/
-example (h : ℕ) :
-    let F : PowerSeries ℚ_[p] := PowerSeries.mk fun n ↦
-      if n = 0 then 0 else (-1 : ℚ_[p]) ^ (n + 1) / n
-    (∀ ρ : ℝ, 0 < ρ → ρ < 1 → F.IsRestricted ρ) ∧
-      (¬ ∃ C : ℝ, ∀ n, ‖F.coeff n‖ ≤ C) ∧
-      amiceDiscNorm p h F ≤ amiceDualNorm p h F ∧
-      amiceDualNorm p h F ≤ p * amiceDiscNorm p (h + 1) F := by
+end Adic
+
+/-- **The Amice coordinate is the completed-group-algebra coordinate** (§5.3; [RJW] diagram (3.4),
+p. 18, with Proposition 3.16 and Theorem 3.25). For an integral measure `μ` on `ℤ_p`, the
+power-series coordinate `T ↦ [γ] - 1` at the topological generator `γ = ofAdd 1` of
+`Multiplicative ℤ_p` sends the integral Amice transform of `μ` to the completed-group-algebra
+element of `μ`, so that `δ_a` goes to `[γ^a]`. -/
+theorem amiceTransform_completedGroupAlgebra_compat (μ : AbstractMeasure ℤ_[p] ℤ_[p] ℤ_[p]) :
+    TauCeti.completedGroupAlgebra.powerSeriesCoordinate (TauCeti.isProP_multiplicative_padicInt p)
+        (TauCeti.topologicallyGenerates_ofAdd_one_padicInt p)
+        (AbstractMeasure.amiceTransformEquiv μ) =
+      AbstractMeasure.completedGroupAlgebraEquiv
+        (AbstractMeasure.map ⟨Multiplicative.ofAdd, continuous_ofAdd⟩ μ) := by
   sorry
 
-end Stages
-
-/-! ## Layer 5: topology-neutral characters and separate specialisation contracts -/
-
-def q (p : ℕ) : ℕ := if p = 2 then 4 else p
-
-abbrev WeightSpace (p : ℕ) [Fact p.Prime] (R : Type*) [Monoid R] [TopologicalSpace R] :=
-  ℤ_[p]ˣ →ₜ* Rˣ
-
-def TCoord {p : ℕ} [Fact p.Prime] {R : Type*} [Ring R] [TopologicalSpace R]
-    (γ : ℤ_[p]ˣ) (κ : WeightSpace p R) : R := (κ γ : R) - 1
-
-section Characters
-
-variable {p : ℕ} [Fact p.Prime]
-
-/-- The base linear-topology assumption is a supplier fact, not an admitted local instance. -/
-theorem exists_character_of_hasEval [IsLinearTopology ℤ_[p] ℤ_[p]]
-    {S : Type*} [CommRing S] [UniformSpace S]
-    [IsUniformAddGroup S] [IsTopologicalRing S] [IsLinearTopology S S] [CompleteSpace S]
-    [T2Space S] [Algebra ℤ_[p] S] [ContinuousSMul ℤ_[p] S]
-    (γ : ℤ_[p]ˣ) (e : ℤ_[p]ˣ ≃ₜ* ((ZMod (q p))ˣ × Multiplicative ℤ_[p]))
-    (he : e γ = (1, Multiplicative.ofAdd 1))
-    (η : (ZMod (q p))ˣ →* Sˣ) {z : S} (hz : PowerSeries.HasEval z) :
-    ∃! κ : WeightSpace p S, TCoord γ κ = z ∧ ∀ x,
-      (κ x : S) = (η (e x).1 : S) * PowerSeries.aeval (R := ℤ_[p]) hz
-        (PowerSeries.binomialSeries ℤ_[p] (Multiplicative.toAdd (e x).2)) := by
+/-- **Weights separate field-valued measures on `ℤ_pˣ`** (§5.3; [RJW] Remark 3.47, p. 25, for odd
+`p`). A bounded `ℂ_p`-valued measure on `ℤ_pˣ` is determined by its integrals `∫ κ dμ` against all
+continuous weights `κ : ℤ_pˣ → ℂ_pˣ`, for every prime `p`: the finite-order weights span the locally
+constant functions on `ℤ_pˣ`, which are dense. The pinned `TauCeti.measureFun_injective` is the
+case of extended integral measures. -/
+theorem measurePairing_injective :
+    Function.Injective fun (μ : AbstractMeasure ℤ_[p]ˣ ℂ_[p] ℂ_[p])
+      (κ : TauCeti.WeightSpace p ℂ_[p]) ↦ κ.weightTest.characterIntegralAlgHom μ := by
   sorry
 
-theorem existsUnique_character_of_norm_lt_one {A : Type*} [NormedCommRing A]
-    [NormedAlgebra ℚ_[p] A] [IsUltrametricDist A] [CompleteSpace A]
-    (γ : ℤ_[p]ˣ) (e : ℤ_[p]ˣ ≃ₜ* ((ZMod (q p))ˣ × Multiplicative ℤ_[p]))
-    (he : e γ = (1, Multiplicative.ofAdd 1))
-    (η : (ZMod (q p))ˣ →* Aˣ) {z : A} (hz : ‖z‖ < 1) :
-    ∃! κ : WeightSpace p A, TCoord γ κ = z ∧ ∀ x,
-      HasSum (fun n : ℕ ↦ (η (e x).1 : A) *
-        (((Ring.choose (Multiplicative.toAdd (e x).2) n : ℤ_[p]) : ℚ_[p]) • z ^ n))
-        (κ x : A) := by
+/-- **The analytic level of a weight** (§5.4; [Col] §I.6, p. 27, for analyticity on the cosets
+of some `1 + pⁿ ℤ_p`). Let `K` be a complete ultrametric normed `ℚ_p`-algebra with multiplicative
+norm, such as a complete normed field over `ℚ_p`, let `κ` be a `K`-valued weight and let
+`h' = h + v_p(q)` be a unit level. Then `κ` is analytic on the unit discs modulo `p^(h')`, the
+cosets of `1 + p^(h') ℤ_p` in `ℤ_pˣ`, that is, agrees on `ℤ_pˣ` with the evaluation of a vector of
+the analytic stage `LA_(h')(K)`, exactly when `‖T_κ‖ < r_h = p^(−1/((p−1)pʰ))`, equivalently
+`‖κ(exp(p^(h'))) − 1‖ < r_p`. On a disc `x = a(1 + p^(h') w)` the weight is
+`κ(a) (1 + T')^(log(1 + p^(h') w)/p^(h'))` with `1 + T' = (1 + T_κ)^(pʰ)`, and both changes of
+variable `w ↦ log(1 + p^(h') w)/p^(h')` and `y ↦ (exp(p^(h') y) − 1)/p^(h')` are integral restricted
+series, so the criterion reduces to `exists_eval_eq_addChar_iff`. At `p = 2` the level `h' = 1`
+is excluded: the sign weight is not analytic on `1 + 2ℤ_2`, although its coordinate is zero. -/
+theorem exists_eval_eq_weight_iff (h : ℕ) {K : Type*} [NormedRing K] [NormMulClass K]
+    [NormOneClass K] [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [Module ℚ_[p] K]
+    [NormSMulClass ℚ_[p] K] [IsUltrametricDist K] [CompleteSpace K]
+    (κ : TauCeti.WeightSpace p K) :
+    (∃ f : TauCeti.AnalyticStage p (h + TauCeti.padicUnitsDepth p) K,
+        ∀ x : ℤ_[p]ˣ, TauCeti.AnalyticStage.eval ℤ_[p] f (x : ℤ_[p]) = (κ x : K)) ↔
+      ‖κ.coord‖ < TauCeti.amiceRadius p h := by
   sorry
 
-def weightTest {A : Type*} [NormedCommRing A] (κ : WeightSpace p A) : C(ℤ_[p]ˣ, A) :=
-  ⟨fun x ↦ (κ x : A), Units.continuous_val.comp κ.continuous⟩
-
-/-- Pair a weight with an already extended measure; integral extension is supplied elsewhere. -/
-def measurePairing (μ : AbstractMeasure ℤ_[p]ˣ ℂ_[p] ℂ_[p])
-    (κ : WeightSpace p ℂ_[p]) : ℂ_[p] := μ (weightTest κ)
-
-theorem measurePairing_norm_le (μ : AbstractMeasure ℤ_[p]ˣ ℂ_[p] ℂ_[p])
-    (κ : WeightSpace p ℂ_[p]) :
-    ‖measurePairing μ κ‖ ≤ ‖AbstractMeasure.toCLMEquiv μ‖ := by
+/-- **Scalar analytic factors of a weight** (§5.5; the universal form at `h' = v_p(q)` is in the
+proof of [LWX] Proposition 3.14, p. 21). Let `K` be a complete normed field over `ℚ_p`, let
+`h' = h + v_p(q)` be a unit level and let `κ` be a `K`-valued weight with `‖T_κ‖ < r_h`, the
+§5.4 criterion for analyticity on the cosets of `1 + p^(h') ℤ_p`. Put `1 + t = κ(exp(p^(h')))`,
+which is `κ(γ^(pʰ))` and satisfies `‖t‖ < r_p`. The function
+`κ̃(y) = exp((log y / p^(h')) · log(1 + t))` agrees with `κ` on `1 + p^(h') ℤ_p`, and it extends
+`κ` to `1 + p^(h') 𝒪_K`. For `d = d₁ (1 + u₀)` with `d₁ ∈ ℤ_pˣ` and `‖u₀‖ ≤ ‖p^(h')‖`, and for
+`‖c‖ ≤ ‖p^(h')‖`, the factor `κ(cz + d) = κ(d₁) κ̃(1 + u₀ + cz/d₁)` is, at every `z` of the closed
+unit disc, the sum of one power series in `z` whose coefficients have norm at most one and whose
+constant term `κ(d)` has norm one: its Gauss norm is one. -/
+theorem exists_powerSeries_hasSum_weight_factor (h : ℕ) {K : Type*} [NormedField K]
+    [NormedAlgebra ℚ_[p] K] [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K] [IsUltrametricDist K]
+    [CompleteSpace K] (κ : TauCeti.WeightSpace p K)
+    (hκ : ‖κ.coord‖ < TauCeti.amiceRadius p h) :
+    (∀ x : ℤ_[p]ˣ, ‖(x : ℤ_[p]) - 1‖ ≤ ‖(p : ℤ_[p]) ^ (h + TauCeti.padicUnitsDepth p)‖ →
+        (κ x : K) = NormedSpace.exp
+          (NormedSpace.log (algebraMap ℤ_[p] K x) / (p : K) ^ (h + TauCeti.padicUnitsDepth p) *
+            NormedSpace.log (κ (TauCeti.padicUnitsGenerator p ^ p ^ h) : K))) ∧
+      ∀ (d₁ : ℤ_[p]ˣ) (u₀ c : K), ‖u₀‖ ≤ ‖(p : K) ^ (h + TauCeti.padicUnitsDepth p)‖ →
+        ‖c‖ ≤ ‖(p : K) ^ (h + TauCeti.padicUnitsDepth p)‖ →
+        ∃ F : PowerSeries K, (∀ n, ‖PowerSeries.coeff n F‖ ≤ 1) ∧
+          ‖PowerSeries.coeff 0 F‖ = 1 ∧
+          ∀ z : K, ‖z‖ ≤ 1 →
+            HasSum (fun n ↦ PowerSeries.coeff n F * z ^ n)
+              ((κ d₁ : K) * NormedSpace.exp
+                (NormedSpace.log (1 + u₀ + c * z / algebraMap ℤ_[p] K d₁) /
+                    (p : K) ^ (h + TauCeti.padicUnitsDepth p) *
+                  NormedSpace.log (κ (TauCeti.padicUnitsGenerator p ^ p ^ h) : K))) := by
   sorry
 
-/-- The stronger field-valued separation statement implies the integral-measure contract. -/
-theorem measurePairing_injective : Function.Injective (measurePairing (p := p)) := by
+/-- **Joint injectivity of the annular evaluations** (§5.6). On Mathlib's model
+`ℤ_p⟦T, U⟧ / (TU − p)` of the annular coefficient ring `H`, with `U = p/T`, a two-variable integral
+series `f = ∑ a_(i,j) Tⁱ Uʲ` has value `∑ a_(i,j) tⁱ (p/t)ʲ = 0` at every `t ∈ ℂ_p` with
+`p⁻¹ < |t| < 1` exactly when `f` is a multiple of `TU − p`. The values converge, since
+`|tⁱ (p/t)ʲ| = |t|ⁱ (p⁻¹/|t|)ʲ` tends to zero. No `t ∈ ℚ_p` lies in this annulus, so the points
+are taken in `ℂ_p`. -/
+theorem mem_span_iff_forall_eval_annulus (f : MvPowerSeries (Fin 2) ℤ_[p]) :
+    f ∈ Ideal.span {MvPowerSeries.X 0 * MvPowerSeries.X 1 - MvPowerSeries.C (p : ℤ_[p])} ↔
+      ∀ t : ℂ_[p], (p : ℝ)⁻¹ < ‖t‖ → ‖t‖ < 1 →
+        ∑' n : Fin 2 →₀ ℕ, algebraMap ℚ_[p] ℂ_[p] ((MvPowerSeries.coeff n f : ℤ_[p]) : ℚ_[p]) *
+          t ^ n 0 * ((p : ℂ_[p]) / t) ^ n 1 = 0 := by
   sorry
-
-end Characters
 
 end
 
 end TauCetiRoadmap.PadicFunctionalAnalysis
+
+end

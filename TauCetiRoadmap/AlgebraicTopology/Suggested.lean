@@ -2,30 +2,38 @@ module
 
 public import Mathlib
 public import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.FiniteCWType
+public import TauCeti.AlgebraicTopology.ClassifyingSpace.Torsion
 public import TauCeti.AlgebraicTopology.Cohomology.Cap.Basic
 public import TauCeti.AlgebraicTopology.Cohomology.Cup
 public import TauCeti.AlgebraicTopology.Cohomology.Kronecker
 public import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
+public import TauCeti.AlgebraicTopology.Homotopy.CWApproximation.Naturality
 public import TauCeti.AlgebraicTopology.Homotopy.Hurewicz.Basic
 public import TauCeti.AlgebraicTopology.Homotopy.Relative.Hurewicz
+public import TauCeti.AlgebraicTopology.SerreClass.PowerTorsion
+public import TauCeti.AlgebraicTopology.SerreClass.Torsion
 public import TauCeti.AlgebraicTopology.Singular.Relative
 public import TauCeti.Topology.CWComplex.Classical.CWType
 public import TauCeti.Topology.CWComplex.Classical.FiniteCWType
 public import TauCeti.Topology.Homotopy.LusternikSchnirelmann
+public import TauCeti.Topology.Homotopy.SerreFibration.Basic
 
 /-!
 # Algebraic topology of spaces and manifolds: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti APIs. The headlines are the cup-length bound
+theorems against the pinned Mathlib and Tau Ceti APIs. The headlines are CW approximation of
+an arbitrary space (§4.10); the relative form of the homotopy sequence of a Serre fibration
+(§5.5); the cup-length bound
 for the Lusternik–Schnirelmann count; Poincaré duality by cap with a fundamental class and its
 twisted, boundary and compact-triad Poincaré–Lefschetz forms; the product-ball intersection
 theorem (§6.6); the bundle formula for the Euler characteristic; absolute Hurewicz in every
 universe and relative Hurewicz for a simply connected subspace; homological Whitehead for
 spaces of CW type; proper Whitehead; finite CW type of compact smooth manifolds and the
 homology-sphere recognition corollary; CW type of mapping spaces from compact sources; the
-nerve model of K(G,1); rectification of a proper homotopy inverse to a proper strong
-deformation retraction; the Künneth and Cartan–Leray spectral sequences; the topological
+nerve model of K(G,1); Hurewicz modulo a Serre class (§8.8d); rectification of a proper
+homotopy inverse to a proper strong deformation retraction; the homological and cohomological
+Serre spectral sequences (§5.5); the Künneth and Cartan–Leray spectral sequences; the topological
 restriction-tower comparisons; ordinary representability by every Eilenberg–MacLane space of
 positive degree, with its normalized class (§8.10); the EM loop comparison (§8.11b); relative
 obstruction theory; the transverse circle classifying map of an integral degree-one
@@ -44,9 +52,16 @@ relative homotopy groups and Hurewicz maps, absolute Hurewicz for spaces in `Typ
 Hurewicz when the subspace and the space are both highly connected, the local homology system
 of a manifold, which is a local coefficient system, and proper homotopy equivalences.
 
-Not stated, with the missing carriers. The twisted, boundary and compact-triad duality forms
-need direct local-system cochains (the pinned twisted cochains are Hom of twisted chains, which
-computes cochains of the dual system), the local-coefficient cap product and relative
+Not stated, with the missing carriers. The Serre spectral sequences of a Serre fibration over
+a CW base are Tau Ceti's filtered-space spectral sequence `TauCeti.filteredSpaceSpectralSequence`
+of the preimages of the skeleta, with the second page identified as the homology (or cohomology)
+of the base with coefficients in the local system of fibre homology (or cohomology); that local
+system is missing for a Serre fibration: the pins have it, `TauCeti.fiberLocalSystem`, only for a
+Hurewicz fibration with a lifting function, and a statement for those alone would narrow §5.5.
+The cohomological sequence needs as well the direct local-system cochains named next. The
+twisted, boundary and compact-triad duality forms need direct local-system cochains (the
+pinned twisted cochains are Hom of twisted chains, which computes cochains of the dual
+system), the local-coefficient cap product and relative
 fundamental classes of manifolds with boundary; the pinned fundamental classes are those of
 boundaryless manifolds. The Künneth spectral sequence over a general ring needs the filtration
 of the tensor product of chain complexes whose second page is `Tor`, and the Cartan–Leray
@@ -55,8 +70,8 @@ page; neither pinned library has them. The topological Milnor comparison needs t
 restriction tower of cohomology modules of a CW complex and its limit comparison; the generic
 tower algebra is Tau Ceti's. The EM loop comparison is a family of pointed maps
 K(A, n) → ΩK(A, n + 1), natural in homomorphisms A → A′ and inducing the identity on A; it needs
-the functorial family A ↦ K(A, n) with its normalized identification of `πₙ` (DGFloer Layer 1
-item 4), and the pins have only the K(G, 1) predicate and Milnor's classifying space. For one
+the functorial family A ↦ K(A, n) with its normalized identification of `πₙ` (§8.8c), and
+the pins have only the K(G, 1) predicate and Milnor's classifying space. For one
 pair of spaces the comparison is Tau Ceti's loop shift `HomotopyGroup.pathLoopSpaceMulEquiv`
 followed by the uniqueness of Eilenberg–MacLane spaces (Hatcher, Proposition 4.30, p.366), so a
 statement for one pair would drop the naturality that is its content. The obstruction extension
@@ -77,6 +92,32 @@ open CategoryTheory CategoryTheory.Limits ContinuousMap Topology
 universe u v
 
 noncomputable section
+
+/-! ## Layers 4 and 5: CW approximation and the homotopy sequence of a Serre fibration -/
+
+/-- **CW approximation of an arbitrary space** (§4.10; Hatcher, Proposition 4.13): every space
+is the target of a weak homotopy equivalence from a space of CW type. The path-connected case is
+Tau Ceti's `TauCeti.isWeakHomotopyEquivalence_cwApproximationMap`; the general case approximates
+each path component. -/
+theorem exists_cwApproximation (X : Type u) [TopologicalSpace X] :
+    ∃ (Z : Type u) (_ : TopologicalSpace Z), TauCeti.CWType Z ∧
+      ∃ f : C(Z, X), f.IsWeakHomotopyEquivalence := by
+  sorry
+
+/-- **The relative form of the homotopy sequence of a Serre fibration** (§5.5; Hatcher,
+Theorem 4.41): for a Serre fibration `p : E ⟶ B`, a point `b` of `B` and a point `e` of the
+fibre `F = p⁻¹(b)`, the map of based pairs `(E, F, e) ⟶ (B, {b}, b)` induced by `p` is a
+bijection `π_{n+1}(E, F, e) → π_{n+1}(B, {b}, b)` of Tau Ceti's relative homotopy sets for every
+`n`; `TauCeti.RelHomotopyGroup (Fin n)` is `π_{n+1}`. With the exact sequence of the pair
+`(E, F)` this is the homotopy long exact sequence of the fibration. -/
+theorem relHomotopyGroup_map_bijective_of_mem_serreFibrations {E B : TopCat.{u}} (p : E ⟶ B)
+    (hp : TauCeti.TopCat.serreFibrations p) (b : B) (e : E) (he : p e = b) (n : ℕ) :
+    Function.Bijective (TauCeti.RelHomotopyGroup.map (N := Fin n)
+      (X := ⟨TopPair.ofSubset (X := E) (p ⁻¹' {b}), ⟨e, he⟩⟩)
+      (Y := ⟨TopPair.ofSubset (X := B) {b}, ⟨b, rfl⟩⟩)
+      ⟨TopPair.ofSubsetMap p (fun _ hx => hx),
+        Subtype.ext ((TopPair.ofSubsetMap_snd_apply p _ _).trans he)⟩) := by
+  sorry
 
 /-! ## Layer 6: the LS bound and manifold duality -/
 
@@ -246,8 +287,9 @@ theorem homologicalWhitehead {X Y : Type u}
 
 open scoped ContDiff Manifold in
 /-- A compact Hausdorff second-countable smooth manifold without boundary (Euclidean model)
-has finite CW type: GeometricTopology's smooth triangulation (Whitehead) is finite by
-compactness and its realization homeomorphism is the model equivalence. -/
+has finite CW type: the Cairns–Whitehead smooth triangulation of GeometricTopology §11.3 makes
+it a compact triangulable space, and Tau Ceti's `TauCeti.IsTriangulable.finiteCWType` gives the
+finite CW model. -/
 theorem compactManifoldFiniteCWType (n : ℕ) (M : Type u) [TopologicalSpace M]
     [ChartedSpace (EuclideanSpace ℝ (Fin n)) M] [IsManifold (𝓡 n) ∞ M]
     [T2Space M] [SecondCountableTopology M] [CompactSpace M] :
@@ -256,7 +298,8 @@ theorem compactManifoldFiniteCWType (n : ℕ) (M : Type u) [TopologicalSpace M]
 
 open scoped ContDiff Manifold in
 /-- A compact Hausdorff second-countable smooth manifold with boundary (half-space model)
-has finite CW type, by the same finite smooth triangulation. -/
+has finite CW type, by the same route: the smooth triangulation of GeometricTopology §11.3 and
+Tau Ceti's `TauCeti.IsTriangulable.finiteCWType`. -/
 theorem compactManifoldWithBoundaryFiniteCWType (n : ℕ) [NeZero n] (M : Type u)
     [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace n) M] [IsManifold (𝓡∂ n) ∞ M]
     [T2Space M] [SecondCountableTopology M] [CompactSpace M] :
@@ -314,6 +357,43 @@ noncomputable def groupClassifyingSpaceBasepoint (G : Type u) [Group G] :
 theorem groupClassifyingSpace_isEMOne (G : Type u) [Group G] :
     TauCeti.IsEilenbergMacLaneSpaceOne G (groupClassifyingSpace G)
       (groupClassifyingSpaceBasepoint G) := by
+  sorry
+
+/-- Serre's axioms on a class `C` of abelian groups beyond closure under subobjects, quotients
+and extensions (§8.8d): `A ⊗ B` and `Tor₁(A, B)` lie in `C` for `A, B ∈ C`, and the
+positive-degree integral homology of `K(A, 1)`, taken on Milnor's classifying space of `A`, lies
+in `C` for `A ∈ C` (Serre 1953, Chapter I, axioms (II_A) and (III)). Tau Ceti's torsion classes
+satisfy the first two, and the third for finite `A`. -/
+structure SatisfiesSerreAxioms (C : ObjectProperty AddCommGrpCat.{0}) : Prop where
+  /-- Closure under tensor products of two members. -/
+  tensor : ∀ A B : AddCommGrpCat.{0}, C A → C B → C (AddCommGrpCat.of (TensorProduct ℤ A B))
+  /-- Closure under `Tor₁` of two members. -/
+  tor : ∀ A B : AddCommGrpCat.{0}, C A → C B →
+    C (AddCommGrpCat.of (((Tor (ModuleCat.{0} ℤ) 1).obj (ModuleCat.of ℤ A)).obj (ModuleCat.of ℤ B)))
+  /-- The `K(A, 1)` axiom: the positive-degree homology of `B(Multiplicative A)` lies in `C`. -/
+  eilenbergMacLane : ∀ A : AddCommGrpCat.{0}, C A → ∀ n : ℕ,
+    C (AddCommGrpCat.of (((TauCeti.singularChains ℤ).obj
+      (TopCat.of (TauCeti.classifyingSpace (Multiplicative A)))).homology (n + 1)))
+
+/-- **Hurewicz modulo a Serre class** (§8.8d): for a Serre class `C` satisfying Serre's axioms
+and a simply connected `X` whose homotopy groups `π_i(X)` for `2 ≤ i < n + 2` lie in `C`, the
+integral homology `H_i(X; ℤ)` lies in `C` for `0 < i < n + 2`, the Hurewicz homomorphism in
+degree `n + 2` is a `C`-isomorphism (kernel and cokernel in `C`, Mathlib's `isoModSerre`), and
+the one in degree `n + 3` is a `C`-epimorphism (cokernel in `C`, Mathlib's `epiModSerre`) (Serre
+1953, Chapter III, Theorem 1, for all three clauses; Hatcher, *Spectral Sequences in Algebraic
+Topology*, Theorem 1.8, p. 14, proves the `C`-isomorphism clause for the finitely generated,
+torsion and finite classes). For `C = 0` this is the absolute Hurewicz theorem. -/
+theorem hurewicz_isCIso (C : ObjectProperty AddCommGrpCat.{0}) [C.IsSerreClass]
+    (hC : SatisfiesSerreAxioms C) (X : Type) [TopologicalSpace X] [SimplyConnectedSpace X]
+    (x : X) (n : ℕ)
+    (hπ : ∀ i < n, C (AddCommGrpCat.of (Additive (HomotopyGroup (Fin (i + 2)) X x)))) :
+    (∀ i, 0 < i → i < n + 2 →
+      C (AddCommGrpCat.of (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) i).obj
+        (ModuleCat.of ℤ ℤ)).obj (TopCat.of X)))) ∧
+    C.isoModSerre (AddCommGrpCat.ofHom
+      (HomotopyGroup.hurewiczHom (X := X) (x := x) (ModuleCat.of ℤ ℤ) (n + 1))) ∧
+    C.epiModSerre (AddCommGrpCat.ofHom
+      (HomotopyGroup.hurewiczHom (X := X) (x := x) (ModuleCat.of ℤ ℤ) (n + 2))) := by
   sorry
 
 /-- **Ordinary representability** (§8.10; Hatcher, Theorem 4.57, p.393, with the fundamental
@@ -376,14 +456,14 @@ theorem properStrongDeformationRetract_of_inverse
         IsProperMap H := by
   sorry
 
-/-! ## Layer 8: smooth representatives and acceptance applications -/
+/-! ## Layer 8: smooth representatives and free actions of finite groups -/
 
 open scoped ContDiff Manifold in
 /-- **Transverse circle classifying map** (§8.13). On a compact boundaryless smooth
 manifold `M` (Hausdorff, second countable, any finite-dimensional real model `I`), every
 integral degree-one class `a` is the pullback of a generator of `H¹(Circle; ℤ)` along a smooth
 map `f : M → Circle` whose derivative is surjective at every point of `f⁻¹(1)`: `1` is a regular
-value and `f⁻¹(1)` is the embedded codimension-one representative of the Poincaré dual of `a`.
+value and `f⁻¹(1)` is a compact embedded codimension-one submanifold.
 The generator is quantified; the README fixes the one given by the positive loop
 `t ↦ exp(2πit)`, and either generator is carried to the other by complex conjugation. -/
 theorem exists_transverse_circle_classifying_map

@@ -86,10 +86,14 @@ Not statable at the pins, so nothing is stated in their place:
 * the sections of `O(k)` on `ℂPⁿ` and the incidence blowup (K7.2): the pins have no
   tautological line bundle on either model of `ℂPⁿ`; the Fubini–Study normalizations (K7.2):
   the Fubini–Study form is itself a K7.2 construction, glued from its chart formulas;
-* the Hodge diamond of the primary Hopf surface (K7): the pins have no Hopf surface, that is, no
-  free properly discontinuous action of the dilations `z ↦ 2^m z` on `ℂ² ∖ {0}` with its
-  quotient complex manifold; the lattice-character lines `L_ρ` on an elliptic curve and their
-  cohomology (K7.FlatDegreeZero): the pins have no holomorphic line bundle descended from a
+* the Hodge diamond of the primary Hopf surface (K7): the pins have the quotient manifold of a
+  free, properly discontinuous action by `C^n` maps, over `ℝ` or `ℂ` (Mathlib's
+  `MulAction.instChartedSpaceQuotient`, Tau Ceti's `instIsManifoldQuotient`), and the dilations
+  `z ↦ 2^m z` act on `ℂ² ∖ {0}` through Mathlib's action of `ℂˣ` on nonzero vectors, but the
+  pins do not prove the `ProperlyDiscontinuousSMul`, `IsCancelSMul` and `ContMDiffConstSMul`
+  instances for that action which the quotient construction requires;
+* the lattice-character lines `L_ρ` on an elliptic curve and their cohomology
+  (K7.FlatDegreeZero): the pins have no holomorphic line bundle descended from a
   factor of automorphy and no Dolbeault cohomology with coefficients in a holomorphic bundle;
 * the Frölicher spectral sequence, its pages and its degeneration criterion, and the
   Iwasawa-manifold computation (K8): Tau Ceti has the spectral sequence of a filtered cochain
@@ -297,8 +301,8 @@ theorem uniqueFactorizationMonoid_holomorphicStalk (x : M) :
       UniqueFactorizationMonoid ((smoothSheafCommRing 𝓘(ℂ, E) 𝓘(ℂ) M ℂ).presheaf.stalk x) := by
   sorry
 
-/-- K3's Hartogs extension across a point: on a complex manifold of complex
-dimension at least two, a function holomorphic off a point extends to a
+/-- K3's Hartogs extension across a point (Demailly, Chapter I, (3.28)): on a complex manifold of
+complex dimension at least two, a function holomorphic off a point extends to a
 holomorphic function on the whole manifold. This is the analytic input of
 K7.2.TautologicalIncidence; in dimension one `1/z` has no extension, which the
 dimension hypothesis excludes. -/

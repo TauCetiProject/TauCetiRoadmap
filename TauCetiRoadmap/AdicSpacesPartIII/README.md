@@ -1,21 +1,23 @@
 # Roadmap: foundations of adic spaces, part III — formal geometry, formal models and coherent sheaves
 
 **Summary.** Part III supplies the formal and coherent side of the adic-space programme. Layer F0
-builds noetherian formal geometry after EGA I §10 and EGA III §§4–5 over Part II's adic rings: the formal
-spectrum and formal schemes, completion of schemes and coherent sheaves along closed subsets,
-coherent formal modules, the theorem on formal functions, Grothendieck's existence theorem and
-formal GAGA. Layer R2 develops formal models over a complete rank-one valuation ring `O_K`, not
+builds noetherian formal geometry (EGA I §10, EGA III §§4–5) over Tau Ceti's adic rings of
+finite ideal type and their completed localisations and completed tensor products: formal schemes
+on Tau Ceti's formal spectrum, completion of schemes and coherent sheaves along closed subsets,
+coherent formal modules, formal higher direct images, the proper-support form of Grothendieck's
+existence theorem and formal GAGA. Layer R2 develops formal models over a complete rank-one valuation ring `O_K`, not
 assumed discretely valued: algebras topologically of finite presentation, admissible formal
 schemes and their generic fibres, specialisation and tubes, admissible blow-ups and Raynaud's
-theorem, flattening after Bosch–Lütkebohmert and Raynaud–Gruson, formal completions and good
+theorem, flattening by admissible blow-up (BL II; RG), formal completions and good
 reduction, smooth formal schemes and Frobenius lifts, and fractional valuation bounds, section
 domains and Hasse domains. Layer R3 develops coherent sheaves on adic spaces: Huber's and Tate's
 acyclicity for finite modules, the affinoid section comparison for analytified modules,
 Kiehl's glueing theorem, vector bundles and uniform rings, the sheaf
 of continuous differentials, relative compactness and Kiehl-properness, the GAGA comparison maps,
 traces of finite locally free morphisms with the pull–identify–trace operators used for Hecke
-correspondences, and the Gel'fand spectrum of a Banach ring; it cites Kiehl's theorems on
-quasi-Stein spaces, his proper mapping theorem and proper GAGA. These
+correspondences, and the Gel'fand spectrum of a Banach ring; it proves Kiehl's Theorems A and B on
+quasi-Stein spaces (R3.4), his proper mapping theorem and formal functions for proper coherent
+cohomology (R3.6) and proper GAGA (R3.7). These
 are the inputs for families and dagger geometry, étale and `p`-adic Hodge theory, and the integral
 models and Hasse domains of modular curves and Shimura varieties.
 
@@ -35,8 +37,8 @@ and identifies sections of analytified modules on affinoid charts in R3.1a.
 
 The roadmap owns, layer by layer:
 
-- F0: completed localisations, restricted power series and completed tensor products of adic rings,
-  the formal spectrum, formal schemes with ideals of definition and thickenings,
+- F0: the completed neighbourhood rings of the formal spectrum, the locally ringed formal
+  spectrum and its morphisms, formal schemes with ideals of definition and thickenings,
   morphisms of formal schemes as compatible systems, adic, finite-type and proper morphisms, closed
   formal subschemes, completion along a closed subset, coherent formal modules, formal higher direct
   images and formal Serre vanishing, the proper-support forms of Grothendieck's existence theorem,
@@ -44,9 +46,15 @@ The roadmap owns, layer by layer:
   comparisons along which F0 reads SchemeAndStackFoundations Layer 4, the carrier comparison
   (*formal-scheme-carrier-comparison*) and the comparison of quotient systems with coherent formal
   modules (*pow-quotient-formal-module-comparison*). The theorem on formal functions for proper
-  morphisms and Grothendieck's existence theorem for proper schemes, with the algebraization of
-  closed subschemes and morphisms, are SchemeAndStackFoundations' (§4.9, §4.10); F0 states them as adapters through
-  these comparisons (see the paragraph after this list). StableReduction Layer 2 owns the ordinary
+  morphisms and Grothendieck's existence theorem for proper schemes, with its full-faithfulness
+  clause and the algebraization of morphisms, are SchemeAndStackFoundations' (§4.9, §4.10); F0
+  cites them, read through these comparisons (see the paragraph after this list), and owns the
+  algebraization of closed subschemes, the comparison along a modification and the dévissage of
+  algebraizability. Adic rings of finite ideal type, their completed localisations, restricted
+  power series and completed tensor products, finite modules as adic systems and the structure
+  sheaf of the formal spectrum are Tau Ceti's (`TauCeti.IsAdicRing`, `TauCeti.AdicRing.CompletedAway`,
+  `TauCeti.AdicRing.CompletedTensorProduct`, `TauCeti.ModuleTower.IsAdicSystem`,
+  `TauCeti.FormalScheme.Spf`; see *From Mathlib and Tau Ceti*). StableReduction Layer 2 owns the ordinary
   projective-bundle and ampleness package, including tensor powers and nonvanishing opens. F0
   imports its interfaces and supplies the formal-thickening and base-change adapters; Serre's
   theorems are SchemeAndStackFoundations Layer 2 (§2.6, `ample_serre_vanishing`) and
@@ -70,14 +78,16 @@ The roadmap owns, layer by layer:
   and pull–identify–trace on correspondences.
   The Gel'fand spectrum of a Banach ring with Berkovich's formula for the spectral seminorm is
   stated in R3; PerfectoidSpaces P1.12 and DiamondsAndVStacks D5.13 cite it. The trace of an
-  endomorphism of a finite projective module, the trace of a finite locally free algebra and the
-  trace-form criterion for étaleness are R3's; PerfectoidSpaces layer P0 (P0.12, P0.15) is the
+  endomorphism of a finite projective module is Tau Ceti's `_root_.LinearMap.projectiveTrace`; its
+  categorical realization, the trace of a finite locally free algebra and the trace-form
+  criterion for étaleness are R3's; PerfectoidSpaces layer P0 (P0.12, P0.15) is the
   almost-ring version of these targets.
 
 AdicSpaces owns the underlying adic-space foundations (valuation spectra, rational subsets, the
-structure presheaf, sheafiness of strongly noetherian and stably uniform Tate rings);
-AdicSpacesPartII R0.1a–R0.1b owns adic rings of finite ideal type and noetherian adic completion.
-Its R0 and R1 also own rings of noetherian type, adic homomorphisms, completed tensor products of
+structure presheaf, sheafiness of strongly noetherian and stably uniform Tate rings).
+Adic rings of finite ideal type (`TauCeti.IsAdicRing`), rings of noetherian type
+(`TauCeti.Huber.IsNoetherianType`) and adic homomorphisms (`TauCeti.Huber.IsAdicHom`) are
+Tau Ceti's. AdicSpacesPartII R0 and R1 own completed tensor products of
 Huber pairs, the morphism classes of adic spaces, `K`-affinoid algebras, rigid spaces and the
 analytification and rigid–adic functors, including the general exact module pullback, stalk,
 tensor and ideal comparisons in R1.4. Part III R3.1a owns the affinoid section comparison for
@@ -85,9 +95,10 @@ that pullback through its associated-module sheaf API. Serre's theorems on ample
 sheaves and Chow's lemma are SchemeAndStackFoundations Layers 2 and 4. Its Layer 4 also owns, on its
 tower carrier `Formal.AdicThickeningSystem`, the theorem on formal functions for proper morphisms
 (§4.9, `Scheme.Modules.Cohomology.formalFunctionsIso`) and Grothendieck's existence theorem for
-proper schemes with the algebraization of closed subschemes and morphisms (§4.10,
-`Formal.grothendieck_existence`, `Formal.algebraize_hom`); F0 restates these as adapters,
-transported along *pow-quotient-formal-module-comparison* and, for formal schemes, along
+proper schemes with its full-faithfulness clause and the algebraization of morphisms (§4.10,
+`Formal.grothendieck_existence`, `Formal.algebraize_hom`). F0 cites §4.9's theorems, read on
+quotient systems along *pow-quotient-formal-module-comparison*, and §4.10's, read along that
+comparison and, for formal schemes, along
 *formal-scheme-carrier-comparison*, whose essential image (towers with first-order ideal of finite
 type) is the boundary of the transport. F0 owns the locally ringed formal-scheme carrier, both
 comparisons and the results proper to formal schemes.
@@ -95,16 +106,17 @@ comparisons and the results proper to formal schemes.
 Part III R3.4, R3.6 and R3.7 own Kiehl's Theorems A and B on quasi-Stein spaces,
 proper coherent cohomology and its adic completion and base-change comparisons, coherent analytification and
 proper GAGA. R3.6 owns the affinoid adapter for CompactOperators §0.1's complete continuity, its strict
-variant, descent to closed targets, Schwartz finiteness, relatively compact restriction,
-integral-affinoid almost noetherianity and completed extension of affinoid ground fields.
+variant, descent to closed targets, Schwartz finiteness, relatively compact restriction
+and integral-affinoid almost noetherianity.
 PadicFunctionalAnalysis §§2.1–2.2 supplies the model-space surjections and §2.4 the
 countable-type splittings; R3.6 identifies their maps with Part II's Banach-module carriers.
-RigidAnalyticGeometry §7.5 supplies proper formal functions and the stable principal
-filtration; R3.6 transports them through the rigid–adic comparison.
+R3.6 proves proper formal functions and the stable principal filtration from its own
+finiteness theorem. RigidAnalyticGeometry §1.3 supplies completed extension of affinoid
+ground fields, which R3.6 cites.
 These targets use Part II's affinoid, rigid-space and Banach-module carriers and its
 rigid–adic functor. R3.3 owns small perturbations over general complete Tate rings;
 R3.8 specializes PivotalSpherical’s categorical trace and cyclicity APIs to finite
-projective modules and owns their scalar realization.
+projective modules and identifies their scalar value with Tau Ceti's `_root_.LinearMap.projectiveTrace`.
 The scheme-level étale topological invariance is supplied by SchemeAndStackFoundations §0.23a.
 
 Dependencies: AdicSpaces §§0–5; AdicSpacesPartII R0.0–R0.20 and R1.1–R1.9;
@@ -155,26 +167,25 @@ waiting for upstream work.
 10. **Coherent and locally free.** Coherent sheaves are defined on locally noetherian adic spaces
     only; vector bundles on every adic space, corresponding to finite projective modules on sheafy
     Tate affinoids.
-11. **Traces.** The scalar trace of a finite projective module is contraction through
-    `dualTensorHomEquiv`. Its standard API follows Mathlib's finite-projective refactor
-    [#44636](https://github.com/leanprover-community/mathlib4/pull/44636): `LinearMap.trace`,
-    `Algebra.trace` and `Algebra.traceForm`. The local `projectiveTrace` spellings in R3 are
-    compatibility material for the pinned library, whose standard traces require a finite basis
-    to give this value. The basic linear trace is over commutative semirings and additive
-    commutative monoids; the categorical realization and geometric applications are over rings.
-    A trace is never defined as a sum over geometric points.
+11. **Traces.** The scalar trace of an endomorphism of a finite projective module is Tau Ceti's
+    `_root_.LinearMap.projectiveTrace` (`TauCeti/LinearAlgebra/Trace/Projective.lean`), contraction
+    through `dualTensorHomEquiv`; it agrees with Mathlib's `LinearMap.trace` on finite free
+    modules and is defined over commutative semirings and additive commutative monoids. The
+    algebra trace `Algebra.projectiveTrace` of R3.8 is built on it; the categorical realization and
+    the geometric applications are over rings. A trace is never defined as a sum over geometric
+    points.
 12. **Names.** Declarations live directly under `TauCetiRoadmap.AdicSpacesPartIII` or in its
     namespaces `IsAdicRing`, `AdicRing`, `FormalScheme`, `FormalModuleGluing`,
     `Module`, `IsCoherentRing`, `Huber`, `AlgebraicGeometry`, `ValuationSpectrum`, `AdicSpace`,
     `CountableType`, `LinearMap`, `Algebra`, `SheafOfModules`, `SheafCohomology`, `RigidSpace`,
     `EllipticModuli`, `GeneralisedEllipticCurve` and their subnamespaces, including
     `Module.IsCoherent`, `AlgebraicGeometry.Scheme.Hom` and `AlgebraicGeometry.Scheme.Modules`.
-    The class `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing`, its chosen ideal and its completion
-    criteria are imported from AdicSpacesPartII R0.1a–R0.1b in its `Suggested.lean`.
-    Its field `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.exists_isAdic` records a finite
-    ideal defining the topology and algebraic adic completeness. The `IsAdicRing` namespace
-    under Part III adds only the restricted-series and finite-module targets of F0.1.
-    The projective trace declarations use `LinearMap` and `Algebra`; relative differential data
+    Adic rings of finite ideal type are Tau Ceti's class `TauCeti.IsAdicRing`
+    (`TauCeti/RingTheory/AdicRing/Basic.lean`), whose field `TauCeti.IsAdicRing.exists_isAdic`
+    records a finitely generated ideal defining the topology for which the ring is adically
+    separated and complete, with the chosen ideal `TauCeti.IsAdicRing.ideal` and
+    `TauCeti.IsAdicRing.ideal_spec`.
+    The algebra trace declarations use `Algebra`; relative differential data
     use `AlgebraicGeometry`. `RigidSpace.fibreRank` and `RigidSpace.isFinite_iff_of_flat` use the
     rigid-space carriers imported from `TauCetiRoadmap.AdicSpacesPartII`. Tau Ceti declarations
     are written with their `TauCeti.` prefix, and Mathlib declarations in the `Algebra` and
@@ -182,15 +193,20 @@ waiting for upstream work.
     as this roadmap's.
 13. **Targets.** Each target below is a definition, construction, theorem or comparison, written
     with its hypotheses in the sentence, its source locator in parentheses (short keys are resolved
-    in the References), its API as named lemmas and its unit tests as `Checks`. The API names and
-    Check labels are the names the declarations and tests take when the target is formalised.
-    `Suggested.lean` states only the declarations listed under *How to read the build*; a target
-    with a carrier there says so in a `Lean:` sentence, and every other target, with all its API
-    names and Checks, is specified in this README only. A target's label `(*slug*)` is the name by
-    which later targets, sibling roadmaps and the section headings of `Suggested.lean` refer to it.
+    in the References), its API as prose bullets and its unit tests as `Checks`. The declarations
+    of `Suggested.lean` are listed under *How to read the build* and named in their target's
+    `Lean:` sentence; every other target is specified in this README only. An API bullet or a
+    Check carries a backticked name of this roadmap's own only when `Suggested.lean` declares it:
+    the bullets of README-only targets give their suggested names in italics, Checks have italic
+    labels, and a Check never names a Lean declaration. The `Define … prove …` sentences of a
+    README-only target name, in backticks, the definitions and statements it asks for; they are
+    not declarations of `Suggested.lean`. A target's label `(*slug*)` is the name by which later
+    targets, sibling roadmaps and the section headings of `Suggested.lean` refer to it.
 14. **Thickenings as quotients.** The thickening `Xₙ = V(I^{n+1} 𝒪_X)` of a scheme over `Spec A`
-    is encoded by the universal quotient `F ⧸ I^{n+1} F` of an `𝒪_X`-module (`IsPowQuotient`);
-    cohomology on `Xₙ` is cohomology on `X` of the quotient. Such quotient systems are SchemeAndStackFoundations'
+    is encoded by the universal quotient `F ⧸ I^{n+1} F` of an `𝒪_X`-module: a morphism
+    `q : F → Q` killed by every element of `I^{n+1}` through which every such morphism out of `F`
+    factors uniquely (an `I^{n+1}`-quotient); cohomology on `Xₙ` is cohomology on `X` of the
+    quotient. Such quotient systems are SchemeAndStackFoundations'
     coherent formal modules on `Formal.Scheme.formalCompletion X (I𝒪_X)` pushed forward to `X`
     (*pow-quotient-formal-module-comparison*).
 15. **Towers.** SchemeAndStackFoundations' `Formal.AdicThickeningSystem` (§4.7) imposes no finiteness on the first-order ideal
@@ -214,7 +230,7 @@ rigid-space bridge. These supplier contracts are cited by their roadmap and sect
 
 | F0 supplier | Exact file | Contract used |
 |---|---|---|
-| AdicSpacesPartII R0.1a–R0.1b: `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal_spec`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.isHuberRing`, `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.adicCompletion`, `TauCetiRoadmap.AdicSpacesPartII.isNoetherianRing_of_isAdicComplete` | `TauCetiRoadmap/AdicSpacesPartII/README.md`, R0.1a–R0.1b, and `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Adic rings of finite ideal type, chosen ideals of definition, their Huber-ring instance and noetherian completion criteria. F0 constructs completed localisations, restricted series and completed tensor products over these rings. |
+| `TauCeti.IsAdicRing`, `TauCeti.IsAdicRing.ideal`, `TauCeti.IsAdicRing.ideal_spec`, `TauCeti.IsAdicRing.isHuberRing`; `TauCeti.Ideal.isNoetherianRing_of_isAdicComplete`; Mathlib `Ideal.isNoetherianRing_adicCompletion` | `TauCeti/RingTheory/AdicRing/Basic.lean`, `TauCeti/RingTheory/AdicCompletion/Noetherian.lean`; `Mathlib/RingTheory/AdicCompletion/Noetherian.lean` | Adic rings of finite ideal type, their chosen ideals of definition and Huber-ring instance, and the noetherian completion criteria. F0 uses the completed localisations, restricted series and completed tensor products that Tau Ceti builds on these rings (*From Mathlib and Tau Ceti*). |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `Affinoid.spa`, `fieldAffinoid`, `AdicOver`, `rigidToAdic`, `rigidToAdic.rho`; `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid`, `RigidSpace.Sp` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `Affinoid.spa`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | The affine and global Raynaud comparisons use these imported carriers and the functor `RigidSpace K ⥤ AdicOver K`. Part III supplies the formal generic fibre and its comparison isomorphisms. |
 | `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid`, `RigidSpace.Sp`, AdicSpacesPartII *proper-separated-comparisons*, `AdicSpace.rigidToAdic` (same prefix); RigidAnalyticGeometry §6.3 | RigidAnalyticGeometry README §6.3; AdicSpacesPartII carrier contracts | Quasi-compact rigid morphisms are those of §6.3. The inner relation is its relative compactness for affinoid opens over an affinoid base. Part II transports these through its affinoid and rigid–adic carriers. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.projectiveSpace`, `projectiveSpace.toSpec` (same namespace); `CategoryTheory.Limits.pullback`, `terminal.from` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`); `Mathlib/AlgebraicGeometry/Limits.lean` | The Part II homogeneous-polynomial projective space and scheme fibre products realize StableReduction Layer 2's relative projective space as the compatibility interface `AlgebraicGeometry.relativeProjectiveSpace`; its affine comparison preserves the structural map. |
@@ -228,15 +244,15 @@ rigid-space bridge. These supplier contracts are cited by their roadmap and sect
 | `TauCeti.SheafOfModules.IsInvertible`, `AlgebraicGeometry.Scheme.Modules.instMonoidalClosed` | `TauCeti/Algebra/Category/ModuleCat/Sheaf/Invertible/Basic.lean`, `TauCeti/AlgebraicGeometry/Modules/TensorProduct.lean` | The rank-one predicate and monoidal scheme modules support StableReduction Layer 2's ordinary tensor-power, nonvanishing-open and ampleness interfaces. F0 uses compatibility abbreviations for those interfaces and owns their formal-thickening adapters. |
 | `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology` | `TauCeti/AlgebraicGeometry/Cohomology/Basic.lean` | Supplied sheaf cohomology on schemes. `FormalScheme.formalSerreVanishing` applies it to the tensor product of the actual pullbacks of the coherent module and line bundle to each formal thickening. |
 | `TauCeti.fittingIdeal`, `TauCeti.fittingIdeal_monotone`, `TauCeti.fittingIdeal_quotient_zero`, `TauCeti.fittingIdeal_baseChange`; `AlgebraicGeometry.Scheme.Modules.fittingIdeal` | `TauCeti/RingTheory/FittingIdeal/Basic.lean`, `TauCeti/RingTheory/FittingIdeal/BaseChange.lean`; `TauCeti/AlgebraicGeometry/Modules/FittingIdeal/Basic.lean` | Ring minors and the ordinary scheme construction are supplied. `FormalScheme.fittingIdeal` uses the existing formal module and ideal-sheaf carriers and adds the formal-affine comparison. |
-| `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential`, `Huber.ContinuousKaehlerDifferential.D`, `AdicSpace.Smooth`, `AdicSpace.Etale`, `AdicSpace.Smooth.relativeDimension` (same namespace) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `AdicSpace.Smooth`, `AdicSpace.Etale`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | Planned supplier interface: continuous differential module, universal derivative, and analytic smoothness with its intrinsic relative dimension. `FormalScheme.kaehler` is the formal sheaf of completed differentials; `kaehler_eq_continuousDifferentials` identifies its affine sections with the imported module, preserving the derivative. |
+| `TauCeti.Huber.ContinuousKaehlerDifferential`, `TauCeti.Huber.ContinuousKaehlerDifferential.D` (`TauCeti/RingTheory/Huber/Kaehler/Basic.lean`); `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Smooth`, `AdicSpace.Etale`, `AdicSpace.Smooth.relativeDimension` (all under `TauCetiRoadmap.AdicSpacesPartII`) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `AdicSpace.Smooth`, `AdicSpace.Etale`; `AdicSpace.Smooth.relativeDimension` is a planned supplier interface, specified by a Part II README target, not a declaration of that file) | Tau Ceti supplies the continuous differential module of the completed diagonal and its derivation; Part II's *continuous-differentials* makes the derivation universal. Planned supplier interface: analytic smoothness with its intrinsic relative dimension. `FormalScheme.kaehler` is the formal sheaf of completed differentials; `kaehler_eq_continuousDifferentials` identifies its affine sections with the imported module, preserving the derivative. |
 | `TauCeti.IsPureDimensional` | `TauCeti/Topology/PureDimension.lean` | Pure dimension means the dimension of every irreducible component; empty fibres satisfy this condition in every dimension. Used on formal scheme fibres and spectra of analytic fibre chart rings in `FormalScheme.rigOfFSC_preservesProperties`, and on the spectra of the special and generic fibres of a topologically finitely presented algebra in `IsTopologicallyFinitePresentation.isReduced_isPureDimensional_genericFibre`. |
 | `AlgebraicGeometry.Scheme.Hom.finrank`, `AlgebraicGeometry.GeometricallyReduced` | `Mathlib/AlgebraicGeometry/Morphisms/FlatRank.lean`, `Mathlib/AlgebraicGeometry/Geometrically/Reduced.lean` | The finite flat rank includes fibre multiplicities; geometric reducedness is tested after field extensions. Applied to the scheme reduction by the extended target ideal. |
-| `TauCetiRoadmap.ModularCurves.EllipticCurve`, `EllipticCurve.toOver`, `EllipticCurve.ofWeierstrass` | `TauCetiRoadmap/ModularCurves/Suggested.lean` | Imported smooth elliptic curves and their group objects. `EllipticModuli.ofElliptic` adds the translation action; `GeneralisedEllipticCurve` adds polygon fibres. |
+| `TauCeti.AlgebraicGeometry.EllipticCurveGeom` (with `carrier`, `structureMap`, `zero`), `TauCeti.AlgebraicGeometry.EllipticCurveGeom.grpObj` | `TauCeti/AlgebraicGeometry/EllipticCurve/Scheme/Geom/Basic.lean`, `TauCeti/AlgebraicGeometry/EllipticCurve/Scheme/Geom/GroupLaw.lean` | Smooth proper elliptic curves over a scheme with their zero section, and the group law on `Over.mk E.structureMap`, the carrier on which ModularCurves states its targets. `EllipticModuli.ofElliptic` adds the translation action on this group object; `GeneralisedEllipticCurve` adds polygon fibres. |
 | `AlgebraicGeometry.Scheme.Hom.smoothLocus`, `AlgebraicGeometry.Proj`, `MvPolynomial.homogeneousSubmodule` | `Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean`, `Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Scheme.lean`, `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean` | Actual smooth open and projective line used for the polygon normalization and compactified j-map. |
 | `CategoryTheory.GrpObj`, `CategoryTheory.IsCommMonObj`, `CategoryTheory.Over.pullback` | `Mathlib/CategoryTheory/Monoidal/Grp.lean`, `Mathlib/CategoryTheory/Monoidal/Mon.lean`, `Mathlib/CategoryTheory/Comma/Over/Pullback.lean` | Group laws, commutativity and scheme base change; no new group-object carrier. |
-| `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid.polydisc`, `AdicSpace.ofRigidAffinoid`, `AdicSpace.Affinoid.coeff`, `AdicSpace.fieldAffinoid` (all under `TauCetiRoadmap.AdicSpacesPartII`) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `AdicSpace.Affinoid.coeff`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | Planned supplier interface: closed polydisc, its adic realization, coefficient map and base field; `FormalScheme.openPolydisc` takes the open subspace inside this supplied carrier; `rigOfFSC_powerSeries` and `rigOfFSC_test_restricted` compare the Berthelot image with these same imported disc carriers. |
+| `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid.polydisc`, `AdicSpace.ofRigidAffinoid`, `AdicSpace.Affinoid.coeff`, `AdicSpace.fieldAffinoid` (all under `TauCetiRoadmap.AdicSpacesPartII`) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `AdicSpace.Affinoid.coeff`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | Planned supplier interface: closed polydisc, its adic realization, coefficient map and base field; `FormalScheme.openPolydisc` takes the open subspace inside this supplied carrier; `rigOfFSC_powerSeries` and *rigOfFSC_test_restricted* compare the Berthelot image with these same imported disc carriers. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `AdicSpace.Affinoid.coeff`, `AdicSpace.fieldAffinoid`, `AdicSpace.rigidToAdic.classicalPointsEquiv` (all under `TauCetiRoadmap.AdicSpacesPartII`) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `AdicSpace.Affinoid.coeff`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | Shared adic carriers and structural field maps for specialisation; Part III defines the formal-model classical subset using these imports. |
-| `TauCetiRoadmap.AdicSpacesPartII.AlgebraicGeometry.submoduleBlowup`, `submoduleBlowup.toSpec`, `submoduleBlowup.reesRing_eq_reesAlgebra` (same namespace) | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | Planned supplier interface: Rees blow-up and projection. `AdmissibleBlowup.scheme` completes this scheme along the structural pseudouniformizer; it does not define another scheme blow-up. |
+| `TauCeti.AlgebraicGeometry.submoduleBlowup`, `TauCeti.AlgebraicGeometry.submoduleBlowup.toSpec`; `_root_.reesAlgebra_eq_coeffSubalgebra` | `TauCeti/AlgebraicGeometry/Blowup/Submodule/Basic.lean`; `TauCeti/RingTheory/ReesAlgebra/Grading.lean` | The blow-up `Proj R(J)` of the submodule `J` spanned by the generators, with its projection to the base. When the base ring is the algebra itself, `R(J)` is `coeffSubalgebra` of the powers of the ideal `J`, which `_root_.reesAlgebra_eq_coeffSubalgebra` identifies with Mathlib's Rees algebra. `AdmissibleBlowup.scheme` completes this scheme along the structural pseudouniformizer; it does not define another scheme blow-up. |
 | `TauCeti.AlgebraicGeometry.affineBlowupι`, `opensRange_affineBlowupι`, `iSup_opensRange_affineBlowupι`, `affineBlowupι_toSpecZero` (same namespace) | `TauCeti/AlgebraicGeometry/Blowup/AffineCharts.lean` | Ordinary scheme blow-up charts and their structural maps are supplied. `FormalScheme.boundedFunctions_eq_blowupChart` adds the completed, torsion-free formal chart and its bounded-function generic fibre, using `AdmissibleBlowup.chart` and the imported Part II Rees carrier. |
 | `AlgebraicGeometry.Scheme.IdealSheafData.ofIdealTop`, `AlgebraicGeometry.IsProper`, `RingHom.ker`, `Localization.Away` | `Mathlib/AlgebraicGeometry/IdealSheaf/Basic.lean`, `Mathlib/AlgebraicGeometry/Morphisms/Proper.lean`, `Mathlib/RingTheory/Ideal/Maps.lean`, `Mathlib/RingTheory/Localization/Away/Basic.lean` | Completion ideals, proper scheme reductions, and the affine power-torsion kernel in strict-transform Checks. |
 | `FractionRing`, `ValuationRing`, `integralClosure` | `Mathlib/RingTheory/Localization/FractionRing.lean`, `Mathlib/RingTheory/Valuation/ValuationRing.lean`, `Mathlib/RingTheory/IntegralClosure/Algebra/Basic.lean` | Fraction fields and normalization of a rig-point presentation use these supplied algebraic notions. `FormalScheme.RigPoint` adds the closed immersion into a formal model and its isomorphism class, represented by the sheaf kernel. |
@@ -257,7 +273,7 @@ rigid-space bridge. These supplier contracts are cited by their roadmap and sect
 | `AlgebraicGeometry.LocallyRingedSpace`, `AlgebraicGeometry.LocallyRingedSpace.restrict`, `AlgebraicGeometry.LocallyRingedSpace.ofRestrict` | `Mathlib/Geometry/RingedSpace/LocallyRingedSpace.lean` | The genuine locally ringed-space carrier, restriction, and open inclusion used by affine Spf and morphism descent. |
 | `TopologicalSpace.Opens.isOpenEmbedding` | `Mathlib/Topology/Category/TopCat/Opens.lean` | The underlying inclusion of an open restriction is an open embedding; `FormalScheme.ofRestrict` uses this same inclusion. |
 | `AlgebraicGeometry.Spec.locallyRingedSpaceObj` | `Mathlib/AlgebraicGeometry/Spec.lean` | The discrete comparison for F0's completed-localisation sheaf. |
-| `TauCeti.Huber.PairOfDefinition.locUniformSpace`, `isUniformAddGroup_locUniformSpace`, `isTopologicalRing_locUniformSpace`, `toCompletionLoc` (in the same namespace) | `TauCeti/RingTheory/Huber/LocalizationTopology/Completion.lean` | Uniform completion of rational localisation; *completed-localization* identifies the `{1}/f` case with the adic completion `AdicRing.CompletedAway`, preserving the structure map. |
+| `TauCeti.Huber.PairOfDefinition.locUniformSpace`, `isUniformAddGroup_locUniformSpace`, `isTopologicalRing_locUniformSpace`, `toCompletionLoc` (in the same namespace) | `TauCeti/RingTheory/Huber/LocalizationTopology/Completion.lean` | Uniform completion of rational localisation; *completed-localization* identifies the `{1}/f` case with the adic completion `TauCeti.AdicRing.CompletedAway`, preserving the structure map. |
 | `TauCeti.Huber.PairOfDefinition.hasDenominatorPower_of_isOpen_span` | `TauCeti/RingTheory/Huber/LocalizationTopology/Basic.lean` | The numerator set `{1}` spans an open ideal, so the rational comparison needs no denominator hypothesis. |
 | `AlgebraicGeometry.LocallyRingedSpace.GlueData`, `ι_isOpenImmersion`, `ι_jointly_surjective` | `Mathlib/Geometry/RingedSpace/PresheafedSpace/Gluing.lean` | The overlap/cocycle datum, open inclusions and covering of the glued space. F0 adds only the formal atlases. |
 | `CategoryTheory.GlueData.glued`, `CategoryTheory.GlueData.glue_condition`, `CategoryTheory.Limits.Multicoequalizer.desc` | `Mathlib/CategoryTheory/GlueData.lean`, `Mathlib/CategoryTheory/Limits/Shapes/Multiequalizer.lean` | The glued object, compatibility, descent and uniqueness for the same underlying locally ringed space. |
@@ -303,8 +319,7 @@ rigid-space bridge. These supplier contracts are cited by their roadmap and sect
 
 | R3 supplier | Exact file | Contract used |
 |---|---|---|
-| `TauCetiRoadmap.AdicSpacesPartIII.AdicSpace.analytification.modules_chartSections` | This README, R3.1a (README target) | On a strongly noetherian affinoid chart of an affine scheme's relative analytification, sections of the pulled-back associated module are `B ⊗_C M`. R3.6 uses this for the differential-sheaf comparison and R3.7 for coherent analytification. |
-| `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid.polydisc`, `RigidSpace.Affinoid.point`, `RigidSpace.Sp.map`, `AdicSpace.rigidToAdic`; `Huber.TateAlgebra.ofMvPolynomial` (same namespace); `TauCeti.Huber.restrictedMvPowerSeriesCompletion` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `Huber.TateAlgebra.ofMvPolynomial`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file); `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Completion.lean` | Planned supplier interface: discs, analytic points, polynomial coordinates and induced adic morphisms for the exactness non-example of *glueing-square*, `IsFiniteLocallyFree_closed_point`, `VectorBundle_skyscraper` and `IsFiniteLocallyFree_power_map`. Evaluation at zero is specified on every polynomial. |
+| `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid.polydisc`, `RigidSpace.Affinoid.point`, `RigidSpace.Sp.map`, `AdicSpace.rigidToAdic`; `Huber.TateAlgebra.ofMvPolynomial` (same namespace); `TauCeti.Huber.restrictedMvPowerSeriesCompletion` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `Huber.TateAlgebra.ofMvPolynomial`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file); `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Completion.lean` | Planned supplier interface: discs, analytic points, polynomial coordinates and induced adic morphisms for the exactness non-example of *glueing-square*, *IsFiniteLocallyFree_closed_point*, *VectorBundle_skyscraper* and *IsFiniteLocallyFree_power_map*. Evaluation at zero is specified on every polynomial. |
 | `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.Affinoid`, `Sp`, `Sp.map`, AdicSpacesPartII *proper-separated-comparisons*, `HasInnerAffinoidCover`, `IsProper`; `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.rigidToAdic`, `rigidToAdic.proper`, `rigidToAdic.proper_iff` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; they are specified by Part II README targets) | R3 imports the rigid affinoid carriers, generator criterion, and finite inner-cover properness. Part III's `AdicSpace.RelativelyCompact` transports innerness to adic inclusions with commuting base and inclusion maps; its API and Checks belong here. The reverse properness comparison takes `IsDiscreteValuationRing (powerBoundedSubring K)`. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Chart`, `Affinoid.coeff`, `Etale` (same namespace) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Imported affinoid presentations, coefficient maps and the étale predicate used by `proper_directImage_etale_baseChange`. Part III adds the equivalence on coherent cohomology and its pure-tensor equation. |
 | DerivedModuleAlgebra §S.1: `DoubleComplex.totalCohomology_of_exact_rows`, `DoubleComplex.edgeBottom`, `DoubleComplex.edgeLeft`, `DoubleComplex.spectralSequence_map` | `TauCetiRoadmap/DerivedModuleAlgebra/README.md`, §S.1 | The generic exact-row comparison, its canonical edges and naturality; transposition supplies the exact-column comparison. R3 applies them to Čech complexes and sheaf resolutions. |
@@ -333,22 +348,23 @@ R3 uses it on Čech complexes with differential `d′ + (−1)^p d″`.
 
 ### Trace contracts
 
-Follow the design of [Mathlib #44636](https://github.com/leanprover-community/mathlib4/pull/44636)
-(head `655ffd91a9416821deede0476a01e773c70532f7`): the standard finite-projective scalar API is
-`LinearMap.trace`, with `trace_comp_comm'` and `trace_baseChange`, and `Algebra.trace`,
-`traceForm` and `trace_trace`. Build the required material in Tau Ceti against that design.
-The local `projectiveTrace`, `projectiveTraceForm`, `projectiveTrace_cyclic`,
-`projectiveTrace_baseChange` and `projectiveTrace_trans` declarations express compatibility with
-the current pin; replace them by standard imports when the generalized API is available.
-The categorical/scalar comparison, local-rank identities, étale pairing criterion and geometric
-trace comparisons remain targets here.
+Tau Ceti's `TauCeti/LinearAlgebra/Trace/Projective.lean` supplies the scalar trace
+`_root_.LinearMap.projectiveTrace` of an endomorphism of a finite projective module over a commutative
+semiring, with `_root_.LinearMap.projectiveTrace_eq_trace` (agreement with Mathlib's `LinearMap.trace`
+on finite free modules), `_root_.LinearMap.projectiveTrace_cyclic` (cyclicity across two finite
+projective modules), `_root_.LinearMap.projectiveTrace_baseChange` (base change) and
+`_root_.LinearMap.algebraMap_projectiveTrace_id` (the trace of the identity is the local rank in every
+prime localization); `TauCeti/Examples/LinearAlgebra/Trace/Projective.lean` computes it on the
+non-free projective ideal `ℚ × 0` of `ℚ × ℚ`. The categorical/scalar comparison, the algebra
+trace, the étale pairing criterion and the geometric trace comparisons are targets here.
 
 | Contract | Supplier and exact label | Retained gap / consumer |
 | --- | --- | --- |
 | Generic categorical trace, coherence and cyclicity | [PivotalSpherical](../PivotalSpherical/README.md), Layers 0–2 and 10 | Use its categorical trace and symmetric pivotal/spherical structures on the pinned finite-projective category. These are supplier targets; Part III specializes them rather than building a generic trace library. |
-| Finite-projective endomorphism trace | R3.8 *projective-module-trace*, *projective-trace-realization* | Identify the supplied categorical trace on the pinned symmetric category and finite-projective duals with `LinearMap.projectiveTrace`. |
-| Cross-object cyclicity | R3.8 *projective-trace-cyclicity* | `LinearMap.projectiveTrace_cyclic` for two finite projective modules; *algebra-trace-transitivity* uses this scalar law. |
-| Identity trace and rank | R3.8 *projective-trace-realization* | The scalar trace of the identity has the local rank in every prime localization. |
+| Finite-projective endomorphism trace | Tau Ceti `_root_.LinearMap.projectiveTrace`; R3.8 *projective-trace-realization* | Identify the supplied categorical trace on the pinned symmetric category and finite-projective duals with `_root_.LinearMap.projectiveTrace`. |
+| Cross-object cyclicity | Tau Ceti `_root_.LinearMap.projectiveTrace_cyclic` | Cyclicity for two finite projective modules; *algebra-trace-transitivity* uses this scalar law. |
+| Identity trace and rank | Tau Ceti `_root_.LinearMap.algebraMap_projectiveTrace_id` | The scalar trace of the identity has the local rank in every prime localization. |
+| Étale trace-form criterion over a field and for finite free algebras | Tau Ceti `TauCeti.Algebra.etale_iff_traceForm_nondegenerate`, `TauCeti.Algebra.etale_iff_isUnit_discr`, `TauCeti.Algebra.isUnit_discr_localization_iff` (`TauCeti/RingTheory/Etale/Discriminant.lean`) | *etale-iff-trace-pairing-perfect* reduces the finite projective case to the free one at each prime. |
 
 ### From Mathlib and Tau Ceti
 
@@ -356,8 +372,57 @@ Schemes, locally ringed spaces, adic completion, finite modules, flatness, sheav
 cohomology and homological algebra use the existing library APIs named in the targets.
 Tau Ceti supplies Huber pairs, rational localization, sheafiness of strongly noetherian
 Tate rings, the adic-space carrier, Fitting ideals, blow-ups, and the sheaf and completion
-APIs specified above. R3's projective trace uses `dualTensorHomEquiv`; the free-module
-specializations use Mathlib's trace.
+APIs specified above. R3's algebra trace is built on Tau Ceti's `_root_.LinearMap.projectiveTrace`
+(*Trace contracts*).
+
+Tau Ceti proves the adic-ring constructions of F0.1, which this roadmap uses as they are:
+
+- `TauCeti/RingTheory/AdicRing/CompletedAway.lean`: the completed localisation
+  `TauCeti.AdicRing.CompletedAway A f`, the completion of `A_f` along `I·A_f` for the chosen
+  ideal of definition, with `CompletedAway.isAdicRing`, `continuous_algebraMap`,
+  `isUnit_algebraMap_self`, the universal property `existsUnique_lift` (continuous maps into
+  complete Hausdorff linearly topologised rings sending `f` to a unit), `isNoetherianRing` and
+  `flat` over a noetherian `A`, `quotientPowEquiv` (`A_{f} ⧸ I^n A_{f} ≅ (A ⧸ I^n)_f` as
+  `A`-algebras), `subsingleton_iff` (`A_{f} = 0` iff `f ∈ √I`), the restriction maps `restrict`
+  for `g ∈ √(fA + I)` with `restrict_unique`, `restrict_self` and `restrict_comp_restrict`, and
+  `idealEquiv` with `isHomeomorph_idealEquiv` (independence of the ideal of definition);
+  `CompletedAway/RationalLocalization.lean` identifies it with the completed rational
+  localisation `A⟨1/f⟩` (`completionLocEquiv`, `isHomeomorph_completionLocEquiv`).
+- `TauCeti/RingTheory/Huber/Restricted/Adic.lean`: the adic structure of the restricted series
+  ring `restrictedMvPowerSeriesCompletion r A` over an adic ring
+  (`isAdic_map_algebraMap_restrictedMvPowerSeriesCompletion`, the instance
+  `isAdicRing_restrictedMvPowerSeriesCompletion`) and its noetherianity over a noetherian adic
+  ring (`isNoetherianRing_restrictedMvPowerSeriesCompletion_of_isAdic`).
+- `TauCeti/RingTheory/Huber/TopologicallyFiniteType/Adic.lean`: EGA I Ch. 0, 7.5.5 (a) ⇔ (c),
+  `isStrictlyTopologicallyFiniteType_algebraMap_iff`.
+- `TauCeti/RingTheory/AdicRing/CompletedTensorProduct.lean` and its directory: the completed
+  tensor product `TauCeti.AdicRing.CompletedTensorProduct A B C` of adic rings `B`, `C` over
+  any commutative ring `A`, along `CompletedTensorProduct.tensorIdeal`, with `isAdicRing`, `inl`,
+  `inr`, the universal property `existsUnique_lift`, `quotientPowEquiv`, the functoriality
+  `mapRingHom`, the limit of the thickenings (`Limit.lean`), the restricted-series comparison
+  `restrictedEquiv` (`Restricted.lean`) and noetherianity when `B` is strictly topologically of
+  finite type over an `I`-adic `A` and `C` is noetherian (`Noetherian.lean`,
+  `CompletedTensorProduct.isNoetherianRing`; EGA I Ch. I, 10.13.5).
+  AdicSpacesPartIV cites this ring as `TauCetiRoadmap.AdicSpacesPartIII.AdicRing.CompletedTensorProduct`;
+  that name is `TauCeti.AdicRing.CompletedTensorProduct`.
+- `TauCeti/Algebra/Category/ModuleCat/Tower/AdicSystem.lean`: for an `I`-adic system of modules
+  over an `I`-adically precomplete ring with finite `M₀`, the limit is finite
+  (`TauCeti.ModuleTower.IsAdicSystem.finite_lim`), the projections are surjective with kernels
+  `I^{n+1}` times the limit (`ker_limπ`, `limQuotientEquiv`), and morphisms of systems are the
+  linear maps of the limits (`limMapEquiv`) (EGA I Ch. 0, 7.2.9–7.2.10); no noetherian
+  hypothesis is needed.
+
+Tau Ceti also proves the sheaf-theoretic core of F0.2 on the space of open primes,
+`TauCeti.FormalScheme.Spf.carrier` (`TauCeti/AlgebraicGeometry/FormalScheme/Spf/`): the
+homeomorphism with `Spec(A ⧸ J)` for every ideal of definition (`homeomorphSpecQuotient`), the
+basic opens and their basis (`basicOpen`, `isBasis_basicOpen`), continuous maps (`comap`), the
+quotient sheaves and their diagram (`quotientSheaf`, `quotientTransition`, `quotientDiagram`),
+the structure sheaf as their limit (`structureSheaf`, `quotientProjection`), its global and
+basic-open sections (`globalSectionsIso`, `basicOpenSectionsIso`, with sections
+`TauCeti.AdicRing.CompletedAway A f` on `D(f)`), independence of the ideal of definition
+(`structureSheafIso`), and the completed neighbourhood diagram with its local colimit and
+residue field (`completedNeighbourhoodDiagram`, `completedNeighbourhoodColimit_isLocalRing`,
+`stalkResidueIso`).
 
 ### From TauCetiRoadmap.AdicSpaces
 
@@ -382,9 +447,9 @@ of modifications (§4.12, `modification_domination`), strict normal crossings di
 Chow's lemma (§4.12, `chow_lemma`). Its formal spectrum and formal schemes (§4.7), formal
 completion and coherent formal modules (§4.8), theorem on formal functions (§4.9), and
 Grothendieck's existence theorem and algebraization (§4.10) are on its tower carrier
-`Formal.AdicThickeningSystem`. Layer 4 owns the theorem on formal functions for proper morphisms (§4.9) and Grothendieck's existence theorem and the algebraization of closed
-subschemes and morphisms for proper schemes (§4.10); the corresponding F0 targets are adapters,
-read through *pow-quotient-formal-module-comparison* on schemes and, where formal schemes appear,
+`Formal.AdicThickeningSystem`. Layer 4 owns the theorem on formal functions for proper morphisms (§4.9) and Grothendieck's existence theorem with its full-faithfulness clause and the
+algebraization of morphisms for proper schemes (§4.10); F0 cites them, read through
+*pow-quotient-formal-module-comparison* on schemes and, where formal schemes appear,
 through *formal-scheme-carrier-comparison*. That comparison transports Layer 4's statements to the
 locally ringed carrier used here only for towers whose first-order ideal is of finite type
 (Convention 15); this essential image is the boundary of the transport.
@@ -393,9 +458,9 @@ locally ringed carrier used here only for towers whose first-order ideal is of f
 |---|---|---|
 | Layer 0, §0.23a | `TauCetiRoadmap/SchemeAndStackFoundations/README.md` | Universal homeomorphisms induce equivalences of small étale sites, preserving covers and compatible with composition and base change. R2.9 applies this to formal thickenings and reduction. |
 | Layer 0, §0.29 | `TauCetiRoadmap/SchemeAndStackFoundations/README.md` | Absolute and relative Frobenius of schemes in characteristic `p`; R2.9 constructs formal Frobenius lifts over Witt vectors. |
-| Layer 4, §4.7–§4.8: `Formal.AdicThickeningSystem`, `Formal.levelMap`, `Formal.Scheme.formalCompletion`, `Formal.Scheme.CoherentFormalModule`, `Formal.Scheme.completionFunctor` | `TauCetiRoadmap/SchemeAndStackFoundations/Suggested.lean` | The tower carrier with level-preserving morphisms, completion along an ideal sheaf and coherent formal modules on towers. F0 uses only the towers whose first-order ideal is of finite type (*formal-scheme-carrier-comparison*). |
-| Layer 4, §4.9: `Scheme.Modules.Cohomology.formalFunctionsIso`, with its Mittag-Leffler and local versions | `TauCeti/AlgebraicGeometry/Cohomology/FormalFunctions.lean` (destination fixed by its §4.9) | Owner of the theorem on formal functions for proper morphisms; `formalFunctions` and the scheme-level F0.6 targets are its adapters through *pow-quotient-formal-module-comparison*. |
-| Layer 4, §4.10: `Formal.grothendieck_existence` with its full-faithfulness clause, `Formal.quotMap`, `Formal.levelIncl`, `Formal.algebraize_hom` | `TauCetiRoadmap/SchemeAndStackFoundations/Suggested.lean` | Owner of Grothendieck's existence theorem for proper schemes and of the algebraization of closed subschemes and morphisms; `grothendieckExistence`, `grothendieckExistence_hom` and the scheme-level F0.7–F0.8 targets are its adapters. |
+| Layer 4, §4.7–§4.8: `Formal.AdicThickeningSystem`, `Formal.levelMap`, `Formal.Scheme.formalCompletion`, `Formal.Scheme.CoherentFormalModule`, `Formal.Scheme.completionFunctor` | `TauCetiRoadmap/SchemeAndStackFoundations/Suggested.lean` for `Formal.AdicThickeningSystem`, `Formal.levelMap` and `Formal.Scheme.CoherentFormalModule`; `TauCetiRoadmap/SchemeAndStackFoundations/README.md`, §4.8, for `Formal.Scheme.formalCompletion` and `Formal.Scheme.completionFunctor`, which are specified there only | The tower carrier with level-preserving morphisms, completion along an ideal sheaf and coherent formal modules on towers. F0 uses only the towers whose first-order ideal is of finite type (*formal-scheme-carrier-comparison*). |
+| Layer 4, §4.9: `Scheme.Modules.Cohomology.formalFunctionsIso`, with its Mittag-Leffler and local versions | `TauCetiRoadmap/SchemeAndStackFoundations/README.md`, §4.9 | Owner of the theorem on formal functions for proper morphisms; *theorem-on-formal-functions* and the scheme-level F0.6 targets read it on quotient systems through *pow-quotient-formal-module-comparison*. |
+| Layer 4, §4.10: `Formal.grothendieck_existence` with its full-faithfulness clause, `Formal.quotMap`, `Formal.levelIncl`, `Formal.algebraize_hom` | `TauCetiRoadmap/SchemeAndStackFoundations/Suggested.lean` | Owner of Grothendieck's existence theorem for proper schemes, with its full-faithfulness clause, and of the algebraization of morphisms; *existence-projective-case* and *formal-morphism-full-faithfulness* cite it, and the proper cases of *existence-fully-faithful* and *grothendieck-existence* read it on quotient systems. |
 
 StableReduction layers 2 and 4 supply coherence of proper higher direct images and ideal
 blow-ups with their affine charts. JacobianChallenge B and C supply affine acyclicity,
@@ -491,26 +556,27 @@ Lemma 2.2.4, printed p. 105, as specified by the supplier.
 
 | Supplier declarations | Exact file | Contract used |
 |---|---|---|
-| AdicSpacesPartII `Huber.IsNoetherianType`, `Huber.IsHuberStandard`, `Huber.IsAdicHom`, `AdicSpace.IsLocallyNoetherian`, `AdicSpace.IsLocallyHuberStandard`, `AdicSpace.IsProper`, `AdicSpace.IsFinite`, `AdicSpace.Smooth`, `AdicSpace.Etale`, `AdicSpace.Flat` | AdicSpacesPartII README, R0–R1 targets cited in this row | Rings of noetherian type, adic maps, and the morphism classes and affinoid subdomains used by R2 and R3. Part II's unramified, smooth and étale package (R0.16–R0.17) is stated on locally Huber-standard spaces (charts in Huber's standing class); every R2/R3 use of it is on such spaces, which for analytic spaces are the locally noetherian ones. Affinoid subdomains are read on adic spaces through AdicSpacesPartII *rigid-adic-quasi-separated-equivalence*. |
+| AdicSpacesPartII `Huber.IsHuberStandard`, `AdicSpace.IsLocallyNoetherian`, `AdicSpace.IsLocallyHuberStandard`, `AdicSpace.IsProper`, `AdicSpace.IsFinite`, `AdicSpace.Smooth`, `AdicSpace.Etale`, `AdicSpace.Flat` | AdicSpacesPartII README, R0–R1 targets cited in this row | Huber's standing class, and the morphism classes and affinoid subdomains used by R2 and R3. Part II's unramified, smooth and étale package (R0.16–R0.17) is stated on locally Huber-standard spaces (charts in Huber's standing class); every R2/R3 use of it is on such spaces, which for analytic spaces are the locally noetherian ones. Affinoid subdomains are read on adic spaces through AdicSpacesPartII *rigid-adic-quasi-separated-equivalence*. |
 | AdicSpacesPartII *noetherian-adic-completion*, `TauCetiRoadmap.AdicSpacesPartII.Huber.isAdicComplete_completion_of_isAdic`, AdicSpacesPartII *noetherian-adic-completion* | AdicSpacesPartII README targets cited in this row | Uniform completion preserves noetherianity for an ideal-adic ring and its noetherian ring of definition, and is complete for the extended finitely generated ideal. |
-| `TauCetiRoadmap.AdicSpacesPartII.Huber.CompletedTensor`, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensor.tmul`, AdicSpacesPartII *completed-tensor-product*, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensor.plus_eq`, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensor.denseRange_tmul` | AdicSpacesPartII README targets cited in this row | Separated completion of the tensor topology along adic maps, with dense tensor map, integral plus ring, and comparison with ideal-adic completion when the plus rings are the whole rings. |
-| `TauCetiRoadmap.AdicSpacesPartII.Huber.IsNoetherianType.completion` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | The Hausdorff completion of a Huber ring of noetherian type is of noetherian type. A noetherian ring of definition remains noetherian by AdicSpacesPartII *noetherian-adic-completion*; strong noetherianness of a Tate ring is preserved by completion (AdicSpaces §4.1). |
-| `TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom`, `TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom.continuous`, `TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom.comp`, `TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom.of_isTateRing`, AdicSpacesPartII *adic-ring-homomorphism* | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom`, `TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom.continuous`, `TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom.of_isTateRing`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | Adic maps extend ideals of definition between compatible rings of definition, are continuous and compose; continuous maps from Tate rings are adic, while an adic map from a discrete ring has discrete target. |
-| `TauCetiRoadmap.AdicSpacesPartII.Huber.IsNoetherianType.isClosed_ideal`, `TauCetiRoadmap.AdicSpacesPartII.Huber.IsNoetherianType.quotient`, AdicSpacesPartII *noetherian-type-ideals-closed* | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `TauCetiRoadmap.AdicSpacesPartII.Huber.IsNoetherianType.isClosed_ideal`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | Ideals of a complete Hausdorff Huber ring of noetherian type are closed; quotients remain complete and of noetherian type. |
-| AdicSpacesPartII *noetherian-rod-module-topology-strict*, `TauCetiRoadmap.AdicSpacesPartII.Huber.PairOfDefinition.hasBasis_nhds_zero` | AdicSpacesPartII README targets cited in this row | Over a Huber ring with a noetherian ring of definition, linear maps of finite modules with their module topologies are strict, and powers of a defining ideal on a finite spanning lattice give a neighbourhood basis. |
+| `TauCeti.Huber.CompletedTensor`, `TauCeti.Huber.CompletedTensor.toCompletion`, `TauCeti.Huber.CompletedTensor.denseRange_toCompletion` (`TauCeti/RingTheory/Huber/TensorProduct/Completion.lean`); `TauCeti.Huber.Pair.completedTensor`, `TauCeti.Huber.Pair.completedTensor.plus_eq` (`TauCeti/RingTheory/Huber/TensorProduct/Pair.lean`); AdicSpacesPartII *completed-tensor-product* | Tau Ceti files named in this row; AdicSpacesPartII README target cited in this row | Separated completion of the tensor topology along adic maps, with dense tensor map and integral plus ring (Tau Ceti), and comparison with ideal-adic completion when the plus rings are the whole rings (Part II). |
+| `TauCeti.Huber.IsNoetherianType.completion`, `TauCeti.Huber.PairOfDefinition.isNoetherianRing_completion` | `TauCeti/RingTheory/Huber/Completion/Noetherian.lean` | The Hausdorff completion of a Huber ring of noetherian type is of noetherian type, for Tau Ceti's class: a noetherian ring of definition completes to a noetherian ring of definition of the completion, and strong noetherianness of a Tate ring is preserved by completion. |
+| `TauCeti.Huber.IsNoetherianType` | `TauCeti/RingTheory/Huber/NoetherianType/Basic.lean` | Huber rings with a noetherian ring of definition, or strongly noetherian Tate rings. AdicSpacesPartII's own class `TauCetiRoadmap.AdicSpacesPartII.Huber.IsNoetherianType`, the class of `IsNoetherianType.isStablySheafy` in this table, has the same defining disjunction over Tau Ceti's `PairOfDefinition`, `IsTateRing` and `IsStronglyNoetherian`; R2–R3 read that lemma on Tau Ceti's class through `TauCeti.Huber.isNoetherianType_iff` and `TauCetiRoadmap.AdicSpacesPartII.Huber.isNoetherianType_iff`. |
+| `TauCeti.Huber.IsAdicHom`, `TauCeti.Huber.IsAdicHom.continuous`, `TauCeti.Huber.IsAdicHom.comp`, `TauCeti.Huber.IsAdicHom.of_isTateRing` | `TauCeti/RingTheory/Huber/AdicHom/Basic.lean` | Adic maps extend ideals of definition between compatible rings of definition, are continuous and compose; continuous maps from Tate rings to Huber rings are adic. |
+| `TauCeti.Huber.IsNoetherianType.isClosed_ideal`, `TauCeti.Huber.IsNoetherianType.quotient` | `TauCeti/RingTheory/Huber/NoetherianType/Quotient.lean` | Ideals of a complete Hausdorff Huber ring of noetherian type are closed; quotients remain complete and of noetherian type. |
+| `TauCeti.Huber.PairOfDefinition.isStrictMap_of_isNoetherianRing` (`TauCeti/RingTheory/Huber/ModuleTopology/Strict.lean`), `TauCeti.Huber.PairOfDefinition.hasBasis_nhds_zero_idealOfDefinition_pow_smul` (`TauCeti/RingTheory/Huber/ModuleTopology/Basic.lean`); AdicSpacesPartII *noetherian-rod-module-topology-strict* | Tau Ceti files named in this row; AdicSpacesPartII README target cited in this row | Over a Huber ring with a noetherian ring of definition, linear maps of finite modules with their module topologies are strict, and powers of a defining ideal on a finite spanning lattice give a neighbourhood basis. |
 | AdicSpacesPartII *noetherian-rod-module-complete* | AdicSpacesPartII README targets cited in this row | Over a complete Hausdorff Huber ring with a noetherian ring of definition, finite modules are complete Hausdorff with closed submodules, and finite spanning lattices are open and adically complete. |
-| `TauCetiRoadmap.AdicSpacesPartII.AlgebraicGeometry.submoduleBlowup.gradedRing`, `TauCetiRoadmap.AdicSpacesPartII.AlgebraicGeometry.submoduleBlowup`, `TauCetiRoadmap.AdicSpacesPartII.AlgebraicGeometry.submoduleBlowup.toSpec`, `TauCetiRoadmap.AdicSpacesPartII.AlgebraicGeometry.submoduleBlowup.fromSpec_toSpec`, `TauCetiRoadmap.AdicSpacesPartII.AlgebraicGeometry.submoduleBlowup.fromSpec_preimage_basicOpen`, `TauCetiRoadmap.AdicSpacesPartII.AlgebraicGeometry.submoduleBlowup.basicOpenIsoSpec`, `TauCetiRoadmap.AdicSpacesPartII.AlgebraicGeometry.submoduleBlowup.gradedRing_eq_reesAlgebra` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | Proj of the graded subalgebra generated by the degree-one elements `fT`, with its structural map, affine fraction charts and, when the generators lie in the base ring, the ideal-power grading of the Rees algebra. |
+| `TauCeti.AlgebraicGeometry.submoduleBlowup.gradedRing` (`TauCeti/RingTheory/GradedAlgebra/SubmoduleBlowup.lean`); `TauCeti.AlgebraicGeometry.submoduleBlowup`, `TauCeti.AlgebraicGeometry.submoduleBlowup.toSpec`, `TauCeti.AlgebraicGeometry.submoduleBlowup.fromSpec_toSpec`, `TauCeti.AlgebraicGeometry.submoduleBlowup.fromSpec_preimage_basicOpen`, `TauCeti.AlgebraicGeometry.submoduleBlowup.basicOpenIsoSpec` (`TauCeti/AlgebraicGeometry/Blowup/Submodule/Basic.lean`); `TauCetiRoadmap.AdicSpacesPartII.AlgebraicGeometry.submoduleBlowup.gradedRing_eq_reesAlgebra` | Tau Ceti files named in this row; AdicSpacesPartII README targets for `gradedRing_eq_reesAlgebra` (a planned supplier interface, not a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | Proj of the graded subalgebra generated by the degree-one elements `fT`, with its structural map, affine fraction charts and, when the generators lie in the base ring, the ideal-power grading of the Rees algebra. |
 | `TauCetiRoadmap.AdicSpacesPartII.Huber.PairOfDefinition.isSheafyRing` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Huber94, Theorem 2.2: a noetherian ring of definition gives sheafiness. |
 | `TauCetiRoadmap.AdicSpacesPartII.Huber.IsNoetherianType.isStablySheafy` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | A complete Hausdorff Huber ring of noetherian type is stably sheafy. |
-| `TauCetiRoadmap.AdicSpacesPartII.Huber.tensorTopology`, AdicSpacesPartII *completed-tensor-product*, `TauCetiRoadmap.AdicSpacesPartII.Huber.hasBasis_tensorTopology` | AdicSpacesPartII README targets cited in this row | The tensor topology along adic structure maps has a neighbourhood basis from products of the defining ideals on compatible rings of definition. |
-| `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensor.lift`, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensor.lift_comp_inl`, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensor.lift_comp_inr`, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensor.existsUnique_lift`, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensor.hom_ext` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | Compatible continuous coefficient maps into a complete Hausdorff nonarchimedean ring extend uniquely to the completed tensor product, preserving a closed integrally closed target plus ring when the coefficient maps do. |
+| `TauCeti.Huber.tensorTopology`, `TauCeti.Huber.hasBasis_tensorTopology` | `TauCeti/RingTheory/Huber/TensorProduct/Topology.lean` | The tensor topology along adic structure maps has a neighbourhood basis from products of the defining ideals on compatible rings of definition. |
+| `TauCeti.Huber.Pair.completedTensor.lift`, `TauCeti.Huber.Pair.completedTensor.lift_comp_inl`, `TauCeti.Huber.Pair.completedTensor.lift_comp_inr`, `TauCeti.Huber.Pair.completedTensor.existsUnique_lift`, `TauCeti.Huber.Pair.completedTensor.hom_ext` | `TauCeti/RingTheory/Huber/TensorProduct/Pair.lean` | Compatible continuous coefficient maps into a complete Hausdorff nonarchimedean ring extend uniquely to the completed tensor product, preserving a closed integrally closed target plus ring when the coefficient maps do. |
 | AdicSpacesPartII *completed-tensor-restricted-power-series*, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensorRestrictedEquiv`, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensorRestrictedEquiv_homeomorph`, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensorRestrictedEquiv_tmul` | AdicSpacesPartII README targets cited in this row | Adic base change transports finite weight families and identifies the completed tensor of a weighted restricted series ring with the series ring for the image weights, including the topology and tensor formula. |
 | `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensor.isNoetherianType` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | For complete Hausdorff rings, adic base change of a topologically finite-type algebra over a noetherian-type ring is again topologically finite type and of noetherian type. |
 | AdicSpacesPartII *completed-tensor-rational-localisation*, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.completedTensorRationalEquiv` | AdicSpacesPartII README targets cited in this row | Rational preimages intersect in the product rational domain of the completed tensor, and completed rational localization commutes with this tensor product for compatible presentations. |
-| `TauCetiRoadmap.AdicSpacesPartII.Huber.TateNormDatum`, `TauCetiRoadmap.AdicSpacesPartII.Huber.tateNorm`; PadicFunctionalAnalysis §0.4 | PadicFunctionalAnalysis README §0.4 | The gauge is `tateGauge` with `a = r⁻¹`; shifting the integer index gives multiplication by the pseudouniformiser as scaling by `r`. `exists_tateSeminorm` supplies the seminorm and its zero-neighbourhood basis. The datum has a ring of definition containing the pseudouniformiser and `0 < r < 1`. |
-| `TauCetiRoadmap.AdicSpacesPartII.Huber.spectralSeminorm`, `TauCetiRoadmap.AdicSpacesPartII.Huber.spectralSeminorm_eq_of_ringOfDefinition`, `TauCetiRoadmap.AdicSpacesPartII.Huber.spectralSeminorm_rpow`, `TauCetiRoadmap.AdicSpacesPartII.Huber.spectralSeminorm_lt_one_iff`, `TauCetiRoadmap.AdicSpacesPartII.Huber.spectralSeminorm_eq_zero_iff`, `TauCetiRoadmap.AdicSpacesPartII.Huber.spectralSeminorm_one` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | Smoothing the Tate gauge gives a spectral seminorm independent of the ring of definition for fixed pseudouniformiser and radius, with explicit radius rescaling, topological-nilpotence and zero criteria, and value `1` at `1` for nontrivial Hausdorff rings. |
-| `TauCetiRoadmap.AdicSpacesPartII.Huber.SpectralTop`, `TauCetiRoadmap.AdicSpacesPartII.Huber.SpectralTop.isUniformAddGroup`, `TauCetiRoadmap.AdicSpacesPartII.Huber.SpectralTop.isTopologicalRing`, `TauCetiRoadmap.AdicSpacesPartII.Huber.SpectralTop.hasBasis_nhds_zero`, `TauCetiRoadmap.AdicSpacesPartII.Huber.SpectralTop.isTopologicallyNilpotent_iff`, `TauCetiRoadmap.AdicSpacesPartII.Huber.SpectralTop.powerBoundedSubring_eq` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | The spectral topology is a topological-ring uniformity with neighbourhoods given by pseudouniformiser powers times the topologically nilpotent elements, retaining those elements and having the spectral unit ball as power-bounded subring. |
-| `TauCetiRoadmap.AdicSpacesPartII.Huber.IsBanachModule`, `TauCetiRoadmap.AdicSpacesPartII.Huber.banachTensorTopology`, `TauCetiRoadmap.AdicSpacesPartII.Huber.hasBasis_banachTensorTopology_lattice` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | Complete Hausdorff Tate modules with lattice topologies, and the tensor topology whose separated completion defines their completed tensor product. |
+| `TauCeti.Huber.TateNormDatum`, `TauCeti.Huber.tateNorm` (`TauCeti/RingTheory/Huber/TateGauge/NormDatum.lean`); PadicFunctionalAnalysis §0.4 | Tau Ceti file named in this row; PadicFunctionalAnalysis README §0.4 | The gauge is `tateGauge` with `a = r⁻¹`; shifting the integer index gives multiplication by the pseudouniformiser as scaling by `r`. `exists_tateSeminorm` supplies the seminorm and its zero-neighbourhood basis. The datum has a ring of definition containing the pseudouniformiser and `0 < r < 1`. |
+| `TauCeti.Huber.spectralSeminorm`, `TauCeti.Huber.spectralSeminorm_eq_of_ringOfDefinition`, `TauCeti.Huber.spectralSeminorm_rpow`, `TauCeti.Huber.spectralSeminorm_lt_one_iff`, `TauCeti.Huber.spectralSeminorm_eq_zero_iff`, `TauCeti.Huber.spectralSeminorm_one` | `TauCeti/RingTheory/Huber/TateGauge/Spectral/Seminorm.lean` | Smoothing the Tate gauge gives a spectral seminorm independent of the ring of definition for fixed pseudouniformiser and radius, with explicit radius rescaling, topological-nilpotence and zero criteria, and value `1` at `1` for nontrivial Hausdorff rings. |
+| `TauCeti.Huber.SpectralTop`, `TauCeti.Huber.SpectralTop.isUniformAddGroup`, `TauCeti.Huber.SpectralTop.isTopologicalRing`, `TauCeti.Huber.SpectralTop.hasBasis_nhds_zero`, `TauCeti.Huber.SpectralTop.isTopologicallyNilpotent_toSpectralTop_iff`, `TauCeti.Huber.SpectralTop.powerBoundedSubring_eq` | `TauCeti/RingTheory/Huber/TateGauge/Spectral/Topology.lean` | The spectral topology is a topological-ring uniformity with neighbourhoods given by pseudouniformiser powers times the topologically nilpotent elements, retaining those elements and having the spectral unit ball as power-bounded subring. |
+| `TauCeti.Huber.banachTensorTopology` (`TauCeti/RingTheory/Huber/BanachModule/CompletedTensor.lean`); `TauCetiRoadmap.AdicSpacesPartII.Huber.IsBanachModule`, `TauCetiRoadmap.AdicSpacesPartII.Huber.hasBasis_banachTensorTopology_lattice` | Tau Ceti file named in this row; AdicSpacesPartII README targets for the two Part II names (planned supplier interfaces: neither is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | Complete Hausdorff Tate modules with lattice topologies (Part II), and the tensor topology whose separated completion defines their completed tensor product (Tau Ceti), with its basis of lattice neighbourhoods (Part II). |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsAdic` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | A morphism is adic when every source point lies in a commuting affinoid chart whose coordinate homomorphism extends an ideal of definition. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.LocallyOfWeaklyFiniteType`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.LocallyOfPlusWeaklyFiniteType`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.LocallyOfFiniteType` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Local weak finite type tests the coordinate ring map, plus weak finite type adds finite integral plus-ring generation, and local finite type requires a weighted presentation of the complete Huber pair (Huber96, Definition 1.2.1(i)–(iii), p. 46). |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsLocallyNoetherian`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsLocallyNoetherian.affinoid_basis`, AdicSpacesPartII *locally-noetherian-adic-space* | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Given `hX : IsLocallyNoetherian X`, an open `U`, a point `x` and `hx : x ∈ U`, the basis theorem gives a noetherian-type affinoid chart containing `x` with image contained in `U`. |
@@ -532,9 +598,9 @@ Lemma 2.2.4, printed p. 105, as specified by the supplier.
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsPartiallyProper.iff_valuativeCriterion`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsProper.iff_valuativeCriterion` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsPartiallyProper.iff_valuativeCriterion`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | For analytic maps locally of plus weak finite type with quasi-compact diagonal and stably sheafy source charts, partial properness is unique lifting of valuation centres; adding quasi-compactness gives the proper criterion. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsFinite.isProper`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analytificationFunctor`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analytification`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.SchemeOver` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsFinite.isProper`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | Finite maps are proper over analytic targets with stably sheafy charts; apply the finiteness component of `IsFiniteLocallyFree`. Relative analytification supplies both the adic morphism and the map to the algebraic target used in the degree comparison. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsFinite` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Target-local finiteness requires each target point to have an affinoid neighbourhood whose entire inverse image is one affinoid chart with a finite pair homomorphism (Huber96, (1.4.4), p. 61). |
-| `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.finiteAlgebra.isHuberRing`, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.finiteAlgebra`, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.finiteAlgebra.isTateRing`, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.finiteAlgebra.algebraHom_toRingHom`, `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.finiteAlgebra.homEquiv_apply` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | A finite algebra with its module topology over a complete Hausdorff Huber ring that is noetherian Tate or has a noetherian ring of definition carries the integral plus ring, with the expected structural map and algebra-map comparison. |
+| `TauCeti.Huber.IsHuberRing.of_isModuleTopology`, `TauCeti.Huber.IsTateRing.of_isModuleTopology` (`TauCeti/RingTheory/Huber/ModuleTopology/FiniteAlgebra.lean`); `TauCeti.Huber.Pair.finiteAlgebra`, `TauCeti.Huber.Pair.finiteAlgebra.algebraHom_toRingHom`, `TauCeti.Huber.Pair.finiteAlgebra.homEquiv_apply` (`TauCeti/RingTheory/Huber/ModuleTopology/Pair.lean`) | Tau Ceti files named in this row | A finite algebra with its module topology over a Huber ring is a Huber ring, a Tate ring when the base is, and carries the integral plus ring, with the expected structural map and algebra-map comparison; these Tau Ceti statements assume neither completeness nor a noetherian hypothesis. |
 | AdicSpacesPartII *finite-algebra-tensor-complete* | AdicSpacesPartII README targets cited in this row | For finite maps of complete Tate pairs, tensor topology is the finite-module topology, and the completion map is bijective if both base rings are noetherian or the finite module is projective. |
-| `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential`, `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential.localizationEquiv`, `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential.localizationEquiv_D`, `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential.localizationEquiv_symm`, `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential.D`, `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential.lift_comp_D`, `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential.hom_ext`, AdicSpacesPartII *continuous-differentials*, `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential.baseChangeEquiv_D` | AdicSpacesPartII README targets cited in this row, R0 *continuous-differentials* | The completed-diagonal conormal module with its derivative represents continuous derivations for topologically finite-type maps over a noetherian-type base, has the variable differentials as a restricted-series basis, and commutes with adic base change and rational localization (Huber96, (1.6.2), pp. 76–77; Proposition 1.6.3, p. 77). |
+| `TauCeti.Huber.ContinuousKaehlerDifferential`, `TauCeti.Huber.ContinuousKaehlerDifferential.D` (`TauCeti/RingTheory/Huber/Kaehler/Basic.lean`); `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential.localizationEquiv`, `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential.localizationEquiv_D`, `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential.localizationEquiv_symm`, `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential.lift_comp_D`, `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential.hom_ext`, AdicSpacesPartII *continuous-differentials*, `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential.baseChangeEquiv_D` | Tau Ceti file named in this row; AdicSpacesPartII README targets cited in this row, R0 *continuous-differentials* | The completed-diagonal conormal module with its derivative represents continuous derivations for topologically finite-type maps over a noetherian-type base, has the variable differentials as a restricted-series basis, and commutes with adic base change and rational localization (Huber96, (1.6.2), pp. 76–77; Proposition 1.6.3, p. 77). |
 | `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential.exact_mapBaseChange_map` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | For topologically finite-type maps `A → B → C` of complete Hausdorff Huber rings with `A` of noetherian type, the natural sequence `C ⊗_B Ωᶜ[B/A] → Ωᶜ[C/A] → Ωᶜ[C/B] → 0` is exact. |
 | `TauCetiRoadmap.AdicSpacesPartII.Huber.ContinuousKaehlerDifferential.exact_kerCotangentToTensor_mapBaseChange` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | For a topologically finite-type map of complete Hausdorff Huber rings over a noetherian-type base and a closed ideal `J` of `B`, the quotient `C = B/J` has exact conormal sequence `J/J² → C ⊗_B Ωᶜ[B/A] → Ωᶜ[C/A] → 0`, starting with `j ↦ 1 ⊗ d j`. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Flat`, AdicSpacesPartII *flat-morphism* | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Flat`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | Flatness is flatness of all stalk homomorphisms and implies flatness of the coordinate homomorphism on complete strongly noetherian Tate affinoids. |
@@ -565,18 +631,18 @@ Lemma 2.2.4, printed p. 105, as specified by the supplier.
 | AdicSpacesPartII *analytic-projective-space-proper* | AdicSpacesPartII README targets cited in this row | Over a strongly noetherian Tate affinoid, the relative analytification of Proj of a finitely generated graded algebra with degree-zero ring the base is proper. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analytification.separated`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.analytification.proper` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | Relative analytification over an affinoid with stably sheafy charts preserves separatedness, and over a Tate affinoid it preserves properness. |
 | AdicSpacesPartII *analytification-reflects-finite-closed-immersion* | AdicSpacesPartII README targets cited in this row | Over a complete nontrivially valued nonarchimedean field, analytification detects separatedness and, for quasi-compact scheme maps, finiteness and closed immersions. |
-| `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.rigidToAdic`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.rigidToAdic.rho`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.rigidToAdic.sections`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.rigidToAdic_Sp` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | Huber’s functor sends `Sp A` to `Spa(A,A°)` over K and identifies the rigid section presheaf with adic sections on the corresponding opens. `AdicSpace.tilde_test_quotient` uses this imported functor and its affinoid comparison to fix the coordinate and scalar sections of the imported `RigidSpace.Affinoid.polydisc K 1`. |
+| `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.rigidToAdic`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.rigidToAdic.rho`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.rigidToAdic.sections`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.rigidToAdic_Sp` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | Huber’s functor sends `Sp A` to `Spa(A,A°)` over K and identifies the rigid section presheaf with adic sections on the corresponding opens. *AdicSpace.tilde_test_quotient* uses this imported functor and its affinoid comparison to fix the coordinate and scalar sections of the imported `RigidSpace.Affinoid.polydisc K 1`. |
 | AdicSpacesPartII *proper-separated-comparisons*, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.rigidToAdic.proper` | AdicSpacesPartII README targets cited in this row | Huber’s functor detects separatedness and preserves rigid properness over a complete nonarchimedean field (Huber96, Remark 1.3.19(ii), (iv), pp. 59–60). |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid.spa`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid.coeff`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid.map` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` (prototyped there: `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid.spa`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Affinoid.coeff`; the other Part II names are planned supplier interfaces, specified by Part II README targets, not declarations of that file) | A complete Hausdorff sheafy Huber pair with a pair of definition presents its adic spectrum, its global coefficient isomorphism, and the contravariant map induced by a pair homomorphism. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Chart`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.HomChart` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | An affinoid chart includes its open immersion, and a morphism chart includes a pair homomorphism and the equation identifying the induced geometric map. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Etale`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Etale_affinoid` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Étaleness is local finite presentation together with unique lifting across closed square-zero ideals of complete affinoid test pairs (Huber96, Definition 1.6.5, p. 78). |
 | AdicSpacesPartII *proper-separated-comparisons* | AdicSpacesPartII README targets cited in this row | An affinoid open is relatively compact over an affinoid base when some affinoid generating system has norm less than one at every classical point of the smaller open (Huber96, Remark 1.3.19, p. 59). |
 | `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.HasInnerAffinoidCover`, `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.IsProper`, AdicSpacesPartII *proper-separated-comparisons*, `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.IsSeparated`, AdicSpacesPartII *proper-separated-comparisons* | AdicSpacesPartII README targets cited in this row | Rigid properness is separatedness with finite inner affinoid covers over an admissible affinoid base cover, equivalently quasi-compact partial properness (Huber96, Remark 1.3.19(i), p. 59). |
-| `TauCetiRoadmap.AdicSpacesPartII.Huber.BanachModule.CompletedTensor`, `TauCetiRoadmap.AdicSpacesPartII.Huber.BanachModule.CompletedTensor.lift_tmul`, `TauCetiRoadmap.AdicSpacesPartII.Huber.BanachModule.CompletedTensor.ext`, `TauCetiRoadmap.AdicSpacesPartII.Huber.BanachModule.CompletedTensor.exact_of_split`, `TauCetiRoadmap.AdicSpacesPartII.Huber.BanachModule.CompletedTensor.finiteProjectiveEquiv_tmul` | AdicSpacesPartII README targets (planned supplier interface: none of these Part II names is a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | The completed tensor represents continuous balanced bilinear maps into complete Hausdorff modules, preserves continuously split exact sequences, and agrees with algebraic tensor for a finite projective factor with its module topology. |
+| `TauCeti.Huber.BanachModule.CompletedTensor`, `TauCeti.Huber.BanachModule.CompletedTensor.lift_tmul`, `TauCeti.Huber.BanachModule.CompletedTensor.ext`, `TauCeti.Huber.BanachModule.CompletedTensor.finiteProjectiveEquiv_tmul` (`TauCeti/RingTheory/Huber/BanachModule/CompletedTensor.lean`); `TauCetiRoadmap.AdicSpacesPartII.Huber.BanachModule.CompletedTensor.exact_of_split` | Tau Ceti file named in this row; AdicSpacesPartII README targets for `exact_of_split` (a planned supplier interface, not a declaration of `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`) | The completed tensor represents continuous balanced bilinear maps into complete Hausdorff modules, preserves continuously split exact sequences, and agrees with algebraic tensor for a finite projective factor with its module topology. |
 
-Part II supplies the ring-level completion, tensor, finite-module and differential
-contracts above. F0 develops their formal-scheme applications, finite adic systems,
-graded coherent cohomology and Chow dévissage. R3 supplies the sheaf-cohomology
+Tau Ceti and Part II supply, as each row names, the ring-level completion,
+tensor, finite-module and differential contracts above. F0 develops their formal-scheme
+applications, finite adic systems, graded coherent cohomology and Chow dévissage. R3 supplies the sheaf-cohomology
 and differential-sheaf constructions. Part IV R5 consumes R3.5's cofinality of integral mixed
 tensors and its retraction of completed base change (*split-injection-completed-base-change*).
 
@@ -601,10 +667,10 @@ identified with their adic forms through Part II R1's *rigid-adic-quasi-separate
 | *restriction-strictly-completely-continuous* | R3.6 | Strict complete continuity of relatively compact restriction after a topologically free surjection. |
 | *almost-noetherian-integral-affinoid-modules* | R3.6 | Finite approximations for integral submodules and noetherianity for discrete valuation. |
 | *proper-affinoid-cohomology-finite* | R3.6 | Finite cohomology and closed Čech differential images. |
-| *proper-cohomology-adic-completion* | R3.6 | Adic transport of RigidAnalyticGeometry §7.5's formal functions and stable principal filtration. |
+| *proper-cohomology-adic-completion* | R3.6 | Formal functions for proper coherent cohomology and the stable principal filtration, Kiehl's Theorems 3.4 and 3.7. |
 | *proper-cohomology-affinoid-subdomain* | R3.6 | Affinoid-subdomain base change. |
-| *countable-type-closed-subspace-section* | R3.6 | Transport of PadicFunctionalAnalysis §2.4's splitting to Part II's Banach completed tensor. |
-| *affinoid-completed-field-extension* | R3.6 | Faithfully flat extension and finite-module completed tensor comparison. |
+| *countable-type-closed-subspace-section* | R3.6 | Transport of PadicFunctionalAnalysis §2.4's splitting to Tau Ceti's Banach-module completed tensor `TauCeti.Huber.BanachModule.CompletedTensor`. |
+| *affinoid-completed-field-extension* | R3.6 | RigidAnalyticGeometry §1.3's faithfully flat extension and finite-module completed tensor comparison, cited under this name. |
 | *proper-coherent-cohomology-field-extension*, *proper-cohomology-finite-flat-base-change* | R3.6 | The natural base-change maps are invertible under their stated hypotheses. |
 | *analytification-coherent*, *proper-gaga*, *proper-gaga-coherent-equivalence* | R3.7 | Exact coherent pullback and proper comparison of cohomology, direct images and coherent categories. |
 | *rigid-genus-one-projective-embedding*, *rigid-projective-hilbert-hom*, *rigid-artinian-genus-one-gaga* | R3.7a | Analytic projective embeddings, Hilbert/Hom comparisons and Artinian algebraisation, after proper coherent theory and GAGA. |
@@ -613,7 +679,7 @@ identified with their adic forms through Part II R1's *rigid-adic-quasi-separate
 ## How to read the build
 
 F0 develops `Spf`, formal schemes, coherent formal modules, formal functions,
-existence and algebraization over the adic rings supplied by AdicSpacesPartII R0.1a–R0.1b. R2 uses these with part II's morphism theory for formal models,
+existence and algebraization over Tau Ceti's adic rings of finite ideal type. R2 uses these with part II's morphism theory for formal models,
 Raynaud's theorem, flattening and Hasse domains. R3 develops coherent sheaves, vector bundles,
 Kiehl's glueing theorem, Kiehl-properness, the GAGA comparison maps and traces.
 R3.7a develops analytic local algebraicity and elliptic classification after GAGA,
@@ -625,56 +691,37 @@ facts to construct the continuous functor to the adic étale site.
 The references to R2 in A0/A1 mean the R2.3 generic-fibre contracts.
 A target's `*Needs:*` clause names its prerequisites. Within a layer the subsections follow
 the mathematics; supporting results shared by several targets may occur in that layer's
-last subsections. This README is definitive. `Suggested.lean` carries the parts of this roadmap
-that are a few lines over the pinned carriers: completed localisations and tensor
-products of Part II's adic rings, finite modules as adic systems, the first-order ideal of a square-zero tower, the
-quotient-system forms of SchemeAndStackFoundations' formal functions and Grothendieck existence (§4.9,
-§4.10) on schemes proper over
-an adic noetherian ring, algebras topologically of finite presentation, Frobenius lifts,
-fractional valuation bounds, glueing squares and Kiehl's theorem, exactness of dense Banach inverse sequences, finite-module acyclicity on
-Laurent covers, uniform Banach rings, the Gel'fand spectrum and projective traces, including
-the categorical realization, algebraic base change and geometric-point formula. Formal schemes,
-coherent sheaves on adic spaces and everything built on them are stated in this README only. A target with a Lean carrier ends its
+last subsections. This README is the roadmap. `Suggested.lean` states the headline theorems
+that are statable at the pins, with the few definitions they need: algebras topologically of
+finite presentation and the comparison of their generic and special fibres, Frobenius lifts,
+finite-module acyclicity on Laurent covers, glueing squares and
+Kiehl's theorem, exactness of dense Banach inverse sequences, uniform Banach rings, the trace of a
+finite projective algebra (its categorical realization, transitivity, geometric-point formula
+and étaleness criterion) and the Gel'fand spectrum. Its module docstring
+names the headline theorems that are not statable at the pins and the carrier each lacks: formal
+schemes, coherent sheaves on adic spaces and everything built on them are stated in this README
+only. A target with a Lean carrier ends its
 statement with a `Lean:` sentence naming the declarations; a target without one is specified in
-this README only, and the API names and Check labels it gives (Convention 13) are the names to use
-when it is formalised, not declarations of the current file. A supplier contract used
+this README only (Convention 13). A supplier contract used
 as a hypothesis in an adapter still requires the supplier theorem; that hypothesis
-does not discharge the target. Library definitions from the supplier replace the
-corresponding suggested carriers when available. Characterisation checks may directly
+does not discharge the target. Characterisation checks may directly
 apply the named comparison theorem, retaining all its hypotheses.
 
 The section headings of `Suggested.lean` name the target labels they carry:
 
 | Lean section | Target labels | Declarations |
 | --- | --- | --- |
-| F0.1 Constructions on adic rings | *completed-localization*, *restricted-power-series-adic*, *completed-tensor-product-adic* | `IsAdicRing.isNoetherianRing_restrictedMvPowerSeriesCompletion`; `AdicRing.CompletedAway` with `CompletedAway.isAdicRing`, `CompletedAway.isNoetherianRing_flat`, `CompletedAway.existsUnique_lift`; `AdicRing.CompletedTensorProduct` with `CompletedTensorProduct.tensorIdeal`, `inl`, `inr`, `CompletedTensorProduct.isAdicRing`, `CompletedTensorProduct.existsUnique_lift`, `CompletedTensorProduct.isNoetherianRing`. |
-| F0.1 Finite modules over an adic noetherian ring | *finite-module-inverse-limit* | `IsAdicRing.finite_limit`. |
-| F0.3 The first-order ideal of a square-zero tower | *formal-scheme-carrier-comparison* | `firstOrderIdeal_not_fg`, the infinite-dimensional first-order ideal boundary Check. |
-| F0.7 Formal functions and Grothendieck's existence theorem | *pow-quotient-formal-module-comparison*, *theorem-on-formal-functions*, *grothendieck-existence* | `IsPowQuotient`, `formalFunctions`, `grothendieckExistence`, `grothendieckExistence_hom`. |
-| R2.1 Algebras topologically of finite presentation | *topologically-finitely-presented-algebra*, *flat-tft-is-tfp*, *tfp-algebra-coherent*, *formal-localization-flatness* | `Huber.IsCompleteRankOneBase`, `Huber.IsTopologicallyFinitePresentation`, `Huber.IsAdmissibleAlgebra`, `IsTopologicallyFinitePresentation.iff_of_surjective`, `isTopologicallyFinitePresentation_of_flat`, `isAdmissibleAlgebra_iff_flat`, `IsTopologicallyFinitePresentation.finitePresentation_of_fg`, `IsTopologicallyFinitePresentation.isAdicComplete`, `IsTopologicallyFinitePresentation.completedAway_quotient`, `IsTopologicallyFinitePresentation.completedAway_flat`. |
-| R2.6 Generic and special fibres | *formal-model-fibre-comparison* | `IsTopologicallyFinitePresentation.ringKrullDim_genericFibre_le`, `IsTopologicallyFinitePresentation.ringKrullDim_genericFibre_eq`, `IsTopologicallyFinitePresentation.isReduced_isPureDimensional_genericFibre`, `Huber.formalModelFibre_torsion`. |
+| R2.1 Algebras topologically of finite presentation | *topologically-finitely-presented-algebra*, *flat-tft-is-tfp*, *tfp-algebra-coherent*, *formal-localization-flatness* | `Huber.IsCompleteRankOneBase`, `Huber.IsTopologicallyFinitePresentation`, `Huber.IsAdmissibleAlgebra`, `IsTopologicallyFinitePresentation.iff_of_surjective`, `isTopologicallyFinitePresentation_of_flat`, `isAdmissibleAlgebra_iff_flat`, `IsTopologicallyFinitePresentation.finitePresentation_of_fg`, `IsTopologicallyFinitePresentation.isAdicComplete`, `IsTopologicallyFinitePresentation.completedAway_flat`. |
+| R2.6 Generic and special fibres | *formal-model-fibre-comparison* | `IsTopologicallyFinitePresentation.ringKrullDim_genericFibre_le`, `IsTopologicallyFinitePresentation.ringKrullDim_genericFibre_eq`, `IsTopologicallyFinitePresentation.isReduced_isPureDimensional_genericFibre`. |
 | R2.9 Frobenius lifts | *frobenius-lift-etale-over-torus* | `exists_unique_frobeniusLift_of_etale`. |
-| R2.10 Fractional valuation bounds | *fractional-valuation-bound* | `ValuationSpectrum.fracPowLE`, `ValuationSpectrum.fracPowGE`, `ValuationSpectrum.mem_fracPowLE_iff`, `ValuationSpectrum.fracPow_inter_spa`. |
-| R3.1–R3.2 Rational completions, glueing squares and Kiehl's theorem | *tate-acyclicity-finite-modules*, *noetherian-rod-acyclicity-finite-modules*, *glueing-square*, *glueing-square-finite-projective-descent*, *simple-laurent-glueing-square*, *strongly-noetherian-laurent-gluing* | `Huber.IsRationalCompletion`, `Huber.laurent_exact_of_finite`, `Huber.GlueingSquare`, `Huber.GlueingDatum`, `GlueingDatum.sections`, `GlueingDatum.ofModule`, `GlueingDatum.projective_sections`, `GlueingSquare.of_simpleLaurent`, `GlueingDatum.finite_sections_of_simpleLaurent`. |
+| R3.1–R3.2 Rational completions, glueing squares and Kiehl's theorem | *tate-acyclicity-finite-modules*, *noetherian-rod-acyclicity-finite-modules*, *glueing-square*, *glueing-square-finite-projective-descent*, *simple-laurent-glueing-square*, *strongly-noetherian-laurent-gluing* | `Huber.IsRationalCompletion`, `Huber.laurent_exact_of_finite`, `Huber.GlueingSquare`, `Huber.GlueingDatum`, `GlueingDatum.sections`, `GlueingDatum.projective_sections`, `GlueingSquare.of_simpleLaurent`, `GlueingDatum.finite_sections_of_simpleLaurent`. |
 | R3.4 Dense inverse sequences | *dense-banach-inverse-system-exactness* | `Huber.denseBanach_inverseSystem_exact`. |
 | R3.5 Uniform Banach rings | *uniform-iff-power-bound* | `Huber.isUniform_tfae`. |
-| R3.9 The Gel'fand spectrum of a Banach ring | *gelfand-spectrum-banach-ring* | `Huber.GelfandSpectrum`, its topology, `GelfandSpectrum.compactSpace_nonempty`, `GelfandSpectrum.smoothingFun_eq_sSup`, `GelfandSpectrum.test_dualNumbers`. |
-| R3.8 Traces of finite projective modules and finite locally free algebras | *projective-module-trace*, *projective-trace-cyclicity*, *projective-trace-realization*, *finite-locally-free-algebra-trace*, *algebra-trace-base-change*, *algebra-trace-transitivity*, *etale-iff-trace-pairing-perfect*, *trace-geometric-point-formula* | `LinearMap.projectiveTrace` (compatibility with the pinned trace API), `LinearMap.projectiveTrace_eq_trace`, `LinearMap.projectiveTrace_baseChange`, `Algebra.projectiveTrace`, `Algebra.projectiveTraceForm`, `Algebra.projectiveTrace_trans`, `Algebra.etale_iff_projectiveTraceForm_bijective`, `LinearMap.projectiveTrace_eq_categoricalTrace`, `Algebra.projectiveTrace_baseChange`, `Algebra.projectiveTrace_eq_sum_geometricPoints`, and `LinearMap.projectiveTrace_nonfree`. |
-
-The heading `R3/<label>` of a target names its block when it is formalised; the labels below
-group the declarations of the larger R3 targets:
-
-| Target label | Declarations named by the target |
-| --- | --- |
-| `R3/proper-coherent-base-change` | `AdicSpace.moduleUnit`, `AdicSpace.cohomologyPullback`, and proper coherent base change. |
-| `R3/gaga-comparison-map` | The cohomology comparison, including `cohomologyComparison_smul` and `cohomologyComparison_delta`. |
-| `R3/finite-etale-trace-pairing` | `AdicSpace.finiteTrace_pairing`. |
-| `R3/finite-locally-free-morphism` | `AdicSpace.finiteEtale_isFiniteLocallyFree`. |
-| `R3/sheaf-of-continuous-differentials` | `AdicSpace.relativeDifferentials`, its maps, exact sequences, exterior powers, de Rham complex and analytification comparison, and `AlgebraicGeometry.RelativeDifferentialData`. |
-| `R3/gaga-finite-covers` | `AdicSpace.analytification_finiteCover_fullyFaithful`. |
+| R3.8 Traces of finite projective modules and finite locally free algebras | *projective-trace-realization*, *finite-locally-free-algebra-trace*, *algebra-trace-transitivity*, *trace-geometric-point-formula*, *etale-iff-trace-pairing-perfect* | `LinearMap.projectiveTrace_eq_categoricalTrace`, `Algebra.projectiveTrace`, `Algebra.projectiveTraceForm`, `Algebra.projectiveTrace_eq_sum_geometricPoints`, `Algebra.projectiveTrace_trans`, `Algebra.etale_iff_projectiveTraceForm_bijective`. |
+| R3.9 The Gel'fand spectrum of a Banach ring | *gelfand-spectrum-banach-ring* | `Huber.GelfandSpectrum`, its topology, `GelfandSpectrum.compactSpace_nonempty`, `GelfandSpectrum.smoothingFun_eq_sSup`. |
 
 The morphism classes, charts, mixed scheme pullbacks and rigid–adic functor
-are the Part II declarations in the table above. Coherent sheaves and traces
+are the Part II declarations of *From TauCetiRoadmap.AdicSpacesPartII*. Coherent sheaves and traces
 use these same morphisms. Rational restrictions of continuous differentials
 use Part II `Huber.ContinuousKaehlerDifferential.localizationEquiv` and its
 `localizationEquiv_D` equation.
@@ -682,10 +729,10 @@ use Part II `Huber.ContinuousKaehlerDifferential.localizationEquiv` and its
 ## Layer F0: formal geometry
 
 This layer builds noetherian formal geometry in the sense of EGA I §10 and EGA III §§4–5 on top
-of Mathlib's schemes and adic completion, AdicSpacesPartII R0.1a–R0.1b's adic rings of finite ideal
-type, and the Tau Ceti coherent-cohomology roadmaps named in the supplier contracts. It defines
-completed localisations, restricted power series and
-completed tensor products; the formal spectrum `Spf A` as a locally ringed space; formal schemes,
+of Mathlib's schemes and adic completion, Tau Ceti's adic rings of finite ideal type with their
+completed localisations, restricted power series and completed tensor products, and the
+coherent-cohomology roadmaps named in the supplier contracts. It defines the formal spectrum
+`Spf A` as a locally ringed space on Tau Ceti's structure sheaf; formal schemes,
 their ideals of definition and thickenings `X_n`, gluing, the formal scheme attached to an adic
 system of thickenings and the colimit description of a locally noetherian formal scheme and of its
 morphisms; fibre products; adic, finite-type and proper morphisms and closed formal subschemes;
@@ -708,346 +755,154 @@ The formal-functions and existence theorems for proper schemes have one owner, S
 §4.9 (`Scheme.Modules.Cohomology.formalFunctionsIso`) owns *theorem-on-formal-functions*,
 *formal-functions-affine* and *formal-functions-at-point*; its §4.10
 (`Formal.grothendieck_existence` with full faithfulness, `Formal.algebraize_hom`) owns the
-proper-`X` cases of *existence-fully-faithful* and *grothendieck-existence*, and
-*existence-projective-case*, *existence-modification*, *existence-devissage*,
-*closed-subscheme-algebraization* and *formal-morphism-full-faithfulness*. These targets, and the
-Lean `formalFunctions`, `grothendieckExistence`, `grothendieckExistence_hom`, are adapters: Layer 4's
-statement read through *pow-quotient-formal-module-comparison* and, where formal schemes appear,
-*formal-scheme-carrier-comparison*. F0 owns both comparisons, the formal-scheme-level results
+proper-`X` cases of *existence-fully-faithful* and *grothendieck-existence*,
+*existence-projective-case* and *formal-morphism-full-faithfulness*. The three §4.9 targets,
+*existence-projective-case* and *formal-morphism-full-faithfulness* are citations of the
+supplier's exports; the proper cases of *existence-fully-faithful* and *grothendieck-existence*
+are read from §4.10 through *pow-quotient-formal-module-comparison* and, where formal
+schemes appear, *formal-scheme-carrier-comparison*. F0 owns both comparisons, the formal-scheme-level results
 (coherent formal modules, formal direct images, formal Serre vanishing), the proper-support forms of
-*existence-fully-faithful* and *grothendieck-existence* for `X` of finite type, and formal GAGA.
+*existence-fully-faithful* and *grothendieck-existence* for `X` of finite type,
+*existence-modification*, *existence-devissage*, *closed-subscheme-algebraization* and formal GAGA.
 
 ### F0.1 constructions on adic rings
 
-AdicSpacesPartII R0.1a supplies *adic-ring*, the class
-`TauCetiRoadmap.AdicSpacesPartII.IsAdicRing`, its chosen ideal of definition and its Huber-ring
-instance. AdicSpacesPartII R0.1b supplies *adic-completion-noetherian*, including
-`TauCetiRoadmap.AdicSpacesPartII.isNoetherianRing_of_isAdicComplete` and
-`TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.adicCompletion`. The constructions below use these
-supplied adic rings and completion criteria.
+Tau Ceti proves the constructions on adic rings of finite ideal type that F0 uses
+(*From Mathlib and Tau Ceti*): `TauCeti.IsAdicRing`, the completed localisation
+`TauCeti.AdicRing.CompletedAway`, the restricted series ring
+`TauCeti.Huber.restrictedMvPowerSeriesCompletion` with its adic structure and noetherianity, the
+completed tensor product `TauCeti.AdicRing.CompletedTensorProduct`, and the finiteness and limit
+theorems for adic systems of modules `TauCeti.ModuleTower.IsAdicSystem`. The labels below name
+these supplied results where later targets and other roadmaps cite them, followed by the clauses
+that the pins lack, which are this roadmap's targets.
 
-**The completed localisation `A_{f}` of an adic ring.** (*completed-localization*) Let `A` be an
-adic ring of finite ideal type with ideal of definition `I` and let `f ∈ A` be arbitrary. The
-completed localisation is `A_{f} := AdicCompletion (I·A_f) A_f`, where `A_f = Localization.Away f`,
-with the `I·A_{f}`-adic topology; equivalently `A_{f} = lim_n (A ⧸ I^{n+1})_f` (EGA I Ch. 0,
-7.6.1–7.6.2, 7.6.15). It does not depend on the choice of `I`, and `A_{f} = 0` exactly when `f` is
-nilpotent modulo `I`. The canonical map `A → A_{f}` is continuous and sends `f` to a unit, and it
-has the universal property that every continuous ring homomorphism `u : A → B` into a complete
-separated linearly topologised ring `B` with `u(f)` a unit factors uniquely through a continuous
-homomorphism `A_{f} → B` (EGA I Ch. 0, 7.6.6, p. 73). `A_{f}` is an adic ring of finite ideal
-type with ideal of definition `I·A_{f}`, and `A_{f} ⧸ I^{n+1}A_{f} ≅ (A ⧸ I^{n+1})_f`; if `A` is
-noetherian then `A_{f}` is noetherian (EGA I Ch. 0, 7.6.11 Proposition, p. 74) and flat over `A`
-(EGA I Ch. 0, 7.6.13 Proposition, p. 74). For `g ∈ A` with `g ∈ √(fA + I)`, i.e. `f` divides a
-power of `g` modulo `I`, i.e. `D(g) ⊆ D(f)` in `Spf A` (in particular for `g` a multiple of `f`),
-there is a unique continuous `A`-algebra map `A_{f} → A_{g}`: `A_{g}` is `I`-adically complete, so
-`f` is a unit in `A_{g}` iff it is one in `A_{g}/IA_{g} = (A/I)_g`, iff `g^n ∈ fA + I` for some
-`n`; and only then, since `f` must become a unit in the target. Direction witness: for `A = ℤ_p`,
-`f = 1`, `g = p`, `p ∈ √(ℤ_p) = ℤ_p` and the map is `A_{1} = ℤ_p → A_{p} = 0`; for `f = p`,
-`g = 1`, `1 ∉ √(pℤ_p + pℤ_p) = (p)`, and indeed no ring map `A_{p} = 0 → A_{1} = ℤ_p` exists. Tau
-Ceti's completed rational localisation `A⟨T/s⟩` (the topology `locTopology`, the map
-`toCompletionLoc`, the universal property `existsUnique_continuous_ringHom_locTopology` and, for
-`T = {1}`, the identification `toCompletionLocEquivDenomOne`) gives this ring for every Huber
-ring, in particular for `A` with the pair of definition `PairOfDefinition.adic I`, `T = {1}` and
-`s = f`, on the carrier `UniformSpace.Completion`; this target is that case on the carrier
-`AdicCompletion`, and its content is the adic-ring structure, the noetherianity, flatness and
-quotient clauses and the comparison with that construction. Define `AdicRing.CompletedAway` (the ring
-`A_{f} = AdicCompletion (I·A_f) (Localization.Away f)` with its adic topology, for the chosen ideal
-of definition `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal A`), with `CompletedAway.isAdicRing` and, when `A` is noetherian,
-`CompletedAway.isNoetherianRing_flat` (`A_{f}` is noetherian and `A`-flat); prove that the
-canonical map `A → A_{f}` is a continuous ring homomorphism and sends `f` to a unit;
-`CompletedAway.existsUnique_lift` (for `B` complete separated linearly topologised and
-`u : A →+* B` continuous with `IsUnit (u f)`, there is a unique continuous `A_{f} →+* B`
-extending `u`), which carries the lift, its factorisation through `algebraMap` and its uniqueness:
-two continuous ring maps `A_{f} → B` into a Hausdorff ring `B` agreeing on the image of `A` are
-equal, for although the image of `A` is not dense in general — for `A = k[X]⟦T⟧`, `f = X` it is
-`k[X]⟦T⟧ ⊂ k[X, X⁻¹]⟦T⟧` — ring maps preserve the inverse of `f`, so the two maps agree on the
-dense image of `A_f`; that `A_{f} ⧸ I^(n+1)A_{f} ≃ₐ[A] Localization.Away` of the image of `f` in
-`A ⧸ I^(n+1)`; that for `g ∈ A` with `g ∈ √(fA + I)`, that is `f` dividing a power of `g` modulo
-`I`, there is a unique continuous `A`-algebra map `A_{f} → A_{g}` (the restriction map), with
-identity and composition laws; and `FormalScheme.Spf.completedNeighbourhoodColimit_isLocalRing` (for an open prime `p` of
-`A`, `colim_{f ∉ p} A_{f}` is a local ring),
-`FormalScheme.Spf.stalkResidueIso` (its residue field is `Frac(A ⧸ p)`) and
-`FormalScheme.Spf.completedNeighbourhood_noetherian` (the colimit is noetherian when `A` is) (EGA I Ch. 0, 7.6.17 Proposition, p. 75; 7.6.18). For `A = ℤ_p` with `I = (p)` and `f = p`,
-`A_{f} = 0` since `p` is nilpotent in `A/I`, and for `f = 1`, `A_{f} = A`; for `A = ℤ_p⟦T⟧` with
-`I = (p, T)` and the unit `f = 1 + T`, `A_{f} = A`; for `A = k[X]⟦T⟧` (`T`-adic; the completion of
-`k[X, T]` along `(T)`) and `f = X`, `A_{f} = k[X, X⁻¹]⟦T⟧`. *Needs:* AdicSpacesPartII R0.1a *adic-ring*;
-AdicSpacesPartII R0.1b *adic-completion-noetherian*; Mathlib `AdicCompletion`, `Localization.Away`,
-`AdicCompletion.isAdicComplete`, `AdicCompletion.pow_smul_top_eq_ker_eval`,
-`AdicCompletion.surjective_evalₐ`, `IsAdicComplete.liftRingHom`,
-`AdicCompletion.flat_of_isNoetherian`, `Module.Flat`, `IsLocalization.flat`, `Module.Flat.trans`,
-`IsLinearTopology`; Tau Ceti `TauCeti.Huber.PairOfDefinition.adic`, `locTopology`,
-`toCompletionLoc`, `existsUnique_continuous_ringHom_locTopology`, `toCompletionLocEquivDenomOne`.
-Lean: `AdicRing.CompletedAway` with `CompletedAway.isAdicRing`,
-`CompletedAway.isNoetherianRing_flat` and `CompletedAway.existsUnique_lift`; the other clauses
-and Checks are specified in this README only.
+**The completed localisation `A_{f}` of an adic ring.** (*completed-localization*) For an adic
+ring `A` of finite ideal type with ideal of definition `I` and `f ∈ A`, the completed localisation
+`A_{f} = AdicCompletion (I·A_f) A_f` is Tau Ceti's `TauCeti.AdicRing.CompletedAway A f`, with its
+adic-ring instance, universal property, noetherianity and flatness over a noetherian `A`, quotient
+comparison `A_{f} ⧸ I^n A_{f} ≅ (A ⧸ I^n)_f`, vanishing criterion (`A_{f} = 0` iff `f ∈ √I`),
+restriction maps `A_{f} → A_{g}` for `g ∈ √(fA + I)` with their uniqueness and composition laws,
+independence of the ideal of definition and comparison with the completed rational localisation
+`A⟨1/f⟩` (EGA I Ch. 0, 7.6.1–7.6.15, pp. 72–74). The clause the pins lack is noetherianity of the
+completed neighbourhood ring: prove that for `A` noetherian and an open prime `p`, the colimit
+`colim_{f ∉ p} A_{f}` of Tau Ceti's `TauCeti.FormalScheme.Spf.completedNeighbourhoodDiagram` is a
+noetherian local ring (EGA I Ch. 0, 7.6.17 Proposition, p. 75, and 7.6.18); F0.2 states it as
+`completedNeighbourhood_noetherian`. *Needs:* Tau Ceti `TauCeti.AdicRing.CompletedAway`,
+`TauCeti.FormalScheme.Spf.completedNeighbourhoodDiagram`, `TauCeti.FormalScheme.Spf.stalkResidueIso`;
+Mathlib `AdicCompletion.flat_of_isNoetherian`, `IsNoetherianRing`.
 
 **Checks.**
 
-- (degenerate) — `AdicRing.CompletedAway A 1 ≃ A` as topological `A`-algebras.
-- (characterisation) — `AdicRing.CompletedAway A f` is the zero ring iff
-  `Ideal.Quotient.mk I f` is nilpotent (every open prime contains `f`).
-- (compatibility) — for every `n`,
-  `AdicRing.CompletedAway A f ⧸ I^(n+1)·A_{f} ≃ Localization.Away (Ideal.Quotient.mk (I^(n+1)) f)`
-  as `A`-algebras.
-- (computation) — for `A = k[X]⟦T⟧` (`T`-adic; the completion of
-  `k[X, T]` along `(T)`) and `f = X`: `CompletedAway A X ≃ (Localization.Away X : k[X]-algebra)⟦T⟧`
-  with the `T`-adic topology.
-- (non-example) — for `A = ℤ_p⟦T⟧` with `I = (p, T)` and
-  `f = T`, `CompletedAway A T = 0` whereas `Localization.Away T ≠ 0`; the completed localisation is
-  not the ordinary localisation.
-- (convention, direction of the restriction map) — for `A = ℤ_[p]`, `I = (p)`:
-  `p ∈ (Ideal.span {1} ⊔ I).radical`, so the restriction `CompletedAway A 1 → CompletedAway A p`
-  exists (it is `ℤ_[p] → 0`); `1 ∉ (Ideal.span {p} ⊔ I).radical = (p)`, and there is no ring
-  homomorphism `CompletedAway A p = 0 → CompletedAway A 1 = ℤ_[p]` at all. A restriction map in the
-  direction `A_{g} → A_{f}` under the same hypothesis would be false.
-- (degenerate, `I = 0`) — for `A` with the discrete
-  topology, `CompletedAway A f ≃ Localization.Away f` through the completion map, with the discrete
-  topology (the chosen ideal of definition is nilpotent, and `AdicCompletion J M ≅ M` for nilpotent
-  `J`), and `CompletedAway A 0 = 0` for every adic `A` (`0` is nilpotent modulo `I`).
+- (computation) — for `A = ℤ_p` with `I = (p)`, the only open prime is `(p)`, every `f ∉ (p)` is a
+  unit, and the colimit is `ℤ_p`, a noetherian local ring with residue field `𝔽_p`.
+- (computation) — for `A = k[X]⟦T⟧` (`T`-adic) and the open prime `p = (T)`, the colimit is the
+  union of the rings `A_{f} = k[X]_f⟦T⟧` over nonzero `f ∈ k[X]` inside `k(X)⟦T⟧`: a local ring
+  with maximal ideal `(T)` and residue field `k(X) = Frac(A ⧸ (T))`. It is not `k(X)⟦T⟧`:
+  `Σ_n P_n⁻¹ Tⁿ`, for pairwise distinct irreducible `P_n ∈ k[X]`, has unbounded denominators.
+- (non-example) — the colimit is not the ordinary localisation `A_p`: for `A = k[X]⟦T⟧` and
+  `p = (T)`, `Σ_n X^{−n²} Tⁿ` lies in `A_{X} = k[X, X⁻¹]⟦T⟧`, hence in the colimit, but not in
+  `A_{(T)}`: for `s ∉ (T)` the coefficient of `Tⁿ` in `s · Σ_n X^{−n²} Tⁿ` has a pole of order
+  `n² − v_X(s₀)` at `X = 0` once `n` is large, `s₀ ≠ 0` being the constant term of `s`.
 
-- (non-example) — the image of `k[X]⟦T⟧` in its
-  completed localisation at `X` is not dense: reduction modulo `T` misses `X⁻¹`.
-
-**Restricted power series over an adic noetherian ring.** (*restricted-power-series-adic*) Let `A`
-be an adic ring of finite ideal type with ideal of definition `I`, and let `A{T₁,…,T_r}` be the
-ring of restricted power series (Tau Ceti `restrictedMvPowerSeriesSubring r A`: power series whose
-coefficients tend to `0` along the cofinite filter; the statements use its completion
-`restrictedMvPowerSeriesCompletion r A`, which coincides with the subring because `A` is complete),
-with the topology in which the ideals
-`I^n·A{T}` form a basis of neighbourhoods of `0` (EGA I Ch. 0, 7.5.1, pp. 69–70). Prove that (i)
-`A{T}` is an adic ring of finite ideal type with ideal of definition `I·A{T}`, and
-`A{T} ⧸ I^{n+1}A{T} ≅ (A ⧸ I^{n+1})[T₁,…,T_r]`; (ii) if `A` is noetherian, `A{T}` is noetherian
-(EGA I Ch. 0, 7.5.4 Proposition (ii), p. 71); (iii) for every complete separated linearly
-topologised `A`-algebra `B` (continuous structure map `u`) and elements `b₁,…,b_r ∈ B` there is a
-unique continuous `A`-algebra homomorphism `A{T} → B` with `T_i ↦ b_i` (EGA I Ch. 0, 7.5.3, p. 70;
-7.5.2). No condition is placed on the `b_i`: in contrast with Huber-ring restricted series, where
-the `b_i` must be power-bounded, every element of a linearly topologised ring is power-bounded.
-For `A = ℤ_p`, `A{T} = ℤ_p⟨T⟩` is the ring of power series `Σ a_n T^n` with `a_n → 0`
-`p`-adically and `ℤ_p⟨T⟩/p^{n+1} = (ℤ/p^{n+1})[T]`; for `A` discrete (`I = 0`), `A{T} = A[T]`.
-The object is Tau Ceti's; the library proves its noetherianity only for one variable over a
-complete nonarchimedean field and for discrete rings (`IsStronglyNoetherian.of_discreteTopology`),
-and Mathlib's `MvPowerSeries.isNoetherianRing` concerns the full power-series ring, so (ii) in
-general and (i), (iii) on the existing completed-series carrier are the content of this target.
-*Needs:* AdicSpacesPartII R0.1a *adic-ring*; AdicSpacesPartII R0.1b *adic-completion-noetherian*; Tau Ceti
-`TauCeti.Huber.restrictedMvPowerSeriesSubring`, `TauCeti.Huber.IsRestricted`,
-`TauCeti.Huber.restrictedMvPowerSeriesCompletion`, `TauCeti.Huber.IsStronglyNoetherian.of_discreteTopology`;
-Mathlib `MvPolynomial.isNoetherianRing`, `MvPowerSeries`, `MvPowerSeries.isNoetherianRing`. Lean:
-(ii) is `IsAdicRing.isNoetherianRing_restrictedMvPowerSeriesCompletion`; (i), (iii) and the Checks
-are specified in this README only.
+**Restricted power series over an adic noetherian ring.** (*restricted-power-series-adic*) For an
+adic ring `A` of finite ideal type with ideal of definition `I`, the restricted series ring
+`A{T₁,…,T_r}` is Tau Ceti's `restrictedMvPowerSeriesCompletion r A`; it is adic with ideal of
+definition `I·A{T}` (`isAdic_map_algebraMap_restrictedMvPowerSeriesCompletion`, the instance
+`isAdicRing_restrictedMvPowerSeriesCompletion`) and noetherian when `A` is
+(`isNoetherianRing_restrictedMvPowerSeriesCompletion_of_isAdic`; EGA I Ch. 0, 7.5.4 (ii), p. 71).
+The clauses the pins lack are targets here: prove that
+`A{T} ⧸ I^{n+1}A{T} ≅ (A ⧸ I^{n+1})[T₁,…,T_r]` as `A`-algebras, compatibly with `T_i ↦ T_i`, and
+that for every complete separated linearly topologised `A`-algebra `B` with continuous structure
+map and elements `b₁,…,b_r ∈ B` there is a unique continuous `A`-algebra map `A{T} → B` with
+`T_i ↦ b_i` (EGA I Ch. 0, 7.5.2–7.5.3, p. 70). No condition is placed on the `b_i`: every element
+of a linearly topologised ring is power-bounded, in contrast with Huber-ring restricted series.
+*Needs:* Tau Ceti `TauCeti.IsAdicRing`, `TauCeti.Huber.restrictedMvPowerSeriesCompletion`;
+Mathlib `MvPolynomial`, `IsAdicComplete.liftRingHom`, `IsLinearTopology`.
 
 **Checks.**
 
-- `restrictedVar_nonzero` (computation) — over a nonzero adic ring the image of `T₀`
-  in the completed one-variable restricted-series ring is nonzero.
-- `restrictedVar_distinct` (convention) — the images of `T₀` and `T₁` are distinct
-  over a nonzero adic ring; the two coordinate positions are retained by completion.
-- `restrictedVar_zero_ring` (degenerate) — over the zero ring every variable is zero.
+- (computation) — for `A = ℤ_p`, `ℤ_p⟨T⟩ ⧸ p^{n+1} = (ℤ/p^{n+1})[T]`, and the map `ℤ_p⟨T⟩ → ℤ_p`
+  with `T ↦ p` sends `Σ a_k T^k` to the convergent sum `Σ a_k p^k`.
+- (degenerate) — for `A` discrete (`I = 0`), `A{T} = A[T]` and the universal property is that of
+  the polynomial ring.
+- (non-example) — the power-series ring `ℤ_p⟦T⟧` with the `p`-adic topology is complete and
+  separated but does not have the universal property: `1 − T` is a unit in it, so no ring map to
+  `ℤ_p` sends `T` to `1`, whereas `ℤ_p⟨T⟩ → ℤ_p`, `T ↦ 1`, exists (`Σ a_k` converges since
+  `a_k → 0`).
 
 **Adic algebras topologically of finite type over an adic noetherian ring.**
 (*topologically-finite-type-criterion*) Let `A` be an adic noetherian ring with ideal of
 definition `I` and `φ : A → B` a continuous homomorphism to a complete separated linearly
-topologised ring `B`. Prove that the following are equivalent (EGA I Ch. 0, 7.5.5 Proposition,
-p. 71): (a) `B` is noetherian and `I·B`-adic (`IsAdic (I.map φ)` and `IsAdicComplete`), and
-`B ⧸ I·B` is a finitely generated `A ⧸ I`-algebra; (b) `B ≅ lim_n B_n` topologically as
-`A`-algebras, with `B_n := B ⧸ I^{n+1}B`, and `B₁ = B ⧸ I²B` is a finitely generated
-`A ⧸ I²`-algebra; (c) `B` is topologically `A`-isomorphic to a quotient `A{T₁,…,T_r} ⧸ 𝔞` by an
-ideal `𝔞` (necessarily closed) (EGA I Ch. 0, 7.5.5 Proposition c), p. 71). Condition (c) is Tau
-Ceti's `IsStrictlyTopologicallyFiniteType A B`; the equivalence with (a) and (b) is the content of
-this target. `B = ℤ_p⟦T⟧` is not
-topologically of finite type over `A = ℤ_p` with the `p`-adic topology: `B` is not `pB`-adic,
-since its topology is the `(p, T)`-adic one, so (a) fails although `B` is noetherian; whereas
-`B = ℤ_p⟨T⟩ ⧸ (T² − p) ≅ ℤ_p[√p]` is topologically of finite type over `ℤ_p`. *Needs:*
-*restricted-power-series-adic*; AdicSpacesPartII R0.1a *adic-ring*; Mathlib `IsAdicComplete`, `IsNoetherianRing`,
-`surjective_of_mk_map_comp_surjective`, `IsAdic`; Tau Ceti
-`TauCeti.Huber.IsStrictlyTopologicallyFiniteType`.
-
-**Checks for the completed-localisation maps.**
-
-For the lift of `CompletedAway.existsUnique_lift`, the target has a complete Hausdorff uniform ring
-structure and a linear topology, as in its universal property.
-
-- (lift, identity) — at `f = 1`, lifting the identity sends the image of `a` to `a`.
-- (lift, unit) — at a unit `u`, lifting the identity sends the inverse
-  of the image of `u` to `u⁻¹`.
-- (lift, zero target) — at `f = 0` and a zero target ring, every element maps to zero.
-- (quotient, level zero) — at `f = 1`, the quotient comparison modulo the chosen
-  ideal `I` kills each `a ∈ I`.
-- (quotient, level one) — modulo `I²`, an `a ∈ I ∖ I²` has nonzero square-zero image.
-- (quotient, empty) — at `f = 0`, every quotient comparison has zero target.
-- (restriction, identity) — restriction from `D(1)` to itself fixes every element.
-- (restriction, empty) — restriction from `D(f)` to `D(0)` sends every element to zero.
-- (restriction, inverse) — restriction from `D(f)` to `D(g) ⊆ D(f)` sends an inverse of
-  the image of `f` to an inverse of the image of `f`, including when that image is not in `A`.
-
-The completion formed with any other ideal of definition `J` is bicontinuously `A`-isomorphic to
-`CompletedAway A f`, by an isomorphism fixing `A`. The ring is also bicontinuously isomorphic to
-Tau Ceti's uniform completion for `PairOfDefinition.adic I`, numerators `{1}`, and denominator
-`f`, for every finitely generated ideal of definition `I`, by an isomorphism intertwining
-`algebraMap` and `PairOfDefinition.toCompletionLoc`.
-
-
-**Completed tensor product of adic rings of finite ideal type.**
-(*completed-tensor-product-adic*) Let `φ : A → B` and `ψ : A → C` be adic homomorphisms of
-adic rings of finite ideal type (continuous, with `I_A·B` and `I_A·C` ideals of definition for an
-ideal of definition `I_A` of `A`; completed tensor products are formed only along adic maps, as
-everywhere in this roadmap), with ideals of definition `I_B ⊆ B` and `I_C ⊆ C`. Let
-`J ⊆ B ⊗_A C` be the ideal generated by `I_B ⊗ 1` and `1 ⊗ I_C`
-(finitely generated). The completed tensor product is `B ⊗̂_A C := AdicCompletion J (B ⊗_A C)`
-with its `J`-adic topology (EGA I Ch. 0, 7.7.1, p. 75: completed tensor products of linearly
-topologised modules as limits of `(M/V) ⊗ (N/W)`). AdicSpacesPartII Layer R0's *completed-tensor-product*
-specialises to this ring for adic rings with the whole ring as plus ring (on `B ⊗_A C` the tensor
-topology of that target is the `J`-adic one; AdicSpacesPartII R0's AdicSpacesPartII *completed-tensor-product* records the
-identification, and AdicSpacesPartII R0's *completed-tensor-product-universal-property*,
-*completed-tensor-restricted-power-series* (b) at `M_i = {1}` and
-*completed-tensor-noetherian-stability* are the Huber-pair forms of the universal property, the
-restricted-series comparison and the noetherianity clause below). AdicSpacesPartIV layer R5 applies this identification
-to its mixed completed tensor product (*mixed-completed-tensor*) in the ring case
-(`V°` `ϖ`-adically complete, the module a small `O`-algebra). It is an adic ring of finite ideal type
-(ideal of definition `J·(B ⊗̂_A C)`), independent of the choice of `I_B`, `I_C`, and
-`(B ⊗̂_A C) ⧸ J^{n+1} ≅ (B ⊗_A C) ⧸ J^{n+1}`, a quotient of `(B ⧸ I_B^{n+1}) ⊗_A (C ⧸ I_C^{n+1})`;
-since `J^{2n+1} ⊆ I_B^{n+1} ⊗ 1 + 1 ⊗ I_C^{n+1} ⊆ J^{n+1}` the two filtrations are cofinal and
-`B ⊗̂_A C = lim_n (B ⧸ I_B^{n+1}) ⊗_A (C ⧸ I_C^{n+1})`. Universal property
-(EGA I Ch. 0, 7.7.6; used in EGA I Ch. I, proof of 10.7.2, p. 193): the canonical continuous
-maps `B → B ⊗̂_A C ← C` induce a bijection between continuous `A`-algebra maps `B ⊗̂_A C → D` and
-pairs of continuous `A`-algebra maps `(B → D, C → D)`, for every adic ring `D` of finite ideal
-type (more generally every complete separated linearly topologised `A`-algebra `D`). `B ⊗̂_A C`
-need not be noetherian when `B` and `C` are (EGA I Ch. I, 10.7.4, p. 194); it is noetherian when
-`B` is topologically of finite type over `A` and `C` is noetherian (EGA I Ch. I, 10.13.5). Define
-`AdicRing.CompletedTensorProduct` (`B ⊗̂[A] C := AdicCompletion J (B ⊗[A] C)` with its `J`-adic
-topology, `J = CompletedTensorProduct.tensorIdeal A B C` built from the chosen ideals of
-definition, and `CompletedTensorProduct.isAdicRing`); define `CompletedTensorProduct.inl` (the
-continuous `A`-algebra map `B → B ⊗̂[A] C`, `b ↦ b ⊗ 1`) and `CompletedTensorProduct.inr` (the
-continuous `A`-algebra map `C → B ⊗̂[A] C`, `c ↦ 1 ⊗ c`); prove
-`CompletedTensorProduct.existsUnique_lift` (for continuous `A`-algebra maps `β : B → D`,
-`γ : C → D` into a complete separated linearly topologised `A`-algebra `D`, there is a unique
-continuous `A`-algebra map `B ⊗̂[A] C → D` whose composites with `inl` and `inr` are `β` and `γ`),
-which carries the lift, its two factorisations and the uniqueness of maps agreeing after
-composition with `inl` and `inr`; that `(B ⊗̂[A] C) ⧸ J^(n+1) ≃ₐ[A] (B ⊗[A] C) ⧸ J^(n+1)`; that
-continuous maps `B → B′`, `C → C′` over `A → A′` induce `B ⊗̂[A] C → B′ ⊗̂[A′] C′`, functorially;
-`CompletedTensorProduct.isNoetherianRing` (if `A` is noetherian, `B` is a topological quotient of
-some `A{T₁,…,T_r}`, i.e. topologically of finite type over `A`, and `C` is noetherian, then
-`B ⊗̂[A] C` is noetherian); and that `A{S₁..S_m} ⊗̂[A] C ≃ C{S₁..S_m}`.
-`A{S} ⊗̂_A A{T} ≅ A{S, T}`, in particular `ℤ_p⟨S⟩ ⊗̂_{ℤ_p} ℤ_p⟨T⟩ ≅ ℤ_p⟨S, T⟩` with ideals of
-definition `(p)`; the structure map `ℤ_p → ℤ_p⟦S⟧` for the `(p, S)`-adic topology is not adic
-(`pℤ_p⟦S⟧` is not an ideal of definition), so `ℤ_p⟦S⟧` and `ℤ_p⟦T⟧` have no completed tensor
-product over `ℤ_p` in this sense; the fibre product `Spf ℤ_p⟦S⟧ ×_{Spf ℤ_p} Spf ℤ_p⟦T⟧` is
-formed in *formal-fibre-product* as the limit of the thickenings instead. *Needs:* AdicSpacesPartII R0.1a *adic-ring*;
-*topologically-finite-type-criterion*; *restricted-power-series-adic*; Mathlib `AdicCompletion`,
-`AdicCompletion.isAdicComplete`, `AdicCompletion.pow_smul_top_eq_ker_eval`,
-`IsAdicComplete.liftRingHom`, `TensorProduct`, `Algebra.TensorProduct.lift`, `IsLinearTopology`.
-Lean: `AdicRing.CompletedTensorProduct` with `CompletedTensorProduct.tensorIdeal`,
-`CompletedTensorProduct.inl`, `CompletedTensorProduct.inr`, `CompletedTensorProduct.isAdicRing`,
-`CompletedTensorProduct.existsUnique_lift` and `CompletedTensorProduct.isNoetherianRing`; the
-quotient, functoriality and restricted-series clauses and the Checks are specified in this README only.
+topologised ring `B`. Tau Ceti proves the equivalence of (a) `B` noetherian, `I·B`-adic and
+`I·B`-adically complete with `B ⧸ I·B` a finitely generated `A ⧸ I`-algebra and (c) `B` an open
+quotient of some `A{T₁,…,T_r}` (`TauCeti.Huber.isStrictlyTopologicallyFiniteType_algebraMap_iff`;
+EGA I Ch. 0, 7.5.5, p. 71). Prove the equivalence with (b): `B ≅ lim_n B ⧸ I^{n+1}B`
+topologically as `A`-algebras and `B ⧸ I²B` is a finitely generated `A ⧸ I²`-algebra (EGA I
+Ch. 0, 7.5.5 (b), p. 71). `B = ℤ_p⟦T⟧` is not topologically of finite type over `ℤ_p` with the
+`p`-adic topology: its topology is the `(p, T)`-adic one, so (a) fails although `B` is noetherian;
+`ℤ_p⟨T⟩ ⧸ (T² − p) ≅ ℤ_p[√p]` is. *Needs:* *restricted-power-series-adic*; Tau Ceti
+`TauCeti.IsAdicRing`, `TauCeti.Huber.IsStrictlyTopologicallyFiniteType`,
+`TauCeti.Huber.isStrictlyTopologicallyFiniteType_algebraMap_iff`; Mathlib `IsAdicComplete`,
+`IsNoetherianRing`, `IsAdic`.
 
 **Checks.**
 
-- `completedTensor_restricted` (computation) — for `A = ℤ_[p]`, `B = ℤ_[p]⟨S⟩` and `C = ℤ_[p]⟨T⟩`
-  with their `p`-adic topologies, `B ⊗̂_A C ≃ ℤ_[p]⟨S, T⟩` (`restrictedMvPowerSeriesCompletion 2
-  ℤ_[p]` with the `p`-adic topology).
-- `completedTensor_self_left` (degenerate) — `A ⊗̂_A C ≃ C` as topological `A`-algebras.
-- `completedTensor_discrete` (compatibility) — if `A`, `B`, `C` are discrete (all ideals of
-  definition `0`) then `B ⊗̂_A C = B ⊗_A C` (Mathlib `TensorProduct`) with the discrete topology.
-- `completedTensor_lift_unique` (characterisation) — for `D = ℤ_[p]` and the two continuous maps
-  `S ↦ 0`, `T ↦ p`, the induced map `ℤ_[p]⟨S,T⟩ → ℤ_[p]` is the unique continuous one with these
-  values.
-- `completedTensor_not_tensor` (non-example) — `ℤ_[p]⟨S⟩ ⊗_{ℤ_[p]} ℤ_[p]⟨T⟩` (uncompleted) is not
-  complete for `J`; the canonical map to `ℤ_[p]⟨S,T⟩` is not surjective (`Σ p^n S^n T^n` is not
-  in its image).
-- `completedTensor_not_adic_excluded` (non-example) — the structure map `ℤ_[p] → ℤ_[p]⟦S⟧`
-  (`(p,S)`-adic topology) is not adic, so `AdicRing.CompletedTensorProduct` does not apply to
-  `ℤ_[p]⟦S⟧`, `ℤ_[p]⟦T⟧` over `ℤ_[p]`; a construction accepting arbitrary continuous structure
-  maps would produce `ℤ_[p]⟦S, T⟧` here, outside the convention of this roadmap.
+- (computation) — `B = ℤ_p[√p]` with the `p`-adic topology satisfies (b): `B ⧸ p²B` is generated
+  over `ℤ/p²` by the class of `√p`.
+- (non-example) — `B = ℤ_p⟦T⟧` with the `(p, T)`-adic topology fails (b): `B ⧸ p²B = (ℤ/p²)⟦T⟧`
+  is uncountable, so it is not a finitely generated `ℤ/p²`-algebra, and `lim_n B ⧸ p^{n+1}B` carries
+  the `p`-adic, not the `(p, T)`-adic, topology.
+- (degenerate) — for `I = 0` and `B` discrete, (b) says that `B` is a finitely generated
+  `A`-algebra, which is (c) with the polynomial ring.
 
-- `completedTensor_quotient_cofinal` (convention) — writing `J = (x,y)` and
-  `K_n = (x^(n+1),y^(n+1))`, `J^(2n+1) ⊆ K_n ⊆ J^(n+1)`. At `n = 0`, `K_0 = J`;
-  at `n = 1`, `(x,y)^3 ⊆ (x²,y²) ⊊ (x,y)^2`, since `xy` lies only in the last
-  ideal. `completedTensor_two_stage` verifies both terms over `𝔽₂`.
+**Completed tensor product of adic rings of finite ideal type.**
+(*completed-tensor-product-adic*) For adic rings `B`, `C` of finite ideal type that are algebras
+over a commutative ring `A`, the completed tensor product `B ⊗̂_A C`, the completion of `B ⊗_A C`
+along the ideal `J` generated by `I_B ⊗ 1` and `1 ⊗ I_C`, is Tau Ceti's
+`TauCeti.AdicRing.CompletedTensorProduct A B C`, with its adic-ring instance, the maps `inl`, `inr`,
+its universal property for complete Hausdorff linearly topologised `A`-algebras, its quotients
+`(B ⊗̂_A C) ⧸ J^{n+1} ≅ (B ⊗_A C) ⧸ J^{n+1}`, its functoriality, its description as the limit of
+the thickenings, the restricted-series comparison `A{S₁,…,S_m} ⊗̂_A C ≅ C{S₁,…,S_m}`
+(`restrictedEquiv`) and its noetherianity when `B` is strictly topologically of finite type over
+an `I`-adic `A` and `C` is noetherian (EGA I Ch. 0, 7.7.1, 7.7.6; Ch. I, 10.13.5). AdicSpacesPartIV
+cites it as `TauCetiRoadmap.AdicSpacesPartIII.AdicRing.CompletedTensorProduct`, which is
+`TauCeti.AdicRing.CompletedTensorProduct`. This roadmap forms completed tensor products only along
+adic structure maps (Convention 5): for `ℤ_p⟦S⟧` and `ℤ_p⟦T⟧` with their `(p, ·)`-adic
+topologies over `ℤ_p`, the structure maps are not adic and the fibre product
+`Spf ℤ_p⟦S⟧ ×_{Spf ℤ_p} Spf ℤ_p⟦T⟧` is formed in *formal-fibre-product* as the limit of the
+thickenings. `B ⊗̂_A C` need not be noetherian when `B` and `C` are (EGA I Ch. I, 10.7.4,
+p. 194). AdicSpacesPartII Layer R0's *completed-tensor-product* specialises to this ring for adic
+rings with the whole ring as plus ring.
 
 **Finite modules over an adic noetherian ring as compatible systems.**
 (*finite-module-inverse-limit*) Let `A` be an adic noetherian ring with ideal of definition `I`
-and `A_n = A/I^{n+1}`. That every finite `A`-module `M` is `I`-adically separated and complete is
-Tau Ceti's `IsAdicComplete.of_finite` (`[IsNoetherianRing A] [IsAdicComplete I A]
-[Module.Finite A M] : IsAdicComplete I M`), used here and not restated. Prove that (i) for a
-finite `A`-module `M` the `I`-adic topology is the quotient topology from any surjection
-`A^n → M`, so every `A`-linear map between finite `A`-modules is continuous and strict for these
-topologies (EGA I Ch. 0, 7.3.6 Corollaire, p. 68; 7.2.10; AdicSpacesPartII layer R0's
-*noetherian-rod-module-topology-strict* and *noetherian-rod-module-complete* use this and
-`IsAdicComplete.of_finite` at the ring of definition `A₀ = A`); (ii) if `(M_n)` is an inverse system
-indexed by `ℕ` with `M_n` a finite `A_n`-module and surjective transitions `M_{n+1} → M_n` with
-kernel `I^{n+1}M_{n+1}` (equivalently `M_{n+1} ⊗ A_n ≅ M_n`), then `M := lim M_n` is a finite
-`A`-module and `M/I^{n+1}M ≅ M_n` (EGA I Ch. 0, 7.2.9 Proposition, p. 65); (iii) morphisms of such
-systems correspond bijectively to `A`-linear maps of the limits (EGA I Ch. 0, 7.2.10 Corollaire, p.
-65). Hence `M ↦ (M/I^{n+1}M)_n` is an equivalence from finite `A`-modules to such compatible
-systems (Lean: (ii) is `IsAdicRing.finite_limit`, for the chosen ideal of definition, with the
-limit realised as the submodule of compatible families in `∏ M_n`; (i) and (iii) are specified in
-this README only); the affine case `Coh(X, I) ≃` finite `Â`-modules of Stacks is proved by the same limit
-argument (Stacks Tag 087W, Lem. 30.23.1). For `A = ℤ_p` and `M_n = ℤ/p^{n+1} ⊕ ℤ/p`,
-`lim M_n = ℤ_p ⊕ ℤ/p`; for `M_n = ℤ/p^{n+1}·e_1 ⊕ ⋯ ⊕ ℤ/p^{n+1}·e_n` with rank growing with `n` the
-kernel condition fails and `lim M_n` is not finite. *Needs:* AdicSpacesPartII R0.1a *adic-ring*;
-DerivedModuleAlgebra §§1.T.1 and 1.1; Tau Ceti `TauCeti.IsAdicComplete.of_finite`; Mathlib
-`AdicCompletion.ofTensorProductEquivOfFiniteNoetherian`,
-`Ideal.iInf_pow_smul_eq_bot_of_le_jacobson`, `Module.Finite`, `AdicCompletion.map_exact`.
+and `A_n = A/I^{n+1}`. Tau Ceti proves that every finite `A`-module is `I`-adically complete
+(`TauCeti.IsAdicComplete.of_finite`) and that for an `I`-adic system `(M_n)` (surjective
+transitions with kernels `I^{n+1}M_{n+1}`) over an `I`-adically precomplete ring with `M_0` finite,
+`M = lim M_n` is finite with `M ⧸ I^{n+1}M ≅ M_n`, and morphisms of systems are the linear maps of
+the limits (`TauCeti.ModuleTower.IsAdicSystem.finite_lim`, `ker_limπ`, `limQuotientEquiv`,
+`limMapEquiv`; EGA I Ch. 0, 7.2.9–7.2.10, p. 65). The clause the pins lack is a target here:
+prove that for a finite `A`-module `M` the `I`-adic topology is the quotient topology from any
+surjection `A^r → M` (an open quotient map), and that every `A`-linear map between finite
+`A`-modules is continuous and strict for these topologies, strict meaning that the quotient by the
+kernel has the subspace topology of the image (EGA I Ch. 0, 7.3.6 Corollaire, p. 68). AdicSpacesPartII
+layer R0's *noetherian-rod-module-topology-strict* and *noetherian-rod-module-complete* use this at
+the ring of definition `A₀ = A`. Hence `M ↦ (M/I^{n+1}M)_n` is an equivalence from finite
+`A`-modules to `I`-adic systems with finite terms; the affine case `Coh(X, I) ≃` finite
+`Â`-modules of Stacks is proved by the same limit argument (Stacks Tag 087W, Lem. 30.23.1).
+*Needs:* Tau Ceti `TauCeti.IsAdicRing`, `TauCeti.IsAdicComplete.of_finite`,
+`TauCeti.ModuleTower.IsAdicSystem`; Mathlib `Ideal.adicModuleTopology`, `Topology.IsStrictMap`,
+`Module.Finite`.
 
-**Checks for the completed-tensor maps.**
+**Checks.**
 
-All completed tensor products below have adic structure maps from the base. The chosen
-factor ideals are used in `tensorIdeal`; their individual exponents are not canonical.
-
-- (tensor ideal, discrete) — for a discrete field `k`, `tensorIdeal k k k = 0`.
-- (tensor ideal, radical) — under `ℤ_p ⊗[ℤ_p] ℤ_p ≅ ℤ_p`, the tensor ideal has radical `(p)`.
-- (tensor ideal, zero factor) — when the left factor is zero, the tensor ideal is the unit ideal
-  of the zero tensor ring.
-- `completedTensor_inl_self` — the left inclusion into `B ⊗̂_A A` is bijective.
-- `completedTensor_inl_zero_factor` — when the right factor is zero, the left inclusion is zero.
-- `completedTensor_inr_self` — the right inclusion into `A ⊗̂_A C` is bijective.
-- `completedTensor_inr_zero_factor` — when the left factor is zero, the right inclusion is zero.
-- `completedTensor_inclusions_distinct` — over a discrete field, the two polynomial
-  generators in `k[X] ⊗̂_k k[X]` have distinct images under `inl` and `inr`.
-- `completedTensor_lift_self` — the lift of two identity maps sends `inl(a)·inr(b)` to `ab`.
-- `completedTensor_lift_zero_target` — a lift to a zero ring sends every element to zero.
-- `completedTensor_lift_two_evaluations` — over a discrete field, lifting evaluation at `0`
-  on the left and at `1` on the right sends the two polynomial generators to `0` and `1`.
-- `completedTensor_quotient_level_zero` — the quotient comparison modulo `J` kills `x ∈ J`,
-  where `J = tensorIdeal A B C` in the ordinary tensor algebra.
-- `completedTensor_quotient_level_one` — modulo `J²`, `x ∈ J ∖ J²` has nonzero square-zero image.
-- `completedTensor_quotient_zero_factor` — with zero right factor, every quotient comparison is zero.
-- `completedTensor_map_identity` — the compatible triple of identity maps fixes every tensor.
-- `completedTensor_map_evaluation` — the triple consisting of `id_k`, evaluation at `0`, and
-  evaluation at `1` sends the two generators to `0` and `1` respectively.
-- `completedTensor_map_zero_ring` — over the zero ring the induced identity map has only zero values.
-- `restrictedEquiv_no_variables` — with no variables, the comparison sends the right coefficient
-  `c` to the constant series `c`.
-- `restrictedEquiv_one_variable` — with one variable, the left variable maps to the target variable.
-- `restrictedEquiv_two_variables` — over a nonzero right factor, the images of the two left
-  variables are distinct.
-
-The induced maps of completed tensor products are continuous, functorial (identity and
-composition) and restrict on the factors to the given maps. The comparison of the completions
-formed with any two choices of ideals of definition is bicontinuous and fixes every ordinary
-tensor. The restricted-series comparison is pinned on coefficients and variables (EGA I Ch. 0,
-7.7.1, 7.7.6).
-
-The category `IsAdicRing.FiniteAdicModuleSystem A I` is the full subcategory of
-`ℕᵒᵖ ⥤ FGModuleCat A` with the annihilator, surjectivity and power-kernel conditions above.
-`finiteModuleReduction` uses the actual quotients `M/I^{n+1}M` and their quotient maps;
-`finiteModuleReductionFunctor` also reduces each linear map. The named theorem
-`finiteModuleReduction_equivalence` identifies this functor as an equivalence when `A`
-is complete noetherian adic and `I` is an ideal of definition; `finiteModuleReduction_limit`
-identifies reconstruction with the submodule of compatible families.
-
-**Checks for finite adic module systems.**
-
-- `finiteSystem_zero_module` — reduction of a zero module is zero at every level and satisfies
-  the adic-system axioms.
-- `finiteSystem_discrete` — for `I = 0`, reduction is the constant diagram on the original module.
-- `finiteSystem_unit_ideal` — reduction for `I = A` is zero at every level; the constant system
-  on a nonzero `A` fails the annihilator condition.
-- `finiteSystem_square_zero_level` — if `a ∈ I` but `a ∉ I²`, the image of `a` modulo `I²`
-  is nonzero and has square zero; level `1` uses `I²`.
-- `finiteSystem_map_zero` — the zero linear map induces zero on every quotient.
-- `finiteSystem_map_scalar` — multiplication by `a` sends the class of `x` to the class of `ax`.
-- `finiteSystem_map_identity` — the identity fixes each quotient class.
+- (computation) — for `A = ℤ_p` and `M = ℤ_p ⊕ ℤ/p`, the surjection `ℤ_p² → M` is an open quotient
+  map for the `p`-adic topologies, and `M` is the limit of `M_n = ℤ/p^{n+1} ⊕ ℤ/p`.
+- (degenerate) — for `I = 0` every topology is discrete and every linear map is strict.
+- (non-example) — for `M_n = (ℤ/p^{n+1})^{n+1}` with the coordinate-dropping transitions, the
+  kernel condition fails and `lim M_n = ∏_n ℤ_p` is not finite. Finiteness is needed for
+  strictness: on the free module `N = ⊕_{n∈ℕ} ℤ_p` with its `p`-adic topology, the injective map
+  `e_n ↦ pⁿe_n` is continuous but not strict, since the image of `pN` contains no `p^m N ∩ im`.
 
 ### F0.2 the formal spectrum
 
@@ -1056,9 +911,8 @@ surjection `A^r → M`, the adic topology on `M` makes this map an open quotient
 linear map between finite modules is continuous and strict for their adic topologies (EGA I Ch. 0,
 7.3.6). Here strict means that the quotient by the kernel has the subspace topology of the image.
 
-
 **The formal spectrum `Spf A` of an adic ring.** (*formal-spectrum*) Let `A` be an adic ring of
-finite ideal type (AdicSpacesPartII R0.1a *adic-ring*) with ideal of definition `I`; noetherianity of `A` is assumed only
+finite ideal type (Tau Ceti `TauCeti.IsAdicRing`) with ideal of definition `I`; noetherianity of `A` is assumed only
 for the noetherian statements. The formal spectrum `Spf A` is the locally ringed space defined as
 follows. Its underlying space is the closed subspace of `Spec A` consisting of the open prime
 ideals, which is `V(I) = PrimeSpectrum.zeroLocus I` and is homeomorphic to `Spec(A ⧸ I^{n+1})`
@@ -1079,31 +933,75 @@ the data (see *locally-noetherian-formal-scheme*), and for quasi-compact open `U
 `Γ(U, O)` carries the limit topology of the discrete rings `Γ(U, O_n)`, recorded in
 `Spf.sectionsTopology`; for an arbitrary open `U` it carries the initial topology for the
 restrictions to the quasi-compact opens contained in `U` (`quotientSectionsTopology` below),
-which is not discrete in general (EGA I Ch. 0, 3.8.1, p. 35). Define `FormalScheme.Spf`
-(`Spf A : LocallyRingedSpace` for `A` with `IsAdicRing A`); prove `FormalScheme.Spf.mem_iff` (`p ∈ Spf A ↔ IsOpen (p : Set A)` for a prime `p` of `A`, and `IsOpen (p : Set A) ↔ I ≤ p` for any ideal of definition `I`),
-`FormalScheme.Spf.homeomorphSpecQuotient` (`Spf A ≃ₜ PrimeSpectrum (A ⧸ I^(n+1))` for every `n` and
-every ideal of definition `I`), `FormalScheme.Spf.globalSectionsIso`
-(`Γ(Spf A, ⊤) ≅ CommRingCat.of A`, a homeomorphism for the limit topology on sections),
-`FormalScheme.Spf.basicOpen` (the open subset `D(f) ∩ Spf A` for `f ∈ A`, with `basicOpen_mul`,
-`basicOpen_one` and `Spf.isBasis_basicOpen`), `FormalScheme.Spf.basicOpenSectionsIso`
-(`Γ(D(f), O) ≅ AdicRing.CompletedAway A f`, compatibly with restriction `D(f) ⊇ D(g)` and
-the restriction maps of *completed-localization*), `FormalScheme.Spf.restrictBasicOpenIso`
-(`(D(f), O|) ≅ Spf (AdicRing.CompletedAway A f)` as locally ringed spaces),
-`FormalScheme.Spf.stalk_isLocalRing` (every stalk is a local ring, part of the
-`LocallyRingedSpace` structure, and `residueField (stalk p) ≅ FractionRing (A ⧸ p)`),
-`FormalScheme.Spf.stalk_isNoetherianRing` (if `A` is noetherian, every stalk of `Spf A` is
-noetherian), `FormalScheme.Spf.map` (for a continuous ring homomorphism `φ : B →+* A`,
-`Spf.map φ : Spf A ⟶ Spf B` with base `q ↦ q.comap φ`, with `Spf.map_id` and `Spf.map_comp`),
-`FormalScheme.Spf.fromSpecQuotient` (for an ideal of definition `J`, the canonical morphism
-`Spec (A ⧸ J) ⟶ Spf A`, a homeomorphism on spaces, whose sheaf map `O_{Spf A} → O_{Spec(A/J)}` is
-surjective; write `J^Δ` for its kernel sheaf. When `A` is noetherian this is the
-finite-module construction of *associated-formal-module*, F0.6)
-(EGA I Ch. I, 10.3.2) and `FormalScheme.Spf.sectionsTopology` (for
-quasi-compact open `U`, the topology on `Γ(U, O)` as limit of the discrete rings `Γ(U, O_n)`;
-restriction maps are continuous and for `U = Spf A` it is the `I`-adic topology). `Spf ℤ_p`
+which is not discrete in general (EGA I Ch. 0, 3.8.1, p. 35). Tau Ceti supplies the underlying
+space and the structure sheaf on it (*From Mathlib and Tau Ceti*): the space of open primes
+`TauCeti.FormalScheme.Spf.carrier A` with `TauCeti.FormalScheme.Spf.mem_carrier` and
+`mem_carrier_iff_le` (`p` is open iff `I ≤ p`), `TauCeti.FormalScheme.Spf.homeomorphSpecQuotient`
+(the homeomorphism with `Spec(A ⧸ J)` for every ideal of definition `J`),
+`TauCeti.FormalScheme.Spf.basicOpen` with `basicOpen_one`, `basicOpen_mul` and
+`isBasis_basicOpen`, the continuous maps `TauCeti.FormalScheme.Spf.comap`, the structure sheaf
+`TauCeti.FormalScheme.Spf.structureSheaf` as the limit of `quotientDiagram`,
+`TauCeti.FormalScheme.Spf.globalSectionsIso` (`Γ(Spf A, ⊤) ≅ A`),
+`TauCeti.FormalScheme.Spf.basicOpenSectionsIso` (`Γ(D(f), O) ≅ TauCeti.AdicRing.CompletedAway A f`,
+compatibly with restriction, `map_comp_basicOpenSectionsIso_hom`), and the completed
+neighbourhood colimit `colim_{f ∉ p} A_{f}` with its local-ring instance and residue field
+`TauCeti.FormalScheme.Spf.stalkResidueIso`. On these, define `FormalScheme.Spf` (`Spf A :
+LocallyRingedSpace` for `A` with `TauCeti.IsAdicRing A`, with underlying space
+`TauCeti.FormalScheme.Spf.carrier A` and structure sheaf `TauCeti.FormalScheme.Spf.structureSheaf`);
+prove `FormalScheme.Spf.stalkIso` (the stalk at `p` is the completed neighbourhood colimit,
+compatibly with germs, so that every stalk is local with residue field `FractionRing (A ⧸ p)`),
+`FormalScheme.Spf.restrictBasicOpenIso` (`(D(f), O|) ≅ Spf (TauCeti.AdicRing.CompletedAway A f)` as
+locally ringed spaces), `FormalScheme.Spf.stalk_isNoetherianRing` (if `A` is noetherian, every
+stalk of `Spf A` is noetherian), `FormalScheme.Spf.map` (for a continuous ring homomorphism
+`φ : B →+* A`, `Spf.map φ : Spf A ⟶ Spf B` over `TauCeti.FormalScheme.Spf.comap φ`, with
+`Spf.map_id` and `Spf.map_comp`), `FormalScheme.Spf.fromSpecQuotient` (for an ideal of definition
+`J`, the canonical morphism `Spec (A ⧸ J) ⟶ Spf A`, a homeomorphism on spaces, whose sheaf map
+`O_{Spf A} → O_{Spec(A/J)}` is surjective; write `J^Δ` for its kernel sheaf. When `A` is
+noetherian this is the finite-module construction of *associated-formal-module*, F0.6)
+(EGA I Ch. I, 10.3.2) and `FormalScheme.Spf.sectionsTopology` (for quasi-compact open `U`, the
+topology on `Γ(U, O)` as limit of the discrete rings `Γ(U, O_n)`; restriction maps are continuous
+and for `U = Spf A` it is the `I`-adic topology). `Spf ℤ_p`
 (`p`-adic) is a single point with `Γ = ℤ_p` and stalk `ℤ_p`, whereas `Spec ℤ_p` has two points;
 `Spf k[x]⟦t⟧` (`t`-adic) has underlying space `Spec k[x]` and `Γ(D(x), O) = k[x, x⁻¹]⟦t⟧`; for
-`A` discrete, `Spf A = Spec A` as locally ringed spaces. *Needs:* AdicSpacesPartII R0.1a *adic-ring*;
+`A` discrete, `Spf A = Spec A` as locally ringed spaces.
+The sheaf is Tau Ceti's: `TauCeti.FormalScheme.Spf.quotientSheaf` (the
+pushforward of `O_Spec(A/J)` along the inclusion of `V(J)`), its transitions `quotientTransition`,
+the diagram `quotientDiagram` over the powers `J^(n+1)`, and `structureSheaf` with its projections
+`quotientProjection` and universal property `structureSheaf.lift`
+(`TauCeti/AlgebraicGeometry/FormalScheme/Spf/StructureSheaf.lean`).
+`fromSpecQuotient_globalSections`, `fromSpecQuotient_points`,
+`fromSpecQuotient_stalk_surjective` and `fromSpecQuotient_naturality` pin down the coefficient
+map, space, quotient and transition directions of the morphism
+`FormalScheme.Spf.fromSpecQuotient`, whose sheaf map is `quotientProjection`.
+`quotientSectionsTopology` is the topology on sections of the limit of the pseudo-discrete
+quotient sheaves. On a quasi-compact open `U` it is the initial topology for the quotient-section
+maps `Γ(U, O) → Γ(U, O_n)` into discrete rings. On an arbitrary open `U` it is the initial
+topology for the restriction maps `Γ(U, O) → Γ(D(f), O)` to the basic opens `D(f) ⊆ U`, each
+carrying its quasi-compact topology. Giving `Γ(U, O_n)` the discrete topology for a
+non-quasi-compact `U` gives a strictly finer topology in general (EGA I Ch. 0, 3.8.1, p. 35, the
+pseudo-discrete sheaf of a sheaf of rings; EGA I Ch. I, 10.1.1–10.1.2, p. 181; Stacks Tag 0AHY,
+§87.2, the pseudo-discrete construction and the example of a discrete ring).
+`quotientSectionsTopology_qc` identifies the two descriptions on quasi-compact opens, where the
+topology is `Spf.sectionsTopology`; `quotientSectionsTopology_restrict` makes every restriction
+map continuous; `quotientSectionsTopology_glue` makes `Γ(U, O) → ∏_i Γ(U_i, O)` a homeomorphism
+onto its image, for the product topology, for every open cover `U = ⋃_i U_i`;
+`quotientSectionsTopology_basic` recovers the completed-localization topology on each basic
+open and `quotientSectionsTopology_independent` removes the choice of ideal.
+Tau Ceti's `TauCeti.FormalScheme.Spf.completedNeighbourhoodDiagram`
+(`TauCeti/AlgebraicGeometry/FormalScheme/Spf/CompletedNeighbourhood.lean`) is the
+completed-localization diagram indexed by the basic neighbourhoods of the point, with the local
+ring structure of its colimit and `TauCeti.FormalScheme.Spf.stalkResidueIso` and
+`stalkResidueIso_coeff` (its residue field and coefficient map). Here
+`completedNeighbourhoodCocone` uses germs, `completedNeighbourhoodIsColimit` proves the colimit
+property, and `FormalScheme.Spf.stalkIso` is the resulting comparison with the stalk, compatible with the
+germs on every leg; `FormalScheme.Spf.stalk_isNoetherianRing` proves the colimit noetherian
+when `A` is (EGA I Ch. 0, 7.6.17–7.6.18, p. 75).
+These are EGA I, 10.1.5–6, p. 182, and 10.3.2, p. 184, in the
+[Numdam edition](https://www.numdam.org/item/PMIHES_1960__4__5_0/).
+Tau Ceti's `TauCeti.FormalScheme.Spf.globalSectionsIso_inv_comp_basicOpenSectionsIso_hom`
+identifies restriction of the global section associated with `a ∈ A` with the canonical image
+of `a` in every `TauCeti.AdicRing.CompletedAway A f`.
+*Needs:* Tau Ceti `TauCeti.IsAdicRing`;
 *completed-localization*; Mathlib `PrimeSpectrum`, `PrimeSpectrum.zeroLocus`,
 `PrimeSpectrum.isClosed_zeroLocus`, `PrimeSpectrum.zeroLocus_radical`,
 `AlgebraicGeometry.LocallyRingedSpace`, `AlgebraicGeometry.Spec.locallyRingedSpaceObj`,
@@ -1113,30 +1011,76 @@ restriction maps are continuous and for `U = Spf A` it is the `I`-adic topology)
 
 **Checks.**
 
-- `Spf_padicInt_points` (computation) — the underlying space of `Spf ℤ_[p]` (`p`-adic topology) is
+- *Spf_padicInt_points* (computation) — the underlying space of `Spf ℤ_[p]` (`p`-adic topology) is
   a single point, the prime `(p)`, and the global sections are `ℤ_[p]`.
-- `Spf_discrete_eq_Spec` (compatibility) — for a ring `R` with the discrete topology,
+- *Spf_discrete_eq_Spec* (compatibility) — for a ring `R` with the discrete topology,
   `Spf R ≅ Spec.locallyRingedSpaceObj R` as locally ringed spaces (Mathlib `Spec`).
-- `Spf_globalSections` (characterisation) — for every adic ring of finite ideal type `A`,
+- *Spf_globalSections* (characterisation) — for every adic ring of finite ideal type `A`,
   `Γ(Spf A, ⊤) ≅ A` as rings, compatibly with `Spf.map`.
-- `Spf_padicInt_ne_Spec` (non-example) — `Spf ℤ_[p]` (`p`-adic) is not isomorphic to `Spec ℤ_[p]`:
+- *Spf_padicInt_ne_Spec* (non-example) — `Spf ℤ_[p]` (`p`-adic) is not isomorphic to `Spec ℤ_[p]`:
   the latter has two points. A wrong definition taking all primes of `A` (not only open ones) fails
   this test.
-- `Spf_basicOpen_eq_empty` (degenerate) — for `A = ℤ_[p]` and `f = p`, the basic open `D(p)` of
+- *Spf_basicOpen_eq_empty* (degenerate) — for `A = ℤ_[p]` and `f = p`, the basic open `D(p)` of
   `Spf A` is empty and `CompletedAway A p = 0`.
-- `Spf_powerSeries_polynomial_sections` (computation) — for `A = k[X]⟦T⟧` with the `T`-adic
+- *Spf_powerSeries_polynomial_sections* (computation) — for `A = k[X]⟦T⟧` with the `T`-adic
   topology, `Γ(D(X), O_{Spf A}) ≅ (Localization.Away X)⟦T⟧` and the underlying space is
   homeomorphic to `Spec k[X]`.
-- `Spf_zero_isEmpty` (degenerate, zero ring) — `Spf 0 = ∅` (no primes), and `Spf A = ∅` iff
+- *Spf_zero_isEmpty* (degenerate, zero ring) — `Spf 0 = ∅` (no primes), and `Spf A = ∅` iff
   `A = 0`: a nonzero adic ring has an open prime, since `V(I) = Spec (A ⧸ I) ≠ ∅` because `I ≠ A`
   for nonzero `A` (separatedness). `Γ(∅, O) = 0` agrees with `A = 0`.
-- `Spf_field` (degenerate, field) — a field `k` carries only the discrete adic topology, so
+- *Spf_field* (degenerate, field) — a field `k` carries only the discrete adic topology, so
   `Spf k = Spec k` is one point with `Γ = k`; `Spf ℚ_[p]` does not exist, `ℚ_[p]` with its valuation
   topology not being an adic ring.
-
-- `Spf_basicOpen_zero` (degenerate) — `D(0) ∩ V(I) = ∅`.
-- `Spf_basicOpen_one` (compatibility) — `D(1) ∩ V(I) = V(I)`.
-- `Spf_basicOpen_mul` (convention) — `D(fg) ∩ V(I) = (D(f) ∩ V(I)) ∩ (D(g) ∩ V(I))`.
+- *Spf_basicOpen_zero* (degenerate) — `D(0) ∩ V(I) = ∅`.
+- *Spf_basicOpen_one* (compatibility) — `D(1) ∩ V(I) = V(I)`.
+- *Spf_basicOpen_mul* (convention) — `D(fg) ∩ V(I) = (D(f) ∩ V(I)) ∩ (D(g) ∩ V(I))`.
+- *Spf_globalSections_empty* — the global-section comparison for a zero ring sends every section to zero.
+- *Spf_globalSections_nonzero* — for a nonzero ring it sends the unit section to a nonzero element.
+- *Spf_globalSections_padic_square* — the section corresponding to `2 ∈ ℤ₂` has square
+  corresponding to `4`, which is nonzero.
+- *Spf_globalSections_local_unit* — on the discrete polynomial spectrum, the global section
+  corresponding to `X` becomes a unit when restricted to `D(X)`.
+- *Spf_globalSections_id* — conjugating the section map of the identity formal-spectrum morphism
+  by the global-section comparisons gives the identity of `A`.
+- *Spf_map_identity* — the continuous identity induces the identity locally ringed-space map.
+- *Spf_map_zero_source* — a formal-spectrum map from the zero ring's spectrum has empty range.
+- *Spf_map_evaluations* — over a discrete field, evaluation at `0` and at `1` induce distinct
+  maps from `Spec k` to `Spec k[X]`.
+- *Spf_quotient_homeomorph_zero* — with ideal zero and `n = 0`, pulling back the image prime
+  along `A → A/0` recovers the original prime.
+- *Spf_quotient_homeomorph_unit* — with the unit ideal and `n = 1`, the homeomorphism has empty range.
+- *Spf_quotient_homeomorph_square* — for `A = k⟦X⟧` with the `X`-adic topology and
+  `I = (X)`, at `n = 1` the unique open prime maps to `(X)/(X²)` in `k[X]/(X²)`;
+  the quotient retains the square-zero coordinate.
+- *Spf_quotient_discrete*, *Spf_quotientSheaf_discrete* — quotient by zero in the discrete
+  case gives an isomorphism of spaces and of structure sheaves.
+- *Spf_quotient_empty*, *Spf_quotientSheaf_zero* — a zero ring has empty quotient spectrum,
+  an isomorphic quotient inclusion, and zero sections on every open.
+- *Spf_quotient_square*, *Spf_quotientSheaf_square* — a coefficient in `J` but outside `J²`
+  vanishes at level zero and gives a nonzero square-zero section at level one.
+- *quotientTransition_identity* — a transition with the same quotient ideal is the identity.
+- *quotientTransition_empty* — transitions of zero-ring quotient sheaves send every section to zero.
+- *quotientTransition_square* — the transition from `J²` to `J` kills the class of each `a ∈ J`.
+- *Spf_limitTopology_discrete* — the zero-ideal inverse-limit topology is discrete on every
+  quasi-compact open.
+- *Spf_limitTopology_disjoint* — for a nonzero field `k`, `A = ∏_{n∈ℕ} k` with the discrete
+  topology and ideal `0`, coordinate idempotents `e_n` and `U = ⋃_n D(e_n)`: the opens `D(e_n)`
+  are pairwise disjoint one-point opens with sections `k`, `U` is not quasi-compact, and
+  `Γ(U, O) ≅ ∏_n k` is a homeomorphism for the product of the discrete topologies, which is not
+  discrete.
+- *Spf_limitTopology_thickenings* — the closed immersions `Spec(k[t]/(t^n)) → Spf k⟦t⟧`
+  (`t`-adic, `n ≥ 1`) glue on the disjoint union `X` of their sources. On global sections they give
+  `k⟦t⟧ → Γ(X, O) ≅ ∏_{n≥1} k[t]/(t^n)`, continuous for the product of the discrete topologies,
+  which is the topology on `Γ(X, O)`. Its kernel `⋂_n (t^n) = 0` is not open, so the same map is
+  not continuous for the discrete topology on the target.
+- *Spf_limitTopology_empty* — empty-open sections have the discrete zero-ring topology.
+- *Spf_limitTopology_padic* — global sections of `Spf ℤ_p` have a nondiscrete limit topology.
+- *Spf_stalk_field* — the global germ map at the unique point of a field spectrum is an isomorphism.
+- *Spf_stalk_padic* — the global germ map on `Spf ℤ_p` is an isomorphism and the residue field is `ZMod p`.
+- *Spf_stalk_discrete_localization* — in the discrete case the cocone point is `A_𝔭`, which need not be a field.
+- *Spf_stalkColimit_field* — the leg indexed by `1` is already an isomorphism onto the colimit for a field.
+- *Spf_stalkColimit_padic* — the algebraic colimit for the unique point of `Spf ℤ_p` is `ℤ_p`.
+- *Spf_stalkColimit_discrete* — the algebraic colimit for a discrete ring is the ordinary local ring `A_𝔭`.
 
 **`Spf A` depends only on the topology of `A`.** (*spf-ideal-independence*) Let `A` be an adic
 ring of finite ideal type and `I`, `J` two ideals of definition of `A` (the same topology).
@@ -1151,9 +1095,11 @@ p. 62: the adic topologies defined by the ideals of definition coincide). Conseq
 a functor of the topological ring `A` alone. For `A = k[x]⟦t⟧`, `I = (t)` and `J = (t², xt)` are
 ideals of definition and both constructions give underlying space `Spec k[x]` and the same
 sheaf; for `A = ℤ_p⟦T⟧` with `I = (p, T)` and `J = (p², T)`, `Spf` is a single point in both
-constructions. *Needs:* *formal-spectrum*; AdicSpacesPartII R0.1a *adic-ring*; Mathlib `PrimeSpectrum.zeroLocus_radical`,
-`IsAdicComplete`.
-
+constructions. On structure sheaves this is Tau Ceti's `TauCeti.FormalScheme.Spf.structureSheafIso`
+(`TauCeti/AlgebraicGeometry/FormalScheme/Spf/IdealIndependence.lean`), compatible with the quotient
+projections, the global sections and composition (`structureSheafIso_hom_comp_quotientProjection`,
+`globalSectionsIso_inv_comp_structureSheafIso_hom`, `structureSheafIso_trans`); the target here
+is its locally ringed form and the compatibility with `fromSpecQuotient`.
 The locally ringed-space carrier is `FormalScheme.AffineSpectrumData A I`: its points are
 `V(I)`, its basic opens have membership `f ∉ 𝔭`, and its section ring on `D(f)` is
 `AdicCompletion (I.map (algebraMap A (Localization.Away f))) (Localization.Away f)`.
@@ -1166,47 +1112,27 @@ uses the chosen ideal. For that choice the section rings are definitionally `Com
 with the restriction maps of *completed-localization*. The comparison of two ideals therefore compares their respective
 completed-localization sheaves, using cofinality of the powers of the ideals
 (EGA I, 10.1.1–10.1.4, pp. 180–181).
+`idealChoiceGlobalIso_basic` sends each global coefficient to its canonical image in the
+completion along the displayed ideal `I` on every basic open.
+`idealChoiceQuotient` expresses the quotient inclusion in those coordinates;
+`FormalScheme.Spf.ideal_independence_compat` identifies the same primes, fixes global coefficients and commutes
+with **every** ideal-of-definition quotient inclusion, including both chosen quotients.
+*Needs:*
+*formal-spectrum*; Tau Ceti `TauCeti.IsAdicRing`, `TauCeti.FormalScheme.Spf.structureSheafIso`;
+Mathlib `PrimeSpectrum.zeroLocus_radical`, `IsAdicComplete`.
 
-**Checks for the ideal-dependent affine spectrum.**
+**Checks.**
 
-- `affineSpectrumData_zero_ideal` — if zero defines the topology, sections on `D(f)`
+- *affineSpectrumData_zero_ideal* — if zero defines the topology, sections on `D(f)`
   recover the uncompleted `Localization.Away f`.
-- `affineSpectrumData_nilpotent_open` — if `f ∈ √I`, then `D(f)` is empty and its
+- *affineSpectrumData_nilpotent_open* — if `f ∈ √I`, then `D(f)` is empty and its
   section ring is zero, even when the ordinary localization is nonzero.
-- `affineSpectrumData_chosen_sections` — specializing to `TauCetiRoadmap.AdicSpacesPartII.IsAdicRing.ideal A` gives
+- *affineSpectrumData_chosen_sections* — specializing to `TauCeti.IsAdicRing.ideal A` gives
   the existing `CompletedAway A f` section comparison without an additional isomorphism.
-
-**Checks for the affine formal spectrum and its quotient homeomorphism.**
-
-- `Spf_discrete_eq_Spec` — for a discrete adic ring, the constructed locally ringed space
-  is isomorphic to Mathlib's `Spec.locallyRingedSpaceObj A`.
-- `Spf_zero_ringedSpace` — the zero ring gives the empty locally ringed space with zero global sections.
-- `Spf_padicInt_sections` — `Spf ℤ_p` has exactly one point and global-section ring `ℤ_p`.
-- `Spf_basicOpen_zero_ringedSpace`, `Spf_basicOpen_one_ringedSpace`,
-  `Spf_basicOpen_mul_ringedSpace` — the constructed sheaf's opens satisfy `D(0) = ∅`,
-  `D(1) = Spf A`, and `D(fg) = D(f) ∩ D(g)`.
-- `Spf_globalSections_empty` — the global-section comparison for a zero ring sends every section to zero.
-- `Spf_globalSections_nonzero` — for a nonzero ring it sends the unit section to a nonzero element.
-- `Spf_globalSections_padic_square` — the section corresponding to `2 ∈ ℤ₂` has square
-  corresponding to `4`, which is nonzero.
-- `Spf_globalSections_local_unit` — on the discrete polynomial spectrum, the global section
-  corresponding to `X` becomes a unit when restricted to `D(X)`.
-- `Spf_globalSections_id` — conjugating the section map of the identity formal-spectrum morphism
-  by the global-section comparisons gives the identity of `A`.
-- `Spf_map_identity` — the continuous identity induces the identity locally ringed-space map.
-- `Spf_map_zero_source` — a formal-spectrum map from the zero ring's spectrum has empty range.
-- `Spf_map_evaluations` — over a discrete field, evaluation at `0` and at `1` induce distinct
-  maps from `Spec k` to `Spec k[X]`.
-
-`FormalScheme.Spf.globalSections_restrict` identifies restriction of the global section
-associated with `a ∈ A` with the canonical image of `a` in every `CompletedAway A f`.
-- `Spf_quotient_homeomorph_zero` — with ideal zero and `n = 0`, pulling back the image prime
-  along `A → A/0` recovers the original prime.
-- `Spf_quotient_homeomorph_unit` — with the unit ideal and `n = 1`, the homeomorphism has empty range.
-- `Spf_quotient_homeomorph_square` — for `A = k⟦X⟧` with the `X`-adic topology and
-  `I = (X)`, at `n = 1` the unique open prime maps to `(X)/(X²)` in `k[X]/(X²)`;
-  the quotient retains the square-zero coordinate.
-
+- *idealChoice_identity* — comparison for the ideal used to define `Spf` is the identity.
+- *idealChoice_quotient_coeff* — in arbitrary ideal coordinates, the quotient inclusion sends `a` to its class modulo `K`.
+- *idealChoice_empty* — zero-ring coefficients vanish and its quotient inclusion is an isomorphism.
+- *idealChoice_discrete* — the zero-ideal quotient inclusion in discrete coordinates is an isomorphism.
 
 **Morphisms into `Spf A` and automatic continuity.** (*spf-morphism-correspondence*) Let `X` be a
 formal scheme (*locally-noetherian-formal-scheme*) and `A` an adic ring of finite ideal type with
@@ -1225,87 +1151,13 @@ ringed spaces in the sense of EGA I Ch. I, 10.4.5). Here `Γ(U, O_X)` for an arb
 carries the initial topology for the restrictions to the affine formal opens contained in `U`;
 this is the sheaf topology of EGA I Ch. 0, 3.8.1, p. 35, and on `Spf A` it is
 `quotientSectionsTopology`. Making `Γ(U, O_X)` discrete for a non-quasi-compact `U` would break
-this continuity (Check `Spf_limitTopology_thickenings`). `Hom(Spf ℤ_p⟦T⟧, Spf ℤ_p⟦S⟧)` is the maximal
+this continuity (Check *Spf_limitTopology_thickenings*). `Hom(Spf ℤ_p⟦T⟧, Spf ℤ_p⟦S⟧)` is the maximal
 ideal `(p, T)` of `ℤ_p⟦T⟧`, via `S ↦` image of `S` (continuity forces the image of `S` to be
 topologically nilpotent); `Hom(Spec F_p, Spf ℤ_p)` is a single point (`p ↦ 0`), whereas
 `Hom(Spec ℚ_p, Spf ℤ_p)` is empty, the ring map `ℤ_p → ℚ_p` not being continuous for the discrete
 topology on `ℚ_p` since `p` is not nilpotent. *Needs:* *formal-spectrum*;
-*completed-localization*; AdicSpacesPartII R0.1a *adic-ring*; *locally-noetherian-formal-scheme*; *lrs-morphism-gluing*;
+*completed-localization*; Tau Ceti `TauCeti.IsAdicRing`; *locally-noetherian-formal-scheme*; *lrs-morphism-gluing*;
 Mathlib `AlgebraicGeometry.LocallyRingedSpace.Hom`, `IsLocalHom`, `TopCat.Presheaf.stalk`.
-
-The sheaf in *formal-spectrum* is specified by `Spf.quotientSheaf`, the pushforward of
-`O_Spec(A/J)` along `fromSpecQuotient`, and `quotientProjection`, its actual structure map.
-`fromSpecQuotient_globalSections`, `fromSpecQuotient_points`,
-`fromSpecQuotient_stalk_surjective` and `fromSpecQuotient_naturality` pin down the coefficient
-map, space, quotient and transition directions. `quotientDiagram` uses the powers
-`J^(n+1)` and `quotientConeIsLimit` identifies its canonical cone with `O_Spf A`.
-`quotientSectionsTopology` is the topology on sections of the limit of the pseudo-discrete
-quotient sheaves. On a quasi-compact open `U` it is the initial topology for the quotient-section
-maps `Γ(U, O) → Γ(U, O_n)` into discrete rings. On an arbitrary open `U` it is the initial
-topology for the restriction maps `Γ(U, O) → Γ(D(f), O)` to the basic opens `D(f) ⊆ U`, each
-carrying its quasi-compact topology. Giving `Γ(U, O_n)` the discrete topology for a
-non-quasi-compact `U` gives a strictly finer topology in general (EGA I Ch. 0, 3.8.1, p. 35, the
-pseudo-discrete sheaf of a sheaf of rings; EGA I Ch. I, 10.1.1–10.1.2, p. 181; Stacks Tag 0AHY,
-§87.2, the pseudo-discrete construction and the example of a discrete ring).
-`quotientSectionsTopology_qc` identifies the two descriptions on quasi-compact opens, where the
-topology is `Spf.sectionsTopology`; `quotientSectionsTopology_restrict` makes every restriction
-map continuous; `quotientSectionsTopology_glue` makes `Γ(U, O) → ∏_i Γ(U_i, O)` a homeomorphism
-onto its image, for the product topology, for every open cover `U = ⋃_i U_i`;
-`quotientSectionsTopology_basic` recovers the completed-localization topology on each basic
-open and `quotientSectionsTopology_independent` removes the choice of ideal.
-
-`Spf.completedNeighbourhoodDiagram` is the completed-localization diagram indexed by the
-opposite preorder of basic neighbourhoods of the point, ordered by inclusion. Its maps
-are the actual sheaf restrictions conjugated by `basicOpenSectionsIso`.
-`completedNeighbourhoodCocone` uses germs, `completedNeighbourhoodIsColimit` proves the colimit
-property, and `completedNeighbourhoodColimitIso_germ` pins the resulting comparison on every
-leg. `completedNeighbourhoodColimit_isLocalRing` concerns this algebraic colimit.
-`stalkResidueIso` and `stalkResidueIso_coeff` identify its residue field and coefficient map;
-`completedNeighbourhood_noetherian` retains the noetherian hypothesis.
-These are EGA I, 10.1.5–6, p. 182, and 10.3.2, p. 184, in the
-[Numdam edition](https://www.numdam.org/item/PMIHES_1960__4__5_0/).
-
-`idealChoiceGlobalIso_basic` sends each global coefficient to its canonical image in the
-completion along the displayed ideal `I` on every basic open.
-`idealChoiceQuotient` expresses the quotient inclusion in those coordinates;
-`FormalScheme.Spf.ideal_independence_compat` identifies the same primes, fixes global coefficients and commutes
-with **every** ideal-of-definition quotient inclusion, including both chosen quotients.
-
-**Checks for quotient sheaves, stalks and ideal choice.**
-
-- `Spf_quotient_discrete`, `Spf_quotientSheaf_discrete` — quotient by zero in the discrete
-  case gives an isomorphism of spaces and of structure sheaves.
-- `Spf_quotient_empty`, `Spf_quotientSheaf_zero` — a zero ring has empty quotient spectrum,
-  an isomorphic quotient inclusion, and zero sections on every open.
-- `Spf_quotient_square`, `Spf_quotientSheaf_square` — a coefficient in `J` but outside `J²`
-  vanishes at level zero and gives a nonzero square-zero section at level one.
-- `quotientTransition_identity` — a transition with the same quotient ideal is the identity.
-- `quotientTransition_empty` — transitions of zero-ring quotient sheaves send every section to zero.
-- `quotientTransition_square` — the transition from `J²` to `J` kills the class of each `a ∈ J`.
-- `Spf_limitTopology_discrete` — the zero-ideal inverse-limit topology is discrete on every
-  quasi-compact open.
-- `Spf_limitTopology_disjoint` — for a nonzero field `k`, `A = ∏_{n∈ℕ} k` with the discrete
-  topology and ideal `0`, coordinate idempotents `e_n` and `U = ⋃_n D(e_n)`: the opens `D(e_n)`
-  are pairwise disjoint one-point opens with sections `k`, `U` is not quasi-compact, and
-  `Γ(U, O) ≅ ∏_n k` is a homeomorphism for the product of the discrete topologies, which is not
-  discrete.
-- `Spf_limitTopology_thickenings` — the closed immersions `Spec(k[t]/(t^n)) → Spf k⟦t⟧`
-  (`t`-adic, `n ≥ 1`) glue on the disjoint union `X` of their sources. On global sections they give
-  `k⟦t⟧ → Γ(X, O) ≅ ∏_{n≥1} k[t]/(t^n)`, continuous for the product of the discrete topologies,
-  which is the topology on `Γ(X, O)`. Its kernel `⋂_n (t^n) = 0` is not open, so the same map is
-  not continuous for the discrete topology on the target.
-- `Spf_limitTopology_empty` — empty-open sections have the discrete zero-ring topology.
-- `Spf_limitTopology_padic` — global sections of `Spf ℤ_p` have a nondiscrete limit topology.
-- `Spf_stalk_field` — the global germ map at the unique point of a field spectrum is an isomorphism.
-- `Spf_stalk_padic` — the global germ map on `Spf ℤ_p` is an isomorphism and the residue field is `ZMod p`.
-- `Spf_stalk_discrete_localization` — in the discrete case the cocone point is `A_𝔭`, which need not be a field.
-- `Spf_stalkColimit_field` — the leg indexed by `1` is already an isomorphism onto the colimit for a field.
-- `Spf_stalkColimit_padic` — the algebraic colimit for the unique point of `Spf ℤ_p` is `ℤ_p`.
-- `Spf_stalkColimit_discrete` — the algebraic colimit for a discrete ring is the ordinary local ring `A_𝔭`.
-- `idealChoice_identity` — comparison for the ideal used to define `Spf` is the identity.
-- `idealChoice_quotient_coeff` — in arbitrary ideal coordinates, the quotient inclusion sends `a` to its class modulo `K`.
-- `idealChoice_empty` — zero-ring coefficients vanish and its quotient inclusion is an isomorphism.
-- `idealChoice_discrete` — the zero-ideal quotient inclusion in discrete coordinates is an isomorphism.
 
 ### F0.3 formal schemes, ideals of definition and thickenings
 
@@ -1321,14 +1173,55 @@ by this affine-local kernel condition, and finite type by local finite generatio
 The condition can be checked on an affine formal cover; define products and powers by
 sheafifying products of local sections, and the quotient ringed space by its sheaf quotient
 (FK I.1.1.19–20, pp. 259–260; EGA I 10.3.7 and 10.5.2, pp. 184, 187).
+`FormalScheme.IdealSheafData` is the supplied `SheafOfModules.Submodule` of the actual
+structure module. `sections` is its ideal of sections, `ker` takes the actual structure-map
+kernel, and `extension` is the smallest sheaf ideal containing the images of local sections.
+`mem_sections_iff` records local membership. `pow` is pinned by `mem_pow_sections`, so its
+sections are locally sums of products; it is not defined by taking powers of section ideals
+on every open. `IsFiniteType` is Mathlib's local finite-generation predicate.
+`Spf.idealSheaf` is the quotient-map kernel, with `idealSheaf_global`, `idealSheaf_sections`
+and `idealSheaf_basic` recording its section ideals, including the nonnoetherian case.
+`idealSheaf_basic_fg` identifies it with `J·A_f` only for finitely generated `J`.
+`IsIdealOfDefinition` tests the kernel-sheaf condition on intrinsic affine coordinates.
+`quotient` and `quotientι` are pinned by `quotient_spec`: the same underlying space, the
+prescribed sheaf kernel, and surjective stalk maps.
+`Spf.quotientBasicIso` identifies the quotient sections on `D(f)` with the
+ordinary localization `(A/J)_{f mod J}`. `quotientBasicIso_coeff` fixes the map
+from the completed localization on every coefficient, and
+`idealSheaf_basic_kernel` identifies its kernel with the transported ideal
+sheaf without assuming `J` finitely generated (FK I.1.1.19–20, pp. 259–260).
 *Needs:* *locally-noetherian-formal-scheme*; *formal-spectrum*; Mathlib module-sheaf submodules.
 
-Checks:
+**Checks.**
 
 - The zero ideal on a discretely ringed scheme is an ideal of definition.
 - On `Spf k⟦t⟧`, the kernel at level zero is `(t)^Δ` and its quotient is `Spec k`.
 - On `Spf O_C`, the ideal of sections vanishing at the point is not an ideal of definition:
   its powers equal itself and do not shrink to zero.
+- *quotientBasic_zero* — on `D(0)` every quotient section has value zero.
+- *quotientBasic_unit* — on `D(1)` a global coefficient maps to its residue class modulo `J`.
+- *quotientBasic_denominator* — the image of the defining element `f` is a unit in the localized quotient.
+- *idealSheaf_zero*, *idealSheaf_unit* — zero and unit subsheaves have zero and unit section ideals.
+- *idealSheaf_gluing* — membership on `U ∪ V` is equivalent to membership of both restrictions.
+- *idealSheaf_pow_zero* — exponent zero gives the unit ideal sheaf.
+- *idealSheaf_pow_one* — exponent one gives the original ideal sheaf.
+- *idealSheaf_pow_bot* — every positive power of the zero ideal sheaf is zero.
+- *idealKernel_identity* — the identity morphism has zero sheaf kernel.
+- *idealKernel_empty* — a morphism from the empty formal scheme has unit sheaf kernel.
+- *idealKernel_quotient* — a coefficient lies in the affine quotient kernel exactly when it lies in `J`.
+- *idealExtension_unit*, *idealExtension_zero* — extension preserves the unit and zero ideals.
+- *idealExtension_identity* — extension along the identity fixes every ideal sheaf.
+- *idealSheaf_discrete* — the zero-ideal affine kernel sheaf is zero for a discrete ring.
+- *idealSheaf_square* — a coefficient in `J` but outside `J²` distinguishes the two kernel sheaves.
+- *idealDefinition_discrete* — every scheme has zero as an ideal of definition.
+- *idealDefinition_unit* — the unit ideal is not an ideal of definition on a nonempty formal scheme.
+- *idealDefinition_adic* — an adic affine quotient kernel is an ideal of definition.
+- *idealQuotient_discrete* — quotienting an ordinary scheme by zero recovers it and its identity formal map.
+- *idealQuotient_empty* — every ideal-of-definition quotient of an empty formal scheme is empty.
+- *idealQuotient_affine* — the affine quotient is `Spec(A/J)`, with the specified quotient inclusion.
+- *thickening_discrete* — every thickening along zero of an ordinary scheme maps isomorphically to it.
+- *thickening_empty* — all thickenings of the empty formal scheme are empty.
+- *thickening_square_kernel* — a section in `𝒥` but outside `𝒥²` vanishes at level zero and is nonzero square-zero at level one.
 
 **Power comparison for ideals of definition of finite type.** (*finite-type-ideal-power-comparison*)
 For an adic ring `A` of finite ideal type and a finitely generated ideal of definition `J`,
@@ -1337,9 +1230,9 @@ The powers form a fundamental system of ideals of definition of finite type. The
 are affine-local and glue to any finite-type ideal of definition on a formal scheme
 (FK I.1.1.20–21, p. 260). They use the finite-generation comparison with completed localizations,
 without a thickening-colimit or structure-sheaf inverse-limit theorem.
-*Needs:* *formal-ideal-sheaf-data*; AdicSpacesPartII R0.1a *adic-ring*; *completed-localization*; *formal-spectrum*.
+*Needs:* *formal-ideal-sheaf-data*; Tau Ceti `TauCeti.IsAdicRing`; *completed-localization*; *formal-spectrum*.
 
-Checks:
+**Checks.**
 
 - For `A = k⟦t⟧`, `J = (t)`, the square is the sheaf ideal generated by `t²`.
 - For a discrete ring with `J = 0`, all positive powers and their kernel sheaves are zero.
@@ -1370,7 +1263,7 @@ non-discrete value group (so `O_K⟨T⟩` is not noetherian) and `X = Spf O_K⟨
 `X_n = Spec (O_K/ϖ^{n+1})[T]`, and morphisms `X → Y` into any formal scheme `Y` are the
 compatible families `Spec (O_K/ϖ^{n+1})[T] → Y`; for `𝒥 = ϖ²·O_X` on the same `X` the thickenings
 are `X'_n = Spec (O_K/ϖ^{2n+2})[T]`, a cofinal subsystem of the previous one, with the same
-colimit `X`. *Needs:* *locally-noetherian-formal-scheme*; *ideal-of-definition*; AdicSpacesPartII R0.1a *adic-ring*;
+colimit `X`. *Needs:* *locally-noetherian-formal-scheme*; *ideal-of-definition*; Tau Ceti `TauCeti.IsAdicRing`;
 *completed-localization*; *colimit-of-thickenings*; *spf-morphism-correspondence*.
 
 **Morphisms of formal schemes of finite ideal type as compatible systems of morphisms of
@@ -1405,7 +1298,7 @@ satisfy `id^*(𝒦)O_X ⊆ 𝒥`, and there is no morphism `X_0 = Spec O_K⟨T�
 O_K⟨T⟩/(ϖ)` compatible with `ι` (compatibility with `ι` would force `ϖ = 0` in `O_K⟨T⟩/(ϖ²)`).
 *Needs:*
 *thickening-colimit-finite-ideal-type*; *ideal-of-definition*; *spf-morphism-correspondence*;
-AdicSpacesPartII R0.1a *adic-ring*; *locally-noetherian-formal-scheme*.
+Tau Ceti `TauCeti.IsAdicRing`; *locally-noetherian-formal-scheme*.
 
 **Formal schemes of finite ideal type adic over `S` are adic inductive systems of
 `S_n`-schemes.** (*adic-systems-equivalence-finite-ideal-type*) Let `S` be a formal scheme of
@@ -1443,7 +1336,7 @@ line is smooth of relative dimension `1`, not étale, and is not an instance); a
 `X_n = Spec (ℤ/p^{n+1})[T]/(T^{n+1})` over `S_n = Spec ℤ/p^{n+1}` is not adic, since
 `X_1 ×_{S_1} S_0 = Spec 𝔽_p[T]/(T²) ≠ X_0 = Spec 𝔽_p`. *Needs:* *colimit-of-thickenings*;
 *thickening-colimit-finite-ideal-type*; *morphisms-as-compatible-systems-finite-ideal-type*;
-AdicSpacesPartII R0.1a *adic-ring*; *ideal-of-definition*; *locally-noetherian-formal-scheme*; Mathlib
+Tau Ceti `TauCeti.IsAdicRing`; *ideal-of-definition*; *locally-noetherian-formal-scheme*; Mathlib
 `CategoryTheory.Limits.pullback`, `IsAdicComplete`, `IsAdicComplete.le_jacobson_bot`,
 `Submodule.le_of_le_smul_of_le_jacobson_bot`.
 
@@ -1487,39 +1380,7 @@ formal scheme are noetherian local rings). `Spf ℤ_p`, `Spf k⟦t⟧` and every
 scheme are locally noetherian formal schemes; `Spf O_C` (`O_C` the ring of integers of `ℂ_p`
 with the `p`-adic topology) is a formal scheme that is not locally noetherian, although its
 underlying space is a point; the completion of `P¹_{ℤ_p}` along its special fibre is a
-noetherian formal scheme that is not affine (*formal-scheme-gluing*). *Needs:*
-*formal-spectrum*; *completed-localization*; AdicSpacesPartII R0.1a *adic-ring*; Mathlib
-`AlgebraicGeometry.LocallyRingedSpace`, `AlgebraicGeometry.LocallyRingedSpace.restrict`,
-`AlgebraicGeometry.Scheme.forgetToLocallyRingedSpace`,
-`AlgebraicGeometry.Scheme.fullyFaithfulForgetToLocallyRingedSpace`,
-`AlgebraicGeometry.IsLocallyNoetherian`, `TopologicalSpace.IsTopologicalBasis`.
-
-**Checks.**
-
-- `FormalScheme.ofScheme_Spec` (compatibility) — for every commutative ring `R`,
-  `FormalScheme.ofScheme (Spec R) ≅ Spf R` with `R` discrete, and `FormalScheme.ofScheme` is fully
-  faithful.
-- `FormalScheme.Spf_padicInt_isNoetherian` (computation) — `Spf ℤ_[p]` is a noetherian formal
-  scheme and is not in the essential image of `FormalScheme.ofScheme` (its global sections `ℤ_[p]`
-  with a single point contradict `Spec ℤ_[p]` having two points).
-- `FormalScheme.not_isLocallyNoetherian_Spf_OC` (non-example) — for `O_C` the `p`-adic completion
-  of the integral closure of `ℤ_p` in an algebraic closure of `ℚ_p` (`p`-adic topology), `Spf O_C`
-  is a formal scheme that is not locally noetherian. A wrong definition of local noetherianity
-  via the underlying space (here a point) accepts it.
-- `FormalScheme.Spf_restrict_basicOpen` (characterisation) — for `IsAdicRing A` and `f ∈ A`, the
-  open `D(f)` of `Spf A` is an affine formal open with `Γ ≅ AdicRing.CompletedAway A f`.
-- `FormalScheme.Hom_Spf_powerSeries` (computation) — morphisms `Spf ℤ_[p]⟦T⟧ ⟶ Spf ℤ_[p]⟦S⟧`
-  correspond to elements of the maximal ideal `(p, T)` of `ℤ_[p]⟦T⟧` (image of `S`).
-  The Check uses `ofSpf A ⟶ ofSpf A` and evaluates the morphism on global
-  sections through `Spf.globalSectionsIso`. `Hom_Spf_powerSeries_continuous` is
-  the separate hypothesis check classifying the continuous coefficient algebra maps
-  (EGA I, 10.2.2, pp. 182–183).
-- `FormalScheme.formalTorus_baseChange` (compatibility) — the formal torus `Spf O_C⟨T, T⁻¹⟩` over
-  `O_C` (`p`-adic topology) is a formal scheme of finite ideal type that is not locally
-  noetherian, and it is the fibre product of the noetherian formal torus `Spf ℤ_[p]⟨T, T⁻¹⟩` with
-  `Spf O_C` over `Spf ℤ_[p]` (*formal-fibre-product*); both lie in the same category
-  `FormalScheme`.
-
+noetherian formal scheme that is not affine (*formal-scheme-gluing*).
 The `O_C` Checks also apply to a complete principal-adic valuation ring `O`
 with a nonzero nonunit parameter and square roots of all its elements.
 For the single-point assertion every nonunit is topologically nilpotent,
@@ -1528,7 +1389,6 @@ idempotent maximal ideal cannot define the separated adic topology.
 The torus Check uses completed localization of the restricted power-series
 ring at its variable, and compares its formal spectrum with the actual
 formal fibre product (EGA I 10.7.3–4, pp. 193–194).
-
 The carrier `FormalScheme` extends Mathlib's locally ringed space with the local
 `FormalScheme.IsAffineChart` condition. `FormalScheme.Spf A` denotes its underlying affine
 locally ringed space and `FormalScheme.ofSpf A` the same space with its formal atlas.
@@ -1537,7 +1397,6 @@ The category has exactly the locally ringed-space morphisms. `restrict` and `ofS
 retain the supplied locally ringed spaces and their maps, so the forgetful functor is fully faithful.
 Local noetherianity is expressed using coordinate rings on an affine cover;
 `isLocallyNoetherian_iff_forall_affineOpens` makes it independent of that cover.
-
 `sectionsTopology X U hU` is pinned by `sectionsTopology_eq_adic`: any finitely generated
 ideal whose radical consists of the sections vanishing in every residue field gives this topology.
 `IsAffineOpen.isoSpf` recovers the open from this complete adic section ring. For arbitrary `X`,
@@ -1546,49 +1405,74 @@ ideal whose radical consists of the sections vanishing in every residue field gi
 `homSpf_bijective` gives the correspondence in *spf-morphism-correspondence*, and
 `continuousOnAffines_iff_residue` gives its residue-field criterion.
 `sectionMap_continuous` covers any affine open in the inverse image of an affine target open.
+*Needs:*
+*formal-spectrum*; *completed-localization*; Tau Ceti `TauCeti.IsAdicRing`; Mathlib
+`AlgebraicGeometry.LocallyRingedSpace`, `AlgebraicGeometry.LocallyRingedSpace.restrict`,
+`AlgebraicGeometry.Scheme.forgetToLocallyRingedSpace`,
+`AlgebraicGeometry.Scheme.fullyFaithfulForgetToLocallyRingedSpace`,
+`AlgebraicGeometry.IsLocallyNoetherian`, `TopologicalSpace.IsTopologicalBasis`.
 
-**Checks for the global carrier and affine section topology.**
+**Checks.**
 
-- `FormalScheme_affine_discrete` — a discrete affine scheme agrees with the bundled formal
+- *FormalScheme.ofScheme_Spec* (compatibility) — for every commutative ring `R`,
+  `FormalScheme.ofScheme (Spec R) ≅ Spf R` with `R` discrete, and `FormalScheme.ofScheme` is fully
+  faithful.
+- *FormalScheme.Spf_padicInt_isNoetherian* (computation) — `Spf ℤ_[p]` is a noetherian formal
+  scheme and is not in the essential image of `FormalScheme.ofScheme` (its global sections `ℤ_[p]`
+  with a single point contradict `Spec ℤ_[p]` having two points).
+- *FormalScheme.not_isLocallyNoetherian_Spf_OC* (non-example) — for `O_C` the `p`-adic completion
+  of the integral closure of `ℤ_p` in an algebraic closure of `ℚ_p` (`p`-adic topology), `Spf O_C`
+  is a formal scheme that is not locally noetherian. A wrong definition of local noetherianity
+  via the underlying space (here a point) accepts it.
+- *FormalScheme.Spf_restrict_basicOpen* (characterisation) — for `IsAdicRing A` and `f ∈ A`, the
+  open `D(f)` of `Spf A` is an affine formal open with `Γ ≅ TauCeti.AdicRing.CompletedAway A f`.
+- *FormalScheme.Hom_Spf_powerSeries* (computation) — morphisms `Spf ℤ_[p]⟦T⟧ ⟶ Spf ℤ_[p]⟦S⟧`
+  correspond to elements of the maximal ideal `(p, T)` of `ℤ_[p]⟦T⟧` (image of `S`).
+  The Check uses `ofSpf A ⟶ ofSpf A` and evaluates the morphism on global
+  sections through `Spf.globalSectionsIso`. `Hom_Spf_powerSeries_continuous` is
+  the separate hypothesis check classifying the continuous coefficient algebra maps
+  (EGA I, 10.2.2, pp. 182–183).
+- *FormalScheme.formalTorus_baseChange* (compatibility) — the formal torus `Spf O_C⟨T, T⁻¹⟩` over
+  `O_C` (`p`-adic topology) is a formal scheme of finite ideal type that is not locally
+  noetherian, and it is the fibre product of the noetherian formal torus `Spf ℤ_[p]⟨T, T⁻¹⟩` with
+  `Spf O_C` over `Spf ℤ_[p]` (*formal-fibre-product*); both lie in the same category
+  `FormalScheme`.
+- *FormalScheme_affine_discrete* — a discrete affine scheme agrees with the bundled formal
   spectrum, admits an affine chart and has the full space as an affine formal open.
-- `FormalScheme_affine_zero` — the zero ring gives an empty affine formal scheme; its empty
+- *FormalScheme_affine_zero* — the zero ring gives an empty affine formal scheme; its empty
   open is affine and the formal scheme is noetherian.
-- `FormalScheme_affine_padic` — `Spf ℤ_p` is affine and noetherian, its `D(p)` is affine, and
+- *FormalScheme_affine_padic* — `Spf ℤ_p` is affine and noetherian, its `D(p)` is affine, and
   it is not isomorphic to a scheme with the same locally ringed space.
-- `FormalScheme_not_locallyNoetherian` — if an adic coordinate ring is not noetherian, its
-  formal spectrum is not locally noetherian. The specific `O_C` check above additionally
-  needs the completed algebraic-closure valuation ring with its `p`-adic topology; that
-  carrier is not defined here, so that particular check remains in prose.
-- `FormalScheme_restrict_empty` — restricting any formal scheme to the empty open gives
+- *FormalScheme_not_locallyNoetherian* — if an adic coordinate ring is not noetherian, its
+  formal spectrum is not locally noetherian.
+- *FormalScheme_restrict_empty* — restricting any formal scheme to the empty open gives
   an empty noetherian formal scheme and an inclusion with empty range.
-- `FormalScheme_restrict_top` — restriction to the full open is isomorphic to the original
+- *FormalScheme_restrict_top* — restriction to the full open is isomorphic to the original
   formal scheme, and the inclusion is bijective on points.
-- `FormalScheme_restrict_basic` — restriction of `Spf A` to `D(f)` is `Spf CompletedAway A f`,
-  and the inclusion's range is exactly `D(f)`.
-- `FormalScheme_forget_maps` — forgetting a composite gives the composite locally ringed-space
+- *FormalScheme_forget_maps* — forgetting a composite gives the composite locally ringed-space
   map, in the same order.
-- `FormalScheme_forget_empty` — the forgotten map from an empty formal scheme has empty range.
-- `FormalScheme_forget_padic` — the forgotten `Spf ℤ_p` retains one point and global ring `ℤ_p`.
-- `FormalScheme_forget_evaluations` — forgetting preserves the distinction between evaluation
+- *FormalScheme_forget_empty* — the forgotten map from an empty formal scheme has empty range.
+- *FormalScheme_forget_padic* — the forgotten `Spf ℤ_p` retains one point and global ring `ℤ_p`.
+- *FormalScheme_forget_evaluations* — forgetting preserves the distinction between evaluation
   at `0` and evaluation at `1` on the affine line.
-- `FormalScheme_ofScheme_empty` — an empty scheme gives an empty noetherian formal scheme.
-- `FormalScheme_ofScheme_noetherian` — a locally noetherian scheme remains locally noetherian.
-- `FormalScheme_sections_discrete` — affine formal opens of an ordinary scheme have discrete
+- *FormalScheme_ofScheme_empty* — an empty scheme gives an empty noetherian formal scheme.
+- *FormalScheme_ofScheme_noetherian* — a locally noetherian scheme remains locally noetherian.
+- *FormalScheme_sections_discrete* — affine formal opens of an ordinary scheme have discrete
   intrinsic section topology.
-- `FormalScheme_sections_empty` — empty-open sections form the zero ring with discrete topology.
-- `FormalScheme_sections_padic_nondiscrete` — the intrinsic topology on `Γ(Spf ℤ_p, O)` is
+- *FormalScheme_sections_empty* — empty-open sections form the zero ring with discrete topology.
+- *FormalScheme_sections_padic_nondiscrete* — the intrinsic topology on `Γ(Spf ℤ_p, O)` is
   not discrete, although the underlying formal spectrum has one point.
-- `FormalScheme_sectionsHom_identity` — the identity's section map fixes every coefficient
+- *FormalScheme_sectionsHom_identity* — the identity's section map fixes every coefficient
   and is continuous on affine opens.
-- `FormalScheme_sectionsHom_empty` — a map from an empty formal scheme induces the zero
+- *FormalScheme_sectionsHom_empty* — a map from an empty formal scheme induces the zero
   section homomorphism, which is continuous on affine opens.
-- `FormalScheme_not_continuous_padic_to_discrete` — the natural inclusion into the global
+- *FormalScheme_not_continuous_padic_to_discrete* — the natural inclusion into the global
   sections of `Spec ℚ_p` fails `ContinuousOnAffines` directly.
-- `FormalScheme_sectionsHom_evaluation` — evaluation at `1` sends the polynomial generator
+- *FormalScheme_sectionsHom_evaluation* — evaluation at `1` sends the polynomial generator
   to the unit section on `Spec k`.
-- `FormalScheme_chart_nonaffine` — a non-affine ordinary scheme cannot be a single affine
+- *FormalScheme_chart_nonaffine* — a non-affine ordinary scheme cannot be a single affine
   formal chart.
-- `FormalScheme_sectionsHom_padic_discrete` — no morphism `Spec ℚ_p → Spf ℤ_p` induces the
+- *FormalScheme_sectionsHom_padic_discrete* — no morphism `Spec ℚ_p → Spf ℤ_p` induces the
   natural inclusion `ℤ_p → ℚ_p`, since the target section topology on `Spec ℚ_p` is discrete.
 
 **Gluing formal schemes along open subschemes.** (*formal-scheme-gluing*) A glue datum of formal
@@ -1612,7 +1496,13 @@ property: formal morphisms are exactly locally ringed-space morphisms. Prove
 `FormalScheme.GlueData.isLocallyNoetherian` and `isNoetherian`, and construct
 `FormalScheme.GlueData.ofScheme` with `ofScheme_glued`, comparing the two glued objects. Gluing
 `Spf ℤ_p⟨x⟩` and `Spf ℤ_p⟨y⟩` along `Spf ℤ_p⟨x, x⁻¹⟩ ≅ Spf ℤ_p⟨y, y⁻¹⟩` (`y = x⁻¹`) gives the
-`p`-adic completion of `P¹_{ℤ_p}`, whose global sections are `ℤ_p`. *Needs:*
+`p`-adic completion of `P¹_{ℤ_p}`, whose global sections are `ℤ_p`.
+The two projective-line gluing Checks use the completion of
+`AdicSpace.projectiveSpace ℤ_[p] 1` along its special fibre, with an isomorphism
+from the glued datum to that completion. The projective space and structural
+map are imported from Part II. This identifies the gluing datum before
+computing its sections or testing affineness (EGA I 10.8.5, p. 195).
+*Needs:*
 *locally-noetherian-formal-scheme*; Mathlib `AlgebraicGeometry.LocallyRingedSpace.GlueData`,
 `AlgebraicGeometry.LocallyRingedSpace.GlueData.ι_isOpenImmersion`,
 `AlgebraicGeometry.Scheme.GlueData`, `AlgebraicGeometry.Scheme.GlueData.glued`,
@@ -1621,27 +1511,16 @@ property: formal morphisms are exactly locally ringed-space morphisms. Prove
 
 **Checks.**
 
-- `FormalScheme.GlueData.projectiveLine_globalSections` (computation) — for the glue datum of
+- *FormalScheme.GlueData.projectiveLine_globalSections* (computation) — for the glue datum of
   `Spf ℤ_[p]⟨x⟩` and `Spf ℤ_[p]⟨y⟩` along `x ↦ y⁻¹`, `Γ(glued, ⊤) ≅ ℤ_[p]`.
-- `FormalScheme.GlueData.single` (degenerate) — for a glue datum with one piece `U` (`V_11 = U`,
+- *FormalScheme.GlueData.single* (degenerate) — for a glue datum with one piece `U` (`V_11 = U`,
   `t = id`), `glued ≅ U`.
-- `FormalScheme.GlueData.ofScheme_glued` (compatibility) — for a Mathlib `Scheme.GlueData` `D`,
+- *FormalScheme.GlueData.ofScheme_glued* (compatibility) — for a Mathlib `Scheme.GlueData` `D`,
   `FormalScheme.ofScheme D.glued ≅ glued` of the image glue datum.
-- `FormalScheme.GlueData.projectiveLine_not_affine` (non-example) — the glued `P¹` datum above is
+- *FormalScheme.GlueData.projectiveLine_not_affine* (non-example) — the glued `P¹` datum above is
   not an affine formal scheme (it is not isomorphic to `Spf` of its global sections `ℤ_[p]`, which
   is a point).
-
-The two projective-line gluing Checks use the completion of
-`AdicSpace.projectiveSpace ℤ_[p] 1` along its special fibre, with an isomorphism
-from the glued datum to that completion. The projective space and structural
-map are imported from Part II. This identifies the gluing datum before
-computing its sections or testing affineness (EGA I 10.8.5, p. 195).
-
-**Checks for the supplied gluing datum and formal atlas.**
-
-- `formalGluing_empty` — an empty family glues to an empty noetherian formal scheme.
-- `formalGluing_single` — with a single piece, its supplied inclusion into the glued object is an isomorphism.
-- `formalGluing_scheme` — applying the discrete formal atlas to a scheme gluing agrees with gluing its formal pieces.
+- *formalGluing_empty* — an empty family glues to an empty noetherian formal scheme.
 
 **Ideals of definition of a formal scheme and the thickenings `X_n`.** (*ideal-of-definition*)
 Let `X` be a formal scheme with the ideal-sheaf data of *formal-ideal-sheaf-data*.
@@ -1675,114 +1554,58 @@ every morphism `f : X ⟶ Y` induces `f_red : X_red ⟶ Y_red`). For `X = Spf �
 definition correspond to ideals `J` with `(p,T)^m ⊆ J ⊆ (p,T)`; `𝒯 = (p,T)^Δ` and
 `X_red = Spec F_p`. For `X = Spf O_C` (not noetherian), the ideal of sections vanishing at the point
 is `𝔪_C`, which is not finitely generated and not an ideal of definition: no largest ideal of
-definition exists. *Needs:* *formal-ideal-sheaf-data*; *finite-type-ideal-power-comparison*;
-*locally-noetherian-formal-scheme*; *formal-spectrum*; AdicSpacesPartII R0.1a *adic-ring*;
+definition exists.
+`FormalScheme.thickening` uses `pow (n+1)`; `thickeningMap_spec` gives the closed transitions
+and their compatibility with `FormalScheme.thickeningι`. `thickeningDiagram`, `thickeningCocone`
+and `thickeningIsColimit` state the colimit of *thickening-colimit-finite-ideal-type* in the
+formal category (EGA I, 10.5.2 and 10.6.2, pp. 187–189).
+`thickeningSheafDiagram` transports the quotient structure sheaves to the common
+space. Its transition maps commute with the specified quotient projections;
+`FormalScheme.structureSheafIsoLimit` asserts their inverse-limit property. The powers are
+cofinal locally, and uniformly on a quasi-compact formal scheme
+(`FormalScheme.IdealSheafData.isIdealOfDefinition_pow`).
+`FormalScheme.largestIdealOfDefinition` is the intersection of the residue-map kernels on every open.
+`largestIdealOfDefinition_sections` gives the radical formula on quasi-compact opens.
+The quasi-compactness hypothesis cannot be dropped: on the disjoint union of
+`Spec(ℤ/2^{n+1})`, the section with value `2` in every component vanishes in
+every residue field but has no uniform nilpotence exponent: every component
+is nilpotent, while their element in the product of the section rings is not.
+`FormalScheme.reduction` is its quotient scheme; `idealDefinition_reduced_iff` characterizes this ideal
+among ideals of definition, and `reductionMap_spec` fixes the induced maps of reduced schemes.
+*Needs:* *formal-ideal-sheaf-data*; *finite-type-ideal-power-comparison*;
+*locally-noetherian-formal-scheme*; *formal-spectrum*; Tau Ceti `TauCeti.IsAdicRing`;
 *completed-localization*; Mathlib `AlgebraicGeometry.Scheme.IdealSheafData`,
 `AlgebraicGeometry.IsReduced`, `Ideal.radical`.
 
 **Checks.**
 
-- `FormalScheme.IdealSheafData.isIdealOfDefinition_Spf` (characterisation) — on `Spf A`, `J^Δ` is
+- *FormalScheme.IdealSheafData.isIdealOfDefinition_Spf* (characterisation) — on `Spf A`, `J^Δ` is
   an ideal of definition iff `IsAdic J`; and every ideal of definition of `Spf A` is of this form
   for a unique `J`.
-- `FormalScheme.thickening_Spf` (computation) — for `X = Spf A` and `𝒥 = J^Δ`:
+- *FormalScheme.thickening_Spf* (computation) — for `X = Spf A` and `𝒥 = J^Δ`:
   `X.thickening 𝒥 n ≅ Spec (A ⧸ J^(n+1))` as schemes.
-- `FormalScheme.largestIdealOfDefinition_powerSeries` (computation) — for `X = Spf ℤ_[p]⟦T⟧`, the
+- *FormalScheme.largestIdealOfDefinition_powerSeries* (computation) — for `X = Spf ℤ_[p]⟦T⟧`, the
   largest ideal of definition is `(p, T)^Δ` and `X_red ≅ Spec (ZMod p)`.
-- `FormalScheme.ofScheme_idealOfDefinition` (degenerate) — for a scheme `Y` viewed as a formal
+- *FormalScheme.ofScheme_idealOfDefinition* (degenerate) — for a scheme `Y` viewed as a formal
   scheme, the zero ideal is an ideal of definition and `Y.thickening 0 n = Y`; the largest ideal of
   definition of a locally noetherian scheme is its nilradical.
-- `FormalScheme.not_idealOfDefinition_maximal_OC` (non-example) — on `Spf O_C`, the ideal of
+- *FormalScheme.not_idealOfDefinition_maximal_OC* (non-example) — on `Spf O_C`, the ideal of
   sections vanishing at the point (`𝔪_C`) is not an ideal of definition: `𝔪_C^n = 𝔪_C` for all
   `n`, so its powers do not tend to `0`.
-
-- `idealOfDefinition_no_uniform_power` (non-example) — on the disjoint union
+- *idealOfDefinition_no_uniform_power* (non-example) — on the disjoint union
   `∐_{r≥0} Spf k⟦t⟧`, take `𝒥 = (t)` and `𝒦|_r = (t^(r+1))`. There is no
   global `N ≥ 1` with `𝒥^N ⊆ 𝒦`: on component `r = N`, `t^N ∉ (t^(N+1))`.
   The check verifies the strict powers in each component.
-
-`FormalScheme.IdealSheafData` is the supplied `SheafOfModules.Submodule` of the actual
-structure module. `sections` is its ideal of sections, `ker` takes the actual structure-map
-kernel, and `extension` is the smallest sheaf ideal containing the images of local sections.
-`mem_sections_iff` records local membership. `pow` is pinned by `mem_pow_sections`, so its
-sections are locally sums of products; it is not defined by taking powers of section ideals
-on every open. `IsFiniteType` is Mathlib's local finite-generation predicate.
-
-`Spf.idealSheaf` is the quotient-map kernel, with `idealSheaf_global`, `idealSheaf_sections`
-and `idealSheaf_basic` recording its section ideals, including the nonnoetherian case.
-`idealSheaf_basic_fg` identifies it with `J·A_f` only for finitely generated `J`.
-`IsIdealOfDefinition` tests the kernel-sheaf condition on intrinsic affine coordinates.
-`quotient` and `quotientι` are pinned by `quotient_spec`: the same underlying space, the
-prescribed sheaf kernel, and surjective stalk maps. `thickening` uses `pow (n+1)`;
-`thickeningMap_spec` gives the closed transitions and their compatibility with `thickeningι`.
-`thickeningDiagram`, `thickeningCocone` and `thickeningIsColimit` state the finite-ideal-type
-colimit in the formal category (EGA I, 10.5.2 and 10.6.2, pp. 187–189).
-
-`Spf.quotientBasicIso` identifies the quotient sections on `D(f)` with the
-ordinary localization `(A/J)_{f mod J}`. `quotientBasicIso_coeff` fixes the map
-from the completed localization on every coefficient, and
-`idealSheaf_basic_kernel` identifies its kernel with the transported ideal
-sheaf without assuming `J` finitely generated (FK I.1.1.19–20, pp. 259–260).
-
-**Checks for the affine quotient-localization comparison.**
-
-- `quotientBasic_zero` — on `D(0)` every quotient section has value zero.
-- `quotientBasic_unit` — on `D(1)` a global coefficient maps to its residue class modulo `J`.
-- `quotientBasic_denominator` — the image of the defining element `f` is a unit in the localized quotient.
-
-
-**Checks for sheaf ideals and quotient schemes.**
-
-- `idealSheaf_zero`, `idealSheaf_unit` — zero and unit subsheaves have zero and unit section ideals.
-- `idealSheaf_gluing` — membership on `U ∪ V` is equivalent to membership of both restrictions.
-- `idealSheaf_pow_zero` — exponent zero gives the unit ideal sheaf.
-- `idealSheaf_pow_one` — exponent one gives the original ideal sheaf.
-- `idealSheaf_pow_bot` — every positive power of the zero ideal sheaf is zero.
-- `idealKernel_identity` — the identity morphism has zero sheaf kernel.
-- `idealKernel_empty` — a morphism from the empty formal scheme has unit sheaf kernel.
-- `idealKernel_quotient` — a coefficient lies in the affine quotient kernel exactly when it lies in `J`.
-- `idealExtension_unit`, `idealExtension_zero` — extension preserves the unit and zero ideals.
-- `idealExtension_identity` — extension along the identity fixes every ideal sheaf.
-- `idealSheaf_discrete` — the zero-ideal affine kernel sheaf is zero for a discrete ring.
-- `idealSheaf_square` — a coefficient in `J` but outside `J²` distinguishes the two kernel sheaves.
-- `idealDefinition_discrete` — every scheme has zero as an ideal of definition.
-- `idealDefinition_unit` — the unit ideal is not an ideal of definition on a nonempty formal scheme.
-- `idealDefinition_adic` — an adic affine quotient kernel is an ideal of definition.
-- `idealQuotient_discrete` — quotienting an ordinary scheme by zero recovers it and its identity formal map.
-- `idealQuotient_empty` — every ideal-of-definition quotient of an empty formal scheme is empty.
-- `idealQuotient_affine` — the affine quotient is `Spec(A/J)`, with the specified quotient inclusion.
-- `thickening_discrete` — every thickening along zero of an ordinary scheme maps isomorphically to it.
-- `thickening_empty` — all thickenings of the empty formal scheme are empty.
-- `thickening_square_kernel` — a section in `𝒥` but outside `𝒥²` vanishes at level zero and is nonzero square-zero at level one.
-
-`thickeningSheafDiagram` transports the quotient structure sheaves to the common
-space. Its transition maps commute with the specified quotient projections;
-`structureSheafIsLimit` asserts their inverse-limit property. The powers are cofinal locally
-by `idealDefinition_cofinal_local`, and uniformly on a quasi-compact formal scheme by
-`idealDefinition_cofinal_compact`.
-`largestIdealOfDefinition` is the intersection of the residue-map kernels on every open.
-`largestIdealOfDefinition_sections` gives the radical formula on quasi-compact opens.
-The quasi-compactness hypothesis cannot be dropped: on the disjoint union of
-`Spec(ℤ/2^{n+1})`, the section with value `2` in every component vanishes in
-every residue field but has no uniform nilpotence exponent. The named Check
-`largestIdeal_noncompact_nilpotence` computes this obstruction: every component
-is nilpotent, while their element in the product of the section rings is not.
-
-`reduction` is its quotient scheme; `idealDefinition_reduced_iff` characterizes this ideal
-among ideals of definition, and `reductionMap_spec` fixes the induced maps of reduced schemes.
-
-**Checks for finite type, global quotient sheaves and reduction.**
-
-- `idealFiniteType_zero` — the zero ideal sheaf is of finite type.
-- `idealFiniteType_unit` — the structure ideal is of finite type, generated locally by one.
-- `idealFiniteType_nonfinite` — on a discrete affine spectrum an ideal sheaf whose global
+- *idealFiniteType_zero* — the zero ideal sheaf is of finite type.
+- *idealFiniteType_unit* — the structure ideal is of finite type, generated locally by one.
+- *idealFiniteType_nonfinite* — on a discrete affine spectrum an ideal sheaf whose global
   section ideal is not finitely generated is not of finite type.
-- `globalQuotientSheaf_discrete` — every zero-ideal thickening projection on a scheme is an isomorphism of sheaves.
-- `globalQuotientSheaf_empty` — each thickening sheaf on an empty formal scheme has zero sections on every open.
-- `globalQuotientSheaf_square` — the two first sheaf projections distinguish a section in `𝒥` but outside `𝒥²`.
-- `reduction_reduced_scheme` — a reduced ordinary scheme has zero largest ideal and an isomorphic reduction inclusion.
-- `reduction_empty` — the largest ideal on an empty formal scheme is the unit ideal, and its reduction is empty.
-- `reduction_padic` — on `Spf ℤ_p` the largest ideal has global sections `(p)` and the reduced scheme is `Spec(ZMod p)`.
+- *globalQuotientSheaf_discrete* — every zero-ideal thickening projection on a scheme is an isomorphism of sheaves.
+- *globalQuotientSheaf_empty* — each thickening sheaf on an empty formal scheme has zero sections on every open.
+- *globalQuotientSheaf_square* — the two first sheaf projections distinguish a section in `𝒥` but outside `𝒥²`.
+- *reduction_reduced_scheme* — a reduced ordinary scheme has zero largest ideal and an isomorphic reduction inclusion.
+- *reduction_empty* — the largest ideal on an empty formal scheme is the unit ideal, and its reduction is empty.
+- *reduction_padic* — on `Spf ℤ_p` the largest ideal has global sections `(p)` and the reduced scheme is `Spec(ZMod p)`.
 
 **The formal scheme attached to an adic system of thickenings.** (*colimit-of-thickenings*) An
 adic thickening system is a sequence of schemes `X_0 → X_1 → X_2 → ⋯` with closed immersions
@@ -1818,29 +1641,60 @@ systems `(f_n)` with commuting squares induces a morphism of formal schemes, wit
 `Spf k[x]⟦t⟧`. The system `A_n = k[x_1, x_2, …]/((x_1,…,x_{n+1})^{n+1} + (x_{n+2}, x_{n+3}, …))`,
 `n ≥ 0` (so `A_0 = k`), has nilpotent kernels `J_n = (x_1,…,x_{n+1})` and satisfies (a) and (c)
 but not (b) (`x_3 ∈ ker(A_n → A_1)` but `x_3 ∉ J_n²` for `n ≥ 2`); its limit is an admissible,
-non-adic ring and is not a formal scheme here. *Needs:* *formal-spectrum*;
-AdicSpacesPartII R0.1b *adic-completion-noetherian*; *locally-noetherian-formal-scheme*; *ideal-of-definition*;
-AdicSpacesPartII R0.1a *adic-ring*; *affine-nilpotent-thickening*; Mathlib `AlgebraicGeometry.IsClosedImmersion`,
+non-adic ring and is not a formal scheme here.
+`FormalScheme.IsAdicThickeningSystem` is a predicate on actual `ℕ ⥤ Scheme`
+diagrams. Every transition is a homeomorphic closed immersion. On each affine open of level
+`n`, its kernel at level `m` is the `(m+1)`-st power of the kernel at level zero;
+at `m=n` this forces nilpotence. The first-level kernel is finitely generated on affine opens.
+`ThickeningSystem` is the full subcategory of these diagrams, with natural transformations.
+`FormalScheme.ofThickenings.ι` and `FormalScheme.ofThickenings.desc` specify reconstruction
+in formal schemes. `FormalScheme.ofThickenings.idealOfDefinition` identifies the reconstructed
+ideal and all power kernels; `FormalScheme.ofThickenings.thickeningIso` recovers each quotient
+with its canonical inclusion.
+Local noetherianity and noetherianity are characterized at level zero.
+*Needs:* *formal-spectrum*;
+Tau Ceti `TauCeti.Ideal.isNoetherianRing_of_isAdicComplete`; *locally-noetherian-formal-scheme*; *ideal-of-definition*;
+Tau Ceti `TauCeti.IsAdicRing`; *affine-nilpotent-thickening*; Mathlib `AlgebraicGeometry.IsClosedImmersion`,
 `AlgebraicGeometry.IsAffine`, `TopCat.Sheaf`.
 
 **Checks.**
 
-- `FormalScheme.ofThickenings_padic` (computation) — for `X_n = Spec (ZMod (p^(n+1)))` with the
+- *FormalScheme.ofThickenings_padic* (computation) — for `X_n = Spec (ZMod (p^(n+1)))` with the
   reduction maps, `ofThickenings ≅ Spf ℤ_[p]`.
-- `FormalScheme.ofThickenings_const` (degenerate) — for the constant system `X_n = Y` (identity
+- *FormalScheme.ofThickenings_const* (degenerate) — for the constant system `X_n = Y` (identity
   maps, `𝒥 = 0`) of a scheme `Y`, `ofThickenings ≅ FormalScheme.ofScheme Y`.
-- `FormalScheme.ofThickenings_thickening` (compatibility) — for a locally noetherian formal scheme
+- *FormalScheme.ofThickenings_thickening* (compatibility) — for a locally noetherian formal scheme
   `X` with ideal of definition `𝒥`, `ofThickenings (n ↦ X.thickening 𝒥 n) ≅ X` (the converse
   construction, proved in *formal-scheme-as-colimit*).
-- `FormalScheme.ofThickenings_affine` (characterisation) — if `X_0 = Spec A_0` then
+- *FormalScheme.ofThickenings_affine* (characterisation) — if `X_0 = Spec A_0` then
   `ofThickenings ≅ Spf (lim_n Γ(X_n))` with the ker-adic topology.
-- `FormalScheme.ofThickenings_nonadic_excluded` (non-example) — the system
+- *FormalScheme.ofThickenings_nonadic_excluded* (non-example) — the system
   `A_n = k[x_1,x_2,…]/((x_1,…,x_{n+1})^(n+1) + (x_{n+2},…))`, `n ≥ 0`, does not satisfy the adic
   condition `ker(A_n → A_m) = J_n^(m+1)` (`J_n = ker(A_n → A_0)`); a construction that only asks
   locally nilpotent kernels would produce a non-adic ring outside `FormalScheme`.
   The labelled example detects the failure at levels two and one: in
   `k[x₁,x₂,x₃]`, the transition kernel contains `x₃` while the square of
   `(x₁,x₂,x₃)` does not. The cube is contained in the transition kernel.
+- *IsAdicThickeningSystem_powers* — the actual power-quotient diagram of a finite-type ideal of definition satisfies the adic axioms.
+- *IsAdicThickeningSystem_empty* — a constant empty scheme diagram satisfies the axioms.
+- *IsAdicThickeningSystem_not_closed* — a diagram with a transition that is not a closed immersion fails the predicate.
+- *IsAdicThickeningSystem_twoSquare*, *ThickeningSystem_twoSquare* — the `(2)`-power system over `ℤ` satisfies the predicate and has level one `Spec(ZMod 4)`.
+- *ThickeningSystem_quotient* — the system of an ideal pair evaluates to the specified `thickening` at every index.
+- *ThickeningSystem_empty* — empty level zero gives an empty reconstructed formal scheme.
+- *ThickeningSystem_morphisms* — its morphisms are precisely Mathlib natural transformations of the underlying scheme diagrams.
+- *relativeReductionEquiv_identity* — the relative identity reduces to the identity natural transformation.
+- *relativeReductionEquiv_empty* — with empty source, the compatible-map type is a subsingleton and the equivalence takes any two formal maps to the same system.
+- *relativeReductionEquiv_distinct* — distinct relative formal maps have distinct components at some index under the equivalence.
+- *thickeningSystem_constant* — a constant scheme diagram satisfies the adic axioms.
+- *thickeningSystem_reconstruct* — reconstructing the actual thickenings of a finite-ideal pair recovers its formal scheme.
+- *thickeningSystem_constant_reconstruct* — a constant system reconstructs the ordinary scheme with its discrete formal atlas.
+- *idealPair_identity* — reducing the identity gives the identity at each level.
+- *idealPair_distinct_maps* — distinct formal maps preserving the chosen ideals differ at some finite level.
+- *idealPair_strict_ideal* — when `𝒥` is not contained in `𝒥²`, the identity is not a morphism from `(X,𝒥²)` to `(X,𝒥)`.
+- *affineSystem_zero* — the zero-ideal affine system is constant with value `Spec A`.
+- *affineSystem_unit* — the unit-ideal affine system has empty schemes at every level.
+- *affineSystem_two_square* — level one of the `(2)`-adic system over `ℤ` is `Spec(ZMod 4)`.
+- *affineSystem_padic_limit* — the system of powers of `(p)` in `ℤ_p` reconstructs `Spf ℤ_p`.
 
 **A locally noetherian formal scheme is the colimit of its thickenings.**
 (*formal-scheme-as-colimit*) For a locally noetherian formal scheme `X` every ideal of
@@ -1882,58 +1736,7 @@ with `(p,T)ℤ_p⟦T⟧`, the possible images of `S`. For `𝒥` strictly smalle
 satisfies `f^*(𝒦)O_X ⊆ 𝒥`: the identity of `Spf k⟦t⟧` with `𝒥 = (t²)` and `𝒦 = (t)` does not.
 *Needs:* *formal-scheme-as-colimit*; *morphisms-as-compatible-systems-finite-ideal-type*;
 *ideal-of-definition*; *spf-morphism-correspondence*;
-AdicSpacesPartII R0.1a *adic-ring*; Mathlib `IsAdicComplete.liftRingHom`.
-
-`FormalScheme.IsAdicThickeningSystem` is a predicate on actual `ℕ ⥤ Scheme`
-diagrams. Every transition is a homeomorphic closed immersion. On each affine open of level
-`n`, its kernel at level `m` is the `(m+1)`-st power of the kernel at level zero;
-at `m=n` this forces nilpotence. The first-level kernel is finitely generated on affine opens.
-`ThickeningSystem` is the full subcategory of these diagrams, with natural transformations.
-`ofThickeningsCocone` and `ofThickeningsIsColimit` specify reconstruction in formal schemes.
-`ofThickeningsIdeal_spec` identifies the reconstructed ideal and all power kernels;
-`ofThickeningsQuotientIso_ι` recovers each quotient with its canonical inclusion.
-Local noetherianity and noetherianity are characterized at level zero.
-
-`IdealPair` records a formal scheme with a finite-type ideal of definition; its morphisms
-satisfy the ideal inclusion. `IdealPair.reductionFunctor` is the actual thickening functor,
-with reductions pinned by `reductionMap_spec`. Its full faithfulness and equivalence are
-`reductionFunctor_fullyFaithful` and `reductionFunctor_isEquivalence`.
-`reconstructionIso_ι` fixes the comparison on all thickening maps.
-`affineThickeningSystem` has values `Spec(A/I^(n+1))` and the actual quotient transition maps;
-`ofThickeningsAffineIso_ι` compares its colimit with `Spf A` when `A` is complete adic for `I`.
-`extension_le_largest` removes the source-ideal condition when the source uses its largest
-ideal of definition. `IdealPair.relativeReductionEquiv` uses an arbitrary source ideal
-containing the extended base ideal and a target ideal equal to the extended base ideal;
-`relativeReductionEquiv_apply` specifies every component.
-
-**Checks for systems, reconstruction and ideal-preserving morphisms.**
-
-
-- `IsAdicThickeningSystem_powers` — the actual power-quotient diagram of a finite-type ideal of definition satisfies the adic axioms.
-- `IsAdicThickeningSystem_empty` — a constant empty scheme diagram satisfies the axioms.
-- `IsAdicThickeningSystem_not_closed` — a diagram with a transition that is not a closed immersion fails the predicate.
-- `IsAdicThickeningSystem_twoSquare`, `ThickeningSystem_twoSquare` — the `(2)`-power system over `ℤ` satisfies the predicate and has level one `Spec(ZMod 4)`.
-- `ThickeningSystem_quotient` — the system of an ideal pair evaluates to the specified `thickening` at every index.
-- `ThickeningSystem_empty` — empty level zero gives an empty reconstructed formal scheme.
-- `ThickeningSystem_morphisms` — its morphisms are precisely Mathlib natural transformations of the underlying scheme diagrams.
-- `relativeReductionEquiv_identity` — the relative identity reduces to the identity natural transformation.
-- `relativeReductionEquiv_empty` — with empty source, the compatible-map type is a subsingleton and the equivalence takes any two formal maps to the same system.
-- `relativeReductionEquiv_distinct` — distinct relative formal maps have distinct components at some index under the equivalence.
-
-- `thickeningSystem_constant` — a constant scheme diagram satisfies the adic axioms.
-- `thickeningSystem_empty` — empty level zero reconstructs an empty formal scheme.
-- `thickeningSystem_reconstruct` — reconstructing the actual thickenings of a finite-ideal pair recovers its formal scheme.
-- `thickeningSystem_constant_reconstruct` — a constant system reconstructs the ordinary scheme with its discrete formal atlas.
-- `idealPair_identity` — reducing the identity gives the identity at each level.
-- `idealPair_distinct_maps` — distinct formal maps preserving the chosen ideals differ at some finite level.
-- `idealPair_strict_ideal` — when `𝒥` is not contained in `𝒥²`, the identity is not a morphism from `(X,𝒥²)` to `(X,𝒥)`.
-- `affineSystem_zero` — the zero-ideal affine system is constant with value `Spec A`.
-- `affineSystem_unit` — the unit-ideal affine system has empty schemes at every level.
-- `affineSystem_two_square` — level one of the `(2)`-adic system over `ℤ` is `Spec(ZMod 4)`.
-- `affineSystem_padic_limit` — the system of powers of `(p)` in `ℤ_p` reconstructs `Spf ℤ_p`.
-- `relativeReduction_identity` — the relative identity maps to the identity natural transformation.
-- `relativeReduction_empty` — with empty source there is at most one compatible relative system of maps.
-- `relativeReduction_distinct` — distinct relative maps have different reductions at some level.
+Tau Ceti `TauCeti.IsAdicRing`; Mathlib `IsAdicComplete.liftRingHom`.
 
 **Fibre products of formal schemes.** (*formal-fibre-product*) Let `f : X → S` and `g : Y → S` be
 morphisms of formal schemes (of finite ideal type). Prove that the fibre product `X ×_S Y` exists
@@ -1955,10 +1758,22 @@ through *completed-tensor-product-adic*); `Spf ℤ_p⟦S⟧ ×_{Spf ℤ_p} Spf �
 (non-adic structure maps, through the limit of the thickenings `Spec ℤ_p⟦S⟧/(p,S)^{n+1} ×_{Spec ℤ/p^{n+1}} Spec ℤ_p⟦T⟧/(p,T)^{n+1}`); for `X = Spf ℤ_p⟨x⟩` over
 `S = Spf ℤ_p` and any locally noetherian `Y` over `Spf ℤ_p`, `X ×_S Y` (affine-locally `Spf B⟨x⟩`
 over `Spf B ⊆ Y`) is locally
-noetherian. *Needs:* *completed-tensor-product-adic*; *spf-morphism-correspondence*;
+noetherian.
+The global pullback is `CategoryTheory.Limits.pullback` on `FormalScheme`, with
+`FormalScheme.hasPullbacks`. For adic affine structure maps,
+`Spf.tensorPullbackIso` identifies it with `Spf` of the completed tensor product;
+`tensorPullbackIso_fst` and `tensorPullbackIso_snd` identify the two projections with
+`Spf` of the two coefficient inclusions (EGA I, 10.7.2–3, pp. 193–194).
+*Needs:* *completed-tensor-product-adic*; *spf-morphism-correspondence*;
 *formal-scheme-gluing*; *colimit-of-thickenings*; *topologically-finite-type-criterion*;
 *formal-morphism-finite-type*; *thickening-colimit-finite-ideal-type*; *lrs-morphism-gluing*;
 Mathlib `CategoryTheory.Limits.pullback`.
+
+**Checks.**
+
+- *formalPullback_identity* — pulling back along an identity gives an isomorphism to the other factor.
+- *formalPullback_empty* — an empty factor makes the product empty.
+- *formalPullback_schemes* — two ordinary scheme morphisms give the ordinary scheme pullback.
 
 **Comparison with the inductive-system carrier of SchemeAndStackFoundations.**
 (*formal-scheme-carrier-comparison*) SchemeAndStackFoundations Layer 4 states the formal
@@ -2009,33 +1824,55 @@ between `{(X, 𝒥)}` and `𝒮`); prove `FormalScheme.ThickeningSystem.equiv_Sp
 `FormalScheme.ThickeningSystem.equiv_pullback` (both maps adic, with ideals pulled back
 from `S`: `(X ×_S Y)_n ≅ X_n ×_{S_n} Y_n`),
 `FormalScheme.ThickeningSystem.equiv_completion` (`(completion X X′)_n ≅ V(𝓘^(n+1))`) and
-`FormalScheme.ThickeningSystem.equiv_coh` (locally noetherian `X`: `Coh X ≃` compatible systems). *Needs:*
+`FormalScheme.ThickeningSystem.equiv_coh` (locally noetherian `X`: `Coh X ≃` compatible systems).
+`IdealPair` records a formal scheme with a finite-type ideal of definition; its morphisms
+satisfy the ideal inclusion. `IdealPair.reductionFunctor` is the actual thickening functor,
+with the reductions `f_n` of *morphisms-as-compatible-systems-finite-ideal-type* (i) as its
+maps; its equivalence with `FormalScheme.ThickeningSystem` is
+`FormalScheme.ThickeningSystem.equiv`.
+`reconstructionIso_ι` fixes the comparison on all thickening maps.
+`affineThickeningSystem` has values `Spec(A/I^(n+1))` and the actual quotient transition maps;
+`FormalScheme.ThickeningSystem.equiv_Spf` compares its colimit with `Spf A` when `A` is complete adic for `I`.
+`extension_le_largest` removes the source-ideal condition when the source uses its largest
+ideal of definition. `IdealPair.relativeReductionEquiv` uses an arbitrary source ideal
+containing the extended base ideal and a target ideal equal to the extended base ideal;
+`relativeReductionEquiv_apply` specifies every component.
+`Spf.homEquiv_pow` assumes a finitely generated ideal of definition `I` in the
+source ring and an ideal of definition `J` in the target. It identifies continuity
+with `I.map φ ≤ J.radical` and with `(I^k).map φ ≤ J` for a **positive** integer `k`
+(EGA I 10.2.2, pp. 182–183; EGA 0 7.1.3–4, p. 61).
+`ThickeningSystem.equiv_pullback` uses `IdealPair` morphisms whose source ideals
+are exactly the extensions of the base ideal. The ideal on the formal fibre
+product is the extension along its first projection. Its `n`-th quotient is the
+scheme fibre product of the two `n`-th quotients, and the isomorphism commutes
+with both projections to the original formal schemes (EGA I 10.7.4, pp. 193–194).
+*Needs:*
 *colimit-of-thickenings*; *thickening-colimit-finite-ideal-type*;
 *morphisms-as-compatible-systems-finite-ideal-type*; *spf-morphism-correspondence*;
 *formal-fibre-product*; *formal-completion*; *coherent-as-inverse-system*;
 SchemeAndStackFoundations Layer 4 (§4.7, §4.8; `Formal.AdicThickeningSystem`,
 `Formal.Scheme.formalCompletion`, `Formal.Scheme.CoherentFormalModule`); Mathlib
 `AlgebraicGeometry.IsClosedImmersion`,
-`CategoryTheory.Limits.pullback`, `TrivSqZeroExt.fstHom`. Lean: `firstOrderIdeal_not_fg` states
-the infinite-dimensional first-order ideal boundary Check; the comparison and finite-dimensional
-Check are specified in this README only.
+`CategoryTheory.Limits.pullback`, `TrivSqZeroExt.fstHom`. The comparison needs
+SchemeAndStackFoundations' tower carrier, which is not at the pins; it and its Checks are
+specified in this README only.
 
 **Checks.**
 
-- `FormalScheme.ThickeningSystem.equiv_Spf_padic` (computation) — `(Spf ℤ_[p], (p)^Δ)` corresponds
+- *FormalScheme.ThickeningSystem.equiv_Spf_padic* (computation) — `(Spf ℤ_[p], (p)^Δ)` corresponds
   to the system `(Spec (ZMod (p^(n+1))))_n`, and back.
-- `FormalScheme.ThickeningSystem.equiv_ofScheme` (degenerate) — a scheme `Y` with the zero ideal
+- *FormalScheme.ThickeningSystem.equiv_ofScheme* (degenerate) — a scheme `Y` with the zero ideal
   of definition corresponds to the constant system `(Y)_n` with identity transitions.
-- `FormalScheme.Spf.homEquiv_pow_example` (characterisation) — for `φ : ℤ_[p] → ℤ_[p]⟦T⟧` with
+- *FormalScheme.Spf.homEquiv_pow_example* (characterisation) — for `φ : ℤ_[p] → ℤ_[p]⟦T⟧` with
   `I = (p)` and `J = (p, T)^2`: `φ(I) ⊆ √J` holds while `φ(I) ⊆ J` fails, and `φ(I^2) ⊆ J`; the
   two morphism conditions agree exactly after passing to the power `I^2`.
-- `FormalScheme.ThickeningSystem.equiv_not_adic` (non-example) — the system
+- *FormalScheme.ThickeningSystem.equiv_not_adic* (non-example) — the system
   `Spec (ℤ/p^(n+1))[T]/(T^(n+1))` is not in `𝒮` with this indexing. Its formal limit is
   `Spf ℤ_p⟦T⟧`: the ideals `(p^(n+1), T^(n+1))` are cofinal with powers of `(p,T)`.
   At `n = 0` these ideals agree; at `n = 1`, `pT` survives the first quotient but vanishes
-  modulo `(p,T)^2`. The Check `thickeningSystem_two_stage` computes this for `p = 2`.
+  modulo `(p,T)^2`. The Check *thickeningSystem_two_stage* computes this for `p = 2`.
   Thus a formal limit need not recover an arbitrary thickening system term by term.
-- `firstOrderIdeal_not_fg` (boundary of the essential image) — for a field `k` and `V = ⊕_{i∈ℕ} k`, the tower
+- *firstOrderIdeal_not_fg* (boundary of the essential image) — for a field `k` and `V = ⊕_{i∈ℕ} k`, the tower
   `X_0 = Spec k`, `X_n = Spec(k ⊕ V)` (`V² = 0`, `n ≥ 1`), with first transition from
   `k ⊕ V → k` and identities after it, is an object of `Formal.AdicThickeningSystem` (the
   condition on consecutive levels reads `V = V` at level `0` and `0 = V^{n+1}` above) with
@@ -2049,28 +1886,6 @@ Check are specified in this README only.
   `ker(k ⊕ k^m → k)` is finitely generated.
 - (completion outside the boundary) — `Formal.Scheme.formalCompletion` of `Spec k[x_1, x_2, …]`
   along `(x_1, x_2, …)`, an ideal not of finite type, is outside `𝒯^ft` for the same reason.
-
-The global pullback is `CategoryTheory.Limits.pullback` on `FormalScheme`, with
-`FormalScheme.hasPullbacks`. For adic affine structure maps,
-`Spf.tensorPullbackIso` identifies it with `Spf` of the completed tensor product;
-`tensorPullbackIso_fst` and `tensorPullbackIso_snd` identify the two projections with
-`Spf` of the two coefficient inclusions (EGA I, 10.7.2–3, pp. 193–194).
-
-`Spf.homEquiv_pow` assumes a finitely generated ideal of definition `I` in the
-source ring and an ideal of definition `J` in the target. It identifies continuity
-with `I.map φ ≤ J.radical` and with `(I^k).map φ ≤ J` for a **positive** integer `k`
-(EGA I 10.2.2, pp. 182–183; EGA 0 7.1.3–4, p. 61).
-`ThickeningSystem.equiv_pullback` uses `IdealPair` morphisms whose source ideals
-are exactly the extensions of the base ideal. The ideal on the formal fibre
-product is the extension along its first projection. Its `n`-th quotient is the
-scheme fibre product of the two `n`-th quotients, and the isomorphism commutes
-with both projections to the original formal schemes (EGA I 10.7.4, pp. 193–194).
-
-**Checks for the global fibre product.**
-
-- `formalPullback_identity` — pulling back along an identity gives an isomorphism to the other factor.
-- `formalPullback_empty` — an empty factor makes the product empty.
-- `formalPullback_schemes` — two ordinary scheme morphisms give the ordinary scheme pullback.
 
 ### F0.4 adic, finite-type and proper morphisms; closed formal subschemes
 
@@ -2103,21 +1918,37 @@ under base change along morphisms with locally noetherian fibre product) and
 `FormalScheme.Hom.isAdic_ofScheme` (every morphism between schemes, viewed as formal schemes, is
 adic). `Spf ℤ_p⟨T⟩ → Spf ℤ_p` is adic; `Spf ℤ_p⟦T⟧ → Spf ℤ_p` is not adic (`pℤ_p⟦T⟧` is not an
 ideal of definition of the `(p,T)`-adic ring); for a morphism `f : X → Y` of locally noetherian
-schemes and `Y′ ⊆ Y` closed, `f̂ : X̂_{/f⁻¹Y′} → Ŷ_{/Y′}` is adic. *Needs:*
-*locally-noetherian-formal-scheme*; *ideal-of-definition*; AdicSpacesPartII R0.1a *adic-ring*;
+schemes and `Y′ ⊆ Y` closed, `f̂ : X̂_{/f⁻¹Y′} → Ŷ_{/Y′}` is adic.
+On locally noetherian objects `FormalScheme.Hom.IsAdic` tests the largest target ideal, and
+`FormalScheme.Hom.IsAdic.forall` proves independence of that choice.
+`FormalScheme.Hom.reduction` uses an arbitrary ideal of definition and precisely its extension
+on the source. `FormalScheme.Hom.isAdic_Spf_iff` gives the affine test, and
+`FormalScheme.Hom.IsAdic.baseChange` assumes the product locally noetherian (EGA I 10.12.1–3,
+pp. 206–207).
+For a fixed morphism of ideal pairs, `cartesianSystem_iff_extension` identifies
+the cartesian condition with equality between the source ideal and the extended
+target ideal (EGA I 10.12.2, p. 206).
+*Needs:*
+*locally-noetherian-formal-scheme*; *ideal-of-definition*; Tau Ceti `TauCeti.IsAdicRing`;
 *morphisms-as-compatible-systems*; Mathlib `IsAdic`.
 
 **Checks.**
 
-- `FormalScheme.Hom.isAdic_Spf_restricted` (computation) —
+- *FormalScheme.Hom.isAdic_Spf_restricted* (computation) —
   `Spf.map (algebraMap ℤ_[p] ℤ_[p]⟨T⟩) : Spf ℤ_[p]⟨T⟩ ⟶ Spf ℤ_[p]` is adic.
-- `FormalScheme.Hom.not_isAdic_Spf_powerSeries` (non-example) — `Spf ℤ_[p]⟦T⟧ ⟶ Spf ℤ_[p]` is not
+- *FormalScheme.Hom.not_isAdic_Spf_powerSeries* (non-example) — `Spf ℤ_[p]⟦T⟧ ⟶ Spf ℤ_[p]` is not
   adic; a definition requiring only continuity of the ring map (every morphism) would wrongly
   call it adic.
-- `FormalScheme.Hom.isAdic_id` (degenerate) — the identity of a locally noetherian formal scheme
+- *FormalScheme.Hom.isAdic_id* (degenerate) — the identity of a locally noetherian formal scheme
   is adic, and every morphism of schemes (discrete formal schemes) is adic with `𝒦 = 0`.
-- `FormalScheme.Hom.isAdic_Spf_iff` (characterisation) — for continuous `φ : B →+* A` of adic
+- *FormalScheme.Hom.isAdic_Spf_iff* (characterisation) — for continuous `φ : B →+* A` of adic
   noetherian rings with ideal of definition `K ⊆ B`: `(Spf.map φ).IsAdic ↔ IsAdic (K.map φ)`.
+- *formalMorphisms_empty* — a morphism with empty source is adic, finite type and proper.
+- *formalMorphisms_powerSeries* — `Spf k[[T]] → Spec k` for a field with discrete topology
+  and the `T`-adic topology on the source is not adic, finite type or proper. Continuity alone fails this test.
+- *formalReduction_identity* — every power-level reduction of an identity is an isomorphism.
+- *formalReduction_empty* — an empty source gives a closed immersion at every power level.
+- *formalReduction_proper* — reduction modulo the square of any ideal of definition preserves properness.
 
 **Adic formal `S`-schemes are adic inductive systems of `S_n`-schemes.**
 (*adic-systems-equivalence*) Let `S` be a locally noetherian formal scheme with ideal of
@@ -2130,11 +1961,7 @@ type since `ℒ` is coherent, so with `X_0` locally noetherian it lies in `𝒯^
 *formal-scheme-carrier-comparison*, of which this is the restriction to adic `S`-schemes marked by
 `ℒO_X`. For `S = Spf ℤ_p`, the system `X_n = P¹_{ℤ/p^{n+1}}` is adic and its
 colimit is the `p`-adic completion of `P¹_{ℤ_p}`; the truncated-polynomial system of
-*adic-systems-equivalence-finite-ideal-type* fails the cartesian condition already at `n = 1`. *Needs:*
-*adic-systems-equivalence-finite-ideal-type*; *adic-morphism-of-formal-schemes*;
-*colimit-of-thickenings*; *formal-scheme-as-colimit*;
-*morphisms-as-compatible-systems*; AdicSpacesPartII R0.1a *adic-ring*; Mathlib `CategoryTheory.Limits.pullback`.
-
+*adic-systems-equivalence-finite-ideal-type* fails the cartesian condition already at `n = 1`.
 For a finite-type ideal pair `S`, `IsAdicOver S f` means that the extended base ideal
 is an ideal of definition. `AdicOver S` is the full subcategory of `Over S.space`
 with this property; `CartesianSystem S` is the full subcategory of systems over
@@ -2144,45 +1971,24 @@ actual quotient maps on objects and on morphisms, with `adicReductionFunctor_map
 fixing each component by its quotient-inclusion square.
 `adicReductionFunctor_isEquivalence` is the finite-ideal-type equivalence, without
 noetherian hypotheses (FK I.1.8 and its solution; EGA I 10.12.3.1 in the locally
-noetherian case). The criterion `ofThickenings_isLocallyNoetherian` restricts
+noetherian case). The criterion `FormalScheme.ofThickenings.isLocallyNoetherian` restricts
 this correspondence to locally noetherian objects.
+*Needs:*
+*adic-systems-equivalence-finite-ideal-type*; *adic-morphism-of-formal-schemes*;
+*colimit-of-thickenings*; *formal-scheme-as-colimit*;
+*morphisms-as-compatible-systems*; Tau Ceti `TauCeti.IsAdicRing`; Mathlib `CategoryTheory.Limits.pullback`.
 
-On locally noetherian objects `Hom.IsAdic` tests the largest target ideal, and
-`Hom.isAdic_iff` proves independence of that choice. `Hom.reductionWith` uses an
-arbitrary ideal of definition and precisely its extension on the source.
-`Hom.isAdic_spf_iff`, `isAdic_comp`, `isAdic_of_comp` and `isAdic_baseChange` give
-the affine test and stability statements. The base-change statement assumes the
-product locally noetherian (EGA I 10.12.1–3, pp. 206–207).
+**Checks.**
 
-`Hom.isAdic_iff_isPullback` states the existential cartesian-square criterion.
-For a fixed morphism of ideal pairs, `cartesianSystem_iff_extension` identifies
-the cartesian condition with equality between the source ideal and the extended
-target ideal (EGA I 10.12.2, p. 206).
-
-**Checks for the relative adic and cartesian carriers.**
-
-
-- `adicReductionFunctor_level` — level `n` is the quotient by the `(n+1)`-st power of the extended base ideal.
-- `adicReductionFunctor_empty` — an empty source has empty reductions at all levels.
-- `adicReductionFunctor_identity` — reducing an identity gives the identity scheme map at each level, as in Mathlib's identity natural transformation.
-
-- `cartesianSystem_identity` — the identity system has cartesian transition squares.
-- `cartesianSystem_empty` — the system of empty sources is cartesian over every base.
-- `cartesianSystem_square` — the identity of a formal scheme, with source ideal `J` and target ideal `J² ≠ J`, fails the cartesian condition for those chosen ideals.
-- `adicOver_identity` — the identity belongs to the adic category over its ideal pair.
-- `adicOver_empty` — an empty source is adic over every ideal pair.
-- `adicOver_noetherian` — on locally noetherian objects the finite-ideal-type relative predicate agrees with `Hom.IsAdic`.
-
-**Checks for the adic morphism and reduction.**
-
-- `formalAdic_identity` — the identity is adic.
-- `formalAdic_ofScheme` — every ordinary scheme morphism is adic as a formal morphism.
-- `formalMorphisms_empty` — a morphism with empty source is adic, finite type and proper.
-- `formalMorphisms_powerSeries` — `Spf k[[T]] → Spec k` for a field with discrete topology
-  and the `T`-adic topology on the source is not adic, finite type or proper. Continuity alone fails this test.
-- `reductionWith_identity` — every power-level reduction of an identity is an isomorphism.
-- `reductionWith_empty` — an empty source gives a closed immersion at every power level.
-- `reductionWith_proper` — reduction modulo the square of any ideal of definition preserves properness.
+- *adicReductionFunctor_level* — level `n` is the quotient by the `(n+1)`-st power of the extended base ideal.
+- *adicReductionFunctor_empty* — an empty source has empty reductions at all levels.
+- *adicReductionFunctor_identity* — reducing an identity gives the identity scheme map at each level, as in Mathlib's identity natural transformation.
+- *cartesianSystem_identity* — the identity system has cartesian transition squares.
+- *cartesianSystem_empty* — the system of empty sources is cartesian over every base.
+- *cartesianSystem_square* — the identity of a formal scheme, with source ideal `J` and target ideal `J² ≠ J`, fails the cartesian condition for those chosen ideals.
+- *adicOver_identity* — the identity belongs to the adic category over its ideal pair.
+- *adicOver_empty* — an empty source is adic over every ideal pair.
+- *adicOver_noetherian* — on locally noetherian objects the finite-ideal-type relative predicate agrees with `Hom.IsAdic`.
 
 **Morphisms of finite type of locally noetherian formal schemes.**
 (*formal-morphism-finite-type*) Let `Y` be a locally noetherian formal scheme with ideal of
@@ -2214,51 +2020,34 @@ finite type and `Y` is noetherian then `X` is noetherian) (EGA I Ch. I, 10.13.2)
 noetherian schemes and closed `Y′`, `X′ = g⁻¹(Y′)`, the completion `ĝ` is of finite type) (EGA I
 Ch. I, 10.13.6). `Spf B{T₁,…,T_r} → Spf B` is of finite type; `Spf ℤ_p⟦T⟧ → Spf ℤ_p` is not
 (not adic); for a morphism of finite type of locally noetherian schemes `f : X → Y` and `Y′`
-closed, `f̂` is of finite type. *Needs:* *adic-morphism-of-formal-schemes*;
+closed, `f̂` is of finite type.
+`FormalScheme.Hom.finiteType_Spf_iff` uses the actual restricted-series completion and an
+open quotient ring homomorphism whose restriction to coefficients is the given
+map. `FormalScheme.Hom.locallyOfFiniteType_iff_neighbourhood` compares reduction-local finite
+type with finite type on neighbourhoods in the source (EGA I 10.13.1–4,
+pp. 207–208).
+*Needs:* *adic-morphism-of-formal-schemes*;
 *adic-systems-equivalence*; *topologically-finite-type-criterion*;
 *restricted-power-series-adic*; *affine-nilpotent-thickening*; Mathlib
 `AlgebraicGeometry.LocallyOfFiniteType`, `AlgebraicGeometry.QuasiCompact`.
 
-`Hom.finiteType_Spf_iff` uses the actual restricted-series completion and an
-open quotient ring homomorphism whose restriction to coefficients is the given
-map. `Hom.locallyOfFiniteType_iff_neighbourhood` compares reduction-local finite
-type with finite type on neighbourhoods in the source (EGA I 10.13.1–4,
-pp. 207–208).
-
-**Checks for local finite type.**
-
-- `formalLocallyFinite_identity` — the identity is locally of finite type.
-- `formalLocallyFinite_ofScheme` — for schemes this agrees with Mathlib's scheme predicate.
-- `formalLocallyFinite_empty` — every empty-source morphism is locally of finite type.
-
 **Checks.**
 
-- `FormalScheme.Hom.finiteType_restricted` (computation) — `Spf ℤ_[p]⟨T₁,…,T_r⟩ ⟶ Spf ℤ_[p]` is of
+- *formalLocallyFinite_identity* — the identity is locally of finite type.
+- *formalLocallyFinite_ofScheme* — for schemes this agrees with Mathlib's scheme predicate.
+- *formalLocallyFinite_empty* — every empty-source morphism is locally of finite type.
+- *FormalScheme.Hom.finiteType_restricted* (computation) — `Spf ℤ_[p]⟨T₁,…,T_r⟩ ⟶ Spf ℤ_[p]` is of
   finite type, and so is `Spf (ℤ_[p]⟨T⟩ ⧸ 𝔞) ⟶ Spf ℤ_[p]` for every ideal `𝔞`.
-- `FormalScheme.Hom.not_finiteType_powerSeries` (non-example) — `Spf ℤ_[p]⟦T⟧ ⟶ Spf ℤ_[p]` is not
+- *FormalScheme.Hom.not_finiteType_powerSeries* (non-example) — `Spf ℤ_[p]⟦T⟧ ⟶ Spf ℤ_[p]` is not
   of finite type, although its reduction `Spec F_p → Spec F_p` modulo the ideals of definition
   `(p,T)` and `(p)` is of finite type: the adicness condition is essential.
-- `FormalScheme.Hom.finiteType_ofScheme` (compatibility) — for a morphism `g` of locally
+- *FormalScheme.Hom.finiteType_ofScheme* (compatibility) — for a morphism `g` of locally
   noetherian schemes, `(FormalScheme.ofScheme.map g).FiniteType ↔ LocallyOfFiniteType g ∧
   QuasiCompact g`.
-- `FormalScheme.Hom.finiteType_id` (degenerate) — the identity of a locally noetherian formal
+- *FormalScheme.Hom.finiteType_id* (degenerate) — the identity of a locally noetherian formal
   scheme is of finite type.
-
-The predicates `Hom.LocallyOfFiniteType` and `Hom.FiniteType` use an adic
-reduction at level zero; the latter also requires `QuasiCompact`.
-`finiteType_iff_reductionWith` tests any target ideal and any level, while
-`finiteType_iff_all_reductions` uses the chosen largest target ideal.
-`finiteType_comp`, `finiteType_baseChange` and `finiteType_isNoetherian` give
-composition, base change and noetherianity over a noetherian target (EGA I
-10.13.1–6, pp. 207–209).
-
-**Checks for finite type.**
-
-- `formalFinite_identity` — an identity is finite type.
-- `formalFinite_ofScheme` — on ordinary schemes the predicate is exactly
-  `LocallyOfFiniteType ∧ QuasiCompact`.
-- `formalMorphisms_empty` — the empty-source map is finite type.
-- `formalMorphisms_powerSeries` — the non-adic `T`-adic formal disc over a discrete field fails finite type.
+- *formalFinite_empty* — the empty-source map is finite type.
+- *formalFinite_powerSeries* — the non-adic `T`-adic formal disc over a discrete field fails finite type.
 
 **Properness, finiteness and closed immersions are insensitive to thickenings.**
 (*thickening-invariance*) Let `Y ⊆ Y′` be a closed immersion of schemes that is a homeomorphism
@@ -2296,8 +2085,13 @@ the reduction `f_0 : (X, O_X/𝒥) → (Y, O_Y/𝒦)` is a proper morphism of sc
 3.4.1, p. 119), and then every `f_n : X_n → Y_n` is proper. A closed subset `Z` of `X` is proper
 over `Y` if, viewed in `X_0`, it is proper over `Y_0` (the reduced closed subscheme on `Z` is
 proper over `Y_0`). For a proper morphism `g : X → Y` of locally noetherian schemes, a closed
-subset `Y′ ⊆ Y` and `X′ = g⁻¹(Y′)`, the completion `ĝ : X̂_{/X′} → Ŷ_{/Y′}` is proper (EGA III₁
-Ch. III, 3.4.1, p. 119). Define `FormalScheme.Hom.IsProper` (the class: `f.FiniteType` and the
+subset `Y′ ⊆ Y` and a closed subset `X′ ⊆ X` that is open in `g⁻¹(Y′)` (for instance
+`X′ = g⁻¹(Y′)`), the extension `ĝ : X̂_{/X′} → Ŷ_{/Y′}` of `g` to the completions is proper
+(EGA III₁ Ch. III, 3.4.1, p. 119, with EGA I Ch. I, 10.9.9 and 10.13.1 a)).
+The openness is what makes `ĝ` adic: 3.4.1 words the remark for every closed `X′` with
+`g(X′) ⊆ Y′`, but a proper morphism of formal schemes is of finite type, hence adic
+(EGA I Ch. I, 10.13.1 a), 10.13.3), and for `X′` not open in `g⁻¹(Y′)` the extension is not
+adic (the Check below). Define `FormalScheme.Hom.IsProper` (the class: `f.FiniteType` and the
 reduction `f_0` is `IsProper`) and `FormalScheme.IsProperSupport` (a closed subset `Z ⊆ X` is
 proper over `Y` if the reduced closed subscheme of `X_0` on `Z` is proper over `Y_0`; for
 `X = X̂_{/X′}` and `Z` closed in `X′` this agrees with properness of `Z ⊆ X` over `Y`); prove
@@ -2306,7 +2100,8 @@ proper over `Y` if the reduced closed subscheme of `X_0` on `Z` is proper over `
 (proper morphisms are stable under composition), `FormalScheme.Hom.IsProper.baseChange` (proper
 morphisms are stable under base change along morphisms of locally noetherian formal schemes;
 the product is locally noetherian by finite type), `FormalScheme.Hom.IsProper.completion` (for
-`g` proper between locally noetherian schemes and `X′ = g⁻¹(Y′)`, `ĝ` is proper) and
+`g` proper between locally noetherian schemes, closed `Y′ ⊆ Y` and closed `X′ ⊆ X` open in
+`g⁻¹(Y′)`, `ĝ : X̂_{/X′} → Ŷ_{/Y′}` is proper) and
 `FormalScheme.Hom.IsProper.isClosedMap` (a proper morphism is a closed map on underlying
 spaces). The `p`-adic completion of `P¹_{ℤ_p}` (or of any proper `ℤ_p`-scheme) is proper over
 `Spf ℤ_p`; `Spf ℤ_p⟨T⟩` is not proper over `Spf ℤ_p` since `A¹_{F_p}` is not proper over `F_p`. A
@@ -2319,35 +2114,30 @@ formal scheme `X` proper over `Spf A` need not be the completion of a scheme pro
 
 **Checks.**
 
-- `FormalScheme.Hom.isProper_completion_projectiveLine` (computation) — the completion of
+- *FormalScheme.Hom.isProper_completion_projectiveLine* (computation) — the completion of
   `P¹_{ℤ_[p]}` along its special fibre is proper over `Spf ℤ_[p]`.
-- `FormalScheme.Hom.not_isProper_restricted` (non-example) — `Spf ℤ_[p]⟨T⟩ ⟶ Spf ℤ_[p]` is of
+- *FormalScheme.Hom.not_isProper_restricted* (non-example) — `Spf ℤ_[p]⟨T⟩ ⟶ Spf ℤ_[p]` is of
   finite type but not proper. A definition asking only that the underlying continuous map be
   closed would accept it (the underlying space `A¹_{F_p} → point` is closed) since universal
   closedness is what fails.
-- `FormalScheme.Hom.isProper_ofScheme` (compatibility) — for `g` a morphism of locally noetherian
+- *FormalScheme.Hom.isProper_ofScheme* (compatibility) — for `g` a morphism of locally noetherian
   schemes, `(FormalScheme.ofScheme.map g).IsProper ↔ AlgebraicGeometry.IsProper g` (Mathlib
   `IsProper` already implies `QuasiCompact`, via `UniversallyClosed`).
-- `FormalScheme.Hom.isProper_id` (degenerate) — the identity of a locally noetherian formal scheme
+- *FormalScheme.Hom.isProper_id* (degenerate) — the identity of a locally noetherian formal scheme
   is proper.
-
-`Hom.IsProper` asks for an adic reduction which is proper as a scheme morphism;
-`isProper_finiteType` recovers finite type. `isProper_iff_reductionWith` makes the
-choice of ideal and level immaterial. `isProper_comp`, `isProper_baseChange` and
-`isProper_isClosedMap` give the stability and topological consequences.
-`IsProperSupport f Z` uses the reduced induced closed subscheme on `Z` in the
-source reduction and its actual map to the target reduction (EGA III₁ 3.4.1,
-p. 119); it does not test only whether the underlying map is closed.
-
-**Checks for properness and proper support.**
-
-- `formalProper_identity` — an identity is proper.
-- `formalProper_ofScheme` — for ordinary schemes this is Mathlib's `IsProper`.
-- `formalMorphisms_empty` — the empty-source map is proper.
-- `formalMorphisms_powerSeries` — a closed map of one-point spaces can fail formal properness.
-- `properSupport_empty` — the empty closed support is proper over any target.
-- `properSupport_identity` — every closed subset is proper over the same formal scheme.
-- `properSupport_proper` — every closed subset of a proper source has proper support.
+- (completion, preimage) — for `g` the structure map `P¹_{ℤ_p} → Spec ℤ_p`, `Y′ = V(p)` and
+  `X′ = g⁻¹(Y′) = P¹_{𝔽_p}`, `ĝ` is the `p`-adic completion of `P¹_{ℤ_p}` over `Spf ℤ_p`, which is
+  proper.
+- (completion, non-example) — for `g` the identity of `P¹_{ℤ_p}`, `Y′ = P¹_{𝔽_p}` and `X′` the
+  closed point `p = t = 0`, `g(X′) ⊆ Y′` but `X′` is not open in `g⁻¹(Y′) = P¹_{𝔽_p}`; near `X′`,
+  `ĝ` is `Spf ℤ_p⟦t⟧ → Spf ℤ_p⟨t⟩` with the `(p, t)`-adic topology on the source, and `pℤ_p⟦t⟧` is
+  not open, so `ĝ` is not adic, not of finite type and not proper.
+- *formalProper_empty* — the empty-source map is proper.
+- *formalProper_powerSeries* — `Spf k⟦T⟧ → Spec k` (discrete field, `T`-adic source) is a closed
+  map of one-point spaces but is not proper, since it is not adic.
+- *properSupport_empty* — the empty closed support is proper over any target.
+- *properSupport_identity* — every closed subset is proper over the same formal scheme.
+- *properSupport_proper* — every closed subset of a proper source has proper support.
 
 **Closed formal subschemes and closed immersions.** (*closed-formal-subscheme*) Let `X` be a
 locally noetherian formal scheme and `𝒜 ⊆ O_X` a coherent ideal (*coherent-formal-module*). Its
@@ -2375,50 +2165,16 @@ immersions are stable under composition and base change),
 `FormalScheme.completion_subscheme` (for a closed subscheme `Z = V(𝓐)` of a locally noetherian
 scheme `X` and closed `X′`, `Ẑ_{/Z∩X′} ≅ X̂.subscheme 𝓐̂` over `X̂`).
 `Spf ℤ_p⟦T⟧.subscheme (T − p)^Δ ≅ Spf ℤ_p` (a section of `Spf ℤ_p⟦T⟧ → Spf ℤ_p`); an ideal of
-definition `𝒥` is coherent and `X.subscheme 𝒥 = X_0` is a scheme. *Needs:*
-*coherent-formal-module*; *coherent-as-inverse-system*; *colimit-of-thickenings*;
-*affine-coherent-equivalence*; *formal-morphism-finite-type*; AdicSpacesPartII R0.1a *adic-ring*; *completion-exact*;
-*formal-completion*.
-
-**Checks.**
-
-- `FormalScheme.subscheme_Spf_quotient_example` (computation) — for `IsAdicRing A`, `A`
-  noetherian, and an ideal `𝔞`: `(Spf A).subscheme (𝔞^Δ) ≅ Spf (A ⧸ 𝔞)`, and `j` corresponds to
-  `Ideal.Quotient.mk 𝔞`.
-- `FormalScheme.subscheme_zero` (degenerate) — `X.subscheme 0 = X` with `j` the identity;
-  `X.subscheme ⊤` is empty.
-- `FormalScheme.subscheme_idealOfDefinition` (compatibility) — for an ideal of definition `𝒥`,
-  `X.subscheme 𝒥 ≅ FormalScheme.ofScheme (X.thickening 𝒥 0)`.
-- `FormalScheme.IsClosedImmersion.not_of_homeomorph` (non-example) —
-  `Spf ℤ_[p]⟦T⟧ ⟶ Spf ℤ_[p]` is a homeomorphism of underlying spaces (both are points) but not a
-  closed immersion: `ℤ_[p] → ℤ_[p]⟦T⟧` is not surjective. A definition by the underlying
-  topological map alone (closed embedding) accepts it; while `Spec F_p ⟶ Spf ℤ_[p]` is a closed
-  immersion that is a homeomorphism but not an isomorphism.
-
-**An adic morphism is a closed immersion iff its reduction is.**
-(*formal-closed-immersion-criterion*) Let `f : X → Y` be an adic morphism of locally noetherian
-formal schemes, `𝒦` an ideal of definition of `Y` and `𝒥 = f^*(𝒦)O_X`. Prove that `f` is a closed
-immersion if and only if `f_0 : (X, O_X/𝒥) → (Y, O_Y/𝒦)` is a closed immersion of schemes
-(EGA III₁ Ch. III, 4.8.10 Corollaire, p. 148). `Spf ℤ_p⟦T⟧ → Spf ℤ_p⟦S, T⟧` (`S ↦ 0`) is adic
-with reduction `Spec F_p → Spec F_p` an isomorphism, and it is a closed immersion. Without
-adicness the criterion fails: `Spf ℤ_p⟦T⟧ → Spf ℤ_p` has reduction (modulo `(p,T)` and `(p)`) an
-isomorphism `Spec F_p → Spec F_p` but is not a closed immersion. *Needs:*
-*adic-morphism-of-formal-schemes*; *finite-module-inverse-limit*; *closed-formal-subscheme*;
-AdicSpacesPartII R0.1a *adic-ring*; *colimit-of-thickenings*; *affine-nilpotent-thickening*; Mathlib
-`Submodule.eq_bot_of_le_smul_of_le_jacobson_bot`, `AlgebraicGeometry.IsClosedImmersion`.
-
+definition `𝒥` is coherent and `X.subscheme 𝒥 = X_0` is a scheme.
 `IdealSheafData.IsCoherent` is the supplied finite-presentation condition on the
 actual ideal submodule. `IdealSheafData.support` is the closed set on which every
 local ideal section vanishes in the residue field. `subscheme` and `subschemeι`
 are pinned by `subschemeι_spec`: a closed embedding onto that support, the
 specified kernel ideal, and surjectivity on every stalk.
 `Hom.IsClosedImmersion` requires an isomorphism over the target with such a
-quotient. `isClosedImmersion_ker`, `isClosedImmersion_finiteType`,
-`isClosedImmersion_comp` and `isClosedImmersion_baseChange` give the kernel,
-finiteness and stability interfaces (EGA I 10.14.1–5, pp. 209–211).
-`isClosedImmersion_iff_reductionWith` tests every ideal of definition and every
-power level under the adicness hypothesis (EGA III₁ 4.8.10, p. 148).
-
+quotient. `FormalScheme.Hom.IsClosedImmersion.ker`,
+`FormalScheme.Hom.IsClosedImmersion.finiteType` and `FormalScheme.Hom.IsClosedImmersion.comp`
+give the kernel, finiteness and stability interfaces (EGA I 10.14.1–5, pp. 209–211).
 For an adic noetherian ring, `Spf.completedTilde.ideal A a` is the kernel of
 `Spf(A/a) → Spf A` for every ideal `a`, including ideals that are not ideals of
 definition. `Spf.completedTilde.ideal_isCoherent` gives coherence, and
@@ -2428,24 +2184,48 @@ definition. `Spf.completedTilde.ideal_isCoherent` gives coherence, and
 pp. 209–210). `Spf.completedTilde.ideal_map` identifies extension along a
 continuous `φ : B → A` with the ideal associated to `b.map φ`; extension means
 the image of the pulled-back ideal in the structure sheaf (EGA I 10.10.9, p. 203).
+*Needs:*
+*coherent-formal-module*; *coherent-as-inverse-system*; *colimit-of-thickenings*;
+*affine-coherent-equivalence*; *formal-morphism-finite-type*; Tau Ceti `TauCeti.IsAdicRing`; *completion-exact*;
+*formal-completion*.
 
-**Checks for the associated affine ideal.**
+**Checks.**
 
-- `Spf.completedTilde.ideal_zero` — the zero ideal gives the zero ideal sheaf.
-- `Spf.completedTilde.ideal_unit` — the unit ideal gives the unit ideal sheaf.
-- `Spf.completedTilde.ideal_definition` — an ideal of definition gives exactly `Spf.idealSheaf`, the kernel of the ordinary discrete quotient.
+- *FormalScheme.subscheme_Spf_quotient_example* (computation) — for `IsAdicRing A`, `A`
+  noetherian, and an ideal `𝔞`: `(Spf A).subscheme (𝔞^Δ) ≅ Spf (A ⧸ 𝔞)`, and `j` corresponds to
+  `Ideal.Quotient.mk 𝔞`.
+- *FormalScheme.subscheme_zero* (degenerate) — `X.subscheme 0 = X` with `j` the identity;
+  `X.subscheme ⊤` is empty.
+- *FormalScheme.subscheme_idealOfDefinition* (compatibility) — for an ideal of definition `𝒥`,
+  `X.subscheme 𝒥 ≅ FormalScheme.ofScheme (X.thickening 𝒥 0)`.
+- *FormalScheme.IsClosedImmersion.not_of_homeomorph* (non-example) —
+  `Spf ℤ_[p]⟦T⟧ ⟶ Spf ℤ_[p]` is a homeomorphism of underlying spaces (both are points) but not a
+  closed immersion: `ℤ_[p] → ℤ_[p]⟦T⟧` is not surjective. A definition by the underlying
+  topological map alone (closed embedding) accepts it; while `Spec F_p ⟶ Spf ℤ_[p]` is a closed
+  immersion that is a homeomorphism but not an isomorphism.
+- *Spf.completedTilde.ideal_zero* — the zero ideal gives the zero ideal sheaf.
+- *Spf.completedTilde.ideal_unit* — the unit ideal gives the unit ideal sheaf.
+- *Spf.completedTilde.ideal_definition* — an ideal of definition gives exactly `Spf.idealSheaf`, the kernel of the ordinary discrete quotient.
+- *coherentIdeal_zero* — the zero ideal is coherent.
+- *coherentIdeal_unit* — the unit ideal is coherent.
+- *coherentIdeal_definition* — every ideal of definition on a locally noetherian formal scheme is coherent.
+- *formalClosed_identity* — an identity is a closed immersion.
+- *formalClosed_empty* — the empty-source map is a closed immersion.
+- *formalClosed_ofScheme* — on ordinary schemes this is the supplied `AlgebraicGeometry.IsClosedImmersion`.
 
-**Checks for coherent ideals and closed formal subschemes.**
-
-- `coherentIdeal_zero` — the zero ideal is coherent.
-- `coherentIdeal_unit` — the unit ideal is coherent.
-- `coherentIdeal_definition` — every ideal of definition on a locally noetherian formal scheme is coherent.
-- `formalSubscheme_zero` — quotient by zero has identity inclusion and full support.
-- `formalSubscheme_unit` — quotient by the unit ideal is empty, with empty support.
-- `formalSubscheme_definition` — quotient by an ideal of definition agrees with the ordinary quotient scheme and has full underlying support.
-- `formalClosed_identity` — an identity is a closed immersion.
-- `formalClosed_empty` — the empty-source map is a closed immersion.
-- `formalClosed_ofScheme` — on ordinary schemes this is the supplied `AlgebraicGeometry.IsClosedImmersion`.
+**An adic morphism is a closed immersion iff its reduction is.**
+(*formal-closed-immersion-criterion*) Let `f : X → Y` be an adic morphism of locally noetherian
+formal schemes, `𝒦` an ideal of definition of `Y` and `𝒥 = f^*(𝒦)O_X`. Prove that `f` is a closed
+immersion if and only if `f_0 : (X, O_X/𝒥) → (Y, O_Y/𝒦)` is a closed immersion of schemes
+(EGA III₁ Ch. III, 4.8.10 Corollaire, p. 148). `Spf ℤ_p⟦T⟧ → Spf ℤ_p⟦S, T⟧` (`S ↦ 0`) is adic
+with reduction `Spec F_p → Spec F_p` an isomorphism, and it is a closed immersion. Without
+adicness the criterion fails: `Spf ℤ_p⟦T⟧ → Spf ℤ_p` has reduction (modulo `(p,T)` and `(p)`) an
+isomorphism `Spec F_p → Spec F_p` but is not a closed immersion.
+`FormalScheme.Hom.isClosedImmersion_iff_reduction` states the criterion for every ideal of
+definition and every power level (EGA III₁ 4.8.10, p. 148). *Needs:*
+*adic-morphism-of-formal-schemes*; *finite-module-inverse-limit*; *closed-formal-subscheme*;
+Tau Ceti `TauCeti.IsAdicRing`; *colimit-of-thickenings*; *affine-nilpotent-thickening*; Mathlib
+`Submodule.eq_bot_of_le_smul_of_le_jacobson_bot`, `AlgebraicGeometry.IsClosedImmersion`.
 
 ### F0.5 completion along a closed subset
 
@@ -2483,7 +2263,21 @@ quasi-compact, for `X` locally noetherian), `FormalScheme.completion.reduction`
 completion of `A²_k = Spec k[x,y]` along the `x`-axis `V(y)` is `Spf k[x]⟦y⟧`; the completion of
 `P¹_{ℤ_p}` along its special fibre `V(p)` is the non-affine noetherian formal scheme obtained by
 gluing (*formal-scheme-gluing*); for `X′ = X` the completion is `X` itself (`𝓘 = 0`), and for
-`X′ = ∅` it is empty. *Needs:* *colimit-of-thickenings*; AdicSpacesPartII R0.1b *adic-completion-noetherian*;
+`X′ = ∅` it is empty.
+`schemeThickeningSystem X I` has level `(I^(n+1)).subscheme` and the supplied
+power-ideal inclusions. `completion X Z` is its formal colimit for `I = Scheme.IdealSheafData.vanishingIdeal Z`.
+`completion.schemeCocone` consists of the actual closed inclusions into `X`;
+`completion.toScheme` is the induced colimit map and `toScheme_ι` fixes it on
+every level. `completion.homeomorph_toScheme` identifies its underlying map with
+the inclusion of `Z`. The comparisons `completion.ofIdeal` and `ofIdeal_ι` retain
+all inclusions for any ideal with support `Z`. `FormalScheme.completion.reduction` identifies the reduction over `X`, and
+`completion.isNoetherian_iff` tests quasi-compactness of `Z` (EGA I 10.8.4–7,
+pp. 194–196).
+`completion.specIso` identifies completion of `Spec A` along `V(I)` with
+`ofSpf (AdicCompletion I A)` for every ideal of a noetherian ring. The completed
+ring carries the topology of `I·Â`. Its coefficient square identifies the map
+from `A` on both sides (EGA I 10.8.5–7, pp. 195–196).
+*Needs:* *colimit-of-thickenings*; Tau Ceti `TauCeti.Ideal.isNoetherianRing_of_isAdicComplete`;
 *formal-spectrum*; *spf-ideal-independence*; *locally-noetherian-formal-scheme*;
 *ideal-of-definition*; Mathlib `AlgebraicGeometry.IsLocallyNoetherian`,
 `AlgebraicGeometry.Scheme.IdealSheafData`, `AlgebraicGeometry.Scheme.IdealSheafData.subscheme`,
@@ -2491,42 +2285,21 @@ gluing (*formal-scheme-gluing*); for `X′ = X` the completion is `X` itself (`�
 
 **Checks.**
 
-- `FormalScheme.completion_Spec_padic` (computation) —
+- *FormalScheme.completion_Spec_padic* (computation) —
   `FormalScheme.completion (Spec ℤ) (zeroLocus {p}) ≅ Spf ℤ_[p]`.
-- `FormalScheme.completion_affine` (characterisation) — for a noetherian ring `A` and an ideal
+- *FormalScheme.completion_affine* (characterisation) — for a noetherian ring `A` and an ideal
   `I`, `FormalScheme.completion (Spec A) (zeroLocus I) ≅ Spf (AdicCompletion I A)` with the
   `I`-adic topology.
-- `FormalScheme.completion_self` (degenerate) — for `X′ = X` (closed subset `univ`),
+- *FormalScheme.completion_self* (degenerate) — for `X′ = X` (closed subset `univ`),
   `FormalScheme.completion X univ ≅ FormalScheme.ofScheme X`; for `X′ = ∅` it is empty.
-- `FormalScheme.completion_not_scheme` (non-example) — the completion of `Spec ℤ` along `V(p)` is
+- *FormalScheme.completion_not_scheme* (non-example) — the completion of `Spec ℤ` along `V(p)` is
   not a scheme viewed as a formal scheme: it is `Spf ℤ_[p]`, a one-point space with global
   sections `ℤ_[p]`, while `Spec ℤ_[p]` has two points. A construction taking only the closed
   subscheme `V(𝓘)` (or the colimit in schemes) loses this.
-- `FormalScheme.completion_ideal_independent` (compatibility) — the completions of `Spec k[x,y]`
+- *FormalScheme.completion_ideal_independent* (compatibility) — the completions of `Spec k[x,y]`
   built from the ideals `(y)` and `(y², xy)` (both with zero locus the `x`-axis) are canonically
   isomorphic, compatibly with the canonical maps to `Spec k[x,y]`.
-
-`schemeThickeningSystem X I` has level `(I^(n+1)).subscheme` and the supplied
-power-ideal inclusions. `completion X Z` is its formal colimit for `I = Scheme.IdealSheafData.vanishingIdeal Z`.
-`completion.schemeCocone` consists of the actual closed inclusions into `X`;
-`completion.toScheme` is the induced colimit map and `toScheme_ι` fixes it on
-every level. `completion.homeomorph_toScheme` identifies its underlying map with
-the inclusion of `Z`. The comparisons `completion.ofIdeal` and `ofIdeal_ι` retain
-all inclusions for any ideal with support `Z`. `completion.reductionIso` and
-`reductionIso_toScheme` identify the reduction over `X`, and
-`completion.isNoetherian_iff` tests quasi-compactness of `Z` (EGA I 10.8.4–7,
-pp. 194–196).
-
-`completion.specIso` identifies completion of `Spec A` along `V(I)` with
-`ofSpf (AdicCompletion I A)` for every ideal of a noetherian ring. The completed
-ring carries the topology of `I·Â`. Its coefficient square identifies the map
-from `A` on both sides (EGA I 10.8.5–7, pp. 195–196).
-
-**Checks for global completion.**
-
-- `completion_self` — completion along the full space has an isomorphic canonical map to `X`, including when `X` is nonreduced.
-- `completion_empty` — completion along the empty set is empty.
-- `completion_reduced_closed` — its reduction is the supplied reduced induced closed subscheme, with the same closed support.
+- *completion_reduced_closed* — its reduction is the supplied reduced induced closed subscheme, with the same closed support.
 
 **Extension of a morphism to formal completions.** (*completion-of-morphism*) Let `f : X → Y` be
 a morphism of locally noetherian schemes and `X′ ⊆ X`, `Y′ ⊆ Y` closed with `f(X′) ⊆ Y′`. There
@@ -2552,50 +2325,39 @@ moreover `f` is of finite type (resp. proper) so is `completion.map f`) and
 `X ×_S Y` is locally noetherian). For the inclusion `f : A¹_{ℤ_p} → P¹_{ℤ_p}` and `X′`, `Y′` the
 special fibres, `f̂ : Spf ℤ_p⟨x⟩ → P̂¹` is the open immersion of the first chart; for
 `f = Spec(ℤ → ℤ[x])` and `Y′ = V(p)`, `X′ = V(p)`: `f̂ : Spf ℤ_p⟨x⟩ → Spf ℤ_p`, while with
-`X′ = V(p, x)` instead, `f̂ : Spf ℤ_p⟦x⟧ → Spf ℤ_p`, which is not adic. *Needs:*
-*formal-completion*; *morphisms-as-compatible-systems*; *completed-tensor-product-adic*;
-*formal-fibre-product*; Mathlib `AdicCompletion.map`, `IsAdicComplete.liftRingHom`.
-
-**Checks.**
-
-- `FormalScheme.completion.map_id_example` (degenerate) —
-  `completion.map (𝟙 X) = 𝟙 (completion X X′)`.
-- `FormalScheme.completion.map_comp_example` (characterisation) —
-  `completion.map (f ≫ g) = completion.map f ≫ completion.map g` whenever `f(X′) ⊆ Y′` and
-  `g(Y′) ⊆ Z′`.
-- `FormalScheme.completion.map_Spec` (computation) — for `φ : B →+* A` noetherian with
-  `φ(K) ⊆ I`, `completion.map (Spec.map φ)` corresponds under `specIso` to `Spf.map` of the
-  `AdicCompletion.map`-induced ring homomorphism `B̂ → Â`.
-- `FormalScheme.completion.map_toScheme_example` (compatibility) —
-  `completion.map f ≫ i_Y = i_X ≫ f`.
-- `FormalScheme.completion.map_not_adic` (non-example) — for `Spec ℤ[x] → Spec ℤ` with
-  `X′ = V(p, x)`, `Y′ = V(p)`, `completion.map` is `Spf ℤ_[p]⟦x⟧ → Spf ℤ_[p]`, which is not adic;
-  adicness needs `X′ = f⁻¹(Y′)`.
-
+`X′ = V(p, x)` instead, `f̂ : Spf ℤ_p⟦x⟧ → Spf ℤ_p`, which is not adic.
 `completion.map`, `map_toScheme`, `map_unique`, `map_id` and `map_comp` use the
 canonical maps to the original schemes. `pullbackIso_fst` and `pullbackIso_snd`
 pin both projections of `completion.pullbackIso`; the inverse-image choice of
-closed set is essential. `map_isAdic`, `map_finiteType` and `map_isProper` use that
-choice and the corresponding scheme hypotheses (EGA I 10.9.1–9, pp. 198–200;
+closed set is essential. `FormalScheme.completion.map_isAdic` uses that choice and the
+corresponding scheme hypotheses (EGA I 10.9.1–9, pp. 198–200;
 10.13.6, p. 209; EGA III₁ 3.4.1, p. 119).
-
 `completion.prodIso` assumes that `X`, `Y`, `S`, and the scheme fibre product
 are locally noetherian. For a closed subset `W` of `S`, it identifies completion
 along the intersection of the two inverse-image loci with the formal fibre
 product of the completions. Both projections are the completions of the
 original scheme projections (EGA I 10.9.7, p. 200).
+*Needs:*
+*formal-completion*; *morphisms-as-compatible-systems*; *completed-tensor-product-adic*;
+*formal-fibre-product*; Mathlib `AdicCompletion.map`, `IsAdicComplete.liftRingHom`.
 
-**Checks for completed morphisms.**
+**Checks.**
 
-- `completion_map_identity` — completing an identity gives the identity.
-- `completion_map_empty` — two maps agree after completion along the empty source set.
-- `completion_map_self` — completion along the full source and target spaces recovers the original map under the canonical isomorphisms.
-
-`completion.map_eq_iff_neighbourhood` states *completion-morphism-germ* with
-explicit structure maps to `S`, both equations saying the maps are over `S`,
-finite type of the target over `S`, and both closed-set preservation conditions.
-Agreement on a neighbourhood is equality after composing with its actual open
-inclusion (EGA I 10.9.4, p. 199).
+- *FormalScheme.completion.map_id_example* (degenerate) —
+  `completion.map (𝟙 X) = 𝟙 (completion X X′)`.
+- *FormalScheme.completion.map_comp_example* (characterisation) —
+  `completion.map (f ≫ g) = completion.map f ≫ completion.map g` whenever `f(X′) ⊆ Y′` and
+  `g(Y′) ⊆ Z′`.
+- *FormalScheme.completion.map_Spec* (computation) — for `φ : B →+* A` noetherian with
+  `φ(K) ⊆ I`, `completion.map (Spec.map φ)` corresponds under `specIso` to `Spf.map` of the
+  `AdicCompletion.map`-induced ring homomorphism `B̂ → Â`.
+- *FormalScheme.completion.map_toScheme_example* (compatibility) —
+  `completion.map f ≫ i_Y = i_X ≫ f`.
+- *FormalScheme.completion.map_not_adic* (non-example) — for `Spec ℤ[x] → Spec ℤ` with
+  `X′ = V(p, x)`, `Y′ = V(p)`, `completion.map` is `Spf ℤ_[p]⟦x⟧ → Spf ℤ_[p]`, which is not adic;
+  adicness needs `X′ = f⁻¹(Y′)`.
+- *completion_map_empty* — two maps agree after completion along the empty source set.
+- *completion_map_self* — completion along the full source and target spaces recovers the original map under the canonical isomorphisms.
 
 **Morphisms with equal completions agree near the closed subset.**
 (*completion-morphism-germ*) Let `S` be a scheme, `X` and `Y` locally noetherian `S`-schemes
@@ -2605,7 +2367,13 @@ the converse holds for any `Y`), `X′ ⊆ X` and `Y′ ⊆ Y` closed, and
 morphisms `X̂_{/X′} → Ŷ_{/Y′}` if and only if `f` and `g` coincide on an open neighbourhood of `X′`
 (EGA I Ch. I, 10.9.4 Proposition, p. 199). Two sections of `A¹_{ℤ_p} → Spec ℤ_p` given by
 `x ↦ a`, `x ↦ b` with `a ≡ b mod p^n` for all `n` are equal (`ℤ_p` is separated): with
-`X = Spec ℤ_p`, `X′ = V(p)` the completion determines them. *Needs:* *completion-of-morphism*;
+`X = Spec ℤ_p`, `X′ = V(p)` the completion determines them.
+`completion.map_eq_iff_neighbourhood` states *completion-morphism-germ* with
+explicit structure maps to `S`, both equations saying the maps are over `S`,
+finite type of the target over `S`, and both closed-set preservation conditions.
+Agreement on a neighbourhood is equality after composing with its actual open
+inclusion (EGA I 10.9.4, p. 199).
+*Needs:* *completion-of-morphism*;
 *formal-completion*; *completion-detects-near-closed*.
 
 **Completion of a coherent sheaf along a closed subset.** (*completion-of-coherent-sheaf*) Let
@@ -2639,24 +2407,7 @@ modules), `FormalScheme.completeModule.pullbackCompletionIso`
 (`F̂ ⊗ O_{X̂_n} ≅ F/𝓘^(n+1)F`, i.e. `(F̂)_n = F_n`). For `X = Spec ℤ`, `X′ = V(p)`,
 `F = (ℤ/p²)~ ⊕ ℤ~`: `F̂` corresponds to the `ℤ_p`-module `ℤ/p² ⊕ ℤ_p`; for `F = (ℤ[1/p])~`,
 which is quasi-coherent but not coherent, the limit is `0`, which is why coherence is
-required; for `X′ = X`, `F̂ = F`. *Needs:* *formal-completion*; *coherent-formal-module*;
-*completion-of-morphism*; *internal-hom-sheaf-of-modules*; Mathlib `AdicCompletion`,
-`AdicCompletion.map_exact`, `AdicCompletion.ofTensorProductEquivOfFiniteNoetherian`,
-`AlgebraicGeometry.Scheme.Modules`, `SheafOfModules.IsFinitePresentation`.
-
-**Checks.**
-
-- `FormalScheme.completeModule_structureSheaf` (degenerate) — `(O_X)^ ≅ O_X̂` as `O_X̂`-modules.
-- `FormalScheme.completeModule_Spec` (computation) — for `X = Spec A`, `X′ = zeroLocus I` and `M`
-  a finite `A`-module, `Γ(X̂, (tilde M)^) ≅ AdicCompletion I M` as `Â`-modules.
-- `FormalScheme.completeModule_self` (compatibility) — for `X′ = X`, `F̂ ≅ F` under
-  `completion X univ ≅ ofScheme X`.
-- `FormalScheme.completeModule_supportDisjoint` (characterisation) — if `Supp F ∩ X′ = ∅` then
-  `F̂ = 0`; more precisely `Supp F̂ = Supp F ∩ X′` (EGA I Ch. I, 10.8.12).
-- `FormalScheme.completeModule_torsion` (non-example) — for `X = Spec ℤ`, `X′ = V(p)` and
-  `F = (ℤ/ℓ)~` with `ℓ ≠ p` prime, `F ≠ 0` but `F̂ = 0`: completion is not faithful on coherent
-  sheaves; it only detects `F` near `X′`.
-
+required; for `X′ = X`, `F̂ = F`.
 `completeModule.sectionsIso` is an isomorphism of `Γ(U, O_X)`-modules for
 quasi-compact `U`. Its quotient diagram is tied to `I^(n+1)` by the actual
 pullback–pushforward adjunction units, for any ideal sheaf `I` with support `Z`.
@@ -2668,6 +2419,23 @@ identification with `M ⊗[A] Â` (EGA I 10.8.4–8, pp. 194–196; EGA 0 7.3.3,
 p. 67). `completeModule.tensorIso` and `completeModule.homIso` use the supplied
 tensor and internal Hom on actual module sheaves and the same completion
 pullback (EGA I 10.8.10, p. 197).
+*Needs:* *formal-completion*; *coherent-formal-module*;
+*completion-of-morphism*; *internal-hom-sheaf-of-modules*; Mathlib `AdicCompletion`,
+`AdicCompletion.map_exact`, `AdicCompletion.ofTensorProductEquivOfFiniteNoetherian`,
+`AlgebraicGeometry.Scheme.Modules`, `SheafOfModules.IsFinitePresentation`.
+
+**Checks.**
+
+- *FormalScheme.completeModule_structureSheaf* (degenerate) — `(O_X)^ ≅ O_X̂` as `O_X̂`-modules.
+- *FormalScheme.completeModule_Spec* (computation) — for `X = Spec A`, `X′ = zeroLocus I` and `M`
+  a finite `A`-module, `Γ(X̂, (tilde M)^) ≅ AdicCompletion I M` as `Â`-modules.
+- *FormalScheme.completeModule_self* (compatibility) — for `X′ = X`, `F̂ ≅ F` under
+  `completion X univ ≅ ofScheme X`.
+- *FormalScheme.completeModule_supportDisjoint* (characterisation) — if `Supp F ∩ X′ = ∅` then
+  `F̂ = 0`; more precisely `Supp F̂ = Supp F ∩ X′` (EGA I Ch. I, 10.8.12).
+- *FormalScheme.completeModule_torsion* (non-example) — for `X = Spec ℤ`, `X′ = V(p)` and
+  `F = (ℤ/ℓ)~` with `ℓ ≠ p` prime, `F ≠ 0` but `F̂ = 0`: completion is not faithful on coherent
+  sheaves; it only detects `F` near `X′`.
 
 **Completion of coherent sheaves is exact, agrees with pullback along `X̂ → X`, and commutes with
 `⊗`, `Hom` and base change.** (*completion-exact*) Let `X` be a locally noetherian scheme,
@@ -2687,12 +2455,7 @@ and `completeModule.pullbackCompletionIso` already stated in *completion-of-cohe
 (EGA I Ch. I, 10.8.10, p. 197; 10.9.5, p. 199).
 For `X = Spec ℤ` and `X′ = V(p)`
 the exact sequence `0 → ℤ → ℤ → ℤ/p → 0` (multiplication by `p`) completes to
-`0 → ℤ_p → ℤ_p → F_p → 0`. *Needs:* *formal-completion*; *completion-of-coherent-sheaf*;
-*completion-of-morphism*; *internal-hom-sheaf-of-modules*; Mathlib `AdicCompletion.map_exact`,
-`AdicCompletion.map_injective`, `AdicCompletion.map_surjective`,
-`AdicCompletion.ofTensorProductEquivOfFiniteNoetherian`,
-`AdicCompletion.flat_of_isNoetherian`, `Module.Flat`.
-
+`0 → ℤ_p → ℤ_p → F_p → 0`.
 `completeModule X Z` is `cohPullback (completion.toScheme X Z)` on the actual
 coherent module categories. `completeModule.additive` and `completeModule.exact`
 state additivity and preservation of finite limits and colimits;
@@ -2700,17 +2463,18 @@ state additivity and preservation of finite limits and colimits;
 `completeModule.pullbackCompletionIso` compares the two functors obtained by
 scheme pullback followed by completion and completion followed by formal
 pullback (EGA I 10.8.8–9, pp. 196–197; 10.9.5, p. 199).
+*Needs:* *formal-completion*; *completion-of-coherent-sheaf*;
+*completion-of-morphism*; *internal-hom-sheaf-of-modules*; Mathlib `AdicCompletion.map_exact`,
+`AdicCompletion.map_injective`, `AdicCompletion.map_surjective`,
+`AdicCompletion.ofTensorProductEquivOfFiniteNoetherian`,
+`AdicCompletion.flat_of_isNoetherian`, `Module.Flat`.
 
-**Checks for the coherent completion functor.**
+**Checks.**
 
-
-- `pullbackCompletionIso_structure` — on a nonempty source completion, the comparison component of the structure module is nonzero.
-- `pullbackCompletionIso_zero` — its component at the zero coherent module is the zero morphism.
-- `pullbackCompletionIso_naturality` — its components satisfy Mathlib's natural-transformation square for each coherent-module morphism.
-
-- `completeModule_zero` — the zero coherent module completes to zero.
-- `completeModule_structure` — the structure module completes to the structure module.
-- `completeModule_self` — completion along the full scheme is an equivalence on coherent modules.
+- *pullbackCompletionIso_structure* — on a nonempty source completion, the comparison component of the structure module is nonzero.
+- *pullbackCompletionIso_zero* — its component at the zero coherent module is the zero morphism.
+- *pullbackCompletionIso_naturality* — its components satisfy Mathlib's natural-transformation square for each coherent-module morphism.
+- *completeModule_zero* — the zero coherent module completes to zero.
 
 **What completion sees: sections and maps near the closed subset.**
 (*completion-detects-near-closed*) Let `X` be a locally noetherian scheme, `X′ ⊆ X` closed,
@@ -2738,54 +2502,43 @@ Define `FormalScheme.Coh` as this full subcategory. Its abelian structure and cl
 properties are the target *coherent-formal-module-properties*, using
 *affine-coherent-equivalence* and *coherent-as-inverse-system*. `O_X`, every ideal of definition
 `𝒥`, and `M^Δ` on `Spf A` for finite `M` are coherent; on `Spf ℤ_p`, the `O`-module associated
-with `ℚ_p` (the sheaf with sections `ℚ_p`) is not coherent. *Needs:*
-*locally-noetherian-formal-scheme*; *ideal-of-definition*; Mathlib `SheafOfModules`,
-`SheafOfModules.IsFinitePresentation`, `SheafOfModules.IsQuasicoherent`,
-`AlgebraicGeometry.SheafedSpace.sheaf`; Tau Ceti `TauCeti.SheafOfModules.ringCatSheaf`.
-
-**Checks.**
-
-- `FormalScheme.Coh.structureSheaf` (degenerate) — `O_X` is an object of `Coh X`, and the zero
-  module is coherent.
-- `FormalScheme.Coh.Spf_equiv` (compatibility) — for `X = Spf A` with `A` adic noetherian,
-  `Γ(X, ·) : Coh X ⥤ ModuleCat A` lands in finite modules and is an equivalence onto them
-  (*affine-coherent-equivalence*).
-- `FormalScheme.Coh.not_rationals` (non-example) — on `Spf ℤ_[p]`, the `O`-module with sections
-  `ℚ_[p]` over the point is quasi-coherent in the naive sense (a module over the ring of
-  sections) but not coherent: `ℚ_[p]` is not a finite `ℤ_[p]`-module. A definition of coherence
-  as an arbitrary sheaf of modules over the ring of sections would accept it.
-  The labelled example states the existence of this noncoherent module sheaf
-  with global sections `ℚ_[p]`. In contrast,
-  the completion-based construction applied to `ℚ_[p]` gives zero since `pℚ_[p] = ℚ_[p]`;
-  see the check `coherent_rationals_completion_zero`.
-- `FormalScheme.Coh.ofScheme` (compatibility) — for a locally noetherian scheme `Y` viewed as a
-  formal scheme, `Coh (ofScheme Y)` is equivalent to the coherent (finitely presented)
-  `O_Y`-modules of Mathlib `Scheme.Modules`.
-
+with `ℚ_p` (the sheaf with sections `ℚ_p`) is not coherent.
 The carrier `FormalScheme.Modules` is Mathlib's `SheafOfModules` over the actual ring
 sheaf of the locally ringed space; `Coh` is its finitely presented full subcategory.
 `cohAbelian` asserts the abelian structure under local noetherianity.
 `toRingCatSheafHom` is the given formal morphism's structure map; `modulePullback` and
 `modulePushforward` use Mathlib's sheaf-module functors for that map. `cohPullback` is the
 restriction of this same pullback to coherent modules.
+*Needs:*
+*locally-noetherian-formal-scheme*; *ideal-of-definition*; Mathlib `SheafOfModules`,
+`SheafOfModules.IsFinitePresentation`, `SheafOfModules.IsQuasicoherent`,
+`AlgebraicGeometry.SheafedSpace.sheaf`; Tau Ceti `TauCeti.SheafOfModules.ringCatSheaf`.
 
-**Checks for coherent carriers and the supplied module functors.**
+**Checks.**
 
-
-- `cohPullback_structure` — coherent pullback sends the structure module to the structure module.
-- `cohPullback_zero` — coherent pullback sends zero to zero.
-- `cohPullback_modules` — forgetting coherence gives exactly the supplied sheafified extension of scalars.
-
-- `Coh_structure` — the structure module is coherent on a locally noetherian formal scheme.
-- `Coh_zero` — the zero module is coherent.
-- `Coh_ofScheme` — on an ordinary locally noetherian scheme the coherent carrier is exactly
-  Mathlib's finitely presented module-sheaf full subcategory.
-- `modulePullback_identity` — pullback by the identity is naturally isomorphic to the identity functor.
-- `modulePullback_structure` — pullback of the structure module is the structure module.
-- `modulePullback_zero` — pullback of zero is zero.
-- `modulePushforward_identity` — direct image by the identity is naturally isomorphic to the identity functor.
-- `modulePushforward_zero` — direct image of zero is zero.
-- `modulePushforward_sections` — sections on `U` are the sections on its actual inverse image,
+- *FormalScheme.Coh.structureSheaf* (degenerate) — `O_X` is an object of `Coh X`, and the zero
+  module is coherent.
+- *FormalScheme.Coh.Spf_equiv* (compatibility) — for `X = Spf A` with `A` adic noetherian,
+  `Γ(X, ·) : Coh X ⥤ ModuleCat A` lands in finite modules and is an equivalence onto them
+  (*affine-coherent-equivalence*).
+- *FormalScheme.Coh.not_rationals* (non-example) — on `Spf ℤ_[p]`, the `O`-module with sections
+  `ℚ_[p]` over the point is quasi-coherent in the naive sense (a module over the ring of
+  sections) but not coherent: `ℚ_[p]` is not a finite `ℤ_[p]`-module. A definition of coherence
+  as an arbitrary sheaf of modules over the ring of sections would accept it.
+  In contrast, the completion-based construction applied to `ℚ_[p]` gives zero since
+  `pℚ_[p] = ℚ_[p]`.
+- *FormalScheme.Coh.ofScheme* (compatibility) — for a locally noetherian scheme `Y` viewed as a
+  formal scheme, `Coh (ofScheme Y)` is equivalent to the coherent (finitely presented)
+  `O_Y`-modules of Mathlib `Scheme.Modules`.
+- *cohPullback_structure* — coherent pullback sends the structure module to the structure module.
+- *cohPullback_zero* — coherent pullback sends zero to zero.
+- *cohPullback_modules* — forgetting coherence gives exactly the supplied sheafified extension of scalars.
+- *modulePullback_identity* — pullback by the identity is naturally isomorphic to the identity functor.
+- *modulePullback_structure* — pullback of the structure module is the structure module.
+- *modulePullback_zero* — pullback of zero is zero.
+- *modulePushforward_identity* — direct image by the identity is naturally isomorphic to the identity functor.
+- *modulePushforward_zero* — direct image of zero is zero.
+- *modulePushforward_sections* — sections on `U` are the sections on its actual inverse image,
   with scalars restricted along the given structure homomorphism.
 
 **The coherent module `M^Δ` on `Spf A` attached to a finite `A`-module.**
@@ -2808,27 +2561,44 @@ noetherian rings and a finite `B`-module `N`, `(Spf.map φ)^*(N^Δ) ≅ (A ⊗[B
 10.10.8) and `FormalScheme.Spf.completedTilde.ideal_map` (for an ideal `𝔟 ⊆ B`, the image of
 `(Spf.map φ)^*(𝔟^Δ)` in `O_{Spf A}` is `(𝔟A)^Δ`) (EGA I Ch. I, 10.10.9). `(A/𝔞)^Δ` is
 `O_{Spf(A/𝔞)}` pushed forward, and `A^Δ = O_{Spf A}`; for `A = ℤ_p` and `M = ℤ/p^k`, `M^Δ` is the
-skyscraper `ℤ/p^k` on the point. *Needs:* *completion-of-coherent-sheaf*; *formal-completion*;
+skyscraper `ℤ/p^k` on the point.
+`Spf.completedTilde` is a functor from `FGModuleCat A` to the actual `Coh (ofSpf A)`.
+`moduleSections` uses the coefficient map `A → Γ(U,O)` to regard sections as `A`-modules.
+`FormalScheme.Spf.completedTilde.basicOpenIso` identifies both values and restrictions with
+`M ⊗ A_f` and sends a module map to `u ⊗ id`; `FormalScheme.Spf.completedTilde.globalSectionsIso`
+is natural in `M`;
+`completedTilde_isEquivalence`, `completedTilde_additive` and `completedTilde_exact` concern
+this specified functor (EGA I, 10.10.2–6, pp. 201–203).
+*Needs:* *completion-of-coherent-sheaf*; *formal-completion*;
 *completed-localization*; *formal-spectrum*; Mathlib `AlgebraicGeometry.tilde`,
 `AlgebraicGeometry.tildeEquiv`, `Module.Finite`.
 
 **Checks.**
 
-- `FormalScheme.Spf.completedTilde_self` (degenerate) — `completedTilde A ≅ O_{Spf A}` as
+- *FormalScheme.Spf.completedTilde_self* (degenerate) — `completedTilde A ≅ O_{Spf A}` as
   `O`-modules.
-- `FormalScheme.Spf.completedTilde_discrete` (compatibility) — if `A` is discrete then
+- *FormalScheme.Spf.completedTilde_discrete* (compatibility) — if `A` is discrete then
   `completedTilde M ≅ tilde M` under `Spf A ≅ Spec A` (Mathlib `AlgebraicGeometry.tilde`).
-- `FormalScheme.Spf.completedTilde_basicOpen` (computation) —
-  `Γ(D(f), completedTilde M) ≅ M ⊗[A] AdicRing.CompletedAway A f`.
-- `FormalScheme.Spf.completedTilde_padic_torsion` (computation) — for `A = ℤ_[p]` and
+- *FormalScheme.Spf.completedTilde_basicOpen* (computation) —
+  `Γ(D(f), completedTilde M) ≅ M ⊗[A] TauCeti.AdicRing.CompletedAway A f`.
+- *FormalScheme.Spf.completedTilde_padic_torsion* (computation) — for `A = ℤ_[p]` and
   `M = ZMod (p^k)`, `Γ(Spf A, completedTilde M) = ZMod (p^k)`.
-- `FormalScheme.Spf.completedTilde_ne_tilde` (non-example) — for `A = k[x]⟦t⟧` (`t`-adic) and
+- *FormalScheme.Spf.completedTilde_ne_tilde* (non-example) — for `A = k[x]⟦t⟧` (`t`-adic) and
   `M = A`, `Γ(D(x), M^Δ) = k[x, x⁻¹]⟦t⟧` (*completed-localization*) contains `Σ_n t^n x^{−n²}`,
   which is not in `Frac(A)`, so on no open `U ⊆ Spec A` containing `D(x) ∩ V(t)` is it a
   section of the restriction `i⁻¹(M~)` over `D(x) ∩ V(t)`. The labelled example
   uses `PowerSeries.mk` with coefficient `x⁻ⁿ²` and excludes every fraction
   with nonzero denominator in `k[x]⟦t⟧`: `M^Δ` is the completion of `M~` along
   `V(t)`, not its restriction to the open primes.
+- *completedTilde_structure* — the rank-one free module gives the structure sheaf.
+- *completedTilde_zero* — the rank-zero module gives the zero coherent sheaf.
+- *completedTilde_rank_two* — global sections of the rank-two free module give `A²`.
+- *completedTilde_map_scalar* — the induced map on global sections for multiplication by `a`
+  sends `x` to `a·x`.
+- *completedTilde_empty_open* — sections on the empty open form the zero module.
+- *completedTilde_basic_zero* — the basic-open comparison at `f=0` has zero value on every section.
+- *completedTilde_basic_unit* — restriction of the global section `x` to `D(1)` maps to `x ⊗ 1`.
+- *completedTilde_basic_scalar* — restriction of `a·x` to `D(f)` maps to `x ⊗ image(a)`.
 
 **Coherent modules on `Spf A` are finite `A`-modules.** (*affine-coherent-equivalence*) Let `A`
 be an adic noetherian ring with ideal of definition `I` and `𝔛 = Spf A`; all modules are finite.
@@ -2850,26 +2620,6 @@ ideal of definition `I^Δ ⊆ O_𝔛` corresponds to `I ⊆ A`. *Needs:* *associ
 `AlgebraicGeometry.tildeEquiv`, `AlgebraicGeometry.isQuasicoherent_iff_isIso_fromTildeΓ`,
 `SheafOfModules.IsFinitePresentation`.
 
-`Spf.completedTilde` is a functor from `FGModuleCat A` to the actual `Coh (ofSpf A)`.
-`moduleSections` uses the coefficient map `A → Γ(U,O)` to regard sections as `A`-modules.
-`completedTildeBasicIso` and `completedTildeBasicIso_restrict` identify both values and
-restrictions with `M ⊗ A_f`. `completedTildeBasicIso_naturality` sends a module map to
-`u ⊗ id`. `completedTildeGlobalIso` is natural in `M`;
-`completedTilde_isEquivalence`, `completedTilde_additive` and `completedTilde_exact` concern
-this specified functor (EGA I, 10.10.2–6, pp. 201–203).
-
-**Checks for completed associated modules and coefficient maps.**
-
-- `completedTilde_structure` — the rank-one free module gives the structure sheaf.
-- `completedTilde_zero` — the rank-zero module gives the zero coherent sheaf.
-- `completedTilde_rank_two` — global sections of the rank-two free module give `A²`.
-- `completedTilde_map_scalar` — the induced map on global sections for multiplication by `a`
-  sends `x` to `a·x`.
-- `completedTilde_empty_open` — sections on the empty open form the zero module.
-- `completedTilde_basic_zero` — the basic-open comparison at `f=0` has zero value on every section.
-- `completedTilde_basic_unit` — restriction of the global section `x` to `D(1)` maps to `x ⊗ 1`.
-- `completedTilde_basic_scalar` — restriction of `a·x` to `D(f)` maps to `x ⊗ image(a)`.
-
 **Coherent modules on a locally noetherian formal scheme as compatible systems.**
 (*coherent-as-inverse-system*) Let `X` be a locally noetherian formal scheme, `𝒥` an ideal of
 definition, `X_n = (X, O_X/𝒥^{n+1})` and `u_{mn} : X_m → X_n` for `m ≤ n`. Prove: (i) an
@@ -2887,12 +2637,7 @@ category `Coh(X, 𝓘)` of inverse systems `(F_n)` of coherent `O_X`-modules wit
 `𝓘^n` and `F_{n+1}/𝓘^n F_{n+1} ≅ F_n` (Stacks Tag 0EHN, §30.23; the Stacks index `n` corresponds to
 `X_{n−1}` here). On `Spf ℤ_p` the system `(ℤ/p^{n+1})_n` gives `O`, the constant system `(ℤ/p)_n`
 gives the skyscraper `F_p = (ℤ/p)^Δ`, the system `(ℤ/p^{n+1} ⊕ ℤ/p^{n+1})_n` gives `O²`, and the
-system `(ℤ/p^{min(n+1, k)})_n` is compatible and gives `(ℤ/p^k)^Δ`. *Needs:*
-*affine-coherent-equivalence*; *finite-module-inverse-limit*; *ideal-of-definition*;
-*formal-scheme-as-colimit*; *coherent-formal-module*; AdicSpacesPartII R0.1a *adic-ring*; *formal-completion*;
-*internal-hom-sheaf-of-modules*; Mathlib `Submodule.eq_bot_of_le_smul_of_le_jacobson_bot`;
-Tau Ceti `TauCeti.SheafOfModules.tensorProduct`.
-
+system `(ℤ/p^{min(n+1, k)})_n` is compatible and gives `(ℤ/p^k)^Δ`.
 `FormalScheme.IsCompatibleCoherentSystem X J hJ hfg` is a predicate on actual inverse
 diagrams of module sheaves on `X`. The term of index `n` comes from a finitely presented
 module on `X_n`; every transition becomes an isomorphism after pullback to the smaller
@@ -2901,16 +2646,20 @@ thickening. `CoherentSystem` is the corresponding full subcategory.
 with pullback to `X_n` followed by its direct image.
 `coherentSystemFunctor_isEquivalence` and `coherentSystem_limit` identify the inverse with
 the limit of module sheaves. `coherentSystem_surjective_iff` detects surjectivity at index zero.
+*Needs:*
+*affine-coherent-equivalence*; *finite-module-inverse-limit*; *ideal-of-definition*;
+*formal-scheme-as-colimit*; *coherent-formal-module*; Tau Ceti `TauCeti.IsAdicRing`; *formal-completion*;
+*internal-hom-sheaf-of-modules*; Mathlib `Submodule.eq_bot_of_le_smul_of_le_jacobson_bot`;
+Tau Ceti `TauCeti.SheafOfModules.tensorProduct`.
 
-**Checks for compatible coherent systems.**
+**Checks.**
 
-- `IsCompatibleCoherentSystem_zero`, `CoherentSystem_zero`, `coherentSystemFunctor_zero` — the zero system is compatible and coherent reduction sends zero to zero.
-- `IsCompatibleCoherentSystem_discrete`, `CoherentSystem_discrete`, `coherentSystemFunctor_discrete` — the zero ideal of definition gives the constant system of the original coherent module.
-- `IsCompatibleCoherentSystem_nilpotent`, `CoherentSystem_nilpotent`, `coherentSystemFunctor_nilpotent` — if `J^(N+1)=0`, every term of index at least `N` is the original module.
-
+- *IsCompatibleCoherentSystem_zero*, *CoherentSystem_zero*, *coherentSystemFunctor_zero* — the zero system is compatible and coherent reduction sends zero to zero.
+- *IsCompatibleCoherentSystem_discrete*, *CoherentSystem_discrete*, *coherentSystemFunctor_discrete* — the zero ideal of definition gives the constant system of the original coherent module.
+- *IsCompatibleCoherentSystem_nilpotent*, *CoherentSystem_nilpotent*, *coherentSystemFunctor_nilpotent* — if `J^(N+1)=0`, every term of index at least `N` is the original module.
   For every object of `CoherentSystem`, all transitions between such indices are isomorphisms.
-- `CoherentSystem_unit` — if the unit ideal is an ideal of definition, `X` is empty and every term of every coherent system is zero. The ideal-of-definition hypothesis is essential: the unit ideal is not an ideal of definition on a nonempty formal scheme.
-- `coherentSystem_nonNoetherian` (non-example for *coherent-as-inverse-system* and
+- *CoherentSystem_unit* — if the unit ideal is an ideal of definition, `X` is empty and every term of every coherent system is zero. The ideal-of-definition hypothesis is essential: the unit ideal is not an ideal of definition on a nonempty formal scheme.
+- *coherentSystem_nonNoetherian* (non-example for *coherent-as-inverse-system* and
   *affine-coherent-equivalence* (iv)) — let `k` be a field, `B = k[X₀, X₁, …]` and
   `A = B⟦T⟧` with its `T`-adic topology. Put `A_n = B[T]/(T^{n+1})`,
   `J_n = (X₀, X₁T, …, X_nTⁿ)` and `M_n = A_n/J_n`. Each `M_n` is finitely presented,
@@ -2928,8 +2677,8 @@ the limit of module sheaves. `coherentSystem_surjective_iff` detects surjectivit
 **Quotient systems as coherent formal modules.** (*pow-quotient-formal-module-comparison*) Let `A`
 be a commutative ring, `X` a scheme over `Spec A`, `J ⊆ A` an ideal and
 `i_n : X_n = V(J^{n+1}O_X) → X` the levels of SchemeAndStackFoundations Layer 4's
-`Formal.Scheme.formalCompletion X (JO_X)`. (i) A morphism `q : F → Q` of `O_X`-modules satisfies
-`IsPowQuotient A J n q` (Convention 14: `q` is killed by every element of `J^{n+1}`, and every
+`Formal.Scheme.formalCompletion X (JO_X)`. (i) A morphism `q : F → Q` of `O_X`-modules is a
+`J^{n+1}`-quotient (Convention 14: `q` is killed by every element of `J^{n+1}`, and every
 morphism out of `F` killed by `J^{n+1}` factors uniquely through `q`) iff it is the unit
 `F → i_{n*}i_n^*F` up to unique isomorphism under `F`: both are the cokernel of the
 multiplications `a : F → F`, `a ∈ J^{n+1}`, and `i_{n*}` is fully faithful onto the
@@ -2942,72 +2691,33 @@ noetherian, systems `(Q_n, t_n : Q_{n+1} → Q_n)` of coherent modules with each
 `H^i(X, i_{n*}G) ≅ H^i(X_n, G)` naturally and `A`-linearly, `i_n` being affine (Stacks Tag 089W,
 Lem. 30.2.4), compatibly with the transitions; so the cohomology towers built from
 `cohomologyMapBaseLinear` on a quotient system are those of the coherent formal module. By
-(i)–(iii), `formalFunctions` is §4.9's `Scheme.Modules.Cohomology.formalFunctionsIso`
-(indices shifted by one), and `grothendieckExistence`, `grothendieckExistence_hom` are
-§4.10's `Formal.grothendieck_existence` and its full-faithfulness clause for the completion along
-`IO_X`, whose support is the closed fibre. *Needs:* *formal-completion*;
+(i)–(iii), the quotient-system forms of *theorem-on-formal-functions* and
+*grothendieck-existence* below are §4.9's `Scheme.Modules.Cohomology.formalFunctionsIso`
+(indices shifted by one) and §4.10's `Formal.grothendieck_existence` with its
+full-faithfulness clause for the completion along `IO_X`, whose support is the closed fibre. *Needs:* *formal-completion*;
 *coherent-as-inverse-system*; *formal-scheme-carrier-comparison*; SchemeAndStackFoundations Layer 4,
 §4.7–§4.10 (`Formal.Scheme.formalCompletion`, `Formal.Scheme.CoherentFormalModule`,
 `Formal.Scheme.completionFunctor`, `Scheme.Modules.Cohomology.formalFunctionsIso`,
 `Formal.grothendieck_existence`); Tau Ceti `Scheme.Modules.globalSectionsSmul`,
-`Scheme.Modules.baseRingToGlobalSections`, `Scheme.Modules.cohomologyMapBaseLinear`. Lean:
-`IsPowQuotient`; the comparison and Checks are specified in this README only.
+`Scheme.Modules.baseRingToGlobalSections`, `Scheme.Modules.cohomologyMapBaseLinear`. The
+comparison needs SchemeAndStackFoundations' tower carriers, which are not at the pins, and is
+not stated in `Suggested.lean`.
 
 **Checks.**
 
-- (degenerate, zero ideal) — `J = 0` gives the constant tower, and the identity `F → F` is the
-  quotient: `IsPowQuotient A 0 n (𝟙 F)`.
-- (degenerate, unit ideal) — `J = A` gives empty levels, and `F → 0` is the quotient:
-  `IsPowQuotient A A n (0 : F → 0)`.
+- (degenerate, zero ideal) — `J = 0` gives the constant tower, and the identity `F → F` is a
+  `0^{n+1}`-quotient.
+- (degenerate, unit ideal) — `J = A` gives empty levels, and `F → 0` is an `A`-quotient.
 - (characterisation, uniqueness) — two quotients `q : F → G` and `q' : F → G'` for
   the same `J` and `n` differ by an isomorphism under `F`: there is `e : G ≅ G'` with
   `q ≫ e.hom = q'`.
 - (computation) — for `X = Spec A` and `F = M~`, the quotient is `Q_n = (M/J^{n+1}M)~`.
 
-
-`AlgebraicGeometry.graded_cohomology_finite` uses a coherent module on the affine
-base change to encode a finite module over the pulled-back algebra. Its graded
-pieces form the coproduct decomposition of the affine pushforward. The comparison
-on cohomology is fixed on every homogeneous inclusion; scalar multiplication is
-transported from the structural coefficient action on the base change.
-Its second conjunct uses `AlgebraicGeometry.Scheme.Modules.IsAmple` and
-`AlgebraicGeometry.Scheme.Modules.tensorPower`: for every ample invertible `L`,
-there is one `d₀ : ℕ` such that `H^j(X, F_k ⊗ L^{⊗d})` is zero for every
-`j > 0`, `k : ℕ` and `d ≥ d₀`. The bound is chosen before both `j` and `k`;
-the finiteness clause requires no ample sheaf.
-
-**The theorem on formal functions.** (*theorem-on-formal-functions*) Let `A` be a noetherian
-ring (not necessarily complete), `I ⊆ A` an ideal, `f : X → Spec A` a proper morphism, `F` a
-coherent `O_X`-module and `F_n := F/I^{n+1}F`. Prove that for every `p ≥ 0` the maps
-`H^p(X, F)/I^{n+1}H^p(X, F) → H^p(X, F_n)` induce an isomorphism of `Â`-modules
-`H^p(X, F)^∧ ≅ lim_n H^p(X, F_n)`, where `^∧` is the `I`-adic completion (Mathlib
-`AdicCompletion I`) of the finite `A`-module `H^p(X, F)`; it is a homeomorphism for the `I`-adic
-topology on the left and the limit topology on the right (EGA III₁ Ch. III, 4.1.7 (4.1.7.1);
-Stacks Tag 02OC, Thm 30.20.5). If `A` is `I`-adically complete (Mathlib `IsAdicComplete I A`),
-then `H^p(X, F) ≅ lim_n H^p(X, F_n)` (Stacks Tag 087U, Lem. 30.20.6; EGA III₁ Ch. III, 5.1.2).
-This target is an adapter of SchemeAndStackFoundations §4.9
-(`Scheme.Modules.Cohomology.formalFunctionsIso`), which owns the theorem: it is that statement read on the quotient systems `F → F_n` through
-*pow-quotient-formal-module-comparison*. The sheaf form — for `Y` locally noetherian, `f : X → Y` proper, a coherent ideal `𝓘 ⊆ O_Y` and
-`F_n = F/𝓘^{n+1}F`, the completion of `R^p f_*F` along `V(𝓘)` is `lim_n R^p f_*(F_n)` — is part
-of *formal-direct-image-comparison* (EGA III₁ Ch. III, 4.1.5; 4.1.6 Remarques (ii), p. 125:
-the formation of `R^n f_*` commutes with completion, the first comparison between the algebraic
-and the formal theory). For `A = k[t]`, `I = (t)`, `X = P¹_A`, `F = O(−2)` and `p = 1`:
-`H^1(X, F)^∧ = k⟦t⟧ = lim_n H^1(P¹_{k[t]/t^{n+1}}, O(−2)) = lim_n k[t]/(t^{n+1})`. For `I = 0`
-both sides are `H^p(X, F)` (`AdicCompletion ⊥ M ≅ M`, `F_n = F`); for `I = A` both sides are `0`
-(`M/AM = 0`, `F_n = 0`). For `p = 0`
-and `F = O_X` with `f_*O_X = A′` finite over `A`: `Â′ = lim_n H^0(X, O_X/I^{n+1}O_X)`, and for
-`X = Spec A′` finite this is the classical `A′ ⊗ Â ≅ lim A′/I^{n+1}A′`. Properness is needed:
-for `f : X = A²_k ∖ {(0,0)} → A¹_k = Spec k[t]` (projection to the coordinate `t`), `F = O_X` and
-`p = 0`, `H^0(X, O_X) = k[x, t]`, whose completion is `k[x]⟦t⟧`, whereas `X ∩ V(t^{n+1})` is the
-thickened punctured line and `lim_n H^0(X, O_X/t^{n+1}) = k[x, x⁻¹]⟦t⟧`. *Needs:*
-*formal-functions-affine*; DerivedModuleAlgebra §§1.T.1 and 1.1; *finite-module-inverse-limit*;
-AdicSpacesPartII R0.1a *adic-ring*; *pow-quotient-formal-module-comparison*; SchemeAndStackFoundations §4.9;
-Mathlib `AdicCompletion`, `IsAdicComplete`; Tau Ceti
-`TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`,
-`AlgebraicGeometry.Scheme.Modules.cohomologyMapBaseLinear`. Lean: `formalFunctions`, the
-finiteness of `H^p(X, F)` and the isomorphism of its `I`-adic completion with the compatible
-families, on quotient systems (`IsPowQuotient` encodes `F → F/I^{n+1}F`, Convention 14); the
-other forms are specified in this README only.
+**The theorem on formal functions.** (*theorem-on-formal-functions*) *theorem-on-formal-functions*
+is SchemeAndStackFoundations §4.9's `Scheme.Modules.Cohomology.formalFunctionsIso` (for
+`f : X → Spec A` proper over a noetherian ring `A`, an ideal `I ⊆ A` and a coherent
+`O_X`-module `F`, `H^p(X, F)^∧ ≅ lim_n H^p(X, F/I^n F)` for every `p`), read on quotient systems
+through *pow-quotient-formal-module-comparison*; it is not proved again.
 
 **Finiteness and uniform Serre vanishing for graded coherent modules over a proper scheme.**
 (*graded-cohomology-finiteness*) Let `A` be a noetherian ring, `B = ⊕_{k≥0} B_k` a finitely
@@ -3038,7 +2748,18 @@ and `F = O_X(−r−1)`: `I^k F ≅ I^k ⊗_A O_X(−r−1)` (`P^r_A` is flat ov
 exact, so `⊕_k H^r(X, I^k F) = ⊕_k I^k` is the Rees algebra itself, a finite module over
 itself. For `X` proper over noetherian `A` an ample `L` makes `X` projective over `A`, so (ii)
 is Serre vanishing on a projective scheme; properness cannot be dropped from (ii) even though
-ample sheaves exist on non-proper schemes (`O_X` is ample on every quasi-affine `X`). *Needs:*
+ample sheaves exist on non-proper schemes (`O_X` is ample on every quasi-affine `X`).
+`AlgebraicGeometry.graded_cohomology_finite` uses a coherent module on the affine
+base change to encode a finite module over the pulled-back algebra. Its graded
+pieces form the coproduct decomposition of the affine pushforward. The comparison
+on cohomology is fixed on every homogeneous inclusion; scalar multiplication is
+transported from the structural coefficient action on the base change.
+Its second conjunct uses `AlgebraicGeometry.Scheme.Modules.IsAmple` and
+`AlgebraicGeometry.Scheme.Modules.tensorPower`: for every ample invertible `L`,
+there is one `d₀ : ℕ` such that `H^j(X, F_k ⊗ L^{⊗d})` is zero for every
+`j > 0`, `k : ℕ` and `d ≥ d₀`. The bound is chosen before both `j` and `k`;
+the finiteness clause requires no ample sheaf.
+*Needs:*
 *projective-bundles-ample-serre*; StableReduction layer 2; JacobianChallenge layer C;
 SchemeAndStackFoundations Layer 2 (§2.6, `ample_serre_vanishing`); Tau Ceti
 `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`,
@@ -3048,128 +2769,38 @@ SchemeAndStackFoundations Layer 2 (§2.6, `ample_serre_vanishing`); Tau Ceti
 
 **Checks.**
 
-- `gradedCohomology_rees_projectiveSpace` (computation) — for `X = P^r_A` (`r ≥ 1`), `I ⊆ A` and
+- *gradedCohomology_rees_projectiveSpace* (computation) — for `X = P^r_A` (`r ≥ 1`), `I ⊆ A` and
   `F = O(−r−1)`, `⊕_k H^r(X, I^k F) ≅ ⊕_k I^k` as graded modules over the Rees algebra.
   The labelled example computes each degree as an `A`-linear equivalence,
   with `I^k F` expressed by pulling back the supplied `tilde (I^k)` and
   tensoring with `gradedTwist` in degree `−r−1`. The equivalences commute
   with maps between the ideal powers, in particular multiplication by each
   homogeneous Rees element; their direct sum is therefore Rees-linear.
-- `gradedCohomology_zero_ideal` (degenerate) — for `I = 0`, `⊕_k I^k F = F ⊕ 0 ⊕ 0 ⋯` and (i) is
+- *gradedCohomology_zero_ideal* (degenerate) — for `I = 0`, `⊕_k I^k F = F ⊕ 0 ⊕ 0 ⋯` and (i) is
   the finiteness of `H^p(X, F)` over `A` (StableReduction layer 2); for `I = A` it is the
   finiteness of `⊕_k H^p(X, F)` over `A[t]`, i.e. again of `H^p(X, F)` over `A`.
-- `not_serreVanishing_of_not_proper` (non-example, properness in (ii)) — `X = A²_k ∖ {(0, 0)}`
+- *not_serreVanishing_of_not_proper* (non-example, properness in (ii)) — `X = A²_k ∖ {(0, 0)}`
   is quasi-affine over `A = k`, so `L = O_X` is ample, but `H^1(X, O_X ⊗ L^{⊗d}) = H^1(X, O_X) = ⊕_{i, j < 0} k·x^i y^j ≠ 0` for every `d`: (ii) fails without properness.
-- `graded_cohomology_finite_zero` — when every graded piece is zero, `d₀ = 0`
+- *graded_cohomology_finite_zero* — when every graded piece is zero, `d₀ = 0`
   works even in cohomological degree zero, for every twist.
-- `graded_cohomology_finite_empty` — on the empty scheme, `d₀ = 0` works for
+- *graded_cohomology_finite_empty* — on the empty scheme, `d₀ = 0` works for
   every family and every twist, including degree zero.
-- `graded_cohomology_finite_degreeZero` — on `Spec k`, with `k` a field and
+- *graded_cohomology_finite_degreeZero* — on `Spec k`, with `k` a field and
   `F₀ = L = O`, every twist has nonzero `H⁰`; the condition `j > 0` is necessary.
 
 **Good filtrations and the Mittag-Leffler property of `H^p(X, F/I^{n+1}F)`.**
-(*formal-functions-affine*) Let `A` be a noetherian ring, `I ⊆ A` an ideal, `f : X → Spec A`
-proper, `F` a coherent `O_X`-module, `F_n := F/I^{n+1}F`, and `p ≥ 0` a fixed degree. Prove
-`AlgebraicGeometry.formalFunctionsAffine`: there is a single `c ≥ 0` such that:
-(i) `Ker(H^p(X, F) → H^p(X, F_n)) ⊆ I^{n+1−c}·H^p(X, F)` for
-`n + 1 ≥ c`, so the filtration of `H^p(X, F)` by these kernels defines the `I`-adic topology (it
-is `I`-good) (EGA III₁ Ch. III, 4.1.7.9 Lemme, p. 126; Stacks Tag 02OB, Lem. 30.20.4 (1)); (ii)
-the inverse system `(H^p(X, F_n))_n` satisfies the Mittag-Leffler condition, and
-`Im(H^p(X, F_k) → H^p(X, F_n)) = Im(H^p(X, F) → H^p(X, F_n))` for all `k ≥ n + c` (EGA III₁
-Ch. III, 4.1.7 Corollaire, p. 125, and 4.1.7.9–4.1.7.21; the footnote to 4.1.7, p. 126,
-attributes this proof and the good-filtration complement to Serre; Stacks Tag 02OB, Lem. 30.20.4
-(2)). This target is an adapter of SchemeAndStackFoundations §4.9 (its Mittag-Leffler form), which owns it. The
-statement uses the quotient systems of `formalFunctions`: `Q n` is `F_n`, with quotient maps
-`q n : F → Q n` satisfying `IsPowQuotient A I n (q n)` and compatible transitions
-`t n : Q (n+1) → Q n`. Both kernels and ranges are submodules for
-`Scheme.Modules.cohomologyMapBaseLinear`, and the transition `Q k → Q n` for `n ≤ k` is the
-composite of the `t`. The hypotheses are a noetherian base ring, a locally
-noetherian scheme proper over its spectrum, and a finitely presented sheaf of modules
-(equivalently coherent here); no completeness of the base ring is required.
-For `X = P¹_{k[t]}`, `I = (t)`, `F = O(−2)`, `p = 1`: `H^1(X, F) = k[t]`,
-`H^1(X, F_n) = k[t]/(t^{n+1})`, the transition maps are surjective and the kernels are
-`(t^{n+1}) = I^{n+1}H^1` (`c = 0`; at `n = 0` the kernel of `k[t] → k[t]/(t)` is `(t) = I^{1}H^1 = I^{n+1−c}H^1`; at `n = 1` it is `(t²) = I²H^1`).
-The Checks `formalFunctionsAffine_exponent` and `formalFunctionsAffine_exponent_one`
-compute the same two kernels on the actual section maps
-`k[t] → Γ((schemeThickeningSystem (Spec k[t]) (t)).obj n, O)` for `n = 0, 1`.
-These are degree-zero affine instances over `Spec k[t]`; the identity structure map
-is proper. They assert both the power `n + 1` and inequality with the power `n`.
-This pins the exponent `n + 1 − c` against the Stacks form `I^{n−c}` for
-`F/I^nF`. Degenerate ideals: for `I = 0`, `F_n = F` and the kernels vanish (`c = 0`); for
-`I = A`, `F_n = 0` and the kernel is `H^p(X, F) = A^{n+1}H^p(X, F)` (`c = 0`). Properness is
-needed in (ii): for the projection `X = A²_k ∖ {(0,0)} → Spec k[t]`, `F = O_X`, `p = 0`,
-`H^0(X, F_n) = k[x, x⁻¹][t]/(t^{n+1})` has surjective transitions, so it is Mittag-Leffler, but
-`Im(H^0(X, F_k) → H^0(X, F_n))` is everything while `Im(H^0(X, F) → H^0(X, F_n)) = k[x][t]/(t^{n+1})`, for every `k ≥ n`.
-`not_image_eq_of_not_proper` is an algebraic hypothesis check for this properness
-requirement: the coefficient inclusion `k[x] → k[x,x⁻¹]` is not surjective.
-*Needs:* *graded-cohomology-finiteness*;
-DerivedModuleAlgebra §§1.T.1 and 1.1; Tau Ceti `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`,
-`AlgebraicGeometry.Scheme.Modules.cohomologyMapBaseLinear`,
-`TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyδ`,
-`TauCeti.AlgebraicGeometry.Scheme.Modules.exact_cohomologyMap_cohomologyδ`; Mathlib
-`CategoryTheory.Functor.IsMittagLeffler`, `reesAlgebra.fg`, `Ideal.Filtration.Stable`,
-`Ideal.Filtration.submodule_fg_iff_stable`.
+(*formal-functions-affine*) *formal-functions-affine* is SchemeAndStackFoundations §4.9's
+`formalFunctions_mittagLeffler`, the Mittag-Leffler property of `(H^p(X, F/I^n F))_n` for `f`,
+`I` and `F` as in *theorem-on-formal-functions* (Stacks Tag 02OB, cited there with the bound on
+the kernels of `H^p(X, F) → H^p(X, F/I^n F)`), read on quotient systems through
+*pow-quotient-formal-module-comparison*; it is not proved again.
 
-**Check.** (degenerate ideals) — this tests
-`FormalScheme.completionHigherDirectImageMap` for the identity of a locally
-noetherian scheme and a finitely presented module sheaf in every degree.
-The comparison is an isomorphism for completion along the whole scheme (`I = 0`)
-and along the empty set (`I = O`); in the latter case its pulled-back module is zero.
-The algebraic `AdicCompletion` calculation supplies the corresponding module values
-(EGA III₁, 4.1.5, p. 125).
-
-**Formal functions at a point of the base.** (*formal-functions-at-point*) Let `Y` be a locally
-noetherian scheme, `f : X → Y` proper, `F` a coherent `O_X`-module, `y ∈ Y` and
-`X_k := X ×_Y Spec(O_{Y,y}/𝔪_y^{k+1})` (underlying space `f⁻¹(y)`). Prove that `(R^p f_*F)_y` is
-a finite `O_{Y,y}`-module, hence `𝔪_y`-adically separated, and that there is a canonical
-isomorphism `((R^p f_*F)_y)^∧ ≅ lim_k H^p(X_k, F ⊗ O_{Y,y}/𝔪_y^{k+1})` (EGA III₁ Ch. III, 4.2,
-p. 129; 4.2.1 Proposition, pp. 129–130); for `p = 0`,
-`((f_*F)_y)^∧ ≅ lim_k H^0(f⁻¹(y), F ⊗ O_{Y,y}/𝔪_y^{k+1})` (EGA III₁ Ch. III, 4.2.4). This target
-is an adapter of SchemeAndStackFoundations §4.9 (its local form), which owns it. Two consequences: Zariski's connectedness (EGA III₁ Ch. III, 4.3.1) — if `f_*O_X = O_Y` then
-`(f_*O_X)_y^∧ = Ô_{Y,y}` is local, so `lim_k H^0(X_k, O)` has no nontrivial idempotents and
-`f⁻¹(y)` is connected; and fibre-dimension vanishing (EGA III₁ Ch. III, 4.2.2) — if
-`dim f⁻¹(y) = r` then `H^p(X_k, ·) = 0` for `p > r`, so `R^p f_*F = 0` near `y` for `p > r`,
-which is SchemeAndStackFoundations Layer 2 (§2.6, `proper_fibreDimension_vanishing`) and is used
-as the acceptance check of this target, not restated.
-
-`AlgebraicGeometry.formalFunctions_atPoint` states this completed-stalk isomorphism,
-including finiteness and `IsHausdorff 𝔪_y M`, for `M = (R^p f_*F)_y`.
-On `X′ = X ×_Y Spec O_{Y,y}`, it uses the quotient system `Q_k = F′/𝔪_y^{k+1}F′`
-specified by the epimorphic quotient maps and their annihilation universal property.
-The target is the submodule of families `a_k ∈ H^p(X′, Q_k)` satisfying
-`H^p(Q_{k+1} → Q_k)(a_{k+1}) = a_k`. Its equivalence `E` satisfies
-`E(AdicCompletion.of 𝔪_y M a)_k = H^p(q_k)(cohomologyStalkBaseChange f F y p a)`.
-Thus the map is fixed by localisation followed by the actual quotient maps.
-`AlgebraicGeometry.formalFunctions_atPoint_quotients` constructs this system and identifies
-`Q_k` with `j_{k*}j_k^*F′` for the closed immersion
-`j_k : X′ ×_{Spec O_{Y,y}} Spec(O_{Y,y}/𝔪_y^{k+1}) → X′`, with `q_k` equal to the
-pullback–pushforward adjunction unit under that identification.
-`AlgebraicGeometry.cohomology_closedPushforward` identifies its cohomology with
-`H^p(X_k, F_k)`. These identifications use the same `k+1` powers and quotient transitions
-(EGA III₁, proof of 4.2.1, p. 130).
-
-`AlgebraicGeometry.cohomologyStalkBaseChange` is the canonical map from the stalk to
-`H^p(X′, F′)` induced by pullback of local sections on resolutions.
-`AlgebraicGeometry.formalFunctions_atPoint_localization`, under the same locally noetherian,
-proper and coherent hypotheses, gives a linear equivalence whose underlying map is exactly
-`cohomologyStalkBaseChange`. Its degree-zero normalization is
-`AlgebraicGeometry.cohomologyStalkBaseChange_sections`: a germ represented by a section over
-`f⁻¹(U)`, where `y ∈ U`, maps to its pullback on all of `X′` through the adjunction unit
-(EGA III₁, 1.4.15, pp. 92–94; 4.2.1, p. 130).
-
-**Checks.**
-
-- `cohomologyStalkBaseChange_zero`: zero coefficients give the zero map in every degree.
-- `cohomologyStalkBaseChange_finiteHigher`: for a finite morphism of locally noetherian
-  schemes and coherent coefficients, the map in degree `i+1` is zero; the local source
-  is affine and its positive-degree coherent cohomology vanishes.
-- `cohomologyStalkBaseChange_sections`: degree zero sends a represented germ to the
-  pulled-back section, including its coefficient and restriction maps.
-
-*Needs:* *theorem-on-formal-functions*; SchemeAndStackFoundations Layer 2
-(§2.6, `proper_fibreDimension_vanishing`); Mathlib
-`AlgebraicGeometry.IsProper.isStableUnderBaseChange`,
-`Ideal.iInf_pow_smul_eq_bot_of_le_jacobson`, `IsLocalRing`.
+**Formal functions at a point of the base.** (*formal-functions-at-point*)
+*formal-functions-at-point* is SchemeAndStackFoundations §4.9's `formalFunctions_local` (for
+`f : X → Y` proper to a noetherian scheme `Y`, a coherent `O_X`-module `F` and `y ∈ Y`,
+`((R^p f_*F)_y)^∧ ≅ lim_n H^p(X_n, F_n)` with `X_n = X ×_Y Spec(O_{Y,y}/𝔪_y^{n+1})` and `F_n` the
+pullback of `F`), read on quotient systems through *pow-quotient-formal-module-comparison*; it
+is not proved again.
 
 **Cohomology of an inverse limit of sheaves.** (*cohomology-of-mittag-leffler-limit*) Let `X` be
 a topological space, `(F_k)_{k∈ℕ}` an inverse system of sheaves of abelian groups and
@@ -3191,17 +2822,6 @@ Layer 2 (§2.5, `godementResolution`); Mathlib `CategoryTheory.Sheaf.H`, `TopCat
 `CategoryTheory.Functor.IsMittagLeffler`; Tau Ceti `TauCeti.AlgebraicGeometry.Cohomology.Flasque`
 (the flasque-acyclicity instance).
 
-`SheafCohomology.godementEnvelope F` is the product of the skyscrapers of the stalks of
-`F`, and `godementUnit F` sends each section to its germs. `godementUnit_germ`
-fixes every product projection. Iterating its cokernel gives
-`exists_godementResolution`, with the quotient-followed-by-germs differential.
-
-**Checks for the Godement construction.**
-
-- `godementEnvelope_zero`, `godementUnit_zero`: the zero sheaf gives a zero envelope and an invertible unit.
-- `godementEnvelope_point`, `godementUnit_point`: on a one-point space the germ map is an isomorphism.
-- `godementEnvelope_indiscrete`, `godementUnit_indiscrete`: on a nontrivial indiscrete space the constant integer sheaf maps diagonally into a product, so its germ map is not an isomorphism.
-
 **Comparison of algebraic and formal higher direct images.**
 (*formal-direct-image-comparison*) Let `Y` be a locally noetherian scheme, `f : X → Y` proper,
 `Y′ ⊆ Y` closed with coherent ideal `𝓘`, `X′ = f⁻¹(Y′)`, `f̂ : X̂ → Ŷ` the completion
@@ -3219,13 +2839,7 @@ pp. 125, 129, it suffices that `φ_n` and `ψ_n` be isomorphisms, bicontinuity b
 `φ_n` (EGA III₁ Ch. III, 4.1.7), and for every affine
 open `V` of `Y`, `H^n(X̂ ∩ f⁻¹(V), F̂) ≅ Γ(V ∩ Y′, R^n f̂_*(F̂))` (EGA III₁ Ch. III, 4.1.9). For
 `X = P¹_{ℤ_p}`, `Y = Spec ℤ_p`, `Y′ = V(p)` and `F = O(−2)`: `H^1(X̂, Ô(−2)) = ℤ_p`, the
-cohomology of the formal completion `P̂¹` agreeing with that of `P¹`. *Needs:*
-*cohomology-of-mittag-leffler-limit*; *formal-functions-affine*; *theorem-on-formal-functions*;
-*completion-of-morphism*; *completion-of-coherent-sheaf*; *coherent-as-inverse-system*;
-SchemeAndStackFoundations Layer 2 (§2.6, `qcoh_higherDirectImages`); StableReduction layer 2;
-Mathlib `CategoryTheory.Sheaf.H`; Tau Ceti `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`,
-`AlgebraicGeometry.Scheme.Modules.cohomologyMapBaseLinear`.
-
+cohomology of the formal completion `P̂¹` agreeing with that of `P¹`.
 `FormalScheme.completionHigherDirectImageMap f W F n` is `φ_n`, the derived
 base-change map for the square of completion morphisms. In degree zero it is the
 adjunction map sending a pulled-back section `s` to `1 ⊗ s`; apply this map to
@@ -3235,7 +2849,6 @@ resolutions and use the exactness of completion pullback in higher degrees.
 specified map for proper `f` between locally noetherian schemes and coherent `F`.
 Here `φ_n` denotes the map called `ρ_n` in EGA III₁ 4.1.4.1, p. 124; EGA's `φ_n`
 is the composite to the limit (4.1.2.3, p. 123).
-
 For an ideal sheaf `I` on `Y`, `completionHigherDirectImage_quotients` supplies the
 diagram `D_k = F/(I O_X)^(k+1)F` and its projection `q_k`. More precisely, with
 `j_k : V((I O_X)^(k+1)) → X`, its identification with `j_{k*}j_k^*F` must carry
@@ -3251,22 +2864,31 @@ it proves `IsIso ψ_n` (EGA III₁ 4.1.3.6 and 4.1.5, pp. 124–125).
 `completionHigherDirectImageMap_comp_psi` fixes every limit component by
 `φ_n ≫ ψ_n ≫ π_k = j_Y^*(R^n f_*(q_k))`. This is the compatibility triangle
 of EGA III₁ 4.1.4.2, pp. 124–125.
+*Needs:*
+*cohomology-of-mittag-leffler-limit*; *formal-functions-affine*; *theorem-on-formal-functions*;
+*completion-of-morphism*; *completion-of-coherent-sheaf*; *coherent-as-inverse-system*;
+SchemeAndStackFoundations Layer 2 (§2.6, `qcoh_higherDirectImages`); StableReduction layer 2;
+Mathlib `CategoryTheory.Sheaf.H`; Tau Ceti `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`,
+`AlgebraicGeometry.Scheme.Modules.cohomologyMapBaseLinear`.
 
-**Checks for the completion comparison maps.**
+**Checks.**
 
-- `completionHigherDirectImageMap_zero`: a zero module gives the zero comparison.
-- `completionHigherDirectImageMap_empty`: completion along the empty closed set
+- *completionHigherDirectImageMap_zero*: a zero module gives the zero comparison.
+- *completionHigherDirectImageMap_empty*: completion along the empty closed set
   gives the zero comparison in every degree.
-- `completionHigherDirectImageMap_degreeZero`: on every open of `Y`, the map sends
+- *completionHigherDirectImageMap_wholeScheme*: for the identity of a locally noetherian scheme
+  and a coherent module, completion along the whole scheme (`I = 0`) gives an isomorphism in
+  every degree, matching `AdicCompletion ⊥ M ≅ M` (EGA III₁, 4.1.5, p. 125).
+- *completionHigherDirectImageMap_degreeZero*: on every open of `Y`, the map sends
   the image of a section under the completion unit to the image of that same
   section under the source completion unit, with the inverse-image opens identified
   by the completion square. In particular it sends `1` to `1` on the structure
   sheaf, fixing the sign.
-- `completionHigherDirectImagePsi_zero`: a zero cone of module maps induces the
+- *completionHigherDirectImagePsi_zero*: a zero cone of module maps induces the
   zero map to the limit; invertibility requires the specified quotient cone.
-- `completionHigherDirectImagePsi_constant`: for the constant system with identity
+- *completionHigherDirectImagePsi_constant*: for the constant system with identity
   projections, every component of `φ_n ≫ ψ_n` is the identity.
-- `completionHigherDirectImagePsi_firstQuotient`: in degree zero the zeroth limit
+- *completionHigherDirectImagePsi_firstQuotient*: in degree zero the zeroth limit
   projection is induced by `F → F/(I O_X)F`, fixing the exponent `k+1` at `k = 0`.
 
 ### F0.7 Grothendieck's existence theorem
@@ -3276,11 +2898,11 @@ of EGA III₁ 4.1.4.2, pp. 124–125.
 `f : X → Spec A` a morphism whose underlying map is closed (for instance `f` proper), and
 `X′ = f⁻¹(V(I))`. Prove that every open subset `V ⊆ X` containing `X′` equals `X` (EGA III₁
 Ch. III, 5.1.3.1 Lemme, p. 150); noetherianity of `A` is not used, only `I ≤ jacobson ⊥`
-(AdicSpacesPartII R0.1a *adic-ring*): a closed `Z = X ∖ V` has closed image `V(𝔞) ⊆ Spec A` disjoint from `V(I)`, so
+(Tau Ceti `TauCeti.IsAdicRing`): a closed `Z = X ∖ V` has closed image `V(𝔞) ⊆ Spec A` disjoint from `V(I)`, so
 `𝔞 + I = A` and `𝔞 = A`. For `X = P¹_{ℤ_p}`, any open containing the special fibre `P¹_{F_p}` is
 all of `X`; for the non-closed morphism `X = Spec ℚ_p → Spec ℤ_p`, `X′ = ∅` and `V = ∅` is a
 neighbourhood of `X′` different from `X`; for `A` discrete (`I = 0`) the closed fibre is `X`
-and the statement is empty; for `X = ∅` it holds with `V = ∅ = X`. *Needs:* AdicSpacesPartII R0.1a *adic-ring*; Mathlib
+and the statement is empty; for `X = ∅` it holds with `V = ∅ = X`. *Needs:* Tau Ceti `TauCeti.IsAdicRing`; Mathlib
 `IsAdicComplete.le_jacobson_bot`, `AlgebraicGeometry.UniversallyClosed`,
 `AlgebraicGeometry.IsProper`.
 
@@ -3297,11 +2919,7 @@ adapter; the form with proper support for `X` of finite type is owned here. If m
 closed (e.g. `X` proper over `A`), `u` is injective (resp. surjective) iff `û`
 is. For `X = P¹_{ℤ_p}`: `Hom(O(a), O(b)) = H^0(P¹, O(b − a))` and its completion
 `Hom(Ô(a), Ô(b))` agree (both free of rank `b − a + 1`, or `0`). Without properness the map is
-not surjective: for `X = A¹_{ℤ_p}`, `Hom(O, O) = ℤ_p[x]` whereas `Hom(Ô, Ô) = ℤ_p⟨x⟩`. *Needs:*
-*theorem-on-formal-functions*; *completion-of-coherent-sheaf*; *completion-exact*;
-*completion-detects-near-closed*; *closed-fibre-neighbourhood*; *coherent-as-inverse-system*;
-*internal-hom-sheaf-of-modules*.
-
+not surjective: for `X = A¹_{ℤ_p}`, `Hom(O, O) = ℤ_p[x]` whereas `Hom(Ô, Ô) = ℤ_p⟨x⟩`.
 `coherentSupport` is defined using the stalks of the supplied underlying additive
 sheaf. `properCohProperty` and its full subcategory `ProperCoh` use the actual
 reduced closed support over the base. `completeModule_support` gives its inverse
@@ -3312,26 +2930,28 @@ completion of that map. `Existence.hom_bijective` assumes finite type and proper
 of the intersection of the two supports; `Existence.map_mono_epi_iff` assumes
 the structure map closed (EGA III₁ 5.1.3, pp. 149–150). Both retain `IsAdic I`
 as an explicit hypothesis, in addition to the complete noetherian base ring.
+*Needs:*
+*theorem-on-formal-functions*; *completion-of-coherent-sheaf*; *completion-exact*;
+*completion-detects-near-closed*; *closed-fibre-neighbourhood*; *coherent-as-inverse-system*;
+*internal-hom-sheaf-of-modules*.
 
-**Checks for coherent support and the closed fibre.**
+**Checks.**
 
-
-- `ProperCoh_structure` — over the identity, the structure module is an object with full support.
-- `ProperCoh_empty` — every object on an empty source has empty support and zero underlying coherent module.
-- `ProperCoh_morphisms` — its morphisms are exactly those of the underlying coherent modules, as prescribed by Mathlib's full subcategory.
-- `completedStructure_identity` — completing the identity of `Spec A` gives the identity of its completion along `V(I)`.
-- `completedStructure_unit` — for the unit ideal, the completed structural map has empty range.
-- `completedStructure_square` — the completed structural map commutes with the canonical maps to the schemes and the given `f`.
-
-- `coherentSupport_zero` — the zero coherent module has empty support.
-- `coherentSupport_structure` — the structure module has full support.
-- `coherentSupport_detects_zero` — empty support characterises the zero coherent object.
-- `properCoh_zero` — the zero object has proper support over every base.
-- `properCoh_identity` — every coherent module has proper support over its own formal scheme.
-- `properCoh_proper` — every coherent module on a proper formal source has proper support.
-- `closedFibre_zero` — the zero ideal gives the whole source as closed fibre.
-- `closedFibre_unit` — the unit ideal gives the empty closed fibre.
-- `closedFibre_identity` — for the identity of `Spec A`, the closed fibre is exactly `V(I)`.
+- *ProperCoh_structure* — over the identity, the structure module is an object with full support.
+- *ProperCoh_empty* — every object on an empty source has empty support and zero underlying coherent module.
+- *ProperCoh_morphisms* — its morphisms are exactly those of the underlying coherent modules, as prescribed by Mathlib's full subcategory.
+- *completedStructure_identity* — completing the identity of `Spec A` gives the identity of its completion along `V(I)`.
+- *completedStructure_unit* — for the unit ideal, the completed structural map has empty range.
+- *completedStructure_square* — the completed structural map commutes with the canonical maps to the schemes and the given `f`.
+- *coherentSupport_zero* — the zero coherent module has empty support.
+- *coherentSupport_structure* — the structure module has full support.
+- *coherentSupport_detects_zero* — empty support characterises the zero coherent object.
+- *properCoh_zero* — the zero object has proper support over every base.
+- *properCoh_identity* — every coherent module has proper support over its own formal scheme.
+- *properCoh_proper* — every coherent module on a proper formal source has proper support.
+- *closedFibre_zero* — the zero ideal gives the whole source as closed fibre.
+- *closedFibre_unit* — the unit ideal gives the empty closed fibre.
+- *closedFibre_identity* — for the identity of `Spec A`, the closed fibre is exactly `V(I)`.
 
 **Uniform vanishing and lifting of sections on a proper formal scheme with an ample
 reduction.** (*formal-serre-vanishing*) Let `A` be an adic noetherian ring with ideal of
@@ -3354,7 +2974,13 @@ module over `⊕ 𝓘^n/𝓘^{n+1}`); (ii) `H^0(X_{k+1}, F_{k+1}(d)) → H^0(X_k
 and `k`; (iv) `Γ(𝔛, F ⊗ L^{⊗d}) → H^0(X_k, F_k(d))` is surjective for every `k` (EGA III₁
 Ch. III, 5.2.3 Proposition, p. 151; Stacks Tag 0884 and the proof of Tag 089A). For
 `𝔛 = P̂¹_{ℤ_p}` and `L = Ô(1)`: for `d ≥ 0`, `H^0(P¹_{ℤ/p^{k+1}}, O(d)) = (ℤ/p^{k+1})[x,y]_d` and
-the transition maps are surjective; `H^1` vanishes for `d ≥ −1`. *Needs:*
+the transition maps are surjective; `H^1` vanishes for `d ≥ −1`.
+`FormalScheme.formalSerre_of_kernelVanishing` gives the inverse-system consequences:
+for an epimorphic tower of abelian sheaves, positive-degree vanishing for its initial
+term and all successive kernels implies vanishing at every level and surjectivity of
+the section transitions and projections from the limit. Apply it to the reductions
+of each twist above after choosing a common bound for the initial term and graded kernels.
+*Needs:*
 *graded-cohomology-finiteness*; *coherent-as-inverse-system*; *adic-systems-equivalence*;
 *affine-coherent-equivalence*; DerivedModuleAlgebra §§1.T.1 and 1.1; *proper-formal-morphism*;
 *projective-bundles-ample-serre*; Tau Ceti
@@ -3362,30 +2988,12 @@ the transition maps are surjective; `H^1` vanishes for `d ≥ −1`. *Needs:*
 `TauCeti.AlgebraicGeometry.Scheme.Modules.cohomologyδ`,
 `TauCeti.AlgebraicGeometry.Scheme.Modules.exact_cohomologyMap_cohomologyδ`.
 
-`FormalScheme.formalSerre_of_kernelVanishing` gives the inverse-system consequences:
-for an epimorphic tower of abelian sheaves, positive-degree vanishing for its initial
-term and all successive kernels implies vanishing at every level and surjectivity of
-the section transitions and projections from the limit. Apply it to the reductions
-of each twist above after choosing a common bound for the initial term and graded kernels.
-
-**Grothendieck existence for projective schemes.** (*existence-projective-case*) Let `A` be an
-adic noetherian ring with ideal of definition `I` and `f : X → Spec A` proper with an ample
-invertible `O_X`-module `L` (`X` projective over `A`).
-`FormalScheme.Existence.grothendieckExistence_projective`, with
-`AlgebraicGeometry.Scheme.Modules.IsAmple L`, states that the specified completion functor
-`completeModule X (closedFibre A I X f)` is an equivalence `Coh(X) ≃ Coh(X̂)`
-(EGA III₁ Ch. III, 5.2.5, p. 153; Stacks Tag 0885, Lem. 30.24.3). This target is an adapter of
-SchemeAndStackFoundations §4.10, which owns it.
-On `X = P^r_{ℤ_p}` (`r ≥ 1`), every compatible system of coherent sheaves on `P^r_{ℤ/p^{n+1}}` is
-the reduction of a coherent sheaf on `P^r_{ℤ_p}`; e.g. compatible line bundles are `O(d)` for a
-single `d`. *Needs:* *existence-fully-faithful*; *formal-serre-vanishing*;
-*coherent-as-inverse-system*; *theorem-on-formal-functions*; *completion-exact*;
-*projective-bundles-ample-serre*; *coherent-formal-module-properties*.
-
-**Check.** (projective space over `ℤ_p`) — the completion equivalence holds for `P^r_{ℤ_p}`
-along the special fibre defined by `(p)`, for every prime `p` and every `r ≥ 0`. It uses Part II's imported `AdicSpace.projectiveSpace` and
-`projectiveSpace.toSpec`. The case `r = 0` is completion on `Spec ℤ_p`; for `r ≥ 1`
-it gives the coherent algebraization above, including in residue characteristic two.
+**Grothendieck existence for projective schemes.** (*existence-projective-case*)
+*existence-projective-case* is the case of SchemeAndStackFoundations §4.10's
+`Formal.grothendieck_existence` with its full-faithfulness clause in which `f : X → Spec A` is
+projective over an adic noetherian ring `A` (a projective `X` is proper; EGA III₁ Ch. III, 5.2.5,
+p. 153), read on quotient systems through *pow-quotient-formal-module-comparison*; it is not
+proved again.
 
 **Comparison along a proper modification up to a power of the exceptional ideal.**
 (*existence-modification*) Let `Y` be a noetherian scheme, `𝓙, 𝓚 ⊆ O_Y` quasi-coherent ideals,
@@ -3394,8 +3002,7 @@ compatible system `(G_n)`), `F` a coherent `O_X`-module and `β : π̂^*G ≅ F�
 `FormalScheme.existenceModification` states that there is a morphism `α : G → (π_*F)^`
 in `Coh(Ŷ)` whose kernel and cokernel are annihilated by the same `𝓚^t` for some `t ≥ 1`
 ([Stacks Tag 088B, Lem. 30.25.3](https://stacks.math.columbia.edu/tag/088B);
-EGA III₁ Ch. III, 5.3.4 Lemme, pp. 154–155). This target is an adapter of SchemeAndStackFoundations §4.10, a step of
-its proof. The theorem uses `Scheme.IdealSheafData`
+EGA III₁ Ch. III, 5.3.4 Lemme, pp. 154–155). The theorem uses `Scheme.IdealSheafData`
 for the quasi-coherent ideals and tests the isomorphism after base change to the open
 complement of `𝓚.support`. It completes the source along `π⁻¹(V(𝓙))`, uses
 `cohPullback` for `β`, and supplies coherence of the actual scheme direct image `π_*F`.
@@ -3403,30 +3010,29 @@ Annihilation is by `(completion.ideal Y 𝓙.support 𝓚).pow t` on the categor
 and cokernel in the coherent category. For `𝓚 = O_Y` the hypothesis says `π` is an isomorphism and the conclusion says
 `α` is one; for `𝓚 = 0` the hypothesis on `π` is empty (`Y ∖ V(0) = ∅`) and so is the
 conclusion (`0^t = 0` annihilates everything), so the lemma has content only for `0 ≠ 𝓚 ≠ O_Y`.
+`FormalScheme.IdealSheafData.Annihilates J M` means that every section of `J`
+acts by zero on the corresponding sections of `M`.
 *Needs:*
 *theorem-on-formal-functions*; *affine-coherent-equivalence*; *coherent-as-inverse-system*;
 *completion-of-coherent-sheaf*; *existence-fully-faithful*; *completion-exact*; Mathlib
 `AdicCompletion.flat_of_isNoetherian`.
 
-**Checks.** `existenceModification_degenerate` computes the zero and unit exceptional-ideal
-powers on `FormalScheme.IdealSheafData.Annihilates`: every positive power of zero
-annihilates every module sheaf; every power of the unit ideal annihilates precisely
-an `IsZero` module sheaf. The accompanying module calculation gives the same
-annihilation conditions on sections. `existenceModification_square` computes the affine comparison for the finite map
-`Spec(ℤ × ℤ/4) → Spec ℤ` induced by `a ↦ (a, a mod 4)`, with `𝓚 = (2)`,
-`𝓙 = 0`, `G = O_Y` and `F = O_X`: the kernel is zero and the cokernel is `ℤ/4`,
-killed by `𝓚²` but not `𝓚`. The map is an isomorphism over `D(2)`.
-`existenceModification_unbounded` computes that no fixed `(2)^t` kills all the modules
-`ℤ/2^{n+1}`. They occur as comparison cokernels for the analogous finite maps on the
-components of `∐ₙ Spec ℤ`, showing why a locally noetherian base without quasi-compactness
-does not suffice for a uniform exponent.
+**Checks.**
 
-`FormalScheme.IdealSheafData.Annihilates J M` means that every section of `J`
-acts by zero on the corresponding sections of `M`.
-
-**Checks.** `IdealSheafData.Annihilates_zero` holds for the zero ideal;
-`IdealSheafData.Annihilates_unit` holds exactly for the zero module;
-`IdealSheafData.Annihilates_structure` holds for the structure sheaf exactly when the ideal is zero.
+- *existenceModification_degenerate* — for the zero and unit exceptional ideals, every positive
+  power of zero annihilates every module sheaf, and every power of the unit ideal annihilates
+  exactly the zero module sheaf; the same annihilation conditions hold on sections.
+- *existenceModification_square* — for the finite map `Spec(ℤ × ℤ/4) → Spec ℤ` induced by
+  `a ↦ (a, a mod 4)`, with `𝓚 = (2)`, `𝓙 = 0`, `G = O_Y` and `F = O_X`, the comparison has
+  kernel zero and cokernel `ℤ/4`, killed by `𝓚²` but not `𝓚`; the map is an isomorphism over
+  `D(2)`.
+- *existenceModification_unbounded* — no fixed `(2)^t` kills all the modules `ℤ/2^{n+1}`, which
+  occur as comparison cokernels for the analogous finite maps on the components of
+  `∐ₙ Spec ℤ`: a locally noetherian base that is not quasi-compact gives no uniform exponent.
+- *IdealSheafData.Annihilates_zero* — the zero ideal annihilates every module sheaf.
+- *IdealSheafData.Annihilates_unit* — the unit ideal annihilates exactly the zero module sheaf.
+- *IdealSheafData.Annihilates_structure* — an ideal annihilates the structure sheaf exactly when
+  it is zero.
 
 **Algebraizing a formal module that maps to a completion with bounded torsion kernel and
 cokernel.** (*bounded-torsion-algebraization*) Let `X` be a noetherian scheme (not necessarily
@@ -3451,8 +3057,7 @@ Assume: (1) completion `Coh(X_e) → Coh((X_e)^_{/V(𝓘_e)})` is an equivalence
 (2) there are a coherent `O_X`-module `H` and a morphism `α : G → Ĥ` whose kernel and cokernel
 are annihilated by a power of `𝓚`. Prove that `G ≅ F̂` for a coherent `O_X`-module `F` (Stacks
 Tag 088A, Lem. 30.25.2; EGA III₁ Ch. III, 5.3.1 Lemme, p. 154: extensions of algebraizable
-sheaves are algebraizable, EGA's version of this dévissage step; 5.3.2). This target is an
-adapter of SchemeAndStackFoundations §4.10, a step of its proof. If `𝓚 = 0` then
+sheaves are algebraizable, EGA's version of this dévissage step; 5.3.2). If `𝓚 = 0` then
 `X_e = X` for every `e` and hypothesis (1) is already the conclusion; if `α` is an isomorphism
 the conclusion holds with `F = H`; the lemma is used when `α` is an isomorphism only away from
 `V(𝓚)`, as produced by *existence-modification*. *Needs:* *bounded-torsion-algebraization*;
@@ -3467,8 +3072,8 @@ subscheme `Z ⊆ X`, proper over `Spec A`, such that `G` is annihilated by the c
 first part of the proof; EGA III₁ Ch. III, 5.3.5, p. 155: noetherian induction on closed
 subschemes and an application of Chow's lemma). For `X = A¹_{ℤ_p}` and `G = Ô_{V(x)}` (the
 completion of the structure sheaf of the section `x = 0`, proper over `ℤ_p`), `Z = V(x)`.
-*Needs:* *existence-modification*; *existence-projective-case*; *proper-formal-morphism*;
-*coherent-as-inverse-system*; AdicSpacesPartII R0.1a *adic-ring*; *chow-lemma-devissage*;
+*Needs:* *existence-modification*; SchemeAndStackFoundations §4.10; *proper-formal-morphism*;
+*coherent-as-inverse-system*; Tau Ceti `TauCeti.IsAdicRing`; *chow-lemma-devissage*;
 *projective-bundles-ample-serre*; *proper-support-serre-subcategory*.
 
 **Grothendieck's existence theorem.** (*grothendieck-existence*) Let `A` be an adic noetherian
@@ -3491,20 +3096,9 @@ on `P^r_{ℤ/p^{n+1}}`, and in particular `Pic(P̂^r) = ℤ` for `r ≥ 1` (and 
 local adic noetherian `A` with `I` primary for its maximal ideal, the
 `Y_n` are spectra of artinian local rings, so geometry over `A` reduces largely to geometry over
 artinian rings (EGA III₁ Ch. III, after 5.1.7). Without that hypothesis, take
-`A = k⟦y⟧⟦x⟧` with the `(x)`-adic topology: `A/(x) ≅ k⟦y⟧` is not artinian
-(`localAdic_reduction_not_artinian`). Properness of supports is needed: for
+`A = k⟦y⟧⟦x⟧` with the `(x)`-adic topology: `A/(x) ≅ k⟦y⟧` is not artinian. Properness of supports is needed: for
 `X = A¹_{ℤ_p}`, `O_X̂` has non-proper support and `End(O_X̂) = ℤ_p⟨x⟩ ≠ ℤ_p[x] = End(O_X)`, so
-completion is not an equivalence on all coherent sheaves. *Needs:* *existence-fully-faithful*;
-*existence-projective-case*; *existence-modification*; *existence-devissage*;
-*existence-proper-support-reduction*; *coherent-as-inverse-system*; *formal-completion*;
-*closed-formal-subscheme*; *completion-of-coherent-sheaf*; *chow-lemma-devissage*;
-*pow-quotient-formal-module-comparison*; SchemeAndStackFoundations §4.10. Lean:
-`grothendieckExistence` (every adic system of coherent quotients on the thickenings of a scheme
-proper over an adic noetherian ring is the quotient system of a coherent module) and
-`grothendieckExistence_hom` (compatible morphisms of quotient systems come from a unique morphism),
-the proper case on quotient systems, adapters of SchemeAndStackFoundations §4.10 through
-*pow-quotient-formal-module-comparison*; the other forms are specified in this README only.
-
+completion is not an equivalence on all coherent sheaves.
 `Existence.properCompletion` restricts the specified `completeModule` functor to
 proper-support full subcategories. Its object and morphism maps are the actual
 completion maps. `Existence.grothendieckExistence` states that this functor is an
@@ -3512,15 +3106,25 @@ equivalence for a separated finite-type scheme over the complete noetherian adic
 base, with the given ideal of definition. The formal base is written as the
 completion of `Spec A` along `V(I)`. When the structure morphism is proper the
 equivalence is the unrestricted coherent-category equivalence (EGA III₁ 5.1.4 and 5.1.6,
-p. 150; Stacks Tags 088E and 088C), carried on quotient systems by the Lean
-`grothendieckExistence` and `grothendieckExistence_hom`.
+p. 150; Stacks Tags 088E and 088C), SchemeAndStackFoundations §4.10's theorem read on quotient
+systems.
+*Needs:* *existence-fully-faithful*;
+*existence-projective-case*; *existence-modification*; *existence-devissage*;
+*existence-proper-support-reduction*; *coherent-as-inverse-system*; *formal-completion*;
+*closed-formal-subscheme*; *completion-of-coherent-sheaf*; *chow-lemma-devissage*;
+*pow-quotient-formal-module-comparison*; SchemeAndStackFoundations §4.10. For `X` proper the
+theorem is SchemeAndStackFoundations §4.10's `Formal.grothendieck_existence` and
+`Formal.grothendieck_existence_fullyFaithful`, stated there; this roadmap reads them on quotient
+systems through *pow-quotient-formal-module-comparison* (every adic system of coherent quotients
+on the thickenings of a scheme proper over an adic noetherian ring is the quotient system of a
+coherent module, and compatible morphisms of quotient systems come from a unique morphism), and
+states nothing about the proper case in `Suggested.lean`.
 
+**Checks.**
 
-**Checks for the proper-support completion functor.**
-
-- `properCompletion_object` — forgetting proper support gives exactly coherent completion of the original object.
-- `properCompletion_zero` — an object with zero underlying coherent module completes to zero.
-- `properCompletion_morphisms` — the underlying map is exactly the map of the coherent completion functor.
+- *properCompletion_object* — forgetting proper support gives exactly coherent completion of the original object.
+- *properCompletion_zero* — an object with zero underlying coherent module completes to zero.
+- *properCompletion_morphisms* — the underlying map is exactly the map of the coherent completion functor.
 
 ### F0.8 morphisms and algebraization (formal GAGA)
 
@@ -3528,18 +3132,14 @@ p. 150; Stacks Tags 088E and 088C), carried on quotient systems by the Lean
 (*closed-subscheme-algebraization*) Let `A` be an adic noetherian ring with ideal of definition
 `I` and `f : X → Spec A` separated of finite type. Prove that `Z ↦ Ẑ` is a bijection from closed
 subschemes of `X` proper over `Spec A` to closed formal subschemes of `X̂` proper over `Spf A`
-(EGA III₁ Ch. III, 5.1.8 Corollaire, p. 151). This target is an adapter of SchemeAndStackFoundations §4.10, whose
-algebraization of morphisms contains this lemma. Equivalently (Stacks Tag 0899, Lem. 30.28.1): a
+(EGA III₁ Ch. III, 5.1.8 Corollaire, p. 151). Equivalently (Stacks Tag 0899, Lem. 30.28.1): a
 compatible system of closed subschemes `Z_n ⊆ X_n = X ×_{Spec A} Spec A/I^{n+1}` with
 `Z_{n+1} ∩ X_n = Z_n` and `Z_0` proper over `A/I` comes from a unique closed subscheme `Z ⊆ X`
 proper over `A`. For `X = A¹_{ℤ_p}` and `a ∈ ℤ_p`, the closed formal subscheme `V(x − a)` of
 `X̂ = Spf ℤ_p⟨x⟩` is proper over `Spf ℤ_p` and is the completion of the closed subscheme
 `V(x − a) ≅ Spec ℤ_p` of `A¹_{ℤ_p}`. Properness is needed: `X̂ = Spf ℤ_p⟨x⟩` is a closed formal
 subscheme of itself that is not proper over `Spf ℤ_p`, and it is not the completion of a closed
-subscheme proper over `ℤ_p`. *Needs:* *grothendieck-existence*; *existence-fully-faithful*;
-*closed-formal-subscheme*; *completion-exact*; *completion-detects-near-closed*;
-*closed-fibre-neighbourhood*.
-
+subscheme proper over `ℤ_p`.
 `completion.closedInclusion` completes the actual algebraic closed immersion;
 `completion.ideal` is its kernel ideal sheaf. `closedSubschemeIso` identifies its
 source with the formal quotient, and `closedSubschemeIso_ι` fixes the inclusion
@@ -3547,12 +3147,15 @@ source with the formal quotient, and `closedSubschemeIso_ι` fixes the inclusion
 unique algebraic ideal with proper quotient for every coherent formal ideal
 with proper quotient. `closedSubscheme_completion_proper` states the forward
 properness implication (EGA III₁ 5.1.8, p. 151).
+*Needs:* *grothendieck-existence*; *existence-fully-faithful*;
+*closed-formal-subscheme*; *completion-exact*; *completion-detects-near-closed*;
+*closed-fibre-neighbourhood*.
 
-**Checks for completed closed subschemes.**
+**Checks.**
 
-- `completedIdeal_zero` — the zero ideal stays zero and its completed inclusion is an isomorphism.
-- `completedIdeal_unit` — the unit ideal stays the unit ideal and its source is empty.
-- `completedIdeal_disjoint` — a closed subscheme disjoint from the completion locus has unit completed ideal.
+- *completedIdeal_zero* — the zero ideal stays zero and its completed inclusion is an isomorphism.
+- *completedIdeal_unit* — the unit ideal stays the unit ideal and its source is empty.
+- *completedIdeal_disjoint* — a closed subscheme disjoint from the completion locus has unit completed ideal.
 
 **Isomorphisms and closed immersions of proper schemes are detected on completions.**
 (*completion-detects-isomorphism*) Let `Z` be a locally noetherian scheme, `g : X → Z` and
@@ -3565,53 +3168,26 @@ automorphism: `f` is determined by `f̂`, and a `Z`-morphism `f` with `f̂` an i
 isomorphism over `U = Z` (every neighbourhood of `V(p)` in `Spec ℤ_p` is everything).
 Properness is needed: for `Z = Y = Spec ℤ`, `Z′ = V(p)` and `X = Spec ℤ_(p)` with its canonical
 map `f` (`X` is not proper over `Z`), `f̂ : Spf ℤ_p → Spf ℤ_p` is an isomorphism but `f` is not
-an isomorphism over any open neighbourhood of `V(p)`. *Needs:* *completion-of-morphism*;
+an isomorphism over any open neighbourhood of `V(p)`.
+`completion.isIso_map_iff_neighbourhood` and
+`completion.isClosedImmersion_map_iff_neighbourhood` state these two equivalences.
+The map over an open neighbourhood is the supplied `pullback.map` for the
+original morphism, so it is the actual restriction over that neighbourhood
+(EGA III₁ 4.6.8, p. 144).
+*Needs:* *completion-of-morphism*;
 *closed-formal-subscheme*; *completion-detects-near-closed*; *completion-of-coherent-sheaf*;
 Mathlib `AlgebraicGeometry.Scheme.Hom.isOpen_quasiFiniteAt`,
 `AlgebraicGeometry.IsFinite.of_isProper_of_locallyQuasiFinite`,
 `AlgebraicGeometry.LocallyQuasiFinite`, `AlgebraicGeometry.IsFinite`,
 `AlgebraicGeometry.IsProper`, `AlgebraicGeometry.UniversallyClosed`.
 
-`completion.isIso_map_iff_neighbourhood` and
-`completion.isClosedImmersion_map_iff_neighbourhood` state these two equivalences.
-The map over an open neighbourhood is the supplied `pullback.map` for the
-original morphism, so it is the actual restriction over that neighbourhood
-(EGA III₁ 4.6.8, p. 144).
-
 **Morphisms from proper schemes are determined by their completions.**
-(*formal-morphism-full-faithfulness*) Let `A` be an adic noetherian ring with ideal of
-definition `I`, `S = Spec A`, `S_n = Spec A/I^{n+1}`, `X → S` proper and `Y → S` separated of
-finite type, and let `X̂`, `Ŷ` be the completions along the preimages of `V(I)`. Prove that
-`f ↦ f̂` is a bijection `Hom_S(X, Y) ≅ Hom_{Spf A}(X̂, Ŷ)` (EGA III₁ Ch. III, 5.4.1 Théorème,
-p. 156). Equivalently, `S`-morphisms `X → Y` correspond to compatible systems of
-`S_n`-morphisms `X_n → Y_n` (EGA III₁ Ch. III, 5.4.2 Scholie, p. 157; Stacks Tag 0A42,
-Lem. 30.28.3: a unique `g : X → Y` induces a given compatible `(g_n)`). Consequently `X ↦ X̂` is a
-fully faithful functor from schemes proper over `Spec A` to formal schemes proper over `Spf A`
-(EGA III₁ Ch. III, after 5.4.1, p. 157); formal schemes in its essential image are called
-algebraizable. This target is an adapter of SchemeAndStackFoundations §4.10's `Formal.algebraize_hom`, read through
-`Hom_{Spf A}(X̂, Ŷ) = lim_n Hom(X_n, Y_n)` (*morphisms-as-compatible-systems*,
-*formal-scheme-carrier-comparison*). `Aut_S(P¹_{ℤ_p}) = PGL_2(ℤ_p) = lim_n PGL_2(ℤ/p^{n+1}) = Aut(P̂¹)`. Separatedness of
-`Y` enters through the graph argument (the graph of a morphism to `Y` is a closed subscheme of
-`X ×_S Y`, to which *closed-subscheme-algebraization* applies), and properness of `X` is needed:
-`Hom_S(A¹_{ℤ_p}, A¹_{ℤ_p}) = ℤ_p[x]` is strictly smaller than
-`Hom(Spf ℤ_p⟨x⟩, Spf ℤ_p⟨x⟩) = ℤ_p⟨x⟩`. *Needs:* *completion-morphism-germ*;
-*closed-fibre-neighbourhood*; *completion-of-morphism*; *formal-closed-immersion-criterion*;
-*closed-subscheme-algebraization*; *completion-detects-isomorphism*;
-*adic-systems-equivalence*; *adic-morphism-of-formal-schemes*; Mathlib
-`AlgebraicGeometry.IsSeparated`, `AlgebraicGeometry.IsClosedImmersion`,
-`CategoryTheory.Limits.pullback`.
-
-`Existence.completionHom` maps relative scheme morphisms to relative formal
-morphisms by `completion.map`. Its `completionHom_left` equation fixes its
-underlying morphism over the original scheme. `completionHom_bijective` has
-proper source, separated finite-type target, and an explicit ideal of definition
-of the complete noetherian base (EGA III₁ 5.4.1, pp. 156–157).
-
-**Checks for completion on relative morphisms.**
-
-- `completionHom_identity` — the identity completes to the identity.
-- `completionHom_empty` — maps out of the empty scheme have the same completion.
-- `completionHom_discrete` — completion along the zero ideal distinguishes all original morphisms, without a properness hypothesis.
+(*formal-morphism-full-faithfulness*) *formal-morphism-full-faithfulness* is
+SchemeAndStackFoundations §4.10's `Formal.algebraize_hom` (for an adic noetherian ring `A` with
+ideal of definition `I`, `X` proper and `Y` separated and locally of finite type over `Spec A`, a compatible system of
+morphisms `X_n → Y_n` over `Spec A/I^{n+1}` comes from a unique `A`-morphism `X → Y`), read on
+completions through `Hom_{Spf A}(X̂, Ŷ) = lim_n Hom(X_n, Y_n)` (*morphisms-as-compatible-systems*,
+*formal-scheme-carrier-comparison*); it is not proved again.
 
 **Grothendieck's algebraization theorem (formal GAGA).** (*grothendieck-algebraization*) Let
 `A` be an adic noetherian ring with ideal of definition `I`, `S = Spec A`, `𝔖 = Spf A`,
@@ -3636,12 +3212,7 @@ every thickening because the obstruction lies in `H²(C_0, O) = 0`, so the hypot
 theorem holds. A concrete nonalgebraizable example is the universal formal deformation of a
 smooth quartic K3 surface over `ℂ`, over `Spf ℂ⟦t₁,…,t₂₀⟧`: it is not the completion of
 an algebraic space over this base ([Stacks, Section 110.73, Tag 0D1Q](https://stacks.math.columbia.edu/tag/0D1Q)).
-In particular it cannot carry an invertible sheaf with ample special fibre. *Needs:* *formal-serre-vanishing*;
-*adic-systems-equivalence*; *formal-closed-immersion-criterion*;
-*closed-subscheme-algebraization*; *grothendieck-existence*; *completion-detects-near-closed*;
-*closed-fibre-neighbourhood*; *existence-fully-faithful*; *formal-morphism-full-faithfulness*;
-*proper-formal-morphism*; *projective-bundles-ample-serre*.
-
+In particular it cannot carry an invertible sheaf with ample special fibre.
 `FormalScheme.grothendieck_algebraization` states this existence theorem for a
 complete noetherian adic ring (`IsAdicRing A`, `IsNoetherianRing A`), a specified
 ideal of definition `I`, a locally noetherian formal scheme `𝔛`, a proper formal
@@ -3654,7 +3225,6 @@ to `Spf A`; the module conclusion compares `completeModule M` with `e*L`.
 `FormalScheme.grothendieck_algebraization_lineBundle` gives the ample lift on
 **every** proper algebraization and a closed immersion into the imported Part II
 `AdicSpace.projectiveSpace A n` over `Spec A` (EGA III₁, 5.4.5, pp. 157–158).
-
 The following names denote imported interfaces from StableReduction Layer 2, or
 compatibility abbreviations for them in the displayed namespaces.
 `AlgebraicGeometry.Scheme.Modules.tensorPower` uses the canonical powers in the
@@ -3674,36 +3244,31 @@ For `f : X → Spec A` and invertible `L`, the imported absolute predicate
 hypotheses of formal existence use the same ordinary ampleness theory.
 The tensor-power, nonvanishing and ampleness Checks below specify this imported
 interface; the completion and formal-existence comparisons remain F0 targets.
-
 `FormalScheme.Existence.baseCompletionIso` identifies the completion of `Spec A`
 along `V(I)` with `Spf A` for the same complete noetherian adic base and ideal of
 definition (EGA I, 10.8.5, p. 195). `baseCompletionIso_coefficients` fixes this comparison
 on every coefficient of `A`, using the two global-section identifications.
+*Needs:* *formal-serre-vanishing*;
+*adic-systems-equivalence*; *formal-closed-immersion-criterion*;
+*closed-subscheme-algebraization*; *grothendieck-existence*; *completion-detects-near-closed*;
+*closed-fibre-neighbourhood*; *existence-fully-faithful*; *formal-morphism-full-faithfulness*;
+*proper-formal-morphism*; *projective-bundles-ample-serre*.
 
-**Checks for tensor powers.**
+**Checks.**
 
-- `tensorPower_zero` — exponent zero is `O_X`, including for the zero module.
-- `tensorPower_one` — exponent one is isomorphic to `L` by the left unitor.
-- `tensorPower_two` — exponent two is isomorphic to `L ⊗ L`.
-
-**Checks for nonvanishing opens.**
-
-- `sectionNonvanishing_zero` — the zero section has empty nonvanishing open.
-- `sectionNonvanishing_identity` — the identity section of `O_X` is nonvanishing everywhere.
-- `sectionNonvanishing_scalar` — multiplication by a global function `r` has nonvanishing open `D(r)`.
-
-**Checks for ampleness.**
-
-- `IsAmple_affine` — every invertible sheaf on an affine scheme is ample.
-- `IsAmple_empty` — every module on the empty scheme is ample.
-- `IsAmple_zero` — the zero module on a nonempty scheme is not ample.
-- `IsAmple_projectiveLine_unit` — the structure sheaf on `P¹_k` is not ample.
-
-**Checks for the base completion comparison.**
-
-- `baseCompletionIso_discrete` — for the zero ideal in a discrete base, the comparison followed by the map to `Spec A` is an isomorphism.
-- `baseCompletionIso_empty` — for the zero ring, both spaces in the comparison are empty and the comparison is their unique morphism.
-- `baseCompletionIso_padic` — completion of `Spec ℤ_p` along `V(p)` is isomorphic to `Spf ℤ_p`.
+- *tensorPower_zero* — exponent zero is `O_X`, including for the zero module.
+- *tensorPower_one* — exponent one is isomorphic to `L` by the left unitor.
+- *tensorPower_two* — exponent two is isomorphic to `L ⊗ L`.
+- *sectionNonvanishing_zero* — the zero section has empty nonvanishing open.
+- *sectionNonvanishing_identity* — the identity section of `O_X` is nonvanishing everywhere.
+- *sectionNonvanishing_scalar* — multiplication by a global function `r` has nonvanishing open `D(r)`.
+- *IsAmple_affine* — every invertible sheaf on an affine scheme is ample.
+- *IsAmple_empty* — every module on the empty scheme is ample.
+- *IsAmple_zero* — the zero module on a nonempty scheme is not ample.
+- *IsAmple_projectiveLine_unit* — the structure sheaf on `P¹_k` is not ample.
+- *baseCompletionIso_discrete* — for the zero ideal in a discrete base, the comparison followed by the map to `Spec A` is an isomorphism.
+- *baseCompletionIso_empty* — for the zero ring, both spaces in the comparison are empty and the comparison is their unique morphism.
+- *baseCompletionIso_padic* — completion of `Spec ℤ_p` along `V(p)` is isomorphic to `Spf ℤ_p`.
 
 **Morphisms of locally ringed spaces glue along open covers.** (*lrs-morphism-gluing*) Let `X`
 and `Y` be locally ringed spaces and `(U_i)_{i∈ι}` an open cover of `X`. Prove that, given
@@ -3776,7 +3341,13 @@ layer L0A on the ringed spaces of this layer) and `SheafOfModules.internalHom_is
 locally noetherian scheme, `ℋom` of coherent modules is coherent; for formal schemes see
 *coherent-formal-module-properties*). `f^*O_X ⊗ f^*O_X = O_Y`; on `Spec ℤ`,
 `ℋom((ℤ/p)~, O) = 0` while `ℋom(O, (ℤ/p)~) = (ℤ/p)~`, and applying `ℋom(−, O)` to
-`0 → ℤ → ℤ → ℤ/p → 0` gives `0 → 0 → ℤ → ℤ`, which is not right exact. *Needs:* Mathlib
+`0 → ℤ → ℤ → ℤ/p → 0` gives `0 → 0 → ℤ → ℤ`, which is not right exact.
+`AlgebraicGeometry.tildeHomIso` uses Mathlib's `tilde` on `ModuleCat A`,
+with finite presentation required only of the source module; the target module
+is arbitrary. `SheafOfModules.internalHom_isCoherent` uses finite presentation
+of both sheaves on a locally noetherian scheme (EGA I 1.3.12(ii), pp. 88–89;
+6.1.1, pp. 140–141).
+*Needs:* Mathlib
 `SheafOfModules`, `SheafOfModules.pullback`, `SheafOfModules.IsFinitePresentation`,
 `TopCat.Sheaf.existsUnique_gluing`, `AlgebraicGeometry.tilde`, `AlgebraicGeometry.tildeEquiv`;
 Tau Ceti `TauCeti.SheafOfModules.ringCatSheaf`, `TauCeti.SheafOfModules.tensorProduct`,
@@ -3788,28 +3359,22 @@ Tau Ceti `TauCeti.SheafOfModules.ringCatSheaf`, `TauCeti.SheafOfModules.tensorPr
 
 **Checks.**
 
-- `SheafOfModules.internalHom_tilde` (computation) — for finite modules `M`, `N` over a
+- *SheafOfModules.internalHom_tilde* (computation) — for finite modules `M`, `N` over a
   noetherian ring `A`, `ℋom(M~, N~) ≅ (Hom_A(M, N))~` on `Spec A`; e.g.
   `ℋom((ℤ/p)~, (ℤ/p²)~) ≅ (ℤ/p)~` on `Spec ℤ`.
-- `SheafOfModules.not_pullback_internalHom_of_not_flat` (non-example) — for the closed immersion
+- *SheafOfModules.not_pullback_internalHom_of_not_flat* (non-example) — for the closed immersion
   `f : Spec F_p → Spec ℤ` (not flat) and `F = (ℤ/p)~`, `G = O`: `f^*ℋom(F, G) = 0` but
   `ℋom(f^*F, f^*G) = ℋom(O, O) = O ≠ 0`; flatness is needed.
-- `SheafOfModules.pullbackTensorIso_unit` (compatibility) — for `f : Y → X` a morphism of ringed
+- *SheafOfModules.pullbackTensorIso_unit* (compatibility) — for `f : Y → X` a morphism of ringed
   spaces, the isomorphism `f^*(O_X ⊗ G) ≅ f^*O_X ⊗ f^*G` composed with the unitors is the identity
   of `f^*G`.
-- `SheafOfModules.pullbackTensorIso_presentation` (compatibility) — when `F` has a global
+- *SheafOfModules.pullbackTensorIso_presentation* (compatibility) — when `F` has a global
   presentation, `pullbackTensorIso` agrees with Tau Ceti's `Presentation.pullbackTensorIso`.
   The example characterizes this comparison by its squares for the generating
   sections, obtained from `SheafOfModules.freeCofan` and the presentation's
   `generators.π`. The unit comparison is Mathlib's
   `SheafOfModules.pullbackObjUnitToUnit`; these squares uniquely determine
   the isomorphism and give the supplied presentation normalization.
-
-`AlgebraicGeometry.tildeHomIso` uses Mathlib's `tilde` on `ModuleCat A`,
-with finite presentation required only of the source module; the target module
-is arbitrary. `SheafOfModules.internalHom_isCoherent` uses finite presentation
-of both sheaves on a locally noetherian scheme (EGA I 1.3.12(ii), pp. 88–89;
-6.1.1, pp. 140–141).
 
 **Closure properties of coherent modules on a locally noetherian formal scheme.**
 (*coherent-formal-module-properties*) Let `X` be locally noetherian. Prove `FormalScheme.isCoherentRing_structureSheaf` (`O_X` is a coherent sheaf of
@@ -3825,10 +3390,7 @@ coherent submodules have closed sections) and `FormalScheme.Coh.isIdealOfDefinit
 (every ideal of definition of `X` is a coherent `O_X`-module). The abelian instance and these statements
 follow from *affine-coherent-equivalence* (iii), pullback of associated finite modules
 (EGA I Ch. I, 10.10.8, p. 203), and *coherent-as-inverse-system*
-(EGA I Ch. I, 10.11.1, p. 204; 10.11.6, pp. 204–205). *Needs:*
-*coherent-formal-module*; *affine-coherent-equivalence*; *associated-formal-module*;
-*coherent-as-inverse-system*; *internal-hom-sheaf-of-modules*.
-
+(EGA I Ch. I, 10.11.1, p. 204; 10.11.6, pp. 204–205).
 `FormalScheme.isCoherentRing_structureSheaf` states the local kernel criterion:
 on every open formal subscheme, the kernel of every map from a finite free
 module to the structure module is of finite type (EGA I 10.10.3, p. 202;
@@ -3838,13 +3400,6 @@ coherent thickening system, for any finite-type ideal of definition.
 `Coh.sectionsTopology_continuous` and `Coh.sectionsTopology_closed` state
 continuity of coherent morphisms and closedness of the sections of coherent
 submodules (EGA I 10.11.3–6, pp. 204–205).
-
-**Checks for coherent section topologies.**
-
-- `Coh.sectionsTopology_discrete` — over an ordinary locally noetherian scheme, sections on a quasi-compact open have the discrete topology.
-- `Coh.sectionsTopology_empty` — sections on the empty open have their unique, discrete topology.
-- `Coh.sectionsTopology_affine` — global sections of `M^Δ` have exactly the `I`-adic module topology transported along `completedTildeGlobalIso`, for any ideal of definition `I`.
-
 For locally noetherian `X`, `FormalScheme.Coh.coker_mem` isolates the cokernel
 conclusion of `Coh.ker_mem`. `Coh.closedUnderKernels` and
 `Coh.closedUnderCokernels` express closure for every limiting kernel fork and
@@ -3856,13 +3411,21 @@ its preadditive structure is definitionally `Preadditive.fullSubcategory`.
 The geometric input is coherence of the structure sheaf (EGA I Ch. I,
 10.10.3, p. 202; 10.11.1, p. 204); kernels, cokernels and finite products
 are formed in `SheafOfModules X.ringCatSheaf` before restricting to `Coh X`.
+*Needs:*
+*coherent-formal-module*; *affine-coherent-equivalence*; *associated-formal-module*;
+*coherent-as-inverse-system*; *internal-hom-sheaf-of-modules*.
 
-**Checks.** `cohAbelian_preadditive` compares the preadditive structure with
-Mathlib's explicit full-subcategory instance by reflexivity;
-`cohAbelian_add` computes `(f + g).hom = f.hom + g.hom`;
-`cohAbelian_zero` computes the underlying zero morphism; and
-`cohAbelian_comp` computes the underlying composite. All four are reflexivity
-checks for every locally noetherian formal scheme, including the empty one.
+**Checks.**
+
+- *Coh.sectionsTopology_discrete* — over an ordinary locally noetherian scheme, sections on a quasi-compact open have the discrete topology.
+- *Coh.sectionsTopology_empty* — sections on the empty open have their unique, discrete topology.
+- *Coh.sectionsTopology_affine* — global sections of `M^Δ` have exactly the `I`-adic module topology transported along `FormalScheme.Spf.completedTilde.globalSectionsIso`, for any ideal of definition `I`.
+- *cohAbelian_preadditive* — the preadditive structure of `Coh X` is that of the full
+  subcategory of module sheaves.
+- *cohAbelian_add* — `(f + g).hom = f.hom + g.hom`.
+- *cohAbelian_zero* — the underlying morphism of `0` is zero.
+- *cohAbelian_comp* — the underlying morphism of a composite is the composite of the underlying
+  morphisms, for every locally noetherian formal scheme, including the empty one.
 
 **Formal glueing of modules along a flat map that is an isomorphism modulo `I`.**
 (*formal-glueing-of-modules*) Let `φ₀ : R → S` be a flat ring map and `I ⊆ R` a finitely
@@ -3875,9 +3438,6 @@ whose proof reduces to the glueing equivalence Prop. 15.91.16); the dual stateme
 `φ : M ⊗_R S → N′` holds likewise (Stacks Tag 0ALK (2)). For `R = ℤ_(p)`, `S = ℤ_p`, `I = (p)`,
 `N = R`, `M′ = pℤ_p ⊂ ℤ_p = N ⊗ S` (cokernel `F_p`): `M = pℤ_(p)`, `ψ` the inclusion; for
 `N = 0`, `M′ = ℤ/p` (`φ = 0`, kernel `ℤ/p`): `M = ℤ/p`, whose base change to `ℤ_p` is `M′`.
-*Needs:* Mathlib `Module.Flat`, `Ideal.FG`, `Localization.Away`,
-`AdicCompletion.flat_of_isNoetherian`.
-
 `FormalModuleGluing.into_baseChange` and `out_of_baseChange` state both directions
 using actual modules, kernels, quotient cokernels and tensor products. The
 scalar map is flat, the given ideal is finitely generated, and its induced
@@ -3885,12 +3445,14 @@ quotient ring map is bijective. A characteristic equation on every pure tensor
 fixes each descended map and the comparison isomorphism. Power torsion is
 quantified element by element; no uniform annihilating exponent is assumed
 ([Stacks, Tag 0ALK](https://stacks.math.columbia.edu/tag/0ALK)).
+*Needs:* Mathlib `Module.Flat`, `Ideal.FG`, `Localization.Away`,
+`AdicCompletion.flat_of_isNoetherian`.
 
-**Checks for the power-torsion hypotheses of module gluing.**
+**Checks.**
 
-- `formalGluing_torsion_zero_ideal` — every module is power torsion for the zero ideal.
-- `formalGluing_torsion_unit_ideal` — for the unit ideal, only the zero module is power torsion.
-- `formalGluing_torsion_wrong_prime` — `ℚ/ℤ` is not `(2)`-power torsion: the class of `1/3` survives every power of `2`.
+- *formalGluing_torsion_zero_ideal* — every module is power torsion for the zero ideal.
+- *formalGluing_torsion_unit_ideal* — for the unit ideal, only the zero module is power torsion.
+- *formalGluing_torsion_wrong_prime* — `ℚ/ℤ` is not `(2)`-power torsion: the class of `1/3` survives every power of `2`.
 
 **Coherent formal modules with proper support form Serre subcategories.**
 (*proper-support-serre-subcategory*) Let `S` be a noetherian scheme, `f : X → S` of finite type,
@@ -3901,15 +3463,15 @@ quotients and extensions): (1) the objects `G = (G_n)` such that `Supp G_0` (`= 
 all `n`) is proper over `S`; (2) the objects annihilated by the ideal sheaf of some closed
 subscheme `Z ⊆ X` proper over `S` (Stacks Tag 0CYV, Lem. 30.26.11). For `X = A¹_{ℤ_p}` over
 `S = Spec ℤ_p` and `𝓘 = (p)`: `Ô_{V(x)}` lies in both subcategories, `Ô_X` in neither (its
-support `A¹_{F_p}` is not proper). *Needs:* *coherent-as-inverse-system*; Mathlib
-`ObjectProperty.IsSerreClass`, `AlgebraicGeometry.IsProper`,
-`AlgebraicGeometry.Scheme.IdealSheafData`.
-
+support `A¹_{F_p}` is not proper).
 `properCohProperty_isSerreClass` states closure under subobjects, quotients and
 extensions for the proper-support property on the actual coherent category.
 The distinct condition of being annihilated by the completed ideal of an
 algebraic proper closed subscheme is the second property in the target above
 (Stacks Tag 0CYV); it is not identified with proper support by definition.
+*Needs:* *coherent-as-inverse-system*; Mathlib
+`ObjectProperty.IsSerreClass`, `AlgebraicGeometry.IsProper`,
+`AlgebraicGeometry.Scheme.IdealSheafData`.
 
 ### F0.9 projective geometry over a noetherian base, stated for this roadmap's use
 
@@ -3937,16 +3499,12 @@ theorem; Stacks Tag 0B5U) are SchemeAndStackFoundations Layer 2 (§2.6, `ample_s
 Stacks Tag 01XO) and are used here with `A` noetherian and `X` proper over `A`, not restated.
 For a graded algebra `S` of finite type over `A` generated in degree
 `1`, `X = Proj S` and a finitely generated graded `S`-module `M`, prove that the maps
-`M_n → Γ(X, M̃(n))` are bijective for `n ≫ 0` (EGA III₁ 2.3.1–2.3.2). *Needs:*
-SchemeAndStackFoundations Layer 2 (§2.6, `ample_serre_vanishing`); StableReduction layer 2; Mathlib
-`AlgebraicGeometry.Proj`, `AlgebraicGeometry.IsProper`.
-
+`M_n → Γ(X, M̃(n))` are bijective for `n ≫ 0` (EGA III₁ 2.3.1–2.3.2).
 In this imported interface, `AlgebraicGeometry.LineQuotient` retains a locally rank-one sheaf
 and an epimorphism from the pulled-back module. `ProjectiveBundleData` represents these quotients with
 the equation identifying the pulled-back universal quotient map.
 `nonempty_projectiveBundleData`, `ProjectiveBundleData.baseChange` and
 `ProjectiveBundleData.isProper` state existence, arbitrary base change and properness.
-
 `AlgebraicGeometry.gradedTwistSections G ℳ n U` consists of functions on `U`
 with values in the localizations of `M` at the underlying primes, locally given
 by a homogeneous fraction `m/f` with `deg(m) = deg(f) + n`. The algebra has an
@@ -3962,27 +3520,27 @@ For `A` noetherian, `S` a finite-type `A`-algebra generated by `G 1`, and
 `n₀ : ℕ` such that this map is bijective for every `n ≥ n₀`.
 No ampleness hypothesis is needed (EGA III₁, 2.3.1, pp. 102–103;
 the related finite-type corollary is 2.3.2, p. 104).
+*Needs:*
+SchemeAndStackFoundations Layer 2 (§2.6, `ample_serre_vanishing`); StableReduction layer 2; Mathlib
+`AlgebraicGeometry.Proj`, `AlgebraicGeometry.IsProper`.
 
-**Checks for twisted graded modules and their sections.**
+**Checks.**
 
-- `gradedTwistSections_empty` — the empty open has only the zero section.
-- `gradedTwistSections_zeroModule` — every open has only the zero section for the zero module.
-- `gradedTwistSections_fraction` — for `f ∈ S_d` and `m ∈ M_{d+n}`, the fraction `m/f` is a section on `D₊(f)`, including the empty open when `f = 0`.
-- `gradedTwist_zeroModule` — the sheaf associated to every twist of the zero module is zero.
-- `gradedTwist_structure` — the regular graded module at twist zero gives the structure sheaf.
-- `gradedTwist_projectiveLine` — over a field, `O(-1)` on `P¹` has zero global sections and `O(1)` has nonzero global sections; this fixes the sign of the shift.
-- `gradedSections_zeroModule` — for the zero module the canonical map is bijective in every degree.
-- `gradedSections_polynomial` — for `S = k[X₀,…,Xᵣ]` with its regular graded module, the canonical map is bijective in every nonnegative degree, including `r = 0` and `n = 0`.
-- `gradedSections_torsion` — if `S` is generated in degree one and a nonzero homogeneous `m` is killed by `S₁`, then its section is zero and that degree's map is not injective. This applies to `M = k[X₀,X₁]/(X₀,X₁)` in degree zero and prevents replacing eventual bijectivity by bijectivity in every degree.
-
-**Checks for projective bundles.**
-
-- `LineQuotient_zero` — a line quotient of zero forces the test scheme to be empty.
-- `LineQuotient_rankOne` — a quotient of the unit line is an isomorphism.
-- `LineQuotient_rankTwo` — the two coordinate quotients over a field are inequivalent.
-- `ProjectiveBundleData_zero` — the projective bundle of zero is empty.
-- `ProjectiveBundleData_rankOne` — the projective bundle of the unit line is the base.
-- `ProjectiveBundleData_unique` — two representing objects are isomorphic over the base,
+- *gradedTwistSections_empty* — the empty open has only the zero section.
+- *gradedTwistSections_zeroModule* — every open has only the zero section for the zero module.
+- *gradedTwistSections_fraction* — for `f ∈ S_d` and `m ∈ M_{d+n}`, the fraction `m/f` is a section on `D₊(f)`, including the empty open when `f = 0`.
+- *gradedTwist_zeroModule* — the sheaf associated to every twist of the zero module is zero.
+- *gradedTwist_structure* — the regular graded module at twist zero gives the structure sheaf.
+- *gradedTwist_projectiveLine* — over a field, `O(-1)` on `P¹` has zero global sections and `O(1)` has nonzero global sections; this fixes the sign of the shift.
+- *gradedSections_zeroModule* — for the zero module the canonical map is bijective in every degree.
+- *gradedSections_polynomial* — for `S = k[X₀,…,Xᵣ]` with its regular graded module, the canonical map is bijective in every nonnegative degree, including `r = 0` and `n = 0`.
+- *gradedSections_torsion* — if `S` is generated in degree one and a nonzero homogeneous `m` is killed by `S₁`, then its section is zero and that degree's map is not injective. This applies to `M = k[X₀,X₁]/(X₀,X₁)` in degree zero and prevents replacing eventual bijectivity by bijectivity in every degree.
+- *LineQuotient_zero* — a line quotient of zero forces the test scheme to be empty.
+- *LineQuotient_rankOne* — a quotient of the unit line is an isomorphism.
+- *LineQuotient_rankTwo* — the two coordinate quotients over a field are inequivalent.
+- *ProjectiveBundleData_zero* — the projective bundle of zero is empty.
+- *ProjectiveBundleData_rankOne* — the projective bundle of the unit line is the base.
+- *ProjectiveBundleData_unique* — two representing objects are isomorphic over the base,
   compatibly with their universal lines.
 
 **Chow's lemma and dévissage over a noetherian base.** (*chow-lemma-devissage*) Chow's lemma —
@@ -3990,27 +3548,13 @@ for a separated morphism of finite type `X → S` with `S` noetherian there is a
 particular proper, surjective) morphism `X′ → X` which is an isomorphism over a dense open of
 `X` and such that `X′ → S` is quasi-projective, projective when `X → S` is proper (EGA II 5.6.1,
 5.6.2; [Stacks, 30.18.1, Tag 0200](https://stacks.math.columbia.edu/tag/0200)) —
-is the SchemeAndStackFoundations Layer 4 (§4.12, `chow_lemma`) contract used here.
-`AlgebraicGeometry.chowModification` states it on scheme carriers: finite type is
-`LocallyOfFiniteType f` together with `QuasiCompact f`; the dense open `U` has
-`IsIso (pullback.snd π U.ι)`. The conclusion includes a closed immersion
-`X′ → Pᵐ_X` over `X`, an immersion `i : X′ → Pⁿ_S` over `S`, and closedness of
-`i` when `f` is proper. Thus both projectivity conclusions are explicit.
+is SchemeAndStackFoundations Layer 4's `chow_lemma` (§4.12), which F0 uses as stated there.
 The proper case is the one used in EGA III₁, proof of 3.2.1, p. 117.
-
 `AlgebraicGeometry.relativeProjectiveSpace S n` is `S × Pⁿ_ℤ`, formed over the
 terminal scheme using Part II's imported `AdicSpace.projectiveSpace`; the map
 to `S` is `pullback.fst` ([Stacks, Section 27.13](https://stacks.math.columbia.edu/tag/01ND)).
-For `S = Spec R`, the affine comparison identifies the immersion with the
+For `S = Spec R`, the affine comparison identifies an immersion into `Pⁿ_S` with the
 existing `AlgebraicGeometry.IsQuasiProjective` condition.
-
-**Checks for `relativeProjectiveSpace`.**
-
-- `relativeProjectiveSpace_zero` — the projection `P⁰_S → S` is an isomorphism.
-- `relativeProjectiveSpace_empty` — every dimension over an empty base is empty.
-- `relativeProjectiveSpace_affine` — over `Spec R`, the comparison with Part II's
-  `projectiveSpace R n` commutes with the structural maps, including for the zero ring.
-
 Dévissage: let `X` be noetherian and `P` a property of coherent
 `O_X`-modules such that `0` has `P` and, in every short exact sequence of coherent modules, if
 two terms have `P` then so does the third. Prove that if for every integral closed subscheme
@@ -4021,7 +3565,13 @@ and that if `P` is moreover stable under direct summands, a test module with non
 `ξ` annihilated by the maximal ideal of `O_{X,ξ}` suffices (EGA III₁ 3.1.2, 3.1.3; Stacks Tag 01YI). *Needs:* SchemeAndStackFoundations
 Layer 4 (§4.12, `chow_lemma`); Mathlib `AlgebraicGeometry.IsProper`, `AlgebraicGeometry.IsSeparated`.
 
-**Check `coherent_devissage_genericAnnihilation`.** Over `Spec(ℤ/4)`, the structure
+**Checks.**
+
+- *relativeProjectiveSpace_zero* — the projection `P⁰_S → S` is an isomorphism.
+- *relativeProjectiveSpace_empty* — every dimension over an empty base is empty.
+- *relativeProjectiveSpace_affine* — over `Spec R`, the comparison with Part II's
+  `projectiveSpace R n` commutes with the structural maps, including for the zero ring.
+- *coherent_devissage_genericAnnihilation* — over `Spec(ℤ/4)`, the structure
 module is projective but its residue field is not. Merely requiring a nonzero generic
 stalk would therefore be insufficient: the positive-rank variant retains annihilation
 by the maximal ideal, as in [Stacks, Lemma 30.12.7, Tag 01YL](https://stacks.math.columbia.edu/tag/01YL).
@@ -4052,14 +3602,10 @@ non-adic `Spf ℤ_p⟦x⟧ → Spf ℤ_p` obtained by completing `Spec ℤ[x] �
 `(ℤ/ℓ)~` completing to `0` along `V(p)` and multiplication by `ℓ` becoming an isomorphism on
 `D(ℓ)`; the exact sequence `0 → ℤ_p → ℤ_p → F_p → 0` as the completion of multiplication by `p`;
 `Coh(Spf ℤ_p) ≃` finite `ℤ_p`-modules with `(ℤ/p^k)^Δ` the skyscraper and `ℚ_p` not coherent;
-the systems `(ℤ/p^{n+1})_n`, `(ℤ/p)_n` and `(ℤ/p^{min(n+1,k)})_n` on `Spf ℤ_p`; the theorem on
-formal functions for `P¹_{k[t]}` and `O(−2)` giving `k⟦t⟧`, with the punctured plane over
-`A¹_k` showing that properness is needed; `H^1(P̂¹_{ℤ_p}, Ô(−2)) = ℤ_p`; Zariski's
-connectedness and fibre-dimension vanishing as consequences of formal functions at a point;
-`Hom(O(a), O(b))` on `P¹_{ℤ_p}` against `ℤ_p[x] ≠ ℤ_p⟨x⟩` on `A¹_{ℤ_p}` for full faithfulness
+the systems `(ℤ/p^{n+1})_n`, `(ℤ/p)_n` and `(ℤ/p^{min(n+1,k)})_n` on `Spf ℤ_p`;
+`H^1(P̂¹_{ℤ_p}, Ô(−2)) = ℤ_p`; `Hom(O(a), O(b))` on `P¹_{ℤ_p}` against `ℤ_p[x] ≠ ℤ_p⟨x⟩` on `A¹_{ℤ_p}` for full faithfulness
 and `Pic(P̂^r) = ℤ` for the existence theorem; `V(x − a) ⊂ Spf ℤ_p⟨x⟩` as the completion of a
-proper closed subscheme and `Spf ℤ_p⟨x⟩` itself as a non-proper one;
-`Aut(P̂¹) = lim_n PGL_2(ℤ/p^{n+1}) = PGL_2(ℤ_p)`; the algebraisation of `P¹_{ℤ/p^{n+1}}` with
+proper closed subscheme and `Spf ℤ_p⟨x⟩` itself as a non-proper one; the algebraisation of `P¹_{ℤ/p^{n+1}}` with
 `O(1)` and of formal deformations of smooth projective curves, against the nonalgebraizable universal formal
 deformation of a smooth complex quartic K3 surface over `ℂ⟦t₁,…,t₂₀⟧`; and, for the general
 lemmas, `lim(ℤ/p^n) = ℤ_p`
@@ -4092,8 +3638,8 @@ with `cohomologyMapBaseLinear`, `cohomologyδ`, `exact_cohomologyMap_cohomology�
 JacobianChallenge layer C; DerivedModuleAlgebra §§1.T.1 and 1.1
 (the shared tower calculus, surjective and finite-term Mittag-Leffler criteria, and ML vanishing);
 *mittag-leffler-criteria* here (quotients, extensions and Artinian terms);
-AlgebraicVectorBundles layers L0A and L0B. AdicSpacesPartII R0.1a–R0.1b supplies adic rings
-and noetherian adic completion; its Layer R0 supplies *completed-tensor-product* and AdicSpacesPartII *completed-tensor-product* for the
+AlgebraicVectorBundles layers L0A and L0B. Tau Ceti supplies adic rings
+and noetherian adic completion; AdicSpacesPartII Layer R0 supplies *completed-tensor-product* and AdicSpacesPartII *completed-tensor-product* for the
 comparison with F0's ideal-adic construction. The projective-geometry inputs
 of the existence and algebraisation theorems are the two targets of the last subsection.
 
@@ -4110,8 +3656,8 @@ special fibre and rig-points; admissible formal blow-ups with their strict trans
 theorem identifying quasi-compact admissible formal schemes localised at admissible blow-ups with
 quasi-compact quasi-separated rigid (equivalently adic) spaces; separatedness and properness of a
 formal model against its generic fibre, and the dimension, reducedness and pure dimension of
-their fibres; flattening by admissible blow-up after Bosch–Lütkebohmert
-and Raynaud–Gruson with its proof broken into its lemmas, quasi-finite and bounded-fibre-dimension
+their fibres; flattening by admissible blow-up (BL II; RG) with the lemmas of its proof,
+quasi-finite and bounded-fibre-dimension
 formal models, and Conrad's fibral finiteness criterion and topological invariance of affinoidness;
 formal completions of schemes and the good-reduction locus; smooth formal schemes, Frobenius lifts
 and residue discs; and fractional valuation bounds, section domains and Hasse domains with their
@@ -4163,7 +3709,7 @@ the `ϖ`-adic topologies — then `A` is tfp if and only if its kernel is finite
 for `f ∈ A` the completed localisation `A_{f}` of *completed-localization* (layer F0), the
 `ϖ`-adic completion of `A[1/f]`, is isomorphic to `A⟨ζ⟩/(1 − fζ)`, hence tfp, and depends only on
 the open set `{f ≠ 0}` of `Spec(A/ϖ)`; that a tfp `O_K`-algebra with its `ϖ`-adic topology is an
-adic ring of finite ideal type in the sense of AdicSpacesPartII R0.1a *adic-ring* with ideal of definition
+adic ring of finite ideal type in the sense of Tau Ceti `TauCeti.IsAdicRing` with ideal of definition
 `ϖA`; that if `A` is tfp and `b ⊆ A` is finitely generated then `A/b` and `A⟨η_1, …, η_r⟩` are
 tfp; that a `ϖ`-adically complete and separated `O_K`-algebra `A` is tft if and only if `A/ϖA` is
 an `O_K/ϖ`-algebra of finite type (BL I §1, Lem. 1.5), and if `A` is tfp then each `A/ϖ^{m}A` is a
@@ -4188,7 +3734,7 @@ O_K`)
 (BL I §1, definitions before Prop. 1.1, p. 293: admissible = tfp and flat = tfp and torsion-free;
 Conrad-AWS §3.3, p. 30: tfp algebras as quotients of restricted power series by finitely generated
 ideals, and admissible = tfp + flat; FK Ch. 0, §8.4, Def. 8.4.1, p. 188: the same notions over a
-general complete pair of finite ideal type). *Needs:* AdicSpacesPartII R0.1a *adic-ring*;
+general complete pair of finite ideal type). *Needs:* Tau Ceti `TauCeti.IsAdicRing`;
 *completed-localization* (layer F0); Tau Ceti `TauCeti.Huber.restrictedMvPowerSeriesCompletion`,
 `TauCeti.Huber.IsStrictlyTopologicallyFiniteType`, `TauCeti.Huber.IsTopologicallyFiniteType`,
 `TauCeti.Huber.IsPseudoUniformizer`; Mathlib `Valuation.RankOne`, `IsAdicComplete`, `Module.Flat`,
@@ -4201,25 +3747,25 @@ other clauses and Checks are specified in this README only.
 
 **Checks.**
 
-- `topologicallyFinitePresentation_test_restricted` (computation) — `O_K⟨T⟩` satisfies
+- *topologicallyFinitePresentation_test_restricted* (computation) — `O_K⟨T⟩` satisfies
   `IsAdmissibleAlgebra` over `O_K`. The generic-fibre identification is the separate
   generic-fibre construction, specified by its neighbourhood basis `ϖ^n A`.
-- `topologicallyFinitePresentation_test_torsion` (non-example) — `A = O_K⟨T⟩/(ϖT)` is
+- *topologicallyFinitePresentation_test_torsion* (non-example) — `A = O_K⟨T⟩/(ϖT)` is
   `IsTopologicallyFinitePresentation` but not `IsAdmissibleAlgebra` (the class of `T` is a nonzero
   `ϖ`-torsion element), and its torsion-free quotient is `O_K`.
-- `topologicallyFinitePresentation_test_madic` (non-example) — for `K = ℂ_p` (where `m_K² = m_K`),
+- *topologicallyFinitePresentation_test_madic* (non-example) — for `K = ℂ_p` (where `m_K² = m_K`),
   the `m_K`-adic completion of `O_K[T]` is `k[T]`; hence a definition using the `m_K`-adic topology
   instead of the `ϖ`-adic one gives a different, wrong ring.
-- `topologicallyFinitePresentation_test_zeroVars` (degenerate) — with no variables, `O_K` is
+- *topologicallyFinitePresentation_test_zeroVars* (degenerate) — with no variables, `O_K` is
   admissible, and `O_K/ϖ^m` (`m ≥ 1`) is tfp but not admissible.
-- `topologicallyFinitePresentation_test_discrete` (compatibility) — if `K` is discretely valued,
+- *topologicallyFinitePresentation_test_discrete* (compatibility) — if `K` is discretely valued,
   every tft `O_K`-algebra is tfp (`O_K⟨ξ⟩` is noetherian), and admissible means: noetherian,
   `ϖ`-adically complete, flat and tft over `O_K`.
-- `topologicallyFinitePresentation_test_powerTorsion` (non-example) — for `A = O_K⟨T⟩/(ϖ²T)`:
+- *topologicallyFinitePresentation_test_powerTorsion* (non-example) — for `A = O_K⟨T⟩/(ϖ²T)`:
   the `ϖ`-torsion is `A[ϖ] = (ϖT)/(ϖ²T)` and `A/A[ϖ] = O_K⟨T⟩/(ϖT)` is not admissible, while the
   `ϖ`-power torsion is `A[ϖ^∞] = (T)/(ϖ²T)` and `A/A[ϖ^∞] = O_K` is; the torsion quotient removes
   the power torsion.
-- `topologicallyFinitePresentation_test_completeLocalization_degenerate` (degenerate) — for
+- *topologicallyFinitePresentation_test_completeLocalization_degenerate* (degenerate) — for
   `f = 0` and for `f = ϖ` the completed localisation `A⟨f⁻¹⟩` is the zero ring (`1 − 0·ζ` is a
   unit; `ϖ` becomes a unit and the `ϖ`-adic completion of a ring in which `ϖ` is a unit is `0`),
   which is tfp (`O_K⟨⟩/(1)`), matching `D(0) = D(ϖ) = ∅` in `Spec(A/ϖ)`; for `f = 1`,
@@ -4227,12 +3773,12 @@ other clauses and Checks are specified in this README only.
 
 **Checks for the base and generic-fibre topology.**
 
-- `rankOneBase_test_padic` — `ℤ_p` with `ϖ = p` satisfies the base predicate.
-- `rankOneBase_test_zero` — `ϖ = 0` fails its nonzero condition.
-- `rankOneBase_test_unit` — a unit fails its nonunit condition, even over a field.
-- `genericFibre_test_base_nondiscrete` — the generic fibre of `O_K` is nondiscrete.
-- `genericFibre_test_torsion_discrete` — for `O_K/ϖ`, the generic-fibre ring is zero and discrete.
-- `genericFibre_test_first_neighbourhood` — the image of `ϖO_K` is a neighbourhood of zero
+- *rankOneBase_test_padic* — `ℤ_p` with `ϖ = p` satisfies the base predicate.
+- *rankOneBase_test_zero* — `ϖ = 0` fails its nonzero condition.
+- *rankOneBase_test_unit* — a unit fails its nonunit condition, even over a field.
+- *genericFibre_test_base_nondiscrete* — the generic fibre of `O_K` is nondiscrete.
+- *genericFibre_test_torsion_discrete* — for `O_K/ϖ`, the generic-fibre ring is zero and discrete.
+- *genericFibre_test_first_neighbourhood* — the image of `ϖO_K` is a neighbourhood of zero
   containing `0` and excluding `1`, so the topology is not indiscrete.
 
 **Saturated submodules of finite free modules over tft algebras are finitely generated.**
@@ -4324,10 +3870,14 @@ O_K⟨T,T⁻¹⟩ × O_K⟨T,(1−T)⁻¹⟩`. *Needs:* *topologically-finitely-
 **Flatness of completed localisation over a tfp valuation-ring algebra.**
 (*formal-localization-flatness*) Let `A` be a tfp `O_K`-algebra with its `ϖ`-adic topology
 and let `f ∈ A`. On the carrier of *completed-localization*, put
-`B = AdicRing.CompletedAway A f = A⟨f⁻¹⟩`. It is tfp, and for every `m ≥ 1` construct
-`B/ϖ^m B ≅ (A/ϖ^m A)[1/f]`. This is an isomorphism of `A`-algebras: the class of the image
-of `a ∈ A` is sent to the localized class of `a`; the reduction maps as `m` varies commute
-with it. Ordinary localisation is flat, so the criterion `flat_iff_forall_flat_quotient`
+`B = TauCeti.AdicRing.CompletedAway A f = A⟨f⁻¹⟩`. It is tfp, and for every `m ≥ 1` the
+isomorphism of `A`-algebras `B/ϖ^m B ≅ (A/ϖ^m A)[1/f]`, sending the class of the image of
+`a ∈ A` to the localized class of `a` and compatible with the reduction maps as `m` varies, is
+Tau Ceti's `TauCeti.AdicRing.CompletedAway.quotientPowEquiv` when `ϖA` is the chosen ideal of
+definition, and in general follows from `TauCeti.AdicRing.CompletedAway.idealEquiv` (`B` is the
+completion of `A_f` along `ϖA_f`) and Tau Ceti's `AdicCompletion.quotientMapPowAlgEquiv`; it
+holds for every adic ring in which `ϖ` generates an ideal of definition.
+Ordinary localisation is flat, so the criterion `flat_iff_forall_flat_quotient`
 in *tfp-locality*, applied to the coherent `B`-module `B`, proves `Module.Flat A B`
 (BL I §1, Lemma 1.6, pp. 295–296, and the completed-localisation description preceding
 Proposition 1.7, p. 296). This supplies the basic-open flatness used in *tfp-locality*;
@@ -4336,10 +3886,10 @@ corollary. Nondiscrete rank-one valuation bases and tfp algebras with `ϖ`-torsi
 Tau Ceti's `PairOfDefinition.flat_toCompletionLoc` applies instead to complete separated
 strongly noetherian Tate rings, as used in R3. *Needs:* *completed-localization*;
 *topologically-finitely-presented-algebra*; *tfp-algebra-coherent*;
-*adic-local-flatness-criterion*; Mathlib `IsLocalization.flat`, `Module.Flat`.
-Lean: `IsTopologicallyFinitePresentation.completedAway_quotient` identifies the actual
-structural maps, and `IsTopologicallyFinitePresentation.completedAway_flat` states flatness;
-the compatibility with reduction in `m` is specified in this README only.
+*adic-local-flatness-criterion*; Tau Ceti `TauCeti.AdicRing.CompletedAway.quotientPowEquiv`,
+`TauCeti.AdicRing.CompletedAway.idealEquiv`, `AdicCompletion.quotientMapPowAlgEquiv`; Mathlib
+`IsLocalization.flat`, `Module.Flat`. Lean: `IsTopologicallyFinitePresentation.completedAway_flat`
+states flatness.
 
 **Checks.**
 
@@ -4384,7 +3934,7 @@ category of admissible formal `O_K`-schemes, and equals `X ×_Z Y` when `X` or `
 `torsionFreeQuotient` (for `X` locally tfp the `ϖ`-power torsion ideal `O_X[ϖ^∞]` is coherent
 (`torsionQuotient` of *topologically-finitely-presented-algebra*) and `X^{tf} := V(O_X[ϖ^∞])` is
 admissible — dividing by the `ϖ`-torsion `O_X[ϖ]` alone does not suffice, see
-`admissible_test_powerTorsion`; every morphism from an admissible formal scheme to `X` factors
+*admissible_test_powerTorsion*; every morphism from an admissible formal scheme to `X` factors
 uniquely through `X^{tf}`), `CoherentOpenIdeal` (a coherent ideal `𝒜 ⊆ O_X` that is open: locally `𝒜 = (f_0, …, f_r)O_{Spf A}` with `ϖ^m ∈ (f_0, …, f_r)` for some `m`; on quasi-compact `X` a single `m`
 with `ϖ^m O_X ⊆ 𝒜`) and `CoherentModule` (a coherent `O_X`-module on `X` locally of tf presentation:
 on every formal affine open `Spf A` it is the sheaf attached to a coherent — equivalently finitely
@@ -4405,7 +3955,7 @@ locally of tf presentation; Conrad-AWS §3.3, Def. 3.3.5, p. 31, the equivalent 
 admissibility; EGA I §10.1, Déf. 10.1.2, p. 181, `Spf` of an admissible topological ring with no
 noetherian hypothesis). *Needs:* *topologically-finitely-presented-algebra*; *tfp-locality*;
 *tfp-algebra-coherent*; *coherent-modules*; *formal-spectrum*, *locally-noetherian-formal-scheme*,
-AdicSpacesPartII R0.1a *adic-ring*, *formal-fibre-product*, *completed-tensor-product-adic*, *formal-scheme-gluing*,
+Tau Ceti `TauCeti.IsAdicRing`, *formal-fibre-product*, *completed-tensor-product-adic*, *formal-scheme-gluing*,
 *ideal-of-definition*, *adic-morphism-of-formal-schemes*, *formal-morphism-finite-type* (layer F0);
 Mathlib `AlgebraicGeometry.Scheme`, `Module.Flat`.
 
@@ -4460,27 +4010,27 @@ is the scheme pullback along `Spec k ⟶ Spec O`. This uses no noetherianity hyp
 
 **Checks.**
 
-- `admissible_test_formalAffineLine` (computation) — `Spf O_K⟨T⟩` is `IsAdmissible` over `Spf O_K`
+- *admissible_test_formalAffineLine* (computation) — `Spf O_K⟨T⟩` is `IsAdmissible` over `Spf O_K`
   and its special fibre is isomorphic to `A¹_k = Spec k[T]`.
-- `admissible_test_torsion` (non-example) — `X = Spf(O_K⟨T⟩/(ϖT))` is `IsLocallyTFP` but not
+- *admissible_test_torsion* (non-example) — `X = Spf(O_K⟨T⟩/(ϖT))` is `IsLocallyTFP` but not
   `IsAdmissible`; its special fibre is `A¹_k` while its torsion-free quotient is `Spf O_K`, whose
   special fibre is a point.
-- `admissible_test_powerSeries` (non-example) — `Spf O_K[[T]]` with the `(ϖ,T)`-adic topology is not
+- *admissible_test_powerSeries* (non-example) — `Spf O_K[[T]]` with the `(ϖ,T)`-adic topology is not
   `IsLocallyTFP` over `Spf O_K` (`ϖ` does not generate an ideal of definition), even though for
   discretely valued `K` it is a locally noetherian formal `O_K`-scheme.
-- `admissible_test_completion_projectiveLine` (compatibility) — the `ϖ`-adic completion of
+- *admissible_test_completion_projectiveLine* (compatibility) — the `ϖ`-adic completion of
   `P¹_{O_K}` is `IsAdmissible`, is covered by two copies of `Spf O_K⟨T⟩` meeting in `Spf
   O_K⟨T,T⁻¹⟩`, and its special fibre is `P¹_k`.
-- `admissible_test_formalTorus` (compatibility) — for `C = ℂ_p`, `Spf O_C⟨T^{±1}⟩` is admissible,
+- *admissible_test_formalTorus* (compatibility) — for `C = ℂ_p`, `Spf O_C⟨T^{±1}⟩` is admissible,
   not locally noetherian, and is the `ϖ`-adic completion of the base change of the noetherian formal
   torus `Spf ℤ_p⟨T^{±1}⟩`, which is both admissible and locally noetherian.
-- `admissible_test_base` (degenerate) — `Spf O_K` is admissible and terminal among admissible formal
+- *admissible_test_base* (degenerate) — `Spf O_K` is admissible and terminal among admissible formal
   `O_K`-schemes; its special fibre is `Spec k`. The empty formal scheme `Spf 0` (`0 = O_K⟨⟩/(1)`)
   is admissible and initial, with empty special fibre and `d(∅) = ∅`.
-- `admissible_test_powerTorsion` (non-example) — for `X = Spf(O_K⟨T⟩/(ϖ²T))`, the closed formal
+- *admissible_test_powerTorsion* (non-example) — for `X = Spf(O_K⟨T⟩/(ϖ²T))`, the closed formal
   subscheme cut out by the `ϖ`-torsion `(ϖT)` is `Spf(O_K⟨T⟩/(ϖT))`, still not admissible;
   `X^{tf}`, cut out by the `ϖ`-power torsion `(T)`, is `Spf O_K`.
-- `admissible_test_completion_finiteType` (non-example) — for non-discrete `K`, `X =
+- *admissible_test_completion_finiteType* (non-example) — for non-discrete `K`, `X =
   Spec(O_K[T]/(m_K T))` is locally of finite type but not of finite presentation over `O_K`, and
   its `ϖ`-adic completion `Spf(O_K⟨T⟩/(m_K T))` is not `IsLocallyTFP` (*flat-tft-is-tfp*): finite
   presentation in `IsAdmissible.completion` cannot be weakened to finite type.
@@ -4504,10 +4054,10 @@ The construction Checks below carry these names.
 The predicates on the formal-scheme carrier also have the following Checks, which use the
 intrinsic topologies of affine sections rather than just abstract coordinate rings.
 
-- `admissibleFormal_test_base` — the identity of `Spf O_K` is locally tfp and admissible.
-- `admissibleFormal_test_empty` — an empty formal scheme over `Spf O_K` is locally tfp and
+- *admissibleFormal_test_base* — the identity of `Spf O_K` is locally tfp and admissible.
+- *admissibleFormal_test_empty* — an empty formal scheme over `Spf O_K` is locally tfp and
   admissible; the universal conditions include its zero ring of sections.
-- `admissibleFormal_test_torsion` — the discrete formal scheme `Spf(O_K/ϖ)` is locally tfp
+- *admissibleFormal_test_torsion* — the discrete formal scheme `Spf(O_K/ϖ)` is locally tfp
   but not admissible: its nonzero unit section is killed by `ϖ`.
 
 **Formal schemes of type (S): the class on which Huber's generic-fibre functor is defined, and its
@@ -4564,30 +4114,30 @@ non-complete `ℤ_(p)` with the `p`-adic topology is microbial but has no `Spf`)
 admits non-noetherian formal models over non-discrete valuation rings and whose text covers
 microbial valuation rings; Conrad-MR §3.1, Def. 3.1.1, p. 16: `FS_C` consists of locally noetherian
 formal schemes, hence of type (S)(a)). *Needs:* *admissible-formal-scheme*;
-*topologically-finitely-presented-algebra*; *locally-noetherian-formal-scheme*, AdicSpacesPartII R0.1a *adic-ring*; *adic-ring-homomorphism* (AdicSpacesPartII layer R0); Tau Ceti `TauCeti.Huber.IsStronglyNoetherian`,
+*topologically-finitely-presented-algebra*; *locally-noetherian-formal-scheme*, Tau Ceti `TauCeti.IsAdicRing`; *adic-ring-homomorphism* (AdicSpacesPartII layer R0); Tau Ceti `TauCeti.Huber.IsStronglyNoetherian`,
 `TauCeti.Huber.IsTateRing`.
 
 **Checks.**
 
-- `typeS_test_admissible_not_noetherian` (characterisation) — for `K = ℂ_p`, `Spf O_K⟨T⟩` is
+- *typeS_test_admissible_not_noetherian* (characterisation) — for `K = ℂ_p`, `Spf O_K⟨T⟩` is
   `IsTypeS` through condition (b) with `s = ϖ` and does not satisfy condition (a); it is of type (S)
   but not an object of Conrad's `FS_C`.
-- `typeS_test_powerSeries_nondiscrete` (non-example) — for `K = ℂ_p`, `Spf O_K[[T]]` with the
+- *typeS_test_powerSeries_nondiscrete* (non-example) — for `K = ℂ_p`, `Spf O_K[[T]]` with the
   `(ϖ,T)`-adic topology is not `IsTypeS`: its underlying space is one point, so the only affine
   neighbourhood is `Spf O_K[[T]]` itself; `O_K[[T]]` is not noetherian (it surjects onto `O_K`),
   and no principal ideal `(s)` is an ideal of definition: `(ϖ,T)^n ⊆ (s)` makes `s` divide `ϖ^n`,
   so `s(0) ≠ 0`, and divide `T^n`, so `s` is a unit, while an ideal of definition lies in `(ϖ, T)`.
   The same computation shows that `Spf R_0[[T]]` below does not satisfy (b).
-- `typeS_test_dvr_powerSeries` (computation) — for a complete discrete valuation ring `R_0`, `Spf R_0[[T]]` is `IsTypeS` through (a) but not through (b), and it is an object of `FS_{R_0}`.
-- `typeS_test_microbial` (compatibility) — for every complete rank-one valuation ring `O_K` (not
+- *typeS_test_dvr_powerSeries* (computation) — for a complete discrete valuation ring `R_0`, `Spf R_0[[T]]` is `IsTypeS` through (a) but not through (b), and it is an object of `FS_{R_0}`.
+- *typeS_test_microbial* (compatibility) — for every complete rank-one valuation ring `O_K` (not
   necessarily discretely valued), `Spf O_K` is `IsTypeS` via (b) with `s = ϖ`, and `A(1/s) = K`.
-- `typeS_test_discrete` (degenerate) — for a noetherian ring `A` with the discrete topology, `Spec
+- *typeS_test_discrete* (degenerate) — for a noetherian ring `A` with the discrete topology, `Spec
   A` viewed as a formal scheme is of type (S) via (a); its generic fibre `d(Spec A)` is empty.
 
 These examples use an arbitrary complete rank-one base: non-finite generation of its
 maximal ideal expresses the nondiscrete case, and `IsDiscreteValuationRing` selects the
-DVR case. `typeS_test_microbial` also identifies `O[1/ϖ]` with `FractionRing O`;
-`typeS_test_dvr_powerSeries` retains the `(ϖ,T)`-adic topology and the object of `FSC O`.
+DVR case. *typeS_test_microbial* also identifies `O[1/ϖ]` with `FractionRing O`;
+*typeS_test_dvr_powerSeries* retains the `(ϖ,T)`-adic topology and the object of `FSC O`.
 The locators are Huber96 §1.9, condition (S), p. 96, and Example 1.9.2(i), p. 97.
 
 The affine predicate `HasStronglyNoetherianPrincipalLocalization A` specifies clause (b)
@@ -4600,14 +4150,14 @@ The named implications `IsTypeS.of_isLocallyNoetherian`, `IsTypeS.of_isLocallyTF
 
 **Checks on the formal and affine predicates.**
 
-- `typeSFormal_test_empty` — the empty formal scheme satisfies `IsTypeS`.
-- `typeSFormal_test_noetherian` — `Spf A` for a noetherian adic ring satisfies clause (a).
-- `typeSFormal_test_rankOne` — a complete rank-one base `O_K` satisfies the principal
+- *typeSFormal_test_empty* — the empty formal scheme satisfies `IsTypeS`.
+- *typeSFormal_test_noetherian* — `Spf A` for a noetherian adic ring satisfies clause (a).
+- *typeSFormal_test_rankOne* — a complete rank-one base `O_K` satisfies the principal
   localization predicate and `Spf O_K` satisfies `IsTypeS`, including nondiscrete `K`.
-- `typeSPrincipal_test_discrete` — any discrete ring satisfies the principal predicate
+- *typeSPrincipal_test_discrete* — any discrete ring satisfies the principal predicate
   with `s = 0`: its localization is the zero Tate ring. This uses the library convention
   allowing the zero Tate ring; no noetherianity of the discrete ring is asserted.
-- `typeSPrincipal_test_twoParameters` — `ℤ_p[[T]]` with its `(p,T)`-adic topology fails
+- *typeSPrincipal_test_twoParameters* — `ℤ_p[[T]]` with its `(p,T)`-adic topology fails
   the principal predicate, although its formal spectrum satisfies clause (a). A principal
   ideal containing a power of `(p,T)` would have a generator dividing both `p^n` and `T^n`,
   hence a unit, and cannot define this topology.
@@ -4694,52 +4244,52 @@ finitely generated (Huber94, Prop. 4.2(ii), p. 540).
 **Checks on the representing pair and maps.** Each name below labels a Check; formal schemes are
 locally noetherian wherever a chosen `tData` is used.
 
-- `IntegralSpecialisation_empty`, `IntegralSpecialisation_zero_one`,
+- *IntegralSpecialisation_empty*, *IntegralSpecialisation_zero_one*,
   `IntegralSpecialisation_affine`: the empty source admits a map, section maps preserve
   the values zero and one, and the affine centre pulls back coefficients by the identity.
-- `IntegralSpecialisation.precomp_identity`, `IntegralSpecialisation.precomp_composition`,
+- *IntegralSpecialisation.precomp_identity*, *IntegralSpecialisation.precomp_composition*,
   `IntegralSpecialisation.precomp_points`: precomposition respects identities and the
   order of composition, and evaluates at the image of the source point.
-- `IntegralSpecialisation.postcomp_identity`, `IntegralSpecialisation.postcomp_composition`,
+- *IntegralSpecialisation.postcomp_identity*, *IntegralSpecialisation.postcomp_composition*,
   `IntegralSpecialisation.postcomp_points`: the corresponding laws on the formal target,
   with point map `z ↦ f(σ(z))`.
-- `TData_empty`, `TData_affine`, `TData_uniqueness`: every representing pair is empty
+- *TData_empty*, *TData_affine*, *TData_uniqueness*: every representing pair is empty
   over the empty formal scheme, has the expected affine space, and is uniquely
   isomorphic to any other representing pair compatibly with its centre.
-- `tData_empty`, `toAdicSpace_empty`, `centerMap_empty`; `tData_affine`,
+- *tData_empty*, *toAdicSpace_empty*, *centerMap_empty*; `tData_affine`,
   `toAdicSpace_affine`, `centerMap_affine`; `tData_retraction`,
   `toAdicSpace_retraction`, `centerMap_retraction`: the chosen pair has these empty,
   affine-coefficient and pointwise retraction computations.
-- `trivialValuationSection_empty`, `trivialValuationSection_retraction`,
+- *trivialValuationSection_empty*, *trivialValuationSection_retraction*,
   `trivialValuationSection_trivial`: the section is bijective in the empty case,
   splits the centre on every point, and gives only values zero and one.
-- `toAdicSpace.lift_identity`, `toAdicSpace.lift_composition`,
+- *toAdicSpace.lift_identity*, *toAdicSpace.lift_composition*,
   `toAdicSpace.lift_uniqueness`: lifting the centre gives the identity, lifting a
   precomposition gives the composed lift, and the centre equation determines the lift.
-- `toAdicSpace.map_identity`, `toAdicSpace.map_composition`,
+- *toAdicSpace.map_identity*, *toAdicSpace.map_composition*,
   `toAdicSpace.map_faithful`: the identity and composition laws hold, and equality of
   induced adic maps implies equality of the original formal maps.
 
 **Checks.**
 
-- `toAdicSpace_test_spf_Zp` (computation) — `t(Spf ℤ_p) = Spa(ℤ_p, ℤ_p)` has exactly two points: the
+- *toAdicSpace_test_spf_Zp* (computation) — `t(Spf ℤ_p) = Spa(ℤ_p, ℤ_p)` has exactly two points: the
   closed point (the trivial valuation modulo `p`) is non-analytic and maps under `π` to the unique
   point of `Spf ℤ_p`; the other is the `p`-adic valuation, the point of `Spa(ℚ_p, ℤ_p)`, which is
   analytic.
-- `toAdicSpace_test_ZpT` (computation) — with the `(p,T)`-adic topology on `ℤ_p[[T]]`,
+- *toAdicSpace_test_ZpT* (computation) — with the `(p,T)`-adic topology on `ℤ_p[[T]]`,
   the analytic locus of `t(Spf ℤ_p[[T]])` is
   `{|p| ≠ 0 or |T| ≠ 0} = R(T/p) ∪ R(p/T)`, which is quasi-compact and contains the point
   `|p| = 0, |T| ≠ 0` (the `T`-adic valuation of `𝔽_p((T))`); its open subset `{|p| ≠ 0}`, the fibre
   over `Spa(ℚ_p, ℤ_p)`, equals the union over `n ≥ 1` of the rational subsets `R(Tⁿ/p)`, is the
   open unit disc over `ℚ_p`, and is not quasi-compact (Hübner §6, Ex. 6.12, pp. 30–31;
   §8, Ex. 8.7, p. 39).
-- `toAdicSpace_test_discrete` (degenerate) — for a noetherian ring `A` with the discrete topology,
+- *toAdicSpace_test_discrete* (degenerate) — for a noetherian ring `A` with the discrete topology,
   every point of `t(Spec A) = Spa(A, A)` is non-analytic, and `π` restricted to the trivial
   valuations is a homeomorphism onto `Spec A`.
-- `toAdicSpace_test_notEssentiallySurjective` (non-example) — `Spa(ℚ_p, ℤ_p)` is not isomorphic to
+- *toAdicSpace_test_notEssentiallySurjective* (non-example) — `Spa(ℚ_p, ℤ_p)` is not isomorphic to
   `t(X)` for any locally noetherian formal scheme `X`: a nonempty `t(X)` contains a non-analytic
   point (a trivial valuation) over each point of `X`.
-- `toAdicSpace_test_fullyFaithful` (characterisation) — morphisms `Spf ℤ_p[[S]] → Spf ℤ_p[[T]]` of
+- *toAdicSpace_test_fullyFaithful* (characterisation) — morphisms `Spf ℤ_p[[S]] → Spf ℤ_p[[T]]` of
   formal schemes correspond bijectively to morphisms `t(Spf ℤ_p[[S]]) → t(Spf ℤ_p[[T]])` of adic
   spaces, i.e. to elements `T ↦ g ∈ (p, S)ℤ_p[[S]]`.
 
@@ -4810,23 +4360,23 @@ formula `|a| < 1`.
 
 **Checks.**
 
-- `genericFibre_test_formalAffineLine` (computation) — `d(Spf O_K⟨T⟩)` is the adic space `Spa(K⟨T⟩,
+- *genericFibre_test_formalAffineLine* (computation) — `d(Spf O_K⟨T⟩)` is the adic space `Spa(K⟨T⟩,
   O_K⟨T⟩)`, the closed unit disc, whose underlying set is `closedPolydisc 1 K`.
-- `genericFibre_test_powerSeries_dvr` (computation) — for `K` discretely valued with uniformiser
+- *genericFibre_test_powerSeries_dvr* (computation) — for `K` discretely valued with uniformiser
   `ϖ`, `d(Spf O_K[[T]]) = t(Spf O_K[[T]])_a = R(T/ϖ) ∪ R(ϖ/T)` is quasi-compact and contains the
   point `|ϖ| = 0, |T| ≠ 0`; its open subspace `{|ϖ| ≠ 0}` over `Spa(K, O_K)` is the union of the
   rational subsets `{|Tⁿ| ≤ |ϖ|}`, `n ≥ 1`, i.e. the open unit disc, and is not quasi-compact.
-- `genericFibre_test_torsion` (degenerate) — `d(Spf O_K/ϖ) = ∅` and `d(Spf O_K⟨T⟩/(ϖT)) ≅ d(Spf O_K)
+- *genericFibre_test_torsion* (degenerate) — `d(Spf O_K/ϖ) = ∅` and `d(Spf O_K⟨T⟩/(ϖT)) ≅ d(Spf O_K)
   = Spa(K, O_K)`, a one-point space mapping to the closed point of `Spf O_K`: `ϖ`-torsion does not
   contribute.
-- `genericFibre_test_plusRing` (non-example) — for `char K ≠ 2` (so that `X² − ϖ² = (X − ϖ)(X +
+- *genericFibre_test_plusRing* (non-example) — for `char K ≠ 2` (so that `X² − ϖ² = (X − ϖ)(X +
   ϖ)` with coprime factors over `K`; the residue characteristic may be `2`) and `A = O_K[X]/(X² − ϖ²) =
   O_K⟨X⟩/(X² − ϖ²)`, `A[1/ϖ] ≅ K × K` and the image `{(a + bϖ, a − bϖ)}` of `A` is not integrally
   closed (`X/ϖ ↦ (1, −1)` is integral but not in `A`, since `bϖ = 1` has no solution in `O_K`);
   the plus ring of `d(Spf A)` is the integral closure `O_K × O_K` (`(1, 0)` and `(0, 1)` are
   idempotent, hence integral), while `spa` of `A` and of its integral closure agree
   (`spa_integralClosure`).
-- `genericFibre_test_noetherian` (compatibility) — for `A = ℤ_p⟨T⟩` (both (a) and (b) apply) the two
+- *genericFibre_test_noetherian* (compatibility) — for `A = ℤ_p⟨T⟩` (both (a) and (b) apply) the two
   affine formulas agree: `Spa(ℤ_p⟨T⟩, ℤ_p⟨T⟩)_a = Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)`.
 
 `FormalScheme.IsAdicMorphism` tests the intrinsic affine ring maps, including
@@ -4836,16 +4386,16 @@ The lift commutes with specialization (`specialisation_naturality`).
 
 **Checks for formal morphisms and their generic fibres.**
 
-- `IsAdicMorphism_identity`: identities are adic.
-- `IsAdicMorphism_open`: formal open immersions are adic.
-- `IsAdicMorphism_discrete`: every morphism between discrete schemes is adic.
-- `AnalyticSpecialisation.postcomp_identity` and `genericFibre.map_identity`: the identity acts identically.
-- `AnalyticSpecialisation.postcomp_composition` and `genericFibre.map_composition`: composition is preserved.
-- `AnalyticSpecialisation.postcomp_points` and `genericFibre.map_points`: the point maps commute with specialization.
+- *IsAdicMorphism_identity*: identities are adic.
+- *IsAdicMorphism_open*: formal open immersions are adic.
+- *IsAdicMorphism_discrete*: every morphism between discrete schemes is adic.
+- *AnalyticSpecialisation.postcomp_identity* and *genericFibre.map_identity*: the identity acts identically.
+- *AnalyticSpecialisation.postcomp_composition* and *genericFibre.map_composition*: composition is preserved.
+- *AnalyticSpecialisation.postcomp_points* and *genericFibre.map_points*: the point maps commute with specialization.
 
   The postcomposed specialization itself sends `x` to `f(σ(x))`.
-- `AnalyticSpecialisation.postcomp_empty`: postcomposition from an empty adic space has empty range.
-- `AnalyticSpecialisation.postcomp_sheaf`: the underlying ring-presheafed morphism is exactly the categorical composite.
+- *AnalyticSpecialisation.postcomp_empty*: postcomposition from an empty adic space has empty range.
+- *AnalyticSpecialisation.postcomp_sheaf*: the underlying ring-presheafed morphism is exactly the categorical composite.
 
 
 The carrier `FormalScheme.AnalyticSpecialisation Z X` retains the continuous map and
@@ -4860,17 +4410,17 @@ these maps, and `genericFibreData`, `genericFibre`, `specialisation` and
 
 **Checks for the generic-fibre carrier.**
 
-- `AnalyticSpecialisation.precomp_identity`: precomposition by the identity preserves the map.
-- `AnalyticSpecialisation.precomp_composition`: two precompositions agree with precomposition by their composite.
-- `AnalyticSpecialisation.precomp_points`: the point map is ordinary composition.
-- `genericFibre.lift_identity`: the specialization map lifts to the identity.
-- `genericFibre.lift_composition`: lifting a precomposition composes the lift.
-- `genericFibre.lift_unique`: equality of the integral ring-sheaf maps determines the lift.
-- `genericFibre_empty`, `genericFibreData_empty`, `specialisation_empty`, `GenericFibreData_empty`:
+- *AnalyticSpecialisation.precomp_identity*: precomposition by the identity preserves the map.
+- *AnalyticSpecialisation.precomp_composition*: two precompositions agree with precomposition by their composite.
+- *AnalyticSpecialisation.precomp_points*: the point map is ordinary composition.
+- *genericFibre.lift_identity*: the specialization map lifts to the identity.
+- *genericFibre.lift_composition*: lifting a precomposition composes the lift.
+- *genericFibre.lift_unique*: equality of the integral ring-sheaf maps determines the lift.
+- *genericFibre_empty*, *genericFibreData_empty*, *specialisation_empty*, *GenericFibreData_empty*:
   an empty formal scheme has empty generic fibre.
-- `genericFibre_discrete`, `genericFibreData_discrete`, `specialisation_discrete`, `GenericFibreData_discrete`:
+- *genericFibre_discrete*, *genericFibreData_discrete*, *specialisation_discrete*, *GenericFibreData_discrete*:
   a discrete adic ring has empty analytic generic fibre.
-- `genericFibre_rankOne`, `genericFibreData_rankOne`, `specialisation_rankOne`, `GenericFibreData_rankOne`:
+- *genericFibre_rankOne*, *genericFibreData_rankOne*, *specialisation_rankOne*, *GenericFibreData_rankOne*:
   for a complete rank-one valuation base, the generic fibre is nonempty and specialization
   is bijective on points.
 
@@ -4935,9 +4485,9 @@ p. 32; Huber96, Example 1.9.2(ii), pp. 97–98).
   `ϖ` kills `1` in `A`, its generic-fibre ring is zero; this includes `A = O/ϖ`.
 - (generic affinoid, base) — for `A = O`, its
   generic-fibre ring is `FractionRing O` as an `O`-algebra.
-- `LocallyTFPFormal_base` — the identity of `Spf O` is an object.
-- `LocallyTFPFormal_empty` — the empty formal scheme is an object.
-- `LocallyTFPFormal_torsion` — a nonzero tfp algebra killed by `ϖ`, with its
+- *LocallyTFPFormal_base* — the identity of `Spf O` is an object.
+- *LocallyTFPFormal_empty* — the empty formal scheme is an object.
+- *LocallyTFPFormal_torsion* — a nonzero tfp algebra killed by `ϖ`, with its
   `ϖ`-adic topology, defines an object of this category but is not admissible.
 
 **The generic fibre commutes with fibre products and with completed extension of the base field.**
@@ -4973,11 +4523,11 @@ on affinoids, and the adic comparison in Huber96 Ex. 1.9.2(ii), pp. 97–98.
 
 Checks:
 
-- `genericFibre_baseExtension_identity`: for the identity extension the first
+- *genericFibre_baseExtension_identity*: for the identity extension the first
   projection induces an isomorphism on generic fibres.
-- `genericFibre_baseExtension_empty`: the completed extension of the empty formal
+- *genericFibre_baseExtension_empty*: the completed extension of the empty formal
   scheme has empty generic fibre.
-- `genericFibre_baseExtension_base`: for `X = Spf O`, the second projection identifies
+- *genericFibre_baseExtension_base*: for `X = Spf O`, the second projection identifies
   the generic fibre of the completed extension with `d(Spf O')`.
 
 *Needs:* *generic-fibre-functor-d*; *raynaud-generic-fibre*; *admissible-formal-scheme*;
@@ -5073,23 +4623,23 @@ It therefore uses the same centre formula (Conrad-AWS Ex. 3.3.13, p. 34).
 
 **Checks for the point carriers.**
 
-- `rigidSpecialisation_base`: every classical point over `Spf O` maps to its unique formal point.
-- `rigidSpecialisation_empty`: its image for an empty formal scheme is empty.
-- `rigidSpecialisation_rigPoint`: it sends the classical point of a rig-point to its special point.
-- `genericFibre.classicalPoints_base`: every point over `Spf O` is classical.
-- `genericFibre.classicalPoints_empty`: the empty formal scheme has no classical points.
-- `genericFibre.classicalPoints_rankTwo`: a point with valuation-ring dimension two is not classical.
-- `RigPoint_base`: the identity of `Spf O` gives the zero ideal rig-point.
-- `RigPoint_empty`: an empty formal scheme has no rig-points.
-- `RigPoint_ideal`: the ideal determines the rig-point, including its special point.
-- `RigPoint.equivClassicalPoints_base`: over `Spf O` the correspondence covers the unique analytic point.
-- `RigPoint.equivClassicalPoints_empty`: its image on an empty formal scheme is empty.
-- `RigPoint.equivClassicalPoints_affine`: a formal affine coefficient belongs to the rig-point ideal
+- *rigidSpecialisation_base*: every classical point over `Spf O` maps to its unique formal point.
+- *rigidSpecialisation_empty*: its image for an empty formal scheme is empty.
+- *rigidSpecialisation_rigPoint*: it sends the classical point of a rig-point to its special point.
+- *genericFibre.classicalPoints_base*: every point over `Spf O` is classical.
+- *genericFibre.classicalPoints_empty*: the empty formal scheme has no classical points.
+- *genericFibre.classicalPoints_rankTwo*: a point with valuation-ring dimension two is not classical.
+- *RigPoint_base*: the identity of `Spf O` gives the zero ideal rig-point.
+- *RigPoint_empty*: an empty formal scheme has no rig-points.
+- *RigPoint_ideal*: the ideal determines the rig-point, including its special point.
+- *RigPoint.equivClassicalPoints_base*: over `Spf O` the correspondence covers the unique analytic point.
+- *RigPoint.equivClassicalPoints_empty*: its image on an empty formal scheme is empty.
+- *RigPoint.equivClassicalPoints_affine*: a formal affine coefficient belongs to the rig-point ideal
   exactly when its value at the corresponding classical point is zero.
 
 **Checks.**
 
-- `specialisation_test_closedDisc` (computation) — for `X = Spf O_K⟨T⟩`, `λ` sends the Gauss point
+- *specialisation_test_closedDisc* (computation) — for `X = Spf O_K⟨T⟩`, `λ` sends the Gauss point
   to the generic point of `A¹_k` (`|f| < 1` at the Gauss point iff all coefficients of `f` lie in
   `m_K`), the classical point `T = c` (`c ∈ O_K`) to the closed point `T = c̄`, and the rank-two
   point `η_{1⁻}` (the Gauss point specialised towards `0`: `|T(η_{1⁻})| < 1` but `|T(η_{1⁻})|^m > |ϖ|` for every `m`) to the closed point `0`: `λ` is not injective on the disc, since a rank-two point
@@ -5097,13 +4647,13 @@ It therefore uses the same centre formula (Conrad-AWS Ex. 3.3.13, p. 34).
   identifies the points with `A¹_k` (Wedhorn Ex. 7.57(5), p. 72).
   The Check uses topological nilpotence of a restricted series for the coefficient
   condition, and tests `T − d` at `T = c` by whether `c − d` is a nonunit of `O_K`.
-- `specialisation_test_Spf_OK` (degenerate) — for `X = Spf O_K`, `d(X) = Spa(K, O_K)` is one point
+- *specialisation_test_Spf_OK* (degenerate) — for `X = Spf O_K`, `d(X) = Spa(K, O_K)` is one point
   and `λ` maps it to the unique point of `Spf O_K`.
-- `specialisation_test_preimage_closed` (non-example) — in the closed unit disc, `λ⁻¹({0}) = {|T| < 1}` is closed and not open: it contains the rank-two point `η_{1⁻}` (the specialisation of the
+- *specialisation_test_preimage_closed* (non-example) — in the closed unit disc, `λ⁻¹({0}) = {|T| < 1}` is closed and not open: it contains the rank-two point `η_{1⁻}` (the specialisation of the
   Gauss point towards `0`) but contains no neighbourhood of that point.
-- `specialisation_test_blowUp` (compatibility) — for the admissible blow-up `X'` of `(T, ϖ)` on `Spf O_K⟨T⟩`, `λ_X(η_{|ϖ|})` is the closed point `0` of `A¹_k`, while `λ_{X'}(η_{|ϖ|})` is the generic
+- *specialisation_test_blowUp* (compatibility) — for the admissible blow-up `X'` of `(T, ϖ)` on `Spf O_K⟨T⟩`, `λ_X(η_{|ϖ|})` is the closed point `0` of `A¹_k`, while `λ_{X'}(η_{|ϖ|})` is the generic
   point of the exceptional component, and `φ ∘ λ_{X'} = λ_X`.
-- `specialisation_test_surjective_closed` (characterisation) — for `X` admissible, the set of `λ(x)`
+- *specialisation_test_surjective_closed* (characterisation) — for `X` admissible, the set of `λ(x)`
   with `x` classical is exactly the set of closed points of `X_s`.
 
 **Tubes `]T[` of locally closed subsets of the special fibre, adic and rigid.** (*tube*) Let `X` be an
@@ -5177,40 +4727,40 @@ tube exactly when it is empty, by the lifting of closed points on affine special
 
 **Checks.**
 
-- `genericFibre.spfValuation_zero` — zero has value zero at every generic-fibre point.
-- `genericFibre.spfValuation_unit` — a unit of the formal affine ring has value one.
-- `genericFibre.spfValuation_definitionIdeal` — a generator `s` of an ideal of definition
+- *genericFibre.spfValuation_zero* — zero has value zero at every generic-fibre point.
+- *genericFibre.spfValuation_unit* — a unit of the formal affine ring has value one.
+- *genericFibre.spfValuation_definitionIdeal* — a generator `s` of an ideal of definition
   has value strictly between zero and one, so it is neither a unit nor zero at such a point.
-- `closedTube_zero` — the zero equation gives the whole generic fibre for every `q > 0`.
-- `closedTube_unit` — the unit equation gives the empty open for every `q > 0`.
-- `closedTube_half` — the exponent `1/2` gives `|f|² ≤ |s|`; its open is contained in
+- *closedTube_zero* — the zero equation gives the whole generic fibre for every `q > 0`.
+- *closedTube_unit* — the unit equation gives the empty open for every `q > 0`.
+- *closedTube_half* — the exponent `1/2` gives `|f|² ≤ |s|`; its open is contained in
   the open for exponent `1/3`.
-- `tube_test_origin_disc` (computation) — for `X = Spf O_K⟨T⟩` and `Z = {0} ⊆ A¹_k`, `tube X Z = ⋃_{m ≥ 1} {x : |T(x)|^m ≤ |ϖ|}`, the open unit disc.
-- `tube_test_preimage_not_open` (non-example) — for `X = Spf O_K⟨T⟩` and `Z = {0}`, the point
+- *tube_test_origin_disc* (computation) — for `X = Spf O_K⟨T⟩` and `Z = {0} ⊆ A¹_k`, `tube X Z = ⋃_{m ≥ 1} {x : |T(x)|^m ≤ |ϖ|}`, the open unit disc.
+- *tube_test_preimage_not_open* (non-example) — for `X = Spf O_K⟨T⟩` and `Z = {0}`, the point
   `η_{1⁻}` lies in `λ⁻¹(Z)` but not in `tube X Z`; so defining the adic tube as `λ⁻¹(Z)` gives a
   closed, non-open set. The witness has valuation-ring dimension two and
   `|T|^m > |ϖ|` for every positive `m`, as in Wedhorn Ex. 7.57(5), p. 72.
-- `tube_test_classical` (compatibility) — the classical points of `tube X {0}` for `X = Spf O_K⟨T⟩`
+- *tube_test_classical* (compatibility) — the classical points of `tube X {0}` for `X = Spf O_K⟨T⟩`
   are the Galois orbits of `c ∈ K̄` with `|c| < 1`, i.e. Berthelot's `sp⁻¹(0)`.
   The Check proves the stronger membership criterion at every rank-one point;
   classical points have rank one (Wedhorn Ex. 7.57(1) and 7.58, pp. 71–72).
-- `tube_test_open_complement` (characterisation) — for `X = Spf O_K⟨T⟩`: `tube X (A¹_k ∖ {0}) = {|T| = 1}`, and `tube X {0} ∪ tube X (A¹_k ∖ {0}) ≠ d(X)`: the union misses the point `η_{1⁻}`,
+- *tube_test_open_complement* (characterisation) — for `X = Spf O_K⟨T⟩`: `tube X (A¹_k ∖ {0}) = {|T| = 1}`, and `tube X {0} ∪ tube X (A¹_k ∖ {0}) ≠ d(X)`: the union misses the point `η_{1⁻}`,
   matching the non-admissible rigid covering `{|t| = 1} ⊔ {|t| < 1}` of `{|t| ≤ 1}` (Conrad-MR
   Appendix A.1, before the proof of Lem. A.1.4).
-- `tube_test_whole` (degenerate) — `tube X X_s = d(X)` and `tube X ∅ = ∅`; for admissible `X`,
+- *tube_test_whole* (degenerate) — `tube X X_s = d(X)` and `tube X ∅ = ∅`; for admissible `X`,
   `tube X Z = ∅` for closed `Z` only when `Z = ∅`, every closed point of `Z` being `λ` of a
   classical point (*rig-point*).
-- `tube_test_torsion_empty` (non-example) — for the non-admissible `X = Spf(O_K⟨T⟩/(ϖT))`
+- *tube_test_torsion_empty* (non-example) — for the non-admissible `X = Spf(O_K⟨T⟩/(ϖT))`
   (locally tfp; `d(X) = Spa(K, O_K)` is one point, with `λ` the origin `T = 0`) and the closed
   point `Z = {T = 1} ⊆ X_s = A¹_k`: `λ⁻¹(Z) = ∅`, so `]Z[ = ∅` although `Z ≠ ∅`; the interior
   formula and the openness of `]Z[` survive, the surjectivity of `λ` onto closed points does not.
-  `tube_test_torsion_empty_geometric` states the singleton generic fibre, the nonempty zero
+  *tube_test_torsion_empty_geometric* states the singleton generic fibre, the nonempty zero
   locus of `T − 1`, its empty preimage, and its empty tube on these formal-scheme carriers.
-- `tube_test_closedTube_radius` (convention) — for `X = Spf O_K⟨T⟩`, `Z = {0}` and `q = 1/2`:
+- *tube_test_closedTube_radius* (convention) — for `X = Spf O_K⟨T⟩`, `Z = {0}` and `q = 1/2`:
   `[Z]_{1/2} = {|T|² ≤ |ϖ|}`; the classical point `T = ϖ` lies in it (`|ϖ|² ≤ |ϖ|`), a classical
   point `T = c` with `|c| = |ϖ|^{1/3}` (available in `ℂ_p`) does not (`|ϖ|^{2/3} > |ϖ|`), and
   `[Z]_{1/2} ⊆ [Z]_{1/3}`: the radius `|ϖ|^q` shrinks as `q` grows, and `[Z]_1 = {|T| ≤ |ϖ|}`.
-  `tube_test_closedTube_radius_geometric` supplies a rank-one point with `|T| = |ϖ|` in
+  *tube_test_closedTube_radius_geometric* supplies a rank-one point with `|T| = |ϖ|` in
   `closedTube` and excludes every point with `|T|³ = |ϖ|` from that same open.
   The abstract valuation calculation records the numerical inequalities; the named
   Check is the example on `closedTube`.
@@ -5292,38 +4842,38 @@ of `ϖ` and one-dimensional quotient ([FK] II, Prop. 8.2.10 and Cor. 8.2.11, p. 
 
 **Checks.**
 
-- `rigPoint_test_disc` (computation) — for `c ∈ O_K`, the `O_K`-algebra map `O_K⟨T⟩ → O_K`, `T ↦ c`,
+- *rigPoint_test_disc* (computation) — for `c ∈ O_K`, the `O_K`-algebra map `O_K⟨T⟩ → O_K`, `T ↦ c`,
   defines a rig-point of `Spf O_K⟨T⟩` with residue field `K` whose special point is `T = c̄` and
   whose classical point is `T = c`.
-- `rigPoint_test_notDim1` (non-example) — the closed immersion `Spec k → Spf O_K⟨T⟩` at `T = 0` is
+- *rigPoint_test_notDim1* (non-example) — the closed immersion `Spec k → Spf O_K⟨T⟩` at `T = 0` is
   not a rig-point: `k` is a field (dimension `0`) and `Spec k` is not admissible (it is
   `ϖ`-torsion).
-- `rigPoint_test_blowUp` (compatibility) — for the admissible blow-up `X'` of `(T, ϖ)` on `Spf
+- *rigPoint_test_blowUp* (compatibility) — for the admissible blow-up `X'` of `(T, ϖ)` on `Spf
   O_K⟨T⟩`, the rig-point `T = 0` lifts uniquely to `X'`, into the chart `Spf O_K⟨T, U⟩/(T − ϖU)` at
   `U = 0`, with the same residue field `K`.
   The chart uses the equivalent ring `O_K⟨U⟩`: its open immersion has bijective
   stalk maps and pulls `T` back to `ϖU`; the lifted ideal is the kernel of evaluation at `U = 0`.
-- `rigPoint_test_base` (degenerate) — the only rig-point of `Spf O_K` is the identity, with `B =
+- *rigPoint_test_base* (degenerate) — the only rig-point of `Spf O_K` is the identity, with `B =
   O_K`, zero sheaf kernel and residue field `K` ([FK] II, Prop. 8.2.10 and Cor. 8.2.11, p. 554).
 
 **Checks for the global interfaces.**
 
-- `RigPoint.residueField_base`: the identity rig-point has field `Frac(O)` as an `O`-algebra.
-- `RigPoint.residueField_affine`: on `Spf A` the field is the quotient by the corresponding
+- *RigPoint.residueField_base*: the identity rig-point has field `Frac(O)` as an `O`-algebra.
+- *RigPoint.residueField_affine*: on `Spf A` the field is the quotient by the corresponding
   maximal ideal of `A[1/ϖ]`.
-- `RigPoint.residueField_blowUp`: the inverse blow-up correspondence preserves this `O`-field.
-- `RigPoint.map_identity`: the identity preserves the sheaf ideal.
-- `RigPoint.map_empty`: a map from an empty formal scheme has empty image on rig-points.
-- `RigPoint.map_special`: the special point is sent by the underlying formal morphism.
-- `RigPoint.equivMaxSpec_base`: every rig-point of `Spf O` maps to the zero maximal ideal of `K`.
-- `RigPoint.equivMaxSpec_empty`: the zero algebra has neither rig-points nor maximal ideals
+- *RigPoint.residueField_blowUp*: the inverse blow-up correspondence preserves this `O`-field.
+- *RigPoint.map_identity*: the identity preserves the sheaf ideal.
+- *RigPoint.map_empty*: a map from an empty formal scheme has empty image on rig-points.
+- *RigPoint.map_special*: the special point is sent by the underlying formal morphism.
+- *RigPoint.equivMaxSpec_base*: every rig-point of `Spf O` maps to the zero maximal ideal of `K`.
+- *RigPoint.equivMaxSpec_empty*: the zero algebra has neither rig-points nor maximal ideals
   after inverting `ϖ`.
-- `RigPoint.equivMaxSpec_contract`: the inverse equivalence contracts the maximal ideal
+- *RigPoint.equivMaxSpec_contract*: the inverse equivalence contracts the maximal ideal
   to the formal ideal of global sections.
-- `RigPoint.equivOfBlowUp_unit`: the unit centre gives an isomorphism of formal schemes,
+- *RigPoint.equivOfBlowUp_unit*: the unit centre gives an isomorphism of formal schemes,
   and its point map agrees with the equivalence on special points.
-- `RigPoint.equivOfBlowUp_empty`: blowing up the empty formal scheme yields no rig-points.
-- `RigPoint.equivOfBlowUp_special`: projecting the special point of the unique lift recovers
+- *RigPoint.equivOfBlowUp_empty*: blowing up the empty formal scheme yields no rig-points.
+- *RigPoint.equivOfBlowUp_special*: projecting the special point of the unique lift recovers
   the original special point.
 
 The affine correspondence is specified by `RigPoint.equivMaxSpec_affine_apply_asIdeal`:
@@ -5331,12 +4881,12 @@ its forward map extends ideals along localisation, and its inverse contracts ide
 
 **Affine Checks.**
 
-- `rigPoint_test_base_core` — the sole prime of `O_K` avoiding `ϖ` is `(0)`, which maps to
+- *rigPoint_test_base_core* — the sole prime of `O_K` avoiding `ϖ` is `(0)`, which maps to
   `(0)` in the fraction field.
-- `rigPoint_test_torsion_core` — `FormalScheme.RigPoint O ϖ s` is empty whenever
+- *rigPoint_test_torsion_core* — `FormalScheme.RigPoint O ϖ s` is empty whenever
   the structural section `sectionsHom X O s ϖ` is zero. This applies to `Spf(O_K/ϖ)`;
   the accompanying prime calculation explains the affine obstruction.
-- `rigPoint_test_contract_core` — the inverse sends a maximal ideal `Q` of `A[1/ϖ]` to
+- *rigPoint_test_contract_core* — the inverse sends a maximal ideal `Q` of `A[1/ϖ]` to
   `Q ∩ A`.
 
 ### R2.5 admissible blow-ups and Raynaud's theorem
@@ -5429,7 +4979,7 @@ Each chart's coefficient homomorphism has kernel equal both to the `ϖ`-saturati
 and to the chosen generator's saturation of the relation ideal. A redundant variable
 `Z_i` is set to one, so the presentation has the same meaning for a singleton family.
 `AdmissibleBlowup.scheme` identifies the whole blow-up with `idealCompletion` of
-Part II's `submoduleBlowup` and fixes the identification on coefficients
+Tau Ceti's `TauCeti.AlgebraicGeometry.submoduleBlowup` and fixes the identification on coefficients
 ([FK] II, §1.1(b), pp. 433–435; Conrad-AWS Ex. 3.3.11, p. 33).
 
 `AdmissibleBlowup.isIso_of_disjoint` takes an actual pullback over `X|U` and assumes
@@ -5479,55 +5029,55 @@ RG I, Rem. 5.3.2, p. 38).
 
 **Checks for the operations.**
 
-- `IdealSheafData.mul_unit`: multiplication by the unit ideal fixes the ideal.
-- `IdealSheafData.mul_zero`: multiplication by zero gives zero.
-- `IdealSheafData.mul_square`: multiplying an ideal by itself agrees with its second power.
-- `AdmissibleBlowup.lift_projection`: lifting the blow-up projection gives the identity.
-- `AdmissibleBlowup.lift_unit`: the unit-centre lift factors through an isomorphism.
-- `AdmissibleBlowup.lift_empty`: every map from the empty formal scheme is the unique lift.
-- `strictTransform_unit`: the quotient map for a unit centre is invertible.
-- `strictTransform_zero`: the zero module has zero strict transform.
-- `strictTransform_annihilated`: a module annihilated by a power of the centre has zero transform.
-- `strictTransformBaseChange_unit`: a unit centre removes no sections after base change.
-- `strictTransformBaseChange_zero`: base change and strict transform preserve the zero module.
-- `strictTransformBaseChange_annihilated`: a module killed by a power of the extended centre
+- *IdealSheafData.mul_unit*: multiplication by the unit ideal fixes the ideal.
+- *IdealSheafData.mul_zero*: multiplication by zero gives zero.
+- *IdealSheafData.mul_square*: multiplying an ideal by itself agrees with its second power.
+- *AdmissibleBlowup.lift_projection*: lifting the blow-up projection gives the identity.
+- *AdmissibleBlowup.lift_unit*: the unit-centre lift factors through an isomorphism.
+- *AdmissibleBlowup.lift_empty*: every map from the empty formal scheme is the unique lift.
+- *strictTransform_unit*: the quotient map for a unit centre is invertible.
+- *strictTransform_zero*: the zero module has zero strict transform.
+- *strictTransform_annihilated*: a module annihilated by a power of the centre has zero transform.
+- *strictTransformBaseChange_unit*: a unit centre removes no sections after base change.
+- *strictTransformBaseChange_zero*: base change and strict transform preserve the zero module.
+- *strictTransformBaseChange_annihilated*: a module killed by a power of the extended centre
   has zero relative strict transform.
 
 **Checks.**
 
-- `admissibleBlowUp_test_disc_origin` (computation) — for `X = Spf O_K⟨T⟩` and `𝒜 = (T, ϖ)`: `X'` is
+- *admissibleBlowUp_test_disc_origin* (computation) — for `X = Spf O_K⟨T⟩` and `𝒜 = (T, ϖ)`: `X'` is
   covered by `Spf O_K⟨U⟩` (`T = ϖU`) and `Spf O_K⟨T,V⟩/(TV − ϖ)`, and `X'_s` is the union of `P¹_k`
   (exceptional) and `A¹_k` (strict transform of `X_s`) meeting in one point.
-- `admissibleBlowUp_test_unit` (degenerate) — for `𝒜 = O_X` or `𝒜 = ϖ^n O_X` (an invertible open
+- *admissibleBlowUp_test_unit* (degenerate) — for `𝒜 = O_X` or `𝒜 = ϖ^n O_X` (an invertible open
   ideal), `φ: X' → X` is an isomorphism; for `𝒜 = ϖ^n O_X` with `n > 0` the locus `X ∖ V(𝒜)` of
   `isIso_of_disjoint` is empty, so that statement is vacuous there and the isomorphism comes from
   invertibility.
-- `admissibleBlowUp_test_zeroIdeal` (non-example) — on nonempty admissible `X` the zero ideal is coherent but
+- *admissibleBlowUp_test_zeroIdeal* (non-example) — on nonempty admissible `X` the zero ideal is coherent but
   not open (`ϖ^N ∉ 0`), so it is not an admissible centre; the scheme blow-up of `0`, `Proj` of
   `⊕_n 0^n = O_X` concentrated in degree `0`, is empty, and `d(∅) = ∅ ≠ d(X)`: openness of the
   centre is what makes *generic-fibre-inverts-admissible-blow-ups* possible. On `X = ∅`, `0 = O_X`
   is open and the blow-up is `∅`.
-- `admissibleBlowUp_test_torsion_zeroIdeal` (negative control) — `A = O_K/(ϖ)` is nonzero
+- *admissibleBlowUp_test_torsion_zeroIdeal* (negative control) — `A = O_K/(ϖ)` is nonzero
   and topologically finitely presented, but `ϖ = 0` in `A` and its topology is discrete.
   Thus its zero ideal is open. Admissibility is essential in the preceding check.
-- `admissibleBlowUp_test_torsion_notSurjective` (non-example) — for the non-admissible `X =
+- *admissibleBlowUp_test_torsion_notSurjective* (non-example) — for the non-admissible `X =
   Spf(O_K⟨T⟩/(ϖT))`, completion of the scheme blow-up of `(ϖ)` gives `Spf O_K → X`.
   This computation uses the scheme blow-up, outside the admissible-domain definition above (the
   blow-up of a principal ideal is the quotient by its power torsion), not surjective on special
   fibres (`A¹_k` receives only the origin): the surjectivity in `isProper_surjective_specialFibre`
   uses that `X` is admissible, through *rig-point* lifting the closed points of `X_s`.
-- `admissibleBlowUp_test_nonOpenCentre` (non-example) — blowing up the non-open ideal `(S, T)` of
+- *admissibleBlowUp_test_nonOpenCentre* (non-example) — blowing up the non-open ideal `(S, T)` of
   `Spf O_K⟨S,T⟩` (the formal completion of the scheme blow-up of the origin) changes the generic
   fibre: it produces the blow-up of the origin in the closed bidisc, which is not isomorphic to the
   bidisc; so the openness condition in the definition is necessary for
   *generic-fibre-inverts-admissible-blow-ups*.
-- `admissibleBlowUp_test_universal` (characterisation) — for `𝒜 = (T, ϖ)` on `Spf O_K⟨T⟩` and `ψ:
+- *admissibleBlowUp_test_universal* (characterisation) — for `𝒜 = (T, ϖ)` on `Spf O_K⟨T⟩` and `ψ:
   Spf O_K → Spf O_K⟨T⟩`, `T ↦ ϖ²`, the ideal `ψ*𝒜 = (ϖ)` is invertible and `ψ` lifts uniquely to
   `X'`, into the chart `U = T/ϖ` with `U ↦ ϖ`.
-- `admissibleBlowUp_test_scheme` (compatibility) — for `X = Spf A` and `a = (ϖ, f)`, `φ⁻¹(X)` is the
+- *admissibleBlowUp_test_scheme* (compatibility) — for `X = Spf A` and `a = (ϖ, f)`, `φ⁻¹(X)` is the
   `ϖ`-adic completion of the `Proj` of the Rees algebra `reesAlgebra a` over `Spec A`, modulo
   `ϖ`-torsion.
-- `strictTransform_test_annulus` (computation) — for `X = Spf O_K⟨ζ, ξ⟩/(ζξ − ϖ) → T = Spf O_K⟨ζ⟩`
+- *strictTransform_test_annulus* (computation) — for `X = Spf O_K⟨ζ, ξ⟩/(ζξ − ϖ) → T = Spf O_K⟨ζ⟩`
   and `𝒜 = (ζ, ϖ)`: on the chart `ζ = ϖu` of `T'` the pull-back of `O_X` is `O_K⟨u, ξ⟩/(ϖ(uξ − 1))`,
   and its strict transform is `O_K⟨u, ξ⟩/(uξ − 1) ≅ O_K⟨u, u⁻¹⟩`.
 
@@ -5588,11 +5138,11 @@ Exercise 3.3.12, pp. 33–34; BL I §4, Lemma 4.5, p. 309 for the power-bounded 
 
 **Checks.**
 
-- `boundedFunctions_eq_blowupChart_empty` — an empty family imposes no inequalities,
+- *boundedFunctions_eq_blowupChart_empty* — an empty family imposes no inequalities,
   for every `N`; its bounded locus is the entire generic fibre.
-- `boundedFunctions_eq_blowupChart_integral` — with `N = 0`, every numerator in `A`
+- *boundedFunctions_eq_blowupChart_integral* — with `N = 0`, every numerator in `A`
   has value at most one, so the distinguished chart has the whole generic fibre.
-- `boundedFunctions_eq_blowupChart_inverse` — the single function `ϖ⁻¹`, with numerator
+- *boundedFunctions_eq_blowupChart_inverse* — the single function `ϖ⁻¹`, with numerator
   `1` and `N = 1`, gives the empty locus since `1 > |ϖ|`; the distinguished chart of
   this unit-centre blow-up is empty, even though the blow-up itself is the identity.
 
@@ -5688,8 +5238,8 @@ part of `AdicOver K` (Conrad-AWS §3.3, p. 34; BL I, Thm 4.1).
 
 `rigFunctor_map_injective_of_torsionFree` states injectivity on each Hom set
 of admissible models; the source's torsion-free condition comes from its
-`IsAdmissible` proof (Conrad-AWS Ex. 3.3.10, p. 33). The existing
-`raynaud_test_torsion_notFaithful` checks why the condition matters.
+`IsAdmissible` proof (Conrad-AWS Ex. 3.3.10, p. 33). The Check
+*raynaud_test_torsion_notFaithful* shows why the condition matters.
 `rigFunctor_hom_roof` realizes every generic morphism after blowing up the
 source; `rigFunctor_iso_roof` gives a common admissible blow-up for an isomorphism.
 `rigFunctor_roof_eq_iff` says that two roofs represent the same generic morphism
@@ -5699,17 +5249,17 @@ source. Together these give the stated colimit description of Hom sets
 
 **Checks.**
 
-- `AdmissibleFormal_base`: the identity of `Spf O` is an object.
-- `AdmissibleFormal_empty`: an empty formal scheme over the base is an object.
-- `AdmissibleFormal_specialFibre`: a nonempty source on which `ϖ` vanishes cannot be an object.
-- `admissibleBlowupClass_identity`: identity arrows belong to the class, using the unit centre.
-- `admissibleBlowupClass_empty`: a map from an empty model to a nonempty model does not belong to the class.
-- `admissibleBlowupClass_invertible`: blowing up an invertible ideal gives an isomorphism, which belongs to the class.
-- `rigFunctor_base`: the base model maps to the identity object over `Spa(K,K°)`.
-- `rigFunctor_empty`: the empty model has empty generic fibre.
-- `rigFunctor_noncompact`: a non-quasi-compact object, in particular the open unit disc, lies outside the essential image.
-- `rigFunctor_closedDisc`: the structural model `Spf O⟨T⟩` maps to Part II's closed unit disc, as an object over `Spa(K,K°)` (Conrad-AWS Ex. 3.3.9, p. 32).
-- `rigFunctor_discBlowup`: the ideal with global sections `(T,ϖ)` on that model is an admissible centre, its blow-up is quasi-compact and admissible, and its projection maps to an isomorphism (Ex. 3.3.11–3.3.12, pp. 33–34).
+- *AdmissibleFormal_base*: the identity of `Spf O` is an object.
+- *AdmissibleFormal_empty*: an empty formal scheme over the base is an object.
+- *AdmissibleFormal_specialFibre*: a nonempty source on which `ϖ` vanishes cannot be an object.
+- *admissibleBlowupClass_identity*: identity arrows belong to the class, using the unit centre.
+- *admissibleBlowupClass_empty*: a map from an empty model to a nonempty model does not belong to the class.
+- *admissibleBlowupClass_invertible*: blowing up an invertible ideal gives an isomorphism, which belongs to the class.
+- *rigFunctor_base*: the base model maps to the identity object over `Spa(K,K°)`.
+- *rigFunctor_empty*: the empty model has empty generic fibre.
+- *rigFunctor_noncompact*: a non-quasi-compact object, in particular the open unit disc, lies outside the essential image.
+- *rigFunctor_closedDisc*: the structural model `Spf O⟨T⟩` maps to Part II's closed unit disc, as an object over `Spa(K,K°)` (Conrad-AWS Ex. 3.3.9, p. 32).
+- *rigFunctor_discBlowup*: the ideal with global sections `(T,ϖ)` on that model is an admissible centre, its blow-up is quasi-compact and admissible, and its projection maps to an isomorphism (Ex. 3.3.11–3.3.12, pp. 33–34).
 
 ### R2.6 separatedness, flattening, quasi-finite models and finiteness criteria
 
@@ -5725,16 +5275,16 @@ the inverse image under specialization of an open on a blow-up (BL I, 4.4).
 
 **Checks for the centre and blow-up.**
 
-- `IdealSheafData.IsInvertible_unit`: the unit ideal is invertible.
-- `IdealSheafData.IsInvertible_zero`: the zero ideal on a nonempty formal scheme is not invertible.
-- `IdealSheafData.IsInvertible_product`: every power of an invertible ideal is invertible.
-- `IsAdmissibleCentre_unit`: the unit ideal is an admissible centre.
-- `IsAdmissibleCentre_zero`: the zero ideal on a nonempty admissible model is not a centre.
-- `IsAdmissibleCentre_power`: positive powers remain admissible centres.
-- `AdmissibleBlowup_unit`: on an admissible source, blowing up the unit ideal is an isomorphism.
-- `AdmissibleBlowup_specialFibre`: on a nonempty source killed by the pseudouniformizer, an admissible blow-up cannot have an invertible projection.
-- `AdmissibleBlowup_invertible`: an already invertible centre has an isomorphic blow-up.
-- `AdmissibleBlowup_power`: positive powers of the centre give uniquely isomorphic blow-ups over the base.
+- *IdealSheafData.IsInvertible_unit*: the unit ideal is invertible.
+- *IdealSheafData.IsInvertible_zero*: the zero ideal on a nonempty formal scheme is not invertible.
+- *IdealSheafData.IsInvertible_product*: every power of an invertible ideal is invertible.
+- *IsAdmissibleCentre_unit*: the unit ideal is an admissible centre.
+- *IsAdmissibleCentre_zero*: the zero ideal on a nonempty admissible model is not a centre.
+- *IsAdmissibleCentre_power*: positive powers remain admissible centres.
+- *AdmissibleBlowup_unit*: on an admissible source, blowing up the unit ideal is an isomorphism.
+- *AdmissibleBlowup_specialFibre*: on a nonempty source killed by the pseudouniformizer, an admissible blow-up cannot have an invertible projection.
+- *AdmissibleBlowup_invertible*: an already invertible centre has an isomorphic blow-up.
+- *AdmissibleBlowup_power*: positive powers of the centre give uniquely isomorphic blow-ups over the base.
 
 `FormalScheme.TorsionQuotient` is the quotient of a module sheaf by its locally
 `ϖ`-power-torsion sections. The epimorphism and its kernel on every open specify
@@ -5744,9 +5294,9 @@ strict transforms in BL II, §4.
 
 **Checks for the torsion quotient.**
 
-- `TorsionQuotient_zero`: the quotient of zero is zero.
-- `TorsionQuotient_admissible`: the structure sheaf of an admissible model is unchanged.
-- `TorsionQuotient_killed`: a module all of whose sections are power torsion has zero quotient.
+- *TorsionQuotient_zero*: the quotient of zero is zero.
+- *TorsionQuotient_admissible*: the structure sheaf of an admissible model is unchanged.
+- *TorsionQuotient_killed*: a module all of whose sections are power torsion has zero quotient.
 
 `FormalScheme.IdealTorsionQuotient J M` specifies the quotient of `M` by sections
 locally killed by a power of `J`. Its epimorphism and sectionwise kernel equation determine
@@ -5756,9 +5306,9 @@ strict transform in `exists_flattening`, `exists_flattening_lowerDimension`,
 
 **Checks for centre torsion.**
 
-- `IdealTorsionQuotient_unit`: the unit ideal kills no nonzero section, so the quotient map is invertible.
-- `IdealTorsionQuotient_zero`: the zero ideal makes the quotient zero.
-- `IdealTorsionQuotient_annihilated`: if a fixed power of the ideal annihilates the module, its quotient is zero.
+- *IdealTorsionQuotient_unit*: the unit ideal kills no nonzero section, so the quotient map is invertible.
+- *IdealTorsionQuotient_zero*: the zero ideal makes the quotient zero.
+- *IdealTorsionQuotient_annihilated*: if a fixed power of the ideal annihilates the module, its quotient is zero.
 
 **A morphism of admissible formal schemes is separated iff its generic fibre is.**
 (*formal-model-separatedness*) Let `f: X → Y` be a morphism of admissible formal `O_K`-schemes over
@@ -5853,24 +5403,23 @@ The affine clauses (i)–(iii) are `IsTopologicallyFinitePresentation.ringKrullD
 `IsTopologicallyFinitePresentation.ringKrullDim_genericFibre_eq` and
 `IsTopologicallyFinitePresentation.isReduced_isPureDimensional_genericFibre`. They take `A_K` to be
 `Localization.Away (algebraMap O A ϖ)`, the ring of the generic affinoid, and `A_k` to be the
-quotient by the extension of the maximal ideal of `O`. Lean: `Huber.formalModelFibre_torsion`
-states the strict-dimension boundary Check below. The relative clauses are
+quotient by the extension of the maximal ideal of `O`. The relative clauses are
 `FormalScheme.genericFibre_pointLift` and `FormalScheme.genericFibre_fibreModel` for (iv), and
 `FormalScheme.genericFibre_fibreDimension` and `FormalScheme.genericFibre_fibreReducedPure` for (v).
 
 **Checks.**
 
-- `Huber.formalModelFibre_torsion` (non-example, flatness) — `A = O_K⟨T⟩/(ϖT)` is topologically of
+- *Huber.formalModelFibre_torsion* (non-example, flatness) — `A = O_K⟨T⟩/(ϖT)` is topologically of
   finite presentation but not flat. Here `A_k = k[T]` is reduced of pure dimension `1`, while
   `A_K = K` has dimension `0`. The bound (i) is strict, and (ii) and (iii) fail without flatness.
-- `formalModelFibre_zero` (degenerate) — for `A = 0` both fibres are zero rings of dimension `⊥`
+- *formalModelFibre_zero* (degenerate) — for `A = 0` both fibres are zero rings of dimension `⊥`
   with empty spectra, pure of every dimension. A nonzero `A` has `A_k ≠ 0`: `m_K A = A` would
   give `A = ϖA`, hence `A = 0` by `ϖ`-adic separatedness. A nonzero flat `A` also has `A_K ≠ 0`,
   so (ii) never compares `⊥` with a natural number.
-- `formalModelFibre_annulus` (computation) — `A = O_K⟨S, T⟩/(ST − ϖ)` is flat. Its special fibre
+- *formalModelFibre_annulus* (computation) — `A = O_K⟨S, T⟩/(ST − ϖ)` is flat. Its special fibre
   `k[S, T]/(ST)`, two crossing lines, is reduced of pure dimension `1`, and `A_K`, the ring of the
   annulus `{|ϖ| ≤ |S| ≤ 1}`, is a domain of dimension `1`, as (ii) and (iii) predict.
-- `formalModelFibre_gaussPoint` (point beyond rig-points) — for `Y = Spf O_K⟨T⟩` let `y` be the
+- *formalModelFibre_gaussPoint* (point beyond rig-points) — for `Y = Spf O_K⟨T⟩` let `y` be the
   Gauss point, with `K'` the completion of `K(T)` for the Gauss norm and `k' = k(T)`. Then `ỹ` is
   the inclusion `O_K⟨T⟩ → O_{K'}` and `s` is the generic point of `A¹_k`. For `f = id_Y` the fibre
   is `Spa(K', O_{K'})` with special fibre `Spec k(T)`. Here `K'/K` is not finite, so *rig-point*
@@ -5911,7 +5460,7 @@ reduction with finite set-theoretic fibres for a locally finite-type,
 quasi-compact reduction. Quasi-compactness is necessary: an infinite disjoint
 union of copies of a field point is étale over that point and has infinite fibre
 (Mathlib `AlgebraicGeometry.locallyQuasiFinite_iff_finite_preimage_singleton`).
-The Check `LocallyQuasiFinite_infiniteFibre` instantiates this with the actual
+The Check *LocallyQuasiFinite_infiniteFibre* instantiates this with the actual
 countable coproduct of `Spec K`: its map to `Spec K` is locally quasi-finite,
 is not quasi-compact, and has an infinite fibre.
 
@@ -6025,8 +5574,7 @@ construction. *Needs:* *rigid-analytic-space*, *rigid-adic-comparison-functor*,
 
 ### R2.7 the proof of flattening
 
-This subsection proves the flattening theorem of Bosch–Lütkebohmert II by breaking it into the
-lemmas of their §§1–4: lifting generators, bases and smooth morphisms from the reduction modulo `ϖ`;
+This subsection proves the flattening theorem through: lifting generators, bases and smooth morphisms from the reduction modulo `ϖ`;
 the étale-local structure theorem of Raynaud–Gruson and its formal counterpart (finite over smooth
 with geometrically irreducible fibres); ideals of coefficients and contents along smooth morphisms
 with geometrically irreducible fibres; dévissages of coherent modules and the flatness criteria they
@@ -6086,26 +5634,26 @@ vectors, with flatness and completeness as hypotheses (BL II Lem. 1.3(b), p. 405
 
 **Checks for the completed basis, vectors and coordinates.**
 
-- `topologicalBasis_test_empty` — an empty basis exists exactly for the zero module.
-- `topologicalBasis_test_rankOne` — the complete base ring has basis `{1}` and its coordinate
+- *topologicalBasis_test_empty* — an empty basis exists exactly for the zero module.
+- *topologicalBasis_test_rankOne* — the complete base ring has basis `{1}` and its coordinate
   map is the identity.
-- `topologicalBasis_test_twoTerm` — the coordinates of `a e₀ + c e₁` are `(a,c)`, in that order.
-- `topologicalBasis_test_infinite` — over `ℤ_p`, the coefficients `p^i` determine an element
+- *topologicalBasis_test_twoTerm* — the coordinates of `a e₀ + c e₁` are `(a,c)`, in that order.
+- *topologicalBasis_test_infinite* — over `ℤ_p`, the coefficients `p^i` determine an element
   outside the algebraic span of a countably infinite topological basis.
-- `topologicalBasis_test_torsion` — `ℤ_p/p` has no rank-one topological basis over `ℤ_p`.
+- *topologicalBasis_test_torsion* — `ℤ_p/p` has no rank-one topological basis over `ℤ_p`.
 
-The constructor itself has three computed Checks: `liftedBasis_test_rankOne` lifts the
-residue basis `1` and recovers the identity coordinate map; `liftedBasis_test_twoTerm` lifts
-the standard two vectors and sends `(a,c)` to coordinates `(a,c)`; `liftedBasis_test_empty`
+The constructor itself has three computed Checks: *liftedBasis_test_rankOne* lifts the
+residue basis `1` and recovers the identity coordinate map; *liftedBasis_test_twoTerm* lifts
+the standard two vectors and sends `(a,c)` to coordinates `(a,c)`; *liftedBasis_test_empty*
 lifts the empty basis of the zero module and its representation is zero.
 
 `TopologicalBasis.coefficientIdeal b N` is the ideal generated by all coordinates of all
 members of the submodule `N`. It does not assert finite generation. Its Checks are:
 
-- `coefficientIdeal_test_zero` — the zero submodule has coefficient ideal zero.
-- `coefficientIdeal_test_vector` — the submodule generated by `a e_i` has ideal `(a)`.
-- `coefficientIdeal_test_twoTerm` — the submodule generated by `a e₀ + c e₁` has ideal `(a,c)`.
-- `coefficientIdeal_test_unit` — the whole module has unit coefficient ideal when the basis
+- *coefficientIdeal_test_zero* — the zero submodule has coefficient ideal zero.
+- *coefficientIdeal_test_vector* — the submodule generated by `a e_i` has ideal `(a)`.
+- *coefficientIdeal_test_twoTerm* — the submodule generated by `a e₀ + c e₁` has ideal `(a,c)`.
+- *coefficientIdeal_test_unit* — the whole module has unit coefficient ideal when the basis
   is nonempty; this hypothesis excludes the zero module with its empty basis.
 
 `TopologicalBasis.coefficientIdeal_span_isPrincipal` states the additional valuation-base
@@ -6188,11 +5736,11 @@ and [FK] I, Prop. 5.3.11, pp. 344–345.
 
 Checks:
 
-- `exists_unique_lift_through_etale_identity`: when `h = id`, the unique lift is
+- *exists_unique_lift_through_etale_identity*: when `h = id`, the unique lift is
   exactly `f`, including its prescribed reduction.
-- `exists_unique_lift_through_etale_empty`: the global étale assertion includes
+- *exists_unique_lift_through_etale_empty*: the global étale assertion includes
   the empty source, although the pointed smooth assertion has no point to choose.
-- `exists_lift_through_smooth_distinct_sections`: the two maps `ℤ_p[z] → ℤ_p`
+- *exists_lift_through_smooth_distinct_sections*: the two maps `ℤ_p[z] → ℤ_p`
   sending `z` to `0` and to `p` are distinct and have the same reduction modulo
   `p`. Their continuous extensions to the formal affine line give the distinct
   smooth sections described above.
@@ -6209,7 +5757,7 @@ O_K⟨ζ⟩⟨(gh)⁻¹⟩`. *Needs:* *admissible-formal-scheme*; *tfp-locality*
 The formal-stalk target is `FormalScheme.flat_stalkSpecializes`: for a complete rank-one
 base, a locally tfp formal `O_K`-scheme, and `y ⤳ x`, the actual presheaf generisation map
 `O_{X,x} → O_{X,y}` supplies the scalar action for flatness. The Check
-`stalkGenerization_test_identity` takes `x = y` and obtains flatness of the identity map.
+*stalkGenerization_test_identity* takes `x = y` and obtains flatness of the identity map.
 
 **Connected elementary étale neighbourhoods at points with geometrically irreducible closure are
 geometrically irreducible.** (*rg-etale-neighbourhood-irreducible*) Let `k` be a field, `Z` a
@@ -6225,11 +5773,11 @@ point `z`. Here the nodal example assumes `char k ≠ 2`.
 
 **Checks.**
 
-- `geometricallyIrreducible_test_nodal_cubic` (non-example) — when `2 ≠ 0`, a connected
+- *geometricallyIrreducible_test_nodal_cubic* (non-example) — when `2 ≠ 0`, a connected
   reducible elementary étale neighbourhood has its marked point `t` over the node
   `(a, b)`: `u.base t = ⟨(X 0, X 1)⟩` in the quotient ring. The two tangent
   directions `b = a` and `b = −a` are distinct.
-- `geometricallyIrreducible_test_char_two` (negative control) — over `𝔽₂`,
+- *geometricallyIrreducible_test_char_two* (negative control) — over `𝔽₂`,
   `X² − 1 = (X − 1)²`; the two tangent directions coincide, so this equation does not
   give the asserted node in characteristic two.
 
@@ -6319,14 +5867,32 @@ T_0` to be an isomorphism locally, with basis `{1}`. *Needs:*
 *admissible-formal-scheme*; Mathlib `Module.Projective`, `Module.free_of_flat_of_isLocalRing`,
 `Algebra.Smooth.exists_finiteType`, `Module.Flat`.
 
-**Affine Checks for `IsSmoothGeomIrredAffine`.** The predicate itself is defined for any
-ring map `A → B`, element `ϖ`, and dimension `n`: smoothness on all positive-power reductions,
-and geometric irreducibility and dimension on the first reduction. Its formal applications
-retain the complete rank-one base hypotheses.
+**Smooth morphisms with geometrically irreducible fibres, affine form.**
+(*smooth-geometrically-irreducible-affine*) For a ring map `A → B`, an element `ϖ ∈ A` and
+`n ∈ ℕ`, define `IsSmoothGeomIrredAffine ϖ n` to hold when (i) for every `m ≥ 1` the reduction
+`A/ϖᵐA → B/ϖᵐB` is smooth (Mathlib `Algebra.Smooth`); (ii) the reduced morphism
+`Spec(B/ϖB) → Spec(A/ϖA)` is geometrically irreducible in Mathlib's sense
+(`AlgebraicGeometry.GeometricallyIrreducible`: its fibre over every field-valued point is an
+irreducible, in particular nonempty, space); and (iii) for every prime `p ⊇ ϖA` of `A` the fibre
+`B ⊗_A κ(p)` has Krull dimension `n`. All three clauses are fibrewise over `Spec(A/ϖA)`: the
+dimension is that of each fibre, not of `Spec(B/ϖB)`, and (ii) makes `Spec(B/ϖB) → Spec(A/ϖA)`
+surjective. This is the affine form of the hypotheses of BL II §1, Prop. 1.8, p. 406 (a smooth
+surjective morphism whose fibres over the special fibre are geometrically irreducible of one
+dimension), used in *smooth-geometrically-irreducible-topological-basis* above and in BL II Lem. 2.5(a), p. 409,
+below. Its formal applications retain the complete rank-one base hypotheses. *Needs:* Mathlib
+`Algebra.Smooth`, `AlgebraicGeometry.GeometricallyIrreducible`, `Ideal.ResidueField`,
+`ringKrullDim`.
 
-- `smoothGeomIrred_test_identity` — `A = B = k`, `ϖ = 0`, `n = 0` satisfies it.
-- `smoothGeomIrred_test_line` — `k → k[T]`, `ϖ = 0`, `n = 1` satisfies it.
-- `smoothGeomIrred_test_split` — `k → k × k`, `ϖ = 0`, `n = 0` is smooth but fails it.
+**Checks.**
+
+- (degenerate) — `A = B = k`, `ϖ = 0`, `n = 0` satisfies it.
+- (computation) — `k → k[T]`, `ϖ = 0`, `n = 1` satisfies it.
+- (non-example, irreducibility) — `k → k × k`, `ϖ = 0`, `n = 0` is smooth but its fibre `Spec(k × k)`
+  has two points, so it fails (ii).
+- (convention, fibrewise dimension) — `k[s] → k[s, t]`, `ϖ = 0`, `n = 1` satisfies it: every fibre
+  is an affine line over `κ(p)`, although `Spec k[s, t]` has dimension `2`.
+- (non-example, empty fibre) — `k[u] → k[u, u⁻¹]`, `ϖ = 0`, `n = 0` is étale with irreducible
+  zero-dimensional fibres away from `(u)`, but its fibre over `(u)` is empty, so it fails (ii).
 
 **Ideals of coefficients.** (*ideal-of-coefficients*) Let `h : Z → T` be a morphism of formal
 `O_K`-schemes locally of tf presentation and `𝒥 ⊆ O_Z` a coherent ideal, with closed formal
@@ -6377,29 +5943,29 @@ openness). *Needs:* *admissible-formal-scheme*; *tfp-algebra-coherent*; *topolog
 
 **Checks.**
 
-- `idealOfCoefficients_test_polynomial_core` (computation) — over `A = O_K` and `B = O_K⟨ξ⟩`, the content
+- *idealOfCoefficients_test_polynomial_core* (computation) — over `A = O_K` and `B = O_K⟨ξ⟩`, the content
   of `f = ϖ² + ϖξ + ϖ³ξ²` is `(ϖ)`.
-- `idealOfCoefficients_test_unit_core` (degenerate) — for `h` surjective, the ideal of coefficients of `𝒥
+- *idealOfCoefficients_test_unit_core* (degenerate) — for `h` surjective, the ideal of coefficients of `𝒥
   = O_Z` is `O_T`; for `h` faithfully flat and `𝒥 = 𝒜O_Z` with `𝒜 ⊆ O_T` coherent, it is `𝒜`.
-- `idealOfCoefficients_test_baseChange` (compatibility) — for `Z = Spf O_K⟨a, ζ⟩ → T = Spf O_K⟨a⟩`
+- *idealOfCoefficients_test_baseChange* (compatibility) — for `Z = Spf O_K⟨a, ζ⟩ → T = Spf O_K⟨a⟩`
   and `𝒥 = (aζ, ϖ)`: `𝒞 = (a, ϖ)`; after the base change `a ↦ 0` to `T' = Spf O_K`, `𝒥' = (ϖ)` and
   `𝒞' = (ϖ) = 𝒞O_{T'}`.
-- `idealOfCoefficients_test_notZeroLocus_core` (non-example) — for `A = O_K⟨a⟩`, `B = A⟨ζ⟩` and `𝒥 =
+- *idealOfCoefficients_test_notZeroLocus_core* (non-example) — for `A = O_K⟨a⟩`, `B = A⟨ζ⟩` and `𝒥 =
   (a²ζ, ϖ)`, `(a², ϖ)` is the ideal of coefficients and `(a, ϖ)` is not, although both have the same
   zero locus: the set of base points satisfying scheme-theoretic fibre containment
   does not determine the coefficient ideal.
-- `idealOfCoefficients_test_dualNumbers` (negative control) — for `A = ℤ_p`,
+- *idealOfCoefficients_test_dualNumbers* (negative control) — for `A = ℤ_p`,
   `B = A[ε]/(ε²)` and `𝒥 = (ε)`, the topological basis `(1, ε)` gives `𝒞 = A`,
   since the ε-coordinate is `1`; hence `V(𝒞) = ∅`. Every point of the special fibre
   belongs to the point-set zero locus of ε, but ε remains nonzero in
   `B ⊗_A 𝔽_p = 𝔽_p[ε]/(ε²)`. Thus `𝒥O_{Z_t} ≠ 0` and that fibre does not
   factor through `V(𝒥)`. No reduced-fibre hypothesis holds in this example.
-- `idealOfCoefficients_test_isOpen_needsFlat_core` (non-example) — for `Z = Spf(A/ϖ) → T = Spf A`,
+- *idealOfCoefficients_test_isOpen_needsFlat_core* (non-example) — for `Z = Spf(A/ϖ) → T = Spf A`,
   `A = O_K⟨a⟩` (a closed immersion, surjective on points, not flat) and `𝒥 = 0`: `𝒥` is open
   (`ϖO_Z = 0`), its ideal of coefficients is `𝒞 = 0`, which is not open; Remark 2.2 needs the
   faithful flatness of `h`, and for `Z = ∅` the same `𝒞 = 0` occurs.
 
-The affine Check `idealOfCoefficients_test_baseChange` uses
+The affine Check *idealOfCoefficients_test_baseChange* uses
 `IsIdealOfCoefficients_completed`: the evaluation maps preserve constants, send `a` to
 zero and preserve `ζ`. They send the two displayed ideals to `(ϖ)` and retain the
 completed-base-change coefficient property (BL II Definition 2.1, p. 407).
@@ -6407,9 +5973,9 @@ completed-base-change coefficient property (BL II Definition 2.1, p. 407).
 **Checks for `content_algebraic`.** The infimum is defined for any commutative algebra;
 attainment is asserted only under additional hypotheses, such as freeness.
 
-- `content_test_zero_one` — in `A[T]`, `c(0) = 0` and `c(1) = A`.
-- `content_test_twoTerm` — `c(4 + 6T) = (2)` over `ℤ`, agreeing with `Polynomial.contentIdeal`.
-- `content_test_nonfaithful` — for `ℤ → ℚ`, every nonzero ideal extends to the unit ideal,
+- *content_test_zero_one* — in `A[T]`, `c(0) = 0` and `c(1) = A`.
+- *content_test_twoTerm* — `c(4 + 6T) = (2)` over `ℤ`, agreeing with `Polynomial.contentIdeal`.
+- *content_test_nonfaithful* — for `ℤ → ℚ`, every nonzero ideal extends to the unit ideal,
   so `c(1) = ⋂_{n≥1}(n) = 0`, although `1 ∉ 0·ℚ`.
 
 **Existence of ideals of coefficients for open ideals along smooth morphisms with geometrically
@@ -6473,11 +6039,11 @@ openness of its integral coordinate ideal, which satisfies
 
 **Checks for generic coefficient ideals.**
 
-- `exists_rigIdealOfCoefficients_zero` — when `B → B_K` is injective, the zero
+- *exists_rigIdealOfCoefficients_zero* — when `B → B_K` is injective, the zero
   generic ideal contracts to zero and has zero coefficient ideal.
-- `exists_rigIdealOfCoefficients_unit` — a nonempty topological basis gives the
+- *exists_rigIdealOfCoefficients_unit* — a nonempty topological basis gives the
   unit coefficient ideal for the unit generic ideal.
-- `exists_rigIdealOfCoefficients_identity` — for the one-element basis `1` of
+- *exists_rigIdealOfCoefficients_identity* — for the one-element basis `1` of
   `A` over itself, contracting any ideal of `A_K` and extending its coordinate
   ideal recovers that ideal exactly, including nonradical ideals.
 
@@ -6494,11 +6060,11 @@ restriction and gluing as specified above.
 
 **Checks for completed coefficient ideals.**
 
-- `completedCoefficients_test_zero` — zero is a coefficient ideal of the zero ideal,
+- *completedCoefficients_test_zero* — zero is a coefficient ideal of the zero ideal,
   including an empty source.
-- `completedCoefficients_test_identity` — under the identity formal morphism, every
+- *completedCoefficients_test_identity* — under the identity formal morphism, every
   finitely generated ideal is its own coefficient ideal.
-- `completedCoefficients_test_thickening` — under the identity of `Spf O_K`, the ideal
+- *completedCoefficients_test_thickening* — under the identity of `Spf O_K`, the ideal
   `(ϖ²)` has coefficient ideal `(ϖ²)`, not `(ϖ)`, although the two ideals have the same radical.
 
 **A function vanishing on no fibre is a non-zero-divisor at every level.**
@@ -6511,8 +6077,10 @@ torsion hypothesis is made on `A`. Prove that for every `λ ∈ ℕ` the image o
 case with a section). For `B = A⟨ζ⟩` and `f = ζ`, `ζ` vanishes on no fibre and is a non-zero-divisor
 on every `A_λ[ζ]`. Vanishing on a whole fibre can make `f` a zero-divisor: for `A = O_K⟨a, b⟩/(ab)`
 (admissible), `B = A⟨ζ⟩` and `f = a`, `f` vanishes on the fibres over `{a = 0}` and `a·b = 0` in
-every `B_λ`. *Needs:* *smooth-formal-scheme*; *admissible-formal-scheme*; Mathlib
-`Algebra.Smooth.exists_finiteType`, `Algebra.Smooth.flat`, `associatedPrimes`, `IsSMulRegular`.
+every `B_λ`. The affine hypotheses on `A → B` are *smooth-geometrically-irreducible-affine*
+with `n = m`. *Needs:* *smooth-geometrically-irreducible-affine*; *smooth-formal-scheme*;
+*admissible-formal-scheme*; Mathlib `Algebra.Smooth.exists_finiteType`, `Algebra.Smooth.flat`,
+`associatedPrimes`, `IsSMulRegular`.
 
 **A function vanishing on no fibre is a non-zero-divisor.**
 (*nonvanishing-on-fibres-nonzerodivisor*) In the situation of
@@ -6523,7 +6091,7 @@ on no fibre of `Z_0 → T_0`), prove that `f` is a non-zero-divisor on `B` (BL I
 2.5(b), p. 409). The passage from the levels to `B` uses only that `B` is `ϖ`-adically separated
 (automatic for `B` of tf presentation, and the hypothesis of the stated form
 `isSMulRegular_of_ne_zero_on_fibres_affine`): if `fg = 0` then `g ∈ ϖ^{λ+1}B` for every `λ`.
-`isSMulRegular_test_of_levels` is a hypothesis check for this separatedness step:
+*isSMulRegular_test_of_levels* is a hypothesis check for this separatedness step:
 regularity on every positive-power quotient implies regularity in a separated ring.
 For `B = A⟨ζ⟩`, `ζ − a` is a non-zero-divisor for every `a ∈ A`; the fibre condition is needed,
 as the non-example of *nonvanishing-on-fibres-nonzerodivisor-levels* shows.
@@ -6552,7 +6120,7 @@ over a rank-one valuation ring, with the relative fibre dimension of `Y_0` in pl
 `isSMulRegular_of_ne_zero_on_fibres_levels` states the all-level affine conclusion:
 for `IsSmoothGeomIrredAffine ϖ n` and `f` nonzero on every fibre over a prime containing `ϖ`,
 its image in `B/ϖ^{λ+1}B` is regular for every `λ ≥ 0`. Separatedness is needed only for the
-subsequent conclusion in `B`. The Check `nonzerodivisorLevels_test_parameter` takes
+subsequent conclusion in `B`. The Check *nonzerodivisorLevels_test_parameter* takes
 `B = ℤ_p`, `f = p`: modulo `p` it is zero and is not regular, so the fibre condition
 cannot be omitted (BL II Lem. 2.5(a), p. 409).
 
@@ -6630,11 +6198,11 @@ rigid case, p. 410). For `A = O_K⟨a⟩` and `B = A⟨ζ⟩` the only associate
 
 **Checks for `IsAssociatedPoint`.**
 
-- `associatedPoint_test_domain` — `(0)` in a domain is associated: localise to its fraction
+- *associatedPoint_test_domain* — `(0)` in a domain is associated: localise to its fraction
   field and take the annihilator of `1`.
-- `associatedPoint_test_nonzeroPrime` — a nonzero prime of a domain is not associated:
+- *associatedPoint_test_nonzeroPrime* — a nonzero prime of a domain is not associated:
   annihilators in its local domain are either `0` or the unit ideal.
-- `associatedPoint_test_nilpotent` — the sole prime `(2)` of `ℤ/4` is associated, witnessed
+- *associatedPoint_test_nilpotent* — the sole prime `(2)` of `ℤ/4` is associated, witnessed
   by `2`, whose annihilator is `(2)`.
 
 The section-extension statement is `FormalScheme.sections_extension_of_smaller_fibres`.
@@ -6679,18 +6247,18 @@ condition (b), p. 411; after Def. 3.1, p. 411, the dimension of the cokernel; RG
 
 **Checks.**
 
-- `devissageStep_test_free` (computation) — for `X = Z = D^n_T = Spf A⟨ξ_1, …, ξ_n⟩ → T = Spf A`, `ℳ
+- *devissageStep_test_free* (computation) — for `X = Z = D^n_T = Spf A⟨ξ_1, …, ξ_n⟩ → T = Spf A`, `ℳ
   = O_X^ℓ`, `g = id` and `α = id`: a `T`-dévissage in dimension `n` at every point, with `𝒫 = 0`.
-- `devissageStep_test_dimZero` (degenerate) — in dimension `n = 0`, `h` is étale with fibres `Spec k(t)`, so after shrinking `Z = T`; `α : O_T^ℓ → 𝒩` with `ℓ = dim_{k(t)} 𝒩 ⊗ k(t)`, and `𝒫 = 0`
+- *devissageStep_test_dimZero* (degenerate) — in dimension `n = 0`, `h` is étale with fibres `Spec k(t)`, so after shrinking `Z = T`; `α : O_T^ℓ → 𝒩` with `ℓ = dim_{k(t)} 𝒩 ⊗ k(t)`, and `𝒫 = 0`
   near `t`.
-- `devissageStep_test_notFlat` (non-example) — for `X = Spf O_K⟨ζ, ξ⟩/(ζξ − ϖ) → T = Spf O_K⟨ζ⟩` at
+- *devissageStep_test_notFlat* (non-example) — for `X = Spf O_K⟨ζ, ξ⟩/(ζξ − ϖ) → T = Spf O_K⟨ζ⟩` at
   `x = (ζ, ξ)`, `ℳ = O_X`: `Z = D¹_T` (coordinate `ξ`), `g` the closed immersion, `ℓ = 1` and `α :
   O_Z → g_*O_X` the quotient map give a dévissage in dimension `1` with `𝒫 = 0`, although `ℳ` is not
   `T`-flat at `x`: a dévissage with `𝒫 = 0` need not have `α` injective.
-- `devissageStep_test_reduction` (compatibility) — reduction modulo `ϖ^{λ+1}` turns a `T`-dévissage
+- *devissageStep_test_reduction* (compatibility) — reduction modulo `ϖ^{λ+1}` turns a `T`-dévissage
   of `ℳ` into an `S`-dévissage of `ℳ_λ` over `T_λ` in the sense of Raynaud–Gruson I 1.2.1 (in
 Raynaud–Gruson's notation, their `X'` is `Y_λ` and their smooth scheme `T` is `Z_λ`).
-- `devissageStep_test_splitFibre` (boundary) — let `O = ℤ₃`,
+- *devissageStep_test_splitFibre* (boundary) — let `O = ℤ₃`,
   `B = O[i] = O[X]/(X² + 1)`, `T = Z = Spf O`, `X = Y = Spf B`, `ℳ = O_Y`,
   `n = 0` and `α : O_Z² ≅ g_*O_Y`, `(a, b) ↦ a + bi`. The special fibre is the
   single point `Spec 𝔽₉`. After `T' = Spf B → T`,
@@ -6712,15 +6280,15 @@ identity, composition and zero maps specify the induced map on stalks.
 
 **Checks for stalks.**
 
-- `moduleStalk_zero`: the stalk of the zero module is zero.
-- `moduleStalk_structure`: the structure sheaf stalk is the local ring itself.
-- `moduleStalk_free`: a finite free sheaf of rank `n` has a free stalk of rank `n`.
-- `moduleStalkMap_identity`: the identity induces the identity on stalks.
-- `moduleStalkMap_zero`: the zero morphism induces zero.
-- `moduleStalkMap_composition`: a composite induces the composite stalk map.
-- `DevissageStep.cokernel_rankZero`: a rank-zero basis map leaves the whole direct image as cokernel.
-- `DevissageStep.cokernel_surjective`: an epimorphic basis map has zero cokernel.
-- `DevissageStep.cokernel_zeroMap`: a zero basis map has the direct image as cokernel.
+- *moduleStalk_zero*: the stalk of the zero module is zero.
+- *moduleStalk_structure*: the structure sheaf stalk is the local ring itself.
+- *moduleStalk_free*: a finite free sheaf of rank `n` has a free stalk of rank `n`.
+- *moduleStalkMap_identity*: the identity induces the identity on stalks.
+- *moduleStalkMap_zero*: the zero morphism induces zero.
+- *moduleStalkMap_composition*: a composite induces the composite stalk map.
+- *DevissageStep.cokernel_rankZero*: a rank-zero basis map leaves the whole direct image as cokernel.
+- *DevissageStep.cokernel_surjective*: an epimorphic basis map has zero cokernel.
+- *DevissageStep.cokernel_zeroMap*: a zero basis map has the direct image as cokernel.
 
 **`T`-dévissages in several dimensions and complete dévissages.** (*formal-devissage*) In the setting
 of *formal-devissage-step*, a `T`-dévissage of `ℳ` at `x` in dimensions `N = n¹ > n² > … > n^r = n ≥
@@ -6746,26 +6314,26 @@ after Def. 3.2, p. 411, base change and the role in the induction; RG Première 
 
 **Checks.**
 
-- `devissage_test_complete_free` (computation) — for `ℳ = O_X^ℓ` on `X = D^N_T` the one-step
+- *devissage_test_complete_free* (computation) — for `ℳ = O_X^ℓ` on `X = D^N_T` the one-step
   dévissage with `α = id` is complete of length `1`.
-- `devissage_test_lengthTwo` (computation) — `X = D²_T = Spf A⟨ξ_1, ξ_2⟩`, `ℳ = O_X/(ξ_1) ⊕ O_X`:
+- *devissage_test_lengthTwo* (computation) — `X = D²_T = Spf A⟨ξ_1, ξ_2⟩`, `ℳ = O_X/(ξ_1) ⊕ O_X`:
   `D¹` in dimension `2` with `α¹ : O_X → ℳ`, `1 ↦ (0, 1)`, `𝒫¹ = O_X/(ξ_1)`, then `D²` in dimension
   `1` on `Z² = Spf A⟨ξ_2⟩` with `α² = id`: complete of length `2`.
-- `devissage_test_single` (degenerate) — a dévissage in dimensions between `N` and `N` is a single
+- *devissage_test_single* (degenerate) — a dévissage in dimensions between `N` and `N` is a single
   step `D¹`, complete iff `𝒫¹ = 0`.
-- `devissage_test_truncation` (non-example) — the truncation `(D¹)` of the length-two example is a
+- *devissage_test_truncation* (non-example) — the truncation `(D¹)` of the length-two example is a
   dévissage in dimensions between `2` and `2` but is not complete (`𝒫¹ = O_X/(ξ_1) ≠ 0`).
-- `devissage_test_localDimensionDrop` (boundary) — take
+- *devissage_test_localDimensionDrop* (boundary) — take
   `T = X = Y = Z = Spf ℤ₃⟨s⟩`, all structural maps the identity, `n = 0`,
   `ℳ = O_T` and `α` multiplication by `s`, distinguished at `s = 1` in the
   special fibre. Then `α ⊗ k(t) = id` and `𝒫 = O_T/(s)` vanishes near that
   point, so `fibreSupportDim id 𝒫 t = −∞ < 0`. At `s = 0` its fibre has
   dimension `0`; its support has no global relative-dimension bound `< 0`.
 
-In `devissage_test_lengthTwo`, the first basis map is identified with inclusion of
+In *devissage_test_lengthTwo*, the first basis map is identified with inclusion of
 the free summand and its cokernel with `O_X/(ξ_1)`; the second basis map is an isomorphism.
-`devissage_test_truncation` uses the same first step and its nonzero cokernel.
-`devissage_test_single` identifies the chain with a single step and equates completeness
+*devissage_test_truncation* uses the same first step and its nonzero cokernel.
+*devissage_test_single* identifies the chain with a single step and equates completeness
 with vanishing of that step's cokernel (BL II Definition 3.2, p. 411).
 
 The carrier `FormalScheme.Devissage` has a single-step constructor and a constructor
@@ -6775,15 +6343,15 @@ recursively by these constructors; completeness means that the last cokernel is 
 
 **Checks for the chain.**
 
-- `Devissage_single`, `Devissage.length_single`, `Devissage.dim_single`,
-  `Devissage.IsComplete_surjective`: an epimorphic single step has length one,
+- *Devissage_single*, *Devissage.length_single*, *Devissage.dim_single*,
+  *Devissage.IsComplete_surjective*: an epimorphic single step has length one,
   dimension list `[n]`, and is complete.
-- `Devissage_two`, `Devissage.length_two`, `Devissage.dim_two`,
-  `Devissage.IsComplete_tail`: dimensions two and one give a chain of length two,
+- *Devissage_two*, *Devissage.length_two*, *Devissage.dim_two*,
+  *Devissage.IsComplete_tail*: dimensions two and one give a chain of length two,
   complete when the last basis map is epimorphic.
-- `Devissage_equalBounds`, `Devissage.length_equalBounds`, `Devissage.dim_equalBounds`:
+- *Devissage_equalBounds*, *Devissage.length_equalBounds*, *Devissage.dim_equalBounds*:
   equal upper and lower bounds force length one and dimension list `[n]`.
-- `Devissage.IsComplete_nonzero`: a one-step chain with nonzero cokernel is incomplete.
+- *Devissage.IsComplete_nonzero*: a one-step chain with nonzero cokernel is incomplete.
 
 `FormalScheme.fibreSupportDim f M x` is the infimum of the dimensions of the
 support intersected with the fibre on open neighbourhoods of `x`.
@@ -6832,11 +6400,11 @@ Mathlib `Algebra.IsEtaleAt.exists_isStandardEtale`.
 
 **Checks.**
 
-- `devissageExistence_test_annulusModel` — for
+- *devissageExistence_test_annulusModel* — for
   `X = Spf O_K⟨ζ, ξ⟩/(ζξ − ϖ) → T = Spf O_K⟨ζ⟩` at `x = (ζ, ξ)` and
   `ℳ = O_X`, `Z = D¹_T`, `g` the closed immersion and `α` the quotient map
   give a complete length-one chain in dimension `N = 1`, without localisation.
-- `devissageExistence_test_genericPoint` — for `T = Spf ℤ₃`,
+- *devissageExistence_test_genericPoint* — for `T = Spf ℤ₃`,
   `X = Spf ℤ₃⟨u⟩`, `ℳ = O_X` and `x` the generic point of `X₀`,
   `fibreSupportDim f ℳ x = 1`: every open neighbourhood has dimension one.
   The identity basis gives a complete step in dimension `1`, with zero
@@ -6845,10 +6413,10 @@ Mathlib `Algebra.IsEtaleAt.exists_isStandardEtale`.
   field at the point, pointed closed immersions preserve it, and finite maps
   preserve its transcendence degree over `k(t)`, here `1`; a point on a smooth
   zero-dimensional fibre has transcendence degree `0`.
-- `devissageExistence_test_closedSupport` — for `ℳ = O_X/(u)` on the same
+- *devissageExistence_test_closedSupport* — for `ℳ = O_X/(u)` on the same
   disc at the closed point `u = 0`, `N = 0`; take `Y = Z = T` with the
   identity basis map. The resulting dimension-zero chain is complete.
-- `devissageExistence_test_splitFibre` — in `devissageStep_test_splitFibre`,
+- *devissageExistence_test_splitFibre* — in *devissageStep_test_splitFibre*,
   after `T₁ = Spf B → T` each chosen point has its own open component
   `Spf B ⊆ X₁`. On that neighbourhood the reconstructed complete chain has
   rank one and dimension zero; the literal rank-two datum is not pointed.
@@ -6914,15 +6482,15 @@ before Cor. 3.7, p. 415, the flat locus; after Cor. 3.8, p. 416, the definition 
 
 **Checks.**
 
-- `flatInDim_test_annulusModel` (computation) — for `X = Spf O_K⟨ζ, ξ⟩/(ζξ − ϖ) → T = Spf O_K⟨ζ⟩`:
+- *flatInDim_test_annulusModel* (computation) — for `X = Spf O_K⟨ζ, ξ⟩/(ζξ − ϖ) → T = Spf O_K⟨ζ⟩`:
   `F(O_X/T) = X_0 ∖ V(ζ)`; `O_X` is `T`-flat in dimension `≥ 2` and not in dimension `≥ 1` (the
   non-flat line `ζ = 0` has dimension `1` in the fibre over `ζ = 0`).
-- `flatInDim_test_zero` (degenerate) — `ℳ = 0`: `F(0/T) = X_0` and `ℳ` is `T`-flat in every
+- *flatInDim_test_zero* (degenerate) — `ℳ = 0`: `F(0/T) = X_0` and `ℳ` is `T`-flat in every
   dimension.
-- `flatInDim_test_relDim` (characterisation) — for `X = D^n_T` and any coherent `ℳ`, `ℳ` is `T`-flat
+- *flatInDim_test_relDim* (characterisation) — for `X = D^n_T` and any coherent `ℳ`, `ℳ` is `T`-flat
   in dimension `≥ n + 1`. The Check states this for every smooth formal morphism
   of relative dimension `n`, over the fixed complete rank-one base.
-- `flatInDim_test_fibreNotTotal` (non-example) — for `X = T = Spf O_K⟨s_1, s_2⟩`, `f = id` and `ℳ =
+- *flatInDim_test_fibreNotTotal* (non-example) — for `X = T = Spf O_K⟨s_1, s_2⟩`, `f = id` and `ℳ =
   O_T/(s_1)`: the non-flat locus `V(s_1) ⊆ T_0` has dimension `1` but meets each fibre (a point) in
   dimension `≤ 0`, so `ℳ` is `T`-flat in dimension `≥ 1`; a definition using `dim(X_0 ∖ F(ℳ/T))`
   instead of fibre dimensions would deny this.
@@ -6935,9 +6503,9 @@ retain the fibre dimension rather than the dimension of the whole source.
 
 **Checks for these definitions.**
 
-- `flatLocus_zero`, `IsFlatInDimAt_zero`, `IsFlatInDim_zero`: the zero sheaf is flat everywhere in every dimension.
-- `flatLocus_unit`, `IsFlatInDimAt_unit`, `IsFlatInDim_unit`: the structure sheaf over the identity is flat everywhere in every dimension.
-- `flatLocus_nonflat`, `IsFlatInDimAt_fibre`, `IsFlatInDim_fibre`: a nonflat stalk over the identity fails the dimension-zero condition, while every sheaf over the identity satisfies the dimension-one condition.
+- *flatLocus_zero*, *IsFlatInDimAt_zero*, *IsFlatInDim_zero*: the zero sheaf is flat everywhere in every dimension.
+- *flatLocus_unit*, *IsFlatInDimAt_unit*, *IsFlatInDim_unit*: the structure sheaf over the identity is flat everywhere in every dimension.
+- *flatLocus_nonflat*, *IsFlatInDimAt_fibre*, *IsFlatInDim_fibre*: a nonflat stalk over the identity fails the dimension-zero condition, while every sheaf over the identity satisfies the dimension-one condition.
 
 **The flat locus of a coherent module is open.** (*formal-flat-locus-open*) Let `f : X → T` be a
 morphism of formal `O_K`-schemes locally of tf presentation and `ℳ` a coherent `O_X`-module, with no
@@ -6961,12 +6529,12 @@ p. 416; RG Première partie, §5.2, Déf. 5.2.1, p. 37).
 
 **Checks.**
 
-- `flatInDimBaseChange_test_flat` — a flat module remains flat everywhere
+- *flatInDimBaseChange_test_flat* — a flat module remains flat everywhere
   after base change, so every dimension threshold is satisfied.
-- `flatInDimBaseChange_test_zero` — the zero module remains zero and flat
+- *flatInDimBaseChange_test_zero* — the zero module remains zero and flat
   in every dimension after any base change in the stated category.
-- `flatInDimBaseChange_test_splitFibre` — in
-  `devissageStep_test_splitFibre` the pulled-back structure sheaf is flat on
+- *flatInDimBaseChange_test_splitFibre* — in
+  *devissageStep_test_splitFibre* the pulled-back structure sheaf is flat on
   both components despite the failure of the pointed-chain pull-back.
 
 **Flatness in dimension `≥ n` in terms of a dévissage.** (*devissage-flat-in-dimension-criterion*) Let
@@ -6994,17 +6562,17 @@ with the small-support terminal term omitted. *Needs:* *formal-devissage*;
 
 **Checks.**
 
-- `devissageFlatInDim_test_annulusModel` — for
+- *devissageFlatInDim_test_annulusModel* — for
   `X = Spf O_K⟨ζ, ξ⟩/(ζξ − ϖ) → Spf O_K⟨ζ⟩` at `x = (ζ, ξ)`,
   `N = 1`, `n = 0`, the complete dimension-one quotient-map step already
   has zero terminal cokernel. Condition (a) fails and `α¹_z` is not
   injective. Appending the rank-zero dimension-zero step
   `Y² = V(ξ) ⊆ Z¹ = D¹_T`, `Z² = T` gives the same answer.
-- `devissageFlatInDim_test_earlyTermination` — the free disc at its generic
-  special-fibre point in `devissageExistence_test_genericPoint` has `N = 1`,
+- *devissageFlatInDim_test_earlyTermination* — the free disc at its generic
+  special-fibre point in *devissageExistence_test_genericPoint* has `N = 1`,
   `n = 0` and a complete chain ending in dimension `1`; all four conditions
   hold, although a pointed dimension-zero step is impossible.
-- `devissageFlatInDim_test_skippedDimension` — let
+- *devissageFlatInDim_test_skippedDimension* — let
   `T = Spf ℤ₃⟨s⟩`, `X = D²_T` with coordinates `u, v`,
   `ℳ = O_X ⊕ O_X/(u, v, s)`, and distinguish `s = u = v = 0`.
   The inclusion of the free summand is a dimension-two step with
@@ -7093,28 +6661,28 @@ fibre (BL II, Definition 3.9, p. 416, and the definition after Theorem 4.1, p. 4
 
 **Checks for `IsRigFlatAt` and `rigRelDim`.**
 
-- `IsRigFlatAt_zero`: the zero sheaf is rig-flat at every rig-point.
-- `IsRigFlatAt_identity`: the structure sheaf is rig-flat over the identity.
-- `IsRigFlatAt_torsion`: sections killed by powers of the structural pseudouniformizer
+- *IsRigFlatAt_zero*: the zero sheaf is rig-flat at every rig-point.
+- *IsRigFlatAt_identity*: the structure sheaf is rig-flat over the identity.
+- *IsRigFlatAt_torsion*: sections killed by powers of the structural pseudouniformizer
   localize to zero at every rig-point.
-- `IsRigFlatAt_closedPoint`: the quotient by the disc coordinate fails rig-flatness
-  at its zero rig-point, as in `rigFlat_test_closedPoint`.
-- `rigRelDim_identity`: the local fibre dimension of the identity is zero.
-- `rigRelDim_smooth`: a smooth formal morphism of relative dimension `n` has
+- *IsRigFlatAt_closedPoint*: the quotient by the disc coordinate fails rig-flatness
+  at its zero rig-point, as in *rigFlat_test_closedPoint*.
+- *rigRelDim_identity*: the local fibre dimension of the identity is zero.
+- *rigRelDim_smooth*: a smooth formal morphism of relative dimension `n` has
   rig-dimension `n` at every rig-point; this includes the relative polydisc.
-- `rigRelDim_empty`: the supremum of relative rig-dimensions for an empty source is `−∞`.
+- *rigRelDim_empty*: the supremum of relative rig-dimensions for an empty source is `−∞`.
 
 **Checks.**
 
-- `rigFlat_test_annulusModel` (computation) — `X = Spf O_K⟨ζ, ξ⟩/(ζξ − ϖ) → T = Spf O_K⟨ζ⟩` is
+- *rigFlat_test_annulusModel* (computation) — `X = Spf O_K⟨ζ, ξ⟩/(ζξ − ϖ) → T = Spf O_K⟨ζ⟩` is
   rig-flat at every rig-point (`C_K = K⟨ζ, ϖ/ζ⟩` is a rational localisation of `K⟨ζ⟩`), although not
   flat at `x = (ζ, ξ)`.
-- `rigFlat_test_torsion_core` (degenerate) — `ℳ = O_X/ϖO_X` on any `X`: `M_K = 0`, so `ℳ` is rig-flat in
+- *rigFlat_test_torsion_core* (degenerate) — `ℳ = O_X/ϖO_X` on any `X`: `M_K = 0`, so `ℳ` is rig-flat in
   every dimension.
-- `rigFlat_test_closedPoint` (non-example) — `ℳ = O_T/(ζ)` on `X = T = Spf O_K⟨ζ⟩`: not rig-flat at
+- *rigFlat_test_closedPoint* (non-example) — `ℳ = O_T/(ζ)` on `X = T = Spf O_K⟨ζ⟩`: not rig-flat at
   the rig-point `ζ = 0`, but rig-flat in dimension `≥ 1` (`Y = V(ζ)` has rig-dimension `0` over
   `T`); rig-flatness in dimension `≥ 1` does not imply rig-flatness.
-- `rigFlat_test_affinoid` (compatibility) — for a morphism `Spf B → Spf A` of admissible algebras,
+- *rigFlat_test_affinoid* (compatibility) — for a morphism `Spf B → Spf A` of admissible algebras,
   `O` is rig-flat at every rig-point iff `A_K → B_K` is flat at every maximal ideal of `B_K`, iff
   the morphism of adic spaces `Spa(B_K, B_K°) → Spa(A_K, A_K°)` is flat at all classical points.
 
@@ -7126,18 +6694,18 @@ part of the condition.
 
 **Checks for global rig-flatness in dimension.**
 
-- `IsRigFlatInDim_zero`: the zero module satisfies every dimension bound.
-- `IsRigFlatInDim_identity`: the structure sheaf over the identity satisfies every bound.
-- `IsRigFlatInDim_torsion`: a module with power-torsion sections has zero generic fibre and satisfies every bound.
+- *IsRigFlatInDim_zero*: the zero module satisfies every dimension bound.
+- *IsRigFlatInDim_identity*: the structure sheaf over the identity satisfies every bound.
+- *IsRigFlatInDim_torsion*: a module with power-torsion sections has zero generic fibre and satisfies every bound.
 
 **Affine Checks for `IsRigFlatAt_affine`.** The chart predicate is defined for every prime
 of `C` and every `A → C` module with the scalar-tower compatibility; applying it at rig-points
 also requires the prime-avoidance and dimension conditions.
 
-- `rigFlat_test_zero` — the zero module is flat at every prime.
-- `rigFlat_test_identity` — `M = A` is flat at every prime of `A`, by localisation.
-- `rigFlat_test_closedTorsion` — over a domain, for `0 ≠ a ∈ x`, `(A/(a))_x` is nonzero
-  torsion and not flat. If `a ∉ x`, it is zero, as in `rigFlat_test_torsion_core`.
+- *rigFlat_test_zero* — the zero module is flat at every prime.
+- *rigFlat_test_identity* — `M = A` is flat at every prime of `A`, by localisation.
+- *rigFlat_test_closedTorsion* — over a domain, for `0 ≠ a ∈ x`, `(A/(a))_x` is nonzero
+  torsion and not flat. If `a ∉ x`, it is zero, as in *rigFlat_test_torsion_core*.
 
 **Rig-flatness in top dimension is freeness at the generic point of the fibre.**
 (*rig-flatness-generic-point-criterion*) Let `T = Spf A` be admissible and `h : Z = Spf B → T`
@@ -7223,9 +6791,9 @@ Fujiwara–Kato, 0.4.1.7–8, p. 108). `fittingIdeal_mono` and the other local
 identities apply to any formal scheme and finitely presented module sheaf;
 they do not assert coherence of the ideal over arbitrary noncoherent rings.
 
-`fittingIdeal_test_cyclic` states the two identities for the actual sheaf
-cokernel of `𝒥 → O_X`. `fittingIdeal_test_baseChange` gives the extended ideal
-for its pullback along any formal morphism. `fittingIdeal_test_notAnnihilator`
+*fittingIdeal_test_cyclic* states the two identities for the actual sheaf
+cokernel of `𝒥 → O_X`. *fittingIdeal_test_baseChange* gives the extended ideal
+for its pullback along any formal morphism. *fittingIdeal_test_notAnnihilator*
 uses the direct sum of two such cokernels: its zeroth Fitting ideal is `𝒥²`,
 and an ideal annihilates the sum exactly when it is contained in `𝒥`.
 The inequality assumes `𝒥² ≠ 𝒥`; the zero and unit ideals are excluded from
@@ -7236,22 +6804,22 @@ applied to local presentations.
 
 **Checks.**
 
-- `fittingIdeal_test_cyclic` (computation) — `ℳ = O_X/𝒥` for a coherent ideal `𝒥`: `F_0(ℳ) = 𝒥` and
+- *fittingIdeal_test_cyclic* (computation) — `ℳ = O_X/𝒥` for a coherent ideal `𝒥`: `F_0(ℳ) = 𝒥` and
   `F_1(ℳ) = O_X` (on `Spf A` this is `fittingIdeal_quotient_zero`).
-- `fittingIdeal_test_zero` (degenerate) — `ℳ = 0`: `F_r(0) = O_X` for every `r ≥ 0`.
-  The ring-level Check `fittingIdeal_test_zero_core` also checks truncated subtraction.
-- `fittingIdeal_test_baseChange` (compatibility) — for `ℳ = O_X/ϖO_X` on `X = Spf O_K⟨ζ⟩` and the
+- *fittingIdeal_test_zero* (degenerate) — `ℳ = 0`: `F_r(0) = O_X` for every `r ≥ 0`.
+  The ring-level Check *fittingIdeal_test_zero_core* also checks truncated subtraction.
+- *fittingIdeal_test_baseChange* (compatibility) — for `ℳ = O_X/ϖO_X` on `X = Spf O_K⟨ζ⟩` and the
   open immersion `Spf O_K⟨ζ, ζ⁻¹⟩ → X`: `F_0 = (ϖ)` restricts to `(ϖ)`.
-- `fittingIdeal_test_notAnnihilator` (non-example) — for `ℳ = (O_X/ϖO_X)²`, `Ann(ℳ) = (ϖ)` but
+- *fittingIdeal_test_notAnnihilator* (non-example) — for `ℳ = (O_X/ϖO_X)²`, `Ann(ℳ) = (ϖ)` but
   `F_0(ℳ) = (ϖ²)`: the Fitting ideal is not the annihilator.
-- `fittingIdeal_padic` (computed non-example) — the completed associated sheaf of
+- *fittingIdeal_padic* (computed non-example) — the completed associated sheaf of
   `(ℤ₂/2)²` on `Spf ℤ₂` has `F_0 = (4)` on global sections, whereas its
   module of global sections has annihilator `(2)`; these ideals are unequal.
 
 **Ring-level Checks for Fitting indices.**
 
-- `fittingIdeal_test_zero_core` — `F_{0−1}(0) = F_0(0) = A`, since natural subtraction truncates.
-- `fittingIdeal_test_twoTerm_core` — the diagonal presentation `diag(4,6)` over `ℤ` gives
+- *fittingIdeal_test_zero_core* — `F_{0−1}(0) = F_0(0) = A`, since natural subtraction truncates.
+- *fittingIdeal_test_twoTerm_core* — the diagonal presentation `diag(4,6)` over `ℤ` gives
   `F_0(ℤ/4 ⊕ ℤ/6) = (24)`, `F_1 = (2)`, and `F_2 = ℤ`.
 
 **A principal Fitting ideal makes `M/Ann_M(F_r(M))` generated by `r` elements.**
@@ -7412,14 +6980,14 @@ pp. 423–424; RG Première partie, §1.2, Déf. 1.2.1–1.2.2, pp. 6–8).
 
 **Checks.**
 
-- `flatteningLocalStep_test_annulusModel` — the annulus-model computation
+- *flatteningLocalStep_test_annulusModel* — the annulus-model computation
   above has nonflat fibre dimension `m = 1`; the blow-up of `(ζ, ϖ)` makes
   its strict transform flat and enlarges `U_0` to all of `T_0`.
-- `flatteningLocalStep_test_zero` — on `X = T = Spf ℤ₃⟨s⟩` with
+- *flatteningLocalStep_test_zero* — on `X = T = Spf ℤ₃⟨s⟩` with
   `ℳ = 0`, `m = n = 0`, `T(1) = T` and `U_0 = D(s)`, take
   `T(2) = T`, `W_0 = T_0`. The identity is the blow-up of the unit ideal.
-- `flatteningLocalStep_test_splitFibre` — let `B = ℤ₃[i]` as in
-  `devissageStep_test_splitFibre`, `T = Spf ℤ₃⟨s⟩`, `X = Spf B⟨s⟩`,
+- *flatteningLocalStep_test_splitFibre* — let `B = ℤ₃[i]` as in
+  *devissageStep_test_splitFibre*, `T = Spf ℤ₃⟨s⟩`, `X = Spf B⟨s⟩`,
   `ℳ = O_X`, `m = n = 0`, `T(1) = T` and `U_0 = D(s)`.
   The module is flat, so the identity blow-up and `W_0 = T_0` suffice.
   After extending the base to `Spf B⟨s⟩`, the two components each have a
@@ -7480,24 +7048,24 @@ everywhere, and `U' = X'_0`: the strict transform is the pull-back modulo `ϖ`-t
 ### R2.8 formal completions of schemes and the good-reduction locus
 
 This subsection compares the generic fibre of the formal completion of a scheme with the
-analytification of its generic fibre: Huber's morphism `σ` and the comparison `φ` of his Proposition
-1.9.6, its specialisation to models over `O_K` (the image of `φ` is the locus of good reduction, and
+analytification of its generic fibre: the morphism `σ` and the comparison `φ` (Huber96 Prop. 1.9.6),
+its specialisation to models over `O_K` (the image of `φ` is the locus of good reduction, and
 `φ` is an isomorphism for proper models), and the converse for flat quasi-projective models.
 
-**Formal completion of a scheme, the morphism `σ: d(X̂) → X` and the comparison `φ: d(X̂) → X ×_Y d(Ŷ)`.** (*formal-completion-and-algebraic-comparison*) (1.9.4) For a scheme `X` and its formal
+**Formal completion of a scheme, the morphism `σ: d(X̂) → X` and the comparison `φ: d(X̂) → X ×_Y d(Ŷ)`.** (*formal-completion-and-algebraic-comparison*) For a scheme `X` and its formal
 completion `X̂` along a closed subscheme defined by an ideal of finite type — the formal scheme of
 the thickening system `(X_n)` of *colimit-of-thickenings* (layer F0), which for locally noetherian
 `X` is *formal-completion* (layer F0) and on the scheme side is SchemeAndStackFoundations
 Layer 4 (§4.8); no noetherian hypothesis on `X` is made here — assumed of type (S),
 prove that there is a natural
 morphism of locally ringed spaces `σ_X : d(X̂) → X`, the unique one such that for every open `U ⊆
-X`, with `e = (X̂ → X) ∘ λ`, one has `e⁻¹(U) ⊆ σ⁻¹(U)` and `e* = σ*` on `O_X(U)`. (1.9.5) Let `f : X
+X`, with `e = (X̂ → X) ∘ λ`, one has `e⁻¹(U) ⊆ σ⁻¹(U)` and `e* = σ*` on `O_X(U)`. Let `f : X
 → Y` be locally of finite type between schemes, `Y' ⊆ Y` closed and defined by a quasi-coherent
 ideal of finite type, `X' = X ×_Y Y'`, and `X̂`, `Ŷ` the completions along `X'` and `Y'`. Prove that
 if `Ŷ` is of type (S) then so is `X̂`, that `f̂` is adic, and that the square formed by `σ_X`,
 `σ_Y`, `d(f̂)` and `f` induces a `d(Ŷ)`-morphism `φ : d(X̂) → X ×_Y d(Ŷ)` into the fibre product of
 a scheme locally of finite type with an adic space (*scheme-fibre-product-analytification*, AdicSpacesPartII layer
-R1). Prove Proposition 1.9.6: (i) `φ` is a local isomorphism; (ii) if `f` is separated, `φ` is
+R1). Prove that (i) `φ` is a local isomorphism; (ii) if `f` is separated, `φ` is
 injective; (iii) if `f` is universally specializing (e.g. universally closed, e.g. proper), `φ` is
 surjective; hence if `f` is separated and universally specializing, `φ` is an isomorphism (Huber96
 §1.9.4–1.9.5 and Prop. 1.9.6, p. 98, the construction and its geometric properties; Huber94
@@ -7549,53 +7117,53 @@ the integral locus.
 
 **Checks for the constructions.**
 
-- `idealCompletion.map_identity`: completion sends the identity to the identity,
+- *idealCompletion.map_identity*: completion sends the identity to the identity,
   with the canonical equality of pulled-back ideals.
-- `idealCompletion.map_emptyCentre`: a unit pulled-back ideal gives a completion
+- *idealCompletion.map_emptyCentre*: a unit pulled-back ideal gives a completion
   morphism with empty image.
-- `idealCompletion.map_nilpotent`: a nilpotent centre gives back the scheme, and
+- *idealCompletion.map_nilpotent*: a nilpotent centre gives back the scheme, and
   the completion morphism agrees with `f` through the completion maps.
-- `formalCompletionSigma_emptyCentre`: the unit ideal gives an empty generic
+- *formalCompletionSigma_emptyCentre*: the unit ideal gives an empty generic
   fibre and an empty image for `σ`.
-- `formalCompletionSigma_nilpotent`: even though completion at a nilpotent ideal
+- *formalCompletionSigma_nilpotent*: even though completion at a nilpotent ideal
   gives the original scheme with discrete topology, its analytic generic fibre
   and `σ`'s image are empty.
-- `formalCompletionSigma_specialization`: `σ(z)` specializes to the image of `λ(z)`
+- *formalCompletionSigma_specialization*: `σ(z)` specializes to the image of `λ(z)`
   under the completion map; the order of these two points is fixed.
-- `formalCompletionComparison_identity`: the comparison for the identity is an
+- *formalCompletionComparison_identity*: the comparison for the identity is an
   isomorphism and its base projection is the identity.
-- `formalCompletionComparison_proper`: every proper `f` gives an isomorphism.
-- `formalCompletionComparison_emptyCentre`: a unit pulled-back ideal gives
+- *formalCompletionComparison_proper*: every proper `f` gives an isomorphism.
+- *formalCompletionComparison_emptyCentre*: a unit pulled-back ideal gives
   `IsEmpty (genericFibre (idealCompletion …)).obj`; `φ` is surjective exactly when
-  the mixed fibre product is empty. This is also `formalCompletion_test_emptyCentre`.
-- `formalCompletionComparison_affineLine`: over `ℤ_p`, `φ` is an open immersion
-  with image `|T| ≤ 1` and is not surjective, as in `formalCompletion_test_affineLine`.
-- `formalCompletionComparison_doubledPoint`: over a complete nontrivially valued
+  the mixed fibre product is empty. This is also *formalCompletion_test_emptyCentre*.
+- *formalCompletionComparison_affineLine*: over `ℤ_p`, `φ` is an open immersion
+  with image `|T| ≤ 1` and is not surjective, as in *formalCompletion_test_affineLine*.
+- *formalCompletionComparison_doubledPoint*: over a complete nontrivially valued
   rank-one field `K`, glue two copies of `Spec O_K[T]` along `D(ϖ) ∪ D(T)`,
   using the scheme pushout, where `ϖ` is nonzero and topologically nilpotent.
   The resulting nonseparated morphism has noninjective `φ` with image `{|T| ≤ 1}`,
-  as in `formalCompletion_test_doubledPoint`. The check constructs the
+  as in *formalCompletion_test_doubledPoint*. The check constructs the
   folding map `r : X → A¹_{O_K}`, fixes its restriction to each chart as the
   identity, and states the image equality using the stalk valuation of the
   coordinate pulled back along `P.snd ≫ r`. This includes `O_K = ℤ_p`, `ϖ = p`.
 
 **Checks.**
 
-- `formalCompletion_test_affineLine` (computation) — `X = A¹_{O_K} → Y = Spec O_K`, `Y' = V(ϖ)`:
+- *formalCompletion_test_affineLine* (computation) — `X = A¹_{O_K} → Y = Spec O_K`, `Y' = V(ϖ)`:
   `φ` is the open immersion of the closed unit disc `{|T| ≤ 1}` into `A^{1,ad}_K`, injective and
   not surjective; the type-1 point `T = ϖ⁻¹` is not in the image.
-- `formalCompletion_test_emptyCentre` (degenerate) — if `X' = X ×_Y Y' = ∅` (for `Y = Spec O_K`:
+- *formalCompletion_test_emptyCentre* (degenerate) — if `X' = X ×_Y Y' = ∅` (for `Y = Spec O_K`:
   `ϖ` invertible on `X`, e.g. `X = Spec K`), the completion along the empty closed subset is the
   empty formal scheme, `d(X̂) = ∅`, and `φ : ∅ → X ×_Y d(Ŷ)` is a local isomorphism and injective;
   it is surjective iff `X ×_Y d(Ŷ) = ∅`, and for `X = Spec K → Spec O_K` (not universally
   specializing) the target `Spa(K, O_K)` is nonempty, so (iii) fails as it must.
-- `formalCompletion_test_doubledPoint` (non-example) — `X` the affine line over `O_K` with the
+- *formalCompletion_test_doubledPoint* (non-example) — `X` the affine line over `O_K` with the
   origin `x₀` of the special fibre doubled (not separated; `X_K = A¹_K` is separated):
   the two formal charts meet along `D(T)`, whose generic fibre is `{|T| = 1}`.
   Thus `d(X̂)` is the closed unit disc with the closed, non-open set
   `λ⁻¹(x₀) = {|T| < 1}` doubled. This set contains `η_{1⁻}`, for which
   `|T|^m > |ϖ|` for every positive integer `m`; it is strictly larger than the
-  open residue disc `⋃_{m≥1}{|T|^m ≤ |ϖ|}` of `tube_test_preimage_not_open`.
+  open residue disc `⋃_{m≥1}{|T|^m ≤ |ϖ|}` of *tube_test_preimage_not_open*.
   The comparison `φ` is a surjective local isomorphism onto `{|T| ≤ 1}` and is
   not injective, so (ii) needs `f` separated. The check states
   `¬ Function.Injective φ.hom.base` and `Set.range φ.hom.base = {|T| ≤ 1}`
@@ -7639,14 +7207,14 @@ its affine boundedness condition expresses extension to the valuation ring.
 **Checks for ideal completion.**
 
 
-- `idealThickeningSystem_square` — level one is exactly Mathlib's closed subscheme defined by the square of the ideal sheaf.
+- *idealThickeningSystem_square* — level one is exactly Mathlib's closed subscheme defined by the square of the ideal sheaf.
 
-- `idealThickeningSystem_nilpotent`, `idealCompletion_nilpotent`,
+- *idealThickeningSystem_nilpotent*, *idealCompletion_nilpotent*,
   `idealCompletion.toScheme_nilpotent` — a nilpotent ideal has eventually constant
   thickenings and completion is the original scheme; the statement explicitly identifies each sufficiently high term of `idealThickeningSystem` with that scheme.
-- `idealThickeningSystem_unit`, `idealCompletion_unit`,
+- *idealThickeningSystem_unit*, *idealCompletion_unit*,
   `idealCompletion.toScheme_unit` — the unit ideal gives empty thickenings and empty completion.
-- `idealThickeningSystem_noetherian`, `idealCompletion_noetherian`,
+- *idealThickeningSystem_noetherian*, *idealCompletion_noetherian*,
   `idealCompletion.toScheme_noetherian` — for a noetherian scheme and the ideal of a
   closed subset, this is the earlier completion, including its map to the scheme, and the terms of `idealThickeningSystem` equal those of `schemeThickeningSystem`.
 
@@ -7665,11 +7233,11 @@ QuasiCompact; the finite-type immersion instance in
 
 **Checks for `IsQuasiProjective`.**
 
-- `IsQuasiProjective_identity` — `Spec R → Spec R` embeds into `P⁰_R`.
-- `IsQuasiProjective_empty` — every empty scheme over `Spec R` is quasi-projective.
-- `IsQuasiProjective_affineLine` — `A¹_R → Spec R` is quasi-projective but not proper
+- *IsQuasiProjective_identity* — `Spec R → Spec R` embeds into `P⁰_R`.
+- *IsQuasiProjective_empty* — every empty scheme over `Spec R` is quasi-projective.
+- *IsQuasiProjective_affineLine* — `A¹_R → Spec R` is quasi-projective but not proper
   for every nonzero commutative ring `R`; quasi-projectivity does not imply properness.
-- `IsQuasiProjective_notSeparated` — a morphism that is not separated cannot admit
+- *IsQuasiProjective_notSeparated* — a morphism that is not separated cannot admit
   the required immersion (for example, the affine line with doubled origin over a field).
 
 **If the completion's generic fibre is all of the analytified generic fibre, a flat quasi-projective
@@ -7808,19 +7376,19 @@ Example 5.2.5, pp. 50–51, for the rigid open residue disc).
 
 **Checks.**
 
-- `rigOfFSC_test_powerSeries` (computation) — for `C = ℤ` (discrete) and any `k`, `Spf(ℤ[[q]])^rig`
+- *rigOfFSC_test_powerSeries* (computation) — for `C = ℤ` (discrete) and any `k`, `Spf(ℤ[[q]])^rig`
   is the open unit disc `Δ = {|t| < 1}` over `k`, admissibly covered by the closed discs `{|t| ≤
   r}`. The check realizes the object in `FSC ℤ` and bounds each image point by
   `|t|^m ≤ |π|` for some positive `m`, with `0 < |π| < 1`.
-- `rigOfFSC_test_nondiscrete` (non-example) — for `k = ℂ_p`, `Spf O_k⟨T⟩` is not an object of `FS_C`
+- *rigOfFSC_test_nondiscrete* (non-example) — for `k = ℂ_p`, `Spf O_k⟨T⟩` is not an object of `FS_C`
   for any `C` (it is not locally noetherian); its generic fibre is given by Raynaud's functor
   instead. The example works for any complete rank-one valuation ring whose maximal ideal
   is not finitely generated and excludes equality with every `FSC C` source.
-- `rigOfFSC_test_restricted` (compatibility) — for `k` discretely valued and `C = R`, `Spf
+- *rigOfFSC_test_restricted* (compatibility) — for `k` discretely valued and `C = R`, `Spf
   R{{T}}^rig` is the closed unit disc, equal to Raynaud's generic fibre of `Spf R⟨T⟩`.
   The example supplies its `FSC R` object and type-(S) instance and preserves the full
   specialization map in the comparison with `genericFibre`.
-- `rigOfFSC_test_point` (degenerate) — `Spf(C)^rig = Sp(k)`, the final object of rigid spaces over
+- *rigOfFSC_test_point* (degenerate) — `Spf(C)^rig = Sp(k)`, the final object of rigid spaces over
   `k`. For `C = R = ℤ_p` and `k = ℚ_p`, construct the unique integral specialization
   `Sp(ℚ_p) → Spf(ℤ_p)` and prove that `rigOfFSC.homEquiv` sends the identity to it.
   Its integral evaluation is `ℤ_p → ℤ_p`, local with centre `(p)`; its analytic
@@ -7882,17 +7450,17 @@ Mathlib `AlgebraicGeometry.Smooth`, `Algebra.Smooth`, `KaehlerDifferential`, `Al
 
 **Checks.**
 
-- `smoothFormal_test_affineSpace` (computation) — `Spf O_K⟨T_1, …, T_d⟩ → Spf O_K` is smooth of
+- *smoothFormal_test_affineSpace* (computation) — `Spf O_K⟨T_1, …, T_d⟩ → Spf O_K` is smooth of
   relative dimension `d` and `Ω¹` is free with basis `dT_1, …, dT_d`.
-- `smoothFormal_test_torus` (computation) — the formal torus `Spf W(κ)⟨T_1^{±1}, …, T_d^{±1}⟩` is
+- *smoothFormal_test_torus* (computation) — the formal torus `Spf W(κ)⟨T_1^{±1}, …, T_d^{±1}⟩` is
   smooth of relative dimension `d` over `Spf W(κ)`, with `Ω¹` free on the `dT_i`.
-- `smoothFormal_test_semistable` (non-example) — `Spf O_K⟨S, T⟩/(ST − ϖ) → Spf O_K` is flat with
+- *smoothFormal_test_semistable* (non-example) — `Spf O_K⟨S, T⟩/(ST − ϖ) → Spf O_K` is flat with
   smooth generic fibre (an annulus) but is not smooth: its special fibre `k[S, T]/(ST)` is singular
   at the origin.
-- `smoothFormal_test_levels` (compatibility) — for a smooth `O_K`-scheme `X`, the `ϖ`-adic
+- *smoothFormal_test_levels* (compatibility) — for a smooth `O_K`-scheme `X`, the `ϖ`-adic
   completion `X̂` is smooth over `Spf O_K`, and each `X̂_m = X ⊗ O_K/ϖ^{m+1}` is smooth in the sense
   of Mathlib `AlgebraicGeometry.Smooth`.
-- `smoothFormal_test_identity` (degenerate) — `id : Spf O_K → Spf O_K` is étale (smooth of relative
+- *smoothFormal_test_identity* (degenerate) — `id : Spf O_K → Spf O_K` is étale (smooth of relative
   dimension `0`) and `Ω¹ = 0`.
 
 The formal-scheme statements use a complete rank-one valuation ring `O` with a
@@ -7937,18 +7505,18 @@ pp. 338–339, I.5.2.1 and I.5.2.5, pp. 340–341; Huber (1.6.2), pp. 76–77.
 
 **Checks for the complete differential sheaf and pointed neighbourhoods.**
 
-- `kaehler_identity`, `kaehler.d_identity`: the identity has zero differential
+- *kaehler_identity*, *kaehler.d_identity*: the identity has zero differential
   sheaf and zero derivative.
-- `kaehler_etale`, `kaehler.d_etale`: an étale formal morphism has zero
+- *kaehler_etale*, *kaehler.d_etale*: an étale formal morphism has zero
   differential sheaf and zero derivative.
-- `kaehler_affineSpace`, `kaehler.d_affineSpace`: the basis on the formal
+- *kaehler_affineSpace*, *kaehler.d_affineSpace*: the basis on the formal
   `d`-disc consists of the derivatives of its coordinates; at `d = 1` it is
   nonzero, and at `d = 0` the basis is empty. These are also the
-  `smoothFormal_test_affineSpace` example.
-- `IsElementaryEtaleNbhd_identity`: the identity at a point is elementary.
-- `IsElementaryEtaleNbhd_open`: inclusion of an open neighbourhood is elementary
+  *smoothFormal_test_affineSpace* example.
+- *IsElementaryEtaleNbhd_identity*: the identity at a point is elementary.
+- *IsElementaryEtaleNbhd_open*: inclusion of an open neighbourhood is elementary
   at each of its points.
-- `IsElementaryEtaleNbhd_residueExtension`: an étale pointed morphism whose
+- *IsElementaryEtaleNbhd_residueExtension*: an étale pointed morphism whose
   induced residue-field map is not surjective is not elementary. The definition
   uses this induced map, rather than an unrelated abstract field isomorphism.
 
@@ -8026,9 +7594,9 @@ are supplied by SchemeAndStackFoundations §0.29.
 
 **Checks.**
 
-- `frobeniusLift_test_charP_not_etale` (non-example) — a flat `ℤ/p²`-algebra killed by `p`
+- *frobeniusLift_test_charP_not_etale* (non-example) — a flat `ℤ/p²`-algebra killed by `p`
   is zero, including `p = 2`.
-- `frobeniusLift_test_flat_product` (negative control) — let `A = ℤ/4 × 𝔽₂` and let
+- *frobeniusLift_test_flat_product* (negative control) — let `A = ℤ/4 × 𝔽₂` and let
   `A → 𝔽₂` be the second projection. Its target is a nonzero flat summand, although
   `2 ≠ 0` and `2² = 0` in `A`. These two equations alone do not imply the preceding claim.
 
@@ -8049,11 +7617,11 @@ all-level affine criterion, with the given `ϖ`-adic topologies (BL II §1, pp. 
 
 **Checks for formal smoothness and étaleness.**
 
-- `formalSmooth_test_identity` — the identity of a locally tfp formal scheme is smooth
+- *formalSmooth_test_identity* — the identity of a locally tfp formal scheme is smooth
   of dimension zero and étale.
-- `formalSmooth_test_empty` — a morphism from the empty formal scheme is smooth of every
+- *formalSmooth_test_empty* — a morphism from the empty formal scheme is smooth of every
   specified dimension and étale.
-- `formalSmooth_test_torsion` — `Spf(O_K/ϖ) → Spf O_K` is not smooth in any dimension
+- *formalSmooth_test_torsion* — `Spf(O_K/ϖ) → Spf O_K` is not smooth in any dimension
   and is not étale. Its first reduction is the identity, but its second reduction is
   the nonflat map `O_K/ϖ² → O_K/ϖ`; testing only the first reduction without flatness fails.
 
@@ -8125,31 +7693,31 @@ henselian lifting, respectively; the cited Conrad examples describe the disc and
 
 **Checks for the carriers and coordinates.**
 
-- `tubeSpace_empty` — the empty centre gives the empty adic space.
-- `tubeSpace_whole` — the whole centre gives the generic fibre.
-- `tubeSpace_closed` — the inclusion has image the interior of the closed specialization fibre.
-- `openPolydisc_zero` — dimension zero gives `Spa(K, O_K)`.
-- `openPolydisc_origin` — the origin exists in every dimension.
-- `openPolydisc_boundary` — no point of the one-dimensional open disc has coordinate value `1`.
-- `openPolydisc.coeff_one` — the coefficient map preserves `1`.
-- `openPolydisc.coeff_coordinate` — every coordinate remains a nonzero analytic function.
-- `openPolydisc.coeff_injective` — restriction from the closed polydisc is injective.
-- `IsSmoothAt_global` — global smoothness implies smoothness at every point.
-- `IsSmoothAt_identity` — the formal base is smooth of dimension zero over itself.
-- `IsSmoothAt_wrongDimension` — that same point is not smooth of relative dimension one.
-- `tubeSection_zero` — specialization sends the zero section to zero.
-- `tubeSection_one` — specialization preserves the unit section.
-- `tubeSection_restrict` — restricting a section to a smaller neighbourhood gives the same tube section.
-- `residueDisc_reparam_translation` — `T ↦ a + T`, with `a ∈ m_K`, has constant term `a` and unit linear determinant; the constant need not vanish.
-- `residueDisc_reparam_contraction` — `T ↦ ϖT` has nonunit linear determinant and does not satisfy the automorphism criterion.
+- *tubeSpace_empty* — the empty centre gives the empty adic space.
+- *tubeSpace_whole* — the whole centre gives the generic fibre.
+- *tubeSpace_closed* — the inclusion has image the interior of the closed specialization fibre.
+- *openPolydisc_zero* — dimension zero gives `Spa(K, O_K)`.
+- *openPolydisc_origin* — the origin exists in every dimension.
+- *openPolydisc_boundary* — no point of the one-dimensional open disc has coordinate value `1`.
+- *openPolydisc.coeff_one* — the coefficient map preserves `1`.
+- *openPolydisc.coeff_coordinate* — every coordinate remains a nonzero analytic function.
+- *openPolydisc.coeff_injective* — restriction from the closed polydisc is injective.
+- *IsSmoothAt_global* — global smoothness implies smoothness at every point.
+- *IsSmoothAt_identity* — the formal base is smooth of dimension zero over itself.
+- *IsSmoothAt_wrongDimension* — that same point is not smooth of relative dimension one.
+- *tubeSection_zero* — specialization sends the zero section to zero.
+- *tubeSection_one* — specialization preserves the unit section.
+- *tubeSection_restrict* — restricting a section to a smaller neighbourhood gives the same tube section.
+- *residueDisc_reparam_translation* — `T ↦ a + T`, with `a ∈ m_K`, has constant term `a` and unit linear determinant; the constant need not vanish.
+- *residueDisc_reparam_contraction* — `T ↦ ϖT` has nonunit linear determinant and does not satisfy the automorphism criterion.
 
 **Checks for residue-field splitting.**
 
-- `residueDisc_test_inseparable` — for any complete rank-one base with residue field `𝔽_p(t)`
+- *residueDisc_test_inseparable* — for any complete rank-one base with residue field `𝔽_p(t)`
   and an integral lift `a` of `t`, the tube of `T^p − a = 0` in the formal affine line has no
   section over the generic fibre of the base. This includes `𝔽_p(t)[[ϖ]]`; the obstruction is
   that no residue coefficient has `p`-th power `t`.
-- `residueDisc_test_nonnormal` — over a complete rank-one base with residue field `ℝ`, the
+- *residueDisc_test_nonnormal* — over a complete rank-one base with residue field `ℝ`, the
   tube of `T³ − 2 = 0` has two connected components, corresponding to the linear and irreducible
   quadratic residue factors. The cubic is separable and has a real root but does not split.
   Thus even extending residue coefficients to `ℝ` does not give three ordinary discs;
@@ -8204,9 +7772,8 @@ Conrad-MR §4.1, Thm 4.1.1(1), p. 26, thresholds in the divisible hull of the va
 `TauCeti.ValuationSpectrum.spa`, `TauCeti.ValuationSpectrum.basicOpenFinset`,
 `TauCeti.ValuationSpectrum.rationalSubset`, `TauCeti.ValuationSpectrum.mem_rationalSubset_iff`,
 `TauCeti.ValuationSpectrum.rationalSubset_image_mul_right`,
-`TauCeti.FarguesFontaine.IsRadiusLowerBound`; Mathlib `ValuativeRel`. Lean:
-`ValuationSpectrum.fracPowLE`, `ValuationSpectrum.fracPowGE`, `ValuationSpectrum.mem_fracPowLE_iff`
-and `ValuationSpectrum.fracPow_inter_spa`; the other lemmas and Checks are specified in this README only.
+`TauCeti.FarguesFontaine.IsRadiusLowerBound`; Mathlib `ValuativeRel`. This target is specified
+in this README only.
 
 **Checks.**
 
@@ -8274,7 +7841,7 @@ pseudouniformizer above, `sectionDomainGE_of_trivialization` identifies that ope
 with the full local `fracPowGE` locus and also gives the `fracPowLE` identification.
 Thus on these models the definitions glue the rational opens without changing
 membership. This uses Huber96 §1.9, Prop. 1.9.1 and (1.9.3), pp. 96–98;
-the rational-subset formulas are the two clauses of `fracPow_inter_spa`.
+the rational-subset formulas are the two clauses of `fracPow_inter_spa` (*fractional-valuation-bound*).
 Invertibility is expressed by local isomorphisms with the structure module;
 sections are morphisms from that module, using the existing `FormalScheme.Modules`.
 
@@ -8312,43 +7879,43 @@ of `(s^{⊗b}, ϖ^a)` and `sectionDomainGE_pow` give the same fractional domain.
 
 **Checks for upper bounds and quotient sections.**
 
-- `sectionDomainLE_zero` — the zero section lies below the unit threshold everywhere.
-- `sectionDomainLE_unit` — the unit section at exponent zero gives the whole space.
-- `sectionDomainLE_zeroThreshold` — a unit section cannot lie below the zero threshold at exponent `1/2`.
-- `sectionDomainGE_ofMod_zero` — for `q < m`, the zero class modulo `ϖ^m` has empty lower domain.
-- `sectionDomainGE_ofMod_generator` — the class of the unit section has the whole domain.
-- `sectionDomainGE_ofMod_lifts` — adding `μ(t)` to a lift preserves its domain when `μ` is multiplication by `ϖ^m` and `q < m`.
+- *sectionDomainLE_zero* — the zero section lies below the unit threshold everywhere.
+- *sectionDomainLE_unit* — the unit section at exponent zero gives the whole space.
+- *sectionDomainLE_zeroThreshold* — a unit section cannot lie below the zero threshold at exponent `1/2`.
+- *sectionDomainGE_ofMod_zero* — for `q < m`, the zero class modulo `ϖ^m` has empty lower domain.
+- *sectionDomainGE_ofMod_generator* — the class of the unit section has the whole domain.
+- *sectionDomainGE_ofMod_lifts* — adding `μ(t)` to a lift preserves its domain when `μ` is multiplication by `ϖ^m` and `q < m`.
 
 **Checks.**
 
-- `sectionDomain_test_projectiveLine` (computation) — for `𝔛 = P̂¹_{O_K}`, `ℒ = O(1)`, `s = T_0` and
+- *sectionDomain_test_projectiveLine* (computation) — for `𝔛 = P̂¹_{O_K}`, `ℒ = O(1)`, `s = T_0` and
   `q = 1`: `sectionDomainGE s 1 = {x : |T_0(x)| ≥ |ϖ| · max(|T_0(x)|, |T_1(x)|)}`, the complement of
   the closed valuation subset `{|T_0/T_1| < |ϖ|}` (which need not be open at higher-rank points).
   The check states the local homogeneous-coordinate formula for a pair of
   sections generating the line: in an integral frame their coordinates generate
   the unit ideal, so their maximum value is one. It applies to `T_0,T_1` on both
   standard formal charts of `P̂¹`.
-- `sectionDomain_test_generatorIndependence` (characterisation) — on `𝔛 = Spf O_K⟨T, T⁻¹⟩` with `ℒ =
+- *sectionDomain_test_generatorIndependence* (characterisation) — on `𝔛 = Spf O_K⟨T, T⁻¹⟩` with `ℒ =
   O`, the generators `e` and `T·e` give the same domain for `s = T² e = T·(Te)`: `{|T²| ≥ |ϖ|^q} =
   {|T| ≥ |ϖ|^q}` because `|T| = 1` on `d(𝔛)`.
-- `sectionDomain_test_liftIndependence` (characterisation) — on `Spf O_K⟨T⟩` with `ℒ = O` and `q =
+- *sectionDomain_test_liftIndependence* (characterisation) — on `Spf O_K⟨T⟩` with `ℒ = O` and `q =
   1/2`: `s = T` and `s' = T + ϖ` give the same domain `{|T²| ≥ |ϖ|}`; for `q = 1` they do not (the
   point `T = −ϖ` lies in the first but not the second). The check also
   evaluates these two sections after that constant specialization: at `q = 1`
   their domains are respectively the whole generic fibre and the empty open.
-- `sectionDomain_test_integralStructure` (non-example) — replacing `ℒ` by the lattice `ϖ⁻¹ℒ ⊇ ℒ` in
+- *sectionDomain_test_integralStructure* (non-example) — replacing `ℒ` by the lattice `ϖ⁻¹ℒ ⊇ ℒ` in
   the same `ℒ_η` multiplies the local coordinates of `s` by `ϖ` and changes the domain from `{|s| ≥ |ϖ|^q}` to `{|s|_ℒ ≥ |ϖ|^{q−1}}`; a definition using only `ℒ_η` is ill-defined. The
   equality uses `q+1` on the rescaled side and `q` on the original side, and
   separately states emptiness for rescaled exponents below one.
-- `sectionDomain_test_degenerate` (degenerate) — if `s̄` generates `ℒ/ϖℒ` everywhere then the domain
+- *sectionDomain_test_degenerate* (degenerate) — if `s̄` generates `ℒ/ϖℒ` everywhere then the domain
   is `d(𝔛)` for every `q ≥ 0`; if `s = 0` it is empty.
 
 **Checks for powers and lift independence.**
 
-- `sectionDomainGE_test_zeroPower` — the zeroth tensor power of the zero section is `1`:
+- *sectionDomainGE_test_zeroPower* — the zeroth tensor power of the zero section is `1`:
   its threshold-zero domain is the whole space, whereas the original zero section's is empty.
   Thus the power identity requires `n > 0`.
-- `sectionDomainGE_test_twoTerm` — `|1+p| = 1 ≥ |p|^{1/2}` and
+- *sectionDomainGE_test_twoTerm* — `|1+p| = 1 ≥ |p|^{1/2}` and
   `|0+p| = |p| < |p|^{1/2}` at the `p`-adic valuation, including `p = 2`.
   Adding a term divisible by `p` preserves these two sides of the threshold.
 
@@ -8422,10 +7989,10 @@ is this construction with `ℒ = ω^{⊗(p−1)}`, `s = H̃a`, `c = p^ε`. *Need
 
 **Checks.**
 
-- `sectionDomainModel_test_annulus` (computation) — for `𝔛 = Spf O_K⟨T⟩`, `ℒ = O`, `s = T`, `c = ϖ`:
+- *sectionDomainModel_test_annulus* (computation) — for `𝔛 = Spf O_K⟨T⟩`, `ℒ = O`, `s = T`, `c = ϖ`:
   `sectionDomainModel = Spf O_K⟨T, u⟩/(Tu − ϖ)`, already `ϖ`-torsion-free, with generic fibre the
   annulus `{|ϖ| ≤ |T| ≤ 1}`.
-- `sectionDomainModel_test_torsion` (non-example) — for `s = ϖT` on `Spf O_K⟨T⟩` and `c = ϖ`, the
+- *sectionDomainModel_test_torsion* (non-example) — for `s = ϖT` on `Spf O_K⟨T⟩` and `c = ϖ`, the
   ring `O_K⟨T, u⟩/(ϖTu − ϖ)` has nonzero `ϖ`-torsion (the class of `Tu − 1`); only after killing it
   does one get `O_K⟨T, T⁻¹⟩`, whose generic fibre `{|T| = 1} = {|ϖT| ≥ |ϖ|}` is correct.
 - (power-torsion boundary) — for `A = ℤ_p`, `f = p²`, `c = p³`, write `P = ℤ_p⟨u⟩`
@@ -8433,12 +8000,12 @@ is this construction with `ℒ = ω^{⊗(p−1)}`, `s = H̃a`, `c = p^ε`. *Need
   `p`-torsion class of `t`, whereas `R/R[p^∞] = P/(t) ≅ ℤ_p`, the intended model.
   For `f = 0`, `c = p²`, the first-order quotient is `𝔽_p[u]`, with nonempty formal
   spectrum; the power-torsion quotient is zero, as required by `sectionDomainModel_zeroSection`.
-- `sectionDomainModel_test_points` (characterisation) — for `s = T`, `c = ϖ` on `Spf O_K⟨T⟩`: the
+- *sectionDomainModel_test_points* (characterisation) — for `s = T`, `c = ϖ` on `Spf O_K⟨T⟩`: the
   `O_K`-point `T ↦ ϖ` lifts uniquely (`u = 1`), while `T ↦ ϖ²` does not lift (`uϖ² = ϖ` has no
   solution in `O_K`).
-- `sectionDomainModel_test_unitThreshold` (degenerate) — for `c = 1` the model is the open formal
+- *sectionDomainModel_test_unitThreshold* (degenerate) — for `c = 1` the model is the open formal
   subscheme `D(s̄) = 𝔛 ∖ V(s̄)`, and no blow-up is needed; for `s = 1` it is `𝔛`.
-- `sectionDomainModel_test_scholze` (compatibility) — for `𝔛 = X*` (the `p`-adic completion of the
+- *sectionDomainModel_test_scholze* (compatibility) — for `𝔛 = X*` (the `p`-adic completion of the
   minimal compactification), `ℒ = ω^{⊗(p−1)}`, `s = H̃a` and `c = p^ε ∈ ℤ_p^cycl`, the model is
   Scholze's `X*(ε)` and its generic fibre is `{|Ha| ≥ |p|^ε}`.
 
@@ -8446,7 +8013,7 @@ The affine section-model Checks compare the actual global section ring with the
 displayed quotient and preserve the base coordinates. The torsion Check exhibits the
 nonzero class of `Tu − 1` before saturation. The point Check asserts unique lifting at
 `T = ϖ` and nonexistence at `T = ϖ²`; the unit-threshold Check identifies the open image
-by invertibility of the section in the formal stalk. `sectionDomainModel_test_scholze`
+by invertibility of the section in the formal stalk. *sectionDomainModel_test_scholze*
 identifies a model of a lift with `hasseDomainModel`, uniquely over the original model
 (Scholze15 Definition III.2.12 and Lemma III.2.13, p. 38).
 
@@ -8534,41 +8101,41 @@ additional extension theorem, not for this assertion).
 
 **Checks for the tensor power and section domain.**
 
-- `hassePower_two` — at `p = 2` the Hasse line is `ω`.
-- `hassePower_three` — at `p = 3` it is `ω ⊗ ω`.
-- `hassePower_unit` — every tensor power of the structure line is the structure line.
-- `sectionDomainGE_unit` — the unit section has the entire generic fibre at every
+- *hassePower_two* — at `p = 2` the Hasse line is `ω`.
+- *hassePower_three* — at `p = 3` it is `ω ⊗ ω`.
+- *hassePower_unit* — every tensor power of the structure line is the structure line.
+- *sectionDomainGE_unit* — the unit section has the entire generic fibre at every
   nonnegative radius with integral scalar `p`.
-- `sectionDomainGE_zeroSection` — the zero section has empty domain at radius zero.
-- `sectionDomainGE_half` — with zero section and zero scalar, radius `1/2` gives
+- *sectionDomainGE_zeroSection* — the zero section has empty domain at radius zero.
+- *sectionDomainGE_half* — with zero section and zero scalar, radius `1/2` gives
   the whole generic fibre, whereas radius zero gives the empty set (`0⁰ = 1`).
 
 **Checks.**
 
-- `hasseDomain_test_toy` (inclusion) — the ordinary domain lies in the half-radius
+- *hasseDomain_test_toy* (inclusion) — the ordinary domain lies in the half-radius
   section domain of every lift. For `Ha = T mod p` on `Spf ℤ_p⟨T⟩`, the local
   equation is `|T²| ≥ |p|`; the point computation is the direction-of-`GE` Check of
   *fractional-valuation-bound*.
   Over `ℤ_p[√p]` the chart has equation `Tu = √p`.
-- `hasseDomain_test_liftAtOne` (non-example) — for `ε = 1` the locus depends on the lift: with `H̃a
+- *hasseDomain_test_liftAtOne* (non-example) — for `ε = 1` the locus depends on the lift: with `H̃a
   = T` and `H̃a' = T + p` on `Spf ℤ_p⟨T⟩`, the classical point `T = −p` lies in `{|T| ≥ |p|}` but
   not in `{|T + p| ≥ |p|}`; hence the restriction `ε < 1`.
-- `hasseDomain_test_ordinary` (degenerate) — `hasseDomain 0 = {|Ha| = 1}`, the tube of the ordinary
+- *hasseDomain_test_ordinary* (degenerate) — `hasseDomain 0 = {|Ha| = 1}`, the tube of the ordinary
   locus `𝔛_s ∖ V(Ha)`; for `Ha` invertible (`𝔛_s` ordinary) every `X(ε)` is `d(𝔛)`.
-- `hasseDomain_test_scholze` (compatibility) — for Scholze's `X*` over `ℤ_p^cycl` with `p^ε ∈
+- *hasseDomain_test_scholze* (compatibility) — for Scholze's `X*` over `ℤ_p^cycl` with `p^ε ∈
   ℤ_p^cycl`, `hasseDomainModel ε ≅ X*(ε)` of Definition III.2.12 and its generic fibre is `{|Ha| ≥
   |p|^ε}`.
-- `hasseDomain_test_noRoot` (non-example) — for `K = ℚ_p` and `ε = 1/2` there is no element of `ℚ_p`
+- *hasseDomain_test_noRoot* (non-example) — for `K = ℚ_p` and `ε = 1/2` there is no element of `ℚ_p`
   of absolute value `|p|^{1/2}`: `hasseDomain (1/2)` is still defined by `|H̃a²| ≥ |p|`, while the
   model with linear equation requires an extension containing a square root of `p`;
   over `ℤ_p` one can instead use the open chart of the blow-up of `(H̃a², p)` in
   `ω^{⊗2(p−1)}`.
 
-- `hasseDomain_zeroSection` — a zero section modulo `p` has empty domain for every
+- *hasseDomain_zeroSection* — a zero section modulo `p` has empty domain for every
   `ε < 1`; a lift divisible by `p` cannot meet the threshold.
-- `hasseDomainModel_unit` — a globally generating lift gives the original model.
-- `hasseDomainModel_zeroSection` — the zero Hasse section gives the empty model.
-- `hasseDomainModel_associated` — associated choices of the threshold give a unique
+- *hasseDomainModel_unit* — a globally generating lift gives the original model.
+- *hasseDomainModel_zeroSection* — the zero Hasse section gives the empty model.
+- *hasseDomainModel_associated* — associated choices of the threshold give a unique
   isomorphism over the original formal scheme.
 
 **Transition maps between Hasse domains as the radius changes.** (*hasse-domain-transition-maps*) In
@@ -8638,19 +8205,19 @@ classifying covers and the descent of the opens come from
 
 **Checks for the formal opens.**
 
-- `hasseInvariantValue_ordinary` — a generating section modulo `p` has value `1`.
-- `hasseInvariantValue_zeroSection` — a zero section modulo `p` has value `1/p`.
-- `hasseInvariantValue_bounds` — every value lies between `1/p` and `1`,
+- *hasseInvariantValue_ordinary* — a generating section modulo `p` has value `1`.
+- *hasseInvariantValue_zeroSection* — a zero section modulo `p` has value `1/p`.
+- *hasseInvariantValue_bounds* — every value lies between `1/p` and `1`,
   excluding both negative values and values above the ordinary endpoint.
-- `hasseLocusGE_ordinary` — a generating section modulo `p` gives the whole
+- *hasseLocusGE_ordinary* — a generating section modulo `p` gives the whole
   generic fibre at `ε = 0`.
-- `hasseLocusGE_zeroSection` — the zero section gives the empty open for `ε < 1`.
-- `hasseLocusGE_half` — at `ε = 1/2` any lift gives the bound `|a²| ≥ |p|`,
+- *hasseLocusGE_zeroSection* — the zero section gives the empty open for `ε < 1`.
+- *hasseLocusGE_half* — at `ε = 1/2` any lift gives the bound `|a²| ≥ |p|`,
   without a square root of `p` in the base field.
-- `hasseLocusGT_top` — at absolute threshold `1`, the strict open is empty.
-- `hasseLocusGT_ordinary` — a generating section has the whole generic fibre
+- *hasseLocusGT_top* — at absolute threshold `1`, the strict open is empty.
+- *hasseLocusGT_ordinary* — a generating section has the whole generic fibre
   strictly above the floor `1/p`.
-- `hasseLocusGT_floor` — the zero section has empty strict locus above the floor,
+- *hasseLocusGT_floor* — the zero section has empty strict locus above the floor,
   even though its fibrewise non-strict locus at the floor is the whole space.
 
 **Flatness from flatness modulo powers of an ideal.** (*adic-local-flatness-criterion*) Let `A` be a
@@ -8724,12 +8291,12 @@ Fujiwara–Kato I.4.8.2, p. 329, and I.5.3.18, pp. 346–347, for reduction crit
 
 **Checks.**
 
-- `rigOfFSC_preservesProperties_emptyRank` — the zero algebra over a field has
+- *rigOfFSC_preservesProperties_emptyRank* — the zero algebra over a field has
   rank zero and Krull dimension `⊥`; its empty spectrum is pure of every dimension,
   in particular dimension one.
-- `rigOfFSC_preservesProperties_identityRank` — a field over itself has rank one
+- *rigOfFSC_preservesProperties_identityRank* — a field over itself has rank one
   and its spectrum is pure of dimension zero.
-- `rigOfFSC_preservesProperties_doublePoint` — `F[T]/(T²)` has rank two over `F`
+- *rigOfFSC_preservesProperties_doublePoint* — `F[T]/(T²)` has rank two over `F`
   and pure dimension zero, but is not reduced, in every characteristic. Finite
   flat rank counts length, and the reducedness hypothesis in (g) is independent
   of the dimension bound in (f).
@@ -8766,19 +8333,19 @@ for the general predicates, exact sequences and finite-presentation comparison).
 
 **Checks.**
 
-- `coherent_test_noetherian` (compatibility) — a noetherian ring is `IsCoherentRing`, and over it
+- *coherent_test_noetherian* (compatibility) — a noetherian ring is `IsCoherentRing`, and over it
   `Module.IsCoherent` coincides with `Module.Finite`.
-- `coherent_test_nonCoherentRing` (non-example) — for a field `k`, `A = k[x, y_1, y_2, …]/(x y_1, x
+- *coherent_test_nonCoherentRing* (non-example) — for a field `k`, `A = k[x, y_1, y_2, …]/(x y_1, x
   y_2, …)` is not a coherent ring: the principal ideal `(x)` is finitely generated but not finitely
   presented, since its annihilator `(y_1, y_2, …)` is not finitely generated.
-- `coherent_test_notJustFinitelyPresented` (non-example) — in the ring `A` of
-  `coherent_test_nonCoherentRing`, the module `A` itself is finitely presented (free of rank one)
+- *coherent_test_notJustFinitelyPresented* (non-example) — in the ring `A` of
+  *coherent_test_nonCoherentRing*, the module `A` itself is finitely presented (free of rank one)
   but not coherent, since its finitely generated submodule `(x)` is not finitely presented; so over
   non-noetherian rings 'coherent' cannot be replaced by 'finitely presented' (or by 'finitely
   generated').
-- `coherent_test_infinitePolynomial` (computation) — the polynomial ring `ℤ[x_1, x_2, …]` in
+- *coherent_test_infinitePolynomial* (computation) — the polynomial ring `ℤ[x_1, x_2, …]` in
   countably many variables is a coherent ring that is not noetherian.
-- `coherent_test_zero` (degenerate) — the zero module is coherent over every ring, and the zero ring
+- *coherent_test_zero* (degenerate) — the zero module is coherent over every ring, and the zero ring
   is a coherent ring.
 
 The finite-syzygy predicate `Module.IsPseudoCoherentTo R M n` uses a projective
@@ -8817,8 +8384,8 @@ structure map, its entire smooth open as a commutative group object, and an
 action of that group on the whole curve extending multiplication. Properness
 supplies the quasi-compactness and quasi-separatedness required for finite
 presentation. `GroupCurve.Iso` preserves the inclusion, group and action;
-`GroupCurve.baseChange` uses scheme pullbacks. `ofElliptic` uses the imported
-Modular Curves carrier. `nGon S n` uses positive `n` and cyclically identifies
+`GroupCurve.baseChange` uses scheme pullbacks. `ofElliptic` uses Tau Ceti's
+`TauCeti.AlgebraicGeometry.EllipticCurveGeom` and its group law `grpObj`. `nGon S n` uses positive `n` and cyclically identifies
 infinity on component `i` with zero on component `i+1`; `nGon_normalization`
 states this gluing's universal property over a field, including the self-gluing
 for `n = 1`. `nGon_smoothLocus` identifies the smooth scheme over any ring
@@ -8921,18 +8488,18 @@ completion of the standard 1-gon over the same base, hence to `𝔾̂_m`
 
 **Checks.**
 
-- `generalisedEllipticModuli_test_jLine` (computation) — the `j`-invariant of the universal curve
+- *generalisedEllipticModuli_test_jLine* (computation) — the `j`-invariant of the universal curve
   is a finite surjective morphism `j : M_Γ ⊗ ℂ → P¹_ℂ` onto the compactified `j`-line (the coarse moduli space
   of the compactified level-`1` problem, which is not itself one of the `M_Γ`: the level-`1` problem is not representable,
   every curve having the automorphism `−1`); the cusps are `j⁻¹(∞)`.
-- `generalisedEllipticModuli_test_tateCurve` (computation) — the Tate curve over `ℤ[[q]]` (with level after adjoining the
+- *generalisedEllipticModuli_test_tateCurve* (computation) — the Tate curve over `ℤ[[q]]` (with level after adjoining the
   required roots of unity and a root of `q` over `ℤ[1/d]`) has formal
   group `𝔾̂_m` along its identity section: `[p](X) = (1 + X)^p − 1`, with coefficient `1` at `X^p`,
   so its Hasse invariant is `1` and its fibres lie in `S^{≥1}` of *hasse-loci-admissible-opens*.
   The Check uses the formal-group isomorphism of `tateCurve n` with the
   standard 1-gon's identity completion. The power-series coefficient calculation
   applies in the multiplicative coordinate supplied by that isomorphism.
-- `generalisedEllipticModuli_test_nGon` (characterisation) — the smooth locus of the standard
+- *generalisedEllipticModuli_test_nGon* (characterisation) — the smooth locus of the standard
   `n`-gon (the fibre of `E` over a cusp, `n ∣ N`) is `𝔾_m × ℤ/n`, with identity component `𝔾_m`;
   for `n = 1` the fibre is the nodal cubic with smooth locus `𝔾_m`.
 
@@ -8958,8 +8525,8 @@ table are in `GeneralisedEllipticCurve`, except `GroupCurve`, `ofElliptic`,
 | `formalGroup` | `formalGroup_support`: its topological space is the base; `formalGroup_smoothAffine`: over a field `K` the identity completion is `Spf K[[X]]` with its `X`-adic topology; `formalGroup_emptyBase`: an empty base gives an empty completion. |
 | `formalGroup.structure`, `formalGroup.grp`, `formalGroup.comm` | `formalGroup.structure_identity`: the identity lies over the base; `formalGroup.structure_inverse`: inverse cancels; `formalGroup.structure_commutes`: the law is commutative. The same examples are labelled `formalGroup.grp_identity`, `formalGroup.grp_inverse`, `formalGroup.grp_commutes`, and `formalGroup.comm_identity`, `formalGroup.comm_inverse`, `formalGroup.comm_commutes`. |
 | `formalGroup.coordinate` | `formalGroup.coordinate_linear`: the parameter `T` gives `A[[X]]`; `formalGroup.coordinate_unitMultiple`: so does `uT` for a unit `u`; `formalGroup.coordinate_squareExcluded`: `T²` does not generate the conormal line over a field. |
-| `jMap` | `jMap_finite`: finite and surjective; `jMap_zero`: `j = 0` occurs; `jMap_infinity`: a cusp occurs. The first is also `generalisedEllipticModuli_test_jLine`; `jMap_values` identifies precisely which fibres are cusps. |
-| `tateCurve` | `tateCurve_specialFibre`: `Q = 0` gives the standard `n`-gon; `tateCurve_genericSmooth`: inverting `Q` gives a smooth curve; `tateCurve_formalMultiplicative`: the completed group is the completed multiplicative group. The last is also `generalisedEllipticModuli_test_tateCurve`; its coefficient calculation uses this isomorphism. |
+| `jMap` | `jMap_finite`: finite and surjective; `jMap_zero`: `j = 0` occurs; `jMap_infinity`: a cusp occurs. The first is also *generalisedEllipticModuli_test_jLine*; `jMap_values` identifies precisely which fibres are cusps. |
+| `tateCurve` | `tateCurve_specialFibre`: `Q = 0` gives the standard `n`-gon; `tateCurve_genericSmooth`: inverting `Q` gives a smooth curve; `tateCurve_formalMultiplicative`: the completed group is the completed multiplicative group. The last is also *generalisedEllipticModuli_test_tateCurve*; its coefficient calculation uses this isomorphism. |
 
 **Admissible opens, admissible coverings and quasi-compactness descend along étale coverings with
 local quasi-sections.** (*rigid-etale-descent-admissible-opens*) Let `k` be a complete
@@ -9002,16 +8569,16 @@ Part II's *rigid-analytic-space* and *proper-separated-comparisons*).
 
 **Checks.**
 
-- `descendOpen_identity` (degenerate) — for `q = id_S` every admissible open satisfies the
+- *descendOpen_identity* (degenerate) — for `q = id_S` every admissible open satisfies the
   hypothesis of (b) and descends to itself.
-- `descendOpen_fold` (non-example) — the fold map `Sp k ⊔ Sp k → Sp k` is an étale covering; the
+- *descendOpen_fold* (non-example) — the fold map `Sp k ⊔ Sp k → Sp k` is an étale covering; the
   first summand has different inverse images under the two projections and is not `q⁻¹(U)` for
   any admissible open `U`.
-- `descendOpen_needsQuasiSections` (boundary) — the map `{|t| = 1} ⊔ {|t| < 1} → Sp k⟨t⟩` is étale
+- *descendOpen_needsQuasiSections* (boundary) — the map `{|t| = 1} ⊔ {|t| < 1} → Sp k⟨t⟩` is étale
   and surjective, and each summand satisfies the hypothesis of (b), but the images do not form an
   admissible covering of the closed disc; by (c) this map admits no local étale quasi-sections, and
   that hypothesis cannot be removed from (c).
-- `isQuasiCompact_iff_openDisc` (characterisation) — the inclusion of `{|t| < 1}` into `Sp k⟨t⟩` is
+- *isQuasiCompact_iff_openDisc* (characterisation) — the inclusion of `{|t| < 1}` into `Sp k⟨t⟩` is
   not quasi-compact, and neither is its base change along the étale covering
   `Sp k⟨t⟩ ⊔ Sp k⟨t⟩ → Sp k⟨t⟩`.
 
@@ -9067,8 +8634,8 @@ R2 constructs the algebraic moduli and formal Hasse-section domains. The classif
 rigid generalised elliptic curves and the general-curve Hasse-locus application use R3.7a,
 after R3.6–R3.7; no R3 coherent or GAGA target uses that application.
 
-Layer F0 and AdicSpacesPartII R0 and R1: from layer F0 the completed localisations and
-tensor products of Part II R0.1a–R0.1b's adic rings, formal spectra, locally noetherian formal schemes and formal schemes of finite
+Layer F0, Tau Ceti and AdicSpacesPartII R0 and R1: from Tau Ceti the completed localisations and
+completed tensor products of adic rings, from layer F0 the formal spectra, locally noetherian formal schemes and formal schemes of finite
 ideal type, ideals of definition, gluing, fibre products, adic and finite-type morphisms, the
 colimit-of-thickenings description and formal completion; from AdicSpacesPartII layer R0 adic and finite-type
 morphisms, locally noetherian and locally Huber-standard adic spaces (*locally-huber-standard*, the
@@ -9157,8 +8724,8 @@ module topology and prove `tilde_obj_rational`
 `A`-linear `φ : M → N` induces `φ̃ : M̃ → Ñ`, with `tilde_map_id` and `tilde_map_comp`),
 `Coh.test_point_baseChange` (for a rational `U` with coordinate pair `(B, B⁺)`, so that `Spa(B, B⁺) ≅ U` by
 `spaLocalizationHomeomorph`, `M̃|_U ≅ (M ⊗_A B)~` as presheaves on `Spa(B, B⁺)`; Huber94 §1,
-(1.4)), `tilde_test_zero_and_self` and `tilde_free` (`Ã ≅ 𝒪_X` as presheaves of topological `𝒪_X`-modules, and more generally
-`(Aⁿ)~ ≅ 𝒪_Xⁿ`), `moduleTensor_associated` (the tensor comparison for associated sheaves; for finite
+(1.4)), *tilde_test_zero_and_self* and `tilde_free` (`Ã ≅ 𝒪_X` as presheaves of topological `𝒪_X`-modules, and more generally
+`(Aⁿ)~ ≅ 𝒪_Xⁿ`), *moduleTensor_associated* (the tensor comparison for associated sheaves; for finite
 `M`, `N` on a noetherian-type affinoid its rational-section form is
 `(M ⊗_A N)~(U) ≅ M̃(U) ⊗_{𝒪_X(U)} Ñ(U)`), and `Coh.test_point_tensor`
 (the specialization to finite modules on the imported analytic point `fieldAffinoid K`), `tilde_exact` (in type II,
@@ -9207,21 +8774,21 @@ identity to twice the identity, including in characteristic two.
 
 **Checks for the underlying constructions.**
 
-- `ringCatSheaf_sections`, `ringCatSheaf_empty`, `ringCatSheaf_gluing`: sections are the original
+- *ringCatSheaf_sections*, *ringCatSheaf_empty*, *ringCatSheaf_gluing*: sections are the original
   structure-ring sections; sections on the empty open are zero; two sections on `U ∪ V` agree
   when their restrictions to both opens agree.
-- `sectionsAlgebra_top`, `sectionsAlgebra_empty`, `sectionsAlgebra_comp`: restriction to the
+- *sectionsAlgebra_top*, *sectionsAlgebra_empty*, *sectionsAlgebra_comp*: restriction to the
   whole space is the identity, restriction to the empty open is zero, and restriction through
   an intermediate open is unchanged.
-- `tensorPresheaf_zero`, `tensorPresheaf_self`, `tensorPresheaf_empty`: the zero coefficient
+- *tensorPresheaf_zero*, *tensorPresheaf_self*, *tensorPresheaf_empty*: the zero coefficient
   module gives zero sections, the regular module gives `𝒪(U)`, and the empty open gives zero
   for every coefficient module.
-- `tilde_zero`, `tilde_self`, `tilde_empty`: association takes zero to zero and the regular
+- *tilde_zero*, *tilde_self*, *tilde_empty*: association takes zero to zero and the regular
   module to `𝒪_X`; on the empty space every associated module sheaf is zero.
 
 **Checks.**
 
-- `AdicSpace.tilde_test_quotient` (computation) — let `K` be a complete nontrivially
+- *AdicSpace.tilde_test_quotient* (computation) — let `K` be a complete nontrivially
   normed nonarchimedean field, with the compatible ultrametric and Huber-ring instances,
   and choose `ϖ ≠ 0` with `‖ϖ‖ < 1`. Take `A = RigidSpace.Affinoid.polydisc K 1`
   and its image `D` under `rigidToAdic`. The map `A → 𝒪(D)` is the coefficient map
@@ -9236,13 +8803,13 @@ identity to twice the identity, including in characteristic two.
   quotienting the latter by `T` kills `S` because `ϖ` is invertible in `K`.
   Sources: Bosch, §3.3, Proposition 11 and its constructions, pp. 50–53;
   KL15, Theorem 2.5.20, pp. 51–52.
-- `AdicSpace.tilde_test_zero_and_self` (degenerate) — `0̃ = 0`, and for `M = A` the presheaf `Ã`
+- *AdicSpace.tilde_test_zero_and_self* (degenerate) — `0̃ = 0`, and for `M = A` the presheaf `Ã`
   is isomorphic, as a presheaf of topological `𝒪_X`-modules, to `𝒪_X`.
-- `AdicSpace.tilde_test_not_algebraic_localisation` (non-example) — for `A = ℚ_p⟨T⟩`, `M = A` and
+- *AdicSpace.tilde_test_not_algebraic_localisation* (non-example) — for `A = ℚ_p⟨T⟩`, `M = A` and
   `U = {|T| ≥ 1}`, the algebraic localisation `M ⊗_A A[1/T] = ℚ_p⟨T⟩[1/T]` is not
   `M̃(U) = ℚ_p⟨T, T⁻¹⟩`, since `Σ_{n≥0} pⁿT⁻ⁿ` lies in the latter and not in the former; the
   definition must use the completed rational localisation.
-- `AdicSpace.tilde_test_completed_tensor` (compatibility) — for finite `M` the canonical map
+- *AdicSpace.tilde_test_completed_tensor* (compatibility) — for finite `M` the canonical map
   `M ⊗_A 𝒪_X(U) → M ⊗̂_A 𝒪_X(U)` is a topological isomorphism; for the non-finite module
   `M = ⊕_{n∈ℕ} A` it is not surjective (`Σ ϖⁿ e_n ⊗ 1` is a limit not in the algebraic tensor
   product), which is why the completed-tensor comparison requires finite `M`.
@@ -9279,9 +8846,10 @@ and in all degrees it is AdicSpaces layer 4.1, whose base-change step `M ⊗_A A
 `isSheaf_presentationLimitPresheaf_of_isStronglyNoetherian`, `restrictedMvPowerSeriesBaseChange`,
 `Huber.PairOfDefinition.flat_toCompletionLoc`, `TauCeti.Huber.isNoetherianRing_of_isStronglyNoetherian`,
 `Huber.PairOfDefinition.isStronglyNoetherian_completion`, `Huber.IsTateRing.isModuleTopology`,
-`Huber.IsTateRing.isStrictMap_of_isClosed_range`,
+`_root_.LinearMap.isStrictMap_of_isClosed_range_of_isTateRing`,
 `TauCeti.ValuationSpectrum.isSheaf_iff_isSheafFor_rationalCover`,
-`TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset_of_isTateRing`; Mathlib
+`TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset`,
+`TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset_of_isOpen_of_iUnion_eq_univ`; Mathlib
 `Module.Flat.lTensor_exact`, `CategoryTheory.ShortComplex.ShortExact.homology_exact₂`. Lean: the
 simple Laurent case of (i) for finite modules, `Huber.laurent_exact_of_finite` (stated for complete
 rings of noetherian type, which include the strongly noetherian Tate rings, with the rational
@@ -9304,7 +8872,7 @@ by standard rational coverings). *Needs:* *associated-module-sheaf*; *noetherian
 *noetherian-rod-module-complete* (AdicSpacesPartII layer R0); DerivedModuleAlgebra §S.1 `DoubleComplex.totalCohomology_of_exact_rows` and its transpose, applied to a sheaf resolution on the rational basis; Tau Ceti
 `TauCeti.ValuationSpectrum.isSheaf_iff_isSheafFor_rationalCover`. Lean: the exactness of
 `0 → M → B₁ ⊗ M × B₂ ⊗ M → B₁₂ ⊗ M → 0` on a simple Laurent cover, `Huber.laurent_exact_of_finite`,
-whose hypothesis `Huber.IsNoetherianType` (AdicSpacesPartII) covers this case; the sheaf and
+whose hypothesis `TauCeti.Huber.IsNoetherianType` covers this case; the sheaf and
 cohomology statements are specified in this README only.
 
 The passage from simple Laurent coverings to all rational coverings, in every degree and for an
@@ -9340,7 +8908,8 @@ only, the sheaf condition (degree 0) of the structure presheaf of a strongly noe
 `isSheafFor_ofArrows_inf_spaBasicOpen_of_span_eq_top`, `isSheafFor_laurentSieve`,
 `isSheafFor_ofArrows_iff_locOpensComap` and `Opens.isSheafFor_trans`; the statement here is for an
 arbitrary local transitive property, hence for an arbitrary presheaf in every degree. *Needs:* Tau
-Ceti `TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset_of_isTateRing`,
+Ceti `TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset`,
+`TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset_of_isOpen_of_iUnion_eq_univ`,
 `isSheafFor_ofArrows_spaRationalOpens_of_iSup_eq`, `isSheafFor_laurentSieve`,
 `Opens.isSheafFor_trans`, `Huber.IsTateRing`.
 
@@ -9372,11 +8941,11 @@ The spectral identification is supplied by `spaCompletedLocalizationHomeomorph`
 
 **Checks for rational charts.**
 
-- `AdicSpace.RationalChart.test_whole`: the whole spectrum has an identity chart,
+- *AdicSpace.RationalChart.test_whole*: the whole spectrum has an identity chart,
   with the identity morphism of Huber pairs.
-- `AdicSpace.RationalChart.test_empty`: a chart over the empty rational domain has
+- *AdicSpace.RationalChart.test_empty*: a chart over the empty rational domain has
   no points in its source spectrum.
-- `AdicSpace.RationalChart.test_zero_function`: in every rational chart the Laurent
+- *AdicSpace.RationalChart.test_zero_function*: in every rational chart the Laurent
   cover for the localized function `0` pulls back to `(U, ∅)`.
 
 Prove that Čech acyclicity is inherited from a refinement whose restrictions are acyclic
@@ -9449,14 +9018,14 @@ base case. The empty cover is handled separately by `F(∅) = 0`.
 
 **Checks for `IsCechAcyclic`.**
 
-- `IsCechAcyclic.test_singleton`: the one-member cover `V₀ = U` is acyclic for every
+- *IsCechAcyclic.test_singleton*: the one-member cover `V₀ = U` is acyclic for every
   presheaf; its augmentation is the identity and its higher cohomology is zero.
-- `IsCechAcyclic.test_empty`: the empty family is acyclic exactly when `F(U) = 0`.
+- *IsCechAcyclic.test_empty*: the empty family is acyclic exactly when `F(U) = 0`.
   In particular, the constant presheaf `ℤ` fails this test, even at `U = ∅`.
-- `IsCechAcyclic.test_empty_cover_obstruction`: the constant presheaf `ℤ` on a point
+- *IsCechAcyclic.test_empty_cover_obstruction*: the constant presheaf `ℤ` on a point
   has an exact two-member Čech complex over the empty open, but its empty-cover
   augmentation is not injective. Binary-cover exactness alone cannot force `F(∅) = 0`.
-- `IsCechAcyclic.test_zero`: the zero presheaf is acyclic for every family and every `U`.
+- *IsCechAcyclic.test_zero*: the zero presheaf is acyclic for every family and every `U`.
 - For `f = 1`, the Laurent covering is `(U, U)` and every rational pullback is
   `(U', U')`. Its augmented complex is the split exact sequence
   `0 → F(U') → F(U') ⊕ F(U') → F(U') → 0`, with diagonal and difference maps.
@@ -9605,28 +9174,30 @@ datum on it is a triple of finite (resp. finite projective) modules `M₁, M₂,
 spectra `M(R₁ ⊕ R₂) → M(R)` in KL15 Def. 2.7.3(c), p. 57, by its consequence from
 Cor. 2.3.5, p. 34, used in the proof of Prop. 2.7.5, p. 57; every topological ring here is
 metrised by the norm `|x| = inf{cⁿ : ϖ⁻ⁿx ∈ R₀}` of a pseudouniformiser `ϖ` and ring of definition
-`R₀` (KL15 Rem. 2.4.4). In `Huber`, define `GlueingSquare R R₁ R₂ R₁₂` as a proposition on the four complete Hausdorff Tate
-rings and their algebra maps, with commutativity expressed by the scalar-tower instances
-and continuity and (a)–(c) as fields, with projections
+`R₀` (KL15 Rem. 2.4.4). In `Huber`, define `GlueingSquare R R₁ R₂ R₁₂` as a proposition on four
+uniform rings and their algebra maps, with continuity and (a)–(c) as fields (commutativity of the
+square follows from `exact_sub`; the complete Hausdorff Tate hypotheses are hypotheses of
+`GlueingDatum.projective_sections`, `GlueingSquare.of_simpleLaurent` and
+`GlueingDatum.finite_sections_of_simpleLaurent`), with projections
 `GlueingSquare.exact_sub` (exactness of `0 → R → R₁ × R₂ → R₁₂ → 0`),
 `GlueingSquare.isStrictMap_sub` (strictness of `R₁ × R₂ → R₁₂`, open onto `R₁₂`),
 `GlueingSquare.denseRange` (`R₂ → R₁₂` has dense range) and `GlueingSquare.exists_prime_comap_eq`
 (every maximal ideal of `R` is the contraction of a prime of `R₁ × R₂`); define `GlueingDatum` as a glueing
 datum with module parameters `M₁, M₂, M₁₂` and fields `ψ₁, ψ₂`; finiteness and
 projectivity are the existing `Module.Finite` and `Module.Projective` of each module. Define `GlueingDatum.sections` as the `R`-module `M = ker(ψ₁ − ψ₂ : M₁ × M₂ → M₁₂)`
-with its maps `M → M_i`, and `GlueingDatum.ofModule` as the glueing datum
+with its maps `M → M_i`, and the glueing datum
 `(N ⊗ R₁, N ⊗ R₂, N ⊗ R₁₂)` of an `R`-module `N` with its canonical isomorphisms, for which the
 canonical map `N → sections` is an isomorphism when `N` is finite projective (flat); prove that
 swapping `R₁` and `R₂` gives a glueing square when `R₁ → R₁₂` also has dense image (KL15 §2.7,
 Def. 2.7.3, pp. 56–57; KL15 §2.7, Def. 2.7.3(b), p. 57, condition (b); KL15
 §1.3, Def. 1.3.7, p. 17, glueing data on the square; KL15 §2.7, proof of Prop. 2.7.5, p. 57, where
-Kedlaya–Liu use Def. 2.7.3(c) only to obtain condition (c)). *Needs:* *tate-ring-norm* (PadicFunctionalAnalysis §0.4, through Part II's norm datum);
-Tau Ceti `Huber.IsTateRing`, `Huber.IsTateRing.isOpenMap`. Lean: `Huber.GlueingSquare` (fields
+Kedlaya–Liu use Def. 2.7.3(c) only to obtain condition (c)). *Needs:* *tate-ring-norm* (PadicFunctionalAnalysis §0.4; Tau Ceti `TauCeti.Huber.TateNormDatum`);
+Tau Ceti `Huber.IsTateRing`, `_root_.LinearMap.isOpenMap_of_isTateRing`. Lean: `Huber.GlueingSquare` (fields
 for continuity, `injective`, `exact_sub`, `surjective_sub`, `isInducing`, `isStrictMap_sub`,
 `denseRange`, `exists_prime_comap_eq`), `Huber.GlueingDatum` (fields `ψ₁`, `ψ₂`, with the
-isomorphisms written `R₁₂ ⊗_{R_i} M_i ≅ M₁₂`), `GlueingDatum.sections` and `GlueingDatum.ofModule`.
-The Checks, symmetry clause and isomorphism `N ≅ sections` are specified in this README only
-(the latter is part of *glueing-square-finite-projective-descent*).
+isomorphisms written `R₁₂ ⊗_{R_i} M_i ≅ M₁₂`) and `GlueingDatum.sections`.
+The Checks, symmetry clause, glueing datum of a module and isomorphism `N ≅ sections` are
+specified in this README only (the last is part of *glueing-square-finite-projective-descent*).
 
 **Checks.**
 
@@ -9655,10 +9226,6 @@ The Checks, symmetry clause and isomorphism `N ≅ sections` are specified in th
   the diagonal square `R → R, R → R × R` does not satisfy the density condition:
   the diagonal image is closed and misses `(1, 0)`. Its difference map
   `(a, b) ↦ (a − b, a − b)` also misses `(1, 0)`, so this example fails exactness as well.
-
-
-**Checks for `GlueingDatum`, `GlueingDatum.sections` and `GlueingDatum.ofModule`.**
-
 - (zero) — base-changing the zero module gives a zero section module.
 - (sections of the trivial square) — for the identity square over a commutative
   ring `R`, `(1 ⊗ x, 1 ⊗ y)` is a section of the datum of `R` exactly when `x = y`.
@@ -9716,7 +9283,7 @@ disc of radius `|ϖ|` and the annulus `|ϖ| ≤ |T| ≤ 1`). For `A` strongly no
 exactness halves of condition (a) are Tau Ceti's `TauCeti.ValuationSpectrum.laurentCover_injective`,
 `laurentCover_exact` and `laurentCover_surjective`; the statement here assumes only sheafiness.
 *Needs:* *glueing-square*; *simple-laurent-difference-surjective*; Tau Ceti
-`Huber.IsTateRing.isOpenMap`, `TauCeti.ValuationSpectrum.laurentCover_injective`,
+`_root_.LinearMap.isOpenMap_of_isTateRing`, `TauCeti.ValuationSpectrum.laurentCover_injective`,
 `TauCeti.ValuationSpectrum.laurentCover_exact`, `TauCeti.ValuationSpectrum.laurentCover_surjective`,
 `TauCeti.ValuationSpectrum.exists_mem_spa_supp_eq_of_isMaximal`,
 `TauCeti.ValuationSpectrum.map_supp_toCompletionLoc_ne_top`.
@@ -9801,33 +9368,34 @@ apply to the morphism obtained with `forgetToLocallyRingedSpace.map`.
 **Checks for charts and module sheaves.**
 
 - Part II's `Chart_identity`, `Chart_empty`, `Chart_injective`: the identity affinoid chart, the empty affinoid and injectivity of every chart inclusion.
-- `toRingCatSheafHom_identity`, `toRingCatSheafHom_one`, `toRingCatSheafHom_empty`: identity
+- *toRingCatSheafHom_identity*, *toRingCatSheafHom_one*, *toRingCatSheafHom_empty*: identity
   morphisms fix sections, every morphism preserves `1`, and sections on the empty open map
   to zero.
-- `modulePullback_identity`, `modulePullback_zero`, `modulePullback_self`: identity pullback
+- *AdicSpace.modulePullback_identity*, *AdicSpace.modulePullback_zero*,
+  *AdicSpace.modulePullback_self*: identity pullback
   is the identity functor; pullback preserves zero and sends `𝒪_Y` to `𝒪_X`.
-- `IsCoherent_zero`, `IsCoherent_self`, `IsCoherent_finitePresentation`, `IsCoherent_point`:
+- *IsCoherent_zero*, *IsCoherent_self*, *IsCoherent_finitePresentation*, *IsCoherent_point*:
   zero and the structure sheaf are coherent; strongly noetherian Tate charts give Mathlib
   finite presentation; on a point with field of functions coherence is finite dimension.
-- `Coh_zero`, `Coh_self`, `Coh_full`: zero and the structure sheaf define coherent objects,
+- *Coh_zero*, *Coh_self*, *Coh_full*: zero and the structure sheaf define coherent objects,
   and morphisms between coherent objects are all morphisms of their underlying module sheaves.
 
 **Checks.**
 
-- `AdicSpace.IsCoherent.test_ideal` (computation) — on `X = Spa(K⟨T⟩, K°⟨T⟩)` the ideal sheaf
+- *AdicSpace.IsCoherent.test_ideal* (computation) — on `X = Spa(K⟨T⟩, K°⟨T⟩)` the ideal sheaf
   generated by `T` is coherent, its global sections are `T·K⟨T⟩` (free of rank one) and its fibre
   at the origin is one-dimensional.
-- `AdicSpace.IsCoherent.test_point` (degenerate) — on `X = Spa(K, K°)` an `𝒪_X`-module is coherent
+- *AdicSpace.IsCoherent.test_point* (degenerate) — on `X = Spa(K, K°)` an `𝒪_X`-module is coherent
   iff it is `(V)~` for a finite-dimensional `K`-vector space `V`; the zero sheaf and `𝒪_X` are
   coherent on every locally noetherian `X`.
-- `AdicSpace.IsCoherent.test_extension_by_zero` (non-example) — for `U = {|T| ≤ |ϖ|}` in the
+- *AdicSpace.IsCoherent.test_extension_by_zero* (non-example) — for `U = {|T| ≤ |ϖ|}` in the
   closed disc, `j_!𝒪_U` is a sheaf of `𝒪_X`-modules that is finitely generated on `U` and zero
   off `U`, but it is not coherent: its stalk support is exactly `U`, whereas the support of a
   coherent sheaf is closed. The smaller rational disc is not closed in the adic closed disc.
-  More generally, `AdicSpace.IsCoherent.test_extension_by_zero` excludes any module sheaf whose
+  More generally, *AdicSpace.IsCoherent.test_extension_by_zero* excludes any module sheaf whose
   nonzero stalks form a nonclosed open in a space covered by strongly noetherian Tate affinoids.
   Finiteness of sections alone does not supply the local association isomorphisms.
-- `AdicSpace.IsCoherent.test_finitePresentation` (compatibility) — if `X` is covered by strongly
+- *AdicSpace.IsCoherent.test_finitePresentation* (compatibility) — if `X` is covered by strongly
   noetherian Tate affinoids, `F` is coherent iff `F` satisfies Mathlib's
   `SheafOfModules.IsFinitePresentation` on `Opens(X)`.
 
@@ -9865,7 +9433,8 @@ generates only `T·Ã`. Coherent sheaves on the non-reduced affinoid `Spa(K⟨T�
 finite `K[T]/(T²)`-modules, including the non-free module `K`. *Needs:* *coherent-sheaf*;
 *associated-module-sheaf*; *tate-acyclicity-finite-modules*; *strongly-noetherian-laurent-gluing*;
 *rational-covering-reduction*; Tau Ceti
-`TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset_of_isTateRing`.
+`TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset`,
+`TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset_of_isOpen_of_iUnion_eq_univ`.
 
 ### R3.3 operations, coherent ideals and finite algebras
 
@@ -9890,7 +9459,7 @@ for every continuous `B`-linear `ε : M → N` with `|ε| < c`. In particular, i
 a finite `B`-module `N` with its module topology, every family `m'_j` sufficiently close to the
 `m_j` generates `N` (Kiehl-E §1, Lem. 1.3, p. 198). For `B = K` and `N = K²` with generators
 `(1,0)`, `(0,1)`, any `(1, δ)`, `(δ', 1)` with `|δ|, |δ'| < 1` still generate. The ingredients
-exist: the open mapping theorem `Huber.IsTateRing.isOpenMap` and
+exist: the open mapping theorem `_root_.LinearMap.isOpenMap_of_isTateRing` and
 `IsTateRing.isOpenMap_linearCombination`,
 the invertibility of `1 − X` for topologically nilpotent entries
 `isUnit_one_sub_of_isTopologicallyNilpotent_entries`, density `eq_top_of_dense_of_module_finite`,
@@ -9900,7 +9469,7 @@ normed `K`-algebra and `M`, `N` are compatible Banach `K`-spaces through `B`, it
 are proved using bounded lifting and successive corrections; equivalent lattice norms
 change the allowable constants. The general-Tate proof
 uses the open mapping theorem and successive corrections in powers of a pseudouniformiser,
-and does not require a `K`-vector-space structure. *Needs:* Tau Ceti `Huber.IsTateRing.isOpenMap`,
+and does not require a `K`-vector-space structure. *Needs:* Tau Ceti `_root_.LinearMap.isOpenMap_of_isTateRing`,
 `Huber.IsTateRing.isOpenMap_linearCombination`,
 `TauCeti.Huber.isUnit_one_sub_of_isTopologicallyNilpotent_entries`,
 `TauCeti.Huber.eq_top_of_dense_of_module_finite`; Mathlib `ContinuousLinearMap.exists_preimage_norm_le`.
@@ -9944,16 +9513,16 @@ with the composite of multiplication by `s` and by `t`.
 
 **Checks.**
 
-- `AdicSpace.Coh.test_cokernel_skyscraper` (computation) — on the closed disc the cokernel of
+- *AdicSpace.Coh.test_cokernel_skyscraper* (computation) — on the closed disc the cokernel of
   multiplication by `T` on `𝒪_X` is `(K⟨T⟩/(T))~`, whose stalk is `K` at the origin and `0`
   elsewhere.
-- `AdicSpace.Coh.test_point` (degenerate) — for `X = Spa(K, K°)`, `Coh(X)` is equivalent to
+- *AdicSpace.Coh.test_point* (degenerate) — for `X = Spa(K, K°)`, `Coh(X)` is equivalent to
   finite-dimensional `K`-vector spaces, `⊗` is `⊗_K`, and pullback along `Spa(K') → Spa(K)` is
   `− ⊗_K K'`.
-- `AdicSpace.Coh.test_pullback_not_left_exact` (non-example) — for `i : Spa(K) → disc` the origin,
+- *AdicSpace.Coh.test_pullback_not_left_exact* (non-example) — for `i : Spa(K) → disc` the origin,
   `i*` applied to the injection `T : 𝒪 → 𝒪` is the zero map `K → K`; pullback is right exact but
   not exact, so it must not be declared exact.
-- `AdicSpace.Coh.test_rigid` (compatibility) — for a quasi-separated rigid space `X` over `K`,
+- *AdicSpace.Coh.test_rigid* (compatibility) — for a quasi-separated rigid space `X` over `K`,
   `Coh(r(X))` is equivalent to Kiehl's coherent sheaves on `X`, compatibly with `⊗`, `ℋom` and
   pullback (*rigid-adic-comparison-functor*, AdicSpacesPartII layer R1).
 
@@ -10012,7 +9581,7 @@ is module-sheaf direct image. `AdicSpace.moduleTensor` uses Tau Ceti's tensor pr
 whose restriction on pure tensors is `moduleTensorPresheaf_map`. `AdicSpace.moduleHom` uses
 the supplied closed monoidal structure. The point comparison includes
 `Coh.test_point_tensor` for finite modules on `fieldAffinoid K` and
-`Coh.test_point_baseChange`. The general tensor assertion remains `moduleTensor_associated`. The rigid comparison is
+`Coh.test_point_baseChange`. The general tensor assertion remains *moduleTensor_associated*. The rigid comparison is
 `Coh.test_rigid`, with tensor, internal-Hom and pullback compatibility in
 `Coh.test_rigid_tensor`, `Coh.test_rigid_internalHom` and `Coh.test_rigid_pullback`.
 
@@ -10034,21 +9603,21 @@ on a space covered by strongly noetherian Tate charts.
 
 **Checks for module operations.**
 
-- `modulePushforward_identity` — direct image by the identity is the identity functor.
-- `modulePushforward_zero` — direct image preserves the zero module sheaf.
-- `modulePushforward_sections` — sections are sections over the inverse image, with restricted scalars.
-- `moduleTensor_zero` — tensoring with the zero module sheaf gives zero.
-- `moduleTensor_unit` — the structure sheaf is a tensor unit.
-- `moduleTensor_associated` — tensoring associated sheaves agrees with associating the tensor product.
-- `moduleHom_unit` — internal Hom from the structure sheaf recovers the second factor.
-- `moduleHom_zero` — internal Hom from zero is zero.
-- `moduleHom_principalQuotient` — a regular parameter gives no maps from its quotient to the structure sheaf.
-- `extensionByZero_identity` — extension along the identity is the identity functor.
-- `extensionByZero_empty` — extension from the empty space is zero.
-- `extensionByZero_nonclosed` — a nonclosed open gives a noncoherent extension of its structure sheaf.
-- `rigidModulePullback_zero` — pullback on the admissible site preserves zero.
-- `rigidModulePullback_unit` — it carries the structure sheaf to the structure sheaf.
-- `rigidModulePullback_identity` — pullback by the identity is the identity functor.
+- *AdicSpace.modulePushforward_identity* — direct image by the identity is the identity functor.
+- *AdicSpace.modulePushforward_zero* — direct image preserves the zero module sheaf.
+- *AdicSpace.modulePushforward_sections* — sections are sections over the inverse image, with restricted scalars.
+- *moduleTensor_zero* — tensoring with the zero module sheaf gives zero.
+- *moduleTensor_unit* — the structure sheaf is a tensor unit.
+- *moduleTensor_associated* — tensoring associated sheaves agrees with associating the tensor product.
+- *moduleHom_unit* — internal Hom from the structure sheaf recovers the second factor.
+- *moduleHom_zero* — internal Hom from zero is zero.
+- *moduleHom_principalQuotient* — a regular parameter gives no maps from its quotient to the structure sheaf.
+- *extensionByZero_identity* — extension along the identity is the identity functor.
+- *extensionByZero_empty* — extension from the empty space is zero.
+- *extensionByZero_nonclosed* — a nonclosed open gives a noncoherent extension of its structure sheaf.
+- *rigidModulePullback_zero* — pullback on the admissible site preserves zero.
+- *rigidModulePullback_unit* — it carries the structure sheaf to the structure sheaf.
+- *rigidModulePullback_identity* — pullback by the identity is the identity functor.
 
 ### R3.4 quasi-Stein spaces
 
@@ -10187,15 +9756,15 @@ composite with `s ↦ 1 ⊗ s` is the identity. Completion is the separated
 completion from Part II R0, and the codomain `S` must already be complete
 (Hansen–Kedlaya §7, Remark 7.2, p. 25; Berkeley Proposition 6.3.3 and its
 proof, pp. 47–48).
-*Needs:* Part II `Huber.CompletedTensor`, `Huber.Pair.completedTensor.tmul`,
-`Huber.BanachModule.CompletedTensor.lift_tmul` and
-`Huber.BanachModule.CompletedTensor.exact_of_split`.
+*Needs:* Tau Ceti `TauCeti.Huber.CompletedTensor`,
+`TauCeti.Huber.BanachModule.CompletedTensor.lift_tmul`; Part II
+`Huber.Pair.completedTensor.tmul` and `Huber.BanachModule.CompletedTensor.exact_of_split`.
 
 Checks:
 
-- `completedTensorRetraction_identity`: for `R̃ = R` and `σ = id`, the retraction sends `1 ⊗ s` to `s`.
-- `completedTensorRetraction_zero`: if `S = 0`, the retraction is the zero map.
-- `completedTensorRetraction_twoTerms`: it sends `x ⊗ s − y ⊗ t` to `σ(x)s − σ(y)t`.
+- *completedTensorRetraction_identity*: for `R̃ = R` and `σ = id`, the retraction sends `1 ⊗ s` to `s`.
+- *completedTensorRetraction_zero*: if `S = 0`, the retraction is the zero map.
+- *completedTensorRetraction_twoTerms*: it sends `x ⊗ s − y ⊗ t` to `σ(x)s − σ(y)t`.
 
 **Cofinal computation of integral mixed tensors.** The cofinality statement of this subsection
 identifies compatible families in `∏_U X ⊗_O (M/U)`, over all open `O`-submodules
@@ -10259,18 +9828,18 @@ sheaf, and two for a bundle isomorphic to `𝒪²`.
 
 **Checks.**
 
-- `VectorBundle_disconnected` (computation) — for `A = A₁ × A₂` (both nonzero
+- *VectorBundle_disconnected* (computation) — for `A = A₁ × A₂` (both nonzero
   complete Tate, `(A₁, A₁⁺)` and `(A₂, A₂⁺)` sheafy, so `Spa(A, A⁺) = Spa(A₁, A₁⁺) ⊔ Spa(A₂, A₂⁺)`
   is an adic space) and `P = A₁ × 0`, `P̃` is a vector bundle on `Spa(A, A⁺)` whose rank is `1` on
   `Spa(A₁)` and `0` on `Spa(A₂)`; `P` is finite projective but not free.
-- `VectorBundle_rank_zero` (degenerate) — a vector bundle of rank `0` everywhere is
+- *VectorBundle_rank_zero* (degenerate) — a vector bundle of rank `0` everywhere is
   the zero sheaf; `𝒪_Xⁿ` is a vector bundle of constant rank `n`.
-- `VectorBundle_skyscraper` (non-example) — on the closed disc, `(K⟨T⟩/(T))~` is
+- *VectorBundle_skyscraper* (non-example) — on the closed disc, `(K⟨T⟩/(T))~` is
   coherent but not a vector bundle: its fibre dimension is `1` at the origin and `0` elsewhere,
   which no locally constant rank allows. The example uses the actual direct image
   of the origin and asserts coherence and failure of local freeness
   (KL15, Definition 2.7.6 and Theorem 2.7.7, p. 58).
-- `VectorBundle_pullback_rank` (computation) — for the origin `i : Spa(K) → disc`
+- *VectorBundle_pullback_rank* (computation) — for the origin `i : Spa(K) → disc`
   and `E = 𝒪²`, `i*E` is the vector bundle `K²` of rank `2`, and for `A = A₁ × A₂` the pullback of
   `(A₁ × 0)~` along `Spa(A₂) → Spa(A)` is `0`: pullback preserves the rank pointwise.
 
@@ -10307,7 +9876,8 @@ space on which vector bundles are defined.
 *Needs:* *locally-free-sheaf*; *finite-projective-module-acyclicity*;
 *simple-laurent-glueing-square*; *glueing-square-finite-projective-descent*;
 *rational-covering-reduction*; *sheafy-cech-acyclicity*; Tau Ceti
-`TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset_of_isTateRing`.
+`TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset`,
+`TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset_of_isOpen_of_iUnion_eq_univ`.
 
 Prove the acyclicity of `P̃` for finite projective `P` over a sheafy Tate affinoid
 (*finite-projective-module-acyclicity*): let `(A, A⁺)` be a complete sheafy Tate Huber pair,
@@ -10361,20 +9931,23 @@ for the pullback–pushforward adjunction. Both descent of objects and descent o
 morphisms are included; global sections and `vectorBundleEquivalence` relate it to
 `finiteProjective_descent`.
 The quadratic calculation is `finiteProjective_descent_quadratic`; the
-Check `finiteProjective_descent_quadratic_two` asserts étaleness and rank two over `ℚ₂`. *Needs:*
+Check *finiteProjective_descent_quadratic_two* asserts étaleness and rank two over `ℚ₂`. *Needs:*
 *sheafy-tate-acyclicity-and-kiehl-gluing*; *affinoid-fibre-product*,
 *finite-algebra-over-affinoid* (AdicSpacesPartII layer R0); Mathlib `Algebra.Etale`, `Module.Projective`,
 `Module.Finite.of_finite_tensorProduct_of_faithfullyFlat`,
 `CommRingCat.isLimitForkPushoutSelfOfFaithfullyFlat`.
 
 Prove the characterisation of uniformity of a Banach ring via the square bound and its relation
-to boundedness of `A°` (*uniform-iff-power-bound*): let `A` be a complete Tate ring metrised by a
-submultiplicative norm `|·|` defining its topology (KL15 Rem. 2.4.4), for instance the norm `α_d`
-of a norm datum (*tate-ring-norm*, PadicFunctionalAnalysis §0.4, through Part II's norm datum). (i) The following are equivalent: (a) `|·|` is
+to boundedness of `A°` (*uniform-iff-power-bound*): let `A` be a commutative ring complete for a
+submultiplicative norm `|·|`. (i) The following are equivalent: (a) `|·|` is
 equivalent to a power-multiplicative norm; (b) `|·|` is equivalent to the spectral seminorm
 `|x|_sp = lim |xⁿ|^{1/n}` (*spectral-seminorm*, AdicSpacesPartII layer R0); (c) there is `c > 0` with
 `|x²| ≥ c|x|²` for all `x`. `A` is a uniform Banach ring when they hold (KL15 Def. 2.8.1 as
-corrected in KL16, Appendix A). (ii) (a)–(c) imply (d): the subring `A°` of power-bounded elements
+corrected in KL16, Appendix A; KL15 states it for nonarchimedean Banach rings, and the argument
+uses neither the ultrametric inequality nor a topologically nilpotent unit). From (ii) on, `A` is
+a complete Tate ring and `|·|` defines its topology (KL15 Rem. 2.4.4), for instance the norm `α_d`
+of a norm datum (*tate-ring-norm*, PadicFunctionalAnalysis §0.4; Tau Ceti `TauCeti.Huber.TateNormDatum`, `TauCeti.Huber.tateNorm`).
+(ii) (a)–(c) imply (d): the subring `A°` of power-bounded elements
 is bounded; and (d) alone implies that `|·|_sp` is a norm defining the topology of `A`, which is
 the statement of *spectral-topology* (vi) (AdicSpacesPartII layer R0) and is cited from there. (iii) If
 `A` contains a topologically nilpotent unit `z` with `|z|·|z⁻¹| = 1`, then (d) implies (a)–(c).
@@ -10401,7 +9974,7 @@ every `aε` (`a ∈ K`) squares to `0`, so `A° ⊇ K·ε` is unbounded; for `K 
 *spectral-seminorm*, *spectral-topology* (AdicSpacesPartII layer R0); Tau Ceti `Huber.IsTateRing`,
 `Huber.IsUniform`, `TauCeti.Huber.isUniform_iff`, `Huber.IsUniform.of_normedDivisionRing`; Mathlib
 `smoothingSeminorm`, `isPowMul_smoothingFun`. Lean: (i) is `Huber.isUniform_tfae`, for a complete
-normed Tate ring (the norm is equivalent to a power-multiplicative seminorm; it is bounded by a
+normed commutative ring (the norm is equivalent to a power-multiplicative seminorm; it is bounded by a
 multiple of the smoothing seminorm `smoothingFun (normRingSeminorm A)`; the square bound); (ii)–(iv)
 are specified in this README only.
 
@@ -10430,7 +10003,7 @@ power-bounded subring in every completed rational localization of `B`, and its c
 is the same boundedness for each completed rational localization of `A`. This is the
 expanded `IsStablyUniform` criterion, with no uniform lifting bound assumed on the
 localized splittings. The completed-field corollary is stated for a specified
-continuous `K`-linear splitting `L → K`, on Part II's `Huber.CompletedTensor K L A`.
+continuous `K`-linear splitting `L → K`, on Tau Ceti's `TauCeti.Huber.CompletedTensor K L A`.
 Its topological `A`-linear splitting is the specialization `R = K`, `Rt = L`,
 `S = A` of the retraction of *split-injection-completed-base-change*. The order
 `L ⊗̂_K A` agrees with `A ⊗̂_K L` through the symmetry of completed tensors.
@@ -10507,9 +10080,9 @@ in `TauCeti/AlgebraicGeometry/Modules/Differentials/Basic.lean`
 
 **Checks for algebraic relative differentials.**
 
-- `RelativeDifferentialData_identity`: the differential sheaf of the identity is zero.
-- `RelativeDifferentialData_polynomial`: the affine line over any ring has a free differential sheaf of rank one.
-- `RelativeDifferentialData_closedImmersion`: a closed immersion has zero relative differential sheaf, including nonreduced closed subschemes.
+- *RelativeDifferentialData_identity*: the differential sheaf of the identity is zero.
+- *RelativeDifferentialData_polynomial*: the affine line over any ring has a free differential sheaf of rank one.
+- *RelativeDifferentialData_closedImmersion*: a closed immersion has zero relative differential sheaf, including nonreduced closed subschemes.
 
 `relativeDifferentials.affinoidIso_derivative` fixes the affine identification on
 derivative generators. `relativeDifferentials.exact_conormal` uses the actual
@@ -10524,10 +10097,9 @@ pp. 77–78; GK00, §4.1, p. 19).
 
 **Checks for derivative formulas.**
 
-- `relativeDifferentials.d_coordinate`: `d(t^n) = n t^(n−1) dt`, including `n = 0`.
-- `relativeDifferentials.d_product`: `d(st) = s dt + t ds`.
-- `relativeDifferentials.d_characteristicTwo`: `d(t²) = 0` in characteristic two.
-- `relativeDifferentials_openImmersion`: an open immersion has zero relative differentials.
+- *relativeDifferentials.d_coordinate*: `d(t^n) = n t^(n−1) dt`, including `n = 0`.
+- *relativeDifferentials.d_product*: `d(st) = s dt + t ds`.
+- *relativeDifferentials.d_characteristicTwo*: `d(t²) = 0` in characteristic two.
 
 `AdicSpace.ContinuousRelativeDerivation` consists of derivations on every open,
 compatible with restriction, zero on pulled-back base functions, and continuous on
@@ -10537,14 +10109,14 @@ unique module morphism carrying the universal derivation to a given one.
 
 **Checks for continuous derivations and their representing sheaf.**
 
-- `ContinuousRelativeDerivation_identity`: relative derivations over the identity vanish.
-- `ContinuousRelativeDerivation_zero`: the zero coefficient sheaf has exactly one derivation.
-- `ContinuousRelativeDerivation_constants`: integer constants have derivative zero.
-- `relativeDifferentials_identity`, `relativeDifferentials.d_identity`: the identity has
+- *ContinuousRelativeDerivation_identity*: relative derivations over the identity vanish.
+- *ContinuousRelativeDerivation_zero*: the zero coefficient sheaf has exactly one derivation.
+- *ContinuousRelativeDerivation_constants*: integer constants have derivative zero.
+- *relativeDifferentials_identity*, *relativeDifferentials.d_identity*: the identity has
   zero differentials and zero universal derivation.
-- `relativeDifferentials_etale`, `relativeDifferentials.d_etale`: étale maps have the
+- *relativeDifferentials_etale*, *relativeDifferentials.d_etale*: étale maps have the
   same vanishing conclusions.
-- `relativeDifferentials_ramified`, `relativeDifferentials.d_ramified`: a morphism that
+- *relativeDifferentials_ramified*, *relativeDifferentials.d_ramified*: a morphism that
   is not unramified has nonzero differentials and a local section with nonzero derivative.
 
 **The coherent sheaf of continuous differentials `Ω¹_{X/Y}` and its exterior powers.**
@@ -10656,13 +10228,13 @@ R3.1a `analytification.modules_chartSections` for the associated-sheaf compariso
 
 **Checks.**
 
-- `relativeDifferentials_disc` (computation) — with `K` a complete nonarchimedean
+- *relativeDifferentials_disc* (computation) — with `K` a complete nonarchimedean
   field with nontrivial rank-one valuation, `K°` its valuation ring and
   `D = Spa(K⟨T⟩, K°⟨T⟩)`: `Ω¹_{D/Spa K} ≅ O_D`, generated by `dT`, with
   `d(Σ aₙTⁿ) = (Σ n aₙTⁿ⁻¹) dT`, and `Ω²_{D/Spa K} = 0`.
-- `relativeDifferentials_openImmersion` (degenerate) — for an open embedding
+- *relativeDifferentials_openImmersion* (degenerate) — for an open embedding
   `j : U → X`, `Ω¹_{U/X} = 0` and `j*Ω¹_{X/Y} ≅ Ω¹_{U/Y}`; `Ω¹_{Y/Y} = 0` for every `Y`.
-- `relativeDifferentials_notAlgebraic` (non-example) — the presheaf
+- *relativeDifferentials_notAlgebraic* (non-example) — the presheaf
   `U ↦ Ω[O_D(U)⁄K]` of Mathlib's algebraic Kähler differentials on the disc `D`,
   for `K = ℚ_p`, is not a coherent
   `O_D`-module (its value on `D` is not a finitely generated `K⟨T⟩`-module), whereas
@@ -10670,16 +10242,16 @@ R3.1a `analytification.modules_chartSections` for the associated-sheaf compariso
   in this case. The characteristic-zero restriction matters: for perfect `K` of
   characteristic `p`, decomposition of a series by exponents modulo `p` gives
   `Ω[K⟨T⟩⁄K] = K⟨T⟩ dT`.
-- `relativeDifferentials_analytification` (compatibility) — for `X = A¹_K`,
+- *relativeDifferentials_analytification* (compatibility) — for `X = A¹_K`,
   `(Ω¹_{A¹/K})^ad ≅ Ω¹_{A^{1,ad}/K} = O dT`; for `P¹_K`, `Ω¹_{P^{1,ad}/K} ≅ O(−2)^ad`
   (*analytic-kahler-differentials*, AdicSpacesPartII layer R1).
-- `relativeDifferentials_derivations` (characterisation) — on `D`,
+- *relativeDifferentials_derivations* (characterisation) — on `D`,
   `Hom_{O_D}(Ω¹_{D/K}, O_D)` is the `O_D(D)`-module of continuous `K`-derivations of `K⟨T⟩`, free
   on `d/dT`; `relativeDifferentials_node` uses the node `T₁T₂ = 0` has a nonzero torsion section `T₁ dT₂` of `Ω¹` whose support is
   the origin (Huber96, (1.6.2)(i), p. 76: the presentation by the relation
   `T₂ dT₁ + T₁ dT₂ = 0`).
 
-- `AdicSpace.relativeDifferentials.test_perfect_characteristic`: for perfect `K`
+- *AdicSpace.relativeDifferentials.test_perfect_characteristic*: for perfect `K`
   of characteristic `p > 0`, the algebraic differentials of the one-variable Tate
   algebra are free of rank one. Each series is a sum of `Tⁱ gᵢ(T)^p`, `0 ≤ i < p`,
   so every algebraic derivation is determined by its value on `T`.
@@ -10691,45 +10263,28 @@ The exterior powers and de Rham complex also have the following direct Checks.
 polydiscs carried to adic spaces, and `relativeDifferentials.deRhamComplex_degreeZero`
 identifies the degree-zero differential with the universal derivation.
 
-- `relativeDifferentials_disc`, `relativeDifferentials.exteriorPower_disc`: the closed disc has a free rank-one differential sheaf, a nonzero derivative, and zero second exterior power.
-- `relativeDifferentials.exteriorPower_zero`: degree zero is the structure sheaf.
-- `relativeDifferentials.exteriorPower_one`: degree one is the differential sheaf.
-- `relativeDifferentials.exteriorPower_supplier`: in every degree, the object is definitionally the supplied sheaf exterior power applied to `Ω¹_{X/Y}`.
-- `relativeDifferentials.exteriorPower_etale`, `relativeDifferentials.deRhamComplex_etale`: positive degrees vanish for an étale morphism.
-- `relativeDifferentials.exteriorPower_bidisc`: degree two on the bidisc is a line bundle and degree three vanishes.
-- `relativeDifferentials_notAlgebraic`: algebraic differentials of the Tate disc over `ℚ_p` are not finite, whereas continuous differentials are free of rank one.
-- `relativeDifferentials.deRhamComplex_point`: over the identity, degree zero is the structure sheaf and every positive degree vanishes.
-- `relativeDifferentials.deRhamComplex_disc`: under the degree-zero and degree-one identifications, `d(Tⁿ) = nTⁿ⁻¹ dT`.
-- `relativeDifferentials.deRhamComplex_sign`: `d(a db) = da ∧ db` and `d(b da) = −da ∧ db` on an affinoid chart.
-- `relativeDifferentials.deRhamComplex_empty`: all degrees vanish on the empty space.
-- `relativeDifferentials.deRhamComplex_twoTerm`: consecutive differentials compose to zero on sections.
+- *relativeDifferentials.exteriorPower_disc*: the closed disc has a free rank-one differential sheaf, a nonzero derivative, and zero second exterior power.
+- *relativeDifferentials.exteriorPower_zero*: degree zero is the structure sheaf.
+- *relativeDifferentials.exteriorPower_one*: degree one is the differential sheaf.
+- *relativeDifferentials.exteriorPower_supplier*: in every degree, the object is definitionally the supplied sheaf exterior power applied to `Ω¹_{X/Y}`.
+- *relativeDifferentials.exteriorPower_etale*, *relativeDifferentials.deRhamComplex_etale*: positive degrees vanish for an étale morphism.
+- *relativeDifferentials.exteriorPower_bidisc*: degree two on the bidisc is a line bundle and degree three vanishes.
+- *relativeDifferentials.deRhamComplex_point*: over the identity, degree zero is the structure sheaf and every positive degree vanishes.
+- *relativeDifferentials.deRhamComplex_disc*: under the degree-zero and degree-one identifications, `d(Tⁿ) = nTⁿ⁻¹ dT`.
+- *relativeDifferentials.deRhamComplex_sign*: `d(a db) = da ∧ db` and `d(b da) = −da ∧ db` on an affinoid chart.
+- *relativeDifferentials.deRhamComplex_empty*: all degrees vanish on the empty space.
+- *relativeDifferentials.deRhamComplex_twoTerm*: consecutive differentials compose to zero on sections.
 
-- `relativeDifferentials.d_coordinate`: on the disc, `d(T²) = 2T dT`;
-  in characteristic two this is zero while `dT` is nonzero.
-- `relativeDifferentials.d_identity`: on `Spa(K,K°)` over itself,
-  every differential vanishes.
-- `relativeDifferentials.d_product`: on the bidisc,
-  `d(T₁T₂) = T₁ dT₂ + T₂ dT₁`.
-- `relativeDifferentials.exteriorPower_zero`: degree zero is `𝒪`
-  even on a point, where `Ω¹ = 0`.
-- `relativeDifferentials.exteriorPower_disc`: on the disc, degrees
-  one and two are `𝒪 dT` and zero.
-- `relativeDifferentials.exteriorPower_bidisc`: on the bidisc,
+- *relativeDifferentials.exteriorPower_bidisc_sign*: on the bidisc,
   `Ω² = 𝒪(dT₁ ∧ dT₂)` and `dT₂ ∧ dT₁ = −dT₁ ∧ dT₂`.
-- `relativeDifferentials.deRhamComplex_point`: a point over itself
-  has complex `K → 0 → 0`.
-- `relativeDifferentials.deRhamComplex_disc`: the disc has two
-  terms `𝒪 → 𝒪 dT`, with `Tⁿ ↦ nTⁿ⁻¹ dT`.
-- `relativeDifferentials.deRhamComplex_sign`: on the bidisc,
-  `d(T₁ dT₂) = dT₁ ∧ dT₂` and `d(T₂ dT₁) = −dT₁ ∧ dT₂`, fixing the
-  degree-one sign in the Leibniz rule.
 
 **Kiehl's proper mapping theorem.** (*kiehl-proper-mapping-theorem*)
 Let `K` be complete with nontrivial nonarchimedean valuation. For a proper morphism
 `f : X → Y` locally of finitetype over `Spa(K,K°)`, Kiehl-proper over every affinoid open
 of `Y`, and `F` coherent, prove `kiehlProperMapping`: `Rⁱf_*F` is coherent for all `i ≥ 0`.
 On an affinoid `V ⊆ Y` it is the sheaf of the finite module `Hⁱ(f⁻¹(V),F)`
-(Kiehl-E §2, Satz 2.6, pp. 204–205; Bosch 2014 §6.3, Theorem 1, pp. 129–130).
+(Kiehl-E §3, Theorem 3.3, p. 206, proved on p. 209 from Satz 2.6 and Satz 3.5; Bosch 2014 §6.3,
+Theorem 1, pp. 129–130).
 *Needs:* *proper-affinoid-cohomology-finite*; *proper-cohomology-affinoid-subdomain*;
 module-sheaf derived direct image; Part II *rigid-adic-quasi-separated-equivalence*.
 
@@ -10923,26 +10478,26 @@ pp. 131–132. The finite case includes the identity and the zero algebra.
 
 **Checks.**
 
-- `RelativelyCompact_disc` (computation) — for `V = Spa(K⟨X⟩)` and
+- *RelativelyCompact_disc* (computation) — for `V = Spa(K⟨X⟩)` and
   `U = {|X| ≤ |ϖ|}`, `U ⋐_K V` via the identity embedding and `ε = |ϖ|`.
-- `RelativelyCompact_finite` (degenerate) — if `B` is a finite `A`-algebra (in
+- *RelativelyCompact_finite* (degenerate) — if `B` is a finite `A`-algebra (in
   particular `V = Spa(A)`) then `V ⋐_A V`: for integral generators `x₁,…,xₙ` of `B` over `A`
   choose `a ∈ K° ∖ {0}` with `|a xᵢ| < 1` on `V`; then `Xᵢ ↦ a xᵢ` gives `A⟨X⟩ ↠ B` with
   `V ⊆ {|Xᵢ| ≤ ε}` for some `ε < 1` (Kiehl-E §2, examples after Def. 2.3, pp. 202–203).
-- `RelativelyCompact_unit_disc_not_self` (non-example) — the closed unit disc is
+- *RelativelyCompact_unit_disc_not_self* (non-example) — the closed unit disc is
   not `⋐_K` itself: otherwise its structure morphism to `Spa(K, K°)` would be proper in
   Kiehl's sense (relatively compact affinoid coverings, *proper-relatively-compact-covers*) and
   `K⟨X⟩ = H⁰` would be finite over `K` by *kiehl-proper-mapping-theorem* (R3.6).
-- `RelativelyCompact_rigid` (compatibility) — for rigid `V = Sp(B)` over `Sp(A)`,
+- *RelativelyCompact_rigid* (compatibility) — for rigid `V = Sp(B)` over `Sp(A)`,
   Kiehl's `U ⋐_A V` holds iff `r(U) ⋐_A r(V)`, with the same structure map
   `Sp(B) → Sp(A)`. The theorem relates the adic predicate to imported
   AdicSpacesPartII *proper-separated-comparisons* on the imported affinoid carriers.
-- `RelativelyCompact_closed_point` (non-example) — a closed point in the unit disc
+- *RelativelyCompact_closed_point* (non-example) — a closed point in the unit disc
   is not an open subdomain, even when its coordinate has norm less than one.
 
-The examples `RelativelyCompact_disc`, `RelativelyCompact_finite`,
-`RelativelyCompact_unit_disc_not_self`, `RelativelyCompact_rigid`, and
-`RelativelyCompact_closed_point` mirror these Checks. The disc case requires
+The examples *RelativelyCompact_disc*, *RelativelyCompact_finite*,
+*RelativelyCompact_unit_disc_not_self*, *RelativelyCompact_rigid*, and
+*RelativelyCompact_closed_point* mirror these Checks. The disc case requires
 `a ≠ 0`: radius zero is a point, not an affinoid open disc.
 
 Prove `IsKiehlProper.relativelyCompact_covers` over every complete nontrivially
@@ -11008,7 +10563,7 @@ thus strict complete continuity does not require every coefficient, including de
 to be contracted; (truncations) the degree-`N` truncation has error at most `|ϖ|^N` and its
 finite `K°`-span grows with `N`, with uniform scalar `1`; (negative control) the identity
 restriction on the unit disc is not completely continuous over `K`, and the disc is not
-relatively compact in itself. *Needs:* *relatively-compact-affinoid*, `RelativelyCompact_rigid`;
+relatively compact in itself. *Needs:* *relatively-compact-affinoid*, *RelativelyCompact_rigid*;
 *completely-continuous-map* (lattice/norm comparison);
 *strictly-completely-continuous-closed-target*;
 *tate-kiehl-affinoid*.
@@ -11026,32 +10581,76 @@ Checks: for the identity of an affinoid `H⁰ = F(X)` is finite and positive coh
 vanishes; zero coefficients give the zero complex; for `P¹_K` with `O(−2)`,
 `H¹ = K` and the two-chart Čech difference has closed image.
 
-The adic comparison for proper formal functions (*proper-cohomology-adic-completion*):
-for a Kiehl-proper `f : X → Spa(A, A°)`, coherent `F` and an ideal `𝔞 ⊆ A`,
-transport RigidAnalyticGeometry §7.5's completion theorem and stable principal filtration
-through Part II's rigid–adic equivalence. Identify the quotient sheaves `F/𝔞ᵏF`, their
-epimorphisms and transitions with the corresponding rigid quotients; on cohomology these
-identifications intertwine the maps from `Hⁱ(X,F)` at every `k`. Consequently the transported
-isomorphism is the canonical map
-`Hⁱ(X,F)^∧_𝔞 ≃ lim_k Hⁱ(X,F/𝔞ᵏF)`.
-For `𝔞 = (a)`, the comparison identifies
-`R_k = ker(Hⁱ(X,F) → Hⁱ(X,F/aᵏF))` and the kernel and cokernel systems with the
-supplier's systems, preserving their transitions and uniform shifts. This is ideal-adic
-completion of the finite `A`-module, distinct from Banach completion
-(Kiehl-E §3, Theorems 3.4 and 3.7, pp. 207–209).
-*Needs:* RigidAnalyticGeometry §7.5, principal filtrations and formal functions;
-Part II *rigid-adic-quasi-separated-equivalence*; *coherent-sheaf-operations*;
-*proper-affinoid-cohomology-finite*.
+Formal functions for proper coherent cohomology and the stable principal filtration, Kiehl's
+Theorems 3.4 and 3.7 (*proper-cohomology-adic-completion*): let `f : X → Spa(A, A°)` be
+Kiehl-proper, `F` coherent, `i ≥ 0` and `M = Hⁱ(X,F)`, a finite `A`-module by
+*proper-affinoid-cohomology-finite*. For `a ∈ A` and `k ≥ 0` put
+`R_k = ker(M → Hⁱ(X,F/aᵏF))` and `Q_k = coker(M → Hⁱ(X,F/aᵏF))`.
+Prove that `(R_k)` is an `a`-good filtration of `M` in the sense of Kiehl-E Definition 3.1:
+`R_0 = M`, the `R_k` decrease, `aᵏM ⊆ R_k` and `aR_k ⊆ R_{k+1}`, with `aR_k = R_{k+1}` for all
+sufficiently large `k`. Prove that there are `d` and `e` such that, for every `k`,
+`R_{k+d} ⊆ aᵏM` and the transition `Q_{k+e} → Q_k` is zero; the two shifts need not coincide.
+Thus the kernel system `(R_k/aᵏM)` and the cokernel system `(Q_k)` of the maps
+`M/aᵏM → Hⁱ(X,F/aᵏF)` are pro-zero for their transition maps, and the canonical map
+`M^∧_a → lim_k Hⁱ(X,F/aᵏF)` is an isomorphism (Kiehl-E §3, Definition 3.1 and Theorem 3.4,
+p. 206).
 
-Checks: with `𝔞 = 0` the comparison is the identity; with `𝔞 = A` both sides are zero;
-for `X = Spa A`, `F = O`, it is `Â ≅ lim A/𝔞ᵏ`.
+Route (Kiehl-E §3, pp. 207–209). The Rees ring `S = ⊕_{k≥0} aᵏA` is a quotient of `A[T]`, hence
+noetherian; write `a'` for `a` placed in degree one. For every `r` the graded `S`-module
+`Mʳ(F) = ⊕_k Hʳ(X,aᵏF)`, on which `a'` acts through multiplication by `a` from `aᵏF` to
+`aᵏ⁺¹F`, is finite. If `a` is a nonzerodivisor on `F`, then `aᵏ : F → aᵏF` is an isomorphism
+and `Mʳ(F)` is generated by its degree-zero part `Hʳ(X,F)`, finite over `A` by
+*proper-affinoid-cohomology-finite*. In general the kernels of `aⁿ : F → F` stabilise at a
+coherent `E` on the quasi-compact `X`, a power of `a` kills `E`, `F/E` has no `a`-torsion, and
+`aᵏF ∩ E = 0` for large `k` by the Artin–Rees lemma on a finite affinoid cover. So
+`⊕_k Hʳ(X,aᵏF ∩ E)` is finite over `A`, and the exact sequences
+`0 → aᵏF ∩ E → aᵏF → aᵏ(F/E) → 0` place `Mʳ(F)` between two finite `S`-modules.
+The long exact sequence of `0 → aᵏF → F → F/aᵏF → 0` gives
+`R_k = im(Hⁱ(X,aᵏF) → M)` and `Q_k = ker(Hⁱ⁺¹(X,aᵏF) → Hⁱ⁺¹(X,F))`. The graded module
+`⊕_k R_k` is a quotient of `Mⁱ(F)`, so it is generated in degrees at most some `k₀`; this is
+`aR_k = R_{k+1}` for `k ≥ k₀`, and then `R_{k+k₀} = aᵏR_{k₀} ⊆ aᵏM`. The graded module
+`⊕_k Q_k` is a submodule of `Mⁱ⁺¹(F)`, so it is finite over `S`. Since `aᵏ` kills `Q_k`, a
+quotient of `Hⁱ(X,F/aᵏF)`, one power `aˢ` kills every `Q_k`, and `a'ˢQ_k = Q_{k+s}` for all
+large `k`. The transition `Q_{k+s} → Q_k`, induced by the inclusion `aᵏ⁺ˢF ⊆ aᵏF`, sends
+`a'ˢx` to `aˢx = 0`; so it vanishes for large `k`, and a larger shift serves every `k`.
+
+For every ideal `𝔞 ⊆ A`, prove that the canonical map `M^∧_𝔞 → lim_k Hⁱ(X,F/𝔞ᵏF)` is an
+isomorphism, natural in `F` (Kiehl-E §3, Theorem 3.7, p. 210, proved there by induction on the
+number of generators of `𝔞`). The induction step uses the pro-zero systems of the principal
+case, not only its limit. Write `𝔞 = 𝔟 + aA`, with the statement known for `𝔟` and every
+coherent sheaf. Since `𝔞²ᵏ ⊆ 𝔟ᵏ + aᵏA ⊆ 𝔞ᵏ`, both sides are the limits over `(k,l)` of their
+terms at `𝔟ᵏ + aˡA`. For fixed `l` the statement for `𝔟` and the coherent sheaf `F/aˡF`
+identifies `lim_k Hⁱ(X,F/(𝔟ᵏ + aˡA)F)` with `Hⁱ(X,F/aˡF) ⊗_A Â`, where `Â` is the `𝔟`-adic
+completion of `A`, flat over `A`. Tensoring the maps `M/aˡM → Hⁱ(X,F/aˡF)` with `Â` keeps
+their kernel and cokernel systems pro-zero, so the limit over `l` is that of
+`(M/aˡM) ⊗_A Â = lim_k M/(𝔟ᵏ + aˡA)M`, which is `M^∧_𝔞`. Every map in this comparison is
+induced by the maps `M → Hⁱ(X,F/(𝔟ᵏ + aˡA)F)`, so the isomorphism is the canonical one.
+This is ideal-adic completion of the finite `A`-module, distinct from Banach completion.
+*Needs:* *proper-affinoid-cohomology-finite*; *coherent-sheaf-operations* (kernels, images and
+quotients of coherent sheaves); the long exact cohomology sequence of module sheaves;
+Part II *rigid-adic-quasi-separated-equivalence* (the classical form over `Sp A`); Mathlib
+`reesAlgebra` and its noetherianity, `Ideal.Filtration.Stable`,
+`Ideal.Filtration.submodule_fg_iff_stable`, `Ideal.exists_pow_inf_eq_pow_smul`,
+`AdicCompletion.flat_of_isNoetherian` and
+`AdicCompletion.ofTensorProductEquivOfFiniteNoetherian`.
+
+**Checks.**
+
+- (degenerate) — for `a = 0`, `R_0 = M` and `R_k = 0` for `k ≥ 1`; for `a = 1`, `R_k = M` and
+  `Hⁱ(X,F/aᵏF) = 0`.
+- (computation) — for `X = Spa A` and `i = 0`, `M = F(X)`, `R_k = aᵏM` and `Q_k = 0`.
+- (non-example, torsion) — for `A = K⟨T⟩`, `a = T` and `F` the sheaf of `A ⊕ A/(T)` on `Spa A`,
+  multiplication by `a` is not injective on `F`, the torsion sheaf `E` is that of `A/(T)` and
+  `aᵏF ∩ E = 0` for `k ≥ 1`: the reduction to the torsion-free quotient is needed.
+- (degenerate, general ideal) — with `𝔞 = 0` the comparison is the identity of `M`; with
+  `𝔞 = A` both sides are zero; for `X = Spa A`, `F = O` and `i = 0` it is `Â ≅ lim A/𝔞ᵏ`.
 
 Kiehl's Satz 3.5 (*proper-cohomology-affinoid-subdomain*): provides, for a Kiehl-proper
 `f : X → Spa(A, A°)`, coherent `F` and an affinoid subdomain `U = Spa(B, B°)` of `Spa(A, A°)`, the
 `B`-linear isomorphism `B ⊗_A Hⁱ(X, F) ≅ Hⁱ(f⁻¹(U), F)` sending `b ⊗ m` to `b` times the
 restriction of `m`. Prove this for the actual
 restriction `cohomologyPullback` along `f⁻¹(U) → X` (Kiehl-E §3, Satz 3.5,
-pp. 207–208). *Needs:* *proper-affinoid-cohomology-finite*; Part II *affinoid-subdomain-flat*;
+pp. 209–210). *Needs:* *proper-affinoid-cohomology-finite*; Part II *affinoid-subdomain-flat*;
 finite-module base change and the strict Čech complex.
 
 Checks: for `U = Spa A` the map is `b ⊗ m ↦ bm`; zero coefficients give a zero
@@ -11061,13 +10660,13 @@ Countable-type splittings on the Banach-module tensor carrier
 (*countable-type-closed-subspace-section*): for a strict exact sequence
 `0 → F → E → E/F → 0` of Banach `K`-spaces with `E` of countable type and `F` closed,
 use PadicFunctionalAnalysis §2.4's `exists_continuousLinearEquiv_prod_of_countableType`.
-Identify its completed projective tensor with Part II's Banach-module completed tensor
+Identify its completed projective tensor with Tau Ceti's `TauCeti.Huber.BanachModule.CompletedTensor`
 by their continuous balanced universal properties. For every complete isometric extension
 `K'/K`, prove that this identification intertwines the tensored inclusion, quotient,
 section and projection on pure tensors. It therefore transports the supplied continuous
 splitting and strict exactness to `K' ⊗̂_K (−)` on Part II's carrier
 (BGR §2.7, countable-type Banach spaces; KL15, Lemma 2.2.9, pp. 30–31).
-*Needs:* PadicFunctionalAnalysis §2.4, countable type and strict splitting;
+*Needs:* PadicFunctionalAnalysis §2.4, countable type and strict splitting; Tau Ceti `TauCeti.Huber.BanachModule.CompletedTensor`;
 Part II *completed-tensor-banach-module*, *banach-completed-tensor-field-exactness*.
 
 Checks: `F = 0` gives complement `E`; `F = E` gives the zero complement; in
@@ -11075,14 +10674,16 @@ Checks: `F = 0` gives complement `E`; `F = E` gives the zero complement; in
 and projection `x ↦ x(0)e₀`.
 
 Completed extension of the base field for affinoid algebras (*affinoid-completed-field-extension*):
-provides, for an affinoid `K`-algebra `A`, an extension `K'/K` of complete nonarchimedean fields
-and `A' = K' ⊗̂_K A`, that `A → A'` is faithfully flat and that `A' ⊗_A M → K' ⊗̂_K M` is a
-topological isomorphism for every finite `A`-module `M`. Use
-`A' = Huber.CompletedTensor K A K'` with structure map `a ↦ a ⊗ 1` and prove both
-assertions for this map (BGR §6.1.1, completed scalar extension; Conrad-RA Appendix A.1,
-Theorem A.1.2 and its proof, p. 39, the finite-module comparison).
-*Needs:* Part II *completed-tensor-product*, *completed-tensor-banach-module*,
-*banach-completed-tensor-field-exactness*; noetherian affinoid module topologies.
+for an affinoid `K`-algebra `A`, an extension `K'/K` of complete nonarchimedean fields
+and `A' = K' ⊗̂_K A`, the map `A → A'`, `a ↦ a ⊗ 1`, is faithfully flat and
+`A' ⊗_A M → K' ⊗̂_K M` is a topological isomorphism for every finite `A`-module `M`.
+RigidAnalyticGeometry §1.3 owns this theorem and its proof; it is cited here under this name
+and is not proved again. §1.3 states it for the pinned Tau Ceti carriers
+`TauCeti.Huber.CompletedTensor K A K'` (`TauCeti/RingTheory/Huber/TensorProduct/Completion.lean`)
+and `TauCeti.Huber.BanachModule.CompletedTensor`
+(`TauCeti/RingTheory/Huber/BanachModule/CompletedTensor.lean`), which this layer uses for `A'` and
+`K' ⊗̂_K M`. *Needs:* RigidAnalyticGeometry §1.3; Tau Ceti `TauCeti.Huber.CompletedTensor`,
+`TauCeti.Huber.BanachModule.CompletedTensor`.
 
 Checks: for `K' = K` the map is the identity; for `A = K` it is the faithfully flat
 field extension `K → K'`; for `M = 0` both tensor modules vanish.
@@ -11184,11 +10785,11 @@ noetherianity of `ℤ_p⟨X₁,…,Xₙ⟩`; for `N = 0` take `N′ = 0`.
 
 **Checks for the integral carrier.**
 
-- `Huber.IntegralAffinoidPresentation.test_field`: for `A = K`, `A₀ = V = K°`,
+- *Huber.IntegralAffinoidPresentation.test_field*: for `A = K`, `A₀ = V = K°`,
   there is a presentation with zero variables and coefficient map the identity.
-- `Huber.IntegralAffinoidPresentation.test_zero`: the zero `K`-algebra has a
+- *Huber.IntegralAffinoidPresentation.test_zero*: the zero `K`-algebra has a
   zero-variable presentation, with image the zero subring.
-- `Huber.IntegralAffinoidPresentation.test_unbounded`: `A₀ = K` cannot be an integral
+- *Huber.IntegralAffinoidPresentation.test_unbounded*: `A₀ = K` cannot be an integral
   model of `A = K` when its valuation is nontrivial; the whole field is unbounded.
 
 The higher direct-image functor `AdicSpace.higherDirectImage f i` is the right derived
@@ -11201,19 +10802,19 @@ global function to the cohomology map of that scalar endomorphism.
 
 **Checks for derived direct image and scalar actions.**
 
-- `higherDirectImage_degreeZero` — degree zero is ordinary direct image.
-- `higherDirectImage_identity` — positive-degree direct images of the identity vanish.
-- `higherDirectImage_injective` — injective coefficient sheaves have no positive-degree direct images.
-- `moduleScalar_zero` — multiplication by zero is the zero sheaf morphism.
-- `moduleScalar_one` — multiplication by one is the identity.
-- `moduleScalar_product` — multiplication of functions corresponds to composition of scalar morphisms.
-- `cohomologyAction_zero` — on the analytic projective line with `𝒪(−2)`, choose the
+- *higherDirectImage_degreeZero* — degree zero is ordinary direct image.
+- *higherDirectImage_identity* — positive-degree direct images of the identity vanish.
+- *higherDirectImage_injective* — injective coefficient sheaves have no positive-degree direct images.
+- *moduleScalar_zero* — multiplication by zero is the zero sheaf morphism.
+- *moduleScalar_one* — multiplication by one is the identity.
+- *moduleScalar_product* — multiplication of functions corresponds to composition of scalar morphisms.
+- *cohomologyAction_zero* — on the analytic projective line with `𝒪(−2)`, choose the
   linear identification of `H¹` with `K`. The class corresponding to `1` is nonzero,
   and multiplication by the pulled-back scalar zero sends it to zero.
-- `cohomologyAction_one` — on the same nonzero class, the pulled-back scalar one
+- *cohomologyAction_one* — on the same nonzero class, the pulled-back scalar one
   acts as one; more generally the scalar `a` sends that class to the class corresponding
   to `a`. These checks use the structural coefficient map into global analytic sections.
-- `cohomologyAction_degreeZero` — the action on zeroth cohomology agrees with multiplication of sections.
+- *cohomologyAction_degreeZero* — the action on zeroth cohomology agrees with multiplication of sections.
 
 ### R3.7 proper GAGA
 
@@ -11230,25 +10831,25 @@ that unit on global sections. `cohomologyComparison` applies inverse image to ex
 of the constant integer sheaf and composes with this unit. `cohomologyComparison_zero`
 identifies degree zero with the section map; `cohomologyComparison_naturality` states
 naturality in the coefficient module. The rigid-site map is defined independently by the
-composite inverse-image functor, and `cohomologyComparison_test_rigid` equates the two maps.
-`cohomologyComparison_test_skyscraper` uses the actual quotient by the coordinate on
+composite inverse-image functor, and *cohomologyComparison_test_rigid* equates the two maps.
+*cohomologyComparison_test_skyscraper* uses the actual quotient by the coordinate on
 `Spec A[T]`. `cohomologyComparison_affineLine_not_surjective` states failure of surjectivity
 for the canonical map on the affine line.
 
 **Checks for relative analytification and module pullback.**
 
-- `relativeAnalytification_identity` — analytifying the identity of the affine base gives that base.
-- `relativeAnalytification_empty` — the empty scheme has empty analytification.
-- `relativeAnalytification_affineLine` — maps to the analytic affine line over the base correspond to global functions.
-- `analytificationMap_identity` — the identity induces the identity.
-- `analytificationMap_composite` — induced maps preserve composition.
-- `analytificationMap_isomorphism` — an algebraic isomorphism induces an analytic isomorphism.
-- `schemeModulePullback_zero` — the zero module pulls back to zero.
-- `schemeModulePullback_self` — the structure sheaf pulls back to the structure sheaf.
-- `schemeModulePullback_free` — a finite free module retains its rank.
-- `cohomologyComparison_zeroSheaf` — the comparison for zero coefficients is zero.
-- `cohomologyComparison_empty` — the comparison into an empty analytic space is zero.
-- `cohomologyComparison_functions` — the section comparison for the structure sheaf is the structural ring map.
+- *relativeAnalytification_identity* — analytifying the identity of the affine base gives that base.
+- *relativeAnalytification_empty* — the empty scheme has empty analytification.
+- *relativeAnalytification_affineLine* — maps to the analytic affine line over the base correspond to global functions.
+- *analytificationMap_identity* — the identity induces the identity.
+- *analytificationMap_composite* — induced maps preserve composition.
+- *analytificationMap_isomorphism* — an algebraic isomorphism induces an analytic isomorphism.
+- *schemeModulePullback_zero* — the zero module pulls back to zero.
+- *schemeModulePullback_self* — the structure sheaf pulls back to the structure sheaf.
+- *schemeModulePullback_free* — a finite free module retains its rank.
+- *cohomologyComparison_zeroSheaf* — the comparison for zero coefficients is zero.
+- *cohomologyComparison_empty* — the comparison into an empty analytic space is zero.
+- *cohomologyComparison_functions* — the section comparison for the structure sheaf is the structural ring map.
 
 
 Throughout this subsection `K` is a complete nonarchimedean field with nontrivial absolute value
@@ -11279,7 +10880,7 @@ including the class of `T` with square zero.
 composition in `f`. For coherent `F`, `c_F` is an isomorphism when `X` is proper over `Spec A`
 (*proper-gaga* (a)), and the relative map is an
 isomorphism when `f` is proper (*proper-gaga* (b)).
-Properness of `f` alone does not make `c_F` an isomorphism (`proper_gaga_test_identityAffineLine`).
+Properness of `f` alone does not make `c_F` an isomorphism (*proper_gaga_test_identityAffineLine*).
 In `AdicSpace`, define `cohomologyComparison` as
 `c_F : Hⁱ(X, F) →ₗ[A] Hⁱ(X^an, F^an)` and `directImageComparison` as
 `(Rⁱf_*F)^an → Rⁱf^an_*(F^an)`, δ-functorial; prove `cohomologyComparison_naturality`
@@ -11299,14 +10900,14 @@ DerivedModuleAlgebra §S.1 `DoubleComplex.totalCohomology_of_exact_rows` and its
 
 **Checks.**
 
-- `AdicSpace.cohomologyComparison_test_affineLine` (non-example) — for `X = A¹_K` and `F = 𝒪`
+- *AdicSpace.cohomologyComparison_test_affineLine* (non-example) — for `X = A¹_K` and `F = 𝒪`
   the degree-0 comparison `K[T] → 𝒪(A^{1,ad}_K)` is not surjective (the series `Σ ϖ^{n²}Tⁿ` is
   entire), so `c_F` is not an isomorphism when `X` is not proper over `Spec A`.
-- `AdicSpace.cohomologyComparison_test_point` (degenerate) — for `X = Spec K` the comparison maps
+- *AdicSpace.cohomologyComparison_test_point* (degenerate) — for `X = Spec K` the comparison maps
   are the identity of `H⁰ = F(X)` and `0` in positive degrees.
-- `AdicSpace.cohomologyComparison_test_skyscraper` (computation) — for `X = A¹_K` and
+- *AdicSpace.cohomologyComparison_test_skyscraper* (computation) — for `X = A¹_K` and
   `F = 𝒪_X/(T)`, the degree-0 comparison `K → K` is an isomorphism.
-- `AdicSpace.cohomologyComparison_test_rigid` (compatibility) — under the rigid–adic comparison
+- *AdicSpace.cohomologyComparison_test_rigid* (compatibility) — under the rigid–adic comparison
   (*rigid-adic-comparison-functor*, AdicSpacesPartII layer R1) `c_F` agrees with Köpf's and Conrad's rigid-analytic
   comparison maps.
 
@@ -11323,21 +10924,20 @@ coefficients by *proper-gaga* (b); the target `Y` need not be proper over `Spec 
 
 **Checks for the relative comparison constructions.**
 
-- `directImageZeroComparison_identity` — the degree-zero comparison for the identity is invertible.
-- `directImageZeroComparison_zero` — zero coefficients give the zero morphism.
-- `directImageZeroComparison_finite` — finite morphisms and coherent coefficients give an isomorphism.
-- `directImageComparison_identity` — the identity comparison is invertible in every degree.
-- `directImageComparison_zero` — the map for zero coefficients is zero in every degree.
-- `directImageComparison_finite` — finite morphisms give comparison isomorphisms and zero higher direct images in positive degrees.
+- *directImageZeroComparison_identity* — the degree-zero comparison for the identity is invertible.
+- *directImageZeroComparison_zero* — zero coefficients give the zero morphism.
+- *directImageZeroComparison_finite* — finite morphisms and coherent coefficients give an isomorphism.
+- *directImageComparison_zero* — the map for zero coefficients is zero in every degree.
+- *directImageComparison_finite* — finite morphisms give comparison isomorphisms and zero higher direct images in positive degrees.
 
 **Checks for `directImageComparison`.**
 
-- `directImageComparison_identity`: for `f = id`, degree zero is
+- *directImageComparison_identity*: for `f = id`, degree zero is
   the identity on `F^an`; both higher direct images vanish.
-- `directImageComparison_quadraticBasis`: for
+- *directImageComparison_quadraticBasis*: for
   `Spec(A[Z]/(Z²-t)) → Spec A` and `F = 𝒪`, degree zero identifies the two
   free rank-two modules with basis `1,Z`, and higher degrees vanish, including at `t=0`.
-- `directImageComparison_projectiveLine`: for `P¹_A → Spec A`
+- *directImageComparison_projectiveLine*: for `P¹_A → Spec A`
   and `F = 𝒪(-2)`, degree one identifies `A` with `A`, and degree zero identifies
   the two zero modules. `cohomologyComparison_projectiveLine` computes these
   modules; `directImageComparison_projectiveLine` checks the direct-image map.
@@ -11383,13 +10983,13 @@ SchemeAndStackFoundations Layer 2 (§2.6, `projectiveSpace_cohomology`); Derived
 
 **Checks for projective bundles and twists.** Each Check carries the indicated name.
 
-- `projectiveSpaceBundle_point`: in dimension zero the universal quotient is an isomorphism.
-- `projectiveSpaceBundle_line`: over a field the universal line on `P¹` is not the structure sheaf.
-- `projectiveSpaceBundle_empty`: over the zero ring the universal line is a zero object.
-- `projectiveSpaceTwist_zero`: the zeroth twist is the structure sheaf.
-- `projectiveSpaceTwist_one`: the first twist is the universal quotient line.
-- `projectiveSpaceTwist_negOne`: the negative first twist is its dual.
-- `analyticProjectiveSpaceCohomology_test_point`: the theorem of this name gives
+- *projectiveSpaceBundle_point*: in dimension zero the universal quotient is an isomorphism.
+- *projectiveSpaceBundle_line*: over a field the universal line on `P¹` is not the structure sheaf.
+- *projectiveSpaceBundle_empty*: over the zero ring the universal line is a zero object.
+- *projectiveSpaceTwist_zero*: the zeroth twist is the structure sheaf.
+- *projectiveSpaceTwist_one*: the first twist is the universal quotient line.
+- *projectiveSpaceTwist_negOne*: the negative first twist is its dual.
+- *analyticProjectiveSpaceCohomology_test_point*: the theorem of this name gives
   `H⁰((P⁰_A)^an, 𝒪(m)^an) ≃ₗ[A] A` for every `m < 0` over a complete
   affinoid with Tate, strongly noetherian, noetherian ring. The scalar action
   comes from the projection to `Spa(A,A⁺)`. This is the dimension-zero clause of
@@ -11422,9 +11022,9 @@ acyclicity over the affinoid base (Conrad-RA (A.1.1), p. 39).
 
 **Checks for the resolution comparison.**
 
-- `moduleCohomologyResolutionIso_zeroCoefficients`: zero coefficients give the zero map.
-- `moduleCohomologyResolutionIso_injective`: a module injective has zero positive cohomology, using its degree-zero resolution.
-- `moduleCohomologyResolutionIso_degreeZero`: a section has zero class exactly when it is zero.
+- *moduleCohomologyResolutionIso_zeroCoefficients*: zero coefficients give the zero map.
+- *moduleCohomologyResolutionIso_injective*: a module injective has zero positive cohomology, using its degree-zero resolution.
+- *moduleCohomologyResolutionIso_degreeZero*: a section has zero class exactly when it is zero.
 
 **Checks for the comparison helpers.**
 
@@ -11475,16 +11075,16 @@ Part II *analytification-separated-proper*, *rigid-analytification-comparison*.
 
 **Checks.**
 
-- `proper_gaga_test_identityAffineLine` (boundary) — for `X = Y = A¹_K`, `f = id_X` and `F = 𝒪`,
+- *proper_gaga_test_identityAffineLine* (boundary) — for `X = Y = A¹_K`, `f = id_X` and `F = 𝒪`,
   `f` is proper and (b) applies: the relative maps are isomorphisms in every degree
-  (`directImageComparison_identity`). `X` is not proper over `Spec K`, (a) does not apply, and the
+  (*directImageComparison_identity*). `X` is not proper over `Spec K`, (a) does not apply, and the
   degree-zero absolute map `K[T] → 𝒪(A^{1,ad}_K)` is not surjective
-  (`cohomologyComparison_test_affineLine`).
-- `proper_gaga_test_relativeProjectiveLine` (relative over a nonproper base) — for the projection
+  (*cohomologyComparison_test_affineLine*).
+- *proper_gaga_test_relativeProjectiveLine* (relative over a nonproper base) — for the projection
   `f : P¹_{A¹_K} → A¹_K` and `F = 𝒪(−2)`, (b) identifies `(R¹f_*F)^an` and `R¹f^an_*(F^an)`, both
   free of rank one; the absolute `H¹` comparison is `K[T] → 𝒪(A^{1,ad}_K)` under these
   identifications, again not surjective, so (b) does not upgrade to (a) over `A¹_K`.
-- `proper_gaga_test_projectiveLine` (absolute) — for `X = P¹_K` and `F = 𝒪(−2)`, (a) gives
+- *proper_gaga_test_projectiveLine* (absolute) — for `X = P¹_K` and `F = 𝒪(−2)`, (a) gives
   `H¹(X, F) ≅ H¹(X^an, F^an) ≅ K`, the computation of `cohomologyComparison_projectiveLine`.
 
 **Proper GAGA: analytification is an equivalence on coherent sheaves.**
@@ -11580,11 +11180,11 @@ StableReduction Layer 2's relative ampleness and curve cohomology.
 
 **Checks.**
 
-- `genusOneEmbedding_smooth` — for a smooth elliptic curve and `D = [e]`, `f_*O(3D)` has rank three and
+- *genusOneEmbedding_smooth* — for a smooth elliptic curve and `D = [e]`, `f_*O(3D)` has rank three and
   embeds the curve as a plane cubic.
-- `genusOneEmbedding_polygon` — on the standard `n`-gon, one smooth point on each component gives degree
+- *genusOneEmbedding_polygon* — on the standard `n`-gon, one smooth point on each component gives degree
   `d = n` and an embedding into `P^{3n-1}`.
-- `genusOneEmbedding_missingComponent` — on a 2-gon a divisor supported only on one component fails the hypothesis;
+- *genusOneEmbedding_missingComponent* — on a 2-gon a divisor supported only on one component fails the hypothesis;
   its line bundle has degree zero on the other component and is not ample.
 
 **Analytic Hilbert and Hom comparisons for projective families.**
@@ -11614,11 +11214,11 @@ the algebraic representing schemes are SchemeAndStackFoundations §4.14's.
 
 **Checks.**
 
-- `projectiveHilbertComparison_point` — the analytification of `Hilb¹(P¹_k) = P¹_k` represents single points over
+- *projectiveHilbertComparison_point* — the analytification of `Hilb¹(P¹_k) = P¹_k` represents single points over
   arbitrary rigid test bases, rather than only over fields.
-- `projectiveHilbertComparison_nilpotents` — over `k[ε]/(ε²)`, the divisor `t = ε` on `P¹` differs from `t = 0` and is
+- *projectiveHilbertComparison_nilpotents* — over `k[ε]/(ε²)`, the divisor `t = ε` on `P¹` differs from `t = 0` and is
   retained by the Hilbert comparison although their reduced fibres agree.
-- `projectiveHomComparison_identity` — the graph of the identity of a projective family corresponds to the identity
+- *projectiveHomComparison_identity* — the graph of the identity of a projective family corresponds to the identity
   section of its Hom space; its pullback remains that graph.
 
 **Artinian GAGA and infinitesimal rigidity for genus-one curves.**
@@ -11649,11 +11249,11 @@ R2.11's algebraic generalised elliptic curves and finite level data.
 
 **Checks.**
 
-- `artinianGenusOneGAGA_smooth` — a smooth elliptic curve over `k[ε]/(ε²)` retains its infinitesimal deformation
+- *artinianGenusOneGAGA_smooth* — a smooth elliptic curve over `k[ε]/(ε²)` retains its infinitesimal deformation
   and identity section under algebraisation.
-- `artinianGenusOneGAGA_polygon` — the standard `n`-gon over this Artinian base retains both the smooth group
+- *artinianGenusOneGAGA_polygon* — the standard `n`-gon over this Artinian base retains both the smooth group
   `G_m × ℤ/n` and its rotation action on the whole polygon.
-- `artinianGenusOneGAGA_nilpotents` — two maps `Sp(k[ε]/(ε²)) → A¹_k` with coordinates `0` and `ε` agree on the
+- *artinianGenusOneGAGA_nilpotents* — two maps `Sp(k[ε]/(ε²)) → A¹_k` with coordinates `0` and `ε` agree on the
   reduced point but differ as maps; testing only residue-field points cannot
   replace the Artinian tests.
 
@@ -11694,9 +11294,9 @@ Part II R1's analytification and étale morphisms.
 
 **Checks.**
 
-- `localAlgebraicity_smooth` — a constant smooth elliptic curve is pulled back from its algebraic curve
+- *localAlgebraicity_smooth* — a constant smooth elliptic curve is pulled back from its algebraic curve
   over `Spec k`, with its identity and addition preserved.
-- `localAlgebraicity_polygon` — a constant `n`-gon is pulled back with its component rotations, rather than
+- *localAlgebraicity_polygon* — a constant `n`-gon is pulled back with its component rotations, rather than
   only its underlying nodal curve.
 - On the standard `2`-gon over `ℚ₃`, `D = μ₂ × ℤ/2` has rank `4` over
   `Sp ℚ₃`, with points `(1,0)`, `(−1,0)`, `(1,1)`, `(−1,1)`. It has degree `2`
@@ -11705,7 +11305,7 @@ Part II R1's analytification and étale morphisms.
   over `(1,0)` and empty fibre over `(1,1)`; its rank function on the target
   components is `(4,0)`. Extending `ℚ₃` to `ℚ₃(√3)` preserves both this rank
   function and the rank-`4` kernel over the base.
-- `localAlgebraicity_mixedLevel` — for the standard `p`-gon over `ℚ_p(ζ_d)`, `d ≥ 5` prime to `p`, the cyclic
+- *localAlgebraicity_mixedLevel* — for the standard `p`-gon over `ℚ_p(ζ_d)`, `d ≥ 5` prime to `p`, the cyclic
   level `(ζ_d, 1)` of level `dp` is preserved; no level prime to `p` meets all
   components. The mixed-level boundary persists under local algebraisation.
 
@@ -11749,17 +11349,17 @@ the polygon sizes, including multiples of `p`, so a level prime to `p` is never 
 
 **Checks.**
 
-- `classify_universal` (degenerate) — the analytified universal pair over `M_k^an` is classified
+- *classify_universal* (degenerate) — the analytified universal pair over `M_k^an` is classified
   by the identity of `M_k^an`.
-- `exists_levelCover_pGon` (negative control) — for `S = Sp ℚ_p` and `E` the standard `p`-gon, no
+- *exists_levelCover_pGon* (negative control) — for `S = Sp ℚ_p` and `E` the standard `p`-gon, no
   étale covering gives `E` a level structure of level `N` prime to `p`: the component group `ℤ/p`
   of every geometric fibre receives only zero from the `N`-torsion. For `d ≥ 5` prime to `p`, the
   finite étale covering `Sp ℚ_p(ζ_d) → Sp ℚ_p` with the level `(ζ_d, 1)` of level `dp` is a
   covering as in (b), with `n = p`.
-- `exists_levelCover_smooth` (computation) — for an elliptic curve `E` over `Sp k` and `d ≥ 5`,
+- *exists_levelCover_smooth* (computation) — for an elliptic curve `E` over `Sp k` and `d ≥ 5`,
   `n = 1` suffices: for a closed point `P` of exact order `d` in `E`, the finite étale covering
   `Sp k(P) → Sp k` carries the level `P` of level `d`.
-- `classify_baseChange_point` (compatibility) — for a `k`-point `s` of `S`, the fibre `(E_s, P_s)`
+- *classify_baseChange_point* (compatibility) — for a `k`-point `s` of `S`, the fibre `(E_s, P_s)`
   is classified by `c(s)`.
 
 **Conrad's Hasse-invariant loci `S^{>h}`, `S^{≥h}` of a generalized elliptic curve are admissible
@@ -11827,32 +11427,32 @@ ordinary or potentially toric reduction, and `h(E) < 1` iff potentially supersin
 
 **Checks.**
 
-- `hasseLocus_test_ordinary` (computation) — for an elliptic curve `E` over `k` with good ordinary
+- *hasseLocus_test_ordinary* (computation) — for an elliptic curve `E` over `k` with good ordinary
   reduction, `h(E) = 1`, so the point lies in `S^{≥1}`; for good supersingular reduction `h(E) < 1`.
-- `hasseLocus_test_floor` (degenerate) — `h(E_s) ≥ 1/p` always, so the locus `{h(E_s) ≥ 1/p}` is all
+- *hasseLocus_test_floor* (degenerate) — `h(E_s) ≥ 1/p` always, so the locus `{h(E_s) ≥ 1/p}` is all
   of `S`; this is why `S^{≥h}` is only defined for `h > 1/p`.
-- `hasseLocus_test_top` (degenerate) — `h(E_s) ≤ 1` always: `S^{≥1} = {h(E_s) = 1}` is the locus
+- *hasseLocus_test_top* (degenerate) — `h(E_s) ≤ 1` always: `S^{≥1} = {h(E_s) = 1}` is the locus
   of potentially ordinary or potentially toric reduction, equal to the Hasse domain `X(0) = {|Ha|
   = 1}` for the universal curve, and `{h(E_s) > h}` is empty for every `h ≥ 1`, which is why
   `S^{>h}` is only defined for `h < 1`; the thresholds `h` are absolute values in `[1/p, 1]`, not
   exponents, and `h = |p|^ε` decreases as `ε` grows, so `S^{≥h} = X(ε)` shrinks as `h` grows.
   The object-level Check is `hasseLocusGT O p b hX ω hω Ha 0 = ⊥`, also labelled
-  `hasseLocusGT_top`; the real maximum inequality is its numerical bound.
-- `hasseLocus_test_withoutMax` (non-example) — for `h < 1/p` the locus `{|a_{Γ_A}| ≥ h}` can be
+  *hasseLocusGT_top*; the real maximum inequality is its numerical bound.
+- *hasseLocus_test_withoutMax* (non-example) — for `h < 1/p` the locus `{|a_{Γ_A}| ≥ h}` can be
   strictly smaller than `S` (`a` can be divisible by `p`), whereas `{h(E_s) ≥ h} = S`: dropping the
   `max(·, 1/p)` in Definition B.3.3 gives a different, coordinate-dependent set.
-- `hasseLocus_test_hasseDomain` (compatibility) — for `S = M^an` with the universal curve and `h = |p|^ε`, `0 ≤ ε < 1`: `S^{≥h} = X(ε)`, the Hasse domain of `M̂` with `ω` the Hodge bundle and `Ha`
+- *hasseLocus_test_hasseDomain* (compatibility) — for `S = M^an` with the universal curve and `h = |p|^ε`, `0 ≤ ε < 1`: `S^{≥h} = X(ε)`, the Hasse domain of `M̂` with `ω` the Hodge bundle and `Ha`
   the Hasse invariant.
 - Under an integral coordinate change `X′ = uX + O(X²)`, `u ∈ A^×`, the reductions satisfy
   `ā′ = ū^{1−p}ā`, while `dX′ = u dX` along the identity and `τ_{X′} = u⁻¹τ_X`.
   Thus `ā′(dX′)^{⊗(p−1)} = ā(dX)^{⊗(p−1)}` modulo `p`, and the scalar lifts give the same
   Hasse domains for `0 ≤ ε < 1`: their reductions differ by an integral unit and their lift
   errors by multiples of `p`, below the threshold `|p|^ε`.
-- `hasseLocus_test_fractionalThreshold` (characterisation) — for `h = |c|^{1/n} ∈ √|k^×|` (`c ∈ k^×`), `S^{≥h} ∩ (Spf A)^rig = {|a_{Γ_A}^n| ≥ |c|}`, independent of the choice of `(c, n)`
+- *hasseLocus_test_fractionalThreshold* (characterisation) — for `h = |c|^{1/n} ∈ √|k^×|` (`c ∈ k^×`), `S^{≥h} ∩ (Spf A)^rig = {|a_{Γ_A}^n| ≥ |c|}`, independent of the choice of `(c, n)`
   representing `h`.
-- `hasseLocus_test_pGon` (negative control for the reduction) — for `S = Sp ℚ_p` and `E` the
+- *hasseLocus_test_pGon* (negative control for the reduction) — for `S = Sp ℚ_p` and `E` the
   standard `p`-gon, the formal group is `𝔾̂_m`, `h(E) = 1` and `S^{≥1} = S`. The reduction reaches
-  `E` only through a cyclic level `dp` with `d ≥ 5` prime to `p` (`exists_levelCover_pGon`); no
+  `E` only through a cyclic level `dp` with `d ≥ 5` prime to `p` (*exists_levelCover_pGon*); no
   level prime to `p` meets its `p` components.
 
 ### R3.8 finite locally free traces and pull–identify–trace
@@ -11874,18 +11474,12 @@ Checks: the unit's identity has trace `1`; the zero module has trace `0`;
 on `R²`, the matrix with diagonal `a,d` has trace `a+d`.
 
 **Cross-object cyclicity for finite projective modules.** (*projective-trace-cyclicity*)
-For a commutative semiring `R`, finite projective `R`-semimodules `M`, `N` (additive
-commutative monoids) and linear maps `f : M → N`, `g : N → M`,
-prove `LinearMap.projectiveTrace_cyclic`: `tr_M(g ∘ f) = tr_N(f ∘ g)`.
-The contraction formula proves this by finite sums of pure tensors; over rings it also
-transports PivotalSpherical Layer 2’s categorical cyclicity through the scalar realization
-(Stacks Tag 02DU, Exercise 111.22.6; Mathlib #44636's `_root_.LinearMap.trace_comp_comm'`;
-the pinned `_root_.LinearMap.trace_comp_comm'` is its free-module specialization).
-*Needs:* PivotalSpherical Layer 2; *projective-trace-realization*; finite-projective duality.
-Lean: `LinearMap.projectiveTrace_cyclic`.
-
-Checks: with `M = N = R`, this is `ab = ba`; with `M = 0`, both traces vanish;
-with `M = R`, `N = R²`, `f(x) = (ax,bx)` and `g(y,z) = cy+dz`, both traces are `ca+db`.
+For a commutative semiring `R`, finite projective `R`-semimodules `M`, `N` and linear maps
+`f : M → N`, `g : N → M`, `tr_M(g ∘ f) = tr_N(f ∘ g)` is Tau Ceti's
+`_root_.LinearMap.projectiveTrace_cyclic` (`TauCeti/LinearAlgebra/Trace/Projective.lean`), cited here under
+this label; over rings, PivotalSpherical Layer 2's categorical cyclicity is its image under
+*projective-trace-realization* (Stacks Tag 02DU, Exercise 111.22.6). *algebra-trace-transitivity*
+uses it.
 
 **Finite-projective trace realization and scalar extension.** (*projective-trace-realization*)
 Let `R` be a commutative semiring and `M` a finitely generated projective `R`-semimodule
@@ -11900,23 +11494,21 @@ traces; identify `End_R(R)` with `R` by evaluation at `1`.
 Prove that the scalar categorical trace is the contraction below. The trace
 `tr_M : End_R(M) → R` is the `R`-linear map `tr_M = contractLeft ∘ (dualTensorHomEquiv R M M)⁻¹`,
 where `dualTensorHomEquiv : M^∨ ⊗_R M ≅ End_R(M)` (Mathlib, for `M` finite projective) and
-`contractLeft(φ ⊗ m) = φ(m)`. This is the trace used throughout this layer; Mathlib's
-`LinearMap.trace R M` agrees with it when `M` is free but is defined to be `0` when `M` has no
-finite basis, so it is not the trace of a finite projective non-free module. The same
-construction `contractLeft ∘ dualTensorHomEquiv⁻¹` in the almost category is PerfectoidSpaces
-layer P0 (P0.12), the almost-ring version of this target. In `LinearMap`,
-retain `projectiveTrace` as compatibility with the pin for the standard `LinearMap.trace`
-of Mathlib [#44636](https://github.com/leanprover-community/mathlib4/pull/44636), using the same
-contraction definition over commutative semirings. Prove that
-`projectiveTrace (dualTensorHom φ m) = φ m`, equivalently `projectiveTrace ∘ dualTensorHom =
-contractLeft`; `projectiveTrace_eq_trace` (for `M` free finite,
-`projectiveTrace R M = LinearMap.trace R M`; in particular it equals `Matrix.trace` of the matrix
-in any basis); `projectiveTrace_baseChange` (for `R → R'`,
-`tr_{R' ⊗ M}(f.baseChange R') = algebraMap R R' (tr_M f)` for a commutative `R`-semialgebra `R'`); that
-`tr_{M × N}(f.prodMap g) = tr_M f + tr_N g`; that `tr_N(e ∘ f ∘ e⁻¹) = tr_M f` for a linear
-equivalence `e : M ≃ N`. Over commutative rings prove that the image of `tr_M(id)` in `R_𝔭`
-is `Module.rankAtStalk M 𝔭` for every prime `𝔭`; and that `tr_M f` is nilpotent when `f` is
-nilpotent (Stacks Tag 02DU, Exercise 111.22.6, the trace of an endomorphism of a finite locally
+`contractLeft(φ ⊗ m) = φ(m)`. This trace is Tau Ceti's `_root_.LinearMap.projectiveTrace`
+(`TauCeti/LinearAlgebra/Trace/Projective.lean`), defined over commutative semirings, with
+`_root_.LinearMap.projectiveTrace_dualTensorHom` (`tr(dualTensorHom φ m) = φ m`), `_root_.LinearMap.projectiveTrace_eq_trace` (for
+`M` free finite it is Mathlib's `LinearMap.trace R M`, hence `Matrix.trace` in any basis),
+`_root_.LinearMap.projectiveTrace_baseChange` (`tr_{R' ⊗ M}(f.baseChange R') = algebraMap R R' (tr_M f)`),
+`_root_.LinearMap.projectiveTrace_prodMap`, `_root_.LinearMap.projectiveTrace_conj`, `_root_.LinearMap.algebraMap_projectiveTrace_id` (the image of
+`tr_M(id)` in `R_𝔭` is `Module.rankAtStalk M 𝔭`) and `_root_.LinearMap.isNilpotent_projectiveTrace_of_isNilpotent`.
+AdicSpacesPartIV, PerfectoidSpaces and EtaleCohomologyFoundations cite `_root_.LinearMap.projectiveTrace`,
+`_root_.LinearMap.projectiveTrace_eq_trace`, `_root_.LinearMap.projectiveTrace_baseChange` and `_root_.LinearMap.projectiveTrace_cyclic` under R3.8:
+these are the Tau Ceti declarations of the same names. Mathlib's `LinearMap.trace R M` agrees with
+it when `M` is free but is defined to be `0` when `M` has no finite basis, so it is not the trace
+of a finite projective non-free module. The same construction `contractLeft ∘ dualTensorHomEquiv⁻¹`
+in the almost category is PerfectoidSpaces layer P0 (P0.12), the almost-ring version of this
+target. The target here is the comparison: prove that the scalar categorical trace, evaluated at
+`1`, is `LinearMap.projectiveTrace R M` (Stacks Tag 02DU, Exercise 111.22.6, the trace of an endomorphism of a finite locally
 free, equivalently finite projective, module; Stacks Tag 0BVH, §49.3, the sheaf version for
 finite locally free modules; KL15 §1.1, Def. 1.1.2, p. 11, finite projective modules as the
 setting).
@@ -11925,23 +11517,20 @@ setting).
 `TauCeti/Algebra/Category/ModuleCat/FiniteProjective/Dualizable.lean`;
 AlgebraicVectorBundles L0B for the affine comparison with finite locally free sheaves;
 Mathlib `dualTensorHomEquiv`, `contractLeft`, `LinearMap.trace`,
-`_root_.LinearMap.trace_eq_contract`, `Module.Projective`, `Module.rankAtStalk`. Lean:
-`LinearMap.projectiveTrace`, `LinearMap.projectiveTrace_eq_trace`,
-`LinearMap.projectiveTrace_baseChange`, `LinearMap.projectiveTrace_eq_categoricalTrace` and
-`LinearMap.projectiveTrace_nonfree`; the latter states the nonfree Check below. The other clauses
-and Checks are specified in this README only.
+`_root_.LinearMap.trace_eq_contract`, `Module.Projective`, `Module.rankAtStalk`; Tau Ceti
+`_root_.LinearMap.projectiveTrace`. Lean: `LinearMap.projectiveTrace_eq_categoricalTrace`; the Checks are
+specified in this README only.
 
 **Checks.**
 
-- `LinearMap.projectiveTrace_nonfree` (non-example) — for `R = ℚ × ℚ` and `M = ℚ × 0`,
-  `projectiveTrace R M id = (1, 0)`, while Mathlib's `LinearMap.trace R M id = 0` because `M` has
-  no finite basis; the Mathlib trace is not the trace of a finite projective module.
-- (computation) — for `M = R²` and `f` with matrix
-  `[[a, b], [c, d]]`, `projectiveTrace R M f = a + d`.
-- (degenerate) — for `M = 0` the trace is `0`; for
-  `M = R`, `projectiveTrace R R f = f 1`.
-- (compatibility) — if `M` is free and finite,
-  `projectiveTrace R M = LinearMap.trace R M`.
+- (non-example) — for `R = ℚ × ℚ` and `M = ℚ × 0`, the categorical trace of the identity evaluated
+  at `1` is `(1, 0)`, the rank of `M` at the two primes, which is `LinearMap.projectiveTrace R M id`
+  (computed in `TauCeti/Examples/LinearAlgebra/Trace/Projective.lean`), while Mathlib's
+  `LinearMap.trace R M id = 0` because `M` has no finite basis: the comparison cannot be stated
+  with the Mathlib trace.
+- (computation) — for `M = R²` and `f` with matrix `[[a, b], [c, d]]`, coevaluation, `f`, the
+  symmetry and evaluation give multiplication by `a + d` on the unit.
+- (degenerate) — for `M = 0` the categorical trace is `0`; for `M = R` it is evaluation `f ↦ f 1`.
 
 **The trace of a finite locally free algebra.** (*finite-locally-free-algebra-trace*) Let `R` be a
 commutative ring and `B` a commutative `R`-algebra which is finitely generated and projective as
@@ -11954,9 +11543,9 @@ factor: for `B = R × R` it is the dot product, `Tr((x₁, x₂)(y₁, y₂)) = 
 `B = 0` (rank `0`) the trace and the form are `0`. It is not defined as a sum
 over geometric points: for `B = k[x]/(x²)`, `Tr(1) = 2` although `Spec B` has one geometric point.
 In `Algebra`, define `projectiveTrace` as `Tr_{B/R} : B →ₗ[R] R` and `projectiveTraceForm` as the
-bilinear form `(x, y) ↦ Tr(xy)`, the compatibility spellings for Mathlib #44636's
-`Algebra.trace` and `Algebra.traceForm` on finite projective algebras. Use that standard API
-for the Tau Ceti construction. Prove that this form is symmetric; prove that
+bilinear form `(x, y) ↦ Tr(xy)`, the forms of Mathlib's `Algebra.trace` and `Algebra.traceForm`
+for finite projective algebras, which agree with them on free ones. Prove that this form is
+symmetric; prove that
 `projectiveTrace R B b = LinearMap.projectiveTrace R B (lmul R B b)` (the definition); that for
 `B` free and finite `projectiveTrace R B = Algebra.trace R B`; that `Tr(algebraMap r) = r · Tr(1)`
 and the image of `Tr(1)` in `R_𝔭` is `rank_𝔭 B`; base change along `R → R'` (stated as
@@ -12011,10 +11600,10 @@ be a homomorphism of commutative rings, `M` a finite projective `R`-module, `f �
 Lem. 49.3.1, base change of the trace used to reduce to fibres). For `R = ℤ → R' = 𝔽_p` and
 `B = ℤ[i]`, `Tr_{𝔽_p[i]/𝔽_p}(1) = 2 mod p`; for `R → R_𝔭` the lemma gives the localisation API
 of the algebra trace. For `M` free and finite the module statement is Mathlib's
-`_root_.LinearMap.trace_baseChange`; the projective case is new. *Needs:* *projective-trace-realization*;
-*finite-locally-free-algebra-trace*; Mathlib `dualTensorHomEquiv`, `contractLeft`,
-`_root_.LinearMap.trace_baseChange`. Lean: the module statement is
-`LinearMap.projectiveTrace_baseChange`; the algebra statement is `Algebra.projectiveTrace_baseChange`.
+`_root_.LinearMap.trace_baseChange`, and for `M` finite projective it is Tau Ceti's
+`_root_.LinearMap.projectiveTrace_baseChange`; the algebra statement is the target here. *Needs:*
+*finite-locally-free-algebra-trace*; Tau Ceti `_root_.LinearMap.projectiveTrace_baseChange`; Mathlib
+`_root_.LinearMap.trace_baseChange`. This target is specified in this README only.
 
 Prove the transitivity of the finite projective trace in towers (*algebra-trace-transitivity*):
 let `R → B → C` be homomorphisms of commutative rings with `B` finite projective over `R` and `C`
@@ -12038,13 +11627,16 @@ criterion; Stacks Tag 0BJF, Lem. 49.3.1, the scheme form; Stacks Tag 0BIL, Lem. 
 case). For `ℚ(√2)/ℚ` the trace form has Gram matrix `diag(2, 4)` in the basis `1, √2`, perfect;
 for `k[x]/(x²)`, `x` is in the kernel of the pairing and the algebra is not étale; for `S = R`
 the pairing is `(x, y) ↦ xy`, perfect, and for `S = 0` (étale, `Spec 0 = ∅`) it is the bijection
-`0 → 0`. The field case is Mathlib's `_root_.Algebra.traceForm_nondegenerate` and
-`traceForm_nondegenerate_tfae`; the statement over an arbitrary commutative ring is new, and its
-almost version is PerfectoidSpaces layer P0 (P0.15).
+`0 → 0`. The field case is Tau Ceti's `TauCeti.Algebra.etale_iff_traceForm_nondegenerate` and
+the finite free case is `TauCeti.Algebra.etale_iff_isUnit_discr`; the finite projective case,
+reduced to the free one by localising at primes with
+`TauCeti.Algebra.isUnit_discr_localization_iff`, is new, and its almost version is
+PerfectoidSpaces layer P0 (P0.15).
 *Needs:*
-*finite-locally-free-algebra-trace*; *algebra-trace-base-change*; Mathlib `Algebra.Etale`,
-`Algebra.Etale.iff_exists_algEquiv_prod`, `traceForm_nondegenerate`,
-`traceForm_nondegenerate_tfae`. Lean: `Algebra.etale_iff_projectiveTraceForm_bijective` (`S` is
+*finite-locally-free-algebra-trace*; *algebra-trace-base-change*; Tau Ceti
+`TauCeti.Algebra.etale_iff_traceForm_nondegenerate`, `TauCeti.Algebra.etale_iff_isUnit_discr`,
+`TauCeti.Algebra.isUnit_discr_localization_iff`; Mathlib `Algebra.Etale`,
+`Algebra.Etale.iff_exists_algEquiv_prod`. Lean: `Algebra.etale_iff_projectiveTraceForm_bijective` (`S` is
 étale iff `projectiveTraceForm`, read as the map `S → Hom_R(S, R)`, is bijective); the
 characteristic-two Check of `Algebra.projectiveTraceForm` is specified in this README only.
 
@@ -12094,9 +11686,8 @@ SchemeAndStackFoundations Layer 2 (§2.19, §2.21, `trace`); Mathlib `AlgebraicG
 `AlgebraicGeometry.Flat`, `AlgebraicGeometry.LocallyOfFinitePresentation`,
 `AlgebraicGeometry.Scheme.Modules`, `Scheme.Hom.finrank`.
 
-AutomorphicBundles B5.1 is a consumer of this scheme trace and its unit, composition and
-arbitrary-base-change laws. Its scheme-level `finiteLocallyFreeTrace` denotes this
-`AlgebraicGeometry.Scheme.Hom.finiteTrace`, by import or transparent alias; its coefficient
+AutomorphicBundles §12.1 consumes this scheme trace and its unit, composition and
+arbitrary-base-change laws through `AlgebraicGeometry.Scheme.Hom.finiteTrace`; its coefficient
 projection-formula and stack-descent adapters belong to AutomorphicBundles.
 
 The declaration `AlgebraicGeometry.Scheme.Hom.finiteTrace_baseChange` gives the
@@ -12112,21 +11703,21 @@ The algebra trace and the trace-pairing map are zero. The counit
 `Hom(B,𝔽₂) → 𝔽₂` is nonzero: the coefficient functional with `λ(1) = 1`,
 `λ(ε) = 0` maps to `1`. Their composite is the zero algebra trace.
 
-- `AlgebraicGeometry.Scheme.Hom.finiteTrace_test_double_cover` (computation) — for
+- *AlgebraicGeometry.Scheme.Hom.finiteTrace_test_double_cover* (computation) — for
   `π : Spec k[t][x]/(x² − t) → Spec k[t]`, `Γ(Tr_π)(a + bx) = 2a`.
-- `AlgebraicGeometry.Scheme.Hom.finiteTrace_test_ramified` (non-example) — for the same `π` and
+- *AlgebraicGeometry.Scheme.Hom.finiteTrace_test_ramified* (non-example) — for the same `π` and
   `char k ≠ 2`, the fibre over `t = 0` has one geometric point but `Tr_π(1)(0) = 2`: the trace is
   not the sum over geometric points of fibres.
-- `AlgebraicGeometry.Scheme.Hom.finiteTrace_test_id` (degenerate) — `Tr_{id_Y} = id` and `Tr` for
+- *AlgebraicGeometry.Scheme.Hom.finiteTrace_test_id* (degenerate) — `Tr_{id_Y} = id` and `Tr` for
   the empty scheme over `Y` is `0`.
-- `AlgebraicGeometry.Scheme.Hom.finiteTrace_test_affine_free` (compatibility) — for `Y = Spec A`
+- *AlgebraicGeometry.Scheme.Hom.finiteTrace_test_affine_free* (compatibility) — for `Y = Spec A`
   and `X = Spec B` with `B` free over `A`, `Γ(Y, Tr_π) = Algebra.trace A B`.
 
 **Checks for the scheme trace pairing.**
 
-- `Scheme.Hom.traceForm.test_id`: for the identity morphism, the pairing on `V` is `xy`.
-- `Scheme.Hom.traceForm.test_empty`: for the empty finite cover, the pairing is zero.
-- `Scheme.Hom.traceForm.test_affine`: on an affine open, it is the projective algebra trace
+- *Scheme.Hom.traceForm.test_id*: for the identity morphism, the pairing on `V` is `xy`.
+- *Scheme.Hom.traceForm.test_empty*: for the empty finite cover, the pairing is zero.
+- *Scheme.Hom.traceForm.test_affine*: on an affine open, it is the projective algebra trace
   pairing. This identifies both scalar actions and fixes the normalisation.
 
 **Finite locally free morphisms of adic spaces.** (*finite-locally-free-morphism*) A morphism of
@@ -12192,19 +11783,19 @@ and `finiteDegree_double` gives two for a direct image isomorphic to `O²`.
   `RingHom.Finite` uses the scalar action induced by this homomorphism
   (`Mathlib/RingTheory/Finiteness/Defs.lean`). That action factors through `k`, while
   `1,z,z²,…` are linearly independent over `k`.
-- `IsFiniteLocallyFree_power_map` (computation) — `f : Spa(K⟨z⟩) → Spa(K⟨w⟩)`,
+- *IsFiniteLocallyFree_power_map* (computation) — `f : Spa(K⟨z⟩) → Spa(K⟨w⟩)`,
   for `n ≥ 1`, `w ↦ zⁿ` is finite locally free of degree `n` (basis `1, z, …, z^{n−1}`); it is étale exactly
   away from `w = 0` when `n ≥ 2` and `char K ∤ n` (always when `char K = 0`, whatever the residue
   characteristic `p`), the discriminant being `± nⁿ w^{n−1}`, and nowhere étale when
   `char K ∣ n`. For `n = 1` it is the identity and is étale everywhere. For `n = 0`
   the map `w ↦ 1` is not finite: its fibre at `w = 1` is the whole disc.
-- `IsFiniteLocallyFree_closed_point` (non-example) — the closed immersion
+- *IsFiniteLocallyFree_closed_point* (non-example) — the closed immersion
   `Spa(K) → Spa(K⟨w⟩)` of the origin is finite but `f_*𝒪 = (K⟨w⟩/(w))~` is not locally free.
   Evaluation at zero defines the morphism in the example
   (Conrad-RA, Corollary 2.2.8, p. 12; KL15, Theorem 2.7.7, p. 58).
-- `IsFiniteLocallyFree_id_empty` (degenerate) — `id_X` is finite locally free of
+- *IsFiniteLocallyFree_id_empty* (degenerate) — `id_X` is finite locally free of
   degree `1`; `∅ → X` is finite locally free of degree `0`.
-- `IsFiniteLocallyFree_analytification` (compatibility) — for a finite locally
+- *IsFiniteLocallyFree_analytification* (compatibility) — for a finite locally
   free morphism `π` of `K`-schemes locally of finite type, `π^an` is finite locally free of the
   same degree.
 
@@ -12241,7 +11832,7 @@ over geometric points of fibres unless
 (`Tr_f ∘ f^♯ = degree · id`), `finiteTrace_linear` (`Tr_f(f^♯(a) · s) = a · Tr_f(s)`, a simp
 lemma), `finiteTrace_baseChange` (base change; stated as *trace-base-change-composition* below),
 `finiteTrace_comp` (`Tr_{g∘f} = Tr_g ∘ g_*(Tr_f)`; stated as *trace-base-change-composition* below)
-and `finiteTrace_test_split` and `finiteTrace_affine_split` (for `Y = ⊔_{i=1}^d X`
+and *finiteTrace_test_split* and `finiteTrace_affine_split` (for `Y = ⊔_{i=1}^d X`
 the trace is the sum map on every affinoid chart) (BHW §10.1, Def. 10.2, p.
 1789, the analytic trace of a finite locally free map as used for Hecke operators; Stacks Tag 0BVH,
 §49.3, the trace is the algebra trace over affine, here affinoid, opens; Stacks Tag 03SH, §59.66,
@@ -12272,22 +11863,22 @@ for an empty source; `finiteTraceForm_identity` is multiplication `s t`;
 
 **Checks.**
 
-- `AdicSpace.finiteTrace_test_power_map` (computation) — for `n ≥ 1` and `f : z ↦ zⁿ = w` on the closed disc,
+- *AdicSpace.finiteTrace_test_power_map* (computation) — for `n ≥ 1` and `f : z ↦ zⁿ = w` on the closed disc,
   for every `k ≥ 0`, `Tr_f(zᵏ) = n·w^{k/n}` if `n` divides `k` and `0` otherwise.
   The statement evaluates `finiteTrace f hf` on an affinoid open, using an
   `A`-algebra equivalence of its inverse-image sections with `A[z]/(zⁿ-w)`.
   `finiteTrace_power_map_identity` checks `n = 1` and `finiteTrace_power_map_characteristic`
   checks that this sheaf trace is zero for `n = char A = p`.
-- `finiteTrace_ramified` (non-example) — for `f : z ↦ z²` at the point `w = 0`,
+- *finiteTrace_ramified* (non-example) — for `f : z ↦ z²` at the point `w = 0`,
   the fibre has one geometric point but `Tr_f(1)(0) = 2`; defining `Tr_f(s)(x) = Σ_{y ↦ x} s(y)`
   is wrong at ramified points.
-- `finiteTrace_id` (degenerate) — `Tr_{id_X} = id` and for `∅ → X` the trace is
+- *finiteTrace_id* (degenerate) — `Tr_{id_X} = id` and for `∅ → X` the trace is
   `0`.
-- `AdicSpace.finiteTrace_test_split` (characterisation) — for `Y = ⊔_{i=1}^d X → X`,
+- *AdicSpace.finiteTrace_test_split* (characterisation) — for `Y = ⊔_{i=1}^d X → X`,
   `Tr_f(s₁, …, s_d) = Σ s_i`. The section algebra is identified with `Fin d → A`
   by an `A`-algebra equivalence, using the scalar action induced by `f`.
   `finiteTrace_split_empty` evaluates the actual trace of the empty analytic cover.
-- `AdicSpace.finiteTrace_test_algebraic` (compatibility) — for `π` finite locally free between
+- *AdicSpace.finiteTrace_test_algebraic* (compatibility) — for `π` finite locally free between
   `K`-schemes locally of finite type, `Tr_{π^an} = (Tr_π)^an`
   (stated as *analytic-algebraic-trace-compatibility* below).
 
@@ -12418,32 +12009,31 @@ in Mathlib `SheafOfModules.pullback`.
 
 **Checks for pullback associativity.**
 
-- `modulePullbackCompIso_zero`: the comparison on zero coefficients is zero.
-- `modulePullbackCompIso_identity`: two identity pullbacks preserve every unit generator.
-- `modulePullbackCompIso_unit`: the structure-sheaf generator one becomes the iterated unit of one.
+- *modulePullbackCompIso_zero*: the comparison on zero coefficients is zero.
+- *modulePullbackCompIso_identity*: two identity pullbacks preserve every unit generator.
+- *modulePullbackCompIso_unit*: the structure-sheaf generator one becomes the iterated unit of one.
 
 **Checks for coefficient traces and correspondence operators.**
 
-- `finiteTraceWithCoefficients_identity`: the identity trace fixes every pulled-back section.
-- `finiteTraceWithCoefficients_zero`: zero coefficients give the zero map.
-- `finiteTraceWithCoefficients_rankTwo`: trace after the unit is multiplication by two for constant rank two, also in characteristic two.
-- `Correspondence_identity`, `Correspondence.pullIdentifyTrace_identity`: the identity correspondence acts identically in every degree.
-- `Correspondence_empty`, `Correspondence.pullIdentifyTrace_empty`: empty correspondences act by zero.
-- `Correspondence_rankTwo`, `Correspondence.pullIdentifyTrace_rankTwo`: for equal legs of constant rank two and identity coefficient map, the operator is multiplication by two, including ramified covers.
-- `Correspondence.pullIdentifyTrace_split`: on the two-summand correspondence with second leg an endomorphism `σ`, a function `s` maps to `s + σ*s`.
+- *finiteTraceWithCoefficients_identity*: the identity trace fixes every pulled-back section.
+- *finiteTraceWithCoefficients_zero*: zero coefficients give the zero map.
+- *finiteTraceWithCoefficients_rankTwo*: trace after the unit is multiplication by two for constant rank two, also in characteristic two.
+- *Correspondence.pullIdentifyTrace_identity*: the identity correspondence acts identically in every degree.
+- *Correspondence_empty*, *Correspondence.pullIdentifyTrace_empty*: empty correspondences act by zero.
+- *Correspondence_rankTwo*, *Correspondence.pullIdentifyTrace_rankTwo*: for equal legs of constant rank two and identity coefficient map, the operator is multiplication by two, including ramified covers.
 
 **Checks.**
 
-- `Correspondence.pullIdentifyTrace_split` (computation) — for `C = X ⊔ X`, `p = id ⊔ id`,
+- *Correspondence.pullIdentifyTrace_split* (computation) — for `C = X ⊔ X`, `p = id ⊔ id`,
   `q = id ⊔ σ` and `E = 𝒪` with `φ` canonical, `T(s) = s + σ*s` on `H⁰`.
-- `Correspondence_identity` (degenerate) — for `C = X = Y`, `p = q = id` and
+- *Correspondence_identity* (degenerate) — for `C = X = Y`, `p = q = id` and
   `φ = id`, `T` is the identity on every `Hⁱ`; for `C = ∅` (`p` finite locally free of degree
   `0`, `p_*𝒪_C = 0`) `T = 0`.
-- `Correspondence_ramified_count` (non-example) — for `X = Y = disc`, `C = disc`,
+- *Correspondence_ramified_count* (non-example) — for `X = Y = disc`, `C = disc`,
   `p : z ↦ z²`, `q : z ↦ z²` and trivial coefficients, `T(1) = Tr_p(1) = 2` everywhere, including
   at `0` where the `p`-fibre has one geometric point; "sum over geometric points of the fibre"
   gives `1` at `0`.
-- `Correspondence_algebraic` (compatibility) — for an algebraic correspondence of
+- *Correspondence_algebraic* (compatibility) — for an algebraic correspondence of
   `K`-schemes locally of finite type with `p` finite locally free, `T(C^an, φ^an)` on
   `Hⁱ(Y^an, E_Y^an)` is the analytification of the algebraic operator
   (*analytic-algebraic-trace-compatibility* and the GAGA comparison maps).
@@ -12494,21 +12084,21 @@ Thm 1.2.1, the nonempty compact spectrum; Berkovich Thm 1.3.1, the spectral-semi
 KL15 §2.3, Def. 2.3.2 and Thm 2.3.4, p. 34;
 Thm 2.3.10, p. 35; Rem. 2.3.11(b), p. 36). *Needs:* *tate-ring-norm* (PadicFunctionalAnalysis §0.4);
 *spectral-seminorm* (AdicSpacesPartII layer R0). Lean: `Huber.GelfandSpectrum` with its topology,
-`GelfandSpectrum.compactSpace_nonempty`, `GelfandSpectrum.smoothingFun_eq_sSup`,
-`GelfandSpectrum.test_padic`, `GelfandSpectrum.test_zero_ring` and `GelfandSpectrum.test_dualNumbers`.
-The nilpotent-value Check is a proved Lean example; functoriality and the other Checks are
-specified in this README only.
+`GelfandSpectrum.compactSpace_nonempty` (compact, Hausdorff, and nonempty for `A ≠ 0`) and
+`GelfandSpectrum.smoothingFun_eq_sSup`; functoriality and the Checks are specified in this README
+only. DiamondsAndVStacks cites the Checks *GelfandSpectrum.test_padic* and
+*GelfandSpectrum.test_zero_ring* below by these labels.
 
 **Checks.**
 
-- `Huber.GelfandSpectrum.test_padic` (computation, `ℚ_p`) — `M(ℚ_p)` is a single point, the `p`-adic absolute
+- *GelfandSpectrum.test_padic* (computation, `ℚ_p`) — `M(ℚ_p)` is a single point, the `p`-adic absolute
   value.
 - (characterisation, Gauss point) — for a complete nonarchimedean field
   `K` with nontrivial valuation, the Gauss norm on
   `MvPowerSeries.IsRestricted.subring (fun _ : Fin n ↦ 1)` is a point of `M(K⟨X₁,…,Xₙ⟩)` at which the maximum `max_{α ∈ M(K⟨X⟩)} α(f)` is
   attained for every `f`. Use the pinned Gauss norm, multiplicativity and completeness in
   `TauCeti/RingTheory/MvPowerSeries/TateAlgebra/Basic.lean` for this Check.
-- `Huber.GelfandSpectrum.test_dualNumbers` (non-example, nilpotent) — the spectral seminorm of a nilpotent element
+- *GelfandSpectrum.test_dualNumbers* (non-example, nilpotent) — the spectral seminorm of a nilpotent element
   is `0` while its norm need not be, so the norm of `A` is not in general a point of `M(A)` and
   the spectral seminorm is not the norm: for `A = K[ε]/(ε²)` with the supplied
   `TrivSqZeroExt` norm `‖a + bε‖ = |a| + |b|` (equivalent to the maximum norm),
@@ -12521,7 +12111,7 @@ specified in this README only.
 - (negative control, constant one) — on the zero ring the constant
   function `α = 1` is multiplicative and has `α(1) = 1`. On the dual numbers it also has
   `α(ε) = 1`. Both fail the seminorm axiom `α(0) = 0`, which is essential in the two checks.
-- `Huber.GelfandSpectrum.test_zero_ring` (degenerate, zero ring) — `M(0) = ∅` (no seminorm has `α(1) = 1` when
+- *GelfandSpectrum.test_zero_ring* (degenerate, zero ring) — `M(0) = ∅` (no seminorm has `α(1) = 1` when
   `1 = 0` and `α(0) = 0`), compact, and `lim ‖0ⁿ‖^{1/n} = 0 = max_∅`; for `A = ℚ_p` the spectral seminorm of a
   nonzero `x` is `|x|_p ≠ 0`, so nonemptiness needs `A ≠ 0` and nothing more.
 
@@ -12591,11 +12181,12 @@ and `pullback`, `HomologicalComplex₂`, `Module.Flat`, `Module.Projective`,
 `AlgebraicGeometry.LocallyOfFinitePresentation`, `AlgebraicGeometry.Scheme.Modules` and
 `Scheme.Hom.finrank`; Tau Ceti `ValuationSpectrum.spa`, `ValuationSpectrum.rationalSubset`,
 `Huber.PairOfDefinition.completionLocObj`, `Huber.PairOfDefinition.flat_toCompletionLoc`,
-`Huber.IsStronglyNoetherian`, `Huber.IsTateRing` with `isOpenMap` and `isModuleTopology`,
+`Huber.IsStronglyNoetherian`, `Huber.IsTateRing` with `IsTateRing.isOpenMap_linearCombination` and `IsTateRing.isModuleTopology`,
 `Huber.IsUniform`, `Huber.IsStablyUniform`, `Huber.IsSheafyForEveryPresentation`,
 `isSheaf_presentationLimitPresheaf_of_isStronglyNoetherian`, `quasiIso_cechAugmentation_iff`,
 `TauCeti.ValuationSpectrum.isSheaf_iff_isSheafFor_rationalCover`,
-`TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset_of_isTateRing`,
+`TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset`,
+`TauCeti.ValuationSpectrum.exists_span_eq_top_forall_rationalSubset_subset_of_isOpen_of_iUnion_eq_univ`,
 `TauCeti.Huber.laurentCoverDiff_surjective`, `TauCeti.ValuationSpectrum.laurentCover_surjective`,
 `IsOpenQuotientMap.isStronglyNoetherian`,
 `Huber.Pair.Hom.isClosedEmbedding_spaComap_quotientHom`, `ValuationSpectrum.closedPolydisc`,
@@ -12638,7 +12229,7 @@ residue discs of R2.
 - [Zavyalov-Q] Bogdan Zavyalov, *Quotients of admissible formal schemes and adic spaces by finite groups*, arXiv:2102.02762v2 (7 June 2023); published in Algebra & Number Theory 18(3) (2024) 409–475. https://arxiv.org/abs/2102.02762
 - [Scholze13] Peter Scholze, *p-adic Hodge theory for rigid-analytic varieties*, arXiv:1205.3463v2 (3 Nov 2012) (Forum Math. Pi 1 (2013)). https://arxiv.org/abs/1205.3463
 - [FK] Kazuhiro Fujiwara, Fumiharu Kato, *Foundations of Rigid Geometry I*, arXiv:1308.4734v5 (28 Feb 2017). https://arxiv.org/abs/1308.4734
-- [BHW] Christopher Birkbeck, Ben Heuer, Chris Williams, *Overconvergent Hilbert modular forms via perfectoid modular varieties*, Annales de l'Institut Fourier **73** (2023), no. 4, 1709–1794. DOI: [10.5802/aif.3560](https://doi.org/10.5802/aif.3560). https://aif.centre-mersenne.org/item/10.5802/aif.3560.pdf
+- [BHW] Christopher Birkbeck, Ben Heuer, Chris Williams, *Overconvergent Hilbert modular forms via perfectoid modular varieties*, Annales de l'Institut Fourier **73** (2023), no. 4, 1709–1794. DOI: [10.5802/aif.3560](https://doi.org/10.5802/aif.3560). https://aif.centre-mersenne.org/item/10.5802/aif.3560.pdf Page numbers marked "author version" refer to the author version, [arXiv:1902.03985v4](https://arxiv.org/abs/1902.03985v4).
 - [DLLZ-A] Hansheng Diao, Kai-Wen Lan, Ruochuan Liu, Xinwen Zhu, *Logarithmic adic spaces: some foundational results*, arXiv:1912.09836v2 (30 Oct 2022); PDF page = printed page. https://arxiv.org/abs/1912.09836v2
 - [Conrad-IC] Brian Conrad, *Irreducible components of rigid spaces*, Ann. Inst. Fourier 49 (1999); author PDF irredpaper.pdf. https://math.stanford.edu/~conrad/papers/irredpaper.pdf
 - [Zavyalov24] Bogdan Zavyalov, *Some foundational results in adic geometry*, arXiv:2409.15516v2 (17 Jul 2025). https://arxiv.org/abs/2409.15516
