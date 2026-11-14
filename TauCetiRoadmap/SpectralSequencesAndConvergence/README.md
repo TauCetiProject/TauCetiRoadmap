@@ -68,7 +68,8 @@ It leaves to named owners:
   an isomorphism, and the comparison theorem of 5.4 holds in every abelian category with exact
   sequential colimits and asks nothing of the graded pieces in the exhaustive direction, where
   Tau Ceti's `CochainComplex.isIso_homologyMap_of_isIso_spectralSequence_page_of_exhaustive` is
-  for complexes of modules whose graded pieces beyond a bound have vanishing cohomology.
+  for complexes of modules whose graded pieces beyond a bound have vanishing cohomology; its
+  hypothesis at the bounded end is Tau Ceti's.
 - **DGFloer, Layer 1 item 3**: the homological and cohomological adapters for filtered complexes
   of modules over a ring, Weibel's classical convergence theorem 5.5.1(2) and the complete
   convergence theorem 5.5.10 for module complexes. This roadmap's abelian-category theorems
@@ -1409,19 +1410,22 @@ statement only 4.4 (`HasConvergenceBounds`) and these Tau Ceti declarations.
 ### 5.4 Classical convergence for exhaustive filtrations bounded below
 
 Let `C` have exact sequential colimits. Suppose that for each `n ∈ I` the filtration is
-exhaustive on `K^{n−1}` and `K^n` (the steps have least upper bound `⊤`), and bounded below on
-`K^n` and `K^{n+1}` (`F^s K^m = 0` for `s ≥ p₀(n)`). Prove that the spectral sequence of 5.1 is
-regular at every position of total degree `n`, has a limit page there, and converges strongly in
-degrees `I` to `H^*(K)` with the induced filtration (weibel1994 Theorem 5.5.1, uncertified;
-stacks-012K line 3202–3210, Lemma 24.13, for the variant with hypotheses on `H^n(F^s K)`). The
-route, with `G_t = F^{−t}` as in 5.1: bounded below on `K^{n+1}` gives `Z_r = Zᵗ` for large `r`
-(4.3's cycle side), so the sequence is regular there and `Z_∞` exists. `B_∞` exists and equals
-`Bᵗ` by 4.3's continuity at `⊤`: exact sequential colimits and exhaustiveness on `K^{n−1}` make
-`colim_j (G_j / G_{q+1}) → K / G_{q+1}` an isomorphism in degree `n − 1` and a monomorphism in
-degree `n`, hence an isomorphism on cycles in degree `n − 1`; cohomology commutes with exact
-sequential colimits, so `colim_j H^{n−1}(G_j / G_{q+1}) → H^{n−1}(K / G_{q+1})` is an epimorphism.
-Exhaustiveness on `K^n` makes the induced filtration of `H^n` exhaustive, and bounded below on
-`K^n` makes it vanish from `p₀(n)` on. *Needs:* 3.2, 4.3, 5.1, 5.2; Mathlib
+exhaustive on `K^{n−1}` and `K^n` (the steps have least upper bound `⊤`), and
+`H^n(F^s K) = H^{n+1}(F^s K) = 0` for `s ≥ p₀(n)`, in particular when the filtration is bounded
+below on `K^n` and `K^{n+1}` (`F^s K^n = F^s K^{n+1} = 0` for `s ≥ p₀(n)`). Prove that the spectral
+sequence of 5.1 is regular at every position of total degree `n`, has a limit page there, and
+converges strongly in degrees `I` to `H^*(K)` with the induced filtration (weibel1994 Theorem
+5.5.1, uncertified, for filtrations bounded below; stacks-012K line 3202–3210, Lemma 24.13, for
+hypotheses on `H^n(F^s K)` at both ends). The route, with `G_t = F^{−t}` as in 5.1: the vanishing
+of `H^{n+1}(F^s K)` gives `Z_r = Zᵗ` for large `r` (4.3's cycle side; stacks-012K line
+3219–3227, in the proof of Lemma 24.13), so the sequence is regular there and `Z_∞` exists.
+`B_∞` exists and equals `Bᵗ` by 4.3's continuity at `⊤`: exact sequential colimits and
+exhaustiveness on `K^{n−1}` make `colim_j (G_j / G_{q+1}) → K / G_{q+1}` an isomorphism in degree
+`n − 1` and a monomorphism in degree `n`, hence an isomorphism on cycles in degree `n − 1`;
+cohomology commutes with exact sequential colimits, so
+`colim_j H^{n−1}(G_j / G_{q+1}) → H^{n−1}(K / G_{q+1})` is an epimorphism.
+Exhaustiveness on `K^n` makes the induced filtration of `H^n` exhaustive, and the vanishing of
+`H^n(F^s K)` makes it vanish from `p₀(n)` on. *Needs:* 3.2, 4.3, 5.1, 5.2; Mathlib
 `HasExactColimitsOfShape`; Mathlib's `AB5` instance for `ModuleCat` and `AB5OfSize_shrink` for
 the module bullet.
 
@@ -1433,8 +1437,9 @@ the module bullet.
 - *Comparison* (`isIso_homologyMap_of_isIso_page_of_exhaustive_of_boundedBelow`; weibel1994
   Theorems 5.2.12 and 5.5.1, uncertified). Let `C` have exact sequential colimits and let `α` be a
   morphism between the functors `CochainComplex.filtrationFunctor` of increasing filtrations
-  `F` of `K` and `G` of `L` (5.1). Fix `n`. Suppose that the stage of index `a` of each filtration
-  vanishes in degrees `n` and `n + 1` (the decreasing filtrations are bounded below there), and that
+  `F` of `K` and `G` of `L` (5.1). Fix `n`. Suppose that the stages of index `i ≤ a` of each
+  filtration have vanishing `H^n` and `H^{n+1}` (in particular when the stage of index `a` vanishes
+  in degrees `n` and `n + 1`, the decreasing filtrations being bounded below there), and that
   in degrees `n − 1` and `n` the images of the degreewise components of the stages have least upper
   bound `⊤` in `Subobject (K.X m)` and `Subobject (L.X m)` (the filtrations are exhaustive there).
   If the morphism of spectral sequences induced by `α` (Tau Ceti `spectralSequenceMap` of
@@ -1451,20 +1456,22 @@ the module bullet.
 - For `ModuleCat.{u} R` with `R : Type u`, exhaustiveness of a filtration of `K^m` by submodules
   means every element lies in some step, and the exhaustiveness step of the route is then Tau
   Ceti's statement. The theorem asks more: on the `ℓ`-adic filtration of the complex `ℤ` in
-  degree `0` the step applies (`F^0 H^0 = H^0`), while the theorem does not, the filtration not
-  being bounded below on `K^0`.
+  degree `0` the step applies (`F^0 H^0 = H^0`), while the theorem does not,
+  `H^0(F^s K) = ℓ^s ℤ` being nonzero for every `s ≥ 0`.
 - *Exhaustiveness on `K^{n−1}` is needed.* The non-exhaustive complex of 4.3 is bounded below
   and exhaustive on `K^0`, but not on `K^{−1}`, which is `K^{n−1}` for `n = 0`; weak convergence
   fails at `(0, 0)` (`E_∞^{0,0} = ℤ`, `H^0(K) = 0`).
-- *Bounded below is needed.* The `ℓ`-adic filtration of the complex `ℤ` in degree `0` is
-  exhaustive and not bounded below. The spectral sequence converges but not strongly (3.2).
+- *The vanishing of `H^n(F^s K)` is needed.* The `ℓ`-adic filtration of the complex `ℤ` in
+  degree `0` is exhaustive, and `H^0(F^s K) = ℓ^s ℤ ≠ 0` for every `s ≥ 0`. The spectral sequence
+  converges but not strongly (3.2).
 - *Comparison.* The inclusion `ℤ → ℤ_ℓ` of complexes in degree `0` with their `ℓ`-adic
   filtrations induces the identity of `ℤ/ℓ` at every position of the first page, and is not an
-  isomorphism on `H^0`: both filtrations are exhaustive and neither is bounded below, so the
-  comparison does not apply. The filtered inclusion of `ℤ` in degree `0` into the non-exhaustive
-  complex of 4.3 (the Check of 4.6) is an isomorphism on every page and not on `H^0`; there the
-  target is not exhaustive in degree `n − 1 = −1`. For the stupid filtrations of `ℤ →(×2) ℤ` and of
-  itself, the identity satisfies every hypothesis with `a = −2`.
+  isomorphism on `H^0`: both filtrations are exhaustive, and `H^0` of their steps `ℓ^s ℤ` and
+  `ℓ^s ℤ_ℓ` is nonzero for every `s ≥ 0`, so the comparison does not apply. The filtered
+  inclusion of `ℤ` in degree `0` into the non-exhaustive complex of 4.3 (the Check of 4.6) is an
+  isomorphism on every page and not on `H^0`; there the target is not exhaustive in degree
+  `n − 1 = −1`. For the stupid filtrations of `ℤ →(×2) ℤ` and of itself, the identity satisfies
+  every hypothesis with `a = −2`.
 
 ### Examples
 

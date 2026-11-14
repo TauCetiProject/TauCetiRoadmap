@@ -37,8 +37,8 @@ Stated here:
   (README 5.3, Stacks Lemma 24.13);
 * the Euler-characteristic identity for a complex whose filtration is finite in each degree and a
   weak Serre class (README 5.3, Stacks Lemma 24.12);
-* the comparison theorem for exhaustive filtrations that vanish termwise below a bound, in an
-  abelian category with exact sequential colimits (README 3.5 with 5.4);
+* the comparison theorem for exhaustive filtrations whose stages below a bound have vanishing
+  `H^n` and `H^{n+1}`, in an abelian category with exact sequential colimits (README 3.5 with 5.4);
 * the characterisation of Tau Ceti's repleteness through `lim¹` of towers with epimorphic
   transitions, and the vanishing of `lim¹` of Mittag–Leffler towers in a replete abelian category
   with countable products (README 7.2).
@@ -270,9 +270,10 @@ theorem sum_negOnePow_homology_eq_sum_negOnePow_page {C : Type u} [Category.{v} 
 /-- **The comparison theorem for exhaustive filtrations bounded below** (README 3.5 with 5.4;
 Weibel, Theorems 5.2.12 and 5.5.1). Let `C` have exact sequential colimits, and let `α` be a
 morphism between the functors of increasing filtrations `F` of `K` and `G` of `L`. Fix a degree
-`n`. Suppose that the stages `F a` and `G a` vanish in degrees `n` and `n + 1` (the decreasing
-filtrations `F^p = F_{-p}` and `G^p = G_{-p}` are bounded below in those degrees), and that in
-degrees `n - 1` and `n` the degreewise images of the stages have least upper bound `⊤` (the
+`n`. Suppose that the stages `F i` and `G i` of index `i ≤ a` have vanishing `H^n` and `H^{n+1}`
+(in particular when `F a` and `G a` vanish in degrees `n` and `n + 1`, that is, when the
+decreasing filtrations `F^p = F_{-p}` and `G^p = G_{-p}` are bounded below in those degrees), and
+that in degrees `n - 1` and `n` the degreewise images of the stages have least upper bound `⊤` (the
 filtrations are exhaustive there). If the morphism of spectral sequences induced by `α` is an
 isomorphism at every position of some page `r ≥ 2`, then `α.app ⊤` induces an isomorphism on
 `H^n`. No bound on the other side of the filtrations is assumed. -/
@@ -282,8 +283,10 @@ theorem isIso_homologyMap_of_isIso_page_of_exhaustive_of_boundedBelow
     (hF : Monotone F) (G : ℤ → Subobject L) (hG : Monotone G)
     (α : CochainComplex.filtrationFunctor F hF ⟶ CochainComplex.filtrationFunctor G hG)
     (n a : ℤ)
-    (hFa : ∀ m : ℤ, n ≤ m → m ≤ n + 1 → IsZero ((F a : CochainComplex C ℤ).X m))
-    (hGa : ∀ m : ℤ, n ≤ m → m ≤ n + 1 → IsZero ((G a : CochainComplex C ℤ).X m))
+    (hFa : ∀ m : ℤ, n ≤ m → m ≤ n + 1 → ∀ i : ℤ, i ≤ a →
+      IsZero ((F i : CochainComplex C ℤ).homology m))
+    (hGa : ∀ m : ℤ, n ≤ m → m ≤ n + 1 → ∀ i : ℤ, i ≤ a →
+      IsZero ((G i : CochainComplex C ℤ).homology m))
     (hFex : ∀ m : ℤ, n - 1 ≤ m → m ≤ n →
       IsLUB (Set.range fun i : ℤ ↦ imageSubobject ((F i).arrow.f m)) ⊤)
     (hGex : ∀ m : ℤ, n - 1 ≤ m → m ≤ n →
