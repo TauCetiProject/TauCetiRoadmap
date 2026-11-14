@@ -204,7 +204,7 @@ For disjoint finite sets `A, B` of unordered, non-diagonal vertex pairs, prove
 
 Give its edge-coordinate independence formulation, including groups of coordinates on
 disjoint sets of pairs. Prove that restriction along an injective map has the smaller native
-binomial law. Include relabeling, complement (`p ↦ 1 - p`), disjoint induced restrictions,
+binomial law (`binomialRandom_map_comap`, for countable carriers). Include relabeling, complement (`p ↦ 1 - p`), disjoint induced restrictions,
 and exact probabilities of any prescribed finite induced graph. Empty patterns, zero or one
 vertex, and `p = 0, 1` are required examples.
 
@@ -385,7 +385,7 @@ Prove the required countability of embedding sets from finite generation and the
 countability of the target carrier. No relation-symbol countability is used here.
 
 Give a theorem over the representative family and the general theorem over Mathlib's
-native `IsFraisse`:
+native `IsFraisse` (`exists_isFraisseLimit_of_isFraisse`):
 
 ```lean
 theorem exists_isFraisseLimit_of_isFraisse
@@ -426,9 +426,9 @@ Given a finitely generated root `A` and actual embeddings
 Mathlib's countably-generated back-and-forth construction.
 
 - If `M` is countably generated and `M, N` form an `IsExtensionPair`, produce
-  `e : M ↪ N` with `e ∘ a_M = a_N`.
+  `e : M ↪ N` with `e ∘ a_M = a_N` (`exists_embedding_comp_eq_of_isExtensionPair`).
 - With countable generation of `N` and the reverse extension property, produce an
-  isomorphism with the same equation.
+  isomorphism with the same equation (`exists_equiv_comp_eq_of_isExtensionPair`).
 
 The supplied root is the initial partial isomorphism. Keep it in the conclusion; do not
 replace it by the unrooted assertion that some isomorphism exists. Do not assume an empty
@@ -471,7 +471,7 @@ Define the witness predicate and `EP_{≤d}` by their actual finite-set
 conditions. Full extension `EP` is the canonical `SimpleGraph.HasExtensionProperty`.
 That predicate omits the condition that the witness lies outside `U`, which adjacency to every
 vertex of `U` already forces in a loopless graph; prove
-`EP ↔ ∀ d, EP_{≤d}` against it. Give monotonicity in the bound,
+`EP ↔ ∀ d, EP_{≤d}` against it (`hasExtensionProperty_iff`). Give monotonicity in the bound,
 isomorphism and complement transport, restriction of requests, and avoidance of an additional
 prescribed finite set. The supplier's `SimpleGraph.HasExtensionProperty.exists_adj_iff`
 (`Combinatorics/SimpleGraph/ExtensionProperty.lean`) gives one witness outside a listed tuple.
@@ -497,7 +497,7 @@ property across it.
 Construct an actual first-order sentence `E_{r,s}` asserting extension for every
 injectively listed `(r + s)`-tuple, with the first `r` entries positive and the last `s`
 negative. Prove its realization equivalence with the finite-set condition, in both
-directions. All coordinates are pairwise distinct in its antecedent; the witness is
+directions (`satisfies_extensionSentence`). All coordinates are pairwise distinct in its antecedent; the witness is
 distinct from all of them. Include `r = 0`, `s = 0`, and `r = s = 0`.
 
 Construct the finite conjunction expressing `EP_{≤d}` and prove the
@@ -544,7 +544,8 @@ tuples.
 `TauCeti.hasExtensionProperty_radoGraph`, `SimpleGraph.HasExtensionProperty.isExtensionPair`,
 `SimpleGraph.HasExtensionProperty.nonempty_iso` and `TauCeti.nonempty_iso_radoGraph_iff`.
 
-Prove that the class of all finite simple graph structures is Fraïssé using Layer 1.
+Prove that the class of all finite simple graph structures (`finiteGraphs`) is Fraïssé using
+Layer 1 (`isFraisse_finiteGraphs`).
 Construct its limit using Layer 2 and prove that it satisfies `EP`. Conversely,
 a countable graph with `EP` has this age and is ultrahomogeneous, hence is the same
 Fraïssé limit. State this converse as `Language.graph.ExtensionProperty.isFraisseLimit_finite_graphs`
@@ -564,13 +565,13 @@ on `ℕ` (bit `i` of `j` can be `1` only when `i < j`):
 
     i ~ j  ⟺  (i < j and bit i of j is 1) ∨ (j < i and bit j of i is 1).
 
-Identify `R` with the constructed Fraïssé limit.
+Identify `R` with the constructed Fraïssé limit (`isFraisseLimit_radoGraph`).
 
 The supplier provides countable uniqueness (`SimpleGraph.HasExtensionProperty.nonempty_iso`), the
 characterization `TauCeti.nonempty_iso_radoGraph_iff` of the countable graphs isomorphic to `R`
 (`ModelTheory/Scott/RandomGraph.lean`) and the extension-pair bridge. Export, in addition, the characterization of `R` as the Fraïssé limit,
 the complement isomorphism, universality for countable graphs, rooted universality into any
-extension-property graph (from Layer 3), and extension of finite induced isomorphisms to
+extension-property graph (from Layer 3; `exists_graphEmbedding_over_root`), and extension of finite induced isomorphisms to
 automorphisms. Give explicit finite graph embeddings, including complete, empty, path and
 cycle graphs.
 
@@ -642,12 +643,12 @@ bridge `(BoundedFormula.toInf φ).qrank = foRank φ`.
 
 For graphs satisfying `EP_{≤d}`, construct the finite-round extension
 strategy starting at two tuples with the same equality and adjacency pattern. If the
-root tuple has length `m` and there are `q ≥ 1` additional rounds, the sufficient budget
+root tuple has length `m` and there are `q ≥ 1` additional rounds, the sufficient budget (`formula_iff_of_extension`)
 is `d = m + q - 1`. When a played vertex repeats an earlier coordinate, reuse its mate; otherwise
 serve the corresponding extension request. This is a tuple-budget bound, not a
 bound ignoring the named root.
 
-In particular, if `G, H` satisfy `EP_{≤d}` and
+In particular (`satisfies_iff_of_extension`), if `G, H` satisfy `EP_{≤d}` and
 `qr(φ) ≤ d + 1`, then
 
     G ⊨ φ  ⟺  H ⊨ φ.
@@ -662,9 +663,11 @@ Handle rank `0` directly, and verify the indexing at ranks `1, 2, 3`.
 `realize_firstOrderAtomicDiagram_iff_sameAtomicType`.
 
 Let `T_R` be the native simple-graph theory together with all `E_{r,s}`.
-Prove that its models are precisely the graph structures with full extension; it has
-no finite models; it is countably categorical; and it is complete. Prove
-`T_R ⊨ φ` if and only if `R ⊨ φ`, so the semantic consequence
+Prove that its models are precisely the graph structures with full extension
+(`model_radoAxioms_iff`); it has
+no finite models; it is countably categorical (`radoAxioms_aleph0_categorical`); and it is
+complete (`radoAxioms_isComplete`). Prove
+`T_R ⊨ φ` if and only if `R ⊨ φ` (`radoAxioms_models_iff`), so the semantic consequence
 closure of this axiom set is `Th(R)`.
 
 Cameron proves countable categoricity (Proposition 11, p. 9) by the back-and-forth argument of
@@ -679,7 +682,8 @@ Prove quantifier elimination for actual first-order formulas, including formulas
 free variables. The meaning of a tuple's diagram is Tau Ceti's atomic-diagram semantics:
 `AtomicIdx.toFormula`, `firstOrderAtomicDiagram` and
 `realize_firstOrderAtomicDiagram_iff_sameAtomicType`, applied to the graph language through the
-instance `Finite (Σ l, Language.graph.Relations l)`, which is a target of this layer. That
+instance `Finite (Σ l, Language.graph.Relations l)`, which is a target of this layer, through the
+equivalence `graphRelationsEquiv` of the graph relation symbols with `Unit`. That
 diagram is a classical finite
 conjunction and is noncomputable, so it supplies the semantics but not the algorithm.
 
@@ -735,17 +739,18 @@ Show that the complete finite diagrams isolate the realized graph types and defi
 automorphism orbits, using equality/disequality as well as adjacency/nonadjacency.
 State isolation in Mathlib's native complete-type space: in `T_R.CompleteType (Fin m)`,
 the basic open `typesWith` associated to a tuple's diagram is the singleton containing
-its `typeOf`. For a diagram `δa`, the native set equation is
+its `typeOf`. For a diagram `δa`, the native set equation
+(`typesWith_firstOrderAtomicDiagram_eq_singleton`) is
 `T_R.typesWith (Formula.equivSentence δa) = {T_R.typeOf a}`.
 Agreement only among tuples already living in `R` does not suffice for
 this target. Prove that every finite tuple's complete type is isolated, establishing
 graph-specific atomicity.
 
 Prove primeness as the existence of an actual elementary embedding of `R` into every
-model of `T_R`. Rooted universality supplies the embedding and QE makes it elementary;
+model of `T_R` (`nonempty_elementaryEmbedding_radoGraph`). Rooted universality supplies the embedding and QE makes it elementary;
 the target model need not be countable. Give the atomicity and primeness statements
 after naming a finite tuple, with the elementary embedding retaining the prescribed
-parameter values.
+parameter values (`exists_elementaryEmbedding_radoGraph_comp_eq`).
 
 **Checks** (`radoAxioms`).
 
@@ -789,7 +794,8 @@ parameter values.
 
 *Needs:* 5.1–5.2.
 
-Prove that each sentence is decided by a finite set of extension axioms, using the
+Prove that each sentence is decided by a finite set of extension axioms (`radoAxiomsUpTo`,
+`radoAxiomsUpTo_models_iff`), using the
 explicit rank theorem. Give the finite-consequence/compactness formulation and its
 agreement with this bound. This is the deterministic finite-consequence API used in
 the probabilistic limit theorem.
@@ -829,9 +835,10 @@ Fix disjoint `U, V` with `|U| = r`, `|V| = s` and put
 `q_{r,s} = p^r (1 - p)^s`.
 For a finite candidate set `C` disjoint from `U ∪ V`, prove that the witness indicators
 are independent Bernoulli variables and the number of witnesses has the native
-binomial law with parameters `|C|` and `q_{r,s}`.
+binomial law with parameters `|C|` and `q_{r,s}` (`witnessProbability`, `witnessCount`,
+`witnessCount_mass`).
 The statement includes exact mass and expectation formulas and the zero-witness
-specialization
+specialization (`no_witness_mass`)
 
     Pr(no witness in C) = (1 - q_{r,s})^|C|.
 
@@ -846,7 +853,8 @@ and the sharper finite-set counting bound with coefficient
 `C(n, r + s) C(r + s, r)`, where `C(n, k)` is the binomial coefficient `Nat.choose n k`.
 Here `(n)_k` is `Nat.descFactorial`, not a binomial coefficient.
 
-For `n ≥ d`, define and prove the rank-budget failure bound
+For `n ≥ d`, define and prove the rank-budget failure bound (`extensionError`,
+`extension_failure_le`)
 
     B_d(n, p) = Σ_{t=0}^{d} Σ_{r=0}^{t} C(n, t) C(t, r) (1 - p^r (1 - p)^(t-r))^(n-t),
     Pr(¬EP_{≤d}(G(n, p))) ≤ B_d(n, p).
@@ -855,12 +863,12 @@ The definition is a finite real sum, with the usual convention `0^0 = 1`; state 
 `n ≥ d` domain on the estimate rather than silently using truncated subtraction as
 a count of available candidates for impossible requests.
 
-Writing `δ = min(p, 1 - p)`, prove for `n ≥ max(1, d)`
+Writing `δ = min(p, 1 - p)`, prove for `n ≥ max(1, d)` (`extensionError_le_exp`)
 
     B_d(n, p) ≤ (d + 1) 2^d n^d exp(-(n - d) δ^d).
 
 Supply nonnegativity, complement symmetry, finite-union bounds and limits. For fixed
-`0 < p < 1`, prove summability in `n` of the failure probabilities and an explicit
+`0 < p < 1`, prove summability in `n` of the failure probabilities (`summable_extensionError`) and an explicit
 `C_{d,p} n^d e^(-c_{d,p} n)` bound for sufficiently large `n`, with `c_{d,p} > 0`.
 The empty request and the absence of candidates are required boundary checks.
 
@@ -904,12 +912,13 @@ StandardDistributions for the binomial law. Layers 7–9 use the failure bounds.
 
 *Needs:* 5.1–5.3; Layer 6.
 
-For `qr(φ) ≤ d + 1` and `n ≥ d`, prove the explicit estimate
+For `qr(φ) ≤ d + 1` and `n ≥ d`, prove the explicit estimate (`sentenceProbability_error`, with
+`radoTruth` the Rado truth value)
 
     |Pr(G(n, p) ⊨ φ) - 𝟙[R ⊨ φ]| ≤ B_d(n, p).
 
 It is uniform over all sentences of the indicated rank. Derive the fixed-`p` zero–one
-law, the equality of the almost-sure theory with `Th(R)` (the semantic
+law (`firstOrder_zero_one`), the equality of the almost-sure theory with `Th(R)` (the semantic
 consequence closure of `T_R`), and independence of this theory from `p ∈ (0, 1)`. The decision map of Layer 5 computes the limiting truth
 value; the rank supplies the error profile. Classical compactness alone is not claimed
 to compute either of them.
@@ -928,14 +937,14 @@ properties and proves these deterministic implications.
 *Needs:* 7.1; Layer 6.
 
 Let `p_n ∈ [0, 1]` and `δ_n = min(p_n, 1 - p_n)`. For each fixed `d ≥ 1`, prove
-bounded-rank convergence whenever
+bounded-rank convergence (`firstOrder_limit_varying_bounded_rank`) whenever
 
     (n - d) δ_n^d - d log(n + 2) → +∞.
 
 The conclusion is Rado-truth convergence for sentences of rank at most `d + 1`.
 Rank at most `1` is treated directly.
 
-For the all-rank theorem, the concrete sufficient condition is
+For the all-rank theorem (`firstOrder_limit_varying`), the concrete sufficient condition is
 
     ∀ a > 0,  n^a δ_n → +∞.
 
@@ -968,7 +977,8 @@ Here `∀^∞ n` means all sufficiently large natural numbers. The threshold
 depends on the sample and the rank bound. There is no one threshold working for all
 first-order sentences.
 
-Prove the varying-parameter version under the all-rank condition of 7.2, and the
+Prove the varying-parameter version under the all-rank condition of 7.2
+(`ae_eventually_all_bounded_rank_varying`), and the
 abstract version under summability of the extension-failure probabilities.
 Instantiate it on the nested initial windows of the native infinite binomial graph.
 
@@ -1003,16 +1013,17 @@ Layers 8–9 use the finite laws and the joint statements.
 *Needs:* 0.2; 4.2 rooted universality; the tuple form of 5.1; Layer 6; 7.1.
 
 For a fixed graph `H` on `Fin m`, condition `G(n, p)` on inducing `H` on the first
-`m` vertices, for `n ≥ m` and `0 < p < 1`. Prove positivity and the exact probability of
+`m` vertices, for `n ≥ m` and `0 < p < 1`. Prove positivity (`rootEvent`, `rootEvent_pos`) and the exact probability of
 this event, and identify the conditional law of the remaining independent edges.
 
 Choose an induced copy of `H` in `R` using rooted universality. For every formula
-`ψ(x₀, …, x_{m-1})`, prove that its conditional limiting truth is the truth in
+`ψ(x₀, …, x_{m-1})`, prove that its conditional limiting truth (`rootedProbability`, `rooted_firstOrder_limit`) is
+the truth (`rootedTruth`) in
 this rooted `R`, independent of the chosen copy. Supply a quantitative bound using the
 tuple version of finite-rank agreement; division by the explicitly positive root-event
 probability gives a valid bound from Layer 6.
 
-Also prove the unconditioned fixed-tuple limit
+Also prove the unconditioned fixed-tuple limit (`firstVertices`, `firstOrder_limit_firstVertices`)
 
     lim_n Pr(G(n, p) ⊨ ψ(0, …, m-1))
       = Σ_{H on Fin m} p^e(H) (1 - p)^(C(m, 2) - e(H)) 𝟙[(R, ā_H) ⊨ ψ].
@@ -1055,14 +1066,19 @@ the sentence zero–one law: it is a formula evaluated at random named vertices.
 Prove each deterministic implication from a fixed extension budget and then its
 asymptotically-almost-sure and joint-eventual forms.
 
-- Every fixed finite graph occurs as an induced subgraph; give a rooted extension
+- Every fixed finite graph occurs as an induced subgraph
+  (`tendsto_binomialRandom_nonempty_embedding`); give a rooted extension
   version over a prescribed finite induced pattern.
-- There are arbitrarily large fixed cliques and independent sets as `n` grows.
+- There are arbitrarily large fixed cliques and independent sets as `n` grows
+  (`tendsto_binomialRandom_not_cliqueFree`).
   State this as one theorem for each fixed size and as an almost-sure joint statement.
-- Every vertex has at least any prescribed fixed number of neighbors and nonneighbors.
+- Every vertex has at least any prescribed fixed number of neighbors and nonneighbors
+  (`tendsto_binomialRandom_le_degree`).
 - The graph and its complement are connected; for fixed interior `p` their diameter
+  (`tendsto_binomialRandom_diam_eq_two`)
   is exactly `2` eventually almost surely.
-- For each fixed natural `k`, vertex connectivity is at least `k` asymptotically almost
+- For each fixed natural `k`, vertex connectivity is at least `k`
+  (`tendsto_binomialRandom_isVertexConnected`) asymptotically almost
   surely. Use Tau Ceti's `SimpleGraph.IsVertexConnected` and its size convention (more than
   `k` vertices). Derive the result by deletion of fewer than `k` vertices and the
   common-neighbor witness property, including the required carrier-size bound.
@@ -1100,7 +1116,7 @@ from GraphConnectivityAndFlows.
 
 For each finite extension request in the native `G(ℕ, p)` law, prove that the
 event of having no witness has probability `0`. Take the countable intersection over
-requests and derive
+requests and derive (`ae_isomorphic_rado`)
 
     Pr(G(ℕ, p) ≅ R) = 1,  0 < p < 1.
 
@@ -1114,24 +1130,25 @@ the finite-window law, and the joint eventual statements from Layer 7.
 and infinite-law extensionality.
 
 Use `sampleGraph_const` and the actual infinite finite-window identities to identify
-the constant-graphon finite and infinite laws with the native binomial laws.
+the constant-graphon finite and infinite laws with the native binomial laws
+(`infiniteSampleLaw_const`).
 Derive the infinite-law equality by the existing cylinder/finite-window measure
 extensionality theorem when necessary.
 
 For a graphon `W` on a probability space with
 `0 < W < 1` almost everywhere with respect to the product measure, prove that its infinite
-sample is almost surely Rado. For almost every fixed root tuple the conditional
+sample is almost surely Rado (`infiniteSampleLaw_ae_rado`). For almost every fixed root tuple the conditional
 extension probability is positive; infinitely many independent outside candidates
 then supply a witness. Handle the exceptional root sets by product-measure/Fubini
 arguments, not a pointwise assertion about an arbitrary representative.
 
 For the stronger hypothesis
 `ε ≤ W ≤ 1 - ε` almost everywhere, with
-`0 < ε ≤ 1/2`, prove
+`0 < ε ≤ 1/2`, prove (`graphon_extension_failure_le`)
 
     Pr(¬EP_{≤d}(G(n, W))) ≤ Σ_{t=0}^{d} C(n, t) 2^t (1 - ε^t)^(n-t)  (n ≥ d).
 
-Derive the finite FO Rado-truth law, uniform rank estimates and arbitrary-coupling
+Derive the finite FO Rado-truth law (`graphon_firstOrder_limit`), uniform rank estimates and arbitrary-coupling
 almost-sure stabilization for these graphon sample laws. The last is
 `graphon_ae_eventually_all_bounded_rank`: for a probability space `(Ξ, ν)` and measurable
 `X n : Ξ → SimpleGraph (Fin n)` with `ν.map (X n) = sampleGraph K n`, and no assumption on the
@@ -1158,8 +1175,9 @@ where finite FO zero–one fails despite almost-sure infinite Rado support.
 Transport the existing dissociation/ergodicity theorem,
 `ergodicSMul_map_toRelationalConfiguration_infiniteSampleLaw`, to measurable events of actual
 graphs. For a fixed graphon, every measurable event invariant under finitely supported
-permutations has probability `0` or `1`. Specialize to the native realization event of
-each FO sentence.
+permutations has probability `0` or `1` (`infiniteSampleLaw_zero_one_of_invariant`). Specialize
+to the native realization event of
+each FO sentence (`infiniteSampleLaw_sentence_zero_one`).
 
 For a graphon-mixture law `∫ P_W dΠ([W])`, prove the measurability of the
 graphon-space satisfaction-probability function and evaluate the existing measure
@@ -1177,7 +1195,7 @@ theorem does not apply to them.
 *Needs:* 9.1–9.2; `tendsto_homDensityFin_infiniteSampleLaw_ae`.
 
 Use the existing graphon sampling strong law, together with the `K₂` homomorphism-density
-normalization, to prove
+normalization, to prove (`windowEdgeDensity`, `ae_windowEdgeDensity`)
 
     2 |E(G ↾ n)| / (n (n - 1)) → p  almost surely under G(ℕ, p).
 
@@ -1226,8 +1244,11 @@ Use the existing `L_{ω₁,ω}` syntax, native FO embedding and realization API:
 `ModelTheory/Infinitary/{Syntax,Semantics}.lean` at `2fd255d99`), evaluated under
 `SimpleGraph.structure`. Construct both of the following sentences and prove their stated semantics.
 
-1. `Θ_R = ⋀_{r,s ∈ ℕ} E_{r,s}` has probability `1` under
-   `G(ℕ, p)` for `0 < p < 1`, and probability `0` on every finite carrier.
+1. `Θ_R = ⋀_{r,s ∈ ℕ} E_{r,s}` (`radoSentenceInf`, holding exactly in the graphs with full
+   extension by `satisfiesInf_radoSentenceInf_iff`) has probability `1`
+   (`binomialRandom_radoSentenceInf`) under
+   `G(ℕ, p)` for `0 < p < 1`, and probability `0` on every finite carrier
+   (`binomialRandom_radoSentenceInf_of_finite`).
    This refutes extending the Rado-truth identification to arbitrary infinitary
    sentences. Its finite probabilities do converge to a zero–one value, namely `0`.
    Tau Ceti's Scott sentence of `R` already characterizes the extension property in every
@@ -1238,7 +1259,8 @@ Use the existing `L_{ω₁,ω}` syntax, native FO embedding and realization API:
 2. Construct first-order `CardEq(m)`, including `m = 0`, and
    `Θ_even = ⋁_{m ∈ ℕ} CardEq(2m)`.
    On the finite carrier `Fin n`, its probability is exactly `1` for even `n` and
-   `0` for odd `n`, for every `p`. This sequence has no limit.
+   `0` for odd `n`, for every `p` (`binomialRandom_evenSentenceInf`). This sequence has no limit
+   (`not_tendsto_binomialRandom_evenSentenceInf`).
 
 These are separate assertions: mismatch with infinite truth and genuine failure of
 finite-probability convergence. Neither is a failure of the FO theorem.
@@ -1295,7 +1317,9 @@ Assume every descending-factorial moment is finite and
     ∫ (x)_k dν_n(x) → λ^k  for every k ∈ ℕ,  λ ≥ 0.
 
 Prove convergence of each point mass to the native Poisson mass
-`e^(-λ) λ^j / j!`, convergence in distribution and total variation convergence.
+(`poisson_pointMass_limit_of_factorial_moments`)
+`e^(-λ) λ^j / j!`, convergence in distribution and total variation convergence
+(`poisson_totalVariation_limit_of_factorial_moments`).
 The proof can use finite Bonferroni bounds for `Pr(X = j)` followed by the exponential
 series; provide those finite bounds and their hypotheses as reusable lemmas.
 For total variation use the countable discrete formula
@@ -1320,11 +1344,13 @@ triangle counts of 11.2 need the weaker hypothesis: the complete-graph event giv
 
 Count triangles using the native finite clique API: one unordered three-element clique
 is one triangle, so there is no factor-of-six ambiguity.
-For any `p_n ∈ [0, 1]` with `n p_n → c ≥ 0`, prove
+For any `p_n ∈ [0, 1]` with `n p_n → c ≥ 0`, prove, for the clique count `triangleCount`,
 
     T_n → Poisson(c³/6)  in law.
 
-Expand each factorial moment as an ordered list of distinct triangle copies.
+Prove the factorial-moment limits `(c³/6)^k` (`triangle_factorialMoment_limit`) and the
+Poisson point-mass limits (`triangle_poisson_mass_limit`). Expand each factorial moment as an
+ordered list of distinct triangle copies.
 The disjoint contribution is
 `(n)_{3k} p_n^{3k} / 6^k`.
 Bound the remaining intersection types: every connected component of a union of
@@ -1335,8 +1361,9 @@ explicit lemma, not a probabilistic independence assumption for overlapping copi
 calculation is a derivation from the clique count and the edge/vertex bound above, not a cited
 theorem.
 
-Construct the actual rank-`3` triangle sentence and identify its satisfaction with
-`T_n > 0`. Derive
+Construct the actual rank-`3` triangle sentence (`triangleSentence`) and identify its
+satisfaction with `T_n > 0` (`satisfies_triangleSentence`). Derive
+(`sparse_triangle_sentence_limit`)
 
     Pr(G(n, p_n) contains a triangle) → 1 - e^(-c³/6).
 
@@ -1348,8 +1375,8 @@ equivalence to the usual `c/n` regime.
 
 *Needs:* 9.2; 11.1.
 
-Use the explicit graphon `W(x, y) = xy` on the uniform unit interval.
-Its infinite sample is almost surely Rado by 9.2. Let `Z_n` count isolated vertices
+Use the explicit graphon `W(x, y) = xy` (`productGraphon`) on the uniform unit interval.
+Its infinite sample is almost surely Rado by 9.2 (`productGraphon_ae_isomorphic_rado`). Let `Z_n` count isolated vertices
 of its finite sample. Prove
 
     Z_n → Poisson(2)  in law.
@@ -1368,13 +1395,16 @@ For `n ≥ 2k`, the bound
     ∫₀¹ ∏_i (1 - x_i y) dy ≤ 1 - (Σ_i x_i) / (2k)
 
 gives the integrable dominator `exp(-Σ_i u_i / (4k))` after scaling.
-Thus the moment limit is `2^k`, and 11.1 applies. Prove the `k = 0` case separately.
+Thus the moment limit is `2^k` (`productGraphon_isolated_factorialMoment_limit`), and 11.1
+applies (`productGraphon_isolated_poisson_mass_limit`). Prove the `k = 0` case separately.
 As an elementary check, `E Z_n = 2(1 - 2^(-n))` for every `n`, with values `0, 1, 3/2, 7/4`
 at `n = 0, 1, 2, 3`. At `n = 0` the sum over vertices is empty and both sides are `0`. For `n ≥ 1` a vertex with label `x` is isolated
 with conditional probability `(1 - x/2)^(n-1)`, so
 `E Z_n = n ∫₀¹ (1 - x/2)^(n-1) dx = 2(1 - 2^(-n))`.
 
-Construct the FO sentence `∀x ∃y Adj(x, y)` and derive
+Construct the FO sentence `∀x ∃y Adj(x, y)` (`noIsolatedSentence`, satisfied exactly when the
+isolated-vertex count `isolatedCount` is `0`, by `satisfies_noIsolatedSentence`) and derive
+(`productGraphon_noIsolated_limit`)
 
     Pr(G(n, W) ⊨ ∀x ∃y Adj(x, y)) → e^(-2),
 
