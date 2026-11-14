@@ -375,7 +375,7 @@ Let `C` be a perfectoid field of characteristic 0 and `A` a p-torsion-free quasi
 
 *Needs:* §6.8, PrismaticCohomologyPartII §3.1, PrismaticCohomologyPartII §3.5, PrismaticCohomologyPartII §3.20, PrismaticCohomologyPartII §3.10, PrismaticCohomology §2.17, PerfectoidSpaces P1.16–P1.18, P1.24–P1.25.
 
-**Proof route.** By quasisyntomic descent assume A quasiregular semiperfectoid and p-torsion-free; then all `N^kΔ̂_A/p` are discrete, so `N^{≥k}Δ̂_A/p` is discrete and ξ-torsion-free, and `φ_i` is induced by `ξ̃^{−i}φ` on `Δ̂_A[1/ξ̃]`, `ξ̃ = φ(ξ)` (BMS2 proof of Lemma 7.22). `φ_i(N^{≥m}Δ̂_A) ⊂ ξ̃^{m−i}Δ̂_A` for `m ≥ i`; modulo `p`, `ξ̃ ≡ ξ^p`, so `φ_i(N^{≥m}Δ̂_A/p) ⊂ ξ^{p(m−i)}Δ̂_A/p ⊂ N^{≥p(m−i)}Δ̂_A/p` because `ξ^kΔ̂_A ⊂ N^{≥k}Δ̂_A`.
+**Proof route.** The proof turns on the chain `φ_i(N^{≥m}Δ̂_A/p) ⊂ ξ^{p(m−i)}Δ̂_A/p ⊂ N^{≥p(m−i)}Δ̂_A/p`. Its second inclusion holds since `ξ^kΔ̂_A ⊂ N^{≥k}Δ̂_A`. Its first is the integral bound `φ_i(N^{≥m}Δ̂_A) ⊂ ξ̃^{m−i}Δ̂_A`, valid for `m ≥ i`, read modulo `p`, where `ξ̃ ≡ ξ^p` for the element `ξ̃ = φ(ξ)`. The chain is established after quasisyntomic descent has reduced to a p-torsion-free quasiregular semiperfectoid A: there each `N^kΔ̂_A/p` is discrete, consequently every `N^{≥k}Δ̂_A/p` is discrete as well and free of ξ-torsion, and `φ_i` is the map that `ξ̃^{−i}φ` defines on `Δ̂_A[1/ξ̃]` (BMS2 proof of Lemma 7.22).
 
 ### 6.12 Z/p^r(i) commutes with filtered colimits
 
