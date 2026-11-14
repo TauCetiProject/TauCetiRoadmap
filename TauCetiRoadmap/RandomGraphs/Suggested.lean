@@ -127,20 +127,13 @@ theorem foRank_eq_zero_iff_isQF
     foRank φ = 0 ↔ φ.IsQF := by
   sorry
 
-/-- **The graph coding decodes to the graph structure.** Tau Ceti's configuration of a simple
-graph, `SimpleGraph.toRelationalConfiguration`, is the encoding `ofStructure` of `G.structure`, so
-decoding it returns `G.structure`, as `RelationalConfiguration.toStructure_ofStructure` says for
-every structure. -/
-theorem toStructure_toRelationalConfiguration (G : SimpleGraph V) :
-    G.toRelationalConfiguration.toStructure = G.structure := by
-  sorry
-
 /-- **Fixed-assignment graph events.** On a countable carrier, for a graph formula and fixed free-
 and bound-variable assignments, the graphs whose structure realizes the formula form a measurable
 set. It is the preimage, under `SimpleGraph.measurable_toRelationalConfiguration`, of the
 configuration event of `BoundedFormula.toInf φ`, which is measurable by
 `TauCeti.RelationalConfiguration.measurableSet_setOf_realize`; `BoundedFormula.realize_toInf` and
-`toStructure_toRelationalConfiguration` identify the two realizations. -/
+the identity `G.toRelationalConfiguration.toStructure = G.structure` identify the two
+realizations. -/
 theorem measurableSet_setOf_realize_graph [Countable V] {α : Type w} {n : ℕ}
     (φ : Language.graph.BoundedFormula α n) (v : α → V) (xs : Fin n → V) :
     MeasurableSet {G : SimpleGraph V | @BoundedFormula.Realize _ V G.structure _ _ φ v xs} := by
