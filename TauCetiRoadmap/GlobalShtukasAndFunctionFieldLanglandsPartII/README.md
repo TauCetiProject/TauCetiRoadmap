@@ -285,7 +285,9 @@ Throughout this statement, K = k₁(X) is the function field of a smooth project
 
 *Needs:* §1.1; DeligneWeightsAndPurity §5.11; DeligneWeightsAndPurity §0.6; DeligneWeightsAndPurity §0.3; DeligneWeightsAndPurity §8.18; §0.3; §0.1.
 
-### 1.3 Purity of irreducible Ĝ-valued local systems
+### 1.3 Purity of irreducible global parameters, globally and at every place
+
+This group proves that a global parameter whose image lies in no proper parabolic is pure of weight 0 in every representation when the dual group is semisimple, and that its local Weil–Deligne representations are then arithmetically pure of weight 0 at every place. Sections 4.2, 4.4, 4.5 and 6.2 consume it.
 
 Let Ĝ be semisimple over ℚ̄_ℓ and σ: Gal(K^sep/K) → Ĝ(ℚ̄_ℓ) continuous, unramified outside a finite set, such that V ∘ σ is ι-mixed for one faithful V (automatic on curves by §1.1). If the image of σ lies in no proper parabolic subgroup of Ĝ, then V ∘ σ is ι-pure of weight 0 for every representation V of Ĝ. For LG-valued σ with Ĝ semisimple the same argument applies when parabolic subgroups of LG are taken in the dynamic sense (GHS Lemma 3.6 and Remark 3.7 note that the argument holds for any reductive G, giving a common weight for each irreducible algebraic representation; semisimplicity of Ĝ forces the weight to be 0 as in the last step below).
 
@@ -303,9 +305,7 @@ Throughout this statement, K = k₁(X) is the function field of a smooth project
 
 *Needs:* DeligneWeightsAndPurity §8.18; §1.1; DeligneWeightsAndPurity §5.3.
 
-### 1.4 Local Weil–Deligne purity of irreducible global parameters
-
-Let G be semisimple over K and σ a continuous semisimple global Galois parameter whose image lies in no proper parabolic of LG. At every place u, the Frobenius-semisimple WD representation of τ ∘ σ|_(W_(K_u)) is arithmetically pure of weight 0 for every algebraic τ. Its LG-valued WD completion is therefore the unique essentially tempered completion at every ι. For a general reductive group the corresponding assertion is about the adjoint projection; a common arithmetic weight for every τ is not asserted.
+**1.4 Local Weil–Deligne purity of irreducible global parameters.** Let G be semisimple over K and σ a continuous semisimple global Galois parameter whose image lies in no proper parabolic of LG. At every place u, the Frobenius-semisimple WD representation of τ ∘ σ|_(W_(K_u)) is arithmetically pure of weight 0 for every algebraic τ. Its LG-valued WD completion is therefore the unique essentially tempered completion at every ι. For a general reductive group the corresponding assertion is about the adjoint projection; a common arithmetic weight for every τ is not asserted.
 
 Throughout this statement, K = k₁(X) is the function field of a smooth projective geometrically connected curve X over a finite field k₁ of characteristic p and cardinality q₁; |X| is its set of closed points (places); q_w = |k(w)| for a place w; ℓ ≠ p is a prime. G is a connected semisimple group over K; Ĝ is its dual group over the coefficient field and LG = Ĝ ⋊ Gal(K̃/K), with K̃/K the finite Galois extension through which Gal(K^sep/K) acts on the based root datum (Galois form, as in GlobalShtukasAndFunctionFieldLanglands §5.10).
 
@@ -411,7 +411,9 @@ GlobalShtukasAndFunctionFieldLanglands §5.9; GlobalShtukasAndFunctionFieldLangl
 
 ## Layer 3: Local-to-global comparison and geometric representations
 
-### 3.0 Local excursion parameters
+### 3.0 The semisimple local parametrization and its local–global compatibility
+
+This group constructs the local excursion parameters, compares Lafforgue's global parameters with them through the uniformization of global shtukas by local shtukas, and supplies the semisimple local parametrization L_F with its functoriality. Sections 3.4–3.8, 4.0, 4.2, 4.4, 4.5, 5.3, 7.6, 8.0–8.3 and 8.6 consume it through §§3.2–3.3.
 
 For a connected reductive group G over the equal-characteristic local field F, apply the abstract excursion centre map of LanglandsParameterStacks §2.15 and its Schur-object parameter of §3.9 to the coherent continuous Hecke datum on D_lis(Bun_G,L) exported by HeckeStacksAndLocalShtukas §§HS4.1 and HS4.7. Here L is an algebraically closed characteristic-zero coefficient field containing the chosen √q, with the relatively discrete condensed convention. For each compact lisse object, prove that one open wild-inertia subgroup acts trivially on every finite-leg Hecke transform; this supplies the finite-wild-cutoff passage (fs, Proposition IX.5.1, pp. 327–328, fs line 12683). For every Schur-irreducible A with End(A)=L as a condensed L-algebra, prove that the imported parameter φ_A is continuous and is the local Fargues–Scholze parameter. Restrict the resulting geometric centre action along D(G(F),L) → D_lis(Bun_G,L) to the Bernstein centre of smooth representations, and compare its Hecke action with the Satake-coefficient cohomology of the supplied local-shtuka tower. These are the Bun_G and Bernstein-centre applications (fs, Definition/Proposition IX.4.1, p. 327, Theorem IX.5.2, p. 329, and Proposition IX.3.2, pp. 326–327; fs line 12667, fs line 12745, fs line 12651).
 
@@ -432,9 +434,7 @@ All maps have source the excursion algebra or the indicated lisse category and t
 
 *Needs:* HeckeStacksAndLocalShtukas §§HS3.1–HS3.4, HS4.1 and HS4.7 (local cohomology and exported Hecke datum); LanglandsParameterStacks §§2.15 and 3.9 (abstract centre map and Schur-object parameter), §§3.4–3.6 (continuity); SmoothRepresentationsOfLocalGroups §§SR.0.2, SR.1.3, SR.3.2 (smooth category and centre); DiamondEtaleCohomology Layer C0; DiamondSixOperations Layer S2.
 
-### 3.1 Uniformization of global shtukas by local shtukas
-
-Define the framed bounded equal-characteristic local G-shtuka moduli by torsors on the formal disc with Frobenius modification and a quasi-isogeny to the fixed trivial framing on the punctured disc. Construct the deformation functor, its formal representability and relative z-adic Hodge theory; identify its analytic generic fibre, with every finite level, with the analytic tower and étale period map of HeckeStacksAndLocalShtukas §HS2.9 (lh, Theorem 2.12, Theorem 4.9 and Proposition 4.12, pp. 8–33). Let C be the curve of a global function field, v a place with formal disc D, 𝒢 a parahoric group scheme over C with connected reductive generic fibre G, reductive away from finitely many places (lh §5.1, p. 33, lh line 1574), with its parahoric restriction to D as the local group (lh §1.1, p. 5, lh line 248), legs I placed in D with bounds μ_•, and N a level disjoint from v. Congruence subgroups enter as levels on this model, not as other smooth models. Gluing a framed local G-shtuka to the trivial G-bundle away from v by Beauville–Laszlo defines a formally étale morphism Θ̂ from the formal moduli of local G-shtukas bounded by μ_• to the formal completion along v of the moduli of global G-shtukas of level N (Li-Huerta Proposition 5.13). On a Harder–Narasimhan truncation ≤ s and for deg N large enough this is a morphism of formal schemes, formally étale and locally formally of finite type (Proposition 5.14). On generic fibres, for every n ≥ 0, it gives an étale morphism Θ_n of locally spatial diamonds from the analytic local shtuka moduli with level n·v to the diamond of the truncated global moduli with level n·v + N (Theorem 5.16), compatible with local partial Frobenius and the residue-degree iterate of global partial Frobenius, between the truncations specified below (Lemma 5.18). Through Θ_n the homology of the local shtuka moduli with Satake coefficients maps to the cohomology of the global shtuka stacks (§6).
+**3.1 Uniformization of global shtukas by local shtukas.** Define the framed bounded equal-characteristic local G-shtuka moduli by torsors on the formal disc with Frobenius modification and a quasi-isogeny to the fixed trivial framing on the punctured disc. Construct the deformation functor, its formal representability and relative z-adic Hodge theory; identify its analytic generic fibre, with every finite level, with the analytic tower and étale period map of HeckeStacksAndLocalShtukas §HS2.9 (lh, Theorem 2.12, Theorem 4.9 and Proposition 4.12, pp. 8–33). Let C be the curve of a global function field, v a place with formal disc D, 𝒢 a parahoric group scheme over C with connected reductive generic fibre G, reductive away from finitely many places (lh §5.1, p. 33, lh line 1574), with its parahoric restriction to D as the local group (lh §1.1, p. 5, lh line 248), legs I placed in D with bounds μ_•, and N a level disjoint from v. Congruence subgroups enter as levels on this model, not as other smooth models. Gluing a framed local G-shtuka to the trivial G-bundle away from v by Beauville–Laszlo defines a formally étale morphism Θ̂ from the formal moduli of local G-shtukas bounded by μ_• to the formal completion along v of the moduli of global G-shtukas of level N (Li-Huerta Proposition 5.13). On a Harder–Narasimhan truncation ≤ s and for deg N large enough this is a morphism of formal schemes, formally étale and locally formally of finite type (Proposition 5.14). On generic fibres, for every n ≥ 0, it gives an étale morphism Θ_n of locally spatial diamonds from the analytic local shtuka moduli with level n·v to the diamond of the truncated global moduli with level n·v + N (Theorem 5.16), compatible with local partial Frobenius and the residue-degree iterate of global partial Frobenius, between the truncations specified below (Lemma 5.18). Through Θ_n the homology of the local shtuka moduli with Satake coefficients maps to the cohomology of the global shtuka stacks (§6).
 
 Throughout this statement, K = k₁(X) is the function field of a smooth projective geometrically connected curve X over a finite field k₁ of characteristic p and cardinality q₁; |X| is its set of closed points (places); q_w = |k(w)| for a place w; ℓ ≠ p is a prime. N and v are disjoint. Put r=deg(v), and let V be the Satake representation specifying the bounds. Choose κ(V)≥0 such that one global partial Frobenius takes the truncation ≤s into ≤s+κ(V), as in lh §5.9, p. 36, lh line 1682. Write τ for q₁-Frobenius on the leg base and Fr_global^[r] for the composition of r global operations, pulling the j-th operation to the τ^j-twisted disc on the selected leg block, for 0≤j<r. At intermediate twists the disjoint leg blocks are reindexed as in lh Lemma 5.18; the resulting operation moves the selected block once around the modification chain. Local partial Frobenius uses q_v=q₁^r. Both Fr_local and Fr_global^[r] go from bound s to bound s+rκ(V), with local level n·v and global level n·v+N respectively. Choose deg N sufficiently large for Proposition 5.14 at the enlarged bound s+rκ(V), hence at every intermediate bound. Over the product of the punctured discs at v, prove Θ_(n,s+rκ(V)) ∘ Fr_local = (Fr_global^[r])^diamond ∘ Θ_(n,s), with the indicated base twists on each source and target (lh, Lemma 5.18, pp. 40–41, lh line 1870).
 
@@ -460,9 +460,7 @@ The formal-moduli construction has the following API.
 
 *Needs:* GlobalShtukasAndFunctionFieldLanglands §2.1; GlobalShtukasAndFunctionFieldLanglands §2.9; GlobalShtukasAndFunctionFieldLanglands §2.2; HeckeStacksAndLocalShtukas §HS2.9; DiamondEtaleCohomology Layer C0; DiamondSixOperations §S1.5.
 
-### 3.2 Li-Huerta: Lafforgue's global parameters are locally Fargues–Scholze
-
-Let G be connected reductive over a global function field K, v a place and Π a cuspidal automorphic representation. For every occurring excursion parameter σ to which Π belongs in the sense of §2.1 (using the fixed central character and lattice for reductive G), the semisimplification of σ restricted to W_(K_v) equals the Fargues–Scholze semisimple parameter of Π_v. Consequently the Genestier–Lafforgue semisimple local parametrization of irreducible smooth representations of G(F), F of characteristic p, agrees with the Fargues–Scholze parametrization; at the level of Bernstein centres the excursion elements of the two constructions coincide.
+**3.2 Li-Huerta: Lafforgue's global parameters are locally Fargues–Scholze.** Let G be connected reductive over a global function field K, v a place and Π a cuspidal automorphic representation. For every occurring excursion parameter σ to which Π belongs in the sense of §2.1 (using the fixed central character and lattice for reductive G), the semisimplification of σ restricted to W_(K_v) equals the Fargues–Scholze semisimple parameter of Π_v. Consequently the Genestier–Lafforgue semisimple local parametrization of irreducible smooth representations of G(F), F of characteristic p, agrees with the Fargues–Scholze parametrization; at the level of Bernstein centres the excursion elements of the two constructions coincide.
 
 Throughout this statement, K = k₁(X) is the function field of a smooth projective geometrically connected curve X over a finite field k₁ of characteristic p and cardinality q₁; |X| is its set of closed points (places); q_w = |k(w)| for a place w; ℓ ≠ p is a prime. Coefficients ℚ̄_ℓ with ℓ ≠ p; the mod-ℓ analogue also holds (Li-Huerta Theorem 6.15).
 
@@ -476,9 +474,7 @@ Throughout this statement, K = k₁(X) is the function field of a smooth project
 
 *Needs:* §3.1; §3.0 (local excursion parameters); GlobalShtukasAndFunctionFieldLanglands §5.4; GlobalShtukasAndFunctionFieldLanglands §5.10; GlobalShtukasAndFunctionFieldLanglands §7.6; GlobalShtukasAndFunctionFieldLanglands §7.8; HeckeStacksAndLocalShtukas §HS3.1.
 
-### 3.3 Properties of the semisimple local parametrization
-
-Use the Genestier–Lafforgue semisimple local assignment L_F from GlobalShtukasAndFunctionFieldLanglands §7.6 and identify it with the local excursion assignment of §3.0 by §3.2. Prove compatibility with a homomorphism Υ:G₁→G₂ of connected reductive F-groups having normal image and kernel containing a smooth connected normal subgroup K₀ of G₁ with ker(Υ)/K₀ central in G₁/K₀: every irreducible constituent of the pullback of π has parameter ᴸΥ∘L_F(π), with ᴸΥ:ᴸG₂→ᴸG₁ the L-homomorphism of the normal-image-l-homomorphisms contract. Include products, Weil restriction and twists by characters through the abelianization; composition with algebraic dual representations is symmetric monoidal. A representation with pro-p Iwahori invariants for a quasi-split G has parameter in its torus L-group, and a parameter in no proper Levi forces supercuspidality. For coefficient automorphisms fixing √q the assignment commutes with transport. For other automorphisms use the canonical finite central unramified cocycle determined by the parameter-square-root-transport contract. The normal-image and coefficient assertions apply to the actual reconstructed parameter, not to an arbitrary monoidal functor.
+**3.3 Properties of the semisimple local parametrization.** Use the Genestier–Lafforgue semisimple local assignment L_F from GlobalShtukasAndFunctionFieldLanglands §7.6 and identify it with the local excursion assignment of §3.0 by §3.2. Prove compatibility with a homomorphism Υ:G₁→G₂ of connected reductive F-groups having normal image and kernel containing a smooth connected normal subgroup K₀ of G₁ with ker(Υ)/K₀ central in G₁/K₀: every irreducible constituent of the pullback of π has parameter ᴸΥ∘L_F(π), with ᴸΥ:ᴸG₂→ᴸG₁ the L-homomorphism of the normal-image-l-homomorphisms contract. Include products, Weil restriction and twists by characters through the abelianization; composition with algebraic dual representations is symmetric monoidal. A representation with pro-p Iwahori invariants for a quasi-split G has parameter in its torus L-group, and a parameter in no proper Levi forces supercuspidality. For coefficient automorphisms fixing √q the assignment commutes with transport. For other automorphisms use the canonical finite central unramified cocycle determined by the parameter-square-root-transport contract. The normal-image and coefficient assertions apply to the actual reconstructed parameter, not to an arbitrary monoidal functor.
 
 Throughout this statement, F = k((t)) is a local field of characteristic p with residue field k of cardinality q, W_F its Weil group and Frob ∈ W_F a geometric Frobenius lift (it acts on k̄ by x ↦ x^(1/q)); C is an algebraically closed field of characteristic 0 (C = ℂ or C = ℚ̄_ℓ). Frobenius conventions are those of the parent roadmap: geometric Frobenius, local reciprocity sending a uniformizer to geometric Frobenius, and one fixed square root of q for normalized induction and half Tate twists. G connected reductive over F.
 
@@ -494,7 +490,9 @@ Throughout this statement, F = k((t)) is a local field of characteristic p with 
 
 *Needs:* GlobalShtukasAndFunctionFieldLanglands §7.8; GlobalShtukasAndFunctionFieldLanglands §7.6; §3.2; §3.0 (local excursion parameters); ReductiveGroupsPartII §RG2.5.2 (normal-image-l-homomorphisms contract)
 
-### 3.4 Geometric representations of a local group
+### 3.4 Geometric representations of local groups and the stability of geometricity
+
+This group defines geometric representations of a local group through L_F and proves that geometricity passes to Galois conjugates, to constituents of normalized induction and Jacquet modules, to external tensor products and twists, and to central characters, with the residue-degree criterion for characters of tori. Sections 4.5–4.8 and 8.2 consume it.
 
 An irreducible smooth representation π of G(F) over ℚ̄_ℓ is geometric when it has a model π_E over a number field E ⊂ ℚ̄_ℓ (π_E ⊗_E ℚ̄_ℓ ≅ π) and its semisimple parameter L_F(π) is geometric (§0.1). A complex representation is geometric when it is π ⊗_(ι) ℂ for a geometric π.
 
@@ -524,9 +522,7 @@ The construction has the following API.
 
 *Needs:* §0.1; §3.3.
 
-### 3.5 Galois conjugates of geometric representations
-
-If π is geometric with model π_E, then π_E ⊗_(E, ι′) ℚ̄_ℓ is geometric for every embedding ι′: E → ℚ̄_ℓ.
+**3.5 Galois conjugates of geometric representations.** If π is geometric with model π_E, then π_E ⊗_(E, ι′) ℚ̄_ℓ is geometric for every embedding ι′: E → ℚ̄_ℓ.
 
 Throughout this statement, F = k((t)) is a local field of characteristic p with residue field k of cardinality q, W_F its Weil group and Frob ∈ W_F a geometric Frobenius lift (it acts on k̄ by x ↦ x^(1/q)); C is an algebraically closed field of characteristic 0 (C = ℂ or C = ℚ̄_ℓ). G connected reductive over F. Use the coefficient-transport contract specified at §3.3, including the finite central normalization twist for automorphisms moving √q (the parameter-square-root-transport contract).
 
@@ -541,9 +537,7 @@ Throughout this statement, F = k((t)) is a local field of characteristic p with 
 
 *Needs:* §3.3; DeligneWeightsAndPurity §0.1; §3.4; SmoothRepresentationsOfLocalGroups §SR.0.4 (*coefficient-change*).
 
-### 3.6 Geometric characters of tori
-
-For a split F-torus T, a smooth character χ: T(F) → ℚ̄_ℓ^× is geometric iff all its values are Weil q_F-numbers of integer weight. For a finite separable extension E/F and T = Res_(E/F) G_m, let f=[k_E:k_F] and q_E=q_F^f. Then χ is geometric iff χ(ϖ_E) is a Weil q_E-number of integer weight; the values on O_E^× are roots of unity. The criterion must use q_E, not q_F. For an arbitrary nonsplit torus retain the definition through its torus L-parameter; the all-values condition with q_F is not asserted to be sufficient.
+**3.6 Geometric characters of tori.** For a split F-torus T, a smooth character χ: T(F) → ℚ̄_ℓ^× is geometric iff all its values are Weil q_F-numbers of integer weight. For a finite separable extension E/F and T = Res_(E/F) G_m, let f=[k_E:k_F] and q_E=q_F^f. Then χ is geometric iff χ(ϖ_E) is a Weil q_E-number of integer weight; the values on O_E^× are roots of unity. The criterion must use q_E, not q_F. For an arbitrary nonsplit torus retain the definition through its torus L-parameter; the all-values condition with q_F is not asserted to be sufficient.
 
 Throughout this statement, F = k((t)) is a local field of characteristic p with residue field k of cardinality q, W_F its Weil group and Frob ∈ W_F a geometric Frobenius lift (it acts on k̄ by x ↦ x^(1/q)); C is an algebraically closed field of characteristic 0 (C = ℂ or C = ℚ̄_ℓ). T a torus over F (not necessarily split).
 
@@ -559,9 +553,7 @@ Throughout this statement, F = k((t)) is a local field of characteristic p with 
 
 *Needs:* §3.3 (normal-image and coefficient transport); §3.4.
 
-### 3.7 Stability of geometricity
-
-Geometricity of irreducible smooth representations is preserved by: constituents of normalized parabolic induction i_P^G(ρ) from geometric ρ; constituents of the normalized Jacquet module r_P(π) of geometric π; external tensor products for G₁ × G₂; and twisting by geometric characters of G(F) factoring through G → G^(ab).
+**3.7 Stability of geometricity.** Geometricity of irreducible smooth representations is preserved by: constituents of normalized parabolic induction i_P^G(ρ) from geometric ρ; constituents of the normalized Jacquet module r_P(π) of geometric π; external tensor products for G₁ × G₂; and twisting by geometric characters of G(F) factoring through G → G^(ab).
 
 Throughout this statement, F = k((t)) is a local field of characteristic p with residue field k of cardinality q, W_F its Weil group and Frob ∈ W_F a geometric Frobenius lift (it acts on k̄ by x ↦ x^(1/q)); C is an algebraically closed field of characteristic 0 (C = ℂ or C = ℚ̄_ℓ). G connected reductive over F, P = MN a parabolic subgroup.
 
@@ -575,9 +567,7 @@ Throughout this statement, F = k((t)) is a local field of characteristic p with 
 
 *Needs:* §3.3 (normal-image and coefficient transport); SmoothRepresentationsOfLocalGroups §SR.2.2; SmoothRepresentationsOfLocalGroups §SR.3.3; §3.6; §0.2; SmoothRepresentationsOfLocalGroups §SR.0.4 (*coefficient-change*); SmoothRepresentationsOfLocalGroups §SR.1.3.
 
-### 3.8 Central characters of geometric representations
-
-Let π be geometric. For every F-split torus A contained in Z_G, the restricted central character ω_π|_(A(F)) is geometric and hence takes Weil q_F-number values of integer weight. More generally, the restriction to T=(Z_G)_red^∘ is geometric through the torus local parameter, provided the normal-image central functoriality specified at §3.3 is supplied. No L-group of a nonsmooth centre is formed. For example the centre μ_p of SL_p in characteristic p is not a torus; its group of F-points is trivial.
+**3.8 Central characters of geometric representations.** Let π be geometric. For every F-split torus A contained in Z_G, the restricted central character ω_π|_(A(F)) is geometric and hence takes Weil q_F-number values of integer weight. More generally, the restriction to T=(Z_G)_red^∘ is geometric through the torus local parameter, provided the normal-image central functoriality specified at §3.3 is supplied. No L-group of a nonsmooth centre is formed. For example the centre μ_p of SL_p in characteristic p is not a torus; its group of F-points is trivial.
 
 Throughout this statement, F = k((t)) is a local field of characteristic p with residue field k of cardinality q, W_F its Weil group and Frob ∈ W_F a geometric Frobenius lift (it acts on k̄ by x ↦ x^(1/q)); C is an algebraically closed field of characteristic 0 (C = ℂ or C = ℚ̄_ℓ). G connected reductive over F with centre Z_G.
 
@@ -666,7 +656,9 @@ The construction has the following API.
 
 *Needs:* SmoothRepresentationsOfLocalGroups §SR.3.3; SmoothRepresentationsOfLocalGroups §SR.2.2.
 
-### 4.2 Globalizing supercuspidals with irreducible parameter
+### 4.2 Pure completions of discrete-series parameters through globalization
+
+This group realizes supercuspidal and discrete-series parameters at one place of cuspidal automorphic representations whose global parameters lie in no proper parabolic, and deduces that the semisimple parameter of a discrete series has a unique essentially tempered Weil–Deligne refinement at a fixed embedding, arithmetically pure of weight 0 for semisimple G. Sections 4.6, 5.3 and 8.6 consume it through §4.5, and §4.7 through §4.2.
 
 Let G be connected reductive over a global function field K, z a place with K_z ≅ F and π a supercuspidal representation of G(F) whose central character has finite order. Fix an automorphic character ξ of finite order of the smooth connected central torus, with ξ_z equal to the restriction of the central character of π. There is a cuspidal automorphic Π of G(A_K) with central character ξ and Π_z ≅ π; Π occurs in the Ξ-invariant cusp module for a suitable Ξ (§2.1), at least one global parameter σ to which Π belongs exists, and every such σ lies in no proper parabolic subgroup of LG. The restriction of each σ at z gives an adjoint-bounded Weil–Deligne completion of L_F(π) at every embedding; for semisimple G this is arithmetic purity of weight 0. If the derived group of G is nontrivial there are infinitely many such Π; for a torus the prescribed central character determines Π.
 
@@ -684,9 +676,7 @@ Throughout this statement, K = k₁(X) is the function field of a smooth project
 
 *Needs:* §4.0 (étale Kloosterman anchors in every characteristic); FunctionFieldArithmetic §5.8 and §§6.2–6.6 (poincare-series-globalization contract); §2.1 (occurrence on the Ξ-invariant cusp module); §3.2; §3.3; §1.4; SmoothRepresentationsOfLocalGroups §SR.3.3 (reductive-central-reduction contract).
 
-### 4.3 Beuzart-Plessis's pseudo-globalization of discrete series
-
-Let G be connected reductive over K with Z⁰ the identity component of its centre, ξ a character of Z⁰(K)∖Z⁰(A_K), S_ram the places where G or ξ ramify, and S, S′ ⊂ |X| disjoint with S′ ∩ S_ram = ∅. For v ∈ S let π_v be discrete series with central character ξ_v on Z⁰(K_v), at least one π_(v₀) supercuspidal; for v ∈ S′ let X_v be a proper Zariski-closed subset of the unramified characters with central character ξ_v. Then there is a cuspidal automorphic Π with central character ξ on Z⁰(A_K) such that Π_v has nonzero trace against a pseudo-coefficient of π_v for v ∈ S (so Π_v and π_v have the same cuspidal support), and Π_v is unramified with Satake parameter outside X_v for v ∈ S′. It is not asserted that Π_v ≅ π_v for v ∈ S ∖ {v₀}.
+**4.3 Beuzart-Plessis's pseudo-globalization of discrete series.** Let G be connected reductive over K with Z⁰ the identity component of its centre, ξ a character of Z⁰(K)∖Z⁰(A_K), S_ram the places where G or ξ ramify, and S, S′ ⊂ |X| disjoint with S′ ∩ S_ram = ∅. For v ∈ S let π_v be discrete series with central character ξ_v on Z⁰(K_v), at least one π_(v₀) supercuspidal; for v ∈ S′ let X_v be a proper Zariski-closed subset of the unramified characters with central character ξ_v. Then there is a cuspidal automorphic Π with central character ξ on Z⁰(A_K) such that Π_v has nonzero trace against a pseudo-coefficient of π_v for v ∈ S (so Π_v and π_v have the same cuspidal support), and Π_v is unramified with Satake parameter outside X_v for v ∈ S′. It is not asserted that Π_v ≅ π_v for v ∈ S ∖ {v₀}.
 
 Throughout this statement, K = k₁(X) is the function field of a smooth projective geometrically connected curve X over a finite field k₁ of characteristic p and cardinality q₁; |X| is its set of closed points (places); q_w = |k(w)| for a place w; ℓ ≠ p is a prime. G connected reductive over K; pseudo-coefficients exist by the trace Paley–Wiener theorem. S and S′ are finite. The central torus formulation assumes Z_G^∘ is smooth; for a nonsmooth centre use its maximal smooth connected central torus and supply the corresponding central-character formulation.
 
@@ -701,9 +691,7 @@ Throughout this statement, K = k₁(X) is the function field of a smooth project
 
 *Needs:* FunctionFieldArithmetic §§6.4–6.6 (function-field-simple-trace-formula contract); SmoothRepresentationsOfLocalGroups §SR.3.3 (discrete-series-pseudo-coefficients and elliptic-orthogonality-open-subgroups contracts); SmoothRepresentationsOfLocalGroups §§SR.4.1–SR.4.2.
 
-### 4.4 Discrete series parameters realized in irreducible global parameters
-
-For connected reductive G and an essentially discrete series π of G(F) whose central character has finite order (so π is discrete series), fix K, z and a compatible automorphic central character ξ of finite order as in §4.2. There is a cuspidal automorphic Π of G over K with central character ξ and L_F(Π_z)=L_F(π); Π occurs for a suitable Ξ (§2.1), and every global parameter σ to which Π belongs lies in no proper parabolic subgroup. Each σ restricted at z realizes an adjoint-bounded completion of L_F(π); for semisimple G this completion is arithmetically pure of weight 0.
+**4.4 Discrete series parameters realized in irreducible global parameters.** For connected reductive G and an essentially discrete series π of G(F) whose central character has finite order (so π is discrete series), fix K, z and a compatible automorphic central character ξ of finite order as in §4.2. There is a cuspidal automorphic Π of G over K with central character ξ and L_F(Π_z)=L_F(π); Π occurs for a suitable Ξ (§2.1), and every global parameter σ to which Π belongs lies in no proper parabolic subgroup. Each σ restricted at z realizes an adjoint-bounded completion of L_F(π); for semisimple G this completion is arithmetically pure of weight 0.
 
 Throughout this statement, K = k₁(X) is the function field of a smooth projective geometrically connected curve X over a finite field k₁ of characteristic p and cardinality q₁; |X| is its set of closed points (places); q_w = |k(w)| for a place w; ℓ ≠ p is a prime. G connected reductive; K, z with K_z ≅ F and G defined over K; ξ has finite order and the compatibility and central-torus convention of §4.2. An essentially discrete series whose central character has infinite order is moved to this case by the local unramified twist of §4.2 before §4.3 is applied, and the parameter is twisted back by the corresponding central unramified Weil character; §4.3 is applied only to discrete series with central character ξ_v.
 
@@ -718,9 +706,7 @@ Throughout this statement, K = k₁(X) is the function field of a smooth project
 
 *Needs:* §4.2; §4.3; §3.2; §3.3; §1.4; SmoothRepresentationsOfLocalGroups §SR.3.3 (reductive-central-reduction contract).
 
-### 4.5 Weil–Deligne purity of discrete series
-
-For connected reductive G and a discrete-series π, the semisimple local parameter has a unique essentially tempered WD refinement at a fixed ι (GHS Theorem 1.2). The refinement is essentially tempered after every coefficient embedding in the adjoint sense. For semisimple G, every algebraic τ of LG gives an arithmetically pure WD representation of weight 0, so its semisimple Frobenius eigenvalues have integer weights symmetric about 0. For general reductive G no single arithmetic weight in an arbitrary faithful representation is asserted; the proof requires the central reduction in the central-reduction contract.
+**4.5 Weil–Deligne purity of discrete series.** For connected reductive G and a discrete-series π, the semisimple local parameter has a unique essentially tempered WD refinement at a fixed ι (GHS Theorem 1.2). The refinement is essentially tempered after every coefficient embedding in the adjoint sense. For semisimple G, every algebraic τ of LG gives an arithmetically pure WD representation of weight 0, so its semisimple Frobenius eigenvalues have integer weights symmetric about 0. For general reductive G no single arithmetic weight in an arbitrary faithful representation is asserted; the proof requires the central reduction in the central-reduction contract.
 
 Throughout this statement, F = k((t)) is a local field of characteristic p with residue field k of cardinality q, W_F its Weil group and Frob ∈ W_F a geometric Frobenius lift (it acts on k̄ by x ↦ x^(1/q)); C is an algebraically closed field of characteristic 0 (C = ℂ or C = ℚ̄_ℓ). G connected reductive over F of any characteristic p (the published version has no restriction on p; the arXiv v3 version assumed p > 3).
 
@@ -734,7 +720,9 @@ Throughout this statement, F = k((t)) is a local field of characteristic p with 
 
 *Needs:* §4.4; §0.4; §1.3; §0.3; SmoothRepresentationsOfLocalGroups §SR.3.3; §3.3 (normal-image and coefficient transport).
 
-### 4.6 Discrete series with algebraic models are geometric
+### 4.6 Geometricity and embedding independence of discrete series and geometric components
+
+This group proves that a discrete series of a semisimple group with a number-field model is geometric, that its realizations at every embedding are discrete series, and that temperedness of a cuspidal component with geometric local parameter does not depend on the embedding. Section 5.3 consumes §4.6, and the group is among the exported results listed under Downstream consumers.
 
 Let G be semisimple over F and let an irreducible π have a number-field model. If its realization at one embedding is discrete series, then π is geometric: the pure completion of §4.5 supplies arithmetic integer Frobenius weights. For a connected reductive G the corresponding assertion with geometric central torus character additionally assumes the reductive-central-reduction contract, its parameter compatibility, and the torus residue-degree criterion of §3.6. Roots of nonzero integer-weight numbers alone do not prove that assertion.
 
@@ -750,9 +738,7 @@ Throughout this statement, F = k((t)) is a local field of characteristic p with 
 
 *Needs:* §4.5; §3.4; §3.8.
 
-### 4.7 Galois conjugates of discrete series are discrete series
-
-For semisimple G/F, let π have a number-field model and suppose its realization at ι is irreducible discrete series. Then its realization at every embedding ι′ is discrete series. Exponents of the actual normalized Jacquet modules have Weil-number values on the split central torus of each Levi, so the strict Casselman inequalities have the same truth value at every embedding. The claim for an arbitrary complex discrete series also assumes the discrete-series-number-field-model contract.
+**4.7 Galois conjugates of discrete series are discrete series.** For semisimple G/F, let π have a number-field model and suppose its realization at ι is irreducible discrete series. Then its realization at every embedding ι′ is discrete series. Exponents of the actual normalized Jacquet modules have Weil-number values on the split central torus of each Levi, so the strict Casselman inequalities have the same truth value at every embedding. The claim for an arbitrary complex discrete series also assumes the discrete-series-number-field-model contract.
 
 Throughout this statement, F = k((t)) is a local field of characteristic p with residue field k of cardinality q, W_F its Weil group and Frob ∈ W_F a geometric Frobenius lift (it acts on k̄ by x ↦ x^(1/q)); C is an algebraically closed field of characteristic 0 (C = ℂ or C = ℚ̄_ℓ). π is assumed to have a number-field model, viewed over ℚ̄; this holds for local components of cuspidal representations (§2.2) and for supercuspidals (§4.2). For arbitrary complex discrete series also assume the discrete-series-number-field-model contract.
 
@@ -766,9 +752,7 @@ Throughout this statement, F = k((t)) is a local field of characteristic p with 
 
 *Needs:* §4.6; §3.7; §3.8; SmoothRepresentationsOfLocalGroups §SR.3.3; §4.1.
 
-### 4.8 Embedding independence of temperedness for geometric components
-
-Let G be semisimple over K and Π an occurring cuspidal representation with a number-field model. Fix a place v and assume the local parameter of Π_v is geometric. If Π_v is ι-tempered then Π_v is ι′-tempered for every embedding ι′. Use all normalized Jacquet exponents and the unitary central character. Without the geometricity hypothesis no all-embeddings conclusion is part of this statement.
+**4.8 Embedding independence of temperedness for geometric components.** Let G be semisimple over K and Π an occurring cuspidal representation with a number-field model. Fix a place v and assume the local parameter of Π_v is geometric. If Π_v is ι-tempered then Π_v is ι′-tempered for every embedding ι′. Use all normalized Jacquet exponents and the unitary central character. Without the geometricity hypothesis no all-embeddings conclusion is part of this statement.
 
 Throughout this statement, K = k₁(X) is the function field of a smooth projective geometrically connected curve X over a finite field k₁ of characteristic p and cardinality q₁; |X| is its set of closed points (places); q_w = |k(w)| for a place w; ℓ ≠ p is a prime. G is a connected semisimple group over K; Ĝ is its dual group over the coefficient field and LG = Ĝ ⋊ Gal(K̃/K), with K̃/K the finite Galois extension through which Gal(K^sep/K) acts on the based root datum (Galois form, as in GlobalShtukasAndFunctionFieldLanglands §5.10).
 
@@ -847,7 +831,9 @@ The central-isogeny transfer of spherical unitarity and genericity used for non-
 
 *Needs:* the finite test family just defined; SmoothRepresentationsOfLocalGroupsPartII §§5.23–5.27 and 6.1–6.4 (split and nonsplit local criteria); SmoothRepresentationsOfLocalGroups §§SR.2.3, SR.4.1–SR.4.2 (Whittaker functionals and Satake parameters); ReductiveGroupsPartII §§RG2.3–RG2.5 (hyperspecial models, root data and Weil restriction); ReductiveGroups §§10A–10B (algebraic representations); §2.3 (polar decomposition before local unitarity).
 
-### 5.2 Lifting a parameter to the L-group of the adjoint group
+### 5.2 Integral weights from a tempered place, through the lift to the adjoint L-group
+
+This group lifts a global parameter to the L-group of the adjoint group over a finite extension and shows that an ι-tempered or ι-discrete-series place forces integer weights in every algebraic representation and in the lifted test representations, with half-integral real parts at unramified places. Section 5.4 consumes both parts, and §8.2 consumes §5.2.
 
 Let σ: Gal(K^sep/K) → LG(ℚ̄_ℓ) be continuous with image in LG(E) for a finite E/Q_ℓ, and LG^(ad) → LG the central extension dual to G → G^(ad) (kernel Z = ker(Ĝ_sc → Ĝ), a subgroup of the finite centre). There is a finite separable K′/K and a continuous lift σ̃′: Gal(K^sep/K′) → LG^(ad)(ℚ̄_ℓ) of σ|_(Gal(K^sep/K′)). For every place u′ of K′ over u, every τ ∈ T(G) and every place w′ unramified for σ̃′, the real part of σ̃′(Frob_(w′)) equals that of σ(Frob_(w′)), and τ ∘ σ̃′ is geometric at u′ when σ|_(u)^(ss) has a pure completion of weight 0. There is also a fixed-ι version: if the local completion has bounded Weil part at ι, every lifted algebraic representation has integer local ι-weights; this assertion does not imply arithmetic geometricity.
 
@@ -875,9 +861,7 @@ The construction has the following API.
 
 *Needs:* §0.4; §2.1; NilpotentOrbits §N2; §0.1.
 
-### 5.3 Integrality of Frobenius weights from a tempered place
-
-Let π ⊂ A₀(G, ℚ̄) belong to σ (§2.1) and let u be a place. (a) If π_u is ι-tempered, then for every algebraic τ of LG the sheaf L(π, τ) has integer punctual ι-weights, and ⟨α, ν_w^ι(σ)⟩ ∈ ½ℤ for every weight α of τ and every w ∉ S. (b) If π_u is ι-discrete series, then for every τ the eigenvalues of τ(σ(Frob_w)), w ∉ S, are Weil q_w-numbers of integer weights (σ is geometric at every unramified place) and L(π, τ) has the weight filtration of §1.2. The same holds for τ ∈ T(G) composed with the lift σ̃′ of §5.2.
+**5.3 Integrality of Frobenius weights from a tempered place.** Let π ⊂ A₀(G, ℚ̄) belong to σ (§2.1) and let u be a place. (a) If π_u is ι-tempered, then for every algebraic τ of LG the sheaf L(π, τ) has integer punctual ι-weights, and ⟨α, ν_w^ι(σ)⟩ ∈ ½ℤ for every weight α of τ and every w ∉ S. (b) If π_u is ι-discrete series, then for every τ the eigenvalues of τ(σ(Frob_w)), w ∉ S, are Weil q_w-numbers of integer weights (σ is geometric at every unramified place) and L(π, τ) has the weight filtration of §1.2. The same holds for τ ∈ T(G) composed with the lift σ̃′ of §5.2.
 
 Throughout this statement, K = k₁(X) is the function field of a smooth projective geometrically connected curve X over a finite field k₁ of characteristic p and cardinality q₁; |X| is its set of closed points (places); q_w = |k(w)| for a place w; ℓ ≠ p is a prime. ℚ̄ is the algebraic closure of Q inside C, and ι: ℚ̄ → C, ι_ℓ: ℚ̄ → ℚ̄_ℓ are fixed embeddings; a statement 'for every ι' quantifies over all field embeddings ℚ̄ → C, equivalently over all field isomorphisms ℚ̄_ℓ ≅ C after extension. G is a connected semisimple group over K; Ĝ is its dual group over the coefficient field and LG = Ĝ ⋊ Gal(K̃/K), with K̃/K the finite Galois extension through which Gal(K^sep/K) acts on the based root datum (Galois form, as in GlobalShtukasAndFunctionFieldLanglands §5.10). Use the factorizable compact open U and finite set S of Conventions; outside S the chosen U_w is hyperspecial and G is unramified.
 
@@ -892,7 +876,9 @@ Throughout this statement, K = k₁(X) is the function field of a smooth project
 
 *Needs:* §4.6; §3.3; §1.2; §4.5; DeligneWeightsAndPurity §8.17; DeligneWeightsAndPurity §5.11; §2.3; §5.2; §1.1; SmoothRepresentationsOfLocalGroups §SR.3.3.
 
-### 5.4 The generic Ramanujan theorem over function fields
+### 5.4 The generic Ramanujan theorem over function fields and propagation of genericity
+
+This group proves temperedness at every place outside S and ι-purity of weight 0 of the constituents of every L(π, τ) from a generic place with central compact part and an ι-tempered place, and then genericity at every place outside S. Section 6.5 consumes §5.4, and both parts are exported under Downstream consumers.
 
 Let G be connected semisimple over K and π ⊂ A₀(G, ℚ̄) with m_U(π) ≠ 0 belonging to σ. Assume (1) at a place v ∉ S where G_(K_v) is unramified quasi-split and none of the simple factors of its adjoint group is the quasi-split form of PSU(2n+1) over an unramified extension of K_v, π_v ⊗_ι ℂ is generic and the compact part of its Satake parameter ι(s_v(σ)) is equal to 1, or represented by z∈Z(Ĝ)^Γ giving a unitary unramified character twist. In the nonsplit case this condition concerns the dual-torus compact factor: the Frobenius component is kept separate and is not required to be central; (2) at a place u, π_u is ι-tempered. Then π_w ⊗_ι ℂ is tempered for every w ∉ S, and every irreducible constituent of every L(π, τ) is ι-pure of weight 0. If π_u is ι-discrete series, π_w is tempered for every embedding and every L(π, τ) is pure of weight 0.
 
@@ -910,9 +896,7 @@ Throughout this statement, K = k₁(X) is the function field of a smooth project
 
 *Needs:* §5.3; §5.1 (test family and product reduction); SmoothRepresentationsOfLocalGroupsPartII §§5.25, 6.3–6.4 (local generic temperedness tests); §5.2; §2.2; §2.3; SmoothRepresentationsOfLocalGroups §SR.3.3; DeligneWeightsAndPurity §8.18; SmoothRepresentationsOfLocalGroups §§SR.4.1–SR.4.2 (spherical-isogeny-transfer contract); ReductiveGroupsPartII §RG2.5.2 (L-groups of products and Weil restrictions).
 
-### 5.5 Propagation of genericity
-
-Under the hypotheses of §5.4, π_w ⊗_ι ℂ is generic at every w ∉ S; if G is quasi-split over K, π is locally generic at almost every place.
+**5.5 Propagation of genericity.** Under the hypotheses of §5.4, π_w ⊗_ι ℂ is generic at every w ∉ S; if G is quasi-split over K, π is locally generic at almost every place.
 
 Throughout this statement, K = k₁(X) is the function field of a smooth projective geometrically connected curve X over a finite field k₁ of characteristic p and cardinality q₁; |X| is its set of closed points (places); q_w = |k(w)| for a place w; ℓ ≠ p is a prime. ℚ̄ is the algebraic closure of Q inside C, and ι: ℚ̄ → C, ι_ℓ: ℚ̄ → ℚ̄_ℓ are fixed embeddings; a statement 'for every ι' quantifies over all field embeddings ℚ̄ → C, equivalently over all field isomorphisms ℚ̄_ℓ ≅ C after extension. Use the factorizable compact open U and finite set S of Conventions; outside S the chosen U_w is hyperspecial and G is unramified.
 
@@ -980,7 +964,9 @@ Throughout this statement, K = k₁(X) is the function field of a smooth project
 
 *Needs:* §6.1; §1.3; §2.3; SmoothRepresentationsOfLocalGroupsPartII §5.3 (tempered spherical criterion); SmoothRepresentationsOfLocalGroups §SR.3.3.
 
-### 6.3 Lafforgue–Zhu decomposition over elliptic parameters
+### 6.3 Realisation in shtuka and stack cohomology, and integral weights
+
+This group decomposes the cuspidal shtuka cohomology of a split group over an elliptic parameter, defines realisability of a lisse sheaf in the cohomology of algebraic stacks, and shows under the stack integer-weight contract that realisable sheaves have integer weights, so that the proof of §5.4 needs no tempered anchor when the modules it uses are realisable. It is among the exported results listed under Downstream consumers.
 
 Let G be split reductive over K, N a level, Ξ a cocompact central lattice and σ an elliptic parameter occurring in the cuspidal excursion decomposition. There is a finite-dimensional graded ℚ̄_ℓ-space A_σ with commuting actions of the full level-N Hecke algebra and 𝒮_σ=S_σ/Z(Ĝ), such that (H^cusp_({0}∪I,W))_σ ≅ (A_σ⊗W_(σ^I))^(S_σ), where W is an algebraic representation of Ĝ×(LG)^I, Γ^I acts through σ on the moving factors and trivially on the factor 0, and S_σ acts diagonally on all factors of W and through 𝒮_σ on A_σ. This is functorial in W, compatible with coalescence and level change. These generalized excursion eigenspaces are genuine eigenspaces and semisimple as Γ^I-representations; no Hecke semisimplicity of A_σ is asserted. With a suitable auxiliary representation at the frozen leg, each irreducible constituent of τ∘σ occurs in Satake-coefficient shtuka cohomology. The constant-coefficient consequence assumes the Satake-to-constant realization contract.
 
@@ -996,9 +982,7 @@ Throughout this statement, K = k₁(X) is the function field of a smooth project
 
 *Needs:* §6.1; GlobalShtukasAndFunctionFieldLanglands §4.8; GlobalShtukasAndFunctionFieldLanglands §3.10; GlobalShtukasAndFunctionFieldLanglands §5.9; DeligneWeightsAndPurity §8.5.
 
-### 6.4 Realisability in the cohomology of stacks
-
-A semisimple lisse ℚ̄_ℓ-sheaf L on X ∖ |S| is realisable in stack cohomology when there are a finite set S′ ⊇ S, an algebraic stack Z of finite type over k₁ and a morphism f: Z → X ∖ |S′| such that every irreducible constituent of L|_(X∖|S′|) is a constituent of some Rⁱf_! ℚ̄_ℓ. Ciubotaru–Harris Expectation 5.9 asks this for L(π, τ) with τ adjoint and τ ∈ T(G); it is recorded here as a hypothesis, not a theorem.
+**6.4 Realisability in the cohomology of stacks.** A semisimple lisse ℚ̄_ℓ-sheaf L on X ∖ |S| is realisable in stack cohomology when there are a finite set S′ ⊇ S, an algebraic stack Z of finite type over k₁ and a morphism f: Z → X ∖ |S′| such that every irreducible constituent of L|_(X∖|S′|) is a constituent of some Rⁱf_! ℚ̄_ℓ. Ciubotaru–Harris Expectation 5.9 asks this for L(π, τ) with τ adjoint and τ ∈ T(G); it is recorded here as a hypothesis, not a theorem.
 
 Throughout this statement, K = k₁(X) is the function field of a smooth projective geometrically connected curve X over a finite field k₁ of characteristic p and cardinality q₁; |X| is its set of closed points (places); q_w = |k(w)| for a place w; ℓ ≠ p is a prime. Use the adic algebraic-stack categories and proper supports of GlobalShtukasAndFunctionFieldLanglands §1.4.
 
@@ -1023,9 +1007,7 @@ The construction has the following API.
 
 *Needs:* GlobalShtukasAndFunctionFieldLanglands §2.5; DeligneWeightsAndPurity §8.5; §6.3 for the conditional elliptic realization
 
-### 6.5 Integral weights of realisable sheaves
-
-Assuming the stack integrality contract, every irreducible constituent of a stack-realisable L is punctually ι-pure of integer weight. If this realization and integrality hold for all the adjoint and separator modules actually used in Layer 5 (including their lifts over K′ when G is not adjoint), the proof of §5.4 gives its fixed-ι conclusion without a tempered anchor; the arithmetic conclusion additionally requires embedding-independent arithmetic weights in that realization contract. The central-compact and local transfer hypotheses at the place v of §5.4(1) are retained.
+**6.5 Integral weights of realisable sheaves.** Assuming the stack integrality contract, every irreducible constituent of a stack-realisable L is punctually ι-pure of integer weight. If this realization and integrality hold for all the adjoint and separator modules actually used in Layer 5 (including their lifts over K′ when G is not adjoint), the proof of §5.4 gives its fixed-ι conclusion without a tempered anchor; the arithmetic conclusion additionally requires embedding-independent arithmetic weights in that realization contract. The central-compact and local transfer hypotheses at the place v of §5.4(1) are retained.
 
 Throughout this statement, K = k₁(X) is the function field of a smooth projective geometrically connected curve X over a finite field k₁ of characteristic p and cardinality q₁; |X| is its set of closed points (places); q_w = |k(w)| for a place w; ℓ ≠ p is a prime. Assume the stack integrality theorem specified in the stack integer-weight contract: for finite-type f:Z→U, each lisse constituent of Rⁱf_!ℚ̄_ℓ has integer punctual ι-weights. Sun Theorem 2.11 supplies ι-mixedness and is not silently treated as this additional integer-weight assertion.
 
@@ -1105,7 +1087,9 @@ The construction has the following API.
 
 *Needs:* §7.1; DeligneWeightsAndPurity §0.1.
 
-### 7.3 Compatible global parameters of discrete representations
+### 7.3 Compatible global parameters of discrete representations, and when they exist
+
+This group defines compatible global parameters of discrete representations and supplies them for cuspidal representations, under the parametrization hypotheses for the discrete spectrum together with the rationality those imply, and for representations with a number-field model occurring in finite-codimension Hecke quotients. Sections 8.1–8.3 and 8.6 consume it through §§7.3, 7.4 and 7.6.
 
 Let π ⊂ A_disc(G, ℚ̄) be irreducible with m_U(π) ≠ 0. A compatible global parameter for π is a continuous semisimple σ: W_K → LG(ℚ̄_ℓ) (Weil-group valued), unramified outside S, such that for every w ∉ S the Satake class of π_w is ι_ℓ of an algebraic class s_w(π) ∈ [LG_ss(ℚ̄)] and equals [σ(Frob_w)]. The local systems L(π, τ) = τ ∘ σ are then lisse Weil sheaves on X ∖ |S|. Ciubotaru–Harris take σ Galois-valued; Weil-group values are allowed here to include Xue's parameters, and the weight arguments of Layer 1 and Layer 8 hold for lisse Weil sheaves (DeligneWeightsAndPurity §§5.2 and 5.5 supplies Weil sheaves and their constant-Weil-twist reduction to étale sheaves).
 
@@ -1131,9 +1115,7 @@ The construction has the following API.
 
 *Needs:* §2.2; §2.1; DeligneWeightsAndPurity §5.2; DeligneWeightsAndPurity §5.5.
 
-### 7.4 The parametrization hypotheses for the discrete spectrum
-
-The parametrization hypotheses for (G, U) are: (9.1) for every noetherian Z[1/p]-algebra E ⊂ C, A_disc(G, U, E) is a finite E-module and A_disc(G, U, E) ⊗ C ≅ A_disc(G, U, C); (9.5)(1) the excursion algebra acts on A_disc(G, U, ℚ̄_ℓ) and decomposes it as ⊕_σ A_disc(G, U, ℚ̄_ℓ)_(λ(σ)) (display (9.3)); (9.5)(2) for σ ∈ Φ_disc(U) and w ∉ S the Satake class of λ_w(σ) is ι_ℓ(s_w(σ)) with s_w(σ) ∈ [LG_ss(ℚ̄)] and equals [σ(Frob_w)]. A discrete π belongs to σ when π^U lies in the λ(σ)-summand.
+**7.4 The parametrization hypotheses for the discrete spectrum.** The parametrization hypotheses for (G, U) are: (9.1) for every noetherian Z[1/p]-algebra E ⊂ C, A_disc(G, U, E) is a finite E-module and A_disc(G, U, E) ⊗ C ≅ A_disc(G, U, C); (9.5)(1) the excursion algebra acts on A_disc(G, U, ℚ̄_ℓ) and decomposes it as ⊕_σ A_disc(G, U, ℚ̄_ℓ)_(λ(σ)) (display (9.3)); (9.5)(2) for σ ∈ Φ_disc(U) and w ∉ S the Satake class of λ_w(σ) is ι_ℓ(s_w(σ)) with s_w(σ) ∈ [LG_ss(ℚ̄)] and equals [σ(Frob_w)]. A discrete π belongs to σ when π^U lies in the λ(σ)-summand.
 
 Throughout this statement, K = k₁(X) is the function field of a smooth projective geometrically connected curve X over a finite field k₁ of characteristic p and cardinality q₁; |X| is its set of closed points (places); q_w = |k(w)| for a place w; ℓ ≠ p is a prime. ℚ̄ is the algebraic closure of Q inside C, and ι: ℚ̄ → C, ι_ℓ: ℚ̄ → ℚ̄_ℓ are fixed embeddings; a statement 'for every ι' quantifies over all field embeddings ℚ̄ → C, equivalently over all field isomorphisms ℚ̄_ℓ ≅ C after extension. G is a connected semisimple group over K; Ĝ is its dual group over the coefficient field and LG = Ĝ ⋊ Gal(K̃/K), with K̃/K the finite Galois extension through which Gal(K^sep/K) acts on the based root datum (Galois form, as in GlobalShtukasAndFunctionFieldLanglands §5.10). Use the factorizable compact open U and finite set S of Conventions; outside S the chosen U_w is hyperspecial and G is unramified.
 
@@ -1158,9 +1140,7 @@ The construction has the following API.
 
 *Needs:* FunctionFieldArithmetic §6.5; GlobalShtukasAndFunctionFieldLanglands §5.9; §7.3 (compatible-parameter interface)
 
-### 7.5 Rationality of the discrete spectrum under the finiteness hypothesis
-
-Assume Conjecture 9.1 for (G,U). Then the eigenvalues of H^S(G,U) on A_disc(G,U,C) are algebraic, and A_disc(G,U,ℚ̄)=⊕_(π:π^U≠0)m_U(π)π^U. Each irreducible π occurring at this level has a number-field model. To deduce the assertion for every discrete automorphic π, impose Conjecture 9.1 at all sufficiently small levels.
+**7.5 Rationality of the discrete spectrum under the finiteness hypothesis.** Assume Conjecture 9.1 for (G,U). Then the eigenvalues of H^S(G,U) on A_disc(G,U,C) are algebraic, and A_disc(G,U,ℚ̄)=⊕_(π:π^U≠0)m_U(π)π^U. Each irreducible π occurring at this level has a number-field model. To deduce the assertion for every discrete automorphic π, impose Conjecture 9.1 at all sufficiently small levels.
 
 Throughout this statement, K = k₁(X) is the function field of a smooth projective geometrically connected curve X over a finite field k₁ of characteristic p and cardinality q₁; |X| is its set of closed points (places); q_w = |k(w)| for a place w; ℓ ≠ p is a prime. ℚ̄ is the algebraic closure of Q inside C, and ι: ℚ̄ → C, ι_ℓ: ℚ̄ → ℚ̄_ℓ are fixed embeddings; a statement 'for every ι' quantifies over all field embeddings ℚ̄ → C, equivalently over all field isomorphisms ℚ̄_ℓ ≅ C after extension. G is a connected semisimple group over K; Ĝ is its dual group over the coefficient field and LG = Ĝ ⋊ Gal(K̃/K), with K̃/K the finite Galois extension through which Gal(K^sep/K) acts on the based root datum (Galois form, as in GlobalShtukasAndFunctionFieldLanglands §5.10). Use the factorizable compact open U and finite set S of Conventions; outside S the chosen U_w is hyperspecial and G is unramified. The assertion about a representation π at fixed level U concerns π with π^U≠0. To assert the result for every discrete automorphic π, assume Conjecture 9.1 at every sufficiently small level.
 
@@ -1174,9 +1154,7 @@ Throughout this statement, K = k₁(X) is the function field of a smooth project
 
 *Needs:* §7.4; FunctionFieldArithmetic §6.5; SmoothRepresentationsOfLocalGroups §SR.1.3.
 
-### 7.6 Xue: parametrization of finite-codimension Hecke quotients
-
-Let G be split reductive over K, N a level, Ξ a cocompact central lattice, u ∉ N a place and 𝔍 an ideal of finite codimension in the spherical Hecke algebra H_(G,u). Then C_c(Bun_(G,N)(F_q)/Ξ, ℚ̄_ℓ) is of finite type over H_(G,u) (Proposition 1), so the quotient Q = C_c/𝔍·C_c is finite-dimensional, and Q decomposes canonically as ⊕_σ H_σ over continuous semisimple σ: Weil(K̄/K) → Ĝ(ℚ̄_ℓ) unramified outside N, H_σ being the generalized eigenspace for the character f((σ(γ_i))) of the excursion algebra; H_σ lies in the generalized eigenspace of T(h_(V,v)) with eigenvalue χ_V(σ(Frob_v)) for v ∉ N. The decomposition is compatible with constant-term morphisms. A discrete automorphic π with a number-field model occurring in such a quotient has a compatible global parameter (§7.3). For a constituent π the full compact-support comparison of Li-Huerta Theorem 6.13 also identifies σ|_(W_(K_v))^(ss)=L_(K_v)(π_v) at ramified places, whenever π lies in the chosen σ generalized eigenspace. No algebraicity of eigenvalues for arbitrary coefficient-field ideals 𝔍 is asserted.
+**7.6 Xue: parametrization of finite-codimension Hecke quotients.** Let G be split reductive over K, N a level, Ξ a cocompact central lattice, u ∉ N a place and 𝔍 an ideal of finite codimension in the spherical Hecke algebra H_(G,u). Then C_c(Bun_(G,N)(F_q)/Ξ, ℚ̄_ℓ) is of finite type over H_(G,u) (Proposition 1), so the quotient Q = C_c/𝔍·C_c is finite-dimensional, and Q decomposes canonically as ⊕_σ H_σ over continuous semisimple σ: Weil(K̄/K) → Ĝ(ℚ̄_ℓ) unramified outside N, H_σ being the generalized eigenspace for the character f((σ(γ_i))) of the excursion algebra; H_σ lies in the generalized eigenspace of T(h_(V,v)) with eigenvalue χ_V(σ(Frob_v)) for v ∉ N. The decomposition is compatible with constant-term morphisms. A discrete automorphic π with a number-field model occurring in such a quotient has a compatible global parameter (§7.3). For a constituent π the full compact-support comparison of Li-Huerta Theorem 6.13 also identifies σ|_(W_(K_v))^(ss)=L_(K_v)(π_v) at ramified places, whenever π lies in the chosen σ generalized eigenspace. No algebraicity of eigenvalues for arbitrary coefficient-field ideals 𝔍 is asserted.
 
 Throughout this statement, K = k₁(X) is the function field of a smooth projective geometrically connected curve X over a finite field k₁ of characteristic p and cardinality q₁; |X| is its set of closed points (places); q_w = |k(w)| for a place w; ℓ ≠ p is a prime. G split; Hecke operators on Q need not be diagonalizable (Xue Remark 3.6.8).
 
@@ -1228,7 +1206,9 @@ The construction has the following API.
 
 *Needs:* §2.3 (normalized real part); §3.3 (L_F and normalized induction); SmoothRepresentationsOfLocalGroupsPartII §7.1 (Aubert involution and cuspidal support), SmoothRepresentationsOfLocalGroupsPartII §§7.3–7.13 (strata, complementary series and extraneous lists); ReductiveGroups §§10A–10B (algebraic Weyl characters and character separation); RepresentationTheory/LieHighestWeight Layer 6 (Weyl characters); ReductiveGroupsPartII §RG2.5.1 (dual torus and relative Weyl group).
 
-### 8.1 Global weight patterns
+### 8.1 Global weight patterns and propagation of complementary series
+
+This group attaches to a compatible global parameter with integer weights a weight pattern that is the same at every place outside S, and uses it to propagate complementary series and, for adjoint G with central compact part, to restrict the real part at split places to the central point or an extraneous point. Sections 8.3 and 8.6 consume it.
 
 Let π have a compatible global parameter σ (§7.3) such that L(π, τ) has integer weights for every τ (for instance π_u geometric at some place u, by §1.2). The global weight pattern is n(i, π, τ):= rank gr_i^W L(π, τ). For every w ∉ S, the weight multiplicity function of §8.0 of the real part of s_w(π), normalized with q = q_w and τ restricted to Ĝ, equals n(·, π, τ) for every τ.
 
@@ -1253,9 +1233,7 @@ The construction has the following API.
 
 *Needs:* §7.3; §1.2; §8.0 (weight multiplicity functions).
 
-### 8.2 Propagation of complementary series
-
-Let G be connected semisimple over K and split at v, and let π ⊂ A_disc(G, ℚ̄) with m_U(π) ≠ 0 having a compatible global parameter (§7.3: π cuspidal, or occurring in a finite-codimension Hecke quotient, or under the hypotheses of §7.4). Assume a place u with π_u geometric (§3.4) and a place v ∉ S with π_v ⊗_ι ℂ in the complementary series CS(G(K_v), O^∨) of a nilpotent orbit O^∨. Then: (a) for every w ∉ S, s_w(π) is geometric with the same L-group weight pattern as s_v(π), and for every split such w the normalized real parts ℜ(s_w) and ℜ(s_v) are Weyl-conjugate; (b) if G is adjoint, w ∉ S is split and s_v and s_w have central compact parts, π_w ⊗_ι ℂ lies in CS(G(K_w), O^∨); (c) if G is adjoint and s_v has central compact part, ℜ(s_v) is the central point ½h^∨ of O^∨ or one of the extraneous real parts listed in SmoothRepresentationsOfLocalGroupsPartII §§7.10–7.12, and every split w ∉ S has the same real part.
+**8.2 Propagation of complementary series.** Let G be connected semisimple over K and split at v, and let π ⊂ A_disc(G, ℚ̄) with m_U(π) ≠ 0 having a compatible global parameter (§7.3: π cuspidal, or occurring in a finite-codimension Hecke quotient, or under the hypotheses of §7.4). Assume a place u with π_u geometric (§3.4) and a place v ∉ S with π_v ⊗_ι ℂ in the complementary series CS(G(K_v), O^∨) of a nilpotent orbit O^∨. Then: (a) for every w ∉ S, s_w(π) is geometric with the same L-group weight pattern as s_v(π), and for every split such w the normalized real parts ℜ(s_w) and ℜ(s_v) are Weyl-conjugate; (b) if G is adjoint, w ∉ S is split and s_v and s_w have central compact parts, π_w ⊗_ι ℂ lies in CS(G(K_w), O^∨); (c) if G is adjoint and s_v has central compact part, ℜ(s_v) is the central point ½h^∨ of O^∨ or one of the extraneous real parts listed in SmoothRepresentationsOfLocalGroupsPartII §§7.10–7.12, and every split w ∉ S has the same real part.
 
 Throughout this statement, K = k₁(X) is the function field of a smooth projective geometrically connected curve X over a finite field k₁ of characteristic p and cardinality q₁; |X| is its set of closed points (places); q_w = |k(w)| for a place w; ℓ ≠ p is a prime. ℚ̄ is the algebraic closure of Q inside C, and ι: ℚ̄ → C, ι_ℓ: ℚ̄ → ℚ̄_ℓ are fixed embeddings; a statement 'for every ι' quantifies over all field embeddings ℚ̄ → C, equivalently over all field isomorphisms ℚ̄_ℓ ≅ C after extension. Use the factorizable compact open U and finite set S of Conventions; outside S the chosen U_w is hyperspecial and G is unramified. Whenever geometricity or an Aubert anchor at u is used, require σ|_(W_(K_u))^(ss)=L_(K_u)(π_u). This follows for cuspidal parameters by §3.3 and for a chosen Xue quotient eigenspace by §7.6 with Li-Huerta Theorem 6.13. For a bare hypothetical parameter known only by good-place Satake compatibility, it is an additional hypothesis.
 
@@ -1270,7 +1248,9 @@ Throughout this statement, K = k₁(X) is the function field of a smooth project
 
 *Needs:* §7.3; §3.4; §1.2; §8.1; §8.0 (weight recognition); SmoothRepresentationsOfLocalGroupsPartII §§7.6–7.12 (strata, complementary series and extraneous lists); §5.2; §7.6.
 
-### 8.3 The weight array of a global parameter at a ramified place
+### 8.3 Symmetric weight arrays and the multiplicity comparisons excluding extraneous points
+
+This group supplies the three inputs of the contradiction in §8.6: the symmetric weight array of a global parameter at a ramified place with its row and column margins, Property A for symmetric finitely supported arrays, and, for each extraneous real part, a representation whose weight multiplicities exceed the central ones at the largest discrepancy. Section 8.6 consumes all three.
 
 With π, σ, u ∈ S and τ as in §8.2 and L(π, τ) with integer weights, let a(i, k)(τ) be the dimension of the generalized eigenspace of weight k of Frob_u on the fibre at u of gr_i^W L(π, τ). Then: the row sums Σ_k a(i, k) are n(i, π, τ) = n_v(i) (the global pattern, equal to that of s_v); the column sums Σ_i a(i, k) are the weight multiplicities n_u(k) of τ ∘ L_F(π_u) at u; and a(i, i + j) = a(i, i − j) for all i, j. View this as a finitely supported natural-valued function on ℤ×ℤ. Its row and column margins are `Finsupp.mapDomain` along the first and second projections; the geometry supplies the symmetry needed for §8.4.
 
@@ -1298,9 +1278,7 @@ The construction has the following API.
 
 *Needs:* §8.1; §1.2; §3.3; §8.2 (global and anchor hypotheses)
 
-### 8.4 Property A for symmetric weight arrays
-
-Let a: ℤ × ℤ → ℕ have finite support and satisfy a(i, i + j) = a(i, i − j) for all i, j; let r(i) = Σ_k a(i, k) and c(i) = Σ_k a(k, i). Then either a is diagonal and r = c, or at the largest index i₀ with r(i₀) ≠ c(i₀) one has c(i₀) > r(i₀). This auxiliary finite-array theorem uses the native finitely supported function carrier and its two `Finsupp.mapDomain` margins, without a chosen bounding interval.
+**8.4 Property A for symmetric weight arrays.** Let a: ℤ × ℤ → ℕ have finite support and satisfy a(i, i + j) = a(i, i − j) for all i, j; let r(i) = Σ_k a(i, k) and c(i) = Σ_k a(k, i). Then either a is diagonal and r = c, or at the largest index i₀ with r(i₀) ≠ c(i₀) one has c(i₀) > r(i₀). This auxiliary finite-array theorem uses the native finitely supported function carrier and its two `Finsupp.mapDomain` margins, without a chosen bounding interval.
 
 Throughout this statement, a has finite support; no other hypothesis.
 
@@ -1319,9 +1297,7 @@ Throughout this statement, a has finite support; no other hypothesis.
 
 *Needs:* Mathlib `Finsupp`, `Finsupp.mapDomain`, `Finsupp.sum`, `Finset.sum_comm` and `Finset.sum_eq_single`; nonnegative multiplicities and finite support.
 
-### 8.5 Weight multiplicity comparisons excluding extraneous points
-
-For each extraneous real part x attached to the orbit O∨ in the real or central-compact lists of SmoothRepresentationsOfLocalGroupsPartII §§7.10–7.11, prove the following comparison on an actual representation τ of Ĝ. There is a largest discrepancy i₀ such that n_x(i)=n_(h/2)(i) for i>i₀ and n_x(i₀)>n_(h/2)(i₀), where n_y = n_(y,τ) is the weight multiplicity function of §8.0, so n_y(i) is the multiplicity of weights μ with 2⟨μ,y⟩=i. For Sp(2n) use its standard representation and the largest even j with r_j≥3 and ε_j=1; for Spin(m) use its vector representation and the largest odd j with r_j≥3 and ε_j=1, with r_j and ε_j as in SmoothRepresentationsOfLocalGroupsPartII §7.10. The discrepancy is +1. For the adjoint representations of exceptional duals the comparisons are: F₄ B₃, i₀=8, multiplicities 2>1; F₄ short A₁ plus A₁, i₀=4, 1>0; E₇ D₅(a₁)+A₁, i₀=9, 1>0; E₈ D₆, i₀=16, 2>1; E₈ A₆, i₀=13, 1>0; E₈ A₄+A₂, i₀=9, 1>0; E₈ A₂+2A₁, i₀=5, 1>0. Equality above each index is included. Use the named-orbit profile contract to attach each neutral element to the named orbit; an array of dimensions bearing an orbit label is insufficient.
+**8.5 Weight multiplicity comparisons excluding extraneous points.** For each extraneous real part x attached to the orbit O∨ in the real or central-compact lists of SmoothRepresentationsOfLocalGroupsPartII §§7.10–7.11, prove the following comparison on an actual representation τ of Ĝ. There is a largest discrepancy i₀ such that n_x(i)=n_(h/2)(i) for i>i₀ and n_x(i₀)>n_(h/2)(i₀), where n_y = n_(y,τ) is the weight multiplicity function of §8.0, so n_y(i) is the multiplicity of weights μ with 2⟨μ,y⟩=i. For Sp(2n) use its standard representation and the largest even j with r_j≥3 and ε_j=1; for Spin(m) use its vector representation and the largest odd j with r_j≥3 and ε_j=1, with r_j and ε_j as in SmoothRepresentationsOfLocalGroupsPartII §7.10. The discrepancy is +1. For the adjoint representations of exceptional duals the comparisons are: F₄ B₃, i₀=8, multiplicities 2>1; F₄ short A₁ plus A₁, i₀=4, 1>0; E₇ D₅(a₁)+A₁, i₀=9, 1>0; E₈ D₆, i₀=16, 2>1; E₈ A₆, i₀=13, 1>0; E₈ A₄+A₂, i₀=9, 1>0; E₈ A₂+2A₁, i₀=5, 1>0. Equality above each index is included. Use the named-orbit profile contract to attach each neutral element to the named orbit; an array of dimensions bearing an orbit label is insufficient.
 
 (ch26, §10.2, proof of Theorem 10.3, cases (1)–(5), p. 34; §8.2, Theorem 8.5 and Remark 8.6, pp. 28–29; Appendix Tables 2–3, pp. 36–37; ch26 line 1657.)
 
