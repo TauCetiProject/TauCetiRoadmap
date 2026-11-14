@@ -1949,10 +1949,10 @@ coefficients of `χ(t_1r_1 + ⋯ + t_nr_n) ∈ R[t_1, …, t_n]`. Prove `CH(D) �
   unit ideal. Over `ℤ`, the identity character has `CH = 0`, while the values of `x ↦ x`
   generate `(1)`.
 
-**Cayley–Hamilton algebras.** A determinant `D` on `R` is Cayley–Hamilton if `CH(D) = 0`,
-equivalently if the law `χ : R → R` vanishes identically; `(R, D)` is then a Cayley–Hamilton
-`A`-algebra of degree `d`. Define the Cayley–Hamilton property as `CH(D) = 0`. Prove that it
-holds iff `χ = 0` as a law and that it is stable under base change
+**Cayley–Hamilton algebras.** Take the vanishing `CH(D) = 0` as the definition of a
+Cayley–Hamilton determinant `D` on `R`, and call a pair `(R, D)` with this property a
+Cayley–Hamilton `A`-algebra of degree `d`. Two facts about the condition are to be proved: it says
+exactly that the characteristic law `χ : R → R` is zero as a law, and base change preserves it
 ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.17, p. 17). *Needs:* The Cayley–Hamilton ideal.
 
 **Checks.**
