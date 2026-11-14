@@ -316,9 +316,11 @@ in which K2's conditions control the local cohomology of each chart.
 
 ## Layer K0: Annihilator products, secant and CM-secant sequences
 
-A CM-secant sequence is a part of a system of parameters whose `i`-th entry vanishes to high
-enough order on the non-Cohen–Macaulay locus of the preceding prefix quotient, the order being
-measured by the product of the annihilators of the local cohomology modules below the dimension.
+The entries of a CM-secant sequence form part of a system of parameters, and the `i`-th one must
+lie in the product of the annihilators of those local cohomology modules of the prefix quotient by
+the first `i − 1` entries whose degree is below that quotient's dimension. Read geometrically, the
+membership forces the entry to vanish to a sufficiently large order wherever that prefix quotient
+fails to be Cohen–Macaulay.
 This layer defines these objects with the zero module and empty sequences included, proves the
 three facts about them that the later layers and the source's applications use, and identifies
 the zero locus of the annihilator product through local duality.
