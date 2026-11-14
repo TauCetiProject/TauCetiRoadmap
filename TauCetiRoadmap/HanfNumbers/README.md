@@ -134,6 +134,23 @@ only through the upper bound and the existence of a global Hanf bound.
    the comparison, code a colouring of the increasing `n`-tuples of a well-ordered carrier, for
    each `n`, by an `n`-ary relation symbol of a countable language with an order symbol.)
 
+**Checks** (the iterated exponential, Convention 4).
+
+- At `κ = 2` the first three values are `2`, `4` and `16`.
+- At `κ = 0` they are `0`, `1` and `2`: the recursion is meaningful for finite `κ`, although the
+  partition theorems use it only for infinite `κ`.
+- The exponents nest rather than multiply: `ℶ₂(3) = 2^(2^3) = 256`, not `(2^3)^2 = 64`.
+
+**Checks** (categoricity, Convention 7).
+
+- Over the empty language, "there are infinitely many elements" is `κ`-categorical for every
+  infinite `κ`: two pure sets of the same cardinality are isomorphic.
+- The Scott sentence of `(ℚ, <)` is `ℵ₀`-categorical but not `ℵ₁`-categorical: its models are the
+  dense linear orders without endpoints, and the lexicographic product of `ω₁` copies of `ℚ` and
+  its reverse are two of cardinality `ℵ₁` with cofinalities `ℵ₁` and `ℵ₀`.
+- "There are exactly two elements" is `2`-categorical and also `ℵ₀`-categorical, vacuously:
+  categoricity in `κ` does not ask for a model of cardinality `κ`.
+
 ## Exact supplier contracts
 
 The following are suppliers, not requests to rebuild their objects.
@@ -268,12 +285,28 @@ For a linear order `I` and a colour type `C`:
   `μ = 0`, since `Fin 0 ↪o J` is inhabited and admits no colouring by an empty type. The partition
   theorems of this layer all have an infinite colour bound.
 
-**Checks.**
+**Checks** (the partition relation).
 
 - `0 → (0)¹_0` holds: the empty order is its own homogeneous set (Erdős and Rado's form fails).
 - `3 → (2)¹_2` holds: two colours on three points leave a fibre with two points.
 - `2 → (2)¹_2` fails: colouring the two points of a two-element order differently leaves no
   homogeneous set with two points.
+
+**Checks** (homogeneity and end-homogeneity).
+
+- For the colouring `(x + y) mod 2` of the increasing pairs of `ℕ`, the even numbers form a
+  homogeneous set, all of whose pairs have colour `0`; `{0, 1, 2}` does not, since the pair `(0, 1)`
+  has colour `1` and `(0, 2)` colour `0`.
+- For `n = 1` a set is homogeneous exactly when the colouring is constant on its points, and for
+  `n = 0` every set, `∅` included, is homogeneous for every colouring, since there is exactly one
+  increasing `0`-tuple.
+- The pair colouring `x mod 2` (the smaller point) makes `ℕ` end-homogeneous but not homogeneous:
+  `(0, 1)` has colour `0` and `(1, 2)` colour `1`. The pair colouring `y mod 2` (the larger point)
+  makes `{0, 1, 2}` not end-homogeneous: `(0, 1)` and `(0, 2)` agree on their first point and have
+  colours `1` and `0`.
+- A set with at most `n + 2` points is end-homogeneous for every colouring of increasing
+  `(n + 2)`-tuples, since it has at most one such tuple; `{0, 1, 2}` above is the smallest set that
+  a pair colouring can make fail.
 
 API: homogeneity is inherited by subsets and transported along order embeddings and order
 isomorphisms; the restriction of a colouring along an order embedding has the pulled-back
@@ -406,6 +439,15 @@ sentences `θ(d_{i₁}, …, d_{iₙ}) ↔ θ(d_{j₁}, …, d_{jₙ})` for `θ`
 increasing index tuples, so that in a model of `Γ` the constants `dᵢ` form an infinite set of
 indiscernibles.
 
+**Checks** (indiscernibility).
+
+- In `(ℕ, <)`, the identity sequence is indiscernible for `x₀ < x₁`: the formula holds at every
+  increasing pair.
+- In `(ℤ, <)`, the sequence `n ↦ (−1)ⁿ n` (values `0, −1, 2, −3, …`) is not: `x₀ < x₁` holds at the
+  index pair `(0, 2)` and fails at `(0, 1)`.
+- Every sequence, over every index order, is indiscernible for any set of sentences (arity `0`):
+  there is exactly one increasing `0`-tuple.
+
 Indiscernibility of an injective sequence for the equality formulas is automatic, and the
 sequence's increasing tuples realize the same equality pattern.
 
@@ -429,6 +471,16 @@ indiscernibility this fails: `P(a n) ↔ n ≥ 1` along `succ : ℕ ↪o ℕ` pu
 template of the subsequence and not in that of `a`); and if `b : K → N` realizes the template of `a` on `Δ` then `b` is
 indiscernible on `Δ`.
 
+**Checks** (templates, realization and coherence).
+
+- Over a one-point index order the template of any sequence contains every formula of arity `2`,
+  `⊥` included, since there are no increasing pairs.
+- For an injective sequence indexed by `ℕ` in a pure set, the template contains `¬(x₀ = x₁)` and
+  `x₀ = x₀` and omits `x₀ = x₁` and `⊥`; it is coherent: the reindexing `x₀ = x₂` of `x₀ = x₁` along
+  `0 ↦ 0, 1 ↦ 2` is omitted too, and the sequence realizes its own template.
+- A template declaring `x₀ = x₁` true at arity `2` and `x₀ = x₂` false at arity `3` is not coherent,
+  and no sequence over an infinite index order realizes it on these two formulas.
+
 Templates are this roadmap's interface: they record, as data, the truth values that an
 indiscernible sequence gives its increasing tuples. Marker's notes leave this object unnamed and
 obtain the indiscernibles as constants in a model of the theory `T ∪ Γ` of the proof of
@@ -444,6 +496,15 @@ ignores the tuple and `x₀ ≠ x₁` holds at every increasing pair. If `b : J 
 of such a sequence on the seed, then `N ⊨ φ` and `b` is injective, so `#J ≤ #N`. The seed is this
 roadmap's name for the part of the starting data of the proof of Theorem 5.2 in Marker's notes
 (p. 57) that concerns the indiscernibles: `φ ∈ T` and the disequalities `dᵢ ≠ dⱼ` for `i < j`.
+
+**Checks** (the Morley seed).
+
+- For `φ = ⊤`, an injective sequence in any structure is indiscernible for the seed, with both
+  members true at every increasing tuple.
+- A constant sequence over an index order with two points is indiscernible for the seed too, but
+  with `x₀ ≠ x₁` false, so it does not realize the template of an injective sequence.
+- Over a one-point index order every sequence in a model of `φ` realizes that template: there are no
+  increasing pairs, so the disequality constrains only orders with at least two points.
 
 **Acceptance check:** every injective sequence in a model of `φ` is indiscernible for the Morley
 seed, compiled on the parent's Layer 0 alone.
@@ -569,6 +630,15 @@ Ehrenfeucht–Mostowski sources and Skolem templates are this roadmap's interfac
 statement they serve is Marker's notes, Exercise 5.7, p. 57: if `T` is a theory with built-in
 Skolem functions in a countable fragment `A` and a model of `T` contains an infinite set of
 indiscernibles for `A`, then `T` has arbitrarily large models.
+
+**Checks** (Ehrenfeucht–Mostowski sources). Over the empty language take `Γ = {x₀ = x₁}`, a
+fragment with no compound or universal members, so that conditions (1)–(3) hold and terms are
+variables.
+
+- The identity `ℕ → ℕ` is a source: `x₀ = x₁` is false at every increasing pair.
+- `n ↦ n mod 2` is not: `x₀ = x₁` is false at the index pair `(0, 1)` and true at `(0, 2)`.
+- A constant sequence is a source, with `x₀ = x₁` true at every pair; it is not injective, and the
+  Ehrenfeucht–Mostowski model of its template over any nonempty `J` has exactly one element.
 
 ### 2.3 The Ehrenfeucht–Mostowski term model
 
@@ -699,6 +769,9 @@ a model of the image restricts to a model of `φ` on the same carrier.
 - `∀x ⊥` has Hanf number `0`: it has no nonempty model, so every cardinal is a Hanf bound.
 - The ladder sentence at `α = 0` (4.2) has Hanf number `(2^ℵ₀)⁺`: it has a model of cardinality
   `2^ℵ₀` and none larger, so exactly the cardinals above `2^ℵ₀` are Hanf bounds.
+- Over the empty language "there are exactly two elements" has Hanf number `3`: `2` is not a Hanf
+  bound, since there is a model of cardinality `2` and none arbitrarily large, and `3` is one, since
+  there is no model of cardinality at least `3`.
 
 ### 3.2 Reduction to a countable Skolemized setting
 
@@ -758,6 +831,15 @@ indiscernibles are new constants. Targets:
   structure itself.
 - **`IsCofinallyApproximated.exists_iInf_witness`.** Dually, `p (iInf ψs) = false` gives some `i` with
   `p ∪ {ψs i ↦ false}` cofinally approximated.
+
+**Checks** (approximation).
+
+- For `σ = ⊤`, `pos = {x₀ ≠ x₁}` and `neg = ∅`, the condition is cofinally approximated: a set of
+  cardinality `ℶ_α` with any linear order has `x₀ ≠ x₁` at every increasing pair.
+- With `x₀ ≠ x₁` in both `pos` and `neg`, the condition is approximated at `1`, where `H` has no
+  increasing pair, and not at `2`, so it is not cofinally approximated.
+- With `pos = neg = ∅`, approximation at `κ` says only that `σ` has a model of cardinality at least
+  `κ`: for "there are exactly two elements" it holds at `2`, fails at `3`, and is not cofinal.
 
 ### 3.4 The template and the theorem
 
@@ -873,6 +955,16 @@ with a model of cardinality `κ` has arbitrarily large models; Exercise 5.1 ther
 set-indexed family of classes of structures has such a cardinal. Here a bound is triggered by a
 nonempty model of cardinality at least `κ` (Convention 6), and `lomega1omegaHanfNumber` ranges
 over the sentences of all languages in `Language.{u, v}`.
+
+**Checks** (global Hanf bounds).
+
+- `2` is not a global Hanf bound: over the empty language "there are exactly two elements" has a
+  nonempty model of cardinality `2` and no arbitrarily large models.
+- Every cardinal is a Hanf bound for `∃x (x = x)` over the empty language, which has arbitrarily
+  large models; a global bound is constrained only by sentences with bounded spectra.
+- The bounded-spectrum criterion applies to "there are exactly two elements" at `κ = 2`, giving
+  `2 < lomega1omegaHanfNumber`, and not at `κ = 3`, where the sentence has no model of cardinality
+  at least `3`.
 
 ### 4.2 The beth ladder
 
@@ -996,6 +1088,9 @@ Using IME's `infinitaryType` and `realizedTypes` (IME 4.1):
   automorphisms act transitively on increasing tuples.
 - The ordered field `ℝ` is not small: every rational is definable, so distinct reals have distinct
   complete `1`-types, and there are `2^ℵ₀` of them.
+- `(ω₁, <)` is not small: each countable ordinal `α` is defined by an Lω₁ω formula `φ_α(x)`, namely
+  `¬∃y (y < x)` at `α = 0` and `∀y (y < x ↔ ⋁_{β<α} φ_β(y))`, a countable disjunction, otherwise;
+  so its `ℵ₁` elements have `ℵ₁` distinct complete `1`-types.
 
 ### 5.3 Small models of every infinite cardinality
 
@@ -1028,10 +1123,14 @@ In 5.4 and 5.5 `L` is relational with countably many relation symbols, as the pa
 sentences require; 5.6 extends both statements to languages with countably many function and
 relation symbols.
 
-**Checks** (`IsCompleteSentence`, Convention 7).
+**Checks** (complete sentences, Convention 7).
 
 - `⊥` is not complete: it has no model.
-- The Scott sentence of `(ℚ, <)` is complete (`isCompleteSentence_scottSentence`).
+- Over the empty language "there is exactly one element" is complete, since its models are the
+  one-point structures, all isomorphic; "there is at least one element" is not, since it holds in
+  structures with one and with two elements, which disagree on `∃x ∃y ¬(x = y)`.
+- The Scott sentence of `(ℚ, <)` is complete: each of its models, of any cardinality, is potentially
+  isomorphic to `(ℚ, <)` and so satisfies the same Lω₁ω sentences.
 
 - **Countable companion**: a small structure `M` is potentially isomorphic to a countable structure
   (Marker's notes, the remark after Definition 6.11, p. 77, as `L∞ω`-equivalence, which Karp's
