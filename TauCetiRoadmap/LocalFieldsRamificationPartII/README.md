@@ -452,7 +452,10 @@ gives the section of each such identifier.
 Field theory needed to state the end theorems: degrees supported on a set of primes, positivity
 included, and the distinction between all finite extensions and separable ones.
 
-### 0.1 Prime-supported degrees
+### 0.1 Prime-supported degrees and extensions
+
+The `P`-number condition on degrees and the `P`-extensions defined by it, with their tower and
+union laws. §§0.3–0.4 and the description of purely wild extensions in §2.6 use them.
 
 Define `IsPNumber P n`, for a set `P` of natural numbers and `n : ℕ`, to mean that `n > 0` and every
 prime divisor of `n` lies in `P` (Temkin 2017, §2.1.1, p. 103). *Needs:* Mathlib `Nat.Prime`,
@@ -476,8 +479,7 @@ prime divisor of `n` lies in `P` (Temkin 2017, §2.1.1, p. 103). *Needs:* Mathli
 - `6` is a `{2, 3}`-number and not a `{3}`-number; `9` is a `{3}`-number. A definition testing only
   the largest prime factor would accept `6` for `{3}`.
 
-### 0.2 Prime-supported algebraic extensions
-
+**0.2 Prime-supported algebraic extensions.**
 Define an algebraic extension `L/K` to be a `P`-extension when every finite subextension `E/K` has
 `P`-number degree; neither `L/K` nor its normal closure is required to be Galois (Temkin 2017,
 §2.1.1, p. 103). *Needs:* §0.1; Mathlib `Module.finrank_mul_finrank`, `IntermediateField`.
@@ -509,7 +511,11 @@ Define an algebraic extension `L/K` to be a `P`-extension when every finite sube
   `[ℚ(√3, √6) : ℚ] = 4`. With the basis `1, √3`, the product `√6·1 = √2·√3` has the coordinate `√2`,
   so `L_0 = ℚ(√2)`, `E_0 = ℚ(√2, √3)` and `[E_0 : L_0] = 2`.
 
-### 0.3 Prime-supported closed fields
+### 0.3 Prime-supported closed fields and maximal prime-supported extensions
+
+The predicates `IsPClosed` and `IsSeparablyPClosed`, their comparison through the perfection, and
+the maximal `P`-extensions and maximal separable `P`-extensions, which are `P`-closed and
+separably `P`-closed respectively. §2.10, §4.5, §§6.1–6.3 and §6.5 use them.
 
 Define `IsPClosed P K` to mean that every finite subextension `E` of `AlgebraicClosure K` over `K`
 whose degree is a `P`-number is `K` itself; purely inseparable extensions are included (Temkin 2017,
@@ -542,8 +548,7 @@ subextensions; no perfection is imposed.
 - The separable closure of `𝔽_p(t)` is separably `{p}`-closed and not `{p}`-closed, since
   `t^{1/p}` has degree `p`: the two predicates differ for imperfect fields.
 
-### 0.4 Maximal prime-supported extensions
-
+**0.4 Maximal prime-supported extensions.**
 Prove that inside `Kᵃ` every `P`-extension of `K` is contained in a maximal one `K_P`, and that
 `K_P` satisfies `IsPClosed P` (Zorn's lemma with §0.2, Temkin 2017, §2.1.1, p. 103). Prove that if
 `K` has characteristic exponent `q`, `q` is prime and `q ∈ P`, then a `P`-closed `K` is perfect: a
@@ -640,7 +645,11 @@ so their centres on `B` are distinct maximal ideals. *Needs:* Mathlib `Valuation
 - For a nondiscrete valuation ring and a finite extension the normalization need not be a finite
   `V`-module; the statement assumes nothing about finiteness.
 
-### 1.2 Étale maps and the henselization of valuation rings
+### 1.2 The henselization of valuation rings and of valued fields
+
+The henselization and the strict henselization of a valuation ring as valuation rings with its
+value group, and the henselization `Kʰ` of a valued field with its universal property and the
+characterization of henselian fields. §1.4, §2.1, §§2.2–2.3 and §4.1 use them.
 
 Prove: for a valuation ring `A`, an étale `A`-algebra `B` and a prime `𝔪 ⊆ B` over the maximal ideal
 of `A`, the local ring `B_𝔪` is a valuation ring with the same value group as `A` (Stacks, Lemma
@@ -668,8 +677,7 @@ SchemeAndStackFoundations §0.12 (`henselization_at_prime`); ClassicalAdicEtaleC
 - `ℤ_(p) → ℤ_(p)[√p]_(√p)` is a localization of a finite, not étale, algebra and its value group is
   `½ℤ`: the étale hypothesis cannot be dropped.
 
-### 1.3 The henselization of a valued field
-
+**1.3 The henselization of a valued field.**
 For `V ⊆ K` define the henselization `Kʰ = Frac(Vʰ)` with `Vʰ` the henselization of the local ring
 `V` (Tau Ceti's `TauCeti.Henselization.algebra` of the maximal ideal of `V`, a henselian local ring
 by `TauCeti.Henselization.henselianLocalRing`), embedded in `Kˢ` through the fixed
@@ -943,7 +951,11 @@ change of prolongation. *Needs:* §§1.2–1.3; ClassicalAdicEtaleCohomology §�
 - For `K = 𝔽_p(t)` with the trivial valuation, `W = 1` and its fixed field in `Kˢ` is `Kˢ`, while
   its fixed field in `Kᵃ` is `Kᵃ ≠ Kˢ`: the fixed-field statement must name `Kˢ`.
 
-### 2.3 Unramified and strictly unramified extensions
+### 2.3 The six extension classes
+
+The strictly unramified, unramified, tame, henselian, totally ramified and purely wild extensions,
+with their characterizations and the Galois tame part. §§2.8–2.9 and §3.3 use the whole group;
+§2.1, §2.7, §2.10, §3.5, §§4.2–4.3, §4.5, §§5.4–5.5 and §6.4 use parts of it.
 
 Define an algebraic extension `L/K` of valued fields to be unramified when `Lʰ/Kʰ` lies in `Kᵘ`,
 that is, `L ⊆ Kᵘ` inside `Kᵃ`, and strictly unramified when moreover the residue fields agree
@@ -965,8 +977,7 @@ that is, `L ⊆ Kᵘ` inside `Kᵃ`, and strictly unramified when moreover the r
 - `ℚ_p(p^{1/ℓ})/ℚ_p` is ramified for every prime `ℓ`: its value group grows.
 - `𝔽_p((t))/𝔽_p((t))` is strictly unramified although `𝔽_p` is not separably closed.
 
-### 2.4 Tame extensions and tame Galois extensions
-
+**2.4 Tame extensions and tame Galois extensions.**
 Define an algebraic extension `L/K` of valued fields to be tame when `L ⊆ Kᵗ` inside `Kᵃ`, that is,
 when `Lʰ/Kʰ` is tame (Temkin 2017, §§2.2.5–2.2.6, p. 104 and §2.3.7, p. 105).
 
@@ -1015,8 +1026,7 @@ field of `V`. Define `galoisTamePart V` as the compositum of all `L` with `IsTam
   (the Galois subextensions of `N` are `ℚ`, `ℚ(√−26)`, ramified at `2`, and `N`). So the Galois
   tame part differs from `Kᵗ` for this non-henselian `V`.
 
-### 2.5 Henselian extensions and disjointness from the henselization
-
+**2.5 Henselian extensions and disjointness from the henselization.**
 Define an algebraic extension `L/K` of valued fields to be a henselian extension when `V` has exactly
 one prolongation to `L` (Temkin 2017, §2.3.10, p. 106). Prove that `L/K` is henselian exactly when
 `L` and `Kʰ` are linearly disjoint over `K`, and that then multiplication `L ⊗_K Kʰ → Lʰ` is an
@@ -1040,8 +1050,7 @@ henselizations (`TauCeti.Henselization.directLimitEquiv`; EGA IV, Proposition 18
 - A purely inseparable extension is linearly disjoint from the separable `Kʰ`, so its tensor product
   with `Kʰ` is a field.
 
-### 2.6 Totally ramified and purely wild extensions
-
+**2.6 Totally ramified and purely wild extensions.**
 Define an algebraic extension `L/K` to be totally ramified when `L` and `Kᵘ` are linearly disjoint
 over `K`, and purely wild when `L` and `Kᵗ` are linearly disjoint over `K` (Temkin 2017, §§2.2.4 and
 2.2.7, p. 104 and §2.3.12, p. 106). Prove: `L/K` is totally ramified exactly when it is henselian
@@ -1250,7 +1259,10 @@ which assumes nothing pro-`p` about `E`. When `E` is itself pro-`p` the whole st
   `TauCeti.IsProjective.exists_continuous_lift`, which needs a pro-`p` source, does not cover this
   case: step (b) of the route is what is proved here.
 
-### 3.2 Maximal extensions with prescribed ramification
+### 3.2 Maximal extensions with prescribed ramification and their complements
+
+Maximal subextensions of `Kᵃ/K` with any set of the six properties, and the complements they give
+to `Kʰ` in `Kᵘ` and to `Kᵘ` in `Kᵗ`. §3.4 uses the maximal extensions.
 
 For any set `S` of the six properties of Layer 2, prove that every subextension of `Kᵃ/K` with all
 properties in `S` is contained in a maximal one, and likewise inside `Kˢ` (Temkin 2017, Lemma
@@ -1270,8 +1282,7 @@ properties in `S` is contained in a maximal one, and likewise inside `Kˢ` (Temk
   (otherwise `G_{ℚ_p}` would be the direct product of `W` and `Gal(Kᵗ/ℚ_p)`), so some conjugate of it
   is a different maximal one.
 
-### 3.3 Unramified and tame complements
-
+**3.3 Unramified and tame complements.**
 Prove: if `K_hu/K` is maximal among henselian unramified extensions, then multiplication gives
 `Kʰ ⊗_K K_hu ≅ Kᵘ`; if `K_rt/K` is maximal among tame totally ramified extensions, then
 `Kᵘ ⊗_K K_rt ≅ Kᵗ` (Temkin 2017, Lemma 2.4.4, pp. 107–108). Route: disjointness holds by definition;
@@ -1289,7 +1300,10 @@ be the prime-to-`p` divisible hull of `Γ_K`. *Needs:* §0.5, §§2.2–2.6, §3
   its multiplication map onto `Kᵘ` has a kernel of dimension `1`: `F′` is not totally ramified and
   is no tame complement, although a test of the compositum alone would accept it.
 
-### 3.4 Splitting equivalences
+### 3.4 Splitting equivalences and the splitting over henselian fields
+
+The equivalent forms of the splitting `Kᵗ ⊗_K K_w ≅ Kᵃ` for a class of valued fields closed under
+algebraic extensions, and the splitting itself for every henselian field. §4.4 uses both.
 
 Let `𝒱` be a class of valued fields closed under algebraic extensions. Prove that the following are
 equivalent: (0) for each `K ∈ 𝒱` some maximal purely wild `K_w` satisfies `Kᵗ ⊗_K K_w ≅ Kᵃ`; (1) every
@@ -1316,8 +1330,7 @@ Ceti `TauCeti.absoluteGaloisGroupRestrictEquiv`.
 - For `K` tame, the maximal purely wild extension is `K` and (1) reads `Kᵗ = Kᵃ`.
 - For `p = 1`, `K_w` is the perfection of `K`, which is `K` itself.
 
-### 3.5 The Kuhlmann–Pank–Roquette theorem
-
+**3.5 The Kuhlmann–Pank–Roquette theorem.**
 Prove `sup_galoisTamePart_eq_top_of_henselian`: let `(K, V)` be henselian and `E` an intermediate
 field of `AlgebraicClosure K` over `K` that is linearly disjoint from `galoisTamePart V` and maximal
 with this property; then `E ⊔ galoisTamePart V = ⊤`. Since `galoisTamePart V = Kᵗ` for henselian
@@ -1368,7 +1381,11 @@ ProfiniteProPGroups, Layers 2, 5 and 6; ProfiniteCohomology, Layer 11 and the bo
 Rank one is used exactly where approximation is needed: the completion supplies density and root
 control, while the object descended is an extension of the henselization.
 
-### 4.1 The rank-one norm, Krasner's lemma and continuity of roots
+### 4.1 Krasner's lemma, continuity of roots and decompletion
+
+Krasner's lemma over a henselian base, continuity of roots over any valued field, the descent of
+separable algebraic extensions of `Kʰ` to henselian extensions of `K` in height one, and the
+resulting description of maximal separable purely wild extensions. §4.4 uses the last.
 
 Let `K` have height one. Choose an order embedding of `Γ_K` into the positive reals
 (`Valuation.RankOne`) and the associated ultrametric norm. Prove: the completion `K̂` is henselian and
@@ -1435,8 +1452,7 @@ of §4.2; the statement here adds the Krull-valued form, the converse direction,
   extended norm, Krasner's lemma over a henselian base applies while the complete-base instance
   `IsKrasner.of_completeSpace` does not; for `K = ℚ_p` both give `IsKrasner K L`.
 
-### 4.2 Decompletion
-
+**4.2 Decompletion.**
 Let `K` have height one and `L/Kʰ` be separable algebraic. Prove that there is a henselian algebraic
 extension `E/K` with a valued isomorphism `Eʰ ≅ L` and `E ⊗_K Kʰ ≅ L`; for finite `L` one can take
 `[E : K] = [L : Kʰ]` (Temkin 2017, Lemma 2.5.2, pp. 109–110). Nothing is claimed for inseparable `L`
@@ -1450,8 +1466,7 @@ simply be combined. *Needs:* §0.5, §2.5, §4.1; Tau Ceti `TauCeti.Henselizatio
 - At finite degree `[E : K] = [L : Kʰ]`; for `ℚ` at `p` and `L = H_p(√p)`, `E = ℚ(√p)` works.
 - For `K` henselian of height one, `Kʰ = K` and the statement holds with `E = L`.
 
-### 4.3 Maximal separable wildness under henselization
-
+**4.3 Maximal separable wildness under henselization.**
 For `K` of height one, prove that `E/K` is a maximal separable purely wild extension exactly when
 `E/K` is henselian and `Eʰ/Kʰ` is a maximal separable purely wild extension (Temkin 2017, Corollary
 2.5.3, p. 110). *Needs:* §2.5, §2.6, §4.2.
@@ -1473,7 +1488,10 @@ For `K` of height one, prove that `E/K` is a maximal separable purely wild exten
   hypothesis it fails: `ℚ(√2)/ℚ` at `7` is not purely wild, since `ℚ(√2)` lies in `H_7 ⊆ Kᵗ` for
   either prolongation, while `Eʰ/Kʰ` is the identity of `H_7` and is purely wild.
 
-### 4.4 The splitting theorem in height one
+### 4.4 Splitting and tameness in height one
+
+The splitting `Kᵗ ⊗_K K_w ≅ Kᵃ` in height one without henselian hypothesis and, from it, the
+tameness of `p`-closed fields of height one. §6.2 takes its height-one case from §4.5.
 
 For `K` of height one, without henselian hypothesis, prove that every maximal purely wild `K_w`
 satisfies `Kᵗ ⊗_K K_w ≅ Kᵃ` and every maximal separable purely wild `K_sw` satisfies
@@ -1487,8 +1505,7 @@ purely wild over `Kʰ` by §4.3, and §3.5 with tensor associativity gives the s
 - For imperfect `K` of characteristic `p`, `K_w` contains `K^{1/p^∞}`.
 - For `ℚ` with the `p`-adic valuation, `K_w ⊗ ℚʰ` is a maximal purely wild extension of `ℚʰ`.
 
-### 4.5 Tameness in height one
-
+**4.5 Tameness in height one.**
 Prove that a valued field of height one with residue characteristic exponent `p` that is `P`-closed
 for `P` the set of primes dividing `p` is tame (Temkin 2017, Corollary 2.5.6, p. 110). Route: a
 maximal purely wild extension is a `{p}`-extension (§2.6), hence trivial; §4.4 gives `Kᵗ = Kᵃ`.
@@ -1521,7 +1538,11 @@ unramified and tame classes of Layer 2 under composition. This layer rests on La
 nothing in it uses the profinite inputs, the henselian splitting or the height-one theory of
 Layers 3–4, and Layer 6 is where the two branches meet.
 
-### 5.1 Composed valuations
+### 5.1 Composed valuations and coarsening chains
+
+The composite of a valuation with a valuation of its residue field and, at finite height, the chain
+of coarsenings with their residue fields and residue characteristic exponents. §5.3, §5.4, §6.1
+and §6.2 use them.
 
 Let `V` be a valuation subring of `K` and `R` a valuation subring of `κ_V`. Define the composite
 `V ∘ R` as the inverse image of `R` under `V → κ_V`, a subring of `K` (Temkin 2017, §2.6.1, p. 110).
@@ -1547,8 +1568,7 @@ of `V ∘ R` is `κ_R`.
 - In that example `p⁻¹` lies in `ℚ_p[[t]]` and not in the composite: the composite is not the coarse
   ring.
 
-### 5.2 Height and the coarsening chain
-
+**5.2 Height and the coarsening chain.**
 If `ringKrullDim V = d` with `d` a natural number, construct the chain of the `d + 1` prime ideals of
 `V`, the unique coarsening `V_i` of height `i` for each `0 ≤ i ≤ d`, and the induced valuation on its
 residue field `κ_i`, of height `d − i`; identify height with the number of proper convex subgroups of
@@ -1605,7 +1625,11 @@ on prime fields have height at most one (Temkin 2017, proof of Theorem 2.6.6, p.
 - An `x` whose value lies in the value group of `K` cannot appear in `x`: the hypothesis on `x`
   applied to `n = (1)` excludes it, and in particular excludes `x_i = 0`.
 
-### 5.4 Unramified extensions and composition
+### 5.4 Unramified extensions, tame extensions and tame fields under composition
+
+For a valuation of finite height and one of its coarsenings, criteria for an algebraic extension
+to be unramified or tame, and for the field to be tame, through the coarse and the residual
+valuations. §6.2 uses the criterion for tame fields.
 
 Let `L/K` be algebraic, `V` of finite height `d` and `0 ≤ i ≤ d`. Prove that `L/K` is unramified
 exactly when `L_i/K_i` and the residual extension `κ_{L_i}/κ_{K_i}` with its induced valuations are
@@ -1633,8 +1657,7 @@ one, scaling coarse generators into the fine ring and adding residue generators 
   trivial valuation is inseparable, hence not unramified, as is the whole extension: a trivially
   valued step is not automatically unramified.
 
-### 5.5 Tame extensions and composition
-
+**5.5 Tame extensions and composition.**
 Under the hypotheses of §5.4, let `p` be the final residue characteristic exponent and `p_i` that of
 `V_i`. Prove that `L/K` is tame exactly when `L_i/K_i` and the residual extension are tame and
 `Γ_{L_i}/Γ_{K_i}` has no nontrivial `p`-torsion; the torsion condition is automatic when `p_i = p` and
@@ -1654,8 +1677,7 @@ is divisible by `p`. *Needs:* §2.4, §5.4; ClassicalAdicEtaleCohomology §5.3.
   follows from coarse tameness.
 - For `p = 1` every algebraic extension is tame and all three conditions hold.
 
-### 5.6 Tame fields and composition
-
+**5.6 Tame fields and composition.**
 Under the hypotheses of §5.4 prove that `K` is a tame field exactly when `K_i` and `κ_i` with its
 induced valuation are tame fields and `Γ_{K_i}` is `p`-divisible, `p` the final residue characteristic
 exponent; when `p_i = p` the divisibility follows from tameness of `K_i` (Temkin 2017, Corollary
@@ -1685,7 +1707,11 @@ Layers 1–2 (§1.5, §§2.1–2.7); ClassicalAdicEtaleCohomology §5.3 (§5.5);
 
 ## Layer 6: the tameness theorem and the separable export
 
-### 6.1 Residue fields and value groups of `p`-closed fields
+### 6.1 Tameness at finite height and the descent to it
+
+The residue fields and value groups of `{p}`-closed fields, tameness at finite height, and the
+descent of a finite extension of a `{p}`-closed field to a subfield of finite height. §6.4 uses
+the last two.
 
 Let `p` be prime and `K` be `{p}`-closed with final residue characteristic exponent `p`. Prove that
 every element of `K` has a `p`-th root (an irreducible `X^p − a` would give an extension of degree
@@ -1702,8 +1728,7 @@ is tame without induction (Temkin 2017, proof of Theorem 2.6.6, p. 112). *Needs:
   characteristic `0` of the intermediate residue field, and the argument uses the former.
 - `ℚ_p` is not `{p}`-closed: `p` has no `p`-th root.
 
-### 6.2 Tameness at finite height
-
+**6.2 Tameness at finite height.**
 Prove that every valued field of finite height with residue characteristic exponent `p` that is
 `P`-closed for `P` the set of primes dividing `p` is tame (Temkin 2017, proof of Theorem 2.6.6,
 p. 112). Route: at height `0` the field is perfect (§0.4) and the trivial valuation of a perfect field
@@ -1719,8 +1744,7 @@ is tame (§2.7); height one is §4.5; at height `d > 1` choose `0 < i < d`, appl
   inertia of order `2`.
 - Height `2` in mixed characteristic uses the `p`-divisibility of the coarse value group from §6.1.
 
-### 6.3 Descent to finite height
-
+**6.3 Descent to finite height.**
 Let `K` be `{p}`-closed with final residue characteristic exponent `p` and `L/K` finite. Prove that
 there are a subfield `K_0 ⊆ K`, relatively algebraically closed in `K` and of finite transcendence
 degree over the prime field, and a finite `L_0/K_0` with `L_0 ⊗_{K_0} K ≅ L` by multiplication,
