@@ -603,7 +603,9 @@ Prove the sine-power integral identity. For `Re(ν)>0` and complex `β`, `∫_0^
 *Needs:* §0.26; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; `Complex.Gamma_mul_Gamma_add_half`; AnalyticNumberTheoryPartI §3.23b; §0.27.
 
 
-### 0.30 Whittaker cycle integral
+### 0.30 Whittaker cycle integral, its differential equation and its series
+
+This group provides the Whittaker cycle identity `whittaker_cycle_integral` and its proof route: the differential equation of §0.31, the series of the two sides in §§0.32–0.33 and the agreement of their first coefficients in §0.34; the shared equation and Frobenius uniqueness then give the identity. It is one of the special functions of §§0.25–0.45 that the modular branch builds first.
 
 Prove `whittaker_cycle_integral`. For `μ∈ℂ`, `t>0` and `Re(s)>0`, `∫_0^π exp(±i(t cosθ+μθ))M_{μ,s−1/2}(2t sinθ)dθ/sinθ = exp(±iπμ/2)(2π)^(3/2)2^(−s)Γ(2s)[Γ((s+1+μ)/2)Γ((s+1−μ)/2)]⁻¹ t^(1/2)J_{s−1/2}(t)`. Establish the ODE by integration by parts and its `t^s` leading coefficient using §0.29.
 
@@ -612,36 +614,28 @@ Prove `whittaker_cycle_integral`. For `μ∈ℂ`, `t>0` and `Re(s)>0`, `∫_0^π
 *Needs:* §0.26; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; `Complex.Gamma_mul_Gamma_add_half`; AnalyticNumberTheoryPartI §3.23b.
 
 
-### 0.31 Endpoint-justified integration by parts for both signs
-
-Prove `whittaker_integration_by_parts`. Let `H_ε(t)=t^(−s)∫₀^π exp(εi(t cosθ+μθ))M_{μ,s−1/2}(2t sinθ)dθ/sinθ`, `μ∈ℂ`, `Re(s)>0`, `t>0`, `ε=±1`. Then `f_ε=t^sH_ε` satisfies `f_ε″+(1−s(s−1)/t²)f_ε=0`. On every compact parameter set with `Re(s)≥σ>0` the integrands and their first two `t` derivatives are bounded by `C sin^(σ−1)θ`; the integration-by-parts endpoint terms are `O(δ^σ)`. The calculation works for both signs without complex conjugation.
+**0.31 Endpoint-justified integration by parts for both signs.** Prove `whittaker_integration_by_parts`. Let `H_ε(t)=t^(−s)∫₀^π exp(εi(t cosθ+μθ))M_{μ,s−1/2}(2t sinθ)dθ/sinθ`, `μ∈ℂ`, `Re(s)>0`, `t>0`, `ε=±1`. Then `f_ε=t^sH_ε` satisfies `f_ε″+(1−s(s−1)/t²)f_ε=0`. On every compact parameter set with `Re(s)≥σ>0` the integrands and their first two `t` derivatives are bounded by `C sin^(σ−1)θ`; the integration-by-parts endpoint terms are `O(δ^σ)`. The calculation works for both signs without complex conjugation.
 
 ([DIT16], Appendix A, proof of (A.1), p.984: Whittaker angular integration by parts and the differential equation for the angular integral, with vanishing endpoint terms.)
 
 *Needs:* §0.26; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; `Complex.Gamma_mul_Gamma_add_half`.
 
 
-### 0.32 Series expansion (A.2) of the Whittaker cycle integral
-
-Prove `whittaker_cycle_series`. For `μ ∈ ℂ`, `Re(s) > 0` and `t > 0`, `∫_0^π e^{i(t cos θ+μθ)} M_{μ,s−1/2}(2t sin θ) dθ/sin θ = 2π e(μ/4) Γ(2s) Σ_{ℓ≥0} Σ_{m+n=ℓ} (−1)^m (s−μ)_n Γ(s+n) / ( m! n! Γ(2s+n) Γ((n+s+m+μ+1)/2) Γ((n+s−m−μ+1)/2) ) · t^{s+ℓ}`. The double series converges absolutely for every `t`, and the reciprocal gammas are entire. The paper writes `(s−μ)_n` as `Γ(s−μ+n)/Γ(s−μ)`, so the printed prefactor is `2π e(μ/4)Γ(2s)/Γ(s−μ)`.
+**0.32 Series expansion of the Whittaker cycle integral.** Prove `whittaker_cycle_series`. For `μ ∈ ℂ`, `Re(s) > 0` and `t > 0`, `∫_0^π e^{i(t cos θ+μθ)} M_{μ,s−1/2}(2t sin θ) dθ/sin θ = 2π e(μ/4) Γ(2s) Σ_{ℓ≥0} Σ_{m+n=ℓ} (−1)^m (s−μ)_n Γ(s+n) / ( m! n! Γ(2s+n) Γ((n+s+m+μ+1)/2) Γ((n+s−m−μ+1)/2) ) · t^{s+ℓ}`. The double series converges absolutely for every `t`, and the reciprocal gammas are entire. The paper writes `(s−μ)_n` as `Γ(s−μ+n)/Γ(s−μ)`, so the printed prefactor is `2π e(μ/4)Γ(2s)/Γ(s−μ)`.
 
 ([DIT16], Appendix A, (A.2), p. 985 (derivation p. 984).)
 
 *Needs:* §0.26; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; `Complex.Gamma_mul_Gamma_add_half`.
 
 
-### 0.33 Series expansion (A.3) of `G(s,μ) t^{1/2} J_{s−1/2}(t)`
-
-Prove `bessel_cycle_series`. For `μ ∈ ℂ`, `Re(s) > 0`, `t > 0`: `G(s,μ) t^{1/2} J_{s−1/2}(t) = π^{3/2} e(μ/4) 2^{2−2s} Γ(2s) / (Γ((s+1+μ)/2) Γ((s+1−μ)/2)) · Σ_{r≥0} (−1)^r 2^{−2r} / (r! Γ(s+1/2+r)) · t^{s+2r}`, where `G(s,μ) = e(μ/4)(2π)^{3/2}2^{−s}Γ(2s)/(Γ((s+1+μ)/2)Γ((s+1−μ)/2))`.
+**0.33 Series expansion of `G(s,μ) t^{1/2} J_{s−1/2}(t)`.** Prove `bessel_cycle_series`. For `μ ∈ ℂ`, `Re(s) > 0`, `t > 0`: `G(s,μ) t^{1/2} J_{s−1/2}(t) = π^{3/2} e(μ/4) 2^{2−2s} Γ(2s) / (Γ((s+1+μ)/2) Γ((s+1−μ)/2)) · Σ_{r≥0} (−1)^r 2^{−2r} / (r! Γ(s+1/2+r)) · t^{s+2r}`, where `G(s,μ) = e(μ/4)(2π)^{3/2}2^{−s}Γ(2s)/(Γ((s+1+μ)/2)Γ((s+1−μ)/2))`.
 
 ([DIT16], Appendix A, (A.3), p. 985.)
 
 *Needs:* §0.26; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; `Complex.Gamma_mul_Gamma_add_half`; AnalyticNumberTheoryPartI §3.23b.
 
 
-### 0.34 Agreement of the first coefficients of (A.2) and (A.3)
-
-Prove `cycle_series_leading_coefficients`. The `t^s` coefficients in (A.2) and (A.3) both equal `2π e(μ/4)Γ(s)/(Γ((s+1+μ)/2)Γ((s+1−μ)/2))`. In (A.2) the `t^(s+1)` coefficient vanishes by cancellation of `(m,n)=(1,0),(0,1)`, using `((s−μ)/2)/Γ((s−μ)/2+1)=1/Γ((s−μ)/2)`. The `t^(s+2)` coefficients also agree. The shared ODE and Frobenius uniqueness from `c₀` imply (A.1).
+**0.34 Agreement of the first coefficients of the two series.** Prove `cycle_series_leading_coefficients`. The `t^s` coefficients in (A.2) and (A.3) both equal `2π e(μ/4)Γ(s)/(Γ((s+1+μ)/2)Γ((s+1−μ)/2))`. In (A.2) the `t^(s+1)` coefficient vanishes by cancellation of `(m,n)=(1,0),(0,1)`, using `((s−μ)/2)/Γ((s−μ)/2+1)=1/Γ((s−μ)/2)`. The `t^(s+2)` coefficients also agree. The shared ODE and Frobenius uniqueness from `c₀` imply (A.1).
 
 ([DIT16], Appendix A, p. 985 (last paragraph of the proof).)
 
@@ -704,7 +698,9 @@ Prove `legendre_q_near_one`. For the Legendre function of the second kind `Q_{s�
 *Needs:* `Complex.regularizedHGFun`; `Complex.betaIntegral_eq_Gamma_mul_div`; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; §0.35.
 
 
-### 0.39 The archimedean integral `V_s(t)`
+### 0.39 The archimedean integral `V_s(t)`, its continuation and special values
+
+This group provides the archimedean integral `V_s(t)` and its properties: the value at `t=0`, holomorphy in `s` with decay in `t`, the entire normalization `V*_s(t)` and its reflection, the values at `s=−r`, the central derivative for `t<0` and the `K`-Bessel form for `t>0`. Sections 1.27 and 1.28 consume it.
 
 Define the archimedean integral as follows. Fix `k ≥ 1`. For `s ∈ ℂ` with `Re(s) > 1−k` and `t ∈ ℝ`: `V_s(t) = ∫_{−∞}^{∞} e^{−2πixt} dx / ((x+i)^{2k−1}(x²+1)^s)`. This is the Fourier transform of `x ↦ (x+i)^{−(2k−1)}(x²+1)^{−s}`, which is absolutely integrable exactly when `Re(s) > 1−k`.
 
@@ -723,27 +719,21 @@ Prove the following API statements.
 *Needs:* `Complex.betaIntegral_eq_Gamma_mul_div`; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`.
 
 
-### 0.40 Proposition (3.3a): the value `V_s(0)`
-
-Prove the zero-frequency evaluation. For `k ≥ 1`: `V_s(0) = (−1)^k π i 2^{−2s−2k+3} Γ(2s+2k−2)/(Γ(s)Γ(s+2k−1))`. This holds for `Re(s) > 1−k` and gives the meromorphic continuation of `V_s(0)` in `s`.
+**0.40 The value `V_s(0)`.** Prove the zero-frequency evaluation. For `k ≥ 1`: `V_s(0) = (−1)^k π i 2^{−2s−2k+3} Γ(2s+2k−2)/(Γ(s)Γ(s+2k−1))`. This holds for `Re(s) > 1−k` and gives the meromorphic continuation of `V_s(0)` in `s`.
 
 ([GZ86], Chapter IV, §3, (3.3) Proposition a), p. 277; proofs pp. 279–280.)
 
 *Needs:* `Complex.betaIntegral_eq_Gamma_mul_div`; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; §0.39.
 
 
-### 0.41 Proposition (3.3b): holomorphy of `V_s(t)` in `s` and exponential decay in `t`
-
-Prove entire continuation at nonzero frequency. For `t ≠ 0` the function `s ↦ V_s(t)` continues holomorphically to all `s ∈ ℂ` and satisfies, locally uniformly in `s`, `V_s(t) = |t|^{O(1)} e^{−2π|t|}` as `|t| → ∞`.
+**0.41 Holomorphy of `V_s(t)` in `s` and exponential decay in `t`.** Prove entire continuation at nonzero frequency. For `t ≠ 0` the function `s ↦ V_s(t)` continues holomorphically to all `s ∈ ℂ` and satisfies, locally uniformly in `s`, `V_s(t) = |t|^{O(1)} e^{−2π|t|}` as `|t| → ∞`.
 
 ([GZ86], Chapter IV, §3, (3.3) Proposition `b`), p. 277; proof pp. 280–281.)
 
 *Needs:* `Complex.betaIntegral_eq_Gamma_mul_div`; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; §0.39; §0.26.
 
 
-### 0.42 Proposition (3.3c): `V*_s(t)` is entire and satisfies `V*_s(t) = sign(t) V*_{2−2k−s}(t)`
-
-Prove `archimedean_v_functional_equation`. For `t ≠ 0` set `V*_s(t) = (π|t|)^{−s−2k+1} Γ(s+2k−1) V_s(t)`. At Gamma poles the product means its removable holomorphic extension, rather than multiplication of totalized pointwise Gamma values. Then `V*_s(t)` is entire in `s` and `V*_s(t) = sign(t) V*_{2−2k−s}(t)`. For `t > 0` this comes from `V*_s(t) = ∫_0^∞ u^{s+k−1} e^{−πt(u+1/u)} ∫_{−∞}^{∞} e^{−πtv²} (v + (u^{1/2}+u^{−1/2})/i)^{2k−1} dv du/u`.
+**0.42 `V*_s(t)` is entire and satisfies `V*_s(t) = sign(t) V*_{2−2k−s}(t)`.** Prove `archimedean_v_functional_equation`. For `t ≠ 0` set `V*_s(t) = (π|t|)^{−s−2k+1} Γ(s+2k−1) V_s(t)`. At Gamma poles the product means its removable holomorphic extension, rather than multiplication of totalized pointwise Gamma values. Then `V*_s(t)` is entire in `s` and `V*_s(t) = sign(t) V*_{2−2k−s}(t)`. For `t > 0` this comes from `V*_s(t) = ∫_0^∞ u^{s+k−1} e^{−πt(u+1/u)} ∫_{−∞}^{∞} e^{−πtv²} (v + (u^{1/2}+u^{−1/2})/i)^{2k−1} dv du/u`.
 
 ([GZ86], Chapter IV, §3, (3.3) Proposition `c`), p. 278; proof p. 280.)
 
@@ -758,27 +748,21 @@ The continuation API is `archimedean_v_normalized_entire` (existence and agreeme
 *Needs:* `Complex.betaIntegral_eq_Gamma_mul_div`; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; §0.39; §0.26.
 
 
-### 0.43 Proposition (3.3d): `V_{−r}(t)` for integers `0 ≤ r ≤ k−1`
-
-Prove `archimedean_v_integer_points`. Let `r ∈ ℤ` with `0 ≤ r ≤ k−1`. Then `V_{−r}(t) = 0` for `t < 0` and `V_{−r}(t) = 2πi(−1)^{k−r} p_{k,r}(4πt) e^{−2πt}` for `t > 0`, where `p_{k,r}(t) = (t/2)^{2k−2−2r} Σ_{j=0}^{r} C(r, j) (−t)^j/(2k−2r−2+j)!` (a polynomial). Here `V_{−r}(t) = ∫ (x−i)^r (x+i)^{−(2k−1−r)} e^{−2πixt} dx`, conditionally convergent for `r = k−1`.
+**0.43 `V_{−r}(t)` for integers `0 ≤ r ≤ k−1`.** Prove `archimedean_v_integer_points`. Let `r ∈ ℤ` with `0 ≤ r ≤ k−1`. Then `V_{−r}(t) = 0` for `t < 0` and `V_{−r}(t) = 2πi(−1)^{k−r} p_{k,r}(4πt) e^{−2πt}` for `t > 0`, where `p_{k,r}(t) = (t/2)^{2k−2−2r} Σ_{j=0}^{r} C(r, j) (−t)^j/(2k−2r−2+j)!` (a polynomial). Here `V_{−r}(t) = ∫ (x−i)^r (x+i)^{−(2k−1−r)} e^{−2πixt} dx`, conditionally convergent for `r = k−1`.
 
 ([GZ86], Chapter IV, §3, (3.3) Proposition `d`), p. 278; proof p. 281.)
 
 *Needs:* `Complex.betaIntegral_eq_Gamma_mul_div`; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; §0.39.
 
 
-### 0.44 Proposition (3.3e): `∂_s V_s(t)` at the centre `s = 1−k` for `t < 0`
-
-Prove `archimedean_v_central_derivative`. For `t < 0`: `∂/∂s V_s(t)|_{s=1−k} = −2πi q_{k−1}(4π|t|) e^{−2πt}`, where `q_{k−1}(t) = ∫_1^∞ (x−1)^{k−1} x^{−k} e^{−xt} dx (t > 0)`.
+**0.44 `∂_s V_s(t)` at the centre `s = 1−k` for `t < 0`.** Prove `archimedean_v_central_derivative`. For `t < 0`: `∂/∂s V_s(t)|_{s=1−k} = −2πi q_{k−1}(4π|t|) e^{−2πt}`, where `q_{k−1}(t) = ∫_1^∞ (x−1)^{k−1} x^{−k} e^{−xt} dx (t > 0)`.
 
 ([GZ86], Chapter IV, §3, (3.3) Proposition `e`), p. 278; proof p. 281.)
 
 *Needs:* `Complex.betaIntegral_eq_Gamma_mul_div`; `hasDerivAt_integral_of_dominated_loc_of_deriv_le`; §0.39.
 
 
-### 0.45 `K`-Bessel expression for `V*_s(t)`, `t > 0`
-
-Prove `archimedean_v_bessel_k`. For `t > 0`: `V*_s(t) = i Σ_{a,b,c≥0, 2a+b+c=2k−1} (−1)^{k−a}(2k−1)!/((2a)! b! c!) · Γ(a+½)/(πt)^{a+½} · ∫_0^∞ u^{s+k+(b−c)/2−2} e^{−πt(u+1/u)} du = (2(−1)^k i/t^{1/2}) Σ_{a,b,c≥0, 2a+b+c=2k−1} (2k−1)!/(a! b! c!) · (−1/(4πt))^a · K_{s+k−1+(b−c)/2}(2πt)`. For `k = 1`: `V*_s(t) = (−2i/√t)(K_{1/2+s}(2πt) + K_{1/2−s}(2πt))`. The functional equation (3.3c) for `t > 0` follows from `K_ν = K_{−ν}` by interchanging `b` and `c`.
+**0.45 `K`-Bessel expression for `V*_s(t)`, `t > 0`.** Prove `archimedean_v_bessel_k`. For `t > 0`: `V*_s(t) = i Σ_{a,b,c≥0, 2a+b+c=2k−1} (−1)^{k−a}(2k−1)!/((2a)! b! c!) · Γ(a+½)/(πt)^{a+½} · ∫_0^∞ u^{s+k+(b−c)/2−2} e^{−πt(u+1/u)} du = (2(−1)^k i/t^{1/2}) Σ_{a,b,c≥0, 2a+b+c=2k−1} (2k−1)!/(a! b! c!) · (−1/(4πt))^a · K_{s+k−1+(b−c)/2}(2πt)`. For `k = 1`: `V*_s(t) = (−2i/√t)(K_{1/2+s}(2πt) + K_{1/2−s}(2πt))`. The functional equation (3.3c) for `t > 0` follows from `K_ν = K_{−ν}` by interchanging `b` and `c`.
 
 ([GZ86], Chapter IV, §3, proof of (3.3), p. 280.)
 
@@ -2160,7 +2144,9 @@ Prove the following API statements.
 *Needs:* §3.11; §6.26; §3.12; §1.10a (function-field adeles, heights and measures).
 
 
-### 3.14 Floor-vector expression for the cone series
+### 3.14 Floor-monomial form of the degree cutoffs and their limits on families
+
+This group writes the degree cutoffs `hat1_Q^e` of §3.13 through floor vectors and the floor-monomial `(G,M)`-family, and evaluates their limits against `(G,M)`-families with compatible partial values: vanishing of translated limits for `gcd(e,n)=1` (§3.16) and dependence only on the order of `e` in `Z/nZ` (§3.17). In the function-field branch these degree cutoffs follow the families of §§6.27–6.33.
 
 Prove `cone_series_floor_vector`. For ordered block prefix ranks `r_s^i`, `H_Q^e=s^−1(floor(e r_s^0/n)−floor(e r_s^1/n),..,floor(e r_s^(r−1)/n)−floor(e r_s^r/n))` belongs to the integral `a_L` lattice with total degree `−e`. Then `hat1_Q^e=lambda^H∏_{alpha∈Delta_Q}(1−lambda^alpha∨)^−1`; for `e=−1` this is `(−1)^(r−1)(∏lambda_i)/theta_Q`.
 
@@ -2169,9 +2155,7 @@ Prove `cone_series_floor_vector`. For ordered block prefix ranks `r_s^i`, `H_Q^e
 *Needs:* §3.10; §6.26; §3.13; §1.10a (function-field adeles, heights and measures).
 
 
-### 3.15 Degree floor-monomial family
-
-Define `floor_monomial_family` as follows. Set `I_Q^e=H_Q^e+s^−1(0,1,..,1)`. The functions `lambda↦lambda^I_Q^e` form a `(G,M)`-family, and `hat1_Q^e=(−1)^dim(a_M^G)lambda^I_Q^e/theta_Q`. Adjacent-block compatibility follows from the floor identities on the wall.
+**3.15 Degree floor-monomial family.** Define `floor_monomial_family` as follows. Set `I_Q^e=H_Q^e+s^−1(0,1,..,1)`. The functions `lambda↦lambda^I_Q^e` form a `(G,M)`-family, and `hat1_Q^e=(−1)^dim(a_M^G)lambda^I_Q^e/theta_Q`. Adjacent-block compatibility follows from the floor identities on the wall.
 
 Prove the following API statements.
 - `floorExponent`: add the ordered `(0,1,..,1)` vector
@@ -2188,18 +2172,14 @@ Prove the following API statements.
 *Needs:* §6.27; §3.14; §1.10a (function-field adeles, heights and measures).
 
 
-### 3.16 Translated degree-cutoff vanishing
-
-Prove `degree_cutoff_vanishing`. Let `n≥1`, `gcd(e,n)=1`, `M` a standard Levi of `GL_n` and `μ₀∈X_M^G`. Suppose the `(G,M)`-family `(c_Q)` is defined on a domain containing `μ₀^ℤ`, `c_M^Q` is independent of `Q∈P(L)` for each `L∈L(M)`, and `c_Q(λμ₀)=c_Q(λ)`. Then `lim_(λ→1) Σ_(Q∈P(M)) 1̂_Q^e(λμ₀)c_Q(λμ₀)=0` unless `μ₀∈X_G^G`. Coprimality is essential; the conclusion can fail otherwise.
+**3.16 Translated degree-cutoff vanishing.** Prove `degree_cutoff_vanishing`. Let `n≥1`, `gcd(e,n)=1`, `M` a standard Levi of `GL_n` and `μ₀∈X_M^G`. Suppose the `(G,M)`-family `(c_Q)` is defined on a domain containing `μ₀^ℤ`, `c_M^Q` is independent of `Q∈P(L)` for each `L∈L(M)`, and `c_Q(λμ₀)=c_Q(λ)`. Then `lim_(λ→1) Σ_(Q∈P(M)) 1̂_Q^e(λμ₀)c_Q(λμ₀)=0` unless `μ₀∈X_G^G`. Coprimality is essential; the conclusion can fail otherwise.
 
 ([Yu22], Lemme A.2, pp.75–76.)
 
 *Needs:* §6.29; §6.33; §3.15; §1.10a (function-field adeles, heights and measures).
 
 
-### 3.17 Dependence of cutoff values only on degree order
-
-Prove `cutoff_degree_order`. Under the same partial-value compatibility, `lim_(mu→1)Σ_Qhat1_Q^e(mu)c_Q(mu)` depends only on the order of `e` in `Z/nZ`. On a Levi with block sizes `m_j`, the top-degree floor-monomial contribution vanishes unless `n|e m_j` for every `j`; product descent gives the assertion.
+**3.17 Dependence of cutoff values only on degree order.** Prove `cutoff_degree_order`. Under the same partial-value compatibility, `lim_(mu→1)Σ_Qhat1_Q^e(mu)c_Q(mu)` depends only on the order of `e` in `Z/nZ`. On a Levi with block sizes `m_j`, the top-degree floor-monomial contribution vanishes unless `n|e m_j` for every `j`; product descent gives the assertion.
 
 ([Yu22], Lemme A.3, pp.76–77.)
 
@@ -3438,7 +3418,9 @@ Prove the following API statements.
 *Needs:* §1.11; §3.10; §1.10a (function-field adeles, heights and measures).
 
 
-### 6.27 Arthur theta denominator and multiplicative families
+### 6.27 Multiplicative `(G,M)`-families and their regularized values
+
+This group provides the multiplicative `(G,M)`-families with the theta denominator `θ_Q`, the regularity of the sum `c_M` and its value at `1`, and the induced `(L,M)`- and `(G,L)`-families. Sections 2.15, 3.15 and 6.36 consume it, and the identities of §6.29 rest on it.
 
 Define `multiplicative_gm_family` as follows. For a semi-standard Levi `L`, the chambers of `a_L^G` correspond to `P(L)` via `P ↦ {H in a_L^G : α(H)>0 for all α in Δ_P}`; `P̄` denotes the opposite parabolic `(Φ_P̄=−Φ_P)`, and `P,Q` in `P(L)` are adjacent when `|Φ_P̄ ∩ Φ_Q|=1`. For `Q` in `P(M)` and `λ` in `X_M` put `θ_Q(λ)=∏_{α in Δ_Q}⟨λ,α^∨⟩` (the linear pairing of 4.1.6, so `⟨λ,α^∨⟩=λ_u−λ_v` for `α^∨=e_{M,u}−e_{M,v}`); this differs from Arthur's `θ_Q` by a volume factor. Let `Ω ⊆ X_M^G` or `X_M` be a domain. A family `(c_P)_{P in P(M)}` of holomorphic functions on `Ω` is a `(G,M)`-family if `c_P(λ)=c_{P'}(λ)` for every adjacent pair `P,P'` and every `λ` in `Ω` with `λ^{α^∨}=1`, where `α` is the unique root in `Φ_P ∩ Φ_{P̄'}`. For such a family `c_M(λ)=Σ_{Q in P(M)} c_Q(λ)θ_Q(λ)^{-1}` is meromorphic on `Ω`.
 
@@ -3457,9 +3439,7 @@ Prove the following API statements.
 *Needs:* §3.10; §6.25; §6.26; §1.10a (function-field adeles, heights and measures); §6.7; §6.8.
 
 
-### 6.28 Regularized family value and descent
-
-Prove `regularized_family_value`: a regularity statement, followed by two constructions of new families from a given one. Whenever the functions `(c_Q)_{Q in P(M)}` are meromorphic on `X_M^G` (or `X_M`) and satisfy the `(G,M)`-family condition on some neighbourhood of a point `λ0` of `X_M^G` (or `X_M`), the sum `c_M(λ)=Σ_Q c_Q(λ)θ_Q(λ)^{-1}` is regular at `λ0`. The value of a `(G,M)`-family near `1` is defined as `c_M=lim_{λ→1}c_M(λ)`. To change the ambient group to a Levi, fix `L` in `L(M)` and `R` in `P(L)`; each `Q` in `P^L(M)` lifts to a unique `QN_R` in `P(M)`, the member contained in `R` with `QN_R ∩ L=Q`. Reading the family along `Q ↦ QN_R`, that is `c^R_Q(λ)=c_{QN_R}(λ)`, gives an `(L,M)`-family near `1`, whose value is `c^R_M=lim_{λ→1}Σ_{Q in P^L(M)} c^R_Q(λ)θ^L_Q(λ)^{-1}` with `θ^L_Q(λ)=∏_{α in Δ^L_Q}⟨λ,α^∨⟩`. To enlarge the Levi from `M` to `L` instead, take `Q` in `P(L)` and `λ` in `X_L^G`: all `P` in `P(M)` with `P ⊆ Q` give the same `c_P(λ)`, and calling this common value `c_Q(λ)` defines a `(G,L)`-family near `1`.
+**6.28 Regularized family value and descent.** Prove `regularized_family_value`: a regularity statement, followed by two constructions of new families from a given one. Whenever the functions `(c_Q)_{Q in P(M)}` are meromorphic on `X_M^G` (or `X_M`) and satisfy the `(G,M)`-family condition on some neighbourhood of a point `λ0` of `X_M^G` (or `X_M`), the sum `c_M(λ)=Σ_Q c_Q(λ)θ_Q(λ)^{-1}` is regular at `λ0`. The value of a `(G,M)`-family near `1` is defined as `c_M=lim_{λ→1}c_M(λ)`. To change the ambient group to a Levi, fix `L` in `L(M)` and `R` in `P(L)`; each `Q` in `P^L(M)` lifts to a unique `QN_R` in `P(M)`, the member contained in `R` with `QN_R ∩ L=Q`. Reading the family along `Q ↦ QN_R`, that is `c^R_Q(λ)=c_{QN_R}(λ)`, gives an `(L,M)`-family near `1`, whose value is `c^R_M=lim_{λ→1}Σ_{Q in P^L(M)} c^R_Q(λ)θ^L_Q(λ)^{-1}` with `θ^L_Q(λ)=∏_{α in Δ^L_Q}⟨λ,α^∨⟩`. To enlarge the Levi from `M` to `L` instead, take `Q` in `P(L)` and `λ` in `X_L^G`: all `P` in `P(M)` with `P ⊆ Q` give the same `c_P(λ)`, and calling this common value `c_Q(λ)` defines a `(G,L)`-family near `1`.
 
 ([Yu22], §4.2.1–4.2.2, p. 23, Théorème 4.2.2 and (4.2.2)–(4.2.5).)
 
@@ -3475,7 +3455,9 @@ The API records regularity of the cancelled sum near `λ₀`, the partial values
 *Needs:* §6.27; §1.10a (function-field adeles, heights and measures); §6.7; §6.8.
 
 
-### 6.29 Product formula for families
+### 6.29 Product, root-product and central-translation identities for families
+
+This group provides identities for the families of §6.27: the product formula, the value and integrated value of root-product families, independence of the ambient parabolic, and vanishing under central translation. The degree-cutoff limits of §§3.16–3.17 consume §§6.29 and 6.33.
 
 Prove `family_product_formula`. If `c_M^Q` is independent of `Q∈P(L)` for every `L⊇M`, then `(cd)_M=Σ_L c_M^L d_L` in Yu's normalization. This hypothesis is essential; the formula is not asserted for arbitrary families without the partial-value compatibility.
 
@@ -3484,36 +3466,28 @@ Prove `family_product_formula`. If `c_M^Q` is independent of `Q∈P(L)` for ever
 *Needs:* §6.28; §1.10a (function-field adeles, heights and measures); §6.7; §6.8.
 
 
-### 6.30 Root-product derivative formula
-
-Prove `root_product_derivative`. For each root `beta` choose `c_beta` meromorphic on `C*`, regular at `1` with `c_beta(1)=1`. The products `c_Q=∏_{beta∈Phi_Q} c_beta(lambda^beta∨)` form a family; `c_M=Σ_F ∏_{beta∈F}c_beta'(1)`, where `F` ranges over root subsets forming a basis of `a_M^{G,*}`.
+**6.30 Root-product derivative formula.** Prove `root_product_derivative`. For each root `beta` choose `c_beta` meromorphic on `C*`, regular at `1` with `c_beta(1)=1`. The products `c_Q=∏_{beta∈Phi_Q} c_beta(lambda^beta∨)` form a family; `c_M=Σ_F ∏_{beta∈F}c_beta'(1)`, where `F` ranges over root subsets forming a basis of `a_M^{G,*}`.
 
 ([Yu22], Théorème 4.2.4, pp.24–26.)
 
 *Needs:* §6.27; §6.28; §1.10a (function-field adeles, heights and measures); §6.7; §6.8.
 
 
-### 6.31 Root-coordinate Haar integral
-
-Prove `root_coordinate_haar`. For a root basis `F` and continuous functions `fβ` on `S¹`, the root-coordinate homomorphism p:Im `X_M^G→(S¹)^F` is surjective with finite kernel and pushes probability Haar to probability Haar. Thus `∫∏β fβ(pβ(λ))dλ=∏β(1/(2πi))∮ fβ(z)dz/z`. Equivalently, including `∏βpβ(λ)` in the integrand gives `∏β(1/(2πi))∮ fβ(z)dz`, as in [Yu22], Lemme 4.2.5.
+**6.31 Root-coordinate Haar integral.** Prove `root_coordinate_haar`. For a root basis `F` and continuous functions `fβ` on `S¹`, the root-coordinate homomorphism p:Im `X_M^G→(S¹)^F` is surjective with finite kernel and pushes probability Haar to probability Haar. Thus `∫∏β fβ(pβ(λ))dλ=∏β(1/(2πi))∮ fβ(z)dz/z`. Equivalently, including `∏βpβ(λ)` in the integrand gives `∏β(1/(2πi))∮ fβ(z)dz`, as in [Yu22], Lemme 4.2.5.
 
 ([Yu22], Lemme 4.2.5, p.26.)
 
 *Needs:* §6.26; §6.30; §1.10a (function-field adeles, heights and measures).
 
 
-### 6.32 Argument-principle integral of a family
-
-Prove `family_argument_principle`. Assume each `c_beta` is meromorphic on a neighborhood of the closed unit disk and nonzero and finite on the unit circle `|z|=1`. For the ratio root-product family, its integrated regularized value is `Σ_F∏_{beta∈F}(N(c_beta)−P(c_beta))`, counting multiplicities in `|z|<1`. Rational `L`-ratios satisfy the needed extension assumption when boundary singularities are absent.
+**6.32 Argument-principle integral of a family.** Prove `family_argument_principle`. Assume each `c_beta` is meromorphic on a neighborhood of the closed unit disk and nonzero and finite on the unit circle `|z|=1`. For the ratio root-product family, its integrated regularized value is `Σ_F∏_{beta∈F}(N(c_beta)−P(c_beta))`, counting multiplicities in `|z|<1`. Rational `L`-ratios satisfy the needed extension assumption when boundary singularities are absent.
 
 ([Yu22], Corollaire 4.2.6, p.27.)
 
 *Needs:* §6.30; §6.31; §1.10a (function-field adeles, heights and measures).
 
 
-### 6.33 Ambient independence and central-translation vanishing
-
-Prove `family_central_vanishing`. (a) [Lemme 4.2.7] If `c_Q(λ)=∏_{β in Φ_Q} c_β(λ^{β^∨})` as in Théorème 4.2.4, then for every `L` in `L(M)` the value `c^R_M` is independent of `R` in `P(L)` (write `c^L_M`): `c^R_Q=∏_{β in Φ(Z_M,N_Q)}c_β(λ^{β^∨})·∏_{β in Φ(Z_M,N_R)}c_β(λ^{β^∨})`, and the second factor tends to `1`. (b) [Lemme 4.2.8] Let `μ0` in `X_M^G` and let `(c_Q)` be a `(G,M)`-family on a domain containing `μ0^Z` such that `c^R_M` is independent of `R` in `P(L)` for every `L` in `L(M)` and `c_Q(λμ0)=c_Q(λ)` wherever `c_Q` is defined. Then `lim_{λ→1}Σ_{Q in P(M)} θ_Q(λμ0)^{-1}c_Q(λμ0)=0` unless `μ0` in `X_G^G`, and for `μ0` in `X_G^G` it equals `μ_{01}^{−dim a_M^G} c_M`, where `μ_{01}` is the (common) first coordinate of `μ0`.
+**6.33 Ambient independence and central-translation vanishing.** Prove `family_central_vanishing`. (a) [Lemme 4.2.7] If `c_Q(λ)=∏_{β in Φ_Q} c_β(λ^{β^∨})` as in Théorème 4.2.4, then for every `L` in `L(M)` the value `c^R_M` is independent of `R` in `P(L)` (write `c^L_M`): `c^R_Q=∏_{β in Φ(Z_M,N_Q)}c_β(λ^{β^∨})·∏_{β in Φ(Z_M,N_R)}c_β(λ^{β^∨})`, and the second factor tends to `1`. (b) [Lemme 4.2.8] Let `μ0` in `X_M^G` and let `(c_Q)` be a `(G,M)`-family on a domain containing `μ0^Z` such that `c^R_M` is independent of `R` in `P(L)` for every `L` in `L(M)` and `c_Q(λμ0)=c_Q(λ)` wherever `c_Q` is defined. Then `lim_{λ→1}Σ_{Q in P(M)} θ_Q(λμ0)^{-1}c_Q(λμ0)=0` unless `μ0` in `X_G^G`, and for `μ0` in `X_G^G` it equals `μ_{01}^{−dim a_M^G} c_M`, where `μ_{01}` is the (common) first coordinate of `μ0`.
 
 ([Yu22], Lemmes 4.2.7–4.2.8, pp.27–29.)
 
