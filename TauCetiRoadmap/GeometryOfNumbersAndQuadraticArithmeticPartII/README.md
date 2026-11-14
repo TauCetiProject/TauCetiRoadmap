@@ -338,7 +338,7 @@ For every commutative henselian pair (R,J), reduction induces Lq(R)≃Lq(R/J), i
 
 (CDHHLMNNS-III-v4, Remark 2.3.8, p. 44; CDHHLMNNS-III-v4 line 2023.)
 
-By filtered colimits reduce to henselizations of finitely presented pairs. A finitely presented ℤ-algebra A is a G-ring, so its henselization H along I is a Noetherian G-ring and H→Ĥ, the completion along the extended ideal, is regular (gap:henselian-pair-completion-regular); Néron–Popescu then makes it ind-smooth. A smooth algebra mapping to that completion has a section over the henselian base by smooth henselian lifting. The completion map is therefore a filtered colimit of split injections. Apply the retraction argument to the functor Lq, using complete rigidity and preservation of filtered colimits. The result concerns all homotopy degrees and both signs.
+Since Lq commutes with filtered colimits, it is enough to treat the henselization H of a finitely presented pair (A,I), writing Ĥ for its completion along the extended ideal IH. For such H, the retraction argument for the functor Lq, fed by complete rigidity and by that same colimit compatibility, yields the claim as soon as H→Ĥ is the colimit of a filtered system of split injections. Three inputs produce that system. Because A is finitely presented over ℤ, it is a G-ring; H is then again a Noetherian G-ring, and the map H→Ĥ is regular (gap:henselian-pair-completion-regular). Néron–Popescu upgrades this regular map to an ind-smooth one. Finally, over the henselian base H, smooth henselian lifting equips every smooth H-algebra that maps to Ĥ with a section. The conclusion holds for both signs in every homotopy degree.
 
 **Checks.**
 
