@@ -79,7 +79,8 @@ It leaves to other roadmaps, by section:
   **KloostermanMomentsAndPotentialAutomorphy** §§1.1, 1.3, 2.1, 2.5–2.6; scalar ordinarity at every prime and
   rank is a supplier gap there;
 - `Bun_𝒢` for a smooth affine model, the Beilinson–Drinfeld Grassmannian, Schubert bounds, `ℓ`-adic
-  sheaves on the stacks involved, fusion and the `ℓ`-adic geometric Satake equivalence over finite
+  sheaves on the stacks involved with their Grothendieck–Lefschetz trace formula over `𝔽_q`, fusion
+  and the `ℓ`-adic geometric Satake equivalence over finite
   fields: **GlobalShtukasAndFunctionFieldLanglands** Layers 0–1; the relative geometry over a
   mixed-characteristic base and V. Lafforgue's `p`-adic estimate are supplier gaps there;
 - Bruhat–Tits and parahoric group schemes, Moy–Prasad filtrations and the Iwahori–Weyl group:
@@ -104,7 +105,9 @@ It leaves to other roadmaps, by section:
   F2, F4, F6; the critical-level center: **AffineLieAlgebras** A7–A8, with rational coefficient forms requested by gap:critical-center-rational-forms; algebraic differential
   operators and holonomic `D`-modules: **SpringerResolutionAndCharacteristicCycles** Layers 8 and 9;
 - `ℓ`-adic weights, the six operations on mixed complexes and Deligne semisimplicity:
-  **DeligneWeightsAndPurity** DWP.8; étale foundations: **EtaleCohomologyFoundations**.
+  **DeligneWeightsAndPurity** DWP.8; constructible `ℓ`-adic coefficients on schemes of finite type,
+  with base change, compact support and Künneth, and their integral and rational adic realizations:
+  **EtaleCohomologyFoundations** §§F.2.1–F.2.7, F.4.1–F.4.6.
 
 The rank-one sign dictionary for the Dwork and Kummer F-isocrystals is
 PadicDifferentialEquationsAndRigidCohomology §RD.6.48; this roadmap records its specialization in
@@ -260,7 +263,9 @@ categories live in one fixed universe; `Suggested.lean` places the extension fie
   smooth projective curve over `𝔽_q`, an Artin stack locally of finite type with affine diagonal.
 - §0.14: cuspidal functions on `Bun_𝒢(𝔽_q)` and their relation to bundle functions.
 - §1.1–§1.2: the Beilinson–Drinfeld Grassmannian, its factorization and Schubert bounds; §1.4:
-  `ℓ`-adic sheaves on the stacks of finite type used here; §1.5: fusion; §1.6: minuscule Hecke
+  `ℓ`-adic sheaves on the stacks of finite type used here, with the Grothendieck–Lefschetz trace
+  formula over `𝔽_q` for stratifiable, `ι`-mixed, convergent complexes bounded above and its relative
+  form for `Rf_!`; §1.5: fusion; §1.6: minuscule Hecke
   geometry at Iwahori level; §1.9 and §1.12: the `ℓ`-adic geometric Satake equivalence over finite
   fields, with Tate normalization by one fixed square root of `q` (§1.8).
 - What GlobalShtukasAndFunctionFieldLanglands must provide (gap:relative-level-geometry): `Bun_𝒢`
@@ -415,8 +420,10 @@ categories live in one fixed universe; `Suggested.lean` places the extension fie
 
 - DeligneWeightsAndPurity DWP.8: mixed complexes and their stability under the six operations
   (§8.5), purity of proper direct images (§8.12), geometric monodromy (§8.14) and Deligne
-  semisimplicity (§8.19); EtaleCohomologyFoundations: constructible `ℓ`-adic complexes and their
-  operations on schemes of finite type.
+  semisimplicity (§8.19); EtaleCohomologyFoundations §§F.2.1–F.2.7 (proper and smooth base change,
+  local acyclicity, lower shriek with arbitrary base change, compact-support cohomology and Künneth)
+  and §§F.4.1–F.4.6 (normalized bounded constructible `ℓ`-adic systems, their integral and rational
+  realizations and the comparison of operations with finite level), on schemes of finite type.
 
 ## How to read the build
 
@@ -819,9 +826,12 @@ p. 42, corrected). *Needs:* §§0.3, 1.6; PadicDifferentialEquationsAndRigidCoho
 Under a fixed isomorphism `K̄ ≅ ℚ̄_ℓ`, `ℓ ≠ p`, prove that for every `W ∈ Rep(H)` and every closed point `a`
 of `X`, the characteristic polynomials of Frobenius of `Kl_W^rig(ψφ, χ, s)` and `Kl_W^{ét,ℓ}(ψφ, χ, s)` at
 `a` agree (Xu–Zhu §4.1.12, p. 42). Route: compute both trace functions over every finite extension by the
-base-point formula of §1.5 and the trace formulas of gap:arithmetic-d-module-operations and
-EtaleCohomologyFoundations, which apply to the same correspondence and coefficients; recover the
-characteristic polynomials from traces of all powers. *Needs:* §§1.5–1.7; gap:arithmetic-d-module-operations.
+base-point formula of §1.5, with the trace formula of gap:arithmetic-d-module-operations on the
+arithmetic side and the Grothendieck–Lefschetz trace formula of GlobalShtukasAndFunctionFieldLanglands
+§1.4 on the `ℓ`-adic side, both applied to the same correspondence and coefficients (the `ℓ`-adic
+complexes involved are `ι`-mixed by DeligneWeightsAndPurity §8.5); recover the characteristic
+polynomials from traces of all powers. *Needs:* §§1.5–1.7; gap:arithmetic-d-module-operations;
+GlobalShtukasAndFunctionFieldLanglands §1.4; DeligneWeightsAndPurity §8.5.
 
 **Checks.**
 
@@ -842,7 +852,7 @@ characteristic polynomials from traces of all powers. *Needs:* §§1.5–1.7; ga
 Layer 0; GlobalShtukasAndFunctionFieldLanglands §§0.1, 1.1–1.9 and gap:relative-level-geometry;
 gap:arithmetic-d-module-operations; SpringerResolutionAndCharacteristicCycles Layer 9;
 PadicDifferentialEquationsAndRigidCohomology §§RD.6.42, RD.6.47; DeligneWeightsAndPurity DWP.8;
-EtaleCohomologyFoundations.
+EtaleCohomologyFoundations §§F.2.1–F.2.7, F.4.1–F.4.6.
 
 ## Layer 2: The Frenkel–Gross connection and Zhu's comparison
 
@@ -902,7 +912,7 @@ For `H_ad` almost simple, let `Op_{H_ad}(𝔾_m)_{(0, ϖ(0)), (∞, 1/h)}` be th
 regular singularity of residue class `ϖ(0)` at `0` and formal slope at most `1/h` at `∞`, in the
 principal-graded normal form of FormalConnectionsOpers F4. Prove that it is an affine line, a torsor
 under `x·𝔥_{−θ}` with a distinguished tame point, and that its point `xE` is the oper
-`d + (N + xE) dx/x` (Zhu Lemma 20, pp. 21–22; Xu–Zhu §4.3.5, pp. 48–49). For semisimple `H_ad` take the
+`d + (N + xE) dx/x` (Zhu Lemma 20, p. 22, with the space defined on pp. 21–22; Xu–Zhu §4.3.5, pp. 48–49). For semisimple `H_ad` take the
 product over the simple factors. The residue condition at `0` is part of the definition.
 *Needs:* §§2.1–2.2; FormalConnectionsOpers F4, F6.
 
@@ -930,8 +940,8 @@ differential operators, a filtered map whose associated graded is the classical 
 commutative subalgebras `A_y ⊂ End(Vac_y)` at the ramified points containing the image of `Z_y`, let `A`
 be the image of `A_H(U) ⊗ ⊗_y A_y` in `Γ(Bun_𝒢, D′)`. Prove: if `D′` is flat over `A`, then for every
 `χ ∈ Spec A` the module `ω^{−1/2} ⊗ (D′ ⊗_{A, χ} K)` is a Hecke eigensheaf whose eigenvalue is the
-`H`-local system of the oper underlying `χ` (Zhu Theorem 8 and Corollary 9, pp. 8–10, over `ℂ`,
-recording Beilinson–Drinfeld §§5.5 and 7.8). Over another algebraically closed field of characteristic
+`H`-local system of the oper underlying `χ` (Zhu Theorem 8 and Corollary 9, pp. 9–10, over `ℂ`, with
+`h` and its filtration in §2.2, pp. 8–9, recording Beilinson–Drinfeld §§5.5 and 7.8). Over another algebraically closed field of characteristic
 zero the statement is part of the target, with the same proof from the critical centre of
 gap:critical-center-rational-forms and the de Rham case of §1.3. *Needs:* AffineLieAlgebras A7–A8; FormalConnectionsOpers F4, F6;
 SpringerResolutionAndCharacteristicCycles Layer 9; gap:critical-center-rational-forms; §§1.1, 1.3.
@@ -1019,7 +1029,7 @@ and preserve its invariant alternating three-form (Frenkel–Gross §6, Case IV,
 §13, Corollary 10, p. 28). The central form in every row is the image in `H` of the
 simply connected group of the displayed type. The connection is principal unipotent at `0`, and the intermediate extension of its adjoint
 local system to `ℙ¹` has vanishing cohomology in every degree (Frenkel–Gross Theorem 1, p. 16,
-Proposition 8 and Corollaries 9–10, pp. 27–29; Xu–Zhu table (1.2.6.1), p. 6, and §4.5.1, p. 51).
+Proposition 8 and Corollaries 9–10, pp. 27–28; Xu–Zhu table (1.2.6.1), p. 6, and §4.5.1, p. 51).
 Route: the formal Coxeter type at `∞` and principal unipotence at `0` force a connected reductive group
 containing a principal `SL₂`; apply gap:principal-sl2-subgroups; the fixed-group symmetries and the exceptional seven-dimensional inclusion give the upper
 bounds in the smaller rows. Prove adjoint rigidity directly in characteristic zero using the
@@ -1432,7 +1442,7 @@ of `𝔾_m`; the bound persists for products and compatible central quotients of
 (Xu–Zhu Theorem 5.4.2(i) and its proof, p. 62; §1.3.4, pp. 7–8). Route: the clean eigenobject has, by the
 function-sheaf dictionary over `k`, a nonzero cuspidal Hecke eigenfunction, with its
 component values fixed by the chosen normalized eigenobject (HNY Lemma 2.1 and Remark 2.2,
-pp. 255–256). Normalize its chart-origin values by removing the common cohomological
+p. 256). Normalize its chart-origin values by removing the common cohomological
 shift sign; for the trivial component character they are `1` on every `γ ∈ Ω`.
 Its normalized Hecke eigenvalues are the Frobenius classes of `Kl_H^{ét,ℓ}`. For an
 almost-simple automorphic group the centre is finite; for a reductive group the trivial
@@ -1440,8 +1450,8 @@ tame and central datum makes the eigenfunction invariant under the degree lattic
 the connected centre. Thus its central character is finite order, and the Satake class
 has zero central Newton projection, including after products and compatible central quotients;
 apply gap:cuspidal-newton-bound; transfer to `Be_H†` by §1.8. Purity of weight zero alone does not give
-`ν_a ≤ ρ`. *Needs:* §§1.6, 1.8, 5.1; GlobalShtukasAndFunctionFieldLanglands §0.14;
-gap:cuspidal-newton-bound.
+`ν_a ≤ ρ`. *Needs:* §§1.6, 1.8, 5.1; GlobalShtukasAndFunctionFieldLanglands §0.14 and §1.4 (the
+trace formula on the Hecke stacks, for the function-sheaf dictionary); gap:cuspidal-newton-bound.
 
 **Checks.**
 
@@ -1477,7 +1487,7 @@ RD.5.101.
 
 ### Dependencies
 
-Layer 4; BunGAndNewtonStrata §§1.5, 1.22; GlobalShtukasAndFunctionFieldLanglands §0.14 and
+Layer 4; BunGAndNewtonStrata §§1.5, 1.22; GlobalShtukasAndFunctionFieldLanglands §§0.14, 1.4 and
 gap:cuspidal-newton-bound; PadicDifferentialEquationsAndRigidCohomology §§RD.3.43, RD.5.101.
 
 ## Layer 6: Local and global monodromy
