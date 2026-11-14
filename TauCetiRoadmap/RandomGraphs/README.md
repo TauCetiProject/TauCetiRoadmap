@@ -978,7 +978,8 @@ of Layer 5 computes the limiting truth value; the rank supplies the error profil
 compactness alone is not claimed to compute either of them.
 
 Derive that every finite subset of `T_R` has a finite model, and every sentence true
-in `R` has finite models of every sufficiently large cardinality. These are
+in `R` has finite models of every sufficiently large cardinality
+(`eventually_exists_finite_model`). These are
 consequences of the positive finite-law probabilities, not inputs to the construction
 of `R` or to completeness.
 

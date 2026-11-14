@@ -602,6 +602,14 @@ theorem firstOrder_zero_one (p : I) (hp0 : 0 < (p : ℝ))
     Tendsto (fun n => sentenceProbability p n φ) atTop (𝓝 (radoTruth φ)) := by
   sorry
 
+/-- **Finite models.** A sentence true in the Rado graph has a finite simple-graph model of every
+sufficiently large size. The size bound is needed: `∀x∃y Adj(x, y)` holds in the Rado graph and in
+`Kₙ` for `n ≥ 2`, but not in `K₁`. -/
+theorem eventually_exists_finite_model (φ : Language.graph.Sentence)
+    (hφ : Satisfies TauCeti.radoGraph φ) :
+    ∀ᶠ n in atTop, ∃ G : SimpleGraph (Fin n), Satisfies G φ := by
+  sorry
+
 /-- **Bounded-rank varying parameters.** For `d ≥ 1`, if `(n - d) δ_n^d - d log(n + 2) → ∞` with
 `δ_n = min(p_n, 1 - p_n)`, then for every sentence of rank at most `d + 1` the probability under
 `G(n, p_n)` tends to its Rado truth value. This hypothesis alone gives no summability of the failure
