@@ -51,7 +51,8 @@ section Types
 
 variable {L : FirstOrder.Language.{u, v}}
 
-/-- **Layer 4, the type of a tuple relative to a fragment.** -/
+/-- **Layer 4, the type of a tuple relative to a fragment**: the members of `A` at arity `n` that
+`a` satisfies (Marker's `A`-type, Definition 2.33 of his 2013 notes, p. 22). -/
 def fragmentType (A : L.Fragment) (M : Type w) [L.Structure M] {n : ℕ} (a : Fin n → M) :
     Set (L.BoundedFormulaω Empty n) :=
   {φ | (⟨n, φ⟩ : Σ n, L.BoundedFormulaω Empty n) ∈ A.toSet ∧ φ.Realize Empty.elim a}

@@ -374,7 +374,7 @@ first-order image fragment.
 * `aElementary_iSup`: a nonempty directed family of `A`-elementary substructures of one structure
   `M` has an `A`-elementary supremum, and each member is `A`-elementary in the supremum
   (`aElementary_inclusion_iSup`, by two-out-of-three); with the linearly ordered corollary covering
-  ω- and ω₁-chains.
+  ω- and ω₁-chains (Exercise 1.28 of Marker's 2013 notes, p. 11).
 * `aElementary_of_cocone`: for a directed system of `A`-elementary transition embeddings and a
   compatible family of embeddings into some `M` that jointly cover it, every map into `M` is
   `A`-elementary. Mathlib's `DirectLimit` is such a cocone (`aElementary_directLimit_of`), so
@@ -484,7 +484,11 @@ stages form an increasing chain of members), the quotient model with its atomic 
 * `ConsistencyProperty.ofSatisfiable T A`: for a countable fragment `A` and a theory `T ⊆ A`, the
   sets `T ∪ σ` with `σ` a finite set of `A`-instances (Layer 0) such that `T ∪ σ` has a nonempty
   model interpreting the constants form a consistency property, provided `A` is formation-closed.
-  Each clause is checked by modifying the interpretation of finitely many constants.
+  Each clause is checked by modifying the interpretation of finitely many constants. This is the
+  family `Σ` of the proof of Theorem 4.9 of Marker's 2013 notes (p. 44) with no types to omit, so
+  that his sentences `Δ` are absent, and with instances of members of `A` in place of his fragment
+  `A*`; the notes check the disjunction clause there and leave the other clauses as Exercise 4.10
+  (p. 45).
 
 **Acceptance example.** `ConsistencyProperty.ofModel` for a fixed countable structure `M` in a
 language with countably many symbols and a surjection `e : ℕ → M`, and `model_existence` applied
@@ -502,7 +506,8 @@ Suggested home: `TauCeti/ModelTheory/ModelExistence/{Types,OmittingTypes}.lean`.
 * `infinitaryType M a`, the complete Lω₁ω-type of `a : Fin n → M` (the set of members of
   `BoundedFormulaω L Empty n` true of `a`), and `realizedTypes M n`. Invariance under isomorphism,
   and `InfEquivAt ℕ M N` iff `realizedTypes M 0 = realizedTypes N 0`.
-* `fragmentType A M a`, the members of `A` true of `a`; restriction along `A ≤ B`;
+* `fragmentType A M a`, the members of `A` true of `a` (Marker's `A`-type, Definition 2.33 of his
+  2013 notes, p. 22); restriction along `A ≤ B`;
   `AElementary.fragmentType_comp` (an `A`-elementary embedding preserves `A`-types); the arity-`n`
   slice `Fragment.slice A n` and the realized truth assignment `A.slice n → Prop`, transported along
   isomorphisms and along `A ≤ B` by precomposition with the slice map.
@@ -1138,12 +1143,12 @@ Among the targets that `Suggested.lean` states, Tau Ceti `2fd255d99` does not im
   Exact locators are given in the author's lecture notes of the same title (University of Illinois
   at Chicago, Fall 2013,
   [author's copy](https://homepages.math.uic.edu/~marker/math512-F13/inf.pdf)), by result number
-  and printed page: Definition 1.11 (p. 7), Theorem 1.23 (p. 10), Theorem 1.31 and Exercise 1.32
-  (pp. 11–12), Definition 4.1 (p. 39), Theorem 4.6 (p. 40), Theorem 4.9 (p. 44), Exercise 4.11
-  (p. 45), Theorem 4.21 (p. 48) and Corollary 4.23 (p. 50); and for Layer 8, §4.4, "The
-  Undefinability of Well-Ordering": Theorem 4.27 (p. 51), Corollary 4.28 (p. 52), and the proof of
-  Theorem 4.27 printed after the corollary (pp. 52–53). The notes number results differently from
-  the book.
+  and printed page: Definition 1.11 (p. 7), Theorem 1.23 (p. 10), Exercise 1.28 (p. 11),
+  Theorem 1.31 and Exercise 1.32 (pp. 11–12), Definition 2.33 (p. 22), Definition 4.1 (p. 39),
+  Theorem 4.6 (p. 40), Theorem 4.9 and its proof (p. 44), Exercises 4.10 and 4.11 (p. 45),
+  Theorem 4.21 (p. 48) and Corollary 4.23 (p. 50); and for Layer 8, §4.4, "The Undefinability of
+  Well-Ordering": Theorem 4.27 (p. 51), Corollary 4.28 (p. 52), and the proof of Theorem 4.27
+  printed after the corollary (pp. 52–53). The notes number results differently from the book.
 * H. Jerome Keisler, *Model Theory for Infinitary Logic*, Studies in Logic and the Foundations of
   Mathematics 62, North-Holland, 1971: consistency properties, model existence, omitting types and
   interpolation over countable fragments.
