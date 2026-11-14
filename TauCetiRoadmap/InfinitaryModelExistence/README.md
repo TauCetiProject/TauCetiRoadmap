@@ -27,12 +27,13 @@ The summits are:
 * **Craig interpolation and PC separation** for sentences of a language of any cardinality, with the
   Lyndon (relation polarity, logical equality) and Malitz (universal consequent) refinements, all
   for arbitrary languages except Malitz, which is relational (Layer 7);
-* **the boundedness theorems for well-orderings** of Marker's Chapter 4 and the undefinability of
-  well-ordering, for arbitrary languages (Layer 8).
+* **the boundedness theorems for well-orderings** of §4.4 of Marker's 2013 notes and the
+  undefinability of well-ordering, for arbitrary languages (Layer 8).
 
-The interpolation and well-ordering theorems are proved for relational languages and transferred to
-languages with function symbols by the **graph translation** of Layer 6, a proof device with its own
-API.
+The interpolation theorems are proved for relational languages and transferred to languages with
+function symbols by the **graph translation** of Layer 6, a proof device with its own API. The
+well-ordering theorems are proved directly for arbitrary languages: model existence handles closed
+terms through its naming clause.
 
 Interpolation here is **sentence-level** throughout. The analogous statements for sets of sentences
 are false for Lω₁ω (see [Out of scope](#out-of-scope)), and no theorem of this roadmap claims them.
@@ -63,12 +64,12 @@ TauCeti/ModelTheory/WellOrdering.lean                -- boundedness of well-orde
 | L5 | Morleyization: the canonical definitional expansion and the first-order presentation of a countable fragment with omitted types | L0–L2, L4 | the Morley presentation of "the universe is finite", and an infinite model of its first-order theory from Mathlib's compactness |
 | L6 | the graph translation: graph language, graph expansion, formula translation, graph axioms, reconstruction, back-translation, entailment transfer | L0, L1 | back-translating a translated formula gives a formula with the same realization in every structure |
 | L7 | projective classes; Craig interpolation and PC separation; Lyndon; Malitz | L0–L3, L6 | the degenerate interpolants `⊥` and `⊤` |
-| L8 | Marker 4.4.1, boundedness, Marker 4.4.2, undefinability of well-ordering | L0–L3, L6 | a chain `RelChain lt f` from `ℚ` is never well-founded |
+| L8 | boundedness and the undefinability of well-ordering (Marker's 2013 notes, §4.4) | L0–L3 | a chain `RelChain lt f` from `ℚ` is never well-founded |
 
 L0 and L1 come first. L2 and L3 are independent of each other. L4 needs L3 (for the omitting types
 theorem) and L2 (for transporting types). L5 needs L4 only for the vocabulary of omission. L6 needs
-only L0 and L1. L7 and L8 need L3, the sublanguage machinery of L0 and the graph translation of L6,
-and use L2 to pass between model universes; they are independent of L4 and L5.
+only L0 and L1. L7 and L8 need L3 and the sublanguage machinery of L0; L7 also needs the graph
+translation of L6 and uses L2 to pass between model universes. Both are independent of L4 and L5.
 
 ## Standing conventions
 
@@ -82,7 +83,8 @@ Pin these once; every statement below uses them.
    instances to `Language.card ≤ ℵ₀`, and its names are the ones to use). The interpolation and
    well-ordering theorems hold for languages of any cardinality, with no countability hypothesis, by
    passing to the countable sublanguage of the symbols that occur. `[L.IsRelational]` appears in the
-   Lean statement of their relational cores, which are named milestones, and of Malitz's theorem.
+   Lean statement of the relational cores of the interpolation theorems, which are named milestones,
+   and of Malitz's theorem.
 2. **Syntax.** Lω₁ω is the parent's `BoundedFormulaω L α n = BoundedFormulaInf L ℕ α n`, with
    `Sentenceω L` its sentences. Members of fragments and types have **no free variables**: they are
    `BoundedFormulaω L Empty n`, and a tuple `a : Fin n → M` supplies the `n` bound positions as
@@ -105,13 +107,19 @@ Pin these once; every statement below uses them.
 7. **Sentence level.** Interpolation and separation are stated for single sentences, or for
    countable theories reduced to one sentence by a countable conjunction. Statements about
    arbitrary sets of sentences are excluded (see [Out of scope](#out-of-scope)).
+8. **Names.** A backticked declaration name in Layers 0–8 is a declaration of Mathlib, one of
+   Tau Ceti at this repository's pin (for this roadmap's own targets, those listed under
+   [Tau Ceti implementation](#tau-ceti-implementation)), one of a sibling roadmap named with it, or
+   otherwise the name under which a target of this roadmap is to be declared. `Suggested.lean`
+   states some of these targets, not all: `aElementary_of_cocone` (2.4), `craig_pcSeparation` (7.2)
+   and `realize_mono_of_signed` (7.3), for instance, are targets named only here.
 
 ## Existing library and ownership
 
 | Supplier | Consumed material |
 |---|---|
-| [InfinitaryLogic, Layer 0](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation `TauCeti.ModelTheory.Infinitary.*` | `BoundedFormulaInf`, `BoundedFormulaω`, `Sentenceω`, the derived connectives and `alls`/`exs`, `BoundedFormulaInf.Realize`, `SentenceInf.Realize`, `toInf`/`toOmega` with `realize_toInf`, `IndexCoding`, `iInfAlong`/`iSupAlong` with their realization lemmas, `reindex`, `mapBound`, `castLE`, `TauCeti.BoundedFormulaInf.subst` and `relabel` with their realization laws, `qrank`, and invariance of realization under isomorphisms (`StrongHomClass.realize_sentenceInf`) |
-| [InfinitaryLogic, Layers 1–3](../../Completed/InfinitaryLogic/README.md) | `InfEquivAt` (Lω₁ω-equivalence is `InfEquivAt ℕ`), `BFEquiv`, Scott sentences `scottSentence` and `scott_isomorphism`, used in worked examples |
+| [InfinitaryLogic, Layer 0](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation, `TauCeti/ModelTheory/Infinitary/{Syntax,Semantics,IndexCoding,CodedConnectives,Reindex,Operations,Substitution,QuantifierRank,Equiv}.lean` at Tau Ceti `2fd255d99` | `BoundedFormulaInf`, `BoundedFormulaω`, `Sentenceω`, the derived connectives and `BoundedFormulaInf.alls`/`exs`, `BoundedFormulaInf.Realize`, `SentenceInf.Realize`, `BoundedFormula.toInf`/`BoundedFormulaInf.toOmega` with `BoundedFormula.realize_toInf`, `TauCeti.IndexCoding` and `IndexCoding.ofEncodableWith`, `BoundedFormulaInf.iInfAlong`/`iSupAlong` with their realization lemmas, `BoundedFormulaInf.reindex`, `mapBound`, `castLE`, `TauCeti.BoundedFormulaInf.subst` and `relabel` with their realization laws, `BoundedFormulaInf.qrank`, and invariance of realization under isomorphisms (`StrongHomClass.realize_sentenceInf`), all in the namespace `FirstOrder.Language` unless written with `TauCeti` |
+| [InfinitaryLogic, Layers 1–3](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation, `TauCeti/ModelTheory/{BackAndForth/Karp,BackAndForth/Equivalence,Scott/Sentence,Scott/Isomorphism}.lean` at `2fd255d99` | `TauCeti.InfEquivAt` (Lω₁ω-equivalence is `InfEquivAt ℕ`), `TauCeti.BFEquiv`, Scott sentences `TauCeti.scottSentence` and `TauCeti.scott_isomorphism`, used in worked examples; `BFEquiv` and `scottSentence` are defined for relational languages only, as the order languages of the worked examples are, and `scott_isomorphism` asserts that some sentence characterizes the countable structure, which `TauCeti.realize_scottSentence_iff` states for `scottSentence` |
 | Mathlib `ModelTheory/LanguageMap.lean` | `LHom`, `LHom.onTerm`, `LHom.reduct`, `LHom.IsExpansionOn`, `LHom.Injective`, `Language.sum`, `LHom.sumInl`/`sumInr`/`sumElim`, `withConstants` and `L.con`, `constantsOn` |
 | Mathlib `ModelTheory/Syntax.lean`, `Semantics.lean` | `Term.subst`, `Term.relabel`, `BoundedFormula.toFormula`, `BoundedFormula.constantsVarsEquiv`, `LHom.realize_onBoundedFormula`, `Theory.Model` |
 | Mathlib `ModelTheory/Satisfiability.lean`, `Bundled.lean` | `Theory.IsSatisfiable`, `Theory.ModelsBoundedFormula`, `Theory.ModelType` (nonempty models), first-order compactness `Theory.isSatisfiable_iff_isFinitelySatisfiable` |
@@ -124,11 +132,12 @@ or interpolation theorems (checked at the pinned Mathlib); all are targets here.
 
 This roadmap owns the objects in the layers below. Its sibling roadmaps consume them:
 
-* **[CountableStructureSpaces](../CountableStructureSpaces/README.md)** ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)) (spaces of countable structures and López–Escobar) consumes exactly
-  `PCMem` and `pcSeparation`, in the sum-language form of Layer 7, for the hard direction of
-  López–Escobar. It owns the structure space, López–Escobar and the non-Borelness of the well-order
-  class.
-* **[HanfNumbers](../HanfNumbers/README.md)** ([#1319](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1319)) (Ehrenfeucht–Mostowski models and Hanf numbers) consumes:
+* **[CountableStructureSpaces](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)**
+  (spaces of countable structures and López–Escobar) consumes exactly `PCMem` and `pcSeparation`,
+  in the sum-language form of Layer 7, for the hard direction of López–Escobar. It owns the
+  structure space, López–Escobar and the non-Borelness of the well-order class.
+* **[HanfNumbers](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1319)**
+  (Ehrenfeucht–Mostowski models and Hanf numbers) consumes:
   * from 0.1, `onBoundedFormulaInf` and `realize_onBoundedFormulaInf`;
   * from 0.2, `functionsIn`, `relationsIn`, their countability lemmas and
     `realize_congr_of_agreeOn`;
@@ -139,25 +148,25 @@ This roadmap owns the objects in the layers below. Its sibling roadmaps consume 
     `Fragment.generated` and `Fragment.generated_countable`;
   * from Layer 2, `AElementary`, `aElementary_of_tarskiVaught` and
     `exists_countable_aElementary_substructure`;
-  * from 4.1, `infinitaryType`, `realizedTypes`, `exists_isolatingFormula` and the isolator seed.
+  * from 4.1, `infinitaryType`, `realizedTypes`, `exists_isolatingFormula` and the isolator seed;
+  * from Layer 6, `graphLanguage`, `graphExpansion`, `relationalize` with `realize_relationalize`,
+    `backTranslate` with `realize_backTranslate`, and `graphAxioms` with `reconstructStructure` and
+    the reconstruction law, for the countable-language forms of its complete-sentence and
+    categoricity theorems.
 
   It does not consume model existence, direct limits, the cardinal-bound Löwenheim–Skolem theorem
   or `fragmentType`. It owns smallness (`Lω₁ω`-small structures), small models, complete sentences
   and everything about indiscernibles and Hanf numbers.
-* **[CountableModelCounting](../CountableModelCounting/README.md)** ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) consumes `onBoundedFormulaInf`, `realize_onBoundedFormulaInf`,
-  `Fragment`, `Fragment.generated`, `Fragment.generated_countable`, `Fragment.slice` with the
-  realized truth assignment, `fragmentType`, `morleyize`, `lhomMorleyize`, `morleyExpansion`, the
-  relational and countable instances of `morleyize`, `nonempty_morleyEquiv_iff`,
-  `Theoryω.conjunction`, `smallPresentation` and `smallPresentationEquiv`.
+* **[CountableModelCounting](../CountableModelCounting/README.md)** consumes `onBoundedFormulaInf`,
+  `realize_onBoundedFormulaInf`, `Fragment`, `Fragment.generated`, `Fragment.generated_countable`,
+  `Fragment.slice` with the realized truth assignment, `fragmentType`, `morleyize`, `lhomMorleyize`,
+  `morleyExpansion`, the relational and countable instances of `morleyize`,
+  `nonempty_morleyEquiv_iff`, `Theoryω.conjunction`, `smallPresentation` and
+  `smallPresentationEquiv`.
 
-This roadmap owns these interfaces. The sibling prototypes reproduce the current proposed
-declarations of `PCMem`, `pcSeparation`, `onBoundedFormulaInf`, `realize_onBoundedFormulaInf`,
-`infinitaryType`, `realizedTypes`, `morleyize`, `lhomMorleyize`, `morleyExpansion`,
-`morleyize_isRelational`, `countable_relations_morleyize` and `nonempty_morleyEquiv_iff` as marked
-stand-ins, each recording the revision of this roadmap it was checked against. The copies are
-prototype scaffolding, not authorization to implement a parallel API in Tau Ceti. Changes to the
-interface here are propagated to the copies and rechecked by substituting these declarations for
-them, until the consumers import this roadmap's declarations directly.
+This roadmap owns these interfaces, and no sibling roadmap builds a parallel API for them.
+Consumers cite them by name and section of this roadmap; where Tau Ceti implements one (see
+[Tau Ceti implementation](#tau-ceti-implementation)), they use the Tau Ceti declaration.
 
 ## Layer 0: the signature calculus of infinitary formulas
 
@@ -182,7 +191,7 @@ once, generic in the carrier `ι` wherever the statement allows.
 
 ### 0.2 Occurrences and symbol locality
 
-* `termFunctionsIn`, and `functionsIn`, `relationsIn : BoundedFormulaInf L ι α n → Set (Σ n, …)`,
+* `Term.functionsIn`, and `functionsIn`, `relationsIn : BoundedFormulaInf L ι α n → Set (Σ n, …)`,
   the symbols occurring in a formula. Equality is logical: it contributes the function symbols of
   its terms and no relation symbol. Constructor equations, and the laws for the derived
   connectives, `alls`/`exs`, `iInfAlong`/`iSupAlong` (padding contributes nothing), `reindex`,
@@ -194,8 +203,9 @@ once, generic in the carrier `ι` wherever the statement allows.
   function and relation symbols occurring in `φ` give `φ` the same truth value at every
   assignment.
 * For `L[[γ]]`-formulas, the **constant support** is the set of `c : γ` whose constant occurs, read
-  off `functionsIn`. Follow the set-valued shape of the free-variable support of
-  [Tau Ceti #17547](https://github.com/TauCetiProject/TauCeti/pull/17547).
+  off `functionsIn`. Follow the set-valued shape of Tau Ceti's free-variable support
+  `BoundedFormulaInf.freeVarSupport`
+  ([`Infinitary/FreeVarSupport.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Infinitary/FreeVarSupport.lean)).
 
 ### 0.3 Sublanguages and expansions
 
@@ -261,8 +271,9 @@ Suggested home: `TauCeti/ModelTheory/Infinitary/Theory.lean` and `Fragment.lean`
   with first-order entailment: for first-order `φ`, `ψ`,
   `Sentenceω.Entails (toOmega φ) (toOmega ψ)` iff `{φ} ⊨ᵇ ψ` in Mathlib's sense.
 * `Theoryω.conjunction T hT` for countable `T`, the countable conjunction along
-  `IndexCoding.ofEncodableWith`, with `realize_conjunction_iff`. It is how a countable theory is
-  reduced to a single sentence wherever the sentence-level theorems are applied to theories.
+  `IndexCoding.ofEncodableWith`, with `FirstOrder.Language.Theoryω.realize_conjunction_iff`. It is how a countable
+  theory is reduced to a single sentence wherever the sentence-level theorems are applied to
+  theories.
 * `OmitsType M p` for `p : Set (BoundedFormulaω L Empty n)`: no `n`-tuple of `M` realizes every
   member of `p`.
 
@@ -342,15 +353,16 @@ first-order image fragment.
 
 * `exists_aElementary_substructure`: every `X ⊆ M` lies in an `A`-elementary substructure `N` with
 
-  ```math
-  |N| \le \max(\aleph_0,\ |X|,\ |A|,\ |\textstyle\sum_n L_{\mathrm{fun},n}|),
+  ```text
+  |N| ≤ max(ℵ₀, |X|, |A|, |Σ n, L.Functions n|),
   ```
 
   stated with `Cardinal.lift` into `max u v w`, since the three cardinals start in three universes.
   Function symbols appear separately because a fragment need not contain an atomic formula
-  mentioning them. Marker's bound `max(|A|, |X|)` (Marker 2016, Chapter 1), stated for fragments that
-  contain every atomic formula, is the corollary for infinite formation-closed fragments, where the
-  function-symbol term is absorbed; state the absorption lemma rather than assuming it.
+  mentioning them. Marker's bound `max(|A|, |X|)` (Marker 2016, Chapter 1; Theorem 1.23 of Marker's
+  2013 notes, p. 10), stated for fragments that contain every atomic formula, is the corollary for
+  infinite formation-closed fragments, where the function-symbol term is absorbed; state the
+  absorption lemma rather than assuming it.
 * `exists_countable_aElementary_substructure`: with countably many function symbols, a countable
   fragment and a countable `X`, the substructure is countable. This is the form the sibling
   roadmaps consume.
@@ -372,13 +384,13 @@ first-order image fragment.
 
 ### 2.5 Sentence-level consequences
 
-* `Theoryω.exists_countable_model`: a satisfiable countable theory has a countable nonempty model
+* `FirstOrder.Language.Theoryω.exists_countable_model`: a satisfiable countable theory has a countable nonempty model
   in every universe. Pass to the symbol sublanguage of `T` (Layer 0), take a countable
   `A`-elementary substructure, containing a chosen element, of a nonempty model for the fragment
   generated by `T`, transport it into the target universe, and expand back on the nonempty carrier.
   The chosen element matters: without it the substructure can be empty (for `T = {⊤}` over a
   language without constants).
-* `Theoryω.entails_iff_countable`: for countable `T`, `T.Entails φ` holds iff every countable
+* `FirstOrder.Language.Theoryω.entails_iff_countable`: for countable `T`, `T.Entails φ` holds iff every countable
   nonempty model of `T` in a given universe satisfies `φ`. In particular entailment between
   sentences does not depend on the universe of models, and the universe `max u v` of Convention 3
   is a normalization, not a restriction.
@@ -419,10 +431,10 @@ member `s` (writing `s + φ` for `insert φ s`):
 | `eq_subst` | for atomic `φ` with one bound position, `t = t' ∈ s` and `φ[t] ∈ s` give `s + φ[t']` |
 | `eq_name` | for every closed term `t`, `s + (c = t)` for some Henkin constant `c` |
 
-Here `φ[t]` is `inst φ t`. This follows Marker 2016, Chapter 4, and Keisler 1971, adapted to the
-implication-and-falsum syntax: the existential quantifier is `¬∀¬`, so `not_all` is the witness
-clause, and the universal clause instantiates only constants because every element of the model
-will be named by one.
+Here `φ[t]` is `inst φ t`. This follows Marker 2016, Chapter 4 (Definition 4.1 of Marker's 2013
+notes, p. 39), and Keisler 1971, adapted to the implication-and-falsum syntax: the existential
+quantifier is `¬∀¬`, so `not_all` is the witness clause, and the universal clause instantiates only
+constants because every element of the model will be named by one.
 
 Two clauses familiar from finitary presentations are deliberately absent: closure under unions of
 increasing chains, and a decision clause adding `φ` or `¬φ` to every member. The reasons differ.
@@ -437,7 +449,8 @@ term model needs and is what a countable enumeration domain can be closed under.
 
 * `model_existence`: let `L` have countably many function and relation symbols. If `s` is a
   countable member of a consistency property, then `s` has a countable model `M` in any universe,
-  and every element of `M` is the interpretation `L.con c` of a Henkin constant.
+  and every element of `M` is the interpretation `L.con c` of a Henkin constant. The countable model
+  is Theorem 4.6 of Marker's 2013 notes (p. 40).
 * `model_existence_omitting`: given in addition a countable family `P` of countable partial types
   over `L[[ℕ]]` such that for every `p ∈ P`, every member `s` and every tuple `c` of Henkin
   constants some `ψ ∈ p` has `s + ¬ψ[c]` in the family, the model also omits every `p ∈ P`.
@@ -502,35 +515,64 @@ Suggested home: `TauCeti/ModelTheory/ModelExistence/{Types,OmittingTypes}.lean`.
 * The countable seed of isolators: for a structure realizing countably many types at every arity,
   the set of all `χ_p` and their one-variable existential closures generates a countable fragment.
 
+**Checks** (`fragmentType`).
+
+* `fragmentType ⊤ M a = infinitaryType M a`, and `fragmentType ⊥ M a = ∅`.
+* `AElementary.fragmentType_comp` needs its hypothesis: for the inclusion `(ℤ, <) ↪ (ℚ, <)`, a
+  fragment containing the density sentence `δ`, and `n = 0`, `δ` is in the `A`-type of the empty
+  tuple in `ℚ` and not in `ℤ`.
+
 ### 4.2 Isolation over a theory and omitting types
 
 * `Theoryω.IsolatesIn A T p`: some member `φ` of `A` at arity `n` has `T ∪ {∃̄φ}` satisfiable and
   `T ⊨ ∀̄(φ → ψ)` for every `ψ ∈ p`, where `∃̄` and `∀̄` close off the `n` bound positions.
-* `Theoryω.exists_countable_model_omitting`: let `A` be a countable formation-closed fragment, `T`
-  a satisfiable set of sentences of `A`, and `P` a countable family of partial types inside `A`,
-  none isolated over `T` in `A`. Then `T` has a countable nonempty model, in any universe, omitting
-  every `p ∈ P`. No separate countability of the language is assumed: it follows from countability
-  of `A` (Layer 1).
+* `Theoryω.exists_countable_model_omitting` (Theorem 4.9 of Marker's 2013 notes, p. 44): let `A` be
+  a countable formation-closed fragment, `T` a satisfiable set of sentences of `A`, and `P` a
+  countable family of partial types inside `A`, none isolated over `T` in `A`. Then `T` has a
+  countable nonempty model, in any universe, omitting every `p ∈ P`. No separate countability of the
+  language is assumed: it follows from countability of `A` (Layer 1).
 
   Route: apply `model_existence_omitting` to `ConsistencyProperty.ofSatisfiable T A`, with `P`
   mapped along `lhomWithConstants`. Take a member `T ∪ σ` and a tuple `c : Fin n → ℕ`. Each element
-  of `σ` is an instance `χⱼ[ē]` of a member `χⱼ` of `A`. Rename (`rename_mem`) the positions of
-  every `χⱼ` into `Fin (n + k)`: a constant equal to some `cᵢ` goes to the first such `i < n`, and
-  the remaining constants of `σ` go to the last `k` positions. Conjoin the renamed `χⱼ` with the
-  equalities `xᵢ = xᵢ'` for every `cᵢ = cᵢ'` (the tuple `c` may repeat a constant, and a witness
-  tuple from non-isolation need not), and existentially close the last `k` positions. The result
-  `φ` lies in `A` by formation closure, and `T ∪ {∃̄φ}` holds in the model of `T ∪ σ`.
-  Non-isolation gives `ψ ∈ p` and a model of `T` with a tuple satisfying `φ ∧ ¬ψ`. Interpret `cᵢ`
-  as its `i`-th coordinate (consistent, by the equalities) and the other constants of `σ` by
-  witnesses of the existential. This makes `T ∪ σ ∪ {¬ψ[c]}` satisfiable, and `¬ψ[c]` is an
-  instance of the member `¬ψ` of `A`. The model omits `p` because it omits the image of `p` along
+  of `σ` is an instance `χⱼ[ē]` of a member `χⱼ` of `A`. Rename (`FormationClosed.mapBound_mem`) the
+  positions of every `χⱼ` into `Fin (n + k)`: a constant equal to some `cᵢ` goes to the first such
+  `i < n`, and the remaining constants of `σ` go to the last `k` positions. Conjoin the renamed `χⱼ`
+  with the equalities `xᵢ = xᵢ'` for every `cᵢ = cᵢ'` (the tuple `c` may repeat a constant, and a
+  witness tuple from non-isolation need not), and existentially close the last `k` positions. The
+  result `φ` lies in `A` by formation closure, and `T ∪ {∃̄φ}` holds in the model of `T ∪ σ`.
+  Non-isolation gives `ψ ∈ p` and a model of `T` with a tuple satisfying `φ ∧ ¬ψ`. Interpret `cᵢ` as
+  its `i`-th coordinate (consistent, by the equalities) and the other constants of `σ` by witnesses
+  of the existential. This makes `T ∪ σ ∪ {¬ψ[c]}` satisfiable, and `¬ψ[c]` is an instance of the
+  member `¬ψ` of `A`. The model omits `p` because it omits the image of `p` along
   `lhomWithConstants` and every element is named.
+
+  *Needs:* `ConsistencyProperty.model_existence_omitting` (3.2), `ConsistencyProperty.ofSatisfiable`
+  (3.3), `Fragment.FormationClosed` with `FormationClosed.mapBound_mem` (1.2), `substBounds` and
+  `inst` (0.4), `realize_onBoundedFormulaInf` along `lhomWithConstants` (0.1), and
+  `Theoryω.IsolatesIn` (4.2).
 * Corollaries: for `A` and `T` as above (in particular `T` satisfiable), a partial type inside `A`
-  realized in every countable model of `T` is isolated over `T` in `A`; and the **first-order omitting types theorem**: for a countable language, a
-  satisfiable first-order theory and countably many first-order partial types none isolated by a
-  first-order formula modulo the theory (in the sense of Mathlib's `Theory.IsSatisfiable`), there
-  is a countable model omitting them all. Derive it by taking `A` to be the first-order image
-  fragment.
+  realized in every countable model of `T` is isolated over `T` in `A`; and the **first-order
+  omitting types theorem** `exists_countable_model_omitting_fo` (Exercise 4.11 of the notes, p. 45):
+  for a countable language, a satisfiable first-order theory `T` and countably many first-order
+  partial types `p`, none isolated by a first-order formula modulo `T`, there is a countable model
+  `M` omitting them all. For `p` a set of formulas in `n` bound positions, `IsolatesFO T p` says
+  that some first-order `φ` in the same positions has `T ∪ {∃x̄ φ}` (`insert φ.exs T`) satisfiable
+  in the sense of Mathlib's `Theory.IsSatisfiable` and `T ⊨ᵇ φ.imp ψ`, that is `T ⊨ ∀x̄ (φ → ψ)`,
+  for every `ψ ∈ p`; omission is `OmitsFOType M p`, every `n`-tuple of `M` refuting some formula of
+  `p`. The empty type, isolated by `⊤`, shows that the non-isolation hypothesis cannot be dropped.
+  Derive the theorem by taking `A` to be the first-order image fragment.
+
+  *Needs:* `Theoryω.exists_countable_model_omitting` (4.2), the first-order image fragment (1.2),
+  and `BoundedFormula.realize_toInf` (InfinitaryLogic), which carries satisfiability, isolation and
+  omission between Mathlib's first-order notions and those of 1.1 and 4.2.
+
+**Checks** (`IsolatesFO`, `OmitsFOType`).
+
+* The empty type is isolated by `⊤` over every satisfiable `T`, and no nonempty structure omits it.
+* `{⊥}` is isolated by nothing, and every structure omits it.
+* At `n = 0`, `OmitsFOType M {ψ}` holds exactly when `M ⊭ ψ`.
+* Over `Th(ℕ, 0, S)`, the type `{x ≠ Sᵏ0 : k ∈ ℕ}` is not isolated, because a formula consistent
+  with this complete theory holds of some standard number, and `ℕ` omits it.
 
 **Acceptance example.** A partial type realized in every countable model of a satisfiable `T` is
 isolated.
@@ -552,8 +594,8 @@ For any set `Φ` of tagged formulas (no closure assumed):
 * `definingTheory Φ`, the Lω₁ω sentences `∀̄(R_φ ↔ φ)`; the canonical expansion is its unique model
   among expansions (`eq_morleyExpansion_of_model_definingTheory`).
 * `unMorleyize`, the back-translation replacing each atom `R_φ(t̄)` by `φ` with `t̄` substituted for
-  its bound positions (`substBounds`), and `realize_unMorleyize`: realization in the canonical
-  expansion equals realization of the back-translation.
+  its bound positions (`substBounds`), and `BoundedFormulaInf.realize_unMorleyize`: realization in
+  the canonical expansion equals realization of the back-translation.
 * `morleyEquiv`: isomorphisms of `L`-structures lift to isomorphisms of canonical expansions with
   the same underlying bijection, and restrict back (`nonempty_morleyEquiv_iff`).
 * For a fragment `A`: an embedding is `A`-elementary iff it is an embedding of the canonical
@@ -581,10 +623,16 @@ under components.
 
 * `morleyTheory_countable`, `morleyTypes_countable` for countable `A`, with no countability of the
   language.
-* `exists_firstOrder_presentation` (Marker 2016, Chapter 1): an expansion
-  `S` of an `L`-structure along `lhomMorleyize A` models `morleyTheory A` and omits every type of
-  `morleyTypes A` **iff** `S` is the canonical expansion. The backward direction is an induction
-  over `A`; omission supplies exactly the conjunction and disjunction steps.
+* `exists_firstOrder_presentation` (Marker 2016, Chapter 1; Theorem 1.31 and Exercise 1.32 of
+  Marker's 2013 notes, pp. 11–12, which state it for a countable vocabulary and the fragment
+  generated by a countable theory): an expansion `S` of an `L`-structure along `lhomMorleyize A`
+  models `morleyTheory A` and omits every type of `morleyTypes A` **iff** `S` is the canonical
+  expansion. The backward direction is an induction over `A`; omission supplies exactly the
+  conjunction and disjunction steps.
+
+  *Needs:* `morleyize`, `lhomMorleyize` and `morleyExpansion` (5.1), `morleyTheory` and
+  `morleyTypes` with their countability (5.2), `OmitsFOType` (4.2), and the component closure of
+  `Fragment` (1.2).
 * Corollary: for a sentence `φ` with `⟨0, φ⟩ ∈ A`, the models of `φ` are exactly the reducts of the
   models of the countable first-order theory `morleyTheory A ∪ {R_φ}` that omit `morleyTypes A`.
 
@@ -598,15 +646,16 @@ The omitted types do mathematical work.
 
 Suggested home: `TauCeti/ModelTheory/Infinitary/GraphTranslation.lean`.
 
-The model-existence engines of Layers 7 and 8 are run over relational languages, where every closed
-term of `L[[ℕ]]` is a constant. This layer transfers sentence-level statements between `L` and a
-relational language by the standard graph construction: an `n`-ary function symbol becomes an
-`(n + 1)`-ary relation symbol for its graph. It is a proof device for the theorems of Layers 7 and
-8: it translates single sentences and entailments together with the totality and functionality
-axioms of the symbols they mention. This roadmap owns the graph-language translation and its
-semantic API, and no sibling roadmap builds a second one. Transferring Karp theory, back-and-forth
-analysis and Scott ranks across the translation is outside this series of roadmaps, and must reuse
-this API.
+The model-existence engines of Layer 7 are run over relational languages, where every closed term of
+`L[[ℕ]]` is a constant. This layer transfers sentence-level statements between `L` and a relational
+language by the standard graph construction: an `n`-ary function symbol becomes an `(n + 1)`-ary
+relation symbol for its graph. It is a proof device for the theorems of Layer 7: it translates
+single sentences and entailments together with the totality and functionality axioms of the symbols
+they mention. HanfNumbers uses it to move smallness and complete sentences between a language with
+countably many symbols and its graph language. This roadmap owns the graph-language translation and
+its semantic API, and no sibling roadmap builds a second one. Transferring Karp theory,
+back-and-forth analysis and Scott ranks across the translation is outside this series of roadmaps,
+and must reuse this API.
 
 * **The graph language.** `GraphRelation L n` with constructors `base (R : L.Relations n)` and
   `graph (f : L.Functions k)` at arity `k + 1`; `graphLanguage L`, with no function symbols and
@@ -632,8 +681,9 @@ this API.
   `∀x̄ y z (G_f(x̄, y) → G_f(x̄, z) → y = z)` for `f ∈ F`. The graph expansion satisfies them. On a
   model of `graphAxioms F`, `reconstructStructure F` is the `L`-structure whose functions in `F` are
   read off the graph relations (and are arbitrary outside `F`) and whose relations are the base
-  relations; `realize_relationalize_reconstruct`: for `φ` with `functionsIn φ ⊆ F`, the translation
-  of `φ` in the graph structure is realized exactly when `φ` is realized in the reconstruction.
+  relations; `BoundedFormulaInf.realize_relationalize_reconstructStructure`: for `φ` with
+  `functionsIn φ ⊆ F`, the translation of `φ` in the graph structure is realized exactly when `φ` is
+  realized in the reconstruction.
 * **Back-translation**
   `backTranslate : BoundedFormulaω (graphLanguage L) α n → BoundedFormulaω L α n`, sending
   `G_f(x̄, y)` to `f(x̄) = y` and base atoms to themselves; `realize_backTranslate` (over the graph
@@ -655,9 +705,17 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
 
 ### 7.1 Projective classes
 
-* `PCMem g Θ M` for `g : L →ᴸ L'` and `Θ : Sentenceω L'`: the `L`-structure `M` itself, on the
-  same carrier, has an `L'`-structure that is an expansion along `g` and satisfies `Θ` (Marker's
-  `PC_{ω₁ω}` classes). No nonemptiness is built in.
+* `PCMem g Θ M` for `g : L →ᴸ L'` and `Θ : Sentenceω L'`: the `L`-structure `M` itself, on the same
+  carrier, has an `L'`-structure that is an expansion along `g` and satisfies `Θ` (Marker's
+  `PC_{ω₁ω}` classes, Definition 1.11 of his 2013 notes, p. 7). No nonemptiness is built in. In the
+  case used throughout, `g = LHom.sumInl : L →ᴸ L.sum L₁`, this says that `M` is the `L`-reduct of a
+  model of `Θ`: `Θ` may speak about the auxiliary symbols of `L₁`, whose interpretations are chosen
+  existentially. These are the Lω₁ω analogue of pseudo-elementary classes. For a countable
+  relational language, on the space of structures with carrier `ℕ`, these projective classes are
+  exactly the isomorphism-invariant analytic sets; Lω₁ω model classes are exactly the
+  isomorphism-invariant Borel sets (López–Escobar, in CountableStructureSpaces). A countable carrier
+  alone does not give this: it needs the countable language. `PCMem` and the theorems below are for
+  arbitrary languages.
 * API: invariance under isomorphism; every model class is projective (`g = LHom.id`);
   projective classes along `LHom.sumInl : L →ᴸ L.sum L₁` are closed under binary intersection
   and, for relational `L₁` and `L₂`, binary union (both in `L.sum (L₁.sum L₂)`), and under
@@ -668,14 +726,23 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
 * `craig_interpolation_relational`, the relational core: for relational `L` of any cardinality and
   sentences with `Sentenceω.Entails φ ψ`, there is `θ` with
   `relationsIn θ ⊆ relationsIn φ ∩ relationsIn ψ`, `φ ⊨ θ` and `θ ⊨ ψ`.
-* `craig_interpolation`: the same for an arbitrary language of any cardinality, with no hypothesis
-  on `L`, and with both bounds `functionsIn θ ⊆ functionsIn φ ∩ functionsIn ψ` and
+
+  *Needs:* `ConsistencyProperty.model_existence` (3.2), the symbol sublanguage with `symbSublang`
+  and `restrictSymbols` (0.3), `constantsVarsEquiv` (0.4), and the transfer of entailment along
+  language maps (2.5).
+* `craig_interpolation` (Theorem 4.21 of Marker's 2013 notes, p. 48): the same for an arbitrary
+  language of any cardinality, with no hypothesis on `L`, and with both bounds
+  `functionsIn θ ⊆ functionsIn φ ∩ functionsIn ψ` and
   `relationsIn θ ⊆ relationsIn φ ∩ relationsIn ψ`. Equality is logical, so `θ` may use it freely;
   when `φ` is unsatisfiable `θ = ⊥` works, and when `ψ` is valid `θ = ⊤` does. Proof: translate the
   entailment by `entails_iff_graphTranslation`, apply the relational core in `graphLanguage L`, use
   the exact occurrence identity and the shared-vocabulary identity to bound the interpolant's
   symbols by `relSym (F₁ ∩ F₂) (R₁ ∩ R₂)`, and back-translate; both entailments are transported
   along the graph expansion, without reconstruction.
+
+  *Needs:* `craig_interpolation_relational` (7.2); from Layer 6, `entails_iff_graphTranslation`,
+  `relationalize` with its exact occurrence identity, the shared-vocabulary identity `relSym_inter`,
+  and `backTranslate` with `realize_backTranslate` and its occurrence calculus.
 * `craig_pcSeparation`: if `ψ₁ ⊨ ¬ψ₂`, some sentence of
   `symbSublang (functionsIn ψ₁ ∩ functionsIn ψ₂) (relationsIn ψ₁ ∩ relationsIn ψ₂)` holds in the
   reduct of every nonempty model of `ψ₁` and fails in the reduct of every nonempty model of `ψ₂`,
@@ -685,14 +752,19 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
 * `pcSeparation`: for arbitrary languages `L`, `L₁`, `L₂`, if no countable nonempty `L`-structure
   lies in both `PCMem LHom.sumInl Θ₁` and `PCMem LHom.sumInl Θ₂`, some `θ : Sentenceω L` holds in
   every nonempty member of the first class and fails in every nonempty member of the second, in
-  every universe. The hypothesis is only about countable structures `M : Type` (by Layer 2), and
-  the conclusion holds for nonempty `M : Type w`; this is the interface the López–Escobar theorem
-  of CountableStructureSpaces consumes, and its proposed signature is in `Suggested.lean`.
+  every universe (Corollary 4.23 of Marker's 2013 notes, p. 50, for disjoint classes). It is Craig
+  interpolation applied to the two defining sentences after their auxiliary symbols are renamed
+  apart, and holds with no hypothesis on the languages. For a countable relational language, on the
+  space of structures with carrier `ℕ`, it plays the role of Lusin separation (disjoint analytic
+  sets are separated by a Borel set). The hypothesis is only about countable structures `M : Type`
+  (by Layer 2), and the conclusion holds for nonempty `M : Type w`; this is the interface the
+  López–Escobar theorem of CountableStructureSpaces consumes, and its proposed signature is in
+  `Suggested.lean`.
 
   Route. Work in `L⁺ := L.sum (L₁.sum L₂)`, where the two new vocabularies are disjoint even when
   `L₁ = L₂`. Let `Θ₁⁺` and `Θ₂⁺` be the images of `Θ₁` and `Θ₂` along
   `(LHom.id L).sumMap LHom.sumInl` and `(LHom.id L).sumMap LHom.sumInr`. (1) If `Θ₁⁺ ∧ Θ₂⁺` had a
-  nonempty model, `Theoryω.exists_countable_model` would give a countable nonempty one in `Type`,
+  nonempty model, `FirstOrder.Language.Theoryω.exists_countable_model` would give a countable nonempty one in `Type`,
   whose reducts along the two maps are expansions of its `L`-reduct satisfying `Θ₁` and `Θ₂`,
   against the hypothesis; hence `Sentenceω.Entails Θ₁⁺ Θ₂⁺.not`. (2) `craig_interpolation` in `L⁺`
   gives `θ⁺` whose symbols lie in those of both `Θ₁⁺` and `Θ₂⁺.not`, hence in the range of
@@ -705,6 +777,11 @@ Suggested home: `TauCeti/ModelTheory/Interpolation/{PCClass,Craig,Lyndon,Malitz}
   interpreted arbitrarily. The proof gives the same `θ` in every universe.
   Corollary: if every countable nonempty `L`-structure lies in
   exactly one of two such classes, the first is the class of countable nonempty models of `θ`.
+
+  *Needs:* `craig_interpolation` (7.2), `PCMem` (7.1),
+  `FirstOrder.Language.Theoryω.exists_countable_model` and `Theoryω.Entails.realize` (2.5),
+  `exists_eq_onBoundedFormulaInf_of_subset_range` (0.3), the occurrence laws for
+  `onBoundedFormulaInf` (0.2), and `realize_onBoundedFormulaInf` (0.1).
 
 Route for the relational core. Reduce to the countable symbol sublanguage of `φ` and `ψ` (Layer 0)
 and work in `L[[ℕ]]`. The members of the consistency property are finite pairs `(Γ, Δ)`, presented
@@ -737,10 +814,21 @@ is used.
   sign, back-translate into equalities and drop out of the signed bounds.
   `craig_of_lyndon_interpolation` recovers Craig from the two signed bounds.
 
-This is the **relation-polarity, logical-equality form** of López-Escobar's interpolation theorem:
-his polarity clause is proved in full, and his clause restricting where equality may occur in `θ`
-is not part of this theorem. The proof refines the Craig engine: only the separator class changes, the
-pair maintaining the flipped classes `(P₁ ∩ N₂, N₁ ∩ P₂)`.
+  *Needs:* `lyndon_interpolation_relational` and `relationsInSigned` (7.3); from Layer 6,
+  `entails_iff_graphTranslation`, the polarity of base relations under `relationalize`, and the
+  signed occurrence calculus of `backTranslate`.
+
+**Checks** (`relationsInSigned`).
+
+* `¬R(t)` has `R` only negatively, and `¬¬R(t)` only positively.
+* `R(t) → R(t)` has `R` with both signs.
+* `t = t'` and `⊥` contribute to neither sign.
+
+This is the **relation-polarity, logical-equality form** of López-Escobar's interpolation theorem
+(López-Escobar 1965, Theorem 4.1, p. 267): his polarity clause (.4) is proved in full, and his
+clause (.3) restricting where equality may occur in `θ` is not part of this theorem. The proof
+refines the Craig engine: only the separator class changes, the pair maintaining the flipped classes
+`(P₁ ∩ N₂, N₁ ∩ P₂)`.
 
 ### 7.4 Malitz interpolation
 
@@ -762,6 +850,15 @@ pair maintaining the flipped classes `(P₁ ∩ N₂, N₁ ∩ P₂)`.
   permissions; the right root `¬ψ` has no positive universal occurrence exactly when `ψ` is
   universal, so no separator acquires an existential occurrence.
 
+  *Needs:* `universalSigned` with its laws (7.4), `ConsistencyProperty.model_existence` (3.2), the
+  symbol sublanguage (0.3) and `constantsVarsEquiv` (0.4), as for the relational core of Craig
+  interpolation (7.2).
+
+**Checks** (`universalSigned`).
+
+* `∀x R(x)` is universal and not existential.
+* `∃x R(x)`, which is `¬∀x ¬R(x)`, is existential and not universal.
+
 **Acceptance example.** The degenerate interpolants: if `φ` is unsatisfiable, `⊥` interpolates with
 empty occurrence sets; if `ψ` is valid, `⊤` does.
 
@@ -774,36 +871,100 @@ Fix a binary relation symbol `lt : L.Relations 2` of an arbitrary language and w
 
 * `HasWellOrderedChains φ lt`: for every `α < ω₁` some nonempty model of `φ` carries a chain
   `f : α.ToType → M`.
-* `exists_model_relChain_rat` (Marker 2016, Chapter 4, raw positive form): under that
-  hypothesis some countable nonempty model of `φ` carries `f : ℚ → M` with `RelChain lt f`.
+* `exists_model_relChain_rat` (Theorem 4.27 of Marker's 2013 notes, raw positive form): under
+  that hypothesis some countable nonempty model of `φ` carries `f : ℚ → M` with `RelChain lt f`.
   Injectivity is the separate corollary `RelChain.injective_of_irreflexive`, for irreflexive `lt`.
 * `wellFounded_boundedness`: if `lt` is well-founded in every model of `φ`, some countable ordinal
   has a chain in no model of `φ`.
-* `wellOrder_type_boundedness` (Marker 2016, Chapter 4): if `lt` well-orders every model of
-  `φ`, some `α < ω₁` strictly exceeds the order type of every model.
+* `wellOrder_type_boundedness` (Corollary 4.28 of Marker's 2013 notes): if `lt` well-orders
+  every model of `φ`, some `α < ω₁` strictly exceeds the order type of every model.
 * `wellOrdering_undefinable`: no sentence has as its models exactly the structures in which `lt`
   is a well-order. It is a different target from `not_exists_modelsOf_eq_wellOrderClass` of
   CountableStructureSpaces, which is about codes on `ℕ`; this one is about all structures.
 
-Every theorem below holds for arbitrary `L` of any cardinality, with no hypothesis on `L`; the
-relational cores (`exists_model_relChain_rat_relational` and its consequences) are named
-milestones. The transfer uses the symbol sublanguage of `φ` and `lt` (Layer 0) to remove symbol
-countability, and Layer 6 to remove function symbols: the well-ordered-chain hypothesis passes to
-`graphAxioms F ∧ relationalize φ` along the graph expansion, the conclusion returns along the
-reconstruction, and `lt` is a base relation, preserved on the nose by both.
+Each theorem of this layer holds for arbitrary `L` of any cardinality, with no hypothesis on `L`,
+and is proved directly, function symbols included. The symbol sublanguage of `φ` and `lt`
+(Layer 0) removes symbol countability: the well-ordered-chain hypothesis passes to the restriction
+of `φ` along the reducts, the conclusion returns along an expansion of the nonempty countable model
+(Mathlib's `LHom.defaultExpansion`), and `lt` is preserved on the nose by both. No graph
+translation is needed, because model existence handles closed terms through its `eq_name` clause.
 
-Route for the relational core. Add Henkin constants and rational constants `d_q` (coded into `ℕ`,
-rational constants at even indices). The members are `{φ} ∪ {d_q < d_r : q < r} ∪ σ` with `σ` finite
-and, for every `α < ω₁`, a model of `φ` with a well-ordered chain in which the constants of `σ` can
-be placed with gaps of length at least `α` between consecutive rational constants (Marker's
-condition (*)). The disjunction clause uses regularity of `ω₁` (uncountably many `α` choose one of
-countably many disjuncts) and downward closure of (*) in `α`; the witness clause for a constant
-between two rational constants inserts the new point inside a gap, at `b_s + α` in a model chosen
-for some `β > α + α`. Marker checks two clauses and leaves the rest as an exercise; all of them are
-targets. `model_existence` then realizes the full positive diagram, and `q ↦ d_q` is the map.
-Boundedness is the contrapositive (a well-founded relation has no chain from the negative
-rationals), and undefinability follows because each `α + ω` with `α < ω₁` is the order type of a
-well-order.
+Route, for `L` with countably many symbols. Add Henkin constants and rational constants `d_q` (coded
+into `ℕ`, rational constants at even indices), and let `D = {lt(d_q, d_r) : q < r}`. A sentence is
+*finitely supported* if it mentions only finitely many constants; a finite set of Lω₁ω sentences
+need not be, since a countable conjunction can mention infinitely many. Let `σ` be a finite set of
+finitely supported sentences, and `q₁ < … < qₙ` the rationals whose constants occur in `σ`. An
+*`α`-witness* for `σ` is a model `M` of `φ`, a chain `f : γ → M` (`RelChain lt f`) of some countable
+length `γ`, and an interpretation of the constants of `σ` in `M`, with `M ⊨ σ` and `d_{qᵢ}`
+interpreted as `f bᵢ`, where
+
+```text
+b₁ < … < bₙ,   α ≤ b₁,   bᵢ + α ≤ bᵢ₊₁ (1 ≤ i < n),   bₙ + α < γ,
+```
+
+and `α < γ` when `n = 0`. The members are the sets `{φ} ∪ D ∪ σ`, with `σ` the sentences outside
+`{φ} ∪ D`, such that `σ` has an `α`-witness for every `α < ω₁`. These are the gap conditions (*)
+of the proof of Theorem 4.27 in Marker's 2013 notes (§4.4, p. 52, printed after Corollary
+4.28), together with a terminal reserve `bₙ + α < γ` and the empty-support case, which the clause
+checks below need. Without the terminal reserve the family is not a consistency property: if `φ`
+says that `lt` is a strict linear order with a greatest element, `σ = {∀x, lt(x, d₀) ∨ x = d₀}`
+has witnesses placing `d₀` at the top of `α + 1`, and the `all` clause then requires
+`lt(d₁, d₀) ∨ d₁ = d₀`, which contradicts `lt(d₀, d₁) ∈ D`. An `α`-witness is an `α'`-witness for
+every `α' ≤ α`, so it suffices to have `α`-witnesses for unboundedly many `α`.
+
+The clause checks, each a target:
+
+* **Initial member.** `{φ} ∪ D` (`σ = ∅`) is a member: a model of `φ` with a chain of length
+  `α + 1` is an `α`-witness.
+* **Local truth.** An `α`-witness satisfies `φ`, `σ` and every sentence of `D` whose constants
+  occur in `σ`, since the named rationals sit at increasing chain positions. This gives
+  `no_falsum` and `no_contradiction`: a sentence of `D` and its negation in `σ` have the same
+  constants.
+* **Placement.** If `σ` has `α`-witnesses for every `α` and `d_q` does not occur in `σ`, then for
+  every `α` some `α`-witness for `σ` also places `d_q`, with the conditions above for the
+  enlarged list. Take a `β`-witness for `β = (α + 1) + α + 1` and put `d_q` at `p = α` if no named
+  rational is below `q`, and at `p = bᵢ + (α + 1)` if `qᵢ` is the largest named rational below
+  `q`. The summand `1` makes `p` strictly later than `bᵢ` even when `α = 0`; since
+  `(α + 1) + α < β`, the gaps of size `β` leave reserve `α` on both sides of `p` and `p` below the
+  next named position, and at the right end `(bₙ + (α + 1)) + α < bₙ + β < γ`. The other
+  conditions weaken from `β` to `α`. The model and its interpretation of `σ` are unchanged.
+* **Conjunctive clauses** (`not_imp`, `iInf`, `not_iSup`) add a subformula of a sentence of
+  `{φ} ∪ σ`. Every witness satisfies it, and its constants already occur in `σ` (or nowhere, for a
+  subformula of `φ`).
+* **Disjunctive clauses** (`imp`, `iSup`, `not_iInf`). Every `α`-witness satisfies one of
+  countably many disjuncts, so by regularity of `ω₁` a single disjunct is satisfied by
+  `α`-witnesses for unboundedly many `α`, hence for all `α`. Its constants already occur in `σ`.
+* **`all`.** The instance at `c` holds in every witness of the universal sentence. If `c` occurs in
+  `σ`, nothing else changes. A new Henkin constant is interpreted arbitrarily (the model is
+  nonempty, since `γ > α ≥ 0`). A new rational constant is placed as above, and the instance holds
+  because the model satisfies the universal sentence. This is the clause that needs the terminal
+  reserve.
+* **`not_all`.** Choose a Henkin constant (odd index) not occurring in `σ`, which exists by finite
+  support, and interpret it in each witness by an element witnessing the negated instance.
+* **Equality.** A closed term `t` of `L[[ℕ]]` mentions finitely many constants. `eq_refl` adds
+  `t = t`, placing the new rational constants of `t` and interpreting its new Henkin constants. For
+  `eq_name`, the witnesses must first interpret every constant of `t`. Place the rational constants
+  of `t` not occurring in `σ` one at a time: Placement for `d_q` gives, for every `α`, an
+  `α`-witness for `σ + (d_q = d_q)`, to which Placement applies again for the next one, so the gap
+  conditions and the terminal reserve hold for the enlarged list of named rationals. Then interpret
+  the Henkin constants of `t` not occurring in `σ` arbitrarily (the model is nonempty), which
+  touches neither the chain nor the positions. Now `t` has a value in each witness. Choose a
+  Henkin constant `c` (odd index) occurring neither in `σ` nor in `t`, and interpret it as that
+  value; `c` is not a rational constant, so it needs no position, and `σ + (c = t)` holds. The
+  added sentence mentions only `c` and the finitely many constants of `t`, so it is finitely
+  supported. For `eq_subst`, the equation `t = t'` lies in `{φ} ∪ σ`, so every witness satisfies it.
+  If `inst φ t ∈ {φ} ∪ σ`, every witness satisfies it too, hence `inst φ t'`. If `inst φ t ∈ D`,
+  place its rational constants that are new, after which `inst φ t'` holds because `t` and `t'`
+  have the same value.
+* **Finite support and countability.** Each clause adds one sentence, which mentions finitely many
+  constants not already in `σ` (subformulas mention no new constants, and a closed term mentions
+  finitely many), placed one at a time; so `σ` stays finite and finitely supported, and every
+  member is countable.
+
+`model_existence` applied to `{φ} ∪ D` gives a countable nonempty model of `φ` in which `q ↦ d_q`
+is a chain. Boundedness is the contrapositive (a well-founded relation has no chain from the
+negative rationals), and undefinability follows because each `α + ω` with `α < ω₁` is the order
+type of a well-order.
 
 **Acceptance example.** A map `f : ℚ → M` with `RelChain lt f` makes `lt` ill-founded in `M`, via
 `f (-1), f (-2), …`.
@@ -852,8 +1013,8 @@ prove. The following chains must be visible:
 * fragment → Morley theory and types → first-order presentation;
 * inseparable pairs → model existence → relational Craig → graph translation → Craig → PC
   separation, with Lyndon and Malitz as refinements of the separator class;
-* Marker's gap condition → model existence → the rational chain → graph translation →
-  boundedness → undefinability.
+* the gap-and-reserve consistency property → model existence → the rational chain → boundedness →
+  undefinability.
 
 A theorem proved for a privately redefined entailment, fragment notion or consistency property
 does not discharge its target.
@@ -880,15 +1041,16 @@ The following belong to separate roadmaps or to the named sibling.
   sets and Barwise compactness, which also needs the calculus.
 * **Admissible fragments, Barwise compactness and Nadel's bound.**
 * **Building uncountable models**: Keisler's elementary end-extension theorem and the uncountable
-  form of Marker 4.4.1.
+  form of the boundedness theorem.
 * **Spaces of countable structures**, Borel model classes, López–Escobar and the non-Borelness of
   the well-order class (CountableStructureSpaces); **indiscernibles, Ehrenfeucht–Mostowski models,
   Hanf numbers, smallness, small models and complete sentences** (HanfNumbers); **counting
   countable models** (CountableModelCounting).
-* **Borel equivalence relations and Silver's theorem** ([BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md) ([#1317](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1317))). Scott
-  processes; the general Glimm–Effros dichotomy of Harrington, Kechris and Louveau and
-  Gandy–Harrington effective topology; and the coanalytic form of Silver's theorem and Burgess's
-  dichotomy for analytic equivalence relations belong to separate roadmaps.
+* **Borel equivalence relations and Silver's theorem**
+  ([BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md)). Scott processes; the
+  general Glimm–Effros dichotomy of Harrington, Kechris and Louveau and Gandy–Harrington effective
+  topology; and the coanalytic form of Silver's theorem and Burgess's dichotomy for analytic
+  equivalence relations belong to separate roadmaps.
 * L_κλ for `κ > ω₁` beyond L∞ω, many-sorted logic, and effective versions of these theorems. Craig
   interpolation fails in L_κω for `κ > ω₁` (Malitz), so nothing here generalizes past ω₁.
 
@@ -896,15 +1058,15 @@ The following belong to separate roadmaps or to the named sibling.
 
 * **Parent roadmap.** Everything rests on the [InfinitaryLogic
   roadmap](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation
-  (`TauCeti.ModelTheory.Infinitary`, `BackAndForth`, `Scott`; Scott's theorem in [Tau Ceti
-  #18977](https://github.com/TauCetiProject/TauCeti/pull/18977), forward Karp and `InfEquivAt` in
-  [#18194](https://github.com/TauCetiProject/TauCeti/pull/18194)). The parent did not build language
+  (`TauCeti.ModelTheory.Infinitary`, `BackAndForth`, `Scott`; Scott's theorem in
+  [`Scott/Isomorphism.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Scott/Isomorphism.lean), forward Karp and `InfEquivAt` in
+  [`BackAndForth/Karp.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/Karp.lean)). The parent did not build language
   maps (`onBoundedFormulaInf` and its naturality for `reindex`); they are built here.
-* **Tau Ceti pull requests.** The free-variable support of
-  [Tau Ceti #17547](https://github.com/TauCetiProject/TauCeti/pull/17547) fixes the set-valued
-  shape followed by the occurrence sets and the constant support. The random-graph worked example
-  [Tau Ceti #18726](https://github.com/TauCetiProject/TauCeti/pull/18726) uses the parent's
-  syntax and is unaffected.
+* **Tau Ceti.** The free-variable support of
+  [`Infinitary/FreeVarSupport.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Infinitary/FreeVarSupport.lean) fixes the set-valued
+  shape followed by the occurrence sets and the constant support. The random-graph example
+  [`Scott/RandomGraph.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Scott/RandomGraph.lean) uses the parent's syntax and none of the
+  interfaces of this roadmap.
 * **Mathlib.** The open
   [mathlib4#42758](https://github.com/leanprover-community/mathlib4/pull/42758) proposes the
   infinitary syntax and semantics the parent follows;
@@ -920,7 +1082,7 @@ The following belong to separate roadmaps or to the named sibling.
 
 A Lean formalization of most of this material exists in
 [`cameronfreer/infinitary-logic`](https://github.com/cameronfreer/infinitary-logic) (Apache-2.0,
-Cameron Freer), at checkpoint
+Cameron Freer), at revision
 [`518a366`](https://github.com/cameronfreer/infinitary-logic/tree/518a366cba97b1ae8c4dc64a297a396939bc3e0b),
 sorry-free with axioms `propext`, `Classical.choice`, `Quot.sound`. It is a proof-script reference,
 not the specification; credit `cameronfreer/infinitary-logic` in ported files and record intentional
@@ -937,7 +1099,33 @@ universe-general statements here are part of the work. The map below says where 
 | L5 | `ModelTheory/Morleyization.lean`, `ModelTheory/MorleyizationElementary.lean` | the source has the definitional expansion only; the first-order presentation is new |
 | L6 | `Methods/Interpolation/{GraphLanguage, TermGraph, Relationalize, GraphAxioms, GraphReconstruction, BackTranslate}.lean`, `Lomega1omega/FiniteQuantification.lean`, `Methods/Interpolation/LyndonRelationalize.lean` (polarity); design in `docs/craig-audit.md` §9b | the source's `entails_graphTranslation` is in `CraigArbitrary.lean` |
 | L7 | `ModelTheory/PCClass.lean`; `Methods/Interpolation/*` (relational core: `CraigSublanguage`, `CraigRelational`, `CraigSeparation`, `PairedInsepFamily`, `Inseparability`, `ConstantElimination`; Lyndon: `Lomega1omega/Polarity.lean`, `Lomega1omega/PolaritySemantics.lean`, `LyndonSublanguage`; Malitz: `Lomega1omega/QuantifierClass.lean`, `BudgetedPair`, `MalitzSublanguage`); audits `docs/{craig,lyndon,malitz}-audit.md` | arbitrary-language headlines in `CraigArbitrary.lean` and `LyndonArbitrary.lean` (statements over `Language.{0, 0}` with no hypotheses on `L`); `pcSeparation` in sum form is new; the source's Malitz is relational, and `docs/malitz-audit.md` §D5 records why the translation cannot extend it |
-| L8 | `Methods/WellOrdering/*` (`ClosureFields`, `GapWitness`, `ModelExtraction`, `Boundedness`, `Undefinability`, `SymbolCountability`, `GraphTranslation`); audit `docs/wellordering-audit.md` | `GraphTranslation.lean` holds the arbitrary-language endpoints, with no hypotheses on `L` |
+| L8 | `Methods/WellOrdering/*` (`ClosureFields`, `GapWitness`, `ModelExtraction`, `Boundedness`, `Undefinability`, `SymbolCountability`, `GraphTranslation`); audit `docs/wellordering-audit.md` | the source proves relational cores and reaches function symbols through the graph translation in `GraphTranslation.lean`; Layer 8 proves the theorems directly for arbitrary `L` |
+
+### Tau Ceti implementation
+
+At Tau Ceti `2fd255d99`, the revision this repository pins, the declarations below implement
+targets of this roadmap. Files are under `TauCeti/ModelTheory/` and names are in the namespace
+`FirstOrder.Language` unless written with `TauCeti`. `Suggested.lean` uses these definitions under
+their Tau Ceti names and states only targets the pin lacks. Where the two statements differ, the
+roadmap's statement remains the target and the difference is recorded in the last column.
+
+| Layer | Files | Declarations | Difference from the roadmap |
+|---|---|---|---|
+| L0 | `Infinitary/{LanguageMap,Symbols,Sublanguage,SmallPresentation,SubstBounds,ConstantSupport,ConstantAbstraction,Syntax}.lean`, `Term/Symbols.lean`, `Sublanguage.lean` | `LHom.onBoundedFormulaInf`, `LHom.realize_onBoundedFormulaInf`; `Term.functionsIn`, `BoundedFormulaInf.functionsIn`, `relationsIn`, `functionsIn_countable`, `relationsIn_countable`, `realize_congr_of_agreeOn`; `Term.constantSupport`, `BoundedFormulaInf.constantSupport`; `symbSublang`, `symbSublangIncl`, `BoundedFormulaInf.restrictSymbols`, `LHom.exists_eq_onBoundedFormulaInf_of_subset_range`; `smallPresentation`, `smallPresentationEquiv`, `realize_smallPresentation`; `BoundedFormulaInf.liftSubst`, `substBounds`, `inst`, `realize_substBounds`, `LHom.onBoundedFormulaInf_substBounds`; `BoundedFormulaInf.constantsVarsEquiv`; `BoundedFormulaInf.IsAtomic` | `inst` accepts any type of free variables, not only `Empty`; `IsAtomic` is an inductive predicate |
+| L1 | `Infinitary/{Theory,Satisfiability,Fragment,FormationClosed}.lean` | `Theoryω`, `Theoryω.Model`, `Theoryω.IsSatisfiable`, `Theoryω.Entails`, `Sentenceω.Entails`, `FirstOrder.Language.Theoryω.entails_iff_not_isSatisfiable`, `Theoryω.conjunction`, `FirstOrder.Language.Theoryω.realize_conjunction_iff`, `OmitsType`; `Fragment` (with `SetLike` and the complete lattice), `Fragment.GeneratedFrom`, `Fragment.generated`, `Fragment.generated_countable`, `Fragment.ofSentence`, `Fragment.ofTheory`, `Fragment.formationClosure`, `Fragment.FormationClosed` | `FormationClosed` states closure under renaming by `mapBound` (`mapBound_mem`), which is `substBounds` along variable terms by `BoundedFormulaInf.mapBound_eq_substBounds` |
+| L2 | `ModelExistence/{AElementary,LowenheimSkolem,DirectedUnion,CountableModel}.lean` | `AElementary`, `aElementary_of_tarskiVaught`, `Fragment.witnessHull`, `exists_aElementary_substructure`, `exists_aElementary_substructure_of_eq_univ`, `exists_countable_aElementary_substructure`, `aElementary_iSup`, `aElementary_inclusion_iSup`, `aElementary_iSup_of_monotone`, `OmitsType.of_aElementary`, `OmitsType.iSup`; `FirstOrder.Language.Theoryω.exists_countable_model`, `FirstOrder.Language.Theoryω.entails_iff_countable`, `Theoryω.Entails.realize`, `Sentenceω.Entails.onBoundedFormulaInf`, `Sentenceω.entails_onBoundedFormulaInf_iff` | none |
+| L3 | `ModelExistence/{ConsistencyProperty,ModelExistence}.lean` | `ConsistencyProperty`, `ConsistencyProperty.model_existence`, `ConsistencyProperty.model_existence_omitting`, `ConsistencyProperty.ofModel` | `model_existence` also gives `Nonempty M`; `model_existence_omitting` takes the types as a countable indexed family; `ofModel` takes an `L[[ℕ]]`-structure whose constants exhaust it in place of a surjection `e : ℕ → M` |
+| L4 | `ModelExistence/{Types,Isolation}.lean` | `infinitaryType`, `realizedTypes`, `StrongHomClass.realizedTypes_eq`, `TauCeti.infEquivAt_nat_iff_realizedTypes_zero_eq`, `exists_isolatingFormula`, `Theoryω.IsolatesIn` | none |
+| L5 | `ModelExistence/Morleyization.lean` | `morleyize`, `lhomMorleyize`, `morleyExpansion` with the instance `isExpansionOn_morleyExpansion`, `isRelational_morleyize`, `countable_relations_morleyize`, `definingTheory`, `eq_morleyExpansion_of_model_definingTheory`, `BoundedFormulaInf.unMorleyize`, `BoundedFormulaInf.realize_unMorleyize`, `nonempty_morleyEquiv_iff`, `exists_morleyEmbedding_iff_aElementary` | none |
+| L6 | `Infinitary/GraphTranslation/{Language,Relationalize,Reconstruct,BackTranslate}.lean` | `GraphRelation`, `graphLanguage`, `graphExpansion`, `relSym`, `relSym_inter`; `BoundedFormulaInf.relationalize`, `realize_relationalize`, `relationsIn_relationalize`; `graphAxioms`, `reconstructStructure`, `BoundedFormulaInf.realize_relationalize_reconstructStructure`; `Term.backTranslate`, `BoundedFormulaInf.backTranslate`, `realize_backTranslate` | `backTranslate` works at every carrier; `graphAxioms F` is a theory, for any `F`, not one sentence |
+| L7 | `Interpolation/PCClass.lean` | `LHom.PCMem` (the roadmap's `PCMem`), `StrongHomClass.pcMem_iff`, `LHom.pcMem_id_iff`, `LHom.pcMem_comp_iff`, `LHom.pcMem_sumInl_inf_iff`, `LHom.pcMem_sumInl_sup_iff` | `pcMem_sumInl_sup_iff` assumes `[Nonempty (L₁.Structure M)]` and `[Nonempty (L₂.Structure M)]` in place of relational `L₁` and `L₂` |
+| L8 | `WellOrdering.lean` | `RelChain`, `RelChain.not_wellFounded`, `Sentenceω.HasWellOrderedChains`, `Sentenceω.exists_model_relChain_rat`, `Sentenceω.wellFounded_boundedness`, `Sentenceω.wellOrder_type_boundedness`, `wellOrdering_undefinable` | none |
+
+Among the targets that `Suggested.lean` states, Tau Ceti `2fd255d99` does not implement
+`fragmentType`, `Theoryω.exists_countable_model_omitting`, `OmitsFOType`, `IsolatesFO`,
+`exists_countable_model_omitting_fo`, `exists_firstOrder_presentation`, `craig_interpolation`,
+`pcSeparation`, `relationsInSigned`, `lyndon_interpolation`, `universalSigned` or
+`malitz_interpolation`.
 
 ## References
 
@@ -947,6 +1135,15 @@ universe-general statements here are part of the work. The map below says where 
   fragment) and Chapter 4, "The model existence theorem": consistency properties and model
   existence, omitting types, interpolation and López–Escobar, and the boundedness of
   well-orderings.
+  Exact locators are given in the author's lecture notes of the same title (University of Illinois
+  at Chicago, Fall 2013,
+  [author's copy](https://homepages.math.uic.edu/~marker/math512-F13/inf.pdf)), by result number
+  and printed page: Definition 1.11 (p. 7), Theorem 1.23 (p. 10), Theorem 1.31 and Exercise 1.32
+  (pp. 11–12), Definition 4.1 (p. 39), Theorem 4.6 (p. 40), Theorem 4.9 (p. 44), Exercise 4.11
+  (p. 45), Theorem 4.21 (p. 48) and Corollary 4.23 (p. 50); and for Layer 8, §4.4, "The
+  Undefinability of Well-Ordering": Theorem 4.27 (p. 51), Corollary 4.28 (p. 52), and the proof of
+  Theorem 4.27 printed after the corollary (pp. 52–53). The notes number results differently from
+  the book.
 * H. Jerome Keisler, *Model Theory for Infinitary Logic*, Studies in Logic and the Foundations of
   Mathematics 62, North-Holland, 1971: consistency properties, model existence, omitting types and
   interpolation over countable fragments.
@@ -964,5 +1161,5 @@ universe-general statements here are part of the work. The map below says where 
   function symbols, and Theorem 4.6 his relative preservation theorem.
 * S. Gao, *Invariant Descriptive Set Theory*, CRC Press, 2009: fragments over a countable language,
   for comparison with Layer 1.
-* `cameronfreer/infinitary-logic`, Lean 4 formalization of infinitary logic, checkpoint
+* `cameronfreer/infinitary-logic`, Lean 4 formalization of infinitary logic, revision
   `518a366`.
