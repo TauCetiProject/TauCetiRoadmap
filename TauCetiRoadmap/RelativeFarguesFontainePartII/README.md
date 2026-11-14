@@ -467,7 +467,9 @@ One proof route uses the following steps. Use the coefficientwise description of
 
 *Needs:* §1.1; §0.2.
 
-### 1.8 Perfected annulus towers and norm powers
+### 1.8 Classical annulus coordinates on period annuli
+
+This section compares annular period rings with ordinary annuli in three coordinates: the q-power annulus tower over the monomial model (§1.8), on which the cyclotomic coordinates (§1.9) and the equal-characteristic exchange of variables (§1.10) build; in each the numerical norms differ by the r-th power. Worked example 2 cites §1.9 for the ramified coefficient case.
 
 For the monomial model set K0=W_OE(k)[1/π] with |π|=q^-1, and send X to T. With ρ=q^-r and checkrho=q^(-1/r), |i(f)|_ρ=||f||_checkrho^r, where ||.|| is the ordinary K0-Gauss norm. The completed direct limit of the annulus algebras under X→X^q, with transformed intervals and norms, is B_I. The dense initial Laurent algebra must invert both π and X. In characteristic zero the annulus tower is finite étale; in equal characteristic p the q-power tower is radicial.
 
@@ -482,9 +484,7 @@ One proof route uses the following steps. Evaluate both sides on π and X, then 
 
 *Needs:* §1.7; TauCetiRoadmap.PadicHodgeTheory §1.2 and §1.4.
 
-### 1.9 Cyclotomic coordinates on period annuli
-
-For E=ℚ_p (q=p), use the Frobenius lift Q(X)=(1+X)^q-1 and the embedding X→[1+t]-1. For an ordinary annulus radius s>q^(-q/(q-1)), write s=q^(-1/r), so the period radius is ρ=q^-r<q^(-(q-1)/q). In this range ||f||_s=|i(f)|_ρ^(1/r). The completed perfected cyclotomic tower identifies with B_I for I contained in that strict period-radius range. For a ramified coefficient field the detailed Newton slopes must use v_π(p) and the p-Frobenius iteration; no unramified slope formula is asserted for arbitrary E.
+**1.9 Cyclotomic coordinates on period annuli.** For E=ℚ_p (q=p), use the Frobenius lift Q(X)=(1+X)^q-1 and the embedding X→[1+t]-1. For an ordinary annulus radius s>q^(-q/(q-1)), write s=q^(-1/r), so the period radius is ρ=q^-r<q^(-(q-1)/q). In this range ||f||_s=|i(f)|_ρ^(1/r). The completed perfected cyclotomic tower identifies with B_I for I contained in that strict period-radius range. For a ramified coefficient field the detailed Newton slopes must use v_π(p) and the p-Frobenius iteration; no unramified slope formula is asserted for arbitrary E.
 
 E=ℚ_p for the displayed numerical radius and cyclotomic-coordinate theorem. For general mixed-characteristic E the target is the corresponding comparison after deriving a threshold from the actual ramified carry polygon, proved by the ramified coordinate theorem.
 
@@ -501,9 +501,7 @@ One proof route uses the following steps. Compare [1+t]-1 with [t] on the stated
 
 *Needs:* §0.10; §1.8; TauCetiRoadmap.PadicHodgeTheory §1.2 and §1.4; §0.1.
 
-### 1.10 Equal-characteristic exchange of variables
-
-For perfect k and E₀=k((u)), F₀=k((v)), exchange the two indices of a doubly convergent Laurent expansion to identify the analytic function rings of their punctured unit discs as Fréchet k-algebras. The parameters r and 1/r are exchanged and numerical norms differ by the r-th power. Both adic spaces are the locus Spa(k[[u,v]],k[[u,v]])∖V(uv). This is the two-variable symmetry beyond the supplied equal-characteristic annulus identification.
+**1.10 Equal-characteristic exchange of variables.** For perfect k and E₀=k((u)), F₀=k((v)), exchange the two indices of a doubly convergent Laurent expansion to identify the analytic function rings of their punctured unit discs as Fréchet k-algebras. The parameters r and 1/r are exchanged and numerical norms differ by the r-th power. Both adic spaces are the locus Spa(k[[u,v]],k[[u,v]])∖V(uv). This is the two-variable symmetry beyond the supplied equal-characteristic annulus identification.
 
 One proof route uses the following steps. Apply the imported Laurent-annulus construction for the first assertion. On compact radial intervals bound the double family of coefficients to justify transposing convergent sums. Compute u^a v^b on both sides to determine the power of the norm and identify the common formal adic chart.
 
