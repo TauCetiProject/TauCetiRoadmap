@@ -574,7 +574,7 @@ The API includes the following facts.
 
 ### 2.3 The orbit lemma for retwisted filtrations
 
-Let D = (D_pst, D_dR, c_BO) be a filtered discrete (φ, N, G_v)-module and G the flag variety of filtrations of D_dR with the dimension data of its filtration. For Φ₁, Φ₂ ∈ G(K_v), M(Φ₁) ≅ M(Φ₂) as filtered discrete (φ, N, G_v)-modules if and only if Φ₁ and Φ₂ lie in one Aut(D_pst)(ℚₚ)-orbit for the action of §2.2. Consequently the set of Φ with M(Φ) in a fixed isomorphism class lies in a closed ℚₚ-subvariety of `Res^{K_v}_{ℚₚ} G` of dimension at most `dim_{ℚₚ} Aut(D_pst)`, and the same holds for finitely many classes. The symplectic version, with Aut^GSp(D_pst) acting on the Lagrangian Grassmannian of a symplectic D_dR, holds with the same proof.
+Fix a filtered discrete (φ, N, G_v)-module D = (D_pst, D_dR, c_BO), and write G for the flag variety parametrising those filtrations of D_dR whose dimension data agree with those of the filtration carried by D. Given Φ₁, Φ₂ ∈ G(K_v), some element of Aut(D_pst)(ℚₚ), acting as in §2.2, carries Φ₁ to Φ₂ precisely when M(Φ₁) and M(Φ₂) are isomorphic as filtered discrete (φ, N, G_v)-modules. It follows that the points Φ ∈ G(K_v) for which M(Φ) lies in a prescribed isomorphism class, or in any one of finitely many prescribed classes, sit inside some closed ℚₚ-subvariety Z of `Res^{K_v}_{ℚₚ} G` with dim Z ≤ `dim_{ℚₚ} Aut(D_pst)`. The same argument proves the symplectic analogue, in which Aut^GSp(D_pst) acts on the Lagrangian Grassmannian of a symplectic D_dR.
 
 The orbit statement is over ℚₚ-points; the dimension bound is for the Zariski closure of an orbit of an algebraic group acting algebraically.
 
@@ -1479,7 +1479,7 @@ A proof can proceed as follows. For the chosen family combine section interpolat
 
 ### 9.4 Theorem A: finiteness of the Selmer section image
 
-Let K be a number field containing no CM subfield and Y/K a smooth projective curve of genus ≥ 2 (geometrically connected). Then for every finite place v of K the image of the localisation map loc_v: Sec^Sel(Y/K) → Y(K_v) is finite.
+Suppose no subfield of the number field K is a CM field, and let Y be a smooth projective geometrically connected K-curve of genus at least 2. However the finite place v of K is chosen, the map loc_v: Sec^Sel(Y/K) → Y(K_v) has finite image, so only finitely many K_v-points of Y arise by localising Selmer sections.
 
 K contains no CM subfield, for instance K totally real or of odd degree; the hypothesis is used only to make every finite place self-conjugate. The section conjecture is not assumed; Theorem A is an unconditional prediction of it.
 
@@ -1496,7 +1496,7 @@ A proof can proceed as follows. Without a CM subfield every finite place is self
 
 ### 9.5 Theorem B: finiteness of the projections of the finite descent locus
 
-Let K be a number field containing no CM subfield and Y/K a smooth projective geometrically connected curve of genus ≥ 2. Then for every finite place v of K the projection of the finite descent locus `Y(A_K)_•^{f-cov}` (§0.4) to Y(K_v) is finite.
+Take K and Y as in §9.4: K is a number field none of whose subfields is a CM field, and Y is a smooth projective geometrically connected K-curve of genus at least 2. Projecting the finite descent locus `Y(A_K)_•^{f-cov}` (§0.4) onto Y(K_v), at any finite place v of K, gives a finite set.
 
 As in Theorem A; Stoll's conjecture that the locus is the closure of Y(K) (equivalently Y(K), which is finite) is not assumed.
 
