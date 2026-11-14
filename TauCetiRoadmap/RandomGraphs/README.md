@@ -146,15 +146,16 @@ rooted consequences, computable quantifier elimination, and the probabilistic th
 
 The following Mathlib proposals fix the shape of corresponding targets here. They are built in
 Tau Ceti now, named and stated as these proposals do, and replaced by Mathlib's declarations
-when equivalents land.
+when equivalents land. The proposals place them under `FirstOrder.Language`; `Suggested.lean`
+declares them with the proposals' statements, under the same paths relative to its namespace.
 
 - The [graph-characterization proposal](https://github.com/leanprover-community/mathlib4/pull/20649):
-  the graph-language extension property `FirstOrder.Language.graph.ExtensionProperty`,
-  `ExtensionProperty.embedding_from_countable`, and
-  `ExtensionProperty.isFraisseLimit_finite_graphs`, identifying a countable structure with the
+  the graph-language extension property `Language.graph.ExtensionProperty`,
+  `Language.graph.ExtensionProperty.embedding_from_countable`, and
+  `Language.graph.ExtensionProperty.isFraisseLimit_finite_graphs`, identifying a countable structure with the
   property as the Fraïssé limit of finite simple graphs (Milestone 4).
 - The [quantifier-elimination proposal](https://github.com/leanprover-community/mathlib4/pull/41113):
-  `FirstOrder.Language.Theory.IsQFEquivalent` and `Theory.HasQuantifierElimination`, with the
+  `Language.Theory.IsQFEquivalent` and `Language.Theory.HasQuantifierElimination`, with the
   reduction to finite variable types; its
   [extension-pair companion](https://github.com/leanprover-community/mathlib4/pull/41115)
   derives quantifier elimination from extension pairs (Milestone 5).
@@ -393,9 +394,9 @@ Prove that full extension supplies arbitrarily many distinct witnesses for every
 
 Prove the adapter between the graph-facing and graph-language forms: under
 `SimpleGraph.structure`, `G.HasExtensionProperty` holds exactly when the graph-language
-extension property holds, stated as `FirstOrder.Language.graph.ExtensionProperty` in the
+extension property holds, stated as `Language.graph.ExtensionProperty` in the
 graph-characterization proposal (a witness outside $`A\cup B`$ related by the adjacency symbol to all of $`A`$
-and none of $`B`$). Give `FirstOrder.Language.Equiv.toSimpleGraphIso`, the converse of Tau Ceti's
+and none of $`B`$). Give `Language.Equiv.toSimpleGraphIso`, the converse of Tau Ceti's
 `SimpleGraph.Iso.toLanguageEquiv`, and transport both across it.
 
 Construct an actual first-order sentence $`E_{r,s}`$ asserting extension for every
@@ -423,8 +424,9 @@ because the witness must differ from the listed vertex.
 Prove that the class of all finite simple graph structures is Fraïssé using Milestone 1.
 Construct its limit using Milestone 2 and prove that it satisfies $`\mathrm{EP}`$. Conversely,
 a countable graph with $`\mathrm{EP}`$ has this age and is ultrahomogeneous, hence is the same
-Fraïssé limit. State this converse as `ExtensionProperty.isFraisseLimit_finite_graphs` of the
-graph-characterization proposal, together with `ExtensionProperty.embedding_from_countable`, and
+Fraïssé limit. State this converse as `Language.graph.ExtensionProperty.isFraisseLimit_finite_graphs`
+of the graph-characterization proposal, together with
+`Language.graph.ExtensionProperty.embedding_from_countable`, and
 transfer both to `SimpleGraph` through the adapter of 4.1.
 
 Cameron (*The random graph*, Theorem 3 and the paragraph after it, p. 8) states that the finite
@@ -573,7 +575,8 @@ through finite patterns; build:
   and on sentences the decision map.
 
 Export also the theory-level property in the vocabulary of the quantifier-elimination proposal,
-`T_R.HasQuantifierElimination`: every formula is `IsQFEquivalent` modulo $`T_R`$,
+`Language.Theory.HasQuantifierElimination radoAxioms` (`radoAxioms_hasQuantifierElimination`):
+every formula is `Language.Theory.IsQFEquivalent` modulo $`T_R`$,
 using that proposal's reduction to finite variable types. The theory-level property is a
 consequence of the computable QE map and does not replace it.
 

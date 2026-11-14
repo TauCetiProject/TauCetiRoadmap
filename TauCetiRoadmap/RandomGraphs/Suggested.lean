@@ -236,6 +236,48 @@ theorem isFraisseLimit_radoGraph :
     @IsFraisseLimit Language.graph finiteGraphs.{0} ℕ TauCeti.radoGraph.structure _ _ := by
   sorry
 
+/-! ### Declarations named by the Mathlib proposals
+
+The graph-characterization proposal (mathlib4#20649) and the quantifier-elimination proposal
+(mathlib4#41113) fix these names and statements under `FirstOrder.Language`; they are declared here
+under the same paths relative to this namespace. -/
+
+/-- The graph-language extension property of the graph-characterization proposal: for disjoint
+finite sets `A` and `B` of vertices, some vertex outside `A ∪ B` is adjacent to every vertex of `A`
+and to none of `B`. -/
+def Language.graph.ExtensionProperty (M : Type w) [Language.graph.Structure M] [DecidableEq M] :
+    Prop :=
+  ∀ {A B : Finset M}, Disjoint A B → ∃ x ∉ A ∪ B,
+    (∀ a ∈ A, Structure.RelMap Language.adj ![x, a]) ∧
+      ∀ b ∈ B, ¬ Structure.RelMap Language.adj ![x, b]
+
+/-- Every countable simple-graph structure embeds into a simple-graph structure with the extension
+property, of any cardinality. -/
+theorem Language.graph.ExtensionProperty.embedding_from_countable {M : Type w} {N : Type w'}
+    [Language.graph.Structure M] [M ⊨ Language.Theory.simpleGraph] [DecidableEq M]
+    [Language.graph.Structure N] [N ⊨ Language.Theory.simpleGraph] [Countable N]
+    (h : Language.graph.ExtensionProperty M) : Nonempty (N ↪[Language.graph] M) := by
+  sorry
+
+/-- A countable simple-graph structure with the extension property is the Fraïssé limit of the
+finite simple graphs (the proposal's class, with its two conditions in the other order). -/
+theorem Language.graph.ExtensionProperty.isFraisseLimit_finite_graphs {M : Type w}
+    [Language.graph.Structure M] [M ⊨ Language.Theory.simpleGraph] [DecidableEq M] [Countable M]
+    (h : Language.graph.ExtensionProperty M) : IsFraisseLimit finiteGraphs.{w} M := by
+  sorry
+
+/-- A formula is quantifier-free equivalent modulo `T` when some quantifier-free formula in the same
+free variables has the same realizations in every model of `T`. -/
+def Language.Theory.IsQFEquivalent {L : FirstOrder.Language.{u, v}} (T : L.Theory) {α : Type w}
+    (φ : L.Formula α) : Prop :=
+  ∃ ψ : L.Formula α, ψ.IsQF ∧ φ ⇔[T] ψ
+
+/-- A theory has quantifier elimination when every formula is quantifier-free equivalent modulo
+it. -/
+def Language.Theory.HasQuantifierElimination {L : FirstOrder.Language.{u, v}} (T : L.Theory) :
+    Prop :=
+  ∀ {α : Type} (φ : L.Formula α), Language.Theory.IsQFEquivalent T φ
+
 /-! ## Finite-rank agreement and genuine QE targets (Milestone 5) -/
 
 /-- `T_R` is complete. -/
@@ -402,6 +444,13 @@ theorem exists_computable_quantifierElimination :
         ∃ ψ : Language.graph.Formula (Fin m), Q m (boundedCode φ) = boundedCode ψ ∧ ψ.IsQF ∧
           ∀ (M : Type w) [Language.graph.Structure M], M ⊨ radoAxioms →
             ∀ a : Fin m → M, ψ.Realize a ↔ φ.Realize a := by
+  sorry
+
+/-- **Theory-level quantifier elimination** for `T_R`, in the quantifier-elimination proposal's
+vocabulary, for formulas in any type of free variables. It follows from the computable map by the
+proposal's reduction to finite variable types, and does not replace that map. -/
+theorem radoAxioms_hasQuantifierElimination :
+    Language.Theory.HasQuantifierElimination radoAxioms := by
   sorry
 
 /-- **Decidability of the Rado theory.** A computable test on codes of sentences that answers
