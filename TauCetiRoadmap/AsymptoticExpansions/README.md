@@ -527,7 +527,7 @@ with `𝓜f = mellin f`.
 
 - DLMF 2.11.1–2.11.3, for 3.2: for integers `m → ∞`,
   `∫₀^π cos(mt)/(t² + 1) dt ∼ (−1)^m ∑_{s≥1} q_s(π) m^{−2s}`, with
-  `q_s = d^{2s−1}/dt^{2s−1} (t² + 1)⁻¹`, whose first three are given by 2.11.3.
+  `q_s = (−1)^{s+1} d^{2s−1}/dt^{2s−1} (t² + 1)⁻¹`, whose first three are given by 2.11.3.
 - For 3.3 with `q(t) = (1 + t)⁻¹` (`α_s = s + 1`, `c_s = (−1)^s`):
   `∫₀^∞ e^{−xt}/(1 + t) dt ∼ ∑ (−1)^s s! x^{−s−1}`.
 - For 3.3 with `q(t) = t^{α−1}`, `Re α > 0`: the expansion has the single term `Γ(α) x^{−α}`,
@@ -1035,9 +1035,10 @@ representation 2.5.33 at `p_{jk} ∈ D_{jk}` and 2.5.34 holds for some `q_{jk} >
 DLMF 2.5.37–2.5.44. Let `h` be locally integrable on `(0, ∞)` and satisfy 2.5.18 with `κ = 0`
 (including `Re β_n → ∞`, so that the first sum below is finite) and 2.5.20 with `c > −1`, and
 `𝓛h(ζ) = ∫₀^∞ h(t) e^{−ζt} dt`. Prove the exact identity 2.5.43 for every integer `l ≥ 2` and
-`δ ∈ (0, 1)`, with the residues computed by `TauCeti.Contour.residue`, the continued transforms
-of 8.3, and the remainder `O(ζ^{l−δ−1})` as `ζ → 0+`. If no `β_n` is a positive integer, deduce
-2.5.44 in the form: for every real `L`,
+sufficiently small `0<δ<1`, chosen so that the line `Re z = l-δ` contains no poles and all
+poles occurring in the residue sums lie strictly to its left, with the residues computed by
+`TauCeti.Contour.residue`, the continued transforms of 8.3, and the remainder `O(ζ^{l−δ−1})`
+as `ζ → 0+`. If no `β_n` is a positive integer, deduce 2.5.44 in the form: for every real `L`,
 
 ```text
 𝓛h(ζ) − ∑_{n : Re β_n < L + 1} b_n Γ(1 − β_n) ζ^{β_n − 1} − ∑_{n < L} (−ζ)ⁿ/n! · 𝓜h(n + 1)
