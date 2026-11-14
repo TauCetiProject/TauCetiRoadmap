@@ -820,8 +820,10 @@ the parent roadmap. In order:
    classes (scatteredness) and is large, so one of its classes is large; take `A_{σ0}`, `A_{σ1}`
    there.
 5. **The reduction.** `exists_minimallyUncountableOn_and_of_bfScattered`: under the hypotheses of
-   step 4 some `Θ ⊓ θ` has minimally uncountable models (the minimal counterexamples of Harnik and
-   Makkai; Montalbán's Theorem XII.7 is the minimally unbounded form). Otherwise, for each
+   step 4 some `Θ ⊓ θ` has minimally uncountable models (Montalbán, Theorem XII.7, pp. 219–220, for
+   scattered unbounded sentences, which is this statement by 4b and
+   `minimallyUncountableOn_modelsOf_iff_minimallyUnboundedOn`; Montalbán, p. 218, attributes to
+   Harnik and Makkai that a counterexample yields a minimally unbounded one). Otherwise, for each
    `X : ℕ → Bool`, step 3 applied to `A_{X↾1}, A_{X↾2}, …` with levels `α_0, α_1, …`
    (consecutive codes are equivalent at `α_{i+1} ≥ α_i + ω`) gives a code `A_X` with
    `bfEquivSetoid α_i A_X A_{X↾(i+1)}` for all `i`. Each `A_X` lies in `C_∅ ⊆ modelsOf Θ`. If `X`,
@@ -1054,9 +1056,9 @@ here.
   [draft](https://math.berkeley.edu/~antonio/CSTpart2.pdf), Chapter XII: §XII.1 (Morley's theorem
   via Silver; scattered and unbounded sentences, Definition XII.1) and §XII.2 (Definition XII.4,
   minimally unbounded sentences; Lemma XII.5, level classes are sentences; Lemma XII.6, the limit
-  model, with hypothesis `≡_{α_i + 3}` in its block-move convention; Theorem XII.7, the reduction to
-  a minimally unbounded counterexample; Lemma XII.8, the club lemma), cited from the draft
-  compiled on 22 April 2025. Lemma XII.8 (p. 220) assumes only that `Θ` is minimally unbounded,
-  but its proof (p. 221) uses that the models of `Θ` have countably many `≡_β`-classes; the
-  targets here assume back-and-forth scatteredness.
+  model, with hypothesis `≡_{α_i + 3}` in its block-move convention; Theorem XII.7, pp. 219–220,
+  the reduction to a minimally unbounded counterexample; Lemma XII.8, the club lemma), cited from
+  the draft compiled on 22 April 2025. Lemma XII.8 (p. 220) assumes only that `Θ` is minimally
+  unbounded, but its proof (p. 221) uses that the models of `Θ` have countably many
+  `≡_β`-classes; the targets here assume back-and-forth scatteredness.
 * `cameronfreer/infinitary-logic`, Lean 4 formalization, commit `518a366`.
