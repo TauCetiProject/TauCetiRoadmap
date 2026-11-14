@@ -2418,8 +2418,10 @@ The map, which is not prescriptive, lists files of `CKSD/Asymptotics/`:
 | 9 | HigherOrder (Huber), RegressionMEstimators, ConvexArgmin/Basic, ConvexRegression/Basic |
 
 Related libraries:
-- [Statlib](https://github.com/stat-lib/statlib) develops contiguity on sample spaces varying along
-  a filter, quadratic-mean differentiability (the model of `HasQMDWithinAt` in 7.3), the squared Hellinger distance and a weak law of large numbers.
+- [Statlib](https://github.com/stat-lib/statlib) (Apache 2.0) develops contiguity on sample spaces
+  varying along a filter, quadratic-mean differentiability, the squared Hellinger distance and a
+  weak law of large numbers. `HasQMDWithinAt` in 7.3 follows the shape of its QMD definition in
+  `Statlib/Inference/QMD.lean` at commit `af349698`; no Statlib code is copied.
 
 ## References
 
