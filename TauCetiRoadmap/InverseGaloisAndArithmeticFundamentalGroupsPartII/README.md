@@ -811,7 +811,11 @@ EVW16 lines 815–827). Finite `A(M)` is the meaning of eventual `U`-stability. 
 - The injective map `t : k[t] → k[t]` has a nonzero cokernel: the kernel alone does not detect
   stability.
 
-### 1.3 Change of rings for the central quotient
+### 1.3 Change-of-rings estimates over the central quotient
+
+This group provides the change-of-rings spectral sequence from `R` to `R̄` and the degree
+estimates for balanced tensor products and for `Tor` over `R̄`; §§1.6, 1.7, 1.9 and 1.10 consume
+them.
 
 Construct, for every graded left `R`-module `M`, a first-quadrant spectral sequence
 `E²_(i,j) = Tor_i^(R̄)(k, Tor_j^R(R̄, M)) ⇒ Tor_(i+j)^R(k, M)` preserving the internal grading; the
@@ -828,8 +832,7 @@ many bidegrees. *Needs:* §1.2; DGAInfinity Layer 5 (gap:dga-graded-tor-spectral
 - The low-degree exact segment
   `Tor_2^(R̄)(k, R̄ ⊗_R M) → k ⊗_(R̄) Tor_1^R(R̄, M) → Tor_1^R(k, M)` holds.
 
-### 1.4 A balanced tensor estimate
-
+**1.4 A balanced tensor estimate.**
 Prove: for a graded right `R`-module `N` and a graded left `R`-module `M`,
 `deg(N ⊗_R M) ≤ deg N + deg H_0^aug(M)` whenever the right side is finite; the same holds over `R̄`
 (EVW16 Lemma 4.4, p. 17; EVW16 line 785). *Proof sketch.* Filter a bounded `N` from its top degree;
@@ -842,8 +845,7 @@ reduces to `N = k`. *Needs:* §1.1, §1.2; Tau Ceti `TauCeti.BalancedTensorProdu
 - `N = k` gives equality with the augmentation coinvariants.
 - No flatness of `N` is assumed.
 
-### 1.5 `Tor` over the central quotient
-
+**1.5 `Tor` over the central quotient.**
 Prove: for a graded left `R̄`-module `V`, `deg Tor_i^(R̄)(k, V) ≤ i deg R̄ + deg V` for every `i ≥ 0`,
 and in particular `≤ i A1 + deg V` (EVW16 Lemma 4.5, p. 17; EVW16 line 800). *Proof sketch.* A
 graded free right resolution of `k` over `R̄` can be chosen with `i`-th term generated in degrees
@@ -855,7 +857,11 @@ graded free right resolution of `k` over `R̄` can be chosen with `i`-th term ge
 - For `R̄ = k` every positive `Tor` vanishes.
 - For `R = k[t]`, `U = t`: `R̄ = k`, and the bound is the degree of `V`.
 
-### 1.6 Central torsion is bounded by quotient `Tor`
+### 1.6 Bounds on the stability defects and on `Tor` over `R`
+
+This group bounds `A(M)` by `δ(M)`, and `δ(M)` and every `Tor_i^R(N, M)` by the degrees of
+`H_0^aug(M)` and `H_1^aug(M)`; §1.16 consumes the `Tor` bound of §1.10, and §1.19 the bounds of
+§§1.6 and 1.9.
 
 Prove: for every graded left `R`-module `M`, `A(M) ≤ δ(M) + A1`; more precisely there is a sequence
 `R[U] ⊗_R M → M[U] → Tor_1^R(R̄, M)`, exact in the middle, whose first map has degree zero and whose
@@ -871,8 +877,7 @@ sketch.* Factor `U : M → M` through `UR ⊗_R M`, tensor the sequences `R[U] �
 - For `R = k[t]`, `U = t`, `M = k`: `R[U] = 0`, `M[U] = k` in degree `0`, and the second map, of
   degree `a = 1`, sends it isomorphically onto `Tor_1^R(R̄, M) = k[1]`; `A(M) = 0 ≤ δ(M) + A1 = 2`.
 
-### 1.7 Higher quotient `Tor`
-
+**1.7 Higher quotient `Tor`.**
 Prove: `deg Tor_i^R(R̄, M) ≤ δ(M) + A1 i` for every `i ≥ 0` (EVW16 Lemma 4.7, p. 19;
 EVW16 lines 866–898). *Proof sketch.* `R[U]` is a right `R̄`-module; resolve it by graded free right
 `R̄`-modules `Q_j` generated in degrees `≤ (j + 1) A1`, and splice with `R[U] → R → R → R̄` into the
@@ -886,8 +891,7 @@ spectral sequence of `P ⊗_R M` bounds `Tor_b^R(R̄, M)`, `b ≥ 2`, by the pie
 - `i = 0, 1` are the definition of `δ(M)`.
 - Without the shifts `[a]` the map `U` in the splice is not of degree zero.
 
-### 1.8 Graded Nakayama with support control
-
+**1.8 Graded Nakayama with support control.**
 Prove: for a graded left `R̄`-module `V` with `deg(k ⊗_(R̄) V)` finite,
 `deg V ≤ deg(k ⊗_(R̄) V) + deg R̄`; in particular `k ⊗_(R̄) V = 0` implies `V = 0` (EVW16 Lemma 4.8,
 p. 19; EVW16 line 899). *Proof sketch.* Lift a homogeneous basis of the coinvariants; the quotient
@@ -903,8 +907,7 @@ the coinvariants. *Needs:* §1.1, §1.2; Tau Ceti `TauCeti.GradedModuleCat`.
 - For `V = R̄` the bound is `deg R̄ ≤ 0 + deg R̄`.
 - For `V = k[q]` the coinvariants are `k[q]` and the bound `q ≤ q + deg R̄` holds.
 
-### 1.9 Low augmentation `Tor` controls the defect
-
+**1.9 Low augmentation `Tor` controls the defect.**
 Prove: for every graded left `R`-module `M`,
 `δ(M) ≤ max(deg H_0^aug(M), deg H_1^aug(M)) + 4 A1` (EVW16 Lemma 4.9 and (4.9.1)–(4.9.4), p. 20;
 EVW16 lines 909–927). *Proof sketch.* `deg R̄ ⊗_R M ≤ deg H_0^aug(M) + deg R̄` by §1.4; the
@@ -917,8 +920,7 @@ low-degree segment of §1.3 and §1.8 bound `Tor_1^R(R̄, M)` by `deg R̄` plus 
 - For `R = k[t]`, `U = t`, `M = k`: `δ(M) = 1`, and the bound is `1 + 4 A1 ≥ 5`.
 - For `M = R`: `δ(R) = deg R̄`, and `H_0^aug(R) = k`, `H_1^aug(R) = 0`.
 
-### 1.10 A general `Tor` bound
-
+**1.10 A general `Tor` bound.**
 Prove: for a graded right `R`-module `N` and a graded left `R`-module `M`,
 `deg Tor_i^R(N, M) ≤ deg N + max(deg H_0^aug(M), deg H_1^aug(M)) + A1 i + 4 A1` for all `i ≥ 0`
 (EVW16 Proposition 4.10, p. 20; EVW16 lines 928–945). *Proof sketch.* Reduce to `N = k` by
@@ -931,7 +933,10 @@ filtering; in §1.3 a term of total degree `i = a' + b` has degree at most
 - No commutativity of `R` and no finite global dimension is used.
 - For `R = k[t]`, `M = N = k`: `Tor_1 = k[1]` has degree `1 ≤ 0 + 1 + A1 + 4 A1`.
 
-### 1.11 The K-complex
+### 1.11 The K-complex and its comparison with `K(R) ⊗_R M`
+
+This group defines `K(M)`, makes `K(R)` a complex of right `R`-modules and identifies `K(M)` with
+`K(R) ⊗_R M`; §§1.13–1.17 and 3.3–3.5 consume it.
 
 Define, for a graded left `R`-module `M`, the homological complex `K(M)` with
 `K(M)_q = k[c^q] ⊗_k M[q]`, `q ≥ 0`, and differential `K(M)_(q+1) → K(M)_q`,
@@ -961,8 +966,7 @@ EVW16 lines 726–740). *Needs:* §0.6, §1.1; Mathlib `TensorProduct`, `Homolog
   involutions, such as the transpositions of `S₃`, the two conventions coincide and this example
   does not distinguish them.
 
-### 1.12 Right linearity and the tensor comparison
-
+**1.12 Right linearity and the tensor comparison.**
 Prove: the right action on `K(R)_q` commutes with the differential, and evaluation of the balanced
 tensor product gives a natural isomorphism of complexes `K(R) ⊗_R M ≅ K(M)`, compatible with
 internal shifts and with the action of `U` (EVW16 §4.1, p. 16, and proof of Proposition 4.13,
@@ -976,7 +980,11 @@ p. 21). *Proof sketch.* The differential acts by left multiplications on the `R`
 - The generator homotopies of §1.13 are not right `R`-linear; the comparison concerns only the
   differential.
 
-### 1.13 Null-homotopies of right multiplication by generators
+### 1.13 Linear support of the regular K-homology
+
+This group makes right multiplication by the generators null-homotopic on `K(R)`, so that `R_+`
+kills `H_q(K(R))`, and bounds `deg H_q(K(R))` by `A2 + q`; §§1.16, 1.19, 4.1 and 4.2 consume
+this bound.
 
 Construct, for `g ∈ c`, the `k`-linear map `S_g` on the basis of `K(R)`: for a tuple `w` of length `q`
 and a basis element `s` of `R` with boundary product `b`,
@@ -998,8 +1006,7 @@ EVW16 lines 953–958). *Needs:* §1.11, §1.12; §IG.3.2 *The braid-orbit monoi
 - With the constant prefix `g` in place of `b g b⁻¹` the identity fails as soon as `b` does not
   commute with `g`.
 
-### 1.14 The positive ideal kills regular K-homology
-
+**1.14 The positive ideal kills regular K-homology.**
 Prove: for every `q ≥ 0` the right `R`-module `H_q(K(R))` is annihilated by `R_+`; in particular `U`
 acts by zero on it (EVW16 Lemma 4.11, p. 21). *Needs:* §1.13, §0.7, §1.12.
 
@@ -1008,8 +1015,7 @@ acts by zero on it (EVW16 Lemma 4.11, p. 21). *Needs:* §1.13, §0.7, §1.12.
 - The annihilation is on homology; multiplication by `r_g` is not zero on chains.
 - For `R = k[t]`, `H_0(K(R)) = k`, killed by `t`.
 
-### 1.15 Regular K-homology has linear support
-
+**1.15 Regular K-homology has linear support.**
 Prove: `deg H_q(K(R)) ≤ A2 + q` for every `q ≥ 0` (EVW16 Proposition 4.12, p. 21;
 EVW16 lines 959–978). *Proof sketch.* `U` is an isomorphism on `K(R)_q` in source degrees
 `> A1 + q`, hence on cycles; cycles are generated in degrees `≤ A1 + a + q`, and §1.14 turns
@@ -1022,7 +1028,11 @@ generation into a support bound. *Needs:* §0.8, §1.2, §1.14, §1.12.
   `H_q K(R) = 0` for `q` odd; `deg H_q K(R) = q ≤ A2 + q`.
 - The complex `K(R)` is not bounded, since `q` is unbounded; only each homology group is.
 
-### 1.16 Universal coefficients for the K-complex
+### 1.16 Linear growth of K-homology from its two lowest groups
+
+This group bounds every `H_q(K(M))` linearly in `q` by the degrees of `H_0(K(M))` and
+`H_1(K(M))`, through augmentation `Tor`; §4.1 consumes the bound of §1.18, and §§1.19 and 3.5
+the comparison of §1.17.
 
 Construct the first-quadrant spectral sequence `E²_(i,j) = Tor_i^R(H_j(K(R)), M) ⇒ H_(i+j)(K(M))`,
 preserving the internal grading, and prove
@@ -1042,8 +1052,7 @@ the diagonal `i + j = q`, §1.10 and §1.15 give
 - With `A1 = A(R) = 0` and `A2 = 1` in that example, the bound would be `1 + 0 + 0 + 1 = 2` for
   every `q`, but `H_3 K(k)` has degree `3`.
 
-### 1.17 Low K-homology controls augmentation `Tor`
-
+**1.17 Low K-homology controls augmentation `Tor`.**
 Prove: there are a natural isomorphism `H_0^aug(M) ≅ H_0(K(M))` and a natural surjection
 `H_1(K(M)) → H_1^aug(M)`, preserving the internal grading; so `deg H_i^aug(M) ≤ deg H_i(K(M))` for
 `i = 0, 1` (EVW16 (4.14.1), p. 22; EVW16 lines 1007–1035). *Proof sketch.* Factor
@@ -1057,8 +1066,7 @@ Prove: there are a natural isomorphism `H_0^aug(M) ≅ H_0(K(M))` and a natural 
 - Only the degrees `0` and `1` compare: for `G` trivial and `M = k`, `H_2(K(k)) = k[2]` while
   `Tor_2^(k[t])(k, k) = 0`, since `k[t]` has global dimension one.
 
-### 1.18 Higher K-homology from two low degrees
-
+**1.18 Higher K-homology from two low degrees.**
 Prove: if `h_i = deg H_i(K(M))` is finite for `i = 0, 1`, then `h_q ≤ max(h_0, h_1) + A0 q` for
 every `q > 1` (EVW16 Theorem 4.2 and (4.2.1), p. 16, with the enlarged constants; proof EVW16 §4.14,
 p. 22). *Proof sketch.* Insert §1.17 in §1.16 and use `A1 q + 4 A1 + A2 ≤ (5 A1 + A2) q` for
