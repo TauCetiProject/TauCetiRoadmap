@@ -306,7 +306,9 @@ Computable quantifier elimination and decidability are stated over a fixed struc
 graph formulas by natural numbers: Mathlib's list encoding `BoundedFormula.encoding`, followed by
 an explicit numbering of its symbol alphabet. The coding is not `Encodable.ofCountable`, whose
 classical enumeration carries no effective content. The context type is a parameter; for
-`Fin m` the code does not depend on `m`, which the maps receive separately. -/
+`Fin m` the code does not depend on `m`, which the maps receive separately. The README proposes a
+coding interface for a general language, shared with FreeGroupsAndLimitGroups, of which these
+graph statements are an instance. -/
 
 instance : IsEmpty (Σ l, Language.graph.Functions l) :=
   ⟨fun ⟨_, f⟩ => (f : Empty).elim⟩

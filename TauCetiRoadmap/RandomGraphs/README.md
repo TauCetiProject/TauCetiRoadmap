@@ -557,8 +557,10 @@ through finite patterns; build:
   that accepts exactly the formula codes (Mathlib's list decoder ignores trailing symbols, so
   this needs a re-encoding check) and its round-trip law, and computability on codes of the syntax operations the maps
   use: the constructors (`⊥`, equality and adjacency atoms between variables, implication,
-  universal quantification) and case analysis on the outermost constructor. These are supporting
-  targets for the two theorems, not a general computability library;
+  universal quantification) and case analysis on the outermost constructor. They are stated here
+  for the graph language as supporting targets for the two theorems; a coding interface for a
+  general language, shared with FreeGroupsAndLimitGroups, is proposed under
+  [Coordination and provenance](#coordination-and-provenance);
 - a computable representation of finite equality-and-adjacency patterns on `Fin m`, with
   its consistency test;
 - a correctness bridge proving that the formula of each consistent pattern and
@@ -1138,6 +1140,32 @@ Coordinate the theory-level quantifier-elimination endpoint with the
 [quantifier-elimination proposal](https://github.com/leanprover-community/mathlib4/pull/41113) and
 its [extension-pair companion](https://github.com/leanprover-community/mathlib4/pull/41115).
 These are design and provenance references, not assumptions that their code is in Mathlib.
+
+**A shared formula coding.** [FreeGroupsAndLimitGroups §3.1](../FreeGroupsAndLimitGroups/README.md#31-the-language-of-groups-and-its-coefficient-extensions)
+builds the same kind of structure on Mathlib's `BoundedFormula.listEncode` for the group language
+with coefficient constants: validity of codes, connectives and quantifiers, claimed primitive
+recursive, with codes that carry the number of bound variables. Neither roadmap states its
+coding for a general language. The proposal is one interface for a general `L`, owned where it
+first lands and consumed by the other roadmap, with the graph coding of 5.2 as an instance. The
+round trip carries over unchanged, since `boundedDecode_boundedCode` uses only
+`BoundedFormula.encoding.decode_encode`. The effective claims do not: `Encodable` instances on
+`Σ n, L.Functions n` and `Σ n, L.Relations n` are not presumed sufficient, because an encoding
+such as `Encodable.ofCountable` has no effective content. The interface needs:
+
+- an effective presentation of the language: computably decodable (for the group roadmap,
+  `Primcodable`) symbol families, with the arity of a symbol computable from its code;
+- the arity operations of the encoding: building and taking apart a function or relation
+  application from a symbol code and a list of argument codes of the matching length (the graph
+  language has no function symbols, so its terms are variables; the group language's are not);
+- exact decoding at a given number of bound variables, with a computable validity test, since
+  Mathlib's list decoder ignores trailing symbols, and the round-trip law;
+- uniformity in the free-variable context, given its own effective presentation;
+- computability of the constructors and of case analysis on codes, and primitive recursiveness
+  where FreeGroupsAndLimitGroups claims it.
+
+The graph-specific pattern representation, quantifier-elimination map and decision procedure of
+5.2 stay in this roadmap and do not depend on how that interface is settled.
+
 On the Tau Ceti side, the extension predicate and Rado graph come from the InfinitaryLogic
 random-graph worked example (`Combinatorics/SimpleGraph/ExtensionProperty.lean` and
 `ModelTheory/Scott/RandomGraph.lean`);
