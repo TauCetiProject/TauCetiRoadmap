@@ -170,6 +170,11 @@ states extraction (2.2).
 - `ι = ℤ/2`: the data with `F^{111}_1 = 2` over `ℚ` fails the pentagon at `(1,1,1,1)`, which forces
   `(F^{111}_1)² = 1` there.
 - Over `ℤ`, `F^{111}_1 = −1` with `Finv^{111}_1 = 1` fails the inverse law.
+- `ι = ℤ/2`, `F = 1` over `ℚ`: `R^{11}_0 = 2` with unit entries `1` fails `hexagon_forward` at
+  `a = b = c = 1`, whose sides are `1` and `4`.
+- `F^{111}_1 = −1` over `ℤ`: the same hexagon reads `(R^{11}_0)² = −1`, so there is no `RSymbols`.
+- `ι = S₃`, `a = (12)`, `b = (23)`, `c = ab`: `R^{ab}_c` would be an invertible `1 × 0` matrix, so
+  no `RSymbols` exist over a nontrivial ring.
 
 ### 0.2 Relabeling and base change
 
@@ -187,11 +192,18 @@ commutes with `map`. *Needs:* 0.1.
 - `ℤ → 𝔽₂` sends the `ℤ/2` data `F^{111}_1 = −1` to `F^{111}_1 = 1`.
 - `ℤ → ℤ[i]` sends `F^{111}_1 = −1` to `−1`, and the R-symbols `±i` exist only after this base
   change.
+- On `ι = ℤ/2` the swap `0 ↔ 1` is not a relabeling: it would need `N_{11}^1 = N_{00}^0`, that is
+  `0 = 1`.
+- C₃ inversion applied twice returns the data: the pair `(2, 1/2)` goes to `(1/2, 2)` and back.
+- No `FSymbols` over `ℤ` maps to the C₃ data with `F^{121}_1 = 2` under `ℤ → ℚ`: its `Finv` entry
+  `1/2` is not an integer.
 
 ### 0.3 Consequences of invertibility
 
 For nontrivial `R`: `N` is associative, `Σ_e N_{ab}^e N_{ec}^d = Σ_f N_{bc}^f N_{af}^d`, and
-`N_{ab}^c = N_{ba}^c` when `RSymbols` exist. *Needs:* 0.1; Mathlib `Matrix.square_of_invertible`.
+`N_{ab}^c = N_{ba}^c` when `RSymbols` exist ([Kitaev] §E.1, (177), p. 68, and §E.3, (207), p. 80,
+over `ℂ`: the two isomorphisms whose ranks are compared; over a ring the rank comparison is
+`Matrix.square_of_invertible`). *Needs:* 0.1; Mathlib `Matrix.square_of_invertible`.
 
 ### Examples
 
@@ -217,7 +229,7 @@ Mathlib `Matrix` only.
 `FSymbols.Model P` has objects `ι → FintypeCat`, a finite basis set in each grade, and morphisms the
 grade-wise morphisms of `Mat R`. It is `Preadditive` and `Linear R`, has finite biproducts, and is
 essentially small. `Model.simple a` has a one-point basis in grade `a` and is empty elsewhere
-([Kitaev] Definition E.17, pp. 96–97, and §E.7.2, (259)–(262), p. 99, over `ℂ`; over a ring the
+([Kitaev] Definition E.17, pp. 96–97, over `ℂ`; over a ring the
 grade-wise matrix construction is the same). *Needs:* 0.1; Mathlib `CategoryTheory.Mat R`.
 
 **Checks.**
@@ -229,7 +241,7 @@ grade-wise matrix construction is the same). *Needs:* 0.1; Mathlib `CategoryTheo
 
 ### 1.2 The monoidal structure
 
-Tensor product `(X ⊗ Y)_c = Σ a b, X_a × Y_b × Fin N_{ab}^c`. `(α_ X Y Z).inv` at grade `d` has
+([Kitaev] §E.7.2, (259)–(261), p. 99, over `ℂ`.) Tensor product `(X ⊗ Y)_c = Σ a b, X_a × Y_b × Fin N_{ab}^c`. `(α_ X Y Z).inv` at grade `d` has
 entry `F^{abc}_d[(e,i,j),(f,k,l)]` from `(x, (y,z,k), l)` to `((x,y,i), z, j)`, and zero elsewhere;
 `.hom` is built from `Finv` in the same way. **Main theorem:** `MonoidalCategory (Model P)` via
 `MonoidalCategory.ofTensorHom`, with `MonoidalPreadditive` and `MonoidalLinear R`. *Needs:* 1.1;
@@ -271,13 +283,13 @@ Take `C` monoidal with `MonoidalPreadditive` and `MonoidalLinear R`, together wi
 `IsSplitSimpleFamily R S`, an isomorphism `e : 𝟙_ C ≅ S u` and a fusion basis normalized through
 `e`. For nontrivial `R`, put `N_{ab}^c = Module.finrank R (S a ⊗ S b ⟶ S c)`. Then the left and
 right families are bases, and there is exactly one `FSymbols R N` whose `F` expresses the left
-family in the right family across the associator. Lean: `existsUnique_fSymbols`. Over a field
-this is [Kitaev] §E.1, (177); over a ring it is derived, from the bases of 2.1 and the uniqueness of
+family in the right family across the associator. Lean: `existsUnique_fSymbols`. Over `ℂ`
+this is [Kitaev] §E.1, (177), p. 68; over a ring it is derived, from the bases of 2.1 and the uniqueness of
 coordinates. *Needs:* 2.1.
 
 ### 2.3 Reconstruction and round trip
 
-An `R`-linear monoidal equivalence `Model (extract C) ≌ C` sending `Model.simple a` to `S a`. For
+([EGNO] §4.10, p. 78, over a field: categorifications of a based ring are the solutions modulo gauge; [Kitaev] §E.7.3, p. 100, over `ℂ`. The ring statements are this roadmap's own, by `HomOrthogonal.matrixDecomposition` and the bases of 2.1.) An `R`-linear monoidal equivalence `Model (extract C) ≌ C` sending `Model.simple a` to `S a`. For
 nontrivial `R`, extracting from `Model P` with its standard basis returns `P`. *Needs:* 2.2, 1.2;
 Mathlib `HomOrthogonal.matrixDecomposition`, `Monoidal.induced`.
 
@@ -328,7 +340,7 @@ formula is the same change of basis). *Needs:* 1.2, 2.2.
 
 ### 3.2 Classification
 
-For nontrivial `R`, `Model P` and `Model Q` are related by an `R`-linear monoidal equivalence iff
+([EGNO] §4.10, p. 78, over a field: categorifications of a based ring are the solutions modulo gauge; [Kitaev] §E.7.3, p. 100, over `ℂ`. The ring statements are this roadmap's own, by `HomOrthogonal.matrixDecomposition` and the bases of 2.1.) For nontrivial `R`, `Model P` and `Model Q` are related by an `R`-linear monoidal equivalence iff
 `Q = g • P.reindex σ`. The equivalence sends each simple to a simple: an object of a model whose
 endomorphisms are `R` is isomorphic to exactly one `Model.simple`, and this defines `σ`. Linearity
 is essential: the Fibonacci and Yang–Lee data over `ℚ(√5)` are Galois conjugate, related by a
@@ -336,7 +348,7 @@ semilinear monoidal equivalence but not gauge equivalent. *Needs:* 3.1, 2.3.
 
 ### 3.3 Automorphisms and autoequivalences
 
-`Aut (LaxMonoidalFunctor.of (𝟭 (Model P)))` is isomorphic to
+([EGNO] Prop. 4.14.3, p. 84, over a field; [Kitaev] (242), p. 90, for the gauges `∂η`. The ring statement and the surjection are this roadmap's own.) `Aut (LaxMonoidalFunctor.of (𝟭 (Model P)))` is isomorphic to
 `{η : ι → Rˣ | η_c = η_a η_b whenever N_{ab}^c ≠ 0}`. Let `Stab P` be the stabilizer of `P` in the
 gauge group, and for `η : ι → Rˣ` with `η_u = 1` let `(∂η)^{ab}_c = η_a η_b η_c⁻¹ • 1`. Then
 `(σ, g) ↦` (relabel by `σ`, tensorator `g`) is a surjective group homomorphism onto the group of
@@ -372,7 +384,7 @@ Layers 1 and 2; PivotalSpherical Layer 8.1.
 
 ### 4.1 Braidings from R-symbols
 
-**Main theorem:** `RSymbols P` gives `BraidedCategory (Model P)`, where `(β_ X Y).inv` at grade `c`
+([Kitaev] §E.7.5, Definition E.29, p. 103, and §E.3, Fig. 20, p. 81, over `ℂ`.) **Main theorem:** `RSymbols P` gives `BraidedCategory (Model P)`, where `(β_ X Y).inv` at grade `c`
 has entry `R^{ab}_c[i,j]` from `(y,x,j)` to `(x,y,i)`. *Needs:* 1.2; Mathlib `BraidedCategory`.
 
 ### 4.2 Extraction of R-symbols
@@ -420,7 +432,7 @@ are `s_a` before the rescaling of `η_a`. *Needs:* 1.2.
 
 ### 5.2 Rigidity
 
-`RigidCategory (Model P)`, given an involution `a ↦ ā` satisfying the criterion, by
+This statement is the roadmap's own: no source is cited for it. `RigidCategory (Model P)`, given an involution `a ↦ ā` satisfying the criterion, by
 `TauCeti.ExactPairing.biproduct` applied to the standard pairings of the simples. The right dual of
 each simple is chosen to be the standard pairing. *Needs:* 5.1; Tau Ceti
 `TauCeti.ExactPairing.biproduct`.

@@ -64,7 +64,7 @@ end FusionRules
 /-- **F-symbols** over a commutative ring `R` for fusion rules `N`: the matrices `F^{abc}_d` with
 two-sided inverses `F̄^{abc}_d`, satisfying the pentagon and the triangle exactly as pinned in
 `README.md`. The inverse is data because rows and columns are indexed by different types; it is
-unique, so `ext` compares `F` alone. -/
+unique, so two F-symbols with equal `F` are equal (README 0.1). -/
 structure FSymbols (R : Type v) [CommRing R] {ι : Type u} [Fintype ι] [DecidableEq ι]
     (N : FusionRules ι) where
   /-- `F^{abc}_d`, rows `Left`, columns `Right`. -/
