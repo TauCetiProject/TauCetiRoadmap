@@ -1137,7 +1137,7 @@ Under hypothesis (iii) of Theorem `3.2`, for every even `2k` and `x ∈ |U₀|`,
 
 ### 2.7. Lemma `3.5`: factors of a product of positive power series converge at least as far
 
-Let `(f_i)` be a countable family of power series `f_i = Σ_n a_{i,n} t^n` with constant term `1` and nonnegative real coefficients, such that `ord(f_i − 1) → ∞`, and let `f = ∏_i f_i = Σ_n a_n t^n`. Then `a_{i,n} ≤ a_n` for all `i` and `n`. Hence the radius of absolute convergence of each `f_i` is at least that of `f`.
+Take power series `f_i = Σ_n a_{i,n} t^n`, indexed by a countable set, each having constant term `1` and real coefficients `≥ 0`, with `ord(f_i − 1) → ∞`, and form their product `f = ∏_i f_i = Σ_n a_n t^n`. Each coefficient of a factor is then bounded by the corresponding coefficient of the product, `a_{i,n} ≤ a_n` for every `i` and `n`; so no `f_i` has a smaller radius of absolute convergence than `f`.
 
 *Needs:* elementary power-series comparison.
 
@@ -1145,7 +1145,7 @@ Let `(f_i)` be a countable family of power series `f_i = Σ_n a_{i,n} t^n` with 
 
 ### 2.8. Lemma `3.6`: poles of the factors lie no closer than the poles of the product
 
-Under the hypotheses of Lemma `3.5`, if `f` and all the `f_i` are Taylor expansions at `0` of meromorphic functions on `ℂ`, then `inf`{`|z| : f_i` has a pole at `z`} `≥ inf`{`|z| : f` has a pole at `z`}.
+Keep the setting of Lemma `3.5`, and assume in addition that `f` and every `f_i` are Taylor expansions at `0` of meromorphic functions on `ℂ`. For each `i`, the infimum of the moduli of the poles of `f_i` is then at least the same infimum for `f`: `inf`{`|z| : f_i` has a pole at `z`} `≥ inf`{`|z| : f` has a pole at `z`}.
 
 *Needs:* [2.7](#27-lemma-35-factors-of-a-product-of-positive-power-series-converge-at-least-as-far).
 
@@ -1221,7 +1221,7 @@ Cancel common `α_i` and `β_j` first. Rationality of the fibre zeta functions i
 
 ### 3.4. Weil I Lemma `6.7`: a family is determined by its `n`-th powers for enough `n`
 
-Let `K` be a finite set of nonnegative integers different from `1`, and `(δ_j)_{j ≤ Q}`, `(ε_j)_{j ≤ Q}` two families of elements of a field. If, for all sufficiently large `n` divisible by no element of `K`, the families `(δ_j^n)` and `(ε_j^n)` agree up to order, then `(δ_j)` and `(ε_j)` agree up to order.
+Fix a finite set `K` of nonnegative integers, none equal to `1`. Two families `(δ_j)_{j ≤ Q}` and `(ε_j)_{j ≤ Q}` of elements of a field coincide up to order as soon as their `n`-th powers `(δ_j^n)` and `(ε_j^n)` coincide up to order for every sufficiently large `n` that no element of `K` divides.
 
 The finite families retain multiplicities and the excluded divisor set does not contain `1`.
 
@@ -1297,7 +1297,7 @@ p. 298, with compact-quotient Haar integration and the Dini argument.)
 
 ### 3.8. Weil I Proposition `6.6`: the denominator of (6.6.1) away from `K` and `L`
 
-Let `(γ_i)_{i ≤ P}` and `(δ_j)_{j ≤ Q}` be families of `ℓ`-adic units with `γ_i ≠ δ_j`. There are a finite set `K` of nonnegative integers different from `1` and a density-zero set `L ⊂ |U₀|` such that, for `x ∉ L` with `deg x` divisible by no element of `K`, the rational function `det(1 − F_x t, ℱ₀)·∏_i(1 − γ_i^{deg x} t) / ∏_j(1 − δ_j^{deg x} t)`, written in lowest terms, has denominator `∏_j(1 − δ_j^{deg x} t)`.
+Given `ℓ`-adic units `(γ_i)_{i ≤ P}` and `(δ_j)_{j ≤ Q}` with `γ_i ≠ δ_j`, attach to each `x ∈ |U₀|` the rational function `det(1 − F_x t, ℱ₀)·∏_i(1 − γ_i^{deg x} t) / ∏_j(1 − δ_j^{deg x} t)`. One can choose a density-zero set `L ⊂ |U₀|` and a finite set `K` of nonnegative integers different from `1` so that, whenever `x ∉ L` and no element of `K` divides `deg x`, this function in lowest terms still has the full product `∏_j(1 − δ_j^{deg x} t)` as denominator.
 
 Exclude both collisions between constant factors and collisions with the quotient spectrum.
 
@@ -1307,7 +1307,7 @@ Exclude both collisions between constant factors and collisions with the quotien
 
 ### 3.9. Weil I Proposition `6.8`: an intrinsic characterisation of the `γ`-polynomial
 
-Let `(γ_i)_{i ≤ P}` and `(δ_j)_{j ≤ Q}` be families of `ℓ`-adic units, `R(t) = ∏(1 − γ_i t)` and `S(t) = ∏(1 − δ_j t)`. If, for every `x ∈ |U₀|`, `∏_j(1 − δ_j^{deg x} t)` divides `∏_i(1 − γ_i^{deg x} t)·det(1 − F_x t, ℱ₀)`, then `S(t)` divides `R(t)`. Consequently `R(t)` is the least common multiple of the `S(t)` satisfying this hypothesis, which characterises the `γ`-family intrinsically from the polynomials `∏(1 − γ_i^{deg x}t)·det(1 − F_x t, ℱ₀)`.
+Put `R(t) = ∏(1 − γ_i t)` and `S(t) = ∏(1 − δ_j t)` for families `(γ_i)_{i ≤ P}` and `(δ_j)_{j ≤ Q}` of `ℓ`-adic units. Then `S(t)` divides `R(t)` provided that `∏_j(1 − δ_j^{deg x} t)` divides `∏_i(1 − γ_i^{deg x} t)·det(1 − F_x t, ℱ₀)` at every `x ∈ |U₀|`. Among all `S(t)` meeting this hypothesis, `R(t)` is therefore their least common multiple, so the polynomials `∏(1 − γ_i^{deg x}t)·det(1 − F_x t, ℱ₀)` single out the `γ`-family intrinsically.
 
 *Needs:* [3.8](#38-weil-i-proposition-66-the-denominator-of-661-away-from-k-and-l).
 
@@ -2153,7 +2153,7 @@ Its API includes:
 
 ### 7.3. Dévissages (a), (b), (f) of the direct-image theorem
 
-Let `f : X → Y` be a separated morphism of schemes of finite type over `ℤ[1/ℓ]` and `n ∈ ℤ`. Say that a sheaf `ℱ` on `X` satisfies `P_n(f)` when `R^i f_!ℱ` is mixed of weights `≤ n + i` for every `i`. (a) For an exact sequence `0 → ℱ′ → ℱ → ℱ″ → 0: P_n(f)` for `ℱ′` and `ℱ″` implies `P_n(f)` for `ℱ`; `P_n(f)` for `ℱ` and `ℱ″` implies `P_n(f)` for `ℱ′`; if the sequence splits, `P_n(f)` for `ℱ` implies `P_n(f)` for `ℱ′`. (b) If `j : U → X` is open with closed complement `i : S → X`, then `P_n(f∘j)` for `j*ℱ` and `P_n(f∘i)` for `i*ℱ` imply `P_n(f)` for `ℱ`. (f) If `f` is quasi-finite and `ℱ` is punctually pure of weight `m`, then `f_!ℱ = R⁰f_!ℱ` is punctually pure of weight `m` and `R^i f_!ℱ = 0` for `i ≠ 0`; hence, by (a), every mixed `ℱ` of weights `≤ n` satisfies `P_n(f)` when `f` is quasi-finite. The same statements hold with 'mixed of weights `≤ n + i`' replaced by '`ι`-mixed of `ι`-weights `≤ β + i`' `(β ∈ ℝ)` and, for `X` over `𝔽_q`, for Weil sheaves.
+Fix `n ∈ ℤ` and a separated morphism `f : X → Y` of schemes of finite type over `ℤ[1/ℓ]`. A sheaf `ℱ` on `X` has property `P_n(f)` if each `R^i f_!ℱ` is mixed of weights `≤ n + i`. (a) Given a short exact sequence `0 → ℱ′ → ℱ → ℱ″ → 0`, the middle term `ℱ` inherits `P_n(f)` from `ℱ′` and `ℱ″` together, and the subsheaf `ℱ′` inherits it from `ℱ` and `ℱ″` together; when the sequence is split, `ℱ` alone passes `P_n(f)` on to `ℱ′`. (b) For an open immersion `j : U → X` with closed complement `i : S → X`, knowing `P_n(f∘j)` for `j*ℱ` and `P_n(f∘i)` for `i*ℱ` is enough to conclude `P_n(f)` for `ℱ`. (f) Suppose `f` quasi-finite. A sheaf `ℱ` that is punctually pure of weight `m` then has `R^i f_!ℱ = 0` for all `i ≠ 0`, and `f_!ℱ = R⁰f_!ℱ` is again punctually pure of weight `m`; together with (a) this yields `P_n(f)` for every `ℱ` mixed of weights `≤ n`. All of this remains valid in the `ι`-setting, where '`ι`-mixed of `ι`-weights `≤ β + i`' with `β ∈ ℝ` takes the place of 'mixed of weights `≤ n + i`', and also, when `X` lies over `𝔽_q`, for Weil sheaves.
 
 *Needs:* [7.1](#71-weil-ii-12-weight-conventions-for-dwp7dwp9-imported-from-dwp5), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [0.3](#03-weil-numbers-under-powers-change-of-q-to-qr), [0.4](#04-ι-weights-of-nonzero-elements-of-a-coefficient-field).
 
@@ -2161,7 +2161,7 @@ Let `f : X → Y` be a separated morphism of schemes of finite type over `ℤ[1/
 
 ### 7.4. Dévissages (c), (d), (e) of the direct-image theorem
 
-Keep the notation `P_n(f)` of DWP.7/devissage-in-the-sheaf-and-the-source. (c) Let `j : V → Y` be open with closed complement `i : T → Y`, and `f_V`, `f_T` the base changes of `f`. Then `ℱ` satisfies `P_n(f)` iff `ℱ|X_V` satisfies `P_n(f_V)` and `ℱ|X_T` satisfies `P_n(f_T)`. More generally, a sheaf `𝒢` on `Y` is mixed of weights `≤ m` iff `𝒢|V` and `𝒢|T` are. (d) If `f = g ∘ h` with `h : X → Z` and `g : Z → Y` separated of finite type, and `R^p g_! R^q h_!ℱ` is mixed of weights `≤ n + p + q` for all `p`, `q`, then `ℱ` satisfies `P_n(f)`; in particular `P_n(h)` for `ℱ` together with `P_{n+q}(g)` for every `R^q h_!ℱ` implies `P_n(f)`. (e) If `g : Y′ → Y` is a universal homeomorphism (integral, radicial, surjective), `f′ : X′ → Y′` the base change and `ℱ′` the pullback of `ℱ`, then `ℱ` satisfies `P_n(f)` iff `ℱ′` satisfies `P_n(f′)`; examples: `Y′ = Y_red`, and for `Y` normal integral, the normalisation of `Y` in a purely inseparable extension of its function field. The same statements hold for `ι`-mixed sheaves with real weights.
+The property `P_n(f)` is that of DWP.7/devissage-in-the-sheaf-and-the-source. (c) Split the target into an open `j : V → Y` and its closed complement `i : T → Y`, and write `f_V`, `f_T` for the base changes of `f` to these pieces. Then `P_n(f)` holds for `ℱ` exactly when `P_n(f_V)` holds for `ℱ|X_V` and `P_n(f_T)` holds for `ℱ|X_T`; more generally, for a sheaf `𝒢` on `Y` the condition 'mixed of weights `≤ m`' holds if and only if it holds for both `𝒢|V` and `𝒢|T`. (d) Factor `f = g ∘ h` through separated finite-type morphisms `h : X → Z` and `g : Z → Y`. Once every `R^p g_! R^q h_!ℱ` is known to be mixed of weights `≤ n + p + q`, `P_n(f)` holds for `ℱ`; this covers the case where `ℱ` has `P_n(h)` and each `R^q h_!ℱ` has `P_{n+q}(g)`. (e) Base change along a universal homeomorphism `g : Y′ → Y` (that is, `g` integral, radicial and surjective) does not affect the property: with `f′ : X′ → Y′` the base change of `f` and `ℱ′` the pullback of `ℱ`, `P_n(f)` for `ℱ` is equivalent to `P_n(f′)` for `ℱ′`. Two instances are `Y′ = Y_red` and, for normal integral `Y`, the normalisation of `Y` in a purely inseparable extension of its function field. Statements (c)–(e) carry over to `ι`-mixed sheaves with real weights.
 
 *Needs:* [7.3](#73-dévissages-a-b-f-of-the-direct-image-theorem), [7.1](#71-weil-ii-12-weight-conventions-for-dwp7dwp9-imported-from-dwp5), [EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)](#etalecohomologyfoundations-f0f4-constructible-derived-coefficients-base-change-and-finiteness), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
 
@@ -2169,7 +2169,7 @@ Keep the notation `P_n(f)` of DWP.7/devissage-in-the-sheaf-and-the-source. (c) L
 
 ### 7.5. Generic smoothness and tame covers of a lisse sheaf on a curve (Weil II `(α)`, `(β)`)
 
-Let `K` be a field in which `ℓ` is invertible, `C` a separated `K`-scheme of finite type of dimension `1`, and `ℱ` a lisse `ℚ̄_ℓ`-sheaf on `C`. After replacing `K` by a finite purely inseparable extension (none is needed if `K` is perfect): `(α)` there is a finite set `Σ` of closed points of `C_red` such that `C′ = C_red − Σ` is smooth over `K`; `(β)` there are a smooth projective curve `D̄` over `K`, a reduced divisor `E ⊂ D̄` étale over `K`, and a finite étale surjective morphism `u : D = D̄ − E → C′` such that `u*ℱ` is tamely ramified along `E`, and `ℱ|C′` is a direct summand of `u_*u*ℱ = Ru_*u*ℱ`.
+Take a field `K` with `ℓ` invertible in `K`, a separated `K`-scheme `C` of finite type and of dimension `1`, and a lisse `ℚ̄_ℓ`-sheaf `ℱ` on `C`. `(α)` For a suitable finite set `Σ` of closed points of `C_red`, the open subscheme `C′ = C_red − Σ` is `K`-smooth. `(β)` The restriction `ℱ|C′` is a direct summand of `u_*u*ℱ = Ru_*u*ℱ` for some finite étale surjective morphism `u : D = D̄ − E → C′`, where `D̄` is a smooth projective `K`-curve and `E ⊂ D̄` a reduced divisor étale over `K`, chosen so that `u*ℱ` is tamely ramified along `E`. Both assertions are to be read after `K` has been replaced by a suitable finite purely inseparable extension; for perfect `K` no such replacement is needed.
 
 Trace followed by adjunction multiplies by the cover degree on each component, which is invertible in `ℚ̄_ℓ`.
 
