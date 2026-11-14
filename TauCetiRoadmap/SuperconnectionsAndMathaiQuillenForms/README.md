@@ -26,11 +26,12 @@ theorems for smooth ℤ/2-graded vector bundles over a smooth manifold `M`: the 
 `ch(E⁺) − ch(E⁻)`, the character of `∇ + tX` is exact where `X` is invertible and, when `ker X` has
 locally constant rank, `ker X` is the image of a smooth projection given by a contour integral of
 the resolvent and the character tends to that of `ker X` (Layer 4); the Mathai–Quillen Euler form
-`e_(∇,s)` of a section `s`
-of an oriented Euclidean bundle is closed, equals the Pfaffian form at `s = 0` and represents the
-Poincaré dual of `s⁻¹(0)` for transverse `s`, which gives `∫_M Pf(R/2π) = Σ ind = χ(M)` for the
-tangent bundle, and the Thom form `τ_∇` on the total space is closed, Gaussian on the fibres with
-fibre integral `1`, pulls back to `e_(∇,s)` along `s` and represents the Thom class (Layer 5);
+`e_(∇,s)` of a section `s` of an oriented Euclidean bundle is closed, equals the Euler form `e(∇)`
+at `s = 0` (the Pfaffian form `Pf(R/2π)` in positive even rank, the orientation sign in rank zero)
+and represents the Poincaré dual of `s⁻¹(0)` for transverse `s`, which gives
+`∫_M e(∇) = Σ ind = χ(M)` for the tangent bundle, and the Thom form `τ_∇` on the total space is
+closed, Gaussian on the fibres with fibre integral `1`, pulls back to `e_(∇,s)` along `s` and
+represents the Thom class (Layer 5);
 `W ↦ 2P_W − 1` embeds each complex Grassmannian of `V = ℂ^N` in the self-adjoint endomorphisms of
 `V`, onto the involutions of one trace, and for `k ≥ 1` the invariant character forms
 `tr(F(dF)^(2k))` on these involutions and `tr((g⁻¹dg)^(2k−1))` on the unitary group are closed and
@@ -73,8 +74,9 @@ skew matrices it takes the values of RandomMatrices' Checks (3.2, Checks).
 
 **Left to CharacteristicClasses.** The Chern–Weil forms of ordinary connections, their
 closedness, connection independence by the transgression form, and the Chern character and
-Pfaffian forms with their normalizations `ch(F) = tr exp((i/2π)F)`, `Pf([[0,a],[−a,0]]) = a`
-(CharacteristicClasses C4, items 1–2, and Conventions); the Thom class `U_E` (C2, item 1), the
+Pfaffian forms with their normalizations `ch(F) = tr exp((i/2π)F)`, `Pf([[0,a],[−a,0]]) = a`, the
+Euler form of an oriented bundle of rank zero being its orientation sign (CharacteristicClasses
+C4, items 1–2, and Conventions); the Thom class `U_E` (C2, item 1), the
 Euler class of a transverse section as the Poincaré dual of its oriented zero locus, the
 sum-of-local-indices formula and `e(TM)[M] = χ(M)` (C2, item 3), fibre integration with the
 compact-support de Rham comparison (C2, item 5), and the identification of the Pfaffian class with
@@ -106,14 +108,16 @@ alone and adds the graded statement `εgε = g⁻¹`, which SA-D24 does not cont
 **Supplied by Mathlib and consumed by name.** Graded algebras and their decompositions, the graded
 tensor product of graded algebras with its Koszul sign, the exterior and Clifford algebras with the
 even–odd grading and their supercommutativity, contractions, exterior powers and alternating
-maps, determinants, block matrices, the conjugate transpose, self-adjoint elements and the unitary
-group, the exponential of a Banach algebra, circle integrals, the Gaussian integral, smooth
-embeddings of manifolds.
+maps, determinants, block matrices, the standard symplectic matrix and the bilinear form of a
+matrix, polynomial rings and fraction fields, the conjugate transpose, self-adjoint elements and
+the unitary group, the exponential of a Banach algebra, circle integrals, the Gaussian integral,
+smooth embeddings of manifolds.
 
 **Supplied by Tau Ceti and consumed by name.** Duhamel's formula for the derivative of the
 exponential of a real Banach algebra, ℤ-graded differential graded algebras, smooth scalar and
-bundle-valued differential forms on manifolds with their paired wedge, de Rham cohomology, and the
-finite Grassmannians (Exact supplier contracts).
+bundle-valued differential forms on manifolds with their paired wedge, de Rham cohomology, the
+finite Grassmannians, symplectic bases of nondegenerate alternating forms and the alternating
+matrix with given strict-upper entries (Exact supplier contracts).
 
 **Out of scope.** Determinant line bundles of Fredholm families and the Quillen metric
 (HeegaardFloer F0.0 owns determinant lines of Fredholm families); Bismut's superconnection for
@@ -144,19 +148,27 @@ character in cyclic homology, which is NoncommutativeGeometry's (N1–N2).
 2. **Superconnections and their character.** In Layers 2 and 4 the curvature of `𝔸 = d + Θ` is
    `𝔸² = dΘ + Θ²`, and the Chern character form is `ch(𝔸) = φ str exp(−𝔸²)`, where `φ`
    multiplies forms of degree `2k` and of degree `2k − 1` by `(2πi)^(−k)`, so that `φ d = d φ` on
-   odd forms (Berline–Getzler–Vergne, §1.4; Garcia 2018, §A.1, p. 24, writes the character with
-   `exp(∇²)` and multiplies its degree-`2p` part by `(−2πi)^(−p)`, the same form). For a
-   connection `∇` on an ungraded bundle this is `tr exp((i/2π)F)`, CharacteristicClasses'
-   normalization. Witness: on a line bundle with curvature `F = i dα` (CharacteristicClasses,
-   Conventions), `φ(−F) = −i dα/(2πi) = −dα/2π` and `(i/2π)F = −dα/2π` agree; omitting `φ`
-   would give `−i dα`, which is not real. On a form `β` of degree `2k − 1`,
-   `φ(dβ) = (2πi)^(−k) dβ = d(φβ)`; scaling odd forms by `(2πi)^(−k+1)` instead would break this.
+   odd forms (Berline–Getzler–Vergne, §1.4). For a connection `∇` on an ungraded bundle this is
+   `tr exp((i/2π)F)`, CharacteristicClasses' normalization. Garcia 2018, §A.1, (A.6) and p. 24,
+   writes the character as `str exp(𝔸²)` and multiplies its degree-`2p` part by `(−2πi)^(−p)`.
+   The two normalizations agree on ordinary connections. For a superconnection with form-degree
+   components `𝔸_j`, this roadmap's `ch(𝔸)` is Garcia's form of `𝔸′ = ∑_j i^(1−j) 𝔸_j`, which
+   leaves the connection `𝔸₁` unchanged: multiplying forms of degree `k` by `(−i)^k` carries
+   `exp(−𝔸²)` to `exp(𝔸′²)`, and `(−2πi)^(−p) (−i)^(2p) = (2πi)^(−p)`. Witness: on a line bundle
+   with curvature `F = i dα` (CharacteristicClasses, Conventions), `φ(−F) = −i dα/(2πi) = −dα/2π`
+   and `(i/2π)F = −dα/2π` agree; omitting `φ` would give `−i dα`, which is not real. On a form `β`
+   of degree `2k − 1`, `φ(dβ) = (2πi)^(−k) dβ = d(φβ)`; scaling odd forms by `(2πi)^(−k+1)`
+   instead would break this. On the trivial line over `ℝ⁴`, `𝔸 = d + η` with
+   `η = x₁ dx₂∧dx₃∧dx₄` has `𝔸² = dη = vol₄` and `ch(𝔸) = 1 + vol₄/(4π²)`; Garcia's
+   normalization applied to `𝔸` itself gives `1 − vol₄/(4π²)`, and applied to `𝔸′ = d − η` it
+   gives `1 + vol₄/(4π²)`.
 3. **The odd endomorphism.** In 2.5 and 4.4, `X = [[0, T*], [T, 0]]` is odd and self-adjoint,
    `T : E⁺ → E⁻`, so `X² = diag(T*T, TT*) ≥ 0` and `exp(−tX²)` decays as `t → ∞` where `T` is
    invertible. Witness: for `T = (a) : ℂ → ℂ`, `str exp(−tX²) = e^(−t|a|²) − e^(−t|a|²) = 0`, and
    for `T : ℂ⁰ → ℂ` (so `m = 0`, `n = 1`) it is `−1 = m − n`. Quillen 1988 uses the skew-adjoint
    `[[0, −T*], [T, 0]]` and writes the character with `exp(𝔸²)`; in degree zero the two agree,
-   `exp((iX)²) = exp(−X²)`, and `iX` is of Quillen's form for `iT`.
+   `exp((iX)²) = exp(−X²)`, and `iX`, the case `j = 0` of Convention 2's `𝔸′`, is of Quillen's
+   form for `iT`.
 4. **Berezin integral and orientation.** `∫_B` is the coefficient of `e₀ ∧ ⋯ ∧ e_(n−1)` in the
    top-degree component (Wu 2006, §2.1), and the Pfaffian of a `2r × 2r` matrix is
    `Pf(Σ) = ∫_B ω^[r]`, where `ω = ∑_(i<j) Σᵢⱼ eᵢeⱼ` and `ω^[r]` is its `r`-th divided power, the
@@ -167,7 +179,12 @@ character in cyclic homology, which is NoncommutativeGeometry's (N1–N2).
    Mathai–Quillen forms carry the factor `(−1)^(r(r+1)/2) (2π)^(−r/2)` (Wu 2006, (2.5) and (2.7)),
    which makes the fibre form exactly the Gaussian density: on `ℝʳ` with `∇ = d`,
    `∫_B exp(−∑ dxᵢ eᵢ)` is `(−1)^r (−1)^(r(r−1)/2) dx₁ ⋯ dx_r = (−1)^(r(r+1)/2) dx₁ ⋯ dx_r`
-   (`r = 1`: `−dx₁`; `r = 2`: `−dx₁dx₂`), and the prefactor cancels the sign.
+   (`r = 1`: `−dx₁`; `r = 2`: `−dx₁dx₂`), and the prefactor cancels the sign. On a bundle, `∫_B`
+   is computed in oriented orthonormal frames. In rank zero the only frame is empty, and `∫_B` is
+   multiplication by the orientation sign `o : M → {±1}` relative to the empty basis,
+   CharacteristicClasses' rank-zero convention (Conventions), while the Pfaffian of the empty
+   matrix is `1`. Witness: for the zero bundle over a point with the negative orientation,
+   `∫_B 1 = −1`, so its Euler form is `−1`, while the empty Pfaffian gives `+1`.
 5. **The Cayley transform.** `g = (1 + X)(1 − X)⁻¹` for skew-adjoint `X`, so `g = 1` at `X = 0`
    and `g = −U_(−iX)` with SelfAdjointSpectralTheory's `U_A = (A − i)(A + i)⁻¹`. Witness: at
    `X = 0`, `U_0 = (−i)(i)⁻¹ = −1`, so `−U_0 = 1 = g`; for `X = (iθ)` on `ℂ`,
@@ -196,10 +213,14 @@ character in cyclic homology, which is NoncommutativeGeometry's (N1–N2).
   `CliffordAlgebra.contractLeft` (`LinearAlgebra/CliffordAlgebra/Contraction`),
   `QuadraticMap.Isometry.id`, `QuadraticForm`.
 - Finite sums and products: `Finset.powersetCard`, `Finset.noncommProd`, `Commute`.
-- Linear algebra: `Basis.det`, `Pi.basisFun`, `LinearMap.det`, `Matrix.det`, `Matrix.trace`,
-  `Matrix.trace_mul_pow_comm_of_ne_zero` (`LinearAlgebra/Matrix/Trace`),
+- Linear algebra: `Basis.det`, `Basis.reindex`, `Pi.basisFun`, `LinearMap.det`, `Matrix.det`,
+  `Matrix.trace`, `Matrix.trace_mul_pow_comm_of_ne_zero` (`LinearAlgebra/Matrix/Trace`),
   `Matrix.map`, `Matrix.fromBlocks`, `Matrix.conjTranspose`, `Matrix.unitaryGroup`, `selfAdjoint`,
-  `Pi.single`.
+  `Pi.single`; the standard symplectic matrix `Matrix.J` (`LinearAlgebra/SymplecticGroup`), and
+  `Matrix.toBilin'`, `LinearMap.BilinForm.toMatrix` and
+  `LinearMap.BilinForm.nondegenerate_toBilin'_iff_det_ne_zero`
+  (`LinearAlgebra/Matrix/BilinearForm`).
+- Rings: `MvPolynomial`, `FractionRing`.
 - Analysis: `NormedSpace.exp` (`Analysis/Normed/Algebra/Exponential`), `HasDerivAt`,
   `MeasureTheory.integral`, `circleIntegral` (`MeasureTheory/Integral/CircleIntegral`),
   `EuclideanSpace`, `GaussianFourier.integral_rexp_neg_mul_sq_norm`
@@ -224,13 +245,21 @@ character in cyclic homology, which is NoncommutativeGeometry's (N1–N2).
   the classes of 4.3, 5.2–5.4 and 6.2.
 - Finite Grassmannians (`TauCeti/Topology/Grassmannian/Basic`): `TauCeti.finiteGrassmannian ℂ p N`,
   the `p`-dimensional subspaces of `Fin N → ℂ`, for 6.2.
+- Symplectic bases (`TauCeti/LinearAlgebra/BilinearForm/SymplecticBasis`):
+  `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`, a nondegenerate alternating bilinear
+  form on a finite-dimensional vector space over a field has a basis indexed by `Fin m ⊕ Fin m` in
+  which its matrix is `Matrix.J (Fin m) K`, for 3.2.
+- Alternating matrices (`TauCeti/LinearAlgebra/Matrix/Alternating`): `Matrix.ofStrictUpper`, the
+  matrix with zero diagonal and opposite lower entries that completes given strict-upper entries,
+  for the generic alternating matrix of 3.2.
 
 **From CharacteristicClasses.** Conventions (the normalization of Chern character and Pfaffian
-forms), for Conventions 2 and 4; C4, items 1–2 (Chern–Weil forms of connections, closedness,
-transgression, the Chern character form, the Pfaffian form), for 4.3 and 5.1; C2, item 1 (the
-Thom class `U_E`), for 5.4; C2, item 3 (the Euler class of a transverse section, the
-sum-of-local-indices formula, `e(TM)[M] = χ(M)`), for 5.3; C2, item 5 (fibre integration and the
-compact-support de Rham comparison), for 5.4; C5, item 5 (the Pfaffian class is the real image of
+forms, and the Euler form of rank zero), for Conventions 2 and 4 and 5.1; C4, items 1–2
+(Chern–Weil forms of connections, closedness, transgression, the Chern character form, the
+Pfaffian form), for 4.3 and 5.1; C2, item 1 (the Thom class `U_E`), for 5.4; C2, item 3 (the Euler
+class of a transverse section, the sum-of-local-indices formula, `e(TM)[M] = χ(M)`), for 5.3; C2,
+item 5 (fibre integration and the compact-support de Rham comparison), for 5.4; C5, item 5 (the
+Pfaffian class is the real image of
 the Euler class), for 5.3.
 
 **From DifferentialGeometry.** Layer 0 (differential forms and the wedge), Layer 1 (the exterior
@@ -580,31 +609,56 @@ For a matrix `Σ` over a commutative ring, define `pairForm Σ (i, j) = Σᵢⱼ
 skew `Σ`, its divided powers `skewFormDivPow Σ r = ∑_S ∏_(p ∈ S) pairForm Σ p`, the sum over the
 `r`-element subsets `S` of `ijPairs N`, the product being `Finset.noncommProd` since two-forms
 commute (`commute_pairForm`), and `pfaffian Σ = ∫_B skewFormDivPow Σ r` for a `2r × 2r` matrix
-(Convention 4; Wu 2006, §2.1). Prove `factorial_mul_pfaffian`, `r! Pf(Σ) = ∫_B (skewForm Σ)^r`,
-for every matrix; and for alternating `Σ` (`Σᵀ = −Σ` and `Σᵢᵢ = 0`) `pfaffian_sq`,
-`Pf(Σ)² = det Σ`, and `pfaffian_mul_mul_transpose`, `Pf(BΣBᵀ) = det B Pf(Σ)`. Over a `ℚ`-algebra
-the first gives `Pf(Σ) = (r!)⁻¹ ∫_B ω^r = ∫_B exp(ω)`, Wu's definition. Route: the first because
-the terms `pairForm Σ p` commute and square to `0`, so `ω^r` is `r!` times the sum over
-`r`-element sets; the third by 3.1 applied to `f = B` after
-`skewFormDivPow (BΣBᵀ) r = Λ(B)(skewFormDivPow Σ r)`, the divided power of
-`skewForm (BΣBᵀ) = Λ(B)(skewForm Σ)`, which uses that `BΣBᵀ` is again alternating; the second by
-reduction to the generic alternating matrix over `ℤ[xᵢⱼ]`, an integral domain of characteristic
-`0`, where `r!` is not a zero divisor, the block-diagonal normal form over its fraction field and
-the third identity.
+(Convention 4; Wu 2006, §2.1). Expanded by 3.1, `∫_B ω^[r]` is the sum, over the perfect matchings
+`{(i₁, j₁), …, (i_r, j_r)}` of `{0, …, 2r − 1}` with `iₜ < jₜ`, of the sign of the permutation
+`(i₁, j₁, …, i_r, j_r)` times `Σ_(i₁j₁) ⋯ Σ_(i_rj_r)`, the expansion (0.8) of the Pfaffian in
+Knuth 1996, §0, p. 2. Prove `factorial_mul_pfaffian`, `r! Pf(Σ) = ∫_B (skewForm Σ)^r`, for every
+matrix (for real skew `Σ`, Wu 2006, §2.1, p. 1: `∫_B e^σ = ⟨ν, σ^(n/2)/(n/2)!⟩` for a two-form
+`σ`); and for alternating `Σ` (`Σᵀ = −Σ` and `Σᵢᵢ = 0`) `pfaffian_sq`, `Pf(Σ)² = det Σ`, Cayley's
+theorem for the general skew-symmetric matrix (Knuth 1996, §6, p. 10), and
+`pfaffian_mul_mul_transpose`, `Pf(BΣBᵀ) = det B Pf(Σ)`, whose case `Pf(AᵀQA) = det A` for `Q`
+block diagonal with blocks `[[0, 1], [−1, 0]]` is Brioschi's (Knuth 1996, §6, p. 11). The sources
+state these identities for real or for generic matrices; over every commutative ring they are
+identities of integral polynomials in the entries, obtained below from the generic alternating
+matrix over `ℤ`. Over a `ℚ`-algebra the first gives `Pf(Σ) = (r!)⁻¹ ∫_B ω^r = ∫_B exp(ω)`, Wu's
+definition. Route: the first because the terms `pairForm Σ p` commute and square to `0`, so `ω^r`
+is `r!` times the sum over `r`-element sets. The third by 3.1 applied to `f = B`:
+`Λ(B)(skewForm Σ) = skewForm (BΣBᵀ)` uses that `Σ` is alternating, and
+`Λ(B)(skewFormDivPow Σ r) = skewFormDivPow (BΣBᵀ) r` holds because `r!` times either side is
+`(skewForm (BΣBᵀ))^r` by the argument for the first, over the generic ring `ℤ[xᵢⱼ, bₖₗ]`, whose
+exterior algebra has no `ℤ`-torsion, and specializes. The second by reduction to the generic
+alternating matrix `G = Matrix.ofStrictUpper x` over `A = ℤ[xᵢⱼ | i < j]`, which specializes to
+every alternating matrix, Pfaffians and determinants commuting with ring homomorphisms. Its
+determinant is nonzero, since specializing `G` to `J₂ ⊕ ⋯ ⊕ J₂`, `J₂ = [[0, 1], [−1, 0]]`, gives
+`1`; so over the fraction field `K` of `A` the alternating form `Matrix.toBilin' G` is
+nondegenerate (`LinearMap.BilinForm.nondegenerate_toBilin'_iff_det_ne_zero`), and Tau Ceti's
+`LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J` gives a basis indexed by `Fin r ⊕ Fin r`
+(by counting dimensions) in which its matrix is `Matrix.J (Fin r) K = [[0, −1], [1, 0]]` in
+blocks. Reindexed into adjacent pairs, `inr a ↦ 2a` and `inl a ↦ 2a + 1`, the basis has matrix
+`D = J₂ ⊕ ⋯ ⊕ J₂`, of Pfaffian `1` and determinant `1`, so `G = CDCᵀ` with `C` the inverse
+transpose of the change-of-basis matrix; the third identity gives `Pf(G) = det C`, and
+`det G = (det C)² = Pf(G)²` in `K`, hence in `A`.
 *Needs:* 3.1; Mathlib `Matrix.det`, `Matrix.transpose`, `Finset.powersetCard`,
-`Finset.noncommProd`, `ExteriorAlgebra.ι_add_mul_swap`.
+`Finset.noncommProd`, `ExteriorAlgebra.ι_add_mul_swap`, `MvPolynomial`, `FractionRing`,
+`Matrix.J`, `Matrix.toBilin'`, `LinearMap.BilinForm.toMatrix`,
+`LinearMap.BilinForm.nondegenerate_toBilin'_iff_det_ne_zero`, `Basis.reindex`; Tau Ceti
+`LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`, `Matrix.ofStrictUpper`.
 
 **API.**
 
 - `skewForm Σ` and `pfaffian Σ` depend only on the entries `Σᵢⱼ` with `i < j`.
 - `commute_ι_mul_ι_ι`: `ι x ι y` commutes with every `ι z`, hence two-forms commute.
 - `skewFormDivPow Σ 0 = 1`, `skewFormDivPow Σ 1 = skewForm Σ`, and `pfaffian (c • Σ) = c^r Pf(Σ)`.
+- For a ring homomorphism `φ : R → R′`, `pfaffian (Σ.map φ) = φ (pfaffian Σ)`, by naturality of
+  `ExteriorAlgebra` and of `∫_B` under the change of rings.
 
 **Checks.**
 
 - `Pf([[0, a], [−a, 0]]) = a` (Convention 4), with square `a² = det`; over `ℤ` or `𝔽₂`,
-  `Σ = [[0, 1], [−1, 0]]` gives `ω^[1] = e₀e₁` and `Pf = 1 = det`, a value a definition with
-  `(r!)⁻¹` cannot give outside `ℚ`-algebras.
+  `Σ = [[0, 1], [−1, 0]]` gives `ω^[1] = e₀e₁` and `Pf = 1 = det`.
+- The factorial cannot be divided out in positive characteristic: over `𝔽₂`, `Σ = J₂ ⊕ J₂` has
+  `ω = e₀e₁ + e₂e₃`, `ω^[2] = e₀e₁e₂e₃` and `Pf = 1`, while `ω² = 2 e₀e₁e₂e₃ = 0` and `2! = 0`,
+  so no definition by `ω^r/r!` recovers `Pf`.
 - For `Σ` block diagonal with blocks `[[0, aᵢ], [−aᵢ, 0]]`, `Pf(Σ) = a₁ ⋯ a_r`: the only
   `r`-element set of pairs with nonzero product is `{(0, 1), (2, 3), …}`, while `ω^r` has `r!`
   copies of `a₁e₀e₁ ⋯ a_r e_(2r−2)e_(2r−1)`.
@@ -643,7 +697,8 @@ of the Mathai–Quillen form on the trivial bundle (Wu 2006, §2.1, (2.1)). Rout
 
 ### Dependencies
 
-3.1 ← Mathlib; 3.2 ← 3.1; 3.3 ← Mathlib.
+3.1 ← Mathlib; 3.2 ← 3.1, Tau Ceti (`LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`,
+`Matrix.ofStrictUpper`); 3.3 ← Mathlib.
 
 ## Layer 4: superconnections on ℤ/2-graded bundles
 
@@ -731,11 +786,17 @@ to `∇⁺ ⊕ ∇⁻`, whose character is CharacteristicClasses C4, item 2, for
 
 **Checks.**
 
-- `E⁻ = 0`: `ch(𝔸) = tr exp((i/2π)F)`, CharacteristicClasses' form.
+- `E⁻ = 0` and `𝔸 = ∇` an ordinary connection: `ch(𝔸) = tr exp((i/2π)F_∇)`,
+  CharacteristicClasses' form.
+- `E⁻ = 0` does not make `𝔸` a connection: on the trivial line over `ℝ⁴`,
+  `𝔸 = d + x₁ dx₂∧dx₃∧dx₄` has `𝔸² = dx₁∧dx₂∧dx₃∧dx₄ = vol₄`, and its character
+  `1 + vol₄/(4π²)` (Convention 2) has the degree-four component `vol₄/(4π²)`, which the flat
+  connection `d`, of character `1`, does not have; the classes agree, `vol₄` being exact.
 - `E⁺ = E⁻ = L` a line bundle and `𝔸 = ∇ ⊕ ∇ + X` with `X = [[0, 1], [1, 0]]`: the class is
   `ch(L) − ch(L) = 0`, and indeed `𝔸 = ∇ ⊕ ∇ + X` has the exact character of 4.4.
-- The sign of the transgression form is fixed by `𝔸_t = ∇ + tX` over a point: there
-  `str exp(−t²X²)` is constant (Convention 3's witness), and the right side is `−d(…) = 0`.
+- The sign of the transgression formula: on `ℝ²` with the trivial line, `𝔸_t = d + i t x dy` has
+  `𝔸_t² = i t dx∧dy` and `𝔸̇_t = i x dy`, so `d/dt str exp(−𝔸_t²) = −i dx∧dy`, which is
+  `−d str(𝔸̇_t exp(−𝔸_t²)) = −d(i x dy)`; the opposite sign would give `+i dx∧dy`.
 
 ### 4.4 Quillen's character of ∇ + tX
 
@@ -776,18 +837,25 @@ LieGroupoidsPoisson G0.1; SmoothBundlesConnections B2.2; DifferentialGeometry La
   `ch(𝔸_t) = −(t²/π) e^(−t²|z|²) dx ∧ dy` (from `str((dX)²) = 2 dz ∧ dz̄` under Convention 1), of
   integral `−1` for every `t > 0`; it concentrates at `0`, where the kernel jumps, and its limit is
   the current `−δ₀`, not a form.
-- The rank condition is also needed for `P_K`: for the same `T = z`, `X` has eigenvalues `±|z|`,
-  so near `0` no circle `|w| = ρ` avoids the spectrum, and the projection onto `ker X`, `1` at
-  `z = 0` and `0` elsewhere, is not continuous. For `T` invertible, `P_K = 0` once `ρ` is below
-  the smallest eigenvalue of `|X|`, and (b) is (a) with `K = 0`; for `T = 0`,
+- The rank condition is also needed for `P_K`: for the same `T = z`, `X` has eigenvalues `±|z|`.
+  For any `ρ > 0`, on `|z| < ρ/2` the circle `|w| = ρ` avoids the spectrum but encloses both
+  eigenvalues, so its Riesz projection is `1`, not the projection onto `ker X`, which is `0` at
+  `z ≠ 0`; no fixed circle isolates exactly the zero eigenvalues near `0`, and the projection onto
+  `ker X`, `1` at `z = 0` and `0` elsewhere, is not continuous. For `T` invertible, `P_K = 0` once
+  `ρ` is below the smallest eigenvalue of `|X|`, and (b) is (a) with `K = 0`; for `T = 0`,
   `P_K = (2πi)⁻¹ ∮ w⁻¹ dw = 1`.
 
 ### Examples
 
 - `M` a point: Layer 4 is Layer 2 with `A = ℂ`.
-- The Koszul complex of a section `s` of a Hermitian bundle `F` with `∇_s = ∇ + i(s + s*)` on `ΛF`
-  (Garcia 2018, §A.2–A.3, (A.11) and (A.15), pp. 24–25): a superconnection of the form 4.4 whose `X`
-  is invertible off `s⁻¹(0)`.
+- The Koszul complex of a section `s` of a Hermitian bundle `F`: on `ΛF`, graded by parity,
+  `c_s = (s∧) + (s∧)*` is odd and self-adjoint with `c_s² = |s|²`, so `∇ + t c_s`, for the
+  connection `∇` induced on `ΛF`, is of the form 4.4 with `X = c_s` invertible off `s⁻¹(0)`. For
+  `s = 1` on the trivial line, `c_s = [[0, 1], [1, 0]]` on `Λ⁰ ⊕ Λ¹` and
+  `exp(−t² c_s²) = e^(−t²)`. Garcia 2018, §A.2–A.3, (A.11) and (A.15), pp. 24–25, uses
+  `∇ + i(v + v*)` for the Koszul differential `v`, with the character `str exp(𝔸²)` of (A.6): the
+  case `j = 0` of Convention 2's `𝔸′`. With the factor `i` and this roadmap's `exp(−𝔸²)`,
+  `s = 1` would give `exp(+t²)`, which grows.
 
 ### Dependencies
 
@@ -805,12 +873,15 @@ SmoothBundlesConnections B2.2, DifferentialGeometry Layer 6.
 
 For an oriented real vector bundle `E` of rank `r` with a Euclidean metric and a compatible
 connection `∇` of curvature `R`, define the Berezin integral `∫_B : Ω(M, ΛE*) → Ω(M)` fibrewise
-(3.1 in oriented orthonormal frames) and prove that the Euler form
-`e(∇) = (2π)^(−r/2) ∫_B exp(½(·, R·))` equals `Pf(R/2π)`, CharacteristicClasses' Pfaffian form, and
-is `0` in odd rank (Wu 2006, §2.2, (2.3), p. 2; Wu 2006, §2.1, p. 1, for odd rank;
-Berline–Getzler–Vergne, §1.6). Route: 3.2
+(3.1 in oriented orthonormal frames, multiplication by the orientation sign `o` in rank zero,
+Convention 4) and prove that the Euler form `e(∇) = (2π)^(−r/2) ∫_B exp(½(·, R·))` is
+CharacteristicClasses' Euler form (Conventions): in positive even rank it equals `Pf(R/2π)`,
+computed in oriented orthonormal frames, CharacteristicClasses' Pfaffian form; it is `0` in odd
+rank; and it is `o` in rank zero, where the Pfaffian of the empty matrix is `1` (Wu 2006, §2.2,
+(2.3), p. 2; Wu 2006, §2.1, p. 1, for odd rank; Berline–Getzler–Vergne, §1.6). Route: 3.2
 fibrewise; orthonormal frame changes have `det = 1`, so 3.1 makes `∫_B` frame-independent.
-*Needs:* 3.1, 3.2; CharacteristicClasses C4, item 2; SmoothBundlesConnections B2.2, B4.1.
+*Needs:* 3.1, 3.2; CharacteristicClasses Conventions, C4, item 2; SmoothBundlesConnections B2.2,
+B4.1.
 
 **API.**
 
@@ -826,16 +897,20 @@ fibrewise; orthonormal frame changes have `det = 1`, so 3.1 makes `∫_B` frame-
 - `r = 2`, `R = [[0, −dα], [dα, 0]]`: `e(∇) = −dα/2π`, CharacteristicClasses' witness.
 - Odd `r`: `∫_B` of an even element of `ΛE*` is `0`, so `e(∇) = 0`.
 - Reversing the orientation of `E` reverses `∫_B` and `e(∇)`.
+- Rank zero: for the zero bundle over a point with the negative orientation, `∫_B 1 = −1` and
+  `e(∇) = −1`, CharacteristicClasses' orientation sign, while `Pf` of the empty matrix is `1`; a
+  definition `e(∇) = Pf(R/2π)` in every rank would lose this sign.
 
 ### 5.2 The Mathai–Quillen Euler form of a section
 
 For a smooth section `s`, define `e_(∇,s) = (−1)^(r(r+1)/2) (2π)^(−r/2) ∫_B exp(−S_(∇,s))` with
 `S_(∇,s) = ½|s|² + (∇s, ·) + ½(·, R·)` (Wu 2006, §2.2, (2.4)–(2.5), p. 2, following
 Berline–Getzler–Vergne, §1.6). Prove that it is closed, that `e_(∇,βs)` has a class independent of
-`β ≥ 0`, with an explicit transgression form, and that `e_(∇,0) = e(∇)` for even `r` (Wu 2006,
-§2.2, the paragraph after (2.5), p. 2). Route: `exp(−S_(∇,s))` is closed for the odd derivation
-`∇ + ι_s` of `Ω(M) ⊗̂ ΛE*`, where `ι_s(ω ⊗ e) = (−1)^(|ω|) ω ⊗ ι_s e` is the contraction by `s` in
-the Grassmann variables with the Koszul sign, since `(∇ + ι_s) S_(∇,s) = 0`; `∫_B` kills the image
+`β ≥ 0`, with an explicit transgression form, and that `e_(∇,0) = e(∇)` for even `r`, which is
+`o` in rank zero (Wu 2006, §2.2, the paragraph after (2.5), p. 2). Route: `exp(−S_(∇,s))` is
+closed for the odd derivation `∇ + ι_s` of `Ω(M) ⊗̂ ΛE*`, where
+`ι_s(ω ⊗ e) = (−1)^(|ω|) ω ⊗ ι_s e` is the contraction by `s` in the Grassmann variables with the
+Koszul sign, since `(∇ + ι_s) S_(∇,s) = 0`; `∫_B` kills the image
 of `ι_s` and turns `∇` into `d`; the `β`-derivative is `(∇ + ι_s)`-exact.
 *Needs:* 3.1, 5.1; DifferentialGeometry Layer 6.
 
@@ -851,7 +926,9 @@ of `ι_s` and turns `∇` into `d`; the `β`-derivative is `(∇ + ι_s)`-exact.
 
 **Checks.**
 
-- `s = 0`, `r` even: `(−1)^(r(r+1)/2) Pf(−R/2π) = (−1)^(r/2) (−1)^(r/2) Pf(R/2π) = e(∇)`.
+- `s = 0`, `r` even and positive, in an oriented orthonormal frame:
+  `(−1)^(r(r+1)/2) Pf(−R/2π) = (−1)^(r/2) (−1)^(r/2) Pf(R/2π) = e(∇)`; `r = 0`: `S_(∇,0) = 0` and
+  `e_(∇,0) = ∫_B 1 = o = e(∇)`.
 - `M = ℝʳ`, `E` trivial, `∇ = d`, `s = x`: `e_(d,x) = (2π)^(−r/2) e^(−|x|²/2) dx₁ ⋯ dx_r`
   (Convention 4), of integral `1` by 3.3.
 - `s = βx` on `ℝʳ`: `(2π)^(−r/2) β^r e^(−β²|x|²/2) dx`, of integral `1` for every `β > 0` and
@@ -869,14 +946,14 @@ Let `M` be closed and oriented and `s` transverse to the zero section, with `Z =
 by CharacteristicClasses C2, item 3. Prove: (a) `∫_M ω ∧ e_(∇,s) = ∫_Z ω` for every closed `ω` of
 degree `dim M − r`; (b) `∫_M φ ∧ e_(∇,βs) → ∫_Z φ` as `β → ∞` for every form `φ`; (c) for
 `E = TM` with the Levi-Civita connection and a vector field `s` with nondegenerate zeros,
-`∫_M Pf(R/2π) = ∑_(s(p)=0) sign det(∇s(p)) = χ(M)` (Wu 2006, §2.2, (2.6), p. 2, for (a) and (b);
-Wu 2006, §1, p. 1, and CharacteristicClasses C2, item 3, for (c)).
-Route: (a) by 5.2, which makes `e_(∇,s)` cohomologous to `e_(∇,0) = e(∇) = Pf(R/2π)`, Stokes,
-CharacteristicClasses C5, item 5, which identifies the class of `Pf(R/2π)` with the real image of
-the Euler class, and C2, item 3, which identifies the Euler class with the Poincaré dual of `Z`;
-(b) by the Gaussian rescaling of 5.2's third Check in normal coordinates along `Z`; (c) from (a)
-with `ω = 1`, `β → 0` giving the Pfaffian, and C2, item 3's sum-of-local-indices formula with
-`e(TM)[M] = χ(M)`.
+`∫_M e(∇) = ∑_(s(p)=0) sign det(∇s(p)) = χ(M)`, where `e(∇) = Pf(R/2π)` when `dim M` is even and
+positive (Wu 2006, §2.2, (2.6), p. 2, for (a) and (b); Wu 2006, §1, p. 1, and CharacteristicClasses
+C2, item 3, for (c)). Route: (a) by 5.2, which makes `e_(∇,s)` cohomologous to
+`e_(∇,0) = e(∇)`, Stokes, CharacteristicClasses C5, item 5, which identifies the class of the Euler
+form `e(∇)` (the Pfaffian form in positive even rank) with the real image of the Euler class, and
+C2, item 3, which identifies the Euler class with the Poincaré dual of `Z`; (b) by the Gaussian
+rescaling of 5.2's third Check in normal coordinates along `Z`; (c) from (a) with `ω = 1` and
+`β = 0`, and C2, item 3's sum-of-local-indices formula with `e(TM)[M] = χ(M)`.
 *Needs:* 3.3, 5.1, 5.2; CharacteristicClasses C2, item 3, C5, item 5; DifferentialGeometry Layers
 2, 5.
 
@@ -885,13 +962,16 @@ with `ω = 1`, `β → 0` giving the Pfaffian, and C2, item 3's sum-of-local-ind
 - `M = S²`, the height gradient: two zeros of index `+1`, `∫ Pf(R/2π) = (1/2π) ∫ K dA = 2`.
 - `M = T²` flat: `R = 0`, and a constant field has no zeros; both sides `0`.
 - Reversing the orientation of `E` changes both sides of (a) by a sign.
+- `dim M = 0`, `M` a finite set of points with orientations `o(p)`: `TM = 0`, `e(∇) = o`, and
+  `∫_M e(∇) = ∑ o(p)² = #M = χ(M)`, while `∫_M Pf = ∑ o(p)` would differ when some `o(p) = −1`.
 
 ### 5.4 The Thom form
 
 On the total space of `π : E → M`, with the tautological section `x` of `π*E`, define
 `τ_∇ = e_(π*∇, x)` (Wu 2006, §2.2, (2.7), p. 2). Prove that `τ_∇` is closed, that its restriction to
-each fibre is the Gaussian `(2π)^(−r/2) e^(−|x|²/2) dx₁ ⋯ dx_r`, with fibre integral `1`, that
-`s*τ_∇ = e_(∇,s)` for every section `s`, in particular `0*τ_∇ = e(∇)`, and that for the
+each fibre is the Gaussian `(2π)^(−r/2) e^(−|x|²/2) dx₁ ⋯ dx_r` in oriented orthonormal coordinates
+in positive rank and the orientation sign `o` in rank zero, with fibre integral `1` in every rank,
+that `s*τ_∇ = e_(∇,s)` for every section `s`, in particular `0*τ_∇ = e(∇)`, and that for the
 fibrewise radial diffeomorphism `ρ` from the open unit disc bundle onto `E`, `ρ*τ_∇` extends by
 zero to a closed form with compact vertical support whose class is the real image of the Thom
 class `U_E` (Wu 2006, §2.2, the paragraph after (2.7), p. 2; Berline–Getzler–Vergne, §1.6).
@@ -902,9 +982,24 @@ C2, item 5's compact-support comparison and the characterization of `U_E` by fib
 (Wu 2006, §3.1, p. 3) is a second route.
 *Needs:* 3.3, 5.2; CharacteristicClasses C2, items 1, 5; DifferentialGeometry Layer 5.
 
+**API.**
+
+- Naturality: for a smooth map `f : N → M` and the induced map `f̃ : f*E → E` of total spaces,
+  `f̃*τ_∇ = τ_(f*∇)`.
+- Orientation: reversing the orientation of `E` changes `τ_∇` into `−τ_∇`.
+- Direct sums: on the total space of `E ⊕ E′`, with `p` and `p′` its projections onto the total
+  spaces of `E` and `E′` and the orientation of 5.1's direct sums,
+  `τ_(∇ ⊕ ∇′) = p*τ_∇ ∧ p′*τ_(∇′)`, by 5.2's direct-sum rule for the tautological sections.
+
 **Checks.**
 
 - `M` a point: `τ = (2π)^(−r/2) e^(−|x|²/2) dx` on `ℝʳ`, integral `1` by 3.3.
+- Rank zero: for the zero bundle over a point with the negative orientation, the total space is
+  the point, `τ_∇ = e(∇) = −1`, and the fibre integral over the point oriented by `−1` is
+  `(−1)(−1) = 1`.
+- Direct sums of trivial oriented lines over a point:
+  `τ_(ℝ ⊕ ℝ) = (2π)^(−1/2) e^(−x²/2) dx ∧ (2π)^(−1/2) e^(−y²/2) dy`, which is
+  `(2π)^(−1) e^(−(x²+y²)/2) dx ∧ dy`, the positive Gaussian of the first Check at `r = 2`.
 - With `ρ(y) = y/√(1 − |y|²)`, `ρ*τ_∇` contains `exp(−|y|²/(2(1 − |y|²)))` times a power of
   `(1 − |y|²)⁻¹`, which tends to `0` with all derivatives at the unit sphere, so the extension by
   zero is smooth.
@@ -918,7 +1013,8 @@ C2, item 5's compact-support comparison and the characterization of `U_E` by fib
 
 ### Dependencies
 
-5.1 ← 3.1, 3.2, CharacteristicClasses C4, item 2, SmoothBundlesConnections B2.2, B4.1;
+5.1 ← 3.1, 3.2, CharacteristicClasses Conventions, C4, item 2, SmoothBundlesConnections B2.2,
+B4.1;
 5.2 ← 3.1, 5.1, DifferentialGeometry Layer 6; 5.3 ← 3.3, 5.1, 5.2, CharacteristicClasses C2,
 item 3, C5, item 5, DifferentialGeometry Layers 2, 5; 5.4 ← 3.3, 5.2, CharacteristicClasses C2,
 items 1, 5, DifferentialGeometry Layer 5.
@@ -1063,11 +1159,15 @@ integral (Wu 2006, §5). Bismut, Gillet and Soulé (1990) use currents of Mathai
 complex immersions.
 
 Poincaré–Hopf for the higher Chern classes, not only the Euler class, is a theorem of Harvey and
-Lawson's theory of characteristic currents (Harvey–Lawson 1993; announced in Harvey–Lawson 1994):
-for sections `s₀, …, s_k` of a complex bundle `F` with connection, `c_(n−k)(Ω_F)` differs from the
-current of their linear-dependence locus by the differential of a canonical locally integrable
-transgression (Harvey–Lawson 1994, §8), and their Theorem B gives a family of Thom forms with the
-Mathai–Quillen properties that converge to the current of the zero section. The analytic input is
+Lawson's theory of characteristic currents (Harvey–Lawson 1993; announced in Harvey–Lawson 1994).
+For a complex bundle `F` of rank `n` with connection, `0 ≤ k < n` and sections `s₀, …, s_k` whose
+bundle map `α : ℂ^(k+1) → F` is `k`-atomic (Harvey–Lawson 1994, §7, p. 60), the current
+`LD(s₀, …, s_k)` of their linear-dependence locus is defined and
+`c_(n−k)(Ω_F) − LD(s₀, …, s_k) = dT` with `T` a canonical locally integrable form (§8, p. 61);
+atomicity excludes, for instance, the identically zero section of a line bundle, whose zero set
+has codimension `0`. Their Theorem B (§4, p. 59) gives a family of Thom forms that are closed, of
+fibre integral `1`, equal to the Pfaffian form on the zero section, and converge to the current of
+the zero section. The analytic input is
 Harvey–Semmes (1992), and MacPherson's Grassmann graph construction (MacPherson 1974) is one choice
 of approximation. Quillen's notebooks 1982-13, 1983-2, 1984-1 to 1984-5 and 1990-1 (Clay
 Mathematics Institute) work on these questions.
@@ -1110,6 +1210,9 @@ Mathematics Institute) work on these questions.
   doi:10.1007/978-1-4612-0447-3_8.
 - M. F. Atiyah, L. Jeffrey, « Topological Lagrangians and cohomology », *J. Geom. Phys.* 7 (1990),
   119–136. doi:10.1016/0393-0440(90)90023-V.
+- D. E. Knuth, « Overlapping Pfaffians », *Electron. J. Combin.* 3 (1996), no. 2, Research Paper
+  R5. doi:10.37236/1263. Zbl 0862.15007. arXiv:math/9503234 (cited in the numbering and pages of
+  arXiv version 1).
 - F. R. Harvey, H. B. Lawson Jr., *A Theory of Characteristic Currents Associated with a Singular
   Connection*, Astérisque 213, Soc. Math. France, 1993. Zbl 0804.53037.
 - F. R. Harvey, H. B. Lawson Jr., « A theory of characteristic currents associated with a singular
