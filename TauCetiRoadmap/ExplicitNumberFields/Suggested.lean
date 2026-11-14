@@ -142,9 +142,9 @@ theorem trigamma_series_remainder (z : ℂ) (hz : 0 < z.re) (N : ℕ) (hN : 1 �
 
 /-! ## Layer 2: counting ideals -/
 
-/-- **2.2, Sunley's explicit ideal count** (`sunley1973` Theorem 1.1(1)). For a number field `K`
-of degree `n ≥ 2` and discriminant `d_K` and every real `x > 0`, the number of nonzero integral
-ideals of norm at most `x` differs from `κ_K x` by at most
+/-- **2.2, Sunley's ideal count in the discriminant** (`sunley1973` Theorem 1.1(1)). For a number
+field `K` of degree `n ≥ 2` and discriminant `d_K` and every real `x > 0`, the number of nonzero
+integral ideals of norm at most `x` differs from `κ_K x` by at most
 `e^{28.2n+5} (n+1)^{5(n+1)/2} |d_K|^{1/(n+1)} (log |d_K|)ⁿ x^{(n−1)/(n+1)}`. -/
 theorem idealCount_sunley (K : Type*) [Field K] [NumberField K] (n : ℕ)
     (hK : Module.finrank ℚ K = n) (hn : 2 ≤ n) (x : ℝ) (hx : 0 < x) :

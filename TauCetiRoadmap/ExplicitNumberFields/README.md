@@ -1417,7 +1417,10 @@ Minkowski's second theorem for the defect bound `Ω ≤ D^{3D/2}/(2π)^{D/2}`. T
 `ZLattice.prod_successiveMin_mul_measure_le_two_pow_mul_covolume`,
 `abs_ncard_inter_mul_sub_measureReal_le`, `IsLipschitzParametrizable`; Mathlib `ZLattice.covolume`.
 
-### 2.2 Sunley's explicit ideal count
+### 2.2 Ideal counts with error terms in the discriminant
+
+This group counts the ideals of norm at most `x` with an error term in `n`, `d_K` and `x` alone,
+by Landau's contour method with Rademacher's bound of 1.1; 7.1 uses the count of 2.2.
 
 Prove `idealCount_sunley` (`sunley1973` lines 110–112, Theorem 1.1(1); restated at `lee2023ideals`
 lines 39–41): for `n ≥ 2` and real `x > 0`,
@@ -1448,8 +1451,7 @@ side being continuous in `x`.
 *Needs:* 1.1; ExplicitZetaBounds §§2.1, 2.5, 6.1a; LFunctions Layer 3 (the
 functional equation and the residue); Tau Ceti `TauCeti.idealsLE`.
 
-### 2.3 Lee's refinement
-
+**2.3 Lee's refinement.**
 Define Lee's constant `A_L(n) = 0.54 (3n − 1) λ(n) n^{3/2} n! / ((n − 1)² (log 𝔪(n))^{n−1})`
 with `𝔪(n) = (π/4)ⁿ n^{2n}/(n!)²` and
 `λ(n) = (n+1)^{1/2 − 1/(2n)} (5/8 + π/2 − 1/n + 3/(8n²))^{1/2} exp(n(2.27 + 4n/(n−1) + 0.01/n² + 1/(500 n⁶)))`
@@ -1487,7 +1489,10 @@ section.
 
 *Needs:* 2.2's route; 1.1; ExplicitZetaBounds §§2.1, 2.5, 6.1a.
 
-### 2.4 Debaene's uniform count
+### 2.4 Ideal counts with error terms in the regulator
+
+This group counts the ideals of norm at most `x`, in all, in one ideal class and in one narrow ray
+class, through lattice points in a fundamental domain for the units; 7.5 uses 2.4 and its route.
 
 Prove `idealCount_debaene` (`debaene2019` lines 107–115, Corollary 2): for a number field of
 degree `n` and real `x ≥ 1`,
@@ -1529,8 +1534,7 @@ sum over ideals of `N(𝔟)^{−(n−1)/n}` bounded by `debaene2019` Lemma 12 (l
 Completed/GlobalNumberFields Layer 3 (the shape); Mathlib `Units.regulator`, `classNumber`,
 `NumberField.mixedEmbedding.idealLattice`, `Real.posLog`.
 
-### 2.5 Counting ideals in narrow ray classes
-
+**2.5 Counting ideals in narrow ray classes.**
 For a nonzero integral ideal `𝔮`, let `𝔪 = 𝔮∞` be the modulus with finite part `𝔮` and every real
 place (the infinite part of Tau Ceti's `narrowModulus K`), `H_𝔮 = RayClassGroup 𝔪` the narrow ray
 class group and `φ(𝔮) = #(𝓞 K/𝔮)ˣ`. Define Gun–Ramaré–Sivaraman's field constant
@@ -1567,8 +1571,7 @@ basis, its Lipschitz class, and 2.1.
 `rayClassIdealCountingFunction`, `rayClassIdealMainTerm_eq`; Completed/GlobalNumberFields Layers 2,
 3; Mathlib `Units.regulator`, `Units.torsionOrder`.
 
-### 2.6 Fehnker's counts in the large range
-
+**2.6 Fehnker's counts in the large range.**
 With `E₁(n) = 45 e² n^{7/2} 2^{4.1n}` and `E₂(n) = 2025 e² n^{11/2} 2^{4n} (n − 1)^{(n−1)/2}`, prove
 Fehnker's class count and total count (`fehnker2026` Theorem 1.1, (A1), (A2), (B2), preprint):
 for `n ≥ 2` and real `t ≥ (10 n² √d_K)ⁿ`, every class `c` of the class group satisfies
@@ -1675,7 +1678,11 @@ Louboutin's first bound `κ_K ≤ (e log d_K/(2n−2))^{n−1}` for `n ≥ 2` is
 AnalyticNumberTheoryPartI §2.15 and is consumed; its positive Mellin comparison §2.15a is the route
 of 3.1 and 3.2.
 
-### 3.1 The zero-dependent upper bound
+### 3.1 Residue bounds without the generalized Riemann hypothesis
+
+This group gives upper bounds for `κ_K` from the positive Mellin comparison, Friedman's lower
+bound, and lower bounds for totally imaginary fields at a point where `ζ_K` is not positive; 5.1
+uses 3.1 and 3.2, and 5.6 uses 3.1 and 3.4.
 
 Prove Louboutin's zero-dependent upper bound (`louboutin2001`, Theorem 1; quoted at
 `louboutin2003` lines 297–300): for `n ≥ 2` and a real `β` with `1/2 ≤ β < 1` and `ζ_K(β) = 0`,
@@ -1700,8 +1707,7 @@ factor `(s−1)^{−1}` is cancelled.
 
 *Needs:* AnalyticNumberTheoryPartI §2.15a; LFunctions Layer 3.
 
-### 3.2 The bound taking the prime `2` into account
-
+**3.2 The bound taking the prime `2` into account.**
 Prove Louboutin's bound with the local factor at `2` (`louboutin2005` Theorem 10, inequality (13),
 p. 569, line 307): for `n ≥ 3`,
 `κ_K ≤ (Π_K(2)/2ⁿ) (e log d_K/(2n−2) · e^{n log 4/log d_K})^{n−1}`.
@@ -1729,8 +1735,7 @@ Route: in §2.15a replace `ζ_K(s) ≤ ζ(s)ⁿ` by `ζ_K(s) ≤ (Π_K(2, s)/(1 
 
 *Needs:* AnalyticNumberTheoryPartI §2.15a; 0.2; 0.3.
 
-### 3.3 Friedman's unconditional lower bound
-
+**3.3 Friedman's unconditional lower bound.**
 Prove `dedekindZeta_residue_ge_friedman` (`garcialee2022mertens` lines 1214–1224, (22)): for
 `n ≥ 2`, `κ_K ≥ 0.36232/√d_K`. Route: `2^{r₁}(2π)^{r₂} ≥ 4` for `n ≥ 2`, `h_K ≥ 1`, and Friedman's
 bound `R_K/w_K ≥ 0.09058` (`friedman1989`, Theorem B, cited by its locator; quoted at line 1215).
@@ -1748,8 +1753,7 @@ The lower bound that improves on this for `n ≥ 3`, Stark's, needs the one-zero
 
 *Needs:* Mathlib `dedekindZeta_residue_def`, `classNumber_pos`; `friedman1989` (locator).
 
-### 3.4 Louboutin's zero-dependent lower bounds for totally imaginary fields
-
+**3.4 Louboutin's zero-dependent lower bounds for totally imaginary fields.**
 Define Louboutin's thresholds `ϱ(m)`, `ϱ_∅(m)` and `ϱ_2(m)` as the piecewise constants of
 `louboutin2003` lines 78–82, Table 1, indexed by `2m ∈ {2, 4, 6, 8, 10, 12}` and constant
 `2π²` (respectively `2π²`, `2π² Λ_{{2}}`) beyond: `ϱ = 270, 41, 26, 22, 21, 2π²`,
@@ -1797,7 +1801,11 @@ which the kernel bounds hold.
 *Needs:* LFunctions Layer 3 (the completed function and functional equation for totally
 imaginary `K`); AnalyticNumberTheoryPartI §2.15a (the Mellin split); 0.2.
 
-### 3.5 The explicit Duke short-sum theorem on Euler-product records
+### 3.5 Residue bounds under the generalized Riemann hypothesis
+
+This group gives the two-sided bounds for `κ_K` in `log log d_K` under `DedekindERH K` and
+*DedekindConjecture* `K`, end theorems of the roadmap; 3.6 uses the quotient record, Garcia–Lee's
+Mertens lemma and the short-sum theorem of 3.5.
 
 Define the quotient record `𝒬_K` as the record of LFunctions Layer 0 with coefficients those of
 the Dirichlet series `ζ_K(s)/ζ(s)` (the convolution of `a_K` with `μ`), conductor `d_K`, real gamma
@@ -1886,8 +1894,7 @@ integrals, and Garcia–Lee's Mertens lemma at `x²` and at `y` (lines 690–718
 construction); ZerosOfLFunctions 5.5, 5.6, Layer 9; `gap:explicit-mertens-second`;
 ExplicitZetaBounds §§2.1, 2.5; 0.5.
 
-### 3.6 The conditional two-sided bounds
-
+**3.6 The conditional two-sided bounds.**
 Prove the explicit von Mangoldt–log sum under the Riemann hypothesis (`gglm2026` Theorem 2.1):
 under `RiemannHypothesis`, *GGLMPsiSmallRange*, and ExplicitPrimeCounting's *ButheVerified* and
 *Schoenfeld1976Range* (the finite verifications of the Schoenfeld bound it uses), for every real
@@ -2015,7 +2022,10 @@ ExplicitZetaBounds §§2.1, 2.5, 6.1a; `friedman1989` by locator.
 
 ## Layer 4: zeros of `ζ_K`
 
-### 4.1 Trudgian's zero count
+### 4.1 The explicit Riemann–von Mangoldt formula
+
+This group bounds `N_K(T) − (T/π) log(d_K (T/(2πe))ⁿ)` for `T ≥ 1`, an end theorem of the
+roadmap, by Backlund's method; 7.3 and 7.4 use the counts of 4.2.
 
 With `N_K(T)` the symmetric zero count of the conventions, prove Trudgian's count (`trudgian2015`
 lines 25–27, Theorem 2): for `T ≥ 1`,
@@ -2050,8 +2060,7 @@ lemma with `M` from 1.1 at the base point `c = 1 + η' + iT`, and pass back to `
 *Needs:* ZerosOfLFunctions 4.1, 4.2, 6.5, 7.1, 7.2, 7.3; 1.1; ExplicitZetaBounds §5.1 (Backlund's
 lemma), §§2.1, 2.5; LFunctions Layer 3.
 
-### 4.2 Hasanalizade–Shen–Wong's zero count
-
+**4.2 Hasanalizade–Shen–Wong's zero count.**
 Prove Hasanalizade–Shen–Wong's count (`hasanalizadeshenwong2022` lines 52–54, Theorem 1.1): for
 `T ≥ 1`,
 `| N_K(T) − (T/π) log(d_K (T/(2πe))ⁿ) + r₁/4 | ≤ 0.22737 log(d_K (T+2)ⁿ/(2π)ⁿ) + 23.02528 n + 4.51954`,
@@ -2072,7 +2081,11 @@ lemma and the term `r₁/4` kept from the gamma factors; the corollary absorbs `
 
 *Needs:* 4.1's inputs.
 
-### 4.3 Real zeros
+### 4.3 Real zeros and Stark-like regions
+
+This group limits the zeros of `ζ_K` near `1`: at most one, real and simple, in Stark's region and
+in the Stark-like regions, at most `m` real zeros near `1`, and none of odd multiplicity for odd
+Galois fields; 4.7–4.10, 5.6 and 7.3 use 4.3, and 4.8 also uses 4.4.
 
 Prove Stark's one-zero lemma (`louboutin2017` lines 25–26 and `louboutin2015ijnt` lines 27–28):
 for `n ≥ 2`, `ζ_K` has at most one zero `ρ = β + iγ` with `β > 1 − 1/(4 log d_K)` and
@@ -2126,8 +2139,7 @@ does not change sign.
 *Needs:* ZerosOfLFunctions 5.6, 6.4(4d), 6.5; LFunctions Layer 3; 1.1a; AnalyticNumberTheoryPartI
 §2.39 (for the corollary); Mathlib `abs_discr_ge`.
 
-### 4.4 Louboutin's Stark-like regions
-
+**4.4 Louboutin's Stark-like regions.**
 Define the Stark-like region `S_K(c, d) = {s | Re s > 1 − c/log d_K ∧ |Im s| ≤ d/log d_K}` for
 `n ≥ 2`, Louboutin's root `S₀` as the unique root in `[0, 1]` of `P(S) = S⁴ + 2S³ − 2S² − 4S + 2`
 (`louboutin2017` lines 31–34, where the interval is printed as `[0, √2]`, which contains a second
@@ -2162,7 +2174,11 @@ quartic equation for `S₀` arising from optimising the comparison point.
 
 *Needs:* 4.3's inputs; Mathlib `Polynomial`, the intermediate value theorem.
 
-### 4.5 Kadiri's explicit regions
+### 4.5 Zero-free regions by de la Vallée Poussin's method
+
+This group gives regions with no zero for `|t| ≥ 1` and at most one zero for small `|t|`, from a
+nonnegative cosine polynomial with Stechkin's difference; 4.8 runs their argument with two
+changes, 4.10 uses 4.5, 7.3 uses 4.6, and 7.4 uses both.
 
 Prove Kadiri's regions (`kadiri2012` lines 79–82, Theorem 1.1), under
 *KadiriDedekindPolynomialCertificate*: there is an absolute `D₀` such that for `d_K ≥ D₀`, `ζ_K` has
@@ -2195,8 +2211,7 @@ constants).
 *Needs:* ZerosOfLFunctions 5.6, 6.1, 6.4(4d), 6.5; ExplicitZetaBounds §0.5
 (*IsAdmissibleCosinePolynomial*); *KadiriDedekindPolynomialCertificate*; 1.1a; LFunctions Layer 3.
 
-### 4.6 Lee's refinement
-
+**4.6 Lee's refinement.**
 Prove Lee's region (`lee2021zerofree` lines 103–105, Theorem 1, arXiv v3), under
 *MossinghoffTrudgianF16Certificate*: for every number field `K` and `|t| ≥ 1`, `ζ_K` has no zero
 with `σ ≥ 1 − 1/(12.2411 log d_K + 9.5347 n log|t| + 0.05017 n + 2.2692)`; and Lee's one-zero region
@@ -2519,7 +2534,10 @@ ExplicitZetaBounds (§§0.4b, 0.5, 2.1, 2.5, 5.1, 7.9);
 
 ## Layer 5: class numbers
 
-### 5.1 The `h_K R_K` bounds
+### 5.1 Upper bounds for `h_K R_K`
+
+This group turns upper bounds for `κ_K` into upper bounds for `h_K R_K` through the class-number
+formula, for every field and for abelian fields; 5.6 uses the route of 5.2.
 
 Each bound of this section is a residue bound of Layer 3 or of AnalyticNumberTheoryPartI §2.15
 multiplied by the class-number formula, which is Mathlib's definition
@@ -2546,8 +2564,7 @@ multiplied by the class-number formula, which is Mathlib's definition
 *Needs:* Mathlib `dedekindZeta_residue_def`, `card_add_two_mul_card_eq_rank`;
 AnalyticNumberTheoryPartI §2.15; 3.1; 3.2.
 
-### 5.2 Abelian fields
-
+**5.2 Abelian fields.**
 Prove Louboutin's abelian bound (`louboutin2005` lines 42–43, with Ramaré's bounds): for `K/ℚ`
 abelian of degree `n ≥ 2`,
 `h_K R_K ≤ (w_K/2)(2/π)^{r₂} (log d_K/(4n−4) + (5 − 2 log 6)/4)^{n−1} √d_K`, and its totally real
@@ -2577,7 +2594,10 @@ every character is even and `w_K = 2`, `r₂ = 0`.
 (conductor–discriminant); ExplicitZetaBounds §9.1;
 AnalyticNumberTheoryPartI §2.5; Mathlib `IsAbelianGalois`, `Real.geom_mean_le_arith_mean_weighted`.
 
-### 5.3 Bordellès' regulator-free bounds
+### 5.3 Regulator-free class-number bounds
+
+This group bounds `h_K` through the class-number lemma of 0.3 and divisor-sum bounds, in general
+and for cubic and quartic fields; these bounds are end theorems of the roadmap.
 
 Prove Bordellès' bounds (`bordelles2002` lines 185–204, Theorems 5.1–5.3; `bordelles2006`
 lines 158–161, Theorem 2.2), where in the first, second and fifth forms `b` is any real admissible
@@ -2633,8 +2653,7 @@ least `0.236`), while `n = 1` is `h_ℚ = 1`. The first form cannot serve here: 
 ExplicitMultiplicativeFunctions §7.5 (with *PiltzRangeVerified*, *BordellesPiltzRangeVerified*), for
 the first, second and fifth forms only; Mathlib `abs_discr_ge'`.
 
-### 5.4 Cubic and quartic fields
-
+**5.4 Cubic and quartic fields.**
 Prove the quartic bound (`cullyhugilltrudgian2021` Corollary 1, from display (8) of its
 Theorem 1, in the numbering of arXiv:1911.07369 v1, where the corollary's display writes `x` for
 `b`; consumed as the quartic divisor-sum bound of ExplicitMultiplicativeFunctions §7.5): for
@@ -2673,7 +2692,10 @@ Prove the cubic bound (0.3 with Tudzi's remainder of ExplicitMultiplicativeFunct
 *Needs:* 0.1, 0.3; ExplicitMultiplicativeFunctions §§7.5, 7.9 (with
 *DivisorPowerRangeVerified*, *PiltzRemainderRangeVerified*).
 
-### 5.5 Relative class numbers: the upper bound
+### 5.5 Relative class numbers of CM-fields
+
+This group bounds `h⁻_K` from above and from below through the relative class-number formula of
+0.4; these bounds are end theorems of the roadmap.
 
 Prove Louboutin's bound for `L(1, η_K)` and `relativeClassNumber_le` (`louboutin2000`
 Corollary 3, quoted at `louboutin2003` lines 603–605, where it is cited as [Lou7, Corollary 3]):
@@ -2694,8 +2716,7 @@ for `Λ_K` and `Λ_{K⁺}` with `Λ_K = Λ_{K⁺} Λ(·, η_K)`, the odd complet
 
 *Needs:* 0.4; AnalyticNumberTheoryPartI §2.15a, §2.22; LFunctions Layer 5.
 
-### 5.6 Relative class numbers: lower bounds
-
+**5.6 Relative class numbers: lower bounds.**
 Define `v_n = (n/(n−1))^{n−1}` for `n ≥ 2` and `v_1 = 1`, with `2 ≤ v_n < e` for `n ≥ 2`
 (`louboutin2003` line 282). For a totally real abelian field `k` of degree `n`, define
 `B_k = ∏_{1 ≠ χ ∈ X(k)} (log f_χ)/2` over the nontrivial primitive characters of `k`
@@ -2885,7 +2906,10 @@ ExplicitMultiplicativeFunctions §§7.5, 7.9; ExplicitZetaBounds §9.1.
 
 ## Layer 6: least primitive roots
 
-### 6.1 Vinogradov's sieve identity
+### 6.1 Sieve inputs for primitive roots
+
+This group provides Vinogradov's identity for the generators of a finite cyclic group and the
+interval counts behind the Burgess-type argument; 6.3 uses both, and 6.4 and 6.5 use 6.1.
 
 Prove Vinogradov's identity for generators: for a finite cyclic group `G` of order `m` and
 `x ∈ G`,
@@ -2912,8 +2936,7 @@ gives the Möbius coefficients.
 *Needs:* Mathlib `IsCyclic`, `MonoidHom`, `orderOf`, `ArithmeticFunction.moebius`, `Nat.totient`,
 character orthogonality for finite abelian groups.
 
-### 6.2 Interval counts
-
+**6.2 Interval counts.**
 With `S(X) = X Σ_{q ≤ X} φ(q)/q − Σ_{q ≤ X} φ(q)` and `T(X) = Σ_{q ≤ X} φ(q)`
 (`mcgowntrudgian2020` lines 284–297), prove McGown–Trudgian's interval count (`mcgowntrudgian2020`
 lines 201–234, Proposition 3): under *McGownTrudgianMoebiusChecks* and the finite verifications
@@ -2960,7 +2983,10 @@ for `X ≥ 2` (lines 300–353), whose initial ranges are *McGownTrudgianMoebius
 for `Σ_{d ≤ X} μ(d)/d`, `Σ_{d > X} μ(d)/d²`, `Σ_{d ≤ X} μ²(d)` and `Σ_{d ≤ X} μ²(d)/d`, with the
 finite verifications of its Layer 0.7 named above).
 
-### 6.3 The least primitive root modulo `p`
+### 6.3 The least primitive roots modulo `p`
+
+This group bounds `g(p)` for a prime `p`, and under `GRHMod p` also `ĝ(p)`, with the end theorems
+`g(p) < p^{5/8}` and Grosswald's conjecture under `GRHMod p`; 6.5 takes `e`, `s`, `δ` as in 6.3.
 
 For integers `0 ≤ s < ω` put `δ_{ω,s} = 1 − Σ_{ω−s < i ≤ ω} 1/q_i`: when `e` is the product of the
 `ω − s` smallest primes dividing `p − 1` (so `2 ∣ e`) and `ω(p − 1) = ω`, the `s` primes dividing
@@ -3029,8 +3055,7 @@ hypotheses, `g(p) < √p − 2` for every prime `p > 409` outside `(10¹⁶, 10�
 ExplicitCharacterSumsAndSieves §4.1; ExplicitMultiplicativeFunctions §9.1 (with
 *PrimorialTableVerified*); Mathlib `ArithmeticFunction.cardDistinctFactors`.
 
-### 6.4 Grosswald's conjecture under GRH
-
+**6.4 Grosswald's conjecture under GRH.**
 Write `c(p, x) = (2/3)(1 + 2/√x + 3/x^{3/2})(1 + 5/(3 log p)) + (log x + 2)/(√x log p)` for Bach's
 constant (`mcgowntrevinotrudgian2016` lines 74–76), for a prime `p` and real `x ≥ 1`.
 
@@ -3262,7 +3287,11 @@ exceptional zero appears in the error terms.
 `TauCeti.primesLE`, `TauCeti.LFunctions.mertensConstant`; Mathlib `dedekindZeta_residue_def`,
 `Ideal.absNorm`.
 
-### 7.2 Prime ideals and the Chebotarev density theorem under GRH
+### 7.2 The explicit Chebotarev density theorem and the least prime ideal
+
+This group gives the Chebotarev density theorem and the least prime ideal with a given Frobenius
+class with numerical constants, under the generalized Riemann hypothesis or from the zero counts,
+regions and repulsion of Layer 4; these are end theorems of the roadmap.
 
 Prove Grenié–Molteni's theorem (`greniemolteni2019` Theorem 1.1): for a Galois extension `L/K` of
 number fields with group `G` and a conjugacy class `C`, under `DedekindERH L`,
@@ -3313,8 +3342,7 @@ first clause of `Buthe2016Range`, carried as a hypothesis as every finite verifi
 *Schoenfeld1976Range*) and §1.3 (`Buthe2016Range`); *GrenieMolteniSmallCases*; Tau Ceti
 `frobeniusPsi`, `frobeniusPrimeCount`; Mathlib `IsArithFrobAt`, `ArithmeticFunction.vonMangoldt`.
 
-### 7.3 An unconditional effective Chebotarev theorem
-
+**7.3 An unconditional effective Chebotarev theorem.**
 For a Galois extension `L/K` with group `G`, a conjugacy class `C` and `n_L ≥ 2`, write
 `Δ_L = d_L^{1/n_L}`, `λ_L = max((log Δ_L)² n_L², (log Δ_L) Δ_L √n_L)` and
 `E_C(x) = | ψ_C(x) − (|C|/|G|) x | / ((|C|/|G|) x)`. Prove Das–Kadiri–Ng's theorem
@@ -3356,8 +3384,7 @@ where the term `x^{β₀−1}/β₀` is present only if `ζ_L` has a zero `β₀
 ZerosOfLFunctions 5.6, 6.4; 1.1a; Tau Ceti `frobeniusPsi`; Mathlib
 `IsArithFrobAt`.
 
-### 7.4 The least prime ideal
-
+**7.4 The least prime ideal.**
 Prove `leastPrimeIdeal_ahnKwon` (`ahnkwon2019` Theorem 1): for a Galois extension `L/K` of number
 fields with `L ≠ ℚ` and a conjugacy class `C` of `Gal(L/K)`, there is a prime `𝔭` of `K` in Tau
 Ceti's `frobeniusPrimeSet K L C` (unramified in `L`, with `σ_𝔭 = C`) whose absolute norm `N𝔭` is a
