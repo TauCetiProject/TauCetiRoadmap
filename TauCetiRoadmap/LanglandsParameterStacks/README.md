@@ -307,7 +307,9 @@ SmoothRepresentationsOfLocalGroups SR.6.1; ReductiveGroupsPartII RG2.5; ClassFie
 
 Finite wild cutoffs reduce the parameter space to finitely presented equations, whose union over all cutoffs is the full scheme. Flatness, the complete-intersection property and the dimension bound come first; the derived parameter stack and its classicality follow; the cotangent complex then gives deformation theory, the Weil–Deligne comparison and the singularity stack with its support theory.
 
-### 1.1 ℓ-adic representability of finite-wild parameters
+### 1.1 Finite-wild parameter schemes and their clopen union
+
+These two parts identify the supplied integral cocycle schemes with finite-wild condensed parameters and assemble them into the all-depth parameter scheme with its clopen finite-wild pieces. The flatness theorem 1.5 and the coarse quotients of 2.1 consume both; 1.8, 4.4 and 4.9 use the scheme of 1.1.
 
 Use SmoothRepresentationsOfLocalGroups SR.6.1, *One integral finite-wild cocycle scheme*, for `Z¹(W,Ĥ)` over `ℤ[1/p]`, with its universal cocycle, point equivalence and gauge coaction (Dat–Helm–Kurinczuk–Moss, §1, pp.4–7, §4.1, Theorem 4.1, pp.29–30; Fargues–Scholze, proof of Theorem VIII.1.3, p.280).
 
@@ -324,8 +326,7 @@ Use SmoothRepresentationsOfLocalGroups SR.6.1, *One integral finite-wild cocycle
 - For the unramified action with arithmetic Frobenius inverting `G_m`, the tame scheme is `G_m × μ_{q+1}`: its tame coordinate `b` satisfies `b⁻¹ = b^q`. For `q = 3` in characteristic `2`, `(b − 1)⁴ = 0` but `(b − 1)² ≠ 0`.
 - Its `ℤ_ℓ`-points on `ℤ_ℓ`-algebras agree with the finite-wild condensed parameters of 0.3.
 
-### 1.2 Clopen finite-wild pieces
-
+**1.2 Clopen finite-wild pieces.**
 Prove that the parameter scheme `Z¹(W_E, Ĥ)` over `ℤ_ℓ` is the filtered union of the finite-wild pieces `Z¹(W_E/P, Ĥ)`, that for `P′ ⊂ P` the `P`-piece is open and closed in the `P′`-piece, and that the union is a disjoint union of affine schemes of finite type after separating the clopen wild-kernel strata: the condition `φ(γ) = 1` is clopen for `γ` of finite `p`-power order because `p` is invertible, finitely many such conditions cut out the `P`-piece, and every parameter has an open wild kernel (Fargues–Scholze, proof of Theorem VIII.1.3, pp.279–280). Use SmoothRepresentationsOfLocalGroups SR.6.2, *Finite wild strata and reductive centralizers*, for the fixed-depth wild strata after integral-closure base change, with their smooth restriction orbits and centralizers (Dat–Helm–Kurinczuk–Moss, Theorem 3.1 and §4.1, equations (4.1)–(4.2)); distinguish these from varying the depth. *Needs:* SmoothRepresentationsOfLocalGroups SR.6.2, *Finite wild strata and reductive centralizers*; 0.3; 1.1; ReductiveGroupsPartII RG2.2.3.
 
 **Checks.**
@@ -334,7 +335,9 @@ Prove that the parameter scheme `Z¹(W_E, Ĥ)` over `ℤ_ℓ` is the filtered un
 - For `P′ = P` the inclusion is the identity.
 - For trivial `Ĥ` every piece is the base.
 
-### 1.3 Weil cohomology: amplitude and Euler characteristic
+### 1.3 Expected dimension and flatness of parameter schemes
+
+These parts compute the amplitude and Euler characteristic of Weil cohomology, bound the fibre dimension of the finite-wild cocycle schemes, and deduce that these schemes are flat complete intersections of the expected dimension. Classicality 1.9 consumes 1.3 and 1.5, duality 1.10 consumes 1.3, and 1.6, 1.16 and 5.2 use 1.5.
 
 For a free `Λ`-module `M` of finite rank with a condensed action of `W_E` in the relatively discrete convention, prove that `RΓ(W_E, M)` is a perfect complex of `Λ`-modules with amplitude in `[0, 2]` and Euler characteristic zero; for field coefficients, `dim H⁰ − dim H¹ + dim H² = 0`. The proof kills an open wild kernel (exact invariants for a finite `p`-group), then resolves tame ℓ-primary inertia and the Frobenius `ℤ` each by a two-term complex; the total complex has amplitude `[0, 2]` and alternating rank zero, and the same calculation on a finite-wild dense `W` gives the derived deformation complex (Fargues–Scholze, the dimension argument in the proof of Theorem VIII.1.3 and Proposition VIII.2.2, pp.280–282). Cohomology is continuous (condensed), not abstract cohomology of `W_E` with its topology forgotten. *Needs:* 0.4; ClassFieldTheory layer 9; LocalFieldsRamification layer 4; EnhancedDerivedSheaves E5 *presentability*; Tau Ceti `TauCeti.ContinuousCohomology.continuousCohomologyFunctor`; Mathlib `Module.Free`.
 
@@ -344,8 +347,7 @@ For a free `Λ`-module `M` of finite rank with a condensed action of `W_E` in th
 - For `ℚ_ℓ(1)`, `H⁰ = 0`.
 - The alternating sum is zero in both cases.
 
-### 1.4 Unipotent classes and the Frobenius–tame dimension bound
-
+**1.4 Unipotent classes and the Frobenius–tame dimension bound.**
 For a smooth affine finite-type group `H` over `𝔽̄_ℓ` with reductive identity component, first prove that it has finitely many unipotent conjugacy classes. The connected finiteness input and its use here are stated in the proof of Fargues–Scholze Lemma VIII.1.4, p.281, which credits Lusztig 1976. For the disconnected step, descend `H` to a finite subfield and use Fulman–Guralnick 2012, Corollary 2.6, pp.3028–3029; that corollary assumes a finite-field model and transfers finiteness from the identity component. Let `σ` act on `ℤ/ℓ^mℤ` by multiplication by `q`. Prove that the scheme `Hom(ℤ/ℓ^mℤ ⋊ σ^ℤ, H)` has dimension at most `dim H`: stratify by the unipotent class of the image of the generator; on a stratum the generator has `dim H − dim Z_H(x)` choices and the choices of `σ`, when nonempty, form a torsor under `Z_H(x)`. Deduce that every geometric fibre of the finite-wild cocycle scheme has dimension at most `dim Ĥ`, after stratifying the finite prime-to-ℓ part of inertia and replacing `Ĥ` by the fixed group of that finite group, whose identity component is reductive by ReductiveGroupsPartII RG2.2.3 *finite-group-fixed-points-reductive* (Fargues–Scholze, Lemma VIII.1.4 and the end of the proof of Theorem VIII.1.3, pp.280–281). Layer 4 is not used here. *Needs:* ReductiveGroupsPartII RG2.2.3, RG2.5; ReductiveGroups layer 7; 1.1.
 
 **Checks.**
@@ -354,8 +356,7 @@ For a smooth affine finite-type group `H` over `𝔽̄_ℓ` with reductive ident
 - For `H` finite the scheme is finite.
 - For any `H` the stratum where the tame generator maps to `1` has dimension exactly `dim H`, since `σ` is then arbitrary: the bound is sharp.
 
-### 1.5 Flat complete-intersection parameter schemes
-
+**1.5 Flat complete-intersection parameter schemes.**
 Use SR.6.1's flatness and relative fibre dimension `dim Ĥ` for the supplied finite-wild `Z¹(W, Ĥ)` over `ℤ[1/p]`. Prove its relative complete-intersection property, with absolute dimension `dim Ĥ + 1`, and prove that after base change to `ℤ_ℓ` these schemes represent the finite-wild parameters and their clopen union represents all condensed L-parameters; and that the quotient stack `[Z¹/Ĥ]` has relative dimension zero. The finite presentation gives a complete-intersection presentation of the expected lower bound, 1.4 gives the upper bound, and the regular-sequence criterion gives syntomicity; no condition on `ℓ` and `π₁(Ĥ)_tors` is imposed (Fargues–Scholze, Theorem VIII.1.3 and proof, pp.279–281; Dat–Helm–Kurinczuk–Moss, Theorem 4.1 and proof, pp.29–30). *Needs:* SmoothRepresentationsOfLocalGroups SR.6.1, *One integral finite-wild cocycle scheme*; 1.1; 1.2; 1.3; 1.4; DeformationAndDerivedPatchingAlgebra §§3.2–3.4; SchemeAndStackFoundations layer 1; Mathlib `Module.Flat`, `RingTheory.Sequence.IsRegular`.
 
 **Checks.**
@@ -374,7 +375,9 @@ Identify the supplied Dat–Helm–Kurinczuk–Moss discretization (arithmetic F
 - For `Ĥ = G_m` both models are `G_m × μ_{q−1}`.
 - The two dimension counts differ by one.
 
-### 1.7 Faithfully flat descent for enhanced modules
+### 1.7 Derived parameter stacks and their classicality
+
+These parts construct the derived parameter stack with its quasi-coherent and perfect categories, using faithfully flat descent of module categories, and prove that for finite-wild `W` it is the classical quotient `[Z¹(W, Ĥ)/Ĥ]`. The categories of 4.5, 4.19 and 6.1 consume 1.8, the presentation 2.8 consumes 1.9, and the cotangent complex 1.11 consumes both.
 
 For a faithfully flat map `A → B` of animated commutative rings (flat with faithfully flat `π₀A → π₀B`), construct the symmetric monoidal equivalence `Mod_A ≃ Tot Mod_{B^{⊗_A(•+1)}}`, using derived tensor products. Prove compatibility with coefficient change and refinement of covers, and descent of dualizable objects, giving the corresponding equivalence for `Perf`. Construct this for arbitrary animated coefficient rings and faithfully flat maps; finite presentation and a uniform descendability bound are not hypotheses (Lurie, *Spectral Algebraic Geometry*, Theorem D.6.3.1 and Corollaries D.6.3.3–D.6.3.4, pp.2177–2178). The proof uses the complete connective module category, flat hyperdescent, and stabilization. EnhancedDerivedSheaves E5:descent supplies the special case for descendable maps and is used with its hypotheses verified. *Needs:* EnhancedDerivedSheaves E5 *abstract*, *presentability*, *animation*; DerivedModuleAlgebra §§0.8–0.10.
 
@@ -384,8 +387,7 @@ For a faithfully flat map `A → B` of animated commutative rings (flat with fai
 - The Zariski cover `A → A[1/f] × A[1/g]` with `(f,g) = A` recovers gluing on the intersection, including the perfect subcategories.
 - For `𝔽_p → 𝔽_p[ε]/ε²`, the map is faithfully flat and descent recovers `Mod_{𝔽_p}`; reduction back to `𝔽_p` is not flat, so the theorem cannot be applied in the opposite direction.
 
-### 1.8 Derived parameter stacks
-
+**1.8 Derived parameter stacks.**
 Construct the derived mapping stack `Map_{BQ}(BW,B(Ĥ ⋊ Q))` over `BQ` for finite-wild discrete `W`, together with its fibre framed at the base point, the derived crossed-cocycle functor. Construct its enhanced quasi-coherent category as the totalization of module categories on the action-groupoid nerve, and define its perfect category by chartwise dualizability (Fargues–Scholze, Proposition VIII.2.1 and proof, p.281; Zhu, §3.1, Remark 3.1, Proposition 3.7 and setup, pp.31–35).
 
 - Prove that forgetting the framing is the quotient by `Ĥ`, and that on classical rings its points are ordinary crossed cocycles modulo gauge.
@@ -404,8 +406,7 @@ Construct the derived mapping stack `Map_{BQ}(BW,B(Ĥ ⋊ Q))` over `BQ` for fin
 - For the quotient of `Ĥ` by its free left-translation action, the totalization is `Mod_Λ` and its perfect part is `Perf(Λ)`, as for the point quotient.
 - For `BĤ`, a module without coherent action descent data is not an object of `QCoh(BĤ)`; dropping the nerve would wrongly give only `Mod_Λ`.
 
-### 1.9 Classicality of the derived cocycle scheme
-
+**1.9 Classicality of the derived cocycle scheme.**
 Prove that the derived framed cocycle scheme of a finite-wild `W` is classical and equals the base change of 1.1's scheme to `ℤ_ℓ`, and that the unframed derived stack equals `[Z¹(W, Ĥ)/Ĥ]`. The tangent complex computed by Weil cochains has Euler characteristic zero for the unframed stack; the classical scheme is a flat complete intersection of that expected dimension (1.5), so the derived zero-locus presentation has no higher homotopy; Zhu's strong-continuity comparison identifies the continuous and discrete derived moduli problems (Fargues–Scholze, Proposition VIII.2.1 and proof, p.281; Zhu, Proposition 3.7, Lemma 3.9 and proofs, pp.32–35). Equality on classical points alone is weaker. *Needs:* 1.8; 1.5; 1.3; DerivedModuleAlgebra §§0.4, 0.8–0.10; EnhancedDerivedSheaves E5 *animation*.
 
 **Checks.**
@@ -453,7 +454,9 @@ Let `G` be a split connected reductive group over a field `k`, with split maxima
 - In `sl₂` over characteristic `2`, the degree-two numerical test gives `q²−1=0` for every odd `q`; the trace form has the nonzero identity matrix in its radical. The hypotheses exclude this failed pairing.
 - Over `ℚ_ℓ[ε]/(ε²)` for `G_m`, the section `ε` has zero image at every geometric point but its degree-one invariant is `ε ≠ 0`; it does not lie in the scheme-theoretic zero fibre. For `gl₂`, `diag(ε,−ε)` has trace and determinant both zero, hence does lie in that fibre.
 
-### 1.13 Weil–Deligne parameters
+### 1.13 Weil–Deligne parameters and the monodromy comparison
+
+These parts provide the Weil–Deligne parameters and the monodromy comparison owned here: the definition, quasi-unipotence with the nilpotent logarithm and exponential on parameter families, and the rational isomorphism 1.15, which consumes the other two.
 
 Over a `ℚ_ℓ`-algebra `Λ`, define a Weil–Deligne parameter as a pair `(φ₀,N)`: `φ₀ : W_E → Ĥ(Λ)` a crossed cocycle trivial on an open subgroup of inertia, `N` in the scheme-theoretic nilpotent cone of `Lie(Ĥ) ⊗ Λ`, and `Ad(φ₀(w))(w·N)=q^{−deg(w)}N` for the geometric degree (Fargues–Scholze, Definition VIII.2.4, p.282).
 
@@ -472,8 +475,7 @@ Nilpotence here is in the Lie algebra, distinct from the dual nilpotent cone of 
 - Gauge by `h` takes `(φ₀,0)` to `(h·φ₀,0)`.
 - In split `GL₂` with `q = 3`, `N = E₁₂` and `φ₀(σ) = diag(1/3, 1)`, conjugation sends `N` to `N/3 = q⁻¹ N`, compatible with `σ⁻¹ τ σ = τ³`; the reciprocal matrix `diag(3, 1)` gives `3N` and fails the condition.
 
-### 1.14 Quasi-unipotence and nilpotent logarithm/exponential
-
+**1.14 Quasi-unipotence and nilpotent logarithm/exponential.**
 For a finite free module over a commutative `ℚ_ℓ`-algebra, use `IsNilpotent.exp`, its finite-sum formula and ring-homomorphism naturality. Use the polynomial logarithm, inverse identities and subgroup comparison from ReductiveGroups layer 5P, and the polynomial nilpotent/unipotent scheme comparison of NilpotentOrbits N5.0–N5.2 at its complex-base scope. Extend these to the parameter families as follows (Fargues–Scholze, proof of Theorem VIII.1.3, pp.279–280, and construction before Proposition VIII.2.5, p.282; Zhu, §3.1, Lemma 3.10, pp.35–36).
 
 - Descend the scheme comparison to the rational split model and base change to `ℚ_ℓ`-algebras. For a faithful closed embedding `Ĥ → GL_N`, identify the scheme-theoretic nilpotent cone with the fixed unipotent variety in `Ĥ`, compatibly with the embedding; retain the defining ideals on nonreduced test algebras.
@@ -489,8 +491,7 @@ For a finite free module over a commutative `ℚ_ℓ`-algebra, use `IsNilpotent.
 - For `U = 1+E₁₂+E₂₃` over `ℚ₂`, `log U = E₁₂+E₂₃−E₁₃/2`; an integral statement would fail.
 - For a finite-order tame matrix, a power killing its semisimple part has logarithm zero; changing that power to a multiple leaves the normalized logarithm unchanged.
 
-### 1.15 Monodromy and the Weil–Deligne comparison
-
+**1.15 Monodromy and the Weil–Deligne comparison.**
 For a chosen tame coordinate and Frobenius, prove that there is an `Ĥ`-equivariant isomorphism `Z¹(W_E, Ĥ)_{ℚ_ℓ} ≅ Par_WD` onto the scheme of Weil–Deligne parameters, constructed as follows: on a small enough ℓ-primary tame inertia subgroup `φ(x) = exp(xN)`; a unipotent power of `τ` gives `N = m⁻¹ log φ(τ^m)`; and `φ₀ = φ · exp(−t_ℓ(·)N)` has finite inertia image. This gives the algebraic monodromy morphism to the nilpotent cone of `Lie(Ĥ)`. Prove independence of the sufficiently divisible `m`, equivariance under gauge, and that changing the tame coordinate scales `N` accordingly (Fargues–Scholze, Proposition VIII.2.5 and the construction before it, p.282; Zhu, §3.1, Lemma 3.10, pp.35–36, numbered Lemma 3.1.8 in the earlier version cited by Fargues–Scholze). Quasi-unipotence and the logarithm and exponential are supplied by 1.14 after a faithful embedding of `Ĥ ⋊ Q`. The comparison is not integral: `log` and `exp` need `ℚ_ℓ`. *Needs:* 1.13; 0.4; 1.14; ReductiveGroupsPartII RG2.5.
 
 **Checks.**
@@ -499,7 +500,9 @@ For a chosen tame coordinate and Frobenius, prove that there is an `Ĥ`-equivari
 - The special representation `Sp(2)` of `GL₂` has `N ≠ 0` with `Ad(φ₀(σ))(N) = q⁻¹N`.
 - There is no general integral logarithm: for `ℓ = 2`, the unipotent `GL₃` matrix `U = 1 + E₁₂ + E₂₃` has `log U = E₁₂ + E₂₃ − E₁₃/2`, outside `M₃(ℤ₂)`.
 
-### 1.16 Singularities of parameter stacks
+### 1.16 Singularities and singular support of parameter stacks
+
+These parts construct the singularity stack and the dual nullcone, the Hochschild operators that give singular support of parameter complexes, and the nilpotence of singularity fibres. Singular support is the Layer 1 input of PrismaticCohomology and the coherent-sheaf programme listed under downstream consumers.
 
 For `X=[Z¹(W_E,Ĥ)/Ĥ]` define the relative singularity stack over `ℤ_ℓ` by gluing the affine charts with coordinate algebra `Sym_B H¹(L_{B/ℤ_ℓ}^∨)` for syntomic `Spec B → X`; this represents `T ↦ H^{−1}(L_{B/ℤ_ℓ} ⊗_B T)`. Define the dual nullcone as the closed locus of covectors whose geometric orbit closure contains `0`, and define nilpotent singular support of a coherent complex as support in its pullback (Fargues–Scholze, §VIII.2.2, Definitions VIII.2.6 and VIII.2.8, pp.282–285).
 
@@ -521,8 +524,7 @@ The general construction for syntomic maps over regular noetherian bases is part
 - On the split tame torus component with `q = 3` and `ℓ = 2`, the residue sheaf at the trivial parameter, pushed forward from its residual gerbe, has the full singularity line as support. This line contains nonzero covectors, while the dual nilpotent cone is zero, so the sheaf does not have nilpotent singular support.
 - For split `GL₂` over a characteristic-zero `ℤ_ℓ`-field, at the parameter with trivial inertia and arithmetic Frobenius `diag(q,1)`, the structure sheaf of the residual gerbe, pushed forward to `X`, is nonperfect but has nilpotent singular support. Its singular support is the full obstruction line, contained in the dual nilpotent cone; in a transverse formal chart the singularity is `uv = 0`.
 
-### 1.17 Hochschild operators and singular support of parameter complexes
-
+**1.17 Hochschild operators and singular support of parameter complexes.**
 On an affine syntomic chart `B` over a regular noetherian base `R` (in particular `R=ℤ_ℓ`), construct the map `H¹(L_{B/R}^∨) → HH²(B/R)` from commutative to associative square-zero extensions. For a complex `N`, construct the action `HH^*(B/R) → Ext^*_B(N,N)` by tensoring bimodule endomorphisms with `N` (Fargues–Scholze, Theorems VIII.2.7 and VIII.2.9 and Corollary VIII.2.10, pp.283–284; Gulliksen, Theorem 3.1; Arinkin–Gaitsgory, Theorem 4.2.6 and Appendix D).
 
 - Prove the composite operators `H¹(L^∨) → Ext²_B(N,N)` are natural in `N`, preserve the identity and cup product through the Hochschild action, and commute with restriction to the charts used for descent.
@@ -537,8 +539,7 @@ On an affine syntomic chart `B` over a regular noetherian base `R` (in particula
 - Over the singular hypersurface `k[x, y]/(xy)` the residue field at the origin has nonzero singular support and is not perfect.
 - Not all of `HH²` comes from `H¹(L^∨)` (for a smooth polynomial ring in two variables the map is not surjective onto `HH²`).
 
-### 1.18 Nilpotence of singularity fibres
-
+**1.18 Nilpotence of singularity fibres.**
 At `φ` over a `ℤ_ℓ`-field `L`, prove that the fibre of the relative singularity stack is contained in the dual nilpotent cone if either `L` has characteristic zero, or `ℓ ∤ q^{en} − 1` for every degree `e` of a homogeneous generator of the Chevalley invariants, where `n` is the residue degree of the extension cutting out the action. Use 1.12 for the homogeneous coadjoint invariants, their degrees and their zero-fibre criterion. A covector fixed by the Tate-twisted coadjoint action is conjugate to `q^n` times itself after the pinned action is killed, so an invariant of degree `e` satisfies `f(v)=q^{en}f(v)`. Thus all positive-degree invariants vanish when `q^{en} − 1` is invertible (Fargues–Scholze, Proposition VIII.2.11 with Remarks VIII.2.12–VIII.2.13, pp.284–285). This is an inclusion, not an equality, and nothing is asserted in the excluded case. *Needs:* 1.16; 1.12; ReductiveGroupsPartII RG2.5; ClassFieldTheory layer 9.
 
 **Checks.**
@@ -578,7 +579,9 @@ Form the quotient piece by piece; the infinite union is not made affine. Finite 
 - For `C₂` acting on `ℤ[x]` by `x ↦ −x` the invariants are `ℤ[x²]`; after reduction mod `2` the element `x` is invariant but not in the image of `𝔽₂ ⊗ ℤ[x²]`, so the base change map exists and is not surjective for the non-flat `ℤ → 𝔽₂`.
 - For `Γ = ℤ`, `Ĥ = SL₂` over a field of characteristic zero, the unipotent `U = [[1, 1], [0, 1]]` and the identity have the same image in the coarse quotient (the curve `[[1, t²], [0, 1]]` is conjugate to `U` by `diag(t, t⁻¹)` for `t ≠ 0`), although they are not conjugate.
 
-### 2.2 Reductive quotients over fields and DVRs
+### 2.2 Reductive invariant theory and semisimple parameters
+
+These parts extend the quotient and complete-reducibility packages of ArithmeticGaloisRepresentations §1.11 to nonintegral schemes and generalized reductive groups, and define semisimple parameters. The closed-orbit theorem 2.6 and the reconstruction 3.3 consume 2.2, 2.4 and 2.5; 3.5, 4.24 and 4.25 use 2.2, and 4.23 uses 2.4.
 
 Consume ArithmeticGaloisRepresentations §1.11, *Reductive quotients over fields and DVRs*, for a connected reductive group over a field acting on an integral affine variety, and for a reductive group scheme over an excellent DVR `O` acting on an integral affine flat `O`-scheme of finite type. Use its finite generation, affine universal property, normality, closed-orbit classification, separation of invariant closed subsets and flat base change. Apply this package to the integral parameter pieces of Layer 1.
 
@@ -592,8 +595,7 @@ Extend finite generation, closed images and separation of invariant closed subse
 - For that action, the invariant open `U = D(xy − 1)` contains the closed orbit `{0}` and is already an invariant principal neighbourhood, with quotient `D_{𝔸¹}(t − 1)`.
 - A trivial action on `Spec k[ε]/(ε²)` has the same nonreduced quotient; finite generation and the geometric-orbit assertions do not require an integral source.
 
-### 2.3 Complete reducibility and strong reductivity
-
+**2.3 Complete reducibility and strong reductivity.**
 Use `IsGCompletelyReducible`, `IsAbsolutelyGCompletelyReducible`, their conjugacy invariance and the `GL(V)` semisimplicity comparison from ArithmeticGaloisRepresentations §1.11, *Complete reducibility and closed tuples*. For connected reductive `G` over algebraically closed `k` and closed `H ⊂ G`, define `G`-irreducibility by containment in no proper parabolic, and strong reductivity by containment in no proper parabolic of `Z_G(S)` for a maximal torus `S` of `Z_G(H)`. A homomorphism is strongly `G`-irreducible when every homomorphism with the same one-variable invariant values is absolutely `G`-irreducible (Böckle–Harris–Khare–Thorne, §3.1, Definitions 3.3 and 3.5, pp.11–12).
 
 - Prove independence of the maximal torus in strong reductivity. Apply the conditions to homomorphisms through their Zariski image and over general fields after extension to an algebraic closure.
@@ -612,8 +614,7 @@ For `J=Ĥ ⋊ Q` with arbitrary `η : Γ → Q`, test all containing R-parabolic
 - The trivial subgroup is strongly reductive and absolutely completely reducible, and is irreducible only when `G` is a torus. Over `ℂ`, the identity representation of `SL₂(ℂ)` is strongly `SL₂`-irreducible: equality of one-variable invariants gives equality of traces, so its semisimplification remains the irreducible standard module.
 - In `J = SL₂² ⋊ C₂` with the swapping action and trivial `η`, send two free generators to `(U,D)` and `(1,W)`, with `U = [[1,1],[0,1]]`, `D = diag(2,1/2)`, `W = [[0,−1],[1,0]]`. The second projection is irreducible, so no proper component-surjective parabolic contains the image, but `diag(t,t⁻¹)` in the first factor sends `U` to `1` in the limit. Its orbit is not closed, and the all-R-parabolic criterion excludes it.
 
-### 2.4 Closed tuples and Levi semisimplification
-
+**2.4 Closed tuples and Levi semisimplification.**
 For connected reductive `G` over algebraically closed `k` in any characteristic, consume ArithmeticGaloisRepresentations §1.11, *Complete reducibility and closed tuples*: the simultaneous orbit of `x ∈ G(k)ⁿ` is closed exactly when the subgroup generated by its entries has `G`-completely reducible Zariski closure `H`, and minimal-parabolic projection to a Levi gives a cocharacter limit in the unique closed orbit of the orbit closure, independent up to conjugacy of the choices. Prove the additional equivalence with strong reductivity of `H`, and that the orbit is stable (closed with stabilizer finite modulo `Z_G`) exactly when `H` is `G`-irreducible. Prove that a completely reducible `H` is irreducible in any Levi containing it of a minimal parabolic containing it, and that all minimal parabolics containing `H` have the same dimension (Böckle–Harris–Khare–Thorne, §3.1, Theorem 3.4 and Proposition 3.7, pp.12–13, after Richardson 1988 and Bate–Martin–Röhrle 2005).
 
 Extend the closed-tuple/strong-reductivity/complete-reducibility equivalence to generalized reductive `G`, with simultaneous conjugation by `G⁰(k)` and all R-parabolics and R-Levis of 2.3. Extend Levi semisimplification with uniqueness up to `G⁰(k)`-conjugacy, and prove that minimal containing R-parabolics have the same dimension and component count (Quast, §2.5, Proposition 2.15, and Lemmas 3.4–3.6, pp.10 and 12–13; Fargues–Scholze, proof of Proposition VIII.3.2, pp.286–287). No very-good-characteristic hypothesis is needed; separability is 4.23. *Needs:* ArithmeticGaloisRepresentations §1.11, *Complete reducibility and closed tuples*; 2.3; 2.2; ReductiveGroupsPartII RG2.5.
@@ -625,8 +626,7 @@ Extend the closed-tuple/strong-reductivity/complete-reducibility equivalence to 
 - A tuple generating an irreducible subgroup of `GL_n` has a stable orbit with finite stabilizer modulo the centre.
 - The tuple with trivial projection to `C₂` in `SL₂² ⋊ C₂` from 2.3 has a nonclosed `SL₂²`-orbit: its first unipotent coordinate has a cocharacter limit outside that orbit, even though no proper component-surjective parabolic contains the tuple.
 
-### 2.5 Semisimple L-parameters
-
+**2.5 Semisimple L-parameters.**
 For an algebraically closed `ℤ_ℓ`-field `L`, define a parameter into `Ĥ(L) ⋊ W_E` to be semisimple when every parabolic of the L-group containing its image has a Levi subgroup containing it; these parabolics project onto the acting group (Fargues–Scholze, §VIII.3.1, Definition VIII.3.1, p.286).
 
 - Prove the equivalent criterion: whenever a conjugate factors through a standard action-stable parabolic `P̂ ⋊ W_E`, it is `Ĥ(L)`-conjugate to its Levi projection.
@@ -679,7 +679,9 @@ For a finite-wild `W`, prove that the natural map `colim_{(n, F_n → W)} O(Z¹(
 - For `W = 1` both sides are `ℤ_ℓ`.
 - This underlying isomorphism does not by itself let rational `Ĥ`-invariants commute with the colimit in characteristic `ℓ`.
 
-### 2.9 Excursion algebras of a discrete group over a finite quotient
+### 2.9 Excursion algebras, their relations and continuous characters
+
+These parts extend the supplied finite-wild excursion algebra to discrete groups over a finite quotient, characterize its maps by the universal excursion relations, and describe its ℓ-torsion-free quotient by continuous families. The excursion operators 2.13–2.15, the pseudocharacters of 3.2, the classification 3.6 and the comparisons 5.1 and 5.3 consume 2.9 or 2.10.
 
 Use the finite-wild excursion algebra and scalar comparison of SmoothRepresentationsOfLocalGroups SR.6.3, including its universal homeomorphism, nilpotent ℓ-power-torsion kernel, rational isomorphism and good-`π₁` integral isomorphism with their stated hypotheses. Define the extension to arbitrary discrete `Γ → Q` by `Exc(Γ,Ĥ)=colim_{(n,F_n → Γ)} O(Z¹(F_n,Ĥ))^Ĥ`, using 2.7's twisted diagram (Fargues–Scholze, Definition VIII.3.4 and §VIII.3.2, pp.287–288).
 
@@ -700,8 +702,7 @@ No universal-homeomorphism assertion is made for arbitrary `Γ`.
 - For a split torus with trivial action, `δ_a(t) = 1 ⊗ t` for every coordinate, so each invariant algebra is all of `T_a`; for `Ĥ = G_m` and `Γ = ℤ`, `Exc = ℤ_ℓ[t, t⁻¹]`.
 - For `Ĥ = G_m`, inversion action of `Q = C₂` and `η : ℤ → C₂` nontrivial at the generator, gauge sends the generator coordinate `t` to `h²t`. Its coaction invariants, and hence `Exc(ℤ, G_m)`, are just `ℤ_ℓ`, including when `ℓ = 2`.
 
-### 2.10 The universal excursion relations
-
+**2.10 The universal excursion relations.**
 Use the finite-wild relations from SR.6.3 and the untwisted representing equivalence from IntegralHeckeAndGaloisDeterminants §0.7. Prove their prescribed-projection extension: algebra maps `Exc(Γ, Ĥ) → A`, for any `ℤ_ℓ`-algebra `A`, correspond to families of `ℤ_ℓ`-algebra maps `Θ_n : O((Ĥ ⋊ Q)ⁿ//Ĥ) → Map(Γⁿ, A)`, `n ≥ 1`, linear over `O(Qⁿ) → Map(Γⁿ, A)` via `Γ → Q`, compatible with reindexing of coordinates along any map of finite sets and with ordered multiplication in the fibres of maps of finite ordered sets. The empty product is the unit, and insertion of the pair `(γ, γ⁻¹)` gives inversion, so these relations recover all signed word substitutions (Fargues–Scholze, Proposition VIII.3.7 and proof, pp.288–289). No condition on `ℓ` and no continuity is involved. *Needs:* SmoothRepresentationsOfLocalGroups SR.6.3, *Finite-wild excursion algebra*; IntegralHeckeAndGaloisDeterminants §0.7, *Universal reductive pseudocharacter ring*; 2.9; 2.7; ReductiveGroupsPartII RG2.5.
 
 **Checks.**
@@ -710,8 +711,7 @@ Use the finite-wild relations from SR.6.3 and the untwisted representing equival
 - For noncommuting words the fibre products keep their order.
 - For `Ĥ = 1` the only data are the component functions of `Q`.
 
-### 2.11 Continuous torsion-free excursion characters
-
+**2.11 Continuous torsion-free excursion characters.**
 Prove that the ℓ-torsion-free quotient `Exc(W, Ĥ)_tf` is flat over `ℤ_ℓ` and represents, on flat test algebras `A`, the families `Θ_n` of 2.10 that are maps of condensed sets on `(W_E/P)ⁿ` (with `A` relatively discrete over `ℤ_ℓ`); that it is canonically independent of the dense discrete `W`; that inflation of finite-wild pieces is compatible with evaluation and with the comparison map; and that geometric field-valued characters are unchanged by removing ℓ-power torsion, which is nilpotent (Fargues–Scholze, the discussion after Proposition VIII.3.7, pp.289–290). Continuity is imposed on `W_E/P`, not on a profinite topology of the discrete `W`. Independence of the full `Exc(W, Ĥ)` at bad primes is not claimed. *Needs:* 2.10; 2.9; 0.4; 2.1; Mathlib `Module.Flat`.
 
 **Checks.**
@@ -720,7 +720,9 @@ Prove that the ℓ-torsion-free quotient `Exc(W, Ĥ)_tf` is flat over `ℤ_ℓ` 
 - Flatness over `ℤ_ℓ` is torsion-freeness.
 - The `𝔽̄_ℓ`-points of `Exc(W, Ĥ)` and of `Exc(W, Ĥ)_tf` coincide because the removed torsion is nilpotent.
 
-### 2.12 Categorical Hecke data
+### 2.12 Categorical Hecke data and excursion operators
+
+These parts define categorical Hecke data, the excursion operator of an excursion datum, and its expression through coefficient functions. The abstract centre map 2.15 consumes 2.12 and 2.14, and the representation bundles of 6.1 supply a datum of 2.12.
 
 For a `ℤ_ℓ`-linear category `C`, define a categorical Hecke datum for `Γ → Q` as, for every finite set `I`, a `Rep(Q^I)`-linear monoidal functor `Rep((Ĥ ⋊ Q)^I) → End(C)^{BΓ^I}`, natural and coherent in maps of finite sets, including unit and diagonal fusion identifications. In a stable ∞-category the functors are exact and coherent, with centre `π₀ End(id_C)`; the ordinary shadow is `CategoryTheory.CatCenter` (Fargues–Scholze, §VIII.4, setup before Theorem VIII.4.1, pp.290–291).
 
@@ -738,8 +740,7 @@ The category `C` is abstract; the geometric Hecke action is a downstream applica
 - Folding `I ⊔ I → I` identifies the external tensor product action with the tensor product action.
 - The zero stable category has a unique datum, and every excursion operator on it is zero.
 
-### 2.13 Excursion data
-
+**2.13 Excursion data.**
 Define an excursion datum `D=(I,V,α,β,(γ_i)_{i∈I})` with `I` finite, `V` a finite projective representation of `(Ĥ ⋊ Q)^I`, maps `α : 1 → V` and `β : V → 1` invariant under diagonal `Ĥ`, and `γ_i ∈ Γ`. For categorical Hecke data define its operator as `T_β ∘ (γ_i)_i ∘ T_α`, a natural endomorphism of `id_C` (Fargues–Scholze, Definition VIII.4.2, p.291).
 
 - For `f : I → J` and `γ : J → Γ`, let `p_f : (Ĥ ⋊ Q)^J → (Ĥ ⋊ Q)^I` send `(g_j)` to `(g_{f(i)})`. Prove that the operator for `p_f^*V` on the `J`-tuple `γ` equals the operator for `V` on the `I`-tuple `γ ∘ f`.
@@ -754,8 +755,7 @@ Define an excursion datum `D=(I,V,α,β,(γ_i)_{i∈I})` with `I` finite, `V` a 
 - If `α = 0` the operator is zero.
 - For an external tensor product the operator is the product `S_D S_{D′}`, and the product of scalar coefficients `2` and `3` is `6`, not `5`.
 
-### 2.14 Excursion matrix coefficients
-
+**2.14 Excursion matrix coefficients.**
 Use the coefficient function supplied by SmoothRepresentationsOfLocalGroups SR.6.3, `f_D((h_i,q_i)_i)=β((h_i,q_i)_i·α)`, with its bi-invariance and tensor identity. Relate it to the categorical operator as follows (Fargues–Scholze, proof of Theorem VIII.4.1, pp.291–292).
 
 - Identify evaluation of the coefficient function at a tuple with the creation–action–annihilation expression.
@@ -938,7 +938,9 @@ For a group with reductive identity component and component group of order prime
 - For `G = SL₂` in characteristic `2`, the module `∇_2` has a good filtration but its submodule `L(2)` (the Frobenius twist of the standard representation) does not, because `Ext¹_G(Δ_0, L(2)) ≠ 0`: good filtrations are not inherited by submodules.
 - For a positive-dimensional torus, `O(G) = k[X^*(G)]` under conjugation is an infinite direct sum of copies of `∇_0` and has a one-step good filtration under the direct-sum convention. Requiring finitely many finite-dimensional factors would exclude it. For `G = 1`, `O(G) = k` has a one-step good filtration.
 
-### 4.2 Good-filtration t-structures
+### 4.2 The separated good-filtration t-structure
+
+These parts construct the good-filtration t-structure on `Ind Perf(BG)` and prove that it is separated. The free cocycle algebras of 4.4, the criteria 4.7 and 4.10 and the fixed-group results 4.12 and 4.14–4.16 consume them.
 
 Over algebraically closed `L` of characteristic `ℓ`, let `G°` be reductive and `|π₀G|` prime to `ℓ`. Construct the good-filtration t-structure on `Ind Perf(BG)` (Fargues–Scholze, §VIII.5.1 and Definition VIII.5.4, pp.294–295).
 
@@ -956,8 +958,7 @@ Over algebraically closed `L` of characteristic `ℓ`, let `G°` be reductive an
 - For `G = C₂` over `𝔽̄₃`, `G° = 1`: the sign representation is connective but is not generated by the trivial representation. `Ind_1^{C₂} 1 = 1 ⊕ sign` supplies both components.
 - For a nonzero torus representation `V`, the object `V[−1]` sits in cohomological degree `1` and is not connective for the convention `D^{≤0}`.
 
-### 4.3 Separatedness of good filtrations
-
+**4.3 Separatedness of good filtrations.**
 Prove that the good-filtration t-structure on `Ind Perf(BG)` is separated: an object that is infinitely connective is zero, since all `RΓ(G°, Res_{G°} M ⊗ ∇_λ)` then vanish and these detect zero, using finite-index induction and its adjunction from 4.2 (Fargues–Scholze, Proposition VIII.5.5 and proof, p.295). For groups with infinite rational cohomological dimension, the standard t-structure on `Ind Perf(BG)` can fail to be separated. For tori it is separated and agrees with the good-filtration t-structure; separatedness of the good-filtration one is what justifies the later bar-construction limits. *Needs:* 4.2; ReductiveGroupsPartII RG2.5.
 
 **Checks.**
@@ -993,7 +994,9 @@ For `X=Spec A` of finite type, possibly derived, with an algebraic `G`-action, d
 - A direct summand of an induced finite complex lies in `Perf^ind`.
 - For `X = G` with conjugation and `ℓ` dividing `|π₁(G°)_tors|`, the skyscraper at the unit is not induced (4.8): the definition is not all of `Perf`.
 
-### 4.6 The induced-perfect bar criterion
+### 4.6 Induced perfectness and generation by `Perf(BG)`
+
+These parts give the bar and tensor-connectivity criteria for induced perfectness and, from them, generation by `Perf(BG)` for adjoint quotients, twisted free-group quotients and derived unit fibres when `ℓ ∤ |π₁(G°)_tors|`. The relation fibres of 4.11 consume 4.9 and 4.10, and the gerbe comparison 4.20 consumes 4.9.
 
 Prove that `M ∈ Perf(X/G)` lies in `Perf^ind(X/G)` if and only if the natural map `colim[⋯ → M ⊗_L A ⊗_L M^∨ → M ⊗_L M^∨] → M ⊗_A M^∨` is an isomorphism in `Ind Perf(BG)`, all tensor products formed there: for induced objects the augmented simplicial object has an extra degeneracy; conversely the isomorphism makes the image of `M` dualizable in `Mod_A(Ind Perf(BG))` with compact unit, hence compact and a retract of a finite induced complex. When `G°` is reductive with `|π₀G|` prime to `ℓ` and `B ⊂ G°` is a Borel subgroup, it suffices that `M|_B` be generated by `Perf(BB)`, because `Perf(BG°) → Perf(BB)` is fully faithful by Kempf vanishing and restriction to `G°` is conservative (Fargues–Scholze, Proposition VIII.5.8 and Corollary VIII.5.9, p.296). *Needs:* 4.5; 4.1; ReductiveGroupsPartII RG2.5; EnhancedDerivedSheaves E5 *presentability*; EnhancedDerivedSheaves E1.8 and SchemeAndStackFoundations §2.18; DGAInfinity layer 8.
 
@@ -1003,8 +1006,7 @@ Prove that `M ∈ Perf(X/G)` lies in `Perf^ind(X/G)` if and only if the natural 
 - For `G = 1` every perfect complex satisfies the criterion.
 - For `X = G/G` with `G = PGL_ℓ` the unit skyscraper fails it.
 
-### 4.7 Tensor-connectivity criterion for induced perfectness
-
+**4.7 Tensor-connectivity criterion for induced perfectness.**
 Assume `G°` reductive with `|π₀G|` prime to `ℓ`, that `A` has a good `G°`-filtration, and that `M ∈ Perf(X/G)` is connective for the good-filtration t-structure after forgetting the `A`-action. Prove that `M ∈ Perf^ind(X/G)` if and only if `M ⊗_A N` is connective for every such connective `N ∈ Perf(X/G)`. For the converse, 4.1's finite good filtration dimension writes the bar resolution of `M^∨` as a sequential colimit of finite colimits that become increasingly connective, and separatedness (4.3) recovers the bar criterion (Fargues–Scholze, Proposition VIII.5.10 and proof, p.297). *Needs:* 4.1; 4.2; 4.3; 4.6; ReductiveGroupsPartII RG2.5.
 
 **Checks.**
@@ -1013,8 +1015,7 @@ Assume `G°` reductive with `|π₀G|` prime to `ℓ`, that `A` has a good `G°`
 - For `M = A` both sides hold.
 - For `G` a torus the t-structure is the ordinary one and the derived tensor of the connective objects `M` and `N` is connective.
 
-### 4.8 Adjoint perfect generation and its prime restriction
-
+**4.8 Adjoint perfect generation and its prime restriction.**
 For `G` acting on itself by conjugation with `G°` reductive and `|π₀G|` prime to `ℓ`, let `i : Spec L → G` be the unit. Prove that the following are equivalent: `ℓ ∤ |π₁(G°)_tors|`; `i_* L ∈ Perf^ind(G/G)`; `Perf^ind(G/G) = Perf(G/G)`. Sufficiency reduces through central covers of order prime to `ℓ` to simply connected derived group, then builds a Borel-equivariant flag of Cartier divisors whose line bundles come from characters of `B` and applies the Borel bar criterion; the diagonal kernel is pulled back from the unit along `(g, g′) ↦ g g′⁻¹`. Necessity: a central cover with ℓ-primary kernel would force invariant functions on that kernel to be surjected onto by conjugation invariants, which contradicts their constancy on the unipotent kernel, by 4.7 (Fargues–Scholze, Proposition VIII.5.11 and proof, pp.297–299). *Needs:* 4.6; 4.7; ReductiveGroupsPartII RG2.5; EnhancedDerivedSheaves E1.8 and SchemeAndStackFoundations §2.18; SchemeAndStackFoundations layer 1.
 
 **Checks.**
@@ -1023,8 +1024,7 @@ For `G` acting on itself by conjugation with `G°` reductive and `|π₀G|` prim
 - For `G = PGL_ℓ`, `π₁ = ℤ/ℓ` and generation fails.
 - For `G = SL_n` with `ℓ | n` generation holds, since `π₁(SL_n) = 0` (the centre does not matter).
 
-### 4.9 Twisted free-group perfect generation
-
+**4.9 Twisted free-group perfect generation.**
 If `G°` is reductive and `|π₀G|` and `|π₁(G°)_tors|` are prime to `ℓ`, prove that for any action `F_n → Aut(G)`, `Perf(Z¹(F_n, G)/G)` is generated under cones and retracts by `Perf(BG)`: the diagonal kernel of the twisted `Gⁿ`-quotient is a pullback of the adjoint unit kernel of 4.8 (Fargues–Scholze, Proposition VIII.5.12 and proof, p.299). The action is twisted conjugation, not the untwisted diagonal one. *Needs:* 4.8; 1.1; EnhancedDerivedSheaves E1.8 and SchemeAndStackFoundations §2.18.
 
 **Checks.**
@@ -1033,8 +1033,7 @@ If `G°` is reductive and `|π₀G|` and `|π₁(G°)_tors|` are prime to `ℓ`,
 - For `F₁` with trivial action it is 4.8.
 - For `G = PGL_ℓ` and `F₁` it fails.
 
-### 4.10 Derived unit fibres and generation
-
+**4.10 Derived unit fibres and generation.**
 Let `X̃ = Spec Ã` be a possibly derived affine scheme of finite type over `L`, with an algebraic `G`-action and a `G`-equivariant morphism `X̃ → G`, where `G` acts on itself by conjugation. Put `X = X̃ ×^R_G Spec L = Spec A`, taking the fibre at the unit. If `G°` is reductive and `|π₀G|`, `|π₁(G°)_tors|` are prime to `ℓ`, prove that the natural map `L ⊗_{O(G)} Ã → A`, with tensor product formed in `Ind Perf(BG)`, is an isomorphism there; and if moreover `Perf(X̃/G) = Perf^ind(X̃/G)` and `Ã` is connective for the good-filtration t-structure, then `A` is connective for that t-structure and `Perf(X/G) = Perf^ind(X/G)`. The second part writes the cone of the relative bar comparison as a sequential colimit of terms `M ⊗_A g^*K_n ⊗_A M^*` with `K_n` coherent on the derived self-intersection of the unit, gives `IndCoh` of that self-intersection the t-structure generated by good-filtration-connective objects and passes to its separated quotient, bounds amplitudes by finite good filtration dimension, and proves conservativity of the forgetful functor there using central covers and the Borel-invariant Cartier flag of 4.8 (Fargues–Scholze, Proposition VIII.5.13 and proof, pp.299–301). The derived fibre is not assumed classical. *Needs:* 4.8; 4.6; 4.3; 4.1; ReductiveGroupsPartII RG2.5; EnhancedDerivedSheaves E5 *animation*, *presentability*.
 
 **Checks.**
@@ -1055,7 +1054,9 @@ Prove that the derived character stack of a closed orientable surface (relation 
 - The tame relation uses geometric Frobenius as displayed.
 - For `G` a torus the commutator map is constant, so the derived fibre is not classical, and the statement concerns connectivity and generation, not classicality.
 
-### 4.12 Prime-to-ℓ components of fixed groups
+### 4.12 Fixed groups of finite groups of order prime to ℓ
+
+These parts describe the fixed group `G^P` of a finite group `P` of order prime to `ℓ`, solvable from 4.14 on: its components, the cyclic fixed-locus resolution, the Donkin property and induction, generation by restriction with a counterexample for `|P| = ℓ`, and its fundamental group. The wild gerbe elimination 4.21 consumes 4.13, 4.16 and 4.18.
 
 Let `G` be smooth affine over `L` with `G°` reductive and `|π₀G|` prime to `ℓ`, and let `P` be a finite group of order prime to `ℓ` acting on `G`. Prove that `|π₀(G^P)|` is prime to `ℓ`. The identity component of `G^P` is smooth and reductive by ReductiveGroupsPartII RG2.2.3; this target owns only the component statement. Reduce to connected `G`, embed `G/H` (`H = G^P`) as a closed orbit in a product of twisted copies of `G` whose coordinate algebra has a good filtration, apply the finite good filtration dimension of 4.1 to `O(G/H′)` for `H′ ⊃ H°` with `π₀H′ = ℤ/ℓ`, and compare with `RΓ(ℤ/ℓ, L)`, which is nonzero in arbitrarily high degrees (Fargues–Scholze, Proposition VIII.5.14 and proof, pp.301–302). *Needs:* 4.1; 4.2; 4.4; ReductiveGroupsPartII RG2.2.3, RG2.5.
 
@@ -1065,8 +1066,7 @@ Let `G` be smooth affine over `L` with `G°` reductive and `|π₀G|` prime to `
 - Inversion on `G_m` (with `ℓ ≠ 2`) has fixed group `μ₂`, of order prime to `ℓ`.
 - In characteristic `2`, inversion on `G_m` has the nonsmooth fixed group `μ₂`; its acting group has order `2`, so the order hypothesis is essential.
 
-### 4.13 Cyclic fixed-locus resolutions
-
+**4.13 Cyclic fixed-locus resolutions.**
 Let an automorphism `Θ` of prime order `r ≠ ℓ` act on `G` with `G°` reductive and `|π₀G|` prime to `ℓ`. Put `X = {(g₀, …, g_{r−1}) : g₀ Θ(g₁) ⋯ Θ^{r−1}(g_{r−1}) = 1}` with twisted `G`-conjugation and cyclic `C_r`-permutation. Prove that for the augmented cosimplicial `G`-space `X^{C_r} → X ⇉ ∏_{C_r} X ⋯`, the realisation of coordinate algebras is `O(X^{C_r})` in `Ind Perf(BG)`: complete along the common fixed locus, and use the formal `r`-th root map (available because `r` is invertible) to build a `(G, C_r)`-equivariant retraction onto `X^{C_r}`, giving an extra degeneracy (Fargues–Scholze, Lemma VIII.5.16 and proof, pp.304–307). No `π₁` hypothesis. This target also constructs the equivariant completion bridge `IndProPerf(BG)`: freely generate a presentable stable category from the exact category of countable pro-systems of finite-dimensional `G`-representations, with the original `Ind Perf(BG)` embedded fully faithfully. Define the completed coordinate algebras by powers of the fixed-locus ideal, and prove their idempotence as algebras in this category and their compatibility with the bounded equivariant tensor products used in the resolution. For general `G`, reduce boundedness through a faithful embedding into `GL_n`, as in the proof of Lemma VIII.5.16, pp.305–306. SchemeAndStackFoundations §4.8 supplies ordinary formal completion; the equivariant pro-category and the completion/tensor comparison are owned here. *Needs:* 4.4; EnhancedDerivedSheaves E5 *presentability*; SchemeAndStackFoundations layer 4; ReductiveGroupsPartII RG2.5; Tau Ceti `TauCeti.fixedSubgroup`.
 
 **Checks.**
@@ -1076,8 +1076,7 @@ Let an automorphism `Θ` of prime order `r ≠ ℓ` act on `G` with `G°` reduct
 - In characteristic `r` this tangent is zero and there is no inverse root map. On points, the `C_r`-fixed tuples are the diagonal tuples `(g, …, g)` with twisted norm `g Θ(g) ⋯ Θ^{r−1}(g) = 1`.
 - Under `h · (g_i) = (h g_i Θ(h)⁻¹)` the stabilizer of `(1, …, 1)` is the fixed group `G^Θ`, which on points is `TauCeti.fixedSubgroup` of `Θ`.
 
-### 4.14 Solvable fixed groups as Donkin subgroups
-
+**4.14 Solvable fixed groups as Donkin subgroups.**
 If a finite solvable group `P` of order prime to `ℓ` acts on `G` with `G°` reductive and `|π₀G|` prime to `ℓ`, prove that `H° = (G^P)°` is a Donkin subgroup of `G°`: restriction of a module with good `G°`-filtration has a good `H°`-filtration, equivalently induction preserves good filtrations. Reduce along a normal series to prime cyclic `P`, then to simple factors and central covers; factor-permuting actions give diagonal subgroups, handled by the tensor theorem, and inner and outer actions by the root and highest-weight computations of the source; the cyclic fixed-locus resolution gives the good filtration of `O(G/H)` (Fargues–Scholze, Theorem VIII.5.15 and proof, pp.302–304). Not asserted for arbitrary `P`; no `π₁` condition. *Needs:* 4.12; 4.13; 4.1; 4.2; ReductiveGroupsPartII RG2.5.
 
 **Checks.**
@@ -1086,8 +1085,7 @@ If a finite solvable group `P` of order prime to `ℓ` acts on `G` with `G°` re
 - For `P = 1` the statement is empty.
 - For a torus every subgroup torus is Donkin.
 
-### 4.15 Fixed-group induction and good counit kernels
-
+**4.15 Fixed-group induction and good counit kernels.**
 In the setting of 4.14 with `H = G^P`, prove that a representation `W` of `H°` has a good `H°`-filtration if and only if `Ind_{H°}^{G°} W` has a good `G°`-filtration, the same for `H` and `G`, and that for good `W` the kernels of the restriction–induction counits have good `H°`-filtrations. Reduce to prime cyclic `P`; for simply connected `G` use the highest-weight surjections of the proof of Theorem VIII.5.15; descend along a central simply connected cover by the summand with trivial kernel character; and for general `G` use its derived group and linearly reductive quotient, splitting induced modules as retracts, keeping the actual (possibly non-smooth) centre (Fargues–Scholze, Proposition VIII.5.17(i)–(iv) and proof, pp.307–310). Induction is rational induction, not compact induction. *Needs:* 4.14; 4.3; ReductiveGroupsPartII RG2.5; EnhancedDerivedSheaves E5 *presentability*.
 
 **Checks.**
@@ -1096,8 +1094,7 @@ In the setting of 4.14 with `H = G^P`, prove that a representation `W` of `H°` 
 - Over `k = 𝔽̄₃`, let `G=G_m` and let `P=C₂` act by inversion. Then `H=μ₂`, `H°=1`; the nontrivial character `χ` of `μ₂` induces to the odd Laurent monomials `⊕_{j∈ℤ} k t^{2j+1}`. With left translation the monomial has weight `−(2j+1)`, restricting to `χ`, and the counit sends each `t^{2j+1}` to `1` in `χ`. Its kernel consists of finite sums whose coefficients sum to zero, and has a good filtration on `H°=1`.
 - For the same action, induction from `H°=1` gives all of `k[t,t⁻¹]`, including the weight-zero vector `1`; induction from `H=μ₂` of `χ` excludes `1`. These are different induction functors.
 
-### 4.16 Generation by restriction to fixed groups
-
+**4.16 Generation by restriction to fixed groups.**
 In the same setting prove that `Perf(BH°)` is generated under cones and retracts by restrictions from `Perf(BG°)`, and `Perf(BH)` by restrictions from `Perf(BG)`, with no `π₁` hypothesis: the successive restriction–induction counit resolution converges in `Ind Perf` by 4.15 and separatedness, induction is conservative, and compactness cuts the resolution to finitely many cones and retracts (Fargues–Scholze, Proposition VIII.5.17(v)–(vi), pp.307–310). *Needs:* 4.15; 4.3; ReductiveGroupsPartII RG2.5; EnhancedDerivedSheaves E5 *presentability*; EnhancedDerivedSheaves E1.8 and SchemeAndStackFoundations §2.18.
 
 **Checks.**
@@ -1106,8 +1103,7 @@ In the same setting prove that `Perf(BH°)` is generated under cones and retract
 - For `G=K²` and the factor swap, restriction of `V ⊠ 1` to diagonal `K` is `V`, whereas its dimension is `dim V`, not `(dim V)²`.
 - Over `𝔽̄₃`, inversion on `G_m` gives `H=μ₂` and `H°=1`. Weight `0` restricts to the trivial character of `H`, weight `1` to its nontrivial character; both restrict to the one-dimensional trivial representation of `H°`. Thus restriction generates both simple `H`-representations while the identity component forgets their distinction.
 
-### 4.17 The central-character fixed-group counterexample
-
+**4.17 The central-character fixed-group counterexample.**
 In characteristic `2`, for `G = (SL₂ × SL₂)/μ₂` with the factor swap `P = C₂`, prove that the fixed group is `H = PGL₂ × (μ₂ × μ₂)/μ₂` and that its nontrivial central character is not generated by restrictions of `Perf(BG)`: on the nontrivial central-character summand of a restricted perfect `G`-object, homotopy `C₂`-invariants in `PGL₂` stay perfect, a property stable under cones and retracts that fails for the character itself (Fargues–Scholze, Remark VIII.5.18, p.308). Preserving a Borel, a torus or a pinning cannot replace the order hypothesis. *Needs:* ReductiveGroupsPartII RG2.5; EnhancedDerivedSheaves E5 *abstract*, *presentability*.
 
 **Checks.**
@@ -1117,8 +1113,7 @@ In characteristic `2`, for `G = (SL₂ × SL₂)/μ₂` with the factor swap `P 
 - The nontrivial central character on `Lv` has coaction `v ↦ v ⊗ u`, distinct from `v ↦ v ⊗ 1`, since their difference is `v ⊗ (u−1) ≠ 0`. Both agree on the sole geometric point `u=1`, so checking only points loses the character grading.
 - Take the constant subgroup `C₂ ⊂ PGL₂` generated by the class of `[[1,1],[0,1]]`. The nontrivial central character is trivial on this subgroup, and its homotopy invariants have `dim_L Hⁿ(C₂,L) = 1` for every `n ≥ 0`: in the periodic resolution both maps `s−1` and `1+s` act as zero. On the regular module `L[C₂]`, both maps instead have image and kernel `L(1+s)`, so the cohomology dimensions are `1,0,0,…`. The character therefore has nonperfect homotopy invariants, unlike the nontrivial central-character summands of restricted perfect `G`-objects (Fargues–Scholze, Remark VIII.5.18 and footnote 3, p.308).
 
-### 4.18 Fundamental groups of solvable fixed groups
-
+**4.18 Fundamental groups of solvable fixed groups.**
 If `G°` is reductive, `P` finite solvable of order prime to `ℓ` and `ℓ ∤ |π₁(G°)_tors|`, prove that `ℓ ∤ |π₁((G^P)°)_tors|`: reduce to prime-order actions and to simply connected simple factors through central isogenies of order prime to `ℓ`; permutation and outer actions preserve the condition; for inner actions use the list of root subsystems and track the image of the centre, including the exceptional types; any new prime is the acting prime, already distinct from `ℓ` (Fargues–Scholze, Proposition VIII.5.19 and proof, pp.310–311). The component-group theorem of 4.12 does not identify these algebraic fundamental groups. *Needs:* 4.12; ReductiveGroupsPartII RG2.2.3, RG2.5.
 
 **Checks.**
@@ -1127,7 +1122,9 @@ If `G°` is reductive, `P` finite solvable of order prime to `ℓ` and `ℓ ∤ 
 - Over `𝔽̄₃`, the factor swap on `PGL₂²` fixes diagonal `PGL₂`: torsion changes from `(ℤ/2)²` of order `4` to `ℤ/2` of order `2`, both prime to `3`. The theorem does not assert preservation of the torsion subgroup.
 - For `P=1` acting on `G_m`, the source and fixed-group fundamental groups are both `ℤ`, with torsion subgroup `0`; testing finiteness of the whole fundamental group would exclude this valid case.
 
-### 4.19 Sifted parameter mapping approximations
+### 4.19 Mapping approximations and gerbe comparisons
+
+These parts define the sifted mapping approximations and compare them with the actual mapping categories, for free groups and after eliminating a solvable normal subgroup of order prime to `ℓ`. The tame reduction 4.22 consumes 4.20 and 4.21, and the downstream geometric spectral action consumes all three.
 
 Over algebraically closed `L` of characteristic `ℓ`, let `𝒢 → BΓ` have fibre a finite disjoint union of `BG` with `G°` reductive and `ℓ ∤ |π₀G|`. Define `Ind Perf(Map^Σ_{BΓ}(S,𝒢))` by left Kan extension of the actual mapping categories from finite sets with `Γ`-torsors to anima over `BΓ`; it is an `L`-linear symmetric monoidal presentable stable category (Fargues–Scholze, §VIII.5.4, pp.311–312).
 
@@ -1143,8 +1140,7 @@ Over algebraically closed `L` of characteristic `ℓ`, let `𝒢 → BΓ` have f
 - A finite disjoint union of bases goes to the tensor product of their categories.
 - Over `𝔽̄_ℓ` with `G = PGL_ℓ` and `Γ = ℤ`, the free-group approximation has induced-perfect image and excludes the unit skyscraper in `Perf(G/G)`, so it is not the actual mapping category.
 
-### 4.20 Free-group gerbe comparisons
-
+**4.20 Free-group gerbe comparisons.**
 For a gerbe `𝒢` over `BΓ` banded by `G` with `G°` reductive and `|π₀G|` prime to `ℓ`, prove that `Ind Perf(Map^Σ_{BΓ}(BF_n, 𝒢)) → Ind Perf(Map_{BΓ}(BF_n, 𝒢))` is fully faithful with image generated by `Ind Perf(BG)`; for a connected gerbe with extension `E_G → Γ` its source is modules over `O(∏ π⁻¹(γ_i))` in `Ind Perf(BG)`; it is an equivalence when `ℓ ∤ |π₁(G°)_tors|`; and finite unions behave the same way. Write the circle as the homotopy pushout `* ← (* ⊔ *) → *`, use Barr–Beck for the `G`-torsor, base change module categories and take products over the generators (Fargues–Scholze, Proposition VIII.5.20 and proof, p.312). *Needs:* 4.19; 4.9; 4.5; EnhancedDerivedSheaves E5 *presentability*; ReductiveGroupsPartII RG2.5.
 
 **Checks.**
@@ -1153,8 +1149,7 @@ For a gerbe `𝒢` over `BΓ` banded by `G` with `G°` reductive and `|π₀G|` 
 - For `G = PGL_ℓ` and `F₁` the comparison is fully faithful and not essentially surjective.
 - For `G` a torus it is an equivalence.
 
-### 4.21 Solvable wild gerbe elimination
-
+**4.21 Solvable wild gerbe elimination.**
 For a finite solvable normal subgroup `P ⊂ Γ` of order prime to `ℓ`, and `𝒢 → BΓ` with fibre a finite union of `BG` (`G°` reductive, `|π₀G|` prime to `ℓ`), prove that the pushforward along `BΓ → B(Γ/P)` has fibre `Map_{BΓ}(BP, 𝒢)`, a finite union of `BH` with `H°` reductive and `|π₀H|` prime to `ℓ`; that the `Map^Σ(BP)` comparison is an equivalence; and that prime-to-`ℓ` `π₁`-torsion of every band passes to every new band. For cyclic prime `P`, 4.13 computes the free-resolution algebra and 4.16 gives the equivalence; when no section exists the mapping stack is empty and the invariant colimit vanishes; induct through a normal series, using 4.18 for the `π₁` clause (Fargues–Scholze, Proposition VIII.5.21 and proof, pp.313–315). *Needs:* 4.13; 4.16; 4.18; 4.20; 4.19; ReductiveGroupsPartII RG2.5; EnhancedDerivedSheaves E5 *presentability*.
 
 **Checks.**
