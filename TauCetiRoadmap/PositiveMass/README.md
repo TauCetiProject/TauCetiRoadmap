@@ -29,15 +29,15 @@ identification, with its naturality for exhaustions;
 spinors at infinity and the boundary mass identity; doubled Callias operators
 with chiral boundary conditions; and the localized Callias argument for one AE end.
 
-It also owns three closed-manifold conformal inputs that its compact
-obstruction uses, stated in Layer 0 and Layer 3: the pointwise scalar-curvature
-law of a metric `φ^(4/(n−2)) g`, the positive first eigenfunction of a
-Schrödinger operator on a closed connected manifold, and the metric of positive
-scalar curvature obtained from it. They are derived from RiemannianGeometry R1's
-law for `e^(2u) g` and from the form realizations below. The Yamabe roadmap, a
-consumer of Layer 8, plans the same closed-manifold facts inside its variational
-theory; the facts this roadmap uses are owned here so that supply runs in one
-direction.
+It also owns two closed-manifold conformal inputs that its compact obstruction
+uses, stated in Layer 0 and Layer 3: the pointwise scalar-curvature law of a
+metric `φ^(4/(n−2)) g`, derived from RiemannianGeometry R1's law for `e^(2u) g`,
+and the metric of positive scalar curvature obtained from a positive first
+eigenfunction. The positive first eigenfunction of a Schrödinger operator on a
+closed connected manifold is RiemannianGeometry R5c's, consumed in 3.0. The
+Yamabe roadmap, a consumer of Layer 8, plans the same closed-manifold facts inside
+its variational theory; the facts this roadmap uses are owned here or in
+RiemannianGeometry, so that supply runs in one direction.
 
 It leaves to other roadmaps:
 
@@ -142,7 +142,10 @@ isometry, without assuming simple connectedness). R4.3, R4.6: covering criterion
 and cut locus. R5a–R5b: Gauss equation, first and second variation, the
 full-scalar stability identity `∫(2|dφ|²+Scal_Σ φ²) ≥ ∫(Scal_M+|A|²)φ²` with its
 compact-support and two-sidedness hypotheses, and the normal-Jacobi Dirichlet
-realization. R7.8: smooth Lipschitz approximation of distance functions. R8.1–R8.2:
+realization. R5c item 1: on a closed connected manifold of positive dimension, for
+smooth q, the lowest eigenvalue μ₁ of `Δ⁺ + q` is the least Rayleigh quotient
+`(∫|∇u|²+∫qu²)/∫u²` and is simple, with a smooth positive eigenfunction. R7.8: smooth
+Lipschitz approximation of distance functions. R8.1–R8.2:
 scalar spherical harmonics and their completeness in the compact L² realization.
 
 ### From TauCetiRoadmap.RiemannianGeometry.Surfaces (on main)
@@ -252,8 +255,8 @@ is the decay condition alone.
   and their unit normals differ from the Euclidean ones by `O_2(|x|^(−t))`, with the
   product, inversion and differentiation rules for these classes.
 - Two parametrizations of the same end whose coefficient differences both decay at
-  order t>0 differ, outside a compact set, by a Euclidean rigid motion plus an
-  `O_2(|x|^(1−t))` error (Lee–Parker, Theorem 9.5).
+  order t>(n−2)/2 differ, outside a compact set, by a Euclidean rigid motion plus an
+  `O_2(|x|^(1−t+ε))` error for some small ε>0 (Lee–Parker, Theorem 9.5).
 
 **Checks.**
 
@@ -283,7 +286,7 @@ is the limit of `normalizedCoordinateFlux n (pullbackMetricCoeff φ) r` as r→�
   curvature plus quadratic terms `O(|x|^(−2t−2))`, integrable exactly because
   2t+2>n (Lee–Parker, Definition 8.2, Lemma 9.4 and Theorem 9.6).
 - The limit is independent of the AE parametrization of the end, including the
-  rigid-motion change and the `O_2(|x|^(1−t))` errors (Lee–Parker, Theorems 9.5 and 9.6,
+  rigid-motion change and the `O_2(|x|^(1−t+ε))` errors (Lee–Parker, Theorems 9.5 and 9.6,
   which attribute them to Bartnik).
 - The mass is invariant under isometric pullback and scales by `λ^((n−2)/2)` under
   `g ↦ λg`. For n≥3 an end is simply connected, so under a finite Riemannian covering
@@ -665,18 +668,18 @@ G6's smooth codimension-one regularity applies.
 
 ### 3.0 Closed-manifold first eigenfunctions and conformal positivity
 
-For a closed connected smooth Riemannian k-manifold, a constant a>0 and a smooth
+For a closed connected smooth Riemannian k-manifold, k≥1, a constant a>0 and a smooth
 potential V, realize `L = aΔ⁺ + V` through UnboundedOperators UO-D06 and
 VariationalMethods V5.1 with ComplexKahlerGeometry K5a's closed-base domain
-comparison. Prove that its lowest eigenvalue λ₁ is the infimum of the Rayleigh
-quotient, simple, with a smooth eigenfunction that can be chosen positive: a
-minimizer u gives the minimizer |u|, smooth by K5a's regularity, and positive by
-the strong maximum principle of PDE 3.2 (C13). For k≥3, if λ₁(a_k Δ⁺ + Scal) > 0 with
+comparison. Its lowest eigenvalue `λ₁ = aμ₁(Δ⁺ + V/a)` is the infimum of the
+Rayleigh quotient, simple, with a smooth positive eigenfunction, by RiemannianGeometry
+R5c item 1, since `aΔ⁺ + V = a(Δ⁺ + V/a)` has the eigenfunctions of `Δ⁺ + V/a` and
+a times its Rayleigh quotient. For k≥3, if λ₁(a_k Δ⁺ + Scal) > 0 with
 positive eigenfunction φ, then by 0.4 the metric `φ^(4/(k−2)) g` has scalar curvature
-`λ₁ φ^(−4/(k−2)) > 0` (Lee–Parker, Theorem 2.6, Theorem 4.1 and its proof).
+`λ₁ φ^(−4/(k−2)) > 0` (Lee–Parker, equation (1.1)).
 
 *Needs:* UnboundedOperators UO-D06; VariationalMethods V2.3, V5.1;
-ComplexKahlerGeometry K5a; PDE 3.2 (C13); 0.4.
+ComplexKahlerGeometry K5a; RiemannianGeometry R5c item 1; 0.4.
 
 **Checks.**
 
@@ -845,11 +848,10 @@ as the model closed manifold of the obstruction.
 
 ### Dependencies
 
-Layers 0–2; GeometricCurrents G1–G7; RiemannianGeometry R1, R5a–R5b;
+Layers 0–2; GeometricCurrents G1–G7; RiemannianGeometry R1, R5a–R5c;
 RiemannianGeometry/Surfaces S3; AlgebraicTopology Stages 2–3, 6–7; DifferentialGeometry
 2, 10, 12.2–12.5; GeometricTopology, smoothing-and-triangulation comparison, item 1;
-UnboundedOperators UO-D06; VariationalMethods V2.3, V5.1; ComplexKahlerGeometry K5a;
-PDE 3.2 (C13).
+UnboundedOperators UO-D06; VariationalMethods V2.3, V5.1; ComplexKahlerGeometry K5a.
 
 ## Layer 4: spinors at infinity and the boundary mass identity
 
@@ -970,7 +972,7 @@ and its twistor refinement with `n/(n−1)‖Pu‖²`, `θ̄_ψ`, `η̄_ψ` and 
 
 - ψ=0 and no boundary: `θ_0 = Scal/4`, the Lichnerowicz potential.
 - ψ=λ constant on flat space: `θ_λ = λ² > 0`.
-- `ψ = λf` with `0≤f≤1`: `θ ≥ λ²f² − λ|df| ≥ −λ|df|`.
+- `ψ = λf` with `0≤f≤1`, where Scal≥0: `θ ≥ λ²f² − λ|df| ≥ −λ|df|`.
 - `|∇u|² = |Pu|² + |Du|²/n` on flat ℝⁿ for `u = X v` (v constant): `∇_(e_j) u = c(e_j)v`,
   `|∇u|² = n|v|²`, `Du = −n v`, `|Du|²/n = n|v|²`, `Pu = 0`.
 
@@ -1129,7 +1131,7 @@ other end entering only through completeness and Scal≥0.
 
 Layers 0–2, 4–6; RiemannianGeometry R7.8; DifferentialGeometry 10.
 
-## Layer 8: theorems and conformal applications
+## Layer 8: the positive mass theorems and their invariance
 
 ### 8.1 Nonspin positive mass, 3 ≤ n ≤ 7
 
@@ -1148,7 +1150,8 @@ Theorem 5.3; Lee–Parker, Theorem 10.1 and Lemma 10.7).
 A complete connected finite-ended AE spin n-manifold, n≥3, with Scal≥0 and integrable
 scalar curvature has nonnegative mass at every end, and zero mass at one end implies a
 global isometry with ℝⁿ (Cecchini–Zeidler, Theorem 3.1 with empty boundary and ψ=0,
-p. 13–15; Witten 1981, uncertified).
+p. 13–15, for nonnegativity, and Theorem B, p. 3, with its proof on p. 18, for the
+rigidity; Witten 1981, uncertified).
 
 *Needs:* Layers 0–2, 4–6.
 
@@ -1175,13 +1178,13 @@ nonnegative mass at that end, and zero mass implies a global isometry with ℝ�
   m; on two-ended Schwarzschild with m>0 either end may be the specified end, the other
   entering only through completeness and Scal≥0.
 
-### 8.4 Stability and the Green blow-up corollary
+### 8.4 Isometry and covering invariance
 
-The theorems are invariant under the admissible isometries and covers of 0.2. For a
-complete scalar-flat metric satisfying the hypotheses of 8.1 (with its dimension) or
-8.2–8.3 (with spin) and an identity `m = 2A`, A≥0, and A=0 gives Euclidean rigidity.
+8.1–8.3 are invariant under isometries, which preserve the mass of each end (0.2), and
+pass to finite Riemannian covers, each end lifting to copies with the mass of the end
+below (0.2; Lee–Parker, Theorem 9.6 and the remark after Theorem 10.3).
 
-*Needs:* 8.1–8.3; 0.4.
+*Needs:* 8.1–8.3; 0.2.
 
 **Checks.**
 
@@ -1194,7 +1197,7 @@ complete scalar-flat metric satisfying the hypotheses of 8.1 (with its dimension
 ### Examples
 
 Flat ℝⁿ (equality); spatial Schwarzschild of mass m>0; the conformal blow-up
-`G^(4/(n−2)) g` of a closed manifold at a point, with `m = 2A`.
+`G^(4/(n−2)) g` of a closed manifold at a point.
 
 ### Dependencies
 
@@ -1227,9 +1230,8 @@ Layers 0–7.
 - M. do Carmo, *Differential Geometry of Curves and Surfaces*, Prentice-Hall 1976, §4-5:
   the global Gauss–Bonnet theorem with boundary.
 - J. M. Lee, T. H. Parker, *The Yamabe problem*, Bull. Amer. Math. Soc. 17 (1987) 37–91:
-  equation (1.1) and §2 (conformal law), Theorems 2.6 and 4.1 (strong maximum principle,
-  regularity and positivity), Definition 8.2, Lemma 9.1, Theorems 9.2, 9.5, 9.6, Lemma 9.4,
-  Theorem 10.1, Theorem 10.3 and the remark after it, Lemmas 10.6–10.7.
+  equation (1.1) and §2 (conformal law), Definition 8.2, Lemma 9.1, Theorems 9.2, 9.5,
+  9.6, Lemma 9.4, Theorem 10.1, Theorem 10.3 and the remark after it, Lemmas 10.6–10.7.
 - J. Lohkamp, *Scalar curvature and hammocks*, Math. Ann. 313 (1999) 385–407, author's
   copy: Proposition 6.1.
 - T. Parker, C. H. Taubes, *On Witten's proof of the positive energy theorem*, Comm.

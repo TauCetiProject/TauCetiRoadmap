@@ -15,6 +15,7 @@ body:
       label: Roadmap area
       options:
         - AbhyankarLemma
+        - AdelicAlgebraicGroups
         - AdicEtaleGeometry
         - AdicSpacesPartII
         - AdicSpacesPartIII
@@ -27,6 +28,7 @@ body:
         - AlgebraicVectorBundles
         - AmenableGroups
         - AnalyticNumberTheoryPartI
+        - AnalyticNumberTheoryPartII
         - ArithmeticInterpolationDeterminants
         - AsymptoticExpansions
         - BanachAlgebras
@@ -61,6 +63,7 @@ body:
         - DeRhamCohomologyAndDuality
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
+        - DiamondsAndVStacks
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
         - DysonBrownianMotion
@@ -170,6 +173,8 @@ body:
         - SchubertGeometry
         - SeibergWittenTheory
         - SmoothBundlesConnections
+        - SmoothRepresentationsOfLocalGroups
+        - SobolevMapsBetweenManifolds
         - SobolevPolynomialApproximation
         - SpecialFunctionsAiry
         - SpecialFunctionsEiLiErfIncompleteGamma
@@ -177,6 +182,7 @@ body:
         - SpecialFunctionsParabolicCylinder
         - SpinGeometry
         - SporadicOrders
+        - StableHomotopyKTheory
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
