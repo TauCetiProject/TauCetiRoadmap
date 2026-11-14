@@ -6217,11 +6217,16 @@ Layers 0–4; DeligneWeightsAndPurity §§0, 5–8 and 9.6–9.12; AutomorphicLF
 
 ### 6.1 Scheme correspondences and their fixed schemes
 
-**Correspondences of schemes and their morphisms.** A correspondence from `X₁` to `X₂` is a morphism `c = (c₁, c₂) : C → X₁ × X₂` of schemes separated of finite type over `k`. A morphism from `c : C → X₁ × X₂` to `b : B → Y₁ × Y₂`
-is a triple `[f] = (f₁, f♮, f₂)` with `b₁f♮ = f₁c₁` and `b₂f♮ = f₂c₂`. `[f]` is proper (resp. an open or closed
-embedding) when `f₁, f♮` and `f₂` are. A self-correspondence is `c : C → X × X`; its fixed-point scheme is `Fix(c) := C ×_{X×X} X` (fibre product with the diagonal `Δ`), with `Δ′ : Fix(c) → C` and `c′ : Fix(c) → X`. A compactification
-of `c` is a correspondence `c̄ : C̄ → X̄₁ × X̄₂` with `C̄, X̄₁` and `X̄₂` proper over `k` with a dominant open embedding
-`[j] : c → c̄`; every pair of compactifications of `X₁, X₂` extends to one of `c`.
+**Correspondences of schemes and their morphisms.** Here `C`, `X₁`, `X₂` and all other schemes are separated of
+finite type over `k`, and by a correspondence from `X₁` to `X₂` we mean a morphism `c = (c₁, c₂) : C → X₁ × X₂`.
+Given a second correspondence `b : B → Y₁ × Y₂`, a morphism `c → b` consists of three maps `[f] = (f₁, f♮, f₂)`
+making both squares commute, `b₁f♮ = f₁c₁` and `b₂f♮ = f₂c₂`; we call `[f]` proper, an open embedding or a closed
+embedding if each of `f₁`, `f♮`, `f₂` has that property. To compactify `c` means to give a correspondence
+`c̄ : C̄ → X̄₁ × X̄₂` with `C̄`, `X̄₁`, `X̄₂` all proper over `k`, together with a dominant open embedding
+`[j] : c → c̄`; any choice of compactifications of `X₁` and `X₂` can be extended to one of `c`. When the two targets
+coincide, `c : C → X × X` is a self-correspondence, and pulling it back along the diagonal `Δ` produces its
+fixed-point scheme `Fix(c) := C ×_{X×X} X`, which comes with the projections `Δ′ : Fix(c) → C` and
+`c′ : Fix(c) → X`.
 
 Work with the following additional hypotheses. Schemes separated of finite type over a field `k`; fibre products
 are the native scheme fibre products.
@@ -6933,12 +6938,17 @@ SchemeAndStackFoundations §§0.7, 0.9, 4.11 and the geometric contracts above.
 
 ### 6.5 Contraction and Frobenius twisting
 
-**Contracting correspondences and Frobenius twists.** Let `c : C → X × X` be a correspondence and `Z ⊂ X` a closed
-subscheme. `c` stabilises `Z` if `c₁·(I_Z) ⊂ c₂·(I_Z)·O_C` (scheme-theoretically `c₁(c₂^{−1}(Z)) ⊂ Z`); `c` is
-contracting near `Z` if it stabilises `Z` and `c₁·(I_Z)ⁿ ⊂ c₂·(I_Z)^{n+1}·O_C` for some `n ≥ 1`; `c` is contracting near
-`Z` in a neighbourhood of fixed points if some open `W ⊃ Fix(c)` of `C` has `c|_W` contracting near `Z`. Over `𝔽̄_q` with
-`c` defined over `𝔽_q`, the `n`-th Frobenius twist is `c^{(n)} := (Fr_X^n ∘ c₁, c₂) = (c₁ ∘ Fr_C^n, c₂)`. For `f : Y → X` and `Z ⊂ X` a reduced closed subscheme, `ram(f, Z)` is the least positive integer `m≥1` with `(I_{(f^{−1}Z)_red})^m ⊂ I_{f^{−1}Z}`; for
-`f` quasi-finite, `ram(f) := max({1} ∪ {ram(f,x) : x a closed point of X})` is finite, including when the target is empty.
+**Contracting correspondences and Frobenius twists.** Three predicates are attached to a pair `(c, Z)` made of a
+correspondence `c : C → X × X` and a closed subscheme `Z ⊂ X`. Stabilising: `c` stabilises `Z` when the ideal
+inclusion `c₁·(I_Z) ⊂ c₂·(I_Z)·O_C` holds, which is the scheme-theoretic form of `c₁(c₂^{−1}(Z)) ⊂ Z`. Contracting:
+`c` is contracting near `Z` when it stabilises `Z` and, for at least one `n ≥ 1`, `c₁·(I_Z)ⁿ ⊂ c₂·(I_Z)^{n+1}·O_C`.
+Contracting near the fixed locus: `c` is contracting near `Z` in a neighbourhood of fixed points when, for some open
+`W ⊃ Fix(c)` of `C`, the restriction `c|_W` is contracting near `Z`. Ramification is measured as follows: given
+`f : Y → X` and a reduced closed subscheme `Z ⊂ X`, `ram(f, Z)` denotes the smallest integer `m≥1` satisfying
+`(I_{(f^{−1}Z)_red})^m ⊂ I_{f^{−1}Z}`, and when `f` is quasi-finite the number
+`ram(f) := max({1} ∪ {ram(f,x) : x a closed point of X})` is finite, the case of an empty target included. Finally,
+for `c` over `𝔽̄_q` that is defined over `𝔽_q`, its `n`-th Frobenius twist is
+`c^{(n)} := (Fr_X^n ∘ c₁, c₂) = (c₁ ∘ Fr_C^n, c₂)`.
 
 Work with the following additional hypotheses. All schemes are separated of finite type over a field `k`
 (separably closed whenever trace maps, local terms or traces on cohomology occur); `ℓ` is invertible in `k`; `Λ` is
@@ -6997,10 +7007,12 @@ Use [Varshavsky-LV-2007] Definition 2.1.1, Remark 2.1.2, p. 17; 2.2.1–2.2.2, p
 
 - For the identity correspondence, contraction fails near a nonempty closed `Z` whose support `|Z|` is not open: Nakayama would force `|Z|` to be open if `I_Zⁿ=I_Z^(n+1)`. This is a condition on support; a nilpotent ideal may make the identity contracting even when `Z` is a proper closed subscheme.
 
-**Local terms of a contracting correspondence are computed on the contracted subscheme.** Let `c : C → X × X` be
-contracting near a closed subscheme `Z` in a neighbourhood of fixed points, and `β ⊂ Fix(c)` open and connected
-with `c′(β) ∩ Z ≠ ∅`. Then (a) `β ⊂ c′^{−1}(Z)` set-theoretically, so `β` is an open connected subset of `Fix(c|_Z)`;
-(b) for every `c`-morphism `u, Tr_β(u) = Tr_β(u|_Z)`, and if `β` is proper over `k, LT_β(u) = LT_β(u|_Z)`.
+**Local terms of a contracting correspondence are computed on the contracted subscheme.** Take a closed subscheme
+`Z` and a correspondence `c : C → X × X` that is contracting near `Z` in a neighbourhood of fixed points, and pick a
+connected open subset `β ⊂ Fix(c)` whose image meets `Z`, i.e. `c′(β) ∩ Z ≠ ∅`. (a) As a set, `β` lies inside
+`c′^{−1}(Z)`, and therefore counts among the connected open subsets of `Fix(c|_Z)`. (b) Restriction to `Z` leaves
+the trace class unchanged, `Tr_β(u) = Tr_β(u|_Z)` for each `c`-morphism `u`, and, when `β` is proper over `k`, the
+local term as well: `LT_β(u) = LT_β(u|_Z)`.
 
 Work with the following additional hypotheses. All schemes are separated of finite type over a field `k`
 (separably closed whenever trace maps, local terms or traces on cohomology occur); `ℓ` is invertible in `k`; `Λ` is
@@ -7083,11 +7095,17 @@ Use [Varshavsky-LV-2007] Lemma 2.2.3, Corollary 2.2.4, pp. 19; Theorem 2.3.2(a),
 
 - For `c` the identity correspondence of `X₀ ⊗ 𝔽̄_q, c^{(n)}` is the graph of Frobenius`^n`, whose fixed points are `X₀(𝔽_{qⁿ})`, finite, for every `n ≥ 1 (ram = 1)`.
 
-**The Fujiwara–Varshavsky trace formula (Deligne’s conjecture).** Let `c : C → X × X` be a correspondence over
-`𝔽̄_q` defined over `𝔽_q`, and `U ⊂ X` an open subset defined over `𝔽_q` such that the restriction `c₁:c₁^{−1}(U)→U` is
-proper, `c₂` is quasi-finite over `c₂^{−1}(U)`, and `X ∖ U` is locally `c`-invariant. Then there is `d ≥ ram(c₂|_{c₂^{−1}(U)})` such that for every `F ∈ D^b_ctf(X, Λ)` with `F|_{X∖U} = 0`, every `n` with `qⁿ > d` and every
-`c^{(n)}`-morphism `u : c₂!(c₁^{(n)})^*F → F: Tr(RΓ_c(u)) = Σ_{y ∈ Fix(c^{(n)}) ∩ c₂^{−1}(U)} Tr(u_y | F_{c₂(y)})`, a finite sum of naive local terms. If `X` and `C` are proper, `d := max{ram(c₂|_{c₂^{−1}(U)}), ram(c₂, X ∖ U)}` works. For `F` with a Weil structure `ψ : Fr^*F → F` and a `c`-morphism `u, u^{(n)} := u ∘ ψⁿ` is a
-`c^{(n)}`-morphism, and for `U = X` this is Deligne's conjecture proved by Fujiwara.
+**The Fujiwara–Varshavsky trace formula (Deligne’s conjecture).** Work over `𝔽̄_q` with a correspondence
+`c : C → X × X` that is defined over `𝔽_q`, and choose an open `U ⊂ X`, again defined over `𝔽_q`, over which the
+two legs behave well: `c₁:c₁^{−1}(U)→U` is proper, the restriction of `c₂` to `c₂^{−1}(U)` is quasi-finite, and the
+complement `X ∖ U` is locally `c`-invariant. There is a bound `d ≥ ram(c₂|_{c₂^{−1}(U)})` for which the compactly
+supported trace reduces to stalk traces at the twisted fixed points above `U`, namely
+`Tr(RΓ_c(u)) = Σ_{y ∈ Fix(c^{(n)}) ∩ c₂^{−1}(U)} Tr(u_y | F_{c₂(y)})`, a finite sum of naive local terms; this holds
+for all `F ∈ D^b_ctf(X, Λ)` vanishing on the complement (`F|_{X∖U} = 0`), all `n` with `qⁿ > d`, and all
+`c^{(n)}`-morphisms `u : c₂!(c₁^{(n)})^*F → F`. When `X` and `C` are both proper, the choice
+`d := max{ram(c₂|_{c₂^{−1}(U)}), ram(c₂, X ∖ U)}` is admissible. Such morphisms arise, for instance, from a Weil
+structure `ψ : Fr^*F → F`: for a `c`-morphism `u`, the composite `u^{(n)} := u ∘ ψⁿ` is a `c^{(n)}`-morphism.
+Taking `U = X` recovers Deligne's conjecture, as proved by Fujiwara.
 
 Work with the following additional hypotheses. `k = 𝔽̄_q`; `c` and `U` defined over `𝔽_q`; the
 properness/quasi-finiteness over `U` and local invariance of `X ∖ U`; `Λ` and `D^b_ctf` as in §6.1's setting; `RΓ_c(u)`
