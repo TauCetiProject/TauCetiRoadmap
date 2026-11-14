@@ -24,8 +24,7 @@ perfect set of pairwise non-isomorphic ones.
 The roadmap is downstream of four others. The parent
 [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md) roadmap supplies the infinitary syntax,
 back-and-forth equivalence and Scott analysis. Three sibling roadmaps supply the descriptive set
-theory: **[CountableStructureSpaces](../CountableStructureSpaces/README.md)**
-([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)) (the coded space of
+theory: **[CountableStructureSpaces](../CountableStructureSpaces/README.md)** (the coded space of
 structures, model classes, Borelness of back-and-forth equivalence, Scott height, López–Escobar,
 uniform back-and-forth separation),
 **[BorelEquivalenceRelations](../BorelEquivalenceRelations/README.md)** (perfect and Cantor
@@ -73,8 +72,7 @@ coanalytic form of Silver's theorem. The descriptive dichotomies themselves belo
 BorelEquivalenceRelations; the space of structures, López–Escobar and external Scott height to
 CountableStructureSpaces; fragments, model existence and Morleyization to InfinitaryModelExistence;
 Ehrenfeucht–Mostowski models, Hanf numbers, small models and complete sentences to
-[HanfNumbers](../HanfNumbers/README.md)
-([#1319](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1319)).
+[HanfNumbers](../HanfNumbers/README.md).
 
 ## Standing conventions
 
@@ -157,18 +155,15 @@ Ehrenfeucht–Mostowski models, Hanf numbers, small models and complete sentence
 ### Tau Ceti and the parent roadmap
 
 The parent [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md) roadmap is implemented in
-Tau Ceti (Scott's theorem in
-[Tau Ceti #18977](https://github.com/TauCetiProject/TauCeti/pull/18977); the modules
-`TauCeti/ModelTheory/Infinitary/`, `BackAndForth/` and `Scott/`), and `Suggested.lean` imports it at
-this repository's Tau Ceti pin (2fd255d99). Syntax and semantics are in the namespace
-`FirstOrder.Language`, everything else in `TauCeti`. This roadmap consumes:
+Tau Ceti (the modules `TauCeti/ModelTheory/Infinitary/`, `BackAndForth/` and `Scott/`), and
+`Suggested.lean` imports it at this repository's Tau Ceti pin (2fd255d99). Syntax and semantics
+are in the namespace `FirstOrder.Language`, everything else in `TauCeti`. This roadmap consumes:
 
 * the syntax `BoundedFormulaInf`, `BoundedFormulaω`, `Sentenceω`, the coded connectives
   `BoundedFormulaInf.iInfAlong`/`iSupAlong`, `IndexCoding.ofEncodableWith`, the finitary embedding
   `BoundedFormula.toInf`, and realization (`SentenceInf.Realize φ M` for sentences), with its
   invariance under isomorphism (`StrongHomClass.realize_boundedFormulaInf` and
-  `StrongHomClass.realize_sentenceInf`,
-  [Tau Ceti #18035](https://github.com/TauCetiProject/TauCeti/pull/18035));
+  `StrongHomClass.realize_sentenceInf`);
 * `BFEquiv` with `BFEquiv.add_one` (the successor step), `BFEquiv.limit`, monotonicity
   (`BFEquiv.mono`), reflexivity, symmetry, transitivity, re-indexing of both tuples along a map
   `Fin m → Fin n`, and invariance under isomorphism (`TauCeti.BFEquiv`, `BFEquiv.refl`,
@@ -182,10 +177,7 @@ this repository's Tau Ceti pin (2fd255d99). Syntax and semantics are in the name
 
 Tau Ceti defines `BFEquiv`, the stabilization notions, the Scott height and the internal Scott
 rank only for relational languages (`[L.IsRelational]`), which every statement here that uses them
-already assumes. Free-variable support
-([Tau Ceti #17547](https://github.com/TauCetiProject/TauCeti/pull/17547)) and the random-graph
-worked example ([Tau Ceti #18726](https://github.com/TauCetiProject/TauCeti/pull/18726)) are not
-needed here.
+already assumes.
 
 ### Targets of this roadmap in Tau Ceti
 
@@ -250,7 +242,7 @@ most of it at this repository's pin (2fd255d99); each item names the Tau Ceti de
 files (paths under `TauCeti/`), and `Suggested.lean` imports them. An item with no Tau Ceti
 declaration is a target of the supplying roadmap, and its statement here is what is required.
 
-**From [CountableStructureSpaces](../CountableStructureSpaces/README.md)** ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)).
+**From [CountableStructureSpaces](../CountableStructureSpaces/README.md)**.
 
 * **(S1) Code spaces.** For a carrier `α`, the coding space `TauCeti.RelationalConfiguration L α`
   (`ModelTheory/RelationalConfiguration/Basic.lean`: one bit for each atom `atom R x`, a relation
@@ -972,10 +964,9 @@ back-and-forth relation does not discharge its target.
 ## Coordination
 
 * **Parent roadmap.** The infinitary syntax, back-and-forth and Scott analysis are the
-  InfinitaryLogic roadmap's, implemented in Tau Ceti under `TauCeti/ModelTheory/` (Scott's theorem:
-  [Tau Ceti #18977](https://github.com/TauCetiProject/TauCeti/pull/18977)). Use those declarations;
-  in particular use `TauCeti.scottFormula` and `realize_scottFormula_iff_bfEquiv` for level classes
-  rather than a second Scott-formula construction.
+  InfinitaryLogic roadmap's, implemented in Tau Ceti under `TauCeti/ModelTheory/`. Use those
+  declarations; in particular use `TauCeti.scottFormula` and `realize_scottFormula_iff_bfEquiv` for
+  level classes rather than a second Scott-formula construction.
 * **Sibling roadmaps.** The statements consumed from CountableStructureSpaces,
   BorelEquivalenceRelations and InfinitaryModelExistence are listed in
   [Dependencies](#dependencies-on-other-roadmaps). This roadmap owns: the classes of countable
