@@ -51,6 +51,12 @@ section Types
 
 variable {L : FirstOrder.Language.{u, v}}
 
+/-- **Layer 4, the arity-`n` slice of a fragment**: the formulas with `n` bound positions whose
+tagged form `⟨n, φ⟩` belongs to `A`. A realized truth assignment is a map
+`Fragment.slice A n → Prop`. -/
+def Fragment.slice (A : L.Fragment) (n : ℕ) : Set (L.BoundedFormulaω Empty n) :=
+  {φ | (⟨n, φ⟩ : Σ n, L.BoundedFormulaω Empty n) ∈ A.toSet}
+
 /-- **Layer 4, the type of a tuple relative to a fragment**: the members of `A` at arity `n` that
 `a` satisfies (Marker's `A`-type, Definition 2.33 of his 2013 notes, p. 22). -/
 def fragmentType (A : L.Fragment) (M : Type w) [L.Structure M] {n : ℕ} (a : Fin n → M) :
@@ -126,8 +132,8 @@ section Interpolation
 variable {L : FirstOrder.Language.{u, v}}
 
 /-- **Layer 7 milestone, Craig interpolation** for an arbitrary language, with no hypothesis on
-`L`: the relational core transferred by the graph translation of Layer 6 (the relational core
-`craig_interpolation_relational` is the same statement under `[L.IsRelational]`, without the
+`L`: the relational core transferred by the graph translation of Layer 6 (the relational core,
+a target of `README.md` §7.2, is the same statement under `[L.IsRelational]`, without the
 function-symbol bound). -/
 theorem craig_interpolation (φ ψ : L.Sentenceω) (h : Sentenceω.Entails φ ψ) :
     ∃ θ : L.Sentenceω, θ.functionsIn ⊆ φ.functionsIn ∩ ψ.functionsIn ∧
@@ -167,7 +173,7 @@ def relationsInSigned {ι : Type uι} {α : Type*} :
   | _, s, .iInf φs => ⋃ i, relationsInSigned s (φs i)
 
 /-- **Layer 7 milestone, Lyndon interpolation**, in the relation-polarity form with logical
-equality, for an arbitrary language (the relational core `lyndon_interpolation_relational` is the
+equality, for an arbitrary language (the relational core, a target of `README.md` §7.3, is the
 same statement under `[L.IsRelational]`, without the function-symbol bound). -/
 theorem lyndon_interpolation (φ ψ : L.Sentenceω) (h : Sentenceω.Entails φ ψ) :
     ∃ θ : L.Sentenceω, θ.functionsIn ⊆ φ.functionsIn ∩ ψ.functionsIn ∧
