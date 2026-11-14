@@ -17,15 +17,17 @@ public import TauCeti.Probability.Process.EmpiricalMeasure
 public import TauCeti.Probability.Kernel.Randomization
 public import TauCeti.Data.Fin.Tuple.OrderStatistic
 public import TauCeti.Analysis.InnerProductSpace.MoorePenrose
+public import TauCeti.MeasureTheory.Integral.PrekopaLeindler
 
 /-!
 # Asymptotic and robust statistics: target signatures
 
 This file is not the roadmap: the roadmap is `README.md`, and this file is not an exhaustive
-checklist. It states, against the pinned Mathlib and Tau Ceti and each with `sorry`, every
-headline of the README that carries a Lean name, together with the definitions their statements
-need. Every such headline has a native carrier at the pin; the README's other targets are
-corollaries, instances or prose statements with their own locators or proof routes.
+checklist. It states, against the pinned Mathlib and Tau Ceti and each with `sorry`, the
+headlines of the README that carry a Lean name, each with every conclusion the README attaches
+to it, together with the definitions their statements need. Every such headline has a native
+carrier at the pin. The README's other headlines are targets of the same standing, stated there
+in prose with their locators or proof routes, and are not stated here.
 
 The conventions of the README are used throughout. Statistics of a sample of size `n` are maps
 on `Fin n → X` under `Measure.pi (fun _ ↦ P)`; sequences of statistics live on spaces that vary
@@ -1296,8 +1298,11 @@ theorem tendstoInDistribution_likelihoodRatio_wald_score (ν : Measure X) (p : �
 `θ₀`. Under `P_{θ₀}` the likelihood ratio statistic `λₙ = 2(ℓₙ(θ̂ₙ) - ℓₙ(θ̃ₙ))` converges to
 `χ²_q`, the Wald statistic `n c(θ̂ₙ)ᵀ [C I⁻¹ Cᵀ]⁻¹ c(θ̂ₙ)` differs from it by `o_P(1)`, and so does
 the score statistic `n⁻¹ (∑ᵢ s_{θ̃ₙ}(xᵢ))ᵀ I⁻¹ (∑ᵢ s_{θ̃ₙ}(xᵢ))`, given the stochastic
-differentiability of the scores at `θ₀` (`hsexp`). Here `I` is the information at `θ₀`; with a
-consistent estimate of `I` in its place the statements are unchanged, by Slutsky. -/
+differentiability of the scores at `θ₀` (`hsexp`). Under `P_{θ₀ + h/√n}` the likelihood ratio
+statistic converges to the noncentral chi-squared law with `q` degrees of freedom and
+noncentrality `(Ch)ᵀ [C I⁻¹ Cᵀ]⁻¹ (Ch)`; the alternatives are contiguous, so the `o_P(1)`
+differences carry over. Here `I` is the information at `θ₀`; with a consistent estimate of `I`
+in its place the statements are unchanged, by Slutsky. -/
 theorem tendstoInDistribution_likelihoodRatio_wald_score_composite {q : ℕ} (ν : Measure X)
     (p : 𝔼ₖ → X → ℝ) (hp : ∀ θ, Measurable (p θ) ∧ ∀ x, 0 < p θ x)
     (hprob : ∀ θ, IsProbabilityMeasure (ν.withDensity fun x ↦ ENNReal.ofReal (p θ x)))
@@ -1327,7 +1332,10 @@ theorem tendstoInDistribution_likelihoodRatio_wald_score_composite {q : ℕ} (ν
           (fisherInformation (ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x)) (s θ₀))
           (Real.sqrt n • (θtilde n x - θ₀))) atTop 0)
     {Ω' : Type*} [MeasurableSpace Ω'] {μ' : Measure Ω'} [IsProbabilityMeasure μ']
-    (Z : Ω' → ℝ) (hZ : HasLaw Z (TauCeti.Probability.chiSquaredMeasure q) μ') :
+    (Z : Ω' → ℝ) (hZ : HasLaw Z (TauCeti.Probability.chiSquaredMeasure q) μ')
+    (Zh : 𝔼ₖ → Ω' → ℝ) (hZh : ∀ h, HasLaw (Zh h) (TauCeti.Probability.noncentralChiSquaredMeasure q
+      (quadForm (C * (fisherInformation (ν.withDensity fun x ↦ ENNReal.ofReal (p θ₀ x))
+          (s θ₀))⁻¹ * C.transpose)⁻¹ (WithLp.toLp 2 (C *ᵥ WithLp.ofLp h))).toNNReal) μ') :
     TendstoInDistribution (fun (n : ℕ) x ↦
         2 * (∑ i, Real.log (p (θhat n x) (x i)) - ∑ i, Real.log (p (θtilde n x) (x i)))) atTop Z
       (fun (n : ℕ) ↦ Measure.pi fun _ : Fin n ↦
@@ -1343,7 +1351,11 @@ theorem tendstoInDistribution_likelihoodRatio_wald_score_composite {q : ℕ} (ν
       (fun (n : ℕ) x ↦ (n : ℝ)⁻¹ * quadForm (fisherInformation (ν.withDensity fun x ↦
           ENNReal.ofReal (p θ₀ x)) (s θ₀))⁻¹ (∑ i, s (θtilde n x) (x i)) -
         2 * (∑ i, Real.log (p (θhat n x) (x i)) - ∑ i, Real.log (p (θtilde n x) (x i))))
-      atTop 0 := sorry
+      atTop 0 ∧
+    ∀ h : 𝔼ₖ, TendstoInDistribution (fun (n : ℕ) x ↦
+        2 * (∑ i, Real.log (p (θhat n x) (x i)) - ∑ i, Real.log (p (θtilde n x) (x i)))) atTop
+      (Zh h) (fun (n : ℕ) ↦ Measure.pi fun _ : Fin n ↦
+        ν.withDensity fun x ↦ ENNReal.ofReal (p (θ₀ + (Real.sqrt n)⁻¹ • h) x)) μ' := sorry
 
 /-- **8.2** The asymptotic power envelope for one-sided tests of `ψ(θ) ≤ 0` in a locally
 asymptotically normal model. -/
@@ -1375,6 +1387,33 @@ theorem tendsto_power_localAlternatives (Pθ : ℝ → Measure X) [∀ θ, IsPro
       (𝓝 (1 - cdf (gaussianReal 0 1)
         (MeasureTheory.Measure.quantile (gaussianReal 0 1) (1 - α) - h * μ' / σf 0))) :=
   sorry
+
+/-- **8.3** Pitman efficiency. Two sequences of statistics `T 0`, `T 1` satisfy the local
+uniform asymptotic normality of `tendsto_power_localAlternatives` with positive slopes, in a
+model whose `n`-fold products are continuous in total variation at `θ = 0`. The test based on
+`T i` rejects when `√n (T i n - μ i 0) > σ i 0 * c i n`, with critical values `c i n` of level at
+most `α` for every `n` and tending to `z_α`. If `N i ν` is the least sample size at which this
+test has power at least `γ` at `θ ν > 0`, with `θ ν → 0`, then `N 1 ν / N 0 ν` tends to the ratio
+of the efficacies `(μ' i / σ i 0)²`. (`sInf ∅ = 0` only affects finitely many `ν`.) -/
+theorem tendsto_pitmanEfficiency (Pθ : ℝ → Measure X) [∀ θ, IsProbabilityMeasure (Pθ θ)]
+    (htv : ∀ n : ℕ, Tendsto (fun θ ↦ tvDist (Measure.pi fun _ : Fin n ↦ Pθ θ)
+      (Measure.pi fun _ : Fin n ↦ Pθ 0)) (𝓝[>] 0) (𝓝 0))
+    (T : Fin 2 → ∀ n, (Fin n → X) → ℝ) (hT : ∀ i n, Measurable (T i n))
+    (μf σf : Fin 2 → ℝ → ℝ) (μ' : Fin 2 → ℝ) (hμ : ∀ i, HasDerivAt (μf i) (μ' i) 0)
+    (hμpos : ∀ i, 0 < μ' i) (hσ : ∀ i, ContinuousAt (σf i) 0) (hσ0 : ∀ i, 0 < σf i 0)
+    (hLUAN : ∀ i, ∀ θn : ℕ → ℝ, Tendsto θn atTop (𝓝[≥] 0) →
+      TendstoInDistribution (fun (n : ℕ) x ↦ Real.sqrt n * (T i n x - μf i (θn n)) / σf i (θn n))
+        atTop id (fun n ↦ Measure.pi fun _ : Fin n ↦ Pθ (θn n)) (gaussianReal 0 1))
+    (α γ : ℝ) (hα : 0 < α) (hαγ : α < γ) (hγ : γ < 1) (c : Fin 2 → ℕ → ℝ)
+    (hlevel : ∀ i n, (Measure.pi fun _ : Fin n ↦ Pθ 0).real
+      {x | σf i 0 * c i n < Real.sqrt n * (T i n x - μf i 0)} ≤ α)
+    (hc : ∀ i, Tendsto (c i) atTop
+      (𝓝 (MeasureTheory.Measure.quantile (gaussianReal 0 1) (1 - α))))
+    (θ : ℕ → ℝ) (hθpos : ∀ ν, 0 < θ ν) (hθ : Tendsto θ atTop (𝓝 0)) :
+    let N : Fin 2 → ℕ → ℕ := fun i ν ↦ sInf {n : ℕ | γ ≤ (Measure.pi fun _ : Fin n ↦ Pθ (θ ν)).real
+      {x | σf i 0 * c i n < Real.sqrt n * (T i n x - μf i 0)}}
+    Tendsto (fun ν ↦ (N 1 ν : ℝ) / N 0 ν) atTop
+      (𝓝 ((μ' 0 / σf 0 0) ^ 2 / (μ' 1 / σf 1 0) ^ 2)) := sorry
 
 /-- **8.3** The Hodges–Lehmann bound: the Pitman efficiency of the Wilcoxon test relative to
 the `t` test, `12 σ² (∫ f²)²`, is at least `108/125` for every probability density. -/
@@ -1556,6 +1595,21 @@ theorem huber_minimax (ε : ℝ) (hε : ε ∈ Set.Ioo (0 : ℝ) 1) (k : ℝ) (h
     V (ENNReal.ofReal (1 - ε) • gaussianReal 0 1 + ENNReal.ofReal ε • H) ≤ V G₀ ∧
       V G₀ = (∫ x, huberScore k x ^ 2 ∂G₀)⁻¹ := sorry
 
+/-- **9.5** The lower half of Huber's saddle point: at the least favourable law `G₀`, every
+bounded score `ψ`, absolutely continuous on every bounded interval, with `ψ'` integrable under
+`G₀` and `∫ ψ' dG₀ ≠ 0`, has asymptotic variance `∫ ψ² dG₀ / (∫ ψ' dG₀)²` at least
+`1 / I(G₀) = (∫ ψₖ² dG₀)⁻¹`, the variance of the Huber score there. -/
+theorem huber_minimax_le_of_absolutelyContinuous (ε : ℝ) (hε : ε ∈ Set.Ioo (0 : ℝ) 1) (k : ℝ)
+    (hk : 0 < k)
+    (hkeq : 2 * Real.exp (-k ^ 2 / 2) / Real.sqrt (2 * Real.pi) / k -
+      2 * cdf (gaussianReal 0 1) (-k) = ε / (1 - ε))
+    (G₀ : Measure ℝ) (hG₀ : G₀ = volume.withDensity fun x ↦ ENNReal.ofReal ((1 - ε) *
+      if |x| ≤ k then Real.exp (-x ^ 2 / 2) / Real.sqrt (2 * Real.pi)
+      else Real.exp (-k ^ 2 / 2) / Real.sqrt (2 * Real.pi) * Real.exp (k ^ 2 - k * |x|)))
+    (ψ : ℝ → ℝ) (hψb : ∃ C, ∀ x, |ψ x| ≤ C) (hψac : ∀ a b, AbsolutelyContinuousOnInterval ψ a b)
+    (hψ' : Integrable (deriv ψ) G₀) (hψ0 : ∫ x, deriv ψ x ∂G₀ ≠ 0) :
+    (∫ x, huberScore k x ^ 2 ∂G₀)⁻¹ ≤ (∫ x, ψ x ^ 2 ∂G₀) / (∫ x, deriv ψ x ∂G₀) ^ 2 := sorry
+
 /-- **9.6** Asymptotic linearity of fixed-design regression M-estimators with a convex
 criterion. -/
 theorem regression_mEstimator_asymptotically_linear {p : ℕ}
@@ -1656,5 +1710,10 @@ end Layer9
 #check @OnePoint
 #check @MeasureTheory.IsTightMeasureSet
 #check @Tuple.sort
+#check @TauCeti.hasPrekopaLeindler_volume
+#check @MeasureTheory.Measure.HasPrekopaLeindler.withDensity
+#check @TauCeti.LogConcave.lintegral_prod_right
+#check @Convex.measure_preimage_prodMk_le_measure_preimage_prodMk_zero
+#check @AbsolutelyContinuousOnInterval
 
 end TauCetiRoadmap.MathematicalStatisticsAsymptotic

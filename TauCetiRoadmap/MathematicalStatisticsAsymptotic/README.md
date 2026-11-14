@@ -25,7 +25,9 @@ core of [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations
 
 The material is the standard graduate content of van der Vaart (1998) and van der
 Vaart–Wellner (2023), with the robust theory of Jurečková–Sen and Lehmann (1999) (see
-[References](#references)). Each headline carries a locator in a text listed under References.
+[References](#references)). Headlines that restate a source result carry a theorem, definition,
+section or equation locator with its printed page in a text listed under References; corollaries
+and adaptations are derived in the proof routes.
 
 **This roadmap is a supplier.** The roadmaps
 [MathematicalStatisticsSemiparametric](../MathematicalStatisticsSemiparametric/README.md),
@@ -36,9 +38,10 @@ consume its empirical-process toolkit and its limits of experiments. The headlin
 listed under [Supplied to later roadmaps](#supplied-to-later-roadmaps), and their names and
 statements are part of the contract of this roadmap.
 
-`Suggested.lean` states, against the pinned Mathlib and Tau Ceti, every headline below that
-carries a Lean name, with the definitions those statements need. The remaining targets are
-stated in prose with their locators or proof routes.
+`Suggested.lean` states, against the pinned Mathlib and Tau Ceti, the headlines below that carry
+a Lean name, each with every conclusion the README attaches to it, and the definitions those
+statements need. It is not an exhaustive acceptance test: the other headlines (bold or not) are
+targets of the same standing, stated in prose with their locators or proof routes.
 
 Suggested home: `TauCeti/Statistics/Asymptotic/`, with one subdirectory per layer.
 
@@ -234,7 +237,8 @@ These are fixed for every target. A statement that departs from them is a differ
   `hₙ → h`; the fixed-`h` form is weaker, and it is the hypothesis of every theorem of Layers 7–8
   that assumes local asymptotic normality, since their proofs use only finitely many fixed local
   parameters at a time. They therefore apply to the path families of semiparametric models,
-  which give local asymptotic normality only at fixed `h` (van der Vaart, Lemma 25.14). Models
+  which give local asymptotic normality only at fixed `h` (van der Vaart, Lemma 25.14, p. 363).
+  Models
   differentiable in quadratic mean satisfy the sequence form (van der Vaart, Thm 7.2, p. 94),
   proved in 7.3. The additive form
   `log(dQ/dP) = ⟪h, Δₙ⟫ - hᵀIh/2 + o_P(1)` is equivalent, because the product is bounded away from
@@ -342,6 +346,15 @@ its Brownian motion files (`Mathlib/Probability/BrownianMotion/`) define `IsPreB
 - **Randomization:** `unitIntervalCoding` with `map_volume_unitIntervalCoding`
   (`TauCeti/Probability/Kernel/Randomization.lean`), which turns a Markov kernel into a
   randomized statistic `T(X, U)` with `U` uniform (7.4).
+- **Prékopa–Leindler and log-concave marginals**
+  (`TauCeti/MeasureTheory/Integral/PrekopaLeindler.lean`), used by Anderson's lemma (7.5): `TauCeti.hasPrekopaLeindler_volume`, the Prékopa–Leindler
+  property at every weight `0 ≤ θ ≤ 1` of the volume of a finite-dimensional real inner product
+  space with its Borel σ-algebra; `HasPrekopaLeindler.withDensity`, its preservation under a
+  measurable log-concave density; `TauCeti.LogConcave.lintegral_prod_right`, log-concavity of the
+  marginal `x ↦ ∫⁻ y, f (x, y) ∂ν` of a measurable log-concave `f` when `ν` has the property at
+  every weight; and `Convex.measure_preimage_prodMk_le_measure_preimage_prodMk_zero`, which bounds
+  the measure of every slice of a measurable convex set `s ⊆ E × F` with `-s = s` by that of the
+  central slice, for a negation-invariant such `ν`.
 
 ### From MathematicalStatisticsFoundations
 
@@ -443,8 +456,9 @@ bounds the integral over the non-measurable part from above. Mathlib's
 - `IsBoundedInProbabilityAlong`: `√n · (sample mean)` is bounded in probability (it is `N(0, 1)`
   for every `n`); `n · (sample mean)` is not, being `N(0, n)`.
 - `IsBoundedInProbabilityAlong` is not a moment condition: on `[0, 1]` with Lebesgue measure,
-  `Xₙ = n 1_{[0, 1/n]}` has mean `1` for every `n` and is bounded in probability, since
-  `μ{C < Xₙ} ≤ 1/n` for every `C`.
+  `Xₙ = n 1_{[0, 1/n]}` has mean `1` for every `n ≥ 1`, and `μ{C < Xₙ} ≤ 1/n` for every
+  `C ≥ 0` and `n ≥ 1`, so the sequence is bounded in probability. Both ranges are needed:
+  `X₀ = 0` has mean `0`, and `μ{-1 < X₂} = 1 > 1/2`.
 - `IsBoundedInProbabilityAlong` along a filter: the constant sequence `Xᵢ = i` on a one-point
   space is bounded along any filter `l` that contains a bounded set of indices, such as the
   principal filter of `{0, 1}`, and is not bounded along `atTop`.
@@ -722,12 +736,13 @@ Cauchy criterion in the bounded Lipschitz metric give the limit, which lies in `
 
 - `IsBrownianBridgeLaw P f L`, for a class `f : T → X → ℝ` with `f t ∈ L²(P)`: `L` is a tight
   Borel probability law on `ℓ^∞(T)` whose marginal at `(t₁, …, tₘ)` is the centred Gaussian with
-  covariance `P(f_{tₐ} f_{t_b}) - P f_{tₐ} · P f_{t_b}`. By `ext_of_marginal` there is at most one
-  such law.
-- Layer 3 obtains existence for every Donsker class, as the limit of its empirical process
-  (`IsDonsker.isBrownianBridgeLaw`), and for the indicators of half-lines as the image of the
-  standard Brownian bridge (`isBrownianBridgeLaw_map_comp_cdf`). These are the forms every later
-  target uses.
+  covariance `P(f_{tₐ} f_{t_b}) - P f_{tₐ} · P f_{t_b}` (van der Vaart, §19.2, p. 269;
+  van der Vaart–Wellner, §2.1, (2.1.2), p. 130). Uniqueness is the application of
+  `ext_of_marginal` (2.3): there is at most one such law.
+- Existence is proved in Layer 3: for every Donsker class, as the limit of its empirical process
+  (`IsDonsker.isBrownianBridgeLaw`, 3.1), and for the indicators of half-lines as the image of the
+  standard Brownian bridge (`isBrownianBridgeLaw_map_comp_cdf`, 3.4). These are the forms every
+  later target uses.
 
 *Needs:* 2.3; Mathlib `multivariateGaussian`, `IsGaussianProcess`.
 
@@ -770,7 +785,7 @@ measurable functions; `ℙₙ f_t = n⁻¹ ∑ᵢ f_t(xᵢ)` and `P f_t = ∫ f_
   empirical process converges weakly in `ℓ^∞(T)` to a tight Borel law. The boundedness makes
   `liftLinfty` exact, and it holds for every class with a finite envelope and bounded `P f_t`.
 - **The limit is the Brownian bridge** (`IsDonsker.isBrownianBridgeLaw`): for a Donsker class in
-  `L²(P)`, the limit law satisfies `IsBrownianBridgeLaw P f L` (van der Vaart, §19.2).
+  `L²(P)`, the limit law satisfies `IsBrownianBridgeLaw P f L` (van der Vaart, §19.2, p. 269).
 - A Donsker class with `sup_t |P f_t| < ∞` is Glivenko–Cantelli in outer probability:
   `sup_t |ℙₙ f_t - P f_t| → 0` in outer probability, since `√n` times it is bounded in
   probability.
@@ -1399,9 +1414,17 @@ sample, gives Mathlib's convergence in law through the bridge (2.2).
 
 ### Examples
 
-- Huber's location M-estimator, `ψ = ψ_k` the Huber score of Foundations 9.2: by the Lipschitz
-  form of 5.3, `√n(θ̂ₙ - θ₀) → N(0, E ψ_k(X - θ₀)²/(2F(θ₀ + k) - 1)²)` for `F` symmetric about
-  `θ₀` and continuous at `θ₀ ± k` (van der Vaart, Ex 5.28, p. 58, for regression).
+- Huber's location M-estimator, `ψ = ψ_k` the Huber score of Foundations 9.2, with `k > 0`: for
+  `F` symmetric about `θ₀`, continuous at `θ₀ ± k` and with `P(|X - θ₀| < k) > 0`, every consistent
+  sequence of approximate zeros of `θ ↦ ∑ᵢ ψ_k(xᵢ - θ)` satisfies
+  `√n(θ̂ₙ - θ₀) → N(0, E ψ_k(X - θ₀)²/(2F(θ₀ + k) - 1)²)`, by the Lipschitz form of 5.3 (van der
+  Vaart, Ex 5.28, p. 58, for regression). The derivative of `θ ↦ E ψ_k(X - θ)` at `θ₀` is
+  `-P(|X - θ₀| < k) = -(2F(θ₀ + k) - 1) < 0`; since this map is nonincreasing, approximate zeros
+  are consistent by the monotone criterion of 5.1 applied to its negative.
+- The positive mass inside `(θ₀ - k, θ₀ + k)` is needed: for `θ₀ = 0`, `k = 1` and
+  `P = (δ₋₂ + δ₂)/2`, `F` is continuous at `±1` but `2F(1) - 1 = 0`. When the two atoms have
+  unequal counts the zero of `∑ᵢ ψ_1(xᵢ - θ)` is `±(2 - m/(n - m))` with `m ≤ n/2` the smaller
+  count, whose absolute value tends to `1`, so `√n θ̂ₙ` is not tight.
 
 ### Dependencies
 
@@ -1530,9 +1553,10 @@ decomposition gives `E(n Uₙ(h - h_N))² = (2n/(n - 1)) ∑_{j ≥ N} λⱼ² �
 - `hoeffdingProjection` integrates out exactly the coordinates outside `S`: for the Rademacher law,
   `h(y) = y₀² + y₁` and `S = {0}`, its value at `(2, 3)` is `4`, while `h(2, 3) = 7` and
   `∫ h dP² = 1`.
-- `hoeffdingKernel` with `m = 1`: `h_∅ = θ` and `h_{{0}} = h - θ`; with `m = 2` and
-  `h(x, y) = (x - y)²/2` under `N(0, 1)`, `h_{{0}}(y) = (y₀² - 1)/2` and `h_{{0,1}}(y) = -y₀ y₁`, the
-  kernels of the variance Check above.
+- `hoeffdingKernel` with `m = 1`: `h_∅ = θ` and `h_{{0}} = h - θ`.
+- `hoeffdingKernel` with `m = 2` and the sample-variance kernel `h(x, y) = (x - y)²/2` under
+  `N(0, 1)`: `h_{{0}}(y) = (y₀² - 1)/2` and `h_{{0,1}}(y) = -y₀ y₁`, the kernels of the variance
+  Check above.
 - `hoeffdingKernel`: for the product kernel `h(y) = y₀ y₁` under a centred `P`, `h_{{0}} = 0` and
   `h_{{0,1}} = h`, so the decomposition has the single degenerate term.
 - The decomposition needs `n ≥ m`: for `n = 1`, `m = 2` and `h ≡ 1`, `Uₙ = 0` (no injections) and
@@ -1557,17 +1581,37 @@ decomposition gives `E(n Uₙ(h - h_N))² = (2n/(n - 1)) ∑_{j ≥ N} λⱼ² �
   Lebesgue-null,
   `√n (Tₙ - μ_α) → N(0, (1 - 2α)^{-2} ∫_a^b ∫_a^b (F(x ∧ y) - F(x)F(y)) dx dy)` with
   `a = F^{-1}(α)`, `b = F^{-1}(1 - α)` and `μ_α = (1 - 2α)⁻¹ ∫_α^{1-α} F^{-1}(u) du` (van der Vaart,
-  Ex 22.11, p. 323). For `F` symmetric about `0` the variance is
-  `(1 - 2α)^{-2} (∫_{-b}^{b} x² dF + 2α b²)`.
+  Ex 22.11, p. 323). By Hoeffding's covariance identity the double integral is
+  `Var(clamp(X, a, b))`, the variance of `X` winsorized at `a` and `b`, for every `F`. For `F`
+  symmetric about `0` the no-flat condition gives `a = -b`, and the variance is
+  `(1 - 2α)^{-2} E min(X², b²)`. Atoms at `±b` are allowed, so the tail masses beyond the cutoffs
+  need not be `α`.
+- **The integrated quantile functional**: for `0 < α < 1/2`, the map
+  `F ↦ (1 - 2α)⁻¹ ∫_α^{1-α} F^{-1}(u) du` on distribution functions is Hadamard differentiable at
+  every `F` for which `{x | F(x) ∈ {α, 1 - α}}` is Lebesgue-null, with derivative
+  `H ↦ -(1 - 2α)⁻¹ ∫_a^b H(x) dx` (van der Vaart, Lemma 22.10, p. 322, with `a(x) = x` and `K`
+  the uniform distribution function on `(α, 1 - α)`, as in Ex 22.11, p. 323). No density is
+  needed, which is why this is not the quantile derivative of 4.1 integrated over `u`.
 
-*Proof route.* Van der Vaart's proof: write `Lₙ` as `∫ x φ(Fₙ(x)) dFₙ(x)` up to a remainder from
-replacing `i/(n + 1)` by `Fₙ`, and its Hájek projection (6.1) as `-∫ (Fₙ - F)(x) φ(F(x)) dx` plus a
-negligible term; the variance of the projection converges to `σ²(φ, F)` by dominated convergence
-and the continuity hypothesis. The trimmed mean is the functional delta method (4.2) for the
-Hadamard differentiable map `F ↦ ∫_α^{1-α} F^{-1}(u) du` (the quantile process of 4.1 integrated
-over `u`) with the classical Donsker theorem (3.4).
+*Proof route.* Van der Vaart's proof of Thm 22.3 (pp. 318–320): with
+`eₙ(y) = E φ((Bₙ + 1)/(n + 1))` for `Bₙ ~ Bin(n - 1, F(y))`, the Hájek projection (6.1) of `Lₙ`
+satisfies `√n (L̂ₙ - E Lₙ) = -∫ 𝔾ₙ(y) eₙ(y) dy`. The law of large numbers and the continuity
+hypothesis give `eₙ → φ ∘ F` almost everywhere, so the variance of the projection converges to
+`σ²(φ, F)` by dominated convergence. The variance of `√n Lₙ` is `∬ Rₙ(x, y) dx dy` by Hoeffding's
+covariance identity, with `Rₙ` a weighted sum of the covariances of `{X_(i) ≤ x}` and
+`{X_(j) ≤ y}`. These covariances are nonnegative, the pairs with `i/n` far from `F(x)` or `j/n`
+far from `F(y)` contribute exponentially little by Hoeffding's inequality, and the rest have
+weights close to `φ(F(x)) φ(F(y))`, so this variance has the same limit. The projection theorem
+of 6.1 then makes `√n (Lₙ - E Lₙ)` and the projection asymptotically equivalent, and 1.2 gives
+the normal limit. No identification of `Lₙ` with `∫ x φ(Fₙ(x)) dFₙ(x)` is used; with atoms the
+two differ in the limit. The trimmed mean: `trimmedMean α x` differs from
+`(1 - 2α)⁻¹ ∫_α^{1-α} Fₙ^{-1}(u) du` by at most a constant times
+`n⁻¹ max(|X_(⌊αn⌋+1)|, |X_(n-⌊αn⌋)|)`, which is `o_P(n^{-1/2})` since these order statistics
+are bounded in probability. The integrated quantile functional is then handled by the
+functional delta method (4.2) with its Hadamard derivative above and the classical Donsker
+theorem (3.4).
 
-*Needs:* 3.4, 4.1, 4.2, 6.1; Mathlib `Tuple.sort`.
+*Needs:* 1.2, 3.4, 4.2, 6.1; Mathlib `Tuple.sort`.
 
 **Checks.**
 
@@ -1581,9 +1625,19 @@ over `u`) with the classical Donsker theorem (3.4).
   for `n = 3` and `α = 0.1`, `⌊αn⌋ = 0` and it is the sample mean.
 - `trimmedMean`: for `n = 10`, `α = 0.25` and the sample `(1, 2, …, 9, 100)`, `⌊αn⌋ = 2` and the
   statistic is the mean of `3, …, 8`, which is `5.5`, unaffected by the outlier.
-- Trimmed mean of the uniform law on `[0, 1]` at `α = 1/4`: `a = 1/4`, `b = 3/4`, `μ_α = 1/2`, and
-  both the double integral and the symmetric formula give variance `4 · (1/24) = 1/6`, against
-  `1/12` for the mean.
+- Trimmed mean of the uniform law on `[0, 1]` at `α = 1/4`: `a = 1/4`, `b = 3/4`, `μ_α = 1/2`. The
+  symmetric formula applies to the centred `X - 1/2`, uniform on `[-1/2, 1/2]` with cutoff `1/4`:
+  `E min((X - 1/2)², 1/16) = 1/96 + 1/32 = 1/24`, so the variance is `4 · (1/24) = 1/6`, as the
+  double integral gives, against `1/12` for the mean.
+- Atoms at the cutoffs: for `P = (δ₋₁ + δ₁)/2` and `α = 1/10`, `F` takes no value in
+  `{1/10, 9/10}`, `a = -1`, `b = 1`, and the variance is `E min(X², 1)/(0.8)² = 25/16`. A formula
+  that puts mass `α` at each cutoff, `(∫_{[-1, 1]} x² dF + 2α)/(0.8)²`, gives `15/8` instead.
+- The integrated quantile derivative needs no density: for `P = (δ₀ + δ₁)/2` and `α = 1/4`,
+  `a = 0`, `b = 1`, the double integral is `∫₀¹∫₀¹ (1/2 - 1/4) dx dy = 1/4`, and the variance is
+  `4 · (1/4) = 1`, which is `Var(clamp(X, 0, 1))/(1/2)²`, while the hypothesis `F(ξ) = p` of the
+  quantile derivative of 4.1 fails at both cutoffs.
+- The two `L`-statistic forms differ with atoms: for `P = (δ₀ + δ₁)/2` and `φ(u) = u`,
+  `Lₙ → ∫₀¹ u F^{-1}(u) du = 3/8`, while `∫ x Fₙ(x) dFₙ(x) → 1/2`.
 
 ### Examples
 
@@ -1796,18 +1850,26 @@ not needed, since each `h` uses only the joint limit under `Qₙ,₀`, which is 
   `Zₙ = √n(Tₙ - ψ(θ))` with `ψ` differentiable and `A = ψ̇`; by 5.3, a consistent root of the
   likelihood equation is such an estimator of `θ`.
 
-*Proof route.* Anderson's lemma: for `ℓ = 1_{Cᶜ}` with `C` convex symmetric, the function
-`y ↦ N(0, S)(C + y)` is maximized at `y = 0`, by the Brunn–Minkowski inequality in its
-Prékopa–Leindler form for the log-concave Gaussian density (`N(0, S)(C + y)` is log-concave and
-even in `y`); integrate over `M`, and pass to general `ℓ` by the layer-cake formula
-`ℓ = ∫₀^∞ 1{ℓ > t} dt`. For degenerate `S`, work on the range of `S`. Prop 8.4: average the
+*Proof route.* Anderson's lemma: for `ℓ = 1_{Cᶜ}` with `C` measurable, convex and symmetric, the
+function `y ↦ N(0, S)(C + y)` is maximized at `y = 0`. Write `N(0, S)` as the image of a law `ν`
+on the range `V` of `S`, a finite-dimensional inner product space on which `ν` has a measurable,
+log-concave Gaussian density (this covers degenerate `S`). By `hasPrekopaLeindler_volume` and
+`HasPrekopaLeindler.withDensity`, `ν` has the Prékopa–Leindler property at every weight, and it
+is negation-invariant. The set `{(y, v) ∈ ℝ^k × V | v - y ∈ C}` is measurable, convex and
+symmetric, and its slice at `y` has `ν`-measure `N(0, S)(C + y)`, so the central-slice theorem
+`Convex.measure_preimage_prodMk_le_measure_preimage_prodMk_zero` (proved through
+`LogConcave.lintegral_prod_right`) gives `N(0, S)(C + y) ≤ N(0, S)(C)`. Integrate over `M`, and
+pass to general `ℓ` by the layer-cake formula `ℓ = ∫₀^∞ 1{ℓ > t} dt`. Prop 8.4: average the
 equivariance identity over a prior `N(0, Λ)` on `h` with `Λ → ∞`; the posterior of `h` is Gaussian
 and the law of `T - Ah` factors as the posterior spread convolved with the law of the Bayes
 residual; take a weak limit with Prokhorov. Prop 8.6 combines Prop 8.4 with Anderson's lemma
 after the same averaging. The convolution theorem is the representation theorem (7.4) applied to
 `Zₙ`, which turns regularity into equivariance in law, followed by Prop 8.4.
 
-*Needs:* 7.2, 7.4; Mathlib `multivariateGaussian`, `Measure.conv`, `Convex`, Prokhorov.
+*Needs:* 7.2, 7.4; Mathlib `multivariateGaussian`, `Measure.conv`, `Convex`, Prokhorov; Tau Ceti
+`hasPrekopaLeindler_volume`, `HasPrekopaLeindler.withDensity`,
+`LogConcave.lintegral_prod_right` and
+`Convex.measure_preimage_prodMk_le_measure_preimage_prodMk_zero`.
 
 **Checks.**
 
@@ -1966,12 +2028,16 @@ score statistics are quadratic in `√n(θ̂ₙ - θ₀)` and `Δₙ` up to `o_P
 
 - `N(θ, 1)`, `Θ = ℝ`, `Θ₀ = {0}`: `λₙ = n x̄ₙ² = Wₙ = Sₙ` exactly, which is `χ²_1` under `θ = 0` and
   noncentral `χ²_1` with noncentrality `h²` under `h/√n`.
+- Composite local alternative: for `N₂(θ, I)`, `c(θ) = θ₁` and `h = (2, 3)`, `C = (1, 0)`,
+  `C I⁻¹ Cᵀ = 1` and `λₙ = n x̄ₙ,₁²`, which under `h/√n` is `(Z + 2)²`, noncentral `χ²_1` with
+  noncentrality `(Ch)² = 4`; the second coordinate of `h` does not enter.
 - `Θ = [0, ∞)`, `Θ₀ = {0}`, `I = 1`, `h = 0`: the limit is `X² - (X⁻)² = (X⁺)²` with `X ~ N(0, 1)`,
   which is `0` with probability `1/2` and `χ²_1` otherwise.
 - The infima must be over the sets: with `I = 1`, `H₀ = {0}`, `H = ℝ` and `Y = 1`, the limit
   statistic is `(1 - 0)² - 0 = 1`. A bounded infimum `⨅ g ∈ H₀` over all `g : ℝ` in Lean would
   insert the junk value `0` for every `g ∉ H₀` and give `0`, turning the limit `χ²_1` into `δ₀`.
-- `quadForm`: `quadForm (1) h = h²` in dimension `1`, and `quadForm I 0 = 0` for every `I`.
+- `quadForm`: `quadForm (1) h = h²` in dimension `1`.
+- `quadForm`: `quadForm I 0 = 0` for every `I`.
 - `quadForm` sees only the symmetric part of `I`: for `I = [[0, 1], [0, 0]]`,
   `quadForm I v = v₀ v₁`, the same as for `[[0, 1/2], [1/2, 0]]`, and it takes the value `-1` at
   `v = (1, -1)`; the theorems that need nonnegativity assume `I` positive definite.
@@ -2007,14 +2073,18 @@ its power by the displayed envelope. Attainment is Le Cam's third lemma (7.2).
   `θₙ` for every `θₙ → 0` from above, with `μ` differentiable at `0` and `σ` continuous at `0` with
   `σ(0) > 0`, the test rejecting when `√n(Tₙ - μ(0)) > σ(0) z_α` has power at `h/√n` tending to
   `1 - Φ(z_α - h μ'(0)/σ(0))` for `h ≥ 0` (van der Vaart, Thm 14.7, p. 195).
-- **Pitman efficiency**: for two such sequences of tests with `μᵢ'(0) > 0` and `σᵢ(0) > 0`, in
-  models with `P_{n,θ} → P_{n,0}` in total variation as `θ → 0` for each `n`, let `n_{ν,i}` be the
-  least sample size at which the test based on `Tₙ,ᵢ` has level at most `α` and power at least
-  `γ` at `θ_ν`. The Pitman relative efficiency `lim n_{ν,2}/n_{ν,1}` is the ratio of the
+- **Pitman efficiency** (`tendsto_pitmanEfficiency`): for two such sequences of statistics with
+  `μᵢ'(0) > 0` and `σᵢ(0) > 0`, in models with `P_{n,θ} → P_{n,0}` in total variation as `θ → 0`
+  for each `n`, let the test based on `Tₙ,ᵢ` reject when `√n(Tₙ,ᵢ - μᵢ(0)) > σᵢ(0) cₙ,ᵢ`, with
+  critical values calibrated to level at most `α` for every `n` and `cₙ,ᵢ → z_α`, and let `n_{ν,i}`
+  be the least sample size at which it has power at least `γ` at `θ_ν`. The Pitman relative
+  efficiency `lim n_{ν,2}/n_{ν,1}` is the ratio of the
   efficacies `(μᵢ'(0)/σᵢ(0))²`, for every `0 < α < γ < 1` and every sequence of alternatives
   `θ_ν ↓ 0` (van der Vaart, Thm 14.19, pp. 201–202). The positive slopes are needed: the upper-tail
-  test based on `-X̄` under `N(θ, 1)` has power below `α` at every `θ > 0` and never reaches `γ`. With nondecreasing power functions, asymptotic normality
-  along `θₙ = O(n^{-1/2})` suffices.
+  test based on `-X̄` under `N(θ, 1)` has power below `α` at every `θ > 0` and never reaches `γ`.
+  The calibration is needed: van der Vaart's sample size must give level at most `α`, and the
+  fixed critical value `z_α` need not give that level at any `n`. With nondecreasing power
+  functions, asymptotic normality along `θₙ = O(n^{-1/2})` suffices.
 - **The three one-sample tests**: the sign statistic `n⁻¹ #{i | xᵢ > 0}`, the Wilcoxon signed-rank
   statistic, defined as the U-statistic of order `2` with kernel `1{x₁ + x₂ > 0}` (Foundations 2.4),
   and the `t` statistic. For a density `f(x - θ)` with `f` symmetric about `0`, of finite variance
@@ -2038,8 +2108,13 @@ rank form `W⁺ = ∑_{i : 0 < xᵢ} rank |xᵢ|` and consumes the efficiencies 
 
 *Proof route.* Local power: the rejection event is
 `{√n(Tₙ - μ(θₙ))/σ(θₙ) > (σ(0) z_α - √n(μ(θₙ) - μ(0)))/σ(θₙ)}` and the right side tends to
-`z_α - h μ'(0)/σ(0)`; the limit law is continuous. Pitman: invert the local power at the
-alternatives `θ_ν` to find the sample sizes. The efficacies: the sign statistic is a binomial
+`z_α - h μ'(0)/σ(0)`; the limit law is continuous. Pitman, following van der Vaart's proof: total
+variation continuity forces `n_{ν,i} → ∞`, since along bounded sample sizes the two error
+probabilities of any test sum to nearly `1`, more than `α + 1 - γ`. Along `(n_{ν,i}, θ_ν)` and
+`(n_{ν,i} - 1, θ_ν)` the local power expansion with `cₙ,ᵢ → z_α` gives powers
+`1 - Φ(z_α - √n θ_ν μᵢ'(0)/σᵢ(0)) + o(1)`; minimality makes both tend to `γ`, so
+`n_{ν,i} θ_ν² → (z_α - z_γ)² σᵢ(0)²/μᵢ'(0)²` with `z_γ = Φ^{-1}(1 - γ)`, and the ratio
+follows. The efficacies: the sign statistic is a binomial
 mean with `μ(θ) = 1 - F(-θ)`; the Wilcoxon statistic has `μ(θ) = P(X₁ + X₂ > 0)` with
 `μ'(0) = 2∫ f²` and limit variance `1/3` from 6.2; local uniform asymptotic normality from the
 Lindeberg theorem (1.2) and 6.2 along `θₙ`. The Hodges–Lehmann bound: minimize `∫ f²` at fixed
@@ -2054,6 +2129,10 @@ integrating it gives `σ² - 1/(12 M²) ≥ 0`, so `4σ² f(0)² ≥ 1/3`. For t
 
 **Checks.**
 
+- Calibration: in `N(θ, 1)`, `Tₙ = X̄ₙ + 1/n` has `μ(θ) = θ` and `σ = 1`, but the fixed critical
+  value `z_α` gives null rejection probability `1 - Φ(z_α - n^{-1/2}) > α` at every `n` (`0.0612`
+  at `n = 100`, `α = 0.05`). The calibrated `cₙ = z_α + n^{-1/2}` gives the usual test based on
+  `X̄ₙ`, and the efficiency relative to `X̄ₙ` is `1`.
 - Normal: `e_{S,t} = 2/π ≈ 0.637`, `e_{W,t} = 3/π ≈ 0.955`.
 - Laplace `e^{-|x|}/2`: `σ² = 2`, `f(0) = 1/2`, `∫ f² = 1/4`, giving `e_{S,t} = 2` and
   `e_{W,t} = 3/2`.
@@ -2208,8 +2287,10 @@ limit `N(0, ∫ IF² dF)`.
 
 - `T(z) = z(t₀)`, the distribution function at `t₀`: `T' = lp.evalCLM` at `t₀`,
   `IF(x) = 1{x ≤ t₀} - F(t₀)` and the limit variance is `F(t₀)(1 - F(t₀))`.
-- The quantile (4.1) at `F(ξ) = p`, `F'(ξ) = f`: `IF(x) = (p - 1{x ≤ ξ})/f`, of variance
-  `p(1 - p)/f²`, recovering 5.8.
+- The quantile (4.1) at `F(ξ) = p`, `F'(ξ) = f`: for `x ≠ ξ`, `IF(x) = (p - 1{x ≤ ξ})/f`. At
+  `x = ξ` the contamination derivative is `0`: the `p`-quantile of `(1 - t)F + tδ_ξ` is `ξ` for
+  every small `t`, while the formula would give `(p - 1)/f`. Since `F` has no atom at `ξ`, the
+  variance is still `p(1 - p)/f²`, recovering 5.8.
 
 ### 9.3 The median
 
@@ -2247,8 +2328,10 @@ the quantile Galois inequality (Tau Ceti `quantile_le_iff`) converts these into 
 - **Mean and median** (`breakdownPoint_sampleMean_and_median`): the sample mean has breakdown point
   `1/n` at every sample of size `n ≥ 1`, and the sample median of `2m + 1` observations has
   breakdown point `(m + 1)/(2m + 1)`, which tends to `1/2`.
-- **Least squares** has breakdown point `1/n` at every regression sample with a design of full
-  rank.
+- **Least squares** has breakdown point `1/n` at every regression sample with `n ≥ 1`
+  observations, `p ≥ 1` coefficients and a design of full column rank. For `p = 0` the estimator
+  takes values in the one-point space `ℝ⁰` and its breakdown point is `∞`, as for a constant
+  estimator.
 - **Least median of squares**: consider a regression sample with `p ≥ 2` coefficients, no design
   row `xᵢ = 0`, observations in general position (any `p` observations determine the coefficient
   vector uniquely), and no vertical hyperplane of `ℝ^{p+1}` (a `p`-dimensional subspace containing
@@ -2262,12 +2345,15 @@ the quantile Galois inequality (Tau Ceti `quantile_le_iff`) converts these into 
   better. Under general position at most `p - 1` design rows lie in a hyperplane of the design
   space, so the vertical-hyperplane condition is `p - 1 ≤ ⌊n/2⌋`. Without it the formula can be
   `0` or negative, as for `n = 8`, `p = 6`, where `0` replacements cannot break a fixed estimate.
-- **Least absolute deviations** has breakdown point `1/n` when whole pairs `(xᵢ, yᵢ)` may be
-  replaced (Jurečková–Sen, §4.8, p. 176).
+- **Least absolute deviations** has breakdown point `1/n` at every regression sample with
+  `n ≥ 1` and `p ≥ 1` when whole pairs `(xᵢ, yᵢ)` may be replaced (Jurečková–Sen, §4.8, p. 176);
+  for `p = 0` it is `∞`.
 
 *Proof route.* Mean: one replaced coordinate moves the mean by `1/n` times the change. Median:
-`m` replacements leave at least `m + 1` original points on each side, so the median stays in the
-range of the original sample; `m + 1` replacements placed at `y → ∞` move it to `y`. Least squares
+at most `m` replacements leave at least `m + 1` unchanged observations of the `2m + 1`. Since at
+most `m` observations can then lie below the original minimum or above the original maximum, the
+new median, the order statistic of rank `m + 1`, lies between those extremes; `m + 1`
+replacements placed at `y → ∞` move it to `y`. Least squares
 is linear in the responses. Least median of squares: Rousseeuw's argument with the half-sample of
 original points in general position. Least absolute deviations: a single pair with a large design
 point `x` and a response `y = c x` with large `c` forces the fit through it.
@@ -2305,9 +2391,14 @@ point `x` and a response `y = c x` with large `c` forces the fit through it.
   `(1 - ε)φ(k) e^{k² - k|x|}` for `|x| > k`. With
   `V(ψₖ, G) = ∫ ψₖ² dG / G((-k, k))²`, for every `G = (1 - ε)Φ + εH` with `H` symmetric about `0`,
   `V(ψₖ, G) ≤ V(ψₖ, G₀) = 1/I(G₀)` (Jurečková–Sen, §2.4, (2.4.9)–(2.4.16), pp. 32–36, restating
-  Huber 1964). Moreover `G₀ = (1 - ε)Φ + εH₀` for a symmetric `H₀` carried by `{|x| > k}`, `ψₖ` is
-  the score `-g₀'/g₀`, and `∫ ψ² dG₀/(∫ ψ' dG₀)² ≥ 1/I(G₀)` for every bounded absolutely continuous
-  `ψ` with `∫ ψ' dG₀ ≠ 0`, so `(ψₖ, G₀)` is a saddle point.
+  Huber 1964). Moreover `G₀ = (1 - ε)Φ + εH₀` for a symmetric `H₀` carried by `{|x| > k}`, and
+  `ψₖ` is the score `-g₀'/g₀`.
+- **The saddle point** (`huber_minimax_le_of_absolutelyContinuous`): with `k` and `G₀` as above,
+  `∫ ψ² dG₀/(∫ ψ' dG₀)² ≥ 1/I(G₀) = V(ψₖ, G₀)` for every bounded `ψ` that is absolutely
+  continuous on every bounded interval, with `ψ'` integrable under `G₀` and `∫ ψ' dG₀ ≠ 0`. With
+  the upper half above, `(ψₖ, G₀)` is a saddle point (Jurečková–Sen, (2.4.16), p. 36, whose
+  denominator `∫ ψ(x)(-g₀'(x)/g₀(x)) dG₀(x)` of (2.4.12), p. 35, is `∫ ψ' dG₀` after integration by
+  parts).
 
 *Proof route.* Hampel: the Lagrangian `∫ (φ² - 2aφx) dΦ` with the pointwise constraint `|φ| ≤ c`
 is minimized pointwise by `φ = max(-c, min(c, ax))`, and the normalization fixes `a`; the
@@ -2317,8 +2408,10 @@ to `c` changes no constraint and no integral. Huber: the mass of `ψₖ²` beyon
 value of `ψₖ²`, and the denominator counts only `(-k, k)`, so moving the contaminating mass outside
 `(-k, k)` maximizes `V`; `G₀` puts its contamination there, the equation for `k` is
 `∫_{|x| > k} dG₀ = ε + (1 - ε)(2Φ(-k))`, and `V(ψₖ, G₀) = 1/I(G₀)` is the identity
-`∫ ψₖ² dG₀ = G₀((-k, k))` obtained by integrating by parts against `g₀`. The last inequality is the
-Cauchy–Schwarz inequality `(∫ ψ' dG₀)² = (∫ ψ ψₖ dG₀)² ≤ ∫ ψ² dG₀ ∫ ψₖ² dG₀`.
+`∫ ψₖ² dG₀ = G₀((-k, k))` obtained by integrating by parts against `g₀`. The saddle point: `g₀` is
+absolutely continuous with `g₀' = -ψₖ g₀`, and `ψ g₀ → 0` at `±∞` because `ψ` is bounded, so
+integration by parts gives `∫ ψ' dG₀ = ∫ ψ ψₖ dG₀`; then the Cauchy–Schwarz inequality
+`(∫ ψ ψₖ dG₀)² ≤ ∫ ψ² dG₀ ∫ ψₖ² dG₀` with `∫ ψₖ² dG₀ = I(G₀)` is the bound.
 
 *Needs:* 9.1; Foundations 9.2; Tau Ceti `cdf_gaussianReal_eq`, `hasDerivAt_cdf_gaussianReal`.
 
@@ -2328,6 +2421,9 @@ Cauchy–Schwarz inequality `(∫ ψ' dG₀)² = (∫ ψ ψₖ dG₀)² ≤ ∫ 
   `V(ψₖ, G₀) = 1/I(G₀) ≈ 1.0652, 1.2561, 1.4899`; the density of `G₀` integrates to `1`.
 - At `ε = 0.05`, `H = δ₀` gives `V ≈ 0.9755 < 1.2561`, and `H = (δ₋₁₀ + δ₁₀)/2` gives the maximum
   `1.2561`.
+- The saddle point compares scores at `G₀`: at `ε = 0.05`, `ψ = tanh` gives
+  `∫ tanh² dG₀/(∫ cosh⁻² dG₀)² ≈ 1.2719 ≥ 1.2561`, and `ψ = ψₖ` gives equality, since
+  `ψₖ' = 1_{(-k, k)}` almost everywhere and `∫ ψₖ' dG₀ = G₀((-k, k)) = I(G₀)`.
 - Hampel's threshold: `k/(2Φ(k) - 1) → 1/(2φ(0)) = √(π/2) ≈ 1.2533` as `k → 0`, the gross-error
   sensitivity of the median, which is the least attainable.
 
@@ -2340,7 +2436,7 @@ Cauchy–Schwarz inequality `(∫ ψ' dG₀)² = (∫ ψ ψₖ dG₀)² ≤ ∫ 
   derivative `-γ < 0` at `0`. Then every sequence of minimizers satisfies
   `√n(β̂ₙ - β) = (Q⁻¹/(γ√n)) ∑ᵢ xᵢ ψ(εᵢ) + o_P(1) → N(0, (E ψ(ε)²/γ²) Q⁻¹)` (Jurečková–Sen, §5.5,
   p. 215, Thm 5.5.1, p. 218; Hjort–Pollard 1993, Thm 2.2, p. 4, applied to least squares and least
-  absolute deviations in §3D, pp. 7–8).
+  absolute deviations in §3D, pp. 7–9: least squares, p. 8; least absolute deviations, p. 9).
 - Least squares is `ρ(u) = u²/2` with `E ε² < ∞` and `γ = 1`; least absolute deviations is
   `ρ(u) = |u|` when `F` has median `0` and a derivative `F'(0) > 0`, with `γ = 2F'(0)`.
 
