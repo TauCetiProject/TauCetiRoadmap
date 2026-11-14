@@ -379,8 +379,8 @@ Build:
   `M`, and in summand `n` exactly when `M` has `n` elements), using (S1)'s `Equiv.encodeVia` and
   the fact that a transported code of a model is a code of a model (`Equiv.realize_encodeVia` with
   `RelationalConfiguration.mem_modelsOf`).
-* **Upper bound.** `countableModelCount_le_continuum`, from (S1)'s
-  `RelationalConfiguration.mk_le_continuum` and the summand bounds.
+* **Upper bound.** With countably many relation symbols, `countableModelCount_le_continuum`, from
+  (S1)'s `RelationalConfiguration.mk_le_continuum` and the summand bounds.
 * **Isomorphism on a finite carrier.** On `Fin n`, (S3)'s `isoSetoid L (Fin n)` is the
   orbit relation of the finite group `Equiv.Perm (Fin n)`, so its graph is a finite union of graphs
   of continuous maps, hence Borel: Tau Ceti's
@@ -389,8 +389,8 @@ Build:
 * **Perfect sets of non-isomorphic models.** `HasPerfectSetOfNonisoModelsOn α φ :=
   (isoSetoid L α).HasPerfectAntichainOn (modelsOf φ)` (E0) and
   `HasPerfectlyManyCountableModels φ` (a perfect set at the tier `ℕ` or at some `Fin n`). With (E0),
-  a perfect set gives `𝔠 ≤ #(Quotient (isoSetoidOn α φ))`, hence
-  `HasPerfectlyManyCountableModels.countableModelCount_eq : countableModelCount φ = 𝔠`.
+  a perfect set gives `𝔠 ≤ #(Quotient (isoSetoidOn α φ))`, hence, with countably many relation
+  symbols, `HasPerfectlyManyCountableModels.countableModelCount_eq : countableModelCount φ = 𝔠`.
 
   **Checks.**
   * True for `∃ x ∀ y, y = x` with countably many unary predicates at `Fin 1` (the Layer 0
@@ -511,9 +511,10 @@ both codes, which agree because both have rank `α`. Do not state isolation symm
 
 ### Layer 2: the bounded-rank dichotomy
 
-For an isolating rank `ρ` bounded on `modelsOf φ` by `β < ω₁`, isomorphism on `modelsOf φ` equals
-`bfEquivSetoidOn φ β` (forward by `isoSetoid_le_bfEquivSetoid`; backward by monotonicity
-down to `ρ c` and isolation), hence has Borel graph. Build:
+Let `L` have countably many relation symbols. For an isolating rank `ρ` bounded on `modelsOf φ` by
+`β < ω₁`, isomorphism on `modelsOf φ` equals `bfEquivSetoidOn φ β` (forward by
+`isoSetoid_le_bfEquivSetoid`; backward by monotonicity down to `ρ c` and isolation), hence has
+Borel graph. Build:
 
 * `countableModelCount_le_aleph0_or_hasPerfectlyMany_of_bounded`: for the tier `ℕ`, (E1), relative
   form, on the Borel set of models on `ℕ` with `R = F` = isomorphism, whose second alternative (a
@@ -527,8 +528,9 @@ down to `ρ c` and isolation), hence has Borel graph. Build:
   model `M : Type` of `φ`, the same two conclusions.
 * The internal form: if `internalScottRank` of every model on `ℕ` is at most `β < ω₁`, the same
   conclusions, via (S5)'s comparison (the external height is then at most `β + ω < ω₁`).
-* The converse direction, for sentences: if `φ` has countably many countable models then every
-  isolating rank is bounded on `modelsOf φ` (`TauCeti.exists_rank_bound_of_countable_isoClasses`).
+* The converse direction, for sentences, with no countability of `L`: if `φ` has countably many
+  countable models then every isolating rank is bounded on `modelsOf φ`
+  (`TauCeti.exists_rank_bound_of_countable_isoClasses`).
 
 **Acceptance check.** Let `φ` say that `E` is an equivalence relation all of whose classes are
 infinite. Every countable model is homogeneous (a finite partial isomorphism extends to an
@@ -539,7 +541,7 @@ automorphism permuting the classes), so every tuple has orbit rank `0` and every
 
 ### Layer 3: Morley's theorem
 
-Build:
+Build, for `L` with countably many relation symbols:
 
 * **One level.** `countable_bfClasses_or_hasPerfectSet`: for `α < ω₁`, (E1), relative form, on the
   Borel set `modelsOf φ` with `F = bfEquivSetoidOn φ α` and `R` = isomorphism (which refines `F`),
@@ -606,9 +608,10 @@ countably many classes (the set itself may be uncountable) has one level `γ < �
 `bfEquivSetoid γ` decides isomorphism within it.
 
 **4c. Thin sentences are exactly the scattered ones.**
-`bfScattered_modelsOf_iff_isThinOnNatModels`: thin implies scattered by the one-level step of
-Layer 3; scattered implies thin by 4a. This is Theorem 3.3, (a)⇔(b), of Baldwin, Friedman,
-Koerwien and Laskowski. Corollary: fewer than `𝔠` models on `ℕ` implies scattered.
+`bfScattered_modelsOf_iff_isThinOnNatModels`: with countably many relation symbols, thin implies
+scattered by the one-level step of Layer 3; scattered implies thin by 4a. This is Theorem 3.3,
+(a)⇔(b), of Baldwin, Friedman, Koerwien and Laskowski. Corollary: fewer than `𝔠` models on `ℕ`
+implies scattered.
 
 **4d. Concentration.** `ConcentratedAtBFLevels C`: at each level `α < ω₁` some centre `k` (possibly
 outside `C`, depending on `α`) has all but countably many classes of `C` in its level-`α` class.
@@ -650,11 +653,11 @@ Build:
   action, analytic by (S3)'s `analyticSet_iUnion_smul`, and apply S6);
 * *Cantor recovery*: for a Borel `f : (ℕ → Bool) → RelationalConfiguration L ℕ` with pairwise
   non-isomorphic values, countably many sentences `θ n` satisfy `f x ∈ modelsOf (θ n) ↔ x n = true`;
-* `isThin_iff_countable_sentenceSpectra`: for Borel `C`, thin iff every list `θ` has countably many
-  realized truth sequences on `C` (in one direction, (E1), relative form, on `C` for the Borel
-  kernel of `sentenceTheory θ`, which isomorphism refines: its Cantor-family alternative is a Cantor
-  antichain for isomorphism and contradicts thinness; Cantor recovery in the other); the sentence
-  form for `modelsOf φ`;
+* `isThin_iff_countable_sentenceSpectra`: with countably many relation symbols, for Borel `C`, thin
+  iff every list `θ` has countably many realized truth sequences on `C` (in one direction, (E1),
+  relative form, on `C` for the Borel kernel of `sentenceTheory θ`, which isomorphism refines: its
+  Cantor-family alternative is a Cantor antichain for isomorphism and contradicts thinness; Cantor
+  recovery in the other); the sentence form for `modelsOf φ`;
 * *single-sentence splits*: if a presentation `classOf : C → Q` of the classes, with truth read
   through it, has for each sentence a truth side with countably many points of `Q`, then `C` is
   thin (no surjectivity, measurability or σ-algebra on `Q` assumed; the countable-exceptions step
@@ -751,7 +754,8 @@ universe `0`, and counts all at-most-countable models: those on `ℕ` and, expli
 | `CardinalVaughtConjecture` (Vaught's form) | every `φ` has `HasVaughtCount φ` | a sentence with exactly `ℵ₁` countable models, together with `ℵ₁ < 𝔠` | true under CH by Morley's theorem; CH does not settle `VaughtConjecture` |
 | `FirstOrderVaughtConjecture` (Vaught's original setting) | every complete first-order `T` in such an `L` has countably many models on `ℕ` up to isomorphism, or a perfect set of pairwise non-isomorphic ones | a complete theory with uncountably many models on `ℕ` and no perfect set | implied by `VaughtConjecture`; the converse is not claimed |
 
-Prove, with exactly the hypotheses shown:
+Prove, for `L` with countably many relation symbols and with exactly the further hypotheses shown
+(the infinite-model reduction needs no countability):
 
 * `not_hasVaughtDichotomy_iff`: `¬ HasVaughtDichotomy φ ↔ countableModelCount φ = ℵ₁ ∧
   ¬ HasPerfectlyManyCountableModels φ` (no CH hypothesis; from the witnessed Morley theorem);
