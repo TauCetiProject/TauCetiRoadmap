@@ -100,12 +100,15 @@ Lie algebras, polynomial forms) and their comparison with simply connected space
 
 ## Conventions
 
-- **Ground field.** `K` is a field. The universal property of 1.1 and every theorem of Layers 2–7
-  assume `[CharZero K]`; the definitions of Layer 1 and 7.1 and the two criteria of 1.2 and 1.3 are
-  stated over an arbitrary field, where they hold (both sides of each criterion are derivations
-  determined on generators). Spaces use `K = ℚ` unless `K` is named. Witness: over `𝔽₂`
-  the algebra `𝔽₂[e]`, `|e| = 1`, is graded-commutative (all signs are `+1`) with `e² ≠ 0`, so
-  graded commutativity alone does not give odd squares zero; over `ℚ`, `e² = −e²` gives `e² = 0`.
+- **Ground field.** `K` is a field. The identification `A ≅ ΛV`, the universal property and the
+  restriction and product statements of 1.1, the API of 1.2, and every theorem of Layers 2–7 assume
+  `[CharZero K]`. The definitions of Layer 1 and 7.1 and the criteria of 1.2 and 1.3 are stated over
+  an arbitrary field, and the criteria hold there: each one reduces a statement about a derivation,
+  or about two `φ`-derivations, to the generators. Spaces use `K = ℚ` unless `K` is named. Witness:
+  over `𝔽₂` the algebra `𝔽₂[e]`, `|e| = 1`, is graded-commutative (all signs are `+1`) with
+  `e² ≠ 0`. So graded commutativity alone does not make odd squares zero, and on the generators `e`,
+  `e²` this algebra satisfies the definition of 1.1 without being `ΛV`. Over `ℚ`, `e² = −e²` gives
+  `e² = 0`.
 - **Grading of commutative DG algebras.** Cohomological: `d` has degree `+1`,
   `d(ab) = da · b + (−1)ᵖ a · db` for `a ∈ Aᵖ` (Tau Ceti's `IsDGAlgebra.leibniz`), and graded
   commutativity is `ab = (−1)^(pq) ba` for `a ∈ Aᵖ`, `b ∈ A^q`. Witness: in `Λ(x, y, z)`,
@@ -298,7 +301,8 @@ Félix–Halperin–Thomas, §12). Define `positivePart 𝒜 = ⨆_{p > 0} Aᵖ`
 DG inclusion with `d(W) ⊆ B` (Morgan, Definition 5.1); a Sullivan algebra is a well-ordered union
 of Hirsch extensions of `K`. Prove `IsSullivanAlgebra.isMinimal_iff`: for a Sullivan algebra,
 minimality is equivalent to `d (A⁺) ⊆ A⁺ · A⁺`, that is, to the vanishing of the differential
-induced on the indecomposables `Q(A) = A⁺ / A⁺ · A⁺ ≅ V` (Morgan, note after Definition 5.2).
+induced on the indecomposables `Q(A) = A⁺ / A⁺ · A⁺`, isomorphic to `V` in characteristic zero
+(Morgan, note after Definition 5.2).
 *Needs:* 1.1; Tau Ceti `TauCeti.IsDGAlgebra` (Leibniz rule); Mathlib `Algebra.adjoin`,
 `Submodule.mul`, `Submodule.map`.
 
