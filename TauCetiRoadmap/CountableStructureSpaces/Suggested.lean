@@ -92,8 +92,9 @@ theorem mem_stabilizer_iff [L.IsRelational] (σ : Equiv.Perm α) (c : Relational
   sorry
 
 /-- **Layer 1 milestone.** The saturation of an analytic class is analytic, for every language.
-The library proves the relational case (`RelationalConfiguration.analyticSet_iUnion_smul`). -/
-theorem analyticSet_iUnion_smul [∀ n, Countable (L.Relations n)]
+The library proves the relational case with countably many relation symbols
+(`RelationalConfiguration.analyticSet_iUnion_smul`). -/
+theorem analyticSet_iUnion_smul
     {A : Set (RelationalConfiguration L ℕ)} (hA : AnalyticSet A) :
     AnalyticSet (⋃ σ : Equiv.Perm ℕ, σ • A) := by
   sorry
@@ -471,7 +472,7 @@ def descTree [L.IsRelational] (lt : L.Relations 2) (c : RelationalConfiguration 
   prefixTree fun s => ∀ (i : ℕ) (h : i + 1 < s.length), codeRel lt c s[i + 1] s[i]
 
 /-- **Layer 6 milestone, boundedness for analytic classes of well-orders.** -/
-theorem analytic_type_bounded [L.IsRelational] [∀ n, Countable (L.Relations n)]
+theorem analytic_type_bounded [L.IsRelational]
     (lt : L.Relations 2) {A : Set (RelationalConfiguration L ℕ)} (hA : AnalyticSet A)
     (hAW : A ⊆ wellOrderClass lt) :
     ∃ β < (Ordinal.omega 1 : Ordinal.{0}), ∀ c (hc : c ∈ A),
@@ -479,8 +480,8 @@ theorem analytic_type_bounded [L.IsRelational] [∀ n, Countable (L.Relations n)
   sorry
 
 /-- **Layer 6 headline.** `WO` is not analytic. -/
-theorem not_analyticSet_wellOrderClass [L.IsRelational] [∀ n, Countable (L.Relations n)]
-    (lt : L.Relations 2) : ¬ AnalyticSet (wellOrderClass lt) := by
+theorem not_analyticSet_wellOrderClass [L.IsRelational] (lt : L.Relations 2) :
+    ¬ AnalyticSet (wellOrderClass lt) := by
   sorry
 
 /-- **Layer 6 headline.** `WO` is not Borel. -/

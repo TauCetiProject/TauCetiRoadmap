@@ -338,10 +338,11 @@ restriction (`continuous_uncurry_restrict`), from which joint continuity of the 
 `Equiv.Perm.continuous_inv_apply`, `isoSetoid_eq_orbitRel`,
 `isomorphismInvariant_iff_isInvariantBlock`, the closure properties of `IsomorphismInvariant`
 (`IsomorphismInvariant.compl`, `inter`, `union`, `isomorphismInvariant_iUnion`, `_iInter`,
-`_empty`, `_univ`) and, for relational `L`, `analyticSet_iUnion_smul`. Mathlib's
-`MeasurableSpace.measurableSet_iInf` and `measurableSet_invariants` give the invariant σ-algebra.
-Still to build: `mem_stabilizer_iff` and closedness of stabilizers, and the two saturation results
-for languages with function symbols.
+`_empty`, `_univ`) and, for relational `L` with countably many relation symbols,
+`analyticSet_iUnion_smul`. Mathlib's `MeasurableSpace.measurableSet_iInf` and
+`measurableSet_invariants` give the invariant σ-algebra. Still to build: `mem_stabilizer_iff` and
+closedness of stabilizers, the two saturation results for languages with function symbols, and
+`analyticSet_iUnion_smul` for uncountably many relation symbols.
 
 - The relabelling action of `Equiv.Perm α` on `RelationalConfiguration L α` (Tau Ceti's), with
   `eval_perm_smul`, which with `Atom.map_atom` reads
@@ -362,13 +363,15 @@ for languages with function symbols.
   measurability together with action invariance, for every language and carrier, by
   `MeasurableSpace.measurableSet_iInf` and `MeasurableSpace.measurableSet_invariants`. It is
   coarser than the product σ-algebra.
-- **Saturations**: for countable relation symbols, the saturation `⋃ σ, σ • A` of an analytic
-  set is analytic (`analyticSet_iUnion_smul`, for every language; Tau Ceti proves the relational
-  case), as the image of `univ ×ˢ A` under the continuous
-  action, using `AnalyticSet.prod` (BorelEquivalenceRelations). The isomorphism relation, as a
-  subset of the square, is analytic for the same reason, for every language with countably many
-  relation symbols: it is the image of `Perm ℕ × RelationalConfiguration L ℕ` under
-  `(σ, c) ↦ (σ • c, c)` (Tau Ceti's `analyticSet_setOf_isoSetoid` is the relational case).
+- **Saturations**: for every language, the saturation `⋃ σ, σ • A` of an analytic set is
+  analytic (`analyticSet_iUnion_smul`; Tau Ceti proves the relational case with countably many
+  relation symbols), as the image of `univ ×ˢ A` under the continuous action, using
+  `AnalyticSet.prod` (BorelEquivalenceRelations). No countability enters: `A` is analytic by
+  hypothesis and `Equiv.Perm ℕ` is Polish. The isomorphism relation, as a subset of the square, is
+  analytic for every language with countably many relation symbols: it is the image of
+  `Perm ℕ × RelationalConfiguration L ℕ` under `(σ, c) ↦ (σ • c, c)` (Tau Ceti's
+  `analyticSet_setOf_isoSetoid` is the relational case). Here countability is used, since the
+  whole coding space is analytic only when it is Polish.
 
 ⚠ **API warning.** The action needs no countability and no relational hypothesis; only the
 orbit–isomorphism correspondence needs `[L.IsRelational]`, and only Polishness needs countability.
@@ -846,11 +849,11 @@ well-order of `ℕ`. Prove:
   node sets, `body (descTree lt c) = ∅` exactly when `codeRel lt c` is well-founded, and, for a
   well-order, its order type at most `treeHeight (descTree lt c)` (a node ending at `x` has rank
   the order type of the predecessors of `x`);
-- `analytic_type_bounded`: an analytic class of coded well-orders has order types bounded below
-  `ω₁`, by `analytic_treeHeight_bounded` applied to `descTree`;
-- `not_analyticSet_wellOrderClass`, from `analytic_type_bounded` and
-  `exists_mem_wellOrderClass_type_eq`, and `not_measurableSet_wellOrderClass`, since Borel sets
-  are analytic;
+- `analytic_type_bounded`, for every relational `L`: an analytic class of coded well-orders has
+  order types bounded below `ω₁`, by `analytic_treeHeight_bounded` applied to `descTree`;
+- `not_analyticSet_wellOrderClass`, for every relational `L`, from `analytic_type_bounded` and
+  `exists_mem_wellOrderClass_type_eq`, and, with countably many relation symbols,
+  `not_measurableSet_wellOrderClass`, since Borel sets are then analytic;
 - `not_exists_modelsOf_eq_wellOrderClass`: no Lω₁ω sentence has exactly the coded well-orders as
   its coded models, from the easy direction of López–Escobar.
 
