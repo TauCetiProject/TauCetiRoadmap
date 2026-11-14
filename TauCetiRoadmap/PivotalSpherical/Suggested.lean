@@ -8,6 +8,7 @@ import TauCeti.CategoryTheory.Monoidal.Center.Abelian
 import TauCeti.CategoryTheory.Monoidal.Center.Pivotal
 import TauCeti.CategoryTheory.Monoidal.Center.Rigid
 import TauCeti.CategoryTheory.Semisimple.Basic
+import TauCeti.CategoryTheory.Semisimple.Rigid
 import TauCeti.CategoryTheory.Simple.Classes
 
 /-!
@@ -152,6 +153,34 @@ theorem squaredNorm_pivotalIsoApp [PivotalCategory C] (X : C) :
     squaredNorm (pivotalIsoApp X) = leftDim X ≫ rightDim X := sorry
 
 end SquaredNorm
+
+/-! ## Layer 6: global dimension, the Radford isomorphism and nonvanishing -/
+
+section Radford
+
+variable (k : Type w) [Field k] [IsAlgClosed k] (C : Type u) [Category.{v} C]
+  [MonoidalCategory C] [RigidCategory C] [Abelian C] [MonoidalPreadditive C] [Linear k C]
+  [MonoidalLinear k C] [IsFiniteSemisimpleCategory C] [∀ X Y : C, FiniteDimensional k (X ⟶ Y)]
+  [Simple (𝟙_ C)] [Fintype (SimpleClasses C)]
+
+/-- **The global dimension without a pivotal structure** (6.2): the sum of the squared norms of
+the simple representatives, each for some isomorphism to its double dual. -/
+noncomputable def normGlobalDim : 𝟙_ C ⟶ 𝟙_ C :=
+  ∑ S : SimpleClasses C,
+    squaredNorm (Classical.choice (nonempty_iso_rightDual_rightDual S.repr))
+
+include k in
+/-- **The Radford isomorphism** (6.7; EGNO, Theorem 7.19.1 and Corollary 7.19.3): in a fusion
+category the quadruple dual is monoidally isomorphic to the identity. -/
+theorem exists_radfordIso :
+    ∃ e : 𝟭 C ≅ doubleRightDualFunctor C ⋙ doubleRightDualFunctor C, NatTrans.IsMonoidal e.hom :=
+  sorry
+
+/-- **Nonvanishing in characteristic zero** (6.9; Etingof–Nikshych–Ostrik, Theorem 2.3), with no
+pivotal structure. -/
+theorem normGlobalDim_ne_zero [CharZero k] : normGlobalDim C ≠ 0 := sorry
+
+end Radford
 
 /-! ## Layer 10: ribbon structures -/
 

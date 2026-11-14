@@ -13,7 +13,9 @@ the Drinfeld centre of a fusion category. Most of it is implemented in Tau Ceti 
 - traces and dual bases for objects whose endomorphisms are the scalars of a commutative ring
   (Layers 2 and 3);
 - strict dominance of the Perron root for primitive matrices (Layer 5);
-- global dimension and pseudo-unitarity without a chosen pivotal structure (Layer 6);
+- squared norms, global dimension and pseudo-unitarity without a chosen pivotal structure, the
+  Radford isomorphism `𝟭 ≅ (-)ᘁᘁᘁᘁ`, the pivotalization, and nonvanishing of the global dimension
+  of every fusion category in characteristic zero (Layer 6);
 - the comparison of Frobenius–Schur indicators on `FDRep` (Layer 7);
 - `Vec^ω_G` over a commutative ring, with its pivotal structures and indicators (Layers 8 and 9);
 - ribbon structures: the spherical-to-ribbon converse and the ribbon centre (Layer 10);
@@ -237,21 +239,75 @@ than `r` ([EGNO] §3.2, pp. 51–53). *Needs:* Tau Ceti `Matrix.IsIrreducible.ex
 ## Layer 6: dimensions at the fusion bar
 
 **6.1 Squared norms without a pivotal structure** ([ENO] Proposition 2.1 and Definition 2.2,
-preprint p. 4). For `a : X ≅ Xᘁᘁ`, `squaredNorm a = Tr(a) ≫ Tr((a⁻¹)ᘁ)`, where `Tr` closes a
-morphism `Y ⟶ Yᘁᘁ` with `ε_ Yᘁ Yᘁᘁ`. For `X` with scalar endomorphisms it does not depend on `a`, and
-it equals `leftDim X ≫ rightDim X` for the component of any pivotal structure.
+preprint p. 4). For `b : Y ⟶ Yᘁᘁ`, `doubleDualTrace b := η_ Y Yᘁ ≫ (b ▷ Yᘁ) ≫ ε_ Yᘁ Yᘁᘁ`. For
+`a : X ≅ Xᘁᘁ`, `TauCeti.squaredNorm a := doubleDualTrace a.hom ≫ doubleDualTrace (a.inv)ᘁ`. For `X` with
+scalar endomorphisms it does not depend on `a`, `doubleDualTrace a.hom` is a unit when `X` is simple,
+and it equals `leftDim X ≫ rightDim X` for the component of any pivotal structure. For other `X`
+it depends on `a`.
 
 **6.2 Global dimension without a pivotal structure.** For a fusion category over `k` (the
 hypotheses of `TauCeti.globalDim_ne_zero` without `[PivotalCategory C]`), `dim C` is the sum of the
-squared norms of the simple representatives, using `TauCeti.nonempty_iso_rightDual_rightDual`; it
-equals `TauCeti.globalDim C` for every pivotal structure, and is nonzero in characteristic zero
-([ENO] Theorem 2.3). *Needs:* 6.1.
+squared norms of the simple representatives, using `TauCeti.nonempty_iso_rightDual_rightDual`,
+named `TauCeti.normGlobalDim C`. `normGlobalDim_eq_globalDim`: it equals `TauCeti.globalDim C` for
+every pivotal structure, so it is nonzero in characteristic zero when `C` admits a pivotal
+structure, by `TauCeti.globalDim_ne_zero`. The general case is 6.9. *Needs:* 6.1.
 
 **6.3 Pseudo-unitarity without a pivotal structure** ([ENO] Proposition 8.23). Over `ℂ`, `C` is
 pseudo-unitary when `dim C = FPdim C`; this agrees with `TauCeti.IsPseudoUnitary` whenever a pivotal
 structure is given, and a pseudo-unitary fusion category has a unique pivotal structure with
 `leftDim X = FPdim X` for every `X`, which is spherical. *Needs:* 6.2; Tau Ceti
 `TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`.
+
+**6.4 The Deligne product** ([EGNO] Definition 1.11.1 and Proposition 1.11.2, p. 15; §4.6, p. 73). For abelian finite semisimple `k`-linear
+categories `C`, `D` with split simples, `C ⊠ D := Mat_ (C ⊗ₖ D)`, where `C ⊗ₖ D` has pairs as
+objects and `Hom((X, Y), (X', Y')) = (X ⟶ X') ⊗[k] (Y ⟶ Y')`. It is abelian and finite semisimple,
+with `SimpleClasses (C ⊠ D) ≃ SimpleClasses C × SimpleClasses D`. Universal property: `k`-linear
+functors out of `C ⊠ D` correspond to functors out of `C × D` that are `k`-linear in each variable,
+into additive `k`-linear idempotent-complete categories. For monoidal `k`-linear `C` and `D`,
+`(X ⊠ Y) ⊗ (X' ⊠ Y') = (X ⊗ X') ⊠ (Y ⊗ Y')`; for fusion `C` and `D`, `C ⊠ D` is fusion. *Needs:*
+Layer 3; Mathlib `Mat_`.
+
+**6.5 The canonical algebra and Hopf bimodules** ([EGNO] Definition 7.9.12 and Example 7.9.14,
+p. 149; Proposition 7.18.5, p. 173). For `C` fusion, `MonoidalLeftAction (C ⊠ Cᴹᵒᵖ) C` with
+`(X ⊠ Y) ⊙ Z = X ⊗ Z ⊗ Y`, and the canonical algebra `A := ⨁ S, S.repr ⊠ ᘁS.repr`, which represents
+`X ⊠ Y ↦ Hom (X ⊗ Y, 𝟙_ C)` and is a `MonObj` with the internal-endomorphism multiplication of
+`𝟙_ C` (Tau Ceti `Monoidal/Mod/InternalHom.lean`). `V ↦ (V ⊠ 𝟙) ⊗ A` is an equivalence from `C` to
+right `A`-modules in `C ⊠ Cᴹᵒᵖ`, and `ρ_V : (V ⊠ 𝟙) ⊗ A ≅ (𝟙 ⊠ V) ⊗ A` is an isomorphism of right
+`A`-modules, monoidal in `V` ([EGNO] (7.55), (7.57)). *Needs:* 6.4.
+
+**6.6 Unimodularity** ([EGNO] Remark 6.5.9, p. 127, and (7.66)). For `C` fusion there is an
+isomorphism of right `A`-modules `A ≅ Aᘁ`, unique up to `Aut (𝟙_ C)`: the distinguished invertible
+object is `𝟙`. *Needs:* 6.5.
+
+**6.7 The Radford isomorphism** ([EGNO] Theorem 7.19.1 and Corollary 7.19.3, p. 177; [ENO04]
+Theorem 3.3). For `C` fusion, a monoidal natural isomorphism
+`radfordIso C : 𝟭 C ≅ doubleRightDualFunctor C ⋙ doubleRightDualFunctor C`. It is a theorem about
+fusion categories, not structure on rigid categories: in a general rigid category the double
+right and double left duals are inverse to each other, and need not be isomorphic.
+- Relation to EGNO: for EGNO's `δ_X : Xᘁᘁ ≅ ᘁᘁX`, `(radfordIso C).hom.app X = (δ_X⁻¹)ᘁᘁ`, read
+  through `(ᘁᘁX)ᘁᘁ = X`.
+- Characterization on simples ([EGNO] Theorem 7.21.7, p. 180; [ENO04] Theorem 7.3): for simple `L`
+  and any `a : L ≅ Lᘁᘁ`, `doubleDualTrace a.hom • (radfordIso C).hom.app L =
+  doubleDualTrace (a.inv)ᘁ • (a.hom ≫ (a.hom)ᘁᘁ)`.
+- For any pivotal structure with components `j`, `j ≫ jᘁᘁ` composed with `(radfordIso C).inv` lies
+  in `Aut (LaxMonoidalFunctor.of (𝟭 C))` ([EGNO] Remark 7.19.4, p. 177).
+
+*Needs:* 6.1, 6.6; Layer 0.
+
+**6.8 The pivotalization** ([EGNO] Definition 7.21.9 and Corollary 7.21.10, p. 181; [ENO04]
+Corollary 7.6). `Pivotalization C` has objects `(X, f)` with `f : X ≅ Xᘁᘁ` and
+`f.hom ≫ (f.hom)ᘁᘁ = (radfordIso C).hom.app X`, morphisms commuting with the `f`, tensor product
+through the tensorator of `doubleRightDualFunctor`, right duals `(Xᘁ, (f.inv)ᘁ)`, and the
+tautological pivotal structure. The forgetful functor to `C` is monoidal and preserves
+`squaredNorm`. When `char k ≠ 2`: every simple `S` has exactly two lifts `(S, ±f_S)`, and
+`Pivotalization C` is fusion and spherical. *Needs:* 6.7.
+
+**6.9 Nonvanishing in characteristic zero** ([ENO] Theorem 2.3 and Remark 3.1, preprint pp. 4, 10–11).
+Let `char k = 0` and `C` be fusion. For every simple `S` and every ring homomorphism `σ` from the
+algebraic closure of `ℚ` in `k` to `ℂ`, `σ (squaredNorm S)` is a nonnegative real number, and
+`σ (normGlobalDim C) ≥ 1`; so `TauCeti.normGlobalDim_ne_zero`. The proof applies
+`TauCeti.SplitK0.ringHom_apply_dual` and the argument of `TauCeti.globalDim_ne_zero` to
+`Pivotalization C`, and transports along its forgetful functor with 6.2. *Needs:* 6.2, 6.8.
 
 **Checks.**
 
@@ -261,6 +317,22 @@ structure is given, and a pseudo-unitary fusion category has a unique pivotal st
 - Fibonacci over `ℂ`: `dim C = 1 + φ²` for the unitary structure; Yang–Lee has
   `dim C = 1 + φ⁻²`, which differs from `FPdim C = 1 + φ²`, so it is not pseudo-unitary.
 
+- 6.1: in `Vec` over `ℂ`, `X = ℂ²`: `a = 𝟙` gives `2 · 2 = 4` and `a = diag(1, 2)` gives
+  `3 · 3/2 = 9/2`, so the squared norm is defined only for objects with scalar endomorphisms.
+- 6.4: `Vec(C₂) ⊠ Vec(C₂)` has four simple classes and no morphisms between distinct ones.
+  `Vec ⊠ (Vec × Vec)` with componentwise tensor product is monoidal but not fusion: its unit has
+  two simple summands.
+- 6.5: for `Vec(C₃)`, `(g ⊠ h) ⊙ 𝟙 = gh` and `Hom (gh, 𝟙) = [gh = 1]`, matching `A = ⨁ g ⊠ g⁻¹`;
+  for `Vec(C₂)` the multiplication is `e_g e_h = e_{gh}`.
+- 6.7: for a spherical structure `j`, `(radfordIso C).hom = j ≫ jᘁᘁ`, since then the two traces
+  agree. For simple `L = k` and `a = 3 • 𝟙`, both sides of the characterization are `3`. For
+  `Vec(C₃)` with the pivotal character `ζ₃`, the discrepancy is `ζ₃²` on the generator, a
+  character.
+- 6.8: `Pivotalization (Vec(C₂))` with `char k ≠ 2` has four simple classes and
+  `normGlobalDim = 4`. In characteristic `2`, `(S ⊕ S, f_S · [[1,1],[0,1]])` is indecomposable but
+  not simple, so the fusion statement needs `char k ≠ 2`.
+- 6.9: Fibonacci and Yang–Lee over `ℂ`: squared norms `φ² ≈ 2.618` and `φ⁻² ≈ 0.382`, both
+  positive, and global dimensions `(5 ± √5)/2 > 1`.
 ## Layer 7: `FDRep G` is pivotal and spherical
 
 **7.1 Indicators agree.** For a finite group `G` and an algebraically closed field of
@@ -346,7 +418,9 @@ characteristic zero, `Center C` with its canonical braiding and pivotal structur
 
 **11.1 The induction functor.** `I : C ⥤ Center C`, `I X = ⨁_S S ⊗ X ⊗ Sᘁ` over
 `SimpleClasses C`, with its half-braiding defined and the hexagon proved, two-sided adjoint to
-`Center.forget C`, exact and faithful (as in the proof of [ENO] Theorem 2.15). *Needs:* Layer 3 (3.3, 3.4); Tau Ceti
+`Center.forget C`, exact and faithful. It is canonically the right adjoint (an end). The left
+adjoint is canonically the coend `⨁_S S ⊗ X ⊗ ᘁS`, identified with `I` through
+`(doubleDualTrace a_S)⁻¹ •` the mate of a chosen `a_S : S ≅ Sᘁᘁ`, which does not depend on the choice (as in the proof of [ENO] Theorem 2.15). *Needs:* Layer 3 (3.3, 3.4); Tau Ceti
 `CategoryTheory.Center.instAbelian`, `CategoryTheory.Center.rigidCategory`.
 
 **11.2 The averaging identity.** With the counit of `forget ⊣ I` the projection onto the
@@ -356,7 +430,7 @@ characteristic zero, `Center C` with its canonical braiding and pivotal structur
 **11.3 Semisimplicity and the fusion hypotheses.** `IsFiniteSemisimpleCategory (Center C)` for the
 canonical abelian structure, with Hom-finiteness, finitely many simple classes and a simple unit,
 over an algebraically closed field of characteristic zero and with no pivotal structure assumed
-([ENO] Theorem 2.15). *Needs:* 11.2, 6.2.
+([ENO] Theorem 2.15). *Needs:* 11.2, 6.9.
 
 **11.4 The dimension of the centre.** `dim (Center C) = (dim C)²`, for the canonical structures, and
 for the pivotal structure inherited from `C` when there is one. *Needs:* 11.3.
@@ -373,16 +447,22 @@ for the pivotal structure inherited from `C` when there is one. *Needs:* 11.3.
 
 - Presentations of monoidal categories by F- and R-matrices: Layers 2, 3 (`IsSplitSimpleFamily`)
   and 8.
+- Ocneanu rigidity: 6.1, 6.2, 6.9, 11.1, 11.2.
 - [RepresentationTheory/CharacterTheory](../RepresentationTheory/CharacterTheory/README.md): Layer 7.
 
 ## References
 
 - [EGNO] P. Etingof, S. Gelaki, D. Nikshych, V. Ostrik, *Tensor Categories*, AMS (2015): §2.10,
   pp. 40–43 (duals); §§3.2–3.3, pp. 51–56 (Perron–Frobenius, based rings); §4.7, pp. 73–76
-  (pivotal and spherical structures, traces); §7.21, pp. 179–183 (global dimension).
+  (pivotal and spherical structures, traces); §7.21, pp. 179–183 (global dimension); §1.11, §4.6
+  (Deligne product); §§7.9, 7.18, 7.19 (canonical algebra, Hopf bimodules, the Radford
+  isomorphism).
 - [ENO] P. Etingof, D. Nikshych, V. Ostrik, *On fusion categories*, Ann. of Math. 162 (2005),
   arXiv:math/0203060: Proposition 2.1, Definition 2.2, Theorem 2.3, §2.4, Theorem 2.15,
-  Proposition 8.23.
+  Remark 3.1, Proposition 8.23.
+- [ENO04] P. Etingof, D. Nikshych, V. Ostrik, *An analogue of Radford's S⁴ formula for finite
+  tensor categories*, Int. Math. Res. Not. 2004, no. 54, arXiv:math/0404504v1: Theorem 3.3,
+  Theorem 7.3 and Corollary 7.6 (p. 11).
 - [DGNO] V. Drinfeld, S. Gelaki, D. Nikshych, V. Ostrik, *On braided fusion categories I*, Selecta
   Math. 16 (2010), arXiv:0906.0620: Proposition 2.3.
 - [HPT] A. Henriques, D. Penneys, J. Tener, *Categorified trace for module tensor categories over
