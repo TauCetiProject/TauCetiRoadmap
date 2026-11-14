@@ -12,13 +12,13 @@ library — these are goals, not proofs.
 The data of Layer 0 (`FusionRules`, `FSymbols`, `RSymbols`) are given real bodies, with the
 equations pinned in the `Conventions` section of `README.md` written out index by index. The
 headlines that need only these are stated below. The hypothesis of Layer 2 is PivotalSpherical's
-`IsSplitSimpleFamily`, which is not restated here.
+`IsSplitSimpleFamily`, whose three conditions appear as explicit hypotheses below.
 
 Not stated here, because they are about the constructed category `FSymbols.Model P` with its
 monoidal structure, which is a construction rather than a signature: the Layer 1 main theorem
-(`MonoidalCategory (Model P)`), extraction and reconstruction (Layer 2), the classification and
+(`MonoidalCategory (Model P)`), reconstruction and the round trip (Layer 2), the classification and
 autoequivalence theorems (Layer 3), and the braiding, rigidity, pivotal and spherical statements
-on `Model P` (Layers 4 to 6).
+on `Model P` (Layers 4 to 6). Extraction of F- and R-symbols (2.2, 4.2) is stated.
 -/
 
 namespace TauCetiRoadmap.PresentationsOfMonoidalCategories
@@ -90,11 +90,6 @@ variable {R : Type v} [CommRing R] {ι : Type u} [Fintype ι] [DecidableEq ι] {
 /-- **F-symbols are determined by `F`**, since the inverse of a matrix is unique. -/
 theorem ext {P Q : FSymbols R N} (h : P.F = Q.F) : P = Q := sorry
 
-/-- **Associativity of the fusion rules**, a consequence of invertibility over a nontrivial ring:
-`Left a b c d` and `Right a b c d` have the same cardinality. -/
-theorem sum_N_mul_N [Nontrivial R] (P : FSymbols R N) (a b c d : ι) :
-    ∑ e, N.N a b e * N.N e c d = ∑ f, N.N b c f * N.N a f d := sorry
-
 /-- **Base change** of F-symbols along a ring homomorphism, entrywise. -/
 def map {S : Type w} [CommRing S] (P : FSymbols R N) (f : R →+* S) : FSymbols S N where
   F a b c d := (P.F a b c d).map f
@@ -137,9 +132,42 @@ structure RSymbols {K : Type v} [CommRing K] {ι : Type u} [Fintype ι] [Decidab
       ∑ p : Fin (N.N c b f), ∑ q : Fin (N.N a c g),
         R b c f k p * P.Finv a c b d ⟨f, p, l⟩ ⟨g, q, o⟩ * R a c g q n
 
-/-- **Commutativity of the fusion rules** when R-symbols exist over a nontrivial ring. -/
-theorem RSymbols.N_comm {K : Type v} [CommRing K] [Nontrivial K] {ι : Type u} [Fintype ι]
-    [DecidableEq ι] {N : FusionRules ι} {P : FSymbols K N} (_Q : RSymbols P) (a b c : ι) :
-    N.N a b c = N.N b a c := sorry
+/-! ## Layer 2: extraction and reconstruction -/
+
+section Extraction
+
+variable {R : Type v} [CommRing R] [Nontrivial R] {C : Type u} [Category.{w} C] [Preadditive C]
+  [Linear R C] [HasFiniteBiproducts C] [MonoidalCategory C] [MonoidalPreadditive C]
+  [MonoidalLinear R C] {ι : Type*} [Fintype ι] [DecidableEq ι] {S : ι → C}
+
+/-- **Extraction.** For a split simple family `S` (PivotalSpherical's `IsSplitSimpleFamily R S`,
+whose three conditions are spelled out here) and a fusion basis `φ` normalized through
+`e : 𝟙_ C ≅ S N.unit`, there is exactly one `FSymbols R N` whose `F` expresses the left family in
+the right family across the associator. -/
+theorem existsUnique_fSymbols
+    (_hS : ∀ a, Function.Bijective (algebraMap R (End (S a)))) (_horth : HomOrthogonal S)
+    (_hdec : ∀ X : C, ∃ (κ : Type) (_ : Fintype κ) (f : κ → ι), Nonempty (X ≅ ⨁ (S ∘ f)))
+    (N : FusionRules ι) (e : 𝟙_ C ≅ S N.unit)
+    (φ : ∀ a b c, Module.Basis (Fin (N.N a b c)) R (S a ⊗ S b ⟶ S c))
+    (_hl : ∀ a, φ N.unit a a (N.unitLeft a) = (e.inv ▷ S a) ≫ (λ_ (S a)).hom)
+    (_hr : ∀ a, φ a N.unit a (N.unitRight a) = (S a ◁ e.inv) ≫ (ρ_ (S a)).hom) :
+    ∃! P : FSymbols R N, ∀ (a b c d : ι) (x : N.Left a b c d),
+      (φ a b x.1 x.2.1 ▷ S c) ≫ φ x.1 c d x.2.2 =
+        ∑ y : N.Right a b c d, P.F a b c d x y •
+          ((α_ (S a) (S b) (S c)).hom ≫ (S a ◁ φ b c y.1 y.2.1) ≫ φ a y.1 d y.2.2) := sorry
+
+/-- **Extraction of R-symbols.** A braiding on `C` gives exactly one `RSymbols P` for F-symbols
+`P` extracted from the same fusion basis: `R` expresses each fusion basis in the braided one. -/
+theorem existsUnique_rSymbols [BraidedCategory C] (N : FusionRules ι)
+    (φ : ∀ a b c, Module.Basis (Fin (N.N a b c)) R (S a ⊗ S b ⟶ S c)) (P : FSymbols R N)
+    (_hP : ∀ (a b c d : ι) (x : N.Left a b c d),
+      (φ a b x.1 x.2.1 ▷ S c) ≫ φ x.1 c d x.2.2 =
+        ∑ y : N.Right a b c d, P.F a b c d x y •
+          ((α_ (S a) (S b) (S c)).hom ≫ (S a ◁ φ b c y.1 y.2.1) ≫ φ a y.1 d y.2.2)) :
+    ∃! Q : RSymbols P, ∀ (a b c : ι) (i : Fin (N.N a b c)),
+      φ a b c i = ∑ j : Fin (N.N b a c), Q.R a b c i j • ((β_ (S a) (S b)).hom ≫ φ b a c j) :=
+  sorry
+
+end Extraction
 
 end TauCetiRoadmap.PresentationsOfMonoidalCategories
