@@ -1580,7 +1580,12 @@ Hatcher, *Algebraic Topology*, Proposition 4.48.
   are orthogonal to `x` and independent. At `n = 0` the hypotheses hold for the trivial line
   bundle over `B = T²`, with `S(V) = T² ⊔ T²` of infinite capacity, so `n ≥ 2` is needed.
 
-### 4.2a Stable orthogonal groups and the finite-to-stable range
+### 4.2a Stable orthogonal groups, real Bott periodicity and the homotopy groups of `SO`
+
+This part forms the stable classical groups `O`, `SO`, `U` and `Sp` in 1.0's convenient
+category, proves real Bott periodicity by the Morse theory of the Clifford chain, and computes
+the homotopy groups of `O` and `SO`. Lemma 6.35 in 4.3 consumes it: the stable term
+`π_(n−1)(O)` from 4.2c and the range `r ≥ i + 2` in which stabilization applies from 4.2a.
 
 Write `O(r)` for `Matrix.orthogonalGroup (Fin r) ℝ` and `SO(r)` for
 `Matrix.specialOrthogonalGroup (Fin r) ℝ` (`SO r` in `Suggested.lean`), compact Lie groups with
@@ -1642,8 +1647,7 @@ G4.0b, SmoothBundlesConnections B1.4, DGFloer Layer 1 item 2, Tau Ceti `Homotopy
   group is onto with nonzero kernel, so the range `r ≥ i + 2` cannot be lowered for the
   isomorphism.
 
-### 4.2b The Clifford chain of iterated minimal centrioles
-
+**4.2b The Clifford chain of iterated minimal centrioles.**
 Fix `m ≥ 1` and `n = 16m`. On `ℝ¹⁶` fix a module over the Clifford algebra `Cl₈` (generators
 `e₁, …, e₈` with `e_ie_j + e_je_i = −2δ_ij`) whose generators act by orthogonal matrices, the
 irreducible `Cl₈`-module being `16`-dimensional: `Cl₈` is the Clifford algebra of
@@ -1700,8 +1704,7 @@ periodicity, submanifolds, and vector bundles*, §§2–3.
   `J₇` and `−J₇` are antipodal on the circle `G₁(ℝ²)`, and its two halves are the two minimal
   geodesics between them.
 
-### 4.2c Index bounds, the Bott maps and real Bott periodicity
-
+**4.2c Index bounds, the Bott maps and real Bott periodicity.**
 For `0 ≤ k ≤ 7` let `Λ_k(n)` be the space of paths in `Ω_k(n)` from `J_k` to `−J_k`, a subspace of
 1.0's `Map_k(I, Ω_k(n))`, which for the compact manifold `Ω_k(n)` is the compact-open path space,
 with RiemannianGeometry R3's finite broken-geodesic approximations for the trace metric and their
@@ -1845,7 +1848,14 @@ groups*; Eschenburg and Hanke, *Bott periodicity, submanifolds, and vector bundl
 - `π₁(U/Sp)`: the exact sequence of `Sp → U → U/Sp` gives `π₁(U/Sp) ≅ π₁(U) = ℤ` because
   `π₁(Sp) = π₀(Sp) = 0`; reading `π₃(O)` only as the set `π₀(Ω₃) ≅ ℤ` would not fix the group.
 
-### 4.3 Covering by diffeomorphisms
+### 4.3 Abundance from group actions: diffeomorphisms and homogeneous spaces
+
+This part makes a manifold abundant with 2-spheres from a group acting on it: `Diff(M)` through
+evaluation, for manifolds covered or `ℓ`-covered by diffeomorphisms under the homotopy
+hypotheses stated there, with compact connected Lie groups other than tori and odd spheres as
+cases (4.3), and `G` on a homogeneous space `M = G/H` (4.4), which for nonorientable `M` gives
+`c°_HZ(D*M) < ∞` instead. 4.5 consumes both: 4.3 towards Theorem I, 4.4 for the orientable
+homogeneous spaces it adds to that list.
 
 Define, for a closed connected oriented `n`-manifold `M` with basepoint and the evaluation
 `ev : Diff(M) → M` over GeometricTopology Layer 3's `Diff(M)`, *covered by diffeomorphisms*
@@ -1941,8 +1951,7 @@ Tau Ceti `IsAspherical`, `TauCeti.continuousOrthogonalToDiffSphere`,
 - `n = 3` in the second proof: `A ∈ H₃(SO(4)) ≅ ℤ²` with `(ev_p)_*A = 2[S³]`, while the first
   proof's class from the section `S³ → SO(4)` has `ℓ = 1`; both proofs conclude.
 
-### 4.4 Homogeneous spaces, including `S² = SO(3)/SO(2)`
-
+**4.4 Homogeneous spaces, including `S² = SO(3)/SO(2)`.**
 For a compact connected Lie group `G` and a closed Lie subgroup `H` of positive dimension, with
 `M = G/H`, define the left actions `Φ_H : H × Ω²M → Ω²M` and `Φ : G × Map(S², M) → Map(S², M)`
 and the evaluation fibration `ev : Map(S², M) → M` with fibre `Ω²M` over `eH`. Prove Proposition
