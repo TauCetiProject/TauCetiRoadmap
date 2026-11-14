@@ -1289,7 +1289,7 @@ A proof route is the following. B = H⁰(Y, O_Y) is integral over A and finite �
 
 ### 7.5 Killing higher coherent cohomology by finite covers in characteristic p
 
-Let f : X → S be a proper morphism of Noetherian 𝔽_p-schemes. There exist a proper morphism g : Y → S and a finite surjective morphism π : Y → X such that π* : `τ^{≥1}`Rf_*O_X → `τ^{≥1}`Rg_*O_Y is zero.
+Take X and S to be Noetherian schemes over 𝔽_p, and f : X → S a proper morphism. Then X has a finite surjective cover π : Y → X, where Y comes with a proper map g : Y → S, for which the pullback π* : `τ^{≥1}`Rf_*O_X → `τ^{≥1}`Rg_*O_Y vanishes.
 
 (BHATT12, Theorem 0.4, p. 1; Lemma 2.2, p.6; Propositions 3.1–3.2 with Corollary 3.5, pp.7–9; BHATT12 line 42.)
 
