@@ -8286,14 +8286,16 @@ chart `φ_i : U_i → ℝ⁴` with `φ_i(p_i) = 0` that carries `Δ ∩ U_i` ont
 case `n = 0`. Prove: if no `P(K)` bounds a smooth disc in a smooth rational homology `4`-ball
 with boundary `S³`, then `J_P` bounds no disc with conical singularities in any smooth rational
 homology `4`-ball `X` with `∂X = Y_P`. Route (Levine, proof of Proposition 1.3, from its third
-sentence on): tubing the singular points to the boundary along arcs of the disc makes
-`J_P # −K` smoothly slice in `X`, where `K = K₁ # ⋯ # K_n`; a `0`-framed `2`-handle along it
-gives `W`, a rational homology `S² × D²` whose boundary is the `0`-surgery on `P(−K)`
-(cut-and-paste of solid tori and exteriors, Layers 4.11 and 5.2); surgery
-(`TauCeti.SphereSurgery`) on the sphere formed by the slice disc and the core, whose normal
-bundle is trivial, gives a rational homology `S¹ × D³`, and a `0`-framed `2`-handle along the
-core of the surgery torus gives a smooth rational homology `4`-ball with boundary `S³` in which
-the cocore is a smooth slice disc for `P(−K)`.
+sentence on), writing `K = K₁ # ⋯ # K_n`: starting from `X`, build a smooth rational homology
+`4`-ball with boundary `S³` in which `P(−K)` is smoothly slice. Join the singular points to the
+boundary by arcs of the disc and tube along those arcs; then `J_P # −K` is smoothly slice in
+`X`. Attaching to `X` a `2`-handle along `J_P # −K` with framing `0` produces `W`, which is a
+rational homology `S² × D²`; cutting and regluing solid tori and exteriors (Layers 4.11 and 5.2)
+identifies `∂W` with the `0`-surgery on `P(−K)`. In `W` the slice disc and the core of that
+handle together form a sphere with trivial normal bundle, and surgering it
+(`TauCeti.SphereSurgery`) leaves a rational homology `S¹ × D³`. Last, attach a `2`-handle with
+framing `0` whose attaching circle is the core of the surgery torus; the outcome is the promised
+ball, with the cocore of this last handle as a smooth slice disc for `P(−K)`.
 
 Concordance of knots in homology spheres is an annulus in a smooth homology cobordism between
 the ambient manifolds (`TauCeti.SmoothEmbedding.HomologyConcordant` over `ℤ`, in a
