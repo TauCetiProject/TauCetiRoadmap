@@ -353,7 +353,7 @@ What PadicDifferentialEquationsAndRigidCohomology must provide (gap:dejong-disc-
 
 What PadicDifferentialEquationsAndRigidCohomology must provide (gap:unit-root-correspondence-perfect-base): for a perfect field `k` containing `𝔽_q`, `K` with `K^σ ⊗_(W(𝔽_q)) W(k) ≅ K` and `σ = id ⊗ Frob_q`, and a smooth connected curve `C` over `k` with smooth completion `C̄`: (a) an equivalence between unit-root convergent F-isocrystals on `C/K` and continuous `K^σ`-representations of `π_1(C)`, under which overconvergence corresponds to finite local monodromy at the points of `C̄ ∖ C` (Tsuzuki 1998, Theorems 4.2.6 and 7.2.3), extending §RD.3.48 beyond `ℚ_q`-coefficients and §RD.6.61 beyond finite fields; (b) for affine `C` with a smooth lift `A_C` over `O_K`, a `q`-Frobenius lift on its weak completion and `E_η` the `p`-adic completion of the localisation of `A_C` at `πA_C` with `π` inverted (residue field `k(C)`), an equivalence between unit-root `(φ,∇)`-modules over `E_η` and continuous `K^σ`-representations of `Gal(k(C)^sep/k(C))` (Katz's correspondence at the generic point, as used in Tsuzuki 2019, proof of Lemma 3.32, p. 19), compatible at every closed point `α` of `C̄` with restriction to a decomposition group and with the equivalence of §RD.2.25 over the Amice field `E_α` in a local coordinate `x_α`; under it, for `α ∈ C` the module over `E_α` is realised by a `(φ,∇)`-module over `K_α[[x_α]]₀` exactly when the representation is unramified at `α`, for `α ∈ C̄ ∖ C` it descends to `E†_α` exactly when inertia at `α` acts through a finite quotient (§RD.2.26), and the generic module of a unit-root convergent F-isocrystal on `C` corresponds to the restriction to `Gal(k(C)^sep/k(C))` of its representation in (a); this extends §RD.2.25 from the residue field `k((t))` to the function field `k(C)`.
 
-What PadicDifferentialEquationsAndRigidCohomology must provide (gap:legendre-kummer-extension): for `p ≡ 1 mod 4`, `C = P¹_(𝔽_p) ∖ {0, 1, ∞}`, `L†` the rank-two `H¹` of the Legendre family and `χ` the quadratic character of `w² = z(z − 1)`, the space `H¹_rig(C, L†(χ))` is two-dimensional with Frobenius slopes 0 and 2, its unit-root eigenvalue is `π_p²` for the unit root `π_p` of `y² = x³ − x`, and extensions of the constant line `O(π_p²)` by `L†(χ)` in F-`Isoc†(C)` are classified by the `π_p²`-eigenspace of Frobenius on `H¹_rig(C, L†(χ))`, equivalently by `H¹_rig(C, L†(χ) ⊗ O(π_p²)^∨)^(F=1)` (the `H⁰` of this twist vanishes, `L†(χ)` being irreducible of rank two), which is one-dimensional (Tsuzuki §3.9, pp. 21–22).
+What PadicDifferentialEquationsAndRigidCohomology must provide (gap:legendre-kummer-extension): for `p ≡ 1 mod 4`, `K = ℚ_p`, `σ = id`, `q = p`, `C = P¹_(𝔽_p) ∖ {0, 1, ∞}`, `L†` the rank-two `H¹` of the Legendre family and `χ` the quadratic character of `w² = z(z − 1)`, the space `H¹_rig(C, L†(χ))` is two-dimensional with Frobenius slopes 0 and 2, its unit-root eigenvalue is `π_p²` for the unit root `π_p` of `y² = x³ − x`, and extensions of the constant line `O(π_p²)` by `L†(χ)` in F-`Isoc†(C)` are classified by the `π_p²`-eigenspace of Frobenius on `H¹_rig(C, L†(χ))`, equivalently by `H¹_rig(C, L†(χ) ⊗ O(π_p²)^∨)^(F=1)` (the `H⁰` of this twist vanishes, `L†(χ)` being irreducible of rank two), which is one-dimensional (Tsuzuki §3.9, pp. 21–22).
 
 What PadicDifferentialEquationsAndRigidCohomology must provide (gap:irreducible-iota-purity): for every smooth connected `X` over `𝔽_q`, `K` with residue field `𝔽_q` and `σ_K = id`, every finite extension `L ⊂ K^alg` of `K`, every overconvergent F-isocrystal `M` on `X/K` with a `K`-algebra map `L → End(M)` whose scalar extension `M ⊗_L L′` is irreducible among objects with `L′`-structure for every finite extension `L′ ⊂ K^alg` of `L`, and every field embedding `ι : K^alg → ℂ`, there is a real `w` such that at every closed point `x` of `X`, of degree `d`, every eigenvalue in `K^alg` of the Frobenius `F_x` of §RD.6.2, taken as an `L`-linear endomorphism of the fibre `M_x`, has `|ι(·)| = q^(wd/2)` (Abe–Esnault, Theorem 2.7 and its proof, p. 13, in their `Q̄_p`-coefficient category of §1.1, p. 4: the theorem states that every object is `ι`-mixed, its proof shows that each irreducible object is `ι`-pure, and the proof of their Theorem 3.10, p. 17, uses it in that form; Tsuzuki, Definition 7.14, p. 34, and Theorem 7.18, p. 37, which states the purity); this is the purity predicate of §RD.6.28 for the `L`-linear Frobenius, the counterpart of §RD.6.77 on smooth `X` of any dimension for objects that stay irreducible after every coefficient extension, and it asserts nothing of the `K`-object obtained by forgetting `L`, which need not be `ι`-pure.
 
@@ -968,7 +968,7 @@ solution spaces carry a growth filtration, and they are different objects:
    `K[[t]]_λ`; these are `K`-spaces;
 3. **logarithmic solutions**: for `M` over `E† = R^bd`, `Sol_log(M) = Hom_(E†,∇)(M, R_log)`, with
    `R_log = R[log t]` the logarithmic Robba ring of §RD.2.28, and `Sol_log,λ(M)` its subspace of
-   solutions with values in the log-growth step `Fil_λ R_log = ⊕_(j≥0) Fil_(λ−j)R·(log t)^j` of the
+   solutions with values in the log-growth step `Fil_λ R_log = ⊕_(j≥0) Fil_(λ−j)R·(log t)^j` supplied by
    `gap:extended-log-robba-growth`, where `Fil_μ R` consists of the Laurent series whose
    coefficients `a_n` are `O(n^μ)` as `n → +∞` and `Fil_μ R = 0` for `μ < 0`; these are `K`-spaces.
    `M` is **solvable in `R_log`** when `dim_K Sol_log(M) = rank M`, equivalently when `R ⊗ M` is
@@ -1324,17 +1324,18 @@ filtration identifies the isoclinic quotients globally.
 
 ### MS.2.8 A two-step PBQ filtration from the Legendre family
 
-Let `p ≡ 1 mod 4`, `C = P¹_(𝔽_p) ∖ {0, 1, ∞}`, `L†` the rank-two overconvergent F-isocrystal `H¹` of the
-Legendre family `y² = x(x − 1)(x − z)`, `χ` the quadratic character of the double cover
-`w² = z(z − 1)`, and `π_p` the unit root of `y² = x³ − x` for a fixed embedding `ℚ̄ ⊂ ℚ̄_p`. Prove that
+Let `p ≡ 1 mod 4`, `K = ℚ_p` with `σ = id` and `q = p`, `C = P¹_(𝔽_p) ∖ {0, 1, ∞}`, `L†` the rank-two
+overconvergent F-isocrystal `H¹` of the Legendre family `y² = x(x − 1)(x − z)`, `χ` the quadratic
+character of the double cover `w² = z(z − 1)`, and `π_p` the unit root of `y² = x³ − x` for a fixed
+embedding `ℚ̄ ⊂ ℚ̄_p`. Prove that
 there is a nonsplit extension `0 → L†(χ) → M† → O(π_p²) → 0` of overconvergent F-isocrystals on `C`,
 where `O(π_p²)` is the constant line with Frobenius `π_p²`, and that its PBQ filtration is
 `L†(χ) ⊂ M†` with grades of generic maximal slopes 1 and 0 (Tsuzuki §3.9, pp. 21–22).
 
 Proof route. The space `H¹_rig(C, L†(χ))` has Frobenius slopes 0 and 2 for `p ≡ 1 mod 4`, the slope-zero
 eigenvalue being `π_p²`, and the `π_p²`-eigenspace of Frobenius on it, the Frobenius-fixed part of
-`H¹_rig(C, L†(χ) ⊗ O(π_p²)^∨)`, is one-dimensional and classifies the extensions (
-`gap:legendre-kummer-extension`). `L†(χ)` is irreducible with generic maximal slope 1 and the
+`H¹_rig(C, L†(χ) ⊗ O(π_p²)^∨)`, is one-dimensional and classifies the extensions
+(`gap:legendre-kummer-extension`). `L†(χ)` is irreducible with generic maximal slope 1 and the
 quotient has slope 0, so by MS.2.4–MS.2.5 the filtration has these two steps.
 
 *Needs:* MS.2.4; MS.2.5; PadicDifferentialEquationsAndRigidCohomology §RD.6.47 and
@@ -2233,7 +2234,7 @@ dropped from MS.5.8.
 
 MS.0, MS.3 (the general affine image theorem of MS.3.8, in MS.5.7), MS.4;
 PadicDifferentialEquationsAndRigidCohomology §§RD.0.9, RD.1.37, RD.1.72, RD.3.16, RD.3.31,
-RD.3.37, RD.3.41, RD.3.43, RD.3.44, RD.3.45, RD.5.7, RD.5.8, RD.5.8c, RD.5.100, RD.5.103, RD.5.112, RD.6.42 and the
+RD.3.37, RD.3.41, RD.3.43, RD.3.44, RD.3.45, RD.5.7, RD.5.8, RD.5.8c, RD.5.100, RD.5.103, RD.5.112, RD.6.42 and
 `gap:docile-curve-restriction` (MS.5.8) and `gap:dejong-generic-affine-line-comparison`
 (through the generic case of MS.0.4, in MS.5.5); Mathlib `LinearMap.quotKerEquivRange`.
 
@@ -2829,8 +2830,8 @@ the correction.
   rank 0.
 - **D'Addezio, proof of Lemma 4.2.7, p. 15.** The injectivity of `E ⊗_(E†) E†_alg → E_alg` for the
   generic pair is cited from Kedlaya's Proposition 4.1, which is stated for the complete residue field
-  `k^alg((t))`; for the residue field `k(t)` it is a separate input (
-`gap:dejong-generic-affine-line-comparison`).
+  `k^alg((t))`; for the residue field `k(t)` it is a separate input
+  (`gap:dejong-generic-affine-line-comparison`).
 - **D'Addezio, proof of Proposition 4.2.12, p. 17.** The positive lower bound for norms outside `pQ`
   fails for `A_n ⊂ W⟨u⟩` (`ū_n^j = p^j u^(nj) ∉ pA_n` has norm `p^(−j)`), and the torsion claim
   `p^(s+i) P_W ∩ f(Q) ⊆ p^i f(Q)` fails for `A_1 ⊂ W⟨u⟩` for every `s` (`p^(s+i) u^(s+i)`, `i ≥ 1`).
@@ -2849,11 +2850,12 @@ the correction.
 - **OHK.** Shun Ohkubo, *Logarithmic growth filtrations for (φ,∇)-modules over the bounded Robba ring*,
   arXiv:1809.04065v1 (2018). Locators refer to arXiv v1.
 - **AE.** Tomoyuki Abe and Hélène Esnault, *A Lefschetz theorem for overconvergent isocrystals with
-  Frobenius structure*, Ann. Sci. Éc. Norm. Supér. 52 (2019), 1243–1264; author's PDF.
+  Frobenius structure*, Ann. Sci. Éc. Norm. Supér. 52 (2019), 1243–1264. Page
+  locators refer to the author's PDF, not to the journal's pagination.
 - **KED04.** Kiran S. Kedlaya, *Full faithfulness for overconvergent F-isocrystals*, in Geometric
   Aspects of Dwork Theory, de Gruyter (2004), 819–835; arXiv:math/0110125v4. Locators refer to arXiv v4.
 - **KED05.** Kiran S. Kedlaya, *More étale covers of affine spaces in positive characteristic*,
-  J. Algebraic Geom. 14 (2005), 187–192; arXiv:math/0303382v3.
+  J. Algebraic Geom. 14 (2005), 187–192; arXiv:math/0303382v3. Locators refer to arXiv v3.
 - **STACKS.** The Stacks project authors, *The Stacks project*, Chapter *Algebraic Curves*, Section 53.2
   (Tag 0BXX): Lemma 0BXZ, Theorem 0BY1, Definition 0BY2 and Lemma 0BY3, cited by tag.
 - **de Jong 1998.** A. J. de Jong, *Homomorphisms of Barsotti–Tate groups and crystals in positive
