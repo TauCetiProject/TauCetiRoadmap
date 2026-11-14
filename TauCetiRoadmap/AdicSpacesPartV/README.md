@@ -338,7 +338,7 @@ One proof route is as follows. Affinoid case: A^ν is a finite A-module, because
 
 ### 1.2 Conrad's characterization of normalizations
 
-(*normalization-characterisation*) Prove: A morphism f : Y → X of reduced rigid spaces over K is a normalization if and only if f is finite, Y is normal, and there is a nowhere dense Zariski closed Z ⊆ X with f⁻¹(Z) nowhere dense in Y such that f is an isomorphism over X − Z. When f is a normalization, O_X → f_*O_Y is injective and Z may be taken to be the support of its coherent cokernel, which is the non-normal locus of X. (CONRAD99 line 459, Theorem 2.1.2, pp. 10–11.)
+(*normalization-characterisation*) Prove: Let f : Y → X be a morphism of reduced rigid spaces over K. Then f is a normalization precisely when Y is normal, f is finite, and some Zariski closed Z ⊆ X has three properties: Z is nowhere dense in X, its inverse image f⁻¹(Z) is nowhere dense in Y, and f restricts to an isomorphism over the complement X − Z. For a normalization f, the map O_X → f_*O_Y has zero kernel; its cokernel is coherent, with support equal to the non-normal locus of X, and Z can be chosen to be that support. (CONRAD99 line 459, Theorem 2.1.2, pp. 10–11.)
 
 X and Y reduced; nowhere density in the sense of §0.3.
 
