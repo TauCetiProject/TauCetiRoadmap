@@ -2204,7 +2204,9 @@ EllipticCohomology E1–E4 and E6, with the spectral comparisons in the supplier
 
 ## Layer 9: Height-one structure and its limits
 
-### 9.1 Height-one truncation and p-inversion
+### 9.1 Height-one truncation, p-inversion, excision and cdh-descent
+
+This section shows that, for K(1)-acyclic E₁-rings, K(1)-local K-theory is unchanged by inverting p and, for connective ones, by passing to π₀, and deduces nilinvariance and Milnor excision on discrete rings and cdh-descent on qcqs schemes. §§9.4 and 9.6 consume §9.1.
 
 If A is a K(1)-acyclic E₁-ring, then K(A)→K(A[1/p]) is a K(1)-equivalence, without a connectivity restriction. If A is additionally connective, K(A)→K(π₀A) is a K(1)-equivalence. The equality of T(1)- and K(1)-localization is the known height-one comparison, not the telescope conjecture at arbitrary height.
 
@@ -2221,9 +2223,7 @@ A proof route is as follows. Since A is a ring, K(1)-acyclicity of A is T(1)-acy
 
 *Needs:* §5.5 (The chromatic purity theorem); §2.3 (Rational and p-adic truncation); §4.4 (Ring-spectrum acyclicity comparison); §4.20 (Separation above height one).
 
-### 9.2 Nilinvariance, Milnor excision and cdh-descent
-
-On discrete rings, L_K(1)K is nilinvariant and carries Milnor squares with a surjective side to pullback squares. For a qcqs scheme X, the invariant X↦L_K(1)K(Perf(X)) satisfies cdh-descent, using Nisnevich descent and abstract blowup squares with proper finitely presented modification and finitely presented closed immersion, as in LT Appendix A. Arbitrary closed immersions require the filtered-continuity extension in Remark A.3. The scheme statement is the extension through perfect complexes, not a topology on arbitrary noncommutative rings.
+**9.2 Nilinvariance, Milnor excision and cdh-descent.** On discrete rings, L_K(1)K is nilinvariant and carries Milnor squares with a surjective side to pullback squares. For a qcqs scheme X, the invariant X↦L_K(1)K(Perf(X)) satisfies cdh-descent, using Nisnevich descent and abstract blowup squares with proper finitely presented modification and finitely presented closed immersion, as in LT Appendix A. Arbitrary closed immersions require the filtered-continuity extension in Remark A.3. The scheme statement is the extension through perfect complexes, not a topology on arbitrary noncommutative rings.
 
 Throughout this target, ring inputs are discrete; scheme inputs are qcqs and evaluated on Perf.
 
@@ -2240,7 +2240,9 @@ A proof route is as follows. Every connective Hℤ-algebra is K(1)-acyclic as an
 
 *Needs:* §9.1 (Height-one truncation and p-inversion); §2.2 (Excision and nilinvariance for truncating invariants); SchemeKTheoryOperations §§1.1–2.7, 3.1–3.5, 4.1–4.3, 4.12 and 5.2–5.9; gap:localizing-nisnevich-descent; gap:localizing-derived-blowup; gap:abstract-blowup-noetherian-approximation; gap:abstract-blowup-platification-domination.
 
-### 9.3 Flat and smooth spectral affine lines
+### 9.3 Spectral affine lines, height-one homotopy invariance and KH
+
+This section provides the flat and smooth spectral affine lines, K(1)-local homotopy invariance of K along both for connective K(1)-acyclic E₁-rings, and the resulting identification L_K(1)K(A)≃L_K(1)KH(A) for every discrete ring A. §9.4 consumes §9.3, and §9.5 consumes §9.4.
 
 For an E₁-ring A define the flat polynomial algebra A[x]=A⊗Σ∞_+N. Define the smooth polynomial algebra A{x}=A⊗Sym_S(S), with Sym_S(S) the free E∞ sphere algebra on one degree-zero generator. The canonical A{x}→A[x] is a π₀-isomorphism for connective A, but the two algebras need not be equivalent. Both retain an augmentation at x=0.
 
@@ -2267,9 +2269,7 @@ The interface includes:
 
 *Needs:* RefinedTraceMethods §4.9 and EnhancedDerivedSheaves E5:abstract.2 and E5:presentability.1–2; EnhancedDerivedSheaves E0.4, E5:abstract.1–4 and E5:presentability.1–3.
 
-### 9.4 Height-one homotopy invariance
-
-For connective K(1)-acyclic E₁-ring A, the maps K(A)→K(A[x]), K(A)→K(A{x}), and K(A{x})→K(A[x]) are K(1)-equivalences. The result includes all discrete rings, with no regularity assumption. Flatness or the π₀-isomorphism alone does not assert integral K-equivalence.
+**9.4 Height-one homotopy invariance.** For connective K(1)-acyclic E₁-ring A, the maps K(A)→K(A[x]), K(A)→K(A{x}), and K(A{x})→K(A[x]) are K(1)-equivalences. The result includes all discrete rings, with no regularity assumption. Flatness or the π₀-isomorphism alone does not assert integral K-equivalence.
 
 Throughout this target, A is connective K(1)-acyclic E1.
 
@@ -2284,9 +2284,7 @@ A proof route is as follows. The two affine lines are connective and K(1)-acycli
 
 *Needs:* §9.3 (Flat and smooth spectral affine lines); §9.1 (Height-one truncation and p-inversion); §4.37 (Weibel localization and p-power nilpotent invariance).
 
-### 9.5 Comparison with homotopy K-theory
-
-For every discrete ring A, K(A)→KH(A) induces L_K(1)K(A)≃L_K(1)KH(A). Import KH(A)=|K(A[Δ•])| and its simplicial structure from SchemeKTheoryOperations §5.2 (gap:kh-simplicial-model), with A[Δr]=A[x0,…,xr]/(Σxi−1).
+**9.5 Comparison with homotopy K-theory.** For every discrete ring A, K(A)→KH(A) induces L_K(1)K(A)≃L_K(1)KH(A). Import KH(A)=|K(A[Δ•])| and its simplicial structure from SchemeKTheoryOperations §5.2 (gap:kh-simplicial-model), with A[Δr]=A[x0,…,xr]/(Σxi−1).
 
 Throughout this target, A is a discrete ring; KH is the supplier’s simplicial polynomial model.
 
@@ -2301,7 +2299,9 @@ A proof route is as follows. Each simplex algebra is a polynomial algebra in r v
 
 *Needs:* §9.4 (Height-one homotopy invariance); SchemeKTheoryOperations §§1.1–2.7, 3.1–3.5, 4.1–4.3, 4.12 and 5.2–5.9; gap:kh-simplicial-model; gap:kh-regular-comparison.
 
-### 9.6 The height-one TC obstruction
+### 9.6 Height-one obstructions for TC: p-inversion and category colimits
+
+This section shows that the arbitrary-ring high-height trace comparison has no height-one extension, since TC(ℤ)→TC(ℤ[1/p]) is not a K(1)-equivalence, and that L_K(1)TC does not commute with filtered colimits of small stable categories. §9.7 consumes §9.6.
 
 For every prime p, the p-completion of TC(Z[1/p]) is zero, whereas L_K(1)TC(Z) is nonzero. Thus the map TC(Z)→TC(Z[1/p]) is not a K(1)-equivalence, and the arbitrary-ring high-height comparison K(A)←K(τ≥0A)→TC(τ≥0A) cannot be extended to height one.
 
@@ -2319,9 +2319,7 @@ A proof route is as follows. THH(ℤ[1/p]) is a module over Hℤ[1/p] through th
 
 *Needs:* §9.1 (Height-one truncation and p-inversion); §6.5 (Redshift at nonnegative height); §4.20 (Separation above height one); §4.3 (Telescope acyclicity criteria); RefinedTraceMethods §2.6 (THH of E₁-rings); RefinedTraceMethods §2.9 (TC, its fiber formula and arithmetic completion); RefinedTraceMethods §4.17 (henselian rigidity of the trace with finite coefficients).
 
-### 9.7 TC does not preserve filtered category colimits
-
-L_K(1)TC does not commute with filtered colimits of small stable categories. The filtered colimit of Mod_(Z/p^r)(Perf(Z)) identifies with the p-power-torsion perfect Z-modules and sits in an exact sequence with Perf(Z) and Perf(Z[1/p]). Each stage has zero L_K(1)TC, while the colimit has nonzero L_K(1)TC.
+**9.7 TC does not preserve filtered category colimits.** L_K(1)TC does not commute with filtered colimits of small stable categories. The filtered colimit of Mod_(Z/p^r)(Perf(Z)) identifies with the p-power-torsion perfect Z-modules and sits in an exact sequence with Perf(Z) and Perf(Z[1/p]). Each stage has zero L_K(1)TC, while the colimit has nonzero L_K(1)TC.
 
 Throughout this target, the diagram is a filtered system of enhanced perfect categories, not a filtered system of rings.
 
@@ -2380,7 +2378,9 @@ A proof route is as follows. Import TC/p preservation of sifted colimits on conn
 
 *Needs:* §5.2 (The high-height cyclotomic trace); §5.5 (The chromatic purity theorem); §4.46 (Theorem A in both forms); RefinedTraceMethods §4.11 (The cyclotomic trace and multiplicativity); RefinedTraceMethods §4.17, The Dundas–Goodwillie–McCarthy theorem; RefinedTraceMethods §2.9 (TC, its fiber formula and arithmetic completion); §4.15 (Connective periodic vanishing); RefinedTraceMethods §4.17 (TC modulo p and colimits), item (ii).
 
-### 10.3 Cyclic orbit diagrams and assembly
+### 10.3 Cyclic orbit diagrams and assembly for THH, TC and telescopic K-theory
+
+This section builds the assembly maps over the cyclic orbit category for group rings, proves THH assembly an equivalence of cyclotomic spectra and TC assembly a p-adic equivalence for connective R, and deduces that K-theory assembly is a T(n)-equivalence for every E₁-ring R and every n≥2. §§10.4 and 10.5 consume §10.3, and §10.5 consumes §10.4.
 
 For a discrete group G, let Or_Cyc(G) be the full subcategory of the G-orbit category on G/H for all cyclic H≤G, including infinite cyclic H. For an E₁-ring R put R[H]=R⊗Σ∞_+H. Use the action-groupoid construction and induction of perfect modules to give a coherent functor G/H↦K(R[H]) and the analogous TC diagram. The collapse G/H→G/G gives assembly colim_OrCyc K(R[H])→K(R[G]).
 
@@ -2407,9 +2407,7 @@ The interface includes:
 
 *Needs:* RefinedTraceMethods §4.9 and EnhancedDerivedSheaves E5:abstract.2 and E5:presentability.1–2; RefinedTraceMethods §2.10 (Spherical group rings and categorical THH); RefinedTraceMethods §2.9 (TC, its fiber formula and arithmetic completion); §1.4 (Waldhausen A-theory).
 
-### 10.4 p-adic TC assembly for cyclic subgroups
-
-For every E₁-ring R and every discrete group G, the assembly map colim_(G/H∈Or_Cyc(G))THH(R[H])→THH(R[G]) is an equivalence of cyclotomic spectra. For a connective E₁-ring R and any discrete group G, colim_(G/H∈Or_Cyc(G))TC(R[H])→TC(R[G]) is a p-adic equivalence. The colimit is formed before p-completion. This does not assert that uncompleted p-typical TC assembly is always an equivalence.
+**10.4 p-adic TC assembly for cyclic subgroups.** For every E₁-ring R and every discrete group G, the assembly map colim_(G/H∈Or_Cyc(G))THH(R[H])→THH(R[G]) is an equivalence of cyclotomic spectra. For a connective E₁-ring R and any discrete group G, colim_(G/H∈Or_Cyc(G))TC(R[H])→TC(R[G]) is a p-adic equivalence. The colimit is formed before p-completion. This does not assert that uncompleted p-typical TC assembly is always an equivalence.
 
 Throughout this target, R is E₁, and connective in the TC assertion; G is any discrete group; completion is after the orbit colimit.
 
@@ -2425,9 +2423,7 @@ A proof route is as follows. For the THH assembly, THH is symmetric monoidal, so
 
 *Needs:* §10.3 (Cyclic orbit diagrams and assembly); RefinedTraceMethods §2.8 (THH is symmetric monoidal); RefinedTraceMethods §2.10 (Spherical group rings and categorical THH); RefinedTraceMethods §2.9 (TC, its fiber formula and arithmetic completion); StableHomotopyKTheory Layers 3–7 (homotopy colimits and fixed points of spaces); RefinedTraceMethods §4.17 (TC modulo p and colimits), item (i).
 
-### 10.5 Telescopic Farrell–Jones assembly
-
-For every E₁-ring R, every discrete group G and every n≥2, the assembly map colim_(G/H∈Or_Cyc(G))K(R[H])→K(R[G]) is a T(n)-equivalence. There is no connectivity requirement on R and the family includes infinite cyclic subgroups.
+**10.5 Telescopic Farrell–Jones assembly.** For every E₁-ring R, every discrete group G and every n≥2, the assembly map colim_(G/H∈Or_Cyc(G))K(R[H])→K(R[G]) is a T(n)-equivalence. There is no connectivity requirement on R and the family includes infinite cyclic subgroups.
 
 Throughout this target, R is any E₁-ring, G any discrete group and n≥2.
 
