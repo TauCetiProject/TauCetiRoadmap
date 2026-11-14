@@ -711,7 +711,9 @@ Use CompletedCohomologyPartII §5.5; DeformationAndDerivedPatchingAlgebra §3.1,
 
 ## Layer 3: Freeness for weights, types and projective lifts
 
-### 3.1 Patched modules of finite length representations are maximal Cohen–Macaulay
+### 3.1 Common rank r and supports of patched weights and type lattices
+
+This section provides the common rank r, for which the patched modules of modular Serre weights and of irreducible-cosocle lattices in tame types are free over their supports, the annihilators I_𝒥 of the capped-interval subquotients, and the maximal Cohen–Macaulay property of patched modules of finite length representations and of lattices in sums of locally algebraic types. §3.4, §§4.3–4.5, §4.8, §4.9 and §5.2 consume it.
 
 For every smooth representation σ of K = `GL₂(O_{F_v})` on a finite length W(𝔽)-module with central character `ψ^{−1}`|`I_{F_v}`, the R∞-module M∞(σ) is maximal Cohen–Macaulay over its scheme-theoretic support R∞/`Ann_{R∞}(M∞(σ))`; in particular this support has no embedded associated prime.
 
@@ -727,9 +729,7 @@ A proof route is as follows. If M∞(σ) = 0 there is nothing to prove. For each
 
 *Needs:* §1.4; §1.3; DeformationAndDerivedPatchingAlgebra §3.1, 6.1.
 
-### 3.2 Freeness for Serre weights and for lattices in tame types
-
-There is an integer r ≥ 1 such that: (i) for every σ_v ∈ W(r̄_v^∨), M∞(σ_v) is free of rank r over its scheme-theoretic support, which is formally smooth over 𝔽; (ii) for every tame inertial type τ with JH(σ(τ)) ∩ W(r̄_v^∨) ≠ ∅ and every K-stable W(𝔽)-lattice σ°(τ) in σ(τ) with irreducible cosocle, M∞(σ°(τ)) is free of rank r over its scheme-theoretic support, which is the domain `R∞^{(1,0),τ}`.
+**3.2 Freeness for Serre weights and for lattices in tame types.** There is an integer r ≥ 1 such that: (i) for every σ_v ∈ W(r̄_v^∨), M∞(σ_v) is free of rank r over its scheme-theoretic support, which is formally smooth over 𝔽; (ii) for every tame inertial type τ with JH(σ(τ)) ∩ W(r̄_v^∨) ≠ ∅ and every K-stable W(𝔽)-lattice σ°(τ) in σ(τ) with irreducible cosocle, M∞(σ°(τ)) is free of rank r over its scheme-theoretic support, which is the domain `R∞^{(1,0),τ}`.
 
 Generic global datum; M∞ = `M∞^{σ_p^v}`. MP.5/finite-weight-hulls covers the principal-series intervals; the cuspidal types (second inertial shape at v) and EGS15 §§5.1, 10.1 are part of the tame-type gap.
 
@@ -759,9 +759,7 @@ A proof route is as follows. By EGS15 §5.1 the lattice is σ_J°(τ) for a uniq
 
 *Needs:* §1.4; §1.3; §1.2; §0.2; §3.1; §2.2; §2.3; DeformationAndDerivedPatchingAlgebra §3.1; ModpRepresentationsOfGL2OverLocalFields MP.5/finite-weight-hulls; LocalGaloisDeformationRingsPartII T.0, T.6–T.7 and the applicable supplier gaps.
 
-### 3.3 Lattices in sums of locally algebraic types
-
-Let σ = `⊕_{i=1}^m` `σ_i^{n_i}` with m, n_i ≥ 1, where the σ_i = `σ_i^{sm}` ⊗_E `σ_i^{alg}` are pairwise nonisomorphic absolutely irreducible locally algebraic representations of K over E, each `σ_i^{sm}` ⊗ Q̄_p in the image of the inertial local Langlands correspondence τ ↦ σ(τ), each σ_i having central character ψ⁻¹ on O_Fv× under the geometric Artin identification, and with ∪_i JH(σ_i) ∩ W(r̄_v^∨) ≠ ∅; let σ° be any K-stable W(𝔽)-lattice in σ. Then (i) M∞(σ°) is maximal Cohen–Macaulay over its scheme-theoretic support S = R∞/`Ann_{R∞}(M∞(σ°))`, which is reduced; (ii) M∞(σ°) `⊗_{W(𝔽)}` E is locally free over S[1/p], which is regular; at each closed point with finite residue field E_x/E, its completed local deformation ring is formally smooth over E_x. Every irreducible tame smooth `σ_i^{sm}` that is not a twist of the Steinberg representation of GL₂(k) satisfies the image hypothesis.
+**3.3 Lattices in sums of locally algebraic types.** Let σ = `⊕_{i=1}^m` `σ_i^{n_i}` with m, n_i ≥ 1, where the σ_i = `σ_i^{sm}` ⊗_E `σ_i^{alg}` are pairwise nonisomorphic absolutely irreducible locally algebraic representations of K over E, each `σ_i^{sm}` ⊗ Q̄_p in the image of the inertial local Langlands correspondence τ ↦ σ(τ), each σ_i having central character ψ⁻¹ on O_Fv× under the geometric Artin identification, and with ∪_i JH(σ_i) ∩ W(r̄_v^∨) ≠ ∅; let σ° be any K-stable W(𝔽)-lattice in σ. Then (i) M∞(σ°) is maximal Cohen–Macaulay over its scheme-theoretic support S = R∞/`Ann_{R∞}(M∞(σ°))`, which is reduced; (ii) M∞(σ°) `⊗_{W(𝔽)}` E is locally free over S[1/p], which is regular; at each closed point with finite residue field E_x/E, its completed local deformation ring is formally smooth over E_x. Every irreducible tame smooth `σ_i^{sm}` that is not a twist of the Steinberg representation of GL₂(k) satisfies the image hypothesis.
 
 Thus σ° belongs to the fixed-character coefficient category of §1.4, as do its constituent lattices σ_i°. The uses in this roadmap have tame smooth parts of that character and algebraic parts V(α_j) or trivial; a scalar z acts on V(α_j) by σ_j(z)²σ_j(z)⁻²=1, so those algebraic factors preserve the exact character. The image hypothesis is supplied by the tame-type gap (BHHMS23 Remark 8.2.5, p. 93; BHHMS23 line 4706).
 
@@ -847,7 +845,9 @@ A proof route is as follows. `R′_{2,j}`: the natural map R′₂ → `R′_{2,
 
 *Needs:* ModpRepresentationsOfGL2OverLocalFields MP.8/projective-lattice; ModpRepresentationsOfGL2OverLocalFields MP.8/lattice-coinvariants; ModpRepresentationsOfGL2OverLocalFields MP.5/projective-adjoint; ModpRepresentationsOfGL2OverLocalFields MP.3/tame-weight-set; §0.2; Mathlib `LinearMap.ker`; LocalGaloisDeformationRingsPartII T.0, T.6–T.7 and the applicable supplier gaps.
 
-### 4.2 K₁-invariance and Loewy length of small quotients
+### 4.2 Generator counts and freeness for the patched adjoint lattices
+
+This section provides K₁-invariance and the Loewy-length bound for small quotients of (`Proj_{K/Z₁}σ_v`)/`𝔪²_{K₁}`, generation by r elements and freeness of rank r of `M∞(R′_{2,j})` and of the patched lattices in V(α_j) ⊗ τ° with cosocle σ_v, and the isomorphism `M∞(T′_{2,j}/pT′_{2,j})` ≅ M∞(Y_j). §4.7 and §4.8 consume it.
 
 Let Q be a quotient of (`Proj_{K/Z₁}σ_v`)/`𝔪²_{K₁}(Proj_{K/Z₁}σ_v)` such that (a) the constituents of soc_K(Q) occur among those of `Proj_{K/K₁}σ_v` = P (up to multiplicity) and (b) [Q/soc_K(Q) : σ_v] = 1. Then rad_K(Q) and Q/S are fixed by K₁, where S is the largest σ_v-isotypic submodule of soc_K(Q). If moreover (c) the constituents of soc_K(Q) lie in W(r̄_v^∨) and (d) rad_K(Q)/soc_K(Q) has no constituent in W(r̄_v^∨), then Q has Loewy length at most 3.
 
@@ -863,9 +863,7 @@ A proof route is as follows. Embed Q into ⊕_i `Q_{σ_i}`, one quotient with si
 
 *Needs:* ModpRepresentationsOfGL2OverLocalFields MP.5/first-order-weight-hulls; ModpRepresentationsOfGL2OverLocalFields MP.5/finite-weight-hulls; ModpRepresentationsOfGL2OverLocalFields MP.3/tame-weight-set; §0.2.
 
-### 4.3 `M∞(R′_{2,j})` is minimally generated by r elements
-
-For every j ∈ {0, …, f − 1}, the R∞-module `M∞(R′_{2,j})` is minimally generated by r elements, r the rank of §3.2.
+**4.3 `M∞(R′_{2,j})` is minimally generated by r elements.** For every j ∈ {0, …, f − 1}, the R∞-module `M∞(R′_{2,j})` is minimally generated by r elements, r the rank of §3.2.
 
 σ_v ∈ W(r̄_v^∨); `R′_{2,j}` as in §4.1.
 
@@ -879,9 +877,7 @@ A proof route is as follows. Show by induction on the length of Q that M∞(Q) i
 
 *Needs:* §4.1; §4.2; §3.2; §3.4; §1.5; ModpRepresentationsOfGL2OverLocalFields MP.9/relative-projectivity; ModpRepresentationsOfGL2OverLocalFields MP.8/projective-truncation.
 
-### 4.4 Patched lattices in V(α_j) ⊗ τ° with cosocle σ_v
-
-Let σ_v ∈ W(r̄_v^∨), let τ° be a representation of GL₂(k) on a finite free W(𝔽)-module with τ°[1/p] absolutely irreducible and cosoc_K(τ°) ≅ σ_v, and fix j. A K-stable lattice L in (V(α_j) ⊗ τ°)[1/p] with cosoc_K L ≅ σ_v exists and is unique up to homothety, and M∞(L) is free of rank r over its scheme-theoretic support, which is the domain `R∞^{(2,−1)_j,τ}`, (2,−1)_j meaning (2, −1) at σ_j and (1, 0) at the other embeddings, τ the tame type with σ(τ) ≅ τ°[1/p] ⊗ Q̄_p. For the lattices of §4.1, the surjection `T′_{2,j}`/`pT′_{2,j}` ↠ Y_j induces an isomorphism `M∞(T′_{2,j}/pT′_{2,j})` ≅ M∞(Y_j).
+**4.4 Patched lattices in V(α_j) ⊗ τ° with cosocle σ_v.** Let σ_v ∈ W(r̄_v^∨), let τ° be a representation of GL₂(k) on a finite free W(𝔽)-module with τ°[1/p] absolutely irreducible and cosoc_K(τ°) ≅ σ_v, and fix j. A K-stable lattice L in (V(α_j) ⊗ τ°)[1/p] with cosoc_K L ≅ σ_v exists and is unique up to homothety, and M∞(L) is free of rank r over its scheme-theoretic support, which is the domain `R∞^{(2,−1)_j,τ}`, (2,−1)_j meaning (2, −1) at σ_j and (1, 0) at the other embeddings, τ the tame type with σ(τ) ≅ τ°[1/p] ⊗ Q̄_p. For the lattices of §4.1, the surjection `T′_{2,j}`/`pT′_{2,j}` ↠ Y_j induces an isomorphism `M∞(T′_{2,j}/pT′_{2,j})` ≅ M∞(Y_j).
 
 σ_v ∈ W(r̄_v^∨), fixed throughout BHHMS23 §8.3; then σ_v = F(λ) with λ 8-deep by genericity (BHHMS23 Proposition 2.4.2, MP.3); τ°[1/p] is in the image of the tame inertial local Langlands correspondence (it is a tame non-Steinberg type).
 
@@ -899,9 +895,7 @@ A proof route is as follows. The constituents of τ° are those of a Diamond box
 
 *Needs:* §4.1; §3.2; §1.2; §1.5; ModpRepresentationsOfGL2OverLocalFields MP.6/adjoint-tensor; ModpRepresentationsOfGL2OverLocalFields MP.6/diamond-box; ModpRepresentationsOfGL2OverLocalFields MP.3/tame-weight-set; LocalGaloisDeformationRingsPartII T.0, T.6–T.7 and the applicable supplier gaps.
 
-### 4.5 Freeness of `M∞(R′_{2,j})`
-
-For j ∈ {0, …, f − 1}, `M∞(R′_{2,j})` is free of rank r over R∞/∩_τ p_τ, where τ runs over the tame inertial types with σ_v ∈ JH(σ(τ)) and p_τ = ker(R∞ ↠ `R∞^{(2,−1)_j,τ}`).
+**4.5 Freeness of `M∞(R′_{2,j})`.** For j ∈ {0, …, f − 1}, `M∞(R′_{2,j})` is free of rank r over R∞/∩_τ p_τ, where τ runs over the tame inertial types with σ_v ∈ JH(σ(τ)) and p_τ = ker(R∞ ↠ `R∞^{(2,−1)_j,τ}`).
 
 As in §4.4; the `R∞^{(2,−1)_j,τ}` are domains (local-ring supplier contract).
 
@@ -915,7 +909,9 @@ A proof route is as follows. By §4.3 there is a surjection f : S^r ↠ `M∞(R�
 
 *Needs:* §4.3; §4.4; §3.3; §1.2; LocalGaloisDeformationRingsPartII T.0, T.6–T.7 and the applicable supplier gaps.
 
-### 4.6 L_j and N_j agree modulo the third radical
+### 4.6 Comparison of the glued lattices L_j with N_j
+
+This section compares L_j with the lattice N_j formed with τ₀: their reductions agree modulo the third radical, and M∞(L_j) is generated by r elements exactly when M∞(N_j) is. §4.8 consumes it.
 
 For j ∈ {0, …, f − 1} the surjection L_j ↠ N_j of §4.1 (formed with τ₀) induces an isomorphism (L_j/pL_j)/rad³_K(L_j/pL_j) ≅ (N_j/pN_j)/rad³_K(N_j/pN_j).
 
@@ -931,9 +927,7 @@ A proof route is as follows. The reductions fit into a commutative diagram of sh
 
 *Needs:* §4.1; ModpRepresentationsOfGL2OverLocalFields MP.5/first-order-weight-hulls; ModpRepresentationsOfGL2OverLocalFields MP.6/adjoint-tensor.
 
-### 4.7 Generation of M∞(L_j) and of M∞(N_j)
-
-For j ∈ {0, …, f − 1}, M∞(L_j) is generated by r elements over R∞ if and only if M∞(N_j) is.
+**4.7 Generation of M∞(L_j) and of M∞(N_j).** For j ∈ {0, …, f − 1}, M∞(L_j) is generated by r elements over R∞ if and only if M∞(N_j) is.
 
 N_j formed with τ₀; π the weighted representation, with `π^{K₁}` ≅ `D₀(r̄_v^∨)^{⊕r}` (§3.4).
 
@@ -947,7 +941,7 @@ A proof route is as follows. By §1.5, generation by r elements is equivalent to
 
 *Needs:* §4.6; §4.2; §3.4; §1.5; ModpRepresentationsOfGL2OverLocalFields MP.9/relative-projectivity; ModpRepresentationsOfGL2OverLocalFields MP.8/projective-truncation; ModpRepresentationsOfGL2OverLocalFields MP.3/diamond-socle.
 
-### 4.8 Freeness of the patched glued lattices (BHHMS23 Theorem 1.8)
+### 4.8 Freeness of the patched glued lattices
 
 For j ∈ {−1, …, f − 1}, M∞(L_j) is free of rank r over R∞/`∩_{λ,τ}` `p_{λ,τ}`, where `p_{λ,τ}` = ker(R∞ ↠ `R∞^{λ,τ}`), τ runs over the tame inertial types with σ_v ∈ JH(σ(τ)), and λ over the parallel profile (1,0) and the profiles (2,−1)_i with a single raised embedding 0≤i≤j and (1,0) at every other embedding. In particular the rank does not depend on j or on σ_v ∈ W(r̄_v^∨).
 
@@ -971,7 +965,7 @@ A proof route is as follows. Use the twist/reindexing of BHHMS23 proof of Theore
 
 *Needs:* §4.1; §4.7; §4.4; §4.5; §3.4; §2.3; §1.2; §3.3; LocalGaloisDeformationRingsPartII T.0, T.6–T.7 and the applicable supplier gaps.
 
-### 4.9 Multiplicity one for the first-order projective envelope (BHHMS23 Theorem 8.3.11)
+### 4.9 Multiplicity one for the first-order projective envelope
 
 M∞(R) is free of rank r over R∞/`∩_{λ,τ}` `p_{λ,τ}`, with τ over the tame types with σ_v ∈ JH(σ(τ)) and λ equal to the parallel profile (1,0) or to (2,−1)_i for exactly one embedding i, and dim_𝔽 M∞(R)/𝔪∞ = r. Consequently the surjection (`Proj_{K/Z₁}σ_v`)/`𝔪²_{K₁}` ↠ σ_v induces an isomorphism of nonzero finite-dimensional 𝔽-vector spaces M∞((`Proj_{K/Z₁}σ_v`)/`𝔪²_{K₁}`)/𝔪∞ ≅ M∞(σ_v)/𝔪∞; equivalently, by §1.5, Hom_K(σ_v, π) ≅ Hom_K((`Proj_{K/Z₁}σ_v`)/`𝔪²_{K₁}`, π).
 
@@ -1007,7 +1001,7 @@ Use ModpRepresentationsOfGL2OverLocalFields MP.8/projective-lattice; ModpReprese
 
 ## Layer 5: Gelfand–Kirillov dimension, Banach lifts and big R = big T
 
-### 5.1 Gelfand–Kirillov dimension of the weighted representation (BHHMS23 Theorem 1.10)
+### 5.1 Gelfand–Kirillov dimension f of the weighted representation
 
 For a generic global datum and the weighted representation π of §0.5, `dim_{GL₂(F_v)}(π)` = f = [F_v : ℚ_p].
 
@@ -1023,7 +1017,7 @@ A proof route is as follows. Upper bound: verify the three hypotheses of MP.7/lo
 
 *Needs:* ModpRepresentationsOfGL2OverLocalFields MP.7/local-gk-bound; ModpRepresentationsOfGL2OverLocalFields MP.7/connected-characters; ModpRepresentationsOfGL2OverLocalFields MP.7/diamond-connected; ModpRepresentationsOfGL2OverLocalFields MP.4/gk-dimension; ModpRepresentationsOfGL2OverLocalFields MP.4/dimension-comparisons; ModpRepresentationsOfGL2OverLocalFields MP.3/diamond-socle; §3.4; §0.6; §0.5; §4.9; §1.6; §1.1; §2.4.
 
-### 5.2 Structure of `π[𝔪²_{K₁}]` (BHHMS23 Theorem 1.9)
+### 5.2 Structure of `π[𝔪²_{K₁}]`
 
 For the weighted π there is r ≥ 1 with `π[𝔪²_{K₁}]` ≅ `(⊕_{σ_v∈W(r̄_v^∨)} D̃_{σ_v})^{⊕r}` as K-representations, where `D̃_{σ_v}` is the largest subrepresentation of (`Inj_{K/Z₁}σ_v`)[`𝔪²_{K₁}`] containing σ_v with multiplicity one (as its socle) and no other weight of W(r̄_v^∨). Every irreducible constituent of `π[𝔪²_{K₁}]` occurs with multiplicity r.
 
@@ -1057,7 +1051,7 @@ A proof route is as follows. M∞ is free of finite rank over A = S∞⟦K₁/Z�
 
 *Needs:* §1.6; §1.1; §2.5; §2.6; §5.1; NoncommutativeAndEquivariantIwasawa §§F.1, 0.10–0.11; CompletedCohomologyPartII §F.1.
 
-### 5.4 Nonzero Banach lifts of π (BHHMS23 Theorem 1.3)
+### 5.4 Nonzero Banach lifts of π
 
 Let x : R∞ → O′ be a homomorphism of local W(𝔽)-algebras, O′ the integers of a finite extension E′ of E = W(𝔽)[1/p], with residue field 𝔽′. Then V(x) = `Hom^{cont}_{O′}(M∞ ⊗_{R∞,x} O′, E′)` is a nonzero admissible unitary Banach representation of GL₂(F_v) over E′, with GL₂(F_v)-invariant unit ball `Hom^{cont}_{O′}(M∞ ⊗_{R∞,x} O′, O′)` whose reduction modulo the maximal ideal of O′ is π ⊗_𝔽 𝔽′.
 
@@ -1073,7 +1067,7 @@ A proof route is as follows. Admissibility and unitarity: let x̄ : R∞ → �
 
 *Needs:* §5.3; §1.6; CompletedCohomologyPartII §F.1, 3.1–3.2; NoncommutativeAndEquivariantIwasawa §§F.1, 0.10–0.11.
 
-### 5.5 Gelfand–Kirillov dimension of mod p cohomology of Shimura curves (BHHMS23 Theorem 1.1)
+### 5.5 Gelfand–Kirillov dimension f of the unweighted infinite-level r̄-part
 
 Let a generic global datum be given (with S = S_D ∪ S_r) and let V^v = `∏_{w∉S_D∪S_r}(O_D)_w^×` · `∏_{w∈(S_D∪S_r)∖{v}}` V_w ⊆ `∏_{w≠v}(O_D)_w^×` be a compact open subgroup with V_w ⊆ 1 + `pM₂(O_{F_w})` for w ∈ S_p ∖ {v}, such that π ≠ 0, where π = `colim_{V_v}` `Hom_{G_F}(r̄, H¹_ét(X_{V^vV_v} ×_F F̄, 𝔽))` in the indefinite case and π = `colim_{V_v}` S(V^vV_v, 𝔽)[𝔪] in the definite case. Then `dim_{GL₂(F_v)}(π)` = [F_v : ℚ_p]. Without the condition V_w ⊆ 1 + `pM₂(O_{F_w})` at w ∈ S_p ∖ {v} one still has `dim_{GL₂(F_v)}(π)` ≤ [F_v : ℚ_p]; and the equality holds for V^v = `∏_{w∉S}(O_D)_w^×` `∏_{w∈S∖{v}}V_w` for any finite S ⊇ S_D ∪ S_r, with the same nonvanishing and pro-p conditions at the other places above p, such that the framed deformation ring of r̄_w is formally smooth for w ∈ S ∖ S_p.
 
@@ -1120,7 +1114,7 @@ A proof route is as follows. Specialise the completed cohomology and completed H
 
 *Needs:* §0.3; CompletedCohomologyPartII §8.8, 8.10; CompletedCohomologyPartII §8.12–8.14; CompletedCohomologyPartII §F.1, 3.1–3.2; HilbertModularVarietiesAndShimuraCurves §R18.4.2; HilbertModularVarietiesAndShimuraCurves §R18.4.27; GlobalGaloisDeformations §3.3–3.4; GlobalGaloisDeformations §3.4.
 
-### 5.7 Big R = big T and flatness of completed cohomology (BHHMS23 Theorem 1.2)
+### 5.7 Big R = big T and flatness of completed cohomology
 
 Assume p inert in F. In the sequence of surjections R∞ `⊗_{S∞}` W(𝔽) = R∞/(x₁, …, `x_{4|S|+q−1}`) ↠ `R^ψ_{r̄,S∪{w₁}}` ↠ `T̂(V^v)_{r̄}^{ψ^{−1}}` all maps are isomorphisms; `Hom_{W(𝔽)}(Ĥ¹(V^v)_{r̄}^{ψ^{−1}}, W(𝔽))` (resp. the dual of `Ŝ(V^v)_{r̄}^{ψ^{−1}}`) is a faithfully flat `T̂(V^v)_{r̄}^{ψ^{−1}}`-module; and `T̂(V^v)_{r̄}^{ψ^{−1}}` is a complete intersection.
 
