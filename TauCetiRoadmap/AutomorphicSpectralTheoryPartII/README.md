@@ -200,7 +200,9 @@ A proof route is as follows. Use an unordered sum over the nonzero-point subtype
 
 - No sequence converging to 0 through nonzero points has finite rank.
 
-### 0.2 Finite-order Weierstrass products
+### 0.2 Finite-order products and strip-decaying interpolation
+
+Finite-order canonical products, and entire functions with rapid vertical-strip decay whose zero set is exactly a polynomial pullback of a finite-order zero set, or which vanish on an affine lattice with complex-linearly independent generators outside a finite set A and are nonzero throughout A. Sections 0.8 and 4.8 use §0.3.
 
 Use the supplied primary-factor formula, written `elementaryFactor` in the acceptance signature, `E_p(w)=(1−w)exp(Σ_{j=1}^p wʲ/j)`, and specialize its product as `canonicalProduct`, `Ψ_{Λ,p}(z)=zᵟ∏_{λ∈Λ∖{0}}E_p(z/λ)`, where δ=1 exactly when 0∈Λ. Define `partialCanonicalProduct` by restricting that product to a finite subset of the nonzero-point subtype. If `HasRankBound` holds at p, use the supplied normal convergence, entire holomorphy and exact simple-zero divisor and prove the finite-rank global bound `‖Ψ_{Λ,p}(z)‖≤exp(C(1+‖z‖)ᵖ⁺¹)` for some C>0. The resulting finite-rank statement is `finite_rank_weierstrass_product`. Define `HasFiniteEntireOrder` by the existence of C>0 and an integer d≥0 bounding a function by exp(C(1+‖z‖)ᵈ); for an entire function this is equivalent to finite usual order. The elementary denominators j range over 1,…,p and every product denominator λ is nonzero. (BPLZZ §2.1, Lemma 2.2, p.9; bplzz line 404).
 
@@ -250,8 +252,7 @@ A proof route is to apply the supplied primary-product theorem and derive the gl
 
 - For Λ={0,a}, a≠0, and p=0 the product is z(1−z/a), with derivatives 1 at 0 and −1 at a; listing a twice would incorrectly make its zero double.
 
-### 0.3 Interpolation with vertical strip decay
-
+**0.3 Interpolation with vertical strip decay.**
 For U a finite-dimensional real space, Ψ entire on ℂ of finite order and q:Uℂ→ℂ polynomial, prove that there is an entire ν with zero set exactly q⁻¹(Ψ⁻¹(0)) and rapid decay on each vertical strip: for every M>0 and r∈ℕ there is C≥0 with (1+‖z‖)ʳ|ν(z)|≤C whenever ‖Re z‖≤M. In coordinates this growth predicate is `HasRapidVerticalDecay`, and the theorem is `polynomial_zero_fiber_interpolation`; the polynomial is an arbitrary multivariate polynomial. It also applies to q⁻¹(Λ) for every finite-rank Λ. Define `affineSpectralLattice` by the formula a+Σ_iℤb_i for any finite family b_i in Uℂ. When the family is complex-linearly independent this is a discrete affine lattice with unique integer coordinates. Under that independence hypothesis, for every finite A⊂Uℂ prove `affine_lattice_interpolation`: an entire rapidly vertically decreasing ν vanishes on this affine lattice outside A and is nonzero throughout A. A may contain points outside the lattice. This includes rank zero; there is no interpolation claim for arbitrary real lattices of Uℂ. (BPLZZ §2.1, Proposition 2.4, Corollaries 2.5–2.6 and Remark 2.7, pp.9–10; bplzz line 416).
 
 The defining construction has the following API.
@@ -308,7 +309,9 @@ A proof route is as follows. Use root-datum real descent and the torus split/com
 
 - No equality between θG and θ is required.
 
-### 0.5 Moderate spectral symbols
+### 0.5 Moderate and rapid symbol algebras on real-form lattices
+
+The moderate symbols MΘ on the shifted lattice strips of §0.4, with their extended strip seminorms, and the rapid symbols NΘ. Sections 0.7, 0.10, 1.7 and 5.2 use §0.5, and §§1.1, 1.2a and 1.3 use §0.6.
 
 For a finite W-stable involution set Θ, define `p_{ϑ,M,r}(μ)=sup_{α∈h*ϑ,ℂ,‖Re α‖≤M; ϖ∈Yϑ}|μ(α+ϖ)|(1+‖α+ϖ‖)^r`, allowing value ∞. MΘ consists of entire μ for which every ϑ∈Θ and M>0 admit some real r with p finite. Equivalently use a polynomial upper bound of some nonnegative integral degree on each strip. M denotes `M_{ {1} }`. The invariant subalgebra is MΘ^W. Exponents may depend on ϑ and M; the bound is uniform over all lattice translates. (BPLZZ §2.1, Definition 2.3, p.9; §2.2, Definition 2.8(1), p.10; §2.4, seminorms, p.13; bplzz line 463).
 
@@ -338,8 +341,7 @@ A proof route is as follows. Define the extended seminorm family before restrict
 
 - For Θ={−1} with Y=ℤ and μ(z)=z², the exponent r=−2 gives `sup_n n²/(1+|n|)²=1`, finite, whereas r=−1 gives an infinite supremum; the definition asks for some exponent, not a prescribed one.
 
-### 0.6 Rapid spectral symbols
-
+**0.6 Rapid spectral symbols.**
 NΘ consists of entire μ such that `p_{ϑ,M,r}(μ)<∞` for every ϑ∈Θ, M>0 and real r; integral r≥0 suffice. When 1∈Θ the topology uses the countable family M,r∈ℕ with M≥1 and is Fréchet, and NΘ is an ideal in MΘ in the sense that multiplying a rapid symbol by a moderate symbol remains rapid. N denotes `N_{ {1} }`. Invariant symbols form the closed W-fixed subspace. (BPLZZ §2.2, Definition 2.8(2) and Remark 2.9, pp.10–11; §2.4, pp.13,17–21; bplzz line 471).
 
 The defining construction has the following API.
@@ -366,7 +368,9 @@ A proof route is as follows. Uniform convergence on bounded strips gives entire 
 
 - The quantifier over all exponents cannot be interchanged with existence of one exponent.
 
-### 0.7 Sharp spectral symbols
+### 0.7 Sharp symbols and Weyl-invariant sharp seeds
+
+The M-module M♯θ of symbols whose restrictions to the shifted subspaces vanish for all but finitely many lattice points, and Weyl-invariant sharp symbols nonzero at any prescribed finite set of points. Section 4.3 uses §0.7, and §§1.8, 4.8 and 5.2 use §0.8.
 
 M♯θ is the subalgebra of `M_{θ∪{1}}` consisting of μ such that, for each ϑ∈θ, the function α↦μ(α+ϖ) is identically zero on h*ϑ,ℂ for all but finitely many ϖ∈Yϑ. This is support of restrictions, not support of the entire function as a function on h*ℂ. M♯θ is an M-module. Its W-fixed algebra can be nonunital; 1 fails the condition whenever an infinite Yϑ occurs. (BPLZZ §2.2, Definition 2.8(3), Remark 2.9(2)–(3), pp.10–11; Remark 2.17, p.13; bplzz line 478).
 
@@ -392,8 +396,7 @@ A proof route is as follows. Finite supports are preserved by sums, products and
 
 - Do not introduce a unit or silently coerce a Hecke element to a sharp multiplier.
 
-### 0.8 Sharp symbols nonzero on prescribed orbits
-
+**0.8 Sharp symbols nonzero on prescribed orbits.**
 For every a∈h*ℂ there exists μ∈(M♯θ)^W with μ(a)≠0, provided θ is finite and W-stable. One can normalize μ(a)=1. More generally a finite set of points can be kept nonzero. No assertion is made for an infinite involution set. (BPLZZ §2.2, Lemma 2.10, p.11; bplzz line 495).
 
 A proof route is as follows. For each ϑ interpolate on its shifted lattice while avoiding the projections of the finite W-orbits of the specified points. Take the product over the finite sets θ and W, then normalize; nonvanishing is required at every Weyl translate before taking the product.
@@ -780,7 +783,9 @@ A proof route is as follows. Use the polynomial translation estimate for w to bo
 
 - At P=G, with the same central quotient, measure and finite level as the parent, and an admissible Franke weight p, w=p² gives `‖R(X)φ‖²_{L²_w}=∫|p R(X)φ|²dx`, so (L²_w)^∞ is the parent’s S_p([G]) at every common finite level. For p=2 the norm is 2‖R(X)φ‖₂; using w=p would instead give √2‖R(X)φ‖₂. For p=1 the norms are exactly unweighted.
 
-### 2.7 Weighted Sobolev evaluation and smoothing
+### 2.7 Pointwise and nuclear estimates for weighted smooth vectors
+
+Point-evaluation and regularization bounds for smooth vectors of weighted L², and nuclearity of their seminorm-completion inclusions after a fixed extra power of σ_P in the weight. Sections 2.10, 2.13, 3.8 and 3.9 use §2.7, and §§2.10, 2.11, 2.15 and 3.4 use §2.8.
 
 At each finite level J and for every weight w there is a continuous seminorm q on `L²_w([G]_P)^{∞,J}` such that `|φ(x)|≤q(φ)Ξ_P(x)w(x)^{−1/2}` for all x. Every continuous functional T on smooth L²_w and every f∈S(G(𝔸)) is regularized to a smooth vector in `L²_{w^{-1}}`, characterized by T(R(f)ψ)=⟨ψ,φ⟩_P with the adjoint/inversion convention fixed by this equality. The map is continuous on fixed Schwartz stages. (BPCZ §2.5.5, (2.5.5.4)–(2.5.5.5), p.212; Bernstein §3.4, key lemma, pp.686–688; bpcz line 1270).
 
@@ -792,8 +797,7 @@ A proof route is as follows. Apply the local Sobolev inequality to xU and use co
 
 - The level and weight may change q; no uniform q over all weights is asserted.
 
-### 2.8 Nuclear weighted inclusions
-
+**2.8 Nuclear weighted inclusions.**
 There exists d₀≥0 depending only on the quotient geometry such that for every compact open J, every weight w and every continuous seminorm q on `L²_w([G]_P)^{∞,J}`, there is a continuous seminorm p on `L²_{σ,d₀,w}([G]_P)^{∞,J}` for which the inclusion induces a nuclear map from the Hausdorff Banach p-completion to the Hausdorff Banach q-completion. In particular, q of the included vector is bounded by a constant times p of that vector. An unconditionally summable family in the source therefore becomes absolutely summable in every continuous target seminorm. This is nuclearity at each target seminorm, with the source seminorm allowed to depend on it. (BPCZ §2.5.5, Proposition 2.5.5.1, p.212, and its weighted Hilbert–Schmidt argument; Bernstein §3.4–3.5, pp.688–689; bpcz line 1282 and line 1284).
 
 A proof route is as follows. For the specified target seminorm, use the `Ξ²σ^{-d}` integrability and sufficiently many extra derivatives to obtain a Hilbert–Schmidt inclusion between suitable Hilbert completions. Factor the resulting seminorm inclusion through two Hilbert–Schmidt inclusions, using OperatorTheory/OperatorIdeals for their composition; apply AutomorphicSpectralTheory §§0.11–0.15 nuclear-map and summable-family consequences at the Banach completions. The derivative order can increase with q, while d₀ is fixed. BPCZ calls the smooth inclusion nuclear; the precise completion statement here avoids interpreting that phrase as a single Banach factorization into the entire smooth target.
@@ -808,7 +812,9 @@ A proof route is as follows. For the specified target seminorm, use the `Ξ²σ^
 
 - On that circle the zeroth-order Hilbert inclusion at constant weight is the identity on L², with singular values 1,1,1,… and infinite trace norm; smoothness and the derivative gain are essential.
 
-### 2.9 Zeroth-order rapid spaces
+### 2.9 Rapid-decay and Harish-Chandra Schwartz spaces on quotients
+
+The zeroth-order rapid spaces S₀ and S₀⁰, the quotient Schwartz space S([G]_P) and the Harish-Chandra Schwartz space C([G]_P), the last two with their descriptions as intersections of weighted smooth L² spaces. Section 2.12 uses §2.9, and §§2.15, 2.16, 3.3 and 3.7 use §2.10 or §2.11.
 
 S₀([G]_P) consists of measurable functions with sup_x n_P(x)^N|φ(x)|<∞ for every N≥0; use actual functions for these suprema. S₀⁰ is its subspace of continuous functions with the same Fréchet seminorms. The continuous subspace is an F-representation. The full measurable S₀ is an auxiliary locally convex space; its translation action is not asserted strongly continuous. Compact smooth functions embed into both. (BPCZ §2.5.6, p.212; bpcz line 1289).
 
@@ -834,8 +840,7 @@ A proof route is as follows. Construct the weighted uniform seminorm topology an
 
 - The smooth vectors of S₀⁰ supply the next node, while measurable S₀ supplies the constant-term majorant.
 
-### 2.10 Schwartz functions on automorphic quotients
-
+**2.10 Schwartz functions on automorphic quotients.**
 S([G]_P) is the smooth adelic space of functions with `q_{N,X}(φ)=sup_x n_P(x)^N|R(X)φ(x)|<∞` for every N≥0 and X∈U(g∞). At fixed J it is nuclear Fréchet; over J it is strict LF. It identifies topologically with (S₀⁰)^∞ and with `⋂_{N>0}L²_{n_P^N}^{∞}`, using the projective smooth topology. It is dense in every smooth L²_w space. This quotient space is distinct from the test-function convolution algebra S(G(𝔸)); the latter acts on it by right convolution. (BPCZ §2.5.7, pp.212–213; §2.5.12, p.215; bpcz line 1298).
 
 The defining construction has the following API.
@@ -860,8 +865,7 @@ A proof route is as follows. Use the quotient Ξ polynomial bound and integrabil
 
 - The quantifiers are all derivatives and all decay exponents, rather than one exponent chosen after each derivative.
 
-### 2.11 Harish-Chandra Schwartz functions on quotients
-
+**2.11 Harish-Chandra Schwartz functions on quotients.**
 C([G]_P) consists of smooth functions with `sup_x Ξ_P(x)^{-1}σ_P(x)^d|R(X)φ(x)|<∞` for every d≥0 and X. At each J it is nuclear Fréchet and equals `⋂_{d>0}L²_{σ_P^d}^{∞,J}` topologically; its level union is strict LF. The inclusion S([G]_P)→C([G]_P) is continuous with dense image. This is the global quotient Harish-Chandra space, with logarithmic decay relative to Ξ_P. (BPCZ §2.5.8, p.213; §2.5.12, p.215; Lapid §2; bpcz line 1314).
 
 The defining construction has the following API.
@@ -886,7 +890,9 @@ A proof route is as follows. Apply the Sobolev inequality and `Ξ²σ^{-d₀}` i
 
 - The Ξ factor is in the denominator of the defining seminorm.
 
-### 2.12 Polynomially weighted measures
+### 2.12 Weighted measure, uniform-growth and relative-decay spaces
+
+The weighted measure spaces T₀,w and T₀, the uniform-growth spaces T_w and T, and the spaces S_w of Schwartz decay relative to a weight. Sections 2.16 and 3.8 use §2.12, §2.16 uses §2.13, and §3.3 uses §2.14.
 
 T₀,w([G]_P) is the Banach space of complex Radon measures μ with `∫w^{-1}d|μ|<∞`. `T₀=⋃_{N≥0}T₀,n_P^N` has its locally convex inductive-limit topology, which need not be strict; it identifies with the continuous sesquilinear dual of S₀⁰ using the conjugation convention of the integral pairing. Measures are not assumed absolutely continuous. Translation is bounded locally uniformly in the group variable, but is not in general strongly continuous in weighted total variation. Define convolution on measures by integration against test functions, and take norm-smooth orbit vectors only where that regularity holds. Its uniform-growth estimates are proved in §2.13 and its relative-decay estimate in §2.14. (BPCZ §2.5.9, pp.213–214; bpcz line 1327).
 
@@ -912,8 +918,7 @@ A proof route is as follows. Use weighted total variation for the Banach stages 
 
 - The reciprocal weight in the norm is essential for duality.
 
-### 2.13 Weighted uniform derivative growth
-
+**2.13 Weighted uniform derivative growth.**
 For a weight w, T_w([G]_P) consists of smooth functions with `sup_x w(x)^{-1}|R(X)φ(x)|<∞` for every X, at fixed J with its Fréchet topology and then its strict level LF topology. In exponent notation write `T_N = T_{n_P^N}`. Define `T([G]_P)=⋃_N T_{n_P^N}` here, agreeing for P=G with the smooth uniform-growth space of AutomorphicFormsOnReductiveGroups §0.4: a single exponent N controls all derivatives, with constants depending on X. Give the comparison `T=⋃_N(L²_{n_P^{-N}})^∞=⋃_N(T₀,n_P^N)^∞` with its specified nonstrict union topology. These unions do not assert equality at the same N in every comparison. (BPCZ §2.5.10, p.214; §2.5.11, p.215; bpcz line 1347).
 
 The defining construction has the following API.
@@ -942,8 +947,7 @@ A proof route is as follows. Compare weighted suprema and weighted derivative L�
 
 - The measure-side smooth-vector comparison must survive the failure of strong continuity on all Radon measures.
 
-### 2.14 Schwartz decay relative to a weight
-
+**2.14 Schwartz decay relative to a weight.**
 For a weight w and N≥0 let `S_{w,N}` be the smooth functions satisfying `sup_x n_P(x)^{−N}w(x)^r|R(X)φ(x)|<∞` for every r≥0 and X. Define `S_w=⋃_N S_{w,N}` with its nonstrict locally convex union topology. The order of quantifiers is ∃N∀r∀X. Equivalently `S_w=⋃_N⋂_{r≥0}(L²_{n_P^{-N}w^r})^∞`, allowing an adjustment of N between the two descriptions. At each fixed N,J the displayed seminorms give the Fréchet topology. (BPCZ §2.5.11 and Lemma 2.5.11.1, pp.214–215; bpcz line 1370).
 
 The defining construction has the following API.
@@ -1010,7 +1014,9 @@ A proof route is as follows. Use the product decomposition of Haar measure and F
 
 - For the GL₂ Borel and unitary Hecke characters χ₁≠χ₂, the pairs χ₁⊠χ₂ and χ₂⊠χ₁ are Weyl conjugate and give one block in both conventions; distinct non-conjugate pairs give orthogonal blocks.
 
-### 2.16 Constant terms and pseudo-Eisenstein extensions
+### 2.16 Constant-term maps, their cusp approximation and weighted decomposition
+
+Continuity and adjunction of the constant-term and pseudo-Eisenstein maps between quotient spaces, approximation of a function by its constant terms with arbitrary decay in parabolic depth, and the weighted closed embedding and open surjection built from them. Sections 3.3 and 3.6 use §2.16, and §3.4 uses §2.18.
 
 For P⊂Q extend the AutomorphicFormsOnReductiveGroups §§4.1–4.2 constant term CT_P^Q and construct the intermediate pseudo-Eisenstein map EP_P^Q by summation over P(F)∖Q(F). At Q=G compare it on the common domain with the Paley–Wiener pseudo-Eisenstein series of AutomorphicSpectralTheory §1.6. With compatible normalized quotient measures prove continuity on the following spaces: EP:S₀([G]_P)→S₀([G]_Q), CT:T₀([G]_Q)→T₀([G]_P), EP:S([G]_P)→S([G]_Q), and CT:T_N([G]_Q)→T_N([G]_P). They are adjoint under the integral pairing. There is c>0 such that for every N≥0, `φ↦sup_x δ_P^Q(x)^{cN}n_P(x)^N|CT_P^Qφ(x)|` is a continuous seminorm on S₀([G]_Q). This weighted estimate does not assert unweighted rapid decay of CTφ along all split-central directions. (BPCZ §2.5.13 and Lemma 2.5.13.1, pp.215–216; bpcz line 1415).
 
@@ -1026,8 +1032,7 @@ A proof route is as follows. Use compactness of the adelic unipotent quotient fo
 
 - For P=Q on a compact quotient of mass 1, φ=ψ=1 gives ⟨CTφ,ψ⟩=1=⟨φ,EPψ⟩. Scaling only the measure on the CT side by 2 gives 2 versus 1; scaling both compatible measures by 2 gives 2=2. Thus quotient-measure normalization is part of adjunction, even for identity maps.
 
-### 2.17 Approximation by constant terms
-
+**2.17 Approximation by constant terms.**
 For proper P⊊Q, every N>0,r≥0 and X∈U(g∞), there is a continuous seminorm q on T_N([G]_Q) at each fixed level such that `|R(X)(φ−CT_P^Qφ)(x)|≤n_P(x)^N d_P^Q(x)^{−r}q(φ)` for all x in the common intermediate quotient. If φ∈L²_w([G]_Q)^∞, there is N>0 such that for every r≥0 the integral over A_Q∞ of `|φ(ax)−CT_P^Qφ(ax)|² w(a)δ_Q(a)^{−1}da` is `≪_r n_P(x)^N d_P^Q(x)^{−r}`. In the integral bound the single N is chosen before all r; the notation w(a) uses the restricted A_Q weight in this assertion. (BPCZ §2.5.14, Proposition 2.5.14.1, pp.216–218; bpcz line 1460).
 
 A proof route is as follows. Expand a zero-constant-term function on the compact adelic unipotent quotient and integrate by parts repeatedly to gain arbitrary parabolic depth decay. Use weighted Sobolev control and reduction-theory fiber bounds, choosing the height exponent once before the repeated depth estimates.
@@ -1038,8 +1043,7 @@ A proof route is as follows. Expand a zero-constant-term function on the compact
 
 - At a cusp with zero constant term, arbitrary depth decay follows; the theorem does not compare unrelated parabolics.
 
-### 2.18 Weighted constant-term decomposition
-
+**2.18 Weighted constant-term decomposition.**
 For P⊂Q and a weight w on [G]_Q there are weights w_P^−,w_P^+ on [G]_P, comparable with w in the deep P-cusp, for which `CT_P^Q:L²_w→L²_{w_P^−}` and `EP_P^Q:L²_{w_P^+}→L²_w` are continuous, including their smooth-vector maps. For weights w,w′ with comparable restrictions w|A_Q∞≍w′|A_Q∞, if w′≪w the map `φ↦((CT_P^Qφ)_{P⊊Q},φ)` is a closed embedding of smooth L²_w into the product of the proper-parabolic weighted smooth spaces and smooth L²_w′. Under the dual comparison w≪w′, the corresponding sum of EP maps and the identity inclusion is an open surjection onto smooth L²_w. State the choices of weights and comparison constants explicitly at each finite level. (BPCZ §2.5.15, Proposition 2.5.15.1 and Corollary 2.5.15.2, pp.218–221; bpcz line 1536).
 
 A proof route is as follows. Construct upper and lower weights by separating the deep-cusp and complementary regions using the approximation estimate. Use a partition across parabolic cusp regions to control the graph norm, then apply Fréchet duality/open mapping to the adjoint sum.
@@ -1092,7 +1096,9 @@ A proof route is as follows. Take a K∞-conjugation-invariant left-invariant el
 
 - On a one-dimensional K-type let B(u,v)=u·conj(v), A=2 and T=i. Then B(AT·1,1)=2i=B(A·1,T*·1), with T*=−i; using T instead in the second slot gives −2i.
 
-### 3.3 Cuspidal support in weighted function spaces
+### 3.3 Cuspidal-support subspaces and their continuous projections
+
+The cuspidal-support subspaces F_X of the weighted spaces of Layer 2 and the continuous projections onto them, with summability of the singleton components. Sections 3.6, 3.7, 3.8 and 3.9 use §3.4.
 
 Import X(G), the Weyl-associate normalized cuspidal data, from AutomorphicSpectralTheory §1.9, and its orthogonal decomposition from AutomorphicSpectralTheory §1.10, both transported to [G] by §2.15a. If a weight factors through A_P∞, define `L²_{w,X}` as the orthogonal sum of the blocks indexed by X⊂X(G); these projections agree for different such weights on intersections. Define S_X=S∩L²_X. For an arbitrary quotient weight and `F∈{L²_w,C,T_N,T,S_{w,N},S_w}`, define F_X as the annihilator of `S_{Xᶜ}` under the integral pairing. The notation therefore records cuspidal support, not necessarily Hilbert orthogonality for that weight. CT and EP preserve this support with the finite-to-one map X(M_P)→X(G). (BPCZ §§2.9.1–2.9.3, (2.9.2.1)–(2.9.2.2), Lemma 2.9.3.1, pp.229–232; bpcz line 2063).
 
@@ -1118,8 +1124,7 @@ A proof route is as follows. Compare the normalized cuspidal-datum convention to
 
 - A general weight need not make distinct support subspaces orthogonal.
 
-### 3.4 Continuous cuspidal-support projections
-
+**3.4 Continuous cuspidal-support projections.**
 For every weight w and support subset X, the projection on S extends continuously to `(L²_w)^∞→(L²_{w,X})^∞`; the family of singleton components is unconditionally summable to φ in that smooth space. On S the sum is absolutely summable. The maps also extend continuously to C,T,S_w and obey ⟨φ_X,ψ⟩=⟨φ,ψ_X⟩ for T×S. There is a common height loss N₀>0 such that singleton components of φ∈T_w are absolutely summable in `T_{w n_P^{N₀}}`, and those of φ∈`S_{w,N}` in `S_{w,N+N₀}`; on C absolute summability holds in C. S_X is dense in C_X and smooth `L²_{−N,X}`. Under product quotient tensor identifications the X₁×X₂ projection is the completed tensor product of the two projections, giving S_X and C_X product isomorphisms. (BPCZ §2.9.4, Theorem 2.9.4.1, pp.232–235; (2.9.5.9)–(2.9.6.10), p.235; bpcz line 2157).
 
 A proof route is as follows. Induct on parabolic semisimple rank, starting with A_P-factor weights where the Hilbert decomposition applies. Use the weighted graph embedding for lower/upper comparable weights, then the EP open surjection to descend the compatible projections for general weights. Use nuclear inclusions to convert unconditional sums to absolute sums and track the one common height loss. Density and product compatibility follow by applying the continuous projections to dense Schwartz vectors and pure tensors.
@@ -1132,7 +1137,9 @@ A proof route is as follows. Induct on parabolic semisimple rank, starting with 
 
 - Do not strengthen unconditional convergence in an arbitrary weighted L² stage to absolute convergence there without a stronger weight.
 
-### 3.5 Regular cuspidal data
+### 3.5 Regular cuspidal data, their constant terms and wave-packet expansions
+
+Regularity of a cuspidal datum, boundedness and holomorphy of constant terms on regular support, Lapid's hereditary property for products of general linear groups, and the expansion of Harish-Chandra Schwartz functions in regular wave packets under that property. The Summary names regular wave packets among the analytic interfaces.
 
 A normalized cuspidal datum represented by (M_P,π) is regular if its stabilizer in W(P)=Norm_G(M_P)/M_P is trivial: wπ≅π implies w=1. This is independent of the chosen Weyl-associate representative. For GL_n and π=⊠_iπ_i on `∏_iGL_{n_i}`, regularity means the factors of the same rank are pairwise nonisomorphic; different ranks cannot be permuted. This is not the distinct-parameter condition on a single infinitesimal character and is different from the GGP-specific starred regularity condition. (BPCZ §2.9.7, pp.235,237–238; bpcz line 2292).
 
@@ -1158,8 +1165,7 @@ A proof route is as follows. Transport the stabilizer by Weyl conjugation. For G
 
 - A Levi equal to G has trivial relative Weyl group and is regular.
 
-### 3.6 Regular-support constant terms and holomorphy
-
+**3.6 Regular-support constant terms and holomorphy.**
 If χ is regular, the constant term extends boundedly from L²_χ([G]) to L²_χ([G]_P), and the adjoint pseudo-Eisenstein map is bounded in the reverse direction. For φ∈S_χ([G]) and Re s>0, the Levi function `m↦δ_P(m)^{s−1/2}φ_P(m)` belongs to `C_{χ_M}([M_P])`, where χ_M is the finite inverse image support in X(M_P). The family `S_χ→C_{χ_M}` is holomorphic in s on Re s>0 in the locally convex sense. At the boundary Re s=0 no such C-valued assertion is made. (BPCZ §2.9.7, Proposition 2.9.7.1 and Corollary 2.9.7.2, pp.235–238; bpcz line 2296).
 
 A proof route is as follows. Use the pseudo-Eisenstein inner-product formula of AutomorphicSpectralTheory §1.8 and the constant-term formula of its §1.5, transported to [G] by §2.15a; identifying their parameters and quotient measures with those of BPCZ §2.9.7 and Lapid §2 is part of this target. Use regularity to cancel all nonidentity stabilizer terms. Compare the two Hilbert norms, extend by density, and take adjoints to obtain the L² constant-term bound within this node. Combine the large-positive-s constant-term estimate with weighted Hölder interpolation to reach Re s>0; derivatives and weak holomorphy plus local boundedness give locally convex holomorphy by AutomorphicSpectralTheory §0.15, specialized to scalar source ℂ.
@@ -1172,8 +1178,7 @@ A proof route is as follows. Use the pseudo-Eisenstein inner-product formula of 
 
 - For the GL₂ Borel and δ_P=4, the multiplier at s=1 is 2, while the normalization at s=0 is 1/2; the latter boundary value is not a claim of Harish-Chandra decay.
 
-### 3.6a Lapid's hereditary property for products of general linear groups
-
+**3.6a Lapid's hereditary property for products of general linear groups.**
 Use Lapid's analytic conditions. A connected reductive group G satisfies uniform temperedness (UT) if there are k,l>0 such that for every maximal parabolic P=MU of G with Σ_P={α} and every level K_M of M there is c>0 with `n_α(π,z)≪(1+Λ_{π∞}+|z|)^k` for all π∈Π_disc(M(𝔸)) with K_M-fixed vectors, in the region `|Re z|<c(1+Λ_{π∞}+|Im z|)^{−l}`. Here n_α is the global normalizing factor of the intertwining operator and `Λ_{π∞}` the size of the Casimir eigenvalue of π∞ (Lapid Definition 3.2, p.14; lapid line 558). It satisfies the weak Ramanujan property (WR) with constant c>0 if, for every maximal parabolic P=MU with fundamental weight ϖ, every π∈Π_disc(M(𝔸)), place v, level K and K∞-type τ, the normalized local intertwining operator `N_{P̄|P}(π_v,sϖ)` on the (τ,K)-part is holomorphic in |Re s|<c (Lapid Definition 3.7, p.17; lapid line 709). It satisfies (HP) if G and all its Levi subgroups satisfy (UT) and (WR) (Lapid §3.6, p.19; lapid line 801).
 
 Let `G=∏_i Res_{K_i/F}GL_{n_i}` for finitely many finite extensions K_i/F. Prove that G satisfies (UT), and (WR) with constant min_i 2/(n_i²+1), hence (HP) (Lapid Proposition 3.4, pp.15–17, and Theorem 3.8, p.17, which cites [MS04, Proposition 4.2]; lapid line 599 and line 724). For every G satisfying (HP), prove Lapid's polynomial bounds, uniform in π∈Π_disc(M(𝔸)): for each Levi M there is l>0, for each invariant differential operator D on a_M* there is k>0 and for each level K there is c>0, such that the D-derivatives in λ of the normalizing factors `n_{P′|P}(π,λ)` and of the intertwining operators `M_{P′|P}(w,λ)` on (τ,K)-parts are `≪(1+‖λ‖+Λ_{π∞}+‖τ‖)^k` on `R_{π,c,l}={λ:‖Re λ‖<c(1+Λ_{π∞}+‖Im λ‖)^{−l}}`. In a fixed strip, the derivatives of the local normalized operators are `≪(1+‖τ‖)^k` at infinite places and bounded in terms of K at finite places (Lapid Lemma 3.3, Lemma 3.11 and Corollary 3.13, pp.14–19; lapid line 571, line 771 and line 804).
@@ -1190,8 +1195,7 @@ A proof route is as follows. For (UT), write n_β(π,−s) for cuspidal π=π₁
 
 - The WR constant for GL₃ is 2/(3²+1)=1/5 and for GL₂ it is 2/5; a product `GL₂×Res_{K/F}GL₃` has constant min(2/5,1/5)=1/5, not the larger value.
 
-### 3.7 Lapid expansion of Harish-Chandra Schwartz functions
-
+**3.7 Lapid expansion of Harish-Chandra Schwartz functions.**
 Let G be a connected reductive group over F satisfying Lapid’s hereditary property (HP): G and every Levi satisfy (UT) and (WR), as in Lapid §3.6, lapid line 801. Let χ be a regular datum represented by (M_P,π). Write Π=I_P^Gπ. There is N>0 such that for every φ∈C([G]) and λ∈ia_P*, the series `φ_{Πλ}=Σ_{v∈𝔅}⟨φ,E(v,λ)⟩ E(v,λ)` is defined, basis independent, and converges absolutely in T_N([G]). The map `λ↦φ_{Πλ}` is Schwartz with values in T_N, using all parameter derivatives, and if φ∈C_χ then `φ=∫_{ia_P*}φ_{Πλ}dλ`. The exponent N is uniform in λ and φ. Section 3.6a proves (HP) for every finite product of `Res_{K_i/F}GL_{n_i}`, so for these groups the theorem is unconditional. (BPCZ §2.9.8, Theorem 2.9.8.1, pp.238–239; Lapid Theorem 4.5, p.22, Proposition 5.1, pp.22–24, Corollary 5.7, pp.25–26; lapid line 924, line 933 and line 1069; bpcz line 2394).
 
 A proof route is as follows. Use the polynomial derivative bounds for normalizing factors and intertwining operators under (HP) of §3.6a. Factor φ by a compact smooth convolution and use the relative-character basis estimates with Lapid’s Eisenstein majorization for uniform convergence and parameter derivatives. Apply Lapid Theorem 4.5 on inversion of cuspidal wave packets; regularity places the whole χ-block in its induced-from-cuspidal image.
@@ -1204,7 +1208,9 @@ A proof route is as follows. Use the polynomial derivative bounds for normalizin
 
 - The zero Schwartz vector gives every coefficient 0 and integral 0. For φ outside the χ-block the integral reconstructs its χ-component, so the equality with φ requires φ∈C_χ. The full noncuspidal Schwartz Paley–Wiener statement is not used.
 
-### 3.8 Schwartz convolution kernels and cuspidal parts
+### 3.8 Schwartz kernels: cuspidal parts, uniform bounds and spectral expansion
+
+The integral kernels of Schwartz tests on the quotients [G]_P, their cuspidal-support parts with bounds on the sum over support components, and their spectral expansion in Eisenstein series. These are the Schwartz kernel expansions that the Summary names among the analytic interfaces, and Downstream consumers lists §§3.8–3.10 for relative period comparisons.
 
 For f∈S(G(𝔸)) define `K_{f,P}`, `K_{f,P,χ}` as the smooth integral kernels of R_P(f) and its χ support component on the AdelicAlgebraicGroups quotient L² spaces. Define K⁰ on the A_P∞-quotient using its `δ_P^{1/2}` normalization. They satisfy `K⁰_{f,P,χ}(x,y)=∫_{A_P∞}K_{f,P,χ}(x,ay)δ_P(a)^{−1/2}da`. For compactly supported smooth f first prove these statements directly: the kernel of R_P(f) on L²([G]_P) is `K_{f,P}(x,y)=Σ_{γ∈M_P(F)}∫_{N_P(𝔸)}f(x⁻¹γny)dn`, the parabolic kernel of AutomorphicSpectralTheory §6.4 extended from G(𝔸)¹ to G(𝔸); its χ support component is obtained by applying the projection of §3.4 in the first variable; and the K⁰ identity follows by disintegrating the quotient measure along A_P∞. This fixes the pairing convention `(R_P(f)φ)(x)=∫K_{f,P}(x,y)φ(y)dy`. Smooth representatives are used; kernel columns come from regularizing δ_y with the appropriate adjoint. Derivatives in either variable agree with the corresponding left/right derivatives of f. (BPCZ §2.10.1, pp.239–240; bpcz line 2420).
 
@@ -1230,8 +1236,7 @@ A proof route is as follows. Use smooth regularization of point distributions, t
 
 - The A_P factor is `δ_P^{−1/2}`; kernel and measure normalizations must be tested together.
 
-### 3.9 Uniform bounds for cuspidal kernel parts
-
+**3.9 Uniform bounds for cuspidal kernel parts.**
 There exists N₀>0 such that for every weight w on [G]_P and continuous seminorm q on `T_{w n_P^{N₀}}` there is a continuous Schwartz seminorm p satisfying `Σ_χq(K_{f,P,χ}(·,y))≤p(f)w(y)^{−1}`. In particular `Σ_χ|K_{f,P,χ}(x,y)|≤p(f)n_P(x)^{N₀}w(x)/w(y)`. The same pointwise bound holds for `Σ_χ|K⁰_{f,P,χ}(x,y)|` when x,y∈`[G]_P¹=H_P^{-1}(0)`. The exponent N₀ is chosen before the weight and seminorm. (BPCZ §2.10.1, Lemma 2.10.1.1, pp.239–240; bpcz line 2431).
 
 A proof route is as follows. First bound `R(f):T₀,w→T_{w n^{N′₀}}` uniformly in w at the level of the height loss. Use absolute support summability after a second fixed loss and apply the uniform boundedness principle to the family of support components. Apply the resulting bound to δ_y, whose weighted variation norm is `w(y)^{-1}`; integrate the normalized central direction for K⁰.
@@ -1242,8 +1247,7 @@ A proof route is as follows. First bound `R(f):T₀,w→T_{w n^{N′₀}}` unifo
 
 - The K⁰ estimate is stated on H_P=0; simply using the same inequality for arbitrary central translates would alter the weight factors.
 
-### 3.10 Spectral expansion of Schwartz kernels
-
+**3.10 Spectral expansion of Schwartz kernels.**
 There exist a continuous seminorm p on S(G(𝔸)) and N≥0 such that for every X,Y∈U(g∞), f∈S and x,y∈G(𝔸)¹, the sum over χ and standard P, with coefficient `|𝒫(M_P)|^{−1}`, of `∫_{ia_P^{G,*}}Σ_τ |Σ_{v∈𝔅_{P,χ,τ}} R_x(X)E(x,I_P(λ,f)v,λ) R_y(Y)(overline(E(y,v,λ)))|dλ` is at most p(L(X)R(Y)f)n_G(x)^Nn_G(y)^N. Here 𝒫(M_P) is the finite set of parabolics with Levi M_P and 𝔅 is a K-basis in the discrete inducing space with support χ. The derivative acts on the conjugate Eisenstein function, with Y extended complex-linearly; it is not the conjugate of the Y-derivative. For arbitrary x,y∈G(𝔸), `K⁰_{f,χ}(x,y)` is the sum of the same undifferentiated Eisenstein terms with those coefficients and spectral measures. The absolute value is outside the finite sum within each K-type, before summing types and integrating. (BPCZ §2.10.2, Lemma 2.10.2.1, pp.240–243; bpcz line 2481 and line 2496).
 
 A proof route is as follows. First prove the identity for compactly supported smooth f: apply the unitary Eisenstein spectral map and its completeness (AutomorphicSpectralTheory §§4.2–4.3), transported to [G] by §2.15a, to the kernels of §3.8, retaining the discrete inducing representation spaces and the parabolic multiplicity factors (Arthur's kernel expansion, [Art78] §4, as cited before BPCZ Lemma 2.10.2.1, p.240; bpcz line 2480). Use Arthur factorization at fixed normal finite level, then positivity on the diagonal and Cauchy–Schwarz to bound the grouped K-type terms by the kernel majorant. Use the uniform boundedness principle and density to pass to Schwartz f and commute group derivatives with the uniformly controlled expansion.
@@ -1404,7 +1408,9 @@ A proof route is as follows. Use the range inclusion in the existing closed cusp
 
 - The zero operator is quasi-cuspidal even when it is produced by a test function with nonzero local constant terms.
 
-### 4.5 Typical cuspidal data at an infinitesimal character
+### 4.5 Typical cuspidal data, Casimir counting and finiteness
+
+Typicality of a cuspidal datum at χ∞, the polynomial count of discrete-spectrum Casimir eigenvalues, the finite rank of derived cuspidal Casimir values, and finiteness of typical data at fixed level and types. Section 4.8 uses §§4.6–4.7, §4.9 uses §4.7, and §5.7 uses §4.5a.
 
 For each standard Levi M import the splitting of its Cartan dual into a central quotient c_M*/(a_M^G)* and the derived Cartan quotient b_M*. Let γ_M^+,γ_M^− be the corresponding quotient maps, and let λ_M be the derived Casimir polynomial. A normalized cusp representation σ of M is χ∞-typical if γ_M^+(χσ∞) belongs to the finite image γ_M^+(χ∞) and λ_M(γ_M^−(χσ∞)) belongs to the finite set λ_M(γ_M^−(χ∞)). Images of W-orbits are finite sets; choices of representatives do not change membership. Work modulo unitary unramified twists in i(a_M^G)*, the twists trivial on Z(𝔸). Fix a finite set of archimedean K_M-types and a compact open finite level when asserting finiteness. (BPLZZ §3.3, Remark 3.10 and Definition 3.11, p.25; bplzz line 1231).
 
@@ -1432,8 +1438,7 @@ A proof route is as follows. Compare the central cotangent quotient to AA norm-o
 
 - For G=M=G_m over ℚ and ω=1, (a_G^G)* is zero while c_G* is one-dimensional, so the central quotient is all of c_G*; the fixed ω pins the differential at 0, and the differential 1 is not typical at χ∞=0. Quotienting by the absolute a_G* instead would make the central quotient zero and accept 1.
 
-### 4.5a Polynomial counting of discrete-spectrum Casimir eigenvalues
-
+**4.5a Polynomial counting of discrete-spectrum Casimir eigenvalues.**
 Let H be a connected reductive group over a number field E, Z_H its maximal E-split central torus, ω_H a unitary automorphic character of Z_H(𝔸_E), K_f a compact open subgroup of `H(𝔸_{E,f})` and 𝔗 a finite set of `K_{H,∞}`-types. Let Ω be the Casimir operator of a fixed nondegenerate invariant form on the Lie algebra of H∞, acting on the R(K_f)-fixed, 𝔗-isotypic part of the discrete spectrum L²_disc([H],ω_H). Prove that there are C,d>0 such that, for every R≥0, the number of eigenvalues of Ω on this space of absolute value at most R, counted with multiplicity, is at most C(1+R)^d. In particular the same bound holds for the cuspidal spectrum. The level, types and central character are fixed, and C and d may depend on them. (Müller's theorem, [Mül89, Theorem 0.1], which BPLZZ Remark 3.20, p.30, uses in place of Donnelly's cuspidal bound [Don82, Theorem 9.1] of Lemma 3.12; bplzz line 1460 and line 1267.) This is a counting theorem: finite multiplicity of each eigenvalue (AutomorphicSpectralTheory §4.5) does not imply it.
 
 A proof route is as follows. Choose test functions at the fixed level and types whose operators are nonnegative on the discrete spectrum and dominate the spectral indicator of |Ω|≤R, built from Arthur's multipliers. Bound the trace of their discrete part by the integral of the kernel diagonal against Arthur truncation, using positivity and self-adjointness of truncation, rapid decay of truncated forms and the Maass–Selberg relations for the Eisenstein contributions, on the spectral decomposition transported to the fixed central character; then choose the truncation parameter as a power of 1+R.
@@ -1448,8 +1453,7 @@ A proof route is as follows. Choose test functions at the fixed level and types 
 
 - The continuous spectrum is excluded: for PGL₂ over ℚ the Eisenstein series fill the Laplace spectrum [1/4,∞), so a count over all of L² would be infinite for every R>1/4.
 
-### 4.6 Finite-rank cuspidal Casimir values
-
+**4.6 Finite-rank cuspidal Casimir values.**
 At fixed finite level and a finite set of archimedean K_M-types, the set Λ_M of derived Casimir values of cuspidal representations of M modulo i(a_M^G)* twists is countable and has finite rank as a subset of ℂ. More precisely the needed derived semisimple cuspidal counting function, counted with multiplicity below positive elliptic spectral parameter R, is bounded by C(1+R)^d. To pass from M to M_der, one must use a finite union of conjugate finite levels; the original level intersection alone is not sufficient. Normalize the Casimir sign so that its K-type-adjusted elliptic eigenvalue is nonnegative. (BPLZZ §3.3, Lemma 3.12 and proof, p.26; bplzz line 1263).
 
 A proof route is as follows. Apply the counting bound of §4.5a to the cuspidal spectrum of M_der with trivial central character at the common conjugate level; Donnelly's cuspidal bound used in BPLZZ Lemma 3.12 (p.26; bplzz line 1267) is that case, and finite multiplicity alone is not a counting theorem. Choose finite representatives of M(𝔸)/(M(F)Z_M(𝔸)M_der(𝔸)K_MM∞). Translate a nonzero fixed-level cusp vector by a suitable representative before restricting to M_der. Intersect the finitely many conjugate derived levels, apply the counting theorem at that common smaller level, and deduce convergence of a sufficiently high reciprocal power sum.
@@ -1460,8 +1464,7 @@ A proof route is as follows. Apply the counting bound of §4.5a to the cuspidal 
 
 - A repeated eigenvalue contributes multiplicity to the counting estimate, but only once to the interpolation zero set.
 
-### 4.7 Finiteness of typical cuspidal data
-
+**4.7 Finiteness of typical cuspidal data.**
 For each Levi M, fixed ω, fixed finite level and finite K_M-type set, only finitely many χ∞-typical cuspidal representations occur modulo the normalized i(a_M^G)* twists. After fixing ω and normalizing the i(a_M^G)* twists, the allowed central differentials lie in a discrete affine lattice coset in the remaining central directions of c_M,ℂ*/(a_M^G)ℂ*, possibly of rank zero; the first typicality condition restricts them to finitely many values; the remaining finite-component central characters are finite at the fixed level. The counting bound of §4.5a restricts derived parameters, and fixed infinitesimal/central-character admissibility gives the final finite representation set. (BPLZZ §3.3, Lemma 3.13, p.26, with the central-character step in the proof of Lemma 3.14, pp.26–27; bplzz line 1270).
 
 A proof route is as follows. Use the character lattice of the fixed-level compact norm-one central quotient. Compare extension of the fixed ω and normalization of twists as requested in central-character-affine-lattice: the resulting allowed differentials form an affine coset with complex-linearly independent lattice generators, rather than a full-rank lattice in all of c_M*/(a_M^G)*. Apply both typicality conditions, then derived counting at the conjugate levels and Harish-Chandra fixed-character finiteness.
@@ -1472,7 +1475,9 @@ A proof route is as follows. Use the character lattice of the fixed-level compac
 
 - For a torus with trivial derived group the proof must still use the central condition.
 
-### 4.8 Archimedean annihilators of unwanted families
+### 4.8 Archimedean annihilation of all but finitely many components
+
+Sharp archimedean symbols, nonzero at χ∞, that vanish on every induced family of a non-typical cuspidal datum, and their product, whose multiplier maps into finitely many cuspidal-data components. Section 5.3 uses §4.9.
 
 For each standard Levi M there is μ∞^M∈(M♯θ)^W with μ∞^M(χ∞)≠0 that vanishes on every induced character `χ^G_{σ_s∞}` for every complex s∈(a_M^G)ℂ* whenever σ has the fixed permitted types and level and is not χ∞-typical. Construct it using finite-rank interpolation in the derived Casimir and interpolation on the allowed affine central lattice coset in c_M,ℂ*/(a_M^G)ℂ*. Multiply by a sharp symbol μ∞⁰ nonzero at every target Weyl translate; the additional moderate factors alone need not be sharp. (BPLZZ §3.3, Lemma 3.14, pp.26–27; bplzz line 1277).
 
@@ -1498,8 +1503,7 @@ A proof route is as follows. Remove from Λ_M the finite target Casimir set, int
 
 - The value at χ∞ stays nonzero; every complex twist of a non-typical datum is killed.
 
-### 4.9 Finite surviving cuspidal components
-
+**4.9 Finite surviving cuspidal components.**
 For the fixed (G,Z,ω,K,χ∞) there exists μ∞∈(M♯θ)^W with μ∞(χ∞)≠0 such that, for every fixed-K Schwartz f, R(μ∞⋆f) has image in a finite orthogonal sum of the cuspidal-data components of §2.15a. The list is independent of f. Choose the finite detecting K∞-types supplied by μ∞⁰, propagate them to the finitely many Levi K_M-types and finite levels, retain only typical data, and annihilate all remaining data by the product of μ∞^M. (BPLZZ §3.3, (3.3) and Proposition 3.15, p.27; bplzz line 1325).
 
 A proof route is as follows. Use compact-picture Frobenius reciprocity to get finite Levi type sets from the detecting G-types, and choose compatible finite levels including the unramified factors. Apply the annihilator to every complex induced family and use density of pseudo-Eisenstein series in its cuspidal block. Finite typicality leaves a finite block list after multiplying the finitely many standard-Levi factors.
@@ -1520,7 +1524,9 @@ Layers 0–3; AdelicAlgebraicGroups §§2.1–2.3, 4.6–4.7; AutomorphicSpectra
 
 ## Layer 5: Mixed separation and global isolation
 
-### 5.1 Occurrence in a cuspidal datum
+### 5.1 Normalized isolation of the components where a character occurs
+
+Occurrence of a T-character in a cuspidal datum, mixed T-multipliers annihilating each component where it does not occur, and the T-multiplier with value 1 at χ whose range lies in the sum of the components where χ occurs. Sections 5.4, 5.6 and 5.7 use §5.3, and §5.7 also uses §5.1.
 
 A T-character χ occurs in a normalized cuspidal datum (M,σ) if there is one complex parameter s∈(a_M^G)ℂ* for which the induced infinitesimal character equals χ∞ and, for every finite v outside T, the spherical constituent of the normalized induction I_P^G(σ_s,v) has character χ_v. The same parameter must work at all these places. This property descends to the Weyl-and-twist equivalence classes of §2.15a. Denote the resulting set by D(G,ω)_χ. Occurrence is stronger than the almost-everywhere finite-place condition in CAP. (BPLZZ §3.4, Definition 3.16, p.28; bplzz line 1352).
 
@@ -1548,8 +1554,7 @@ A proof route is as follows. Use normalized induction, its infinitesimal charact
 
 - For G=M=G_m over ℚ, ω=1, σ=1 and T containing every finite place, the only parameter is s=0 because (a_G^G)*=0, so the character with infinitesimal character 1 does not occur; the absolute space would allow s=1 and make it occur, contradicting the full-group nonoccurrence Check above.
 
-### 5.2 Mixed archimedean and Hecke annihilators
-
+**5.2 Mixed archimedean and Hecke annihilators.**
 If χ does not occur in (M,σ), construct a T-multiplier `μ_{M,σ}` nonzero at χ whose operator annihilates the whole cuspidal component L²_(M,σ)([G],ω) of §2.15a. Only finitely many places outside T are used, even if T is infinite. For proper M choose representatives α_σ,α_χ and a splitting ℓ:h*→(a_M^G)*. For each w∈W the only candidate parameter compatible with α_σ+s=wα_χ is s_w=ℓ(wα_χ)−ℓ(α_σ). Nonoccurrence supplies an invariant archimedean polynomial or a spherical Hecke element at a retained finite place distinguishing the target from that candidate. Its values along the induced family are exponential polynomials in s. A finite linear combination avoiding the finitely many target-zero hyperplanes, followed by a Weyl product, vanishes on the entire family and is nonzero at χ. Multiply by a moderate damping and a sharp seed to obtain an element of (M♯θ)^W⊗H_G^T. (BPLZZ §3.4, Proposition 3.17 and (3.4), pp.28–29; Remark 2.9(3), p.11; bplzz line 1361).
 
 The defining construction has the following API.
@@ -1576,8 +1581,7 @@ A proof route is as follows. If the fixed-level component is zero there is nothi
 
 - The multiplier remains in the nonunital sharp algebra.
 
-### 5.3 Isolation of occurring cuspidal components
-
+**5.3 Isolation of occurring cuspidal components.**
 For every T-character χ and the fixed (G,Z,ω,S,K), there is a T-multiplier μ with μ(χ)=1 such that for every f∈S(G(𝔸))^K the image of R(μ⋆f) on L²(G(F)\G(𝔸)/K,ω) lies in the Hilbert orthogonal sum of the cuspidal components of §2.15a indexed by D(G,ω)_χ. The constructed range is contained in a finite sum of these components. The identity μ(χ)=1 preserves the action of f on any admissible representation with this T-character, including one absent from the automorphic spectrum. This theorem asserts a range constraint and scalar normalization; it does not assert that μ acts as the identity on each entire surviving component. (BPLZZ §3.4, Theorem 3.19, pp.29–30; bplzz line 1428).
 
 A proof route is as follows. Start with μ∞ from Layer 4 and its finite list of surviving equivalence classes. Multiply by the mixed annihilator for each class where χ does not occur. All factors are nonzero at χ. Divide by the resulting scalar at χ; use the AutomorphicSpectralTheory Layer 4 orthogonal decomposition and commuting scalar actions to prove the range inclusion.
