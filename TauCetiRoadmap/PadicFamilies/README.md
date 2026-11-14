@@ -1725,7 +1725,9 @@ Consider a complex `M⁰=A`, `M¹=A`, `d=1`, with `U` the identity in both degre
 
 **Standing conventions.** From §2.4 on, every statement of this layer uses the analytic chart construction of §2.1, the Banach and descent targets of §2.2 and the global-image fibre convention of §2.3. At weight 0 and negative sign it uses the global-image subspace `g` of §2.3, or localises away from the `E₂` eigensystem, and never an isomorphism with all actual symbols at that exceptional point; for general charts the symbol-specialisation and descent input must supply the same convention. At decent classical refined points the `E₂` exception is excluded by the refinement hypotheses.
 
-### 2.1 Families of locally analytic distributions over an affinoid of weight space
+### 2.1 Family distribution modules, family symbols and their finite-slope pieces
+
+This section provides the coefficient modules `R ⊗̂ D[r]` over analytic weight charts, the family modular symbols with compact `U_p`, and their finite projective slope`≤ν` summands with the global-image specialization. Sections 2.4, 2.5, 2.7 and 2.7a consume them, and every later statement of this layer and of Layer 3 keeps their standing conventions.
 
 Let `W = Sp R` be an affinoid subdomain of the weight space `𝒲` of continuous characters of `ℤ_p^×`, with universal character `κ_W : ℤ_p^× → R^×`. For `r ∈ p^ℤ`, `r ≤ 1`, let `A[r]` be the affinoid algebra of the closed neighbourhood `{z ∈ ℂ_p : |z − a| ≤ r for some a ∈ ℤ_p}` of `ℤ_p`, with sup norm, and `D[r]` its continuous dual. The completed tensor products `R ⊗̂ A[r]` and `R ⊗̂ D[r]` are orthonormalisable Banach `R`-modules with a natural continuous evaluation map `R ⊗̂ D[r] → Hom_R`,`cont(R ⊗̂ A[r], R)`, which is not asserted to be surjective; for `r₁ > r₂` the restriction `R ⊗̂ A[r₁] → R ⊗̂ A[r₂]` and the dual map `R ⊗̂ D[r₂] → R ⊗̂ D[r₁]` are compact. The monoid `Σ₀(p)` of integral matrices `(a b; c d)` with `p ∤ a`, `p | c` and `ad − bc ≠ 0` acts on `R ⊗̂ A[r]` by `(γ·f)(z) = κ_W(a + cz) f((b + dz)/(a + cz))` and on the full continuous dual by transposition. The tensor module `R ⊗̂ D[r]` has the action constructed by bounded multiplication by `κ_W(a+cz)` before applying the weight-zero distribution action; for every `w ∈ W(ℚ_p)` the specialisation along `w : R → ℚ_p` identifies these with `A_w[r]` and `D_w[r]` carrying the weight-`w` action.
 
@@ -1755,9 +1757,7 @@ See [Bellaïche09](#bellaiche09), §3.1, §§3.1.1–3.1.4 with Lemmas 3.1–3.2
 
 This uses `PadicMeasuresIwasawaAlgebras`, §3a.1 (The character space of `ℤ_pˣ` and its functions); `ModularSymbolsPadicLFunctions`, §2.2; `LocallyAnalyticDistributions`, §4.1; `LocallyAnalyticDistributions`, §§4.2 and 4.15.
 
-### 2.2 Families of distribution-valued modular symbols with compact `U_p`
-
-On cuspidal local charts the Banach-complex construction is supplied by `ModularSymbolsPadicLFunctions`, §3.0. The additional construction here is the all-weight global Banach-symbol model, its boundary specialization and chart descent; §2.7a identifies its cuspidal local realization with that supplier.
+**2.2 Families of distribution-valued modular symbols with compact `U_p`.** On cuspidal local charts the Banach-complex construction is supplied by `ModularSymbolsPadicLFunctions`, §3.0. The additional construction here is the all-weight global Banach-symbol model, its boundary specialization and chart descent; §2.7a identifies its cuspidal local realization with that supplier.
 
 For `N` prime to `p` and `Γ=Γ₁(N)∩Γ₀(p)`, the family symbols `Hom_Γ(Δ₀,D[r](R))` have the closed finite Manin-generators presentation. On a nice chart in the sense of the later author Definition 3.4 (`R` and its unit-ball reduction principal ideal domains), the closed-submodule argument of Lemma 3.7 proves potential orthonormalisability. The Hecke operators are continuous and `U_p` factors through radius improvement; the bounded restriction argument of Proposition 3.6 supplies compactness and links. For the dagger family `D†[r](R)`, compactly supported cohomology gives an injective specialization map. It is an isomorphism except at weight 0 with negative sign, where the cokernel is the one-dimensional `E₂` Hecke module. Passing to adapted slope`≤ν` pieces retains this exception exactly when `ν≥1`. General affinoid coefficient charts require the corresponding Banach hypothesis/descent interface; no unrestricted closed-submodule theorem is asserted.
 
@@ -1786,9 +1786,7 @@ See [Bellaïche09](#bellaiche09), §3.2.1, (10), p. 25; §3.2.2, Proposition 3.3
 
 This uses §2.1; `ModularSymbolsPadicLFunctions`, §0.2; `ModularSymbolsPadicLFunctions`, §0.5; `ModularSymbolsPadicLFunctions`, §0.3; `LocallyAnalyticDistributions`, §4.1.
 
-### 2.3 Finite slope pieces of family modular symbols
-
-For a slope-adapted analytic chart with the required property`(Pr)` and compact `U_p` inputs, Riesz theory gives a finite-projective Hecke-stable family-symbol summand of slope`≤ν`. At weight `w` its specialization is the global image `Symb^±_Γ(D_w)^{≤ν}_g`, defined as the image in the actual weight-`w` symbols. On nice charts it equals the full slope`≤ν` space except when `w=0`, the sign is negative and `ν≥1`, where the quotient is the one-dimensional `E₂` module. Compatible `U_p` links identify the bounded and dagger radius models on these finite-slope summands.
+**2.3 Finite slope pieces of family modular symbols.** For a slope-adapted analytic chart with the required property`(Pr)` and compact `U_p` inputs, Riesz theory gives a finite-projective Hecke-stable family-symbol summand of slope`≤ν`. At weight `w` its specialization is the global image `Symb^±_Γ(D_w)^{≤ν}_g`, defined as the image in the actual weight-`w` symbols. On nice charts it equals the full slope`≤ν` space except when `w=0`, the sign is negative and `ν≥1`, where the quotient is the one-dimensional `E₂` module. Compatible `U_p` links identify the bounded and dagger radius models on these finite-slope summands.
 
 The chart is slope adapted and carries the Banach coefficient/symbol inputs specified above. Use the actual specialization exact sequence of family-modular-symbols. A full-symbol isomorphism is permitted only after excluding (`w=0`, sign`−`, `ν≥1`) or localizing away from the `E₂` eigensystem.
 
@@ -1812,7 +1810,9 @@ See [Bellaïche09](#bellaiche09), §3.2.2, after Proposition 3.3, and Corollary 
 
 This uses §2.2; `LocallyAnalyticDistributions`, §§4.14–4.16; `LocallyAnalyticDistributions`, §§4.9 and 4.14; `LocallyAnalyticDistributions`, §4.16; `LocallyAnalyticDistributions`, §§4.2 and 4.15; §2a.6.
 
-### 2.4 Local pieces of the modular-symbol eigencurve
+### 2.4 The eigencurves `C^±` and their coherent eigensymbol sheaf
+
+This section builds the finite flat local pieces `C^±_{W,ν}`, glues them into the eigencurves `C^±` and constructs on them the coherent sheaf `𝓢^±` of family symbols. Sections 2.7a–2.10, 3.1, 3.5, 3.7, 3.8, 3.13 and 4.9 consume it.
 
 On the cuspidal locus, these charts are the supplied the local Hecke chart under §2.7a; the displayed image-algebra names specialize that carrier. The additional targets here are their global gluing and the boundary/global-image convention.
 
@@ -1842,9 +1842,7 @@ See [Bellaïche09](#bellaiche09), §3.4.1, Definition 3.15, pp. 31–32; §3.4.2
 
 This uses §2.3; §2a.8; §2a.7.
 
-### 2.5 Specialisation of Hecke algebras has nilpotent kernel
-
-For `w∈W(ℚ_p)`, specialization gives a surjection `s_w:𝕋^±_{W,ν}⊗_{R,w}ℚ_p→𝕋^±_{w,ν}` with nilpotent kernel, where the target acts on the global-image slope subspace. Thus the geometric points of the weight fibre are the eigensystems in `Symb^±_Γ(D_w)^{≤ν}_g`. Localization at a geometric point gives the corresponding surjection of finite local residue-field algebras with nilpotent kernel. The family fibre algebra and the Hecke image of the specialized module need not be isomorphic. Use the full actual-symbol space only after excluding the exceptional `E₂` eigensystem.
+**2.5 Specialisation of Hecke algebras has nilpotent kernel.** For `w∈W(ℚ_p)`, specialization gives a surjection `s_w:𝕋^±_{W,ν}⊗_{R,w}ℚ_p→𝕋^±_{w,ν}` with nilpotent kernel, where the target acts on the global-image slope subspace. Thus the geometric points of the weight fibre are the eigensystems in `Symb^±_Γ(D_w)^{≤ν}_g`. Localization at a geometric point gives the corresponding surjection of finite local residue-field algebras with nilpotent kernel. The family fibre algebra and the Hecke image of the specialized module need not be isomorphic. Use the full actual-symbol space only after excluding the exceptional `E₂` eigensystem.
 
 `(W, ν)` adapted; `w ∈ W(ℚ_p)`. The specialization isomorphism with the global-image subspace in §2.3 is supplied; it does not identify the entire actual-symbol space at the exceptional weight.
 
@@ -1856,9 +1854,7 @@ See [Bellaïche09](#bellaiche09), §3.4.3, Lemma 3.17 and (19), pp. 32–33; [Bu
 
 This uses §2.4; §2.3; §2a.17.
 
-### 2.6 The eigencurves `C^±` from overconvergent modular symbols
-
-Assume an admissible analytic coefficient-chart cover of all weight space with the property`(Pr)`, compact `U_p`, specialization and compatible radius links of family-slope-pieces. The eigenvariety machine glues `C^±_{W,ν}` to rigid curves `C^±` with weight maps `κ^±` and analytic Hecke functions, with `U_p` a unit. They are equidimensional of dimension one and the weight maps are locally finite and flat. For a complete extension `L/ℚ_p`, points over `w` are the finite-slope eigensystems in the global-image symbol space `Symb^±_Γ(D_w)_g⊗L`. On the source’s nice charts this is the full symbol space except for the negative-sign `E₂` quotient at weight 0. Construct the chart cover and its descent in §2.2 before gluing; the abstract machine supplies gluing only for those verified coefficient data.
+**2.6 The eigencurves `C^±` from overconvergent modular symbols.** Assume an admissible analytic coefficient-chart cover of all weight space with the property`(Pr)`, compact `U_p`, specialization and compatible radius links of family-slope-pieces. The eigenvariety machine glues `C^±_{W,ν}` to rigid curves `C^±` with weight maps `κ^±` and analytic Hecke functions, with `U_p` a unit. They are equidimensional of dimension one and the weight maps are locally finite and flat. For a complete extension `L/ℚ_p`, points over `w` are the finite-slope eigensystems in the global-image symbol space `Symb^±_Γ(D_w)_g⊗L`. On the source’s nice charts this is the full symbol space except for the negative-sign `E₂` quotient at weight 0. Construct the chart cover and its descent in §2.2 before gluing; the abstract machine supplies gluing only for those verified coefficient data.
 
 `N` prime to `p`; weight space `𝒲` of continuous characters of `ℤ_p^×` (PadicMeasuresIwasawaAlgebras §3a.1).
 
@@ -1884,9 +1880,7 @@ See [Bellaïche09](#bellaiche09), §3 introduction and §3.4, pp. 22 and 31–33
 
 This uses §2.4; §2.5; §2a.9; §2a.12; §2a.13; §2a.14; `PadicMeasuresIwasawaAlgebras`, §3a.1 (The character space of `ℤ_pˣ` and its functions).
 
-### 2.7 The coherent eigensymbol sheaf on `C^±`
-
-The slope family-symbol modules glue, using the compatible links, to a coherent sheaf `𝓢^±` on `C^±`. It is torsion-free over weight space and its sections over `C^±_{W,ν}` are the slope family symbols. The local factor at `x` of its weight-specialized sections is the generalized eigenspace in `Symb^±_Γ(D_w)_g`. The residue fibre `𝓢^±⊗κ(x)` is the quotient of that local factor by its maximal ideal and may have smaller dimension. Evaluation and specialization are compatible sheaf maps. Local freeness is asserted only under the separate rank-one hypotheses; an eigenpacket does not specify an eigenvector. The global-image convention is essential at the exceptional `E₂` point.
+**2.7 The coherent eigensymbol sheaf on `C^±`.** The slope family-symbol modules glue, using the compatible links, to a coherent sheaf `𝓢^±` on `C^±`. It is torsion-free over weight space and its sections over `C^±_{W,ν}` are the slope family symbols. The local factor at `x` of its weight-specialized sections is the generalized eigenspace in `Symb^±_Γ(D_w)_g`. The residue fibre `𝓢^±⊗κ(x)` is the quotient of that local factor by its maximal ideal and may have smaller dimension. Evaluation and specialization are compatible sheaf maps. Local freeness is asserted only under the separate rank-one hypotheses; an eigenpacket does not specify an eigenvector. The global-image convention is essential at the exceptional `E₂` point.
 
 As in §2.6.
 
@@ -2002,7 +1996,9 @@ Layer 2a supplies the general finite-slope machine. `LocallyAnalyticDistribution
 
 **Standing conventions.** Signs use the supplier’s `ι=diag(−1,1)`. At polynomial degree `k`, a sign `s` here corresponds to Bellaïche’s sign `s_B=s(−1)^k`; write `ε(f_β)=(−1)^k ε_B(f_β)` in every Eisenstein sign and period formula below. At a family weight `κ`, the conversion is `s_B=sκ(−1)`, constant on its weight component. Every statement of this layer keeps the standing conventions of Layer 2: the analytic chart construction of §2.1, the Banach and descent targets of §2.2 and the global-image fibre convention of §2.3. Throughout Layer 3, the Eisenstein assertions require, in weight two, `χ₁χ₂⁻¹ ≠ χ_cyc`, where `χ_cyc` has Hodge–Tate weight −1 and `χ₁,χ₂` are ordered as in §3.0. This excludes primitive `E₂(χ,χ)` and the exceptional `E₂`-derived forms; it is retained in every dependent preferred-representation, criticality, decency and smoothness assertion.
 
-### 3.0 Preferred Eisenstein representations
+### 3.0 The preferred Eisenstein representation and criticality of refinements
+
+This section provides the preferred Eisenstein representation, the critical-slope, critical and `θ`-critical refinements with their equivalent characterizations, and the newforms that have a critical-slope refinement. Sections 3.4, 3.5 and 3.9 consume it.
 
 For a genuine primitive Eisenstein newform `f` of weight `k+2≥2`, tame level `N` prime to `p`, and distinct roots `α,β`, subject to the noncyclotomic-ratio hypothesis of the Layer 3 standing conventions, take its two classical Galois characters `χ₁,χ₂`, ordered with Hodge–Tate weights 0 and `k+1` in Bellaïche’s convention. Construct the Eisenstein character Selmer calculation: the global Bloch–Kato extension spaces, unramified outside `Np`, crystalline at `p` and with finite local condition at every `ℓ≠p`, satisfy `dim Ext¹_f(χ₂,χ₁)=1` and `Ext¹_f(χ₁,χ₂)=0`. Prove this character-Selmer calculation using the Dirichlet-character Bloch–Kato calculation in the proof of [Bellaïche09](#bellaiche09), Lemma 2.11, pp. 17–18 (the Soulé character calculation); it is a target here over the cochains and finite local conditions of `SelmerIwasawaCohomology`, §§2.2 and 4.9–4.12. In weight two the finite-everywhere dimension calculation requires `χ₁χ₂⁻¹ ≠ χ_cyc`; primitive level alone does not imply this condition. No dimension formula is asserted for arbitrary character pairs.
 
@@ -2022,9 +2018,7 @@ Construct the preferred Eisenstein representation as the extension `0→χ₁→
 
 This uses `AlgebraicModularFormsAndSerreWeights`, §R15.5A.2; `SelmerIwasawaCohomology`, §§2.2 and 4.9–4.12; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.P2–R07.P5.
 
-### 3.1 Critical-slope, critical and `θ`-critical refinements
-
-For cuspidal forms use the supplied criticality and theta-criticality predicates of `ModularSymbolsPadicLFunctions`, §3.0, transported through §2.7a and the forms comparison of §2.10. The predicates below extend those carriers to the stated Eisenstein domain.
+**3.1 Critical-slope, critical and `θ`-critical refinements.** For cuspidal forms use the supplied criticality and theta-criticality predicates of `ModularSymbolsPadicLFunctions`, §3.0, transported through §2.7a and the forms comparison of §2.10. The predicates below extend those carriers to the stated Eisenstein domain.
 
 Let `f` be a newform (cuspidal or Eisenstein) of weight `k + 2` and level `Γ₁(N)`, `p ∤ N`, with Hecke polynomial `X² − a_pX + ε(p)p^{k+1}` having distinct roots `α`, `β`. The refinement `f_β` (the `p`-stabilisation with `U_p`-eigenvalue `β`) has critical slope if `v_p(β) = k + 1`; it is critical if the equivalent conditions of §3.2 hold (non-classical overconvergent generalised eigenforms, equivalently the eigencurve is not étale over weight space at `f_β`, equivalently `ρ_f|_{D_p}` is split with `β` on the weight-filtration line); it is `θ`-critical if `f_β` lies in the image of `θ^{k+1} : M†_{−k} → M†_{k+2}`. Critical implies critical slope; for cuspidal `f`, critical `⇔ θ`-critical.
 
@@ -2049,9 +2043,7 @@ See [Bellaïche09](#bellaiche09), §2.2.2, p. 18 (arXiv v1 PDF; printed page = P
 
 This uses §3.0; `ModularSymbolsPadicLFunctions`, §2.1; `ModularSymbolsPadicLFunctions`, §1.3; §2.6.
 
-### 3.2 Equivalent forms of criticality
-
-The cuspidal criticality classification and its companion input are supplied by `ModularSymbolsPadicLFunctions`, §3.0. Specialize the boundary and split-refinement criteria under §2.7a; the additional boundary theorem is the Eisenstein extension described below.
+**3.2 Equivalent forms of criticality.** The cuspidal criticality classification and its companion input are supplied by `ModularSymbolsPadicLFunctions`, §3.0. Specialize the boundary and split-refinement criteria under §2.7a; the additional boundary theorem is the Eisenstein extension described below.
 
 For a refined form `f_β` the following are equivalent: `(i) M_{k+2}(Γ)(f_β) ⊊ M†_{k+2}(Γ)(f_β)` (non-classical generalised eigenforms); `(i′) dim M†_{k+2}(Γ)(f_β) ≥ 2`; (ii) `v_p(β) > 0` and the eigencurve `C` is not étale over weight space at `x = f_β`; (iii) `v_p(β) > 0` and `ρ_f|_{D_p}` is a direct sum of two characters; (iv) the `β`-line of `D_cris(ρ_f|_{D_p})` equals the weight-filtration line. Then `v_p(β) = k + 1`. For cuspidal `f` these are equivalent to `(v) θ`-criticality; for Eisenstein `f` with `v_p(β)>0`, `(v)` holds. The ordinary Eisenstein refinement is not theta-critical.
 
@@ -2087,9 +2079,7 @@ See [Bellaïche09](#bellaiche09), §2.2.2, Proposition 2.12, p. 18 (arXiv v1 PDF
 
 This uses §3.1; §2.8; §2.10; `ModularSymbolsPadicLFunctions`, §2.4.
 
-### 3.3 Which newforms have critical-slope refinements
-
-A newform `f` has a refinement of critical slope iff `(a) f` is cuspidal, not CM and ordinary at `p`; `(b) f` is cuspidal CM by `K` with `p` split in `K`; or `(c) f` is Eisenstein; the critical-slope refinement is then unique. In case `(b)` it is critical (hence `θ`-critical); in case `(c)` it is `θ`-critical, and non-critical when `p` is regular; in case `(a)` non-criticality is conjectural.
+**3.3 Which newforms have critical-slope refinements.** A newform `f` has a refinement of critical slope iff `(a) f` is cuspidal, not CM and ordinary at `p`; `(b) f` is cuspidal CM by `K` with `p` split in `K`; or `(c) f` is Eisenstein; the critical-slope refinement is then unique. In case `(b)` it is critical (hence `θ`-critical); in case `(c)` it is `θ`-critical, and non-critical when `p` is regular; in case `(a)` non-criticality is conjectural.
 
 `v_p(α) + v_p(β) = k + 1`.
 
@@ -2101,7 +2091,9 @@ See [Bellaïche09](#bellaiche09), §2.2.3, Proposition 2.14, p. 19 (arXiv v1 PDF
 
 This uses §3.2.
 
-### 3.4 Decent refinements
+### 3.4 Decent refinements and smoothness of the eigencurve at decent points
+
+This section defines decent refinements, transports the finite-slope period and refined-deformation adapters to the global charts, and proves that the eigencurve is smooth at decent points. Sections 3.7–3.10, 3.13 and 3.14 consume it through the decency identification of §3.4 and the smoothness of §3.5.
 
 `f_β` is decent, under the Layer 3 standing hypotheses (including the weight-two noncyclotomic-ratio condition), if `(i) f` is Eisenstein, or (ii) `f_β` is non-critical, or (iii) `f` is cuspidal and satisfies the supplied decency condition, whose Selmer alternative is `H¹_g(ℚ,ad ρ_f)=0`. Sufficient conditions for (iii) (Proposition 2.15): `ρ̄_f|_{G_L}` absolutely irreducible for every quadratic extension `L/ℚ` contained in `ℚ(ζ_{p³})`; or `ρ̄_f` reducible with characters distinct on `G_{ℚ(ζ_{p^∞})}`; or `f` non-CM and cuspidal/special at all primes dividing `N`; or `f` CM.
 
@@ -2128,9 +2120,7 @@ See [Bellaïche09](#bellaiche09), §1.4.1, Definition 1, p. 5 (arXiv v1 PDF; pri
 
 This uses §3.1; `ModularSymbolsPadicLFunctions`, §3.0; `WeightsInEtaleCohomology`, R34.6 (Eigenform purity); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.P3; `SelmerIwasawaCohomology`, §§2.2 and 4.9–4.12; `ArithmeticGaloisDuality`, §R02.4 (local duality and Euler characteristic).
 
-### 3.4a Finite-slope periods and refined characteristic-zero deformations
-
-Construct the eigencurve pseudocharacter on the reduced Coleman–Mazur–Buzzard eigencurve of §2.10: a continuous two-dimensional pseudocharacter unramified outside `Np`, with good-prime trace `T_ℓ` and the classical determinant. Use the classical Galois attachments, accumulating classical eigensystems and determinant interpolation, verifying the common congruence witnesses in an integral model before passing to affinoid coefficients. Near an irreducible cuspidal classical point `x`, reconstruct a rank-two representation over the completed local ring `T_x`, with residue representation `ρ_f`; normalize one Sen weight to zero. Sources: Coleman–Mazur, *The eigencurve*, §5.1 (the Galois pseudocharacter); [Bellaïche09](#bellaiche09), proof of Theorem 2.16, p. 21; `IntegralHeckeAndGaloisDeterminants`, §§1.3 and 4.2 (reconstruction and quantified interpolation).
+**3.4a Finite-slope periods and refined characteristic-zero deformations.** Construct the eigencurve pseudocharacter on the reduced Coleman–Mazur–Buzzard eigencurve of §2.10: a continuous two-dimensional pseudocharacter unramified outside `Np`, with good-prime trace `T_ℓ` and the classical determinant. Use the classical Galois attachments, accumulating classical eigensystems and determinant interpolation, verifying the common congruence witnesses in an integral model before passing to affinoid coefficients. Near an irreducible cuspidal classical point `x`, reconstruct a rank-two representation over the completed local ring `T_x`, with residue representation `ρ_f`; normalize one Sen weight to zero. Sources: Coleman–Mazur, *The eigencurve*, §5.1 (the Galois pseudocharacter); [Bellaïche09](#bellaiche09), proof of Theorem 2.16, p. 21; `IntegralHeckeAndGaloisDeterminants`, §§1.3 and 4.2 (reconstruction and quantified interpolation).
 
 For cuspidal `f_β` of weight `k+2≥2`, `p∤N` and distinct roots, use the transported finite-slope period, refined-deformation and tangent statements of `ModularSymbolsPadicLFunctions`, §3.0 (Galois and crystalline-period adapter). Identify its completed local Hecke algebra and its Artinian quotients with those of §2.10 by §2.7a. Use its dual arithmetic attachment `ρ=ρ_ar^∨`, with Hodge–Tate weights 0 and `k+1` and crystalline polynomial `X²−a_pX+ε(p)p^{k+1}`. The local restriction of the global pseudocharacter must be dualized to this convention before comparing representations, periods or tangent classes. Uniqueness of irreducible reconstruction supplies this identification, with the adjoint carried by transpose-dual. Its Artinian period assertion, constant zero Sen weight, tame inertial constraints and refined tangent map are imported on these same carriers. Section 3.4’s equality `H¹_f=H¹_g` matches the supplied decency hypothesis to the tangent calculation. Sources: [Bellaïche09](#bellaiche09), Theorem 2.16 and proof, pp. 20–22; Kisin, Proposition 8.7 and the finite-slope period theorem cited there. The global interpolation target the eigencurve pseudocharacter remains the additional construction here.
 
@@ -2154,9 +2144,7 @@ For cuspidal `f_β` of weight `k+2≥2`, `p∤N` and distinct roots, use the tra
 
 This uses §§2.7a, 2.10 and 3.4; `ModularSymbolsPadicLFunctions`, §3.0; `IntegralHeckeAndGaloisDeterminants`, §§1.3 and 4.2; `SelmerIwasawaCohomology`, §§2.2 and 4.9–4.12; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.P2–R07.P5; `ArithmeticGaloisDuality`, §R02.4.
 
-### 3.5 The eigencurve is smooth at decent points
-
-If `f` is decent (and `v_p(β) ≠ 0` when `f` is Eisenstein, retaining `χ₁χ₂⁻¹ ≠ χ_cyc` in weight two), the eigencurve `C` is smooth at the point `x` of `f_β`; when `f` is cuspidal its cuspidal part `C₀` has the same smooth germ; its weight map has some ramification index `e ≥ 1` at `x`, with `e > 1` iff `f_β` is critical.
+**3.5 The eigencurve is smooth at decent points.** If `f` is decent (and `v_p(β) ≠ 0` when `f` is Eisenstein, retaining `χ₁χ₂⁻¹ ≠ χ_cyc` in weight two), the eigencurve `C` is smooth at the point `x` of `f_β`; when `f` is cuspidal its cuspidal part `C₀` has the same smooth germ; its weight map has some ramification index `e ≥ 1` at `x`, with `e > 1` iff `f_β` is critical.
 
 Use the supplied characteristic-zero refined deformation ring, period theorem and tangent adapter transported in §3.4a.
 
@@ -2192,7 +2180,9 @@ See [Bellaïche09](#bellaiche09), §3.2.3, p. 27 (arXiv v1 PDF; printed page = P
 
 This uses `ModularSymbolsPadicLFunctions`, §§2.2–2.3 and §3.0 (The theta exact sequence).
 
-### 3.7 Family modular symbols are free of rank one at decent points
+### 3.7 Family symbols and generalised eigenspaces at decent points
+
+This section proves that family symbols are free of rank one over the local Hecke algebra at a decent point, and that the generalised eigenspace there is free of rank one over `ℚ̄_p[t]/(t^e)`. Sections 3.9, 3.13 and 3.14 consume it, and §§2.7 and 2.9 cite its rank-one freeness.
 
 On cuspidal refinements this is the supplied local critical suite of `ModularSymbolsPadicLFunctions`, §3.0, transported through §2.7a, with the decency identification of §3.4. The additional assertion here is its extension to the stated Eisenstein domain; the cuspidal carriers and APIs retain their supplier’s ownership.
 
@@ -2214,9 +2204,7 @@ See [Bellaïche09](#bellaiche09), §4.1, Proposition 4.3, p. 34 (arXiv v1 PDF; p
 
 This uses §3.5; §2a.8; §2a.12; `LocallyAnalyticDistributions`, §§4.14–4.16; §2.7.
 
-### 3.8 The generalised eigenspace at a decent point
-
-On cuspidal refinements this is the supplied local critical suite of `ModularSymbolsPadicLFunctions`, §3.0, transported through §2.7a, with the decency identification of §3.4. The additional assertion here is its extension to the stated Eisenstein domain; the cuspidal carriers and APIs retain their supplier’s ownership.
+**3.8 The generalised eigenspace at a decent point.** On cuspidal refinements this is the supplied local critical suite of `ModularSymbolsPadicLFunctions`, §3.0, transported through §2.7a, with the decency identification of §3.4. The additional assertion here is its extension to the stated Eisenstein domain; the cuspidal carriers and APIs retain their supplier’s ownership.
 
 For decent `f_β` with weight-map ramification index `e` at `x: (T±_{k,ν})_(f_β) ≅ ℚ̄_p[t]/(t^e)`, and `Symb±_Γ(D_k)(f_β)` is a free module of rank one over it, of dimension `e`.
 
@@ -2230,7 +2218,9 @@ See [Bellaïche09](#bellaiche09), §4.2.1, Proposition 4.6 with proof, p. 35; [B
 
 This uses §3.7; §2.7.
 
-### 3.9 Bellaïche's theorem on critical eigensymbols
+### 3.9 Critical eigensymbol lines and their `p`-adic L-functions
+
+This section proves that the eigensymbol line of a decent refinement is one-dimensional, defines its `p`-adic L-function, and proves its vanishing at classical characters in the `θ`-critical case and its infinitely many zeros at critical slope. Sections 3.13 and 3.14 consume it.
 
 On cuspidal refinements this is the supplied local critical suite of `ModularSymbolsPadicLFunctions`, §3.0, transported through §2.7a, with the decency identification of §3.4. The additional assertion here is its extension to the stated Eisenstein domain; the cuspidal carriers and APIs retain their supplier’s ownership.
 
@@ -2246,9 +2236,7 @@ See [Bellaïche09](#bellaiche09), §1.4.1, Theorem 1, p. 6 (arXiv v1 PDF; printe
 
 This uses §3.8; §3.6; §3.1; `ModularSymbolsPadicLFunctions`, §2.4.
 
-### 3.10 The critical `p`-adic L-function
-
-On cuspidal refinements this is the supplied local critical suite of `ModularSymbolsPadicLFunctions`, §3.0, transported through §2.7a, with the decency identification of §3.4. The additional assertion here is its extension to the stated Eisenstein domain; the cuspidal carriers and APIs retain their supplier’s ownership.
+**3.10 The critical `p`-adic L-function.** On cuspidal refinements this is the supplied local critical suite of `ModularSymbolsPadicLFunctions`, §3.0, transported through §2.7a, with the decency identification of §3.4. The additional assertion here is its extension to the stated Eisenstein domain; the cuspidal carriers and APIs retain their supplier’s ownership.
 
 For decent `f_β` and a generator `Φ±_{f_β}` of `Symb±_Γ(D_k)[f_β]`, `L±(f_β, σ) := Φ±_{f_β}({∞} − {0})(σ)` for continuous `σ : ℤ_p^× → ℂ_p^×` (extended by 0 on `pℤ_p`); `L(f_β, σ) = L⁺ + L⁻`. It is analytic in `σ` (a power series in `s` on `|s − 1| < 1` for each tame character), of order `≤ v_p(β)`, defined up to a nonzero scalar for each sign, and equals the Mazur–Tate–Teitelbaum / Pollack–Stevens `p`-adic L-function when `f_β` is not `θ`-critical.
 
@@ -2274,9 +2262,7 @@ See [Bellaïche09](#bellaiche09), §1.4.2, p. 6 (arXiv v1 PDF; printed page = PD
 
 This uses §3.9; `ModularSymbolsPadicLFunctions`, §2.5; `LocallyAnalyticDistributions`, §§2.1–2.3 (order and uniqueness).
 
-### 3.11 Vanishing at classical characters in the `θ`-critical case
-
-If `f_β` is `θ`-critical then `L±(f_β, ϕt^j) = 0` for every finite-order `ϕ` and `0 ≤ j ≤ k`, except when `f` is Eisenstein, `f_β` non-critical, `± = ε(f_β)`, `ϕ` trivial and `j = k`. Equivalently each `s ↦ L±(f_β, ψχ_s)` is divisible by `log^{[k]}(s) = ∏_{i=0}^{k} log_p(γ^{−i}s)` (by `log^{[k]}(s)/(s − γ^k)` only on the tame component `ψ(t)=t^k` in the exceptional case).
+**3.11 Vanishing at classical characters in the `θ`-critical case.** If `f_β` is `θ`-critical then `L±(f_β, ϕt^j) = 0` for every finite-order `ϕ` and `0 ≤ j ≤ k`, except when `f` is Eisenstein, `f_β` non-critical, `± = ε(f_β)`, `ϕ` trivial and `j = k`. Equivalently each `s ↦ L±(f_β, ψχ_s)` is divisible by `log^{[k]}(s) = ∏_{i=0}^{k} log_p(γ^{−i}s)` (by `log^{[k]}(s)/(s − γ^k)` only on the tame component `ψ(t)=t^k` in the exceptional case).
 
 `f_β` satisfies the hypotheses of §3.10 and is `θ`-critical. The eigensymbol lies in image `Θ*_k` only when `ρ*_k` kills it; `θ`-criticality of the modular form alone does not imply this for the exceptional Eisenstein sign.
 
@@ -2288,9 +2274,7 @@ See [Bellaïche09](#bellaiche09), §1.4.3, Theorem 2, p. 8 (arXiv v1 PDF; printe
 
 This uses §3.10; §3.6; §3.9.
 
-### 3.12 Critical-slope L-functions have infinitely many zeros
-
-At a decent refinement of weight `k+2` with `v_p(β)=k+1`, for every tame character `ψ` the function `s↦L±(f_β,ψχ_s)` has infinitely many zeros on the open character disc. The arithmetic and sign hypotheses are those of §3.10; `k≥0` and `p` is odd. An identically zero function is included in this assertion.
+**3.12 Critical-slope L-functions have infinitely many zeros.** At a decent refinement of weight `k+2` with `v_p(β)=k+1`, for every tame character `ψ` the function `s↦L±(f_β,ψχ_s)` has infinitely many zeros on the open character disc. The arithmetic and sign hypotheses are those of §3.10; `k≥0` and `p` is odd. An identically zero function is included in this assertion.
 
 For `θ`-critical `f_β`, §3.11 gives infinitely many distinct prescribed zeros; its exceptional Eisenstein case removes only one of them. For a non-`θ`-critical critical-slope refinement, the other root `α` is a unit. Prove the paired interpolation vanishing criterion: let `K/ℚ_p` be finite, `F₁`,`F₂` analytic on its open unit disc, `a₁`,`a₂∈K×` with `v_p(a₁)≠v_p(a₂)`, and suppose `a₁^{n+1}F₁(ζ_{p^n}−1)=a₂^{n+1}F₂(ζ_{p^n}−1)` for every sufficiently large `n`. Then at least one `F_i` has infinitely many zeros. If both had finitely many, they would be nonzero and, by the finite-zero/bounded-coefficient lemma, admit Weierstrass decompositions `ϖ^{μ_i}P_iU_i`. For large `n` their valuations are `μ_i v_p(ϖ)+deg(P_i)/φ(p^n)`; the displayed relation gives an unbounded term `(n+1)(v_p(a₁)−v_p(a₂))` equal to a bounded one, a contradiction. This argument uses neither positivity of both slopes nor an order bound. Pollack’s Lemma 3.2 and proof of Theorem 3.3, pp. 533–534, supply the analytic argument; his stated theorem assumes both slopes positive, while this explicitly proved version permits slope zero.
 
@@ -2307,7 +2291,9 @@ See [Bellaïche09](#bellaiche09), §1.4.3, Corollary 1, p. 8; [Pollack](#pollack
 
 This uses §3.11; §3.10; the single-weight interpolation and bounded ordinary measure of `ModularSymbolsPadicLFunctions`, Layer 2.
 
-### 3.13 Two-variable `p`-adic L-functions near a decent point
+### 3.13 Family and secondary critical `p`-adic L-functions at a decent point
+
+This section constructs, near a decent point, the two-variable `p`-adic L-function and, at a critical point, the secondary functions and their intrinsic flag from its derivatives. It extends the cuspidal family and secondary functions supplied by `ModularSymbolsPadicLFunctions`, §3.0, to the stated Eisenstein domain.
 
 On cuspidal refinements this is the supplied local critical suite of `ModularSymbolsPadicLFunctions`, §3.0, transported through §2.7a, with the decency identification of §3.4. The additional assertion here is its extension to the stated Eisenstein domain; the cuspidal carriers and APIs retain their supplier’s ownership.
 
@@ -2323,9 +2309,7 @@ See [Bellaïche09](#bellaiche09), §1.4.4, Theorem 3, p. 10 (arXiv v1 PDF; print
 
 This uses §3.7; §3.10; §2a.12; §2.7.
 
-### 3.14 Secondary critical `p`-adic L-functions
-
-On cuspidal refinements this is the supplied local critical suite of `ModularSymbolsPadicLFunctions`, §3.0, transported through §2.7a, with the decency identification of §3.4. The additional assertion here is its extension to the stated Eisenstein domain; the cuspidal carriers and APIs retain their supplier’s ownership.
+**3.14 Secondary critical `p`-adic L-functions.** On cuspidal refinements this is the supplied local critical suite of `ModularSymbolsPadicLFunctions`, §3.0, transported through §2.7a, with the decency identification of §3.4. The additional assertion here is its extension to the stated Eisenstein domain; the cuspidal carriers and APIs retain their supplier’s ownership.
 
 For critical `f_β` with `e = dim Symb±_Γ(D_k)(f_β) > 1`, `L±_i(f_β, σ) := ∂^i L±(y, σ)/∂y^i` at `y = x (i = 0, …, e − 1)` for a uniformiser `y` of `C` at `x`; the flag `F₀ ⊆ … ⊆ F_{e−1}` they span is well defined, is the Mellin image of the generalised-eigenvector flag, each `L±_i` has order `≤ k + 1`, vanishes at all finite-order-twisted monomials `ϕ(z)z^j`, `0≤j≤k`, for `i≤e−2`, and for cuspidal `f` its top function `i=e−1` has the same critical-value interpolation and Euler factors as §3.10 in the non-`θ`-critical case, and has infinitely many zeros.
 
