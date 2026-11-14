@@ -290,9 +290,9 @@ For a linear order `I` and a colour type `C`:
 
 API: homogeneity is inherited by subsets and transported along order embeddings and order
 isomorphisms; the restriction of a colouring along an order embedding has the pulled-back
-homogeneous sets; `IsHomogeneousOn` implies `IsEndHomogeneousOn`; `PartitionRel.mono` (larger
-source, smaller target, fewer colours); and `partitionRel_iff_finset`, the order-free form with
-colourings of `n`-element subsets `{s : Finset X // s.card = n}`. The order-free form shows that
+homogeneous sets; `IsHomogeneousOn` implies `IsEndHomogeneousOn`; monotonicity of
+`PartitionRel` (larger source, smaller target, fewer colours); and the order-free form, the same
+relation stated with colourings of `n`-element subsets `{s : Finset X // s.card = n}`. The order-free form shows that
 `PartitionRel` does not depend on the linear order chosen on a set of cardinality `κ`, so a
 statement proved for well-orders (`κ.ord.ToType`) holds for every linear order of that cardinality.
 
@@ -660,7 +660,7 @@ Suggested home: `TauCeti/ModelTheory/Infinitary/Hanf/{Defs, Approximation, Morle
 `HasArbLargeModels φ`, `IsHanfBound φ κ`, `hanfNumber φ` (Convention 6), with:
 `IsHanfBound.mono`; every sentence has a Hanf bound (if `φ` lacks arbitrarily large models, some
 cardinal bounds all its models; Keisler–Knight, Theorem 1.6.1, for any set of sentences);
-`hanfNumber_isHanfBound`, so the Hanf number is a Hanf bound; the Hanf number lies below every Hanf
+the infimum is attained, so the Hanf number is a Hanf bound; the Hanf number lies below every Hanf
 bound, `κ` is a Hanf bound exactly when the Hanf number is at most `κ`, and `κ` lies below the Hanf
 number exactly when it is not a Hanf bound; invariance of all three notions under sentence
 equivalence and under `onBoundedFormulaInf` along an injective language map (IME 0.1). The
@@ -994,7 +994,7 @@ reduct, and 5.2 gives smallness. The cardinality is `κ` by the cardinality clau
 systems, Karp's forward direction).
 
 In 5.4 and 5.5 `L` is relational with countably many relation symbols, as the parent's Scott
-sentences require; 5.6 extends both headlines to languages with countably many function and
+sentences require; 5.6 extends both statements to languages with countably many function and
 relation symbols.
 
 **Checks** (`IsCompleteSentence`, Convention 7).
@@ -1024,8 +1024,8 @@ relation symbols.
   `potentialIso_iff_exists_isTupleBFSystem`), hence agrees with `M₀` on every Lω₁ω sentence
   (`TauCeti.PotentialIso.infEquivAt` at the carrier `ℕ`, the forward direction of the parent's
   `karp_theorem`). All three are Tau Ceti declarations at the pin.
-- **`isLω₁ωSmall_iff_exists_isCompleteSentence`** (headline): `M` is small exactly when it satisfies
-  a complete sentence. Forward: the Scott sentence of a countable companion. Backward: a complete
+- **Small structures and complete sentences.** `M` is small exactly when it satisfies a complete
+  sentence. Forward: the Scott sentence of a countable companion. Backward: a complete
   `σ` has a countable model `M₀ ⊆ M`, a countable substructure that is `AElementary` for
   `Fragment.generated {⟨0, σ⟩}` (IME 1.2, 2.3); `σ` decides `scottSentence M₀`, which `M₀`
   satisfies, so every model of `σ`, `M` included, is potentially isomorphic to `M₀` and realizes
@@ -1037,9 +1037,8 @@ relation symbols.
 
 *Needs:* 5.3, 5.4.
 
-**`exists_isCompleteSentence_isCategorical`** (headline; Marker's notes, Corollary 5.13, p. 59,
-under arbitrarily large models and without the restriction to infinite `κ`, which it needs). Let `L`
-be countable relational, `φ`
+**Categorical completions** (Marker's notes, Corollary 5.13, p. 59, under arbitrarily large models
+and without the restriction to infinite `κ`, which it needs). Let `L` be countable relational, `φ`
 satisfy the Morley–Hanf hypothesis, `κ` be infinite and `φ` be `κ`-categorical. Then there is a
 complete `σ` entailing `φ`, with a model of cardinality `κ`, and `σ` is `κ`-categorical. Take a
 small model of cardinality `κ` (5.3) and the complete sentence it satisfies (5.4). Models of `σ` are
@@ -1154,8 +1153,8 @@ results:
   `lomega1omegaHanfNumber_eq_beth_omega_one`;
 - highly order-transitive orders → equivariant EM model → countably many codes →
   `exists_small_model_card_eq`;
-- isolation → countable companion → complete Scott sentence →
-  `isLω₁ωSmall_iff_exists_isCompleteSentence` → `exists_isCompleteSentence_isCategorical` →
+- isolation → countable companion → complete Scott sentence → small structures and complete
+  sentences for relational `L` (5.4) → categorical completions for relational `L` (5.5) →
   graph translation → `isLω₁ωSmall_iff_exists_isCompleteSentence_of_countable` and
   `exists_isCompleteSentence_isCategorical_of_countable`.
 

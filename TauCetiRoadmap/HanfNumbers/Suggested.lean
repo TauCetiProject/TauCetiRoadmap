@@ -53,29 +53,12 @@ def IsEndHomogeneousOn {n : ℕ} (c : (Fin (n + 2) ↪o I) → C) (H : Set I) : 
 
 /-- The partition relation `κ → (λ)ⁿ_μ`: every colouring of the increasing `n`-tuples of a linear
 order of cardinality `κ` with at most `μ` colours has a homogeneous set of cardinality at least
-`λ`. The relation does not depend on the linear order chosen (`partitionRel_iff_finset`). It
+`λ`. The relation does not depend on the linear order chosen (README 0.1, the order-free form). It
 agrees with Erdős and Rado's relation for `μ ≥ 1`; at `μ = 0` it is the pairwise-constancy
 convention, under which `0 → (0)¹_0` holds although their colour-witness form fails. -/
 def PartitionRel (κ lam : Cardinal.{u}) (n : ℕ) (μ : Cardinal.{u}) : Prop :=
   ∀ (J : Type u) [LinearOrder J] (D : Type u), #J = κ → #D ≤ μ →
     ∀ c : (Fin n ↪o J) → D, ∃ H : Set J, lam ≤ #H ∧ IsHomogeneousOn c H
-
-/-- **Layer 0, order-free form.** The partition relation is the statement about colourings of
-`n`-element subsets, with the same pairwise-constancy convention (the classical one for `μ ≥ 1`). -/
-theorem partitionRel_iff_finset {κ lam μ : Cardinal.{u}} {n : ℕ} :
-    PartitionRel κ lam n μ ↔
-      ∀ (X : Type u) (D : Type u), #X = κ → #D ≤ μ →
-        ∀ c : {s : Finset X // s.card = n} → D, ∃ H : Set X, lam ≤ #H ∧
-          ∀ s t : {s : Finset X // s.card = n}, (↑s.1 : Set X) ⊆ H → (↑t.1 : Set X) ⊆ H →
-            c s = c t := by
-  sorry
-
-/-- **Layer 0, monotonicity.** A larger source, a smaller target and fewer colours preserve the
-relation. -/
-theorem PartitionRel.mono {κ κ' lam lam' μ μ' : Cardinal.{u}} {n : ℕ}
-    (h : PartitionRel κ lam n μ) (hκ : κ ≤ κ') (hlam : lam' ≤ lam) (hμ : μ' ≤ μ) :
-    PartitionRel κ' lam' n μ' := by
-  sorry
 
 /-- The iterated exponential `ℶₙ(κ)`: `ℶ₀(κ) = κ` and `ℶₙ₊₁(κ) = 2 ^ ℶₙ(κ)`. -/
 noncomputable def iteratedTwoPow (κ : Cardinal.{u}) : ℕ → Cardinal.{u}
@@ -304,11 +287,6 @@ def IsHanfBound (φ : L.Sentenceω) (κ : Cardinal.{w}) : Prop :=
 noncomputable def hanfNumber (φ : L.Sentenceω) : Cardinal.{w} :=
   sInf {κ : Cardinal.{w} | IsHanfBound φ κ}
 
-/-- Every sentence has a Hanf bound, so the infimum is attained. -/
-theorem hanfNumber_isHanfBound (φ : L.Sentenceω) :
-    IsHanfBound φ (hanfNumber.{u, v, w} φ) := by
-  sorry
-
 /-- **Layer 3 milestone, extraction of an Ehrenfeucht–Mostowski source from the cofinal
 hypothesis.** If `φ` has models of cardinality at least `ℶ_α` for every `α < ω₁`, there are a
 countable language `L'` with a language map `g : L →ᴸ L'` (sending each symbol of `φ` to its copy
@@ -459,42 +437,22 @@ theorem isCompleteSentence_scottSentence [L.IsRelational] [Countable (Σ l, L.Re
     IsCompleteSentence.{u, v, w} (TauCeti.scottSentence (L := L) M₀) := by
   sorry
 
-/-- **Layer 5 milestone, small structures satisfy complete sentences.** For a countable relational
-language, a structure is Lω₁ω-small exactly when it satisfies a complete sentence. -/
-theorem isLω₁ωSmall_iff_exists_isCompleteSentence [L.IsRelational]
-    [Countable (Σ l, L.Relations l)] (M : Type w) [L.Structure M] :
-    IsLω₁ωSmall (L := L) M ↔
-      ∃ σ : L.Sentenceω, IsCompleteSentence.{u, v, w} σ ∧ SentenceInf.Realize σ M := by
-  sorry
-
-/-- **Layer 5 headline, categorical completions.** A `κ`-categorical sentence of a countable
-relational language satisfying the Morley–Hanf hypothesis has a complete strengthening with a model
-of cardinality `κ`, and that strengthening is `κ`-categorical. -/
-theorem exists_isCompleteSentence_isCategorical [L.IsRelational]
-    [Countable (Σ l, L.Relations l)] (φ : L.Sentenceω)
-    (h : ∀ α < Ordinal.omega.{w} 1,
-      ∃ (M : Type w) (_ : L.Structure M), SentenceInf.Realize φ M ∧ ℶ_ α ≤ #M)
-    {κ : Cardinal.{w}} (hκ : ℵ₀ ≤ κ) (hcat : IsCategorical φ κ) :
-    ∃ σ : L.Sentenceω, IsCompleteSentence.{u, v, w} σ ∧
-      (∀ (M : Type w) (_ : L.Structure M), SentenceInf.Realize σ M → SentenceInf.Realize φ M) ∧
-      (∃ (M : Type w) (_ : L.Structure M), SentenceInf.Realize σ M ∧ #M = κ) ∧
-      IsCategorical σ κ := by
-  sorry
-
 /-- **Layer 5.6 headline, countable languages.** Over a language with countably many function and
 relation symbols, a structure is Lω₁ω-small exactly when it satisfies a complete sentence. The
 proof passes through the graph language of `L` (InfinitaryModelExistence Layer 6, Tau Ceti's
-`graphLanguage`, `relationalize`, `backTranslate` and `graphAxioms`), to which
-`isLω₁ωSmall_iff_exists_isCompleteSentence` applies. -/
+`graphLanguage`, `relationalize`, `backTranslate` and `graphAxioms`), which is relational with
+countably many relation symbols, so that the relational form of this statement (README 5.4)
+applies to it. -/
 theorem isLω₁ωSmall_iff_exists_isCompleteSentence_of_countable [Countable (Σ l, L.Functions l)]
     [Countable (Σ l, L.Relations l)] (M : Type w) [L.Structure M] :
     IsLω₁ωSmall (L := L) M ↔
       ∃ σ : L.Sentenceω, IsCompleteSentence.{u, v, w} σ ∧ SentenceInf.Realize σ M := by
   sorry
 
-/-- **Layer 5.6 headline, categorical completions over countable languages.** The statement of
-`exists_isCompleteSentence_isCategorical` for a language with countably many function and
-relation symbols, from `exists_small_model_card_eq` and
+/-- **Layer 5.6 headline, categorical completions over countable languages.** A `κ`-categorical
+sentence of a language with countably many function and relation symbols, satisfying the
+Morley–Hanf hypothesis, has a complete `κ`-categorical strengthening with a model of cardinality
+`κ` (README 5.5 for relational languages, 5.6 here), from `exists_small_model_card_eq` and
 `isLω₁ωSmall_iff_exists_isCompleteSentence_of_countable`. -/
 theorem exists_isCompleteSentence_isCategorical_of_countable [Countable (Σ l, L.Functions l)]
     [Countable (Σ l, L.Relations l)] (φ : L.Sentenceω)
