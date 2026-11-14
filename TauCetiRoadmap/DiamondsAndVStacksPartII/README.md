@@ -374,7 +374,9 @@ AdicSpacesPartII R0.13, R1.7; ArcTopologyAndDescent §§1.5–1.7, 3.10, 7.8; Pr
 
 The functor S ↦ S^⋄ from perfect affine schemes is continuous for the v-topologies, so it extends to scheme-theoretic v-sheaves and has a right adjoint, the reduction functor. Reduction kills topologically nilpotent elements and analytic points. Formal adicness of a map is Cartesianness of its reduction square; it agrees with adicness for formal Huber pairs and underlies formal separatedness.
 
-### D8.1 Small scheme-theoretic v-sheaves
+### D8.1 Small scheme-theoretic v-sheaves and their underlying spaces
+
+Small scheme-theoretic v-sheaves form the category SchPerf~, and each of them has an underlying space |S|. D8.3 extends ⋄ to this category, and the specialization map of D9.5 takes values in these spaces.
 
 **Construction.** For a cutoff cardinal κ let PCAlg^op_κ be the category of perfect affine 𝔽_p-schemes whose underlying space and ring of global sections have cardinality at most κ, with the v-topology (a small family is a cover when a finite subfamily is universally subtrusive), and SchPerf~_κ its topos. For κ < λ the inverse-image (extension) functor induced by inclusion of sites gives fully faithful embeddings SchPerf~_κ → SchPerf~_λ; the category SchPerf~ of small scheme-theoretic v-sheaves is the filtered union over all cutoff cardinals. Representable functors of perfect schemes are objects; the topology is subcanonical.
 
@@ -403,8 +405,7 @@ Applications include Gleason Definition 3.12: target category of the reduction f
 
 (GLE, §3.1, the paragraph after Remark 3.8, Lemma 3.10, Proposition 3.9 and the definition of SchPerf~, pp. 23–24.)
 
-### D8.2 The underlying space of a scheme-theoretic v-sheaf
-
+**D8.2 The underlying space of a scheme-theoretic v-sheaf.**
 **Construction.** For S ∈ SchPerf~, |S| is the set of equivalence classes of maps Spec k → S from perfect fields, two maps being equivalent if they are dominated by a common perfect field. Choosing a surjection X = ⨿ S_i → S from perfect affine schemes and a surjection Y → X ×_S X of the same kind, |S| = |X|/|Y| with the quotient topology, independent of choices; maps of scheme-theoretic v-sheaves induce continuous maps, and for S representable by a perfect scheme |S| is its Zariski space.
 
 Scheme-theoretic v-sheaves are sheaves on the category PCAlg^op of perfect affine 𝔽_p-schemes with the v-topology of SchemeKTheoryOperations §4.10, whose covers are the v-covers of PrismaticCohomology §2.0, made small through cutoff cardinals as in DiamondsAndVStacks D0.23 and D2.3.
@@ -432,7 +433,9 @@ Applications include Gleason Definition 4.12: target space of the specialization
 
 (GLE, §3.1, definition of |S| after Remark 3.13 and Proposition 3.14, pp. 24–25.)
 
-### D8.3 The functor ⋄ from scheme-theoretic v-sheaves to v-sheaves
+### D8.3 The reduction adjunction ⋄ ⊣ (−)^red and its values on perfect schemes, Huber pairs and quasiseparated diamonds
+
+The functor ⋄ extends from perfect affine schemes to scheme-theoretic v-sheaves, with the reduction (−)^red as right adjoint; ⋄ is fully faithful on reduced objects, and reduction is computed for Spd(A, A⁺), for pre-adic spaces and, as empty, for quasiseparated diamonds. D8.8 defines formal adicness through the counits, and D9.2, D9.5–D9.7, D9.10 and D10.6 consume the adjunction and these computations.
 
 **Construction.** The functor S ↦ S^⋄ of D7.4 on perfect affine schemes is continuous for the v-topologies, so it extends uniquely to a colimit-preserving functor ⋄ : SchPerf~ → (small v-sheaves) commuting with finite limits, with (Spec A)^⋄ = Spd(A, A) for A perfect and discrete; the extension is compatible with the passage between cutoff cardinals.
 
@@ -461,8 +464,7 @@ Applications include Gleason Definition 3.20: the square (F^red)^⋄ → F defin
 
 (GLE, §3.1, Proposition 3.11 and the paragraph before Definition 3.12, p. 24.)
 
-### D8.4 The reduction functor F ↦ F^red
-
+**D8.4 The reduction functor F ↦ F^red.**
 **Construction.** The reduction functor (−)^red from small v-sheaves to small scheme-theoretic v-sheaves is the right adjoint of ⋄: F^red(Spec R) = Hom(Spec(R)^⋄, F) = F(Spd(R, R)) for R perfect. It preserves limits and smallness, and comes with the counit (F^red)^⋄ → F and the unit S → (S^⋄)^red.
 
 Scheme-theoretic v-sheaves are sheaves on the category PCAlg^op of perfect affine 𝔽_p-schemes with the v-topology of SchemeKTheoryOperations §4.10, whose covers are the v-covers of PrismaticCohomology §2.0, made small through cutoff cardinals as in DiamondsAndVStacks D0.23 and D2.3.
@@ -493,8 +495,7 @@ Applications include Gleason §4: target of the specialization map and of Heuer'
 
 (GLE, §3.1, Definition 3.12 and Remark 3.13, p. 24; AGLR, §2.3, Definition 2.19, p. 14.)
 
-### D8.5 Reduced scheme-theoretic v-sheaves and full faithfulness of ⋄
-
+**D8.5 Reduced scheme-theoretic v-sheaves and full faithfulness of ⋄.**
 **Definition.** A small scheme-theoretic v-sheaf S is reduced if the unit S → (S^⋄)^red is an isomorphism. Every perfect scheme is reduced, and ⋄ is fully faithful on reduced objects: Hom(G^⋄, F^⋄) = Hom(G, F) for G arbitrary and F reduced.
 
 Scheme-theoretic v-sheaves are sheaves on the category PCAlg^op of perfect affine 𝔽_p-schemes with the v-topology of SchemeKTheoryOperations §4.10, whose covers are the v-covers of PrismaticCohomology §2.0, made small through cutoff cardinals as in DiamondsAndVStacks D0.23 and D2.3.
@@ -523,8 +524,7 @@ Applications include Gleason Lemma 3.32: criterion for formal adicness when a fi
 
 (GLE, §3.2, Definition 3.15 and Proposition 3.16, p. 25.)
 
-### D8.6 Reduction of Spd(A, A⁺) and of pre-adic spaces
-
+**D8.6 Reduction of Spd(A, A⁺) and of pre-adic spaces.**
 **Theorem.** Let X be a pre-adic space over ℤ_p and X^na → X the reduced non-analytic adic space of its non-analytic locus (locally Spa(A/(A·A°°), integralClosure(image(A⁺ → A/(A·A°°))))). Then (X^na,♢)^red → (X^♢)^red is an isomorphism. For a Huber pair (A, A⁺) over ℤ_p, Spd(A, A⁺)^red is represented by Spec(A_red) with A_red = (A/A·A°°)^perf; in particular Spd(A)^red = Spec((A/I)^perf) for a formal Huber pair with ideal of definition I, and Spd(ℤ_p)^red = Spec 𝔽_p.
 
 *Proof sketch.* A map Spec(R)^⋄ → X^♢ for R perfect is a map of pre-adic spaces Spa(R) → X (D7.11); it factors through the non-analytic locus, which is final among reduced non-analytic adic spaces over X (Gleason Proposition 1.19). Affinely use the quotient by the ideal A·A°° and the integral closure of the image of A⁺ in that quotient; this makes the intended quotient-pair construction of Proposition 1.19 precise. Any map to a discrete perfect ring kills this ideal and then factors uniquely through perfection.
@@ -537,8 +537,7 @@ Applications include SW20 Proposition 18.4.1 proof: (𝔛^♢)^red is the perfec
 
 (GLE, §1.3, Proposition 1.19, p. 9; §3.2, Lemma 3.17 and Proposition 3.18, p. 25; AGLR, §2.3, paragraph after Definition 2.19, p. 14.)
 
-### D8.7 Quasiseparated diamonds have empty reduction
-
+**D8.7 Quasiseparated diamonds have empty reduction.**
 **Theorem.** If Y is a quasiseparated diamond then Y^red is empty: there is no map Spec(k)^⋄ → Y for k a perfect field, equivalently for k algebraically closed.
 
 *Proof sketch.* Suppose f : Spec(k)^⋄ → Y, k algebraically closed; restrict to the sub-v-sheaf Y_y of points over the image y, a quasiseparated diamond with one point, so Y_y = Spa(C, O_C)/G for a profinite G (DiamondEtaleCohomology C8.24). Cover Spec(k)^⋄ by Spa(K₁, `O_(K₁)`) with K₁ an algebraic closure of k((`t^(1/p^∞)`)) and take a field K₂ ⊃ k with two embeddings of K₁ meeting in k; both composites to Y_y agree, which forces the image of C in K₂ to lie in k, contradicting the topologies.
@@ -549,7 +548,9 @@ For example, Spd(ℚ_p)^red = ∅ and (Spa(C, C⁺)^♢)^red = ∅ for a perfect
 
 (GLE, §3.2, Proposition 3.19 and proof, pp. 25–26.)
 
-### D8.8 Formally adic morphisms of v-sheaves
+### D8.8 Formally adic morphisms, formal separatedness and formally closed subsheaves
+
+Formal adicness of maps agrees with adicness for formal Huber pairs and defines formally closed immersions and formally separated v-sheaves, among them Spd ℤ_p; the diagonal is formally adic exactly when the reduction counit is injective, and formally closed subsheaves of Spd(A) have representable reduction. D9.2–D9.4 and D9.7 use these notions for formalizations and prekimberlites, D9.12 and D9.13 for étale formal neighbourhoods, and D11.7 and D11.16 for kimberlites.
 
 **Definition.** A map f : F → G of small v-sheaves is formally adic if the square formed by the counits (F^red)^⋄ → F, (G^red)^⋄ → G and the maps (f^red)^⋄, f is Cartesian: (F^red)^⋄ = F ×_G (G^red)^⋄. Formally adic maps are stable under composition and base change.
 
@@ -580,8 +581,7 @@ Applications include Gleason Definition 3.27: formally closed immersions are for
 
 (GLE, §3.2, Definition 3.20, Examples 3.21–3.22 and Proposition 3.24, pp. 26–27; AGLR, §2.3, Definition 2.20(1), p. 14.)
 
-### D8.9 Formal adicness detects adicness for formal Huber pairs
-
+**D8.9 Formal adicness detects adicness for formal Huber pairs.**
 **Theorem.** For formal Huber pairs (A, A) and (B, B) over ℤ_p with ideals of definition I_A, I_B and a continuous map B → A, Spa(A) → Spa(B) is adic (some I_A^m ⊂ A·I_B) if and only if Spd(A) → Spd(B) is formally adic. For a Huber pair (A, A⁺) with a map to Spa(ℤ_p), if Spd(A, A⁺) → Spd ℤ_p is formally adic then Spa(A, A⁺) → Spa(ℤ_p) is adic.
 
 *Proof sketch.* The reduction square involves Spec(A_red) and (Spec(A/I_B A)^perf); adicness makes them agree after perfection. Conversely, formal adicness identifies the Zariski closed subsets of I_A and I_B·A in Spec A, so I_A is nil modulo I_B·A and, being finitely generated, I_A^m ⊂ I_B·A. For (A, A⁺): the analytic locus U^♢ → Spd(A, A⁺) is formally adic, since U^♢ is a quasiseparated diamond with empty reduction (D8.7) and the points of Spec(A_red)^⋄ (D8.6) have open support; composing, formal adicness forces the analytic locus to lie over Spd ℚ_p.
@@ -592,8 +592,7 @@ For example, ℤ_p[[T]] with the (p, T)-adic topology over ℤ_p with the p-adic
 
 (GLE, §3.2, Proposition 3.23 and Proposition 3.26, pp. 26–27.)
 
-### D8.10 Formally p-adic v-sheaves, formally closed immersions and formally separated v-sheaves
-
+**D8.10 Formally p-adic v-sheaves, formally closed immersions and formally separated v-sheaves.**
 **Definition.** A v-sheaf F over Spd ℤ_p is formally p-adic if F → Spd ℤ_p is formally adic. A map F → G is a formally closed immersion if it is a closed immersion (DiamondsAndVStacks D3) and formally adic. A v-sheaf F is formally separated if the diagonal F → F × F is a formally closed immersion; in particular it is separated.
 
 *Proof sketch.* Unwind the definitions; stability of closed immersions and formally adic maps under composition and base change gives the same for formally closed immersions.
@@ -624,8 +623,7 @@ Applications include Gleason Proposition 4.9: formal separatedness gives uniquen
 
 (GLE, §3.2, Definitions 3.25 and 3.27, p. 27.)
 
-### D8.11 Spd ℤ_p is formally separated and formally p-adic sheaves have formally adic diagonal
-
+**D8.11 Spd ℤ_p is formally separated and formally p-adic sheaves have formally adic diagonal.**
 **Lemma.** Spd ℤ_p is formally separated. If F is formally p-adic then the diagonal F → F × F is formally adic.
 
 *Proof sketch.* The diagonal of Spd ℤ_p pulls back along Spa(R, R⁺) → Spd ℤ_p × Spd ℤ_p to the locus where two untilts agree, the intersection of two closed Cartier divisors of Spa W(R⁺) minus V([ϖ]), a Zariski closed subset represented by a perfectoid space. (Spd ℤ_p × Spd ℤ_p)^red = Spec 𝔽_p and Spd(𝔽_p) `×_((Spd ℤ_p)²)` Spd ℤ_p = Spd 𝔽_p give formal adicness. For F formally p-adic: F `×_(Spd ℤ_p)` F → Spd ℤ_p is formally adic, the relative diagonal is formally adic by Cartesian-square generalities, and F `×_(Spd ℤ_p)` F → F × F is a base change of the diagonal of Spd ℤ_p.
@@ -636,8 +634,7 @@ For example, for F = Spd(A) with A a p-adic formal ring the diagonal is formally
 
 (GLE, §3.2, Lemma 3.28 and Proposition 3.29, p. 27.)
 
-### D8.12 Injectivity of the reduction counit and the formally-adic criterion
-
+**D8.12 Injectivity of the reduction counit and the formally-adic criterion.**
 **Lemma.** For a small v-sheaf F the diagonal F → F × F is formally adic iff the counit (F^red)^⋄ → F is injective; in that case a section m ∈ F(A, A⁺) lies in (F^red)^⋄ iff v-locally on Spa(A, A⁺) it extends along Spa(R, R⁺) → Spec(R⁺)^⋄ to a map Spec(R⁺)^⋄ → F. If (G^red)^⋄ → G is injective and F ×_G (G^red)^⋄ is represented by a reduced scheme-theoretic v-sheaf, then any f : F → G is formally adic.
 
 *Proof sketch.* A map of sheaves is injective iff its diagonal square is Cartesian; (F^red)^⋄ is the sheafification of (R, R⁺) ↦ Hom(Spec(R⁺)^⋄, F). For the criterion: with T reduced and T^⋄ = F ×_G (G^red)^⋄, compute (T^⋄)^red = F^red `×_(G^red)` ((G^red)^⋄)^red = F^red using the triangle identities, so (F^red)^⋄ = T^⋄.
@@ -648,8 +645,7 @@ For example, Spd(A) for a formal Huber pair satisfies the criterion with (Spd A^
 
 (GLE, §3.2, Lemma 3.30 and Lemma 3.32, pp. 27–28.)
 
-### D8.13 Formally closed subsheaves of Spd(A) have reduction Spec(A/J)
-
+**D8.13 Formally closed subsheaves of Spd(A) have reduction Spec(A/J).**
 **Lemma.** Fix a formal Huber pair (A, A) over ℤ_p. Every formally closed immersion F → Spd(A) admits an open ideal J ⊂ A with (F^red)^⋄ = Spec(A/J)^⋄. In particular F^red is representable: some closed subscheme of Spec(A_red) has a perfection that represents it.
 
 *Proof sketch.* Pull back F → Spd(A) to a v-cover by totally disconnected perfectoid spaces. On each such space the parent classifies closed sub-v-sheaves by weakly generalizing closed subsets. Descent for closed immersions and for subobjects gives the corresponding closed subset |F| in Spo(A,A); this does not assume that Spd(A) itself is totally disconnected. By formal adicness |(F^red)^⋄| = |F| ∩ |Spec(A_red)^⋄|, and by D8.12 it is a schematic closed subset of Spo(A, A). D7.9 identifies it with V(J) for an open ideal J.
@@ -713,7 +709,9 @@ Applications include Gleason Definition 4.12: descends to the specialization map
 
 (GLE, §4.1, Definition 4.1, Propositions 4.2 and 4.3, p. 28; BHA17, Remark 7.4.12 and Theorem 8.1.2 with proof, pp. 74–89.)
 
-### D9.2 Formalizations and v-formalizing v-sheaves
+### D9.2 Formalizations of maps from perfectoid spaces and their uniqueness
+
+A map Spd(A, A⁺) → F from a Tate Huber pair may extend to Spd(A⁺); F is v-formalizing when maps from affinoid perfectoid spaces extend v-locally, and into a formally separated F such an extension of a map from an affinoid perfectoid space is unique when it exists. D9.4, D9.5, D9.11, D9.14, D11.7 and D11.18 consume these results.
 
 **Definition.** Let F be a small v-sheaf, (A, A⁺) a Tate Huber pair and f : Spd(A, A⁺) → F. A formalization of f is a map t : Spd(A⁺) → F restricting to f, where Spd(A⁺) = Spd(A⁺, A⁺) with the ϖ-adic topology. F formalizes f if one exists, v-formalizes f if f becomes formalizable after a v-cover Spa(B, B⁺) → Spa(A, A⁺); F is formalizing if it formalizes all maps from affinoid perfectoid spaces and v-formalizing if it v-formalizes all of them. F is v-locally formal if there is a surjection ⨿_i Spd(B_i) → F from formal Huber pairs over ℤ_p; this is equivalent to v-formalizing, and to the existence of a surjection ⨿_j Spd(R_j⁺) → F from perfectoid pairs.
 
@@ -744,8 +742,7 @@ Applications include Gleason Definition 4.11: specializing v-sheaves are v-local
 
 (GLE, §4.2, Definitions 4.5 and 4.6, Lemma 4.7 and Proposition 4.8, pp. 28–29; AGLR, §2.3, Definition 2.21 and Proposition 2.22, pp. 14–15.)
 
-### D9.3 Formalizations into a formally separated v-sheaf are unique
-
+**D9.3 Formalizations into a formally separated v-sheaf are unique.**
 **Theorem.** If F is formally separated and f : Spa(R, R⁺) → F is a map from an affinoid perfectoid space of characteristic p, then f has at most one formalization Spd(R⁺) → F. Fibre products of v-formalizing sheaves over a formally separated sheaf are v-formalizing, and v-formalizing formally separated v-sheaves are stable under fibre products and contain Spd ℤ_p.
 
 *Proof sketch.* Two formalizations g₁, g₂ define Spd(R⁺) → F × F; the pullback of the diagonal is a formally closed subsheaf G ⊂ Spd(R⁺) containing Spa(R, R⁺). By D8.13, G^red is a closed subscheme of Spec(R⁺_red); it contains the formal specializations of all geometric points, so by surjectivity of D9.1 it is everything. Hence |G| = |Spd(R⁺)| and G = Spd(R⁺), so g₁ = g₂. The fibre-product statements follow by choosing compatible formalizations and D8.11.
@@ -756,7 +753,9 @@ For example, for F = Spd(O_C) every map from Spa(C, O_C) has the unique formaliz
 
 (GLE, §4.2, Proposition 4.9 and Proposition 4.10, p. 29.)
 
-### D9.4 Specializing v-sheaves
+### D9.4 Specializing v-sheaves, their specialization maps and prekimberlites
+
+Specializing v-sheaves carry a continuous specialization map sp_F : |F| → |F^red|, and prekimberlites are the specializing v-sheaves whose reduction is a perfect scheme embedded by a closed counit, with open analytic locus. D9.7, D9.8, D9.11, D9.13, D10.5, D11.1, D11.2, D11.16 and D11.18 build on them.
 
 **Definition.** A small v-sheaf F is specializing if it is formally separated and v-locally formal. Specializing v-sheaves are stable under fibre products and contain Spd ℤ_p and Spd(B) for every formal Huber pair over ℤ_p.
 
@@ -784,8 +783,7 @@ Applications include Gleason Definition 4.12: these are the v-sheaves with a spe
 
 (GLE, §4.2, Definition 4.11 and Proposition 4.10, p. 29.)
 
-### D9.5 The specialization map sp_F : |F| → |F^red|
-
+**D9.5 The specialization map sp_F : |F| → |F^red|.**
 **Construction.** For a specializing v-sheaf F, sp_F : |F| → |F^red| is the unique map such that for every surjection ⨿ Spd(B_i) → F from formal Huber pairs, sp_F composed with |Spd(B_i)| → |F| equals |f^red| composed with the specialization |Spd(B_i)| → |Spec((B_i)_red)|. Concretely, represent x ∈ |F| by a formalizable Spa(K, K⁺) → F, take its unique formalization Spd(K⁺) → F, apply (−)^red to get Spec((K⁺)_red) → F^red, and take the image of the closed point. sp_F is continuous and functorial in maps of specializing v-sheaves.
 
 *Proof sketch.* Well defined and independent of choices by D9.3 (Gleason Remark 4.13). Continuity: in the square with a cover ⨿ Spd(R_i⁺) → F, the left map is a quotient map, f^red is continuous (D8.2) and the `sp_(R_i⁺)` are continuous (D9.1).
@@ -813,8 +811,7 @@ Applications include SW20 Proposition 18.4.1 proof: the closure of a classical p
 
 (GLE, §4.2, Definition 4.12, Remark 4.13 and Proposition 4.14, p. 30.)
 
-### D9.6 Prekimberlites and their analytic locus
-
+**D9.6 Prekimberlites and their analytic locus.**
 **Definition.** A prekimberlite is a specializing v-sheaf F such that F^red is represented by a (perfect) scheme and the counit (F^red)^⋄ → F is a closed immersion. Its analytic locus is the open complement F^an = F ∖ (F^red)^⋄.
 
 *Proof sketch.* The complement of a closed immersion is an open subsheaf (DiamondsAndVStacks D3.8 and D4.8).
@@ -864,7 +861,9 @@ Applications include SW20 Proposition 18.4.1: the source category of the full-fa
 
 (GLE, §4.3, Convention 1, Proposition 4.16 and Proposition 4.17 with proof, pp. 30–31; SW13, §2.2, Proposition 2.2.1, p. 15.)
 
-### D9.8 Formal neighbourhoods of locally closed subsets of the reduction
+### D9.8 Formal neighbourhoods of locally closed subsets of the reduction, open when constructible
+
+For a prekimberlite F, each locally closed subset S ⊂ |F^red| has a formal neighbourhood `F̂_(/S)`, a prekimberlite with reduction S, which is open in F when S is constructible. D9.11, D10.11, D11.5, D11.15 and D11.20 use these neighbourhoods, and D11.5, D11.11 and D11.19 their openness.
 
 **Definition.** Let F be a prekimberlite and S ⊂ |F^red| a locally closed subset with its reduced perfect subscheme structure. Write underline(T) for the v-sheaf U ↦ Cont(|U|,T), as in Gleason §1.1. The formal neighbourhood is the sheaf pullback `F̂_(/S)` = F `×_(underline(|F^red|))` underline(S), using the natural specialization morphism to this topological sheaf. This condition concerns the entire image of each perfectoid test space; it does not identify |`F̂_(/S)`| with `sp_F^(-1)`(S) on individual points. For a map of prekimberlites G → F and T = S `×_(F^red)` G^red, `F̂_(/S)` ×_F G = `Ĝ_(/T)`; `F̂_(/S)` is a prekimberlite with reduction S. It is open when S is open. For a formal pair (A,A), with ideal of definition I and finitely generated J ⊃ I, it is Spd(Â_J) over V(J), where Â_J is the J-adic completion.
 
@@ -894,8 +893,7 @@ Applications include Gleason Definition 4.38: tubular neighbourhoods `D^⊚_(/S)
 
 (GLE, §1.1, topological v-sheaves, p. 7; §4.3, Definition 4.18, Propositions 4.19–4.21, p. 31; AGLR, §2.3, Definition 2.28, p. 15, and Example 2.29, p. 16.)
 
-### D9.9 Constructible formal neighbourhoods are open
-
+**D9.9 Constructible formal neighbourhoods are open.**
 **Theorem.** If F is a prekimberlite and S ⊂ |F^red| is locally closed and constructible, then `F̂_(/S)` → F is an open immersion. For S closed with ideal (i₁, …, i_n) locally, and a formalized test map Spd(R⁺) → F with lifts j_k ∈ R⁺, the base change is the open locus where all j_k are topologically nilpotent. It is formally adic when S is open, and need not be otherwise.
 
 *Proof sketch.* The question is Zariski local on F^red; reduce to S closed constructible in Spec A, defined by a finitely generated ideal. Over a formalized test object, D9.8 (completion case) and the analytic-localization description of the olivine spectrum (Gleason Lemma 2.24) identify the base change with ⋂ `N_(j_k≪1)`, an open subsheaf. Openness descends along v-covers (DiamondsAndVStacks D3.9).
@@ -906,7 +904,9 @@ For example, for S the origin of the perfect affine line over 𝔽_p, Spd(𝔽_p
 
 (GLE, §4.3, Proposition 4.22 with proof and footnote 1 of the introduction, pp. 5, 32; AGLR, §2.3, Proposition 2.30, p. 16.)
 
-### D9.10 Heuer's v-sheaf `X^(⋄/◦)` of a perfect scheme
+### D9.10 Heuer's v-sheaf `X^(⋄/◦)` and the specialization morphism SP_F
+
+Heuer's v-sheaf of a perfect scheme is the target of the specialization morphism SP_F : F → `(F^red)^(⋄/◦)` of a prekimberlite, which recovers sp_F on spaces and presents formal neighbourhoods as base changes. D9.12 and D9.13 build étale formal neighbourhoods from them, D11.1 defines valuativity through SP_F, and D11.13 uses it.
 
 **Construction.** For a scheme X over 𝔽_p, `X^(⋄/◦)` is the analytic sheafification of (R, R⁺) ↦ X(Spec(R⁺/R°°)) on affinoid perfectoid spaces; for affine X no sheafification is needed. It is a v-sheaf commuting with finite limits and open immersions, with a natural map X^⋄ → `X^(⋄/◦)`. For X perfect, (`X^(⋄/◦)`)^red = X, and `X^(⋄/◦)`(Spa(R, R⁺)) = `X^(⋄/◦)`(Spd(R⁺)) for totally disconnected Spa(R, R⁺): maps from totally disconnected spaces formalize uniquely.
 
@@ -936,8 +936,7 @@ Applications include Gleason §4.4: target of Heuer's specialization morphism SP
 
 (GLE, §4.4, Definition 4.23 and Proposition 4.24 with proof, pp. 32–33.)
 
-### D9.11 The specialization morphism SP_F : F → `(F^red)^(⋄/◦)`
-
+**D9.11 The specialization morphism SP_F : F → `(F^red)^(⋄/◦)`.**
 **Construction.** For a prekimberlite F, SP_F : F → `(F^red)^(⋄/◦)` sends a formalizable map Spa(R, R⁺) → F to the reduction Spec(R⁺_red) → F^red of its unique formalization; this defines a natural transformation, separated, and for S ⊂ |F^red| locally closed `F̂_(/S)` = F `×_((F^red)^(⋄/◦))` `S^(⋄/◦)`. On underlying spaces it recovers sp_F.
 
 *Proof sketch.* Well defined by D9.3 and v-descent; the formula for formal neighbourhoods by comparing the two descriptions on formalized test objects. Separatedness: F is formally separated and `(F^red)^(⋄/◦)` formalizes totally disconnected spaces uniquely (D9.10).
@@ -965,7 +964,9 @@ Applications include Gleason Definition 4.30: valuative prekimberlites: SP_F par
 
 (GLE, §4.4, paragraph after Proposition 4.24 and before Lemma 4.25; paragraph before Definition 4.30, pp. 33–34.)
 
-### D9.12 Étale maps of perfect schemes give formally adic étale maps of Heuer sheaves
+### D9.12 Étale maps of Heuer sheaves and étale formal neighbourhoods of a prekimberlite
+
+Quasicompact separated étale maps of perfect schemes give formally adic étale maps of Heuer sheaves, whose base changes along SP_F are the étale formal neighbourhoods of a prekimberlite. D9.14 shows that reduction is an equivalence on them, and D11.1, D11.7 and D11.11 show that valuativity, kimberlite structures and richness pass to them.
 
 **Lemma.** For a quasicompact separated étale map V → X of perfect 𝔽_p-schemes, `V^(⋄/◦)` → `X^(⋄/◦)` is separated, quasicompact, formally adic and étale. On affine tests Spa(R,R⁺), use the unique completed formally étale lift of the prescribed étale algebra over the reduced integral ring. Its generic fibre, with the canonical integral subring, represents the pullback; work on affine étale charts and glue. Uniqueness is in the category of complete formal lifts, not among all ordinary étale R⁺-algebras.
 
@@ -977,8 +978,7 @@ For example, for V → X an open immersion, `V^(⋄/◦)` → `X^(⋄/◦)` is a
 
 (GLE, §4.4, Lemma 4.25 and proof, p. 33.)
 
-### D9.13 Étale formal neighbourhoods of a prekimberlite
-
+**D9.13 Étale formal neighbourhoods of a prekimberlite.**
 **Definition.** For a prekimberlite F, `(F)_(qc,for-ét)` is the category of maps T → F with T a prekimberlite and T → F formally adic, étale and quasicompact; morphisms are maps over F (automatically quasicompact, formally adic, étale and separated). For V → F^red quasicompact, separated and étale, the étale formal neighbourhood is `F̂_(/V)` = F `×_((F^red)^(⋄/◦))` `V^(⋄/◦)`, an object with reduction V.
 
 *Proof sketch.* `F̂_(/V)` → F is quasicompact, formally adic, étale and separated by D9.12; it is formally separated, v-formalizing (Heuer sheaves formalize totally disconnected spaces uniquely) and a prekimberlite with reduction V.
@@ -1329,7 +1329,9 @@ D7–D9; AdicSpacesPartII R0.1, R0.9, R0.13, R0.16, R0.17, R1.2–R1.7, with R0.
 
 Kimberlites are valuative prekimberlites whose analytic locus is a quasiseparated locally spatial diamond with quasicompact specialization map. Their tubular neighbourhoods are interiors of specialization fibres. With the finiteness condition of being constructibly Jacobson, rich pairs have quotient specialization maps, and topologically normal rich pairs have the same connected components as their reduction. Over Spd O the π-adic kimberlites of Anschütz–Gleason–Lourenço–Richarz satisfy a specialization principle.
 
-### D11.1 Valuative prekimberlites
+### D11.1 Valuative prekimberlites, smelted kimberlites and kimberlites, including those of formal schemes
+
+This section defines valuative prekimberlites, smelted kimberlites (F, D) with their specialization maps sp_D, and kimberlites, and shows that separated formal schemes give valuative prekimberlites and kimberlites. D11.5–D11.7, D11.11, D11.13, D11.15–D11.17 and D11.19 consume them.
 
 **Definition.** A prekimberlite F is valuative if Heuer's specialization morphism SP_F : F → `(F^red)^(⋄/◦)` is partially proper (it is always separated). Separated formal schemes give valuative prekimberlites; if G → F is a partially proper map of prekimberlites with F valuative then G is valuative; formal neighbourhoods and étale formal neighbourhoods of valuative prekimberlites are valuative; and for valuative F, sp_F : |F| → |F^red| is a specializing map.
 
@@ -1358,8 +1360,7 @@ Applications include Gleason Definition 4.35: smelted kimberlites and kimberlite
 
 (GLE, §4.4, Definition 4.30 and Propositions 4.31–4.34, p. 34.)
 
-### D11.2 Smelted kimberlites and their specialization map
-
+**D11.2 Smelted kimberlites and their specialization map.**
 **Definition.** A smelted kimberlite is a pair K = (F, D) with F a valuative prekimberlite and D ⊂ F^an an open subsheaf that is a quasiseparated locally spatial diamond such that D → F is partially proper. Its specialization map is sp_D : |D| → |F| → |F^red|. The cases of interest are D = F^an and, for F over Spd O_K, D = F `×_(Spd O_K)` Spd(K, O_K).
 
 *Proof sketch.* F^an → F is always partially proper for a prekimberlite (Gleason Remark 4.36), so the conditions on D = F^an reduce to it being a quasiseparated locally spatial diamond.
@@ -1388,8 +1389,7 @@ Applications include GLX Theorem 3.7: (`Sht^(K_p)`_μ(b), `Sht_((G,b,μ,K_p))`) 
 
 (GLE, §4.5, Definition 4.35(1)–(2) and Remark 4.36, p. 35; GLX, §3.1, ¶7, p. 18.)
 
-### D11.3 Kimberlites
-
+**D11.3 Kimberlites.**
 **Definition.** A valuative prekimberlite G is a kimberlite if (G, G^an) is a smelted kimberlite and `sp_(G^an)` : |G^an| → |G^red| is quasicompact; equivalently `sp^(-1)_(G^an)`(U) is a spatial diamond for every affine open U ⊂ G^red.
 
 *Proof sketch.* The equivalence is Gleason Remark 4.37: quasicompactness of a spectral-type map is tested on affine opens.
@@ -1415,8 +1415,7 @@ Applications include GLX ¶4–6: v-sheaves of formal schemes and v-sheaf local 
 
 (GLE, §4.5, Definition 4.35(3) and Remark 4.37, p. 35; AGLR, §2.3, footnote 1, p. 14.)
 
-### D11.4 Formal schemes give kimberlites
-
+**D11.4 Formal schemes give kimberlites.**
 **Theorem.** For a separated formal scheme 𝔛 over ℤ_p as in D9.7, with complete separated affine rings and finitely generated ideals of definition containing p, 𝔛^♢ is a kimberlite. On |(𝔛^♢)^an| its specialization sends a bounded valuation to the prime ideal of elements of value less than 1, viewed in |𝔛_red| = |(𝔛_red)^perf|. For locally noetherian 𝔛 this agrees with the classical specialization λ of AdicSpacesPartIII R2.
 
 *Proof sketch.* Valuative prekimberlite: D9.7 and D11.1. (𝔛^♢)^an = (𝔛^ad_a)^♢ is a locally spatial diamond (DiamondsAndVStacks D6.5); quasiseparated since 𝔛 is separated. Over an affine open Spf A ⊂ 𝔛 with ideal of definition (f_1, …, f_n), `sp^(-1)`(Spec A_red) = Spa(A, A)_a^♢ is the finite union of the rational subsets {|f_j| ≤ |f_i| ≠ 0}, hence spatial: sp is quasicompact.
@@ -1433,7 +1432,9 @@ For example, for 𝔛 = Spf ℤ_p⟨T⟩, sp on the generic fibre is the reducti
 
 (GLE, §4.3–4.5, Propositions 4.17 and 4.31, Remark 4.37, pp. 30–35; AGLR, §2.3, footnote 1, p. 14; GLX, §3.1, ¶5–6 and diagram (3.2), pp. 17–18.)
 
-### D11.5 Tubular neighbourhoods of smelted kimberlites
+### D11.5 Tubular neighbourhoods and the spectral specialization map of smelted kimberlites
+
+For a smelted kimberlite (F, D) and constructible locally closed S ⊂ |F^red|, the tubular neighbourhood `D^⊚_(/S)` is the open subdiamond on the interior of `sp_D^(-1)`(S), and sp_D is spectral and specializing, and closed for kimberlites. D11.9 combines the two, D11.12 and D11.20 use the tubes, and D11.13, D11.14 and D11.16 the properties of the specialization map.
 
 **Definition.** For a smelted kimberlite K = (F, D) and a constructible locally closed S ⊂ |F^red|, the tubular neighbourhood is `D^⊚_(/S)` = `F̂_(/S)` ×_F D; for a kimberlite G write `G^⊚_(/S)` = `Ĝ_(/S)` ×_G G^an. Then (`F̂_(/S)`, `D^⊚_(/S)`) is a smelted kimberlite, and `D^⊚_(/S)` is the open subdiamond of D with underlying space the interior of `sp_D^(-1)`(S), which is the largest generization-stable subset of `sp_D^(-1)`(S); it is not the whole fibre in general.
 
@@ -1462,8 +1463,7 @@ Applications include GLX ¶10, (3.10)–(3.11) and Theorem 3.8: tubes of integra
 
 (GLE, §4.5, Definition 4.38 and Proposition 4.39 with proof, p. 35; AGLR, §2.3, Definition 2.28, p. 15, and Example 2.29, p. 16.)
 
-### D11.6 Specialization maps of smelted kimberlites are spectral and closed for kimberlites
-
+**D11.6 Specialization maps of smelted kimberlites are spectral and closed for kimberlites.**
 **Theorem.** For a smelted kimberlite (F, D), sp_D : |D| → |F^red| is a specializing spectral map of locally spectral spaces (continuous for the constructible topologies). For a kimberlite G, `sp_(G^an)` : |G^an| → |G^red| is closed.
 
 *Proof sketch.* Specializing: D11.1 and partial properness of D → F. Spectral: work on spatial opens; a formalizable cover X = Spa(A, A⁺) → D gives a commutative square with sp_X, which is patch-continuous, and with g^red : Spec(A⁺_red) → F^red, patch-continuous because F^red is a scheme (D8.5); g is a surjection of compact Hausdorff patch spaces, hence a quotient map. Closed for kimberlites: a spectral specializing map of spectral spaces is closed (AdicSpacesPartII R0.19.3), applied over affine opens using quasicompactness of `sp_(G^an)`.
@@ -1498,7 +1498,9 @@ D8–D10; DiamondsAndVStacks D3–D6; DiamondEtaleCohomology C4; AdicSpacesPartI
 
 Richness adds constructible density and surjective specialization. D11.14 proves the component bijection for topologically normal rich smelted kimberlites whose reduction has closed specializations.
 
-### D11.8 Constructibly Jacobson diamonds
+### D11.8 Constructibly Jacobson diamonds, enough facets and density of tubes
+
+Constructibly Jacobson diamonds have constructibly dense rank-one points; the property passes to surjective images, open subdiamonds and diamonds étale over a cJ-diamond, follows from having enough facets, and makes tubes dense in specialization fibres. D11.11 requires it for richness, D11.15 applies it, and D11.14 uses the density of tubes.
 
 **Definition.** A locally spatial diamond X is constructibly Jacobson (a cJ-diamond) if its rank-one points are dense in |X| for the constructible topology. Surjective images of cJ-diamonds, open subdiamonds of cJ-diamonds, quotients of cJ-diamonds by quasi-pro-étale J-torsors (J profinite) and étale maps to cJ-diamonds have the property; diamonds of adic spaces topologically of finite type over a complete nonarchimedean field K over ℤ_p are cJ, since Max(A) ⊂ Spa(A, A°) is patch-dense for A topologically of finite type over K (Huber); perfectoid unit balls are cJ.
 
@@ -1530,8 +1532,7 @@ Applications include Gleason Proposition 4.45: tubes are dense in specialization
 
 (GLE, §4.6, Definition 4.44, Proposition 4.46, Theorem 4.47, Corollary 4.48 and Example 4.49, pp. 36–37.)
 
-### D11.9 Tubes are dense in specialization fibres for constructibly Jacobson diamonds
-
+**D11.9 Tubes are dense in specialization fibres for constructibly Jacobson diamonds.**
 **Theorem.** If (F, D) is a smelted kimberlite with D a cJ-diamond and S ⊂ |F^red| is constructible (locally closed), then |D ∩ `F̂_(/S)`| = |`D^⊚_(/S)`| is dense in `sp_D^(-1)`(S).
 
 *Proof sketch.* |`D^⊚_(/S)`| is the largest generization-stable subset of `sp_D^(-1)`(S) (D11.5). `sp_D^(-1)`(S) is patch-open (sp_D is patch-continuous, D11.6), so rank-one points are dense in it; rank-one points are generization-stable (they have no proper generizations), hence lie in the tube.
@@ -1542,8 +1543,7 @@ For example, for the formal disc and S the origin, the open disc is dense in the
 
 (GLE, §4.6, discussion before Example 4.43, Example 4.43 and Proposition 4.45, p. 36.)
 
-### D11.10 Diamonds with enough facets
-
+**D11.10 Diamonds with enough facets.**
 **Definition.** For a perfectoid field C of characteristic p, a locally spatial diamond X over Spa(C, O_C) has enough facets if it has a v-cover ⨿_i Spd(A_i, A_i°) → X with each A_i topologically of finite type over C itself. Having enough facets is stable under base change to perfectoid extensions C → C' and fibre products over Spa(C, O_C), implies cJ, and holds for Spd(A, A°) with A smooth topologically of finite type over an untilt C^♯.
 
 *Proof sketch.* Stability: topologically finite type is stable under completed tensor products and field extension. cJ: D11.8 (surjective images and tft case). Smooth case: étale locally map to a torus, pull back along the perfectoid torus and use invariance of the étale site under tilting (PerfectoidSpaces P3.20) to cover by Spd of tft algebras over C (Gleason Proposition 4.51).
@@ -1570,7 +1570,9 @@ Applications include Gleason §5: Demazure resolutions of B_dR⁺-Grassmannians 
 
 (GLE, §4.6, Definition 4.50 and Proposition 4.51 with proof, p. 37.)
 
-### D11.11 Rich smelted kimberlites
+### D11.11 Rich smelted kimberlites, topological normality, and specialization as a quotient map
+
+Richness and the separate predicate of topological normality are defined for smelted kimberlites, and the specialization map of a rich smelted kimberlite is a quotient map. D11.14 uses all three, and D11.15 shows that normal formal schemes give topologically normal rich kimberlites.
 
 **Definition.** Call a smelted kimberlite K = (F, D) rich when four conditions hold: the space |F^red| is locally noetherian, the specialization map sp_D : |D| → |F^red| is surjective, D is a cJ-diamond, and F is valuative. A kimberlite G is called rich when the pair (G, G^an) is rich. Richness of smelted kimberlites passes to constructible formal neighbourhoods and to étale formal neighbourhoods.
 
@@ -1602,8 +1604,7 @@ Applications include Gleason Lemma 4.53: sp_D is a quotient map for rich pairs; 
 
 (GLE, §4.6, Definition 4.52(1)–(2) and Proposition 4.54, pp. 37–38; GLX, §3.4, Theorem 3.7 and footnote 18, p. 21.)
 
-### D11.12 Topologically normal rich smelted kimberlites
-
+**D11.12 Topologically normal rich smelted kimberlites.**
 **Definition.** A rich smelted kimberlite (F, D) is topologically normal if for every closed point x ∈ |F^red| the tubular neighbourhood `D^⊚_(/x)` is connected. This predicate is separate from richness.
 
 *Proof sketch.* Closed points of a locally noetherian |F^red| are constructible, so `D^⊚_(/x)` is defined (D11.5).
@@ -1628,8 +1629,7 @@ Applications include Gleason Lemma 4.55: the component bijection; GLX Theorem 3.
 
 (GLE, §4.6, Definition 4.52(3) and footnote 7, p. 37; GLX, §3.4, proof of Theorem 3.9 and footnote 20, p. 22.)
 
-### D11.13 Specialization of a rich smelted kimberlite is a quotient map
-
+**D11.13 Specialization of a rich smelted kimberlite is a quotient map.**
 **Theorem.** If K = (F, D) is a rich smelted kimberlite then sp_D : |D| → |F^red| is a quotient map.
 
 *Proof sketch.* The statement is local on |F^red|; reduce to F^red = Spec A with finitely many irreducible components (local noetherianity). Irreducible case: take r ∈ |D| over the generic point g, formalizable by Spa(C, O_C) → D; let C_min be the minimal ring of integral elements of C with C_min/C°° ⊇ A; Spa(C, C_min) → `(F^red)^(⋄/◦)` lifts to D by valuativity. |Spa(C, C_min)| → |F^red| is specializing, surjective and spectral between spectral spaces, hence closed (AdicSpacesPartII R0.19.3), hence a quotient map; it factors through sp_D, which is therefore a quotient map; finitely many components are handled the same way.
