@@ -38,9 +38,8 @@ concurrency:
 
 jobs:
   build:
-    # Merge candidates share GitHub-hosted capacity with small automation.
-    # Ordinary PR and main builds use shared Namespace capacity.
-    runs-on: ${{ github.event_name == 'merge_group' && 'ubuntu-latest' || fromJSON('["nscloud-ubuntu-24.04-amd64-8x16-with-features"]') }}
+    # PR, main, and merge candidates all use GitHub-hosted capacity.
+    runs-on: ubuntu-24.04
     steps:
       # A merge-queue candidate that `main` has moved out from under can never merge, and GitHub does
       # not cancel its build. Whenever something lands on `main` outside the queue (a progress report,
