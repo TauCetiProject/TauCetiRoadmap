@@ -261,12 +261,13 @@ declaration is a target of the supplying roadmap, and its statement here is what
   (`ofStructure_toStructure`, `toStructure_ofStructure`, `Structure.lean`); the transport
   `Equiv.encodeVia e` along a bijection `e : M ≃ α` with `Equiv.nonempty_equiv_encodeVia` and
   `Equiv.realize_encodeVia`; and `RelationalConfiguration.mk_le_continuum`.
-* **(S2) Model classes.** `RelationalConfiguration.modelsOf φ : Set (RelationalConfiguration L α)`
-  for `φ : L.SentenceInf ι` (`ModelsOf.lean`), with `mem_modelsOf`, `measurableSet_modelsOf`
-  (countable `α` and `ι`) and the instance `standardBorelSpace_modelsOf`; and
-  `isomorphismInvariant_modelsOf` (codes isomorphic to a code of a model are codes of models), a
-  CountableStructureSpaces target with no Tau Ceti declaration, which follows from Tau Ceti's
-  `FirstOrder.Language.Equiv.mem_modelsOf_iff` (invariance across carriers).
+* **(S2) Model classes (its Layer 2).**
+  `RelationalConfiguration.modelsOf φ : Set (RelationalConfiguration L α)` for `φ : L.SentenceInf ι`
+  (`ModelsOf.lean`), with `mem_modelsOf`, `measurableSet_modelsOf` (countable `α` and `ι`) and the
+  instance `standardBorelSpace_modelsOf`; and `isomorphismInvariant_modelsOf` (codes isomorphic to a
+  code of a model are codes of models), a CountableStructureSpaces target with no Tau Ceti
+  declaration, which follows from Tau Ceti's `FirstOrder.Language.Equiv.mem_modelsOf_iff`
+  (invariance across carriers).
 * **(S3) Isomorphism and the logic action.** `RelationalConfiguration.isoSetoid L α`
   (`Isomorphism.lean`; the decoded structures are isomorphic, `isoSetoid_apply`), on every carrier
   `α : Type w`; the action `instMulActionPerm` of `Equiv.Perm α` (`Basic.lean`), with
@@ -289,14 +290,14 @@ declaration is a target of the supplying roadmap, and its statement here is what
   `nonempty_equiv_of_bfEquiv_of_scottHeight_le` (for countable `M : Type w` and `N : Type w'`,
   `scottHeight M ≤ β` and `BFEquiv β 0 Fin.elim0 Fin.elim0` give `Nonempty (M ≃[L] N)`), and
   `scottHeight_le_internalScottRank_add_omega0`.
-* **(S6) López–Escobar, separation form.** `exists_sentence_separating`: for analytic `A`, `B` with
-  `B` action invariant and `Disjoint A B`, some `θ` has `A ⊆ modelsOf θ` and
+* **(S6) López–Escobar, separation form (its Layer 6.1).** `exists_sentence_separating`: for
+  analytic `A`, `B` with `B` action invariant and `Disjoint A B`, some `θ` has `A ⊆ modelsOf θ` and
   `Disjoint B (modelsOf θ)`. A CountableStructureSpaces target with no Tau Ceti declaration; Tau
   Ceti's `Setoid.exists_invariant_measurableSet_separating`
   (`SetTheory/Descriptive/InvariantSeparation.lean`) supplies the invariant Borel separating set
   that López–Escobar turns into a sentence.
-* **(S7) Uniform back-and-forth separation.** `exists_uniform_bfSeparation`: an analytic set of
-  pairs of codes containing no isomorphic pair is separated at one level `β < ω₁`
+* **(S7) Uniform back-and-forth separation (its Layer 4.4).** `exists_uniform_bfSeparation`: an
+  analytic set of pairs of codes containing no isomorphic pair is separated at one level `β < ω₁`
   (that roadmap proves it from the forced back-and-forth tree and the boundedness theorem). A
   CountableStructureSpaces target with no Tau Ceti declaration.
 
@@ -333,8 +334,8 @@ declaration is a target of the supplying roadmap, and its statement here is what
   disjunctions), `Fragment.generated S`, `Fragment.generated_countable` (a countable set generates
   a countable fragment); `Theoryω.conjunction T hT` (`Infinitary/Theory.lean`), the countable
   conjunction of a countable theory, with `Theoryω.realize_conjunction_iff`.
-* **(M2) Fragment types.** `fragmentType F M a`, the members of `F` of arity `n` realized by
-  `a : Fin n → M`; the slice `Fragment.slice F n` and the realized truth assignment
+* **(M2) Fragment types (its Layer 4.1).** `fragmentType F M a`, the members of `F` of arity `n`
+  realized by `a : Fin n → M`; the slice `Fragment.slice F n` and the realized truth assignment
   `F.slice n → Prop`, transported along isomorphisms. InfinitaryModelExistence targets with no Tau
   Ceti declaration; Tau Ceti's `infinitaryType M a` (`ModelTheory/ModelExistence/Types.lean`) is the
   full Lω₁ω type, not the fragment-relative one.
@@ -342,9 +343,9 @@ declaration is a target of the supplying roadmap, and its statement here is what
   (`ModelTheory/ModelExistence/Morleyization.lean`): the language `L.morleyize Φ` (the relation
   symbols of `L` and one `n`-ary symbol for each member of `Φ` of arity `n`), the inclusion
   `lhomMorleyize Φ`, the canonical expansion `morleyExpansion Φ M`, in which the symbol of `φ` holds
-  of `a` exactly when `φ` does; the instances `isRelational_morleyize` and
-  `countable_relations_morleyize`; and `nonempty_morleyEquiv_iff` (canonical expansions are
-  isomorphic iff the bases are).
+  of `a` exactly when `φ` does; the instance `isRelational_morleyize` and the theorem
+  `countable_relations_morleyize` (for countable `Φ`); and `nonempty_morleyEquiv_iff` (canonical
+  expansions are isomorphic iff the bases are).
 * **(M4) The small presentation (its Layer 0.3).** `L.smallPresentation : Language.{0, 0}`
   (`ModelTheory/Infinitary/SmallPresentation.lean`) for `L` with countably many function and
   relation symbols, `L.smallPresentationEquiv : L ≃ᴸ L.smallPresentation`, and
@@ -646,9 +647,10 @@ alternative being a Cantor antichain for isomorphism; in the other, the arity-0 
 `Fragment.generated` of the range of a list `θ` determines its truth sequences). This is the
 classical definition of a scattered sentence.
 
-**4g. Morleyization transport.** For a countable set `Φ` of formulas (M3): by (M3)'s instances
-`L.morleyize Φ` is relational with countably many relation symbols when `L` is, and by (M3)'s
-`nonempty_morleyEquiv_iff` canonical expansions are isomorphic exactly when the base structures are.
+**4g. Morleyization transport.** For a countable set `Φ` of formulas (M3): by (M3),
+`L.morleyize Φ` is relational when `L` is, and it has countably many relation symbols when `L`
+does, since `Φ` is countable; by (M3)'s `nonempty_morleyEquiv_iff` canonical expansions are
+isomorphic exactly when the base structures are.
 The targets, against (M3)'s objects:
 
 * `morleyCode Φ : RelationalConfiguration L ℕ → RelationalConfiguration (L.morleyize Φ) ℕ`, the
