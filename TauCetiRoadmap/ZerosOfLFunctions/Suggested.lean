@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.Analysis.Meromorphic.Continuation
 import TauCeti.Analysis.SpecialFunctions.LogIntegral
+import TauCeti.NumberTheory.ArithmeticDirichletSeries.VonMangoldt
 import TauCeti.NumberTheory.Chebotarev.PrimeCounting.VonMangoldt
 import TauCeti.NumberTheory.LFunctions.Dirichlet.Basic
 import TauCeti.NumberTheory.LFunctions.Hecke.Basic
@@ -29,22 +30,26 @@ Stated here:
 
 * Layer 3, the convexity bound on the critical line, uniform over primitive Dirichlet characters;
 * Layer 5, Hadamard's factorization of an entire function of order at most one, and its instance
-  `zetaEntireCompletion`;
+  `zetaEntireCompletion`; the summability of `m_ρ / (1 + (Im ρ)²)` over the zeros of the completed
+  zeta function (5.6a);
 * Layer 6, the de la Vallée Poussin region for `ζ_K` uniform over the fields of degree `n` (6.2)
   and its instance `ζ`; the region for primitive ray-class L-functions uniform over the fields of
   degree `n` and their characters (6.4), and its Dirichlet instance with the normalization
   `c ≤ log 3 / 2`; and, from 6.4a, the order bound of the completed Dirichlet record and the
-  finite-sum retained-zero inequality with the gamma constant;
+  finite-sum retained-zero inequality with the gamma constant; and the two bounds for `−Re ζ'/ζ`
+  off the real axis on which the region for `ζ` rests (6.4d);
 * Layer 7, the Riemann–von Mangoldt formula for `ζ`, and its uniform forms (7.5): for `ζ_K` with
   one constant for all number fields, for primitive ray-class L-functions with a constant
   depending on the degree only, and for primitive Dirichlet characters with one constant;
 * Layer 8, the truncated explicit formula for `Chebyshev.psi` and the Weil explicit formula for
-  `ζ` (8.3–8.4 at `K = ℚ`), the effective prime ideal theorem (8.5), the effective prime count in
-  a ray class (8.7) with its `K = ℚ` case, and the effective abelian Chebotarev count (8.8).
+  `ζ` (8.3–8.4 at `K = ℚ`), the Weil explicit formula for `ζ_K` (8.4) and for a nontrivial
+  primitive ray-class character (8.6), the effective prime ideal theorem (8.5), the effective
+  prime count in a ray class (8.7) with its `K = ℚ` case, and the effective abelian Chebotarev
+  count (8.8).
 
-The counts of 7.5 over a general field run over the open strip `0 < Re s < 1`, where the zeros of
-the continued functions are those of their completions with the same multiplicities; this
-leaves out the trivial zeros at `s = 0`.
+The counts of 7.5 and the Weil formulas 8.4 and 8.6 over a general field run over the open strip
+`0 < Re s < 1`, where the zeros of the continued functions are those of their completions with the
+same multiplicities; this leaves out the trivial zeros at `s = 0`.
 
 Not stated here:
 
@@ -55,7 +60,7 @@ Not stated here:
   witness of a theorem stated here with `sorry`, so they are not defined here. For a fixed field,
   modulus or extension they are `O(x^β)` with `β < 1` and are absorbed by the error term, which is
   the form in which 8.5, 8.7 and 8.8 are stated.
-* The convexity bound 3.4 and the explicit formulas 8.3, 8.4 and 8.6 over a general field are
+* The convexity bound 3.4 and the truncated explicit formulas 8.3 and 8.6 over a general field are
   steps toward the end theorems and stay README targets, as do the growth, gamma-factor,
   conductor, counting, rectangle-contour and certificate statements of Layers 0–2, 4, 7.1–7.3 and
   9, and the completion comparisons, gamma bound, one-zero inequality and finite-family radius of
@@ -65,7 +70,7 @@ Not stated here:
 namespace TauCetiRoadmap.ZerosOfLFunctions
 
 open Complex Filter Asymptotics Set NumberField
-open scoped Real ContDiff
+open scoped Real ContDiff nonZeroDivisors
 
 /-- **Layer 0.1, the order predicate.** `f` has order at most `A`: for every `A' > A`,
 `f(s) = O(exp ‖s‖^{A'})` as `‖s‖ → ∞`. Entirety is a hypothesis of the theorems that use the
@@ -129,6 +134,16 @@ theorem zetaEntireCompletion_hadamard :
         (MeromorphicOn.divisor zetaEntireCompletion univ ρ).toNat :=
   sorry
 
+/-- **Layer 5.6a at the `ζ` instance, ordinate summability.** With `m_ρ` the multiplicity of `ρ`
+as a zero of the completed zeta function, the family `ρ ↦ m_ρ / (1 + (Im ρ)²)` over `ℂ` is
+summable. A weight in the ordinate alone is legitimate because the zeros lie in
+`0 ≤ Re ρ ≤ 1`; over the zeros of `riemannZeta` the trivial zeros, each of ordinate `0`, would
+make the family diverge. -/
+theorem riemannZeta_zeros_summable_ordinate :
+    Summable (fun ρ : ℂ ↦
+      ((MeromorphicOn.divisor completedRiemannZeta univ ρ).toNat : ℝ) / (1 + ρ.im ^ 2)) :=
+  sorry
+
 /-! ## Layer 6: zero-free regions -/
 
 /-- **Layer 6.2, the de la Vallée Poussin region for `ζ_K`.** For each degree `n` there is
@@ -176,11 +191,15 @@ theorem heckeLFunction_zeroFreeRegion (n : ℕ) :
 
 /-- **Layer 6.3–6.4 at `K = ℚ`, the region for Dirichlet L-functions.** There is one absolute
 constant `c`, with `0 < c ≤ log 3 / 2`, such that for every modulus `q ≥ 1` and every Dirichlet
-character `χ` modulo `q`, a zero `ρ` of `L(·, χ)` with `Re ρ ≥ 1 − c / log (q (|Im ρ| + 3))` is
-real, simple, and occurs only for a real character (`χ² = 1`), and there is at most one such
-zero (Davenport §14). Zeros are read through the meromorphic order, so the pole of the principal
-character at `s = 1` is never one. The bound `c ≤ log 3 / 2` puts the whole region in
-`Re s ≥ 1/2`, which is what the transfer between a character and its primitive source uses. -/
+character `χ` modulo `q`, primitive or not, a zero `ρ` of `L(·, χ)` with
+`Re ρ ≥ 1 − c / log (q (|Im ρ| + 3))` is real, simple, and occurs only for a real character
+(`χ² = 1`), and there is at most one such zero (Davenport §14). Zeros are read through the
+meromorphic order, so the pole of the principal character at `s = 1` is never one. For primitive
+`χ` this is the case `n = 1` of `heckeLFunction_zeroFreeRegion`. An imprimitive `χ` inherits it
+from its primitive character `χ*` of conductor `q* ∣ q`: `L(s, χ)` is `L(s, χ*)` times Euler
+factors vanishing only on `Re s = 0` (`DirichletCharacter.LFunction_changeLevel`), the bound
+`c ≤ log 3 / 2` puts the whole region in `Re s ≥ 1/2`, and the region at `q` lies inside the
+region at `q*`. -/
 theorem dirichletLFunction_zeroFreeRegion :
     ∃ c : ℝ, 0 < c ∧ c ≤ Real.log 3 / 2 ∧
       ∀ (q : ℕ) [NeZero q] (χ : DirichletCharacter ℂ q),
@@ -226,6 +245,19 @@ theorem finite_zero_sum_le_logDeriv {q : ℕ} [NeZero q] (χ : DirichletCharacte
     (σ : ℝ) (hσ : 1 < σ) (hσ2 : σ ≤ 2) :
     (∑ ρ ∈ S, (analyticOrderNatAt χ.LFunction ρ : ℝ) * (1 / ((σ : ℂ) - ρ)).re) ≤
       (logDeriv χ.LFunction (σ : ℂ)).re + Real.log q / 2 + gammaLogDerivBound :=
+  sorry
+
+/-- **Layer 6.4d at `K = ℚ`, off the real axis.** For every `t₀ > 1` there is `C` such that, for
+`δ > 0` and `|t| ≥ t₀`, `−Re (ζ'/ζ)(1 + δ + 2it) ≤ C log |t|`, and
+`−Re (ζ'/ζ)(1 + δ + it) ≤ −1/(1 + δ − β) + C log |t|` whenever `β + it` is a zero of `ζ`: the two
+inputs of the `3-4-1` argument at height `t` (Davenport §13). Off the real axis `ζ` is analytic,
+so vanishing there is a zero. The threshold keeps `log |t|` positive: as `t → 0` with `δ = 2|t|`,
+the first left side is `1/(4|t|) + O(1)`. -/
+theorem neg_re_logDeriv_riemannZeta_le (t₀ : ℝ) (ht₀ : 1 < t₀) :
+    ∃ C : ℝ, ∀ δ : ℝ, 0 < δ → ∀ t : ℝ, t₀ ≤ |t| →
+      -(logDeriv riemannZeta (1 + δ + 2 * t * I)).re ≤ C * Real.log |t| ∧
+        ∀ β : ℝ, riemannZeta (β + t * I) = 0 →
+          -(logDeriv riemannZeta (1 + δ + t * I)).re ≤ -1 / (1 + δ - β) + C * Real.log |t| :=
   sorry
 
 /-! ## Layer 7: the Riemann–von Mangoldt formula -/
@@ -300,6 +332,40 @@ theorem chebyshevPsi_explicitFormula :
             ((Real.log (2 * π) : ℝ) : ℂ) - ((Real.log (1 - x ^ (-2 : ℤ)) / 2 : ℝ) : ℂ))‖ ≤
         C * x * Real.log x ^ 2 / T := sorry
 
+/-- **Layer 8.4, the Weil explicit formula for the Dedekind zeta function.** Let `K` be a number
+field with `r₁` real and `r₂` complex places, and `φ` smooth with compact support in `(0, ∞)`, with
+Mellin transform `φ̃`. With `m_ρ` the multiplicity of `ρ` as a zero of `ζ_K` in the open strip
+`0 < Re ρ < 1`, the family `ρ ↦ m_ρ φ̃(ρ)` over `ℂ` is summable, and
+`∑_ρ m_ρ φ̃(ρ) = φ̃(0) + φ̃(1) + (log |d_K|) φ(1) + A_K(φ) − ∑_𝔞 Λ_K(𝔞) (φ(𝔑𝔞) + φ(1/𝔑𝔞)/𝔑𝔞)`,
+the last sum over the nonzero ideals `𝔞` of `𝓞 K` with the ideal von Mangoldt function `Λ_K`, where
+`A_K(φ) = (2π)⁻¹ ∫ (r₁ Γℝ'/Γℝ + r₂ Γℂ'/Γℂ)(2 + it) (φ̃(2 + it) + φ̃(−1 − it)) dt` is the
+archimedean term (Lang, *Algebraic Number Theory*, XVII §3, Theorem 3.1, for this test class).
+On the open strip the zeros of the continued `ζ_K` are those of
+`Λ_K(s) = |d_K|^{s/2} Γℝ(s)^{r₁} Γℂ(s)^{r₂} ζ_K(s)` with the same multiplicities, and `Λ_K` has no
+zeros off the open strip; the poles of `Λ_K` at `0` and `1` give
+`φ̃(0) + φ̃(1)`, and `(log |d_K|) φ(1)` is the constant `½ log |d_K|` of `Λ_K'/Λ_K` integrated once
+against `φ̃(s)` and once against `φ̃(1 − s)`. At `K = ℚ` this is `riemannZeta_weilExplicitFormula`.
+-/
+theorem dedekindZeta_weilExplicitFormula (K : Type*) [Field K] [NumberField K] (φ : ℝ → ℂ)
+    (hφ : ContDiff ℝ ∞ φ) (hsupp : HasCompactSupport φ) (hpos : tsupport φ ⊆ Ioi 0) :
+    Summable (fun ρ : ℂ ↦ (Ioo (0 : ℝ) 1 ×ℂ univ).indicator (fun ρ ↦
+        ((MeromorphicOn.divisor (TauCeti.meromorphicContinuation 1 (dedekindZeta K)) univ ρ).toNat :
+          ℂ) * mellin φ ρ) ρ) ∧
+      ∑' ρ : ℂ, (Ioo (0 : ℝ) 1 ×ℂ univ).indicator (fun ρ ↦
+        ((MeromorphicOn.divisor (TauCeti.meromorphicContinuation 1 (dedekindZeta K)) univ ρ).toNat :
+          ℂ) * mellin φ ρ) ρ =
+        mellin φ 0 + mellin φ 1 + (Real.log |(NumberField.discr K : ℝ)| : ℂ) * φ 1 +
+          (2 * π : ℂ)⁻¹ * (∫ t : ℝ,
+            ((NumberField.InfinitePlace.nrRealPlaces K : ℂ) * logDeriv Gammaℝ (2 + t * I) +
+              (NumberField.InfinitePlace.nrComplexPlaces K : ℂ) * logDeriv Gammaℂ (2 + t * I)) *
+            (mellin φ (2 + t * I) + mellin φ (1 - (2 + t * I)))) -
+          ∑' 𝔞 : (Ideal (NumberField.RingOfIntegers K))⁰,
+            TauCeti.IdealArithmeticFunction.vonMangoldt (K := K) 𝔞 *
+              (φ (Ideal.absNorm (𝔞 : Ideal (NumberField.RingOfIntegers K))) +
+                φ ((Ideal.absNorm (𝔞 : Ideal (NumberField.RingOfIntegers K)) : ℝ))⁻¹ /
+                  (Ideal.absNorm (𝔞 : Ideal (NumberField.RingOfIntegers K)) : ℂ)) :=
+  sorry
+
 /-- **Layer 8.4 at `K = ℚ`, the Weil explicit formula.** For `φ` smooth with compact support in
 `(0, ∞)` and Mellin transform `φ̃`, the family `ρ ↦ m_ρ φ̃(ρ)` over the zeros of the completed
 zeta function is summable, and
@@ -330,6 +396,49 @@ theorem primeIdealCount_effective (K : Type*) [Field K] [NumberField K] :
             {P : IsDedekindDomain.HeightOneSpectrum (𝓞 K) |
               (Ideal.absNorm P.asIdeal : ℝ) ≤ x} : ℝ) - TauCeti.Real.logIntegral x)
         =O[atTop] fun x ↦ x * Real.exp (-c * Real.sqrt (Real.log x)) := sorry
+
+/-- **Layer 8.6, the Weil explicit formula for a nontrivial primitive ray-class character.** Let
+`ψ ≠ 1` be a primitive finite-order ray-class character of a number field `K` with `r₁` real and
+`r₂` complex places, of conductor `𝔣` with finite part `𝔣₀` and set `𝔣_∞` of real places, and `φ`
+smooth with compact support in `(0, ∞)`, with Mellin transform `φ̃`. With `m_ρ` the multiplicity of
+`ρ` as a zero of `L(ψ, s) = heckeLFunctionC ψ.character` in the open strip `0 < Re ρ < 1`, the
+family `ρ ↦ m_ρ φ̃(ρ)` over `ℂ` is summable, and
+`∑_ρ m_ρ φ̃(ρ) = log(|d_K| 𝔑𝔣₀) φ(1) + A_ψ(φ) − ∑_𝔞 Λ_K(𝔞) (ψ(𝔞) φ(𝔑𝔞) + conj ψ(𝔞) φ(1/𝔑𝔞)/𝔑𝔞)`,
+the last sum over the nonzero ideals of `𝓞 K`, with `ψ(𝔞) = 0` for `𝔞` not prime to `𝔣₀`, where
+`A_ψ(φ) = (2π)⁻¹ ∫ (logDeriv γ_ψ)(2 + it) (φ̃(2 + it) + φ̃(−1 − it)) dt` for the gamma factor
+`γ_ψ(s) = Γℝ(s + 1)^{#𝔣_∞} Γℝ(s)^{r₁ − #𝔣_∞} Γℂ(s)^{r₂}`. The completion
+`Λ(ψ, s) = (|d_K| 𝔑𝔣₀)^{s/2} γ_ψ(s) L(ψ, s)` is entire, which is why there is no pole term, and
+`Λ(ψ, s) = W(ψ) Λ(ψ⁻¹, 1 − s)`; the reflection to `ψ⁻¹`, of the same conductor and gamma factor,
+puts `conj ψ(𝔞)` in the second prime term. The shift at a real place `w` is the real parity at `w`
+of the Hecke character of `ψ`, the shift of the L-functions roadmap's `heckeData`, and it is `1`
+exactly when `w ∈ 𝔣_∞` (Tau Ceti `HeckeCharacter.mem_conductor_infinitePart_iff`). At `ψ = 1` the
+formula is `dedekindZeta_weilExplicitFormula`, which has the pole terms `φ̃(0) + φ̃(1)`. -/
+theorem heckeLFunction_weilExplicitFormula (K : Type*) [Field K] [NumberField K]
+    (ψ : TauCeti.LFunctions.PrimitiveRayClassCharacter K) (hψ : ψ ≠ 1) (φ : ℝ → ℂ)
+    (hφ : ContDiff ℝ ∞ φ) (hsupp : HasCompactSupport φ) (hpos : tsupport φ ⊆ Ioi 0) :
+    Summable (fun ρ : ℂ ↦ (Ioo (0 : ℝ) 1 ×ℂ univ).indicator (fun ρ ↦
+        ((MeromorphicOn.divisor (TauCeti.LFunctions.heckeLFunctionC ψ.character) univ ρ).toNat :
+          ℂ) * mellin φ ρ) ρ) ∧
+      ∑' ρ : ℂ, (Ioo (0 : ℝ) 1 ×ℂ univ).indicator (fun ρ ↦
+        ((MeromorphicOn.divisor (TauCeti.LFunctions.heckeLFunctionC ψ.character) univ ρ).toNat :
+          ℂ) * mellin φ ρ) ρ =
+        (Real.log (|(NumberField.discr K : ℝ)| *
+            (Ideal.absNorm ψ.conductor.finitePart : ℝ)) : ℂ) * φ 1 +
+          (2 * π : ℂ)⁻¹ * (∫ t : ℝ,
+            ((ψ.conductor.infinitePart.card : ℂ) * logDeriv Gammaℝ (3 + t * I) +
+              ((NumberField.InfinitePlace.nrRealPlaces K - ψ.conductor.infinitePart.card : ℕ) :
+                ℂ) * logDeriv Gammaℝ (2 + t * I) +
+              (NumberField.InfinitePlace.nrComplexPlaces K : ℂ) * logDeriv Gammaℂ (2 + t * I)) *
+            (mellin φ (2 + t * I) + mellin φ (1 - (2 + t * I)))) -
+          ∑' 𝔞 : (Ideal (NumberField.RingOfIntegers K))⁰,
+            TauCeti.IdealArithmeticFunction.vonMangoldt (K := K) 𝔞 *
+              (ψ.character.toMultiplicativeIdealWeight (𝔞 : Ideal (NumberField.RingOfIntegers K)) *
+                  φ (Ideal.absNorm (𝔞 : Ideal (NumberField.RingOfIntegers K))) +
+                (starRingEnd ℂ) (ψ.character.toMultiplicativeIdealWeight
+                    (𝔞 : Ideal (NumberField.RingOfIntegers K))) *
+                  φ ((Ideal.absNorm (𝔞 : Ideal (NumberField.RingOfIntegers K)) : ℝ))⁻¹ /
+                    (Ideal.absNorm (𝔞 : Ideal (NumberField.RingOfIntegers K)) : ℂ)) :=
+  sorry
 
 /-- **Layer 8.7, the effective prime count in a ray class.** For each degree `n` there is
 `c > 0` such that for every number field `K` of degree `n`, every modulus `𝔪` and every ray class
