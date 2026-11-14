@@ -108,8 +108,8 @@ The layers are built in order. Within S1.4 the spatial `2·dim.trg` bound preced
 | [S1](#layer-s1-the-exceptional-direct-image-for-spatial-eligible-maps) | `Rf_! = Rf‾_* ∘ j_!` for spatial-eligible maps | Independence of the compactification, the `3·dim.trg` and `2·dim.trg` bounds, proper diamonds of `dim.trg ≤ 0`, base change, composition, projection formula, sums (ECD 22.4–22.12) |
 | [S2](#layer-s2-the-exceptional-direct-image-for-eligible-maps-of-small-v-stacks) | `Rf_!` for eligible maps of small v-stacks | Proper-support left Kan extension, the hypercover construction and its independence, base change, colimits, composition, projection formula and their coherences (ECD 22.13–22.23) |
 | [S3](#layer-s3-the-exceptional-inverse-image) | `Rf^!` as the right adjoint of `Rf_!` | Change of rings, Verdier duality, `Rf^!` of an internal `Hom`, composition, `Rf^! = f^*` for étale maps, exceptional base change, traces and twisted pullbacks (ECD 23.1–23.3, 23.16(i)) |
-| [S4](#layer-s4-cohomologically-smooth-morphisms) | `ℓ`-cohomologically smooth maps | The strictly local criteria, the direct-sum criterion, the practical criterion, universal openness, the dualizing complex, composition and descent, smooth base change (ECD 23.4–23.17) |
-| [S5](#layer-s5-examples-of-cohomologically-smooth-morphisms) | Examples | The perfectoid ball, Tate twists, profinite quotients, smooth analytic maps, `Spd ℚ_p`, the geometric-base criterion (ECD 24.1–24.6) |
+| [S4](#layer-s4-smoothness-criteria-the-dualizing-complex-permanence-and-smooth-base-change) | `ℓ`-cohomologically smooth maps | The strictly local criteria, the direct-sum criterion, the practical criterion, universal openness, the dualizing complex, composition and descent, smooth base change (ECD 23.4–23.17) |
+| [S5](#layer-s5-smoothness-of-the-ball-of-profinite-quotients-and-of-smooth-analytic-maps) | Examples | The perfectoid ball, Tate twists, profinite quotients, smooth analytic maps, `Spd ℚ_p`, the geometric-base criterion (ECD 24.1–24.6) |
 | [S6](#layer-s6-biduality-finiteness-and-conservativity-over-a-geometric-point) | Duality over `Spa(C, O_C)` | Biduality, finiteness, `ℓ`-power-torsion coefficients, conservativity, the counterexamples over `Spa(C, C⁺)` (ECD 25.1–25.6) |
 
 ## Layer S0: Compactifiable and eligible morphisms
@@ -699,7 +699,7 @@ For a commutative ring `Λ` and finite set `I`, prove that summation after the d
 
 Layer S2; `DiamondEtaleCohomology` C2, C3, C5; `EnhancedDerivedSheaves` E3; Mathlib's closed monoidal categories and conjugate adjunctions.
 
-## Layer S4: Cohomologically smooth morphisms
+## Layer S4: Smoothness criteria, the dualizing complex, permanence and smooth base change
 
 A separated map representable in locally spatial diamonds is `ℓ`-cohomologically smooth if, after every base change to a strictly totally disconnected space, `Rf^!` is the twist of `f^*` by an invertible object. This layer first proves the criteria of ECD 23.4–23.7 over strictly totally disconnected bases, then defines smoothness and proves the practical criterion. It goes on to universal openness, the dualizing complex and its base change, composition, descent and v-locality, and finally smooth base change and the exchange of `Rf^!` with smooth pullback (ECD 23.8–23.17). From Section S4.2 on, `ℓ ≠ p` is a fixed prime.
 
@@ -931,7 +931,7 @@ In this section all maps are separated maps of small v-stacks and `ℓ ≠ p`.
 
 Layers S0–S3; `DiamondsAndVStacks` D0, D1, D3, D4, D5; `DiamondEtaleCohomology` C0, C2, C3, C6, C7, C8, C9; `EnhancedDerivedSheaves` E3; `ClassicalAdicEtaleCohomology`, Section 10.5 (one example); Mathlib `LocallyConstant.freeOfProfinite`.
 
-## Layer S5: Examples of cohomologically smooth morphisms
+## Layer S5: Smoothness of the ball, of profinite quotients and of smooth analytic maps
 
 The basic smooth map is the perfectoid ball `B → *`, with dualizing complex `Λ(1)[2]`. Its smoothness is checked through the practical criterion against Huber's trace and duality for curves. Smoothness then passes to quotients by profinite groups of pro-order prime to `ℓ`, free and non-free; this gives smooth morphisms of analytic adic spaces, through the compatible-root torus, and `(Spa ℚ_p)^♢ → *`, through the punctured disc. The layer ends with a criterion over a general perfectoid base (ECD 24.1–24.6). Throughout, `ℓ ≠ p`.
 
