@@ -10,7 +10,7 @@ import TauCeti.InformationTheory.Coding.Weight.Enumerator
 finishes neither a layer nor the roadmap.
 
 The statements on the pinned carriers are positive-degree integral-homology finiteness and
-order-annihilation, the Hall-coinvariant comparison (RS.0), the two-adic survival criterion
+the Hall-coinvariant comparison (RS.0), the two-adic survival criterion
 for a finite abelian power equation and the integer-degree generating series (RS.4), and
 the index-two, Künneth, exterior-square and ordinary anti-diagonal multiplier comparisons
 (RS.6). The filtration and threshold use Tau Ceti's square quotient; the anti-diagonal
@@ -92,10 +92,13 @@ def sumKernelModel (G : Type) [Group G] : Subgroup (SwapWreath G) :=
         Abelianization.of x.1 * Abelianization.of x.2
       exact mul_comm _ _)).ker
 
-/-- RS.0.2: positive-degree integral homology of a finite group is killed by its order. -/
-theorem integralHomology_card_smul (G : Type) [Group G] [Finite G] (n : ℕ)
-    (z : groupHomology (Rep.trivial ℤ G ℤ) (n + 1)) : Nat.card G • z = 0 := by
-  sorry
+/-- The inclusion `G → F(G)`, `g ↦ ((g, g⁻¹), 1)`, of an abelian group as the base of its
+anti-diagonal model (RS.6.8). -/
+def antidiagonalInclusion (G : Type) [CommGroup G] : G →* sumKernelModel G :=
+  ((SemidirectProduct.inl (φ := swapAction G)).comp
+    ((MonoidHom.id G).prod invMonoidHom)).codRestrict (sumKernelModel G) (by
+    intro g
+    simp [sumKernelModel, MonoidHom.mem_ker, abelianizedSum])
 
 /-- RS.0.2: positive-degree integral homology of a finite group is finite. -/
 theorem integralHomology_finite (G : Type) [Group G] [Finite G] (n : ℕ) :
@@ -172,9 +175,9 @@ theorem multiplier_prod_abelian (A B : Type) [CommGroup A] [CommGroup B] :
           (0, 0, Additive.ofMul a ⊗ₜ[ℤ] Additive.ofMul b)) := by
   sorry
 
-/-- RS.6.8: the integral multiplier of a finite abelian group is its exterior square,
+/-- RS.6.8: the integral multiplier of an abelian group is its exterior square,
 sending each exterior product to its oriented commuting-pair class. -/
-theorem abelian_multiplier_exteriorSquare (A : Type) [CommGroup A] [Finite A] :
+theorem abelian_multiplier_exteriorSquare (A : Type) [CommGroup A] :
     ∃ e : (⋀[ℤ]^2 (Additive A)) ≃+ Multiplier A,
       ∀ (a b : A) (z : groupHomology.cycles₂ (Rep.trivial ℤ A ℤ)),
         (z : A × A →₀ ℤ) = Finsupp.single (a, b) 1 - Finsupp.single (b, a) 1 →
@@ -182,10 +185,13 @@ theorem abelian_multiplier_exteriorSquare (A : Type) [CommGroup A] [Finite A] :
           groupHomology.H2π (Rep.trivial ℤ A ℤ) z := by
   sorry
 
-/-- RS.6.8: the ordinary integral multiplier of the anti-diagonal model of a finite
-abelian group of odd order is isomorphic to the multiplier of its base. -/
+/-- RS.6.8: for a finite abelian group of odd order, the inclusion of the base into its
+anti-diagonal model induces an isomorphism of ordinary integral multipliers. -/
 theorem antidiagonal_multiplier (G : Type) [CommGroup G] [Finite G]
-    (hodd : Odd (Nat.card G)) : Nonempty (Multiplier (sumKernelModel G) ≃+ Multiplier G) := by
+    (hodd : Odd (Nat.card G)) :
+    Function.Bijective (groupHomology.map
+      (A := Rep.trivial ℤ G ℤ) (B := Rep.trivial ℤ (sumKernelModel G) ℤ)
+      (antidiagonalInclusion G) (Rep.ofHom ⟨LinearMap.id, by intro g; rfl⟩) 2) := by
   sorry
 
 end TauCetiRoadmap.InductionRestrictionPartII

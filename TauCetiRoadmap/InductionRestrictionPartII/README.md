@@ -23,7 +23,7 @@ beside `TauCeti/RepresentationTheory/Homological/GroupHomology/`.
 ## Scope and ownership
 
 This roadmap owns the full low-degree homology exactness theorem for a central extension,
-finiteness and order-annihilation in every positive homological degree, and the isomorphism from
+finiteness in every positive homological degree, and the isomorphism from
 a normal Hall subgroup's multiplier coinvariants to the corresponding primary part of the
 ambient multiplier. It adds the power law for commuting-pair classes, local normalization within
 one inertia class, and the image equality for reduced-cover homology. It owns the restriction of
@@ -44,7 +44,8 @@ The following objects and results are supplied elsewhere and enter only as prere
   the kernel of a Schur cover and `H₂(G, ℤ)`. Induction and Mackey theory themselves are not used.
 - **Mathlib** supplies integral group-homology carriers, chain differentials, abelianization,
   semidirect products and finite linear algebra. **Tau Ceti** supplies elementary-2 quotients,
-  factor-set conventions, homological transfer and nonempty homomorphism-fiber cardinalities.
+  factor-set conventions, homological transfer, the annihilation of positive-degree homology of a
+  finite group by its order, and nonempty homomorphism-fiber cardinalities.
 - **ProfiniteArithmetic, Layer 0** supplies the profinite-integer ring and its units. The action
   used here is the finite-level action supplied by IG.3.5; there is no second profinite carrier.
 - **AlgebraicTopology, Stage 2, relative singular chains and homology** supplies singular
@@ -94,7 +95,7 @@ The following objects and results are supplied elsewhere and enter only as prere
 
 ## Exact supplier contracts
 
-### From Mathlib (pinned 6b7abb3)
+### From Mathlib (pinned 1b1ccf4)
 
 - `GroupExtension`, `GroupExtension.Section`, `GroupExtension.Splitting`
   (`Mathlib/GroupTheory/GroupExtension/Defs.lean`): an injective `inl`, a surjective `rightHom` and
@@ -126,7 +127,7 @@ The following objects and results are supplied elsewhere and enter only as prere
   `AddCommGroup.primaryComponent`, `Representation.Coinvariants`, `LinearMap.finrank_range_add_finrank_ker`,
   `Module.card_eq_pow_finrank`.
 
-### From Tau Ceti (pinned a91d3aa)
+### From Tau Ceti (pinned 2fd255d)
 
 - `TauCeti.ElementaryTwoQuotient G` for a commutative group `G`, the `ZMod 2`-module
   `ModN (Additive G) 2`, and `TauCeti.elementaryTwoQuotientMk`,
@@ -141,7 +142,7 @@ The following objects and results are supplied elsewhere and enter only as prere
   compatibility from centrality. The supplied class map uses this sign.
 - `TauCeti.FactorSet.characterTransgression` and
   `TauCeti.FactorSet.characterTransgression_injective_of_range_inl_le_commutator`
-  (`TauCeti/GroupTheory/GroupExtension/Character.lean`) send a kernel character `χ` to the
+  (`TauCeti/GroupTheory/GroupExtension/Character/Basic.lean`) send a kernel character `χ` to the
   cohomology class of `χ ∘ φ`, and prove this map injective when the kernel lies in the
   commutator subgroup and the coefficient action is trivial. They require neither finiteness
   nor divisibility. The finite Schur-cover comparison below uses coefficients `ℂˣ`.
@@ -151,12 +152,25 @@ The following objects and results are supplied elsewhere and enter only as prere
   `Hₙ(G,M) → Hₙ(H,Res M)` for a finite-index subgroup `H`, in every degree, and
   `transfer M H n ≫ groupHomology.map H.subtype (𝟙 (Rep.res H.subtype M)) n = [G:H] • 𝟙`.
   Thus corestriction after transfer is multiplication by the index. RS.0.3 adds the opposite-composite
-  norm formula for a normal subgroup, with the hypotheses stated there.
+  norm formula for a normal subgroup, with the hypotheses stated there. The same file proves
+  `groupHomology.natCard_nsmul_eq_zero` (root `groupHomology` namespace): for a finite group `G`
+  and any representation `A` over a commutative ring, `Nat.card G • x = 0` for every
+  `x ∈ Hₙ₊₁(G, A)`.
 - `Set.weightPolynomial`, `Set.coeff_weightPolynomial` and `Set.eval_one_weightPolynomial`
   (`TauCeti/InformationTheory/Coding/Weight/Enumerator.lean`) apply to arbitrary finite sets of
   words, including affine cosets. For `C : Set (Fin N → ZMod 2)`, the polynomial lies in
   `Polynomial ℤ`, its coefficient at `w` is the number of words of Hamming weight `w`, and
   evaluation at `1` is `Nat.card C`. No linear-subspace hypothesis is required.
+- `groupHomology.exists_map_subtype_eq` and
+  `TauCeti.groupHomology.exists_chainsMap_subtype_f_eq_of_directed`
+  (`TauCeti/RepresentationTheory/Homological/GroupHomology/DirectedUnion.lean`): for a directed
+  family of subgroups with supremum `G`, every homology class of `G` is the image of a class of one
+  member under the inclusion, and every inhomogeneous chain of `G` is the image of a chain of one
+  member. They do not identify the homology of `G` with the colimit; RS.6.8 derives the injectivity
+  it needs from the chain statement. `TauCeti.isZero_groupHomology_pi_multiplicative_int`
+  (`TauCeti/AlgebraicTopology/ClassifyingSpace/Torus.lean`): for finite `ι`, the homology of
+  `ι → Multiplicative ℤ` with trivial coefficients vanishes above degree `card ι`; one coordinate
+  gives `M(ℤ)=0`.
 - `MonoidHom.subtypeFiberEquivKer`, `MonoidHom.card_fiber_eq_card_ker` and
   `MonoidHom.finite_fiber` (`TauCeti/GroupTheory/Coset/Fiber.lean`) identify the actual subtype
   `{x // f x = b}` with the kernel after a point of that fiber is given, count its elements, and
@@ -286,17 +300,16 @@ The headline statements in `Suggested.lean` are:
 | Lean theorem | Roadmap statement on pinned carriers |
 | --- | --- |
 | `integralHomology_finite` | RS.0.2: finiteness of integral homology in every positive degree. |
-| `integralHomology_card_smul` | RS.0.2: the group order annihilates integral homology in every positive degree. |
 | `multiplier_hallPart` | RS.0.3: inclusion identifies Hall-subgroup multiplier coinvariants with the ambient Hall-primary part. |
 | `two_adic_survival` | RS.4.10: the finite abelian power equation is solvable exactly at the obstruction threshold. |
 | `parity_degree_generatingSeries` | RS.4.18: the translated weight polynomial counts integer degrees with a coordinate lower bound. |
 | `odd_index_two_reduction` | RS.6.1: the full multiplier is the odd-order subgroup's conjugation coinvariants, and has odd order. |
 | `multiplier_prod_abelian` | RS.6.8: the degree-two Künneth comparison, including the oriented tensor summand. |
-| `abelian_multiplier_exteriorSquare` | RS.6.8: the exterior square identifies with the finite abelian multiplier through oriented cycles. |
-| `antidiagonal_multiplier` | RS.6.8: the ordinary integral multiplier of the anti-diagonal model identifies with that of its base. |
+| `abelian_multiplier_exteriorSquare` | RS.6.8: the exterior square identifies with the multiplier of every abelian group through oriented cycles. |
+| `antidiagonal_multiplier` | RS.6.8: the inclusion of an odd-order abelian base into its anti-diagonal model induces an isomorphism of ordinary integral multipliers. |
 
 The file defines `Multiplier`, `torsionImageFiltration`, `obstructionThreshold`, `C₂`,
-`swapAction`, `SwapWreath`, `abelianizedSum` and `sumKernelModel` to state these results on
+`swapAction`, `SwapWreath`, `abelianizedSum`, `sumKernelModel` and `antidiagonalInclusion` to state these results on
 native homology, square-quotient and semidirect-product carriers. The full five-term sequence
 and reduced-cover homology image require the supplied section-cocycle class map and reduced
 cover. The kernel-action, marked fixed-fiber and surviving-parity theorems require the supplied
@@ -381,26 +394,21 @@ operations. Its Checks are `M(1)=0`, `M(C₃)=0`, and `M(C₂²)≅C₂`. The fi
 Mathlib's trivial- and finite-cyclic-group homology; the last follows from the exterior-square
 comparison of RS.6.8 and rejects an identically trivial multiplier.
 
-Prove, for a finite group `G` and `n ≥ 1`, on the carrier `groupHomology (Rep.trivial ℤ G ℤ) n`:
+Prove `integralHomology_finite`: for a finite group `G` and `n ≥ 1`, the group
+`groupHomology (Rep.trivial ℤ G ℤ) n` is finite. Its annihilation by `|G|` is Tau Ceti's
+`groupHomology.natCard_nsmul_eq_zero`, for any coefficients.
 
-- `integralHomology_finite`: the group is finite;
-- `integralHomology_card_smul`: `Nat.card G • z = 0` for every element `z`.
+IG.3.4 *Coprime semidirect products and admissible inertia*, item 1, states the degree-two case (finiteness and exponent dividing `|G|`) for `G = H ⋊ Γ`; this target proves finiteness for every finite group in every positive degree, and the later layers cite `groupHomology.natCard_nsmul_eq_zero` for the exponent bound. Degree zero is excluded: `H₀(G, ℤ) = ℤ`.
 
-IG.3.4 *Coprime semidirect products and admissible inertia*, item 1, states the degree-two case (finiteness and exponent dividing `|G|`) for `G = H ⋊ Γ`; this target proves it for every finite group in every positive degree, and the later layers cite it for the exponent bound. Degree zero is excluded: `H₀(G, ℤ) = ℤ`.
-
-*Proof sketch.* Annihilation: apply corestriction after transfer to the trivial subgroup; the
-composite is multiplication by `[G : 1] = |G|` and factors through the homology of the trivial
-group, which vanishes in positive degrees
-(`isZero_groupHomology_succ_of_subsingleton`, in the root namespace). Tau Ceti supplies the
-transfer and this composite as `TauCeti.groupHomology.transfer` and
-`TauCeti.groupHomology.transfer_comp_map_subtype_id`
-(`TauCeti/RepresentationTheory/Homological/GroupHomology/Transfer/Basic.lean`). Finiteness: the chain module `(Fin n → G) →₀ ℤ` is finite free, so its homology is a finitely
-generated abelian group, and a finitely generated abelian group of finite exponent is finite.
-*Needs:* Mathlib `groupHomology`, `isZero_groupHomology_succ_of_subsingleton`,
-`groupHomology.inhomogeneousChains`.
+*Proof sketch.* The chain module `(Fin n → G) →₀ ℤ` is finite free, so its homology is a finitely
+generated abelian group. By `groupHomology.natCard_nsmul_eq_zero` (corestriction after transfer to
+the trivial subgroup) it has finite exponent, and a finitely generated abelian group of finite
+exponent is finite. *Needs:* Mathlib `groupHomology`, `groupHomology.inhomogeneousChains`; Tau Ceti
+`groupHomology.natCard_nsmul_eq_zero`
+(`TauCeti/RepresentationTheory/Homological/GroupHomology/Transfer/Basic.lean`).
 
 *Source.* Löh, *Group Cohomology*, Theorem 1.7.15 (transfer), p. 64, and its application to the
-trivial subgroup in the proof of Corollary 1.7.16, pp. 64–65.
+trivial subgroup in the proof of Corollary 1.7.16, pp. 64–65, for the exponent bound.
 
 **Checks.**
 
@@ -432,7 +440,8 @@ range of inclusion-induced homology and sends each coinvariant class to that inc
 This range consists exactly of elements killed by some power of `|H|`, specifying the Hall
 primary part without a separate carrier.
 
-*Proof sketch.* `M(G)` is finite of exponent dividing `|G|` (RS.0.2), so it splits into its primary
+*Proof sketch.* `M(G)` is finite (RS.0.2) of exponent dividing `|G|`
+(`groupHomology.natCard_nsmul_eq_zero`), so it splits into its primary
 parts (Mathlib's finite abelian primary decomposition). Write `m = [G : H]`. Corestriction after
 transfer is `m` (pinned Tau Ceti `transfer_comp_map_subtype_id`); transfer after corestriction on
 `M(H)` is the norm `Σ_(gH ∈ G/H) (c_g)_*` (the chain-level formula for the transfer, Löh §1.7.3, pp.
@@ -443,7 +452,8 @@ orders every `E²_(p,q)` with `p, q > 0` vanishes, and the possible differential
 subquotient of `H₃(Γ, ℤ)` (killed by `|Γ|`) into `M(H)_Γ` (killed by `|H|`) is zero. *Needs:*
 RS.0.2; Mathlib `groupHomology.map`, `groupHomology.map_comp`, `Representation.Coinvariants`,
 `SemidirectProduct`, `AddCommGroup.equiv_directSum_zmod_of_finite`; pinned Tau Ceti
-`TauCeti.groupHomology.transfer`, `TauCeti.groupHomology.transfer_comp_map_subtype_id`.
+`TauCeti.groupHomology.transfer`, `TauCeti.groupHomology.transfer_comp_map_subtype_id`,
+`groupHomology.natCard_nsmul_eq_zero`.
 
 *Source.* Löh, *Group Cohomology*, Theorem 1.7.15, p. 64, and the chain-level description of the
 transfer, pp. 63–64; for the spectral-sequence route, Theorem 3.2.12, p. 123, and Proposition
@@ -472,7 +482,7 @@ inversion on the second exterior power is the identity.
 ### Dependencies
 
 IG.3.4's class map, universal coefficients and primary/complement comparison; pinned Tau Ceti
-homological transfer; Mathlib integral group homology, abelianization and finite abelian groups.
+homological transfer and `groupHomology.natCard_nsmul_eq_zero`; Mathlib integral group homology, abelianization and finite abelian groups.
 
 ## Layer RS.1: Power laws, local normalization and the reduced-cover homology image
 
@@ -650,9 +660,9 @@ element of `U(G,c)`. The same holds for `K` and its degree lattice.
 *Proof sketch.* The exponent of `M(G)` divides |G|, so the exponent of `S_c` divides `|G|²`. Power
 residues and class permutations are determined at that level; apply the coordinate formula. For a
 general marked central model, assume explicitly that every element of its kernel is killed by |G|.
-This gives the same exponent bound for its cover. The reduced-multiplier case uses the annihilation bound `integralHomology_card_smul` of RS.0.2.
+This gives the same exponent bound for its cover. The reduced-multiplier case uses the annihilation bound `groupHomology.natCard_nsmul_eq_zero` of Tau Ceti.
 
-*Needs:* IG.3.5 *The discrete action of units*; RS.0.2 (`integralHomology_card_smul`), which supplies the kernel exponent bound.
+*Needs:* IG.3.5 *The discrete action of units*; Tau Ceti `groupHomology.natCard_nsmul_eq_zero`, which supplies the kernel exponent bound.
 
 *Source.* Wood, *An algebraic lifting invariant of Ellenberg, Venkatesh, and Westerland* (2021),
 author copy, Remark 4.1, author PDF p.8.
@@ -761,7 +771,8 @@ extensions* (2024), §12, published version pp. 104–105; arXiv v2 pp. 46–48.
 
 ### Dependencies
 
-IG.3.4–IG.3.5's marked model, unit action and twist; RS.0.2's annihilation bound; Mathlib `ZMod`, `Finsupp.domCongr`,
+IG.3.4–IG.3.5's marked model, unit action and twist; Tau Ceti's annihilation bound
+`groupHomology.natCard_nsmul_eq_zero`; Mathlib `ZMod`, `Finsupp.domCongr`,
 `MulActionHom`, orbit relations.
 
 ## Layer RS.4: Fixed fibers, square obstructions and parity
@@ -1572,9 +1583,11 @@ onto the reflections.
 
 *Construction.* Define the swap action `swapAction G : C₂ →* MulAut (G × G)` through
 `MulEquiv.prodComm`, form `SwapWreath G = (G × G) ⋊ C₂`, and take `F(G)` to be the kernel of `((a,b),t) ↦ ab`, a homomorphism because `G` is commutative. This is the sum-kernel model of RS.6.9 for abelian `G`,
-and `Suggested.lean` states its ordinary-homology comparison using `sumKernelModel G`.
-Its marking is the outside involution set. *Needs:*
-Mathlib `SemidirectProduct`, `MulEquiv.prodComm`, `DihedralGroup`, `MonoidHom.range`.
+and `Suggested.lean` states its ordinary-homology comparison using `sumKernelModel G` and the
+inclusion of the base `antidiagonalInclusion G : G →* sumKernelModel G`, `g ↦ ((g,g⁻¹),1)`, whose
+image is the kernel of `ρ`. Its marking is the outside involution set. *Needs:*
+Mathlib `SemidirectProduct`, `MulEquiv.prodComm`, `DihedralGroup`, `MonoidHom.range`,
+`MonoidHom.prod`, `invMonoidHom`, `MonoidHom.codRestrict`.
 
 *Source.* Wood, *Nonabelian Cohen–Lenstra moments* (2019), introduction, printed pp. 378–379, for
 the admissibility conditions and this model for abelian groups; §8.2, Table 2, p. 419.
@@ -1608,6 +1621,9 @@ additive residues; the trailing 1 denotes the identity of the swap group.
 - The outside involution set excludes the identity, includes the pure swap, and in `SwapWreath C₃`
   excludes ((1,0),swap), whose square is `((1,1),1)≠1`. Checking the outside coordinate alone
   would admit that last element.
+- `antidiagonalInclusion` for `C₃` sends 1 to ((1,2),1), which lies in the sum kernel, and the
+  pure swap conjugates it to ((2,1),1), the image of 2 = −1: conjugation acts on the base by
+  inversion. The diagonal map `g ↦ ((g,g),1)` would send 1 to ((1,1),1), outside the sum kernel.
 
 Prove that the marking generates: for every abelian `G`, the set `c(G)` generates `F(G)`. The product
 of two outside elements `((a,a⁻¹),t)((b,b⁻¹),t)` is `((ab⁻¹,(ab⁻¹)⁻¹),1)`. For finite `G` of
@@ -1621,26 +1637,36 @@ Prove the reduced-multiplier formula for the anti-diagonal model: for finite abe
 M(F(G), c(G)) = M(F(G)) ≅ M(G) ≅ Λ²G,
 ```
 
-The native ordinary-homology comparison is `antidiagonal_multiplier`: `M(F(G)) ≅ M(G)`. Here `Λ²G`
+The native ordinary-homology comparison is `antidiagonal_multiplier`: the map `M(G) → M(F(G))`
+induced by `antidiagonalInclusion` is bijective. Here `Λ²G`
 is the exterior square of the `ℤ`-module `G`. Concretely, for `G = ⊕ᵢ C_{nᵢ}` the multiplier is
 `⊕_{i<j} C_{gcd(nᵢ,nⱼ)}`.
 
-*Proof sketch.* The kernel of `ρ` is `G`, of odd order, so RS.6.1 gives `M(F,c) = M(F) ≅ M(G)_{C₂}`, where
-`C₂` acts through inversion on `G`. Prove the degree-two Künneth comparison
+*Proof sketch.* The kernel of `ρ` is the image of `antidiagonalInclusion`, a copy of `G` of odd
+order, so RS.6.1 gives `M(F,c) = M(F) ≅ M(G)_{C₂}`, compatibly with the map induced by the
+inclusion, where `C₂` acts through inversion on `G`. Prove the degree-two Künneth comparison
 `multiplier_prod_abelian`: `M(A × B) ≅ M(A) ⊕ M(B) ⊕ (A ⊗ B)` for abelian `A, B`, with the
 tensor summand carried by the cross-factor commuting-pair cycles. The map
 `abelian_multiplier_exteriorSquare` uses Mathlib's `⋀[ℤ]^2 (Additive G)` and sends `a∧b` to `⟨a,b⟩`. The boundary calculation of RS.1.1
-makes it bilinear, and `⟨a,a⟩=0` makes it alternating. A finite cyclic decomposition, the
-Künneth comparison and `M(C_n)=0` show that this map is an isomorphism for finite abelian `G`.
-Naturality follows from the supplied naturality of commuting-pair classes, independently of
-the chosen decomposition. Inversion therefore acts on `Λ²G` by `(−1)·(−1)=1`, so the coinvariants
-are all of `M(G)`. *Needs:* RS.6.1; RS.0.3; RS.1.1; Mathlib
-`Rep.FiniteCyclicGroup.groupHomologyIsoEven` (`M(C_n)=0`); the degree-two Künneth formula
+makes it bilinear, and `⟨a,a⟩=0` makes it alternating. Naturality in `G` follows from the supplied
+naturality of commuting-pair classes, independently of any decomposition. For finitely generated
+`G`, a decomposition into cyclic factors, the Künneth comparison, `M(C_n)=0` and `M(ℤ)=0` show
+that this map is an isomorphism. An arbitrary abelian `G` is the directed union of its finitely
+generated subgroups. Every class of `M(G)` comes from one of them, and a cycle of one of them that
+bounds in `G` already bounds in a larger one, since a chain involves finitely many group elements
+and chain maps along inclusions are injective; so the map is an isomorphism for every abelian
+`G`. By naturality, inversion acts on `Λ²G` by `(−1)·(−1)=1`, so the coinvariants are all of
+`M(G)` and the map induced by `antidiagonalInclusion` is bijective. *Needs:* RS.6.1; RS.0.3;
+RS.1.1; Mathlib `Rep.FiniteCyclicGroup.groupHomologyIsoEven` (`M(C_n)=0`) and
+`groupHomology.chainsMap_f_map_mono`; Tau Ceti `TauCeti.isZero_groupHomology_pi_multiplicative_int`
+(`M(ℤ)=0`, with one coordinate), `groupHomology.exists_map_subtype_eq` and
+`TauCeti.groupHomology.exists_chainsMap_subtype_f_eq_of_directed`; the degree-two Künneth formula
 `M(A×B) ≅ M(A) ⊕ M(B) ⊕ (A⊗B)`, which Mathlib lacks at the pin and which is proved as part
 of this target.
 
 *Source.* Löh, *Group Cohomology*, Corollary 3.2.23 (Künneth theorem for group homology), p. 136,
-and Corollary 1.6.13 (homology of finite cyclic groups), p. 49; Ellenberg–Venkatesh–Westerland,
+Corollary 1.6.13 (homology of finite cyclic groups), p. 49, and Corollary 1.6.23 (homology of free
+groups, giving `M(ℤ)=0`), pp. 56–57; Ellenberg–Venkatesh–Westerland,
 Example 9.3.2 (arXiv v1, p. 57), for the index-two reduction in this setting.
 
 **Checks.**
@@ -1651,10 +1677,16 @@ Example 9.3.2 (arXiv v1, p. 57), for the index-two reduction in this setting.
   `C₅, C₃` (rows 5, 19, 21).
 - Rank three: for `G = C₃³` the value is `C₃³` (row 25); a
   formula using `M(G) ⊗ ℤ/2` or the coinvariants of the inversion action on `G` itself would give 0.
+- Infinite base: for `G = ℤ²` both sides of the exterior-square comparison are infinite cyclic,
+  `Λ²ℤ² ≅ ℤ ≅ M(ℤ²)` (Löh, Example 3.2.24, p. 137), and `⟨e₁,e₂⟩` generates `M(ℤ²)`; for `G = ℤ`
+  both sides are 0. A comparison stated only for finite `G` would not cover these.
+- Even order: for `G = C₂`, `F(C₂) ≅ C₂ × C₂` and the map `M(C₂) = 0 → M(C₂ × C₂) ≅ C₂` induced by
+  `antidiagonalInclusion` is not onto, so the odd-order hypothesis of `antidiagonal_multiplier`
+  cannot be dropped.
 
 ### 6.9 Sum-kernel, graph and full wreath models (RS.6.9)
 
-These constructions realise the nonabelian rows. For any group `G`, let `W(G)=(G×G)⋊C₂` with the swap
+These constructions realise the models with nonabelian base in Wood's Table 2 (§8.2, p. 419). For any group `G`, let `W(G)=(G×G)⋊C₂` with the swap
 action as in RS.6.8.
 
 **`sumKernelModel`.** The map `W(G)→Gᵃᵇ`, `((a,b),t) ↦ [a][b]`, is a homomorphism (the target is
@@ -1772,7 +1804,8 @@ statements remain with the named arithmetic roadmaps.
   Table 2, p. 419; Appendix opening, p. 420. The freely readable
   [arXiv v2](https://arxiv.org/abs/1702.04644v2) has the same labels: §2.3 p. 8; Definition 3.1 p. 9;
   Lemmas 3.3–3.4 pp. 10–11; §4.1 pp. 17–19 (Proposition 4.1 and equation (5) p. 18, equation (6)
-  pp. 18–19 and Remark 4.2 p. 19); Table 2 p. 34; Appendix opening p. 35. Other parenthetical PDF
+  pp. 18–19 and Remark 4.2 p. 19); Appendix opening p. 35. Its unnumbered chart in §8.2, p. 34,
+  is Table 2 of the journal version. Other parenthetical PDF
   page numbers above refer to the journal copy.
 - Melanie Matchett Wood, *An algebraic lifting invariant of Ellenberg, Venkatesh, and Westerland*,
   Research in the Mathematical Sciences 8 (2021), Article 21 ([author
