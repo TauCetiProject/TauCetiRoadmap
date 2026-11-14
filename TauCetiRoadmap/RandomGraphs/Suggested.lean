@@ -236,11 +236,6 @@ theorem isFraisseLimit_radoGraph :
     @IsFraisseLimit Language.graph finiteGraphs.{0} ℕ TauCeti.radoGraph.structure _ _ := by
   sorry
 
-/-! ### Declarations named by the Mathlib proposals
-
-The graph-characterization proposal (mathlib4#20649) and the quantifier-elimination proposal
-(mathlib4#41113) fix these names and statements under `FirstOrder.Language`; they are declared here
-under the same paths relative to this namespace. -/
 
 /-- The graph-language extension property of the graph-characterization proposal: for disjoint
 finite sets `A` and `B` of vertices, some vertex outside `A ∪ B` is adjacent to every vertex of `A`
