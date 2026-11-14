@@ -55,9 +55,9 @@ Suggested home: `TauCeti/CategoryTheory/Monoidal/DavydovYetter/` for Layers 0 to
   - [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.2 owns the Artinian
     coefficient category and small extensions.
 - **Excluded.** Multifusion categories; non-semisimple finite tensor categories, where
-  Davydov–Yetter cohomology can be nonzero ([GHS] §5); counting tensor functors between two fixed
-  fusion categories ([ENO] Theorem 2.31); bimodule categories and Morita theory; weak Hopf
-  algebras; unitary structures.
+  Davydov–Yetter cohomology can be nonzero ([GHS] Remark 5.2, p. 35); counting tensor functors
+  between two fixed fusion categories ([ENO] Theorem 2.31, p. 9); bimodule categories and Morita
+  theory; weak Hopf algebras; unitary structures.
 
 ## Conventions
 
@@ -74,10 +74,10 @@ Suggested home: `TauCeti/CategoryTheory/Monoidal/DavydovYetter/` for Layers 0 to
   `CategoryTheory.Functor.mapExactPairing`.
 - **Centre of a functor.** For a monoidal functor `F : C ⥤ D`, a half-braiding relative to `F` on
   `X : D` is a natural family `β Y : X ⊗ F.obj Y ≅ F.obj Y ⊗ X`, in the direction of Mathlib's
-  `HalfBraiding`, compatible with `F`'s tensorator `μ` and unit as in [GHS] (3.7) and (3.9).
+  `HalfBraiding`, compatible with `F`'s tensorator `μ` and unit as in [GHS] (3.7) and (3.9), p. 13.
 - **Tensor powers.** The n-fold tensor functor Tₙ(F) : (Fin n → C) ⥤ D sends `(X₀, …, X_{n−1})` to
   `F X₀ ⊗ (F X₁ ⊗ (⋯ ⊗ F X_{n−1}))`, right-nested, with T₀(F) = 𝟙_D.
-- **Davydov–Yetter cochains** ([GHS] Definition 3.3, (3.10)–(3.12)). For X, Y ∈ Z(F) the
+- **Davydov–Yetter cochains** ([GHS] Definition 3.3, (3.10)–(3.12), p. 14). For X, Y ∈ Z(F) the
   `n`-cochains are the natural transformations
   X ⊗ Tₙ(F)(−) ⟶ Tₙ(F)(−) ⊗ Y. The differential of `f`
   at `(X₀, …, Xₙ)` is
@@ -148,7 +148,8 @@ Each item is implemented at the pin.
 
 ### From other roadmaps, as targets
 
-- PivotalSpherical: 3.3 `IsSplitSimpleFamily` and its dual-basis API; 6.1 `squaredNorm`, 6.2 `normGlobalDim` and `normGlobalDim_eq_globalDim`, 6.9
+- PivotalSpherical: 3.3 `IsSplitSimpleFamily` and its dual-basis API; 6.1 `doubleDualTrace` and
+  `squaredNorm`, 6.2 `normGlobalDim` and `normGlobalDim_eq_globalDim`, 6.9
   `normGlobalDim_ne_zero` in characteristic zero, 11.1 the induction functor `I` of the absolute
   centre, 11.2 its averaging identity.
 - PresentationsOfMonoidalCategories: Layers 0 to 5 (`FSymbols`, `RSymbols`, `map`, `reindex`,
@@ -294,6 +295,13 @@ C*-tensor categories, CategoricalOperatorAlgebras CA6's unitary relative centre 
 a monoidal category, to the full subcategory of Z(F) on unitary half-braidings. *Needs:*
 1.1; CategoricalOperatorAlgebras CA6.
 
+**Checks.**
+
+- For `F = id` on `C₂`-graded finite-dimensional Hilbert spaces, a half-braiding on `𝟙 ⊕ 𝟙` is
+  determined by its component at `g`, an involution `A` of the underlying two-dimensional space.
+  `A = [[1,1],[0,−1]]` has `A² = 1` but `A A* = [[2,−1],[−1,1]] ≠ 1`,
+  so this object of Z(F) lies outside the unitary subcategory, while `diag(1,−1)` lies inside.
+
 ### 1.4 Induction
 
 Define induction I_F : D ⥤ Z(F), with underlying object
@@ -333,17 +341,22 @@ Neither adjunction involves a choice. *Needs:* 1.2.
 For each simple `T` choose `a_T : T ≅ Tᘁᘁ`; its left mate is
 `ᘁa_T.hom : Tᘁ ⟶ ᘁT`, using the canonical mixed-dual identifications. Define
 θ : L_F ≅ I_F by setting its inverse on the last factor of the `T`-summand
-to `(doubleDualTrace a_T.hom)⁻¹ • F.map (ᘁa_T.hom)`, and define `θ.hom` by inversion.
-The trace is nonzero by PivotalSpherical 6.1. The comparison is a morphism in Z(F)
+to `doubleDualTrace (a_T.inv)ᘁ • F.map (ᘁa_T.hom)`, the scalar being the second factor of
+`squaredNorm a_T`, and define `θ.hom` by inversion. The scalar is nonzero by PivotalSpherical
+6.1 applied to the simple `Tᘁ`. The comparison is a morphism in Z(F)
 and does not depend on the choices. *Needs:* 1.4, 1.5; PivotalSpherical 6.1.
 
 **Checks.**
 
-- in `Vec` over ℂ, `a = 3 • can` has mate factor `3` and trace `3`, giving
-  `θ.inv = 3/3 = 1` and `θ.hom = 1`, as for `a = can`; scaling the inverse mate instead gives
-  `1/9`, which fails choice independence.
-- For the two-dimensional simple of `Repℂ(S₃)`, the canonical bidual map gives comparison
-  factor `1/2`; rescaling it by `3` gives `3/6 = 1/2`, not `1/18`.
+- in `Vec` over ℂ, `a = 3 • can` has mate factor `3` and `doubleDualTrace (a.inv)ᘁ = 1/3`,
+  giving `θ.inv = (1/3)·3 = 1` and `θ.hom = 1`, as for `a = can`; using `doubleDualTrace a.hom = 3`
+  as the scalar instead gives `3·3 = 9`, which fails choice independence. In `Vec` the scalar
+  `(doubleDualTrace a.hom)⁻¹` also gives `1`, so this Check tests choice independence only.
+- For the two-dimensional simple of `Repℂ(S₃)`, with both of its duals identified with the dual
+  space through the standard pairings, the canonical bidual map has mate factor `1` and scalar
+  `2`, so `θ.inv` has factor `2`; rescaling it by `3` gives `(2/3)·3 = 2`. The scalar
+  `(doubleDualTrace a.hom)⁻¹` gives `1/2` for both choices, and with it the composite of 1.7 for
+  `F = 𝟭` and `Z = 𝟙` would be `1 + 1 + 1 = 3`, the number of simple classes, instead of `6`.
 - At `V = 0`, both functors have underlying object `0`, and both comparison maps are
   the unique map `0 ⟶ 0`; their composite is `0 = 𝟙 0`.
 
@@ -479,7 +492,7 @@ that of `ModuleCat k`. *Needs:* 2.2, 2.3, 2.4.
 **Checks.**
 
 - for `G = 𝟭`, `H^0 = k` and `H^n = 0` for `n ≥ 1`. For the Sweedler algebra `H₄` with the
-  comonad of its centre, `dim H²_DY = 1` ([GHS] §5): the trivial coefficient is not projective
+  comonad of its centre, `dim H²_DY = 1` ([GHS] Remark 5.2, p. 35): the trivial coefficient is not projective
   there.
 
 ### Examples
@@ -519,6 +532,12 @@ isomorphism `F ≅ F'` and precomposition by a monoidal equivalence `C' ≌ C` i
 isomorphisms of complexes after transporting coefficients. The coefficient maps are defined
 termwise; on cohomology they give [GHS] Corollary 3.12, p. 18. The isomorphisms under change of
 functor and source are constructed from Definition 3.3, p. 14, by transport. *Needs:* 3.1.
+
+**Checks.**
+
+- Precomposition by the inversion autoequivalence `σ` of `Vec(C₃)` sends the 2-cochain `γ` of
+  3.1, `γ(1,2) = 1`, to `γ ∘ (σ × σ)`, which is `1` at `(2,1)`. Its differential at `(2,2,2)` is
+  `0 − 0 + 1 − 0 = 1 = δγ(1,1,1)`, whereas `γ` itself gives `0 − 1 + 0 − 0 = −1` there.
 
 ### 3.3 Low degrees
 
@@ -660,6 +679,14 @@ with coefficients given by transporting `(Center.ofBraided (Model P)).obj (Model
 through the inverse of 1.2's equivalence (for the reduction of `R₁`), tensored with `I`; `hexagon_forward` is exactly `δ¹ = 0`. Coboundaries `δ f`,
 `f ∈ End (Model.simple a) ⊗ I = I`, vanish by naturality of the braiding. *Needs:* 1.2, 3.1.
 
+**Checks.**
+
+- `ι = ℤ/2` with `F = 1` over `k[ε]/(ε²)`, `R₁ = 1` and `R₂^{11}_0 = 1 + bε`: `hexagon_forward`
+  at `(1,1,1)` reads `(1 + bε)² = 1`, so `2b = 0`; at `a = 1`, `δ¹β` at `(1,1)` is
+  `β(1,1) − β(1,0) + β(1,1) = 2b`, with `β(1,0) = 0` because `R^{10}_1 = 1` for both. A
+  coboundary `δ⁰f` of a scalar `f` is `f − f = 0`, so in characteristic `2` every `b` gives a
+  class and only `b = 0` is trivial.
+
 ### 5.5 Formal rigidity of fusion categories
 
 ([ENO] Theorem 2.28, p. 9, and §9.1, p. 43; [EGNO] Theorem 9.1.4,
@@ -771,6 +798,13 @@ PresentationsOfMonoidalCategories §§2.2–2.3.
 - over the zero ring and unit fusion rules, extraction gives rank `0` in place of the
   prescribed multiplicity `1`; models with one and two module labels are equivalent trivial
   categories, but `1 ≠ 2` prevents a label bijection in 6.4. Both targets exclude this ring.
+- In the regular module of `C₂` with its canonical action basis, extraction gives every block
+  `1`. Rescaling `φ^{g,0→1}` by `2` doubles the right basis vector `(g ◁ φ^{g,0→1}) ≫ φ^{g,1→0}`
+  and fixes the left basis vector of `Hom((g ⊗ g) ⊙ 0, 0)`, so it extracts `M^{g,g,0}_0 = 1/2`,
+  the gauged presentation of 6.2's Check.
+- `FDRep ℂ S₃` acting on `Vec` through the forgetful functor, with one module label:
+  extraction gives `Nm_{a,0}^0 = 1, 1, 2` for the three simples, their dimensions, whereas
+  recording only whether `Hom(a ⊙ 0, 0)` is nonzero would give `1, 1, 1`.
 
 ### 6.4 Gauge and classification
 
@@ -795,7 +829,8 @@ if and only if `Q'` is obtained by relabeling `Q` along some bijection `τ` and 
 ### 6.5 Rigidity of the action
 
 Over a field, `Nm_{ā m}^n = Nm_{a n}^m`, from the adjunction
-`(Xᘁ ⊙ -) ⊣ (X ⊙ -)` given by `η_ X Xᘁ` and `ε_ X Xᘁ`. *Needs:* 6.2.
+`(Xᘁ ⊙ -) ⊣ (X ⊙ -)` given by `η_ X Xᘁ` and `ε_ X Xᘁ` ([EGNO] Proposition 7.1.6, p. 133, whose
+left dual `X*` is `Xᘁ` here). *Needs:* 6.2.
 
 **Checks.**
 
@@ -809,6 +844,17 @@ Over a field, `Nm_{ā m}^n = Nm_{a n}^m`, from the adjunction
 and `θ = −δγ` for a 1-cochain `γ` if and only if `Q₂ = (1 + γ) • Q₁`. For separable `Model P`,
 every lift of `Q` to `A` in `C_k`, with `P` replaced by its constant lift, is
 the scalar extension of `Q` acted on by a module gauge `h` reducing to the identity; likewise over `k⟦t⟧`. *Needs:* 0.4, 4.2, 6.4.
+
+**Checks.**
+
+- The regular module of `C₂` over `k[ε]/(ε²)`, with `γ(g,0) = 1` and zero elsewhere: the gauge
+  `1 + εγ` gives `M′^{g,g,0}_0 = (1 + ε)⁻¹ = 1 − ε`, so `θ = −1` there (the coefficient of
+  `ε`), while `δγ(g,g,0) = γ(g,0) − γ(e,0) + γ(g,1) = 1`; the dictionary with `θ = δγ` would be
+  off by sign.
+- `Vec(C₂)` acting on `Vec` over `k[ε]/(ε²)`: `M^{g,g,0}_0 = 1 + cε`, with every other block `1`,
+  is a lift for every `c`, and the gauge `h^{g,0}_0 = 1 + dε` changes `c` to `c − 2d`. For
+  `char k ≠ 2` every lift is gauge trivial; for `char k = 2` the lifts with `c ≠ 0` are not,
+  matching `normGlobalDim = 0`.
 
 ### 6.7 Bounds on module fusion rules
 
@@ -849,7 +895,7 @@ an indecomposable one every simple is a summand of some `a ⊙ m`, for fixed `m`
 
 Over `Vec_G` with `char k ∤ |G|`, the indecomposables correspond to
   subgroups `H` up to conjugacy with a class in `H²(H, kˣ)`, and `(H, 1)` has `κ = G/H`
-  ([EGNO] Example 7.4.10).
+  ([EGNO] Example 7.4.10, p. 137).
 
 ### Examples
 
@@ -991,7 +1037,8 @@ its R-symbols in a fixed fusion basis. The characteristic-zero signature is
 ### 8.3 Braided fusion categories
 
 With `N` as in 8.1, there are finitely many separable braided
-fusion categories with fusion rules `N` up to `K`-linear braided monoidal equivalence.
+fusion categories with fusion rules `N` up to `K`-linear braided monoidal equivalence. This is a
+deduction from 8.1 and 8.2; compare [ENO] Theorem 2.28, p. 9, and Remark 2.33, p. 10.
 The characteristic-zero family signature `finite_braided_fusion_representatives` has the same
 hypotheses as the family formulation of 8.1, with braidings, and uses braided equivalences.
 *Needs:* 8.1, 8.2.
@@ -1008,7 +1055,8 @@ hypotheses as the family formulation of 8.1, with braidings, and uses braided eq
 of module categories. In `finite_module_representatives`, for any family of such Hom-finite
 module categories in fixed universes and characteristic zero with exactly `r` simple classes,
 a finite subset represents every member by a linear equivalence whose functor has
-`Functor.LeftLinear C` structure; the action is linear in both variables. *Needs:* 6.3, 6.4, 6.6, 6.7, 7.1, 7.2, 7.3.
+`Functor.LeftLinear C` structure; the action is additive and `k`-linear in both variables.
+*Needs:* 6.3, 6.4, 6.6, 6.7, 7.1, 7.2, 7.3.
 
 **Checks.**
 
@@ -1022,6 +1070,12 @@ combine 6.8 with the separable fixed-rank result 8.4). The characteristic-zero f
 `finite_indecomposable_module_representatives` uses the same hypotheses as 8.4 without fixed rank,
 with nonempty simple classes and, for every pair of simples `S, T`, an object `X` with
 `Hom(X ⊙ S, T) ≠ 0`; by 6.8 this expresses indecomposability. *Needs:* 6.8, 8.4.
+
+**Checks.**
+
+- Over `Vec` the semisimple module categories are `Vecʳ`, one for each rank `r`. Only `r = 1` is
+  indecomposable: in `Vec²`, `Hom(X ⊙ S, T) = 0` for the two distinct simples and every `X`.
+  Without that hypothesis the family of all `Vecʳ` has no finite set of representatives.
 
 ### 8.6 Fields of definition
 
@@ -1080,10 +1134,11 @@ and their semisimple module categories.
   Ocneanu rigidity*, Adv. Math. 414 (2023), 108853, arXiv:1910.06094v2: Definition 2.4 (p. 7),
   Proposition 2.12 (p. 10), Definitions 3.1–3.3 (pp. 13–14), Remark 3.7 and (3.14) (p. 15),
   Theorem 3.11 (pp. 18–19), Lemma 2.5 (p. 7), Corollary 3.12 (p. 18), Lemma 3.17 and Corollary 3.18 (pp. 24–25),
-  Remark 3.19 (p. 26), §5. Page numbers for [GHS] and [ENO] refer to the cited arXiv versions.
+  Remark 3.19 (p. 26), Remark 5.2 (p. 35). Page numbers for [GHS] and [ENO] refer to the cited arXiv versions.
 - [EGNO] P. Etingof, S. Gelaki, D. Nikshych, V. Ostrik, *Tensor Categories*, AMS Mathematical
-  Surveys and Monographs 205 (2015): Example 7.4.10, Example 7.22.5 (p. 184), Theorem 9.1.4
-  (p. 276), Corollaries 9.1.6 and 9.1.8 (p. 277), Lemma 9.3.1 and Theorem 9.3.2 (p. 279).
+  Surveys and Monographs 205 (2015): Proposition 7.1.6 (p. 133), Example 7.4.10 (p. 137),
+  Example 7.22.5 (p. 184), Theorem 9.1.4 (p. 276), Corollaries 9.1.6 and 9.1.8 (p. 277),
+  Lemma 9.3.1 and Theorem 9.3.2 (p. 279).
 - [BB] M. Barr, J. Beck, *Homology and standard constructions*, in Seminar on Triples and
   Categorical Homology Theory, Lecture Notes in Math. 80 (1969), §§1, 4.
 - A. Davydov, *Twisting of monoidal structures*, arXiv:q-alg/9703001.

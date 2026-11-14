@@ -77,8 +77,9 @@ theorem finite_braided_fusion_representatives
       Nonempty E.functor.Braided ∧ E.functor.Linear k := sorry
 
 /-- For a fixed fusion category in characteristic zero, a family of finite semisimple linear
-module categories of fixed rank has finitely many representatives up to linear module
-equivalence (8.4 and 9.1; ENO Corollary 2.35). -/
+module categories of fixed rank, with actions additive and `k`-linear in each variable, has
+finitely many representatives up to linear module equivalence (8.4 and 9.1; ENO
+Corollary 2.35). -/
 theorem finite_module_representatives
     (k : Type w) [Field k] [IsAlgClosed k] [CharZero k]
     (C : Type u) [Category.{v} C] [MonoidalCategory C] [RigidCategory C]
@@ -90,6 +91,8 @@ theorem finite_module_representatives
     [∀ i, IsFiniteSemisimpleCategory (M i)]
     [∀ i, ∀ X Y : M i, FiniteDimensional k (X ⟶ Y)]
     [∀ i, Fintype (SimpleClasses (M i))] [∀ i, MonoidalLeftAction C (M i)]
+    [∀ i (X : C), (MonoidalLeftAction.actionLeft (M i) X).Additive]
+    [∀ i Y, (MonoidalLeftAction.actionRight C (Y : M i)).Additive]
     [∀ i (X : C), (MonoidalLeftAction.actionLeft (M i) X).Linear k]
     [∀ i Y, (MonoidalLeftAction.actionRight C (Y : M i)).Linear k]
     (r : ℕ) (hr : ∀ i, Fintype.card (SimpleClasses (M i)) = r) :
@@ -97,7 +100,8 @@ theorem finite_module_representatives
       Nonempty (E.functor.LeftLinear C) ∧ E.functor.Linear k := sorry
 
 /-- For a fixed fusion category in characteristic zero, a family of indecomposable finite
-semisimple linear module categories has finitely many representatives (8.5 and 9.1;
+semisimple linear module categories, with actions additive and `k`-linear in each variable, has
+finitely many representatives (8.5 and 9.1;
 EGNO Corollary 9.1.6(ii)). Indecomposability is expressed by nonemptiness of the simple
 classes and the action connecting every pair of simples, as in 6.8. -/
 theorem finite_indecomposable_module_representatives
@@ -111,6 +115,8 @@ theorem finite_indecomposable_module_representatives
     [∀ i, IsFiniteSemisimpleCategory (M i)]
     [∀ i, ∀ X Y : M i, FiniteDimensional k (X ⟶ Y)]
     [∀ i, Fintype (SimpleClasses (M i))] [∀ i, MonoidalLeftAction C (M i)]
+    [∀ i (X : C), (MonoidalLeftAction.actionLeft (M i) X).Additive]
+    [∀ i Y, (MonoidalLeftAction.actionRight C (Y : M i)).Additive]
     [∀ i (X : C), (MonoidalLeftAction.actionLeft (M i) X).Linear k]
     [∀ i Y, (MonoidalLeftAction.actionRight C (Y : M i)).Linear k]
     [∀ i, Nonempty (SimpleClasses (M i))]
