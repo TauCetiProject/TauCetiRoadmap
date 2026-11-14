@@ -47,7 +47,7 @@ and with its dependencies.
 
 | Layer | Builds | Consumes |
 | --- | --- | --- |
-| 0 | Native graph, language, finite-pattern and satisfaction interfaces | Mathlib graph/model-theory/measure APIs; Tau Ceti graph coding; CountableStructureSpaces Layer 0 |
+| 0 | Native graph, language, finite-pattern and satisfaction interfaces | Mathlib graph/model-theory/measure APIs; Tau Ceti graph coding; CountableStructureSpaces Layers 0 and 2 |
 | 1 | Representative families, ages and separate ordinary/strong amalgamation | Mathlib Fraïssé predicates; 0 for graph examples |
 | 2 | Extension-rich chains and general Fraïssé existence | 1; Mathlib direct limits |
 | 3 | Rooted universality and uniqueness; finite, empty and rational-order examples | 1–2; Mathlib partial equivalences and order theory |
@@ -114,8 +114,8 @@ The following are suppliers, not requests to rebuild their objects.
 | [InfinitaryLogic, Layer 1](../../Completed/InfinitaryLogic/README.md) | Finite EF strategies, ordinal back-and-forth and selected-family potential isomorphism |
 | [InfinitaryLogic, random-graph worked example](../../Completed/InfinitaryLogic/README.md) | The canonical full extension predicate `SimpleGraph.HasExtensionProperty` with `SimpleGraph.HasExtensionProperty.exists_adj_iff` (a witness outside a listed tuple realizing any adjacency pattern compatible with its repetitions); the Rado graph `TauCeti.radoGraph` with `TauCeti.hasExtensionProperty_radoGraph` (`Combinatorics/SimpleGraph/ExtensionProperty.lean`); the extension-pair bridge `SimpleGraph.HasExtensionProperty.isExtensionPair`, countable uniqueness `SimpleGraph.HasExtensionProperty.nonempty_iso`, the characterization `TauCeti.nonempty_iso_radoGraph_iff` of the countable graphs isomorphic to the Rado graph, and the infinitary characterization `SimpleGraph.HasExtensionProperty.realize_scottSentence_iff`: for a countable graph with the extension property, its Scott sentence holds in a graph of any cardinality exactly when that graph has the extension property (`ModelTheory/Scott/RandomGraph.lean`); files at Tau Ceti `2fd255d99` |
 | [Tau Ceti `ModelTheory/Scott/AtomicDiagram.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Scott/AtomicDiagram.lean) at `2fd255d99` (the finite companion of the parent's infinitary `atomicDiagram`) | `TauCeti.AtomicIdx.toFormula : AtomicIdx L n → L.BoundedFormula Empty n`; for `[Finite (Σ k, L.Relations k)]`, `TauCeti.firstOrderAtomicDiagram (a : Fin n → M) : L.BoundedFormula Empty n`, the finite conjunction `BoundedFormula.iInf` over `AtomicIdx L n` of the tests true of `a` and the negations of those false of it (`firstOrderAtomicDiagram_def`); and, for relational `L`, `realize_firstOrderAtomicDiagram_iff_sameAtomicType : (firstOrderAtomicDiagram a).Realize v b ↔ SameAtomicType a b` for `b : Fin n → N` in any structure. The tuple occupies bound positions |
-| [Tau Ceti `ModelTheory/RelationalConfiguration/ModelsOf.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/RelationalConfiguration/ModelsOf.lean) and [`Combinatorics/SimpleGraph/RelationalConfiguration.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Combinatorics/SimpleGraph/RelationalConfiguration.lean) at `2fd255d99` | `TauCeti.RelationalConfiguration.measurableSet_setOf_realize`: on a countable carrier, the configurations realizing an infinitary formula with countable branching, at fixed free- and bound-variable assignments, form a measurable set; `RelationalConfiguration.toStructure_ofStructure`; the graph coding `SimpleGraph.toRelationalConfiguration` with `SimpleGraph.measurable_toRelationalConfiguration` and, on a countable carrier, `SimpleGraph.measurableEmbedding_toRelationalConfiguration`. They do not state that the coding decodes to `G.structure`; that identity is CountableStructureSpaces' target `toStructure_toRelationalConfiguration`, and the resulting fixed-assignment graph event is a target of 0.3 |
-| CountableStructureSpaces, Layer 0 | `toStructure_toRelationalConfiguration`: the decoded structure of `G.toRelationalConfiguration` is `G.structure`. Consumed in 0.3 for the fixed-assignment graph events |
+| [Tau Ceti `ModelTheory/RelationalConfiguration/ModelsOf.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/RelationalConfiguration/ModelsOf.lean) and [`Combinatorics/SimpleGraph/RelationalConfiguration.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Combinatorics/SimpleGraph/RelationalConfiguration.lean) at `2fd255d99` | `TauCeti.RelationalConfiguration.measurableSet_setOf_realize`: on a countable carrier, the configurations realizing an infinitary formula with countable branching, at fixed free- and bound-variable assignments, form a measurable set; `RelationalConfiguration.toStructure_ofStructure`; the graph coding `SimpleGraph.toRelationalConfiguration` with `SimpleGraph.measurable_toRelationalConfiguration` and, on a countable carrier, `SimpleGraph.measurableEmbedding_toRelationalConfiguration`. They do not state that the coding decodes to `G.structure`; that identity is CountableStructureSpaces' target `toStructure_toRelationalConfiguration`, and the resulting graph events, at fixed assignments included, are CountableStructureSpaces' Layer 2 |
+| CountableStructureSpaces, Layers 0 and 2 | `toStructure_toRelationalConfiguration` (Layer 0): the decoded structure of `G.toRelationalConfiguration` is `G.structure`. The graph events (Layer 2): `measurableSet_setOf_realize_graph`, every Lω₁ω sentence defines a measurable set of graphs on `ℕ`, and the same pullback of `measurableSet_setOf_realize` at fixed free- and bound-variable assignments. Consumed in 0.3 for the fixed-assignment graph events and in Layer 9 for the sentence events on `SimpleGraph ℕ` |
 | [DenseGraphLimits, Layers 9a–c](../../Completed/DenseGraphLimits/README.md) | Finite and infinite graphon sampling, finite restrictions, exchangeable graph laws, dissociation, mixtures and sampling convergence |
 | [Exchangeability, array layers](../../Completed/Exchangeability/README.md) | Generic array exchangeability, dissociation and ergodic/extreme-measure machinery |
 | [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md) | Vertex connectivity `SimpleGraph.IsVertexConnected` (Tau Ceti `Combinatorics/SimpleGraph/Connectivity/VertexConnectivity.lean`; `k : ℕ∞`, more than `k` vertices and connected after deleting fewer than `k`), deletion, separators and their graph interfaces |
@@ -186,7 +186,8 @@ language and structure adapters, bounded formulas and realization; Tau Ceti
 `TauCeti.RelationalConfiguration.measurableSet_setOf_realize`,
 `SimpleGraph.toRelationalConfiguration` with `SimpleGraph.measurable_toRelationalConfiguration` and
 `SimpleGraph.measurableEmbedding_toRelationalConfiguration`, and `BoundedFormula.realize_toInf`;
-CountableStructureSpaces Layer 0 (`toStructure_toRelationalConfiguration`).
+CountableStructureSpaces Layer 0 (`toStructure_toRelationalConfiguration`) and Layer 2 (the graph
+events).
 
 ### 0.1 Graph/language transport
 
@@ -223,18 +224,20 @@ assignment spaces their product measurable structures.
 Tau Ceti supplies the configuration events and the graph coding but does not state their link:
 that the decoded structure of `G.toRelationalConfiguration` is `G.structure`. That identity,
 `toStructure_toRelationalConfiguration`, is a target of the CountableStructureSpaces roadmap
-(its Layer 0), which owns it; this roadmap consumes it. From it, prove the
-fixed-assignment graph event (`measurableSet_setOf_realize_graph`). For a countable carrier `V`, a
-graph formula `φ` and fixed free- and bound-variable assignments, the set of graphs `G` whose
-structure `G.structure` realizes `φ` there is the preimage, under the measurable map
-`SimpleGraph.toRelationalConfiguration` (`SimpleGraph.measurable_toRelationalConfiguration`; a
-measurable embedding by `SimpleGraph.measurableEmbedding_toRelationalConfiguration`), of the
-configuration event of `BoundedFormula.toInf φ`. That event is measurable by
-`TauCeti.RelationalConfiguration.measurableSet_setOf_realize`, which covers every infinitary
-formula with countable branching, and `BoundedFormula.realize_toInf` with
-`toStructure_toRelationalConfiguration` identifies the two realizations. The sentence events used
-by the satisfaction probabilities below are the case of empty assignments. On `ℕ`, the event of
-`∃x∃y Adj(x,y)` is the countable union over pairs `u ≠ v` of the cylinders `{G | G.Adj u v}`.
+(its Layer 0), and so are the graph events built from it (its Layer 2): that roadmap states
+`measurableSet_setOf_realize_graph` for Lω₁ω sentences on `SimpleGraph ℕ`, and the same pullback
+gives the events at fixed free- and bound-variable assignments. This roadmap consumes these
+events and does not restate them. For a countable carrier `V`, a formula and fixed assignments,
+the set of graphs `G` whose structure `G.structure` realizes the formula there is the preimage,
+under the measurable map `SimpleGraph.toRelationalConfiguration`
+(`SimpleGraph.measurable_toRelationalConfiguration`; a measurable embedding by
+`SimpleGraph.measurableEmbedding_toRelationalConfiguration`), of its configuration event, which is
+measurable by `TauCeti.RelationalConfiguration.measurableSet_setOf_realize`; the pullback uses
+nothing about the carrier beyond countability. A first-order graph formula `φ` enters as
+`BoundedFormula.toInf φ`, and `BoundedFormula.realize_toInf` identifies the two realizations. The
+sentence events used by the satisfaction probabilities below are the case of empty assignments. On
+`ℕ`, the event of `∃x∃y Adj(x,y)` is the countable union over pairs `u ≠ v` of the cylinders
+`{G | G.Adj u v}`.
 
 The further target here is joint measurability. For a fixed graph formula with finitely many free
 variables, prove that realization is measurable on the product of the graph space with the
@@ -242,7 +245,9 @@ free- and bound-variable assignment spaces (`measurableSet_realize_jointly`). Fr
 fixed-assignment events this is a countable union over the assignments, each term a measurable
 rectangle with a singleton; it needs measurable singletons in the product structure on the
 assignment spaces, and countability of the carrier alone is not a substitute for that
-structure. Prove invariance of the events under graph isomorphism and relabeling.
+structure. Its sections at fixed assignments recover the fixed-assignment events of these
+formulas on every countable carrier, `Fin n` included. Prove invariance of the events under graph
+isomorphism and relabeling.
 
 Define the finite satisfaction probability directly by evaluating
 `binomialRandom (Fin n) p` on the native realization event. Expose real and `ℝ≥0∞`
@@ -287,9 +292,9 @@ carries the real and `ℝ≥0∞` forms, bounds, complement and restriction laws
 
 Mathlib's binomial random graphs, graph language and bounded-formula realization; Tau Ceti's graph
 coding, configuration events and `SimpleGraph.Iso.toLanguageEquiv`; CountableStructureSpaces
-Layer 0 for `toStructure_toRelationalConfiguration`. These interfaces supply the extension-axiom
-probabilities of Layer 6 and the graphon mixture evaluations of Layer 9, and the graph-language
-adapters identify the age of the Rado graph in Layer 4.
+Layer 0 for `toStructure_toRelationalConfiguration` and Layer 2 for the graph events. These
+interfaces supply the extension-axiom probabilities of Layer 6 and the graphon mixture evaluations
+of Layer 9, and the graph-language adapters identify the age of the Rado graph in Layer 4.
 
 ## Layer 1 — Representative families and amalgamation
 
@@ -1528,8 +1533,9 @@ this roadmap. So are the AFP characterization, Shelah–Spencer laws, general sp
 convergence laws, Hamiltonicity thresholds and the uniform distribution on unlabeled graphs.
 The finite probability model here is the native labeled binomial model. The full extension
 predicate and the Rado graph belong to the InfinitaryLogic worked example in Tau Ceti; the
-decoding identity of the graph coding, and the measurability of Lω₁ω sentence events on
-`SimpleGraph ℕ`, belong to CountableStructureSpaces; the primitive-recursive syntax of the group
+decoding identity of the graph coding, and the graph events (the measurability of Lω₁ω sentence
+events on `SimpleGraph ℕ` and of the events at fixed assignments), belong to
+CountableStructureSpaces; the primitive-recursive syntax of the group
 language belongs to FreeGroupsAndLimitGroups.
 
 ## Completion criteria

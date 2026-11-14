@@ -127,23 +127,13 @@ theorem foRank_eq_zero_iff_isQF
     foRank φ = 0 ↔ φ.IsQF := by
   sorry
 
-/-- **Fixed-assignment graph events.** On a countable carrier, for a graph formula and fixed free-
-and bound-variable assignments, the graphs whose structure realizes the formula form a measurable
-set. It is the preimage, under `SimpleGraph.measurable_toRelationalConfiguration`, of the
-configuration event of `BoundedFormula.toInf φ`, which is measurable by
-`TauCeti.RelationalConfiguration.measurableSet_setOf_realize`; `BoundedFormula.realize_toInf` and
-the identity `G.toRelationalConfiguration.toStructure = G.structure` identify the two
-realizations. -/
-theorem measurableSet_setOf_realize_graph [Countable V] {α : Type w} {n : ℕ}
-    (φ : Language.graph.BoundedFormula α n) (v : α → V) (xs : Fin n → V) :
-    MeasurableSet {G : SimpleGraph V | @BoundedFormula.Realize _ V G.structure _ _ φ v xs} := by
-  sorry
-
 /-- **Joint measurability of realization.** For a fixed graph formula with finitely many free
 variables on a countable discrete carrier, realization is measurable jointly in the graph, the
 free-variable assignment and the bound-variable tuple: a countable union over the assignments of
-the rectangles formed by the fixed-assignment events `measurableSet_setOf_realize_graph` and
-singletons. -/
+the rectangles formed by singletons and the fixed-assignment graph events. Those events are
+CountableStructureSpaces' (Layer 2), the pullback along the graph coding of
+`TauCeti.RelationalConfiguration.measurableSet_setOf_realize` at `BoundedFormula.toInf φ`; this
+file does not restate them. -/
 theorem measurableSet_realize_jointly [Countable V] [MeasurableSpace V] [DiscreteMeasurableSpace V]
     {α : Type w} [Finite α] {n : ℕ} (φ : Language.graph.BoundedFormula α n) :
     MeasurableSet {x : SimpleGraph V × (α → V) × (Fin n → V) |
