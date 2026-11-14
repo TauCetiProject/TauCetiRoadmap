@@ -780,10 +780,9 @@ and must reuse this API.
   for an equality, one per argument for a relation atom), and connectives and quantifiers are
   translated structurally. Its laws: `realize_relationalize` (over the graph expansion, the
   translation is realized exactly when the original is); the **exact occurrence identity**
-  `relationsIn (relationalize φ) = relSym (functionsIn φ) (relationsIn φ)`; no function symbol
-  occurs in the translation; and base relations keep their polarity exactly (a base symbol occurs
-  positively, resp. negatively, in the translation iff it does in `φ`), while graph symbols may
-  occur with either sign.
+  `relationsIn (relationalize φ) = relSym (functionsIn φ) (relationsIn φ)`; and no function symbol
+  occurs in the translation. Its polarity law needs the signed occurrences of Layer 7 and is
+  stated in 7.3.
 * **Graph axioms and reconstruction.** `graphAxioms F` for a countable set `F` of function symbols:
   the countable conjunction of totality `∀x̄ ∃y G_f(x̄, y)` and functionality
   `∀x̄ y z (G_f(x̄, y) → G_f(x̄, z) → y = z)` for `f ∈ F`. The graph expansion satisfies them. On a
@@ -797,19 +796,17 @@ and must reuse this API.
   `G_f(x̄, y)` to `f(x̄) = y` and base atoms to themselves; `realize_backTranslate` (over the graph
   expansion of any `L`-structure, the back-translation is realized exactly when the graph formula
   is); its occurrence calculus (the function symbols of `backTranslate θ` are the `f` with `G_f`
-  occurring in `θ`; its relation symbols, positive and negative, are the base symbols occurring in
-  `θ` with that sign, since graph atoms become equalities, which carry no polarity).
+  occurring in `θ`; its relation symbols are the base symbols occurring in `θ`, since graph atoms
+  become equalities). Its signed occurrence calculus is stated in 7.3.
 * **Entailment transfer**: `φ ⊨ ψ` iff
   `graphAxioms F₁ ∧ relationalize φ ⊨ graphAxioms F₂ → relationalize ψ` in the graph language,
   where `Fᵢ` are the function symbols of `φ` and `ψ`. Reconstruction over `F₁ ∪ F₂` is the only
   semantic step; it uses nonemptiness of models for the symbols outside `F₁ ∪ F₂`.
 
-  *Needs* (for entailment transfer and the polarity laws of `relationalize` and `backTranslate`,
-  the theorems of this layer that Tau Ceti lacks at the pin): `graphExpansion` with
-  `realize_relationalize`, `graphAxioms` and `reconstructStructure` with
-  `realize_relationalize_reconstructStructure`, `backTranslate` (Layer 6, at the pin);
-  `Theoryω.conjunction` (1.1) and `functionsIn_countable` (0.2), to make `graphAxioms F` one
-  sentence; and `relationsInSigned` (7.3) for the polarity laws.
+  *Needs* (for entailment transfer, the theorem of this layer that Tau Ceti lacks at the pin):
+  `graphExpansion` with `realize_relationalize`, `graphAxioms` and `reconstructStructure` with
+  `realize_relationalize_reconstructStructure` (Layer 6, at the pin); and `Theoryω.conjunction`
+  (1.1) and `functionsIn_countable` (0.2), to make `graphAxioms F` one sentence.
 
 **Acceptance example.** `backTranslate (relationalize φ)` and `φ` have the same realization in every
 `L`-structure (no syntactic identity is claimed).
@@ -920,6 +917,14 @@ is used.
   the countable connectives preserve it, and equality contributes to neither sign; the swap laws
   for `not`, the laws for the derived connectives,
   `relationsIn φ = relationsInSigned true φ ∪ relationsInSigned false φ`, and countability.
+* **Polarity under the graph translation** of Layer 6: base relations keep their polarity exactly
+  under `relationalize` (a base symbol occurs positively, resp. negatively, in the translation iff
+  it does in `φ`), while graph symbols may occur with either sign; and the signed occurrence
+  calculus of `backTranslate`: its relation symbols of each sign are the base symbols occurring in
+  `θ` with that sign, since graph atoms become equalities, which carry no polarity.
+
+  *Needs:* `relationsInSigned` with its swap laws (7.3), and `relationalize` and `backTranslate`
+  with their constructor equations (Layer 6, at the pin).
 * **Monotonicity in the signed occurrences** (relational `L`): if a second structure on the same
   carrier enlarges every relation occurring positively in `φ` and shrinks every relation occurring
   negatively, truth of `φ` passes from the first to the second. Relationality is used once, to
@@ -939,9 +944,9 @@ is used.
   sign, back-translate into equalities and drop out of the signed bounds. Craig interpolation
   follows, since the two signed bounds give the Craig bound on relations.
 
-  *Needs:* the relational core of Lyndon interpolation and `relationsInSigned` (7.3); from
-  Layer 6, entailment transfer, the polarity of base relations under `relationalize`, and the
-  signed occurrence calculus of `backTranslate`. Recovering Craig needs only the bounds of
+  *Needs:* the relational core of Lyndon interpolation, `relationsInSigned`, the polarity of base
+  relations under `relationalize` and the signed occurrence calculus of `backTranslate` (7.3); from
+  Layer 6, entailment transfer. Recovering Craig needs only the bounds of
   `lyndon_interpolation` and `relationsIn φ = relationsInSigned true φ ∪ relationsInSigned false φ`
   (7.3).
 
@@ -1231,8 +1236,8 @@ universe-general statements here are part of the work. The map below says where 
 | L3 | `Methods/Henkin/CountableCompletion/{ConsistencyPropertyEqOn, FairEnumeration, GeneratedUniverse, QuotientTermModel, QuotientTruthLemma}.lean`; design in `docs/craig-audit.md` §5 | the source engine is relational (closed terms are constants); the function-symbol clauses `eq_name`/`eq_subst` and the omission requests are new. `Methods/Henkin/{ConsistencyProperty, Construction, ModelExistence, Completeness}.lean` is a legacy Zorn-based interface with a chain-closure clause, which the satisfiable sets do not satisfy, and a decision clause; it is not a migration target, and its `karp_completeness` and `omitting_types` are not the theorems of Layers 3–4 |
 | L4 | `ModelTheory/InfinitaryTypes.lean`, `ModelTheory/FragmentType.lean`, `ModelTheory/TypeIsolation.lean`, and from `ModelTheory/CountableCompanion.lean` only the isolator seed (`isolatorSeed`, `isolatorFragment` and their countability; the countable companion itself belongs to HanfNumbers) | the fragment omitting types theorem and its first-order corollary are new |
 | L5 | `ModelTheory/Morleyization.lean`, `ModelTheory/MorleyizationElementary.lean` | the source has the definitional expansion only; the first-order presentation is new |
-| L6 | `Methods/Interpolation/{GraphLanguage, TermGraph, Relationalize, GraphAxioms, GraphReconstruction, BackTranslate}.lean`, `Lomega1omega/FiniteQuantification.lean`, `Methods/Interpolation/LyndonRelationalize.lean` (polarity); design in `docs/craig-audit.md` §9b | the source's `entails_graphTranslation` is in `CraigArbitrary.lean` |
-| L7 | `ModelTheory/PCClass.lean`; `Methods/Interpolation/*` (relational core: `CraigSublanguage`, `CraigRelational`, `CraigSeparation`, `PairedInsepFamily`, `Inseparability`, `ConstantElimination`; Lyndon: `Lomega1omega/Polarity.lean`, `Lomega1omega/PolaritySemantics.lean`, `LyndonSublanguage`; Malitz: `Lomega1omega/QuantifierClass.lean`, `BudgetedPair`, `MalitzSublanguage`); audits `docs/{craig,lyndon,malitz}-audit.md` | arbitrary-language headlines in `CraigArbitrary.lean` and `LyndonArbitrary.lean` (statements over `Language.{0, 0}` with no hypotheses on `L`); `pcSeparation` in sum form is new; the source's Malitz is relational, and `docs/malitz-audit.md` §D5 records why the translation cannot extend it |
+| L6 | `Methods/Interpolation/{GraphLanguage, TermGraph, Relationalize, GraphAxioms, GraphReconstruction, BackTranslate}.lean`, `Lomega1omega/FiniteQuantification.lean`; design in `docs/craig-audit.md` §9b | the source's `entails_graphTranslation` is in `CraigArbitrary.lean` |
+| L7 | `ModelTheory/PCClass.lean`; `Methods/Interpolation/*` (relational core: `CraigSublanguage`, `CraigRelational`, `CraigSeparation`, `PairedInsepFamily`, `Inseparability`, `ConstantElimination`; Lyndon: `Lomega1omega/Polarity.lean`, `Lomega1omega/PolaritySemantics.lean`, `LyndonRelationalize` (polarity under the graph translation), `LyndonSublanguage`; Malitz: `Lomega1omega/QuantifierClass.lean`, `BudgetedPair`, `MalitzSublanguage`); audits `docs/{craig,lyndon,malitz}-audit.md` | arbitrary-language headlines in `CraigArbitrary.lean` and `LyndonArbitrary.lean` (statements over `Language.{0, 0}` with no hypotheses on `L`); `pcSeparation` in sum form is new; the source's Malitz is relational, and `docs/malitz-audit.md` §D5 records why the translation cannot extend it |
 | L8 | `Methods/WellOrdering/*` (`ClosureFields`, `GapWitness`, `ModelExtraction`, `Boundedness`, `Undefinability`, `SymbolCountability`, `GraphTranslation`); audit `docs/wellordering-audit.md` | the source proves relational cores and reaches function symbols through the graph translation in `GraphTranslation.lean`; Layer 8 proves the theorems directly for arbitrary `L` |
 
 ### Tau Ceti implementation
