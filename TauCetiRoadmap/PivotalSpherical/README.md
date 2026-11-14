@@ -1,8 +1,6 @@
 # Roadmap: pivotal and spherical categories
 
-## Summary
-
-This roadmap owns the theory of pivotal and spherical categories and the fusion-category
+**Summary.** This roadmap owns the theory of pivotal and spherical categories and the fusion-category
 infrastructure under it. That covers the double dual and its trivializations, the left and right
 traces and dimensions, finite semisimple categories, the Grothendieck based ring, Frobenius–Perron
 dimensions, global dimension and pseudo-unitarity, the standard example `FDRep k G`, the pointed
@@ -18,8 +16,9 @@ the Drinfeld centre of a fusion category. Most of it is implemented in Tau Ceti 
   of every fusion category in characteristic zero (Layer 6);
 - the comparison of Frobenius–Schur indicators on `FDRep` (Layer 7);
 - `Vec^ω_G` over a commutative ring, with its pivotal structures and indicators (Layers 8 and 9);
-- ribbon structures: the spherical-to-ribbon converse and the ribbon centre (Layer 10);
-- the induction functor of the centre, its semisimplicity and its dimension (Layer 11).
+- the spherical-to-ribbon converse (Layer 10);
+- the induction functor of the centre, its semisimplicity and dimension, and the ribbon centre
+  (Layer 11).
 
 Suggested home: `TauCeti/CategoryTheory/Monoidal/Pivotal/`, `TauCeti/CategoryTheory/Semisimple/`,
 `TauCeti/CategoryTheory/Monoidal/Center/`, as for the implemented material.
@@ -36,8 +35,11 @@ Suggested home: `TauCeti/CategoryTheory/Monoidal/Pivotal/`, `TauCeti/CategoryThe
   statements are corollaries. Fusion-level results (based ring, Frobenius–Perron, global
   dimension, universal grading, the centre) are over a field, with the hypotheses carried as
   instance arguments on each statement. There is no bundled fusion-category class.
-- **Owned here.** Everything in the Summary, and the dual-basis API for split simple families over
-  a commutative ring.
+- **Owned here.** Everything in the Summary, including the dual-basis API for split simple
+  families over a commutative ring and the pivot-free fusion foundations of Layer 6 (bidual traces,
+  squared norms, `normGlobalDim`, the Radford isomorphism, the pivotalization and nonvanishing).
+  The proposed Ocneanu rigidity roadmap cites 6.1, 6.2, 6.9, 11.1 and 11.2, and keeps only its
+  relative-centre and deformation extensions.
 - **Not owned here.** Presentations of monoidal categories by F- and R-matrices
   (the proposed PresentationsOfMonoidalCategories roadmap, a consumer of Layers 2, 3 and 8). The character-theoretic Frobenius–Schur indicator of a finite group
   ([RepresentationTheory/CharacterTheory](../RepresentationTheory/CharacterTheory/README.md); Layer 7
@@ -129,7 +131,8 @@ Each item is implemented at the pin and is consumed, not rebuilt.
   `TauCeti.exists_fusionCoeff_pos_right`, and the ⋆-character identity
   `TauCeti.SplitK0.ringHom_apply_dual`, which needs rigidity but no pivotal structure.
 - **Perron–Frobenius** (Layer 5): `Matrix.exists_mulVec_eq_smul_of_nonneg` (nonempty index type,
-  nonzero eigenvector), `Matrix.exists_mulVec_eq_smul_of_pos`,
+  nonzero eigenvector), the theorem exists_mulVec_eq_smul_of_pos of
+  `TauCeti/LinearAlgebra/Matrix/PerronFrobenius/Positive.lean` (strictly positive matrices),
   `Matrix.IsIrreducible.exists_mulVec_eq_smul`,
   `Matrix.IsIrreducible.rootMultiplicity_charpoly_eq_one`, `Module.Basis.existsUnique_ringHom_nonneg`.
 - **Dimensions** (Layer 6): `TauCeti.frobeniusPerronDim` with its API,
@@ -149,34 +152,34 @@ Each item is implemented at the pin and is consumed, not rebuilt.
   `TauCeti.pivotalBalancedEquiv`, `TauCeti.sphericalCategory_of_ribbonCategory`;
   `CategoryTheory.Center.instPreadditive`, `Center.instLinear`, `Center.instAbelian`,
   `Center.rigidCategory`, `Center.pivotalCategory`, `Center.isPivotal_forget`,
-  `Center.sphericalCategory`.
+  `Center.sphericalCategory`; Hom-finiteness `CategoryTheory.Center.instFiniteDimensionalHom`
+  (`Monoidal/Center/Preadditive.lean`, for Hom-finite `C` over a division ring) and the simple unit
+  `CategoryTheory.Center.instSimpleUnit` (`Monoidal/Center/Simple.lean`, when `𝟙_ C` is simple and
+  the forgetful functor preserves monomorphisms).
 
 ## How to read the build
 
-The layer numbers are those cited by other roadmaps. Each layer opens with what is supplied, then
-lists the remaining targets. A target's *Needs:* clause names what it uses beyond the supplier
-contracts. Every target has Checks, to be formalised as `example`s.
-
-## Layer 0: the dual and double-dual functors
-
-Supplied. No remaining targets.
-
-## Layer 1: pivotal structures
-
-Supplied. No remaining targets.
+The layer numbers are those cited by other roadmaps. Layers 0, 1 and 4 are entirely supplied, and
+their contracts are listed above under those numbers. Each remaining layer has numbered `### k.n`
+subsections, one per target group, each with its *Needs:* clause beyond the supplier contracts and
+the Lean names of its headlines in `Suggested.lean`, followed by the layer's Examples and
+Dependencies.
 
 ## Layer 2: traces on objects with scalar endomorphisms
 
-**2.1 Scalar traces over a commutative ring.** With
-`[Preadditive C] [Linear R C] [MonoidalPreadditive C] [MonoidalLinear R C]` and `X` with scalar
+### 2.1 Scalar traces over a commutative ring
+
+([EGNO] §4.7, pp. 73–76, over a field; the ring statement is a deduction: the field proofs use
+Schur's lemma only to produce the scalar.) With `[Preadditive C] [Linear R C] [MonoidalPreadditive C] [MonoidalLinear R C]` and `X` with scalar
 endomorphisms over `R`: `leftTrace f.asHom = r_f • leftDim X`, `rightTrace f.asHom = r_f • rightDim X`,
 `trace f.asHom = r_f • quantumDim X` when spherical, and `leftDim X ≫ rightDim X` is the same for any
 two pivotal structures. When `𝟙_ C` also has scalar endomorphisms, the hypothesis of
 `TauCeti.leftTrace_tensorHom_eq_comp` holds, so traces and dimensions are multiplicative. This is
-the ring form of the pinned field results; their proofs use Schur's lemma only to produce the
-scalar. *Needs:* Tau Ceti `TauCeti.leftTrace_comp_whiskerLeft_scalar`.
+the ring form of the pinned field results. Lean: `leftTrace_eq_smul_leftDim_of_bijective`,
+`rightTrace_eq_smul_rightDim_of_bijective`, `leftDim_comp_rightDim_eq_of_bijective`. *Needs:* Tau
+Ceti `TauCeti.leftTrace_comp_whiskerLeft_scalar`, `TauCeti.leftTrace_tensorHom_eq_comp`.
 
-**Checks.**
+### Examples
 
 - `R = ℤ/4`, `Vecℤ` over `R`, `X = δ_0`, `f = 2`: `leftTrace f = 2 = 2 • leftDim δ_0`.
 - `Vecℤ` over `ℚ` with pivotal structures `2ⁿ` and `3ⁿ`: `leftDim δ_1 ≫ rightDim δ_1` is
@@ -184,34 +187,52 @@ scalar. *Needs:* Tau Ceti `TauCeti.leftTrace_comp_whiskerLeft_scalar`.
 - `X = ℚ²` in `Vecℚ` fails the hypothesis (`End X = M₂(ℚ)`), and `leftTrace (E₁₁)` is `1`, not a
   multiple of `leftDim X = 2` by any scalar of `f`.
 
+### Dependencies
+
+Supplier contracts of Layers 1 and 2 only.
+
 ## Layer 3: dual bases of morphisms
 
-**3.1 The composition pairing.** For `C` preadditive and `R`-linear and `S` with scalar
+### 3.1 The composition pairing
+
+For `C` preadditive and `R`-linear and `S` with scalar
 endomorphisms, `f ≫ g = ⟨f, g⟩ • 𝟙 S` defines an `R`-bilinear pairing
 `(S ⟶ X) × (X ⟶ S) → R`, compatible with composition on the `X` side. No abelian structure is
-needed.
+needed ([EGNO] §1.8 for the field case; the ring statement is a deduction from the definition).
+*Needs:* the convention on scalar endomorphisms.
 
-**3.2 Dual bases.** When the pairing is perfect, a basis `b` of `S ⟶ X` indexed by a finite type has
-a dual basis `b.homDual` of `X ⟶ S` with `b i ≫ b.homDual j = if i = j then 𝟙 S else 0`, with
-coordinate formulas. The canonical element `∑ i, b.homDual i ⊗ b i` is natural in `X` and
-independent of `b`, stated through an arbitrary bilinear map.
+### 3.2 Dual bases
 
-**3.3 Split simple families.** `IsSplitSimpleFamily R S` for `S : ι → C`, `ι` arbitrary and `C` with
+When the pairing is perfect, a basis `b` of `S ⟶ X` indexed by a finite type has
+a dual basis `c` of `X ⟶ S` with `b i ≫ c j = if i = j then 𝟙 S else 0`, with coordinate
+formulas. The canonical element `∑ i, c i ⊗ b i` is natural in `X` and
+independent of `b`, stated through an arbitrary bilinear map. *Needs:* 3.1; Mathlib
+`Module.Basis.dualBasis`.
+
+### 3.3 Split simple families
+
+`IsSplitSimpleFamily R S` for `S : ι → C`, `ι` arbitrary and `C` with
 finite biproducts: every `S i` has scalar endomorphisms, `HomOrthogonal S`, and every object is
 isomorphic to `⨁ (S ∘ f)` for some `f : κ → ι` with `κ` finite. Then `S i ⟶ X` and `X ⟶ S i` are
 free of finite rank, the pairing is perfect (under `X ≅ ⨁ (S ∘ f)` it is the dot product on
-`R^{f⁻¹(i)}`), and the **completeness relation** `∑ i ∈ s, ∑ j, (b i).homDual j ≫ b i j = 𝟙 X`
+`R^{f⁻¹(i)}`), and the **completeness relation** `∑ i ∈ s, ∑ j, c i j ≫ b i j = 𝟙 X`, with `c i` dual to `b i`,
 holds for any finite `s` outside of which `X` receives no nonzero morphisms. For an additive
 `R`-linear functor `F : C ⥤ D` and `T : D` with scalar endomorphisms whose pairings with `F.obj B`
 and each `F.obj (S i)` are perfect, the canonical element of `T ⟶ F.obj B` factors through the
-constituents `S i` of `B`. *Needs:* 3.1, 3.2; Mathlib `HomOrthogonal.matrixDecomposition`.
+constituents `S i` of `B`. Lean: `IsSplitSimpleFamily`, `IsSplitSimpleFamily.free_finite_hom`,
+`IsSplitSimpleFamily.exists_homDual`, `IsSplitSimpleFamily.sum_sum_comp_eq_id`. The proof is a
+deduction: `HomOrthogonal.matrixDecomposition` turns every Hom module into a matrix module over
+`R`. *Needs:* 3.1, 3.2; Mathlib `HomOrthogonal.matrixDecomposition`.
 
-**3.4 The field case.** In a finite semisimple abelian category over an algebraically closed field,
+### 3.4 The field case
+
+In a finite semisimple abelian category over an algebraically closed field,
 the representatives of `SimpleClasses C` with finite-dimensional endomorphisms form a split simple
 family, with no finiteness of `SimpleClasses C`; and a simple `S` has a perfect pairing with every
-`X`. *Needs:* 3.3; Tau Ceti `TauCeti.endAlgEquivOfSimple`, `TauCeti.isSplitMono_of_nonzero_from_simple`.
+`X` ([EGNO] §1.8 and §7.13). Lean: `isSplitSimpleFamily_simpleClasses`. *Needs:* 3.3; Tau Ceti
+`TauCeti.endAlgEquivOfSimple`, `TauCeti.isSplitMono_of_nonzero_from_simple`.
 
-**Checks.**
+### Examples
 
 - `R = ℤ`, `S = R`, `X = R²`: `(1, 2)` followed by `(3, 4)` pairs to `11`, the dot product; the
   standard basis is its own dual and the completeness sum is `I₂`.
@@ -219,46 +240,66 @@ family, with no finiteness of `SimpleClasses C`; and a simple `S` has a perfect 
 - `S = ℚ²` in `Vecℚ` fails scalar surjectivity, and the pairing is not defined.
 - Finitely supported `ℤ`-graded complex vector spaces form a split simple family indexed by `ℤ`.
 
-## Layer 4: fusion categories and the Grothendieck based ring
+### Dependencies
 
-Supplied. No remaining targets.
+Supplier contracts of Layer 3; Mathlib `HomOrthogonal`, `Module.Basis.dualBasis`.
 
 ## Layer 5: Perron–Frobenius
 
-**5.1 Primitive matrices.** For a nonempty finite index type and a primitive real matrix, the Perron
-root `r > 0` is the spectral radius and every other complex eigenvalue has modulus strictly less
-than `r` ([EGNO] §3.2, pp. 51–53). *Needs:* Tau Ceti `Matrix.IsIrreducible.exists_mulVec_eq_smul`,
-`Matrix.exists_mulVec_eq_smul_of_pos`.
+### 5.1 Primitive matrices
 
-**Checks.**
+For a nonempty finite index type and a primitive real matrix, the Perron
+root `r > 0` is the spectral radius and every other complex eigenvalue has modulus strictly less
+than `r` ([EGNO] §3.2, pp. 51–53). Lean: `Matrix.IsPrimitive.norm_lt_of_hasEigenvalue`. *Needs:*
+Tau Ceti `Matrix.IsIrreducible.exists_mulVec_eq_smul` and the positive-matrix theorem of the supplier
+contracts.
+
+### Examples
 
 - The `0 × 0` matrix is excluded: it has no eigenvalue.
 - `[[1,1],[1,1]]` is primitive with roots `2, 0`, and `0 < 2`.
 - `[[0,1],[1,0]]` is irreducible but not primitive: its roots `1, −1` have equal modulus.
 
+### Dependencies
+
+Supplier contracts of Layer 5.
+
 ## Layer 6: dimensions at the fusion bar
 
-**6.1 Squared norms without a pivotal structure** ([ENO] Proposition 2.1 and Definition 2.2,
+### 6.1 Squared norms without a pivotal structure
+
+([ENO] Proposition 2.1 and Definition 2.2,
 preprint p. 4). For `b : Y ⟶ Yᘁᘁ`, `doubleDualTrace b := η_ Y Yᘁ ≫ (b ▷ Yᘁ) ≫ ε_ Yᘁ Yᘁᘁ`. For
 `a : X ≅ Xᘁᘁ`, `TauCeti.squaredNorm a := doubleDualTrace a.hom ≫ doubleDualTrace (a.inv)ᘁ`. For `X` with
 scalar endomorphisms it does not depend on `a`, `doubleDualTrace a.hom` is a unit when `X` is simple,
 and it equals `leftDim X ≫ rightDim X` for the component of any pivotal structure. For other `X`
-it depends on `a`.
+it depends on `a`. Lean: `doubleDualTrace`, `squaredNorm`, `squaredNorm_congr`,
+`squaredNorm_pivotalIsoApp`. *Needs:* Layer 2.
 
-**6.2 Global dimension without a pivotal structure.** For a fusion category over `k` (the
+### 6.2 Global dimension without a pivotal structure
+
+For a fusion category over `k` (the
 hypotheses of `TauCeti.globalDim_ne_zero` without `[PivotalCategory C]`), `dim C` is the sum of the
 squared norms of the simple representatives, using `TauCeti.nonempty_iso_rightDual_rightDual`,
 named `TauCeti.normGlobalDim C`. `normGlobalDim_eq_globalDim`: it equals `TauCeti.globalDim C` for
 every pivotal structure, so it is nonzero in characteristic zero when `C` admits a pivotal
 structure, by `TauCeti.globalDim_ne_zero`. The general case is 6.9. *Needs:* 6.1.
 
-**6.3 Pseudo-unitarity without a pivotal structure** ([ENO] Proposition 8.23). Over `ℂ`, `C` is
+### 6.3 Pseudo-unitarity without a pivotal structure
+
+([ENO] Proposition 8.23). Over `ℂ`, `C` is
 pseudo-unitary when `dim C = FPdim C`; this agrees with `TauCeti.IsPseudoUnitary` whenever a pivotal
 structure is given, and a pseudo-unitary fusion category has a unique pivotal structure with
-`leftDim X = FPdim X` for every `X`, which is spherical. *Needs:* 6.2; Tau Ceti
-`TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory`.
+`leftDim X = FPdim X` for every `X`, which is spherical ([ENO] §3.1, pp. 10–11, and Proposition
+8.23, pp. 34–35). The pivotal structure is constructed, not assumed: on each simple `S` take the
+lift `a_S : S ≅ Sᘁᘁ` of 6.8 with `doubleDualTrace a_S.hom = FPdim S`, which exists by 6.9 and the
+squared-norm equality `|S|² = FPdim S ²` of pseudo-unitarity; the pinned
+`TauCeti.IsPseudoUnitary.existsUnique_pivotalCategory` then gives uniqueness and sphericity. Lean:
+`existsUnique_pivotalCategory_of_normGlobalDim`. *Needs:* 6.2, 6.7, 6.8, 6.9.
 
-**6.4 The Deligne product** ([EGNO] Definition 1.11.1 and Proposition 1.11.2, p. 15; §4.6, p. 73). For abelian finite semisimple `k`-linear
+### 6.4 The Deligne product
+
+([EGNO] Definition 1.11.1 and Proposition 1.11.2, p. 15; §4.6, p. 73). For abelian finite semisimple `k`-linear
 categories `C`, `D` with split simples, `C ⊠ D := Mat_ (C ⊗ₖ D)`, where `C ⊗ₖ D` has pairs as
 objects and `Hom((X, Y), (X', Y')) = (X ⟶ X') ⊗[k] (Y ⟶ Y')`. It is abelian and finite semisimple,
 with `SimpleClasses (C ⊠ D) ≃ SimpleClasses C × SimpleClasses D`. Universal property: `k`-linear
@@ -267,7 +308,9 @@ into additive `k`-linear idempotent-complete categories. For monoidal `k`-linear
 `(X ⊠ Y) ⊗ (X' ⊠ Y') = (X ⊗ X') ⊠ (Y ⊗ Y')`; for fusion `C` and `D`, `C ⊠ D` is fusion. *Needs:*
 Layer 3; Mathlib `Mat_`.
 
-**6.5 The canonical algebra and Hopf bimodules** ([EGNO] Definition 7.9.12 and Example 7.9.14,
+### 6.5 The canonical algebra and Hopf bimodules
+
+([EGNO] Definition 7.9.12 and Example 7.9.14,
 p. 149; Proposition 7.18.5, p. 173). For `C` fusion, `MonoidalLeftAction (C ⊠ Cᴹᵒᵖ) C` with
 `(X ⊠ Y) ⊙ Z = X ⊗ Z ⊗ Y`, and the canonical algebra `A := ⨁ S, S.repr ⊠ ᘁS.repr`, which represents
 `X ⊠ Y ↦ Hom (X ⊗ Y, 𝟙_ C)` and is a `MonObj` with the internal-endomorphism multiplication of
@@ -275,13 +318,18 @@ p. 149; Proposition 7.18.5, p. 173). For `C` fusion, `MonoidalLeftAction (C ⊠ 
 right `A`-modules in `C ⊠ Cᴹᵒᵖ`, and `ρ_V : (V ⊠ 𝟙) ⊗ A ≅ (𝟙 ⊠ V) ⊗ A` is an isomorphism of right
 `A`-modules, monoidal in `V` ([EGNO] (7.55), (7.57)). *Needs:* 6.4.
 
-**6.6 Unimodularity** ([EGNO] Remark 6.5.9, p. 127, and (7.66)). For `C` fusion there is an
+### 6.6 Unimodularity
+
+([EGNO] Remark 6.5.9, p. 127, and (7.66)). For `C` fusion there is an
 isomorphism of right `A`-modules `A ≅ Aᘁ`, unique up to `Aut (𝟙_ C)`: the distinguished invertible
 object is `𝟙`. *Needs:* 6.5.
 
-**6.7 The Radford isomorphism** ([EGNO] Theorem 7.19.1 and Corollary 7.19.3, p. 177; [ENO04]
+### 6.7 The Radford isomorphism
+
+([EGNO] Theorem 7.19.1 and Corollary 7.19.3, p. 177; [ENO04]
 Theorem 3.3). For `C` fusion, a monoidal natural isomorphism
-`radfordIso C : 𝟭 C ≅ doubleRightDualFunctor C ⋙ doubleRightDualFunctor C`. It is a theorem about
+`radfordIso C : 𝟭 C ≅ doubleRightDualFunctor C ⋙ doubleRightDualFunctor C` (Lean:
+`exists_radfordIso`). It is a theorem about
 fusion categories, not structure on rigid categories: in a general rigid category the double
 right and double left duals are inverse to each other, and need not be isomorphic.
 - Relation to EGNO: for EGNO's `δ_X : Xᘁᘁ ≅ ᘁᘁX`, `(radfordIso C).hom.app X = (δ_X⁻¹)ᘁᘁ`, read
@@ -294,7 +342,9 @@ right and double left duals are inverse to each other, and need not be isomorphi
 
 *Needs:* 6.1, 6.6; Layer 0.
 
-**6.8 The pivotalization** ([EGNO] Definition 7.21.9 and Corollary 7.21.10, p. 181; [ENO04]
+### 6.8 The pivotalization
+
+([EGNO] Definition 7.21.9 and Corollary 7.21.10, p. 181; [ENO04]
 Corollary 7.6). `Pivotalization C` has objects `(X, f)` with `f : X ≅ Xᘁᘁ` and
 `f.hom ≫ (f.hom)ᘁᘁ = (radfordIso C).hom.app X`, morphisms commuting with the `f`, tensor product
 through the tensorator of `doubleRightDualFunctor`, right duals `(Xᘁ, (f.inv)ᘁ)`, and the
@@ -302,14 +352,16 @@ tautological pivotal structure. The forgetful functor to `C` is monoidal and pre
 `squaredNorm`. When `char k ≠ 2`: every simple `S` has exactly two lifts `(S, ±f_S)`, and
 `Pivotalization C` is fusion and spherical. *Needs:* 6.7.
 
-**6.9 Nonvanishing in characteristic zero** ([ENO] Theorem 2.3 and Remark 3.1, preprint pp. 4, 10–11).
+### 6.9 Nonvanishing in characteristic zero
+
+([ENO] Theorem 2.3 and Remark 3.1, preprint pp. 4, 10–11).
 Let `char k = 0` and `C` be fusion. For every simple `S` and every ring homomorphism `σ` from the
 algebraic closure of `ℚ` in `k` to `ℂ`, `σ (squaredNorm S)` is a nonnegative real number, and
 `σ (normGlobalDim C) ≥ 1`; so `TauCeti.normGlobalDim_ne_zero`. The proof applies
 `TauCeti.SplitK0.ringHom_apply_dual` and the argument of `TauCeti.globalDim_ne_zero` to
 `Pivotalization C`, and transports along its forgetful functor with 6.2. *Needs:* 6.2, 6.8.
 
-**Checks.**
+### Examples
 
 - `Vec(C₂)` over `ℂ`: `dim C = 2` by squared norms and by both pivotal structures; only the
   pivotal structure `+1` has both simple dimensions `+1`.
@@ -333,30 +385,46 @@ algebraic closure of `ℚ` in `k` to `ℂ`, `σ (squaredNorm S)` is a nonnegativ
   not simple, so the fusion statement needs `char k ≠ 2`.
 - 6.9: Fibonacci and Yang–Lee over `ℂ`: squared norms `φ² ≈ 2.618` and `φ⁻² ≈ 0.382`, both
   positive, and global dimensions `(5 ± √5)/2 > 1`.
+
+### Dependencies
+
+Layer 3; supplier contracts of Layers 0, 4, 5 and 6; Mathlib `Mat_`.
+
 ## Layer 7: `FDRep G` is pivotal and spherical
 
-**7.1 Indicators agree.** For a finite group `G` and an algebraically closed field of
+### 7.1 Indicators agree
+
+For a finite group `G` and an algebraically closed field of
 characteristic zero, `TauCeti.frobeniusSchurIndicator 2 V` for the standard spherical structure on
 `FDRep k G` equals the character-theoretic `ν₂(V) = |G|⁻¹ ∑_g χ_V(g²)` of
 [RepresentationTheory/CharacterTheory](../RepresentationTheory/CharacterTheory/README.md).
-*Needs:* that roadmap's `ν₂`; Tau Ceti `FDRep.trace_eq_smul`.
+Lean: `frobeniusSchurIndicator_two_fdRep`, against Mathlib's `FDRep.character`. *Needs:* Tau Ceti
+`TauCeti.frobeniusSchurIndicator`, `FDRep.trace_eq_smul`.
 
-**Checks.**
+### Examples
 
 - `C₂` sign representation: `ν₂ = 1`.
 - `Q₈`, two-dimensional irreducible: `ν₂ = −1`.
 - `C₃`, a nontrivial character: `ν₂ = 0`.
 
+### Dependencies
+
+Supplier contracts of Layer 7; Mathlib `FDRep.character`.
+
 ## Layer 8: the pointed categories `Vec^ω_G`
 
-**8.1 The category.** For a group `G`, a commutative ring `R` and a normalized 3-cocycle
+### 8.1 The category
+
+For a group `G`, a commutative ring `R` and a normalized 3-cocycle
 `ω : G → G → G → Rˣ` (cocycle identity and normalization written out), `VecTwisted R G ω` is the
 category of finitely supported `G`-graded `R`-modules with finitely generated projective
 components, with the associator twisted by `ω` ([EGNO] Example 2.3.8, p. 28). Projective components
 make it rigid, with duals as in the conventions. Each `δ_g` has `End δ_g = R`. Cohomologous cocycles
 give `R`-linearly monoidally equivalent categories ([EGNO] Proposition 2.6.1, p. 33).
 
-**8.2 Pivotal structures.** `Aut_⊗(𝟭) ≃* (G →* Rˣ)`: a natural endomorphism of the identity of
+### 8.2 Pivotal structures
+
+`Aut_⊗(𝟭) ≃* (G →* Rˣ)`: a natural endomorphism of the identity of
 finitely generated projective `R`-modules is multiplication by its value on `R`, morphisms preserve
 degree, and monoidality makes the family a character. The canonical pivotal structure of the
 conventions is monoidal by an identity in `Rˣ` that follows from the cocycle condition alone. It is
@@ -364,15 +432,19 @@ not a consequence of the field case applied factorwise: the values of `ω` may g
 which embeds in the units of no field. So pivotal structures form a torsor over `G →* Rˣ`.
 *Needs:* 8.1; Tau Ceti `TauCeti.PivotalCategory.instTorsor`.
 
-**8.3 Spherical structures.** At the canonical structure both dimensions of `δ_g` are `1`, so the
+### 8.3 Spherical structures
+
+At the canonical structure both dimensions of `δ_g` are `1`, so the
 twist by `χ` is spherical iff `χ(g)² = 1` for every `g`. *Needs:* 8.2, Layer 2.
 
-**8.4 Indicators.** For `n > 0`, `ν_n(δ_g) = 0` if `gⁿ ≠ 1`, and otherwise
+### 8.4 Indicators
+
+For `n > 0`, `ν_n(δ_g) = 0` if `gⁿ ≠ 1`, and otherwise
 `ν_n(δ_g) = χ(g)⁻¹ ∏_{r=1}^{n-1} ω(g, gʳ, g)` for the twist by `χ`. For torsion `G` the indicators
 determine `χ`; for `G = ℤ` they do not. *Needs:* 8.2; Tau Ceti `TauCeti.frobeniusSchurIndicator`,
 `TauCeti.pivotalRotate`.
 
-**Checks.**
+### Examples
 
 - `R = ℤ`, `G = C₂`: two characters and two pivotal structures; over the zero ring, one of each.
 - `G = C₂` with the sign pivotal structure: `ν₂(δ_g) = −1`; with the trivial one, `ν₂(δ_g) = 1`.
@@ -380,68 +452,107 @@ determine `χ`; for `G = ℤ` they do not. *Needs:* 8.2; Tau Ceti `TauCeti.frobe
   all positive indicators of `δ_1` vanish, as for `χ = 1`.
 - `G = S₃`, `g = (12)`, `h = (23)`: `δ_g ⊗ δ_h = δ_{(123)}` and `δ_h ⊗ δ_g = δ_{(132)}`.
 
+### Dependencies
+
+Layer 2; supplier contracts of Layers 1 and 7.
+
 ## Layer 9: gradings and the universal grading group
 
-**9.1 The pointed example.** Over a field, `U(Vec^ω_G) = G` for finite `G`, with adjoint
+### 9.1 The pointed example
+
+Over a field, `U(Vec^ω_G) = G` for finite `G`, with adjoint
 subcategory `Vec`, and `TauCeti.PivotalCategory.characterEquiv` recovers the torsor of 8.2
 ([DGNO] Proposition 2.3(iii), preprint p. 7). *Needs:* Layer 8.
 
-**Checks.**
+### Examples
 
 - `Vec(C₂)`: `U = C₂`, adjoint subcategory `Vec`.
 - `Rep(S₃)`: `U = 1`.
 - `Vec(C₂)` with `X = 𝟙 ⊕ g` instead of a simple object generates all of `Vec(C₂)`, which is why
   `TauCeti.SimpleClasses.IsAdjoint` quantifies over simples.
 
+### Dependencies
+
+Layer 8; supplier contracts of Layer 9.
+
 ## Layer 10: balanced, ribbon and the centre
 
-**10.1 The spherical-to-ribbon converse.** Let `C` be braided, rigid, pivotal and spherical,
+### 10.1 The spherical-to-ribbon converse
+
+Let `C` be braided, rigid, pivotal and spherical,
 abelian and `k`-linear over a field `k`, finite semisimple with finite-dimensional Hom spaces and
 every simple object with scalar endomorphisms. Then the twist of `TauCeti.balancedOfBraidedPivotal`
 is ribbon ([HPT] Proposition A.4, pp. 45–46). No finiteness of simple classes and no
-characteristic hypothesis is needed. *Needs:* Layer 2.
+characteristic hypothesis is needed. Lean: `ribbonCategory_balancedOfBraidedPivotal_of_spherical`.
+*Needs:* Layer 2.
 
-**10.2 The ribbon centre.** For a spherical fusion category over an algebraically closed field of
-characteristic zero, `Center C` with its canonical braiding and pivotal structure is ribbon.
-*Needs:* 10.1, 11.3; Tau Ceti `CategoryTheory.Center.pivotalCategory`,
-`CategoryTheory.Center.sphericalCategory`.
-
-**Checks.**
+### Examples
 
 - `FDRep k C₃` in characteristic three, standard pivotal structure twisted by the generator `g`:
   spherical, since `Tr((I+N)f) = Tr(f)` for nilpotent `N`, but not ribbon: on `[[1,1],[0,1]]` the
   dual twist differs. This is the negative control for semisimplicity.
 - `Vecℤ` over `ℂ` with the standard structure: spherical and ribbon, with infinitely many simples.
-- `Z(Vec(C₂))` over `ℂ`: the central twists are `±1`, equal to their duals.
+- `ℝ`-linear `FDRep ℝ C₃` with the rotation representation fails the scalar hypothesis, which is
+  what HPT's Lemma A.5 needs.
+
+### Dependencies
+
+Layer 2; supplier contracts of Layer 10.
 
 ## Layer 11: the centre of a fusion category is a fusion category
 
-**11.1 The induction functor.** `I : C ⥤ Center C`, `I X = ⨁_S S ⊗ X ⊗ Sᘁ` over
+### 11.1 The induction functor
+
+`I : C ⥤ Center C`, `I X = ⨁_S S ⊗ X ⊗ Sᘁ` over
 `SimpleClasses C`, with its half-braiding defined and the hexagon proved, two-sided adjoint to
 `Center.forget C`, exact and faithful. It is canonically the right adjoint (an end). The left
 adjoint is canonically the coend `⨁_S S ⊗ X ⊗ ᘁS`, identified with `I` through
-`(doubleDualTrace a_S)⁻¹ •` the mate of a chosen `a_S : S ≅ Sᘁᘁ`, which does not depend on the choice (as in the proof of [ENO] Theorem 2.15). *Needs:* Layer 3 (3.3, 3.4); Tau Ceti
+`(doubleDualTrace a_S)⁻¹ •` the mate of a chosen `a_S : S ≅ Sᘁᘁ`, which does not depend on the choice. The underlying-object formula is [ENO] §5.8, Proposition 5.4,
+preprint p. 21; the half-braiding and both adjunctions are a deduction from 3.3–3.4, with the unit
+and counit of 11.2, and do not use the semisimplicity of the centre. *Needs:* Layer 3 (3.3, 3.4); Tau Ceti
 `CategoryTheory.Center.instAbelian`, `CategoryTheory.Center.rigidCategory`.
 
-**11.2 The averaging identity.** With the counit of `forget ⊣ I` the projection onto the
+### 11.2 The averaging identity
+
+With the counit of `forget ⊣ I` the projection onto the
 `𝟙`-summand and the unit of `I ⊣ forget` its inclusion, the composite `Z ⟶ I (forget Z) ⟶ Z` is
 `dim C · 𝟙 Z`, with `dim C` the squared-norm global dimension of 6.2. *Needs:* 11.1, 6.2.
 
-**11.3 Semisimplicity and the fusion hypotheses.** `IsFiniteSemisimpleCategory (Center C)` for the
-canonical abelian structure, with Hom-finiteness, finitely many simple classes and a simple unit,
-over an algebraically closed field of characteristic zero and with no pivotal structure assumed
-([ENO] Theorem 2.15). *Needs:* 11.2, 6.9.
+### 11.3 Semisimplicity and finiteness
 
-**11.4 The dimension of the centre.** `dim (Center C) = (dim C)²`, for the canonical structures, and
-for the pivotal structure inherited from `C` when there is one. *Needs:* 11.3.
+`IsFiniteSemisimpleCategory (Center C)` for the canonical abelian structure, and finitely many
+simple classes, over an algebraically closed field of characteristic zero and with no pivotal
+structure assumed ([ENO] Theorem 2.15); Hom-finiteness and the simple unit are supplied. Lean:
+`isFiniteSemisimpleCategory_center`, `finite_simpleClasses_center`. *Needs:* 11.2, 6.9.
 
-**Checks.**
+### 11.4 The dimension of the centre
+
+`dim (Center C) = (dim C)²`, for the canonical structures, and
+for the pivotal structure inherited from `C` when there is one. Lean: `normGlobalDim_center`,
+`globalDim_center`. *Needs:* 11.3.
+
+### 11.5 The ribbon centre
+
+For a spherical fusion category over an algebraically closed field of
+characteristic zero, `Center C` with its canonical braiding and pivotal structure is ribbon.
+Lean: `ribbonCategory_center`. *Needs:* 10.1, 11.3; Tau Ceti `CategoryTheory.Center.pivotalCategory`,
+`CategoryTheory.Center.sphericalCategory`.
+
+
+### Examples
 
 - `Vec(C₂)` over `ℂ`: `I δ_e = 2 δ_e` underlying, decomposing as `(e, +) ⊕ (e, −)`; the averaging
   composite on `𝟙` is `2 · 𝟙`, and rescaling the unit by `3` gives `6 · 𝟙`.
 - `Vec(C₂)` over `ℂ`: four simple classes in the centre and `dim Z = 4 = 2²`; transporting the
   tensor structure of `Rep(D₁₀)` instead gives `10`, which is why the canonical structure is pinned.
 - `Vec(C₂)` in characteristic `2`: `dim C = 0` and the centre is not semisimple.
+- `Vecℝ(C₃)`: the centre's dimension computed over `ℝ` is `15`, not `3² = 9`, which is why 11.4
+  carries algebraic closedness.
+- `Z(Vec(C₂))` over `ℂ`: the central twists are `±1`, equal to their duals (11.5).
+
+### Dependencies
+
+Layers 3, 6 and 10; supplier contracts of Layer 10.
 
 ## Downstream consumers
 

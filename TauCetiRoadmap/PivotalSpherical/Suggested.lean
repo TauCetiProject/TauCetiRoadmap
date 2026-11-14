@@ -10,14 +10,19 @@ import TauCeti.CategoryTheory.Monoidal.Center.Rigid
 import TauCeti.CategoryTheory.Semisimple.Basic
 import TauCeti.CategoryTheory.Semisimple.Rigid
 import TauCeti.CategoryTheory.Simple.Classes
+import TauCeti.CategoryTheory.Semisimple.Rigid
+import TauCeti.CategoryTheory.Semisimple.FrobeniusPerron
+import TauCeti.CategoryTheory.Monoidal.Pivotal.FrobeniusSchur
+import TauCeti.CategoryTheory.Monoidal.Center.Simple
+import TauCeti.RepresentationTheory.FDRep.Pivotal
 
 /-!
 # Pivotal and spherical categories: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap. `sorry` is allowed in this human-owned roadmap
+`README.md`. This file holds the headline acceptance signatures of the remaining targets, stated
+against the pinned libraries, so that contributors and reviewers converge on names and
+signatures; discharging all of them finishes neither a layer nor the roadmap. `sorry` is allowed in this human-owned roadmap
 library — these are goals, not proofs.
 
 Everything below is stated against the pinned Tau Ceti carriers (`TauCeti.PivotalCategory`,
@@ -30,10 +35,10 @@ Not stated here, because the carrier is a construction that does not exist at th
 * Layer 8: the category `Vec^ω_G` over a commutative ring, its rigid and pivotal structures, the
   classification of pivotal structures by `G →* Rˣ`, the spherical criterion and the
   Frobenius–Schur indicators of the `δ_g`; and the Layer 9 statement `U(Vec^ω_G) = G`.
-* Layer 11: the induction functor `Center C ⥤ …` and its two adjunctions, and the averaging
+* Layer 6: the Deligne product, the canonical algebra and the pivotalization (6.4–6.8), which are
+  constructions.
+* Layer 11: the induction functor `C ⥤ Center C` and its two adjunctions, and the averaging
   identity, which are stated about that functor.
-* Layer 7: the comparison of the categorical `ν₂` on `FDRep` with the character-theoretic one,
-  whose carrier belongs to `RepresentationTheory/CharacterTheory`.
 -/
 
 namespace TauCetiRoadmap.PivotalSpherical
@@ -180,7 +185,29 @@ theorem exists_radfordIso :
 pivotal structure. -/
 theorem normGlobalDim_ne_zero [CharZero k] : normGlobalDim C ≠ 0 := sorry
 
+include k in
+/-- **Comparison with the pivotal global dimension** (6.2). -/
+theorem normGlobalDim_eq_globalDim [PivotalCategory C] : normGlobalDim C = globalDim C := sorry
+
 end Radford
+
+/-- **Pseudo-unitary fusion categories have a canonical spherical structure**, with no pivotal
+structure assumed (Etingof–Nikshych–Ostrik, Proposition 8.23). -/
+theorem existsUnique_pivotalCategory_of_normGlobalDim (C : Type u) [Category.{v} C]
+    [MonoidalCategory C] [RigidCategory C] [Abelian C] [MonoidalPreadditive C] [Linear ℂ C]
+    [MonoidalLinear ℂ C] [IsFiniteSemisimpleCategory C] [∀ X Y : C, FiniteDimensional ℂ (X ⟶ Y)]
+    [Simple (𝟙_ C)] [EssentiallySmall.{w} C] [Fintype (SimpleClasses C)]
+    (h : normGlobalDim C = (frobeniusPerronGlobalDim.{w} ℂ C : ℂ) • 𝟙 (𝟙_ C)) :
+    ∃! P : PivotalCategory C,
+      (∀ X : C, @leftDim C _ _ _ P X = (frobeniusPerronDim.{w} ℂ X : ℂ) • 𝟙 (𝟙_ C)) ∧
+        @SphericalCategory C _ _ _ P := sorry
+
+/-! ## Layer 7: Frobenius–Schur indicators on `FDRep` -/
+
+/-- **The categorical `ν₂` is the character-theoretic one.** -/
+theorem frobeniusSchurIndicator_two_fdRep (k G : Type u) [Field k] [IsAlgClosed k] [CharZero k]
+    [Group G] [Fintype G] (V : FDRep k G) :
+    frobeniusSchurIndicator k V 2 = (Nat.card G : k)⁻¹ * ∑ g : G, V.character (g ^ 2) := sorry
 
 /-! ## Layer 10: ribbon structures -/
 
@@ -213,10 +240,21 @@ variable (k : Type w) [Field k] [IsAlgClosed k] [CharZero k] (C : Type u) [Categ
   [∀ U : C, PreservesFiniteLimits (tensorLeft U)] [∀ U : C, PreservesFiniteLimits (tensorRight U)]
   [∀ U : C, PreservesFiniteColimits (tensorLeft U)]
   [∀ U : C, PreservesFiniteColimits (tensorRight U)]
+include k
 
 /-- **The centre of a fusion category is finite semisimple**, for its canonical abelian
 structure, with no pivotal structure assumed (Etingof–Nikshych–Ostrik, Theorem 2.15). -/
 theorem isFiniteSemisimpleCategory_center : IsFiniteSemisimpleCategory (Center C) := sorry
+
+/-- **The centre has finitely many simple classes.** -/
+theorem finite_simpleClasses_center : Finite (SimpleClasses (Center C)) := sorry
+
+/-- **The dimension of the centre**, without a pivotal structure: the squared-norm global
+dimension of the centre is the square of that of `C`. The centre's semisimplicity and finiteness
+enter as the (propositional) instances proved above. -/
+theorem normGlobalDim_center [IsFiniteSemisimpleCategory (Center C)]
+    [Fintype (SimpleClasses (Center C))] :
+    (Center.forget C).map (normGlobalDim (Center C)) = normGlobalDim C ≫ normGlobalDim C := sorry
 
 /-- **The dimension of the centre** is the square of the global dimension, for the canonical
 structures on the centre and the pivotal structure it inherits from `C`. -/
