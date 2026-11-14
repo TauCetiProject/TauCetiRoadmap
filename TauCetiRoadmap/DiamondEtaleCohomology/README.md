@@ -1374,7 +1374,7 @@ In the situation of target C4.13, `f̄^{/Y} : Ȳ′^{/Y} → Y` is partially pro
 
 #### C4.15 Properties of the relative canonical compactification
 
-Let `Y′ → Y` be a separated map of `v`-stacks. (i) `Ȳ′^{/Y} → Y` is partially proper. (ii) If `Y` and `Y′` are small `v`-stacks, `Ȳ′^{/Y}` is a small `v`-stack. (iii) If `Y` and `Y′` are diamonds, `Ȳ′^{/Y}` is a diamond. (iv) `Y′ ↦ Ȳ′^{/Y}`, from `v`-sheaves over `Y` to `v`-sheaves over `Y`, commutes with all limits. (v) If `f : Y′_2 → Y′_1` is a surjective map of separated `v`-stacks over `Y`, then `f̄^{/Y}` is surjective. (vi) If `f : Y′_2 → Y′_1` is a quasicompact map of separated `v`-stacks over `Y`, then `f̄^{/Y} : Ȳ′_2^{/Y} → Ȳ′_1^{/Y}` is proper. (vii) If `f : Y′_2 → Y′_1` is a quasi-pro-étale map of separated `v`-stacks over `Y`, then `f̄^{/Y}` is quasi-pro-étale.
+Fix a separated map `Y′ → Y` of `v`-stacks. The structure map `Ȳ′^{/Y} → Y` of its canonical compactification is always partially proper. Smallness and being a diamond are inherited: once both `Y` and `Y′` are small `v`-stacks, so is `Ȳ′^{/Y}`, and once both are diamonds, `Ȳ′^{/Y}` is one as well. Viewed as an endofunctor `Y′ ↦ Ȳ′^{/Y}` of the category of `v`-sheaves over `Y`, compactification preserves every limit. On morphisms, take separated `v`-stacks `Y′_1`, `Y′_2` over `Y` and a map `f : Y′_2 → Y′_1` over `Y`: the induced `f̄^{/Y} : Ȳ′_2^{/Y} → Ȳ′_1^{/Y}` is surjective, resp. quasi-pro-étale, whenever `f` is, and it is proper as soon as `f` is quasicompact.
 
 *Needs:* `C4.13`; `C4.14`; `C4.11`; `C4.12`; `C4.10`; `C4.7`.
 
