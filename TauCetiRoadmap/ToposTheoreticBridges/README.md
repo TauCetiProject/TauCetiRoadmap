@@ -50,8 +50,8 @@ topologies finer than a classifying one, and Morita equivalence of theories (Cla
 1.1, 1.3, 1.4, 2.1, 2.4, 2.5, 2.6), on which Layer 4 rests.
 
 **Supplied by Mathlib.** Karoubi envelopes, their universal property and idempotent completeness
-(`CategoryTheory.Idempotents.Karoubi`, `toKaroubi`, `IsIdempotentComplete`, `karoubiUniversal`),
-groupoids (`IsGroupoid`), the right Ore condition
+(`CategoryTheory.Idempotents.Karoubi`, `toKaroubi`, `karoubiUniversal`,
+`CategoryTheory.IsIdempotentComplete`), groupoids (`IsGroupoid`), the right Ore condition
 (`CategoryTheory.GrothendieckTopology.RightOreCondition`), the lattices of subobjects
 (`CategoryTheory.Subobject`), sites, sheaves and the complete lattice of Grothendieck topologies.
 
@@ -84,12 +84,12 @@ groupoids (`IsGroupoid`), the right Ore condition
 **From Mathlib**
 
 - `CategoryTheory.Idempotents.Karoubi C`, `CategoryTheory.Idempotents.toKaroubi C`,
-  `CategoryTheory.Idempotents.IsIdempotentComplete C`, and
+  `CategoryTheory.IsIdempotentComplete C` (in `Mathlib.CategoryTheory.Idempotents.Basic`), and
   `CategoryTheory.Idempotents.karoubiUniversal`: for idempotent complete `D`, precomposition with
   `toKaroubi C` is an equivalence `(Karoubi C ⥤ D) ≌ (C ⥤ D)`;
   `CategoryTheory.Idempotents.isIdempotentComplete_iff_hasEqualizer_of_id_and_idempotent`.
-- `CategoryTheory.IsGroupoid C`; `CategoryTheory.Equivalence`, `Equivalence.congrLeft`;
-  `CategoryTheory.Functor.FullyFaithful`.
+- `CategoryTheory.IsGroupoid C`; `CategoryTheory.Equivalence`, `Equivalence.op`,
+  `Equivalence.congrLeft`; `CategoryTheory.Functor.FullyFaithful`.
 - `CategoryTheory.GrothendieckTopology.RightOreCondition C` and
   `CategoryTheory.GrothendieckTopology.right_ore_of_pullbacks`.
 - `CategoryTheory.Subobject X` with its `Lattice` and `BoundedOrder` instances, for a category
@@ -110,7 +110,8 @@ Nothing is consumed from the Tau Ceti library.
 - 4.1 and Convention 6: `Subtopos E`, an object property closed under isomorphisms whose
   inclusion has a left exact left adjoint, ordered by `≤` of object properties.
 - 4.2: `Sheaf J (Type u)` is a subtopos of `Cᵒᵖ ⥤ Type u`, and the subtopoi of `Sheaf J (Type u)`
-  correspond to the topologies `J' ≥ J`.
+  correspond to the topologies `J' ≥ J`, the subtopos of `J'` being the objects `F` of
+  `Sheaf J (Type u)` with `Presheaf.IsSheaf J' F.obj`.
 - 6.5: the essential points of `Cᵒᵖ ⥤ Type u`, equivalently its connected nonempty projective
   objects, form the idempotent completion `Idempotents.Karoubi C`.
 
@@ -145,10 +146,19 @@ results.
 ### 1.1 The definition
 
 Define `MoritaEquivalentCat C D` for `C D : Type u` with `[SmallCategory C]` and
-`[SmallCategory D]`: there is an equivalence `(Cᵒᵖ ⥤ Type u) ≌ (Dᵒᵖ ⥤ Type u)`. Prove that it is
-reflexive, symmetric and transitive, and that equivalent small categories are Morita
-equivalent.
-*Needs:* Mathlib `Functor`, `Equivalence`, `Equivalence.congrLeft`.
+`[SmallCategory D]`: there is an equivalence `(Cᵒᵖ ⥤ Type u) ≌ (Dᵒᵖ ⥤ Type u)` (Lindner 1974,
+§0, p. 377, the nonadditive Morita problem as the equivalence of the functor categories
+`[A, Ens]` and `[B, Ens]` of small categories, applied to `Cᵒᵖ` and `Dᵒᵖ`). Prove, as API:
+
+- reflexivity: `MoritaEquivalentCat C C`, by the identity equivalence;
+- symmetry: `MoritaEquivalentCat C D` implies `MoritaEquivalentCat D C`, by the inverse
+  equivalence;
+- transitivity: for a third small category `E : Type u`, `MoritaEquivalentCat C D` and
+  `MoritaEquivalentCat D E` imply `MoritaEquivalentCat C E`, by the composite equivalence;
+- an equivalence `C ≌ D` gives `MoritaEquivalentCat C D`, through `Equivalence.congrLeft` applied
+  to the opposite equivalence `Cᵒᵖ ≌ Dᵒᵖ` (`Equivalence.op`).
+
+*Needs:* Mathlib `Functor`, `Equivalence`, `Equivalence.op`, `Equivalence.congrLeft`.
 
 **Checks.**
 
@@ -234,9 +244,13 @@ objectwise unions, so `𝟙 c` lies in `A` or in `B`, and in the second case `B 
 which `f ∈ A` excludes. So `𝟙 c = s ≫ f` for some `s : c ⟶ d`; the same for `s` gives `t` with
 `𝟙 d = t ≫ s`, hence `f = (t ≫ s) ≫ f = t` and `f ≫ s = 𝟙 d`: `f` is an isomorphism.
 
-Prove, as API, that `IsBooleanTopos` is invariant under equivalence of categories: an equivalence
-`e : E ≌ E'` induces order isomorphisms `Subobject X ≃o Subobject (e.functor.obj X)`, every object
-of `E'` is isomorphic to some `e.functor.obj X`, and `IsCompl` is preserved by order isomorphisms.
+Prove, as API:
+
+- an equivalence `e : E ≌ E'` induces order isomorphisms
+  `Subobject X ≃o Subobject (e.functor.obj X)`;
+- equivalence transport: if `e : E ≌ E'`, then `IsBooleanTopos E ↔ IsBooleanTopos E'`, since every
+  object of `E'` is isomorphic to some `e.functor.obj X` and `IsCompl` is preserved by order
+  isomorphisms.
 
 Prove `isGroupoid_iff_of_moritaEquivalentCat`: if `MoritaEquivalentCat C D`, then
 `IsGroupoid C ↔ IsGroupoid D`. Route: `IsBooleanTopos` is invariant under equivalence, so the
@@ -279,8 +293,10 @@ gives `F.map k (F.map g x) = F.map h (F.map f x) ∈ A`, so `x ∈ ¬¬A`. Conve
 `f`; `𝟙 c ∉ ¬A` since its restriction `f` lies in `A`, so `𝟙 c ∈ ¬¬A`, and its restriction `g`
 has a further restriction `k ≫ g` in `A`, that is `k ≫ g = h ≫ f`.
 
-Prove, as API, that `IsDeMorganTopos` is invariant under equivalence of categories, by the order
-isomorphisms of subobjects of 2.1, which preserve `Disjoint`, `⊔` and `⊤`.
+Prove, as API:
+
+- equivalence transport: if `e : E ≌ E'`, then `IsDeMorganTopos E ↔ IsDeMorganTopos E'`, by the
+  order isomorphisms of subobjects of 2.1, which preserve `Disjoint`, `⊔` and `⊤`.
 
 Prove `rightOreCondition_iff_of_moritaEquivalentCat`: if `MoritaEquivalentCat C D`, then
 `GrothendieckTopology.RightOreCondition C ↔ GrothendieckTopology.RightOreCondition D`. Route:
@@ -291,8 +307,9 @@ a cospan `f : (X, p) ⟶ (Z, r)`, `g : (Y, q) ⟶ (Z, r)` by the completion `h, 
 cospan in `C` and the arrows `h ≫ p`, `k ≫ q` out of `(d, 𝟙 d)`, since `p ≫ f = f` and
 `q ≫ g = g`; and back from `Karoubi C` to `C`, since `toKaroubi C` is fully faithful and the apex
 `(d, e)` of a completion in `Karoubi C` can be replaced by `d` with the same arrows.
-*Needs:* 1.1, 1.2; Mathlib `Subobject`, `Disjoint`, `GrothendieckTopology.RightOreCondition`,
-`yoneda`, `Sieve`, `Sieve.functor`, `Karoubi`, `toKaroubi`.
+*Needs:* 1.1, 1.2; 2.1, subobject order isomorphisms; Mathlib `Subobject`, `Disjoint`,
+`GrothendieckTopology.RightOreCondition`, `yoneda`, `Sieve`, `Sieve.functor`, `Karoubi`,
+`toKaroubi`.
 
 **Checks.**
 
@@ -326,21 +343,21 @@ cospan in `C` and the arrows `h ≫ p`, `k ≫ q` out of `(d, 𝟙 d)`, since `p
 
 ### Dependencies
 
-Layer 1. Within the layer, 2.1 and 2.2 are independent.
+Layer 1. The presheaf criteria are independent; the equivalence-invariance API of 2.2 uses the
+subobject order isomorphisms of 2.1.
 
 ## Layer 3: bridges between sites
 
 ### 3.1 The lattice of finer topologies
 
-The invariant is the poset of subtopoi of a topos. Prove, as its reading on a site and its
-invariance:
+The invariant is the poset of subtopoi of a topos. Its reading on a site is the supplied
+correspondence of GrothendieckTopoi 4.2 between the subtopoi of `Sheaf J (Type u)` and the
+topologies `J' ≥ J`, the subtopos of `J'` being the `J`-sheaves that are `J'`-sheaves. Prove, for
+its order and its invariance:
 
-- for topologies `J ≤ J'` on `C`, the objects `F` of `Sheaf J (Type u)` with
-  `Presheaf.IsSheaf J' F.obj` form a subtopos of `Sheaf J (Type u)`, and every subtopos of
-  `Sheaf J (Type u)` is of this form for exactly one `J' ≥ J` (GrothendieckTopoi 4.2);
-- for `J ≤ J₁` and `J ≤ J₂`: `J₁ ≤ J₂` if and only if every `J₂`-sheaf in `Sheaf J (Type u)` is a
-  `J₁`-sheaf, so that the correspondence of the first item reverses order and the `J'`-sheaves
-  among the `J`-sheaves determine `J'`;
+- order characterization: for `J ≤ J₁` and `J ≤ J₂`, `J₁ ≤ J₂` if and only if every `J₂`-sheaf in
+  `Sheaf J (Type u)` is a `J₁`-sheaf, so that the supplied correspondence reverses order and the
+  `J'`-sheaves among the `J`-sheaves determine `J'`;
 - an equivalence `e : E ≌ E'` of Grothendieck topoi induces an order isomorphism
   `Subtopos E ≃o Subtopos E'`, sending a subtopos `P` to the objects isomorphic to some
   `e.functor.obj X` with `P X` (GrothendieckTopoi 4.1 and Convention 6 for `Subtopos` and its
@@ -350,9 +367,9 @@ Prove `exists_orderIso_ici_of_sheafEquiv`: for small sites `(C, J)` and `(D, K)`
 `C D : Type u` and an equivalence `e : Sheaf J (Type u) ≌ Sheaf K (Type u)`, there is an order
 isomorphism `φ : Set.Ici J ≃o Set.Ici K` such that, for every `J' ≥ J` and every
 `F : Sheaf J (Type u)`, `Presheaf.IsSheaf J' F.obj ↔ Presheaf.IsSheaf (φ J') (e.functor.obj F).obj`.
-By the second item this property determines `φ`. Route: compose the two order-reversing
-bijections of the first two items, for `(C, J)` and for `(D, K)`, with the order isomorphism of
-subtopoi induced by `e`.
+By the order characterization this property determines `φ`. Route: compose the two
+order-reversing bijections given by the supplied correspondence and the order characterization,
+for `(C, J)` and for `(D, K)`, with the order isomorphism of subtopoi induced by `e`.
 *Needs:* GrothendieckTopoi 4.1, 4.2; Mathlib `GrothendieckTopology`, `Sheaf`, `Presheaf.IsSheaf`,
 `Presieve.isSheaf_of_le`, `classifier_isSheaf`, `le_topology_of_closedSieves_isSheaf`, `Set.Ici`,
 `OrderIso`.
@@ -360,7 +377,8 @@ subtopoi induced by `e`.
 **Checks.**
 
 - For `J = K` and `e` the identity equivalence, `φ` is the identity of `Set.Ici J`: `J'` and
-  `φ J'` have the same sheaves among the `J`-sheaves, and the second item gives `φ J' = J'`.
+  `φ J'` have the same sheaves among the `J`-sheaves, and the order characterization gives
+  `φ J' = J'`.
 - `φ` depends on `e`. On `Discrete (ULift.{u} (Fin 2))` a topology chooses the points on which
   the empty sieve covers, so there are four, and `Set.Ici ⊥` is all of them; a presheaf `(X₀, X₁)`
   is a sheaf for the topology `J₀` in which `∅` covers the point `0` only exactly when `X₀` has
@@ -496,3 +514,5 @@ cases of the same method.
   version 1).
 - O. Caramello, « The unification of Mathematics via Topos Theory », preprint, arXiv:1006.3930
   (cited as Caramello 2010, in the pages of arXiv version 1). Research context only.
+- H. Lindner, « Morita equivalences of enriched categories », *Cahiers Topologie Géom.
+  Différentielle* 15 (1974), no. 4, 377–397. Numdam CTGDC_1974__15_4_377_0. Zbl 0319.18006.
