@@ -333,6 +333,10 @@ For `[TopologicalSpace α] [DiscreteTopology α]`, the topology of Convention 4 
 - the topological-group instance `Equiv.Perm.instIsTopologicalGroup` and, for countable `α`, the
   Polish instance `Equiv.Perm.instPolishSpace`, from the closed embedding into a Polish product. For `α = ℕ` this is S∞; for finite `α` the topology is discrete.
 
+For `α = ℕ` this is Vaught 1974, §3, p. 282: the group of all permutations of ω, with the product
+topology, is a Polish group, and it acts continuously on the space of structures with universe ω
+(the logic action of 1.2), for any vocabulary.
+
 *Needs:* TC `Topology/Algebra/Group/Perm.lean`; M `fixingSubgroup`, `IsTopologicalGroup`,
 `PolishSpace`, `Topology.IsClosedEmbedding.polishSpace`.
 
@@ -501,6 +505,16 @@ Build, on Mathlib's `Descriptive.tree A`:
 forced back-and-forth trees are closed, and need not be open when the language has infinitely many
 relation symbols.
 
+**Sources.** Marker's notes, Chapter 9, state the lightface forms. The Kleene–Brouwer order is
+Definition 9.38, p. 120, and Exercise 9.39, p. 120, states that it is a linear order and that a
+tree is well-founded exactly when the order well-orders its nodes (`wellFounded_kbLT_iff`). The
+tree representation of a Σ¹₁ subset of Baire space is the paragraph after Theorem 9.27, p. 117
+(there a recursive tree on `ω × ω`; here a tree on `Bool × ℕ`, for subsets of Cantor space).
+The boundedness theorem is Corollary 9.42(ii), p. 121: a Σ¹₁ set of well-founded trees has ranks
+bounded below `ω₁ᶜᵏ`. The boldface forms here are their relativisations (p. 117), which bound
+below `ω₁`. The remaining statements (bodies, strict extension, heights) and the proof of the
+boundedness theorem given here are this roadmap's formulation.
+
 *Needs:* L0 (`queryCode`, for `exists_tree_of_analyticSet`); M `Descriptive.tree`,
 `WellFounded.rank`, `MeasureTheory.AnalyticSet`, `Ordinal.omega`; the shape of Mathlib #41946.
 
@@ -605,6 +619,13 @@ The statements:
   closure gives `BFEquiv` at every level, then `potentialIso_iff_bfEquiv_all` and
   `countable_potentialIso_iff_iso`.
 
+The external Scott height and its comparisons with the internal ordinals are this roadmap's own.
+The internal ordinals are those of Marker's notes, pp. 17–18. Lemma 2.17 (for infinite `M`) defines
+sr(M), the least `α` at which `∼α` of two tuples implies `∼β` for every `β`; this is s(M) here,
+since one-step stabilization at every tuple persists (claim 1 of its proof). Definition 2.18
+defines SR(M) as the supremum of `r(a) + 1`; Marker's `r(a)` asks for one further step at `a`,
+where Tau Ceti's `orbitRank a` asks for agreement at every level.
+
 *Needs:* TC `ModelTheory/Scott/Height.lean`,
 `SelfStabilizesCompletely.bfEquiv_add_one_of_isSuccLimit`, `bfEquiv_of_le_of_forall_add_one`,
 `selfStabilizationOrdinal`, `internalScottRank`, `orbitRank_le_selfStabilizationOrdinal`,
@@ -652,6 +673,18 @@ whose strata are Borel, and pass to the external height with the comparison boun
 equivalence of the empty tuples decides isomorphism: an infinite pure set has internal rank `1`,
 yet `BFEquiv k` relates it to a finite pure set of size `k` for every finite `k`. The external
 height is the right parameter for the height comparison.
+
+**Source for 4.3–4.4.** Marker's notes, Theorem 11.19, p. 144, prove for a recursive vocabulary
+and a hyperarithmetic `φ`, and by relativisation for every `φ` of a countable vocabulary, that
+isomorphism is Borel on Mod(φ) exactly when the Scott ranks of the models of `φ` (the internal
+rank) have a countable bound. Their proof of (⇒) bounds an analytic set of well-orders, those along
+which a back-and-forth analysis of two non-isomorphic models runs, by Σ¹₁-bounding; uniform
+separation (4.4, including the form for two classes) does the same with the forced trees and the
+boundedness theorem of Layer 3. Their proof of (⇐) takes isomorphism to be `∼α` when every model
+has Scott rank below `α`. That step fails for the internal rank (the second API warning above):
+`(ℕ, P)` with `|P| = 2` and with `|P| = 3`, `P` coinfinite in both, have SR = 1 and are `∼₂` but
+not isomorphic. So 4.3 bounds the external height, which a bound `β` on the internal rank bounds by
+`β + ω` (4.2).
 
 *Needs:* L3 (`treeHeight`, `analytic_treeHeight_bounded`); L4.1; TC `SameAtomicType`, `BFEquiv`; M
 `MeasurableSet.analyticSet`; BorelEquivalenceRelations `AnalyticSet.prod`.
@@ -873,6 +906,12 @@ well-order of `ℕ`. Prove:
 the class contains a continuous Cantor family of pairwise non-isomorphic codes (fix the usual
 order and vary the predicate), so no thinness or counting statement about `wellOrderClass` holds
 for arbitrary `L`. Counting statements belong to the CountableModelCounting roadmap.
+
+Marker's notes, Theorem 9.27(vi), p. 117, state that the set WO of well-orders is Π¹₁ (for one
+binary symbol, WO is `wellOrderClass lt`), and Corollary 9.42(ii), p. 121, bounds the ranks of a
+Σ¹₁ set of well-founded trees, which bounds the order types through the descending-sequence trees.
+Both are lightface; the boldface forms used here are their relativisations (p. 117). Deriving
+non-analyticity, non-Borelness and coded undefinability from the bound is this roadmap's own.
 
 *Needs:* L0 (decoding); L3 (`body`, `treeHeight`, `analytic_treeHeight_bounded`); L5.1; M
 `IsWellOrder`, `Ordinal.type`.
