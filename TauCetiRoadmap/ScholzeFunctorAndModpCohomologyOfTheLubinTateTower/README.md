@@ -601,7 +601,9 @@ The quotient geometry uses the compact modular-curve uniformisation input and se
 
 ## Layer 4: global quaternionic input and the local Galois criterion
 
-### 4.1 Globalisation of residual local data
+### 4.1 The global quaternionic instance and its Hecke-torsion comparison
+
+This section supplies the global instance of Layer 4: the globalisation of residual local data, the localised definite quaternionic module S whose fibre M contains every irreducible of the block (§4.2), and the comparison of S¹ of its Hecke-ideal torsion with Ĥ¹ (§4.3). Sections 4.4 and 6.3 consume it.
 
 For p>2 and a continuous `r̄:Gal_{ℚ_p}→GL₂(k)`, with [k:𝔽_p]≥2, construct a totally real number field E of even degree with p completely split and a regular algebraic cuspidal representation π of GL₂(𝔸_E) of weight zero, meaning parallel weight two with trivial algebraic coefficient. Its attached p-adic representation ρ_π is unramified outside p, its residual image contains SL₂(k) and lies in GL₂(k), and its restriction at every v|p is isomorphic to r̄. A finite coefficient extension and conjugation puts the characteristic-zero representation in GL₂(O_L). Global absolute irreducibility is required and proved; local residual reducibility is allowed (DPS23, Proposition 8.1, pp. 37–38; CDN23, Proposition 4.5, p. 37; DPS23 line 1748; CDN23 line 1583).
 
@@ -616,8 +618,7 @@ A route uses potential realisation of local data, potentially Barsotti–Tate li
 
 *Needs:* PotentialModularityAndCompatibleSystems §§2.23, 4.15; LocalGaloisDeformationRings §3.4 and gap:potentially-barsotti-tate-lifts; AutomorphicGaloisRepresentations §§3.10–3.11; GL2AutomorphicRepresentationsAndTransfer §R17.4; finite coefficient extension and residual-image control.
 
-### 4.2 The specified quaternionic block module and occurrence
-
+**4.2 The specified quaternionic block module and occurrence.**
 Use §4.1, with [k:𝔽_p]≥3, to fix (E,π,ρ), a p-place 𝔭 and a real place ∞₀. Put ψ=χ_cyc·detρ, viewed by geometric reciprocity as a finite-adelic character, and ζ=ψ_𝔭. Let D₀/E be ramified exactly at every real place and split at all finite places, and let D be obtained by exchanging its invariants at 𝔭 and ∞₀. Use the supplied towers for these two different algebras. Let N be the product of the finite stabiliser orders in the definite double-coset description. Prove that an auxiliary place w₁ can be chosen with N(w₁) prime to 2Np, N(w₁)≠1 mod p, and the ratio of the two residual Frobenius eigenvalues outside {1,N(w₁),N(w₁)⁻¹} (DPS23, Lemma 8.2, pp. 38–39; DPS23 line 1769).
 
 Take `U_{w₁}` to be the subgroup congruent to an upper unipotent matrix modulo `ϖ_{w₁}`; take hyperspecial level at the other finite places away from p. Form the supplied localised definite module `S=S_{ψ,λ,𝔪}=Hom_{U_p^𝔭}(λ,S_ψ(U^p,L/O))_𝔪`, with λ a tensor of finite free local coefficient types at the other p-places and 𝔪 determined by T_v=trρ̄(Frob_v), S_v=N(v)⁻¹detρ̄(Frob_v). Nonvanishing, admissibility and injectivity of `S_ψ(U^p,L/O)_𝔪` among smooth representations of the compact group U_p with central character ψ_p are imported from CompletedCohomologyAndLocalGlobalCompatibility §1.7(c)–(d) (CDN23, Proposition 4.7(a)). Prove here that λ can be chosen with S≠0 (DPS23, Lemma 8.6; CDN23, Proposition 4.7(b)), that passing to `Hom_{U_p^𝔭}(λ,−)_𝔪` preserves admissibility and the injectivity of the GL₂(ℤ_p)-restriction in the fixed-ζ smooth category, and that S lies in the block of r̄ˢˢ (CDN23, Proposition 4.8, p. 39; CDN23 line 1675). With `A_B=R_B^{ps,ζ}`, prove that `M=(k⊗_{A_B}S∨)∨=S[𝔪_{A_B}]` is of finite length and contains every irreducible of the block as a subquotient (DPS23, Proposition 8.4 and Lemma 8.6, pp. 39–41; CDN23, Propositions 4.7–4.10, pp. 39–40; DPS23 line 1852, line 1889; CDN23 line 1666, line 1694).
@@ -635,8 +636,7 @@ The generic module and abstract occurrence criterion are supplied; this target e
 
 *Needs:* §4.1; CompletedCohomologyAndLocalGlobalCompatibility §§1.5–1.7, 3.7; PadicLocalLanglandsForGL2Qp §§0.3, 5.1–5.4, 6.7–6.8; HilbertModularVarietiesAndShimuraCurves R18.3–R18.4; GL2AutomorphicRepresentationsAndTransfer R16.3, R17.3; HilbertModularVarietiesAndShimuraCurves R18.3.29(c); AutomorphicGaloisRepresentations §§3.10–3.11; Chebotarev Layer 10; the Paškūnas type-selection argument on this module.
 
-### 4.3 Torsion in Hecke ideals and the cohomology comparison
-
+**4.3 Torsion in Hecke ideals and the cohomology comparison.**
 For the S and Hecke algebra T of §4.2, and any ideal I≤T, construct the natural injection `S¹(S[I])→Ĥ¹_{ψ,λ,𝔪}[I]`, using the supplied S¹(S)≃Ĥ¹ comparison. Prove that its cokernel is trivial under the reduced-norm-one units in `O_{D_𝔭}ˣ`; if r̄ˢˢ is not χ⊕χε, it is an isomorphism. In particular, for a generic pair it identifies S¹(M) with `Ĥ¹_{ψ,λ}(U^𝔭,k)_𝔪[𝔪_{A_B}]`, equivariantly for `Gal_{ℚ_p}`, D_𝔭ˣ and Hecke operators (PAS22, Lemmas 6.1–6.2, pp. 27–28; PAS22 line 1242).
 
 Make the global non-Eisenstein vanishing S⁰(S)=0 and noetherianity of T explicit. If f₁,…,f_s generate I, put Q=S/S[I], which embeds into Sˢ by multiplication by the generators. The long exact sequence identifies S¹(S[I]) with a subspace of S¹(S). Its failure to commute with I-torsion is controlled by S⁰ of the cokernel of Q→Sˢ. The degree-zero formula and the block exclusions give the norm-one and vanishing assertions. This is the ψ-isotypic λ-typical version of the ideal-torsion comparison; it is separate from the supplied full S¹(S) comparison (SCH18, proof of Proposition 7.7, p. 29; SCH18 line 1278).
@@ -683,7 +683,9 @@ Globalisation uses local lifting and potential modularity, then solvable base ch
 
 ## Layer 5: finite support and arithmetic finite length
 
-### 5.1 Finite image of a multiplicity family
+### 5.1 Ascent and finite image of arithmetic multiplicities
+
+This section supplies the finite-image condition on multiplicity families, the ascent sequences from arithmetic and geometric levels to the infinite tower (§5.2), and finite support of the arithmetic multiplicities (§5.3). Section 5.4 consumes all three, and §§6.1–6.4 consume §5.2.
 
 For the isomorphism classes of irreducible smooth k[G′]-modules, define a vector-space-valued family V to have finite image when every V(π) is finite-dimensional and the support {π:V(π)≠0} is finite. Values can be arbitrary k-vector spaces before this condition is imposed; a finite index set alone is not sufficient. For a functor on the entire smooth category impose the condition only on its irreducible inputs (CDN23, §4.2, p. 43; CDN23 line 1814).
 
@@ -706,8 +708,7 @@ The API includes the following statements.
 
 *Needs:* §0.3; ModpRepresentationsOfGL2OverLocalFields MP.0/scalar-extension and MP.1/central-ext; PadicLocalLanglandsForGL2Qp §2.6; ClassFieldTheory Layers 5 and 9; `FiniteDimensional`, `Set.Finite`.
 
-### 5.2 Ascent from arithmetic levels to the infinite tower
-
+**5.2 Ascent from arithmetic levels to the infinite tower.**
 Let F=ℚ_p, p>2, n≥0 and K/ℚ_p finite. Prove the following strictly exact sequences of prodiscrete G′-modules, with all maps the natural arithmetic pullback or level pullback:
 
     0 → H¹(Gal_K,H⁰_ét(M⁽ᵖ⁾_{n,C},k)) → H¹_ét(M⁽ᵖ⁾_{n,K},k)
@@ -736,8 +737,7 @@ Its source and topology are the geometric ones; it has neither arithmetic descen
 
 *Needs:* §§0.2–0.3, 1.6, 2.1, 2.3–2.5 and 5.1; EndoscopicTransferAndUnitaryTraceComparison §§12.11, 12.14, 12.19, 12.21; ClassicalAdicEtaleCohomology §1.5 and gap:arithmetic-stein-hochschild-serre; ClassFieldTheory Layers 5 and 9.
 
-### 5.3 Finite support of arithmetic multiplicities
-
+**5.3 Finite support of arithmetic multiplicities.**
 For p>2, n≥0 and finite K/ℚ_p, prove that `Hom_cont,k[G′](π∨,H¹_ét(M⁽ᵖ⁾_{n,K},k))` is finite-dimensional for every irreducible smooth k[G′]-module π and zero for all but finitely many such isomorphism classes. This is the finite-image conclusion of §5.1 (CDN23, §4.2 and Theorem 4.1, pp. 43–46; CDN23 line 1893).
 
 The S¹-invariant spaces in §5.2 are finite-dimensional by admissibility. After scalar extension, the generic principal-series support is finite by §4.4, while the mod-p classification gives the finite nongeneric exceptions for each central character. There are only finitely many possible absolute central characters for G′: its centre is ℚ_pˣ/pℤ, and the pro-p units act trivially on smooth k̄ˣ-valued characters, leaving 𝔽_pˣ of order p−1. Scalar-extension descent then prevents distinct irreducibles over k from sharing an absolute constituent (CDN23, Lemma 1.22 and proof of (4.19), pp. 17, 45; CDN23 line 1906).
