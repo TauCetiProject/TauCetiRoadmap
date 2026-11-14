@@ -275,7 +275,7 @@ Prove that, over any commutative ring, conjugation by this permutation matrix se
 
 ### 0.2 Surjectivity of evaluation at the identity
 
-Let `P_{n,n} ⊂ GL_{2n}` be the block upper-triangular parabolic with Levi `GL_n × GL_n`, so that `V_{λ̃_τ}` is the evaluation of `(Ind_{P_{n,n}}^{GL_{2n}} V_{λ_τ̃} ⊗ V_{−w_{0,n}λ_{τ̃c}})_{/O}`. The natural `P_{n,n}(O)-equivariant` morphism `V_{λ̃_τ} → V_{λ_τ̃} ⊗ V_{−w_{0,n}λ_{τ̃c}}` given by evaluation of functions at the identity is surjective.
+Write `P_{n,n} ⊂ GL_{2n}` for the parabolic of block upper-triangular matrices; its Levi factor is `GL_n × GL_n`, and `V_{λ̃_τ}` is obtained by evaluating `(Ind_{P_{n,n}}^{GL_{2n}} V_{λ_τ̃} ⊗ V_{−w_{0,n}λ_{τ̃c}})_{/O}`. Taking a function to its value at the identity gives a natural `P_{n,n}(O)-equivariant` map `V_{λ̃_τ} → V_{λ_τ̃} ⊗ V_{−w_{0,n}λ_{τ̃c}}`, and this map is onto: each element of the target is attained as such a value.
 
 (CN, Lemma 2.1.12, pp.17–18.)
 
@@ -1421,7 +1421,7 @@ Assume `p` splits in an imaginary quadratic subfield of `F`, as in §4.5. Let `m
 
 ### 7.3 A twisting character separating local constituents
 
-Here `R₁,R₂` denote the two rank-n Siegel blocks of §7.1 in each generic factor. In the proof of Torsion local–global compatibility at a Q-ordinary place (CL.7), possibly after enlarging `O`, there is a continuous character `ψ̄ : G_F → k^×`, unramified at `S_p` and with `ρ̄_{m̃(ψ)}` decomposed generic, such that `(1)` the irreducible constituents of `ρ̄_{m(ψ)}|_{G_{F_ṽ}}` are disjoint from those of `ρ̄^{∨,c}_{m(ψ)}(1−2n)|_{G_{F_ṽ}}; (2)` for every factor `i` of `Ã(ψ)[1/p] = ∏_{i=1}^{r} E` (p.69; this `r` is not the `r` of `n = n₁ + ⋯ + n_r`) the irreducible constituents of `R̄^i_{1,ψ}` coincide with those of `ρ̄_{m(ψ)}|_{G_{F_ṽ}}`.
+Notation: in each generic factor, `R₁,R₂` are the two rank-n Siegel blocks of §7.1. For the proof of Torsion local–global compatibility at a Q-ordinary place (CL.7) one constructs, after enlarging `O` if needed, a continuous character `ψ̄ : G_F → k^×` that is unramified at `S_p`, for which `ρ̄_{m̃(ψ)}` is decomposed generic, and which satisfies two further conditions. `(1)` No irreducible constituent of `ρ̄_{m(ψ)}|_{G_{F_ṽ}}` occurs among those of `ρ̄^{∨,c}_{m(ψ)}(1−2n)|_{G_{F_ṽ}}`. `(2)` Write `Ã(ψ)[1/p] = ∏_{i=1}^{r} E` (p.69; this `r` is not the `r` of `n = n₁ + ⋯ + n_r`); for each factor `i`, the representations `R̄^i_{1,ψ}` and `ρ̄_{m(ψ)}|_{G_{F_ṽ}}` have the same irreducible constituents.
 
 Extend the finite local prescriptions into prime-to-p roots of unity, using divisibility as in **PotentialModularityAndCompatibleSystems, §2.15**, `cht_character_extension`. The extension has finite image but may have larger order. Impose triviality at the generic split prime to preserve genericity.
 
@@ -1527,7 +1527,7 @@ The construction must satisfy:
 
 ### 8.3 Automorphic components propagate through the special fibre
 
-Under Assumption 5.4.1, with `Supp_{R_∞}(H^*(C_∞)) =` Spec `T_∞: (1)` there is an irreducible component `C_a ⊂` Spec `R_∞` containing the automorphic point `x` with `C_a ⊂` Spec `T_∞; (2)` if `C_a ⊂` Spec `T_∞` is an irreducible component of Spec `R_∞` which contains `x` and `C ⊂` Spec `R_∞` is an irreducible component such that `C ∩ Spec(R_∞/ϖ)` and `C_a ∩ Spec(R_∞/ϖ)` contain generic points `x_C, x_a` generalizing to the same generic point `x′` of Spec `R′_∞`, then `C ⊂` Spec `T_∞`.
+Work in the setting of Assumption 5.4.1 (the two systems of §8.2), and suppose that `Supp_{R_∞}(H^*(C_∞)) =` Spec `T_∞`. `(1)` The automorphic point `x` lies on some irreducible component `C_a ⊂` Spec `R_∞` that is itself contained in Spec `T_∞`. `(2)` Propagation: let `C_a ⊂` Spec `T_∞` be any irreducible component of Spec `R_∞` through `x`, and `C ⊂` Spec `R_∞` any irreducible component. Suppose that some generic points `x_C, x_a` of `C ∩ Spec(R_∞/ϖ)` and `C_a ∩ Spec(R_∞/ϖ)` respectively have a common generalization `x′` which is a generic point of Spec `R′_∞`. Then `C ⊂` Spec `T_∞` as well.
 
 Prove this using DP §§9.2, 9.4–9.5: local concentration and nonzero Euler length at the automorphic point, specialization to `x_a`, transport through the common auxiliary component `x′`, and return through `x_C`. The auxiliary ring may have several components; the two specified special-fibre points must lie under the same one. This pairwise relation replaces DP §9.6's global uniqueness hypothesis.
 
@@ -1543,7 +1543,7 @@ Prove this using DP §§9.2, 9.4–9.5: local concentration and nonzero Euler le
 
 ### 8.4 Comparison with the Allen–Khare–Thorne complexes
 
-There are natural Hecke-equivariant quasi-isomorphisms A(K/`K′`, `V) ≅` C•(K/`K′`, `V`), where A(K/`K′`, `V`) are the complexes of [AKT23, §5.1] built from singular chains of `𝔛̄^{dis}_G`.
+The complexes C•(K/`K′`, `V`) are compared with the singular-chain complexes A(K/`K′`, `V`) of [AKT23, §5.1], built on `𝔛̄^{dis}_G`: natural quasi-isomorphisms A(K/`K′`, `V) ≅` C•(K/`K′`, `V`) exist and commute with the Hecke action.
 
 (CN, Lemma 5.5.1, p.80.)
 
@@ -1551,7 +1551,7 @@ There are natural Hecke-equivariant quasi-isomorphisms A(K/`K′`, `V) ≅` C•
 
 ### 8.5 Support of patched cohomology at points of automorphic components
 
-Let `C` be an irreducible component of Spec `R_∞` satisfying the hypothesis of Automorphic components propagate through the special fibre (CL.8)(2) for some automorphic `C_a, x ∈ C` and y its contraction to `S_∞`. Then the support of `H^*(C_∞ ⊗^L S_∞/y)_y` over Spec `R_∞` contains `x`; if y is one-dimensional of characteristic `0, x` lies in the support of `H^*(C_∞ ⊗^L S_∞/y)[1/p]`.
+Fix an automorphic component `C_a` and an irreducible component `C` of Spec `R_∞` that together satisfy the hypothesis of Automorphic components propagate through the special fibre (CL.8)(2). Take `x ∈ C` and write y for its contraction to `S_∞`. The localized cohomology `H^*(C_∞ ⊗^L S_∞/y)_y` then has `x` in its support over Spec `R_∞`. If moreover y is one-dimensional of characteristic `0`, the module `H^*(C_∞ ⊗^L S_∞/y)[1/p]` also has `x` in its support.
 
 (CN, Corollary 5.4.3, p.79.)
 
@@ -1614,7 +1614,9 @@ State the fifteen prepared CM lifting hypotheses, define fixed-determinant `χ-t
 
 ### 9.1 The data and hypotheses (1)–(15) of the special case of Theorem 5.2
 
-Data: `F` imaginary CM, `p` odd, `ι : Q̄_p ≅ C; S ⊇ S_p` finite; `R ⊂ S` prime to `p` and `S_p = S^cr_p` ⊔ `S^st_p; π` cuspidal on `PGL₂(𝔸_F)`, regular algebraic of weight `0`. Hypotheses: `(5)` every prime below `S` or ramified in `F` splits in an imaginary quadratic subfield of `F` (so `S` is split over `F⁺` and F/`F⁺` unramified); `(6)` for `v ∈ S_p` there is a p-adic `v′ ≠ v̄` of `F⁺` with `Σ_{v″≠v̄,v′}[F⁺_{v″} : Q_p] > ½[F⁺ : Q]`, and the residue field of `v̄` is bigger than `F_p; (7) π_v` unramified for `v ∉ R ∪ S^st_p; (8) π^{Iw_v}_v ≠ 0` for `v ∈ R ∪ S^st_p; (9)` for `v ∈ S^st_p, π` is `ι-ordinary` of weight `0` at `v` and `r_ι(π)|_{G_{F_v}}` is non-crystalline ordinary; `(10) ζ_p ∈ F` if `S = S_p ∪ R; (11)` otherwise `S − (S_p ∪ R)` contains two places of distinct residue characteristics; `(12) v ∉ R^c` and `H²(F_v, ad⁰r̄) = 0` for `v ∈ S − (R ∪ S_p); (13) r̄_{π,ι}` decomposed generic with `r̄|_{G_{F(ζ_p)}}` irreducible; `(14) r̄_{π,ι}|_{G_{F_v}}` trivial for `v ∈ S_p ∪ R; (15)` if `p=5` and the projective image of `r̄_{π,ι}(G_{F(ζ₅)})` is conjugate to `PSL₂(F₅)`, the extension of `F` cut out by the projective image of `r̄_{π,ι}` does not contain `ζ₅`.
+Data: an imaginary CM field `F`, an odd prime `p`, an isomorphism `ι : Q̄_p ≅ C`, a finite set of places `S ⊇ S_p` together with a subset `R ⊂ S` of places prime to `p` and a splitting `S_p = S^cr_p` ⊔ `S^st_p`, and a cuspidal `π` on `PGL₂(𝔸_F)` that is regular algebraic of weight `0`.
+
+The hypotheses fall into four groups. Splitting and degrees: `(5)` any prime that lies below `S` or ramifies in `F` is split in some imaginary quadratic subfield of `F`, so that `S` is split over `F⁺` and F/`F⁺` is unramified; `(6)` each `v ∈ S_p` admits a p-adic place `v′ ≠ v̄` of `F⁺` satisfying `Σ_{v″≠v̄,v′}[F⁺_{v″} : Q_p] > ½[F⁺ : Q]`, while `v̄` itself has residue field strictly larger than `F_p`. Level of `π`: `(7)` `π_v` is unramified whenever `v ∉ R ∪ S^st_p`; `(8)` `π^{Iw_v}_v ≠ 0` whenever `v ∈ R ∪ S^st_p`; `(9)` at each `v ∈ S^st_p`, `r_ι(π)|_{G_{F_v}}` is ordinary but not crystalline, and `π` is `ι-ordinary` of weight `0` there. Auxiliary places: `(10)` if `S = S_p ∪ R`, then `ζ_p ∈ F`; `(11)` if not, `S − (S_p ∪ R)` contains two places whose residue characteristics differ; `(12)` every `v ∈ S − (R ∪ S_p)` satisfies both `v ∉ R^c` and `H²(F_v, ad⁰r̄) = 0`. Residual representation: `(13)` `r̄_{π,ι}` is decomposed generic and `r̄|_{G_{F(ζ_p)}}` is irreducible; `(14)` `r̄_{π,ι}|_{G_{F_v}}` is trivial at every `v ∈ S_p ∪ R`; `(15)` when `p=5` and `r̄_{π,ι}(G_{F(ζ₅)})` has projective image conjugate to `PSL₂(F₅)`, `ζ₅` does not belong to the extension of `F` that the projective image of `r̄_{π,ι}` cuts out.
 
 The construction must satisfy:
 
@@ -1808,7 +1810,7 @@ The local preparation does not require both members of a conjugate pair to be po
 
 ### 9.12 Potentially Barsotti–Tate automorphy lifting over imaginary CM fields
 
-Let `F` be an imaginary CM field, `p` an odd prime and `ρ : G_F → GL₂(Q̄_p)` continuous with: `(1) ρ` unramified almost everywhere and det `ρ = ε_p^{−1}; (2)` for each `v | p, ρ|_{G_{F_v}}` potentially semistable with all labelled Hodge–Tate weights (0,1); `(3) ρ̄` decomposed generic and `ρ̄|_{G_{F(ζ_p)}}` irreducible; `(4)` if `p = 5` and the projective image of `ρ̄(G_{F(ζ₅)})` is conjugate to `PSL₂(F₅)`, the extension of `F` cut out by the projective image of `ρ̄` does not contain `ζ₅; (5)` there are a cuspidal `π` of `PGL₂(𝔸_F)` and `ι : Q̄_p ≅ C` with `(a) π` regular algebraic of weight `0, (b)` for `v | p` with `ρ|_{G_{F_v}}` potentially crystalline: `r_ι(π)|_{G_{F_v}}` is potentially ordinary of weight `0` ([Ger19, §5.2]) iff `ρ|_{G_{F_v}}` is, and `rec_{F_v}(π_v)` has monodromy `0, (c)` for `v | p` with `ρ|_{G_{F_v}}` not potentially crystalline: `π` is `ι-ordinary` of weight `0` at `v` and `r_ι(π)|_{G_{F_v}}` is not potentially crystalline, `(d) ρ̄ ≅ r̄_ι(π)`. Assume in addition `d_cyc=[F(ζ_p):F]≠3` or the projective image of `ρ̄(G_F)` is not `A₄`. Then `ρ` is automorphic: `ρ ≅ r_ι(Π)` for a cuspidal `Π` of `PGL₂(𝔸_F)`, regular algebraic of weight `0`.
+Fix an imaginary CM field `F`, an odd prime `p` and a continuous representation `ρ : G_F → GL₂(Q̄_p)`, subject to five numbered conditions. `(1)` Global shape: det `ρ = ε_p^{−1}`, and `ρ` is ramified at only finitely many places. `(2)` Local type at `p`: at every `v | p`, `ρ|_{G_{F_v}}` is potentially semistable and its labelled Hodge–Tate weights are all (0,1). `(3)` Residual image: `ρ̄` is decomposed generic and `ρ̄|_{G_{F(ζ_p)}}` is irreducible. `(4)` Exceptional prime: if `p = 5` and `ρ̄(G_{F(ζ₅)})` has projective image conjugate to `PSL₂(F₅)`, then `ζ₅` must not belong to the extension of `F` that the projective image of `ρ̄` cuts out. `(5)` Residual automorphy: for some `ι : Q̄_p ≅ C` there is a cuspidal `π` of `PGL₂(𝔸_F)` such that `(a)` `π` is regular algebraic of weight `0`; `(b)` at each `v | p` where `ρ|_{G_{F_v}}` is potentially crystalline, `rec_{F_v}(π_v)` has monodromy `0`, and `ρ|_{G_{F_v}}` and `r_ι(π)|_{G_{F_v}}` are either both or neither potentially ordinary of weight `0` ([Ger19, §5.2]); `(c)` at each `v | p` where `ρ|_{G_{F_v}}` fails to be potentially crystalline, the same failure holds for `r_ι(π)|_{G_{F_v}}`, and `π` is `ι-ordinary` of weight `0` at `v`; `(d)` `ρ̄ ≅ r̄_ι(π)`. Lastly, to exclude the cubic-tetrahedral case, require either `d_cyc=[F(ζ_p):F]≠3` or that `ρ̄(G_F)` have projective image other than `A₄`. Conclusion: `ρ` is automorphic, in the sense that `ρ ≅ r_ι(Π)`, with the `ι` of `(5)`, for some regular algebraic cuspidal `Π` of `PGL₂(𝔸_F)` of weight `0`.
 
 (CN, §5.1, Theorem 5.2, pp.73–74.)
 
