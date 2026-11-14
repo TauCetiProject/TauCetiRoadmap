@@ -27,6 +27,8 @@ open CategoryTheory Limits MonoidalCategory
 
 universe u v w
 
+/-! ## Layer 0: the data -/
+
 /-- **Fusion rules** on a finite index type: a unit index and multiplicities
 `N a b c = N_{ab}^c`, with the unit laws `N_{ua}^b = N_{au}^b = if a = b then 1 else 0`. -/
 structure FusionRules (ι : Type u) [Fintype ι] [DecidableEq ι] where
@@ -83,30 +85,6 @@ structure FSymbols (R : Type v) [CommRing R] {ι : Type u} [Fintype ι] [Decidab
   triangle : ∀ (a c d : ι) (j l : Fin (N.N a c d)),
     F a N.unit c d ⟨a, N.unitRight a, j⟩ ⟨c, N.unitLeft c, l⟩ = if j = l then 1 else 0
 
-namespace FSymbols
-
-variable {R : Type v} [CommRing R] {ι : Type u} [Fintype ι] [DecidableEq ι] {N : FusionRules ι}
-
-/-- **F-symbols are determined by `F`**, since the inverse of a matrix is unique. -/
-theorem ext {P Q : FSymbols R N} (h : P.F = Q.F) : P = Q := sorry
-
-/-- **Base change** of F-symbols along a ring homomorphism, entrywise. -/
-def map {S : Type w} [CommRing S] (P : FSymbols R N) (f : R →+* S) : FSymbols S N where
-  F a b c d := (P.F a b c d).map f
-  Finv a b c d := (P.Finv a b c d).map f
-  F_mul_Finv a b c d := by
-    rw [← Matrix.map_mul, P.F_mul_Finv, Matrix.map_one _ f.map_zero f.map_one]
-  Finv_mul_F a b c d := by
-    rw [← Matrix.map_mul, P.Finv_mul_F, Matrix.map_one _ f.map_zero f.map_one]
-  pentagon A B C D E p q r s i₁ i₂ i₃ k m n := by
-    simpa only [Matrix.map_apply, map_sum, map_mul] using
-      congrArg f (P.pentagon A B C D E p q r s i₁ i₂ i₃ k m n)
-  triangle a c d j l := by
-    simp only [Matrix.map_apply, P.triangle]
-    split_ifs <;> simp
-
-end FSymbols
-
 /-- **R-symbols** for F-symbols `P`: matrices `R^{ab}_c : Fin N_{ab}^c × Fin N_{ba}^c` with
 inverses, satisfying the two hexagons as pinned in `README.md`. -/
 structure RSymbols {K : Type v} [CommRing K] {ι : Type u} [Fintype ι] [DecidableEq ι]
@@ -156,10 +134,18 @@ theorem existsUnique_fSymbols
         ∑ y : N.Right a b c d, P.F a b c d x y •
           ((α_ (S a) (S b) (S c)).hom ≫ (S a ◁ φ b c y.1 y.2.1) ≫ φ a y.1 d y.2.2) := sorry
 
-/-- **Extraction of R-symbols.** A braiding on `C` gives exactly one `RSymbols P` for F-symbols
-`P` extracted from the same fusion basis: `R` expresses each fusion basis in the braided one. -/
-theorem existsUnique_rSymbols [BraidedCategory C] (N : FusionRules ι)
-    (φ : ∀ a b c, Module.Basis (Fin (N.N a b c)) R (S a ⊗ S b ⟶ S c)) (P : FSymbols R N)
+/-! ## Layer 4: braidings -/
+
+/-- **Extraction of R-symbols.** For a split simple family and a normalized fusion basis, a
+braiding on `C` gives exactly one `RSymbols P` for the F-symbols `P` extracted from the same basis:
+`R` expresses each fusion basis in the braided one. -/
+theorem existsUnique_rSymbols [BraidedCategory C]
+    (_hS : ∀ a, Function.Bijective (algebraMap R (End (S a)))) (_horth : HomOrthogonal S)
+    (_hdec : ∀ X : C, ∃ (κ : Type) (_ : Fintype κ) (f : κ → ι), Nonempty (X ≅ ⨁ (S ∘ f)))
+    (N : FusionRules ι) (e : 𝟙_ C ≅ S N.unit)
+    (φ : ∀ a b c, Module.Basis (Fin (N.N a b c)) R (S a ⊗ S b ⟶ S c))
+    (_hl : ∀ a, φ N.unit a a (N.unitLeft a) = (e.inv ▷ S a) ≫ (λ_ (S a)).hom)
+    (_hr : ∀ a, φ a N.unit a (N.unitRight a) = (S a ◁ e.inv) ≫ (ρ_ (S a)).hom) (P : FSymbols R N)
     (_hP : ∀ (a b c d : ι) (x : N.Left a b c d),
       (φ a b x.1 x.2.1 ▷ S c) ≫ φ x.1 c d x.2.2 =
         ∑ y : N.Right a b c d, P.F a b c d x y •

@@ -72,19 +72,19 @@ Normalization: `φ^{ua→a}_0 = λ_a` and `φ^{au→a}_0 = ρ_a`, through a fixe
   `F^{auc}_d[(a,0,j),(c,0,l)] = if j = l then 1 else 0`. These are the only unit conditions imposed.
 - **R.** `R^{ab}_c : Matrix (Fin N_{ab}^c) (Fin N_{ba}^c) R` is defined by
   `φ^{ab→c}_i = Σ_j R^{ab}_c[i,j] • ((β_ a b).hom ≫ φ^{ba→c}_j)`. This is the same direction as `F`.
-- **Hexagons** ([Kitaev] §E.3, Fig. 20, p. 81).
+- **Hexagons** ([Kitaev] §E.3, (207) and Fig. 20, pp. 80–81).
   - `hexagon_forward`: for `(e,i,j) : Left a b c d`, `n : N_{ca}^g` and `o : N_{bg}^d`,
     `Σ_{f,k,l,m} F^{abc}_d[(e,i,j),(f,k,l)] R^{af}_d[l,m] F^{bca}_d[(f,k,m),(g,n,o)] = Σ_{p,q} R^{ab}_e[i,p] F^{bac}_d[(e,p,j),(g,q,o)] R^{ac}_g[q,n]`.
   - `hexagon_reverse`: for `(f,k,l) : Right a b c d`, `n : N_{ca}^g` and `o : N_{gb}^d`,
     `Σ_{e,i,j,m} F̄^{abc}_d[(f,k,l),(e,i,j)] R^{ec}_d[j,m] F̄^{cab}_d[(e,i,m),(g,n,o)] = Σ_{p,q} R^{bc}_f[k,p] F̄^{acb}_d[(f,p,l),(g,q,o)] R^{ac}_g[q,n]`.
-- **Gauge** ([Kitaev] §E.6, p. 89). A normalized gauge `g` is a family of units `g^{ab}_c` of
+- **Gauge** ([Kitaev] §E.6.1, (239)–(242), pp. 90–91). A normalized gauge `g` is a family of units `g^{ab}_c` of
   `Matrix (Fin N_{ab}^c) (Fin N_{ab}^c) R` with `g^{ua}_a = g^{au}_a = 1`. It acts on bases by
   `φ'_i = Σ_{i'} g^{ab}_c[i,i'] φ_{i'}`, so that `F' = G_L · F · G_R⁻¹` and
   `R'^{ab}_c = g^{ab}_c R^{ab}_c (g^{ba}_c)⁻¹`, where
   - `G_L[(e,i,j),(e,i',j')] = g^{ab}_e[i,i'] g^{ec}_d[j,j']`;
   - `G_R[(f,k,l),(f,k',l')] = g^{bc}_f[k,k'] g^{af}_d[l,l']`;
   - both are zero off the diagonal in `e` and in `f`.
-- **Duality scalars.** For `ā` with `N_{āa}^u = N_{aā}^u = 1`, put
+- **Duality scalars** ([Kitaev] §E.2, (186), p. 74). For `ā` with `N_{āa}^u = N_{aā}^u = 1`, put
   `s_a := F̄^{aāa}_a[(u,0,0),(u,0,0)]`, which equals `F^{āaā}_ā[(u,0,0),(u,0,0)]`. The standard
   pairing exhibiting `S_ā` as the right dual of `S_a` is `ε_a = φ^{āa→u}_0` and
   `η_a = s_a⁻¹ • ψ^{aā→u}_0`.
@@ -99,12 +99,12 @@ Normalization: `φ^{ua→a}_0 = λ_a` and `φ^{au→a}_0 = ρ_a`, through a fixe
 **Checks.** These fix the duality conventions.
 
 - `ι = ℤ/2` with `N_{ab}^c = [a + b = c]` and `F^{111}_1 = ω ∈ {1, −1}`, all other entries `1`:
-  `s_1 = ω`, `Ρ^{110} = Ρ^{101} = Ρ^{011} = 1`, `D^{11}_0 = 1`; the pivotal condition gives
-  `t_1 = ±1`, and `leftDim (simple 1) = rightDim (simple 1) = ω t_1`, so both pivotal
-  structures are spherical.
+  `s_1 = ω`, `Ρ^{110} = Ρ^{101} = Ρ^{011} = 1`, `D^{11}_0 = 1`. The pivotal structures are
+  indexed by `t_1 ∈ Rˣ` with `t_1² = 1`; each is spherical, with both dimensions `ω t_1`. Over `ℤ`
+  these are `±1`; over `ℤ/8` they are `1, 3, 5, 7`.
 - `D^{aā}_u = 1` for every `a`, so the pivotal condition at `(a, ā, u)` is `t_a t_ā = 1`.
-- Fibonacci (`ι = {1, τ}`, `N_{ττ}^1 = N_{ττ}^τ = 1`, unitary gauge over `ℚ(√5)`) has
-  `s_τ = φ⁻¹`; its Galois conjugate, Yang–Lee, has `s_τ = −φ`. When `ā = a`, `s_a` is gauge
+- Fibonacci (`ι = {1, τ}`, `N_{ττ}^1 = N_{ττ}^τ = 1`, in the gauge over `ℚ(√5)` with
+  `F^{τττ}_τ = [[a, a], [1, −a]]`, `a = φ⁻¹`, which is its own inverse) has `s_τ = a = φ⁻¹`; its Galois conjugate, Yang–Lee, has `s_τ = −φ`. When `ā = a`, `s_a` is gauge
   invariant.
 - Under the rescaling `φ^{āa→u} ↦ x_a φ^{āa→u}`, `φ^{aā→u} ↦ y_a φ^{aā→u}`, one has
   `s_a ↦ (x_a / y_a) s_a` and `D^{ab}_c ↦ (x_c y_a y_b)/(x_a x_b y_c) · D^{ab}_c`.
@@ -155,16 +155,38 @@ states extraction (2.2).
 ### 0.1 Fusion rules, F-symbols and R-symbols
 
 - `TauCeti.FusionRules ι`: `unit`, `N : ι → ι → ι → ℕ`, and the unit laws.
-- `TauCeti.FSymbols R N`: `F`, `Finv`, `F * Finv = 1`, `Finv * F = 1`, `pentagon`, `triangle`, with
-  `ext`: two `FSymbols` with equal `F` are equal.
-- `TauCeti.RSymbols P`: `R`, `Rinv`, the inverse laws, and the two hexagons, again with `ext` on `R`.
+- `TauCeti.FSymbols R N`: `F`, `Finv`, `F * Finv = 1`, `Finv * F = 1`, `pentagon`, `triangle`
+  ([Kitaev] §E.1, eq. (177), p. 68, and Fig. 17a, p. 69, over `ℂ`; the ring version is the same
+  polynomial identities). API: `ext`, since inverses are unique, two `FSymbols` with equal `F` are
+  equal.
+- `TauCeti.RSymbols P`: `R`, `Rinv`, the inverse laws, and the two hexagons ([Kitaev] §E.3,
+  eq. (207) and Fig. 20, pp. 80–81), again with `ext` on `R`.
 
 *Needs:* Mathlib `Matrix`.
+
+**Checks.**
+
+- `ι = {u}`: the only `FSymbols` over any `R` has every `F = 1`.
+- `ι = ℤ/2`: the data with `F^{111}_1 = 2` over `ℚ` fails the pentagon at `(1,1,1,1)`, which forces
+  `(F^{111}_1)² = 1` there.
+- Over `ℤ`, `F^{111}_1 = −1` with `Finv^{111}_1 = 1` fails the inverse law.
 
 ### 0.2 Relabeling and base change
 
 `FSymbols.reindex (σ : ι ≃ ι')` along `N`- and unit-preserving bijections, and base change
-`FSymbols.map (f : R →+* S)`, for both structures. *Needs:* 0.1.
+`FSymbols.map (f : R →+* S)` applying `f` entrywise, for both structures. The pentagon, triangle,
+hexagons and inverse laws are polynomial identities in the entries, so entrywise transport along a
+ring homomorphism preserves them. API: `reindex (Equiv.refl ι) = id`, `reindex (σ.trans τ) =
+reindex τ ∘ reindex σ`, `map (RingHom.id R) = id`, `map (g.comp f) = map g ∘ map f`, and `reindex`
+commutes with `map`. *Needs:* 0.1.
+
+**Checks.**
+
+- `ι = C₃` with data having `F^{121}_1 = 2` and `F^{212}_2 = 1/2` over `ℚ`: relabeling by
+  inversion exchanges the two entries.
+- `ℤ → 𝔽₂` sends the `ℤ/2` data `F^{111}_1 = −1` to `F^{111}_1 = 1`.
+- `ℤ → ℤ[i]` sends `F^{111}_1 = −1` to `−1`, and the R-symbols `±i` exist only after this base
+  change.
 
 ### 0.3 Consequences of invertibility
 
@@ -194,8 +216,16 @@ Mathlib `Matrix` only.
 
 `FSymbols.Model P` has objects `ι → FintypeCat`, a finite basis set in each grade, and morphisms the
 grade-wise morphisms of `Mat R`. It is `Preadditive` and `Linear R`, has finite biproducts, and is
-essentially small. `Model.simple a` has a one-point basis in grade `a` and is empty elsewhere.
-*Needs:* 0.1; Mathlib `CategoryTheory.Mat R`.
+essentially small. `Model.simple a` has a one-point basis in grade `a` and is empty elsewhere
+([Kitaev] Definition E.17, pp. 96–97, and §E.7.2, (259)–(262), p. 99, over `ℂ`; over a ring the
+grade-wise matrix construction is the same). *Needs:* 0.1; Mathlib `CategoryTheory.Mat R`.
+
+**Checks.**
+
+- `Hom (Model.simple a ⊞ Model.simple a) (Model.simple a)` is `R²`.
+- Over `R = 0`, every Hom is `0`.
+- `Hom (Model.simple a) (Model.simple b) = 0` for `a ≠ b`, so `Model.simple a ≇ Model.simple b`
+  over nontrivial `R`.
 
 ### 1.2 The monoidal structure
 
@@ -241,7 +271,9 @@ Take `C` monoidal with `MonoidalPreadditive` and `MonoidalLinear R`, together wi
 `IsSplitSimpleFamily R S`, an isomorphism `e : 𝟙_ C ≅ S u` and a fusion basis normalized through
 `e`. For nontrivial `R`, put `N_{ab}^c = Module.finrank R (S a ⊗ S b ⟶ S c)`. Then the left and
 right families are bases, and there is exactly one `FSymbols R N` whose `F` expresses the left
-family in the right family across the associator. *Needs:* 2.1.
+family in the right family across the associator. Lean: `existsUnique_fSymbols`. Over a field
+this is [Kitaev] §E.1, (177); over a ring it is derived, from the bases of 2.1 and the uniqueness of
+coordinates. *Needs:* 2.1.
 
 ### 2.3 Reconstruction and round trip
 
@@ -285,7 +317,14 @@ Layers 0 and 1; PivotalSpherical Layer 3.3; Mathlib `HomOrthogonal.matrixDecompo
 The relabelings and normalized gauges form a group (a semidirect product) acting on
 `FSymbols R N`, preserving the axioms. `Model P ≌ Model (g • P)` `R`-linearly and monoidally: the
 identity on objects, with tensorator `g`. Changing the fusion basis by `g` changes the extracted
-data by `g`. *Needs:* 1.2, 2.2.
+data by `g` ([Kitaev] §E.6.1, (239)–(242), pp. 90–91, over `ℂ`; over a ring the transformation
+formula is the same change of basis). *Needs:* 1.2, 2.2.
+
+**Checks.**
+
+- The trivial gauge acts trivially.
+- `∂η` acts trivially on `F` and `R` for every `η`.
+- On `ℤ/2` with `F = 1` over `ℤ`, `g^{11}_0 = −1` fixes `P`.
 
 ### 3.2 Classification
 
@@ -338,9 +377,20 @@ has entry `R^{ab}_c[i,j]` from `(y,x,j)` to `(x,y,i)`. *Needs:* 1.2; Mathlib `Br
 
 ### 4.2 Extraction of R-symbols
 
-A braiding on `C` as in 2.2 gives exactly one `RSymbols` of the extracted `P`, expressing each
-fusion basis in the braided one; reconstruction is braided, and `R^{au}_a = R^{ua}_a = 1` is
-derived. *Needs:* 4.1, 2.3.
+A braiding on `C` as in 2.2, with its split simple family and normalized fusion basis, gives exactly
+one `RSymbols` of the extracted `P`, expressing each fusion basis in the braided one; reconstruction
+is braided, and `R^{au}_a = R^{ua}_a = 1` is derived. Lean: `existsUnique_rSymbols`. *Needs:* 4.1,
+2.3.
+
+**Checks.**
+
+- Negative control: in finite `ℤ`-graded `ℚ`-vector spaces with the Koszul braiding, take
+  `S_u = ℚ[1] ⊕ ℚ[2]`, `N = 1`, `F = 1` and `φ(e₁ ⊗ e₁) = e₂`. Every triple product vanishes, so
+  the F-condition holds, but extraction forces `R = −1` while the hexagon requires `1`. This
+  `S_u` has `End S_u = ℚ × ℚ`, so it fails the split-family hypothesis.
+- For `ι = ℤ/2`, `F = 1` over `ℤ`, the symmetric braiding of `ℤ/2`-graded modules gives
+  `R^{11}_0 = 1`, and the super braiding gives `−1`.
+- `R^{u a}_a = 1` for every extracted `RSymbols`.
 
 ### 4.3 Gauge and classification
 
@@ -408,7 +458,7 @@ follow from it; the action of `Aut (LaxMonoidalFunctor.of (𝟭 (Model P)))` fro
 
 ### 6.2 Dimensions
 
-`leftDim (simple a) = (t_a s_ā)⁻¹` and `rightDim (simple a) = t_a s_a⁻¹`. On a general object the
+([EGNO] Definition 4.7.1, pp. 73–74.) `leftDim (simple a) = (t_a s_ā)⁻¹` and `rightDim (simple a) = t_a s_a⁻¹`. On a general object the
 dimensions are the corresponding sums over its basis. *Needs:* 6.1; Tau Ceti `TauCeti.leftDim`,
 `TauCeti.rightDim`, `TauCeti.leftDim_biproduct`.
 
@@ -436,8 +486,8 @@ Layers 3 and 5; Tau Ceti `TauCeti.PivotalCategory`, `TauCeti.leftDim`, `TauCeti.
 
 ## Downstream consumers
 
-- The proposed Ocneanu rigidity roadmap: Layers 1, 6, 7 and 8 there use `FSymbols`, `RSymbols`,
-  `FSymbols.map`, `Model P`, the gauge group of 3.1 and the rigidity criterion of 5.1.
+- The proposed Ocneanu rigidity roadmap, Layers 5–8, consumes the F- and R-symbols, base change,
+  the model, the gauge action of 3.1 and the rigidity criterion of 5.1.
 
 ## References
 
