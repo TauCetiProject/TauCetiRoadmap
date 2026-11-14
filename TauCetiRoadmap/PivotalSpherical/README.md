@@ -569,9 +569,18 @@ isomorphism.
 - **Classification of pivotal structures on `Vec^ω_G`.** The double dual `(-)ᘁᘁ` is naturally
   isomorphic to the identity by a **canonical** scalar-valued iso determined by `ω`; a pivotal
   structure is that canonical one twisted by a **character**, so pivotal structures on `Vec^ω_G` form
-  a **torsor over `Hom(G, Rˣ)`** (in particular a pivotal structure always exists). The input is
-  that a natural endomorphism of the identity of finitely generated projective `R`-modules is
-  multiplication by an element of `R`, since `R` itself is one of them. Identify the
+  a **torsor over `Hom(G, Rˣ)`** (in particular a pivotal structure always exists). Two inputs,
+  both valid over any commutative ring:
+  - **The group.** `Aut_⊗(𝟭) ≃* Hom(G, Rˣ)`. A natural endomorphism of the identity of finitely
+    generated projective `R`-modules is multiplication by its value on `R`, since every element of
+    `P` is the image of a map `R ⟶ P`. Morphisms preserve degree, so a natural automorphism of
+    `𝟭` is a function `G → Rˣ`, and monoidality on `δ_g ⊗ δ_h = δ_{gh}` makes it a character.
+  - **The basepoint.** With evaluation scalars `1` on the `δ_g`, the canonical pivotal structure
+    has component `ω(g, g⁻¹, g)` on `δ_g` (the exponent's sign depends on the associator and duality
+    conventions, which the implementation pins). Its monoidality is an identity in `Rˣ` that
+    follows from the cocycle condition alone. It is **not** a consequence of the field case
+    applied factorwise: the values of `ω` may generate a group such as `(ℤ/2)²`, which embeds in
+    the units of no field. Identify the
   **spherical** ones among them.
 - **Frobenius–Schur indicators.** Define the Ng–Schauenburg indicators `ν_n` from the pivotal
   structure, for `n` a **positive** natural (use `ℕ+`, or carry `0 < n`), and compute them on the
