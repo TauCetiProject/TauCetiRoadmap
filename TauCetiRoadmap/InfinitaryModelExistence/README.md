@@ -720,11 +720,13 @@ under components.
   *Needs:* `morleyize`, `lhomMorleyize` and `morleyExpansion` (5.1), `T(A)` and `Γ(A)` with their
   countability (5.2), `OmitsFOType` (4.2), and the component closure of
   `Fragment` (1.2).
-* Corollary: for a sentence `φ` with `⟨0, φ⟩ ∈ A`, the models of `φ` are exactly the reducts of the
-  models of the countable first-order theory `T(A) ∪ {R_φ}` that omit `Γ(A)`.
+* Corollary: for a countable fragment `A` and a sentence `φ` with `⟨0, φ⟩ ∈ A`, the models of `φ`
+  are exactly the reducts of the models of the countable first-order theory `T(A) ∪ {R_φ}` that
+  omit `Γ(A)`. Countability of `A` is needed: over unary symbols `R_r` indexed by `r ∈ ℝ`, the
+  atoms `R_r(x₀)` form a fragment whose Morley theory has one defining axiom for each `r`.
 
-  *Needs:* `exists_firstOrder_presentation` (5.2), and `morleyExpansion` with
-  `isExpansionOn_morleyExpansion` (5.1).
+  *Needs:* `exists_firstOrder_presentation` (5.2), the countability of `T(A)` (5.2), and
+  `morleyExpansion` with `isExpansionOn_morleyExpansion` (5.1).
 
 **Checks** (`T(A)`, `Γ(A)`).
 
