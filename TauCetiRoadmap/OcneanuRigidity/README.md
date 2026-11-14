@@ -177,18 +177,24 @@ implementation must reproduce.
 - **Duals along monoidal functors.** For `F` monoidal and `ExactPairing X Y` in `C`, the
   exact pairing `ExactPairing (F.obj X) (F.obj Y)`, with coevaluation `ε_F ≫ F.map (η_ X Y) ≫ μ⁻¹`
   and evaluation `μ ≫ F.map (ε_ X Y) ≫ ε_F⁻¹`.
-- **Cochains on semisimple categories.** For `C` fusion and functors `Φ Ψ : (Fin n → C) ⥤ D`
-  additive in each variable, restriction to tuples of `SimpleClasses` representatives is a
-  `k`-linear equivalence `(Φ ⟶ Ψ) ≃ₗ[k] ∏ (s : Fin n → SimpleClasses C), (Φ.obj (repr ∘ s) ⟶
-  Ψ.obj (repr ∘ s))`. This extends Tau Ceti's `natTrans_ext_of_simple` from uniqueness to
-  existence. Corollary: Davydov–Yetter cochain spaces are finite-dimensional when `D` is
-  Hom-finite.
+- **Cochains on semisimple categories.** Let `C₀, …, C_{n-1}` be abelian, finite semisimple and
+  `k`-linear with split simples (`finrank k (End S) = 1`), and let `Φ Ψ : (∀ i, C_i) ⥤ D` be
+  `k`-linear in each variable. Then restriction to tuples of `SimpleClasses` representatives is a
+  `k`-linear equivalence `(Φ ⟶ Ψ) ≃ₗ[k] ∏ s, (Φ.obj (repr ∘ s) ⟶ Ψ.obj (repr ∘ s))`.
+  - This extends Tau Ceti's `natTrans_ext_of_simple` from uniqueness to existence.
+  - Linearity, not just additivity, is needed: naturality against `λ • 𝟙_S` fails for an
+    additive functor twisted by a field automorphism.
+  - The mixed form, with several copies of a fusion category `C` and one module category `M`, is
+    used in Layer 7.
+  - Corollary: Davydov–Yetter cochain spaces are finite-dimensional when `D` is Hom-finite.
 - **Linear endofunctors.** For a `k`-linear category `M` with finite biproducts,
   `LinearEnd k M` is the full subcategory of `M ⥤ M` on additive `k`-linear functors, with
-  composition as tensor product. Provide `MonoidalCategory`, `Preadditive`, `Linear k`,
+  tensor product `Φ ⊗ Ψ := Ψ ⋙ Φ`. This is the reverse of Mathlib's `endofunctorMonoidalCategory`,
+  so that a left action is monoidal into it. Provide `MonoidalCategory`, `Preadditive`, `Linear k`,
   `MonoidalPreadditive`, `MonoidalLinear k` and `HasFiniteBiproducts`.
   - A `MonoidalLeftAction C M` which is `k`-linear in each variable gives a `k`-linear monoidal
-    functor `actionFunctor : C ⥤ LinearEnd k M`, through Mathlib's `curriedAction`.
+    functor `actionFunctor : C ⥤ LinearEnd k M`, `X ↦ (X ⊙ -)`, corresponding to Mathlib's
+    `curriedActionMop`.
 
 ### Layer 1: squared norms and the global dimension
 
@@ -220,9 +226,10 @@ PresentationsOfMonoidalCategories Layers 5 and 6 for the skeletal formula.
   - `squaredNorm (Model.simple a) = (s_a s_ā)⁻¹`;
   - `normGlobalDim (Model P) = ∑ a, (s_a s_ā)⁻¹`.
 
-  The proof combines the comparison above with that roadmap's Layer 6, where `leftDim` and
-  `rightDim` are `(t_a s_ā)⁻¹` and `t_a / s_a`. Since `squaredNorm` does not depend on a pivotal
-  structure, the formula holds for every `P` satisfying the criterion.
+  In `Model P`, `(simple a)ᘁᘁ = simple a` for the standard pairings (PresentationsOfMonoidalCategories
+  Layer 6). So compute both bidual traces directly with `a = 𝟙`: they are `s_a⁻¹` and `s_ā⁻¹`.
+  This uses no pivotal structure, which matters because whether every fusion category admits one
+  is open.
 
 **Checks.**
 
@@ -250,33 +257,46 @@ Fix `F : C ⥤ D` monoidal, additive and `k`-linear.
   - `RelCenter.idEquiv : RelCenter (𝟭 C) ≌ Center C`, monoidal, identifying half-braidings.
   - `RelCenter.map F : Center C ⥤ RelCenter F`, sending `(X, β)` to `(F X, F β)` transported
     along `μ`, monoidal.
-- **Induction.** `RelCenter.induction F : D ⥤ RelCenter F`, with underlying object
-  `⨁ S : SimpleClasses C, F S.repr ⊗ V ⊗ F (S.reprᘁ)`. Its half-braiding is Tau Ceti's
-  `Center.induction` half-braiding, with `F` inserted and its tensorator used. The pairing between
-  `F S.repr` and `F (S.reprᘁ)` comes from Layer 0.
-  - At `F = 𝟭 C`, through `idEquiv`, it agrees with `Center.induction k C`.
-  - It commutes with `RelCenter.map`: `RelCenter.map F ⋙ induction F ≅ Center.induction k C ⋙
-    RelCenter.map F`, up to the canonical identification of summands.
-- **Both adjunctions.** `forgetInductionAdjunction F : forget F ⊣ induction F`, generalizing
-  Tau Ceti's, and `inductionForgetAdjunction F : induction F ⊣ forget F`.
-  - The normalization is PivotalSpherical Layer 11's. The counit of `forget F ⊣ induction F` is
-    the projection of `⨁ S, F S ⊗ V ⊗ F Sᘁ` onto its `𝟙`-summand. The unit of
-    `induction F ⊣ forget F` is the inclusion of that summand.
-  - Each adjunction is determined by that datum.
+- **Two inductions.**
+  - `RelCenter.induction F : D ⥤ RelCenter F` has underlying object
+    `⨁ S : SimpleClasses C, F S.repr ⊗ V ⊗ F (S.reprᘁ)`. It is the right adjoint of `forget F`
+    (an end). Its half-braiding is Tau Ceti's `Center.induction` half-braiding, with `F`
+    inserted and its tensorator used, and the pairing of `F S.repr` with `F (S.reprᘁ)` from
+    Layer 0. At `F = 𝟭 C`, through `idEquiv`, it agrees with `Center.induction k C`.
+  - `RelCenter.coinduction F : D ⥤ RelCenter F` has underlying object
+    `⨁ S, F S.repr ⊗ V ⊗ F (ᘁS.repr)`. It is the left adjoint of `forget F` (a coend; GHS (3.14)),
+    with the half-braiding built from the left pairings `(ᘁS, S)`.
+  - Both commute with `RelCenter.map`: `F ⋙ induction F ≅ Center.induction k C ⋙ RelCenter.map F`,
+    and likewise for `coinduction`.
+- **Both adjunctions, with pinned units and counits.** Neither adjunction involves a choice.
+  - `forgetInductionAdjunction F : forget F ⊣ induction F` generalizes Tau Ceti's. Its counit is
+    the projection onto the `𝟙`-summand.
+  - `coinductionForgetAdjunction F : coinduction F ⊣ forget F` has unit the inclusion of the
+    `𝟙`-summand. Its counit is assembled from the half-braiding and the evaluations of the left
+    pairings.
+- **Comparing the two.** Choose, for each simple `T`, an isomorphism `a_T : T ≅ Tᘁᘁ`. Its mate
+  gives `ᘁT ≅ Tᘁ`. Define `θ : coinduction F ≅ induction F` on the `T`-summand as
+  `(bidualTrace a_T)⁻¹ •` the image of that mate.
+  - `θ` is an isomorphism in `RelCenter F`, i.e. compatible with the half-braidings.
+  - It is independent of the choices of `a_T`, since rescaling `a_T` by `t` rescales both factors.
+  - This is the pivot-free replacement for PivotalSpherical Layer 11's two-sided adjoint.
 - **The averaging identity.** For every `Z : RelCenter F`,
-  `(forgetInductionAdjunction F).unit.app Z ≫ (inductionForgetAdjunction F).counit.app Z =
-  normGlobalDim C • 𝟙 Z`.
-  - The summand `S` contributes `squaredNorm S`, with no pivotal structure involved (EGNO,
-    Lemma 9.3.1 and the proof of Theorem 9.3.2).
-  - At `F = 𝟭 C` this is the pivot-free form of PivotalSpherical Layer 11's averaging identity.
-    Prove Layer 11's statement from it, using `normGlobalDim_eq_globalDim`, rather than
-    separately.
-- **The central comonad.** `RelCenter.comonad F := (inductionForgetAdjunction F).toComonad`, with
-  underlying functor `forget F ⋙ induction F`.
+  `(forgetInductionAdjunction F).unit.app Z ≫ θ.inv.app (forget F Z) ≫
+  (coinductionForgetAdjunction F).counit.app Z = normGlobalDim C • 𝟙 Z`.
+  - The `S`-summand of the composite is the projection after the coevaluation, and through `θ` it
+    equals `bidualTrace a_S • bidualTrace (a_S.inv)ᘁ = squaredNorm S`. No pivotal structure is
+    involved.
+  - The sources do not state this composite. The computation is the trace computation of EGNO,
+    Lemma 9.3.1 and the proof of Theorem 9.3.2.
+  - PivotalSpherical Layer 11 states the pivotal case at `F = 𝟭 C`. That statement is the
+    specialization of this one through `idEquiv`, `θ` and `normGlobalDim_eq_globalDim`. Each
+    roadmap proves its own statement, and neither depends on the other.
+- **The central comonad.** `RelCenter.comonad F := (coinductionForgetAdjunction F).toComonad`, with
+  underlying functor `forget F ⋙ coinduction F`.
 - **Relative projectivity.** For a comonad `G`, `X` is `G`-projective when the counit `G X ⟶ X`
   has a section (GHS, Definition 2.4). If `C` is separable, every `Z : RelCenter F` is
   `RelCenter.comonad F`-projective, with section
-  `(normGlobalDim C)⁻¹ • (forgetInductionAdjunction F).unit.app Z`.
+  `(normGlobalDim C)⁻¹ • ((forgetInductionAdjunction F).unit.app Z ≫ θ.inv.app (forget F Z))`.
 
 ### Layer 3: comonad cohomology
 
@@ -313,15 +333,18 @@ Keep the hypotheses of Layer 2, and let `X Y : RelCenter F`.
   - Write `DYComplex F` for trivial coefficients and `DYComplex C` for `F = 𝟭 C`.
 - **Functoriality.** Morphisms in `RelCenter F` act on the coefficients. A monoidal natural
   isomorphism `F ≅ F'` and a monoidal equivalence `C ≌ C'` induce isomorphisms of complexes.
-- **Low degrees.** For trivial coefficients, the degree-`0` differential vanishes, so
-  `DYCohomology F 1` is the space of derivations of `F`. These are natural `θ : F ⟶ F` with
+- **Low degrees.** For trivial coefficients and `End (𝟙_ D) = k` (for example `F = 𝟭 C`, or `D`
+  fusion), the degree-`0` differential vanishes, so `DYCohomology F 1` is the space of derivations
+  of `F`. In general it is derivations modulo inner derivations (GHS, Remark 3.7). For instance,
+  for `D = LinearEnd k M` with `M` of rank at least two, `End (𝟙_ D) = k^{rank M}`. These are natural `θ : F ⟶ F` with
   `θ_{X⊗Y} ∘ μ = μ ∘ (θ_X ▷ F Y + F X ◁ θ_Y)`.
 - **Comparison (GHS, Theorem 3.11).** For `C` fusion there is an isomorphism of cochain
   complexes `DYComplex F X Y ≅ Comonad.cochainComplex (RelCenter.comonad F) X Y`.
   - In degree `n` it is the composite of the adjunction isomorphisms of
-    `inductionForgetAdjunction F` with the Layer 0 description of cochains on simples. The
-    reason is that `(forget F ⋙ induction F)^n` has underlying object
-    `⨁_{S₁…Sₙ} F Sₙ ⊗ ⋯ ⊗ F S₁ ⊗ X ⊗ F S₁ᘁ ⊗ ⋯ ⊗ F Sₙᘁ`.
+    `coinductionForgetAdjunction F` with the Layer 0 description of cochains on simples. The
+    reason is that `(forget F ⋙ coinduction F)^n` has underlying object
+    `⨁_{S₁…Sₙ} F Sₙ ⊗ ⋯ ⊗ F S₁ ⊗ X ⊗ F (ᘁS₁) ⊗ ⋯ ⊗ F (ᘁSₙ)`. The left pairings identify maps out of
+    it with families `X ⊗ F S₁ ⊗ ⋯ ⟶ ⋯ ⊗ Y`, with no choices.
   - Verifying that the differentials agree is the content (GHS, §3.4).
 
 ### Layer 5: the vanishing theorem
@@ -362,8 +385,9 @@ Layer 5, so that `Model P` is fusion over `k`. Assume `Model P` is separable, i.
 - **Deformation dictionary.** Let `A ↠ A'` be a surjection of Artin local `k`-algebras whose
   kernel `I` satisfies `𝔪_A · I = 0`.
   - *F-symbols.* For lifts `Q₁ Q₂ : FSymbols A N` of `P` with equal images in `A'`, write
-    `Q₂.F = (1 + θ) · Q₁.F` with `θ` having entries in `I`. Then `θ` depends only on `P`, and
-    defines an element of `DYComplex (Model P)` in degree `3`, tensored with `I`. This uses
+    `Q₂.F = (1 + θ) · Q₁.F` with `θ` having entries in `I`. Since `𝔪_A · I = 0`,
+    `θ = (Q₂.F − Q₁.F) · P.Finv`, with entries in `I` multiplied by entries of `P` through the
+    `k`-module structure of `I`. Then `θ` an element of `DYComplex (Model P)` in degree `3`, tensored with `I`. This uses
     Layer 0 and the left basis `L_{(e,i,j)}` of `Hom((a ⊗ b) ⊗ c, d)`. That element is a
     cocycle.
   - Conversely, `θ` is the coboundary of `γ`, an element of degree `2` tensored with `I`, if and
@@ -416,8 +440,9 @@ the simple objects of the module category.
     (Σ p, Fin Nm_{bm}^p × Fin Nm_{ap}^n) R` is defined by the left and right bases of
     `Hom((a ⊗ b) ⊙ m, n)` and `Hom(a ⊙ (b ⊙ m), n)`, exactly as `F` is.
   - The **module pentagon** is the pentagon of PresentationsOfMonoidalCategories with
-    `A, B, C ∈ ι` and `D, E, r, s ∈ κ`, and with `F^{XYZ}_W` replaced by `M^{XYZ}_W` whenever
-    `Z ∈ κ`. It expresses Mathlib's pentagon for `MonoidalLeftAction`.
+    `A, B, C ∈ ι` and `D, E, r, s ∈ κ`. In it, `F^{XYZ}_W` is replaced by `M^{XYZ}_W` whenever
+    `Z ∈ κ`, and `N_{XY}^Z` by `Nm_{XY}^Z` whenever `Y ∈ κ`. The second replacement covers the
+    index sets of `i₃`, `k`, `m`, `n` and `z`. It expresses Mathlib's pentagon for `MonoidalLeftAction`.
   - The **module triangle** is `M^{a u m}_n[(a,0,j),(m,0,l)] = if j = l then 1 else 0`.
   - Provide `ext` on `M`, `reindex` along `τ : κ ≃ κ'`, and `map` along ring maps.
 - **Model.**
@@ -447,7 +472,9 @@ the simple objects of the module category.
   `(Xᘁ ⊙ -) ⊣ (X ⊙ -)` given by `η_ X Xᘁ` and `ε_ X Xᘁ`, over a field.
 - **Dictionary and formal rigidity.** As in Layer 6, with `θ` a cocycle of degree `2` for
   `actionFunctor : Model P ⥤ LinearEnd k (Model Q)` and `γ` of degree `1` giving the module
-  gauge `1 + γ`. Conclusion: for separable `Model P` over `k`, every lift of `Q` to an Artin
+  gauge `1 + γ`. Normalization differs from Layer 6: at `(a, u, m, n)` the module triangle gives
+  `M' = (h^{um}_m)⁻¹ · I`, so the triangle itself forces `h^{um}_m = 1`, with no rescaling.
+  Conclusion: for separable `Model P` over `k`, every lift of `Q` to an Artin
   local `k`-algebra `A` (with `P` replaced by its constant lift) has the form
   `h • Q.map (algebraMap k A)` with `h.map π = 1`. The same holds over `k⟦t⟧`.
 - **Bounds on module fusion rules.** Over a field, let `M_a` be the matrix
@@ -467,7 +494,7 @@ the simple objects of the module category.
 
 - Over `Vec_{ℤ/2}`, the indecomposable module categories are `Vec_{ℤ/2}` (rank `2`) and `Vec`
   (rank `1`). `K = 2`, so the bound gives rank at most `4`.
-- Over `Vec_G`, the indecomposable module categories correspond to pairs of a subgroup `H ≤ G`
+- Over `Vec_G` with `char k ∤ |G|`, the indecomposable module categories correspond to pairs of a subgroup `H ≤ G`
   up to conjugacy and a class in `H²(H, kˣ)` (Ostrik). The model of the pair `(H, 1)` has
   `κ = G/H`.
 
@@ -595,6 +622,8 @@ Fix `C` fusion over `k`.
 - **Radford isomorphism.** A monoidal natural isomorphism
   `radfordIso C : 𝟭 C ≅ (doubleRightDualFunctor C) ⋙ (doubleRightDualFunctor C)`
   (EGNO, Theorem 7.19.1 and Corollary 7.19.3).
+  - Relation to EGNO: for EGNO's `δ_X : Xᘁᘁ ≅ ᘁᘁX` (Theorem 7.19.1 with `D = 𝟙`),
+    `(radfordIso C).hom.app X = (δ_X⁻¹)ᘁᘁ`, read through `(ᘁᘁX)ᘁᘁ = X`.
   - It is a theorem about fusion categories, not a structure on rigid categories: compare
     PivotalSpherical's warning that no such isomorphism exists in general.
   - **Characterization on simples.** For simple `L` and any isomorphism `a : L ≅ Lᘁᘁ`,
