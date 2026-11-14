@@ -131,9 +131,12 @@ The common logical modules are
 `TauCeti.ModelTheory.BackAndForth.Equivalence`, and
 `TauCeti.ModelTheory.Infinitary.QuantifierRank`.
 Use `TauCeti.EFStrategy`, `TauCeti.BFEquiv`,
-`SimpleGraph.sameAtomicType_iff` and `SimpleGraph.Iso.toLanguageEquiv`.
-Milestone 5 adds the natural-valued first-order rank and its finite-rank realization bridge to
-these shared APIs; it does not introduce another game or back-and-forth relation.
+`SimpleGraph.sameAtomicType_iff` and `SimpleGraph.Iso.toLanguageEquiv`, and the finite-round
+soundness of `TauCeti.EFStrategy.bfEquiv` with `TauCeti.BFEquiv.realize_iff_of_qrank_le`
+(`TauCeti.ModelTheory.BackAndForth.Karp`).
+Milestone 5 adds the natural-valued first-order rank and its identification with the ordinal
+rank of `BoundedFormula.toInf` to these shared APIs; it does not introduce another game,
+back-and-forth relation or soundness theorem.
 
 The full extension predicate and the Rado graph belong to the InfinitaryLogic worked example;
 this roadmap consumes them and does not maintain a second extension predicate or Rado graph.
@@ -463,19 +466,34 @@ is outside its age.
 ### 5.1 Shared finite-logic foundations
 
 *Needs:* Milestone 0; 4.1 for the extension strategy; Tau Ceti `EFStrategy`, `BFEquiv`,
-`SimpleGraph.sameAtomicType_iff` and the infinitary quantifier rank.
+`TauCeti.EFStrategy.bfEquiv`, `TauCeti.BFEquiv.realize_iff_of_qrank_le`,
+`TauCeti.BFEquiv.elementarilyEquivalent`, `BoundedFormula.realize_toInf`,
+`SimpleGraph.sameAtomicType_iff` and the infinitary quantifier rank with
+`BoundedFormulaInf.qrank_toInf`.
 
 Define natural-valued quantifier rank by structural recursion on Mathlib bounded formulas.
 Prove constructor and renaming laws, the appropriate substitution laws, and compatibility
 with the ordinal rank of the existing infinitary embedding. Identify rank zero with
 Mathlib's native `BoundedFormula.IsQF` predicate.
 
-Extend the existing `EFStrategy`/`BFEquiv` API with truth preservation for native
-first-order formulas of bounded rank. The theorem must retain the actual assignments and
-handle tuple repetitions. Prove finite-round soundness for an arbitrary relational
-language, without a finite- or countable-signature hypothesis; the graph specialization
-then uses `sameAtomicType_iff`. The finite graph signature enters the later enumeration
-of diagrams for quantifier elimination.
+Finite-round soundness is already in Tau Ceti, for an arbitrary relational language and without
+a finite- or countable-signature hypothesis, and is cited rather than restated. A winning
+`k`-round strategy gives back-and-forth equivalence at level `k` (`TauCeti.EFStrategy.bfEquiv`,
+`ModelTheory/BackAndForth/Game/Finite.lean`). Back-and-forth equivalence at level `α` gives
+agreement of the two tuples, repetitions allowed, on every infinitary formula of quantifier rank
+at most `α`, with the tuples in bound positions (`TauCeti.BFEquiv.realize_iff_of_qrank_le`,
+`ModelTheory/BackAndForth/Karp.lean`). `TauCeti.BFEquiv.elementarilyEquivalent` already applies
+these to first-order sentences through `BoundedFormula.toInf`, whose realization is
+`BoundedFormula.realize_toInf`.
+
+What remains here is the rank bridge. Prove that the ordinal rank of the embedding is the natural
+rank, `(BoundedFormula.toInf φ).qrank = foRank φ`, by induction on `φ`
+(`BoundedFormulaInf.qrank_toInf` makes the left side independent of the branching carrier).
+With the declarations above it gives the first-order form directly: tuples joined by a `k`-round
+strategy agree on every native formula of `foRank` at most `k`. Formulas over `Fin m` are moved to
+the bound-position presentation explicitly. The graph specialization then uses
+`sameAtomicType_iff`. The finite graph signature enters the later enumeration of diagrams for
+quantifier elimination. Check: `∀x∃y Adj(x,y)` has `foRank` 2 and ordinal rank 2.
 
 For graphs satisfying $`\mathrm{EP}_{\le d}`$, construct the finite-round extension
 strategy starting at two tuples with the same equality and adjacency pattern. If the
