@@ -817,7 +817,11 @@ odd, so `K = ker X = im P_K` is a smooth ℤ/2-graded subbundle `K⁺ ⊕ K⁻ =
 `dim ker T − dim ker T* = rk E⁺ − rk E⁻`, then `ch(𝔸_t) → ch(K⁺, ∇^K) − ch(K⁻, ∇^K)` as
 `t → ∞` for the compressed connection `∇^K = P_K ∇ P_K`, uniformly on compact subsets with all
 derivatives, and the difference is `d` of a convergent transgression integral (Wu 2006, §2.3, the
-formula after (2.8), for (a); Berline–Getzler–Vergne, §9.1, for (b)).
+formula after (2.8), for (a); Berline–Getzler–Vergne, §9.1, for (b): Theorem 9.2, p. 272, for
+the estimate `‖e^(−𝓕_t) − e^(−R_[2])‖_ℓ = O(t^(−1/2))` in every `C^ℓ`-norm, Corollary 9.6, p. 276,
+for the limit `ch(∇₀)` with `∇₀ = P₀ 𝔸_[1] P₀`, and Theorem 9.7, p. 277, for the convergent
+transgression `ch(𝔸_t) − ch(∇₀) = d ∫_t^∞ α(s) ds`; there `𝔸_t = t^(1/2) D + 𝔸_[1] + ⋯`, so their
+`t` is the square of the `t` here).
 Route: (a) from 4.3 and the bound `|exp(−𝔸_t²)| ≤ C(1 + t)^N e^(−t² λ)` with `λ > 0` the
 smallest eigenvalue of `X²` on the compact set, by the Duhamel expansion of
 `TauCeti.expFDeriv_apply_eq_integral` around `exp(−t²X²)`; the projection: at a point `x₀` the
