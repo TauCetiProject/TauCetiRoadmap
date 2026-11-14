@@ -58,11 +58,14 @@ Headline theorems of the README that are not statable at the pins, and the carri
 * Layer 9: formal degrees of discrete series and the covolume formula (no square-integrable
   representation or formal degree, and the covolume formula is an identity between Layer 7
   coupling dimensions).
-* Layer 10: Tomita–Takesaki theory, the finite-dimensional identification `σ_t = Ad(h^{it})`
-  and the Bost–Connes type III theorem. There is no closed antilinear operator `S`, modular
-  operator `Δ`, modular conjugation `J` or modular automorphism group. The KMS characterization
-  of the modular group needs none of them in its existence-and-uniqueness form, which is stated
-  below.
+* Layer 10: the closed-operator form of Tomita–Takesaki theory (the Tomita operator
+  `S = JΔ^{1/2}` and the imaginary powers `Δ^{it}` of the modular operator), the
+  finite-dimensional identification `σ_t = Ad(h^{it})` and the Bost–Connes type III theorem.
+  There is no closed antilinear operator `S`, no unbounded modular operator `Δ` and no modular
+  automorphism group. Tomita's theorem `JMJ = M'` needs none of them and is stated below: the
+  modular conjugation `J` is characterized on Mathlib's closed real subspaces. The KMS
+  characterization of the modular group needs none of them in its existence-and-uniqueness
+  form, which is stated below.
 * Layer 11: weights, spatial derivatives, Connes cocycles, the continuous core, Takesaki duality,
   the invariants `S` and `T`, and the flow of weights (no modular automorphism group of a weight,
   on which each of these depends). The tensor commutation theorem `(M ⊗̄ N)′ = M′ ⊗̄ N′`, proved
@@ -530,6 +533,26 @@ theorem ergodicSMul_dense_subgroup
 
 /-! ## Layer 10: Affiliated operators and Tomita–Takesaki theory -/
 
+open ClosedSubmodule in
+/-- **Tomita's theorem** `JMJ = M'` for a cyclic and separating vector `Ω`. Let `K` be the closed
+real span of the vectors `x Ω` with `x ∈ M` self-adjoint, for Mathlib's real inner product
+`Re⟪·, ·⟫` scoped in `ClosedSubmodule`. The modular conjugation `J` of `K` is the only antiunitary
+involution with `J(K) = K.symplComp` and `0 ≤ Re⟪ξ, J ξ⟫` for `ξ ∈ K`, and `J M J = M'`
+(README, V10.StandardRealSubspaces and V10.ModularTheory; Rieffel–van Daele, Proposition 2.3,
+pp. 190–191, and Theorem 4.2, p. 201). On `M₂(ℂ)` acting by left multiplication on its
+Hilbert–Schmidt space with `Ω = h^{1/2}`, `J` is the adjoint `ξ ↦ ξ*`. Both hypotheses are
+needed: for `B(ℂ²)` and its cyclic, non-separating vector `e₁`, `K` has real dimension 3 and
+`K.symplComp` real dimension 1, so no isometry carries one onto the other. -/
+theorem exists_conj_commutant_eq_of_isCyclic_of_isSeparating {M : VonNeumannAlgebra H} {Ω : H}
+    (hc : IsCyclic M Ω) (hs : IsSeparating M Ω) :
+    ∃ J : H ≃ₗᵢ⋆[ℂ] H, (∀ ξ, J (J ξ) = ξ) ∧
+      (∀ ξ, ξ ∈ (Submodule.span ℝ {η | ∃ x ∈ M, IsSelfAdjoint x ∧ x Ω = η}).closure ↔
+        J ξ ∈ (Submodule.span ℝ {η | ∃ x ∈ M, IsSelfAdjoint x ∧ x Ω = η}).closure.symplComp) ∧
+      (∀ ξ ∈ (Submodule.span ℝ {η | ∃ x ∈ M, IsSelfAdjoint x ∧ x Ω = η}).closure,
+        0 ≤ (inner ℂ ξ (J ξ)).re) ∧
+      ∀ y : H →L[ℂ] H, y ∈ M.commutant ↔ ∃ x ∈ M, ∀ ξ, y ξ = J (x (J ξ)) := by
+  sorry
+
 /-- **The KMS characterization of the modular group** (Takesaki). A faithful normal state `φ` on
 `M` has exactly one one-parameter group `σ` of star automorphisms of `M`, pointwise continuous in
 the strong operator topology, for which `φ` satisfies the KMS condition at `β = -1`: for all
@@ -573,7 +596,7 @@ simultaneously unitarily equivalent to `diag(1, 0)` and
 `[[b, √(b(1 − b))], [√(b(1 − b)), 1 − b]]` on `L ⊕ L`, for a positive contraction `b` on a Hilbert
 space `L` with `ker b = ker (1 − b) = 0`; so the von Neumann algebra they generate is
 `W*(b) ⊗ M₂(ℂ)` with `W*(b)` abelian (README, Layer 12; Jones, Exercises 7.3.2 and 7.3.8,
-pp. 46–47). The general-position part of an arbitrary pair, the complement of the four
+p. 47). The general-position part of an arbitrary pair, the complement of the four
 intersections, is such a pair on a reducing subspace. On `ℂ²`, `p = diag(1, 0)` and the
 projection onto the line through `(cos θ, sin θ)`, `0 < θ < π/2`, give `L = ℂ` and `b = cos² θ`. -/
 theorem exists_linearIsometryEquiv_withLp_of_generalPosition {p q : H →L[ℂ] H}
@@ -596,7 +619,7 @@ theorem exists_linearIsometryEquiv_withLp_of_generalPosition {p q : H →L[ℂ] 
 /-- Property Γ of a II₁ factor in Dixmier's form: for a tracial state `τ` of `M` there is a
 sequence of unitaries `u_n ∈ M` with `τ(u_n) = 0` that is asymptotically central in the trace
 norm, `‖u_n y − y u_n‖₂ → 0` for every `y ∈ M`, where `‖z‖₂² = τ(z* z)` (README, Layer 12; the form
-of Anantharaman–Popa, Theorem 15.2.3(iv), p. 262; Jones, Definition 16.1.1, p. 107, defines Γ
+of Anantharaman–Popa, Theorem 15.2.3(iv), p. 262; Jones, Definition 16.1.1, p. 113, defines Γ
 by a nontrivial central sequence; for separable II₁ factors the equivalence of the two, and
 with the finite-set form, is a README target: Anantharaman–Popa, Theorem 15.2.3, p. 262, with
 Remarks 15.2.2, p. 262). The predicate is meant for II₁ factors, whose
@@ -613,7 +636,7 @@ at least two generators, `L(F)` does not have property Γ: with `Δ` the reduced
 nonzero power of a generator `g` and `h` a second generator, the estimate
 `‖x − τ(x)1‖₂ ≤ 14 max(‖[x, u_g]‖₂, ‖[x, u_h]‖₂, ‖[x, u_{h⁻¹}]‖₂)` holds for all `x`, and a
 trace-zero unitary has `‖x − τ(x)1‖₂ = 1` (README, Layer 12; Jones, Theorems 16.3.1 and 16.3.2,
-pp. 108–109). The rank need not be finite. With `hasPropertyGamma_of_isHyperfinite` it shows
+pp. 114–115). The rank need not be finite. With `hasPropertyGamma_of_isHyperfinite` it shows
 that these factors are not hyperfinite, hence not `R`. -/
 theorem not_hasPropertyGamma_groupVonNeumannAlgebra_freeGroup (α : Type*) [Nontrivial α]
     [MeasurableSpace (FreeGroup α)] [DiscreteMeasurableSpace (FreeGroup α)] :
@@ -698,7 +721,7 @@ def IsHyperfinite (M : VonNeumannAlgebra H) : Prop :=
 finite-dimensional subalgebras, the relative commutant of each `Aₙ` in the II₁ factor `M`
 contains a self-adjoint unitary `uₙ = 2eₙ − 1` with `τ(eₙ) = 1/2`, and these are asymptotically
 central in the trace norm, exactly so on `⋃ₙ Aₙ` and by Kaplansky density on `M` (README, V13b
-and Layer 12; Jones, §16.2, pp. 107–108, for the tensor model `R = ⊗ M₂(ℂ)`, where `uₙ` is
+and Layer 12; Jones, §16.2, pp. 113–114, for the tensor model `R = ⊗ M₂(ℂ)`, where `uₙ` is
 `diag(1, −1)` at the `n`-th site). -/
 theorem hasPropertyGamma_of_isHyperfinite {M : VonNeumannAlgebra H} (hM : IsTypeIIOne M)
     (hR : IsHyperfinite M) : HasPropertyGamma M := by
