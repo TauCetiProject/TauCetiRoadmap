@@ -1052,7 +1052,9 @@ The statement carriers and the proposed proof inputs are the individual Needs li
 
 ## Layer SRU.5: The generic unitary spherical dual
 
-### 5.1 Real parts of the supplied Satake parameters (*real-satake-parameter*)
+### 5.1 Real parts and half-integrality of spherical Satake parameters (*real-satake-parameter*)
+
+This section fixes the real part ν of a spherical Satake parameter, the chambers C₀, `C_(0,h)` and A₀, and half-integrality of ν with respect to a representation of the dual group. Most statements of SRU.5 are made in this setting, which SRU.6.1 and SRU.7.6 also consume; SRU.5.13, SRU.5.19, SRU.7.9 and SRU.7.12 consume half-integrality.
 
 Let k a nonarchimedean local field of any characteristic with residue field 𝔽_q, G = 𝐆(k) for 𝐆 quasi-simple, split and adjoint, K = 𝐆(O) hyperspecial, B ⊃ T a Borel subgroup and maximal split torus, based root datum (X, Φ, X^∨, Φ^∨, Π), Weyl group W, longest element w₀, Coxeter number h, dual group G^∨ over ℂ with maximal torus T^∨ = X ⊗ ℂ^× (Ciubotaru–Harris §6 setting). For s ∈ T^∨ = Hom(X^∨, ℂ^×), χ_s := s ∘ val_T : T(k) → ℂ^× with ⟨val_T(t), λ⟩ = val_k(λ(t)) (Ciubotaru–Harris (6.1)); X(s) := i_B(χ_s) (normalised, SR.2) and L(s) its unique K-spherical irreducible subquotient; s ↦ L(s) is a bijection from W-orbits in T^∨ to irreducible K-spherical representations, s being the Satake parameter (SR.4 spherical-parameter, satake-isomorphism, with complex coefficients and the positive square root `q^(1/2)` ∈ ℂ fixing normalised induction). Write s = s_c·s_ν with s_ν = r(s) the positive part and s_c = s/r(s) the compact part of LieHighestWeightPartII N5 positive-real-part (T^∨_ℝ = X ⊗ `ℝ_(>0)`, T^∨_c = X ⊗ S¹), and define the real part ν ∈ t^∨_ℝ = X ⊗ ℝ as the q-logarithm of r(s), so that s_ν = exp(ν log q) with q ≥ 2; s_ν is a real Satake parameter, X(ν) := X(s_ν), L(ν) := L(s_ν). C₀ = {ν : ⟨α^∨, ν⟩ ≥ 0 for α ∈ Π}, `C_(0,h)` = {ν ∈ C₀ : w₀ν = −ν} (hermitian locus), A₀ = {ν ∈ C₀ : ⟨γ^∨, ν⟩ < 1} (γ^∨ the highest coroot), ρ = half the sum of positive roots; the trivial representation is L(ρ). Convention: with (6.1), `χ_(s_ν)(λ^∨(ϖ))` = `q^(⟨λ^∨, ν⟩)`, so for dominant ν the spherical L(ν) is the unique irreducible subrepresentation of X(ν) (and the unique quotient of X(−ν)); Barbasch–Ciubotaru's χ_ν(τ(a)) = `|a|^(⟨τ, ν⟩)` differs by ν ↦ −ν, which changes no statement of SRU.5–SRU.7 because L(ν) and L(−ν) are hermitian duals and unitarity is preserved. (CH26, §6, (6.1)–(6.6), PDF pp. 16–18)
 
@@ -1079,8 +1081,7 @@ Additional inputs for this route: BC1, §1.2, (1.2.1)–(1.2.2), p. 2.
 
 *Needs:* SmoothRepresentationsOfLocalGroups SR.4 / spherical-parameter; SmoothRepresentationsOfLocalGroups SR.4 / satake-isomorphism; SmoothRepresentationsOfLocalGroups SR.4 / torus-character-dictionary; SmoothRepresentationsOfLocalGroups SR.2 / parabolic-induction; SmoothRepresentationsOfLocalGroups SR.2 / induced-invariants; ReductiveGroupsPartII RG2.5 / langlands-dual-group; ReductiveGroupsPartII RG2.4 / iwasawa-decomposition; LieHighestWeightPartII N5 positive-real-part.
 
-### 5.2 Half-integral real parts and geometric Satake parameters (*half-integral-parameter*)
-
+**5.2 Half-integral real parts and geometric Satake parameters (*half-integral-parameter*).**
 In the setting of real-satake-parameter, let (V, ρ_V) be a finite-dimensional representation of g^∨ (equivalently of G^∨). A real parameter ν ∈ t^∨_ℝ is half-integral with respect to V if ⟨χ, ν⟩ ∈ ½ℤ for every weight χ of V; the Satake parameter s = s_c s_ν is then called geometric with respect to V (Ciubotaru–Harris Definition 6.3). This is a condition on the real part only, not algebraicity of s_c. For a fixed 0 ≤ ε < ½, `C₀^(½+ε)` := {ν ∈ C₀ : ⟨α^∨, ν⟩ ∈ ε + ½ℤ for all α^∨ ∈ Φ^∨} ((6.11)); `C₀^(½)` is the set of ν ∈ C₀ half-integral for the adjoint representation. In fundamental-weight coordinates ν = Σ νᵢ ωᵢ, ν ∈ `C₀^(½)` iff every νᵢ ∈ `½ℤ_(≥0)`. (CH26, Definition 6.3, PDF p. 17, and (6.11)–(6.13), PDF p. 19)
 
 V finite-dimensional; ν real.
@@ -1107,7 +1108,9 @@ The defining object has the following API.
 
 *Needs:* SRU.5 / real-satake-parameter; RepresentationTheory/LieHighestWeight / Layer 2-weights-of-a-module-and-their-integrality.
 
-### 5.3 Tempered spherical representations (*spherical-tempered-criterion*)
+### 5.3 Satake-parameter criteria for temperedness, irreducibility, genericity and hermitian forms (*spherical-tempered-criterion*)
+
+This section gives, in terms of the Satake parameter, the criteria for a spherical representation to be tempered, generic or hermitian and for its unramified principal series to be irreducible. The region of SRU.5.7–SRU.5.9 is built from them, and SRU.5.14, SRU.5.15, SRU.5.18, SRU.5.19, SRU.6.2 and SRU.7.4 also consume them.
 
 In the setting of real-satake-parameter, L(s) is tempered iff its real part ν is 0; in that case L(s) = X(s) is the irreducible principal series unitarily induced from the unitary character χ_s (Ciubotaru–Harris Lemma 5.2, in local form). (CH26, Lemma 5.2, PDF p. 12)
 
@@ -1119,8 +1122,7 @@ For PGL₂(ℚ_p), the spherical L(s) is tempered iff |s| = 1; the trivial repre
 
 *Needs:* SRU.5 / real-satake-parameter; SRU.2 / unitary-induction; SRU.5 / unramified-principal-series-irreducibility; SmoothRepresentationsOfLocalGroups SR.3 / casselman-criterion; SmoothRepresentationsOfLocalGroups SR.3 / langlands-classification; SmoothRepresentationsOfLocalGroups SR.3 / square-integrable-tempered.
 
-### 5.4 Irreducibility of unramified principal series (*unramified-principal-series-irreducibility*)
-
+**5.4 Irreducibility of unramified principal series (*unramified-principal-series-irreducibility*).**
 In the setting of real-satake-parameter: (1) for s regular (trivial stabiliser in W), X(s) is irreducible iff α^∨(s) ≠ `q^(±1)` for every root α (Casselman 1980 Proposition 3.5(b)); (2) for general s and G adjoint (so G^∨ simply connected and every centraliser `Z_(G^∨)(s)` connected), X(s) is irreducible iff α^∨(s) ≠ `q^(±1)` for every root α (Kato81 Theorem 2.2, p. 935; its second condition, that W_s be generated by reflections, holds automatically); (3) for a real dominant ν, X(ν) is irreducible iff ⟨α^∨, ν⟩ ≠ 1 for every positive coroot α^∨ (Ciubotaru–Harris p. 17; Barbasch–Ciubotaru §3.1). (Cas80, Theorem 3.1, PDF p. 12, printed p. 397, and Proposition 3.5(b), PDF p. 16, printed p. 401)
 
 k a nonarchimedean local field of any characteristic with residue field 𝔽_q, G = 𝐆(k) for 𝐆 quasi-simple, split and adjoint, K = 𝐆(O) hyperspecial, B ⊃ T a Borel subgroup and maximal split torus, based root datum (X, Φ, X^∨, Φ^∨, Π), Weyl group W, longest element w₀, Coxeter number h, dual group G^∨ over ℂ with maximal torus T^∨ = X ⊗ ℂ^× (Ciubotaru–Harris §6 setting).
@@ -1133,8 +1135,7 @@ Additional inputs for this route: CH26, §6, after Definition 6.3, p. 17; BC1, �
 
 *Needs:* SRU.5 / real-satake-parameter; SmoothRepresentationsOfLocalGroups SR.2 / principal-series-jacquet; SmoothRepresentationsOfLocalGroups SR.1 / iwahori-matsumoto; ReductiveGroupsPartII RG2.5 / langlands-dual-group; SRU.5.20, full-root-datum Hecke comparison.
 
-### 5.5 Generic spherical representations (*spherical-generic-criterion*)
-
+**5.5 Generic spherical representations (*spherical-generic-criterion*).**
 In the setting of real-satake-parameter, each X(s) has a unique generic irreducible subquotient (Rodier73), and L(s) is generic iff X(s) is irreducible, i.e. iff L(s) = X(s) (Barbasch–Moy; Ciubotaru–Harris p. 17). Consequently a tempered L(s) is generic (Ciubotaru–Harris Corollary 5.7, local part). (CH26, §6, after Definition 6.3, PDF p. 17; Corollary 5.7, PDF p. 15)
 
 k a nonarchimedean local field of any characteristic with residue field 𝔽_q, G = 𝐆(k) for 𝐆 quasi-simple, split and adjoint, K = 𝐆(O) hyperspecial, B ⊃ T a Borel subgroup and maximal split torus, based root datum (X, Φ, X^∨, Φ^∨, Π), Weyl group W, longest element w₀, Coxeter number h, dual group G^∨ over ℂ with maximal torus T^∨ = X ⊗ ℂ^× (Ciubotaru–Harris §6 setting).
@@ -1147,8 +1148,7 @@ Additional inputs for this route: BC1, §1.2, p. 2; §3.1, pp. 16–17.
 
 *Needs:* SRU.5 / real-satake-parameter; SRU.5 / spherical-tempered-criterion; SRU.5 / unramified-principal-series-irreducibility; SRU.3 / rodier-heredity; SRU.5.20, split generic/sign adapter.
 
-### 5.6 Hermitian spherical representations (*spherical-hermitian-criterion*)
-
+**5.6 Hermitian spherical representations (*spherical-hermitian-criterion*).**
 In the setting of real-satake-parameter, L(s) admits a nonzero G-invariant hermitian form iff some w ∈ W maps s to s̄⁻¹ (Barbasch–Ciubotaru §1.2); for a real dominant ν this means w₀ν = −ν (Ciubotaru–Harris (6.5)). When w₀ = −1 (types A₁, B, C, `D_(2m)`, G₂, F₄, E₇, E₈) every real ν is hermitian; Ciubotaru–Harris list B, C, G₂, F₄, E₇, E₈. (BC1, §1.2, PDF p. 2, and §3.1, PDF p. 16)
 
 k a nonarchimedean local field of any characteristic with residue field 𝔽_q, G = 𝐆(k) for 𝐆 quasi-simple, split and adjoint, K = 𝐆(O) hyperspecial, B ⊃ T a Borel subgroup and maximal split torus, based root datum (X, Φ, X^∨, Φ^∨, Π), Weyl group W, longest element w₀, Coxeter number h, dual group G^∨ over ℂ with maximal torus T^∨ = X ⊗ ℂ^× (Ciubotaru–Harris §6 setting).
@@ -1161,7 +1161,9 @@ Additional inputs for this route: CH26, §6, (6.5), p. 17.
 
 *Needs:* SRU.5 / real-satake-parameter; SRU.2 / unitary-structure; SmoothRepresentationsOfLocalGroups SR.0 abelian-category / smooth-dual.
 
-### 5.7 The generic unitary spherical region (*generic-unitary-region*)
+### 5.7 The generic unitary spherical region and its classification (*generic-unitary-region*)
+
+This section defines the region U₀^g of real parameters of generic unitary spherical representations, shows that it contains the hermitian part of the fundamental alcove and avoids unbounded regions and nonzero integral root values, and classifies it type by type through the Iwahori–Hecke algebra. SRU.5.13–SRU.5.15, SRU.5.18 and SRU.5.19 consume the region and its classification; SRU.6.2, SRU.7.5, SRU.7.8 and SRU.7.13 consume the Hecke-algebra unitarity criterion, and SRU.7.8 also the classification.
 
 In the setting of real-satake-parameter, U₀^g := {ν ∈ C₀ : ⟨α^∨, ν⟩ ≠ 1 for every α^∨ ∈ `Φ^(∨,+)` and L(ν) is unitary} parametrises the generic spherical unitary representations with real Satake parameter (Ciubotaru–Harris (6.4)); U₀^g ⊆ `C_(0,h)`. The hyperplanes ⟨α^∨, ν⟩ = 1, α^∨ ∈ `Φ^(∨,+)`, cut C₀ into m = ∏ᵢ (dᵢ + h)/dᵢ open regions (dᵢ the fundamental degrees of Φ^∨; 105 for F₄, 25 080 for E₈); the dominant alcoves include their faces on chamber walls through zero; U₀^g is a union of open regions intersected with `C_(0,h)`. Unitarity of L(s_c s_ν) for noncentral s_c is not governed by U₀^g. (CH26, §6, (6.4)–(6.5), PDF p. 17, and (6.6), PDF p. 18)
 
@@ -1189,8 +1191,7 @@ For PGL₂, U₀^g = {ν ∈ C₀ : ⟨α^∨, ν⟩ < 1} = A₀, the spherical 
 
 *Needs:* SRU.5 / real-satake-parameter; SRU.5 / spherical-generic-criterion; SRU.5 / spherical-hermitian-criterion; SRU.5 / unramified-principal-series-irreducibility; SRU.2 / unitary-structure.
 
-### 5.8 The fundamental alcove is unitary (*fundamental-alcove-unitary*)
-
+**5.8 The fundamental alcove is unitary (*fundamental-alcove-unitary*).**
 In the setting of real-satake-parameter, A₀ ∩ `C_(0,h)` ⊆ U₀^g: for hermitian dominant ν with ⟨γ^∨, ν⟩ < 1, L(ν) = X(ν) is generic and unitary (Ciubotaru–Harris Lemma 6.7). (CH26, Lemma 6.7, PDF p. 18)
 
 k a nonarchimedean local field of any characteristic with residue field 𝔽_q, G = 𝐆(k) for 𝐆 quasi-simple, split and adjoint, K = 𝐆(O) hyperspecial, B ⊃ T a Borel subgroup and maximal split torus, based root datum (X, Φ, X^∨, Φ^∨, Π), Weyl group W, longest element w₀, Coxeter number h, dual group G^∨ over ℂ with maximal torus T^∨ = X ⊗ ℂ^× (Ciubotaru–Harris §6 setting).
@@ -1203,8 +1204,7 @@ Additional inputs for this route: BC1, §3.1–3.2, pp. 16–17.
 
 *Needs:* SRU.5 / generic-unitary-region; SRU.2 / unitary-induction; SRU.5 / unramified-principal-series-irreducibility; SRU.5 / spherical-hermitian-criterion; SRU.5.20, signature constancy.
 
-### 5.9 Unbounded regions are not unitary (*unbounded-not-unitary*)
-
+**5.9 Unbounded regions are not unitary (*unbounded-not-unitary*).**
 In the setting of real-satake-parameter, if ν ∈ C₀ and ⟨αᵢ^∨, ν⟩ > 1 for some simple coroot αᵢ^∨, then ν ∉ U₀^g (Ciubotaru–Harris Lemma 6.8). (CH26, Lemma 6.8, PDF p. 18)
 
 k a nonarchimedean local field of any characteristic with residue field 𝔽_q, G = 𝐆(k) for 𝐆 quasi-simple, split and adjoint, K = 𝐆(O) hyperspecial, B ⊃ T a Borel subgroup and maximal split torus, based root datum (X, Φ, X^∨, Φ^∨, Π), Weyl group W, longest element w₀, Coxeter number h, dual group G^∨ over ℂ with maximal torus T^∨ = X ⊗ ℂ^× (Ciubotaru–Harris §6 setting).
@@ -1217,8 +1217,7 @@ Additional inputs for this route: BCP, §5.2, Lemma (2) and following explanatio
 
 *Needs:* SRU.5 / generic-unitary-region; SmoothRepresentationsOfLocalGroups SR.2 / principal-series-jacquet; SmoothRepresentationsOfLocalGroups SR.2 / casselman-pairing; SRU.5 / unramified-principal-series-irreducibility; SRU.5.20, detecting signatures.
 
-### 5.10 Barbasch–Moy: unitarity through the Iwahori–Hecke algebra (*barbasch-moy-unitarity*)
-
+**5.10 Barbasch–Moy: unitarity through the Iwahori–Hecke algebra (*barbasch-moy-unitarity*).**
 Let G be split over a nonarchimedean local field (characteristic zero is assumed by Barbasch–Moy and Barbasch–Ciubotaru; Ciubotaru–Harris §7 note the assumption is unnecessary for the Hecke-algebraic statements) and I an Iwahori subgroup. An irreducible representation π with π^I ≠ 0 is unitarizable iff the simple H(G, I)-module π^I is unitary for the *-structure f*(g) = conj f(g⁻¹) (BM89, Theorems 1.1–1.2, cited by its locator); the Iwahori–Matsumoto involution preserves hermitian and unitary modules and exchanges spherical and generic ones; and the problem reduces to the graded affine Hecke algebra of the centraliser of s_c at the real infinitesimal character ν (BM93, Theorem 8.1, printed p. 634). (BC1, §§1.1–1.2, PDF p. 1)
 
 G split; π irreducible Iwahori-spherical.
@@ -1229,8 +1228,7 @@ The trivial and Steinberg representations correspond under the Iwahori–Matsumo
 
 *Needs:* SmoothRepresentationsOfLocalGroups SR.3 / borel-casselman-block; SmoothRepresentationsOfLocalGroups SR.1 / iwahori-matsumoto; SmoothRepresentationsOfLocalGroups SR.1 / bernstein-presentation; SRU.2 / unitary-structure; SRU.5.20, characteristic-independent affine/graded comparison.
 
-### 5.11 Classification of the generic unitary spherical dual (*generic-unitary-classification*)
-
+**5.11 Classification of the generic unitary spherical dual (*generic-unitary-classification*).**
 In the setting of real-satake-parameter, U₀^g is the intersection of `C_(0,h)` with a union of 2^d alcoves of C₀ including A₀, where d = 0 for PGL(n) and SO(2n+1), ⌊(n−1)/2⌋ for PSp(2n), n − 1 for PSO(4n) (n ≥ 2) and PSO(4n+2) (n ≥ 1), 1 for G₂, F₄, E₆, 3 for E₇ and 4 for E₈ (Ciubotaru–Harris Theorem 6.9, on the hermitian locus `C_(0,h)`). Explicitly (Barbasch–Ciubotaru §3.2–3.4), where the letters name the type of the root system Φ^∨ of the dual group, which is the root system of the Hecke algebra in BC1 §3.3: the C formula applies to G = SO(2n+1) (dual Sp(2n)), the B formula to G = PSp(2n) (dual Spin(2n+1)), and type D is self-dual. Type A: ν = (ν₁, …, ν_k, (0,) −ν_k, …, −ν₁) with 0 ≤ ν_k ≤ ⋯ ≤ ν₁ < ½; dual type C (G = SO(2n+1)): 0 ≤ ν₁ ≤ ⋯ ≤ νₙ < ½; dual types B and D (G = PSp(2n), PSO(2n)): the alternating conditions of Barbasch–Ciubotaru Theorem 3.3, made precise in SRU.5.21; G₂: {3ν₁ + 2ν₂ < 1} ∪ {2ν₁ + ν₂ < 1 < 3ν₁ + ν₂}; F₄ (coordinates of BC1 §3.4): {2ν₁ < 1} ∪ {ν₁ + ν₂ + ν₃ − ν₄ < 1 < ν₁ + ν₂ + ν₃ + ν₄}; E₆, E₇, E₈: the 2, 8 and 16 alcoves of Barbasch–Ciubotaru §7.2. The type-A case is part of Tadić's classification of the unitary dual of GL(n), owned upstream by AutomorphicSpectralTheory §7.0b. (CH26, Theorem 6.9, PDF p. 18)
 
 k a nonarchimedean local field of any characteristic with residue field 𝔽_q, G = 𝐆(k) for 𝐆 quasi-simple, split and adjoint, K = 𝐆(O) hyperspecial, B ⊃ T a Borel subgroup and maximal split torus, based root datum (X, Φ, X^∨, Φ^∨, Π), Weyl group W, longest element w₀, Coxeter number h, dual group G^∨ over ℂ with maximal torus T^∨ = X ⊗ ℂ^× (Ciubotaru–Harris §6 setting).
@@ -1247,8 +1245,7 @@ Additional inputs for this route: BC1, §3.2 Theorem, §3.3 Theorem, §3.4 Propo
 
 *Needs:* SRU.5 / barbasch-moy-unitarity; SRU.5 / generic-unitary-region; SRU.5 / fundamental-alcove-unitary; SRU.5 / unbounded-not-unitary; SRU.5.20; AutomorphicSpectralTheory §7.0b.
 
-### 5.12 Nonzero integral root values are not unitary (*integral-root-wall*)
-
+**5.12 Nonzero integral root values are not unitary (*integral-root-wall*).**
 In the setting of real-satake-parameter, if ν ∈ C₀ and ⟨α^∨, ν⟩ ∈ `ℤ_(>0)` for some positive coroot α^∨, then ν ∉ U₀^g (Ciubotaru–Harris Proposition 6.10). Equivalently, for a real or central-compact s with α^∨(s) = q^m, m ∈ ℤ ∖ {0}, the generic L(s) is not unitary (Corollary 6.32(2), in that sector; the real or central-compact sector). (CH26, Proposition 6.10, PDF p. 18)
 
 k a nonarchimedean local field of any characteristic with residue field 𝔽_q, G = 𝐆(k) for 𝐆 quasi-simple, split and adjoint, K = 𝐆(O) hyperspecial, B ⊃ T a Borel subgroup and maximal split torus, based root datum (X, Φ, X^∨, Φ^∨, Π), Weyl group W, longest element w₀, Coxeter number h, dual group G^∨ over ℂ with maximal torus T^∨ = X ⊗ ℂ^× (Ciubotaru–Harris §6 setting). ν real (s_c = 1 or central).
@@ -1259,7 +1256,9 @@ For PGL₂, ν with ⟨α^∨, ν⟩ = 2 gives an irreducible non-unitary X(ν).
 
 *Needs:* SRU.5 / generic-unitary-classification.
 
-### 5.13 Reduction of half-integral parameters (*half-integral-reduction*)
+### 5.13 Half-integral points of the generic unitary region (*half-integral-reduction*)
+
+This section determines, type by type, the half-integral points of U₀^g: the reduction to coordinates in {0, ½}, the types where only the origin remains, the types with nonzero points, and the resulting list in SRU.5.16. SRU.5.17, SRU.5.18, SRU.6.4, SRU.7.10 and SRU.7.11 consume it.
 
 In the setting of real-satake-parameter, with 0 ≤ ε < ½: `C₀^(½+ε)` = ∅ unless ε ∈ {0, ¼}, and if G is quasi-simple of rank ≥ 2 then `C₀^(½+ε)` = ∅ unless ε = 0 ((6.12)). For ν = Σ νᵢωᵢ ∈ `C₀^(½)`, every νᵢ ∈ `½ℤ_(≥0)`, and if moreover ν ∈ U₀^g then every νᵢ ∈ {0, ½} ((6.13)). (CH26, §6.2, (6.11)–(6.13), PDF p. 19)
 
@@ -1271,8 +1270,7 @@ For PGL₂ (rank one) ε = ¼ is possible: ⟨α^∨, ν⟩ = ¼ gives ⟨±α^�
 
 *Needs:* SRU.5 / half-integral-parameter; SRU.5 / unbounded-not-unitary; SRU.5 / generic-unitary-region.
 
-### 5.14 Types whose only half-integral generic unitary point is the origin (*half-integral-origin-only*)
-
+**5.14 Types whose only half-integral generic unitary point is the origin (*half-integral-origin-only*).**
 In the setting of real-satake-parameter, put `U₀^(g,½)` := U₀^g ∩ `C₀^(½)`. The level of a positive coroot β^∨ is ⟨β^∨, ρ⟩, the sum of its coefficients in the simple coroots, and the maximal level r₀ of G is the largest occurring positive-coroot level r (equivalently, 1 ≤ r ≤ h − 1) such that ⟨β^∨, ν⟩ < 1 for every ν ∈ U₀^g and every positive coroot β^∨ of level r (r₀ ≥ 1 by unbounded-not-unitary and genericity). If G is PGL(n) with n odd, or of type E₆, E₈, F₄ or G₂, then `U₀^(g,½)` = {0}. For PGL(n) with n odd, the bound of the fundamental alcove and the hermitian condition leave no nonzero candidate. In the exceptional types the bounds at level r₀ and half-integral-reduction leave only the candidates ½ω₂ (E₆), ½ω₁ and ½ω₈ (E₈), ½ω₁ (F₄) and ½ω₂ (G₂), in the numbering of Conventions, and each of them pairs to 1 with the highest coroot γ^∨, so it lies on a reducibility wall. (CH26, Theorem 6.14 and §§6.3, 6.7–6.9 and 6.11, PDF pp. 19–24)
 
 G = PGL(n) with n ≥ 3 odd, or G split adjoint of type E₆, E₈, F₄ or G₂; numbering and coordinates of Conventions.
@@ -1287,8 +1285,7 @@ For PGL₃, `U₀^(g,½)` = {0}. For E₆ the hermitian condition is needed: ½�
 
 *Needs:* SRU.5 / half-integral-reduction; SRU.5 / generic-unitary-classification; SRU.5 / spherical-hermitian-criterion; SRU.5 / unramified-principal-series-irreducibility; SRU.5 / explicit-regions.
 
-### 5.15 Types with nonzero half-integral generic unitary points (*half-integral-alcove-points*)
-
+**5.15 Types with nonzero half-integral generic unitary points (*half-integral-alcove-points*).**
 In the setting of real-satake-parameter, the nonzero points of `U₀^(g,½)` are: ½ω_(n/2) for PGL(n) with n even, in standard coordinates the point (¼, …, ¼, −¼, …, −¼); ½ω₁ for SO(2n+1); ½ωₙ for PSp(2n); ½ω₁, ½ω₂ and ½ωₙ for PSO(2n) with n ≥ 4 even, and ½ωₙ for PSO(2n) with n ≥ 3 odd; and ½ω₇ for E₇, in the numbering of Conventions. Each of them pairs to ½ with the highest coroot γ^∨, so it lies in A₀ ∩ `C_(0,h)` and L(ν) is unitary; every other nonzero candidate left by the bounds at the maximal level and half-integral-reduction is not hermitian or pairs to 1 with γ^∨. (CH26, Theorem 6.14 and §§6.3–6.6 and 6.10, PDF pp. 19–24)
 
 G = PGL(n) with n ≥ 2 even, SO(2n+1) with n ≥ 1, PSp(2n) with n ≥ 2, PSO(2n) with n ≥ 3, or split adjoint E₇; numbering and coordinates of Conventions, in which εⱼ = α₁^∨ + ⋯ + αⱼ^∨ for PSp(2n).
@@ -1305,8 +1302,7 @@ For PGL₂ (k = 1), `U₀^(g,½)` = {0, ½ω₁}, the complementary-series point
 
 *Needs:* SRU.5 / half-integral-reduction; SRU.5 / generic-unitary-classification; SRU.5 / fundamental-alcove-unitary; SRU.5 / spherical-hermitian-criterion; SRU.5 / unramified-principal-series-irreducibility; SRU.5 / explicit-regions.
 
-### 5.16 Half-integral generic unitary spherical parameters (*half-integral-generic-unitary*)
-
+**5.16 Half-integral generic unitary spherical parameters (*half-integral-generic-unitary*).**
 In the setting of real-satake-parameter, `U₀^(g,½)` := U₀^g ∩ `C₀^(½)` is {0, `½ω_(n/2)`} for PGL(n), n even, and {0} for n odd; {0, ½ω₁} for SO(2n+1); {0, ½ωₙ} for PSp(2n); {0, ½ω₁, ½ω₂, ½ωₙ} for PSO(2n), n even, and {0, ½ωₙ} for n odd; {0, ½ω₇} for E₇; {0} for G₂, F₄, E₆, E₈ (Ciubotaru–Harris Theorem 6.14, in the numbering of Conventions); every nonzero element lies in the fundamental alcove A₀, and `U₀^(g,½)` = {0} unless G is of type `A_(n−1)` (n even), B, C, D or E₇. (CH26, Theorem 6.14, PDF p. 19)
 
 k a nonarchimedean local field of any characteristic with residue field 𝔽_q, G = 𝐆(k) for 𝐆 quasi-simple, split and adjoint, K = 𝐆(O) hyperspecial, B ⊃ T a Borel subgroup and maximal split torus, based root datum (X, Φ, X^∨, Φ^∨, Π), Weyl group W, longest element w₀, Coxeter number h, dual group G^∨ over ℂ with maximal torus T^∨ = X ⊗ ℂ^× (Ciubotaru–Harris §6 setting).
@@ -1317,7 +1313,9 @@ For G₂, a generic unitary spherical L(ν) with real ν half-integral for the a
 
 *Needs:* SRU.5 / half-integral-origin-only; SRU.5 / half-integral-alcove-points.
 
-### 5.17 Fundamental representations separate the extra half-integral points (*fundamental-separators*)
+### 5.17 The generic temperedness test, its separating representations and its scope (*fundamental-separators*)
+
+This section gives the temperedness test for generic unitary spherical representations with real or central compact part: fundamental representations separate the nonzero half-integral points, and the G₂ witness shows that the test fails for a noncentral compact part. SRU.6.3, SRU.6.4, SRU.7.10, SRU.7.11 and SRU.7.13 consume it.
 
 In the setting of half-integral-generic-unitary: `½ω_(n/2)` is not half-integral for the defining representation V(ω₁^∨) of SL(n) (n even); ½ω₁ is not half-integral for the defining representation V(ωₙ^∨) of Sp(2n) (G = SO(2n+1)); ½ωₙ is not half-integral for the spin representation V(ω₁^∨) of Spin(2n+1) (G = PSp(2n)); for G = PSO(2n), ½ωₙ is not half-integral for the spin representation V(ω₁^∨) and ½ω₁, ½ω₂ are not for the defining representation V(ωₙ^∨); and ½ω₇ is not half-integral for the 56-dimensional V(ω₇^∨) of E₇ (Ciubotaru–Harris Proposition 6.31). The pairings are ¼ in the classical cases and ¾ for E₇. For type D both the spin and the defining representation are needed. (CH26, Proposition 6.31, PDF p. 24)
 
@@ -1329,8 +1327,7 @@ For PGL₂ (n = 2), ⟨ω₁^∨, ½ω₁⟩ = ¼ for the standard representatio
 
 *Needs:* LieHighestWeightPartII N5 (highest-weight half-integrality); SRU.5 / half-integral-generic-unitary; RepresentationTheory/LieHighestWeight / Layer 4-the-classification-of-finite-dimensional-irreducibles.
 
-### 5.18 The local generic temperedness test (*generic-temperedness-test*)
-
+**5.18 The local generic temperedness test (*generic-temperedness-test*).**
 In the setting of real-satake-parameter, write s = s_c·s_ν where s_c is 1 or central in G^∨ (the real or central-compact sector), and suppose L(s) is generic and unitary. Then ν = 0 (equivalently, L(s) = L(s_c) and this representation is tempered) exactly when s is geometric for each fundamental representation listed in fundamental-separators and also for the adjoint representation of G^∨ (Ciubotaru–Harris Corollary 6.32(1), corrected scope). As printed, for arbitrary s_c, the statement is false: see g2-noncentral-witness. (CH26, Corollary 6.32(1), PDF p. 25)
 
 k a nonarchimedean local field of any characteristic with residue field 𝔽_q, G = 𝐆(k) for 𝐆 quasi-simple, split and adjoint, K = 𝐆(O) hyperspecial, B ⊃ T a Borel subgroup and maximal split torus, based root datum (X, Φ, X^∨, Φ^∨, Π), Weyl group W, longest element w₀, Coxeter number h, dual group G^∨ over ℂ with maximal torus T^∨ = X ⊗ ℂ^× (Ciubotaru–Harris §6 setting). s = s_c·s_ν with s_c = 1 or s_c central in G^∨ (the real or central-compact sector).
@@ -1341,8 +1338,7 @@ For G = PGL₂ and s real with ν = ½ω₁ (a complementary-series point), the 
 
 *Needs:* SRU.5 / half-integral-generic-unitary; SRU.5 / fundamental-separators; SRU.5 / spherical-tempered-criterion; SRU.5 / generic-unitary-region.
 
-### 5.19 The G₂ witness for noncentral compact parts (*g2-noncentral-witness*)
-
+**5.19 The G₂ witness for noncentral compact parts (*g2-noncentral-witness*).**
 Let G be split G₂ over k and s_c ∈ T^∨ the involution with (aα₁^∨ + bα₂^∨)(s_c) = (−1)^a (α₁^∨ the short simple coroot); its centraliser in G^∨ has type A₁ × Ã₁. For ν = ½ω₂ and s = s_c s_ν, X(s) is irreducible, L(s) = X(s) is generic and unitary, s is geometric for every representation of G^∨, and ν ≠ 0. Hence Corollary 6.32(1) fails for noncentral s_c, and the real part ½ω₂ is an extraneous point of CS(G₂, 0). (CH26, Corollary 6.32(1), tested on the explicitly specified parameter, PDF p. 25)
 
 G split G₂; s_c and ν as stated.
@@ -1401,7 +1397,9 @@ The statement carriers and the proposed proof inputs are the individual Needs li
 
 ## Layer SRU.6: Unramified nonsplit groups
 
-### 6.1 The τ-fixed dual group and the split group G(τ) (*tau-fixed-dual-group*)
+### 6.1 The split companion G(τ) and the unitary transfer to it (*tau-fixed-dual-group*)
+
+This section attaches to an unramified nonsplit group the split group G(τ) dual to the τ-fixed dual group, and transfers unitarity and generic unitarity at real parameters to it. SRU.6.3 and SRU.6.4 consume the transfer.
 
 Let k a nonarchimedean local field, G = 𝐆(k) with 𝐆 quasi-simple of adjoint type, quasi-split, split over an unramified extension and not split, with k'/k the unramified extension of least degree d splitting 𝐆; A a maximal split torus, M = Z_G(A), K a special maximal compact subgroup attached to A, B ⊃ A a Borel subgroup (Ciubotaru–Harris §7). The inner class of G gives a pinned automorphism τ of G^∨ of order d ∈ {2, 3}, normalised by τ(`X_(α^∨)`) = `X_(τ(α^∨))` on root vectors. Unramified characters of M form the torus T'^∨ = Spec ℂ[Λ(M)] with X^*(T'^∨) = X^*(T^∨)^τ and W(G, A) = W^τ ((7.1)); the map η' : T^∨ ⋊ ⟨τ⟩ → T'^∨, (s, τ) ↦ η(s), induces a bijection between τ-conjugacy classes of semisimple elements of G^∨ and W^τ-orbits in T'^∨ ((7.2)). X(s) = i_B(χ_s) and L(s) for s ∈ T'^∨ are as in SRU.5. G^∨(τ) := {g ∈ G^∨ : τ(g) = g} is connected reductive (G^∨ simply connected), and G(τ) is the split k-group with dual G^∨(τ): for the types `²A_(2n−1)`, `²A_(2n)`, ²D_n, ³D₄, ²E₆ of G, G(τ) has type B_n, C_n, `C_(n−1)`, G₂, F₄ respectively (Table 1). For real ν ∈ t'^∨_ℝ = (t^∨_ℝ)^τ write L^G(ν) and `L^(G(τ))(ν)`. (CH26, §7, PDF p. 25, and (7.1)–(7.3) and Table 1, PDF p. 26)
 
@@ -1433,8 +1431,7 @@ Additional inputs for this route: BC3, §6.2 before Corollary 6.2.6, p. 29.
 
 *Needs:* SmoothRepresentationsOfLocalGroups SR.4 / frobenius-component-invariants; SmoothRepresentationsOfLocalGroups SR.4 / spherical-parameter; ReductiveGroupsPartII RG2.5 / pinned-automorphisms; ReductiveGroupsPartII RG2.5 / galois-action-on-dual-group; SRU.5 / real-satake-parameter.
 
-### 6.2 Unitary transfer from nonsplit unramified to split groups (*nonsplit-unitary-transfer*)
-
+**6.2 Unitary transfer from nonsplit unramified to split groups (*nonsplit-unitary-transfer*).**
 In the setting of tau-fixed-dual-group, for every real ν ∈ t'^∨_ℝ, L^G(ν) is unitary iff `L^(G(τ))(ν)` is unitary, and generic unitary iff `L^(G(τ))(ν)` is generic unitary (Ciubotaru–Harris Theorem 7.4, a case of Barbasch–Ciubotaru 2013 Corollary 6.2.6). Barbasch–Ciubotaru assume characteristic zero (§1.3); Ciubotaru–Harris note that the assumption is unnecessary, the statement being one about graded Hecke algebras. (CH26, Theorem 7.4, PDF p. 26)
 
 k a nonarchimedean local field, G = 𝐆(k) with 𝐆 quasi-simple of adjoint type, quasi-split, split over an unramified extension and not split, with k'/k the unramified extension of least degree d splitting 𝐆; A a maximal split torus, M = Z_G(A), K a special maximal compact subgroup attached to A, B ⊃ A a Borel subgroup (Ciubotaru–Harris §7). ν real.
@@ -1447,7 +1444,9 @@ Additional inputs for this route: BC3, §1.3, p. 3; Corollary 6.2.6, p. 29; BC3,
 
 *Needs:* SRU.6 / tau-fixed-dual-group; SRU.5 / barbasch-moy-unitarity; SRU.5 / spherical-generic-criterion; SmoothRepresentationsOfLocalGroups SR.3; SRU.5.20, lattice and generic/sign comparison.
 
-### 6.3 The generic temperedness test for nonsplit unramified groups (*nonsplit-generic-temperedness*)
+### 6.3 Generic temperedness for unramified nonsplit groups, including the odd quasi-split unitary group (*nonsplit-generic-temperedness*)
+
+This section gives the generic temperedness test for unramified nonsplit groups and what its argument leaves for the quasi-split form of PSU(2n+1). It is one of the temperedness endpoints named in the Summary.
 
 Work in the setting of tau-fixed-dual-group, excluding the quasi-split form of PSU(2n+1) for G, and write s = s_c s_ν ∈ T'^∨ where s_c is either 1 or central. Suppose L^G(s) is generic and unitary. Then ν = 0 (equivalently, L^G(s) = L^G(s_c) and this representation is tempered) exactly when s is geometric for each finite-dimensional representation of G^∨ ⋊ ⟨τ⟩ (Ciubotaru–Harris Corollary 7.5, with the parameter hypotheses of SRU.5 generic-temperedness-test; the noncentral-compact counterexample). Besides the adjoint representation, which is τ-stable and has the adjoint representation of G^∨(τ) occurring in its restriction to G^∨(τ), the argument needs V ⊕ V^τ when G^∨ = SL(2n), which restricts to twice the defining representation of Sp(2n), and, when G^∨ = Spin(2n), the direct sum of both half-spin representations, which restricts to twice the spin representation of Spin(2n−1). (CH26, Corollary 7.5, PDF p. 26)
 
@@ -1459,8 +1458,7 @@ For G of type ²E₆, G(τ) = F₄ and the adjoint representation alone forces �
 
 *Needs:* SRU.6 / nonsplit-unitary-transfer; SRU.5 / generic-temperedness-test; SRU.5 / fundamental-separators.
 
-### 6.4 The residual candidate for the odd quasi-split unitary group (*odd-unitary-residual*)
-
+**6.4 The residual candidate for the odd quasi-split unitary group (*odd-unitary-residual*).**
 Let G be the quasi-split form of PSU(2n+1): G^∨ = SL(2n+1, ℂ), G^∨(τ) = SO(2n+1, ℂ), G(τ) = Sp(2n). Assume L^G(ν) is generic and unitary, ν is real, and the geometric half-integrality test holds for every finite-dimensional representation of the ambient dual SL(2n+1,ℂ). Under these hypotheses, the argument of nonsplit-generic-temperedness leaves the two possibilities ν = 0 and ν = ½ωₙ (the G(τ)-weight in the numbering of Conventions): the adjoint representation of G^∨ restricts to contain the adjoint representation of G^∨(τ), which leaves {0, ½ωₙ} (SRU.5 half-integral-alcove-points for PSp(2n)), and ½ωₙ is excluded for PSp(2n) only by the spin representation of Spin(2n+1, ℂ), which does not factor through SO(2n+1, ℂ) and so does not occur in any representation of SL(2n+1, ℂ) (Ciubotaru–Harris Remark 7.6). This is not an automorphic counterexample. (CH26, Remark 7.6, PDF p. 27)
 
 G the quasi-split adjoint unitary group in 2n + 1 variables over k. L^G(ν) generic unitary, ν real, and the half-integrality condition holds in every finite-dimensional ambient-dual representation; the Sp/PSp comparison requires the full-isogeny adapter of SRU.6.2.
@@ -1481,7 +1479,9 @@ The statement carriers and the proposed proof inputs are the individual Needs li
 
 ## Layer SRU.7: Kazhdan–Lusztig parameters and spherical complementary series
 
-### 7.1 The Aubert–Zelevinsky involution (*aubert-involution*)
+### 7.1 Aubert duality and the Kazhdan–Lusztig classification of Iwahori-spherical representations (*aubert-involution*)
+
+This section provides the Aubert involution, its compatibility with semisimple parameters and, on the Iwahori block, with unitarity, and the Kazhdan–Lusztig classification of Iwahori-spherical representations. SRU.7.6, SRU.7.7 and SRU.7.13 consume it.
 
 Let G = 𝐆(F) be reductive over a nonarchimedean local field with minimal parabolic B and simple roots Δ, and R(G) the Grothendieck group of finite-length smooth complex representations. D_G := `Σ_(J⊆Δ)` `(−1)^(|J|)` `i_(P_J)` ∘ `r_(P_J)` on R(G), with normalised induction and Jacquet functors of the standard parabolics P_J (Aubert Définition 1.5). D_G commutes with the contragredient, satisfies D_G ∘ `i_(P_J)` = `i_(P_J)` ∘ `D_(L_J)` and `r_(P_J)` ∘ D_G = Ad(w) ∘ `D_(L_(J'))` ∘ `r_(P_(J'))`, where w is the longest element of {x ∈ W : x⁻¹(J) ⊂ Φ⁺}, J' = w⁻¹(J), and Ad(w) transports representations of `L_(J')` to L_J (Théorème 1.7(1)–(2); Ban02 Theorem 3.1(3)), is an involution, D_G² = id (1.7(3)), and acts on an irreducible cuspidal π by `(−1)^(|Δ|)` (1.7(4)). For irreducible π, ±D_G(π) is irreducible for a unique sign (Corollaire 3.9); AZ(π) denotes this irreducible representation. AZ preserves cuspidal support, AZ(1_G) = St_G for split G, and for GL_n it is Zelevinsky's involution (Théorème 2.3), the involution of SR.5.3. Use Aubert’s corrected exact resolution in the 1996 erratum to prove irreducibility up to sign. The same target over positive-characteristic local fields uses exact complex Jacquet functors and the same Bruhat filtration; no characteristic-zero assumption is inserted into that algebraic argument. (Aub96, corrected exact resolution theorem, pp. 4687–4690, PDF p. 1)
 
@@ -1516,8 +1516,7 @@ Additional inputs for this route: Aub95, §1, Définition 1.5 and Théorème 1.7
 
 *Needs:* SmoothRepresentationsOfLocalGroups SR.2 / parabolic-induction; SmoothRepresentationsOfLocalGroups SR.2 / jacquet-module; SmoothRepresentationsOfLocalGroups SR.2 / jacquet-lemma; SmoothRepresentationsOfLocalGroups SR.2 / jacquet-invariants; SmoothRepresentationsOfLocalGroups SR.2 / geometric-lemma; SmoothRepresentationsOfLocalGroups SR.3 / finite-length; SmoothRepresentationsOfLocalGroups SR.3 / cuspidal-support; SmoothRepresentationsOfLocalGroups SR.3 / steinberg; SRU.4 / rodier-steinberg-series; SmoothRepresentationsOfLocalGroups SR.5 / highest-derivative-adapter; SRU.4.4; the corrected resolution of Aub96.
 
-### 7.2 Aubert duality preserves the semisimple parameter (*aubert-semisimple-parameter*)
-
+**7.2 Aubert duality preserves the semisimple parameter (*aubert-semisimple-parameter*).**
 Let G be connected reductive over a nonarchimedean local field and π irreducible (Ciubotaru–Harris state it for tempered π). Then π and AZ(π) are constituents of the same normalised parabolically induced representation of a cuspidal datum; hence their semisimple local parameters (the semisimple-parameter supplier contract) coincide: L^ss(AZ(π)) = L^ss(π) (Ciubotaru–Harris Proposition 4.5). No equality of monodromy operators is asserted. (CH26, Proposition 4.5, PDF p. 12)
 
 π irreducible; the semisimple parameter L^ss and its compatibility with normalised parabolic induction, from the semisimple-parameter supplier contract (the semisimple-parameter contract on ExcursionOperatorsAndSpectralActionPartII §0.0 and §§4.1–4.3). A fixed field isomorphism ℂ ≅ Q̄_ℓ (ℓ ≠ p), through which complex representations are compared with the ℓ-adic coefficients of that parameter.
@@ -1528,8 +1527,7 @@ For GL₂, L^ss(1) = L^ss(St) = `|·|^(1/2)` ⊕ `|·|^(−1/2)`, while the Weil
 
 *Needs:* SRU.7 / aubert-involution; ExcursionOperatorsAndSpectralActionPartII §0.0 and the semisimple-parameter contract.
 
-### 7.3 Kazhdan–Lusztig parameters (*kazhdan-lusztig-parameters*)
-
+**7.3 Kazhdan–Lusztig parameters (*kazhdan-lusztig-parameters*).**
 Let k a nonarchimedean local field (any characteristic) with residue field 𝔽_q, G = 𝐆(k) with 𝐆 quasi-simple, adjoint and split, I ⊂ K = 𝐆(O) an Iwahori subgroup, G^∨ the complex dual group with Lie algebra g^∨ (Ciubotaru–Harris §8 setting). A Kazhdan–Lusztig triple is (s, e, ρ) with s ∈ G^∨ semisimple, e ∈ g^∨ nilpotent with Ad(s)e = q·e, and ρ an irreducible representation of the component group A(s, e) = π₀(`Z_(G^∨)(s, e)`) of Springer type (occurring in the homology of the variety of Borel subalgebras containing e and fixed by s), on which the centre of G^∨ acts trivially; triples are taken up to G^∨-conjugacy. g^∨_q denotes the q-eigenspace of Ad(s); G^∨(s) = `Z_(G^∨)(s)` acts on it with finitely many orbits and a unique open orbit. For an s-adapted Lie triple (e, h, f) with h ∈ t^∨_ℝ and s ∈ T^∨, s₀ := s `q^(−h/2)` commutes with the triple. (CH26, §8.1, Kazhdan–Lusztig parameters, PDF p. 27)
 
 k a nonarchimedean local field (any characteristic) with residue field 𝔽_q, G = 𝐆(k) with 𝐆 quasi-simple, adjoint and split, I ⊂ K = 𝐆(O) an Iwahori subgroup, G^∨ the complex dual group with Lie algebra g^∨ (Ciubotaru–Harris §8 setting). G is adjoint, so its centre is connected and the classification is Kazhdan–Lusztig's (KL87, Theorem 7.12).
@@ -1556,8 +1554,7 @@ For PGL₂: triples (s, 0, triv) for all s, and (s, e ≠ 0, triv) for s with ei
 
 *Needs:* ReductiveGroupsPartII RG2.5 / langlands-dual-group; RepresentationTheory/LieHighestWeight / Layer 0-sl₂-representation-theory-the-engine; LieHighestWeightPartII N0, triple-centralizer contract; LieHighestWeightPartII N0–N1, graded-open-orbit contract; SpringerResolutionAndCharacteristicCycles §§6.2–6.5.
 
-### 7.4 The Kazhdan–Lusztig classification of Iwahori-spherical representations (*kazhdan-lusztig-classification*)
-
+**7.4 The Kazhdan–Lusztig classification of Iwahori-spherical representations (*kazhdan-lusztig-classification*).**
 Let k a nonarchimedean local field (any characteristic) with residue field 𝔽_q, G = 𝐆(k) with 𝐆 quasi-simple, adjoint and split, I ⊂ K = 𝐆(O) an Iwahori subgroup, G^∨ the complex dual group with Lie algebra g^∨ (Ciubotaru–Harris §8 setting). Irreducible smooth representations of G with nonzero Iwahori-fixed vectors are in bijection, π(s, e, ρ) ↔ (s, e, ρ), with G^∨-conjugacy classes of Kazhdan–Lusztig triples (KL87, Theorem 7.12, cited by its locator; G adjoint has connected centre). Moreover: (1) π(s, e, ρ) is K-spherical iff e = 0, and then ρ is trivial and π(s, 0, triv) = L(s) with s the Satake parameter; (2) π(s, e, ρ) is tempered iff s₀ is compact; (3) π(s, e, ρ) is generic iff ρ is trivial and e lies in the open G^∨(s)-orbit of g^∨_q; (4) AZ(L(s)) = π(s, e, triv) with e in that open orbit (Ciubotaru–Harris §5 and §8.1). (CH26, §8.1, PDF p. 27; proof of Corollary 5.7, PDF p. 15)
 
 k a nonarchimedean local field (any characteristic) with residue field 𝔽_q, G = 𝐆(k) with 𝐆 quasi-simple, adjoint and split, I ⊂ K = 𝐆(O) an Iwahori subgroup, G^∨ the complex dual group with Lie algebra g^∨ (Ciubotaru–Harris §8 setting).
@@ -1568,8 +1565,7 @@ For PGL₂: L(s) = π(s, 0, triv); St = π(diag(`q^(1/2)`, `q^(−1/2)`), e, tri
 
 *Needs:* SRU.7 / kazhdan-lusztig-parameters; SRU.7 / az-iwahori-matsumoto; SmoothRepresentationsOfLocalGroups SR.3 / borel-casselman-block; SmoothRepresentationsOfLocalGroups SR.1 / bernstein-presentation; SmoothRepresentationsOfLocalGroups SR.3 / casselman-criterion; SRU.5 / spherical-generic-criterion; SpringerResolutionAndCharacteristicCycles §§6.2–6.5, coherent equivariant K-theory contract; LieHighestWeightPartII N0–N1, graded-open-orbit contract.
 
-### 7.5 Aubert duality on the Iwahori block preserves unitarity (*az-iwahori-matsumoto*)
-
+**7.5 Aubert duality on the Iwahori block preserves unitarity (*az-iwahori-matsumoto*).**
 Let k a nonarchimedean local field (any characteristic) with residue field 𝔽_q, G = 𝐆(k) with 𝐆 quasi-simple and split, I ⊂ K = 𝐆(O) an Iwahori subgroup, G^∨ the complex dual group with Lie algebra g^∨ (Ciubotaru–Harris §8 setting). On irreducible Iwahori-spherical representations, AZ corresponds under V ↦ V^I to the central-character-preserving Iwahori–Matsumoto involution of H(G, I) specified below, which preserves hermitian and unitary modules. Hence AZ(π) is unitarizable iff π is, for Iwahori-spherical π; in particular AZ of a tempered Iwahori-spherical representation is unitarizable. (La24, Definition 4.2 and Theorem 4.3, PDF p. 18)
 
 k a nonarchimedean local field (any characteristic) with residue field 𝔽_q, G = 𝐆(k) with 𝐆 quasi-simple and split, I ⊂ K = 𝐆(O) an Iwahori subgroup, G^∨ the complex dual group with Lie algebra g^∨ (Ciubotaru–Harris §8 setting).
@@ -1582,7 +1578,9 @@ Additional inputs for this route: BC1, §1.1, p. 1; CH26, §8.1, p. 28; CiF4, §
 
 *Needs:* SRU.7 / aubert-involution; SRU.5 / barbasch-moy-unitarity; SmoothRepresentationsOfLocalGroups SR.1 / iwahori-matsumoto; SRU.2 / unitary-induction; SmoothRepresentationsOfLocalGroups SR.3 / square-integrable-tempered.
 
-### 7.6 The nilpotent partition of the spherical dual (*nilpotent-partition*)
+### 7.6 Spherical complementary series by nilpotent orbit (*nilpotent-partition*)
+
+This section partitions the spherical dual by nilpotent orbits of the dual Lie algebra, shows that the central point of each stratum is unitary, and reduces complementary series to the triple centraliser. SRU.7.9–SRU.7.12 consume it.
 
 Let k a nonarchimedean local field (any characteristic) with residue field 𝔽_q, G = 𝐆(k) with 𝐆 quasi-simple, adjoint and split, I ⊂ K = 𝐆(O) an Iwahori subgroup, G^∨ the complex dual group with Lie algebra g^∨ (Ciubotaru–Harris §8 setting). For a nilpotent G^∨-orbit O^∨ ⊆ g^∨, Sph(G, O^∨) is the set of G^∨-classes of s with AZ(L(s)) = π(s, e, triv), e ∈ O^∨ ((8.1)); these sets partition the K-spherical dual. For a Lie triple (e^∨, h^∨, f^∨) of O^∨, s = `q^(h^∨/2)` ∈ Sph(G, O^∨) is the central point. For s ∈ T^∨ write s = `q^(ℜ(s))` s_c with ℜ(s) ∈ t^∨_ℝ and Sph(G, O^∨)₀ for the set of real parts. SU(G) is the spherical unitary dual (s with L(s) unitarizable), CS(G, O^∨) = SU(G) ∩ Sph(G, O^∨) the spherical complementary series attached to O^∨, and CS(G, O^∨)₀ its real parts; SU(G) = ⊔ CS(G, O^∨). Z(O^∨) = `C_(G^∨)(e^∨, h^∨, f^∨)` is reductive, possibly disconnected, with Lie algebra z(O^∨); G(O^∨) is the split group dual to Z(O^∨)°; choosing a Cartan subalgebra a^∨ ⊆ z(O^∨) inside t^∨, for s with trivial or central compact part, ℜ(s) ∈ Sph(G, O^∨)₀ can be written ℜ(s) = ½h^∨ + ν with ν ∈ a^∨_ℝ, regarded as a parameter in Sph(G(O^∨), 0)₀ ((8.2)). (CH26, §8.1, (8.1), PDF p. 27, and (8.2), PDF p. 28)
 
@@ -1613,8 +1611,7 @@ Additional inputs for this route: BC1, §1.3, (1.3.1)–(1.3.2), p. 3.
 
 *Needs:* SRU.7 / kazhdan-lusztig-classification; SRU.7 / aubert-involution; SRU.5 / real-satake-parameter; SRU.2 / unitary-structure; RepresentationTheory/LieHighestWeight / Layer 0-sl₂-representation-theory-the-engine; LieHighestWeightPartII N0, triple-centralizer contract; LieHighestWeightPartII N0–N1, graded-open-orbit contract.
 
-### 7.7 The central point is unitary (*central-point-unitary*)
-
+**7.7 The central point is unitary (*central-point-unitary*).**
 In the setting of nilpotent-partition, for every nilpotent O^∨ the spherical representation L(`q^(h^∨/2)`) at the central point is unitarizable (Ciubotaru–Harris §8.1). (CH26, §8.1, central-point argument, PDF p. 28)
 
 k a nonarchimedean local field (any characteristic) with residue field 𝔽_q, G = 𝐆(k) with 𝐆 quasi-simple, adjoint and split, I ⊂ K = 𝐆(O) an Iwahori subgroup, G^∨ the complex dual group with Lie algebra g^∨ (Ciubotaru–Harris §8 setting).
@@ -1625,8 +1622,7 @@ For O^∨ regular the central point is the trivial representation; for O^∨ = 0
 
 *Needs:* SRU.7 / nilpotent-partition; SRU.7 / az-iwahori-matsumoto.
 
-### 7.8 Complementary series reduce to the triple centraliser (*centralizer-reduction*)
-
+**7.8 Complementary series reduce to the triple centraliser (*centralizer-reduction*).**
 In the setting of nilpotent-partition, with G split adjoint: assuming s has trivial or central compact part, if O^∨ is not the orbit 4A₁ of E₈, s ∈ CS(G, O^∨) and ℜ(s) = ½h^∨ + ν with ν ∈ Sph(G(O^∨), 0)₀, then ν ∈ CS(G(O^∨), 0)₀ (Ciubotaru–Harris Theorem 8.3). For 4A₁ in E₈ the complementary series has an extra region beyond that of the centraliser C₄ (e8-4a1-exclusion). (CH26, Theorem 8.3, PDF p. 28)
 
 k a nonarchimedean local field (any characteristic) with residue field 𝔽_q, G = 𝐆(k) with 𝐆 quasi-simple and split, I ⊂ K = 𝐆(O) an Iwahori subgroup, G^∨ the complex dual group with Lie algebra g^∨ (Ciubotaru–Harris §8 setting). O^∨ ≠ 4A₁ ⊂ E₈. s=`q^(ℜ(s))` or s=`zq^(ℜ(s))` with z compact and central in the full dual group; strip the corresponding unitary unramified character twist first. No assertion here covers arbitrary noncentral compact part.
@@ -1637,7 +1633,9 @@ For O^∨ = 0, G(O^∨) = G and the statement is the definition of U₀^g. For O
 
 *Needs:* SRU.7 / nilpotent-partition; SRU.5 / barbasch-moy-unitarity; SRU.5 / generic-unitary-classification; LieHighestWeightPartII N3, orbit-tables contract; LieHighestWeightPartII N0, triple-centralizer contract.
 
-### 7.9 Extraneous real parts (*extraneous-point*)
+### 7.9 Extraneous real parts of spherical complementary series (*extraneous-point*)
+
+This section defines extraneous real parts of geometric spherical complementary-series parameters, lists them for symplectic, spin and exceptional dual groups in the real or central compact sector, and excludes half-integral points from the extra E₈, 4A₁ region. These lists are among the complementary-series endpoints named in the Summary.
 
 In the setting of nilpotent-partition, let s = φ(Frob) ∈ CS(G, O^∨) be geometric in the sense of SRU.5 half-integral-parameter (for every representation of G^∨). Its real part ℜ(s) is extraneous if it is not W-conjugate to the central point ½h^∨ (Ciubotaru–Harris Definition 8.4). (CH26, Definition 8.4, PDF p. 28, and Remark 8.6, PDF p. 29)
 
@@ -1661,8 +1659,7 @@ The central point itself is never extraneous. For Sp(6) and O^∨ = (2,2,2), ½h
 
 *Needs:* SRU.7 / nilpotent-partition; SRU.5 / half-integral-parameter; SRU.7 / central-point-unitary.
 
-### 7.10 Extraneous points for symplectic and spin duals (*extraneous-classical*)
-
+**7.10 Extraneous points for symplectic and spin duals (*extraneous-classical*).**
 In the setting of extraneous-point, with G of connected centre and s = s_c q^ν with s_c = 1 or s_c central in G^∨: (1) if G^∨ = Sp(2n) and O^∨ has partition with rᵢ parts equal to i (Σ i rᵢ = 2n, rᵢ even for i odd), so that Z(O^∨) = `∏_(i odd)` Sp(rᵢ) × `∏_(j even)` O(rⱼ), the extraneous real parts are ½h^∨ + ½ `Σ_(j even, rⱼ ≥ 3)` εⱼ `v_(rⱼ)`, εⱼ ∈ {0, 1} not all zero, where for an orthogonal factor so(r), r ≥ 3, with standard coordinates ε₁, …, `ε_(⌊r/2⌋)` on its Cartan subalgebra (the weights of its defining representation are the ±εᵢ, together with 0 for r odd) the vector direction is v_r := `ε_(⌊r/2⌋)`: for r ≥ 5 it is the fundamental coweight `ω_(⌊r/2⌋)` of SRU.5.15 in the reversed numbering of Conventions, for r = 3 it is ε₁ = ω₁ of B₁, and for r = 4 it is ε₂ = ω₁ + ω₂ for D₂ = A₁ × A₁, which is not a fundamental coweight; (2) if G^∨ = Spin(n) and O^∨ has rᵢ parts equal to i (Σ i rᵢ = n, rᵢ even for i even), the extraneous real parts are ½h^∨ + ½ `Σ_(i odd, rᵢ ≥ 3)` εᵢ `v_(rᵢ)` with the same vector directions, Σ εᵢ even and not all εᵢ zero (Ciubotaru–Harris Theorem 8.5(1)–(2), which print the fundamental coweight `ω_(⌊r/2⌋)` for every r ≥ 3; for r = 4 that is the spin-type weight ½(−ε₁ + ε₂) of D₂, whose half-shift is not geometric). These lists are not asserted for noncentral compact parts. (CH26, Theorem 8.5(1)–(2), PDF pp. 28–29)
 
 k a nonarchimedean local field (any characteristic) with residue field 𝔽_q, G = 𝐆(k) with 𝐆 quasi-simple and split, I ⊂ K = 𝐆(O) an Iwahori subgroup, G^∨ the complex dual group with Lie algebra g^∨ (Ciubotaru–Harris §8 setting). G of connected centre s = s_c q^ν with s_c = 1 or s_c central in G^∨.
@@ -1673,8 +1670,7 @@ Remark 8.6: for Sp(6) and O^∨ = (2,2,2) (r₂ = 3), the unique extraneous real
 
 *Needs:* SRU.7 / centralizer-reduction; SRU.7 / extraneous-point; SRU.5 / half-integral-generic-unitary; SRU.5 / fundamental-separators; RepresentationTheory/LieHighestWeight / Layer 0-sl₂-representation-theory-the-engine; LieHighestWeightPartII N2; LieHighestWeightPartII N0, triple-centralizer contract.
 
-### 7.11 Extraneous points for exceptional duals (*extraneous-exceptional*)
-
+**7.11 Extraneous points for exceptional duals (*extraneous-exceptional*).**
 In the setting of extraneous-point, with G of connected centre and s = s_c q^ν with s_c = 1 or s_c central in G^∨: the extraneous real parts occur only for O^∨ = B₃ (real part ω₁ + ½ω₃ + ½ω₄) and Ã₁ + A₁ (½ω₁ + ½ω₄) in F₄; D₅(a₁) + A₁ in E₇ (½(ω₁ + ω₂ + ω₃ + ω₆ + ω₇)); and the following four E₈ points: D₆ (centraliser B₂), ω₁+½ω₄+½ω₆+ω₈; A₆ (centraliser 2A₁), ½ω₁+½ω₄+½ω₇+½ω₈; A₄+A₂ (centraliser 2A₁), ½ω₁+½ω₅+½ω₈; A₂+2A₁ (centraliser B₃+A₁), ½ω₂+½ω₈ (Ciubotaru–Harris Theorem 8.5(3)–(5)); there are none for G₂ and E₆ in this sector. Without the restriction on s_c the list is not exhaustive: the G₂ witness (SRU.5 g2-noncentral-witness) gives a geometric unitary s ∈ CS(G₂, 0) with real part ½ω₂ ≠ 0. (CH26, Theorem 8.5(3)–(5), PDF p. 29)
 
 k a nonarchimedean local field (any characteristic) with residue field 𝔽_q, G = 𝐆(k) with 𝐆 quasi-simple and split, I ⊂ K = 𝐆(O) an Iwahori subgroup, G^∨ the complex dual group with Lie algebra g^∨ (Ciubotaru–Harris §8 setting). G of connected centre s = s_c q^ν with s_c = 1 or s_c central in G^∨.
@@ -1685,8 +1681,7 @@ For F₄ and O^∨ = B₃ the corrected point ω₁ + ½ω₃ + ½ω₄ has coor
 
 *Needs:* SRU.7 / centralizer-reduction; SRU.7 / extraneous-point; SRU.5 / half-integral-generic-unitary; SRU.5 / g2-noncentral-witness; SRU.7 / e8-4a1-exclusion; LieHighestWeightPartII N3, orbit-tables contract.
 
-### 7.12 The extra E₈, 4A₁ region has no half-integral points (*e8-4a1-exclusion*)
-
+**7.12 The extra E₈, 4A₁ region has no half-integral points (*e8-4a1-exclusion*).**
 For G of type E₈ and O^∨ = 4A₁ (Z(O^∨) of type C₄), in the coordinates ℜ(s) = ½h^∨ + (0, 0, ν₁, ν₁, ν₂, ν₂, −ν₃ + ν₄, ν₃ + ν₄) with 0 ≤ ν₁ ≤ ν₂ ≤ ν₃ ≤ ν₄, the complementary series is {ν₄ < ½} ∪ {ν₁ + ν₄ < 1, ν₂ + ν₃ < 1, ν₂ + ν₄ > 1, −ν₁ + ν₃ + ν₄ < 3/2 < ν₁ + ν₃ + ν₄} ((8.8)), and its extra region (the second set) contains no parameter half-integral for the adjoint representation (Ciubotaru–Harris §8.3; both coordinate lattices are tested separately). (CH26, §8.3, (8.8), PDF p. 30)
 
 G of type E₈; coordinates of Barbasch–Ciubotaru Table 13 and §6.4.1 as used by Ciubotaru–Harris.
