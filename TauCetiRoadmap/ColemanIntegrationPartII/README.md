@@ -855,7 +855,9 @@ Layers 1–3; the geometric logarithm, closed-field natural integration and reci
 
 ## Layer 5: Auxiliary primitives and the local triple index
 
-### 5.1 Compatible labelled auxiliary primitives
+### 5.1 Labelled auxiliary data and the local triple index
+
+This section provides compatible labelled auxiliary primitives and the local triple index T_e defined on them, in the formal and analytic annular settings. Section 6.1 consumes the index for its end-sum, and §§5.3–5.5 derive its laws.
 
 For three labelled functions F,G,H in A_log,1, define TripleIndexData to consist of primitives `I(R dS)` in A_log for every labelled pair, with `dI(R dS)`=R dS and `I(R dS)`+`I(S dR)`=RS. On the diagonal set `I(R dR)`=R²/2. Distinct labels retain their choices even when their functions happen to coincide. Such data exist. Choices for each unordered off-diagonal pair form a torsor under k, acting by `I(R dS)`↦`I(R dS)`+C and `I(S dR)`↦`I(S dR)`−C. Data may be permuted, pulled back and combined linearly with their functions; no arbitrary primitive choices are silently identified. (besser-dejeu2012, §7, equation (7.2) and the data before Proposition 7.3, pp. 355–356, besser-dejeu2012 line 2232 and line 2251).
 
@@ -881,9 +883,7 @@ On the imported analytic `AnnulusLogRing` use the existence and uniqueness claus
 - For all functions zero, choosing all auxiliary integrals zero is valid; independent opposite constants on off-diagonal pairs are also valid.
 - If G=0,H=L, the choices `I(G dH)`=1,`I(H dG)`=0 fail because their sum is 1 rather than GH=0. The compatible pair is (1,−1).
 
-### 5.2 Existence and characterization of the local index
-
-For compatible TripleIndexData define T_e(F,G;H) as the unique scalar operation that is trilinear under the compatible linear combinations of §5.1, symmetric in F,G, satisfies T(F,G;H)+T(F,H;G)+T(G,H;F)=0 with the same permuted auxiliary entries, and equals B_e(F,`I(G dH)`) when G has no logarithmic term. Existence and uniqueness hold in the formal and analytic annular settings. T is an operation on the full auxiliary data, not a trilinear map on three bare functions. (besser-dejeu2012, Proposition 7.3, Lemma 7.5 and equation (7.6), pp. 356–359, besser-dejeu2012 line 2277 and line 2327).
+**5.2 Existence and characterization of the local index.** For compatible TripleIndexData define T_e(F,G;H) as the unique scalar operation that is trilinear under the compatible linear combinations of §5.1, symmetric in F,G, satisfies T(F,G;H)+T(F,H;G)+T(G,H;F)=0 with the same permuted auxiliary entries, and equals B_e(F,`I(G dH)`) when G has no logarithmic term. Existence and uniqueness hold in the formal and analytic annular settings. T is an operation on the full auxiliary data, not a trilinear map on three bare functions. (besser-dejeu2012, Proposition 7.3, Lemma 7.5 and equation (7.6), pp. 356–359, besser-dejeu2012 line 2277 and line 2327).
 
 Assume Hypotheses and actual primitive equations of §5.1; The analytic-first reduction uses Res(dG)=0.
 
@@ -905,7 +905,9 @@ Expand each function into Laurent part plus scalar L. If one slot is Laurent, th
 - With F=G=H=L and all I=L²/2, T=0, since three equal summands give 3T=0. This holds over ℚ₃ because 3 is nonzero.
 - For Laurent F=z,G=z⁻¹,H=L, T=Res(dz/z)=1; an index that always vanishes on rational-function slots fails.
 
-### 5.3 The actual choice laws
+### 5.3 Choice, normalization and transport laws of the local triple index
+
+This section provides the laws of the local triple index under changes of auxiliary primitives, orientation, parameter, degree, restriction and scalars, and its simple-pole normalization formula. Sections 6.2, 6.3, 7.1 and 7.5 consume them.
 
 Increasing `I(G dH)` by C and decreasing `I(H dG)` by C changes T(F,G;H) by −C Res_e(dF). Changing the F,H pair similarly changes it by −C Res_e(dG). It is independent of the F,G pair. Simultaneous pair changes add these effects. In particular zero in a function slot does not force the local value to vanish when its associated auxiliary data are not the compatible zero data. (besser-dejeu2012, Lemma 7.4, p. 357, besser-dejeu2012 line 2299).
 
@@ -923,9 +925,7 @@ Use the reduction rule on the added data (F,0;H), where `I(0 dH)`=C. Then T(F,0;
 - If Res(dF)=0 the G,H constant change has no effect. Changing only the F,G pair never changes T.
 - For Res(dF)=1 and C=2, the change is −2. The local index cannot be exported as independent of auxiliary primitives.
 
-### 5.4 A local normalization formula
-
-In the formal case assume dF,dG,dH have at most simple poles at z=0. Write c_z for the constant coefficient of the L⁰ Laurent coefficient in A_log. Then T(F,G;H)=c_z(F)c_z(G)Res(dH)−Res(dF)c_z(`I(G dH)`)−Res(dG)c_z(`I(F dH)`). The coefficient c_z is parameter dependent; the whole expression, with all functions and primitive data transported, is parameter independent. (besser-dejeu2012, Definition 7.7 and Proposition 7.8, pp. 359–360, besser-dejeu2012 line 2413 and line 2430).
+**5.4 A local normalization formula.** In the formal case assume dF,dG,dH have at most simple poles at z=0. Write c_z for the constant coefficient of the L⁰ Laurent coefficient in A_log. Then T(F,G;H)=c_z(F)c_z(G)Res(dH)−Res(dF)c_z(`I(G dH)`)−Res(dG)c_z(`I(F dH)`). The coefficient c_z is parameter dependent; the whole expression, with all functions and primitive data transported, is parameter independent. (besser-dejeu2012, Definition 7.7 and Proposition 7.8, pp. 359–360, besser-dejeu2012 line 2413 and line 2430).
 
 Assume k a characteristic-zero field; TripleIndexData of §5.1; dF,dG,dH have no poles of order greater than one at the formal origin.
 
@@ -941,9 +941,7 @@ First normalize the two relevant primitives to constant term zero. By trilineari
 - For three L functions and all half-square primitives every constant term is zero, hence T=0.
 - Over an analytic coefficient field with its fixed branch, under u=az one has c_u(log z)=−log a while c_z(log z)=0. Formally the same value is −δ for the chosen logarithmic lift δ. A formula asserting constant-term invariance alone is false.
 
-### 5.5 Orientation, parameter and degree laws
-
-Orientation reversal negates the triple index with fixed functions and auxiliary data. For an orientation-preserving finite map φ:e′→e of annuli of degree n≥1, or a formal substitution of positive order n, T_e′(φ*F,φ*G;φ*H)=n T_e(F,G;H), provided every auxiliary primitive is pulled back. In particular parameter isomorphisms preserve T. Restrictions of ends and scalar embeddings also preserve the index on transported data. (besser-dejeu2012, §8 parameter independence and Lemma 8.1, p. 361, besser-dejeu2012 line 2524; orientation/scalar consequences of the characterization).
+**5.5 Orientation, parameter and degree laws.** Orientation reversal negates the triple index with fixed functions and auxiliary data. For an orientation-preserving finite map φ:e′→e of annuli of degree n≥1, or a formal substitution of positive order n, T_e′(φ*F,φ*G;φ*H)=n T_e(F,G;H), provided every auxiliary primitive is pulled back. In particular parameter isomorphisms preserve T. Restrictions of ends and scalar embeddings also preserve the index on transported data. (besser-dejeu2012, §8 parameter independence and Lemma 8.1, p. 361, besser-dejeu2012 line 2524; orientation/scalar consequences of the characterization).
 
 Use the hypotheses of §5.1; φ finite with positive degree and compatible orientations; All functions, branches and primitive entries are transported together.
 
@@ -989,7 +987,9 @@ Use the analytic-differential/depth-one part of the full Coleman connection real
 - If [dG]⊗η≠0, then Gη cannot be the zero actual form. A freely declared zero product would contradict the connection realization.
 - The actual zero form G dC has symbol zero for scalar C. Linearity in a free symbol presentation alone does not prove the kernel containment.
 
-### 6.1 The global end-sum
+### 6.1 The wide-open triple end-sum and its laws
+
+This section provides the triple end-sum T_U on a connected Coleman wide open, built from global compatible auxiliary primitives, with its independence of those primitives, its constant laws and its invariance under shrinking. Sections 6.3, 6.4 and 7.1 consume it.
 
 For a connected Coleman wide open U and global Coleman functions F,G,H with analytic differentials, choose all `I(R dS)` as global Coleman primitives with `I(R dS)`+`I(S dR)`=RS, and define T_U(F,G;H)=`sum_{e in End(U)}`T_e(F,G;H). Restrictions of these global choices, rather than unrelated local choices at each end, are part of the construction. Over a finite extension K/ℚ_p use functions and auxiliary data defined over K or scalar extension with descent as in §7.6; over ℂ_p take the same end-sum. (besser-dejeu2012, §8 global construction and Lemma 8.2, p. 361, besser-dejeu2012 line 2533).
 
@@ -1009,9 +1009,7 @@ Use the global Coleman algebra and integration of its one-forms to construct the
 - On a rational wide open T_U(F,1;H)=B_U(F,H)=0, although individual end indices can be nonzero.
 - On a positive-genus wide open with B_U(F,H)=1, T_U(F,1;H)=1. A construction factoring through [dG] would give 0 since d1=0.
 
-### 6.2 Choice cancellation, constants and shrinking
-
-The end-sum of §6.1 is independent of the global auxiliary primitives, is k-trilinear in the actual functions, is symmetric in the first two slots and satisfies the three-term identity. For a scalar C, T_U(F,C;H)=C B_U(F,H) and T_U(F,G;C)=0. Hence replacing G by G+C changes the value by C B_U(F,H). It is preserved on common smaller end annuli and on deleting discs across which all three functions and their global auxiliary data extend as Coleman data with analytic differentials. A restriction theorem carries that extension hypothesis; it does not allow arbitrary singular excisions. (besser-dejeu2012, Lemmas 8.2–8.3, pp. 361–362, besser-dejeu2012 line 2546; introduction p. 310, line 250, for shrinking).
+**6.2 Choice cancellation, constants and shrinking.** The end-sum of §6.1 is independent of the global auxiliary primitives, is k-trilinear in the actual functions, is symmetric in the first two slots and satisfies the three-term identity. For a scalar C, T_U(F,C;H)=C B_U(F,H) and T_U(F,G;C)=0. Hence replacing G by G+C changes the value by C B_U(F,H). It is preserved on common smaller end annuli and on deleting discs across which all three functions and their global auxiliary data extend as Coleman data with analytic differentials. A restriction theorem carries that extension hypothesis; it does not allow arbitrary singular excisions. (besser-dejeu2012, Lemmas 8.2–8.3, pp. 361–362, besser-dejeu2012 line 2546; introduction p. 310, line 250, for shrinking).
 
 - Equal global Coleman functions give equal values independently of the chosen global compatible auxiliary primitives, by the global triple-index laws of §6.2; functions are not replaced by their differential classes.
 
