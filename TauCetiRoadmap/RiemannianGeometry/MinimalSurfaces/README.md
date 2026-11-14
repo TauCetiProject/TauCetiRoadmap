@@ -102,9 +102,12 @@ Boundaries with the parent and with other roadmaps:
   as their single owner. A roadmap that needs this bound for a holomorphic map of degree d
   on a compact Riemann surface, as CanonicalModelsAndGonality §8.4 does,
   cites 10.3 and 10.4.
-- Global structure theory for embedded minimal disks lies outside this sub-roadmap. So do the
-  strong half-space theorem (the version for two disjoint surfaces), existence theory (the
-  Plateau problem) and singular hypersurfaces.
+- The one-sided curvature estimate [CM4, Theorem 0.2] and the uniqueness of the helicoid use
+  most of this sub-roadmap, especially the curvature estimate of MS7 and the graphical
+  neighbourhoods and multi-valued graphs of MS2, together with the multi-valued graph
+  machinery of [CM4]; they are outside this sub-roadmap. So are the strong half-space theorem
+  (the version for two disjoint surfaces), existence theory (the Plateau problem) and
+  singular hypersurfaces.
 
 ## Conventions
 
@@ -589,6 +592,9 @@ gradient norms in this item use this metric. A `C²` function `u : Ω → ℝ` o
 parametrizes the graph by `G_u(ρ,θ) = (ρ cos θ, ρ sin θ, u(ρ,θ))`. The covering map is a local
 isometry, so `G_u` is a minimal immersion precisely when u solves the minimal-surface equation
 of 2.1 in the local coordinates `(ρ cos θ, ρ sin θ)`.
+
+No later item of this sub-roadmap consumes 2.6; its consumer is the multi-valued graph
+analysis of [CM4] and the one-sided curvature estimate.
 
 **Deck overlaps and separation.** For `k ∈ ℤ`, write `τ_k(ρ,θ) = (ρ,θ+2πk)` and
 `Ω_k = {p ∈ Ω | τ_k p ∈ Ω}`. On `Ω_k`, define `w_k(p) = u(τ_k p) − u(p)`; the adjacent-sheet
@@ -2289,7 +2295,8 @@ two-sidedness in the simply connected case.
 ## Downstream consumers
 
 No roadmap on main consumes this sub-roadmap. The parent's R1, R3, R4, R5a, R5b, R5c, R7 and
-R8.2 and the surfaces sub-roadmap supply it and take nothing back.
+R8.2 and the surfaces sub-roadmap supply it and take nothing back. The one-sided curvature
+estimate and the uniqueness of the helicoid [CM4] consume MS2 and MS7.
 
 ## References
 
