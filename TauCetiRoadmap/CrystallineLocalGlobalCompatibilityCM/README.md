@@ -610,7 +610,9 @@ The construction must satisfy:
 
 *Needs:* §1.4; §0.7; **ProfiniteCohomology, Layers 10–11**; §0.6.
 
-### 1.9 Derived comparison of P-ordinary parts at finite level
+### 1.9 Finite-level, boundary and parahoric control of P-ordinary cohomology
+
+This section proves that compact Levi derived invariants recover ordinary finite-level cohomology, for the interior and the boundary, extends this control to parahoric level with its Hecke actions, and shows independence of level. §§2.3–2.4, §2.6, §3.16 and §6.6 consume it.
 
 For `π ∈ D⁺_sm(Δ̃_{S̄}, O/ϖ^m)` and `c ≥ b ≥ 0, c ≥ 1`, there is a natural isomorphism `RΓ(K_{S̄}(b)`, ord `RΓ(U⁰_{S̄}, π)) ≅ ord_b RΓ(P_{S̄}(b,c), π`) in `D⁺(Δ_{S̄}/K_{S̄}(b), O/ϖ^m)`.
 
@@ -618,32 +620,28 @@ For `π ∈ D⁺_sm(Δ̃_{S̄}, O/ϖ^m)` and `c ≥ b ≥ 0, c ≥ 1`, there is 
 
 *Needs:* §1.5; §1.6; **ProfiniteCohomology, Layers 10–11**; **SmoothRepresentationsOfLocalGroups:SR.0**.
 
-### 1.10 Finite-level P-ordinary cohomology from completed cohomology
-
+**1.10 Finite-level P-ordinary cohomology from completed cohomology.**
 For `m ≥ 1` and `c ≥ b ≥ 0, c ≥ 1`, there is a natural `T̃^T-equivariant` isomorphism `RΓ(K_{S̄}(b), π^{ord}(K̃^{S̄},λ̃,m)) ≅ RΓ(X̃_{K̃(b,c)}, V_λ̃/ϖ^m)^{ord}` in `D⁺(K_{S̄}/K_{S̄}(b), O/ϖ^m)`.
 
 (CN, Proposition 2.2.8, p.28.)
 
 *Needs:* §1.9; §1.7; §1.1.
 
-### 1.11 Boundary version of the P-ordinary comparison
-
+**1.11 Boundary version of the P-ordinary comparison.**
 For `m ≥ 1` and `c ≥ b ≥ 0, c ≥ 1, RΓ(K_{S̄}(b), π^{ord}_∂(K̃^{S̄},λ̃,m)) ≅ RΓ(∂X̃_{K̃(b,c)}, V_λ̃/ϖ^m)^{ord}, T̃^T-equivariantly`, in `D⁺(K_{S̄}/K_{S̄}(b), O/ϖ^m)`.
 
 (CN, Proposition 2.2.10, p.29.)
 
 *Needs:* §1.9; §1.7; **ArithmeticLocallySymmetricSpaces:ALS.4** (boundary triangle).
 
-### 1.12 P-ordinary parts at parahoric level with their Hecke actions
-
+**1.12 P-ordinary parts at parahoric level with their Hecke actions.**
 For `π ∈ D⁺_sm(Δ̃^{Q_S̄}_{S̄}, O/ϖ^m)` there is a natural isomorphism `RΓ(K_{S̄}`, ord `RΓ(U⁰_{S̄}, π)) ≅ ord₀ RΓ(𝒬_{S̄}, π`) in `D⁺_sm(K_{S̄}[ũ^{±1}_{ṽ,n}]/K_{S̄}, O/ϖ^m)`, under which `[K_{v̄} ν(ϖ_{v̄}) K_{v̄}] ∈ H(Δ^{Q_S̄}_{S̄}, K_{S̄})` matches `[𝒬_{v̄} ν(ϖ_{v̄}) 𝒬_{v̄}]`.
 
 (CN, Lemma 2.2.12, pp.29–30.)
 
 *Needs:* §1.8; §1.9; **ArithmeticLocallySymmetricSpaces:ALS.3** (hecke action on invariants).
 
-### 1.13 Independence of level for P-ordinary cohomology
-
+**1.13 Independence of level for P-ordinary cohomology.**
 For `m ≥ 1` and `c ≥ b ≥ 0, c ≥ 1`, the natural `T̃^T-equivariant` morphism `RΓ(X̃_{K̃(b,max{1,b})}, V_λ̃/ϖ^m)^{ord} → RΓ(X̃_{K̃(b,c)}, V_λ̃/ϖ^m)^{ord}` is an isomorphism in `D⁺(K_{S̄}/K_{S̄}(b), O/ϖ^m)`; the same holds for the Borel–Serre boundary.
 
 (CN, Corollary 2.2.9, p.28.)
@@ -662,7 +660,9 @@ On a degree-zero `F₃²` complex with `U=diag(1,0)`, the ordinary summand is th
 
 Identify the `GL_n` coefficient tensor through the conjugate-dual Levi embedding. Prove `ũ_n^m` annihilates the evaluation kernel modulo `ϖ^m`, giving ordinary weight independence by removing selected weights and tensoring `V_{w₀^Pλ}`. Prove the boundary analogue. Construct dual ordinary parts using lower-congruence unipotents and `ũ_n^{-1}`, and establish the inverse-coset Hecke-equivariant level comparison.
 
-### 2.1 The Levi coefficient module as a tensor product over the two places
+### 2.1 Removing the selected weights from completed P-ordinary cohomology
+
+This section identifies the Levi coefficient tensor, shows that `ũ_n^m` annihilates the evaluation kernel modulo `ϖ^m`, and proves independence of weight for P-ordinary completed cohomology and its boundary analogue. §2.5, §5.8 and §6.6 consume it.
 
 Under the identification of `K_{S̄}` with the block-diagonal Levi of `∏_{v̄∈S̄} P_{n,n}(O_{F_ṽ})` (via `(A_ṽ, A_{ṽc}) ↦ diag((Ψ_n ᵗA^{−1}_{ṽc} Ψ_n)^c, A_ṽ)), V_{λ_S̄} ≅ ⊗_{v̄∈S̄} ⊗_{τ∈Hom(F⁺_{v̄},E),O} V_{−w_{0,n}λ_{τ̃c}} ⊗ V_{λ_τ̃}`, with both factors acted on through `τ̃`.
 
@@ -670,24 +670,21 @@ Under the identification of `K_{S̄}` with the block-diagonal Levi of `∏_{v̄�
 
 *Needs:* **PotentialAutomorphyInfrastructure, Layer 0** (unitary levi weight dictionary); **ArithmeticLocallySymmetricSpaces:ALS.1** (arithmetic local system).
 
-### 2.2 The kernel of evaluation is killed by ũ^m
-
+**2.2 The kernel of evaluation is killed by ũ^m.**
 Let `τ ∈ Hom(F⁺_{v̄},E)` and `K_{λ̃_τ} := ker(V_{λ̃_τ} → V_{λ_τ̃} ⊗ V_{−w_{0,n}λ_{τ̃c}})` be the kernel of evaluation at the identity. For every `m ≥ 1, (ũ_{ṽ,n})^m (K_{λ̃_τ}/ϖ^m) = 0` (for the rescaled action).
 
 (CN, Lemma 2.2.16, pp.31–32.)
 
 *Needs:* §0.2; §0.9; §0.10; **PotentialAutomorphyInfrastructure, Layer 0**.
 
-### 2.3 Independence of weight for P-ordinary completed cohomology
-
+**2.3 Independence of weight for P-ordinary completed cohomology.**
 Given dominant `λ̃` for `G̃` and `S̄ ⊆ S̄_p`, let `λ̃^{S̄}` be `λ̃` with `λ̃_τ` replaced by `0` for `τ` inducing places of `S̄`, and identify `λ̃` with `λ` via (2.1.4). For every `m ≥ 1` there is a natural `T̃^T-equivariant` isomorphism `π^{ord}(K̃^{S̄}, λ̃, m) ≅ π^{ord}(K̃^{S̄}, λ̃^{S̄}, m) ⊗ V_{w₀^P λ_S̄}/ϖ^m` in `D⁺_sm(Δ^{Q_S̄}_{S̄}, O/ϖ^m)`.
 
 (CN, Proposition 2.2.15, p.31.)
 
 *Needs:* §0.2; §2.1; §2.2; §1.7; §1.12; **SmoothRepresentationsOfLocalGroups:SR.2**.
 
-### 2.4 Independence of weight for boundary P-ordinary completed cohomology
-
+**2.4 Independence of weight for boundary P-ordinary completed cohomology.**
 With `λ̃^{S̄}` as in Independence of weight for P-ordinary completed cohomology (CL.2), `π^{ord}_∂(K̃^{S̄}, λ̃, m) ≅ π^{ord}_∂(K̃^{S̄}, λ̃^{S̄}, m) ⊗ V_{w₀^Pλ_S̄}/ϖ^m, T̃^T-equivariantly` in `D⁺_sm(Δ^{Q_S̄}_{S̄}, O/ϖ^m)`.
 
 (CN, Proposition 2.2.17, p.32.)
@@ -819,7 +816,9 @@ Require uniqueness and equivariance of this natural comparison. At a fixed ambie
 
 *Needs:* `mathlib:Ideal.exists_pow_inf_eq_pow_smul`; `tauceti:TauCeti.ArtinRees.exists_controlled_lift`; Mathlib's module quotients and linear-map ranges. Reuse the pinned Tau Ceti import `TauCeti.RingTheory.Ideal.ArtinRees` for the general coefficient-depth control.
 
-### 3.7 The Bruhat filtration functors on parabolic induction
+### 3.7 The Bruhat filtration of parabolic induction and its strata
+
+This section constructs the Bruhat filtration functors with their stratum and open-cell pieces, computes the ordinary part of an inflation from the Levi, and proves exactness of the filtration. §§3.13–3.16 consume it.
 
 For a smooth P(L)-module `π`, define `I_{≥i}(π)` as locally constant functions on `G_{≥i}=⋃_{ℓ(w)≥i}P(L)wP(L)`, compactly supported modulo P(L), satisfying `f(pg)=pf(g)`, with right P(L)-translation. This is unnormalized induction on the open Bruhat union. `I_{≥0}` is `Res_P Ind_P^{G̃}`. The individual stratum and open-cell functors are separate declarations.
 
@@ -839,24 +838,21 @@ The construction must satisfy:
 
 *Needs:* §3.1; **SmoothRepresentationsOfLocalGroups:SR.2**; **SmoothRepresentationsOfLocalGroups:SR.0**.
 
-### 3.8 P-ordinary part of an inflation from the Levi
-
+**3.8 P-ordinary part of an inflation from the Levi.**
 In the abelian Siegel `GL_{2n}` setting, for `π ∈ D⁺_sm(M(L), O/ϖ^m)` there is a natural isomorphism ord `RΓ(U₀, Inf^{M(L)⁺⋉U₀}_{M(L)⁺} π) ≅ O/ϖ^m(χ) ⊗ π[−rk_{Z_p}U₀]` in `D⁺_sm(M(L)⁺, O/ϖ^m)`. Corollary 2.3.10: for `π ∈ D⁺_sm(M(L), O/ϖ^m)`, ord `RΓ(U₀, I_id(Inf^{P(L)}_{M(L)} π)) ≅ O/ϖ^m(χ) ⊗ π[−rk_{Z_p}U₀]` in `D⁺_sm(M(L)⁺, O/ϖ^m)`, where `I_id` is the identity Bruhat stratum and `I°_id` its restriction to M(L)⁺ ⋉ `U₀` (Remark 2.3.9).
 
 (CN, Lemma 2.3.8, pp.37–38; Remark 2.3.9 and Corollary 2.3.10, p.38.)
 
 *Needs:* §3.2; §1.4; **PotentialAutomorphyInfrastructure, §0.12** (`unipotent_exterior_cohomology`); **ProfiniteCohomology, Layers 10–11**.
 
-### 3.9 Clopen approximations of the Bruhat filtration
-
+**3.9 Clopen approximations of the Bruhat filtration.**
 For each `i ≥ 0` there are decompositions `G_{≥i} = U^m₁` ⊔ `U^m₂` into open and closed subsets, indexed by `m ≥ 1`, left P(L)-invariant and right `P(O_L)-invariant`, with `G_{≥i+1} = ∪_{m≥1} U^m₁`.
 
 (CN, Lemma 2.3.5, pp.35–36.)
 
 *Needs:* §3.1; §3.7.
 
-### 3.10 Bruhat stratum induction
-
+**3.10 Bruhat stratum induction.**
 For `w∈^PW^P, I_w(π)` consists of locally constant functions `f:P(L)wP(L)→π` compactly supported modulo left P(L), with `f(pg)=pf(g)`; right P(L) acts by translation. It is one summand of the length-`ℓ`(w) quotient `I_{≥ℓ(w)}/I_{≥ℓ(w)+1}`, whose full quotient is the sum over all strata of that length; it retains the local topology.
 
 The construction must satisfy:
@@ -875,8 +871,7 @@ The construction must satisfy:
 
 *Needs:* §3.7.
 
-### 3.11 Bruhat open-cell induction
-
+**3.11 Bruhat open-cell induction.**
 `I°_w(π)` is the submodule of `I_w(π)` with support in `S°_w=P(L)wM(L)U₀`. It has the right-translation action of `M(L)⁺⋉U₀` and extends by zero to `I_w`. For `w=w₀^P` its derived `U₀-invariants` evaluate to `π^{w₀^P}`.
 
 The construction must satisfy:
@@ -895,15 +890,16 @@ The construction must satisfy:
 
 *Needs:* §3.10.
 
-### 3.12 Exactness of the Bruhat filtration of parabolic induction
-
+**3.12 Exactness of the Bruhat filtration of parabolic induction.**
 `(1) I_{≥0} = Res^{G(L)}_{P(L)}` ∘ `Ind^{G(L)}_{P(L)}`. `(2)` Each of `I_{≥i}, I_w, I°_w` is exact. `(3)` For `i ≥ 0` and `π ∈ Mod_sm(P(L), O/ϖ^m)` there is a functorial exact sequence `0 → I_{≥i+1}(π) → I_{≥i}(π) → ⊕_{ℓ(w)=i} I_w(π) → 0`, giving distinguished triangles (2.3.1) in `D⁺_sm(P(L), O/ϖ^m)`.
 
 (CN, Proposition 2.3.3, p.34.)
 
 *Needs:* §3.7; §3.1; **SmoothRepresentationsOfLocalGroups:SR.2**; §3.10; §3.11.
 
-### 3.13 The open cell computes the P-ordinary part of the top Bruhat stratum
+### 3.13 Ordinary parts of the Bruhat strata and of parabolic induction
+
+This section computes the ordinary part of the top Bruhat stratum through its open cell, keeps the filtration exact after `K ⋉ U₀`-cohomology, and gives the P-ordinary subquotients of a parabolic induction and their dual version. §6.6 consumes §3.16 and §6.8 consumes §3.17.
 
 For `G = GL_{2n}/L, P` the standard parabolic with Levi `GL_n × GL_n, ũ_L = diag(ϖ_L,…,ϖ_L,1,…,1)` and `w₀^P` the longest element of `^PW^P: (1) I°_{w₀^P}` takes injectives to `Γ(U₀,−)-acyclics; (2)` for `π ∈ D⁺_sm(P(L), O/ϖ^m)` there is a natural isomorphism ord `RΓ(U₀, I°_{w₀^P}(π)) ≅` ord `RΓ(U₀, I_{w₀^P}(π))`, ord inverting `ũ_L`.
 
@@ -911,32 +907,28 @@ For `G = GL_{2n}/L, P` the standard parabolic with Levi `GL_n × GL_n, ũ_L = di
 
 *Needs:* §3.7; §1.4; §3.10; §3.11; **SmoothRepresentationsOfLocalGroups:SR.0**; **SmoothRepresentationsOfLocalGroups:SR.2**; **ProfiniteCohomology, Layers 10–11**.
 
-### 3.14 The Bruhat filtration stays exact after taking K ⋉ U₀-cohomology
-
+**3.14 The Bruhat filtration stays exact after taking K ⋉ U₀-cohomology.**
 Let `π ∈ D⁺_sm(P(L), O/ϖ^m)` and `V` a finite free `O/ϖ^m-module` with a smooth representation of an open submonoid `Δ⁺ ⊂` M(L) containing an open subgroup `K ⊂ M(O_L)`. For `i ≥ 0` and `j ∈ Z`, `0 → R^jΓ(K` ⋉ `U₀, V ⊗ I_{≥i+1}(π)) → R^jΓ(K` ⋉ `U₀, V ⊗ I_{≥i}(π)) → ⊕_{ℓ(w)=i} R^jΓ(K` ⋉ `U₀, V ⊗ I_w(π)) → 0` is an exact sequence of `H(Δ⁺`, K)-modules.
 
 (CN, Proposition 2.3.4, pp.34–35.)
 
 *Needs:* §3.12; §3.9; **ProfiniteCohomology, Layers 10–11**.
 
-### 3.15 The open-cell summand is the w₀^P-twist
-
+**3.15 The open-cell summand is the w₀^P-twist.**
 For `π ∈ D⁺_sm(P(L), O/ϖ^m)` there is a natural isomorphism `RΓ(U₀, I°_{w₀^P}(π)) ≅ π^{w₀^P}` in `D⁺_sm(M(L)⁺, O/ϖ^m)`, where `m ∈` M(L)⁺ acts on `π^{w₀^P}` through `w₀^P m (w₀^P)^{−1}`.
 
 (CN, Lemma 2.3.7, p.37.)
 
 *Needs:* §3.7; §0.1; **SmoothRepresentationsOfLocalGroups:SR.2**; **ProfiniteCohomology, Layers 10–11**; §3.10; §3.11; §3.13.
 
-### 3.16 P-ordinary cohomology of a parabolic induction
-
+**3.16 P-ordinary cohomology of a parabolic induction.**
 For `v̄ ∈ S̄` and `Q_{v̄} ⊂ P_{v̄}` with `K_{v̄} = 𝒬_{v̄} ∩ G(F⁺_{v̄})`: let `π ∈ D⁺_sm(G(F⁺_{v̄}), O/ϖ^m)` and `V` a finite free `O/ϖ^m-module` with a smooth `Δ^{Q,+}_{v̄}-action, ũ_{ṽ,n}` acting trivially, inflated to `Δ̃^{Q}_{v̄,P} = Δ^{Q,+}_{v̄}` ⋉ `U⁰_{v̄}`. Then `ord₀ R^jΓ(K_{v̄}` ⋉ `U⁰_{v̄}, Ind^{G̃(F⁺_{v̄})}_{P(F⁺_{v̄})} π ⊗ V`) has `R^jΓ(K_{v̄}, π^{w₀^P} ⊗ V)` and `R^{j−rk_{Z_p}U⁰_{v̄}}Γ(K_{v̄}, π ⊗ O/ϖ^m(χ) ⊗ V)` as `H(Δ^{Q}_{v̄}, K_{v̄})-module` subquotients.
 
 (CN, Proposition 2.3.11, p.38.)
 
 *Needs:* §3.14; §3.13; §3.15; §3.8; §1.12.
 
-### 3.17 Dual version: ordinary part for the opposite parabolic
-
+**3.17 Dual version: ordinary part for the opposite parabolic.**
 For `π ∈ D⁺_sm(G(F⁺_{v̄}), O/ϖ^m)` and `V` finite free with a smooth `(Δ^{Q,+}_{v̄})^{−1}-action, ũ^{−1}_{ṽ,n}` trivial, inflated to (`Δ̃^{Q}_{v̄,P})^{−1}: ord^∨₀ R^jΓ(K_{v̄}` ⋉ `Ū¹_{v̄}, Ind^{G̃}_{P} π ⊗ V`) has `R^jΓ(K_{v̄}, π ⊗ V)` as an `H((Δ^{Q}_{v̄})^{−1}, K_{v̄})-module` subquotient.
 
 (CN, Corollary 2.3.12, p.39.)
@@ -1086,7 +1078,9 @@ The construction must satisfy:
 
 *Needs:* **ProfiniteCohomology, Layers 10–11**; **ArithmeticLocallySymmetricSpaces:ALS.6** (finite-level descent); **CompletedCohomologyPartII, Layer 0**; **CompletedCohomologyPartII, Layer 1**; **CompletedCohomologyPartII, Layer 2**; **CompletedCohomologyPartII, Layer 7**; **ArithmeticLocallySymmetricSpaces:ALS.1** (arithmetic local system); §3.4.
 
-### 5.2 The Siegel boundary stratum and localization
+### 5.2 The localized Siegel boundary through Levi cohomology
+
+This section identifies the localized completed Siegel boundary with induced Levi cohomology, using non-Eisenstein boundary-stratum elimination, topological induction and unipotent descent to the coefficient object `V_U`. §5.7 consumes it.
 
 `(1)` There is a `G̃(𝔸_{F⁺,f})-equivariant` closed immersion `(𝔛_P × G̃(𝔸_{F⁺,f}))/P(𝔸_{F⁺,f}) ↪ ∂𝔛_{G̃}` whose complement is a disjoint union of locally closed `(𝔛_Q × G̃(𝔸_{F⁺,f}))/Q(𝔸_{F⁺,f})` for standard parabolics `Q` ⊄ `P`. `(2)` Under the assumptions of A direct summand of completed boundary cohomology (CL.5), pullback gives a `T̃^T-equivariant` isomorphism `RΓ(K̃^{S̄₂}, RΓ(∂𝔛_{G̃}, V_λ̃/ϖ^m))_{m̃} ≅ RΓ(K̃^{S̄₂}, RΓ((𝔛_P × G̃(𝔸_{F⁺,f}))/P(𝔸_{F⁺,f}), V_λ̃/ϖ^m))_{m̃}`.
 
@@ -1094,32 +1088,28 @@ The construction must satisfy:
 
 *Needs:* **PotentialAutomorphyInfrastructure, Layer 0**; **ArithmeticLocallySymmetricSpaces:ALS.2** (borel serre bordification); **ArithmeticLocallySymmetricSpaces:ALS.4** (boundary stratum cohomology formula); **ArithmeticLocallySymmetricSpaces:ALS.6** (finite-level descent); **CompletedCohomologyPartII, Layer 0**; **CompletedCohomologyPartII, Layer 1**; **CompletedCohomologyPartII, Layer 7**.
 
-### 5.3 Completed cohomology of the Siegel parabolic is inflated from the Levi
-
+**5.3 Completed cohomology of the Siegel parabolic is inflated from the Levi.**
 Pullback along `𝔛_P ↠ 𝔛_G` gives a natural isomorphism `Inf^{P(𝔸_{F⁺,f})}_{G(𝔸_{F⁺,f})} RΓ(𝔛_G, O/ϖ^m) ≅ RΓ(𝔛_P, O/ϖ^m)` in `D⁺_sm(P(𝔸_{F⁺,f}), O/ϖ^m)`.
 
 (CN, Lemma 4.1.6, pp.55–56.)
 
 *Needs:* **ArithmeticLocallySymmetricSpaces:ALS.6** (finite-level descent); **CompletedCohomologyPartII, Layer 0**; **CompletedCohomologyPartII, Layer 1**; **CompletedCohomologyPartII, Layer 6**; **ArithmeticLocallySymmetricSpaces:ALS.4** (levi hochschild serre); **ArithmeticLocallySymmetricSpaces:ALS.2** (stratum nilmanifold fibration).
 
-### 5.4 The Siegel stratum as an induction at S̄₁
-
+**5.4 The Siegel stratum as an induction at S̄₁.**
 With `λ̃` as in A direct summand of completed boundary cohomology (CL.5), `RΓ((𝔛_P × G̃(𝔸_{F⁺,f}))/P(𝔸_{F⁺,f}), V_λ̃/ϖ^m) ≅ Ind^{G̃^{S̄₁}×G̃⁰_{S̄₁}}_{P^{S̄₁}×P⁰_{S̄₁}} RΓ(𝔛_P, V_λ̃/ϖ^m)` in `D⁺_sm(G̃^{S̄₁} × G̃⁰_{S̄₁}, O/ϖ^m)`, where `G̃^{S̄₁}` is the adelic group away from `S̄₁` and `G̃⁰_{S̄₁} = ∏_{v̄∈S̄₁} G̃(O_{F⁺_{v̄}})`.
 
 (CN, Lemma 4.1.5, p.55.)
 
 *Needs:* §5.2; §3.3; **SmoothRepresentationsOfLocalGroups:SR.2**.
 
-### 5.5 Inflation comparison with the U-cohomology coefficient object
-
+**5.5 Inflation comparison with the U-cohomology coefficient object.**
 With notation as in the proof of A direct summand of completed boundary cohomology (CL.5), `Inf^{P^{T∖S̄₂}}_{G^{T∖S̄₂}} RΓ(K_{T∖S̄₂}, RΓ(𝔛_G, V_U(λ̃_{S̄₁}, m))) ≅ RΓ(K_{P,T∖S̄₂}, RΓ(𝔛_P, V_λ̃/ϖ^m))` in `D⁺_sm(P^{T∖S̄₂}, O/ϖ^m)`.
 
 (CN, Lemma 4.1.7, p.56.)
 
 *Needs:* §5.1; §5.3; **SmoothRepresentationsOfLocalGroups:SR.0d**.
 
-### 5.6 Completed P-cohomology through the Levi
-
+**5.6 Completed P-cohomology through the Levi.**
 `RΓ(K^{S̄₂}_P, RΓ(𝔛_P, V_λ̃/ϖ^m)) ≅ r^*_G` ∘ `Inf^{P_{S̄₂}}_{G_{S̄₂}} RΓ(K^{S̄₂}, RΓ(𝔛_G, V_U(λ̃_{S̄₁}, m))), T^T_P-equivariantly` in `D⁺_sm(P_{S̄₂}, O/ϖ^m)`.
 
 (CN, Proposition 4.1.8, pp.56–57.)
@@ -1182,7 +1172,9 @@ Let `S̄ ⊂ S̄_p` and `λ̃, λ` dominant with `λ̃_τ = (λ_τ̃, −w_{0,n}
 
 *Needs:* §0.2; §2.5; **ProfiniteCohomology, Layers 10–11**; **PotentialAutomorphyInfrastructure, Layer 0**; **SmoothRepresentationsOfLocalGroups:SR.0d**.
 
-### 6.3 Numerical degree bound
+### 6.3 Degree bound and deep congruence levels
+
+This section supplies the numerical degree bound and the two deep congruence level families, Levi and unitary. §6.12 consumes it.
 
 If `S̄ ⊂ S̄_p` satisfies `Σ_{v̄∉S̄}[F⁺_{v̄} : Q_p] ≥ ½[F⁺ : Q]` and `q ∈ [⌊d/2⌋, d − 1] (d = n²[F⁺ : Q]`), then `d − q ≤ Σ_{v̄∉S̄} n²[F⁺_{v̄} : Q_p]`.
 
@@ -1190,8 +1182,7 @@ If `S̄ ⊂ S̄_p` satisfies `Σ_{v̄∉S̄}[F⁺_{v̄} : Q_p] ≥ ½[F⁺ : Q]`
 
 *Needs:* the standing dimension conventions and elementary integer arithmetic.
 
-### 6.4 Deep Levi congruence level
-
+**6.4 Deep Levi congruence level.**
 For `e≥1` and `S̄⊂S̄_p, K(e,S̄)_v=K_v∩ker(GL_n(O_{F_v})→GL_n(O_{F_v}/ϖ_v^e))` for `v` above `S̄`, and `K_v` elsewhere. The same depth is imposed at both conjugate places. `K(e′,S̄)⊂K(e,S̄)` for `e′≥e`.
 
 The subgroup construction only needs the given level `K` and its integral component
@@ -1227,8 +1218,7 @@ The construction must satisfy:
 
 *Needs:* §0.3; **ArithmeticLocallySymmetricSpaces:ALS.0** (standard level subgroups).
 
-### 6.5 Deep unitary congruence level
-
+**6.5 Deep unitary congruence level.**
 `K̃(e,S̄)_{v̄}=K̃_{v̄}∩P_{v̄}(e,e)` for `v̄∈S̄` and `K̃_{v̄}` elsewhere; equivalently the reduction modulo `ϖ_ṽ^e` is block unipotent (`1_n` *;0 `1_n`), so `U₀` remains present. This is deeper than diagonal-level control while retaining the unipotent fiber.
 
 Use the split-place integral component maps on `K̃` to pull back the CL.0 subgroup
@@ -1612,7 +1602,7 @@ At `PGL₂` level, the scalar `GL₂` Hecke coset acts as identity, giving `X²�
 
 State the fifteen prepared CM lifting hypotheses, define fixed-determinant `χ-type` and Taylor–Wiles deformation problems, and construct deformation-to-derived-Hecke surjections and diamond-compatible perfect complexes. Use AKT small-image Taylor–Wiles prime selection with its `p=5` exception, check `q₀=l₀=[F⁺:Q]` and patch the two coefficient systems to prove prepared BT lifting. Prove solvable preparation and descent preserving the full residual/cyclotomic field. Export potentially BT automorphy under the original hypotheses plus `d_cyc≠3` or projective residual image not `A₄`; retain the cubic-tetrahedral limitation of the finite-image argument. Construct the prepared `PGL₂` level with pro-v Iwahori auxiliary components, choose the three unitary parabolic branches and the residual ordinary Hecke ideal. CL.9.3 constructs the non-enormous AKT Selmer detection and CM relative generator count from the conditional selection and general presentation framework of GlobalGaloisDeformations. Construct §9.8 immediately after §9.5, before §9.6, so that the ordered eigenline, diamond group and Taylor–Wiles level datum precede the perfect homology model.
 
-### 9.1 The data and hypotheses (1)–(15) of the special case of Theorem 5.2
+### 9.1 The prepared CM lifting data and hypotheses
 
 Data: an imaginary CM field `F`, an odd prime `p`, an isomorphism `ι : Q̄_p ≅ C`, a finite set of places `S ⊇ S_p` together with a subset `R ⊂ S` of places prime to `p` and a splitting `S_p = S^cr_p` ⊔ `S^st_p`, and a cuspidal `π` on `PGL₂(𝔸_F)` that is regular algebraic of weight `0`.
 
@@ -1630,11 +1620,11 @@ The construction must satisfy:
 - Two auxiliary places of the same residue characteristic violate condition `(11)`.
 - A p-place with residue field `F_p` violates condition `(6)`, even if the residual representation there is trivial.
 
-(CN, §5.6, pp.81–82.)
+(CN, §5.6, pp.81–82, for the special case of Theorem 5.2.)
 
 *Needs:* §7.5; §8.1; **LocalGaloisDeformationRings, §§4.14–4.15** (bt ring unique generalisation); **LocalGaloisDeformationRings, §6.6** (snowden ordinary ring trivial residual).
 
-### 9.2 A reducibility criterion for mod-p representations (variant of DDT 4.11)
+### 9.2 A determinant-kernel reducibility criterion for mod-p representations
 
 Prove `CrystallineCM.determinant_kernel_reducible_except_tetrahedral`. Let `G` be finite, `p` odd, `ρ : G → GL₂(F̄_p)` with det `ρ` of order `d > 1`, and suppose (tr `ρ(g))² = (1 + det ρ(g))²` whenever det `ρ(g) ≠ 1`. Then `ρ|_{ker(det ρ)}` is reducible, unless `d = 3` and the projective image of `ρ` is `A₄`; in that case `ρ|_{ker(det ρ)}` has projective image `Z`/2 `× Z`/2 and is absolutely irreducible.
 
@@ -1648,7 +1638,7 @@ The two definitions in `Suggested.lean` also apply to a general group and field:
 - For the inclusion of the cyclic diagonal subgroup generated by `diag(2,1)` over `Q`, the projective image is nontrivial, and a coordinate line is invariant. Quotienting by the subgroup's own centre would incorrectly give a trivial projective image.
 - For the characteristic-seven quaternion matrices `i` and `j` displayed in the references, `i²=j²=−1` and `ij=−ji`. They have no common eigenline even after extending to an algebraic closure: two putative eigenvalues would be nonzero, while anticommutation would force their product to be its own negative. The determinant-kernel line predicate fails, and the projective quaternion image is Klein four.
 
-(CN, Lemma 5.6.5, pp.85–86.)
+(CN, Lemma 5.6.5, pp.85–86; a variant of DDT 4.11.)
 
 *Needs:* **ArithmeticGaloisRepresentations, Layer 4** (dickson classification and the dyadic refinement).
 
@@ -1674,7 +1664,9 @@ Construct the following inputs in this section:
 
 *Needs:* **GlobalGaloisDeformations, §5.1** (Taylor–Wiles datum); **GlobalGaloisDeformations, §5.6** (conditional Chebotarev selection); **GlobalGaloisDeformations, §§3.6–3.7** (relative tangent and presentation framework); **ArithmeticGaloisRepresentations, Layer 4** (dickson classification and the dyadic refinement); **GlobalGaloisDeformations:R04.3** (global framed ring).
 
-### 9.4 Prepared PGL₂ level and unitary parabolic branches
+### 9.4 Prepared level, deformation problems and Hecke-valued surjections
+
+This section fixes the prepared `PGL₂` level and unitary parabolic branches, defines the fixed-determinant `χ`-type and Taylor–Wiles deformation problems, and constructs the diamond-compatible perfect complexes and the deformation-to-derived-Hecke surjections. §9.10 consumes it, and §9.11 also uses §9.4.
 
 Under Setup56, define `K=∏_v K_v⊂PGL₂(Ô_F): K_v=PGL₂(O_{F_v})` for `v∉S` or `v∈S_p^{cr}, K_v=Iw_v` for `v∈R∪S_p^{st}`, and `K_v=Iw_{v,1}`, the pro-v Iwahori, for `v∈S−(S_p∪R)`. In the auxiliary-place case `K` is neat; otherwise `ζ_p∈F` and localized perfectness uses Proposition 5.5.3. Put `T=S∪S^c`. For every `v̄|p` choose `ṽ|v̄` in `S_p^{st}` whenever that set meets `{ṽ,ṽ^c}`. The unitary parabolic `Q_{v̄}` has partition (2,1,1) if ṽ is st and `ṽ^c` is cr, (1,1,1,1) if both are st, and (2,2) if both are cr. Choose the maximal ideal `𝔪` of the corresponding Q-ordinary derived Hecke algebra from `π; U_v∉𝔪` for `v∈S_p^{st}`. Enlarge `E` so `k=k(𝔪)` contains every eigenvalue of the residual representation. The selected characteristic-zero representation has dimension two.
 
@@ -1700,8 +1692,7 @@ For the unitary choice, put `st=1` when `ṽ∈S_p^{st}` and `stᶜ=1` when `ṽ
 
 *Needs:* §9.1; §8.1; §8.7; §4.1; **ArithmeticLocallySymmetricSpaces:ALS.0** (standard level subgroups); **ArithmeticLocallySymmetricSpaces:ALS.3**; **ArithmeticLocallySymmetricSpaces:ALS.5**; **ArithmeticLocallySymmetricSpaces:ALS.0** (neatness iwahori criterion).
 
-### 9.5 The global deformation problem 𝒮_χ and its coefficient line
-
+**9.5 The global deformation problem 𝒮_χ and its coefficient line.**
 For `χ = ∏_{v∈R} χ_v`, with `χ_v:k_v×→O×` trivial mod `ϖ` and inflated to `O^×_{F_v}: 𝒮_χ = (ρ̄, ε^{−1}_p, S, {R^{ε^{−1},BT}_v}_{v∈S^cr_p} ∪ {R^△_v}_{v∈S^st_p} ∪ {R^{ε^{−1},χ_v}_v}_{v∈R} ∪ {R^{ε^{−1}}_v}_{v∈S−(S_p∪R)})`, with the `O[K_S]-module O(χ^{−1})` via `Iw_v → O^×, (a b; c d) ↦ χ_v(a/d)`. The coefficient `O(χ^{-1})` uses `χ_v(a/d)^{-1}` at Iwahori `v∈R`, trivial outside `R`; each `χ_v` factors through the residue field `k_v×` and is trivial modulo `ϖ`; a/d is reduced to `k_v×`.
 
 The construction must satisfy:
@@ -1720,8 +1711,7 @@ The construction must satisfy:
 
 *Needs:* §9.1; **GlobalGaloisDeformations:R04.3** (global deformation type); **GlobalGaloisDeformations:R04.3** (global framed ring); **LocalGaloisDeformationRings, §3.14** (fixed determinant pst rings); **LocalGaloisDeformationRings, §6.6** (snowden ordinary ring trivial residual); §9.4; **LocalGaloisDeformationRings, §§4.14–4.15** (bt ring unique generalisation).
 
-### 9.6 Patching complexes of homology
-
+**9.6 Patching complexes of homology.**
 `C_{χ,Q} := RHom_{O[Δ_Q]}(C•(K₀(Q)/K₁(Q), O(χ^{−1}))_{n_Q}, O[Δ_Q])` is a perfect complex of `O[Δ_Q]-modules` with a canonical isomorphism `C_{χ,Q} ⊗^L_{O[Δ_Q]} O ≅ C_χ := RHom_O(C•(K, O(χ^{−1}))_m, O)` in D(O).
 
 Under §9.4's level hypotheses and §9.8's distinct-eigenvalue datum, construct the residual-matching localization at the abelian p-cover. In the non-neat branch retain `p` odd, `ζ_p∈F` and absolutely irreducible residual representation, with coefficient line trivial modulo `ϖ`. Prove the perfect group-ring homology model by the second part of AKT Theorem 5.11 and its minimal-complex argument, then dualize over `O[Δ_Q]` and apply derived augmentation. ALS finite-cover descent identifies the augmented complex but does not provide non-neat group-ring perfectness.
@@ -1736,16 +1726,14 @@ Under §9.4's level hypotheses and §9.8's distinct-eigenvalue datum, construct 
 
 *Needs:* §9.8; §9.4; §8.7; **ArithmeticLocallySymmetricSpaces:ALS.6** (finite level descent); **DeformationAndDerivedPatchingAlgebra, §§8.1–8.5**.
 
-### 9.7 Hecke-valued Galois representations satisfy the deformation problem 𝒮_χ
-
+**9.7 Hecke-valued Galois representations satisfy the deformation problem 𝒮_χ.**
 There are `N` depending only on `[F : Q]`, `J ⊂ T^{S,Q_{S̄_p},S̄_p-ord}_G(C•(K, O(χ^{−1}))_m)` with `J^N = 0` and a continuous surjection `f_{𝒮_χ} : R_{𝒮_χ} → T^{S,Q_{S̄_p},S̄_p-ord}_G(C•(K, O(χ^{−1}))_m)/J` with `char(f_{𝒮_χ}` ∘ `ρ^{univ}_{𝒮_χ}(Frob_v)`) the image of `P_v(X)` for `v ∉ S`.
 
 (CN, Proposition 5.6.2, pp.83–84.)
 
 *Needs:* §9.5; §8.6; §7.6; **AutomorphicGaloisRepresentationsPartII:AG2.5**; **ArithmeticGaloisRepresentations, §5.10**; **LocalGaloisDeformationRings, §F.2.7**; §9.4.
 
-### 9.8 Taylor–Wiles deformation problem
-
+**9.8 Taylor–Wiles deformation problem.**
 `S_{χ,Q}` is the fixed-determinant problem obtained from `S_χ` by adjoining the Taylor–Wiles places `Q` and the unrestricted fixed-determinant local rings `R_v^ψ`, with `ψ=ε_p^{-1}`. Fix the ordered distinct residual Frobenius eigenvalues. The corresponding universal unframed global deformation ring `R_{S_{χ,Q}}` (framing at `T` gives the separate ring `R^T_{S_{χ,Q}}`) has the `O[Δ_Q]-structure` from inertia on the selected lifted eigenline, `Δ_Q=∏_{v∈Q}k_v×(p)`. This follows the unrestricted-ring definition in CN Definition 5.3.5; the selected eigenline specifies the diamond action, rather than replacing the local problem by the unramified quotient.
 
 The construction must satisfy:
@@ -1764,8 +1752,7 @@ The construction must satisfy:
 
 *Needs:* §9.5; **GlobalGaloisDeformations:R04.5** (taylor wiles datum); **GlobalGaloisDeformations:R04.5** (taylor wiles inertia action).
 
-### 9.9 The same at Taylor–Wiles level
-
+**9.9 The same at Taylor–Wiles level.**
 There are `N` depending only on `[F : Q]`, `J ⊂ T_{χ,Q}` with `J^N = 0` and a continuous surjective `O[Δ_Q]-algebra` homomorphism `f_{𝒮_{χ,Q}} : R_{𝒮_{χ,Q}} → T_{χ,Q}/J` with char(f ∘ `ρ^{univ}(Frob_v)) = P_v(X`) for `v ∉ S ∪ Q`, where `T_{χ,Q}` is the image of `T^{S∪Q,…}_G ⊗ O[Δ_Q]` in `End_{D(O[Δ_Q])}(C•(K₀(Q)/K₁(Q), O(χ^{−1}))_{n_Q})`.
 
 (CN, Proposition 5.6.3, p.84.)
@@ -1792,9 +1779,9 @@ With the data and hypotheses (1)–(15), let `ρ : G_F → GL₂(Q̄_p)` be cont
 
 *Needs:* §9.1; §9.7; §9.9; §9.6; §9.3; §8.3; §8.5; **LocalGaloisDeformationRings, §§4.14–4.15** (bt ring unique generalisation); **LocalGaloisDeformationRings, §6.6** (snowden ordinary ring trivial residual); §9.10 (weight-zero rational comparison); **DeformationAndDerivedPatchingAlgebra, §§8.1–8.5**; §9.4.
 
-### 9.11 Reduction of Theorem 5.2 to Proposition 5.6.1 by solvable base change
+### 9.11 Reduction of the qualified lifting theorem to the prepared case by solvable base change
 
-Under the hypotheses of the qualified potentially Barsotti–Tate lifting theorem in CL.9, including `d_cyc≠3` or projective image not `A₄`, Theorem 5.2 follows from Automorphy lifting in the special case (CL.9): choose a finite set `V` of auxiliary places as in the proof of [AKT23, Thm. A.14]; a solvable Galois CM extension `F₀/F` in which `V` splits, `π_{F₀}` has Iwahori-fixed vectors everywhere, bad places become unipotent with `q_w ≡ 1` mod `p` and trivial `ρ̄`, every p-adic place of `F₀⁺` splits with residue field bigger than `F_p` and the degree condition holds, potentially crystalline places become crystalline with `π` unramified (and `r_ι(π)` crystalline by the crystalline or mixed crystalline-ordinary branch of §7.5, with residual irreducibility and decomposed genericity preserved, ordinary iff `ρ` is), and non-potentially-crystalline places become non-crystalline extensions of `ε^{−1}_p` by `1;` a further composite `F₁` with three imaginary quadratic fields; if `ζ_p ∉ F`, two auxiliary degree-one places `v₀, v₀′` from A reducibility criterion for mod-p representations (variant of DDT 4.11) (CL.9) and Chebotarev; then solvable descent [ACC+18, Prop. 6.5.13]. Choose the preparation linearly disjoint from the full residual-plus-cyclotomic field, so both the projective image and `d_cyc` are preserved and the corrected finite-image criterion applies.
+Under the hypotheses of the qualified potentially Barsotti–Tate lifting theorem in CL.9, including `d_cyc≠3` or projective image not `A₄`, Theorem 5.2 follows from Automorphy lifting in the special case (CL.9): choose a finite set `V` of auxiliary places as in the proof of [AKT23, Thm. A.14]; a solvable Galois CM extension `F₀/F` in which `V` splits, `π_{F₀}` has Iwahori-fixed vectors everywhere, bad places become unipotent with `q_w ≡ 1` mod `p` and trivial `ρ̄`, every p-adic place of `F₀⁺` splits with residue field bigger than `F_p` and the degree condition holds, potentially crystalline places become crystalline with `π` unramified (and `r_ι(π)` crystalline by the crystalline or mixed crystalline-ordinary branch of §7.5, with residual irreducibility and decomposed genericity preserved, ordinary iff `ρ` is), and non-potentially-crystalline places become non-crystalline extensions of `ε^{−1}_p` by `1;` a further composite `F₁` with three imaginary quadratic fields; if `ζ_p ∉ F`, two auxiliary degree-one places `v₀, v₀′` from A determinant-kernel reducibility criterion for mod-p representations (CL.9) and Chebotarev; then solvable descent [ACC+18, Prop. 6.5.13]. Choose the preparation linearly disjoint from the full residual-plus-cyclotomic field, so both the projective image and `d_cyc` are preserved and the corrected finite-image criterion applies.
 
 The local preparation does not require both members of a conjugate pair to be potentially crystalline. If both prepared components are spherical, use §7.5 with partition `(2,2)`, or §7.7. If one is spherical and its conjugate is ordinary, orient the split pair as in §9.4 and use `(2,1,1)` in §7.5; this proves crystallinity on the spherical side and ordinarity on the other. If both are ordinary use `(1,1,1,1)`. The ordinary eigenvector on a non-potentially-crystalline side is part of §9.12(5c), not deduced from the crystallinity being proved. Arrange the complementary degree inequality first. The finite-flat crystalline factorization and characteristic-zero specialization then give the required local conclusion, even in the mixed case.
 
@@ -1804,7 +1791,7 @@ The local preparation does not require both members of a conjugate pair to be po
 - For `(st,stᶜ)=(1,0)`, `(2,1,1)` supplies two ordinary rank-one pieces on the first side and a crystalline rank-two block on the other; requiring two spherical components would exclude this allowed input.
 - For `(st,stᶜ)=(1,1)`, `(1,1,1,1)` gives ordinary flags on both sides and makes no assertion that their monodromy vanishes.
 
-(CN, End of the proof of Theorem 5.2, pp.85–87.)
+(CN, End of the proof of Theorem 5.2, reducing it to Proposition 5.6.1, pp.85–87.)
 
 *Needs:* §9.10; §7.5; §7.7; §9.4; §9.2; **PotentialModularityAndCompatibleSystems, §§2.12–2.16**; **PotentialAutomorphyInfrastructure, §2.3**; **PotentialAutomorphyInfrastructure, §2.1** (genericity normal closure restriction).
 
