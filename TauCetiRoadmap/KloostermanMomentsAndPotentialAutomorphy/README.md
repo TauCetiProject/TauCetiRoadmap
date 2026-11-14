@@ -57,7 +57,10 @@ This roadmap owns:
 - the determinant characters, gamma factors, epsilon factors and completed `L`-functions of the
   moment motives (Layer 10);
 - the application of potential automorphy, the transport of local factors through
-  semisimplification, the odd root number and the two functional equations (Layer 11).
+  semisimplification, the coefficient bound `v_p(c_n) ≥ n(n − 1)` for `k ≥ 1` with `p` odd or `k` odd,
+  the odd root number and the two functional equations (Layer 11). The bound for `p = 2` and even
+  `k ≥ 2` is Haessig's theorem, proved by Dwork's `p`-adic methods and not through the moment motive
+  (§11.2); it is outside this roadmap.
 
 What is stated elsewhere is consumed by section:
 
@@ -1063,8 +1066,8 @@ localized Fourier, Fourier duality).
 
 Define, for a connection `(E, ∇)` on a smooth variety over `K`, the connection `Sym^k(E, ∇)` on the
 symmetric power of the underlying vector bundle (Mathlib `SymmetricPower` on local sections), with
-`∇(e₁⋯e_k) = Σⱼ e₁⋯∇eⱼ⋯e_k`. Apply it to `Kl_r` and `K̃l_r` for `k ≥ 1` (FSY §2.1, Proposition 2.7,
-p. 12; §2.2, pp. 13–14). The API proves the following facts.
+`∇(e₁⋯e_k) = Σⱼ e₁⋯∇eⱼ⋯e_k`. Apply it to `Kl_r` and `K̃l_r` for `k ≥ 1` (FSY §2.2, p. 12). The API
+proves the following facts.
 
 - The Leibniz formula descends from the tensor power to the symmetric quotient, so `Sym^k(E, ∇)` is
   a connection; it is integrable when `∇` is.
@@ -2732,7 +2735,13 @@ representations over `ℚ₂` itself is asserted.
 **Corollary.** For `k ≥ 1` and a prime `p` with `p` odd or `k` odd, every coefficient `c_n` of
 `Z_k(p; T) = Σ c_nTⁿ` is an integer divisible by `p^{n(n−1)}` (`momentSeries_coeff_dvd`; FSY Corollary
 5.27 and Remark 5.28, pp. 51–52, for odd `p`; Remark 5.41, p. 59, for `p = 2`). For odd `p` this is the
-conclusion of §9.1; the case `p = 2`, `k` odd, is proved here.
+conclusion of §9.1; the case `p = 2`, `k` odd, is proved here. The remaining case, `p = 2` with `k` even,
+also holds (Haessig-Hecke, Theorem 1.1, p. 1, as recorded in FSY Remark 5.28, pp. 51–52), but its proof
+goes through a Dwork-style `p`-adic cohomology of the `p`-adic symmetric power `L`-functions
+(Haessig-Hecke, Theorem 4.1, p. 5), not through the moment motive: the slope argument of this section
+needs `M_k(2; T)` to divide the characteristic polynomial of Frobenius on the inertia invariants of
+`V_{k,ℓ}` at `2` (FSY Remark 5.41, p. 59), which this roadmap proves for odd `k` (§8.3) and, for even `k`,
+only at odd primes (§8.4). That case is outside this roadmap (Scope and ownership).
 
 *Proof sketch.* Let `p = 2` and `k` odd. Over a finite extension `L/ℚ₂` over which `V_{k,2}` becomes
 semistable, `D_st,L(V_{k,2})` is weakly admissible (FiniteFlatGroupsAndIntegralPadicHodgeTheory
@@ -2749,8 +2758,10 @@ factor `1 − T` of §8.2 adds the slope `0`, and the polygon with slopes `0, 2,
   `−81` on the quotient, of weights `6` and `8` centred at `7`, and `N` of rank one; its local factor
   is `(1 + 27T)⁻¹`, whereas dropping `N` would give `((1 + 27T)(1 + 81T))⁻¹`, of degree two.
 - `k = 0` is excluded from the corollary: `Z₀(p; T) = (1 − T)/(1 − pT)` has `c₂ = p² − p`, of
-  valuation `1 < 2`. For `p = 2` and even `k` no bound is asserted; `Z₆(2; T) = 1 + 7T − 8T²` happens to
-  satisfy it.
+  valuation `1 < 2`.
+- `p = 2` and even `k`, the case outside the corollary: `Z₆(2; T) = 1 + 7T − 8T²` and
+  `Z₁₀(2; T) = 1 + 23T + 2024T² − 2048T³` have coefficient valuations `0, 0, 3` and `0, 0, 3, 11`, on or
+  above the bounds `0, 0, 2` and `0, 0, 2, 6`, consistent with Haessig's theorem.
 - `k = 13`, `p = 2`: the coefficients of `Z₁₃(2; T)` have `2`-adic valuations
   `0, 0, 2, 6, 12, 20, 30, 42`, equal to `n(n − 1)`, the leading one being `−2^{42}`; `k = 9`, `p = 3`:
   `Z₉(3; T) = 1 + 53T + 58995T² − 59049T³` has valuations `0, 0, 3, 10` against the bounds
@@ -2926,3 +2937,5 @@ NoncommutativeAndEquivariantIwasawa, FiniteFlatGroupsAndIntegralPadicHodgeTheory
 - **Yun-moments.** Z. Yun, *Galois representations attached to moments of Kloosterman sums and
   conjectures of Evans*, Compositio Math. 151 (2015), 68–120; arXiv:1308.3920v2, §2.3.4, p. 12, and
   §§4.3.1–4.3.4, pp. 36–39. All page numbers refer to the arXiv v2 pagination.
+- **Haessig-Hecke.** C. D. Haessig, *Kloosterman sums and Hecke polynomials in characteristics 2 and
+  3*, arXiv:2012.00570v1 (2020), Theorem 1.1, p. 1, with Theorem 4.1, p. 5.

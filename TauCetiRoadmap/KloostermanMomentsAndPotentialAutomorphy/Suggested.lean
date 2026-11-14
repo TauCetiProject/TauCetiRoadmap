@@ -205,7 +205,10 @@ noncomputable def eulerCoeff (L : ℕ → PowerSeries ℂ) (n : ℕ) : ℂ :=
 Remark 5.41 for `p = 2` and odd `k`). For `k ≥ 1`, and `p` odd or `k` odd, the coefficient `c_n` of
 `Tⁿ` in `Z_k(p; T)` is an integer divisible by `p^{n(n−1)}`: the Newton polygon of `Z_k(p; T)` lies
 on or above the polygon with slopes `0, 2, 4, …`, by Newton above Hodge for the moment motive at
-the prime `p`. At `n = 0` and `n = 1` the exponent is `0`. -/
+the prime `p`. At `n = 0` and `n = 1` the exponent is `0`. The case `p = 2` with `k` even also
+holds (Haessig, *Kloosterman sums and Hecke polynomials in characteristics 2 and 3*, Theorem 1.1),
+by Dwork's `p`-adic methods rather than through the moment motive; it is outside the roadmap, hence
+the hypothesis `hpk`. -/
 theorem momentSeries_coeff_dvd (p : ℕ) [Fact p.Prime] (k : ℕ) (hk : 0 < k)
     (hpk : p ≠ 2 ∨ Odd k) (n : ℕ) :
     ∃ c : ℤ, coeff n (momentSeries p k) = (p : ℂ) ^ (n * (n - 1)) * (c : ℂ) := by
