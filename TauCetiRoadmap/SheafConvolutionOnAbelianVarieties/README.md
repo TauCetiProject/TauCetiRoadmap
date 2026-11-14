@@ -990,7 +990,9 @@ One proof route is as follows. A weight-reducing exchange fills the lowest avail
 
 *Needs:* §5.1; ClassicalArithmeticCompletion §2.39.
 
-### 5.6 Surface exterior-power classification
+### 5.6 Exterior-power realizations for n=2, 3 and 4
+
+This section gives the necessary alternatives for an exterior-power realization of the Eulerian row when n=2 (§5.6) and n=3 (§5.7), and excludes every realization when n=4 (§5.8). The classification of §6.6 consumes all three cases.
 
 Under the counting hypotheses of extremal-width, if n=2 then m=2k and d=binom(2k−1,k). Up to translating and reflecting all weights, the histogram is (2k−1)[v]+[v+1]. For k=2 this is the classical m=4 case; for k>2 it is the separate surface alternative. Without exponent normalization replace k by min(k,m−k). (LS, Lemma B.4, p. 94; LS line 4452.)
 
@@ -1008,9 +1010,7 @@ One proof route is as follows. The width equation equals 1; since k≥2, its onl
 
 *Needs:* §5.5; Mathlib `Nat.choose`.
 
-### 5.7 Threefold exterior-power classification
-
-Under the counting hypotheses of extremal-width, if n=3 then either m=4,k=2,d=1, or there is j≥1 with m=P_j.1+P_j.2, k=P_j.1 and d=D_j. Outside the m=4 case the histogram is h(v−1)=h(v+1)=1, h(v)=m−2 and zero elsewhere. These statements concern the necessary alternatives of a weight realization; they do not assert existence of an abelian hypersurface for every pair. (LS, Lemmas B.5–B.8, pp. 95–96; LS line 4503.)
+**5.7 Threefold exterior-power classification.** Under the counting hypotheses of extremal-width, if n=3 then either m=4,k=2,d=1, or there is j≥1 with m=P_j.1+P_j.2, k=P_j.1 and d=D_j. Outside the m=4 case the histogram is h(v−1)=h(v+1)=1, h(v)=m−2 and zero elsewhere. These statements concern the necessary alternatives of a weight realization; they do not assert existence of an abelian hypersurface for every pair. (LS, Lemmas B.5–B.8, pp. 95–96; LS line 4503.)
 
 Throughout this subsection, use 2k≤m; complementation recovers the unnormalized statement.
 
@@ -1026,9 +1026,7 @@ One proof route is as follows. Enumerate the partitions of width 2. A gap of two
 
 *Needs:* §5.5; §5.3.
 
-### 5.8 Fourfold exterior-power obstruction
-
-There is no integer weight list and interior exponent 1<k<m−1 with W(w,k,s+q)=dA(4,q) for every q∈Z and d≥1. In particular the row d(1,11,11,1) has no such realization, including the exterior-square m=4 case. (LS, Lemma B.9, pp. 96–99; LS line 4660.)
+**5.8 Fourfold exterior-power obstruction.** There is no integer weight list and interior exponent 1<k<m−1 with W(w,k,s+q)=dA(4,q) for every q∈Z and d≥1. In particular the row d(1,11,11,1) has no such realization, including the exterior-square m=4 case. (LS, Lemma B.9, pp. 96–99; LS line 4660.)
 
 Throughout this subsection, the weight list is finite; k may be normalized by complementation.
 
@@ -1054,7 +1052,9 @@ Mathlib `Finset.powersetCard`; Mathlib `Finset.card_powersetCard`; Mathlib `Nat.
 
 ## Layer 6: Eulerian exclusion and classical monodromy
 
-### 6.1 Adjacent occupancy ratios
+### 6.1 Occupancy ratios and Eulerian comparisons
+
+This section provides two numerical inputs of the n≥5 exclusion: the rational occupancy-ratio identities and bounds of a counting solution (§6.1), and the Eulerian comparisons on their stated ranges (§6.2). The exclusion of §§6.3–6.5 consumes both.
 
 Under the normalized counting hypotheses, put h=histogram(w), u₀=u_min, v=max supp u₀, r=u₀(v), t=h(v)−r, and D=Π_i binom(h(i),u₀(i))=d. Define R_a=h(v−1)t/(r+1) and R_b=h(v+1)r/(t+1) as rational numbers. They are the ratios to D of occupancies u₀+[v]−[v−1] and u₀+[v+1]−[v], respectively, with invalid occupancies assigned count zero. Then R_a+R_b=A(n,1), and R_aR_b≤h(v−1)h(v+1), strictly if both adjacent histogram values are positive. At q=2 the sum of the five ratios from u₀+[v]−[v−2], u₀+2[v]−2[v−1], u₀+[v+1]−[v−1], u₀+2[v+1]−2[v], u₀+[v+2]−[v] equals A(n,2). (LS, Appendix B.2, pp. 99–100, equations (13)–(14), Lemma B.10; LS line 5013.)
 
@@ -1072,9 +1072,7 @@ One proof route is as follows. Enumerate modifications increasing the minimum we
 
 More explicitly, the five q=2 ratios in their displayed order are h(v−2)t/(r+1), h(v−1)(h(v−1)−1)t(t−1)/(2(r+1)(r+2)), h(v−1)h(v+1), h(v+1)(h(v+1)−1)r(r−1)/(2(t+1)(t+2)), and rh(v+2)/(t+1). Arithmetic is rational, with r≥1,t≥0 making every denominator positive; an invalid occupancy has count zero. For the histogram 1[−1]+23[0]+1[1] and k=5, d=8855,r=4,t=19. Then R_a=19/5,R_b=1/5, their sum is 4=A(3,1), their product is 19/25<1, and the five second ratios are 0,0,1,0,0, summing to A(3,2)=1. (LS equations (13)–(14), pp.99–100, LS line 5013.)
 
-### 6.2 Eulerian comparisons
-
-Write A_j=A(n,j) for the descent-indexed Eulerian numbers, with A_j=0 for j≥n. Prove the following inequalities on exactly the stated ranges of n; square roots and quotients are taken in ℝ, every denominator being positive.
+**6.2 Eulerian comparisons.** Write A_j=A(n,j) for the descent-indexed Eulerian numbers, with A_j=0 for j≥n. Prove the following inequalities on exactly the stated ranges of n; square roots and quotients are taken in ℝ, every denominator being positive.
 
 - For every n≥5: (n−1)²/2<A₁−1, 6(n−1)<A₁−1, 28A₂<3(A₁−1)², 10A₂<A₁², n+1+(n−1)A₁/2<A₂, 78nA₄<(A₁−1)³, 341A₅<A₁³, 6nA₄<A₁²A₂, 100A₆<(A₂−1)², and (n−1)A₁/2+4A₃/A₁+1+sqrt(2A₅)+1<A₂.
 - For every n≥6: 9(n−1)≤A₁. For every n≥8: 247≤A₁ and 140A₇<A₁⁴.
@@ -1100,7 +1098,9 @@ One proof route is as follows. Use A₁=2ⁿ−n−1 (ClassicalArithmeticComplet
 
 *Needs:* ClassicalArithmeticCompletion §2.39; ClassicalArithmeticCompletion §2.57; ClassicalArithmeticCompletion §2.71; ClassicalArithmeticCompletion §2.77; ClassicalArithmeticCompletion §2.78.
 
-### 6.3 Exclusion of the first large-ratio regime
+### 6.3 No exterior-power realization for n≥5
+
+This section excludes every weight realization of the Eulerian row for n≥5 in three steps: the first large-ratio regime (§6.3), exponents k≥n (§6.4) and the second large-ratio regime (§6.5). The classification of §6.6 consumes the result.
 
 Under the normalized counting hypotheses with n≥5, it is impossible that R_a≥A(n,1)/2. The argument uses this particular ratio; it does not exclude the R_b regime by symmetry. (LS, Lemmas B.11–B.18, pp. 101–107; LS line 5083.)
 
@@ -1116,9 +1116,7 @@ One proof route is as follows. B.11 and B.12 give h(v−1)=1 and h(v−2)≤2, f
 
 *Needs:* §6.1; §6.2; ClassicalArithmeticCompletion §2.78.
 
-### 6.4 Exclusion of large exterior exponents
-
-Under the normalized counting hypotheses with n≥5, k<n. Indeed, if k≥n then the width equation forces v=v′; the adjacent-ratio product bound shows that one ratio is less than 1 and the other greater than A(n,1)−1, and neither possibility can occur. (LS, Lemmas B.19–B.21, pp. 108–110; LS line 5393.)
+**6.4 Exclusion of large exterior exponents.** Under the normalized counting hypotheses with n≥5, k<n. Indeed, if k≥n then the width equation forces v=v′; the adjacent-ratio product bound shows that one ratio is less than 1 and the other greater than A(n,1)−1, and neither possibility can occur. (LS, Lemmas B.19–B.21, pp. 108–110; LS line 5393.)
 
 Throughout this subsection, the width bound gives h(v−1)+h(v+1)≤n−1 only after v=v′ has been established.
 
@@ -1132,9 +1130,7 @@ One proof route is as follows. Apply B.19 to the quadratic roots using the non-s
 
 *Needs:* §6.3; §6.1; §6.2.
 
-### 6.5 Exclusion of the second large-ratio regime
-
-Under the normalized counting hypotheses with n≥5 and k≤n−1, it is impossible that R_b≥A(n,1)/2. Combined with R_a+R_b=A(n,1), this excludes every n≥5 weight realization. (LS, Lemmas B.22–B.31, pp. 110–115; LS line 5485.)
+**6.5 Exclusion of the second large-ratio regime.** Under the normalized counting hypotheses with n≥5 and k≤n−1, it is impossible that R_b≥A(n,1)/2. Combined with R_a+R_b=A(n,1), this excludes every n≥5 weight realization. (LS, Lemmas B.22–B.31, pp. 110–115; LS line 5485.)
 
 Throughout this subsection, let r be the least positive integer with h(v−r)>0 after u₀(v)=1 has been proved; r here is a gap length, not the earlier occupancy variable.
 
@@ -1193,7 +1189,9 @@ The n=5 row is 1,26,66,26,1. A large-exponent candidate has first-ratio sum 26, 
 
 ## Layer 7: generic twists in hypersurface families
 
-### 7.1 Rigidity of constant tensor constituents
+### 7.1 Constant constituents and invariants of generic twists
+
+Under the hypotheses of §7.1, (G*)^c acts trivially on every constant tensor constituent of the axis-supported sum (§§7.1–7.2); a geometrically semisimple perverse sheaf of geometric origin without constant constituents has, for characters outside a finite union of torsion cosets, twisted cohomology concentrated in degree zero with no Galois invariants (§7.3). The big-monodromy theorem of §7.5 consumes both.
 
 Let X/C be smooth connected, A/C an abelian variety, and Y⊂X×A a smooth proper family of ample hypersurfaces. On A_η̄ let K=i_*F[n−1], G=G(K), G*=(G°)^der. Assume the geometric generic hypersurface has trivial translation stabilizer, G* is noncommutative connected simple with irreducible distinguished representation, and the family is not generically a translate of a fixed hypersurface by a section of A (equivalently here after spreading the unique translation). If a simple object in ⟨K⟩⊗ has a representative pulled back from A_C, then G* acts trivially on it. (LS, Lemma 4.1, pp. 28–29; LS line 1271.)
 
@@ -1209,9 +1207,7 @@ One proof route is as follows. Compare two independent geometric generic fibres 
 
 *Needs:* §2.4; §1.5; §2.1; ReductiveGroups Layers 6–8; MordellLawrenceVenkatesh §§0.22–0.24.
 
-### 7.2 Independent coordinate convolution factors
-
-For abelian varieties A₁,A₂ over an algebraically closed characteristic-zero field and perverse K_j, the convolution group of z₁*K₁⊕z₂*K₂ on A₁×A₂, where z₁(a)=(a,0),z₂(b)=(0,b), is G(K₁)×G(K₂). Iterating, the axis-supported sum of c copies of K has group G^c. Under constant-part-rigidity, (G*)^c acts trivially on every constant tensor constituent of this axis-supported sum on A^c_η̄. (LS, Lemma 4.2 and Corollary 4.3, p. 30; LS line 1358.)
+**7.2 Independent coordinate convolution factors.** For abelian varieties A₁,A₂ over an algebraically closed characteristic-zero field and perverse K_j, the convolution group of z₁*K₁⊕z₂*K₂ on A₁×A₂, where z₁(a)=(a,0),z₂(b)=(0,b), is G(K₁)×G(K₂). Iterating, the axis-supported sum of c copies of K has group G^c. Under constant-part-rigidity, (G*)^c acts trivially on every constant tensor constituent of this axis-supported sum on A^c_η̄. (LS, Lemma 4.2 and Corollary 4.3, p. 30; LS line 1358.)
 
 Throughout this subsection, c≥1; all good characters and fibre comparisons are chosen compatibly.
 
@@ -1225,9 +1221,7 @@ One proof route is as follows. A common quotient of the two generated groups wou
 
 *Needs:* §7.1; §1.3; §0.3; EtaleDualityAndPerverseSheaves §§3.3–3.5; EtaleCohomologyFoundations §§F.0.2, F.4.5; ReductiveGroups Layer 7.
 
-### 7.3 Generic twists with no constant invariants
-
-Let X/C be smooth connected with function field C(X), A/C an abelian variety, and K a geometrically semisimple perverse F-sheaf of geometric origin on A_C(X), defined over C(X), not just its algebraic closure. Suppose no simple geometric constituent is pulled back from A_C. Outside a finite union of torsion cosets in Π(A), H^j(A_C(X)̄,K⊗Lχ)=0 for j≠0 and H⁰(A_C(X)̄,K⊗Lχ)^Gal(C(X)̄/C(X))=0. Characters from A_C have their canonical descent to C(X). (LS, Lemma 4.4 and its proof, pp. 30–32; LS line 1399.)
+**7.3 Generic twists with no constant invariants.** Let X/C be smooth connected with function field C(X), A/C an abelian variety, and K a geometrically semisimple perverse F-sheaf of geometric origin on A_C(X), defined over C(X), not just its algebraic closure. Suppose no simple geometric constituent is pulled back from A_C. Outside a finite union of torsion cosets in Π(A), H^j(A_C(X)̄,K⊗Lχ)=0 for j≠0 and H⁰(A_C(X)̄,K⊗Lχ)^Gal(C(X)̄/C(X))=0. Characters from A_C have their canonical descent to C(X). (LS, Lemma 4.4 and its proof, pp. 30–32; LS line 1399.)
 
 Throughout this subsection, geometric origin and semisimplicity are needed for the decomposition/constituent argument; X may be shrunk to spread K.
 
@@ -1291,7 +1285,9 @@ For G*=SL₂ and c=2 the product has dimension 6. A diagonal copy has dimension 
 
 ## Layer 8: Frobenius and Galois-uniform monodromy
 
-### 8.1 Prime-to-p Frobenius avoidance
+### 8.1 Avoiding torsion cosets by Frobenius powers and by conjugation
+
+A finite-order character of order prime to p outside a finite union of torsion cosets has Frobenius powers whose tuple avoids a given finite union of torsion cosets in Π(A)^c (§8.1); and some ℓ-power character avoids given finite unions of torsion cosets in every Galois and cyclotomic conjugate (§8.2). The Galois-uniform theorem of §8.3 consumes both.
 
 Let A/K be an abelian variety over a number field with good reduction at a place of residue characteristic p, fix lifts of its Frobenius in the two actions on finite-order character pairs, and choose m>0 whose Frobenius power fixes the Galois closure of K. Given c≥1 and a finite union S of torsion cosets in Π(A)^c, there is a finite union S′ of torsion cosets in Π(A) such that for each finite-order χ of order prime to p outside S′, some e₁,…,e_c∈Z give (Frob_p^(me₁)χ,…,Frob_p^(me_c)χ) outside S. The two actions are geometric transport and cyclotomic transport of character values. (LS, Lemma 4.8 and proof, pp. 34–35; LS line 1582.)
 
@@ -1307,9 +1303,7 @@ One proof route is as follows. Let M be the number of cosets in S. The case M=0 
 
 *Needs:* §0.1; AbelianSchemesAndArithmeticModuli §A4.1; DeligneWeightsAndPurity §§0.1–0.3, 0.11, 1.4.
 
-### 8.2 Character generic in every conjugate
-
-For each embedding ι:K→Q̄ suppose S_ι is a finite union of torsion cosets in Π(A_ι). For any chosen prime ℓ there are an embedding ι and a finite-order ℓ-power character χ on A_ι such that every conjugate (ι′,χ′) under Gal(Q̄/Q)×Gal(Q^cyc/Q) avoids S_ι′. This lemma alone has no ℓ≠p condition; that condition is imposed when combining it with Frobenius avoidance. (LS, Lemma 4.9, pp. 35–36; LS line 1628.)
+**8.2 Character generic in every conjugate.** For each embedding ι:K→Q̄ suppose S_ι is a finite union of torsion cosets in Π(A_ι). For any chosen prime ℓ there are an embedding ι and a finite-order ℓ-power character χ on A_ι such that every conjugate (ι′,χ′) under Gal(Q̄/Q)×Gal(Q^cyc/Q) avoids S_ι′. This lemma alone has no ℓ≠p condition; that condition is imposed when combining it with Frobenius avoidance. (LS, Lemma 4.9, pp. 35–36; LS line 1628.)
 
 Throughout this subsection, character values are finite-order roots of unity; the cyclotomic action on values is defined on this torsion character set.
 
