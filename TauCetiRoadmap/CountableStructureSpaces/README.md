@@ -525,11 +525,17 @@ height `ω + 1` (its root has rank `ω`); the full tree on `ℕ` has a branch.
 
 **Checks.**
 
-- `treeHeight`: the empty tree `⊥`, the root alone `{[]}` and the tree of strictly decreasing
-  sequences in `ℕ` have heights `0`, `1` and `ω + 1`. The supremum of the ranks, without the
-  successor, would give `0`, `0` and `ω`, so these values fix Convention 9.
-- `KBLT`: `[0, 1]` precedes `[0]` (a proper extension comes first, unlike the lexicographic order)
-  and `[0, 5]` precedes `[1]` (first difference `0 < 1`); `[1]` does not precede `[0, 5]`.
+- `body ⊥ = ∅`;
+- `body {[]} = ∅`: `initialSegment x 1` is not `[]`, whereas a definition testing only `n = 0`
+  would give `univ`;
+- the tree of constant-zero sequences has body `{fun _ => 0}`;
+- `treeHeight ⊥ = 0`, the boundary case: the supremum over no nodes;
+- `treeHeight {[]} = 1`, where the supremum of the ranks without the successor gives `0`;
+- the tree of strictly decreasing sequences in `ℕ` has `treeHeight` `ω + 1`, where the supremum of
+  the ranks without the successor gives `ω`; with the previous Check this fixes Convention 9;
+- `KBLT [0, 1] [0]`: a proper extension comes first, unlike the lexicographic order;
+- `KBLT [0, 5] [1]`: the first difference `0 < 1` decides;
+- not `KBLT [1] [0, 5]`.
 
 ### Dependencies
 
@@ -694,13 +700,14 @@ not isomorphic. So 4.3 bounds the external height, which a bound `β` on the int
 **Acceptance check.** In the language of one unary predicate, the codes of `P = 2ℕ` and
 `P = 3ℕ` are isomorphic, and `bfEquivSetoid L ℕ β` relates them for every `β`.
 
-**Checks.** For `bfTree`, in the language of one unary predicate `P`:
+**Checks.** For `bfTree`:
 
-- `P = {0}` against `P = ∅`: no answer to element `0` of the left structure has its atomic type,
-  so the tree is `{[]}`, well-founded of height `1`;
-- a disagreeing nullary relation symbol already separates the empty tuples, so the tree is `⊥`;
-- `P = {0}` against `P = {1}`: the transposition of `0` and `1` is an isomorphism, so the tree has
-  a branch (`body_bfTree_nonempty_iff`).
+- in the language of one unary predicate `P`, `P = {0}` against `P = ∅`: no answer to element `0`
+  of the left structure has its atomic type, so the tree is `{[]}`, well-founded of height `1`;
+- in the language of one unary predicate `P`, `P = {0}` against `P = {1}`: the transposition of
+  `0` and `1` is an isomorphism, so the tree has a branch (`body_bfTree_nonempty_iff`);
+- in a language with one nullary relation symbol `Q`, two codes disagreeing on `Q` have
+  `bfTree = ⊥`: the empty tuples already differ in atomic type.
 
 ### Dependencies
 
@@ -847,7 +854,10 @@ also L5.2 and TC `LHom.continuous_reductConfiguration`, `BoundedFormulaInf.relat
 - `pcSentence ⊥` has no model: at `n = 0` clause 3 is the empty disjunction;
 - `ℕ` together with a disjoint copy of `ℤ`, with zero `{0}` and successor `x ↦ x + 1` on both
   parts, satisfies every axiom of clause 1 except the numeral axiom `∀ x, ⋁ₖ νₖ(x)`, which fails
-  at the elements of `ℤ`; so that infinitary axiom is what makes every model countable.
+  at the elements of `ℤ`; so that infinitary axiom is what makes every model countable;
+- for `T` the full tree on `Bool × ℕ`, `ℕ` with `c.toStructure` and `standardWitness (fun _ => 0)`
+  is a model for every code `c`, so the projective class of `pcSentence T` is all of
+  `RelationalConfiguration L ℕ`.
 
 ### Dependencies
 
