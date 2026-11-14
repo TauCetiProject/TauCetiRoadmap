@@ -1054,10 +1054,10 @@ in a subspace `W`. Prove the converse, `cayley_cayleyInv`: a unitary `g` with `�
 `−1 ∉ spec(g)` is `cayley X` for the odd skew-adjoint `X = cayleyInv g`. This is Quillen's
 correspondence between odd skew-adjoint `X`, unitaries `g` with `εgε = g⁻¹` and `−1 ∉ spec(g)`,
 and subspaces `W` with `W ∩ E⁻ = 0` and `dim W = m`: for `X = [[0, −T*], [T, 0]]`,
-`W = (1 − X)E⁺` is the graph of `−T` (Quillen 1988, the correspondence between subbundles and
-unitaries inverted by `ε`). Route: the eigenvalues of `X`
-are imaginary, so `1 − X` is invertible; `1 + X` and `1 − X` commute and `(1 ± X)* = 1 ∓ X`, so
-`g*g = (1 + X)⁻¹(1 − X)(1 + X)(1 − X)⁻¹ = 1`; `ε(1 ± X)ε = 1 ∓ X` gives
+`W = (1 − X)E⁺` is the graph of `−T` (Quillen 1988, §2, p. 214, and Proposition 2.1, p. 215;
+there the subspace is the `+1` eigenspace of `gε`, the graph of `T`, which `ε` carries to `W`).
+Route: the eigenvalues of `X` are imaginary, so `1 − X` is invertible; `1 + X` and `1 − X` commute
+and `(1 ± X)* = 1 ∓ X`, so `g*g = (1 + X)⁻¹(1 − X)(1 + X)(1 − X)⁻¹ = 1`; `ε(1 ± X)ε = 1 ∓ X` gives
 `εgε = (1 − X)(1 + X)⁻¹ = g⁻¹`. For `W`, `v ∈ E⁺` gives
 `εg(1 − X)v = ε(1 + X)v = (1 − X)εv = (1 − X)v`, and `v ∈ E⁻` gives `−(1 − X)v`, so
 `W = (1 − X)E⁺`, and `(1 − X)(v, 0) = (v, −Tv)`. For the converse, with `X = cayleyInv g`,
@@ -1105,9 +1105,10 @@ with the connection `s ↦ P ds`. Then prove that `tr(F(dF)^(2k))` on `Gr_p(V)` 
 `tr((g⁻¹dg)^(2k−1))` on `U(V)` are closed and `U(V)`-invariant, and that for `k ≥ 1`
 `tr(F(dF)^(2k)) = 2^(2k+1) tr(P(dP)^(2k))`, and that `(1/k!)(i/2π)^k tr(P(dP)^(2k))` is the
 degree-`2k` Chern character form of `W` with the connection `P d P`, so the class of
-`tr(F(dF)^(2k))` is `2^(2k+1) k! (2π/i)^k ch_k(W)`, `k ≥ 1` (Quillen 1988, its forms `γ_(2k)` on
-`Gr(V)` and `γ_(2k−1)` on `U(V)`). Route: in the graph
-chart at `W₀`, `W` is the graph of `A ∈ Hom(W₀, W₀^⊥)` and
+`tr(F(dF)^(2k))` is `2^(2k+1) k! (2π/i)^k ch_k(W)`, `k ≥ 1` (Quillen 1988, §5.A: the forms
+`γ_(2k)` on `Gr(V)` and `γ_(2k−1)` on `U(V)` in (5.1) and Proposition 5.2, p. 222; the class in
+Proposition 5.5 and its proof, pp. 222–223). Route: in the graph chart at `W₀`, `W` is the graph of
+`A ∈ Hom(W₀, W₀^⊥)` and
 `P_W = [[(1 + A*A)⁻¹, (1 + A*A)⁻¹A*], [A(1 + A*A)⁻¹, A(1 + A*A)⁻¹A*]]` is smooth in `A`, with
 `dF_W = 2[[0, Ȧ*], [Ȧ, 0]]` at `A = 0`, injective onto the part of `Herm(V)` anticommuting with
 `F_(W₀)`; by 6.1 with `ε = F_(W₀)` and `X_T = [[0, −T*], [T, 0]]` on `W₀ ⊕ W₀^⊥`, the same chart
