@@ -238,12 +238,14 @@ vocabulary; Layer 0 colours increasing tuples of a linear order of every arity a
 
 Suggested home: `TauCeti/SetTheory/Cardinal/Partition/{Basic, EndHomogeneous, ErdosRado}.lean`.
 
-This layer is pure combinatorics with no logic in it. It owns exactly the partition results that
-the Morley–Hanf construction uses: the pigeonhole principle for successor cardinals, end-homogeneous
-sets, the finite-exponent Erdős–Rado theorem with the colour bound `κ`, and the `ω₁`-pigeonhole
-principle. The infinite Ramsey theorem is built in
-[BanachSpaceTheory](../BanachSpaceTheory/README.md) §B4.1, the rest of the partition calculus is
-[out of scope](#out-of-scope), and this roadmap uses neither.
+This layer is pure combinatorics with no logic in it. Mathlib supplies cardinal pigeonhole
+(`Cardinal.infinite_pigeonhole_card`) and the regularity of successor cardinals and of `ℵ₁`; this
+layer introduces the partition-relation vocabulary and owns exactly the partition results that the
+Morley–Hanf construction uses: the pigeonhole principle for successor cardinals restated as a
+partition relation (0.2, from those Mathlib theorems), end-homogeneous sets, the finite-exponent
+Erdős–Rado theorem with the colour bound `κ`, and the `ω₁`-pigeonhole principle. The infinite Ramsey
+theorem is built in [BanachSpaceTheory](../BanachSpaceTheory/README.md) §B4.1, the rest of the
+partition calculus is [out of scope](#out-of-scope), and this roadmap uses neither.
 
 ### 0.1 Vocabulary
 
