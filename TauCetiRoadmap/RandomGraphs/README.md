@@ -159,16 +159,18 @@ Tau Ceti now, named and stated as these proposals do, and replaced by Mathlib's 
 when equivalents land. The proposals place them under `FirstOrder.Language`; `Suggested.lean`
 declares them with the proposals' statements, under the same paths relative to its namespace.
 
-- The [graph-characterization proposal](https://github.com/leanprover-community/mathlib4/pull/20649):
+- The
+  [graph-characterization proposal](https://github.com/leanprover-community/mathlib4/pull/20649):
   the graph-language extension property `Language.graph.ExtensionProperty`,
   `Language.graph.ExtensionProperty.embedding_from_countable`, and
-  `Language.graph.ExtensionProperty.isFraisseLimit_finite_graphs`, identifying a countable structure with the
-  property as the Fraïssé limit of finite simple graphs (Layer 4).
-- The [quantifier-elimination proposal](https://github.com/leanprover-community/mathlib4/pull/41113):
+  `Language.graph.ExtensionProperty.isFraisseLimit_finite_graphs`, identifying a countable structure
+  with the property as the Fraïssé limit of finite simple graphs (Layer 4).
+- The
+  [quantifier-elimination proposal](https://github.com/leanprover-community/mathlib4/pull/41113):
   `Language.Theory.IsQFEquivalent` and `Language.Theory.HasQuantifierElimination`, with the
   reduction to finite variable types; its
-  [extension-pair companion](https://github.com/leanprover-community/mathlib4/pull/41115)
-  derives quantifier elimination from extension pairs (Layer 5).
+  [extension-pair companion](https://github.com/leanprover-community/mathlib4/pull/41115) derives
+  quantifier elimination from extension pairs (Layer 5).
 
 Graph-specific adapters and probabilistic consequences belong here. Generic samplers,
 representation theorems and general EF machinery retain their existing owners.
@@ -179,9 +181,10 @@ Each implementation consumes the narrow supplier it needs, not an entire supplie
 *Needs:* Mathlib `SimpleGraph.binomialRandom` with its Bernoulli-product presentation, the graph
 language and structure adapters, bounded formulas and realization; Tau Ceti
 `SimpleGraph.Iso.toLanguageEquiv`, the measurable structure of
-`TauCeti.Combinatorics.SimpleGraph.Measurable`, `TauCeti.RelationalConfiguration.measurableSet_setOf_realize`,
-`SimpleGraph.toRelationalConfiguration` with `SimpleGraph.measurable_toRelationalConfiguration`
-and `SimpleGraph.measurableEmbedding_toRelationalConfiguration`, and `BoundedFormula.realize_toInf`;
+`TauCeti.Combinatorics.SimpleGraph.Measurable`,
+`TauCeti.RelationalConfiguration.measurableSet_setOf_realize`,
+`SimpleGraph.toRelationalConfiguration` with `SimpleGraph.measurable_toRelationalConfiguration` and
+`SimpleGraph.measurableEmbedding_toRelationalConfiguration`, and `BoundedFormula.realize_toInf`;
 CountableStructureSpaces Layer 0 (`toStructure_toRelationalConfiguration`).
 
 ### 0.1 Graph/language transport
@@ -202,11 +205,11 @@ For disjoint finite sets `A, B` of unordered, non-diagonal vertex pairs, prove
 
     Pr(A ⊆ E(G), B ∩ E(G) = ∅) = p^|A| (1 - p)^|B|.
 
-Give its edge-coordinate independence formulation, including groups of coordinates on
-disjoint sets of pairs. Prove that restriction along an injective map has the smaller native
-binomial law (`binomialRandom_map_comap`, for countable carriers). Include relabeling, complement (`p ↦ 1 - p`), disjoint induced restrictions,
-and exact probabilities of any prescribed finite induced graph. Empty patterns, zero or one
-vertex, and `p = 0, 1` are required examples.
+Give its edge-coordinate independence formulation, including groups of coordinates on disjoint sets
+of pairs. Prove that restriction along an injective map has the smaller native binomial law
+(`binomialRandom_map_comap`, for countable carriers). Include relabeling, complement (`p ↦ 1 - p`),
+disjoint induced restrictions, and exact probabilities of any prescribed finite induced graph. Empty
+patterns, zero or one vertex, and `p = 0, 1` are required examples.
 
 Use the native Bernoulli-product and finite-graph point-mass results to prove these laws.
 Do not introduce a second random-graph measure.
@@ -354,10 +357,10 @@ finite-graph free amalgam. Layers 2–4 use the representative families and fact
 ### 2.1 Chains, factorization and extension requests
 
 Use sequences of embeddings and Mathlib's direct limits. Supply transition, canonical-map,
-composition and range lemmas. That every finitely generated substructure of the direct limit
-lies in a stage image is Mathlib's `FirstOrder.Language.DirectLimit.exists_fg_substructure_in_Sigma`;
-use it rather than restating it. Prove that an embedding from a finitely generated
-structure factors through a stage with the literal equation
+composition and range lemmas. That every finitely generated substructure of the direct limit lies in
+a stage image is Mathlib's `FirstOrder.Language.DirectLimit.exists_fg_substructure_in_Sigma`; use it
+rather than restating it. Prove that an embedding from a finitely generated structure factors
+through a stage with the literal equation
 
     ι_i ∘ g = e.
 
@@ -478,24 +481,23 @@ and 8 use rooted universality.
 *Needs:* Layer 0; Tau Ceti `SimpleGraph.HasExtensionProperty`,
 `SimpleGraph.HasExtensionProperty.exists_adj_iff` and `SimpleGraph.Iso.toLanguageEquiv`.
 
-Define the witness predicate and `EP_{≤d}` by their actual finite-set
-conditions. Full extension `EP` is the canonical `SimpleGraph.HasExtensionProperty`.
-That predicate omits the condition that the witness lies outside `U`, which adjacency to every
-vertex of `U` already forces in a loopless graph; prove
-`EP ↔ ∀ d, EP_{≤d}` against it (`hasExtensionProperty_iff`). Give monotonicity in the bound,
-isomorphism and complement transport, restriction of requests, and avoidance of an additional
+Define the witness predicate and `EP_{≤d}` by their actual finite-set conditions. Full extension
+`EP` is the canonical `SimpleGraph.HasExtensionProperty`. That predicate omits the condition that
+the witness lies outside `U`, which adjacency to every vertex of `U` already forces in a loopless
+graph; prove `EP ↔ ∀ d, EP_{≤d}` against it (`hasExtensionProperty_iff`). Give monotonicity in the
+bound, isomorphism and complement transport, restriction of requests, and avoidance of an additional
 prescribed finite set. The supplier's `SimpleGraph.HasExtensionProperty.exists_adj_iff`
-(`Combinatorics/SimpleGraph/ExtensionProperty.lean`) gives one witness outside a listed tuple.
-Prove that full extension supplies arbitrarily many distinct witnesses for every request, and conclude `HasExtensionProperty.infinite`: the carrier is infinite.
+(`Combinatorics/SimpleGraph/ExtensionProperty.lean`) gives one witness outside a listed tuple. Prove
+that full extension supplies arbitrarily many distinct witnesses for every request, and conclude
+`HasExtensionProperty.infinite`: the carrier is infinite.
 
-Prove the adapter between the graph-facing and graph-language forms: under
-`SimpleGraph.structure`, `G.HasExtensionProperty` holds exactly when the graph-language
-extension property holds, stated as `Language.graph.ExtensionProperty` in the
-graph-characterization proposal (a witness outside `A ∪ B` related by the adjacency symbol to all of `A`
-and none of `B`). Give the converse of Tau Ceti's `SimpleGraph.Iso.toLanguageEquiv`, turning an
-equivalence of the structures `G.structure` and `H.structure` into a graph isomorphism `G ≃g H` with
-the same underlying bijection, with both round trips, and transport both forms of the extension
-property across it.
+Prove the adapter between the graph-facing and graph-language forms: under `SimpleGraph.structure`,
+`G.HasExtensionProperty` holds exactly when the graph-language extension property holds, stated as
+`Language.graph.ExtensionProperty` in the graph-characterization proposal (a witness outside `A ∪ B`
+related by the adjacency symbol to all of `A` and none of `B`). Give the converse of Tau Ceti's
+`SimpleGraph.Iso.toLanguageEquiv`, turning an equivalence of the structures `G.structure` and
+`H.structure` into a graph isomorphism `G ≃g H` with the same underlying bijection, with both round
+trips, and transport both forms of the extension property across it.
 
 **Checks** (the converse of `SimpleGraph.Iso.toLanguageEquiv`).
 
@@ -505,11 +507,11 @@ property across it.
 - Between `K₂` and the edgeless graph on `Fin 2` there is no structure equivalence, matching the
   absence of a graph isomorphism: adjacency of `0` and `1` holds on one side only.
 
-Construct an actual first-order sentence `E_{r,s}` asserting extension for every
-injectively listed `(r + s)`-tuple, with the first `r` entries positive and the last `s`
-negative. Prove its realization equivalence with the finite-set condition, in both
-directions (`satisfies_extensionSentence`). All coordinates are pairwise distinct in its antecedent; the witness is
-distinct from all of them. Include `r = 0`, `s = 0`, and `r = s = 0`.
+Construct an actual first-order sentence `E_{r,s}` asserting extension for every injectively listed
+`(r + s)`-tuple, with the first `r` entries positive and the last `s` negative. Prove its
+realization equivalence with the finite-set condition, in both directions
+(`satisfies_extensionSentence`). All coordinates are pairwise distinct in its antecedent; the
+witness is distinct from all of them. Include `r = 0`, `s = 0`, and `r = s = 0`.
 
 Construct the finite conjunction expressing `EP_{≤d}` and prove the
 correspondence. Expose reordering and permutation of the positive and negative tuples.
@@ -555,14 +557,13 @@ tuples.
 `TauCeti.hasExtensionProperty_radoGraph`, `SimpleGraph.HasExtensionProperty.isExtensionPair`,
 `SimpleGraph.HasExtensionProperty.nonempty_iso` and `TauCeti.nonempty_iso_radoGraph_iff`.
 
-Prove that the class of all finite simple graph structures (`finiteGraphs`) is Fraïssé using
-Layer 1 (`isFraisse_finiteGraphs`).
-Construct its limit using Layer 2 and prove that it satisfies `EP`. Conversely,
-a countable graph with `EP` has this age and is ultrahomogeneous, hence is the same
-Fraïssé limit. State this converse as `Language.graph.ExtensionProperty.isFraisseLimit_finite_graphs`
-of the graph-characterization proposal, together with
-`Language.graph.ExtensionProperty.embedding_from_countable`, and
-transfer both to `SimpleGraph` through the adapter of 4.1.
+Prove that the class of all finite simple graph structures (`finiteGraphs`) is Fraïssé using Layer 1
+(`isFraisse_finiteGraphs`). Construct its limit using Layer 2 and prove that it satisfies `EP`.
+Conversely, a countable graph with `EP` has this age and is ultrahomogeneous, hence is the same
+Fraïssé limit. State this converse as
+`Language.graph.ExtensionProperty.isFraisseLimit_finite_graphs` of the graph-characterization
+proposal, together with `Language.graph.ExtensionProperty.embedding_from_countable`, and transfer
+both to `SimpleGraph` through the adapter of 4.1.
 
 Cameron (*The random graph*, Theorem 3 and the paragraph after it, p. 8) states that the finite
 graphs form a Fraïssé class with limit `R`. His Theorem 3 is for relational languages, with
@@ -580,11 +581,11 @@ Identify `R` with the constructed Fraïssé limit (`isFraisseLimit_radoGraph`).
 
 The supplier provides countable uniqueness (`SimpleGraph.HasExtensionProperty.nonempty_iso`), the
 characterization `TauCeti.nonempty_iso_radoGraph_iff` of the countable graphs isomorphic to `R`
-(`ModelTheory/Scott/RandomGraph.lean`) and the extension-pair bridge. Export, in addition, the characterization of `R` as the Fraïssé limit,
-the complement isomorphism, universality for countable graphs, rooted universality into any
-extension-property graph (from Layer 3; `exists_graphEmbedding_over_root`), and extension of finite induced isomorphisms to
-automorphisms. Give explicit finite graph embeddings, including complete, empty, path and
-cycle graphs.
+(`ModelTheory/Scott/RandomGraph.lean`) and the extension-pair bridge. Export, in addition, the
+characterization of `R` as the Fraïssé limit, the complement isomorphism, universality for countable
+graphs, rooted universality into any extension-property graph (from Layer 3;
+`exists_graphEmbedding_over_root`), and extension of finite induced isomorphisms to automorphisms.
+Give explicit finite graph embeddings, including complete, empty, path and cycle graphs.
 
 **Checks** (`finiteGraphs`).
 
@@ -652,12 +653,11 @@ API: the constructor equations, including those of the derived connectives and `
 under renaming of free variables and the substitution laws; `foRank_eq_zero_iff_isQF`; and the
 bridge `(BoundedFormula.toInf φ).qrank = foRank φ`.
 
-For graphs satisfying `EP_{≤d}`, construct the finite-round extension
-strategy starting at two tuples with the same equality and adjacency pattern. If the
-root tuple has length `m` and there are `q ≥ 1` additional rounds, the sufficient budget (`formula_iff_of_extension`)
-is `d = m + q - 1`. When a played vertex repeats an earlier coordinate, reuse its mate; otherwise
-serve the corresponding extension request. This is a tuple-budget bound, not a
-bound ignoring the named root.
+For graphs satisfying `EP_{≤d}`, construct the finite-round extension strategy starting at two
+tuples with the same equality and adjacency pattern. If the root tuple has length `m` and there are
+`q ≥ 1` additional rounds, the sufficient budget (`formula_iff_of_extension`) is `d = m + q - 1`.
+When a played vertex repeats an earlier coordinate, reuse its mate; otherwise serve the
+corresponding extension request. This is a tuple-budget bound, not a bound ignoring the named root.
 
 Spencer (*The Strange Logic of Random Graphs*) calls `EP_{≤k}` the `k`-Alice's Restaurant
 property (Definition 2.3, p. 31, which also asks for more than `k` vertices; that follows from
@@ -677,8 +677,8 @@ Handle rank `0` directly, and verify the indexing at ranks `1, 2, 3`.
 
 *Needs:* 4.1–4.2, 5.1; Layer 3 rooted universality; Mathlib `Theory.IsComplete`,
 `Cardinal.Categorical`, `CompleteType`, `typesWith`, `typeOf`, `ElementaryEmbedding`,
-`BoundedFormula.listEncode` with `BoundedFormula.encoding`, `Primcodable` and `Computable`; Tau Ceti `firstOrderAtomicDiagram` and
-`realize_firstOrderAtomicDiagram_iff_sameAtomicType`.
+`BoundedFormula.listEncode` with `BoundedFormula.encoding`, `Primcodable` and `Computable`; Tau Ceti
+`firstOrderAtomicDiagram` and `realize_firstOrderAtomicDiagram_iff_sameAtomicType`.
 
 Let `T_R` be the native simple-graph theory together with all `E_{r,s}`.
 Prove that its models are precisely the graph structures with full extension
@@ -764,11 +764,11 @@ Agreement only among tuples already living in `R` does not suffice for
 this target. Prove that every finite tuple's complete type is isolated, establishing
 graph-specific atomicity.
 
-Prove primeness as the existence of an actual elementary embedding of `R` into every
-model of `T_R` (`nonempty_elementaryEmbedding_radoGraph`). Rooted universality supplies the embedding and QE makes it elementary;
-the target model need not be countable. Give the atomicity and primeness statements
-after naming a finite tuple, with the elementary embedding retaining the prescribed
-parameter values (`exists_elementaryEmbedding_radoGraph_comp_eq`).
+Prove primeness as the existence of an actual elementary embedding of `R` into every model of `T_R`
+(`nonempty_elementaryEmbedding_radoGraph`). Rooted universality supplies the embedding and QE makes
+it elementary; the target model need not be countable. Give the atomicity and primeness statements
+after naming a finite tuple, with the elementary embedding retaining the prescribed parameter values
+(`exists_elementaryEmbedding_radoGraph_comp_eq`).
 
 **Checks** (`radoAxioms`).
 
@@ -885,10 +885,10 @@ Writing `δ = min(p, 1 - p)`, prove for `n ≥ max(1, d)` (`extensionError_le_ex
 
     B_d(n, p) ≤ (d + 1) 2^d n^d exp(-(n - d) δ^d).
 
-Supply nonnegativity, complement symmetry, finite-union bounds and limits. For fixed
-`0 < p < 1`, prove summability in `n` of the failure probabilities (`summable_extensionError`) and an explicit
-`C_{d,p} n^d e^(-c_{d,p} n)` bound for sufficiently large `n`, with `c_{d,p} > 0`.
-The empty request and the absence of candidates are required boundary checks.
+Supply nonnegativity, complement symmetry, finite-union bounds and limits. For fixed `0 < p < 1`,
+prove summability in `n` of the failure probabilities (`summable_extensionError`) and an explicit
+`C_{d,p} n^d e^(-c_{d,p} n)` bound for sufficiently large `n`, with `c_{d,p} > 0`. The empty request
+and the absence of candidates are required boundary checks.
 
 **Checks** (`witnessProbability`).
 
@@ -935,11 +935,11 @@ For `qr(φ) ≤ d + 1` and `n ≥ d`, prove the explicit estimate (`sentenceProb
 
     |Pr(G(n, p) ⊨ φ) - 𝟙[R ⊨ φ]| ≤ B_d(n, p).
 
-It is uniform over all sentences of the indicated rank. Derive the fixed-`p` zero–one
-law (`firstOrder_zero_one`), the equality of the almost-sure theory with `Th(R)` (the semantic
-consequence closure of `T_R`), and independence of this theory from `p ∈ (0, 1)`. The decision map of Layer 5 computes the limiting truth
-value; the rank supplies the error profile. Classical compactness alone is not claimed
-to compute either of them.
+It is uniform over all sentences of the indicated rank. Derive the fixed-`p` zero–one law
+(`firstOrder_zero_one`), the equality of the almost-sure theory with `Th(R)` (the semantic
+consequence closure of `T_R`), and independence of this theory from `p ∈ (0, 1)`. The decision map
+of Layer 5 computes the limiting truth value; the rank supplies the error profile. Classical
+compactness alone is not claimed to compute either of them.
 
 Derive that every finite subset of `T_R` has a finite model, and every sentence true
 in `R` has finite models of every sufficiently large cardinality. These are
@@ -949,11 +949,11 @@ of `R` or to completeness.
 Spencer's Theorem 0.1.2 (p. 4) is the zero–one law for `G(n, 1/2)`. Cameron's Theorem 6 (p. 10)
 states, for uniform finite graphs, the equivalence of almost-sure truth, truth in `R` and
 consequence of the extension axioms, and its proof uses the ordered-tuple bound of Layer 6 at
-`p = 1/2`, with `n^(r+s)` in place of `(n)_{r+s}`. Fagin proves the limit law (Theorem 2 and Corollary 3, p. 52) and the finite models of
-every sufficiently large cardinality (Corollary 5, p. 53) for all structures over a finite
-relational vocabulary under the uniform measure. The fixed interior `p`, the restriction to
-loopless undirected graphs and the explicit rank-uniform bound are this roadmap's statements,
-proved by the same route.
+`p = 1/2`, with `n^(r+s)` in place of `(n)_{r+s}`. Fagin proves the limit law (Theorem 2 and
+Corollary 3, p. 52) and the finite models of every sufficiently large cardinality (Corollary 5, p.
+53) for all structures over a finite relational vocabulary under the uniform measure. The fixed
+interior `p`, the restriction to loopless undirected graphs and the explicit rank-uniform bound are
+this roadmap's statements, proved by the same route.
 
 Export a transfer theorem for any concrete graph property implied by a fixed extension
 budget, with the corresponding failure bound. Layer 8 supplies actual graph
@@ -1044,16 +1044,15 @@ Layers 8–9 use the finite laws and the joint statements.
 
 *Needs:* 0.2; 4.2 rooted universality; the tuple form of 5.1; Layer 6; 7.1.
 
-For a fixed graph `H` on `Fin m`, condition `G(n, p)` on inducing `H` on the first
-`m` vertices, for `n ≥ m` and `0 < p < 1`. Prove positivity (`rootEvent`, `rootEvent_pos`) and the exact probability of
-this event, and identify the conditional law of the remaining independent edges.
+For a fixed graph `H` on `Fin m`, condition `G(n, p)` on inducing `H` on the first `m` vertices, for
+`n ≥ m` and `0 < p < 1`. Prove positivity (`rootEvent`, `rootEvent_pos`) and the exact probability
+of this event, and identify the conditional law of the remaining independent edges.
 
 Choose an induced copy of `H` in `R` using rooted universality. For every formula
-`ψ(x₀, …, x_{m-1})`, prove that its conditional limiting truth (`rootedProbability`, `rooted_firstOrder_limit`) is
-the truth (`rootedTruth`) in
-this rooted `R`, independent of the chosen copy. Supply a quantitative bound using the
-tuple version of finite-rank agreement; division by the explicitly positive root-event
-probability gives a valid bound from Layer 6.
+`ψ(x₀, …, x_{m-1})`, prove that its conditional limiting truth (`rootedProbability`,
+`rooted_firstOrder_limit`) is the truth (`rootedTruth`) in this rooted `R`, independent of the
+chosen copy. Supply a quantitative bound using the tuple version of finite-rank agreement; division
+by the explicitly positive root-event probability gives a valid bound from Layer 6.
 
 Also prove the unconditioned fixed-tuple limit (`firstVertices`, `firstOrder_limit_firstVertices`)
 
@@ -1171,12 +1170,11 @@ the constant-graphon finite and infinite laws with the native binomial laws
 Derive the infinite-law equality by the existing cylinder/finite-window measure
 extensionality theorem when necessary.
 
-For a graphon `W` on a probability space with
-`0 < W < 1` almost everywhere with respect to the product measure, prove that its infinite
-sample is almost surely Rado (`infiniteSampleLaw_ae_rado`). For almost every fixed root tuple the conditional
-extension probability is positive; infinitely many independent outside candidates
-then supply a witness. Handle the exceptional root sets by product-measure/Fubini
-arguments, not a pointwise assertion about an arbitrary representative.
+For a graphon `W` on a probability space with `0 < W < 1` almost everywhere with respect to the
+product measure, prove that its infinite sample is almost surely Rado (`infiniteSampleLaw_ae_rado`).
+For almost every fixed root tuple the conditional extension probability is positive; infinitely many
+independent outside candidates then supply a witness. Handle the exceptional root sets by
+product-measure/Fubini arguments, not a pointwise assertion about an arbitrary representative.
 
 For the stronger hypothesis
 `ε ≤ W ≤ 1 - ε` almost everywhere, with
@@ -1184,19 +1182,18 @@ For the stronger hypothesis
 
     Pr(¬EP_{≤d}(G(n, W))) ≤ Σ_{t=0}^{d} C(n, t) 2^t (1 - ε^t)^(n-t)  (n ≥ d).
 
-Derive the finite FO Rado-truth law (`graphon_firstOrder_limit`), uniform rank estimates and arbitrary-coupling
-almost-sure stabilization for these graphon sample laws. The last is
+Derive the finite FO Rado-truth law (`graphon_firstOrder_limit`), uniform rank estimates and
+arbitrary-coupling almost-sure stabilization for these graphon sample laws. The last is
 `graphon_ae_eventually_all_bounded_rank`: for a probability space `(Ξ, ν)` and measurable
-`X n : Ξ → SimpleGraph (Fin n)` with `ν.map (X n) = sampleGraph K n`, and no assumption on the
-joint law, almost surely, for every `d`, eventually every sentence of rank at most `d + 1` has
-its Rado truth value in `X n`. The displayed bound is summable in `n` for each `d`, so the first
-Borel–Cantelli lemma applies as in 7.3. The binomial theorems of 7.3 do not cover this case,
-because the edges of a graphon sample are dependent: for `W(x, y) = 1/4 + xy/2` (so `ε = 1/4`
-applies) each edge has probability `3/8`, while two edges at a common vertex are both present
-with probability `∫(1/4 + x/4)² dx = 7/48`, not `9/64`. This is an application of the
-existing sampler to the newly proved conditional witness bounds. The conditional witness
-probabilities and the displayed bound are computed from the sampler's definition, as in
-Layer 6; no external theorem is cited for them.
+`X n : Ξ → SimpleGraph (Fin n)` with `ν.map (X n) = sampleGraph K n`, and no assumption on the joint
+law, almost surely, for every `d`, eventually every sentence of rank at most `d + 1` has its Rado
+truth value in `X n`. The displayed bound is summable in `n` for each `d`, so the first
+Borel–Cantelli lemma applies as in 7.3. The binomial theorems of 7.3 do not cover this case, because
+the edges of a graphon sample are dependent: for `W(x, y) = 1/4 + xy/2` (so `ε = 1/4` applies) each
+edge has probability `3/8`, while two edges at a common vertex are both present with probability
+`∫(1/4 + x/4)² dx = 7/48`, not `9/64`. This is an application of the existing sampler to the newly
+proved conditional witness bounds. The conditional witness probabilities and the displayed bound are
+computed from the sampler's definition, as in Layer 6; no external theorem is cited for them.
 
 Mere almost-everywhere positivity and strict inequality from `1` supply the infinite
 Rado theorem, not the uniform finite estimate. Layer 11 gives a concrete graphon
@@ -1421,9 +1418,9 @@ equivalence to the usual `c/n` regime.
 
 *Needs:* 9.2; 11.1.
 
-Use the explicit graphon `W(x, y) = xy` (`productGraphon`) on the uniform unit interval.
-Its infinite sample is almost surely Rado by 9.2 (`productGraphon_ae_isomorphic_rado`). Let `Z_n` count isolated vertices
-of its finite sample. Prove
+Use the explicit graphon `W(x, y) = xy` (`productGraphon`) on the uniform unit interval. Its
+infinite sample is almost surely Rado by 9.2 (`productGraphon_ae_isomorphic_rado`). Let `Z_n` count
+isolated vertices of its finite sample. Prove
 
     Z_n → Poisson(2)  in law.
 
@@ -1440,12 +1437,12 @@ For `n ≥ 2k`, the bound
 
     ∫₀¹ ∏_i (1 - x_i y) dy ≤ 1 - (Σ_i x_i) / (2k)
 
-gives the integrable dominator `exp(-Σ_i u_i / (4k))` after scaling.
-Thus the moment limit is `2^k` (`productGraphon_isolated_factorialMoment_limit`), and 11.1
-applies (`productGraphon_isolated_poisson_mass_limit`). Prove the `k = 0` case separately.
-As an elementary check, `E Z_n = 2(1 - 2^(-n))` for every `n`, with values `0, 1, 3/2, 7/4`
-at `n = 0, 1, 2, 3`. At `n = 0` the sum over vertices is empty and both sides are `0`. For `n ≥ 1` a vertex with label `x` is isolated
-with conditional probability `(1 - x/2)^(n-1)`, so
+gives the integrable dominator `exp(-Σ_i u_i / (4k))` after scaling. Thus the moment limit is `2^k`
+(`productGraphon_isolated_factorialMoment_limit`), and 11.1 applies
+(`productGraphon_isolated_poisson_mass_limit`). Prove the `k = 0` case separately. As an elementary
+check, `E Z_n = 2(1 - 2^(-n))` for every `n`, with values `0, 1, 3/2, 7/4` at `n = 0, 1, 2, 3`. At
+`n = 0` the sum over vertices is empty and both sides are `0`. For `n ≥ 1` a vertex with label `x`
+is isolated with conditional probability `(1 - x/2)^(n-1)`, so
 `E Z_n = n ∫₀¹ (1 - x/2)^(n-1) dx = 2(1 - 2^(-n))`.
 
 Construct the FO sentence `∀x ∃y Adj(x, y)` (`noIsolatedSentence`, satisfied exactly when the
@@ -1529,14 +1526,15 @@ discharge its corresponding target.
 ## Coordination and provenance
 
 Use Mathlib's existing and emerging API shape. Follow the design of the general existence
-construction in [Gabin Kolly's Fraïssé-existence proposal for Mathlib](https://github.com/leanprover-community/mathlib4/pull/18876)
+construction in
+[Gabin Kolly's Fraïssé-existence proposal for Mathlib](https://github.com/leanprover-community/mathlib4/pull/18876)
 and [its prerequisite](https://github.com/leanprover-community/mathlib4/pull/18749), and of the
 graph characterization of Layer 4 in his
 [graph-characterization proposal](https://github.com/leanprover-community/mathlib4/pull/20649).
 Coordinate the theory-level quantifier-elimination endpoint with the
 [quantifier-elimination proposal](https://github.com/leanprover-community/mathlib4/pull/41113) and
-its [extension-pair companion](https://github.com/leanprover-community/mathlib4/pull/41115).
-These are design and provenance references, not assumptions that their code is in Mathlib.
+its [extension-pair companion](https://github.com/leanprover-community/mathlib4/pull/41115). These
+are design and provenance references, not assumptions that their code is in Mathlib.
 
 **Ownership of the formula coding.** This roadmap owns the general effective coding of first-order
 formulas in 5.2; no other roadmap states one for a general language.
@@ -1591,15 +1589,15 @@ Tau Ceti's InfinitaryLogic declarations.
 
 ## Mathematical references
 
-- R. Fagin, [Probabilities on finite models](https://homepages.math.uic.edu/~lreyzin/s15_mcs590/fagin76.pdf),
-  *Journal of Symbolic Logic* 41 (1976), 50–58: finite-model zero–one laws,
-  finite consequences and rates, for all structures over a finite set of predicate symbols under
-  the uniform measure. Theorem 1 (p. 51) is Gaifman's completeness of the extension axioms, by
-  the Łoś–Vaught test and back-and-forth; Theorem 2 and Corollary 3 (p. 52) give the limit law
-  for each axiom and for its consequences; Corollary 5 (p. 53) gives finite models of every
-  sufficiently large cardinality for each finite set of axioms. The theorems here are the
-  corresponding statements for undirected loopless graphs, proved by the same route, and cover
-  every fixed interior binomial parameter.
+- R. Fagin,
+  [Probabilities on finite models](https://homepages.math.uic.edu/~lreyzin/s15_mcs590/fagin76.pdf),
+  *Journal of Symbolic Logic* 41 (1976), 50–58: finite-model zero–one laws, finite consequences and
+  rates, for all structures over a finite set of predicate symbols under the uniform measure.
+  Theorem 1 (p. 51) is Gaifman's completeness of the extension axioms, by the Łoś–Vaught test and
+  back-and-forth; Theorem 2 and Corollary 3 (p. 52) give the limit law for each axiom and for its
+  consequences; Corollary 5 (p. 53) gives finite models of every sufficiently large cardinality for
+  each finite set of axioms. The theorems here are the corresponding statements for undirected
+  loopless graphs, proved by the same route, and cover every fixed interior binomial parameter.
 - J. Spencer, *The Strange Logic of Random Graphs*, Algorithms and Combinatorics 22,
   Springer, 2001. Theorem 0.1.2 (p. 4) is the Fagin–GKLT law at `p = 1/2` and Theorem 0.1.5
   (p. 6) the uniqueness of the countable graph with the extension ("Alice's Restaurant")
