@@ -2256,7 +2256,10 @@ Remark 7.1.4). *Needs:* §6.1.
   property.
 - The property can fail: Marković's counterexample in genus two (Landesman–Litt, Remark 7.1.5).
 
-### 6.3 Replacing boundary circles by punctures
+### 6.3 Reductions for the higher Prym rank bound
+
+This section provides the two reductions that §6.5 consumes: boundary circles replaced by
+punctures (§6.3), and the isotypic cover cohomology identified with family monodromy (§6.4).
 
 Prove that shrinking boundary circles to punctures gives a `Γ′`-equivariant isomorphism
 `H¹(Σ_{g′,b′,p′}, ℂ)_σ ≅ H¹(Σ_{g′,0,b′+p′}, ℂ)_σ` of covers of the same genus `g′`, and that for a
@@ -2270,8 +2273,7 @@ Layer 2.
 - For `b = 0` the reduction is the identity.
 - Both sides have genus `g′`; a target of genus `g` would have the wrong first Betti number.
 
-### 6.4 Cover cohomology and family monodromy
-
+**6.4 Cover cohomology and family monodromy.**
 For `b = 0`, `n = p` and `g ≥ 1`, prove: after dominant étale refinement of a versal family of
 `φ`-covers `X° → C° → M` (InverseGaloisAndArithmeticFundamentalGroups §IG.5.4, *Versal families
 with specified topological monodromy*: chart, cover, monodromy and section),
@@ -2291,7 +2293,10 @@ gap:local-system-direct-images.
 - Without refining to `Γ′`, only the action of the image of `π₁(M)` is controlled, which is why the
   base is refined to a finite étale cover with image in `Γ′`.
 
-### 6.5 The higher Prym rank bound
+### 6.5 The higher Prym rank bound and its consequences
+
+This section proves the higher Prym rank bound and deduces from it the Putman–Wieland theorems and
+infinite orbits on small isotypic components; §9.2 consumes §6.5, and §§6.5–6.7 are end theorems.
 
 Prove that for every finite quotient `φ` of `π₁(Σ_{g,b,p})`, every irreducible complex `H`-module
 `σ` and every finite-index `Γ′ ⊂ Γ`, every nonzero `Γ′`-stable subspace of the `σ`-isotypic
@@ -2328,8 +2333,7 @@ index in `Γ` and `W` is `Γ′ ∩ Γ`-stable. Its case of a line `W = ℂ f` w
   true for every `W`, matching the empty bound `2g − 2d = 0`; for `g = 3`, `d = 1` it gives
   `dim W ≥ 4`.
 
-### 6.6 Putman–Wieland for groups of small degree
-
+**6.6 Putman–Wieland for groups of small degree.**
 Prove that if every irreducible complex representation of a finite group `H` has dimension `< g`,
 then `PW(H, g, b, p)` holds for all `b, p ≥ 0`: a fixed vector of a finite-index `Γ′` projects to a
 nonzero fixed line in some isotypic component, contradicting `2g − 2 dim σ ≥ 2` (Landesman–Litt,
@@ -2354,8 +2358,7 @@ AlgebraicTopology Layer 6.
 - `H = ℤ/5`, `g = 2`: every irreducible has `d = 1 < 2`, so §6.6 applies although `#H = 5 ≥ 4`
   puts the group outside §6.7.
 
-### 6.7 Putman–Wieland for groups of small order
-
+**6.7 Putman–Wieland for groups of small order.**
 Prove that for a finite group `H` with `#H < g²`, `PW(H, g, b, p)` holds for all `b, p ≥ 0`, since
 `#H = Σ_σ (dim σ)²` forces `dim σ < g`, so that §6.6 applies (Landesman–Litt, Corollary 7.2.4 and
 Theorem 1.4.1, pp. 4 and 36; `TauCeti.sum_characterDegree_sq_eq_card`); in the Lean file it follows
@@ -2376,8 +2379,7 @@ Layer 6.
   `#H = g²`.
 - `g = 0` or `1`: `#H < g²` has no solution and the statement is vacuous.
 
-### 6.8 Infinite orbits on small isotypic components
-
+**6.8 Infinite orbits on small isotypic components.**
 Prove that for an irreducible `H`-module `σ` with `dim σ < g`, every nonzero vector of the
 `σ`-isotypic component of `H₁(Σ_{g′}, ℂ)` has infinite `Γ`-orbit, with no condition on the other
 irreducibles of `H` (Landesman–Litt, Theorem 1.4.2, p. 5): the line spanned by a vector with finite
@@ -2411,7 +2413,10 @@ and of boundary monodromy on good compactifications of versal total spaces, dedu
 linear integrality of irreducible unitary MCG-finite representations of low rank, unitarity of all
 their Galois conjugates, and finite image in the unitary case.
 
-### 7.1 Quasi-unipotence of multitwists in finite-index subgroups
+### 7.1 Quasi-unipotent local monodromy on versal total spaces
+
+For `g ≥ 3`, linear and projective local systems on a scheme `C°` finite étale over `M_{g,n+1}` have
+quasi-unipotent local monodromy along a good compactification of `C°`; §7.4 consumes §7.3.
 
 Prove: let `S` be a connected oriented surface of finite type and genus `g ≥ 3`, `Γ ⊂ Mod(S)` of
 finite index and `r ≥ 1`. There is `k = k(Γ, r) ≥ 1` such that for every `ρ : Γ → GL_r(ℂ)` and every
@@ -2438,8 +2443,7 @@ surface); Mathlib `Representation.ind`.
   copies of `ρ`: for `A₃ ⊂ S₃` and `ρ` a nontrivial character `ω`, the restriction of the induced
   representation is `ω ⊕ ω²`.
 
-### 7.2 Boundary monodromy of versal total spaces
-
+**7.2 Boundary monodromy of versal total spaces.**
 Let `C° → M_{g,n+1}` be finite étale with `C°` a scheme (for instance the universal punctured curve
 over a level cover). Prove that there is a smooth projective compactification `C̄` with strict SNC
 boundary, an isomorphism over `C°`, such that a small meridian around the generic point of every
@@ -2467,8 +2471,7 @@ component of `C̄ ∖ C°` maps to a product of nonnegative powers of the meridi
 - The smoothing `xy = t` of a node has local monodromy a single Dehn twist about the vanishing
   cycle, a unipotent transvection on `H₁` by §0.3.
 
-### 7.3 Quasi-unipotent boundary monodromy
-
+**7.3 Quasi-unipotent boundary monodromy.**
 Prove: for `g ≥ 3`, every local system on `C°` as in §7.2 has quasi-unipotent local monodromy
 along `C̄ ∖ C°`; the same holds for a projective local system with values in `PGL_r(ℂ)`, tested
 through its faithful adjoint representation `Ad ∘ ρ̂` (Landesman–Litt, proof of Lemma 8.3.3,
@@ -2483,7 +2486,10 @@ quasi-unipotent matrices have quasi-unipotent product. *Needs:* §§3.4, 7.1, 7.
 - For `PGL_r`, quasi-unipotence of `Ad ∘ ρ̂(μ)` gives quasi-unipotence of `ρ̂(μ)` since `Ad` is
   faithful on `PGL_r`.
 
-### 7.4 Projective integrality
+### 7.4 Integrality and unitarity of all conjugates
+
+For `g ≥ 3` and an irreducible unitary MCG-finite representation of rank `r` with `r² < g + 1`,
+this section proves integrality and the unitarity of every conjugate; §7.7 consumes §§7.5 and 7.6.
 
 Prove: for `g ≥ 3` and an irreducible unitary MCG-finite representation `ρ` of `π₁(Σ_{g,n})` of rank
 `r ≥ 1` with `r² < g + 1`, the projectivization `Pρ` is integral, that is `PGL_r(ℂ)`-conjugate into
@@ -2499,8 +2505,7 @@ has trivial abelianization; apply §5.10. *Needs:* §§3.4, 5.9, 5.10, 7.3.
 - Cohomological rigidity is deduced only after quasi-unipotence of local monodromy is known,
   since it is not defined before.
 
-### 7.5 Linear integrality
-
+**7.5 Linear integrality.**
 Prove that under the hypotheses of §7.4, `ρ` itself is conjugate into `GL_r(O_L)` for a finite
 extension `L` of the projective coefficient field (Landesman–Litt, Lemma 8.3.4, pp. 40–41). With
 `D = det ρ` finite (§3.3), the map `G_D → PGL_r` is finite (§1.2); for each of finitely many
@@ -2514,8 +2519,7 @@ and not merely in `M_r(O_L)`. *Needs:* §§1.2, 3.3, 7.4.
 - The values lie in `GL_r(O_L)`, not only in `M_r(O_L)`: the inverses are integral by the same
   finite-fibre argument.
 
-### 7.6 Unitarity of all conjugates
-
+**7.6 Unitarity of all conjugates.**
 Prove: for `g ≥ 3` and an irreducible unitary MCG-finite `ρ` of rank `r` with `r² < g + 1`, integral
 over a number field `K` by §7.5, every embedding `τ : K → ℂ` gives a unitary conjugate `ρ ⊗_τ ℂ`
 (Landesman–Litt, proof of Proposition 8.4.1, p. 41). Realize `ρ` on a punctured versal family with
@@ -2570,7 +2574,11 @@ connected algebraic family of fixed-determinant representations with one unitary
 has conjugate fibre restrictions, and deduces finiteness for semisimple MCG-finite representations
 of low rank by nonabelian Hodge theory.
 
-### 8.1 Formal fibral constancy
+### 8.1 Fibral constancy of families with a unitary fibre
+
+For `r² < g + 1`, a family of fixed-determinant representations of `π₁(C°)` with one unitary fibre
+restriction has fibre restrictions constant up to conjugacy, over `ℂ[[t]]` (§8.1) and over a
+connected base of finite type (§8.2); §8.3 consumes §8.2.
 
 Prove: for a punctured étale-versal family, a base point `c ∈ C°` over `m` and
 `ρ_∞ : π₁(C°, c) → GL_r(ℂ[[t]])` with constant determinant, `r ≥ 1` and `r² < g + 1`, if
@@ -2587,8 +2595,7 @@ restriction is the constant deformation of the unitary `ad ρ₀`, so `H⁰(M, R
 - The rank bound enters only through `rk ad γ = r² − 1 < g`; for `r² − 1 ≥ g` nothing is
   concluded.
 
-### 8.2 Connected algebraic fibral constancy
-
+**8.2 Connected algebraic fibral constancy.**
 Prove: let `X` be a connected `ℂ`-scheme of finite type and `ρ : π₁(C°, c) → GL_r(O(X))` a
 representation whose determinant is a fixed character, with `r ≥ 1` and `r² < g + 1`. If its
 specialization at one closed point `y` restricts to a unitary representation of `π₁(C°_m, c)`, then
@@ -2652,7 +2659,10 @@ This layer removes the semisimplicity hypothesis by induction on the socle filtr
 higher Prym rank bound to split extensions, and deduces the fibral, isomonodromy, free-group,
 Nielsen-tuple, characteristic-quotient and total-image corollaries.
 
-### 9.1 Characteristic socle transport
+### 9.1 Socle filtrations and splitting of low-rank extensions
+
+This section provides the two inputs of the induction in §9.3, which consumes both: the
+MCG-finite socle filtration and the splitting of low-rank MCG-finite extensions.
 
 Prove that for an MCG-finite finite-dimensional complex representation of a surface group, its
 socle (`TauCeti.socle` of the group-algebra module) and the quotient by it are MCG-finite; iterating
@@ -2668,8 +2678,7 @@ property of the socle; finite dimension makes the filtration finite. *Needs:* §
   is the trivial line, both MCG-finite; with `H = 0` the representation is trivial of rank one and
   its socle filtration has length one.
 
-### 9.2 Splitting of low-rank extensions
-
+**9.2 Splitting of low-rank extensions.**
 Prove: let `ρ` be MCG-finite of rank `r` with `r² < g + 1`, with a characteristic subrepresentation
 `V₁` such that `V₁` and `V₂ = V/V₁` are semisimple with finite image. Then the extension splits and
 `ρ` has finite image (Landesman–Litt, Lemma 8.6.1, p. 44). With `a = dim V₁`, `b = dim V₂`,
@@ -2756,7 +2765,10 @@ SchemeAndStackFoundations §4.15.
 - The statement is in the hyperbolic range `2g − 2 + n > 0`, which Cousin–Heu's theorem requires;
   the unpointed torus is not covered.
 
-### 9.6 Nielsen generation of `Aut(F_N)`
+### 9.6 Finiteness for free groups and the Nielsen-tuple criterion
+
+This section proves the free-group form `freeGroup_finite_image` (§9.7) and, with Nielsen generation
+of `Aut(F_N)` (§9.6), the Nielsen-tuple criterion (§9.8); §9.9 consumes §9.7.
 
 Prove that for `N ≥ 1` and the free group on the ordered basis `x₁, …, x_N`, `Aut(F_N)` is generated
 by the cyclic shift `xᵢ ↦ xᵢ₊₁` (indices mod `N`), the transposition of `x₁` and `x₂` (`N ≥ 2`), the
@@ -2778,8 +2790,7 @@ route is Nielsen reduction of a basis. The transvection is Tau Ceti's
   `(I + E₁₃ + E₂₃, I + E₂₃)`, which is conjugate to the original by the matrix fixing `e₂, e₃` and
   sending `e₁` to `e₁ + e₂`, an instance of the fixed conjugacy class of §12.1.
 
-### 9.7 Finiteness for free groups
-
+**9.7 Finiteness for free groups.**
 Prove: for `N = 2g` or `N = 2g + 1` and `ρ : F_N → GL_r(ℂ)` whose conjugacy class has finite orbit
 under `Out(F_N)`, if `r² < g + 1` then `ρ` has finite image (Landesman–Litt, Corollary 1.6.1, p. 5).
 Identify `F_N` with `π₁(Σ_{g,1})` for even `N` and with `π₁(Σ_{g,2})` for odd `N` (§0.1) and restrict
@@ -2796,8 +2807,7 @@ the mapping class group is not claimed to imply finite orbit under `Out(F_N)`. *
   image, so finiteness fails in rank `N + 1`; for `N = 0` it is the trivial representation of rank
   one, with image of size one, the negative control of §12.1.
 
-### 9.8 The Nielsen-tuple criterion
-
+**9.8 The Nielsen-tuple criterion.**
 Prove: for `N ≥ 2` with `N = 2g` or `2g + 1` and invertible matrices `A₁, …, A_N ∈ GL_r(ℂ)`, if the
 tuples obtained by repeatedly applying the cyclic shift, the swap of the first two entries, the
 inversion of `A₁` and the replacement of `A₁` by `A₁A₂` meet only finitely many simultaneous
@@ -2865,7 +2875,10 @@ moduli map `Spec K → M_{g,n,ℚ}` factors through the generic point, `C°_K̄ 
 InverseGaloisAndArithmeticFundamentalGroups §IG.1.4 (*Outer actions and arithmetic
 representations*).
 
-### 10.1 Orbit comparison on the generic curve
+### 10.1 Finite monodromy of low-rank arithmetic representations
+
+Continuous arithmetic representations of `π₁^ét(C°_K̄)` become MCG-finite after transport to `ℂ`
+(§10.1) and have finite image when `r² < g + 1` (§10.2); §§10.3, 11.3 and 11.5 consume §10.2.
 
 Prove: every continuous arithmetic representation `ρ : π₁^ét(C°_K̄) → GL_r(ℚ̄_ℓ)` becomes MCG-finite
 after choosing an embedding `K → ℂ`, restricting to the dense topological surface group
@@ -2885,8 +2898,7 @@ which is not assumed continuous. *Needs:* §§2.4, 2.1; InverseGaloisAndArithmet
 - `Γ_K` acts through the outer action on the geometric group, in which the topological surface
   group is dense (§IG.3.1), so a finite Galois orbit restricts to a finite mapping-class orbit.
 
-### 10.2 Arithmetic finite monodromy
-
+**10.2 Arithmetic finite monodromy.**
 Prove that every continuous arithmetic `ρ : π₁^ét(C°_K̄) → GL_r(ℚ̄_ℓ)` with `r² < g + 1` has finite
 image (Landesman–Litt, Theorem 9.1.2, p. 45). By §10.1 and §9.3 its restriction to the topological
 surface group has finite image; a finite subset of `GL_r(ℚ̄_ℓ)` is closed in the `ℓ`-adic topology,
@@ -2902,7 +2914,10 @@ whole image is that finite set. *Needs:* §§9.3, 10.1; InverseGaloisAndArithmet
   rank-two representation of infinite image, so for `g ≥ 4` (where `4 < g + 1`) such a curve is
   never generic.
 
-### 10.3 Geometric and Hodge characterisations
+### 10.3 Characterisations of finite image by geometric origin and Hodge theory
+
+This section proves the four-way characterisation of finite image, an end theorem, for
+`r² < g + 1` (§10.3), and its form without arithmeticity for `r < 2√(g + 1)` (§10.4).
 
 Prove that for a continuous `ρ : π₁^ét(C°_K̄) → GL_r(ℚ̄_ℓ)` with `r² < g + 1` the following are
 equivalent: (1) `ρ` has finite image; (2) `ρ` is arithmetic; (3) for every embedding `K → ℂ` and every
@@ -2932,8 +2947,7 @@ InverseGaloisAndArithmeticFundamentalGroups §IG.1.4.
   `d` classes in its orbit; the converse fails without the rank bound, since Tate modules of
   abelian schemes are arithmetic of infinite image.
 
-### 10.4 The wider Hodge range
-
+**10.4 The wider Hodge range.**
 Prove that conditions (1), (3) and (4) of §10.3 are equivalent whenever `r < 2√(g + 1)`;
 arithmeticity is not part of this wider equivalence (Landesman–Litt, Corollary 9.1.4, final
 assertion, p. 46). The implications (1) ⇒ (3) ⇒ (4) hold in every rank and (4) ⇒ (1) uses only
@@ -2965,7 +2979,10 @@ This layer defines arithmetic lifts of residual representations, proves that sur
 proves non-density of finite-image representations in character varieties, and records the
 conditional non-flatness of deformation rings.
 
-### 11.1 Residual arithmetic lifts
+### 11.1 Arithmetic lifts and residual non-liftability
+
+This section defines arithmetic lifts and proves residual non-liftability, an end theorem, from
+§10.2 and the Jordan obstruction (§11.2); §§11.4 and 11.6 consume §11.3.
 
 For a residual representation `ρ̄ : π₁^ét(C°_K̄) → GL_r(𝔽_p)`, an *arithmetic lift* is a finite
 extension `E/ℚ_p`, an `O_E`-lattice `L` of rank `r` and a continuous arithmetic representation on
@@ -2993,8 +3010,7 @@ InverseGaloisAndArithmeticFundamentalGroups §§IG.1.4, IG.3.1.
 - A lift over a ramified finite extension with residue field `𝔽_p` is admitted, and agrees with
   ordinary scalar-extended reduction.
 
-### 11.2 The Jordan obstruction
-
+**11.2 The Jordan obstruction.**
 Prove that for `r ≥ 2` and every prime `p` not dividing `m(r) = J(r)!` (§1.5), no finite subgroup of
 `GL_r(O_E)`, for a finite extension `E/ℚ_p`, reduces onto a subgroup of `GL_r(k_E)` conjugate to
 `GL_r(𝔽_p)` (Landesman–Litt, proof of Corollary 9.2.2, p. 48; Landesman–Litt 2022, proof of
@@ -3007,8 +3023,7 @@ FiniteGroupInvariants §10.5.
 - The `2 × 2` computation of §1.5: `[u^m, l^m] = 1` exactly when `p | m`.
 - For primes dividing `m(r)` no conclusion is drawn.
 
-### 11.3 Residual non-liftability
-
+**11.3 Residual non-liftability.**
 Prove that for the generic pointed curve, `1 < r < √(g + 1)`, `p ∤ m(r)` and `ρ̄` a surjection of
 `π₁^ét(C°_K̄)` onto `GL_r(𝔽_p)`, `ρ̄` has no arithmetic lift, and hence no residual geometric-origin
 realization (Landesman–Litt, Corollary 9.2.2, p. 48): an arithmetic lift has finite image by §10.2,
@@ -3116,7 +3131,10 @@ p. 51, and Remark 10.2.7, pp. 52–53). *Needs:* §§0.1, 2.1.
 - For `F₁ = ℤ` the generator acts by `[[1, 1], [0, 1]]`, of infinite order with a non-split invariant
   line, though its semisimplification is trivial.
 
-### 12.2 Morita's primitive class
+### 12.2 Non-split extensions of mapping class group representations
+
+This section constructs non-split extensions of representations of mapping class groups: Morita's
+classes (§§12.2, 12.4) and the augmentation-ideal extension (§12.3).
 
 Prove that for a closed surface of genus `g ≥ 3` with `H = H₁(Σ_g, ℚ)` and the symplectic inclusion
 `H → ∧³H`, `ω ∧ −` with `ω` the symplectic class, there is a nonzero class in `H¹(Mod_g, ∧³H/H)`,
@@ -3131,8 +3149,7 @@ extension of the Johnson homomorphism to a crossed homomorphism on the whole map
   carries no nonzero class; the genus bound is needed.
 - Scaling a cocycle by `t` gives a family of extensions whose special fibre `t = 0` is split.
 
-### 12.3 The augmentation-ideal extension
-
+**12.3 The augmentation-ideal extension.**
 Let `I` be the augmentation ideal of `ℚ[π₁(Σ_{g,n−1}, x)]`, with the based action of `PMod(g, n)`.
 Prove that for `n ≥ 1` and `2g − 2 + (n − 1) > 0` the sequence `0 → I²/I³ → I/I³ → I/I² → 0` of
 `PMod(g, n)`-representations does not split (Landesman–Litt, Example 10.1.6(2), p. 51). The
@@ -3149,8 +3166,7 @@ which fails because the commutator `I/I² × I/I² → I²/I³` is nonzero for a
 - For `n − 1 ≥ 1` the graded pieces are `H` and `H ⊗ H`, and `[a, b] = a ⊗ b − b ⊗ a ≠ 0` for
   independent `a, b`.
 
-### 12.4 Morita's pointed extension
-
+**12.4 Morita's pointed extension.**
 Prove that for `g ≥ 2`, `H¹(Mod_{g,*}; H₁(Σ_g; ℤ))` is infinite cyclic, generated by the class of
 Morita's crossed homomorphism `f`, whose image under restriction to the point-pushing subgroup is
 `2 − 2g` times the generator of `Hom(π₁(Σ_g), H₁(Σ_g))^{Mod_g} ≅ ℤ` given by the intersection pairing
@@ -3166,7 +3182,10 @@ surface example §12.1 does not depend on this global extension. *Needs:* §§0.
 - The integral class and its rational restriction are distinct objects: the former generates a
   group isomorphic to `ℤ`, the latter is defined only after inverting `2g − 2`.
 
-### 12.5 Rank two in genus one
+### 12.5 Rank two: infinite image in genus one, finite image in higher genus
+
+MCG-finite representations of rank two can have infinite image in genus one (§12.5) and have finite
+image in genus at least two (§12.6, `rankTwo_mcgFinite_finite_image`); §12.8 consumes §12.5.
 
 Prove that for `g = 1` and `n ≥ 1` there are semisimple MCG-finite representations of `π₁(Σ_{1,n})`
 into `SL₂(ℂ)` with infinite special-dihedral image, and non-split reducible MCG-finite
@@ -3186,8 +3205,7 @@ non-split examples. *Needs:* §2.1.
 - These are representations of punctured tori; the closed torus group is abelian and has no
   irreducible representation of rank two.
 
-### 12.6 Rank two in genus at least two
-
+**12.6 Rank two in genus at least two.**
 Prove that for `g ≥ 2` and every `n ≥ 0`, every MCG-finite representation `π₁(Σ_{g,n}) → GL₂(ℂ)` has
 finite image (Landesman–Litt, Remark 10.2.2, p. 52, LL24 line 2192). Reducible ones are sums of
 finite characters by Cousin–Heu, Theorem B (CH19 line 268, for actual conjugacy classes
