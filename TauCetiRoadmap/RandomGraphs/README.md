@@ -1092,8 +1092,8 @@ For $`n\ge2k`$, the bound
 
 gives the integrable dominator $`\exp(-\sum_i u_i/(4k))`$ after scaling.
 Thus the moment limit is $`2^k`$, and 11.1 applies. Prove the $`k=0`$ case separately.
-As an elementary check, $`\mathbb E Z_n=2(1-2^{-n})`$ for every $`n`$. At $`n=0`$ the sum over
-vertices is empty and both sides are $`0`$. For $`n\ge1`$ a vertex with label $`x`$ is isolated
+As an elementary check, $`\mathbb E Z_n=2(1-2^{-n})`$ for every $`n`$, with values $`0,1,3/2,7/4`$
+at $`n=0,1,2,3`$. At $`n=0`$ the sum over vertices is empty and both sides are $`0`$. For $`n\ge1`$ a vertex with label $`x`$ is isolated
 with conditional probability $`(1-x/2)^{n-1}`$, so
 $`\mathbb E Z_n=n\int_0^1(1-x/2)^{n-1}\,dx=2(1-2^{-n})`$.
 

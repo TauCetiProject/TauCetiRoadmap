@@ -137,11 +137,6 @@ theorem measurableSet_realize_jointly [Countable V] [MeasurableSpace V] [Discret
       @BoundedFormula.Realize _ V x.1.structure _ _ φ x.2.1 x.2.2} := by
   sorry
 
-theorem satisfies_iso {G : SimpleGraph V} {H : SimpleGraph W}
-    (e : G ≃g H) (φ : Language.graph.Sentence) :
-    Satisfies G φ ↔ Satisfies H φ := by
-  sorry
-
 noncomputable def sentenceProbability (p : I) (n : ℕ)
     (φ : Language.graph.Sentence) : ℝ :=
   (SimpleGraph.binomialRandom (Fin n) p {G | Satisfies G φ}).toReal
@@ -207,14 +202,6 @@ noncomputable def radoAxioms : Language.graph.Theory :=
 
 theorem model_radoAxioms_iff (G : SimpleGraph V) :
     @Theory.Model Language.graph V G.structure radoAxioms ↔ G.HasExtensionProperty := by
-  sorry
-
-/-- The ordered binary presentation of `TauCeti.radoGraph`. Tau Ceti's `TauCeti.radoGraph_adj`
-is the symmetric form `i ≠ j ∧ (j.testBit i ∨ i.testBit j)`. -/
-theorem radoGraph_adj (i j : ℕ) :
-    TauCeti.radoGraph.Adj i j ↔
-      (i < j ∧ Nat.testBit j i = true) ∨
-      (j < i ∧ Nat.testBit i j = true) := by
   sorry
 
 /-- Rooted universality into an extension-property graph of arbitrary cardinality. -/
@@ -718,14 +705,6 @@ theorem infiniteSampleLaw_sentence_zero_one (K : Graphon Ω μ)
 
 end Graphons
 
-/-- Evaluated mixtures: under the graphon mixture with mixing measure `P`, the probability of a
-sentence is the `P`-integral of its probabilities under the graphon samples, each `0` or `1`. -/
-theorem bind_infiniteSampleLawOnSpace_satisfies (P : ProbabilityMeasure GraphonSpaceI)
-    (φ : Language.graph.Sentence) :
-    (P : Measure GraphonSpaceI).bind infiniteSampleLawOnSpace {G | Satisfies G φ} =
-      ∫⁻ x, infiniteSampleLawOnSpace x {G | Satisfies G φ} ∂(P : Measure GraphonSpaceI) := by
-  sorry
-
 /-- Real division by zero gives value zero at n = 0, 1. -/
 noncomputable def windowEdgeDensity (G : SimpleGraph ℕ) (n : ℕ) : ℝ :=
   2 * ((G.restrictFin n).edgeSet.ncard : ℝ) / ((n * (n - 1) : ℕ) : ℝ)
@@ -884,13 +863,6 @@ def productGraphon : Graphon I (volume : Measure I) where
   bdd' := ⟨1, fun x y => abs_le.mpr ⟨by linarith [(unitInterval.mul_mem x.2 y.2).1],
     (unitInterval.mul_mem x.2 y.2).2⟩⟩
   mem01' x y := unitInterval.mul_mem x.2 y.2
-
-/-- The expected number of isolated vertices of the `xy` graphon sample is `2(1 - 2⁻ⁿ)` for every
-`n`, including `n = 0` (empty sum, both sides `0`); the values at `n = 1, 2, 3` are `1, 3/2, 7/4`. -/
-theorem productGraphon_isolated_expectation (n : ℕ) :
-    (∫ G : SimpleGraph (Fin n), (isolatedCount G : ℝ) ∂sampleGraph productGraphon n) =
-      2 * (1 - (1 / 2 : ℝ) ^ n) := by
-  sorry
 
 theorem productGraphon_isolated_factorialMoment_limit (k : ℕ) :
     Tendsto
