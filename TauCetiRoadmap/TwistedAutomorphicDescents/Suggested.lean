@@ -32,8 +32,9 @@ headlines is statable on those APIs.
   realizations on SO(V) or U(V), Bessel periods and completed GL tensor L-functions.
 - Section 5.2, Residual square integrability and membership in Arthur packets:
   lacks residual automorphic realizations, their Hilbert spectrum and Arthur packets.
-- Section 5.4, Vanishing above the critical index: lacks residual Arthur packet
-  members and their rational Fourier maps and twisted Jacquet modules.
+- Section 5.4, Cuspidality, outer stability and parameter of the critical module:
+  lacks residual Arthur packet members and their rational Fourier maps and
+  twisted Jacquet modules.
 - Section 5.5, Cuspidality at the critical index: lacks critical Bessel images in
   the classical-group cuspidal spectrum and residual cuspidal-support data.
 - Section 5.6, Outer stability of critical Bessel modules: lacks those actual
@@ -44,13 +45,13 @@ headlines is statable on those APIs.
   images, the cuspidal Hilbert spectrum and global Arthur parameter assignments.
 - Section 6.3, Known Fourier-support cases: lacks actual residual modules and
   their rational nilpotent Fourier-support sets.
-- Section 6.4, Central value produces a global period: lacks coherent automorphic
+- Section 6.4, Global periods from nonzero central values: lacks coherent automorphic
   packets, their cuspidal realizations, Bessel periods and GL tensor L-functions.
 - Section 6.5, Odd orthogonal–torus period criterion: lacks these coherent packets,
   Bessel periods and GL tensor L-functions, including for a simple parameter.
 - Section 7.2, Cuspidal module recovery theorem: lacks actual twisted descent
   modules, enhanced local packets and cuspidal automorphic realizations.
-- Section 7.3, Recovery from a regular Fourier coefficient: lacks those modules
+- Section 7.3, Recovery from regular or subregular Fourier support: lacks those modules
   and their rational regular Fourier maps, including the smaller U₁ datum.
 - Section 7.4, Generic summand from subregular support: lacks rational automorphic
   Fourier support, cuspidal Bessel images and global parameter assignments.
