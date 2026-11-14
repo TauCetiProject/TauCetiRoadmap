@@ -178,7 +178,8 @@ two pivotal structures. When `𝟙_ C` also has scalar endomorphisms, the hypoth
 the ring form of the pinned field results; the two trace formulas follow from surjectivity of
 `algebraMap` and the pinned `TauCeti.leftTrace_smul`, `TauCeti.rightTrace_smul`. Lean:
 `leftDim_comp_rightDim_eq_of_bijective`. *Needs:* Tau Ceti `TauCeti.leftTrace_smul`,
-`TauCeti.rightTrace_smul`, `TauCeti.leftTrace_tensorHom_eq_comp`.
+`TauCeti.rightTrace_smul`, `TauCeti.leftDim_eq_leftTrace`, `TauCeti.rightDim_eq_rightTrace`,
+`TauCeti.leftTrace_tensorHom_eq_comp`.
 
 ### Examples
 
@@ -284,7 +285,7 @@ For a fusion category over `k` (the
 hypotheses of `TauCeti.globalDim_ne_zero` without `[PivotalCategory C]` and without `[CharZero k]`),
 `dim C` is the sum of the squared norms of the simple representatives, for any isomorphisms
 `a_S : S ≅ Sᘁᘁ`, which exist by `TauCeti.nonempty_iso_rightDual_rightDual`, named
-`normGlobalDim C a`; by 6.1 it does not depend on `a`. `normGlobalDim_eq_globalDim`: it equals `TauCeti.globalDim C` for
+`normGlobalDim C a` ([ENO] Definition 2.2, preprint p. 4; [EGNO] Definition 7.21.3, p. 179); by 6.1 it does not depend on `a`. `normGlobalDim_eq_globalDim`: it equals `TauCeti.globalDim C` for
 every pivotal structure, so it is nonzero in characteristic zero when `C` admits a pivotal
 structure, by `TauCeti.globalDim_ne_zero`. The general case is 6.9. *Needs:* 6.1.
 
@@ -384,7 +385,7 @@ algebraic closure of `ℚ` in `k` to `ℂ`, `σ (squaredNorm S)` is a nonnegativ
   `V ↦ (V ⊠ 𝟙) ⊗ A` is the identity on ranks.
 - 6.7: on `Vec(C₃)` over `ℂ` with pivotal character `ζ₃`, `e = j ≫ jᘁᘁ` is monoidal with
   component `ζ₃²` but fails the characterization on simples, which forces `e = 1`; so
-  `exists_radfordIso` must carry the characterization. For a spherical structure `j`, `(radfordIso C).hom = j ≫ jᘁᘁ`, since then the two traces
+  monoidality alone does not determine the Radford isomorphism. For a spherical structure `j`, `(radfordIso C).hom = j ≫ jᘁᘁ`, since then the two traces
   agree. For simple `L = k` and `a = 3 • 𝟙`, both sides of the characterization are `3`. For
   `Vec(C₃)` with the pivotal character `ζ₃`, the discrepancy is `ζ₃²` on the generator, a
   character.
@@ -408,10 +409,12 @@ For a finite group `G` and an algebraically closed field of
 characteristic zero, `TauCeti.frobeniusSchurIndicator 2 V` for the standard spherical structure on
 `FDRep k G` equals the character-theoretic `ν₂(V) = |G|⁻¹ ∑_g χ_V(g²)` of
 [RepresentationTheory/CharacterTheory](../RepresentationTheory/CharacterTheory/README.md).
-A deduction from `FDRep.trace_eq_smul` and the character formula for the trace of the rotation on
-`(V ⊗ V)^G`, which is the swap of the two factors. Lean:
+A deduction: by `TauCeti.pivotalIsoApp_eq_drinfeldIso` and `FDRep.drinfeldIso_hom_hom_hom_hom`,
+the rotation on `𝟙 ⟶ V ⊗ V = (V ⊗ V)^G` is the swap. Its trace there is `|G|⁻¹ ∑_g tr(ρ(g)²)` by the
+averaging projection `Representation.isProj_averageMap`. Lean:
 `frobeniusSchurIndicator_two_fdRep`, against Mathlib's `FDRep.character`. *Needs:* Tau Ceti
-`TauCeti.frobeniusSchurIndicator`, `FDRep.trace_eq_smul`.
+`TauCeti.frobeniusSchurIndicator`, `TauCeti.pivotalIsoApp_eq_drinfeldIso`,
+`FDRep.drinfeldIso_hom_hom_hom_hom`; Mathlib `Representation.isProj_averageMap`.
 
 ### Examples
 
@@ -441,9 +444,9 @@ finitely generated projective `R`-modules is multiplication by its value on `R`,
 degree, and monoidality makes the family a character. The canonical pivotal structure of the
 conventions is monoidal by an identity in `Rˣ` that follows from the cocycle condition alone. It is
 not a consequence of the field case applied factorwise: the values of `ω` may generate `(ℤ/2)²`,
-which embeds in the units of no field. So pivotal structures form a torsor over `G →* Rˣ`. Over a
-field it follows from [DGNO] Proposition 2.3; over a ring it is a deduction from
-the three facts just listed. *Needs:* 8.1; Tau Ceti `TauCeti.PivotalCategory.instTorsor`.
+which embeds in the units of no field. So pivotal structures form a torsor over `G →* Rˣ`. For finite `G` over an algebraically closed field of characteristic zero
+it is [DGNO] Proposition 2.3(iii), preprint p. 7; for every `G` and `R` it is a deduction from the
+three facts just listed. *Needs:* 8.1; Tau Ceti `TauCeti.PivotalCategory.instTorsor`.
 
 ### 8.3 Spherical structures
 
@@ -553,8 +556,12 @@ Lean: `normGlobalDim_center`,
 
 For a spherical fusion category over an algebraically closed field of
 characteristic zero, `Center C` with its canonical braiding and pivotal structure is ribbon. A
-deduction from 10.1 applied to `Center C`, whose hypotheses 11.3 supplies. Lean:
-`ribbonCategory_center`. *Needs:* 10.1, 11.3; Tau Ceti `CategoryTheory.Center.pivotalCategory`,
+deduction from 10.1 applied to `Center C`: 11.3 gives finite semisimplicity,
+`CategoryTheory.Center.instFiniteDimensionalHom` gives the finite-dimensional Hom spaces, and
+Schur's lemma over `k` (`TauCeti.endAlgEquivOfSimple`) gives the scalar endomorphisms of simple
+objects. Lean:
+`ribbonCategory_center`. *Needs:* 10.1, 11.3; Tau Ceti `CategoryTheory.Center.instFiniteDimensionalHom`,
+`TauCeti.endAlgEquivOfSimple`, Tau Ceti `CategoryTheory.Center.pivotalCategory`,
 `CategoryTheory.Center.sphericalCategory`.
 
 
