@@ -22,28 +22,28 @@ Tau Ceti's adic spaces and Frobenius orbit space do not supply these realization
 - Kernel and cokernel descriptions (README §2.2): lacks modified coherent HK bundles and the analytic left-heart period diagram.
 - The constructed functorial qBC filtration on pro-étale cohomology (README §2.3): lacks natural TVS cohomology, torsion period Pairs and qBC curvature objects.
 - The exact sequence with two failure terms (README §2.4): lacks qBC/TVS cohomology and its coherent bundle-cohomology failure objects.
-- The height formula and its sign (README §2.5): lacks analytic qBC cohomology with signed height and modified HK bundles.
+- Height and the equivalence of comparison criteria (README §2.5): lacks analytic qBC cohomology with signed height and modified HK bundles.
 - The degreewise equivalence of comparison criteria (README §2.6): lacks small dagger spaces, qBC curvature and the adjacent syntomic cohomology object.
 - The four conjectural properties for a small variety (README §2.7): lacks small dagger cohomology, bundle acyclicity, qBC curvature and height.
-- Splitting the crystalline eigenspace complex (README §2.8): lacks the overconvergent log-crystalline complex of a dagger space, its comparison with completed-unramified Hyodo–Kato cohomology and its derived Frobenius eigenspace in the strict category.
+- The splitting branch for quasi-compact spaces (README §2.8): lacks the overconvergent log-crystalline complex of a dagger space, its comparison with completed-unramified Hyodo–Kato cohomology and its derived Frobenius eigenspace in the strict category.
 - A noncanonical decomposition of syntomic cohomology (README §2.9): lacks the analytic syntomic TVS object and reasonable period Pairs.
 - Reasonableness and intrinsic uniqueness for quasi-compact spaces (README §2.10): lacks the analytic torsion period Pair, its reasonable presentation and the qBC subobject and quotient carriers.
 - Nonnegative de Rham slopes for products (README §3.2): lacks small dagger spaces with filtered HK modifications and compatible cup products.
 - Algebraic analytifications have nonnegative slopes (README §3.3): lacks dagger analytification and its filtered analytic HK realization.
-- Almost proper varieties have nonnegative slopes (README §3.4): lacks proper smooth rigid pairs and their logarithmic and naive filtered period cohomology.
+- Almost proper varieties and tube complements (README §3.4): lacks proper smooth rigid pairs and their logarithmic and naive filtered period cohomology.
 - The logarithmic and naive filtration discrepancy (README §3.5): lacks the logarithmic period and pro-étale complexes in their compatible left-heart realization.
 - Comparison for semistable tube complements (README §3.6): lacks weak formal generic fibres, dagger tubes and their filtered analytic HK realization.
 - Small tubular neighbourhoods in projective space (README §3.7): lacks projective dagger tube complements with their analytic HK period realizations.
 - The inverse-limit obstruction sequence (README §4.2): lacks countable systems of strict derived analytic cohomology complexes and their descent maps.
 - A de Rham criterion for R¹lim vanishing (README §4.3): lacks the natural finite BC quotients of analytic cohomology systems.
-- Étale Künneth with a proper factor (README §4.4): lacks rigid analytic integral étale cohomology and proper analytic base change.
+- Künneth and R¹lim vanishing for proper times Stein (README §4.4): lacks rigid analytic integral étale cohomology and proper analytic base change.
 - R¹lim vanishing for proper times Stein (README §4.5): lacks proper-times-Stein analytic pro-étale cohomology and strict exhaustion descent.
 - Pro-étale Künneth for proper times Stein (README §4.6): lacks the cup-product map on proper-times-Stein analytic pro-étale cohomology.
 - The fundamental diagram for proper times Stein (README §4.7): lacks the fundamental left-heart square of the possibly non-small proper-times-Stein space.
-- Vanishing on the differential error term (README §5.1): lacks dagger differential-form cohomology with natural completed Galois representations and Fontaine periods.
+- Error-term vanishing and arithmetic recovery (README §5.1): lacks dagger differential-form cohomology with natural completed Galois representations and Fontaine periods.
 - Vanishing on the arithmetic torsion kernel (README §5.2): lacks the actual analytic filtered-cohomology torsion kernel with its topology and Galois action.
 - Arithmetic pro-étale-to-de Rham recovery (README §5.3): lacks dagger pro-étale and filtered HK/de Rham realizations with smooth Galois period-Hom.
-- Geometric pro-étale-to-period-module recovery (README §5.4): lacks the natural analytic TVS functor and period functors on sympathetic algebras.
+- Geometric recovery and its positive crystalline refinement (README §5.4): lacks the natural analytic TVS functor and period functors on sympathetic algebras.
 - Positive crystalline recovery for affinoids (README §5.5): lacks the natural analytic TVS and positive crystalline period functors, plus their completed unramified scalar extension.
 
 Proper rigid comparison over K and C is consumed from CohomologyComparisons
