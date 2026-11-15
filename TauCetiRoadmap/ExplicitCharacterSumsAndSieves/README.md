@@ -1814,6 +1814,8 @@ theorem of this roadmap. The consumers are §3.4 and §3.5 (6.1), §4.4 (6.5, 6.
 
 ## Downstream consumers
 
+- **ExplicitMultiplicativeFunctions**: the diagonal sum `selbergDiagonal` of §5.1, the carrier of
+  its sum `G₁(D) = Σ_{d ≤ D} μ²(d)/φ(d)` in Layer 7.2.
 - **ExplicitNumberFields**: Burgess's moment bound with its shifted form and the `r = 2`
   refinements (§4.1), the Burgess inequalities of §§4.4–4.5, and the Pólya–Vinogradov
   inequalities of Layer 3 with the initial-sum form of §3.5, for least primitive roots and
