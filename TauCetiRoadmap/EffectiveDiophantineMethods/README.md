@@ -446,10 +446,10 @@ coverage theorems are proved mathematical targets and do not assume completeness
 The exact-algebraic interface follows the design of
 [Hex's algebraic numbers](https://kim-em.github.io/blog/2026-9-8-exact-algebraic-numbers-and-number-fields-in-lean/):
 an exact algebraic value and a selected root, with theorem-level comparison to its polynomial
-and isolating region. Use the native algebraic closure at the pins. GeometryOfNumbersAndQuadraticArithmetic
-§5.1 follows [hex-lll's correctness interface](https://github.com/leanprover/hex-lll-mathlib/blob/072ba84e7b8925e9283af64618fb5e8803cfc2a0/HexLLLMathlib/Reduction.lean)
-for reduced bases; every reducedness and integral basis-change identity needed here is stated
-as a mathematical hypothesis. No external executable representation is imported.
+and isolating region. Use the native algebraic closure at the pins. For reduced bases, every
+reducedness and integral basis-change identity needed here is stated as a mathematical hypothesis
+on the carriers of GeometryOfNumbersAndQuadraticArithmetic §5.1. No external executable
+representation is imported.
 
 ## How to read the build
 
