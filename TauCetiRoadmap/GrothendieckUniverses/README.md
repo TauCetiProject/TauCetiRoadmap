@@ -321,7 +321,7 @@ outside this roadmap.
 
 Universes entered Bourbaki's discussions of the foundations of categories in the 1950s through
 Grothendieck (Krömer 2006) and are the working foundation of SGA 4 and of Kashiwara–Schapira 2006,
-ch. 1. Grothendieck introduced them in a Bourbaki draft of 1958 answering Lacombe's proposal of
+ch. 1. Grothendieck introduced them in a Bourbaki draft answering Lacombe's proposal of
 a theory of classes, which could not express that composition of functors is a bifunctor (Krömer
 2006, §6, pp. 148–149).
 Hamkins–Solberg 2020 ask which Zermelo–Grothendieck universes admit a categorical
