@@ -151,17 +151,6 @@ theorem gaussSum_mul_orthogonalSum_sub_card (F : Type*) [Field F] [Finite F]
       = quadraticHypergeometricSum ψ (2 * n + 1) (4 * (a : F)) := by
   sorry
 
-/-- **The orthogonal convolution identity** (Xu–Zhu, Corollary 5.3.11(i) and (1.2.9.2), with the
-half twist and sign corrected in README §9.4 and §11.1). Over every finite field and for every
-nontrivial additive character, for `N ≥ 2`,
-`U_N(a) − |F| = ∑_{uv = a} (Kl₂(u)² − |F|) · Kl_{2N−2}(v)` in raw sums. -/
-theorem orthogonalSum_sub_card_eq_convolution (F : Type*) [Field F] [Finite F]
-    {K : Type*} [Field K] (ψ : AddChar F K) (hψ : ψ ≠ 1) (N : ℕ) (hN : 2 ≤ N) (a : Fˣ) :
-    orthogonalSum ψ N a - Nat.card F
-      = ∑ᶠ u : Fˣ, (kloostermanSum ψ 2 u ^ 2 - Nat.card F)
-          * kloostermanSum ψ (2 * N - 2) (a * u⁻¹) := by
-  sorry
-
 /-- **Everywhere ordinarity of the orthogonal Bessel F-isocrystals, on trace functions**
 (Xu–Zhu, Theorem 1.2.4(ii) and Theorem 5.4.2(ii), types `B_n` and `D_{n+1}`). For a finite field
 `F` of characteristic `p`, `a ∈ Fˣ` and `n ≥ 1`, there are `β₀, …, β_{2n} ∈ ℂ_p` with
