@@ -1681,7 +1681,7 @@ PurityForFlatCohomology §1.6 consumes local Lefschetz (§7.3) for its bound of 
 
 - **ILO-final-IX.** L. Illusie, *Uniformisation locale première à ℓ*, published Exposé IX, pp. 161–165, [Theorems 1.1–1.2, p. 161](https://www.numdam.org/item/AST_2014__363-364__161_0/). The generic curve is geometrically irreducible; the prime-to-ℓ statement in Exposé II is 4.3.2.
 
-- **ILO-final-XIII.** L. Illusie, *Le théorème de finitude*, published Exposé XIII, pp. 261–275, [Théorème 2.2.2 and §2.2.3, p. 263](https://www.numdam.org/item/AST_2014__363-364__261_0/). The hypercover uses the h-topology on finite-type X-schemes, with ordinary matching objects and, in every degree, snc-complement or empty inverse images of U on the regular connected terms.
+- **ILO-final-XIII.** F. Orgogozo, *Le théorème de finitude*, published Exposé XIII, pp. 261–275, [Théorème 2.2.2 and §2.2.3, p. 263](https://www.numdam.org/item/AST_2014__363-364__261_0/). The hypercover uses the h-topology on finite-type X-schemes, with ordinary matching objects and, in every degree, snc-complement or empty inverse images of U on the regular connected terms.
 
 - **ILO-final-XII.** F. Orgogozo, *Descente cohomologique orientée*, published Exposé XII-A, pp. 235–249, [§§1.3–1.4 and 2.1–2.3, pp. 238–248](https://www.numdam.org/item/AST_2014__363-364__235_0/). The ambient category is scheme diagrams; Theorems 2.2.3 and 2.2.5 give h-oriented descent and coherent hyper-base-change. Remark 2.2.6.1 distinguishes fixed torsion coefficients from torsion cohomology; the non-abelian continuity qualification is explicit.
 
