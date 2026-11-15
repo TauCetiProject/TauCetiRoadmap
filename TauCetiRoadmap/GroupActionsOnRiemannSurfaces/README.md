@@ -100,8 +100,11 @@ geometric carriers specified below; the module docstring identifies these missin
   non-hyperelliptic families are excluded below.
 - **Riemann existence for covers of arbitrary curves, Nielsen classes, Hurwitz spaces, lifting
   invariants, rigidity, fields of moduli** (`../InverseGaloisAndArithmeticFundamentalGroups`);
-  **Teichmüller space and the fixed-locus theorem** (`../TeichmullerGeometry`); **closed and boundary-relative mapping class
-  groups and the classification of compact surfaces** (`../SurfaceTopology`); **Fuchsian groups,
+  **Teichmüller space, the fixed-locus theorem and the classification of compact surfaces by
+  polygon schemas** (`../TeichmullerGeometry`, §0.0f for the classification); **closed and
+  boundary-relative mapping class groups** ([geometric topology](../GeometricTopology/README.md)
+  Layer 1.7.2); **van Kampen presentations** ([algebraic
+  topology](../AlgebraicTopology/README.md) Layer 1); **Fuchsian groups,
   presentations, compactification, Riemann–Hurwitz for finite holomorphic maps**
   ([Fuchsian orbifolds](../FuchsianOrbifolds/README.md)); **three-point covers and dessins**
   ([Belyi maps](../BelyiMaps/README.md)).
@@ -336,9 +339,17 @@ For rational semisimple blocks consume
 - MordellLawrenceVenkatesh §§5.9 and 5.21 supplies punctured mapping classes, their outer
   action on conjugacy classes of homomorphisms, and capping with marked discs. This roadmap
   owns the cone-order restriction, half-twist formula and sphere comparison in §3.4.
-- From *Surface topology* (`../SurfaceTopology`): Layer 7 (the edge-path group of a surface map
-  and its standard presentation), Layer 8 (classification of compact surfaces), Layer 9 (mapping
-  class groups `MappingClassGroupPlus`, Dehn twists, Lickorish generators).
+- From TeichmullerGeometry §0.0f: polygon schemas, the standard orientable model of genus `h`
+  with `r` boundary circles, whose canonical word for `(h, r) ≠ (0, 0)` is `h` handle blocks
+  followed by `r` hole blocks, and the classification of compact surfaces with boundary up to
+  homeomorphism.
+- From [geometric topology](../GeometricTopology/README.md) Layer 1.7.2: the mapping class group
+  `Mod(F)` of a compact surface `F`, isotopy classes of diffeomorphisms fixing `∂F` pointwise,
+  its orientation-preserving subgroup `Mod⁺(F)` for oriented `F`, and Dehn twists; its Layer
+  11.2.1 items 2 and 5 read these classes as isotopy classes of homeomorphisms fixing `∂F`
+  pointwise.
+- From [algebraic topology](../AlgebraicTopology/README.md) Layer 1: the based van Kampen
+  presentation (§§1.3–1.4) and the free fundamental group of a wedge of circles (§1.5).
 - From [algebraic curves](../AlgebraicCurves/README.md) Layer 11 (automorphisms of function
   fields, rigidity, finiteness, the `84(g − 1)` bound, the characteristic-`p` caveats) and Layer
   12 (the dictionary between compact Riemann surfaces over `ℂ`, function fields and curves); from
@@ -748,8 +759,9 @@ a point of stabilizer order `m_j` acting as the rotation `ζ` of 1.2, and genera
 surjectivity. Name it GenVector.ofAction (it depends on the choice of standard generators and of
 `x₀`), and retain the marked complex quotient Q alongside the vector. The presentation
 is obtained directly by cutting the punctured surface to its oriented polygon, using
-SurfaceTopology Layers 7–8 for the compact surface and boundary presentation.
-*Needs:* §§1.2–1.4; BelyiMaps Layers 5–6; SurfaceTopology Layers 7–8.
+TeichmullerGeometry §0.0f for the polygon word of the compact surface of genus `h` with `r`
+boundary circles and AlgebraicTopology Layer 1 for the presentation it gives.
+*Needs:* §§1.2–1.4; BelyiMaps Layers 5–6; TeichmullerGeometry §0.0f; AlgebraicTopology Layer 1.
 
 **Checks.**
 
@@ -813,12 +825,12 @@ The C₁₀ action on y²=x⁵−1 realizes genus two, while its C₂ restrictio
 
 ### Dependencies
 
-Layers 0–1; FuchsianOrbifolds Layers 2, 4–5; BelyiMaps Layers 5–6; SurfaceTopology Layers 7–8; ComplexCurveModuli D0 item 4.
+Layers 0–1; FuchsianOrbifolds Layers 2, 4–5; BelyiMaps Layers 5–6; TeichmullerGeometry §0.0f; AlgebraicTopology Layer 1; ComplexCurveModuli D0 item 4.
 
 ## Layer 3: refined passports, braid classes, topological classes
 
 Sources: Broughton §2 (Proposition 2.2: topological equivalence is Aut(G) × Mod), §3;
-Breuer §3, p.7 and §14, p.45; the inverse-Galois roadmap IG.3.2 for the Hurwitz action; TeichmullerGeometry §5.6; Surface topology Layer 9.
+Breuer §3, p.7 and §14, p.45; the inverse-Galois roadmap IG.3.2 for the Hurwitz action; TeichmullerGeometry §5.6; GeometricTopology Layer 1.7.2.
 
 ### 3.1 Refined passports
 
@@ -910,8 +922,8 @@ mapping-class action. No outer automorphism acts on raw homomorphisms without ch
 - For S₃ and `(2;∅)`, there are 360 generating vectors and 60 inner classes;
   the braid relation of §3.3 has 60 classes, not 360.
 
-*Needs:* §§0.5, 2.4–2.6, 3.3; SurfaceTopology Layers 7–9 for compact boundary-relative
-surfaces; MordellLawrenceVenkatesh §§5.9, 5.21 for punctures and capping;
+*Needs:* §§0.5, 2.4–2.6, 3.3; TeichmullerGeometry §0.0f and GeometricTopology Layer 1.7.2 for
+compact boundary-relative surfaces; MordellLawrenceVenkatesh §§5.9, 5.21 for punctures and capping;
 InverseGaloisAndArithmeticFundamentalGroups IG.3.2 for the Hurwitz action;
 TeichmullerGeometry §5.6 for closed-surface stabilizers.
 
@@ -971,7 +983,7 @@ The unramified S₃ example has 360 vectors and 60 inner/braid classes; the Klei
 
 ### Dependencies
 
-Layers 0–2; InverseGaloisAndArithmeticFundamentalGroups IG.3.2; MordellLawrenceVenkatesh §§5.9, 5.21; SurfaceTopology Layers 7–9; TeichmullerGeometry §5.6.
+Layers 0–2; InverseGaloisAndArithmeticFundamentalGroups IG.3.2; MordellLawrenceVenkatesh §§5.9, 5.21; GeometricTopology Layer 1.7.2; TeichmullerGeometry §§0.0f, 5.6.
 
 ## Layer 4: quotient genus, dimension, finiteness, and the Hurwitz and Wiman bounds
 
