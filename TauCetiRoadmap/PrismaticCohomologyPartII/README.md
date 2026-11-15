@@ -10,18 +10,7 @@ This part consumes PrismaticCohomology Layers 0–2; PrismaticCohomologyPartIII 
 
 This roadmap owns the primitive AΩ/prismatic comparison (§5.23), the perfect-prism η-uniqueness theorem (§5.25), and absolute Nygaard, twist and divided-Frobenius data (§§3.9, 3.20, 4.25–4.31). These are the primitive inputs for CohomologyComparisons §1.7's agreement with its chosen crystalline, de Rham and étale specialization maps and §1.11's syntomic coefficients. On A_inf coefficients, §3.9 identifies the general prism twist with the line supplied by AInfCohomology §AI.0:integral.1.
 
-### Imported generalized Cartier divisors (§4.2)
-
-SchemeAndStackFoundations §1.21, `lineBundleSectionStack`, supplies `Cart = [A¹/G_m]` as the stack of line bundles with a section. Use its dual convention: a point is an invertible module `I` with a linear map `α : I → R`, corresponding to the section `α` of `I∨`; arrows `ρ : I ≃ I′` satisfy `α′ρ = α`. Its fpqc stack structure is SchemeAndStackFoundations §§1.1, 1.18, 1.21. This roadmap consumes that stack and its base-change maps in constructing Cartier–Witt divisors. (BL22 Definition 3.1.1, Remarks 3.1.2–3.1.3, p.39.)
-
-The required interface includes principal points `(R, f·)`, the point `(I, inclusion)` for an invertible ideal, and pullback `(S ⊗ I, S ⊗ α)`, with identities and composition. The effective-Cartier subcategory is the one with injective `α`, whose automorphism groups are trivial; it need not be preserved by arbitrary pullback. Two principal points for `f,g` are isomorphic exactly when `g = u f` for a unit `u`. These are consequences of the supplied classification, with no second generalized-divisor carrier.
-
-**Checks.**
-
-- Over a nonzero ring `R`, `(R, 0)` is a generalized divisor and is not effective Cartier.
-- For a unit `u`, `(R, u·)` is isomorphic to `(R, 1·)`, the empty divisor.
-- `(Z, p·)` is effective Cartier; its pullback to `F_p` is not.
-- Automorphisms of `(R, f·)` are the units `u` with `u f = f`; if `f` is regular only `u = 1` occurs.
+Generalized Cartier divisors are supplied by SchemeAndStackFoundations §1.21; §4.2 records the imported interface for Cartier–Witt geometry.
 
 ## Conventions
 
@@ -789,6 +778,19 @@ Site cohomology below assumes X bounded. All site prisms are bounded; an initial
 - A prism endomorphism of `(A, I)` that does not induce the identity on `A/I` is not a morphism of the object `(A, I, id)` of `(Spf A/I)_Δ`: the site is not the category of all bounded prisms.
 
 **Proof route.** Category: triples `(A, I, u)` with the maps of prisms of PrismaticCohomology §0.73 compatible with the structure maps; composition and identities are those of prisms (Bhatt–Scholze F-crystals, Definition 2.3; Bhatt–Lurie, Definition 4.4.27).
+
+### 4.2 Imported generalized Cartier divisors
+
+SchemeAndStackFoundations §1.21, `lineBundleSectionStack`, supplies `Cart = [A¹/G_m]` as the stack of line bundles with a section. Use its dual convention: a point is an invertible module `I` with a linear map `α : I → R`, corresponding to the section `α` of `I∨`; arrows `ρ : I ≃ I′` satisfy `α′ρ = α`. Its fpqc stack structure is SchemeAndStackFoundations §§1.1, 1.18, 1.21. This roadmap consumes that stack and its base-change maps in constructing Cartier–Witt divisors. (BL22 Definition 3.1.1, Remarks 3.1.2–3.1.3, p.39.)
+
+The required interface includes principal points `(R, f·)`, the point `(I, inclusion)` for an invertible ideal, and pullback `(S ⊗ I, S ⊗ α)`, with identities and composition. The effective-Cartier subcategory is the one with injective `α`, whose automorphism groups are trivial; it need not be preserved by arbitrary pullback. Two principal points for `f,g` are isomorphic exactly when `g = u f` for a unit `u`. These are consequences of the supplied classification, with no second generalized-divisor carrier.
+
+**Checks.**
+
+- Over a nonzero ring `R`, `(R, 0)` is a generalized divisor and is not effective Cartier.
+- For a unit `u`, `(R, u·)` is isomorphic to `(R, 1·)`, the empty divisor.
+- `(Z, p·)` is effective Cartier; its pullback to `F_p` is not.
+- Automorphisms of `(R, f·)` are the units `u` with `u f = f`; if `f` is regular only `u = 1` occurs.
 
 ### 4.3 The Cartier–Witt stack with its atlas and prism charts
 
@@ -1871,7 +1873,7 @@ For two framed data of smooth R over q-PD D flat over A, their completed tensor 
 
 Different framed complexes are identified in `D(D)`, with product and `φ`, rather than by a termwise isomorphism.
 
-(BS22, Construction 16.20, functoriality; p. 115; BS22, Theorem 16.22, proof; pp. 115–116; BS22, Example 1.9 (4); p. 5.)
+(BS22, Construction 16.20, functoriality; p. 115; BS22, Theorem 16.22, proof; pp. 115–116; BS22, Example 1.9 (4); p. 6.)
 
 *Needs:* §5.19, §5.16, §5.11, CrystallineCohomology Layer CR.2, §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.4, CR.DDR.5.8–CR.DDR.5.10, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology Layer 1.
 
@@ -1883,7 +1885,7 @@ For smooth `R/Z_p` with étale framing `Z_p⟨T₁,…,T_d⟩→R`, let P lift i
 
 The input to `Δ` is R¹, over the prism ideal `([p]_q); q−1` is not that prism ideal.
 
-(BS22, Example 1.9 (4); p. 5; BS22, §16, introduction; p.106.)
+(BS22, Example 1.9 (4); p. 6; BS22, §16, introduction; p.106.)
 
 *Needs:* §5.19, §5.13, §5.20, §5.11, §5.5, §5.16, PrismaticCohomology §0.77, §5.0, CrystallineCohomology Layer CR.2, §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.4, CR.DDR.5.8–CR.DDR.5.10.
 
