@@ -54,7 +54,7 @@ Not owned here:
 - `Metric.closedBall`, `Metric.ball`, `Metric.sphere`, `EuclideanSpace ℝ (Fin 4)`, `fderiv`,
   `Circle.exp`, `ContinuousMap`, `FundamentalGroup` and `FundamentalGroup.map`.
 
-### From Tau Ceti (commit 2fd255d9)
+### From Tau Ceti
 
 - `TauCeti.Analysis.Calculus.Morse.Basic`: `TauCeti.HasNondegenerateCriticalPointsOn`;
   `TauCeti.Analysis.Calculus.Morse.Index`: `TauCeti.morseIndex`.
