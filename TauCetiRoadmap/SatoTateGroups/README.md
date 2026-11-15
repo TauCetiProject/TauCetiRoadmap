@@ -353,6 +353,7 @@ connected Galois monodromy using Deligne's finite-action theorem.
 - From *Abelian schemes and arithmetic moduli*, Layer A6, cited by milestone number: `IsSimple`
   with `simpleEndDivision` (A6.4), Poincaré complete reducibility (A6.5), `homFreeFinite`
   (A6.7), `endQ_isSemisimple` (A6.8), `charpolyTate` (A6.11), `rosatiPositivity` (A6.14),
+  Frobenius semisimplicity on `V_ℓ` (A6.21),
   `rosatiRegularRepresentation`, `realCentralDivisionAlgebra` and `realRosatiDecomposition`
   (A6.15), `reducedTraceComparison` (A6.17), the integral Tate module `T_ℓ(A)` with its Galois
   action (A4.1) and the complex uniformization of `A(ℂ)` (A5). Layer 8 below adds no second
@@ -405,7 +406,9 @@ connected Galois monodromy using Deligne's finite-action theorem.
   variety (§6.10: the strictly compatible system over `ℚ` formed by the `H^i_ét(A_k̄, ℚ_ℓ)`, with
   `H¹` the dual of the Tate module) and its `p`-adic comparison target (the Tate module is de
   Rham at every prime and crystalline at the primes of good reduction above it), the inputs of
-  the openness statement of 9.2; and the Néron–Ogg–Shafarevich criterion (Layer 5, 8.2).
+  the openness statement of 9.2; the Néron–Ogg–Shafarevich criterion (Layer 5, 8.2); and, at a
+  prime of good reduction not above `ℓ`, the action of arithmetic Frobenius on the Tate module as
+  the Frobenius endomorphism of the reduction (§5.0b, 9.2).
 - From [ReductiveGroups](../ReductiveGroups/README.md) Layer 3: identity components and component
   groups of affine algebraic groups, and the Zariski closure of a subgroup of the rational points
   as a closed subgroup scheme.
@@ -1918,9 +1921,10 @@ is continuous for the Krull topology and the discrete topology on the finitely g
 `geomEnd A` (A6.7: `Hom` is free of finite rank, so the action factors through a finite
 quotient), it fixes the image of `End A`, and **Galois descent**: for an intermediate field
 `L`, the fixed points of `Gal(k̄/L)` are exactly the image of `End (A.baseChange L)`
-(a `Gal(k̄/L)`-invariant morphism `A_k̄ → A_k̄` descends to `A_L`; Milne, *Abelian Varieties*,
-§I.1 and the descent of morphisms along `k̄/L`, proved here for the finitely many coefficients of
-the graph). *Needs:* Tau Ceti `AbelianVariety.*`, A6.2, A6.7.
+(a `Gal(k̄/L)`-invariant morphism `A_k̄ → A_k̄` is defined over a finite Galois extension `L'/L`,
+since its graph has finitely many coefficients, and is there compatible with the canonical
+descent datum, so it descends to `A_L`: Milne, *Abelian Varieties*, III, Proposition 1.13(a),
+p. 90). *Needs:* Tau Ceti `AbelianVariety.*`, A6.2, A6.7.
 
 The required API includes:
 
@@ -2214,12 +2218,14 @@ lies in `GSp(V_ℓ, ψ)`; write `N : G_ℓ^{Zar} → 𝔾_m` for the similitude 
 
 - **Homotheties** (Serre §8.3.2, pp. 114–115, Deligne's argument): the cocharacter
   `w : 𝔾_m → GL(V_ℓ)`, `w(x) = x·id`, lands in `G_ℓ^{Zar}`, its image is central, and `N ∘ w = 2`.
-  Route: for one prime `𝔭` of good reduction, the smallest algebraic subgroup containing
-  `ρ(Frob_𝔭)` is diagonalizable with character group `ℤ^{2g}/R`, where `R` is the lattice of
-  multiplicative relations among the eigenvalues; every relation has coefficient sum `0` because
-  the eigenvalues have absolute value `q^{1/2}` (the Weil bound, *Deligne weights*), and that is
-  exactly the condition for `w` to factor through this subgroup. Hence `w(𝔾_m) ≤ (G_ℓ^{Zar})⁰`
-  and `G_ℓ^{Zar} = G_ℓ^1 · w(𝔾_m)`.
+  Route: for one prime `𝔭` of good reduction not above `ℓ`, `ρ(Frob_𝔭)` acts on `V_ℓ` as the
+  Frobenius endomorphism of the reduction `A_𝔭` (NeronModelsAndSemistableAbelianVarieties §5.0b),
+  which acts semisimply (*Abelian schemes* A6.21), so the smallest algebraic subgroup containing
+  `ρ(Frob_𝔭)` is, over `ℚ̄_ℓ`, diagonalizable with character group `ℤ^{2g}/R`, where `R` is the
+  lattice of multiplicative relations among the eigenvalues; every relation has coefficient sum
+  `0` because the eigenvalues have absolute value `q^{1/2}` (the Weil bound, *Deligne weights*),
+  and that is exactly the condition for `w` to factor through this subgroup. Hence
+  `w(𝔾_m) ≤ (G_ℓ^{Zar})⁰` and `G_ℓ^{Zar} = G_ℓ^1 · w(𝔾_m)`.
 - **Openness** (Bogomolov): `ρ(G_k)` is open in `G_ℓ^{Zar}(ℚ_ℓ)`, consumed from
   PotentialModularityAndCompatibleSystems §1.20 for the Tate-module system of `A` (*Exact
   supplier contracts*; the Hodge–Tate property of `V_ℓ(A)` at the primes above `ℓ` is that
@@ -2238,10 +2244,11 @@ lies in `GSp(V_ℓ, ψ)`; write `N : G_ℓ^{Zar} → 𝔾_m` for the similitude 
   finite groups. Surjectivity: `G_ℓ^{Zar} = G_ℓ^1 · w(𝔾_m)` with `w(𝔾_m)` connected. Injectivity:
   `K := G_ℓ^1 ∩ (G_ℓ^{Zar})⁰ = ker(N|_{(G_ℓ^{Zar})⁰})` is connected — otherwise `K = K⁰ ⊔ w(−1)K⁰`,
   `w` induces `𝔾_m ≅ (G_ℓ^{Zar})⁰/K⁰`, and `N` is the square of the character
-  `ν : (G_ℓ^{Zar})⁰ → 𝔾_m` so obtained; then `ν ∘ ρ` on the connectedness field `L` of 9.5 is a
-  continuous character with `(ν ∘ ρ)² = χ_ℓ`, Hodge–Tate at the primes above `ℓ` as a subquotient
-  of a tensor construction on `V_ℓ(A)` (PadicHodgeTheory §3.3), hence of the form
-  `χ_ℓ^i · (finite on inertia)` with `2i = 1`, which is impossible.
+  `ν : (G_ℓ^{Zar})⁰ → 𝔾_m` so obtained; then on the absolute Galois group of the component field
+  of ArithmeticGaloisRepresentations §7.6 (the finite Galois extension of `k` over which `ρ` takes
+  values in `(G_ℓ^{Zar})⁰`), `ν ∘ ρ` is a continuous character with `(ν ∘ ρ)² = χ_ℓ`, Hodge–Tate
+  at the primes above `ℓ` as a subquotient of a tensor construction on `V_ℓ(A)` (PadicHodgeTheory
+  §3.3), hence of the form `χ_ℓ^i · (finite on inertia)` with `2i = 1`, which is impossible.
 - **Base change**: for `k'/k` finite, `G_ℓ^{Zar}(A_{k'})`, the closure of the finite-index subgroup
   `ρ(G_{k'})`, is a closed subgroup of finite index of `G_ℓ^{Zar}(A)` with the same identity
   component (ArithmeticGaloisRepresentations §7.6), and `G_ℓ^1(A_{k'}) = G_ℓ^1(A) ∩ G_ℓ^{Zar}(A_{k'})`
@@ -2252,8 +2259,9 @@ lies in `GSp(V_ℓ, ψ)`; write `N : G_ℓ^{Zar} → 𝔾_m` for the similitude 
 
 *Needs:* 9.1; ArithmeticGaloisRepresentations §7.6; ReductiveGroups Layer 3;
 DeligneWeightsAndPurity §2.2 and its Weil bound; PotentialModularityAndCompatibleSystems §1.20;
-NeronModelsAndSemistableAbelianVarieties §6.10 and its `p`-adic comparison; PadicHodgeTheory
-§3.3; FaltingsFinitenessAndIsogenyTheorems R28.4.5.
+NeronModelsAndSemistableAbelianVarieties §5.0b, §6.10 and its `p`-adic comparison;
+AbelianSchemesAndArithmeticModuli A6.21; PadicHodgeTheory §3.3;
+FaltingsFinitenessAndIsogenyTheorems R28.4.5.
 
 **Checks.**
 
@@ -2383,8 +2391,10 @@ eigenangle `θ_𝔭 = arccos(a_𝔭 / (2√q)) ∈ [0, π]`. For a Weierstrass c
 `HasGoodReductionAt W 𝔭` is good reduction of the minimal model of `W` over the completion `k_𝔭`
 (Mathlib's `WeierstrassCurve.HasGoodReduction`), and `normalizedTrace W 𝔭 = a_𝔭/√q` is read off
 the degree-one coefficient `−a_𝔭` of Mathlib's `WeierstrassCurve.localPolynomial`
-`1 − a_𝔭 T + q T²` of that model, with `q = #𝔽_𝔭`. (FKRS Definition 2.9; Remark 2.10 records that
-`g_𝔭` is expected to be semisimple.) *Needs:* 9.3, A6.11, DeligneWeightsAndPurity, Tau Ceti
+`1 − a_𝔭 T + q T²` of that model, with `q = #𝔽_𝔭`. (FKRS Definition 2.9 takes the semisimple part,
+and its Remark 2.10 expects `g_𝔭` to be semisimple; for abelian varieties it is, since
+`ρ(Frob_𝔭)` acts semisimply on `V_ℓ` (9.2; *Abelian schemes* A6.21), so the class is that of
+`q^{−1/2} g_𝔭` itself.) *Needs:* 9.3, A6.11, DeligneWeightsAndPurity, Tau Ceti
 `HasseBound.lean`.
 
 The required API includes:
@@ -3021,8 +3031,8 @@ with maximal component orders `192`, `432`, `336`.
   LNM 900 (1982); Deligne, *Hodge cycles on abelian varieties*, author version
   revised 2018, Proposition 2.9(b) and Theorem 2.11, pp.18–19 (finite Galois action
   and absolute Hodge cycles, used for the inclusion of 9.10).
-- J. S. Milne, *Abelian varieties* (course notes, v2.0, 2008), §§1, 10, 20–21 (endomorphism
-  algebras, Rosati, the field of definition of endomorphisms).
+- J. S. Milne, *Abelian varieties* (course notes, v2.0, 2008), III, Proposition 1.13(a), p. 90
+  (Galois descent along a finite Galois extension, used in 8.1).
 - D. Mumford, *Abelian varieties*, Tata Institute / Oxford (1974), §21 (Rosati positivity, Albert).
 - G. Shimura, *On the real points of an arithmetic quotient of a bounded symmetric domain*, Math.
   Ann. 215 (1975), 135–164 (the Shimura curve of an indefinite quaternion division algebra over
