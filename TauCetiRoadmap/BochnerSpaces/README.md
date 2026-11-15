@@ -1145,6 +1145,9 @@ when `1<p<∞`, by localizing each functional to an appropriate
 
 ### 8.3 Duality of atomic Bochner spaces and ℓᵖ(I;X)
 
+Use Mathlib's [`lp.dualPairing`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/Normed/Lp/lpHolder.lean#L264) and
+[`lp.norm_dualPairing`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/Normed/Lp/lpHolder.lean#L275) for the sum pairing and its norm bound.
+
 Construct the vector-valued analogues of
 `lp.dualEquiv`: for arbitrary index sets and `1<p<∞`,
 `(ℓᵖ(I;X))*≃ℓ^q(I;X*)`, and
