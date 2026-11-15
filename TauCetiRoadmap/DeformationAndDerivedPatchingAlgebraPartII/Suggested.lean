@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RingTheory.CohenMacaulay.Basic
 import TauCeti.RingTheory.Ideal.AffineBlowup
 
 /-!
@@ -15,13 +16,13 @@ of Kawasaki's Cohen–Macaulay theorem and Huckaba's monomial counterexample ove
 The auxiliary definitions have real bodies on Mathlib's quotients, local cohomology, support
 dimension and localized modules, and Tau Ceti's affine blow-up algebras.
 
-At the pins there is no module Cohen–Macaulay predicate or local-ring depth function.
-`LowLocalCohomologyVanishes` expresses Cohen–Macaulayness of a finite module over a Noetherian
-local ring by the vanishing of its actual local cohomology below its support dimension.
-`IsCMBlowupChartwise` applies this condition at every prime of every chart. Thus the K3 dimension
-bound and K4 conclusions can be stated on chart modules without constructing a sheaf: the
-charts cover the blow-up, and Cohen–Macaulayness is local. These statements include arbitrary
-finite modules and arbitrary CM-secant lists, with no regularity assumption on the list.
+Cohen–Macaulayness of a module over a local ring is Tau Ceti's `Module.IsCohenMacaulay` (the
+module is zero or its depth equals its support dimension), and depth is Mathlib's
+`IsLocalRing.depth`. `IsCMBlowupChartwise` asks for `Module.IsCohenMacaulay` at every prime of
+every chart. Thus the K3 dimension bound and K4 conclusions can be stated on chart modules
+without constructing a sheaf: the charts cover the blow-up, and Cohen–Macaulayness is local.
+These statements include arbitrary finite modules and arbitrary CM-secant lists, with no
+regularity assumption on the list.
 
 K0.7's normalized local duality, its annihilator identity, catenarity and the descriptions of the
 non-Cohen–Macaulay locus and the defect set have no signatures here: the normalized dualizing
@@ -71,20 +72,12 @@ def IsSecant (M : Type u) [AddCommGroup M] [Module R M] (rs : List R) : Prop :=
       Module.supportDim R (prefixQuotient M (rs.take (i.val + 1))) <
         Module.supportDim R (prefixQuotient M (rs.take i.val))
 
-/-- Local cohomology at `𝔪` vanishes in every degree below the dimension of the support. For a
-finite module over a Noetherian local ring this is the Cohen–Macaulay condition
-(`Module.IsCohenMacaulay` of SchemeAndStackFoundations); the zero module satisfies it. -/
-def LowLocalCohomologyVanishes (R : Type u) [CommRing R] [IsLocalRing R] (M : Type u)
-    [AddCommGroup M] [Module R M] : Prop :=
-  ∀ j : ℕ, (j : WithBot ℕ∞) < Module.supportDim R M →
-    Subsingleton ((localCohomology (IsLocalRing.maximalIdeal R) j).obj (ModuleCat.of R M))
-
 /-- CM-secant sequences (Česnavičius, Definition 3.1(ii)): a secant sequence whose terminal
 quotient is Cohen–Macaulay and whose `i`-th entry lies in the annihilator product of the
 preceding prefix quotient, with the cutoff equal to that quotient's support dimension. Terminal
 Cohen–Macaulayness is required only of the final quotient. -/
 def IsCMSecant (M : Type u) [AddCommGroup M] [Module R M] (rs : List R) : Prop :=
-  IsSecant M rs ∧ LowLocalCohomologyVanishes R (prefixQuotient M rs) ∧
+  IsSecant M rs ∧ Module.IsCohenMacaulay R (prefixQuotient M rs) ∧
     ∀ i : Fin rs.length, ∃ d : ℕ,
       Module.supportDim R (prefixQuotient M (rs.take i.val)) = (d : WithBot ℕ∞) ∧
         rs[i] ∈ annihilatorProduct (IsLocalRing.maximalIdeal R) (prefixQuotient M (rs.take i.val)) d
@@ -218,10 +211,10 @@ theorem supportDim_chartModule_le [IsNoetherianRing R] (I : Ideal R) (a : R) (ha
   sorry
 
 /-- The module blowing-up `Bl_I(M)` is Cohen–Macaulay, tested on the chart of every `a ∈ I` at every
-prime: the localized chart module has vanishing local cohomology below its support dimension. -/
+prime: the localized chart module is Cohen–Macaulay over the local ring of the chart. -/
 def IsCMBlowupChartwise (I : Ideal R) (M : Type u) [AddCommGroup M] [Module R M] : Prop :=
   ∀ a ∈ I, ∀ p : PrimeSpectrum (ChartRing I a),
-    LowLocalCohomologyVanishes (Localization.AtPrime p.asIdeal)
+    Module.IsCohenMacaulay (Localization.AtPrime p.asIdeal)
       (LocalizedModule p.asIdeal.primeCompl (chartModule I a M))
 
 end Layer3
@@ -241,12 +234,9 @@ theorem depth_ge_of_kawasakiConditions [IsNoetherianRing R] (M : Type u) [AddCom
     (ha : a ∈ prefixProduct rs rs.length)
     (p : PrimeSpectrum (ChartRing (prefixProduct rs rs.length) a)) (hclosed : p.asIdeal.IsMaximal)
     (hover : p.asIdeal.comap (algebraMap R (ChartRing (prefixProduct rs rs.length) a)) =
-      IsLocalRing.maximalIdeal R)
-    (j : ℕ) (hj : j < rs.length) :
-    Subsingleton ((localCohomology (IsLocalRing.maximalIdeal (Localization.AtPrime p.asIdeal)) j).obj
-      (ModuleCat.of (Localization.AtPrime p.asIdeal)
-        (LocalizedModule p.asIdeal.primeCompl
-          (chartModule (prefixProduct rs rs.length) a M)))) := by
+      IsLocalRing.maximalIdeal R) :
+    (rs.length : ℕ∞) ≤ IsLocalRing.depth (ModuleCat.of (Localization.AtPrime p.asIdeal)
+      (LocalizedModule p.asIdeal.primeCompl (chartModule (prefixProduct rs rs.length) a M))) := by
   sorry
 
 /-- Kawasaki's theorem under weaker hypotheses (Česnavičius, proof of Theorem 3.14): a list secant
@@ -254,7 +244,7 @@ for `M` whose initial segments satisfy Kawasaki's conditions and whose terminal 
 Cohen–Macaulay. -/
 theorem isCMBlowupChartwise_of_kawasakiConditions [IsNoetherianRing R] (M : Type u)
     [AddCommGroup M] [Module R M] [Module.Finite R M] (rs : List R) (hsec : IsSecant M rs)
-    (hterm : LowLocalCohomologyVanishes R (prefixQuotient M rs))
+    (hterm : Module.IsCohenMacaulay R (prefixQuotient M rs))
     (hp : ∀ j ≤ rs.length, KawasakiConditions M (rs.take j)) :
     IsCMBlowupChartwise (prefixProduct rs rs.length) M := by
   sorry
@@ -297,7 +287,7 @@ whose blow-up at its maximal ideal fails to be Cohen–Macaulay, over every fiel
 theorem huckaba_not_isCMBlowupChartwise_maximalIdeal (k : Type u) [Field k] :
     IsNoetherianRing (huckabaLocalRing k) ∧ IsDomain (huckabaLocalRing k) ∧
       ringKrullDim (huckabaLocalRing k) = 2 ∧
-      LowLocalCohomologyVanishes (huckabaLocalRing k) (huckabaLocalRing k) ∧
+      Module.IsCohenMacaulay (huckabaLocalRing k) (huckabaLocalRing k) ∧
       ¬ IsCMBlowupChartwise (IsLocalRing.maximalIdeal (huckabaLocalRing k))
         (huckabaLocalRing k) := by
   sorry

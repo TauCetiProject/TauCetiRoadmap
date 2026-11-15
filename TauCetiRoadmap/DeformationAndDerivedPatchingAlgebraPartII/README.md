@@ -76,24 +76,25 @@ This roadmap owns:
 It leaves to other roadmaps, and imports:
 
 - **Mathlib**: local cohomology `localCohomology J j` (defined as a colimit of `Ext(R/Jⁿ, -)`),
-  annihilators, support and support dimension of modules, regular and weakly regular sequences,
-  the polynomial module and the Rees algebra, localizations of rings and modules, `Proj` of a
-  graded ring, sheaves of modules on schemes and the affine `tilde` construction, Krull dimension.
-- **Tau Ceti**: the grading `reesAlgebra.grade I` of the
-  Rees algebra, the affine blow-up algebra `Ideal.affineBlowup I a S` with its membership
-  criterion and universal property, and the chart open immersions
+  annihilators, support and support dimension of modules, depth `IsLocalRing.depth`, regular and
+  weakly regular sequences, the polynomial module and the Rees algebra, localizations of rings and
+  modules, `Proj` of a graded ring, sheaves of modules on schemes and the affine `tilde`
+  construction, Krull dimension.
+- **Tau Ceti**: Cohen–Macaulay modules `Module.IsCohenMacaulay`, the grading
+  `reesAlgebra.grade I` of the Rees algebra, the affine blow-up algebra `Ideal.affineBlowup I a S`
+  with its membership criterion and universal property, and the chart open immersions
   `TauCeti.AlgebraicGeometry.affineBlowupι` into `Proj (reesAlgebra.grade I)` with their covering
   and base compatibility. The blow-up scheme of this roadmap is `Proj (reesAlgebra.grade I)`.
 - **TauCetiRoadmap StableReduction, Layer 4**: the blowing-up of a quasi-coherent ideal as a
   relative `Proj`, its universal property, properness, behaviour away from the centre, the
   exceptional divisor, strict transforms of closed subschemes and the affine chart description.
-- **SchemeAndStackFoundations**: depth `IsLocalRing.depth` and Cohen–Macaulay modules
-  `Module.IsCohenMacaulay`, Cohen–Macaulay coherent sheaves
-  `AlgebraicGeometry.Scheme.Modules.IsCohenMacaulay` (§0.17, depth and Cohen–Macaulay modules;
-  §0.18, scheme-theoretic support and Cohen–Macaulay schemes), and catenary rings
-  `Excellence.IsCatenary` (§0.16); cohomology with supports, the comparison of sheaf and module
-  local cohomology, flat base change, and the characterization of depth as the first nonvanishing
-  local-cohomology degree (§2.7); dualizing complexes `DualizingComplex` and their normalization
+- **SchemeAndStackFoundations**: the API of depth and Cohen–Macaulay modules, Cohen–Macaulay
+  coherent sheaves `AlgebraicGeometry.Scheme.Modules.IsCohenMacaulay` (§0.17, depth and
+  Cohen–Macaulay modules; §0.18, scheme-theoretic support and Cohen–Macaulay schemes), and catenary
+  rings `Excellence.IsCatenary` (§0.16); cohomology with supports, the comparison of sheaf and
+  module local cohomology, flat base change, and the characterization of depth as the first
+  nonvanishing local-cohomology degree (§2.7); dualizing complexes `DualizingComplex` and their
+  normalization
   `NormalizedDualizing` over Noetherian (local) rings (§2.21); strict transforms of modules along
   modifications with a chosen dense open (§4.11). K3.4 extends the last construction to arbitrary
   blow-ups without a density or integrality hypothesis.
@@ -150,16 +151,15 @@ is introduced.
   `(r₁, …, rᵢ)`, not `(r₁, …, rₛ)`; (5) in display (3.14.10) the relevant map is multiplication by
   `r_b T − r_a`, the map of the exact sequence (3.14.7) (the printed `r_a T − r_b` also kills the
   module, so nothing is lost).
-- `Suggested.lean` states Cohen–Macaulayness of `M` as the vanishing of `H^j_𝔪(M)` for
-  `j < dim Supp M` (`LowLocalCohomologyVanishes R M`), and Cohen–Macaulayness of `Bl_I(M)` chartwise
-  (`IsCMBlowupChartwise I M`: at every prime of every chart `R[I/a]`, `a ∈ I`). The first agrees
-  with `Module.IsCohenMacaulay` for finite modules over Noetherian local rings (Layer K0.4); the
-  second agrees with `Scheme.Modules.IsCohenMacaulay` of `Bl_I(M)` because the charts of all
-  `a ∈ I` cover the blow-up and the condition is local (Layer K3.3).
+- `Suggested.lean` states Cohen–Macaulayness of a module with Tau Ceti's `Module.IsCohenMacaulay`,
+  and Cohen–Macaulayness of `Bl_I(M)` chartwise (`IsCMBlowupChartwise I M`: `Module.IsCohenMacaulay`
+  at every prime of every chart `R[I/a]`, `a ∈ I`). The chartwise condition agrees with
+  `Scheme.Modules.IsCohenMacaulay` of `Bl_I(M)` because the charts of all `a ∈ I` cover the blow-up
+  and the condition is local (Layer K3.3).
 
 ## Exact supplier contracts
 
-### From Mathlib (pinned at `6b7abb3c7686292736be2955bd3eb9ebf63b456a`)
+### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
 
 - Local cohomology: `localCohomology (J : Ideal R) (i : ℕ) : ModuleCat R ⥤ ModuleCat R`, and
   `localCohomology.isoOfSameRadical` (ideals with the same radical give isomorphic functors over a
@@ -186,13 +186,18 @@ is introduced.
   `AlgebraicGeometry.Scheme.Modules` with `Scheme.Modules.pullback` and `Scheme.Modules.presheaf`,
   `AlgebraicGeometry.tilde` and `tilde.map`, `PrimeSpectrum.zeroLocus`.
 - Dimension: `ringKrullDim`, `topologicalKrullDim`, `Polynomial.ringKrullDim_of_isNoetherianRing`.
+- Depth: `IsLocalRing.depth` in `Mathlib.RingTheory.Depth.Basic`, the least `n` with
+  `Ext^n(κ, M) ≠ 0`, equal to `⊤` on the zero module (`IsLocalRing.depth_eq_top_of_subsingleton`).
 - Injectivity: `CategoryTheory.Injective` in `ModuleCat R`.
 
-### From Tau Ceti (pinned at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`)
+### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
 
-The chart rings, the Rees grading and the chart immersions are supplied by the following
-individual modules; the scheme `Proj (reesAlgebra.grade I)` is an existing carrier.
+The chart rings, the Rees grading, the chart immersions and the Cohen–Macaulay predicate are
+supplied by the following individual modules; the scheme `Proj (reesAlgebra.grade I)` is an
+existing carrier.
 
+- `TauCeti.RingTheory.CohenMacaulay.Basic`: `Module.IsCohenMacaulay R M` for a module `M` over a
+  local ring `R`: `M` is zero or its depth equals its support dimension;
 - `TauCeti.RingTheory.ReesAlgebra.Grading`: `reesAlgebra.grade I` (the degree-`n` piece `Iⁿ tⁿ`),
   `reesAlgebra.gradedMonoid`,
   `reesAlgebra.isInternal_grade`, `reesAlgebra.gradeZeroEquiv`, `reesAlgebra.monomialDegreeOne`
@@ -213,8 +218,9 @@ individual modules; the scheme `Proj (reesAlgebra.grade I)` is an existing carri
   generating `I` cover the blow-up) and `affineBlowupι_toSpecZero` (compatibility with the map to
   `Spec R`).
 
-`Suggested.lean` imports `TauCeti.RingTheory.Ideal.AffineBlowup` and uses `ChartRing I a` as a type
-synonym for the carrier of `Ideal.affineBlowup I a (Localization.Away a)`.
+`Suggested.lean` imports `TauCeti.RingTheory.CohenMacaulay.Basic` and
+`TauCeti.RingTheory.Ideal.AffineBlowup`, and uses `ChartRing I a` as a type synonym for the
+carrier of `Ideal.affineBlowup I a (Localization.Away a)`.
 The restricted action `ChartRing.moduleLocalizedModule` on `M[1/a]` is induced by the
 inclusion of this algebra in `R[1/a]`. The grading and geometric chart modules above supply the
 README constructions; their carriers are not copied into `Suggested.lean`.
@@ -236,11 +242,12 @@ are not imported as Lean carriers.
 - **SchemeAndStackFoundations, §0.16**: `Excellence.IsCatenary` and its localization and quotient
   API. Used in K0.7's dimension formula.
 - **SchemeAndStackFoundations, §0.17** (depth, Cohen–Macaulay modules and Serre's conditions):
-  `Module.depth` and `IsLocalRing.depth`, with `depth(0) = ∞`; `depth_le_supportDim` for nonzero
-  finite modules over Noetherian local rings; `Module.IsCohenMacaulay` (zero or depth equal to
-  support dimension), its localization theorem and its regular-element quotient criterion.
-  **§0.18** supplies `AlgebraicGeometry.Scheme.Modules.IsCohenMacaulay`, checked on the stalks
-  in the support or on affine opens. Used in K0, K3.3 and K4.
+  the API of Mathlib's `IsLocalRing.depth` and Tau Ceti's `Module.IsCohenMacaulay`, by its Tau Ceti
+  names: `IsLocalRing.depth_le_supportDim` for nonzero finite modules over Noetherian local rings,
+  the localization theorem `Module.IsCohenMacaulay.localizedModule` and the regular-element
+  quotient criterion `Module.isCohenMacaulay_quotSMulTop_iff`. **§0.18** supplies
+  `AlgebraicGeometry.Scheme.Modules.IsCohenMacaulay`, checked on the stalks in the support or on
+  affine opens. Used in K0, K3.3 and K4.
 - **SchemeAndStackFoundations, §2.7** (cohomology with supports and local cohomology):
   `localCohomology_colimit_ext_comparison` identifies Mathlib's native Ext-colimit functor with
   derived ideal-power torsion over a Noetherian ring; `localCohomology_module_comparison`
@@ -594,23 +601,22 @@ tag 00KQ, for `R/Ann M`.) *Needs:* K0.3's secant API; Mathlib finite prime avoid
 
 **K0.4 CM-secant sequences.**
 
-**The Cohen–Macaulay condition through local cohomology.** For a finite module `N` over a Noetherian
-local ring, say that the low local cohomology of `N` vanishes when `H^j_𝔪(N) = 0` for every natural
-`j < dim Supp N`. `Suggested.lean` declares `LowLocalCohomologyVanishes`. The zero module satisfies
-it vacuously. The comparison
-`LowLocalCohomologyVanishes R N ↔ Module.IsCohenMacaulay N`
-holds for finite `N` over a Noetherian local ring: for `N ≠ 0`, depth is the least `j` with
-`H^j_𝔪(N) ≠ 0` and depth is at most the support dimension.
+**The Cohen–Macaulay condition through local cohomology.** Prove that a finite module `N` over a
+Noetherian local ring is Cohen–Macaulay (`Module.IsCohenMacaulay R N`) if and only if
+`H^j_𝔪(N) = 0` for every natural `j < dim Supp N`. For `N = 0` both sides hold, the right one
+vacuously; for `N ≠ 0`, depth is the least `j` with `H^j_𝔪(N) ≠ 0` and depth is at most the
+support dimension.
 (SchemeAndStackFoundations §2.7, depth and local cohomology, from Stacks Lemma 47.11.1, tag 0AVZ;
-§0.17 `depth_le_supportDim`.)
+Tau Ceti `IsLocalRing.depth_le_supportDim`.)
 
 **Checks.**
 
-- The zero module satisfies the condition (its support dimension is `⊥`).
-- `ℚ⟦X⟧` satisfies it: `H^0_𝔪(ℚ⟦X⟧) = 0` and the dimension is `1`.
-- `R = k⟦x, y⟧/(x², xy)` does not: it has dimension `1` and the class of `x` is a nonzero element
-  killed by `𝔪`, so `H^0_𝔪(R) ≠ 0`. Equivalently the same quotient as a module over
-  `k⟦x⟧⟦y⟧` fails `LowLocalCohomologyVanishes`.
+- The zero module satisfies both sides: it is Cohen–Macaulay, and its support dimension is `⊥`.
+- `ℚ⟦X⟧` satisfies both: `H^0_𝔪(ℚ⟦X⟧) = 0`, the dimension is `1`, and `X` is regular, so the
+  depth is `1`.
+- `R = k⟦x, y⟧/(x², xy)` satisfies neither: it has dimension `1` and the class of `x` is a nonzero
+  element killed by `𝔪`, so `H^0_𝔪(R) ≠ 0` and the depth is `0`; the same holds for this quotient
+  as a module over `k⟦x⟧⟦y⟧`.
 
 **CM-secant sequences.** For a finite module `M` over a Noetherian local ring `(R, 𝔪)`, a list
 `r₁, …, rₛ` is CM-secant for `M` when it is secant for `M`, the terminal quotient `M/(r₁, …, rₛ)M` is
@@ -623,8 +629,8 @@ rᵢ ∈ a(M/(r₁, …, r_{i-1})M) = ∏_{j < dim Supp M/(r₁,…,r_{i-1})M} A
 Cohen–Macaulayness is required of the terminal quotient only; the intermediate quotients need not
 be Cohen–Macaulay, and the prefixes of a CM-secant sequence are not asserted to be CM-secant. The
 empty list is CM-secant exactly when `M` is Cohen–Macaulay. `Suggested.lean` declares `IsCMSecant`
-(with the terminal condition in the form `LowLocalCohomologyVanishes` and the dimension of each
-nonzero prefix quotient given as a natural number `d`).
+(with the terminal condition `Module.IsCohenMacaulay` and the dimension of each nonzero prefix
+quotient given as a natural number `d`).
 
 *Hypotheses.* `R` Noetherian local, `M` finite. The dimension of a prefix quotient before a step is
 finite and not `⊥` (the quotient is nonzero because the step drops its dimension), which is what
@@ -638,16 +644,13 @@ The API:
 - The annihilator memberships: at step `i` the prefix quotient has a natural support
   dimension `d` and `rᵢ ∈ a_𝔪(M/(r₁, …, r_{i-1})M, d)`.
 - The empty-list criterion: `[]` is CM-secant iff `M` is Cohen–Macaulay (including `M = 0`).
-- The Cohen–Macaulay comparison: `IsCMSecant M rs` iff `IsSecant M rs`, `Module.IsCohenMacaulay (M/(rs)M)` and the
-  annihilator memberships hold; this is the comparison with SchemeAndStackFoundations' predicate.
 
 *Proof sketch.* Projections of the defining conjunction; the empty case is the terminal condition.
-For the Cohen–Macaulay comparison apply its local-cohomology characterization, and for the
-natural cutoff use that a nonzero finite module over a Noetherian local ring has finite support dimension
-(Nakayama rules out a zero prefix quotient before a step). (Česnavičius, Definition 3.1(ii), p. 10,
-and §1.14, p. 4, with the support-restricted Cohen–Macaulay convention.) *Needs:* K0.2, K0.3;
-SchemeAndStackFoundations §0.17 `Module.IsCohenMacaulay`, §2.7 (depth and local cohomology); Mathlib
-`Module.supportDim_eq_bot_iff_subsingleton`.
+For the natural cutoff use that a nonzero finite module over a Noetherian local ring has finite
+support dimension (Nakayama rules out a zero prefix quotient before a step). (Česnavičius,
+Definition 3.1(ii), p. 10, and §1.14, p. 4, with the support-restricted Cohen–Macaulay
+convention.) *Needs:* K0.2, K0.3;
+Tau Ceti `Module.IsCohenMacaulay`; Mathlib `Module.supportDim_eq_bot_iff_subsingleton`.
 
 **Checks.**
 
@@ -708,7 +711,7 @@ The CM API is built after this bound:
 
 - Regularity of parameters on Cohen–Macaulay modules: for nonzero finite Cohen–Macaulay `N`, if `x ∈ 𝔪` and
   `dim Supp(N/xN) + 1 = dim Supp N`, then `x` is `N`-regular. Apply the bound to `[x]` with
-  `a(N) = R`. `Suggested.lean` carries Cohen–Macaulayness as `LowLocalCohomologyVanishes`.
+  `a(N) = R`.
 - CM-secancy on Cohen–Macaulay modules: every secant list on a finite Cohen–Macaulay module is
   CM-secant. Apply the preceding regularity statement at each secant step and the regular-quotient
   CM criterion of SchemeAndStackFoundations §0.17; all intermediate annihilator products are `R`.
@@ -1597,11 +1600,12 @@ The API:
 - For `R=M=k⟦x,y⟧/(xy)` and `I=(x)`, it is the sheaf of `k⟦x⟧` on `Spec k⟦x⟧`.
 
 **Chartwise Cohen–Macaulayness.** The predicate `IsCMBlowupChartwise I M` means that at every prime
-of every chart of `a ∈ I`, the localized chart module has vanishing local cohomology below its
-support dimension. It is a light predicate over the existing chart rings and localized modules;
-its geometric comparison requires `R` Noetherian and `M` finite as above. Prove that it holds
-for zero modules and for the zero ideal (the empty blow-up). For the unit ideal and finite
-modules over Noetherian rings, prove equivalence with Cohen–Macaulayness of `M_𝔭` at every
+of every chart of `a ∈ I`, the localized chart module is Cohen–Macaulay (`Module.IsCohenMacaulay`)
+over the local ring of the chart at that prime. It is a light predicate over the existing chart
+rings and localized modules; its geometric comparison requires `R` Noetherian and `M` finite as
+above. Prove that it holds for zero modules and for the zero ideal (the empty blow-up). For the
+unit ideal and finite modules over Noetherian rings, prove equivalence with Cohen–Macaulayness
+of `M_𝔭` at every
 prime of `R`, together with the sheaf comparison above.
 (Česnavičius, §3.13 and §1.14, pp. 13–14 and 4; the chart cover
 and stalk comparison above.)
@@ -2067,7 +2071,8 @@ Theorem 3.14, (3.14.8) and (3.14.10), p. 16, with the relation `r_bT − r_a`.) 
 
 **Depth at closed points.** Let `rs = (r₁, …, rₛ)` be secant for `M`, with every initial segment satisfying
 Kawasaki's conditions on `M`. Then at every closed point of `Bl_{I_s}(Spec R)` lying over `𝔪` (every closed
-point does, by properness), the stalk of `Bl_{I_s}(M)` has depth at least `s`: its local cohomology at the
+point does, by properness), the stalk of `Bl_{I_s}(M)` has depth (`IsLocalRing.depth`) at least `s`;
+equivalently, as the stalk is finite over a Noetherian local ring, its local cohomology at the
 maximal ideal vanishes in degrees `< s`. No hypothesis is made on the terminal quotient.
 `Suggested.lean` declares `depth_ge_of_kawasakiConditions`, in chart form.
 
