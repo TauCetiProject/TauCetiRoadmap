@@ -25,10 +25,10 @@ Crawley-Boevey's representation of finitely accessible additive categories, Bass
 sequence, and closure properties. Layer 3 treats flat dimension, the global dimension of an abelian
 category, the weak global dimension with its left-right symmetry, and Auslander's theorem that a
 Noetherian category (every `Hom(-, X)` a Noetherian object; for rings, left Noetherian) has equal
-global and weak global dimension. Layer 4 treats T-nilpotent ideals of `C` and Nakayama's lemma for
-all modules, semilocal, semiperfect and perfect categories and rings, projective covers over them,
-and the global dimension of perfect categories. The summit is **Bass's Theorem P**: for a ring `A`
-with Jacobson radical `J`, the following are equivalent: `A ⧸ J` is semisimple and `J` is left
+global and weak global dimension. Layer 4 treats T-nilpotent left ideals of `C` and Nakayama's lemma
+for all modules, semilocal, semiperfect and perfect categories and rings, projective covers over
+them, and the global dimension of perfect categories. The summit is **Bass's Theorem P**: for a ring
+`A` with Jacobson radical `J`, the following are equivalent: `A ⧸ J` is semisimple and `J` is left
 T-nilpotent; every left module has a projective cover; every flat left module is projective; the
 principal *right* ideals satisfy the descending chain condition; every left module has equal flat
 and projective dimension; filtered colimits of projective left modules are projective. For small
@@ -51,9 +51,10 @@ This roadmap owns:
   independence of `R` and change of base; tensoring with projectives; the swap
   `G ⊗_C F ≅ F ⊗_{Cᵒᵖ} G`; the ring API of `M ⊗_A N` and its comparison with the categorical tensor
   product and with Mathlib's tensor product over a commutative ring; duals with respect to an
-  `R`-module `E`; `I · M` and `C ⧸ I` for an ideal `I` of `C`; and the finitely generated projective
-  modules `proj C`, `proj C ≃ Karoubi (Mat_ C)` and the duality `Hom(-, C)` between `proj C` and
-  `proj Cᵒᵖ` (Layer 0);
+  `R`-module `E`; left and right ideals of `C` and their comparison with the one-sided ideals of a
+  ring, `I · M` for a left ideal `I` and `C ⧸ I` for a two-sided ideal `I`; and the finitely
+  generated projective modules `proj C`, `proj C ≃ Karoubi (Mat_ C)` and the duality `Hom(-, C)`
+  between `proj C` and `proj Cᵒᵖ` (Layer 0);
 - `Tor` over a preadditive category and over an arbitrary ring as a left derived functor, its long
   exact sequences, its balance, the formula `stable Hom(X, N) ≅ Tor_1(Tr X, N)`, its duality with
   `Ext`, the comparison with Mathlib's
@@ -68,8 +69,8 @@ This roadmap owns:
   and universe independence; the weak global dimension, its left-right symmetry and its bounds by
   the global dimensions; the `FP_∞` lemma and Auslander's theorem for Noetherian categories and left
   Noetherian rings; kernels of flat modules and countably presented flat modules (Layer 3);
-- T-nilpotent ideals of a preadditive category and Nakayama's lemma for all modules; semilocal rings
-  and categories, semiperfect and perfect categories, and the ring class `IsLeftPerfectRing`;
+- T-nilpotent left ideals of a preadditive category and Nakayama's lemma for all modules; semilocal
+  rings and categories, semiperfect and perfect categories, and the ring class `IsLeftPerfectRing`;
   projective covers over semiperfect and perfect categories and rings, the characterization of
   semiperfect categories and rings by projective covers, and finite minimal projective presentations
   over semiperfect rings; the Mares–Simson lemma, Bass's Theorem P for categories and rings, and the
@@ -113,9 +114,11 @@ The boundaries are as follows.
   This roadmap owns their projective covers and their characterization by projective covers (4.2);
   the placement of the ring items follows the scope contest on TauCetiProject/TauCeti#38013 (4.2).
   Krull–Schmidt categories, the radical `TauCeti.jacobsonRadicalIdeal` and essential epimorphisms
-  are Tau Ceti's; Krause's criterion is restated with `IsSemiperfectCategory` (4.2). Minimal
-  projective presentations are Tau Ceti's `TauCeti.IsMinimalProjectivePresentation`; this roadmap
-  owns only their existence over a semiperfect ring (4.2).
+  are Tau Ceti's; Krause's criterion is restated with `IsSemiperfectCategory` (4.2). Tau Ceti's
+  ideals `TauCeti.MorphismIdeal` are two-sided; the one-sided ideals of a category are new here
+  (0.3), and the two-sided ones map to both kinds by coercions. Minimal projective presentations are
+  Tau Ceti's `TauCeti.IsMinimalProjectivePresentation`; this roadmap owns only their existence over
+  a semiperfect ring (4.2).
 - Outside this roadmap: the tensor product of additive categories and functors of several variables
   ([Mitchell, §2]); Morita theory for functor categories, beyond the finite-object comparison of
   1.7; Bass's conditions on direct limits of modules of bounded projective dimension and on
@@ -131,6 +134,7 @@ The boundaries are as follows.
   ring; and Hoshino's flat-dominant dimension.
 
 Suggested homes in Tau Ceti: `TauCeti/CategoryTheory/Preadditive/ModCat/` (0.1, 0.3–0.5, 0.7),
+`TauCeti/CategoryTheory/Preadditive/MorphismIdeal/OneSided.lean` (one-sided ideals, 0.3),
 `TauCeti/CategoryTheory/Preadditive/ModCat/Proj.lean` (0.8),
 `TauCeti/CategoryTheory/Preadditive/SingleObj.lean` (0.2),
 `TauCeti/LinearAlgebra/TensorProduct/Balanced/` (0.6),
@@ -184,7 +188,8 @@ Suggested homes in Tau Ceti: `TauCeti/CategoryTheory/Preadditive/ModCat/` (0.1, 
    introduced. A left `A`-module is a right `Aᵐᵒᵖ`-module through `RingEquiv.opOp A`. A right ideal
    of `A` is a `Submodule Aᵐᵒᵖ A` (Mathlib's spelling, e.g. in
    `Mathlib/Topology/Algebra/LinearTopology.lean`), so that `A ⧸ I` is a right module and `I ∩ K`
-   makes sense for a left ideal `K : Ideal A`. A ring enters the categorical theory as
+   makes sense for a left ideal `K : Ideal A`. The left and right ideals of `A` are the left and
+   right ideals of the category `SingleObj Aᵐᵒᵖ` (0.3). A ring enters the categorical theory as
    `SingleObj Aᵐᵒᵖ`, as in Mathlib's `CategoryTheory.Mat.equivalenceSingleObj :
    Mat R ≌ Mat_ (SingleObj Rᵐᵒᵖ)` (`Mathlib/CategoryTheory/Preadditive/Mat.lean`). Mathlib's
    `SingleObj M` composes as `f ≫ g = g * f` (`SingleObj.comp_as_mul`); in `SingleObj Aᵐᵒᵖ` this
@@ -218,17 +223,22 @@ Suggested homes in Tau Ceti: `TauCeti/CategoryTheory/Preadditive/ModCat/` (0.1, 
    `TauCeti.globalDimension A` is the left global dimension, that of `ModCat (SingleObj Aᵐᵒᵖ)`; the
    right one is `TauCeti.globalDimension Aᵐᵒᵖ`.
 8. `J = Ring.jacobson A` for a ring, and `J(C) = TauCeti.jacobsonRadicalIdeal C` for a category,
-   with `J(C)(X, X) = Ring.jacobson (End X)`. An ideal `I` of `C` (Tau Ceti's
-   `TauCeti.MorphismIdeal`) is **T-nilpotent** (`TauCeti.MorphismIdeal.IsTNilpotent`) if every
-   sequence `c₀ → c₁ → ⋯` of morphisms `fᵢ` in `I` has a vanishing composite
-   `f₀ ≫ ⋯ ≫ fₙ₋₁ : c₀ → cₙ` (4.1). This is the direction of Nakayama's lemma for `Mod C`. The
-   name carries no "left" or "right": the other side is T-nilpotence of Tau Ceti's opposite ideal
-   `I.op` on `Cᵒᵖ`, that is, of the chains `c₀ ← c₁ ← ⋯`, which is the "left T-nilpotence" of
-   [Simson, p. 108] for his covariant modules. A subset `S` of a ring `A` is **left T-nilpotent** if
-   for every sequence `a₀, a₁, …` in `S` some product `a₀ a₁ ⋯ aₙ₋₁` is `0` ([Bass, p. 466],
-   [Lam-FC, (23.13)], [AF, p. 314]). In `SingleObj Aᵐᵒᵖ` the composite of `op a₀, …, op aₙ₋₁` is
-   `op (a₀ a₁ ⋯ aₙ₋₁)`, so T-nilpotence of `J(SingleObj Aᵐᵒᵖ)` is left T-nilpotence of `J`. Right
-   T-nilpotence asks `aₙ₋₁ ⋯ a₀ = 0`; it is left T-nilpotence of the image of `S` in `Aᵐᵒᵖ`.
+   with `J(C)(X, X) = Ring.jacobson (End X)`. A **left ideal** of `C` (`TauCeti.LeftMorphismIdeal`,
+   0.3) is closed under precomposition, a **right ideal** (`TauCeti.RightMorphismIdeal`) under
+   postcomposition; Tau Ceti's two-sided `TauCeti.MorphismIdeal`, such as `J(C)`, is both. A left
+   ideal `I` is **T-nilpotent** (`TauCeti.LeftMorphismIdeal.IsTNilpotent`) if every sequence
+   `c₀ → c₁ → ⋯` of morphisms `fᵢ` in `I` has a vanishing composite `f₀ ≫ ⋯ ≫ fₙ₋₁ : c₀ → cₙ`
+   (4.1). This is the direction of Nakayama's lemma for `Mod C`, whose `I · M` needs only
+   precomposition. The predicate carries no "left" or "right" of its own: the other side is
+   T-nilpotence of the left ideal `I.op` of `Cᵒᵖ` for a right ideal `I` of `C`
+   (`TauCeti.RightMorphismIdeal.op`; for a two-sided ideal, Tau Ceti's opposite ideal `I.op`), that
+   is, of the chains `c₀ ← c₁ ← ⋯`, which is the "left T-nilpotence" of [Simson, p. 108] for his
+   covariant modules. A subset `S` of a ring `A` is **left T-nilpotent** if for every sequence
+   `a₀, a₁, …` in `S` some product `a₀ a₁ ⋯ aₙ₋₁` is `0` ([Bass, p. 466], [Lam-FC, (23.13)], [AF,
+   p. 314]). In `SingleObj Aᵐᵒᵖ` the composite of `op a₀, …, op aₙ₋₁` is `op (a₀ a₁ ⋯ aₙ₋₁)`, so
+   for a left ideal `J` of `A`, T-nilpotence of the corresponding left ideal of `SingleObj Aᵐᵒᵖ` is
+   left T-nilpotence of `J`. Right T-nilpotence asks `aₙ₋₁ ⋯ a₀ = 0`; it is left T-nilpotence of
+   the image of `S` in `Aᵐᵒᵖ`.
 9. `C` is **perfect** (`IsPerfectCategory`) if every `End X` is semilocal and `J(C)` is
    T-nilpotent, equivalently `C ⧸ J(C)` is semisimple in Simson's sense and `J(C)` is T-nilpotent
    (4.2, 4.3). By Theorem P (4.5) this holds exactly when every module of `Mod C` has a projective
@@ -258,11 +268,15 @@ Suggested homes in Tau Ceti: `TauCeti/CategoryTheory/Preadditive/ModCat/` (0.1, 
    universe, it takes the form of Tau Ceti's `TauCeti.exists_isProjectiveCover` (4.4).
 13. Proposed names are given in parentheses. Names that `Suggested.lean` states carry the prefix
    `TauCeti.` in the README and live in `TauCetiRoadmap.NoncommutativeFlatness` there.
-14. **Sources on the other side.** [OR], [St], [CB], [Fisher], [Krause-Smashing] and the flat
-   functors of [Mitchell, §10] are contravariant, as here, and are cited directly. [Simson],
-   [Harada] and Mitchell's general modules are covariant, and so are Mathlib's `RepresentablyFlat`
-   and `Action`; their statements are applied to `Cᵒᵖ`, and the citations say so. Ring sources keep
-   their sides: a right-handed ring statement is applied to `Aᵐᵒᵖ`.
+14. **Sources on the other side.** [OR], [St], [CB], [Fisher] (contravariant, except Cor. 2.9),
+   [Krause-Smashing, Lemma 2.7, p. 115] and the flat functors of [Mitchell, §10] are contravariant,
+   as here, and are cited directly. [OR]'s tensor product `S ⊗_X F` puts the contravariant functor
+   `S` first, so its `Tor_1(S, X(z, -) ⧸ I)` is our `Tor_1(X(z, -) ⧸ I, S)` (Convention 6).
+   [Fisher, Cor. 2.9] is covariant, and our statement of it is over `Cᵒᵖ`. [Simson], [Harada] and
+   Mitchell's general modules are covariant, and so are Mathlib's `RepresentablyFlat` and `Action`;
+   their statements are applied to `Cᵒᵖ`, and the citations say so. Ring sources keep their sides:
+   a right-handed ring statement is applied to `Aᵐᵒᵖ`. [Lam-LMR] states its results for right
+   modules, and [Lam-FC] §§23–24 is right-handed; [Lam-FC, (4.14)] is left-handed.
 
 **Sources and locators.** Citations use the keys of the section "Sources and locators". Pages are
 printed pages. A locator that has not been read in the source says so.
@@ -303,6 +317,9 @@ and `TauCeti.RingTheory.Jacobson.MulOpposite`, which need Tau Ceti at that commi
   (`Mathlib/CategoryTheory/Limits/Shapes/End.lean`); `Adjunction.leftAdjoint_preservesColimits`.
   The monoidal structure of `ModuleCat R` is not used in the definition of `G ⊗_C F`: it needs `R`
   and the modules in one universe.
+- One-sided ideals (0.3): `AddSubgroup`, `AddSubgroup.comap`, `OrderIso`, `Ideal.mul_mem_left`,
+  `Submodule.smul_mem`, `CategoryTheory.unopHom`. Mathlib's `CategoryTheory.Sieve` has the closure
+  of a left ideal but is not additive, and is not used.
 - One object: `CategoryTheory.SingleObj`, `SingleObj.star`, `SingleObj.comp_as_mul`, the
   `Preadditive (SingleObj A)` instance (`Mathlib/CategoryTheory/Preadditive/SingleObj.lean`);
   `Action.functorCategoryEquivalence` as the pattern for 0.2; `CategoryTheory.unopUnop`;
@@ -427,12 +444,14 @@ and `TauCeti.RingTheory.Jacobson.MulOpposite`, which need Tau Ceti at that commi
   `TauCeti.Quiver.Kronecker.upperTriangularAlgEquiv`
   (`TauCeti.RepresentationTheory.Quiver.Kronecker.UpperTriangular`);
   `IsIdempotentElem.isMoritaEquivalent_corner` (`TauCeti.RingTheory.Morita.Corner`).
-- The Jacobson radical: the instance `TauCeti.IsSemiprimaryRing.mulOpposite` and
+- The Jacobson radical: the instance `TauCeti.IsSemiprimaryRing.mulOpposite`,
+  `TauCeti.Ring.mem_jacobson_mulOpposite_iff` (4.1) and
   `TauCeti.Ring.isSemisimpleRing_quotient_jacobson_mulOpposite_iff`
   (`TauCeti.RingTheory.Jacobson.MulOpposite`); `TauCeti.isSemisimpleModule_quotient_smul_top`
   (`TauCeti.RingTheory.Jacobson.Semiprimary`).
-- Ideals and the radical of a category (Layer 4): `TauCeti.MorphismIdeal` with
-  `TauCeti.MorphismIdeal.le_def`, `TauCeti.MorphismIdeal.Quotient` and `quotientFunctor`
+- Ideals and the radical of a category (0.3, Layer 4): `TauCeti.MorphismIdeal` with its fields
+  `comp_mem_left` and `comp_mem_right` (for the coercions to one-sided ideals),
+  `TauCeti.MorphismIdeal.Quotient` and `quotientFunctor`
   (`TauCeti.CategoryTheory.Preadditive.MorphismIdeal.Basic`), its monoid structure
   (`...MorphismIdeal.Mul`) and `TauCeti.MorphismIdeal.op` (`...MorphismIdeal.Opposite`);
   `TauCeti.jacobsonRadicalIdeal` and `TauCeti.jacobsonRadical_self_eq_jacobson`
@@ -511,11 +530,11 @@ of 3.4 strengthens what it needs.
 
 | Layer | Construction | Principal outputs |
 | --- | --- | --- |
-| [0](#layer-0-modules-over-a-preadditive-category-and-their-tensor-product) | Modules over a preadditive category | `Mod C`, rings as `SingleObj Aᵐᵒᵖ`, tensor product over `C`, `I · M` and `C ⧸ I`, projective factors, swap, ring API, duals, `proj C` and the duality `Hom(-, C)` |
+| [0](#layer-0-modules-over-a-preadditive-category-and-their-tensor-product) | Modules over a preadditive category | `Mod C`, rings as `SingleObj Aᵐᵒᵖ`, tensor product over `C`, one-sided ideals, `I · M` and `C ⧸ I`, projective factors, swap, ring API, duals, `proj C` and the duality `Hom(-, C)` |
 | [1](#layer-1-tor) | `Tor` | Left derived functor, long exact sequences, balance, `Tor` of the transpose, `Tor`–`Ext` duality, comparisons, `Tor₁` of cyclic modules, category algebras |
 | [2](#layer-2-flat-modules-and-flat-functors) | Flat modules and flat functors | Ideal test, `Tor` and Lambek tests, Baer criterion, Lazard block, purity, flat = left exact, triangulated case, representation theorem, Bass's module, closure |
 | [3](#layer-3-flat-dimension-global-and-weak-global-dimension) | Dimensions | Flat dimension, global dimension of an abelian category, Auslander's lemma, weak global dimension, symmetry, `FP_∞` lemma, Auslander's theorem, kernels and countably presented flat modules |
-| [4](#layer-4-semiperfect-and-perfect-categories-and-basss-theorem-p) | Semiperfect and perfect categories | T-nilpotence and Nakayama's lemma for all modules, semilocal and semiperfect categories and rings, covers over semiperfect categories, perfect categories and left perfect rings, covers over them, the Mares–Simson lemma, Theorem P, global dimension and the Bass–Eilenberg criterion |
+| [4](#layer-4-semiperfect-and-perfect-categories-and-basss-theorem-p) | Semiperfect and perfect categories | T-nilpotence of left ideals and Nakayama's lemma for all modules, semilocal and semiperfect categories and rings, covers over semiperfect categories, perfect categories and left perfect rings, covers over them, the Mares–Simson lemma, Theorem P, global dimension and the Bass–Eilenberg criterion |
 
 Each layer needs the previous ones; the ring items of 4.2 need only Mathlib and Tau Ceti. A name in
 parentheses is the proposed Lean name of a headline declaration; auxiliary names are for the
@@ -647,26 +666,52 @@ summands are `ModuleCat.of R (G(c') ⊗[R] F(c))`. API:
 - **independence of `R`** (`TauCeti.ModCat.tensorObjIntIso`), the case `ℤ → R`: the `ℤ`-coend
   already forces `r x ⊗ y = x ⊗ r y`, because `r` acts through the morphism `r • 𝟙` of `C`
   ([Mitchell, §11, p. 52]);
-- **ideals** (`TauCeti.MorphismIdeal.smul`, `TauCeti.MorphismIdeal.quotientYoneda`,
-  `TauCeti.ModCat.tensorObjQuotientYonedaIso`): for a two-sided ideal `I` of `C` (Tau Ceti's
-  `TauCeti.MorphismIdeal`) and a module `M` of `Mod C`, `I · M` is the family of subgroups
-  `(I · M)(c)` generated by the `M(f)(x)` with `f ∈ I(c, d)` and `x ∈ M(d)`; for
-  `C = SingleObj Aᵐᵒᵖ` it is `J • ⊤`. The module `(C ⧸ I)(-, X) = Hom_{C ⧸ I}(-, X)` of `Mod C`
-  comes through Tau Ceti's quotient functor `TauCeti.MorphismIdeal.quotientFunctor`, and the
-  covariant `(C ⧸ I)(X, -)` is the same construction over `Cᵒᵖ` for Tau Ceti's opposite ideal
-  `TauCeti.MorphismIdeal.op I`. Then `(C ⧸ I)(X, -) ⊗_C M ≅ M(X) ⧸ (I · M)(X)`, by right exactness
-  and Yoneda ([OR, Lemma 1.2, p. 94], stated for a covariant module and an ideal of `Hom(-, X)`,
-  applied to `Cᵒᵖ`). Layer 4 uses `I · M` for Nakayama's lemma (4.1) and the isomorphism for the
-  Bass–Eilenberg criterion (4.6).
+- **one-sided ideals** (`TauCeti.LeftMorphismIdeal C`, `TauCeti.RightMorphismIdeal C`, with
+  partial orders, `le_def`, `TauCeti.LeftMorphismIdeal.orderIsoSubobject` and
+  `TauCeti.RightMorphismIdeal.orderIsoSubobject`): a **left ideal** of `C` is a family of additive
+  subgroups `I(X, Y) ⊆ (X ⟶ Y)` closed under precomposition, `h ≫ f ∈ I` for `f ∈ I`; equivalently,
+  for every `Y` a subfunctor `I(-, Y)` of the representable `Hom(-, Y)` in `Mod C`. A **right
+  ideal** is closed under postcomposition, `f ≫ h ∈ I`; equivalently, for every `X` a subfunctor
+  `I(X, -)` of the covariant representable `Hom(X, -)`. A right ideal of `C` is a left ideal of
+  `Cᵒᵖ` (`TauCeti.RightMorphismIdeal.op`). The principal right ideal of `g : X → Y` is
+  `g C = {g ≫ h}`, with source `X` (`TauCeti.RightMorphismIdeal.principal`); at `X` it is the
+  cyclic subfunctor of `Hom(X, -)`, the image of `Hom(Y, -) → Hom(X, -)`. Tau Ceti's two-sided
+  `TauCeti.MorphismIdeal` is both (`TauCeti.MorphismIdeal.toLeftMorphismIdeal` and
+  `TauCeti.MorphismIdeal.toRightMorphismIdeal`, coercions); the field names `comp_mem_left` and
+  `comp_mem_right` are Tau Ceti's. Neither notion is in Mathlib or Tau Ceti; Mathlib's `Sieve` has
+  the closure of a left ideal but is not additive. **Rings**
+  (`TauCeti.idealOrderIsoLeftMorphismIdeal A : Ideal A ≃o LeftMorphismIdeal (SingleObj Aᵐᵒᵖ)`,
+  `TauCeti.submoduleOrderIsoRightMorphismIdeal A :
+  Submodule Aᵐᵒᵖ A ≃o RightMorphismIdeal (SingleObj Aᵐᵒᵖ)`), both by `J ↦ {f | unop f ∈ J}`. By
+  Mathlib's `SingleObj.comp_as_mul`, `h ≫ f = f * h` in `Aᵐᵒᵖ`, that is, `op (unop h * unop f)`;
+  so closure under precomposition is closure under left multiplication, and closure under
+  postcomposition is closure under right multiplication. `Suggested.lean` proves the two closure
+  fields this way. The principal right ideal of `op a` is `aA`.
+- **ideals and modules** (`TauCeti.LeftMorphismIdeal.smul`, `TauCeti.MorphismIdeal.quotientYoneda`,
+  `TauCeti.ModCat.tensorObjQuotientYonedaIso`): for a left ideal `I` of `C` and a module `M` of
+  `Mod C`, `I · M` is the family of subgroups `(I · M)(c)` generated by the `M(f)(x)` with
+  `f ∈ I(c, d)` and `x ∈ M(d)`. It is a submodule of `M`, since `M(h)(M(f)(x)) = M(h ≫ f)(x)` with
+  `h ≫ f ∈ I`: only precomposition is used. For the left ideal of `SingleObj Aᵐᵒᵖ` given by a
+  left ideal `J` of `A` it is `J • ⊤`. For a two-sided ideal `I`, the module
+  `(C ⧸ I)(-, X) = Hom_{C ⧸ I}(-, X)` of `Mod C` comes through Tau Ceti's quotient functor
+  `TauCeti.MorphismIdeal.quotientFunctor`, and the covariant `(C ⧸ I)(X, -)` is the same
+  construction over `Cᵒᵖ` for Tau Ceti's opposite ideal `TauCeti.MorphismIdeal.op I`. Then
+  `(C ⧸ I)(X, -) ⊗_C M ≅ M(X) ⧸ (I · M)(X)`, by right exactness and Yoneda ([OR, Lemma 1.2,
+  p. 94], stated for a covariant module and an ideal of `Hom(-, X)`, applied to `Cᵒᵖ`). Layer 4
+  uses `I · M` for Nakayama's lemma (4.1) and the isomorphism for the Bass–Eilenberg criterion
+  (4.6).
 
 **Checks.**
 
 - For `C = SingleObj Aᵐᵒᵖ`, 0.6 identifies `G ⊗_C F` with `M ⊗_A N`, in the same order.
 - In the quiver example of 0.1, `Hom(1, -) ⊗_C F ≅ F(1)` by Yoneda.
+- For a noncommutative `A` and `a ∈ A`, the left ideal `Aa` gives the left ideal of
+  `SingleObj Aᵐᵒᵖ` with members the `op (b a)`; it is closed under precomposition
+  (`op c ≫ op (b a) = op (c b a)`) and in general not under postcomposition.
 
-*Needs:* 0.1; Mathlib `coend`, `HasCoend`, `TensorProduct`, `ModuleCat.restrictScalars`,
-`Adjunction.leftAdjoint_preservesColimits`; Tau Ceti `TauCeti.MorphismIdeal`, its quotient and
-`TauCeti.MorphismIdeal.op`.
+*Needs:* 0.1, 0.2; Mathlib `coend`, `HasCoend`, `TensorProduct`, `ModuleCat.restrictScalars`,
+`Adjunction.leftAdjoint_preservesColimits`, `SingleObj.comp_as_mul`, `CategoryTheory.unopHom`; Tau
+Ceti `TauCeti.MorphismIdeal`, its quotient and `TauCeti.MorphismIdeal.op`.
 
 ### 0.4 Projective factors
 
@@ -1073,11 +1118,16 @@ p. 33], where it is `[C]`). The product is composition in diagrammatic order, so
 This generalizes the one-object comparisons of 0.2, 0.6 and 1.1. It sits in Layer 1 because its
 point is the comparison of `Tor`; its tensor part uses only Layer 0.
 
-**Check.** For the `k`-linear category `C` of the quiver `1 → 2` (0.1), the category algebra is a
-path algebra of `A₂`, which Tau Ceti identifies with the upper triangular matrices `T₂(k)`
-(`TauCeti.Quiver.Kronecker.upperTriangularAlgEquiv`; [Mitchell, §7, Example 1, p. 33] for posets).
-So `Tor^C` is `Tor^{T₂(k)}`, and the checks below for `T₂(k)` can be computed with the
-representables of `C`.
+**Check.** For the `k`-linear category `C` of the quiver `1 → 2` (0.1), the category algebra is
+the upper triangular algebra `T₂(k)` directly: `Hom(1, 2) = k` sits at entry `(1, 2)`, and the
+product `(a * b) x z = ∑_y a x y ≫ b y z` is the matrix product ([Mitchell, §7, Example 1, p. 33]
+for posets). So `Mod C` is the category of left `T₂(k)`-modules, `Tor^C` is `Tor^{T₂(k)}`, and the
+checks below for `T₂(k)` can be computed with the representables of `C`. Tau Ceti's
+`TauCeti.Quiver.Kronecker.upperTriangularAlgEquiv` identifies `T₂(k)` with the path algebra of the
+`A₂` quiver, with a path at (target, source); in the labels here that is the opposite quiver
+`2 → 1`, whose left path-algebra modules are its representations `V₂ → V₁`, the modules of 0.1. In
+general the category algebra of a quiver category is the path algebra of the opposite quiver, in
+Tau Ceti's convention.
 
 *Needs:* 0.1–0.3, 0.6, 1.1; Mathlib `Fintype`; Tau Ceti `TauCeti.quiverRepEquivalence` (pattern),
 `TauCeti.Quiver.Kronecker.upperTriangularAlgEquiv`, `IsIdempotentElem.isMoritaEquivalent_corner`.
@@ -1098,7 +1148,8 @@ representables of `C`.
 ### Examples
 
 Rings: `ℤ`, `B = k[ε]/(ε²)` and `T₂(k)` as in the checks. Categories: representables, and finite
-quiver categories through their path algebras (1.7). The balance makes `Tor` computable from a
+quiver categories through their category algebras, the path algebras of the opposite quivers
+(1.7). The balance makes `Tor` computable from a
 resolution of either variable.
 
 ### Dependencies
@@ -1123,12 +1174,16 @@ finitely many morphisms `β_j : Y_j → X`, `yonedaSpan β ⊆ Hom(-, X)` is the
 `⊕_j Hom(-, Y_j) → Hom(-, X)`; these are the finitely generated subfunctors of `Hom(-, X)`. Over
 `Cᵒᵖ` this gives, for `β_j : X → Y_j`, the subfunctor `coyonedaSpan β ⊆ Hom(X, -)`, the image of
 `⊕_j Hom(Y_j, -) → Hom(X, -)`; these are the finitely generated subfunctors of the covariant
-representable `Hom(X, -)`, and for `C = SingleObj Aᵐᵒᵖ` the finitely generated right ideals of `A`.
-A module `F` of `Mod C` is **flat** if for every object `X` and every finitely generated subfunctor
-`I ⊆ Hom(X, -)` the map `I ⊗_C F → Hom(X, -) ⊗_C F ≅ F(X)` is injective (a monomorphism in
-`ModuleCat ℤ`; Yoneda, 0.3). This is the ideal test of [OR, Thm. 3.2 (3), p. 96], whose modules are
-contravariant and whose ideals lie in `X(z, -)`, as here; for rings it is the test on finitely
-generated right ideals ([Lam-LMR, (4.12), p. 125]). The definition is universe-free: it quantifies
+representable `Hom(X, -)`, that is, the parts at `X` of the finitely generated right ideals of `C`
+(0.3), and for `C = SingleObj Aᵐᵒᵖ` the finitely generated right ideals of `A`. A module `F` of
+`Mod C` is **flat** if for every object `X` and every finitely generated right ideal of `C` at `X`,
+that is, every finitely generated subfunctor `I ⊆ Hom(X, -)`, the map
+`I ⊗_C F → Hom(X, -) ⊗_C F ≅ F(X)` is injective (a monomorphism in `ModuleCat ℤ`; Yoneda, 0.3).
+This is equivalent to [OR, Thm. 3.2 (3), p. 96] (`Tor_1` vanishes on `X(z, -) ⧸ I` for every ideal
+`I` of `X(z, -)`; OR's modules are contravariant and its ideals lie in `X(z, -)`, as here) by the
+long exact sequence of 1.2, with the reduction to finitely generated ideals by filtered colimits
+(2.2). For rings it is the test on finitely generated right ideals ([Lam-LMR, (4.12), p. 125],
+stated for right modules in Lam; applied to `Aᵐᵒᵖ`). The definition is universe-free: it quantifies
 over objects and finite families of morphisms of `C`, not over modules. A covariant functor `G` is
 flat when it is flat as a module over `Cᵒᵖ` (`ModCat.Flat G` for `G : ModCat Cᵒᵖ`); by the swap,
 this says that `G ⊗_C -` passes the ideal test.
@@ -1155,19 +1210,22 @@ Mathlib's `Module.Flat` (`TauCeti.Module.balancedFlat_iff_flat`, through 0.6).
 (`TauCeti.ModCat.flat_tfae`.) For a module `F` of `Mod C`, the following are equivalent:
 
 1. `F` is flat (the ideal test);
-2. `I ⊗_C F → F(X)` is injective for every subfunctor `I ⊆ Hom(X, -)` ([OR, Thm. 3.2 (3)]);
+2. `I ⊗_C F → F(X)` is injective for every right ideal of `C` at `X`, that is, every subfunctor
+   `I ⊆ Hom(X, -)`;
 3. `- ⊗_C F` preserves monomorphisms, so it is exact on `Mod Cᵒᵖ` ([OR, Thm. 3.2 (1), p. 96];
    [Mitchell, §10, p. 48]). This holds for covariant functors in every universe; in Lean it is
    stated in the universe `v`, since `⊗_C` takes both modules in one universe (0.3);
 4. `Tor_1(-, F) = 0`; then `Tor_n(-, F) = 0` for all `n ≥ 1`
    (`TauCeti.ModCat.Flat.isZero_tor_succ`; dimension shifting by 1.2 and 1.3);
-5. `Tor_1(Hom(X, -) ⧸ I, F) = 0` for every finitely generated `I ⊆ Hom(X, -)`;
+5. `Tor_1(Hom(X, -) ⧸ I, F) = 0` for every finitely generated `I ⊆ Hom(X, -)` ([OR, Thm. 3.2 (3)],
+   stated for every ideal `I`, in OR's order of the factors, Convention 14);
 6. **Lambek**: the dual `F^E = Hom_R(F(-), E)` of 0.7 is injective in `Mod Cᵒᵖ`, for an injective
    cogenerator `E` of `R`-modules (`TauCeti.ModCat.flat_iff_injective_dual`; [Lambek, Theorem,
    p. 239] for rings and `E = ℚ ⧸ ℤ`; [St, Thm. 3 (d), p. 357] for functors). For a general `E` it
    follows from the adjunction of 0.7 ([OR, (1.1), p. 93]) and 0.7's one-map criterion.
 
-Route: the textbook one, Lambek and Baer, organized as in [Lam-LMR, (4.12)]. (2) ⇒ (1) and
+Route: the textbook one, Lambek and Baer, organized as in [Lam-LMR, (4.12)] (stated for right
+modules in Lam; applied to `Aᵐᵒᵖ`). (2) ⇒ (1) and
 (3) ⇒ (2) are immediate. (1) ⇒ (2): an element of `I ⊗_C F` comes from `I' ⊗_C F` for a finitely
 generated `I' ⊆ I`. (2) ⇒ (6): by 0.7, (2) says that every map from a subfunctor of a covariant
 representable to `F^E` extends to the representable; then the Baer criterion below, over `Cᵒᵖ`.
@@ -1195,7 +1253,8 @@ Two targets of this item:
 are equivalent: `BalancedFlat A M`; `I ⊗_A M → M` is injective for every right ideal `I`; `i ⊗ M` is
 injective for every injective map `i` of right modules in the universe `v`; `Tor_1^A(N, M) = 0` for
 every right module `N`; `Tor_1^A(A ⧸ I, M) = 0` for every finitely generated right ideal `I`;
-`Module.Injective Aᵐᵒᵖ M⁺` ([Lambek, Theorem, p. 239]; [Lam-LMR, (4.9), p. 125]). Route: the same,
+`Module.Injective Aᵐᵒᵖ M⁺` ([Lambek, Theorem, p. 239]; [Lam-LMR, (4.9), p. 125], stated for right
+modules in Lam; applied to `Aᵐᵒᵖ`). Route: the same,
 with Mathlib's `Module.Baer.injective` over `Aᵐᵒᵖ` and the duals of 0.6, or through
 `balancedFlat_iff_flat_singleObj`. Also: flat modules have no higher `Tor`
 (`TauCeti.isZero_balancedTor_succ_of_balancedFlat`), and ring `Tor` commutes with filtered colimits
@@ -1215,10 +1274,11 @@ module `F` of `Mod C`, each of the following is equivalent to flatness:
 
 - **equational criterion** (`TauCeti.ModCat.IsTrivialRelation`,
   `TauCeti.ModCat.flat_iff_forall_isTrivialRelation`): every relation `∑_j F(β_j)(y_j) = 0` in
-  `F(X)`, for `β_j : X → Y_j` and `y_j ∈ F(Y_j)`, is trivial, that is, there are finitely many
-  `z_i ∈ F(Z_i)` and maps `α_ij : Y_j → Z_i` with `y_j = ∑_i F(α_ij)(z_i)` and
-  `∑_j β_j ≫ α_ij = 0` for all `i` ([OR, Thm. 3.2 (4), pp. 96–97]; for rings [Lam-LMR, (4.24),
-  p. 130], which credits Chase; Mathlib's commutative `Module.Flat.iff_forall_isTrivialRelation`);
+  `F(X)`, for `β_j : X → Y_j` and `y_j ∈ F(Y_j)`, is trivial, that is, there are finitely many `z_i
+  ∈ F(Z_i)` and maps `α_ij : Y_j → Z_i` with `y_j = ∑_i F(α_ij)(z_i)` and `∑_j β_j ≫ α_ij = 0` for
+  all `i` ([OR, Thm. 3.2 (4), pp. 96–97]; for rings [Lam-LMR, (4.24), p. 130], which credits Chase,
+  stated for right modules in Lam; applied to `Aᵐᵒᵖ`; Mathlib's commutative
+  `Module.Flat.iff_forall_isTrivialRelation`);
 - **factorization** (`TauCeti.ModCat.flat_iff_forall_exists_factorization`): every map from a
   finitely presented module (Mathlib's `IsFinitelyPresentable`) to `F` factors through a finite sum
   of representables ([Lazard, Lemme 1.1 and Thm. 1.2, p. 84]; [St, Lemma 8 (c), p. 354]; [CB, §1.3
@@ -1238,7 +1298,8 @@ module `F` of `Mod C`, each of the following is equivalent to flatness:
 Route: the chain of [OR, Thm. 3.2]. The ideal test gives the equational criterion, through the
 ideal generated by the `β_j` and `(Hom(X, -) ⧸ I) ⊗_C F ≅ F(X) ⧸ IF` ([OR, Lemma 1.2, p. 94], on
 `Cᵒᵖ`; 0.3). The equational criterion gives the factorization, by dualizing a finite presentation
-([Lazard, Lemme 1.1]; [Lam-LMR, (4.32), p. 133]). The factorization makes the category of elements
+([Lazard, Lemme 1.1]; [Lam-LMR, (4.32), p. 133], stated for right modules in Lam; applied to
+`Aᵐᵒᵖ`). The factorization makes the category of elements
 filtered, and `F` is the colimit over it (the pattern of Tau Ceti's `flatModuleFilteredFree`). A
 filtered colimit of finite sums of representables is flat, since `Tor_1` commutes with filtered
 colimits and vanishes on projectives (2.2). Purity is the factorization read as lifting. [CB]'s
@@ -1270,7 +1331,8 @@ Consequences:
 `FiniteFreeOver A M` is filtered; then `M` is the filtered colimit of the finite free modules over
 it; every map from a finitely presented module to `M` factors through a finite free module; and a
 finitely presented flat module is projective, by 1.4 as above ([Lazard, Thm. 1.2, Cor. 1.4];
-[Lam-LMR, (4.30), (4.32)–(4.34), pp. 133–134]; Mathlib's commutative
+[Lam-LMR, (4.30), (4.32)–(4.34), pp. 133–134], stated for right modules in Lam; applied to `Aᵐᵒᵖ`;
+Mathlib's commutative
 `Module.Flat.exists_factorization_of_finitePresentation` and
 `Module.Flat.projective_of_finitePresentation`). Over a left Noetherian ring every finite flat
 module is projective (`Module.finitePresentation_of_finite`).
@@ -1503,7 +1565,8 @@ API:
 - **duality** (`TauCeti.ModCat.flatDimension_eq_injectiveDimension_dual`): for an injective
   cogenerator `E` of `R`-modules, `flatDimension F = injectiveDimension (F^E)` in `Mod Cᵒᵖ`. Route:
   the `Tor`–`Ext` duality of 1.5 in every degree, and `E` detects zero (0.7). This is the
-  general-`E` form of [Lam-LMR, (5.57), p. 184] (`E = ℚ ⧸ ℤ`, rings).
+  general-`E` form of [Lam-LMR, (5.57), p. 184] (`E = ℚ ⧸ ℤ`, rings; stated for right modules in
+  Lam; applied to `Aᵐᵒᵖ`).
 
 **Rings** (`TauCeti.HasFlatDimensionLT`, `TauCeti.HasFlatDimensionLE`, `TauCeti.flatDimension`),
 native for `M : ModuleCat.{v} A` with `[Small.{v} A]`: `Tor_i^A(A ⧸ I, M) = 0` for every `i ≥ n` and
@@ -1511,7 +1574,8 @@ every finitely generated right ideal `I`. API as above: `TauCeti.flatDimension_e
 `TauCeti.hasFlatDimensionLE_zero_iff`, `TauCeti.hasFlatDimensionLE_tfae`,
 `TauCeti.flatDimension_le_projectiveDimension`, `TauCeti.hasFlatDimensionLE_succ_iff`, and
 `TauCeti.flatDimension_eq_injectiveDimension_characterModule`: `flatDimension M` is the injective
-dimension of the character module `M⁺` in `ModuleCat Aᵐᵒᵖ` ([Lam-LMR, (5.57)]), the case `R = ℤ`,
+dimension of the character module `M⁺` in `ModuleCat Aᵐᵒᵖ` ([Lam-LMR, (5.57)], stated for right
+modules in Lam; applied to `Aᵐᵒᵖ`), the case `R = ℤ`,
 `E = ℚ ⧸ ℤ` of the duality. Bridge (`TauCeti.hasFlatDimensionLT_iff_singleObj`): through 0.2, ring
 flat dimension is flat dimension over `SingleObj Aᵐᵒᵖ`.
 
@@ -1636,7 +1700,8 @@ subobjects). For `C = SingleObj Aᵐᵒᵖ`, `Hom(-, ∗)` is the regular left m
   `Module.finitePresentation_of_finite`).
 - **Auslander's theorem** (`TauCeti.ModCat.globalDimension_eq_weakGlobalDimension`). If every
   `Hom(-, X)` is Noetherian, then `Abelian.globalDimension (ModCat C) = weakGlobalDimension C`
-  ([Au, Thm. 4, p. 70]; [Lam-LMR, (5.59), p. 184], for rings). Route: by 3.2 the global dimension
+  ([Au, Thm. 4, p. 70]; [Lam-LMR, (5.59), p. 184], for rings, stated for right modules over a
+  right Noetherian ring in Lam; applied to `Aᵐᵒᵖ`). Route: by 3.2 the global dimension
   is the supremum over the cyclic modules `Hom(-, X) ⧸ I`. When the representables are Noetherian,
   finite sums of representables are Noetherian objects, so their subobjects are finitely generated
   and the cyclic modules have resolutions by finitely presented projectives. The `FP_∞` lemma then
@@ -1772,34 +1837,38 @@ their ring statements, which are derived from the categorical ones through `Sing
 The categorical statements are adaptations of the ring theorems cited with them, unless a
 categorical source is named; the summit is [Simson, Thm. 5.4, p. 108].
 
-**The direction of T-nilpotence.** In `SingleObj Aᵐᵒᵖ`, Mathlib's `f ≫ g = g * f` (in `Aᵐᵒᵖ`) is
-`op (unop f * unop g)`, so for `fᵢ = op aᵢ` the composite `f₀ ≫ ⋯ ≫ fₙ₋₁` is `op (a₀ a₁ ⋯ aₙ₋₁)`.
+**The direction of T-nilpotence.** In `SingleObj Aᵐᵒᵖ`, Mathlib's `f ≫ g = g * f` (in `Aᵐᵒᵖ`) is `op
+(unop f * unop g)`, so for `fᵢ = op aᵢ` the composite `f₀ ≫ ⋯ ≫ fₙ₋₁` is `op (a₀ a₁ ⋯ aₙ₋₁)`.
 Nakayama's lemma for `Mod C` needs sequences `c₀ → c₁ → ⋯` with composites `c₀ → cₙ` (4.1), and at
-`SingleObj Aᵐᵒᵖ` these composites are Bass's products `a₀ a₁ ⋯ aₙ₋₁`: left T-nilpotence, which
-goes with left modules ([Bass, p. 466]; [Lam-FC, (23.16)], right-handed). In `End X`, with Mathlib's
-multiplication `f * g = g ≫ f`, the composite is the product `fₙ₋₁ ⋯ f₀`; for `SingleObj Aᵐᵒᵖ`,
-`End ∗ = Aᵐᵒᵖ`, and this product is again `op (a₀ ⋯ aₙ₋₁)`.
+`SingleObj Aᵐᵒᵖ` these composites are Bass's products `a₀ a₁ ⋯ aₙ₋₁`: left T-nilpotence, which goes
+with left modules ([Bass, p. 466]; [Lam-FC, (23.16)], right-handed). The ideal there is a left
+ideal: `I · M` and Bass's module need only `h ≫ f ∈ I` for `f ∈ I`, and at `SingleObj Aᵐᵒᵖ`, `h ≫ f
+= op (unop h * unop f)`, so these are the left ideals of `A` (0.3). In `End X`, with Mathlib's
+multiplication `f * g = g ≫ f`, the composite is the product `fₙ₋₁ ⋯ f₀`; for `SingleObj Aᵐᵒᵖ`, `End
+∗ = Aᵐᵒᵖ`, and this product is again `op (a₀ ⋯ aₙ₋₁)`.
 
 ### 4.1 T-nilpotence and Nakayama's lemma for all modules
 
-(`TauCeti.MorphismIdeal.IsTNilpotent I`.) A two-sided ideal `I` of `C` (Tau Ceti's
-`TauCeti.MorphismIdeal`) is **T-nilpotent** if every sequence `c₀ → c₁ → ⋯` with all
-`fᵢ : cᵢ → cᵢ₊₁` in `I` has a vanishing composite `q_n = f₀ ≫ ⋯ ≫ f_{n-1} : c₀ → c_n` (Convention
-8). For `C = SingleObj Aᵐᵒᵖ`, `q_n = op (a₀ a₁ ⋯ a_{n-1})`, Bass's left T-nilpotence. The other
-side is T-nilpotence of Tau Ceti's opposite ideal `TauCeti.MorphismIdeal.op I` on `Cᵒᵖ`, that is,
-of the chains `c₀ ← c₁ ← ⋯`; this is the left T-nilpotence of [Simson, p. 108], stated for covariant
-modules. The predicate is named after neither side. API: monotone in `I`; a nilpotent ideal
-(`I ^ n = ⊥`, with Tau Ceti's monoid of ideals) is T-nilpotent, and so is its opposite
-(`TauCeti.MorphismIdeal.isTNilpotent_of_pow_eq_bot`,
+(`TauCeti.LeftMorphismIdeal.IsTNilpotent I`.) A left ideal `I` of `C` (0.3) is **T-nilpotent** if
+every sequence `c₀ → c₁ → ⋯` with all `fᵢ : cᵢ → cᵢ₊₁` in `I` has a vanishing composite
+`q_n = f₀ ≫ ⋯ ≫ f_{n-1} : c₀ → c_n` (Convention 8). For `C = SingleObj Aᵐᵒᵖ`,
+`q_n = op (a₀ a₁ ⋯ a_{n-1})`, Bass's left T-nilpotence. A two-sided ideal, such as `J(C)`, enters
+through the coercion of 0.3. The other side is T-nilpotence of the left ideal `I.op` of `Cᵒᵖ` for a
+right ideal `I` of `C` (`TauCeti.RightMorphismIdeal.op`; for a two-sided ideal, Tau Ceti's
+`TauCeti.MorphismIdeal.op I`), that is, of the chains `c₀ ← c₁ ← ⋯`; this is the left T-nilpotence
+of [Simson, p. 108], stated for covariant modules. The predicate is named after neither side. API:
+monotone in `I`; a nilpotent two-sided ideal (`I ^ n = ⊥`, with Tau Ceti's monoid of ideals) is
+T-nilpotent, and so is its opposite (`TauCeti.MorphismIdeal.isTNilpotent_of_pow_eq_bot`,
 `TauCeti.MorphismIdeal.isTNilpotent_op_of_pow_eq_bot`).
 
-`I · M` is the family of subgroups of 0.3 (`TauCeti.MorphismIdeal.smul I M`); for
-`SingleObj Aᵐᵒᵖ` it is `J • ⊤`. It is **superfluous** in `M`
-(`TauCeti.MorphismIdeal.IsSuperfluousSmul I M`) if every map `g : N → M` whose image generates `M`
-together with `I · M` is an epimorphism.
+`I · M` is the family of subgroups of 0.3 (`TauCeti.LeftMorphismIdeal.smul I M`), a submodule
+because `I` is closed under precomposition; for the left ideal of `SingleObj Aᵐᵒᵖ` given by a left
+ideal `J` of `A` it is `J • ⊤`. It is **superfluous** in `M`
+(`TauCeti.LeftMorphismIdeal.IsSuperfluousSmul I M`) if every map `g : N → M` whose image generates
+`M` together with `I · M` is an epimorphism.
 
-**Nakayama's lemma for all modules** (`TauCeti.MorphismIdeal.isTNilpotent_tfae`). The following
-are equivalent:
+**Nakayama's lemma for all modules** (`TauCeti.LeftMorphismIdeal.isTNilpotent_tfae`). For a left
+ideal `I` of `C`, the following are equivalent:
 
 1. `I` is T-nilpotent;
 2. for every module `M` of `Mod C`, `I · M = M` implies `M = 0`;
@@ -1812,29 +1881,37 @@ Route. (1) ⇒ (2) by dependent choice: if `I · M = M` and `x₀ ∈ M(c₀)` i
 König's graph theorem, [Bass, pp. 473–474]). (2) ⇔ (3) as usual, through the cokernel of `g`.
 (2) ⇒ (1) through Bass's module `B` of an `I`-sequence (2.5): `B ≠ 0` while no `q_n` vanishes,
 since the class of `𝟙 c₀` is `q_n` at stage `n`; and `B = I · B`, since the class of `g : d → cᵢ`
-is that of `g ≫ fᵢ`, the image of the class of `𝟙 cᵢ₊₁` under `B(g ≫ fᵢ)` with `g ≫ fᵢ ∈ I`. With
-the lemma of 2.5 (a Bass module is zero exactly when every tail of its sequence has a zero
-composite), `I` is T-nilpotent exactly when the Bass modules of all `I`-sequences vanish
-(`TauCeti.MorphismIdeal.isTNilpotent_iff_forall_isZero_bassModule`).
+is that of `g ≫ fᵢ`, the image of the class of `𝟙 cᵢ₊₁` under `B(g ≫ fᵢ)` with `g ≫ fᵢ ∈ I`. The
+proofs use only closure under precomposition: `M(h)(M(f)(x)) = M(h ≫ f)(x)` in (1) ⇒ (2), and
+`g ≫ fᵢ ∈ I` in (2) ⇒ (1). With the lemma of 2.5 (a Bass module is zero exactly when every tail of
+its sequence has a zero composite), `I` is T-nilpotent exactly when the Bass modules of all
+`I`-sequences vanish (`TauCeti.LeftMorphismIdeal.isTNilpotent_iff_forall_isZero_bassModule`).
 
 (1) ⇒ (2) and (1) ⇒ (3) hold in every universe, with no smallness
-(`TauCeti.MorphismIdeal.IsTNilpotent.isZero_of_smul_eq_top`,
-`TauCeti.MorphismIdeal.IsTNilpotent.isSuperfluousSmul`). (2) ⇒ (1) in the universe `w` uses
+(`TauCeti.LeftMorphismIdeal.IsTNilpotent.isZero_of_smul_eq_top`,
+`TauCeti.LeftMorphismIdeal.IsTNilpotent.isSuperfluousSmul`). (2) ⇒ (1) in the universe `w` uses
 `EssentiallySmall.{w} C` for Bass's module; `Suggested.lean` states the equivalence in the universe
-`v`, where no hypothesis is needed.
+`v`, where no hypothesis is needed. The two-sided radical `J(C)` is the case used in 4.3–4.6.
 
 **Rings** (`TauCeti.IsLeftTNilpotent (S : Set A)`): for every `a : ℕ → A` with values in `S` there
 is `n` with `(List.ofFn fun i : Fin n ↦ a i).prod = 0`. API: monotone in `S`
 (`IsLeftTNilpotent.mono`); a nilpotent ideal is left T-nilpotent
 (`TauCeti.isLeftTNilpotent_of_isNilpotent`); every element of a left T-nilpotent set is nilpotent
 (`IsLeftTNilpotent.isNilpotent`); images under ring homomorphisms (`IsLeftTNilpotent.image`).
-Bridge (`TauCeti.isLeftTNilpotent_jacobson_iff_singleObj`): for the Jacobson radical, left
-T-nilpotence is T-nilpotence at `SingleObj Aᵐᵒᵖ`. The ring form of Nakayama's lemma
-(`TauCeti.isLeftTNilpotent_tfae`; [AF, 28.3, pp. 314–315]; [Lam-FC, (23.16), p. 352],
-right-handed) is a corollary through `SingleObj Aᵐᵒᵖ`: for a left ideal `J`, `J` is left
-T-nilpotent; `J • ⊤ = ⊤` implies `M = 0` for every module `M` in the universe of `A`; `J • ⊤` is
-superfluous in every such `M`; `J • ⊤` is superfluous in `ℕ →₀ A`. The forward direction holds in
-every universe (`IsLeftTNilpotent.isSuperfluous_smul_top`).
+Bridges: for any left ideal `J : Ideal A`, left T-nilpotence of `J` is T-nilpotence of the left
+ideal `idealOrderIsoLeftMorphismIdeal A J` of `SingleObj Aᵐᵒᵖ`
+(`TauCeti.isLeftTNilpotent_iff_isTNilpotent_singleObj`), since the composite of
+`op a₀, …, op a_{n-1}` is `op (a₀ ⋯ a_{n-1})`; and the radical `J(SingleObj Aᵐᵒᵖ)`, as a left
+ideal, is that of `Ring.jacobson A`
+(`TauCeti.toLeftMorphismIdeal_jacobsonRadicalIdeal_singleObj`; `End ∗ = Aᵐᵒᵖ` and Tau Ceti's
+`TauCeti.Ring.mem_jacobson_mulOpposite_iff`). The ring form of Nakayama's lemma
+(`TauCeti.isLeftTNilpotent_tfae`; [AF, 28.3, pp. 314–315], any left ideal; [Lam-FC, (23.16),
+p. 352], right-handed) is the case of the categorical TFAE for the left ideal
+`idealOrderIsoLeftMorphismIdeal A J` of `SingleObj Aᵐᵒᵖ`, through 0.2, where `I · M` is `J • ⊤`:
+for a left ideal `J`, `J` is left T-nilpotent; `J • ⊤ = ⊤` implies `M = 0` for every module `M` in
+the universe of `A`; `J • ⊤` is superfluous in every such `M`; `J • ⊤` is superfluous in
+`ℕ →₀ A`. The last item is the free module through which Bass's module is a quotient. The forward
+direction holds in every universe (`IsLeftTNilpotent.isSuperfluous_smul_top`).
 
 **Checks.** The ideal `(X)` of `PowerSeries k` is not left T-nilpotent
 (`TauCeti.not_isLeftTNilpotent_span_X`). In `F = ℕ →₀ PowerSeries k`, the submodule `G` spanned by
@@ -1842,9 +1919,10 @@ the `eᵢ - X • eᵢ₊₁` satisfies `G + X • F = F` and `G ≠ F` (`F ⧸ 
 series field), so `X • F` is not superfluous, as the last item predicts. The categorical check is
 the linear `A_∞` category of the Layer 4 checks.
 
-*Needs:* 0.3 (`I · M`), 2.5; Tau Ceti `TauCeti.MorphismIdeal`, `TauCeti.MorphismIdeal.le_def`,
+*Needs:* 0.3 (one-sided ideals, `I · M`), 2.5; Tau Ceti `TauCeti.MorphismIdeal`,
 `TauCeti.MorphismIdeal.op`, the monoid of ideals
-(`TauCeti.CategoryTheory.Preadditive.MorphismIdeal.Mul`); Mathlib `Functor.ofSequence`.
+(`TauCeti.CategoryTheory.Preadditive.MorphismIdeal.Mul`),
+`TauCeti.Ring.mem_jacobson_mulOpposite_iff`; Mathlib `Functor.ofSequence`.
 
 ### 4.2 Semilocal and semiperfect rings and categories
 
@@ -2012,7 +2090,8 @@ Ceti", `TauCeti.IsKrullSchmidt` with Krause's criterion, `TauCeti.IsEssentialEpi
 ### 4.3 Perfect categories and left perfect rings
 
 (`TauCeti.IsPerfectCategory C`, `extends IsSemilocalCategory C`, with field
-`isTNilpotent : MorphismIdeal.IsTNilpotent (TauCeti.jacobsonRadicalIdeal C)`.) By 4.2 this is
+`isTNilpotent : (TauCeti.jacobsonRadicalIdeal C : LeftMorphismIdeal C).IsTNilpotent`.) By 4.2 this
+is
 Simson's condition for `Cᵒᵖ`: `J(C)` is T-nilpotent and `C ⧸ J(C)` is semisimple ([Simson, Thm. 5.4
 (7)]). By Theorem P (4.5), `IsPerfectCategory C` says that `Mod C` is perfect: every module has a
 projective cover. The other side is `IsPerfectCategory Cᵒᵖ`. The name carries no "left" or
@@ -2092,10 +2171,11 @@ in `Suggested.lean`). The following are equivalent:
 3. every flat module is projective;
 3′. every countably presented flat module is projective (Mathlib's `IsCardinalPresentable` at
    `ℵ₁`; Bass's modules are countably presented, which makes this item free);
-4. for every object `c`, the cyclic subfunctors `{g ≫ h}` of `Hom(c, -)`, the images of
-   `Hom(d, -) → Hom(c, -)` for `g : c → d`, satisfy the descending chain condition; for
-   `SingleObj Aᵐᵒᵖ` these are the principal right ideals `aA` (since `g ≫ h` is `op (a b)`), Bass's
-   condition;
+4. for every object `c`, the principal right ideals `g C = {g ≫ h}` of `C` with source `c`
+   (`TauCeti.RightMorphismIdeal.principal`, 0.3) satisfy the descending chain condition; at `c`
+   they are the cyclic subfunctors of `Hom(c, -)`, the images of `Hom(d, -) → Hom(c, -)` for
+   `g : c → d`. For `SingleObj Aᵐᵒᵖ` they are the principal right ideals `aA` (since `g ≫ h` is
+   `op (a b)`; `TauCeti.submoduleOrderIsoRightMorphismIdeal`), Bass's condition;
 4′. every sequence `c₀ → c₁ → ⋯` stabilizes: some `q_n = f₀ ≫ ⋯ ≫ f_{n-1}` factors as `q_m ≫ t`
    through every later `q_m` ([Simson, Def. 3.1, p. 99], on `Cᵒᵖ`, at the first term, in the
    direction of 2.5);
@@ -2130,8 +2210,8 @@ Route: the cycle 1 ⇒ 2 ⇒ 3 ⇒ 3′ ⇒ 4′ ⇒ 1, with 4 ⇔ 4′, 3 ⇔ 5
   misses it and `R = B ⊕ m`; the chain condition stops the splitting; no Brauer lemma is used).
   Lam's statement is left-handed, as needed here. Thanks to the objectwise definition (4.2),
   [Simson, Prop. 1.2] is not needed here.
-- 4 ⇔ 4′: a sequence gives the cyclic subfunctors generated by the `q_i`, with
-  `q_{i+1} = q_i ≫ f_i`; conversely a descending chain `{g₀ ≫ h} ⊇ {g₁ ≫ h} ⊇ ⋯` has
+- 4 ⇔ 4′: a sequence gives the principal right ideals generated by the `q_i`, with
+  `q_{i+1} = q_i ≫ f_i`; conversely a descending chain `g₀ C ⊇ g₁ C ⊇ ⋯` has
   `g_{i+1} = g_i ≫ f_i` for some `f_i`.
 - 3 ⇔ 5 through 3.1: flat dimension is at most projective dimension; given 3, the syzygy at the flat
   dimension is flat, hence projective ([Lam-LMR, (5.70), p. 187]); 5 at a flat module gives
@@ -2162,8 +2242,9 @@ right ideals, 4′ Bass's chain `a₀A ⊇ a₀a₁A ⊇ ⋯`, 5 for `M : Module
 `ModuleCat.{u} A`. All are derived from the categorical theorem at `SingleObj Aᵐᵒᵖ` through 0.2:
 covers through `TauCeti.isProjectiveCover_iff_forall_surjective`, flatness through Layer 2,
 dimensions through Layer 3 and Tau Ceti's
-`CategoryTheory.Equivalence.projectiveDimension_functor_obj`; the cyclic subfunctors of `Hom(∗, -)`
-are the `aA`, and `q_n = op (a₀ ⋯ a_{n-1})`. There are no independent ring proofs. Covers in other
+`CategoryTheory.Equivalence.projectiveDimension_functor_obj`; the principal right ideals of
+`SingleObj Aᵐᵒᵖ` are the `aA` (`TauCeti.submoduleOrderIsoRightMorphismIdeal`, 0.3), and
+`q_n = op (a₀ ⋯ a_{n-1})`. There are no independent ring proofs. Covers in other
 universes come from 4.4. Also: the ring Mares–Simson lemma
 (`TauCeti.Module.BalancedFlat.projective_of_isProjectiveCover`) and the auxiliary
 `TauCeti.isSemisimpleRing_of_wellFoundedLT_isPrincipal` (principal left ideals, `Ideal A`, as in
@@ -2367,8 +2448,10 @@ needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 needs Layers 2 and 3 and 4.1–4.4; 
   presented); Cor. 3.3, p. 1218 (flat covers in `Mod C`).
 - [Fisher] J. L. Fisher, *The tensor product of functors, satellites, and derived functors*,
   J. Algebra 8 (1968), 277–294. Thms. 1.3–1.4, pp. 279–280 (left exact functors on a small abelian
-  category as filtered colimits of representables); Thm. 2.4 and Cor. 2.9, pp. 284–285.
-  Contravariant left exact functors, as here.
+  category as filtered colimits of representables); Thm. 2.4 and Cor. 2.9, pp. 284–285. Thms.
+  1.3–1.4 and 2.4 are about contravariant left exact functors `G : 𝒞° → Ab`, as here; Cor. 2.9 is
+  about a covariant `F : 𝒞 → 𝒟` (left exact exactly when `F ⊗` is exact), and our statement of it
+  is over `Cᵒᵖ`.
 - [Govorov] V. E. Govorov, *On flat modules*, Sibirsk. Mat. Zh. 6 (1965), 300–304 (Russian): a flat
   module is a direct limit of free modules. Read in the original.
 - [Harada] M. Harada, *Perfect categories I*, Osaka J. Math. 10 (1973), 329–341. Introduction,
@@ -2403,12 +2486,15 @@ needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 needs Layers 2 and 3 and 4.1–4.4; 
   semisimple exactly when it is J-semisimple and left Artinian, exactly when it is J-semisimple with
   the descending chain condition on principal left ideals; the proof splits off minimal left ideals
   through a maximal left ideal missing them and uses no Brauer lemma), read in the derivative of §4.
-  Left-handed; applied to the opposite ring where needed.
+  §§23–24 right-handed; (4.14) left-handed. A right-handed statement is applied to `Aᵐᵒᵖ`.
 - [Lam-LMR] T. Y. Lam, *Lectures on Modules and Rings*, Graduate Texts in Mathematics 189,
   Springer (1999). (4.9) and (4.12), p. 125; (4.13)–(4.14), p. 126; (4.23)–(4.24), pp. 129–130;
   (4.30), p. 133; (4.32)–(4.34), pp. 133–134; (4.47), p. 139; (5.53)–(5.57),
   pp. 183–184; (5.58)–(5.59), p. 184; (5.62b) and (5.63), p. 185; (5.69)–(5.70), p. 187; (5.71),
-  p. 188. (2.33), cited in (5.62b), was not read.
+  p. 188. (2.33), cited in (5.62b), was not read. Lam states these results for right modules
+  (`P_R`; (5.59) for a right Noetherian ring, which is our left Noetherian after the switch); each
+  is applied to `Aᵐᵒᵖ`, and the citations of (4.9), (4.12), (4.24), (4.32), (5.57) and (5.59) say
+  so.
 - [Lambek] J. Lambek, *A module is flat if and only if its character module is injective*, Canad.
   Math. Bull. 7 (1964), 237–243. Theorem, p. 239; Proposition 1 and `Ext(N, M*) ≅ Tor(N, M)*`,
   p. 241.
@@ -2444,9 +2530,11 @@ needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 needs Layers 2 and 3 and 4.1–4.4; 
   (`G ∈ Ab^{𝒞*}`), as here.
 - [OR] U. Oberst, H. Röhrl, *Flat and coherent functors*, J. Algebra 14 (1970), 91–105. (1.1),
   p. 93 (the adjunction over a commutative base ring); Lemma 1.2, p. 94; Lemma 2.4, p. 95;
-  Lemma 3.1 and Thm. 3.2 (1)–(6), pp. 96–98, with proof; Cor. 3.3–3.5 and Remark, p. 99;
-  Thm. 4.1, p. 101. Its flat functors `S ∈ [X°, Mod K]` are contravariant, as here; Lemma 1.2 is
-  stated for a covariant `F` and is applied to `Cᵒᵖ`.
+  Lemma 3.1 and Thm. 3.2 (1)–(6), pp. 96–98, with proof (item (3): `Tor_1(S, X(z, -) ⧸ I) = 0` for
+  every ideal `I` of `X(z, -)`); Cor. 3.3–3.5 and Remark, p. 99; Thm. 4.1, p. 101. Its flat
+  functors `S ∈ [X°, Mod K]` are contravariant, as here, and its tensor product `S ⊗_X F` puts the
+  contravariant functor first, the reverse of the order here (Convention 14); Lemma 1.2 is stated
+  for a covariant `F` and is applied to `Cᵒᵖ`.
 - [Osofsky-Card] B. L. Osofsky, *Homological dimension and cardinality*, Trans. Amer. Math. Soc.
   151 (1970), 641–649. Nice families, p. 641; Thm. A, p. 644.
 - [PR] A. Pillay, P. Rothmaler, *Bass modules and embeddings into free modules*, arXiv:2501.04174v1,

@@ -61,12 +61,18 @@ covariant functors `Hom(X, -) ⧸ I`; the global dimension is defined for any ab
 `ModuleCat A`; the weak global dimension is `ModCat.weakGlobalDimension C`; Auslander's theorem
 assumes that every representable `Hom(-, X)` is a Noetherian object. Layer 3 uses `R = ℤ`.
 
-Layer 4. T-nilpotence is defined for an ideal of `C` (Tau Ceti's `TauCeti.MorphismIdeal`) on
-sequences `c₀ → c₁ → ⋯`, the direction of Nakayama's lemma for `Mod C` through `I · M`; `C` is
+One-sided ideals (0.3). A left ideal of `C` (`LeftMorphismIdeal C`) is closed under precomposition,
+a right ideal (`RightMorphismIdeal C`) under postcomposition; Tau Ceti's two-sided
+`TauCeti.MorphismIdeal` is both. For `SingleObj Aᵐᵒᵖ` they are the left and the right ideals of `A`.
+
+Layer 4. T-nilpotence is defined for a left ideal of `C` on sequences `c₀ → c₁ → ⋯`, the direction
+of Nakayama's lemma for `Mod C` through `I · M`; `C` is
 semilocal, semiperfect or perfect through its endomorphism rings and its radical
 `TauCeti.jacobsonRadicalIdeal C`; projective covers are Tau Ceti's essential epimorphisms
 `TauCeti.IsEssentialEpi` from projective objects; Bass's Theorem P is `isPerfectCategory_tfae`,
-with the ring version `isLeftPerfectRing_tfae` derived through `SingleObj Aᵐᵒᵖ`. Rings keep native
+with the ring version `isLeftPerfectRing_tfae` derived through `SingleObj Aᵐᵒᵖ`. The ring Nakayama
+lemma for a left ideal `J` of `A` is the categorical one for the left ideal
+`idealOrderIsoLeftMorphismIdeal A J` of `SingleObj Aᵐᵒᵖ`. Rings keep native
 classes (`IsSemilocalRing`, `IsLeftPerfectRing`) with bridges. 0.8 adds the finitely generated
 projective modules `proj C` and the duality `Hom(-, C) : (proj C)ᵒᵖ ≌ proj Cᵒᵖ`. A right
 `A`-module is a left `Aᵐᵒᵖ`-module and a right ideal is a `Submodule Aᵐᵒᵖ A`.
@@ -269,6 +275,132 @@ end OneObject
 
 /-! ### 0.3 The tensor product over `C` -/
 
+section OneSidedIdeal
+
+variable (C : Type u) [Category.{v} C] [Preadditive C]
+
+/-- **0.3, one-sided ideals** A **left ideal** of `C`: additive subgroups `I(X, Y) ⊆ (X ⟶ Y)`
+closed under precomposition, `h ≫ f ∈ I` for `f ∈ I`. Equivalently, for every `Y` a subfunctor
+`I(-, Y)` of the representable `Hom(-, Y)` in `Mod C` (`LeftMorphismIdeal.orderIsoSubobject`). For
+`SingleObj Aᵐᵒᵖ` these are the left ideals of `A` (`idealOrderIsoLeftMorphismIdeal`). Tau Ceti's
+two-sided `TauCeti.MorphismIdeal` is a left ideal (`MorphismIdeal.toLeftMorphismIdeal`, a
+coercion); the field name follows its `comp_mem_left`. Mathlib's `Sieve` has this closure but is
+not additive. -/
+structure LeftMorphismIdeal where
+  /-- The morphisms `X ⟶ Y` in the ideal. -/
+  hom (X Y : C) : AddSubgroup (X ⟶ Y)
+  /-- Precomposing a member of the ideal with any morphism stays in the ideal. -/
+  comp_mem_left {X Y Z : C} (f : X ⟶ Y) {g : Y ⟶ Z} : g ∈ hom Y Z → f ≫ g ∈ hom X Z
+
+/-- **0.3, one-sided ideals** A **right ideal** of `C`: additive subgroups `I(X, Y) ⊆ (X ⟶ Y)`
+closed under postcomposition, `f ≫ h ∈ I` for `f ∈ I`. Equivalently, for every `X` a subfunctor
+`I(X, -)` of the covariant representable `Hom(X, -)` (`RightMorphismIdeal.orderIsoSubobject`); a
+right ideal of `C` is a left ideal of `Cᵒᵖ` (`RightMorphismIdeal.op`). For `SingleObj Aᵐᵒᵖ` these
+are the right ideals of `A` (`submoduleOrderIsoRightMorphismIdeal`). -/
+structure RightMorphismIdeal where
+  /-- The morphisms `X ⟶ Y` in the ideal. -/
+  hom (X Y : C) : AddSubgroup (X ⟶ Y)
+  /-- Postcomposing a member of the ideal with any morphism stays in the ideal. -/
+  comp_mem_right {X Y Z : C} {f : X ⟶ Y} (g : Y ⟶ Z) : f ∈ hom X Y → f ≫ g ∈ hom X Z
+
+variable {C}
+
+instance : PartialOrder (LeftMorphismIdeal C) :=
+  PartialOrder.lift LeftMorphismIdeal.hom fun | ⟨_, _⟩, ⟨_, _⟩, rfl => rfl
+
+instance : PartialOrder (RightMorphismIdeal C) :=
+  PartialOrder.lift RightMorphismIdeal.hom fun | ⟨_, _⟩, ⟨_, _⟩, rfl => rfl
+
+theorem LeftMorphismIdeal.le_def {I J : LeftMorphismIdeal C} :
+    I ≤ J ↔ ∀ ⦃X Y : C⦄ (f : X ⟶ Y), f ∈ I.hom X Y → f ∈ J.hom X Y :=
+  Iff.rfl
+
+theorem RightMorphismIdeal.le_def {I J : RightMorphismIdeal C} :
+    I ≤ J ↔ ∀ ⦃X Y : C⦄ (f : X ⟶ Y), f ∈ I.hom X Y → f ∈ J.hom X Y :=
+  Iff.rfl
+
+/-- **0.3** A two-sided ideal is a left ideal. -/
+@[coe]
+def MorphismIdeal.toLeftMorphismIdeal (I : TauCeti.MorphismIdeal C) : LeftMorphismIdeal C where
+  hom := I.hom
+  comp_mem_left := I.comp_mem_left
+
+/-- **0.3** A two-sided ideal is a right ideal. -/
+@[coe]
+def MorphismIdeal.toRightMorphismIdeal (I : TauCeti.MorphismIdeal C) : RightMorphismIdeal C where
+  hom := I.hom
+  comp_mem_right := I.comp_mem_right
+
+instance : Coe (TauCeti.MorphismIdeal C) (LeftMorphismIdeal C) :=
+  ⟨MorphismIdeal.toLeftMorphismIdeal⟩
+
+instance : Coe (TauCeti.MorphismIdeal C) (RightMorphismIdeal C) :=
+  ⟨MorphismIdeal.toRightMorphismIdeal⟩
+
+/-- **0.3** A right ideal of `C` is a left ideal of `Cᵒᵖ`, as Tau Ceti's
+`TauCeti.MorphismIdeal.op`. For a two-sided `I`, `(I : RightMorphismIdeal C).op` is `I.op` as a
+left ideal. -/
+def RightMorphismIdeal.op (I : RightMorphismIdeal C) : LeftMorphismIdeal Cᵒᵖ where
+  hom X Y := (I.hom Y.unop X.unop).comap (CategoryTheory.unopHom X Y)
+  comp_mem_left f _ hg := I.comp_mem_right f.unop hg
+
+/-- **0.3** The principal right ideal `g C`, generated by `g : X ⟶ Y`: the `g ≫ h` with source `X`,
+and `0` at the other sources. At `X` it is the cyclic subfunctor of `Hom(X, -)`, the image of
+`Hom(Y, -) → Hom(X, -)`. For `SingleObj Aᵐᵒᵖ` and `g = op a` it is the principal right ideal `aA`,
+since `g ≫ op b = op (a b)`. -/
+noncomputable def RightMorphismIdeal.principal {X Y : C} (g : X ⟶ Y) : RightMorphismIdeal C :=
+  sorry
+
+/-- **0.3** Left ideals are the families of subfunctors `I(-, Y) ⊆ Hom(-, Y)` in `Mod C`. -/
+noncomputable def LeftMorphismIdeal.orderIsoSubobject :
+    LeftMorphismIdeal C ≃o ∀ Y : C, Subobject ((ModCat.yoneda C).obj Y) :=
+  sorry
+
+/-- **0.3** Right ideals are the families of subfunctors `I(X, -) ⊆ Hom(X, -)` of the covariant
+representables. -/
+noncomputable def RightMorphismIdeal.orderIsoSubobject :
+    RightMorphismIdeal C ≃o ∀ X : C, Subobject ((ModCat.yoneda Cᵒᵖ).obj (Opposite.op X)) :=
+  sorry
+
+variable (A : Type u) [Ring A]
+
+/-- **0.3, rings** The left ideals of `A` are the left ideals of `SingleObj Aᵐᵒᵖ`, by
+`J ↦ {f | unop f ∈ J}`. With Mathlib's `SingleObj.comp_as_mul` (`f ≫ g = g * f` in `Aᵐᵒᵖ`),
+`h ≫ f = op (unop h * unop f)`: closure under precomposition is closure under left multiplication,
+as the proof of `comp_mem_left` below checks. -/
+noncomputable def idealOrderIsoLeftMorphismIdeal :
+    Ideal A ≃o LeftMorphismIdeal (SingleObj Aᵐᵒᵖ) where
+  toFun J :=
+    { hom _ _ :=
+        { carrier := {f | MulOpposite.unop f ∈ J}
+          add_mem' := fun ha hb ↦ J.add_mem ha hb
+          zero_mem' := J.zero_mem
+          neg_mem' := fun ha ↦ J.neg_mem ha }
+      comp_mem_left h _ hf := J.mul_mem_left (MulOpposite.unop h) hf }
+  invFun := sorry
+  left_inv := sorry
+  right_inv := sorry
+  map_rel_iff' := sorry
+
+/-- **0.3, rings** The right ideals of `A` (`Submodule Aᵐᵒᵖ A`, Convention 4) are the right ideals
+of `SingleObj Aᵐᵒᵖ`, by `I ↦ {f | unop f ∈ I}`: `f ≫ g = op (unop f * unop g)`, so closure under
+postcomposition is closure under right multiplication, as the proof of `comp_mem_right` checks. -/
+noncomputable def submoduleOrderIsoRightMorphismIdeal :
+    Submodule Aᵐᵒᵖ A ≃o RightMorphismIdeal (SingleObj Aᵐᵒᵖ) where
+  toFun I :=
+    { hom _ _ :=
+        { carrier := {f | MulOpposite.unop f ∈ I}
+          add_mem' := fun ha hb ↦ I.add_mem ha hb
+          zero_mem' := I.zero_mem
+          neg_mem' := fun ha ↦ I.neg_mem ha }
+      comp_mem_right g hf := I.smul_mem (op (MulOpposite.unop g)) hf }
+  invFun := sorry
+  left_inv := sorry
+  right_inv := sorry
+  map_rel_iff' := sorry
+
+end OneSidedIdeal
+
 section Tensor
 
 variable (R : Type*) [CommRing R]
@@ -303,11 +435,12 @@ end Bifunctor
 
 variable {C : Type u} [Category.{v} C] [Preadditive C]
 
-/-- **0.3, ideals** For a two-sided ideal `I` of `C` (Tau Ceti's `TauCeti.MorphismIdeal`) and a
-module `M` in `Mod C`, the subgroup `(I · M)(c)` of `M(c)` generated by the `M(f)(x)` with
-`f ∈ I(c, d)` and `x ∈ M(d)`. For `C = SingleObj Aᵐᵒᵖ` and a two-sided ideal `J` of `A` it is
-`J • ⊤`. -/
-def MorphismIdeal.smul (I : TauCeti.MorphismIdeal C) (M : ModCat.{w} C) (c : C) :
+/-- **0.3, ideals** For a left ideal `I` of `C` and a module `M` in `Mod C`, the subgroup
+`(I · M)(c)` of `M(c)` generated by the `M(f)(x)` with `f ∈ I(c, d)` and `x ∈ M(d)`. It is a
+submodule, since `M(h)(M(f) x) = M(h ≫ f) x` with `h ≫ f ∈ I`: only precomposition is used. For
+`C = SingleObj Aᵐᵒᵖ` and the left ideal `idealOrderIsoLeftMorphismIdeal A J` it is `J • ⊤`. A
+two-sided ideal enters through the coercion. -/
+def LeftMorphismIdeal.smul (I : LeftMorphismIdeal C) (M : ModCat.{w} C) (c : C) :
     AddSubgroup (M.obj.obj (op c)) :=
   AddSubgroup.closure
     {y | ∃ (d : C) (f : c ⟶ d) (_ : f ∈ I.hom c d) (x : M.obj.obj (op d)),
@@ -323,13 +456,15 @@ noncomputable def MorphismIdeal.quotientYoneda (I : TauCeti.MorphismIdeal C) (X 
 
 namespace ModCat
 
-/-- **0.3** `Hom_R(G(-), X)` as a `C`-module, for a covariant `G` (a module over `Cᵒᵖ`),
-functorial in `G` and `X`. -/
+variable [Linear R C]
+
+/-- **0.3** `Hom_R(G(-), X)` as a `C`-module, for a covariant `G` (a module over `Cᵒᵖ`) with its
+derived `R`-structure (0.1), functorial in `G` and `X`. -/
 noncomputable def homBifunctor : (ModCat.{w} Cᵒᵖ)ᵒᵖ ⥤ ModuleCat.{w} R ⥤ ModCat.{w} C :=
   sorry
 
-/-- **0.3** `Hom_R(F(-), X)` as a covariant functor (a module over `Cᵒᵖ`), for `F` in `Mod C`,
-functorial in `F` and `X`. -/
+/-- **0.3** `Hom_R(F(-), X)` as a covariant functor (a module over `Cᵒᵖ`), for `F` in `Mod C` with
+its derived `R`-structure, functorial in `F` and `X`. -/
 noncomputable def homOpBifunctor : (ModCat.{w} C)ᵒᵖ ⥤ ModuleCat.{w} R ⥤ ModCat.{w} Cᵒᵖ :=
   sorry
 
@@ -341,7 +476,7 @@ noncomputable abbrev homFunctor (G : ModCat.{w} Cᵒᵖ) : ModuleCat.{w} R ⥤ M
 noncomputable abbrev homOpFunctor (F : ModCat.{w} C) : ModuleCat.{w} R ⥤ ModCat.{w} Cᵒᵖ :=
   (homOpBifunctor R).obj (op F)
 
-variable [Linear R C] [EssentiallySmall.{w} C]
+variable [EssentiallySmall.{w} C]
 
 /-- **0.3** `G ⊗_C F`, for a covariant `G` (a module over `Cᵒᵖ`) and `F` in `Mod C`: the coend in
 `ModuleCat R` of `G(c) ⊗_R F(c)`, with the derived `R`-structures (0.1). The order is that of
@@ -470,12 +605,13 @@ noncomputable def tensorObjIntIso (G : ModCat.{w} Cᵒᵖ) (F : ModCat.{w} C) :
     (ModuleCat.restrictScalars (algebraMap ℤ R)).obj (tensorObj R G F) ≅ tensorObj ℤ G F :=
   sorry
 
-/-- **0.3, quotients by an ideal**: `(C ⧸ I)(X, -) ⊗_C M ≅ M(X) ⧸ (I · M)(X)` ([OR, Lemma 1.2] for
-an ideal of `Hom(X, -)`); right exactness and Yoneda. Used by 4.6. -/
+/-- **0.3, quotients by an ideal**: for a two-sided ideal `I`, `(C ⧸ I)(X, -) ⊗_C M ≅
+M(X) ⧸ (I · M)(X)` ([OR, Lemma 1.2], stated for a covariant module and an ideal of `Hom(-, X)`,
+applied to `Cᵒᵖ`); right exactness and Yoneda. Used by 4.6. -/
 noncomputable def tensorObjQuotientYonedaIso {C : Type u} [Category.{v} C] [Preadditive C]
     [EssentiallySmall.{v} C] (I : TauCeti.MorphismIdeal C) (X : C) (M : ModCat.{v} C) :
     tensorObj ℤ (MorphismIdeal.quotientYoneda I.op (op X)) M ≅
-      ModuleCat.of ℤ (M.obj.obj (op X) ⧸ MorphismIdeal.smul I M X) :=
+      ModuleCat.of ℤ (M.obj.obj (op X) ⧸ LeftMorphismIdeal.smul I M X) :=
   sorry
 
 /-! ### 0.4 Projective factors -/
@@ -725,7 +861,7 @@ end BalancedTensorProduct
 
 section Dual
 
-variable (R : Type*) [CommRing R] {C : Type u} [Category.{v} C] [Preadditive C]
+variable (R : Type*) [CommRing R] {C : Type u} [Category.{v} C] [Preadditive C] [Linear R C]
   (E : ModuleCat.{w} R)
 
 /-- **0.7** `F ↦ F^E = Hom_R(F(-), E)`, from `Mod C` to covariant functors (modules over `Cᵒᵖ`). -/
@@ -750,7 +886,7 @@ theorem ModCat.isZero_of_isZero_dual (hE : IsCoseparator E) (F : ModCat.{w} C)
 
 /-- **0.7, one-map form of Lambek's criterion**: for a cogenerator `E`, `i ⊗ F` is a
 monomorphism exactly when composition with `i` is onto on maps into `F^E`. -/
-theorem ModCat.mono_tensor_map_app_iff [Linear R C] [EssentiallySmall.{w} C]
+theorem ModCat.mono_tensor_map_app_iff [EssentiallySmall.{w} C]
     (hE : IsCoseparator E) {G G' : ModCat.{w} Cᵒᵖ} (i : G ⟶ G') (F : ModCat.{w} C) :
     Mono (((ModCat.tensor R).map i).app F) ↔
       Function.Surjective fun φ : G' ⟶ (ModCat.dual R E).obj (op F) ↦ i ≫ φ :=
@@ -1379,9 +1515,11 @@ end CategoryAlgebra
 /-! ## Layer 2: flat modules and flat functors
 
 Flatness is category-primary. A module `F` of `Mod C` is flat when it passes the ideal test: for
-every object `X` and every finitely generated subfunctor `I` of the covariant representable
-`Hom(X, -)`, the map `I ⊗_C F → Hom(X, -) ⊗_C F ≅ F(X)` is injective ([OR, Thm. 3.2 (3)], whose
-modules are contravariant, as here). A covariant functor is flat when it is flat as a module over
+every object `X` and every finitely generated right ideal of `C` at `X`, a finitely generated
+subfunctor `I` of the covariant representable `Hom(X, -)` (0.3), the map
+`I ⊗_C F → Hom(X, -) ⊗_C F ≅ F(X)` is injective. This is equivalent to [OR, Thm. 3.2 (3)] (whose
+modules are contravariant, as here) by the long exact sequence, with the reduction to finitely
+generated ideals by filtered colimits. A covariant functor is flat when it is flat as a module over
 `Cᵒᵖ`. The definition uses `R = ℤ`; flatness does not depend on `R` (2.1). It is stated for modules
 in the universe `v` of the morphisms of `C`, where the representables live (0.1); an
 `EssentiallySmall.{w} C` passes to a small model. Rings keep a native class `Module.BalancedFlat`,
@@ -1402,8 +1540,9 @@ noncomputable def ModCat.yonedaSpan {X : C} {n : ℕ} {Y : Fin n → C} (β : �
 
 /-- **2.1** The subfunctor of the covariant representable `Hom(X, -)` generated by finitely many
 morphisms `β j : X ⟶ Y j`, the image of `⊕_j Hom(Y j, -) → Hom(X, -)`: `yonedaSpan` over `Cᵒᵖ`.
-These are the finitely generated subfunctors of `Hom(X, -)`; for `C = SingleObj Aᵐᵒᵖ`, the finitely
-generated right ideals of `A`. -/
+These are the finitely generated subfunctors of `Hom(X, -)`, the parts at `X` of the finitely
+generated right ideals of `C` (`RightMorphismIdeal.orderIsoSubobject`); for `C = SingleObj Aᵐᵒᵖ`,
+the finitely generated right ideals of `A`. -/
 noncomputable abbrev ModCat.coyonedaSpan {X : C} {n : ℕ} {Y : Fin n → C} (β : ∀ j, X ⟶ Y j) :
     Subobject ((ModCat.yoneda Cᵒᵖ).obj (op X)) :=
   ModCat.yonedaSpan (C := Cᵒᵖ) (X := op X) (Y := fun j ↦ op (Y j)) fun j ↦ (β j).op
@@ -1411,9 +1550,11 @@ noncomputable abbrev ModCat.coyonedaSpan {X : C} {n : ℕ} {Y : Fin n → C} (β
 variable [EssentiallySmall.{v} C]
 
 /-- **2.1** A module `F` of `Mod C` is **flat** if `I ⊗_C F → Hom(X, -) ⊗_C F` is a monomorphism
-for every object `X` and every finitely generated subfunctor `I ⊆ Hom(X, -)` ([OR, Thm. 3.2 (3)];
-for rings, finitely generated right ideals, [Lam-LMR, (4.12)]). By Yoneda (0.3) the target is
-`F(X)`. A covariant functor is flat when it is flat as a module over `Cᵒᵖ`.
+for every object `X` and every finitely generated right ideal of `C` at `X`, that is, finitely
+generated subfunctor `I ⊆ Hom(X, -)`. Equivalent to [OR, Thm. 3.2 (3)] by the long exact sequence,
+with the reduction to finitely generated ideals by filtered colimits; for rings, finitely generated
+right ideals ([Lam-LMR, (4.12)], stated for right modules in Lam; applied to `Aᵐᵒᵖ`). By Yoneda
+(0.3) the target is `F(X)`. A covariant functor is flat when it is flat as a module over `Cᵒᵖ`.
 
 This is flatness as a module (ambient flatness). It is not flatness as an object of the full
 subcategory of flat modules, which asks every epimorphism there to be pure ([CI]). -/
@@ -1431,7 +1572,8 @@ theorem ModCat.flat_iff_mono_tensor (R : Type*) [CommRing R] [Linear R C] (F : M
 end FlatDef
 
 /-- **2.1, rings** A left module `M` is flat if `I ⊗_A M → A ⊗_A M` is injective for every finitely
-generated right ideal `I` ([Lam-LMR, (4.12)]). A right module `M` is flat when
+generated right ideal `I` ([Lam-LMR, (4.12)], stated for right modules in Lam; applied to `Aᵐᵒᵖ`).
+A right module `M` is flat when
 `Module.BalancedFlat Aᵐᵒᵖ M`. If Mathlib generalizes `Module.Flat` to noncommutative rings, this
 class is replaced by `Module.Flat`. -/
 class Module.BalancedFlat (A : Type u) (M : Type v) [Ring A] [AddCommGroup M] [Module A M] :
@@ -1478,10 +1620,11 @@ open ModCat
 variable {C : Type u} [Category.{v} C] [Preadditive C] [EssentiallySmall.{v} C]
 
 /-- **2.2, tests for flatness** of a module `F` of `Mod C`: (1) the ideal test (definition); (2) all
-subfunctors of covariant representables; (3) `- ⊗_C F` preserves monomorphisms; (4)
-`Tor_1(-, F) = 0`; (5) `Tor_1(Hom(X, -) ⧸ I, F) = 0` for finitely generated `I`; (6) Lambek: the
-dual `F^E` is injective for every injective cogenerator `E` ([OR, Thm. 3.2 (1), (3)]; [St, Thm. 3];
-[Lambek]). Route: Lambek and Baer, as [Lam-LMR, (4.12)]. -/
+right ideals of `C`, as subfunctors of covariant representables; (3) `- ⊗_C F` preserves
+monomorphisms ([OR, Thm. 3.2 (1)]); (4) `Tor_1(-, F) = 0`; (5) `Tor_1(Hom(X, -) ⧸ I, F) = 0` for
+finitely generated `I` ([OR, Thm. 3.2 (3)], for every ideal); (6) Lambek: the dual `F^E` is
+injective for every injective cogenerator `E` ([St, Thm. 3]; [Lambek]). Route: Lambek and Baer,
+as [Lam-LMR, (4.12)] (stated for right modules in Lam; applied to `Aᵐᵒᵖ`). -/
 theorem ModCat.flat_tfae (F : ModCat.{v} C) :
     List.TFAE
       [F.Flat,
@@ -1538,7 +1681,8 @@ variable {A : Type u} [Ring A]
 
 /-- **2.2, rings: tests for flatness**: the definition; all right ideals; all injections of right
 modules; vanishing of `Tor_1`; vanishing of `Tor_1` on cyclic right modules with finitely generated
-relations; Lambek's character-module test ([Lam-LMR, (4.9), (4.12)]; [Lambek, Theorem, p. 239]). -/
+relations; Lambek's character-module test ([Lam-LMR, (4.9), (4.12)], stated for right modules in
+Lam; applied to `Aᵐᵒᵖ`; [Lambek, Theorem, p. 239]). -/
 theorem Module.balancedFlat_tfae [Small.{v} A] (M : Type v) [AddCommGroup M] [Module A M] :
     List.TFAE
       [Module.BalancedFlat A M,
@@ -1608,7 +1752,8 @@ def ModCat.IsPureProjective (M : ModCat.{v} C) : Prop :=
 
 variable [EssentiallySmall.{v} C]
 
-/-- **2.3, equational criterion** ([OR, Thm. 3.2 (4)]; rings: [Lam-LMR, (4.24)]). -/
+/-- **2.3, equational criterion** ([OR, Thm. 3.2 (4)]; rings: [Lam-LMR, (4.24)], stated for right
+modules in Lam; applied to `Aᵐᵒᵖ`). -/
 theorem ModCat.flat_iff_forall_isTrivialRelation (F : ModCat.{v} C) :
     F.Flat ↔ ∀ ⦃X : C⦄ ⦃n : ℕ⦄ ⦃Y : Fin n → C⦄ (β : ∀ j, X ⟶ Y j)
       (y : ∀ j, F.obj.obj (op (Y j))),
@@ -2072,7 +2217,8 @@ noncomputable def ModCat.torObjIsoHomologyOfFlat (G : ModCat.{v} Cᵒᵖ) {F : M
 
 /-- **3.1, duality**: for an injective cogenerator `E` of `R`-modules, the flat dimension of `F` is
 the injective dimension of its dual `F^E`, a covariant functor (Layer 1's `Tor`–`Ext` duality;
-[Lam-LMR, (5.57)] for rings and `E = ℚ ⧸ ℤ`). -/
+[Lam-LMR, (5.57)] for rings and `E = ℚ ⧸ ℤ`, stated for right modules in Lam; applied to
+`Aᵐᵒᵖ`). -/
 theorem ModCat.flatDimension_eq_injectiveDimension_dual (R : Type*) [CommRing R]
     [Linear R C] (E : ModuleCat.{v} R) [Injective E] (hE : IsCoseparator E)
     (F : ModCat.{v} C) :
@@ -2132,8 +2278,8 @@ theorem hasFlatDimensionLE_succ_iff {S : ShortComplex (ModuleCat.{v} A)} (hS : S
   sorry
 
 /-- **3.1, rings: character modules** The flat dimension of `M` is the injective dimension of its
-character module ([Lam-LMR, (5.57)]): the case `R = ℤ`, `E = ℚ ⧸ ℤ` of the categorical
-duality. -/
+character module ([Lam-LMR, (5.57)], stated for right modules in Lam; applied to `Aᵐᵒᵖ`): the
+case `R = ℤ`, `E = ℚ ⧸ ℤ` of the categorical duality. -/
 theorem flatDimension_eq_injectiveDimension_characterModule (M : ModuleCat.{v} A) :
     flatDimension M = injectiveDimension (ModuleCat.of Aᵐᵒᵖ (CharacterModule M)) :=
   sorry
@@ -2372,8 +2518,9 @@ theorem ModCat.flatDimension_eq_projectiveDimension_of_projectiveResolution
 
 variable (C)
 
-/-- **3.4, Auslander's theorem** ([Au, Thm. 4, p. 70]; [Lam-LMR, (5.59)] for rings): if every
-representable `Hom(-, X)` is a Noetherian object of `Mod C` (for `SingleObj Aᵐᵒᵖ`: `A` is left
+/-- **3.4, Auslander's theorem** ([Au, Thm. 4, p. 70]; [Lam-LMR, (5.59)] for rings, stated for
+right modules over a right Noetherian ring in Lam; applied to `Aᵐᵒᵖ`): if every representable
+`Hom(-, X)` is a Noetherian object of `Mod C` (for `SingleObj Aᵐᵒᵖ`: `A` is left
 Noetherian), the global dimension of `Mod C` equals the weak global dimension. Route: the cyclic
 modules of 3.2 have resolutions by finitely presented projectives, then the `FP_∞` lemma. An
 adaptation of the ring theorem; the other side is the theorem over `Cᵒᵖ` with 3.3's symmetry. -/
@@ -2477,13 +2624,14 @@ end Extras
 Category-primary. `J(C)` is Tau Ceti's radical `TauCeti.jacobsonRadicalIdeal C`, and `C ⧸ J(C)` is
 the quotient category `(TauCeti.jacobsonRadicalIdeal C).Quotient`. Modules are the modules of
 `Mod C` (contravariant functors); [Simson] and [Harada] use covariant modules, so their statements
-are applied to `Cᵒᵖ`. T-nilpotence is on sequences `c₀ → c₁ → ⋯` with composites `c₀ → c_n`, the
-direction of Nakayama's lemma for `Mod C`; for `SingleObj Aᵐᵒᵖ` the composite of `op a₀, …, op aₙ₋₁`
-is `op (a₀ ⋯ aₙ₋₁)`, Bass's left T-nilpotence. A projective cover is an essential epimorphism
-(`TauCeti.IsEssentialEpi`) from a projective object. The statements are in the universe `v` of the
-morphisms, where the representables and Bass's modules (2.5) live; the README states them for
-`EssentiallySmall.{w} C`. Rings keep native classes with `SingleObj Aᵐᵒᵖ` bridges, and the ring
-theorems are derived from the categorical ones. -/
+are applied to `Cᵒᵖ`. T-nilpotence is defined for left ideals of `C` (0.3), on sequences
+`c₀ → c₁ → ⋯` with composites `c₀ → c_n`, the direction of Nakayama's lemma for `Mod C`; a
+two-sided ideal such as `J(C)` enters through the coercion. For `SingleObj Aᵐᵒᵖ` the composite of
+`op a₀, …, op aₙ₋₁` is `op (a₀ ⋯ aₙ₋₁)`, Bass's left T-nilpotence. A projective cover is an
+essential epimorphism (`TauCeti.IsEssentialEpi`) from a projective object. The statements are in
+the universe `v` of the morphisms, where the representables and Bass's modules (2.5) live; the
+README states them for `EssentiallySmall.{w} C`. Rings keep native classes with `SingleObj Aᵐᵒᵖ`
+bridges, and the ring theorems are derived from the categorical ones. -/
 
 /-! ### 4.1 T-nilpotence and Nakayama's lemma for all modules -/
 
@@ -2491,68 +2639,68 @@ section TNilpotentCategory
 
 variable {C : Type u} [Category.{v} C] [Preadditive C]
 
-/-- **4.1** An ideal `I` of `C` is **T-nilpotent** if for every sequence `c₀ → c₁ → ⋯` with every
-`f i ∈ I` some composite `f 0 ≫ ⋯ ≫ f (n - 1) : c 0 ⟶ c n` vanishes. This is the direction of
-Nakayama's lemma for `Mod C`; the other side is `IsTNilpotent I.op`. For `C = SingleObj Aᵐᵒᵖ`
-and `f i = op aᵢ` the composite is `op (a₀ a₁ ⋯ aₙ₋₁)` (Mathlib's `f ≫ g = g * f` in `Aᵐᵒᵖ`), so
-this is Bass's left T-nilpotence; [Simson, p. 108] states it for chains `c₀ ← c₁ ← ⋯`, that is,
-on `Cᵒᵖ`. -/
-def MorphismIdeal.IsTNilpotent (I : TauCeti.MorphismIdeal C) : Prop :=
+/-- **4.1** A left ideal `I` of `C` is **T-nilpotent** if for every sequence `c₀ → c₁ → ⋯` with
+every `f i ∈ I` some composite `f 0 ≫ ⋯ ≫ f (n - 1) : c 0 ⟶ c n` vanishes. This is the direction
+of Nakayama's lemma for `Mod C`; the other side is `I.op.IsTNilpotent` for a right ideal `I`
+(`RightMorphismIdeal.op`). For `C = SingleObj Aᵐᵒᵖ` and `f i = op aᵢ` the composite is
+`op (a₀ a₁ ⋯ aₙ₋₁)` (Mathlib's `f ≫ g = g * f` in `Aᵐᵒᵖ`), so this is Bass's left T-nilpotence;
+[Simson, p. 108] states it for chains `c₀ ← c₁ ← ⋯`, that is, on `Cᵒᵖ`. -/
+def LeftMorphismIdeal.IsTNilpotent (I : LeftMorphismIdeal C) : Prop :=
   ∀ (c : ℕ → C) (f : ∀ i, c i ⟶ c (i + 1)), (∀ i, f i ∈ I.hom (c i) (c (i + 1))) →
     ∃ n : ℕ, (Functor.ofSequence f).map (homOfLE (Nat.zero_le n)) = 0
 
-theorem MorphismIdeal.IsTNilpotent.mono {I I' : TauCeti.MorphismIdeal C}
-    (h : MorphismIdeal.IsTNilpotent I') (hI : I ≤ I') : MorphismIdeal.IsTNilpotent I :=
-  fun c f hf ↦ h c f fun i ↦ TauCeti.MorphismIdeal.le_def.mp hI _ (hf i)
+theorem LeftMorphismIdeal.IsTNilpotent.mono {I I' : LeftMorphismIdeal C}
+    (h : I'.IsTNilpotent) (hI : I ≤ I') : I.IsTNilpotent :=
+  fun c f hf ↦ h c f fun i ↦ LeftMorphismIdeal.le_def.mp hI _ (hf i)
 
-/-- **4.1** A nilpotent ideal is T-nilpotent. -/
+/-- **4.1** A nilpotent two-sided ideal is T-nilpotent. -/
 theorem MorphismIdeal.isTNilpotent_of_pow_eq_bot {I : TauCeti.MorphismIdeal C} {n : ℕ}
-    (h : I ^ n = ⊥) : MorphismIdeal.IsTNilpotent I :=
+    (h : I ^ n = ⊥) : (I : LeftMorphismIdeal C).IsTNilpotent :=
   sorry
 
-/-- **4.1** A nilpotent ideal is T-nilpotent on the other side. -/
+/-- **4.1** A nilpotent two-sided ideal is T-nilpotent on the other side. -/
 theorem MorphismIdeal.isTNilpotent_op_of_pow_eq_bot {I : TauCeti.MorphismIdeal C} {n : ℕ}
-    (h : I ^ n = ⊥) : MorphismIdeal.IsTNilpotent I.op :=
+    (h : I ^ n = ⊥) : (I.op : LeftMorphismIdeal Cᵒᵖ).IsTNilpotent :=
   sorry
 
 /-- **4.1** `I · M` is **superfluous** in `M`: a map `g : N ⟶ M` whose image generates `M` together
 with `I · M` is an epimorphism. -/
-def MorphismIdeal.IsSuperfluousSmul (I : TauCeti.MorphismIdeal C) (M : ModCat.{w} C) : Prop :=
+def LeftMorphismIdeal.IsSuperfluousSmul (I : LeftMorphismIdeal C) (M : ModCat.{w} C) : Prop :=
   ∀ ⦃N : ModCat.{w} C⦄ (g : N ⟶ M),
-    (∀ c, MorphismIdeal.smul I M c ⊔ (g.hom.app (op c)).hom.range = ⊤) → Epi g
+    (∀ c, I.smul M c ⊔ (g.hom.app (op c)).hom.range = ⊤) → Epi g
 
 /-- **4.1, Bass's Nakayama lemma** in every universe ([Simson, Lemma 5.3, p. 108], on `Cᵒᵖ`): for a
-T-nilpotent `I`, `I · M = M` implies `M = 0`. Route: keep `M(q_n)(x_n) ≠ 0` by dependent choice,
-for `q_n = f 0 ≫ ⋯ ≫ f (n - 1)`; [Bass, pp. 473–474] uses König's graph theorem instead. -/
-theorem MorphismIdeal.IsTNilpotent.isZero_of_smul_eq_top {I : TauCeti.MorphismIdeal C}
-    (hI : MorphismIdeal.IsTNilpotent I) (M : ModCat.{w} C)
-    (h : ∀ c, MorphismIdeal.smul I M c = ⊤) : IsZero M :=
+T-nilpotent left ideal `I`, `I · M = M` implies `M = 0`. Route: keep `M(q_n)(x_n) ≠ 0` by dependent
+choice, for `q_n = f 0 ≫ ⋯ ≫ f (n - 1)`; a summand `M(f)(y)` of `x_n` with `f ∈ I(c_n, d)` keeps
+`M(q_n ≫ f)(y) ≠ 0`. [Bass, pp. 473–474] uses König's graph theorem instead. -/
+theorem LeftMorphismIdeal.IsTNilpotent.isZero_of_smul_eq_top {I : LeftMorphismIdeal C}
+    (hI : I.IsTNilpotent) (M : ModCat.{w} C) (h : ∀ c, I.smul M c = ⊤) : IsZero M :=
   sorry
 
-/-- **4.1** For a T-nilpotent `I`, `I · M` is superfluous in every module, in every universe. -/
-theorem MorphismIdeal.IsTNilpotent.isSuperfluousSmul {I : TauCeti.MorphismIdeal C}
-    (hI : MorphismIdeal.IsTNilpotent I) (M : ModCat.{w} C) :
-    MorphismIdeal.IsSuperfluousSmul I M :=
+/-- **4.1** For a T-nilpotent left ideal `I`, `I · M` is superfluous in every module, in every
+universe. -/
+theorem LeftMorphismIdeal.IsTNilpotent.isSuperfluousSmul {I : LeftMorphismIdeal C}
+    (hI : I.IsTNilpotent) (M : ModCat.{w} C) : I.IsSuperfluousSmul M :=
   sorry
 
-/-- **4.1, Nakayama's lemma for all modules**: (1) `I` is T-nilpotent; (2) `I · M = M` implies
-`M = 0`; (3) `I · M` is superfluous in every `M`. (1) ⇒ (2) by dependent choice, (2) ⇔ (3) as
-usual, (2) ⇒ (1) through Bass's module `B` of an `I`-sequence (2.5): `[𝟙 c₀] ≠ 0` while no `q_n`
-vanishes, and `B = I · B`, since the class of `g : d ⟶ c i` is that of `g ≫ f i`, the image of
-`[𝟙 (c (i + 1))]` under `B(g ≫ f i)` with `g ≫ f i ∈ I`. Stated in the universe `v`, where Bass's
-module lives; (1) ⇒ (2), (3) hold in every universe. -/
-theorem MorphismIdeal.isTNilpotent_tfae (I : TauCeti.MorphismIdeal C) :
+/-- **4.1, Nakayama's lemma for all modules**, for a left ideal `I`: (1) `I` is T-nilpotent; (2)
+`I · M = M` implies `M = 0`; (3) `I · M` is superfluous in every `M`. (1) ⇒ (2) by dependent
+choice, (2) ⇔ (3) as usual, (2) ⇒ (1) through Bass's module `B` of an `I`-sequence (2.5):
+`[𝟙 c₀] ≠ 0` while no `q_n` vanishes, and `B = I · B`, since the class of `g : d ⟶ c i` is that of
+`g ≫ f i`, the image of `[𝟙 (c (i + 1))]` under `B(g ≫ f i)` with `g ≫ f i ∈ I`. The proofs use
+only closure under precomposition. Stated in the universe `v`, where Bass's module lives; (1) ⇒
+(2), (3) hold in every universe. For a two-sided ideal, such as `J(C)`, apply it to the coercion. -/
+theorem LeftMorphismIdeal.isTNilpotent_tfae (I : LeftMorphismIdeal C) :
     List.TFAE
-      [MorphismIdeal.IsTNilpotent I,
-        ∀ M : ModCat.{v} C, (∀ c, MorphismIdeal.smul I M c = ⊤) → IsZero M,
-        ∀ M : ModCat.{v} C, MorphismIdeal.IsSuperfluousSmul I M] :=
+      [I.IsTNilpotent,
+        ∀ M : ModCat.{v} C, (∀ c, I.smul M c = ⊤) → IsZero M,
+        ∀ M : ModCat.{v} C, I.IsSuperfluousSmul M] :=
   sorry
 
-/-- **4.1** T-nilpotence through Bass's modules (2.5): `I` is T-nilpotent exactly when the Bass
-module of every sequence in `I` is zero (tails of `I`-sequences are `I`-sequences). -/
-theorem MorphismIdeal.isTNilpotent_iff_forall_isZero_bassModule
-    (I : TauCeti.MorphismIdeal C) :
-    MorphismIdeal.IsTNilpotent I ↔
+/-- **4.1** T-nilpotence through Bass's modules (2.5): a left ideal `I` is T-nilpotent exactly when
+the Bass module of every sequence in `I` is zero (tails of `I`-sequences are `I`-sequences). -/
+theorem LeftMorphismIdeal.isTNilpotent_iff_forall_isZero_bassModule (I : LeftMorphismIdeal C) :
+    I.IsTNilpotent ↔
       ∀ (c : ℕ → C) (f : ∀ i, c i ⟶ c (i + 1)), (∀ i, f i ∈ I.hom (c i) (c (i + 1))) →
         IsZero (ModCat.bassModule c f) :=
   sorry
@@ -2584,16 +2732,26 @@ theorem IsLeftTNilpotent.image {B : Type*} [Ring B] {S : Set A} (hS : IsLeftTNil
     (f : A →+* B) : IsLeftTNilpotent (f '' S) :=
   sorry
 
-variable (A) in
-/-- **4.1, rings** The ring notion is the categorical one at `SingleObj Aᵐᵒᵖ`, for the Jacobson
-radical: the composite of `op a₀, …, op aₙ₋₁` is `op (a₀ ⋯ aₙ₋₁)`. -/
-theorem isLeftTNilpotent_jacobson_iff_singleObj :
-    IsLeftTNilpotent (Ring.jacobson A : Set A) ↔
-      MorphismIdeal.IsTNilpotent (TauCeti.jacobsonRadicalIdeal (SingleObj Aᵐᵒᵖ)) :=
+/-- **4.1, rings** For a left ideal `J` of `A`, left T-nilpotence is T-nilpotence of the left ideal
+`idealOrderIsoLeftMorphismIdeal A J` of `SingleObj Aᵐᵒᵖ` (0.3): the composite of
+`op a₀, …, op aₙ₋₁` is `op (a₀ ⋯ aₙ₋₁)`. -/
+theorem isLeftTNilpotent_iff_isTNilpotent_singleObj (J : Ideal A) :
+    IsLeftTNilpotent (J : Set A) ↔ (idealOrderIsoLeftMorphismIdeal A J).IsTNilpotent :=
   sorry
 
-/-- **4.1, rings: Nakayama's lemma for all modules**, a corollary of the categorical form through
-`SingleObj Aᵐᵒᵖ` (0.2), where `I · M` is `J • ⊤`. -/
+variable (A) in
+/-- **4.1, rings** The radical of `SingleObj Aᵐᵒᵖ`, as a left ideal, is the Jacobson radical of `A`:
+`End ∗ = Aᵐᵒᵖ` as rings, and `Ring.jacobson Aᵐᵒᵖ` is the `op`-image of `Ring.jacobson A` (Tau
+Ceti's `TauCeti.Ring.mem_jacobson_mulOpposite_iff`). With the previous item, left T-nilpotence of
+`J` is T-nilpotence of `J(SingleObj Aᵐᵒᵖ)`. -/
+theorem toLeftMorphismIdeal_jacobsonRadicalIdeal_singleObj :
+    MorphismIdeal.toLeftMorphismIdeal (TauCeti.jacobsonRadicalIdeal (SingleObj Aᵐᵒᵖ)) =
+      idealOrderIsoLeftMorphismIdeal A (Ring.jacobson A) :=
+  sorry
+
+/-- **4.1, rings: Nakayama's lemma for all modules** ([AF, 28.3]), for any left ideal `J`: the
+case of `LeftMorphismIdeal.isTNilpotent_tfae` for the left ideal
+`idealOrderIsoLeftMorphismIdeal A J` of `SingleObj Aᵐᵒᵖ` (0.2, 0.3), where `I · M` is `J • ⊤`. -/
 theorem isLeftTNilpotent_tfae (J : Ideal A) :
     List.TFAE
       [IsLeftTNilpotent (J : Set A),
@@ -2889,7 +3047,7 @@ for `Cᵒᵖ`): `J(C)` T-nilpotent and `C ⧸ J(C)` semisimple. By Theorem P (4.
 every module of `Mod C` has a projective cover. The other side is `IsPerfectCategory Cᵒᵖ`; for
 `C = SingleObj Aᵐᵒᵖ` this is `IsLeftPerfectRing A`. -/
 class IsPerfectCategory : Prop extends IsSemilocalCategory C where
-  isTNilpotent : MorphismIdeal.IsTNilpotent (TauCeti.jacobsonRadicalIdeal C)
+  isTNilpotent : (TauCeti.jacobsonRadicalIdeal C : LeftMorphismIdeal C).IsTNilpotent
 
 variable {C}
 
@@ -2936,7 +3094,8 @@ theorem IsLeftPerfectRing.of_surjective {B : Type*} [Ring B] [IsLeftPerfectRing 
 
 variable (A) in
 /-- **4.3, bridge**: the composite of `op a₀, …, op aₙ₋₁` in `SingleObj Aᵐᵒᵖ` is
-`op (a₀ ⋯ aₙ₋₁)`. -/
+`op (a₀ ⋯ aₙ₋₁)` (4.1: `isLeftTNilpotent_iff_isTNilpotent_singleObj` with
+`toLeftMorphismIdeal_jacobsonRadicalIdeal_singleObj`). -/
 theorem isLeftPerfectRing_iff_singleObj :
     IsLeftPerfectRing A ↔ IsPerfectCategory (SingleObj Aᵐᵒᵖ) :=
   sorry
@@ -2994,11 +3153,13 @@ variable (C) in
 p. 339], for covariant modules, applied to `Cᵒᵖ`): (1) `C` is perfect; (2) every module of `Mod C`
 has a projective cover; (2′) every semisimple module has one ([Sandomierski, Thm. 5, p. 206],
 rings); (3) every flat module is projective; (3′) every countably presented flat module is
-projective; (4) for every `c`, the cyclic subfunctors `{g ≫ h}` of `Hom(c, -)`, the images of
-`Hom(d, -) → Hom(c, -)` for `g : c ⟶ d`, satisfy the descending chain condition (for rings, the
-principal right ideals); (4′) in every sequence `c₀ → c₁ → ⋯` some `q_n = f 0 ≫ ⋯ ≫ f (n - 1)`
-factors as `q_m ≫ t` through every later `q_m`; (5) flat and projective dimension agree; (6)
-filtered colimits of projective modules are projective. Route: 1 ⇒ 2 (4.4) ⇒ 3 (Mares–Simson) ⇒ 3′
+projective; (4) for every `c`, the principal right ideals `g C = {g ≫ h}` of `C` with source `c`
+(`RightMorphismIdeal.principal`; at `c` the cyclic subfunctors of `Hom(c, -)`, the images of
+`Hom(d, -) → Hom(c, -)` for `g : c ⟶ d`) satisfy the descending chain condition (for rings, the
+principal right ideals `aA`, `submoduleOrderIsoRightMorphismIdeal`); (4′) in every sequence
+`c₀ → c₁ → ⋯` some `q_n = f 0 ≫ ⋯ ≫ f (n - 1)` factors as `q_m ≫ t` through every later `q_m`; (5)
+flat and projective dimension agree; (6) filtered colimits of projective modules are projective.
+Route: 1 ⇒ 2 (4.4) ⇒ 3 (Mares–Simson) ⇒ 3′
 ⇒ 4′ (Bass's module, 2.5) ⇒ 1 (T-nilpotence from `q_n ≫ (1 - f n ≫ t) = 0`; DCC on the principal
 left ideals of each `End X` and of `End X ⧸ J`, for Mathlib's `f * g = g ≫ f`, then
 [Lam-FC, (4.14)]); 4 ⇔ 4′; 3 ⇔ 5 (3.1); 3 ⇔ 6 (2.6, 2.3); 2 ⇒ 2′ ⇒ 1. -/
@@ -3010,8 +3171,8 @@ theorem isPerfectCategory_tfae :
         ∀ M : ModCat.{v} C, M.Flat → Projective M,
         ∀ M : ModCat.{v} C, M.Flat → IsCardinalPresentable M (Cardinal.aleph.{v} 1) →
           Projective M,
-        ∀ c : C, WellFoundedLT {I : Subobject ((ModCat.yoneda Cᵒᵖ).obj (op c)) //
-          ∃ (d : C) (g : c ⟶ d), I = imageSubobject ((ModCat.yoneda Cᵒᵖ).map g.op)},
+        ∀ c : C, WellFoundedLT {I : RightMorphismIdeal C //
+          ∃ (d : C) (g : c ⟶ d), I = RightMorphismIdeal.principal g},
         ∀ (c : ℕ → C) (f : ∀ i, c i ⟶ c (i + 1)), ∃ n : ℕ, ∀ m : ℕ, n ≤ m →
           ∃ t : (Functor.ofSequence f).obj m ⟶ (Functor.ofSequence f).obj n,
             (Functor.ofSequence f).map (homOfLE (Nat.zero_le m)) ≫ t =
@@ -3260,7 +3421,7 @@ theorem isSemilocalCategory_free_nat (k : Type) [Field k] :
 theorem bassModule_free_nat (k : Type) [Field k] :
     ¬ IsZero (ModCat.bassModule
         (fun i ↦ (CategoryTheory.Free.embedding k ℕ).obj i) (aInftyArrow k)) ∧
-      ∀ c, MorphismIdeal.smul (TauCeti.jacobsonRadicalIdeal (CategoryTheory.Free k ℕ))
+      ∀ c, LeftMorphismIdeal.smul (TauCeti.jacobsonRadicalIdeal (CategoryTheory.Free k ℕ))
         (ModCat.bassModule (fun i ↦ (CategoryTheory.Free.embedding k ℕ).obj i) (aInftyArrow k))
           c = ⊤ :=
   sorry
