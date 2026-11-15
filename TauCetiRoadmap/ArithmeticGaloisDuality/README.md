@@ -451,7 +451,10 @@ as inputs; and Galois representations attached to automorphic forms.
   semiring, and the trace-zero ideal, which is `ad⁰` in Layers D8 and R02.6 (as a Lie ideal of the
   commutator Lie ring on matrices, a local instance in Tau Ceti and Mathlib; as a Lie subalgebra it
   is Mathlib's `LieAlgebra.SpecialLinear.sl`, `TauCeti.slIdeal_toLieSubalgebra_eq_sl`).
-- `TauCeti.Place`, `TauCeti.Place.degree`: places of a function field.
+- `TauCeti.Place`, `TauCeti.Place.degree`: places of a function field;
+  `TauCeti.Place.Completion` and `TauCeti.Place.completionEmbedding`, from
+  `TauCeti.FieldTheory.FunctionField.Place.Completion.Basic`: the completion `F_v` at a place `v`
+  and the embedding `F → F_v`, which give the local fields of the function-field Sha kernels.
 
 ### From TauCetiRoadmap roadmaps
 
@@ -4171,7 +4174,9 @@ these kernels, and
 `⟨res x, z⟩_L = ⟨x, cor z⟩_F` for `x ∈ Ш¹(F, M^D)` and `z ∈ Ш²(L, M)`; coefficient maps satisfy the
 corresponding dual adjunction. The finite perfect pairings are stated in `Suggested.lean` as
 `AllPlace.finite_sha_duality` for number fields and `GlobalFunctionField.sha_duality` for global
-function fields, using the supplied function-field place completions in the latter case.
+function fields. In the latter the local fields are `GlobalFunctionField.Completion`, the family of
+the supplied completions `TauCeti.Place.Completion` at the places of `F`, each an `F`-algebra
+through `TauCeti.Place.completionEmbedding`.
 
 *Proof sketch.* Enlarge a finite `S` so that it contains the ramification of a representative, and
 compare all-place kernels using the unramified annihilators. Apply finite Poitou–Tate (or the

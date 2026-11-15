@@ -21,7 +21,7 @@ first-order lift–cocycle equivalence over any associative ring (D8.1).
 
 The only supporting constructions are the compositum defining `K_S`, its automorphism group,
 the family of number-field completions, an adapter to Mathlib's all-place localization kernel,
-and the local–global power kernel. All use native Mathlib or Tau Ceti carriers. Infinite places
+the local–global power kernel, and the family of function-field place completions. All use native Mathlib or Tau Ceti carriers. Infinite places
 of `K_S` and their stabilizers express ordinary archimedean invariants and restriction without
 replacing the real dyadic terms by zero. Sha duals use the pinned `InternalHom` and `KummerCoeff`;
 the pairing statements assert finite perfect duality.
@@ -213,6 +213,18 @@ namespace GlobalFunctionField
 variable (k F : Type) [Field k] [Finite k] [Field F] [Algebra k F]
     [Algebra (RatFunc k) F] [IsScalarTower k (RatFunc k) F] [FunctionField k F]
 
+/-- The family of completions `F_v` of a function field `F` over `k` at its places `v`, the
+pinned `TauCeti.Place.Completion`, indexed by the places. -/
+def Completion (v : TauCeti.Place k F) : Type := v.Completion
+
+instance (v : TauCeti.Place k F) : Field (Completion k F v) :=
+  inferInstanceAs (Field v.Completion)
+
+/-- Each completion `F_v` is an `F`-algebra through the pinned embedding
+`TauCeti.Place.completionEmbedding`. -/
+instance (v : TauCeti.Place k F) : Algebra F (Completion k F v) :=
+  v.completionEmbedding.toRingHom.toAlgebra
+
 /-- All-place finite Sha duality for global function fields (R02.4.6), for coefficients
 prime to the field characteristic, on the supplied place completions and Kummer dual. -/
 theorem sha_duality
@@ -220,18 +232,15 @@ theorem sha_duality
     [DistribMulAction (TauCeti.AbsoluteGaloisGroup F) M]
     [ContinuousSMul (TauCeti.AbsoluteGaloisGroup F) M]
     (n : ℕ) (hn : 0 < n) (hchar : IsUnit (n : F)) (hM : ∀ x : M, n • x = 0) :
-    letI : ∀ v : TauCeti.Place k F, Field v.Completion := fun _ => inferInstance
-    letI : ∀ v : TauCeti.Place k F, Algebra F v.Completion :=
-      fun v => v.completionEmbedding.toRingHom.toAlgebra
     let X := TopRep.res (TauCeti.absoluteGaloisGroupRestrictEquiv F).toMonoidHom
       (TauCeti.ofDiscreteModule ℤ (TauCeti.AbsoluteGaloisGroup F) M)
     let XD := TopRep.res (TauCeti.absoluteGaloisGroupRestrictEquiv F).toMonoidHom
       (TauCeti.ofDiscreteModule ℤ (TauCeti.AbsoluteGaloisGroup F)
         (TauCeti.InternalHom (TauCeti.AbsoluteGaloisGroup F) M (TauCeti.KummerCoeff F n)))
-    Finite (ContinuousCohomology.tateShafarevich (fun v : TauCeti.Place k F => v.Completion) XD 1) ∧
-      Finite (ContinuousCohomology.tateShafarevich (fun v : TauCeti.Place k F => v.Completion) X 2) ∧
-      ∃ b : ContinuousCohomology.tateShafarevich (fun v : TauCeti.Place k F => v.Completion) XD 1 →+
-          ContinuousCohomology.tateShafarevich (fun v : TauCeti.Place k F => v.Completion) X 2 →+
+    Finite (ContinuousCohomology.tateShafarevich (Completion k F) XD 1) ∧
+      Finite (ContinuousCohomology.tateShafarevich (Completion k F) X 2) ∧
+      ∃ b : ContinuousCohomology.tateShafarevich (Completion k F) XD 1 →+
+          ContinuousCohomology.tateShafarevich (Completion k F) X 2 →+
           AddCircle (1 : ℚ),
         Function.Bijective b ∧ Function.Bijective b.flip := sorry
 
@@ -246,22 +255,19 @@ theorem centralObstruction_localization
     (htriv : ∀ (g : TauCeti.AbsoluteGaloisGroup F)
       (φ : TauCeti.InternalHom (TauCeti.AbsoluteGaloisGroup F) M (TauCeti.KummerCoeff F n)),
       g • φ = φ) :
-    letI : ∀ v : TauCeti.Place k F, Field v.Completion := fun _ => inferInstance
-    letI : ∀ v : TauCeti.Place k F, Algebra F v.Completion :=
-      fun v => v.completionEmbedding.toRingHom.toAlgebra
     let X := TopRep.res (TauCeti.absoluteGaloisGroupRestrictEquiv F).toMonoidHom
       (TauCeti.ofDiscreteModule ℤ (TauCeti.AbsoluteGaloisGroup F) M)
     Subsingleton
-      (ContinuousCohomology.tateShafarevich (fun v : TauCeti.Place k F => v.Completion) X 2) :=
+      (ContinuousCohomology.tateShafarevich (Completion k F) X 2) :=
   sorry
 
 /-- Tate vanishing for the prime-to-characteristic part of trivial `ℚ/ℤ` coefficients
 over a global function field (R02.4.6). The coefficient is Mathlib's actual primary component
 of the rational additive circle, equipped with the discrete topology. -/
 theorem tate_vanishing (k F : Type) [Field k] [Finite k] [Field F] [Algebra (RatFunc k) F]
-    [FunctionField k F] (p : ℕ) [Fact p.Prime] (hp : (p : k) ≠ 0) :
-    letI : TopologicalSpace (AddCommGroup.primaryComponent (AddCircle (1 : ℚ)) p) := ⊥
-    letI : DiscreteTopology (AddCommGroup.primaryComponent (AddCircle (1 : ℚ)) p) := ⟨rfl⟩
+    [FunctionField k F] (p : ℕ) [Fact p.Prime] (hp : (p : k) ≠ 0)
+    [TopologicalSpace (AddCommGroup.primaryComponent (AddCircle (1 : ℚ)) p)]
+    [DiscreteTopology (AddCommGroup.primaryComponent (AddCircle (1 : ℚ)) p)] :
     Subsingleton (continuousCohomology 2 (TopRep.of (ContRepresentation.trivial ℤ
       (Field.absoluteGaloisGroup F) (AddCommGroup.primaryComponent (AddCircle (1 : ℚ)) p)))) := sorry
 
