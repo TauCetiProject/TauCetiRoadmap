@@ -611,7 +611,7 @@ The congruence q≡3 mod4 makes q odd, so the count formula above applies, and m
 
 ### 5.2 Quadratic-twist trace over odd finite fields
 
-For every finite field F with decidable equality and odd characteristic, every native Weierstrass equation W with a₁=a₃=0, and every d∈F, prove `quadraticTwistOf_frobeniusTrace`: (W.quadraticTwistOf 0 (−d/4)).frobeniusTrace=quadraticChar(F)(d)·W.frobeniusTrace. No ellipticity or d≠0 hypothesis is needed for these projective counts. (Silverman, S09 §V.1, point counting; the normal-form twist coefficients are Tau Ceti `WeierstrassCurve.quadraticTwistOf`; BS20 lines 703–705 give the Legendre d=2 consequence.)
+For every finite field F of odd characteristic, every native Weierstrass equation W with a₁=a₃=0, and every d∈F, prove (W.quadraticTwistOf 0 (−d/4)).frobeniusTrace=quadraticChar(F)(d)·W.frobeniusTrace. The headline `quadraticTwistOf_frobeniusTrace` states this identity through the three values of quadraticChar(F)(d): the twisted trace is 0 when d=0, equals W.frobeniusTrace when d is a nonzero square, and equals −W.frobeniusTrace when d is a nonsquare. No ellipticity or d≠0 hypothesis is needed for these projective counts. (Silverman, S09 §V.1, point counting; the normal-form twist coefficients are Tau Ceti `WeierstrassCurve.quadraticTwistOf`; BS20 lines 703–705 give the Legendre d=2 consequence.)
 
 For d≠0, write the twisted cubic as f_d(x)=x³+da₂x²+d²a₄x+d³a₆. Substitution x=dz permutes F and gives f_d(dz)=d³f(z). Apply §5.1 and multiplicativity, with quadraticChar(d³)=quadraticChar(d). At d=0 the twisted equation is y²=x³, whose character sum is Σ_x quadraticChar(x³)=Σ_x quadraticChar(x)=0, so both sides are zero. For the last equality, multiplication by a nonsquare permutes F and negates the sum; an odd finite field has a nonsquare.
 
@@ -625,7 +625,7 @@ The Legendre consequence is a_q(L(d,λ))=quadraticChar(F)(d)·a_q(L(λ)), by §0
 - At d=0 over 𝔽₅ the twisted equation is y²=x³ with count 6 and trace 0; quadraticChar(0)=0. The trace identity holds, but no good Euler polynomial is asserted.
 - Over 𝔽₉=𝔽₃[i], W:y²=x³+x+1 has count 16 and trace −6; d=1+i is a nonsquare, and the twist has count 4 and trace 6. This tests a normal-form equation outside the Legendre specialization over a field that is not prime.
 
-*Needs:* the character-sum formula of §5.1; Tau Ceti `WeierstrassCurve.quadraticTwistOf`; Tau Ceti `WeierstrassCurve.frobeniusTrace`; Mathlib `quadraticChar`; Mathlib `quadraticChar_exists_neg_one`; §0.2 for the Legendre consequence; Mathlib `quadraticChar_two` for its d=2 sign.
+*Needs:* the character-sum formula of §5.1; Tau Ceti `WeierstrassCurve.quadraticTwistOf`; Tau Ceti `WeierstrassCurve.frobeniusTrace`; Mathlib `quadraticChar`; Mathlib `quadraticChar_exists_neg_one`; Mathlib `quadraticChar_one_iff_isSquare` and `quadraticChar_neg_one_iff_not_isSquare` for the three values; §0.2 for the Legendre consequence; Mathlib `quadraticChar_two` for its d=2 sign.
 
 ### Examples
 

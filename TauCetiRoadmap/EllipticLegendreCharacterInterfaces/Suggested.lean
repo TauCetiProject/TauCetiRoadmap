@@ -77,7 +77,7 @@ theorem legendre_two_by_four_subgroup
 /-- Over a finite field of cardinality congruent to five modulo eight, the full projective
 minus-one point count has exact two-adic valuation three. -/
 theorem legendre_minus_one_point_count_v_two
-    {F : Type*} [Field F] [Fintype F] (hF : Fintype.card F % 8 = 5) :
+    {F : Type*} [Field F] [Finite F] (hF : Nat.card F % 8 = 5) :
     padicValNat 2 (legendre (-1 : F)).pointCount = 3 := by
   sorry
 
@@ -87,18 +87,23 @@ theorem legendre_minus_one_point_count_v_two
 y² = x³ + a·x, the singular a = 0 included, has projective point count q+1 and trace zero.
 The Legendre equations L(u,−1) are the cases a = −u². -/
 theorem symmetric_cubic_trace_zero
-    {F : Type*} [Field F] [Fintype F] (hF : Fintype.card F % 4 = 3) (a : F) :
-    (⟨0, 0, 0, a, 0⟩ : WeierstrassCurve F).pointCount = Fintype.card F + 1 ∧
+    {F : Type*} [Field F] [Finite F] (hF : Nat.card F % 4 = 3) (a : F) :
+    (⟨0, 0, 0, a, 0⟩ : WeierstrassCurve F).pointCount = Nat.card F + 1 ∧
       (⟨0, 0, 0, a, 0⟩ : WeierstrassCurve F).frobeniusTrace = 0 := by
   sorry
 
-/-- For a normal-form equation over an odd finite field, twisting scales the trace by the
-quadratic character, including singular equations and the zero twisting scalar. -/
+/-- For a normal-form equation over an odd finite field, twisting by `d` scales the trace by
+the quadratic character of `d`, stated through its three values: the twist by zero has trace
+zero, a nonzero square twist keeps the trace, and a nonsquare twist negates it. Singular
+equations are included. -/
 theorem quadraticTwistOf_frobeniusTrace
-    {F : Type*} [Field F] [Fintype F] [DecidableEq F] (h2 : (2 : F) ≠ 0)
+    {F : Type*} [Field F] [Finite F] (h2 : (2 : F) ≠ 0)
     (W : WeierstrassCurve F) [W.IsCharNeTwoNF] (d : F) :
-    (W.quadraticTwistOf 0 (-d / 4)).frobeniusTrace =
-      quadraticChar F d * W.frobeniusTrace := by
+    (d = 0 → (W.quadraticTwistOf 0 (-d / 4)).frobeniusTrace = 0) ∧
+      (d ≠ 0 → IsSquare d →
+        (W.quadraticTwistOf 0 (-d / 4)).frobeniusTrace = W.frobeniusTrace) ∧
+      (¬IsSquare d →
+        (W.quadraticTwistOf 0 (-d / 4)).frobeniusTrace = -W.frobeniusTrace) := by
   sorry
 
 end TauCetiRoadmap.EllipticLegendreCharacterInterfaces
