@@ -20,13 +20,29 @@ jobs:
     permissions:
       issues: write
       pull-requests: write
-    uses: leanprover-community/intentions/.github/workflows/intentions.yml@v1
-    with:
-      project-title: "Tau Ceti"
-      default-ttl: "30d"
-      max-ttl: "90d"
-      # Only intention issues belong on the board; keep roadmap-feedback / meta off it.
-      auto-add-labels: "intention"
-      app-id: ${{ vars.CLAIM_BOT_APP_ID }}
-    secrets:
-      app-private-key: ${{ secrets.CLAIM_BOT_APP_PRIVATE_KEY }}
+    # Run the released action directly so this small job shares the protected
+    # control slot with labels and progress reports.
+    if: >-
+      github.event_name != 'issue_comment'
+      || github.event.comment.performed_via_github_app.id != fromJSON(vars.CLAIM_BOT_APP_ID)
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.event_name == 'issue_comment' && format('intentions-issue-{0}', github.event.issue.number) || (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && 'intentions-sweep' || format('intentions-item-{0}', github.event.issue.number || github.event.pull_request.number) }}
+      cancel-in-progress: false
+    steps:
+      - name: Mint project token
+        id: token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1
+        with:
+          client-id: ${{ vars.CLAIM_BOT_APP_ID }}
+          private-key: ${{ secrets.CLAIM_BOT_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+      - uses: leanprover-community/intentions@d302e11f5cf065a8a81de5a4d4c05eb9b7b70f70 # v1
+        with:
+          mode: ${{ github.event_name == 'issue_comment' && 'command' || (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && 'sweep' || 'lifecycle' }}
+          project-token: ${{ steps.token.outputs.token }}
+          repo-token: ${{ github.token }}
+          project-title: "Tau Ceti"
+          default-ttl: "30d"
+          max-ttl: "90d"
+          auto-add-labels: "intention"
