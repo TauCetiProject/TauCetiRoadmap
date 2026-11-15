@@ -10,9 +10,17 @@ Suggested homes are `TauCeti/Algebra/Cluster/` and `TauCeti/AlgebraicGeometry/Cl
 Selected Lean target signatures are given in [Suggested.lean](Suggested.lean);
 this README is the definitive mathematical specification.
 
-Use faithful Laurent charts in a common ambient division ring as the algebraic
-interface; the classical case uses a commutative field. Separate
-exchange data, their realization by charts, and the choice of coefficient ring.
+Use faithful based charts as the algebraic interface: a chart is the family of
+normalized monomials of a based torus in an ambient algebra. One seed
+definition serves binary and polynomial exchange in commutative and quantum
+ambient algebras: a coefficient system says where the coefficients of the
+exchange polynomials live and how the polynomials are normalized, and a seed
+adds a compatible form and a chart over a commutative semiring with a unit
+parameter. A direction is mutable when its exchange element is a unit
+of the ambient algebra. Classical charts are constructed by regular localization
+in a common total quotient semiring; quantum charts take values in a division
+ring. Separate exchange data, their realization by charts, and the choice of
+coefficient ring.
 The tree presentation, normalized FZ tuples, and lattice seed coordinates are connected to
 these objects by equivalences and transport theorems. References specify mathematical
 results and proof ingredients; their historical encodings do not prescribe the API.
@@ -25,8 +33,19 @@ with finitely supported frozen columns; the classical finite-word Laurent theore
 also extends to locally finite mutable index sets. Include disconnected, degenerate
 and zero exchange matrices, and rank zero. Allow any specified subset of frozen
 variables to be inverted; write the coefficient ring in each theorem. The integral
-theory has coefficient realizations over arbitrary domains, with the exchange
-nonvanishing conditions of §§1.2–1.4.
+theory has coefficient realizations over commutative rings, including rings with
+zero divisors, under the exchange-regularity conditions of §§1.2–1.4.
+Seeds, mutation, reachable charts, cluster algebras and upper algebras have
+one definition (§§1.2–1.3) over a commutative semiring with a unit parameter,
+for ordinary and polynomial exchange in commutative and quantum ambient
+algebras. In the regular classical model a direction is mutable exactly when
+its exchange numerator is regular. Mutation is total for the ordinary positive
+universal models, the admitted ordinary and polynomial ring realizations and
+the admissible division-ring realizations. Laurentness is a theorem about these algebras: L8 treats the
+ordinary ring realizations, P3 treats polynomial ring realizations, and
+Layer 5 gives the ordinary positive semiring statement.
+Include mutation on coefficient-semifield-valued points and invariance of the
+subtraction-free function semifield (§1.2 and L7a).
 Cluster schemes are constructed from finite mutable families in lattice data,
 allowing dependencies, repetitions and failure to span. They use integral domains:
 `𝒳` has no characteristic restriction, while `𝒜` uses §3.3's nonvanishing
@@ -50,16 +69,25 @@ outside its scope. Mutation, Laurentness and the support description of the cent
 allow finite-order parameters.
 The common Laurent theory uses a commutative scalar ring R, a unit `u∈Rˣ`,
 an extended exchange matrix B̃, and an alternating form Λ with diagonal
-compatibility weights w. Its local constructions use a faithful chart into a
-possibly noncommutative division R-algebra, which forces R to be a domain.
+compatibility weights w. Its Q1–Q3 proof uses a faithful chart into a possibly noncommutative
+division R-algebra, which forces R to be a domain. Classical polynomial
+seeds over a domain are its instances at `u=1`, `Λ=0`, `w=0`, and P3
+transports its finite polynomial Laurent representatives to the admitted
+commutative rings.
 No factoriality assumption is needed. Full column rank supplies upper-bound
 invariance; Laurentness itself follows without it by a central principal lift.
 The weights w may vanish and are separate from the matrix's positive symmetrizer.
 This includes ordinary quantum seeds and classical geometric seeds.
-The exchange polynomials are monic with constant coefficient one, and their
-positive degrees divide their extended columns. Mutation reverses the selected
-polynomial. For a zero column require `H_k(1)≠0`; this condition is preserved
-by mutation. Reciprocal fixed polynomials and binary exchange are instances.
+The exchange polynomials have unit endpoint coefficients, and their positive
+degrees divide their extended columns. Mutation reverses the selected
+polynomial and dilates the others by the propagation law of §1.2; with
+endpoint coefficients one the others are fixed. Normalized coefficients are
+another coefficient system, defined in every degree and gauge equivalent to
+this one; the separation, finite-type and positivity theorems concern their
+binomial case. On zero columns `H_k(1)` must be a unit of the ambient algebra:
+`H_k(1)≠0` in a division ring, and `IsRegular (H_k(1))` in the regular
+classical model over a ring. This condition is preserved by mutation.
+Reciprocal fixed polynomials and binary exchange are instances.
 Section 2.6 constructs their quantum and classical algebras and comparison maps.
 The central-factor calculation is in a pair Laurent ring in which all other
 coordinates, including the frozen ones, are units. Layers 3–6 concern ordinary cluster seeds;
@@ -84,9 +112,11 @@ Brackets of derivations are the ordinary commutators `[D,E]=D∘E−E∘D`; for 
 Poisson bracket `[−,−]_P`, use left Hamiltonians `H_f=[f,−]_P`.
 
 Use `OreLocalization` for the skew fields of fractions of the based tori.
-One-exchange, patching and replacement statements concern subrings of a
-fixed division ring, not an abstract skew-polynomial carrier. `FractionRing` and
-`IsFractionRing` apply only to the commutative specialization.
+Commutative one-exchange statements use regular localization of Laurent semirings.
+The skew one-exchange, patching and replacement statements concern subrings of a
+fixed division ring. For a commutative ring `A` the total quotient `T(A)` is
+Mathlib's total fraction ring `FractionRing A`; use `FractionRing` and
+`IsFractionRing` for rings. `T` is a new construction only for semirings.
 The common scalar ring acts centrally; the ambient division ring need not be
 commutative. Ordinary quantum algebras are `Z_v`-algebras. Quasi-commuting frozen
 generators are coordinates, not central scalars.
@@ -111,12 +141,18 @@ in `TauCeti.Algebra.Polynomial.Laurent.Basic` supply one-variable evaluation at 
 for §§0.2 and 0.5. Use `TauCeti.DynkinType`, `DynkinType.Valid` and
 `TauCeti.IsFiniteType` for Cartan type in Layer 4.
 
+Use `TauCeti.twistedMonoidAlgebra` in
+[`TauCeti.Algebra.MonoidAlgebra.Twisted.Basic`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean)
+for the based torus of §0.4 over a commutative semiring. The namespace
+`TauCeti.TwistedMonoidAlgebra` supplies `basis`, `of_mul_of`, `isUnit_of`,
+`lift` for the chart map and `monoidAlgebraEquiv` for the trivial factor set.
+
 ### From TauCetiRoadmap.ScatteringDiagrams
 
-[ScatteringDiagrams](../ScatteringDiagrams/README.md) §4.3 supplies the full
-`QuantumMonoidAlgebra`, including its monomial basis, coefficient maps, lattice maps
-and untwisted comparison. It also supplies completed wall groups, consistent completion,
-broken lines, theta transport and wall positivity.
+[ScatteringDiagrams](../ScatteringDiagrams/README.md) §4.3 supplies the coefficient
+and lattice maps for the full `QuantumMonoidAlgebra`. The scattering roadmap also
+supplies completed wall groups, consistent completion, broken lines, theta transport
+and wall positivity.
 Consume §0.8's finite expansion and recursion, §§3.3–3.4's ordinary and
 relative abelian completions, §§4.2–4.4, 5.1–5.6 and 7.1–7.7 at their
 stated hypotheses. This roadmap owns seed mutation invariance, the cluster chambers,
@@ -158,8 +194,8 @@ The complex scheme construction is not a general scalar-ring supplier.
 
 | Layer | Delivers | Depends on |
 |---|---|---|
-| 0 | Coefficients, based quantum tori, Laurent charts and local algebra | Mathlib; ScatteringDiagrams §4.3 |
-| 1 | Exchange frames, polynomial mutation, classical and quantum seeds and algebras | 0 |
+| 0 | Coefficients, based quantum tori, Laurent charts and local algebra | Mathlib, Tau Ceti and ScatteringDiagrams §4.3 |
+| 1 | Coefficient systems, exchange data, seeds and their mutation, regular and division-ring realizations, algebras | 0 |
 | 2 | Common polynomial upper bounds; quantum and classical Laurentness; separation; Starfish | 0–1; SchemeAndStackFoundations §0.6 |
 | 3 | Lattice formalism, cluster varieties, matrix and tropical realizations | 0–2; toric carriers and scheme gluing |
 | 4 | Finite-type classification and root parametrizations | 0–2; RootSystems |
@@ -168,12 +204,14 @@ The complex scheme construction is not a general scalar-ring supplier.
 
 | Shared material | Single home | Consumers |
 |---|---|---|
-| Twisted lattice algebra, monomial basis and functorial maps | ScatteringDiagrams §4.3 | Based tori and quantum charts |
+| Twisted lattice algebra and monomial basis | Tau Ceti | Based tori and quantum charts |
+| Coefficient and lattice maps of twisted lattice algebras | ScatteringDiagrams §4.3 | Based tori and quantum charts |
 | Embedded skew Laurent normal forms, chart change and denominator patching | Seed-free algebra, §§0.4–0.5 | Polynomial mutation and Q1; commutative one-exchange statements |
 | Support, separated scalar factors and flat simultaneous divisibility | Seed-free algebra, §0.6 | Commuting Q2 and classical divisibility statements |
 | Finite ordered polynomial replacement | Seed-free algebra, §0.7 | Interacting Q2, binary and commutative replacement |
 | Exchange matrices, column independence and equivariant mutation words | §§1.1–1.3 | Classical, quantum, polynomial and lattice realizations |
-| Column-compatible frames and polynomial mutation | §1.5, P1 | Binary mutation, classical unit-parameter frames, ordinary quantum seeds |
+| Coefficient systems, exchange data, seeds, mutation, gauge equivalence, total classes and algebras | §§1.2–1.3 | Normalized, binary and polynomial seeds in regular and division-ring realizations |
+| Polynomial exchange data and mutation | §1.5, P1 | Classical regular polynomial seeds, binary seeds and column-compatible quantum frames |
 | Local comparisons and the common Laurent theorem | Q1–Q3 | Classical L5, quantum Laurentness, polynomial algebras and realizations |
 | Positive evaluation, frozen orders and normalized coefficient separation | L6–L7 | General classical Laurentness L8, recurrence specialization |
 | Upper bounds under local divisibility and their classical instances | §2.1, Q2–Q3 | Rank-deficient upper bounds and double Bruhat cells |
@@ -191,13 +229,14 @@ Laurentness. Neither common Q1–Q3 nor quantum Laurentness imports classical
 Laurentness, separation, scattering or categorification.
 
 An abstract pattern theorem may take local comparisons as hypotheses;
-every seed instance must construct them from its exchange data. Seed data
-contain neither Laurentness, upper-bound invariance, mutated-chart faithfulness
-nor an unspecified local-comparison theorem. The complete seed contract is the
-matrix, positive symmetrizer, alternating form, diagonal weights, their
-compatibility, normalized scalar polynomials, zero-column nonvanishing and the
-initial faithful chart specified in §1.5. Column independence is a separate
-upper-bound hypothesis, derived automatically in the positive quantum sector.
+every seed instance constructs them from its exchange data. Seed data
+contain neither Laurentness, upper-bound invariance nor mutated-chart
+faithfulness. A seed carries its state, with the matrix, positive symmetrizer
+and exchange polynomials, an alternating form, compatibility weights and a
+faithful based chart. Its one-step relation includes that the exchange
+element is a unit of the ambient algebra: regularity of the exchange
+numerator in the regular classical model, and nonvanishing in a division
+ring. The new chart and all local comparisons are constructed from these inputs.
 
 Each carrier comes with the extensionality, reindexing, evaluation and compatibility
 lemmas used in its consuming layers. The examples specify checks of the interfaces
@@ -207,54 +246,148 @@ and conventions. The statements in each layer give the general hypotheses.
 
 ### 0.1 Coefficient semifields
 
-A coefficient semifield is a commutative group `P` with an
-associative commutative `⊕` over which multiplication distributes; there is no
-additive-zero requirement (unlike `Semifield`). Construct `⊕`-preserving group
-homomorphisms, indexed products, the one-element object, and `Fˣ` for a `Semifield F`
-where nonzero elements have nonzero sums. Prove
-[`IsMulTorsionFree P`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Group/Monoid.html#IsMulTorsionFree)
-and `IsDomain ℤ[P]`
-for `ℤ[P]=MonoidAlgebra ℤ P`; construct `FractionRing ℤ[P]` and the injective
-`P →* ℤ[P]ˣ`.
+A coefficient semifield is a commutative group `P` with an associative
+commutative addition `⊕` over which multiplication distributes. Construct
+`⊕`-preserving group homomorphisms, indexed products and the one-element object.
+Use this same algebraic structure for coordinate values; the word coefficient
+specifies its role in a seed, not an additional axiom.
 
-For a type `J`, `Trop(J)` is `Multiplicative (J →₀ ℤ)` with `⊕` the componentwise
-minimum and generators `z_j`. Construct evaluations `Trop(J) →* Q`, `z_j ↦ q_j`, into
-commutative groups, isomorphisms along `J ≃ J'`, and for finite `J` exponents in `J → ℤ`.
-`Qsf(K)` is the set of `p/q ∈ FractionRing (MvPolynomial K ℤ)` with `p,q ≠ 0` having
-`ℕ`-coefficients, with variables `u_i`; prove it closed under products, inverses and
-`+`, so it is a coefficient semifield with `⊕=+`. For `y : K → P` construct the unique
-`⊕`-preserving homomorphism `Qsf(K) → P`, `u_i ↦ y_i`; it sends every such `p/q` to
-`p(y)/q(y)` computed with `⊕`.
+A semiring is zero-sum-free when `a+b=0 ↔ a=0 ∧ b=0`. Develop this as a
+property of the given addition and zero, independently of its multiplication.
+Prove closure under products, subsemirings, monoid semirings, polynomial
+semirings and localization at regular elements. For a zero-sum-free semifield
+`S`, addition restricts to `Sˣ`. Construct its coefficient-semifield structure
+and the semiring equivalence `WithZero (Sˣ)≃+*S`. Conversely, adjoining zero
+to `P` gives a zero-sum-free semifield `P₀=WithZero P`, with an
+addition-preserving group equivalence `P≃P₀ˣ`. Extension by zero and
+restriction to units identify their homomorphisms and respect identity,
+composition and both comparison equivalences. The induced structures use
+the given operations, so the comparisons do not require changing instances
+at each use. Zero-sum-freeness alone does not make a semiring's units
+addition-closed; for example `1+1` is not a unit in `ℕ`.
+
+Let `R` be a commutative semiring and `G≤Rˣ` a subgroup closed under addition
+in `R`. Construct the induced coefficient-semifield structure on `G`.
+For nontrivial `R`, give the subsemiring `{0}∪image(G)` its semifield structure
+and identify it with `WithZero G`. Semiring maps carrying `G` into another such subgroup
+induce coefficient-semifield maps. Construct these induced algebraic structures
+and prove compatibility of the inclusions and comparison maps with the operations.
+
+For a commutative semiring `A`, let `Reg(A)` be the submonoid of regular
+elements: `a` is regular when multiplication by `a` is injective. Construct
+`T(A)=Reg(A)⁻¹A` with its canonical embedding of `A`, using Mathlib's `IsRegular`,
+`Localization` and `IsLocalization`. A semiring map `f:A→B` extends uniquely
+to `T(A)→B` exactly when it sends every regular element to a unit.
+Prove uniqueness, identity and composition laws under this explicit condition;
+an arbitrary coefficient map need not extend. If `A` is nontrivial and every nonzero
+element is regular, prove that `Reg(A)=A∖{0}` and this localization is a
+semifield. For a regular element `e`, construct
+`T(A[e⁻¹])≃+*T(A)` commuting with the base maps and evaluation. For a
+commutative ring `A`, `isRegular_iff_mem_nonZeroDivisors` gives `Reg(A)=A⁰`,
+so `T(A)` is Mathlib's total fraction ring `FractionRing A`; `T` is a new
+construction only for semirings. Follow the
+regular-element terminology of Mathlib's
+[localization discussion](https://github.com/leanprover-community/mathlib4/issues/22997).
+
+For every coefficient semifield `P`, prove
+[`IsMulTorsionFree P`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Group/Monoid.html#IsMulTorsionFree)
+and `UniqueProds P`, hence `IsDomain ℕ[P]` and `IsDomain ℤ[P]` for `ℤ[P]=MonoidAlgebra ℤ P`; construct
+`FractionRing ℤ[P]` and the injective `P →* ℤ[P]ˣ`.
+
+For a lattice-ordered additive commutative group `L`, construct its min
+tropicalization with addition `a⊕b=a⊓b` and multiplication `a⊙b=a+b`.
+Adjoining one global `∞` gives a zero-sum-free semifield. Construct the max
+version using `⊔` and one global `−∞`, with negation identifying the two.
+Construct these lattice-ordered tropical structures in Tau Ceti. In the
+linearly ordered case, give semiring equivalences with Mathlib's
+`MinTropical`/`MaxTropical`, preserving the exponent maps and zero adjunction.
+Prove functoriality for additive maps preserving the relevant lattice operation;
+monotonicity alone is insufficient for a partially ordered source.
+For `L=J→₀Γ` with `Γ` linearly ordered, use the existing pointwise lattice
+structure on `Finsupp`. The resulting units identify with
+`Multiplicative (J→₀Γ)` and have componentwise minimum as auxiliary addition.
+Prove compatibility with reindexing and order-preserving additive maps of `Γ`.
+For `Γ=ℤ`, write `Trop(J)` and let `z_j` be its generators. Construct the group
+evaluations `Trop(J)→*Q`, `z_j↦q_j`, into commutative groups, and for finite `J`
+the comparison with exponents in `J→ℤ`. FZ coefficients use minimum;
+§3.4's geometric tropicalization uses maximum.
+
+Define `Qsf₀(K)=T(ℕ[u_i:i∈K])` and `Qsf(K)=Qsf₀(K)ˣ` using the same
+regular-localization and unit-group constructions. Its denominators are exactly
+the nonzero polynomials. Prove that the coefficientwise embedding in
+`ℤ[u_i:i∈K]` induces an embedding of `Qsf₀(K)` in
+`FractionRing (MvPolynomial K ℤ)`, identifying `Qsf(K)` with ratios of nonzero
+natural-coefficient polynomials. For every `y:K→P`, construct the unique
+`⊕`-preserving homomorphism `Qsf(K)→P` sending `u_i↦y_i`: evaluation in `P₀`
+sends every nonzero polynomial to a unit, so extends through the localization.
+Prove naturality and compatibility with reindexing. Equivalently, for every
+zero-sum-free semifield `S` and `y:K→Sˣ`, there is a unique semiring map
+`Qsf₀(K)→S` with these variable values; restriction to units is the preceding
+coefficient-semifield map. Prove the two constructions agree.
 
 **Checks.**
 
-- `Trop(Empty)` has one element, while `Qsf(Empty)` consists of positive rationals.
+- `Trop(Empty)` has one element, while `Qsf(Empty)` consists of positive rationals;
+  adjoining zero gives the Boolean semifield and `ℚ≥0`, respectively.
+- Positive rational pairs form an addition-closed subgroup of `(ℚ×ℚ)ˣ`.
+- Zero adjunction and restriction to units preserve auxiliary addition on both round trips.
+- `ℕ` is zero-sum-free but its units are not addition-closed; a nontrivial ring is not zero-sum-free.
+- Localizing at regular elements preserves injectivity even when the coefficient ring has zero divisors.
 - In `Trop({1,2})`, `z₁ ⊕ z₂ = 1` and `z₁⁻¹z₂²` evaluates to `q₁⁻¹q₂²` under the group evaluation.
 - Reindexing `Trop({1,2})` by the transposition sends `z₁⁻¹z₂²` to `z₁²z₂⁻¹`.
 - In `Qsf({1,2})`, `(u₁²+u₁u₂)/(u₁+u₂)` evaluates to `y₁` under every coefficient semifield homomorphism.
 - In the same `Qsf({1,2})`, `(u₁+u₂)⁻¹` evaluated at `(z₁,z₂)` in `Trop({1,2})` is one.
 
-*Needs:* Mathlib commutative groups, monoid algebras, multivariable polynomials and fraction rings.
+*Needs:* Mathlib commutative (semi)rings, `Units`, `WithZero`, monoid algebras,
+multivariable polynomials, `Localization`, `IsLocalization` and fraction rings.
+The linearly ordered comparison uses
+`MinTropical`/`MaxTropical`.
+FZ IV §2, Definitions 2.1–2.2, gives the universal and tropical models.
 
 ### 0.2 Laurent and rational-function models
 
-For a commutative ring `R` and a type `K`,
+For a commutative semiring `R` and a type `K`,
 `L(R,K)` (`LaurentRing`) is `AddMonoidAlgebra R (K →₀ ℤ)`, with coefficients,
 support and monomial `Basis`.
 Prove that `MvPolynomial K R → L(R,K)` is injective and is the localization at the
-variables (`IsLocalization`), `IsDomain` for a domain `R`, reindexing along `K ≃ K'`, and,
+variables (`IsLocalization`), `IsDomain` for an additively cancellative domain semiring `R`,
+reindexing along `K ≃ K'`, and,
 for a commutative `R`-algebra `A`, the unique `L(R,K) →ₐ[R] A` with `X_i ↦ x_i` for
 `x : K → Aˣ`. Construct coefficient maps along `R →+* R'`, injective along injective maps,
 with identity, composition and reindexing laws, and `IsLocalization` of `L(R',K)` over
-`L(R,K)` when `R'` localizes `R`. For any `K`, a domain `R` and a field `F`, a Laurent
-chart (`LaurentChart`) is an injective `L(R,K) →ₐ[R] F`. Its
-coordinate map `LaurentChart.coordinate` evaluates the basis monomials `X_i`. Prove
-that charts correspond to `x : K → Fˣ` algebraically independent over `R`, and those
+`L(R,K)` when `R'` localizes `R`. A Laurent chart in a
+commutative `R`-algebra `B` is an injective `L(R,K)→ₐ[R]B`.
+Its coordinate map evaluates the basis monomials `X_i`, which are units.
+Construct the canonical chart in `T(L(R,K))`. A generating regular chart
+(`Seed.IsGenerating`, for the chart of a seed over a commutative ring)
+includes an equivalence `T(L(R,K))≃ₐ[R]B` extending this chart; §0.5 constructs
+these after regular exchanges. Prove coefficient, reindexing and chart-composition
+laws without assuming that `B` is a field.
+For a domain ring `R` and a field `F`, prove that charts correspond to
+`x : K → Fˣ` algebraically independent over `R`, and those
 whose image generates `F` as a field to
 transcendence bases generating `F` with the image of `R`; for these construct
 `IsFractionRing L(R,K) F` and `IsFractionRing (MvPolynomial K R) F`, with model
 `FractionRing (MvPolynomial K R)`. Public results hold for every generating chart and
 transport along `F ≃ₐ[R] F'`.
+
+For a coefficient semifield `P`, define
+`Pos₀(P,K)=T(ℕ[P][x_i:i∈K])` and `Pos(P,K)=Pos₀(P,K)ˣ`.
+The coefficients in `ℕ[P]` use the multiplicative group of `P` and formal
+addition. Its embedding in the domain `ℤ[P]` makes every nonzero polynomial
+regular. Construct the zero-sum-free semifield structure on `Pos₀(P,K)`
+and its embedding in `FractionRing L(ℤ[P],K)`; its units are the ratios
+of nonzero natural-coefficient polynomials. Construct
+`Pos₀(P,K)≃ₐ[ℕ[P]]T(L(ℕ[P],K))`, commuting with coefficients and
+variables. For the one-element `P`, identify it with `Qsf₀(K)`.
+
+For any coefficient semifield `Q`, group map `φ:P→Q` and `a:K→Q`,
+construct the unique semiring map `Pos₀(P,K)→Q₀` extending polynomial
+evaluation. Every nonzero polynomial evaluates to a unit, so this is
+the localization lift of §0.1. Its restriction `Pos(P,K)→Q` preserves
+auxiliary addition. Prove naturality, reindexing and finite-support laws.
+An addition-closed subgroup `Q≤Rˣ` gives evaluation in the ambient
+commutative semiring `R` by composition with its inclusion.
 
 **Checks.**
 
@@ -272,15 +405,16 @@ independence; Tau Ceti one-variable Laurent evaluation.
 
 ### 0.3 Expansions and coefficient rings
 
-`L_{R,t}` is the range of a chart `t`.
+For a Laurent chart over a commutative semiring R, `L_{R,t}` is its range.
 Construct the inverse `laurentExpansion_t : L_{R,t} ≃ₐ[R] L(R,K)`, finitely supported coefficients,
 and compatibility with coefficient inclusions, reindexing and `F ≃ₐ[R] F'`. For
-generating `t,t'`, the transition automorphism of `FractionRing L(R,K)` sends `laurentExpansion_t f`
+generating regular `t,t'`, the transition automorphism of `T(L(R,K))` sends `laurentExpansion_t f`
 to `laurentExpansion_{t'} f` for `f ∈ L_{R,t} ⊓ L_{R,t'}`; it need not preserve `L(R,K)`.
+For a domain ring, identify this with the corresponding fraction-field transition.
 For `R=ℤ[P]`, `f ∈ L(ℤ[P],K)` (or `laurentExpansion_t f`) is positive when its coefficients lie in
 `ℕ[P]`, equivalently lies in the image `ℕ[P][X_i^{±1}]` of
 `AddMonoidAlgebra (MonoidAlgebra ℕ P) (K →₀ ℤ)`, a `Subsemiring`.
-For any commutative ring C, any `J` and `S⊆J`, construct
+For any commutative semiring C, any `J` and `S⊆J`, construct
 `C_S=C[z_j:j∈J][z_s⁻¹:s∈S] ⊆ C[Trop(J)]` as a localization of
 `MvPolynomial J C`, with C-basis the finitely supported `z^a` satisfying
 `a_j≥0` for `j∉S`. Prove `C_∅≃MvPolynomial J C`, `C_J=C[Trop(J)]`, and
@@ -299,16 +433,24 @@ maps.
 
 ### 0.4 Based quantum tori and Ore realizations
 
-For a commutative ring `R`, a unit `u∈Rˣ`, a finite free lattice `L` and an
-integral alternating form `Λ`, let `T(R,u,Λ)` be the full
-`QuantumMonoidAlgebra` of ScatteringDiagrams §4.3 with `q=u` and `β=Λ`.
-The positive degree datum can be `(L,{0},0)` for this use of the full algebra.
-Use the supplied basis and its coefficient and lattice maps. Write `X^a` for the
-basis monomial at `a∈L`. The multiplication rule
+Let `R` be a commutative semiring, `u∈Rˣ` a unit, `L` a finite free lattice
+and `Λ:L×L→ℤ` an alternating bilinear form. Bilinearity and `Λ(0,a)=Λ(a,0)=0`
+give a normalized factor set `α(a,b)=u^{Λ(a,b)}` on `Multiplicative L`.
+Define `T(R,u,Λ)` as `TauCeti.twistedMonoidAlgebra` for this factor set.
+Write `X^a` for its basis monomial at `a∈L`.
+The multiplication rule
 `X^a X^b=u^{Λ(a,b)}X^{a+b}` gives inverse monomial `X^{-a}` and the untwisted
-product at `u=1`. Use §4.3's untwisted comparison for `Λ=0`.
+product at `u=1`. For `Λ=0` use `TwistedMonoidAlgebra.monoidAlgebraEquiv`.
 Quantum cluster notation takes `u=v` and `q_cl=v²`, so
 `X_i X_j=v^{2Λ_ij}X_j X_i`.
+
+Over a commutative ring, let `z^a` denote the basis monomial of the full
+`QuantumMonoidAlgebra` of ScatteringDiagrams §4.3 with `q=u` and `β=Λ`.
+The positive degree datum can be `(L,{0},0)` for this use of the full algebra.
+The unit and multiplication rules for `z^a` give an `R`-algebra map from
+`T(R,u,Λ)` by `TwistedMonoidAlgebra.lift` of `a↦z^a`. Prove that it is an
+isomorphism since it sends the basis `X^a` to the basis `z^a`. Transport
+§4.3's coefficient and lattice maps along this isomorphism at their source and target.
 
 For a basis of `L`, construct the quantum polynomial and mixed Laurent subalgebras by
 support, with monomial bases and localization at selected monomials. Universal
@@ -318,7 +460,7 @@ from the subalgebra with exponents `a_i≥0` (`i∉S`) sending `X_i` to `U_i`. F
 order on the basis it sends `X^a` to `u^{-Σ_{i<j}a_i a_j Λ_ij}∏_iU_i^{a_i}`, the product
 taken in that order; the result is independent of the order.
 
-Derive
+For the fraction constructions assume `R` is a commutative ring. Derive
 [`UniqueSums`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Group/UniqueProds/Basic.html#UniqueSums)
 for the finite free lattice L and prove `T(R,u,Λ)` is a domain when R is a domain.
 Over a field it
@@ -334,6 +476,28 @@ the skew field of fractions of `T(FractionRing R,u,Λ)`. A quantum chart is an i
 generates that ring. Generating charts determine their ambient division ring up to
 unique isomorphism. The Laurent theorems of Layers 1–2 use only injectivity of charts.
 
+Seeds use the following presentation of charts by normalized monomials. Let R
+be a commutative semiring, `u∈Rˣ`, I a finite type, Λ an integer alternating
+form on `ℤ^I` and B an R-algebra, not necessarily commutative. A based chart
+(`BasedChart`) for `(R,u,Λ)` in B is a family `M:ℤ^I→Bˣ` with `M(0)=1`,
+`M(a)M(b)=u^{Λ(a,b)}M(a+b)`, where `Λ(a,b)=Σ_{i,j}a_iΛ_ij b_j`
+(`formPairing`), and R-linearly independent values: finite
+R-combinations of the `M(a)` have unique coefficients. Its coordinates
+(`BasedChart.coordinate`) are `X_i=M(e_i)`, and its chart map
+(`BasedChart.eval`) sends a finitely supported family f to `Σ_a f_aM(a)`.
+Let `χ:T(R,u,Λ)→ₐ[R]B` be `TwistedMonoidAlgebra.lift` applied to the
+monomial family. The chart map on coefficient families is the composition
+of the inverse basis representation (`TwistedMonoidAlgebra.basis` with
+`repr.symm`), `f↦Σ_a f_aX^a`, with the underlying linear map of `χ`.
+Here the basis index `Multiplicative (ℤ^I)` is identified with `ℤ^I`.
+Prove that the chart map is injective and that the
+ordered-product formula determines a based chart from its coordinates.
+Transport based charts along reindexing and injective R-algebra maps of B.
+Prove that `M(a)=χ(X^a)` gives a bijection from injective
+R-algebra maps `χ:T(R,u,Λ)→B` to based charts; quantum charts are those with
+B a division ring. For `u=1`, `Λ=0` and commutative B, prove that
+`M(a)=c(X^a)` is a bijection from §0.2's Laurent charts c of `L(R,I)` to based charts.
+
 **Checks.**
 
 - For `Λ(e₁,e₂)=1` and `S={1}`, the mixed algebra contains `X₁⁻¹` and `X₂`
@@ -343,41 +507,79 @@ unique isomorphism. The Laurent theorems of Layers 1–2 use only injectivity of
 - In the skew field of fractions of the rank-two torus, verify that the nonzero element `1+X₁`
   becomes a unit while `X₂(1+X₁)=(1+u⁻²X₁)X₂`.
 
-*Needs:* Mathlib lattice, monomial support and Ore localization APIs, and ScatteringDiagrams §4.3
-for the full twisted lattice algebra, its monomial basis and its coefficient and lattice maps.
+*Needs:* Mathlib lattice, monomial support and Ore localization APIs, Tau Ceti's
+twisted monoid algebra and ScatteringDiagrams §4.3 for the coefficient and lattice maps.
 
 ### 0.5 One-exchange algebra
 
-In a division ring, let `C` be a subring, write `C⟨…⟩` for
-the subring generated by `C` and the listed elements, `C[p^{±1}]=C⟨p,p⁻¹⟩` and `C[p]=C⟨p⟩`
-for nonzero `p`, and let `x≠0` normalize `C` (`xCx⁻¹=C`) with powers left linearly
-independent over `C`. Coefficients stay on the left throughout. For a nonzero `E∈C`
-normalizing `C`, with `σ(c)=xcx⁻¹`, `P_0=1` and `P_{r+1}=P_rσ^{-r}(E)`, the element
-`y=Ex⁻¹` satisfies:
-- `y` normalizes `C`, its powers are left independent over `C`, and `y^r=P_r x^{-r}`;
-- `Σ_m c_m x^m∈C[y^{±1}]` if and only if `c_{-r}∈C P_r` for all `r>0`;
-- `C[x^{±1}]∩C[y^{±1}]=C⟨x,y⟩`, with unique normal forms `c_0+Σ_{r>0}(c_r x^r+c'_r y^r)`.
-The classical and quantum cases of Q1 are instances of the coefficient criterion and
-normal forms. See BFZ III, Lemmas 4.1–4.2, for the commutative case
-`C[x^{±1}]∩C[(E/x)^{±1}]=C[x,E/x]` and BZ, Lemmas 5.5–5.6, for quantum exchange.
-Also prove, for `z` normalizing `C`:
+Let `C` be a subsemiring of a semiring `B`, and let `x∈Bˣ` normalize C,
+so conjugation by x induces an automorphism `σ` of C. Assume finite
+Laurent expansions in x have unique left coefficients in C. Write
+`C⟨…⟩` for the subsemiring generated by C and the listed elements,
+`C[p^{±1}]=C⟨p,p⁻¹⟩` for a unit p, and `C[p]=C⟨p⟩`.
+When C is a subring of a ring, these are subrings.
+
+Let `E∈C` be a unit in B that normalizes C, and put `y=Ex⁻¹`,
+`P_0=1`, `P_{r+1}=P_rσ^{-r}(E)`. Prove:
+
+- y normalizes C, Laurent expansions in y have unique left coefficients,
+  and `y^r=P_r x^{-r}`;
+- `Σ_m c_m x^m∈C[y^{±1}]` if and only if `c_{-r}∈C P_r` for every `r>0`;
+- `C[x^{±1}]∩C[y^{±1}]=C⟨x,y⟩`, with unique finite normal forms
+  `c_0+Σ_{r>0}(c_r x^r+c'_r y^r)`.
+
+For a commutative semiring C and a regular `E∈C`, construct this exchange
+in `B=C[E⁻¹][x^{±1}]`. Regular localization gives the injective coefficient
+map and the faithful x-chart; the theorem gives the faithful y-chart.
+Here `P_r=E^r`, and exchanging x and y is an involutive
+`C[E⁻¹]`-algebra automorphism. Construct the induced equivalence
+`T(C[Y^{±1}])≃ₐ[C]T(C[X^{±1}])`, characterized by `Y↦EX⁻¹`,
+using the localization comparisons of §§0.1–0.2. For a semiring map
+`f:C→S`, a unit `a∈Sˣ`, and `f(E)` a unit, evaluation `x↦a` on B
+restricts on the y-chart to `y↦f(E)a⁻¹`. Prove this on every Laurent
+polynomial, compatibly with composition of coefficient maps and with
+any extension of evaluation to the total quotient semirings.
+
+For `C=L(R,I∖{k})`, construct the resulting automorphism of
+`T(L(R,I))`, fixing the other coordinates. Transport it to every
+generating regular chart, with uniqueness, inverse and reindexing laws.
+For a commutative domain, identify these constructions with the same
+exchange in its rational-function field.
+
+For the quantum realization, take B to be a division ring, C a subring,
+and x and E nonzero normalizing elements. For R-algebra maps
+`χ:T(R,u,Λ)→B` and `χ':T(R,u,Λ')→B` on `ℤ^I`, suppose the maps
+agree off k and the forms agree on the other-coordinate lattice.
+If χ is faithful and χ' sends the kth coordinate to `Ex⁻¹`, where
+`x=χ(X_k)` and E belongs to and normalizes the common other-coordinate
+ring C, prove that χ' is faithful and the two charts generate the same
+division subring. Thus both realizations construct the new chart from
+the exchange data. Their coefficient criterion and normal forms give Q1.
+See BFZ III, Lemmas 4.1–4.2, for the commutative case and BZ,
+Lemmas 5.5–5.6, for quantum exchange.
+
+Give the form of this theorem for based charts, which §1.2 uses in every
+ambient algebra. Let R be a commutative semiring, M a based chart for
+`(R,u,Λ)` in an R-algebra B (§0.4) and k an index. Let C be the R-span of
+the `M(a)` with `a_k=0` and put `x=M(e_k)`; independence of M gives unique
+left coefficients in C for Laurent expansions in x. Let `y∈Bˣ` and an
+additive map λ on the exponents with `a_k=0` satisfy `yx∈C` and
+`yM(a)=u^{2λ(a)}M(a)y`. Prove that `E=yx` is a unit of B normalizing C, and
+that the family `M'(a)=u^{−a_kλ(a°)}y^{a_k}M(a°)`, `a°=a−a_ke_k`, is
+R-linearly independent. It is the based chart for the
+alternating form that agrees with Λ on the exponents with `a_k=0` and has
+`Λ'(e_k,a°)=λ(a°)`. For a division ring B this is the preceding statement.
+
+For the interacting intersections of Q2, prove the following ring statements:
+
 - *patching*: for a subring H of any ring, finite `a_l,u_l∈H` with
   `Σ_l a_lu_l=1` and `f a_l∈H` give `f∈H`. Give the left-sided form through
-  the opposite ring. The two-denominator form with `a_1=a^r`, `a_2=b^s` and
-  the comaximal-localization intersection theorem are instances;
-- *unit constant terms*: the elements `c(1+zw)` with `c∈Cˣ`, `w∈C[z]` are closed under
-  products and under conjugation by any `g` normalizing `C` with `gzg⁻¹∈zC`, and each
-  has a right inverse modulo `z^sC[z]` for every `s`.
-The classical and quantum interacting intersections of Q2 are instances.
-
-Prove a seed-free change-of-chart theorem for R-algebra maps
-`χ:T(R,u,Λ)→D` and `χ':T(R,u,Λ')→D` on `ℤ^I`. Let k be a coordinate;
-the maps agree off k and the forms agree on the other-coordinate lattice. Assume the first map is injective, its k-coordinate is x, and the
-second sends its k-coordinate to `y=Ex⁻¹` with nonzero E in the common
-other-coordinate ring C, normalizing C. Then the second map is injective by the
-one-variable independence above. The division subrings generated by the two
-charts are equal. Apply this theorem when constructing a mutated chart, rather
-than putting faithfulness of that chart among the seed's inputs.
+  the opposite ring. The two-denominator form with `a_1=a^r`, `a_2=b^s`
+  gives the comaximal-localization intersection theorem;
+- *unit constant terms*: for C a subring of a division ring and z a
+  nonzero element normalizing C, the elements `c(1+zw)` with `c∈Cˣ`,
+  `w∈C[z]` are closed under products and conjugation by any g normalizing
+  C with `gzg⁻¹∈zC`. Each has a right inverse modulo `z^sC[z]` for every s.
 
 **Checks.**
 
@@ -385,7 +587,8 @@ than putting faithfulness of that chart among the seed's inputs.
 - When `xz=v²zx` and `y=(1+z)x⁻¹`, the coefficient of `x⁻²` in `y²` is `(1+z)(1+v⁻²z)`.
 - For `w=1`, the finite geometric series `1−z+z²` is a right inverse of `1+z` modulo `z³C[z]`.
 
-*Needs:* §0.4 for based tori and charts, and Mathlib subrings, opposite rings and localization.
+*Needs:* §§0.1–0.2 for regular localization and Laurent charts; §0.4 for based tori;
+Mathlib subsemirings, subrings and opposite rings.
 
 ### 0.6 Support and central divisibility
 
@@ -523,8 +726,8 @@ Use the rank-two determinant lattice to compare the ordinary Laurent chart, the 
 
 ### Dependencies
 
-Mathlib supplies the algebraic carriers. ScatteringDiagrams §4.3 supplies the full twisted
-lattice algebra for the quantum torus.
+Mathlib supplies the algebraic carriers. Tau Ceti supplies the twisted monoid algebra
+for the quantum torus. ScatteringDiagrams §4.3 supplies its coefficient and lattice maps.
 
 ## Layer 1: classical and quantum seeds and mutation
 
@@ -560,6 +763,20 @@ and `F_ε : Matrix K K ℤ` is the identity except in row `k`, with `(F_ε)_kk=-
 and reindexing laws. The classical and quantum layers share this factorization.
 Write `matrixMutationWord` for the iteration of matrix mutation in word order.
 
+Let Λ be an alternating integer form on `ℤ^I`. For `w:K→ℤ`, define column
+compatibility (`ColumnCompatible`) by `B̃ᵀΛ=(diag(w) 0)` in the mutable/frozen
+presentation, or entrywise by `Σ_i b_ik Λ_il=w_k` when `l=row k` and zero
+otherwise. The weights w are determined by B̃ and Λ; they may be zero or
+negative. Alternation of `B̃ᵀΛB̃=diag(w)B` gives `w_i b_ij=−w_j b_ji`.
+Form mutation (`formMutation`) is `Λ'=E_εᵀΛE_ε`, with `B̃'=E_ε B̃ F_ε`.
+Prove independence from ε, preservation of alternation and column
+compatibility with the same w, and involutivity. For compatibility, use the
+weight identity together with the opposite signs of nonzero `b_ik,b_ki` to
+obtain `w_i[−ε b_ik]_+=w_k[ε b_ki]_+`. The positive symmetrizer d remains the
+matrix's symmetrizer throughout (BZ, Definition 3.1 and Propositions 3.3, 3.4
+and 3.6, for `w=d>0`). A column with nonzero weight is nonzero. The zero form
+is compatible with every matrix, with zero weights.
+
 Use the general column API for matrices over a field: independence of the
 columns is equivalent to full column rank when K is finite. Prove that
 rescaling columns by nonzero scalars preserves independence, and use the
@@ -577,38 +794,245 @@ integer preserves this independence.
 
 ### 1.2 Seeds and their realizations
 
-Fix finite `K`, a coefficient semifield `P` and a
-field `F` with `Algebra ℤ[P] F`; `P` acts on `F` through `P →* ℤ[P]ˣ`. A `Y`-seed is
-`(y,B)`, `y : K → P`, `B` an exchange matrix. A seed in `F` is a `Y`-seed with a Laurent
-chart `L(ℤ[P],K) → F` whose image generates `F` as a field; `x_i` is the image of `X_i`.
-Construct the inverse equivalences with FZ tuples `(x,y,B)`, `x` a transcendence basis
-over `ℤ[P]` generating `F` with `ℤ[P]`. Mutation `μ_k` is `B ↦ μ_kB`, `x'_i=x_i`
-(`i≠k`), and
+A Y-seed is `(y,B)`, with `y:K→P` in a coefficient semifield P and B
+an exchange matrix on K. Its mutation is given by the Y-formulas below.
+
+**Coefficient systems.** An exchange polynomial (`ExchangePolynomial`) over a
+commutative monoid with zero 𝕂 is a specified degree `r>0` with coefficients
+`h_0,…,h_r∈𝕂` whose endpoints `h_0,h_r` are units. Write
+`H(T)=Σ_l h_lT^l`. Its reversal (`ExchangePolynomial.reverse`) is
+`T^rH(T⁻¹)`; for units κ and e its dilation (`ExchangePolynomial.dilate`) is
+`H(κT)`, with coefficients `κ^lh_l`, and its multiple
+(`ExchangePolynomial.scale`) is `eH`. These operations use only the
+multiplication of 𝕂. The binary polynomial (`ExchangePolynomial.binary`) is
+`1+T`.
+
+A coefficient system (`CoefficientSystem`) over a commutative semiring R
+consists of such a 𝕂, a map `φ:𝕂→R` preserving 0, 1 and products, and a
+normalizer ν assigning a unit `ν(H)∈𝕂ˣ` to every exchange polynomial H over
+𝕂, such that
+
+- `ν(H^rev)=ν(H)` for the reversal `H^rev` of H;
+- `ν(ν(H')H)·ν(H')=ν(H)` for all H and H'.
+
+The system says where the coefficients live, how they act as scalars, and
+how exchange polynomials are normalized. The map φ need not be additive or
+injective. Put `N(H)=ν(H)H` (`CoefficientSystem.normalize`), and call H
+normalized when `ν(H)=1`. Prove that
+N is idempotent, that reversal preserves normalized polynomials, that ν is
+homogeneous of degree −1 for the subgroup `G_ν≤𝕂ˣ` generated by its values,
+and that the normalized polynomials are a reversal-stable set of
+representatives for the scaling action of `G_ν`; conversely such a subgroup
+and set of representatives determine ν. The scalar system (`CoefficientSystem.trivial`) of R has `𝕂=R`,
+`φ=id` and `ν=1`. A map of coefficient systems over R is a map `ψ:𝕂→𝕂'`
+preserving 0, 1 and products with `φ'∘ψ=φ` and `ν'(ψH)=ψ(ν(H))`; prove its
+identity and composition laws. This roadmap uses the scalar system, for
+polynomial mutation (§1.5), and the normalized system of a coefficient
+semifield below.
+
+**Exchange data.** Fix a finite type I, a type K and an embedding
+`row:K↪I`. Exchange data (`ExchangeData`) over 𝕂 consist of an extended
+exchange matrix B̃ and exchange polynomials `H_k`, `k∈K`, over 𝕂 whose
+degrees `r_k` divide every entry of column k. Put `β_k=b_{•k}/r_k`
+(`ExchangeData.dividedColumn`), `β_kj=b_kj/r_j` and
+`κ_{kj}=h_{k,r_k}^{[β_kj]_+}h_{k,0}^{−[−β_kj]_+}∈𝕂ˣ`
+(`ExchangePolynomial.dilationFactor`).
+Mutation at k has three steps: mutate B̃ by §1.1 and reverse `H_k`; dilate
+every other polynomial to `H_j(κ_{kj}T)`; normalize it, so
+`H'_j=N(H_j(κ_{kj}T))` (`ExchangeData.mutatedPolynomial`). The dilation is the propagation law of exchange
+patterns: mutation at k dilates every other exchange polynomial by a unit
+determined by the endpoint coefficients of `H_k` (FZ I, Definition 2.1,
+axiom (2.7), for binomials; Chekhov–Shapiro, (2.5)). It prescribes `H'_j` up
+to a unit, and the normalizer chooses the unit. Prove preservation of
+degrees, column divisibility and unit endpoints; that the reversal of `H_k`
+with the entry `−β_kj` has dilation factor `κ_{kj}⁻¹`; that data all of
+whose polynomials are normalized (`ExchangeData.IsNormalized`) stay so; and that mutation is an
+involution on normalized data. Prove reindexing laws and that maps of
+coefficient systems commute with mutation.
+
+Write `H_k(1)=Σ_lφ(h_{k,l})∈R` (`ExchangeData.valueAtOne`). In `D_k=L(R,I∖{row(k)})`, the exchange
+numerator of normalized data d is
 
 ```
-x'_k = (y_k ∏_i x_i^{[b_{ik}]_+} + ∏_i x_i^{[−b_{ik}]_+}) / ((y_k ⊕ 1)x_k),
+m_{k,±} = ∏_{i≠row(k)} X_i^{[±β_ik]_+},
+E_k = Σ_{l=0}^{r_k} φ(h_{k,l}) m_{k,+}^l m_{k,−}^{r_k−l}.
+```
+
+Prove `E_k(μ_k(d))=E_k(d)`.
+
+**Seeds.** Let `u∈Rˣ` and let B be an R-algebra, not necessarily commutative.
+A seed (`Seed`) of a coefficient system over `(R,u)` in B consists of
+normalized exchange data d, called its state, an alternating integer form Λ
+on `ℤ^I`, weights w satisfying §1.1's column compatibility with the matrix
+of d, and a based chart M for `(R,u,Λ)` in B (§0.4). Its exchange element
+(`Seed.exchangeElement`) at k, with the exponents
+`ExchangeData.exchangeExponent`, is
+
+```
+X'_k = Σ_{l=0}^{r_k} φ(h_{k,l}) M(−e_k + l[β_k]_+ + (r_k−l)[−β_k]_+).
+```
+
+Mutation at k (`Seed.IsMutation`) is defined when `X'_k` is a unit of B. The
+new seed has state `μ_k(d)`, form `Λ'` of §1.1, the same weights, and the
+based chart with coordinate `X'_k` at `row(k)` and all other coordinates
+unchanged (`Seed.mutatedMonomial`):
+
+```
+M'(a) = u^{−Λ'(a_k e_k, a°)} (X'_k)^{a_k} M(a°),    a° = a − a_k e_k.
+```
+
+Prove quasi-commutation of the new coordinates for `Λ'` from column
+compatibility and faithfulness of the new chart from §0.5; neither is seed
+data. These data then form a seed, the only one carrying them
+(`Seed.existsUnique_isMutation`). Prove that the exchange element of the new seed at k is `X_k`, so the
+reverse exchange is defined and recovers the seed. Prove extensionality,
+reindexing along equivalences commuting with row, transport along injective
+R-algebra maps of B, and transport along maps of coefficient systems, which
+preserve exchange elements, mutation, reachability and the algebras of §1.3.
+At `u=1` the chart conditions do not involve Λ; the classical realizations
+use `Λ=0` and `w=0`.
+
+For a nonzero column the exchange summands have distinct exponents. For a zero
+column, `X'_k=H_k(1)X_k⁻¹`. A seed is admissible (`Seed.Admissible`) when
+`H_k(1)` is a unit of B for every zero column k. Prove that mutation
+preserves admissibility: a column is zero after a mutation exactly when it was
+zero before, its polynomial is then reversed or unchanged, and reversal
+preserves `H_k(1)`. A class of seeds is total when every
+exchange element of its members is a unit and it is closed under mutation;
+§1.3's word action is defined on total classes.
+
+**Gauge.** Two seeds over `(R,u)` in B, possibly of different coefficient
+systems over R, with the same extended matrix and form are gauge equivalent
+when there are units `c_i∈Rˣ`, `i∈I`, and
+`e_k∈Rˣ`, `k∈K`, with `M̃(a)=c^aM(a)` and
+`φ̃(H̃_k)(T)=e_k·φ(H_k)(c^{−β_k}T)`, where `c^a=∏_ic_i^{a_i}` and `φ(H)` is
+the polynomial over R with coefficients `φ(h_l)`.
+Prove that then `X̃'_k=e_kc_k⁻¹c^{r_k[−β_k]_+}X'_k`, so a direction is mutable
+for one seed exactly when it is for the other, and that the mutated seeds
+are gauge equivalent; this uses only the propagation law, with any two
+normalizers. Hence the two patterns correspond along every mutation path,
+admissibility is gauge invariant, and the chart rings, cluster algebras,
+upper cluster algebras and upper bounds over R coincide (§1.3). Over a
+subsemiring of scalars that does not contain the gauge units these algebras
+can differ. Every seed is gauge equivalent, with `c=1` and `e=1`, to the seed
+of the scalar system with the same chart and the polynomials `φ(H_k)`;
+thus the pattern of every coefficient system follows
+a pattern of the scalar system. The correspondence follows paths; it is not
+a bijection of seeds or of cluster variables. Periodicity of a pattern and
+finiteness of its set of cluster variables depend on the normalizer: they are
+theorems for the normalized system below and can fail for the scalar system.
+
+**Division-ring realizations.** Let R be a commutative ring and B a division
+R-algebra D. A based chart in D makes R a domain. Units of D are its nonzero
+elements, so admissibility is `H_k(1)≠0` on zero columns. Prove that the
+admissible seeds of every coefficient system form a total class, for every unit u and every
+compatible form: for a nonzero column the exchange monomials are distinct and
+R-independent, and one of them has a unit coefficient. No rank assumption is
+used, and the chart need not generate D.
+
+**The regular classical model.** Let C be a commutative semiring and take
+`u=1`, `Λ=0`, `w=0`. A generating regular chart of `L(C,I)` in a commutative
+C-semialgebra F (§0.2) gives a based chart; a regular seed is a seed with
+such a chart. The initial regular seeds are in `T(L(C,I))` with its canonical
+chart. For a regular seed, prove that `X'_k` is a unit of F exactly when
+`E_k` is regular in `D_k`, and that the mutated seed is regular: its chart is
+the transport of §0.5's automorphism of `T(L(C,I))` with
+`X_k↦E_kX_k⁻¹`, and the chart equivalence preserves the coefficient map.
+The condition is on the formal exchange numerator, not on the value of a
+coordinate at a particular point. Over a commutative ring C, prove that `E_k`
+is regular for every nonzero column, using a unit endpoint coefficient and a
+monomial order, without assuming C is a domain; for a zero column it is
+regular exactly when `H_k(1)` is regular. Thus admissibility of a regular
+seed over a ring is `IsRegular (H_k(1))` on zero columns, and the admissible
+regular seeds form a total class. These are the admitted ring realizations of
+Layers 2–5; an admitted domain realization has C a domain. For a domain C the ambient is the usual
+rational-function field, a division-ring realization, and admissibility is
+the nonvanishing formulation. Over a general commutative semiring each
+exchange retains the regularity of its numerator as its condition.
+
+**Normalized coefficients.** Fix a coefficient semifield `P`, a commutative
+semiring `C` and a group map `φ:P→Cˣ`. The normalized system has
+`𝕂=P₀=P∪{0}` (§0.1), the extension of φ by zero as its scalar map, and
+`ν(H)=(⊕_lh_l)⁻¹`, the inverse of the auxiliary sum of the coefficients; the
+sum is a unit because the endpoints are. Prove the two normalizer
+conditions; here ν is homogeneous for all units of `P₀`. The normalized
+polynomials are those with `⊕_lh_l=1` (FZ I, Definition 5.3, in degree one;
+Nakanishi, (2.14)). In degree one they are the binomials
+`(y⊕1)⁻¹(1+yT)`, `y∈P`, so normalized binomial data are the pairs of an
+extended exchange matrix `B̃` and coefficients `y:K→P`. Prove that their
+mutation is matrix mutation with Y-mutation using the principal block:
+`y_k↦y_k⁻¹` reverses `H_k`, and for `j≠k` the dilation factor is
+`κ_{kj}=y_k^{[b_kj]_+}(y_k⊕1)^{−b_kj}`. A normalized seed is a seed of this
+system with binomial data; its exchange numerators are
+
+```
+E_k = φ(y_k ⊕_P 1)⁻¹ (φ(y_k) ∏_{i≠row(k)} X_i^{[b̃_ik]_+} + ∏_{i≠row(k)} X_i^{[−b̃_ik]_+}) ∈ D_k.
+```
+
+The normalizer is formed in P before φ is applied. Since φ need not preserve
+addition or be injective, the coefficients y cannot be recovered from the
+scalar polynomials; this is why the coefficients live in `P₀` and not in C.
+The regular normalized seeds are the regular seeds with coefficients in P.
+Prove totality of mutation for the universal positive models and for the
+ring realizations specified below. Taking `I=K` and `row=id` gives seeds
+with coefficient semifield `P`. For the one-element semifield the normalized
+binomial is `1+T`, and the map to the scalar system identifies its seeds
+with the binary seeds of §1.4. In degrees `r_k>1` the same system gives
+normalized polynomial seeds, the Chekhov–Shapiro seeds with Nakanishi's
+normalization. Their Laurentness follows from Layer 2 by gauge equivalence;
+the separation, finite-type and positivity theorems of this roadmap concern
+normalized seeds.
+
+For the canonical coefficient maps into `ℕ[P]ˣ` and `ℤ[P]ˣ`, every exchange
+polynomial is nonzero and regular. The former gives the positive pattern
+in `Pos₀(P,I)` through §0.2's chart equivalence; the latter has a fraction
+field as its total quotient ambient. For `I=K` over `ℤ[P]`, identify
+these regular seeds with FZ tuples `(x,y,B)`, where
+`x` is a transcendence basis over `ℤ[P]` generating the ambient field.
+The coordinate formula for their mutation is
+
+```
+x'_k = (y_k ∏_i x_i^{[b_ik]_+} + ∏_i x_i^{[−b_ik]_+}) / ((y_k ⊕ 1)x_k),
 y'_k = y_k⁻¹,
-y'_j = y_j y_k^{[b_{kj}]_+}(y_k ⊕ 1)^{−b_{kj}}   if j ≠ k.
+y'_j = y_j y_k^{[b_kj]_+}(y_k ⊕ 1)^{−b_kj}   if j ≠ k.
 ```
 
-Prove the numerator nonzero, `x'` a transcendence basis generating `F`, `μ_k`
-involutive on seeds and `Y`-seeds, and that forgetting the chart commutes with `μ_k`.
-Reindexing along `e : K ≃ K'` acts on `y`, `B` and the chart together; prove
-`μ_{e k}(e·Σ)=e·μ_kΣ`. Seeds `Σ`, `e·Σ` with `e : Equiv.Perm K` are equivalent.
+The other coordinates are fixed. Prove that the tuple identification
+intertwines mutation and that forgetting the chart gives Y-mutation.
+Reindexing acts on the extended matrix, coefficients and chart together;
+prove its commutation with mutation. In the square presentation, seeds
+related by a simultaneous permutation of `K` are equivalent.
 
-Also construct coefficient realizations over a domain C: a group homomorphism
-`φ:P→Cˣ`, the same Y-seed `(y,B)`, and a generating chart `L(C,K)→F`.
-Apply φ to the group elements in the normalized exchange formula; its
-normalizer is `φ(y_k⊕1)`, not `φ(y_k)+1`. Require
-`φ(y_k)+1≠0` only when the mutable column `b_{•k}` is zero.
-Prove this initial condition is mutation invariant: a zero column stays zero,
-its coefficient only inverts, and all other exchange numerators have two
-distinct mutable monomials with unit coefficients. Construct mutation,
-involutivity and word transport over C. L8 compares these realizations with
+For a commutative ring C and `φ:P→Cˣ`, the regular model gives the
+regularity of the exchange polynomial: it is automatic for a nonzero extended
+column, and for a zero column it is equivalent to `IsRegular (φ(y_k)+1)`,
+since `H_k(1)=φ(y_k⊕1)⁻¹(1+φ(y_k))` and the normalizer `φ(y_k⊕1)` is a unit.
+This admissibility condition is mutation invariant: a zero column stays zero
+and its coefficient only inverts. Construct mutation, involutivity and word
+transport over C on the admissible regular seeds. L8 compares these realizations with
 the universal integral pattern, including noninjective coefficient maps.
-In finite geometric type (§1.4), `clusterMutation` is the coordinate part of
-the binary exchange and `seedMutationWord` iterates the matrix and coordinate
-updates together.
+In finite geometric type (§1.4), the binary coordinate formula is a theorem
+about this same mutation. Its iteration acts on the whole seed, including
+the extended matrix and generating chart.
+
+For coefficient semifields `P,Q`, a group homomorphism `φ:P→Q`, a Y-seed
+`(y,B)` over `P` and `x:K→Q`, define
+
+```
+x'_k = (φ(y_k) ∏_i x_i^{[b_ik]_+} ⊕_Q ∏_i x_i^{[−b_ik]_+}) / (φ(y_k ⊕_P 1) x_k),
+x'_i = x_i   if i ≠ k.
+```
+
+Together with Y-mutation in `P`, this gives a bijection between the copies of
+`Q^K` at `(y,B)` and `μ_k(y,B)`. Prove that its inverse is mutation at the latter
+seed, and prove the word, reindexing and naturality laws. Only multiplicativity
+of `φ` is assumed. For an addition-closed subgroup `Q≤Rˣ` of a commutative
+semiring, prove that inclusion in `R` identifies this formula with ordinary
+addition and inversion of units. For an addition-preserving group map
+`j:Q→Frac(C)ˣ` compatible with a domain realization, prove that evaluation
+commutes with mutation; the existence of such a map forces `CharZero C`.
+Extend the statements to locally finite skew-symmetrizable exchange matrices
+by finite-support reduction for each finite mutation word.
 
 **Checks.**
 
@@ -616,39 +1040,110 @@ updates together.
 - For `P=Trop({z})` and `y=z⁻¹`, the normalizer before realization is `y⊕1=z⁻¹`. If the realization
   sends `z↦2` over ℚ, its value is `1/2`.
 - For the same trivial coefficient zero column in characteristic two, the admissibility condition fails.
+- In `S=ℚ≥0`, take `P=Trop({z})`, `y=z`, `φ(z)=2` and `B=0`. Then `x'=3/x`;
+  after Y-mutation the normalizer is `1/2`, so the inverse is again `x=3/x'`.
+- Over `C=ℚ`, `φ(z)=−2` with the same zero column is admissible and gives `x'=−1/x`;
+  it does not preserve positive rational points. For `K=Empty`, positive mutation-word transport is the identity.
+- Over `ℤ/6ℤ`, a nonzero exchange column still gives a regular two-monomial exchange polynomial;
+  the coefficient-free zero column is inadmissible because `2` is not regular.
+- Over the Boolean semiring, `(1+T)(1+T²)=(1+T)(1+T+T²)` with distinct second factors;
+  nonzero exchange polynomials need not be regular in a general semiring.
+- For binary data over ℤ at `u=1` with rank-one zero matrix, the identity chart of
+  `ℤ[x^{±1}]` in itself has exchange element `2x⁻¹`, which is not a unit there; the same
+  chart in `ℚ(x)` has it as a unit, and the mutated coordinate is `2/x`.
+- For binary data with `B̃=(0,1)ᵀ`, `Λ=((0,−1),(1,0))` and weight one, the exchange
+  element is `M(−e₁)+M(−e₁+e₂)`, the mutated form is `−Λ` and the weight stays one.
+- For `H=1+T+T²` on a zero column over `𝔽₃`, `H(1)=0`, so the seed is not admissible
+  in any division ring.
+- Over ℚ in rank one with zero matrix, the seeds with `H=1+2T` and `H=(1+2T)/3` on the
+  same chart are gauge equivalent with `c=1`, `e=1/3`; their mutated coordinates are
+  `3/x` and `1/x`.
+- In type `A₂` over ℚ at `u=1`, five alternating mutations in the scalar system return
+  the two coordinates interchanged when `H_1=H_2=1+T`, and interchanged and multiplied by 6
+  when `H_1=1+2T`, `H_2=1+3T`. For the semifield of positive rationals with its usual
+  addition, the normalized seeds with `H_1=(1+2T)/3`, `H_2=(1+3T)/4` return interchanged
+  after five mutations.
+- For `𝕂=ℚ_{≥0}` under multiplication, the normalizers `ν=1` and `ν(H)=(Σ_lh_l)⁻¹`
+  satisfy both conditions. `ν(H)=h_0⁻¹` fails the first: the reversal
+  `2+T` of `1+2T` is not normalized. `ν=2` fails the second and is not idempotent.
+- In the normalized system of the positive rationals with `B=((0,2),(−1,0))`, degrees
+  `(1,2)`, `H_1=(1+2T)/3` and `H_2=(1+4T+3T²)/8`, six alternating mutations starting at 1
+  return the seed.
+- For `H=1+2T` on a rank-one zero column over ℚ, reversal gives `H'=2+T` and `x''=x`.
+  Rescaling the reversal to `H'=1+T/2` gives `x''=x/2`.
 
-*Needs:* §§0.1–0.3 for coefficient evaluations and charts; §1.1 for exchange matrices.
+*Needs:* §§0.1–0.5 for coefficient evaluations, regular and based charts and the
+one-exchange theorem; §1.1 for exchange matrices, forms and column compatibility.
 
 ### 1.3 Patterns and algebras
 
-For involutions `μ_k` (`k∈K`) of any type, a word
-`w : List K` acts by `μ_{[k₁,…,k_m]}=μ_{k_m}∘⋯∘μ_{k₁}`; prove the concatenation law,
-cancellation of adjacent equal letters, and inversion by the reversed word.
-For involutive actions μ on V and ν on W and a map `f:V→W` satisfying
-`f(μ_k(s))=ν_k(f(s))`, prove `f(μ_w(s))=ν_w(f(s))` for every word, with identity
-and composition laws. Use this single transport theorem for matrices,
-`Y`-seeds, polynomial frames, quantum seeds and classical realizations;
-`μ_wΣ₀` is reachable from `Σ₀`.
-Reduced words, adjacent when one extends the other by a letter, form a
-`SimpleGraph.IsTree` with one edge of each label at each vertex (two vertices if
-`|K|=1`, one if `K` is empty). Define the exchange graph directly: its vertices
-are reachable FZ seeds modulo simultaneous relabeling, and distinct classes are
-adjacent when representatives are related by one mutation. Prove that word
-evaluation identifies this graph with the simple graph quotient of the mutation
-tree by equality of evaluated seeds up to relabeling. Patterns are defined by words.
+For the partial mutations of §1.2, an admissible word includes the proof
+that the exchange element is a unit at each successive seed. Prove
+composition of paths, reversal, cancellation of adjacent equal directions and
+reindexing. The reachable-seed relation (`Seed.Reachable`) is the reflexive
+transitive closure of these one-step exchanges (`Seed.Step`), for every
+coefficient system, parameter and ambient algebra.
+The pattern of a seed is the family of its reachable seeds; its cluster
+variables (`Seed.clusterVariables`) are their mutable coordinates.
+A map intertwining admissible steps transports admissible paths; prove its
+identity and composition laws.
 
-For a subring `R⊆ℤ[P]`, `L_{R,t}` is the range of `t`'s chart on `L(R,K)`, `A_R` the
-`R`-subalgebra of `F` generated by all reachable `x_{i;t}` (the set `clusterVariables` in the finite
-geometric-type signatures), and `U_R=⨅_t L_{R,t}` over
-reachable `t`; `A,U,L_t` mean `R=ℤ[P]`. Cluster monomials are `∏_i x_{i;t}^{a_i}`,
-`a : K → ℕ`; their multiples by `P` form a separate set. Prove these objects unchanged
-under replacing `Σ₀` by a reachable or reindexed seed, and transported by `F ≃ₐ[ℤ[P]] F'`.
-For `R⊆R'` construct the inclusions of `L_{R,t}`, `A_R`, `U_R`. `A_R≤U_R` is a separate
-theorem for each `R`, in no definition and not deduced from the exchange coefficients
-lying in `R`.
-For §1.2's domain realizations, repeat these constructions for subrings
-`R⊆C`, writing `A_C`, `U_C` for the full coefficient ring and transporting
-them along ambient C-algebra isomorphisms.
+On a total class of seeds (§1.2), the mutations are involutions and every
+`w:List K` acts by `μ_[k₁,…,k_m]=μ_k_m∘⋯∘μ_k₁`. Prove concatenation and
+reversal laws, that a seed is reachable from a member exactly when it is the
+value of a word, and word transport for maps intertwining the individual
+mutations. Use this theorem for matrices, Y-seeds, exchange data, the admitted
+regular seeds, division-ring seeds and their comparisons.
+
+For these total patterns, reduced words form a mutation tree with one edge
+of each label at each vertex: two vertices for `|K|=1` and one for empty K.
+Define the exchange graph as the reachable seeds modulo simultaneous
+relabeling, with distinct classes adjacent when represented by one mutation.
+Prove that word evaluation realizes it as the simple graph quotient of
+the mutation tree. For partial patterns use the admissible paths and their
+endpoint quotient; no regularity of an unadmitted exchange is assumed.
+
+For a seed s of any coefficient system over `(R,u)` in B, let `J=I∖row(K)` (`Frozen`) and choose
+`S⊆J`. The frozen coordinates `z_j` are independent of the reachable seed;
+for `u≠1` they need not be central. Define the following R-subalgebras of B,
+using the reachable seeds t of s:
+
+- the chart ring `L_{S,t}` (`Seed.chartAlgebra`), generated by all coordinates
+  of t and the inverses of its mutable coordinates and of the `z_s`, `s∈S`;
+- the cluster algebra `A_S`, generated by the mutable
+  coordinates of all reachable seeds, all `z_j`, and `z_s⁻¹` for `s∈S`;
+- the upper cluster algebra `U_S=⨅_t L_{S,t}`;
+- the upper bound `UB_S(s)` (`Seed.upperBound`), the intersection of `L_{S,s}`
+  with the `L_{S,t}` of the one-step mutations t of s.
+
+Prove that `L_{S,t}` is the R-span of the normalized monomials `M_t(a)` with
+`a_j≥0` for `j∈J∖S`; for `S=J` it is the full chart range. In a commutative
+ambient at `u=1` with scalars C, let `C_S` be the C-subalgebra generated
+by all `z_j` and by `z_s⁻¹` for `s∈S`, and write
+`L_{C_S,t}=C_S[x_{k;t}^{±1}:k∈K]`,
+`A_{C_S}=C_S[x_{k;t}:k∈K, t reachable]` and `U_{C_S}=⨅_t L_{C_S,t}`
+for these algebras; `L_{C_S,t}` is the image of the corresponding mixed
+Laurent semiring of §0.3. For `I=K`, write `L_{C,t}`, `A_C`, `U_C`.
+All these algebras use the same reachable-seed relation.
+For `S⊆T⊆J`, prove that `A_{C_T}` localizes `A_{C_S}` at the unchanged
+frozen coordinates indexed by `T∖S`, with identity and composition laws.
+No corresponding localization or base-change identity for upper algebras is assumed.
+Prove re-rooting, reindexing and ambient-isomorphism laws. Laurent membership
+of every reachable mutable coordinate in every `L_{C_S,t}` implies `A_{C_S}≤U_{C_S}`; this is a
+theorem premise, not part of the definition. For `C=ℕ[P]`, it is the positive
+Laurent statement of Layer 5. For the admitted ring realizations it follows from L8 for ordinary seeds
+and P3 for polynomial seeds, without a positivity hypothesis.
+Do not identify the upper algebra over `ℤ[P]` with the additive group completion
+or scalar extension of the upper semialgebra over `ℕ[P]`.
+
+For a coefficient subsemiring `R⊆C`, use the same reachable seeds and
+take the generated R-subalgebras, with the same choice of frozen inverses.
+Prove compatibility with coefficient inclusions `R⊆R'`, re-rooting,
+reindexing and ambient C-algebra isomorphisms. When `I=K`, this gives
+`L_{R,t}`, `A_R` and `U_R`; in the integral universal pattern, `A,U,L_t`
+mean `R=ℤ[P]`. The inclusion `A_R≤U_R` is a separate theorem for each R.
+Cluster monomials are `∏_i x_{i;t}^{a_i}`, `a:K→ℕ`; their multiples by P
+form a separate set. Prove the same transport laws for these sets.
 
 **Checks.**
 
@@ -669,20 +1164,30 @@ bijections between `Y`-seeds `(y,B)` and extended matrices `B̃` with principal 
 For finite J this is §1.1's extended-matrix carrier. Prove that they
 intertwine `μ_k(y,B)` with `μ_kB̃` and give the exchange relation
 `x_kx'_k=∏_{i∈I}a_i^{[b_ik]_+}+∏_{i∈I}a_i^{[-b_ik]_+}`, `a_i=x_i` (`i∈K`), `a_i=z_i`
-(`i∈J`). Apply §1.3 to each `R_S` (§0.3). For `S⊆T⊆J`, prove that `A_{R_T}` is the
-localization of `A_{R_S}` at the `z_t`, `t∈T\S`; no such statement for `U` is
-asserted. Every comparison of `L_{R,t}`, `A_R`, `U_R` keeps `R` explicit.
+(`i∈J`) (FZ IV, Definition 2.12 and (2.13)–(2.15)).
+Apply §1.3 to each `R_S` (§0.3), including its frozen-localization
+construction. Every comparison of `L_{R,t}`, `A_R`, `U_R` keeps `R` explicit.
 
-For a domain C, a geometric seed over C in a field F is B̃ with a generating
-chart `L(C[Trop(J)],K)→F`, subject to
-`(2:C)≠0` or every mutable column of the full extended matrix being nonzero.
-Prove that this is exactly the nonvanishing condition for its binary exchanges
+Binary data (`ExchangeData.IsBinary`) have `H_k=1+T` in every direction. In the scalar system they are
+closed under mutation, and a binary seed is a seed of the scalar system with
+binary data. Construct the map from the normalized system of the one-element
+coefficient semifield to the scalar system;
+by §1.2 its seeds are the binary seeds, with the same exchange elements,
+mutation and algebras. For a commutative semiring C, take the regular binary
+seeds with frozen set J. The regrouping
+`L(C,K⊔J)≃L(C[Trop(J)],K)` identifies its chart and mutation with the
+normalized tropical-coefficient presentation above. Its exchange at k is
+defined when its two-monomial numerator is regular. Over a commutative ring C,
+all directions are regular exactly when
+`IsRegular (2:C)` holds or every mutable column of the full extended matrix is nonzero.
+Prove that this is exactly the regularity condition for its binary exchanges
 and is mutation invariant. Use distinct monomial support for nonzero columns;
 a zero column has exchange numerator 2. Construct the new generating chart
 and involutivity, using §1.2's coefficient realization with base ring `C_J`.
 Define `L_{C_S,t}`, `A_{C_S}`, `U_{C_S}` using §0.3; write `𝕜_S` when C is a
 field 𝕜. All fields of characteristic other than 2 are included, and fields
 of characteristic 2 are included when the extended columns are nonzero.
+For domains, recover the field-valued charts and the nonvanishing formulation.
 
 For finite K and arbitrary J, let J₀ be the finite union of initial frozen
 column supports. Prove that rows outside J₀ stay zero under every word.
@@ -703,76 +1208,92 @@ expansion maps. No unrestricted base-change/intersection interchange is used.
 *Needs:* §§0.1–0.3 for tropical coefficients and mixed Laurent rings; §§1.1–1.3 for matrix mutation,
 realizations and word transport.
 
-### 1.5 Column compatibility, polynomial frames and quantum seeds
+### 1.5 Polynomial exchange, quantum frames and ordinary quantum seeds
 
-Let B̃ be
-§1.1's extended matrix with positive symmetrizer d, and let Λ be an alternating
-integer form on `ℤ^I`. For `w:K→ℤ`, define column compatibility by
-`B̃ᵀΛ=(diag(w) 0)` in the mutable/frozen presentation, or entrywise by
-`Σ_i b_ik Λ_il=w_k` when `l=row k` and zero otherwise. The weights w may be
-zero or negative. Alternation of `B̃ᵀΛB̃=diag(w)B` gives `w_i b_ij=−w_j b_ji`.
-Matrix and form mutation are
-`B̃'=E_ε B̃ F_ε`, `Λ'=E_εᵀΛE_ε`. Prove independence from ε, preservation of
-alternation and column compatibility with the same w, and involutivity.
-For compatibility, use the weight identity together with the opposite signs of
-nonzero `b_ik,b_ki` to obtain `w_i[−ε b_ik]_+=w_k[ε b_ki]_+`. The positive
-symmetrizer d remains the matrix's symmetrizer throughout (BZ, Definition 3.1
-and Propositions 3.3, 3.4 and 3.6, for `w=d>0`).
+**P1 — polynomial mutation.** Polynomial mutation is the mutation of the
+scalar system of a commutative semiring R (§1.2). Its states are exchange
+data over R: an extended exchange matrix B̃, positive degrees r_k dividing
+their respective columns, and exchange polynomials
+`H_k(T)=Σ_{l=0}^{r_k}h_{k,l}T^l` with unit endpoints `h_{k,0},h_{k,r_k}`.
+Put `β_k=b_{•k}/r_k`. Mutation mutates B̃ by §1.1, reverses
+`H'_k(T)=T^{r_k}H_k(T⁻¹)`, and dilates `H'_j(T)=H_j(κ_{kj}T)` for `j≠k`,
+with §1.2's `κ_{kj}` and no normalization. A column is zero after a
+mutation exactly when that column was zero before it; reversal preserves
+H_k(1), and the polynomial of a zero column other than k is unchanged. The
+states with endpoint coefficients one, `h_{k,0}=h_{k,r_k}=1`, are closed
+under mutation; on them `κ=1` and `H'_j=H_j`. A polynomial seed over
+`(R,u)` in an R-algebra B is a seed of the scalar system, with the exchange
+element, mutation, admissibility, gauge and total classes of §1.2.
 
-For a commutative ring R, a unit `u∈Rˣ` and a division R-algebra D, define a
-based exchange frame by B̃, Λ, w, column
-compatibility and an injective `R`-algebra chart `T(R,u,Λ)→D`. Its normalized
-monomials M and coordinate units come from this chart. Prove extensionality,
-reindexing along equivalences commuting with row, and transport along injective
-ambient R-algebra maps. Use §0.4's supplied coefficient and lattice maps on the tori
-to transport a frame when a compatible faithful target realization is supplied.
-Chart generation of the entire ambient division ring is not required.
+Prove the endpoint reduction. Let an endpoint-one state have a frozen block
+`D_r=diag(r_k)` in added coordinates `t_k`, with form `Λ⊕0`. The `t_k` are
+central, so its seeds are seeds over `R[t_k^{±1}]` on the index set I, with
+exchange polynomials `t^{r_k[−γ_k]_+}H_k(t^{γ_k}T)`, where `γ_k` is the
+`t`-part of `β_k`. Prove that this pattern over `R[t_k^{±1}]` is gauge
+equivalent to the pattern of the scalar system with initial polynomials
+`H_k(t_kT)`. Thus leading coefficients `t_k^{r_k}` arise from
+endpoint-one states with central frozen coordinates.
 
-**P1 — polynomial mutation.** Add central scalar polynomials
-`H_k(T)=Σ_{l=0}^{r_k}h_{k,l}T^l∈R[T]`, monic with constant coefficient one,
-`r_k>0`, such that `r_k` divides every entry of column k. Put
-`β_k=b_{•k}/r_k`. Require `H_k(1)≠0` whenever column k is zero.
-Prove that a column is zero after any mutation if and only if the same
-column was zero before it; for these columns reversal preserves `H_k(1)`.
-Define mutation by the matrix and form mutations above,
-`H'_k(T)=T^{r_k}H_k(T⁻¹)`, `H'_j=H_j` for `j≠k`, and
+For the classical realization take §1.2's regular seeds: `u=1`, `Λ=0`,
+`w=0` and a generating regular chart of `L(R,I)`. A direction is mutable
+exactly when the numerator `E_k` of §1.2 is regular in `D_k`, and then
+`x'_k=E_k(x)/x_k`, with all other coordinates fixed. The selected
+column changes sign and H_k reverses, so the reverse numerator equals E_k
+in the common other-coordinate Laurent semiring. Reachability consists of
+finite paths of these regular exchanges. Over a commutative ring R the
+admitted seeds are the admissible regular seeds, with `IsRegular (H_k(1))`
+on zero columns and total mutation. For arbitrary commutative semirings
+retain the regularity condition on E_k.
+Coefficient maps act on H coefficientwise; transport finite exchange
+identities along paths whose target numerators are regular. Evaluation into
+another semiring is defined on each overlap when its denominators map to units.
+
+For the quantum realization, take R to be a commutative ring, `u∈Rˣ`,
+and a division R-algebra D. A based exchange frame, or polynomial frame, is an
+admissible polynomial seed over `(R,u)` in D: it consists of B̃, Λ, w with
+column compatibility, polynomials with `H_k(1)≠0` for zero columns, and a
+faithful chart `T(R,u,Λ)→D` presented by its normalized monomials M.
+Its mutation is that of §1.2:
 
 ```
 X'_k = Σ_{l=0}^{r_k} h_{k,l} M(−e_k + l[β_k]_+ + (r_k−l)[−β_k]_+),
 X'_a = X_a   if a ≠ row(k).
 ```
 
-Prove preservation of column divisibility and degrees, nonvanishing of the
-exchange sum, quasi-commutation for Λ', faithfulness of the new chart using
-§0.5's change-of-chart theorem, equality of the generated division subrings,
-and involutivity including coefficient reversal. Mutated-chart faithfulness
-is an output. Establish reindexing, ambient transport and whole-word laws.
-On the opposite algebra use `B̃↦−B̃`, `Λ↦−Λ` and `H_j↦H_j^rev` in every direction;
-prove preservation of w and commutation with mutation. Coefficient transport
-maps H coefficientwise and sends the scalar unit u to its image.
-For a nonzero column the exchange monomials are distinct; for a zero column
-the formula is `X'_k=H_k(1)X_k⁻¹`. These prove nonvanishing without a rank
-assumption. Coefficient changes yielding a new frame must retain this
-zero-column condition; injectivity of the scalar map is not otherwise needed
-for finite representatives.
+By §1.2 the frames form a total class, without a rank assumption. Prove
+equality of the generated division subrings and the whole-word laws.
+On the opposite algebra use `B̃↦−B̃`, `Λ↦−Λ` and
+`H_j↦H_j^rev` in every direction; prove preservation of w and compatibility
+with mutation. Coefficient transport maps H coefficientwise and sends u to
+its image.
 
-Define binary mutation by the degree-one instance `H_k=1+T`. Prove its displayed
-two-monomial formula and derive its changed-chart, involutivity and whole-word
-laws from P1. Construct comparison maps with the independently defined
-classical mutation formulas and the following ordinary quantum seed sector.
+For a commutative domain R, the regular polynomial seeds are polynomial
+frames at `u=1`, `Λ=0`, `w=0` in the field `T(L(R,I))`, by the same
+definition, with the same mutation and words. A faithful realization in a
+larger field is obtained by inclusion of this generated field; prove that
+its coordinates, mutations and §1.3 algebras are the images of those in the
+generated field. No positive compatible quantum form is involved.
+
+Degree one, `H_k=1+T`, gives binary mutation: the binary seeds of §1.4 are
+the polynomial seeds with these polynomials, with the same reachable charts,
+coefficient rings and frozen inverse choices. The normalized seeds of §1.2
+belong to another coefficient system, with the same exchange and chart
+construction, and are gauge equivalent to polynomial seeds. In the quantum
+realization, degree one gives the ordinary seed sector below.
 
 An ordinary compatible pair has `w=d`; this is the positive compatibility
 condition `B̃ᵀΛ=(D_d 0)`. Derive rational column independence from it, rather
 than adding independence as a new quantum seed hypothesis. More generally,
 a positive diagonal in this equation symmetrizes the mutable block and forces
-full column rank. An ordinary quantum seed is such a pair with a faithful
-`T(Z_v,v,Λ)→D` chart. It is the `R=Z_v`, `u=v`, `w=d`, `H_k=1+T` sector of P1,
-so its mutation satisfies
+full column rank. An ordinary quantum seed is a binary
+seed of the scalar system over `(Z_v,v)` in a division ring D with `w=d`; its
+positive weights make it admissible. It is the `R=Z_v`, `u=v`, `w=d`,
+`H_k=1+T` sector of P1, so its mutation satisfies
 `X'_k=M(-e_k+[b_{•k}]_+)+M(-e_k+[-b_{•k}]_+)` with no separate chart construction.
 
-Construct the bijection between faithful quantum charts and maps
-`M:ℤ^I→D` with `M(0)=1`, `M(a)M(b)=v^{Λ(a,b)}M(a+b)` and
-`Z_v`-independent values. For a fixed initial based torus and its fraction
+By §0.4 its chart is a family `M:ℤ^I→D` with `M(0)=1`,
+`M(a)M(b)=v^{Λ(a,b)}M(a+b)` and `Z_v`-independent values, equivalently an
+injective `T(Z_v,v,Λ)→D`. For a fixed initial based torus and its fraction
 division ring, BZ toric frames are the generating charts whose forms are
 obtained from the initial form by an integral lattice isomorphism: prove the
 equivalence using the induced fraction-ring automorphism (BZ Definition 4.3).
@@ -798,20 +1319,32 @@ uses the zero form directly.
 - For `B=0` of rank one, the principal column `(0,1)ᵀ` and `Λ=((0,−1),(1,0))` give compatibility weight one.
 - For `u=1` and `Λ=0`, any compatible weight is zero, including for a rank-deficient matrix.
 - A zero column with `H(T)=1−2T+T²` fails the nonvanishing condition even in characteristic zero.
+- Over `ℤ/6ℤ`, a nonzero polynomial exchange column is regular by its endpoint coefficient;
+  a zero column with `H=1+T` is inadmissible, while `H=1+3T+T²` is admissible since `H(1)=5`.
+- For `B=((0,1),(−1,0))` over ℚ at `u=1` with `H_1=1+T` and `H_2=1+2T`, mutation at 1
+  leaves `H_2`, and the following mutation at 2 replaces `H_1` by `1+2T`.
+- For `B=((0,1),(−1,0))` over ℤ with `H_1=H_2=1+T`, the scalar system gives the five
+  cluster variables `x₁,x₂,(1+x₂)/x₁,(1+x₁+x₂)/(x₁x₂),(1+x₁)/x₂`.
+- Over ℚ with a zero matrix in rank one and `H=1+T`, the regular seed in `ℚ(x)` and the
+  polynomial frame at `u=1`, `Λ=0` in `ℚ(x)` are the same seed, with `x'=2/x`.
 
-*Needs:* §§0.4–0.5 for quantum charts and chart replacement; §§1.1–1.4 for compatible matrix and
-classical mutation conventions.
+*Needs:* §§0.1–0.5 for regular and quantum charts and chart replacement;
+§§1.1–1.4 for matrices, forms, seeds, coefficient systems and geometric comparisons.
 
 ### 1.6 Algebras and realization interfaces
 
-For a polynomial frame over R,
-define `A_{R,u,S}` as the R-subalgebra generated by all reachable mutable
-coordinates, all initial frozen coordinates and the inverses of those indexed
-by `S⊆J`. Define `T_t` as the range of the full based-torus chart, and
-`U_{R,u}=⋂_t T_t`. Thus every `T_t` inverts all frozen coordinates, while A
-inverts only S. For ordinary quantum seeds with `S=J`, these are the algebras
-of BZ, Definition 4.12 and (5.2)–(5.3). Give re-rooting, reindexing and ambient
-transport laws and the degree-one comparisons. No Laurent property is part of these definitions.
+For a polynomial seed over `(R,u)` in B, §1.3 gives the chart rings
+`L_{S,t}` and the algebras `A_{R,u,S}`, `U_{R,u,S}` and `UB_{R,u,S}(s)`,
+with only S inverted among the frozen coordinates. Let `T_t=L_{J,t}` be the
+full based-torus chart range and write `U_{R,u}=U_{R,u,J}=⋂_t T_t`, in which
+every frozen coordinate is inverted. At `u=1` in a commutative ambient these
+are the classical `A_{R,S}` and `U_{R,S}`, by the same definition and the
+same mutation paths. For ordinary quantum seeds with `S=J`, these are BZ's
+algebras (Definition 4.12 and (5.2)–(5.3)).
+
+Prove re-rooting, reindexing and ambient transport. In degree one these are
+the algebras of binary and ordinary seeds, with the same reachable chart sets. Laurent membership is a theorem about
+these algebras, not part of their definitions.
 
 For an ordinary quantum seed in D, write `A_{v,S}` and `U_v` for these
 algebras, with reachable variables `X_{k;t}` and frozen `X_j=M(e_j)`.
@@ -820,28 +1353,34 @@ of `X^a` under `t`'s chart, with `a_k≥0` (`k∈K`), `a_j≥0` (`j∈J∖S`). P
 invariant under re-rooting and reindexing, and transport them along `Z_v`-algebra
 isomorphisms `D≃D'`.
 
-A polynomial seed realization in an R-algebra A is an injective R-algebra map
-to A from the quantum polynomial subalgebra of `T(R,u,Λ)` (§0.4), equivalently
-`Y : I → A` with `Y_iY_j=u^{2Λ_ij}Y_jY_i` and R-independent normalized monomials
-`Y^a`, `a∈ℕ^I`. Prove generator extensionality and transport along injective maps
-`A→A'`. For injective `ι : A → D` into a division ring, construct
-the induced quantum chart; a mutation at `k` in `A` is `Y'_k∈A` with `ι(Y'_k)=X'_k`,
-which the mutated seed in `D` does not provide. If `ι(A)` contains every `X_{k;t}` of
-the induced seed (all reachable `t`), construct the injective `A_{R,u,∅}→A` inverting
-`ι`; membership of the one-step variables `X'_k` alone is not assumed to imply this.
+For a quantum polynomial frame, a polynomial coordinate realization in an
+R-algebra A is an injective map from the quantum polynomial subalgebra of
+`T(R,u,Λ)` into A. Equivalently its coordinates satisfy
+`Y_iY_j=u^{2Λ_ij}Y_jY_i` and have R-independent normalized monomials.
+Prove generator extensionality and transport along injective maps `A→A'`.
+An embedding `A→D` into a division ring induces the corresponding quantum chart.
+
+For either classical or quantum P1, let B be its specified ambient algebra
+and `ι:A→B` an injective R-algebra map containing the initial coordinates.
+A realization of a mutated coordinate in A is an element whose image is
+that coordinate of the constructed seed in B. If every reachable mutable
+coordinate and every selected frozen inverse lies in the image of ι,
+construct the injective realization of the generated cluster algebra in A,
+with generator, word and composition laws. Membership of only the initial
+one-step replacements is insufficient for this all-word conclusion.
 
 **Checks.**
 
-- With no mutable labels and one frozen label, `A_{v,∅}=Z_v[X]` while `A_{v,J}=U_v=Z_v[X^{±1}]`.
+- With no mutable labels and one frozen label, `A_{v,∅}=U_{Z_v,v,∅}=Z_v[X]` while `A_{v,J}=U_v=Z_v[X^{±1}]`.
 - For a rank-two torus with `Λ(e₁,e₂)=1`, a frozen coordinate can quasi-commute with a mutable one with factor `v²`.
 - Sending a polynomial generator to `t` in `Z_v[t]` gives a faithful realization; sending it to `1` loses monomial independence.
 
-*Needs:* §0.4 for the quantum polynomial subalgebra and induced charts; §§1.3 and 1.5 for word
-transport and polynomial mutation.
+*Needs:* §0.4 for quantum polynomial subalgebras; §1.3 for reachable-state
+algebras and frozen inverse choices; §1.5 for polynomial mutation and realization comparisons.
 
 ### Examples
 
-Carry the principal rank-one column `(0,1)ᵀ` through the classical and quantum seed definitions and both mutations. Compare the respective chart maps at unit parameter.
+Carry the principal rank-one column `(0,1)ᵀ` through the seed definition and its mutation for binary data, at `u=1`, `Λ=0` and at `u=v`, `Λ=((0,−1),(1,0))`. Compare the two chart maps under `v↦1`.
 
 ### Dependencies
 
@@ -849,20 +1388,24 @@ Layer 0 supplies coefficient rings, charts, the torus and exchange normal forms.
 
 ## Layer 2: upper bounds and the Laurent phenomenon
 
-There are two public Laurent statements, with one proof chain. For a compatible quantum
+There are two public Laurent statements, with one proof chain. For an ordinary quantum
 seed, every reachable variable lies in every integral quantum chart `T_t`.
-For a classical seed over an arbitrary coefficient semifield P, every reachable
-variable lies in every `L_{ℤ[P],t}`, with no full-rank or coprimality premise on
-that seed. Both use §1.5's polynomial construction and the common theorem below: ordinary quantum
-seeds have `R=Z_v`, `u=v`, `w=d`, while full-rank classical seeds have `u=1`,
-`Λ=0`, `w=0`. The classical statement for arbitrary P uses a principal lift and
+For a regular normalized seed over `ℤ[P]`, with P an arbitrary
+coefficient semifield, every reachable variable lies in every `L_{ℤ[P],t}`,
+with no full-rank or coprimality premise on that seed. Both follow from the
+common theorem below for polynomial frames, the admissible seeds of the
+scalar system in a division ring (§1.5): ordinary quantum seeds are its
+instances with `R=Z_v`, `u=v`, `w=d` and binary data, and admitted domain
+realizations by binary seeds are its instances with `u=1`, `Λ=0`, `w=0`.
+Seeds of every other coefficient system reach it by §1.2's gauge
+equivalence. The classical statement for arbitrary P uses a principal lift and
 normalized coefficient specialization. The `v=1` theorem separately compares
 the quantum and classical representatives. Neither statement uses positivity
 of Laurent coefficients or sign-coherence.
 
 | Milestone | Output | Uses |
 |---|---|---|
-| P1 | Polynomial mutation and faithful changed charts | §§0.4–0.5, §1.1, §1.5 |
+| P1 | Coefficient systems and polynomial mutation; seed mutation with faithful changed charts and total classes | §§0.4–0.5, §§1.1–1.2, §1.5 |
 | Q1 | One-exchange normal forms, central products and divisibility over R | §0.5, P1 |
 | P2 / Q2 | Local intersections under divisibility; independent-column and classical ideal criteria | Q1, §§0.6–0.7 |
 | Q3 | Upper-bound invariance under local divisibility; rank-free Laurent expansions by a central lift | Q2, shared intersection/word API |
@@ -875,19 +1418,24 @@ of Laurent coefficients or sign-coherence.
 
 ### 2.1 Polynomial upper bounds and Laurent expansions
 
-Use a polynomial frame from P1 over a commutative ring R, with arbitrary unit u
-and form weights w. Faithfulness makes R a domain. Q1 and interacting Q2
+Use the total class of polynomial frames of §1.5: the admissible seeds of the
+scalar system of a commutative ring R in a division R-algebra D, with
+arbitrary unit u and weights w. Faithfulness makes R a domain, and every
+mutation word is defined on a frame (§§1.2–1.3). Write `μ_k(s)` for its
+mutations, `M_s` for its normalized monomials and `T_s=L_{J,s}` for its full
+chart range, the R-span of the `M_s(a)` (§1.3). Q1 and interacting Q2
 use only this data; commuting Q2 uses the local divisibility condition below,
 for which independence of the two columns is sufficient.
 No scalar factoriality or infinite-order condition on u is required.
 Write `α_k=−e_k+[−b_{•k}]_+`. Define the integer
 `ν_k=Λ(β_k,e_k)` and prove `r_kν_k=w_k`, hence `r_k∣w_k`. No nonvanishing
 or positivity of ν or w is required. For an ordinary quantum seed this is
-`ν_k=d_k/r_k`; for the zero-form classical frame it is zero.
+`ν_k=d_k/r_k`; for `Λ=0` it is zero.
 
-**Q1 — one exchange.** Let C be the image of the torus on the coordinates other
-than k. Construct §0.5's exchange data with `x=X_k`, `y=X'_k`, `E=X'_kX_k∈C`.
-Prove
+**Q1 — one exchange.** Let C be the R-span of the `M_s(a)` with `a_k=0`, the
+chart range of the coordinates other than k. The mutated chart of §1.2 is
+§0.5's exchange with `x=X_k`, `y=X'_k`, `E=X'_kX_k∈C` and
+`λ(a)=Λ'(e_k,a)`. Prove
 
 ```
 X'_k = H_k(u^{ν_k} M(β_k)) M(α_k),
@@ -926,8 +1474,8 @@ follows. The divided columns β_i,β_j
 are independent and belong to the pair lattice of exponents vanishing at i,j;
 they pair trivially with this lattice. Use the central sublattice
 `N=ℤβ_i⊕ℤβ_j`, so `R[N]≃R[S^{±1},T^{±1}]`. Represent each required
-`P_{i,n}`, `P_{j,m}` as a scalar polynomial with constant coefficient one
-and unit leading coefficient on its respective cyclic direction.
+`P_{i,n}`, `P_{j,m}` as a scalar polynomial with unit constant and leading
+coefficients on its respective cyclic direction.
 Apply §0.6's separated-factor ideal intersection, then simultaneous divisibility
 in the pair torus using its free, hence flat, `R[N]`-module structure. Reconstruct
 the four-generator intersection using Q1. This uses a specified central
@@ -939,12 +1487,15 @@ If `b_ij>0`, put `x=X_i`, `x*=X'_i`, `z=X_j`, `z*=X'_j`, `z**=X''_j`,
 `N=|b_ij|`. Let n_l be the i-exponent of the lth summand of `z* · z`;
 the corresponding exponent in `z** · z` is `N−n_l`. Express these summands as
 `x^{n_l}c_l` and `(x*)^{N−n_l}d_l` with coefficients on the right. The unique
-term with `n_l=0` has monomial-unit coefficient n₀; its mutated term is
+term with `n_l=0` has unit coefficient n₀; its mutated term is
 `(x*)^Nm₀`. Put `φ=m₀n₀⁻¹∈C` and let g_l be the z-constant coefficient of
 `(x*)^{n_l}x^{n_l}`. Prove all of §0.7's finite premises, including
 `(x*)^{n_l}x^{n_l}−g_l∈zC[z]` and
 `d_l=g_l x^{−n_l}φx^{n_l}c_l`, from matrix mutation, column compatibility
-and the actual coefficients of H. Construct them at both s and μ_i(s), then
+and the actual coefficients of H. Here `g_l` is `h_{i,r_i}^{n_l}` times a
+monomial unit, and the identity for `d_l` is the dilation law
+`H'_j(T)=H_j(κ_{ij}T)` of the scalar system; with endpoint coefficients one
+it is equality of the coefficients. Construct them at both s and μ_i(s), then
 apply finite replacement and §0.5's unit-constant-term patching. Negative
 interaction is transported through P1's opposite algebra and coefficient
 reversal. The binary replacement is the degree-one instance. No local
@@ -960,16 +1511,20 @@ or ring hypothesis.
 For subrings T_s of a ring D and generators `g_{s,a}` indexed by an arbitrary
 set I, prove that invariance of UB, `g_{s,a}∈T_s` and
 `g_{μ_k(s),a}∈T_s` imply `g_{μ_ω(s),a}∈T_{μ_p(s)}` for all words p,ω and
-all a. Apply this theorem to P1 whenever Q2's local divisibility condition holds
-for every commuting pair at every reachable seed. Q2 gives the three-chart
-equalities, and the finite polynomial formula gives one-step membership.
+all a. Apply this theorem to the total class of polynomial frames, with its
+mutations `μ_k`, `L_s=T_s` and `g_{s,a}=X_{a;s}`, whenever Q2's local
+divisibility condition holds for every commuting pair at every reachable
+seed. Q2 gives the three-chart equalities, and the finite polynomial formula
+gives one-step membership. Here `UB(s)` is §1.3's `UB_J(s)`, and
+`⋀_ω T_{μ_ω(s)}=U_{R,u}` because the reachable seeds are the values of words.
 Full column rank supplies these hypotheses by Q2 and §1.1's rank invariance.
-In finite classical geometric type over ℤ with all frozen coordinates inverted,
-`laurentSubalgebra` is the ring generated by the coordinates and their inverses.
-The Lean `upperBound` instantiates the intersection above for Laurent subalgebras.
-The signature `upperBound_seedMutationWord` states
-invariance along every word under the full-column-rank hypothesis
-(BFZ III, Corollary 1.9). The resulting common Laurent theorem is
+The signature `Seed.upperBound_eq_of_reachable` states invariance of
+`Seed.upperBound` at every reachable seed under the full-column-rank
+hypothesis. For a binary seed over ℤ at `u=1` in a field, with all frozen
+coordinates inverted, `Seed.chartAlgebra` is the Laurent ring of the chart
+and `Seed.upperBound` is BFZ's upper bound (BFZ III, Definition 1.1).
+In this case the invariance statement gives BFZ III, Corollary 1.9.
+The resulting common Laurent theorem is
 
 ```
 X_{a;μ_ω(s)} ∈ T_{μ_p(s)}   for all p, ω ∈ List(K) and a ∈ I.
@@ -982,26 +1537,32 @@ rings invert all frozen coordinates; frozen coordinates and their inverses are
 unchanged along mutation words. Use the same Q1–Q3 for all polynomial
 degrees, including the binary, ordinary quantum and unit-parameter classical
 instances; a binary global theorem is not an input to the polynomial proof.
+By §1.2's gauge equivalence the conclusions hold for the admissible seeds of
+every coefficient system over R in D, with the same chart rings over R:
+Q1–Q3 are proved once, for the scalar system.
 
 **Rank-free Laurent corollary.** For every P1 frame, add K central frozen
 coordinates t with
 `B̃_aug=(B̃;D_r)`, `Λ_aug=Λ⊕0`, `D_r=diag(r_k)`, and the same w, degrees
 and polynomials. Prove compatibility, column divisibility and full column
-rank; realize this lifted frame in the canonical fraction division ring of
-its torus (§0.4). After every mutation, the added directions remain central,
+rank; the lifted data have no zero column, so with the canonical chart in
+the fraction division ring of their torus (§0.4) they form a frame.
+After every mutation, the added directions remain central,
 the original blocks are the original mutated matrix and form, and specialization
 `t_k↦1` on finite Laurent representatives recovers the original coordinate word.
 Prove the last assertion inductively from the ordered exchange identities:
-the already identified current coordinate is nonzero by P1, so it can be
-cancelled in the original division ring. No map of ambient fraction rings is used.
-Thus every P1 frame has unique finite Laurent expansions and `A_{R,u,S}⊆U_{R,u}`.
+the already identified current coordinate is a unit of the original division
+ring by §1.2's total class, so it can be cancelled there. No map of ambient
+fraction rings is used.
+Thus every P1 frame has unique finite Laurent expansions and `A_{R,u,S}⊆U_{R,u}`
+(`Seed.exists_laurentExpansion`).
 This lift does not assert `U=UB` for a rank-deficient frame. More generally,
 the abstract upper-bound theorem applies whenever the required simultaneous
 divisibility for commuting directions is proved at every reachable seed.
 
-**Classical ideal criterion.** For an admitted normalized classical pattern over
-a domain R, assume that both exchange coefficient factors are units of R.
-Put `D_ij=R[x_l^{±1}:l≠i,j]` and, for a commuting pair `b_ij=0`, let E_i,E_j
+**Classical ideal criterion.** Take an admitted domain realization by
+normalized seeds over R (§1.2). Both of its exchange coefficients,
+`φ(y_k)φ(y_k⊕1)⁻¹` and `φ(y_k⊕1)⁻¹`, are units of R. Put `D_ij=R[x_l^{±1}:l≠i,j]` and, for a commuting pair `b_ij=0`, let E_i,E_j
 be its exchange polynomials in D_ij. Prove the classical local intersections by
 instantiating §§0.5–0.7: the condition `(E_i)∩(E_j)=(E_i E_j)` supplies all
 power-divisibility conditions by §0.6, while interacting directions use finite
@@ -1015,8 +1576,8 @@ where relative primality implies the ideal condition. This includes factorial
 coefficient rings and `ℤ[P]`: reduce the finite coefficient data and divisibility
 witnesses to a finitely generated torsion-free subgroup and use freeness of the
 larger group ring over its subgroup ring. Prove polynomial-to-Laurent descent of
-these conditions. For geometric patterns with active frozen variables inverted,
-identify the full-column-rank corollary with the `u=1`, `Λ=0`, `w=0` instance of
+these conditions. For binary seeds with active frozen variables inverted,
+the full-column-rank corollary is the `u=1`, `Λ=0`, `w=0` instance of
 Q1–Q3. Sources: BFZ III, §1 and its upper-bound proofs.
 
 For the rank-two comparison with `B=((0,3),(−3,0))` and `d=(1,1)`, distinguish
@@ -1044,8 +1605,8 @@ For `Λ=((0,λ),(−λ,0))`, one has `BᵀΛ=3λ·Id`, so the ordinary condition
 - For `B=0` in rank two over ℤ and `H_1=H_2=1+T`, the element `2/(xy)`
   belongs to the initial upper bound and fails membership in
   `ℤ[(2/x)^{±1},(2/y)^{±1}]`.
-- Over `𝔽₂`, the same zero-column data fail P1 because `H_k(1)=0`.
-  A principal frozen block makes both exchanges nonzero.
+- Over `𝔽₂`, the same zero-column seed is not admissible because `H_k(1)=0`.
+  A principal frozen block makes both exchange elements nonzero.
 - For `H=1−2T+T²`, `H(1)=0` excludes a zero column even in characteristic zero.
 - The columns of `((0,1,−1),(−1,0,1),(1,−1,0))` are pairwise independent.
   After mutation at 1, the commuting columns 2 and 3 are opposite.
@@ -1070,22 +1631,24 @@ and 1.3–1.6 for rank, mutation words and chart rings.
 
 ### 2.2 Principal coefficients and quantum-to-classical comparison
 
-**L5 — classical Laurentness with principal coefficients.** For any admitted finite
-classical geometric seed, construct a faithful frame over its original scalar
-ring C with `u=1`, `Λ=0`, `w=0` and its original positive matrix symmetrizer.
-Use an injective coefficient embedding `C→𝕜` and initial coordinates
-algebraically independent over the field 𝕜 to prove faithfulness of the chart.
-The embeddings `C→𝕜→F` agree with the given scalar map. No positive compatible
-form is needed. Prove equality of every coordinate word and fully inverted
-chart ring with §1.4's `L_{C_J,t}`, using §1.3's word transport. The rank-free
-Q3 corollary gives Laurentness; full column rank additionally gives `U=UB`.
-Identify `T(C,1,Λ)` with `C[ℤ^I]` basiswise. In that fixed Laurent ring, prove
-that the unique representatives depend only on the coefficients, matrix,
-exchange polynomials and initial values; coordinate words and chart rings
-are also independent of the chosen unit-parameter form realization.
+**L5 — classical Laurentness with principal coefficients.** An admitted domain
+realization by binary seeds over C is a seed in the field `T(L(C,I))` with
+`u=1`, `Λ=0`, `w=0` and its original positive matrix symmetrizer. By §§1.4
+and 1.5 it is a polynomial frame, with the same coordinate
+words and with `T_t` equal to §1.4's `L_{C_J,t}`; no second chart
+construction, comparison or positive compatible form is involved. The
+rank-free Q3 corollary gives Laurentness; full column rank additionally gives
+`U=UB`. Its finite representatives are elements of `L(C,I)` through §0.4's
+identification of Laurent charts with based charts. Prove that they depend
+only on the coefficients, matrix, exchange polynomials and initial values:
+at `u=1` the coordinate words and chart rings of a seed are independent of
+the form it carries. For a faithful chart in a larger field use §1.5's
+inclusion of the generated field. Commutative rings that are not domains are
+reached by the specializations of L8 and P3.
 
 For any exchange matrix B₀ on K, its principal extension `(B₀;Id)` (`principalExtension`) has
-independent columns. Apply common Q3 to the zero-form frame over ℤ. Construct
+independent columns. Apply common Q3 to the regular binary seed over ℤ with
+this extended matrix. Construct
 the regrouping `L(R,K⊔J)≃ₐ[R]L(L(R,J),K)` and obtain the unique expansion
 `X_{j;t}(x,u)∈ℤ[u_i^{±1}][x_i^{±1}]`. Prove that §1.4's transport identifies
 this geometric pattern with the normalized pattern over `Trop(K)` with initial
@@ -1098,17 +1661,18 @@ property of F-polynomials is used here.
 integral alternating form Λ, construct `sp:T(Z_v,v,Λ)→ℤ[L]` by coefficient
 change `v↦1` and the basis-preserving identification `T(ℤ,1,Λ)≃ℤ[L]`.
 Prove `sp(cX^a)=c(1)X^a`, surjectivity and `ker sp=(v−1)T(Z_v,v,Λ)`.
-For an ordinary quantum seed and an independently defined classical geometric
-pattern with the same initial matrix, let `ε:ℤ[ℤ^I]→F` evaluate the initial
-classical coordinates in a field F. If exchanged classical coordinates remain
-nonzero along all mutation words, prove `ε(sp(f_{a,ω}))=x_{a;ω}` for every
-word ω and coordinate a, where f is the unique integral quantum Laurent
-representative supplied by Q3. Derive this nonvanishing from algebraic
-independence of the initial classical coordinates. The comparison follows
+For an ordinary quantum seed s, let s₁ be a binary seed over
+`(ℤ,1)` in a field F with the same initial matrix, and let `ε:ℤ[ℤ^I]→F` be
+its chart map. The positive weights of s exclude zero columns, so s₁ is
+admissible and all its mutation words are defined (§1.2). Prove
+`ε(sp(f_{a,ω}))=x_{a;ω}` for every word ω and coordinate a, where f is the
+unique integral quantum Laurent representative supplied by Q3 and `x_{a;ω}`
+is the coordinate of `μ_ω(s₁)`; the induction cancels the current
+coordinate, a unit of F. The comparison follows
 mutation words and uses finite Laurent representatives, without extending sp
 to the ambient division ring or taking specialization of chart intersections.
 
-Compare §1.5's principal quantum pair with the zero-form principal pattern
+Compare §1.5's principal quantum pair with the regular principal seed
 above, identifying its specialized representative with the already constructed
 classical one. For `S⊆J`, restrict the comparison to a surjective ring map
 `A_{v,S}→A_{R_S}` carrying each reachable variable and chosen frozen inverse
@@ -1124,8 +1688,8 @@ independence of the presentation, `ord_f(gh)=ord_f g+ord_f h`, `ord_f(g⁻¹)=-o
 `ord_f=lo_f` on `L(R,ι)`. For nonzero `A,B∈Qsf(ι)`, in the same field by §0.2, prove
 `ord_f(A+B)=min(ord_f A,ord_f B)`.
 
-For every integral geometric pattern in `F` (§1.4, coefficient group `Trop(J)` over `ℤ`), identify `F` with
-`FractionRing (MvPolynomial (K⊔J) ℤ)` by the isomorphism of §0.2 (with L5's regrouping)
+For every regular binary seed over `ℤ` in `F` (§1.4, coefficient group `Trop(J)`), identify `F` with
+`FractionRing (MvPolynomial (K⊔J) ℤ)` by its generating chart (§0.2, with L5's regrouping),
 sending the variables to the initial `x_i` and `z_j`, and represent each `x_{j;t}` by the
 element of `Qsf(K⊔J)` obtained by applying the exchange formula along its word, and prove
 `ord_f(x_{j;t})=0` for every `f∈J`, reachable `t` and `j∈K`, without assuming Laurentness.
@@ -1157,7 +1721,7 @@ the `k`th column of the mutable block `B_t`. Prove `G_tB_t=B₀C_t`, that `X_{j;
 homogeneous of degree the `j`th column `g_{j;t}` of `G_t` (its `g`-vector), and
 `X_{j;t}(x,u)=x^{g_{j;t}}F_{j;t}(û)` with `û_j=u_j∏_i x_i^{(B₀)_ij}`. These grading
 results consume L5–L6a and are not inputs to the `X`-form of L7b's separation theorem or
-to L8.
+to L8 (FZ IV, Propositions 3.6, 5.1, 6.1 and 6.6, and Corollary 6.3).
 
 **Checks.**
 
@@ -1170,26 +1734,40 @@ for principal seeds and word transport; §2.1 (Q3) for integral representatives.
 
 ### 2.3 Separation formulas and arbitrary coefficients
 
-**L7a — domains of evaluation.** For a coefficient semifield `P` and any `K`, construct
-`Pos(P,K)`, the ratios `a/b` of nonzero `a,b∈ℕ[P][x_i:i∈K]` in `FractionRing L(ℤ[P],K)`,
-as a coefficient semifield with `⊕=+`; prove closure and nonvanishing. It contains the
-images of `P` and all monomials `x^a`, `a:K→₀ℤ`; transport it along Laurent charts into
-`F`. For a field `F` and a coefficient semifield `𝒮⊆Fˣ` with `⊕=+`, define
-subtraction-free evaluation of `Qsf(ι)` at `a:ι→𝒮` followed by inclusion into `F`,
-distinct from semifield evaluation into `P`. For `y:K→P` construct the group homomorphism
-`Multiplicative (K→₀ℤ)→P`, `u_i↦y_i`, and the ring map `ℤ[u_i^{±1}]→ℤ[P]`; neither is a
-semifield map from `Trop(K)`.
+**L7a — evaluation under mutation.** Apply §0.2's universal evaluation
+`Pos₀(P,K)→Q₀` to §1.2's positive seed pattern. Prove that its restriction
+to each one-exchange algebra is §0.5's evaluation. It therefore intertwines
+chart mutation with mutation of `Q`-valued coordinates, for one step and
+for every finite word.
 
-Prove *positive_rational_laurent_specialization*: if `φ∈Qsf(ι)` lies in `L(ℤ,ι)`, then
-for every `a:ι→𝒮` the Laurent evaluation of `φ` at `a` equals its subtraction-free
-evaluation and is nonzero. Injectivity of the substitution and a ring map from the
-rational-function field are not assumed. The case `𝒮=Pos(P,K)`, `a_i=y_i` gives
-substitution `u_i↦y_i`; L6b's comparison is the case `𝒮=Qsf(K)`.
+Use the positive regular charts first, and compare them with the universal
+integral charts through the embedding in the fraction field. Write
+`χ_s` for its inclusion of `Pos(P,K)` into `Fˣ`. For reachable seeds `s,t`, prove
+
+```
+χ_s(Pos(P,K)) = χ_t(Pos(P,K)).
+```
+
+Construct the induced coefficient-semifield equivalences and prove their
+composition laws and compatibility with evaluation and §1.2's mutation on
+`Q`-valued points. The exchange and inverse exchange give the two inclusions.
+
+For a field `F` and an addition-closed subgroup `𝒮≤Fˣ`, specialize this evaluation
+to `Qsf(ι)` at `a:ι→𝒮`. For `y:K→P`, also construct the group homomorphism
+`Multiplicative (K→₀ℤ)→P`, `u_i↦y_i`, and the ring map `ℤ[u_i^{±1}]→ℤ[P]`;
+these need not preserve tropical addition.
+
+Prove *positive_rational_laurent_specialization*: for a commutative ring `R`,
+an addition-closed `G≤Rˣ`, and `f∈Qsf(ι)∩L(ℤ,ι)`, Laurent evaluation at
+`a:ι→G` equals subtraction-free evaluation followed by inclusion in `R`.
+Its value is a unit, and is nonzero if `R` is nontrivial. No injectivity of
+substitution or map from the rational-function field is assumed. The case
+`𝒮=Pos(P,K)`, `a_i=y_i` gives substitution `u_i↦y_i`; L6b uses `𝒮=Qsf(K)`.
 
 **L7b — the normalization identity.** Fix `B₀` on `K`; let `Y_{j;t}∈Qsf(K)` be the
 `Y`-pattern with initial coefficients `u`. Prove that for every `P` and `y:K→P`,
-`Y_{j;t}|_P(y)` is the `Y`-pattern of `(y,B₀)` in `P`. For a seed pattern in `F` with
-initial `(x,y,B₀)` put `ŷ_{j;t}=y_{j;t}∏_i x_{i;t}^{b_{ij;t}}`; prove, from seed
+`Y_{j;t}|_P(y)` is the `Y`-pattern of `(y,B₀)` in `P`. For a regular normalized seed
+in `F` over `ℤ[P]` with initial `(x,y,B₀)` put `ŷ_{j;t}=y_{j;t}∏_i x_{i;t}^{b_{ij;t}}`; prove, from seed
 identities only, that `ŷ` obeys §1.2's `Y`-mutation with `⊕` replaced by `+`, and that
 `ŷ_{j;t}` is the evaluation of `Y_{j;t}` at `(ŷ_{i;0})_i` in `Pos(P,K)`.
 
@@ -1202,7 +1780,7 @@ X_{k;t'} X_{k;t} = ((1 + Y_{k;t}(û)) / u^{h_{k;t}}) ∏_i X_{i;t}^{[−b_{ik;t}
 F_{k;t'} F_{k;t} = ((1 + Y_{k;t}(u)) / u^{h_{k;t}}) ∏_i F_{i;t}^{[−b_{ik;t}]_+}.
 ```
 
-For a seed pattern in `F` over any `P` with initial `(x,y,B₀)`, let `N_{j;t}∈F` be the
+For such a seed in `F` over any `P` with initial `(x,y,B₀)`, let `N_{j;t}∈F` be the
 Laurent evaluation of `X_{j;t}` at `x_i↦x_i`, `u_i↦y_i`, and `D_{j;t}=F_{j;t}|_P(y)∈P`.
 Prove the separation theorem `x_{j;t}=N_{j;t}/D_{j;t}` for every reachable `t` and `j∈K`,
 without a Laurent theorem for this pattern, positivity of `F_{j;t}` or signs of
@@ -1213,11 +1791,15 @@ x_{j;t} = x^{g_{j;t}} · F_{j;t}|_F(ŷ₁, …, ŷₙ) / F_{j;t}|_P(y₁, …, y
 ```
 
 The finite geometric-type signature `exists_laurentExpansion` gives the
-expansion with nonnegative frozen exponents (L8 and L6a).
+expansion with nonnegative frozen exponents (L8 and L6a), for a binary seed
+over ℤ with a faithful chart in a field; it reduces to the regular seed in
+the generated field by §1.5.
 
-**L8 — Laurent expansions over coefficient semifields.** For every coefficient semifield `P` and seed `s` in
-`F` over `ℤ[P]`, prove `x_{j;t}∈L_{ℤ[P],s}` for every reachable `t` and `j∈K`, from L5
-and L7b. The expansion is §0.3's `laurentExpansion`; prove that `laurentExpansion_s(x_{j;t})` is `D_{j;t}⁻¹` times
+**L8 — Laurent expansions over coefficient semifields.** For every coefficient semifield `P` and regular
+normalized seed `s` in `F` over `ℤ[P]`, prove `x_{j;t}∈L_{ℤ[P],s}` for every reachable `t` and `j∈K`, from L5
+and L7b. The membership also follows from Q3 by §1.2's gauge equivalence of the normalized system with the
+scalar system of `ℤ[P]`, whose gauge units lie in P (FZ I, Theorem 3.1); the same argument gives it for
+normalized polynomial seeds of every degree. The expansion is §0.3's `laurentExpansion`; prove that `laurentExpansion_s(x_{j;t})` is `D_{j;t}⁻¹` times
 the image of `X_{j;t}` under `u_i↦y_i`. Prove `x_{j;u}∈L_{ℤ[P],t}` for all reachable
 `t,u`, hence `A⊆U`, and construct for each reachable `t` the injective algebra map
 `A→ₐ[ℤ[P]]L(ℤ[P],K)` restricting `laurentExpansion_t`, with coefficient extraction and finite support.
@@ -1230,17 +1812,18 @@ chart of `s_Q`. Prove that it sends each `x_{j;t}` to the corresponding variable
 identity and composition laws, commutation with expansion in every reachable chart, and
 independence of the chart used to construct it.
 
-For a coefficient realization `φ:P→Cˣ` of §1.2, apply the ring map
-`ℤ[P]→C` to these finite expansions. Prove inductively, using the already
-constructed nonzero exchanges over C, that they represent the realized
-variables in every chart. Thus `A_C⊆U_C`; construct the induced surjection
+For an admitted ring realization by normalized seeds with `φ:P→Cˣ`
+(§1.2), apply the ring map `ℤ[P]→C` to these finite expansions. Prove
+inductively, using the mutations of its total class over C, that they
+represent the realized variables in every chart. Thus `A_C⊆U_C`; construct the induced surjection
 `C⊗_{ℤ[P]}A_P→A_C` and its coordinate, expansion and composition laws.
 Neither a subtraction-free evaluation on C nor a map from the universal
 rational-function field is used. Injectivity of this surjection is not asserted.
 
 For geometric type, L8 and L6a give `laurentExpansion_t(x_{j;u})∈ℤ[z_j][x_i^{±1}]` for reachable
-`t,u`, hence `A_{R_S}⊆U_{R_S}` for every `S⊆J` (§0.3). For every domain C
-satisfying §1.4's nonvanishing condition, prove that its expansions are the
+`t,u`, hence `A_{R_S}⊆U_{R_S}` for every `S⊆J` (§0.3). For every admitted ring
+realization by binary seeds over C, which is §1.4's regularity condition,
+prove that its expansions are the
 coefficientwise images of these integral expansions; hence they lie in
 `C[z_j][x_i^{±1}]` and in each `C_S[x_i^{±1}]`, with `A_{C_S}⊆U_{C_S}`.
 This includes arbitrary J by the finite-support reduction of §1.4.
@@ -1259,7 +1842,9 @@ independent of the chosen finite enlargement and compatible with re-rooting.
 The same reduction transports §5.2's integral positivity. Finite-type
 classification, finite lattice geometry and the quantum core retain finite rank.
 
-See FZ IV, §§3 and 6, for normalization and separation.
+See FZ IV, Proposition 3.9 and (3.12)–(3.13) for the `Y` and `ŷ` patterns,
+Proposition 3.12 and (3.17) for the normalization identities, Theorem 3.7
+for the separation formula and Corollary 6.3 for its `g`-vector form.
 
 **Checks.**
 
@@ -1284,6 +1869,11 @@ See FZ IV, §§3 and 6, for normalization and separation.
 - For the locally finite `A_∞` path on ℤ, the word `[0,1]` uses only the
   initial coordinates at `−1,0,1,2` for its updated mutable coordinates.
 - The rational Laurent representative `(u₁²+u₁u₂)/(u₁+u₂)` specializes to `1` at `u₁=u₂=1`.
+- For trivial coefficients in rank one, `x'=2/x` and `x=2/x'` generate the same
+  positive function semifield. For `P=Trop({z})`, `y=z`, the same check is
+  `x'=(1+[z])/x`; `[z]` remains a formal coefficient.
+- With `K=Empty`, `Pos(P,K)` is the units of the nonzero localization of `ℕ[P]`.
+  For trivial `P` this is the positive rationals, although `P` itself has one element.
 
 *Needs:* §§0.1–0.3 for positive evaluation and Laurent rings; §§1.2–1.4 for seed identities and
 realizations; §2.2 (L5–L6) for principal representatives and degrees.
@@ -1378,12 +1968,13 @@ for chart overlaps and Laurentness.
 with `R=Z_v`, `u=v`, `w=d`. An ordinary-compatible polynomial quantum seed
 has no extra column-independence input: derive it from the positive
 compatibility condition. Its scalar coefficients `h_{k,l}∈Z_v` are central,
-with endpoint coefficients one; they need not be positive, reciprocal or
+with unit endpoint coefficients; they need not be positive, reciprocal or
 fixed by `v↦v⁻¹`. Derive `r_k∣d_k` from `r_kν_k=w_k`.
 
-Construct the mutation and whole-word comparisons with the common frames,
-the unique finite quantum expansions, `A_{v,S}⊆U_v=UB_v(s)`, and the degree-one
-identification with ordinary quantum seeds and their algebras. Reindex
+These seeds are polynomial frames by definition, so Q1–Q3 give the unique
+finite quantum expansions and `A_{v,S}⊆U_v=UB_v(s)`; in degree one with
+binary data they are the ordinary quantum seeds, with their
+algebras. Reindex
 polynomial data, coordinates, forms, weights and mutable embeddings together;
 prove identity, composition, mutation and whole-word laws. Construct transport
 along injective ambient algebra maps and the corresponding coefficient and
@@ -1399,14 +1990,35 @@ coordinate word and Laurent representative. For `D_r=diag(r_k)`, use
 `E_εβ'=β(D_rF_εD_r⁻¹)`; its right factor is integral by column divisibility.
 In degree one this recovers Q4.
 
-For the classical polynomial sector use the same P1 and Q3 at `u=1`,
-`Λ=0`, `w=0` over any coefficient domain C. Construct the faithful frame
-from independent coordinates, requiring `H_k(1)≠0` for zero columns.
-Identify its mutation words with the commutative polynomial formula, including
-coefficient reversal. Q3's central lift gives Laurentness without full rank;
-full rank additionally gives `U=UB`. This direct classical statement has no
-positive quantum form or quantum-specialization hypothesis. Generalized coefficient-
-semifield separation remains outside the scope specified above.
+Classical polynomial seeds over a commutative domain R are polynomial frames
+at `u=1`, `Λ=0`, `w=0` (§1.5), so Q3 gives Laurentness without a rank
+condition. Full column rank additionally gives `U_{R,J}=UB_{R,J}`. This is
+the same theorem as for the quantum realization, independently of any
+positive quantum form or specialization of a quantum parameter.
+
+For a commutative ring C, let a regular polynomial seed be admissible:
+`IsRegular (H_k(1))` on zero columns. Construct the universal
+polynomial coefficient ring `R_univ=ℤ[t_{k,l}:0≤l≤r_k][t_{k,0}⁻¹,t_{k,r_k}⁻¹]`,
+with independent coefficients and inverted endpoints, and its map
+`t_{k,l}↦h_{k,l}` into C. Apply the domain theorem to its canonical seed.
+Prove that finite Laurent representatives specialize, after every word,
+to the already constructed regular C-seed. This gives `A_{C,S}⊆U_{C,S}`
+for every frozen inverse set S (`Seed.exists_laurentExpansion_of_isGenerating`).
+To retain nonnegative frozen exponents,
+apply the frozen-order argument of L6a to the universal polynomial
+exchanges: their endpoint terms give frozen order zero. Descend this
+support statement coefficientwise to C. No positivity theorem for general
+polynomial cluster algebras is assumed here.
+
+Construct the resulting surjection
+`C⊗_{R_univ}A_{R_univ,S}→A_{C,S}`, with coordinate, reversal, word,
+reindexing and expansion laws. Compare it in degree one with L8 and §1.4.
+The comparison concerns finite Laurent representatives and the generated
+algebras; scalar extension of upper algebras is not identified with `U_{C,S}`.
+For semirings, P1 and §1.6 define the polynomial patterns and their algebras
+along regular paths; the Laurent theorem here concerns the admitted ring
+realizations. Generalized coefficient-semifield separation remains outside
+the scope specified above.
 
 For a mutable matrix B with positive symmetrizer d and degrees r dividing its
 columns, suppose also `r_k∣d_k`. Construct the degree-compatible principal
@@ -1424,16 +2036,18 @@ inverse denotes these exact integer divisions. Prove integrality, alternation,
 extended seed along mutation words, retaining the degrees; the frozen block
 is `D_r` at the initial seed and subsequently mutates. The classical
 principal construction uses the same initial extended matrix with zero Λ and w.
-Give both faithful canonical realizations using §0.4 and prove their degree-one
+Give the classical canonical realization using §0.2 and the quantum one
+using §0.4, and prove their degree-one
 comparisons with the principal constructions of §1.5 and L5. Use this
 construction when degrees exceed one; the frozen identity block does not
 satisfy column divisibility for such degrees.
 
-Construct `v=1` on unique finite quantum representatives and prove that they
-evaluate to the classical polynomial coordinates with coefficients
-`h_{k,l}(1)` after every word. Derive preservation of algebraic independence
-for this classical exchange construction, so nonvanishing of its denominators
-is a theorem for independent initial coordinates. Construct the surjection
+Construct `v=1` on unique finite quantum representatives. Let s₁ be a
+polynomial seed over `(ℤ,1)` in a field with the same matrix and the
+polynomials with coefficients `h_{k,l}(1)`; positive weights exclude zero
+columns, so s₁ is admissible and all its words are defined (§1.2). Prove
+that the specialized representatives evaluate to the coordinates of s₁ after
+every word, as in §2.2. Construct the surjection
 `A_{v,S}→A_{R_S}` and the induced special-fiber map as in §2.2. This is a
 comparison between the two instances of the common proof; it does not supply
 a second proof of their Laurent property.
@@ -1452,7 +2066,9 @@ a second proof of their Laurent property.
   replacement premises hold with independent central `a,b`. At `v=1`, the
   coefficient map keeps `a,b` and sends `M(i,j)` to `x^i y^j`.
 - For degree one with `H_k=1+T`, the powers and local intersections of Q2
-  agree with those for binary exchange.
+  agree with those for binary exchange; P3's ring specialization agrees with L8.
+- With no mutable variables and one frozen variable z, at every unit parameter
+  `U_{R,u,∅}=R[z]` and `U_{R,u}=U_{R,u,J}=R[z^{±1}]`.
 - With both index sets empty, the generated algebra and upper algebra are both
   `Z_v`.
 - In rank one with `B̃=(0,2)ᵀ`, `Λ=((0,−1),(1,0))` and `H=1+T+T²` of
@@ -1463,14 +2079,18 @@ a second proof of their Laurent property.
   A second mutation with that reversal gives `x''=x`. Keeping `H` fixed gives
   `x''=x(y³+2y+1)/(y³+2y²+1)`, which is not Laurent.
 - Over ℚ with `B=((0,1),(−1,0))`, zero form, `H_1=1+T` and `H_2=1+2T`,
-  the second polynomial has a leading unit different from one. The word
-  `[1,2,1]` gives `x'''=1/y+x(y+2)/(y(y+1))`, which is not Laurent.
+  the second polynomial has a leading unit different from one. Keeping `H_1`
+  fixed along the word `[1,2,1]` violates the dilation law and gives
+  `x'''=1/y+x(y+2)/(y(y+1))`, which is not Laurent. Polynomial mutation has
+  `H_1=1+2T` at the last step and gives `x'''=(1+2x)/y`.
 
 Sources: Bai–Chen–Ding–Xu, *Generalized quantum cluster algebras: the Laurent
 phenomenon and upper bounds*, §2, Lemma 4.1, Propositions 4.2, 4.6–4.7 and
 Theorem 4.9, for the reciprocal fixed-polynomial model. Nakanishi–Rupel,
 [Companion cluster algebras to a generalized cluster algebra](https://arxiv.org/html/1504.06758),
-§3, for reversal mutation without reciprocity in the classical theory. Rupel,
+§3, for reversal mutation without reciprocity in the classical theory.
+Chekhov–Shapiro, (2.5) and Theorem 2.5, and Nakanishi, (2.5)–(2.6) and (2.10),
+for the propagation law of the coefficients, with coefficients in a semifield. Rupel,
 [Rank two non-commutative Laurent phenomenon and pseudo-positivity](https://www.numdam.org/item/10.5802/alco.81.pdf),
 §5, Theorem 5.1 (pp. 1266–1267), treats nonreciprocal quantum exchange in rank two.
 The nonreciprocal quantum construction and its local comparisons are targets
@@ -1479,8 +2099,9 @@ another argument; it does not supply the central-factor proof required here.
 Their polynomial-center coprimality condition and the pair Laurent-ring
 condition used here must be distinguished.
 
-*Needs:* §§0.4–0.7 for local algebra; §§1.1 and 1.4–1.6 for matrices and exchange frames; §2.1
-(Q1–Q3) for upper bounds and Laurentness.
+*Needs:* §§0.1–0.7 for regular localization, coefficient maps and local algebra;
+§§1.1 and 1.4–1.6 for matrices, polynomial seeds and their algebras; §2.1
+(Q1–Q3) for domain Laurentness; L6a for frozen orders and finite representatives.
 
 ### 2.7 Starfish lemma and classical algebra realizations
 
@@ -1488,7 +2109,7 @@ condition used here must be distinguished.
 `R=Γ(X,O_X)` its ring of global functions, `F=K(X)` its function field and `C⊆R`
 a coefficient subring. Take a nonempty finite family of coordinate lists, indexed
 by `t`, with nonzero entries `x_{t,i}∈R`. Put `a_t=∏_i x_{t,i}` and
-`L_t=C[x_{t,i}^{±1}:i]` inside `F`, using `laurentSubalgebra` over `C`. Write
+`L_t=C[x_{t,i}^{±1}:i]` inside `F`. Write
 `X_{a_t}` for the open where `a_t` is a unit and `W=⋃_t X_{a_t}`.
 Each `x_{t,i}` is a unit on `X_{a_t}`, so `L_t` lies in the image of its section
 ring. If `depth O_{X,p}≥2` for every `p∈X∖W`, apply SchemeAndStackFoundations
@@ -1499,9 +2120,11 @@ Compare sections inside `F` to obtain
 principal-open localization comparison to identify each `Γ(X_{a_t},O_X)`
 with `R[a_t⁻¹]` inside `Frac(R)`.
 
-**Starfish.** Let `R` be a Noetherian domain and `C⊆R` the coefficient ring of
-an admitted finite mutable pattern (§§1.2–1.4). Transport the charts into
-`Frac(R)` along a coefficient-compatible field embedding when needed. Assume
+**Starfish.** Let `R` be a Noetherian domain and `C⊆R` a coefficient ring.
+Take a seed of a coefficient system over C at `u=1` in `Frac(R)`
+whose initial exchange elements are units; an admitted domain realization
+(§§1.2–1.4) gives one by transporting its chart along a
+coefficient-compatible field embedding. Assume
 the initial mutable coordinates `x_i` and their respective one-step replacements
 `x'_i` belong to `R`. For geometric type with a chosen frozen inverse set `S`,
 take `C` to be the image of the corresponding ring of §0.3, so the frozen
@@ -1548,9 +2171,9 @@ Use the Somos-4 computation in §2.4 to check the chain from polynomial upper bo
 ### Dependencies
 
 Layers 0–1 supply local intersections, matrix rank and polynomial mutation. The milestone table
-orders their use in the upper-bound, Laurent and specialization proofs. The degree-one and
-unit-parameter comparisons in §2.6 connect ordinary quantum and classical patterns to the common
-polynomial exchange and Laurent theorems. SchemeAndStackFoundations
+orders their use in the upper-bound, Laurent and specialization proofs. The binary data of §1.4 and
+the unit-parameter instances of §1.5 make ordinary quantum and classical seeds instances of the common
+polynomial exchange and Laurent theorems; §2.6 adds the `v=1` comparison of their representatives. SchemeAndStackFoundations
 §0.6 supplies Hartogs for the finite chart realization in §2.7.
 
 ## Layer 3: lattice formalism and cluster varieties
@@ -1568,7 +2191,8 @@ A lattice seed is a finite indexed family `e:K→N_uf` with integers `d_k>0`
 such that `d_ke_k∈N°`. Allow dependent, nonspanning and repeated vectors.
 Define `ε_ij={e_i,e_j}d_j` for mutable indices; prove these numbers integral.
 For `k∈K`, define signed mutation by
-`e'_k=−e_k`, `e'_i=e_i+[±ε_ik]_+e_k` (`i≠k`), keeping the weights.
+`e'_k=−e_k`, `e'_i=e_i+[±ε_ik]_+e_k` (`i≠k`), keeping the weights
+(GHK, (2.3)–(2.4), for the positive sign; §3.5 gives the reference).
 Prove preservation of the lattice conditions, that positive and negative mutations
 are mutually inverse, and that positive mutation twice is the image of the family
 under the fixed-data automorphism `n↦n+{n,e_k}d_ke_k`.
@@ -1598,7 +2222,8 @@ lattices, duals and pairings.
 
 For an adapted basis presentation s, let
 `latticeToFZ(s)` be the extended matrix
-with rows `I`, columns `I_uf`, `B̃_ik=ε_ki={e_k,d_ie_i}=β(d_ie_i,e_k)`.
+with rows `I`, columns `I_uf`, `B̃_ik=ε_ki={e_k,d_ie_i}=β(d_ie_i,e_k)`;
+with the symmetrizer below it is the matrix of binary exchange data (§1.4).
 Prove that `s_k=L/d_k` (`k∈I_uf`), `L=lcm(d_k:k∈I_uf)`, is a symmetrizer of its
 mutable block, that every
 symmetrizer `(s_k)` of it has `s_kd_k` constant on each connected component (edges
@@ -1616,8 +2241,8 @@ Multiplication by g identifies `N°_g` with `N°`; construct the induced dual-la
 isomorphism and prove that it carries the respective dual bases to one another.
 Prove `latticeToFZ_fzToLattice`
 (`latticeToFZ∘fzToLattice=id`), compatibility with reindexing, and, for every word `w`
-of signed mutations of a fixed-data seed, `latticeToFZ(μ_w s)=μ_w(latticeToFZ s)` with
-equal geometric coefficient patterns (§1.4). Prove that a seed identifies its fixed data
+of signed mutations of a fixed-data seed, `latticeToFZ(μ_w s)=μ_w(latticeToFZ s)` as
+binary exchange data, with equal geometric coefficient patterns (§1.4). Prove that a seed identifies its fixed data
 with the free model on `ℤ^I`; the frozen–frozen form and frozen weights are data of the
 lattice seed, not functions of `B̃`.
 
@@ -1648,7 +2273,9 @@ Construct the localized isomorphisms
 `D(1+z^{p₁*(e_k)})≅D(1+z^{p₁*(e'_k)})` and
 `D(1+z^{e_k})≅D(1+z^{e'_k})`.
 These localized isomorphisms exist over any commutative ring, with possibly empty
-domains. In an adapted basis presentation the A nonvanishing condition is §1.4's.
+domains. In an adapted basis presentation the A nonvanishing condition for all
+directions is admissibility of the regular binary seed of `latticeToFZ(s)`
+over C (§§1.2 and 1.4): a zero column gives the exchange factor 2.
 
 For an adapted basis presentation, put `A_i=z^{f_i}`, `X_i=z^{e_i}` and prove
 that the character formulas give
@@ -1665,6 +2292,11 @@ that the character formulas give
 
 For `latticeToFZ(s)`, the first is §1.4's exchange relation (frozen `A_j` as `z_j`)
 and the second, for `i∈I_uf`, §1.2's `y`-mutation with `y_i=X_i` and `+` for `⊕`.
+Under the A condition, the coordinates `A_i=z^{f_i}` in `FractionRing C[M°]`
+are a generating regular chart, so they form an admitted domain realization
+by binary seeds with matrix `latticeToFZ(s)`; prove that `μ_k` on the
+A-tori is its seed mutation (§1.2) and that words of positive mutations are
+its mutation words.
 Construct the torus maps of seed isomorphisms and prove the composition laws for
 seed transformations. In a mutation class of finite lattice seeds, define the
 seed transformation groupoid `𝒢`: arrows are composites of mutations and seed
@@ -1684,7 +2316,7 @@ isomorphisms induced by `g↦g∘a⁻¹` and prove their composition laws.
 Prove
 `Γ(𝒜,𝒪)=⋂_t C[M°]_t` over these marked charts in the common field
 `FractionRing C[M°]`. For an adapted basis presentation, identify this intersection
-with `U_{C_J}` (§1.4) for `latticeToFZ(s)`, with `A_j` as `z_j`, and
+with `U_{C_J}` (§1.3) of the binary seed above, with `A_j` as `z_j`, and
 construct `C⊗_ℤA_{R_J}→Γ(𝒜,𝒪)` by L8 (`J=I∖I_uf`);
 `C⊗_ℤU_{R_J}≅Γ(𝒜,𝒪)` is not assumed. The intersection argument uses
 integral charts and dense transition domains, not normality or Noetherianity of C.
@@ -1714,7 +2346,8 @@ carriers, and scheme gluing.
 - With zero form in rank one the two A charts glue over `D(2)` over ℤ, with empty overlap over `𝔽₂`.
 - For the nonzero extended column `(0,2)ᵀ` over `𝔽₂`, the exchange factor is `(1+z)²≠0`.
 
-*Needs:* §§3.1–3.2 for lattice and matrix mutation; §1.4 for the geometric nonvanishing condition;
+*Needs:* §§3.1–3.2 for lattice and matrix mutation; §§1.2–1.4 for binary seeds, their admissibility
+and algebras;
 AnalyticToricGeometry Layer 0 for cones and dual semigroups; SchemeAndStackFoundations Layer 0 for
 scheme gluing.
 
@@ -1736,7 +2369,8 @@ For an adapted basis presentation, add the full principal basis
 `(e_i,0),(0,f_i)` with weights `d_i` on both copies. Prove that its `latticeToFZ`
 is `latticeToFZ(s)` with a new frozen row `(δ_ik)_{k∈I_uf}` for each `i∈I`.
 Use adapted basis presentations in the following coordinate and scattering
-comparisons. Zero rows of ε remain allowed whenever §3.3's A condition holds.
+comparisons. Zero rows of ε remain allowed whenever §3.3's A condition holds;
+the principal seed has no zero column and is admissible over every domain.
 
 On the full principal character lattice `M̃°=M°⊕N`, define the rational alternating
 form `λ((m,a),(m',a'))=⟨a,m'⟩−⟨a',m⟩−β(a,a')`. Over a commutative `ℚ`-algebra R,
@@ -1747,6 +2381,12 @@ For `n,n'∈(Σ_{i∈I_uf}ℕe_i)∖{0}`, restrict `H_{z^{r(n)}}` to
 `R[M°][t_i:i∈I_uf]` via `z^{(m,a)}=z^m t^a` and extend continuously to its
 `t`-adic completion. Prove this is ScatteringDiagrams §4.2's `D_n`, with
 `[D_n,D_{n'}]=β(n,n')D_{n+n'}`; these Hamiltonian derivations annihilate every `t_i`.
+
+For an adapted basis, identify the positive functions on the universal
+geometric-type `𝒜` chart with `Pos(Trop(J),K)`, `J=I∖I_uf`, and prove that
+§3.2's comparison intertwines L7a's mutation equivalences. For every coefficient
+semifield `Q`, construct the `Q`-valued `𝒜` and `𝒳` atlases by evaluating their
+subtraction-free transitions; prove compatibility with mutation and reindexing.
 
 For `min` and for `max` on `ℤ`, construct the tropical points of `𝒜` and `𝒳` (charts
 `N°`, resp. `M`) from the universal integral subtraction-free transitions,
@@ -1772,7 +2412,8 @@ L6b), `fzToLattice` sends `c_{j;t}` to `Σ_i(c_{j;t})_ie_i∈N` and `g_{j;t}` to
 - For `B=((0,1),(−2,0))` with weights `(1,2)`, `T₁(f₁)=f₁−2f₂` and `T₁(−f₁)=−f₁`. Negation
   identifies these with the corresponding minimum-convention transitions.
 
-*Needs:* §§3.1–3.3 for lattices, principal blocks and gluing; §0.1 for tropical evaluation; §2.2
+*Needs:* §§3.1–3.3 for lattices, principal blocks and gluing; §0.1 for tropical evaluation;
+§1.2 and §2.3 (L7a) for positive points and positive function transitions; §2.2
 (L5–L6) and §2.3 (L8) for principal vectors and expansions; ScatteringDiagrams §4.2 for the
 derivations.
 
@@ -1784,9 +2425,9 @@ mutation-tree atlas with §3.3's marked atlas. Prove that their glued schemes ar
 canonically isomorphic, compatibly with chart maps and changes of initial seed.
 
 Realize the mutation charts in the initial function field and prove that
-`latticeToFZ` identifies their coordinate changes with §1.4's geometric FZ pattern.
-Identify the graph of these realized seeds modulo mutable relabeling with
-§1.3's exchange graph.
+`latticeToFZ` identifies them with the pattern of §3.3's binary seed (§1.4):
+the realized charts are the charts of its reachable seeds. Identify the graph
+of these realized seeds modulo mutable relabeling with §1.3's exchange graph.
 
 Sources: GHKK, §1.3, §2 and Appendices A–B, especially Remark B.8; GHK,
 [Birational geometry of cluster algebras](https://arxiv.org/abs/1309.2573),
@@ -1826,8 +2467,9 @@ The rank-zero construction has `lcm ∅=1` and `gcd ∅=0`. For
 For the cone generated by the first vector of `ℤ²`, the chart is
 `Spec R[t,z^{±1}]`; its zero face is `Spec R[t^{±1},z^{±1}]`, including
 `R=ℤ/4ℤ`. Over ℤ, the zero-form rank-one A charts glue over D(2);
-over `𝔽₂` this overlap is empty, so the fiber exists as a scheme but is
-not the excluded common-function-field A pattern. For X, `1+X_k≠0` in
+over `𝔽₂` this overlap is empty: the fiber exists as a scheme, but the
+rank-one zero-column binary seed over `𝔽₂` is not admissible, and its
+exchange element `2x⁻¹=0` gives no mutation in a common function field. For X, `1+X_k≠0` in
 every characteristic. Over `𝔽₂`, the nonzero column `(0,2)ᵀ` has exchange
 factor `1+z²=(1+z)²≠0`; exponent labels are not reduced modulo the characteristic.
 
@@ -1844,25 +2486,30 @@ Inputs are §§1.1–1.3, L8 and the named RootSystems interfaces. Construct
 reduction before using them in the finite-type classification and denominator
 correspondence; neither construction assumes that final classification.
 The algebraic classification and denominator correspondence also hold for
-every admitted coefficient realization `φ:P→Cˣ` over a domain C. Prove
+every admitted domain realization by normalized seeds, with `φ:P→Cˣ`
+(§1.2). Prove
 preservation of the denominator terms below; do not infer distinctness of
 specialized variables from a possibly noninjective coefficient map.
 
 ### 4.1 Classification
 
 For an exchange matrix `B : Matrix K K ℤ` let `[B]` be the set of
-all `μ_w(B)`, `w` a mutation word. A pattern is of finite type if it has finitely many
-cluster variables; `B` is of finite mutation type if `[B]` is finite. The Cartan
+all `μ_w(B)`, `w` a mutation word. A seed is of finite type if its pattern has finitely many
+cluster variables (§1.3); `B` is of finite mutation type if `[B]` is finite. The Cartan
 companion `A(B)` (`cartanCompanion`) has `a_ii=2`, `a_ij=-|b_ij|` (`i≠j`); prove `D_s A(B)` symmetric for each
 symmetrizer `D_s` of `B`. Call `B` bipartite if `b_ijb_ik≥0` for all `i,j,k`. For every
-coefficient semifield `P` and `y : K→P`, and for each admitted domain
-realization of this pattern, prove the equivalence of:
+coefficient semifield `P` and `y : K→P`, for the regular normalized seed over
+`ℤ[P]` with initial state `(y,B)` and for each admitted domain realization with this
+initial state, prove the equivalence of:
 
-1. The cluster algebra with initial matrix `B` is of finite type.
+1. The seed is of finite type.
 2. Some `B'∈[B]` has `IsFiniteType (A(B'))`.
 3. Every `B'∈[B]` satisfies `|b'_ij b'_ji|≤3` for all `i≠j`.
 
-The geometric-type signature `finite_clusterVariables_iff` states 1 ⇔ 2.
+(FZ II, Theorems 1.4, 1.5 and 1.8.)
+
+The geometric-type signature `finite_clusterVariables_iff` states 1 ⇔ 2 for a binary seed
+over ℤ with frozen rows and a faithful chart in a field, using its principal block.
 The matrix signature `exists_isFiniteType_iff_forall_le_three` states 2 ⇔ 3.
 
 For connected `B` (the graph of `b_ij≠0` is connected) of finite type prove that a unique
@@ -1885,7 +2532,7 @@ these targets.
 - For `B=((0,1),(−3,0))` the entry product has absolute value three and the type is `G₂`.
 - For `B=((0,2),(−2,0))` the mutation class is finite but the entry product is four and the cluster-variable set is infinite.
 
-*Needs:* §§1.1–1.3 for matrices and seed patterns; §2.3 (L8) and the rank-two denominator
+*Needs:* §§1.1–1.4 for matrices, seeds and their patterns; §2.3 (L8) and the rank-two denominator
 calculation of §4.2 for the implication from finite type to 2-finiteness; native Cartan type and
 RootSystems Layers 1–3 for root-system and Weyl-group conventions.
 
@@ -1907,11 +2554,14 @@ cluster complex on `Φ_{≥-1}`, its facets and its exchange graph.
 A bipartite seed for `Φ` has a bipartite exchange matrix `B°` (§4.1) with `A(B°)=A`. The
 denominator vector `d(x)∈ℤ^I` of `0≠x∈L_{R,0}` (`R=ℤ[P]` or an admitted C)
 is the unique d with `x=N/∏x_i^{d_i}`, `N∈R[x_i]` divisible by no x_i.
-For every coefficient semifield P and bipartite initial seed, and each admitted
-domain realization, prove there is a unique bijection `α↦x[α]` from `Φ_{≥-1}` to the cluster
+For every coefficient semifield P and bipartite initial regular normalized seed,
+and each admitted domain realization, prove there is a unique bijection `α↦x[α]` from `Φ_{≥-1}` to the cluster
 variables with `d(x[α])_i=[α:α_i]`; it has `x[-α_i]=x_i` and maps maximal compatible sets
 bijectively to clusters. Deduce that there are `rank(Φ)+|Φ_{>0}|` cluster variables and
-finitely many seeds.
+finitely many seeds. For a binary seed over ℤ in a field, `ncard_clusterVariables`
+states the count when the Cartan companion of the principal block is the Cartan
+matrix `A` of a finite reduced crystallographic root system (FZ II, Theorems 1.4
+and 1.9). Use §4.1 to reach a bipartite seed and §1.3 to re-root the pattern there.
 
 For a connected finite-type component of rank at least two, strengthen the
 bipartite expansion to `x[α]=P_α/x^α` with `P_α(0)∈P` for every positive
@@ -2037,8 +2687,9 @@ original seed define `C(t)={Σ_i a_i f_i^t:a_i≥0 for i∈I_uf}`,
 inverses on reversed paths. Prove `C̃_t^+=π^{-1}(C_t^+)` and that `ℓ̃_t`
 induces the linear extension `ℓ_t:M_s°≃M_t°` of `τ_{s,t}|_{C_t^+}`.
 The full principal monomial maps respect the coefficient-torus projection.
-Prove the cluster-path transports rational; by §1.4's exchange nonvanishing,
-their needed denominators remain nonzero at `t_i=1`. Restrict to these
+Prove the cluster-path transports rational. The binary seed of
+`latticeToFZ(s)` over ℚ is admissible (§§1.2 and 1.4), so its exchange
+elements are units and the needed denominators remain nonzero at `t_i=1`. Restrict to these
 overlap localizations and descend to that fiber. This gives
 `ψ_t:A_t≃T_t^scat`, `ψ_t^*(z^m)=z^{ℓ_t(m)}` and
 `ψ_r^*∘W_{t→r}=μ_{r→t}^*∘ψ_t^*`, where `W` denotes this descended
@@ -2068,7 +2719,8 @@ invariance, and §7.2 for binomial wall positivity.
 ### 5.2 Cluster monomials and positivity
 
 The finite geometric-type signature `exists_nonneg_laurentExpansion` states
-positivity and nonnegative frozen exponents for a single reachable coordinate.
+positivity and nonnegative frozen exponents for a single reachable coordinate
+of a binary seed over ℤ with a faithful chart in a field.
 
 For a seed-t monomial
 `c_t=∏_i(A_i^t)^{a_i}`, with mutable exponents nonnegative and frozen exponents
@@ -2101,14 +2753,15 @@ finite expansion, with all coefficient and chart maps specified. Specialize
 to a g-vector is proved in §5.3, not used to define this comparison.
 Theorems:
 
-- for every integral geometric pattern (any `B̃`, including singular `B` and zero rows) and
+- for every regular binary seed over ℤ (any `B̃`, including singular `B` and zero rows) and
   reachable `s,t`, the expansion of `x_{j;t}` in chart `s` lies in `ℕ[z_f][x_{i;s}^{±1}]`
   (with L6a), and in `ℕ[z_f][z_r^{-1}:r∈S][x_{i;s}^{±1}]` in each `R_S`;
-- for every coefficient semifield `P`, it lies in `ℕ[P][x_{i;s}^{±1}]` (with L7), i.e.
+- for every coefficient semifield `P` and regular normalized seed over `ℤ[P]`,
+  it lies in `ℕ[P][x_{i;s}^{±1}]` (with L7), i.e.
   every §0.3 coefficient function is positive;
 - the same for cluster monomials and under L7a's `u_i↦y_i` and L8's `A_P→A_Q`.
 
-For the admissible domain realizations of §§1.2–1.4, transport these finite
+For the admitted domain realizations of §§1.2–1.4, transport these finite
 integral expansions through L8's coefficient maps. Positivity means that the
 universal coefficients lie in `ℕ[P]`; no order or characteristic-zero
 structure on the target domain is required or asserted. The scattering and
@@ -2270,9 +2923,12 @@ BFZ §2.2, Definition 2.3 and Remark 2.4, and the minors `Δ(k;i)` of §2.3,
 (2.9)–(2.11), with index conversions. Prove that `B̃(i)` has full column rank and its
 principal part is skew-symmetrizable (BFZ III, Proposition 2.6). Prove that the frozen
 minors are units on `G^{u,v}` and construct the field isomorphism sending each initial
-variable `x_k` to `Δ(k;i)` (BFZ III, Lemma 2.12(1)–(2), over ℂ). For every
+variable `x_k` to `Δ(k;i)` (BFZ III, Lemma 2.12(1)–(2), over ℂ). This is a generating
+regular chart in the function field of `G^{u,v}`; the BFZ seed is the resulting
+regular binary seed over 𝕜 with matrix `B̃(i)` (§1.4). It is admissible,
+so all its mutation words are defined (§1.2). For every
 mutable `k` and every Cartan type, prove the exchange relation as an identity
-of regular functions, that `x'_k` is regular, and that the cluster of `μ_k` gives a chart of `G^{u,v}`
+of regular functions for the mutated seed, that `x'_k` is regular, and that the cluster of `μ_k` gives a chart of `G^{u,v}`
 (BFZ III, Lemma 2.12(3)–(4), for regularity and the chart over ℂ).
 
 **Checks.**
@@ -2281,8 +2937,8 @@ of regular functions, that `x'_k` is regular, and that the cluster of `μ_k` giv
 - For the double word `(−1,1)` in `SL₂`, there is one mutable variable and two frozen ones.
 - In this rank-one seed the determinantal identity `ad=1+bc` is the exchange, with `a,d` the two adjacent mutable minors.
 
-*Needs:* §6.1 for generalized minors and factorization charts; §§1.1 and 1.4 for extended matrices
-and geometric seeds; BFZ III §2 for the signed-word formulas.
+*Needs:* §6.1 for generalized minors and factorization charts; §§1.1–1.4 for extended matrices,
+regular binary seeds and their mutation; BFZ III §2 for the signed-word formulas.
 
 ### 6.3 Coordinate ring identification
 
@@ -2291,10 +2947,10 @@ For the initial and adjacent charts of §6.2, show that each Laurent ring over
 coordinates are nonvanishing. The frozen minors are units on `G^{u,v}`. Prove that
 the complement of the union of these opens has codimension at least two.
 Smoothness gives the depth hypothesis of §2.7, whose finite-family equality
-identifies `Γ(G^{u,v},O)` with the upper bound of the BFZ seed. Apply §2.1's
-full-column-rank upper-bound corollary to construct
+identifies `Γ(G^{u,v},O)` with the upper bound `UB_J` of the BFZ seed (§1.3).
+Apply §2.1's full-column-rank upper-bound corollary to construct
 `U_𝕜(B̃(i)) ≃ₐ[𝕜] Γ(G^{u,v},O)` sending each `x_k` to `Δ(k;i)`, where `U_𝕜`
-is §1.4's `U_{𝕜_J}`.
+is the upper cluster algebra `U_{𝕜_J}` of the BFZ seed.
 For double reduced words `i,i'` of `(u,v)` construct the composite
 `U_𝕜(B̃(i))≃U_𝕜(B̃(i'))` through
 `Γ(G^{u,v},O)`, without assuming the seeds mutation equivalent.
@@ -2330,7 +2986,8 @@ four mutable positions and four adjacent exchanges in Example 2.11.
 ### Dependencies
 
 ReductiveGroups Layers 7, 7C, 8 and 10 supply the group theory and highest-weight representations.
-Layers 1–2 supply the geometric pattern, finite chart intersection and full-rank upper-bound theorem.
+Layers 1–2 supply binary seeds and their patterns, the finite chart intersection and the full-rank
+upper-bound theorem.
 
 ## Downstream consumers
 
@@ -2375,3 +3032,8 @@ None.
 - **BCDX:** Bai–Chen–Ding–Xu, [*Generalized quantum cluster algebras: the Laurent
   phenomenon and upper bounds*](https://arxiv.org/abs/2203.06928),
   Definition 2.3, Theorems 3.1 and 4.9 and the local algebra of §4.
+- **Chekhov–Shapiro:** [*Teichmüller spaces of Riemann surfaces with orbifold points of
+  arbitrary order and cluster variables*](https://arxiv.org/abs/1111.3963),
+  §2.1, (2.4)–(2.5) and Theorem 2.5.
+- **Nakanishi:** [*Structure of seeds in generalized cluster algebras*](https://arxiv.org/abs/1409.5967),
+  Definition 2.2, (2.5)–(2.6), and (2.10)–(2.14).
