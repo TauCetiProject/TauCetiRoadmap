@@ -81,7 +81,7 @@ theorem semilocal_rank_equiv_exists (R : Type u) [CommRing R]
 
 /-- A positive-rank projective over a Dedekind domain is a free module plus its actual
 top exterior power (Weibel I.3, Proposition 3.4, pp. 19–20). -/
-theorem steinitz_decomposition {R : Type u} [CommRing R]
+theorem nonempty_steinitz_decomposition {R : Type u} [CommRing R]
     [IsDedekindDomain R] (P : FiniteProjectives R) (r : ℕ)
     (hr : Module.finrank R P.obj = r + 1) :
     Nonempty (P.obj ≃ₗ[R]

@@ -156,7 +156,7 @@ AdelicAlgebraicGroups AA.3.6 supplies the fixed-`K` finite Siegel cover and fini
 
 Layers 1–5 develop projective `K₀`, its operations and its Dedekind classification. Layers 6–9 compute with the supplied stable matrices, `K₁` and relative groups. Layers 10–11 isolate the finite-rank Mennicke extension argument and its arithmetic consequences. Layer 12 classifies regular-curve classes using the geometric contracts. Layer 13 compares the concrete groups and both boundaries with based K-space models. Layer 14 constructs the graded determinant and its Witt-supported extension. Each layer ends with computations that fix its normalization and the inputs needed for it.
 
-`Suggested.lean` states `rank_exists_split`, `semilocal_rank_equiv_exists`, `steinitz_decomposition`, `rank_pic_equiv_exists`, `euclidean_elementary_generation`, `circle_rotation_not_stably_elementary`, `sinteger_elementary_generation`, `sinteger_relative_elementary_generation`, `congruence_subgroup_property`, `congruence_subgroup_failure`, `arithmeticSL2_finitelyGenerated`, `rankTwo_congruence_subgroup_property` and `rankTwo_congruence_subgroup_failure` on the pinned carriers. Its module docstring identifies the missing objects for the other headline signatures.
+`Suggested.lean` states `rank_exists_split`, `semilocal_rank_equiv_exists`, `nonempty_steinitz_decomposition`, `rank_pic_equiv_exists`, `euclidean_elementary_generation`, `circle_rotation_not_stably_elementary`, `sinteger_elementary_generation`, `sinteger_relative_elementary_generation`, `congruence_subgroup_property`, `congruence_subgroup_failure`, `arithmeticSL2_finitelyGenerated`, `rankTwo_congruence_subgroup_property` and `rankTwo_congruence_subgroup_failure` on the pinned carriers. Its module docstring identifies the missing objects for the other headline signatures.
 
 ## Layer 1: projective classes and patching
 
@@ -542,7 +542,7 @@ Construct the projective-to-lattice comparison: for a finite projective P, the m
 
 *Needs:* ClassicalArithmeticCompletion §7.0, lattice Steinitz classification; Mathlib fraction-field scalar extension and torsion-free injectivity; §4.1, determinant.
 
-Transport the supplied positive-rank classification through these comparisons to the Steinitz decomposition, with its rank formula, its determinant formula and existential milestone `steinitz_decomposition`: for rank r≥1, P is `R^{r−1}⊕det P`. Obtain the rank–determinant isomorphism criterion and projective cancellation from the supplied rank/class criterion, treating rank zero separately. Uniqueness concerns the ideal class, not an embedded ideal or a chosen decomposition.
+Transport the supplied positive-rank classification through these comparisons to the Steinitz decomposition, with its rank formula, its determinant formula and existential milestone `nonempty_steinitz_decomposition`: for rank r≥1, P is `R^{r−1}⊕det P`. Obtain the rank–determinant isomorphism criterion and projective cancellation from the supplied rank/class criterion, treating rank zero separately. Uniqueness concerns the ideal class, not an embedded ideal or a chosen decomposition.
 
 *Needs:* ClassicalArithmeticCompletion §7.0, lattice Steinitz classification; Mathlib fraction-field scalar extension and torsion-free injectivity; §4.1, determinant.
 
