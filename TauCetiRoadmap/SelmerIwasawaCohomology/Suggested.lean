@@ -70,7 +70,7 @@ def compactTateCoefficients : TopRep ℤ_[p] (SeparableClosure K ≃ₐ[K] Separ
 
 /-- §0.8: p-adic Kummer theory identifies continuous degree-one cohomology with the
 multiplicative completion, without a finite-generation assumption on the field's units. -/
-theorem padicKummer_equiv [NeZero (p : K)] :
+theorem nonempty_padicKummer_equiv [NeZero (p : K)] :
     Nonempty ((continuousCohomology 1 (compactTateCoefficients p K)) ≃ₗ[ℤ_[p]]
       Additive (TauCeti.padicCompletionUnits p K)) := sorry
 

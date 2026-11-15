@@ -221,7 +221,9 @@ This is the finiteness hypothesis of Rubin's Proposition B.2.3 for `i = 1`.
 
 ### 0.8 The p-adic Kummer identification
 
-`Suggested.lean` states the algebraic isomorphism as `padicKummer_equiv`, using `compactTateCoefficients`, the topological representation on Tau Ceti's `PadicTateTwist` with its cyclotomic action, and `TauCeti.padicCompletionUnits` for the multiplicative completion. For a field `K` with `p` invertible, `H¹(G_K, ℤ_p(1)) ≅ lim_m K^×/(K^×)^{p^m} = (K^×)^,` where `ℤ_p(1) = lim μ_{p^m}` is a compact coefficient module and `H¹` is continuous-cochain cohomology (ArithmeticGaloisDuality Layer R02.1). The map is `H¹(G_K, ℤ_p(1)) → lim_m H¹(G_K, μ_{p^m})`, an isomorphism because the Milnor term `lim^1 H⁰(G_K, μ_{p^m})` vanishes, followed by `κ_∞^{−1}`. It is an algebraic isomorphism for every `K`; when every `K^×/(K^×)^{p^m}` is finite (local fields) both sides are profinite and it is a homeomorphism. It is compatible with restriction and with corestriction versus the norm for finite separable extensions.
+Declaration-name mapping: padicKummer_equiv → `nonempty_padicKummer_equiv`.
+
+`Suggested.lean` states the algebraic isomorphism as `nonempty_padicKummer_equiv`, using `compactTateCoefficients`, the topological representation on Tau Ceti's `PadicTateTwist` with its cyclotomic action, and `TauCeti.padicCompletionUnits` for the multiplicative completion. For a field `K` with `p` invertible, `H¹(G_K, ℤ_p(1)) ≅ lim_m K^×/(K^×)^{p^m} = (K^×)^,` where `ℤ_p(1) = lim μ_{p^m}` is a compact coefficient module and `H¹` is continuous-cochain cohomology (ArithmeticGaloisDuality Layer R02.1). The map is `H¹(G_K, ℤ_p(1)) → lim_m H¹(G_K, μ_{p^m})`, an isomorphism because the Milnor term `lim^1 H⁰(G_K, μ_{p^m})` vanishes, followed by `κ_∞^{−1}`. It is an algebraic isomorphism for every `K`; when every `K^×/(K^×)^{p^m}` is finite (local fields) both sides are profinite and it is a homeomorphism. It is compatible with restriction and with corestriction versus the norm for finite separable extensions.
 
 `p` invertible in `K`. No finite generation of `K^×` is assumed; the target is the completion, not `K^× ⊗ ℤ_p`.
 
