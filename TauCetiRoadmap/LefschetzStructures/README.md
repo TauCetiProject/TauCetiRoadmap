@@ -348,7 +348,7 @@ Theorem 4.1, pp. 14–15.)
 
 - In a Lefschetz structure the two inverse conditions imply each other, since `L^{n−i}` is
   bijective between `H^i` and `H^{2n−i}` and `w_i` maps `H^{2n−i}` to `H^i`; in a ring with
-  grading idempotents and no module, as in the source, both are hypotheses.
+  grading idempotents and no module, both are hypotheses.
 - On `ℚ[ξ]/(ξ³)` with `n = 2`, `w_0 = Λ²`, `w_1 = Λ` and `w_2 = 1` qualify; `w_0 = Λ` fails
   `w_0 L² = 1` on `H⁰`.
 - On `K[ξ]/(ξ^{n+1})`, `n ≥ 1`, with `𝒜 = F[L]` (Examples below), no `w_0` exists in `𝒜`, and indeed
@@ -363,16 +363,16 @@ projector; it maps `e₂` into `Ke₂`, while `Λ e₂ = e₀`, so `Λ ∉ 𝒜`
 
 `inv_mem_of_charpoly`: if the characteristic polynomial of every element of `𝒜` has coefficients
 in `F`, the inverse of an invertible element of `𝒜` lies in `𝒜`.
-`exists_inverse_L_pow_of_charpoly`, the source's statement: fix `i ≤ n`; if for every `g ∈ 𝒜`
+`exists_inverse_L_pow_of_charpoly`: fix `i ≤ n`; if for every `g ∈ 𝒜`
 with `g(H^i) ⊆ H^i` the characteristic polynomial of `g|_{H^i}` has coefficients in `F`, and some
 `u ∈ 𝒜` is bijective from `H^{2n−i}` onto `H^i` (not necessarily inverse to `L^{n−i}`), then some
 `w ∈ 𝒜` mapping `H^{2n−i}` to `H^i` is an inverse of `L^{n−i} : H^i → H^{2n−i}` (`w L^{n−i} = 1` on
 `H^i`, `L^{n−i} w = 1` on `H^{2n−i}`). The conclusion is an algebraic inverse of `L^{n−i}`, not
 `Λ ∈ 𝒜`, and `w` need not be homogeneous on the other degrees. `lambdaAlgebraic_of_charpoly`:
 under the extra hypothesis `ProjectorsAlgebraic`, the elements `π_i w π_{2n−i}` satisfy the
-hypotheses of 1.2, so `Λ ∈ 𝒜`. *Needs:* 1.1, 1.2. (For Betti cohomology with `ℚ` coefficients,
-the same passage from algebraic isomorphisms `H^{n+i} → H^{n−i}` and algebraic projectors to an
-algebraic inverse of `L^i` is Beilinson 2012, §2.3, proof of (b).)
+hypotheses of 1.2, so `Λ ∈ 𝒜`. *Needs:* 1.1, 1.2. (Source: Beilinson 2012, §2.3, proof of (b),
+which is the case `F = K = ℚ` for Betti cohomology, where the characteristic-polynomial hypothesis
+holds automatically and the cut by projectors is that of `lambdaAlgebraic_of_charpoly`.)
 
 **Checks.**
 
