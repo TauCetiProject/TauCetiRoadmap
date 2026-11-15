@@ -18,9 +18,9 @@ transcendence degree one over a finite field. The field Dennis–Stein presentat
 Weil reciprocity over all places of any one-variable function field, its disjoint-divisor
 form are also stated.
 
-The pinned libraries have no stable matrix/Steinberg carriers or classical and Quillen
-K-groups. Thus the stable universal-extension, finite-rank matrix, Matsumoto, classical/plus
-and product
+The pinned libraries have no stable Steinberg group and no classical `K₂` or Quillen
+K-groups; Tau Ceti's stable general linear group and algebraic `K₁` stop in degree one.
+Thus the stable universal-extension, finite-rank matrix, Matsumoto, classical/plus and product
 comparisons (Layers 0–4, 6–8), localization and tame-kernel sequences, integer and rational
 classical K₂ calculations (Layers 11–12), and local/relative Dennis–Stein, homotopy-fibre,
 dual-number and dyadic K₂ theorems (Layer 13) cannot be stated on their intended carriers.
@@ -28,10 +28,7 @@ Higher Milnor residue and norm maps are also absent: the Bass–Tate sequence, K
 independence, complete norm–residue square and integral Weil–Suslin reciprocity in all degrees
 (Layers 9–10) require those constructions. The local/global cyclic-algebra symbol comparisons
 and global degree-two norm-residue equivalence of §§10.32a–10.32b require their cyclic algebras
-and symbol maps. They also consume the normalized arbitrary-universe Brauer comparison
-owned by QuadraticFormInvariants: its comparison map and naturality laws are absent at the
-pins, whose crossed-product comparison is restricted to fields in `Type`. These results have no
-substitute statements here.
+and symbol maps. These results have no substitute statements here.
 -/
 
 namespace TauCetiRoadmap.K2SymbolsBrauer

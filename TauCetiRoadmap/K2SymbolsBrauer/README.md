@@ -565,7 +565,7 @@ Provide the following API.
 
 - The degree-zero component and its multiplication are canonically `ℤ`; `1≠0` in the ring.
 - The degree-one symbol class identifies `K⁽M⁾₁(F)` with `Additive Fˣ` and sends the unit 1 to zero.
-- `degreeTwoEquiv({a,b})=symbol(a,b)`.
+- The degree-two equivalence `K⁽M⁾₂(F)≃Q₂(F)` sends `{a,b}` to `symbol(a,b)`.
 - For a free rank-two module with basis `x,y, x⊗y−y⊗x≠0` before imposing relations; a commutative ideal quotient cannot supply this bridge.
 
 *Needs:* §5.2; Mathlib `TensorAlgebra`; Mathlib `TensorAlgebra.gradedAlgebra`; Mathlib `TensorAlgebra.equivDirectSum`; Mathlib `RingQuot`.
@@ -751,7 +751,7 @@ For a prime `p`, assume every polynomial `X^p−a` with `a∈F×` splits into li
 
 ### 5.15 The positive-entry subgroup over the real field
 
-For `n≥1` let `D_n⊂K⁽M⁾_n(ℝ)` be the `ℤ-span` of symbols with at least one strictly positive entry. Let `e_n={−1,…,−1}`. Then `D_n` is divisible, `e_n` has exact order two, and every class decomposes uniquely as `εe_n+d` with `ε∈ℤ/2` and `d∈D_n`. The sign map sends a symbol to 1 in `ℤ/2` exactly when all entries are negative, and its kernel equals `D_n`. For `n=2` use the light realization `realPositive⊂Q₂(ℝ)`. (Weibel, Example III.7.2(c), real symbol in Example III.6.2.1, pp. 245, 232.)
+For `n≥1` let `D_n⊂K⁽M⁾_n(ℝ)` be the `ℤ-span` of symbols with at least one strictly positive entry. Let `e_n={−1,…,−1}`. Then `D_n` is divisible, `e_n` has exact order two, and every class decomposes uniquely as `εe_n+d` with `ε∈ℤ/2` and `d∈D_n`. The sign map sends a symbol to 1 in `ℤ/2` exactly when all entries are negative, and its kernel equals `D_n`. For `n=2` use the light realization `D′₂⊂Q₂(ℝ)`. (Weibel, Example III.7.2(c), real symbol in Example III.6.2.1, pp. 245, 232.)
 
 `n≥1`; the usual ordered field `ℝ`; entries are nonzero units.
 
@@ -761,24 +761,24 @@ Provide the following API.
 
 - `MilnorK.realPositive`: `D_n` is the `span` of degree-n real symbols with a positive entry, `n≥1`.
 - The additive sign map is 1 on all-negative symbols and 0 on all others.
-- `ker(realSign)=D_n`.
+- The kernel of the sign map is `D_n`.
 - `K⁽M⁾_n(ℝ)≃+(ℤ/2)×D_n`, sending `e_n` to `(1,0)`.
 - For every integer `m>0`, multiplication by `m` on `D_n` is surjective.
-- The degree-two realization is the `span` in `Q₂(ℝ)` of `symbol(a,b)` with `a>0` or `b>0`.
-- For `m>0` multiplication by `m` on realPositive is surjective.
-- The all-negative pairing descends to a linear sign map `Q₂(ℝ)→ZMod 2` with kernel realPositive.
+- The degree-two realization `D′₂` is the `span` in `Q₂(ℝ)` of `symbol(a,b)` with `a>0` or `b>0`.
+- For `m>0` multiplication by `m` on `D′₂` is surjective.
+- The all-negative pairing descends to a linear sign map `Q₂(ℝ)→ZMod 2` with kernel `D′₂`.
 - `symbolℝ(−1,−1)≠0`.
-- `Q₂(ℝ)≃ₗ[ℤ]ZMod 2×realPositive`.
-- A real symbol with a positive entry belongs to realPositive.
-- `symbolℝ(−1,−1)∉realPositive`.
+- `Q₂(ℝ)≃ₗ[ℤ]ZMod 2×D′₂`.
+- A real symbol with a positive entry belongs to `D′₂`.
+- `symbolℝ(−1,−1)∉D′₂`.
 
 **Checks.**
 
 - `D₁` identifies with the positive real units; `e₁` is the class of `−1` and has order two.
-- If `a>0`, then `symbolℝ(a,b)∈realPositive` for every `b`.
-- `symbolℝ(−1,−1)∉realPositive`.
-- Multiplication by two on realPositive is surjective.
-- `K⁽M⁾₀(ℝ)=ℤ` is not `(ℤ/2)⊕D₀`; realDecomposition takes `n≥1`.
+- If `a>0`, then `symbolℝ(a,b)∈D′₂` for every `b`.
+- `symbolℝ(−1,−1)∉D′₂`.
+- Multiplication by two on `D′₂` is surjective.
+- `K⁽M⁾₀(ℝ)=ℤ` is not `(ℤ/2)⊕D₀`, so the decomposition needs `n≥1`.
 
 *Needs:* §5.3; §5.5.
 
@@ -1058,7 +1058,7 @@ Provide the following API.
 - `{1, v}_n = 1` and `{u, 1}_n = 1`.
 - If `u` and `1 − u` are units, `{u, 1 − u}_n = 1`.
 - `{u, −u}_n = 1` for every unit `u`.
-- Stabilisation sends `{u, v}_n` to `{u, v}_{n+1}`; the image in `St(A)` is `steinbergSymbol u v` of §6.4.
+- Stabilisation sends `{u, v}_n` to `{u, v}_{n+1}`; the image in `St(A)` is the Steinberg symbol of `u` and `v` of §6.4.
 - For `f : A →+* B`, the induced coefficient map sends `{u, v}_n` to `{f u, f v}_n`.
 - Over `ℤ, {−1, −1}_n = w_12(1)⁴`.
 
@@ -1664,7 +1664,7 @@ Let `V` be a set of discrete valuations on `F` such that every `f ∈ F^×` has 
 
 ### 9.14 The product formula for the higher residue
 
-For `x ∈ K^M_i(F)` and `y ∈ K^M_j(F): ∂_v(x·y) = λ_t(x)·∂_v(y) + (−1)^j·∂_v(x)·ρ_t(y)`, where `ρ_t : K^M_*(F) → K^M_*(k)` is the graded ring homomorphism rhoHom `∘ d_t`, characterised by `ρ_t{u·t^m} = {(−1)^m ū}`. In particular `∂_v(x·y) = x̄·∂_v(y)` when `x` is a product of symbols of units, so `∂_v` is a homomorphism of left modules over the image of `K^M_*(R^×)`. This is Ex. III.7.10 as printed, which holds for the roadmap's normalisation; for Theorem III.7.3's normalisation the formula is `∂^{Wb}(x·y) = (−1)^i λ_t(x)·∂^{Wb}(y) + ∂^{Wb}(x)·ρ_t(y)`. (Weibel, Exercise III.7.10, p. 258.)
+For `x ∈ K^M_i(F)` and `y ∈ K^M_j(F): ∂_v(x·y) = λ_t(x)·∂_v(y) + (−1)^j·∂_v(x)·ρ_t(y)`, where `ρ_t : K^M_*(F) → K^M_*(k)` is the graded ring homomorphism obtained by composing `d_t` with the `ρ-part` `L(k) → K^M_*(k)` of §9.9, characterised by `ρ_t{u·t^m} = {(−1)^m ū}`. In particular `∂_v(x·y) = x̄·∂_v(y)` when `x` is a product of symbols of units, so `∂_v` is a homomorphism of left modules over the image of `K^M_*(R^×)`. This is Ex. III.7.10 as printed, which holds for the roadmap's normalisation; for Theorem III.7.3's normalisation the formula is `∂^{Wb}(x·y) = (−1)^i λ_t(x)·∂^{Wb}(y) + ∂^{Wb}(x)·ρ_t(y)`. (Weibel, Exercise III.7.10, p. 258.)
 
 `v` is a surjective discrete valuation on `F` with uniformiser `t` and residue field `k`; `x ∈ K^M_i(F), y ∈ K^M_j(F)`.
 
@@ -1844,7 +1844,7 @@ For a field `F` and `n ≥ 1` the sequence `0 → K^M_n(F) → K^M_n F(t) −∂
 
 ### 10.6 The simple Milnor transfer and its degree-one, projection and degree formulas
 
-This section provides the transfer `N_{a/F}` of a finite simple extension, its agreement with the field norm in degree one, the projection formula and `N_{a/F} ∘ res = [E : F]`. Weil reciprocity on `ℙ¹` (§10.10), the prime-degree statements of §§10.11–10.14, Kato's theorem (§10.24), §10.32, §§10.32b–10.32c and §11.7 consume it.
+This section provides the transfer `N_{a/F}` of a finite simple extension, its agreement with the field norm in degree one, the projection formula and `N_{a/F} ∘ res = [E : F]`. Weil reciprocity on `ℙ¹` (§10.10), the prime-degree statements of §§10.11, 10.12 and 10.14, Kato's theorem (§10.24), §10.32, §§10.32b–10.32c and §11.7 consume it.
 
 Let `E = F(a)` be a finite extension, `π` the minimal polynomial of a, and `E ≅ F[t]/(π)` by `t ↦` a. Since `∂_∞` vanishes on `K^M_{n+1}(F)` and the residue sum is surjective with kernel `K^M_{n+1}(F)` (§10.5), there are unique homomorphisms `N_p : K^M_n(F[t]/p) → K^M_n(F), p` over the monic irreducible polynomials, with `−∂_∞ = Σ_p N_p ∘ ∂_p` on `K^M_{n+1}F(t)`. The transfer `N_{a/F} : K^M_n(E) → K^M_n(F)` is `N_π` transported to `E`; equivalently `N_{a/F}(x) = −∂_∞(y)` for any `y` with `∂_π(y) = x` and `∂_p(y) = 0` for `p ≠ π`. In degree zero it is multiplication by `[E : F]`. The projection formula and the degree formula `N_{a/F} ∘ res = [E : F]` are §10.8 and §10.9. Between the roadmap's normalisation of the residues and Theorem III.7.3's, every residue on `K^M_{n+1}F(t)` changes by the same sign `(−1)^n`, so `N_{a/F}` is the same in both. Independence of the generator a is Kato's theorem (§10.24), not part of this definition. (Weibel, III.7.5, paragraph before Definition 7.5, p. 248; Weibel, III.7.5, Definition 7.5, p. 248; Weibel, III.7.5, after Definition 7.5, p. 248; Weibel, III.7.5.2, Projection Formula 7.5.2, p. 248; Weibel, III.7.5.3, Corollary 7.5.3, p. 248.)
 
@@ -2385,7 +2385,7 @@ K/F is a function field of one variable and `f, g ∈ K^×` have principal divis
 
 *Needs:* §9.2; §10.30; Tau Ceti `TauCeti.Divisor.eval`; Tau Ceti `TauCeti.Divisor.eval_eq_prod_normResidue`; Tau Ceti `TauCeti.Divisor.isUnitAtSupport_iff_disjoint`; Tau Ceti `TauCeti.Divisor.principal`; Tau Ceti `TauCeti.Place.normResidue`; Tau Ceti `WeierstrassCurve.Affine.isFunctionField`; EllipticCurves Layer 0.
 
-**Tame products and divisor evaluation use the curve interfaces.** For a proper regular curve with function field K/F and `f,g∈Kˣ`, the product over closed points of `N_(κ(P)/F)((−1)^(a_P b_P)res_P(f^(b_P)g^(−a_P)))` equals 1, where `a_P=ord_P f` and `b_P=ord_P g`. If principal divisors are disjoint this identity is (Divisor.principal hF g).eval `f=(Divisor.principal hF f).eval g`. On an elliptic Weierstrass function field this supplies EllipticCurves Layer 2’s milestone, using Tau Ceti’s divisor evaluation and EllipticCurves Layer 0’s function-field interfaces. (Weibel, III.7.3, III.7.5.1, pp. 246, 248.)
+**Tame products and divisor evaluation use the curve interfaces.** For a proper regular curve with function field K/F and `f,g∈Kˣ`, the product over closed points of `N_(κ(P)/F)((−1)^(a_P b_P)res_P(f^(b_P)g^(−a_P)))` equals 1, where `a_P=ord_P f` and `b_P=ord_P g`. If principal divisors are disjoint this identity is `(Divisor.principal hF g).eval f = (Divisor.principal hF f).eval g`. On an elliptic Weierstrass function field this supplies EllipticCurves Layer 2’s milestone, using Tau Ceti’s divisor evaluation and EllipticCurves Layer 0’s function-field interfaces. (Weibel, III.7.3, III.7.5.1, pp. 246, 248.)
 
 **Checks.**
 
@@ -2629,7 +2629,7 @@ E/F is a finite field extension. The two norms are compared on `K_2 = K^M_2` thr
 
 ### 11.8 The degree-two residue comparison square
 
-Let `R` be the discrete valuation ring, with fraction field `F` and residue field `k`. Write `μ_F:K^M_2(F)≃K₂^St(F)` for the Matsumoto equivalence of §7.2, `c_F:K₂^St(F)≃K₂^Q(F)` for §4.1 followed by the `plus=Q` comparison of GeneralAlgebraicKTheory §3.12, `η_F=c_F∘μ_F, c_F♮=c_F∘(ε·)` for the torus sign of §8.1, `η_F♮=c_F♮∘μ_F=Φ₂` by §8.3, and `det_k:K₁^Q(k)≃kˣ` for the field determinant comparison of KTheoryLowDegrees §8.1. For the actual localization boundary `B^R₂:K₂^Q(F)→K₁^Q(k)`, normalized by `B₁[π]=1` and the right module rule `B(x·j*y)=B(x)·i*y`, the following equalities of homomorphisms hold: `tameSymbolHom^M_v=tameSymbolHom^St_v∘μ_F=inv∘det_k∘B^R₂∘η_F♮`. With the raw Hurewicz comparison, `det_k∘B^R₂∘η_F=(tameSymbolHom^M_v)^(−ε)`. Also `∂^last_v` in degree two agrees with `tameSymbolHom^M_v` under `K^M_1(k)=kˣ`. Setting `B^L₂=−B^R₂` gives `det_k∘B^L₂∘η_F♮=tameSymbolHom^M_v`. Here inv denotes inversion of the abelian group `kˣ`. These equalities concern the actual symbol, product and connecting maps, not arbitrary chosen isomorphisms. The same inversion is applied at every prime in the Dedekind boundary and cancels from either norm/residue square. (Weibel, V.6.1.2, V.6.6–6.6.1; `V.(6.6.3)–(6.6.4)`, pp. 406, 409–410; Weibel, III.6.3, III.7.1 and III.7.3, pp. 234, 245, 246.)
+Let `R` be the discrete valuation ring, with fraction field `F`, valuation `v` and residue field `k`. Write `T_v:K^M_2(F)→kˣ` for the tame symbol homomorphism of §9.5 and `T^St_v:K₂^St(F)→kˣ` for its transport through Matsumoto's isomorphism (§9.5). Write `μ_F:K^M_2(F)≃K₂^St(F)` for the Matsumoto equivalence of §7.2, `c_F:K₂^St(F)≃K₂^Q(F)` for §4.1 followed by the `plus=Q` comparison of GeneralAlgebraicKTheory §3.12, `η_F=c_F∘μ_F, c_F♮=c_F∘(ε·)` for the torus sign of §8.1, `η_F♮=c_F♮∘μ_F=Φ₂` by §8.3, and `det_k:K₁^Q(k)≃kˣ` for the field determinant comparison of KTheoryLowDegrees §8.1. For the actual localization boundary `B^R₂:K₂^Q(F)→K₁^Q(k)`, normalized by `B₁[π]=1` and the right module rule `B(x·j*y)=B(x)·i*y`, the following equalities of homomorphisms hold: `T_v=T^St_v∘μ_F=inv∘det_k∘B^R₂∘η_F♮`. With the raw Hurewicz comparison, `det_k∘B^R₂∘η_F=T_v^(−ε)`. Also `∂^last_v` in degree two agrees with `T_v` under `K^M_1(k)=kˣ`. Setting `B^L₂=−B^R₂` gives `det_k∘B^L₂∘η_F♮=T_v`. Here inv denotes inversion of the abelian group `kˣ`. These equalities concern the actual symbol, product and connecting maps, not arbitrary chosen isomorphisms. The same inversion is applied at every prime in the Dedekind boundary and cancels from either norm/residue square. (Weibel, V.6.1.2, V.6.6–6.6.1; `V.(6.6.3)–(6.6.4)`, pp. 406, 409–410; Weibel, III.6.3, III.7.1 and III.7.3, pp. 234, 245, 246.)
 
 `π∈Fˣ` is a uniformizer of order one. The Milnor, classical, plus and Quillen identifications and the localization/product maps are the specified natural maps.
 
@@ -2663,7 +2663,7 @@ Provide the following API.
 
 - For a family `v : I →` discrete valuations of `F, ⨅ i, ker(∂_{v i})` as a subgroup of `K_2(F)`.
 - `x ∈ U ↔ ∀ i, ∂_{v i} x = 1`.
-- For `S ⊆ I, ⨅ i ∉ S, ker(∂_{v i})`; `unramifiedOutside ∅ = unramifiedSubgroup`, and it is monotone in `S`.
+- For `S ⊆ I, ⨅ i ∉ S, ker(∂_{v i})`; for `S = ∅` it is `U`, and it is monotone in `S`.
 - Under finite support, `U = ker(K_2(F) → ⨁ i, k(v i)ˣ)`.
 - If `u` and `w` are units at every `v_i` then `{u, w} ∈ U`.
 - For a Dedekind domain `R` with fraction field `F` and `I = HeightOneSpectrum R`, the image of `K_2(R) → K_2(F)` lies in `U`.
@@ -2677,7 +2677,7 @@ Provide the following API.
 - For an odd prime `p, {−1, p} ∉ U` over `ℚ`: its tame symbol at `p` is `−1 ≠ 1` in `𝔽_p^×`; a definition testing only symbols of units, or only one place, misses this.
 - `{3, 3} ∉ U` over `ℚ`: the sign `(−1)^{v(f)v(g)}` makes its tame symbol at 3 equal to `−1`; a symbol without the sign would wrongly put `{3, 3}` in `U`.
 - `{2, −1} = 1` by the Steinberg relation `(2 + (−1) = 1)`; correspondingly its tame symbol at 2 is `−1 = 1` in `𝔽_2^×` and all others are 1.
-- For the empty family `U = K_2(F)`, and unramifiedOutside `I = K_2(F)`.
+- For the empty family `U = K_2(F)`, and for `S = I` the subgroup `⨅ i ∉ S, ker(∂_{v i})` is `K_2(F)`.
 - For `ℚ` and the primes, `x ∈ U` exactly when the residue sum of `x` in `⨁_p 𝔽_p^×` vanishes.
 - For `R = ℤ` the valuation Mathlib attaches to `(p) ∈` HeightOneSpectrum `ℤ` is the p-adic valuation and `ℤ ⧸ (p) ≅` ZMod `p`, so the tame symbol at `(p)` lands in `(ZMod p)ˣ`.
 
