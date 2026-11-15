@@ -3504,7 +3504,7 @@ Everything above; nothing outside this roadmap beyond the suppliers already name
 
 ## Downstream consumers
 
-- The sibling `HalfIntegralWeightModularForms` names this roadmap for the Siegel side of the Jacobi theory: the Fourier–Jacobi expansion (9.1), the Jacobi Eisenstein series (4.2 and 9.2), the Maass lift and the Saito–Kurokawa theorem (9.3–9.5) and the Gritsenko lift (9.6), and reads the dimension values `dim J_{10,1} = dim J_{12,1} = 2` of 9.2.
+- The sibling `HalfIntegralWeightModularForms` names this roadmap for the Siegel side of the Jacobi theory: the Fourier–Jacobi expansion (9.1), the Jacobi Eisenstein series (4.2 and 9.2), the Maass lift and the Saito–Kurokawa theorem (9.3–9.5) and the Gritsenko lift (9.6).
 - The sibling `LatticePackingsAndPerfectForms` defers degree-`g` theta series with and without pluriharmonic coefficients to Layer 5.
 - The sibling `HilbertModularForms` defers Siegel modular forms to this roadmap. The sibling `HilbertModularSurfaces` names this roadmap for Humbert surfaces and the map to the Siegel threefold, which are not objects here and are owned by no roadmap (*Scope and ownership*), so that exclusion has no owner to point to here. Nothing of either sibling is consumed here.
 - The LMFDB `smf` pages and the `g2c.paramodular_conjecture` knowl are specified by Layer 11 and 10.6.
