@@ -1831,12 +1831,16 @@ Layer 1 item 2 (the cubical Serre spectral sequence).
 
 ### 5.5 Fibre shriek maps and the top column of the index spectral sequence
 
-Let `B` be a connected `n`-manifold, possibly with boundary, with basepoint `b`, and let `𝓕` be
-a DG local system on `B`. Say that a class `α ∈ H_*(B, ∂B; 𝓕)` *lives over the fundamental
-class* of `B` when its image under item 3's shriek map `i_! : H_*(B, ∂B; 𝓕) → H_{*−n}(𝓕)` of
-the inclusion `i : {b} → B` is nonzero, the target being trivialized by a local orientation at
-`b` as in the first bullet below (the source's Definition 2.3, `bdho-cotangent` lines
-1092–1095). For a fibration `F → E → B` with `∂E = E|_{∂B}`, a class of
+Let `B` be a connected `n`-manifold, possibly with boundary, with basepoint `b`, oriented or
+taken over `𝔽₂`, and let `𝓕` be a DG local system on `B`. Say that a class
+`α ∈ H_*(B, ∂B; 𝓕)` *lives over the fundamental class* of `B` when its image under item 3's
+shriek map `i_! : H_*(B, ∂B; 𝓕) → H_{*−n}(𝓕)` of the inclusion `i : {b} → B` is nonzero, the
+orientation factor `(or_B)_b` of the target being trivialized by the orientation of `B`, and
+canonically over `𝔽₂` (the source's Definition 2.3, `bdho-cotangent` lines 1092–1095, for the
+orientable `B` of line 1087). For nonorientable `B` over `ℤ` the notion is that of a class of
+`H_*(B, ∂B; 𝓕 ⊗ or_B)`, whose shriek image lies in `H_{*−n}(𝓕)` once the two orientation
+factors at `b` contract as in the first bullet below; such a class lives over `[B]_or`. For a
+fibration `F → E → B` with `∂E = E|_{∂B}`, a class of
 `H_*(E, ∂E) ≅ H_*(B, ∂B; C_*(F))` lives over the fundamental class when it does so for
 `𝓕 = C_*(F)`, that is, when its image in `H_{*−n}(F)` is nonzero (Example 2.4). Prove the chain
 characterization of Proposition 2.5 with the coefficient and orientation data. For an oriented
@@ -1870,8 +1874,13 @@ AlgebraicTopology Stage 6.
 - For the trivial fibration `B × F → B` the class `[B] × α` lives over the fundamental class
   for every `α ≠ 0`, and `i_!([B] × α) = α`.
 - For the Hopf fibration, `[S³]` lives over `[S²]` and `i_![S³] = [S¹]`.
-- For `B = ℝP²` over `ℤ`, no class in `H₂(E; ℤ)` lives over an (untwisted) fundamental class,
-  since `H₂(ℝP²; ℤ) = 0`; the twisted statement with `or_B` applies instead.
+- For `B = ℝP²` over `ℤ` and `F` a point, `H₂(ℝP²; ℤ) = 0` while `H₂(ℝP²; or_B) = ℤ` and
+  `[ℝP²]_or ↦ 1`. For the double cover `S² → ℝP²`, with `F` two points and `C₀(F) = ℤ[ℤ/2]`
+  swapped by the generator `t`, the cellular differential `∂e₂ = (1 + t)e₁` becomes
+  `(1 − t)e₁` after the twist by `or_B`, so `[S²]` with `π^*or_B` coefficients is `(1 + t)e₂`
+  and lives over `[ℝP²]_or`, with image `(1, 1)` in `H₀(F) = ℤ²`. Read untwisted through a
+  chosen local orientation at `b`, the untwisted `[S²] = (1 − t)e₂` would have image
+  `±(1, −1) ≠ 0`, its sign set by that choice, over a base with no integral fundamental class.
 
 ### 5.6 The free loop space
 
