@@ -9,7 +9,7 @@ omitting types theorem, Craig, Lyndon and Malitz interpolation for sentences, an
 well-ordering argument, which shows that the well-ordered models of a sentence have uniformly
 bounded countable order type and that no Lω₁ω sentence defines the class of well-orders.
 
-The [InfinitaryLogic roadmap](../InfinitaryLogic/README.md) built the syntax and semantics of Lω₁ω
+The [InfinitaryLogic roadmap](../../Completed/InfinitaryLogic/README.md) built the syntax and semantics of Lω₁ω
 and L∞ω, back-and-forth equivalence, Karp's theorem and Scott's isomorphism theorem, and listed
 model existence and downward Löwenheim–Skolem for countable fragments among the topics it left to
 separate roadmaps. This roadmap specifies them, together with the material that rests on them:
@@ -110,8 +110,8 @@ Pin these once; every statement below uses them.
 
 | Supplier | Consumed material |
 |---|---|
-| [InfinitaryLogic, Layer 0](../InfinitaryLogic/README.md) and its Tau Ceti implementation `TauCeti.ModelTheory.Infinitary.*` | `BoundedFormulaInf`, `BoundedFormulaω`, `Sentenceω`, the derived connectives and `alls`/`exs`, `BoundedFormulaInf.Realize`, `SentenceInf.Realize`, `toInf`/`toOmega` with `realize_toInf`, `IndexCoding`, `iInfAlong`/`iSupAlong` with their realization lemmas, `reindex`, `mapBound`, `castLE`, `TauCeti.BoundedFormulaInf.subst` and `relabel` with their realization laws, `qrank`, and invariance of realization under isomorphisms (`StrongHomClass.realize_sentenceInf`) |
-| [InfinitaryLogic, Layers 1–3](../InfinitaryLogic/README.md) | `InfEquivAt` (Lω₁ω-equivalence is `InfEquivAt ℕ`), `BFEquiv`, Scott sentences `scottSentence` and `scott_isomorphism`, used in worked examples |
+| [InfinitaryLogic, Layer 0](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation `TauCeti.ModelTheory.Infinitary.*` | `BoundedFormulaInf`, `BoundedFormulaω`, `Sentenceω`, the derived connectives and `alls`/`exs`, `BoundedFormulaInf.Realize`, `SentenceInf.Realize`, `toInf`/`toOmega` with `realize_toInf`, `IndexCoding`, `iInfAlong`/`iSupAlong` with their realization lemmas, `reindex`, `mapBound`, `castLE`, `TauCeti.BoundedFormulaInf.subst` and `relabel` with their realization laws, `qrank`, and invariance of realization under isomorphisms (`StrongHomClass.realize_sentenceInf`) |
+| [InfinitaryLogic, Layers 1–3](../../Completed/InfinitaryLogic/README.md) | `InfEquivAt` (Lω₁ω-equivalence is `InfEquivAt ℕ`), `BFEquiv`, Scott sentences `scottSentence` and `scott_isomorphism`, used in worked examples |
 | Mathlib `ModelTheory/LanguageMap.lean` | `LHom`, `LHom.onTerm`, `LHom.reduct`, `LHom.IsExpansionOn`, `LHom.Injective`, `Language.sum`, `LHom.sumInl`/`sumInr`/`sumElim`, `withConstants` and `L.con`, `constantsOn` |
 | Mathlib `ModelTheory/Syntax.lean`, `Semantics.lean` | `Term.subst`, `Term.relabel`, `BoundedFormula.toFormula`, `BoundedFormula.constantsVarsEquiv`, `LHom.realize_onBoundedFormula`, `Theory.Model` |
 | Mathlib `ModelTheory/Satisfiability.lean`, `Bundled.lean` | `Theory.IsSatisfiable`, `Theory.ModelsBoundedFormula`, `Theory.ModelType` (nonempty models), first-order compactness `Theory.isSatisfiable_iff_isFinitelySatisfiable` |
@@ -895,7 +895,7 @@ The following belong to separate roadmaps or to the named sibling.
 ## Coordination
 
 * **Parent roadmap.** Everything rests on the [InfinitaryLogic
-  roadmap](../InfinitaryLogic/README.md) and its Tau Ceti implementation
+  roadmap](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation
   (`TauCeti.ModelTheory.Infinitary`, `BackAndForth`, `Scott`; Scott's theorem in [Tau Ceti
   #18977](https://github.com/TauCetiProject/TauCeti/pull/18977), forward Karp and `InfEquivAt` in
   [#18194](https://github.com/TauCetiProject/TauCeti/pull/18194)). The parent did not build language
