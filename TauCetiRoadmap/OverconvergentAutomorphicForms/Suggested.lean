@@ -27,8 +27,9 @@ carriers are available. None of the following headlines is statable at these pin
   comparison also lacks toroidal-to-minimal pushforwards and the completed
   coefficient-valued cusp-unit invariant sheaves; a minimal Igusa torsor is
   not a carrier for this comparison.
-* The definite unitary Jacquet eigenvariety's dimension, Cohen–Macaulay property
-  and reducedness (Layer 0) lack completed automorphic coefficient functions,
+* The definite unitary Jacquet eigenvariety's dimension and reducedness, and the
+  Cohen–Macaulay property of its coherent coefficient sheaf over it (Layer 0),
+  lack completed automorphic coefficient functions,
   locally analytic Jacquet modules and rigid eigenvarieties.
 * The Siegel analytic coefficient and algebraic comparisons (Layer 8) lack the
   Siegel period-domain tower and normalized analytic induction sheaves.
