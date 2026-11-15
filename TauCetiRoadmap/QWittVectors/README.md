@@ -30,7 +30,7 @@ Complexes are cochain complexes. Ordinary and q-Witt de Rham algebras are graded
 
 ### From Mathlib
 
-The dependency pin is Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a`.
+The dependency pin is Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`.
 
 - `WittVector` and `WittVector.ext` in `Mathlib/RingTheory/WittVector/Defs.lean` give the p-typical sequence carrier and coordinate extensionality.
 - `WittVector.map`, `WittVector.map_coeff`, `WittVector.ghostMap`, `WittVector.ghostComponent` and `WittVector.ghostComponent_apply` in `Mathlib/RingTheory/WittVector/Basic.lean` give functorial ring maps and the p-typical ghost polynomial. These declarations assume `CommRing R` and `Fact p.Prime` for the ring structure.
@@ -43,7 +43,7 @@ The dependency pin is Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a`.
 
 ### From Tau Ceti
 
-The dependency pin is `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The p-typical comparison respects `WittVector.isAdicComplete_span_p_teichmuller` in `TauCeti/RingTheory/WittVector/Complete.lean`: R is characteristic p and perfect, and is complete at (ϖ). `TauCeti.WittVector.continuous_frobenius` and `TauCeti.WittVector.continuous_frobeniusEquiv_symm` in `TauCeti/RingTheory/WittVector/Frobenius.lean` require an adic topology at (p,[ϖ]); the inverse also needs perfectness. They supply compatibility with the existing p-typical topology, not the relative coefficient map of Layer 6. No endpoint depends on strengthening these declarations. `TauCeti.kaehlerBasisOfFormallyEtale` and `TauCeti.kaehlerBasisOfFormallyEtale_apply` in `TauCeti/RingTheory/Kaehler/FormallyEtale.lean` transport an S-basis of Ω[S/A] to a T-basis of Ω[T/A] for a commutative scalar tower A→S→T with T formally étale over S. For S=A[T₁,…,T_r], this supplies the coordinate differential basis used in §§8.3 and 9.1.
+The dependency pin is `2fd255d997f47c0b5d834ee416c7015d55444ce5`. The p-typical comparison respects `WittVector.isAdicComplete_span_p_teichmuller` in `TauCeti/RingTheory/WittVector/Complete.lean`: R is characteristic p and perfect, and is complete at (ϖ). `TauCeti.WittVector.continuous_frobenius` and `TauCeti.WittVector.continuous_frobeniusEquiv_symm` in `TauCeti/RingTheory/WittVector/Frobenius.lean` require an adic topology at (p,[ϖ]); the inverse also needs perfectness. They supply compatibility with the existing p-typical topology, not the relative coefficient map of Layer 6. No endpoint depends on strengthening these declarations. `TauCeti.kaehlerBasisOfFormallyEtale` and `TauCeti.kaehlerBasisOfFormallyEtale_apply` in `TauCeti/RingTheory/Kaehler/FormallyEtale.lean` transport an S-basis of Ω[S/A] to a T-basis of Ω[T/A] for a commutative scalar tower A→S→T with T formally étale over S. For S=A[T₁,…,T_r], this supplies the coordinate differential basis used in §§8.3 and 9.1.
 
 ### From TauCetiRoadmap.DerivedModuleAlgebra
 
