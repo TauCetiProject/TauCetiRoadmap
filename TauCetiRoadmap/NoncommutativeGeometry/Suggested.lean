@@ -1,109 +1,70 @@
+module
 /-
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import TauCeti.Algebra.Lie.Derivation.Basic
-import Mathlib.LinearAlgebra.Multilinear.Basic
-import Mathlib.Basic.Complex.Basic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
-import Mathlib.Analysis.InnerProductSpace.Adjoint
-import Mathlib.Analysis.Normed.Operator.Compact.Basic
-import Mathlib.Analysis.InnerProductSpace.LinearPMap
-import TauCeti.Analysis.Normed.Operator.Resolvent.Unbounded
+import Mathlib
+import TauCeti.RingTheory.CyclicCohomology.Matrix
 
 /-!
-**This file is not the roadmap and is not exhaustive.**
-These are suggested forms. The README is the definitive specification.
-The torus character uses native multilinear maps and Tau Ceti's existing
-noncommutative derivation Lie subalgebra. The cycle equations use bounded
-operators and the native compact-operator predicate. Summability, closed
-unbounded domains and trace ideals are the developments of the README.
+# Cyclic cohomology, spectral triples and noncommutative tori: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned
+Mathlib and Tau Ceti, the headline theorem of the roadmap that is statable on the pinned
+carriers: matrix Morita invariance of cyclic cohomology (N1.Cyclic, consumed by N2), on
+Tau Ceti's `cyclicCohomology` and its matrix extension `cyclicCohomology.matrixExtension`.
+
+Two headlines of the README are theorems of the pinned Tau Ceti and are not restated here:
+the realization of every cyclic cocycle as the character of a universal-form cycle
+(N1.Cyclic) is `UniversalForms.cycleCocycle_trace`, and the torus cyclic two-cocycle of N6,
+in its algebraic form for a trace killed by two commuting derivations, is
+`traceDerivationPairCocycle`.
+
+Headline theorems of the README that are not statable at the pins:
+
+* the character index theorem of N3 lacks a trace functional on trace-class operators (the
+  pins have the trace-class and Schatten ideals for `1 ≤ p < ∞` with their gauges, and the
+  trace only in finite dimension, `LinearMap.trace` and `TauCeti.traceCLM`), hence the
+  conditional trace `Tr′` and the character; it also lacks the Schatten quasi-ideals for
+  `0 < p < 1`;
+* the Hochschild-class theorem of N5 lacks the Borel functional calculus `|D|⁻ⁿ` of a
+  self-adjoint operator with compact resolvent, the spectral-triple carrier, N3's
+  character and the complex-linear Dixmier trace on `L^(1,∞)` of a dilation-invariant
+  generalized limit, which the Hochschild cocycle evaluates on non-positive operators; the pin
+  has the logarithmic ideal and the real-valued `dixmierTrace`, which is Dixmier's trace on
+  positive operators and `Tr_ω(|T|)` on a general operator `T`;
+* the periodic cyclic cohomology `HP^even(𝒜_θ) ≃ ℂ²` of N6 lacks the Fréchet topology and the
+  derivations of the smooth torus `SmoothNoncommutativeTorus` and a continuous periodic cyclic
+  cohomology; the pin has the algebraic periodic theory and continuous cyclic cohomology in
+  each fixed degree;
+* the Hochschild computation for Diophantine θ in N6 lacks continuous Hochschild cohomology
+  with coefficients in the continuous dual of the smooth torus;
+* the Heisenberg-module index and the trace/Chern values `(θ, 1)` of N7 lack the completion and
+  the interior tensor product of Hilbert C⋆-modules (the pins have Mathlib's `CStarModule` class
+  with neither), hence the completed Heisenberg module over the rotation algebra and its
+  localization at the trace, and the derivations of `SmoothNoncommutativeTorus` that define the
+  torus cocycle φ.
 -/
 
-namespace NoncommutativeGeometry
-universe u v
+namespace TauCetiRoadmap.NoncommutativeGeometry
 
-section Algebraic
-variable {A : Type u} [Ring A] [Algebra ℂ A]
+universe u v w
 
-/-- The degree-two cyclic and Hochschild conditions are explicit equations. -/
-structure CyclicTwoCocycle where
-  cochain : MultilinearMap ℂ (fun _ : Fin 3 => A) ℂ
-  cyclic : ∀ a b c : A, cochain ![a,b,c] = cochain ![c,a,b]
-  cocycle : ∀ a b c d : A,
-    cochain ![a*b,c,d] - cochain ![a,b*c,d] +
-      cochain ![a,b,c*d] - cochain ![d*a,b,c] = 0
+/-! ## N1.Cyclic: matrix Morita invariance -/
 
-/-- The ordered torus cocycle has one factor of (2πi)⁻¹. -/
-noncomputable def torusTwoCochain (τ : A →ₗ[ℂ] ℂ)
-    (δ₁ δ₂ : TauCeti.derivationLieAlgebra ℂ A) :
-    MultilinearMap ℂ (fun _ : Fin 3 => A) ℂ where
-  toFun a := (2 * (Real.pi : ℂ) * Complex.I)⁻¹ *
-    τ (a 0 * ((δ₁ : Module.End ℂ A) (a 1) * (δ₂ : Module.End ℂ A) (a 2) -
-      (δ₂ : Module.End ℂ A) (a 1) * (δ₁ : Module.End ℂ A) (a 2)))
-  map_update_add' := by
-    sorry
-  map_update_smul' := by
-    sorry
-
-/-- Trace invariance and commuting derivations give the actual cyclic cocycle. -/
-noncomputable def torusTwoCocycle (τ : A →ₗ[ℂ] ℂ)
-    (δ₁ δ₂ : TauCeti.derivationLieAlgebra ℂ A)
-    (htrace : ∀ a b : A, τ (a*b) = τ (b*a))
-    (h₁ : ∀ a : A, τ ((δ₁ : Module.End ℂ A) a) = 0)
-    (h₂ : ∀ a : A, τ ((δ₂ : Module.End ℂ A) a) = 0)
-    (hcomm : (δ₁ : Module.End ℂ A).comp (δ₂ : Module.End ℂ A) =
-      (δ₂ : Module.End ℂ A).comp (δ₁ : Module.End ℂ A)) :
-    CyclicTwoCocycle (A := A) where
-  cochain := torusTwoCochain τ δ₁ δ₂
-  cyclic := by
-    sorry
-  cocycle := by
-    sorry
-
-end Algebraic
-
-section Hilbert
-variable {A : Type u} [Ring A] [Algebra ℂ A] [StarRing A]
-variable {H : Type v} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
-variable [SecondCountableTopology H]
-
-/-- A unital normalized subcase of N3's bounded cycles; the README also treats
-nonunital representations and normalization by doubling. -/
-structure NormalizedEvenCycle (π : A →⋆ₐ[ℂ] (H →L[ℂ] H)) where
-  F : H →L[ℂ] H
-  grading : H →L[ℂ] H
-  F_selfAdjoint : star F = F
-  F_involution : F * F = 1
-  grading_selfAdjoint : star grading = grading
-  grading_involution : grading * grading = 1
-  odd : grading * F = -(F * grading)
-  representation_even : ∀ a : A, grading * π a = π a * grading
-  compact_commutator : ∀ a : A, IsCompactOperator (F * π a - π a * F)
-
-/-- A representative unital spectral-triple interface using the native partial
-operator and resolvent. Regularity, parity and Fréchet continuity are specified
-in N5 rather than hidden in proposition-valued placeholders here. -/
-structure SpectralTriple (π : A →⋆ₐ[ℂ] (H →L[ℂ] H)) where
-  D : H →ₗ.[ℂ] H
-  selfAdjoint : IsSelfAdjoint D
-  imaginary_mem_resolvent : Complex.I ∈ TauCeti.LinearPMap.resolventSet D
-  compact_resolvent : IsCompactOperator (TauCeti.LinearPMap.resolvent D Complex.I)
-  domain_invariant : ∀ (a : A) (ξ : D.domain), π a (ξ : H) ∈ D.domain
-  commutator : A →ₗ[ℂ] (H →L[ℂ] H)
-  commutator_eq : ∀ (a : A) (ξ : D.domain),
-    D ⟨π a (ξ : H), domain_invariant a ξ⟩ - π a (D ξ) = commutator a ξ
-
-/-- The odd positive spectral projection uses P=(1+F)/2, fixing the index sign. -/
-noncomputable def positiveProjection (F : H →L[ℂ] H) : H →L[ℂ] H :=
-  (1 / 2 : ℂ) • (1 + F)
-
-/-- These are projection equations, not an opaque assertion of an index model. -/
-theorem positiveProjection_equations (F : H →L[ℂ] H)
-    (hself : star F = F) (hinv : F * F = 1) :
-    star (positiveProjection F) = positiveProjection F ∧
-      positiveProjection F * positiveProjection F = positiveProjection F := by
+/-- **Matrix Morita invariance of cyclic cohomology.** For a unital algebra `A` over a
+commutative `ℚ`-algebra `R`, coefficients in an `R`-module `M` and a nonempty finite index type
+`ι`, the matrix extension `φ ↦ φ#Tr`,
+`(φ#Tr)(a₀, …, aₙ) = ∑ φ((a₀)_{i₀i₁}, …, (aₙ)_{iₙi₀})`, induces a bijection
+`HCⁿ(A; M) → HCⁿ(M_ι(A); M)` in every degree `n`. Connes, Non-commutative differential
+geometry, Publ. Math. IHÉS 62 (1985), Part II, Corollary 24, p. 113, for the bimodule `A^ι`,
+is the case `R = M = ℂ`; in general the matrix extension and restriction to a diagonal corner
+are mutually inverse on Hochschild cohomology, and the five lemma along the SBI sequence
+carries this to cyclic cohomology over a `ℚ`-algebra. -/
+theorem bijective_matrixExtension {R : Type u} [CommRing R] [Algebra ℚ R]
+    {A : Type v} [Ring A] [Algebra R A] {M : Type w} [AddCommGroup M] [Module R M]
+    (ι : Type*) [Fintype ι] [DecidableEq ι] [Nonempty ι] (n : ℕ) :
+    Function.Bijective (TauCeti.cyclicCohomology.matrixExtension (R := R) (A := A) M ι n) := by
   sorry
 
-end Hilbert
-end NoncommutativeGeometry
+end TauCetiRoadmap.NoncommutativeGeometry
