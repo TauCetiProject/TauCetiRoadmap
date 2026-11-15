@@ -56,10 +56,10 @@ mathematical carrier, rather than a few simple definitions on existing carriers:
   very-good tensor embeddings and marked p-divisible deformation functors.
 
 Mathlib's Witt-vector isocrystal class supplies a rational Frobenius module over a perfect field,
-and Mathlib's `Module.Grassmannian.functor` supplies the functor of filtration points of a module
-without its representing scheme. Neither supplies the integral display carrier or any of these
-tensor deformation problems, and stating a headline through a stand-in for a missing carrier would
-replace it by a weaker theorem.
+Mathlib's `Module.Grassmannian.functor` supplies the functor of filtration points of a module, and
+Tau Ceti's `Module.Grassmannian.scheme` represents that functor over an affine base. None of them
+supplies the integral display carrier or any of these tensor deformation problems, and stating a
+headline through a stand-in for a missing carrier would replace it by a weaker theorem.
 -/
 
 @[expose] public section
