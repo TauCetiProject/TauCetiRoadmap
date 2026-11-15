@@ -4,7 +4,7 @@ public import Mathlib
 public import TauCeti.Analysis.SpecialFunctions.RegularizedHypergeometric
 
 /-!
-# Struve and related functions: target signatures
+# Struve, Lommel, Anger and Weber functions: target signatures
 
 This file states the headline theorems of the roadmap against the pinned Mathlib and Tau Ceti,
 one or more per layer, as a check that the conventions of `README.md` can be stated. `README.md`
@@ -181,7 +181,18 @@ def angerScaledCoeff (lam : ℂ) (k : ℕ) : ℂ :=
     if Even n then (((n + 1)! : ℕ) : ℂ)⁻¹ else 0
   PowerSeries.coeff (2 * k) ((1 + PowerSeries.C lam * e)⁻¹ ^ (2 * k + 1))
 
-/-! ## Layer 1: definitions and the equations -/
+/-! ## Layer 1: inhomogeneous Bessel equations and their series solutions -/
+
+/-- `μ ↦ S_{μ,ν}(z)` is entire: the exceptional parameters are removable. -/
+theorem differentiable_lommelCapitalS (ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
+    Differentiable ℂ fun μ => lommelCapitalS μ ν z := by
+  sorry
+
+/-- DLMF 11.9.1 for `S_{μ,ν}`, at all parameters. -/
+theorem lommelCapitalS_ode (μ ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
+    deriv^[2] (lommelCapitalS μ ν) z + deriv (lommelCapitalS μ ν) z / z +
+      (1 - ν ^ 2 / z ^ 2) * lommelCapitalS μ ν z = z ^ (μ - 1) := by
+  sorry
 
 /-- DLMF 11.2.1: the Struve series. -/
 theorem hasSum_struveH (ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
@@ -202,11 +213,44 @@ theorem struve_general_solution (ν : ℂ) (w : ℂ → ℂ) (hw : Differentiabl
     ∃ A B : ℂ, ∀ z ∈ slitPlane, w z = struveH ν z + A * besselJ ν z + B * besselY ν z := by
   sorry
 
-/-! ## Layer 2: basic properties -/
+/-- `ν ↦ 𝐀_ν(z)` is entire. -/
+theorem differentiable_angerWeberA {z : ℂ} (hz : z ∈ slitPlane) :
+    Differentiable ℂ fun ν => angerWeberA ν z := by
+  sorry
+
+/-- DLMF 11.10.15, for all orders. -/
+theorem angerJ_eq_besselJ_add (ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
+    angerJ ν z = besselJ ν z + Complex.sin (ν * π) * angerWeberA ν z := by
+  sorry
+
+/-! ## Layer 2: relations, recurrences and closed forms -/
+
+/-- DLMF 11.4.23. -/
+theorem struveH_recurrence (ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
+    struveH (ν - 1) z + struveH (ν + 1) z =
+      2 * ν / z * struveH ν z + (z / 2) ^ ν * ((Real.sqrt π : ℂ) * Gamma (ν + 3 / 2))⁻¹ := by
+  sorry
+
+/-- DLMF 10.22.2 for `J`: an antiderivative of `z^ν J_ν(z)`, for `ν + ½` not a pole of `Γ`. -/
+theorem hasDerivAt_besselJ_struveH {ν : ℂ} (hν : ∀ n : ℕ, ν + 1 / 2 ≠ -n) {z : ℂ}
+    (hz : z ∈ slitPlane) :
+    HasDerivAt (fun z => (Real.sqrt π : ℂ) * 2 ^ (ν - 1) * Gamma (ν + 1 / 2) * z *
+        (besselJ ν z * struveH (ν - 1) z - besselJ (ν - 1) z * struveH ν z))
+      (z ^ ν * besselJ ν z) z := by
+  sorry
 
 /-- DLMF 11.4.5. -/
 theorem struveH_half {z : ℂ} (hz : z ∈ slitPlane) :
     struveH (1 / 2) z = (2 / (π * z)) ^ (1 / 2 : ℂ) * (1 - Complex.cos z) := by
+  sorry
+
+/-- DLMF 11.10.19, with `w = (2z/π)^{1/2}`. -/
+theorem angerJ_neg_half {z : ℂ} (hz : z ∈ slitPlane) :
+    angerJ (-1 / 2) z = (π * z / 2) ^ (-1 / 2 : ℂ) *
+      ((fresnelC ((2 * z / π) ^ (1 / 2 : ℂ)) + fresnelS ((2 * z / π) ^ (1 / 2 : ℂ))) *
+          Complex.cos z -
+        (fresnelC ((2 * z / π) ^ (1 / 2 : ℂ)) - fresnelS ((2 * z / π) ^ (1 / 2 : ℂ))) *
+          Complex.sin z) := by
   sorry
 
 /-- DLMF 11.4.14 with the corrected bound 11.4.15. -/
@@ -216,13 +260,7 @@ theorem struveH_relative_bound {ν z : ℂ} (hz : z ≠ 0) {d : ℝ} (hd : 0 < d
       (1 + θ) ∧ ‖θ‖ < 2 / 3 * (Real.exp (‖z‖ ^ 2 / (4 * d)) - 1) := by
   sorry
 
-/-- DLMF 11.4.23. -/
-theorem struveH_recurrence (ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
-    struveH (ν - 1) z + struveH (ν + 1) z =
-      2 * ν / z * struveH ν z + (z / 2) ^ ν * ((Real.sqrt π : ℂ) * Gamma (ν + 3 / 2))⁻¹ := by
-  sorry
-
-/-! ## Layer 3: integral representations -/
+/-! ## Layer 3: Poisson, Laplace and Barnes integrals -/
 
 /-- DLMF 11.5.1. -/
 theorem struveH_eq_integral {ν : ℂ} (hν : -1 / 2 < ν.re) {z : ℂ} (hz : z ∈ slitPlane) :
@@ -236,6 +274,17 @@ theorem struveK_eq_integral {ν : ℂ} {z : ℂ} (hz : 0 < z.re) :
       ∫ t in Ioi (0 : ℝ), cexp (-z * t) * (1 + (t : ℂ) ^ 2) ^ (ν - 1 / 2) := by
   sorry
 
+/-- DLMF 11.10.4, for `Re z > 0` and for `Re z = 0`, `Re ν > 0`. -/
+theorem angerWeberA_eq_integral {ν z : ℂ} (hz : 0 < z.re ∨ (z.re = 0 ∧ 0 < ν.re)) :
+    angerWeberA ν z = (π : ℂ)⁻¹ * ∫ t in Ioi (0 : ℝ), cexp (-ν * t - z * Real.sinh t) := by
+  sorry
+
+/-- The Laplace representation of `S_{μ,ν}` (3.3), with the Gauss function. -/
+theorem lommelCapitalS_eq_laplace (μ ν : ℂ) {z : ℂ} (hz : 0 < z.re) :
+    lommelCapitalS μ ν z = z ^ μ * ∫ t in Ioi (0 : ℝ), cexp (-z * t) *
+      gaussHypergeometric ((1 - μ + ν) / 2) ((1 - μ - ν) / 2) (1 / 2) (-(t : ℂ) ^ 2) := by
+  sorry
+
 /-- DLMF 11.5.8, along the line `Re s = c` parametrized by `y`, with `ds = i dy`. -/
 theorem struveH_mellinBarnes {ν : ℂ} {x c : ℝ} (hx : 0 < x) (hc : -1 < c) (hc0 : c < 0)
     (hνc : -1 < ν.re + 2 * c) :
@@ -245,13 +294,41 @@ theorem struveH_mellinBarnes {ν : ℂ} {x c : ℝ} (hx : 0 < x) (hc : -1 < c) (
       -2 * π * I * ((x : ℂ) / 2) ^ (-ν - 1) * struveH ν x := by
   sorry
 
-/-! ## Layer 4: asymptotic expansions of the Struve functions -/
+/-! ## Layer 4: large argument -/
+
+/-- DLMF 11.9.9. -/
+theorem isBigO_lommelCapitalS_sub_sum (μ ν : ℂ) {δ : ℝ} (hδ : 0 < δ) (hδπ : δ < π) (N : ℕ) :
+    (fun z => lommelCapitalS μ ν z - z ^ (μ - 1) * ∑ k ∈ Finset.range N,
+        (-1) ^ k * (∏ m ∈ Finset.range k, ((-μ + 2 * (m + 1) - 1) ^ 2 - ν ^ 2)) *
+          z ^ (-2 * (k : ℂ)))
+      =O[sectorAtTop (π - δ)] fun z => z ^ (μ - 1 - 2 * N) := by
+  sorry
 
 /-- DLMF 11.6.1. -/
 theorem isBigO_struveK_sub_sum (ν : ℂ) {δ : ℝ} (hδ : 0 < δ) (hδπ : δ < π) (N : ℕ) :
     (fun z => struveK ν z - ∑ k ∈ Finset.range N,
         (π : ℂ)⁻¹ * Gamma (k + 1 / 2) * (Gamma (ν + 1 / 2 - k))⁻¹ * (z / 2) ^ (ν - 2 * k - 1))
       =O[sectorAtTop (π - δ)] fun z => z ^ (ν - 2 * N - 1) := by
+  sorry
+
+/-! ## Layer 5: integrals over the half-line -/
+
+/-- DLMF 11.7.12 with the corrected hypotheses `Re μ, Re ν > −3/2`. -/
+theorem integral_struveH_mul_struveH {μ ν : ℂ} (h : 0 < (μ + ν).re) (hμ : -3 / 2 < μ.re)
+    (hν : -3 / 2 < ν.re) :
+    Tendsto (fun R : ℝ => ∫ t in (0 : ℝ)..R, (t : ℂ) ^ (-μ - ν) * struveH μ t * struveH ν t) atTop
+      (𝓝 ((Real.sqrt π : ℂ) * Gamma (μ + ν) * (2 ^ (μ + ν) * Gamma (μ + ν + 1 / 2) *
+        Gamma (μ + 1 / 2) * Gamma (ν + 1 / 2))⁻¹)) := by
+  sorry
+
+/-! ## Layer 6: large order -/
+
+/-- DLMF 11.11.6 with the corrected error term `O(e^{π|Im ν|} ν^{−2})` in the bracket. -/
+theorem isBigO_weberE_large_order (z : ℂ) {ε : ℝ} (hε : 0 < ε) :
+    (fun ν => π * ν / 2 * weberE ν z - Complex.sin (π * ν / 2) ^ 2 -
+        ν * z / (ν ^ 2 - 1) * Complex.cos (π * ν / 2) ^ 2)
+      =O[Bornology.cobounded ℂ ⊓ 𝓟 {ν | ∀ n : ℤ, ε ≤ ‖ν - n‖}]
+        fun ν => (Real.exp (π * |ν.im|) : ℂ) * ν ^ (-2 : ℤ) := by
   sorry
 
 /-- DLMF 11.6.6: the expansion of `𝐊_ν(λν)` for fixed `λ > 1`. -/
@@ -270,87 +347,6 @@ theorem struveL_isEquivalent_besselI {lam : ℝ} (hlam : 0 < lam) {δ : ℝ} (h�
     (fun ν => struveL ν (lam * ν)) ~[sectorAtTop (π / 2 - δ)] fun ν => besselI ν (lam * ν) := by
   sorry
 
-/-! ## Layer 5: integrals -/
-
-/-- DLMF 10.22.2 for `J`: an antiderivative of `z^ν J_ν(z)`, for `ν + ½` not a pole of `Γ`. -/
-theorem hasDerivAt_besselJ_struveH {ν : ℂ} (hν : ∀ n : ℕ, ν + 1 / 2 ≠ -n) {z : ℂ}
-    (hz : z ∈ slitPlane) :
-    HasDerivAt (fun z => (Real.sqrt π : ℂ) * 2 ^ (ν - 1) * Gamma (ν + 1 / 2) * z *
-        (besselJ ν z * struveH (ν - 1) z - besselJ (ν - 1) z * struveH ν z))
-      (z ^ ν * besselJ ν z) z := by
-  sorry
-
-/-- DLMF 11.7.12 with the corrected hypotheses `Re μ, Re ν > −3/2`. -/
-theorem integral_struveH_mul_struveH {μ ν : ℂ} (h : 0 < (μ + ν).re) (hμ : -3 / 2 < μ.re)
-    (hν : -3 / 2 < ν.re) :
-    Tendsto (fun R : ℝ => ∫ t in (0 : ℝ)..R, (t : ℂ) ^ (-μ - ν) * struveH μ t * struveH ν t) atTop
-      (𝓝 ((Real.sqrt π : ℂ) * Gamma (μ + ν) * (2 ^ (μ + ν) * Gamma (μ + ν + 1 / 2) *
-        Gamma (μ + 1 / 2) * Gamma (ν + 1 / 2))⁻¹)) := by
-  sorry
-
-/-! ## Layer 6: Lommel functions -/
-
-/-- `μ ↦ S_{μ,ν}(z)` is entire: the exceptional parameters are removable. -/
-theorem differentiable_lommelCapitalS (ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
-    Differentiable ℂ fun μ => lommelCapitalS μ ν z := by
-  sorry
-
-/-- DLMF 11.9.1 for `S_{μ,ν}`, at all parameters. -/
-theorem lommelCapitalS_ode (μ ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
-    deriv^[2] (lommelCapitalS μ ν) z + deriv (lommelCapitalS μ ν) z / z +
-      (1 - ν ^ 2 / z ^ 2) * lommelCapitalS μ ν z = z ^ (μ - 1) := by
-  sorry
-
-/-- DLMF 11.9.9. -/
-theorem isBigO_lommelCapitalS_sub_sum (μ ν : ℂ) {δ : ℝ} (hδ : 0 < δ) (hδπ : δ < π) (N : ℕ) :
-    (fun z => lommelCapitalS μ ν z - z ^ (μ - 1) * ∑ k ∈ Finset.range N,
-        (-1) ^ k * (∏ m ∈ Finset.range k, ((-μ + 2 * (m + 1) - 1) ^ 2 - ν ^ 2)) *
-          z ^ (-2 * (k : ℂ)))
-      =O[sectorAtTop (π - δ)] fun z => z ^ (μ - 1 - 2 * N) := by
-  sorry
-
-/-- The Laplace representation of `S_{μ,ν}` (6.3), with the Gauss function. -/
-theorem lommelCapitalS_eq_laplace (μ ν : ℂ) {z : ℂ} (hz : 0 < z.re) :
-    lommelCapitalS μ ν z = z ^ μ * ∫ t in Ioi (0 : ℝ), cexp (-z * t) *
-      gaussHypergeometric ((1 - μ + ν) / 2) ((1 - μ - ν) / 2) (1 / 2) (-(t : ℂ) ^ 2) := by
-  sorry
-
-/-! ## Layer 7: Anger–Weber functions -/
-
-/-- `ν ↦ 𝐀_ν(z)` is entire. -/
-theorem differentiable_angerWeberA {z : ℂ} (hz : z ∈ slitPlane) :
-    Differentiable ℂ fun ν => angerWeberA ν z := by
-  sorry
-
-/-- DLMF 11.10.4, for `Re z > 0` and for `Re z = 0`, `Re ν > 0`. -/
-theorem angerWeberA_eq_integral {ν z : ℂ} (hz : 0 < z.re ∨ (z.re = 0 ∧ 0 < ν.re)) :
-    angerWeberA ν z = (π : ℂ)⁻¹ * ∫ t in Ioi (0 : ℝ), cexp (-ν * t - z * Real.sinh t) := by
-  sorry
-
-/-- DLMF 11.10.15, for all orders. -/
-theorem angerJ_eq_besselJ_add (ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
-    angerJ ν z = besselJ ν z + Complex.sin (ν * π) * angerWeberA ν z := by
-  sorry
-
-/-- DLMF 11.10.19, with `w = (2z/π)^{1/2}`. -/
-theorem angerJ_neg_half {z : ℂ} (hz : z ∈ slitPlane) :
-    angerJ (-1 / 2) z = (π * z / 2) ^ (-1 / 2 : ℂ) *
-      ((fresnelC ((2 * z / π) ^ (1 / 2 : ℂ)) + fresnelS ((2 * z / π) ^ (1 / 2 : ℂ))) *
-          Complex.cos z -
-        (fresnelC ((2 * z / π) ^ (1 / 2 : ℂ)) - fresnelS ((2 * z / π) ^ (1 / 2 : ℂ))) *
-          Complex.sin z) := by
-  sorry
-
-/-! ## Layer 8: asymptotic expansions of the Anger–Weber functions -/
-
-/-- DLMF 11.11.6 with the corrected error term `O(e^{π|Im ν|} ν^{−2})` in the bracket. -/
-theorem isBigO_weberE_large_order (z : ℂ) {ε : ℝ} (hε : 0 < ε) :
-    (fun ν => π * ν / 2 * weberE ν z - Complex.sin (π * ν / 2) ^ 2 -
-        ν * z / (ν ^ 2 - 1) * Complex.cos (π * ν / 2) ^ 2)
-      =O[Bornology.cobounded ℂ ⊓ 𝓟 {ν | ∀ n : ℤ, ε ≤ ‖ν - n‖}]
-        fun ν => (Real.exp (π * |ν.im|) : ℂ) * ν ^ (-2 : ℤ) := by
-  sorry
-
 /-- DLMF 11.11.8: the expansion of `𝐀_ν(λν)` for fixed `λ > 0`, in `|ph ν| ≤ π − θ(λ) − δ` with
 `θ(λ) = arctan(−μ(λ)/π)` for `0 < λ < 1` (`μ(λ)` of 11.11.12) and `θ(λ) = 0` for `λ ≥ 1`. For
 `λ ≥ 1` the real square root is `0`, the `arctan` term is at most `0`, and the `max` gives `0`.
@@ -363,6 +359,8 @@ theorem isBigO_angerWeberA_scaled {lam : ℝ} (hlam : 0 < lam) {δ : ℝ} (hδ :
           ((Real.log ((1 + √(1 - lam ^ 2)) / lam) - √(1 - lam ^ 2)) / π)) - δ)]
         fun ν => ν ^ (-(2 * N + 1 : ℤ)) := by
   sorry
+
+/-! ## Layer 7: the turning point `z = ν` -/
 
 /-- DLMF 11.11.17: the transition region, as `ν → ∞` in `|ph ν| ≤ π − δ`, uniformly for
 `|a| ≤ M`. -/
