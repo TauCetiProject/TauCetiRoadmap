@@ -28,7 +28,7 @@ This roadmap owns:
   presentation, braided halves, nilpotent and Borel pairings, the torus-amalgamated double, and
   the rank-one comparison with QuantumGroups Q8 (Layer 1);
 - the category `O` of `U`, its Verma modules, the quantum Casimir and the character formula for
-  integrable highest-weight modules, over every `(k, q)` of the Conventions (§1.3a);
+  integrable highest-weight modules, over every `(k, q)` of the Conventions (§2.3);
 - the braid automorphisms `Tᵢ` and the braid relations for every symmetrizable datum, and in
   finite type the root vectors attached to reduced expressions of the longest element (Layer 2);
 - the full-`Y` integral form `U_A`, its toral basis, the finite-type integral PBW basis, base
@@ -65,7 +65,7 @@ It leaves to named roadmaps:
 - the further theory of type-1 integrable modules of the generic algebra, complete reducibility
   of quantum `O_int`, Kashiwara operators, crystal bases and the path-crystal comparison:
   KacMoody, Part II, which consumes Layers 1–4, including the category `O`, Verma modules,
-  quantum Casimir and character formula of §1.3a;
+  quantum Casimir and character formula of §2.3;
 - finite LS chains, section indices and the Chevalley divisor formula: SchubertGeometry S4 and S7.
 
 Already in the libraries, consumed and not restated: Mathlib's `FreeAlgebra`, `RingQuot`,
@@ -169,7 +169,7 @@ negative upper arguments and its root-of-unity evaluations do not live in `ℕ[t
   `mᵢⱼ = 2, 3, 4, 6` for `aᵢⱼ aⱼᵢ = 0, 1, 2, 3`.
 - Layer 1 §1.4 and Layer 4 §§4.1, 4.3–4.4: the classical PBW dimensions,
   the cone-supported character completion, the Verma Euler product and the Weyl–Kac denominator
-  identity, used in 1.3a.
+  identity, used in 2.3.
   The completion is used over the auxiliary rational realization; its integer coefficients
   record dimensions over `k`, including when `k` has positive characteristic.
 
@@ -227,7 +227,8 @@ Layer 0 fixes the datum and the quantum integers, and proves the quantum Lucas t
 Laurent Gaussians. Layer 1 constructs `f` as a free algebra modulo the radical of its bilinear
 form (1.0), then `U` with its Hopf structure and triangular decomposition (1.1–1.3), and proves
 the Serre presentation theorem (1.3a). The pairings and double follow in 1.4–1.5. Layer 2 adds the
-braid automorphisms in every symmetrizable type and, in finite type, root vectors. Layer 3 builds
+braid automorphisms, the category `O`, quantum Casimir and character formula in every symmetrizable
+type, and root vectors in finite type. Layer 3 builds
 the integral form `U_A`, its toral basis and PBW basis, and compares it at `v = 1` with the
 Kostant form. Layer 4 builds integral highest-weight lattices and specializes them at `v = 1`.
 Layer 5 constructs quantum Frobenius at every root of unity. Layer 6 develops root-of-unity
@@ -393,8 +394,9 @@ tensor products and algebra quotients.
       Lᵢ(xy) = Lᵢ(x)y + χ(αᵢ,|x|) xLᵢ(y),
       Rᵢ(xy) = χ(αᵢ,|y|) Rᵢ(x)y + xRᵢ(y).
 
-  Both preserve `J` and descend to `f`; `LᵢRⱼ=RⱼLᵢ`, and the common kernel of the `Lᵢ`
-  on `f` consists of the scalars.
+  These are the coproduct skew derivatives of HeckenbergerDoubles2010 Lemma 4.15,
+  (4.35)–(4.36), and Lemma 4.20. Both preserve `J` and descend to `f`; `LᵢRⱼ=RⱼLᵢ`
+  (Lemma 4.16, (4.39)), and the common kernel of the `Lᵢ` on `f` consists of the scalars.
 - For every `y∈Y`, the diagonal scaling `t_y(θᵢ)=q^⟨αᵢ,y⟩θᵢ` (`freeHalfScale`) preserves `J`
   and defines an algebra action of the full torus on `f`, compatible with the grading and skew derivatives.
 - Replacing the generator norms by any units `cᵢ` leaves `J` unchanged; in particular
@@ -448,7 +450,9 @@ and mixed relations. Then `U` is `Ũ` modulo the images of the two radicals; the
   of `Y` along `ℤhᵢ` is assumed. The comparison is made over `(ℂ, q)`, not by extending scalars
   from `ℚ(v)`.
 - For `x∈T` and its negative image `x⁻`, prove
-  `[Eᵢ,x⁻]=(KᵢLᵢ(x)⁻−Rᵢ(x)⁻Kᵢ⁻¹)/(qᵢ−qᵢ⁻¹)`, and its positive analogue.
+  `[Eᵢ,x⁻]=(KᵢLᵢ(x)⁻−Rᵢ(x)⁻Kᵢ⁻¹)/(qᵢ−qᵢ⁻¹)`, and its positive analogue
+  (HeckenbergerDoubles2010 Lemma 4.15 and Proposition 4.9(6), with the source's second
+  torus specialized to `Kᵢ⁻¹` and the mixed relation normalized as above).
 - The construction is functorial for field extensions and root-data maps preserving the
   roots, coroots, pairing and symmetrizer.
 
@@ -552,9 +556,8 @@ mixed relations together with the positive and negative Serre relations. Prove
 `exists_drinfeldJimbo_equiv`: its generator map to `U` is an algebra isomorphism matching the
 generators, hence a Hopf algebra isomorphism for the transported coproduct. The positive Serre
 presentation is `RingQuot HalfSerreRelation`.
-*Needs:* 1.0–1.3; KacMoody §§1.4, 2.1, 4.1 and 4.3–4.4. For the presentation over `ℚ(v)`,
-see Lusztig1993 Theorem 33.1.3 and HeckenbergerDoubles2010 Example 7.4. Prove the statement
-over every field by the following argument.
+*Needs:* 1.0–1.3. For the presentation over `ℚ(v)`, see Lusztig1993 Theorem 33.1.3 and
+HeckenbergerDoubles2010 Example 7.4. Prove the statement over every field by the following argument.
 
 For empty `I`, identify `f=k` and `U=k[Y]` for every `q≠0`. For nonempty `I`, `q` has infinite
 multiplicative order. Put `H=T/I_S` and `(αᵢ,αⱼ)=dᵢaᵢⱼ` on `Q`.
@@ -599,40 +602,9 @@ inverted set, since its residue field is finite. Inside `U_ℚ(v)`, let `U_R` be
   `k⊗_R f_R≅f_k` and `k⊗_R U_R≅U` for every nonempty datum and `(k,q)` of the Conventions.
   Compare Tanisaki2016 Theorems 5.4 and 5.7, which concern the specialized integral form.
 
-Construct the automorphisms `Tᵢ` over `ℚ(v)` preserving `U_R` and the factorizations with respect
-to a simple root, then specialize them through these identifications. Using an auxiliary
-finite-rank realization for the character arguments, prove the following for `U` over every
-`(k,q)` of the Conventions (Lusztig1993 Chapters 5, 37–38; Tanisaki2016 Lemmas 3.1–3.2 and 4.2,
-Propositions 4.4 and 5.1–5.2). The case `λ=0` of the character formula, with the classical
-denominator identity, gives `dim f_γ=dim U(n⁻)_(−γ)`.
-
-- The category `O(U)`: `U`-modules `V = ⊕_(λ∈X) V_λ` with `K_y` acting on `V_λ` by
-  `q^⟨λ,y⟩`, `Eᵢ V_λ ⊆ V_(λ+αᵢ)` and `Fᵢ V_λ ⊆ V_(λ−αᵢ)`, every `V_λ` finite-dimensional,
-  and weights in finitely many cones `λ_k − Q⁺`. The Verma module `M(λ) = U ⊗_(U^≥0) k_λ` lies
-  in `O(U)`, with `ch M(λ) = e(λ) Σ_(γ∈Q⁺) dim f_γ e(−γ)` in the completion of KacMoody §4.1.
-- The quantum Casimir. For a coset `C = μ + Q` fix `f_C : C → ℤ` with
-  `f_C(λ) − f_C(λ − αᵢ) = 2⟨λ, dᵢhᵢ⟩`; it exists by symmetrizability and is unique up to a
-  constant. Construct elements `Ω_γ ∈ U⁻_(−γ) U⁰ U⁺_γ`, `Ω_0 = 1`, from the canonical elements
-  of the perfect pairings between `U⁺_γ` and `U⁻_(−γ)` (Tanisaki2016 §4, after Lusztig1993
-  §6.1). On every `V ∈ O(U)` with weights in `C`, `Ω v = q^(f_C(λ)) Σ_γ Ω_γ v` (`v ∈ V_λ`)
-  commutes with `U` and acts on every highest-weight module of highest weight `λ ∈ C` by
-  `q^(f_C(λ))`.
-- The operators `Tᵢ` on integrable modules in `O(U)`, those on which every `Eᵢ` and `Fᵢ` acts
-  locally nilpotently; the character of such a module is invariant under the Weyl group `W`.
-- The character formula: for `λ` with `⟨λ, hᵢ⟩ ≥ 0` for all `i` and every integrable
-  highest-weight module `V` of highest weight `λ`, `ch V = Σ_(w∈W) sgn(w) ch M(w∘λ)`, where
-  `w∘λ = w(λ + ρ) − ρ` for any `ρ ∈ X ⊗ ℚ` with `⟨ρ, hᵢ⟩ = 1`. For `λ = 0`, KacMoody §4.4
-  gives `dim f_γ = dim U(n⁻)_(−γ)` for every `γ ∈ Q⁺`.
-
 **Checks.**
 
 - Rank one gives `I_S=J=0`; for `aᵢⱼ=0` the first relation is the commutator.
-- `A₁` with `X = ℤω`: on the coset of `n₀ ∈ {0, 1}`, `f_C(nω) = ((n+1)² − (n₀+1)²)/2`. Since
-  `f_C(nω) = f_C(−(n+2)ω)`, `Ω` has the same scalar on `M(nω)`, `n ≥ 0`, and on its submodule
-  `M(−(n+2)ω)`. For `λ = 0` the character formula reads `1 = (1 − e(−α)) Σ_m dim f_(mα) e(−mα)`,
-  so `dim f_(mα) = 1`.
-- `A₁^(1)`: `dim f_(α₀+α₁) = 2` and `dim f_(2α₀+α₁) = 3`, the numbers of partitions of these
-  degrees into positive roots counted with multiplicity, as in `U(n⁻)`.
 - In `A₁^(1)` over `𝔽₂(t)` with `q=t`, `δ=α₀+α₁` has `(δ,δ)=0` and `Σ 2dᵢnᵢ=4`;
   a nonzero primitive of degree `δ` would satisfy `S_H²x=t⁻⁴x=x`, which is impossible.
 - In `B₂`, the two Serre degrees are `3α₁+α₂` and `α₁+2α₂`.
@@ -719,10 +691,9 @@ root-lattice torus there, `η(Kᵢ, Lⱼ) = qᵢⱼ`, is the restriction of `β_
 
 ### Dependencies
 
-Layer 0; QuantumGroups Q8 item 1; KacMoody Layer 0; HopfologicalAlgebra Layer 7 §7.3; Mathlib. Section 1.3a also uses
-KacMoody §§1.4, 2.1, 4.1 and 4.3–4.4.
+Layer 0; QuantumGroups Q8 item 1; KacMoody Layer 0; HopfologicalAlgebra Layer 7 §7.3; Mathlib.
 
-## Layer 2: braid operators and root vectors (QEA2)
+## Layer 2: braid operators, root vectors and highest-weight characters (QEA2)
 
 ### 2.1 The braid automorphisms
 
@@ -758,8 +729,10 @@ that their terms lie in `U_R` of 1.3a. Its injection into `U_ℚ(v)` gives the i
 - `Tᵢ` maps `U_β` to `U_(sᵢβ)` for the `Q_A`-grading, where `sᵢβ = β − ⟨β, hᵢ⟩αᵢ`.
 - `Tᵢ` commutes with generic base change; Layer 3 proves that it preserves the full integral
   form `U_A` and gives its integral base-change compatibility.
-- `Tᵢ` intertwines the actions on integrable modules with the Weyl group action on weights
-  (consumed by KacMoody, Part II).
+- With `U_R^± = f_R^±`, prove the multiplication isomorphisms of `R`-modules
+  `U_R^+ ≅ (U_R^+ ∩ Tᵢ(U_R^+)) ⊗_R R[Eᵢ] ≅ R[Eᵢ] ⊗_R (U_R^+ ∩ Tᵢ⁻¹(U_R^+))`,
+  and the analogous formulas with `U_R^-` and `Fᵢ`. Identify the intersection factors after
+  specialization `R → k`, `v ↦ q` (Tanisaki2016 Lemmas 3.1–3.2).
 
 **Checks.**
 
@@ -810,6 +783,45 @@ theorem, RootSystems Layer 3), not by equality of ordered monomials.
 - In finite type the number of PBW monomials of degree `β` equals the Kostant partition function
   of `β`; a list omitting `E_(α₁+α₂)` in `A₂` gives one monomial in degree `α₁ + α₂` instead of two.
 
+### 2.3 Category O, the quantum Casimir and the character formula
+
+Using the automorphisms `Tᵢ` and simple-root factorizations of 2.1 and an auxiliary finite-rank
+realization for the character arguments, prove the following for `U` for every symmetrizable
+datum and every `(k,q)` of the Conventions (Lusztig1993 Chapters 5, 37–38; Tanisaki2016 Lemma 4.2
+and Propositions 4.4 and 5.1–5.2). The case `λ=0` of the character formula, with the classical
+denominator identity, gives `dim f_γ=dim U(n⁻)_(−γ)`.
+*Needs:* 1.3a–1.4, 2.1; KacMoody §§1.4, 2.1, 4.1 and 4.3–4.4.
+
+- The category `O(U)`: `U`-modules `V = ⊕_(λ∈X) V_λ` with `K_y` acting on `V_λ` by
+  `q^⟨λ,y⟩`, `Eᵢ V_λ ⊆ V_(λ+αᵢ)` and `Fᵢ V_λ ⊆ V_(λ−αᵢ)`, every `V_λ` finite-dimensional,
+  and weights in finitely many cones `λ_k − Q⁺`. The Verma module `M(λ) = U ⊗_(U^≥0) k_λ` lies
+  in `O(U)`, with `ch M(λ) = e(λ) Σ_(γ∈Q⁺) dim f_γ e(−γ)` in the completion of KacMoody §4.1.
+- The quantum Casimir. For a coset `C = μ + Q` fix `f_C : C → ℤ` with
+  `f_C(λ) − f_C(λ − αᵢ) = 2⟨λ, dᵢhᵢ⟩`; it exists by symmetrizability and is unique up to a
+  constant. Construct elements `Ω_γ ∈ U⁻_(−γ) U⁰ U⁺_γ`, `Ω_0 = 1`, from the canonical elements
+  of the perfect pairings between `U⁺_γ` and `U⁻_(−γ)` (Tanisaki2016 §4, after Lusztig1993
+  §6.1). On every `V ∈ O(U)` with weights in `C`, `Ω v = q^(f_C(λ)) Σ_γ Ω_γ v` (`v ∈ V_λ`)
+  commutes with `U` and acts on every highest-weight module of highest weight `λ ∈ C` by
+  `q^(f_C(λ))`.
+- The operators `Tᵢ` on integrable modules in `O(U)`, those on which every `Eᵢ` and `Fᵢ` acts
+  locally nilpotently; they intertwine the `U`-action with the algebra automorphisms of 2.1 and
+  induce the simple reflections on weights. The character of such a module is invariant under
+  the Weyl group `W` (consumed by KacMoody, Part II).
+- The character formula: for `λ` with `⟨λ, hᵢ⟩ ≥ 0` for all `i` and every integrable
+  highest-weight module `V` of highest weight `λ`, `ch V = Σ_(w∈W) sgn(w) ch M(w∘λ)`, where
+  `w∘λ = w(λ + ρ) − ρ` for any `ρ ∈ X ⊗ ℚ` with `⟨ρ, hᵢ⟩ = 1`. For `λ = 0`, KacMoody §4.4
+  gives `dim f_γ = dim U(n⁻)_(−γ)` for every `γ ∈ Q⁺`.
+
+**Checks.**
+
+- `A₁` with `X = ℤω`: on the coset of `n₀ ∈ {0, 1}`, `f_C(nω) = ((n+1)² − (n₀+1)²)/2`. Since
+  `f_C(nω) = f_C(−(n+2)ω)`, `Ω` has the same scalar on `M(nω)`, `n ≥ 0`, and on its submodule
+  `M(−(n+2)ω)`.
+- In `A₁`, for `λ = 0` the character formula reads `1 = (1 − e(−α)) Σ_m dim f_(mα) e(−mα)`,
+  so `dim f_(mα) = 1`.
+- `A₁^(1)`: `dim f_(α₀+α₁) = 2` and `dim f_(2α₀+α₁) = 3`, the numbers of partitions of these
+  degrees into positive roots counted with multiplicity, as in `U(n⁻)`.
+
 ### Examples
 
 - `G₂` braid relation of length six on generators, recomputed from 2.1's formulas.
@@ -818,7 +830,7 @@ theorem, RootSystems Layer 3), not by equality of ordered monomials.
 
 ### Dependencies
 
-Layers 0–1; KacMoody Layer 2 §2.1; RootSystems Layers 1, 3 and 4.
+Layers 0–1; KacMoody §§1.4, 2.1, 4.1 and 4.3–4.4; RootSystems Layers 1, 3 and 4.
 
 ## Layer 3: the full-`Y` integral form and the finite-type PBW basis (QEA3)
 
@@ -1417,7 +1429,7 @@ it with `ker C_L`, `a_k ↦ (−1)^k(w_(k+1) + W)` with `M_ζ(L)/W`, and the non
 are compared by `T_L`. The Chevalley divisor formula is SchubertGeometry S7's; this layer provides
 no quantum flag variety, quantum cohomology ring or quantum Schubert product.
 (AndersenPoloWen1991 Proposition 1.22, line 500, for the Weyl lattice `Δ_A(n)` and Proposition
-3.3, line 571, for the induced module `H⁰(λ)` as the dual of a Weyl module, of which the monomial
+3.3, p. 23, for the induced module `H⁰(λ)` as the dual of a Weyl module, of which the monomial
 lattice `M_A(n)` with `T_n` is the rank-one integral instance; the root-of-unity computations
 follow from `quantumLucas` of 0.3.)
 *Needs:* 8.1, Layers 3–7, 0.3.
@@ -1458,8 +1470,8 @@ Layers 0–7; SchubertGeometry S4, S7.
 
 - Lusztig1993: George Lusztig, *Introduction to Quantum Groups*, Progress in Mathematics 110,
   Birkhäuser, 1993 (reprinted 2010). Cited by section: §1.2 (free braided algebra, pairing,
-  radical and skew derivatives), §3.1 (the construction of `U`), §14.2 (the integral basis of
-  `f`), §33.1 and Theorem 33.1.3 (classical comparison and Serre presentation over `ℚ(v)`), §33.2
+  radical and skew derivatives), §3.1 (the construction of `U`), §33.1 and Theorem 33.1.3
+  (classical comparison and Serre presentation over `ℚ(v)`), §33.2
   (quasiclassical specializations), Chapter 34 (Gaussian binomials at roots of unity), Chapter 35
   (quantum Frobenius, Theorem 35.1.9), Chapters 37 (§37.1.3) and 39 (braid automorphisms and
   relations), Lemma 38.1.2 and Proposition 38.2.1 (factorizations of `f` and pairing invariance),
@@ -1473,14 +1485,15 @@ Layers 0–7; SchubertGeometry S4, S7.
   Theorem 8.10 (the unital Frobenius map at odd orders).
 - AndersenPoloWen1991: Henning Haahr Andersen, Patrick Polo and Wen Kexin, *Representations of
   quantum algebras*, Invent. Math. 104 (1991), 1–59: §1.20 and Proposition 1.22 (lines 457–510,
-  Weyl lattices, freeness and characters), Proposition 3.3 (line 571, induced modules as duals).
+  Weyl lattices, freeness and characters), Proposition 3.3 (p. 23, induced modules as duals).
 - AndersenWen1992: Henning Haahr Andersen and Wen Kexin, *Representations of quantum algebras.
   The mixed case*, J. reine angew. Math. 427 (1992), 35–50: §1.2 (line 129, `U_A` at `v = 1`),
   §1.10, proof, pp. 40–41 (the tensor-product theorem).
 - HeckenbergerDoubles2010: István Heckenberger, *Lusztig isomorphisms for Drinfel'd doubles of
   bosonizations of Nichols algebras of diagonal type*, J. Algebra 323 (2010), arXiv 0710.4521
   (v2): §4.1 (lines 739–741), Proposition 4.3 (line 821), Remark 4.4 (line 866),
-  Definition 4.5 (line 874), Proposition 4.6 (line 898), Propositions 4.14 and 4.17 and
+  Definition 4.5 (line 874), Proposition 4.6 (line 898), Proposition 4.9(6) (exchange of the
+  positive and negative generators), Propositions 4.14 and 4.17 and
   Remark 4.19 (triangular decomposition and quotients), Lemmas 4.15 and 4.20
   (skew derivatives), Lemma 4.16, equation (4.39) (commuting skew derivatives),
   Lemma 4.23(ii) (the coproduct of adjoint strings), Lemmas 4.30–4.31 and 6.5 (rank-one
