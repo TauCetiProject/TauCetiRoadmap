@@ -211,7 +211,7 @@ non-exact constants is handled only by passing to its exact constant field).
 4. **The zeta function** is FunctionFieldArithmetic §5.1's `zeta k F = ∑_{n ≥ 0} A_n(F) T^n ∈ ℤ⟦T⟧`,
    with that section's Euler product and logarithmic derivative; no zeta function is defined here.
 5. **`L`-polynomial and Weil polynomial.** `L_F ∈ ℤ[T]` is FunctionFieldArithmetic §5.3's polynomial
-   `(1 − T)(1 − qT) Z(F, T)` (the polynomial of `zeta_rationality`), written `LPolynomial k F` as a
+   `(1 − T)(1 − qT) Z(F, T)` (the polynomial of `zeta_rationality`), written LPolynomial k F as a
    reducible alias, with coefficients `b_n := L_F.coeff n`: `L_F(0) = 1`, `deg L_F = 2g`, leading
    coefficient `q^g`, `L_F(1) = h_F`. The **Weil polynomial** of `F` is
    `P_F := Polynomial.reverse L_F = T^{2g} L_F(1/T)`, monic of degree `2g` with `P_F(0) = q^g`. The
@@ -245,7 +245,7 @@ non-exact constants is handled only by passing to its exact constant field).
    [NewtonPolygons](../NewtonPolygons/README.md) Convention 2, of the **`L`-polynomial**
    `reverse P` (constant term `1`, so the polygon starts at `(0, 0)`, as the LMFDB knowl
    `lf.newton_polygon` says) for the additive valuation `v := v_p / r`, normalised so that
-   `v(q) = 1`. Its slope multiset `slopes P` (that roadmap's `newtonSlopes`, Tau Ceti's `Polynomial.newtonSlopes`) has `2g` entries in
+   `v(q) = 1`. Its slope multiset slopes P (that roadmap's `newtonSlopes`, Tau Ceti's `Polynomial.newtonSlopes`) has `2g` entries in
    `[0, 1] ∩ ℚ`, is symmetric under `s ↦ 1 − s`, and with that roadmap's orientation its slopes are
    the normalised `p`-adic valuations of the `α_i` taken in `ℚ̄_p`. The **`p`-rank** is defined
    elementarily, `pRank p P := natDegree P − sInf {j | p ∤ P.coeff j}` (for monic `P` the set
@@ -261,9 +261,9 @@ non-exact constants is handled only by passing to its exact constant field).
     `ℂ` with `0 ≤ z.im` under `z ↦ Complex.arg z / π`: one angle `θ ∈ [0, 1]` per pair of non-real
     conjugate roots, with multiplicity, and the real roots `√q` and `−√q` contributing `0` and `1`
     **each with its full multiplicity**. The intended storage comparison is the LMFDB's `angles` field (`1.4.ae`, with
-    `P = (T − 2)²` and `g = 1`, stores `[0, 0]`; `2.2.a_ae` stores `[0, 0, 1, 1]`), so a symmetric `P`
+    `P = (T − 2)²` and `g = 1`, stores `[0, 0]`; `2.2.a_ae` stores `[0, 0, 1, 1]`), so a `P`
     of degree `2g` has `g` angles when it has no real root and `g + m/2` when it has `m` real roots
-    (`m` is even, 1.5). The **angle rank** is
+    (`m` is even, since the non-real roots pair off by conjugation). The **angle rank** is
     `angleRank P := Module.finrank ℚ (Submodule.span ℚ ({1} ∪ {θ | θ ∈ frobeniusAngles P})) − 1`
     (knowl `av.fq.angle_rank`: `dim_ℚ Span_ℚ({θ_i} ∪ {1}) − 1`); the angle corank is
     `g − angleRank P`. The LMFDB computes the angle rank numerically (knowl
@@ -360,7 +360,7 @@ The implementation of the
   `|N_r − q^r − 1| ≤ 2g q^{r/2}`); §5.5 `lPolynomial_constantExtension`
   (`L_{F·𝔽_{q^r}}(T^r) = ∏_{ζ^r = 1} L_F(ζ T)`) and `zeta_constantExtension`; §5.6
   `IsLPolynomialData`, `IsLPolynomialData.unique` and `lPolynomial_isLPolynomialData` (`N_1, …, N_g`
-  determine `L_F`). Here `LPolynomial k F` is a reducible alias of §5.3's `L_F`, and
+  determine `L_F`). Here LPolynomial k F is a reducible alias of §5.3's `L_F`, and
   `a_d`, `A_n`, `N_r`, `Z(F, T)` always mean that roadmap's objects.
 - From [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §5.11
   `weil_bound_via_surfaces`: `|#C(𝔽_q) − (q + 1)| ≤ 2g√q` for a smooth projective geometrically
@@ -689,9 +689,10 @@ record `1.4.ae`, field `angles`, read through the LMFDB's `av_fq_isog` API, whic
 `[0.0, 0.0]` (and `[0.0, 0.0, 1.0, 1.0]` for `2.2.a_ae`). The root-multiset definition fixes the
 convention intrinsically.
 
-- For a symmetric Weil polynomial of degree `2g` with `m` real roots,
-  `2 · card (frobeniusAngles P) = 2g+m` (`card_frobeniusAngles`). Nonreal roots pair by
-  conjugation and real roots retain their full multiplicities.
+- For every `P ∈ ℤ[X]` with `m` real roots counted with multiplicity,
+  `2 · card (frobeniusAngles P) = natDegree P + m` (`card_frobeniusAngles`), so `2g + m` in
+  degree `2g`. Nonreal roots pair by conjugation and real roots retain their full
+  multiplicities; no Weil or symmetry hypothesis enters (`T⁴ + T`: `2 · 3 = 4 + 2`).
 - The list and `q` recover `P`: each nonreal angle gives `√q exp(±iπθ)`, and each
   real-root entry gives one root. When `q=0`, all roots and angles are zero and the
   list length recovers the degree.
@@ -1017,8 +1018,8 @@ Layer 1 and states Theorem 5.1.15(e)–(f) and Corollary 5.1.16 in that vocabula
 
 ### 2.1 The Weil polynomial and its roots
 
-`weilPolynomial k F := reverse (LPolynomial k F)`, monic of degree `2g` (its leading coefficient is
-`L_F(0) = 1`), constant coefficient `q^g`, and `IsWeilSymmetric q g (weilPolynomial k F)` (the
+Define weilPolynomial k F, written `P_F`, as `reverse L_F`, monic of degree `2g` (its leading coefficient is
+`L_F(0) = 1`), constant coefficient `q^g`, and `IsWeilSymmetric q g P_F` (the
 functional equation in the form of convention 6); over `ℂ`, `P_F = ∏_{i=1}^{2g} (T − α_i)` with the
 multiset `α := P_F.aroots ℂ` of cardinality `2g`, and `L_F = ∏ (1 − α_i T)`; the roots are
 algebraic integers, nonzero, and the multiset is stable under `α ↦ q/α` (1.4's dictionary applied
@@ -1027,10 +1028,10 @@ to a symmetric polynomial). Also `∏ α_i = q^g` and `∑ α_i = q + 1 − N_1`
 
 **Checks.**
 
-- For `1.2.ac` over `𝔽_2`, `L = 1 − 2T + 2T²` gives `weilPolynomial = T² − 2T + 2`: constant
+- For `1.2.ac` over `𝔽_2`, `L = 1 − 2T + 2T²` gives `P_F = T² − 2T + 2`: constant
   coefficient `2 = q^g`, roots `1 ± i` of modulus `√2`, `∑ α_i = 2 = 2 + 1 − N_1` with `N_1 = 1`.
   Reading `L` itself as the Weil polynomial (no reversal) would give the non-monic `2T² − 2T + 1`.
-- For `ℙ¹` (`g = 0`): `L = 1`, so `weilPolynomial = 1`, of degree `0`, with no roots; `∏ α_i = 1 =
+- For `ℙ¹` (`g = 0`): `L = 1`, so `P_F = 1`, of degree `0`, with no roots; `∏ α_i = 1 =
   q^0`.
 - For `2.2.a_a` over `𝔽_2`, `L = 1 + 4T⁴` reverses to `T⁴ + 4`, not to `4T⁴ + 1`: the middle
   coefficients `0` are kept in place and `P(0) = 4 = q^g`.
@@ -1093,7 +1094,7 @@ the source for 3.2–3.3.
 
 ### 3.1 The Riemann hypothesis as a Weil-polynomial statement, and its corollaries
 
-**For every `F / k` with `[Finite k]`, `hF`, `hex`: `IsWeilPolynomial q (weilPolynomial k F)`** (and
+**For every `F / k` with `[Finite k]`, `hF`, `hex`: `IsWeilPolynomial q P_F`** (and
 `IsWeilSymmetric q g`, 2.1): the roots of `P_F` are the inverse roots of `L_F` (2.1), of absolute
 value `√q` by FunctionFieldArithmetic §5.4. This is the link theorem through which every result of
 Layer 1 applies to `P_F`. Corollaries, each a milestone: `|b_j| ≤ binomial(2g, j) q^{j/2}`;
@@ -1161,7 +1162,8 @@ the Weil polynomial of a Jacobian) is a question about abelian varieties and is 
 
 ### 3.5 Maximal and minimal curves
 
-Apply the equality case in the complex triangle inequality to the root bound of
+Call `F` **maximal** when `N_1(F) = q + 1 + 2g√q` and **minimal** when `N_1(F) = q + 1 − 2g√q`,
+the two equality cases of the Hasse–Weil bound at `r = 1` (for `g = 0` both hold). Apply the equality case in the complex triangle inequality to the root bound of
 FunctionFieldArithmetic §5.4 (Stichtenoth Theorem 5.2.1, uncertified locator). Since
 each root has modulus `√q`, the sum attains either real endpoint precisely when
 every root is that endpoint; multiply the linear factors to recover `L_F`. Thus
@@ -1319,8 +1321,8 @@ These examples fix the point-count, valuation and angle conventions. `L` is the 
   `u − 1`, `ℚ(√−7)`, `N_1, …, N_4 = 2, 8, 14, 16`, `h = 2`.
 - **`1.2.a`: `y² + y = x³` over `𝔽_2`**: `N_1 = 3`, `L = 1 + 2T²`, `P = T² + 2`, `a = 0`,
   supersingular, angle `1/2`, `h = 3`, `N_2 = N_3 = N_4 = 9` (so `N_d ≤ N_r` is not strict).
-- **`1.2.c`: `y² + y = x³ + x` over `𝔽_2`** (maximal, 3.5 in the non-square-`q` sense of attaining
-  Serre's bound): `N_1 = 5 = 2 + 1 + 1 · ⌊2√2⌋` (the upper equality of 3.2: its roots `−1 ± i`
+- **`1.2.c`: `y² + y = x³ + x` over `𝔽_2`** (3.2; not maximal in the sense of 3.5, since `q = 2`
+  is not a square): `N_1 = 5 = 2 + 1 + 1 · ⌊2√2⌋` (the upper equality of 3.2: its roots `−1 ± i`
   satisfy `α² + 2α + 2 = 0`), `L = 1 + 2T + 2T²`, angle `3/4`, supersingular,
   `a = −2 ≠ 0` with `p = 2 ∣ a` — the example that keeps supersingularity `p ∣ a` rather than `a = 0`
   (convention 13).
@@ -1388,7 +1390,7 @@ These examples fix the point-count, valuation and angle conventions. `L` is the 
 | --- | --- | --- |
 | Layer 1 | every polynomial-level `av.fq` invariant, offered by section (1.1–1.11) and by the names of the conventions to the comparison of those invariants with abelian varieties; the polynomial constructions are owned here, the geometric comparisons are the consumer's, and it supplies nothing here | `AbelianVarietiesOverFiniteFields` (the contract offered) |
 | 1.1, 1.3, 1.6, 1.11 | the `q`-Weil predicate, finiteness and the coefficient bounds, the polynomial `p`-rank and ordinarity, and the virtual point counts, specialised there to ordinary Weil quartics at `q = p` | `AbelianSurfacesModularity` |
-| 2.1, 3.1 | the good Euler factor `L_p(T)` of a genus-2 curve over `ℚ` at a prime `p` of good reduction (`g2c.good_lfactors`, the reverse of the characteristic polynomial of Frobenius on the reduction) read as `LPolynomial 𝔽_p F_p` for the function field `F_p` of the reduction, of degree `4`, with `L_p(1) = h_{F_p}`, `b_1 = −(p + 1 − N_1(F_p))`, its Weil polynomial from 2.1, its Riemann hypothesis from 3.1 and the intrinsic prefix `(2, p, b_1, b_2)` of 1.4; the reduction is that roadmap's | `HyperellipticCurves` |
+| 2.1, 3.1 | the good Euler factor `L_p(T)` of a genus-2 curve over `ℚ` at a prime `p` of good reduction (`g2c.good_lfactors`, the reverse of the characteristic polynomial of Frobenius on the reduction) read as `L_{F_p}` for the function field `F_p / 𝔽_p` of the reduction, of degree `4`, with `L_p(1) = h_{F_p}`, `b_1 = −(p + 1 − N_1(F_p))`, its Weil polynomial from 2.1, its Riemann hypothesis from 3.1 and the intrinsic prefix `(2, p, b_1, b_2)` of 1.4; the reduction is that roadmap's | `HyperellipticCurves` |
 | Layers 2–3 | the Weil polynomial of the function field of any curve over `𝔽_q` in Layer 1's vocabulary, and the Serre and Ihara bounds | the modular- and Shimura-curve roadmaps |
 
 ## References

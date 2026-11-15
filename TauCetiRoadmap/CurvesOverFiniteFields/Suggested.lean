@@ -23,7 +23,7 @@ is `ℤ[X]` with a natural number `q`.
 
 Headline theorems not statable at the pins, and what each lacks:
 
-* 3.1, the link theorem `IsWeilPolynomial q (weilPolynomial k F)`, 3.4 (the relations among the
+* 3.1, the link theorem `IsWeilPolynomial q P_F` for `P_F = reverse L_F`, 3.4 (the relations among the
   `N_r` for `r ≥ 2`) and 3.5 (maximal and minimal curves), and all of Layer 2: they name the
   `L`-polynomial `L_F` or the counts `N_r` for `r ≥ 2`, which are FunctionFieldArithmetic's
   (`zeta_rationality`, `pointCount`) and not at the pin.
@@ -137,12 +137,13 @@ def frobeniusAngles (P : ℤ[X]) : Multiset ℝ :=
 def angleRank (P : ℤ[X]) : ℕ :=
   Module.finrank ℚ (Submodule.span ℚ (insert (1 : ℝ) {θ | θ ∈ frobeniusAngles P})) - 1
 
-/-- **1.7.** A symmetric Weil polynomial of degree `2g` with `m` real roots has `g + m/2`
-Frobenius angles (`m` is even, 1.5): exactly `g` when it has no real root. -/
-theorem card_frobeniusAngles {q g : ℕ} {P : ℤ[X]} (hW : IsWeilPolynomial q P)
-    (hP : IsWeilSymmetric q g P) :
+/-- **1.7.** A polynomial with `m` real roots (with multiplicity) has `(natDegree P + m)/2`
+Frobenius angles: its non-real roots pair off by conjugation and each pair gives one angle, while
+each real root gives one. For `P` of degree `2g` this is `g + m/2` (`m` is even), exactly `g` when
+`P` has no real root. No Weil or symmetry hypothesis enters. -/
+theorem card_frobeniusAngles (P : ℤ[X]) :
     2 * Multiset.card (frobeniusAngles P) =
-      2 * g + Multiset.card ((P.aroots ℂ).filter fun z => z.im = 0) := sorry
+      P.natDegree + Multiset.card ((P.aroots ℂ).filter fun z => z.im = 0) := sorry
 
 /-- **1.7.** Angle rank zero is supersingularity (Kronecker's theorem,
 `NumberField.Embeddings.pow_eq_one_of_norm_eq_one`, applied to `α²/q`). -/
