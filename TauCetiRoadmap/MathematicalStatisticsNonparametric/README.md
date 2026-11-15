@@ -36,8 +36,8 @@ MathematicalStatisticsAsymptotic (see [Exact supplier contracts](#exact-supplier
 
 `Suggested.lean` states, against the pinned Mathlib and Tau Ceti, the headlines below that carry
 a Lean name, each with every conclusion the README attaches to it, and the definitions those
-statements need. It is not an exhaustive acceptance test: the other headlines (bold or not) are
-targets of the same standing, stated in prose with their locators or proof routes.
+statements need. The headlines without a Lean name are those whose carrier is missing at the
+pins; the module docstring of `Suggested.lean` lists them with the carrier each one lacks.
 
 Suggested home: `TauCeti/Statistics/Nonparametric/`, with one subdirectory per layer.
 
@@ -120,6 +120,8 @@ The numbers are those of the layers below, and `k.n` names subsection `n` of Lay
   introduces no second trace-class carrier, and proves the identity it needs between
   `nuclearENorm` of a positive compact operator and the sum of its diagonal entries in a Hilbert
   basis (8.2);
+- Gaussian integration by parts `E[Z f(Z)] = E f'(Z)` for smooth `f`, owned by RandomMatrices
+  §2.5; 4.4 states the form for nondecreasing maps as its own target;
 - the high-dimensional theory (sparse minimax rates, the Lasso, multiple testing), which consumes
   Layers 1 and 2 and 6.4 and belongs to MathematicalStatisticsHighDimensional.
 
@@ -343,19 +345,17 @@ by name and material:
   probability;
 - Pitman efficiency (8.3) with its hypotheses, used in 4.4, and the efficiencies of the sign and
   Wilcoxon tests relative to the `t` test.
+- influence functions `HasInfluenceFunction` (9.1) and the influence function of a functional
+  Hadamard differentiable at the distribution function (9.2), used in 4.5 for the Hodges–Lehmann
+  functional.
 
 ### From StochasticCalculus
 
 The StochasticCalculus roadmap owns Wiener measure on `C(ℝ≥0, ℝ)`, Brownian bridges, and the
-law of large numbers `B t / t → 0` for Brownian motion. This roadmap consumes the existence of a
-process satisfying Mathlib's `IsBrownianReal` and the a.s. growth `B t / t → 0`, in 7.4. The
+law of large numbers `B t / t → 0` for Brownian motion (its §1.4). This roadmap consumes the
+existence of a process satisfying Mathlib's `IsBrownianReal` and the a.s. growth `B t / t → 0` of
+§1.4, in 7.4. The
 Brownian bridge enters only through MathematicalStatisticsAsymptotic's Donsker theorem (3.4).
-
-### From RandomMatrices
-
-RandomMatrices §2.5 owns Gaussian integration by parts `E[Z f(Z)] = E f'(Z)` for smooth `f`. Layer
-4 does not consume it: the Chernoff–Savage proof (4.4) needs the form for nondecreasing,
-possibly discontinuous maps, which is a target of 4.4.
 
 ## How to read the build
 
@@ -391,39 +391,43 @@ Throughout, `P`, `Q` are probability measures on a measurable space `X`.
 
 - `hellingerAffinity P Q = ∫ √(dP/dν · dQ/dν) dν` with `ν = P + Q`, a real number, and
   `sqHellinger P Q = 2 (1 - hellingerAffinity P Q)` (Conventions).
-- **Independence of the dominating measure.** For every σ-finite `μ` with `P ≪ μ` and `Q ≪ μ`,
+- **Independence of the dominating measure** (`hellingerAffinity_eq_integral`,
+  `sqHellinger_eq_integral`). For every σ-finite `μ` with `P ≪ μ` and `Q ≪ μ`,
   `hellingerAffinity P Q = ∫ √(dP/dμ · dQ/dμ) dμ` and
   `sqHellinger P Q = ∫ (√(dP/dμ) - √(dQ/dμ))² dμ` (Tsybakov, Def 2.3 and property (iii), p. 83).
   Proof: chain rule for `rnDeriv` through `ν ≪ μ`, and `√(f g) · h = √(f h · g h)`.
-- **Range.** `0 ≤ hellingerAffinity P Q ≤ 1`, hence `0 ≤ sqHellinger P Q ≤ 2` (Tsybakov, Def 2.3,
-  property (ii), p. 83); `sqHellinger P Q = 0 ↔ P = Q` and `sqHellinger P Q = 2 ↔ P ⟂ₘ Q`. The
-  upper bound on the affinity is Cauchy–Schwarz in `L²(ν)`.
-- **Metric.** `√(sqHellinger P Q)` is symmetric and satisfies the triangle inequality (Tsybakov,
-  Def 2.3, property (i), p. 83): it is the `L²(μ)` distance of `√(dP/dμ)` and `√(dQ/dμ)` for
-  `μ = P + Q + R`.
-- **Products.** `hellingerAffinity (P.prod P') (Q.prod Q')` is the product of the affinities, and
-  for finite products
-  `hellingerAffinity (Measure.pi P) (Measure.pi Q) = ∏ i, hellingerAffinity (P i) (Q i)`. Hence
+- **Range** (`hellingerAffinity_mem_Icc`). `0 ≤ hellingerAffinity P Q ≤ 1`, hence
+  `0 ≤ sqHellinger P Q ≤ 2` (Tsybakov, Def 2.3, property (ii), p. 83); `sqHellinger P Q = 0 ↔ P = Q`
+  and `sqHellinger P Q = 2 ↔ P ⟂ₘ Q`. The upper bound on the affinity is Cauchy–Schwarz in `L²(ν)`.
+- **Metric** (`sqrt_sqHellinger_triangle`). `√(sqHellinger P Q)` is symmetric and satisfies the
+  triangle inequality (Tsybakov, Def 2.3, property (i), p. 83): it is the `L²(μ)` distance of
+  `√(dP/dμ)` and `√(dQ/dμ)` for `μ = P + Q + R`.
+- **Products.** `hellingerAffinity (P.prod P') (Q.prod Q')` is the product of the affinities
+  (`hellingerAffinity_prod`), and for finite products
+  `hellingerAffinity (Measure.pi P) (Measure.pi Q) = ∏ i, hellingerAffinity (P i) (Q i)`
+  (`hellingerAffinity_pi`). Hence (`sqHellinger_pi_const`)
   `sqHellinger (Measure.pi (fun _ : Fin n ↦ P)) (Measure.pi (fun _ ↦ Q)) = 2 (1 - (1 - sqHellinger P Q / 2)^n)`
   (Tsybakov, Def 2.3, property (iv), p. 83). Proof: densities of products are products of densities,
   and Tonelli. At `n = 0` both sides are `0`: the empty product is `1`.
-- **Data processing.** For a Markov kernel `κ : Kernel X Y`,
-  `hellingerAffinity P Q ≤ hellingerAffinity (κ ∘ₘ P) (κ ∘ₘ Q)`; in particular for a measurable
-  map (Samworth–Shah, Lemma 8.10, p. 233, for measurable maps and every `f`-divergence, of which
+- **Data processing** (`hellingerAffinity_le_comp`). For a Markov kernel `κ : Kernel X Y`,
+  `hellingerAffinity P Q ≤ hellingerAffinity (κ ∘ₘ P) (κ ∘ₘ Q)`; in particular for a measurable map
+  `T`, `hellingerAffinity P Q ≤ hellingerAffinity (P.map T) (Q.map T)` (`hellingerAffinity_le_map`;
+  Samworth–Shah, Lemma 8.10, p. 233, for measurable maps and every `f`-divergence, of which
   `sqHellinger` is the case `f(x) = (√x - 1)²`; for kernels by the same argument). Proof: with
-  `p = dP/dν`, `q = dQ/dν` and the joint law `π = ν ⊗ₘ κ` on `X × Y`, whose
-  second marginal is `κ ∘ₘ ν`, the densities of `κ ∘ₘ P` and `κ ∘ₘ Q` with respect to `κ ∘ₘ ν`
-  are the conditional expectations `p'` and `q'` of `p ∘ Prod.fst` and `q ∘ Prod.fst` under `π`
-  given the second coordinate (`MeasureTheory.condExp`). The conditional Cauchy–Schwarz
-  inequality `E[√(p q) | Y] ≤ √(p' q')` and integration against `κ ∘ₘ ν` give the claim. No joint
-  density with respect to `ν ⊗ (κ ∘ₘ ν)` is used; none need exist (an identity kernel with an
-  atomless `ν` has a joint law on the diagonal). Measurable maps are the deterministic kernels.
-- **Gaussian laws.**
+  `p = dP/dν`, `q = dQ/dν` and the joint law `π = ν ⊗ₘ κ` on `X × Y`, whose second marginal is
+  `κ ∘ₘ ν`, the densities of `κ ∘ₘ P` and `κ ∘ₘ Q` with respect to `κ ∘ₘ ν` are the conditional
+  expectations `p'` and `q'` of `p ∘ Prod.fst` and `q ∘ Prod.fst` under `π` given the second
+  coordinate (`MeasureTheory.condExp`). The conditional Cauchy–Schwarz inequality
+  `E[√(p q) | Y] ≤ √(p' q')` and integration against `κ ∘ₘ ν` give the claim. No joint density with
+  respect to `ν ⊗ (κ ∘ₘ ν)` is used; none need exist (an identity kernel with an atomless `ν` has a
+  joint law on the diagonal). Measurable maps are the deterministic kernels.
+- **Gaussian laws** (`hellingerAffinity_gaussianReal`).
   `hellingerAffinity (gaussianReal a v) (gaussianReal b v) = exp (-(a - b)² / (8 v))` for `v > 0`;
-  for the Gaussian sequence laws of the Conventions with `θ - θ'` finitely supported, the affinity
-  is `exp (-‖θ - θ'‖² / (8 ε²))`. Proof: with `φ_c` the density of `N(c, v)`, completing the
-  square gives `√(φ_a φ_b) = exp (-(a - b)² / (8 v)) · φ_{(a+b)/2}`; the sequence form by the
-  splitting into the finite support and its complement of 1.3, and the products bullet.
+  for the Gaussian sequence laws of the Conventions with `ε ≠ 0` and `θ - θ'` finitely supported,
+  the affinity is `exp (-‖θ - θ'‖² / (8 ε²))`, the norm a finite sum over the support
+  (`hellingerAffinity_infinitePi_gaussianReal`). Proof: with `φ_c` the density of `N(c, v)`,
+  completing the square gives `√(φ_a φ_b) = exp (-(a - b)² / (8 v)) · φ_{(a+b)/2}`; the sequence
+  form by the splitting into the finite support and its complement of 1.3, and the products bullet.
 
 *Needs:* Mathlib `Measure.rnDeriv`, `Measure.pi`, `integral_gaussian`, `condExp`.
 
@@ -438,20 +442,22 @@ Throughout, `P`, `Q` are probability measures on a measurable space `X`.
 
 ### 1.2 The chi-squared divergence
 
-- `chiSqDiv P Q` (Conventions), with values in `[0, ∞]`; `chiSqDiv P Q = 0 ↔ P = Q` for
-  probability measures. The truncated subtraction in `ℝ≥0∞` loses nothing: for `P ≪ Q` with `P`
-  a probability measure, `∫⁻ (dP/dQ)² dQ ≥ (∫⁻ dP/dQ dQ)² = 1` by Cauchy–Schwarz.
-- **Products.** `1 + chiSqDiv (Measure.pi P) (Measure.pi Q) = ∏ i, (1 + chiSqDiv (P i) (Q i))`
-  (Tsybakov, p. 86, property (ii)). If some `P i` is not absolutely continuous with respect to
-  `Q i`, both sides are `∞`: a cylinder set over a `Q i`-null set separates the products, and
-  every factor is at least `1`.
-- **Gaussian laws.** `1 + chiSqDiv (gaussianReal a v) (gaussianReal b v) = exp ((a - b)² / v)`
+- `chiSqDiv P Q` (Conventions), with values in `[0, ∞]`; `chiSqDiv P Q = 0 ↔ P = Q` for probability
+  measures (`chiSqDiv_eq_zero_iff`). The truncated subtraction in `ℝ≥0∞` loses nothing: for `P ≪ Q`
+  with `P` a probability measure, `∫⁻ (dP/dQ)² dQ ≥ (∫⁻ dP/dQ dQ)² = 1` by Cauchy–Schwarz.
+- **Products** (`one_add_chiSqDiv_pi`).
+  `1 + chiSqDiv (Measure.pi P) (Measure.pi Q) = ∏ i, (1 + chiSqDiv (P i) (Q i))` (Tsybakov, p. 86,
+  property (ii)). If some `P i` is not absolutely continuous with respect to `Q i`, both sides are
+  `∞`: a cylinder set over a `Q i`-null set separates the products, and every factor is at least
+  `1`.
+- **Gaussian laws** (`one_add_chiSqDiv_gaussianReal`).
+  `1 + chiSqDiv (gaussianReal a v) (gaussianReal b v) = exp ((a - b)² / v)`
   for `v > 0`. Proof: `dP/dQ (x) = exp ((a - b)(x - b)/v - (a - b)²/(2v))`, and the moment
   generating function of `gaussianReal b v`.
-- **Gaussian mixtures.** For `ε > 0`, a probability measure `π` on `EuclideanSpace ℝ (Fin d)` and
-  `P̄ = ∫ N(θ, ε² I) dπ(θ)` (the bind of `π` with the Gaussian kernel),
-  `1 + chiSqDiv P̄ (N(0, ε² I)) = ∫⁻∫⁻ exp (⟪θ, θ'⟫ / ε²) dπ(θ) dπ(θ')`, both sides in `ℝ≥0∞`.
-  Proof: the density of `P̄` with respect to `N(0, ε² I)` is
+- **Gaussian mixtures** (`one_add_chiSqDiv_gaussianMixture`). For `ε > 0`, a probability measure `π`
+  on `EuclideanSpace ℝ (Fin d)` and `P̄ = ∫ N(θ, ε² I) dπ(θ)` (the bind of `π` with the Gaussian
+  kernel), `1 + chiSqDiv P̄ (N(0, ε² I)) = ∫⁻∫⁻ exp (⟪θ, θ'⟫ / ε²) dπ(θ) dπ(θ')`, both sides in
+  `ℝ≥0∞`. Proof: the density of `P̄` with respect to `N(0, ε² I)` is
   `∫ exp (⟪θ, y⟫/ε² - ‖θ‖²/(2ε²)) dπ(θ)`; square, apply Tonelli and the Gaussian moment generating
   function. This is the identity used for the detection lower bound of 6.6.
 
@@ -470,27 +476,29 @@ Throughout, `P`, `Q` are probability measures on a measurable space `X`.
 
 ### 1.3 Kullback–Leibler complements
 
-- **Finite products.** `klDiv (Measure.pi P) (Measure.pi Q) = ∑ i, klDiv (P i) (Q i)` for
+- **Finite products** (`klDiv_pi`, `klDiv_pi_const`).
+  `klDiv (Measure.pi P) (Measure.pi Q) = ∑ i, klDiv (P i) (Q i)` for
   `P Q : Fin n → Measure X` probability measures (Tsybakov, property (iii), p. 85), by induction
   from Tau Ceti's `klDiv_prod_prod_eq_add` through `MeasurableEquiv.piFinSuccAbove`; hence
   `klDiv (P^n) (Q^n) = n · klDiv P Q`.
-- **Gaussian laws.**
+- **Gaussian laws** (`klDiv_gaussianReal`, `klDiv_infinitePi_gaussianReal`).
   `klDiv (gaussianReal a v) (gaussianReal b v) = ENNReal.ofReal ((a - b)² / (2 v))` for `v > 0`
-  (Tsybakov, Cor 2.1(i), p. 87, for `v = 1`; general `v` by the scaling `x ↦ x / √v`, a
-  measurable bijection, which preserves `klDiv`), and for the Gaussian sequence laws with `θ - θ'`
-  finitely
-  supported, `klDiv = ofReal (‖θ - θ'‖² / (2 ε²))`. Proof for the sequence laws: split `ℕ` into the
-  finite support `S` and its complement; `Measure.infinitePi` is the product of the two blocks; the
-  complement block is the same law under both parameters.
+  (Tsybakov, Cor 2.1(i), p. 87, for `v = 1`; general `v` by the scaling `x ↦ x / √v`, a measurable
+  bijection, which preserves `klDiv`), and for the Gaussian sequence laws with `ε ≠ 0` and `θ - θ'`
+  finitely supported, `klDiv = ofReal (‖θ - θ'‖² / (2 ε²))`. Proof for the sequence laws: split `ℕ`
+  into the finite support `S` and its complement; `Measure.infinitePi` is the product of the two
+  blocks; the complement block is the same law under both parameters.
 - **Isotropic Gaussian laws on `ℝ^d`** (`klDiv_multivariateGaussian`): for
   `a, b : EuclideanSpace ℝ (Fin d)` and `v > 0`,
   `klDiv (multivariateGaussian a (v • 1)) (multivariateGaussian b (v • 1)) = ofReal (‖a - b‖² / (2 v))`.
   Proof: both laws are images of `Measure.pi (fun _ ↦ gaussianReal · v)` under the coordinate
   equivalence, which preserves `klDiv`; then the finite-product formula and the scalar form. The
   scalar form is `klDiv_gaussianReal`.
-- **Binary divergence.** `klBin a b = a log (a/b) + (1 - a) log ((1 - a)/(1 - b))` for
+- **Binary divergence** (`klDiv_bernoulliMeasure`, `convexOn_klBin`).
+  `klBin a b = a log (a/b) + (1 - a) log ((1 - a)/(1 - b))` for
   `a, b ∈ [0, 1]`, with `0 log 0 = 0`, as a real number for `b ∈ (0, 1)`. For `a ∈ [0, 1]` and
-  `b ∈ (0, 1)` it is the divergence of `Ber a` from `Ber b`, and it is jointly convex on
+  `b ∈ (0, 1)` it is the divergence of `Ber a` from `Ber b` (the laws on `Bool` with mass `a` and
+  `b` at `true`), and it is jointly convex on
   `[0, 1] × (0, 1)` (Samworth–Shah, proof of Thm 8.11, p. 235). Outside `b ∈ (0, 1)` the Lean
   definition takes the junk value of `Real.log 0 = 0` where the divergence is `∞` (at
   `b ∈ {0, 1}` with `a ≠ b`).
@@ -500,7 +508,7 @@ Throughout, `P`, `Q` are probability measures on a measurable space `X`.
   `klBin a b = -h(a) - a log b - (1 - a) log (1 - b) ≥ -log 2 + a log (1/b)`, with
   `h ≤ log 2` the binary entropy and `-(1 - a) log (1 - b) ≥ 0`. For `M = 1` the point `b = 1` is
   outside `(0, 1)`.
-- **Data processing to an event.** For a measurable set `A`,
+- **Data processing to an event** (`ofReal_klBin_le_klDiv`). For a measurable set `A`,
   `ENNReal.ofReal (klBin (P.real A) (Q.real A)) ≤ klDiv P Q`, by `klDiv_map_le` for the
   indicator of `A`. When `Q.real A ∈ {0, 1}` and `P.real A` differs from it, `klBin` takes the junk
   value `(1 - a) log (1 - a)` or `a log a`, which is at most `0`, so the inequality still holds.
@@ -520,7 +528,8 @@ Throughout, `P`, `Q` are probability measures on a measurable space `X`.
 
 ### 1.4 Comparison inequalities
 
-- **Testing affinity.** For probability measures,
+- **Testing affinity** (`iInf_test_eq_one_sub_tvDist`, `one_sub_tvDist_eq_integral_min`,
+  `iInf_kernel_test_eq_one_sub_tvDist`). For probability measures,
   `⨅ φ test, (∫ φ dP + ∫ (1 - φ) dQ) = 1 - tvDist P Q / 2 = ∫ min (dP/dν) (dQ/dν) dν`, with
   `ν = P + Q`, and the infimum is attained by the indicator of `{dP/dν < dQ/dν}`. The second
   equality is Scheffé's theorem (Tsybakov, Lemma 2.1, p. 84); the first is the minimal sum of the
@@ -528,16 +537,19 @@ Throughout, `P`, `Q` are probability measures on a measurable space `X`.
   p. 226, for nonrandomized tests; a test in `[0, 1]` changes nothing, since the sum is affine in
   `φ` and minimized pointwise). The infimum over Markov kernels `ψ : Kernel X Bool` of
   `(ψ ∘ₘ P) {true} + (ψ ∘ₘ Q) {false}` is the same number, with `φ x = ψ x {true}`.
-- **Le Cam's inequalities** (Tsybakov, Lemma 2.3, p. 86):
+- **Le Cam's inequalities** (`sq_one_sub_sqHellinger_le_integral_min`,
+  `sqHellinger_le_tvDist_le`; Tsybakov, Lemma 2.3, p. 86):
   `∫ min (dP/dν) (dQ/dν) dν ≥ ½ (1 - sqHellinger P Q / 2)²` and
   `sqHellinger P Q ≤ tvDist P Q ≤ √(sqHellinger P Q · (4 - sqHellinger P Q))`.
-- **Hellinger and Kullback–Leibler** (Tsybakov, Lemma 2.4, p. 87):
+- **Hellinger and Kullback–Leibler** (`ofReal_sqHellinger_le_klDiv`; Tsybakov, Lemma 2.4, p. 87):
   `ENNReal.ofReal (sqHellinger P Q) ≤ klDiv P Q`.
-- **Pinsker** (Tsybakov, Lemma 2.5(i), p. 88): `ENNReal.ofReal (tvDist P Q) ^ 2 ≤ 2 * klDiv P Q`,
-  the real form of Tau Ceti's `etvDist_sq_le_two_mul_klDiv`.
-- **Bretagnolle–Huber** (Tsybakov, Lemma 2.6, p. 89):
+- **Pinsker** (`ofReal_tvDist_sq_le_two_mul_klDiv`; Tsybakov, Lemma 2.5(i), p. 88):
+  `ENNReal.ofReal (tvDist P Q) ^ 2 ≤ 2 * klDiv P Q`, the real form of Tau Ceti's
+  `etvDist_sq_le_two_mul_klDiv`.
+- **Bretagnolle–Huber** (`half_exp_neg_klDiv_le`; Tsybakov, Lemma 2.6, p. 89):
   `1 - tvDist P Q / 2 ≥ ½ exp (-(klDiv P Q).toReal)` when `klDiv P Q ≠ ∞`.
-- **Chi-squared bound** (Tsybakov, Lemma 2.7, p. 90):
+- **Chi-squared bound** (`klDiv_le_log_one_add_chiSqDiv`, `ofReal_log_one_add_chiSqDiv_le`;
+  Tsybakov, Lemma 2.7, p. 90):
   `klDiv P Q ≤ ENNReal.ofReal (log (1 + (chiSqDiv P Q).toReal)) ≤ chiSqDiv P Q` when
   `chiSqDiv P Q ≠ ∞`. Proof: Jensen for the concave `log` under `P`, with `dP/dQ` as the
   integrand.
@@ -582,10 +594,11 @@ kernel `κ : Kernel X Y`, and a family `θ : ι → Y` of parameters indexes obs
   test is the composition of `κ` with a
   measurable nearest-parameter map `Y → ι` (minimum of the finitely many continuous functions
   `d · (θ j)` with ties broken by a fixed linear order on `ι`).
-- **Risk form.** For a monotone `ℓ : ℝ≥0∞ → ℝ≥0∞`,
-  `∫⁻ y, ℓ (edist y (θ i)) ∂(κ ∘ₘ P i) ≥ ℓ (ENNReal.ofReal s) · (κ ∘ₘ P i) {y | s ≤ d y (θ i)}`
-  (Markov's inequality; Tsybakov, (2.5), p. 79). No measurability of `ℓ` is needed: the lower
-  integral is monotone and the set is measurable.
+- **Risk form** (`mul_measure_le_lintegral_edist`). For every measure `P`, kernel `κ`, point
+  `θ : Y`, real `s` and monotone `ℓ : ℝ≥0∞ → ℝ≥0∞`,
+  `∫⁻ y, ℓ (edist y θ) ∂(κ ∘ₘ P) ≥ ℓ (ENNReal.ofReal s) · (κ ∘ₘ P) {y | s ≤ d y θ}`, applied with
+  `P i` and `θ i` (Markov's inequality; Tsybakov, (2.5), p. 79). No measurability of `ℓ` is needed:
+  the lower integral is monotone and the set is measurable.
 
 *Needs:* Mathlib `Kernel.deterministic`, `Kernel.comp`, `measurable_dist`; Layer 1 not needed.
 
@@ -596,15 +609,17 @@ For two parameters `θ₀`, `θ₁` with `d θ₀ θ₁ ≥ 2 s` and every estim
 - **Total variation form** (`max_measure_ge_of_tvDist`, Tsybakov, Thm 2.2(i), p. 90;
   Wainwright, (15.13), p. 491): `max (e 0) (e 1) ≥ (1 - tvDist (P 0) (P 1) / 2) / 2`. Proof:
   2.1 and the testing affinity of 1.4, since `max ≥` the average.
-- **Hellinger form** (Tsybakov, Thm 2.2(ii), p. 90): if `sqHellinger (P 0) (P 1) ≤ α < 2`, then
-  `max (e 0) (e 1) ≥ ½ (1 - √(α (1 - α / 4)))`. Proof: the second Le Cam inequality of 1.4 and
-  the monotonicity of `x (1 - x/4)` on `[0, 2]`.
-- **Kullback–Leibler form** (Tsybakov, Thm 2.2(iii), p. 90): if `α ≥ 0` and
-  `klDiv (P 0) (P 1) ≤ ofReal α`, then `max (e 0) (e 1) ≥ max (¼ exp (-α)) ((1 - √(α / 2)) / 2)`.
-  Proof: Bretagnolle–Huber and Pinsker in 1.4.
-- **Samples.** For `P j = Q j ^ n` with `klDiv (Q 0) (Q 1) ≠ ∞`, the Kullback–Leibler form
-  holds with `α = n (klDiv (Q 0) (Q 1)).toReal` (1.3), and, when `sqHellinger (Q 0) (Q 1) < 2`,
-  the Hellinger form with `α = 2 (1 - (1 - sqHellinger (Q 0) (Q 1) / 2)^n) < 2` (1.1).
+- **Hellinger form** (`max_measure_ge_of_sqHellinger`, Tsybakov, Thm 2.2(ii), p. 90): if
+  `sqHellinger (P 0) (P 1) ≤ α < 2`, then `max (e 0) (e 1) ≥ ½ (1 - √(α (1 - α / 4)))`. Proof: the
+  second Le Cam inequality of 1.4 and the monotonicity of `x (1 - x/4)` on `[0, 2]`.
+- **Kullback–Leibler form** (`max_measure_ge_of_klDiv`, Tsybakov, Thm 2.2(iii), p. 90): if `α ≥ 0`
+  and `klDiv (P 0) (P 1) ≤ ofReal α`, then
+  `max (e 0) (e 1) ≥ max (¼ exp (-α)) ((1 - √(α / 2)) / 2)`. Proof: Bretagnolle–Huber and Pinsker in
+  1.4.
+- **Samples** (`max_measure_ge_of_pi`). For `P j = Q j ^ n` and an estimator
+  `κ : Kernel (Fin n → X) Y`: when `klDiv (Q 0) (Q 1) ≠ ∞`, the Kullback–Leibler form holds with
+  `α = n (klDiv (Q 0) (Q 1)).toReal` (1.3), and, when `sqHellinger (Q 0) (Q 1) < 2`, the Hellinger
+  form with `α = 2 (1 - (1 - sqHellinger (Q 0) (Q 1) / 2)^n) < 2` (1.1).
 - **Minimax risk** (`minimaxRisk_ge_of_tvDist`; Samworth–Shah, Lemma 8.4, p. 225, for the
   squared loss). For `P : Kernel Θ X`, two points `θ₀ θ₁ : Θ`, a map `g : Θ → Y` with
   `d (g θ₀) (g θ₁) ≥ 2 s` and `s ≥ 0`, and the loss
@@ -616,10 +631,10 @@ For two parameters `θ₀`, `θ₁` with `d θ₀ θ₁ ≥ 2 s` and every estim
 
 ### 2.3 The Varshamov–Gilbert bound
 
-- **Hamming balls.** For `m ≥ 1` and `0 ≤ r ≤ m/2`, the number of `ω : Fin m → Bool` with
-  `hammingDist ω 0 ≤ r` is at most `2^m exp (-2 (m/2 - r)² / m)`, with `0` the constant
-  `false` word. Proof: Hoeffding's inequality (Tsybakov, Lemma 2.8, p. 104) for a sum of `m`
-  independent fair Bernoulli variables, as in the proof of Tsybakov, Lemma 2.9, p. 105.
+- **Hamming balls** (`card_hammingDist_le`). For `m ≥ 1` and `0 ≤ r ≤ m/2`, the number of
+  `ω : Fin m → Bool` with `hammingDist ω 0 ≤ r` is at most `2^m exp (-2 (m/2 - r)² / m)`, with `0`
+  the constant `false` word. Proof: Hoeffding's inequality (Tsybakov, Lemma 2.8, p. 104) for a sum
+  of `m` independent fair Bernoulli variables, as in the proof of Tsybakov, Lemma 2.9, p. 105.
 - **Varshamov–Gilbert** (`exists_varshamovGilbert`, Tsybakov, Lemma 2.9, p. 104): for `m ≥ 8`
   there are `M ≥ 2^{m/8}` and `ω : Fin (M + 1) → (Fin m → Bool)` with `ω 0 = 0` and
   `m / 8 ≤ hammingDist (ω j) (ω k)` for `j ≠ k`. Proof (Tsybakov, pp. 104–105): with
@@ -627,10 +642,10 @@ For two parameters `θ₀`, `θ₁` with `d θ₀ θ₁ ≥ 2 s` and every estim
   until the cube is exhausted; the balls of radius `D` about them cover the cube, so
   `(M + 1) · #ball(D) ≥ 2^m`, and the ball bound with `r = D ≤ m/8` gives
   `M + 1 ≥ exp (9m/32) ≥ 2^{m/8} + 1` for `m ≥ 8`.
-- The packing form: the greedy points are separated by at least `D + 1 > m/8`, strictly, so on
-  `Hamming (fun _ : Fin m ↦ Bool)` with its metric, Mathlib's `Metric.packingNumber` at radius
-  `m/8` of the whole cube is at least `M + 1 > 2^{m/8}`. The strict separation matters, since
-  Mathlib's `Metric.IsSeparated` asks for `m/8 < edist`.
+- The packing form (`le_packingNumber_hamming`): the greedy points are separated by at least
+  `D + 1 > m/8`, strictly, so on `Hamming (fun _ : Fin m ↦ Bool)` with its metric, Mathlib's
+  `Metric.packingNumber` at radius `m/8` of the whole cube is at least `M + 1 > 2^{m/8}`. The strict
+  separation matters, since Mathlib's `Metric.IsSeparated` asks for `m/8 < edist`.
 
 *Needs:* Mathlib `hammingDist`, `Hamming`, `Metric.packingNumber`; the Hoeffding bound from
 Mathlib's `HasSubgaussianMGF` for bounded variables.
@@ -656,23 +671,24 @@ of a uniform index and the observation.
   convexity of `klBin` and `∑ j, b j = 1` to get `klBin ā (1/M) ≤ mutualInfoUniform P`; conclude
   by `klBin ā (1/M) ≥ ā log M - log 2`. The junk values of `klBin` do not occur: `b j = 0`
   forces `a j = 0`, and `b j = 1` forces `a j = 1`, since `P j ≤ M • P̄`.
-- **Mixture bound** (`mutualInfoUniform_le`; Tsybakov, (2.69), p. 114, there with `Q = P 0`):
-  for every probability measure `Q`, `M⁻¹ ∑ j, klDiv (P j) Q = mutualInfoUniform P + klDiv P̄ Q`,
-  hence `mutualInfoUniform P ≤ M⁻¹ ∑ j, klDiv (P j) Q`.
-- **Estimation form.** If `d (θ i) (θ j) ≥ 2 s` for `i ≠ j`, then for every probability measure
-  `Q` with `klDiv (P j) Q ≠ ∞` for every `j`, every estimator `κ` has
+- **Mixture bound** (`inv_mul_sum_klDiv_eq`, `mutualInfoUniform_le`; Tsybakov, (2.69), p. 114,
+  there with `Q = P 0`): for every probability measure `Q`,
+  `M⁻¹ ∑ j, klDiv (P j) Q = mutualInfoUniform P + klDiv P̄ Q` (`inv_mul_sum_klDiv_eq`, for every
+  `M ≥ 1`), hence `mutualInfoUniform P ≤ M⁻¹ ∑ j, klDiv (P j) Q`.
+- **Estimation form** (`max_measure_ge_of_fano`). If `d (θ i) (θ j) ≥ 2 s` for `i ≠ j`, then for
+  every probability measure `Q` with `klDiv (P j) Q ≠ ∞` for every `j`, every estimator `κ` has
   `max_j (κ ∘ₘ P j).real {y | s ≤ d y (θ j)} ≥ 1 - (M⁻¹ ∑ j (klDiv (P j) Q).toReal + log 2) / log M`
-  (2.1 with the two bullets above; Samworth–Shah, Cor 8.12, p. 236, with `log (2 - 1/M)` in
-  place of `log 2`). Without the finiteness hypothesis the `toReal` of an infinite
-  divergence is `0` and the bound fails: four mutually singular Dirac laws and a reference law
-  singular to all of them would give `1/2` for a problem with exact recovery.
-- **Packing form** (Tsybakov, Cor 2.6, p. 114, and Thm 2.5, p. 99, by the same argument): for
-  `M ≥ 2` and `M + 1` laws `P 0, …, P M` with `2 s`-separated parameters and
+  (2.1 with the two bullets above; Samworth–Shah, Cor 8.12, p. 236, with `log (2 - 1/M)` in place of
+  `log 2`). Without the finiteness hypothesis the `toReal` of an infinite divergence is `0` and the
+  bound fails: four mutually singular Dirac laws and a reference law singular to all of them would
+  give `1/2` for a problem with exact recovery.
+- **Packing form** (`max_measure_ge_of_packing`; Tsybakov, Cor 2.6, p. 114, and Thm 2.5, p. 99, by
+  the same argument): for `M ≥ 2` and `M + 1` laws `P 0, …, P M` with `2 s`-separated parameters and
   `(M + 1)⁻¹ ∑ j, klDiv (P j) (P 0) ≤ ofReal (α log M)`, `0 < α < 1/8`, the estimation form with
   `Q = P 0` and `M + 1` hypotheses gives
   `max_j (κ ∘ₘ P j).real {y | s ≤ d y (θ j)} ≥ 1 - α - log 2 / log (M + 1) ≥ 1 - 1/8 - log 2 / log 3 > 0.24`,
-  independent of `M`. In applications the parameters are indexed by the Varshamov–Gilbert family
-  of 2.3, for which `M ≥ 2^{m/8} ≥ 2`.
+  independent of `M`. In applications the parameters are indexed by the Varshamov–Gilbert family of
+  2.3, for which `M ≥ 2^{m/8} ≥ 2`.
 
 *Needs:* 1.3, 2.1, 2.3; Tau Ceti `klDiv_smul_add_smul_le`; Mathlib `klDiv_map_le`.
 
@@ -700,7 +716,8 @@ For `P : (Fin m → Bool) → Measure X` probability measures:
   the cube, and for each coordinate pair the cube along that coordinate; each pair is a two-point
   test bounded by the testing affinity of 1.4. At `m = 0` both sides are `0` (the infimum over
   the empty set of neighbours is the real junk value `0`, multiplied by `m = 0`).
-- **Divergence forms** (`assouad_klDiv`, Tsybakov, Thm 2.12(iv), pp. 118–119): if `α ≥ 0` and
+- **Divergence forms** (`assouad_klDiv`, `assouad_sqHellinger`; Tsybakov, Thm 2.12(iv),
+  pp. 118–119): if `α ≥ 0` and
   `klDiv (P ω) (P ω') ≤ ofReal α` for neighbours, the right side is at least
   `(m / 2) max (½ exp (-α)) (1 - √(α / 2))`, by Bretagnolle–Huber and Pinsker in 1.4. If
   `sqHellinger (P ω) (P ω') ≤ α < 2` for neighbours, it is at least
@@ -726,13 +743,22 @@ For `P : (Fin m → Bool) → Measure X` probability measures:
 The headline names of Layers 1 and 2 and of 6.4 are a contract with a consumer (see
 [Downstream consumers](#downstream-consumers)).
 
-- For `P : Kernel Θ X`, `θ : ι → Θ` injective, the loss `ℓ θ y = ofReal (d y (g θ) ^ 2)` for a
-  map `g : Θ → Y`: Mathlib's `minimaxRisk ℓ P` is bounded below by each of the bounds of 2.2,
-  2.4 and 2.5 applied to `P ∘ θ`, with the separation and finiteness hypotheses of those
-  bounds, multiplied by `s²` with `s ≥ 0` (2.2, 2.4) or as stated (2.5). Proof: the supremum over
-  `Θ` dominates the maximum over `range θ`, and Markov's inequality (2.1).
+For `P : Kernel Θ X`, a map `g : Θ → Y` and the loss `ℓ θ y = ofReal (d y (g θ) ^ 2)`, Mathlib's
+`minimaxRisk ℓ P` is bounded below as follows. Proof: the supremum over `Θ` dominates the maximum
+over the chosen parameters, and the risk form of 2.1.
+- **Two points** (`minimaxRisk_ge_of_klDiv`; the total variation form is the minimax risk bullet
+  of 2.2): for
+  `θ₀ θ₁ : Θ`, `s ≥ 0` with `d (g θ₀) (g θ₁) ≥ 2 s`, `α ≥ 0` and `klDiv (P θ₀) (P θ₁) ≤ ofReal α`,
+  `minimaxRisk ℓ P ≥ ofReal (s² max (¼ exp (-α)) ((1 - √(α / 2)) / 2))`.
+- **Fano** (`minimaxRisk_ge_of_fano`): for `M ≥ 2`, `θ : Fin M → Θ`, `s ≥ 0` with
+  `d (g (θ i)) (g (θ j)) ≥ 2 s` for `i ≠ j`, and a probability measure `Q` with
+  `klDiv (P (θ j)) Q ≠ ∞` for every `j`, `minimaxRisk ℓ P` is at least `ofReal` of `s²` times the
+  estimation form of 2.4 for the laws `P (θ j)`.
+- **Assouad** (`minimaxRisk_ge_of_assouad`): for `θ : (Fin m → Bool) → Θ` and `c > 0` with
+  `d (g (θ ω)) (g (θ ω'))² ≥ c · hammingDist ω ω'`, `minimaxRisk ℓ P` is at least the metric form
+  of 2.5 for the laws `P (θ ω)`.
 
-*Needs:* 2.2–2.5; Mathlib `minimaxRisk`.
+*Needs:* 2.1, 2.2, 2.4, 2.5; Mathlib `minimaxRisk`.
 
 ### Examples
 
@@ -754,8 +780,9 @@ stated.
 
 - `rank x i = #{j | x j ≤ x i}` and `absRank x i = #{j | |x j| ≤ |x i|}` (Conventions). For
   injective `x`, `fun i ↦ rank x i - 1` is a permutation of `Fin N`, the inverse of
-  `Tuple.sort x`; ranks are invariant under strictly monotone maps applied coordinatewise and
-  equivariant under permutations of the coordinates.
+  `Tuple.sort x` (`rank_eq_sort_symm_add_one`); ranks are invariant under strictly increasing maps
+  applied coordinatewise (`rank_comp_strictMono`) and equivariant under permutations of the
+  coordinates (`rank_comp_perm`).
 - **The law of the ranks** (`measure_rank_eq_perm`, van der Vaart, Lemma 13.1(i) and (iv),
   p. 174): for every permutation `σ` and every measurable set `A`, the event that
   `rank x = σ + 1` and the sorted vector `x ∘ Tuple.sort x` lies in `A` has probability `(N!)⁻¹`
@@ -798,9 +825,11 @@ stated.
   `φ` against the beta law `Beta(i, N - i + 1)` of the `i`-th uniform order statistic (Tau Ceti
   `map_orderStatistic_pi_uniformMeasure`; van der Vaart, (13.3), p. 175), and its approximate
   scores are `φ (i / (N + 1))` (van der Vaart, (13.4), p. 175).
-- The exact scores sum to `N ∫₀¹ φ`: `∑_{i=1}^N exactScore φ N i = N ∫₀¹ φ`, since the beta
-  densities of the `N` order statistics sum to `N`.
-- **Score functions of location and scale families.** For a density `f` absolutely continuous
+- The exact scores sum to `N ∫₀¹ φ` (`sum_exactScore`): for `φ` integrable on `(0, 1)`,
+  `∑_{i=1}^N exactScore φ N i = N ∫₀¹ φ`, since the beta densities of the `N` order statistics
+  sum to `N`.
+- **Score functions of location and scale families** (`score_logistic_gaussian_exponential`,
+  `exactScore_logistic_savage`). For a density `f` absolutely continuous
   with distribution function `F` and finite Fisher information `I_f = ∫ (f'/f)² f`, the location
   score is `φ_f u = -(f'/f)(F⁻¹ u)` and the scale score is `-1 - F⁻¹(u) (f'/f)(F⁻¹ u)`, with
   `F⁻¹` Mathlib's quantile of the law (van der Vaart, Examples 13.13 and 13.14, pp. 179–180).
@@ -809,16 +838,21 @@ stated.
   standard exponential scale family gives `-1 - log (1 - u)`, whose exact scores
   `∑_{j=N-i+1}^N 1/j - 1` are the Savage scores minus `1` (van der Vaart, Example 13.15,
   p. 180).
-- **Locally most powerful rank tests** (van der Vaart, §13.1, pp. 178–179): if `X i` has density
-  `f (x - θ c i)`, independent, with `f` as above, then for every permutation `r`,
-  `θ ↦ P_θ (rank = r)` is differentiable at `0` with derivative
-  `(N!)⁻¹ ∑ i, c i · exactScore φ_f N (r i)`. Hence, by the Neyman–Pearson lemma on the finite set
-  of rank vectors (Foundations 6.2), the test rejecting for large values of
-  `linearRankStatistic c (exactScore φ_f N)`, randomized on the boundary, maximizes the
-  derivative at `0` of the power among rank tests of the same size; when its size is
-  `#{T > k} / N!` for some `k` (no randomization), it is most powerful among rank tests of its size
-  for all `θ ∈ (0, ε)`, for some `ε > 0`. The scale family `e^{-θ c i} f (e^{-θ c i} x)` gives the
-  same statements with the scale score (van der Vaart, Example 13.13, p. 179). Proof of the
+- **Locally most powerful rank tests** (`hasDerivAt_measure_rank_location`,
+  `hasDerivAt_measure_rank_scale`, `rankTest_locallyMostPowerful`; van der Vaart, §13.1,
+  pp. 178–179): if `X i` has density `f (x - θ c i)`, independent, with `f` as above, then for
+  every permutation `r`, `θ ↦ P_θ (rank = r)` is differentiable at `0` with derivative
+  `(N!)⁻¹ ∑ i, c i · exactScore φ_f N (r i)` (`hasDerivAt_measure_rank_location`). Hence, by the
+  Neyman–Pearson lemma on the finite set of rank vectors (Foundations 6.2), the test rejecting for
+  large values of `T = linearRankStatistic c (exactScore φ_f N)`, randomized on the boundary,
+  maximizes the derivative at `0` of the power among rank tests of the same size; when it is not
+  randomized, that is the indicator of `{T > k}` for some `k`, it is most powerful among rank
+  tests of its size for all `θ ∈ (0, ε)`, for some `ε > 0` (`rankTest_locallyMostPowerful`, for
+  every family of laws with distinct entries almost surely, uniform ranks at `θ = 0` and these
+  derivatives). The scale family `e^{-θ c i} f (e^{-θ c i} x)`, for `f` absolutely continuous with
+  finite scale information `∫ (1 + x f'/f)² f`, gives the same derivatives with the scale score
+  (`hasDerivAt_measure_rank_scale`), hence the same statements (van der Vaart, Example 13.13,
+  p. 179). Proof of the
   derivative: finite Fisher information makes the location family differentiable in quadratic
   mean, so `θ ↦ P_θ(B)` is differentiable at `0` for every event `B`, with derivative
   `∫_B ∑ i, c i (-(f'/f))(x i) ∏ f(x j) dx`; conditioning on the rank vector and 3.1 give
@@ -862,28 +896,36 @@ stated.
   pp. 41–42): `E W⁺ = n(n + 1)/4` and `Var W⁺ = n(n + 1)(2n + 1)/24`.
 - `mannWhitney x y = U = #{(i, j) | x i < y j}` for samples `x : Fin m → ℝ`, `y : Fin n → ℝ`
   (Hollander–Wolfe–Chicken, (4.15), p. 119). Without ties, `U` is the rank sum of the `y` in the
-  pooled sample minus `n(n + 1)/2` (Hollander–Wolfe–Chicken, (4.16), p. 119), so it is a linear
-  rank statistic with two-sample coefficients and the scores `a k = k`.
+  pooled sample `Fin.append x y` minus `n(n + 1)/2` (Hollander–Wolfe–Chicken, (4.16), p. 119), so
+  it is a linear rank statistic with two-sample coefficients and the scores `a k = k`, minus
+  `n(n + 1)/2` (`mannWhitney_eq_rankSum`).
 - **Null moments** (`integral_variance_mannWhitney`, Hollander–Wolfe–Chicken, (4.18)–(4.19),
   p. 119): for samples from a common atomless law, `E U = mn/2` and `Var U = mn(m + n + 1)/12`.
   Proof: 3.2 with two-sample coefficients.
 - `kendallTau z = τ̂`, Foundations' `uStatistic 2 n h` with
-  `h (p, q) = sign ((p.1 - q.1) (p.2 - q.2))` on pairs. Without ties it is
-  `4/(n(n - 1)) · #{concordant pairs} - 1` (van der Vaart, Example 12.5, p. 164), and
+  `h (p, q) = sign ((p.1 - q.1) (p.2 - q.2))` on pairs. Without ties in either coordinate and for
+  `n ≥ 2` it is `4/(n(n - 1)) · #{concordant pairs} - 1` (`kendallTau_eq_concordant`; van der
+  Vaart, Example 12.5, p. 164), and
   `K = n(n - 1)/2 · τ̂` is the statistic of Hollander–Wolfe–Chicken.
 - **Kendall's null moments** (`integral_variance_kendallTau`, Hollander–Wolfe–Chicken,
   (8.11)–(8.12), p. 396, for `K`): under independence (`P = P₁ ⊗ P₂` with atomless marginals),
   for `n ≥ 2`, `E τ̂ = 0` and `Var τ̂ = 2(2n + 5) / (9 n (n - 1))`.
-- **Spearman.** `r_s = 1 - 6 ∑ (R i - S i)² / (n (n² - 1))` with `R`, `S` the ranks of the two
-  coordinates (Hollander–Wolfe–Chicken, (8.64), p. 428); for injective coordinates `r_s` is the
-  sample correlation of the rank vectors (van der Vaart, Example 13.22, p. 184). Under
-  independence with atomless marginals it is distribution-free, with `E r_s = 0` and
-  `Var r_s = 1/(n - 1)` for `n ≥ 2` (Hollander–Wolfe–Chicken, (8.71)–(8.72), pp. 428–429).
+- `spearmanRho z = r_s = 1 - 6 ∑ (R i - S i)² / (n (n² - 1))` with `R`, `S` the ranks of the two
+  coordinates of `z : Fin n → ℝ × ℝ` (Hollander–Wolfe–Chicken, (8.64), p. 428), Spearman's rank
+  correlation; `sampleCorrelation u v` is the sample correlation of two vectors.
+- **Spearman** (`spearmanRho_eq_sampleCorrelation`, `map_spearmanRho_pi_eq`,
+  `integral_variance_spearmanRho`): for `n ≥ 2` and injective coordinates `r_s` is the sample
+  correlation of the rank vectors (van der Vaart, Example 13.22, p. 184). Under independence
+  (`P = P₁ ⊗ P₂` with atomless marginals) its law does not depend on `P₁`, `P₂`, and for `n ≥ 2`,
+  `E r_s = 0` and `Var r_s = 1/(n - 1)` (Hollander–Wolfe–Chicken, (8.71)–(8.72), pp. 428–429).
+  Proof: `r_s` is a function of the two rank vectors, which are independent and uniform on the
+  permutations (3.1); with `R` sorted, `r_s` is an affine function of the linear rank statistic
+  `∑ i, i S i`, and 3.2 gives its moments.
 - `kruskalWallis g x = H = 12/(N(N + 1)) ∑ R_j² / n_j - 3(N + 1)` for a group map
   `g : Fin N → Fin k` with group sizes `n_j > 0` and rank sums `R_j` in the pooled sample, the
   Kruskal–Wallis statistic (van der Vaart, Example 13.16, pp. 180–181, writes it with the average
   ranks `R_j/n_j` of the groups). It is a function of the rank vector, so its law
-  under a common atomless `P` does not depend on `P` (3.1).
+  under a common atomless `P` does not depend on `P` (`map_kruskalWallis_pi_eq`, by 3.1).
 - **Kruskal–Wallis null mean** (`integral_kruskalWallis`): for `k ≥ 1` nonempty groups
   (`g` surjective) and `N ≥ 1`, `E H = k - 1`. For `N = 0` the formula gives `-3`, which is why
   the statement assumes `0 < N`. Proof: `R_j` is a linear rank statistic with `c = 1_{group j}`,
@@ -908,11 +950,23 @@ stated.
   `U = 0`; van der Vaart's `1{X ≤ Y}` (Example 12.7, p. 166) gives `1`. Ties are null under an
   atomless law, so the moments agree.
 - `kendallTau`: `Var τ̂ = 11/27`, `13/54`, `1/6` for `n = 3, 4, 5`, by enumeration of permutations
-  (python), matching `2(2n + 5)/(9n(n - 1))`. Spearman: `Var r_s = 1/2`, `1/3`, `1/4` (python).
+  (python), matching `2(2n + 5)/(9n(n - 1))`.
 - `kendallTau`: for `n ≥ 2`, a sample whose two coordinates are in the same order (all pairs
   concordant) has `τ̂ = 1`.
 - `kendallTau` (negative control): the unnormalized count `K = 3 τ̂` for `n = 3` has variance
   `3·2·11/18 = 11/3`, nine times the `11/27` of `τ̂`.
+- `spearmanRho`: `Var r_s = 1/2`, `1/3`, `1/4` and `E r_s = 0` for `n = 3, 4, 5`, by enumeration
+  of permutations (python), matching `1/(n - 1)`.
+- `spearmanRho`: for `n = 3` with rank vectors `(1, 2, 3)` and `(1, 3, 2)`,
+  `r_s = 1 - 6 · 2/24 = 1/2`, and `sampleCorrelation` of the two rank vectors is `1/2` as well
+  (python).
+- `spearmanRho` (negative control): for `n = 3` with reversed ranks, `∑ (R i - S i)² = 8` and
+  `r_s = 1 - 48/24 = -1`; the denominator `n³` in place of `n (n² - 1)` would give `-0.778`.
+- `sampleCorrelation`: `sampleCorrelation u u = 1` for every nonconstant `u`.
+- `sampleCorrelation`: `sampleCorrelation (1, 2) (2, 1) = -1`, the value of `spearmanRho` for
+  `n = 2` with reversed ranks, `1 - 6 · 2/6`.
+- `sampleCorrelation` (negative control): for a constant `u` the denominator is `√0 = 0` and the
+  value is the junk `0`; every theorem that uses it has injective coordinates and `n ≥ 2`.
 - `kruskalWallis`: `E H = 2` for sizes `(2, 2, 1)`, `1` for `(2, 3)`, `3` for `(1, 1, 1, 2)`, by
   enumeration (python).
 - `kruskalWallis`: for `k = 1`, `R₁ = N(N + 1)/2` and `H = 0` identically.
@@ -925,10 +979,11 @@ stated.
   `hodgesLehmann x` is their median (Hollander–Wolfe–Chicken, (3.23)–(3.25), p. 56), written as
   the midpoint of the lower and upper medians: the lower median is
   `sInf {t | M/2 ≤ walshCount x t}` and the upper one `sInf {t | M/2 < walshCount x t}`.
-- **Equivariance.** For `n ≥ 1`, `hodgesLehmann (x + c) = hodgesLehmann x + c` and
-  `hodgesLehmann (a • x) = a · hodgesLehmann x` for every real `a`. For `n ≥ 1` both sets are
-  nonempty and bounded below, so the infima are the true medians; for `n = 0` the estimator is
-  `0` by an explicit convention, which is not translation equivariant.
+- **Equivariance** (`hodgesLehmann_add_const_smul`). For `n ≥ 1`,
+  `hodgesLehmann (x + c) = hodgesLehmann x + c` and `hodgesLehmann (a • x) = a · hodgesLehmann x`
+  for every real `a`. For `n ≥ 1` both sets are nonempty and bounded below, so the infima are the
+  true medians; for `n = 0` the estimator is `0` by an explicit convention, which is not translation
+  equivariant.
 - **Tukey's identity** (`signedRankStatistic_sub_eq`, Hollander–Wolfe–Chicken, Comment 17,
   pp. 57–58): for `x` with distinct entries and `θ` not a Walsh average,
   `W⁺ (x - θ) = #{(i, j) | i ≤ j, θ < (x i + x j)/2}`. The two hypotheses make the values
@@ -936,9 +991,13 @@ stated.
   under the tie convention of `absRank`, and three Walsh averages exceed `0`). Proof: for `i ≤ j`
   ordered by `|x i - θ| ≤ |x j - θ|`, the Walsh average of the pair exceeds `θ` iff `x j > θ`;
   summing over `i` for fixed `j` counts `absRank (x - θ) j`.
-- **Consequence.** Under an atomless law the entries of a sample are distinct almost surely, and
-  for each sample only finitely many `θ` are Walsh averages. Hence `hodgesLehmann` is the point
-  where `θ ↦ W⁺ (x - θ)`, a nonincreasing step function, crosses `M/2`, its null mean.
+- **Consequence** (`hodgesLehmann_crossing`). For `n ≥ 1`, `x` with distinct entries and `θ`
+  not a Walsh average, `W⁺ (x - θ) > M/2` implies `θ < hodgesLehmann x`, and `W⁺ (x - θ) < M/2`
+  implies `hodgesLehmann x < θ`: the estimator is the point where `θ ↦ W⁺ (x - θ)`, a
+  nonincreasing step function, crosses `M/2`, its null mean. Under an atomless law the entries of
+  a sample are distinct almost surely, and for each sample only finitely many `θ` are Walsh
+  averages. Proof: by Tukey's identity `W⁺ (x - θ) = M - walshCount x θ`, and the lower and upper
+  medians bracket `hodgesLehmann x`.
 
 *Needs:* 3.3.
 
@@ -964,10 +1023,10 @@ stated.
 
 For `P` with continuous distribution function `F = cdf P`, `F̂ₙ` the empirical distribution
 function of Foundations 9.1, and the order statistics `x₍₁₎ ≤ … ≤ x₍ₙ₎`:
-- **Kolmogorov–Smirnov formula.** Foundations' statistic `ksStatistic` satisfies
-  `ksStatistic x = max_i max (i/n - F x₍ᵢ₎, F x₍ᵢ₎ - (i - 1)/n)` for `n > 0`: the supremum over
-  `ℚ` equals the supremum over `ℝ` because `F̂ₙ` is a right-continuous step function and `F` is
-  continuous.
+- **Kolmogorov–Smirnov formula** (`ksStatistic_eq_iSup`, with a zero-based index). For `n > 0` and a
+  sorted sample (`x i = x₍ᵢ₎`), Foundations' statistic `ksStatistic` satisfies
+  `ksStatistic x = max_i max (i/n - F x₍ᵢ₎, F x₍ᵢ₎ - (i - 1)/n)`: the supremum over `ℚ` equals the
+  supremum over `ℝ` because `F̂ₙ` is a right-continuous step function and `F` is continuous.
 - **Kolmogorov–Smirnov is distribution-free** (`map_ksStatistic_pi`, van der Vaart, Cor 19.21
   and its proof, pp. 277–278): the law of `ksStatistic` under `P^n` equals its law under the
   uniform law on `[0, 1]`. Proof: `F̂ₙ(t)` at `t = F⁻¹(u)` is the empirical distribution function
@@ -980,22 +1039,23 @@ function of Foundations 9.1, and the order statistics `x₍₁₎ ≤ … ≤ x�
   with a zero-based index). Proof: `F̂ₙ(t) = Ĝₙ(F(t))` for `P`-almost every `t`,
   with `Ĝₙ` the empirical distribution function of the `F(x i)`, so the statistic is
   `n ∫₀¹ (Ĝₙ(u) - u)² du`, computed piecewise between consecutive `F(x₍ᵢ₎)`. By the same
-  substitution the statistic is distribution-free in the sense of the previous bullet.
+  substitution the statistic is distribution-free in the sense of the previous bullet
+  (`map_cvmStatistic_pi`).
 - `ksTwoSample x y = D_{m,n} = sup_t |F̂_m(t) - Ĝ_n(t)|` for samples `x`, `y`, the two-sample
-  Kolmogorov–Smirnov statistic, a supremum over `ℚ` that equals the supremum over `ℝ`. It is a
-  function of the rank vector of the pooled sample, hence distribution-free under a common
-  atomless law, with law given by uniform lattice paths: the pooled ordering is a uniformly
+  Kolmogorov–Smirnov statistic, a supremum over `ℚ` that equals the supremum over `ℝ`. It is
+  distribution-free under a common atomless law (`map_ksTwoSample_pi_eq`). Proof: it is a
+  function of the rank vector of the pooled sample (3.1); the pooled ordering is a uniformly
   random arrangement of `m` steps `+1/m` and `n` steps `-1/n`, and `D_{m,n}` is the maximal
-  absolute partial sum.
+  absolute partial sum of the lattice path.
 - `gnedenkoKorolyuk n k = C(2n, n)⁻¹ ∑_{j ∈ ℤ} (-1)^j C(2n, n - j k)`, with `C(2n, l) = 0` for
   `l < 0` and `l > 2n`, a finite sum for `k ≥ 1`.
-- **The Gnedenko–Korolyuk formula** (`measureReal_mul_ksTwoSample_lt`; Gnedenko and Korolyuk,
-  1951; the lattice-path form of the statistic is Hollander–Wolfe–Chicken, Comment 36, (5.80),
-  p. 194): for `m = n`, a common
-  continuous law and every integer `k ≥ 1`, `P(n D_{n,n} < k) = gnedenkoKorolyuk n k`; for
-  `k > n` both sides are `1`. Proof: `n D_{n,n}` is the maximal absolute value of a uniformly
-  random path of `n` steps `+1` and `n` steps `-1`, and the reflection principle counts the
-  paths that stay in `(-k, k)` as `∑_j (-1)^j C(2n, n - j k)`.
+- **The Gnedenko–Korolyuk formula** (`measureReal_mul_ksTwoSample_lt`; Gnedenko and Korolyuk, 1951;
+  the lattice-path form of the statistic is Hollander–Wolfe–Chicken, Comment 36, (5.80), p. 194):
+  for `m = n`, a common continuous law and every integer `k ≥ 1`,
+  `P(n D_{n,n} < k) = gnedenkoKorolyuk n k`; for `k > n` both sides are `1`
+  (`gnedenkoKorolyuk_of_lt`). Proof: `n D_{n,n}` is the maximal absolute value of a uniformly random
+  path of `n` steps `+1` and `n` steps `-1`, and the reflection principle counts the paths that stay
+  in `(-k, k)` as `∑_j (-1)^j C(2n, n - j k)`.
 
 *Needs:* 3.1; Foundations 9.1, 9.2; Tau Ceti `cdf_map_eq_volume_restrict`,
 `map_quantile_volume_Ioo`.
@@ -1028,9 +1088,11 @@ function of Foundations 9.1, and the order statistics `x₍₁₎ ≤ … ≤ x�
   `gnedenkoKorolyuk n k_n → kolmogorovCdf x`. This is a statement about the explicit finite sums
   of 3.5, with no limit law involved. Proof:
   `C(2n, n - j k)/C(2n, n) → exp (-2 j² x²)` for each `j`, dominated in `j` by `exp (-c j²)`.
-- **Consequence.** Since `n D_{n,n}` is an integer, `n D_{n,n} < k_n ↔ √(n/2) D_{n,n} < x`, so by
-  the Gnedenko–Korolyuk formula `gnedenkoKorolyuk n k_n = P(√(n/2) D_{n,n} < x)`. Hence
-  `kolmogorovCdf` is nondecreasing on `(0, ∞)`, as a pointwise limit of nondecreasing functions.
+- **Consequence** (`gnedenkoKorolyuk_ceil_eq`, `monotoneOn_kolmogorovCdf`). For `n ≥ 1`, a
+  common continuous law and `x > 0`: since `n D_{n,n}` is an integer,
+  `n D_{n,n} < k_n ↔ √(n/2) D_{n,n} < x`, so by the Gnedenko–Korolyuk formula
+  `gnedenkoKorolyuk n k_n = P(√(n/2) D_{n,n} < x)`. Hence `kolmogorovCdf` is nondecreasing on
+  `(0, ∞)`, as a pointwise limit of nondecreasing functions.
 - **Kolmogorov.** `kolmogorovCdf x = 1 - 2 ∑_{k ≥ 1} (-1)^{k-1} exp (-2 k² x²)` for `x > 0` and
   `0` for `x ≤ 0` (van der Vaart, §19.3, p. 279, in the form
   `P(‖𝔾‖_∞ > x) = 2 ∑_{j ≥ 1} (-1)^{j+1} e^{-2j²x²}`);
@@ -1103,9 +1165,10 @@ sequence is `Measure.pi` (Foundations 8.5). Coefficients form a triangular array
   Thm 13.5, p. 176): for a score-generating function `φ` and exact scores, `E T_N = E T̂_N` for
   every `N` and `Var (T_N - T̂_N) / Var T_N → 0`, with `T̂_N` the approximating sum. When
   `∑_i (c N i - c̄)² = 0` both `T_N` and `T̂_N` are constant and the ratio is Lean's `0/0 = 0`.
-- **Approximate scores** (van der Vaart, Thm 13.5, p. 176): the same holds with the approximate
-  scores `φ (i/(N + 1))` when `φ` is nonconstant and continuous almost everywhere and
-  `N⁻¹ ∑_{i ≤ N} φ (i/(N + 1))² → ∫₀¹ φ²`.
+- **Approximate scores** (`tendsto_variance_linearRankStatistic_sub_projection_approx`, van der
+  Vaart, Thm 13.5, p. 176): the same holds with the approximate scores `φ (i/(N + 1))`, and `ā`
+  their average in the approximating sum, when `φ` is nonconstant and continuous almost
+  everywhere and `N⁻¹ ∑_{i ≤ N} φ (i/(N + 1))² → ∫₀¹ φ²`.
 - *Proof route for the projection.* With `U i = F (X i)`,
   `exactScore φ N (rank U 0) = E[φ (U 0) | rank vectors of U up to N]`, the rank vectors form a
   filtration, and Mathlib's `tendsto_eLpNorm_condExp` gives `L²` convergence to `φ (U 0)`, which
@@ -1128,11 +1191,13 @@ Mathlib `tendsto_eLpNorm_condExp`.
 **Checks.**
 
 - `rankStatisticProjection`: for `φ u = u` and two-sample coefficients (`m` zeros, `n` ones,
-  `N = m + n`), `ā = 1/2` and `T̂_N = n/2 + ∑ i, (c i - n/N) U i`, with `Var T̂_N = mn/(12N)`; the Wilcoxon
-  statistic `T_N = ∑_{i > m} rank/(N + 1)` has `Var T_N = mn/(12(N + 1))` (van der Vaart,
+  `N = m + n`), `ā = 1/2` and `T̂_N = n/2 + ∑ i, (c i - n/N) U i`, with `Var T̂_N = mn/(12N)`; the
+  Wilcoxon statistic `T_N = ∑_{i > m} rank/(N + 1)` has `Var T_N = mn/(12(N + 1))` (van der Vaart,
   Example 13.11, p. 178).
 - `rankStatisticProjection`: in the same case
   `Var (T_N - T̂_N) / Var T_N = (N + 1)/N - 1 = 1/N → 0`.
+- Approximate scores: for `φ u = u` the approximate scores `i/(N + 1)` are the exact scores
+  `E U_{N(i)} = i/(N + 1)`, and `N⁻¹ ∑_{i ≤ N} (i/(N + 1))² = (2N + 1)/(6(N + 1)) → 1/3 = ∫₀¹ u²`.
 - `rankStatisticProjection`: `E T̂_N = N c̄ ā = E T_N`, since `∑_i (c i - c̄) = 0` and
   `E φ(U i) = ∫₀¹ φ` is the same for every `i`.
 - `rankStatisticProjection` (negative control): for constant coefficients `c i = 1`, `T_N = T̂_N`
@@ -1156,23 +1221,26 @@ Mathlib `tendsto_eLpNorm_condExp`.
   Vaart, Example 13.10, p. 178).
 - **Kendall under independence** (`tendstoInDistribution_kendallTau`, van der Vaart,
   Example 12.5, p. 164): if `P = P₁ ⊗ P₂` with atomless marginals, `√n τ̂ ⇝ N(0, 4/9)`.
-- **Kendall in general** (van der Vaart, Example 12.5, p. 164): `√n (τ̂ - τ) ⇝ N(0, 4 ζ₁)` for
+- **Kendall in general** (`tendstoInDistribution_kendallTau_sub`, van der Vaart, Example 12.5,
+  p. 164): `√n (τ̂ - τ) ⇝ N(0, 4 ζ₁)` for
   every law with continuous marginals, with `τ = E sign ((X₁ - X₂)(Y₁ - Y₂))` and `ζ₁` the
   variance of the first Hoeffding projection of the kernel (MathematicalStatisticsAsymptotic 6.2,
   nondegenerate U-statistics); for `ζ₁ = 0` the limit is the Dirac law at `0`. Under
   independence `ζ₁ = 1/9`, which gives the previous bullet.
-- **Spearman** (van der Vaart, Example 13.22, p. 184): under independence `√n r_s ⇝ N(0, 1)`.
-- **Tests of independence.** The test rejecting when `(3/2) √n |τ̂| > z_{α/2}` has asymptotic
-  level `α` under independence and power tending to `1` at every law with continuous marginals
-  and `τ ≠ 0`; the same for `√n |r_s|` with `τ` replaced by `12 E[F_X(X) F_Y(Y)] - 3`. Proof:
-  the limits above and consistency in probability of `τ̂` and `r_s`. For `τ̂`, a U-statistic with
-  a bounded kernel, `√n (τ̂ - τ)` converges in law (MathematicalStatisticsAsymptotic 6.2), so
-  `τ̂ - τ → 0` in probability by Slutsky (Foundations 8.4). For `r_s`, with almost surely
-  distinct coordinates, `R i = n F̂_n(X i)` and `S i = n Ĝ_n(Y i)`, so
-  `r_s = 12 n²/(n² - 1) · n⁻¹ ∑ F̂_n(X i) Ĝ_n(Y i) - 3 (n + 1)/(n - 1)`; replacing `F̂_n`, `Ĝ_n`
-  by `F`, `G` costs at most `‖F̂_n - F‖_∞ + ‖Ĝ_n - G‖_∞`, which tends to `0` almost surely by the
-  classical Glivenko–Cantelli theorem (MathematicalStatisticsAsymptotic 3.4), and the weak law
-  (Foundations 8.5) gives `n⁻¹ ∑ F(X i) G(Y i) → E[F(X) G(Y)]`.
+- **Spearman** (`tendstoInDistribution_spearmanRho`, van der Vaart, Example 13.22, p. 184): for
+  `r_s = spearmanRho`, the statistic of 3.3, under independence with atomless marginals
+  `√n r_s ⇝ N(0, 1)`.
+- **Tests of independence** (`tendsto_measure_independenceTest`). The test rejecting when
+  `(3/2) √n |τ̂| > z_{α/2}` has asymptotic level `α` under independence and power tending to `1` at
+  every law with continuous marginals and `τ ≠ 0`; the same for `√n |r_s|` with `τ` replaced by
+  `12 E[F_X(X) F_Y(Y)] - 3`. Proof: the limits above and consistency in probability of `τ̂` and
+  `r_s`. For `τ̂`, a U-statistic with a bounded kernel, `√n (τ̂ - τ)` converges in law
+  (MathematicalStatisticsAsymptotic 6.2), so `τ̂ - τ → 0` in probability by Slutsky (Foundations
+  8.4). For `r_s`, with almost surely distinct coordinates, `R i = n F̂_n(X i)` and
+  `S i = n Ĝ_n(Y i)`, so `r_s = 12 n²/(n² - 1) · n⁻¹ ∑ F̂_n(X i) Ĝ_n(Y i) - 3 (n + 1)/(n - 1)`;
+  replacing `F̂_n`, `Ĝ_n` by `F`, `G` costs at most `‖F̂_n - F‖_∞ + ‖Ĝ_n - G‖_∞`, which tends to `0`
+  almost surely by the classical Glivenko–Cantelli theorem (MathematicalStatisticsAsymptotic 3.4),
+  and the weak law (Foundations 8.5) gives `n⁻¹ ∑ F(X i) G(Y i) → E[F(X) G(Y)]`.
 - **Kruskal–Wallis** (`tendstoInDistribution_kruskalWallis`, van der Vaart, Example 13.16,
   pp. 180–181): under a common atomless law, for fixed `k` and `n_j / N → λ_j > 0`,
   `H ⇝ χ²_{k-1}` (Tau Ceti `chiSquaredMeasure (k - 1)`). Proof: the vector
@@ -1191,6 +1259,16 @@ Mathlib `tendsto_eLpNorm_condExp`.
   `4 · 1/9 = 4/9`; consistent with `n Var τ̂ = 2(2n + 5)/(9(n - 1)) → 4/9`.
 - Wilcoxon signed rank: `Var W⁺ / n³ → 1/12`, and `Var (2W⁺) / n³ → 1/3`, van der Vaart's
   normalization.
+- `spearmanRho` for `n = 2` or `n = 3` and one coordinate the reverse of the other:
+  `∑ (R i - S i)² = 2`, respectively `8`, and `r_s = 1 - 12/6 = -1`, respectively
+  `1 - 48/24 = -1`; for equal orderings `r_s = 1`.
+- `spearmanRho`: `Var r_s = 1/(n - 1)` (3.3), so `n Var r_s → 1`, the variance of the limit.
+- `spearmanRho`, negative control: with the divisor `n³` in place of `n(n² - 1)` the reversed
+  sample of size `3` would give `1 - 48/27 = -0.778` (python), not `-1`; for `n ≤ 1` the
+  divisor is `0` and the value is the junk `1`, which the limit never sees.
+- Tests of independence at the bivariate normal law with correlation `ρ = 1/2`:
+  `τ = (2/π) arcsin ρ = 1/3` and `12 E[F_X(X) F_Y(Y)] - 3 = (6/π) arcsin (ρ/2) = 0.48258`
+  (python), both nonzero, so both tests have power tending to `1`.
 
 ### 4.3 Locally most powerful rank tests are asymptotically optimal
 
@@ -1218,12 +1296,12 @@ normal at `(μ₀, μ₀)` with information `diag (λ I_f, (1 - λ) I_f)`.
   normal-scores test for the normal shift. Proof: 4.1, the joint asymptotic normality of the
   projection and the log likelihood ratio, then Le Cam's third lemma
   (MathematicalStatisticsAsymptotic 7.2).
-- **One sample** (van der Vaart, Cor 15.10, p. 222): for a symmetric `f` with `I_f < ∞`, the
+- **One sample** (`tendsto_power_signedRankTest`, van der Vaart, Cor 15.10, p. 222): for a
+  symmetric `f` with `I_f < ∞`, the
   signed-rank statistic `∑ sign (X i) a_n (absRank X i)` with exact scores generated by
   `-(f'/f)((F⁺)⁻¹ u)`, `F⁺ = 2F - 1` on `[0, ∞)`, standardized by its null standard deviation,
   gives the test rejecting above `z_α`, of asymptotic level `α`, whose power at `θ = h/√n` tends
-  to `1 - Φ (z_α - h √I_f)`, the envelope; replacing `f` by `σ⁻¹ f (x/σ)` multiplies these
-  scores by `σ⁻¹` and leaves the test unchanged.
+  to `1 - Φ (z_α - h √I_f)`, the envelope (the level is the case `h = 0`).
 
 *Needs:* 3.2, 4.1; Foundations 8.6; MathematicalStatisticsAsymptotic 7.2 (Le Cam's third lemma),
 7.3 (local asymptotic normality of quadratic-mean differentiable models), 8.2 (the asymptotic
@@ -1236,17 +1314,25 @@ power envelope).
 - Normal: the Wilcoxon scores give `⟨u, Φ⁻¹⟩ / ‖u - ½‖ = (1/(2√π)) √12 = √(3/π) = 0.97721`, below
   `√I_f = 1`; its square `3/π` is the Pitman efficiency of the Wilcoxon test relative to the
   `t` test at the normal law (MathematicalStatisticsAsymptotic 8.3).
+- One sample: for the Laplace density `-f'/f = sign`, so the optimal scores are `φp ≡ 1`, the
+  sign test, with `I_f = 1` and limiting power `1 - Φ (z_α - h)` (van der Vaart, Example 15.11,
+  p. 222).
+- One sample: replacing `f` by `σ⁻¹ f (x/σ)` multiplies the scores `φp` by `σ⁻¹`, since
+  `(F⁺)⁻¹` is multiplied by `σ`, and leaves the standardized statistic and the test unchanged
+  (van der Vaart, p. 222).
 
 ### 4.4 The Chernoff–Savage inequality
 
-- **Efficacy of the normal-scores test.** For `φ = Φ⁻¹` and a density `f`, absolutely continuous
+- **Efficacy of the normal-scores test** (`efficacy_normalScores`). For `φ = Φ⁻¹` and a density
+  `f`, absolutely continuous
   with `I_f < ∞` and with distribution function `F`,
   `⟨Φ⁻¹, φ_f⟩ = ∫ f (x)² / φ_N (Φ⁻¹ (F x)) dx`, with `φ_N` the standard normal density, and
   `‖Φ⁻¹‖ = 1`, `∫₀¹ Φ⁻¹ = 0`. Proof: integration by parts with `h = Φ⁻¹ ∘ F`, `h' = f/φ_N(h)`;
   `‖φ_f‖ = √I_f` and `h(X) ~ N(0, 1)` make `h f'` integrable, and the boundary terms `h f` vanish
   at `±∞` because `|h| → ∞` while `f` is integrable. In particular the right side is at most
   `√I_f < ∞`.
-- **Gaussian integration by parts for monotone maps.** For `Z ~ N(0, 1)` and a nondecreasing
+- **Gaussian integration by parts for monotone maps** (`covariance_gaussianReal_of_monotone`).
+  For `Z ~ N(0, 1)` and a nondecreasing
   `g : ℝ → ℝ` with `E g(Z)² < ∞`, `Cov(g(Z), Z) = ∫ φ_N dg`, the integral of the standard normal
   density against the Stieltjes measure of the right-continuous version of `g` (equal to `g`
   off the countable set of its jumps). Proof: `Cov(g(Z), Z) = E[Z (g(Z) - g(0))]`; write
@@ -1260,7 +1346,8 @@ power envelope).
   then `∫ f² / φ_N (Φ⁻¹ ∘ F) = E[1/g'(Z)]`. By Cauchy–Schwarz and the previous bullet,
   `σ ≥ Cov(g(Z), Z) = ∫ φ_N dg ≥ E g'(Z)`, the jumps of `g` (at gaps of the support of `f`) only
   increasing the middle term, and `E[1/g'(Z)] ≥ 1 / E g'(Z)` by Jensen.
-- **Equality** (Chernoff–Savage, 1958): equality holds iff `f` is a normal density. Proof route:
+- **Equality** (`chernoffSavage_eq_one_iff`; Chernoff–Savage, 1958): equality holds iff `f` is a
+  normal density. Proof route:
   equality in Jensen forces `g'` constant, equality in the middle step forces `g` absolutely
   continuous, and equality in Cauchy–Schwarz forces `g` affine.
 - **Pitman efficiency** (Chernoff–Savage, 1958, by the argument of MathematicalStatisticsAsymptotic
@@ -1297,7 +1384,8 @@ power envelope).
 - Laplace `e^{-|x|}/2`: `σ² = 2` and `∫ f²/φ_N(Φ⁻¹ ∘ F) = √(2/π) = 0.79788` (python), so the left
   side is `4/π = 1.27324`.
 - Logistic: `σ² = π²/3` and the integral is `1/√π = 0.56419` (python), so the left side is
-  `π/3 = 1.04720`.
+  `π/3 = 1.04720`; the efficacy integral `0.56419` is below `√I_f = 1/√3 = 0.57735`, and
+  at the Laplace law `0.79788` is below `√I_f = 1` (python), as the first bullet requires.
 - Negative control: the uniform law on `[0, 1]` has `σ² = 1/12` and
   `∫₀¹ 1/φ_N(Φ⁻¹(x)) dx = ∫ dz = ∞`, so the left side is `∞ ≥ 1`; a Bochner integral would give the
   junk `0` and the false `0 ≥ 1`.
@@ -1319,7 +1407,19 @@ power envelope).
   `f ∈ L²`, and `g(0) = ∫ f² > 0`. Conclude with the U-statistic central limit theorem
   (MathematicalStatisticsAsymptotic 6.2; projection variance `1/12` at `t = 0`) and Slutsky.
 
-*Needs:* 3.4, 4.2; Foundations 8.4; MathematicalStatisticsAsymptotic 6.2, 8.3.
+- **Influence function** (`hasInfluenceFunction_hodgesLehmannFunctional`). For `f` symmetric
+  with `∫ f² < ∞`, the Hodges–Lehmann functional `hodgesLehmannFunctional`, the lower median of
+  the law of `(X₁ + X₂)/2` for `X₁`, `X₂` i.i.d. `F`, has at the law with density `f (x - θ)` the
+  influence function `x ↦ (F(x - θ) - ½) / ∫ f²` in the sense of `HasInfluenceFunction`
+  (MathematicalStatisticsAsymptotic 9.1), with `F` the distribution function of `f`; its variance
+  `(1/12)/(∫ f²)²` is the limit variance above. Proof: the law of `(X₁ + X₂)/2` under
+  `(1 - ε) F_θ + ε δₓ` has distribution function
+  `(1 - ε)² H(t) + 2ε(1 - ε) F_θ(2t - x) + ε² 1_{x ≤ t}`, with `H` of derivative `2 ∫ f²` at
+  `θ` (the density `f * f` is continuous); differentiate the median equation at `ε = 0` and use
+  `F_θ(2θ - x) = 1 - F(x - θ)`. The variance is that of `F(X - θ) - ½`, uniform on
+  `(-½, ½)`.
+
+*Needs:* 3.4, 4.2; Foundations 8.4; MathematicalStatisticsAsymptotic 6.2, 8.3, 9.1, 9.2.
 
 **Checks.**
 
@@ -1329,6 +1429,18 @@ power envelope).
   `3/2`.
 - Negative control: with the reciprocal of the efficacy `√12 ∫ f²` instead of its square, the
   normal case would give `2√π/√12 = 1.02333` instead of `π/3 = 1.04720`.
+- `hasInfluenceFunction_hodgesLehmannFunctional` at `N(0, 1)`, `θ = 0`: the numerical
+  contamination derivative of the median of the Walsh-average law is `1.2100` at `x = 1` and
+  `-1.6918` at `x = -2`, against `(Φ(x) - ½) · 2√π = 1.2100` and `-1.6918`; at the logistic law,
+  with `∫ f² = 1/6`, `1.3863` and `-2.2848` against `6 (F(x) - ½)` (python).
+- The variance identity: `∫ IF² dF = (1/12) · 4π = π/3 = 1.04720` at `N(0, 1)` and
+  `(1/12) · 36 = 3` at the logistic law, equal to `1/(12 (∫ f²)²)` (python).
+- `hodgesLehmannFunctional`: at `δ_a` the Walsh-average law is `δ_a` and the value is `a`; at the
+  two-point law `½ δ₀ + ½ δ₂` it is the law `¼ δ₀ + ½ δ₁ + ¼ δ₂`, whose lower median is `1`.
+- `hodgesLehmannFunctional`, negative control: it is not the median of `F`. At
+  `⅔ δ₀ + ⅓ δ₃` the median of `F` is `0`, while the Walsh-average law
+  `(4/9) δ₀ + (4/9) δ_{3/2} + (1/9) δ₃` has distribution function `4/9 < ½` at `0`, so its lower
+  median is `3/2`.
 
 ### 4.6 The Kolmogorov–Smirnov limit and a Dvoretzky–Kiefer–Wolfowitz bound
 
@@ -1393,7 +1505,8 @@ for the empirical distribution function); Mathlib `IsBrownianReal`.
   subsequences with `m/(m + n)` convergent, the Donsker theorem (MathematicalStatisticsAsymptotic
   3.4) for both samples gives a Brownian-bridge limit, whose supremum has the law
   `kolmogorovMeasure` by 4.6; the limit does not depend on the subsequence.
-- **Consistency of the two-sample test.** If the two laws differ, then
+- **Consistency of the two-sample test** (`tendsto_ksTwoSample_of_ne`). If the two laws differ,
+  then
   `D_{m,n} → sup_t |F(t) - G(t)| > 0` almost surely by the classical Glivenko–Cantelli theorem
   (MathematicalStatisticsAsymptotic 3.4), so `√(mn/(m + n)) D_{m,n} → ∞` in probability and the
   test with the critical values of `kolmogorovMeasure` is consistent against every alternative.
@@ -1439,8 +1552,7 @@ subsection; Tau Ceti's McDiarmid inequality and chi-squared laws.
   `ℓ = ⌈β⌉ - 1`, the largest integer strictly smaller than `β`, the functions `f : ℝ → ℝ` with
   `ContDiff ℝ ℓ f` and `HolderWith L (β - ℓ) (iteratedDeriv ℓ f)`. The Hölder density class
   `holderDensityClass β L` (`𝒫(β, L)`, Tsybakov, p. 6) is its intersection with the probability
-  densities. Densities in `𝒫(β, L)` are bounded by a constant `p_max(β, L)` (Tsybakov, (1.9),
-  p. 9). Only values on `[0, 1]` enter the regression statements.
+  densities. Only values on `[0, 1]` enter the regression statements.
 - **Sobolev classes.** For an integer `β ≥ 1`, `W(β, L)` is the set of `f` on `[0, 1]` with
   `f^{(β-1)}` absolutely continuous and `∫₀¹ (f^{(β)})² ≤ L²`, and `W^per(β, L)` the subset with
   `f^{(j)}(0) = f^{(j)}(1)` for `j < β` (Tsybakov, Def 1.11, p. 49). For an integer `m ≥ 1` and
@@ -1452,14 +1564,16 @@ subsection; Tau Ceti's McDiarmid inequality and chi-squared laws.
 - **Sign of higher-order kernels** (`volume_neg_ne_zero_of_isKernelOfOrder`, Tsybakov, p. 10): a
   kernel of order `ℓ ≥ 2` is negative on a set of positive Lebesgue measure. Proof: if `K ≥ 0`
   a.e., then `∫ u² K = 0` forces `K = 0` a.e., against `∫ K = 1`.
-- **Legendre kernels** (Tsybakov, Prop 1.3, p. 10): for every `ℓ ≥ 1` the function
-  `K_ℓ (u) = ∑_{m=0}^ℓ φ_m(0) φ_m(u) 1_{|u| ≤ 1}`, with `φ_m` the orthonormal Legendre
-  polynomials on `[-1, 1]`, is a kernel of order `ℓ`; it is bounded, being a polynomial on
-  `[-1, 1]`.
-- **Bias and variance at a point** (Tsybakov, Prop 1.1, p. 4, and Prop 1.2, p. 6): for
-  `p ∈ 𝒫(β, L)`, a kernel `K` of order `ℓ` with `∫ |u|^β |K| < ∞` and `∫ K² < ∞`, every `x₀`,
-  `h > 0` and `n ≥ 1`, the kernel density estimator `p̂` of Foundations 9.3 satisfies
-  `|E p̂(x₀) - p(x₀)| ≤ (L/ℓ!) ∫ |u|^β |K u| du · h^β` and
+- **Legendre kernels** (`isKernelOfOrder_legendreKernel`, Tsybakov, Prop 1.3, p. 10): for every
+  `ℓ ≥ 1` the function `legendreKernel ℓ u = ∑_{m=0}^ℓ φ_m(0) φ_m(u) 1_{|u| ≤ 1}`, with
+  `φ_m = √((2m + 1)/2) P_m` the orthonormal Legendre polynomials on `[-1, 1]` and
+  `P_m = legendreP m` (Mathlib's shifted Legendre polynomial at `(1 - u)/2`), is a kernel of
+  order `ℓ`; it is bounded, being a polynomial on `[-1, 1]`.
+- **Bias and variance at a point** (`kde_bias_variance_le`, Tsybakov, Prop 1.1, p. 4, Prop 1.2,
+  p. 6, and (1.9), p. 9): the densities in `𝒫(β, L)` are bounded by a constant `p_max(β, L)`;
+  for `p ∈ 𝒫(β, L)` with `p ≤ p_max`, a kernel `K` of order `ℓ` with `∫ |u|^β |K| < ∞` and
+  `∫ K² < ∞`, every `x₀`, `h > 0` and `n ≥ 1`, the kernel density estimator `p̂` of
+  Foundations 9.3 satisfies `|E p̂(x₀) - p(x₀)| ≤ (L/ℓ!) ∫ |u|^β |K u| du · h^β` and
   `Var p̂(x₀) ≤ p_max ∫ K² / (n h)`. Proof: Taylor's formula of order `ℓ` with the Hölder
   remainder, and the vanishing moments; for `β ≤ 1` (`ℓ = 0`) only `∫ K = 1` is used.
 - **Pointwise risk** (`kde_risk_le`, Tsybakov, Thm 1.1, p. 9): under the same hypotheses, with
@@ -1495,6 +1609,21 @@ Foundations 9.3.
   nonvanishing one (Tsybakov, p. 6, contrasts the two conventions).
 - `IsKernelOfOrder`: order `0` is integrability with `∫ K = 1`, which every probability density
   satisfies.
+- `legendreP`: `legendreP 1 u = u` (Mathlib's `shiftedLegendre 1 = 1 - 2X` at `(1 - u)/2`),
+  `legendreP 2 0 = -1/2`, and `legendreP m 1 = 1`.
+- `legendreP`, negative control: evaluated at `u` instead of `(1 - u)/2`, the shifted polynomial
+  gives `1 - 2u` for `m = 1`, which is not odd, and the moments below would fail.
+- `legendreKernel`: `legendreKernel 1 = ½ 1_{[-1,1]}` (as `P_1(0) = 0`), and
+  `legendreKernel 2 u = 9/8 - 15/8 u²` on `[-1, 1]`, the order-2 kernel above; at `u = ½` both
+  sides are `0.65625` (python).
+- `legendreKernel`: `legendreKernel 3 = legendreKernel 2`, since `P_3(0) = 0`, and its moments
+  `1, 0, 0, 0, -3/35` show order `3` and not `4`; `legendreKernel 4` has vanishing moments up to
+  order `5` (python).
+- `legendreKernel`, negative control: without the factors `(2m + 1)/2`, the case `ℓ = 2` has
+  integral `2` (python), not `1`.
+- `kde_bias_variance_le` at the Laplace density (in `𝒫(1, ½)`), `K = ½ 1_{[-1,1]}`, `x₀ = 0`:
+  the bias is `½ - (1 - e^{-h})/(2h)`, `0.18394` at `h = 1` and `0.02419` at `h = 0.1`, below
+  the bound `(L/0!) ∫ |u| K · h = h/4` (python), which is sharp as `h → 0`.
 - `densityLaw`: `densityLaw volume (1_{[0,1]})` is `volume.restrict [0, 1]`, the uniform law.
 - `densityLaw`: for a measurable `p ≥ 0` with `∫ p = 1` it is a probability measure.
 - `densityLaw`, negative control: negative values are clipped by `ENNReal.ofReal`, so
@@ -1507,18 +1636,20 @@ For a bounded symmetric probability density `K` with `μ₂ = ∫ u² K` and `R(
   every `h > 0`, `n ≥ 1` and density `f` with `∫ f² < ∞`,
   `E ∫ (f̂_h - f)² = ∫ (K_h * f - f)² + R(K)/(n h) - n⁻¹ ∫ (K_h * f)²`, with `K_h = h⁻¹ K(·/h)`.
   This identity uses only `K ≥ 0`, `∫ K = 1` and `R(K) < ∞`, not boundedness or symmetry.
-- **Order of the risk** (van der Vaart, Thm 24.1, p. 344): if `f` is twice continuously
-  differentiable with `∫ (f'')² < ∞`, then `E ∫ (f̂_h - f)² ≤ C_f (1/(n h) + h⁴)` for small
-  `h > 0`.
-- **Asymptotic expansion** (Wand–Jones, (2.12), p. 21, by the same argument): if `f` is twice
+- **Order of the risk** (`mise_le_of_contDiff`, van der Vaart, Thm 24.1, p. 344): if `f` is twice
+  continuously differentiable with `∫ (f'')² < ∞`, then `E ∫ (f̂_h - f)² ≤ C_f (1/(n h) + h⁴)` for
+  small `h > 0`.
+- **Asymptotic expansion** (`isLittleO_mise_sub`, Wand–Jones, (2.12), p. 21, by the same
+  argument): if `f` is twice
   continuously differentiable with `f`, `f''` square-integrable, then as `h → 0`, `n h → ∞`,
   `E ∫ (f̂_h - f)² = ¼ h⁴ μ₂² ∫ (f'')² + R(K)/(n h) + o(h⁴ + 1/(n h))`. Wand–Jones assume
   instead that `f''` is ultimately monotone and `K` has a finite fourth moment. Proof: write the
   bias as `½ h² μ₂ g_h` with `g_h` an average of translates of `f''` with weights
   `u² K(u) 2(1 - s)/μ₂`; continuity of translation in `L²` gives `g_h → f''` in `L²`; the
   integrated variance is `R(K)/(n h) - n⁻¹ ∫ (K_h * f)²` with `∫ (K_h * f)² ≤ ∫ f²`.
-- **Optimal bandwidth** (Wand–Jones, (2.13) and (2.14), p. 22): if `∫ (f'')² > 0`, the leading
-  term is minimized by `h*_n = (R(K) / (μ₂² ∫ (f'')² n))^{1/5}`, with minimum
+- **Optimal bandwidth** (`isMinOn_amise`, Wand–Jones, (2.13) and (2.14), p. 22): if
+  `∫ (f'')² > 0`, the leading term `¼ h⁴ μ₂² ∫ (f'')² + R(K)/(n h)` has on `h > 0` the unique
+  minimizer `h*_n = (R(K) / (μ₂² ∫ (f'')² n))^{1/5}`, with minimum
   `(5/4) (μ₂² ∫ (f'')²)^{1/5} R(K)^{4/5} n^{-4/5}`.
 - **Pointwise asymptotic normality** (`tendstoInDistribution_kde`; Parzen, 1962; the bias and
   variance terms are Fan–Gijbels, (2.40), p. 46): if moreover `f''` is bounded,
@@ -1528,7 +1659,8 @@ For a bounded symmetric probability density `K` with `μ₂ = ∫ u² K` and `R(
   variance is `(n h)⁻¹ (R(K) f(x) + o(1))`, using `K² ≤ ‖K‖_∞ K`; the summands are bounded by
   `2 ‖K‖_∞ / √(n h)`, so the Lindeberg–Feller theorem of MathematicalStatisticsAsymptotic
   (1.2) applies, and Slutsky; if `n h⁵ → 0` the bias term is negligible.
-- **Higher order** (van der Vaart, Thm 24.2 and the remark after it, p. 346): for an integer
+- **Higher order** (`kde_sobolev_risk_le`, van der Vaart, Thm 24.2 and the remark after it,
+  p. 346): for an integer
   `m ≥ 1`, `f ∈ 𝓕_{m,M}` and a kernel `K` of order `m - 1` (not necessarily nonnegative) with
   `∫ |y|^m |K| < ∞` and `∫ K² < ∞`, `h = n^{-1/(2m+1)}` gives
   `sup_{f ∈ 𝓕_{m,M}} E ∫ (f̂_h - f)² ≤ C_{m,M} n^{-2m/(2m+1)}`.
@@ -1543,16 +1675,21 @@ Mathlib
   `∫ (f'')² = 3/(8√π) = 0.21157`, so `h* = (4/3)^{1/5} n^{-1/5} = 1.0592 n^{-1/5}`, the normal
   reference bandwidth.
 - Epanechnikov `¾(1 - u²)₊`: `μ₂ = 1/5`, `R(K) = 3/5`.
+- `isMinOn_amise` with `A = 0.7`, `B = 0.3`, `n = 100`: a numerical minimization gives
+  `h = 0.336051`, against `(B/(A n))^{1/5} = 0.336051`, with minimum `0.0111590` both ways
+  (python).
 
 ### 5.3 Multivariate kernel density estimation and `L¹` consistency
 
 - The `d`-dimensional estimator `kdeEuclidean K h x t = (n h^d)⁻¹ ∑ K((t - x i)/h)` on
-  `EuclideanSpace ℝ (Fin d)`. For `h > 0` and `n ≥ 1` it integrates to `∫ K`, and it is a
-  density for a probability density `K`, as in Foundations 9.3.
-- **Bias** (Devroye–Lugosi, Thm 9.1, p. 79): for integrable `K` with `∫ K = 1` and every density
-  `f`, `∫ |K_h * f - f| → 0` as `h → 0`, Tau Ceti's `tendsto_eLpNorm_normed_convolution_sub` for
-  `p = 1`.
-- **Universal consistency in mean** (Devroye–Lugosi, Thm 9.2, p. 81): for such `K`, if `h → 0`
+  `EuclideanSpace ℝ (Fin d)`. For `h > 0`, `n ≥ 1` and integrable `K` it integrates to `∫ K`
+  (`integral_kdeEuclidean`), so it is a density for a probability density `K`, as in
+  Foundations 9.3.
+- **Bias** (`tendsto_integral_abs_conv_sub`, Devroye–Lugosi, Thm 9.1, p. 79): for integrable `K`
+  with `∫ K = 1` and every density `f`, `∫ |K_h * f - f| → 0` as `h → 0`, Tau Ceti's
+  `tendsto_eLpNorm_normed_convolution_sub` for `p = 1`.
+- **Universal consistency in mean** (`tendsto_integral_integral_abs_kde_sub`, Devroye–Lugosi,
+  Thm 9.2, p. 81): for such `K`, if `h → 0`
   and `n h^d → ∞`, then `E ∫ |f̂_n - f| → 0` for every density `f`.
 - **Almost sure consistency** (`tendsto_ae_integral_abs_kde_sub`, Devroye–Lugosi, §9.4,
   pp. 82–83): under the same conditions `∫ |f̂_n - f| → 0` almost surely, for every density `f`.
@@ -1581,34 +1718,36 @@ Regression data are `(x i, Y i)`, `i : Fin n`, with design `x` and responses `Y`
 - **Nadaraya–Watson** (`nadarayaWatson`): weights
   `w i (t) = K((x i - t)/h) / ∑ j, K((x j - t)/h)`, with `0/0 = 0` (Lean's division), and the
   estimator `∑ w i (t) Y i`.
-- **Local polynomials** (`localPolynomialCoeff`). For degree `p`, the design matrix
-  `X_t = ((x i - t)^k)_{i, k ≤ p}`, the weights `W_t = diag (K((x i - t)/h))`, the coefficient
-  vector `β̂(t) = (X_tᵀ W_t X_t)⁻¹ X_tᵀ W_t Y` (Fan–Gijbels, (3.5), p. 59), with Mathlib's
-  inverse, `0` for a singular matrix, and `m̂_ν(t) = ν! β̂_ν(t)`. For `p = 0` it is
-  Nadaraya–Watson. When `X_tᵀ W_t X_t` is invertible, `β̂(t)` is the unique stationary point of
-  the weighted least-squares criterion `∑ K((x i - t)/h) (Y i - ∑_k β_k (x i - t)^k)²` and the
-  estimator reproduces every polynomial of degree at most `p` exactly. If also `K ≥ 0`, the
-  matrix is positive definite and `β̂(t)` is the unique minimizer. Without `K ≥ 0` it need not
-  be a minimizer: for degree `0` and one observation with weight `-1` the criterion is
-  unbounded below.
-- **Leave-one-out identity.** A linear smoother is a matrix `L` with fitted
+- **Local polynomials** (`localPolynomialCoeff`, `localPolynomialCoeff_spec`). For degree `p`, the
+  design matrix `X_t = ((x i - t)^k)_{i, k ≤ p}`, the weights `W_t = diag (K((x i - t)/h))`, the
+  coefficient vector `β̂(t) = (X_tᵀ W_t X_t)⁻¹ X_tᵀ W_t Y` (Fan–Gijbels, (3.5), p. 59), with
+  Mathlib's inverse, `0` for a singular matrix, and `m̂_ν(t) = ν! β̂_ν(t)`. For `p = 0` it is
+  Nadaraya–Watson. When `X_tᵀ W_t X_t` is invertible, `β̂(t)` is the unique stationary point of the
+  weighted least-squares criterion `∑ K((x i - t)/h) (Y i - ∑_k β_k (x i - t)^k)²` and the estimator
+  reproduces every polynomial of degree at most `p` exactly. If also `K ≥ 0`, the matrix is positive
+  definite and `β̂(t)` is the unique minimizer. Without `K ≥ 0` it need not be a minimizer: for
+  degree `0` and one observation with weight `-1` the criterion is unbounded below.
+- **Leave-one-out identity** (`leaveOneOut_eq`). A linear smoother is a matrix `L` with fitted
   values `L Y`. If `L i i ≠ 1` for every `i`, then for every `i`
   `Y i - ∑_{j ≠ i} L i j Y j / (1 - L i i) = (Y i - (L Y) i) / (1 - L i i)`, and hence
   `∑ (Y i - ∑_{j ≠ i} L i j Y j / (1 - L i i))² = ∑ ((Y i - (L Y) i)/(1 - L i i))²`.
-- **Leave-one-out fits** (Green–Silverman, Lemma 3.1, p. 32, for splines; by the same argument
-  for the others). For Nadaraya–Watson, for local polynomials with the kernel centered at `x i`,
-  and for the smoothing splines of 5.8, `∑_{j ≠ i} L i j Y j / (1 - L i i)` is the fit at `x i`
-  computed without the `i`-th observation, provided `L i i ≠ 1` and, for local polynomials, the
-  matrices with and without observation `i` are invertible. So the leave-one-out
-  cross-validation score is `n⁻¹ ∑ ((Y i - (L Y) i)/(1 - L i i))²`. Proof: the fit without
-  observation `i` is unchanged when the observation `(x i, m̂_{(-i)}(x i))` is added, since it
-  has zero residual; read off row `i`.
-- **Equivalent kernel** (Fan–Gijbels, (3.16) and (3.17), p. 64). For `μ_j = ∫ u^j K` and
+- **Leave-one-out fits** (`nadarayaWatson_leaveOneOut`, `localPolynomialCoeff_leaveOneOut`, and
+  `smoothingSpline_leaveOneOut` of 5.8; Green–Silverman, Lemma 3.1, p. 32, for splines; by the same
+  argument for the others). For Nadaraya–Watson with a nonnegative kernel, for local polynomials
+  with the kernel centered at `x i`, and for the smoothing splines of 5.8,
+  `∑_{j ≠ i} L i j Y j / (1 - L i i)` is the fit at `x i` computed without the `i`-th observation,
+  provided `L i i ≠ 1` and, for local polynomials, the matrices with and without observation `i` are
+  invertible. So the leave-one-out cross-validation score is `n⁻¹ ∑ ((Y i - (L Y) i)/(1 - L i i))²`.
+  Proof: the fit without observation `i` is unchanged when the observation `(x i, m̂_{(-i)}(x i))`
+  is added, since it has zero residual; read off row `i`. The row `L i` is the fit at `x i` to the
+  data `Pi.single j 1`, `j` varying.
+- **Equivalent kernel** (`equivalentKernel`, `integral_pow_mul_equivalentKernel`, Fan–Gijbels,
+  (3.16) and (3.17), p. 64). For `μ_j = ∫ u^j K` finite for `j ≤ 2p + 2` and
   `S = (μ_{j+l})_{j,l ≤ p}` invertible, `K*_ν(t) = e_νᵀ S⁻¹ (1, t, …, t^p)ᵀ K(t)` satisfies
-  `∫ t^q K*_ν = δ_{νq}` for `q ≤ p`. If `K` is symmetric and `p - ν` is even,
-  `K*_{ν,p} = K*_{ν,p+1}`, so `∫ (K*_{ν,p})² = ∫ (K*_{ν,p+1})²` (Fan–Gijbels, p. 59: no
-  increase in variability from `p = ν + 2q` to `p = ν + 2q + 1`). Proof: the odd moments of `K`
-  vanish, so `S_p⁻¹` has a checkerboard pattern and `e_νᵀ S_p⁻¹ s = 0` for
+  `∫ t^q K*_ν = δ_{νq}` for `q ≤ p`. If `K` is symmetric, `p - ν` is even and the moment matrix of
+  order `p + 1` is also invertible, `K*_{ν,p} = K*_{ν,p+1}`, so `∫ (K*_{ν,p})² = ∫ (K*_{ν,p+1})²`
+  (Fan–Gijbels, p. 59: no increase in variability from `p = ν + 2q` to `p = ν + 2q + 1`). Proof: the
+  odd moments of `K` vanish, so `S_p⁻¹` has a checkerboard pattern and `e_νᵀ S_p⁻¹ s = 0` for
   `s = (μ_{p+1+j})_{j ≤ p}`; by the block inverse formula, row `ν` of `S_{p+1}⁻¹` is row `ν` of
   `S_p⁻¹` followed by `0`.
 
@@ -1632,39 +1771,74 @@ Regression data are `(x i, Y i)`, `i : Fin n`, with design `x` and responses `Y`
 - Leave-one-out identity for `L = (1/3) 𝟙𝟙ᵀ` (`n = 3`, the sample mean): `L i i = 1/3`, and
   `∑_{j ≠ i} L i j Y j / (1 - L i i) = ∑_{j ≠ i} Y j / 2` is the mean of the other two
   observations. For `L = I` every `L i i = 1` and the identity is not claimed.
-- Equivalent kernel for `p = 1`, `ν = 0`, symmetric `K`: `S = diag (1, μ₂)` and
+- `equivalentKernel` for `p = 1`, `ν = 0`, symmetric `K`, `s = univ`: `S = diag (1, μ₂)` and
   `K*_{0,1} = K = K*_{0,0}`.
+- `equivalentKernel` for the Epanechnikov kernel (python): `K*_{0,2} = K*_{0,3}` and
+  `K*_{1,1} = K*_{1,2}` (`p - ν` even), while `K*_{0,1}(½) = 0.5625` and
+  `K*_{0,2}(½) = 0.43945` differ (`p - ν` odd).
+- `equivalentKernel`, negative control: at the boundary `s = [0, ∞)` (`c = 0`), `p = 0`, the
+  kernel is `2 K 1_{[0, ∞)}` for symmetric `K`, not `K`: the moment matrix is the truncated one;
+  for `p = 1` its moments `∫ K*_{0} = 1`, `∫ t K*_{0} = 0` over `[0, ∞)` still hold (python).
+- `nadarayaWatson_leaveOneOut` on the data above at `x 0 = 0` (`i = 0`): the weights are
+  `(½, ½, 0)`, the leave-one-out fit at `0` is `2`, and `(½ · 2 + 0 · 6)/(1 - ½) = 2`.
+- `nadarayaWatson_leaveOneOut`, negative control: with a signed kernel and weights `K = 1` at
+  `x i`, `-1` at one other point and `0` elsewhere, `∑ K = 0`, so `L i i = 0` and the formula
+  gives `0`, while the leave-one-out fit is `Y j`: the nonnegativity is needed.
 
 ### 5.5 Local polynomial asymptotics
 
 For i.i.d. `(X i, Y i)` with `m(x) = E[Y | X = x]`, `σ²(x) = Var(Y | X = x)`, design density
-`f_X`, a bounded symmetric compactly supported probability kernel `K`, `h → 0` and `n h → ∞`:
-- **Interior bias and variance** (Fan–Gijbels, Thm 3.1, p. 62, with (3.18) and (3.19), p. 66):
-  if `f_X(x₀) > 0` and `f_X`, `m^{(p+1)}`, `σ²` are continuous near `x₀`, then conditionally on
-  the design, for `p - ν` odd,
-  `Bias m̂_ν(x₀) = ν!/(p + 1)! (∫ t^{p+1} K*_ν) m^{(p+1)}(x₀) h^{p+1-ν} + o_P(h^{p+1-ν})` and
-  `Var m̂_ν(x₀) = ν!² ∫ K*_ν² σ²(x₀) / (f_X(x₀) n h^{1+2ν}) + o_P((n h^{1+2ν})⁻¹)`. For `p - ν` even
-  the variance is the same and the bias is `O_P(h^{p+2-ν})` when also `f_X'(·)` and `m^{(p+2)}` are
-  continuous near `x₀` and `n h³ → ∞`; for Nadaraya–Watson (`p = ν = 0`) its leading term is
+`f_X`, a bounded symmetric compactly supported probability kernel `K`, `h → 0` and `n h → ∞`.
+Conditionally on the design the estimator `m̂_ν = ν! β̂_ν` of 5.4 is linear in the responses, so
+its conditional bias is `ν! β̂_ν(m(X)) - m^{(ν)}(x₀)`, the fit to the data `m(X i)`, and its
+conditional variance is `ν!² ∑ i, L_i² σ²(X i)`, with `L_i` the coefficient `β̂_ν` of the data
+`Pi.single i 1`. `K*_ν` is the equivalent kernel `equivalentKernel univ K p ν` of 5.4.
+- **Interior bias and variance** (`tendstoInMeasure_localPolynomial_bias_variance`,
+  `localPolynomial_bias_even`, `tendstoInMeasure_nadarayaWatson_bias`; Fan–Gijbels, Thm 3.1,
+  p. 62, with (3.18) and (3.19), p. 66): if `f_X(x₀) > 0` and `f_X`, `m^{(p+1)}`, `σ²` are
+  continuous near `x₀`, then conditionally on the design
+  `Var m̂_ν(x₀) = ν!² ∫ K*_ν² σ²(x₀) / (f_X(x₀) n h^{1+2ν}) + o_P((n h^{1+2ν})⁻¹)`, and for `p - ν`
+  odd `Bias m̂_ν(x₀) = ν!/(p + 1)! (∫ t^{p+1} K*_ν) m^{(p+1)}(x₀) h^{p+1-ν} + o_P(h^{p+1-ν})`. For
+  `p - ν` even the bias is `O_P(h^{p+2-ν})` when also `f_X'(·)` and `m^{(p+2)}` are continuous
+  near `x₀` and `n h³ → ∞`; for Nadaraya–Watson (`p = ν = 0`) its leading term is
   `½ h² μ₂ (m''(x₀) + 2 m'(x₀) f_X'(x₀)/f_X(x₀))`, with `μ₂ = ∫ u² K` (Fan–Gijbels, (3.9),
   p. 62).
-- **Boundary** (Fan–Gijbels, Thm 3.2, p. 70): for a design supported on `[0, ∞)` with
-  `f_X(0+) > 0`, `f_X`, `m^{(p+1)}`, `σ²` right continuous at `0`, and `x₀ = c h`, `c ≥ 0`, the
-  conditional mean squared error is that of the interior with `S` replaced by the truncated
-  moments `(∫_{-c}^∞ u^{j+l} K)`; in particular the bias is `O_P(h^{p+1-ν})` and the variance
-  `O_P((n h^{1+2ν})⁻¹)` for every `p ≥ ν`.
-- **Asymptotic normality** (Fan–Gijbels, Thm 5.2, p. 196, with the identity link): for `p - ν`
-  odd, if moreover `E[Y⁴ | X = z]` is bounded near `x₀` and `σ²(x₀) > 0`, then
-  `(m̂_ν(x₀) - m^{(ν)}(x₀) - b_ν(x₀) + o(h^{p+1-ν})) / sd ⇝ N(0, 1)`, with `b_ν` the leading bias
-  and `sd²` the leading variance of the first bullet. For the local linear estimator (`p = 1`,
-  `ν = 0`, so `K*_0 = K`) with `n h⁵ = O(1)`:
-  `√(n h) (m̂_h(x₀) - m(x₀) - ½ h² μ₂ m''(x₀)) ⇝ N(0, R(K) σ²(x₀)/f_X(x₀))`.
-- **Nadaraya–Watson** (by the same argument as Fan–Gijbels, Thm 5.2, with the bias of
-  (3.9)): if also `f_X'(·)` and `m''` are continuous near `x₀` and `n h⁵ = O(1)`, then
+- **Boundary** (`tendstoInMeasure_localPolynomial_boundary`, Fan–Gijbels, Thm 3.2, p. 70, and
+  (3.22), p. 70): for a design supported on `[0, ∞)` with `f_X(0+) > 0`, `f_X`, `m^{(p+1)}`, `σ²`
+  right continuous at `0`, `σ²(0+) > 0`, and `x₀ = c h`, `c ≥ 0`, the conditional mean squared
+  error `Bias² + Var` of `m̂_ν(x₀)` is, for every `p ≥ ν`, its interior leading term with `K*_ν`
+  replaced by the boundary kernel `K*_{ν,c} = equivalentKernel (Ici (-c)) K p ν` of the truncated
+  moments `(∫_{-c}^∞ u^{j+l} K)` and `σ²`, `f_X`, `m^{(p+1)}` taken at `0+`, times `1 + o_P(1)`.
+  The hypothesis `σ²(0+) > 0` keeps the leading term positive.
+- **Asymptotic normality** (`tendstoInDistribution_localPolynomialCoeff`, Fan–Gijbels, Thm 5.2,
+  p. 196, with the identity link): for `p - ν` odd, if moreover `E[Y⁴ | X = z]` is bounded near
+  `x₀` and `σ²(x₀) > 0`, then `(m̂_ν(x₀) - m^{(ν)}(x₀) - b_ν(x₀) + o(h^{p+1-ν})) / sd ⇝ N(0, 1)`,
+  with `b_ν` the leading bias and `sd²` the leading variance of the first bullet.
+- **Local linear** (`tendstoInDistribution_localLinear`, the case `p = 1`, `ν = 0` of the
+  previous bullet, so `K*_0 = K`): with `n h⁵ = O(1)`, the intercept `m̂_h` of
+  `localPolynomialCoeff K h 1` satisfies
+  `√(n h) (m̂_h(x₀) - m(x₀) - ½ h² μ₂ m''(x₀)) ⇝ N(0, R(K) σ²(x₀)/f_X(x₀))`. Proof: the previous
+  bullet, with `√(n h) o(h²) = o(√(n h⁵)) = o(1)`.
+- **Nadaraya–Watson** (`tendstoInDistribution_nadarayaWatson`, by the same argument as
+  Fan–Gijbels, Thm 5.2, with the bias of (3.9)): if also `f_X'(·)` and `m''` are continuous near
+  `x₀` and `n h⁵ = O(1)`, then
   `√(n h) (m̂_h(x₀) - m(x₀) - ½ h² μ₂ (m''(x₀) + 2 m'(x₀) f_X'(x₀)/f_X(x₀)))` converges in law
   to `N(0, R(K) σ²(x₀)/f_X(x₀))`.
 
-*Needs:* 5.4; Foundations 8.4; MathematicalStatisticsAsymptotic 1.2 (Lindeberg–Feller).
+*Needs:* 5.4; Foundations 8.1, 8.4; MathematicalStatisticsAsymptotic 1.2 (Lindeberg–Feller).
+
+**Checks.**
+
+- Local linear with the Epanechnikov kernel: `μ₂ = 1/5`, `R(K) = 3/5`, so the limit variance is
+  `(3/5) σ²(x₀)/f_X(x₀)` and the bias constant `½ μ₂ = 1/10`.
+- Nadaraya–Watson against local linear: for a uniform design (`f_X' = 0`) the two leading biases
+  agree; for `f_X(x) = 2x` on `[0, 1]`, `m(x) = x` (so `m'' = 0`), at `x₀ = ½` the
+  Nadaraya–Watson bias term is `½ h² μ₂ · 2 · 1 · 2/1 = 2 μ₂ h²`, while the local linear bias term
+  vanishes: local linear fits reproduce lines (5.4).
+- Boundary negative control: at `c = 0`, `p = 0`, the boundary kernel is `2 K 1_{[0, ∞)}` (5.4),
+  whose first moment `2 ∫₀^∞ t K` is nonzero, so Nadaraya–Watson has an `O(h)` bias at the
+  boundary, while for `p = 1` the boundary kernel at `c = 0` has first moment `0` (5.4).
+
 
 ### 5.6 Stone's consistency theorem
 
@@ -1694,8 +1868,9 @@ For i.i.d. `(X i, Y i)` with `m(x) = E[Y | X = x]`, `σ²(x) = Var(Y | X = x)`, 
   with divisor `(n - 1) h`, if `n ≥ 2`, `h > 0`, `K` is integrable with `∫ K² < ∞`,
   `∫ f² < ∞` and `∬ |K((x - z)/h)| f(z) f(x) dz dx < ∞`, then
   `E CV(h) = E ∫ (f̂_h - f)² - ∫ f²`. Proof: `E f̂_{h,-1}(X 1) = ∫ (K_h * f) f = E ∫ f̂_h f`.
-- **Stone's form** `M₁(h) = ∫ f̂_h² - (2/(n² h)) ∑_{i ≠ j} K((X i - X j)/h)` equals
-  `∫ f̂_h² - (2(n - 1)/n²) ∑ f̂_{h,-i}(X i)` (an identity).
+- **Stone's form** (`stoneCriterion_eq`):
+  `M₁(h) = ∫ f̂_h² - (2/(n² h)) ∑_{i ≠ j} K((X i - X j)/h)` equals
+  `∫ f̂_h² - (2(n - 1)/n²) ∑ f̂_{h,-i}(X i)` for `n ≥ 2` and `h ≠ 0` (an identity).
 - Regression cross-validation for linear smoothers is the leave-one-out identity of 5.4.
 - The hypothesis `∫ K² < ∞`, which Tsybakov leaves implicit, is needed: it makes `∫ f̂_h²` and
   `∫ (f̂_h - f)²` finite, so the real integrals are the true ones. For `K u = 1/(2√u)` on
@@ -1725,12 +1900,15 @@ For i.i.d. `(X i, Y i)` with `m(x) = E[Y | X = x]`, `σ²(x) = Var(Y | X = x)`, 
   represented as the functions `g(t) = c₀ + c₁ (t - a) + ∫_a^t (t - s) u(s) ds` with
   `u ∈ L²[a, b]`, so that `g(a) = c₀`, `g'(a) = c₁` and `g'' = u` a.e.; the criterion is
   `S(g) = ∑ (Y i - g(t i))² + α ∫_a^b u²`.
-- **Value–second-derivative representation** (Green–Silverman, Thm 2.1, p. 13): for knots
+- **Value–second-derivative representation** (`integral_sq_naturalSpline_eq`, Green–Silverman,
+  Thm 2.1, p. 13): for knots
   `t₁ < … < tₙ`, `h_j = t_{j+1} - t_j`, the band matrices `Q` (`n × (n - 2)`) and `R`
   (`(n - 2) × (n - 2)`, positive definite), with columns and rows numbered from `2` to `n - 1`,
   are `Q_{j-1,j} = 1/h_{j-1}`, `Q_{jj} = -1/h_{j-1} - 1/h_j`, `Q_{j+1,j} = 1/h_j`,
   `R_{jj} = (h_{j-1} + h_j)/3`, `R_{j,j+1} = R_{j+1,j} = h_j/6`, and the natural cubic spline
-  with values `g` at the knots has `∫ g''² = gᵀ Q R⁻¹ Qᵀ g`.
+  with values `g` at the knots has `∫ g''² = gᵀ Q R⁻¹ Qᵀ g`. In the representation below, a
+  natural cubic spline is a `g` whose `u = g''` is continuous on `[a, b]`, affine between
+  consecutive knots and `0` outside `[t₁, tₙ]`.
 - **Smoothing splines** (`existsUnique_smoothingSpline`, Green–Silverman, Thm 2.4, p. 19): for
   `n ≥ 3` design points `a < t₁ < … < tₙ < b` and `α > 0`, `S` has a minimizer on `W²[a, b]`,
   it is unique (any other minimizer has the same `c₀`, `c₁` and the same `u` a.e.), and its
@@ -1738,12 +1916,17 @@ For i.i.d. `(X i, Y i)` with `m(x) = E[Y | X = x]`, `σ²(x) = Var(Y | X = x)`, 
   natural interpolating spline minimizes `∫ g''²` (integration by parts against the
   piecewise-linear `g''`), and the reduced problem is a positive definite quadratic in the knot
   values.
-- **The minimizer is the natural cubic spline** (Green–Silverman, Thm 2.4, p. 19): it is cubic
-  on each `[t i, t (i+1)]`, linear on `[a, t₁]` and `[tₙ, b]`, and `C²` on `[a, b]`.
-- **Cross-validation** (Green–Silverman, Thm 3.1, p. 31): with the hat matrix
-  `A(α) = (I + α Q R⁻¹ Qᵀ)⁻¹`, `CV(α) = n⁻¹ ∑ ((Y i - ĝ(t i)) / (1 - A i i (α)))²` by 5.4. Here
-  `A i i < 1`: the eigenvalues of `A` lie in `(0, 1]`, the eigenvalue `1` belongs to the vectors
-  `(c₀ + c₁ t i)_i`, and for `n ≥ 3` no unit vector `e_i` is of that form.
+- **The minimizer is the natural cubic spline** (`smoothingSpline_secondDeriv_eq`,
+  Green–Silverman, Thm 2.4, p. 19): the second derivative `u` of the minimizer is almost
+  everywhere equal on `[a, b]` to a function continuous on `[a, b]`, affine between consecutive
+  knots and `0` outside `[t₁, tₙ]`; so the minimizer is cubic on each `[t i, t (i+1)]`, linear on
+  `[a, t₁]` and `[tₙ, b]`, and `C²` on `[a, b]`.
+- **Cross-validation** (`smoothingSpline_leaveOneOut`, Green–Silverman, Thm 3.1, p. 31): with the
+  hat matrix `A(α) = (I + α Q R⁻¹ Qᵀ)⁻¹`, `A i i < 1`, the leave-one-out fit at `t i` is
+  `∑_{j ≠ i} A i j Y j / (1 - A i i)`, and so `CV(α) = n⁻¹ ∑ ((Y i - ĝ(t i)) / (1 - A i i (α)))²` by
+  5.4. The bound `A i i < 1` holds because the eigenvalues of `A` lie in `(0, 1]`, the eigenvalue
+  `1` belongs to the vectors `(c₀ + c₁ t i)_i`, and for `n ≥ 3` no unit vector `e_i` is of that
+  form.
 
 *Needs:* 5.4; Mathlib `RKHS`, `RKHS.kerFun`, `RKHS.inner_kerFun`, `intervalIntegral`,
 `Matrix.PosDef`.
@@ -1757,6 +1940,10 @@ For i.i.d. `(X i, Y i)` with `m(x) = E[Y | X = x]`, `σ²(x) = Var(Y | X = x)`, 
   `Q R⁻¹ Qᵀ = (3/2) (1, -2, 1)(1, -2, 1)ᵀ`; for `g = (0, 1, 0)` the natural spline has
   `g''(1) = R⁻¹ Qᵀ g = -3`, `g''` piecewise linear and `0` at the ends, and
   `∫ g''² = 2 ∫₀¹ 9 s² ds = 6 = (3/2) · 4`.
+- `smoothingSpline_leaveOneOut` at `t = (0, 1, 2)`, `α = 1`, `Y = (0, 1, 3)`:
+  `A = I - (3/20) v vᵀ` with `v = (1, -2, 1)`, so `A 1 1 = 0.4`, `A 1 0 = A 1 2 = 0.3`, and
+  `(0.3 · 0 + 0.3 · 3)/(1 - 0.4) = 1.5`, the value at `1` of the line through `(0, 0)` and
+  `(2, 3)` that minimizes the criterion without the middle point (python).
 - `smoothingSplineCriterion` with `u = 0` is the residual sum of squares of the line
   `c₀ + c₁ (t - a)`: data on a line give the minimum `0` with `u = 0`.
 - `smoothingSplineCriterion` with `u = 1`: `g(t) = c₀ + c₁ (t - a) + (t - a)²/2`, penalty
@@ -1776,8 +1963,10 @@ For i.i.d. `(X i, Y i)` with `m(x) = E[Y | X = x]`, `σ²(x) = Var(Y | X = x)`, 
   `p₁ = p₀ + L h^β φ((x - x₀)/h)` for a fixed `p₀ ∈ 𝒫(β, L/2)` bounded below near `x₀` and a
   smooth `φ` with `∫ φ = 0`, `h = n^{-1/(2β+1)}`, and `klDiv ≤ chiSqDiv = O(1/n)` per
   observation.
-- **Integrated density rate, lower bound** (Tsybakov, Exercise 2.10, p. 135): the same with
-  `E ∫ (κ - p)²` in place of `E (κ - p(x₀))²`, by Assouad (2.5) over `m ≍ 1/h` disjoint bumps.
+- **Integrated density rate, lower bound** (`kde_minimax_lower_integrated`, Tsybakov,
+  Exercise 2.10, p. 135): the same with `E ∫ (κ - p)²` in place of `E (κ - p(x₀))²`, for
+  estimators that are Markov kernels with values in `L²(ℝ)` with its Borel σ-algebra, by Assouad
+  (2.5) over `m ≍ 1/h` disjoint bumps.
 - **Sobolev density rate** (`sobolev_density_minimax_rate`, van der Vaart, Thm 24.4, p. 348):
   for an integer `m ≥ 1` and `M > 0` there is `D_{m,M} > 0` such that for every `n ≥ 1` every
   density estimator, a Markov kernel with values in `L²(ℝ)`, has
@@ -1799,18 +1988,27 @@ For i.i.d. `(X i, Y i)` with `m(x) = E[Y | X = x]`, `σ²(x) = Var(Y | X = x)`, 
   bumps for the sup norm; the bumps are continuous, so their essential and pointwise sup-norm
   distances agree, and the essential supremum is at most the pointwise one, so Tsybakov's upper
   bound applies.
-- **Local polynomial attainment** (Tsybakov, Thms 1.7 and 1.8, pp. 42 and 44). The `L²` upper
-  bound of the previous bullet is attained by the local polynomial estimator of degree `ℓ` with
+- **Local polynomial attainment** (`localPolynomial_holder_risk_le`, Tsybakov, Thms 1.7 and
+  1.8, pp. 42 and 44). The `L²` upper bound of the previous bullet is attained by the local
+  polynomial estimator of degree `ℓ` (the intercept of `localPolynomialCoeff`) with
   `h = c n^{-1/(2β+1)}` and a kernel with `K_min 1_{|u| ≤ Δ} ≤ K ≤ K_max 1_{|u| ≤ 1}`; the
-  sup-norm upper bound by the same estimator with `h = c (log n / n)^{1/(2β+1)}`, a Lipschitz
-  kernel and Tsybakov's assumptions (LP1)–(LP3).
-- **Bias and coverage.** With `h = c n^{-1/5}`, `c > 0`, the `h²` bias of 5.2 and 5.5 is of the
-  order of the standard error, so the pointwise intervals `f̂ ± z_{α/2} sd`, with `sd` the
-  asymptotic standard deviation or a consistent estimate of it, have asymptotic coverage
-  `P(|Z + b| ≤ z_{α/2}) < 1 - α` with `b ≠ 0` when `f''(x) ≠ 0`, while `n h⁵ → 0` restores the
-  nominal coverage (a corollary of the two central limit theorems).
+  sup-norm upper bound by the same estimator with `h = c (log n / n)^{1/(2β+1)}` and such a kernel
+  that is also Lipschitz. For the design `i/n` these kernel conditions give Tsybakov's
+  assumptions (LP1)–(LP3) (Lemma 1.5, p. 38, for (LP1)).
+- **Bias and coverage** (`tendsto_coverage_kde`). With `h = c n^{-1/5}`, `c > 0`, the `h²` bias
+  of 5.2 is of the order of the standard error, so the pointwise intervals `f̂ ± z_{α/2} sd`,
+  with `sd = √(R(K) f(x)/(n h))` the asymptotic standard deviation, have asymptotic coverage
+  `P(|Z + b| ≤ z_{α/2}) = Φ(z_{α/2} - b) - Φ(-z_{α/2} - b) < 1 - α`, with
+  `b = c^{5/2} μ₂ f''(x) / (2 √(R(K) f(x))) ≠ 0` when `f''(x) ≠ 0`, while `n h⁵ → 0` restores the
+  nominal coverage. In general, if `√(n h⁵) → κ`, then `b = κ μ₂ f''(x) / (2 √(R(K) f(x)))`. Proof:
+  the central limit theorem of 5.2 and Slutsky (Foundations 8.4).
 
-*Needs:* 2.2–2.5, 5.1, 5.2, 5.4; Foundations 9.3.
+*Needs:* 2.2–2.5, 5.1, 5.2, 5.4; Foundations 8.4, 9.3.
+
+**Checks.**
+
+- Bias and coverage at the Gaussian kernel, `f = N(0, 1)`, `x = 0`, `κ = 1`, `α = 0.05`:
+  `b = -φ(0)/(2 √(φ(0)/(2√π))) = -0.59460` and the coverage is `0.90861 < 0.95` (python).
 
 ### Examples
 
@@ -1834,12 +2032,13 @@ indexed from `0`; the `j`-th coordinate of the texts is index `j - 1`.
   `gaussSeqMinimax Θ ε = ⨅ κ Markov, ⨆ θ ∈ Θ, gaussSeqRisk κ θ ε`; the linear minimax risk
   `gaussSeqLinearMinimax Θ ε` is the same infimum over the deterministic diagonal estimators
   `y ↦ (c j y j)_j`, `c : ℕ → ℝ`, written with the risk formula of the next bullet.
-- **Risk of a diagonal estimator.** For every `c : ℕ → ℝ`, the diagonal estimator is measurable
-  and `gaussSeqRisk (c ⊙ ·) θ ε = ∑' j, ofReal (c j² ε² + (1 - c j)² θ j²)`, by exchanging
-  `∫⁻` and `∑'` for nonnegative measurable functions.
-- **Finite-coordinate reduction.** If `θ` and `θ'` agree outside a finite set `S`, the law of
-  the coordinates outside `S` is common to both; Bayes risks of priors supported on such `θ`
-  reduce to the finite-dimensional normal model on `S`.
+- **Risk of a diagonal estimator** (`gaussSeqRisk_diagonal`). For every `c : ℕ → ℝ`, the diagonal
+  estimator is measurable and `gaussSeqRisk (c ⊙ ·) θ ε = ∑' j, ofReal (c j² ε² + (1 - c j)² θ j²)`,
+  by exchanging `∫⁻` and `∑'` for nonnegative measurable functions.
+- **Finite-coordinate reduction** (`map_restrict_gaussSeqLaw_eq`). If `θ` and `θ'` agree outside
+  a finite set `S`, the law of the coordinates outside `S` is common to both. This is the step
+  that reduces Bayes risks of priors supported on such `θ` to the finite-dimensional normal model
+  on `S`. Proof: both laws are `Measure.infinitePi` of the same factors on the complement of `S`.
 
 *Needs:* Mathlib `Measure.infinitePi`, `gaussianReal`, `minimaxRisk` for the shape of the
 definition.
@@ -1907,10 +2106,11 @@ For `a` nonnegative, nondecreasing and tending to `∞`, `C > 0`, `ε > 0`, `Θ 
   `P_β = (2β + 1)^{1/(2β+1)} (β/(β + 1))^{2β/(2β+1)}`, Johnstone's Pinsker constant `P_r` with
   `r = 2β/(2β+1)`. Tsybakov, Thm 3.1, p. 138, has the same constant for the weights of 6.2 with
   `C² = L²/π^{2β}`.
-- **Two-sided rate.** If only `c j^β ≤ a_j ≤ C' j^β` for `j ≥ 2`, with `a_1 ≥ 0` arbitrary (the
+- **Two-sided rate** (`gaussSeqMinimax_two_sided`). For `β > 0` and `c > 0`, if only
+  `c j^β ≤ a_j ≤ C' j^β` for `j ≥ 2`, with `a_1 ≥ 0` arbitrary and `a` not assumed monotone (the
   Sobolev ellipsoids of 6.2), then `gaussSeqMinimax Θ ε` lies between positive multiples,
   depending only on `β`, `c`, `C'`, of `C^{2/(2β+1)} ε^{4β/(2β+1)}` for all `ε ≤ ε₀`, with
-  `ε₀` depending also on `C`; with `ε = n^{-1/2}` the rate is `n^{-2β/(2β+1)}`. Proof:
+  `ε₀` depending also on `C` (with `ε = n^{-1/2}`, `ε^{4β/(2β+1)} = n^{-2β/(2β+1)}`). Proof:
   monotonicity of the minimax risk under inclusion of ellipsoids; an unconstrained coordinate
   adds at most `ε²`, which is `o(C^{2/(2β+1)} ε^{4β/(2β+1)})` as `ε/C → 0`.
 
@@ -1968,9 +2168,11 @@ projection onto `K` (the nearest point, which exists and is unique since `K` is 
 nonempty; `metricProj` is `0` where no nearest point exists), and for `y ∈ K` let
 `faceDim A y` be the dimension of the span of the smallest face of `K` containing `y`, namely
 `{x ∈ K | ∀ k, ⟪A k, y⟫ = 0 → ⟪A k, x⟫ = 0}`.
-- **Likelihood ratio.** For `Y ~ N(μ, I)`, twice the log likelihood ratio for `μ = 0` against
-  `μ ∈ K` is `‖Y‖² - ‖Y - P_K Y‖² = ‖P_K Y‖²`, by `⟪Y - P_K Y, P_K Y⟫ = 0`
-  (Mathlib `norm_eq_iInf_iff_real_inner_le_zero` applied at `0` and `2 P_K Y`).
+- **Likelihood ratio** (`iSup_sub_norm_sq_eq_norm_sq_metricProj`). For `Y ~ N(μ, I)`, twice the
+  log likelihood ratio for `μ = 0` against `μ ∈ K` is `sup_{v ∈ K} (‖Y‖² - ‖Y - v‖²)`, and for
+  every `y`, `sup_{v ∈ K} (‖y‖² - ‖y - v‖²) = ‖y‖² - ‖y - P_K y‖² = ‖P_K y‖²`. Proof: the
+  supremum is attained at the nearest point `P_K y`, and `⟪y - P_K y, P_K y⟫ = 0`
+  (Mathlib `norm_eq_iInf_iff_real_inner_le_zero` applied at `0` and `2 P_K y`).
 - **Chi-bar-squared** (`map_norm_sq_metricProj_stdGaussian`, Robertson–Wright–Dykstra, §2.7,
   (2.7.5) and (2.7.6), p. 111, by the proof of Thm 2.3.1,
   p. 69): under `μ = 0` the law of `‖P_K Y‖²` is `∑_{j=0}^p w_j χ²_j` with
@@ -2062,16 +2264,18 @@ For `y : Fin n → ℝ` and weights `w : Fin n → ℝ` with `w i > 0`:
   `norm_eq_iInf_iff_real_inner_le_zero` identifies the projection with the max–min formula on
   each block of constancy, and the same argument with the roles of lower and upper windows
   exchanged gives the min–max formula.
-- **Convex minorant** (Robertson–Wright–Dykstra, Thm 1.2.1, pp. 7–8; Groeneboom–Jongbloed,
-  Lemma 2.1 and the remark after it, pp. 19–20): `isotonicRegression w y i` is the left slope at
-  `W_i = ∑_{j ≤ i} w j` of the greatest convex minorant of the cumulative-sum diagram through
-  `(0, 0)` and the points `(W_i, ∑_{j ≤ i} w j y j)`.
-- **Properties.** `∑ w i isotonicRegression w y i = ∑ w i y i`; the map is monotone in `y` and
-  commutes with adding constants and with positive scaling. Proof: the constant vectors `1` and
-  `-1` are monotone, so the variational inequality of the projection gives
-  `∑ w i (y i - isotonicRegression w y i) = 0`; the other three properties are read off the
-  max–min formula, whose averages are monotone in `y` and equivariant under `y ↦ c y + d`,
-  `c > 0`.
+- **Convex minorant** (`isotonicRegression_eq_slope_convexMinorant`, Robertson–Wright–Dykstra,
+  Thm 1.2.1, pp. 7–8; Groeneboom–Jongbloed, Lemma 2.1 and the remark after it, pp. 19–20):
+  `isotonicRegression w y i` is the left slope at `W_i = ∑_{j ≤ i} w j` of the greatest convex
+  minorant of the cumulative-sum diagram through `(0, 0)` and the points
+  `(W_i, ∑_{j ≤ i} w j y j)`. In Lean the minorant is the supremum of the affine functions lying
+  below the `n + 1` points; at `t ∈ [0, W_{n-1}]` the family is nonempty and bounded above, and
+  the left slope at `W_i > 0` reads only such `t`.
+- **Properties** (`isotonicRegression_properties`). `∑ w i isotonicRegression w y i = ∑ w i y i`;
+  the map is monotone in `y` and commutes with adding constants and with positive scaling. Proof:
+  the constant vectors `1` and `-1` are monotone, so the variational inequality of the projection
+  gives `∑ w i (y i - isotonicRegression w y i) = 0`; the other three properties are read off the
+  max–min formula, whose averages are monotone in `y` and equivariant under `y ↦ c y + d`, `c > 0`.
 
 *Needs:* Mathlib `exists_norm_eq_iInf_of_complete_convex`, `norm_eq_iInf_iff_real_inner_le_zero`,
 `Monotone`.
@@ -2127,11 +2331,11 @@ For `x : Fin n → ℝ` with positive entries, `F̂_n` the empirical distributio
   is at least `f (x₍ᵢ₎)` on `(x₍ᵢ₋₁₎, x₍ᵢ₎]` by monotonicity, and has integral `1`, so it equals
   the constant there except on a null set, and monotonicity turns this into equality at every
   point of `(0, x₍ₙ₎]`.
-- **Log form.** The maximum of the likelihood is positive, so `grenander x` equivalently
-  maximizes `∑ log f (x i)` among the nonincreasing densities positive at every `x i`
-  (Conventions). With Lean's `log 0 = 0` the sum of logarithms over all densities would be a
-  different problem: for the sample `(1, 3)` a density vanishing on `[1, ∞)` would score
-  `0 > log (1/2) + log (1/4)`.
+- **Log form** (`grenander_isMaxLogLikelihood`). `grenander x` is positive at every `x i`, so the
+  maximum of the likelihood is positive and `grenander x` equivalently maximizes `∑ log f (x i)`
+  among the nonincreasing densities positive at every `x i` (Conventions). With Lean's `log 0 = 0`
+  the sum of logarithms over all densities would be a different problem: for the sample `(1, 3)` a
+  density vanishing on `[1, ∞)` would score `0 > log (1/2) + log (1/4)`.
 - **Switching relation** (`grenander_le_iff`): for `t > 0` and `a > 0`,
   `grenander x t ≤ a ↔ ŝ(a) < t`, where `ŝ(a)` is the smallest maximizer of
   `s ↦ F̂_n(s) - a s` over `s ≥ 0` (attained at `0` or at a data point). This is the relation used
@@ -2184,9 +2388,10 @@ For `x : Fin n → ℝ` with positive entries, `F̂_n` the empirical distributio
   1990, quoted in Groeneboom–Jongbloed, p. 62, and van der Vaart, p. 354), proved through the
   a.s. uniqueness of the maximum of a continuous Gaussian process on each pair of disjoint
   rational intervals.
-- **Symmetry.** `chernoffArgmax W` and `-chernoffArgmax W` have the same law, and its law does
-  not depend on the choice of `B₁`, `B₂` (Groeneboom–Jongbloed, Exercise 3.12(a), p. 82;
-  Thm 3.9, p. 76, gives the density). Proof: `t ↦ W (-t)` is the two-sided motion built from
+- **Symmetry** (`map_chernoffArgmax`). `chernoffArgmax W` is almost everywhere measurable,
+  `chernoffArgmax W` and `-chernoffArgmax W` have the same law, and its law does not depend on
+  the choice of `B₁`, `B₂` (Groeneboom–Jongbloed, Exercise 3.12(a), p. 82; Thm 3.9, p. 76, gives
+  the density). Proof: `t ↦ W (-t)` is the two-sided motion built from
   `B₂`, `B₁`, whose maximizer is `-chernoffArgmax W` almost surely; the law of the continuous path
   `W` is determined by its Gaussian finite-dimensional marginals, and on the full-measure set of
   paths with a unique maximizer the maximizer is a measurable function of the restriction of the
@@ -2294,12 +2499,14 @@ Ceti's `TauCeti.LogConcave f` and `∫⁻ f = 1`.
   of the closed convex sets of full `P`-measure. Proof: the functional is concave and upper
   semicontinuous on a compact family after the hyperplane condition bounds `sup log f`
   (Samworth–Shah's argument); uniqueness by strict concavity of `log ∫ exp`.
-- **The estimator.** For `x : Fin n → ℝ^d` with `n ≥ d + 1` and `d`-dimensional convex hull
-  `C_n`, the empirical distribution satisfies the hypotheses, so the log-concave maximum
-  likelihood estimator `f̂_n` exists and is unique; it vanishes outside `C_n` (the convex support
-  of the empirical distribution), and `log f̂_n` on `C_n` is the tent function
-  `inf {g | g concave, g (x i) ≥ y i ∀ i}` for suitable heights `y`, piecewise affine on `C_n`
-  (Samworth–Shah, p. 266 and p. 272).
+- **The estimator** (`logConcaveMLE_tent`). For `x : Fin n → ℝ^d` with `n ≥ d + 1` and
+  `d`-dimensional convex hull `C_n` (nonempty interior), the empirical distribution satisfies the
+  hypotheses, so the log-concave maximum likelihood estimator `f̂_n` exists and is unique; it
+  vanishes outside `C_n` (the convex support of the empirical distribution), and on `C_n`,
+  `f̂_n = exp h̄_y` for some heights `y`, with the tent function
+  `h̄_y z = inf {g z | g concave on C_n, g (x i) ≥ y i ∀ i}` (Samworth–Shah, p. 266 for the
+  support, p. 272 for the tent form). On `C_n` the infimum is over a nonempty family bounded below
+  by `min y`.
 - **Rate in dimension one** (`logConcaveMLE_sqHellinger_le`, Samworth–Shah, Thm 9.26(a),
   p. 279): for `d = 1`, `n ≥ 2` and samples from `f₀ ∈ 𝓕_1`,
   `sup_{f₀} E sqHellinger(f̂_n, f₀) ≤ C n^{-4/5}`, `C` universal, with `f̂_n` any maximizer of
@@ -2310,17 +2517,18 @@ Ceti's `TauCeti.LogConcave f` and `∫⁻ f = 1`.
   `log ((f + f₀)/(2 f₀))`, whose mean is at most a negative multiple of `sqHellinger(f, f₀)`; the
   modulus comes from the bracketing maximal inequality (3.3) with the Hellinger bracketing entropy
   of the standardized class. The rate theorem itself gives only an `O_P` rate at each `f₀`.
-- **Lower bounds** (`logConcave_minimax_lower`, Samworth–Shah, Thm 9.26(b), p. 279): there is a
-  universal `c > 0` such that for every `d ≥ 1` and `n ≥ d + 1`,
-  `sup_{f₀ ∈ 𝓕_d} E sqHellinger(f̃_n, f₀) ≥ c n^{-4/5}` for `d = 1` and `≥ c n^{-2/(d+1)}` for
-  `d ≥ 2`, for every estimator `f̃_n`. The estimate at `x` is the probability measure `κ x` of a
-  Markov kernel `κ`; a randomized estimator, a kernel into such measures, does no better than its
-  mean kernel, since `sqHellinger (·, f₀)` is convex. The source states it for measurable
-  deterministic estimators with integrable values; the squared distance of a probability measure
-  to `f₀` is at least that of its absolutely continuous part, so the source covers these. Proof:
-  Assouad (2.5) with perturbations of a log-concave density by `≍ n^{(d-1)/(d+1)}` caps near the
-  boundary of its support for `d ≥ 2` and by interior bumps of width `n^{-1/5}` for `d = 1`, with
-  the Hellinger form of 2.5.
+- **Lower bounds** (`logConcave_minimax_lower`, Samworth–Shah, Thm 9.26(b), p. 279): for every
+  `d ≥ 1` there is `c_d > 0` such that for every `n ≥ d + 1` and every estimator `f̃_n`,
+  `sup_{f₀ ∈ 𝓕_d} E sqHellinger(f̃_n, f₀) ≥ c_1 n^{-4/5}` for `d = 1` and `≥ c_d n^{-2/(d+1)}` for
+  `d ≥ 2`. Samworth–Shah state the bound with one universal constant for all `d`; the target is the
+  per-dimension form, which Kim and Samworth (2016), Thm 1, also give. The estimate at `x` is the
+  probability measure `κ x` of a Markov kernel `κ`; a randomized estimator, a kernel into such
+  measures, does no better than its mean kernel, since `sqHellinger (·, f₀)` is convex. The source
+  states it for measurable deterministic estimators with integrable values; the squared distance of
+  a probability measure to `f₀` is at least that of its absolutely continuous part, so the source
+  covers these. Proof: Assouad (2.5) with perturbations of a log-concave density by
+  `≍ n^{(d-1)/(d+1)}` caps near the boundary of its support for `d ≥ 2` and by interior bumps of
+  width `n^{-1/5}` for `d = 1`, with the Hellinger form of 2.5.
 
 *Needs:* 2.5; Tau Ceti `TauCeti.LogConcave`, `LogConcave.lintegral_prod_right`;
 MathematicalStatisticsAsymptotic: the bracketing maximal inequality (3.3) and the peeling argument
@@ -2363,7 +2571,7 @@ Layers 2 and 5; Foundations 9.1; MathematicalStatisticsAsymptotic: the Lindeberg
 theorem (1.2), convergence from marginals and equicontinuity (2.3), the bracketing maximal
 inequality (3.3), the Glivenko–Cantelli theorem (3.4), the argmax theorem (4.3) and the rate
 theorem for M-estimators (5.6);
-StochasticCalculus: the growth of Brownian motion; Tau Ceti log-concavity.
+StochasticCalculus §1.4: the growth of Brownian motion; Tau Ceti log-concavity.
 
 ## Layer 8: functional data
 
@@ -2374,9 +2582,10 @@ measurable with `MemLp X 2 μ` under a probability measure `μ`, and `m = ∫ X 
 
 - `centeredCovariance μ X = covarianceOperator (μ.map (fun ω ↦ X ω - m))`, with Mathlib's
   uncentered `covarianceOperator`.
-- **Covariance identity** (Hsing–Eubank, Thm 7.2.5, p. 180):
+- **Covariance identity** (`inner_centeredCovariance`, Hsing–Eubank, Thm 7.2.5, p. 180):
   `⟪centeredCovariance μ X x, y⟫ = ∫ ⟪X - m, x⟫ ⟪X - m, y⟫ dμ`; the operator is symmetric and
-  positive (Mathlib `covarianceOperator_inner`, `isPositive_covarianceOperator`).
+  positive (Mathlib's `IsPositive` includes symmetry). Proof: Mathlib `covarianceOperator_inner`,
+  `isPositive_covarianceOperator`.
 - **Trace class** (`centeredCovariance_trace`, Hsing–Eubank, Thm 7.2.5, p. 180): for every Hilbert
   basis `b`, `∑' i, ⟪C (b i), b i⟫ = ∫ ‖X - m‖² dμ`, and `C` is compact. Proof: the identity is
   Parseval inside the integral; `hilbertSchmidtEnergy C b ≤ ‖C‖ ∑ ⟪C b i, b i⟫ < ∞`, so the
@@ -2385,8 +2594,8 @@ measurable with `MemLp X 2 μ` under a probability measure `μ`, and `m = ∫ X 
   (`isCompactOperator_of_tendsto_singularValue`). The trace-norm form
   `nuclearENorm C = ofReal (∫ ‖X - m‖² dμ)` of the source is `nuclearENorm_centeredCovariance`,
   proved in 8.2 from the trace of a positive compact operator.
-- **Support** (Hsing–Eubank, Thm 7.2.5, pp. 180–181): `X - m` lies a.s. in the closure of the
-  range of `C`.
+- **Support** (`ae_mem_closure_range_centeredCovariance`, Hsing–Eubank, Thm 7.2.5,
+  pp. 180–181): `X - m` lies a.s. in the closure of the range of `C`.
 
 *Needs:* Mathlib `covarianceOperator`, `HilbertBasis`, `IsCompactOperator`; Tau Ceti
 `hilbertSchmidtEnergy`, `tsum_singularValue_sq_eq_hilbertSchmidtEnergy`,
@@ -2413,7 +2622,8 @@ measurable with `MemLp X 2 μ` under a probability measure `μ`, and `m = ∫ X 
   decreasing order with multiplicity; the identification with the approximation numbers is the
   min–max characterization `singularValue_eq_iInf_nnnorm_comp_orthogonal` (the Courant–Fischer
   principle, Hsing–Eubank, Thm 4.2.7, p. 100).
-- **Ky Fan's maximum principle**: for every orthonormal `v : Fin k → H`,
+- **Ky Fan's maximum principle** (`IsEigenExpansion.sum_inner_le`): for an eigen-expansion
+  `(λ, φ)` of `T` and every orthonormal `v : Fin k → H`,
   `∑ i, ⟪T (v i), v i⟫ ≤ ∑_{j < k} λ j`, with equality for `v = φ` on the first `k` indices when
   `λ (k - 1) > 0` (then `φ 0, …, φ (k - 1)` are orthonormal). `IsEigenExpansion` constrains `φ`
   only at positive eigenvalues; at a zero eigenvalue `φ j` may be `0`. Proof: Tau Ceti's
@@ -2463,8 +2673,9 @@ Let `C = centeredCovariance μ X` with an eigen-expansion `(λ, φ)` from 8.2.
   bound, and if moreover `λ (k - 1) > λ k` it is the only `k`-dimensional subspace that does.
   Proof: `E ‖(I - P_V)(X - m)‖² = E ‖X - m‖² - ∑ ⟪C v i, v i⟫` for an orthonormal basis `v` of
   `V`, and Ky Fan (8.2), with the equality case for uniqueness.
-- **Degenerate case.** If only `r < k` eigenvalues are positive and `H` has a subspace of
-  dimension `k`, the infimum over `k`-dimensional `V` is `0`, and the minimizers are exactly the
+- **Degenerate case** (`fpca_degenerate`). If only `r < k` eigenvalues are positive (`λ r = 0`)
+  and `H` has a subspace of dimension `k`, some `k`-dimensional `V` has residual `0`, so the
+  infimum over `k`-dimensional `V` is `0` and attained, and the minimizers are exactly the
   `k`-dimensional `V` containing `span {φ j | λ j > 0}` (no choice of the `φ j` with `λ j = 0` is
   made). Proof: `E ‖(I - P_V)(X - m)‖² = 0` iff `(I - P_V) C = 0`, iff `V` contains the range of
   `C`, which is `span {φ j | λ j > 0}`.
@@ -2477,23 +2688,23 @@ Let `C = centeredCovariance μ X` with an eigen-expansion `(λ, φ)` from 8.2.
   `∑ λ j < ∞`: the law of `z ↦ ∑' j, √(λ j) z j • φ j` (the sum where it exists, `0` elsewhere)
   under `Measure.infinitePi (fun _ ↦ gaussianReal 0 1)`. In Lean it is `gaussianHilbert λ φ`.
 - **Existence and uniqueness** (`isGaussian_gaussianHilbert`,
-  `isProbabilityMeasure_gaussianHilbert`, `eq_gaussianHilbert`; uniqueness of a law on `H` given
-  the laws of all `⟪x, f⟫`: Hsing–Eubank, Thm 7.1.2, p. 177): the series converges a.s.;
-  `gaussianHilbert λ φ` is a probability measure, satisfies Mathlib's `IsGaussian`, is centered and has
-  `covarianceOperator (gaussianHilbert λ φ) = T`; and every centered Gaussian measure on `H` with
-  covariance operator `T` equals it. Proof: the terms with `λ j = 0` vanish and the others are
+  `isProbabilityMeasure_gaussianHilbert`, `eq_gaussianHilbert`; uniqueness of a law on `H` given the
+  laws of all `⟪x, f⟫`: Hsing–Eubank, Thm 7.1.2, p. 177): the series converges a.s.;
+  `gaussianHilbert λ φ` is a probability measure, satisfies Mathlib's `IsGaussian`, is centered and
+  has `covarianceOperator (gaussianHilbert λ φ) = T`; and every centered Gaussian measure on `H`
+  with covariance operator `T` equals it. Proof: the terms with `λ j = 0` vanish and the others are
   orthogonal, so the series has a sum exactly when `∑ λ j z j² < ∞`
   (`OrthogonalFamily.summable_iff_norm_sq_summable`), which holds a.s. because its expectation is
-  `∑ λ j < ∞`; the set where it holds and the sum on it are measurable, so the image measure is
-  a probability measure. The covariance is `∑ λ j ⟪x, φ j⟫ ⟪y, φ j⟫ = ⟪T x, y⟫`. Uniqueness by
+  `∑ λ j < ∞`; the set where it holds and the sum on it are measurable, so the image measure is a
+  probability measure. The covariance is `∑ λ j ⟪x, φ j⟫ ⟪y, φ j⟫ = ⟪T x, y⟫`. Uniqueness by
   `Measure.ext_of_charFunDual`, since a centered Gaussian law is determined by its covariance
   through the characteristic functional `exp (-⟪T x, x⟫/2)`; the second moment of a Gaussian
   measure, which makes its covariance operator meaningful, is Fernique's theorem
   (`IsGaussian.memLp_id`).
-- **Trace criterion.** A positive compact operator is the covariance operator of a centered
-  Gaussian measure iff `nuclearENorm T < ∞`. Proof: a Gaussian measure has a second moment
-  (Fernique), so its covariance has finite trace by 8.1 and 8.2; conversely
-  `∑ λ j = nuclearENorm T < ∞` by 8.2, and `gaussianHilbert λ φ` has covariance `T`.
+- **Trace criterion** (`exists_isGaussian_covarianceOperator_iff`). A positive compact operator `T`
+  is the covariance operator of a centered Gaussian measure iff `nuclearENorm T < ∞`. Proof: a
+  Gaussian measure has a second moment (Fernique), so its covariance has finite trace by 8.1 and
+  8.2; conversely `∑ λ j = nuclearENorm T < ∞` by 8.2, and `gaussianHilbert λ φ` has covariance `T`.
 
 *Needs:* 8.1, 8.2; Mathlib `IsGaussian`, `IsGaussian.memLp_id`, `Measure.ext_of_charFunDual`,
 `Measure.infinitePi`, `OrthogonalFamily.summable_iff_norm_sq_summable`.
@@ -2529,11 +2740,20 @@ For an i.i.d. sequence with `E ‖X 0‖⁴ < ∞`, the empirical covariance
 `Ĉ_n = n⁻¹ ∑_{i<n} (X i - X̄_n) ⊗ (X i - X̄_n)` (a positive operator of rank at most `n - 1`) and
 its approximation numbers `λ̂_j = singularValue Ĉ_n j`. Hsing–Eubank normalize by `(n - 1)⁻¹`;
 the difference is `O(1/n)` in operator norm and does not affect the limits below.
-- **Consistency** (Hsing–Eubank, Thm 8.1.2, pp. 212–213): `Ĉ_n → C` almost surely in
-  Hilbert–Schmidt norm when `E ‖X 0‖² < ∞`, and `√n (Ĉ_n - C)` converges in law in the
-  Hilbert–Schmidt operators to a centered Gaussian element when `E ‖X 0‖⁴ < ∞`; hence
-  `‖Ĉ_n - C‖ = O_P(n^{-1/2})`, and `|λ̂_j - λ_j| ≤ ‖Ĉ_n - C‖` (Hsing–Eubank, Thm 4.2.8, p. 102)
-  is `O_P(n^{-1/2})`.
+- **Consistency** (`fpca_consistency`; Hsing–Eubank, Thm 8.1.2, pp. 212–213, for the first
+  part): `Ĉ_n → C` almost surely in Hilbert–Schmidt norm when `E ‖X 0‖² < ∞` (in Lean, the
+  Hilbert–Schmidt energy in a Hilbert basis `b` tends to `0`); `‖Ĉ_n - C‖ = O_P(n^{-1/2})` when
+  `E ‖X 0‖⁴ < ∞`, in outer probability; and `|λ̂_j - λ_j| ≤ ‖Ĉ_n - C‖` for every `j`, `n` and
+  sample (Hsing–Eubank, Thm 4.2.8, p. 102), which transfers the rate to the eigenvalues. Proof of
+  the rate: `Ĉ_n - C = n⁻¹ ∑ ((X i - m) ⊗ (X i - m) - C) - (X̄_n - m) ⊗ (X̄_n - m)`; the first
+  term has `E ‖·‖²_{HS} ≤ n⁻¹ E ‖X 0 - m‖⁴` (the bound in the proof of Thm 8.1.2, p. 213), the
+  second has `E ‖·‖_{HS} = n⁻¹ E ‖X 0 - m‖²`, and Chebyshev and Markov conclude.
+- **Operator limit** (Hsing–Eubank, Thm 8.1.2, pp. 212–213): when `E ‖X 0‖⁴ < ∞`,
+  `√n (Ĉ_n - C)` converges in law in the Hilbert–Schmidt operators to a centered Gaussian
+  element with covariance operator that of `(X 0 - m) ⊗ (X 0 - m)`. Proof: the Hilbertian
+  central limit theorem (8.5) in the Hilbert space of Hilbert–Schmidt operators, applied to
+  `(X i - m) ⊗ (X i - m) - C`, plus the remainder `√n (X̄_n - m) ⊗ (X̄_n - m) → 0` in
+  probability.
 - **Eigenvalues** (`tendstoInDistribution_fpca_eigenvalue`, Hsing–Eubank, Thm 9.1.3, p. 255, with
   the variance from p. 213): if `λ_j` is positive and simple,
   `√n (λ̂_j - λ_j) ⇝ N(0, Var ⟪X 0 - m, φ_j⟫²)`; for Gaussian `X` the variance is `2 λ_j²`. Proof:
@@ -2542,14 +2762,17 @@ the difference is `O(1/n)` in operator norm and does not affect the limits below
   `η_j = ½ min_{k ≠ j} |λ_j - λ_k|`, so
   `√n (λ̂_j - λ_j) = √n ⟪(Ĉ_n - C) φ_j, φ_j⟫ + o_P(1)`, a scalar average plus `o_P(1)`, and
   Mathlib's central limit theorem.
-- **Eigenfunctions** (Hsing–Eubank, Thm 5.1.8, p. 138, and Thm 9.1.3, p. 255): for any unit
-  eigenvector `φ̂_j` of `Ĉ_n` for `λ̂_j`, signed so that `⟪φ̂_j, φ_j⟫ ≥ 0`,
-  `‖φ̂_j - φ_j‖ = O_P(n^{-1/2})` and
-  `φ̂_j - φ_j = ∑_{k ≠ j} ⟪(Ĉ_n - C) φ_j, φ_k⟫ / (λ_j - λ_k) · φ_k + o_P(n^{-1/2})`, the sum over an
-  eigenbasis including the null space, which converges because the gaps are bounded below.
+- **Eigenfunctions** (`fpca_eigenvector`, Hsing–Eubank, Thm 5.1.8, p. 138, and Thm 9.1.3,
+  p. 255): if `λ_j` is positive and simple, then for any unit eigenvector `φ̂_j` of `Ĉ_n` for
+  `λ̂_j`, signed so that `⟪φ̂_j, φ_j⟫ ≥ 0`, `‖φ̂_j - φ_j‖ = O_P(n^{-1/2})` and
+  `φ̂_j - φ_j = ∑_{k ≠ j} ⟪(Ĉ_n - C) φ_j, φ_k⟫ / (λ_j - λ_k) · φ_k + o_P(n^{-1/2})`, the sum over a
+  Hilbert basis of eigenvectors of `C` including the null space, which converges because the gaps
+  are bounded below; both in outer probability, since the choice of `φ̂_j` need not be
+  measurable. In Lean `φ_j` is the basis vector `b i₀` with eigenvalue `ev i₀ = λ_j`.
 
 *Needs:* 8.1–8.5; Foundations 8.2–8.4; Tau Ceti `abs_singularValues_sub_singularValues_le` for the
-Lipschitz bound in finite rank and `singularValue_eq_iInf_nnnorm_comp_orthogonal` in general.
+Lipschitz bound in finite rank and `singularValue_eq_iInf_nnnorm_comp_orthogonal` in general,
+`hilbertSchmidtEnergy` for the consistency statement.
 
 **Checks.**
 
@@ -2718,12 +2941,14 @@ The locators refer to these editions; page numbers are printed page numbers.
   University Press, 2019.
 - M. P. Wand and M. C. Jones, *Kernel Smoothing*, Chapman and Hall, 1995.
 
-Original papers, cited without a checked page (Kim–Pollard's Lemma 2.6 as quoted in the books):
+Original papers:
 
 - H. Chernoff and I. R. Savage, Asymptotic normality and efficiency of certain nonparametric test
   statistics, *Ann. Math. Statist.* 29 (1958), 972–994.
 - J. Kim and D. Pollard, Cube root asymptotics, *Ann. Statist.* 18 (1990), 191–219.
 - C. J. Stone, Consistent nonparametric regression, *Ann. Statist.* 5 (1977), 595–645.
+- A. K. H. Kim and R. J. Samworth, Global rates of convergence in log-concave density
+  estimation, *Ann. Statist.* 44 (2016), 2756–2779.
 - B. V. Gnedenko and V. S. Korolyuk, On the maximum discrepancy between two empirical
   distributions, *Dokl. Akad. Nauk SSSR* 80 (1951), 525–528.
 - J. L. Hodges and E. L. Lehmann, Estimates of location based on rank tests, *Ann. Math.
