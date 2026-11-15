@@ -14,7 +14,7 @@ Finite rational modular forms and Hecke operators come from **ModularForms**, La
 
 The compact-support cochain construction, its ordinary real-archimedean comparison and the bounded Burns–Flach integral model at 2 are arithmetic targets of §§2.0 and 10.0–10.2. Likewise, Fitting continuity and lifting bounded numbers of relations are supplied below in the exact form needed for the finite-to-infinite argument; no theorem about compatible finite matrices is assumed. Integral invertible-lattice detection over a finite group order is stated separately from agreement at height one.
 
-This roadmap does not prove Leopoldt or Greenberg for arbitrary number fields, does not assume Vandiver, and does not prove a noncommutative main conjecture. The special-value statements here stop at étale cohomology and Iwasawa modules; their algebraic K-theory interpretation is given downstream by SpecialValuesBirchTate, which consumes the cohomological and Iwasawa inputs proved here. Section 12.6 owns the shared exterior-bidual carrier, determinant evaluation, naturality and the rational determinant-integral lattice comparison over finite abelian group rings. It also owns the finite CM modified-unit, order-map and Rubin-lattice core. The downstream EulerSystemsAndKolyvaginSystems §§6.1 and 6.4 consume this core; their finite-projective and Selmer comparisons, contractions, coefficient change and Stark/Euler/Kolyvagin-system theory extend it. A second, Euler-system proof of the rational cyclotomic main conjecture is given downstream by EulerSystemsCyclotomicMainConjecture, which consumes this roadmap; the Eisenstein construction here is a distinct proof interface, and the resulting theorem is shared rather than declared twice.
+This roadmap does not prove Leopoldt or Greenberg for arbitrary number fields, does not assume Vandiver, and does not prove a noncommutative main conjecture. The special-value statements here stop at étale cohomology and Iwasawa modules; their algebraic K-theory interpretation is given downstream by ArithmeticKTheory §7.5, which consumes §§6.0, 10.4–10.5 and 12.3. Section 12.6 owns the shared exterior-bidual carrier, determinant evaluation, naturality and the rational determinant-integral lattice comparison over finite abelian group rings. It also owns the finite CM modified-unit, order-map and Rubin-lattice core. The downstream EulerSystemsAndKolyvaginSystems §§6.1 and 6.4 consume this core; their finite-projective and Selmer comparisons, contractions, coefficient change and Stark/Euler/Kolyvagin-system theory extend it. A second, Euler-system proof of the rational cyclotomic main conjecture is given downstream by EulerSystemsCyclotomicMainConjecture, which consumes this roadmap; the Eisenstein construction here is a distinct proof interface, and the resulting theorem is shared rather than declared twice.
 
 ## Conventions
 
@@ -1807,7 +1807,7 @@ For n=2 prove the finite comparison
 #(ℤ₂(1)⊗A^−)^Γ = |f_F(u⁻¹)|₂⁻¹.
 ```
 
-The series argument is `u⁻¹−1` when f is written in T. Use all finite Tor terms in the two exact sequences before their Euler quotients cancel. The discrete group uses invariants. This is the Iwasawa input to Kolster's `#K₂(O_F)(2)=2^d#(ℤ₂(1)⊗A^−)^Γ`; the K-theory side of that formula is not a target here, and its proof is given downstream by SpecialValuesBirchTate. (Kolster 1989, Theorem 1 and Lemma 2, pp. 249–250.)
+The series argument is `u⁻¹−1` when f is written in T. Use all finite Tor terms in the two exact sequences before their Euler quotients cancel. The discrete group uses invariants. This is the Iwasawa input to Kolster's `#K₂(O_F)(2)=2^d#(ℤ₂(1)⊗A^−)^Γ`; the K-theory side of that formula is not a target here. (Kolster 1989, Theorem 1 and Lemma 2, pp. 249–250.)
 
 **Checks.**
 
@@ -1870,7 +1870,7 @@ At F=ℚ and p=2, `ζ_ℚ(−1)=−1/12` has valuation −2 and `w₂(ℚ)=24` h
 
 ### Dependencies
 
-Layers 0–11; the supplied higher Fitting and exterior-annihilator algebra; finite S-unit and ray reciprocity; Artin formalism and interpolation uniqueness. The special-value statements stop at étale cohomology and the Iwasawa norm-minus class module; their K-theory interpretation is given downstream by SpecialValuesBirchTate.
+Layers 0–11; the supplied higher Fitting and exterior-annihilator algebra; finite S-unit and ray reciprocity; Artin formalism and interpolation uniqueness. The special-value statements stop at étale cohomology and the Iwasawa norm-minus class module; the K-theory interpretation of the Euler characteristics of §12.3 is given downstream by ArithmeticKTheory §7.5.
 
 ## Downstream consumers and comparison boundaries
 
@@ -1890,7 +1890,7 @@ The common domain with AutomorphicGaloisRepresentations §§3.10–3.11, 4.11's 
 
 The exported locator for the rationally split Eisenstein congruence module is §9.1. SerreWeightAndLevelOptimisation §1.3 concerns the finite-flat augmented-algebra congruence module. An identification requires the specialization, augmentation and pairing data specified in §9.1.
 
-**SpecialValuesBirchTate** consumes §§12.3–12.4, including the `2^[F:ℚ]` correction, the order-two descent cokernel, the full characteristic series, and the weight-two compact Euler quotient. **EulerSystemsAndKolyvaginSystems** can consume the finite ray-class Fitting and Rubin–Stark consequence; its broader higher-rank system theory is not needed for the finite exterior-lattice argument above. More general automorphic main conjectures can use the exact Eisenstein and weighted local extension interfaces in Layer 9, retaining their finite-weight, ordinary, level and coefficient hypotheses.
+**ArithmeticKTheory** consumes §§3.1, 6.0, 7.4, 7.7–7.8, 10.4–10.5 and 12.3. Its §7.5 combines the rationality of §6.0 and the odd and dyadic Euler characteristics of §12.3 in weight 2k with its own K-theory comparison to obtain `|ζ_F(1−2k)|` as `2^{r₁}` times the ratio of the orders of `K_{4k−2}(O_F)` and `K_{4k−1}(O_F)`, for every totally real F and k≥1. **EulerSystemsAndKolyvaginSystems** can consume the finite ray-class Fitting and Rubin–Stark consequence; its broader higher-rank system theory is not needed for the finite exterior-lattice argument above. More general automorphic main conjectures can use the exact Eisenstein and weighted local extension interfaces in Layer 9, retaining their finite-weight, ordinary, level and coefficient hypotheses.
 
 ## References
 
