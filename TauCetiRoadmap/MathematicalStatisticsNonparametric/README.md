@@ -438,8 +438,7 @@ Throughout, `P`, `Q` are probability measures on a measurable space `X`.
 - `hellingerAffinity (Ber 1/2) (Ber 1/4) = √(1/8) + √(3/8) = 0.96593`, and
   `hellingerAffinity P P = 1` for every probability measure `P`.
 - `sqHellinger (gaussianReal 0 1) (gaussianReal 1 1) = 2 (1 - e^{-1/8}) = 0.2350`.
-- Bernoulli: `sqHellinger (Ber 1/2) (Ber 1/4) = (√(1/2) - √(1/4))² + (√(1/2) - √(3/4))² = 0.06815`
- .
+- Bernoulli: `sqHellinger (Ber 1/2) (Ber 1/4) = (√(1/2) - √(1/4))² + (√(1/2) - √(3/4))² = 0.06815`.
 - `sqHellinger δ₀ δ₁ = 2`: the affinity is `0`; a halved convention would give `1`.
 
 ### 1.2 The chi-squared divergence
@@ -949,8 +948,8 @@ stated.
 - `mannWhitney` (negative control): at a tie, `x = (0)`, `y = (0)`, the strict count gives
   `U = 0`; van der Vaart's `1{X ≤ Y}` (Example 12.7, p. 166) gives `1`. Ties are null under an
   atomless law, so the moments agree.
-- `kendallTau`: `Var τ̂ = 11/27`, `13/54`, `1/6` for `n = 3, 4, 5`, by enumeration of permutations
- , matching `2(2n + 5)/(9n(n - 1))`.
+- `kendallTau`: `Var τ̂ = 11/27`, `13/54`, `1/6` for `n = 3, 4, 5`, by enumeration of permutations,
+  matching `2(2n + 5)/(9n(n - 1))`.
 - `kendallTau`: for `n ≥ 2`, a sample whose two coordinates are in the same order (all pairs
   concordant) has `τ̂ = 1`.
 - `kendallTau` (negative control): the unnormalized count `K = 3 τ̂` for `n = 3` has variance
@@ -958,8 +957,7 @@ stated.
 - `spearmanRho`: `Var r_s = 1/2`, `1/3`, `1/4` and `E r_s = 0` for `n = 3, 4, 5`, by enumeration
   of permutations, matching `1/(n - 1)`.
 - `spearmanRho`: for `n = 3` with rank vectors `(1, 2, 3)` and `(1, 3, 2)`,
-  `r_s = 1 - 6 · 2/24 = 1/2`, and `sampleCorrelation` of the two rank vectors is `1/2` as well
- .
+  `r_s = 1 - 6 · 2/24 = 1/2`, and `sampleCorrelation` of the two rank vectors is `1/2` as well.
 - `spearmanRho` (negative control): for `n = 3` with reversed ranks, `∑ (R i - S i)² = 8` and
   `r_s = 1 - 48/24 = -1`; the denominator `n³` in place of `n (n² - 1)` would give `-0.778`.
 - `sampleCorrelation`: `sampleCorrelation u u = 1` for every nonconstant `u`.
@@ -1268,8 +1266,8 @@ Mathlib `tendsto_eLpNorm_condExp`.
   sample of size `3` would give `1 - 48/27 = -0.778`, not `-1`; for `n ≤ 1` the
   divisor is `0` and the value is the junk `1`, which the limit never sees.
 - Tests of independence at the bivariate normal law with correlation `ρ = 1/2`:
-  `τ = (2/π) arcsin ρ = 1/3` and `12 E[F_X(X) F_Y(Y)] - 3 = (6/π) arcsin (ρ/2) = 0.48258`
- , both nonzero, so both tests have power tending to `1`.
+  `τ = (2/π) arcsin ρ = 1/3` and `12 E[F_X(X) F_Y(Y)] - 3 = (6/π) arcsin (ρ/2) = 0.48258`, both
+  nonzero, so both tests have power tending to `1`.
 
 ### 4.3 Locally most powerful rank tests are asymptotically optimal
 
@@ -1478,8 +1476,8 @@ for the empirical distribution function); Mathlib `IsBrownianReal`.
 
 - Gnedenko–Korolyuk at `n = 20000`, `x = 1`: `k_n = 200` and the value is `0.729996`, against
   `kolmogorovCdf 1 = 0.730000`.
-- Negative control for the lattice: at `n = 20001`, `k_n = 201` and the value is `0.73529`
- ; the ceiling makes the convergence oscillate at the scale `n^{-1/2}`, so agreement at
+- Negative control for the lattice: at `n = 20001`, `k_n = 201` and the value is `0.73529`; the
+  ceiling makes the convergence oscillate at the scale `n^{-1/2}`, so agreement at
   one `n` is no proof of the rate.
 - DKW bound at `n = 100`: `√(log 202 / 200) + 0.01 = 0.173`, above the limiting mean
   `E sup |B⁰| / √n = √(π/2) log 2 / 10 = 0.087`.
@@ -1677,8 +1675,7 @@ Mathlib
   reference bandwidth.
 - Epanechnikov `¾(1 - u²)₊`: `μ₂ = 1/5`, `R(K) = 3/5`.
 - `isMinOn_amise` with `A = 0.7`, `B = 0.3`, `n = 100`: a numerical minimization gives
-  `h = 0.336051`, against `(B/(A n))^{1/5} = 0.336051`, with minimum `0.0111590` both ways
- .
+  `h = 0.336051`, against `(B/(A n))^{1/5} = 0.336051`, with minimum `0.0111590` both ways.
 
 ### 5.3 Multivariate kernel density estimation and `L¹` consistency
 
@@ -2210,8 +2207,7 @@ nonempty; `metricProj` is `0` where no nearest point exists), and for `y ∈ K` 
   are active at every `y ∈ K`, the face is `K` itself and `faceDim A y = p - 1`, while counting
   active constraints would give `p - 2`.
 - The orthant `ℝ²₊`: `P_K Y = (Y₁⁺, Y₂⁺)`, so `w = (1/4, 1/2, 1/4)`, and
-  `P(χ̄² > 2.706) = ½ P(χ²₁ > 2.706) + ¼ P(χ²₂ > 2.706) = 0.1146`
- .
+  `P(χ̄² > 2.706) = ½ P(χ²₁ > 2.706) + ¼ P(χ²₂ > 2.706) = 0.1146`.
 - `K` a subspace (`A` closed under negation): `w_{dim K} = 1` and the law is `χ²_{dim K}`.
 
 ### 6.6 The detection boundary
