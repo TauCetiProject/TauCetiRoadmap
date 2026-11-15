@@ -577,6 +577,13 @@ roadmap takes from MotivesAndAlgebraicCycles. No file name or tag there treats L
 primitive decompositions or the Lefschetz inverse (Layer 0), the conditional theorems of 1.2–1.4 or
 the comparison of 2.4, and weak and hard Lefschetz are not among the axioms of 0FGV.
 
+A second AxiomMath project on the same library, *The Weil conjectures in Lean* (References), proves
+Poincaré duality for the étale cohomology of smooth projective varieties with ℓ-adic and rational
+coefficients, the skew-symmetry of the cup pairing in odd degrees and the action of Frobenius in top
+degree (`Weil/AlgebraicGeometry/EtaleCohomology/Duality/`, 11 files, labelled by Freitag–Kiehl's
+numbering rather than Stacks tags). These are the Poincaré pairings of 0.5 and the duality axiom of
+2.1 for ℓ-adic cohomology; nothing there concerns the Lefschetz operator.
+
 ## References
 
 All checked on zbMATH.
@@ -601,3 +608,7 @@ All checked on zbMATH.
   c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
   directories `StacksFrontier/AlgebraicGeometry/WeilCohomology`.
   https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier
+- AxiomMath, *The Weil conjectures in Lean*. Lean 4 formalization at commit
+  27cdb2049be62ee2911429b47f54774078450e32, built on the Stacks Project in Lean; directory
+  `Weil/AlgebraicGeometry/EtaleCohomology/Duality`.
+  https://github.com/AxiomMath/Weil/tree/27cdb2049be62ee2911429b47f54774078450e32/Weil
