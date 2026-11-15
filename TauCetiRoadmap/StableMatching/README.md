@@ -18,8 +18,9 @@ acceptance algorithm (1.1) and every theorem of Layers 1–3. Matchings are Math
 equivalences. No roadmap on `main` defines stable matchings, and nothing is taken from another
 roadmap.
 
-Not in this roadmap: weak preferences, the many-to-one college admissions model, matching with
-contracts and the roommates problem; they are recorded in the Research context.
+Not in this roadmap: weak preferences, which the injectivity of the rank functions excludes; and
+the many-to-one college admissions model, matching with contracts and the roommates problem, which
+are recorded in the Research context.
 
 ## Conventions
 
@@ -91,8 +92,8 @@ its role swap.
 - The role swap of the 2 × 2 market above has men `w₁: m₂ > m₁`, `w₂: m₁ > m₂` and women
   `m₁: w₁ > w₂`, `m₂: w₂ > w₁`; its stable matchings are `(w₁, m₁), (w₂, m₂)` and
   `(w₁, m₂), (w₂, m₁)`, the inverses of the two above. Deferred acceptance on the swap returns
-  `(w₁, m₂), (w₂, m₁)`, each woman's first choice; taking the inverse of the men-proposing outcome
-  instead would give `(w₁, m₁), (w₂, m₂)`, each woman's second choice.
+  `(w₁, m₂), (w₂, m₁)`, which gives `w₁` and `w₂` their first choices; taking the inverse of the
+  men-proposing outcome instead would give `(w₁, m₁), (w₂, m₂)`, their second choices.
 
 ### 0.2 Changing one agent's stated preferences
 
