@@ -7530,10 +7530,11 @@ with connected nonempty locally Noetherian based `π₁` and no coefficient-inve
 
 ## Downstream consumers
 
-The étale path groupoid, tame tangential base points and the arithmetic exact sequence of Layers
-IG.0–IG.1 are the starting point of the anabelian and nonabelian Chabauty roadmap
-(AnabelianGeometryAndNonabelianChabauty) and of arithmetic dynamics (ArithmeticDynamics). The
-integral thin-set count of Layer IG.2 is used by the sieve roadmaps; the finite Hurwitz cohomology and trace
+The tame tangential fibre functors of Layer IG.1, which rest on the étale fundamental groupoid and
+the arithmetic exact sequence of EtaleCohomologyFoundations §§F.0.2 and F.0.A2, are used by the
+anabelian and nonabelian Chabauty roadmap (AnabelianGeometryAndNonabelianChabauty). Hilbert
+irreducibility (Layer IG.2) is used by arithmetic dynamics (ArithmeticDynamics), and the
+integral thin-set count of Layer IG.2 by the sieve roadmaps; the finite Hurwitz cohomology and trace
 statements of Layers IG.0 and IG.5 by the roadmap on weights; and the lifting invariants and Hurwitz component counts of Layers
 IG.3–IG.5 by arithmetic statistics (Cohen–Lenstra and nonabelian Cohen–Lenstra heuristics).
 
