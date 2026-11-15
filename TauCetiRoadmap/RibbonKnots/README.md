@@ -14,11 +14,13 @@ concordance (1.5) and Lisca's theorem that a smoothly slice two-bridge knot is r
 
 ## Scope and ownership
 
-Owned here: the ribbon disc and the ribbon knot (0.1), the ribbon concordance relation and its
+Owned here: the ribbon disc, the ribbon knot and the ribbon immersion of a disc, with the push-in
+of a ribbon-immersed disc to a ribbon disc (0.1), the ribbon concordance relation and its
 order properties (1.1–1.4) with the inputs of Agol's proof stated in 1.3 and 1.4 (among them the
 handle structure of the exterior of a ribbon concordance and the Gerstenhaber–Rothaus theorems),
-Zemke's injectivity theorem (1.5), and Lisca's theorem with the plumbing and branched-cover steps
-of its proof (2.1).
+Zemke's injectivity theorem (1.5), and Lisca's theorem with his set `R`, his theorem on lens
+spaces bounding rational homology balls and the plumbing and branched-cover steps of its proof
+(2.1).
 
 Not owned here:
 
@@ -69,6 +71,7 @@ Not owned here:
 
 - `Metric.closedBall`, `Metric.ball`, `Metric.sphere`, `EuclideanSpace ℝ (Fin 4)`, `fderiv`,
   `Circle.exp`, `ContinuousMap`, `FundamentalGroup` and `FundamentalGroup.map`.
+- `Manifold.IsImmersion` and `unitInterval`.
 - `Group.ResiduallyFinite`, `Matrix.specialOrthogonalGroup`, `MonoidHom.comp` and
   `MvPolynomial.eval`.
 
@@ -132,7 +135,7 @@ What HeegaardFloer must provide (gap:link-floer-two-knot): for a smooth 2-knot `
 dividing curve, `F_{S⁴,S} : 𝔽₂ → 𝔽₂` is an isomorphism (Zemke 2019, Lemma 2.3).
 
 What HeegaardFloer must provide (gap:hfk-genus-detection): `g₃(K) = max{j : HFK̂(K, j) ≠ 0}`
-(Ozsváth–Szabó, Theorem 1.2, as recalled in Zemke 2019, §1).
+(Ozsváth–Szabó 2004, Theorem 1.2, as recalled in Zemke 2019, §1).
 
 ### From TauCetiRoadmap.FourManifolds
 
@@ -144,16 +147,17 @@ group, is diagonal (the theorem Lisca 2007, §1, cites as [4]).
 
 ## How to read the build
 
-Layer 0 defines ribbon discs and ribbon knots from Tau Ceti's slice discs and Morse indices.
-Layer 1 defines ribbon concordance on Tau Ceti's concordances, compares it with Layer 0's ribbon
-discs, proves that it is reflexive and transitive, proves the handle structure of the exterior of
-a ribbon concordance, the Gerstenhaber–Rothaus theorems and, from them, Gordon's lemma on
-fundamental groups, then the extension of representations, a lemma of real algebraic geometry and
-Agol's antisymmetry, which also uses GeometricTopology's knot exteriors, Waldhausen's theorem and
-the residual finiteness of knot groups; its last target, the monotonicity of genus and Alexander
-degree, needs GeometricTopology and HeegaardFloer. Layer 2 states Lisca's theorem on
-GeometricTopology's two-bridge knots; its proof uses Tau Ceti's lens spaces and plumbing graphs and
-FourManifolds' Donaldson theorem.
+Layer 0 defines ribbon discs and ribbon knots from Tau Ceti's slice discs and Morse indices, and
+ribbon immersions of the disc, whose boundaries it proves ribbon. Layer 1 defines ribbon concordance
+on Tau Ceti's concordances, compares it with Layer 0's ribbon discs, proves that it is reflexive and
+transitive, proves the handle structure of the exterior of a ribbon concordance, the
+Gerstenhaber–Rothaus theorems and, from them, Gordon's lemma on fundamental groups, then the
+extension of representations, a lemma of real algebraic geometry and Agol's antisymmetry, which also
+uses GeometricTopology's knot exteriors, Waldhausen's theorem and the residual finiteness of knot
+groups; its last target, the monotonicity of genus and Alexander degree, needs GeometricTopology and
+HeegaardFloer. Layer 2 states Lisca's theorem on GeometricTopology's two-bridge knots, with his
+theorem on lens spaces bounding rational homology balls; its proof uses Tau Ceti's lens spaces and
+plumbing graphs and FourManifolds' Donaldson theorem.
 
 ## Layer 0: ribbon discs
 
@@ -169,8 +173,24 @@ parametrization and under linear isometries of `E` (by the arguments of
 `TauCeti.isSmoothlySlice_rotate_iff`, `TauCeti.isSmoothlySlice_reverse_iff` and
 `TauCeti.isSmoothlySlice_congr_linearIsometryEquiv`).
 
+Define a ribbon immersion of the disc in `Sⁿ` (`IsRibbonImmersion n g`; for `S³`, the ribbon
+immersions of Lisca 2007, Theorem 1.2 (2)): a smooth immersion `g` of the closed unit disc of `ℂ`
+into `Sⁿ` (`Manifold.IsImmersion`, for the half-space charts of the disc) whose double points form
+finitely many pairs of arcs. There are injective paths `α₁, …, α_m` in the open disc and
+`β₁, …, β_m` in the closed disc, each `β_i` meeting the boundary circle exactly at its two
+endpoints, the `2m` paths having pairwise disjoint images, such that `g (α_i t) = g (β_i t)` for
+all `i` and `t`, and every pair of distinct points of the disc with the same image under `g` is
+`{α_i t, β_i t}` for some `i` and `t`. In particular `g` is injective on the boundary circle, and
+its double points in `Sⁿ` form `m` disjoint arcs. Prove that a knot `K` bounding a ribbon-immersed
+disc, that is, equal to `g` on the boundary circle for such a `g`, is ribbon
+(`isRibbon_of_isRibbonImmersion`): push the interior of the disc radially into the ball, deeper
+along the interior arcs `α_i`, which gives a smoothly embedded disc, and choose the push so that
+the radial function on it is a Morse function with only critical points of index `0` and `1`
+(Lisca 2007, §1, and §9, proof of Theorem 1.2).
+
 *Needs:* `TauCeti.IsSmoothSliceDisc`, `TauCeti.IsSmoothlySlice`,
-`TauCeti.HasNondegenerateCriticalPointsOn`, `TauCeti.morseIndex`.
+`TauCeti.HasNondegenerateCriticalPointsOn`, `TauCeti.morseIndex`, `Manifold.IsImmersion`,
+`unitInterval`.
 
 **Checks.**
 
@@ -186,6 +206,20 @@ parametrization and under linear isometries of `E` (by the arguments of
 - `radialFunction Φ₀` attains its maximum `1` on the boundary circle. Since the condition is
   asked on the open disc only, this does not count; a definition on the closed disc would make
   every disc fail.
+- In `S³ ⊂ ℂ ⊕ ℝ²`, the cap `g₀ z = (z/2, √(1 − |z|²/4), 0)` is an embedding, so a ribbon
+  immersion with `m = 0`, bounded by the unknot `z ↦ (z/2, √3/2, 0)` of the second Check. Pushed
+  in by the depth `d z = (1 − |z|²)/2`, it becomes `Φ z = (1 − d z) g₀ z`, with squared radial
+  function `((1 + |z|²)/2)²`, whose derivative in `|z|²` is `(1 + |z|²)/2 > 0`: one critical
+  point, `0`, with Hessian `id` and index `0`, so `Φ` is a ribbon disc. This excludes a definition
+  of ribbon immersion asking for at least one pair of arcs.
+- At an endpoint `β_i 0` on the boundary circle the depth is `0`, while `α_i 0`, with the same
+  image, lies in the open disc, where the depth is positive. So the interior arcs, and only they,
+  are pushed deeper; a reading that may push either sheet deeper is excluded.
+- The trefoil `K(3, 1)` becomes the unknot after one crossing change, so it bounds an immersed
+  disc whose only singularity is one clasp, an arc of double points whose two preimage arcs each
+  have exactly one endpoint on the boundary circle. The trefoil is not slice (2.1, first Check),
+  so the condition that `β_i` meets the boundary circle at both endpoints and `α_i` not at all
+  cannot be weakened to admit clasps.
 
 ### Examples
 
@@ -379,13 +413,26 @@ For coprime `p > q > 0` with `p` odd, the two-bridge knot `K(p, q)` is ribbon if
 is smoothly slice, if and only if the lens space `L(p, q)` smoothly bounds a rational homology
 ball (Lisca 2007, Corollary 1.3, from Theorem 1.2 through Donaldson's diagonalization theorem).
 Prove on the way that the double cover of `B⁴` branched along a slice disc of `K(p, q)`, `p` odd,
-is a smooth rational homology ball bounded by `L(p, q)` (Lisca 2007, §1). State as targets: for
-`p/q = [a₁, …, a_n]⁻` with every `a_i ≥ 2`, the linear plumbing `P(p, q)` of disc bundles over
-`S²` with Euler numbers `−a₁, …, −a_n` is a smooth compact negative-definite four-manifold bounded
-by `L(p, q)`, whose intersection lattice is that of `TauCeti.PlumbingGraph` on the weighted chain
-(Lisca 2007, §9); and, for `p/q ∈ R` with `p` odd, `K(p, q)` bounds a ribbon-immersed disc
-(Lisca 2007, §8). Not statable at the pins: Tau Ceti has no two-bridge knot as a smooth circle
-embedding, no branched cover and no plumbing of disc bundles as a four-manifold.
+is a smooth rational homology ball bounded by `L(p, q)` (Lisca 2007, §1).
+
+Let `R` be the smallest set of fractions `p/q`, `p > q > 0` coprime, that is closed under
+`p/q ↦ p/(p − q)` and `p/q ↦ p/q′` (`0 < q′ < p`, `q q′ ≡ 1 mod p`) and contains every `m²/q` with
+`0 < q < m²`, `q` coprime to `m` and of one of three types: (1) `q = mk ± 1` with `0 < k < m` and
+`gcd(m, k) = 1`; (2) `q = d(m ± 1)` with `d > 1` dividing `2m ∓ 1`; (3) `q = d(m ± 1)` with
+`d > 1` odd dividing `m ± 1` (Lisca 2007, Definition 1.1). Prove that for coprime `p > q > 0` the
+lens space `L(p, q)` smoothly bounds a rational homology ball if and only if `p/q ∈ R` (Lisca
+2007, Theorem 1.2): gluing the ball to `P(p, q)` and to `P(p, p − q)` gives closed
+negative-definite four-manifolds, whose diagonal lattices contain the two plumbing lattices, and
+the pairs of such embeddings are classified (Lisca 2007, §§2–7 and §9).
+
+State as targets: for `p/q = [a₁, …, a_n]⁻` with every `a_i ≥ 2`, the linear plumbing `P(p, q)` of
+disc bundles over `S²` with Euler numbers `−a₁, …, −a_n` is a smooth compact negative-definite
+four-manifold bounded by `L(p, q)`, whose intersection lattice is that of `TauCeti.PlumbingGraph` on
+the weighted chain (Lisca 2007, §9); and, for `p/q ∈ R` with `p` odd, `K(p, q)` bounds a
+ribbon-immersed disc (Lisca 2007, §8), hence is ribbon by 0.1. Not statable at the pins: Tau Ceti
+has no two-bridge knot as a smooth circle embedding, no branched cover and no plumbing of disc
+bundles as a four-manifold, and Mathlib has no manifold structure on the boundary of a manifold with
+boundary, in which `L(p, q)` would be identified with the boundary of the ball.
 
 *Needs:* 0.1; GeometricTopology 4.10 and 4.4 (the determinant); the lens spaces of
 `TauCeti/Geometry/Manifold/Instances/LensSpace.lean`; `TauCeti.PlumbingGraph`,
@@ -422,15 +469,16 @@ None known: no roadmap on `main` cites RibbonKnots.
 
 ## Research context
 
-The slice–ribbon conjecture asks whether every smoothly slice knot is ribbon (Fox 1962, in the
-form of Livingston 2005, §10, Problem 1). It is open. Lisca's theorem (2.1) settles it for
-two-bridge knots. Gompf, Scharlemann and Thompson (2010) give fibered slice knots that are
-potential counterexamples. Dunfield and Gong (2025) determine smooth sliceness for all but about
-11,400 of the 352.2 million prime knots with at most nineteen crossings, and every smoothly slice
-knot they find is ribbon. By an observation of Casson, every slice knot becomes ribbon after
-connected sum with a suitably chosen ribbon knot (Livingston 2005, §2.1). In the topological
-category the corresponding question is whether every slice knot is homotopy ribbon, and Friedl
-and Powell (2020) extend Gordon's degree bound (1.5) to homotopy ribbon concordance.
+The slice–ribbon conjecture asks whether every smoothly slice knot is ribbon (Fox 1962, in the form
+of Livingston 2005, §10, Problem 1). It is open. Lisca's theorem (2.1) settles it for two-bridge
+knots. Gompf, Scharlemann and Thompson (2010) obtain slice knots with no known ribbon disc by
+banding together the two components of slice links that contain the square knot. Dunfield and Gong
+(2025) determine smooth sliceness for all but about 11,400 of the 352.2 million prime knots with at
+most nineteen crossings, and every smoothly slice knot they find is ribbon. By an observation of
+Casson, every slice knot becomes ribbon after connected sum with a suitably chosen ribbon knot
+(Livingston 2005, §2.1). In the topological category the corresponding question is whether every
+slice knot is homotopy ribbon, and Friedl and Powell (2020) extend Gordon's degree bound (1.5) to
+homotopy ribbon concordance.
 
 ## References
 
@@ -456,6 +504,8 @@ and Powell (2020) extend Gordon's degree bound (1.5) to homotopy ribbon concorda
   doi:10.1515/9781400882083-018.
 - P. Lisca, *Lens spaces, rational balls and the ribbon conjecture*, Geom. Topol. 11 (2007),
   429–472; doi:10.2140/gt.2007.11.429; arXiv:math/0701610.
+- P. Ozsváth, Z. Szabó, *Holomorphic disks and genus bounds*, Geom. Topol. 8 (2004), 311–334;
+  doi:10.2140/gt.2004.8.311; arXiv:math/0311496.
 - C. Livingston, *A survey of classical knot concordance*, in *Handbook of Knot Theory*,
   Elsevier (2005), 319–347; doi:10.1016/B978-044451452-3/50008-3; arXiv:math/0307077.
 - I. Zemke, *Knot Floer homology obstructs ribbon concordance*, Ann. of Math. (2) 190 (2019),

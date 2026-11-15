@@ -12,11 +12,12 @@ public import TauCeti.KnotTheory.Slice.Basic
 
 The roadmap is `README.md`. This file states the roadmap's headline theorems against the pinned
 Mathlib and Tau Ceti, each with `sorry`, with only the definitions they need: the radial function
-of a slice disc and the time function of a concordance, read on the plane, and the two ribbon
-conditions on them.
+of a slice disc and the time function of a concordance, read on the plane, the two ribbon
+conditions on them, and the ribbon immersions of the disc.
 
 Headlines stated:
 
+* README 0.1, `isRibbon_of_isRibbonImmersion`: a knot bounding a ribbon-immersed disc is ribbon;
 * README 1.1, `isRibbon_iff_ribbonLE_unknot`: a knot is ribbon iff the unknot is ribbon
   concordant to it;
 * README 1.2, `RibbonLE.trans`: ribbon concordance is transitive;
@@ -33,9 +34,13 @@ Not stated:
   degree of the Alexander polynomial, lacking HeegaardFloer 7.6's knot Floer homology with its
   link cobordism maps, GeometricTopology 4.3's Seifert genus and GeometricTopology 4.4's Alexander
   polynomial of a smooth circle embedding;
-* README 2.1, Lisca's theorem, the plumbing bounded by a lens space and the branched double cover
-  of a slice disc, lacking GeometricTopology 4.10's two-bridge knots as smooth circle embeddings,
-  a plumbing of disc bundles as a four-manifold and a branched cover of the four-ball.
+* README 2.1, Lisca's theorem, the plumbing bounded by a lens space, the branched double cover
+  of a slice disc and the ribbon-immersed discs of the knots `K(p, q)`, lacking
+  GeometricTopology 4.10's two-bridge knots as smooth circle embeddings, a plumbing of disc bundles
+  as a four-manifold and a branched cover of the four-ball;
+* README 2.1, Lisca's theorem that `L(p, q)` smoothly bounds a rational homology ball iff
+  `p/q ∈ R`, lacking a manifold structure on the boundary of a manifold with boundary, in which
+  `TauCeti.LensSpace` would be identified with the boundary of the ball.
 -/
 
 public section
@@ -78,6 +83,34 @@ structure IsRibbonDisc (K : SmoothCircleEmbedding (𝓡 n) (sphere (0 : E) 1))
 /-- A knot is **ribbon** when it bounds a ribbon disc (README 0.1). -/
 def IsRibbon (K : SmoothCircleEmbedding (𝓡 n) (sphere (0 : E) 1)) : Prop :=
   ∃ Φ : closedBall (0 : ℂ) 1 → closedBall (0 : E) 1, IsRibbonDisc K Φ
+
+variable (n) in
+/-- A **ribbon immersion** of the closed unit disc of `ℂ` in the unit sphere of `E` (README 0.1):
+a smooth immersion whose double points form finitely many pairs of arcs, the injective paths
+`α i` in the open disc and `β i` meeting the boundary circle exactly at their endpoints, with
+pairwise disjoint images, `g` identifying `α i t` with `β i t` and no other pair of points. The
+dimension `n` of the sphere is explicit, since `g` does not determine it. -/
+structure IsRibbonImmersion (g : closedBall (0 : ℂ) 1 → sphere (0 : E) 1) : Prop where
+  /-- The map is a smooth immersion of manifolds, the disc with its half-space charts. -/
+  isImmersion : IsImmersion (𝓡∂ 2) (𝓡 n) ∞ g
+  /-- The double points of `g` form finitely many pairs of arcs `α i`, `β i`. -/
+  exists_arcs : ∃ (m : ℕ) (α β : Fin m → C(unitInterval, closedBall (0 : ℂ) 1)),
+    (∀ i, Function.Injective (α i)) ∧ (∀ i, Function.Injective (β i)) ∧
+    (∀ i t, (α i t : ℂ) ∈ ball (0 : ℂ) 1) ∧
+    (∀ i t, (β i t : ℂ) ∈ sphere (0 : ℂ) 1 ↔ t = 0 ∨ t = 1) ∧
+    (∀ i j, Disjoint (range (α i)) (range (β j))) ∧
+    Pairwise (fun i j ↦ Disjoint (range (α i)) (range (α j))) ∧
+    Pairwise (fun i j ↦ Disjoint (range (β i)) (range (β j))) ∧
+    (∀ i t, g (α i t) = g (β i t)) ∧
+    ∀ z w, z ≠ w → g z = g w →
+      ∃ i t, (z = α i t ∧ w = β i t) ∨ (z = β i t ∧ w = α i t)
+
+/-- A knot bounding a ribbon-immersed disc is ribbon: push the interior of the disc radially into
+the ball, deeper along the interior arcs (README 0.1, after Lisca 2007, §1 and §9). -/
+theorem isRibbon_of_isRibbonImmersion {K : SmoothCircleEmbedding (𝓡 n) (sphere (0 : E) 1)}
+    {g : closedBall (0 : ℂ) 1 → sphere (0 : E) 1} (hg : IsRibbonImmersion n g)
+    (hK : ∀ z : Circle, g (Set.inclusion sphere_subset_closedBall z) = K z) : IsRibbon K := by
+  sorry
 
 end Disc
 
