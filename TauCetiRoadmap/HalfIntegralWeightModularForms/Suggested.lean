@@ -8,10 +8,10 @@ import Mathlib
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti APIs, using simple definitions on native
 carriers. The headlines stated here are finite-dimensionality, Cohen's level-four dimension
-formulas, the Shimura–Niwa–Cipra theorem with nebentypus, Dedekind reciprocity and the
-eta transformation formulas, the theta eta quotient, even and odd unary-theta modularity, both
-Serre–Stark basis theorems, the two unary eta identities, Kohnen's lift `Sh_D⁺` for every
-fundamental discriminant, and the dimension consequence of Kohnen's correspondence.
+formulas, the Shimura–Niwa–Cipra theorem with nebentypus, the theta eta quotient, even and
+odd unary-theta modularity, both Serre–Stark basis theorems, the two unary eta identities,
+Kohnen's lift `Sh_D⁺` for every fundamental discriminant, and the dimension consequence of
+Kohnen's correspondence.
 
 The following headlines are not statable with these definitions at the pins. Shimura's
 Euler product, the Hecke equivariance of the lift and the Shimura decomposition lack the
@@ -279,45 +279,9 @@ theorem shimuraNiwaCipra {N : ℕ} [NeZero N] (hN : 4 ∣ N) {k : ℕ} (hk : 1 �
 
 end HalfIntegralForm
 
-/-! ## Layer 3: the `η` multiplier system -/
+/-! ## Layer 3: multiplier systems; `θ`, `η` and eta quotients -/
 
 section Eta
-
-/-- **3.3**, the sawtooth function `((x)) = x − ⌊x⌋ − 1/2` for `x ∉ ℤ`, and `0` for `x ∈ ℤ`. -/
-def sawtooth (x : ℚ) : ℚ := if x = ⌊x⌋ then 0 else Int.fract x - 1 / 2
-
-/-- **3.3, Dedekind sums** `s(h, c) = ∑_{r=1}^{c−1} ((r/c))((hr/c))`; `0` for `c ≤ 1`. -/
-def dedekindSum (h c : ℤ) : ℚ :=
-  ∑ r ∈ Finset.Ico 1 c, sawtooth (r / c) * sawtooth (h * r / c)
-
-/-- **3.3**, reciprocity (Apostol, Theorem 3.7), proved here through the `η` transformation. -/
-theorem dedekindSum_reciprocity {h c : ℤ} (hh : 0 < h) (hc : 0 < c) (hcop : IsCoprime h c) :
-    dedekindSum h c + dedekindSum c h = ((h : ℚ) ^ 2 + c ^ 2 + 1) / (12 * h * c) - 1 / 4 := sorry
-
-/-- **3.3, Apostol's form** (Theorem 3.4):
-`η(γz) = e((a + d)/(24c) − s(d, c)/2) (−i(cz + d))^{1/2} η(z)` for `c > 0`. -/
-theorem eta_smul_eq_dedekind (γ : SL(2, ℤ)) (hc : 0 < γ 1 0) (z : ℍ) :
-    ModularForm.eta ((γ • z : ℍ) : ℂ) =
-      cexp (2 * π * I * ((((γ 0 0 + γ 1 1 : ℤ) : ℂ) / (24 * ((γ 1 0 : ℤ) : ℂ)))
-          - (dedekindSum (γ 1 1) (γ 1 0) : ℂ) / 2))
-        * (-I * denomZ γ z) ^ ((1 : ℂ) / 2) * ModularForm.eta z := sorry
-
-/-- **3.3, the Rademacher–Knopp closed form**, odd `c`: `η(γz) = ν_η(γ) (cz + d)^{1/2} η(z)` with
-`ν_η(γ) = (d/c) e(((a + d)c − bd(c² − 1) − 3c)/24)`. For odd `c > 0` the Kronecker symbol `(d/c)`
-is Mathlib's `jacobiSym d c`. -/
-theorem eta_smul_eq_of_odd (γ : SL(2, ℤ)) (hc : 0 < γ 1 0) (hodd : Odd (γ 1 0)) (z : ℍ) :
-    ModularForm.eta ((γ • z : ℍ) : ℂ) = (jacobiSym (γ 1 1) (γ 1 0).toNat : ℂ) *
-      cexp (2 * π * I * ((((γ 0 0 + γ 1 1) * γ 1 0 - γ 0 1 * γ 1 1 * ((γ 1 0) ^ 2 - 1)
-        - 3 * γ 1 0 : ℤ) : ℂ) / 24)) * (denomZ γ z) ^ ((1 : ℂ) / 2) * ModularForm.eta z := sorry
-
-/-- **3.3, the Rademacher–Knopp closed form**, even `c`: `η(γz) = ν_η(γ) (cz + d)^{1/2} η(z)` with
-`ν_η(γ) = (c/d) e(((a + d)c − bd(c² − 1) + 3d − 3 − 3cd)/24)`. For even `c > 0` the entry `d` is
-odd and the Kronecker symbol `(c/d)` is `jacobiSym c |d|`, since `(c/−1) = 1` for `c > 0`. -/
-theorem eta_smul_eq_of_even (γ : SL(2, ℤ)) (hc : 0 < γ 1 0) (heven : Even (γ 1 0)) (z : ℍ) :
-    ModularForm.eta ((γ • z : ℍ) : ℂ) = (jacobiSym (γ 1 0) (γ 1 1).natAbs : ℂ) *
-      cexp (2 * π * I * ((((γ 0 0 + γ 1 1) * γ 1 0 - γ 0 1 * γ 1 1 * ((γ 1 0) ^ 2 - 1)
-        + 3 * γ 1 1 - 3 - 3 * γ 1 0 * γ 1 1 : ℤ) : ℂ) / 24)) * (denomZ γ z) ^ ((1 : ℂ) / 2) *
-      ModularForm.eta z := sorry
 
 /-- **3.4, the first knowl identity** `θ(z) = η(2z)⁵ / (η(z)² η(4z)²)`. -/
 theorem theta_eq_eta_quotient (z : ℍ) :

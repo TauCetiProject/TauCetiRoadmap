@@ -52,11 +52,11 @@ those proofs are targets of the sections that use them, except for the named sup
 - The theta series of an even positive definite lattice of **odd** rank as a form of weight `n/2`
   on `Γ₀(level L)` with character `(2 det L / ·)`, the coset series on `Γ(level L)`, and the
   reading of the LMFDB column `lat_lattices.theta_series` in odd rank (Layer 2).
-- The real-weight modulus condition on AutomorphicBundles' scalar factors, the `θ` multiplier system, Dedekind sums with their
-  reciprocity law, the Dedekind-sum and Kronecker-symbol closed forms of the consumed `η`
-  multiplier and its packaging as a multiplier system of weight `1/2`, and eta quotients of
-  half-integral weight with their level, order at the cusps and character, as the
-  `mf.half_integral_weight.*` knowls write `θ` and `η` (Layer 3).
+- The real-weight modulus condition on AutomorphicBundles' scalar factors, the `θ` multiplier
+  system, the packaging of the consumed `η` multiplier as a multiplier system of weight `1/2`,
+  and eta quotients of half-integral weight with their level and their character measured
+  against the theta multiplier, as the `mf.half_integral_weight.*` knowls write `θ` and `η`
+  (Layer 3).
 - The unary theta series `θ_{ψ,t}` of weight `1/2` and `h_{ψ,t}` of weight `3/2` (the latter built
   on QSeriesPartitionsAndMockModularForms' unary theta characteristics), their Dirichlet-character
   modularity, the
@@ -84,8 +84,9 @@ those proofs are targets of the sections that use them, except for the named sup
 - From Mathlib: `jacobiTheta` and `jacobiTheta₂` with their functional equations (the odd-rank
   `S`-law of rank one, which the theta-series roadmap deliberately consumes only through its
   square, is consumed here directly, in 4.1); `ModularForm.eta` and `eta_ne_zero` (Mathlib has
-  the function and its inversion law `ModularForm.eta_comp_eq_csqrt_I_inv`,
-  QSeriesPartitionsAndMockModularForms §5.2 its multiplier, 3.3 the closed forms);
+  the function and its inversion law `ModularForm.eta_comp_eq_csqrt_I_inv`, the modular-forms
+  roadmap §0.2 its transformation under `SL₂(ℤ)` with the closed forms,
+  QSeriesPartitionsAndMockModularForms §5.2 its multiplier system);
   `ModularForm`, `CuspForm` and `qExpansion` as the targets of every integral-weight statement;
   `jacobiSym`, `ZMod.χ₄`, `ZMod.χ₈`; `LSeries`.
 - From Tau Ceti: `diamondOpHom`, `modFormCharSpace`, `cuspFormCharSpace` and
@@ -101,8 +102,12 @@ those proofs are targets of the sections that use them, except for the named sup
   equivariance), *Layer 3* (Petersson adjoints), *Layer 4* (newforms, the `F` of 4.7), *Layer 7*
   (`L(s, f)`, its functional equation and root number `ε(f)`, used by 5.5–5.6 and 6.4), *Layer 8*
   and *8G* (`CoefficientField`, `CharacterField`, the `ℚ(χ)`-structure of a newspace, used by 4.7),
-  and its worked example `η²⁴ = Δ` (the `SL₂(ℤ)` transformation of `η` as an integral-weight fact,
-  from which QSeriesPartitionsAndMockModularForms §5.2 builds the multiplier 3.3 consumes).
+  and *§0.2* (the law `η(γz) = ε(γ)(cz + d)^{1/2} η(z)` on `ℍ` with the principal root and a
+  constant `ε(γ)` with `ε(γ)²⁴ = 1`, `ε(T) = e(1/24)`, `ε(S) = e(−1/8)`; Dedekind sums `s(d, c)`
+  with their reciprocity law; the Dedekind-sum and Kronecker-symbol values of `ε(γ)` for `c > 0`;
+  the eta-quotient criterion in integral weight, with its worked example `η²⁴ = Δ`, and the
+  orders of an eta quotient at the cusps of `Γ₀(N)` for every exponent vector; used by 3.3 and
+  3.4).
 - From the [theta-series roadmap](../ThetaSeries/README.md): its carrier (a full `ℤ`-lattice
   `L : Submodule ℤ E` in a real inner product space), `IsEven`, `IsIntegral`, `det`, `level`,
   `repNum`, `discGroup` (*Layer 2*); `thetaSeries`, `thetaCoset`, `thetaCoset_add_mem`,
@@ -140,9 +145,10 @@ those proofs are targets of the sections that use them, except for the named sup
   spectral objects, not the holomorphic objects of Layers 1 and 5.
 - From the [q-series, partition statistics and mock modular forms roadmap](../QSeriesPartitionsAndMockModularForms/README.md):
   *§5.2* (the eta multiplier `ν_η(γ) = η(γz)/((cz + d)^{1/2} η(z))` on `SL₂(ℤ)`, principal root,
-  its independence of `z`, `ν_η(T) = e(1/24)`, `ν_η(S) = e(−1/8)`, the law
-  `η(γz) = ν_η(γ)(cz + d)^{1/2} η(z)`, its square-root cocycle and the lifted character on the
-  square-root cover; 3.3 proves its closed forms); *§6.1* (the unary theta characteristic
+  which is the modular-forms roadmap §0.2's `ε(γ)`, with its square-root cocycle and the lifted
+  character on the square-root cover; the law `η(γz) = ν_η(γ)(cz + d)^{1/2} η(z)`, the
+  independence of `z`, the values `ν_η(T) = e(1/24)`, `ν_η(S) = e(−1/8)` and the closed forms
+  are §0.2's); *§6.1* (the unary theta characteristic
   `g(a, b; τ) = ∑_{ν ∈ a + ℤ} ν exp(πiν²τ + 2πiνb)` with its shift, `T`- and `S`-laws and its
   cuspidality at rational characteristics; 4.1 builds `h_{ψ,t}` from it); *§9.1* (the classical
   theta-component coordinates `θ_{m,μ}(τ, z) = ∑_{r ≡ μ (2m)} e(r²τ/(4m) + rz)`, their
@@ -170,7 +176,11 @@ those proofs are targets of the sections that use them, except for the named sup
   formula, the weight-`1/2` spectral theory, and the Jacobi group, `jacobiSpace` and the theta
   decomposition of Jacobi forms in general: MetaplecticAutomorphicForms. 6.2 states the laws of the
   scalar components of that decomposition on `Γ(4m)` and does not build the Weil representation.
-- The eta multiplier `ν_η` as a definition, with its `S`- and `T`-values and its cocycle, the unary
+- The transformation of `η` under `SL₂(ℤ)` with its constant `ε(γ)`, Dedekind sums with their
+  reciprocity law, the Dedekind-sum and Kronecker-symbol values of `ε(γ)`, the eta-quotient
+  criterion in integral weight and the orders of eta quotients at the cusps of `Γ₀(N)`: the
+  [modular-forms roadmap](../ModularForms/README.md) §0.2.
+- The eta multiplier `ν_η` as a definition, with its cocycle and its lifted character, the unary
   theta characteristics `g(a, b)` with their transformation laws, and the theta-component
   coordinates `θ_{m,μ}`: QSeriesPartitionsAndMockModularForms §§5.2, 6.1, 9.1.
 - Harmonic Maass forms of half-integral weight, mock theta functions, shadows and completed Lerch
@@ -277,8 +287,8 @@ some of them differently from the sources.
   character with respect to `j`, and 2.1 records the check.
 - **Eta.** `η = ModularForm.eta`, `η(z) = q^{1/24} ∏_{n ≥ 1} (1 − qⁿ)`, `q^{1/24} = e(z/24)`. Its
   multiplier system `ν_η` is QSeriesPartitionsAndMockModularForms §5.2's,
-  `η(γz) = ν_η(γ) (cz + d)^{1/2} η(z)` with `(cz + d)^{1/2}` principal; its two closed forms are
-  both pinned: for `c > 0`,
+  `η(γz) = ν_η(γ) (cz + d)^{1/2} η(z)` with `(cz + d)^{1/2}` principal; its two closed forms, the
+  modular-forms roadmap §0.2's values of `ε(γ) = ν_η(γ)`, are both pinned: for `c > 0`,
   ```text
   ν_η(γ) = (d/c) e(((a + d)c − bd(c² − 1) − 3c)/24)                    if c is odd,
   ν_η(γ) = (c/d) e(((a + d)c − bd(c² − 1) + 3d − 3 − 3cd)/24)          if c is even,
@@ -406,7 +416,8 @@ bounds and proves the theta and eta specializations.
 
 The section-by-section contracts in Scope and ownership specify the exact constructions:
 ModularForms Layers 0–10 for integral-weight forms, Hecke theory, newforms, products and
-L-functions; ThetaSeries Layers 2, 3, 6, 7 for the same lattice theta functions; IntegralLattices
+L-functions, and its §0.2 for the eta transformation, Dedekind sums and the cusp orders of eta
+quotients; ThetaSeries Layers 2, 3, 6, 7 for the same lattice theta functions; IntegralLattices
 Layer 3 for the dyadic Jordan decomposition; GeometryOfNumbersAndQuadraticArithmetic §4.3
 for the theta multiplier and its cusp carrier; MetaplecticAutomorphicForms §§6.17–6.20,
 7.1, 7.10, 7.49 for Jacobi and metaplectic comparisons; QSeriesPartitionsAndMockModularForms
@@ -636,8 +647,8 @@ Layer 10 formula (`⌊(k+1)/2⌋ + 1` for even `k+1`, `(k+1+1)/2` for odd `k+1`,
 and count the forms of that space divisible by `θ` through the order of `θ` at the cusp `1/2`
 (`θ` vanishes there to order `1/4` in the local parameter `q`: with `A = [[1, 0], [2, 1]]`,
 `θ(Az)(2z + 1)^{−1/2} = 2 η(4z)²/η(2z) = 2q^{1/4}(1 + q² + ⋯)`, from the `W₄`-law of 0.1 and
-`θ(u + 1/2) = η(u)²/η(2u) = 1 − 2q_u + 2q_u⁴ − ⋯` at `u = −1/(4z)`; Ligozat's formula of 3.4 gives
-the same `1/4`), or directly by the valence formula on `Γ₀(4)` applied to `f/θ^{2k+1} ∈ M_0`.
+`θ(u + 1/2) = η(u)²/η(2u) = 1 − 2q_u + 2q_u⁴ − ⋯` at `u = −1/(4z)`; Ligozat's formula, read in 3.4,
+gives the same `1/4`), or directly by the valence formula on `Γ₀(4)` applied to `f/θ^{2k+1} ∈ M_0`.
 Deduce `dim S_{k+1/2}(Γ₀(4)) = ⌊k/2⌋ − 1` for `k ≥ 2` and `0` for `k ≤ 1` (two Eisenstein
 dimensions, at the cusps `∞` and `0`: the cusp `1/2` has `κ_{1/2} = (2k+1)/4 mod 1 ∈ {1/4, 3/4}`,
 never `0`, so it is irregular for the multiplier for every `k` and carries no Eisenstein series;
@@ -991,54 +1002,47 @@ same system in the unitary normalization, and the modular-forms roadmap's remark
 
 ### 3.3 The `η` multiplier system
 
-Consume from QSeriesPartitionsAndMockModularForms §5.2 the eta multiplier
-`ν_η(γ) = η(γz)/((cz + d)^{1/2} η(z))` on `SL(2, ℤ)` (principal root), its independence of `z`,
-`ν_η(T) = e(1/24)`, `ν_η(S) = e(−1/8)`, the law `η(γz) = ν_η(γ)(cz + d)^{1/2} η(z)` and its
-square-root cocycle; none of these is redefined or reproved here.
+Consume from the modular-forms roadmap §0.2 the transformation
+`η(γz) = ε(γ)(cz + d)^{1/2} η(z)` on `ℍ` (principal root) with a constant `ε(γ)`,
+`ε(γ)²⁴ = 1`, `ε(T) = e(1/24)` and `ε(S) = e(−1/8)`; the Dedekind sum `s(d, c)` with its
+reciprocity law `s(h, c) + s(c, h) = (h² + c² + 1)/(12hc) − 1/4` for coprime `h, c ≥ 1`
+(Apostol, Theorem 3.7); and the two values of `ε(γ)` for `c > 0` pinned in the conventions, the
+Dedekind-sum value `ε(γ) = exp(πi((a + d)/(12c) − s(d, c) − 1/4))` (Apostol, Theorem 3.4, with
+his root of `−i(cz + d)` converted to the root of `cz + d`) and the Kronecker form. Consume from
+QSeriesPartitionsAndMockModularForms §5.2 the eta multiplier
+`ν_η(γ) = η(γz)/((cz + d)^{1/2} η(z))`, which is `ε(γ)` because `η` has no zero on `ℍ`, with
+its square-root cocycle. None of these is redefined or reproved here.
 
-Define `dedekindSum (h c : ℤ) : ℚ := ∑_{r=1}^{c−1} ((r/c))((hr/c))`, `((x)) = x − ⌊x⌋ − 1/2` for
-`x ∉ ℤ` and `0` for `x ∈ ℤ`, with its API: `s(h + c, c) = s(h, c)`, `s(−h, c) = −s(h, c)`,
-`s(h, 1) = 0`, and the **reciprocity law** `s(h, c) + s(c, h) = (h² + c² + 1)/(12hc) − 1/4` for
-coprime `h, c > 0` (Apostol, Theorem 3.7; the proof of record is Apostol's, through the `η`
-transformation, so this is a theorem *of* 3.3 and not an input). Prove **Apostol's closed form**
-of the consumed multiplier: for `γ ∈ SL(2, ℤ)` with `c > 0`,
-`η(γz) = e((a + d)/(24c) − s(d, c)/2) (−i(cz + d))^{1/2} η(z)` (Apostol, Theorem 3.4), with the
-principal branch, i.e. `ν_η(γ) = e((a + d)/(24c) − s(d, c)/2 − 1/8)` since
-`(−i(cz + d))^{1/2} = e(−1/8)(cz + d)^{1/2}` for `c > 0`; for `c < 0` apply the law to `−γ`.
-Route: both sides satisfy the consumed cocycle and agree on `S` and `T`, and Dedekind's induction
-on `c` through the generators, which is how Apostol proves Theorem 3.4 and the reciprocity law
-together, gives the identity. Package `ν_η` as the multiplier system of `J_f η` of weight
-`1/2` (3.1; the consumed law is the hypothesis `|η(γz)| = |cz + d|^{1/2} |η(z)|` of `J_f`),
-prove `ν_η(γ)²⁴ = 1`, and prove the **closed form** (Rademacher–Knopp): for `c > 0`,
-```text
-ν_η(γ) = (d/c) e(((a + d)c − bd(c² − 1) − 3c)/24)                 (c odd),
-ν_η(γ) = (c/d) e(((a + d)c − bd(c² − 1) + 3d − 3 − 3cd)/24)       (c even),
-```
-with `(·/·)` the Kronecker symbol, as an identity with the Dedekind-sum form (a finite computation
-once both are known to be multiplier systems agreeing on `S` and `T`, since `SL(2, ℤ) = ⟨S, T⟩`).
-Deduce that `ν_η^{2m}` is a character of `SL(2, ℤ)` of order `12/gcd(12, m)` (`ν_η²` generates
-the character group `ℤ/12` of `SL(2, ℤ)`), so `η^{2m}` has trivial multiplier exactly when
-`12 ∣ m` (at `m = 12` the modular-forms roadmap's worked example `η²⁴ = Δ`), the `N = 1` case of
-the eta-quotient criterion of 3.4.
+Package `ν_η` as the multiplier system of `J_f η` of weight `1/2` (3.1; the consumed law is the
+hypothesis `|η(γz)| = |cz + d|^{1/2} |η(z)|` of `J_f`). Deduce that `ν_η^{2m}` is a character
+of `SL(2, ℤ)` of order `12/gcd(12, m)` (`ν_η²` generates the character group `ℤ/12` of
+`SL(2, ℤ)`), so `η^{2m}` has trivial multiplier exactly when `12 ∣ m`; for `12 ∣ m` this is the
+`N = 1` case of §0.2's eta-quotient criterion, and `m = 12` is its worked example `η²⁴ = Δ`.
 
-*Needs:* 0.1, 3.1; QSeriesPartitionsAndMockModularForms §5.2; Mathlib `ModularForm.eta`,
-`eta_ne_zero`.
+*Needs:* 0.1, 3.1; the modular-forms roadmap §0.2; QSeriesPartitionsAndMockModularForms §5.2;
+Mathlib `ModularForm.eta`, `eta_ne_zero`.
 
-The rational sawtooth is `sawtooth`, with the integer arguments assigned zero.
-The acceptance theorems are `dedekindSum_reciprocity`, `eta_smul_eq_dedekind`,
-`eta_smul_eq_of_odd` and `eta_smul_eq_of_even`; both closed forms require `c>0`.
+The packaging has the following API.
 
-The definition has the following API.
-
-- Integer arguments of the sawtooth give zero, and integral translation preserves it.
-- Dedekind sums are periodic in the first argument and odd under its negation.
-- The reciprocity formula requires positive coprime arguments; the eta closed forms retain positive lower-left matrix entry.
+- `J_f η(γ, z) = η(γz)/η(z)` is an automorphy factor of weight `1/2` on `SL(2, ℤ)`, and its
+  multiplier system in the sense of 3.1 is `ν_η`.
+- The phase `σ_{1/2}` of 3.1 squares to `1`, so `ν_η²` is a character of `SL(2, ℤ)`.
+- For every integer `m`, `ν_η^{2m}` has order `12/gcd(12, m)`, and `η^{2m}` has trivial
+  multiplier on `SL(2, ℤ)` exactly when `12 ∣ m`.
 
 **Checks.**
 
-- The sawtooth has values `0,−1/6,1/6,0` at `0,1/3,2/3,1`; assigning `−1/2` at integers would break the definition.
-- The sums are `s(1,1)=0`, `s(1,2)=0`, `s(1,3)=1/18` and `s(−1,3)=−1/18`; reciprocity for `(h,c)=(1,3)` gives `11/36−1/4=1/18`.
-- At `S,z=i`, the Dedekind-sum formula gives the factor `1`; the odd-c formula gives `e(−1/8)i^{1/2}=1`. At `[[1,0],[2,1]]`, the even-c multiplier is `e(−1/12)`.
+- From `η(z) = ν_η(−I)(−1)^{1/2} η(z)` with the principal `(−1)^{1/2} = i`, `ν_η(−I) = −i`, so
+  `ν_η(−I)² = −1` while `ν_η(I) = 1`: the consistency relation at `γ = δ = −I` holds only with
+  the phase `σ_{1/2}(−I, −I) = i·i = −1`, and reading `ν_η` as a character fails there.
+- At `S` (`a = d = 0`, `b = −1`, `c = 1`, `s(0, 1) = 0`) the Dedekind-sum value is
+  `exp(−πi/4) = e(−1/8)` and the odd-`c` Kronecker form gives `(0/1) e(−3/24) = e(−1/8)`; at
+  `z = i`, `ν_η(S) i^{1/2} = e(−1/8) e(1/8) = 1`, as `S·i = i` requires. Without the `−1/4` the
+  value would be `1` and the factor at `z = i` would be `e(1/8)`.
+- At `[[1, 0], [2, 1]]` the even-`c` Kronecker form gives `(2/1) e((4 + 3 − 3 − 6)/24) = e(−1/12)`,
+  and the Dedekind-sum value with `s(1, 2) = 0` gives `exp(πi(2/24 − 1/4)) = e(−1/12)`.
+- `ν_η(T)² = e(1/12)` has order `12`, so `ν_η(T)^{12} = e(1/2) = −1`: `η^{12}` does not have
+  trivial multiplier, and a criterion `6 ∣ m` in place of `12 ∣ m` fails at `m = 6`.
 
 ### 3.4 Eta quotients of half-integral weight
 
@@ -1050,10 +1054,12 @@ holomorphic and nonvanishing on `ℍ`, that its multiplier on `Γ₀(N)` is `∏
 `∏ η(mz)^{r_m}` satisfies the law `f(γz) = (2s/d) j(γ, z)^{2k+1} f(z)` for `γ ∈ Γ₀(N)`, where
 `s := ∏_m m^{r_m} ∈ ℚ_{>0}` and `(2s/d)` is the Kronecker symbol of the squarefree-free part
 (write `2s = u v²` with `u` a squarefree-with-sign integer times a power of `2`, and read
-`(2s/d) := (u/d)`; `d` is odd and coprime to `N`), together with the **order at the cusps**
-(Ligozat, Proposition 3.2.8): at the cusp `a/c` of `Γ₀(N)`, `c ∣ N`, the order in the local parameter is
-`(N/24) ∑_m gcd(c, m)² r_m / (gcd(c, N/c) · c · m)`, so the quotient lies in `M_{k+1/2}(N, (2s/·))`
-when every order is `≥ 0` and in `S_{k+1/2}(N, (2s/·))` when every order is `> 0`. ⚠ The
+`(2s/d) := (u/d)`; `d` is odd and coprime to `N`). With the **orders at the cusps** of the
+modular-forms roadmap §0.2, stated there for every exponent vector (Ligozat, Proposition 3.2.8:
+at the cusp `a/c` of `Γ₀(N)`, `c ∣ N`, the order in the local parameter is
+`(N/24) ∑_m gcd(c, m)² r_m / (gcd(c, N/c) · c · m)`), deduce that the quotient lies in
+`M_{k+1/2}(N, (2s/·))` when every order is `≥ 0` and in `S_{k+1/2}(N, (2s/·))` when every order
+is `> 0`. ⚠ The
 character `(2s/·)` is the half-integral-weight counterpart of the Gordon–Hughes–Newman character
 `((−1)^w s/·)` for integral weight `w`; the factor `2` and the absent sign come from measuring the
 multiplier against `j` rather than against `(cz + d)^w`, and the three LMFDB identities below
@@ -1064,7 +1070,8 @@ two identities of the knowl `mf.half_integral_weight.theta`,
 `θ(z) = η(2z)⁵/(η(z)²η(4z)²) = η(z+1/2)²/η(2z+1)`, as `q`-series identities (Gauss's product
 `θ = ∏(1 − q^{2n})(1 + q^{2n−1})²`, from Jacobi's triple product), and `θ(z + 1/2) = η(z)²/η(2z)`.
 
-*Needs:* 3.3; Mathlib `eta`; GeometryOfNumbersAndQuadraticArithmetic §4.3's analytic Jacobi product
+*Needs:* 3.3; the modular-forms roadmap §0.2 (the orders at the cusps); Mathlib `eta`;
+GeometryOfNumbersAndQuadraticArithmetic §4.3's analytic Jacobi product
 specialization, applied at `−q`, with `|q|<1`. Regrouping its absolutely convergent
 products gives the theta product used here.
 
@@ -1090,7 +1097,7 @@ Theta, `η(24z)` and `η(8z)³` calibrate the eta quotient and character formula
 
 ### Dependencies
 
-§§0.1–0.2; AutomorphicBundles §§11.3–11.4; QSeriesPartitionsAndMockModularForms §5.2; Mathlib complex powers and eta.
+§§0.1–0.2; AutomorphicBundles §§11.3–11.4; the modular-forms roadmap §0.2; QSeriesPartitionsAndMockModularForms §5.2; Mathlib complex powers and eta.
 
 ## Layer 4: unary theta series, Serre–Stark and the Shimura decomposition
 
