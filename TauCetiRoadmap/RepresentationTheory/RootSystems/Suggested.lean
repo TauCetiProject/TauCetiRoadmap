@@ -1,34 +1,48 @@
-import Mathlib
-import TauCeti.GroupTheory.Coxeter.Geometric
-import TauCeti.LinearAlgebra.RootSystem.Coxeter.Presentation
-import TauCeti.LinearAlgebra.RootSystem.Inversions.Basic
-import TauCeti.LinearAlgebra.RootSystem.FiniteType.Classification
-import TauCeti.LinearAlgebra.RootSystem.SimplyConnectedRootDatum.Rational
-import TauCeti.LinearAlgebra.RootSystem.RootLength
+module
+
+public import Mathlib
+public import TauCeti.GroupTheory.Coxeter.Geometric
+public import TauCeti.LinearAlgebra.RootSystem.Coxeter.Presentation
+public import TauCeti.LinearAlgebra.RootSystem.Inversions.Basic
+public import TauCeti.LinearAlgebra.RootSystem.FiniteType.Classification
+public import TauCeti.LinearAlgebra.RootSystem.HighestRoot
+public import TauCeti.LinearAlgebra.RootSystem.RootLength
 
 /-!
 # Root systems and Coxeter representations: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti APIs: geometric root
-signs and faithfulness, integral realization of the geometric action, the marked
-Weyl presentation and its length bridge, classification independent of the base,
-and the type A Weyl group. All these headlines are statable at the pins; none
-needs a missing carrier. The rational classification uses the native rational
-models, with root indices `Fin t.numRoots` and coordinate indices `Fin t.rank`.
-The general coefficient-ring classification is stated separately on native bases.
+signs, faithfulness and the integral realization of the geometric action, the
+inversion length on the presented Weyl group, the type A Weyl group over
+characteristic-zero domains, the root-string characterization of the highest
+root, the Weyl/based complement with the based diagram identification, and the
+invariant metric scale.
+
+Tits' theorem, the marked Coxeter system on the Weyl group and its length formula,
+base independence of the Cartan type, the rational classification up to
+isomorphism, the highest root, the G₂ Weyl group and the
+two-length theorem are pinned Tau Ceti and Mathlib theorems, cited in the README's
+supplier contracts, so they are not stated here. The componentwise metric
+parameterization needs the constructed family of irreducible root subspaces and
+their restricted root pairings; it remains a README target, and no substitute
+carrier is asserted here.
 
 The native Dynkin declarations are also exported under the established namespace
 used by CFSGStatement. These are aliases of the supplier's declarations.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.RepresentationTheory.RootSystems
 
 export TauCeti (DynkinType)
 
 namespace DynkinType
-export TauCeti.DynkinType (A B C D E6 E7 E8 F4 G2 rank Valid IsLongSimpleRoot)
+export _root_.TauCeti.DynkinType (A B C D E6 E7 E8 F4 G2 rank Valid IsLongSimpleRoot)
 end DynkinType
+
+open scoped Pointwise
 
 /-! ## Layer 1: geometric roots and faithful representations -/
 
@@ -76,14 +90,6 @@ theorem integral_geometric_realization {I W : Type*} [Group W]
 
 /-! ## Layer 2: the marked Weyl presentation -/
 
-/-- The canonical map sending each presented generator to its specified simple
-root reflection is injective: the Coxeter relations are complete. -/
-theorem weylCoxeterHom_injective {ι R V U : Type*}
-    [CommRing R] [CharZero R] [IsDomain R]
-    [AddCommGroup V] [Module R V] [AddCommGroup U] [Module R U]
-    (P : RootPairing ι R V U) [Finite ι] [P.IsCrystallographic] [P.IsReduced]
-    (b : P.Base) : Function.Injective (TauCeti.weylCoxeterHom P b) := sorry
-
 /-- Length in the presented group equals the inversion count of its image in the
 Weyl group under the marked presentation homomorphism. -/
 theorem presentation_length_eq_inversions {ι R V U : Type*}
@@ -96,33 +102,71 @@ theorem presentation_length_eq_inversions {ι R V U : Type*}
 
 /-! ## Layer 3: classification and concrete Weyl groups -/
 
-/-- A nonempty irreducible finite reduced crystallographic root system has one
-valid Dynkin type simultaneously for all its bases, given one base. -/
-theorem classification_independent_base {ι R V U : Type*}
-    [CommRing R] [CharZero R] [IsDomain R]
-    [AddCommGroup V] [Module R V] [AddCommGroup U] [Module R U]
-    (P : RootPairing ι R V U) [Finite ι] [Nonempty ι]
-    [P.IsRootSystem] [P.IsCrystallographic] [P.IsReduced] [P.IsIrreducible]
-    (b₀ : P.Base) :
-    ∃! t : TauCeti.DynkinType, t.Valid ∧ ∀ b : P.Base, TauCeti.HasCartanType P b t := sorry
-
-/-- Each nonempty irreducible finite reduced crystallographic rational root system
-is isomorphic to the native rational model of exactly one valid Dynkin type. -/
-theorem rational_classification {ι V U : Type*}
-    [AddCommGroup V] [Module ℚ V] [AddCommGroup U] [Module ℚ U]
-    (P : RootPairing ι ℚ V U) [Finite ι] [Nonempty ι]
-    [P.IsRootSystem] [P.IsCrystallographic] [P.IsReduced] [P.IsIrreducible] :
-    ∃! t : TauCeti.DynkinType,
-      ∃ ht : t.Valid, Nonempty (P.Equiv (t.rationalRootSystem ht)) := sorry
-
-/-- A finite reduced crystallographic root pairing of type A and rank n has Weyl
-group the symmetric group on n+1 letters, without a spanning hypothesis. -/
-theorem weylGroup_equiv_perm_of_typeA {ι R V U : Type*}
+/-- A finite reduced crystallographic root pairing over a characteristic-zero domain
+with a base of type Aₙ has Weyl group the symmetric group on n+1 letters, without a
+spanning hypothesis; for n = 0 both groups are trivial. -/
+theorem nonempty_weylGroup_mulEquiv_perm_of_typeA {ι R V U : Type*}
     [CommRing R] [CharZero R] [IsDomain R]
     [AddCommGroup V] [Module R V] [AddCommGroup U] [Module R U]
     (P : RootPairing ι R V U) [Finite ι]
-    [P.IsCrystallographic] [P.IsReduced] (b : P.Base) {n : ℕ} (hn : 1 ≤ n)
+    [P.IsCrystallographic] [P.IsReduced] (b : P.Base) {n : ℕ}
     (h : TauCeti.HasCartanType P b (.A n)) :
     Nonempty (P.weylGroup ≃* Equiv.Perm (Fin (n + 1))) := sorry
 
+/-! ## Layer 4: coefficient reflections and the greatest root -/
+
+/-- A positive root to which no simple root can be added within the root set is the
+highest root. -/
+theorem eq_highestRoot_of_forall_root_add_notMem {ι R V U : Type*}
+    [CommRing R] [CharZero R] [IsDomain R]
+    [AddCommGroup V] [Module R V] [AddCommGroup U] [Module R U]
+    (P : RootPairing ι R V U) [Finite ι] [Nonempty ι]
+    [P.IsCrystallographic] [P.IsReduced] [P.IsIrreducible] (b : P.Base) {i : ι}
+    (hi : b.IsPos i) (h : ∀ k ∈ b.support, P.root i + P.root k ∉ Set.range P.root) :
+    i = b.highestRoot := sorry
+
+/-! ## Layer 5: root automorphisms and the based complement -/
+
+/-- The inverse image of the setwise simple-index stabilizer under the native index action. -/
+noncomputable def basedAut {ι R V U : Type*} [CommRing R]
+    [AddCommGroup V] [Module R V] [AddCommGroup U] [Module R U]
+    (P : RootPairing ι R V U) (b : P.Base) : Subgroup P.Aut :=
+  (MulAction.stabilizer (Equiv.Perm ι) (b.support : Set ι)).comap
+    (RootPairing.Equiv.indexHom P)
+
+/-- The Weyl group complements the stabilizer of a base, for finite reduced
+crystallographic pairings over a characteristic-zero domain; neither spanning nor
+real coefficients is assumed, so root data are included. -/
+theorem weyl_based_complement {ι R V U : Type*}
+    [CommRing R] [CharZero R] [IsDomain R]
+    [AddCommGroup V] [Module R V] [AddCommGroup U] [Module R U]
+    (P : RootPairing ι R V U) [Finite ι]
+    [P.IsCrystallographic] [P.IsReduced] (b : P.Base) :
+    P.weylGroup.IsComplement' (basedAut P b) := sorry
+
+/-- Every permutation of the simple indices preserving Cartan entries extends to exactly one
+based root-pairing automorphism, with that specified action on simple indices. -/
+theorem existsUnique_basedAut_of_cartanMatrix {ι R V U : Type*}
+    [CommRing R] [CharZero R] [IsDomain R]
+    [AddCommGroup V] [Module R V] [AddCommGroup U] [Module R U]
+    (P : RootPairing ι R V U) [Finite ι] [P.IsRootSystem]
+    [P.IsCrystallographic] [P.IsReduced] (b : P.Base)
+    (σ : Equiv.Perm b.support)
+    (hσ : ∀ i j, b.cartanMatrix (σ i) (σ j) = b.cartanMatrix i j) :
+    ∃! g : basedAut P b, ∀ i : b.support,
+      g.val.indexEquiv (i : ι) = ((σ i : b.support) : ι) := sorry
+
+/-! ## Layer 6: invariant metrics and root lengths -/
+
+/-- Two positive invariant forms on an irreducible spanning real root pairing differ by
+one unique positive scalar. -/
+theorem invariantMetric_unique_scale {ι V U : Type*} [Finite ι]
+    [AddCommGroup V] [Module ℝ V] [AddCommGroup U] [Module ℝ U]
+    (P : RootPairing ι ℝ V U) [P.IsRootSystem] [P.IsIrreducible]
+    (B C : P.InvariantForm)
+    (hB : B.form.toQuadraticMap.PosDef) (hC : C.form.toQuadraticMap.PosDef) :
+    ∃! c : ℝ, 0 < c ∧ C.form = c • B.form := sorry
+
 end TauCetiRoadmap.RepresentationTheory.RootSystems
+
+end
