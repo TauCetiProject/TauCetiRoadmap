@@ -10,7 +10,7 @@ DeligneWeightsAndPurity supplies scalar Weil numbers, Frobenius spectra, punctua
 
 SchemeAndStackFoundations supplies dimension functions, projective and blow-up geometry, Chow groups and their intersection operations. AlgebraicVectorBundles supplies finite locally free sheaves, duals and tensor operations. Their Chern theory in Chow groups is distinct from the étale Chern classes constructed here. JacobianChallenge supplies line bundles, degrees and the principally polarized Jacobian. LefschetzPencilsAndVanishingCycles supplies pencils, vanishing cycles and nearby cycles. AdicCoefficientsAndComparisons, ClassicalAdicEtaleCohomology and ComplexComparisonPartII supply the coefficient categories and comparison functors used below. Their exact ranges are part of the contracts, rather than implicit identifications of categories.
 
-The scope is separated finite-type **schemes**. General Gabber absolute purity, semistable-trait fundamental classes, perverse sheaves over traits with a rectified dimension function, relative perverse `t`-structures over a curve, stack operations and stack trace formulas, perfect algebraic spaces, and equivariant and hyperbolic localization require separate extensions. The curve Euler–Poincaré formula with Swan conductors is constructed in §5.2. Formal models over `O_C/p` and non-Noetherian solid coefficient rings are also outside this scope. Decomposition over `ℂ` or `ℚ̄_ℓ` does not assert semisimplicity over a smaller coefficient field. The supported topological interface is constructed in §3.6. Integral analytic realization and strong diamond transport retain the explicit additional hypotheses stated below.
+The scope is separated finite-type **schemes**. Absolute cohomological purity is LefschetzPencilsAndVanishingCycles §0.10, and perverse sheaves over a henselian trait with the rectified dimension function are its §6.2. The étale `f^!` is EtaleCohomologyFoundations §F.5, and cohomology with supports is its §0.7. Purity for the Brauer group of regular schemes is PurityForFlatCohomology Layer 8. Noetherian quasi-excellent bases, étale dimension functions on them and arbitrary monotone perversities are EtaleDualityAndPerverseSheavesPartII (its §§5.1 and 6.5). Constructible coefficients, the six operations, perverse sheaves and the Frobenius trace formula on algebraic stacks locally of finite type over a finite field or its algebraic closure are GlobalShtukasAndFunctionFieldLanglands §1.4. The curve Euler–Poincaré formula with Swan conductors on affine curves in characteristic `p` is FourierDeligneTransform §2.7; §5.2 imports it and adds proper curves and characteristic zero. The curve case of the classification of simple perverse sheaves of §2.10 is FourierDeligneTransform §5.2; §2.10 keeps the statement in every dimension. The growth of cohomology in étale towers (BBD 4.5) enters only the proof of the affine weight criterion, which AutomorphicLFunctionsAndLocalFactors AL.3.10.10 proves. Decomposition over `ℂ` or `ℚ̄_ℓ` does not assert semisimplicity over a smaller coefficient field. The supported topological interface is constructed in §3.6. Integral analytic realization and strong diamond transport retain the explicit additional hypotheses stated below.
 
 ## Conventions
 
@@ -67,6 +67,8 @@ SchemeAndStackFoundations §0.7 supplies the dimension function and its speciali
 
 LefschetzPencilsAndVanishingCycles §§0.5–0.8 supply nearby cycles with a chosen geometric generic point, the vanishing triangle and their stated quasi-finite exchange maps; the all-finite-type and normalized-adic specialization extension is constructed in §6.4; §§3.3–3.5 supply pencil-axis geometry, Veronese re-embedding and smooth pencils; §7b.7 supplies generic restriction in its stated range. ReductiveGroups Layer 4 supplies diagonalizable groups, characters and semisimple elements. Section 7.4 constructs the diagonalizable reduced cyclic closure in semisimpleCyclicClosure_diagonalizable. Exact projection to character spaces is used only on finite-dimensional rational representations in the finite-jet argument of §7.4.
 
+FourierDeligneTransform §2.7 supplies the Euler–Poincaré formula with Swan conductors for lisse sheaves on smooth affine curves over an algebraically closed field of characteristic `p`, with free coefficients over finite local rings, finite fields, finite `E/ℚ_ℓ` and `ℚ̄_ℓ`, and with compact supports; §5.2 imports it. InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 supplies the graph–diagonal formula for endomorphisms of smooth proper curves, and §IG.5.8 (*Euler characteristic of `ℓ`-torsion local systems on affine curves*) the Brauer-character form of Raynaud's argument in characteristic `p`; §5.2 uses both in characteristic zero.
+
 The following small geometric interfaces are required in addition to those headings. For a smooth centre, identify the exceptional divisor and its normal line with the conventions above. For a relatively ample line on a universally closed scheme, the complement of a section divisor is affine (Stacks Lemma 29.44.18, Tag 0EKE). Generic affine hyperplanes are smooth for a smooth source with unramified map, as in Katz, *Affine cohomological transforms*, Lemma 3.5, p.182. For fixed multidegree, the open locus of smooth complete intersections in the product of defining-form projective spaces has geometrically irreducible nonempty characteristic fibres and contains a member with a smooth ample chain. Section 4.3 proves the cohomology calculation first for that member and transports it to every smooth complete intersection by proper smooth base change; it does not require a smooth chain for each prescribed presentation. Their tangent–normal exact sequence gives `c(T_X)=(1+h)^{N+1}∏(1+d_i h)⁻¹` and `deg h^m=∏d_i`. The elementary geometric identifications and the two incidence/affineness lemmas are proved in the relevant Layer 4 subsections from the cited scheme geometry; their conclusions are not inferred from weak Lefschetz.
 
 GL2AutomorphicRepresentationsAndTransfer R17.6.3a / `proper-curve-correspondence-trace` supplies the shared
@@ -91,7 +93,7 @@ DeligneWeightsAndPurity §§0.1–0.19 supply scalar Weil numbers and fixed-`ι`
 
 ### From comparison roadmaps
 
-ComplexComparisonPartII §§C−1.1, C5.4, C6.0–C6.6 supplies algebraically constructible analytic coefficient categories, finite Artin comparison, ordinary and compact integral/rational realization, proper `Rf*` and separated finite-Tor `Rf!` comparison, and the integral exponential/Kummer first-Chern comparison. The additional nonproper constructible `Rf*` exchange, perverse equivalence and rational stable-lattice essential image are §3.5 below. AlgebraicTopology Stage 6 supplies relative cochains, local orientations and products. CharacteristicClasses C2.1–C2.4 [TCR-CharacteristicClasses] owns the ordinary topological Thom class `U_E`, its orientation and product normalization, and embedding Gysin with supports, composition and projection formula. Section 3.6 identifies the ordinary realizations of its supported sheaf Thom/Gysin maps with those supplied maps, and constructs complete coefficient systems and torsion-sensitive noncompact constructible duality from relative cochains, localization and local orientation calculations.
+ComplexComparisonPartII §§C−1.1, C5.4, C6.0–C6.6 supplies algebraically constructible analytic coefficient categories, finite Artin comparison, ordinary and compact integral/rational realization, proper `Rf*` and separated finite-Tor `Rf!` comparison, and the integral exponential/Kummer first-Chern comparison. The additional nonproper constructible `Rf*` exchange, perverse equivalence and rational stable-lattice essential image are §3.5 below. AlgebraicTopology Layer 6 supplies relative cochains, local orientations and products. CharacteristicClasses C2.1–C2.4 [TCR-CharacteristicClasses] owns the ordinary topological Thom class `U_E`, its orientation and product normalization, and embedding Gysin with supports, composition and projection formula. Section 3.6 identifies the ordinary realizations of its supported sheaf Thom/Gysin maps with those supplied maps, and constructs complete coefficient systems and torsion-sensitive noncompact constructible duality from relative cochains, localization and local orientation calculations.
 
 ClassicalAdicEtaleCohomology §§9.3–9.6, 8.2 and 11.1 supplies the chart-independent analytic smooth trace, analytic `c₁` and Huber proper and nonproper algebraic-model cohomology comparisons. AdicSpacesPartII §R1 supplies scheme-fibre-product analytification. The full smooth-duality comparison in §3.8 uses Huber's prime-to-**residue**-characteristic range, a quasi-separated target and tautness for proper supports. Extending it to normalized integral analytic systems additionally requires an analytic constructible derived-complete realization with common strata and uniform bounds; that extension is not asserted by the finite theorem.
 
@@ -199,7 +201,7 @@ the same finite-module calculation applies to self-injective artinian `Λ`.
 For the `D_ctf` variant, use bounded finite projective coefficient complexes on each stratum, whose dual and
 double dual are finite projective without any self-injectivity assumption. The same explicit trait calculation
 and closed-point dévissage prove [Th. finitude] 4.1, p. 250. This is the base input for the
-arbitrary-noetherian-coefficient `D_ctf` statement at constructible-biduality.
+`D_ctf` statement over an arbitrary noetherian coefficient ring in constructibleBiduality below.
 
 Use [SGA4half] [Dualité] 1.1–1.4, pp. 155–157; [SGA4half] [Th. finitude] 4.1, p. 250.
 
@@ -224,7 +226,7 @@ self-injective `Λ`.
 Work with the following additional hypotheses. `X` separated of finite type over a field or an excellent regular
 noetherian base of dimension `≤1`; `n` invertible. `Λ` noetherian, commutative, self-injective and killed by `n`;
 finite rings not self-injective are restricted to constructible finite-Tor complexes. The base dualizing
-object is `Λ_S` from one-dimensional-dualizing-base; `K_X=a^!Λ_S`. Imported finiteness is the étale finiteness
+object is `Λ_S` from oneDimensionalDualizingBase; `K_X=a^!Λ_S`. Imported finiteness is the étale finiteness
 theorem, not coherent sheaf biduality.
 
 Name the resulting statement constructibleBiduality.
@@ -309,7 +311,7 @@ schemes separated of finite type over `k` and constructible complexes: `D_S ∘ 
 and `D_X ∘ f^! ≅ f^* ∘ D_S` on `D^b_c(S, Λ)`; in particular, for `i : Z → X` closed and `j : U → X` open, `D_Z i^* ≅ i^! D_X, D_X i_* ≅ i_* D_Z, D_U j^* ≅ j^* D_X` and `D_X Rj_* ≅ j_! D_U`. Moreover `D_X(K ⊗^L L) ≅ RHom(K, D_X L)`
 for `K, L ∈ D^b_c`, and `f^!` preserves `D^b_c`.
 
-Work with the following additional hypotheses. As in constructible-biduality; constructibility of `Rf_*` and `f^!`
+Work with the following additional hypotheses. As in constructibleBiduality; constructibility of `Rf_*` and `f^!`
 is part of the conclusion (`f^!` via `f^! = D f^* D`).
 
 Name the resulting statement dualityExchangeIsomorphisms.
@@ -438,10 +440,6 @@ EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above;
 
 - Over `k=𝔽̄₂` with `Λ=𝔽₃`, the square map is a universal homeomorphism. Topological invariance (Stacks Tag 03SI) makes `f_!=f_*` inverse to `f^*`. Its weighted trace is `2ε₀`, where `ε₀` is the equivalence counit (Stacks Tag 0GKI); together with `2⁻¹η₀` it satisfies both triangles. Ramification alone does not exclude a counit in a coefficient category.
 
-- `Spec L → Spec K` for a finite separable extension of degree `r: Tr ∘` unit `= r`.
-
-- `x ↦ x²` on `A¹` over an algebraically closed field of characteristic `≠ 2`: at the origin the stalk of `f_!f^*F` is `F_0` and `Tr` is multiplication by 2.
-
 **The trace morphism for curves.** (a) Let `X` be a curve (separated, finite type, pure dimension one) over an
 algebraically closed field `k` of exponent characteristic `p, n` prime to `p`, with irreducible components `c` and
 multiplicities `n_i = length O_{X,η_i}`. Then `H²_c(X, ℤ/n(1)) ≅ H²(X̄_red, ℤ/n(1)) ≅ Pic(X̄_red)/n ≅ (ℤ/n)^c` (`X̄`
@@ -455,7 +453,7 @@ is smooth with geometrically irreducible fibres (1.1.9).
 Work with the following additional hypotheses. `k` algebraically closed for (a); in (b) `S` arbitrary
 (quasi-compact quasi-separated for compactifiability) and `F` torsion prime to residue characteristics. Uses the
 cohomology of curves over algebraically closed fields (`H² = Pic/n`, vanishing above 2), imported through
-SchemeAndStackFoundations EtaleCohomologyFoundations §§F.0–F.6, and the degree of line bundles from
+SchemeAndStackFoundations §§2.11, 2.16 and EtaleCohomologyFoundations §§F.0–F.6, and the degree of line bundles from
 JacobianChallenge Layer `A`.
 
 The interface consists of the following maps and identities.
@@ -475,7 +473,7 @@ The interface consists of the following maps and identities.
 
 A proof proceeds as follows.
 
-(`a`): `H²_c(X) ≅ H²_c`(`X_red`) (topological invariance), and for the dense open `X_red ⊂ X̄` the localization
+(a): `H²_c(X) ≅ H²_c(X_red)` (topological invariance), and for the dense open `X_red ⊂ X̄` the localization
 sequence (SGA 4 XVII 5.1.16.3) with the finite complement gives `H²_c(X) ≅ H²(X̄)`; Kummer and degree give
 `(ℤ/n)^c`; define `t((a_i)) = Σ n_i a_i` (SGA 4 XVIII 1.1.3).
 
@@ -492,8 +490,7 @@ p. 491.
 
 *Needs:* EtaleCohomologyFoundations §0.9; EtaleCohomologyFoundations §F.2; EnhancedDerivedSheaves §0.4;
 EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3; EtaleCohomologyFoundations
-§§F.0–F.6 and the scheme-site contract above; JacobianChallenge layer a line bundles divisors picard group
-degree.
+§§F.0–F.6 and the scheme-site contract above; JacobianChallenge Layer `A`.
 
 **Checks.**
 
@@ -506,12 +503,6 @@ degree.
 
 - For `X = Spec k[x, y]/(y²)` (a double line) and `n = 2, Tr_X` is multiplication by the multiplicity 2 on `H²_c(X, ℤ/2(1)) ≅ ℤ/2`, hence zero and not an isomorphism.
 
-- `P¹` over `k` algebraically closed: `Tr(c₁(O(1))) = 1`.
-
-- Two disjoint lines: `H²_c ≅ Λ²` and `Tr` is the sum.
-
-- The double line `Spec k[x, y]/(y²): Tr` is multiplication by 2 on `H²_c ≅ ℤ/n`, not an isomorphism for `n` even.
-
 **Poincaré duality on a smooth curve over an algebraically closed field.** Let `U` be a smooth connected curve
 over an algebraically closed field `k` and `n` invertible in `k`. For every finite locally constant sheaf `F` of
 `ℤ/n`-modules on `U` and every `r`, the pairing `H^r_c(U, F) × H^{2−r}(U, F^∨(1)) → H²_c(U, μ_n) →Tr ℤ/n` is perfect.
@@ -520,7 +511,7 @@ In particular `H¹_c(U, ℤ/n)` and `H¹(U, μ_n)` are dual, and for a tame fini
 
 Work with the following additional hypotheses. `k` algebraically closed, `n` invertible; `U` smooth connected
 (affine or proper). This is the curve input of SGA 4 XVIII §1 and must not be deduced from §0.2 or
-§§0.3–0.7:pairings (it is used to prove them).
+§§0.3–0.7 (it is used to prove them).
 
 Name the resulting statement curveH1Duality.
 
@@ -541,8 +532,7 @@ first proof via 1.6.5.1).
 Use [Milne-LEC] Theorem 14.7, p. 93; [Milne-LEC] Example 14.8, p. 93; [SGA4-XVIII] Lemme 1.6.6, p. 545.
 
 *Needs:* EtaleCohomologyFoundations §0.9; EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves
-§§0.1–0.3; AbelianSchemesAndArithmeticModuli §A3 (Weil pairing); JacobianChallenge layer `d` the relative picard
-functor and the jacobian scheme; EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above.
+§§0.1–0.3; AbelianSchemesAndArithmeticModuli §A3 (Weil pairing); JacobianChallenge Layer `D`; EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above.
 
 **Checks.**
 
@@ -553,12 +543,14 @@ functor and the jacobian scheme; EtaleCohomologyFoundations §§F.0–F.6 and th
 
 ### 0.4 The general flat trace and its multiplicities
 
-**The trace morphism `Tr_f : R^{2d}f_!f^*F(d) → F`.** Consider triples `(f, d, F): f : X → Y` compactifiable, `d` an
-integer, `F` a torsion sheaf on `Y` prime to the residue characteristics, where `f` satisfies `(∗)_d`: there is an
-open `U ⊂ X` on which `f` is flat of finite presentation with fibres of dimension `≤ d` and the fibres of `X − U` have
-dimension `< d`. There is a unique trace `Tr_f : R^{2d}f_!f^*F(d) → F` such that (Var 1) it is natural in `F`; (Var
-2) it commutes with base change along `Y′ → Y` (`Y′` quasi-compact quasi-separated); (Var 3) for composable `X →g Y →f Z` satisfying `(∗)_e` and `(∗)_d, fg` satisfies `(∗)_{d+e}` and `Tr_{fg} = Tr_f ∘ R^{2d}f_!(Tr_g)` under
-`R^{2d}f_!R^{2e}g_! ≅ R^{2(d+e)}(fg)_!`; (Var `4`)(`I`) for `d = 0` and `f` finite locally free of `rank r, F → f_*f^*F → F` is multiplication by `r`; (II) for the affine line it is the isomorphism (2.8.1). For `d = 0` it is the
+**The trace morphism `Tr_f : R^{2d}f_!f^*F(d) → F`.** Fix an integer `d`. A compactifiable morphism `f : X → Y` is
+of type `(∗)_d` when `X` has an open subscheme that is flat and of finite presentation over `Y` with fibres of
+dimension at most `d` and whose complement has fibres of dimension less than `d`. For every such `f` and every
+torsion sheaf `F` on `Y` whose torsion is prime to the residue characteristics of `Y`, construct a trace
+`Tr_f : R^{2d}f_!f^*F(d) → F`, and prove that exactly one family of such maps has the properties (Var 1)–(Var 4) of
+the interface below: naturality in `F`, base change to quasi-compact quasi-separated `Y′`, transitivity for a map of
+type `(∗)_e` followed by one of type `(∗)_d`, and two normalisations, by the rank for finite locally free `f` with
+`d = 0` and by the affine-space trace isomorphism (2.8.1) for the affine line. For `d = 0` it is the
 quasi-finite flat trace, for curves the curve trace, for affine space (2.8.1) (Prop. 2.10). It is compatible
 with Künneth: `Tr_{f×g} = Tr_f ⊗ Tr_g` (2.12). In derived form, `Tr_f : Rf_!(f^*K(d)[2d]) → K` for `K ∈ D(Y, Λ), Λ`
 killed by `n` invertible (2.13.2). For `Λ = ℤ/n` with `n ≥ 2`, the sheaf trace `R^{2d}f_!Λ(d) → Λ` is an isomorphism
@@ -566,22 +558,22 @@ iff every geometric fibre has exactly one `d`-dimensional irreducible component 
 `n` (Remark 2.10.1). This criterion does not assert that the derived trace `Rf_!f^*K(d)[2d] → K` is an
 isomorphism; it is not an iff for arbitrary `F`, for instance `F = 0`.
 
-Work with the following additional hypotheses. `f` compactifiable satisfying (`∗`)`_d` (e.g. flat of finite
+Work with the following additional hypotheses. `f` compactifiable of type `(∗)_d` (e.g. flat of finite
 presentation of pure relative dimension `d`); `F` torsion prime to residue characteristics. Uses only §1.1 of SGA
 4 XVIII (not the effacement lemma).
 
 The interface consists of the following maps and identities.
 
 
-- `Tr_f : R^{2d}f_!f^*F(d) ⟶ F` for `f` compactifiable satisfying `(∗)_d`.
+- (Var 1): `Tr_f : R^{2d}f_!f^*F(d) ⟶ F` for `f` compactifiable of type `(∗)_d`, natural in `F`.
 
 - `Tr_f : Rf_!(f^*K(d)[2d]) ⟶ K` in `D(Y, Λ)`, natural in `K`.
 
-- (Var 2): compatibility with base change.
+- (Var 2): compatibility with base change along `Y′ → Y` for quasi-compact quasi-separated `Y′`.
 
-- (Var `3`): `Tr_{fg} = Tr_f ∘ R^{2d}f_!`(`Tr_g`).
+- (Var 3): for `g : X → Y` of type `(∗)_e` and `f : Y → Z` of type `(∗)_d`, the composite `fg` is of type `(∗)_{d+e}` and `Tr_{fg} = Tr_f ∘ R^{2d}f_!(Tr_g)` under `R^{2d}f_!R^{2e}g_! ≅ R^{2(d+e)}(fg)_!`.
 
-- (Var `4`)(`I`): for `d = 0` and `f` finite locally free of `rank r, Tr_f ∘` unit `= r`.
+- (Var 4)(I): for `d = 0` and `f` finite locally free of rank `r`, `Tr_f` composed with the unit `F → f_*f^*F` is multiplication by `r`.
 
 - (Var 4)(II): for the affine line `Tr_f` is the isomorphism (2.8.1).
 
@@ -622,9 +614,7 @@ EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above.
 
 - Assume `Λ ≠ 0`. For `X = P¹ ⊔ P¹` over an algebraically closed field `(d = 1), H²(X, Λ(1)) ≅ Λ²` and `Tr` is the sum, so `Tr` is surjective but not injective.
 
-- For the double plane `X = Spec k[x, y, z]/(z²)` over an algebraically closed `k` and `d = 2, Tr` is multiplication by 2 on `H⁴_c(X, Λ(2)) ≅ Λ`; a trace defined without multiplicities (the identity there) violates (Var `4`)(`I`) after a finite flat projection.
-
-- For `X = Spec k′ → Spec k` finite separable of degree `r` and `d = 0, Tr ∘` unit `= r`.
+- For the double plane `X = Spec k[x, y, z]/(z²)` over an algebraically closed `k` and `d = 2`, `Tr` is multiplication by 2 on `H⁴_c(X, Λ(2)) ≅ Λ`; a trace defined without multiplicities (the identity there) violates (Var 4)(I) after a finite flat projection.
 
 **Top-degree compactly supported cohomology of a variety.** Let `X` be separated of finite type of dimension `≤ d`
 over an algebraically closed field `k, n` invertible in `k, Λ = ℤ/n`. Then `H^q_c(X, F) = 0` for `q > 2d` and every
@@ -705,7 +695,7 @@ contract above.
 
 - `X = Spec k: (a)` is `RHom(K, Λ) ≅ RHom(K, Λ)`.
 
-- `X = Spec 𝔽_q, K = Λ`: relative duality holds in `D`(`𝔽_q`,ét, `Λ`), while the absolute form fails in degrees `±1` (`H¹(𝔽_q, Λ) = Λ` against `Ext^{−1} = Λ` in degree `−1`).
+- `X = Spec 𝔽_q, K = Λ`: relative duality holds in `D(𝔽_q,ét, Λ)`, while the absolute form fails in degrees `±1` (`H¹(𝔽_q, Λ) = Λ` against `Ext^{−1} = Λ` in degree `−1`).
 
 - `X = P¹` over an algebraically closed field: `H^{−q}(X, D Λ) = H^{2−q}(X, Λ(1))` is dual to `H^q(X, Λ)`.
 
@@ -746,12 +736,12 @@ Use [SGA4-XVIII] 3.2.6, (3.2.6.2), p. 586; [Milne-LEC] Theorem 24.1, p. 144.
 pairing defined by the duality isomorphism equals `⟨x, y⟩ = Tr_X(x ∪ y)` for `x ∈ H^i_c(X, F), y ∈ H^{2d−i}(X, F^∨(d))`, where `∪ : H^i_c(X, F) ⊗ H^j(X, G) → H^{i+j}_c(X, F ⊗ G)` is the cup product and `F ⊗ F^∨ → Λ` is
 evaluation. For `F = Λ` and `X` proper, the cup-product pairing `H^i(X, Λ) × H^{2d−i}(X, Λ(d)) → Λ` satisfies `⟨x, y⟩ = (−1)^{i(2d−i)}⟨y, x⟩ = (−1)^i ⟨y, x⟩` after identifying `Λ(d) ⊗ Λ ≅ Λ ⊗ Λ(d)`; in the middle degree `i = d` with
 `d` odd, graded commutativity proves alternation when 2 is invertible in `Λ`, and with `d` even it proves symmetry.
-The curve alternation for all `n` follows separately from the Weil pairing (curve-h1-duality); no general
+The curve alternation for all `n` follows separately from the Weil pairing (curveH1Duality, §0.3); no general
 2-primary alternation is deduced from the Koszul sign alone. For smooth proper `f : X → S` of relative dimension
 `d` with connected geometric fibres, `R^{2d}f_*Λ(d) ≅ Λ` via `Tr_f` and the fibrewise pairings `R^jf_*Λ ⊗ R^{2d−j}f_*Λ → R^{2d}f_*Λ → Λ(−d)` are morphisms of sheaves compatible with base change, so monodromy preserves
 them.
 
-Work with the following additional hypotheses. As in poincare-duality-torsion; for the relative form `f` smooth
+Work with the following additional hypotheses. As in poincareDualityTorsion; for the relative form `f` smooth
 proper with geometrically connected fibres, `n` invertible on `S`.
 
 Name the resulting statement cupProductTracePairing.
@@ -782,7 +772,7 @@ Use [Milne-LEC] §24, p. 145; [SGA4-XVIII] Proposition 2.12, p. 559-560.
 pure dimension `d` over a field `k₀, X = X₀ ⊗ k_s`, and `F₀` locally constant constructible on `X₀`. The pairing
 `H^i_c(X, F) × H^{2d−i}(X, F^∨(d)) → Λ` of §0.5 is `Gal(k_s/k₀)`-equivariant (`Λ` with trivial action). Over `k₀ = 𝔽_q` with geometric Frobenius `F`: for the untwisted pairing `H^i_c(X, Λ) × H^{2d−i}(X, Λ) → H^{2d}_c(X, Λ) →^{Tr_X} Λ(−d)`, one has ⟨Fx, Fy⟩ `= q^d⟨x, y⟩`. Consequently, if `F` acts on `H^i_c` with eigenvalue `α` then `q^d/α` is an
 eigenvalue of `F` on `H^{2d−i}`, with multiplicities preserved. Eigenvalue multisets and their algebraic
-multiplicities are statements for field coefficients (`𝔽_ℓ` or, after adic-and-rational-poincare-duality, `ℚ_ℓ`),
+multiplicities are statements for field coefficients (`𝔽_ℓ` or, after adicAndRationalPoincareDuality (§0.6), `ℚ_ℓ`),
 not for modules over `ℤ/ℓᵐ`. The torsion-ring conclusion is the equivariance of the pairing itself. For nonempty geometrically connected `X₀`, the top-degree trace is an isomorphism; in general the pairing uses the trace without this identification.
 
 Work with the following additional hypotheses. `k₀` arbitrary for Galois equivariance; `k₀ = 𝔽_q` for the
@@ -1084,10 +1074,6 @@ Use [Milne-LEC] §23, p. 139.
 
 - Over an algebraically closed characteristic-zero field with `Λ = ℤ/3`, let `Z = {xy = 0} ⊂ A²`. The stalk at the crossing of `ℋ²_Z(Λ(1))` is `Λ²`, generated by the two branches (local Kummer residues), whereas `Λ_Z` has stalk `Λ`. Thus `i^!Λ` cannot be `Λ_Z(−1)[−2]`; the fundamental classes of the branches exist without asserting purity for the singular union.
 
-- For a hyperplane `H ⊂ P^n, s_{H/P^n}` maps to `c₁(O(1))` in `H²(P^n, Λ(1))`.
-
-- For the nodal cubic `C ⊂ P², s_{C/P²}` maps to `3c₁(O(1)) = c₁(O(3))` although `C` is singular.
-
 ### 1.2 Higher étale Chern classes
 
 **Chern classes of vector bundles in étale cohomology.** Let `X` be a scheme with `n` invertible (in applications
@@ -1111,7 +1097,7 @@ The interface consists of the following maps and identities.
 
 - `c_r(f^*E) = f^*c_r(E)`.
 
-- For `L` invertible, `c₁(L)=`firstChernClass `L`; its higher classes vanish by the rank bound below.
+- For `L` invertible, `c₁(L)` is the Kummer first Chern class of EtaleCohomologyFoundations §0.9; its higher classes vanish by the rank bound below.
 
 - `c(E) = c(E′) ∪ c(E″)` for `0 → E′ → E → E″ → 0`.
 
@@ -1151,8 +1137,6 @@ Use [Milne-LEC] §23, p. 140; [Milne-LEC] Theorem 23.3, p. 140.
 
 - Assume `Λ≠0`. For a line bundle `L, c₂(L) = 0` although `c₁(L)²` may be nonzero (e.g. `L = O(1)` on `P²`): `c₂` is not `c₁²`.
 
-- `c(T_{P^m}) = (1 + h)^{m+1}`.
-
 - `c(O ⊕ O(1))` on `P^m` is `1 + h`.
 
 ### 1.3 Chow classes and intersection degrees
@@ -1175,8 +1159,8 @@ to the regular diagonal and deformation to its normal bundle identify the local 
 multiplicity with the alternating Koszul homology lengths. Localization at `η` gives the
 displayed Tor expression. The argument is over `k`, retaining the perfect-field and
 proper-intersection hypotheses; it does not require an algebraically closed ground field
-or vanishing of higher Tor. Use Serre, *Algèbre locale. Multiplicités*, Chapter V §3
-(intersection multiplicities); Fulton, *Intersection Theory*, §8.2 (proper intersections)
+or vanishing of higher Tor. Use [Serre-AlgLoc] Chapter V §3
+(intersection multiplicities); [Fulton-1998] §8.2 (proper intersections)
 and §20.4 (Tor and intersection products); [Stacks] Section 43.14, Tag 0AZR
 (the Euler–Tor formula), and Section 43.17, Tag 0B08.
 
@@ -1234,7 +1218,7 @@ The interface consists of the following maps and identities.
 
 A proof proceeds as follows.
 
-Use the supported classes of fundamental-class and the weighted coherent-complex construction of SGA 4½
+Use the supported fundamental classes of §1.1 and the weighted coherent-complex construction of SGA 4½
 [Cycle] 2.3.1–2.3.8: for a perfect `O_X`-complex with support of codimension at least `r`, its class has generic
 coefficient the alternating length of its homology. On a smooth `X` every coherent sheaf is locally perfect. The
 trace construction agrees with the smooth-locus generator by 2.3.8(i), and uniqueness follows from semi-purity
@@ -1312,11 +1296,11 @@ Name the resulting statement projectiveSpaceCohomology.
 
 A proof proceeds as follows.
 
-Import the projective-space-basis target proved before projective-bundle freeness; the ring relation follows
+Import the projective-bundle formula of EtaleCohomologyFoundations §0.9 for projective space; the ring relation follows
 from its basis and vanishing.
 
 Degree formula: in `CH*(X)`, take the integral self-intersection `c₁(L)^d` and use `cl(c₁(L)) = c₁(L)`,
-multiplicativity and `Tr ∘ cl =` degree on 0-cycles (cycle-class-map). The cycle-class construction of this
+multiplicativity and `Tr ∘ cl = deg` on 0-cycles (the étale cycle class map above). The cycle-class construction of this
 layer proves that compatibility. No division by a very-ample multiple modulo `n` is needed.
 
 Hyperplane formulas: projection formula and `Tr_X ∘ i_* = Tr_Y` (EtaleCohomologyFoundations §§0.10, F.6).
@@ -1459,8 +1443,6 @@ Use [BBD-1982] Proposition 1.3.5 and Théorème 1.3.6, pp.30–32; Proposition 1
 
 - For the degenerate `t`-structure with `t.le n = C` and `t.ge n = 0` for all `n` on a nonzero `C`, every `H^m_t` vanishes on a nonzero object, which is not `t`-bounded: the boundedness hypothesis in the vanishing criterion for `t`-bounded objects cannot be dropped.
 
-- For Mathlib's canonical `t`-structure on `D(Ab): H¹_t((ℤ/2)[−1]) ≅ ℤ/2` and `H⁰_t((ℤ/2)[−1]) = 0`.
-
 - For the middle perverse `t`-structure, `H^m_t` is perverse cohomology `pH^m` (§2.4); on a smooth curve `C, pH^{1}(Λ_C) ≅ Λ_C[1]` and `pH^m(Λ_C) = 0` for `m ≠ 1`.
 
 ### 2.2 Exact functors and recollement
@@ -1505,7 +1487,7 @@ A proof proceeds as follows.
 Use the supplied degree-zero constructors and all-degree preservation. Composition follows by applying
 the two native preservation instances successively.
 
-(`i`), (ii): long exact sequences of `H_{t₂}` applied to `T` of a short exact sequence of the heart, using §2.1 (ii)
+(i), (ii): long exact sequences of `H_{t₂}` applied to `T` of a short exact sequence of the heart, using §2.1 (ii)
 (BBD 1.3.17 proof, p.37).
 
 (iii): `Hom(T*V, U) = Hom(V, T_*U)` and the characterisation of `t.le 0` as the left orthogonal of `t.ge 1` (BBD
@@ -1532,10 +1514,6 @@ Use [BBD-1982] 1.3.16 and Proposition 1.3.17, pp.36–37; Remarque 1.3.18, p.37;
 - An exact functor `F : A ⥤ B` of abelian categories induces a `t`-exact functor `D(A) ⥤ D(B)` for the canonical `t`-structures.
 
 - Assume `Λ≠0`. Derived global sections `RΓ(P¹_Ω, −) : D(P¹_Ω, Λ) → D(Λ), Ω` separably closed, is left `t`-exact for the canonical `t`-structures but not right `t`-exact: `Λ(1)` in degree 0 has `H²(P¹, Λ(1)) ≅ Λ ≠ 0`.
-
-- The identity of `C` is `t`-exact; the shift [1] is right `t`-exact for every `t`.
-
-- For an exact functor `F : A → B` of abelian categories, the derived functor `D(A) → D(B)` is `t`-exact for the canonical `t`-structures.
 
 **Recollement of triangulated categories.** A recollement `D_F → D → D_U` consists of pretriangulated categories
 `D_F, D, D_U`, triangulated functors `i_* : D_F → D` and `j^* : D → D_U`, triangulated adjoints `i^* ⊣ i_* ⊣ i^!` and
@@ -1721,8 +1699,6 @@ p.55.
 
 - `j_!*` of a simple object of `C_U` is simple in `C`.
 
-- For `j : 𝔾_m → 𝔸¹` with field coefficients, `j_!*(Λ[1]) ≅ Λ_{𝔸¹}[1]`, and the exact sequence `0 → i_*Λ_0 → pj_!(Λ[1]) → Λ_{𝔸¹}[1] → 0` shows `pj_! ≠ j_!*`.
-
 **Tilting a `t`-structure along a torsion theory.** Let `t` be a `t`-structure on a pretriangulated category `D` with
 heart `C`, and `(T, F)` a torsion theory on `C` (`Hom(T, F) = 0` for `T ∈ T, F ∈ F`, and every `A` in `C` has a short exact
 sequence `0 → A_T → A → A_F → 0` with `A_T ∈ T, A_F ∈ F`). The tilt `t⁺` is defined by `t⁺.le 0 := {X ∈ t.le 1 : H¹_t X ∈ T}` and `t⁺.ge 0 := {X ∈ t.ge 0 : H⁰_t X ∈ F}`. Then `t⁺` is a `t`-structure on `D` with `t.le 0 ⊆ t⁺.le 0 ⊆ t.le 1`
@@ -1780,8 +1756,6 @@ Use [Juteau-2009] Definition 1.3.1, Propositions 1.3.3–1.3.6, pp.42–44 (arXi
 - `RHom_{ℤ_ℓ}(−, ℤ_ℓ)` maps the natural `t.le 0` of `D^b_fg(ℤ_ℓ)` onto `t⁺.ge 0` (BBD 3.3.1).
 
 - On finitely generated `ℤ_ℓ`-modules, (divisible, torsion) is not a torsion theory: the only divisible submodule of `ℤ_ℓ` is 0 and `ℤ_ℓ/0 = ℤ_ℓ` is not torsion, so `ℤ_ℓ` has no torsion sequence (the category is noetherian, not artinian).
-
-- For `D = D^b_fg(ℤ_ℓ)` with the natural `t`-structure and (torsion, torsion-free), the heart of `t⁺` contains `ℤ_ℓ[0]` and `(ℤ/ℓ)[−1]` but not `(ℤ/ℓ)[0]`; this is BBD's `t`-structure on `D_c(pt, ℤ)` in 3.3.1.
 
 ### 2.4 Noetherian torsion coefficients and descent
 
@@ -1899,10 +1873,6 @@ contract above.
 - Every dense open of `𝔸² ⊔ 𝔸¹` meets both components and has components of dimensions 2 and 1.
   The truncation construction uses shifts 2 and 1 on these pieces; no equidimensional dense open exists.
 
-- On a nonempty smooth curve `C` over `k` with `Λ≠0`, `Λ_C[1]` lies in the heart and `Λ_C` (in degree 0) lies in `pD^{≥1}` but not in `pD^{≤0}`.
-
-- For a closed point `x` of `X, i_{x*}M[0]` lies in the heart for every finitely generated `Λ`-module `M`.
-
 - On a nonempty smooth surface `S` with `Λ≠0`, `Λ_S[1]` lies in `pD^{≥1}` but not in `pD^{≤0}` (its stalk at the generic point is in degree `−1 > −2`), while `Λ_S[2]` is perverse.
 
 **Perverse sheaves.** In the situation of §2.4, the category of perverse sheaves is the heart `Perv(X, Λ) := pD^{≤0}(X, Λ) ∩ pD^{≥0}(X, Λ)`, a full abelian subcategory of `D^b_c(X, Λ)` (§2.1), with perverse cohomology
@@ -1945,7 +1915,7 @@ A proof proceeds as follows.
 
 Define `Perv(X, Λ)` as the heart and `pH^m` as the `t`-cohomology of §2.4.
 
-Morphism descent: for `K ∈ pD^{≤0}` and `L ∈ pD^{≥0}, ℋ^`mRHom`(K, L) = 0` for `m < 0` (BBD 2.1.20–2.1.21, (2.2.8) in
+Morphism descent: for `K ∈ pD^{≤0}` and `L ∈ pD^{≥0}`, `ℋ^m RHom(K, L) = 0` for `m < 0` (BBD 2.1.20–2.1.21, (2.2.8) in
 the étale setting), so `ℋ⁰RHom(K, L)` is the sheaf of morphisms (2.1.22).
 
 Object descent: BBD 2.2.19 gives a proof valid for the étale constructible categories: glue along a finite
@@ -1974,8 +1944,6 @@ Use [BBD-1982] Définition 2.1.5, p.58; Proposition 2.1.20 and Corollaires 2.1.2
 
 - On a nonempty smooth surface `S` with `Λ≠0`, `pH^m(Λ_S[1]) = 0` for `m ≠ 1` and `pH¹(Λ_S[1]) ≅ Λ_S[2]: Λ_S[1]` is not perverse.
 
-- `Perv(Spec Ω, Λ) ≃` finitely generated `Λ`-modules for `Ω` separably closed.
-
 - On a nodal cubic `X` with normalization `ν : P¹_k → X` and node `i_s:s→X`, put
   `ε = coker(Λ_s → i_s^*ν_*Λ_{P¹_k})`, retaining the Galois action on the two branches.
   The ordinary normalization sequence `0 → Λ_X → ν_*Λ_{P¹_k} → i_{s*}ε → 0` rotates to the perverse
@@ -2000,7 +1968,7 @@ A proof proceeds as follows.
 Stalk side: the support of a nonzero locally constant sheaf is a union of components of dimension `d`, so
 (4.0.1′) is the vanishing above `−d`.
 
-Costalk side: choose a smooth dense open `V` of `{x}^−` (after passing to `k^`perf, §2.4); `V ⊂ X` is a smooth pair of
+Costalk side: choose a smooth dense open `V` of `{x}^−` (after passing to `k^perf`, §2.4); `V ⊂ X` is a smooth pair of
 codimension `c`, and smooth-pair purity with locally constant coefficients (EtaleCohomologyFoundations §§0.10,
 F.6) gives `i_V^!K ≅ i_V^*K(−c)[−2c]`; restrict to `x`. The costalk condition at `x` becomes `ℋ^m(K_x̄) = 0` for `m < −dim(x) − 2c = −d − c`, implied by the condition at the generic points `(c = 0)`.
 
@@ -2041,11 +2009,11 @@ The stalk and costalk conditions for points of `U` are those of `U` (SchemeAndSt
 unchanged), and for points of `Z` the conditions on `i^*K` and `i^!K` are those defining `pD(Z)`; hence the perverse
 `t`-structure of `X` is the glued one (BBD 2.1.8, 2.2.3, 2.2.11).
 
-Exactness and adjoint triples: §2.2 (`b`) (BBD 1.4.16, 2.1.6).
+Exactness and adjoint triples: §2.2 (b) (BBD 1.4.16, 2.1.6).
 
-Thick subcategory and quotient: §2.2 (`c`) (BBD 1.4.17.1–1.4.18).
+Thick subcategory and quotient: §2.2 (c) (BBD 1.4.17.1–1.4.18).
 
-Exact sequences: §2.2 (`d`) (BBD 1.4.19), using only `i^*K ∈ pD^{≤0}, i^!K ∈ pD^{≥0}`.
+Exact sequences: §2.2 (d) (BBD 1.4.19), using only `i^*K ∈ pD^{≤0}, i^!K ∈ pD^{≥0}`.
 
 Counterexample to a `[−1, 0]` bound: for a closed point `x` of a smooth surface `S, i_x^*Λ_S[2] = Λ[2]` has perverse
 degree `−2` and `i_x^!Λ_S[2] = Λ(−2)[−2]` has perverse degree `+2`.
@@ -2172,7 +2140,7 @@ Name the resulting statement fibreDimensionPerverseAmplitude.
 A proof proceeds as follows.
 
 `f^*`: for `K ∈ pD^{≤0}(Y), ℋ^m(f^*K)_x̄ = ℋ^m(K)_{f(x̄)}` vanishes for `m > −dim f(x)` by (4.0.1); since `dim(x) ≤ dim f(x) + d` (SchemeAndStackFoundations §0.7), `−dim f(x) ≤ d − dim(x)`, so it vanishes for `m > d − dim(x)`,
-which is (4.0.1) for (`f^*K`)`[d]` (BBD 4.2.4).
+which is (4.0.1) for `(f^*K)[d]` (BBD 4.2.4).
 
 `Rf_*`: adjoint to `f^*[d]` up to shift (§2.2 (iii)).
 
@@ -2199,7 +2167,7 @@ EnhancedDerivedSheaves §0.4.
 ### 2.7 Smooth and affine morphisms
 
 **Smooth pullback with its dimension shift.** Let `f : X → Y` be smooth of pure relative dimension `d`. Then
-`f^![−d] ≅ f^*``[d](d)`, and the functor `f^*[d]` is `t`-exact for the middle perverse `t`-structures, inducing an exact
+`f^![−d] ≅ f^*[d](d)`, and the functor `f^*[d]` is `t`-exact for the middle perverse `t`-structures, inducing an exact
 functor `f^*[d] : Perv(Y, Λ) → Perv(X, Λ)` with left adjoint `pH^d Rf_!(d)` and right adjoint `pH^{−d} Rf_*`. If
 moreover `f` is surjective with geometrically connected fibres, then `f^*[d] : Perv(Y, Λ) → Perv(X, Λ)` is fully
 faithful (BBD 4.2.5). The field-coefficient assertions about subobjects, quotients and simple objects are
@@ -2216,7 +2184,7 @@ Name the resulting statement smoothPullbackPerverseExactness.
 
 A proof proceeds as follows.
 
-Smooth purity `f^! ≅ f^*(d)[2d]` (EtaleCohomologyFoundations §§0.11, F.6), so `f^*[d] ≅ f^!``[−d](−d)`; §2.6 gives
+Smooth purity `f^! ≅ f^*(d)[2d]` (EtaleCohomologyFoundations §§0.11, F.6), so `f^*[d] ≅ f^![−d](−d)`; §2.6 gives
 `f^*[d]` right `t`-exact and `f^![−d]` left `t`-exact; together `t`-exact.
 
 Full faithfulness: `f^*RHom(K, L) ≅ RHom(f^*K, f^*L)` for smooth `f` (smooth base change, imported through
@@ -2377,7 +2345,7 @@ closed immersion `ī : Ū → X`, and put `Z := Ū ∖ U`. The intermediate exte
 §2.4). For A perverse on `U, j′_!*A` is the unique perverse sheaf `P` on `Ū` with `P|_U ≅ A, ℋ^m(i_x^*P) = 0` for `m ≥ −dim(x)` and `ℋ^m(i_x^!P) = 0` for `m ≤ −dim(x)` at every point `x` of `Z` (BBD 2.1.9 in the pointwise form of 2.2.12);
 equivalently the unique perverse extension with no nonzero perverse subobject or quotient supported on `Z`. It
 is fully faithful, sends simple objects to simple objects, is independent of the factorisation, and is
-transitive: (`j₂ ∘ j₁`)`_!* ≅ j₂_!* ∘ j₁_!*` (BBD (2.1.7.1)). If `i : Z → Ū` is the closed complement, `i^*j′_!*A ∈ pD^{≤−1}(Z)` and `i^!j′_!*A ∈ pD^{≥1}(Z)`.
+transitive: `(j₂ ∘ j₁)_!* ≅ j₂_!* ∘ j₁_!*` (BBD (2.1.7.1)). If `i : Z → Ū` is the closed complement, `i^*j′_!*A ∈ pD^{≤−1}(Z)` and `i^!j′_!*A ∈ pD^{≥1}(Z)`.
 
 Work with the following additional hypotheses. `k` is a field, `n ≥ 1` an integer invertible in `k`, and `X, Y, Z, U`
 are separated schemes of finite type over `k`; every point `x` has `dim(x) :=` dim of its closure
@@ -2444,14 +2412,10 @@ Use [BBD-1982] 1.4.22–1.4.25, pp.54–55; 2.1.7, (2.1.7.1), pp.58–59; [BBD-1
 
 - For `U = 𝔾_m ⊂ 𝔸¹` and `A` the skyscraper `Λ` at the point 1 of `U` in degree `0, j_!*A` is the skyscraper at 1 on `𝔸¹` while the natural truncation `τ_{≤−1}Rj_*A` is 0: the absolute form of §2.9 needs its degree condition `A ∈ D^{≤−1}(U)`, and only the truncation relative to the boundary computes `j_!*A` here.
 
-- For `Λ` a field, `j : 𝔾_m → 𝔸¹` over `k̄` and `L` a nontrivial rank-one tame Kummer local system, `j_!L[1] ≅ j_!*(L[1]) ≅ Rj_*L[1]`.
-
-- For `j : 𝔾_m → 𝔸¹` and `Λ[1], j_!*(Λ[1]) ≅ Λ_{𝔸¹}[1]`, while `j_!(Λ[1])` and `Rj_*(Λ[1])` are different perverse sheaves.
-
 ### 2.9 Deligne truncation and low-degree comparison
 
 **Deligne's truncation formula for the intermediate extension.** Let `j : U → X` be an open immersion whose
-closed complement `i : F → X` is smooth over `k` (after passing to `k^`perf) of pure dimension `d`, and `A` perverse on
+closed complement `i : F → X` is smooth over `k` (after passing to `k^perf`) of pure dimension `d`, and `A` perverse on
 `U`. For an integer a write `τ^F_{≤a}` for the truncation relative to `F` for the natural `t`-structure of `F` (BBD
 1.4.13): `τ^F_{≤a}M` is the fibre of `M → i_*τ_{≥a+1}i^*M`, so it agrees with `M` on `U` and restricts on `F` to
 `τ_{≤a}i^*M`. If `ℋ^m(i^*Rj_*A)` is locally constant on `F` for every `m ≥ −d`, then `j_!*A ≅ τ^F_{≤−d−1}Rj_*A` (BBD
@@ -2475,7 +2439,7 @@ Name the resulting statement deligneTruncationFormula.
 
 A proof proceeds as follows.
 
-By §2.3 (`b`) (BBD 1.4.23), `j_!*A ≅ pτ^F_{≤−1}Rj_*A`, the truncation relative to `F` for the perverse `t`-structure
+By §2.3 (b) (BBD 1.4.23), `j_!*A ≅ pτ^F_{≤−1}Rj_*A`, the truncation relative to `F` for the perverse `t`-structure
 of `F` (BBD (2.2.3.1)).
 
 The natural triangle `τ_{≤−d−1}i^*Rj_*A → i^*Rj_*A → τ_{≥−d}i^*Rj_*A` has first term in `D^{≤−d−1}(F) ⊆ pD^{≤−1}(F)` (bounds of §2.4) and, under the local-constancy hypothesis, third term with locally constant
@@ -2630,10 +2594,6 @@ Use [BBD-1982] Lemme 4.3.2 and Lemme 4.3.3, pp.112–113; Théorème 4.3.1 (ii),
   After extending the base to `𝔽₄₉` it becomes constant; with coefficients `𝔽₂` the sign action is
   already trivial over `𝔽₇`.
 
-- `IC` of a smooth curve is `Λ[1]`; `IC` of a nodal cubic is `ν_*Λ_{P¹}[1]`, whose geometric stalk at the node is `Λ²` in degree `−1`, with its branch permutation action.
-
-- `IC` of a cuspidal cubic `X` is `Λ_X[1]`, since its normalisation is a universal homeomorphism.
-
 **Finite length and the simple perverse sheaves.** Let `Λ` be a field (finite of characteristic `ℓ ≠ char k`, or
 `E/ℚ_ℓ` finite under the `ℓ`-adic hypotheses, or `ℚ̄_ℓ` as the colimit over such `E`, EtaleCohomologyFoundations
 §§F.4, F.8; ramified coefficient refinement in §3.1 here). Every perverse sheaf on `X` has finite length in
@@ -2663,7 +2623,7 @@ normal irreducible (Stacks Tag 0BQI, required from EtaleCohomologyFoundations §
 no-sub/quotient characterisation of `j_!*` (BBD 4.3.3, citing 1.4.25: the no-boundary-subquotient criterion of
 §2.3).
 
-Simplicity of `i_{V̄*}j_!*`: twice §2.3 (`d`) (BBD 4.3.4).
+Simplicity of `i_{V̄*}j_!*`: twice §2.3 (d) (BBD 4.3.4).
 
 Finite length by noetherian induction: a perverse `F` is `L[dim U]` on a smooth irreducible dense open `U` of its
 reduced support over the perfect closure with `L` lisse of finite length, so the four-term sequences of §2.4 reduce to intermediate extensions of
@@ -2753,7 +2713,7 @@ cohomology of `i_x^!K` is the sheaf of sections of `ℋ^b(K)` supported on `{x}^
 (c): `ℋ^m(i_x^!K)` is the colimit over étale neighbourhoods `V` of `x` and closed `W = {x}^− ∩ V` of `H^m_W(V, K)`; with
 a uniform lower bound `b, H^m_W(V, −)` depends only on `τ_{≤m+1}`, a bounded complex in `[b, m+1]`, and étale
 cohomology with supports of the qcqs `V` commutes with filtered colimits of sheaves (EtaleCohomologyFoundations
-§§F.0–F.6/cohomology-filtered-colimits via the localization triangle of EtaleCohomologyFoundations §§F.0–F.1,
+§§F.0–F.6 for the commutation with filtered colimits, via the localization triangle of EtaleCohomologyFoundations §§F.0–F.1,
 0.7; EnhancedDerivedSheaves §§0.1–0.3); induct on the length.
 
 (d): for `x ∉ U, {x}^− ⊆ X ∖ U` and `i^!Rj_* = 0` (§2.2), so the costalk of `Rj_*K` at `x` vanishes; for `x ∈ U` it is
@@ -2779,8 +2739,6 @@ EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above.
 - For `j : 𝔸² ∖ {0} → 𝔸²` over `k̄` and `Λ = ℤ/ℓ, Λ[2]` lies in `pD^{≥0}_{ext}` on the open but `j_!Λ[2]` does not lie in `pD^{≥0}_{ext}` on `𝔸²`: its costalk at the origin is `(i^*Rj_*Λ[2])[−1] ≅ Λ[1] ⊕ Λ(−2)[−2]`, nonzero in degree `−1 < 0`. So the list in (d) contains `Rj_*` and not `j_!`.
 
 - A filtered colimit of perverse sheaves `Λ_C[1] → …` along the identity is `Λ_C[1]`.
-
-- For a smooth curve `C` and the direct sum `K = ⊕_{x ∈ C closed} i_{x*}Λ[0]` (not constructible), `K ∈ pD^{≤0}_{ext} ∩ pD^{≥0}_{ext}`.
 
 ### 2.12 Semismall and small maps
 
@@ -2831,7 +2789,7 @@ scheme-site contract above.
 **Checks.**
 
 
-- A proper surjective generically finite map of smooth surfaces is semismall (fibres of dimension `≤ 1` over finitely many points), so `Rf_*Λ[2]` is perverse; `e`.`g`. the blow-up of a point of `𝔸²`.
+- A proper surjective generically finite map of smooth surfaces is semismall (fibres of dimension `≤ 1` over finitely many points), so `Rf_*Λ[2]` is perverse; e.g. the blow-up of a point of `𝔸²`.
 
 - Assume `Λ≠0`. Non-example: the blow-up `f` of a point in `𝔸³` (exceptional divisor `P²` over the point, `2·2 + 0 > 3`) is not semismall, and `Rf_*Λ[3]` has stalk `H⁴(P², Λ) ≠ 0` in degree 1 at the point, so it is not perverse.
 
@@ -2942,10 +2900,10 @@ The normalization equivalence identifies every level with derived coefficient re
 the comparison of EtaleCohomologyFoundations §§F.4.1–F.4.3.
 
 Over `O`, which has global dimension one, integral-to-quotient reduction of a bounded constructible complex has
-a bounded realization. Quotient-to-quotient reduction does not have this property on all Dbc objects. On a
+a bounded realization. Quotient-to-quotient reduction does not have this property on all `D^b_c` objects. On a
 separably closed point, `R = ℤ/ℓ²` and `M = R/ℓ` have `Tor_i(M, M) = M` and `Ext^i(M, M) = M` for every `i ≥ 0`; the
 periodic multiplication-by-`ℓ` free resolution proves the obstruction (compare the `Tor` check of
-EtaleCohomologyFoundations §F.1). `M` remains in Dbc and in the point perverse heart, but has no finite `Tor`
+EtaleCohomologyFoundations §F.1). `M` remains in `D^b_c` and in the point perverse heart, but has no finite `Tor`
 amplitude.
 
 Use the coefficient-module sheaf category for the specified regime: finite levels have the `t`-exact native
@@ -2958,7 +2916,7 @@ Proposition 6.8.14 and Remark 6.8.15, pp. 49–62 (arXiv v2); [BBD-1982] 2.2.14,
 [TCR-EtaleCohomologyFoundations] §F.4.1, VanishingCycles.normalizedAdicSystems;
 [TCR-EnhancedDerivedSheaves] §E4.5 (`Sys_I` and coCartesian sections), with §§0.3–0.4.
 
-*Needs:* EnhancedDerivedSheaves Layer 4.
+*Needs:* EnhancedDerivedSheaves §§0.3–0.4, E4.5; EtaleCohomologyFoundations §§F.4.1–F.4.3.
 
 **Checks.**
 
@@ -2969,7 +2927,7 @@ Proposition 6.8.14 and Remark 6.8.15, pp. 49–62 (arXiv v2); [BBD-1982] 2.2.14,
 
 - On a geometric point the ordinary compatible tower `M_n=O/λ` concentrated in degree zero is not a derived-normalized system. Already `(O/λ)⊗^L_{O/λ²}(O/λ)` has a nonzero `O/λ` in every nonpositive degree, so reduction from `n=1` to `n=0` is not `M_0[0]`.
 
-- Over a separably closed point and `R=Z/ell²`, the degree-zero finite module `M=R/`ell belongs to Dbc, is not finite-Tor, and its ambient self-tensor has `M` in every nonpositive degree while its ambient self-`RHom` has `M` in every nonnegative degree. The test fixes the actual quotient module and asserts those cohomology identifications in the ambient categories.
+- Over a separably closed point and `R = ℤ/ℓ²`, the degree-zero finite module `M = R/ℓ` belongs to `D^b_c`, is not finite-Tor, and its ambient self-tensor has `M` in every nonpositive degree while its ambient self-`RHom` has `M` in every nonnegative degree. The test fixes the actual quotient module and asserts those cohomology identifications in the ambient categories.
 
 - The integral torsion object `O/λ` is retained: its derived `n`-th level is the perfect two-term complex [`R_n` --`λ→ R_n`] in degrees `−1,0`. These levels form a normalized enhanced system with uniform `Tor` interval `[−1,0]`, unlike the underived degree-zero residue tower.
 
@@ -2991,6 +2949,8 @@ This is a natural equivalence in the original complex, not an arbitrary isomorph
 
 Use [Bhatt-Scholze-proetale-2015] §3.5, Lemmas 3.5.5 and 3.5.7, pp.25–26; §6.5, Definition 6.5.1, p.49 (arXiv
 v2); enhanced refinement: EnhancedDerivedSheaves §E4.5.
+
+*Needs:* the normalized systems of §3.1 above; EnhancedDerivedSheaves §§0.3–0.4, E4.5.
 
 **Checks.**
 
@@ -3014,6 +2974,8 @@ bounded separately.
 
 Use [Bhatt-Scholze-proetale-2015] §6.5, Definition 6.5.1 and Lemmas 6.5.3–6.5.4, pp.49–50 (arXiv v2).
 
+*Needs:* the normalized systems of §3.1 above.
+
 **Checks.**
 
 
@@ -3035,6 +2997,8 @@ stratification; derived reduction of each stratumwise perfect `O`-local model re
 cohomological degree. Individual level stratifications alone are not the asserted common witness.
 
 Use [Bhatt-Scholze-proetale-2015] §6.6, Proposition 6.6.11, p.54 (arXiv v2).
+
+*Needs:* the normalized systems of §3.1 above; EnhancedDerivedSheaves §E4.5.
 
 **Checks.**
 
@@ -3059,7 +3023,7 @@ EnhancedDerivedSheaves E4 (§E4.5); constructibility, boundedness and the scheme
 inputs, not consequences of repleteness alone. Tensor, internal `Hom` and coefficient change are the enhanced
 operations of EnhancedDerivedSheaves §0.3 in the ambient unbounded derived category; finite `Tor` amplitude is
 tested there against all degree-zero sheaves. Bounded outputs require actual bounded-constructible restriction
-witnesses. General-ring trace evaluation uses `ctf` inputs; bounded duality on every Dbc object uses its stated
+witnesses. General-ring trace evaluation uses `ctf` inputs; bounded duality on every `D^b_c` object uses its stated
 coefficient regime.
 
 Name the resulting statement classicalAndProetaleAdicCategories.
@@ -3067,12 +3031,12 @@ Name the resulting statement classicalAndProetaleAdicCategories.
 A proof proceeds as follows.
 
 Pro-étale side: `D(X_proét, O)` and derived completion are EnhancedDerivedSheaves E4 (coefficient-system
-reconstruction, EnhancedDerivedSheaves Layer 4); `D_cons` is the subcategory of complete objects with
+reconstruction, EnhancedDerivedSheaves Layer E4); `D_cons` is the subcategory of complete objects with
 constructible reductions (Bhatt–Scholze 6.5).
 
 Use the enhanced limit and all higher coherence of EnhancedDerivedSheaves §E4.5, taking its homotopy category
 only afterwards. The equivalence with `λ`-adic systems: `K ↦ (K ⊗^L O/λ^m)_m` with inverse Rlim (Bhatt–Scholze,
-comparison with Ekedahl's category; EnhancedDerivedSheaves Layer 4). For `O = ℤ_ℓ` this is
+comparison with Ekedahl's category; EnhancedDerivedSheaves Layer E4). For `O = ℤ_ℓ` this is
 EtaleCohomologyFoundations §§F.4.2–F.4.3; for ramified `O` the same argument applies to the tower `O/λ^m`, since
 `O/λ^{em}` is a finite free `ℤ/ℓ^m`-algebra (`e` the ramification index) and the realization, its Milnor sequence
 and the pro-étale comparison only use the uniform bounds and the finite-level operations.
@@ -3087,7 +3051,8 @@ Proposition 6.8.14 and Remark 6.8.15, pp. 49–62 (arXiv v2); [TCR-EtaleCohomolo
 and F.5; [TCR-EnhancedDerivedSheaves] §0.3 (ClassicalDerived.tensorHom,
 inverseLimits, derivedCompletion) and §E4.5.
 
-*Needs:* EnhancedDerivedSheaves Layer 4.
+*Needs:* §3.1 (the normalized systems above); EnhancedDerivedSheaves §§0.3, E4.5; EtaleCohomologyFoundations §§0.7–0.8,
+F.2–F.3, F.4.2–F.4.5, F.5.
 
 **Checks.**
 
@@ -3122,7 +3087,7 @@ Name the resulting statement operationReductionComparisons.
 A proof proceeds as follows.
 
 Use §3.1’s homotopy-coherent ramified normalized-system/pro-étale equivalence and reduction functors. The
-generic derived-limit operations are EnhancedDerivedSheaves Layer 4; EtaleCohomologyFoundations §F.4 provides
+generic derived-limit operations are EnhancedDerivedSheaves Layer E4; EtaleCohomologyFoundations §F.4 provides
 the `ℤ_ℓ` special case and geometric finiteness.
 
 Apply Bhatt–Scholze 6.7.1 to obtain finite relative cohomological dimension and 6.5.11 for strict `Rf_*`
@@ -3181,7 +3146,7 @@ Name the resulting statement mappingLimitAndIntegralClassTransport.
 A proof proceeds as follows.
 
 Use §3.1’s homotopy-coherent ramified normalized-system/pro-étale equivalence and reduction functors. The
-generic derived-limit operations are EnhancedDerivedSheaves Layer 4; EtaleCohomologyFoundations §F.4 provides
+generic derived-limit operations are EnhancedDerivedSheaves Layer E4; EtaleCohomologyFoundations §F.4 provides
 the `ℤ_ℓ` special case and geometric finiteness.
 
 Apply the Milnor sequence to the derived mapping complex. Finite-level constructibility and geometric
@@ -3197,7 +3162,7 @@ Import the integral derived Poincaré-duality statement and its `Ext¹` sequence
 after these integral statements have been established.
 
 Use [Bhatt-Scholze-proetale-2015] Lemma 6.6.2, p.52; Lemma 6.7.13, p.57; 6.8.14–6.8.15, pp.61–62; [BBD-1982]
-§2.2, p.72 (derived coefficient `Tor` sequence); 2.2.16, p.72 (adic `Hom/`Milnor sequence);
+§2.2, p.72 (derived coefficient `Tor` sequence); 2.2.16, p.72 (adic `Hom`/Milnor sequence);
 [TCR-EtaleCohomologyFoundations] §F.4, normalized `ℤ_ℓ` realization and finite-`E` lattice coefficients.
 
 *Needs:* EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above; EtaleCohomologyFoundations
@@ -3269,16 +3234,16 @@ VanishingCycles.intermediateExtension.
 integers `O⊂O′`, and separated finite-type `X,Y` over a field where `ℓ` is invertible, finite free scalar extension
 commutes canonically with `f^*, Rf_*, Rf_!, f^!`, internal `Hom, K_X` and `D_X` on the bounded constructible adic
 categories. It sends trace, evaluation, biduality, cup, Gysin and cycle-class maps to their `O′`-counterparts.
-Integral comparison uses `O/λ^n→O′/λ^`nO′; this is a cofinal subsequence of the `λ′`-adic tower, with ramification
+Integral comparison uses `O/λ^n→O′/λ^nO′`; this is a cofinal subsequence of the `λ′`-adic tower, with ramification
 index accounted for. After inverting `ℓ` the same statements hold for `E→E′`. Use the existing perverse
-coefficient-extension theorem for perverse `t`-exactness, `j_!*` and `IC`. For an algebraic closure Ebar, form the
+coefficient-extension theorem for perverse `t`-exactness, `j_!*` and `IC`. For an algebraic closure `Ē`, form the
 filtered coefficient category from finite subextensions: every specified bounded constructible object,
 morphism and finite diagram descends to a finite subextension, and the preceding compatibilities pass to that
 category.
 
 Work with the following additional hypotheses. All scalar extensions here are finite free extensions of
 complete DVRs or finite coefficient-field extensions, followed by the specified filtered algebraic-extension
-category. An unrestricted category of all analytic Ebar-valued local systems is not used. Integral torsion
+category. An unrestricted category of all analytic `Ē`-valued local systems is not used. Integral torsion
 objects are retained; derived reduction `O→O/λ` is distinct from the flat `O→O′` and `E→E′` operations and is not
 perverse `t`-exact. For `Hom` base change in the rational constructible category use its actual mapping complexes.
 No assertion that a simple object remains simple after coefficient extension is made. The operation and mate
@@ -3291,7 +3256,7 @@ A proof proceeds as follows.
 
 Finite free extension is exact and can be computed by a finite direct sum after choosing a basis; canonical
 `O`-linear operation comparisons are isomorphisms by that calculation. Apply the operation-reduction result to
-the cofinal `λ^`nO′ tower and its ramification comparison.
+the cofinal `λ^nO′` tower and its ramification comparison.
 
 Compare the adjunction units/counits and tensor-`Hom` evaluations under scalar extension. Their mates yield the
 duality and trace identities; the finite-level constructions of Layer 1 yield the cycle/Gysin identities.
@@ -3326,7 +3291,7 @@ integral coefficients and nonproper constructible `Rf_*` exchange. The compariso
 Artin's comparison theorem SGA 4 XVI 4.1), commutes with `f^*, Rf_*, Rf_!` and `f^!` in their constructible ranges
 for morphisms of finite type. Tensor and `RHom` comparison are stated in the ambient unbounded categories: for
 bounded constructible `K,L`, finite `Tor` amplitude of `K` gives bounded-constructible restriction receipts for `K⊗^L L` and `RHom(K,L)`, and the comparisons then restrict through these receipts. Bounded Verdier duality on every
-Dbc object is asserted only for the finite-field, DVR-quotient, integral and rational coefficient regimes; for
+`D^b_c` object is asserted only for the finite-field, DVR-quotient, integral and rational coefficient regimes; for
 a general finite ring it uses the existing `ctf` input range. The functor is `t`-exact for the middle perverse
 `t`-structures, so it identifies `Perv(X_ét, Λ)` with algebraically constructible perverse sheaves on `X^an` and
 preserves `j_!*` and `IC`. For `O_E` coefficients the corresponding equivalence follows from finite-level
@@ -3364,7 +3329,7 @@ solely from global full faithfulness of `ε^*`.
 Perverse `t`-exactness: the stalk/costalk conditions are computed on points of `X` and stratifications, which
 agree on both sides.
 
-Realize Dbc in the unbounded coefficient category appropriate to its regime and AnalyticDbc in the native
+Realize `D^b_c` in the unbounded coefficient category appropriate to its regime and the analytic `D^b_c` in the native
 derived category of analytic module sheaves. Compare the ambient tensor and `RHom` of the realized inputs;
 finite-Tor boundedness receipts and realization isomorphisms identify the bounded restrictions. Over complex
 coefficient fields, use their separate analytic boundedness theorem, not a universal bounded operation over
@@ -3386,11 +3351,11 @@ Use [BBD-1982] 6.1.2`(A), (A′), (A″), (B′), (B″), (C), (C′)` and the p
 
 ### 3.6 Tate lines, orientation and supported classes
 
-**Supported topological orientation and complete coefficients.** Work on the locally compact Hausdorff analytic spaces of finite-type complex varieties, with finite cohomological dimension and algebraically constructible complexes. Define supported Betti purity using relative cochains of the normal bundle and its complement of the zero section. For a smooth closed subvariety `i:Z→X` of a smooth complex variety `X`, of pure codimension `c`, complex orientation of the normal bundle gives `i^!Λ_X≅Λ_Z(−c)[−2c]`, after the Tate-line identification below. This constant-coefficient purity assertion is restricted to smooth pairs. Define its supported sheaf Thom class and Gysin map by the closed-support adjunction. Under the relative sheaf–cochain realization, identify their induced ordinary maps with CharacteristicClasses C2.1–C2.4's `U_E` and embedding Gysin for the same positive complex orientation, products and supports. Prove compatibility with the supplied integration on compactly supported top cochains. Import oriented fibre integration and trace normalization from ComplexComparisonPartII §C6.5 / `artinSmoothTrace`, and normalized topological realization with integral and rational traces from §C6.6 / `adicArtinComparison`. Extend those coefficient systems to ramified `O=O_E` using §3.4. Define this extension `BettiNormalizedSystem(O)` as coherent derived-complete `O/λ^m` systems in the supplied analytic constructible enhancement, with one finite algebraic stratification and uniform ordinary and `Tor` bounds; its reductions are derived reductions. The additional constructions are supported sheaf purity, its realization comparison with the ordinary Thom/Gysin maps, higher-cycle comparison and constructible duality, using the relative cochains and compact-manifold duality of AlgebraicTopology Stage 6.
+**Supported topological orientation and complete coefficients.** Work on the locally compact Hausdorff analytic spaces of finite-type complex varieties, with finite cohomological dimension and algebraically constructible complexes. Define supported Betti purity using relative cochains of the normal bundle and its complement of the zero section. For a smooth closed subvariety `i:Z→X` of a smooth complex variety `X`, of pure codimension `c`, complex orientation of the normal bundle gives `i^!Λ_X≅Λ_Z(−c)[−2c]`, after the Tate-line identification below. This constant-coefficient purity assertion is restricted to smooth pairs. Define its supported sheaf Thom class and Gysin map by the closed-support adjunction. Under the relative sheaf–cochain realization, identify their induced ordinary maps with CharacteristicClasses C2.1–C2.4's `U_E` and embedding Gysin for the same positive complex orientation, products and supports. Prove compatibility with the supplied integration on compactly supported top cochains. Import oriented fibre integration and trace normalization from ComplexComparisonPartII §C6.5 / `artinSmoothTrace`, and normalized topological realization with integral and rational traces from §C6.6 / `adicArtinComparison`. Extend those coefficient systems to ramified `O=O_E` using §3.4. Define this extension `BettiNormalizedSystem(O)` as coherent derived-complete `O/λ^m` systems in the supplied analytic constructible enhancement, with one finite algebraic stratification and uniform ordinary and `Tor` bounds; its reductions are derived reductions. The additional constructions are supported sheaf purity, its realization comparison with the ordinary Thom/Gysin maps, higher-cycle comparison and constructible duality, using the relative cochains and compact-manifold duality of AlgebraicTopology Layer 6.
 
 The API consists of the positive complex-coordinate generator of the supported class, its compatibility with direct sums of normal bundles, the localization and projection formulas for the Gysin map, the equality of the realized supported class with the supplied `U_N` of the normal bundle, the equality of the realized support-adjunction map with the supplied embedding Gysin, compatibility with the imported trace after ramified coefficient extension, the duality evaluation map, and the reduction and mapping-limit maps of the normalized systems. For an algebraically constructible finite-Tor `K` on a smooth complex `d`-fold, the duality statement is `RΓ(X,RHom(K,Λ(d)[2d]))≅RHom(RΓ_c(X,K),Λ)`; retain the derived `Hom` and its integral `Ext` term. At `O`-level use the complete limit of the finite-level maps; after inverting `λ` retain the stable-lattice analytic essential image from §3.5.
 
-Construct the supported sheaf class on `(ℂ^c,ℂ^c−{0})` from the positive relative-cochain generator. Localization glues it along the normal bundle. Under relative sheaf–cochain realization, uniqueness of the supplied Thom class with these fibre generators identifies it with CharacteristicClasses C2.1's `U_N`. Compare support adjunction with tubular extension to obtain C2.4's embedding Gysin. Transport C2.2–C2.4's products, projection and composition identities through this comparison, retaining the same support groups. For noncompact duality start with a trivial local system on an oriented ball, where compactly supported relative cochains calculate the shifted coefficient dual. Use finite algebraic stratification, open/closed localization and duality triangles to pass to constructible complexes; use finite projective coefficient resolutions for finite-Tor objects. This supplies the compact-support pairing rather than a fundamental class without compactness. The already supplied finite Artin comparison respects localization; the local Kummer/exponential generator then identifies the étale and topological maps. Form coherent `O/λ^m` diagrams and apply EnhancedDerivedSheaves coefficient reconstruction and §3.2 mapping limits with the displayed bounds. (Dimca, *Sheaves in Topology*, Proposition 3.2.11, p.65, Theorem 3.3.3, p.68, and Theorem 3.3.10, p.69, for supported purity and derived compact-support duality; finite-Tor coefficient base change supplies the finite quotient rings. BBD §§6.1.2(`A′`–`C′`), pp.149–151, and 6.1.4, pp.151–152; [TCR-CharacteristicClasses] C2.1–C2.4 for ordinary Thom/Gysin and their identities; AlgebraicTopology Stage 6 for relative cochains and orientation products; EnhancedDerivedSheaves Layer 4 for derived completeness.) *Needs:* §§3.1–3.5, ComplexComparisonPartII §§C5.4, C6.0–C6.6, CharacteristicClasses C2.1–C2.4, and the supplied relative-cochain/orientation API.
+Construct the supported sheaf class on `(ℂ^c,ℂ^c−{0})` from the positive relative-cochain generator. Localization glues it along the normal bundle. Under relative sheaf–cochain realization, uniqueness of the supplied Thom class with these fibre generators identifies it with CharacteristicClasses C2.1's `U_N`. Compare support adjunction with tubular extension to obtain C2.4's embedding Gysin. Transport C2.2–C2.4's products, projection and composition identities through this comparison, retaining the same support groups. For noncompact duality start with a trivial local system on an oriented ball, where compactly supported relative cochains calculate the shifted coefficient dual. Use finite algebraic stratification, open/closed localization and duality triangles to pass to constructible complexes; use finite projective coefficient resolutions for finite-Tor objects. This supplies the compact-support pairing rather than a fundamental class without compactness. The already supplied finite Artin comparison respects localization; the local Kummer/exponential generator then identifies the étale and topological maps. Form coherent `O/λ^m` diagrams and apply EnhancedDerivedSheaves coefficient reconstruction and §3.2 mapping limits with the displayed bounds. (Dimca, *Sheaves in Topology*, Proposition 3.2.11, p.65, Theorem 3.3.3, p.68, and Theorem 3.3.10, p.69, for supported purity and derived compact-support duality; finite-Tor coefficient base change supplies the finite quotient rings. BBD §§6.1.2(A′–C′), pp.149–151, and 6.1.4, pp.151–152; [TCR-CharacteristicClasses] C2.1–C2.4 for ordinary Thom/Gysin and their identities; AlgebraicTopology Layer 6 for relative cochains and orientation products; EnhancedDerivedSheaves Layer E4 for derived completeness.) *Needs:* §§3.1–3.5, ComplexComparisonPartII §§C5.4, C6.0–C6.6, CharacteristicClasses C2.1–C2.4, and the supplied relative-cochain/orientation API.
 
 **Checks.**
 
@@ -3404,7 +3369,7 @@ Construct the supported sheaf class on `(ℂ^c,ℂ^c−{0})` from the positive r
 
 **Tate coefficients and the complex orientation line.** For a smooth separated finite-type complex scheme `X` of
 pure complex dimension `d`, let `or_X` be the integral local orientation system of the real `2d`-manifold `X^an`
-supplied by AlgebraicTopology Stage 6. For `n≥1` put `ζ_n = exp(2πi/ℓ^n)`. Construct the compatible coefficient
+supplied by AlgebraicTopology Layer 6. For `n≥1` put `ζ_n = exp(2πi/ℓ^n)`. Construct the compatible coefficient
 identifications `θ_{X,n}:(Z/ℓ^n(d))^an≃or_X⊗Z/ℓ^n` sending `ζ_n^{⊗d}` to the positive complex local orientation
 generator. Equivalently first identify the analytic Tate line with `Z(1)/ℓ^n, Z(1)=2πiZ`, using the exponential
 sequence, and identify `Z(d)` with `or_X`. Pass these maps through the imported normalized topological realization
@@ -3414,9 +3379,9 @@ noncompact space.
 
 Work with the following additional hypotheses. Smooth `X`, separated and finite type over `C`, pure complex
 dimension `d`; the complex analytic/singular realization and orientation-system carrier are imported. The
-compatible positive roots `ζ_n` are part of the trivialization convention. The intrinsic `Z(d)/`orientation
+compatible positive roots `ζ_n` are part of the trivialization convention. The intrinsic `Z(d)`/orientation
 comparison is conjugation compatible. Arbitrary root choices cannot be silently substituted. No de Rham
-comparison or field isomorphism `C≃`Ebar is needed for finite, integral or rational `ℓ`-adic Betti comparison.
+comparison or field isomorphism `ℂ ≃ Ē` is needed for finite, integral or rational `ℓ`-adic Betti comparison.
 
 The interface consists of the following maps and identities.
 
@@ -3454,8 +3419,8 @@ Use [BBD-1982] 6.1.4, pp.151–152; [TCR-ComplexComparisonPartII] §§C5.4, C6.0
 comparison; [TCR-EtaleCohomologyFoundations] §F.4, normalized `ℤ_ℓ` realization and finite-`E` lattice
 coefficients.
 
-*Needs:* EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above; AlgebraicTopology stage 6
-cohomology products and manifold duality; `AlgebraicGeometry.Scheme.smallEtaleTopology`;
+*Needs:* EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above; AlgebraicTopology Layer 6
+(cohomology, products and manifold duality); `AlgebraicGeometry.Scheme.smallEtaleTopology`;
 `AlgebraicGeometry.Scheme.ellAdicSheaf`; EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves
 §§0.1–0.3; §3.4.
 
@@ -3488,9 +3453,9 @@ oriented fundamental class.
 Work with the following additional hypotheses. Use bounded constructible finite-Tor input complexes for
 tensor/evaluation; integral `O` is regular. Finite-level Artin comparison and normalized topological realization
 are ComplexComparisonPartII §§C6.3–C6.6, extended to ramified coefficients by §3.1. For general singular
-cycles, use §1.1 and cycle-class-map with their semi-purity and rational-equivalence hypotheses; this theorem
+cycles, use §1.1 and the étale cycle class map of §1.3 with their semi-purity and rational-equivalence hypotheses; this theorem
 establishes the smooth-pair normalization used by that imported extension. Topological local orientation,
-relative cohomology and cup/cap are imported from AlgebraicTopology Stage 6 and its prerequisite stages. The
+relative cohomology and cup/cap are imported from AlgebraicTopology Layer 6 and its prerequisite layers. The
 additional supported Thom/Gysin and noncompact integral-duality interface is constructed at the start of this
 subsection from relative cochains and local orientations.
 
@@ -3519,12 +3484,12 @@ For a divisor compare its supported class and first Chern class using Layer 1 an
 diagram. The equality follows with the positive convention; arbitrary units are accounted for by the
 orientation API.
 
-Use [BBD-1982] 6.1.2(`A′`–`C′`), pp.149–151; 6.1.4, pp.151–152; [TCR-ComplexComparisonPartII] §§C5.4,
+Use [BBD-1982] 6.1.2(A′–C′), pp.149–151; 6.1.4, pp.151–152; [TCR-ComplexComparisonPartII] §§C5.4,
 C6.0–C6.6, constructible Artin comparison; [TCR-EtaleCohomologyFoundations] §F.4, normalized `ℤ_ℓ`
 realization and finite-`E` lattice coefficients.
 
 *Needs:* §3.2; §3.5; EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above;
-AlgebraicTopology stage 6 cohomology products and manifold duality; EtaleCohomologyFoundations §§0.11, F.6;
+AlgebraicTopology Layer 6 (cohomology, products and manifold duality); EtaleCohomologyFoundations §§0.11, F.6;
 EtaleCohomologyFoundations §0.9; EtaleCohomologyFoundations §§0.10, F.6; §1.1; §1.3.
 
 **Checks.**
@@ -3571,8 +3536,8 @@ the bounded restrictions. `O` is a DVR of global dimension one: bounded construc
 stratumwise perfect, and their derived reductions lie in `D_ctf(X,O/λ^m)` with a common interval. Apply exactly
 the `ctf` biduality and exchange isomorphisms of EtaleCohomologyFoundations §F.5 at those levels; the dual
 systems retain common constructibility and bounds, and enhanced reconstruction gives integral biduality.
-Quotient-to-quotient reduction is not bounded on every Dbc object. No biduality on arbitrary nonperfect
-finite-level Dbc inputs is imported. Finite-group Mittag–Leffler is used only for geometric cohomology.
+Quotient-to-quotient reduction is not bounded on every `D^b_c` object. No biduality on arbitrary nonperfect
+finite-level `D^b_c` inputs is imported. Finite-group Mittag–Leffler is used only for geometric cohomology.
 
 Traces, purity and Gysin maps are compatible with reduction by construction (their finite-level constructions
 in EtaleCohomologyFoundations §§0.9–0.11 and F.6 are natural in `Λ`), hence define maps of systems; cycle
@@ -3760,7 +3725,7 @@ For `O/λ` supported at a geometric point, derived reduction has terms in degree
 
 ### Dependencies
 
-Layers 0–2; EnhancedDerivedSheaves Layer 4; EtaleCohomologyFoundations §F.4; ComplexComparisonPartII §§C5.4, C6.0–C6.6; the analytic, topological and diamond contracts above.
+Layers 0–2; EnhancedDerivedSheaves Layer E4; EtaleCohomologyFoundations §F.4; ComplexComparisonPartII §§C5.4, C6.0–C6.6; the analytic, topological and diamond contracts above.
 
 ## Layer 4: refined Lefschetz and geometric decompositions
 
@@ -3769,7 +3734,7 @@ Layers 0–2; EnhancedDerivedSheaves Layer 4; EtaleCohomologyFoundations §F.4; 
 Extend the supplied sheaf support bound and constant-coefficient smooth ample Lefschetz theorem to complexes, arbitrary affine complements and integral saturation.
 
 **Artin vanishing for constructible complexes on affine schemes.** Let `k` be a separably closed field, `n ≥ 1`
-invertible in `k, Λ` a noetherian ring with `nΛ = 0`, and `U` an affine scheme of finite type over `k`. (b) Let `K ∈ D^b_c(U, Λ)` and let `d_q ∈ ℤ ∪ {−∞}` satisfy `dim Supp ℋ^q(K) ≤ d_q` for every `q` (dim `∅ = −∞`). Then `H^m(U, K) = 0`
+invertible in `k, Λ` a noetherian ring with `nΛ = 0`, and `U` an affine scheme of finite type over `k`. (a) For a constructible sheaf `F` of `Λ`-modules on `U`, `H^q(U, F) = 0` for `q > dim Supp F`; this is EtaleCohomologyFoundations §F.3, imported. (b) Let `K ∈ D^b_c(U, Λ)` and let `d_q ∈ ℤ ∪ {−∞}` satisfy `dim Supp ℋ^q(K) ≤ d_q` for every `q` (dim `∅ = −∞`). Then `H^m(U, K) = 0`
 for every `m > max_q (q + d_q)`. (c) In particular, if `dim Supp ℋ^q(K) ≤ −q` for all `q`, that is `K ∈ pD^{≤0}(U)`,
 then `H^m(U, K) = 0` for `m > 0` (for perverse `K` this is the statement of EtaleCohomologyFoundations §F.8,
 imported); and `H^m(U, K) = 0` for `m > dim U + max{q : ℋ^q(K) ≠ 0}`. (d) The same bounds hold for `K ∈ D^b_c(U, O_E)` and `D^b_c(U, E)` (`E/ℚ_ℓ` finite, `ℓ` invertible in `k`). (e) Universal homeomorphisms: the bounds (a)–(d) hold
@@ -3818,6 +3783,8 @@ Use [Deligne-WeilII-1980] §4, (4.1.6), p. 218; [SGA4-XIV] XIV, Théorème 3.1 a
 159–160; [TCR-EtaleCohomologyFoundations] §F.3, VanishingCycles.affineArtinVanishing; [Zhu-2017] Appendix A.1.2, Remark A.4, Proposition A.5 and Lemma A.7(6), pp. 45–47; A.2.1,
 Definition A.13 and Proposition A.15, pp. 49–50 (arXiv v3).
 
+*Needs:* EtaleCohomologyFoundations §§F.0.4, F.3, F.4.1–F.4.2, F.4.5.
+
 **Checks.**
 
 
@@ -3831,7 +3798,7 @@ Definition A.13 and Proposition A.15, pp. 49–50 (arXiv v3).
 
 **Compact-support vanishing on affine schemes and its smooth lisse case.** Let `k` be a separably closed field,
 `U` an affine scheme of finite type over `k` and `a ∈ ℤ`, with coefficients as in the conventions (`Λ` finite with
-invertible annihilator, `O = O_E`, or `E`). (b) If `K ∈ pD^{≥a}(U)`, then `H^i_c(U, K) = 0` for `i < a`. For field
+invertible annihilator, `O = O_E`, or `E`). (a) For `K` in the perverse heart (for `O`, in either of the hearts `p` and `p⁺`), `H^i_c(U, K) = 0` for `i < 0`; this is EtaleCohomologyFoundations §F.8, imported. (b) If `K ∈ pD^{≥a}(U)`, then `H^i_c(U, K) = 0` for `i < a`. For field
 coefficients (a finite field of characteristic `ℓ`, or `E`) the condition `K ∈ pD^{≥a}` is the dual support bound
 `dim Supp ℋ^q(D_U K) ≤ −a − q` for every `q`, the form used in Weil II 6.2.11 and in
 LefschetzPencilsAndVanishingCycles §7b.9 (InvariantCycles.dualSupportAffineVanishing, stated there for `ℚ_ℓ` on
@@ -4259,7 +4226,7 @@ Therefore the middle group of `X_r` is free as well. Integral Poincaré duality 
 sequence then give freeness in all higher degrees, including degree `r+1`. This avoids assuming freeness in
 degree `r+1` to prove it in degree `r`.
 
-Splitting (`b`): `Tr_X(h^m) = deg X` (the degree of the hyperplane class on `X`, from the point normalization of
+Splitting (b): `Tr_X(h^m) = deg X` (the degree of the hyperplane class on `X`, from the point normalization of
 EtaleCohomologyFoundations §0.9 and the projection formula of §F.6), so `h^{m/2} ∪ h^{m/2} ≠ 0` and `Λh^{m/2}` is
 a direct summand complementary to the kernel of `∪h` when `deg X` is invertible in `Λ`.
 
@@ -4378,7 +4345,7 @@ negative-degree cohomology of `X` and vanishes; `π_*(ξ^m) = 1` by the degree-o
 untwisted cohomology `F^*ξ = q·ξ` (EtaleCohomologyFoundations §F.10.2b: geometric Frobenius acts on `Λ(1)` by
 `q⁻¹`), which gives the stated action.
 
-(`e`) `Tr_{P(V)} = Tr_X ∘ π_*` (compatibility of smooth traces with composition, EtaleCohomologyFoundations §0.11,
+(e) `Tr_{P(V)} = Tr_X ∘ π_*` (compatibility of smooth traces with composition, EtaleCohomologyFoundations §0.11,
 ClassicalAlgebraic.smoothTrace), and (c).
 
 (f) Iterate (a) and (c) along the tower of projective bundles of the tautological quotients (Grothendieck
@@ -4403,7 +4370,7 @@ ClassicalAlgebraic.cycleClasses; §F.7; §0.11, ClassicalAlgebraic.smoothTrace; 
 
 - `X = Spec k` for `k` separably closed, `E = k^{m+1}: P(E) = P^m` and (a) is `H^∗(P^m) = Λ[ξ]/(ξ^{m+1})` (EtaleCohomologyFoundations §0.9).
 
-- `P¹`-bundle over a smooth projective geometrically connected curve `C` over `𝔽_q`: the geometric Frobenius has eigenvalues those of `H^a(C)` and `q` times those of `H^{a−2}(C)` on `H^a(P(E))`; `e`.`g`. `dim H²(P(E)) = 2` with eigenvalues `q, q`.
+- `P¹`-bundle over a smooth projective geometrically connected curve `C` over `𝔽_q`: the geometric Frobenius has eigenvalues those of `H^a(C)` and `q` times those of `H^{a−2}(C)` on `H^a(P(E))`; e.g. `dim H²(P(E)) = 2` with eigenvalues `q, q`.
 
 - The Frobenius twist on the summand `j` is `q^j`, not 1: 'equal Betti numbers' is not enough.
 
@@ -4534,7 +4501,7 @@ coefficients `O_E` allowed. The adic projective-bundle case has the finite-type 
 of §4.4. Supports and compact supports use the same proper derived decomposition, not a new pullback on
 compact supports for arbitrary nonproper morphisms. For compact supports assume `X` separated of finite type
 over a field, so `RΓ_c` is the supplied structural lower-shriek functor. The blow-up case retains that same
-geometric range from blowup-direct-images; the finite-coefficient ordinary/support projective-bundle statement
+geometric range from blowupDirectImages; the finite-coefficient ordinary/support projective-bundle statement
 keeps the qcqs range.
 
 Name the resulting statement pullbackInjectiveBlowupBundle.
@@ -4615,7 +4582,7 @@ EtaleCohomologyFoundations §F.3, VanishingCycles.etaleFiniteness, for finite fi
 
 `i_*` is the transpose of `i^*` for the Poincaré pairings of `Y` and `X` (EtaleCohomologyFoundations §F.6, Gysin maps
 and their projection formula): `⟨i^*x, y⟩_Y = ⟨x, i_*y⟩_X`. Hence `y ⊥ Res(Y) ⟺ i_*y ⊥ H^n(X) ⟺ i_*y = 0`
-(perfectness of Poincaré duality on `X`, §§F.5–F.6), `i`.`e`. `Res(Y)^⊥ = Van(Y)`; the pairing on `Y` is perfect, so
+(perfectness of Poincaré duality on `X`, §§F.5–F.6), i.e. `Res(Y)^⊥ = Van(Y)`; the pairing on `Y` is perfect, so
 `Van(Y)^⊥ = Res(Y)` and the dimensions add up.
 
 `i_*i^*x = cl(Y) ∪ x = L ∪ x` (projection formula of §F.6 and the agreement of the class of a Cartier divisor
@@ -4626,6 +4593,8 @@ with the Kummer first Chern class of `O_X(Y)`, §0.9). Ampleness plays no role i
 Use [Deligne-WeilII-1980] §4.3, before Lemme (4.3.2), p. 222; [TCR-EtaleCohomologyFoundations] §§0.9, F.3,
 F.5–F.6; [TCR-DeligneWeightsAndPurity] §9.3(a);
 [TCR-LefschetzPencilsAndVanishingCycles] §3.4, Veronese embeddings.
+
+*Needs:* EtaleCohomologyFoundations §§0.9, F.3, F.4.4–F.4.5, F.5–F.6.
 
 **Checks.**
 
@@ -4646,10 +4615,6 @@ F.5–F.6; [TCR-DeligneWeightsAndPurity] §9.3(a);
 
 - For `X=P¹×P¹` with `L=(1,1), P²(X)` is the one-dimensional kernel of `(a,b)↦`a`+b`, spanned by `(1,−1)`. This distinguishes the primitive kernel from either zero or all `H²`.
 
-- `X = P^{n+1}, Y = P^n: Van(Y) = 0` for `n` odd `(H^n(Y) = 0)` and for `n` even `Van(Y) = 0` since `i_*` is an isomorphism `H^n(P^n) → H^{n+2}(P^{n+1})`; `Res(Y) = H^n(Y)`.
-
-- Take `X = P²` with its `O(3)` Veronese embedding and `Y` a smooth plane cubic, which is a hyperplane section for that embedding. Then `Res(Y)=0` and `Van(Y)=H¹(Y)`, of dimension 2.
-
 - The intersection `Res(Y) ∩ Van(Y)` is not asserted to be 0: in characteristic `ℓ` coefficients `E = 𝔽_2` and `n` even, the restricted class of a quadric hyperplane section can be isotropic; only orthogonality is proved.
 
 - The `P², O(3)` test uses the actual degree-three Veronese embedding of LefschetzPencilsAndVanishingCycles §3.4 (LefschetzPencil.veronese). Orthogonality uses the actual restriction/Gysin maps, not arbitrary subspaces with matching dimensions.
@@ -4661,7 +4626,7 @@ F.5–F.6; [TCR-DeligneWeightsAndPurity] §9.3(a);
 intersection `X ⊂ P^N_k` of that multidegree and dimension `m`, every Betti number is independent of the geometric
 field, and `dim H^m(X, ℚ_ℓ)` equals the topological Betti number `b_m(X_ℂ^an)` of any smooth complete intersection
 `X_ℂ ⊂ P^N_ℂ` of the same multidegree, and hence the primitive `rank b_m^0 = dim H^m(X, ℚ_ℓ)_0` of §4.3 is a
-function of (`N, m, d_`•) only; for a smooth hypersurface of degree `d, b_m^0 = ((d − 1)^{m+2} + (−1)^m(d − 1))/d`.
+function of `(N, m, d_•)` only; for a smooth hypersurface of degree `d, b_m^0 = ((d − 1)^{m+2} + (−1)^m(d − 1))/d`.
 
 Work with the following additional hypotheses. Smooth complete intersections of a fixed multidegree; `ℓ`
 invertible in `k`. `m≥1` for the primitive-rank and displayed hypersurface formula, as in §4.3; `d≥1`.
@@ -4733,7 +4698,7 @@ Descend finite diagrams to `E` and pass to `ℚ̄_ℓ` by finite coefficient ext
 Use [BBD-1982] Proposition 5.1.2, equations (5.1.2.1)–(5.1.2.5), pp.123–124.
 
 *Needs:* §§3.1–3.3; SchemeAndStackFoundations §2.15 / `hochschildSerre_galois_covering`;
-EnhancedDerivedSheaves Layer 4; EtaleCohomologyFoundations §§F.3–F.4.
+EnhancedDerivedSheaves Layer E4; EtaleCohomologyFoundations §§F.3–F.4.
 
 **Checks.**
 
@@ -4767,7 +4732,7 @@ Apply adicFiniteFieldHochschildSerre to `K₀,L₀`. Its geometric complex is `R
 
 The Hochschild–Serre spectral sequence for `Gal(𝔽̄_q/𝔽_q) ≅ ℤ̂` has only the columns `p = 0, 1`, since continuous
 cohomology of `ℤ̂` with finite-dimensional `ℓ`-adic coefficients is invariants in degree 0, coinvariants in degree
-1 and zero above; this gives (`a`) (BBD (5.1.2.3)–(5.1.2.5)).
+1 and zero above; this gives (a) (BBD (5.1.2.3)–(5.1.2.5)).
 
 For perverse `K₀, L₀` the group `Hom^{−1}(K, L)` vanishes (§2.1), so (a) with `i = 0` gives full faithfulness:
 `Hom(K₀, L₀) = Hom(K, L)^F`.
@@ -4863,10 +4828,6 @@ DeligneWeightsAndPurity §8.11; DeligneWeightsAndPurity §5.3.
 
 - On `Spec 𝔽_q` the rank-one representation with Frobenius eigenvalue `1 + √2` is perverse but not mixed, since the conjugate `1 − √2` has a different absolute value.
 
-- `ℚ̄_ℓ[d]` on a smooth pure `d`-dimensional `X₀` is mixed perverse and pure of weight `d`.
-
-- On `Spec 𝔽_q, Perv_m` is the category of finite-dimensional continuous `ℚ̄_ℓ`-representations of `Gal(𝔽̄_q/𝔽_q)` whose Frobenius eigenvalues are `q`-Weil numbers of integer weight.
-
 **Weights are tested at closed points and are insensitive to finite extension of `𝔽_q`.** Let `K₀ ∈ D^b_m(X₀, ℚ̄_ℓ)`. (a) `K₀` has weights `≤ w` iff `i_x^*K₀` has weights `≤ w` for every closed point `x` of `X₀`; it has weights `≥ w`
 iff `i_x^!K₀` has weights `≥ w` for every closed point `x`. (b) For `n ≥ 1` the pullback of a specified arithmetic `K₀`
 to `X₀ ⊗ 𝔽_{qⁿ}` is mixed, or has either weight bound, iff `K₀` does. This compares compatible arithmetic
@@ -4923,23 +4884,40 @@ completion `C` over an algebraically closed field `k`, `ℓ` invertible in `k`, 
 
 `χ_c(U,L)=rank(L)χ_c(U,ℚ̄_ℓ)−Σ_(x∈C∖U) Swan_x(L)`.
 
-Include the finite coefficient-field form used in BBD 4.5.1 and compatibility with coefficient extension.
-Use ArithmeticGaloisRepresentations §3.1 / `Conductor.swanConductor` for local Swan conductors over the
-completed curve fields and its finite-wild-image break description. For finite coefficient fields, lift the
-wild representations through their prime-to-`ℓ` finite quotients to calculate the same Swan character.
+For affine `U` over `k` of characteristic `p>0` this is FourierDeligneTransform §2.7, which proves it also for
+free coefficients over finite local rings, finite fields and finite extensions `E/ℚ_ℓ`; that case is imported and
+not proved again. This target adds proper curves and characteristic zero, and the formula is compatible with
+coefficient extension. Use ArithmeticGaloisRepresentations §3.1 / `Conductor.swanConductor` for local Swan
+conductors over the completed curve fields and its finite-wild-image break description.
 For a finite étale cover `C′→C` of degree `e`, put `U′=C′×_C U`: rank is unchanged, the sum of Swan conductors
 and `χ_c(U′,L|_U′)` are multiplied by `e`. For covers only étale over `U`, keep their actual boundary
 ramification and compute Swan conductors by the upper-numbering restriction formula instead.
 
-For the Leray sheaves in bettiGrowthInEtaleTowers, prove the conductor bounds used there as part of this
-target: the inertia-equivariant nearby-cycle description identifies their geometric generic cohomology;
-the wild action factors through one finite quotient independent of the projective-curve covers. If `b` bounds its upper breaks, each Swan conductor is at most `b` times the dimension of the corresponding nearby-cycle cohomology. The perverse nearby-cycle bounds and induction on the remaining factors give the smaller products in BBD 4.5.1, uniformly over these covers.
+A proof proceeds as follows.
 
-Use [SGA4half], [Sommes trig.] §3.2, equation (3.2.1), p.189; [BBD-1982] proof of Proposition 4.5.1,
-pp.118–120, for the finite-coefficient formula and uniform wild-action estimate.
+Proper `U=C`: choose a closed point `x`. The curve `C∖{x}` is affine and `L` is unramified at `x`, so `Swan_x(L)=0`;
+the localization triangle of EtaleCohomologyFoundations §0.7 gives `χ(C,L)=χ_c(C∖{x},L)+rank(L)` and
+`χ(C,ℚ̄_ℓ)=χ_c(C∖{x},ℚ̄_ℓ)+1`, and the affine case then gives `χ(C,L)=rank(L)(2−2g(C))`.
 
-*Needs:* ArithmeticGaloisRepresentations §3.1 / `Conductor.swanConductor`;
-LefschetzPencilsAndVanishingCycles Layer 6; §§0.5–0.6,2.6,3.1.
+Affine `U` in characteristic 0: every inertia group acts tamely, every Swan conductor is 0, and the claim is
+`χ_c(U,L)=rank(L)χ_c(U,ℚ̄_ℓ)`. A stable lattice and its reduction (EtaleCohomologyFoundations §§F.4.0,
+F.4.4–F.4.5) reduce it to a lisse sheaf `F` of vector spaces over a finite field `𝔽` of characteristic `ℓ`,
+trivialised on a connected finite étale Galois cover `V→U` with group `G` and smooth compactification `D`. By
+EtaleCohomologyFoundations §§F.10.4–F.10.5, `χ_c(U,F)` is the pairing of the class of the perfect `𝔽_ℓ[G]`-complex
+`RΓ_c(V,𝔽_ℓ)` with the representation defining `F`. As in Raynaud's argument, which InverseGaloisAndArithmeticFundamentalGroups
+§IG.5.8 (*Euler characteristic of `ℓ`-torsion local systems on affine curves*) carries out in characteristic `p`, that class is determined by its Brauer character. The character is
+`χ_c(V)=|G|χ_c(U)` at `1`, by the tame Hurwitz formula of SchemeAndStackFoundations §3.2, and `0` at every other
+`ℓ`-regular `g`: `g` has no fixed point on `V`, its fixed points on `D` lie over `C∖U` and are transversal because `g`
+acts on their tangent lines by a nontrivial root of unity, so the graph–diagonal formula of
+InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 gives the same Lefschetz number on `D` as on the finite set
+`D∖V`. Hence the class is `χ_c(U)` times the free module of rank one, and `χ_c(U,F)=rank(F)χ_c(U,𝔽)`.
+
+Use [SGA4half], [Sommes trig.] §3.2, equation (3.2.1), p.189; [Raynaud-1965] n° 3, Théorème 1, p.133, and its
+proof in n° 4, pp.133–137.
+
+*Needs:* FourierDeligneTransform §2.7; ArithmeticGaloisRepresentations §3.1 / `Conductor.swanConductor`;
+InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1, IG.5.8; SchemeAndStackFoundations §3.2;
+EtaleCohomologyFoundations §§0.7, F.4.0, F.4.4–F.4.5, F.10.4–F.10.5; §3.1.
 
 **Checks.**
 
@@ -4950,46 +4928,8 @@ LefschetzPencilsAndVanishingCycles Layer 6; §§0.5–0.6,2.6,3.1.
 - A degree-`e` finite étale cover of the proper completion multiplies the boundary Swan sum and compact
   Euler characteristic by `e`; an arbitrary cover of the open curve carries no such unramified-boundary claim.
 
-**Sublinear negative cohomology in étale towers.** Let `k` be algebraically closed, `ℓ` invertible in `k, X=∏_{a=1}^n X_a` with `X_a` smooth projective connected curves, and `f:U→X` quasi-finite separated. For
-`K∈pD≥0(U,ℚ̄_ℓ)` there is `C` independent of connected finite étale covers `X̃_a→X_a` of degrees `d_a` such that, for
-`Ũ=U×_X∏X̃_a, dim H^i(Ũ,K)≤C∏d_a` for all `i`, and for `i<0` it is bounded by `C·max_{|A|=n−|i|}∏_{a∈A}d_a` (zero if
-`|i|>n`). Consequently, for any perverse sheaf `F` on a finite-type `k`-scheme and point `x` there is an affine étale
-neighbourhood `U` and finite étale covers `U_N→U` of degrees `e_N→∞` with `dim H^i(U_N,F)=o(e_N)` for every `i<0`.
-
-Work with the following additional hypotheses. The pullback of `K` to each cover is understood. The product
-bound is for `n≥1`; the zero-dimensional case is immediate. The constant depends on `K` and `f`, never on the
-covers.
-
-Name the resulting statement bettiGrowthInEtaleTowers.
-
-A proof proceeds as follows.
-
-Reduce the projective-product upper-perverse bound to sheaves shifted by support dimension and to finite
-coefficients via universal coefficients. Induct on the number of factors.
-
-On a dense open of the first curve the relevant direct images are lisse. Leray, curveEulerPoincareSwan (including its finite-coefficient conductor estimates), and induction control ranks. Nearby-cycle perverse bounds control the Swan contributions by the
-same smaller products. Duality gives the lower-perverse bound; quasi-finite `f_*` preserves `pD≥0`, giving 4.5.4.
-
-Choose a quasi-finite affine-space map near `x`, and an étale neighbourhood pulled back from a product of
-positive-genus projective curves. Covers of each curve with degree `d→∞` give total degree `d^n` while each
-negative-degree bound is `O(d^(n−|i|))`. This yields the sublinear conclusion used in 5.2.3–5.2.8.
-
-Use [BBD-1982] Proposition 4.5.1 and Corollaries 4.5.3–4.5.5, pp.117–121; use in 5.2.3–5.2.8, pp.131–134.
-
-*Needs:* curveEulerPoincareSwan; §2.6; §2.5; LefschetzPencilsAndVanishingCycles Layer 6; EtaleCohomologyFoundations §§F.0–F.6 and the
-scheme-site contract above.
-
-**Checks.**
-
-
-- For a positive-genus smooth projective curve `C, F=ℚ̄_ℓ[1], dim H⁻¹(C̃,F)=1` while the cover degree tends to infinity.
-
-- For `n=2` and `i=−1` the bound is `C·max(d₁,d₂)`, rather than `C·d₁d₂`; equal-degree towers distinguish these rates.
-
-- For `K=ℚ̄_ℓ[2]` on a product of two connected projective curves, `H⁻²` has dimension 1 on every connected product cover. The negative-degree estimate uses the empty product, independent of both degrees.
-
 **`Ext`-vanishing between weights.** Let `K₀, L₀ ∈ D^b_m(X₀, ℚ̄_ℓ)` and `w ∈ ℤ`. (a) If `K₀` has weights `≤ w` and `L₀`
-has weights `> w` (`i`.`e`. `≥ w + 1`), then `Ra_*RHom(K₀, L₀) ∈ D_{>0}(Spec 𝔽_q)` for `a : X₀ → Spec 𝔽_q`, and `Hom(K₀, L₀[i]) = 0` for all `i > 0`. (b) If `K₀` has weights `≤ w` and `L₀` has weights `≥ w`, then `F` has no invariants on `Hom(K, L[i])` for `i > 0`, so the restriction `Hom(K₀, L₀[i]) → Hom(K, L[i])` is zero for `i > 0`, and `Hom(K₀, L₀[i]) = 0`
+has weights `> w` (i.e. `≥ w + 1`), then `Ra_*RHom(K₀, L₀) ∈ D_{>0}(Spec 𝔽_q)` for `a : X₀ → Spec 𝔽_q`, and `Hom(K₀, L₀[i]) = 0` for all `i > 0`. (b) If `K₀` has weights `≤ w` and `L₀` has weights `≥ w`, then `F` has no invariants on `Hom(K, L[i])` for `i > 0`, so the restriction `Hom(K₀, L₀[i]) → Hom(K, L[i])` is zero for `i > 0`, and `Hom(K₀, L₀[i]) = 0`
 for `i ≥ 2`. (c) In particular, for mixed perverse `K₀` of weights `≤ w` and `L₀` of weights `> w: Hom(K₀, L₀) = 0` and
 `Ext¹_{Perv(X₀)}(K₀, L₀) = 0`; for simple mixed perverse `U₀, V₀` pure of weights `u > v, Ext¹(V₀, U₀) = 0`.
 
@@ -5009,10 +4949,10 @@ A proof proceeds as follows.
 On `Spec 𝔽_q`, a complex of weights `> 0` has `H^i` of weights `> i ≥ 0` for `i ≥ 0`, so Frobenius has no eigenvalue 1:
 invariants and coinvariants of `Hom^i(K, L)` vanish for `i ≥ 0`.
 
-Insert into the exact sequences of §5.1: `Hom^i(K₀, L₀) = 0` for `i > 0`, which is (`a`) (BBD 5.1.15(ii)).
+Insert into the exact sequences of §5.1: `Hom^i(K₀, L₀) = 0` for `i > 0`, which is (a) (BBD 5.1.15(ii)).
 
 With weights `≥ w` for `L₀, Hom^i(K, L)` has weights `≥ i`, hence `> 0` for `i ≥ 1`: invariants vanish for `i > 0` and
-coinvariants vanish for `i ≥ 1`, giving (`b`) (BBD 5.1.15(iii)).
+coinvariants vanish for `i ≥ 1`, giving (b) (BBD 5.1.15(iii)).
 
 (c): for perverse `K₀, L₀, Hom^0 = Hom(K, L)^F` with weights `> 0` has no invariants; `Ext¹` in `Perv` is `Hom^1`
 (§2.1). The simple pure case is the instance used in BBD 5.3.5.
@@ -5303,10 +5243,6 @@ Use [BBD-1982] Théorème 5.3.5 and its proof with Lemme 5.3.6, pp. 136–137.
 
 - The weight filtration is not a direct-sum decomposition in `Perv(X₀)` in general: for `j : 𝔾_m ↪ 𝔸¹` the filtration `W_1(Rj_*ℚ̄_ℓ[1]) ⊂ Rj_*ℚ̄_ℓ[1]` is non-split, since `Hom(δ₀(−1), Rj_*ℚ̄_ℓ[1]) = 0`.
 
-- For `F₀` pure of weight `w: W_{w−1}F₀ = 0` and `W_w F₀ = F₀`.
-
-- On `𝔾_{m,𝔽_q}` with `j : 𝔾_m ↪ 𝔸¹`, the perverse sheaf `Rj_*ℚ̄_ℓ[1]` sits in `0 → ℚ̄_ℓ,𝔸¹[1] → Rj_*ℚ̄_ℓ[1] → δ₀(−1) → 0`; its weight filtration has `Gr_1 = ℚ̄_ℓ[1]` and `Gr_2 = δ₀(−1)`, the punctual sheaf at 0 of weight 2.
-
 **Upper weights of a mixed perverse sheaf are detected generically on closed subvarieties.** A mixed perverse
 sheaf `F₀` on `X₀` has weights `≤ w` iff every irreducible closed subscheme `Y₀ ⊆ X₀`, of dimension `d`, has a dense
 open `U₀ ⊆ Y₀` on which the ordinary cohomology sheaf `ℋ^{−d}(F₀)|_{U₀}` has punctual weights `≤ w − d`.
@@ -5404,8 +5340,6 @@ Use [BBD-1982] Théorème 5.3.8 (statement), p. 138; 6.2.4 (the notion 'semi-sim
 - The rank-two unipotent sheaf `E₂` on `Spec 𝔽_q` is geometrically semisimple, and its arithmetic object is not semisimple in `Perv(Spec 𝔽_q)`.
 
 - The constant sheaf `ℚ̄_ℓ[d]` on a smooth connected `X₀` of pure dimension `d` is geometrically semisimple. It is geometrically simple when `X₀` is geometrically connected; for `X₀ = Spec 𝔽_(q²)`, its geometric pullback is the direct sum of the constant sheaves on two points.
-
-- The arithmetic sheaf `E₂` (unipotent Frobenius) on `Spec 𝔽_q` is geometrically semisimple (over `𝔽̄_q` it is `ℚ̄_ℓ²`) but not semisimple in `Perv(Spec 𝔽_q)`.
 
 **Pure perverse sheaves are geometrically semisimple.** If `F₀` is a pure perverse sheaf on `X₀` (of some weight
 `w`), then `F₀` is geometrically semisimple: over `𝔽̄_q, F` is a finite direct sum of simple perverse sheaves
@@ -5555,7 +5489,7 @@ to vanish.
 (c): `Rf_!, f^*` preserve upper bounds and `Rf_*, f^!` lower bounds (DeligneWeightsAndPurity §8.11); apply (a) to
 the degree-0 perverse cohomology (BBD 5.4.2).
 
-Use [BBD-1982] Théorème 5.4.1, Corollaires 5.4.2 and 5.4.4, pp. 140–142.
+Use [BBD-1982] Théorème 5.4.1, Corollaires 5.4.2 and 5.4.4, pp. 141–142.
 
 *Needs:* §5.1; §5.4; §2.1; DeligneWeightsAndPurity §8.1; DeligneWeightsAndPurity §8.11.
 
@@ -5745,11 +5679,11 @@ Generalize the supplied vector-space primitive decomposition to an abelian categ
 category with an additive autoequivalence `M ↦ M(1)` and powers `M(n), n ∈ ℤ`. A graded Lefschetz object `(L, η)`
 consists of objects `L^i ∈` A for `i ∈ ℤ`, zero outside a finite interval, and morphisms `η_i : L^i → L^{i+2}(1)`.
 For `r ≥ 0` its iterate `η^r : L^{i} → L^{i+2r}(r)` is `η_{i+2r−2}(r−1) ∘ ⋯ ∘ η_i(0)`, with the canonical
-identifications (`a`)`(b) ≅` (a`+b`). `(L, η)` satisfies hard Lefschetz if `η^r : L^{−r} → L^{r}(r)` is an isomorphism
+identifications `(a)(b) ≅ (a+b)`. `(L, η)` satisfies hard Lefschetz if `η^r : L^{−r} → L^{r}(r)` is an isomorphism
 for every `r ≥ 0`. Its primitive part in degree `−r ≤ 0` is the kernel `P^{−r} := ker(η^{r+1} : L^{−r} → L^{r+2}(r+1))`, with its inclusion into `L^{−r}`.
 
 Work with the following additional hypotheses. A abelian; (1) an additive autoequivalence with chosen
-coherence isomorphisms (`a`)`(b) ≅` (a `+ b`); in the application `A = Perv(Y₀, ℚ̄_ℓ)` or `Perv(Y, ℚ̄_ℓ)` and (1) is the
+coherence isomorphisms `(a)(b) ≅ (a+b)`; in the application `A = Perv(Y₀, ℚ̄_ℓ)` or `Perv(Y, ℚ̄_ℓ)` and (1) is the
 Tate twist.
 
 The interface consists of the following maps and identities.
@@ -5822,6 +5756,8 @@ follow from the isomorphisms `η^r`.
 Use [deCataldo-Migliorini-2009] Theorem 5.2.1, item 2 (primitive Lefschetz decomposition), pp. 81–82 (arXiv
 v2); [BBD-1982] Théorème 5.4.10, p. 144.
 
+*Needs:* the graded Lefschetz objects of §5.7 above; `CategoryTheory.Abelian`.
+
 **Checks.**
 
 
@@ -5855,7 +5791,7 @@ change gives (i).
 injectivity in (iii).
 
 For (iii) it remains to compare `pH^{−d}u_*` of the two sides; by the projective-bundle formula (§4.4, BBD
-5.4.12) `u_*u^* = ⊕_{i=0}^{d} (−)``[−2i](−i)` and `(uv)_*(uv)^*` has the same summands for `i ≤ d − 1`, and the
+5.4.12) `u_*u^* = ⊕_{i=0}^{d} (−)[−2i](−i)` and `(uv)_*(uv)^*` has the same summands for `i ≤ d − 1`, and the
 fibre-dimension bound gives the needed vanishing (BBD 5.4.13).
 
 Use [BBD-1982] Lemme 5.4.11, Lemme 5.4.12 and 5.4.13, pp. 145–146.
@@ -5868,7 +5804,7 @@ Use [BBD-1982] Lemme 5.4.11, Lemme 5.4.12 and 5.4.13, pp. 145–146.
 - For `Y` a point and `X = ℙ^d` itself, `H` is the universal hyperplane (incidence variety) and (ii)–(iii) recover the weak Lefschetz statement for hyperplane sections of `ℙ^d` in degrees below `d − 1`.
 
 **Relative hard Lefschetz.** Let `f₀ : X₀ → Y₀` be a projective morphism of separated schemes of finite type
-over `𝔽_q` and `η ∈ H²(X₀, ℚ̄_ℓ(1))` the first Chern class of an `f₀`-ample line bundle. Cup product with `η` gives `η : K₀ → K₀``[2](1)` for every `K₀`, hence `η^i : pH^{−i}(Rf₀_*K₀) → pH^{i}(Rf₀_*K₀)(i)`. If `F₀` is a pure perverse
+over `𝔽_q` and `η ∈ H²(X₀, ℚ̄_ℓ(1))` the first Chern class of an `f₀`-ample line bundle. Cup product with `η` gives `η : K₀ → K₀[2](1)` for every `K₀`, hence `η^i : pH^{−i}(Rf₀_*K₀) → pH^{i}(Rf₀_*K₀)(i)`. If `F₀` is a pure perverse
 sheaf on `X₀` of weight `w`, then for every `i ≥ 0, η^i : pH^{−i}(Rf₀_*F₀) → pH^{i}(Rf₀_*F₀)(i)` is an isomorphism
 of pure perverse sheaves of weight `w − i` on `Y₀` (the same then holds over `𝔽̄_q`). A proper morphism has no
 automatic ample class: projectivity and the chosen relatively ample line bundle are hypotheses.
@@ -6017,11 +5953,11 @@ A proof proceeds as follows.
 
 For `ℤ/ℓⁿ` coefficients the equivalences are formal from the identification of the `H^p(−, Ext^q(F, G))` on `X, X_V`
 and `X_s̄` for `F, G` of the form `j_!L` (smooth and proper base change on the chosen model, generic base change,
-SchemeAndStackFoundations §§0.7, 0.9, 4.11 and the geometric contracts above geometric spreading out and
-EtaleCohomologyFoundations §§F.0–F.6 cohomological base change) (BBD 6.1.9).
+SchemeAndStackFoundations §§0.7, 0.9, 4.11 and the geometric contracts above for spreading out, and
+EtaleCohomologyFoundations §§F.0–F.6 for cohomological base change) (BBD 6.1.9).
 
 Finite `Tor` dimension is preserved, and the `ℓ`-adic statement follows from the definition of `ℓ`-adic derived
-categories as normalized systems (§3.1, §3.1).
+categories as normalized systems (§3.1).
 
 Compatibility with operations and with the perverse `t`-structure: enlarge `(T, L)` so that the operations send
 the restricted categories into restricted categories, then shrink `S` so that base change holds (BBD 6.1.10,
@@ -6210,7 +6146,7 @@ A nontrivial arithmetic unipotent Jordan extension of the unit object is pure bu
 
 ### Dependencies
 
-Layers 0–4; DeligneWeightsAndPurity §§0, 5–8 and 9.6–9.12; AutomorphicLFunctionsAndLocalFactors AL.3.10.10 (Normalized scheme intersection-complex purity: IC⁰ purity, affine weight criterion, subquotient weight bounds); the arithmetic-model and generic-base-change contracts; Mathlib finite-length abelian-category and kernel/biproduct APIs.
+Layers 0–4; DeligneWeightsAndPurity §§0, 5–8 and 9.6–9.12; AutomorphicLFunctionsAndLocalFactors AL.3.10.10 (Normalized scheme intersection-complex purity: IC⁰ purity, affine weight criterion, subquotient weight bounds); FourierDeligneTransform §2.7; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1, IG.5.8; SchemeAndStackFoundations §§0.7, 0.9, 3.2, 4.11 and EtaleCohomologyFoundations §§F.0–F.6, F.10.4–F.10.5 for spreading out to arithmetic models, generic base change and torsor descent; Mathlib finite-length abelian-category and kernel/biproduct APIs.
 
 ## Layer 6: cohomological correspondences and contracting trace formulas
 
@@ -6282,8 +6218,6 @@ v2).
 
 - The graph-type correspondence `(g, id) : X → X × X` of an endomorphism `g` has Fix equal to the fixed-point scheme `X^g`.
 
-- The transpose `c^t = (c₂, c₁)` has `Fix(c^t) ≅ Fix(c)`.
-
 ### 6.2 Cohomological correspondences, pushforward and composition
 
 **Cohomological correspondences.** Let `c : C → X₁ × X₂` be a correspondence, `F₁ ∈ D^b_ctf(X₁, Λ)` and `F₂ ∈ D^b_ctf(X₂, Λ)`. A cohomological correspondence lifting `c` (a `c`-morphism) from `F₁` to `F₂` is a morphism `u : c₁^*F₁ → c₂^!F₂` in `D(C, Λ)`; equivalently, by the adjunction `c₂_! ⊣ c₂^!`, a morphism `c₂_!c₁^*F₁ → F₂`. `Hom_c(F₁, F₂) := Hom(c₁^*F₁, c₂^!F₂)`. Convention: pull back along the first leg and apply the exceptional inverse image along
@@ -6344,7 +6278,7 @@ Construction 2.6, p. 13 (arXiv v4).
 **Pushforward of cohomological correspondences and the induced map on compactly supported cohomology.** Let
 `[f] = (f₁, f♮, f₂) : c → b` be a morphism of correspondences satisfying one of: (i) the square `(c₁, f♮, f₁, b₁)`
 is cartesian; (ii) `f₁` and `f♮` are proper; (iii) `c₁` and `b₁` are proper. Then there is a base change morphism BC :
-`b₁^*f₁_! → f♮_!c₁^*` (the standard one in (`i`), (ii); in (iii) adjoint to `f₁_! → f₁_!c₁_*c₁^* = b₁_*f♮_!c₁^*`),
+`b₁^*f₁_! → f♮_!c₁^*` (the standard one in (i), (ii); in (iii) adjoint to `f₁_! → f₁_!c₁_*c₁^* = b₁_*f♮_!c₁^*`),
 and every `c`-morphism `u : c₂_!c₁^*F₁ → F₂` yields a `b`-morphism `[f]_!(u) : b₂_!b₁^*(f₁_!F₁) → b₂_!f♮_!c₁^*F₁ = f₂_!c₂_!c₁^*F₁ → f₂_!F₂`. Pushforwards compose: `([g] ∘ [f])_! = [g]_! ∘ [f]_!` when both satisfy the same
 condition. For `c₁` proper, the structure morphism to the trivial correspondence gives `RΓ_c(u) : RΓ_c(X₁, F₁) → RΓ_c(X₂, F₂)`, explicitly `RΓ_c(X₁, F₁) → RΓ_c(C, c₁^*F₁) = RΓ_c(X₂, c₂_!c₁^*F₁) → RΓ_c(X₂, F₂)`, and `RΓ_c(u)` is
 unchanged under compactification.
@@ -6383,7 +6317,7 @@ Compatibility with composition reduces to the compatibility of base change morph
 (Varshavsky 1.1.6(b)).
 
 `RΓ_c(u) := [π]_!(u)` for the structure morphism, which satisfies (iii); independence of compactification by
-1.1.6(`b`) (Varshavsky 1.1.7).
+1.1.6(b) (Varshavsky 1.1.7).
 
 Use [Varshavsky-LV-2007] 1.1.6 (a)–(b) and 1.1.7 (a)–(c), pp. 7–8 (arXiv v2).
 
@@ -6400,8 +6334,6 @@ EnhancedDerivedSheaves §0.4; EtaleCohomologyFoundations §§F.0–F.6 and the s
 - For `X₀` over `𝔽_q, F₀` a Weil complex and `u` its Frobenius structure on the graph of Frobenius, `RΓ_c(u)` is the geometric Frobenius endomorphism of `RΓ_c(X, F)` of EtaleCohomologyFoundations §§F.10.2–F.10.2b.
 
 - For `c` the graph-type correspondence of `g : X → X` proper and `u : g^*F → F, RΓ_c(u)` is the endomorphism of `RΓ_c(X, F)` induced by `g` and `u` (pull back along `g`, then `u`).
-
-- For the trivial correspondence over `Spec k, [π]_!` is the identity.
 
 **Pullback, open restriction and restriction to invariant closed subsets.** (a) Pullback: if `[f] : c → b` has
 its right square cartesian up to nilpotents, or `f♮` and `f₂` étale, there is BC : `c₂_!f♮^* → f₂^*b₂_!`, and a
@@ -6457,7 +6389,7 @@ cohomological restrictions without identifying the two support schemes.
 (Varshavsky 1.5.7).
 
 Use [Varshavsky-LV-2007] 1.1.8–1.1.9, p. 8; Definition 1.5.1, Example 1.5.2, Lemma 1.5.3, 1.5.6–1.5.8, pp.
-14–16 (arXiv v2); [Varshavsky-LocalTerms-2020] §1.2 and Remark 1.3, p.3; [Stacks] Tag 03SI.
+14–16 (arXiv v2); [Varshavsky-LocalTerms-2023] §1.2 and Remark 1.3, p. 987; [Stacks] Tag 03SI.
 
 *Needs:* §0.2; EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above.
 
@@ -6481,8 +6413,6 @@ Use [Varshavsky-LV-2007] 1.1.8–1.1.9, p. 8; Definition 1.5.1, Example 1.5.2, L
 - For `X=Z=Spec k[ε]/(ε²)` and `g=id`, `c|_Z` has carrier `Spec k`, while `c|Z` is the identity graph
   on the full `Z`. Their fixed schemes are `Spec k` and `Z`, respectively. For constant `F=Λ` and
   `u=id`, the cohomological restrictions both identify with `id_Λ` under the étale equivalence.
-
-- Example 1.5.2 of Varshavsky: a closed point `x` with `c₂^{−1}(x)` finite is locally `c`-invariant.
 
 **Composition of cohomological correspondences.** Given cohomological correspondences `(c, u)` from `(X, L)` to
 `(Y, M)` and `(d, v)` from `(Y, M)` to `(Z, N)`, their composite is supported on `e : C ×_Y D → X × Z` with legs `c₁ ∘ pr_C` and `d₂ ∘ pr_D`, and is the composite `pr_C^*c₁^*L → pr_C^*c₂^!M → pr_D^!d₁^*M → pr_D^!d₂^!N`, where the
@@ -6555,8 +6485,6 @@ Use [Lu-Zheng-2022] §2.2, Construction 2.6, p. 13 (arXiv v4).
 
 - Composition is associative up to the canonical isomorphism `(C ×_Y D) ×_Z E ≅ C ×_Y (D ×_Z E)` of supports, which transports the composite `c`-morphisms into each other; it is an isomorphism of 1-morphisms of the 2-category, not an equality of supports.
 
-- Composing the graph-type correspondences of `g` and `h` (with structures `u, v`) gives the graph-type correspondence of `g ∘ h` with the composite structure.
-
 - The identity correspondence of `(X, L)` with `u = id` is a unit.
 
 - For the fold `p:Spec k ⊔ Spec k→Spec k` with both endpoints `(Spec k,Λ)` and `u=(a,b)`, the pushforward is `a+b`. Thus `p` is a 2-morphism to `(Spec k,a+b)`; for `Λ≠0`, `a=1,b=0`, it is not one to `(Spec k,0)` despite the commuting support squares.
@@ -6614,7 +6542,7 @@ the product factorization proved in §0.2 as well as sheafified adjunction.
 The evaluation map and the diagonal adjunction give `DF ⊠ F → Δ_*K_X`; base change `c^!Δ_* ≅ Δ′_*c′^!` for the
 cartesian square defining `Fix(c)` (EtaleCohomologyFoundations §F.5; EnhancedDerivedSheaves §0.4), and `c′^!K_X = K_{Fix(c)}` (Varshavsky 1.2.2(a)).
 
-Local terms by restriction and the proper integration map (Varshavsky 1.2.2(`b`), (1.3)–(1.4)); the
+Local terms by restriction and the proper integration map (Varshavsky 1.2.2(b), (1.3)–(1.4)); the
 trivial-correspondence case is Varshavsky 1.2.3 and matches the perfect-complex trace of
 EtaleCohomologyFoundations §F.10.3.
 
@@ -6630,15 +6558,13 @@ EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–
 
 - On the trivial correspondence, `Tr(id_F) = χ(F) := Σ (−1)^i rank H^i(F)` for `F` with free cohomology over a field `Λ`.
 
-- For `g` an automorphism with isolated fixed point `x` and `F = Λ, u = id`, if the induced map on the normal cone at `x` has no nonzero fixed vector then `LT_x(u) = 1` (Varshavsky 2020, Corollary 4.11(b)).
+- For `g` an automorphism with isolated fixed point `x` and `F = Λ, u = id`, if the induced map on the normal cone at `x` has no nonzero fixed vector then `LT_x(u) = 1` ([Varshavsky-LocalTerms-2023] Corollary 4.11(b)).
 
 - For `c₂` quasi-finite and `{x} c`-invariant, `LT_y(u|_x)` equals the naive trace `Tr(u_y | F_x)`.
 
 - The adapter to GL2AutomorphicRepresentationsAndTransfer R17.6.3a gives `LT_X(id) = LT^curve_X(id) = 2 − 2g` for a smooth proper curve of genus `g` with constant `Λ` coefficients. The fixed component is the whole curve, so there is no finite sum of pointwise naive terms.
 
 - For the trivial correspondence `pt → pt × pt, Tr(u) = Tr(u | F)` for `F` a perfect `Λ`-complex (Varshavsky 1.2.3).
-
-- For `c₂` quasi-finite and an isolated fixed point `y` over a closed point `x` with `{x}` invariant, `LT_y(u|_x) = Tr(u_y | F_x)`, the naive local term (Varshavsky 1.5.7).
 
 **Trace maps commute with proper pushforward of correspondences.** Let `[f] = (f, f♮, f)` be a proper morphism
 from a self-correspondence `c : C → X × X` to `b : B → Y × Y` (the two outer components equal). Then the induced
@@ -6990,8 +6916,6 @@ Use [Varshavsky-LV-2007] Definition 2.1.1, Remark 2.1.2, p. 17; 2.2.1–2.2.2, p
 **Checks.**
 
 
-- The graph-type correspondence `(Fr, id)` of the `q`-Frobenius is contracting near every `𝔽_q`-rational point, with `n = 1`.
-
 - The identity correspondence of `𝔸¹` is not contracting near `{0}`: `I²` does not contain `I`.
 
 - Every correspondence is contracting near `Z = X (I_Z = 0)` and near `Z = ∅ (I_Z = O_X)`, with `n = 1`.
@@ -7117,13 +7041,13 @@ A proof proceeds as follows.
 Restrict to `c₁⁻¹U` and use properness of `c₁:c₁⁻¹U→U` to construct `RΓ_c(u)`; the assumption `F|_(X∖U)=0` identifies
 `RΓ_c(U,F|_U)` with `RΓ_c(X,F)`. This is Varshavsky 2.3.1.
 
-Reduce (b) to (c): restrict to `c₁^{−1}(U)`, compactify so that `X̄ ∖ U` stays locally invariant (Varshavsky Lemma
+Reduce the general statement to the case where `X` and `C` are proper: restrict to `c₁^{−1}(U)`, compactify so that `X̄ ∖ U` stays locally invariant (Varshavsky Lemma
 1.5.4), and extend `u` by zero; traces are unchanged (§6.2).
 
-(c): by §6.3, `Tr(RΓ_c(u)) = Σ_β LT_β(u)`. Components with `c₂(β) ⊂ X ∖ U: c^{(n)}` contracts near `X ∖ U` (§6.5
+Proper case: by §6.3, `Tr(RΓ_c(u)) = Σ_β LT_β(u)`. Components with `c₂(β) ⊂ X ∖ U: c^{(n)}` contracts near `X ∖ U` (frobeniusTwistContracting
 (b)), so `LT_β(u) = LT_β(u|_{X∖U}) = 0` as `F|_{X∖U} = 0` (§6.5).
 
-Components meeting `c₂^{−1}(U)` are points `y` (§6.5 `(c)`), `c^{(n)}` contracts near `c₂(y)`, and `LT_y(u) = LT_y(u|_x) = Tr(u_y)` (§6.5 and the naive term of §6.2 (d)) (Varshavsky Theorem 2.3.2, Remark 2.3.3).
+Components meeting `c₂^{−1}(U)` are points `y` (frobeniusTwistContracting (c)), `c^{(n)}` contracts near `c₂(y)`, and `LT_y(u) = LT_y(u|_x) = Tr(u_y)` (§6.5 and the naive term of §6.2 (d)) (Varshavsky Theorem 2.3.2, Remark 2.3.3).
 
 Use [Varshavsky-LV-2007] 2.3.1, Theorem 2.3.2 and Remark 2.3.3, pp. 19–21 (arXiv v2).
 
@@ -7230,7 +7154,7 @@ closed part of `Fix(c)` after reduction (Lemma 4.8).
 For a contracting correspondence restricted to a neighbourhood of its fixed points, the first cone leg has
 set-theoretic image in the vertex. Every scalar then has empty punctured fixed locus (Lemma 4.7).
 
-Use [Varshavsky-LocalTerms-2020] §1.2 and Remark 1.3, p.3; Definitions 4.3–4.4, Remarks 4.5–4.6 and Lemmas 4.7–4.8, pp.8–9 (v3).
+Use [Varshavsky-LocalTerms-2023] §1.2 and Remark 1.3, p. 987; §4.3, Definition 4.4, Remarks 4.5, §4.6 and Lemmas 4.7–4.8, pp. 993–994.
 
 *Needs:* §6.1; §6.2; §6.4; §6.5.
 
@@ -7278,8 +7202,7 @@ Trace commutes with this specialization by the product-duality and evaluation di
 topologically constant fixed-point family identifies its dualizing cohomology, so specializing its trace does
 not change the element.
 
-Use [Varshavsky-LocalTerms-2020] Proposition 2.5, p.5; proof §7, pp.14–18 (v3); published pp.988–989,
-999–1004.
+Use [Varshavsky-LocalTerms-2023] Proposition 2.5, p. 989, and its proof in §7, pp. 1000–1004.
 
 *Needs:* §6.3; §6.4; LefschetzPencilsAndVanishingCycles §§0.5–0.8 and the specialization contract of §6.4;
 EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above; §0.2.
@@ -7336,8 +7259,8 @@ For (b) first isolate the proper component `β`. The quotient of the punctured f
 `β`. Its projection to the scalar line has closed image disjoint from 0, hence a finite image. This is Lemma 3.9
 and gives the required local no-almost condition; apply (a) and integrate the trace over `β`.
 
-Use [Varshavsky-LocalTerms-2020] §1.2 and Remark 1.3, p.3; Theorem 4.10, p.10; Lemma 3.9, pp.7–8; proof §6, pp.12–14 (v3); published
-pp.995, 997–999; [Verdier-1983] §3, Definition 3.1 and criterion 3.2, pp.338–340; §5, Proposition 5.1,
+Use [Varshavsky-LocalTerms-2023] §1.2 and Remark 1.3, p. 987; Theorem 4.10, p. 995; Lemma 3.9, p. 992; proof in §6,
+pp. 998–1000; [Verdier-1983] §3, Definition 3.1 and criterion 3.2, pp.338–340; §5, Proposition 5.1,
 pp.341–343; §8, SP1 (p.352), SP5 (p.353) and proof (p.354); [Stacks] Tag 03SI.
 
 *Needs:* §7.1; §6.2; §6.4; §6.3; LefschetzPencilsAndVanishingCycles §§0.5–0.8 and the specialization contract of
@@ -7388,8 +7311,8 @@ For the scalar-twisted cone map the action on a degree-one `λ`-generator is `t�
 `λ≠1`, all degree-one generators are again killed in the fixed quotient. The set omits 0 and 1. These local
 computations agree on overlaps and prove the no-almost predicate globally.
 
-Use [Varshavsky-LocalTerms-2023] §4.1–4.4 pp.992–994; Theorem 4.10 pp.994–995; failed general comparison in
-Lemma 5.1 pp.995–996.
+Use [Varshavsky-LocalTerms-2023] §§4.1–4.4, pp. 993–994; Theorem 4.10, p. 995; failed general comparison in
+Lemma 5.1, pp. 995–996.
 
 *Needs:* §7.1; §6.4; SchemeAndStackFoundations §§0.7, 0.9, 4.11 and the geometric contracts above.
 
@@ -7481,9 +7404,9 @@ stalk trace at `x`. This yields the local-term equality. For proper `X` with fin
 equalities in Lefschetz–Verdier.
 
 Use [Jantzen-2003] Part `I`, §2.11(1)–(4), pp.30–31; [Varshavsky-LocalTerms-2023] Theorem 4.10(b) and Lemma 5.1,
-p.995; Corollaries 5.4 and 5.6, p.996 (version of record).
+p. 995; Corollaries 5.4 and 5.6, p. 996.
 
-*Needs:* semisimpleCyclicClosure_diagonalizable; §7.2; §7.1; §6.3; ReductiveGroups layer 4 jordan decomposition diagonalizable groups tori;
+*Needs:* semisimpleCyclicClosure_diagonalizable; §7.2; §7.1; §6.3; ReductiveGroups Layer 4;
 SchemeAndStackFoundations §§0.7, 0.9, 4.11 and the geometric contracts above; EtaleCohomologyFoundations
 §§F.0–F.6 and the scheme-site contract above.
 
@@ -7492,7 +7415,7 @@ SchemeAndStackFoundations §§0.7, 0.9, 4.11 and the geometric contracts above; 
 
 - For `char(k)≠2, X=Spec k[x,y,z]/(x³+yz), g(x,y,z)=(x,−y,−z): Fix(g)=Spec k[x]/(x³), I=(y,z)`, and `J` has eigenvalue `−1`. The full fixed cone has fixed subscheme `Z`, so `LT_0` is the stalk trace. The cone at the reduced origin still has the fixed `x`-line, demonstrating why that false comparison is unnecessary.
 
-- On the same singular `X`, let `t∈k×` have infinite order and let `g(x,y,z)=`(`x`,ty,`t⁻¹z`). The full fixed subscheme is again `k[x]/(x³)`, and `J` has weights `t,t⁻¹`. The finite bad set is `{t,t⁻¹}`, avoiding 1: this checks the general infinite-order semisimple application.
+- On the same singular `X`, let `t∈k×` have infinite order and let `g(x,y,z)=(x,ty,t⁻¹z)`. The full fixed subscheme is again `k[x]/(x³)`, and `J` has weights `t,t⁻¹`. The finite bad set is `{t,t⁻¹}`, avoiding 1: this checks the general infinite-order semisimple application.
 
 - For `g(a)=λa` on `𝔸¹` with `λ≠1`, the full fixed scheme is the origin and the only bad scalar is `λ⁻¹`. If `X` is itself a zero-dimensional Artin scheme and `g=id, Z=X, J=0` and the punctured cone is empty.
 
@@ -7525,14 +7448,14 @@ Name the resulting statement finiteOrderLocalTerms.
 
 A proof proceeds as follows.
 
-(a) Apply the proper-component part of normal-cone-trace-comparison with `Z={x}`; its restricted trace is the
+(a) Apply the proper-component part of normalConeTraceComparison (§7.2) with `Z={x}`; its restricted trace is the
 stalk trace.
 
 (b) Apply semisimpleIsolatedFixedSubschemeNormalCone from §7.4 to the full Artin fixed component.
 Its normal-cone trace comparison gives the equality directly.
 
-(c) Use the tame-fixed-subscheme-normal-cone theorem with the full scheme `Z=Fix(g)`, which gives
-NoAlmostTubularFixed without smoothness. Apply normal-cone-trace-comparison to `Z`. An isolated component `β` of `Z`
+(c) Use tameFixedSubschemeNormalCone (§7.3) with the full scheme `Z=Fix(g)`, which gives
+the condition NoAlmostTubularFixed of §7.1 without smoothness. Apply normalConeTraceComparison to `Z`. An isolated component `β` of `Z`
 has finite nonreduced support, is proper over `k`, and has the same étale site as its reduced point. The
 restricted graph is the identity correspondence because `g|Z=id`. Thus its local term is the stalk trace. For
 the global statement sum these terms in the proper Lefschetz–Verdier formula.
@@ -7540,9 +7463,8 @@ the global statement sum these terms in the proper Lefschetz–Verdier formula.
 For arbitrary semisimple `g`, use §7.4: the finite-jet rational diagonalizable action has no invariant conormal
 character, so the cone along the full Artin fixed component satisfies Theorem 4.10(b). The argument uses only the rational finite-jet action at the fixed point.
 
-Use [Varshavsky-LocalTerms-2020] Theorem 4.10 and Corollary 4.11, p. 10; Lemma 5.1–Corollary 5.6, pp. 10–11
-(arXiv v3); [Hansen-Kaletha-Weinstein-2022] Proposition 5.6.2 and its proof, p. 61 (arXiv v4);
-[Varshavsky-LocalTerms-2023] §4 Theorem 4.10, p.995; §5 pp.995–997.
+Use [Varshavsky-LocalTerms-2023] Theorem 4.10 and Corollary 4.11, p. 995; §5, Lemma 5.1–Corollary 5.6, pp. 995–997;
+[Hansen-Kaletha-Weinstein-2022] Proposition 5.6.2 and its proof, p. 61 (arXiv v4).
 
 *Needs:* §6.3; §6.2; §6.4; `AlgebraicGeometry.Scheme`; §7.2; SchemeAndStackFoundations §§0.7, 0.9, 4.11 and
 the geometric contracts above; §7.3; §7.4.
@@ -7554,7 +7476,7 @@ the geometric contracts above; §7.3; §7.4.
 
 - The finite-order hypothesis matters: for translation by 1 on `𝔸¹ ⊂ ℙ¹` in characteristic `p` (order `p`, not prime to `p`), the unique fixed point `∞` has naive term 1 while `Tr(g^* | H*(ℙ¹)) = 2`, so the local term at `∞` is 2, not naive.
 
-- On `Spec k[x,y,z]/(x³+yz)` with `g=(x,−y,−z), char k≠2`, the reduced-origin cone has a fixed `x`-line. This disproves the reduced-point cone implication, but the full fixed scheme is `Spec k[x]/(x³)` and its conormal has eigenvalue `−1`. The full-fixed-subscheme theorem proves `LT_0(u)=Tr(u_0)`.
+- On `Spec k[x,y,z]/(x³+yz)` with `g=(x,−y,−z), char k≠2`, the reduced-origin cone has a fixed `x`-line. This disproves the reduced-point cone implication, but the full fixed scheme is `Spec k[x]/(x³)` and its conormal has eigenvalue `−1`. Part (c), applied to the full fixed subscheme, proves `LT_0(u)=Tr(u_0)`.
 
 ### Examples
 
@@ -7571,8 +7493,8 @@ Layer 6; SchemeAndStackFoundations normal cones and deformation; ReductiveGroups
 Use the supplied primary-space reciprocity and the Tau Ceti alternating-rank theorem; add the self-pairing multiplicity restrictions and the determinant sign.
 
 **The determinant of a similitude of a symmetric or alternating form.** Let `F` be a field of characteristic `≠ 2, V` of finite dimension `b` with a perfect bilinear form `⟨·,·⟩` which is symmetric `(ε = +1)` or alternating `(ε = −1), c ∈ F^×`, and `φ ∈ GL(V)` with `⟨φv, φw⟩ = c⟨v, w⟩`. Fix `s ∈ F̄` with `s² = c` and let `m_±` be the algebraic
-multiplicity of `±s` as an eigenvalue of `φ` (the dimension of the generalized eigenspace over `F̄`). Then: (b)
-`det(φ)² = c^b`; (c) if `ε = −1`, then `b, m_+` and `m_−` are even and `det(φ) = c^{b/2}`; (d) if `ε = +1`, then `m_+ + m_− ≡ b (mod 2)` and `det(φ) = (−1)^{m_−} s^b`, thus `det(φ)=(−1)^{b−m_+}s^b` as well. If `b` is even, `s^b=c^{b/2}`, and
+multiplicity of `±s` as an eigenvalue of `φ` (the dimension of the generalized eigenspace over `F̄`). Then: (a)
+`det(φ)² = c^b`; (b) if `ε = −1`, then `b, m_+` and `m_−` are even and `det(φ) = c^{b/2}`; (c) if `ε = +1`, then `m_+ + m_− ≡ b (mod 2)` and `det(φ) = (−1)^{m_−} s^b`, thus `det(φ)=(−1)^{b−m_+}s^b` as well. If `b` is even, `s^b=c^{b/2}`, and
 only then this simplifies to `det(φ)=(−1)^{m_−}c^{b/2}`. In odd rank retain `s^b`, even when `s` lies in `F`. For
 `c=q^d` with `d` even use `s=q^{d/2}`, so `s^b=q^{(d/2)·b}`, with no parity assumption on `b`.
 
@@ -7642,7 +7564,7 @@ The interface consists of the following maps and identities.
 
 - `⟨x, y⟩_d = (−1)^d ⟨y, x⟩_d` on `H^d`.
 
-- The datum of a smooth proper `X₀` of pure dimension `d` over `𝔽_q` (§§0.3–0.7:pairings), with `E = ℚ_ℓ`.
+- The datum of a smooth proper `X₀` of pure dimension `d` over `𝔽_q` (§§0.3–0.7), with `E = ℚ_ℓ`.
 
 A proof proceeds as follows.
 
@@ -7655,7 +7577,7 @@ similitude factor `q^d` (Weil `I` (2.5)).
 
 A second instance: `X₀` proper of pure dimension `d` whose dualizing complex has a Frobenius-equivariant
 isomorphism `a^!ℚ_ℓ ≅ ℚ_ℓ(d)[2d]` (a rational homology manifold), with the pairing from §0.5; this is the datum
-WeilConjectures:WC.6/homology-manifold-weil-assembly needs.
+WeilConjectures Layer WC.6 needs.
 
 Use [Deligne-WeilI-1974] (2.3)–(2.6), pp. 281–282.
 
@@ -7682,12 +7604,12 @@ are the `q^d/α` for `α` those of `F_i`; (c) `det(F_i)·det(F_{2d−i}) = q^{d 
 `det(F_d) = q^{d b_d/2}`; if `d` is even, `det(F_d) = (−1)^{m_−} q^{(d/2)·b_d} = (−1)^{b_d − m_+} q^{(d/2)·b_d}`,
 where `m_±` is the algebraic multiplicity of `±q^{d/2}` as an eigenvalue of `F_d`; (e) `Δ² = q^{dχ}`, and `dχ` is even.
 These are statements about the actual finite-dimensional spaces; no semisimplicity of Frobenius is assumed,
-and no zeta function is defined here (WeilConjectures:WC.2 assembles the signed functional equation from
+and no zeta function is defined here (WeilConjectures Layer WC.2 assembles the signed functional equation from
 them). For `X₀` smooth proper over `𝔽_q` of pure dimension `d` and `E = ℚ_ℓ` (`ℓ ∤ q, ℓ = 2` allowed) these apply to
 `H^i(X, ℚ_ℓ)` with geometric Frobenius, and likewise for proper rational homology manifolds.
 
 Work with the following additional hypotheses. A graded Frobenius duality datum over a field of characteristic
-0; for the geometric instances, the hypotheses of §§0.3–0.7:pairings (smooth proper) or a
+0; for the geometric instances, the hypotheses of §§0.3–0.7 (smooth proper) or a
 Frobenius-equivariant isomorphism `a^!ℚ_ℓ ≅ ℚ_ℓ(d)[2d]` (homology manifold). For odd `d` the exponent `d·b_d/2` is
 an integer because `b_d` is even. For even `d` use `(d/2)·b_d`; writing `d·(b_d/2)` would be incorrect when `b_d` is
 odd.
@@ -7732,7 +7654,7 @@ Layer 0 for geometric examples; Mathlib finite-dimensional linear algebra, gener
 
 ## Downstream consumers
 
-GeometricSatakeAndFusion and the proposed stack and perfect-space extensions use intersection complexes and decomposition. LefschetzPencilsAndVanishingCycles uses the finite/integral Lefschetz and blow-up refinements. WeilConjectures uses the graded reciprocal-polynomial and determinant identities. This roadmap owns scheme pure decomposition (pureComplexGeometricSplitting, decompositionTheorem), relative perverse Lefschetz (relativeHardLefschetzTheorem) and general cohomological-correspondence local terms (fujiwaraVarshavskyTraceFormula and §6.3). EndoscopicTransferAndUnitaryTraceComparison §§3.14a,7.10a uses these interfaces for its applications; scheme-level shtuka constructions also use the correspondence and local-term API; stack applications first require the separate stack formalism.
+GeometricSatakeAndFusion uses intersection complexes and decomposition, and GlobalShtukasAndFunctionFieldLanglands §1.4 uses the perverse `t`-structure, intersection complexes and small maps of Layer 2 for its sheaves on algebraic stacks. LefschetzPencilsAndVanishingCycles uses the finite/integral Lefschetz and blow-up refinements. WeilConjectures uses the graded reciprocal-polynomial and determinant identities. This roadmap owns scheme pure decomposition (pureComplexGeometricSplitting, decompositionTheorem), relative perverse Lefschetz (relativeHardLefschetzTheorem) and general cohomological-correspondence local terms (fujiwaraVarshavskyTraceFormula and §6.3). EndoscopicTransferAndUnitaryTraceComparison §§3.14a,7.10a uses these interfaces for its applications; scheme-level shtuka constructions also use the correspondence and local-term API; stack applications go through the formalism of GlobalShtukasAndFunctionFieldLanglands §1.4.
 
 ## References
 
@@ -7749,6 +7671,8 @@ GeometricSatakeAndFusion and the proposed stack and perfect-space extensions use
 - **[Dimca-2004]** Alexandru Dimca, Sheaves in Topology. Universitext, Springer, 2004.
 
 - **[ECD-2026]** Peter Scholze, [Étale cohomology of diamonds](https://people.mpim-bonn.mpg.de/scholze/EtCohDiamonds.pdf). Author manuscript dated 14 April 2026; manuscript pagination.
+
+- **[Fulton-1998]** William Fulton, Intersection Theory. 2nd edition, Ergebnisse der Mathematik und ihrer Grenzgebiete, 3. Folge, Band 2, Springer (1998).
 
 - **[Grothendieck-Chern-1958]** Alexander Grothendieck, [La théorie des classes de Chern](https://www.numdam.org/article/BSMF_1958__86__137_0.pdf). Bull. Soc. Math. France 86 (1958), 137–154; Numdam scan.
 
@@ -7771,6 +7695,10 @@ GeometricSatakeAndFusion and the proposed stack and perfect-space extensions use
 - **[Milne-AG-2017]** J. S. Milne, [Algebraic Groups](https://www.jmilne.org/math/Books/iAG2017.pdf). Cambridge Studies in Advanced Mathematics 170 (2017), author version; Theorem 12.9 and §12(e).
 
 - **[Milne-LEC]** J. S. Milne, [Lectures on Étale Cohomology](https://www.jmilne.org/math/CourseNotes/LEC.pdf). Version 2.21, 22 March 2013 (202 pages; printed page = PDF page).
+
+- **[Raynaud-1965]** Michel Raynaud, [Caractéristique d'Euler–Poincaré d'un faisceau et cohomologie des variétés abéliennes](https://www.numdam.org/item/SB_1964-1966__9__129_0/). Séminaire Bourbaki, 17e année (1964/65), exposé 286, pp. 129–147; Numdam scan.
+
+- **[Serre-AlgLoc]** Jean-Pierre Serre, Algèbre locale. Multiplicités. Lecture Notes in Mathematics 11, Springer (1965).
 
 - **[SGA4-XIV]** M. Artin, [SGA 4, Exposé XIV: Théorème de finitude pour un morphisme propre; dimension cohomologique des schémas algébriques affines](https://www.normalesup.org/~forgogozo/SGA4/14/14.pdf). Retyped edition of LNM 305 (version 71766d9, 2024), with LNM page numbers in the margin.
 
@@ -7812,9 +7740,7 @@ GeometricSatakeAndFusion and the proposed stack and perfect-space extensions use
 
 - **[Varshavsky-LV-2007]** Y. Varshavsky, [Lefschetz–Verdier trace formula and a generalization of a theorem of Fujiwara](https://arxiv.org/pdf/math/0505564v2). Geom. Funct. Anal. 17 (2007); arXiv:math/0505564v2.
 
-- **[Varshavsky-LocalTerms-2020]** Y. Varshavsky, [Local terms for transversal intersections](https://arxiv.org/pdf/2003.06815v3). arXiv:2003.06815v3.
-
-- **[Varshavsky-LocalTerms-2023]** Yakov Varshavsky, [Local terms for transversal intersections](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/AD273B3043D9AADF4A522F51F1178575/S0010437X23007091a.pdf/local-terms-for-transversal-intersections.pdf). Compositio Mathematica 159 (2023), pp.985–1004, DOI 10.1112/S0010437X23007091.
+- **[Varshavsky-LocalTerms-2023]** Yakov Varshavsky, [Local terms for transversal intersections](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/AD273B3043D9AADF4A522F51F1178575/S0010437X23007091a.pdf/local-terms-for-transversal-intersections.pdf). Compositio Mathematica 159 (2023), pp.985–1004, DOI 10.1112/S0010437X23007091 (open access); preprint arXiv:2003.06815v3, with the same numbering of statements. Page numbers cited are those of the journal.
 
 - **[Verdier-1983]** J.-L. Verdier, [Spécialisation de faisceaux et monodromie modérée](https://www.numdam.org/item/AST_1983__101-102__332_0.pdf). Astérisque 101–102 (1983), pp.332–364.
 
