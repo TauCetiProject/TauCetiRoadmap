@@ -110,7 +110,8 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   change, and the theorem that a group of rank `N` is killed by `N`), Layer 0C (fppf quotients by
   finite locally free subgroups), Layer 0D (the field-valued finite étale/Galois-set dictionary
   and transport of group objects), Layer 0E (effective descent for finite locally free schemes,
-  groups and morphisms) and Layer 7E (the elliptic tower `E[p^∞]`, the finite-level connected–étale
+  groups and morphisms), Layers 2A–2B (multiplication maps of elliptic curves and their degree,
+  isogenies and quotients) and Layer 7E (the elliptic tower `E[p^∞]`, the finite-level connected–étale
   sequence over a henselian local ring with its special-fibre splitting over a perfect residue
   field, Frobenius and Verschiebung of elliptic curves, supersingular Frobenius kernels and the two
   `p`-divisible groups of an elliptic curve over an algebraically closed field). ModularCurves
@@ -140,9 +141,10 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   characters and the `ℚ_p` unit-Kummer subspace and peu/très ramifiée predicates) and §§2.7–2.8
   (the `ℚ_p` Serre weights, compact inductions and spherical Hecke operator); the exact contracts
   are listed under *Exact supplier contracts*.
-- TauCetiRoadmap.EllipticCurves Layer 4 (the Tate curve), TauCetiRoadmap.ProfiniteCohomology Layer 9
-  (Hilbert `90` and Kummer theory) and TauCetiRoadmap.ClassFieldTheory Layers 5, `7` and `11` (local Tate
-  duality and the local and global Artin maps); ClassFieldTheory Layer 11 (global Artin reciprocity) and GlobalNumberFields
+- TauCetiRoadmap.EllipticCurves Layers 4–5 (the Tate curve and quadratic twists),
+  TauCetiRoadmap.ProfiniteCohomology Layer 9 (Hilbert `90` and Kummer theory) and
+  TauCetiRoadmap.ClassFieldTheory Layers 5, `7` and `11`–`13` (local Tate duality, the local and
+  global Artin maps, global existence and class fields); ClassFieldTheory Layer 11 (global Artin reciprocity) and GlobalNumberFields
   Layers 9–10 supply the global character and Hecke infinity-type inputs of §R07.P7.3.
 
 **Imported from the arithmetic-geometry and representation-theory roadmaps.**
@@ -198,7 +200,14 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   (`VanishingCycles.finiteEtaleGaloisCategory`) (finite étale covers of a connected nonempty
   scheme, their Galois-category structure and geometric fibre functors),
   SchemeAndStackFoundations §0.14 `henselian_smooth_lifting` (smooth sections along henselian
-  pairs), and PurityOfBranchLocus §2.1
+  pairs), its §1.2 (fppf descent of quasi-finite morphisms), §§2.1, 2.3 and 2.10–2.11 (site
+  cohomology, torsors, comparison of topologies, Hilbert `90` and the Kummer sequence), §4.4
+  (Schlessinger's theorem) and §4.8 (formal completion and coherent formal modules),
+  EtaleCohomologyFoundations §0.7 (étale extension by zero and localization),
+  AdicSpacesPartIII R2.9 (Conrad's formal schemes `FS_C` and their Berthelot generic fibre),
+  CyclotomicClassGroupsAndStickelberger §§0.2–0.3, 2.1–2.5, 3.1–3.2 and 8.1–8.3 (cyclotomic class
+  eigenspaces, integral Stickelberger annihilation, Herbrand's implication and the inverse-character
+  obstruction), and PurityOfBranchLocus §2.1
   (purity of the branch locus, SGA 1 `X` 3.1, Stacks Tag 0BMB) and §2.2
   (the global corollary for finite normal covers with dominant components over regular bases),
   ArithmeticGaloisRepresentations §2.3 (residual tame-inertia classification) and Layer 6 (Tate modules of elliptic curves), and the smooth and
@@ -387,18 +396,23 @@ laws) with `FormalGroup.IsComm`.
   equivalence between finite étale schemes over a field and finite continuous Galois sets, is used
   in §R07.1.23). Nothing in this roadmap assumes more of them than is stated there; in particular
   the finite-level connected–étale sequence of `7E` is used over henselian local rings, and its
-  splitting only on the special fibre over a perfect residue field.
+  splitting only on the special fibre over a perfect residue field. Layers 2A–2B (multiplication
+  maps of elliptic curves with their degree, isogenies and quotients) are used in §§R07.1.21 and
+  R07.6.1.
 - **LocalFieldsRamification.** Layers 3–4 supply lower and upper numbering, Herbrand functions,
   normal-quotient compatibility, the different and Hasse–Arf for nonarchimedean local fields
   (finite residue field). Their extension to complete discretely valued fields with arbitrary
   perfect residue field, in equal and mixed characteristic, is RamificationOfCompleteDiscretelyValuedFields
   §§3a.1–3a.3 and 4a.1–4a.3, listed in that roadmap's row. Layer 4 also
   supplies the finite-residue tame character `I_K/P_K ≅ lim μ_m` and its Frobenius twist.
-- **EllipticCurves.** Layer 4 (the Tate curve `E_q` and its `p`-torsion).
+- **EllipticCurves.** Layer 4 (the Tate curve `E_q` and its `p`-torsion) and Layer 5 (quadratic
+  twists and their Galois-equivariant comparison), used in §R07.5.4.
 - **ProfiniteCohomology.** Layer 9 (Hilbert `90` and Kummer theory for local fields).
 - **ClassFieldTheory.** Layer 5 (local Tate duality, its target `tateDualityPairing_perfect_mixed`),
   Layer 7 (the local Artin map, its normalizations and local conductors) and Layer 11 (global
   Artin reciprocity), used in §R07.1.35 and §R07.5.14; Layer 11 (global Artin reciprocity) supplies the global character input of §R07.P7.3.
+  Layers 11–13 (the global class formation and reciprocity, global existence and the norm index,
+  norm theorems and class fields, including Hilbert class fields) are used in §§R07.G3–R07.G6.
 - **GlobalNumberFields.** Layers 9–10 supply Hecke characters, algebraic infinity types and
   unit relations for §R07.P7.3.
 
@@ -447,12 +461,22 @@ laws) with `FormalGroup.IsComm`.
   free module, contravariance in `G`, and `FV = VF = p`), the variance-and-twist values `D(ℚ_p/ℤ_p) = (W(k), σ)` and
   `D(μ_{p^∞}) = (W(k), pσ)`, and Grothendieck–Messing (lifts of `G₀` along a locally PD-nilpotent
   thickening on which `p` is locally nilpotent correspond to lifts of the Hodge filtration).
-- **CrystallineCohomology.** §CR.4.7 *Slope decomposition on the existing isocrystal carrier*
+- **CrystallineCohomology.** §§CR.1.2–CR.1.3 supply crystals, isocrystals and `F`-crystals with
+  their connections and stratifications, consumed by §R07.2.27. §CR.4.7 *Slope decomposition on the existing isocrystal carrier*
   supplies standard cyclic blocks, algebraically closed Dieudonné–Manin classification,
   different-slope `Hom` vanishing and perfect-field slope descent. §CR.7.1 supplies
   the Tate twist of coefficients with Frobenius and filtration; §CR.7.3 supplies relative
   crystalline direct images and base change. DerivedDeRhamCohomology §§PD.1–PD.7 supplies
   divided powers, envelopes and universal thickenings.
+- **AdicSpacesPartIII.** R2.9 supplies `FormalScheme.FSC`, the locally noetherian adic formal
+  schemes over `Spf C` whose reduction is locally of finite type, and Conrad's Berthelot generic
+  fibre `rigOfFSC` on them; §R07.2.27 consumes their specialization to a complete discrete
+  valuation ring.
+- **CyclotomicClassGroupsAndStickelberger.** §§0.2–0.3, 2.1–2.5, 3.1–3.2 and 8.1–8.3 supply the
+  carrier `cyclotomicClassEigenspace` with its covariant ideal action, the integral Stickelberger
+  smoothings, `bernoulli_annihilates_component`, Herbrand's implication, the exponent-one
+  vanishing theorem, `inverseCharacterClassGroup_all_levels` and the vanishing of the
+  inverse-character unramified quotient; §R07.G5 consumes their prime-conductor case.
 - **PurityOfBranchLocus.** §2.1 supplies purity of the branch locus (SGA 1 `X` 3.1,
   Stacks Tag 0BMB), and §2.2 supplies the global corollary: for an excellent regular local
   ring `A`, its finite normalization in a finite separable generic-fibre algebra,
@@ -524,10 +548,16 @@ laws) with `FormalGroup.IsComm`.
 - **DerivedModuleAlgebra** §0.4 (the full cotangent complex) and §0.8 (its transitivity
   triangle), **SchemeAndStackFoundations** §0.14 `henselian_smooth_lifting`
   (a smooth-algebra section over `C/J` lifts to `C` for every henselian pair, Stacks Tag 0H74),
-  and §4.1 (thickenings, formally smooth and formally étale
-  morphisms, the infinitesimal lifting criterion), **EtaleCohomologyFoundations**
+  §4.1 (thickenings, formally smooth and formally étale
+  morphisms, the infinitesimal lifting criterion), §1.2 (fppf descent of quasi-finite morphisms,
+  §R07.G1), §§2.1, 2.3 and 2.10–2.11 (pullback and higher direct images on sites, torsors and
+  first cohomology, comparison of the topologies of a scheme, Hilbert `90` and the Kummer sequence,
+  §§R07.G3, R07.G5–R07.G6), §4.4 (`schlessinger_prorepresentable` and `smooth_iff_powerSeries`,
+  §R07.6.9) and §4.8 (formal completion and `coherentFormalModuleEquivSpec_effective`, §§R07.2.27
+  and R07.6.9), **EtaleCohomologyFoundations**
   §F.0.2 (`VanishingCycles.finiteEtaleGaloisCategory`, the general finite étale Galois-category
-  and geometric fibre-functor construction), **ModularCurves** Layer 0D (the field-valued
+  and geometric fibre-functor construction) and §0.7 (étale extension by zero and localization
+  with supports, §R07.G3), **ModularCurves** Layer 0D (the field-valued
   finite étale/Galois-set dictionary and transport of group objects),
   **ArithmeticGaloisRepresentations** Layer 6 and **SmoothRepresentationsOfLocalGroups**
   Layer SR.2 (smooth and compact induction for `GL₂(F)`), as listed under *Scope and ownership*.
@@ -1206,8 +1236,8 @@ The API:
 - The zero-dimensional formal Lie group is `Spf Λ`, of height `0`.
 - For `E` over `W(𝔽̄_p), Ê` has dimension `1` and height `1` (ordinary) or
   `2` (supersingular) (ModularCurves Layer 7E (PD-`5`)).
-- For `Ĝ_m`, `nthSeries n=(1+X)^n−1` has linear term `nX`; its points on
-  a complete local ring identify with `1+m`, with multiplication as the group law.
+- For `Ĝ_m`, the multiplication-by-`n` series `[n](X) = (1+X)^n − 1` has linear term `nX`; its
+  points on a complete local ring identify with `1+m`, with multiplication as the group law.
 - On square-zero ideals all quadratic terms vanish: the point functor becomes the
   additive tangent space and `evalPoints` is the linear part.
 - Over `𝔽_p`, `[p]` on `Ĝ_m` is `X^p`, a nonzero series with zero linear part.
@@ -2718,15 +2748,18 @@ finite projective modules, finite locally free group schemes and `p`-divisible g
 ### Dependencies
 
 Tau Ceti `FiniteLocallyFreeCommAffineGroupSchemeCat` with Cartier duality and base change, and its
-constant and diagonalizable groups; TauCetiRoadmap.ModularCurves Layers 0B, `0C, 0D, 0E` and `7E`;
+constant and diagonalizable groups; TauCetiRoadmap.ModularCurves Layers 0B, `0C, 0D, 0E`, `2B` and `7E`;
 TauCetiRoadmap.LocalFieldsRamification Layers 3 and `4`; TauCetiRoadmap.ClassFieldTheory Layers 7
-and `11`; AbelianSchemesAndArithmeticModuli §A4.5 and Layer A3; DerivedModuleAlgebra §0.4;
-SchemeAndStackFoundations §0.23 and §4.1 (and §5.4 for the projective-line-bundle Check);
-TauCetiRoadmap.PadicLocalLanglandsForGL2Qp §0.3 (finite-residue fundamental characters);
+and `11`; GlobalNumberFields Layers 9–10; AbelianSchemesAndArithmeticModuli §§A4.5, A4.5a and
+Layer A3; DerivedModuleAlgebra §0.4; SchemeAndStackFoundations §§0.29 and 4.1;
+TauCetiRoadmap.PadicLocalLanglandsForGL2Qp §0.2 (labelled Sen operators and the local-algebraicity
+criterion) and §0.3 (finite-residue fundamental characters);
 EtaleCohomologyFoundations §F.0.2 (`VanishingCycles.finiteEtaleGaloisCategory`);
-PadicPeriodRings §§1–2; Mathlib's local rings, discrete valuation rings, power series, Kähler
-differentials and continuous cohomology; Mathlib schemes, ringed-space gluing, pullbacks,
-étale and smooth morphisms, ring Frobenius and finite-field Frobenius.
+PadicPeriodRings §§1–4; NoncommutativeAndEquivariantIwasawa §F.6 (period sequences and
+exponential); ArithmeticGaloisRepresentations §§1.1–1.2, 1.5, 2.3 and 7.6; Mathlib's local rings,
+discrete valuation rings, power series, Kähler differentials and continuous cohomology; Mathlib
+schemes, ringed-space gluing, pullbacks, étale and smooth morphisms, ring Frobenius and
+finite-field Frobenius.
 
 ## Layer R07.G: Global admissible groups and dyadic amalgams
 
@@ -4510,8 +4543,8 @@ comparison); §R07.2.5; Mathlib `WittVector`.
   normalization with `M(ℚ_p/ℤ_p) = (W(k), F = σ)` and `M(μ_{p^∞}) = (W(k), F = pσ)`.
 - Over `k = F_{p²}`, for `G = α_p` and `u : x ↦ ax` with `a ∉ F_p`, precomposition
   acts by a on `M_B(G)` and by `a^p` on `M(G)`. An ordinary `k`-linear natural
-  identification of these two unshifted functors would force `a = a^p`; the scalar
-  pullback in `berthelot_field` is necessary.
+  identification of these two unshifted functors would force `a = a^p`; the scalar pullback
+  `σ_k^*` in the field comparison `M(G) = σ_k^*M_B(G) ≅ M_classical(G)` above is necessary.
 - As used in Caraiani–Scholze, Lemma 4.2.16: for an isocrystal `D` over `F̄_p`
   and a perfect valuation ring `V` with fraction field `K, (D ⊗ W(V)[1/p])^{φ=1} = (D ⊗ W(K)[1/p])^{φ=1}`, which by full faithfulness extends homomorphisms from `K` to `V`.
 - For `G = 0, M_B(G) = 0` and `σ_A^*M_B(G) = 0`; the field case and the valuation-ring
@@ -4530,8 +4563,9 @@ comparison); §R07.2.5; Mathlib `WittVector`.
 ### Dependencies
 
 Layer R07.1; DerivedDeRhamCohomology §§PD.1–PD.7;
-CrystallineCohomology §§CR.4.7, CR.7.3;
-AbelianSchemesAndArithmeticModuli §A4.CR.7.2; Mathlib `WittVector` with
+CrystallineCohomology §§CR.1.2–CR.1.3, CR.4.7, CR.7.1 and CR.7.3;
+AbelianSchemesAndArithmeticModuli §§A4.5a and A4.CR.7.2; AdicSpacesPartIII R2.9;
+SchemeAndStackFoundations §§0.14 and 4.8; Mathlib `WittVector` with
 Frobenius, Verschiebung, `WittVector.Isocrystal` and `isocrystal_classification`; Tau Ceti Cartier
 duality.
 
@@ -4783,7 +4817,7 @@ semistable and crystalline representations); §R07.3.1; §R07.3.2; §R07.P2 (`bC
 - The period `t^n` has `φ(t^n) = p^n t^n` and filtration degree `n`, for every `n ∈ ℤ`,
   attaining equality in `crisEigenvector_filtration_bound`.
 - A `φ = 1` period in `Fil¹ B_dR` is zero; the nonzero hypothesis in the bound is essential.
-- For `K = K₀ = ℚ_p`, take `φ = diag(1,p), N = 0, Fil⁰ D = D, Fil¹ D = ℚ_p(e₁+e₂), Fil² D = 0` as in `isWeaklyAdmissible_split_vs_line`.
+- For `K = K₀ = ℚ_p`, take `φ = diag(1,p), N = 0, Fil⁰ D = D, Fil¹ D = ℚ_p(e₁+e₂), Fil² D = 0`.
   The induced-filtration subobject `D′ = ℚ_p e₂` has `t_H = 0 < 1 = t_N`.
   Thus it is not admissible and cannot be `D_st(W)` for a semistable subrepresentation,
   although `D` is weakly admissible. Its period coefficients require the inequality argument.
@@ -5473,11 +5507,12 @@ R07.1.34; §R07.4.20 for the representation adapter.
 
 ### Dependencies
 
-Layer R07.2 (Dieudonné–Manin and slopes); §§R07.P2–R07.P5 and PadicPeriodRings §§3–4 (supplied period rings, `D_cris`,
+Layer R07.2 (Dieudonné–Manin and slopes); §§R07.P2–R07.P5 and PadicPeriodRings §§1–4 (supplied period rings, `D_cris`,
 rational crystalline predicates); §R07.3.3a (general filtered Frobenius carrier) and
 §§R07.3.4–R07.3.15 (Fontaine–Laffaille theory and period realization);
 PadicPeriodRings §§4.1–4.3 (`B_st`, `D_st`); TauCetiRoadmap.PadicLocalLanglandsForGL2Qp §0.2
-(filtered `(φ, N)`-modules, weak admissibility and the semistable equivalence); Mathlib
+(filtered `(φ, N)`-modules, weak admissibility and the semistable equivalence); CrystallineCohomology
+§CR.4.7 (slope decomposition on the isocrystal carrier); Mathlib
 `WittVector`, `PreTilt`, `WittVector.fontaineTheta`, `Module.length`.
 
 ## Layer R07.4: Breuil–Kisin modules
@@ -6386,7 +6421,8 @@ lemma.)
 
 ### R07.4.20 Crystalline representations with Hodge–Tate weights in `{0, 1}` come from `p`-divisible groups
 
-Prove `crystalline01IsBt`. For every prime `p` (including `p = 2`) and every finite `K/ℚ_p`: if `V` is a
+Prove `crystalline01IsBt`. For every prime `p` (including `p = 2`) and every `K` as in §R07.4.1 (finite and
+totally ramified over `K₀ = W(k)[1/p]`, with `k` perfect of characteristic `p`): if `V` is a
 crystalline representation of `G_K` with all Hodge–Tate weights equal to `0` or `1`, there is a
 `p`-divisible group `G` over `𝒪_K` with `V ≅ T_p(G) ⊗_{ℤ_p} ℚ_p` as `G_K`-representations (Fontaine's
 conjecture). Consequently a potentially crystalline representation with Hodge–Tate weights `{0, 1}` is
@@ -6415,6 +6451,9 @@ Introduction, Theorem (0.3), p. 3: theorem (0.3).)
 
 - `V = ℚ_p(1) = V_p(μ_{p^∞})` and `V = ℚ_p = V_p(ℚ_p/ℤ_p)`; `V = V_p(E)` for an
   elliptic curve with good reduction.
+- Every finite `K/ℚ_p` is an instance, with `k` its finite residue field and `K₀` its maximal
+  unramified subfield. So is `K = W(F̄_p)[1/p]`, with infinite residue
+  field: there `V = V_p(E)` for an elliptic curve `E` over `W(F̄_p)` comes from `E[p^∞]`.
 - `ℚ_p(2)` (weight `2`) and `ℚ_p(−1)` (weight `−1`) are crystalline but not
   Barsotti–Tate.
 - For a `G_K`-stable lattice `p⁻¹T_p(G′)`, the finite subgroup is `G′[p]`.
@@ -6759,8 +6798,9 @@ Lemma 3.2.3, Lemma 3.3.3, Proposition 3.3.4 and Corollaries 3.3.5–3.3.6.
   The reconstructed connection retains the relative direction although `Γ_r`
   fixes `t₁`; both formulas hold before inverting `p`.
 - For the unit and multiplicative PD windows above, reconstruct `∇e = 0`;
-  transporting back through the window comparison recovers `wach_unit` and
-  `wach_mu`, including the latter's nontrivial semilinear action in its BT basis.
+  transporting back through the window comparison recovers the modules `M(ℚ_p/ℤ_p)` and
+  `M(μ_{p^∞})` computed in the Checks at the end of this section, including the nontrivial
+  `Γ`-action on the basis `e` of the latter.
 
 **Effective descent to intermediate fields (`cyclotomicWindowDescent`).**
 For `F ⊆ K ⊆ K′ ⊆ F_r`, put `R′ = O_(K′)⟦t₁,…,t_d⟧` and
@@ -7044,8 +7084,10 @@ of `W(k)[u, u^{ie}/i!]`, with `φ(u) = u^p, N(u) = −u` and `c = φ₁(E(u))`. 
 The ring divisibility `φ(Fil^{k−1}S) ⊆ p^{k−1}S` defines `φ_{k−1} = φ/p^{k−1}`
 for `1 ≤ k ≤ p`. For the module categories assume `1 ≤ k ≤ p−1`. Three categories are kept apart.
 The ambient category `′Mod^{k−1}` has objects `S`-modules `M` with a submodule
-`Fil^{k−1}M ⊇ (Fil^{k−1}S)M` and a `φ`-semilinear `φ_{k−1} : Fil^{k−1}M → M`, with no finiteness
-condition; its morphisms are `S`-linear maps preserving `Fil^{k−1}` and commuting with `φ_{k−1}`
+`Fil^{k−1}M ⊇ (Fil^{k−1}S)M` and a `φ`-semilinear `φ_{k−1} : Fil^{k−1}M → M` such that
+`φ_{k−1}(sx) = φ_{k−1}(s)·φ(x)` for all `s ∈ Fil^{k−1}S` and `x ∈ M`, where
+`φ(x) = c^{−(k−1)}φ_{k−1}(E(u)^{k−1}x)`, with no finiteness condition; its morphisms are `S`-linear
+maps preserving `Fil^{k−1}` and commuting with `φ_{k−1}`
 (and with `N` and `ĝ` when these are present). The period rings `Â_cris`, `Â_st`, `Â_{st,∞}` and the
 values `O^cris_{n,π}(A)` are objects of `′Mod^{k−1}`. The finite torsion category `Mod^{k−1}_tor`
 is the full subcategory of objects whose underlying module is a finite direct sum
@@ -7126,6 +7168,15 @@ The API:
 - For `p = 3`, `F = ℚ₃` and `G = ℚ₃/ℤ₃`, the level-one module `M_π(G(1))` is free of rank one
   over `S/3S`. It is a nonzero object of `Mod¹_tor` killed by `3`, so it is not finite free over the
   `3`-torsion-free ring `S` and is not an object of `Mod¹_0`; only the limit `M_π(G)` is.
+- For `F = ℚ_p`, `p > 2` and `E(u) = u − p`, let `M = (S/pS)e` with `Fil¹M = (Fil¹S)M`, and write
+  `γ_p(x) = x^p/p!`. Since `φ` sends the augmentation ideal of `S/pS` to `0`, there is a
+  `φ`-semilinear `φ₁ : Fil¹M → M` with `φ₁(E(u)e) = ce` and `φ₁(γ_p(E(u))e) = e`; it meets every
+  other condition of `Mod¹_tor`. The compatibility axiom forces `φ(e) = c^{−1}φ₁(E(u)e) = e` and
+  `φ₁(γ_p(E(u))e) = φ₁(γ_p(E(u)))·e = (p^{p−2}c^p/(p−1)!)·e = 0`, so this module is not an object;
+  without the axiom `φ₁` would not descend to `M ⊗_{S/pS} k_F[u]/u^p`, the Breuil module of
+  §R07.4.34. On finite free `S`-modules the axiom follows from semilinearity, since `S` is
+  `p`-torsion-free: `p^{k−1}c^{k−1}φ_{k−1}(sx)` and `p^{k−1}c^{k−1}φ_{k−1}(s)φ(x)` both equal
+  `φ_{k−1}(E(u)^{k−1}sx)`. (Breuil 2000, §2.1.1, p. 6; Savitt 2005, §3.2, p. 13.)
 
 ### R07.4.32 Strongly divisible modules with descent data classify potentially Barsotti–Tate lattices
 
@@ -7494,11 +7545,14 @@ in (1.2.7), since `D_cris` and `V_cris` commute with `⊗_A N` (1.3.5). (Kisin 2
 ### Dependencies
 
 Layers R07.2 and R07.3; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Dieudonné crystal, Grothendieck–Messing);
-§§R07.P2–R07.P5 and PadicPeriodRings §§3–4; §R07.3.0;
+§§R07.P2–R07.P5 and PadicPeriodRings §§1–4; §R07.3.0;
 TauCetiRoadmap.LocalFieldsRamification Layer 3; TauCetiRoadmap.ProfiniteCohomology Layer 9;
 TauCetiRoadmap.PadicLocalLanglandsForGL2Qp §0.2 (the semistable equivalence);
 NoncommutativeAndEquivariantIwasawa §F.6 stages 1–2 (Cohen-ring étale equivalence, Robba
-carriers and slope theory); Mathlib
+carriers and slope theory); CrystallineCohomology §CR.4.7; RestrictedPowerSeries §7.1 (open-disc
+scalar algebra); DerivedDeRhamCohomology §§PD.1–PD.7 and 0.20 (PD envelopes and syntomic
+morphisms); DerivedModuleAlgebra §0.4 (cotangent complexes); Tau Ceti
+`TauCeti.Algebra.IsStandardSyntomicOfRelativeDimension`; Mathlib
 `PowerSeries`, `Polynomial.IsEisensteinAt`, `AdicCompletion`, `WittVector`, `PreTilt`,
 `WittVector.fontaineTheta`.
 
@@ -7655,7 +7709,7 @@ splitting character. This target uses EllipticCurves Layer 4's integral Tate
 series and uniformisation and Layer 5's Galois-equivariant quadratic-twist
 comparison; ArithmeticGaloisRepresentations §6.1 supplies the residual
 elliptic-representation adapter. Sources: Serre 1972, §1.12, Proposition 13
-and footnote 3, pp.276–277; Silverman, *Advanced Topics*, V.5.3.
+and footnote 3, pp.276–277; Silverman 1994, Chapter V, Theorem 5.3.
 
 **Checks.**
 
@@ -8305,9 +8359,10 @@ TauCetiRoadmap.SmoothRepresentationsOfLocalGroups Layer SR.2 (compact induction)
 ### Dependencies
 
 Layers R07.1, R07.3 and R07.4; TauCetiRoadmap.LocalFieldsRamification Layer 4;
-TauCetiRoadmap.EllipticCurves Layer 4; TauCetiRoadmap.ProfiniteCohomology Layer 9;
-TauCetiRoadmap.SmoothRepresentationsOfLocalGroups Layer SR.2; ArithmeticGaloisRepresentations Layer
-6; TauCetiRoadmap.PadicLocalLanglandsForGL2Qp §§0.3 and 2.7–2.8.
+TauCetiRoadmap.EllipticCurves Layers 4–5; TauCetiRoadmap.ProfiniteCohomology Layer 9;
+TauCetiRoadmap.ClassFieldTheory Layer 5 (local Tate duality); TauCetiRoadmap.ModularCurves Layer 0E;
+TauCetiRoadmap.SmoothRepresentationsOfLocalGroups Layer SR.2; ArithmeticGaloisRepresentations §1.4
+and Layer 6; TauCetiRoadmap.PadicLocalLanglandsForGL2Qp §§0.3 and 2.7–2.8.
 
 ## Layer R07.6: Deformation and ramification consequences
 
@@ -8911,7 +8966,9 @@ for good reduction at `p > 2`, by Fontaine's bound against the root discriminant
 
 ### Dependencies
 
-Layers R07.1–R07.4; AbelianSchemesAndArithmeticModuli Layer A3; DerivedModuleAlgebra §§0.4, 0.8;
+Layers R07.1–R07.4; AbelianSchemesAndArithmeticModuli Layer A3 and §§A4.5 and A4.CR.7.2;
+DerivedModuleAlgebra §§0.4, 0.8; TauCetiRoadmap.ModularCurves Layers 0B, 0C, 0E, 2A and 7E;
+SchemeAndStackFoundations §§4.4 and 4.8;
 TauCetiRoadmap.LocalFieldsRamification Layers 3–4 (finite-residue ramification);
 RamificationOfCompleteDiscretelyValuedFields §§3a.1–3a.2, 4a.1 and 4a.3 (ramification over
 complete discretely valued fields with arbitrary perfect residue field, the absolute upper
@@ -9009,6 +9066,9 @@ Mathlib `differentIdeal`, `IsKrasner.krasner`,
   de Dieudonné cristalline II*, Lecture Notes in Math. 930, Springer (1982); §§3.1–3.3 and §4.3.
 - **Bhatt–Morrow–Scholze 2018.** Bhargav Bhatt, Matthew Morrow, Peter Scholze, *Integral p-adic
   Hodge theory*, Publ. Math. IHÉS 128 (2018). <https://arxiv.org/abs/1602.03148>
+- **Breuil 1998.** Christophe Breuil, *Construction de représentations p-adiques semi-stables*,
+  Ann. Sci. École Norm. Sup. (4) 31 (1998), no. 3, 281–327; Proposition 2.2.2.1 as cited in
+  Savitt 2005, §4.
 - **Breuil 1999.** Christophe Breuil, *Une application du corps des normes*, Compositio Math. 117
   (1999).
   <https://www.imo.universite-paris-saclay.fr/~christophe.breuil/PUBLICATIONS/corpsdesnormes.pdf>
@@ -9021,6 +9081,9 @@ Mathlib `differentIdeal`, `IsKrasner.krasner`,
 - **Breuil 2003.** Christophe Breuil, *Sur quelques représentations modulaires et p-adiques de
   GL₂(ℚ_p). I*, Compositio Math. 138 (2003), 165–188.
   <https://www.imo.universite-paris-saclay.fr/~christophe.breuil/PUBLICATIONS/GL2%28Qp%29I.pdf>
+- **Breuil–Conrad–Diamond–Taylor 2001 (BCDT01).** Christophe Breuil, Brian Conrad, Fred Diamond,
+  Richard Taylor, *On the modularity of elliptic curves over ℚ: wild 3-adic exercises*, J. Amer.
+  Math. Soc. 14 (2001), 843–939; Theorem 5.1.3 and Corollary 5.4.5 as cited in Savitt 2005.
 - **Breuil–Mézard 2002.** Christophe Breuil, Ariane Mézard, *Multiplicités modulaires et
   représentations de GL₂(ℤ_p) et de Gal(ℚ̄_p/ℚ_p) en ℓ = p*, Duke Math. J. 115 (2002).
   <https://www.imo.universite-paris-saclay.fr/~christophe.breuil/PUBLICATIONS/multiplicite.pdf>
@@ -9071,6 +9134,8 @@ Mathlib `differentIdeal`, `IsKrasner.krasner`,
 - **Kisin 2009b.** Mark Kisin, *Modularity of 2-adic Barsotti–Tate representations*, Invent. Math.
   178 (2009), no. 3, 587–634. Page numbers refer to the author's version at
   <http://people.math.harvard.edu/~kisin/dvifiles/serre2.dvi>
+- **Kisin 2010.** Mark Kisin, *Integral models for Shimura varieties of abelian type*, J. Amer.
+  Math. Soc. 23 (2010), no. 4, 967–1012; Theorem 1.4.2.
 - **Lipnowski–Tsimerman 2018.** Michael Lipnowski, Jacob Tsimerman, *How large is A_g(F_q)?*, Duke
   Math. J. 167 (2018). <https://arxiv.org/abs/1511.02212v1>
 - **Liu 2013.** Tong Liu, *The correspondence between Barsotti–Tate groups and Kisin
@@ -9093,6 +9158,9 @@ Mathlib `differentIdeal`, `IsKrasner.krasner`,
   Compositio Math. 87 (1993), 269–286. <https://www.numdam.org/item/CM_1993__87_3_269_0/>
 - **Raynaud 1974.** Michel Raynaud, *Schémas en groupes de type (p, …, p)*, Bull. Soc. Math. France
   102 (1974), 241–280. <https://www.numdam.org/item/BSMF_1974__102__241_0/>
+- **Savitt 2004.** David Savitt, *Modularity of some potentially Barsotti–Tate Galois
+  representations*, Compositio Math. 140 (2004), no. 1, 31–63; Theorem 6.3, as compared in
+  Savitt 2005, Remark 5.5.
 - **Savitt 2005.** David Savitt, *On a conjecture of Conrad, Diamond, and Taylor*, Duke Math. J. 128
   (2005), 141–197. <https://arxiv.org/abs/math/0404327v3>
 - **Scholze 2015.** Peter Scholze, *On torsion in the cohomology of locally symmetric varieties*,
@@ -9111,6 +9179,8 @@ Mathlib `differentIdeal`, `IsKrasner.krasner`,
 - **Serre 1987.** Jean-Pierre Serre, *Sur les représentations modulaires de degré 2 de Gal(Q̄/Q)*,
   Duke Math. J. 54 (1987), 179–230.
   <https://doi.org/10.1215/S0012-7094-87-05413-5>
+- **Silverman 1994.** Joseph H. Silverman, *Advanced Topics in the Arithmetic of Elliptic Curves*,
+  Graduate Texts in Mathematics 151, Springer, 1994; Chapter V, Theorem 5.3.
 - **Stacks Project.** The Stacks project authors, *The Stacks project*, online.
   <https://stacks.math.columbia.edu/tag/0BNI>
 - **Stix 2012.** Jakob Stix, *A course on finite flat group schemes and p-divisible groups*, course
@@ -9131,7 +9201,7 @@ Mathlib `differentIdeal`, `IsKrasner.krasner`,
 - **Illusie 1985.** Luc Illusie, *Déformations de groupes de Barsotti–Tate
   (d'après A. Grothendieck)*, Astérisque 127 (1985), 151–198.
   <https://www.numdam.org/item/AST_1985__127__151_0/>
-- **Sharifi.** Romyar Sharifi, *Iwasawa Theory*, 189-page lecture notes, §4.5, pp.114–117.
+- **Sharifi.** Romyar Sharifi, *Iwasawa Theory*, 184-page lecture notes, §4.5, pp.114–117.
   <https://www.math.ucla.edu/~sharifi/iwasawa.pdf>
 - **Česnavičius 2019.** Kęstutis Česnavičius, *Purity for the Brauer group*, Duke Math. J. 168
   (2019). <https://arxiv.org/abs/1711.06456>
