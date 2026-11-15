@@ -3311,6 +3311,64 @@ predicates and compact-support bounds are export interfaces. Rigid
 coefficient categories, relative hard Lefschetz and decomposition are outside
 this roadmap.
 
+## Provenance: existing Lean work
+
+This section is secondary; it maps targets to an existing formalisation and prescribes nothing.
+
+[AxiomMath/Weil](https://github.com/AxiomMath/Weil/tree/27cdb2049be62ee2911429b47f54774078450e32),
+read at commit `27cdb20`, is an Apache-2.0 Lean 4 repository proving the Weil conjectures for
+smooth proper schemes over a finite field, after Freitag–Kiehl, on top of its own Lean version of
+the Stacks project, [AxiomMath/Stacks](https://github.com/AxiomMath/Stacks). It is not a
+dependency: it is not a Lake dependency, it is built against other Lean and Mathlib versions, and
+its étale sites and `ℓ`-adic sheaves are its own carriers, not the ones this roadmap imports. A
+statement read there is compared with the target here before it is used, and a proof adapted
+from it rather than rewritten keeps the Apache-2.0 notices and is coordinated with its authors.
+No code from it is transferred by this roadmap.
+
+Its directory
+[`AlgebraicGeometry/EtaleCohomology/Trace`](https://github.com/AxiomMath/Weil/tree/27cdb2049be62ee2911429b47f54774078450e32/Weil/AlgebraicGeometry/EtaleCohomology/Trace)
+is prior art, with constant coefficients, for these targets:
+
+- [1.10](#110-rational-finite-field-zeta-functions): the zeta series of the point counts, its
+  Euler product over closed points, its multiplicativity over a partition into locally closed
+  pieces, and its rationality through the trace formula (`ZetaRationality.lean` and the files it
+  imports).
+- [0.6](#06-algebraicity-and-weil-purity-from-ι-purity-at-every-ι),
+  [0.7](#07-eigenvalues-weil-purity-and-ι-weights-of-an-invertible-endomorphism) and
+  [0.10](#010-the-characteristic-power-series-det1--tf-and-traces-of-powers): Weil purity of the
+  characteristic roots from `ι`-purity along every embedding of `ℚ_ℓ` into `ℂ`, and the degree of
+  `det(1 − tF)` for invertible `F` (`WeilEstimateFromPurityAllEmbeddings.lean`,
+  `CharpolyDegree.lean`).
+- [0.12](#012-weights-under-a-finite-extension-of-the-finite-base-field) and
+  [1.7](#17-the-weights-of-h-h-and-h-of-a-curve-over-𝔽_q): when the structure map to `Spec k`
+  factors through a degree-`r` extension `k′`, the Frobenius polynomial over `k` is the one over
+  `k′` evaluated at `t^r`, and `H⁰` of a geometrically connected proper scheme is the trivial
+  line (`FieldOfConstantsFrobenius.lean`, `ConstantDegreeZeroCohomology.lean`).
+- [4.3](#43-the-weil-theorem-for-smooth-projective-varieties),
+  [4.4](#44-extracting-integral-degree-factors-from-distinct-weights) and
+  [7.15](#715-purity-for-proper-smooth-varieties-and-rational-homology-manifolds-over-a-finite-field)(i)–(ii):
+  purity of `Hⁱ` of a smooth proper scheme, the passage to connected components, separation of
+  the degree factors by weight, and integrality and `ℓ`-independence of `det(1 − tF, Hⁱ)`
+  (`DeligneWeilConjecture.lean`, `ConnectedComponentsCharpoly.lean`, `CharpolyIntegrality.lean`).
+- [0.16](#016-eigenvalues-under-a-frobenius-equivariant-perfect-pairing) and the middle degree of
+  [9.9](#99-odd-betti-numbers-of-smooth-projective-varieties-are-even): the Poincaré-duality
+  spectrum `α ↦ qⁿ/α` and evenness of the middle Betti number in odd dimension `n`
+  (`DeligneFunctionalEquation.lean`).
+
+The other files of that directory (invertibility of Frobenius on cohomology, the finite levels of
+`ℓ`-adic cohomology, excision for an open and closed decomposition, and the sheaf of the trivial
+representation with its trace formula) are supplier material, which this roadmap takes from
+[EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas).
+Its functional equation with sign and its comparison of Frobenius degrees with complex Betti
+numbers under good reduction have no target here.
+
+The weight bound behind its purity theorem, the case of
+[7.12](#712-weight-bounds-for-hi_c-and-hi-over-a-finite-field-and-purity-of-the-image-hi_c--hi)(i)
+and 7.15(i) for lisse coefficients pure of weight `0`, comes from AxiomMath/Stacks, which follows
+Laumon's Fourier-transform argument; it is not proof architecture for the Weil I and Weil II
+arguments of DWP.2–DWP.7. DWP.1–DWP.3, DWP.5, DWP.6, §§7.2–7.11 and 7.13–7.14, DWP.8, DWP.9
+apart from the middle degree of §9.9, and DWP.10 have no counterpart in AxiomMath/Weil.
+
 ## References
 
 All page numbers in the targets are printed page numbers of the specified edition, except where a preprint page is identified.
