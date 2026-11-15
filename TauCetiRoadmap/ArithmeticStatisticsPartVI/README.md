@@ -2496,7 +2496,7 @@ Layers 0–3 (Parts I, II, III and V); elliptic and Jacobian Kummer/Selmer exact
 
 ## Downstream consumers
 
-The later arithmetic-statistics parts use the exact targets supplied here. Field and Selmer comparisons identify their family, height, equivalence relation and local weights before applying an arithmetic average. Probability convergence alone supplies no unbounded moment identity. AnalyticNumberTheoryPartII §§5.4–5.7 supplies the cubic interfaces and takes no input from this part.
+ArithmeticStatisticsPartVII consumes the [height moments](#412-height-moments) of §4.12, the [mean two-Selmer theorem](#410-the-mean-two-selmer-theorem) of §4.10 and the [density-zero statement for rational p-torsion](#413-selmer-distribution-conjectures) of §4.13. Field and Selmer comparisons identify their family, height, equivalence relation and local weights before applying an arithmetic average. Probability convergence alone supplies no unbounded moment identity. AnalyticNumberTheoryPartII §§5.4–5.7 supplies the cubic interfaces and takes no input from this part.
 
 ## References
 
