@@ -69,32 +69,35 @@ of its integral primitive elements. -/
 noncomputable def definingPolys (K : Type*) [Field K] [NumberField K] : Set ℤ[X] :=
   Set.range fun θ : TauCeti.NumberField.IntegralPrimitiveElement K => minpoly ℤ θ.1
 
-open scoped Classical in
-/-- `README.md`, Layer 1, 1.2. The canonical defining polynomial of `K`: the
-`polredabsKey`-minimum of `definingPolys K`, which is unique because the key is injective in
-fixed degree. The junk value `0` is never taken: the minimum exists (`polredabs_mem`). -/
-noncomputable def polredabs (K : Type*) [Field K] [NumberField K] : ℤ[X] :=
-  if h : ∃ P ∈ definingPolys K, ∀ Q ∈ definingPolys K, polredabsKey P ≤ polredabsKey Q then
-    h.choose
-  else 0
+/-- An integer defining polynomial of `K` together with its minimality for the polredabs key. -/
+@[expose]
+def CanonicalPolynomial (K : Type*) [Field K] [NumberField K] :=
+  {P : ℤ[X] // P ∈ definingPolys K ∧ ∀ Q ∈ definingPolys K, polredabsKey P ≤ polredabsKey Q}
 
-/-- `README.md`, Layer 1, 1.2. The canonical polynomial defines `K`. -/
-theorem polredabs_mem (K : Type*) [Field K] [NumberField K] : polredabs K ∈ definingPolys K := by
+/-- The polynomial underlying an explicit canonical datum for the number field `K`. -/
+def polredabs (K : Type*) [Field K] [NumberField K] (p : CanonicalPolynomial K) : ℤ[X] :=
+  p.val
+
+/-- Every number field has a defining polynomial minimizing the polredabs key. -/
+theorem exists_polredabs (K : Type*) [Field K] [NumberField K] :
+    Nonempty (CanonicalPolynomial K) := by
   sorry
 
-/-- `README.md`, Layer 1, 1.2. Minimality for the key. -/
-theorem polredabsKey_polredabs_le (K : Type*) [Field K] [NumberField K] :
-    ∀ P ∈ definingPolys K, polredabsKey (polredabs K) ≤ polredabsKey P := by
+/-- Any two canonical data for the same number field have the same polynomial. -/
+theorem polredabs_unique (K : Type*) [Field K] [NumberField K]
+    (p q : CanonicalPolynomial K) : polredabs K p = polredabs K q := by
   sorry
 
-/-- `README.md`, Layer 1, 1.2. The canonical polynomial is an isomorphism invariant. -/
+/-- Canonical polynomials of isomorphic number fields agree for any canonical data. -/
 theorem polredabs_eq_of_algEquiv {K K' : Type*} [Field K] [NumberField K] [Field K']
-    [NumberField K'] (φ : K ≃ₐ[ℚ] K') : polredabs K = polredabs K' := by
+    [NumberField K'] (p : CanonicalPolynomial K) (p' : CanonicalPolynomial K')
+    (φ : K ≃ₐ[ℚ] K') : polredabs K p = polredabs K' p' := by
   sorry
 
-/-- `README.md`, Layer 1, 1.2. Equal canonical polynomials give isomorphic fields. -/
+/-- Equal canonical polynomials give isomorphic fields. -/
 theorem nonempty_algEquiv_of_polredabs_eq {K K' : Type*} [Field K] [NumberField K] [Field K']
-    [NumberField K'] (h : polredabs K = polredabs K') : Nonempty (K ≃ₐ[ℚ] K') := by
+    [NumberField K'] (p : CanonicalPolynomial K) (p' : CanonicalPolynomial K')
+    (h : polredabs K p = polredabs K' p') : Nonempty (K ≃ₐ[ℚ] K') := by
   sorry
 
 /-- `README.md`, Layer 1, 1.3. **Hunter's theorem.** If `Γ` bounds Hermite's constant in rank
@@ -233,8 +236,9 @@ theorem exists_mem_relCandidates_of_maximal (F K : Type*) [Field F] [NumberField
 bounded relative candidates, with the absolute field discriminant checked. -/
 def relativeImage (F : Type) [Field F] [NumberField F]
     (r D : ℕ) (Γ : ℝ) (R : Finset (𝓞 F)) : Set ℤ[X] :=
-  {Q | ∃ (K : Type) (_ : Field K) (_ : NumberField K) (_ : Algebra F K),
-    Module.finrank F K = r ∧ |discr K| ≤ D ∧ polredabs K = Q ∧
+  {Q | ∃ (K : Type) (_ : Field K) (_ : NumberField K) (_ : Algebra F K)
+    (p : CanonicalPolynomial K),
+    Module.finrank F K = r ∧ |discr K| ≤ D ∧ polredabs K p = Q ∧
     ∃ (θ : 𝓞 K) (P : (𝓞 F)[X]),
       P ∈ relCandidates F r (relativeBound F r D Γ R) ∧
       aeval (θ : K) P = 0 ∧ IntermediateField.adjoin F {(θ : K)} = ⊤}
@@ -242,16 +246,16 @@ def relativeImage (F : Type) [Field F] [NumberField F]
 /-- `README.md`, Layer 2, 2.3. The canonical polynomials of the number fields of degree `n` and
 `|discr| ≤ D`. Every number field has a model in `Type`, so the universe is no restriction. -/
 def canonicalPolys (n D : ℕ) : Set ℤ[X] :=
-  {Q | ∃ (K : Type) (_ : Field K) (_ : NumberField K),
-    Module.finrank ℚ K = n ∧ |discr K| ≤ D ∧ polredabs K = Q}
+  {Q | ∃ (K : Type) (_ : Field K) (_ : NumberField K) (p : CanonicalPolynomial K),
+    Module.finrank ℚ K = n ∧ |discr K| ≤ D ∧ polredabs K p = Q}
 
 /-- `README.md`, Layer 2, 2.3. The polredabs image of the Hunter candidates: the canonical
 polynomials of the fields `ℚ[X]/(P)`, `P` a Hunter candidate, with `|discr| ≤ D`. -/
 def hunterImage (n D : ℕ) (Γ : ℝ) : Set ℤ[X] :=
-  {Q | ∃ P ∈ hunterCandidates n D Γ, ∃ h : Irreducible (P.map (Int.castRingHom ℚ)),
-    haveI : Fact (Irreducible (P.map (Int.castRingHom ℚ))) := ⟨h⟩
+  {Q | ∃ P ∈ hunterCandidates n D Γ, ∃ (_ : Fact (Irreducible (P.map (Int.castRingHom ℚ)))),
     |discr (AdjoinRoot (P.map (Int.castRingHom ℚ)))| ≤ D ∧
-      polredabs (AdjoinRoot (P.map (Int.castRingHom ℚ))) = Q}
+      ∃ p : CanonicalPolynomial (AdjoinRoot (P.map (Int.castRingHom ℚ))),
+        polredabs (AdjoinRoot (P.map (Int.castRingHom ℚ))) p = Q}
 
 /-- `README.md`, Layer 2, 2.3. **The complete list in prime degree**: the polredabs image of the
 Hunter candidates is exactly the set of canonical polynomials of fields of degree `n` and
@@ -279,8 +283,7 @@ theorem hunter_relativeImage_eq_canonicalPolys {n : ℕ} (hn : 2 ≤ n) (D : ℕ
     canonicalPolys n D = hunterImage n D (Γ (n - 1)) ∪
       {Q | ∃ m : ℕ, 1 < m ∧ m < n ∧ m ∣ n ∧
         ∃ D' : ℕ, D' ^ (n / m) ≤ D ∧
-        ∃ P ∈ canonicalPolys m D', ∃ h : Irreducible (P.map (Int.castRingHom ℚ)),
-          haveI : Fact (Irreducible (P.map (Int.castRingHom ℚ))) := ⟨h⟩
+        ∃ P ∈ canonicalPolys m D', ∃ (_ : Fact (Irreducible (P.map (Int.castRingHom ℚ)))),
           Q ∈ relativeImage (AdjoinRoot (P.map (Int.castRingHom ℚ))) (n / m) D
             (Γ (n - m)) (R (AdjoinRoot (P.map (Int.castRingHom ℚ))) (n / m))} := by
   sorry
@@ -304,11 +307,10 @@ theorem ncard_canonicalPolys_le (n D : ℕ) :
 degree-`d` canonical polynomials with `r` real roots and absolute field discriminant `D`.
 The discriminant is that of the quotient field, not of its defining polynomial. -/
 theorem prefix_characterization (d r D : ℕ) :
-    {Q : ℤ[X] | ∃ (K : Type) (_ : Field K) (_ : NumberField K),
-      TauCeti.NumberField.HasLMFDBIntrinsicLabel K d r D ∧ polredabs K = Q} =
+    {Q : ℤ[X] | ∃ (K : Type) (_ : Field K) (_ : NumberField K) (p : CanonicalPolynomial K),
+      TauCeti.NumberField.HasLMFDBIntrinsicLabel K d r D ∧ polredabs K p = Q} =
     {Q ∈ canonicalPolys d D | (Q.map (Int.castRingHom ℝ)).roots.card = r ∧
-      ∃ h : Irreducible (Q.map (Int.castRingHom ℚ)),
-        haveI : Fact (Irreducible (Q.map (Int.castRingHom ℚ))) := ⟨h⟩
+      ∃ (_ : Fact (Irreducible (Q.map (Int.castRingHom ℚ)))),
         (discr (AdjoinRoot (Q.map (Int.castRingHom ℚ)))).natAbs = D} := by
   sorry
 

@@ -15,7 +15,7 @@ the targets are mathematical completeness theorems.
 - The `T₂` norm of a complex polynomial and its integer specialization, Maclaurin's coefficient bounds, and the finite sets of
   monic polynomials of bounded degree and `T₂` (1.1).
 - The defining polynomials of a number field, the polredabs key, and the canonical polynomial
-  `polredabs K` with its existence, uniqueness and isomorphism invariance (1.2).
+  `polredabs K p` with its existence, uniqueness and isomorphism invariance (1.2).
 - Hunter's theorem (1.3) and Martinet's relative form (2.2), each stated for any constant `Γ`
   satisfying the Hermite hypothesis of *Conventions*.
 - The Hunter candidate sets and completeness in prime degree and for primitive fields (2.1); the
@@ -71,7 +71,7 @@ the targets are mathematical completeness theorems.
 | Coefficients | `P = Xⁿ + a₁ Xⁿ⁻¹ + ⋯ + aₙ`, with `a_k = P.coeff (n − k)` only for `0 ≤ k ≤ n`, and `a_k = 0` for `k > n`. For monic `P`, this makes the power-sum formula valid in every degree. |
 | Defining polynomials | `definingPolys K` is the set of `minpoly ℤ θ` for `θ : TauCeti.NumberField.IntegralPrimitiveElement K`: the monic irreducible integer polynomials of degree `[K : ℚ]` with a root generating `K`. |
 | The polredabs key | `polredabsKey P := toLex (t2 P, toLex ((P.discr).natAbs, S P))` in `Lex (ℝ × Lex (ℕ × List ℤ))`, with `S P := [|a₁|, a₁, |a₂|, a₂, …, |aₙ|, aₙ]` under Mathlib's lexicographic order on `List ℤ`. Smaller is better: minimal `T₂`, then minimal `|disc P|`, then lexicographically least `S(P)`. This is the LMFDB knowl `nf.polredabs` and the specification PARI's `polredabs` meets. |
-| The canonical polynomial | `polredabs K` is the `polredabsKey`-minimum of `definingPolys K` (1.2). |
+| The canonical polynomial | `CanonicalPolynomial K` is the subtype of key-minimal elements of `definingPolys K`; `polredabs K p` is the polynomial of a datum `p : CanonicalPolynomial K`. Existence and uniqueness make its value independent of `p` (1.2). |
 | Discriminant bounds | `|discr K| ≤ D` in `ℤ`, with `D : ℕ`; the prefix uses `(discr K).natAbs = D`. |
 | Hermite hypothesis | A real `Γ` is **admissible in rank `m`** when every positive definite real symmetric `m × m` matrix `A` (Mathlib's `Matrix.PosDef`) has a nonzero `x : Fin m → ℤ` with `x ⬝ᵥ A *ᵥ x ≤ Γ · (det A) ^ (1/m)`. This says `γ_m ≤ Γ`, without naming `γ_m`. It is written out in each theorem that needs it and never wrapped in a predicate. `Γ = 1` is admissible in rank `1` (1.3). The examples use admissible constants `1`, `2/√3`, `4/3` in ranks `1`, `2`, `3`, respectively (Martinet, corrected author version, §1, p. 3, table of Hermite constants; the rank-three value `2^(1/3)` is at most `4/3`). Rank zero is excluded whenever admissibility is required. |
 | Trace normalization | Hunter's element satisfies `0 ≤ Tr θ ≤ n/2`; since `Tr θ ∈ ℤ`, `Tr θ ≤ ⌊n/2⌋`, and `hunterBound` uses `⌊n/2⌋² / n`. |
@@ -250,8 +250,13 @@ bound, `minpoly`.
 signVector P := [|a₁|, a₁, |a₂|, a₂, …, |aₙ|, aₙ]          for P = Xⁿ + a₁Xⁿ⁻¹ + … + aₙ
 polredabsKey P := toLex (t2 P, toLex (|disc P|, signVector P))
                  : Lex (ℝ × Lex (ℕ × List ℤ))
-polredabs K := the polredabsKey-minimum of definingPolys K
+CanonicalPolynomial K := {P : ℤ[X] // P ∈ definingPolys K ∧ ∀ Q ∈ definingPolys K, polredabsKey P ≤ polredabsKey Q}
+polredabs K p := p.val                         for p : CanonicalPolynomial K
 ```
+
+The datum records membership and minimality, and its projection recovers the polynomial;
+all image sets quantify over such data. The values in the Checks hold for every canonical
+datum of the indicated field.
 
 The following are deductions from this ordering and §1.1 finiteness (LMFDB, knowl
 nf.polredabs, definition of the three successive minimizations).
@@ -265,15 +270,16 @@ nf.polredabs, definition of the three successive minimizations).
   (`AdjoinRoot (P.map (Int.castRingHom ℚ))`).
 - The key is injective on monic polynomials of a fixed
   degree, since `signVector P` determines `a₁, …, aₙ`.
-- **Existence**, `polredabs_mem` and `polredabsKey_polredabs_le`: the minimum exists and lies in
+- **Existence**, `exists_polredabs`: `CanonicalPolynomial K` is nonempty, so the minimum exists and lies in
   `definingPolys K`. `definingPolys K` is nonempty (a primitive element, scaled into `𝓞 K`), and
   for each `B` its elements with `t2 ≤ B` lie in `candidates n B`, finite by 1.1; so the least
   `T₂` is attained on a finite set, within which the other two components are discrete.
-- **Uniqueness**: by injectivity of the key, `polredabs K` is the unique key-minimal element.
+- **Uniqueness**, `polredabs_unique`: for any `p, q : CanonicalPolynomial K`,
+  `polredabs K p = polredabs K q`, by injectivity of the key.
 - **Isomorphism invariance**: `polredabs_eq_of_algEquiv` (`K ≃ₐ[ℚ] K'` gives
-  `polredabs K = polredabs K'`, since an isomorphism carries `definingPolys K` onto
+  `polredabs K p = polredabs K' p'`, since an isomorphism carries `definingPolys K` onto
   `definingPolys K'`) and the converse `nonempty_algEquiv_of_polredabs_eq`.
-- `polredabs K` is monic and irreducible of degree `[K : ℚ]`, by `polredabs_mem`.
+- `polredabs K p` is monic and irreducible of degree `[K : ℚ]`, by the defining membership of `p`.
 
 The ordering follows LMFDB, knowl nf.polredabs, three-stage definition: minimal `T₂`, then minimal `|disc|`, then
 lexicographically least `S(P)`. ⚠ `T₂` ties are real: `x⁴ − 5x² + 7` and `x⁴ + 5x² + 7` have
@@ -286,10 +292,10 @@ Mathlib `minpoly`, `Polynomial.discr`, `AdjoinRoot`, `Prod.Lex`.
 
 **Checks.**
 
-- (`2.2.5.1`) `polredabs ℚ(√5) = X² − X − 1`, with `t2 = 3` and `disc = 5`. `X² − 5` (`t2 = 10`)
+- (`2.2.5.1`) `polredabs ℚ(√5) p = X² − X − 1`, with `t2 = 3` and `disc = 5`. `X² − 5` (`t2 = 10`)
   defines the same field and is not canonical; `X² + X − 1` ties on `t2` and `|disc|` and loses on
   `S`: `(1, −1, 1, −1) < (1, 1, 1, −1)`.
-- (`4.0.125.1`) `polredabs ℚ(ζ₅) = X⁴ − X³ + X² − X + 1`; the cyclotomic polynomial
+- (`4.0.125.1`) `polredabs ℚ(ζ₅) p = X⁴ − X³ + X² − X + 1`; the cyclotomic polynomial
   `X⁴ + X³ + X² + X + 1` has the same `t2 = 4` and the same `|disc| = 125`, and loses on `S`:
   `(1, −1, …) < (1, 1, …)`.
 - (`3.1.23.1`) `polredabs = X³ − X² + 1` with `t2 = 3.2192…`; `X³ − X − 1` defines the same field
@@ -321,8 +327,9 @@ isomorphism; membership is exactly the monic, full-degree, generating-root condi
 - `X−1` does not define `ℚ(√5)`, since its degree is `1`, not `2`; `X²+1` has no root there.
 - `X` defines `ℚ` although its root is zero; `X²−1` does not, despite having the root `1`.
 
-**API for the canonical choice.** Membership and minimality exclude its fallback value `0`;
-uniqueness, monicity, irreducibility and invariance follow as above.
+**API for canonical data.** Each datum records defining membership and key-minimality;
+its polynomial projection is monic, irreducible and independent of the datum, and is preserved
+by rational algebra isomorphism as above.
 **Checks.**
 
 - For `ℚ`, the choice is `X`, with norm `0`; `X−1` has norm `1` and loses.
@@ -564,8 +571,9 @@ inequality and §1.1. The discriminant reduction consumes Number Field Arithmeti
 **Definitions.**
 
 ```text
-canonicalPolys n D := {polredabs K | K a number field, [K : ℚ] = n, |discr K| ≤ D}
-hunterImage n D Γ  := {polredabs (ℚ[X]/(P)) | P ∈ hunterCandidates n D Γ, |discr ℚ[X]/(P)| ≤ D}
+canonicalPolys n D := {polredabs K p | K a number field, p : CanonicalPolynomial K, [K : ℚ] = n, |discr K| ≤ D}
+hunterImage n D Γ  := {polredabs (ℚ[X]/(P)) p | P ∈ hunterCandidates n D Γ,
+                       p : CanonicalPolynomial (ℚ[X]/(P)), |discr ℚ[X]/(P)| ≤ D}
 ```
 
 with `ℚ[X]/(P) = AdjoinRoot (P.map (Int.castRingHom ℚ))`, a number field since `P` is monic and
@@ -614,13 +622,14 @@ irreducible.
   polynomials define non-isomorphic fields. The count bounds the number of fields; the list
   identifies them.
 - **The prefix version** (`prefix_characterization`): for every `d, r, D : ℕ`, the set
-  `{polredabs K | HasLMFDBIntrinsicLabel K d r D}` equals the subset of `canonicalPolys d D`
+  `{polredabs K p | p : CanonicalPolynomial K, HasLMFDBIntrinsicLabel K d r D}` equals the subset of `canonicalPolys d D`
   consisting of polynomials `Q` with `(Q.map (Int.castRingHom ℝ)).roots.card = r` and
   `(discr (AdjoinRoot (Q.map (Int.castRingHom ℚ)))).natAbs = D`.
   Canonical membership supplies irreducibility over `ℚ`, the explicit witness used to form
   the quotient field. This is the **field** discriminant; `Q.discr` may differ by an index
-  square. Separability identifies real-root multiplicity with the number of real embeddings,
-  and §1.2 identifies the quotient field with the field represented by `Q`, proving both
+  square. Separability makes every real root simple, so the root count with multiplicity equals
+  the number of distinct real roots, which equals the number of real embeddings; §1.2 identifies
+  the quotient field with the field represented by `Q`, proving both
   inclusions. The set is finite; for prime `d` and `Γ` admissible in rank `d−1`, it is also
   the subset of `hunterImage d D Γ` cut out by these same two conditions.
   These are deductions from §1.2, the complete-list theorem and Number Field Arithmetic §8.1
@@ -736,8 +745,8 @@ exactly.
 
 | Supplied here | What | Consumer |
 | --- | --- | --- |
-| 1.2 | the canonical polynomial `polredabs K` and `polredabsKey`, an isomorphism invariant | `ArtinRepresentations` (the canonical polynomials of the fields an Artin representation cuts out), `BianchiModularForms` (the polredabs normalization of Hecke fields) |
-| 1.2, 2.3 | the canonical polynomial of each field and the completeness of the fields of a prefix `d.r.D` | the LMFDB `nf` section (the `coeffs` column is `polredabs K`) |
+| 1.2 | the canonical polynomial `polredabs K p` and `polredabsKey`, an isomorphism invariant | `ArtinRepresentations` (the canonical polynomials of the fields an Artin representation cuts out), `BianchiModularForms` (the polredabs normalization of Hecke fields) |
+| 1.2, 2.3 | the canonical polynomial of each field and the completeness of the fields of a prefix `d.r.D` | the LMFDB `nf` section (the `coeffs` column is `polredabs K p`) |
 
 ## References
 
