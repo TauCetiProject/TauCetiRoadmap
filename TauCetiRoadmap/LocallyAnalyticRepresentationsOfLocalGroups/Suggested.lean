@@ -8,7 +8,9 @@ public import Mathlib
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti. None of them is
 statable at the pins, so the file states nothing; each headline and the carrier
-it lacks are listed below.
+it lacks are listed below. The general locally convex inputs of Layer 0, among
+them the criterion of README §0.8 that weakly null sequences are null over a
+spherically complete field, are README targets and not headlines.
 
 * Layers 0–1: the Schneider–Teitelbaum anti-equivalence between admissible
   locally analytic representations of a non-compact p-adic group and coadmissible
@@ -31,6 +33,15 @@ it lacks are listed below.
   comparison of solid derived locally analytic vectors with Pan's functors. The
   pins have no analytic ring E_■ over a p-adic field, no solid E-vector spaces
   and no solidified group rings of profinite groups.
+* Layer 4: highest-weight descent and the classification of the simple objects
+  and finite length of the parabolic categories O^p_alg, the restricted BGG
+  duality, the Verma multiplicities in length at most one for products of gl_n,
+  and Kostant homology of nilradicals. The pins have Verma modules and their
+  simple quotients only for Lie algebras with nondegenerate Killing form
+  (`TauCeti.VermaModule`, `TauCeti.irreducibleQuotient`), not for split
+  reductive algebras such as gl_n, and no category O or parabolic subcategory
+  O^p_alg, no generalised Verma modules, and Lie algebra (co)homology only in
+  low degrees, so no Kostant homology of a nilradical.
 * Layers 5–6: Schraen's spectral sequence for Ext into a locally analytic
   parabolic induction, and the Orlik–Strauch irreducibility and Jordan–Hölder
   theorems. These need locally analytic parabolic induction, Kohlhaase's
