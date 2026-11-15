@@ -664,10 +664,11 @@ API:
 Not a target: over `𝔽₂` and `m = 1`, the surjectivity bound `n ≥ 3` of the semisimple case is
 attained and bijectivity holds from `n = 4`, one step before the bound `n ≥ 5`. Over a field
 `dim H₁(G; V) = dim H¹(G; V*)`, and the inverse-transpose automorphism of `GL_n` identifies
-`H¹(GL_n; V*)` with `H¹(GL_n; V)` for `V = 𝔽₂ⁿ`. Computing `H¹(GL_n(𝔽₂); 𝔽₂ⁿ)` as cocycles on a
-generating pair modulo coboundaries (own computation, with two generating pairs: `1 + E₁₂` with
-the cyclic permutation matrix, and `1 + E₁₂` with a Singer cycle) gives the dimensions
-`0, 0, 1, 0, 0` for `n = 1, …, 5`; the value at `n = 3` is the non-split extension `2³·L₃(2)`.
+`H¹(GL_n; V*)` with `H¹(GL_n; V)` for `V = 𝔽₂ⁿ`. The group `H¹(GL_n(𝔽₂); 𝔽₂ⁿ)` vanishes except
+for `n = 3`, where it has dimension `1` (Dempwolff 1973, Remark, p. 207): the dimensions are
+`0, 0, 1, 0, 0` for `n = 1, …, 5`. This is a check reproducible by solving the cocycle equations
+on the generators `1 + E_ij` under the Steinberg relations modulo coboundaries, or by counting the
+conjugacy classes of complements of `𝔽₂ⁿ` in `𝔽₂ⁿ ⋊ GL_n(𝔽₂)`: there are two at `n = 3`.
 So the map is `0 → 𝔽₂` at `n = 2`, not onto; `𝔽₂ → 0` at `n = 3`, onto and not injective; and
 `0 → 0` at `n = 4`, bijective.
 
@@ -721,13 +722,16 @@ finite with at least three elements (`ℤ_(3)`, `ℤ/9`, `𝔽₃⟦t⟧`), is t
 Quillen's argument as written up by Sprehn and Wahl (Sprehn–Wahl 2020); the ranges in print for
 local rings assume an infinite residue field (Nesterenko–Suslin 1989; Schlichting 2017;
 Galatius–Kupers–Randal-Williams 2025, for connected semi-local rings), and van der Kallen's theorem
-gives only slope one half. For `ℤ/9` the degrees `m ≤ 2` agree with the slope-one prediction (own
-computation): `H₁(GL_n(ℤ/9); ℤ) = (ℤ/9)ˣ = ℤ/6` for `n = 1, 2, 3`, through the determinant, and
-`H₂(GL₂(ℤ/9); ℤ) = H₂(GL₃(ℤ/9); ℤ) = 0`, the second from the Lyndon–Hochschild–Serre spectral
-sequence of `1 → 1 + 3M₃(ℤ/9) → GL₃(ℤ/9) → GL₃(𝔽₃) → 1`, whose terms of total degree `2` vanish
-(`H₂(GL₃(𝔽₃); ℤ) = 0`, `H¹(GL₃(𝔽₃); 𝔤𝔩₃(𝔽₃)) = 0`, `(Λ² 𝔤𝔩₃(𝔽₃))_(GL₃(𝔽₃)) = 0`). Second, the
-exact bijectivity range over `𝔽₂` in degrees `m ≥ 4`: by the non-target after 2.2 it begins at
-`n ≤ ⌊3(m + 1)/2⌋ + 1`, so at `n ≤ 8` for `m = 4`.
+gives only slope one half. For `ℤ/9` the degrees `m ≤ 2` agree with the slope-one prediction:
+`H₁(GL_n(ℤ/9); ℤ) = (ℤ/9)ˣ = ℤ/6` for `n = 1, 2, 3`, through the determinant, and
+`H₂(GL_n(ℤ/9); ℤ) = 0` for `n = 1, 2, 3`. This is a check reproducible by machine: the
+abelianisations are computed directly, and for `n = 2, 3` the group `H₂` from the
+Lyndon–Hochschild–Serre spectral sequence of `1 → 1 + 3M_n(ℤ/9) → GL_n(ℤ/9) → GL_n(𝔽₃) → 1`,
+whose kernel is `𝔤𝔩_n(𝔽₃)` under conjugation and whose terms of total degree `2` vanish:
+`H₂(GL_n(𝔽₃); ℤ) = 0`, `H₁(GL_n(𝔽₃); 𝔤𝔩_n(𝔽₃)) = 0` (dual to `H¹`, the trace form being
+invariant) and `(Λ² 𝔤𝔩_n(𝔽₃))_(GL_n(𝔽₃)) = 0`. Second, the exact bijectivity range over `𝔽₂`
+in degrees `m ≥ 4`: by the non-target after 2.2 it begins at `n ≤ ⌊3(m + 1)/2⌋ + 1`, so at
+`n ≤ 8` for `m = 4`.
 
 ## References
 
@@ -765,6 +769,8 @@ exact bijectivity range over `𝔽₂` in degrees `m ≥ 4`: by the non-target a
   155 (2010), no. 2, 205–269. doi:10.1215/00127094-2010-055. arXiv:0709.2173.
 - O. Randal-Williams, N. Wahl, « Homological stability for automorphism groups », *Adv. Math.* 318
   (2017), 534–626. doi:10.1016/j.aim.2017.07.022. arXiv:1409.3541.
+- U. Dempwolff, « On the second cohomology of GL(n, 2) », *J. Austral. Math. Soc.* 16 (1973),
+  no. 2, 207–209. doi:10.1017/S1446788700014221.
 - M. Szymik, « The third Milgram–Priddy class lifts », *J. Algebra* 547 (2020), 173–178.
   doi:10.1016/j.jalgebra.2019.11.028. Zbl 1485.20116. arXiv:1909.05064.
 - D. Quillen, « On the cohomology and K-theory of the general linear groups over a finite field »,
