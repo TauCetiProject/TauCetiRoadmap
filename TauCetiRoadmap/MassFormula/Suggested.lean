@@ -378,7 +378,7 @@ theorem mem_eisensteinSet_iff (n : ℕ) (hn : 0 < n) (a : Fin n → K) :
 compact with nonempty interior, so `Measure.addHaarMeasure` on it is the paper's measure; the
 statements below take the normalization as a hypothesis instead, which keeps them free of a
 bespoke measure definition. -/
-def integerBox (n : ℕ) : Set (Fin n → K) :=
+noncomputable def integerBox (n : ℕ) : Set (Fin n → K) :=
   Set.univ.pi fun _ => (𝒪[K] : Set K)
 
 /-- **The measure of the Eisenstein region** is `q ^ (−n) · (1 − q ^ (−1))` — the normalization

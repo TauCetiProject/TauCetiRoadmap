@@ -31,11 +31,11 @@ suggested forms cannot replace.
 
 The Layer-0 `ZLattice` reconciliation is represented only in part. The roadmap asks that every
 engine definition be mapped onto the `ZLattice`/covolume API, and that any `box` or separation
-definition that merely wraps Mathlib be dropped. Here `box_eq_pi` identifies Tau Ceti's `box`
-with a product of closed balls, and the doubling bound is restated for a discrete `ℤ`-submodule
-(the setting of Mathlib's `IsZLattice`), with its finiteness hypothesis discharged. Tau Ceti
-nevertheless keeps `box` as a named definition, and no statement relates the engine's counts to
-`ZLattice.covolume`.
+definition that merely wraps Mathlib be dropped. At this pin Tau Ceti has dropped its `box`:
+the engine is stated on Mathlib's product of closed balls directly (`mem_pi_closedBall`), and
+the doubling bound is restated for a discrete `ℤ`-submodule (the setting of Mathlib's
+`IsZLattice`), with its finiteness hypothesis discharged. No statement relates the engine's
+counts to `ZLattice.covolume`.
 
 Layer 3 and the long-horizon Brauer–Siegel aspiration have no statement here. What Layer 3 asks
 for and Tau Ceti lacks is a general explicit lower bound on the regulator `R_F` in terms of the
@@ -66,59 +66,70 @@ open TauCeti.GeometryOfNumbers
 
 variable {ι : Type*}
 
-/-- The polydisc `box r c ⊆ ι → ℂ` is the set of points whose `i`-th coordinate has norm at most
-`c · r i`. The engine is stated for an arbitrary additive subgroup of `ι → ℂ` and these boxes,
-without a measure. -/
-theorem mem_box {r : ι → ℝ} {c : ℝ} {x : ι → ℂ} :
-    x ∈ box r c ↔ ∀ i, ‖x i‖ ≤ c * r i :=
-  TauCeti.GeometryOfNumbers.mem_box
-
-/-- **`ZLattice` reconciliation, the box.** `box r c` is Mathlib's product of closed balls
-`Set.pi univ (fun i ↦ closedBall 0 (c · r i))`; Tau Ceti keeps the name for the engine's
-statements, but it introduces no new notion. -/
-theorem box_eq_pi (r : ι → ℝ) (c : ℝ) :
-    box r c = Set.pi Set.univ (fun i ↦ Metric.closedBall (0 : ℂ) (c * r i)) := by
-  ext x
+/-- The polydisc of radii `c · r i` in `ι → ℂ` is Mathlib's product of closed discs
+`Set.pi Set.univ (fun i ↦ Metric.closedBall 0 (c * r i))`: the set of points whose `i`-th
+coordinate has norm at most `c · r i`. The engine is stated for an arbitrary additive subgroup
+of `ι → ℂ` and these polydiscs, without a measure. -/
+theorem mem_pi_closedBall {r : ι → ℝ} {c : ℝ} {x : ι → ℂ} :
+    x ∈ Set.pi Set.univ (fun i ↦ Metric.closedBall (0 : ℂ) (c * r i)) ↔
+      ∀ i, ‖x i‖ ≤ c * r i := by
   simp
 
+/-! **`ZLattice` reconciliation, the box.** At this pin the engine has no `box` of its own: the
+packing and doubling bounds are stated directly on Mathlib's
+`Set.pi Set.univ (fun i ↦ Metric.closedBall 0 (c * r i))`, so the former identity
+`box r c = Set.pi Set.univ (fun i ↦ Metric.closedBall (0 : ℂ) (c * r i))` no longer has a
+left-hand side; its content is `mem_pi_closedBall`.
+-- not statable at this pin: `TauCeti.GeometryOfNumbers.box` was removed in favour of Mathlib's polydisc
+-/
+
 /-- **`ZLattice` reconciliation, finiteness.** A discrete additive subgroup of `ι → ℂ` meets
-every box in a finite set, since it is closed and the box is compact. This discharges the
-finiteness hypothesis of the doubling bound below. -/
-theorem finite_inter_box_of_discreteTopology [Finite ι] (Λ : AddSubgroup (ι → ℂ))
-    [DiscreteTopology Λ] (r : ι → ℝ) (c : ℝ) : ((Λ : Set (ι → ℂ)) ∩ box r c).Finite := by
-  have hc : IsCompact (box r c) := by
-    rw [box_eq_pi]
-    exact isCompact_univ_pi fun i ↦ isCompact_closedBall 0 _
+every polydisc in a finite set, since it is closed and the polydisc is compact. This discharges
+the finiteness hypothesis of the doubling bound below. -/
+theorem finite_inter_pi_closedBall_of_discreteTopology [Finite ι] (Λ : AddSubgroup (ι → ℂ))
+    [DiscreteTopology Λ] (r : ι → ℝ) (c : ℝ) :
+    ((Λ : Set (ι → ℂ)) ∩ Set.pi Set.univ
+      (fun i ↦ Metric.closedBall (0 : ℂ) (c * r i))).Finite := by
+  have hc : IsCompact (Set.pi Set.univ (fun i ↦ Metric.closedBall (0 : ℂ) (c * r i))) :=
+    isCompact_univ_pi fun i ↦ isCompact_closedBall 0 _
   have hcl : IsClosed (Λ : Set (ι → ℂ)) := AddSubgroup.isClosed_of_discreteTopology
   exact (hc.inter_left hcl).finite
     ((isDiscrete_iff_discreteTopology.mpr ‹_›).mono Set.inter_subset_left)
 
-/-- **Layer 0, packing.** A subset of `box r c` whose distinct points are `ε`-separated in some
-coordinate (relative to `r`) is finite, of cardinality at most `(4c/ε)^(2·#ι)`. -/
-theorem finite_and_ncard_le_of_subset_box_of_separated [Fintype ι] (r : ι → ℝ)
-    (hr : ∀ i, 0 < r i) {c ε : ℝ} (hε : 0 < ε) (hεc : ε ≤ c) {S : Set (ι → ℂ)} (hS : S ⊆ box r c)
+/-- **Layer 0, packing.** A subset of the polydisc of radii `c · r i` whose distinct points are
+`ε`-separated in some coordinate (relative to `r`) is finite, of cardinality at most
+`(4c/ε)^(2·#ι)`. -/
+theorem finite_and_ncard_le_of_subset_pi_closedBall_of_separated [Fintype ι] (r : ι → ℝ)
+    (hr : ∀ i, 0 < r i) {c ε : ℝ} (hε : 0 < ε) (hεc : ε ≤ c) {S : Set (ι → ℂ)}
+    (hS : S ⊆ Set.pi Set.univ (fun i ↦ Metric.closedBall (0 : ℂ) (c * r i)))
     (hsep : ∀ x ∈ S, ∀ y ∈ S, x ≠ y → ∃ i, ε * r i < ‖x i - y i‖) :
     S.Finite ∧ (S.ncard : ℝ) ≤ (4 * c / ε) ^ (2 * Fintype.card ι) :=
-  TauCeti.GeometryOfNumbers.finite_and_ncard_le_of_subset_box_of_separated r hr hε hεc hS hsep
+  TauCeti.GeometryOfNumbers.finite_and_ncard_le_of_subset_pi_closedBall_of_separated r hr hε hεc
+    hS hsep
 
 /-- **Layer 0, doubling.** `#(Λ ∩ box r 2) ≤ 49^#ι · #(Λ ∩ box r 1)` for an additive subgroup
-`Λ` of `ι → ℂ`, given that `Λ ∩ box r 2` is finite (which the packing bound supplies for a
-separated `Λ`). -/
-theorem ncard_inter_box_two_le_pow_mul_ncard_inter_box_one [Fintype ι] (r : ι → ℝ)
-    (hr : ∀ i, 0 < r i) (Λ : AddSubgroup (ι → ℂ)) (hfin : ((Λ : Set (ι → ℂ)) ∩ box r 2).Finite) :
-    (((Λ : Set (ι → ℂ)) ∩ box r 2).ncard : ℝ) ≤
-      49 ^ Fintype.card ι * ((Λ : Set (ι → ℂ)) ∩ box r 1).ncard :=
-  TauCeti.GeometryOfNumbers.ncard_inter_box_two_le_pow_mul_ncard_inter_box_one r hr Λ hfin
+`Λ` of `ι → ℂ`, with `box r c` the polydisc of radii `c · r i`, given that `Λ ∩ box r 2` is
+finite (which the packing bound supplies for a separated `Λ`). -/
+theorem ncard_inter_pi_closedBall_two_le_pow_mul [Fintype ι] (r : ι → ℝ)
+    (hr : ∀ i, 0 < r i) (Λ : AddSubgroup (ι → ℂ))
+    (hfin : ((Λ : Set (ι → ℂ)) ∩ Set.pi Set.univ
+      (fun i ↦ Metric.closedBall (0 : ℂ) (2 * r i))).Finite) :
+    (((Λ : Set (ι → ℂ)) ∩ Set.pi Set.univ
+        (fun i ↦ Metric.closedBall (0 : ℂ) (2 * r i))).ncard : ℝ) ≤
+      49 ^ Fintype.card ι * ((Λ : Set (ι → ℂ)) ∩ Set.pi Set.univ
+        (fun i ↦ Metric.closedBall (0 : ℂ) (r i))).ncard :=
+  TauCeti.GeometryOfNumbers.ncard_inter_pi_closedBall_two_le_pow_mul r hr Λ hfin
 
 /-- **Layer 0, doubling in the `ZLattice` setting.** For a discrete `ℤ`-submodule `L` of
 `ι → ℂ` (the carrier of Mathlib's `IsZLattice ℝ L`, which adds only the spanning condition),
 `#(L ∩ box r 2) ≤ 49^#ι · #(L ∩ box r 1)` with no finiteness hypothesis. -/
-theorem ncard_inter_box_two_le_pow_mul_ncard_inter_box_one_of_discreteTopology [Fintype ι]
+theorem ncard_inter_pi_closedBall_two_le_pow_mul_of_discreteTopology [Fintype ι]
     (r : ι → ℝ) (hr : ∀ i, 0 < r i) (L : Submodule ℤ (ι → ℂ)) [DiscreteTopology L] :
-    (((L : Set (ι → ℂ)) ∩ box r 2).ncard : ℝ) ≤
-      49 ^ Fintype.card ι * ((L : Set (ι → ℂ)) ∩ box r 1).ncard :=
-  TauCeti.GeometryOfNumbers.ncard_inter_box_two_le_pow_mul_ncard_inter_box_one r hr
-    L.toAddSubgroup (finite_inter_box_of_discreteTopology L.toAddSubgroup r 2)
+    (((L : Set (ι → ℂ)) ∩ Set.pi Set.univ
+        (fun i ↦ Metric.closedBall (0 : ℂ) (2 * r i))).ncard : ℝ) ≤
+      49 ^ Fintype.card ι * ((L : Set (ι → ℂ)) ∩ Set.pi Set.univ
+        (fun i ↦ Metric.closedBall (0 : ℂ) (r i))).ncard :=
+  TauCeti.GeometryOfNumbers.ncard_inter_pi_closedBall_two_le_pow_mul_of_discreteTopology r hr L
 
 end Layer0
 
@@ -252,13 +263,13 @@ theorem classNumber_le_bound_adjoinRoot_sqrt_neg_five : (2 : ℝ) ≤ 20 * 16 :=
     _ = 20 * 16 := by norm_num
 
 /-- A concrete doubling instance for the rank-two Gaussian lattice `ℤ + ℤi ⊆ ℂ ≅ ℝ²`:
-`#(Λ ∩ box 2) ≤ 49 · #(Λ ∩ box 1)`. -/
-theorem gaussianLattice_ncard_inter_box_two_le :
+`#(Λ ∩ box 2) ≤ 49 · #(Λ ∩ box 1)`, the boxes being Mathlib's closed discs of radii `2` and `1`. -/
+theorem gaussianLattice_ncard_inter_pi_closedBall_two_le :
     (((TauCeti.GeometryOfNumbers.gaussianLattice : Set (Fin 1 → ℂ)) ∩
-        TauCeti.GeometryOfNumbers.box (fun _ => 1) 2).ncard : ℝ) ≤
+        Set.pi Set.univ (fun _ ↦ Metric.closedBall (0 : ℂ) 2)).ncard : ℝ) ≤
       49 * (((TauCeti.GeometryOfNumbers.gaussianLattice : Set (Fin 1 → ℂ)) ∩
-        TauCeti.GeometryOfNumbers.box (fun _ => 1) 1).ncard : ℝ) :=
-  TauCeti.GeometryOfNumbers.gaussianLattice_ncard_inter_box_two_le_fortyNine_mul_ncard_inter_box_one
+        Set.pi Set.univ (fun _ ↦ Metric.closedBall (0 : ℂ) 1)).ncard : ℝ) :=
+  TauCeti.GeometryOfNumbers.gaussianLattice_ncard_inter_pi_closedBall_two_le
 
 /-- The discriminant bound recovers `|d_{ℚ(i)}| = 4` from the basis `{1, i}` of the fourth
 cyclotomic field. -/
