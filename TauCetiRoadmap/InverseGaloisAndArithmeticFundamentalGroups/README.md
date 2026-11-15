@@ -7628,6 +7628,34 @@ maintainers first. Paths below are relative to that directory unless a link says
   action*, and the files from *The Trace Formula* on de Jong's conjecture, character torsors and
   Frobenius generation (tags 03W1, 03W5).
 
+[AxiomMath/Weil](https://github.com/AxiomMath/Weil/tree/27cdb2049be62ee2911429b47f54774078450e32),
+read at that commit, is an Apache-2.0 Lean formalization of the Weil conjectures for smooth proper
+schemes over a finite field, after Freitag and Kiehl. It is not a Lake dependency of Tau Ceti, has
+its own Lean and Mathlib pins, and builds on AxiomMath/Stacks at a different commit from the one
+read above; the same rules of comparison, attribution and agreement apply. Its directory
+[`Weil/AlgebraicGeometry/FundamentalGroup`](https://github.com/AxiomMath/Weil/tree/27cdb2049be62ee2911429b47f54774078450e32/Weil/AlgebraicGeometry/FundamentalGroup),
+nine files at that commit, has the following overlap.
+
+- **Consumed from suppliers.** Covering spaces as finite étale `X`-schemes with base change and
+  fibre products, the geometric fibre functor as the functor corepresented by the geometric point
+  (tag 0BN2), Galois covering spaces with the deck group acting simply transitively on each fibre,
+  existence of pointed Galois covering spaces and domination of any two by a third
+  (`GaloisCover.lean`, `PointedGaloisCover.lean`, `PointedMorphismUnique.lean`), and, in the
+  definitions under `Weil/Defs/AlgebraicGeometry/FundamentalGroup`, `π₁` as the compatible
+  families of deck transformations, identified over a connected base with the Galois-category
+  `π₁` of AxiomMath/Stacks. This roadmap takes all of it from Mathlib's
+  `CategoryTheory.GaloisCategory` and EtaleCohomologyFoundations §F.0.
+- **Targets owned here.** Only IG.1.3 *Finite étale covers over a henselian local base* is met, by
+  [`FiniteEtaleProperHenselianLimit.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/AlgebraicGeometry/FundamentalGroup/FiniteEtaleProperHenselianLimit.lean):
+  for a proper scheme over a henselian local ring and a finite group `F`, every `F`-Galois
+  covering space of the closed fibre extends to one of the whole scheme
+  (`AlgebraicGeometry.GaloisCovering.exists_pullback_closedFibre_iso`, Freitag–Kiehl I.6.1). The
+  equivalence itself is not proved there but imported from the AxiomMath/Stacks file cited above,
+  and the extension of Galois covers is a corollary of that equivalence.
+- **No counterpart there.** Nothing else in this roadmap meets that directory: it has no Galois
+  algebras, local systems, Noohi or pro-étale groups, tame quotients or tangential fibres,
+  specialization maps, outer actions, or any material of Layers IG.2–IG.6.
+
 ## References
 
 Sources and the editions or versions to which the locators refer.
