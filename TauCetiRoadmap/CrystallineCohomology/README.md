@@ -7290,7 +7290,7 @@ complexes, compatibility of their counits and the relative-dimension shift signs
 this trace target from SchemeAndStackFoundations Layer 2. Carry this equality through the de Rham–Witt
 comparison and the Künneth totalization. Check the Čech product and shift signs together with ε_d,
 ε_e and ε_(d+e), using `ε_(d+e)=(−1)^{de}ε_dε_e`, so the hyperplane-normalized traces satisfy the derived product identity. This sign
-and residue comparison supplies the product formula Tr_{X×Y}=Tr_X⊗Tr_Y here; Ekedahl I.5 alone does not assert it. The identification of Tr_X with Berthelot’s crystalline trace (LNM 407, VII
+and residue comparison supplies the product formula `Tr_{X×Y}=Tr_X⊗Tr_Y` here; Ekedahl I.5 alone does not assert it. The identification of Tr_X with Berthelot’s crystalline trace (LNM 407, VII
 1.4.9) is not part of this target; the construction of the trace and duality do not depend on it.
 The Hodge and de Rham cohomology of projective space used in the normalisation is the statement
 proved in *Proper smooth tests and a crystalline torsion surface* (Layer CR.3). ([Ekedahl, *On the
@@ -7559,7 +7559,7 @@ class into pure cohomology tensors is used. When every H^i(K) is free, the Tor t
 derived Künneth on cohomology becomes the direct sum of tensor products. Read the coevaluation in
 dual bases; interchanging degrees i and 2d−i gives (−1)^i. This proves (4), and the hyperplane basis
 with Tr(h^d)=1 gives (5). After inverting p the same argument applies over the field W[1/p]. The
-coherent-product comparison and the product formula Tr_{X×Y}=Tr_X⊗Tr_Y are those already proved in
+coherent-product comparison and the product formula `Tr_{X×Y}=Tr_X⊗Tr_Y` are those already proved in
 *Proper smooth crystalline trace*.
 ([Ekedahl, *On the multiplicative properties of the de Rham–Witt complex I*, Ark. Mat. 22
 (1984)](https://archive.ymsc.tsinghua.edu.cn/pacm_download/116/7414-11512_2006_Article_BF02384380.pdf),
