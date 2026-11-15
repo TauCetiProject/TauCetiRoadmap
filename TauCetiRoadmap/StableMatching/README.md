@@ -28,7 +28,8 @@ contracts and the roommates problem; they are recorded in the Research context.
   ranked after `none` is unacceptable. Witness: with `rankM m (some w₁) = 0`,
   `rankM m none = 1`, `rankM m (some w₂) = 2`, man `m` accepts `w₁` only.
 - **Men propose.** Deferred acceptance is run with the men proposing, so its outcome is the
-  men-optimal stable matching; the women-proposing algorithm is the same with the roles swapped.
+  men-optimal stable matching; the women-proposing algorithm is the algorithm of the role swap
+  (0.1, 1.1).
   Witness: in the 2 × 2 market of 0.1's first Check, men proposing gives `(m₁, w₁), (m₂, w₂)` and
   women proposing gives `(m₁, w₂), (m₂, w₁)`.
 - **Matchings.** A matching is a Mathlib partial equivalence `μ : M ≃. W`: `μ m` is the partner
@@ -68,9 +69,12 @@ Define `Market M W` (`rankM`, `rankW`, injective), and `IsIndividuallyRational`,
 `IsStable` for a matching `μ : M ≃. W` (Roth 2008, §1, the marriage model). Prove that a stable
 matching is Pareto efficient: no matching makes every agent at least as well off and some agent
 strictly better off (Roth 2008, §1: a stable matching is efficient), and that stability is
-unchanged when every rank function is composed with a strictly monotone map of `ℕ`.
+unchanged when every rank function is composed with a strictly monotone map of `ℕ`. Define the
+role swap of a market, the market on `W` and `M` whose men's ranks are `rankW` and whose women's
+ranks are `rankM`, and prove that `μ` is stable for a market exactly when `μ.symm` is stable for
+its role swap.
 
-*Needs:* Mathlib `Function.Injective`, `PEquiv`.
+*Needs:* Mathlib `Function.Injective`, `PEquiv`, `PEquiv.symm`.
 
 **Checks.**
 
@@ -84,6 +88,10 @@ unchanged when every rank function is composed with a strictly monotone map of `
 - Swapping two values of an injective rank function is again a market, while, when `W` is
   nonempty, a constant rank function is not: ties are excluded, as Theorems 2 and 3 of Roth 2008
   require.
+- The role swap of the 2 × 2 market above has men `w₁: m₂ > m₁`, `w₂: m₁ > m₂` and women
+  `m₁: w₁ > w₂`, `m₂: w₂ > w₁`; its stable matchings are `(w₁, m₁), (w₂, m₂)` and
+  `(w₁, m₂), (w₂, m₁)`, the inverses of the two above. Reading `rankM` for the women of the swap
+  instead of `rankW` would keep the women's ranks on the new men's side and break this.
 
 ### 0.2 Changing one agent's stated preferences
 
@@ -120,7 +128,9 @@ proposer and rejects the others) and `deferredAcceptance` (`|M| · |W| + 1` roun
 rejection, then each man's final proposal). Prove that the rejection sets only grow, so that the
 iteration is constant after at most `|M| · |W|` rounds, and
 `exists_isStable_man_eq_deferredAcceptance`: the outcome is the men's side of a stable matching
-(Roth 2008, Theorem 1 and the proof after it).
+(Roth 2008, Theorem 1 and the proof after it). Deferred acceptance with the women proposing is
+the algorithm of the role swap (0.1), its outcome read as a matching `M ≃. W` through
+`PEquiv.symm`.
 
 *Needs:* 0.1, Mathlib `List.argmin`, `Finset.filter`, `Function.iterate`.
 
@@ -186,7 +196,7 @@ lattice for the men's common order, with greatest element the outcome of 1.1. Th
 the outcome of deferred acceptance with the women proposing, which every woman likes at least as
 well as any stable matching (Roth 2008, Theorems 2 and 3).
 
-*Needs:* 0.1, 1.3.
+*Needs:* 0.1 (role swap), 1.1, 1.3.
 
 **Checks.**
 
@@ -285,7 +295,7 @@ Theorem 5, p. 623; Roth 2008, Theorem 8).
 
 ### Dependencies
 
-Layers 0–2, Mathlib.
+Layers 0 and 1, Mathlib.
 
 ## Downstream consumers
 
