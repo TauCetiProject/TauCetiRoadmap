@@ -688,7 +688,7 @@ Layers 1–2; SchemeKTheoryOperations §6.7 (hyperhomology); AlgebraicKTheory 4.
 
 ## Downstream consumers
 
-K3BlochGroups (open pull request) consumes 1.3 and 2.3: its §4.8 uses their specialization to
+K3BlochGroups consumes 1.3 and 2.3: its §4.8 uses their specialization to
 infinite fields (the frame spectral sequence and the range `m ≤ n`, along `TauCeti.stabilizeGL`),
 and its §4.22 uses 2.3 for local rings with infinite residue field. SchemeKTheoryOperations
 names this roadmap as a later consumer of its §6.7, which supplies the hyperhomology, the frame
