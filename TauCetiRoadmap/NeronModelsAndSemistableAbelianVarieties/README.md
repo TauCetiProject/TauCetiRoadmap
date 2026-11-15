@@ -4611,6 +4611,53 @@ Mathlib's Weierstrass reduction predicates and `IsPGroup` fixed-point theorems.
   exact cotangents of semistable quotients (6.4d). Its Eisenstein-specific kernels, component maps,
   integral modular differential comparison and formal-immersion theorem remain with the consumer.
 
+## Provenance
+
+This section is secondary; it maps targets to an existing formalisation outside Tau Ceti and
+prescribes nothing. The Apache-2.0 Lean repository
+[AxiomMath/Mordell](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493),
+read at commit `82a30cb7`, formalises Faltings' theorem by the Bombieri–Vojta method. It is not a
+dependency: it is built against another Lean toolchain and Mathlib commit and on the
+AxiomMath/Stacks library, so a statement read there is compared with the target here before it
+is used, and a proof adapted from it keeps the Apache-2.0 attribution. Its directory
+[`Mordell/AbelianVariety/`](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493/Mordell/AbelianVariety)
+(19 files, declarations in the namespace `Faltings`) spells out an abelian scheme as a group
+object of `Over W` that is flat, proper and locally of finite presentation with proper
+geometrically integral fibres, and is prior art for three sections.
+
+- **1.8.** `Faltings.HasGoodReduction` (`GoodReduction.lean`) is good reduction at a finite place
+  of a number field. It differs from `HasGoodModel` in being stated only over the localisation of
+  the ring of integers at that place, in asking for a flat finitely presented model with
+  geometrically integral fibres rather than a smooth one with geometrically connected fibres, and
+  in asking the generic-fibre isomorphism to respect the group laws. In `Reduction/Basic.lean`,
+  `Faltings.exists_mulEquiv_points_fractionRing` is the mapping property of an abelian scheme
+  over a discrete valuation ring `R` for the single test scheme `Spec R`, and
+  `Faltings.reductionMap` with `Faltings.reductionMap_mul` is the reduction homomorphism
+  `A(K) → 𝒜_k(k)` it induces. The directory's base change of abelian schemes
+  (`AbelianScheme/BaseChange.lean`, and `Faltings.isAbelianScheme_pullbackObj_of_liesOver` at a
+  place of a finite extension) is supplier material of AbelianSchemesAndArithmeticModuli A0.1
+  and A1.1.
+- **1.9.** `Faltings.exists_isAbelianScheme_localizationAway_pullback_iso` (`SpreadingOut.lean`)
+  spreads an abelian variety over a number field `F` out to an abelian scheme over `O_F[1/N]` for
+  a nonzero integer `N`, and `Faltings.finite_setOf_not_hasGoodReduction` deduces good reduction
+  at all but finitely many finite places: together they are `SpreadAbelian` for `S = Spec O_F`,
+  with its finitely many closed points outside `U`.
+- **5.0a.** `Faltings.injOn_reductionMap_torsion` (`Reduction/Torsion.lean`) proves reduction
+  injective on the `K`-rational `n`-torsion, for `n` invertible in a discrete valuation ring, from
+  the unramifiedness of `𝒜[n]` (`AbelianScheme/Torsion.lean`; the torsion subscheme is supplier
+  material of AbelianSchemesAndArithmeticModuli A3.2), and
+  `Faltings.reductionMap_comp_spec_map_residueFieldMapEquiv` (`Reduction/Galois.lean`) proves
+  that reduction commutes with the automorphisms of `K` and `k` induced by an automorphism of the
+  base. Section 5.0a works over a henselian base and identifies the geometric torsion of the two
+  fibres, equivariantly for the decomposition group.
+
+Nothing in that directory constructs or characterises a Néron model. The mapping property for
+every smooth test scheme, weak Néron models, smoothening, local existence, Dedekind gluing and the
+differential lattice (1.1–1.7, the gluing half of 1.9, and 1.9a–1.11), and Layers 2–4, 5.0b–5.7
+and 6 have no counterpart there. Its other twelve files (rigidity, the theorem of the square,
+`Pic⁰`, and even, odd and ample classes in the Picard group) are abelian-variety theory over a
+field, outside this roadmap.
+
 ## References
 
 - B. Mazur, *Modular curves and the Eisenstein ideal*, Publ. Math. IHÉS 47 (1977), 33–186;
