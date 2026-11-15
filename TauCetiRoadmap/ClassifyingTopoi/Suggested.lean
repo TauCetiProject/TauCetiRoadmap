@@ -38,8 +38,9 @@ no stated headline using it. Not stated: in README 3.6 (a), the `J`-homogeneity 
 arbitrary sheaf topos, lacking the object of homomorphisms between two models of a theory
 (Caramello 2012b, Definition 4.4), which is not defined at the pins; the case of sets, and the
 classification of the quotient by a small site equivalent to `(FPModel T)ᵒᵖ`, are stated. The
-targets of 3.5 that use the definability statement of 2.4, (a), (c) and (d), are stated in the
-universe `max u₁ u₂ u` of 2.3, as 2.3 and 3.1 are. The irreducibility of formulae is written
+targets that use the definability statement of 2.4, the converse of 2.5
+(`IsClassifyingSite.exists_quotient_theory`), (a), (c) and (d) of 3.5 and (a) of 3.6, are stated
+in the universe `max u₁ u₂ u` of 2.3, as 2.3 and 3.1 are. The irreducibility of formulae is written
 with Mathlib's `Sheaf.canonicalTopology` of the topos, since GrothendieckTopoi's
 `IsIrreducibleObject` is not importable here. Geometric morphisms and Diaconescu's theorem are
 GrothendieckTopoi's (Layer 2); the universal property here is written with their inverse images,
@@ -82,6 +83,15 @@ variable {L : FirstOrder.Language.{u₁, u₂}}
 /-- **1.1.** The false formula: the disjunction of the empty family. -/
 def GeometricFormula.bot {n : ℕ} : GeometricFormula.{w} L n :=
   .iSup (ι := PEmpty) PEmpty.elim
+
+/-- **1.1.** Coherent formulas: geometric formulas whose disjunctions are all finite. -/
+def GeometricFormula.IsCoherent : {n : ℕ} → GeometricFormula.{w} L n → Prop
+  | _, .top => True
+  | _, .and φ ψ => φ.IsCoherent ∧ ψ.IsCoherent
+  | _, .iSup (ι := ι) φ => Finite ι ∧ ∀ i, (φ i).IsCoherent
+  | _, .equal _ _ => True
+  | _, .rel _ _ => True
+  | _, .ex φ => φ.IsCoherent
 
 /-- **1.1.** A geometric sequent `φ ⊢ ψ` in the context `Fin n`. -/
 structure Sequent (L : FirstOrder.Language.{u₁, u₂}) where
@@ -237,12 +247,13 @@ theorem CatStructure.IsModel.map {C D : Type u} [SmallCategory C] [SmallCategory
     (M.map F).IsModel T :=
   sorry
 
-/-- **1.5.** Morleyization: every first-order theory `T` has a geometric theory `T'`, with
-disjunctions indexed by types in `Type`, over a language `L'` receiving `L`, such that the
+/-- **1.5.** Morleyization: every first-order theory `T` has a geometric theory `T'`, all of
+whose sequents are coherent (finite disjunctions only), over a language `L'` receiving `L`, such that the
 set-models of `T'` expanding an `L`-structure satisfy `T`, and every model of `T` in sets has
 exactly one expansion that is a set-model of `T'`. -/
 theorem exists_morleyization (T : L.Theory) :
     ∃ (L' : FirstOrder.Language.{u₁, max u₁ u₂}) (ϕ : L →ᴸ L') (T' : GeometricTheory.{0} L'),
+      (∀ σ ∈ T', σ.lhs.IsCoherent ∧ σ.rhs.IsCoherent) ∧
       (∀ (M : Type v) [L.Structure M] [L'.Structure M] [ϕ.IsExpansionOn M],
         T'.IsSetModel M → T.Model M) ∧
       ∀ (M : Type v) [L.Structure M], T.Model M →
@@ -335,12 +346,14 @@ theorem IsClassifyingSite.exists_quotient_topology {T T' : GeometricTheory.{u} L
 
 /-- **2.5.** Every finer topology on a classifying site classifies a quotient of the theory,
 with the sheafified generic model. -/
-theorem IsClassifyingSite.exists_quotient_theory {T : GeometricTheory.{u} L} {C : Type u}
-    [SmallCategory C] {J J' : GrothendieckTopology C} {U : CatStructure L (Sheaf J (Type u))}
+theorem IsClassifyingSite.exists_quotient_theory {T : GeometricTheory.{max u₁ u₂ u} L}
+    {C : Type (max u₁ u₂ u)} [SmallCategory C] {J J' : GrothendieckTopology C}
+    {U : CatStructure L (Sheaf J (Type (max u₁ u₂ u)))}
     (hU : IsClassifyingSite T J U) (hJ : J ≤ J') :
-    ∃ T' : GeometricTheory.{u} L, T ⊆ T' ∧
+    ∃ T' : GeometricTheory.{max u₁ u₂ u} L, T ⊆ T' ∧
       IsClassifyingSite T' J'
-        (U.map (sheafToPresheaf J (Type u) ⋙ presheafToSheaf J' (Type u))) :=
+        (U.map (sheafToPresheaf J (Type (max u₁ u₂ u)) ⋙
+          presheafToSheaf J' (Type (max u₁ u₂ u)))) :=
   sorry
 
 /-- **2.6.** Two geometric theories, possibly over different languages, are Morita-equivalent
@@ -625,12 +638,13 @@ def SetModel.IsHomogeneous {T : GeometricTheory.{u} L}
 /-- **3.6.** For a theory of presheaf type, every topology on the opposite of its finitely
 presentable models gives a quotient whose set-models are the homogeneous ones, classified by the
 induced topology on a small site equivalent to that opposite. -/
-theorem exists_quotient_isSetModel_iff_isHomogeneous {T : GeometricTheory.{u} L}
+theorem exists_quotient_isSetModel_iff_isHomogeneous
+    {T : GeometricTheory.{max u₁ u₂ u} L}
     (hT : IsOfPresheafType T) (J : GrothendieckTopology (FPModel T)ᵒᵖ) :
-    ∃ T' : GeometricTheory.{u} L, T ⊆ T' ∧
+    ∃ T' : GeometricTheory.{max u₁ u₂ u} L, T ⊆ T' ∧
       (∀ M : SetModel T, T'.IsSetModel M.carrier ↔ M.IsHomogeneous J) ∧
-      ∃ (C : Type u) (_ : SmallCategory C) (e : C ≌ (FPModel T)ᵒᵖ)
-        (U : CatStructure L (Sheaf (e.functor.inducedTopology J) (Type u))),
+      ∃ (C : Type (max u₁ u₂ u)) (_ : SmallCategory C) (e : C ≌ (FPModel T)ᵒᵖ)
+        (U : CatStructure L (Sheaf (e.functor.inducedTopology J) (Type (max u₁ u₂ u)))),
         IsClassifyingSite T' (e.functor.inducedTopology J) U :=
   sorry
 
