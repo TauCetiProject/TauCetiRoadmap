@@ -593,7 +593,8 @@ sequence's specialization of the actual boundary π_n(B)→π_(n−1)(F) to thes
 bundles, with basepoints, basepoint change, group laws and pointed-set
 exactness at π1/π0. Do not identify the fibre inclusion with an NDR pair. Prove
 Dold's theorem that a numerable bundle with contractible fibre is a homotopy
-equivalence, including the local contraction/partition construction.
+equivalence, including the local contraction/partition construction (tom Dieck,
+*Algebraic Topology*, Theorem 13.3.1, p. 324, applied to a trivializing numerable cover).
 
 **Checks.**
 - For G=ℤ/2 the join of N copies of the two-point group is S^(N−1) with the antipodal action, so
@@ -868,7 +869,9 @@ Thom comparisons through the singular CW-resolution pullback: construct
 the evaluation |Sing X|→X as the counit of Mathlib's `sSetTopAdj : SSet.toTop ⊣ TopCat.toSSet`,
 consume AT4's generic `simplicialRealizationCW` and paracompactness
 instead of constructing a second realization CW structure. Own Milnor's
-weak-equivalence theorem for this actual counit using the adjunction
+weak-equivalence theorem for this actual counit (May, *A Concise Course in
+Algebraic Topology*, Chapter 16 §2, p. 124, with a proof outline in §3,
+pp. 125–126) using the adjunction
 triangle Sing(ε_X)∘η_(Sing X)=id. AT8.2 says Sing X is Kan and its
 actual unit is a weak equivalence; two-out-of-three and the native
 Kan/cubical comparison give the counit weak equivalence.
@@ -906,7 +909,9 @@ their category is not assumed filtered and their maps need not be equal.
 Own the Čech/singular comparison on CW type, which other roadmaps cite
 under the name cechSingularCWTypeComparison: for every paracompact Hausdorff X of
 CW type and constant abelian coefficient group A, construct the natural
-all-degree Čech/singular comparison from these actual fixed-cover complexes.
+all-degree Čech/singular comparison from these actual fixed-cover complexes
+(Hatcher, *Algebraic Topology*, §3.3, p. 257, states the agreement for
+spaces homotopy equivalent to CW complexes, without proof).
 Prove constant-coefficient Čech homotopy invariance here using numerable
 partitions/refinements and finite interval subdivision. On a Hausdorff CW
 representative construct the locally acyclic singular-cochain sheaf
@@ -2331,16 +2336,19 @@ the reductive centre, and finite-degree real descent.
 ### 5.2 The torus Chern–Weil isomorphism and Borel's theorem (C5.2)
 
 Prove the torus Chern–Weil map is an isomorphism with H*(BT;R), with each
-integral character giving its normalized degree2 class. For connected G,
+integral character giving its normalized degree2 class (Dupont, *Curvature
+and Characteristic Classes*, Corollary 8.22, pp. 121–122). For connected G,
 on finite approximations use `E_m/T→E_m/G`, its oriented fibre G/T, and
-C2's Euler-weighted fibre integration to prove injectivity of restriction.
+C2's Euler-weighted fibre integration to prove injectivity of restriction
+(Dupont, statement (8.28), p. 123, proved on pp. 124–126).
 Prove the Euler integral of G/T equals |W| by the regular-torus vector
 field: zeros are Weyl cosets and every local index is +1 from its root-plane
-determinant. C2.3 also identifies it with χ(G/T); the injectivity argument
+determinant (the proof of Dupont's Lemma 8.30, pp. 126–129). C2.3 also identifies it with χ(G/T); the injectivity argument
 needs only the nonzero Euler integral. Inner
 conjugation acts trivially on BG cohomology, so the image is W-invariant.
 The Chevalley/torus square then proves both universal Chern–Weil and
-Borel `H*(BG;R)≃H*(BT;R)^W`. This is the proof spine of Dupont1978 §8.
+Borel `H*(BG;R)≃H*(BT;R)^W` (Dupont, Theorem 8.1, p. 114, and
+Corollary 8.35, p. 130).
 
 ### 5.3 Disconnected compact groups (C5.3)
 
@@ -2364,7 +2372,10 @@ For r≥1 the consumed BSO formulas are
 `H*(BSO(2r);Q)=Q[p₁,…,p_(r−1),e]` with p_r=e²,
 `H*(BSO(2r+1);Q)=Q[p₁,…,p_r]`.
 The determinant-component calculation gives, for all n≥0,
-`H*(BO(n);Q)=Q[p₁,…,p_floor(n/2)]`.
+`H*(BO(n);Q)=Q[p₁,…,p_floor(n/2)]` (Hatcher, *Vector Bundles and
+K-Theory*, Theorem 3.16(a), p. 95; its proof on p. 96 obtains the ring
+over ℤ[1/2] by the transfer of the oriented double cover, whose deck
+involution sends e to −e).
 Prove the actual Weyl actions: all sign changes for O(n) and SO(2r+1),
 even sign changes for SO(2r), and the determinant component
 sends e to −e. Treat rank0 and rank1 separately, with Euler1 for the canonically oriented zero bundle.
@@ -3392,13 +3403,13 @@ theorem and Mathlib's `onePointEquivSphereOfFinrankEq`, independently of C2–C6
 - Cohen, [*The Topology of Fiber Bundles*](https://math.stanford.edu/~ralph/fiber.pdf), Chapter1 §2.2 (Theorems 1.15 and 1.16, pp. 24–25) and Chapter3 §4 (Theorem 3.22 and formula (4.1), p. 103; Proposition 3.27 and Corollary 3.28, pp. 105–106), for projective tangent bundles and the normal characteristic-class obstruction to immersions.
 - Dupont, [*Fibre Bundles and Chern–Weil Theory*](https://data.math.au.dk/publications/ln/2003/imf-ln-2003-69.pdf), §2 and Example4.3 for orthonormal frame bundles, §§9–10 for invariant curvature forms, polarization, connection independence (Theorem 9.5, Lemma 9.6) and classical polynomials, and AppendixA for invariant forms on compact groups.
 - Alekseev–Meinrenken, [*Lie theory and the Chern–Weil homomorphism*](https://arxiv.org/abs/math/0308135), §3.1, for the Weil algebra and its basic subcomplex.
-- Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), Theorem3C.4 for Hopf's theorem, §3.G for the degrees of the simple types and Corollary4D.3 for the integral cohomology of U(n) and SU(n); Theorem 3.19 (p. 220) and §3.2, p. 222, for the cohomology rings of CP∞ and RP∞ (C1.5); Theorem 4D.1 (p. 432) for Leray–Hirsch (C3.1); Examples 1B.3 (p. 88) and 4.50 (p. 380) for RP∞ and CP∞ as Eilenberg–MacLane spaces, and Section 4.2, Exercise 34 (p. 392), for the map of C7.6.
-- Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf), version 2.2: §1.1, p. 16, and §1.2, pp. 22–26, for disk and sphere bundles, clutching and the Gram–Schmidt retraction; §3.1, pp. 77–86, Theorems 3.1, 3.2 and 3.9 and Proposition 3.10, for the projective-bundle definitions of w and c, the universal mod 2 and unitary rings and the classification of line bundles; §3.2, pp. 88–95, Propositions 3.12 and 3.14 and Theorem 3.16, for the Thom pair, the mod 2 cohomology of the oriented Grassmannians, the Euler class of TSⁿ and the oriented rings after inverting 2; §3.2, p. 94, for the definition of the Pontryagin classes; §4.1, pp. 109–111, Propositions 4.2, 4.3 and 4.5, for the Chern character, its additivity and multiplicativity and the rational Chern-character isomorphism.
-- Dupont, [*Curvature and Characteristic Classes*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/dupont2.pdf), §§4–8, especially §8's restriction/fibre-integration proof and Chevalley appendix, for universal Chern–Weil and disconnected groups (Theorem 6.13, pp. 94–95; Theorems 7.3, pp. 99–100, and 7.17, pp. 104–105, and Corollary 8.36(i), p. 130, for the Chern–Weil Chern and Pontryagin classes, their axioms and uniqueness (C4.2); Theorem 8.1, p. 114, with its proof on pp. 123–130; Lemma 8.30, pp. 125–129; Corollary 8.37, p. 131); Chapter 4, Exercise 3, for the Chern–Simons transgression forms.
+- Hatcher, [*Algebraic Topology*](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), Theorem3C.4 for Hopf's theorem, §3.G for the degrees of the simple types and Corollary4D.3 for the integral cohomology of U(n) and SU(n); Theorem 3.19 (p. 220) and §3.2, p. 222, for the cohomology rings of CP∞ and RP∞ (C1.5); Theorem 4D.1 (p. 432) for Leray–Hirsch (C3.1); Examples 1B.3 (p. 88) and 4.50 (p. 380) for RP∞ and CP∞ as Eilenberg–MacLane spaces, and Section 4.2, Exercise 34 (p. 392), for the map of C7.6; §3.3, p. 257, for the agreement of Čech and singular cohomology on spaces of CW type (C1.2b).
+- Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf), version 2.2: §1.1, p. 16, and §1.2, pp. 22–26, for disk and sphere bundles, clutching and the Gram–Schmidt retraction; §3.1, pp. 77–86, Theorems 3.1, 3.2 and 3.9 and Proposition 3.10, for the projective-bundle definitions of w and c, the universal mod 2 and unitary rings and the classification of line bundles; §3.2, pp. 88–96, Propositions 3.12 and 3.14 and Theorem 3.16, for the Thom pair, the mod 2 cohomology of the oriented Grassmannians, the Euler class of TSⁿ and the oriented and unoriented rings after inverting 2; §3.2, p. 94, for the definition of the Pontryagin classes; §4.1, pp. 109–111, Propositions 4.2, 4.3 and 4.5, for the Chern character, its additivity and multiplicativity and the rational Chern-character isomorphism.
+- Dupont, [*Curvature and Characteristic Classes*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/dupont2.pdf), §§4–8, especially §8's restriction/fibre-integration proof and Chevalley appendix, for universal Chern–Weil and disconnected groups (Theorem 6.13, pp. 94–95; Theorems 7.3, pp. 99–100, and 7.17, pp. 104–105, and Corollary 8.36(i), p. 130, for the Chern–Weil Chern and Pontryagin classes, their axioms and uniqueness (C4.2); Theorem 8.1, p. 114, with its proof on pp. 123–130; Corollary 8.22, pp. 121–122, for the torus; Lemma 8.30, pp. 125–129; Corollary 8.35, p. 130, for Borel's theorem; Corollary 8.37, p. 131); Chapter 4, Exercise 3, for the Chern–Simons transgression forms.
 - Thom, [*Quelques propriétés globales des variétés différentiables*](https://gdz.sub.uni-goettingen.de/download/pdf/PPN358147735_0028/LOG_0007.pdf), Commentarii Mathematici Helvetici 28 (1954), 17–86: Théorème II.1 (p. 29) for the reduction of representability to maps into Thom spaces, §7 (p. 43) and §9 (p. 50) for the Thom spaces of O(1), SO(1) and SO(2), and Théorèmes II.26 and II.27 (p. 55) for the representability of mod 2 classes of codimension one and of integral classes of codimensions one and two by embedded submanifolds (C2.4a).
 - Bott–Tu, *Differential Forms in Algebraic Topology*, Graduate Texts in Mathematics 82, §§6,11–14,20–23, for fibre integration, Thom and projective splitting. Cited by locator; no legal open copy.
-- tom Dieck, [*Algebraic Topology*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/diecktop.pdf), §9.5 for arbitrary-space connected-map chain compression, §§13.1–13.3 for countable partition reduction and numerable local-to-global homotopy equivalence, §14.4 for the strong Milnor join and universal bundle comparisons.
-- May, [*A Concise Course in Algebraic Topology*](https://www.irif.fr/~mellies/mpri/mpri-ens/biblio/Peter-May-A-Concise-Course-In-Algebraic-Topology.pdf), Chapter16 §§2–3, for the nondegenerate-simplex CW realization and counit weak equivalence via relative simplicial approximation.
+- tom Dieck, [*Algebraic Topology*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/diecktop.pdf), §9.5 for arbitrary-space connected-map chain compression, §§13.1–13.3 for countable partition reduction and numerable local-to-global homotopy equivalence (Theorem 13.3.1, p. 324, for Dold's theorem in C1.1b), §14.4 for the strong Milnor join and universal bundle comparisons.
+- May, [*A Concise Course in Algebraic Topology*](https://www.irif.fr/~mellies/mpri/mpri-ens/biblio/Peter-May-A-Concise-Course-In-Algebraic-Topology.pdf), Chapter16 §§2–3, pp. 124–126, for the nondegenerate-simplex CW realization and counit weak equivalence via relative simplicial approximation (C1.2b).
 - Milnor, *Construction of Universal Bundles, II*, Annals of Mathematics 63 (1956), §§2–3, for the join construction of C1.1b. Cited by locator; no legal open copy.
 - Müller–Wockel, [*Equivalences of smooth and continuous principal bundles with infinite-dimensional structure group*](https://arxiv.org/abs/math/0604142), Advances in Geometry 9 (2009), arXiv version 3: Proposition I.13 and Theorems II.11 and II.12, for the smooth representatives of C1.4.
 - Landweber, [*K-theory and elliptic operators*](https://arxiv.org/abs/math/0504555), §1.7, pp. 13–14, for the comparison of the K-theory and cohomology Thom isomorphisms under the Chern character in the wedge convention, and §2.2, p. 16, for the K-theory pushforward of an embedding built from that wedge Thom class.
