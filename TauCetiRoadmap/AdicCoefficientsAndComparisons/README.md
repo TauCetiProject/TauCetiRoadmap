@@ -2110,3 +2110,30 @@ Kummer generators, cup products and residues as specified in L5.
 The analytic comparison inputs used in L3–L6 are supplied by
 ClassicalAdicEtaleCohomology §§4.3–4.4/8.2/10.4/11.1–11.2; their use in the scheme-to-v-sheaf
 comparison is in [ECD], the proofs of Propositions 27.2–27.7, pp. 163–167.
+
+## 11. Provenance
+
+[AxiomMath/Weil](https://github.com/AxiomMath/Weil/tree/27cdb2049be62ee2911429b47f54774078450e32),
+read at commit `27cdb20`, is an Apache-2.0 Lean repository outside Tau Ceti that formalises the
+Weil conjectures for smooth proper schemes over a finite field, following Freitag–Kiehl. It is
+not a dependency of this roadmap and is built against other Lean and Mathlib versions, so a
+statement read there is compared with the target here before it is used, and a proof adapted
+from it rather than rewritten keeps the Apache-2.0 attribution.
+
+Its file
+[`Algebra/Module/LAdicRankOfInverseSystem.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/Algebra/Module/LAdicRankOfInverseSystem.lean)
+treats inverse systems `(Aₘ)_{m ∈ ℕ}` of `ℤ_ℓ`-modules: the rational limit `ℚ_ℓ ⊗_{ℤ_ℓ} limₘ Aₘ`,
+its invariance under levelwise additive isomorphisms of systems whose `m`-th level is killed by
+`ℓ^{m+1}`, and its `ℚ_ℓ`-dimension for systems of Bockstein shape. Together with the
+Artin–Rees `ℓ`-adic systems and their equivalence with finitely generated modules over a
+noetherian `ℓ`-adically complete ring with artinian reduction, such as `ℤ_ℓ`, in
+[`Algebra/Category/ModuleCat/LimitEquivalenceArLAdicFiniteModules.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/Algebra/Category/ModuleCat/LimitEquivalenceArLAdicFiniteModules.lean),
+this is module-level prior art for `L0/adic-coefficient-limit` and
+`L0/rational-constructible-coefficients`. The overlap is weak: those targets take the limit of
+enhanced categories along derived base change and localise a linear category at `ℓ`, where the
+repository takes limits and rationalisations of modules, and its rank computation has no
+counterpart here. Its Nagata compactification and its domination of two compactifications by a
+third are prior art for the shared contract that L2 consumes from EtaleCohomologyFoundations
+§§G.1–G.3 (§3); L2's strict, finitely presented, Cartier-boundary and vector-bundle refinements
+have no counterpart there. The repository has no v-sheaves, diamonds, perfectoid or adic spaces
+and no alterations, so L1 and L3–L6 have no counterpart there either.
