@@ -39,7 +39,7 @@ PerfectoidSpaces, PerfectoidQuotients, PerfectoidQuotientsPartII, PrismaticCohom
 PrismaticCohomologyPartII, FiniteFlatGroupsAndIntegralPadicHodgeTheory ────────────→ Layers 2, 5, 6
 LefschetzPencilsAndVanishingCycles ─────────────────────────────────────────────────→ Layers 1, 6
 PrismaticCohomologyPartIII, DeformationAndDerivedPatchingAlgebra ───────────────────→ Layers 1–7
-AlgebraicModuliForArithmeticGeometry ───────────────────────────────────────────────→ Layer 7
+AlgebraicModuliForArithmeticGeometry, ReductiveGroups ──────────────────────────────→ Layer 7
 ArithmeticGaloisDuality ────────────────────────────────────────────────────────────→ Layer 8
 ```
 
@@ -65,9 +65,9 @@ Katz's theorem on Frobenius-fixed vectors (`frobeniusSemilinear_exists_fixed_bas
 freeness criterion (`free_of_endomorphisms_iso_pi`, §7.2) and factoriality of regular local rings
 (`isRegularLocalRing_uniqueFactorizationMonoid`, §7.4). The local headlines are stated on Tau Ceti's
 punctured spectrum of a local ring and its restriction functor on finite étale schemes.
-The theory of groups of multiplicative type over a base on which §§7.13–7.15 and Layer 8 rest
-(§§7.12a–7.12e) is supporting theory, specified here; of it, `Suggested.lean` states only the torus
-predicate that §§8.3 and 8.6 need.
+The theory of groups of multiplicative type over an arbitrary base scheme on which §§7.13–7.15 and
+Layer 8 rest (§§7.12a–7.12e, extending ReductiveGroups Layer 9D's theory over affine bases) is
+supporting theory, specified here; of it, `Suggested.lean` states only the torus predicate that §§8.3 and 8.6 need.
 The flat-cohomological headline theorems are specified in this README; the module docstring of
 `Suggested.lean` names the carrier each of them lacks at the pinned libraries.
 
@@ -89,10 +89,10 @@ along finitely generated ideals and fpqc hyperdescent of fppf cohomology of anim
 complete-intersection and regular purity theorems ([CS24] §§4.1, 4.2, 6); global purity, purity for
 torsors and gerbes, factoriality of regular local rings, parafactorial local rings, Gabber's local
 Picard and Brauer conjectures, the Brauer comparison of Gabber and de Jong; diagonalizable groups,
-groups of multiplicative type and tori over an arbitrary base scheme, with their homomorphisms,
-smoothness, exactness and kernels, character sheaves, subgroups, quotients and largest subtori (SGA 3
-VIII–X), the kernel-of-tori presentation of a group of multiplicative type and purity for such groups
-([CS24] §7); and purity for the Brauer group and for tori with the codimension-one and residue
+groups of multiplicative type and tori over an arbitrary base scheme (extending ReductiveGroups
+Layer 9D's theory over affine bases), with their homomorphisms, smoothness, exactness and kernels,
+character sheaves, subgroups, quotients and largest subtori (SGA 3 VIII–X), the kernel-of-tori
+presentation of a group of multiplicative type and purity for such groups ([CS24] §7); and purity for the Brauer group and for tori with the codimension-one and residue
 descriptions ([C19] §§2, 5, 6 and Appendix A).
 
 **Owned elsewhere and consumed here.** Each object has one owner.
@@ -132,6 +132,16 @@ descriptions ([C19] §§2, 5, 6 and Appendix A).
   and `μ_N`, and effective faithfully flat descent of affine schemes and of group objects*: ModularCurves
   0B, 0E. §7.12a here constructs `D_S(M)` for every finitely generated `M` and identifies it with the 0B
   group for finite `M`.
+- *Diagonalizable groups, groups of multiplicative type and tori over a field*: ReductiveGroups
+  Layer 4. *Groups of multiplicative type over an affine base `S = Spec R`*: ReductiveGroups Layer 9D,
+  bullet *Relative reductive groups over an arbitrary affine base* (the fppf-local definition through
+  `D_S(M)`, its agreement over a field with `TauCeti.multiplicativeTypeAffineGroupSchemeProperty`,
+  closed immersions from monomorphisms into affine groups of finite presentation, closed subgroups of
+  multiplicative type, the anti-equivalence with étale locally constant sheaves of finitely generated
+  groups on the small étale site, étale-local splitting, and isotriviality over normal bases).
+  §§7.12a–7.12e here state the theory over an arbitrary base scheme, with the same definition of
+  multiplicative type and the character sheaf on the big étale site, and cite Layer 9D for its
+  statements over affine bases (§§7.12c–7.12e).
 - *The finite étale Galois category of a connected scheme and its fundamental groups* (the
   automorphism groups of geometric fibre functors): already in Tau Ceti at the pin (the
   `GaloisCategory (TauCeti.FiniteEtaleScheme S)` instance and `TauCeti.FiniteEtaleScheme.fiber`;
@@ -207,14 +217,6 @@ section named instead of planning it.
   EtaleDualityAndPerverseSheavesPartII (its local Lefschetz hyperplane theorem).
 - The Brauer comparison of Gabber and de Jong for schemes with an ample line bundle (§7.10): to be
   imported by SchemeAndStackFoundationsPartII (its Layer 1 Brauer comparison).
-
-Diagonalizable groups, groups of multiplicative type and tori over an arbitrary base scheme, with their
-homomorphisms, smoothness, exactness and kernels, character sheaves, subgroups, quotients and largest
-subtori (§§7.12a–7.12e), are likewise owned here (for finite `M` the group `D_S(M)` is ModularCurves
-0B's, above). ReductiveGroups owns diagonalizable groups, groups of multiplicative type and tori over a
-field (its Layer 4); their theory over an arbitrary base scheme is owned here, and ReductiveGroups, for
-its relative theory of reductive group schemes, is to import it from these sections instead of
-restating it (Downstream consumers).
 
 ## Conventions
 
@@ -609,6 +611,19 @@ constant group `M_S` and the diagonalizable group `D_S(M) = Spec_S 𝒪_S[M]` of
 `μ_N = D_S(ℤ/N)`, with `((ℤ/N)_S)^D ≅ μ_N` (compared with §7.12a). 0E: effective faithfully flat descent
 of affine schemes, of sections and morphisms, and of group objects and homomorphisms on an underlying
 scheme already descended (used in §§7.12c–7.12d).
+
+### From TauCetiRoadmap.ReductiveGroups
+
+Layer 9D, bullet *Relative reductive groups over an arbitrary affine base*, its multiplicative-type
+theory over `S = Spec R` for every commutative ring `R`: an `S`-group is of multiplicative type when
+it is isomorphic to some `D_{S_i}(M_i)` on the members of an fppf cover, with `D_S(M)` the pinned
+`TauCeti.DiagonalizableGroup.groupScheme`; over `Spec k` this agrees with
+`TauCeti.multiplicativeTypeAffineGroupSchemeProperty`; a monomorphism from a group of multiplicative
+type to an affine group of finite presentation over `S` is a closed immersion; and every group of
+multiplicative type over `S` splits on the members of an étale cover, through the anti-equivalence
+with étale locally constant sheaves of finitely generated groups on the small étale site of `S`. Used
+in §7.12c (the comparison over a field and the étale-local splitting) and §7.12e(b). Layer 4: these
+groups over a field. Assumed as stated there.
 
 ### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
 
@@ -2197,8 +2212,9 @@ This layer deduces from Layer 6 global purity for finite flat coefficients, More
 torsors and gerbes, Gabber's conjectures on the local Picard and Brauer groups of complete
 intersections, and purity for groups of multiplicative type ([CS24] §7, pp. 86–93). For the last,
 §§7.12a–7.12e develop diagonalizable groups, groups of multiplicative type and tori over an arbitrary
-base scheme, with their character sheaves, subgroups, quotients and largest subtori (SGA 3 VIII–X);
-they use none of §§7.1–7.12, and §§7.13–7.15 and Layer 8 rest on them.
+base scheme, with their character sheaves, subgroups, quotients and largest subtori (SGA 3 VIII–X),
+extending ReductiveGroups Layer 9D's theory over affine bases; they use none of §§7.1–7.12, and
+§§7.13–7.15 and Layer 8 rest on them.
 
 ### 7.1 Global purity for flat cohomology with finite flat coefficients
 
@@ -2737,8 +2753,10 @@ below.
 
 Prove: `G` is of multiplicative type iff some étale cover (Mathlib `Scheme.etalePrecoverage`) makes
 every `G_{S_i}` diagonalizable, iff some fpqc cover (Mathlib `Scheme.fpqcPrecoverage`) does (SGA 3 X,
-4.5). Route: étale covers are fppf covers and fppf covers are fpqc covers. Conversely, a group that is fpqc-locally
-diagonalizable is affine and of finite presentation over `S` by fpqc descent from §7.12a (ModularCurves
+4.5). Over an affine base the passage from fppf-local to étale-local diagonalizability is ReductiveGroups
+Layer 9D's étale-local splitting; the theorem here is its form over an arbitrary base, with fpqc covers
+admitted. Route: étale covers are fppf covers and fppf covers are fpqc covers. Conversely, a group that
+is fpqc-locally diagonalizable is affine and of finite presentation over `S` by fpqc descent from §7.12a (ModularCurves
 0E). For `s ∈ S`, its base change to the strict henselization `𝒪^{sh}_{S,s}` (ModularCurves Layer 4D) is
 diagonalizable: the closed fibre is a group of multiplicative type over a separably closed field, hence
 diagonalizable (SGA 3 X, §1), and over a henselian local ring a group of multiplicative type with
@@ -2746,8 +2764,9 @@ diagonalizable closed fibre is diagonalizable, the characters of the closed fibr
 X, §§3–4). Since `G` and `D(M)` are of finite presentation, an isomorphism over `𝒪^{sh}_{S,s}`, the
 colimit of the étale neighbourhoods of `s`, is already defined over one of them (SchemeAndStackFoundations
 §0.9).
-*Needs:* §§7.12a, 7.12b; SchemeAndStackFoundations §0.9; ModularCurves 0B, 0E, Layer 4D; Mathlib
-`Scheme.Cover`, `Scheme.etalePrecoverage`, `Scheme.fppfPrecoverage`, `Scheme.fpqcPrecoverage`,
+*Needs:* §§7.12a, 7.12b; SchemeAndStackFoundations §0.9; ModularCurves 0B, 0E, Layer 4D; ReductiveGroups
+Layer 9D (the affine case and the comparison over a field); Mathlib `Scheme.Cover`,
+`Scheme.etalePrecoverage`, `Scheme.fppfPrecoverage`, `Scheme.fpqcPrecoverage`,
 `IsMulTorsionFree`; Tau Ceti `TauCeti.FiniteTypeAffineGroupSchemeCat`,
 `TauCeti.multiplicativeTypeAffineGroupSchemeProperty`, `TauCeti.torusAffineGroupSchemeProperty`,
 `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual`, `TauCeti.DiagonalizableGroup.cartierDualIso`.
@@ -2779,10 +2798,11 @@ API (each a target):
   splitting it, the torsion order of `M_i` is invertible on `S_i`; in particular a torus is smooth over `S`,
   étale-locally `𝔾_m^r` (§7.12b).
 - Over a field `k`, for an affine group of finite type over `k` (an object of
-  `TauCeti.FiniteTypeAffineGroupSchemeCat`), being of multiplicative type, resp. a torus, agrees with
-  Tau Ceti's `TauCeti.multiplicativeTypeAffineGroupSchemeProperty`, resp.
-  `TauCeti.torusAffineGroupSchemeProperty` (both sides amount to diagonalizability, resp. splitting,
-  after extension to an algebraic closure of `k`, equivalently after some finite separable extension).
+  `TauCeti.FiniteTypeAffineGroupSchemeCat`), being a torus agrees with Tau Ceti's
+  `TauCeti.torusAffineGroupSchemeProperty` (both sides amount to splitting after extension to an
+  algebraic closure of `k`, equivalently after some finite separable extension). The agreement of being
+  of multiplicative type with `TauCeti.multiplicativeTypeAffineGroupSchemeProperty` is ReductiveGroups
+  Layer 9D's, for the same definition, and is used as stated there.
 - Finite groups: over `Spec R`, a commutative finite locally free group `G` (an object of
   `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`) is of multiplicative type iff its Cartier dual
   `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual R G` is étale over `Spec R`: the dual
@@ -2834,6 +2854,8 @@ finite type, with the `M_i` of any étale cover splitting `G` (§7.12c).
 sheaves of finite type on the big étale site of `S`, compatible with base change along every `S′ → S`.
 Its quasi-inverse sends `F` to the sheaf `D_S(F) = ℋom(F, 𝔾_m)`, which is representable: étale-locally it
 is `D_{S_i}(M_i)`, and affine groups with descent data along an étale cover descend (ModularCurves 0E).
+Over an affine base, ReductiveGroups Layer 9D states the anti-equivalence with the corresponding sheaves
+on the small étale site; (b) is its form on the big étale site over an arbitrary base.
 (c) `G` is diagonalizable iff `X^*(G)` is isomorphic to a constant sheaf `M_S` with `M` finitely generated,
 and diagonalizable over each member of a Zariski cover iff `X^*(G)` is Zariski-locally constant.
 Route: by §7.12a the sheaf `T ↦ Hom_T(D_T(M), D_T(N))` is the constant sheaf `Hom(N, M)_S`, so `X^*` is
@@ -2875,7 +2897,9 @@ quotient `G/ker u` is representable and of multiplicative type, `G → G/ker u` 
 and of finite presentation, and `G/ker u → G′` is a closed immersion. So groups of multiplicative type
 over `S` form an abelian category, on which `X^*` is exact.
 (b) A homomorphism of groups of multiplicative type that is a monomorphism of schemes is a closed
-immersion. The subgroups `H ⊂ G` of multiplicative type correspond
+immersion; over an affine base this is the case of ReductiveGroups Layer 9D's criterion (there for every
+affine target of finite presentation) in which the target is of multiplicative type, and being a
+closed immersion is local on `S`. The subgroups `H ⊂ G` of multiplicative type correspond
 bijectively to the twisted constant quotient sheaves of finite type `X^*(G) ↠ Q`, through restriction of
 characters `H ↦ (X^*(G) ↠ X^*(H))`; the quotient `G/H` has character sheaf `ker(X^*(G) → X^*(H))`.
 (c) For a torus `T`, the **cocharacter sheaf** `X_*(T) = ℋom(X^*(T), ℤ_S)` is twisted constant with free
@@ -2891,8 +2915,8 @@ Route: étale-locally on `S` every statement is one about diagonalizable groups 
 homomorphism `D(M) → D(N)` is Zariski-locally some `D(φ)` (§7.12a), and if it is a monomorphism its kernel
 `D(M/φ(N))` is trivial, so `φ` is surjective and `D(φ)` a closed immersion. The anti-equivalence of §7.12d
 and fppf descent of morphisms and of closed immersions (ModularCurves 0E) give the statements over `S`.
-*Needs:* §§7.12a–7.12d; ModularCurves 0E; Mathlib `CategoryTheory.IsPullback`,
-`AlgebraicGeometry.IsClosedImmersion`.
+*Needs:* §§7.12a–7.12d; ModularCurves 0E; ReductiveGroups Layer 9D (for (b) over affine bases); Mathlib
+`CategoryTheory.IsPullback`, `AlgebraicGeometry.IsClosedImmersion`.
 
 API (each a target):
 - For `m ≥ 1`, `[m] : G → G` corresponds to multiplication by `m` on `X^*(G)`, and the `m`-torsion
@@ -3029,7 +3053,7 @@ DeformationAndDerivedPatchingAlgebra §6.9) gives `Pic(U_R) = 0`, §7.12 gives `
 ### Dependencies
 
 §§0.1–0.5, 1.1, 6.2, 6.5; DeformationAndDerivedPatchingAlgebra §§3.4, 6.9;
-ModularCurves 0B, 0E, Layer 4D; AlgebraicModuliForArithmeticGeometry §§4.1–4.3;
+ModularCurves 0B, 0E, Layer 4D; ReductiveGroups Layer 9D; AlgebraicModuliForArithmeticGeometry §§4.1–4.3;
 SchemeAndStackFoundations §§0.3, 0.4, 0.6, 0.9, 0.17, 1.1, 1.15, 1.18, 1.21, 2.7, 2.9–2.11, 2.15, 2.22, 3.4;
 Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass`, `TauCeti.IsLocalRing.puncturedSpectrum`,
 `AlgebraicGeometry.Scheme.Gm`, `AlgebraicGeometry.Scheme.mu`, `AlgebraicGeometry.Scheme.powHom`,
@@ -3471,12 +3495,6 @@ them (see Scope and ownership).
   Brauer comparison of §7.10.
 - EtaleDualityAndPerverseSheavesPartII is to import the local duality statements on excellent regular local
   rings and the local Lefschetz theorem (§§1.4–1.5).
-- ReductiveGroups, for its relative theory of reductive group schemes over a base (the étale-local
-  splitting of groups of multiplicative type, the anti-equivalence with twisted constant sheaves of
-  finite type, closed immersions from monomorphisms, subgroups of multiplicative type), is to import
-  diagonalizable groups, groups of multiplicative type and tori over a base, with their character
-  sheaves, subgroups, quotients and largest subtori (§§7.12a–7.12e), instead of restating them; its
-  Layer 4 keeps the theory over a field.
 
 ## Worked examples
 
