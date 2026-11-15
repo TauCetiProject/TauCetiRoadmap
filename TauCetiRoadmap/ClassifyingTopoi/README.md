@@ -1419,6 +1419,10 @@ or tag there treats geometric logic or its semantics (Layer 1), classifying site
 2), Diaconescu's theorem, theories of presheaf type (Layer 3), or the classifying topoi of rings and
 local rings (Layer 4).
 
+In LeanPool, *lean-pool* (References), `LeanPool/InfinitaryLogic` treats the model theory of
+`L_{ω₁ω}` (Morley–Hanf numbers, Erdős–Rado, descriptive set theory), which is not geometric logic;
+it has no topoi. It is not a dependency either.
+
 ## References
 
 - S. Mac Lane, I. Moerdijk, *Sheaves in Geometry and Logic: A First Introduction to Topos
@@ -1453,3 +1457,6 @@ local rings (Layer 4).
   c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
   directories `StacksFrontier/CategoryTheory/Sites/Topos`.
   https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier
+- LeanPool, *lean-pool*. Lean 4 formalizations at commit f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0,
+  Lean and Mathlib v4.35.0; projects `LeanPool/InfinitaryLogic`.
+  https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool
