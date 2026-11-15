@@ -162,7 +162,7 @@ noncomputable local instance completedLineCoeffAlgebra : Algebra (PowerSeries R)
 The coefficient ring R is arbitrary: X lies in the Jacobson radical without a locality or
 Noetherian hypothesis. Layer 6 applies this to the actual transported K₃ line after its integral
 order-one evaluation has been established. -/
-theorem completedRegulatorTriviality {P : Type v} [AddCommGroup P]
+theorem nonempty_linearEquiv_powerSeries_of_fiber {P : Type v} [AddCommGroup P]
     [Module (PowerSeries R) P] [Module.Invertible (PowerSeries R) P]
     (h : Nonempty ((P ⧸ ((Ideal.span {PowerSeries.X (R := R)}) •
       (⊤ : Submodule (PowerSeries R) P))) ≃ₗ[PowerSeries R] R)) :

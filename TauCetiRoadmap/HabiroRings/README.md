@@ -1211,7 +1211,7 @@ See [Q], §1.1, paragraph 1.4, printed p.4; [G], Proposition 1.5(f), printed p.1
 
 The API comprises:
 
-- `completedRegulatorTriviality`: For every commutative R and invertible P over R[[X]], Nonempty(P/XP≃R) implies Nonempty(P≃R[[X]]); the equivalences are R[[X]]-linear, with R acted on by constant coefficient. No locality or Noetherianity is assumed.
+- `nonempty_linearEquiv_powerSeries_of_fiber`: For every commutative R and invertible P over R[[X]], Nonempty(P/XP≃R) implies Nonempty(P≃R[[X]]); the equivalences are R[[X]]-linear, with R acted on by constant coefficient. No locality or Noetherianity is assumed.
 
 **Checks.**
 
