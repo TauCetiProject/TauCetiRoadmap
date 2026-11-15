@@ -90,9 +90,9 @@ theorem iInf_span_xiLevel_eq_span_mu (ε : PreTilt (integers C) p)
     (⨅ (r : ℕ) (_ : 1 ≤ r), Ideal.span {xiLevel p ε r}) = Ideal.span {mu p ε} := by
   sorry
 
-/-- Finite-Witt coherence (AI.0.3, `AInf.witt_coherence`): relation modules of maps between
-finite free modules are finitely generated, over both `W_r(O_C)` and `W_r(O_C^♭)`
-(BMS1, Proposition 3.24). -/
+/-- Finite-Witt coherence (AI.0.3, *Coherence of Witt vectors of perfectoid integers*): relation
+modules of maps between finite free modules are finitely generated, over both `W_r(O_C)` and
+`W_r(O_C^♭)` (BMS1, Proposition 3.24). -/
 theorem finite_witt_coherence (r : ℕ) (hr : 1 ≤ r) :
     (∀ (m n : ℕ) (f : (Fin m → TruncatedWittVector p r (integers C)) →ₗ[
         TruncatedWittVector p r (integers C)] (Fin n → TruncatedWittVector p r (integers C))),
@@ -113,7 +113,7 @@ def deRhamMap : WittVector p (PreTilt (integers C) p) →+* BDeRhamPlus (integer
 theorem ainf_deRhamPlus_flat : (deRhamMap p C).Flat := by
   sorry
 
-/-- The p-local freeness conclusion of AI.2.1, `AInf.punctured_vector_bundle_criterion`:
+/-- The p-local freeness conclusion of AI.2.1, *Vector-bundle criterion and p-local freeness*:
 every finite projective `A_inf[1/p]`-module is free (BMS1, Corollary 4.12). -/
 theorem ainf_invert_p_projective_free (M : Type*) [AddCommGroup M]
     [Module (Localization.Away (p : WittVector p (PreTilt (integers C) p))) M]
@@ -121,7 +121,7 @@ theorem ainf_invert_p_projective_free (M : Type*) [AddCommGroup M]
     [Module.Projective (Localization.Away (p : WittVector p (PreTilt (integers C) p))) M] :
     Module.Free (Localization.Away (p : WittVector p (PreTilt (integers C) p))) M := by sorry
 
-/-- The mixed-characteristic freeness criterion in AI.2.1, `AInf.ainf_module_structure`:
+/-- The mixed-characteristic freeness criterion in AI.2.1, *A_inf module structure theorem*:
 a finitely presented module with projective p-inversion is free when its `θ` reduction
 is p-torsion-free. Reduction is expressed as `M/ξM` (BMS1, Proposition 4.13). -/
 theorem ainf_free_of_torsionFree_reduction (ε : PreTilt (integers C) p)
