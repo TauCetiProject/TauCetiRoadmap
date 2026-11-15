@@ -194,13 +194,14 @@ theorem iwasawaLeopoldt_two_power
 
 /-! ## Layer 5: Finite and Selmer consequences -/
 
-/-- The finite circular-unit index equality (Rubin III.2.4, p. 36; §5.1),
-including characters whose conductor is divisible by `p`. -/
+/-- The finite circular-unit index equality (Rubin III.2.4, p. 36, and IX.1.2, p. 135; §5.1)
+for every nontrivial even character of order prime to `p`, including characters whose
+conductor is divisible by `p` and characters with `ψ p = 1`. -/
 theorem mazurWiles_classGroup_eq_unitIndex
     (χ : (K ≃ₐ[ℚ] K) →* (integralClosure ℤ_[p] E)ˣ) (ψ : DirichletCharacter E f)
     (hp : 2 < p) (hdegree : p.Coprime (Module.finrank ℚ K))
     (hχ : Function.Injective χ) (hψ : ψ.IsPrimitive) (heven : ψ (-1) = 1)
-    (hne : ψ ≠ 1) (hψp : ψ p ≠ 1)
+    (hne : ψ ≠ 1)
     (hcompat : ∀ σ : F ≃ₐ[ℚ] F,
       ψ (IsCyclotomicExtension.Rat.galEquivZMod f F σ) =
         algebraMap (integralClosure ℤ_[p] E) E (χ (AlgEquiv.restrictNormalHom K σ)))
