@@ -134,7 +134,6 @@ a smooth proper curve over a field is projective. No rational point is assumed. 
 theorem finite_curves_goodReduction {K : Type*} [Field K] [NumberField K]
     (S : Finset (HeightOneSpectrum (𝓞 K))) (g : ℕ) (hg : 2 ≤ g) :
     ∃ F : Finset (Over (Spec (.of K))), ∀ C : Over (Spec (.of K)),
-      letI : C.left.Over (Spec (.of K)) := ⟨C.hom⟩
       Smooth C.hom → IsProper C.hom → GeometricallyConnected C.hom →
       topologicalKrullDim C.left = 1 →
       Module.rank K (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology

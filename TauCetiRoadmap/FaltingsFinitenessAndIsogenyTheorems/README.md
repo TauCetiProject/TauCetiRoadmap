@@ -93,9 +93,9 @@ another arithmetic intersection theory. R28.1.5 is an adapter to that supplied d
 height. R28.1.6–R28.1.8 use ArakelovGeometryAndAbelianHeights §§5.1–5.4, and R28.2.1–R28.2.2
 use its §§4.1–4.4: the names here are aliases or specializations in the same Faltings normalization,
 not separately owned metric, height or isogeny theorems. R28.1.9 specializes
-ArithmeticGaloisDuality R02.3.1 to fixed degree in the chosen algebraic closure;
-the generic restricted-ramification theorem belongs to that supplier. Zarhin's trick, including graph descent,
-is supplied by PadicDifferentialEquationsAndRigidCohomology §RD.5.116 over `Spec(k)`;
+Tau Ceti's `TauCeti.NumberField.finite_of_finrank_le_of_ramifiedSupport_subset` to fixed degree in the
+chosen algebraic closure; the generic restricted-ramification theorem is already in the library.
+Zarhin's trick, including graph descent, is supplied by PadicDifferentialEquationsAndRigidCohomology §RD.5.116 over `Spec(k)`;
 R28.5.12 owns its direct-factor application and the stated order-theoretic auxiliaries.
 The invariant-differential bundle and its determinant are supplied by
 SchemeAndStackFoundations §3.8 and AlgebraicVectorBundles Layers L0B–L0C.
@@ -121,7 +121,9 @@ This roadmap does not own, and cites:
   identity and the two-graph construction for an alternating form, which are different statements.
   Abelian varieties over a field with homomorphisms, endomorphisms, products, base
   change and isogenies; homomorphisms of Weierstrass curves with degree and composition; the double
-  centralizer theorem; finite locally free commutative group schemes.
+  centralizer theorem; finite locally free commutative group schemes; the ramified support of an
+  extension of number fields and Hermite's finiteness theorem for extensions of bounded degree
+  ramified only inside a finite set of finite places.
 - **TauCetiRoadmap roadmaps**: ClassFieldTheory (Kronecker–Weber), Chebotarev (Frobenius classes),
   GlobalNumberFields (ramification in cyclotomic fields), NumberFieldArithmetic (the bound on the
   different exponent), EllipticCurves (dual isogenies, Tate modules, reduction of elliptic curves),
@@ -132,8 +134,7 @@ This roadmap does not own, and cites:
   comparisons), AbelianSchemesAndArithmeticModuliPartII (geometric strong Torelli), NeronModelsAndSemistableAbelianVarieties
   (Néron models, semistable reduction, the monodromy criterion, Néron–Ogg–Shafarevich),
   ArithmeticGaloisRepresentations (Tate modules with their Frobenius polynomials, induction and
-  determinants), ArithmeticGaloisDuality (bounded-degree Hermite finiteness outside a finite set),
-  WeightsInEtaleCohomology (the Weil bound), FiniteFlatGroupsAndIntegralPadicHodgeTheory
+  determinants), WeightsInEtaleCohomology (the Weil bound), FiniteFlatGroupsAndIntegralPadicHodgeTheory
   (`p`-divisible groups, Tate's and Raynaud's local theorems), PadicPeriodRings §2 (Tate–Sen),
   PELModuli (the Siegel moduli stack, its coarse space and level rigidity), ShimuraVarieties (the
   Baily–Borel compactification), ArakelovGeometryAndAbelianHeights (semiabelian families, Siegel compactifications,
@@ -297,6 +298,14 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
 - `LinearMap.BilinForm.prod` in `TauCeti.LinearAlgebra.BilinearForm.Prod` gives the
   block-diagonal sum of two bilinear forms. The orthogonal-sum form evaluates it on the two coordinatewise
   sums over `Fin 4`; those coordinatewise forms have no dedicated pinned carrier.
+- `TauCeti.NumberField.ramifiedSupport K L` in
+  `TauCeti.NumberTheory.NumberField.Discriminant.RamifiedSupport.Basic`: the finite places of `K`
+  dividing the relative discriminant of `L/K`, with `TauCeti.NumberField.mem_ramifiedSupport_iff_exists`
+  (a place lies in it exactly when some prime of `L` above it has ramification index greater than one).
+  `TauCeti.NumberField.finite_of_finrank_le_of_ramifiedSupport_subset` in
+  `TauCeti.NumberTheory.NumberField.Discriminant.RamifiedSupport.Hermite`: inside a field `A`
+  containing `K`, only finitely many finite extensions of `K` have degree at most `d` and ramified
+  support inside a given finite set of finite places. Used in R28.1.9.
 
 ### From TauCetiRoadmap roadmaps
 
@@ -364,10 +373,6 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   `Aut(A, λ)` and level-`n ≥ 3` rigidity); A6.20 `homDescentFullLevel`; A6.33 `weilRestrictionTate`; A6.38
   `AbelianHodgeLine`. Their "polarization of degree `d`" is a polarization of degree `d²` in the convention
   here.
-- *ArithmeticGaloisDuality*: R02.3.1
-  `RestrictedRamification.finite_unramifiedOutside_of_finrank_le`, for extensions inside a
-  fixed separable closure, with bounded degree and unramified at finite places outside a
-  finite set. R28.1.9 retains only the fixed-degree and ambient-closure adapters.
 - *ArithmeticGaloisRepresentations*: §1.3 “The Mackey decomposition”, using pinned
   `Rep.mackeyDecomposition` for the abstract isomorphism, and the prose targets
   “The Mackey decomposition” and “The determinant of an induced representation”. Induction is from an open subgroup of a compact group on a finite-rank
@@ -927,27 +932,27 @@ DiophantineApproximationAndTranscendence §§0.2–0.3 (absolute normalization a
 
 ### R28.1.9 Hermite–Minkowski with prescribed ramification
 
-Use the fixed-degree Hermite–Minkowski statement, the fixed-degree specialization of ArithmeticGaloisDuality
-R02.3.1 `RestrictedRamification.finite_unramifiedOutside_of_finrank_le`
+Use the fixed-degree Hermite–Minkowski statement, the fixed-degree specialization of Tau Ceti's
+`TauCeti.NumberField.finite_of_finrank_le_of_ramifiedSupport_subset`
 (Faltings 1983, §3, Lemma 4, p. 357; Milne, *Abelian varieties*, IV
 Theorem 3.1, p. 139): for a number field `K`, a finite set `S` of places of `K` and an integer `n`, there are
 only finitely many extensions `K' ⊆ K̄` of `K` of degree `n` unramified outside `S`. The places of `S` may be
 wildly ramified; ramification at infinite places does not affect the count.
 
-*Adapter.* Take the subset of the supplier's degree-at-most-`n` set where the degree
-equals `n`; for `n ≤ 0` the set is empty. In characteristic zero the separable closure
-and the chosen algebraic closure are isomorphic over `K`. Transport intermediate fields
-along this isomorphism, preserving degrees and ramification. No quotient by abstract
-field isomorphism replaces the count of embedded subfields.
+*Adapter.* Apply the library theorem with ambient field `K̄`, degree bound `n` and the finite places
+of `S`, and take the subset where the degree equals `n`; for `n ≤ 0` the set is empty. Its hypothesis
+is the ramified support `TauCeti.NumberField.ramifiedSupport K K'`, the finite places of `K` dividing
+the relative discriminant; by `TauCeti.NumberField.mem_ramifiedSupport_iff_exists` a place lies in it
+exactly when some prime of `K'` above it has ramification index greater than one. So `K'` is
+unramified at each finite place outside `S` exactly when its ramified support lies in the finite
+places of `S`. No quotient by abstract field isomorphism replaces the count of embedded subfields.
 
-The generic input is ArithmeticGaloisDuality R02.3.1, which realises it through the
-`ramifiedSupport` finiteness of NumberFieldArithmetic Layer 4.3: unramified at each finite
-place outside `S` is equivalent to ramified support lying in the finite places of `S`.
-The local-different and discriminant argument belongs to that generic input.
+The bound on the discriminant through the different, at wild places included, is part of the
+library theorem's proof.
 
-*Needs:* ArithmeticGaloisDuality R02.3.1
-`RestrictedRamification.finite_unramifiedOutside_of_finrank_le`;
-TauCetiRoadmap NumberFieldArithmetic Layer 4.3 (`ramifiedSupport` and its membership criterion).
+*Needs:* Tau Ceti `TauCeti.NumberField.finite_of_finrank_le_of_ramifiedSupport_subset` in
+`TauCeti.NumberTheory.NumberField.Discriminant.RamifiedSupport.Hermite`; Tau Ceti
+`TauCeti.NumberField.ramifiedSupport` and `TauCeti.NumberField.mem_ramifiedSupport_iff_exists`.
 
 **Checks.**
 - For `K = ℚ`, `S = {2, ∞}` and degree exactly `2`, the embedded fields are
@@ -1126,7 +1131,9 @@ M6.7 `descentObstruction`.
 
 Mathlib (schemes, valuative criterion, normalisation, Zariski's main theorem in the form "proper and
 locally quasi-finite is finite", number fields, heights, the different and discriminants); Tau Ceti
-(`AbelianVariety`); TauCetiRoadmap NumberFieldArithmetic (Layer 6.4) and LocalFieldsRamification
+(`AbelianVariety`; `TauCeti.NumberField.ramifiedSupport` and
+`TauCeti.NumberField.finite_of_finrank_le_of_ramifiedSupport_subset` for R28.1.9);
+TauCetiRoadmap NumberFieldArithmetic (Layer 6.4) and LocalFieldsRamification
 (Layer 3); SchemeAndStackFoundations §§2.20, 3.8, 4.15, 4.17; AlgebraicVectorBundles Layers L0B–L0C; JacobianChallengePartII §§6.1–6.3; AlgebraicModuliForArithmeticGeometry §5.4;
 ComplexComparisonPartII C0.3–C0.4; AbelianSchemesAndArithmeticModuli A1, A3, A6;
 NeronModelsAndSemistableAbelianVarieties Layers 3–5; HeightsAndUnits §1.1;
@@ -2054,7 +2061,7 @@ on them by conjugacy invariance of trace, hence on `M`, so `ρ_1` and `ρ_2` hav
 ArithmeticGaloisRepresentations §1.6 (stable lattices), §1.8 (trace form of Brauer–Nesbitt in
 characteristic `0`), §5.1
 the finite-quotient consequence of Frobenius density; Mathlib `Submodule.FG`, Nakayama
-(`Submodule.eq_bot_of_le_smul_of_le_jacobson_bot`).
+(`Submodule.eq_bot_of_le_smul_of_le_jacobson`).
 
 **Checks.**
 - `T` depends only on `K, S, l, d`, not on `ρ_1, ρ_2`.
@@ -2338,7 +2345,7 @@ between `l^kΛ'_0` and `Λ'_0`.
 *Needs:* the maximal-order lattice classification above; ClassicalArithmeticCompletion §§7.4
 `IntegralOrder.IsOrder`, 7.21 `IntegralOrder.IsMaximalOrder`, 7.56 (containing maximal order);
 Mathlib `IsSemisimpleModule`, `IsSemisimpleRing`, `Algebra.traceForm`, `Submodule.IsLattice`
-(TauCeti `TauCeti.Submodule.IsLattice.finrank_eq_finrank` and
+(Tau Ceti `Submodule.finrank_eq_finrank` and
 `LinearEquiv.extendOfIsLattice` in `TauCeti.Algebra.Module.Lattice`), `PadicInt`.
 
 **Checks.**
@@ -2850,7 +2857,7 @@ A6.8 (endomorphisms of products); ArithmeticGaloisRepresentations §6.1
 Layers 2 and 6 (Wedderburn decomposition and separable splitting fields, giving separability in
 characteristic zero); Tau Ceti
 `AlgHom.centralizer_centralizer_range`; Mathlib Nakayama
-(`Submodule.eq_bot_of_le_smul_of_le_jacobson_bot`).
+(`Submodule.eq_bot_of_le_smul_of_le_jacobson`).
 
 **Checks.**
 - The quotient torsion-image identity with `W = 0` gives `f = [l]` and zero torsion image;
