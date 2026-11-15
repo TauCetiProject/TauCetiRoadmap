@@ -6,6 +6,8 @@
 
 This Part II develops the multiple-depth extension of depth-one Carlitz special values. Its foundation targets in §0.0 construct the Carlitz products, analytic field, exponential, logarithm, period, Ω, effective dual t-motives and Frobenius interfaces used by Layers 0–5. The power-sum degree theorem belongs to §0.2, the generating-series identity to §3.2, and finite-place specialisation to §5.14. The multiple-depth targets include both the direct MZV route and the CMPL route to the basis theorem. These constructions constitute the Carlitz special-value foundation needed for this extension; the elliptic-sheaf carrier and its comparison with one-leg shtukas belong to GlobalShtukasAndFunctionFieldLanglands §2.7.
 
+No other roadmap constructs the depth-one theory that this Part II extends: the Carlitz exponential and logarithm, the period π̃, Ω, the ring E, effective dual t-motives, Anderson t-modules, ABP entireness and lifting, and the rational Frobenius comparisons. Section 0.0 owns them, and later work on depth-one Carlitz values cites §0.0 rather than constructing them again.
+
 Mathlib’s `Composition`, `Composition.blocks`, `Composition.length`, `Composition.blocksFun`, `composition_card`, `Polynomial`, `Polynomial.Monic`, `RatFunc`, `RatFunc.inftyValuation`, `RatFunc.CompletionAtInfty`, `Finsupp`, `Submodule.span`, `Nat.choose` and `FiniteField.sum_pow_units` already supply the generic composition, coefficient, valuation and linear-algebra objects. They are consumed without a second carrier or a second proof of their basic APIs. The positive-index operations below extend `Composition`; their weight is its parameter and their depth is its length. The free index space is a native finitely supported function space.
 
 Tau Ceti’s `TauCeti.RingTheory.PowerSeries.TateAlgebra` supplies the normed restricted-series structure at radius one. RestrictedPowerSeries §§0.1–0.3, 1.1–1.2, 2.1 and 7.2 supply the general restricted and entire-series interfaces. The ring E here is the arithmetic subring of those entire series with algebraic coefficients contained in one finite extension of K∞; its arithmetic conditions and Frobenius statements are constructed in §0.0, using that general entire-series theory.
@@ -243,10 +245,7 @@ One proof route is the following. Represent an index as a list of positive integ
 
 - T_1(∅) = ∅ and T_3(1,2) = (3). Treating an empty prefix sum as an actual part would create the forbidden index (0); failing to truncate the collapse index would ask for an absent entry.
 - wt(2, 1, 3) = 6 and dep(2, 1, 3) = 3.
-- (1, 2) ≤ (2, 1) holds and (2, 1) ≤ (1, 2) fails.
-- (1, 3) and (2, 1, 1) are incomparable for prefix dominance although (1, 3) is lexicographically smaller.
 - wt(∅) = dep(∅) = 0, Init(∅) = ∅ and ∅ is k-admissible for every k.
-- For every q, (q) is not 1-admissible and (q, 1) is 1-admissible.
 - (1, 2) ≤ (2, 1) but (2, 1) is not ≤ (1, 2); (1, 3) and (2, 1, 1) are incomparable although (1, 3) precedes (2, 1, 1) lexicographically.
 - Init(q + 1, 1) = ∅ and Init(q, q, 1) = (q, q, 1); (q) is not 1-admissible while (q, 1) is.
 
@@ -277,7 +276,6 @@ One proof route is the following. For d ≥ 0, A_(+,d) has q^d elements; for d <
 
 - At q = 4, ∏_(a∈F₄)(θ+a) = θ⁴−θ has derivative 1, so S₁(1) = 1/(θ⁴−θ), with leading term θ⁻⁴. Using p = 2 in place of q would give θ⁻² and the wrong denominator.
 - S_0(s) = Si_0(s) = 1 for every s ≥ 1 in depth one, and S_d(s) = 0 for d < 0. Also S_(<−1)(∅) = Si_(<−1)(∅) = 1, while S_(<−1)(s) = Si_(<−1)(s) = 0 for nonempty s.
-- For q = 2, S_1(1) = (θ² + θ)⁻¹.
 - S_0((s)) = S_0(s) S_(<0)(∅) = 1: with S_(<0)(∅) = 0 the factorisation would give 0. This forces the value 1 at d = 0; our uniform convention gives 1 for every integer d.
 - For q = 3, S_1(−1; 1) = −S_1(1).
 - For q = 2, S_1(1) = θ⁻¹ + (θ + 1)⁻¹ = (θ² + θ)⁻¹ and S_1(1, 1) = S_1(1)S_0(1) = S_1(1).
@@ -313,9 +311,7 @@ One proof route is the following. Each term a_1^(−s_1)⋯a_r^(−s_r) with deg
 
 **Checks.**
 
-- ζ_A(1) = log_C(1), the Carlitz logarithm of §0.0 at 1.
-- ζ_A(∅) = 1.
-- For q = 2, ζ_A(1)² = ζ_A(2).
+- ζ_A(∅) = 1: the empty index has exactly one degree-decreasing tuple, the empty one, whose product is 1. Giving the empty index the value 0 would make Z_0 zero instead of K.
 - Unlike real multiple zeta values no admissibility s_1 ≥ 2 is needed: ζ_A(1) and ζ_A(1, 1) converge.
 - ζ_A(1) = Σ_(d ≥ 0) ℓ_d⁻¹ = log_C(1) (§0.2 (depth-one power sums)).
 - For q = 2, ζ_A(1)² = ζ_A(2), since squaring is additive in characteristic 2.
@@ -342,7 +338,6 @@ One proof route is the following. Convergence as for ζ_A(s), since |ε_i| = 1. 
 - With ε = (1, …, 1), ζ_A(ε; s) = ζ_A(s).
 - For q = 2, F_2^× = {1}, so every alternating value is a Thakur value.
 - For q = 3, ζ_A(−1; 1) − ζ_A(1) = −2Σ_(d odd) ℓ_d⁻¹ ≠ 0 (its leading term has valuation q = 3), so the twist by ε^(deg a) is not trivial.
-- For q = 2 every character is trivial and the alternating values are Thakur’s values.
 
 *Needs:* §0.2; §0.3.
 
@@ -385,7 +380,6 @@ One proof route is the following. |ℓ_i^n|_∞ = q^(nq(q^i − 1)/(q − 1)) (f
 **Checks.**
 
 - At q = 3 and s = (2,2), z = (1,θ⁴) lies in D_s: on d₁=d₂+1 its normalized exponent is −8·3^(d₂), and a larger d₁ only decreases it. It is outside D′_s because |θ⁴|∞ = 3⁴ > 3³. A zero second coordinate makes the full series zero, so whole-tuple convergence alone cannot imply prefix convergence without the stated nonzero-coordinate hypothesis.
-- Li_1(z) = log_C(z), so Li(1) = log_C(1) = ζ_A(1).
 - Li(∅) = 1 and Li((1, …, 1); s) = Li(s).
 - For q = 3, Li(4) ≠ ζ_A(4): in u = θ⁻¹, their difference begins u⁶, since S₁(4) begins 2u⁶ and ℓ₁⁻⁴ begins u¹². The identity of §0.8 needs every entry ≤ q.
 - For q = 3, γ = √−1 ∈ F_9 and ε = −1, Li_1(γ) = γ Li(−1; 1).
@@ -442,7 +436,6 @@ One proof route is the following. The spans are submodules of K_∞ over K (and 
 - For q = 2, AZ_w = Z_w and AL_w = L_w.
 - Weight 3 has four indices (3), (2, 1), (1, 2), (1, 1, 1).
 - Z_w is a K-span. For q > 2 and ρ ∈ K̄ with ρᑫ⁻¹ = −θ, the element ρζ_A(1) belongs to 𝒵_1 but not to K_∞: v_∞(ζ_A(1)) = 0 and v_∞(ρ) = −1/(q − 1).
-- Z_1 = K·ζ_A(1); for q = 2, AZ_w = Z_w.
 
 *Needs:* §0.3; §0.4; §0.6; Mathlib `Submodule.span`; Mathlib `Composition`; §0.7; §0.0 (Omega and period).
 
@@ -466,7 +459,6 @@ One proof route is the following. ι is a weight-preserving bijection: an elemen
 
 **Checks.**
 
-- For q = 2, I^T_3 = {(1, 1, 1), (2, 1)} and IND_3 = {(1, 1, 1), (3)}.
 - For q = 3, I^T_4 = {(1,1,1,1), (1,1,2), (1,2,1), (2,1,1), (2,2), (3,1)} and ι(4) = (3, 1).
 - (q, 1) ∈ I^T_(q+1) but its prefix (q) ∉ I^T_q.
 - IND excludes multiples of q, not of p: for q = 4 the index (2) lies in IND_2.
@@ -494,8 +486,6 @@ One proof route is the following. Each sequence is defined by strong recursion o
 
 **Checks.**
 
-- For q = 2, d(1), …, d(5) = 1, 1, 2, 3, 5.
-- For q = 3, d(4) = 6 and s(4) = 46.
 - d(q) = 2ᑫ⁻¹ − 1, one less than the 2ᑫ⁻¹ compositions of q, since (q) is excluded.
 - s(w) ≠ t(w) in general: for q = 3, t(4) = 2(t(3) + t(2) + t(1)) = 48 while s(4) = 46.
 - For q = 2, d(w) is the Fibonacci sequence 1, 1, 2, 3, 5, … (w = 1, 2, …); for q = 3, d(1), …, d(4) = 1, 2, 3, 6 and s(1), …, s(4) = 2, 6, 16, 46.
@@ -547,7 +537,6 @@ One proof route is the following. |π̃|_∞ = q^(q/(q−1)) (§0.0 (Omega and p
 - 0 is Eulerian of every weight.
 - For q > 2, ζ_A(1) is not Eulerian of weight 1, since π̃ ∉ K_∞.
 - For q = 2, ζ_A(1) = −π̃/D_1 is Eulerian of weight 1.
-- ζ_A(q − 1) is Eulerian of weight q − 1; for q = 2 every weight is divisible by q − 1.
 
 *Needs:* §0.0 (Omega and period); §0.0 (Omega and period); §0.13.
 
@@ -578,8 +567,6 @@ One proof route is the following. Symmetry is visible from the formula. If a + b
 
 **Checks.**
 
-- For q = 2, Δ^([1])_(1,2) = 1 and Δ^([2])_(1,2) = 0.
-- For q = 3, Δ^([2])_(2,2) = 1 in F_3.
 - Δ^([q−1])_(1,q−1) = 0, the case a + b = q.
 - The condition (q − 1) | j cannot be dropped: for q = 3, Δ^([1])_(1,2) = 0 although the binomial expression (−1)^0 binom(0, 0) + (−1)^1 binom(0, 1) equals 1.
 - For q = 2, Δ^([1])_(1,2) = 1 and Δ^([2])_(1,2) = 0; for q = 3, Δ^([2])_(2,2) = −2 = 1.
@@ -618,9 +605,7 @@ One proof route is the following. The q-shuffle product is defined by recursion 
 
 **Checks.**
 
-- [1] ∗ [1] = 2[1, 1] + [2].
 - [∅] ∗^• P = P for both products.
-- For q = 2, [1] ∗^ζ [2] = [1, 2] + [3].
 - (n) ⊞ P is not [n] + P: (2) ⊞ [1, 1] = [3, 1].
 - [1] ∗ [1] = 2[1, 1] + [2]; for q = 2, [1] ∗^ζ [2] = [1, 2] + [2, 1] + [3] + [2, 1] = [1, 2] + [3] (characteristic 2 coefficients).
 
@@ -864,7 +849,6 @@ One proof route is the following. The decomposition is unique: (s^T, q^({m})) is
 
 **Checks.**
 
-- For s = (q − 1, q, q, q + 1, 1), s^T = (q − 1), m = 2, s″ = (1, 1).
 - U^•(∅) = ∅ and U^•(s) = s for every s ∈ I^T.
 - For s = (q): m = 1, s′ = ∅ and U^•(q) = L_1[α^•_q(∅)] = L_1[1, q − 1].
 - s^T is not Init(s): for s = (1, q, q), Init(s) = (1, q, q) while s^T = (1), m = 2 and s′ = ∅.
@@ -953,8 +937,6 @@ One proof route is the following. Expanding the geometric series, the coefficien
 
 **Checks.**
 
-- H_1 = H_q = 1.
-- For q = 3, H_4 = 2t^3 − t − θ^3.
 - Γ_(q+1) = D_1 = θ^q − θ.
 - The indexing is shifted from Anderson–Thakur’s: with their convention H_0 = 1 is the polynomial attached to s = 1, so citing their H_s for exponent s is off by one.
 - H_1 = ⋯ = H_q = 1 and, for q = 3, H_4 = t^3 − t + t^3 − θ^3 = 2t^3 − t − θ^3.
@@ -1002,8 +984,7 @@ One proof route is the following. Ω⁽⁻¹⁾ = (t − θ)Ω gives Ω⁽¹⁾ 
 
 **Checks.**
 
-- 𝓛(1) = ΩΣ_(d ≥ 0)𝕃_d⁻¹.
-- 𝔏(∅) = 1.
+- 𝔏(∅) = 1: at k = 1 the twist recursion of the interface reads 𝔏(s_1; Q)⁽⁻¹⁾ = 𝔏(s_1; Q) + Q_1⁽⁻¹⁾(t − θ)^(s_1)Ω^(s_1)𝔏(∅), and the d_1 = −1 term of the twisted series is Q_1⁽⁻¹⁾(t − θ)^(s_1)Ω^(s_1). The value 0 for the empty index would make the recursion false in depth one.
 - For s = (q − 1, q − 1) and Q = (1, θᑫ⁺¹) the whole-tuple condition holds but ‖Q_2‖ = qᑫ⁺¹ > |θ|ᑫ violates the termwise bound and the tail series 𝔏((q − 1); (θᑫ⁺¹)) diverges.
 - 𝕃_1(θ) = θ − θ^q = ℓ_1.
 - 𝓛(1) = Ω Σ_(d ≥ 0) 𝕃_d⁻¹, and 𝔏((1); (H_1)) = 𝓛(1) since H_1 = 1.
@@ -1066,7 +1047,7 @@ One proof route is the following. Twisting by −1 lowers every summation index 
 
 ### 3.7 Chang’s MZ property
 
-E, the twist and the ABP condition from §0.0; π̃ from §0.0. A nonzero Z ∈ C_∞ has the MZ property of weight w ≥ 1 if there are d ≥ 2, Φ ∈ Mat_d(K̄[t]) and ψ ∈ E^d with ψ⁽⁻¹⁾ = Φψ such that: (1) det Φ = c(t − θ)^m with c ∈ K̄^× and m ≥ 0; (2) the last column of Φ is (0, …, 0, 1)^T; (3) ψ(θ) has first entry π̃⁻ʷ and last entry cZ/π̃^w for some c ∈ K^×; (4) for every N ≥ 1, every entry of ψ(θ^(q^N)) except the last vanishes, and the last is (cZ/π̃^w)^(q^N). (CHANG14, Definition 3.4.1 and Proposition 3.4.4, pp. 8–9 (CHANG14 line 329)).
+E, the twist and the ABP condition from §0.0; π̃ from §0.0. A nonzero Z ∈ C_∞ has the MZ property of weight w ≥ 1 if there are d ≥ 2, Φ ∈ Mat_d(K̄[t]) and ψ ∈ E^d with ψ⁽⁻¹⁾ = Φψ such that: (1) det Φ = c(t − θ)^m with c ∈ K̄^× and m ≥ 0; (2) the last column of Φ is (0, …, 0, 1)^T; (3) ψ(θ) has first entry π̃⁻ʷ and last entry cZ/π̃^w for some c ∈ K^×; (4) for every N ≥ 1, every entry of ψ(θ^(q^N)) except the last vanishes, and the last is (cZ/π̃^w)^(q^N). (CHANG14, Definition 3.4.1 and Proposition 3.4.4, pp. 8–9 (CHANG14 line 343); Chang takes Z in the algebraic closure of K_∞, and condition (3) already puts Z there: c ∈ Kˣ, π̃ ∈ ρK_∞ˣ, and the entries of ψ(θ) lie in the finite extension of K_∞ generated by the coefficients of ψ, so the carrier C_∞ admits no further values).
 
 The interface includes the following facts.
 
@@ -1079,7 +1060,6 @@ One proof route is the following. The data (Φ, ψ) is a witness; the weight is 
 
 **Checks.**
 
-- Li(1) has the MZ property of weight 1.
 - ζ_A(q − 1)^2 has the MZ property of weight 2(q − 1).
 - 0 never has the MZ property.
 - If Z has it, so has aZ for a ∈ K^× (change c).
@@ -1201,9 +1181,7 @@ The native descended carrier is `frobeniusSolutionSpace`, the kernel of the F(t)
 
 **Checks.**
 
-- X_0 = F_q(t).
 - IND°_q = {(1, q − 1)} and 𝔦(IND°_q) = {∅, (1), (1, q − 1)}.
-- For q ≥ 3, IND°_(2q−2) = {(q − 1, q − 1), (2q − 2)}.
 - IND°_w differs from IND_w: for q = 3, (1, 1) ∈ IND_2 but (1, 1) ∉ IND°_2 since q − 1 = 2 does not divide 1.
 - (E_0) is ε_∅⁽¹⁾ = ε_∅ and X_0 = F_q(t); for w = q, IND°_q = {(1, q − 1)} and (E_q) has three equations; for q ≥ 3 and w = 2q − 2, IND°_w = {(q − 1, q − 1), (2q − 2)} and (E_w) has four equations.
 - Scalars of the residual: in weight zero the tree is {∅}. The root coordinate f = 1 has residual 1 − 1 = 0 and t·f has residual t − t = 0, but θ·f has residual θ^q − θ ≠ 0 although θ times the residual of f is 0. So `frobeniusResidual` is F(t)-linear and not F(θ, t)-linear.
