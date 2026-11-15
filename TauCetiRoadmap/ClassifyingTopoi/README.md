@@ -273,8 +273,9 @@ Grothendieck topoi are the inverse images of geometric morphisms), 2.2
 (`Subtopos`) and 4.2 (the subtopoi of `Sheaf J (Type u)` are the `Sheaf J' (Type u)` for `J' ≥ J`),
 for 2.5; 6.1 (points of a topos, `nonempty_point_equivalence`), for the Examples of Layer 2; 6.5
 (connected nonempty projective objects, Roos's theorem
-`exists_equiv_presheaf_iff_essential_points`), 6.6 (`IsIrreducibleObject` and
-`isIrreducibleObject_iff_projective_preservesCoproducts`), for 3.3, 3.5 and 3.6.
+`exists_equiv_presheaf_iff_essential_points`, and the essential points of `Cᵒᵖ ⥤ Type u` forming
+`Idempotents.Karoubi C`), for 3.3 and 3.5; 6.6 (`IsIrreducibleObject` and
+`isIrreducibleObject_iff_projective_preservesCoproducts`), for 3.5 and 3.6.
 
 **From InfinitaryModelExistence.** 5.1 (the Morleyization `morleyize L Φ` of a language by a family
 of formulas, `lhomMorleyize Φ` and the canonical expansion `morleyExpansion Φ M`), for 1.5.
@@ -342,6 +343,16 @@ keeps the first `n` variables.
   `ex (equal (var 0) (var 2 * var 2))`, again "`x₀` is a square", which holds at `(4, 7)` and fails
   at `(2, 7)` in `ℤ`. Relabelling under `ex` along `Fin.castAdd 1 : Fin 2 → Fin 3` would leave
   `var 1` in place and give `∃ x₂, x₀ = x₁ * x₁`, which fails at `(4, 7)`.
+- The empty and the binary disjunction are coherent: `bot`, over `PEmpty`, and a disjunction over
+  `Bool` of two atomic formulas (`Finite PEmpty`, `Finite Bool`). A definition requiring a nonempty
+  index type would make `bot`, and the sequents `R_φ ⊢ bot` of 1.5, not coherent.
+- Coherence is a condition on the syntax: the disjunction over `ULift ℕ` of copies of `top` is not
+  coherent, since `ULift ℕ` is infinite, although it is realized at every assignment of every
+  structure, as `top` is.
+- Coherence passes to subformulas: `and top χ`, for the torsion formula `χ` of the second Check, is
+  not coherent, although its outer connective is finitary. Every sequent of `torsorTheory G` (3.3)
+  is coherent exactly when `G` is finite, because its transitivity axiom is a disjunction over `G`:
+  this holds for `Multiplicative (ZMod 2)` and fails for `Multiplicative ℤ`.
 
 ### 1.2 Set-theoretic semantics and homomorphisms
 
@@ -919,7 +930,9 @@ to a group isomorphism on the endomorphisms of the object.
 *Needs:* 1.1, 1.3, 2.1, 2.4, 2.6; GrothendieckTopoi 2.5, 6.5 and, through Convention 5, the `B G` of
 the Examples of its Layer 1; Mathlib `FirstOrder.Language`, `FirstOrder.Language.Functions.apply₁`,
 `Term.var`, `Group`, `Set.range`, `GrothendieckTopology`, `Sheaf`, `SingleObj`, `SingleObj.star`,
-`AsSmall`, `AsSmall.up`, `yoneda`, `sheafBotEquivalence`, `Pi.π`, `MulEquiv`.
+`AsSmall`, `AsSmall.up`, `yoneda`, `sheafBotEquivalence`, `Pi.π`, `MulEquiv`,
+`IsIdempotentComplete`, `Idempotents.Karoubi`, `Idempotents.toKaroubi_isEquivalence`,
+`SingleObj.toEnd`.
 
 **Checks.**
 
@@ -1324,10 +1337,13 @@ Layers 1–3; Mathlib; Tau Ceti for 4.2. Within the layer, 4.2 uses 4.1 and 4.3 
 
 ## Downstream consumers
 
-ToposTheoreticBridges (open pull request) consumes 2.1 (classifying sites), 2.5
-(`IsClassifyingSite.exists_quotient_topology`, `IsClassifyingSite.exists_quotient_theory`) and 2.6
-(`MoritaEquivalent`) in its Layer 4, and cites 3.2, 4.1 and 4.2 in Checks and Examples. No roadmap
-on main consumes ClassifyingTopoi. GrothendieckTopoi and
+ToposTheoreticBridges (open pull request) consumes in its Layer 4: 1.1, 1.3 and 1.4
+(`GeometricTheory`, `CatStructure`, `CatStructure.IsModel`, `CatStructure.map`,
+`CatStructure.IsModel.map`); 2.1; 2.4 (`IsClassifyingSite.exists_equivalence`); 2.5
+(`IsClassifyingSite.exists_quotient_topology`, and `IsClassifyingSite.exists_quotient_theory`, which
+is stated in the universe `max u₁ u₂ u` of 2.3); and 2.6 (`MoritaEquivalent`). It cites the Checks
+of 2.5, 3.2 and 4.1–4.3 in its Conventions, Checks and Examples. No roadmap on main consumes
+ClassifyingTopoi. GrothendieckTopoi and
 LocallyPresentableCategories name it, under their Downstream consumers, as a consumer of theirs, and
 both put classifying topoi of geometric theories outside their scope (GrothendieckTopoi, Scope and
 ownership, Out of scope; LocallyPresentableCategories, Scope and ownership, Left to other roadmaps);
