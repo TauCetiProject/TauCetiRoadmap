@@ -106,7 +106,8 @@ structure is the group law's, not pointwise) and the quadraticity of the degree,
 `CMStructure`/`HasCM` on `End`, the dual isogeny with
 `φ̂ ∘ φ = [deg φ]`, `deg [n] = n²` via the division polynomials, the invariant differential
 `ω` in `Ω[W.FunctionField⁄K]` with `φ^* = KaehlerDifferential.map`, and the
-separable-⟹-unramified milestone (`e_w = 1` at every place, which turns Layer 0's
+separable-⟹-unramified milestone (`e_w = 1` and separable residue extensions at every place,
+hence `f_w = 1` above rational targets over separably closed K, turning Layer 0's
 `Σ e · f = deg` into the fibre count) are specified in `README.md` §Layer 1 and built there.
 The milestone statable against the existing point
 group is the surjectivity of multiplication-by-`n`: over a separably closed field, `[n]` is
