@@ -370,9 +370,11 @@ with `g(H^i) ⊆ H^i` the characteristic polynomial of `g|_{H^i}` has coefficien
 `H^i`, `L^{n−i} w = 1` on `H^{2n−i}`). The conclusion is an algebraic inverse of `L^{n−i}`, not
 `Λ ∈ 𝒜`, and `w` need not be homogeneous on the other degrees. `lambdaAlgebraic_of_charpoly`:
 under the extra hypothesis `ProjectorsAlgebraic`, the elements `π_i w π_{2n−i}` satisfy the
-hypotheses of 1.2, so `Λ ∈ 𝒜`. *Needs:* 1.1, 1.2. (Source: Beilinson 2012, §2.3, proof of (b),
-which is the case `F = K = ℚ` for Betti cohomology, where the characteristic-polynomial hypothesis
-holds automatically and the cut by projectors is that of `lambdaAlgebraic_of_charpoly`.)
+hypotheses of 1.2, so `Λ ∈ 𝒜`. *Needs:* 1.1, 1.2. (Source: Beilinson 2012, §2.3, proof of (b), which
+is the case `F = K = ℚ` for Betti cohomology, where the characteristic-polynomial hypothesis holds
+automatically; its cut uses only the projectors onto the degrees outside `[i, 2n − i]`, which the
+descending induction has already made algebraic, whereas `lambdaAlgebraic_of_charpoly` assumes
+`ProjectorsAlgebraic` and cuts `w` as `π_i w π_{2n−i}` (2.4, Research context).)
 
 **Checks.**
 
