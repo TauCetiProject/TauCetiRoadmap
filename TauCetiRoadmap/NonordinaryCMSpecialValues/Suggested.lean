@@ -31,7 +31,7 @@ Not statable at the pins:
   (Mathlib's `PeriodPair` gives the invariants `g₂`, `g₃` of a lattice, with no curve attached),
   Hecke `L`-functions of non-finite-order characters and the algebraicity of their normalised
   values with a `p`-adic avatar are missing.
-* Finis's divisibility theorem (§4.6), in every critical weight for split valuation primes
+* Finis's divisibility theorem (§4.8), in every critical weight for split valuation primes
   and in weight one for nonsplit valuation primes: in addition, theta functions on CM lattices,
   Shintani operators, integral theta functions, Finis's local invariant `b_ℓ` and the ordinary
   CM measure with its period-normalised critical moments are missing.
@@ -40,7 +40,7 @@ Not statable at the pins:
   class fields, Iwasawa cohomology of `O_{K'}[1/p]` with the CM coefficients `T_φ^∨(1)`,
   Bloch–Kato dual exponentials and Kato's de Rham period map `per_ψ` are missing.
 * Torsion-field disjointness, semilocal splitting, the inert Frobenius and the CM Lubin–Tate
-  comparison (§§3.2–3.5): ring class fields are native (`TauCeti.ClassFieldTheory.ringClassField`),
+  comparison (§§3.2–3.6): ring class fields are native (`TauCeti.ClassFieldTheory.ringClassField`),
   but the CM curve attached to `φ`, its torsion fields `H(E[p^{n+1}])` and Lubin–Tate formal modules
   are missing.
 * The root-number formulas (§§1.1–1.4: `W(φ) = (2/D)` for a canonical character with `D` odd,
@@ -69,7 +69,7 @@ noncomputable def conductorModulus (χ : HeckeCharacter K) : Modulus K :=
 /-- A Hecke character `χ` of an imaginary quadratic field is *anticyclotomic* when its ideal
 character inverts under complex conjugation: `χ(ā) = χ(a)⁻¹` for every fractional ideal `a`
 prime to the conductor. The membership equivalence says that `b` is the conjugate of `a`. For
-characters of odd finite order this is the class of ring class characters. -/
+characters of finite order this is the class of ring class characters. -/
 def IsAnticyclotomic [IsCMField K] (χ : HeckeCharacter K) : Prop :=
   ∀ a b : idealsPrimeTo (conductorModulus χ),
     (∀ x : K, x ∈ ((a : (FractionalIdeal (𝓞 K)⁰ K)ˣ) : FractionalIdeal (𝓞 K)⁰ K) ↔
@@ -79,7 +79,10 @@ def IsAnticyclotomic [IsCMField K] (χ : HeckeCharacter K) : Prop :=
 /-- A Hecke character `φ` of an imaginary quadratic field `K` is *conjugation-equivariant of
 ideal infinity type `(1,0)`* for the embedding `ι : K → ℂ` when `φ((x)) = ι(x)` for every
 `x ≡ 1` modulo its conductor, and `φ(ā) = conj φ(a)` for every ideal `a` prime to the conductor.
-Equivalently (Jia, Property 1), `φ((n)) = κ_K(n) n` on rational integers prime to the conductor. -/
+Among characters already of ideal type `(1,0)` for `ι`, the conjugation law is equivalent to
+`φ((n)) = κ_K(n) n` on rational integers prime to the conductor (Jia, Property 1). The rational
+law alone does not imply the predicate: for `φ` the character of `y² = x³ − x` over `ℚ(i)`,
+`φ³/N` satisfies it and the conjugation law but has type `(2, −1)`. -/
 def IsEquivariantTypeOneZero [IsCMField K] (ι : K →+* ℂ) (φ : HeckeCharacter K) : Prop :=
   (∀ (x : Kˣ) (hx : IsCongrOne (conductorModulus φ) x),
       (φ.idealCharacter ⟨toPrincipalIdeal (𝓞 K) K x, hx.toPrincipalIdeal_mem_idealsPrimeTo⟩ : ℂ) =
@@ -166,7 +169,7 @@ Greenberg's conductor parity and the local Fröhlich–Queyrut theorem of §1.3,
 from Jia's theorem (§6.4), which generalises Rohrlich's class-number-one theorem). Let `K` be
 imaginary quadratic, `φ` a
 conjugation-equivariant Hecke character of ideal type `(1,0)` unramified at the odd inert prime
-`p`, and `ν` an anticyclotomic character of odd finite order unramified at `p`. There is a sign
+`p`, and `ν` an anticyclotomic character of finite order unramified at `p`. There is a sign
 `ε` (the root number of `φν`) such that, for `χ` in the `p`-anticyclotomic family with conductor
 exponent `c(χ)` at `p`: if `(−1)^{c(χ)} = −ε` then `L(φνχ, 1) = 0`, and all but finitely many
 `χ` with `(−1)^{c(χ)} = ε` have `L(φνχ, 1) ≠ 0`. Since `L(φ̄νχ, s) = L(φν⁻¹χ⁻¹, s)`, this is
@@ -175,7 +178,7 @@ theorem centralValue_parity_dichotomy [IsCMField K] [Algebra.IsQuadraticExtensio
     (ι : K →+* ℂ) (φ ν : HeckeCharacter K) (p : ℕ) [Fact p.Prime] (hp : p ≠ 2)
     (v : HeightOneSpectrum (𝓞 K)) (hv : v.asIdeal = Ideal.span {(p : 𝓞 K)})
     (hφ : IsEquivariantTypeOneZero ι φ) (hφv : φ.conductorExponent v = 0)
-    (hν : ν.IsFiniteOrder) (hνodd : Odd (orderOf ν)) (hνac : IsAnticyclotomic ν)
+    (hν : ν.IsFiniteOrder) (hνac : IsAnticyclotomic ν)
     (hνv : ν.conductorExponent v = 0)
     (ϖ : (w : HeightOneSpectrum (𝓞 K)) → (w.adicCompletion K)ˣ)
     (hϖ : ∀ w, Valued.v (ϖ w : w.adicCompletion K) = WithZero.exp (-1 : ℤ)) :
