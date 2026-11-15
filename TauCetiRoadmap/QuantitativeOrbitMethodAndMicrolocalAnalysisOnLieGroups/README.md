@@ -206,7 +206,7 @@ What GanGrossPrasadUnitaryGroups must provide (gap:relative-character-positivity
 
 ## How to read the build
 
-Layers 0–1 are the general calculus: for any unimodular Lie group and any strongly continuous unitary representation they define Sobolev scales, operator and symbol classes and the quantization map, and prove the star-product expansion, the uniform order-zero bound and the rescaled composition calculus, all uniform in the representation. Layer 2 specializes to real reductive groups and localizes eigenfunctionals at infinitesimal characters. Layer 3 adds coadjoint multiorbits and Rossmann's formula and proves the uniform trace asymptotics and trace-ideal bounds for tempered representations. Layer 4 makes the Plancherel formula uniform and constructs local relative characters for GGP pairs. Layer 5 is the algebraic and measure-theoretic geometry of stable coadjoint fibres of GGP pairs; it uses Layers 0–3 only for normalizations and orbital measures. Layer 6 compares relative characters with stable fibre integrals. Layer 7 constructs positive test operators and Hecke functions that pick out families of representations of the smaller group. Layer 8 passes to automorphic quotients: limit states, their disintegration and their equidistribution. Layer 9 combines Layers 7 and 8 with a truncated period identity into the weighted asymptotic formula. Each target's *Needs* line lists exactly the inputs of its statement and proof route; the layer numbering is not itself a dependency.
+Layers 0–1 are the general calculus: for any unimodular Lie group and any strongly continuous unitary representation they define Sobolev scales, operator and symbol classes and the quantization map, and prove the star-product expansion, the uniform order-zero bound and the rescaled composition calculus, all uniform in the representation. Layer 2 specializes to real reductive groups and localizes eigenfunctionals at infinitesimal characters. Layer 3 adds coadjoint multiorbits and Rossmann's formula and proves the uniform trace asymptotics and trace-ideal bounds for tempered representations. Layer 4 makes the Plancherel formula uniform and constructs local relative characters for GGP pairs. Layer 5 is the algebraic and measure-theoretic geometry of stable coadjoint fibres of GGP pairs; apart from the Plancherel scaling of §5.10, which uses Layers 3 and 4, it uses Layers 0–3 only for normalizations and orbital measures. Layer 6 compares relative characters with stable fibre integrals. Layer 7 constructs positive test operators and Hecke functions that pick out families of representations of the smaller group. Layer 8 passes to automorphic quotients: limit states, their disintegration and their equidistribution. Layer 9 combines Layers 7 and 8 with a truncated period identity into the weighted asymptotic formula. Each target's *Needs* line lists exactly the inputs of its statement and proof route; the layer numbering is not itself a dependency.
 
 ## Layer 0: Fourier conventions, Sobolev scales and the quantization map
 
@@ -347,7 +347,7 @@ The star product of symbols, its Baker–Campbell–Hausdorff expansion with rem
 
 ### 1.1 The star-product expansion
 
-§§1.1–1.6 give the star-product expansion: the cutoff star product (§1.1), its BCH coefficients (§1.2), the Planck localization and the localized remainder estimates (§§1.3–1.5), and the mixed-subalgebra symbol calculus (§1.6). §1.9 consumes §1.1 and §§1.4–1.6; §§1.12, 6.1 and 6.2 consume §1.6; §2.5 consumes §1.2; §§1.7 and 6.3 consume §1.4.
+§§1.1–1.6 give the star-product expansion: the cutoff star product (§1.1), its BCH coefficients (§1.2), the Planck localization and the localized remainder estimates (§§1.3–1.5), and the mixed-subalgebra symbol calculus (§1.6). §1.9 consumes §1.1 and §§1.4–1.6; §§1.12, 6.1 and 6.2 consume §1.6; §§1.7 and 2.5 consume §1.2; §§1.7 and 6.3 consume §1.4.
 
 Let 𝒢 ⊂ 𝒢′ be neighbourhoods of 0 with `exp(𝒢)exp(𝒢) ⊆ exp(𝒢′)`, write `x ∗ y = log(exp x exp y)` for x, y ∈ 𝒢 (the local BCH logarithm), and let χ, χ′ be cutoffs on 𝒢, 𝒢′ with `χ′(x ∗ y) = 1` for x, y ∈ supp χ. For Schwartz a, b define `a ⋆ b` by `(a ⋆ b)(ζ) = ∫∫ a^∨(x) b^∨(y) χ(x) χ(y) e^{(x∗y)ζ} dx dy`, the Fourier transform of the pull-back to 𝔤 of the group convolution of the densities `χa^∨` and `χb^∨` (NV21 (2.4) and Lemma 2.1, pp. 26–27; (4.2), p. 32). Define `a ⋆_h b` by `(a ⋆_h b)_h = a_h ⋆ b_h`.
 
@@ -441,7 +441,7 @@ For subalgebras `𝔤₁ + 𝔤₂ = 𝔤` of unimodular subgroups, the star pro
 
 Let ψ be smooth and compactly supported on 𝔤 and `a ∈ S^m_δ`. If `b_h^∨ = ψ a_h^∨`, then `b ∈ S^m_δ` and for every J, `b = Σ_{j<J} h^j Σ_{|α| = j} (∂^αψ(0)/α!) ∂^α a` modulo `h^{(1−δ)J} S^{m−J}_δ`, with the positive power `h^j` and the derivative convention of §1.2. Away from 0, `|∂^α a_h^∨(x)| ≤ C h^{−n−|α|} (|x|/h^{1−δ})^{−N}` for every N with `|α| + m − N ≤ −n − 1`; the unscaled transform `a^∨` is `C^k` at 0 when `m ≤ −n − 1 − k` (NV21 Lemma 7.14, p. 56, whose printed `(−h)^j` is corrected to `h^j`; Lemma 8.1, pp. 57–58, whose derivative estimate (8.3) lacks the factor `h^{−|α|}`).
 
-*Needs:* §0.1, §0.4, §1.4.
+*Needs:* §0.1, §0.4, §1.2, §1.4.
 
 **Checks.**
 
@@ -453,7 +453,7 @@ For an integer m ≥ 0, `T ∈ Ψ^m` if and only if for every enveloping word u 
 
 *Proof route.* Commute T past words, compare even powers of Δ with sums of squared word norms (§0.2), and induct on commutator length, passing between positive and negative orders with `Δ^{−1}` of order −2. Both directions are proved before symbols are quantized.
 
-*Needs:* §0.3, §0.6.
+*Needs:* §0.2, §0.3, §0.6.
 
 **Checks.**
 
@@ -466,7 +466,7 @@ For an integer m ≥ 0, `T ∈ Ψ^m` if and only if for every enveloping word u 
 
 *Proof route.* Decompose a by §1.4 into pieces localized at ω ∈ Ω; each piece satisfies the L¹ bound of §0.5 uniformly (NV21 Lemmas 8.8–8.9, p. 61). The adjoint formula of §0.5 and §1.1 give `Op_h(a_{ω₁})* Op_h(a_{ω₂}) = Op_h(ā_{ω₁} ⋆_h a_{ω₂}, χ′)`; expand by §1.5, so that only O(1) pairs have nonnegligible products for fixed ω₁ and the remainders are summable. The square-root row sums are then bounded, and the countable almost-orthogonality lemma (PseudodifferentialOperators P5, gap:cotlar-stein-strong) gives strong convergence of `Σ_ω Op_h(a_ω)` to `Op_h(a)` with the norm bound. The source's Lemma 8.10 asserts operator-norm convergence of the sum; only strong convergence holds, as the orthogonal rank-one projections on ℓ² show (both row sums equal 1, the partial sums converge strongly to the identity and every tail has norm 1), and only strong convergence is used.
 
-*Needs:* §0.5, §1.4, §1.5, §1.6; PseudodifferentialOperators P5 (gap:cotlar-stein-strong); Tau Ceti `mulInvariantExp`, `ContRepresentation.IsUnitary`.
+*Needs:* §0.5, §1.1, §1.4, §1.5, §1.6; PseudodifferentialOperators P5 (gap:cotlar-stein-strong); Tau Ceti `mulInvariantExp`, `ContRepresentation.IsUnitary`.
 
 **Checks.**
 
@@ -738,7 +738,7 @@ Let π be an irreducible tempered representation of G, possibly depending on h, 
 
 ### 3.8 Smooth trace ideals and uniform trace-ideal bounds
 
-§§3.8–3.9 refine the Schatten classes by commutators and bound smoothing and quantized operators in them uniformly over tempered representations. §8.1 consumes both, and §§4.5, 5.10, 6.3 and 8.2 consume §3.9.
+§§3.8–3.9 refine the Schatten classes by commutators and bound smoothing and quantized operators in them uniformly over tempered representations. §8.1 consumes both, and §§4.5, 4.6, 5.10, 6.3 and 8.2 consume §3.9.
 
 For p = 1, 2, ∞ let `T_p(π)` be the space of operators T on π such that every iterated commutator `θ_u(T)` is bounded on π and lies in the Schatten class S_p (trace class, Hilbert–Schmidt, bounded), with the seminorms `‖θ_u(T)‖_p` (NV21 §12.1, p. 87). `T_∞ = Ψ^0`. These refine the Schatten families of OperatorIdeals by commutators; no singular-value or trace construction is repeated.
 
@@ -802,7 +802,7 @@ There is N, depending only on the real reductive group G, with `sup_π tr π(Δ^
 
 *Proof route.* Compare `Δ^{−N}` with `π(κ)^{−2}` through the bounded operator `π(κ)²π(Δ^{−N})` for N above twice the degree of κ (§4.1). For the integral, put `b = ⟨ξ⟩^{−N}` and `T_π = Op_h(b)* Op_h(b) = Op_h(b)²` (b is real and the cutoff even, §0.5); this square, not `Op_h(b)` itself, is positive. By §1.12 it is elliptic of order −2N, so `tr π(Δ_h^{−N}) ≪ tr T_π` uniformly in tempered π for h small (the printed proof of NV21 Lemma A.3, p. 139, compares with `Δ^{−2N}`; the orders give `Δ^{−N}`), and by §1.12 and §0.6 `T_π = π(f* ∗ f)` with f compactly supported and n times differentiable. Apply the Plancherel formula, which extends to such functions, to `f* ∗ f`: `∫ tr π(f* ∗ f) dμ(π) = (f* ∗ f)(1) = ‖f‖²_{L²}`. At p-adic places apply the Plancherel formula to `vol(U)^{−1}1_U`, whose integrated action is the orthogonal projection onto `π^U`.
 
-*Needs:* §0.6, §1.12, §4.1; AutomorphicSpectralTheory gap:local-plancherel; SmoothRepresentationsOfLocalGroups SR.1.1 (the idempotent e_U).
+*Needs:* §0.5, §0.6, §1.12, §4.1; AutomorphicSpectralTheory gap:local-plancherel; SmoothRepresentationsOfLocalGroups SR.1.1 (the idempotent e_U).
 
 **Checks.**
 
@@ -813,7 +813,7 @@ There is N, depending only on the real reductive group G, with `sup_π tr π(Δ^
 
 ### 4.3 The Ξ-integrable Plancherel formula and local relative characters
 
-§§4.3–4.6 extend the Plancherel formula to Ξ-integrable functions, define the local relative characters `H_σ` of GGP pairs and disintegrate the trace into them over the tempered dual of H. §§6.1, 7.5, 7.6 and 9.1 consume §4.5, and §6.4 consumes §4.6.
+§§4.3–4.6 extend the Plancherel formula to Ξ-integrable functions, define the local relative characters `H_σ` of GGP pairs and disintegrate the trace into them over the tempered dual of H. §§6.1, 7.2, 7.3, 7.5, 7.6, 9.1 and 9.5 consume §4.5, and §§6.1 and 6.4 consume §4.6.
 
 For archimedean F, `F_Ξ(G)` is the space of smooth f on G with `∫_G |D_L D_R f(g)| Ξ_G(g) dg < ∞` for all left- and right-invariant differential operators `D_L, D_R`, with these seminorms. For p-adic F, `F_Ξ(G)` is the union over compact open U of the bi-U-invariant f with `∫ |f| Ξ_G < ∞`, with the inductive limit topology (NV21 §A.5 and (A.5), pp. 139–140).
 
@@ -868,7 +868,7 @@ For tempered π and finite-rank smooth T, and for every `T ∈ Ψ^{−N}(π)` wi
 
 *Proof route.* Apply §4.4 on H to `f ∘ inv` for the restricted coefficients f of finite-rank T, which has the same value `f(1) = tr T` at the identity (§4.5); extend to smoothing T by the continuous map `Ψ^{−∞}(π) → F_Ξ(H)` (NV21 §A.6), controlled by `‖Δ^N T Δ^N‖₂` and §3.9; apply §2.7 to the H × H-equivariant factorization.
 
-*Needs:* §2.7, §4.4, §4.5.
+*Needs:* §2.1, §2.7, §3.9, §4.4, §4.5.
 
 **Checks.**
 
@@ -889,7 +889,7 @@ For orthogonal and unitary GGP pairs: the joint fibres of the coadjoint quotient
 
 ### 5.1 Joint and relative coadjoint fibres
 
-For a GGP pair define the joint quotient map `q(ξ) = ([ξ], [ξ|_𝔥])` on 𝔤^* and `O_{λ,µ} = q^{−1}(λ, µ)`, a subset of 𝔤^* with one ambient variable ξ. Over ℝ, for tempered π, σ put `O_{π,σ} = {ξ ∈ O_π : ξ|_𝔥 ∈ O_σ}` (NV21 §14.3, p. 99; §16.5, pp. 110–111, where the ambient space is printed as `𝔤^* × 𝔥^*`; §17.3, pp. 116–117). Integration over `O_{λ,µ}` is defined to be 0 unless (λ, µ) is stable (§5.2) and the fibre is nonempty; then it is the pushforward of the fixed Haar measure of H along an orbit map `s ↦ s·ξ_{λ,µ}` (NV21 §17.3.2, pp. 117–118).
+For a GGP pair define the joint quotient map `q(ξ) = ([ξ], [ξ|_𝔥])` on 𝔤^* and `O_{λ,µ} = q^{−1}(λ, µ)`, a subset of 𝔤^* with one ambient variable ξ. Over ℝ, for tempered π, σ put `O_{π,σ} = {ξ ∈ O_π : ξ|_𝔥 ∈ O_σ}` (NV21 §14.3, p. 99; §16.5, pp. 110–111, where the ambient space is printed as `𝔤^* × 𝔥^*`; §17.3, pp. 116–117). Integration over `O_{λ,µ}` is defined to be 0 unless (λ, µ) is stable, that is `ev(λ) ∩ ev(µ) = ∅` (the notion studied in §5.2), and the fibre is nonempty; then it is the pushforward of the fixed Haar measure of H along an orbit map `s ↦ s·ξ_{λ,µ}` (NV21 §17.3.2, pp. 117–118).
 
 - `ξ ∈ O_{λ,µ}` if and only if `[ξ] = λ` and `[ξ|_𝔥] = µ`.
 - `ξ ∈ O_{π,σ}` if and only if ξ ∈ O_π and `ξ|_𝔥 ∈ O_σ`; `O_{π,σ} ⊆ O_π(λ_σ) ⊆ O_{λ_π, λ_σ}`, with equality throughout when `(λ_π, λ_σ)` is stable and `O_{π,σ}` is nonempty (NV21 (17.3), p. 117).
@@ -1050,7 +1050,7 @@ For an ℝ-rational top form, the attached measure gives each real coordinate di
 - For smooth fibrations with compatible forms, the measures disintegrate by Fubini in charts (GeometricMeasureTheory G2 coarea, DifferentialGeometry 5.5 densities).
 - Integration over an empty real stable fibre is 0.
 
-*Needs:* §0.1, §3.1, §5.6; DifferentialGeometry Layer 5; GeometricMeasureTheory G2.
+*Needs:* §0.1, §3.1, §5.5, §5.6; DifferentialGeometry Layer 5; GeometricMeasureTheory G2.
 
 **Checks.**
 
@@ -1091,7 +1091,7 @@ Let H be a complex reductive group regarded as a real group, and U a nonempty bo
 
 *Proof route.* For compactly supported a, `∫_{[𝔥^∧]} ∫_{O^µ} a_h = ∫ a_h = f(1)` with `Op_h(a) = σ(f)` (§0.5 with χ(0) = j(0) = 1), and by the Plancherel formula and §3.7 this is `∫ ∫_{O_σ} a_h dω dµ(σ)` up to errors controlled uniformly. Complete the source's sketch by a positive sandwich: choose nonnegative `a^±` whose fibre integrals bracket `1_U` from above and below within ε away from a neighbourhood of ∂U of affine measure ε, bound the spectral tails by §3.9 and the Plancherel–Sobolev bound §4.2, let h → 0 and then ε → 0 using that ∂U is null.
 
-*Needs:* §3.7, §3.9, §4.2, §5.9; AutomorphicSpectralTheory gap:local-plancherel.
+*Needs:* §0.5, §3.7, §3.9, §4.2, §5.9; AutomorphicSpectralTheory gap:local-plancherel.
 
 **Checks.**
 
@@ -1104,7 +1104,7 @@ For SO(3) ⊃ SO(2) over ℝ with V definite, `𝔤^∧ ≅ ℝ³`, a stable fib
 
 ### Dependencies
 
-Layers 0–3; AlgebraicModuliForArithmeticGeometry gap:hilbert-mumford-linear and gap:free-stable-quotient-bundle; Tau Ceti quadratic-form Witt theorems; Mathlib `Matrix.charpoly`, `Matrix.fromBlocks`, `Matrix.toBlocks₁₁`, `MvPolynomial.zeroLocus`, `Matrix.GeneralLinearGroup`, `Matrix.specialOrthogonalGroup`, `KaehlerDifferential`, `AlgebraicGeometry.Scheme.Hom.exists_isIso_morphismRestrict_toNormalization`; LieGroups Layer 1; FormalConnectionsOpers F4.3; NilpotentOrbits N1.1; SymplecticGeometry HamiltonianReduction R3; DifferentialGeometry Layer 5; GeometricMeasureTheory G2; AutomorphicSpectralTheory gap:local-plancherel; AutomorphicFormsOnReductiveGroups §0.3; AdelicAlgebraicGroups §3.5.
+Layers 0–4; AlgebraicModuliForArithmeticGeometry gap:hilbert-mumford-linear and gap:free-stable-quotient-bundle; Tau Ceti quadratic-form Witt theorems; Mathlib `Matrix.charpoly`, `Matrix.fromBlocks`, `Matrix.toBlocks₁₁`, `MvPolynomial.zeroLocus`, `Matrix.GeneralLinearGroup`, `Matrix.specialOrthogonalGroup`, `KaehlerDifferential`, `AlgebraicGeometry.Scheme.Hom.exists_isIso_morphismRestrict_toNormalization`; LieGroups Layer 1; FormalConnectionsOpers F4.3; NilpotentOrbits N1.1; SymplecticGeometry HamiltonianReduction R3; DifferentialGeometry Layer 5; GeometricMeasureTheory G2; AutomorphicSpectralTheory gap:local-plancherel; AutomorphicFormsOnReductiveGroups §0.3; AdelicAlgebraicGroups §3.5.
 
 ## Layer 6: Stable relative trace asymptotics
 
@@ -1118,7 +1118,7 @@ Put M = G × H, S = diag(H) and τ = π ⊗ σ̄. The relative character becomes
 
 *Proof route.* Insert the auxiliary quantization by Haar invariance (its scalar is `1 + O(h^∞)`); use the mixed calculus with both inputs Schwartz; choose the auxiliary support small, using openness of stability; identify orbital measures through the contragredient sign and the forms of §5.6.
 
-*Needs:* §1.6, §1.12, §2.2, §4.5, §5.1, §5.9.
+*Needs:* §1.6, §1.12, §2.2, §4.5, §4.6, §5.1, §5.6, §5.9.
 
 **Checks.**
 
@@ -1157,7 +1157,7 @@ Let U ⊂ 𝔤^∧ be compact and consist of H-stable elements, 0 ≤ δ < 1/2, 
 
 *Proof route.* Restrict to a compact stable range of parameters by §2.7 and §4.6; apply §6.1, take the main term from §6.2 and discard §6.3; transport D_j to 𝔤^∧. For products expand by §1.12 with enough terms to absorb the polynomial loss of `H_σ`.
 
-*Needs:* §1.12, §4.6, §6.1, §6.2, §6.3.
+*Needs:* §1.12, §2.7, §4.6, §6.1, §6.2, §6.3.
 
 **Checks.**
 
@@ -1198,7 +1198,7 @@ Let k, U, V be as in §7.1 with k ≥ 0. For every ε > 0 and N ≥ 0 there are 
 
 *Proof route.* Lift k to squared symbols by a partition of unity on the stable bundle; choose a₂ with positive fibre integral on a compact neighbourhood of the image of supp a and small total mass; choose a_nt equal to a near the preimage of the irregular H-parameters, a null compact set; apply §6.4 inside, §2.7 outside, and §2.3 to show that σ with parameter near regular points are tempered.
 
-*Needs:* §2.3, §2.7, §5.9, §6.4, §7.1.
+*Needs:* §2.3, §2.7, §4.5, §5.9, §6.4, §7.1.
 
 **Checks.**
 
@@ -1211,7 +1211,7 @@ For k and U as above, ε > 0 and N ≥ 0, for h small there are positive-definit
 
 *Proof route.* Start from the positive `Op_h(a)²` and its restricted matrix coefficient `s ↦ tr(π(s)Op_h(a)²)` composed with inversion, so that its σ-trace is `H_σ(Op_h(a)²)` (§4.5); truncate by a convolution square to keep positive definiteness; control the truncation by §§6.2–6.3 and §2.7 for tempered and nontempered σ; normalize f and f₁ at 1 by §3.7.
 
-*Needs:* §2.7, §3.7, §6.2, §6.3, §7.2.
+*Needs:* §2.7, §3.7, §4.5, §6.2, §6.3, §7.2.
 
 **Checks.**
 
@@ -1220,7 +1220,7 @@ For k and U as above, ε > 0 and N ≥ 0, for h small there are positive-definit
 
 ### 7.4 Allowable weights at p-adic places
 
-§§7.4–7.8 provide positive inverse branching at the auxiliary p-adic places: good-level invariant vectors and the l-components of the tempered dual (§§7.4–7.5), allowable components and weights (§7.6), and the allowability of cuspidal-type components with its inputs (§§7.7–7.8). §9.5 consumes §7.6 and §7.8.
+§§7.4–7.8 provide positive inverse branching at the auxiliary p-adic places: good-level invariant vectors and the l-components of the tempered dual (§§7.4–7.5), allowable components and weights (§7.6), and the allowability of cuspidal-type components with its inputs (§§7.7–7.8). §9.5 consumes §§7.6–7.8.
 
 Let H be reductive over a nonarchimedean local field, J a good compact open subgroup (normal in a special maximal compact K with Iwahori decompositions for every standard parabolic), P = MN a standard parabolic and τ an irreducible supercuspidal representation of M. Then `τ^{J∩M} ≠ 0` if and only if the normalized induction `Ind_P^H τ` has nonzero J-fixed vectors, if and only if some irreducible constituent has, if and only if every irreducible constituent has (NV21 Lemma 23.2 and §§23.1–23.3, pp. 152–154).
 
@@ -1484,7 +1484,7 @@ Let W ⊆ 𝔥^∧ be open and U ⊆ `[𝔥^∧]` an open set containing the ima
 
 *Proof route.* Choose a relatively compact U₀ ⊆ U containing the parameters of the projected supports; outside U₀ apply §2.7 with strong spectral decay and sum with §9.2, which is valid also for unbounded U. For tempered σ with `hO_σ ∩ W = ∅`, factor the relative operator through σ-quantizations with b = 1 on the projected support and supported in W, and use `|tr(T₁T₂)|² ≤ tr(T₁*T₁) tr(T₂*T₂)` with the first factor negligible by §3.7 (correcting the mixed factor `tr(T₁*T₂)` printed in the proof, p. 191). Inside U₀, §9.2 gives polynomially many terms, beaten by the h-gain.
 
-*Needs:* §2.7, §3.7, §8.2, §9.2.
+*Needs:* §2.7, §3.7, §8.2, §9.1, §9.2.
 
 **Checks.**
 
@@ -1509,7 +1509,7 @@ In the global setting of Layer 8, including the exclusion `Π ≇ Π ⊗ (η_{K/
 
 *Proof route.* Choose V, W, U by §9.4. By linearity reduce to nonnegative product weights. Build tensor-product tests from §7.2 at q and §§7.6–7.8 at the auxiliary places, with trace-small positive majorants; apply §9.2, §9.3 and §8.8: the main mass is the normalized affine integral of k (§5.9, §7.2) times the auxiliary Plancherel mass. Control nontempered terms by the small-mass test a_nt and the all-unitary auxiliary majorants: for nontempered σ the form `P_Σ(− ⊗ T′)` is a nonnegative multiple of the auxiliary `H_σ` of §4.5 (§9.1), so the nontempered clause of §7.2 gives `P_Σ(Op_h(a)² ⊗ T′) = P_Σ(Op_h(a_nt)² ⊗ T′) + O(h^N)` without any coefficient `L(Π, Σ)`; sum residual `O(h^N)` terms by §9.2. Let h → 0 before the tolerance ε → 0; every subsequence has a further subsequence with the same limit, giving the full limit.
 
-*Needs:* §5.9, §7.2, §7.3, §7.6, §7.8, §8.8, §9.1, §9.2, §9.3, §9.4.
+*Needs:* §4.5, §5.9, §7.2, §7.3, §7.6, §7.7, §7.8, §8.8, §9.1, §9.2, §9.3, §9.4.
 
 **Checks.**
 
