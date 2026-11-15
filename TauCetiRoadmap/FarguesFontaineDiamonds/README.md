@@ -49,9 +49,9 @@ and identifies its data with the cyclic relation.
 
 Curves for general coefficient fields, arbitrary perfectoid bases and ramified
 Witt coefficients, with their marked-untilt Cartier divisors and `Div¹`, are
-VectorBundlesAndIsocrystals Layer VB−1 and RelativeFarguesFontaine Layers 2–4.
-Vector-bundle classification is VectorBundlesAndIsocrystals Layers VB1–VB2, and
-the effective divisor moduli `Div^d` are its Layer VB3. `Bun_G` is
+VectorBundlesAndIsocrystals Layer 0 and RelativeFarguesFontaine Layers 2–4.
+Vector-bundle classification is VectorBundlesAndIsocrystals Layer 4, and
+the effective divisor moduli `Div^d` are its Layer 5, “Effective divisors and projective sections”. `Bun_G` is
 BunGAndNewtonStrata Layer 2. These roadmaps consume this one; see Downstream
 consumers. The fixed curve diamond is distinct from the moduli quotient
 `Div¹ = Spd(ℚ_p)/φ^ℤ`. The coefficient and six-operation
@@ -189,8 +189,18 @@ fixed-field geometry has already been constructed:
   `image_windowU_zero_union_image_windowV_zero`, `compactSpace_spaX` and
   `t0Space_spaX` give open window embeddings, the two-window cover,
   quasi-compactness and `T0`. These are the point-set inputs of F0 and F2
-  from AdicSpaces §6.2. The interval rings, structure sheaf, adic chart
-  isomorphisms and adic quotient use AdicSpaces §§6.3–6.4.
+  from AdicSpaces §6.2. AdicSpaces §§6.3–6.4 supply the interval rings,
+  structure sheaf, adic chart isomorphisms and adic quotient. Their pinned
+  implementations include `TauCeti.FarguesFontaine.windowPreAdicSpaceIso` in
+  `TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/IntervalChart.lean` and
+  `TauCeti.FarguesFontaine.isSheaf_spaYPresheaf`,
+  `TauCeti.FarguesFontaine.spaYAdicSpace`, `TauCeti.FarguesFontaine.spaXAdicSpace`,
+  `TauCeti.FarguesFontaine.spaYAdicFrobenius` and
+  `TauCeti.FarguesFontaine.quotientAdicHom` in
+  `TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Adic.lean`.
+  The sheaf theorem assumes a perfect characteristic-`p` ring of integers in a
+  valued field, a nonzero `ϖ` of value less than 1 and the specified adic topology;
+  the adic objects and maps take its sheaf witness.
 
 ### Algebraic suppliers and fixed-curve specializations
 
@@ -1087,9 +1097,9 @@ F3; DiamondEtaleCohomology §§C2.2–C2.5, C2.9–C2.12 and Layer C3; EnhancedD
 
 [Suggested.lean](Suggested.lean) records suggested forms, not an exhaustive
 checklist. This README is definitive. No headline theorem can be stated against
-the pinned libraries: the fixed-field period annuli and adic structure sheaves,
-perfectoid test category, marked untilts, diamond functor and étale sites are
-absent, as are the analytic Cartier and enhanced coefficient categories.
+the pinned libraries: the analytic Yoneda-adic comparison category, perfectoid
+test category, marked untilts, diamond functor and étale sites are absent, as
+are the analytic Cartier and enhanced coefficient categories.
 The file contains no declarations; its module docstring identifies the missing
 carriers for F0–F5. The corresponding subsections above specify the mathematical
 targets and their hypotheses.
@@ -1103,13 +1113,13 @@ These are the interfaces used by the following layers.
 
 ## Downstream consumers
 
-VectorBundlesAndIsocrystals Layer VB−1 (relative period domain and analytic
-quotient; marked untilt Cartier divisors and Cartier descent) consumes F4's
+VectorBundlesAndIsocrystals Layer 0 (“Relative period domain and analytic
+quotient”; “Marked untilt Cartier divisors and Cartier descent”) consumes F4's
 fixed-field analytic Cartier divisor and its all-affinoids closedness criterion,
 and extends them to general coefficient fields, ramified Witt coefficients and
-arbitrary perfectoid bases, with marked-untilt `Div¹`. Its Layers VB1–VB3 own
-vector-bundle classification, Banach–Colmez spaces and the effective divisor
-moduli. RelativeFarguesFontaine Layers 2–4 (the relative curve and its diamond,
+arbitrary perfectoid bases, with marked-untilt `Div¹`. Its Layer 4 owns
+vector-bundle classification; Layer 5 owns Banach–Colmez spaces and the effective
+divisor moduli (“Effective divisors and projective sections”). RelativeFarguesFontaine Layers 2–4 (the relative curve and its diamond,
 effective divisors, degree-one divisor moduli) compare their relative
 constructions with F4 at `E=ℚ_p`. BunGAndNewtonStrata Layer 2 owns `Bun_G`.
 AutomorphicGaloisRepresentationsPartII and ModularityAndLanglandsExtensions use
