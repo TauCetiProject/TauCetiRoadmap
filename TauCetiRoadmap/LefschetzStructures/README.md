@@ -18,9 +18,7 @@ properties on `H(X)` and the predicates of MotivesAndAlgebraicCycles §7.3.
 **Research motivation.** Grothendieck's standard conjectures (Grothendieck 1969; Kleiman 1968,
 1994) assert such properties for every smooth projective variety. They motivate the subject and are
 not targets: no item states or depends on them, this roadmap owns no predicate on varieties, and
-the predicates are MotivesAndAlgebraicCycles §7.3's. The conjectures first appear in Grothendieck's
-letter to Serre of 27 August 1965 (Montpellier fonds, folder 14, pp. 43–46,
-https://grothendieck.umontpellier.fr/14.pdf).
+the predicates are MotivesAndAlgebraicCycles §7.3's.
 
 Suggested homes: `TauCeti/LinearAlgebra/Lefschetz/` (Layers 0–1, mirroring Mathlib's
 `Mathlib/Algebra/Lie/Sl2.lean` and `Mathlib/LinearAlgebra/`) and
@@ -224,9 +222,7 @@ and is unique. *Needs:* Mathlib (`DirectSum.IsInternal`).
   natural subtraction would be `H²`.
 - Odd degrees: for finite-dimensional `V`, `W`, an alternating form `φ` on `V` and a symmetric
   form `Q` on `W`, let `H = K ⊕ V ⊕ (Kξ ⊕ W) ⊕ V̌ ⊕ Kξ²` in degrees `0, …, 4`, with `L c = cξ` on
-  `H⁰`, `L x = φ(·, x)` on `H¹`, `L(cξ + w) = cξ²` on `H²` and `L = 0` in degrees `3, 4`
-  (multiplication by `ξ` in an order-2 « Hodge algebra », Montpellier fonds, folder 16,
-  pp. 24–28). It is a
+  `H⁰`, `L x = φ(·, x)` on `H¹`, `L(cξ + w) = cξ²` on `H²` and `L = 0` in degrees `3, 4`. It is a
   Lefschetz structure of weight `4` iff `φ` is nondegenerate, and then `P² = W`. Unlike
   `K[ξ]/(ξ^{n+1})`, this tests hard Lefschetz in odd degree.
 - On `K[ξ]/(ξ^{n+1})`, `π_{2j}` fixes `ξ^j` and kills the other `ξ^m`. `π_0` satisfies
@@ -345,9 +341,8 @@ there is `w_i ∈ 𝒜`, homogeneous of degree `−2(n − i)` (`LowersDegreeBy 
 in `𝒜` (by descending induction on `i`, using only that `𝒜` is a ring containing `L`, not `F`),
 every projector `p_{j,β}` onto `L^β P^j` lies in `𝒜`, and so does `Λ`, which is the explicit sum
 `Σ_j Σ_{β < n−j} L^β w_j L^{n−j−β−1} p_{j,β+1}`. `projectorsAlgebraic_of_lambdaAlgebraic`: if
-`Λ ∈ 𝒜`, take `w_i = Λ^{n−i}` (0.3). *Needs:* 0.2, 0.3, 1.1. (Source: Montpellier fonds,
-folder 16, pp. 4–12, no. 6, criterion `(6.3)_i`, https://grothendieck.umontpellier.fr/16.pdf;
-Kleiman 1994, Theorem 4.1, pp. 14–15.)
+`Λ ∈ 𝒜`, take `w_i = Λ^{n−i}` (0.3). *Needs:* 0.2, 0.3, 1.1. (Source: Kleiman 1994,
+Theorem 4.1, pp. 14–15.)
 
 **Checks.**
 
@@ -375,8 +370,7 @@ with `g(H^i) ⊆ H^i` the characteristic polynomial of `g|_{H^i}` has coefficien
 `H^i`, `L^{n−i} w = 1` on `H^{2n−i}`). The conclusion is an algebraic inverse of `L^{n−i}`, not
 `Λ ∈ 𝒜`, and `w` need not be homogeneous on the other degrees. `lambdaAlgebraic_of_charpoly`:
 under the extra hypothesis `ProjectorsAlgebraic`, the elements `π_i w π_{2n−i}` satisfy the
-hypotheses of 1.2, so `Λ ∈ 𝒜`. *Needs:* 1.1, 1.2. (Source: Montpellier fonds, folder 16,
-pp. 47–48, https://grothendieck.umontpellier.fr/16.pdf; for Betti cohomology with `ℚ` coefficients,
+hypotheses of 1.2, so `Λ ∈ 𝒜`. *Needs:* 1.1, 1.2. (For Betti cohomology with `ℚ` coefficients,
 the same passage from algebraic isomorphisms `H^{n+i} → H^{n−i}` and algebraic projectors to an
 algebraic inverse of `L^i` is Beilinson 2012, §2.3, proof of (b).)
 
