@@ -52,8 +52,8 @@ General perfectoidization of arbitrary animated rings, arc descent and
 consumer of this roadmap. General fibre-product and valuation methods belong
 to PerfectoidQuotientsPartII, Layers Q5–Q6, and the stronger ordinary
 ind-syntomic André theorem of Česnavičius–Scholze Theorem 2.3.4, pp.24–25, to
-its Layers Q7–Q9; that Part II numbers its layers Q5–Q10 and
-imports §§0.4–0.6. Frobenius-controlled towers remain with
+its Layers Q7–Q9; that Part II numbers its layers Q5–Q10 and imports
+§§0.2–0.6, 1.2 and 1.4. Frobenius-controlled towers remain with
 PerfectoidSpaces P7. None is an input here. In particular, Bhatt–Scholze
 Proposition 8.5 cannot prove their Theorem 7.4: it already uses that theorem.
 
@@ -298,7 +298,8 @@ Bhatt–Scholze Remark 7.15 and its proof, p.62.
 [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §0.23a
 supplies topological invariance of étale schemes under universal
 homeomorphisms, in particular square-zero thickenings. Its §0.29 supplies
-`SchemeFrobenius.relativeFrobenius_etale_isIso`. For an étale map `A → B`
+the relative Frobenius of a morphism over a scheme on which `p` vanishes,
+and its isomorphism property for étale morphisms. For an étale map `A → B`
 of characteristic-`p` rings, its affine form is the isomorphism
 `B ⊗_(A,F_A) A → B`, `b ⊗ a ↦ b^p a`. These inputs supply the
 square-zero lifting and relative Frobenius steps in `delta_witt2_etale`
@@ -1128,10 +1129,11 @@ neighborhoods `U_ℓ = { |T-g| ≤ |t|^ℓ }` for `ℓ ≥ 0`. They shrink aroun
 `B_ℓ → B_(ℓ+1)` (`bhatt_root_neighborhoods`). Use the actual `P2`
 rational-localization model and its necessary almost-elements saturation;
 the notation does not select an arbitrary integral subring.
-The neighborhood API is `bhattRootNeighborhoods.restrict` for `ℓ ≤ k`,
-`restrict_self` and `restrict_comp` for the contravariant section maps,
-and `rational_model` identifying the actual integral rational-localization
-model with `B_ℓ` after its prescribed saturation.
+The neighborhood API is the restriction map `B_ℓ → B_k` for `ℓ ≤ k`,
+which is the identity for `ℓ = k` and composes along `ℓ ≤ k ≤ m`, so that
+sections are contravariant in the neighborhoods, and the identification of
+the actual integral rational-localization model with `B_ℓ` after its
+prescribed saturation.
 
 **Checks.**
 
