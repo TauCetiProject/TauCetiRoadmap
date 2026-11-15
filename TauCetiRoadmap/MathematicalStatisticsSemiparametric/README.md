@@ -30,8 +30,8 @@ and adaptations are derived in the proof routes.
 
 `Suggested.lean` states, against the pinned Mathlib and Tau Ceti, the headlines below that carry
 a Lean name, each with every conclusion the README attaches to it, and the definitions those
-statements need. It is not an exhaustive acceptance test: the other headlines (bold or not) are
-targets of the same standing, stated in prose with their locators or proof routes.
+statements need. The headlines without a Lean name are those whose carrier is missing at the
+pins; the module docstring of `Suggested.lean` lists them with the carrier each one lacks.
 
 Suggested home: `TauCeti/Statistics/Semiparametric/` for Layers 1–5 and
 `TauCeti/Statistics/MissingData/` for Layers 6–8.
@@ -68,7 +68,7 @@ The roadmap is complete when Tau Ceti proves all of the following.
    inequality and monotonicity, stationarity of fixed points, Fisher's identity, Louis's formula,
    the derivative of the EM map, the fractions of missing information and local linear
    convergence.
-8. **Multiple imputation.** The law of total variance for mixtures and for nested σ-algebras,
+8. **Multiple imputation.** The law of total variance for nested σ-algebras,
    the posterior as a mixture over the posterior predictive law, and the exact moments of the
    combined estimate and of Rubin's total variance, scalar and vector.
 
@@ -82,6 +82,9 @@ The numbers are those of the layers below, and `k.n` names subsection `n` of Lay
   limit theorem: these
   belong to MathematicalStatisticsAsymptotic, and the exact list is under
   [Exact supplier contracts](#from-mathematicalstatisticsasymptotic);
+- the Fisher information matrix `E ℓ̇ ℓ̇ᵀ` of a score function, owned by
+  MathematicalStatisticsAsymptotic 7.3; `informationMatrix` of 1.3 is the same matrix for scores
+  given as `Lp` classes, kept as a definition because Layer 1 uses Mathlib only;
 - i.i.d. families, the weak law of large numbers, Slutsky's lemma, the `o_P` algebra and
   contiguity basics:
   [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md),
@@ -167,13 +170,14 @@ These are fixed for every target. A statement that departs from them is a differ
 - **Hilbert spaces:** `Lp`, `Lp.const`, `MemLp.toLp`, `eLpNorm`, `ClosedSubmodule`,
   `Submodule.topologicalClosure`, `Submodule.orthogonal` (`ᗮ`), `Submodule.starProjection`,
   `Submodule.norm_sq_eq_add_norm_sq_projection`, `InnerProductSpace.toDual`,
-  `ContinuousLinearMap.adjoint`, `ContinuousLinearMap.IsPositive`, `Ring.inverse`, and
+  `ContinuousLinearMap.adjoint`, `ContinuousLinearMap.orthogonal_range`,
+  `ContinuousLinearMap.IsPositive`, `Ring.inverse`, and
   `Lp.compMeasurePreservingₗᵢ` (`Mathlib/MeasureTheory/Function/LpSpace/Basic.lean` and its
   composition file); density of simple functions `Lp.simpleFunc.isDenseEmbedding`
   (`Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean`) and of bounded continuous functions
   `BoundedContinuousFunction.toLp_denseRange`
   (`Mathlib/MeasureTheory/Function/ContinuousMapDense.lean`).
-- **Conditional expectation:** `condExp` (`μ[f | m]`), `condExpL2`, `lpMeas`,
+- **Conditional expectation:** `condExp` (`μ[f | m]`), `condExpL2`,
   `condExp_condExp_of_le`, `setIntegral_condExp`, `condExp_mul_of_stronglyMeasurable_left`,
   `condVar` (`Var[X; μ | m]`), `condVar_ae_eq_condExp_sq_sub_sq_condExp` and
   `integral_condVar_add_variance_condExp` (`Mathlib/Probability/CondVar.lean`), `condDistrib`,
@@ -190,15 +194,16 @@ These are fixed for every target. A statement that departs from them is a differ
   (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`).
 - **Calculus and spectra:** `IsMaxOn`, `HasDerivWithinAt`, `HasFDerivAt`, `gradient` and
   `HasGradientAt`, `ContDiffOn`, `hasFDerivAt_integral_of_dominated_of_fderiv_le`,
-  `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `spectrum`, `spectralRadius` and Gelfand's
-  formula `spectrum.pow_nnnorm_pow_one_div_tendsto_nhds_spectralRadius`
-  (`Mathlib/Analysis/Normed/Algebra/GelfandFormula.lean`), `Real.tanh`, `Matrix.PosDef`,
+  `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `spectrum`, `Real.tanh`, `Matrix.PosDef`,
   `Matrix.PosSemidef`.
 
 ### From Tau Ceti
 
 - **Quantiles:** `MeasureTheory.Measure.quantile` with `quantile_def` and
   `quantile_eq_of_le_cdf_iff` (`TauCeti/Probability/Quantile.lean`), for 3.3.
+- **Mixture moments:** `ProbabilityTheory.Kernel.variance_comp` and
+  `ProbabilityTheory.Kernel.covariance_comp` (`TauCeti/Probability/Moments/Mixture.lean`), for 8.1
+  and 8.3.
 - **Sample means:** `TauCeti.integral_norm_finiteMean_sub_sq` and `integral_finiteMean_sub_sq`
   (`TauCeti/Probability/Moments/SampleMean.lean`), the mean-square error of an average of
   pairwise independent variables, for 8.3.
@@ -229,7 +234,9 @@ MathematicalStatisticsAsymptotic supplies exactly the following, and nothing els
   Gaussian `(S, Λ)` with `Λ ~ N(-σ²/2, σ²)` under `Pₙ` gives `Sₙ → S + Cov(S, Λ)` under `Qₙ`.
 - **Quadratic-mean differentiability and local asymptotic normality** (7.3): differentiability
   in quadratic mean of parametric densities within a set of parameters, used for the parametric
-  paths of 2.1, and the fixed-`h` definition of a locally asymptotically normal sequence of
+  paths of 2.1; local asymptotic normality within a set, used along the one-sided paths of 2.3
+  with `k = 1`, `s = [0, ∞)` and `hₙ = 1`; and the fixed-`h` definition of a locally
+  asymptotically normal sequence of
   experiments, used for the finite-dimensional subexperiments of 4.3. Location families are not
   taken from 7.3, which states only the case of a positive, continuously differentiable density
   (van der Vaart, Lemma 7.6, p. 95, and Example 7.8, p. 96); the location paths of an absolutely
@@ -268,14 +275,17 @@ need nothing from Layers 2–6 and may be built first.
 
 ### 1.1 Mean-zero `L²` and constants
 
-- `meanZeroL2 P` (Conventions), with `mem_meanZeroL2_iff : f ∈ meanZeroL2 P ↔ ∫ f dP = 0`.
-- `L²(P) = span {1} ⊕ L²₀(P)`, the projection onto `L²₀(P)` is `f ↦ f - ∫ f dP`, and
-  `‖f - ∫ f dP‖² = Var_P f`.
-- Bounded measurable mean-zero functions are dense in `L²₀(P)`; on a topological space with a
-  finite Borel measure that is inner regular for closed sets (Mathlib's hypotheses of
-  `BoundedContinuousFunction.toLp_denseRange`), bounded continuous mean-zero functions are dense.
-  Route: project a dense family in `L²(P)` by `f ↦ f - ∫ f dP`, which is continuous and keeps
-  boundedness and continuity.
+- `meanZeroL2 P` (Conventions): `f ∈ meanZeroL2 P` exactly when `∫ f dP = 0`.
+- `starProjection_meanZeroL2`: `L²(P) = span {1} ⊕ L²₀(P)`, the projection onto `L²₀(P)` is
+  `f ↦ f - ∫ f dP`, and `‖f - ∫ f dP‖² = Var_P f`.
+- `meanZeroL2_subset_closure_bounded`: bounded mean-zero elements are dense in `L²₀(P)`. Route:
+  project a dense family of bounded elements of `L²(P)` (the simple functions) by
+  `f ↦ f - ∫ f dP`, which is continuous and keeps boundedness.
+- `meanZeroL2_subset_closure_boundedContinuous`: on a normal topological space with its Borel
+  σ-algebra and a weakly regular `P` (Mathlib's hypotheses of
+  `BoundedContinuousFunction.toLp_denseRange`), bounded continuous mean-zero functions are dense
+  in `L²₀(P)`. Route: as before, projecting the bounded continuous functions, which keeps
+  continuity.
 
 These are the Hilbert-space facts of van der Vaart, §25.2, pp. 360–362.
 
@@ -296,7 +306,8 @@ These are the Hilbert-space facts of van der Vaart, §25.2, pp. 360–362.
 - `tangentSpace P T` (Conventions).
 - `tangentSpace P T` is monotone in `T`, equals `T` when `T` is a closed submodule, and
   `tangentSpace P T ≤ meanZeroL2 P` when `T ⊆ meanZeroL2 P`, since `meanZeroL2 P` is closed.
-- `tangentSpace P (T ∪ T')` is the closure of `tangentSpace P T + tangentSpace P T'`; if the two
+- `tangentSpace_union`: `tangentSpace P (T ∪ T')` is the closure of
+  `tangentSpace P T + tangentSpace P T'`; if the two
   are orthogonal it is their sum, and the projections add (van der Vaart, §25.2, p. 361).
 
 *Needs:* 1.1; Mathlib `ClosedSubmodule`, `Submodule.topologicalClosure`.
@@ -320,14 +331,18 @@ These are the Hilbert-space facts of van der Vaart, §25.2, pp. 360–362.
   residual of `ℓ` after projection onto the nuisance tangent space.
 - `efficientScore P N ℓ` is orthogonal to `N`, and it equals `ℓ` iff `ℓ ⊥ N`.
 - `informationMatrix P ℓ` and `efficientInformationMatrix P N ℓ`, the Gram matrices of `ℓ` and of
-  the efficient scores (van der Vaart, §25.4, p. 369).
+  the efficient scores (van der Vaart, §25.4, p. 369). `informationMatrix P ℓ` is the Fisher
+  information matrix of MathematicalStatisticsAsymptotic 7.3, `E ℓ̇ ℓ̇ᵀ` for the score
+  `x ↦ (ℓ j x)ⱼ`, read on `Lp` classes; it is kept as a definition because Layer 1 uses Mathlib
+  only.
 - `posSemidef_informationMatrix_sub_efficient`: `I - Ĩ` is positive semidefinite, and `Ĩ = I`
   iff every coordinate of `ℓ` is orthogonal to `N`. This is the algebraic form of the
   adaptation criterion (van der Vaart, §25.4, pp. 369–370). Route: `I - Ĩ` is the Gram matrix of
   the projections `Π_N ℓᵢ`.
 - `posSemidef_efficientInformationMatrix_sub_of_subset`: `N ⊆ N'` gives `Ĩ_N - Ĩ_{N'}` positive
   semidefinite. Route: `ℓ̃_N = ℓ̃_{N'} + (Π_{N'} - Π_N) ℓ` with the two terms orthogonal.
-- `Ĩ` is positive definite iff the efficient scores are linearly independent in `L²`.
+- `posDef_efficientInformationMatrix_iff`: `Ĩ` is positive definite iff the efficient scores are
+  linearly independent in `L²`.
 
 *Needs:* 1.2; Mathlib `Submodule.starProjection`, `Submodule.norm_sq_eq_add_norm_sq_projection`,
 `Matrix.PosSemidef`.
@@ -349,6 +364,11 @@ These are the Hilbert-space facts of van der Vaart, §25.2, pp. 360–362.
 - `efficientInformationMatrix` of `(ℓ₁, ℓ₂)` with `N = {(1, -1, 0)}` is `[[1/2, 0], [0, 0]]`,
   since `ℓ̃₂ = 0`: singular, and the efficient scores are linearly dependent.
 - `efficientInformationMatrix` with `N = ∅` is `informationMatrix`, since `tangentSpace P ∅ = ⊥`.
+- `efficientInformationMatrix` (negative control): with `N = {(1, -2, 1)}`, `⟪ℓ₂, n⟫ = 1` and
+  `‖n‖² = 2`, so `ℓ̃₂ = (1/2, 0, -1/2)` and `Ĩ₂₂ = 2/3 - 1²/2 = 1/6`; omitting the division by
+  `‖n‖²` would give `2/3 - 1 = -1/3`, a negative diagonal entry.
+- `informationMatrix` of `(ℓ₁, ℓ₁)` is `[[2/3, 2/3], [2/3, 2/3]]`, with determinant `0`: a repeated
+  score gives a singular matrix.
 
 ### 1.4 The conditional expectation operator and score operators
 
@@ -357,21 +377,22 @@ These are the Hilbert-space facts of van der Vaart, §25.2, pp. 360–362.
 - `condExpOperator η m hm := (pullbackL2 η m hm)†`, and `pullbackL2_condExpOperator_ae_eq`:
   composed with `m` it is `η[b | σ(m)]` a.e. (van der Vaart, §25.5, p. 375, where the score
   operator of `m(Y)` is this conditional expectation and its adjoint is the pullback).
-- `condExpOperator η m hm` maps `L²₀(η)` onto `L²₀(η.map m)`, is a contraction, and is onto
-  `L²(η.map m)`: its composition with the pullback is the identity, since the pullback is an
-  isometry.
+- `condExpOperator_comp_pullbackL2`: `condExpOperator η m hm` after the pullback is the identity,
+  since the pullback is an isometry, so it is onto `L²(η.map m)`; it is a contraction, and it maps
+  `L²₀(η)` onto `L²₀(η.map m)`.
 - `starProjection_closure_range_eq`: for a continuous linear `A : H → L²(P)` from a real Hilbert
   space with `A† A` invertible, the projection onto `tangentSpace P (range A)` is
   `A (A† A)⁻¹ A†` (van der Vaart, §25.2, p. 362).
-- Under the same invertibility the range of `A` is closed, and in general
-  `range (A†)ᗮ = ker A` and `(range A)ᗮ = ker A†` (van der Vaart, §25.2, pp. 361–362).
+- `isClosed_range_of_isUnit_adjoint_comp`: under the same invertibility the range of `A` is
+  closed. In general `(range A)ᗮ = ker A†` is Mathlib's `ContinuousLinearMap.orthogonal_range`,
+  and applied to `A†` it gives `(range A†)ᗮ = ker A` (van der Vaart, §25.2, pp. 361–362).
 
 The adjoint form avoids a separate construction of conditional expectation on the image space:
 `condExpOperator` reads `η[b | σ(m)]` on the sample space of `m`, which is what the
 information-loss lemma 2.2 needs.
 
-*Needs:* 1.1; Mathlib `Lp.compMeasurePreservingₗᵢ`, `ContinuousLinearMap.adjoint`, `condExp`,
-`condExpL2`, `setIntegral_condExp`.
+*Needs:* 1.1; Mathlib `Lp.compMeasurePreservingₗᵢ`, `ContinuousLinearMap.adjoint`,
+`ContinuousLinearMap.orthogonal_range`, `condExp`, `condExpL2`, `setIntegral_condExp`.
 
 **Checks.** `Y = {0, 1, 2}` uniform and `m y = 1{y ≥ 1}`, so that the image law gives mass `1/3`
 to `0` and `2/3` to `1`:
@@ -388,6 +409,15 @@ to `0` and `2/3` to `1`:
 - `condExpOperator` is a contraction: `‖b‖² = 10/3` and `‖condExpOperator b‖² = (2/3) · 4 = 8/3`.
 - `starProjection_closure_range_eq`: `H = ℝ`, `A a = a s` with `s ≠ 0`: `A† A = ‖s‖²` and the
   formula is the rank-one projection `f ↦ ⟪s, f⟫ s / ‖s‖²`.
+
+### Examples
+
+- The uniform law on `{0, 1, 2}`: `L²₀` is the plane `a + b + c = 0` (1.1). For the score
+  `ℓ₁ = (1, 0, -1)` and the nuisance score `(1, -1, 0)` the efficient score is `(1/2, 1/2, -1)`,
+  with `I = 2/3`, `Ĩ = 1/2` and information loss `1/6`; the nuisance score `(1, -2, 1)` is
+  orthogonal to `ℓ₁` and costs nothing (1.3).
+- On the same space with `m y = 1{y ≥ 1}`, `condExpOperator` sends `(0, 1, 3)` to the fibre
+  averages `(0 at 0, 2 at 1)`, of squared norm `8/3 ≤ 10/3` (1.4).
 
 ### Dependencies
 
@@ -406,7 +436,8 @@ Mathlib only.
   respect to both `ν` and `ν'`, the path scores relative to `ν` and `ν'` coincide. Route: pass
   to `ν + ν'`; the density with respect to `ν + ν'` is `q_t · dν/d(ν + ν')`, so the two remainder
   norms are equal.
-- Uniqueness: two path scores of one path agree `P`-a.e. Route: the difference of the two
+- `HasPathScore.ae_eq` (uniqueness): two measurable path scores of one path of probability
+  measures agree `Q 0`-a.e. Route: the difference of the two
   remainders is `(t/2)(g - g') √q_0`, of norm `o(t)`.
 - **Parametric paths.** If densities `p : EuclideanSpace ℝ (Fin k) → X → ℝ` with respect to `ν`
   are differentiable in quadratic mean at `θ` within `s` with score `ℓ̇`
@@ -467,8 +498,9 @@ Mathlib only.
   measurable, then `t ↦ (Q t).map m` has score `condExpOperator η m hm b`, relative to any
   σ-finite `ν'` dominating the image laws (van der Vaart, Lemma 25.34, p. 375). This is the
   information-loss lemma behind every missing-data tangent space.
-- Paths in a product: if `t ↦ Q₁ t` and `t ↦ Q₂ t` have scores `g₁`, `g₂`, then
-  `t ↦ (Q₁ t).prod (Q₂ t)` has score `g₁ ⊗ 1 + 1 ⊗ g₂`. Route:
+- `HasPathScore.prod` (paths in a product): if paths of probability measures `t ↦ Q₁ t` and
+  `t ↦ Q₂ t` have measurable scores `g₁`, `g₂` relative to `ν₁`, `ν₂`, then
+  `t ↦ (Q₁ t).prod (Q₂ t)` has score `g₁ ⊗ 1 + 1 ⊗ g₂` relative to `ν₁ ⊗ ν₂`. Route:
   `√(q₁ₜ q₂ₜ) - √(q₁ q₂) = (√q₁ₜ - √q₁) √q₂ₜ + √q₁ (√q₂ₜ - √q₂)`, and the `L²` norm of a product
   of functions of separate coordinates is the product of the norms.
 
@@ -482,7 +514,7 @@ Mathlib only.
   `2x` is still a density; the score is unaffected, since only small `t` matter.
 - `tiltPath`: without the cut-off, `t = -3` in the same example gives `1 - 3(2x - 1) = 4 - 6x`,
   negative for `x > 2/3`; `ENNReal.ofReal` clips it to a measure of mass
-  `∫₀^{2/3} (4 - 6x) dx = 4/3` (python), not a probability measure.
+  `∫₀^{2/3} (4 - 6x) dx = 4/3`, not a probability measure.
 - `tiltPath P 0 C t = P` for every `t` and `C`, the density being `1`.
 - `exists_hasPathScore_of_mem_meanZeroL2`: `k(0) = 1`, `k'(x) = 4e^{-2x}/(1 + e^{-2x})²` gives
   `k'(0) = 1`, and `k'/k = 2e^{-2x}/(1 + e^{-2x}) ∈ (0, 2)`.
@@ -496,18 +528,28 @@ Mathlib only.
   under `P^n`,
   `Σᵢ log (dQ_{1/√n}/dP)(xᵢ) = n^{-1/2} Σᵢ g(xᵢ) - ‖g‖²/2 + o_P(1)` (van der Vaart, Lemma 25.14,
   p. 363). The Radon–Nikodym derivative is that of `Q t` with respect to `P` (of its absolutely
-  continuous part). Route: QMD gives `P(q_t = 0) = o(t²)`, so with probability tending to one no
-  factor vanishes and Lean's `log 0 = 0` is never used; the expansion is that of van der Vaart,
-  Theorem 7.2, p. 94, run along `t = 1/√n`.
-- Contiguity: `P^n` and `Q_{1/√n}^n` are mutually contiguous, from the previous item, the central
-  limit theorem and Le Cam's first lemma (MathematicalStatisticsAsymptotic 7.1).
-- Joint convergence: for `φ ∈ L²₀(P)`, under `P^n` the pair
-  `(n^{-1/2} Σ φ(xᵢ), log dQ^n_{1/√n}/dP^n)` converges in law to a Gaussian with covariance
-  `⟪φ, g⟫`, so by Le Cam's third lemma `n^{-1/2} Σ φ(xᵢ) → N(⟪φ, g⟫, ‖φ‖²)` under
-  `Q^n_{1/√n}`.
+  continuous part). Route: for measurable `g`, the path score makes `t ↦ d(Q t)/dν`
+  differentiable in quadratic mean within `[0, ∞)` at `0` with `k = 1` and score `g` (2.1 gives
+  `g ∈ L²(P)`, and the remainder is square integrable for small `t`, so its Bochner integral is
+  the squared `eLpNorm`). The local asymptotic normality within a set of
+  MathematicalStatisticsAsymptotic 7.3, with `hₙ = 1`, gives the multiplicative expansion
+  `ratio · exp(-Δₙ + ‖g‖²/2) → 1` in probability; taking logarithms on the event of a positive
+  ratio, whose probability tends to one, gives the additive form, and Lean's `log 0 = 0` is never
+  used.
+- `tendsto_pi_path_iff` (contiguity): in the same setting `P^n` and `Q_{1/√n}^n` are mutually
+  contiguous: for measurable events `Aₙ`, `P^n(Aₙ) → 0` iff `Q_{1/√n}^n(Aₙ) → 0`. Route: the
+  previous item, the central limit theorem and Le Cam's first lemma
+  (MathematicalStatisticsAsymptotic 7.1).
+- `tendstoInDistribution_path` (joint convergence): in the same setting, for `φ ∈ L²₀(P)`, under
+  `P^n` the pair `(n^{-1/2} Σ φ(xᵢ), Σ log (dQ_{1/√n}/dP)(xᵢ))` converges in law to the Gaussian
+  with mean `(0, -‖g‖²/2)` and covariance matrix `[[‖φ‖², ⟪φ, g⟫], [⟪φ, g⟫, ‖g‖²]]`, and
+  `n^{-1/2} Σ φ(xᵢ) → N(⟪φ, g⟫, ‖φ‖²)` in law under `Q^n_{1/√n}`. Route: the multivariate
+  central limit theorem with the expansion of the first item, and Le Cam's third lemma
+  (MathematicalStatisticsAsymptotic 7.2).
 
 *Needs:* 2.1–2.2; Foundations 8.3–8.6; MathematicalStatisticsAsymptotic 7.1 and 7.2 (Le Cam's
-first and third lemmas) and 1.2 (multivariate central limit theorem).
+first and third lemmas), 7.3 (local asymptotic normality within a set) and 1.2 (multivariate
+central limit theorem).
 
 **Checks.**
 
@@ -524,6 +566,15 @@ first and third lemmas) and 1.2 (multivariate central limit theorem).
 - Joint convergence: for `N(t, 1)` and `φ x = x`, `n^{-1/2} Σ xᵢ ~ N(1, 1)` exactly under
   `N(1/√n, 1)^n`, matching `⟪φ, g⟫ = 1`.
 
+### Examples
+
+- The normal location path `N(t, 1)` has score `x` relative to Lebesgue measure (2.1), and its
+  log-likelihood ratio at `t = 1/√n` is `n^{-1/2} Σ xᵢ - 1/2` exactly, the expansion of 2.3 with
+  remainder `0`.
+- The two-point law `P = (1 - p, p)` on `{0, 1}` and `g = x - p`: for `|t| < 1`,
+  `tiltPath P g 1 t` puts mass `p (1 + t (1 - p))` on `1` and `(1 - p)(1 - t p)` on `0`, and the
+  score `x - p` has `‖x - p‖² = p(1 - p)` (2.2).
+
 ### Dependencies
 
 Layer 1; Foundations 8.3–8.6; MathematicalStatisticsAsymptotic as listed.
@@ -534,15 +585,17 @@ Layer 1; Foundations 8.3–8.6; MathematicalStatisticsAsymptotic as listed.
 
 - `HasPathwiseDerivative F value ψ'` (Conventions; van der Vaart, §25.3, p. 363).
 - `IsInfluenceFunction F ψ' φ`: `ψ' (score i) = (⟪φ j, score i⟫)ⱼ` for every path.
-- If `φ` is an influence function, the identity `ψ' h = (⟪φ j, h⟫)ⱼ` holds on all of
+- `IsInfluenceFunction.apply_eq_inner`: if `φ` is an influence function, the identity
+  `ψ' h = (⟪φ j, h⟫)ⱼ` holds on all of
   `tangentSpace P (range score)`, by linearity and continuity.
 - `efficientInfluence F ψ' j`: the Riesz representer of the `j`-th coordinate of `ψ'`,
   projected onto the tangent space. `efficientCovariance F ψ'` is its Gram matrix.
 - `isInfluenceFunction_iff_starProjection`: `φ` is an influence function iff each `φ j` projects
   onto `efficientInfluence F ψ' j` (van der Vaart, §25.3, p. 363). Route: with `r_j` the Riesz
   representer, `φ` is an influence function iff `φ j - r_j` is orthogonal to every score.
-- Consequently the efficient influence function is an influence function, and it is the unique
-  influence function in the tangent space (the canonical gradient).
+- `isInfluenceFunction_efficientInfluence`: consequently the efficient influence function is an
+  influence function, and it is the unique influence function in the tangent space (the
+  canonical gradient).
 - `norm_sq_eq_efficientInfluence_add`: for every influence function,
   `‖φ j‖² = ‖φ̃ j‖² + ‖φ j - φ̃ j‖²`; and `posSemidef_gram_sub_efficientCovariance`:
   `Pφφᵀ - Pφ̃φ̃ᵀ` is positive semidefinite, being the Gram matrix of `φ - φ̃`, which is orthogonal
@@ -571,28 +624,37 @@ the single path `N(t, 1)` with score `x` and `value t = t`.
 - `efficientInfluence`: `x - p` in the two-point family, and `x` for `N(t, 1)`.
 - `efficientInfluence` depends on `ψ'` only through the tangent space: for `N(t, 1)` with
   `ψ' h = ⟪x + x², h⟫`, the Riesz representer is `x + x²`, an influence function of variance
-  `E(X + X²)² = 4` (python), and its projection onto the span of `x` is `x`, since
+  `E(X + X²)² = 4`, and its projection onto the span of `x` is `x`, since
   `⟪x + x², x⟫ = 1`.
 - `efficientCovariance`: `p(1 - p)` in the two-point family, and `1` for `N(t, 1)`; the
   unprojected representer `x + x²` would give `4`.
+- `IsInfluenceFunction`: for a family with no paths (`ι` empty) every `φ` is an influence
+  function of every `ψ'`, the condition ranging over the paths.
+- `efficientInfluence`: for a family with no paths the tangent space is `⊥`, and
+  `efficientInfluence F ψ' j = 0` for every `ψ'` and `j`.
+- `efficientCovariance`: for a family with no paths it is the zero matrix.
+- `efficientCovariance`: in the two-point family with `ψ(P) = (p, 2p)`, so that
+  `ψ' g = (⟪x, g⟫, 2⟪x, g⟫)`, the efficient influence function is `(x - p, 2(x - p))` and the
+  covariance is `p(1 - p) [[1, 2], [2, 4]]`, of determinant `0`: positive semidefinite, not
+  positive definite.
 - `norm_sq_eq_efficientInfluence_add`: in the two-point family `‖x‖² = p` and
   `‖x - p‖² = p(1 - p)`, and `p = p(1 - p) + p²`, the last term being `‖p‖²`.
 
 ### 3.2 Two calculus rules
 
-- **Chain rule.** If `ψ'` is a pathwise derivative of `value` and `h : ℝᵏ → ℝᵐ` is
-  differentiable at the common value `θ = value i 0` with derivative `Dh`, then `Dh ∘ ψ'` is a
-  pathwise derivative of `h ∘ value`, with efficient influence function `Dh φ̃`
+- **Chain rule** (`hasPathwiseDerivative_comp`). If `ψ'` is a pathwise derivative of `value` and
+  `h : ℝᵏ → ℝᵐ` is differentiable at the common value `θ = value i 0` with derivative `Dh`, then
+  `Dh ∘ ψ'` is a pathwise derivative of `h ∘ value`, with efficient influence function `Dh φ̃`
   (Bickel–Klaassen–Ritov–Wellner, §3.3, Corollary 2, p. 63, for continuously differentiable `h`).
-  Route: the chain rule for one-sided derivatives along each path, and linearity of the
-  projection.
-- **Score operators.** For a model parametrized by a Hilbert space direction `b ∈ H` with score
-  operator `A : H →L L²(P)`, a parameter with derivative `b ↦ ⟪χ, b⟫_H` is pathwise
-  differentiable relative to `range A` iff `χ ∈ range A†`, and then the efficient influence
+  Route: the chain rule for one-sided derivatives along each path, and linearity of the projection.
+- **Score operators** (`exists_hasPathwiseDerivative_iff_mem_range_adjoint`). For a path family
+  indexed by a real Hilbert space `H`, the path in direction `b ∈ H` having score `A b` for a
+  continuous linear score operator `A : H →L L²(P)`, a parameter with derivative `b ↦ ⟪χ, b⟫_H` is
+  pathwise differentiable relative to `range A` iff `χ ∈ range A†`, and then the efficient influence
   function is the `ψ̃` with `A† ψ̃ = χ` in `closure (range A)`; if `χ = A† A b₀` then `ψ̃ = A b₀`
-  (van der Vaart, Theorem 25.31, p. 373). With `A† A` invertible this is
-  `ψ̃ = A (A† A)⁻¹ χ`, by 1.4. Route: a continuous `ψ'` on `L²(P)` is `⟪r, ·⟫`, and
-  `⟪r, A b⟫ = ⟪A† r, b⟫`; uniqueness holds because `closure (range A) ∩ ker A† = 0`.
+  (van der Vaart, Theorem 25.31, p. 373). With `A† A` invertible this is `ψ̃ = A (A† A)⁻¹ χ`, by
+  1.4. Route: a continuous `ψ'` on `L²(P)` is `⟪r, ·⟫`, and `⟪r, A b⟫ = ⟪A† r, b⟫`; uniqueness holds
+  because `closure (range A) ∩ ker A† = 0`.
 
 *Needs:* 3.1, 1.4.
 
@@ -602,30 +664,32 @@ the single path `N(t, 1)` with score `x` and `value t = t`.
   mean `∫ f dP_t` along the tilt by `g` has derivative `⟪f - P f, g⟫` at `0` (van der Vaart,
   Example 25.24, p. 368). Route: `∫ f (1 + t g) dP = P f + t ⟪f, g⟫` for `|t| C < 1`, and
   `⟪P f, g⟫ = 0`.
-- Consequently the canonical gradient of `P ↦ P f` in the nonparametric model, relative to the
-  bounded tilts, is `f - P f`: the bounded mean-zero functions are dense in `L²₀(P)` (1.1).
+- `efficientInfluence_integral_tiltPath`: consequently the canonical gradient of `P ↦ P f` in the
+  nonparametric model, relative to the path family of bounded tilts, is `f - P f`: the bounded
+  mean-zero functions are dense in `L²₀(P)` (1.1).
 - `hasDerivAt_quantile_tiltPath`: if `P` has a density `f` continuous and positive at
   `q = P.quantile p`, `0 < p < 1`, then along bounded tilts the quantile has derivative
   `∫ (p - 1{x ≤ q}) g dP / f(q)`. Route: the tilted distribution function is
   `F_t(x) = F(x) + t ∫_{-∞}^x g dP`, strictly increasing near `q` because `f ≥ f(q)/2` near `q`
   and `1 + t g ≥ 1 - |t| C`, so `F_t(q_t) = p` determines `q_t` (Tau Ceti
   `quantile_eq_of_le_cdf_iff`), and `(q_t - q) f(q) (1 + o(1)) = -t ∫_{-∞}^{q_t} g dP`.
-- Consequently the canonical gradient of the quantile relative to the bounded tilts is
+- `efficientInfluence_quantile_tiltPath`: consequently, under the same hypotheses, the canonical
+  gradient of the quantile relative to the path family of bounded tilts is
   `(p - 1{x ≤ q})/f(q)`, with variance `p(1 - p)/f(q)²`.
-- **The median model.** In the model of laws on `ℝ` with a density that is continuous on an open
-  neighbourhood of its median `m` and positive at `m`, the median is pathwise differentiable
-  relative to the bounded continuous tilts, with efficient influence function
-  `(1/2 - 1{x ≤ m})/f(m)` and information bound `4 f(m)²`. Each bounded continuous tilt stays in
-  the model for small `t ≥ 0`: the tilted density `(1 + t g) f` is continuous on the same
-  neighbourhood `U` of `m`, and by `hasDerivAt_quantile_tiltPath` the tilted median `m_t` tends
-  to `m`, so `m_t ∈ U` and `f(m_t) > 0` for small `t`. Continuity at the median alone does not
-  suffice: a tilt can move the median onto a jump of `f` accumulating at `m`. The bounded
-  continuous mean-zero functions are dense in `L²₀(P)` (1.1), so the tangent space is `L²₀(P)`
-  and the canonical gradient is the efficient influence function. Written as a location model
-  `η(x - θ)` with `η` unknown, ranging over densities with median zero that are continuous near
-  `0` and positive at `0`, this is the information bound `4 η(0)²` for `θ`. With `η` known and
-  of finite Fisher information `I_η`, the parametric location model is a submodel and its bound
-  `I_η ≥ 4 η(0)²` is a different target (3.4, 5.3).
+- **The median model** (`efficientInfluence_median`). In the model of laws on `ℝ` with a density
+  that is continuous on an open neighbourhood of its median `m` and positive at `m`, the median is
+  pathwise differentiable relative to the bounded continuous tilts, with efficient influence
+  function `(1/2 - 1{x ≤ m})/f(m)` and information bound `4 f(m)²`. Each bounded continuous tilt
+  stays in the model for small `t ≥ 0`: the tilted density `(1 + t g) f` is continuous on the same
+  neighbourhood `U` of `m`, and by `hasDerivAt_quantile_tiltPath` the tilted median `m_t` tends to
+  `m`, so `m_t ∈ U` and `f(m_t) > 0` for small `t`. Continuity at the median alone does not suffice:
+  a tilt can move the median onto a jump of `f` accumulating at `m`. The bounded continuous
+  mean-zero functions are dense in `L²₀(P)` (1.1), so the tangent space is `L²₀(P)` and the
+  canonical gradient is the efficient influence function.
+
+Written as a location model `η(x - θ)` with `η` unknown, ranging over densities with median zero
+that are continuous near `0` and positive at `0`, this is the information bound `4 η(0)²` for `θ`.
+With `η` known, the parametric location model of 3.4 and 5.3 is a submodel.
 
 *Needs:* 3.1, 2.2; Tau Ceti `Measure.quantile`.
 
@@ -647,43 +711,44 @@ the single path `N(t, 1)` with score `x` and `value t = t`.
   p. 369). Route: `⟪ℓ̃ⱼ, aᵢᵀ ℓ̇ + gᵢ⟫ = (Ĩ aᵢ)ⱼ`, since `ℓ̃ⱼ ⊥ N` and `⟪ℓ̃ⱼ, ℓ̇ₗ⟫ = Ĩⱼₗ`, so
   `h ↦ Ĩ⁻¹ ⟪ℓ̃, h⟫` is a continuous pathwise derivative; its Riesz representer `Ĩ⁻¹ ℓ̃` already
   lies in the tangent space.
-- **Symmetric location** (van der Vaart, Example 25.27, p. 370): in the model `η(x - θ)` with
-  `η` symmetric, absolutely continuous, of finite Fisher information, the location path has
-  score `-(η'/η)(x - θ)` (`hasPathScore_location`, 2.1), which is odd in `x - θ`, and the
-  nuisance scores are even functions of `x - θ`, so they are orthogonal: the efficient score is
-  the ordinary score and `Ĩ = I_η`. Route: reflection `x ↦ 2θ - x` preserves `locationLaw η θ`,
-  so even and odd functions are orthogonal. The nuisance paths are the tilts of `η` by bounded
-  even `g` that are continuously differentiable with bounded derivative: `(1 + t g) η` is again
-  symmetric and absolutely continuous, with Fisher information at most
-  `2 ∫ (1 + t g) η'²/η + 2 t² ∫ g'² η/(1 + t g) < ∞`, so the path stays in the model; a tilt by
+- **Symmetric location** (`efficientScore_symmetricLocation`; van der Vaart, Example 25.27, p. 370):
+  in the model `η(x - θ)` with `η` as in `hasPathScore_location` and moreover even, with an odd
+  version `η'` of its derivative, the location path has score `-(η'/η)(x - θ)`
+  (`hasPathScore_location`, 2.1), which is odd in `x - θ`, and the nuisance scores are even
+  functions of `x - θ`, so they are orthogonal: for every set of nuisance scores that are even
+  functions of `x - θ`, the efficient score is the ordinary score and `Ĩ = I_η`. Route: reflection
+  `x ↦ 2θ - x` preserves `locationLaw η θ`, so even and odd functions are orthogonal. The nuisance
+  paths are the tilts of `η` by bounded even `g` that are continuously differentiable with bounded
+  derivative: `(1 + t g) η` is again symmetric and absolutely continuous, with Fisher information at
+  most `2 ∫ (1 + t g) η'²/η + 2 t² ∫ g'² η/(1 + t g) < ∞`, so the path stays in the model; a tilt by
   a discontinuous `g` would leave it.
-- **Partially linear regression.** Let `(D, X, Y)` with `D ∈ ℝᵈ`, `E ‖D‖² < ∞`, satisfy
-  `Y = Dᵀβ + g(X) + ε` with `ε ~ N(0, σ²)`, `σ² > 0`, independent of `(D, X)`, and `g` ranging
-  over the measurable functions with `E g(X)² < ∞`. The nuisance scores are the mean-zero
-  `a(D, X)` (changes of the law of `(D, X)`), `k(X) ε/σ²` (changes of `g`), and, when `σ²` is
-  unknown, `ε² - σ²`; the score for `β` is `D ε/σ²`. Then the efficient score is
-  `ℓ̃ = ε V/σ²` with `V = D - E[D | X]`, `Ĩ = Q/σ²` with `Q = E[V Vᵀ]`, and for `Q` positive
-  definite the efficient influence function is `Q⁻¹ V ε`, with covariance `σ² Q⁻¹`
+- **Partially linear regression** (`efficientScore_partiallyLinear`). Let `(D, X, Y)` with `D ∈ ℝᵈ`,
+  `E ‖D‖² < ∞`, satisfy `Y = Dᵀβ + g(X) + ε` with `ε ~ N(0, σ²)`, `σ² > 0`, independent of `(D, X)`,
+  and `g` ranging over the measurable functions with `E g(X)² < ∞`. The nuisance scores are the
+  mean-zero `a(D, X)` (changes of the law of `(D, X)`), `k(X) ε/σ²` (changes of `g`), and, when `σ²`
+  is unknown, `ε² - σ²`; the score for `β` is `D ε/σ²`. Then the efficient score is `ℓ̃ = ε V/σ²`
+  with `V = D - E[D | X]`, `Ĩ = Q/σ²` with `Q = E[V Vᵀ]`, and for `Q` positive definite
+  `Ĩ⁻¹ = σ² Q⁻¹` and the efficient influence function is `Q⁻¹ V ε`, with covariance `σ² Q⁻¹`
   (Bickel–Klaassen–Ritov–Wellner, §4.3, Example 5, pp. 107–108, with the efficient score (18),
   p. 110, for known `σ` and known law of `(D, X)`; van der Vaart, §25.11.3, pp. 415 and 418, for
   `σ = 1`). Route, exact: `D ε/σ² = ε V/σ² + E[D | X] ε/σ²`, and the second term is in the closure
   of the scores `k(X) ε/σ²`, since `E ‖E[D | X]‖² ≤ E ‖D‖²`; `ε V/σ²` is orthogonal to `a(D, X)`
   because `E[ε | D, X] = 0`, to `k(X) ε` because `E[ε² V k(X)] = σ² E[k(X) E[V | X]] = 0`, and to
-  `ε² - σ²` because `E[ε³] = E[ε] = 0`; by independence `E[ε² V Vᵀ]/σ⁴ = Q/σ²`. The same
-  efficient score results when `σ²` or the law of `(D, X)` is known, since the corresponding
-  nuisance scores are orthogonal to it. The paths are bounded tilts of the law of `(D, X)`, the
-  shift `σ² ↦ σ² (1 + t)`, and the shifts `g + t k` with bounded `k` and `β + t a`, whose path
-  scores come from `hasPathScore_location` (2.1) for the normal density applied conditionally on
-  `(D, X)`, integrated by dominated convergence with the Hellinger bound
-  `∫ (√φ(e - u) - √φ(e))² de = 2 (1 - e^{-u²/(8σ²)}) ≤ u²/(4σ²)` for the `N(0, σ²)` density `φ`
-  and `E ‖D‖² < ∞`.
+  `ε² - σ²` because `E[ε³] = E[ε] = 0`; by independence `E[ε² V Vᵀ]/σ⁴ = Q/σ²`. The same efficient
+  score results for every set of nuisance scores among these that contains all the `k(X) ε/σ²`, in
+  particular when `σ²` or the law of `(D, X)` is known. The paths are bounded tilts of the law of
+  `(D, X)`, the shift `σ² ↦ σ² (1 + t)`, and the shifts `g + t k` with bounded `k` and `β + t a`,
+  whose path scores come from `hasPathScore_location` (2.1) for the normal density applied
+  conditionally on `(D, X)`, integrated by dominated convergence with the Hellinger bound
+  `∫ (√φ(e - u) - √φ(e))² de = 2 (1 - e^{-u²/(8σ²)}) ≤ u²/(4σ²)` for the `N(0, σ²)` density `φ` and
+  `E ‖D‖² < ∞`.
 
 *Needs:* 3.1, 1.3, 2.1–2.2.
 
 **Checks.**
 
 - Symmetric location: for the logistic density `η = e^{-x}/(1 + e^{-x})²`, `η'/η = 1 - 2F` with
-  `F` the logistic distribution function, and `I_η = 1/3` (`0.333333`, python); for `N(0, 1)`,
+  `F` the logistic distribution function, and `I_η = 1/3`; for `N(0, 1)`,
   `I_η = 1`.
 - Partially linear: with `D = X + U`, `X, U` independent `N(0, 1)`, `V = U`, `Q = 1`, and
   `Ĩ = 1/σ²`, while the information with `g` known is `E[D²]/σ² = 2/σ²`: the price of the unknown
@@ -697,9 +762,19 @@ the single path `N(t, 1)` with score `x` and `value t = t`.
   `g = -Π_N ℓ` (the one-dimensional case). A submodel with score `ℓ̃` is least favourable (van
   der Vaart, §25.3, p. 362, for the notion, and §25.5.1, p. 374, for the least favourable
   direction). Route: `ℓ + g = ℓ̃ + (Π_N ℓ + g)` with the two terms orthogonal.
-- The matrix case holds in the Loewner order, by the same orthogonal decomposition.
+- `posSemidef_gram_add_sub_efficientInformationMatrix`: the matrix case, `Gram(ℓ + g) ≥ Ĩ` in the
+  Loewner order for nuisance directions `gᵢ` in the nuisance tangent space, by the same
+  orthogonal decomposition.
 
 *Needs:* 1.3.
+
+### Examples
+
+- In the two-point family of the Checks of 3.1 the mean `ψ(P) = p` has efficient influence
+  function `x - p` and efficient variance `p(1 - p)`, the variance of one Bernoulli observation;
+  `x` is an influence function outside the tangent space, of second moment `p` (3.1).
+- Along `N(t, 1)` with `value t = t` the efficient influence function is `x`, of variance `1`
+  (3.1); in the median model at `N(0, 1)` the variance bound is `π/2 ≈ 1.5708` (3.3).
 
 ### Dependencies
 
@@ -748,8 +823,9 @@ Layers 1–2; Tau Ceti quantiles.
   regularity makes `L = N(0, Pφφᵀ)`; by 2.3, `√n (Tₙ - θ) → N(⟪φ, g⟫, Pφφᵀ)` under the path, and
   `√n (value (1/√n) - θ) → ψ'(g)`, so the alternative clause makes `N(⟪φ, g⟫ - ψ'(g), Pφφᵀ) = L`,
   and a probability measure on `ℝᵏ` equal to a translate of itself by `a` has `a = 0`.
-- Consequently the asymptotic covariance `Pφφᵀ` of a regular asymptotically linear estimator
-  dominates `Pφ̃φ̃ᵀ` (3.1); this is the form of the bound for asymptotically linear estimators.
+- `posSemidef_gram_sub_efficientCovariance_of_isRegularAlong`: consequently, in the same setting,
+  the asymptotic covariance `Pφφᵀ` of a regular asymptotically linear estimator dominates
+  `Pφ̃φ̃ᵀ` (3.1); this is the form of the bound for asymptotically linear estimators.
 
 *Needs:* 4.1, 3.1, 2.3.
 
@@ -770,8 +846,9 @@ Layers 1–2; Tau Ceti quantiles.
 - Route for both (van der Vaart, proof on p. 366): fix an orthonormal family `g₁, …, g_m` in the
   tangent set, choose a path for each `hᵀg`, `h ∈ ℝᵐ`; by 2.3 the experiments
   `(path_{hᵀg}(1/√n)^n : h ∈ ℝᵐ)` are locally asymptotically normal at each fixed `h` with
-  information the identity and central sequence `n^{-1/2} Σ g(xᵢ)`, relative to the path chosen
-  for `h = 0`, and `√n (value_{hᵀg}(1/√n) - θ) → A h` with `A = (⟪φ̃ⱼ, g_l⟫)`. The convolution
+  information the identity (the Fisher information matrix of MathematicalStatisticsAsymptotic 7.3
+  of the orthonormal scores `g₁, …, g_m`, which is `informationMatrix` of 1.3) and central
+  sequence `n^{-1/2} Σ g(xᵢ)`, relative to the path chosen for `h = 0`, and `√n (value_{hᵀg}(1/√n) - θ) → A h` with `A = (⟪φ̃ⱼ, g_l⟫)`. The convolution
   theorem and the local asymptotic minimax theorem of MathematicalStatisticsAsymptotic (7.5,
   van der Vaart, Theorem 8.8; 7.6, van der Vaart, Theorem 8.11, which needs no tightness) give
   the two bounds with `A Aᵀ` in place of `Pφ̃φ̃ᵀ`. Since `φ̃` lies in the tangent space,
@@ -813,10 +890,21 @@ Layers 1–2; Tau Ceti quantiles.
 - `isRegularAlong_gaussian_iff_semiparametric`: in the same setting, a measurable sequence is
   regular with limit `N(0, Ĩ⁻¹)` iff `√n (Tₙ - θ) = n^{-1/2} Σ Ĩ⁻¹ ℓ̃(xᵢ) + o_P(1)`. This is 4.4
   with 3.4.
-- For `N = ∅` these are the parametric convolution theorem and the characterization of efficient
-  estimators along lines.
+
+For `N = ∅` these are the parametric convolution theorem and the characterization of efficient
+estimators along lines.
 
 *Needs:* 4.3–4.4, 3.4.
+
+### Examples
+
+- In the normal location model the sample mean is regular with limit `N(0, 1)` and
+  asymptotically linear in `x - θ`, hence efficient (4.1, 4.4); the sample median is regular with
+  limit `N(0, π/2) = N(0, 1) * N(0, π/2 - 1)`, the convolution of 4.3.
+- Hodges' estimator `Tₙ = X̄ 1{|X̄| ≥ n^{-1/4}}` at `θ = 0` is asymptotically linear in `φ = 0`
+  but not regular (4.1): under `N(h/√n, 1)^n`, `√n (Tₙ - h/√n) → -h`. Its squared-error risk
+  along the path `N(h t, 1)` at `t = 1/√n` tends to `h²`, unbounded in `h`, so it does not
+  beat the local asymptotic minimax bound `1` of 4.3.
 
 ### Dependencies
 
@@ -909,42 +997,47 @@ verified in each application.
   even; `η'` measurable, odd and locally integrable with `η x = η 0 + ∫₀ˣ η'`; and
   `η'²/η` integrable. `locationLaw η θ` has density `η(x - θ)`, and
   `locationFisherInformation η η' = ∫ η'²/η`, with `η'²/0 = 0`.
-- **Monotone preliminary estimator.** For `ψ = tanh(·/2)` (the logistic score) and `n ≥ 1`, the
-  estimator `θ̃ₙ = sup {t : Σ ψ(xᵢ - t) > 0}` is measurable and `√n`-consistent at every
-  `locationLaw η θ` with `η` a symmetric probability density; symmetry gives
+- **Monotone preliminary estimator** (`sqrt_consistent_sSup_tanh`). For `ψ = tanh(·/2)` (the
+  logistic score), the estimator `θ̃ₙ = sup {t : Σ ψ(xᵢ - t) > 0}` is measurable for every `n`
+  (for `n = 0` the set is empty and `θ̃₀ = 0`), and it is `√n`-consistent at every
+  `locationLaw η θ` with `η` a measurable, nonnegative, even density of integral `1`: for every
+  `ε > 0` there is `M` with `P^n(√n |θ̃ₙ - θ| > M) ≤ ε` for all large `n`. Symmetry gives
   `E ψ(X - θ) = 0`. Route, exact: `t ↦ Σ ψ(xᵢ - t)` is decreasing, so
   `P(√n (θ̃ₙ - θ) > M) ≤ P(n⁻¹ Σ ψ(xᵢ - θ - M/√n) ≥ 0)`; the summands have mean
   `-c M/√n + o(n^{-1/2})` with `c = E ψ'(X - θ) > 0` and variance at most `1`, and Chebyshev bounds
   the probability by `1/(c M)²` for large `n`. This replaces van der Vaart's appeal to Theorem
   5.21 (van der Vaart, §25.8.1, p. 397).
-- `tendstoInProbabilityZero_locationScoreSum`: for bounded `hₙ`, under `locationLaw η θ`,
+- `tendstoInProbabilityZero_locationScoreSum`: for `η`, `η'` satisfying the hypotheses of
+  `hasPathScore_location` (nonnegative, of integral `1`, `η x = η 0 + ∫₀ˣ η'` with `η'` locally
+  integrable, `η'²/η` integrable; no symmetry) and bounded `hₙ`, under `locationLaw η θ`,
   `n^{-1/2} Σ [ℓ̇(xᵢ - θ - hₙ/√n) - ℓ̇(xᵢ - θ)] + I_η hₙ → 0` in probability, with
   `ℓ̇ = -η'/η`, read as `0` where `η = 0` (Bickel–Klaassen–Ritov–Wellner, §2.1, Proposition 2,
   p. 16, display (15), p. 17, for a regular parametric model; the location model of finite
   information is regular by their Corollary A.5.1, p. 460; this is the absolutely continuous
   location family of 2.1 of this roadmap). By translation invariance this is the smoothness
   condition of 5.2 for `ψ = I_η⁻¹ ℓ̇`.
-- **Score estimation.** Estimators `ℓ̂ₘ` of `ℓ̇` from a sample of `η` exist with
-  `∫ (ℓ̂ₘ - ℓ̇)² η → 0` in probability and `∫ ℓ̂ₘ² η` consistent for `I_η`
+- **Score estimation** (`exists_score_estimator`). Estimators `ℓ̂ₘ(x; X₁, …, Xₘ)` of `ℓ̇`,
+  jointly measurable in `x` and the sample, exist such that at every `η` satisfying
+  `IsSymmetricFiniteInformationDensity`, from a sample of `η`, `∫ (ℓ̂ₘ - ℓ̇)² η → 0` in probability
+  (a lower integral, in `ℝ≥0∞`) and `∫ ℓ̂ₘ² η` is consistent for `I_η`
   (Bickel–Klaassen–Ritov–Wellner, §7.8, Proposition 1, p. 400; one construction is the truncated
   kernel estimator of van der Vaart, (25.63), p. 397, with Lemma 25.64, p. 398, applied to
   `|Xᵢ - θ|`, whose density is `2η` on `(0, ∞)`).
-  The odd symmetrization `x ↦ (ℓ̂ₘ(x) - ℓ̂ₘ(-x))/2` has integral zero against every symmetric
-  density, so the bias condition of 5.2 holds exactly.
 - `exists_adaptive_estimator_centre_of_symmetry`: one measurable estimator sequence, not depending
   on `η`, is asymptotically linear in `-(η'/η)(x - θ)/I_η` at every `η` satisfying
   `IsSymmetricFiniteInformationDensity` and every `θ` (van der Vaart, §25.8.1, p. 397;
   Bickel–Klaassen–Ritov–Wellner, §7.8, Example 1, pp. 398–401). It is therefore regular with limit
-  `N(0, I_η⁻¹)` along the paths of 3.4, by 4.4: adaptive. Route: 5.2 with the three preceding
-  items. The contiguity condition of 5.2 is mutual contiguity of the `n`-fold products of
-  `locationLaw η (θ + hₙ/√n)` and `locationLaw η θ` for bounded `hₙ`
-  (Bickel–Klaassen–Ritov–Wellner, §2.1, Proposition 3, p. 17, for a regular parametric model,
-  with Corollary A.5.1, p. 460). Route: for a fixed `h` it is the contiguity item of 2.3 along
-  the location path of 2.1 of this roadmap (absolutely continuous location families), with
-  MathematicalStatisticsAsymptotic 7.1. For a sequence, pass to a subsequence with `hₙ → h`; the
-  squared Hellinger distance between `locationLaw η (θ + δ)` and `locationLaw η θ` is at most
-  `δ² ∫ ((√η)')² = δ² I_η/4`, so the products at `hₙ` and at `h` merge in total variation, and
-  contiguity transfers.
+  `N(0, I_η⁻¹)` along the paths of 3.4, by 4.4: adaptive. Route: 5.2 with the three preceding items;
+  the odd symmetrization `x ↦ (ℓ̂ₘ(x) - ℓ̂ₘ(-x))/2` of the score estimator has integral zero against
+  every symmetric density, so the bias condition of 5.2 holds exactly. The contiguity condition of
+  5.2 is mutual contiguity of the `n`-fold products of `locationLaw η (θ + hₙ/√n)` and
+  `locationLaw η θ` for bounded `hₙ` (Bickel–Klaassen–Ritov–Wellner, §2.1, Proposition 3, p. 17, for
+  a regular parametric model, with Corollary A.5.1, p. 460). Route: for a fixed `h` it is the
+  contiguity item of 2.3 along the location path of 2.1 of this roadmap (absolutely continuous
+  location families), with MathematicalStatisticsAsymptotic 7.1. For a sequence, pass to a
+  subsequence with `hₙ → h`; the squared Hellinger distance between `locationLaw η (θ + δ)` and
+  `locationLaw η θ` is at most `δ² ∫ ((√η)')² = δ² I_η/4`, so the products at `hₙ` and at `h` merge
+  in total variation, and contiguity transfers.
 
 *Needs:* 5.2, 3.4, 2.1 (absolutely continuous location families), 2.3; Foundations 8.2;
 MathematicalStatisticsAsymptotic 7.1.
@@ -953,14 +1046,18 @@ MathematicalStatisticsAsymptotic 7.1.
 
 - `tendstoInProbabilityZero_locationScoreSum`: for `η = N(0, 1)`, `ℓ̇(x) = x`, the sum is
   `-hₙ` exactly and `I_η = 1`: the expression is identically `0`.
+- `tendstoInProbabilityZero_locationScoreSum` needs no symmetry: the Gumbel density
+  `η(x) = e^{-x - e^{-x}}`, with `η(1) = 0.25465 ≠ η(-1) = 0.17937`, is absolutely continuous with
+  `η' = (e^{-x} - 1) η`, score `ℓ̇(x) = 1 - e^{-x}` and `I_η = Var(e^{-X}) = 1`, since `e^{-X}` is
+  standard exponential under `η`.
 - Monotone preliminary estimator: its asymptotic variance `Eψ²/(Eψ')²` is `3 = 1/I_η` under the
   logistic law, where it is the maximum likelihood estimator, and `1.016` under `N(0, 1)`
-  (python), against the bound `1`.
+ , against the bound `1`.
 - `IsSymmetricFiniteInformationDensity`: the Laplace density `e^{-|x|}/2` qualifies, with
   `η' = -sign(x) η` (odd, with `η'(0) = 0`) and `I_η = 1`.
 - `IsSymmetricFiniteInformationDensity`: `η(x) = cos²(πx/2)` on `[-1, 1]`, `0` outside, qualifies:
   it is absolutely continuous on `ℝ`, and `η'²/η = π² sin²(πx/2)` on `(-1, 1)`, so `I_η = π²`
-  (python).
+ .
 - `IsSymmetricFiniteInformationDensity` (negative control): the uniform density on `[-1, 1]`
   fails, since it is not absolutely continuous on `ℝ`; the density `(3/4)(1 - x²)` on `[-1, 1]`
   is absolutely continuous but fails integrability of `η'²/η = 3x²/(1 - x²)` at `±1`.
@@ -968,8 +1065,12 @@ MathematicalStatisticsAsymptotic 7.1.
   the density `η(x - θ)` shifts the centre to `+θ`, not `-θ`.
 - `locationLaw`: under `IsSymmetricFiniteInformationDensity` it is a probability measure for
   every `θ`, by translation invariance of Lebesgue measure.
+- `locationLaw`: for `η` the uniform density on `[0, 1]` and `θ = 2` it is the uniform law on
+  `[2, 3]`.
 - `locationFisherInformation`: `1` for the standard normal and the Laplace densities, `1/3` for
-  the logistic density and `1/2` for the Cauchy density `1/(π(1 + x²))` (python).
+  the logistic density and `1/2` for the Cauchy density `1/(π(1 + x²))`.
+- `locationFisherInformation`: for the `N(0, σ²)` density it is `1/σ²`; it is not scale
+  invariant.
 - `locationFisherInformation` (negative control): for the uniform density on `[-1, 1]` with the
   version `η' = 0`, the integral `∫ η'²/η` is `0`, a meaningless value; the absolute continuity
   field of `IsSymmetricFiniteInformationDensity` excludes this pair.
@@ -994,6 +1095,17 @@ The efficient influence function `Q⁻¹ V ε` of β is 3.4.
 - Without the partialling out, `E[D²]⁻¹ E[D Y] = β + E[D X²]/2 = β`, by symmetry, here; with
   `g(X) = X` instead it is `β + 1/2`, so the naive regression is biased.
 
+### Examples
+
+- The split `(0, 0, 0, 1, 1)` of `n = 5` into `K = 2` folds has training sets `{3, 4}` and
+  `{0, 1, 2}` (5.1). With `o = (0, 1, 2, 3, 4)`, `fit` the mean of the training sample and
+  `φ h o = o - h`, the fold-`0` observations are centred at `3.5` and the fold-`1` ones at `1`,
+  so `crossFittedAverage = (-3.5 - 2.5 - 1.5 + 2 + 3)/5 = -0.5`; the in-sample plug-in gives `0`.
+- Centre of symmetry (5.3): `locationFisherInformation` is `1` for the standard normal and the
+  Laplace densities and `1/3` for the logistic, so the adaptive estimator has asymptotic variance
+  `1`, `1` and `3`; the monotone preliminary estimator has asymptotic variance `3` under the
+  logistic law and `1.016` under `N(0, 1)`.
+
 ### Dependencies
 
 Layers 1–4, including the absolutely continuous location families of 2.1; Foundations
@@ -1012,12 +1124,13 @@ normality).
   random is `E[1{R = 1} | X, Y] = π(X)` a.e. Route: both sides of the defining identity are the
   set integrals over `σ(X, Y)`-sets of `1{R = 1}` and of the `σ(X, Y)`-measurable `π(X)`, and
   `condExp` is characterized by them.
-- **Consequences.** Under missingness at random, `π(X)` is a version of `P(R = 1 | X)` (tower
+- **Consequences** (`IsMissingAtRandom.condExp_and_condIndepFun`). For standard Borel `X`, under
+  missingness at random, `π(X)` is a version of `P(R = 1 | X)` (tower
   property), and `R` and `Y` are conditionally independent given `X` (Mathlib `CondIndepFun`),
   since `P(R = 1 | X, Y) = P(R = 1 | X)` and `R` takes two values.
-- Missing completely at random: `R` independent of `(X, Y)`; it is missingness at random with
-  constant `π = P(R = 1)`.
-- `measurable_observe`: `observe` (Conventions) is measurable.
+- `isMissingAtRandom_of_indepFun` (missing completely at random): if `R` is independent of
+  `(X, Y)`, the data are missing at random with the constant propensity `π = P(R = 1)`.
+- `observe` (Conventions) is measurable.
 
 *Needs:* Mathlib `condExp`, `CondIndepFun`, `setIntegral_condExp`.
 
@@ -1038,6 +1151,7 @@ normality).
 - `observe` (negative control): `observe (false, x, 0) = observe (false, x, 5)`, so the response is
   lost when `r = false`, while `observe (true, x, 0) ≠ observe (false, x, 0)`: the placeholder
   `0` is never confused with an observed `0`, because `r` is kept.
+- `observe` is idempotent: `observe (observe w) = observe w`.
 
 ### 6.2 The observed-data likelihood and ignorability
 
@@ -1054,11 +1168,20 @@ normality).
   and in particular do not depend on `φ` (Little–Rubin, Theorem 6.1A and Corollary 6.1A, p. 134,
   with the ignorable likelihood (6.48), p. 133). The positivity hypothesis is necessary: if a
   factor vanishes, every `θ` maximizes the observed likelihood.
-- **Ignorability for Bayesian inference.** If the prior on `Θ × Φ` is a product and the data are
-  missing at random, the `θ`-marginal of the posterior from the observed likelihood is the
-  posterior from the ignorable likelihood (Little–Rubin, Theorem 6.1B, p. 135). Stated with
-  Mathlib's posterior `condDistrib` for a joint law on `(Θ × Φ) × (Fin n → Bool × X × ℝ)` with
-  standard Borel `Θ × Φ`.
+- **Ignorability for Bayesian inference** (`condDistrib_fst_ae_eq_ignorable`). Let `f θ` be
+  probability densities of `(X, Y)` with respect to `ν ⊗ ρ` (σ-finite), jointly measurable in
+  `θ`, let `π φ` be jointly measurable propensities with values in `[0, 1]`, let the prior be a
+  product `pθ ⊗ pφ` of probability measures, and let `Θ` be standard Borel. Let `J` be the law of
+  `((θ, φ), o)` with density `∏ᵢ observedDensity ρ (f θ) (π φ) (oᵢ)` with respect to
+  `pθ ⊗ pφ ⊗ (observedReference ν ρ)ⁿ`, the full model with data missing at random, and let
+  `Jign` be the law of `(θ, o)` with density `∏ᵢ observedDensity ρ (f θ) (1/2) (oᵢ)` with respect
+  to `pθ ⊗ (observedReference ν ρ)ⁿ`, which is `2⁻ⁿ` times the ignorable likelihood, so that its
+  posterior is the posterior from the ignorable likelihood. Then Mathlib's posterior
+  `condDistrib` of `θ` given `o` is the same under `J` and under `Jign`, `J`-a.e. in `o`
+  (Little–Rubin, Theorem 6.1B and Corollary 6.1B, p. 135). Route: the posterior density under
+  `J` factors as `pθ`-density `∝ L_ign(θ)` times a `pφ`-density in `φ`, and the second factor
+  integrates out; no positivity of the propensity factors is needed, since the observed data
+  where the normalizers vanish form a `J`-null set.
 
 *Needs:* 6.1; Mathlib `Measure.withDensity`, `Measure.prod`, `condDistrib`.
 
@@ -1073,10 +1196,14 @@ normality).
 - `observedDensity`: at an observed point `(true, x, y)` it is `π(x) f(x, y)`; with `π ≡ 1` it is
   the full-data density `f`.
 - `observedDensity` (negative control): in the example above, evaluating the missing branch at
-  the placeholder, `(1/2) f(·, 0) = 0.19947` (python), instead of integrating out `y`, gives total
+  the placeholder, `(1/2) f(·, 0) = 0.19947`, instead of integrating out `y`, gives total
   mass `0.69947`, not `1`.
+- `observedDensity`: with `π ≡ 0` it is `0` at every observed point and `∫ f(x, ·) dρ` at a
+  missing point `(false, x, 0)`.
 - `observedReference`: the mass of `{false} × B × ℝ` is `ν(B)`, since `δ₀(ℝ) = 1`; the mass of
   `{true} × B × C` is `ν(B) ρ(C)`.
+- `observedReference`: for `ν = δ_x` and `ρ = δ_y` it is `δ_(true, x, y) + δ_(false, x, 0)`, of
+  total mass `2`: a reference measure, not a probability.
 - `observedReference` (negative control): with `ν ⊗ ρ` also on the missing branch and `ρ`
   Lebesgue measure, the observed law, which puts mass `1/2` on the Lebesgue-null set
   `{false} × X × {0}`, would have no density.
@@ -1089,10 +1216,14 @@ normality).
   propensity `π₀`, `Y` integrable, `m₀` a measurable version of `E[Y | X]`, `m(X)` integrable,
   and `π` measurable with `π ≥ δ > 0`:
   `E φ_{m,π} - E Y = E[(π₀ - π)(m₀ - m)/π]`. Route, exact: condition on `(X, Y)`, then on `X`.
-- **Double robustness.** `E φ_{m,π} = E Y` when `π = π₀` (with `π₀ ≥ δ`), for every `m` with
-  `m(X)` integrable, and when `m = m₀`, for every measurable `π ≥ δ`. Both are read off the
+- **Double robustness** (`integral_aipwScore_eq`). Under the hypotheses on `π₀`, `Y` and `m₀` of
+  the mixed-bias identity, with `π₀ ≥ δ > 0`: `E φ_{m,π} = E Y` when `π = π₀`, for every
+  measurable `m` with `m(X)` integrable, and when `m = m₀`, for every measurable `π` bounded
+  below by a positive constant. Both are read off the
   identity above. Square integrability of `m` is not needed.
-- `|E φ_{m,π} - E Y| ≤ δ⁻¹ ‖π - π₀‖_{L²} ‖m - m₀‖_{L²}`, by Cauchy–Schwarz.
+- `abs_integral_aipwScore_sub_le`: under the hypotheses of `integral_aipwScore_sub`,
+  `|E φ_{m,π} - E Y| ≤ δ⁻¹ ‖π - π₀‖_{L²} ‖m - m₀‖_{L²}`, by Cauchy–Schwarz, with the norms in
+  `ℝ≥0∞`; when either norm is `0` the bias is `0`, so the convention `0 · ∞ = 0` is harmless.
 
 *Needs:* 6.1; Mathlib `condExp`, `setIntegral_condExp`.
 
@@ -1120,8 +1251,9 @@ normality).
 - `marPath Q₀ π₀ a e t`: the full-data path with density
   `(1 + t a(X, Y))(1 + t (R - π₀(X)) e(X))` with respect to `Q₀`, for bounded measurable `a` with
   `E a = 0` and bounded measurable `e`.
-- For `|t|` small this path is a probability measure, missing at random with propensity
-  `π₀ + t π₀(1 - π₀) e`, and its observed path has score `E[a | O] + (R - π₀(X)) e(X)`. Route:
+- `isMissingAtRandom_marPath`: for `|t|` small this path is a probability measure, missing at
+  random with propensity `π₀ + t π₀(1 - π₀) e`, and its observed path has score
+  `E[a | O] + (R - π₀(X)) e(X)` relative to the observed law `Q₀.map observe`. Route:
   the density is positive for small `|t|`; conditioning the second factor on `(X, Y)` and using
   `E[R | X, Y] = π₀(X)` gives the total mass `1` and the propensity; the full-data score
   `a + (R - π₀) e` comes from the bounded tilts of 2.2, and the observed score is its
@@ -1135,17 +1267,22 @@ normality).
   the observed law. Route, exact: write `u(O) = R u₁(X, Y) + (1 - R) u₀(X)`; orthogonality to the
   `e` scores gives `π₀(1 - π₀)(E[u₁ | X] - u₀) = 0`, and to the `a` scores
   `π₀ u₁ + (1 - π₀) u₀ = 0`; hence `u₁ = 0` (using `π₀ ≥ δ`) and `u₀ = 0` where `π₀ < 1`.
-- **The efficient influence function.** In the model of all observed laws arising from a law of
-  `(X, Y)` with `Y ∈ L²` and a response mechanism missing at random with `π₀ ≥ δ`, the mean
-  `E Y` is pathwise differentiable with efficient influence function
+- **The efficient influence function** (`efficientInfluence_marMean`). Take the model of all
+  observed laws `Q.map observe` of full-data laws `Q` with `Y ∈ L²`, missing at random with a
+  propensity bounded below by a positive constant, and at `Q₀` the hypotheses of
+  `hasDerivAt_marMean_marPath`. The observed paths of `marPath`, indexed by the bounded measurable
+  `(a, e)` with `E a = 0`, form a path family in this model (each path equals
+  `(marPath Q₀ π₀ a e t).map observe` for small `t ≥ 0`), along which `marMean` is pathwise
+  differentiable with efficient influence function
   `φ_{m₀,π₀} - μ = m₀(X) + R (Y - m₀(X))/π₀(X) - μ`, and the efficient variance is
-  `Var m₀(X) + E[Var(Y | X)/π₀(X)]`. Van der Vaart describes the tangent space under coarsening
-  at random (Theorem 25.40, p. 380) and all influence functions (Lemma 25.41, p. 381), and in the
-  missing-at-random case (Example 25.43, p. 383) minimizes the variance over the augmentation
-  term, with minimizer `c̃ = E(χ_Q(Y) | X)`; with `χ_Q = y - μ`, the only influence function of
-  the mean on the nonparametric full-data model, this is `φ_{m₀,π₀} - μ`. Route here: the two
-  previous items, since the tangent space is all of `L²₀` and `φ_{m₀,π₀} - μ ∈ L²₀`; the variance
-  formula follows from `E[R (Y - m₀)² | X] = π₀ Var(Y | X)` and the vanishing cross term.
+  `Var m₀(X) + E[Var(Y | X)/π₀(X)] = Var m₀(X) + E[(Y - m₀(X))²/π₀(X)]`. Van der Vaart describes the
+  tangent space under coarsening at random (Theorem 25.40, p. 380) and all influence functions
+  (Lemma 25.41, p. 381), and in the missing-at-random case (Example 25.43, p. 383) minimizes the
+  variance over the augmentation term, with minimizer `c̃ = E(χ_Q(Y) | X)`; with `χ_Q = y - μ`, the
+  only influence function of the mean on the nonparametric full-data model, this is `φ_{m₀,π₀} - μ`.
+  Route here: the two previous items, since the tangent space is all of `L²₀` and
+  `φ_{m₀,π₀} - μ ∈ L²₀`; the variance formula follows from `E[R (Y - m₀)² | X] = π₀ Var(Y | X)` and
+  the vanishing cross term.
 
 *Needs:* 6.3, Layers 2–3; Mathlib `condDistrib`, `ProbabilityTheory.cond`.
 
@@ -1192,6 +1329,14 @@ normality).
 
 *Needs:* 5.1, 6.3, 6.4.
 
+### Examples
+
+- The two-point propensity example of 6.1: `X ∈ {0, 1}` equiprobable, `π₀ = (0.5, 0.8)`,
+  `m₀ = (1, 3)` and `Var(Y | X) = 1`. The complete-case mean is `1.45/0.65 ≈ 2.2308`, while
+  `marMean` of the observed law is `E Y = 2` (6.4); the inverse-probability-weighted score with
+  `π₀` and the augmented score with `m₀` and `π = 1` both have mean `2` (6.3); the efficient
+  variance is `2.625`, against `4.25` for inverse probability weighting alone (6.4).
+
 ### Dependencies
 
 Layers 1–5; Foundations 8.3–8.5.
@@ -1211,13 +1356,16 @@ Layers 1–5; Foundations 8.3–8.5.
 - `IsEMStep ρ Θ f θ' θ''`: `θ'' ∈ Θ` maximizes `Q(· | θ')` over `Θ`. An EM map `M` is a function
   with `IsEMStep ρ Θ f θ' (M θ')` for every `θ' ∈ Θ`.
 
+*Needs:* Mathlib `Measure.withDensity`.
+
 **Checks.**
 
 The multinomial example of Little–Rubin (Example 8.2, p. 190, Table 8.1, p. 191): observed counts
 `(38, 34, 125)` with cell probabilities `(1/2 - θ/2, θ/4, 1/2 + θ/4)`, the last cell split into
 unobserved counts `y₃` and `125 - y₃` of probabilities `θ/4` and `1/2`; `Z = {0, …, 125}` with
 counting measure and `f θ y₃ = C(125, y₃) (1 - θ)^{38} θ^{34 + y₃} 2^{-y₃}`, up to a factor free of
-`θ` and `y₃`.
+`θ` and `y₃`. The normal example, also used in 7.3: `E = ℝ`, `Z = ℝ` with Lebesgue measure,
+nothing else observed, and `f θ z = (2π)^{-1/2} e^{-(z - θ)²/2}`.
 
 - `missingLaw`: in this example it is the binomial law of `y₃` with `125` trials and success
   probability `θ/(2 + θ)`; at `θ = 1/2` its mean is `25`.
@@ -1236,6 +1384,22 @@ counting measure and `f θ y₃ = C(125, y₃) (1 - θ)^{38} θ^{34 + y₃} 2^{-
   first iterate of Table 8.1.
 - `IsEMStep` (negative control): over `Θ = (0, 0.55]` the step from `1/2` is `0.55`, since
   `Q(· | 1/2)` is concave with unconstrained maximizer `0.608247`; the parameter set matters.
+- `obsLikelihood`: in the normal example it is `1` for every `θ`.
+- `obsLikelihood` (negative control): for `Z = ℝ` with Lebesgue measure and `f θ z = 1`, `f θ` is
+  not integrable and `obsLikelihood` is the junk value `0` of the Bochner integral, not `∞`; so
+  `missingLaw` is the zero measure.
+- `obsLogLikelihood`: in the normal example it is `0` for every `θ`.
+- `obsLogLikelihood`: in the multinomial example, with `f` exactly as written, it is
+  `38 log(1 - θ) + 34 log θ + 125 log(1 + θ/2)`, of derivative `-76 + 68 + 50 = 42` at
+  `θ = 1/2`.
+- `obsLogLikelihood` (negative control): in the multinomial example at `θ = 0` the likelihood is
+  `0` and `obsLogLikelihood` is `log 0 = 0` in Lean, above its value `-19.259` at
+  `θ̂ = 0.626821`; a maximizer over `[0, 1)` would be the junk point `0`, so `Θ = (0, 1)`.
+- `missingLaw`: in the normal example it is `N(θ, 1)`.
+- `emQ`: in the normal example
+  `Q(θ | θ') = -(1 + (θ - θ')²)/2 - log(2π)/2`.
+- `IsEMStep`: in the normal example over `Θ = ℝ` the step from `θ'` is `θ'` itself: all
+  information is missing, and EM does not move.
 
 ### 7.2 Monotonicity and stationarity
 
@@ -1250,10 +1414,10 @@ counting measure and `f θ y₃ = C(125, y₃) (1 - θ)^{38} θ^{34 + y₃} 2^{-
   Route: in the identity above both the gain in `Q` and the Kullback–Leibler term are
   nonnegative, so equality makes both vanish. The converse half of the source's "if and only if"
   is not claimed: equal `Q` values leave the Kullback–Leibler term, which can be positive.
-- **Stationarity.** If `θ*` is an interior point of `Θ` maximizing `Q(· | θ*)`, `L` and
-  `Q(· | θ*)` are differentiable at `θ*`, and Fisher's identity `∇L(θ*) = ∇Q(θ* | θ*)` holds, then
-  `∇L(θ*) = 0`. Little–Rubin, Theorem 8.2, p. 195, draw the same conclusion for a limit of EM
-  iterates.
+- **Stationarity** (`hasGradientAt_obsLogLikelihood_zero_of_isMaxOn`). If `θ*` is an interior point
+  of `Θ` maximizing `Q(· | θ*)` over `Θ`, `Q(· | θ*)` has a gradient at `θ*`, and `L` has the same
+  gradient there (Fisher's identity `∇L(θ*) = ∇Q(θ* | θ*)`), then `∇L(θ*) = 0`. Little–Rubin,
+  Theorem 8.2, p. 195, draw the same conclusion for a limit of EM iterates.
 
 *Needs:* 7.1; Mathlib `klDiv`, `llr`, `toReal_klDiv`, `integral_llr_add_sub_measure_univ_nonneg`.
 
@@ -1261,7 +1425,7 @@ counting measure and `f θ y₃ = C(125, y₃) (1 - θ)^{38} θ^{34 + y₃} 2^{-
 
 - `obsLogLikelihood_le_of_isEMStep`: in the multinomial example of 7.1, from `θ₀ = 0.5` the
   iterates are `0.608247, 0.624321, 0.626489, 0.626777, 0.626816, …` (Little–Rubin, Table 8.1,
-  p. 191), with strictly increasing log-likelihood, converging to `θ̂ = 0.626821` (python).
+  p. 191), with strictly increasing log-likelihood, converging to `θ̂ = 0.626821`.
 
 ### 7.3 Fisher's identity and Louis's formula
 
@@ -1292,11 +1456,11 @@ counting measure and `f θ y₃ = C(125, y₃) (1 - θ)^{38} θ^{34 + y₃} 2^{-
 - `completeScore`: in the multinomial example of 7.1 it is `-38/(1 - θ) + (34 + y₃)/θ`
   (Little–Rubin, Example 8.5, p. 199); at `θ = 1/2` its mean under `missingLaw (1/2)` is
   `-76 + 118 = 42 > 0`, the observed score, so `θ = 1/2` is not stationary.
-- `completeScore`: at `θ̂ = 0.626821` its mean under `missingLaw θ̂` is `0` (python), Fisher's
+- `completeScore`: at `θ̂ = 0.626821` its mean under `missingLaw θ̂` is `0`, Fisher's
   identity at the maximum likelihood estimate.
 - `completeScore` (negative control): it is the gradient of `log f θ` in `θ`, not of `f θ`; for
   the normal example the gradient of `f θ z` at `z = θ + 1` is `(2π)^{-1/2} e^{-1/2} = 0.24197`
-  (python), not `1`.
+ , not `1`.
 - `EMRegular`: the multinomial example satisfies it on `U = (ε, 1 - ε)` for `0 < ε < 1/2`, with
   `G` a constant on the finite set `Z`.
 - `EMRegular`: the normal example satisfies it on every bounded open `U`, with
@@ -1312,35 +1476,48 @@ counting measure and `f θ y₃ = C(125, y₃) (1 - θ)^{38} θ^{34 + y₃} 2^{-
   value `M θ'` maximizes `Q(· | θ')` over `U`, and `M` is differentiable at `θ*`, then
   `i_{com} ∘ DM(θ*) = i_{mis}`. Route: `∇₁Q(M θ' | θ') = 0` near `θ*`; differentiate in `θ'` at
   `θ*`, with `D₁₂Q(θ* | θ*) = i_{mis}` from the derivative of the missing-data density.
-- `spectrum_subset_Ico_of_comp_eq`: if `i_{com}` is self-adjoint, `i_{mis} ≥ 0` and
-  `i_{obs} = i_{com} - i_{mis} ≥ c > 0`, then `i_{com} ∘ DM = i_{mis}` forces the spectrum of `DM`
-  into `[0, 1)`. These are the fractions of missing information:
+- `spectrum_subset_Ico_of_comp_eq`: under the hypotheses of `comp_fderiv_emMap_eq`, if moreover
+  the observed information `i_{obs} = -D²L(θ*)` satisfies `i_{obs} ≥ c > 0`, the spectrum of `DM`
+  lies in `[0, 1)`. Route: by `louis_formula`, `i_{obs} = i_{com} - i_{mis}` with `i_{mis} ≥ 0`,
+  `i_{com}` is self-adjoint, being the Hessian of a `C²` function, and `i_{com} ∘ DM = i_{mis}`
+  by `comp_fderiv_emMap_eq`; the operator step is that for self-adjoint `i_{com}`, positive
+  `i_{mis}` with `i_{com} - i_{mis} ≥ c > 0` and `i_{com} ∘ DM = i_{mis}`, the spectrum of `DM`
+  lies in `[0, 1)`. These are the fractions of missing information:
   `DM = i_{com}⁻¹ i_{mis} = I - i_{com}⁻¹ i_{obs}` is similar to the self-adjoint
   `i_{com}^{-1/2} i_{mis} i_{com}^{-1/2}`, and Little–Rubin's `i_{mis} i_{com}⁻¹` is its transpose
   (Little–Rubin, §8.4.3, (8.28), p. 198); the rate (8.29), p. 198, is governed by its largest
   eigenvalue (p. 199).
-- `tendsto_iterate_emMap`: under the same hypotheses, with `M θ* = θ*` and `M` differentiable at
-  `θ*`, there is a neighbourhood of `θ*` from which the iterates `M^[t] θ₀` converge to `θ*`, and
-  for every `r` above every eigenvalue of `DM` there is `C` with `‖M^[t] θ₀ - θ*‖ ≤ C rᵗ`; that
-  is, `limsup ‖θ_t - θ*‖^{1/t} ≤ λ_max`. Route: in the `i_{com}` inner product `DM` is self-adjoint
-  with norm `λ_max < 1`. For `r > λ_max`, differentiability at `θ*` gives a ball `B` about `θ*` in
-  that norm on which `‖M θ - θ*‖_* ≤ r ‖θ - θ*‖_*`; for `r < 1` this radial estimate maps `B`
-  into itself, and induction gives `‖M^[t] θ₀ - θ*‖_* ≤ rᵗ ‖θ₀ - θ*‖_*` for `θ₀ ∈ B`. Take `V` the
-  ball for one `r₀ ∈ (λ_max, 1)`; for smaller `r` the iterates from `V` enter the smaller ball
-  after finitely many steps, which fixes `C`, and norm equivalence returns to `‖·‖`. Only this
-  radial estimate is used, not a Lipschitz bound between pairs of points of `B`.
+- `tendsto_iterate_emMap`: under the hypotheses of `spectrum_subset_Ico_of_comp_eq`, there is a
+  neighbourhood of `θ*` from which the iterates `M^[t] θ₀` converge to `θ*`, and for every `r` above
+  every eigenvalue of `DM` there is `C` with `‖M^[t] θ₀ - θ*‖ ≤ C rᵗ`; that is,
+  `limsup ‖θ_t - θ*‖^{1/t} ≤ λ_max`. Route: in the `i_{com}` inner product `DM` is self-adjoint with
+  norm `λ_max < 1`. For `r > λ_max`, differentiability at `θ*` gives a ball `B` about `θ*` in that
+  norm on which `‖M θ - θ*‖_* ≤ r ‖θ - θ*‖_*`; for `r < 1` this radial estimate maps `B` into
+  itself, and induction gives `‖M^[t] θ₀ - θ*‖_* ≤ rᵗ ‖θ₀ - θ*‖_*` for `θ₀ ∈ B`. Take `V` the ball
+  for one `r₀ ∈ (λ_max, 1)`; for smaller `r` the iterates from `V` enter the smaller ball after
+  finitely many steps, which fixes `C`, and norm equivalence returns to `‖·‖`. Only this radial
+  estimate is used, not a Lipschitz bound between pairs of points of `B`.
 
 *Needs:* 7.3; Mathlib `spectrum`, `ContinuousLinearMap.IsPositive`.
 
 **Checks.**
 
-- The multinomial example of 7.1 (Little–Rubin, Example 8.5, pp. 199–200), python: at
+- The multinomial example of 7.1 (Little–Rubin, Example 8.5, pp. 199–200): at
   `θ̂ = 0.626821`, `i_{com} = 435.318`, `i_{obs} = 377.517`, `i_{mis} = 57.801`, and the fraction
   of missing information is `0.13278`; the EM error ratios `|θ_{t+1} - θ̂|/|θ_t - θ̂|` are
   `0.132779` from `t = 5` on (Table 8.1, p. 191, prints `0.1328`). Little–Rubin print
   `435.8 - 57.8 = 377.5`; the computation gives `435.3`, as they print on the line above.
 - `spectrum_subset_Ico_of_comp_eq`: with no missing data `i_{mis} = 0`, `DM = 0` and EM converges in
   one step; the bound `λ < 1` fails only if `i_{obs}` is singular.
+
+### Examples
+
+- The multinomial example of 7.1 (Little–Rubin, Example 8.2, p. 190): EM from `θ₀ = 1/2` gives
+  `0.608247, 0.624321, 0.626489, …` with increasing log-likelihood (7.2), converging to
+  `θ̂ = 0.626821` at the rate `0.13278`, the fraction of missing information
+  `i_{mis}/i_{com} = 57.801/435.318` (7.4).
+- The normal example of 7.1: `L ≡ 0`, each EM step returns its starting point, and Louis's
+  formula reads `0 = 1 - 1` (7.3): all information is missing.
 
 ### Dependencies
 
@@ -1350,8 +1527,10 @@ Layer 1 (for the inner products); Mathlib.
 
 ### 8.1 Laws of total variance
 
-- `variance_bind`: for a Markov kernel `κ : Kernel M ℝ`, a probability `ν` and `x²` integrable
-  under `κ ∘ₘ ν`, `Var(κ ∘ₘ ν) = ∫ Var(κ z) dν(z) + Var_ν(z ↦ mean of κ z)`.
+- The law of total variance of a mixture `κ ∘ₘ ν`,
+  `Var(κ ∘ₘ ν) = ∫ Var(κ z) dν(z) + Var_ν(z ↦ mean of κ z)`, is Tau Ceti's
+  `ProbabilityTheory.Kernel.variance_comp`, and the covariance form is
+  `ProbabilityTheory.Kernel.covariance_comp`.
 - `condVar_ae_eq_condExp_condVar_add_condVar_condExp`: for `m₁ ≤ m₂ ≤ m₀` and `Θ ∈ L²`,
   `Var[Θ | m₁] = E[Var[Θ | m₂] | m₁] + Var[E[Θ | m₂] | m₁]` a.e. Route: Mathlib
   `condVar_ae_eq_condExp_sq_sub_sq_condExp` and the tower property `condExp_condExp_of_le`; the
@@ -1387,33 +1566,46 @@ posterior.
   Route, exact: `E V̄ = V_∞` and `E B = B_∞` (unbiasedness with divisor `D - 1`, Tau Ceti
   `integral_finiteMean_sub_sq`), `Var(κ ∘ₘ ν) = V_∞ + B_∞` by 8.1, and independence of `θ` and
   `θ̄` with `Var θ̄ = B_∞/D`.
-- **Vector estimands.** For `κ : Kernel M (EuclideanSpace ℝ (Fin k))` the same three statements
-  hold with squares replaced by outer products and variances by `covarianceBilin` matrices.
+- **Vector estimands** (`integral_rubinTotalVariance_vector`). For
+  `κ : Kernel M (EuclideanSpace ℝ (Fin k))` with `‖x‖²` integrable under `κ ∘ₘ ν` the same three
+  statements hold with squares replaced by outer products and variances by `covarianceBilin`
+  matrices, the mixture step coordinatewise by `ProbabilityTheory.Kernel.covariance_comp`.
 - **What is not claimed.** The statements are exact moment identities given the observed data.
   The Student-`t` reference distribution of Little–Rubin (10.15) and the frequentist validity of
   `T` are approximations in the source and are not targets.
 
 *Needs:* 8.1, 8.2; Mathlib `Measure.pi`, `variance`, `covarianceBilin`; Tau Ceti
-`integral_finiteMean_sub_sq`.
+`integral_finiteMean_sub_sq`, `ProbabilityTheory.Kernel.variance_comp` and
+`ProbabilityTheory.Kernel.covariance_comp`.
 
 **Checks.**
 
 - `integral_rubinTotalVariance`: `κ z = N(z, 1)`, `ν = N(0, 1)`: `κ ∘ₘ ν = N(0, 2)`,
-  `V_∞ = B_∞ = 1`, and `E T = 2 + 1/D`; for `D = 5`, `2.2`, and `E(θ - θ̄)² = 2.2` (python Monte
-  Carlo with `4 · 10⁵` replications agrees to within `0.01`).
+  `V_∞ = B_∞ = 1`, and `E T = 2 + 1/D`; for `D = 5`, `2.2`, and `E(θ - θ̄)² = 2.2`.
+
 - `miMean`, `miWithin`, `miBetween`, `rubinTotalVariance`: for `κ z = N(z, 1)`, `D = 2` and
   `z = (0, 2)`: `θ̄ = 1`, `V̄ = 1`, `B = (1 + 1)/1 = 2` and `T = 1 + 1.5 · 2 = 4`.
 - `miMean`, `miWithin`: for `D = 1`, `θ̄` and `V̄` are the mean and the variance of `κ z₁`; for
   `D = 0` both are `0`, by Lean's `0⁻¹ = 0`.
 - `miBetween` (negative control): with divisor `D` instead of `D - 1`, `E T = 1 + 1.2 · 0.8 = 1.96`
-  for `D = 5`, not `2.2` (python Monte Carlo agrees).
+  for `D = 5`, not `2.2`.
 - `miBetween` (negative control): for `D = 1` the divisor is `0⁻¹ = 0` in Lean and `B = 0`, so
   `E T = V_∞`, short of `Var(θ | Y_obs) + B_∞` by `2 B_∞`; hence `D ≥ 2` in
   `integral_rubinTotalVariance`.
 - `rubinTotalVariance`: if every `κ z` is the same law, `B = 0` and `T = V̄` is its variance, with
   no inflation.
-- `variance_bind`: `κ z = δ_z` gives `Var(ν) = 0 + Var(ν)`; `κ` constant gives
-  `Var(κ) = Var(κ) + 0`.
+- `miMean`: for `κ z = N(z, 1)`, `D = 3` and `z = (0, 1, 2)`, `θ̄ = 1`.
+- `miWithin` (negative control): in the same case `V̄ = 1`, the average of the completed-data
+  variances, not the variance `1 + 2/3 = 5/3` of the equal mixture of `N(0, 1)`, `N(1, 1)` and
+  `N(2, 1)`.
+- `rubinTotalVariance`: in the same case `B = (1 + 0 + 1)/2 = 1` and `T = 1 + (4/3) · 1 = 7/3`;
+  without the factor `1 + D⁻¹` it would be `V̄ + B = 2`.
+
+### Examples
+
+- `κ z = N(z, 1)` and `ν = N(0, 1)`: the mixture `κ ∘ₘ ν` is `N(0, 2)`, with `V_∞ = B_∞ = 1`
+  (8.1). With `D = 5` imputations `E T = E(θ - θ̄)² = 2 + 1/5 = 2.2`, and the imputations
+  `z = (0, 2)` give `θ̄ = 1`, `V̄ = 1`, `B = 2` and `T = 4` (8.3).
 
 ### Dependencies
 
@@ -1465,8 +1657,8 @@ and Data Science project:
 Items 35–37, 40, 42 and 43 (ignorability, EM, double robustness, partially linear regression,
 missing information, combining rules) are not formalized there; its structure notes record that
 the unconditional law of total variance is Mathlib's and nothing else of Layers 7–8 exists.
-Its synopsis statement of ignorability omits positivity of the propensity factor, which 6.2
-adds. The map, which is not prescriptive:
+Its synopsis statement of ignorability omits positivity of the propensity factor, which the
+likelihood statement of 6.2 adds. The map, which is not prescriptive:
 
 | Layer | lean-CKSD files |
 |---|---|
