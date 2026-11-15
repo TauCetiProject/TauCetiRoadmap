@@ -884,9 +884,10 @@ zero `ρ` then has `Re ρ = 1/2` and sits at a real `ξ` (CT20 §4.3).
 
 Prove: if `F` satisfies (POS) and `π₁, …, π_m ∈ Π_alg` are distinct with common archimedean parameter
 `U`, then `J_F(U²) ≤ A_F/m`; in particular `J_F(U²) ≤ A_F` for every represented `U` (CT20 Corollary
-2.3, (2.4.1)–(2.4.2)). Apply §2.7 to `x = m⁻¹ Σ π_i`; the `e⊥` contribution is nonpositive. If `B∞^F` is
-positive definite on a finite-dimensional effective subgroup of `K∞`, the effective integral
-parameters satisfying the bound form a finite set.
+2.3, (2.4.1)–(2.4.2)). Apply §2.7 to `x = m⁻¹ Σ π_i`; the `e⊥` contribution is nonpositive. If the Gram
+matrix of `B∞^F` on finitely many of the basis elements `1`, `e`, `I_w` is positive definite (for
+instance on the basis of `K∞^{≤w}`), the effective elements of the subgroup they span that satisfy the
+bound form a finite set.
 
 *Needs:* §§1.7, 2.7.
 
@@ -908,7 +909,8 @@ An admissible quadruple `Q = (r, U, δ, m)` consists of `r ≥ 1`, `U_i ∈ K∞
 symmetric matrix `β_ij = (A_F/m_i) δ_ij − J_F(U_iU_j) − (B_F/4) δ_iδ_j (1 − ε(U_iU_j))`, let
 `D_r = {t ∈ ℝ^r : t_i ≥ 0, Σ t_i² = 1}` and `μ_F(Q) = min_{t ∈ D_r} tᵀβt` (CT20 (2.4.3)–(2.4.5)).
 
-- The diagonal entry is `A_F/m_i − J_F(U_i²)`, with the factor `1/m_i` and the root coefficient `1/4`.
+- The diagonal entry is `A_F/m_i − J_F(U_i²)` when `δ_i = 0` or `det U_i = 1`, with the factor `1/m_i`;
+  the root coefficient is `1/4`.
 - The minimum is attained, since `D_r` is compact and nonempty.
 - `μ_F(Q) < 0` exactly when `tᵀβt < 0` for some nonzero `t ≥ 0`.
 
@@ -951,8 +953,9 @@ Proposition 2.5). A minimizer with support `I` is an interior local minimum on t
 - For `β = diag(1, −1)` the minimum `−1` is attained on the face `I = {2}`.
 - For `β = [[1, 2], [2, 1]]` the least eigenvector `(1, −1)` has mixed signs, so `I = {1, 2}` is not
   eligible, and `μ = 1` is attained on a single coordinate.
-- Enumerating all nonempty supports is part of the statement; omitting `I = {1}` in the previous
-  example would give no candidate at all.
+- Enumerating all nonempty supports is part of the statement: for `β = diag(1, −1)`, omitting
+  `I = {2}` leaves only `I = {1}` (the support `{1, 2}` is not eligible, its least eigenvector being
+  `(0, 1)`) and gives `1` instead of `−1`.
 
 **2.12 The two-coordinate criterion.**
 Prove: for `β = [[a, b], [b, c]]` with `a, c ≥ 0`, there is a nonzero `t ≥ 0` with `tᵀβt < 0` exactly when
@@ -1054,8 +1057,10 @@ with `ℓ > 0`, by the conditional variant of §2.7 (CT20 §4.3).
   allowed.
 - For a hypothetical non-self-dual class outside a duality-stable `S`, use `m = 2`, `δ = 0` on its dual
   pair.
-- With `S = ∅`, `r = 1` and `m = 1` the statement is the bound of §2.8 with `m = 1`, sharpened by the
-  root term `−(B_F/4)(1 − ε(U²))` when `δ = 1`.
+- With `S = ∅`, `r = 1` and `m = 1` the statement is the bound of §2.8 with `m = 1`, also when
+  `δ = 1`: the root term `−(B_F/4)(1 − ε(U²))` vanishes, because `ε(U²) = 1` for every `U` of
+  determinant one, as is the parameter of every class of `Π_alg` (for `U = I_w` with `w` odd,
+  `ε(I_{2w} + 1 + e) = i^{2w+1} · i = 1`).
 
 ### 2.18 Positive definite covers
 
@@ -1898,24 +1903,29 @@ dictionary of §2.20; exhaustion from Layer 2.
 
 ### 5.1 Covers and exclusions
 
-Prove the interpretation theorem used by every classification below: let `D` be a set of effective
-parameters in `K∞^{≤w}` cut out by parity and determinant conditions, `C ⊂ D` a finite set containing
-every represented parameter of `D` with `J_{F_ℓ}(U²) ≤ c` (§2.18), and for each `U ∈ C` outside a
-residual list `R` let a triple `(ℓ, S′, t)` satisfy §2.16 for the quadruple of §2.17 attached to
-`(U, δ, m)` and the known set `S′`. Then every `π ∈ Π_alg` with `L(π∞) ∈ D` and `π ∉ S` has `L(π∞) ∈ R`,
-under the stated `(δ, m)` hypothesis (CT20 §§2.4.3–2.4.5 and §§4.1–4.3). The finite verification is
-ComputationalNumberTheory §5.1.
+Prove the interpretation theorem used by every classification below (CT20 §§2.4.3–2.4.5 and
+§§4.1–4.3). Fix an integer `w ≥ 0`, `δ ∈ {0, 1}`, an integer `m ≥ 1`, `ℓ₀ > 0` and a real
+`c ≥ A_{F_{ℓ₀}}/m`. Let `D` be a set of effective parameters in `K∞^{≤w}`, `C ⊂ D` a finite set
+containing every `U ∈ D` with `J_{F_{ℓ₀}}(U²) ≤ c` (§2.18), `S ⊂ Π_alg` a finite set of known classes,
+and `R ⊂ C`. Suppose that for each `U ∈ C ∖ R` some triple `(ℓ, S′, t)` with `S′ ⊂ S` satisfies
+§2.16 for the quadruple of §2.17 attached to `(U, δ, m)` and `S′`. If `π₁, …, π_m` are distinct
+elements of `Π_alg ∖ S` with a common parameter `U ∈ D`, each self-dual when `δ = 1`, then `U ∈ R`:
+§2.8 gives `J_{F_{ℓ₀}}(U²) ≤ A_{F_{ℓ₀}}/m ≤ c`, so `U ∈ C`, and a triple at a `U ∉ R` would contradict
+§2.17. The finite verification is ComputationalNumberTheory §5.1.
 
-- Every represented parameter in the range lies in `C`.
+- A parameter `U ∈ D` of `m` distinct classes of `Π_alg` lies in `C`, by §2.8 and `c ≥ A_{F_{ℓ₀}}/m`.
 - Each excluded `U` excludes exactly the `(U, δ, m)` hypothesis of its triple, for classes outside `S`.
 - The residual list is `C` minus the excluded parameters; known classes are subtracted only when they
   are proved distinct.
 
-*Needs:* §§2.16–2.18; ComputationalNumberTheory §5.1.
+*Needs:* §§2.8, 2.16–2.18; ComputationalNumberTheory §5.1.
 
 **Checks.**
 
 - A cover that omits a parameter of `D` satisfying the bound is not a cover, whatever its exclusions.
+- For `w = 0`, `D = {1}`, `S = ∅`, `m = 1` and a real `c < J_{F_{ℓ₀}}(1)`, the empty cover and `R = ∅`
+  would meet the other hypotheses and exclude the trivial class; `c ≥ A_{F_{ℓ₀}}` forbids this, since
+  §2.8 gives `J_{F_{ℓ₀}}(1) ≤ A_{F_{ℓ₀}}`.
 - Replacing the two `I₂₃` classes by one changes the diagonal `A_F/m` of the Gram matrices that use them,
   and invalidates the corresponding triples.
 - A cover at an enlarged bound `1.001c` is a cover at `c`; its cardinality is not the number of
