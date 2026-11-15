@@ -70,7 +70,7 @@ The required energy/equilibrium extension of ClassicalArithmeticCompletion §§6
 
 This contract extends §§6.18,6.40 in their own potential-theory direction. It is consumed in §§3.7–3.8 and §5. A radius-r circle has minimum energy −log r and capacity r, so at r=2 the values are −log 2 and 2; using the reciprocal capacity would reverse both. At r=0 a point mass has energy +∞ and capacity zero, so no positive-capacity uniqueness assertion applies. (Saff10, Lemmas 1.6–1.7, Definition 1.8 and Theorem 1.9, pp.171–173, Saff10 line 272; Example 1.10, p.173, Saff10 line 387.)
 
-The energy/equilibrium contract is a general potential-theory input, distinct from any arithmetic rank theorem. Its use in §5 is restricted to centred circles and discs; §5.2 gives the obstruction to the unrestricted compact-set formula.
+The energy/equilibrium contract is a general potential-theory input, distinct from any arithmetic rank theorem. Its use in §5 is restricted to centred circles and discs; §5.2 gives the obstruction to the unrestricted compact-set formula. The generalization problem DiophantineApproximationAndTranscendencePartII/G1 asks for exact base-point-sensitive geometric hypotheses and a rank theorem under them. The energy/equilibrium contract supplies no such rank theorem; nothing in Layers 0–5 depends on G1.
 
 ## How to read the build
 
