@@ -586,18 +586,18 @@ Hilbert–Schmidt family from Part B.
 
 ## Worked examples (acceptance criteria)
 
-### Part A
+### Part A — approximation numbers and Hilbert-space singular values
 
 The acceptance examples are `OI-A51`–`OI-A56`, together with the rank-vanishing theorem
 `OI-A23` on an explicit finite-rank map.
 
-### Part B
+### Part B — symmetric operator ideals and Schatten norms
 
 The operator-norm and Ky Fan carriers are `OI-B26` and `OI-B28`. The trace-class boundary is
 witnessed by `OI-B31`. The concrete family constructions are `OI-B25`, `OI-B27`, `OI-B30`,
 and `OI-B41`.
 
-### Part C
+### Part C — Hilbert–Schmidt operators as an `ℓ²` space of columns
 
 The column model is identified with the basis-independent energy by `OI-C03`, `OI-B35`, and
 `OI-C12`. Its bounded representation map is `OI-C09`–`OI-C13`.
