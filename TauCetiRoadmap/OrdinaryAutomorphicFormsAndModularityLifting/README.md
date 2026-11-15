@@ -36,7 +36,7 @@ The Skinner–Wiles/classical convention has `detρ_f=ψ ε^{k−1}`. The dual r
 
 ## Exact supplier contracts
 
-Mathlib is pinned at `6b7abb3` and Tau Ceti at `a91d3aa`. The following are the mathematical inputs, with their coefficient, residual and normalization hypotheses retained. Sections §1.6, §2.12, §3.39, §4.6a, §4.20, §5.10 and §6.14 supply the arithmetic refinements specified here.
+Mathlib is pinned at `1b1ccf4` and Tau Ceti at `2fd255d`. The following are the mathematical inputs, with their coefficient, residual and normalization hypotheses retained. Sections §1.6, §2.12, §3.39, §4.6a, §4.20, §5.10 and §6.14 supply the arithmetic refinements specified here.
 
 ### From Mathlib and Tau Ceti
 
@@ -44,7 +44,7 @@ Use `Module.Free` (Mathlib.LinearAlgebra.FreeModule.Basic), `Module.Finite` (Mat
 
 The carriers `IsDedekindDomain.FiniteAdeleRing` (Mathlib.RingTheory.DedekindDomain.FiniteAdeleRing), `NumberField.IsTotallyReal` (Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex), `QuaternionAlgebra` (Mathlib.Algebra.Quaternion), `NumberField.Units.rank` (Mathlib.NumberTheory.NumberField.Units.DirichletTheorem), `PadicComplex` (Mathlib.NumberTheory.Padics.Complex) and `CharacterModule` (Mathlib.Algebra.Module.CharacterModule) supply finite adèles, real signatures, quaternion algebras, unit ranks, the completed algebraic p-adic field and algebraic additive characters. `CharacterModule` alone does not supply 𝒪-linear `K/𝒪` duality or compact/discrete topological duality; those are supplied below. The Iwasawa logarithm required by §3.38 is supplied by DirichletPadicLFunctions §0.6, with its nonzero domain and normalization `log_p(p)=0`.
 
-Tau Ceti supplies `HeckeRing.GL2.Newform` and `HeckeRing.GL2.Newform.qExpansion_coeff_one` (TauCeti.NumberTheory.ModularForms.Newforms.Newform), `TauCeti.Newform.heckeTDiamondCuspNewCharacter` (TauCeti.NumberTheory.ModularForms.Newforms.Hecke.Algebra), and `HeckeRing.GL2.Newform.eq_of_forall_prime_eigenvalue_eq` (TauCeti.NumberTheory.ModularForms.Newforms.StrongMultiplicityOne). Use these classical newforms, their normalized q-expansions and Hecke characters at their existing scope. The Hilbert ordinary towers and Galois comparisons use the arithmetic contracts below.
+Tau Ceti supplies `HeckeRing.GL2.Newform` and `HeckeRing.GL2.Newform.qExpansion_coeff_one` (TauCeti.NumberTheory.ModularForms.Newforms.Newform), `TauCeti.Newform.heckeTDiamondCuspNewCharacter` (TauCeti.NumberTheory.ModularForms.Newforms.Hecke.Algebra), and `HeckeRing.GL2.Newform.eq_of_forall_prime_eigenvalue_eq` (TauCeti.NumberTheory.ModularForms.Newforms.StrongMultiplicityOne). Use these classical newforms, their normalized q-expansions and Hecke characters at their existing scope. Tau Ceti also supplies `TauCeti.Ring.IsCohenMacaulay` (TauCeti.RingTheory.CohenMacaulay.Ring): a Noetherian ring whose localization at every prime is Cohen–Macaulay over itself. For a Noetherian local ring `TauCeti.Ring.isCohenMacaulay_iff_of_isLocalRing` identifies it with `Module.IsCohenMacaulay A A`, depth equal to Krull dimension, which is the hypothesis of §4.3; the predicate does not include locality. The Hilbert ordinary towers and Galois comparisons use the arithmetic contracts below.
 
 ### From roadmaps on main
 
@@ -500,7 +500,7 @@ A Noetherian local Cohen–Macaulay; `I⊆m_A`; `r ≤ d − 2`.
 
 Proposition A.1 (Raynaud, Corollaire 4.2): Prove that `Spec(A/I) ∖ {m_A/I}` is connected as the first assertion of this target.
 
-Suggested.lean states these results as `puncturedSpectrum_connected` and `components_meet_in_large_dimension`. Its predicate `IsCohenMacaulayLocal` expresses Cohen–Macaulayness by a regular sequence of length `dim A`; the component statement uses Mathlib’s minimal primes over `I`.
+Suggested.lean states these results as `puncturedSpectrum_connected` and `components_meet_in_large_dimension`. Cohen–Macaulayness is Tau Ceti's `TauCeti.Ring.IsCohenMacaulay`; the component statement uses Mathlib’s minimal primes over `I`.
 
 Induction on `d − r`: for `d − r = 2` this is the proposition; otherwise pick a one-dimensional `𝔭` in `C′_1 ∩ C′_2` and pass to `A_𝔭` (Cohen–Macaulay of dimension `d − 1`), where the decomposition stays nontrivial.
 
@@ -513,7 +513,7 @@ Induction on `d − r`: for `d − r = 2` this is the proposition; otherwise pic
 
 ([SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) Appendix A, Corollary A.2, p. 123 (Numdam PDF page 120; printed page `=` PDF page `+ 3`); [SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) Appendix A, proof of Corollary A.2, pp. 123–124 (Numdam PDF pages 120–121; printed page `=` PDF page `+ 3).`)
 
-*Needs:* mathlib:IsLocalRing; DeformationAndDerivedPatchingAlgebra:§6.6. The punctured-spectrum connectedness assertion of SW99 Appendix A.1 is proved here before its intersection consequence.
+*Needs:* mathlib:IsLocalRing; Tau Ceti `TauCeti.Ring.IsCohenMacaulay`; DeformationAndDerivedPatchingAlgebra:§6.6. The punctured-spectrum connectedness assertion of SW99 Appendix A.1 is proved here before its intersection consequence.
 
 ### 4.6a Single-coefficient solvable descent
 
@@ -561,7 +561,7 @@ In `A=k[[x,y,z]]`, the proper ideal `(x)` has `d−r=2`, and the punctured spect
 
 ### Dependencies
 
-ArithmeticGaloisRepresentations:Layer 5; AutomorphicGaloisRepresentations:§§3.10–3.16; ClassFieldTheory:Layer 11; ClassicalSerreModularity:§I.1; DeformationAndDerivedPatchingAlgebra:§§1.7–1.9, 3.1–3.4, 5.1–5.6, 6.6; GL2AutomorphicRepresentationsAndTransfer:§§R17.4.8–R17.4.11; mathlib:IsLocalRing.
+ArithmeticGaloisRepresentations:Layer 5; AutomorphicGaloisRepresentations:§§3.10–3.16; ClassFieldTheory:Layer 11; ClassicalSerreModularity:§I.1; DeformationAndDerivedPatchingAlgebra:§§1.7–1.9, 3.1–3.4, 5.1–5.6, 6.6; GL2AutomorphicRepresentationsAndTransfer:§§R17.4.8–R17.4.11; mathlib:IsLocalRing; Tau Ceti `TauCeti.Ring.IsCohenMacaulay`.
 
 ## Layer 5: Conditional lifting and arithmetic inputs
 

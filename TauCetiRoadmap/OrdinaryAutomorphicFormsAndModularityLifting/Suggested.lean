@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RingTheory.CohenMacaulay.Ring
 
 /-!
 # Ordinary automorphic forms and modularity lifting: target signatures
@@ -10,7 +11,8 @@ finishes neither a layer nor the roadmap.
 The statements here are the Cohen–Macaulay punctured-spectrum connectedness and component
 intersection theorems (§4.3), the complete-DVR numerical criterion (§4.20), and Washington's
 distinct-prime class-group bound and stabilization in abelian cyclotomic towers (§5.9).
-Their definitions use Mathlib's regular sequences, power-series quotients and class groups.
+They use Tau Ceti's Cohen–Macaulay rings and Mathlib's regular sequences, power-series
+quotients and class groups.
 
 The Skinner–Wiles route itself (nearly ordinary Hecke algebras, pseudo-deformation rings,
 pro-modularity, Theorem A and the irreducible-residual theorem) is ClassicalSerreModularity
@@ -32,18 +34,10 @@ signatures until their mathematical objects exist.
 
 namespace TauCetiRoadmap.OrdinaryAutomorphicFormsAndModularityLifting
 
-/-- A Noetherian local ring is Cohen–Macaulay when it has a regular sequence whose length
-equals its Krull dimension. This expresses the hypothesis of §4.3 on Mathlib's ring carrier. -/
-def IsCohenMacaulayLocal (A : Type*) [CommRing A]
-    [IsNoetherianRing A] [IsLocalRing A] : Prop :=
-  ∃ parameters : List A, RingTheory.Sequence.IsRegular A parameters ∧
-    ringKrullDim A = parameters.length
-
 /-- Skinner–Wiles Appendix A.1 (§4.3): cutting a Cohen–Macaulay local ring by at most
 `d - 2` equations leaves a connected punctured spectrum. -/
 theorem puncturedSpectrum_connected (A : Type*) [CommRing A]
-    [IsNoetherianRing A] [IsLocalRing A]
-    (hCM : IsCohenMacaulayLocal A) (d : ℕ) (hdim : ringKrullDim A = d)
+    [IsLocalRing A] [TauCeti.Ring.IsCohenMacaulay A] (d : ℕ) (hdim : ringKrullDim A = d)
     (f : List A) (hproper : Ideal.ofList f ≤ IsLocalRing.maximalIdeal A)
     (hcodim : f.length + 2 ≤ d) :
     IsConnected {x : PrimeSpectrum A |
@@ -54,8 +48,7 @@ theorem puncturedSpectrum_connected (A : Type*) [CommRing A]
 `Spec(A/(f))` has two components meeting in a prime of dimension `d - length(f) - 1`.
 Minimal primes over `(f)` represent the components. -/
 theorem components_meet_in_large_dimension (A : Type*) [CommRing A]
-    [IsNoetherianRing A] [IsLocalRing A]
-    (hCM : IsCohenMacaulayLocal A) (d : ℕ) (hdim : ringKrullDim A = d)
+    [IsLocalRing A] [TauCeti.Ring.IsCohenMacaulay A] (d : ℕ) (hdim : ringKrullDim A = d)
     (f : List A) (hproper : Ideal.ofList f ≤ IsLocalRing.maximalIdeal A)
     (hcodim : f.length + 2 ≤ d)
     (C₁ C₂ : Set (Ideal A)) (hne₁ : C₁.Nonempty) (hne₂ : C₂.Nonempty)
