@@ -888,8 +888,13 @@ G2's cofiber sequences of the unit S→HF_p smashed with X, an E-Adams
 resolution (Ravenel, Definition 2.2.1), its exact couple and spectral
 sequence with E₂^(s,t)=Ext_(A_*)^(s,t)(𝔽_p,H_*(X;𝔽_p)) and d_r of bidegree
 (r,r−1) (Ravenel, Theorems 2.1.1 and 2.2.3); prove the pairing for ring
-spectra (Ravenel, Theorem 2.3.3) and, for bounded-below X, strong
-convergence to the homotopy of the HF_p-nilpotent completion. Prove that
+spectra (Ravenel, Theorem 2.3.3), conditional convergence for every X to
+the homotopy of the HF_p-nilpotent completion holim_s X/X_s, X_s the s-th
+stage of the tower (the fibres of the maps from the completion to the
+X/X_s have zero homotopy limit), and strong convergence when X is bounded
+below and H_*(X;𝔽_p) is of finite type, every E₂^(s,t) then being finite
+so that lim¹_r E_r^(s,t)=0 (Ravenel, Theorem 2.1.1(ii), p. 42, for
+connective X of finite type). Prove that
 for bounded-below X this completion is G3.9's derived p-completion
 (Bousfield, §6, Theorem 6.6): the identification is owned here, and G3.9
 supplies only the derived completion, its Hom/Ext sequence and its
@@ -919,6 +924,14 @@ Guillou–Weibel and Bousfield are cited sources, not suppliers.
   it.
 - The Moore spectrum of ℤ/2^∞ has classical 2-completion zero but derived
   2-completion with π₁=ℤ₂, so the tensor form needs finite generation.
+- X=⋁_(n≥1)Hℤ/p^n is bounded below with H₀(X;𝔽_p) infinite-dimensional.
+  For A=⊕_(n≥1)ℤ/p^n its completion has π₀=Ext(ℤ/p^∞,A), whose elements
+  divisible by every p^s form lim¹_k A[p^k] along multiplication by p;
+  this is nonzero, since the image of A[p^(k+j)] in A[p^k] misses the
+  summands with n≤j, so the images in these countable groups never
+  stabilize. As p has Adams
+  filtration 1 these elements lie in every filtration, so the filtration
+  is not Hausdorff and strong convergence needs finite type.
 
 ### 2.3 Quillen's theorem and the homotopy of MU (F2.3)
 
@@ -1076,8 +1089,9 @@ ring and Quillen's unoriented operation proof
 universal property of MO.
 TangentialBordism consumes these real formal laws; its geometric cycles
 and manifold representatives are not inputs here. *Needs:*
-GeneralizedCohomology G4 (real projective comparisons and Euler classes)
-and G3.4 (the Milnor sequence of a telescope, for RP∞×RP∞); F1.4's
+GeneralizedCohomology G4 (real projective comparisons and Euler classes),
+G3.4 (the Milnor sequence of a telescope, for RP∞×RP∞) and G5.3–G5.4 (the
+Thom model of MO, for its universal property); F1.4's
 pinned `TauCeti.ExponentTwoLazardRing`,
 `ExponentTwoLazardRing.lift` and `ExponentTwoLazardRing.gradedLift`; F2.4's
 π_*MO.
@@ -1167,7 +1181,11 @@ Deduce freeness and identify h_* naturally with
 including the boundary maps; termwise freeness alone is not an exactness
 argument. This works for every commutative graded MO_*-algebra R.
 *Needs:* GeneralizedCohomology G2.4 (symmetric spectral model), G2.6 (true
-homotopy groups) and G2.7 (HF₂ and module spectra); F2.2's dual Steenrod
+homotopy groups), G2.7 (HF₂ and module spectra), G3.4 (the Milnor
+sequence of a telescope, for HR^*(RP∞)), G4.3 and G4.5 (Thom classes and
+real orientations, for HR's real Thom orientation) and G5.3–G5.4 (the
+Thom model of MO and its Thom product, the source of the Thom
+transformation and of MO→HR); F2.2's dual Steenrod
 algebra; F2.4's MO_* and F2.5's real laws; F1.4's pinned
 `FormalGroup.exponentTwoExp` and `ExponentTwoLazardRing.lift`.
 
