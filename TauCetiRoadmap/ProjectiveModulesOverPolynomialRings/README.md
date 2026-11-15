@@ -809,6 +809,27 @@ Conclusion: a few conjectures, p. 936). The Hermite ring conjecture, that `A[X]`
 `A` is (*ibid.*), is equivalent to asking that, for every commutative ring `A`, every stably free
 `A[X]`-module be extended from `A`.
 
+## Provenance: existing formalizations outside Tau Ceti
+
+This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
+Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
+Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
+the repository records it as unreviewed by humans, and it is built on Lean and Mathlib v4.35.0,
+earlier than our pin. It is not a dependency: a statement read there is compared with the target
+here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
+Apache-2.0 notices.
+
+`StacksFrontier/Algebra/Module/StablyFree.lean` defines stable isomorphism and stably free modules,
+with their basic closure properties (Tags 0BC3–0BC5): the notion of Layer 2 and 5.1, which this
+roadmap takes from Mathlib. `StacksFrontier/RingTheory/MilnorPatching` proves Milnor patching, the
+equivalence between finite projective modules over a fibre product of rings and patching data (Tags
+08KJ and 0D2J, `MilnorPatching/ProjectiveModules.lean`); Scope leaves it to AlgebraicKTheory Layer
+6. `StacksFrontier/RingTheory/Module/Kaplansky.lean` proves Kaplansky's theorem that projective
+modules are direct sums of countably generated ones (Tags 0591–0593), which this roadmap does not
+use. No file name or tag there treats Suslin's `r!` theorem (Layer 1), Quillen's dilation lemma, the
+Quillen ideal or Quillen patching (Layer 3), Horrocks' theorem (Layer 4) or the Quillen–Suslin
+theorem (Layer 5).
+
 ## References
 
 - D. Quillen, « Projective modules over polynomial rings », *Invent. Math.* 36 (1976), 167–171.
@@ -862,3 +883,8 @@ Conclusion: a few conjectures, p. 936). The Hermite ring conjecture, that `A[X]`
 - A. Asok, M. Hoyois, M. Wendt, « Affine representability results in A¹-homotopy theory, II:
   principal bundles and homogeneous spaces », *Geom. Topol.* 22 (2018), 1181–1225.
   doi:10.2140/gt.2018.22.1181.
+- AxiomMath, *The Stacks Project in Lean*. Lean 4 formalization at commit
+  c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
+  directories `StacksFrontier/RingTheory/MilnorPatching`, `StacksFrontier/Algebra/Module`,
+  `StacksFrontier/RingTheory/Module`.
+  https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier
