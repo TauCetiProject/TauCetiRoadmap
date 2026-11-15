@@ -74,7 +74,7 @@ the Jacobi functions of a real argument, plus Carlson's integrals on slit-plane 
   Nothing here uses them. Legendre's relation here is the identity between the real functions
   `K` and `E`, proved by differentiation (Milestone 3). Identifying it with the lattice relation
   is a statement about lattices and belongs there.
-- **[ConformalMapping](../ConformalMapping/README.md)** owns Schwarz–Christoffel maps. The map
+- **[ConformalMapping](../../Completed/ConformalMapping/README.md)** owns Schwarz–Christoffel maps. The map
   of the upper half-plane onto a rectangle is an incomplete integral of the first kind, and it
   may consume Milestone 1. This roadmap constructs no conformal maps.
 - **[DiophantineApproximationAndTranscendence](../DiophantineApproximationAndTranscendence/README.md)**
