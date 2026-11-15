@@ -21,8 +21,15 @@ theorem. F0.S here owns the additional sharp finite-order Sard bound.
 ComplexKahlerGeometry K5a owns the complete, atlas-independent Fréchet
 space of smooth finite-rank bundle sections on boundaryless manifolds;
 F0.4 owns its finite-jet comparison and the boundary/corner and relative
-constraint extensions. PDE Lane A supplies domain Sobolev estimates;
-F1 owns the Cauchy–Riemann and totally-real-boundary specializations.
+constraint extensions. PDE Lane A supplies the scalar domain Sobolev and Hölder
+spaces that PH builds on.
+[PseudoholomorphicCurveAnalysis](../PseudoholomorphicCurveAnalysis/README.md) (PH below) owns the planar and compact
+Cauchy–Riemann theory: local vector-valued Sobolev classes, isothermal coordinates, the
+Cauchy and Beurling operators, interior and totally real boundary estimates, the similarity
+principle, nonlinear bootstrapping, Fredholm theory on compact bordered surfaces and closed
+and bordered Riemann–Roch. F1 consumes PH and owns the strip, cylindrical-end, weighted,
+spectral-flow, Conley–Zehnder and determinant-line theory, together with the normalized
+disc solvers of F1.2.
 CombinatorialHeegaardFloer Lanes H, G and L supplies the combinatorial
 complexes. F4, F5 and the reconciliation section own their smooth
 realizations and holomorphic comparisons.
@@ -31,6 +38,7 @@ Supply runs in one direction. The suppliers of this roadmap are MorseTheory,
 DifferentialGeometry, ComplexKahlerGeometry, AlgebraicTopology,
 GeometricTopology, GeometricCurrents, CharacteristicClasses,
 FuchsianOrbifolds, LieGroups, HopfRinow, RiemannianGeometry, PDE,
+PseudoholomorphicCurveAnalysis,
 SelfAdjointSpectralTheory, DGAInfinity and CombinatorialHeegaardFloer, each
 cited by section where it is used. Nothing is taken from CalibratedGeometry
 or from SmoothBundlesConnections: the integral-chain comparison of M.4 runs
@@ -170,11 +178,10 @@ F0.S supplies sharp finite-dimensional Sard before F0.0's Fredholm reduction.
 Build F0's sharp Fredholm Sard–Smale theorem and its Banach-manifold/bundle
 comparisons on the existing native normal-form, level-set and parameter APIs,
 and the nonlinear Fredholm-section and asymptotic-strip operator theory;
-Sobolev spaces in the shape PDE needs them (`W^{k,p}`
-on domains, embeddings and Rellich from PDE Lane A, with the surface/bundle
-multiplication and composition adapters constructed in F1.1); elliptic estimates for the
-first-order operator ∂̄ (Calderón–Zygmund inequality, boundary regularity for
-totally real boundary conditions, bootstrapping); almost complex structures and
+the Sobolev spaces and elliptic estimates for the first-order operator ∂̄ (local
+`W^{k,p}` classes, the Calderón–Zygmund inequality, boundary regularity for
+totally real boundary conditions, bootstrapping), consumed from PH, which builds
+them on PDE Lane A's scalar Sobolev and Hölder spaces; almost complex structures and
 the generic symplectic form-calculus adapters in F2.1; Morse–Smale trajectory
 dynamics, stable manifolds and Morse homology. Consume MorseTheory's finite
 function/sublevel theory and DG's smooth flow. Manifold orientations and degree theory are built by
@@ -202,7 +209,7 @@ F0.7's Bott genericity, which precedes M.7 gluing/complex/continuation and
 M.8–M.10 comparisons. F0.5 follows F1's surface estimates and precedes
 the holomorphic moduli lanes; F0.6 follows M.0a's dynamics and F0.1–3,
 independently of Bott complexes. The holomorphic lanes consume
-these foundations; F1 is shared with the PDE roadmap. Each application retains its regularity and compactness hypotheses, and
+these foundations; F1 consumes PH, which consumes PDE Lane A. Each application retains its regularity and compactness hypotheses, and
 constructs the gluing maps and comparisons used by its counts.
 
 ## Layer 1: Morse homology
@@ -1288,10 +1295,11 @@ without the coorientation argument required here.
 
 On closed manifolds construct
 `d_t=e^(−tf)d e^(tf)=d+t df∧`, its formal adjoint and self-adjoint Witten
-Laplacian on CKG K5a's real form-bundle Hilbert/Sobolev carrier. Compute
+Laplacian on CKG K5a's real form-bundle Hilbert/Sobolev carrier (Witten,
+*Supersymmetry and Morse theory*, J. Differential Geom. 17 (1982), §2, by locator). Compute
 in an orthonormal frame
 `Δ_t=Δ+t²|df|²+t Σ_(i,j)Hess f(e_i,e_j)[e^i∧,ι_(e_j)]`,
-where `[a,b]=ab−ba`. Work first with Morse–Smale standard metrics of
+where `[a,b]=ab−ba` (Witten §2). Work first with Morse–Smale standard metrics of
 M.0b, Euclidean near critical points. For arbitrary smooth Morse–Smale
 metrics prove the semiclassical localization and integration-map comparison
 by the local Hessian/quadratic-operator approximation with controlled Taylor
@@ -1301,13 +1309,17 @@ eigenvalues±2, so derive the factor-of-two conversion from half-quadratic
 models. No orientation is required: use K5a's orientation-twisted Hodge
 star and its density formal adjoint. Prove the harmonic-oscillator local model, uniform
 localization estimates, low-energy cluster rank equal to the critical
-counts and a linear-in-t gap above it. On the small complex construct
+counts and a linear-in-t gap above it (the model and the resulting Morse
+inequalities: Witten §2; the localization estimates and the gap:
+Helffer–Sjöstrand, *Puits multiples en mécanique semi-classique IV: étude du
+complexe de Witten*, Comm. Partial Differential Equations 10 (1985), 245–340,
+by locator). On the small complex construct
 `I_t(ω)(p)=∫_(D(p))e^(tf)ω` by M.4's compactified evaluation/integration,
 prove its cochain identity and its eventual isomorphism with the real
-Morse cochain complex. Identify de Rham/singular comparison and the
+Morse cochain complex (Helffer–Sjöstrand's comparison of the low-lying
+spectral subcomplex with the Morse complex, by locator). Identify de Rham/singular comparison and the
 Morse inequalities through the same maps. These semiclassical estimates
 are new targets; K5a supplies the generic closed elliptic realization.
-
 
 **Witten differential and integration comparison.**
 
@@ -1320,7 +1332,7 @@ are new targets; K5a supplies the generic closed elliptic realization.
 - On degree-one forms for that same minimum the scalar operator is −∂²+4t²x²+2t, so e^(−tx²)dx has eigenvalue 4t rather than 0.
 - For f=−x² the zero mode is e^(−tx²)dx in degree 1, agreeing with Morse index 1; for t=0 both conjugated differentials reduce to d.
 
-*Needs:* ComplexKahlerGeometry K5a's Hilbert/Sobolev form carrier and orientation-twisted Hodge star; M.0b's standard metrics; M.4's compactified integration; M.5's continuation for the metric comparison; DifferentialGeometry Layer 8's de Rham comparison.
+*Needs:* ComplexKahlerGeometry K5a's Hilbert/Sobolev form carrier and orientation-twisted Hodge star; M.0b's standard metrics; M.4's compactified integration; M.5's continuation for the metric comparison; DifferentialGeometry Layer 8's de Rham comparison; Witten (1982) §2 and Helffer–Sjöstrand (1985) (sources, by locator).
 
 ### Examples
 
@@ -1646,8 +1658,9 @@ self-adjoint spectral-flow or CZ conventions.
 Construct universal zero sets and the regular-parameter projection,
 prove closed/split range and the kernel/cokernel/index comparison with
 the native `parameterProj` linear model. Prove surjectivity by localized
-metric variations along a nonconstant trajectory and the required
-adjoint uniqueness theorem. Separate constant trajectories and
+metric variations along a nonconstant trajectory and F0.2's adjoint-ODE
+identification: an adjoint solution vanishing on an open interval vanishes
+identically, by uniqueness for the linear adjoint equation. Separate constant trajectories and
 endpoint-fixed neighborhoods. Apply sharp Sard–Smale under the actual
 finite-order inequality; these universal-section results feed the
 metric-genericity theorem of item4 and the surface-section theorem of
@@ -1656,7 +1669,6 @@ gradient sections on W^(r,p) paths use finite C^ℓ metrics and C^(ℓ+1)
 functions, choose ℓ≥k+r+1, and prove C^k universal-section/projection
 regularity with this derivative budget before applying Sard–Smale.
 The low C¹ metric theorem in item4 uses finite-window arguments instead.
-
 
 **Universal zero manifold and parameter projection.**
 
@@ -1669,7 +1681,7 @@ The low C¹ metric theorem in item4 uses finite-window arguments instead.
 - For s(x,p)=p with x∈ℝ, the zero set is p=0 and its projection has kernel dimension 1 and cokernel dimension 1, hence index 0 but is not surjective.
 - For s(x,p)=0 into ℝ, the total derivative is 0 and not surjective; the zero set has dimension 2 rather than the regular expected dimension 1.
 
-*Needs:* F0.0; F0.2's trajectory sections; Tau Ceti `parameterProj`; F1.2's adjoint uniqueness theorem.
+*Needs:* F0.0; F0.2's trajectory sections and adjoint-ODE identification, with uniqueness for the adjoint equation; Tau Ceti `parameterProj`.
 
 ### 2.6 Fixed finite-regularity Morse functions and relative Morse–Smale genericity (F0.4)
 
@@ -2050,73 +2062,65 @@ Mathlib `ContinuousLinearMap.IsFredholm`, the Banach inverse and implicit functi
 
 ## Layer 3: the Cauchy–Riemann elliptic package
 
-The PDE roadmap's Lane A/B builds `W^{k,p}(Ω)`, embeddings, Rellich, and
-Calderón–Zygmund in general; this lane needs only the **2-dimensional,
-first-order-elliptic-system slice** (McDuff–Salamon, Appendix B), and should
-consume the shared spine rather than duplicate it:
+[PseudoholomorphicCurveAnalysis](../PseudoholomorphicCurveAnalysis/README.md) (PH) owns the planar and compact
+Cauchy–Riemann theory. This layer consumes it, keeps the F1.k names for the consumed
+material so that the citations below resolve, and owns the strip, end, weighted, index and
+normalization constructions that PH does not cover.
 
 ### 3.1 Sobolev surface and bundle adapters (F1.1)
 
-Construct the finite-chart W^(k,p) surface/bundle adapters, trace and
-multiplication (`kp>2`), using the PDE carriers. Include bordered and
-cylindrical-end surfaces, totally real subbundles and actual transition
-maps. Prove norm equivalence, density, parameter dependence and the
-nonlinear composition estimates used in F0/F2.
+Consume PH1's local vector-valued `W^(k,p)` classes on planar domains and half-discs, with
+their products, composition and change-of-variables theorems (PH1.2), and PH6.1's bundle
+`W^(k,p)` spaces on compact surfaces with boundary and totally real boundary subspaces.
+"F1.1's Sobolev adapters" below means these. Construct here the versions that PH does not
+cover: strips `ℝ×[0,1]` and cylindrical ends, with their translation-invariant norms, the
+actual transition maps between end charts and compact charts, and parameter dependence of
+the norms and composition estimates in the form F0/F2 use.
 
+**Strip and end Sobolev adapters.**
 
-**Sobolev surface and bundle adapters.**
-
-- The chartwise norms are equivalent under the stated finite atlas and transition bounds, and restriction and trace agree on chart overlaps.
-- Density, multiplication and nonlinear composition respect boundary conditions and the specified regularity budgets; on ends the chosen uniform bounds and weights are retained.
+- On every compact piece of a strip or cylindrical end, the translation-invariant norms are equivalent to PH6.1's norms under the stated transition maps between end charts and compact charts.
+- Multiplication and nonlinear composition respect the totally real boundary conditions and the specified regularity budgets with constants uniform along the ends; on ends the chosen uniform bounds and weights are retained, and the parameter dependence has the form F0/F2 use.
 
 **Checks.**
 
-- For a constant section 1 on the unit disc, its W¹,p norm with the usual sum convention is π^(1/p) and its weak derivative is 0; its trace is 1, not 0.
-- With the totally real boundary ℝ⊂ℂ, the constant section 1 satisfies the boundary condition and the constant i fails it.
+- On the strip ℝ×[0,1], a section supported in [0,1]×[0,1] and its translate by s=5 have the same W¹,p norm; a norm built from one fixed compact chart would not see the translate.
+- With the totally real boundary ℝ⊂ℂ on both edges of the strip, the constant section 1 satisfies the boundary condition and the constant i fails it.
 - For k=1,p=3 the multiplication threshold is kp=3>2; k=1,p=2 gives 2 and does not satisfy the advertised embedding/algebra premise.
 - On the infinite cylinder, the constant section has infinite L² norm, while e^(−sqrt(1+s²)) is square-integrable; a finite-chart construction must not silently admit all constants on the ends.
 
-*Needs:* PDE Lane A's Sobolev carriers and Tau Ceti `Wkp`; DifferentialGeometry Layer 0's bundle calculus.
+*Needs:* PH1, PH6.1; DifferentialGeometry Layer 0's bundle calculus.
 
 ### 3.2 Interior estimates, planar operators and the similarity principle (F1.2)
 
-Prove the Cauchy-kernel interior estimate
-`‖u‖_(W¹,p(K))≤C(‖∂̄u‖_(Lp(U))+‖u‖_(Lp(U)))` for K compact in U,
-1<p<∞, and its variable-coefficient/lower-order and bundle versions.
-Consume PDE Lane A7's Banach Hölder spaces. Prove their product
-estimates and local composition/inversion estimates, retaining the
-derivative budget for changes of variables at each finite order. Construct the planar Cauchy–Green and Beurling
-operators with their Hölder bounds: on nested discs and compactly
-supported C^(k,α) data, 0<α<1, the Cauchy right inverse gains one
-derivative locally and the Beurling operator B=∂T is bounded
-on C^(k,α), for every integer k≥0. Specify support radii, cutoff/extension
-operators, normalization of the holomorphic kernel and constants in the
-estimates. Prove ∂̄T=id, ∂T=B, differentiation on compactly supported
-data and continuity for parameter families with common support and norm bounds.
-For an elliptic Beltrami coefficient |μ|<1, use real-linear normalization
-to arrange μ(0)=0. In rescaled coordinates
-μ_ε(z)=χ(z)μ(εz) tends to0 in C^(1,α). On the closed Banach subspace
-of C^(1,α) data supported in one fixed closed disc containing supp χ,
-solve h=μ_ε(1+Bh) by contraction.
-For ψ=z+Th prove positive Jacobian and local invertibility from its
-C¹ closeness to identity. Subtract its value at0 and divide by its
-nonzero complex derivative there; μ_ε(0)=0 makes that normalization
-complex-linear. Rescale back to obtain C^(2,α) local coordinates for
-C^(1,α) coefficients. Bootstrap smooth coefficients to smooth coordinates. These planar
-operators and estimates are targets here, beyond the Lp estimates.
+Consume PH's planar theory. The names used below resolve as follows:
+
+- F1.2's interior estimates and their variable-coefficient, lower-order and bundle versions:
+  PH3.2–PH3.3;
+- F1.2's Hölder Cauchy–Green and Beurling operators and their estimates: PH3.1;
+- F1.2's Beltrami inverse and `C^(ℓ+1,α)` coordinates: PH2.4;
+- F1.2's boundary flattening, reflection, boundary estimates and bootstrapping: PH2.3, PH3.4
+  and PH5.1 (the boundary case of PH5.1 needs `ℓ ≥ 2` and gives `W^(ℓ,p)`);
+- F1.2's vector similarity principle, unique continuation and isolated zeros: PH3.5;
+- F1.2's formal adjoints, adjoint sections, dual-Sobolev cokernel identification and adjoint
+  uniqueness theorem: PH6.3;
+- F1.2's real Cauchy–Riemann line-bundle zero count (isolated zeros of positive order whose
+  sum is c₁): PH7.2.
+
 Construct the normalized real-boundary disc solver before nonlinear
-coordinate changes. For p>2 let X be the closed real subspace of
-W^(2,p)(D,ℂ^n) whose trace lies in e^(3iθ/2)ℝ^n, with its inherited
-Sobolev norm; let Y=W^(1,p)(D,ℂ^n)×ℂ^n×ℂ^n with product norm.
-Prove completeness, bounded trace and center/first-jet evaluation, and
-that ξ↦(∂̄ξ,ξ(0),∂sξ(0)) is a bounded real-linear isomorphism.
-First construct the boundary analytic input: the M. Riesz/Szegő
-projection on the W^(2−1/p,p) trace space and the Cauchy boundary
-extension estimates, with the totally real reflection comparison.
-Use them with the interior estimate to solve the boundary problem
-with W^(2,p) regularity. Fourier modes compute the kernel of the
-unaugmented ∂̄ as a₀+a₁z+conj(a₁)z²+conj(a₀)z³, componentwise;
-the center and first-jet constraints determine those coefficients. On the closed boundary
+coordinate changes. For p>2 let X be PH6.1's closed real subspace
+W^(2,p)_F(D,ℂ^n) of W^(2,p)(D,ℂ^n), for the totally real subbundle
+F=e^(3iθ/2)ℝ^n over the circle, with its inherited Sobolev norm; let
+Y=W^(1,p)(D,ℂ^n)×ℂ^n×ℂ^n with product norm. Centre and first-jet
+evaluation are bounded by PH6.1's Morrey embedding. The statement that
+ξ↦(∂̄ξ,ξ(0),∂sξ(0)) is a bounded real-linear isomorphism X→Y is a
+corollary of PH6.3 and PH7.2 and is consumed in that form: by PH7.2's
+disc computation (its step 8, componentwise with k=3) the unaugmented ∂̄
+is onto Y's first factor with kernel a₀+a₁z+conj(a₁)z²+conj(a₀)z³, of
+real dimension 4n, equal to its index nχ(D)+μ=n+3n; the centre and
+first-jet constraints read (a₀,a₁) off that kernel, so the augmented map
+is injective of index 0, hence an isomorphism, with no boundary analysis
+beyond PH6.3. Own here the Hölder version: on the closed boundary
 subspace of C^(1,α)(D,ℂ^n), prove the same augmented map is a Banach
 isomorphism onto C^α(D,ℂ^n)×ℂ^n×ℂ^n. Use Privalov-type
 boundary estimates for existence and C^(1,α) regularity up to the
@@ -2128,41 +2132,11 @@ outside W^(1,p). Prove its bounded inverse and parameter dependence
 by the Neumann series. Export this as a standalone local Hölder boundary-problem API;
 identify its Sobolev realization on common data when regularity permits.
 These direct disc constructions use no closed-surface RR theorem.
-Cite existing work in [t4v1/damian_formalizare](https://github.com/t4v1/damian_formalizare),
-MorseFloer/Part2/CauchyPompeiu.lean and CauchyHolder.lean, for its Cauchy/Beurling
-Hölder-scale development. Compare its differential/kernel normalization
-with ∂̄=(∂s+i∂t)/2 here.
-Construct boundary flattening/reflection for totally real conditions,
-boundary estimates with the stated coefficient/trace regularity,
-bootstrapping and weak-to-smooth regularity. A global estimate omitting
-the Lp/kernel term requires separate coercivity or normalization.
-Construct the real CR line-bundle similarity principle: a solution which
-is not identically zero on a connected closed Riemann surface has isolated
-zeros of positive integer order, whose sum is the line bundle's c₁.
-Prove local factorization, unique continuation, coordinate/frame invariance
-and weak-solution regularity. Construct formal adjoints and identify
-dual-Sobolev cokernel functionals with smooth adjoint solutions. The
-formal adjoint is a ∂-type operator on (0,1)-forms; use the metric/density
-and conjugation to put it into the CR-system form. Prove weak regularity
-and unique continuation with locally L^p coefficients for p>2,
-including locally bounded coefficients. Export the standalone local
-vector similarity theorem: a ℂ^m-valued W^(1,p) solution of
-∂̄ξ+Aξ+Bconj(ξ)=0, with locally L^p matrix coefficients and
-p>2, is an invertible W^(1,p) matrix times a holomorphic vector
-on a sufficiently small disc. F2.2a/c use this theorem. Absorb the antilinear
-term for a given solution into an L^p (p>2) matrix coefficient with
-pointwise norm at most that of the antilinear term, solve the
-small-disc Cauchy integral equation for an invertible similarity frame,
-and reduce to a holomorphic vector. A nonzero adjoint solution therefore
-has a dense nonzero locus. Retain the coefficient/Sobolev hypotheses.
-These linear constructions precede nonlinear intersections and moduli;
-map unique continuation is not a substitute for the adjoint theorem.
-
 
 **Planar solution operators and normalized boundary solver.**
 
-- The Cauchy–Green and Beurling operators satisfy ∂̄T=id and ∂T=B with the chosen normalization and boundedness on the stated support/Hölder spaces.
-- The augmented real-boundary solver is a bounded isomorphism, and its Sobolev and Hölder realizations agree on common data; the similarity frame is invertible on its stated small disc.
+- PH3.1's Cauchy–Green and Beurling operators satisfy ∂̄T=id and ∂T=B in the normalization ∂̄=(∂s+i∂t)/2 used here, with boundedness on the stated support/Hölder spaces.
+- The augmented real-boundary solver is a bounded isomorphism in the Sobolev form consumed from PH6.3 and PH7.2 and in the Hölder form owned here, and the two realizations agree on common data.
 
 **Checks.**
 
@@ -2171,7 +2145,9 @@ map unique continuation is not a substitute for the adjoint theorem.
 - In the full kernel a₀+a₁z+conj(a₁)z²+conj(a₀)z³, vanishing center and first jet force a₀=a₁=0 and hence h=0.
 - With ∂̄=(∂s+i∂t)/2, ∂̄conj z=1 and ∂̄z=0; omitting the factor 1/2 would give 2 for the first value.
 
-*Needs:* F1.1; PDE Lane A7's Hölder spaces and Lane B's Calderón–Zygmund estimate; Mathlib's Cauchy integral formula and one-variable complex analysis; the M. Riesz/Szegő projection on the trace space is owned here.
+*Needs:* PH2.3–PH2.4, PH3, PH6.1, PH6.3, PH7.2's disc computation; Mathlib's Cauchy integral
+formula and one-variable complex analysis; the Hölder boundary problem and its Neumann-series
+perturbation are owned here.
 
 ### 3.3 Spectral flow (F1.3)
 
@@ -2363,31 +2339,17 @@ kernel/cokernel additivity.
 
 ### 3.5 Cauchy–Riemann Riemann–Roch and weighted ends (F1.5)
 
-Prove closed and bordered real Cauchy–Riemann Riemann–Roch:
+Consume PH7.2's closed and bordered real Cauchy–Riemann Riemann–Roch,
 `ind_R D=nχ(Σ)+2c₁(E)[Σ]` in the closed case and
-`ind_R D=nχ(Σ)+μ(E,F)` for a totally real rank-n boundary subbundle.
-Here χ is the finite CW Euler characteristic. Consume
-CharacteristicClasses C2.3's diagonal-self-intersection/duality trace
-comparison with the alternating Betti sum and C3.2's rank-one `c₁=e`.
-AlgebraicTopology Stage7.1's Euler–Poincaré equality and independence
-of a Hausdorff finite CW model identify that Betti sum with χ_CW.
-Apply them to AlgebraicTopology Stage 8.7's compact smooth-manifold
-finite-CW comparison, obtaining `c₁(TΣ)[Σ]=χ_CW(Σ)` with the
-complex/oriented fundamental class and its branched-cover convention.
-Work over ℝ and use AlgebraicTopology Stage6.1's universal coefficient
-theorem over the field, together with duality, to compare cohomology
-dimensions with homology ranks. The finite-CW witness
-is AlgebraicTopology Stage8.7's compact smooth-manifold corollary, which
-consumes GeometricTopology's smooth triangulation; HF constructs no
-second triangulation. This uses no Morse homology or nonlinear moduli.
-Prove the closed formula for an arbitrary given complex structure j
-on the surface, independently of uniformization. Construct the local
-parametrix, the fixed-Sobolev Fredholm family under deformations of j
-and the zeroth-order coefficients, and the cut/glue index comparison
-along a smooth surface decomposition with collars. Compute the local
-Euler and clutching contributions using the bordered linear theorem
-and determinant gluing. No nonlinear curve-moduli or genus-zero
-classification theorem is an input to this linear index proof.
+`ind_R D=nχ(Σ)+μ(E,F)` for a totally real rank-n boundary subbundle, with PH7.1's
+Maslov index of a bundle pair. "F1.5's closed index" below means PH7.2. In PH7.2, χ is the
+Euler characteristic of the finite CW model AlgebraicTopology Stage 8.7's
+`compactManifoldFiniteCWType` supplies, identified with the alternating Betti sum through
+CharacteristicClasses C2.3 and AlgebraicTopology Stage 7.1, and `c₁(TΣ)[Σ]=χ(Σ)` is
+C3.2's `c₁=e` read through C2.3; HF consumes these identifications and proves none of them
+again. The weighted formula below uses the same convention for χ(Σ̇), computed by Stage 7.1
+on the compact bordered surface obtained from the punctured surface by cutting off open end
+collars. This uses no Morse homology or nonlinear moduli.
 Build relative c₁ from end/boundary trivializations and its independence,
 excision and clutching laws, consuming CharacteristicClasses C3.2's
 c₁ and determinant-line comparison. Own the elementary symplectic-bundle
@@ -2411,7 +2373,7 @@ A_e by A_e+δ_e at a positive end and A_e−δ_e at a negative end;
 use those shifted operators in the same formula. As a decay weight
 increases through one exceptional value, the Fredholm index decreases
 by the crossed real eigenspace multiplicity, at either end. Prove the
-formula by gluing and test scalar crossing, trivial cylinder, capped
+formula by gluing to PH7.2's compact formula and test scalar crossing, trivial cylinder, capped
 disk and constant closed sphere. When A_e has a zero eigenspace,
 choose positive weights smaller than every nonzero end spectral gap.
 Fix the actual end trivializations and cutoff extension E_e(v)=χ_e v
@@ -2443,7 +2405,6 @@ verifies the weighted-tail conditions before consuming this theorem.
 These linear theorems precede
 the moduli-space dimension and orientation applications.
 
-
 **Boundary-loop and weighted-end index adapters.**
 
 - The closed and bordered index maps agree with the chosen Chern and native Maslov carriers, with direct-sum and gluing compatibility.
@@ -2455,7 +2416,7 @@ the moduli-space dimension and orientation applications.
 - On the disc with constant real boundary, n=1, χ=1 and μ=0 give index 1, agreeing with the real constant kernel.
 - For the boundary line e^(3iθ/2)ℝ, μ=3 and the disc index is 4, agreeing with the four real coefficients in the F1.2 kernel; using twice the native Maslov index would give 7.
 
-*Needs:* F1.2's local estimates and similarity principle; F1.3–F1.4; CharacteristicClasses C2.3 and C3.2; AlgebraicTopology Stages 6.1, 7.1 and 8.7; F0.0's determinant gluing.
+*Needs:* PH6–PH7; F1.2's local estimates and similarity principle; F1.3–F1.4; CharacteristicClasses C2.3 and C3.2; AlgebraicTopology Stage 7.1 and Stage 8.7; F0.0's determinant gluing.
 
 ### Examples
 
@@ -2465,12 +2426,13 @@ the moduli-space dimension and orientation applications.
 
 ### Dependencies
 
-PDE Lanes A and B and Lane A7; Tau Ceti `Wkp`, `maslovIndex`, `maslovIndex_map`, `maslovIndex_prod`; SelfAdjointSpectralTheory SA-E01 and `Resolvent.Unbounded`; CharacteristicClasses C2.3 and C3.2; AlgebraicTopology Stages 6.1, 7.1 and 8.7; FuchsianOrbifolds Layer 5; Robbin–Salamon (sources). Within this roadmap: F0.0's determinant lines.
+PseudoholomorphicCurveAnalysis PH1–PH7, which consume PDE Lane A; DifferentialGeometry Layer 0's bundle calculus; Tau Ceti `maslovIndex`, `maslovIndex_map`, `maslovIndex_prod`; SelfAdjointSpectralTheory SA-E01 and `Resolvent.Unbounded`; CharacteristicClasses C3.2; AlgebraicTopology Stage 7.1 and Stage 8.7; Mathlib's one-variable complex analysis; Robbin–Salamon (sources). Within this roadmap: F0.0's determinant lines.
 
 ## Layer 4: J-holomorphic curves
 
 McDuff–Salamon (*J-holomorphic Curves and Symplectic Topology*, 2nd ed.) as spine,
-with boundary versions from Oh and Floer–Hofer–Salamon:
+with boundary versions from Oh, and with Floer–Hofer–Salamon's cylinder transversality
+adapted to strips:
 
 ### 4.1 Symplectic and almost-complex foundations (F2.1)
 
@@ -2633,7 +2595,7 @@ McDuff–Salamon, Chapter 2. Construct the following local analytic
 floor, before branched-cover normalization, using F1.2's vector Carleman
 similarity principle and elliptic regularity:
 a. For J of class C¹ and a nonconstant C¹ curve on a connected
-   domain, first obtain W^(2,p) regularity, p>2, from F1.2. Prove local unique
+   domain, first obtain W^(2,p) regularity, p>2, from PH5.1 with ℓ=1. Prove local unique
    continuation and isolated point-preimages. Apply the similarity
    principle also to its differentiated CR equation after trivializing
    the pulled-back complex tangent bundle; prove isolated critical points.
@@ -2666,7 +2628,6 @@ arbitrary-genus closed-source normalization is a downstream generalization
 (AnalyticStableMaps §0.5 consumes this floor, see Downstream consumers).
 Construct Oh's boundary-injectivity for totally real boundary separately.
 
-
 **Local branch and adapted-coordinate comparisons.**
 
 - Local multiplicities and similarity factorizations are independent of coordinates, and isolated zeros are asserted only for a nonzero solution.
@@ -2678,13 +2639,13 @@ Construct Oh's boundary-injectivity for totally real boundary separately.
 - For u₀(z)=(z,0), u₁(ζ)=(ζ²,0), the coincidence factorization is φ(ζ)=ζ², whose derivative at 0 is 0; the second branch need not be immersed.
 - The constant zero map has an entire disc of zeros and critical points, so the nonconstant hypothesis excludes it from the isolated-zero statement.
 
-*Needs:* F1.2's vector similarity principle and elliptic regularity; F1.1's Sobolev adapters; McDuff–Salamon Lemmas 2.4.1–2.4.3 (source, by locator).
+*Needs:* F1.2's vector similarity principle (PH3.5) and PH5.1's elliptic regularity; F1.1's Sobolev adapters; McDuff–Salamon Lemmas 2.4.1–2.4.3 (source, by locator).
 
 ### 4.3 Compactness (F2.3)
 
 (MS Chapter4, including Theorem4.1.2, Lemmas4.3.1/4.3.4/4.5.1 and Exercises4.5.2/4.5.5). Construct interior and boundary mean-value/ε-regularity estimates, monotonicity, and finite-Dirichlet-energy puncture removal on almost complex manifolds of real dimension2n, under compact-image and uniform geometry hypotheses. Supply a smooth symplectic form ω taming J on a neighborhood of the fixed compact target-image set K. At boundary punctures use a native `SmoothEmbedding` i:L→M with closed image, and the native `TauCeti.IsMaximalTotallyReal` condition pointwise on `i.tangentRange`. Compare it with dim_ℝL=n and TL⊕JTL=TM|L through the native complement/finrank API. Require all boundary images in a specified compact K_L⊂L, with uniform smooth geometry on fixed neighborhoods; compact L is the case K_L=L. Include Lagrangian boundary as a specialization; the maximal totally real branch does not require ω|TL=0.
 
-Construct a smooth auxiliary J-Hermitian metric making JTL orthogonal to TL and with vanishing Levi-Civita second fundamental form near K_L. Consume [HopfRinow Layer1](../HopfRinow/README.md#layer-1-the-geodesic-equation-the-flow-and-the-exponential-map)'s Levi-Civita regularity and pullback/along-curve differentiation, and [RiemannianGeometry R1/R5a](../RiemannianGeometry/README.md#r5a-immersion-geometry-and-first-variation)'s curvature and second fundamental form, with DG's metric/partition calculus. Own the two-parameter pullback-connection adapter, torsion-free identity ∇_t u_s=∇_s u_t, and chart energy/curvature calculation here. Use adapted submanifold coordinates and local metric jets, patched by cutoffs whose derivatives in JTL vanish along L. Prove Δw≥−c w² and zero normal derivative of w=|u_s|²=|du|²/2. Reflect the scalar density evenly and prove the boundary mean-value estimate.
+Construct a smooth auxiliary J-Hermitian metric making JTL orthogonal to TL and with vanishing Levi-Civita second fundamental form near K_L. Consume [HopfRinow Layer1](../../Completed/HopfRinow/README.md#layer-1-the-geodesic-equation-the-flow-and-the-exponential-map)'s Levi-Civita regularity and pullback/along-curve differentiation, and [RiemannianGeometry R1/R5a](../RiemannianGeometry/README.md#r5a-immersion-geometry-and-first-variation)'s curvature and second fundamental form, with DG's metric/partition calculus. Own the two-parameter pullback-connection adapter, torsion-free identity ∇_t u_s=∇_s u_t, and chart energy/curvature calculation here. Use adapted submanifold coordinates and local metric jets, patched by cutoffs whose derivatives in JTL vanish along L. Prove Δw≥−c w² and zero normal derivative of w=|u_s|²=|du|²/2. Reflect the scalar density evenly and prove the boundary mean-value estimate.
 
 Consume GT Layer 1's normal-bundle neighborhood diffeomorphism.
 Construct here its orthogonal exponential realization for the initial smooth
@@ -2726,8 +2687,14 @@ Then construct Gromov compactness for strips/discs with maximally totally real b
 
 ### 4.4 Transversality (F2.4)
 
-(MS Chapter 3; Floer–Hofer–Salamon for strips): universal
-moduli spaces over Banach spaces of `J`'s, Sard–Smale via somewhere-injectivity.
+(McDuff–Salamon Chapter 3, §§3.1–3.2, the regular-structure and universal-moduli-space
+theorems, by locator; for Hamiltonian cylinders `ℝ × S¹ → M`, Floer–Hofer–Salamon,
+*Transversality in elliptic Morse theory for the symplectic action*, Duke Math. J. 80 (1995),
+251–292, §5, by locator, whose unique-continuation and injective-point route is adapted here
+to strips with totally real boundary, using the boundary injective-point argument of Y.-G. Oh,
+*Fredholm theory of holomorphic discs under the perturbation of boundary conditions*, Math. Z.
+222 (1996), 505–520, by locator): universal moduli spaces over Banach spaces of `J`'s,
+Sard–Smale via somewhere-injectivity.
 
 
 **Universal holomorphic section and regular moduli.**
@@ -2745,7 +2712,8 @@ moduli spaces over Banach spaces of `J`'s, Sard–Smale via somewhere-injectivit
 
 ### 4.5 Gluing (F2.5)
 
-(Schwarz's model, then MS Chapter 10): pregluing, uniformly bounded
+(Schwarz, *Morse Homology*, as the finite-dimensional model, then McDuff–Salamon
+Chapter 10, its gluing theorem and surjectivity sections, by locator): pregluing, uniformly bounded
 right inverses, quadratic estimates, Newton iteration, *including* surjectivity
 onto neighborhoods of broken configurations, the historically under-written
 half.
@@ -2797,8 +2765,8 @@ Cauchy estimates to show the resulting entire map is affine.
 
 Construct full stabilizers of one, two and three points, their orbit maps,
 and first/second jet coordinates with their source/target chart or connection
-transition laws. The one-point stabilizer is ℂ⋊ℂ*, not the native unipotent
-`lineStab`. Construct PSU(2)⊂PSL(2,ℂ) as the Fubini–Study isometry subgroup
+transition laws. The one-point stabilizer is ℂ⋊ℂ*, not Mathlib's unipotent
+`Matrix.SpecialLinearGroup.lineStab`. Construct PSU(2)⊂PSL(2,ℂ) as the Fubini–Study isometry subgroup
 and identify it with the image of the native SU(2) under its inclusion
 into SL(2,ℂ) and center quotient. Prove that inclusion continuous and
 identify its kernel after quotienting as {±I}. Use the finite closed
@@ -2852,7 +2820,7 @@ The constructions above have the following compatibility laws.
 - Under the convention (0,1,∞,z)↦z, the quadruple (1,0,∞,z) has cross ratio 1−z, since z↦1−z carries (1,0,∞) to (0,1,∞); the quadruple (0,1,∞,∞) is excluded because its points are not distinct.
 - z↦e^(iθ)z fixes 0 and ∞ and lies in PSU(2), while z↦2z fixes 0 and ∞, lies in the one-point stabilizer ℂ⋊ℂ* of ∞, and is not an isometry of the round metric; so the rotational subgroup is the unitary one, not the full stabilizer.
 
-*Needs:* Tau Ceti `OnePoint ℂ` charts, `PSL(2,ℂ)` and `lineStab`, `Matrix.SpecialLinearGroup.finite_center` and `biholomorphOfDegreeEqOne`; ComplexKahlerGeometry K1, K4 and K7.1; LieGroups Layers 3–5 and 9; FuchsianOrbifolds Layer 5; F1.5's closed index.
+*Needs:* Mathlib `Matrix.SpecialLinearGroup.lineStab`; Tau Ceti `OnePoint ℂ` charts, `PSL(2,ℂ)`, `Matrix.SpecialLinearGroup.finite_center` and `biholomorphOfDegreeEqOne`; ComplexKahlerGeometry K1, K4 and K7.1; LieGroups Layers 3–5 and 9; FuchsianOrbifolds Layer 5; F1.5's closed index.
 
 ### 4.6b Simple maps and the quotient (F2.6b)
 
@@ -3021,7 +2989,7 @@ simple-point condition at some z,
 `inf_(ζ≠z) d(u(z),u(ζ))/d(z,ζ)≥1/K`, together with `‖du‖∞≤K`;
 for a spatially relative theorem also bound the image point's distance
 from the fixed region below by1/K. Prove these pieces cover every relevant
-simple curve for some K. Uniform elliptic bootstrapping makes the bounded
+simple curve for some K. PH5.2's uniform elliptic bootstrapping makes the bounded
 pieces compact; this gives openness and the C^ℓ-regular/smooth-approximation
 density argument of McDuff–Salamon §3.2, printed54–56. Carry the same
 budgets, compact-piece estimates and endpoint-relative smoothing to paths. Prove
@@ -3501,7 +3469,7 @@ finrank and orthogonal-complement comparisons. Under the real-linear identificat
 
 ### Dependencies
 
-Tau Ceti `SmoothTwoForm`, `IsSymplectic`, `stdSymplecticForm`, the symplectic-basis API, `IsPseudoholomorphic`, the energy modules, `SmoothEmbedding`, `IsMaximalTotallyReal`, `tangentRange`, `FiniteHolomorphicMap`, `degree`, `biholomorphOfDegreeEqOne`, `PSL(2,ℂ)`, `lineStab`, `levelSetChartedSpace` and `isManifold_levelSet`; Mathlib `CFC.sqrt`, Hofer's lemma and `ContDiffMapSupportedIn`; DifferentialGeometry Layers 0, 1, 3, 5, 5.6, 6 and 8; ComplexKahlerGeometry K1, K4, K5a and K7.1–K7.2; LieGroups Layers 3–5 and 9; FuchsianOrbifolds Layer 5; CharacteristicClasses; HopfRinow Layer 1; RiemannianGeometry R1 and R5a; GeometricTopology Layers 1 and 3; AlgebraicTopology Stages 2 and 6; PDE Lane C.13. Within this roadmap: F0.0, F0.3, F0.5, F1.1–F1.5.
+Tau Ceti `SmoothTwoForm`, `IsSymplectic`, `stdSymplecticForm`, the symplectic-basis API, `IsPseudoholomorphic`, the energy modules, `SmoothEmbedding`, `IsMaximalTotallyReal`, `tangentRange`, `FiniteHolomorphicMap`, `degree`, `biholomorphOfDegreeEqOne`, `PSL(2,ℂ)`, `levelSetChartedSpace` and `isManifold_levelSet`; Mathlib `Matrix.SpecialLinearGroup.lineStab`, `CFC.sqrt`, Hofer's lemma and `ContDiffMapSupportedIn`; DifferentialGeometry Layers 0, 1, 3, 5, 5.6, 6 and 8; ComplexKahlerGeometry K1, K4, K5a and K7.1–K7.2; LieGroups Layers 3–5 and 9; FuchsianOrbifolds Layer 5; CharacteristicClasses; HopfRinow Layer 1; RiemannianGeometry R1 and R5a; GeometricTopology Layers 1 and 3; AlgebraicTopology Stages 2 and 6; PDE Lane C.13. Within this roadmap: F0.0, F0.3, F0.5, F1.1–F1.5.
 
 ## Layer 5: Lagrangian Floer homology, exact case
 
@@ -3911,13 +3879,14 @@ calculations (including the low-genus exceptions before using the g>2
 formula), the basepoint divisor V_z and positivity n_z≥0. Construct
 Perutz's Lagrangian realization rather than infer exactness: choose a small
 λ>0 and a positive surface area form satisfying the handleslide area
-equation ∫_D α=(1+λ)∫_A α−2λ in the source's fixed η,θ normalization.
+equation ∫_D α=(1+λ)∫_A α−2λ in the source's fixed η,θ normalization
+(Perutz, arXiv:0801.0564v2, Theorem 1.2(2), p. 4, where it is the exact condition for
+the two Heegaard tori to be Hamiltonian isotopic).
 Construct the smooth taming/Kähler form in class η+λθ agreeing with the
-product form near the relevant tori. Preserve disjointness from the divisor
+product form near the relevant tori (Perutz, Proposition 1.1, p. 3). Preserve disjointness from the divisor
 and make both tori Lagrangian for this form. Totally-real boundary analysis
 remains the general F1/F2 input; it does not substitute for the Lagrangian
 form needed by this Hamiltonian-handleslide route.
-
 
 **Symmetric product and geometric tori.**
 
@@ -3930,7 +3899,7 @@ form needed by this Hamiltonian-handleslide route.
 - For two local points z₁,z₂, coordinates (z₁+z₂,z₁z₂) are unchanged by their swap; at z₁=z₂=0 both vanish and the collision remains in the symmetric product.
 - On a product of two circles, a product tangent basis has ω(v₁,v₂)=0 for the split form, while a torus meeting V_z fails the required basepoint-divisor avoidance even if isotropic.
 
-*Needs:* ComplexKahlerGeometry K1 for complex-manifold charts and holomorphic transitions; F4.A–B; Perutz (source).
+*Needs:* ComplexKahlerGeometry K1 for complex-manifold charts and holomorphic transitions; F4.A–B; Perutz, arXiv:0801.0564v2, Proposition 1.1 and Theorem 1.2 (source).
 
 ### 6.6 Geometric index and Spinᶜ comparison (F4.2)
 
@@ -4034,7 +4003,6 @@ invariant of the represented oriented based Y. Retain the chosen
 move maps; coherent independence of arbitrary paths and nontrivial
 basepoint actions are the JTZ milestone, not a quotient declaration.
 
-
 **Hat complex and allowed continuation maps.**
 
 - The differential counts the declared index-one, n_z=0 classes and squares to zero by the compactified boundary analysis.
@@ -4046,13 +4014,13 @@ basepoint actions are the JTZ milestone, not a quotient declaration.
 - The standard L(3,1) diagram has three generators in different Spinᶜ structures and zero differential, giving rank 3; unpointed rank alone would not test their labels.
 - The annular-basepoint S¹×S² diagram has two bigons from the same source to target, so their count is 1+1=0 over 𝔽₂, giving rank 2.
 
-*Needs:* F4.3 and F4.3a; F2.3–F2.5; F4.1's Lagrangian form; F4.A and F4.C's presentation theorem; F1.4's Conley–Zehnder convention; Perutz (source).
+*Needs:* F4.3 and F4.3a; F2.3–F2.5; F4.1's Lagrangian form; F4.A and F4.C's presentation theorem; F1.4's Conley–Zehnder convention; Perutz, arXiv:0801.0564v2, Theorem 1.2 (source).
 
 ### 6.9 Orientation systems, flavors, triangles and absolute gradings (F4.5)
 
 Construct orientation systems and the integral signed
 theory; CF^∞ and its actual subcomplex/quotient giving HF^− and HF^+
-(including OS Theorem3.15's boundary degenerations); holomorphic
+(including the boundary degenerations of Ozsváth–Szabó, arXiv:math/0101206v4, Theorem 3.15, p. 31); holomorphic
 triangles and cobordism maps; surgery exact triangles; normalized
 absolute rational gradings and correction terms; and JTZ naturality.
 Each stage has its own construction and does not block the initial
@@ -4062,7 +4030,8 @@ grading sets; an absolute ℚ grading is not asserted for non-torsion c₁.
 
 **F4.5q. Absolute grading before numerical d.** For torsion Spinᶜ
 structures construct the absolute rational lift, normalized by the
-generator of HF̂(S³) having degree zero and U having degree −2.
+generator of HF̂(S³) having degree zero and U having degree −2
+(Ozsváth–Szabó, arXiv:math/0110169v2, Theorem 7.1, pp. 57–58).
 Start from surgery presentations and adapted pointed triples for
 reference cobordisms, their topological Spinᶜ extensions and F4.B's
 integral triangle/Whitney index comparisons. Construct the grading
@@ -4081,7 +4050,8 @@ models, rather than assuming a desired absolute lift as input.
 Prove that the lift refines F4.B's relative grading and that maps for
 an oriented cobordism W with torsion boundary Spinᶜ restrictions are
 homogeneous of degree
-(c₁(t)²−2χ(W)−3σ(W))/4.
+(c₁(t)²−2χ(W)−3σ(W))/4
+(arXiv:math/0110169v2, Theorem 7.1, equation (11), p. 57).
 Define the rational square using a rational relative lift of c₁(t),
 prove independence, and handle disconnected boundary/handle
 normalizations with the specified tensor factors. Prove composition,
@@ -4092,14 +4062,14 @@ this normalization and its invariance are available.
 For a rational homology sphere and its Spinᶜ structure, construct the
 HF^∞→HF^+ comparison and its tower/finite-generation theorem, and
 define d as the least absolute grading of a nonzero class in its
-image in the usual tower convention. Prove existence of that least
+image in the usual tower convention (Ozsváth–Szabó, arXiv:math/0110170v2,
+Definition 4.1, p. 21). Prove existence of that least
 grading, the S³ value zero, orientation and cobordism laws. Treat
 positive-b₁ correction-term variants in their own milestones with
 the specified tower, exterior-action and torsion hypotheses; do not
 use the rational-homology-sphere definition without them. Naturality
 then constructs the coherent based systems and the actual
 nontrivial basepoint-moving actions on these normalized theories.
-
 
 **Flavors, absolute grading and correction terms.**
 
@@ -4112,7 +4082,7 @@ nontrivial basepoint-moving actions on these normalized theories.
 - For S³ the tower image has lowest grading 0 and d(S³)=0; shifting every generator by 1 preserves relative grading but fails this normalization.
 - For a single blowup with c₁²=−1, χ increased by 1 and σ decreased by 1, the change in the shift numerator is −1−2+3=0, fixing the signature coefficient.
 
-*Needs:* F4.4; F0.0's orientation systems; F4.B's index comparisons; F5.3's gluing where polygons are used; Ozsváth–Szabó, arXiv:math/0105202 (source).
+*Needs:* F4.4; F0.0's orientation systems; F4.B's index comparisons; F5.3's gluing where polygons are used; Ozsváth–Szabó, arXiv:math/0101206v4, Theorem 3.15, arXiv:math/0110169v2, Theorem 7.1, and arXiv:math/0110170v2, Definition 4.1 (sources).
 
 ### Examples
 
@@ -4939,7 +4909,27 @@ Concrete checks that rule out vacuous or mis-stated definitions:
 - P. Ozsváth, Z. Szabó,
   [arXiv:math/0101206](https://arxiv.org/abs/math/0101206) and
   [arXiv:math/0105202](https://arxiv.org/abs/math/0105202) (Ann. of Math. 2004):
-  the holomorphic theory; Lane F4's text.
+  the holomorphic theory; Lane F4's text; Theorem 3.15 of the first, p. 31 (v4):
+  the boundary degenerations (F4.5).
+- P. Ozsváth, Z. Szabó, *Holomorphic triangles and invariants for smooth
+  four-manifolds*, [arXiv:math/0110169v2](https://arxiv.org/abs/math/0110169),
+  Theorem 7.1, pp. 57–58: the absolute ℚ-grading and its cobordism degree shift;
+  *Absolutely graded Floer homologies and intersection forms for four-manifolds
+  with boundary*, [arXiv:math/0110170v2](https://arxiv.org/abs/math/0110170),
+  Definition 4.1, p. 21: the correction term d (F4.5).
+- E. Witten, *Supersymmetry and Morse theory*, J. Differential Geom. 17 (1982),
+  661–692, §2, by locator: the deformed differential, the Witten Laplacian, the
+  harmonic-oscillator model and the Morse inequalities (M.10). B. Helffer,
+  J. Sjöstrand, *Puits multiples en mécanique semi-classique IV: étude du complexe de
+  Witten*, Comm. Partial Differential Equations 10 (1985), 245–340, by locator: the
+  localization estimates, the spectral gap and the comparison of the low-lying
+  spectral subcomplex with the Morse complex (M.10).
+- A. Floer, H. Hofer, D. Salamon, *Transversality in elliptic Morse theory for the
+  symplectic action*, Duke Math. J. 80 (1995), 251–292, §5, by locator: transversality
+  for Hamiltonian cylinders, adapted to strips (F2.4). Y.-G. Oh, *Fredholm theory of
+  holomorphic discs under the perturbation of boundary conditions*, Math. Z. 222 (1996),
+  505–520, by locator: generic regularity of discs with totally real boundary through
+  boundary injective points (F2.4).
 - M. Audin, M. Damian, *Morse Theory and Floer Homology*, April 23, 2013
   author draft, Proposition 2.1.5, p. 28; M. Schwarz, *Morse Homology*,
   Birkhäuser, 1993; K. Wehrheim,
@@ -4959,8 +4949,9 @@ Concrete checks that rule out vacuous or mis-stated definitions:
   Amer. J. Math.75(1953),449–476: F2.6e's local normal-form and elliptic expansion.
 - J. Robbin, D. Salamon, *The Maslov index for paths*, Topology 32 (1993);
   *The spectral flow and the Maslov index*, Bull. LMS 27 (1995): F1.3.
-- T. Perutz, [arXiv:0801.0564](https://arxiv.org/abs/0801.0564): handleslides as
-  Hamiltonian isotopies (F4.4).
+- T. Perutz, [arXiv:0801.0564v2](https://arxiv.org/abs/0801.0564), Proposition 1.1,
+  p. 3, and Theorem 1.2, p. 4: the Lagrangian Heegaard tori and handleslides as
+  Hamiltonian isotopies under the area equation (F4.1, F4.4).
 - R. Lipshitz, [arXiv:math/0502404](https://arxiv.org/abs/math/0502404) with
   erratum [arXiv:1301.4919](https://arxiv.org/abs/1301.4919); Lipshitz–Ozsváth–
   Thurston [arXiv:0810.0687](https://arxiv.org/abs/0810.0687): Lane F5.
