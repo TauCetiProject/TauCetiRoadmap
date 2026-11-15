@@ -121,9 +121,9 @@ with `IsEven`, `IsUnimodular`, `IsPosDef`, `norm`, `vectorsOfNorm` and the isome
 
 SiegelModularForms consumes this roadmap rather than supplying it: it imports the genus-`g` and
 harmonic lattice theta maps of §§6.4 and 6.7 and extends them to general lattices, reads the
-level-one Siegel operator and singular-range statements of §§6.1–6.2 on its analytic carrier, and
+level-one Siegel operator and singular-range statements of §§6.1–6.2 and 6.4 on its analytic carrier, and
 checks its dimension formulas against §§7.3 and 7.9. The Siegel operator, the cusp-form kernel
-theorem and the singular-range statements of §§6.1–6.2 are stated here at level one, on
+theorem and the singular-range statements of §§6.1–6.2 and 6.4 are stated here at level one, on
 AutomorphicBundles' classical forms, because this roadmap needs them; their versions for every
 arithmetic subgroup and holomorphic weight are SiegelModularForms'.
 
@@ -131,13 +131,16 @@ arithmetic subgroup and holomorphic weight are SiegelModularForms'.
 
 **Groups and weights.** `Γ_g = Sp_{2g}(ℤ)`. For a dominant integral `k = (k₁ ≥ ⋯ ≥ k_g)` write
 `M_k(Γ_g)` and `S_k(Γ_g)` for the level-one Siegel modular and cusp forms with values in the
-irreducible polynomial representation of `GL_g(ℂ)` of highest weight `k`; a scalar `k` means
-`(k, …, k)`; genus zero means the one-dimensional constant space. For a classical group `G`
-distinguish `d_G = dim Std(G)`, the degree of a characteristic polynomial of `G`, from
-`m_G = dim Std(Ĝ)`: `(d_G, m_G) = (2n, 2n+1)` for `Sp_{2n}`, `(2n+1, 2n)` for `SO_{2n+1}` and
-`(2n, 2n)` for `SO_{2n}`. The permitted groups of the mass computation are those whose real
-points have discrete series: `Sp_{2n}`, `SO_{2n+1}` and `SO_{4n}`. Level one means the integral
-model's `G(Ẑ)`, including at `p = 2`; maximal compact subgroups are those of the full real group.
+irreducible algebraic representation of `GL_g(ℂ)` of highest weight `k`, which is `det^{k_g}` times the
+polynomial representation of highest weight `(k₁ − k_g, …, k_{g−1} − k_g, 0)` and is itself polynomial
+exactly when `k_g ≥ 0`; a scalar `k` means `(k, …, k)`; genus zero means the one-dimensional constant
+space. For a classical group `G` distinguish `d_G = dim Std(G)`, the degree of a characteristic
+polynomial of `G`, from `m_G = dim Std(Ĝ)`: `(d_G, m_G) = (2n, 2n+1)` for `Sp_{2n}`, `(2n+1, 2n)` for
+`SO_{2n+1}` and `(2n, 2n)` for `SO_{2n}`. The permitted groups of the mass computation are those whose
+real points have discrete series: `Sp_{2n}`, `SO_{2n+1}` and `SO_{4n}`. For `n = 0` each is the trivial
+group, with `EP = T_ell = 1`; it enters only as the factor `G′` of the Levi subgroups of §4.3, and §3.16
+is stated for `n ≥ 1`. Level one means the integral model's `G(Ẑ)`, including at `p = 2`; maximal
+compact subgroups are those of the full real group.
 
 **The real Weil representation ring.** `W_ℝ = ℂ^× ⊔ jℂ^×` with `j² = −1`. `K∞` is the Grothendieck
 ring of finite-dimensional semisimple continuous representations of `W_ℝ` trivial on `ℝ_{>0}`. Its
@@ -185,10 +188,14 @@ sets of classes are counted as natural numbers only after their finiteness is pr
 ### From Mathlib
 
 - `ModularForm.dimension_level_one` (`Mathlib/NumberTheory/ModularForms/LevelOne/DimensionFormula.lean`):
-  for even `k`, the rank of level-one modular forms of weight `k` is `k/12` when `k ≡ 2 mod 12`
-  and `k/12 + 1` otherwise. `CuspForm.discriminantEquiv` (same file): the linear equivalence
-  from cusp forms of weight `k` to modular forms of weight `k − 12`, dividing by `Δ`. Together they
-  give `dim S_{w+1}(SL₂(ℤ))` in §§2.20–2.21; odd weight gives zero.
+  for a natural number `k` that is even, the rank of level-one modular forms of weight `k` is
+  `⌊k/12⌋` when `k ≡ 2 mod 12` and `⌊k/12⌋ + 1` otherwise. `ModularForm.levelOne_neg_weight_rank_zero`
+  (`LevelOne/Basic.lean`): the rank is `0` in negative integral weight.
+  `ModularForm.levelOne_odd_weight_rank_zero` and `CuspForm.discriminantEquiv` (both in
+  `DimensionFormula.lean`): respectively, the rank is `0` in odd weight, and the linear equivalence from
+  cusp forms of integral weight `k` to modular forms of weight `k − 12`, dividing by `Δ`. Together they
+  give the dimensions of the level-one cusp spaces used in §§2.20–2.21 and 4.12, including the weights
+  below `12`, where `k − 12` is negative.
 - `IsSelfAdjoint.hasEigenvector_of_isLocalExtrOn` (`Mathlib/Analysis/InnerProductSpace/Rayleigh.lean`):
   a nonzero local extremum of the Rayleigh quotient of a self-adjoint operator on its sphere is an
   eigenvector. It does not say which eigenvalue; §2.10 adds minimality.
@@ -277,8 +284,10 @@ sets of classes are counted as natural numbers only after their finiteness is pr
 - §AL.3.3.8: the Jacquet–Shalika bound `p^{−1/2} < |α| < p^{1/2}` for every unitary-normalized
   Satake root `α` of a unitary cuspidal representation at an unramified prime `p`; temperedness is not
   asserted.
-- §AL.3.6: continuation of `Λ(s, π × π′)`, simple poles exactly at `s = 0, 1` when `π′ ≅ π^∨` up to
-  a unitary norm twist (§AL.3.6.1), the functional equation (§AL.3.6.2) and boundary nonvanishing
+- §AL.3.6: continuation of `Λ(s, π × π′)`, entire unless the ranks agree, and then with only simple
+  poles, at `s = iσ` and `s = 1 + iσ` for the real `σ` with `π^∨ ≅ π′ ⊗ |det|^{iσ}` (§AL.3.6.1); for
+  `π, π′ ∈ Π_alg` the algebraic infinity types force `σ = 0`, so the poles are at `s = 0, 1` exactly
+  when `π′ ≅ π^∨`; the functional equation (§AL.3.6.2) and boundary nonvanishing
   (§AL.3.6.3); §AL.3.9.2: boundedness in vertical strips; §AL.3.7: strong multiplicity one for
   cuspidal representations and for isobaric sums.
 
@@ -1094,8 +1103,8 @@ parameter `I_w` is AutomorphicFormsOnReductiveGroups §7.2. That the normalized 
 everything.
 
 *Needs:* §2.17; `ModularForm.dimension_level_one`, `CuspForm.discriminantEquiv`,
-`HeckeRing.GL2.Newform.basis`, `TauCeti.cuspFormsNew_one`, `TauCeti.Gamma1_one_map_eq_SL`;
-AutomorphicFormsOnReductiveGroups §7.2.
+`ModularForm.levelOne_neg_weight_rank_zero`, `HeckeRing.GL2.Newform.basis`,
+`TauCeti.cuspFormsNew_one`, `TauCeti.Gamma1_one_map_eq_SL`; AutomorphicFormsOnReductiveGroups §7.2.
 
 **Checks.**
 
@@ -1453,11 +1462,12 @@ character identity with sign `(−1)^{q(G) − q(L₀)}` (Tai17 §4.1.2 and §4.
 
 ### 3.16 Triangular recovery of self-dual cuspidal counts
 
-Prove: for a permitted `G`, dominant `λ` and `w = w(λ)`, `EP(G; λ) = κ(G, λ) N⊥(w) + R(G, λ)`, where
-`κ(G, λ) ≠ 0` is the signed cardinality of the real packet of a simple parameter `π[1]`, with Tai17's
-outer convention in even `SO`, and `R(G, λ)` is the sum of the contributions of all nonsimple
-parameters; `R(G, λ)` is determined by the `N⊥(v)` with `rank(v) < m_G` and largest weight at most `w₁`
-(Tai17 §4.1.2; CT20 Key fact 2). A simple parameter has trivial component group and all its real
+Prove: for a permitted `G` with `n ≥ 1`, dominant `λ` and `w = w(λ)`,
+`EP(G; λ) = κ(G, λ) N⊥(w) + R(G, λ)`, where `κ(G, λ) ≠ 0` is the signed cardinality of the real
+packet of a simple parameter `π[1]`, with Tai17's outer convention in even `SO`, and `R(G, λ)` is the
+sum of the contributions of all nonsimple parameters; `R(G, λ)` is determined by the `N⊥(v)` with
+`rank(v) < m_G` and largest weight at most `w₁` (Tai17 §4.1.2; CT20 Key fact 2). A simple parameter
+has trivial component group and all its real
 packet members are discrete series with Euler–Poincaré characteristic `(−1)^{q(G)}`; every block of a
 nonsimple parameter has smaller rank, and the same class may occur with several `d`.
 
@@ -1466,6 +1476,8 @@ nonsimple parameter has smaller rank, and the same class may occur with several 
 **Checks.**
 
 - `SO₃`: `κ = −1` and `R(SO₃; k) = δ_{k,0}`.
+- The rank-zero case is excluded: for the trivial group `SO₁` (`n = 0`, `m_G = 0`) there is no rank-zero
+  element of `Π_alg` and so no simple parameter and no `κ`, while `EP(SO₁; 0) = 1`.
 - The induction is on `m_G`, the dual standard dimension, not on the motivic weight.
 - The nonsimple parameter `Δ₁₇[2] ⊕ Δ₁₇[4] ⊕ [1]` of `Sp₁₂` (dimension `4 + 8 + 1 = 13`) uses one
   class at two lengths; it is enumerated once with that class, not as two independent classes.
@@ -1516,7 +1528,9 @@ characteristic function of `G(Ẑ)`, with `vol(G(ℤ_p)) = 1` and the Euler–Po
 **Checks.**
 
 - The identity class of `SO₃` has mass `−1/12`: masses are signed, not probabilities.
-- Two rational classes in one geometric class contribute to a single coefficient, not to two.
+- `C(G)` is not indexed by characteristic polynomials alone: in `Sp₂ = SL₂`, `u = [[1, 1], [0, 1]]` has the
+  characteristic polynomial `(X − 1)²` of the identity, but `u^r = [[1, r], [0, 1]] ≠ 1` for every
+  `r ≥ 1`, so its geometric class does not lie in `C(G)` and has no mass.
 - A geometric torsion class with no integral representative at some prime has mass `0` (§4.7 gives
   such classes in `SO₃`: orders `4` and `6`).
 
@@ -1692,9 +1706,10 @@ count for `Sp₁₄` is `1158`; the printed value `1157` is inconsistent with th
 
 ### 4.10 Exact torsion characters
 
-For an integral polynomial `P` of degree `d_G` let `e_j` be its elementary symmetric functions of the
-roots (`e₀ = 1`, `e_j = 0` outside `[0, d_G]`), and for a nonnegative highest weight `λ` let `λ′` be the
-conjugate partition and `l = λ₁`. Prove that the symplectic character at an element with characteristic
+For a monic integral polynomial `P` of degree `d_G`, such as an element of `P(G)` or the characteristic
+polynomial of an element of `G`, let `e_j` be the elementary symmetric functions of its roots counted
+with multiplicity (`e₀ = 1`, `e_j = 0` outside `[0, d_G]`), and for a nonnegative highest weight `λ` let
+`λ′` be the conjugate partition and `l = λ₁`. Prove that the symplectic character at an element with characteristic
 polynomial `P` is `det(e_{λ′_i − i + j} − e_{λ′_i − i − j})_{1 ≤ i, j ≤ l}`, that the character of the full
 orthogonal group is `1` for `l = 0` and `(1/2) det(e_{λ′_i − i + j} + e_{λ′_i − i − j + 2})` otherwise, and
 that for `SO_{2n}` with `λ_n > 0` the orthogonal value is `χ_λ + χ_{λ^θ}`, `θ` the outer automorphism
@@ -1716,6 +1731,9 @@ from the Weyl character formula of LieHighestWeight Layer 6.
   `x² + x + 1 + x⁻¹ + x⁻²`, and is `5` at `P = Φ₁³`.
 - In `SO_{2n}`, for `λ_n > 0` and a one-class fibre the orthogonal value must be halved, and for `λ_n = 0`
   and a two-class fibre the trace sum must be doubled; ignoring either factor of two gives wrong rows.
+- Monicity is needed for the coefficient rule: `2(X − 1)² = 2X² − 4X + 2` has roots `1, 1`, so
+  `(e₀, e₁, e₂) = (1, 2, 1)`, while its signed coefficients are `(2, 4, 2)`; no element of `G` has this
+  characteristic polynomial.
 
 ### 4.11 Mass recovery from vanishing rows
 
@@ -1729,7 +1747,9 @@ rational system `A m = b` with known right-hand side, and they are its unique so
 
 **Checks.**
 
-- Full row rank does not suffice when `|Λ| > |P₁(G)/∼|`; full column rank is the condition.
+- Full row rank does not suffice: with fewer rows than columns, `A = [[1, 0, 0], [0, 1, 0]]` has full row
+  rank `2`, yet `A m = 0` has the two solutions `(0, 0, 0)` and `(0, 0, 1)`; uniqueness needs rank
+  equal to the number `|P₁(G)/∼|` of columns.
 - A rational vector solving the system without the vanishing of every row of `Λ` does not determine the
   masses.
 - For `SO₃`, `Λ` with three weights and the three columns of `P₁(SO₃)` already suffices (CT20 Table 4).
@@ -1744,7 +1764,8 @@ Prove (CT20 §1.4): the torsion classes of `SO₃` have orders `1, 2, 3, 4, 6`; 
 `m = (−1/12, 1/4, 1/3, 0, 0)`. The resulting formula for `EP(SO₃; k) = −dim S_{2k+2}(SL₂(ℤ)) + δ_{k,0}`
 agrees with `ModularForm.dimension_level_one`.
 
-*Needs:* §§3.14, 4.3, 4.11; `ModularForm.dimension_level_one`, `CuspForm.discriminantEquiv`.
+*Needs:* §§3.14, 4.3, 4.11; `ModularForm.dimension_level_one`, `CuspForm.discriminantEquiv`,
+`ModularForm.levelOne_neg_weight_rank_zero`.
 
 **Checks.**
 
@@ -2115,7 +2136,7 @@ Zharkovskaya relation, CT20 §5.3 footnote 17).
 - `Φ` of the genus-`g` Eisenstein series of weight `k` is the genus-`(g − 1)` one, and `Φ` of a constant
   of weight `0` is the same constant.
 
-### 6.2 Boundary, vanishing and spanning theorems at level one
+### 6.2 Boundary and vanishing theorems at level one
 
 Prove the following statements:
 
@@ -2129,16 +2150,14 @@ Prove the following statements:
 - Weissauer: if `g ≥ 2k ≥ 0`, every element of `M_k(Γ_g)` is square-integrable, `M_k(Γ_g) = L²_k(Γ_g)` (CT20
   §5.5, from Weissauer's Satz 3).
 - Resnikoff and Freitag: `S_k(Γ_g) = 0` for `g > 2k` (CT20 (5.5.2)).
-- Freitag: for `g > 2k`, `M_k(Γ_g)` is spanned by theta series of even unimodular lattices of rank `2k` when
-  `k ≥ 0` and `k ≡ 0 mod 4`, and is `0` otherwise (CT20 (5.5.2)).
 
 *Needs:* §6.1; AutomorphicSpectralTheory §4.10; AutomorphicFormsOnReductiveGroups §7.2a with the
-extension requested there; §6.4 for the theta series in the last item.
+extension requested there.
 
 **Checks.**
 
 - `M₁₃(Γ₉) = 0` by odd genus and odd weight; `M₁₃(Γ₈) = S₁₃(Γ₈)`.
-- `S₄(Γ₉) = 0` by Resnikoff–Freitag, while `M₄(Γ₉) ∋ θ₉[E₈] ≠ 0`.
+- `S₀(Γ₉) = 0` by Resnikoff–Freitag, while `M₀(Γ₉) = ℂ`: the vanishing is of cusp forms only.
 - The strict inequality matters: `S₁₂(Γ₂₄)` need not vanish by this statement at `g = 2k = 24`; in fact
   §7.9 shows it is `0`, but `S₁₃(Γ₂₄) ≠ 0` with `g < 2k = 26`.
 
@@ -2180,7 +2199,9 @@ and holomorphy, the transformation law under `Γ_g` (from Poisson summation on `
 or from the theta kernel of MetaplecticAutomorphicForms §5.1), invariance under isometries, the relation
 `Φ_g ∘ θ_g = θ_{g−1}`, and the Eichler commutation relations: `θ_g` intertwines `T_p` on `ℂ[X_n]` with an
 explicit element of the spherical Hecke algebra of `Sp_{2g}`, and on unramified Satake parameters this is
-MetaplecticAutomorphicForms §3.21 (CT20 §5.3.2; CL14 V and VII §1).
+MetaplecticAutomorphicForms §3.21 (CT20 §5.3.2; CL14 V and VII §1). Prove also Freitag's spanning
+theorem in the singular range: for `g ≥ 1` and `g > 2k`, `M_k(Γ_g)` is spanned by the `θ_g[L]` of the even
+unimodular lattices `L` of rank `2k` when `k ≥ 0` and `k ≡ 0 mod 4`, and is `0` otherwise (CT20 (5.5.2)).
 
 - `θ_g[L]` has Fourier coefficient at `T` equal to the number of `x ∈ L^g` with `Gram(x) = 2T`; its constant
   coefficient is `1`.
@@ -2188,8 +2209,11 @@ MetaplecticAutomorphicForms §3.21 (CT20 §5.3.2; CL14 V and VII §1).
 - `θ_g` maps simultaneous eigenvectors of the `T_p` to Hecke eigenforms or to `0`.
 - `θ₁` agrees with the genus-one theta series of ThetaSeries Layer 5 through the rational-to-real lattice
   bridge.
+- For `g ≥ 1` and `g > 2k`, `θ_g(ℂ[X_{2k}]) = M_k(Γ_g)` when `4 | k` and `k ≥ 0`, and `M_k(Γ_g) = 0`
+  otherwise.
 
-*Needs:* §§6.1, 6.3; ThetaSeries Layers 1 and 5; MetaplecticAutomorphicForms §§3.21 and 5.1.
+*Needs:* §§6.1, 6.3; ThetaSeries Layers 1 and 5; MetaplecticAutomorphicForms §§3.21 and 5.1; §6.2 for
+the spanning theorem.
 
 **Checks.**
 
@@ -2197,18 +2221,26 @@ MetaplecticAutomorphicForms §3.21 (CT20 §5.3.2; CL14 V and VII §1).
 - `θ₁[E₈] = E₄` (ThetaSeries Layer 8).
 - Replacing `[L]` by `[L]/|O(L)|` gives constant coefficient `1/|O(L)|` and breaks `Φ θ_g = θ_{g−1}` on the
   unweighted basis.
+- `k = 4`, `g = 9`: `S₄(Γ₉) = 0` by §6.2, while `M₄(Γ₉)` is the line of `θ₉[E₈]`, whose constant
+  coefficient is `1`.
 
 ### 6.5 First occurrence
 
 For a nonzero simultaneous eigenvector `v ∈ ℂ[X_n]` define its degree `g₀(v)` as the least `g ≥ 0` with
 `θ_g(v) ≠ 0` (CT20 §5.3.2; CL14 V §§1–2). Prove that `θ_n` is injective on `ℂ[X_n]`, so the degree exists;
-that `θ_g(v) ≠ 0` for every `g ≥ g₀(v)`; and that `θ_{g₀}(v)` is a cusp form when `g₀ ≥ 1`.
+that `θ_g(v) ≠ 0` for every `g ≥ g₀(v)`; and that `θ_{g₀}(v)` is a cusp form when `g₀ ≥ 1`. Prove also two
+injectivity theorems in lower genus: `θ₄` is injective on `ℂ[X₁₆]`, that is `θ₄[E₈ ⊕ E₈] ≠ θ₄[D₁₆⁺]`, the
+two series having different Fourier coefficients at the `T` for which `2T` is a Gram matrix of `D₄` (CL14 V
+Proposition 2.1, p. 138); and `θ₁₂` is injective on `ℂ[X₂₄]` (Erokhin's theorem, as stated in CL14 V §3,
+p. 140, and IX Lemme 2.9, p. 290). Each is a statement about finitely many Fourier coefficients of §6.4.
 
 - `θ_g(v) = 0` for `g < g₀` and `θ_{g₀}(v) ≠ 0`.
 - `θ_g(v) ≠ 0` for all `g ≥ g₀`.
 - If `g₀ ≥ 1`, `θ_{g₀}(v)` lies in `ker Φ_{g₀} = S_k(Γ_{g₀})`.
+- Every eigenvector of `ℂ[X₁₆]` has degree at most `4`, and every eigenvector of `ℂ[X₂₄]` degree at most
+  `12`.
 
-*Needs:* §§6.1, 6.4.
+*Needs:* §§6.1, 6.3, 6.4.
 
 **Checks.**
 
@@ -2257,15 +2289,56 @@ to `0`.
   coefficients and gives cuspidality.
 - `ν = 0` gives the plain theta map of §6.4, which is not cuspidal: `θ_g[E₈]` has constant term `1`.
 
-### 6.8 The small-rank lattice eigenparameters and the low-genus Eichler basis
+### 6.8 The Rallis relation
+
+Prove: let `v ∈ ℂ[X_n]` be an eigenvector with standard parameter `ψ_G` and let `F = θ_g(v)` be nonzero and
+square-integrable with parameter `ψ_F`. If `n > 2g + 1` then `ψ_G = ψ_F ⊕ [n − 2g − 1]`; if `n < 2g + 1` then
+`ψ_F = ψ_G ⊕ [2g + 1 − n]`; for `n ≡ 0 mod 8` the case `n = 2g + 1` does not occur (CT20 §5.3.2 after (5.3.1),
+with the actual genus `g` in place of the degree). The route matches unramified parameters through
+MetaplecticAutomorphicForms §3.21 and identifies the parameter by strong multiplicity one for isobaric sums.
+Since only unramified local components enter, the same relation holds for a nonzero square-integrable image
+`θ_{ν,g,n}(v)` of an eigenvector under the harmonic theta map of §6.7 (CL14 VII §1).
+
+*Needs:* §§3.1, 6.4, 6.5; MetaplecticAutomorphicForms §3.21; AutomorphicLFunctionsAndLocalFactors §AL.3.7.
+
+**Checks.**
+
+- `n = 8`, `v = [E₈]`, `g₀ = 0`, `g = 8`: `ψ_F = [7] ⊕ [1] ⊕ [9]` has dimension `17 = 2·8 + 1`; using `g₀` in
+  place of `g` gives a block of negative length.
+- Dimensions: `ψ_G` has dimension `n` and `ψ_F` dimension `2g + 1`.
+- For `n = 24`, `g = 12` (`n < 2g + 1 = 25`) and `v` of parameter `Δ₁₁[12]`, `ψ_F = Δ₁₁[12] ⊕ [1]`.
+
+### 6.9 The small-rank lattice eigenparameters and their degrees
 
 Prove (CL14 Théorème E, Table I.2 and Table C.5; CT20 §5.3.2): the `T_p` act on `ℂ[X₈]`, `ℂ[X₁₆]`, `ℂ[X₂₄]`
 with `1`, `2`, `24` distinct joint eigenlines. Their standard parameters are `[7] ⊕ [1]` (degree `0`) in
 rank 8; `[15] ⊕ [1]` (degree `0`) and `Δ₁₁[4] ⊕ [7] ⊕ [1]` (degree `4`) in rank 16; and in rank 24 the 24
 parameters of the table below, with the stated degrees. The degree of an eigenvector with parameter `ψ′` is
-the least `g₀` such that `[2k − 1 − 2g₀]` is a summand of `ψ′`, except `ψ′ = Δ₁₁[12]` with `g₀ = 12`. Prove
-also the low-genus Eichler basis theorem: `θ_g : ℂ[X_{2k}] → M_k(Γ_g)` is surjective for `k = 4, 8, 12` and
-`g ≤ k` (CL14 Introduction §3 and Théorème D, which covers `k = 12`, `g ≤ 23`).
+the least `g₀` such that `[2k − 1 − 2g₀]` is a summand of `ψ′`, except `ψ′ = Δ₁₁[12]` with `g₀ = 12`.
+
+The route uses the packets of §§3.5 and 3.8, not a computation of the neighbour operators; `X₈` is the
+single class `E₈`, so let `n = 2k ∈ {16, 24}`. The `T_p` commute and are self-adjoint (§6.3), so `ℂ[X_n]`
+has a basis of joint eigenvectors. One of them is `Σ_L |O(L)|⁻¹[L]`, with the eigenvalues and the
+parameter `[n − 1] ⊕ [1]` of the trivial representation; it spans a complement of the `T_p`-stable
+hyperplane `ker θ₀` (CL14 V §1, p. 137). Let `v ∈ ker θ₀` be a joint eigenvector with parameter `ψ_G`, of
+degree `g₀` with `1 ≤ g₀ ≤ 4` for `n = 16` and `1 ≤ g₀ ≤ 12` for `n = 24` (§6.5). If `g₀ < k`, the cusp
+eigenform `θ_{g₀}(v)` (§§6.4–6.5) has weight `k > g₀`, so its parameter `ψ_F ∈ Ψ₁(Sp_{2g₀})` has weights
+`0, ±(k − j)` for `1 ≤ j ≤ g₀`, its blocks have motivic weight at most `2k − 2 ≤ 22` and lie among the
+eleven classes of §5.3, its odd block has length one by §3.5, so that it has no trivial block `[d]` with
+`d ≥ 3`, and §6.8 gives `ψ_G = ψ_F ⊕ [n − 1 − 2g₀]`; hence `g₀` is the least `g` for which `[n − 1 − 2g]` is
+a summand of `ψ_G`. If `g₀ = k = 12`, §6.8 gives `ψ_F = ψ_G ⊕ [1] ∈ Ψ₁(Sp₂₄)` with `ρ₁₂^{(12)}` in its
+packet; by §3.8 it is in case (I) or (H1), since (H2) would need the block `Sym²Δ₁₁[3]`, of largest weight
+`12 > 11`; in both cases every block with the weight `0` has length one and `[1]` occurs once, so `ψ_G` has
+no trivial summand. So `ψ_G` determines the degree.
+
+Two eigenvectors in `ker θ₀` with the same `ψ_G` therefore have the same degree `g₀` and, by the
+multiplicity one of §§3.3, 3.5 and 3.8, proportional images under `θ_{g₀}`; a nonzero combination of them
+in `ker θ_{g₀}` would have the same `ψ_G` and a larger degree. Hence the joint eigenspaces in `ker θ₀` are
+lines with pairwise distinct parameters, none equal to `[n − 1] ⊕ [1]`. In rank 24 the resulting 24
+parameters lie in the set of formal sums of dimension 24 with blocks among the eleven classes and
+weights `±11, …, ±1, 0, 0`, which has exactly 24 elements (CL14 IX Théorème 4.4, p. 326); so they are its
+elements, listed below, and the degrees follow from the rule. In rank 16 the only parameter with weights
+`0, ±7, …, ±(8 − g₀)` for some `1 ≤ g₀ ≤ 4` is `Δ₁₁[4] ⊕ [1]`, at `g₀ = 4`.
 
 | Degree `g₀` | Standard parameter in rank 24 |
 |---:|---|
@@ -2285,10 +2358,11 @@ also the low-genus Eichler basis theorem: `θ_g : ℂ[X_{2k}] → M_k(Γ_g)` is 
 
 - Each eigenspace is one-dimensional and each parameter has dimension equal to the rank.
 - The degrees in rank 24 are distributed `(1, 1, 1, 1, 2, 2, 3, 3, 4, 2, 2, 1, 1)` over `g₀ = 0, …, 12`.
-- The surjectivity holds in genus `g ≤ k` for `k = 4, 8, 12`.
+- An eigenvector of degree `1 ≤ g₀ < k` has `ψ_G = ψ_F ⊕ [n − 1 − 2g₀]`, where `ψ_F`, the parameter of
+  `θ_{g₀}(v)`, has no trivial block of length at least three.
 
-*Needs:* §§5.3, 6.3–6.5; MetaplecticAutomorphicForms §3.21; AutomorphicFormsOnReductiveGroups §7.4;
-ModularityAndLanglandsExtensions §3.8.
+*Needs:* §§3.1, 3.3, 3.5, 3.7–3.8, 5.3, 6.3–6.5, 6.8; AutomorphicFormsOnReductiveGroups §7.2a with the
+extension requested there, and §7.4; ModularityAndLanglandsExtensions §3.8 with its standing premises.
 
 **Checks.**
 
@@ -2298,52 +2372,41 @@ ModularityAndLanglandsExtensions §3.8.
   (the summand `[1]` would give the larger `g₀ = 11`); the exception `Δ₁₁[12]` has no trivial summand.
 - The cumulative counts `1, 2, 3, 4, 6, 8, 11, 14, 18, 20, 22, 23, 24` sum the distribution and reach `|X₂₄|`.
 
-### 6.9 The Rallis relation
-
-Prove: let `v ∈ ℂ[X_n]` be an eigenvector with standard parameter `ψ_G` and let `F = θ_g(v)` be nonzero and
-square-integrable with parameter `ψ_F`. If `n > 2g + 1` then `ψ_G = ψ_F ⊕ [n − 2g − 1]`; if `n < 2g + 1` then
-`ψ_F = ψ_G ⊕ [2g + 1 − n]`; for `n ≡ 0 mod 8` the case `n = 2g + 1` does not occur (CT20 §5.3.2 after (5.3.1),
-with the actual genus `g` in place of the degree). The route matches unramified parameters through
-MetaplecticAutomorphicForms §3.21 and identifies the parameter by strong multiplicity one for isobaric sums.
-Since only unramified local components enter, the same relation holds for a nonzero square-integrable image
-`θ_{ν,g,n}(v)` of an eigenvector under the harmonic theta map of §6.7 (CL14 VII §1).
-
-*Needs:* §§3.1, 6.4, 6.5; MetaplecticAutomorphicForms §3.21; AutomorphicLFunctionsAndLocalFactors §AL.3.7.
-
-**Checks.**
-
-- `n = 8`, `v = [E₈]`, `g₀ = 0`, `g = 8`: `ψ_F = [7] ⊕ [1] ⊕ [9]` has dimension `17 = 2·8 + 1`; using `g₀` in
-  place of `g` gives a block of negative length.
-- Dimensions: `ψ_G` has dimension `n` and `ψ_F` dimension `2g + 1`.
-- For `n = 24`, `g = 12` (`n < 2g + 1 = 25`) and `v` of parameter `Δ₁₁[12]`, `ψ_F = Δ₁₁[12] ⊕ [1]`.
-
 ### 6.10 Square-integrable lifts in higher genus
 
 Prove (CT20 Lemma 5.7, from Rallis and Mœglin–Waldspurger): if `v` has degree `g₀`, `g > g₀` and
 `g > n − 1 − g₀`, then `θ_g(v)` is square-integrable and `ψ_F = ψ_G ⊕ [2g − n + 1]`; it is not cuspidal, since
 `g > g₀` gives `Φ θ_g(v) = θ_{g−1}(v) ≠ 0`.
 
-*Needs:* §§6.1, 6.5, 6.9; MetaplecticAutomorphicForms §§3.10 and 6.14.
+*Needs:* §§6.1, 6.5, 6.8; MetaplecticAutomorphicForms §§3.10 and 6.14.
 
 **Checks.**
 
 - Both strict inequalities are needed; the added block uses `g`, not `g₀`.
 - `v = [E₈]`, `g = 8`: `g > 0` and `g > 7`, so `θ₈[E₈]` is square-integrable with parameter
   `[7] ⊕ [1] ⊕ [9]`.
-- `2g + 1 > g + g₀ + 1 > n` follows from the hypotheses, so the second branch of §6.9 applies.
+- `2g + 1 > g + g₀ + 1 > n` follows from the hypotheses, so the second branch of §6.8 applies.
 
-### 6.11 Central values of two PGL₄ classes
+### 6.11 Central orders in motivic weight at most 22
 
-Prove: the completed standard `L`-functions of `Δ₁₉,₇` and `Δ₂₁,₁₃` do not vanish at `s = 1/2` (CL14 IX
-Proposition 3.38: for self-dual `π` of motivic weight at most 22, the order at `1/2` is `0` when `ε(π) = 1`
-and `1` otherwise, and `ε(π) = −1` exactly for `Δ₁₇` and `Δ₂₁`).
+Prove (CL14 IX Proposition 3.38, p. 322): for every `π ∈ Π_alg` of motivic weight at most 22, one of the
+eleven self-dual classes of §5.3, the completed standard `L`-function `Λ(s, π)` has order
+`(1 − ε(π))/2` at `s = 1/2`, where `ε(π) = ε(L(π∞))` (§1.8); and `ε(π) = −1` exactly for `Δ₁₇` and `Δ₂₁`.
+The functional equation `Λ(s, π) = ε(π) Λ(1 − s, π)` makes the order even when `ε(π) = 1` and odd
+otherwise, so it suffices to show that it is less than `2`. For `π = 1` this is `ζ(1/2) ≠ 0`. For `π ≠ 1`,
+an order at least `2` would make the explicit formula of §2.6 on `x = t₁π + t₂·1`, `t ≥ 0`, with the
+central zero of `Λ(s, π)` counted twice, give a form nonnegative on the cone, with diagonal entries
+`A_F − J_F(L(π∞)²)` and `A_F − J_F(1)` and off-diagonal entry `−J_F(L(π∞)) − B_F`; at `F = F_ℓ`,
+`ℓ = log 4`, the enclosures of §2.4 make it negative by §2.12, for each of the ten classes (CL14 IX, proof
+of Proposition 3.38, p. 323). §§6.12 and 8.7 use the nonvanishing for `Δ₁₉,₇` and `Δ₂₁,₁₃`.
 
-*Needs:* §§2.6, 5.3.
+*Needs:* §§1.8, 2.2, 2.4, 2.6, 2.12, 5.3; AutomorphicLFunctionsAndLocalFactors §AL.3.6.2.
 
 **Checks.**
 
-- `ε(Δ₁₉,₇) = ε(I₁₉)ε(I₇) = i²⁰ · i⁸ = 1` and `ε(Δ₂₁,₁₃) = i²² · i¹⁴ = 1`.
-- `ε(Δ₁₇) = i¹⁸ = −1`, so `Λ(1/2, Δ₁₇) = 0`.
+- `ε(Δ₁₉,₇) = ε(I₁₉)ε(I₇) = i²⁰ · i⁸ = 1` and `ε(Δ₂₁,₁₃) = i²² · i¹⁴ = 1`, so both functions are nonzero at
+  `s = 1/2`, the two values §§6.12 and 8.7 use.
+- `ε(Δ₁₇) = i¹⁸ = −1`, so `Λ(s, Δ₁₇)` has order exactly `1` at `s = 1/2`, not merely a zero.
 - The statement concerns the completed function; the Euler product does not converge at `s = 1/2`.
 
 ### 6.12 Böcherer's criterion in five cases
@@ -2370,14 +2433,15 @@ MetaplecticAutomorphicForms; the five cases are the ones used in §8.8.
 ### Examples
 
 `θ_g[E₈]` spans `M₄(Γ_g)` for every `g` (§8.1); it is cuspidal for no `g ≥ 1`. In rank 16 the difference
-`θ_4[E₈ ⊕ E₈] − θ_4[D₁₆⁺]` spans `S₈(Γ₄)` and has parameter `Δ₁₁[4] ⊕ [1]` by §6.9 with `n = 16`, `g = 4`.
+`θ_4[E₈ ⊕ E₈] − θ_4[D₁₆⁺]` spans `S₈(Γ₄)` and has parameter `Δ₁₁[4] ⊕ [1]` by §6.8 with `n = 16`, `g = 4`.
 
 ### Dependencies
 
 AutomorphicBundles §§11.1–11.2, 11.9, 11.16, 12.10–12.11, 12.15; AutomorphicSpectralTheory §4.10;
 AutomorphicFormsOnReductiveGroups §§7.2a, 7.4–7.5; MetaplecticAutomorphicForms §§3.1, 3.10, 3.21, 5.1, 6.14;
 OrthogonalTamagawaAndLatticeMass §§3.1, 4.1–4.2; ThetaSeries Layers 1, 5, 8; Completed/IntegralLattices
-Layer 1; IntegralLattices §4G; AutomorphicLFunctionsAndLocalFactors §AL.3.7; Layers 3 and 5.
+Layer 1; IntegralLattices §4G; AutomorphicLFunctionsAndLocalFactors §§AL.3.6.2, AL.3.7;
+ModularityAndLanglandsExtensions §3.8 with its standing premises; Layers 1–3 and 5.
 
 ## Layer 7: Siegel cusp dimensions and the four weight-thirteen forms
 
@@ -2491,18 +2555,18 @@ parameter does not have.
 Prove (CT20 §5.3.2, case (H1), Lemmas 5.5–5.7): for `1 ≤ k ≤ 13`, `g ≥ k` and a realized case-(H1)
 parameter, every block lies in `L₂₄` and `π_{i₀} = 1`; the alternative `π_{i₀} = Sym²Δ₁₁` forces
 `(g, k) = (14, 13)` and `ψ = Sym²Δ₁₁[3] ⊕ Δ₁₁[8] ⊕ [3] ⊕ [1]`, which fails the sign test at the `Δ₁₁[8]`
-generator. Then `k ≡ 0 mod 4`, the remainder `ψ′` is one of the `1`, `2`, `24` lattice parameters of §6.8
+generator. Then `k ≡ 0 mod 4`, the remainder `ψ′` is one of the `1`, `2`, `24` lattice parameters of §6.9
 for `k = 4, 8, 12`, and by §6.10 every realized lift is noncuspidal except `g = k = 12`,
 `ψ = Δ₁₁[12] ⊕ [1]`, the form of §7.5.
 
-*Needs:* §§3.10–3.12, 6.8, 6.10, 7.5.
+*Needs:* §§3.10–3.12, 6.9, 6.10, 7.5.
 
 **Checks.**
 
 - At `(g, k) = (14, 13)`: `ε_ψ(s) = ε(Δ₁₁ × Sym²Δ₁₁) = −1` while `χ(s) = 1`.
 - For `k = 2, 6, 10` the remainders fail the odd-pair test; for `k = 2, 6`, `ψ′ = [2k − 1] ⊕ [1]` and
   `(−1)^{a/2}` with `a = k ≡ 2 mod 4` is `−1` against `ε = 1`.
-- The degree of the genus-12 form is exactly `12`; this uses §6.8, not the table of §7.9.
+- The degree of the genus-12 form is exactly `12`; this uses §6.9, not the table of §7.9.
 
 **7.7 Scalar case (H2) in low weight.**
 Prove (CT20 §5.3.2, case (H2), Lemmas 5.8–5.9): for `1 ≤ k ≤ 13` and `g ≥ k`, a realized case-(H2) parameter
@@ -2644,7 +2708,7 @@ lattice (§8.6).
 
 ### Dependencies
 
-Layers 3–6 (§§3.3–3.16, 4.13–4.17, 5.3–5.10, 6.1–6.2, 6.8, 6.10); AutomorphicFormsOnReductiveGroups §7.2a.
+Layers 3–6 (§§3.3–3.16, 4.13–4.17, 5.3–5.10, 6.1–6.2, 6.9, 6.10); AutomorphicFormsOnReductiveGroups §7.2a.
 
 ## Layer 8: harmonic theta realizations and the stable range
 
@@ -2660,11 +2724,15 @@ the boundary `g = 2k`, and the theta isomorphism there.
 ### 8.1 The Eichler basis theorem in weights four, eight and twelve
 
 Prove (CT20 Corollary 5.10): for `k ∈ {4, 8, 12}` and every `g ≥ 0`, `θ_g : ℂ[X_{2k}] → M_k(Γ_g)` is surjective,
-and `Φ_g` is surjective for `g ≥ 1`. For `g ≤ k` this is §6.8; for `g > k`, `S_k(Γ_g) = 0` by §7.9, so `Φ_g`
-is injective, and for `F ∈ M_k(Γ_g)` a theta preimage `v` of `Φ_g F` gives `Φ_g(θ_g(v) − F) = 0`, hence
-`θ_g(v) = F`.
+and `Φ_g` is surjective for `g ≥ 1`. The route is an induction on `g` from `θ₀`, which maps onto the
+constants. For `g ≥ 1`, `θ_g` maps `ker θ_{g−1}` onto `S_k(Γ_g)`: by §6.9, `ker θ_{g−1}` is spanned by the
+eigenvectors of degree at least `g`; those of degree `g` have nonzero cuspidal images (§6.5) with
+pairwise distinct parameters (§§6.8–6.9), hence linearly independent; those of larger degree map to `0`; and the number of eigenvectors of degree `g` is `dim S_k(Γ_g)` by §§6.9 and 7.9 (for `k = 12`:
+`1, 1, 1, 2, 2, 3, 3, 4, 2, 2, 1, 1` in genus `1, …, 12` on both sides, and `0` above; for `k = 8`: one, in
+genus `4`; for `k = 4`: none). For `F ∈ M_k(Γ_g)` a theta preimage `v` of `Φ_g F` then gives
+`F − θ_g(v) ∈ ker Φ_g = S_k(Γ_g) = θ_g(ker θ_{g−1})`, so `F` lies in the image of `θ_g`.
 
-*Needs:* §§6.1, 6.4, 6.8, 7.9.
+*Needs:* §§6.1, 6.4, 6.5, 6.8, 6.9, 7.9.
 
 **Checks.**
 
@@ -2680,13 +2748,13 @@ Prove (CT20 Remark 5.11): for `k = 4, 8, 12` and every `g`, `dim M_k(Γ_g) = Σ_
 `k = 12`, `g ≥ 12`. For `k = 12` the dimensions in genus `0, …, 12` are
 `1, 2, 3, 4, 6, 8, 11, 14, 18, 20, 22, 23, 24`.
 
-*Needs:* §§8.1, 6.8, 7.9.
+*Needs:* §§6.9, 7.9, 8.1.
 
 **Checks.**
 
 - The thresholds `1, 4, 12` are not the general stable bound `g ≥ 2k`.
 - The genus-zero constant accounts for the initial `1`.
-- The weight-12 sequence equals the cumulative degree distribution of §6.8, as it must since `θ_g` is
+- The weight-12 sequence equals the cumulative degree distribution of §6.9, as it must since `θ_g` is
   surjective and the eigenvectors of degree at most `g` map injectively.
 
 ### 8.3 Invariant alternating forms and the Leech theta coefficients
@@ -2736,9 +2804,14 @@ Rank24LatticeConstructions Layer 6; `TauCeti.BinaryGolay.code`, `TauCeti.BinaryG
 
 - The average characteristic polynomial has coefficient `2` at `t¹⁶`, `t¹²` and `t⁸`: the `M₂₄`-invariants of
   `⋀^g` have dimension two for `g = 8, 12, 16`, one of which is not `N`-invariant.
-- An element `S ∈ G₂₄` acts on `σ_T` by `(−1)^{|S ∩ T|}`; since codewords meet in an even number of points,
-  `σ_C` is `N`-invariant, while `C + {p}` with `p ∉ C` is negated by the complement of `C`.
-- A non-orientable subset gives `σ = 0`: its stabilizer contains an odd permutation of it.
+- The sign change along `S ∈ G₂₄` multiplies each wedge monomial `e_T` (the wedge of the basis vectors of
+  `T` in a fixed order) by `(−1)^{|S ∩ T|}`; it acts diagonally on monomials, not by a scalar on an orbit
+  sum. Every monomial of `σ_C` is indexed by a codeword, which meets `S` evenly, so `σ_C` is
+  `N`-invariant. For an orientable `T ∉ G₂₄` some codeword meets `T` oddly (`G₂₄` is self-dual) and
+  negates the coefficient of `e_T`, so `σ_T` is not `N`-invariant: for `T = {p}` and an octad `S ∋ p`,
+  the image of `σ_{{p}} = Σ_i e_i` has eight negative and sixteen positive coefficients.
+- `σ_T` is defined only for orientable `T`: for a non-orientable `T` the sum of `γ(e_T)` over all
+  `γ ∈ M₂₄` is `0`, since an odd permutation of `T` in its stabilizer negates `e_T`.
 
 **8.5 Invariant alternating forms of Niemeier lattices.**
 Define `invariantAlternatingForms L g`, for `L : TauCeti.IntegralLattice V`, as the subspace of alternating
@@ -2858,16 +2931,16 @@ that the image of `θ_{1,g,24}` is nonzero, hence equal to `ℂF_g` by §7.10.
 Prove (CT20 §5.4, after Corollary 5.13): `M_{H_{5,8,16}}(O₁₆)` has dimension two, spanned by two Hecke eigenvectors
 with standard parameters `Δ₂₁,₁₃[4]` and `Δ₁₇[8]`, and `θ_{5,8,16}` maps it onto `ℂF₈`. Compute the invariants of
 `H_{5,8,16}` under `O(E₈ ⊕ E₈)` and `O(D₁₆⁺)`, decompose under the neighbour operators, and identify the
-parameters through §6.9.
+parameters through §6.8.
 
-*Needs:* §§6.3, 6.7, 6.9, 8.8; OrthogonalTamagawaAndLatticeMass §4.1.
+*Needs:* §§6.3, 6.7, 6.8, 8.8; OrthogonalTamagawaAndLatticeMass §4.1.
 
 **Checks.**
 
 - Both parameters have dimension `16`: `4·4` and `2·8`.
 - A one-dimensional target does not force a one-dimensional source: the source is two-dimensional and the
   eigenvector `Δ₁₇[8]` maps to `0`.
-- By the harmonic form of §6.9 with `n = 16 < 2g + 1 = 17`, a nonzero image of the eigenvector `Δ₂₁,₁₃[4]` has
+- By the harmonic form of §6.8 with `n = 16 < 2g + 1 = 17`, a nonzero image of the eigenvector `Δ₂₁,₁₃[4]` has
   parameter `Δ₂₁,₁₃[4] ⊕ [1]`, that of `F₈`; a nonzero image of `Δ₁₇[8]` would have parameter `Δ₁₇[8] ⊕ [1]`,
   which is not in the table of §7.9.
 
@@ -2883,7 +2956,7 @@ Prove (CT20 Corollary 5.13; CT19a Corollary 4.3 and Theorem 4.4): for every `g �
 
 - For `g > 24` both sides are `0`.
 - For `g = 9` the source is `0` by §8.5 and the target is `0` by odd genus.
-- The image eigenform has the parameter of §7.10, by §6.9 for `n = 24`.
+- The image eigenform has the parameter of §7.10, by §6.8 for `n = 24`.
 
 ### 8.11 The stable range g ≥ 2k
 
@@ -2935,7 +3008,7 @@ It is injective because `S_k(Γ_{g+1}) = 0` for `g + 1 > 2k` (§6.2), and the di
 **8.14 The stable theta isomorphism.**
 Prove (CT20 Corollary 5.15(2)): for `4 | k` and `g ≥ 2k`, `θ_g : ℂ[X_{2k}] → M_k(Γ_g)` is an isomorphism. Injectivity at
 `g = 2k` holds because the Fourier coefficient at the full Gram matrix of a basis of `L` distinguishes isometry
-classes, and propagates by `Φ θ_{g+1} = θ_g`; surjectivity for `g > 2k` is Freitag's theorem of §6.2, and at
+classes, and propagates by `Φ θ_{g+1} = θ_g`; surjectivity for `g > 2k` is Freitag's theorem of §6.4, and at
 `g = 2k` it follows from the surjectivity of `θ_{2k+1}` and of `Φ_{2k+1}` (§8.13). For `k = 0`, the rank-zero
 lattice maps to `1`.
 
