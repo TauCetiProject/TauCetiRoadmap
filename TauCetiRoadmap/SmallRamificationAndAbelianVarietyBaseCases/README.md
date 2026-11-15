@@ -32,7 +32,11 @@ General local invariants belong to LocalFieldsRamification. Its native interface
 `TauCeti.LocalFieldsRamification.lowerRamificationGroup` and
 `TauCeti.differentExponent_le_ramificationIndex_sub_one_add_natCastValuation`. They use compatible
 local-field valuations and give the general different estimate `d ≤ e−1+v_E(e)`. The local
-arithmetic targets below use these invariants and their compatible valuations.
+arithmetic targets below use these invariants and their compatible valuations. The Galois mean
+slope, its upper-numbering integral and the product formula for the Galois root discriminant belong
+to PadicExtensionFamilies §§2.3, 3.3 and 7.1–7.3. This roadmap owns the normalised different `δ(E)`
+of an arbitrary finite `E/ℚ_p`; it equals the Galois mean slope of `E/ℚ_p` when E is Galois and can
+differ from it otherwise (for `ℚ₃(∛3)`, `5/3` against `11/6`).
 
 ### Prerequisites and boundaries
 
@@ -134,6 +138,7 @@ owner of the general result and the part used here.
 | `ArithmeticGaloisRepresentations`, §§6.1, 6.4 / `TateModule.lambdaTateModule` | Rational Tate modules and `λ`-factors with continuous Galois action, coefficient extension and dimension; specialized in §5.1 |
 | `TauCetiRoadmap.LocalFieldsRamification`, Layer 1 | Completeness and deep-unit power maps or logarithms, with compatible valuation normalisations |
 | `TauCetiRoadmap.LocalFieldsRamification`, Layer 3 | Different formula, upper and lower ramification, Herbrand's theorem and Hasse–Arf |
+| `PadicExtensionFamilies`, §§2.3, 3.3, 7.1–7.3 | The Galois mean slope of a finite Galois extension as an upper-numbering integral, and the product formula for the Galois root discriminant; §1.1 uses them for Galois `E/ℚ_p` and Galois number fields |
 | `TauCetiRoadmap.LocalFieldsRamification`, Layer 4 | Tame inertia and Frobenius conjugation; used for prime-to-p characters |
 | `TauCetiRoadmap.ClassFieldTheory`, Layer 7 | Local Artin reciprocity on unit filtrations and equivariance under field automorphisms |
 | `TauCetiRoadmap.ClassFieldTheory`, Layer 13 | Hilbert and ray class fields, Kronecker–Weber and conductor–discriminant calculations, using the class-field correspondence of ClassFieldTheory Layer 12 |
@@ -290,16 +295,19 @@ throughout:
 
 - Equality with `v_p(disc(E))/[E:ℚ_p]`, used in globalisation.
 - For Galois E, equality with the sum over upper jumps u of
-  `(|G^{u+}|⁻¹−|G^u|⁻¹)(u+1)`, used in the wild bounds.
+  `(|G^{u+}|⁻¹−|G^u|⁻¹)(u+1)`, used in the wild bounds. Here `δ(E)` is the Galois mean slope of
+  `E/ℚ_p` of PadicExtensionFamilies §3.3, whose integral formula is imported; only its regrouping
+  at the jumps is done here.
 - Vanishing exactly for unramified extensions.
 - In tame extensions, the value `1−1/e`.
 - Invariance under unramified extension of E and under base-preserving valued field isomorphism.
 - For `ℚ_p ⊆ E ⊆ E'`, the tower value
   `δ(E)+d(E'/E)/e(E'/ℚ_p)`; hence monotonicity in a tower.
 
-The jump sum uses right limits at a break and includes the tame break at zero. It follows from the
-different formula by grouping the lower-index terms with Herbrand's function. For a tame extension
-the single contribution is `1−1/e`, providing an immediate convention check. Jones, §1.1, equations
+The jump sum uses right limits at a break and includes the tame break at zero. It is the integral
+`∫_{−1}^{∞}(1 − 1/|G^u|) du = c(E/ℚ_p)/[E:ℚ_p]` of PadicExtensionFamilies §2.3, applied to the
+Galois extension `E/ℚ_p` itself, evaluated on the left-continuous step function `u ↦ |G^u|`. For a
+tame extension the single contribution is `1−1/e`, providing an immediate convention check. Jones, §1.1, equations
 (1) and (3), pp. 2–3, calls this quantity a mean slope.
 
 **Checks.**
@@ -315,16 +323,15 @@ the single contribution is `1−1/e`, providing an immediate convention check. J
 - The base field and its unramified quadratic extension both give zero; a
   formula with an added tame constant fails here.
 
-The local-to-global theorem proves that a Galois number
-field K satisfies
+For a Galois number field K, the local-to-global formula
 
 `rd(K) = ∏_p p^{δ(K_𝔭)},`
 
-where any prime above p may be chosen and only ramified primes contribute. There are g primes above
-p, all with the same e, f and different exponent d; the degree formula `gef = n` gives `v_p(|d_K|) = gfd = nδ`. Use `NumberField.absNorm_differentIdeal`,
-`NumberField.not_dvd_discr_iff_isUnramifiedIn`, `NumberField.rootDiscr_def`, `NumberField.discr`,
-`IsGalois` and `Ideal.ncard_primesOver_mul_ramificationIdxIn_mul_inertiaDegIn`, together with
-completion compatibility from NumberFieldArithmetic Layers 5–6. The one-prime case is
+where any prime above p may be chosen and only ramified primes contribute, is imported from
+PadicExtensionFamilies §§7.1–7.3: for Galois K its Galois root discriminant is `rd(K)`, and since
+`K_𝔭/ℚ_p` is Galois, its local Galois mean slope at p is `δ(K_𝔭)`. There are g primes above
+p, all with the same e, f and different exponent d; the degree formula `gef = n` gives
+`v_p(|d_K|) = gfd = nδ`. The one-prime case is
 `rd(K) = p^{δ(K_𝔭)}`. Checks include `ℚ(√(−3))`, with root
 discriminant `√3`, and the real cubic subfield of `ℚ(ζ₉)`, with discriminant 81 and
 exponent `4/3`. See Jones, §3.1, p. 9, and Moon–Taguchi, §3, pp. 6–7.
@@ -812,7 +819,7 @@ strict degree thresholds applies to degree one.
 
 Mathlib discriminants, root discriminants, Minkowski, real analysis and number-field signatures; Tau
 Ceti positive definiteness and local unit filtrations; LocalFieldsRamification Layers 1, 3 and 4,
-NumberFieldArithmetic Layers 5–6, ClassFieldTheory Layers 7 and 13, ArithmeticGaloisRepresentations
+PadicExtensionFamilies §§2.3, 3.3 and 7.1–7.3, NumberFieldArithmetic Layers 5–6, ClassFieldTheory Layers 7 and 13, ArithmeticGaloisRepresentations
 Layer 4, FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.6.5, and §1.0.
 
 ## Layer 2: The Tate–Serre base cases
@@ -1865,7 +1872,7 @@ is indecomposable at a finite place `v ∤ p` and `v ∈ S`, then for every plac
 automorphic representation of f is square-integrable at w. Since v splits completely,
 `F″_w = F_v` and `ρ|G_{F″_w}` is the same indecomposable representation; Carayol's local–global
 compatibility at places prime to p identifies an indecomposable local Galois representation with a
-special, hence square-integrable, local component. This compatibility is proved here for the
+special or supercuspidal, hence square-integrable, local component. This compatibility is proved here for the
 weight-two Hilbert attachments constructed in this subsection. Sources: Snowden, Theorem 5.1.2,
 §5.1, p. 15, Proposition 8.2.1, §8.2, p. 26, and the proof of Proposition 9.4.1, p. 30; Carayol,
 Théorèmes (A)–(B), pp. 409–412. *Needs:* the representation, lattice, local Hodge and abelian-moduli

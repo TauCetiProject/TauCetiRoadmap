@@ -122,7 +122,7 @@ def inertiaAbove (ℓ : ℕ) : Set (Field.absoluteGaloisGroup ℚ) :=
 
 section Residual
 
-variable {F : Type*} [Field F] [Fintype F] [TopologicalSpace F] [DiscreteTopology F]
+variable {F : Type*} [Field F] [Finite F] [TopologicalSpace F] [DiscreteTopology F]
 
 /-- `ρ` is unramified at `ℓ` when every inertia element acts trivially. -/
 def IsUnramifiedAt (ℓ : ℕ) (ρ : ResidualRep F) : Prop :=
