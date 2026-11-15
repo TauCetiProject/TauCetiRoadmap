@@ -670,6 +670,7 @@ Every cusp of `Γ₀(𝔑)_𝔟`, `Γ₀¹(𝔑)_𝔟`, `Γ₁¹(𝔑)_𝔟`, an
 
 | group | `M` | `V` |
 | --- | --- | --- |
+| `Γ₀(𝔑)_𝔟` | `𝔰⁻²𝔟⁻¹𝔑(𝔑 + 𝔐²)⁻¹` | `{v ∈ R^×_{>0} : v ≡ 1 mod 𝔐 + 𝔑/𝔐}` |
 | `Γ₀¹(𝔑)_𝔟` | `𝔰⁻²𝔟⁻¹𝔑(𝔑 + 𝔐²)⁻¹` | `{v² : v ∈ R^×, v² ≡ 1 mod 𝔐 + 𝔑/𝔐}` |
 | `Γ₁¹(𝔑)_𝔟` | `𝔰⁻²𝔟⁻¹(𝔑/𝔐)` | `{v² : v ∈ R^×, v ≡ 1 mod 𝔑𝔐(𝔑 + 𝔐²)⁻¹}` |
 | `Γ₁(𝔑)_𝔟`, `𝔑` squarefree | `𝔰⁻²𝔟⁻¹(𝔑/𝔐)` | `{v ∈ R^×_{>0} : v ≡ ε mod 𝔑/𝔐, some ε ∈ U}` |
@@ -823,12 +824,13 @@ field, distinct embeddings and irrational w. The group `multiplierUnits` is defi
 `CuspDatum F`: a `ℤ`-lattice `M : Submodule ℤ F` of rank two together with a subgroup
 `V ≤ multiplierUnits M` (the totally positive `u ∈ F^×` with `uM = M`, that is `U_M^+`) of finite
 index repetition = k = [U_M^+ : V] (`Subgroup.relIndex`); the orientation is supplied by the
-ordered embeddings `v₁ v₂`, which every function of a datum takes. Its period v₁ v₂ : List ℤ
-is the period of v₁(x/y) for an oriented basis with reduced quotient, its
-resolutionCycle v₁ v₂ : List ℤ is the sequence `(−b_1, …, −b_d)` repeated `k` times of
+ordered embeddings `v₁ v₂`. A **reduced basis** of the datum (`CuspDatum.IsReducedBasis`) is an
+oriented basis `(x, y)` of `M` whose quotient `x/y` is reduced; the period of the datum is
+`hjPeriod v₁ (x/y)` for a reduced basis, a cyclic sequence whose starting point the basis fixes.
+Its resolutionCycle v₁ x y : List ℤ is the sequence `(−b_1, …, −b_d)` repeated `k` times of
 convention 7, a cyclic sequence recorded as a list (two rotations of the list are the same cycle;
 the LMFDB's starting point is not a target), its cycleLength = dk and its
-cycleSum = Σ (2 − b). The level-one `Γ₀` datum `G(R, R^×_{>0})` is the datum with M = R and V = U_M⁺. Theorems: `k` is the least `k ≥ 1` with
+cycleSum = Σ (2 − b), both independent of the reduced basis. The level-one `Γ₀` datum `G(R, R^×_{>0})` is the datum with M = R and V = U_M⁺. Theorems: `k` is the least `k ≥ 1` with
 `(ε_M⁺)^k ∈ V`; `dk = 1` iff `d = 1` and `V = U_M^+`; for the data of 1.5 at level one,
 `k = 1` for `Γ₀` and `k = [R^×_{>0} : R^{×2}]` for `Γ₀¹`; for `Γ₀(𝔑)_𝔟` in general `k` is the
 order of `ε⁺` in `(R/(𝔐 + 𝔑/𝔐))^×`. *Needs:* 2.2, 1.5.
@@ -837,9 +839,10 @@ The cusp-datum API includes:
 
 - `IsOriented` is the strict determinant inequality; swapping its basis vectors reverses the sign.
 - `CuspDatum.repetition` is positive because V has finite nonzero relative index.
-- `CuspDatum.period` is independent, as a Cycle, of the oriented basis with reduced quotient;
-  `CuspDatum.resolutionCycle` is invariant under cyclic relabelling of that choice
-  (Hirzebruch 1973, §2.5, theorem; Assaf et al., (3.3.1)–(3.3.4)).
+- Over a real quadratic field with distinct ordered embeddings, every datum has a reduced basis
+  (the stream of any oriented basis is eventually reduced, 2.2); two reduced bases give periods
+  `hjPeriod v₁ (x/y)` that differ by a cyclic rotation, so `CuspDatum.resolutionCycle` changes
+  only by a cyclic relabelling (Hirzebruch 1973, §2.5, theorem; Assaf et al., (3.3.1)–(3.3.4)).
 
 **Checks.**
 
@@ -904,8 +907,8 @@ cycle is `1` (each `S_i` rational, cycle of length `dk`, or a nodal rational cur
 SchemeAndStackFoundations §5.10 (adjunction).
 
 The matrix API includes symmetry, permutation congruence under cyclic relabelling and
-reversal, and `CuspDatum.cycleIntersectionMatrix_negDef` on actual cusp data
-(Hirzebruch 1973, §2.4). The arithmetic genus uses the whole cycle, including its node.
+reversal, and `CuspDatum.cycleIntersectionMatrix_negDef` on the resolution cycle of any reduced
+basis of an actual cusp datum (Hirzebruch 1973, §2.4). The arithmetic genus uses the whole cycle, including its node.
 
 **Checks.**
 
@@ -943,7 +946,8 @@ v₁(β)v₂(β) < 0 and V′ = V (multiplication by β identifies the multiplie
 are dual in Hirzebruch's sense: a cyclic block (b,2,…,2), with b ≥ 3 and m following twos,
 contributes a run of b−3 twos followed by m+3 to the dual cycle. Prove
 `CuspDatum.period_dual`: for every datum `E` whose lattice is `βM`, the sums of digits minus
-three of the periods of the two data are opposite; the period depends on the lattice alone, so
+three of the periods `hjPeriod v₁ (x/y)` and `hjPeriod v₁ (x′/y′)` of reduced bases `(x, y)` and
+`(x′, y′)` of the two data are opposite; the period depends on the lattice alone, so
 the theorem carries no hypothesis on the multiplier group of `E`, and the dual datum is the
 instance `V′ = V`. This is a statement
 about the opposite-sign quadrant, separate from Galois transport of (𝔑,𝔟)
@@ -2061,7 +2065,10 @@ Dependency graph: `0 → {1, 3}`, `1 → 2`, `{2, 3} → 4`, `5 ∥ {0,…,4}`, 
   G. Molnar, S. Schiavone, J. Voight, *A database of basic numerical invariants of Hilbert
   modular surfaces*, Contemp. Math. 796 (2024), 285–312; arXiv:2301.10302v2, with the author errata to the published article. Cited by section and
   numbered statement: (2.1.4)–(2.1.8), §2.2, Lemma 3.1.2, Lemma 3.1.8, Corollary 3.1.18,
-  Corollary 3.1.23, §3.3 ((3.3.1)–(3.3.4), (3.3.10)–(3.3.11)), Lemma 3.3.5, Proposition 3.3.8,
+  Corollary 3.1.23, §3.3 ((3.3.1)–(3.3.4), (3.3.10)–(3.3.11)), Lemma 3.3.5, Proposition 3.3.8
+  (in parts (a) and (b) the modulus of the congruence on `v` is `𝔐 + 𝔑/𝔐`, the exponent
+  `min(f, e − f)` in the proof of part (a); part (a) prints `𝔐 + 𝔐/𝔑`, part (b) `𝔑 + 𝔑/𝔐`,
+  and the errata's correction of part (b) `𝔐 + 𝔐/𝔑`),
   §4.1 and Lemma 4.1.1 (whose part (b) writes `γ² = u⁻¹ζ` for `γ² = uζ` and bounds `q ≤ 6`,
   omitting the order `12` over `ℚ(√3)`; 3.2–3.3),
   (4.1.4)–(4.1.6), §4.2 ((4.2.2), Proposition 4.2.3), §4.3 ((4.3.1)–(4.3.3), Theorem 4.3.11,

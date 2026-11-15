@@ -97,8 +97,8 @@ theorem hjPeriod_ne_nil_of_isReduced (v₁ v₂ : F →+* ℝ) (hv : v₁ ≠ v�
 
 /-- A **cusp datum** `G(M, V)` of convention 5: an oriented rank-two `ℤ`-lattice `M ⊂ F` and a
 subgroup `V` of finite index in the totally positive units of its multiplier ring
-(`README.md`, Layer 2, 2.3). The orientation is supplied by the ordered embeddings, which every
-function of a datum takes as arguments. -/
+(`README.md`, Layer 2, 2.3). The orientation is supplied by the ordered embeddings, which
+`IsReducedBasis` takes as arguments. -/
 structure CuspDatum (F : Type*) [Field F] [NumberField F] where
   /-- The translation lattice `M`. -/
   M : Submodule ℤ F
@@ -117,20 +117,20 @@ variable (D : CuspDatum F)
 /-- `k = [U_M^+ : V]`, the LMFDB's `repetition` (`README.md`, *Conventions*, 7). -/
 noncomputable def repetition : ℕ := D.V.relIndex (multiplierUnits D.M)
 
-open Classical in
-/-- The period `(b₁, …, b_d)` of `v₁(x/y)` for an oriented basis `(x, y)` of `M`, read off an
-oriented basis whose quotient is reduced, where the expansion is purely periodic; such a basis
-exists because the stream of any oriented basis is eventually reduced (2.2). The starting point is
-a choice, so the period is compared only as a `Cycle` (`README.md`,
-Layer 2, 2.2–2.3). -/
-noncomputable def period (v₁ v₂ : F →+* ℝ) (D : CuspDatum F) : List ℤ :=
-  if h : ∃ x y : F, IsOriented v₁ v₂ x y ∧ Submodule.span ℤ {x, y} = D.M ∧ IsReduced v₁ v₂ (x / y)
-  then hjPeriod v₁ (h.choose / h.choose_spec.choose) else []
+/-- `(x, y)` is a **reduced basis** of the datum: an oriented basis of its lattice `M` whose
+quotient `x / y` is reduced, so that the stream of `x / y` is purely periodic with period
+`hjPeriod v₁ (x / y)`. For distinct embeddings of a real quadratic field every datum has one,
+because the stream of any oriented basis is eventually reduced, and two reduced bases give
+periods that differ by a cyclic rotation (`README.md`, Layer 2, 2.2–2.3). -/
+def IsReducedBasis (v₁ v₂ : F →+* ℝ) (x y : F) : Prop :=
+  IsOriented v₁ v₂ x y ∧ Submodule.span ℤ {x, y} = D.M ∧ IsReduced v₁ v₂ (x / y)
 
-/-- The resolution cycle of convention 7: `(−b₁, …, −b_d)` repeated `k` times
-(`README.md`, *Conventions*, 7; Layer 2, 2.3). -/
-noncomputable def resolutionCycle (v₁ v₂ : F →+* ℝ) : List ℤ :=
-  (List.replicate D.repetition ((D.period v₁ v₂).map fun b => -b)).flatten
+/-- The resolution cycle of convention 7 read from a basis `(x, y)` of the lattice:
+`(−b₁, …, −b_d)` repeated `k` times, for the period `(b₁, …, b_d)` of `x / y`. For a reduced
+basis it is the cycle with its starting point fixed by the basis (`README.md`, *Conventions*, 7;
+Layer 2, 2.3). -/
+noncomputable def resolutionCycle (v₁ : F →+* ℝ) (x y : F) : List ℤ :=
+  (List.replicate D.repetition ((hjPeriod v₁ (x / y)).map fun b => -b)).flatten
 
 /-- The intersection matrix of the cycle: the nodal curve `(2 + c₀)` for `dk = 1`, the double
 edge `(c₀, 2; 2, c₁)` for `dk = 2`, the cycle graph for `dk ≥ 3` (`README.md`, Layer 2, 2.5). -/
@@ -141,20 +141,23 @@ def cycleIntersectionMatrix (c : List ℤ) : Matrix (Fin c.length) (Fin c.length
     else if i = j then c.get i
     else if ((i : ℕ) + 1) % c.length = j ∨ ((j : ℕ) + 1) % c.length = i then 1 else 0
 
-/-- The resolution cycle of a cusp datum is negative definite (`README.md`, Layer 2, 2.5). -/
+/-- The resolution cycle of a cusp datum, read from any reduced basis, is negative definite
+(`README.md`, Layer 2, 2.5). -/
 theorem cycleIntersectionMatrix_negDef (v₁ v₂ : F →+* ℝ) (hv : v₁ ≠ v₂)
-    (hF : Module.finrank ℚ F = 2) :
-    (-(cycleIntersectionMatrix (D.resolutionCycle v₁ v₂))).PosDef := sorry
+    (hF : Module.finrank ℚ F = 2) {x y : F} (hxy : D.IsReducedBasis v₁ v₂ x y) :
+    (-(cycleIntersectionMatrix (D.resolutionCycle v₁ x y))).PosDef := sorry
 
-/-- Multiplication of a cusp lattice by an element of negative norm gives the dual period;
-the sums of the digits minus three have opposite signs. The period depends on the lattice
-alone, so no condition relates the multiplier groups of the two data (README §2.7). -/
+/-- Multiplication of a cusp lattice by an element of negative norm gives the dual period:
+for reduced bases `(x, y)` of `D` and `(x', y')` of `E`, the sums of the digits minus three of
+the periods of `x / y` and `x' / y'` are negatives of each other. The period depends on the
+lattice alone, so no condition relates the multiplier groups of the two data (README §2.7). -/
 theorem period_dual (v₁ v₂ : F →+* ℝ) (hv : v₁ ≠ v₂)
     (hF : Module.finrank ℚ F = 2) (E : CuspDatum F) (β : F)
     (hβ : v₁ β * v₂ β < 0)
-    (hM : (E.M : Set F) = (fun x => β * x) '' (D.M : Set F)) :
-    ((D.period v₁ v₂).map fun b => b - 3).sum =
-      -((E.period v₁ v₂).map fun b => b - 3).sum := sorry
+    (hM : (E.M : Set F) = (fun m => β * m) '' (D.M : Set F))
+    {x y x' y' : F} (hxy : D.IsReducedBasis v₁ v₂ x y) (hxy' : E.IsReducedBasis v₁ v₂ x' y') :
+    ((hjPeriod v₁ (x / y)).map fun b => b - 3).sum =
+      -((hjPeriod v₁ (x' / y')).map fun b => b - 3).sum := sorry
 
 end CuspDatum
 
