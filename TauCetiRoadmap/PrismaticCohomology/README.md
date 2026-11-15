@@ -1138,6 +1138,12 @@ A is a δ-ring; `S` is a submonoid of A. An arbitrary localization `S^{-1}A` nee
 
 *Needs:* §0.16, §0.11, §0.17, EnhancedDerivedSheaves §§E5:animation.1, E5:animation.4, EnhancedDerivedSheaves §E5:animation.1, Mathlib `TruncatedWittVector`.
 
+**Checks.**
+
+- At `p=2`, the Witt coordinates `(2,−2)` in `W_2(Z)` have ghost pair `(2,2²+2·(−2))=(2,0)`, satisfying `0≡2²` modulo `2`.
+- The ghost pair `(1,0)` has no preimage in `W_2(Z)`: it would require `1+2y=0`, which has no integer solution. The fibre product is not all of `Z×Z`.
+- Over `F_2`, `W_2(F_2)=Z/4` has four elements, whereas the ordinary fibre product `F_2×_(F_2)F_2=F_2` has two. The derived corner `F_2⊗^L_ZF_2` cannot be replaced by the ordinary quotient.
+
 **Proof route.** First verify the torsion-free square, then use polynomial simplicial resolutions and the finite-coordinate Witt operations (BS22 Remark 2.5, p.14; Lemma 7.7, p.57).
 
 ### 0.60 Simplicial commutative δ-rings
@@ -1663,8 +1669,6 @@ At `p=2` on `Z`, `δ(a)=(a−a²)/2` gives `δ(2)=−1` and `δ(4)=−6`. Its as
 
 **§0.57.** For free `A=Z{x}` and `S={x^n}`, `φ(x)=x^p+pδ(x)` is not a unit of `A[1/x]`, but becomes a unit after p-localization.
 
-**§0.58.** `R = Z`: `W_2(Z)` ≅ {(a, `b) ∈ Z × Z` : `b` ≡ `a^p` mod `p}`; the pair `(p, 0)` is the image of the Witt vector `(p, −p^{p−1})`, and `(1, 0)` is not in the image. `R = F_p` (not p-torsion-free): the underived square fails, `W_2(F_p) = Z/p²` is not `F_p ×_{F_p} F_p = F_p`; the derived square holds with `F_p ⊗^L_Z F_p` in the corner.
-
 **§0.60.** A discrete δ-ring, viewed as a constant simplicial δ-ring, has `π_0` the original δ-ring and no higher homotopy. For `A = Z_(p){x}`, the animated δ-ring obtained by freely adjoining `φ(x)/p` is discrete (BS22 Remark 2.37); and `A{x/p}` is `Z_(p){s}` with `x =` p·s, a pushout along an isomorphism.
 
 **§0.61.** `δ(p) = 1 − p^{p−1}` in `Z_(p)`; for `p = 2` this is `−1`. `p^2` is not distinguished in `Z_p`: `δ(p^2) = p − p^{2p−1}` is divisible by `p`. In the free δ-ring on `d`, the generator `d` is not distinguished; it becomes distinguished after inverting `δ(d)` and its Frobenius iterates (BS22 Example 2.21).
@@ -1802,6 +1806,12 @@ The construction only needs p-adic formal `X`, though comparisons assume smoothn
 (BS22, Construction 4.4; p. 37; BS22, Construction 4.4; p. 37.)
 
 *Needs:* §1.0, §1.2, §0.81, §0.59, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, SchemeAndStackFoundations §§2.1–2.6, SchemeAndStackFoundations §§4.7–4.8, Mathlib `CategoryTheory.Functor.IsCocontinuous`, Mathlib `CategoryTheory.Functor.sheafPushforwardCocontinuous`, Mathlib `Algebra.Etale`.
+
+**Checks.**
+
+- For `X=Spf(A/I)`, `(ν_*O_Δ)(X)=A`; at `(A,I)=(Z_2,(2))` this is `Z_2`, not the reduction `F_2`.
+- On the empty étale open, `(ν_*O_Δ)(∅)=0`, the zero ring, even when `A≠0`; a constant assignment of `A` fails this test.
+- On the two-copy étale cover `X⨿X→X`, `(ν_*O_Δ)(X⨿X)=A×A`, and restriction from `X` is `a↦(a,a)`. For `A=Z_2`, the section `(1,0)` shows why the value is not only the diagonal copy of `A`.
 
 **Proof route.** Lift completely étale maps uniquely in prisms to prove cocontinuity; compute direct image on each étale slice (BS22 §4.2, pp.37–38).
 
@@ -2244,8 +2254,6 @@ For `R=A/I` the relative site has final object (A,I,id), `Δ=A` and `Δ̄=A/I`. 
 
 **§1.1.** For `Z_p→W(F̄_p)`, the completely flat Čech complex `W(F̄_p)→W(F̄_p⊗F̄_p)→…` has `H⁰=Z_p` and no positive cohomology.
 
-**§1.3.** For `X = Spf(R)` and a p-completely étale `R → S`, (`ν_`*O_Δ)(Spf S) = H^0((S/A)_Δ, O_Δ). For U = X the formula gives ν_*`F(X) = H^0((X/A)_Δ, F)`, the global sections. The lift of a Zariski cover `Spf(R_f)` of `Spf(B/IB)` is the `(p,I)-completed` localisation of `B` at a lift of `f`, with its unique δ-structure.
-
 **§1.5.** `Δ̄_{(A/I)/A} = A/I`. For an oriented prism (A,(d)) every twist M{i} is identified with `M` by `d^i`, and the triangle for `i = 0` is the reduction of `Δ →d Δ` modulo `d²`. For the q-de Rham prism `(Z_p[[q−1]],([p]_q))`, `I/I²` is free on the class of `[p]_q`.
 
 **§1.6.** For `R = A/I` the cohomology of `O_Δ` in the Zariski topology of `((A/I)/A)_Δ` is A in degree `0`. The `étale-topology` version is the one used when a statement is checked on an étale chart of `X`.
@@ -2427,6 +2435,12 @@ The bounded-torsion hypothesis on `X` in `(3)` is the one of the arXiv v4 text o
 (BS22, Construction 7.6 (2); p. 56; ALB23, Proposition 3.1.11 (published: Proposition 3.11); p. 18.)
 
 *Needs:* §1.0 (formal-scheme carrier and site, abstract gluing), §2.1, §2.2, §2.3, DerivedModuleAlgebra §§0.1–0.17, 0.25, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, DerivedDeRhamCohomology §§5.1–5.7, 5.17.
+
+**Checks.**
+
+- Over `(A,I)=(Z_2,(2))`, affine recovery at `X=Spec(F_2)` gives `RΓ(X,Δ_(X/A))=Z_2`, with Frobenius the identity; replacing the sheaf by its reduction gives the wrong value `F_2`.
+- For `X=Spec(F_2)⨿Spec(F_2)`, the global value is `Z_2×Z_2`, with independent sections `(1,0)` and `(0,1)`; using only one affine component loses a factor.
+- For `X=Spec(F_2[t])`, agreement with the smooth theory gives `H⁰(Δ̄)=F_2[t]`, `H¹(Δ̄)=F_2[t]dt` and `H²(Δ̄)=0`, with the twist trivialized by the generator `2` of `I`. A discrete replacement loses the nonzero class `dt`.
 
 **Proof route.** Use polynomial étale descent and the affine-open limit with the stated bounded-torsion formal hypothesis (ALB23 Proposition 3.1.11, p.18).
 
@@ -2610,6 +2624,12 @@ Quasisyntomic is relative here, including complete flatness over `A/I`. The orie
 (BS22, Proposition 7.11 and its proof; p. 60; ALB23, Proposition 3.3.8 (published: Proposition 3.20); p. 22.)
 
 *Needs:* §2.3, §2.12, §0.73, §0.83, §0.81, §1.2, DerivedModuleAlgebra §§0.1–0.17, 0.25, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, DerivedDeRhamCohomology §§5.1–5.7, 5.17.
+
+**Checks.**
+
+- For `R=A/I` with the empty polynomial presentation, `S=A/I` and `B=Δ_(S/A)=A`; the covering map `R→B/IB` is the identity. At `(A,I)=(Z_2,(2))` these values are `S=F_2` and `B=Z_2`.
+- For `R=F_2[x]` over `(Z_2,(2))` with its one-variable presentation, `S=F_2[x^(1/2^∞)]`, `B=W(S)` and `B/2=S`. Frobenius sends `[x^(1/2)]` to `[x]`; retaining only `F_2[x]` would omit the root `x^(1/2)`.
+- In the same example, the original affine line has `H¹(Δ̄_(R/Z_2))=F_2[x]dx≠0`, whereas a prism's reduction modulo its Cartier ideal is discrete. Thus `Δ_(R/Z_2)` itself cannot replace `B=Δ_(S/Z_2)` in this construction.
 
 **Proof route.** Descend the oriented André lifting cover along changes of local generator (BS22 Proposition 7.11, p.60).
 
@@ -2837,8 +2857,6 @@ The derived self-intersection `R=(A/I)⊗^L_((A/I)⟨x⟩)(A/I)`, `x↦0`, has `
 
 **§2.3.** Polynomial algebra: recovers `Ω^i{−i}` ≅ `H^i(Δ̄)`. `R = A/I`: `gr_i^conj = 0` for `i > 0`. `R = (A/I)/(f)`, `f` a nonzerodivisor, `R` of bounded `p^∞-torsion`: `gr_i^conj = Γ^i_R(R·f̄){−i}`, finite locally free of rank `1`, and globally free after trivializing the inverse i-th power of the pulled-back conormal line. `S` perfectoid over a perfect prism: `L^∧_{S/(A/I)} = 0`, so `Δ̄_{S/A} = S` and `Δ_{S/A} = A_inf(S)`. `R = A/I ⊗^L_{(A/I)⟨x⟩} A/I`: `gr_i^conj ≃ R{−i}` for all `i` (§2.14).
 
-**§2.4.** For `X` smooth the object `Δ_{X/A}` is the one of Layer `1`. For `X = Spf(R)` affine, `RΓ(X, Δ_{X/A}) = Δ_{R/A}`. For a finite disjoint union the value is the product: `Δ_{(R_1 × R_2)/A} = Δ_{R_1/A} × Δ_{R_2/A}`.
-
 **§2.5.** `R = A/I`: both sides are `A/I`. `R = (A/I)⟨x⟩`: `Fil_1^conj = τ^{≤1}Δ̄ = Δ̄` and the class of the extension of `Ω^1{−1}[−1]` by `R` vanishes, in accordance with the lift A⟨x⟩ over `A/I²`. `R = (A/I)/(f)` with `f` a nonzerodivisor: `Fil_1^conj` is the discrete module `(L_{R/A}{−1}[−1]) = J/J²{−1}` for `J = (I, f)`, an extension of `R·f̄{−1}` by `R`.
 
 **§2.6.** If `X` lifts to a `(p, I)-completely` flat `δ-A-scheme`, the Higgs specialisation of BS22 Remark 4.13 splits `O_X → Δ̄_{X/A}`, in particular `Fil_1^conj`. For `(A, I) = (Z_p, (p))` the statement is the Deligne–Illusie criterion: `Fil_1^conj` splits exactly when `X` lifts to `Z/p²`. `X = Spf(A/I)`: the class lies in the zero group.
@@ -2854,8 +2872,6 @@ The derived self-intersection `R=(A/I)⊗^L_((A/I)⟨x⟩)(A/I)`, `x↦0`, has `
 **§2.13.** `r = 0`: `R = A/I` and `Δ_{R/A} = A`. `(A, I) = (Z_p⟨x⟩, (p))` with `δ(x) = 0` and `f = x^p`: `R = F_p[x]/(x^p)` and `Δ_{R/A} = Z_p⟨x⟩{x^p/p}^∧` is the p-completed PD envelope of `(x)` in `Z_p⟨x⟩` (Layer `0`, PD envelopes of regular sequences are δ-envelopes). `(A, I) = (A_inf(O_C), (ξ))` and `f = p`: `R = O_C/p` and `Δ_{R/A} = A_inf{p/ξ}^∧` (§2.21). For `r>0` the graded pieces `gr_i^conj` are finite locally free of rank `binom(r+i−1, i)`; these two oriented examples have global bases, while the nonprincipal Check in §2.13 has nonfree `gr_1`.
 
 **§2.14.** the crystalline calculation gives negative reduced classes `εu^{[kp−1]}` for `k≥1` and degree-zero reduced classes `u^{[kp]}` for `k≥0`. These are direct sums over `F_p` after reduction, since restricted p-adic coefficients reduce to finite support. They agree with the conjugate-filtration calculation. Base change between bounded prisms carries the self-intersection and the Künneth formula to the corresponding example; no assertion of unreduced nondiscreteness accompanies that base change.
-
-**§2.16.** `R = A/I`: `B = A`. `R = (A/I)⟨x⟩`: `S = (A/I)⟨x^{1/p^∞}⟩` and `B = Δ_{S/A}` is the `(p, I)-completed A[x^{1/p^∞}]` with `φ(x^{1/p^n}) = x^{1/p^{n−1}}`, a relatively perfect `δ-A-algebra` with `B/IB = S`. For a quasisyntomic cover `A/I → R` of a perfect prism the resulting perfect prism over `(A, I)` is faithfully flat: the step used in André's lemma. For `R = (A/I)⟨x⟩` the construction gives `B = Δ_{S/A}` with `B/IB = S = (A/I)⟨x^{1/p^∞}⟩ ≠ R`; the object `Δ_{R/A}` itself is not a prism (`Δ̄_{R/A}` has `H^1 ≠ 0`), although other objects with `B/IB = R` exist (A⟨x⟩ with `δ(x) = 0`).
 
 **§2.17.** `B = S` quasiregular semiperfectoid: the constant cover gives `Δ_S`. `B =` R⟨x⟩ over a perfect prism with the cover `R⟨x^{1/p^∞}⟩`: `Δ_{B/A}` is the totalisation of the cosimplicial δ-ring `Δ` of the terms `R⟨x_0^{1/p^∞},…,x_n^{1/p^∞}⟩/(x_0 − x_i)`. The singular algebra R⟨x, `y⟩/(xy)`: §2.18 `(3)`. The étale topology is coarser, and §2.4 holds without any hypothesis on the cotangent complex.
 
