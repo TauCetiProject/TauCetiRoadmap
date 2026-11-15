@@ -41,6 +41,8 @@ namespace TauCetiRoadmap.AInfCohomology
 
 open scoped BigOperators
 
+/-! ## Layer AI.0: Cyclotomic periods and finite Witt coefficients -/
+
 /-- The valuation ring `O_C` of `C`. -/
 abbrev integers (C : Type*) [NontriviallyNormedField C] [IsUltrametricDist C] : Subring C :=
   (NormedField.valuation (K := C)).integer
@@ -102,6 +104,8 @@ theorem finite_witt_coherence (r : ℕ) (hr : 1 ≤ r) :
         (Fin n → TruncatedWittVector p r (PreTilt (integers C) p))),
       (LinearMap.ker f).FG) := by sorry
 
+/-! ## Layer AI.0:period-comparison: Comparison with the rational period rings -/
+
 /-- The canonical map A_inf → B_dR⁺: localize at p, then complete at the Fontaine kernel. -/
 def deRhamMap : WittVector p (PreTilt (integers C) p) →+* BDeRhamPlus (integers C) p :=
   algebraMap (WittVector p (PreTilt (integers C) p))
@@ -112,6 +116,8 @@ def deRhamMap : WittVector p (PreTilt (integers C) p) →+* BDeRhamPlus (integer
 (ČK, §6.1, p.60; BMS1, §13.1, p.105). -/
 theorem ainf_deRhamPlus_flat : (deRhamMap p C).Flat := by
   sorry
+
+/-! ## Layer AI.2: Breuil–Kisin–Fargues modules, lattices and modifications -/
 
 /-- The p-local freeness conclusion of AI.2.1, *Vector-bundle criterion and p-local freeness*:
 every finite projective `A_inf[1/p]`-module is free (BMS1, Corollary 4.12). -/
