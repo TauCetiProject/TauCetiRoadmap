@@ -147,7 +147,7 @@ Already stated or built elsewhere, and therefore cited rather than stated here:
   `Module.IsReflexive.to_isTorsionFree` (`Mathlib.LinearAlgebra.Dual.Defs`).
 - Exactness of inverse limits of compact modules, that is surjectivity of lim B_n → lim C_n for a
   tower of compact Hausdorff groups with continuous levelwise surjections commuting with the
-  transition maps: Tau Ceti `exists_forall_map_succ_eq_and_forall_eq_of_surjective` (namespace
+  transition maps: Tau Ceti `exists_forall_map_succ_eq_and_forall_eq_of_forall_mem_range` (namespace
   `TauCeti`, module `TauCeti.Topology.Compactness.InverseSystem`; the directed case is
   `exists_forall_map_eq_of_compact_t2`), exactness on the left being the closed-embedding formality.
 - Transposes are unique up to projective summands, tr(f) ⊕ (Q_1 ⊕ P_0)^* ≅ tr(g) ⊕ (P_1 ⊕ Q_0)^* for
@@ -289,7 +289,7 @@ roadmap layer refers to that layer's stated development.
 | Use here | Exact declarations |
 |---|---|
 | the completed group algebra carrier (`Topology/Algebra/Group/Profinite/CompletedGroupAlgebra/`) | `TauCeti.completedGroupAlgebra R Γ` for any commutative ring R, with `proj`, `of`, `mk`, `lift`, `ext`, `of_injective`, `isClosedEmbedding_of`, the inverse-limit topology, compactness, `isMulCommutative_iff` (`Basic.lean`); `Map.lean`; `Prod.lean` (R⟦C × Γ⟧ ≅ R⟦Γ⟧[C]); `Discrete.lean`; `PowerSeries.lean` (`powerSeriesCoordinate` : ℤ_p⟦X⟧ ≃ₐ ℤ_p⟦Γ⟧ for procyclic pro-p Γ, `powerSeriesCoordinate_X`, `powerSeriesCoordinate_padicPow_apply` for the generator change); `Filtration.lean` (the kernels of the finite levels); `ProductCoordinate.lean`, `DyadicCoordinate.lean`, `CharacterDivision.lean` |
-| compact modules and inverse systems (namespace `TauCeti`) | `TauCeti.IsCompactModule` (`Topology/Algebra/Module/Compact.lean`); `exists_forall_map_succ_eq_and_forall_eq_of_surjective`, `exists_forall_map_eq_of_compact_t2` (`Topology/Compactness/InverseSystem.lean`); `hasAntitoneBasis_nhds_one_of_iInf_eq_bot` |
+| compact modules and inverse systems (namespace `TauCeti`) | `TauCeti.IsCompactModule` (`Topology/Algebra/Module/Compact.lean`); `exists_forall_map_succ_eq_and_forall_eq_of_forall_mem_range`, `exists_forall_map_eq_of_compact_t2` (`Topology/Compactness/InverseSystem.lean`); `hasAntitoneBasis_nhds_one_of_iInf_eq_bot` |
 | Fitting ideals (`RingTheory/FittingIdeal/{Basic,Generators,BaseChange}.lean`) | `TauCeti.fittingIdeal R M k` for every k on a finite module, with `fittingIdeal_eq_minorsIdeal_ker`, `fittingIdeal_eq_minorsIdealOfSet`, `fittingIdeal_congr`, `fittingIdeal_le_of_surjective`, `fittingIdeal_monotone`, `fittingIdeal_eq_top_of_surjective`, `fittingIdeal_quotient_zero`, `fittingIdeal_eq_top_iff_finrank_le`, `fittingIdeal_eq_bot_of_lt_finrank`, `fittingIdeal_prod_add_finrank`, `fittingIdeal_le_iff_lt_finrank`, `fittingIdeal_baseChange`, `fittingIdeal_eq_map` |
 | p-adic units (`NumberTheory/Padics/RingHoms.lean`, `PadicIntegers.lean`, `PrincipalUnits.lean`, `NumberTheory/LocalField/Padic.lean`, `UnitFiltration/Basic.lean`) | `PadicInt.unitsToZModPow` with `coe_unitsToZModPow_apply`, `surjective_units_map_toZModPow`, `continuous_toZModPow`; `PadicInt.continuous_toZMod`, `PadicInt.isUnit_one_add_of_dvd`; `TauCeti.unitsPrincipal` with `mem_unitsPrincipal_iff`, `mem_unitsPrincipal_iff_norm`, `isOpen_unitsPrincipal`, `hasBasis_nhds_one_unitsPrincipal`, `iInf_unitsPrincipal_eq_bot`; `PadicInt.totallyDisconnectedSpace_units`; `TauCeti.padicIntUnitsEquivProd` (ℤ_pˣ ≅ μ_{p−1} × (1 + pℤ_p), p odd), `TauCeti.unitsPlusMinus` (the subgroup {±1} at p = 2); `exists_topologicalClosure_zpowers_eq_unitsPrincipal` (a topological generator of the principal units); `not_isOfFinOrder_of_mem_unitsPrincipal` (odd p); `Padic.integerRing_eq_subring`, `Padic.integerRingEquiv`; `TauCeti.unitFiltration` and its open neighbourhood basis |
 | locally constant functions and power series | `TauCeti.rightTranslationStabilizer` (`Topology/Algebra/Group/LocallyConstant.lean`: locally constant functions on a compact group are uniformly locally constant); `hasSubst_binomialSeries_sub_one` (namespace `TauCeti`); `TauCeti.Polynomial.isDistinguishedAt_one_add_X_pow_sub_one` with `natDegree_one_add_X_pow_sub_one` |
@@ -3374,7 +3374,7 @@ References: RJW Proposition 13.13 and its proof, p. 193, where the inverse limit
 → E⁺_{n,1} → U⁺_{n,1} → Gal(M⁺_n/L⁺_n) → 0 is taken; RJW justifies its exactness by the terms being
 finitely generated ℤ_p-modules (Mittag-Leffler), whereas the statement below derives it from
 compactness of the terms, which is the statement arithmetic uses. The same exactness along a tower
-with surjective transition maps is `exists_forall_map_succ_eq_and_forall_eq_of_surjective`
+with surjective transition maps is `exists_forall_map_succ_eq_and_forall_eq_of_forall_mem_range`
 (`TauCeti.Topology.Compactness.InverseSystem`) of Tau Ceti ProfiniteProPGroups, layer 9; its
 directed case is `exists_forall_map_eq_of_compact_t2`, and exactness on the left is the
 closed-embedding formality. Built on Mathlib `Submodule.eq_bot_of_le_smul_of_le_jacobson_bot`.
@@ -3386,7 +3386,7 @@ finite spanning set; and a map of compact Λ-modules is surjective if it is surj
 Compactness of M replaces the finite-generation hypothesis of the algebraic Nakayama lemma (no
 source in this roadmap's register; the statement is the standard topological Nakayama lemma, and is
 stated here as the specification). *Needs:* the maximal ideal (ϖ, T) of Λ (§4.3), Tau Ceti
-`exists_forall_map_succ_eq_and_forall_eq_of_surjective`, Mathlib
+`exists_forall_map_succ_eq_and_forall_eq_of_forall_mem_range`, Mathlib
 `Submodule.eq_bot_of_le_smul_of_le_jacobson_bot`.
 
 **Checks.**
@@ -3411,7 +3411,7 @@ stated here as the specification). *Needs:* the maximal ideal (ϖ, T) of Λ (§4
 Layer 4 (`charIdeal`, `charPoly`, the maximal ideal of Λ). Mathlib `exteriorPower`,
 `HomologicalComplex`, `ModuleCat`, `Module.Projective`, `Module.rankAtStalk`, `IsFractionRing`,
 `lTensor_exact`, `Module.FinitePresentation`, `Submodule.eq_bot_of_le_smul_of_le_jacobson_bot`; Tau
-Ceti `exteriorPower.map_top_eq_det_smul`, `exists_forall_map_succ_eq_and_forall_eq_of_surjective`
+Ceti `exteriorPower.map_top_eq_det_smul`, `exists_forall_map_succ_eq_and_forall_eq_of_forall_mem_range`
 and `exists_forall_map_eq_of_compact_t2` (ProfiniteProPGroups, layer 9). The line-module foundation
 is shared with AlgebraicVectorBundles layer 0C at the level of rings; neither roadmap imports the
 other.

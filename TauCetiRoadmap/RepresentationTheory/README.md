@@ -34,10 +34,9 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   built through finite-dimensional enveloping-algebra targets, derivation-stable cofinite ideals in
   characteristic zero, and central `p`-polynomials with Krull intersection in positive characteristic.
 - [**Semisimple Lie algebras: sl₂, highest weight, and the Weyl character formula**](LieHighestWeight/README.md)
-  - sl₂ as the engine case, the root-space decomposition, weights, Verma modules and `L(λ)`, the
-  highest-weight classification, Weyl's complete reducibility, the Weyl character and dimension
-  formulas, the isotypic decomposition toolkit with the minuscule Pieri rule, and reductive Lie
-  algebras with the concrete `gl_n` theory.
+  - on top of the native highest-weight theory, Weyl formulas and minuscule Pieri rule: normalized
+  tensor comparisons, the split Serre presentation, explicit exceptional models, reductive
+  centres with the concrete `gl_n` theory, and affine Weyl geometry.
 - [**Finite-dimensional representations of the classical groups**](ClassicalGroups/README.md) - the
   standard representation and its tensor powers, the Weyl construction via Young symmetrizers, highest
   weights, Schur polynomials as characters, the Weyl dimension formula, and branching rules.
@@ -61,6 +60,13 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
 - [**Quiver representations and finite-dimensional algebras**](QuiverRepresentations/README.md) - path
   algebras, representations of a quiver, Krull-Schmidt, Gabriel's theorem (finite type ⇔ ADE Dynkin,
   indecomposables ↔ positive roots), reflection and Coxeter functors, and Auslander-Reiten theory.
+- [**Krull-Schmidt categories and Auslander-Reiten theory of Artin algebras**](ArtinAlgebras/README.md) -
+  Krull-Schmidt categories, finitely presented functors, Matlis duality over commutative Artinian
+  rings, `Ext¹` and almost-split conflations in exact categories, the translate and almost-split
+  sequences for Artin algebras, the valued Auslander-Reiten quiver, the classical finiteness
+  theorems (the Harada-Sai lemma, Auslander's theorem on components of bounded length, and the first
+  Brauer-Thrall conjecture), and Morita theory, global and dominant dimension, and the
+  Morita-Tachikawa and Auslander correspondences.
 
 ## How they depend on one another
 
@@ -73,18 +79,21 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   where Schur-Weyl duality and Young symmetrizers connect to the symmetric group. The highest-weight
   roadmap's reductive `gl_n` layer supplies the Lie-algebra half of the classical-groups dictionary,
   matching `DominantWeight n` up to the non-integral central direction.
-- **PBW feeds both Ado–Iwasawa and Lie highest weight.** The highest-weight roadmap owns the concrete PBW
-  project; Ado–Iwasawa consumes its injectivity, ordered-monomial, filtration, domain, and Noetherian
-  consequences, then develops the cofinite-quotient machinery that is independent of highest weights.
+- **PBW feeds both Ado–Iwasawa and Lie highest weight.** Both consume Tau Ceti's ordered PBW basis and
+  filtration directly. Ado–Iwasawa develops from them the cofinite-quotient machinery that is
+  independent of highest weights; the highest-weight roadmap extends the native degreewise
+  equivariance of PBW symmetrization to the global map and adds its filtration statement, the
+  assembly of the centre symbols and the first-order bracket on the Rees zero fibre.
 - **Ado–Iwasawa → Lie's third theorem.** The real specialization supplies the matrix embedding used by the
   Lie-groups roadmap to integrate an arbitrary finite-dimensional real Lie algebra. The full
   arbitrary-characteristic theorem remains algebraic and does not depend on Lie groups.
 - **Character theory is the finite case of compact groups.** Peter-Weyl, restricted to a finite group,
   recovers the finite-group character theory, and the two share the orthogonality machinery.
-- **Lie groups sit under the Lie-algebra and compact-group theory.** The Lie-group roadmap builds the
-  smooth-group ↔ Lie-algebra correspondence that the highest-weight and compact-group roadmaps
-  presuppose, and abstracts the general Weyl integration formula the compact-group roadmap proves only
-  for SU(2).
+- **Lie highest weight feeds Lie groups; Lie groups feed compact groups.** The highest-weight roadmap
+  supplies the split Serre presentation that the Lie-group roadmap's complexification layer consumes.
+  The Lie-group roadmap builds the smooth-group ↔ Lie-algebra correspondence that the compact-group
+  roadmap presupposes, and abstracts the general Weyl integration formula the compact-group roadmap
+  proves only for SU(2).
 - **Spin representations complete the classical groups.** The spin and half-spin representations are the
   fundamental representations of types B and D that are not realized in tensor powers of the standard
   representation, so they finish the classical-groups picture.
@@ -93,6 +102,11 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   `gl_n` classification and the isotypic decomposition toolkit) and cites its minuscule Pieri rule
   for the `gl_N` worked instance; in return it supplies the Clifford algebra of a Lie algebra with an
   invariant form as the model isotypic module, the Clifford analogue of Hopf-Koszul-Samelson.
+- **Artin algebras generalize quiver representations' Auslander-Reiten theory.** The quiver
+  roadmap's Layer 6 reads Tau Ceti's Auslander-Reiten theory of finite-dimensional algebras on
+  quiver examples; the Artin-algebra roadmap states that theory over a commutative Artinian base
+  ring and in Krull-Schmidt exact categories, with the field case as its case `R = k`. Both consume
+  Tau Ceti's Krull-Schmidt theorem and radical.
 - **Quiver representations meet root systems.** Gabriel's theorem identifies the finite-type quivers with
   the ADE Dynkin diagrams and the indecomposables with the positive roots, tying the finite-dimensional
   algebra theory back to root systems.
