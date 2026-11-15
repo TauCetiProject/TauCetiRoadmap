@@ -16,6 +16,7 @@ import TauCeti.NumberTheory.NumberField.Cyclotomic.SqrtFive
 import TauCeti.NumberTheory.NumberField.Cyclotomic.Subfields
 import TauCeti.NumberTheory.NumberField.Discriminant.ArtinMap
 import TauCeti.NumberTheory.NumberField.Discriminant.FixedField
+import TauCeti.NumberTheory.NumberField.Frobenius.FixedField.Inertia
 import TauCeti.NumberTheory.NumberField.Discriminant.Ramification
 import TauCeti.NumberTheory.NumberField.Discriminant.RamifiedSupport.Basic
 import TauCeti.NumberTheory.NumberField.Discriminant.RamifiedSupport.Tower
@@ -28,7 +29,7 @@ import TauCeti.NumberTheory.NumberField.Frobenius.Restriction
 import TauCeti.NumberTheory.NumberField.Frobenius.Tower
 import TauCeti.NumberTheory.NumberField.Global.Places.Basic
 import TauCeti.NumberTheory.NumberField.Ideal.ArtinMap
-import TauCeti.NumberTheory.NumberField.Ideal.Away
+import TauCeti.RingTheory.DedekindDomain.Ideal.Away
 import TauCeti.NumberTheory.NumberField.Ideal.UnramifiedArtinMap
 import TauCeti.NumberTheory.NumberField.Index.Basic
 import TauCeti.NumberTheory.NumberField.Index.CommonIndexDivisor
@@ -68,7 +69,7 @@ import TauCeti.NumberTheory.NumberField.Units.Elimination.Basic
 import TauCeti.NumberTheory.NumberField.Units.Elimination.GoldenRatio
 import TauCeti.NumberTheory.NumberField.Units.GeneratorCriterion
 import TauCeti.NumberTheory.NumberField.Units.Normalization
-import TauCeti.NumberTheory.NumberField.Units.Regulator
+import TauCeti.NumberTheory.NumberField.Units.Regulator.Basic
 import TauCeti.NumberTheory.NumberField.UnramifiedTower
 import TauCeti.NumberTheory.NumberField.WorkedExamples.Cubic23.Invariants
 import TauCeti.NumberTheory.NumberField.WorkedExamples.Cubic23.Ramification
@@ -87,13 +88,14 @@ import TauCeti.NumberTheory.NumberField.WorkedExamples.Sqrt5.Invariants
 import TauCeti.NumberTheory.NumberField.WorkedExamples.Sqrt5.RealPlace
 import TauCeti.NumberTheory.NumberField.WorkedExamples.Sqrt5.Splitting
 import TauCeti.NumberTheory.NumberField.WorkedExamples.Sqrt5.Units
-import TauCeti.NumberTheory.RamificationInertia.DoubleCoset.Basic
+import TauCeti.NumberTheory.RamificationInertia.DoubleCoset.Invariant.Basic
 import TauCeti.NumberTheory.RamificationInertia.DoubleCoset.Invariants
 import TauCeti.NumberTheory.RamificationInertia.DoubleCoset.Naturality
-import TauCeti.NumberTheory.RamificationInertia.DoubleCoset.SpecialCases
+import TauCeti.NumberTheory.RamificationInertia.DoubleCoset.Invariant.SpecialCases
 import TauCeti.NumberTheory.RamificationInertia.Galois
 import TauCeti.NumberTheory.RamificationInertia.HilbertTheory.Basic
 import TauCeti.NumberTheory.RamificationInertia.HilbertTheory.ResidueDegree
+import TauCeti.RingTheory.Polynomial.Roots
 import TauCeti.NumberTheory.RamificationInertia.Splitting
 import TauCeti.RingTheory.DedekindDomain.AdicCompletionExtension
 import TauCeti.RingTheory.DedekindDomain.AdicValuation.Completion
@@ -404,8 +406,11 @@ example [Algebra.IsSeparable (A ⧸ P.under A) (B ⧸ P)] : P.inertiaDeg 𝓞E =
 /-- **Layer 1.3, the residue-separable corollary `f(P ∩ T / p) = f`.** The separability
 hypothesis is kept on this statement. -/
 example [Algebra.IsSeparable (A ⧸ P.under A) (B ⧸ P)] :
-    (P.under 𝓞E).inertiaDeg A = p.inertiaDegIn B :=
-  TauCeti.IsInertiaField.inertiaDeg_eq_inertiaDegIn A K L P E 𝓞E
+    (P.under 𝓞E).inertiaDeg A = p.inertiaDegIn B := by
+  have : FaithfulSMul A B := .of_field_isFractionRing A B K L
+  have := IsGaloisGroup.of_isFractionRing (L ≃ₐ[K] L) A B K L
+  rw [TauCeti.IsInertiaField.inertiaDeg_under_eq A K L P E 𝓞E,
+    Ideal.inertiaDegIn_eq_inertiaDeg p P (L ≃ₐ[K] L)]
 
 end Inertia
 
@@ -432,10 +437,13 @@ variable (A K L : Type*) {B : Type*} [Field K] [Field L] [Algebra K L] [CommRing
 and `f(P ∩ T / p) = f` by the tower law. -/
 example [Algebra.IsSeparable (A ⧸ P.under A) (B ⧸ P)] :
     (P.under 𝓞E).inertiaDeg 𝓞D = p.inertiaDegIn B := by
-  have := inertiaDeg_tower (R := A) (P.under 𝓞D) (P.under 𝓞E)
+  have : FaithfulSMul A B := .of_field_isFractionRing A B K L
+  have := IsGaloisGroup.of_isFractionRing (L ≃ₐ[K] L) A B K L
+  have h := inertiaDeg_tower (R := A) (P.under 𝓞D) (P.under 𝓞E)
   rw [TauCeti.IsDecompositionField.inertiaDeg_under_eq_one A K L P D 𝓞D, one_mul,
-    TauCeti.IsInertiaField.inertiaDeg_eq_inertiaDegIn A K L P E 𝓞E (p := p)] at this
-  exact this.symm
+    TauCeti.IsInertiaField.inertiaDeg_under_eq A K L P E 𝓞E,
+    ← Ideal.inertiaDegIn_eq_inertiaDeg p P (L ≃ₐ[K] L)] at h
+  exact h.symm
 
 end DecompositionInertia
 
@@ -455,37 +463,46 @@ noncomputable example :
     DoubleCoset.Quotient (H : Set (M ≃ₐ[K] M))
         (MulAction.stabilizer (M ≃ₐ[K] M) Q : Set (M ≃ₐ[K] M)) ≃
       p.primesOver (𝓞 (fixedField H)) :=
-  doubleCosetQuotientEquivPrimesOver p Q H
+  Q.doubleCosetQuotientEquivPrimesOverOfIsInvariant p H (𝓞 (fixedField H))
 
 /-- **Layer 1.4, the bijection sends `HσD` to `σQ ∩ M ^ H`.** -/
 example (σ : M ≃ₐ[K] M) :
-    (doubleCosetQuotientEquivPrimesOver p Q H (DoubleCoset.mk H _ σ) :
-        Ideal (𝓞 (fixedField H))) = (σ • Q).under (𝓞 (fixedField H)) :=
-  doubleCosetQuotientEquivPrimesOver_mk p Q H σ
+    (Q.doubleCosetQuotientEquivPrimesOverOfIsInvariant p H (𝓞 (fixedField H))
+        (DoubleCoset.mk H _ σ) : Ideal (𝓞 (fixedField H))) = (σ • Q).under (𝓞 (fixedField H)) :=
+  Q.doubleCosetQuotientEquivPrimesOverOfIsInvariant_mk p H _ σ
 
 /-- **Layer 1.4, compatibility with the `G`-action on `primesOver`.** -/
 example (τ σ : M ≃ₐ[K] M) :
-    doubleCosetQuotientEquivPrimesOver p (τ • Q) H (DoubleCoset.mk H _ σ) =
-      doubleCosetQuotientEquivPrimesOver p Q H (DoubleCoset.mk H _ (σ * τ)) :=
-  doubleCosetQuotientEquivPrimesOver_smul_mk p Q H τ σ
+    (τ • Q).doubleCosetQuotientEquivPrimesOverOfIsInvariant p H (𝓞 (fixedField H))
+        (DoubleCoset.mk H _ σ) =
+      Q.doubleCosetQuotientEquivPrimesOverOfIsInvariant p H (𝓞 (fixedField H))
+        (DoubleCoset.mk H _ (σ * τ)) :=
+  Q.doubleCosetQuotientEquivPrimesOverOfIsInvariant_smul_mk p H _ τ σ
 
 /-- **Layer 1.4, `e · f = [σDσ⁻¹ : H ∩ σDσ⁻¹]`**, with no separability hypothesis. -/
 example (σ : M ≃ₐ[K] M) :
     ((σ • Q).under (𝓞 (fixedField H))).ramificationIdx (𝓞 K) *
         ((σ • Q).under (𝓞 (fixedField H))).inertiaDeg (𝓞 K) =
-      H.relIndex (MulAut.conj σ • MulAction.stabilizer (M ≃ₐ[K] M) Q) :=
-  ramificationIdx_mul_inertiaDeg_under_fixedField_smul_eq_relIndex Q H σ
+      H.relIndex (MulAut.conj σ • MulAction.stabilizer (M ≃ₐ[K] M) Q) := by
+  rw [ramificationIdx_mul_inertiaDeg_under_fixedField_eq_relIndex (σ • Q) H,
+    MulAction.stabilizer_smul_eq_stabilizer_map_conj, MulEquiv.toMonoidHom_eq_coe,
+    TauCeti.map_conj_eq_conj_smul]
 
 /-- **Layer 1.4, `e · f = |HσD| / |H|`**, read along the bijection. -/
 example (q : DoubleCoset.Quotient (H : Set (M ≃ₐ[K] M))
       (MulAction.stabilizer (M ≃ₐ[K] M) Q : Set (M ≃ₐ[K] M))) :
-    (doubleCosetQuotientEquivPrimesOver p Q H q : Ideal (𝓞 (fixedField H))).ramificationIdx
-          (𝓞 K) *
-        (doubleCosetQuotientEquivPrimesOver p Q H q : Ideal (𝓞 (fixedField H))).inertiaDeg
-          (𝓞 K) =
+    (Q.doubleCosetQuotientEquivPrimesOverOfIsInvariant p H (𝓞 (fixedField H)) q :
+          Ideal (𝓞 (fixedField H))).ramificationIdx (𝓞 K) *
+        (Q.doubleCosetQuotientEquivPrimesOverOfIsInvariant p H (𝓞 (fixedField H)) q :
+          Ideal (𝓞 (fixedField H))).inertiaDeg (𝓞 K) =
       Nat.card (DoubleCoset.quotToDoubleCoset H (MulAction.stabilizer (M ≃ₐ[K] M) Q) q) /
-        Nat.card H :=
-  ramificationIdx_mul_inertiaDeg_doubleCosetQuotientEquivPrimesOver_eq_card_div p Q H q
+        Nat.card H := by
+  conv_lhs => rw [← DoubleCoset.out_eq' q,
+    Q.doubleCosetQuotientEquivPrimesOverOfIsInvariant_mk p H (𝓞 (fixedField H))]
+  rw [ramificationIdx_mul_inertiaDeg_under_fixedField_eq_relIndex,
+    MulAction.stabilizer_smul_eq_stabilizer_map_conj, MulEquiv.toMonoidHom_eq_coe,
+    TauCeti.map_conj_eq_conj_smul, DoubleCoset.quotToDoubleCoset,
+    TauCeti.card_doubleCoset_eq_card_mul_relIndex, Nat.mul_div_cancel_left _ Nat.card_pos]
 
 /-- **Layer 1.4, `e = [σIσ⁻¹ : H ∩ σIσ⁻¹]`.** Residue fields of number fields are finite, so the
 residue-separability hypothesis this formula needs is automatic here. -/
@@ -513,36 +530,47 @@ theorem sum_card_doubleCoset_div_card_eq_finrank
 /-- **Layer 1.4, functoriality in `H`.** For `H ≤ H'`, the quotient map of double cosets and
 contraction of primes from `M ^ H` to `M ^ H'` commute with the two bijections. -/
 example {H H' : Subgroup (M ≃ₐ[K] M)} (h : H ≤ H') :
-    doubleCosetQuotientEquivPrimesOver p Q H' ∘
+    Q.doubleCosetQuotientEquivPrimesOverOfIsInvariant p H' (𝓞 (fixedField H')) ∘
         DoubleCoset.quotientMapOfLELeft h (MulAction.stabilizer (M ≃ₐ[K] M) Q) =
-      primesOverFixedFieldMap p h ∘ doubleCosetQuotientEquivPrimesOver p Q H :=
+      primesOverFixedFieldMap p h ∘
+        Q.doubleCosetQuotientEquivPrimesOverOfIsInvariant p H (𝓞 (fixedField H)) :=
   doubleCosetQuotientEquivPrimesOver_natural p Q h
 
 /-- **Layer 1.4, the case `H = G`**, where `M ^ H = K` and there is one prime. -/
 example [p.IsPrime] :
-    Nat.card (p.primesOver (𝓞 (fixedField (⊤ : Subgroup (M ≃ₐ[K] M))))) = 1 :=
-  card_primesOver_fixedField_top_eq_one p
+    Nat.card (p.primesOver (𝓞 (fixedField (⊤ : Subgroup (M ≃ₐ[K] M))))) = 1 := by
+  obtain ⟨⟨R, _, _⟩⟩ := p.nonempty_primesOver (S := 𝓞 M)
+  rw [primesOver_eq_singleton_of_eq_top (G := M ≃ₐ[K] M) p R ⊤
+    (𝓞 (fixedField (⊤ : Subgroup (M ≃ₐ[K] M)))) rfl]
+  exact Nat.card_unique
 
 /-- **Layer 1.4, the case `H = 1`**, the Galois case: the primes above `p` are `G / D`. -/
 example : Nat.card (p.primesOver (𝓞 M)) = (MulAction.stabilizer (M ≃ₐ[K] M) Q).index :=
-  card_primesOver_eq_index_stabilizer p Q
+  card_primesOver_eq_index_stabilizer Q p
 
 /-- **Layer 1.4, the case `H = D`, at the identity double coset only.** The prime it names has
 `e = f = 1` over `p` and `Q` is the only prime of `M` above it. `D \ G / D` is not a singleton in
 general, so this is not a statement that there is one prime. -/
 example :
-    (doubleCosetQuotientEquivPrimesOver p Q (MulAction.stabilizer (M ≃ₐ[K] M) Q)
-          (DoubleCoset.mk _ _ 1) :
+    (Q.doubleCosetQuotientEquivPrimesOverOfIsInvariant p (MulAction.stabilizer (M ≃ₐ[K] M) Q)
+          (𝓞 (fixedField (MulAction.stabilizer (M ≃ₐ[K] M) Q))) (DoubleCoset.mk _ _ 1) :
         Ideal (𝓞 (fixedField (MulAction.stabilizer (M ≃ₐ[K] M) Q)))).ramificationIdx (𝓞 K) = 1 ∧
-      (doubleCosetQuotientEquivPrimesOver p Q (MulAction.stabilizer (M ≃ₐ[K] M) Q)
-          (DoubleCoset.mk _ _ 1) :
+      (Q.doubleCosetQuotientEquivPrimesOverOfIsInvariant p (MulAction.stabilizer (M ≃ₐ[K] M) Q)
+          (𝓞 (fixedField (MulAction.stabilizer (M ≃ₐ[K] M) Q))) (DoubleCoset.mk _ _ 1) :
         Ideal (𝓞 (fixedField (MulAction.stabilizer (M ≃ₐ[K] M) Q)))).inertiaDeg (𝓞 K) = 1 ∧
-      (doubleCosetQuotientEquivPrimesOver p Q (MulAction.stabilizer (M ≃ₐ[K] M) Q)
-          (DoubleCoset.mk _ _ 1) :
-        Ideal (𝓞 (fixedField (MulAction.stabilizer (M ≃ₐ[K] M) Q)))).primesOver (𝓞 M) = {Q} :=
-  ⟨ramificationIdx_doubleCosetQuotientEquivPrimesOver_stabilizer_mk_one_eq_one p Q,
-    inertiaDeg_doubleCosetQuotientEquivPrimesOver_stabilizer_mk_one_eq_one p Q,
-    primesOver_doubleCosetQuotientEquivPrimesOver_stabilizer_mk_one_eq_singleton p Q⟩
+      (Q.doubleCosetQuotientEquivPrimesOverOfIsInvariant p (MulAction.stabilizer (M ≃ₐ[K] M) Q)
+          (𝓞 (fixedField (MulAction.stabilizer (M ≃ₐ[K] M) Q))) (DoubleCoset.mk _ _ 1) :
+        Ideal (𝓞 (fixedField (MulAction.stabilizer (M ≃ₐ[K] M) Q)))).primesOver (𝓞 M) = {Q} := by
+  refine ⟨?_, ?_,
+    primesOver_doubleCosetQuotientEquivPrimesOverOfIsInvariant_stabilizer_mk_one_eq_singleton p Q
+      (𝓞 (fixedField (MulAction.stabilizer (M ≃ₐ[K] M) Q)))⟩
+  · rw [doubleCosetQuotientEquivPrimesOverOfIsInvariant_mk_one p Q
+      (MulAction.stabilizer (M ≃ₐ[K] M) Q) (𝓞 (fixedField (MulAction.stabilizer (M ≃ₐ[K] M) Q)))]
+    exact (ramificationIdx_under_fixedField_eq_relIndex Q _).trans
+      (Subgroup.relIndex_eq_one.2 (Ideal.inertia_le_stabilizer Q))
+  · rw [doubleCosetQuotientEquivPrimesOverOfIsInvariant_mk_one p Q
+      (MulAction.stabilizer (M ≃ₐ[K] M) Q) (𝓞 (fixedField (MulAction.stabilizer (M ≃ₐ[K] M) Q)))]
+    exact inertiaDeg_under_fixedField_eq_one_of_stabilizer_le Q le_rfl
 
 end Layer1_4
 
@@ -724,21 +752,21 @@ variable {K : Type*} [Field K] [NumberField K]
 /-- **Layer 2.5, the carrier `J^S`**: invertible fractional ideals with multiplicity zero at every
 prime of `S`. -/
 example (S : Finset (HeightOneSpectrum (𝓞 K))) (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) :
-    I ∈ idealsAway S ↔
+    I ∈ idealsAway K S ↔
       ∀ v ∈ S, FractionalIdeal.count K v (I : FractionalIdeal (𝓞 K)⁰ K) = 0 :=
   mem_idealsAway_iff
 
 /-- **Layer 2.5, `J^S` is generated by the primes outside `S`.** -/
 example (S : Finset (HeightOneSpectrum (𝓞 K))) :
-    idealsAway S = Subgroup.closure {I : (FractionalIdeal (𝓞 K)⁰ K)ˣ |
+    idealsAway K S = Subgroup.closure {I : (FractionalIdeal (𝓞 K)⁰ K)ˣ |
       ∃ v : HeightOneSpectrum (𝓞 K), v ∉ S ∧
         ((I : FractionalIdeal (𝓞 K)⁰ K) = (v.asIdeal : FractionalIdeal (𝓞 K)⁰ K))} :=
   idealsAway_eq_closure_primes S
 
 /-- **Layer 2.5, the inclusion homomorphism** for `S ⊆ S'`, which does not change the underlying
 fractional ideal. -/
-example {S S' : Finset (HeightOneSpectrum (𝓞 K))} (h : S ⊆ S') (I : idealsAway (K := K) S') :
-    ((idealsAwayInclusion h I : idealsAway (K := K) S) : (FractionalIdeal (𝓞 K)⁰ K)ˣ) = I :=
+example {S S' : Finset (HeightOneSpectrum (𝓞 K))} (h : S ⊆ S') (I : idealsAway K S') :
+    ((idealsAwayInclusion K h I : idealsAway K S) : (FractionalIdeal (𝓞 K)⁰ K)ˣ) = I :=
   coe_idealsAwayInclusion h I
 
 /-- **Layer 2.5, the integral carrier**: nonzero integral ideals divisible by no prime of `S`. -/
@@ -747,8 +775,8 @@ example (S : Finset (HeightOneSpectrum (𝓞 K))) (I : Ideal (𝓞 K)) :
   mem_integralIdealsAway_iff
 
 /-- **Layer 2.5, the integral-to-fractional homomorphism** does not change the ideal. -/
-example (S : Finset (HeightOneSpectrum (𝓞 K))) (I : integralIdealsAway (K := K) S) :
-    (((integralIdealsAwayHom S I : idealsAway (K := K) S) : (FractionalIdeal (𝓞 K)⁰ K)ˣ) :
+example (S : Finset (HeightOneSpectrum (𝓞 K))) (I : integralIdealsAway (R := 𝓞 K) S) :
+    (((integralIdealsAwayHom K S I : idealsAway K S) : (FractionalIdeal (𝓞 K)⁰ K)ˣ) :
       FractionalIdeal (𝓞 K)⁰ K) = I :=
   coe_integralIdealsAwayHom S I
 
@@ -803,7 +831,7 @@ theorem artinHomAway_mono (S' : Finset (HeightOneSpectrum (𝓞 K))) (h : S ⊆ 
     (hur' : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S' →
       ∀ (Q : Ideal (𝓞 L)) [Q.IsPrime] [Q.LiesOver v.asIdeal], Algebra.IsUnramifiedAt (𝓞 K) Q) :
     artinHomAway (L := L) hab S' hur' =
-      (artinHomAway (L := L) hab S hur).comp (idealsAwayInclusion h) :=
+      (artinHomAway (L := L) hab S hur).comp (idealsAwayInclusion K h) :=
   TauCeti.NumberFieldArithmetic.artinHomAway_mono hab S hur S' h hur'
 
 /-- **Layer 2.5, functoriality in `L`, as an equation.** Restriction to a normal intermediate field
@@ -818,14 +846,14 @@ theorem artinHomAway_restrict (M : Type*) [Field M] [NumberField M] [Algebra K M
 
 /-- **Layer 2.5, the integral Artin homomorphism** is the Artin map read through the integral
 carrier. -/
-example (I : integralIdealsAway (K := K) S) :
+example (I : integralIdealsAway (R := 𝓞 K) S) :
     artinHomAwayIntegral (L := L) hab S hur I =
-      artinHomAway (L := L) hab S hur (integralIdealsAwayHom S I) :=
+      artinHomAway (L := L) hab S hur (integralIdealsAwayHom K S I) :=
   artinHomAwayIntegral_apply hab S hur I
 
 /-- **Layer 2.5, the value of the integral Artin homomorphism at a prime outside `S`.** -/
 theorem artinHomAwayIntegral_apply_prime (v : HeightOneSpectrum (𝓞 K)) (hv : v ∉ S)
-    (hmem : v.asIdeal ∈ integralIdealsAway (K := K) S)
+    (hmem : v.asIdeal ∈ integralIdealsAway (R := 𝓞 K) S)
     (Q : Ideal (𝓞 L)) [Q.IsPrime] [Q.LiesOver v.asIdeal] (σ : L ≃ₐ[K] L)
     (hσ : IsArithFrobAt (𝓞 K) σ Q) :
     artinHomAwayIntegral (L := L) hab S hur ⟨v.asIdeal, hmem⟩ = σ :=
@@ -927,8 +955,8 @@ example {F : Type*} [Field F] [Algebra K F] [Algebra F L] [IsScalarTower K F L] 
 example (F : Type*) [Field F] [NumberField F] [NumberField.IsCMField F] (w : InfinitePlace F) :
     NumberField.IsCMField.complexConj F =
       complexConjugationAt (NumberField.maximalRealSubfield F) w
-        (isRamified_maximalRealSubfield F w) :=
-  complexConj_eq_complexConjugationAt F w
+        ((isRamified_maximalRealSubfield_iff w).mpr (IsTotallyComplex.isComplex w)) :=
+  (complexConjugationAt_eq_complexConj F w _).symm
 
 end Layer2_7
 
@@ -2363,7 +2391,7 @@ example {p : ℕ} [Fact p.Prime] (hodd : p ≠ 2) :
     ((Ideal.primesOver (Ideal.span {(p : ℤ)}) (𝓞 K)).ncard = 2 ↔ legendreSym p 5 = 1) ∧
       ((Ideal.primesOver (Ideal.span {(p : ℤ)}) (𝓞 K)).ncard = 2 ↔ p % 5 = 1 ∨ p % 5 = 4) :=
   ⟨Sqrt5.ncard_primesOver_eq_two_iff_legendreSym hmin hgen hodd,
-    Sqrt5.ncard_primesOver_eq_two_iff_mod_five hmin hgen hodd⟩
+    Sqrt5.ncard_primesOver_eq_two_iff_mod_five hmin hgen⟩
 
 /-- `2` is inert: one prime above it, of residue degree `2`. -/
 example {Q : Ideal (𝓞 K)} (hQ : Q ∈ Ideal.primesOver (Ideal.span {(2 : ℤ)}) (𝓞 K)) :
@@ -2780,7 +2808,7 @@ variable {K : Type*} [Field K] [NumberField K]
 
 /-- Tau Ceti's carrier `J^S` of Layer 2.5. -/
 abbrev idealsAway (S : Finset (HeightOneSpectrum (𝓞 K))) : Subgroup (FractionalIdeal (𝓞 K)⁰ K)ˣ :=
-  TauCeti.NumberFieldArithmetic.idealsAway S
+  TauCeti.NumberFieldArithmetic.idealsAway K S
 
 /-- Tau Ceti's monoid of nonzero integral ideals prime to `S`, of Layer 2.5. -/
 abbrev integralIdealsAway (S : Finset (HeightOneSpectrum (𝓞 K))) : Submonoid (Ideal (𝓞 K)) :=
