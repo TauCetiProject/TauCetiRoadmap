@@ -38,9 +38,8 @@ concurrency:
 
 jobs:
   build:
-    # Merge candidates share GitHub-hosted capacity with small automation.
-    # Ordinary PR and main builds use shared Namespace capacity.
-    runs-on: ${{ github.event_name == 'merge_group' && 'ubuntu-latest' || fromJSON('["nscloud-ubuntu-24.04-amd64-8x16-with-features"]') }}
+    # PR, main, and merge candidates all use GitHub-hosted capacity.
+    runs-on: ubuntu-24.04
     steps:
       # A merge-queue candidate that `main` has moved out from under can never merge, and GitHub does
       # not cancel its build. Whenever something lands on `main` outside the queue (a progress report,
@@ -136,8 +135,48 @@ jobs:
 
       # Install Lean and materialize the dependency workspace. This restores Mathlib through its
       # own cache (`lake exe cache get`) but deliberately leaves the project build to the final step.
+      #
+      # Up to three attempts, one and then three minutes apart. `lean-action` downloads elan (from
+      # GitHub releases) and the toolchain (from releases.lean-lang.org) afresh on every run and does
+      # not retry either; between 05:17 and 05:50 UTC on 2026-11-09 those downloads failed
+      # intermittently (HTTP 504 among them) and 17 builds, three of them `main`, went red before
+      # compiling anything. Only the last attempt can fail the job. Each retry runs only when the
+      # previous attempt's `outcome` is `failure`; `outcome` is always set (`success`, `failure`,
+      # `cancelled` or `skipped`), so no comparison involves a missing value (see the scope step).
       - name: Set up Lean and restore Mathlib
+        id: lean_setup
         if: github.event_name != 'pull_request' || steps.scope.outputs.lean != 'skip'
+        continue-on-error: true
+        uses: leanprover/lean-action@v1
+        with:
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+          use-github-cache: false
+
+      - name: Wait before retrying the Lean setup
+        if: steps.lean_setup.outcome == 'failure'
+        run: sleep 60
+
+      - name: Set up Lean and restore Mathlib (second attempt)
+        id: lean_setup_retry
+        if: steps.lean_setup.outcome == 'failure'
+        continue-on-error: true
+        uses: leanprover/lean-action@v1
+        with:
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+          use-github-cache: false
+
+      - name: Wait before the last Lean setup attempt
+        if: steps.lean_setup_retry.outcome == 'failure'
+        run: sleep 180
+
+      - name: Set up Lean and restore Mathlib (last attempt)
+        if: steps.lean_setup_retry.outcome == 'failure'
         uses: leanprover/lean-action@v1
         with:
           build: false
