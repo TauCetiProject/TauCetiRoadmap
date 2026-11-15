@@ -312,6 +312,19 @@ rural hospitals theorem (Roth 1986), and matching with contracts (Hatfield–Mil
 the marriage model; the Archive of Formal Proofs entry of Gammie (2016) formalizes in Isabelle the
 results of matching with contracts and several of the theorems above.
 
+## Provenance: existing formalizations outside Tau Ceti
+
+This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
+repository LeanPool, *lean-pool* (References), keeps Lean 4 formalizations that do not fit Mathlib,
+each project permissively licensed (Apache-2.0 or MIT) and bumped to Lean and Mathlib v4.35.0,
+earlier than our pin. It is not a dependency: a statement read there is compared with the target
+here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
+license notices.
+
+`LeanPool/ClassicalGraphColouring/Galvin/GaleShapley.lean` proves, by induction on the number of
+men, that stable matchings exist on finite markets, as a step of Galvin's list-colouring theorem:
+the content of 1.2 without deferred acceptance. It has nothing on 1.1, 1.3 or Layers 2–3.
+
 ## References
 
 - L. E. Dubins, D. A. Freedman, *Machiavelli and the Gale–Shapley algorithm*, Amer. Math. Monthly
@@ -334,3 +347,6 @@ results of matching with contracts and several of the theorems above.
   version, NBER Working Paper 13225, https://www.nber.org/papers/w13225).
 - M. Sotomayor, *A non-constructive elementary proof of the existence of stable marriages*, Games
   Econom. Behav. 13 (1996), 135–137; doi:10.1006/game.1996.0029.
+- LeanPool, *lean-pool*. Lean 4 formalizations at commit f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0,
+  Lean and Mathlib v4.35.0; projects `LeanPool/ClassicalGraphColouring/Galvin`.
+  https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool
