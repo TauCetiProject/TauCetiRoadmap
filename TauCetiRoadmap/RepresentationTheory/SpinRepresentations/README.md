@@ -84,7 +84,7 @@ normal subgroup is a separate subject. No geometric refinement is a supplier for
   onto its entire codomain. OrthogonalSpinGroups1A owns the reverse/star norm
   comparison, 1B–1C the general-field generated carrier/vector-map comparisons,
   and 1D–1E the spinor-norm/image-kernel contract. QFI1 records native
-  Cartan–Dieudonné; Layer2 names the actual implementation declarations below.
+  Cartan–Dieudonné; the covers contract below names the actual implementation declarations.
   Rational-point surjectivity fails in general. Keep algebraic-group surjectivity and the
   real component qualifications separate from this statement about K-points.
 - **The spin module is `⋀·W` for a maximal isotropic `W`, made a Clifford module by pinning the
@@ -314,6 +314,22 @@ The public development below additionally retains its general-field normalizer c
   The last theorem's witness is `TauCeti.spinGroupEquivSpecialLinearGroupOfFinrankEqSix P hV`;
   its duality input is `TauCeti.exists_spinMinusSubrep_equiv_dual_spinPlusSubrep_of_finrank_eq_six`
   in `TauCeti/RepresentationTheory/Spin/Exceptional/Six/HalfSpinDual.lean`.
+- The `SL₄` side of the rank-six vector comparison is native, in the sibling files
+  `ExteriorSquare.lean`, `SpecialIsometry.lean`, `Kernel.lean` and `Hyperbolic.lean` of
+  `TauCeti/RepresentationTheory/Spin/Exceptional/Six/`. Over a nontrivial commutative ring K,
+  `TauCeti.spinSixWedgeForm K` is the symmetric wedge pairing on `⋀²(K⁴)` and
+  `TauCeti.spinSixSpecialLinearToSpecialIsometryGroup K` sends `SL₄(K)` to its determinant-one
+  isometries, acting by `(TauCeti.stdSLRep K 4).exteriorPower 2`
+  (`spinSixSpecialLinearToSpecialIsometryGroup_apply`). Over a domain its kernel is the scalars
+  ±1 (`spinSixSpecialLinearToSpecialIsometryGroup_eq_one_iff`), of order two when 2≠0
+  (`card_ker_spinSixSpecialLinearToSpecialIsometryGroup`). The hyperbolic coordinates
+  `TauCeti.spinSixWedgeIsometryEquivPolarSplit K` identify the pairing with the polar form of
+  `TauCeti.splitEvenForm K 3`; with 2 invertible, `TauCeti.spinSixWedgeQuadraticIsometryEquivSplit K`
+  is the resulting isometry of quadratic forms and
+  `spinSixWedgeIsometryEquivPolarSplit_spinVectorAction` transports the Spin vector action
+  along it. The exterior-power representation is Tau Ceti's `Representation.exteriorPower`
+  (`TauCeti/RepresentationTheory/ExteriorPower.lean`). No comparison of this map with
+  `spinToSpecialOrthogonal` along `spinGroupEquivSpecialLinearGroupOfFinrankEqSix` is native.
 - `CliffordAlgebra.range_spinToSpecialOrthogonal_realCliffordForm_eq_connectedComponentOfOne`
   and `ker_spinorNorm_realCliffordForm_eq_connectedComponentOfOne` in
   `TauCeti/Topology/Algebra/CliffordAlgebra/Spin/Real/IdentityComponent.lean` identify the
@@ -364,7 +380,11 @@ in its downstream numbering table.
 Consume [LieGroups Layers 0–3 and 4–5](../LieGroups/README.md): finite-dimensional closed
 subgroups and the Lie functor for the smooth comparison, then integration of Lie maps on
 connected simply connected groups. The underlying-real complex Spin adapters are Layer 3;
-algebraic Lie-module comparisons do not require this branch.
+algebraic Lie-module comparisons do not require this branch. §7.3 additionally consumes
+LieGroups Layer 9's Cartan decomposition `K×𝔭≅G` for a global matrix-cover model (a closed
+transpose-stable H≤GL_N(ℝ) with finitely many components and a specified finite central
+cover). §7.3 supplies that model: H=SO₀(p,q) in the coordinates of `realCliffordForm p q`,
+with the two-fold central cover Spin(p,q)→H.
 
 ### From TauCetiRoadmap.ReductiveGroups
 
@@ -377,7 +397,7 @@ and tripled carriers and proves the hypotheses before applying that theorem.
 
 [QuadraticFormInvariants Layer 1](../../QuadraticFormInvariants/README.md#layer-1-hyperbolic-planes-and-witt-theory)
 records the general-field reflection and Cartan–Dieudonné interfaces. Consume their native
-finite-dimensional nondegenerate characteristic-not-two declarations in the Layer 2 contract.
+finite-dimensional nondegenerate characteristic-not-two declarations named in the covers contract below.
 
 ### Native interfaces used by the layers
 
@@ -444,7 +464,7 @@ the algebraic quadratic Lie-action comparison,
 and the separate differentiated group action, as specified
 in Layers2–4. The native action is constructed before its
 matrix-structure consequences. Group irreducibility additionally consumes the
-native even-Clifford spanning bridge described in Layer4; an End-image alone
+native even-Clifford spanning bridge described in the Fock-restriction contract below; an End-image alone
 is only an algebra-module statement.
 
 #### Even and odd structure and periodicity inputs
@@ -468,7 +488,7 @@ is only an algebra-module statement.
 - **The seed of periodicity.** Consume `CliffordAlgebra.equivEven`
   (`Cliff(Q) ≅ even(Q ⊕ ⟨-1⟩)`) and `CliffordAlgebra.prodEquiv` (the graded tensor product over a
   direct sum of forms); these are the algebraic inputs the complex structure theorem and the real Bott
-  periodicity of Layer 7 both rest on.
+  periodicity below both rest on.
 
 #### Vector carrier
 
@@ -561,7 +581,7 @@ is only an algebra-module statement.
   `P.lineCoordinate z • CliffordAlgebra.involute`. The native Clifford
   relation and its polarization give
   `c(x)c(y)+c(y)c(x)=polar Q x y • 1`. Use the `_apply` lemmas of
-  Layer1's native structure isomorphisms to identify this same action's image.
+  the native polarized structure isomorphisms above to identify this same action's image.
   In even dimension it is the full End S. In odd dimension it is not
   injective on the full Clifford algebra and factors through one central
   summand; the direct sum of the two odd spinor modules is faithful. Keep
@@ -636,7 +656,7 @@ is only an algebra-module statement.
   `w₁∧⋯∧wₗ` is killed by the pinned positive root operators and has weight ωₗ;
   `w₁∧⋯∧wₗ₋₁` has weight ωₗ₋₁ in type D. Prove these highest-vector statements
   and match the abstract weights before applying highest-weight classification
-  (Panyushev, arXiv:math/0001161v1, Lemma 2.2, pp. 7–8, for the character;
+  (Panyushev, arXiv:math/0001161v1, Lemma 2.2, p. 7, for the character;
   the highest-vector and fundamental-weight identifications use the native declarations below).
 - **Type Bₗ: so(2l+1).** For l≥1 the algebraic odd-dimensional Lie module S is
   `L(ωₗ)`, of dimension2^l by the following native theorem:
@@ -698,7 +718,7 @@ is only an algebra-module statement.
   `0,1,2,3,4,5,6,7` give `M(ℝ)`, `M(ℂ)`, `M(ℍ)`, `M(ℍ)×M(ℍ)`, `M(ℍ)`, `M(ℂ)`, `M(ℝ)`, `M(ℝ)×M(ℝ)`,
   the size fixed by `dim = 2^(p+q)` (Lawson–Michelsohn, *Spin Geometry*, Theorem I.4.3 and Tables I–II
   of §I.4). This is the real
-  refinement of Layer 1's complex structure theorem, where all forms of a rank are equivalent.
+  refinement of the complex structure theorem above, where all forms of a rank are equivalent.
   **Checks.** `Cliff(1,0)`: residue7, `ℝ×ℝ`; `Cliff(0,1)`: residue1, `ℂ`; `Cliff(0,2)`: residue2,
   `ℍ`; `Cliff(1,1)`: residue0, `M₂(ℝ)`; `Cliff(2,0)`: residue6, `M₂(ℝ)` (generators `Z`, `X`);
   `Cliff(3,0)`: residue5, `M₂(ℂ)` (Pauli matrices); `Cliff(0,3)`: residue3, `ℍ×ℍ`;
@@ -750,10 +770,9 @@ equivalences in the supplier contracts, retaining the chosen form and polarizati
 
 #### Compact topology and geometric consumers
 
-Consume Layer2's
-SpinCompactTopologyFoundation: the native simple connectivity for n≥3, the
+Consume the SpinCompactTopologyFoundation contract above: the native simple connectivity for n≥3, the
 universal-cover comparison and the low-dimensional exceptions.
-The negative-form comparison is NegativeFormEvenComparison below in this layer, on the
+The negative-form comparison is NegativeFormEvenComparison of §7.3, on the
 native `CliffordAlgebra.realCliffordSpinGroupEquivNeg`;
 [SpinGeometry G1.1](../../SpinGeometry/README.md#layer-1-negative-metric-clifford-modules-and-their-positive-metrics)
 consumes the same native comparison for its negative-metric geometric model, and
@@ -943,6 +962,17 @@ comparison with the standard matrix groups only along a specified isometry to th
 sum-of-squares form, and prove compatibility of this transport with the native Spin
 projection. Over ℂ use Layer 1's specified normalization.
 
+The construction has the following API.
+
+- Along the specified isometry, the comparison maps native O(Q) and SO(Q) isomorphically onto `Matrix.orthogonalGroup` and `Matrix.specialOrthogonalGroup`, through `orthogonalGroupCongr`.
+- In an arbitrary finite basis, membership is `Aᵀ D A=D` with `D=Q.toMatrix b`, together with `det A=1` for SO.
+- Composed with `spinToSpecialOrthogonal`, it gives the matrix of the vector action in the specified basis; identity and composite isometries give identity and composite comparisons.
+
+**Checks.**
+- For `D=diag(1,2)` the coordinate swap A has `AᵀA=1` but `AᵀDA=diag(2,1)≠D`: it lies in `Matrix.orthogonalGroup` but does not preserve Q in these coordinates, so a comparison that drops D would accept it.
+- In the basis `e₁, e₂/√2` the Gram matrix is `diag(1,1)`, and the swap `e₁↦e₂/√2`, `e₂↦√2e₁` preserves `Q(ae₁+be₂)=a²+2b²`: the image `√2b·e₁+(a/√2)·e₂` has value `2b²+a²`.
+- Scalar −1 in Spin acts on V by `involute(−1)·v·(−1)⁻¹=v`, so its matrix is the identity in every basis; recording the spinor action instead of the vector action would give −1.
+
 *Needs:* Tau Ceti `orthogonalGroupCongr`, the two matrix-membership criteria and `spinToSpecialOrthogonal`; §1.1 specified isometry/polarization transport.
 
 
@@ -1013,7 +1043,7 @@ Thus Spin₂(ℂ) is connected but not simply connected, since it retracts onto 
 and π₁(S¹)=ℤ. Dimension0 is trivial and dimension1 is the discrete {±1} branch.
 These are topological statements about complex points; algebraic simple-connectivity
 of the B/D root datum is a separate notion. The underlying-real smooth model is
-supplied by SpinConcreteGroupModels in Layer3; transport these topological conclusions
+supplied by SpinDifferentialComparison (§3.2); transport these topological conclusions
 along its actual subspace-topology identification before LieGroups4–5 integration.
 This topology branch is not a prerequisite of the algebraic Fock/highest-weight
 core. It is a prerequisite of group-level triality. Indefinite real Spin(p,q)
@@ -1062,6 +1092,17 @@ consume native `CliffordAlgebra.soEquivQuadratic` and its `_lie_ι` pin from
 realization by the identical generator action. That comparison is a sibling
 of the algebraic spin Lie-action core, which uses the abstract realization directly.
 Layer9 consumes the same realization for induced-module/invariant-form applications.
+
+The construction has the following API.
+
+- The standard-form comparison and the abstract realization agree on every `β(u,v)`: both send it to `x ↦ polar Q v x • u − polar Q u x • v`.
+- The comparison is a Lie algebra isomorphism commuting with transport along the specified isometry of §1.1.
+- Its image is the quadratic Lie subalgebra, contained in `even Q` and in `filtration Q 2`.
+
+**Checks.**
+- For the sum of squares, `polar(eᵢ,eⱼ)=2δᵢⱼ` and `β(e₁,e₂)=e₁e₂` sends `e₁↦−2e₂` and `e₂↦2e₁`, as `(2∑vᵢxᵢ)•u−(2∑uᵢxᵢ)•v` gives at u=e₁, v=e₂; the unhalved commutator `⁅ιe₁,ιe₂⁆` would give `−4e₂` and `4e₁`.
+- `β(u,u)=0` for every u, matching the zero skew map; the symmetrized product `½(ιu·ιv+ιv·ιu)` would instead give the scalar `Q(u)` at v=u, which is not a bivector.
+- The bivectors have dimension `n(n−1)/2`, which is 3 at n=3 and 0 at n=1, equal to `dim so(n)`; the whole of `filtration Q 2` would have dimension `1+n+n(n−1)/2`.
 
 *Needs:* Tau Ceti `bivectorEquivSo`, `soEquivQuadratic` and their generator-action equations; §1.1 specified form isometry.
 
@@ -1151,6 +1192,17 @@ invariant-subspace dichotomy is packaged as irreducibility using the scalar vect
 the TypeD irreducibility propositions are already supplied natively. These are the
 irreducibility inputs to Layer5, separately from the group-irreducibility suppliers below.
 
+The construction has the following API.
+
+- The composite `(TauCeti.spinAction Q P).toLieHom.comp ℓ_Q` is a Lie homomorphism into `Module.End ℂ S`, whose value on each `β(a,b)` is the stated Fock operator.
+- It agrees with the native type-B and type-D coordinate representations along their basis, line-vector and hline data.
+- In even dimension it preserves S⁺ and S⁻, and the native adjoin and invariant-subspace theorems give the stated irreducibility.
+
+**Checks.**
+- On a hyperbolic plane with `polar(w,w′)=1`, `S=span{1,w}`, `C=c(w)`, `A=c(w′)` and `N=CA`: `AC=1−N`, so `β(w,w′)` acts by `½(CA−AC)=N−½`, with value `−½` on 1 and `+½` on w; without the `⅟2` the values would be ∓1, not the spin weights.
+- `[N,C]=C` on S (both send 1 to w and w to 0), matching c of the bracket identity `⁅β(w,w′),ιw⁆=ι(polar(w′,w)•w−polar(w,w)•w′)=ιw`; the opposite sign convention would give −C.
+- In dimension one the skew-adjoint endomorphisms of the line are zero (`2a·B(x,y)=0` forces a=0), so the Lie action on the one-dimensional S is zero although scalar −1 in Spin acts by −1; the algebraic comparison does not see this sign.
+
 *Needs:* Tau Ceti `soEquivQuadratic`, `spinAction`, the type-B/D coordinate representations and algebraic irreducibility; §3.1 basis comparison.
 
 
@@ -1209,7 +1261,18 @@ At l=1 the weights on S⁺ and S⁻ are −1/2 and +1/2; at l=0 they are the sca
 modules, without a D₁ or D₀ root classification. These are the Lie restrictions of the
 polarized rank-four and rank-six standard/dual equivalences in the supplier contracts;
 the weight calculation is also the spin character formula of Panyushev,
-arXiv:math/0001161v1, Lemma 2.2, pp. 7–8.
+arXiv:math/0001161v1, Lemma 2.2, p. 7.
+
+The construction has the following API.
+
+- The transported Cartan acts on each exterior basis vector `w_I` by the sign vector with `+½` at i∈I and `−½` otherwise.
+- The positive root operators kill the top wedge and, in type D, `w₁∧⋯∧wₗ₋₁`; the resulting highest weights are the abstract fundamental weights under the chosen identification of root data.
+- At l=2 and l=3 the Lie identifications are the restrictions of the polarized rank-four and rank-six standard/dual equivalences.
+
+**Checks.**
+- l=2: `S⁺=span{1,w₁∧w₂}` has weights `(−½,−½)` and `(½,½)=ω₂`, and `S⁻=span{w₁,w₂}` has `(½,−½)=ω₁` and `(−½,½)`; a rule giving S⁺ the weight ωₗ₋₁ at every l would put ω₂ in the wrong summand.
+- l=3: the top wedge `w₁∧w₂∧w₃` lies in S⁻ with weight `(½,½,½)=ω₃`, and `w₁∧w₂` in S⁺ with `(½,½,−½)=ω₂`; the l=2 rule "S⁺ has ωₗ" fails here because the top wedge is odd.
+- l=1: `S⁺=ℂ·1` has weight `−½` and `S⁻=ℂ·w` has `+½` under `H₁=N₁−½`; reading the weight off `N₁` alone would give 0 and 1.
 
 *Needs:* §4.1 algebraic action comparison; RootSystems §4.3 numbered data; native B/D highest-weight contracts, and the rank-four/six standard-module equivalences for D₂/D₃.
 
@@ -1233,12 +1296,13 @@ while the group-level triality stage also consumes this comparison and its integ
 ### 5.3 Characters and the Weyl construction, cross-referenced
 
 State the character of `S` as an element of the
-group algebra of the weight lattice, `∑_{εᵢ = ±1} e^{½ ∑ᵢ εᵢ eᵢ}` (the Weyl character formula specialized);
+group algebra of the weight lattice, `∑_{εᵢ = ±1} e^{½ ∑ᵢ εᵢ eᵢ}` (the Weyl character formula specialized;
+Panyushev, arXiv:math/0001161v1, Lemma 2.2, p. 7, and equation (2.3), p. 8);
 the familiar product form `∏ᵢ (tᵢ^{½} + tᵢ^{-½})` is its evaluation on a maximal torus, valid only after the
 spin maximal torus and its character lattice are defined (half-powers of adjoint-torus coordinates are not
 functions on the adjoint torus). Record that the *other* `Bₗ`/`Dₗ` fundamentals `⋀ᵏ V` are built in
 [the classical-groups roadmap](../ClassicalGroups/README.md); together they are a full set of fundamental
-representations (Panyushev, arXiv:math/0001161v1, Lemma 2.2 and equation (2.3), pp. 7–8).
+representations (Fulton–Harris, *Representation Theory*, Lecture 19, §§19.2 and 19.4).
 
 *Needs:* §5.1 chosen Cartan; native weight bases and Weyl character formula from LieHighestWeight supplier contracts; ClassicalGroups §3.5 for the other fundamental modules.
 
@@ -1276,6 +1340,17 @@ over ℂ (`nonempty_algEquiv_even_matrix_of_finrank_eq_two_mul_add_one`). The po
 spin/standard equivalence is supplied as well. Compare the specified reversal pairing
 on S with the chosen standard symplectic form under that equivalence.
 
+The construction has the following API.
+
+- The reversal pairing on S is nondegenerate, alternating and invariant under native Spin.
+- Under the polarized rank-five equivalence it is a nonzero multiple of the chosen standard symplectic form, and scalar −1 corresponds to −I.
+- The comparison commutes with the specified form isometry and polarization transports of §1.1.
+
+**Checks.**
+- Scalar −1 in Spin₅ acts on S by −1, so it goes to −I in Sp₄, the nontrivial central element; a comparison through the vector action would send it to the identity.
+- `dim Sp₄=10=dim so₅`, whereas the isometry group of a symmetric form on the four-dimensional S has dimension 6, so a symmetric pairing could not receive the faithful ten-dimensional Spin₅ action.
+- On `S=⋀(span{w₁,w₂})`, the pairing given by the top-degree coefficient of `reverse(s)∧t` has `⟨w₁,w₂⟩=1=−⟨w₂,w₁⟩`, `⟨1,w₁∧w₂⟩=1=−⟨w₁∧w₂,1⟩` and the other basis pairings zero, so it is alternating and nondegenerate; without the reversal `⟨1,w₁∧w₂⟩=⟨w₁∧w₂,1⟩`, and that pairing is neither symmetric nor alternating.
+
 *Needs:* Native polarized rank-five group/standard-module comparison and its reversal form; OrthogonalSpinGroups §1F for the unitary carrier.
 
 
@@ -1295,10 +1370,13 @@ construction; its dual half-spin comparison is supplied as well. Prove
 there is a linear equivalence `E : V ≃ₗ[ℂ] ⋀[ℂ]^2 (Fin 4 → ℂ)` with
 `E(spinToSpecialOrthogonal Q g v)=((TauCeti.stdSLRep ℂ 4).exteriorPower 2 (f g))(E v)`
 for every g and v. This is the vector/exterior-square comparison, distinct from either
-half-spin equivalence. These four exhaust the coincidences of the `Bₗ`/`Dₗ`
+half-spin equivalence. The `SL₄` side, with its wedge form, its kernel ±1 and its
+hyperbolic coordinates, is native (supplier contracts); the target is the comparison of
+`spinToSpecialOrthogonal Q` with `TauCeti.spinSixSpecialLinearToSpecialIsometryGroup ℂ`
+composed with f, along E. These four exhaust the coincidences of the `Bₗ`/`Dₗ`
 diagrams with the `Aₗ`/`Cₗ` diagrams.
 
-*Needs:* Native polarized `TauCeti.spinGroupEquivSpecialLinearGroupOfFinrankEqSix`, its half-spin/dual comparison; Mathlib exterior powers and `Representation.exteriorPower`; §4.1 algebraic action and §5.1 D₃ weights.
+*Needs:* Native polarized `TauCeti.spinGroupEquivSpecialLinearGroupOfFinrankEqSix`, its half-spin/dual comparison; Mathlib exterior powers; Tau Ceti `Representation.exteriorPower`, `spinSixWedgeForm`, `spinSixSpecialLinearToSpecialIsometryGroup` with its apply and kernel theorems, and `spinSixWedgeIsometryEquivPolarSplit`; §4.1 algebraic action and §5.1 D₃ weights.
 
 ### Examples
 
@@ -1306,7 +1384,7 @@ For SL₄ diagonal entries 2,3,5,1/30, the six exterior-square eigenvalues are 6
 
 ### Dependencies
 
-Native exceptional group/module comparisons, §4.1 and §5.1; Mathlib exterior-power representation.
+Native exceptional group/module comparisons, §4.1 and §5.1; Mathlib exterior powers and the native wedge-form and exterior-square APIs.
 
 ## Layer 7: real Clifford algebras, Bott periodicity, and `Spin(p, q)`
 
@@ -1338,7 +1416,9 @@ are those whose unit-valued reverse norm `cliffordNorm Q x = reverse(x)·x` is `
 negative on odd ones, so the full cover is also the set where `N(x)=±1`.
 Prove closure, the inherited topology,
 continuity of twisted conjugation, and its surjection onto O(Q) with kernel
-`{±1}`, using normalized nonisotropic reflection lifts and Cartan–Dieudonné.
+`{±1}`, using normalized nonisotropic reflection lifts and Cartan–Dieudonné (Gallier,
+arXiv:0805.0311v3, Definition 1.6, p. 31, and Proposition 1.21, p. 39, where Pin(p,q) is
+this norm-±1 cover).
 Prove the covering-map and local-section statements. Native `pinGroup Q`
 is the norm-one subgroup, not this whole cover: `star=reverse∘involute` gives
 `N(ιv)=−Q(v)`. Its orthogonal image is the kernel of the descended norm-sign
@@ -1366,6 +1446,12 @@ owns its phase-cochain twists, P/C/T actions and Lorentz isoclinism calculation.
   element `−1` of `SO(1,1)` outside its identity component, which native Spin, whose
   elements are `±(cosh t + sinh t·z)`, does not reach. A comparison asserting that native
   Spin covers all of `SO(p,q)` fails here.
+
+The construction has the following API.
+
+- The full cover is a closed subgroup of the Clifford units, and `cliffordFullCoverToOrthogonal` acts by `v ↦ involute(x)·v·x⁻¹`.
+- That action is a continuous surjection onto O(Q) with kernel {±1} and local sections, hence a covering map.
+- Native `pinGroup Q` and `spinGroup Q` lie in the full cover (`spinToCliffordFullCover` for Spin), and their orthogonal images are the kernels of the descended norm-sign character in O(Q) and in SO(Q).
 
 *Needs:* Native `CliffordAlgebra.cliffordFullCover`, `cliffordFullCoverToOrthogonal`, real-signature forms and general-field Cartan–Dieudonné; LieGroups Layers 0–3 for local smooth/topological models.
 
@@ -1413,7 +1499,9 @@ compact subgroup
 `K(p,q) ≅ (Spin(p) × Spin(q))/⟨(-1,-1)⟩`, using NegativeFormEvenComparison
 (`realCliffordSpinGroupEquivNeg q 0`) for the second block. Prove its kernel, topology and maximal
 compactness, and the Cartan/polar homeomorphism
-`Spin(p,q) ≅ K(p,q) × ℝ^(p*q)`, giving a deformation retraction to K(p,q).
+`Spin(p,q) ≅ K(p,q) × ℝ^(p*q)`, giving a deformation retraction to K(p,q) (Gallier,
+arXiv:0805.0311v3, Theorem 1.24, p. 43, and Propositions 1.25–1.26, p. 44, for `SO₀(p,q)`; the
+lift to Spin is a target here).
 **Checks.**
 - `(p,q)=(1,1)`: `Spin(1)×Spin(1)={±1}²` and the quotient by `⟨(−1,−1)⟩` has order 2,
   mapping onto `{±1}` in `Spin(1,1)`; among the elements `±(cosh t + sinh t·z)` only `t=0`
@@ -1506,10 +1594,7 @@ generation by the simple root generators `TauCeti.TypeDStd.lieSpan_rootGenerator
 simplicity `TauCeti.TypeDStd.isSimple_typeD` and nondegeneracy of the Killing form
 `TauCeti.TypeDStd.isKilling_typeD`; `TauCeti.serreLift_lieBasis_surjective` gives
 surjectivity of the Serre lift of the basis generators. None of these is recomputed.
-As a Check, the Killing form of this algebra is `κ(X,Y)=6 tr(XY)` in the
-eight-dimensional standard module (the factor `2n−2` at n=4); a factor 8 or 12
-would contradict the trace of `ad H₁` squared, computed on the 24 roots as
-`Σ_α α(H₁)²=12` against `tr(H₁²)=2`. The remaining target is injectivity:
+The remaining target is injectivity:
 use [LieHighestWeight Layer7's normalized split-field Serre presentation](../LieHighestWeight/README.md)
 (Serre's theorem: `Matrix.ToLieAlgebra ℂ (CartanMatrix.D 4)` is finite-dimensional of
 dimension 28) and compare dimensions with the 28 coroot/root basis vectors, rather
@@ -1537,6 +1622,17 @@ actual vector and half-spin carriers by the highest-vector construction of8C
 below, first at Lie level. This is representation-level triality independently
 of any group-differential construction.
 
+The construction has the following API.
+
+- `c_mat` and `c_quad` are Lie algebra equivalences from the Serre algebra of `CartanMatrix.D 4`, onto the split orthogonal matrix Lie algebra and onto `CliffordAlgebra.quadraticLieSubalgebra Q₈`.
+- They send each numbered `H_i`, `E_i`, `F_i` to the native matrix generators and to the Clifford elements displayed above.
+- Transporting `serreDiagramAut` through them gives an automorphism of the quadratic Lie subalgebra with the stated effect on the Cartan, the Borel and every simple generator.
+
+**Checks.**
+- The Killing form is `κ(X,Y)=6 tr(XY)` in the eight-dimensional standard module (the factor `2n−2` at n=4): on the 24 roots `Σ_α α(H₁)²=12`, against `tr(H₁²)=2`; a factor 8 or 12 would contradict this trace.
+- `[E₄,F₄]=C₃C₄A₄A₃−A₄A₃C₃C₄=N₃N₄−(1−N₃)(1−N₄)=N₃+N₄−1`, which acts by −1 on the vacuum 1; with `F₄=A₃A₄` the bracket changes sign and acts by +1 there.
+- The four Cartan elements and the 24 root vectors give `4+24=28=dim so₈`, the Serre dimension; omitting the negative root vectors would give 16.
+
 *Needs:* Native `TypeDStd.serreRepresentation`, `P.typeDQuadraticEquiv`, root-space basis and Serre surjectivity; LieHighestWeight Layer 7 for injectivity; RootSystems §4.3 numbered D₄ datum; §4.1 algebraic Fock action and §5.1 weights.
 
 
@@ -1552,7 +1648,9 @@ That generic owner is not a second home for these Clifford and three-module adap
 
 The native supplier is `TauCeti.D4Tripled.groupScheme`, its actual
 `points ℂ` subgroup of `GL₂₄(ℂ)`, numbered `rootSubgroupPoints`, and
-`weightTorusPoints`. Consume `TauCeti.D4Tripled.pointsMulEquiv`/`pointsFunctorNatIso`
+`weightTorusPoints`. Consume `TauCeti.D4Tripled.pointsPresentation` with
+`TauCeti.GeneralLinear.IntegralPointsPresentation.mulEquiv`, `mulEquiv_mapPoints` and `natIso`,
+`TauCeti.D4Tripled.points_def` and `TauCeti.D4Tripled.mem_points_iff`
 for the represented Hopf-algebra points rather than substituting an abstract
 D₄ group for this carrier. Native `TauCeti.D4Tripled.trialityAutomorphism` and
 `trialityPoints` already act on it. Native `TauCeti.D4Tripled.coordinateMap_X_eq_zero` supplies
@@ -1613,13 +1711,13 @@ CliffordSpin. Build that comparison before transporting triality.
    canonical split form that sends the hyperbolic basis `P.typeDBasis b hline`
    to `TauCeti.splitEvenBasis`, and write Φ for `TauCeti.spinRep Q₈ P` in the
    exterior basis `b_I` indexed by `Finset (Fin 4)`. Prove that Φ is injective
-   on native `spinGroup Q₈` (Layer1's faithful even-Clifford action on
-   S⁺⊕S⁻), that Φ(x_±i(u)) and Φ(T_Cl(s)) are the base changes of the native
+   on native `spinGroup Q₈` (the faithful even-Clifford action on S⁺⊕S⁻ of the
+   native polarized structure isomorphisms), that Φ(x_±i(u)) and Φ(T_Cl(s)) are the base changes of the native
    `TypeDSpinCarrier.rootSubgroupPoints` and `weightTorusPoints` with the
    **same** parameters (the native comparison
    `typeDSpinSerreRepresentation_eq_comp_serreRepresentation` fixes the chain
    and fork signs), and that Φ maps `spinGroup Q₈` onto the complex points of
-   the carrier. Layer2's Spin double cover and connected complex Spin topology
+   the carrier. The native Spin double cover and §2.4's connected complex Spin topology
    identify the whole complex-point group with the subgroup generated by these
    root subgroups; do not silently replace it by an unidentified identity
    component. For the pinning hypotheses of9B consume the native connected and
@@ -1676,8 +1774,10 @@ CliffordSpin. Build that comparison before transporting triality.
    of these algebraic maps on complex points. Its differential is exactly
    `c_quad` through the tripled H/E/F realization and Layer3's abstract
    orthogonal comparison, not only an unnumbered Lie equivalence. Prove
-   compatibility with `pointsMulEquiv` so scheme triality and matrix-point
-   triality yield the same Ψ-conjugate automorphism. Pinning uniqueness makes
+   compatibility with `(TauCeti.D4Tripled.pointsPresentation ℂ).mulEquiv`, so that scheme
+   triality and matrix-point triality yield the same Ψ-conjugate automorphism; on scheme-valued
+   points the native `TauCeti.D4Tripled.schemePointsMulEquiv_trialityAutomorphism_comp_carrierι`
+   already identifies scheme triality with conjugation by `trialityMatrix`. Pinning uniqueness makes
    these comparisons independent of proof choices; changes of b/P use their
    specified transport maps.
 
@@ -1877,8 +1977,8 @@ For finite-dimensional Killing-semisimple 𝔤 over ℂ, prove
 
 For Killing-semisimple `𝔤` over `ℂ`, the
 left-regular `Cliff(𝔤, κ)` (carrier the Clifford algebra of the Killing quadratic form,
-`⁅x, c⁆ = q(ad x) · c`, identified with `⋀𝔤` by `equivExterior` and of dimension `2^d` by Layer
-0): for a Cartan subalgebra `H` and a base `b` of its root system, every simple submodule is
+`⁅x, c⁆ = q(ad x) · c`, identified with `⋀𝔤` by `equivExterior` and of dimension `2^d` by the native
+`CliffordAlgebra.finrank_eq_two_pow`): for a Cartan subalgebra `H` and a base `b` of its root system, every simple submodule is
 isomorphic to `L(ρ)`, and the pinned decomposition equivalence exhibits `2^{(d+l)/2}` copies of
 `L(ρ)`, which has dimension `2^{(d-l)/2}` (`nonempty_kostant_isotypic`, `kostant_multiplicity`). Here `L(ρ)`
 is the native carrier `TauCeti.irreducibleQuotient b ρ`, the irreducible quotient of the Verma
@@ -1888,7 +1988,7 @@ half-sum of the positive roots of `b`; the same carrier is `V_ρ` below. Kostant
 (Bazlov, arXiv:0812.2059v2, §§3.2–3.5, pp. 9–11, Theorem 3.1; Kostant,
 Theorems B, 35 and 40). The ordinary commutant identities below are consequences
 of this tensor decomposition, not a claim of ordinary mutual commutants in odd rank. Set `E=(⋀𝔤)^𝔤`, let `I` be its positive-degree augmentation ideal, and define `P` as the orthocomplement of `I²` inside `I` for the degreewise determinant extension of the Killing form (different exterior degrees are orthogonal). This is not the primitive subspace of the ordinary exterior Hopf coalgebra. Name the equivariant Chevalley/PBW quantization `σ : ⋀𝔤 ≃ₗ C(𝔤)`, with antisymmetrization normalized by `1/k!`. Prove that `σ(p)σ(q)+σ(q)σ(p)` is scalar, define `Q_P` by `σ(p)²=Q_P(p)·1`, and compare its polar form and reversal signs with the extended Killing forms; do not simply restrict the exterior bilinear form and assume the Clifford relations. Prove `dim P=l` and nondegeneracy. Let `A` be the image of `U(𝔤)` under the adjoint quadratic lift; it lies in the even Clifford algebra and its ordinary commutant is the invariant Clifford algebra. Construct `Cliff(P,Q_P)` faithfully into that commutant, write `B` for its image and identify `A≅End(V_ρ)` as algebras, with `V_ρ` the native `TauCeti.irreducibleQuotient b ρ` and the isomorphism compatible with the action of `A` on `V_ρ` through `U(𝔤)`. Prove the ordinary commutant identities `Comm(A)=B` and `Comm(B)=A·Z(B)`, together with generation and the actual multiplication algebra equivalence `A⊗Cliff(P,Q_P)≃C(𝔤)`, including the ordinary-versus-graded tensor sign dictionary. Do not assert ordinary mutual commutants in odd rank: for `𝔰𝔩₂`, `C(𝔤)=M₂⊕M₂`, `A` is the diagonal `M₂` and `B=ℂ⊕ℂ` is central, so `Comm(B)` is the whole Clifford algebra. A graded-commutant formulation requires its own explicit grading comparison. Retain rank zero (`P=0`, `A=ℂ`). Restriction to the native left-regular `𝔤`-action must recover isotypy and multiplicity. Neither numerical dimension nor CAR proves this target; no relative symmetric-pair theorem is imported. The **spin-module variant**: the full spinor module
-`⋀·W` of `Cliff(𝔤, κ)` (Layer 4's `spinAction` composed with the adjoint quadratic lift; in positive even
+`⋀·W` of `Cliff(𝔤, κ)` (the native `spinAction` composed with the adjoint quadratic lift; in positive even
 dimension it is `S⁺ ⊕ S⁻`, with the two half-spin summands separately smaller by a factor of two;
 at dimension0 the full spinor module is ℂ, with `S⁺=ℂ` and `S⁻=0`)
 is isotypic with multiplicity `2^{⌊l/2⌋}`: a linear equivalence of `⋀·W` with the direct sum of
@@ -1961,12 +2061,10 @@ scalar character `(N/2) tr`, giving `ν = ρ + (N/2)(1,…,1)`.
 Retain the left-regular multiplicity calculation and direct N=0,1 comparison branches; the native
 decomposition already supplies their theorem-level endpoint.
 This decomposition is the one used in the CAR-matrix analysis of Shlyakhtenko
-(arXiv:2606.28648); the companion decomposition
+(arXiv:2606.28648v1, Lemmas 1–2, pp. 5–6, and Proposition 1, p. 10); the companion decomposition
 `V* ⊗ L(ν) ≅ ⨁_{t=1}^{N} L(ν - ε_t)` is the dual-standard Pieri rule of
 [the highest-weight roadmap](../LieHighestWeight/README.md), uniform in `t` because every
 `ν - ε_t` stays dominant.
-
----
 
 *Needs:* Native trace quadratic form, normal-ordering identity, CAR isotypy/decomposition and highest vector; LieHighestWeight Layer 9 central-character comparisons and native dual-standard Pieri rule; §9.2 for the semisimple comparison only.
 
@@ -1981,12 +2079,15 @@ Native Clifford PBW, quadratic lift, Fock and highest-weight APIs; §9.1 rank eq
 ## Worked examples (acceptance criteria)
 
 - **`Cliff(0,1) ≅ ℂ` and `Cliff(0,2) ≅ ℍ`.** The `ℝ`-algebra isomorphisms `CliffordAlgebraComplex.equiv`
-  (consumed) and `Cliff(realCliffordForm 0 2) ≃ₐ[ℝ] ℍ[ℝ]` (Layer 7), the first two entries of the Bott
+  (consumed) and `Cliff(realCliffordForm 0 2) ≃ₐ[ℝ] ℍ[ℝ]` (supplier contracts, real form and Clifford
+  classification), the first two entries of the Bott
   table; and `Cliff(1,1) ≅ M₂(ℝ)`, the periodicity step.
-- **`Spin₃ ≅ SL₂` and its spin representation.** For `V = ℂ³`, `spinGroup Q ≃* SL(2, ℂ)` (Layer 6), with the
+- **`Spin₃ ≅ SL₂` and its spin representation.** For `V = ℂ³`, `spinGroup Q ≃* SL(2, ℂ)` (supplier contracts, rank-three standard
+  representation), with the
   `2`-dimensional spin representation `TauCeti.spinRep Q P` the standard representation of `SL₂`
   (`finrank ℂ (ExteriorAlgebra ℂ P.W) = 2`, `finrank ℂ P.W = 1`). Over `ℝ`, `Spin(3) ≅ SU(2)`, the double cover of
-  `SO(3)` with kernel `{±1}` (Layer 2), the smallest instance of the whole theory.
+  `SO(3)` with kernel `{±1}` (supplier contracts, covers and compact Spin topology), the smallest
+  instance of the whole theory.
 - **The `2ˡ`-dimensional spin representation of `𝔰𝔬(2l+1)`.** For type `Bₗ`, `TauCeti.spinRep Q P` is irreducible of
   dimension `2ˡ` with highest weight `ωₗ = ½(1,…,1)` (Layers 4-5), and its weights are exactly the `2ˡ`
   half-integer sign vectors `½(±1,…,±1)`. Acceptance: `finrank ℂ (ExteriorAlgebra ℂ P.W) = 2 ^ l`, and the
@@ -2028,7 +2129,9 @@ Lorentz applications. These consumers supply no prerequisites to the algebraic F
 - W. Fulton, J. Harris, *Representation Theory: A First Course*, Springer GTM 129 (1991), Lecture 20 - the
   primary reference: the Clifford algebra, the Pin and Spin groups and the double cover, the spin
   representations `S`, `S⁺`, `S⁻` from a maximal isotropic subspace, their highest weights as the `Bₗ`/`Dₗ`
-  fundamentals, the low-dimensional isomorphisms, and triality (Lecture 20, §20.3 and the exercises).
+  fundamentals, the low-dimensional isomorphisms, and triality (Lecture 20, §20.3 and the exercises);
+  Lecture 19, §§19.2 and 19.4, for the fundamental representations of the even and odd orthogonal
+  Lie algebras.
 - R. Goodman, N. R. Wallach, *Symmetry, Representations, and Invariants*, Springer GTM 255 (2009),
   Chapter 6 - the spin representations of `𝔰𝔬(n)` uniformly, the Clifford-algebra construction of the spin
   module, the highest-weight theory, and the fundamental representations of `Bₗ` and `Dₗ`.
@@ -2057,12 +2160,15 @@ Lorentz applications. These consumers supply no prerequisites to the algebraic F
   the left-regular multiplicity argument and the normal-ordering central shift for `gl_N`.
 - E. Meinrenken, *Clifford Algebras and Lie Theory*, Springer Ergebnisse 58 (2013), Chapters 5-10 -
   the modern textbook account of the quadratic realization and the Kostant theory.
-- D. Shlyakhtenko, arXiv:2606.28648 - the CAR-matrix analysis whose `gl_N` representation theory is
-  the motivating application of the Layer 9 worked instance.
+- D. Shlyakhtenko, *Failure of Strong Convergence of Matrices with Fermionic Entries*,
+  arXiv:2606.28648v1, Lemmas 1–2, pp. 5–6, and Proposition 1, p. 10 - the CAR-matrix analysis whose
+  `gl_N` representation theory is the motivating application of the Layer 9 worked instance.
 
 - J. Gallier, *Clifford Algebras, Clifford Groups, and a Generalization of the Quaternions*,
   arXiv:0805.0311v3, Definition 1.3, p. 14, Theorem 1.4, p. 18 — universal property and
-  monomial basis used in the derived automorphism criteria.
+  monomial basis used in the derived automorphism criteria; Definition 1.6, p. 31, and
+  Proposition 1.21, p. 39 — the norm-±1 real cover; Theorem 1.24, p. 43, and Propositions
+  1.25–1.26, p. 44 — the polar structure of O(p,q) and SO(p,q).
 - A. Kirillov, Jr., *Introduction to Lie Groups and Lie Algebras*, author notes,
   Theorem 3.41, p. 40 — integration from a connected simply connected Lie group.
 - B. Conrad, *Reductive Group Schemes*, Theorem 6.1.17, p. 197 — pinned isomorphism theorem.
