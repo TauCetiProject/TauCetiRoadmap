@@ -84,9 +84,9 @@ It leaves to named roadmaps, by section:
   class, the mass of even unimodular lattices and automorphism orders: OrthogonalTamagawaAndLatticeMass
   §§3.1, 4.1 and 4.2. Genus theory and integral spinor norms: GeometryOfNumbersAndQuadraticArithmetic
   §2.4.
-- Exact interval arithmetic, the closed formulas and rational enclosures of the eight explicit-formula
-  scalars, rational Gram witnesses, the multiplicity lift and ellipsoid covers:
-  ComputationalNumberTheory §§4.1–4.7, 4.17, 4.17a, 4.18, 4.26 and 4.29–4.34, and §5.1 for the
+- The closed formulas and rational enclosures of the eight explicit-formula scalars, rational Gram
+  witnesses, the multiplicity lift and ellipsoid covers:
+  ComputationalNumberTheory §§4.17, 4.17a, 4.18, 4.26 and 4.29–4.34, and §5.1 for the
   interpretation of finite families.
 - The integral lattice carrier, isometries and discriminant forms: Completed/IntegralLattices,
   Layer 1, with their Tau Ceti declarations; the `p`-neighbour relation of integral lattices:
@@ -401,9 +401,9 @@ sets of classes are counted as natural numbers only after their finiteness is pr
 
 ### From TauCetiRoadmap.ComputationalNumberTheory
 
-- §§4.1–4.7: rational interval and complex-box arithmetic. §§4.17, 4.17a and 4.18: the closed
-  formulas, digamma and trigamma remainders and rational enclosures of the eight scalars
-  `F̂(0)`, `F̂(i/(4π))`, `J_F(I_w)`, `J_F(1 − e)`, `Ĝ(0)`, `Ĝ(i/(4π))`, `J_G(I_w)`, `J_G(1 − e)` for the
+- §§4.17, 4.17a and 4.18: the closed formulas, digamma and trigamma remainders and rational
+  enclosures, at rational `ℓ > 0` and of arbitrarily small width, of the eight scalars `F̂(0)`,
+  `F̂(i/(4π))`, `J_F(I_w)`, `J_F(1 − e)`, `Ĝ(0)`, `Ĝ(i/(4π))`, `J_G(I_w)`, `J_G(1 − e)` for the
   Odlyzko functions. §§4.26 and 4.31: integral-coordinate comparison for ellipsoids and the
   effective vectors of an exact ellipsoid cover. §§4.29–4.34: rational Gram witnesses, negativity
   of every enclosed Gram matrix, validity of a witness and of a finite family, and the
@@ -493,7 +493,7 @@ representation.
 - The adelic description and the description by level-one cuspidal functions on
   `PGL_m(ℤ)\PGL_m(ℝ)` give the same set.
 
-*Needs:* AutomorphicFormsOnReductiveGroups §§2.5, 3.5, 4.2 and 5.1; AutomorphicLFunctionsAndLocalFactors
+*Needs:* AutomorphicFormsOnReductiveGroups §§2.5, 3.2, 3.4, 3.5, 4.2 and 5.1; AutomorphicLFunctionsAndLocalFactors
 §AL.3.3.8.
 
 **Checks.**
@@ -540,14 +540,14 @@ Chevalley–Demazure groups of types `B_n` and `D_n` (CT20 §1.4 and §3.1). Lev
 these models, including `p = 2`.
 
 - The permitted groups for the mass computation are `Sp_{2n}`, `SO_{2n+1}` and `SO_{4n}`; `SO_{4n+2}`
-  has no discrete series and is excluded.
+  with `n ≥ 1` has no discrete series and is excluded.
 - For `R = ℤ_p`, the `R`-points of the special orthogonal model are the matrices of determinant one
   preserving the quadratic form; this is the set `specialOrthogonalPoints c R` of §4.7 for the integer
   matrix `c` with `xᵀcx` equal to the model form.
 
 *Needs:* `TauCeti.Symplectic.groupScheme`, `TauCeti.Symplectic.pointsMulEquiv`,
 `TauCeti.Symplectic.instSmoothCoordinateHopfAlgebra`; ReductiveGroups Layer 9 with the
-identification requested there.
+identification requested there; AutomorphicFormsOnReductiveGroups §2.4 for the discrete-series criterion.
 
 **Checks.**
 
@@ -699,7 +699,7 @@ weight 22, which is `Sym²Δ₁₁`.
 
 ### Dependencies
 
-AutomorphicFormsOnReductiveGroups §§2.5, 3.5, 4.2, 5.1, 5.5; AutomorphicLFunctionsAndLocalFactors
+AutomorphicFormsOnReductiveGroups §§2.4, 2.5, 3.2, 3.4, 3.5, 4.2, 5.1, 5.5; AutomorphicLFunctionsAndLocalFactors
 §§AL.1.4, AL.3.3.8, AL.3.6; AutomorphicSpectralTheory §4.5; ModularityAndLanglandsExtensions §3.4;
 ReductiveGroups Layer 9; LieHighestWeight Layer 6; ClassicalGroups Layer 3; Tau Ceti's symplectic
 group scheme.
@@ -838,8 +838,12 @@ diagonal; and `C^F(π, π′) = A_F δ(π, π′) − J_F(L(π∞)L(π′∞)) �
 ### 2.6 The Rankin–Selberg explicit formula
 
 Prove that for every test function of §2.1, `B_f^F + B∞^F + (1/2) Z^F = A_F δ` as bilinear forms on
-`ℝ[Π_alg]` (CT20 (2.3.5)). Apply AnalyticNumberTheoryPartI §1.8 to `Λ₁(s) = Λ(s, π^∨ × π′)` and
-`Λ₂(s) = Λ(s, π × π′^∨)` with `c = 1`, which the Satake bound of §1.1 permits; every zero of
+`ℝ[Π_alg]` (CT20 (2.3.5)). Apply AnalyticNumberTheoryPartI §1.8 to `Λ₁(s) = κ⁻¹Λ(s, π^∨ × π′)` and
+`Λ₂(s) = κ⁻¹Λ(s, π × π′^∨)` with `c = 1`, which the Satake bound of §1.1 permits. Here `κ` is the product
+of `π^{−1/2}` over the summands `e` and of `2(2π)^{−w/2}` over the summands `I_w` of `L(π∞)L(π′∞)`, since
+`Γ(s, e) = π^{−1/2} · π^{−s/2} Γ(s/2 + 1/2)` and `Γ(s, I_w) = 2(2π)^{−w/2} · (2π)^{−s} Γ(s + w/2)`, while the
+supplier's gamma factor `A^s ∏ Γ(a_i s + b_i)` has no constant; division by `κ` changes no zero, pole,
+logarithmic derivative or functional equation. Every zero of
 `Λ(s, π^∨ × π′)` lies in `0 < Re s < 1`, by the boundary nonvanishing §AL.3.6.3 and the functional
 equation, so the zeros summed there are all of them. The poles of `Λ(s, π^∨ × π′)` contribute exactly
 `δ(π, π′)` at `s = 0` and `s = 1`, the norm twists allowed by the pole theorem being excluded by the
@@ -856,6 +860,9 @@ fixed unitary algebraic infinity types; then extend bilinearly.
   `Λ₁`, once for `Λ₂`, complex conjugate to each other for even `F`), and the poles at `s = 0, 1`
   contribute `Φ_F(0) + Φ_F(1) = 2A_F δ`, while the zeros of `Λ₁` are counted once.
 - `F = 0` makes every term vanish.
+- For `(π, π′) = (1, Δ₁₁)` the gamma factor is `Γ(s, I₁₁) = 2(2π)^{−11/2} · (2π)^{−s} Γ(s + 11/2)`, so
+  `κ = 2(2π)^{−11/2} ≈ 8.15·10⁻⁵`, and `Λ(s, Δ₁₁)` itself is not of the supplier's shape; for `π = π′ = 1`,
+  `κ = 1`.
 
 ### 2.7 The Stark–Odlyzko cone inequality
 
@@ -1021,10 +1028,12 @@ multiplicity lift `x_{i,r} = t_i/m_i` of ComputationalNumberTheory §4.34 gives
 
 Prove: let `Q` be admissible, `ℓ > 0` rational, and `t ≥ 0` a nonzero rational vector; if rational
 intervals containing the eight scalars of §2.4 at `ℓ` give an upper bound for `tᵀβ_{F_ℓ}t` that is
-strictly negative, then `μ_{F_ℓ}(Q) < 0` (CT20 §2.4.4). The proof combines §2.4 with the validity of
-rational Gram witnesses in ComputationalNumberTheory §§4.29–4.33.
+strictly negative, then `μ_{F_ℓ}(Q) < 0` (CT20 §2.4.4). Such intervals, of arbitrarily small width, are the
+rational enclosures of ComputationalNumberTheory §4.18 of the closed formulas that §2.4 identifies with the
+eight scalars. The proof combines §2.4 with the validity of rational Gram witnesses in ComputationalNumberTheory
+§§4.29–4.33.
 
-*Needs:* §§2.4, 2.9; ComputationalNumberTheory §§4.29–4.33.
+*Needs:* §§2.4, 2.9; ComputationalNumberTheory §§4.18 and 4.29–4.33.
 
 **Checks.**
 
@@ -1146,7 +1155,7 @@ is the smallest case where the normalized minima differ.
 
 AnalyticNumberTheoryPartI §§1.3, 1.8; SmallRamificationAndAbelianVarietyBaseCases §§1.5–1.7;
 AutomorphicLFunctionsAndLocalFactors §§AL.1.4, AL.3.3.8, AL.3.6, AL.3.9.2;
-AutomorphicFormsOnReductiveGroups §7.2; ComputationalNumberTheory §§4.17, 4.17a, 4.26, 4.29–4.34; Mathlib's
+AutomorphicFormsOnReductiveGroups §7.2; ComputationalNumberTheory §§4.17, 4.17a, 4.18, 4.26, 4.29–4.34; Mathlib's
 Rayleigh quotient and level-one dimension formula; Tau Ceti's level-one newform basis; Layer 1.
 
 ## Layer 3: Arthur parameters, packet characters and triangular counts
@@ -1246,7 +1255,7 @@ holomorphic discrete series range is the separate condition `k_g > g` (CT20 §5.
 - Regularity of the infinitesimal character is the stated condition on the `a_i`.
 - For `k_g > g`, `ρ_k` is a holomorphic discrete series and the infinitesimal character is regular.
 
-*Needs:* AutomorphicFormsOnReductiveGroups §§6.7–6.8 with the extension requested there;
+*Needs:* AutomorphicFormsOnReductiveGroups §2.4, and §§6.7–6.8 with the extension requested there;
 ModularityAndLanglandsExtensions §3.22.
 
 **Checks.**
@@ -1280,11 +1289,12 @@ consequences: every `π_i` is regular, `I_odd = {i₀}`, and every `i ∈ I_even
 
 ### 3.6 The bounded scalar constituent condition
 
-For `k ≥ 1` and `π ∈ Π_alg` say that `π` satisfies `(R_k)` when every weight is at most `k − 1`, every
-nonzero weight has multiplicity one, the multiplicity `r(π)` of the weight `0` is at most three, and
-each of `1` and `e` occurs at most twice in `L(π∞)` (CT20 §5.2, condition (R)).
+For `k ≥ 1` say that an effective `U ∈ K∞` satisfies `(R_k)` when every weight of `U` is at most `k − 1`,
+every nonzero weight has multiplicity one, the multiplicity `r(U)` of the weight `0` is at most three, and
+each of `1` and `e` occurs at most twice in `U`; say that `π ∈ Π_alg` satisfies `(R_k)` when `L(π∞)` does,
+and put `r(π) = r(L(π∞))` (CT20 §5.2, condition (R)).
 
-- `r(π)` is the sum of the coefficients of `1` and `e` in `L(π∞)`, and is at most `3`.
+- `r(U)` is the sum of the coefficients of `1` and `e` in `U`, and is at most `3`.
 - Each coefficient of an `I_w` is `0` or `1`.
 - `(R_k)` implies `(R_{k+1})`.
 
@@ -1499,7 +1509,7 @@ three with weights `0, ±(k − 1)`, the adjoint `Sym²Δ_{k−1}` of an ellipti
 ### Dependencies
 
 ModularityAndLanglandsExtensions §§3.4, 3.8, 3.15, 3.17, 3.20–3.22 with its standing premises and the
-packet character requested from §3.22; AutomorphicFormsOnReductiveGroups §§2.2, 6.7–6.8; AutomorphicSpectralTheory §§4.4–4.5, 6.19;
+packet character requested from §3.22; AutomorphicFormsOnReductiveGroups §§2.2, 2.4, 6.7–6.8; AutomorphicSpectralTheory §§4.4–4.5, 6.19;
 Layer 1.
 
 ## Layer 4: geometric torsion classes and exact mass recovery
@@ -1940,7 +1950,7 @@ CL14 IX Lemmes 3.19, 3.27, 3.34 and 3.36 for weight at most 22, and Proposition 
 Positive definiteness on `K∞^{≤22}` and on `K∞^{≤23}` covers the two parities, and
 restricts to smaller weights of the same parity.
 
-*Needs:* §§2.8, 2.18.
+*Needs:* §§2.4, 2.8, 2.18; ComputationalNumberTheory §4.18.
 
 **Checks.**
 
@@ -2113,7 +2123,7 @@ weight at most 24 with top weight simple, by §§5.3, 5.6 and 5.10. In weight 23
 
 ### Dependencies
 
-Layers 2 and 4 (§§2.8, 2.16–2.18, 2.20, 3.16, 4.14–4.15); ComputationalNumberTheory §5.1;
+Layers 2 and 4 (§§2.4, 2.8, 2.16–2.18, 2.20, 3.16, 4.14–4.15); ComputationalNumberTheory §§4.18 and 5.1;
 ModularityAndLanglandsExtensions §3.4 through §1.8.
 
 ## Layer 6: Siegel forms at level one, lattice theta maps and first occurrence
@@ -2128,16 +2138,16 @@ Siegel classification of Layer 7.
 
 Define `Φ_g : M_k(Γ_g) → M_{k′}(Γ_{g−1})`, `k′ = (k₁, …, k_{g−1})`, by `(Φ_g F)(τ′) = lim_{t → ∞} F(diag(τ′, it))`;
 on Fourier expansions it keeps the coefficients at `diag(T′, 0)`. Prove: `Φ_g` is well defined and linear;
-`ker Φ_g = S_k(Γ_g)` at level one; `Φ_g` commutes with the Hecke operators of AutomorphicBundles §12.11
-through the Satake restriction; and if `F` is a scalar Hecke eigenform of weight `k` with `Φ_g F ≠ 0`,
-then `Φ_g F` is an eigenform and `L(s, F, St) = L(s, Φ_g F, St) ζ(s − (g − k)) ζ(s + (g − k))` (the
+`ker Φ_g = S_k(Γ_g)` at level one; `Φ_g` commutes with the Hecke operators of AutomorphicBundles §12.11,
+which its §12.13 gives at the non-neat level `Sp_{2g}(ℤ)`, through the Satake restriction; and if `F` is
+a scalar Hecke eigenform of weight `k` with `Φ_g F ≠ 0`, then `Φ_g F` is an eigenform and `L(s, F, St) = L(s, Φ_g F, St) ζ(s − (g − k)) ζ(s + (g − k))` (the
 Zharkovskaya relation, CT20 §5.3 footnote 17).
 
 - On Fourier coefficients, `a(Φ_g F, T′) = a(F, diag(T′, 0))`.
 - `ker Φ_g = S_k(Γ_g)`, and `Φ_g` of a cusp form is `0`.
 - For an eigenform with `Φ_g F ≠ 0`, the standard `L`-function relation above holds.
 
-*Needs:* AutomorphicBundles §§11.1–11.2, 11.9, 11.16, 12.10, 12.11 and 12.15.
+*Needs:* AutomorphicBundles §§11.1–11.2, 11.9, 11.16, 12.10, 12.11, 12.13 and 12.15.
 
 **Checks.**
 
@@ -2222,8 +2232,8 @@ unimodular lattices `L` of rank `2k` when `k ≥ 0` and `k ≡ 0 mod 4`, and is 
 - For `g ≥ 1` and `g > 2k`, `θ_g(ℂ[X_{2k}]) = M_k(Γ_g)` when `4 | k` and `k ≥ 0`, and `M_k(Γ_g) = 0`
   otherwise.
 
-*Needs:* §§6.1, 6.3; ThetaSeries Layers 1 and 5; MetaplecticAutomorphicForms §§3.21 and 5.1; §6.2 for
-the spanning theorem.
+*Needs:* §§6.1, 6.3; ThetaSeries Layers 1 and 5; MetaplecticAutomorphicForms §§3.21 and 5.1, with
+§§0.15 and 2.4c for the theta-kernel route; §6.2 for the spanning theorem.
 
 **Checks.**
 
@@ -2304,12 +2314,16 @@ to `0`.
 Prove: let `v ∈ ℂ[X_n]` be an eigenvector with standard parameter `ψ_G` and let `F = θ_g(v)` be nonzero and
 square-integrable with parameter `ψ_F`. If `n > 2g + 1` then `ψ_G = ψ_F ⊕ [n − 2g − 1]`; if `n < 2g + 1` then
 `ψ_F = ψ_G ⊕ [2g + 1 − n]`; for `n ≡ 0 mod 8` the case `n = 2g + 1` does not occur (CT20 §5.3.2 after (5.3.1),
-with the actual genus `g` in place of the degree). The route matches unramified parameters through
-MetaplecticAutomorphicForms §3.21 and identifies the parameter by strong multiplicity one for isobaric sums.
+with the actual genus `g` in place of the degree). The route realizes `θ_g(v)` as the global theta lift of
+MetaplecticAutomorphicForms §5.6, a finite sum since `O_n` is definite, whose local components at every
+prime are the small theta lifts of those of `v` (its §§3.4–3.5, unique by Howe duality, §3.7); it matches
+unramified parameters through its §3.21 and identifies the parameter by strong multiplicity one for
+isobaric sums.
 Since only unramified local components enter, the same relation holds for a nonzero square-integrable image
 `θ_{ν,g,n}(v)` of an eigenvector under the harmonic theta map of §6.7 (CL14 VII §1).
 
-*Needs:* §§3.1, 6.4, 6.5; MetaplecticAutomorphicForms §3.21; AutomorphicLFunctionsAndLocalFactors §AL.3.7.
+*Needs:* §§3.1, 6.4, 6.5; MetaplecticAutomorphicForms §§3.4, 3.5, 3.7, 3.21 and 5.6;
+AutomorphicLFunctionsAndLocalFactors §AL.3.7.
 
 **Checks.**
 
@@ -2388,7 +2402,7 @@ Prove (CT20 Lemma 5.7, from Rallis and Mœglin–Waldspurger): if `v` has degree
 `g > n − 1 − g₀`, then `θ_g(v)` is square-integrable and `ψ_F = ψ_G ⊕ [2g − n + 1]`; it is not cuspidal, since
 `g > g₀` gives `Φ θ_g(v) = θ_{g−1}(v) ≠ 0`.
 
-*Needs:* §§6.1, 6.5, 6.8; MetaplecticAutomorphicForms §§3.10 and 6.14.
+*Needs:* §§6.1, 6.5, 6.8; MetaplecticAutomorphicForms §§3.10, 5.6 and 6.14.
 
 **Checks.**
 
@@ -2407,10 +2421,12 @@ otherwise, so it suffices to show that it is less than `2`. For `π = 1` this is
 an order at least `2` would make the explicit formula of §2.6 on `x = t₁π + t₂·1`, `t ≥ 0`, with the
 central zero of `Λ(s, π)` counted twice, give a form nonnegative on the cone, with diagonal entries
 `A_F − J_F(L(π∞)²)` and `A_F − J_F(1)` and off-diagonal entry `−J_F(L(π∞)) − B_F`; at `F = F_ℓ`,
-`ℓ = log 4`, the enclosures of §2.4 make it negative by §2.12, for each of the ten classes (CL14 IX, proof
-of Proposition 3.38, p. 323). §§6.12 and 8.7 use the nonvanishing for `Δ₁₉,₇` and `Δ₂₁,₁₃`.
+`ℓ = 7/5`, the rational enclosures of ComputationalNumberTheory §4.18 of the scalars of §2.4 make it
+negative by §2.12, for each of the ten classes (CL14 IX, proof of Proposition 3.38, p. 323, where the
+irrational value `ℓ = log 4` is used). §§6.12 and 8.7 use the nonvanishing for `Δ₁₉,₇` and `Δ₂₁,₁₃`.
 
-*Needs:* §§1.8, 2.2, 2.4, 2.6, 2.12, 5.3; AutomorphicLFunctionsAndLocalFactors §AL.3.6.2.
+*Needs:* §§1.8, 2.2, 2.4, 2.6, 2.12, 5.3; AutomorphicLFunctionsAndLocalFactors §AL.3.6.2;
+ComputationalNumberTheory §4.18.
 
 **Checks.**
 
@@ -2447,8 +2463,9 @@ MetaplecticAutomorphicForms; the five cases are the ones used in §8.8.
 
 ### Dependencies
 
-AutomorphicBundles §§11.1–11.2, 11.9, 11.16, 12.10–12.11, 12.15; AutomorphicSpectralTheory §4.10;
-AutomorphicFormsOnReductiveGroups §§7.2a, 7.4–7.5; MetaplecticAutomorphicForms §§3.1, 3.10, 3.21, 5.1, 6.14;
+AutomorphicBundles §§11.1–11.2, 11.9, 11.16, 12.10–12.11, 12.13, 12.15; AutomorphicSpectralTheory §4.10;
+AutomorphicFormsOnReductiveGroups §§7.2a, 7.4–7.5; MetaplecticAutomorphicForms §§0.15, 2.4c, 3.1, 3.4, 3.5,
+3.7, 3.10, 3.21, 5.1, 5.6, 6.14; ComputationalNumberTheory §4.18;
 OrthogonalTamagawaAndLatticeMass §§3.1, 4.1–4.2; ThetaSeries Layers 1, 5, 8; Completed/IntegralLattices
 Layer 1; IntegralLattices §4G; AutomorphicLFunctionsAndLocalFactors §§AL.3.6.2, AL.3.7;
 ModularityAndLanglandsExtensions §3.8 with its standing premises; Layers 1–3 and 5.
@@ -2883,8 +2900,10 @@ sublattices `Q_g` of rank `g`, unique in their `O(Leech)`-orbit of embeddings (C
 `Q₂₄ = Leech`, `Q₁₂` the Coxeter–Todd lattice (discriminant group `(ℤ/3)⁶`) and `Q₈`, `Q₁₆` with
 discriminant group `(ℤ/5)⁴` (CT19a Lemma 2.1 and Proposition 2.2), and for `ω = ω_g` of §8.4 and `T` the Gram
 matrix of a basis of `Q_g`, `thetaCoefficient = ±n_g e_g` with `(e₈, e₁₂, e₁₆, e₂₄) = (5, 18, 5, 1)` and
-`n_g = |O(Leech)|/κ_{24−g}` the number of isometric embeddings `Q_g → Leech`, where `κ_h = 1` for `h < 12`,
-`κ₁₂ = 3` and `κ₁₆ = 10` (CT19a Lemma 2.4).
+`n_g = |O(Leech)|/κ_{24−g}` the number of isometric embeddings `Q_g → Leech`, where `κ_h` is the order of the
+kernel of the action of `O(Q_h)` on the discriminant group of `Q_h`, so that `κ_h = 1` for `h < 12`,
+`κ₁₂ = 3` and `κ₁₆ = 10` (CT19a Lemma 2.4, p. 12, for `e₈`, `e₁₂`, `e₁₆`; Proposition 3.13, p. 24, with
+Propositions 3.6 and 3.11, for `n_g` and `κ_h`).
 
 - `thetaCoefficient` is additive in `ω`.
 - For `T` the Gram matrix of a basis, the summation set is the set of bases of embedded copies, of

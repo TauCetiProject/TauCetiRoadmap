@@ -61,7 +61,7 @@ open Polynomial
 
 namespace TauCetiRoadmap.LevelOneAutomorphicFormsForClassicalGroups
 
-/-! ## Layer 4: geometric torsion classes and masses -/
+/-! ## Layer 4: geometric torsion classes and exact mass recovery -/
 
 /-- An integral quadratic form `x ↦ xᵀ c x` on `ℤⁿ`, given by an integer matrix `c`, is
 *regular* when its polar Gram matrix `c + cᵀ` has determinant `±1` (even rank, the polar form is
