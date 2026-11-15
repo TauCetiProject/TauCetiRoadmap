@@ -36,7 +36,7 @@ namespace TauCetiRoadmap.PrismaticCohomologyPartIII
 
 open CategoryTheory AlgebraicGeometry
 
-universe u
+universe u w
 
 /-- The native quotient carrier for a perfectoid presentation. The theorems impose
 perfection, completeness and the distinguished-coordinate condition. -/
@@ -64,9 +64,11 @@ degrees at least two vanish. -/
 theorem etale_comparison_perfectoid (p : ℕ) [Fact p.Prime]
     (S : Type u) [CommRing S] [CharP S p] [PerfectRing S p]
     (ξ : WittVector p S) [IsAdicComplete (Ideal.span {ξ.coeff 0}) S]
-    (hξ : IsUnit (ξ.coeff 1)) (n : ℕ) :
+    (hξ : IsUnit (ξ.coeff 1)) (n : ℕ)
+    [HasExt.{w} (Sheaf
+      (Spec (.of (Localization.Away (p : perfectoidQuotient p S ξ)))).smallEtaleTopology
+      AddCommGrpCat.{u + 1})] :
     let X := Spec (.of (Localization.Away (p : perfectoidQuotient p S ξ)))
-    letI := HasExt.standard (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})
     let Λ : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1} :=
       (constantSheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}).obj
         (.of (ULift.{u + 1} (ZMod (p ^ n))))
@@ -84,9 +86,11 @@ sheaf killed by `p` is equivalently a sheaf of F_p-modules. -/
 theorem etale_cohomology_vanishes_above_one (p : ℕ) [Fact p.Prime]
     (S : Type u) [CommRing S] [CharP S p] [PerfectRing S p]
     (ξ : WittVector p S) [IsAdicComplete (Ideal.span {ξ.coeff 0}) S]
-    (hξ : IsUnit (ξ.coeff 1)) :
+    (hξ : IsUnit (ξ.coeff 1))
+    [HasExt.{w} (Sheaf
+      (Spec (.of (Localization.Away (p : perfectoidQuotient p S ξ)))).smallEtaleTopology
+      AddCommGrpCat.{u + 1})] :
     let X := Spec (.of (Localization.Away (p : perfectoidQuotient p S ξ)))
-    letI := HasExt.standard (Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1})
     ∀ (F : Sheaf X.smallEtaleTopology AddCommGrpCat.{u + 1}), p • 𝟙 F = 0 →
       ∀ i : ℕ, 1 < i → Subsingleton (F.H i) := by
   sorry

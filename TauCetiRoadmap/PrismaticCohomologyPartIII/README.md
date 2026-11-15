@@ -69,7 +69,7 @@ A supplier row specifies the interface used, under the hypotheses shown. Its the
 
 ### Existing library interface
 
-For a ring map `g`: `R → S`, restrict the scalar action on an S-module `N` along `g`. A g-semilinear transition `t`: `M → N` is then R-linear, and its base-change condition is Mathlib `IsBaseChange S t`. Use `IsBaseChange.equiv`, `IsBaseChange.iff_lift_unique` and `IsBaseChange.comp` from [Mathlib.RingTheory.IsTensorProduct](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/IsTensorProduct.lean) for the tensor identification, universal property and composition. No separate base-change predicate is needed.
+For a ring map `g`: `R → S`, restrict the scalar action on an S-module `N` along `g`. A g-semilinear transition `t`: `M → N` is then R-linear, and its base-change condition is Mathlib `IsBaseChange S t`. Use `IsBaseChange.equiv`, `IsBaseChange.iff_lift_unique` and `IsBaseChange.comp` from [Mathlib.RingTheory.IsTensorProduct](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RingTheory/IsTensorProduct.lean) for the tensor identification, universal property and composition. No separate base-change predicate is needed.
 
 | Declaration | Provision |
 | --- | --- |
@@ -216,7 +216,7 @@ Let `S` be a perfectoid ring, `(A_inf(S), (d))` its perfect prism and `S^♭` it
 
 `S` is a perfectoid ring in the sense of Bhatt–Morrow–Scholze (integral perfectoid; p-torsion and characteristic `p` are allowed). If `p = 0` in `S` both sides vanish: `S[1/p] = 0` and `d` maps to 0 in `S^♭`. Étale cohomology is that of the schemes `Spec(S[1/p])` and `Spec(S^♭[1/d])`, not of adic spectra; the adic spectra enter only through Huber's comparison.
 
-Suggested.lean states the affine comparison as `etale_comparison_perfectoid`: for `S = W(T)/(ξ)` with `T` perfect, `W_n(S^♭[1/d])` is the quotient of Mathlib `WittVector p (T[1/ξ₀])` by `p^n`, `F` is the Frobenius `wittFrobeniusMod` induced by `WittVector.frobenius`, and the statement, for every `n ≥ 0`, is that `H^0_ét(Spec S[1/p], Z/p^n)` is the kernel of `F − 1`, `H^1` its cokernel, and the higher groups vanish; at `n = 0` both sides are zero.
+Suggested.lean states the affine comparison as `etale_comparison_perfectoid`: for `S = W(T)/(ξ)` with `T` perfect, `W_n(S^♭[1/d])` is the quotient of Mathlib `WittVector p (T[1/ξ₀])` by `p^n`, `F` is the Frobenius `wittFrobeniusMod` induced by `WittVector.frobenius`, and the statement, for every `n ≥ 0`, is that `H^0_ét(Spec S[1/p], Z/p^n)` is the kernel of `F − 1`, `H^1` its cokernel, and the higher groups vanish; at `n = 0` both sides are zero. The cohomology is Mathlib `CategoryTheory.Sheaf.H`, taken in any universe in which Ext groups of étale abelian sheaves on `Spec S[1/p]` are small (the statement's `CategoryTheory.HasExt` hypothesis; `CategoryTheory.HasExt.standard` provides one such universe).
 
 (BS22, Proof of Theorem 9.1, "first approach"; pp. 72–73.)
 
@@ -274,7 +274,7 @@ Let `R` be a perfectoid ring corresponding to a perfect prism `(A, I)`. The `F_p
 
 `X` is the spectrum, not the adic spectrum, of `R[1/p]`; the statement is false for general sheaves on the adic spectrum. `F` is an arbitrary étale F_p-sheaf on the scheme `X` (a filtered colimit of Zariski-constructible sheaves). The bound concerns F_p-coefficients (hence p-power torsion sheaves by dévissage); nothing is claimed for ℓ `≠ p`.
 
-Suggested.lean states this bound as `etale_cohomology_vanishes_above_one`, using an abelian sheaf killed by `p` for an F_p-sheaf and Mathlib `CategoryTheory.Sheaf.H` for its cohomology.
+Suggested.lean states this bound as `etale_cohomology_vanishes_above_one`, using an abelian sheaf killed by `p` for an F_p-sheaf and Mathlib `CategoryTheory.Sheaf.H` for its cohomology, under the same `CategoryTheory.HasExt` hypothesis as `etale_comparison_perfectoid`.
 
 (BS22, Theorem 11.1 and its proof; p. 85.)
 
@@ -1513,4 +1513,4 @@ VectorBundlesAndIsocrystals extends the curve package of PhiGammaModulesAndIwasa
 
 - **Stacks**: The Stacks project authors, *The Stacks project*. [Tag 03SH](https://stacks.math.columbia.edu/tag/03SH), the method of the trace for étale sheaves along a finite étale cover of degree prime to the torsion order; [Tag 040N](https://stacks.math.columbia.edu/tag/040N), the Kummer sequence `0 → μ_n → G_m → G_m → 0` on the fppf and syntomic sites; [Tag 0BP2](https://stacks.math.columbia.edu/tag/0BP2), Beauville–Laszlo glueing: for a glueing pair `(R → R′, f)`, glueable `R`-modules are equivalent to glueing data on `R_f` and `R′`; [Tag 0BP6](https://stacks.math.columbia.edu/tag/0BP6), an `R`-module is finite projective if and only if its base changes to `R_f` and `R′` are; [Tag 07KX](https://stacks.math.columbia.edu/tag/07KX), the distinguished triangle `R lim K → ∏ K_n → ∏ K_n → R lim K[1]` giving the Milnor sequence; [Tag 0D4B](https://stacks.math.columbia.edu/tag/0D4B), effectivity of finite projective modules along an inverse system of rings with surjective transition maps and locally nilpotent kernels, as used for adic completion.
 
-The library interfaces use Mathlib commit `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti commit `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. Code declarations, rather than page numbers, locate these algebraic interfaces.
+The library interfaces use Mathlib commit `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti commit `2fd255d997f47c0b5d834ee416c7015d55444ce5`. Code declarations, rather than page numbers, locate these algebraic interfaces.
