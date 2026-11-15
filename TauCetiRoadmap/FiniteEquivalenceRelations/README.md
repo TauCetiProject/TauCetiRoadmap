@@ -828,6 +828,32 @@ for smooth complex varieties (§2). Raicu's relation of 3.1 has a geometric quot
 not effective, so a positive answer would not give effectivity. For the finite schemes of Layer 1,
 `Spec A^R` is a finite categorical quotient (1.2); the question starts in dimension `1`.
 
+## Provenance: existing formalizations outside Tau Ceti
+
+This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
+Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
+Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
+the repository records it as unreviewed by humans, and it is built on Lean and Mathlib v4.35.0,
+earlier than our pin. It is not a dependency: a statement read there is compared with the target
+here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
+Apache-2.0 notices.
+
+`StacksFrontier/AlgebraicGeometry/GroupScheme/Relations/PreRelations.lean` defines pre-relations and
+equivalence relations of schemes and characterizes them on points (Tags 022Q and 02V8), and
+`GroupScheme/OverField/GroupoidOfEquivalenceRelation.lean` gives the groupoid scheme of an
+equivalence relation (Tags 0232 and 0233): the scheme-theoretic side of 0.3.
+`AlgebraicGeometry/Groupoids/FiniteFlatAffine/` proves that a groupoid with finite locally free
+source and target acting on an affine scheme has an affine quotient by its invariants, compatible
+with base change (Tag 03BM, `AffineQuotient.lean`), and that the ring is integral over its
+invariants (Tag 03BJ, `IntegralInvariants.lean`): the flat case of 2.1, and the integrality used in
+1.1, for groupoids in general. `Groupoids/FiniteFlatQuotient/` builds the fppf quotient sheaf (Tag
+07S6, `FppfQuotient.lean`) and descent of arrows (`ArrowDescentEffective.lean`).
+
+For modules, `ModuleCat.isEffectiveDescentMorphismForModules_iff_universallyInjective` (Tag 08XA)
+identifies effective descent for all modules with universal injectivity, which is the theorem of
+4.2. Non-flat relations, the effectivity criterion of 1.3, the examples of Layer 3 and the descent
+along the quotient map of 4.3–4.4 are not there.
+
 ## References
 
 - A. Grothendieck, « Techniques de construction et théorèmes d'existence en géométrie algébrique
@@ -874,3 +900,8 @@ not effective, so a positive answer would not give effectivity. For the finite s
 - J. Venken, « Non effectivité de la descente de modules plats par un morphisme fini d'anneaux
   locaux artiniens », *C. R. Acad. Sci. Paris Sér. A–B* 272 (1971), A1553–A1554.
 - A. Philippe, « Morphisme net d'anneaux, et descente », *Bull. Sci. Math. (2)* 97 (1973), 57–64.
+- AxiomMath, *The Stacks Project in Lean*. Lean 4 formalization at commit
+  c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
+  directories `StacksFrontier/AlgebraicGeometry/GroupScheme/Relations`,
+  `StacksFrontier/AlgebraicGeometry/Groupoids`.
+  https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier
