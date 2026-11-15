@@ -90,10 +90,9 @@ comparison, the compatibility of supplied compact elliptic/Hodge theory with geo
 comparison maps, pure Hodge structures on proper smooth schemes, Deligne's relative Hodge theorem,
 the complementary-form specialization of ComplexKahlerGeometry K5a's bundle tests and distributions
 and its current calculus with positivity, mass and local regularization, integration over analytic
-cycles, positivity of (1,1)-forms, the integral first Chern class of a holomorphic line bundle,
-the frame-torsor description of holomorphic line-bundle classes in `H¹(M,O_M^×)` and the holomorphic
-exponential sequence on every complex manifold, with the integral identification of its connecting
-map with the shared smooth first Chern class, and the Chern normalisation, sheafification and analytification of
+cycles, positivity of (1,1)-forms, the integral first Chern class of a holomorphic line bundle
+and the identification of the connecting image of ComplexKahlerGeometry K4.P's holomorphic
+exponential sequence with it in singular cohomology, and the Chern normalisation, sheafification and analytification of
 shared ordinary connections,
 regular singularities, canonical logarithmic extensions, Deligne's Riemann–Hilbert equivalence and
 nonproper comparison, the curve logarithmic and compact-support complexes with residues, and the
@@ -146,7 +145,7 @@ The analytic ownership and stage order are:
 | --- | --- | --- |
 | Parameter-dependent one-variable `∂̄` solver, local Dolbeault lemma and fine Dolbeault resolution | ComplexKahlerGeometry K2 | C1.1 compares K2's fine resolution with C0's sheaves. The scalar compact-support Cauchy–Green operator and the finite-rank Runge operator are scalar inputs K2 consumes; this roadmap does not consume them |
 | Proper-submersion trivialization (Ehresmann's theorem) on real manifolds | SmoothBundlesConnections B1.5; ComplexComparisonPartII C5.2 `ehresmannFibration` | The smooth form (a proper surjective submersion is, on each connected component of the base, a locally trivial smooth fibre bundle with product charts; pullback and restriction of the Ehresmann connection) is SmoothBundlesConnections B1.5 and is not restated. C5.2 applies it to holomorphic submersions and to analytified proper smooth morphisms, with the base-change clause, and later roadmaps consume that holomorphic application from here |
-| Integral first Chern class of holomorphic line bundles, the holomorphic exponential sequence and its curvature comparison | CharacteristicClasses C1.5/C3 (the class of the underlying complex line, with C1.5's comparison with SmoothBundlesConnections B6 on smooth bases) and C4.1–C4.2 (rank-one curvature comparison); SmoothBundlesConnections B6.1–B6.2 (the smooth exponential sequence and the exponential first Chern class of circle bundles); ComplexComparisonPartII C5.4 | C5.4 is the single owner, on every complex manifold, of the holomorphic-to-smooth forgetful adapter, the frame-torsor bijection from holomorphic line-bundle classes to `H¹(M,O_M^×)`, the holomorphic exponential sequence with its cocycle `δu`, and the identification of its connecting map with the integral first Chern class through the smooth class; it identifies the Chern-connection form `(i/2π)Θ` with the real image of the class. For this interface this roadmap takes from ComplexKahlerGeometry K4 only the holomorphic line bundles and their Chern connection; the group of their isomorphism classes, its description in `H¹(M,O_M^×)` and the exponential sequence are not taken from it. The smooth exponential identification is the suppliers' and is not restated |
+| Integral first Chern class of holomorphic line bundles, the holomorphic exponential sequence and its curvature comparison | ComplexKahlerGeometry §4.5 (K4.P) (on every complex manifold, the unit sheaf, `Pic_hol(M) ≃ H¹(M,O_M^×)` by frame torsors with its tensor, dual, trivial-line and pullback laws, the holomorphic exponential sequence, the identification of its connecting map with the integral first Chern class of the underlying smooth line, and its curvature compatibility); CharacteristicClasses C1.5/C3 (the class of the underlying complex line, with C1.5's comparison with SmoothBundlesConnections B6 on smooth bases) and C4.1–C4.2 (rank-one curvature comparison); SmoothBundlesConnections B6.2 (the exponential first Chern class of circle bundles); ComplexComparisonPartII C5.4 | C5.4 defines `integralLineBundleChernClass` by the holomorphic-to-smooth forgetful adapter and CharacteristicClasses C1.5, identifies C1.9's analyticPicardGroup of a manifold with K4.P's `Pic_hol`, proves that K4.P's connecting image of `[L]` is the image of `integralLineBundleChernClass L` under `nonempty_sheafSingularComparison`, and identifies the Chern-connection form `(i/2π)Θ` with the real image of that class by CharacteristicClasses C4.2. The group of holomorphic line-bundle classes, its description in `H¹(M,O_M^×)` and the exponential sequence are K4.P's and are not restated |
 | Native holomorphic sheaf, convergent local algebra and primitive Oka relations | ComplexKahlerGeometry K2–K4 | C-1 adds analytic quotients, nilpotents and gluing; RealAnalyticGeometry R3.2 supplies native coherence; C0 descends it to analytic spaces |
 | Algebraic strict-SNC compactifications and labelled étale coordinates | ResolutionOfSingularitiesCharacteristicZero §1.3 (birth-ordered SNC boundary), §6.2 (SNC compactification), §6.4 (SNC coordinates) | The prescribed smooth quasi-projective open is unchanged in a smooth projective compactification with globally smooth labelled boundary components and local equation `t₁⋯t_b=0`; C-1.4 supplies `sncPolydiscChart` and `snc_exists_polydiscChart` by analytification and the analytic inverse-function theorem |
 | Scheme analytification and its algebraic-to-holomorphic prefix | ComplexComparisonPartII C-1.1, C0.4 and C5.1–C5.2 | FormalConnectionsOpers F2.4 uses the same complex points, ring sheaf, open restrictions, fibre products, smooth charts and étale local isomorphisms. F2.4 retains fixed-model maximal atlases, second countability, tangent/derivation, toric, group and gauge comparisons; these use the prefix without proper GAGA |
@@ -182,6 +181,9 @@ here uses no stage of this roadmap.
   replacement, Nagata compactification over qcqs bases, common refinements, cofilteredness
   and coherent choice comparison for coefficient functors that invert refinement arrows.
 
+- *ReductiveGroups, §3A.5c–3A.5e.* The classical topology on complex points, the smooth charts of
+  smooth complex schemes and the complex Lie group `G(ℂ)`; C-1.1 identifies them with the
+  underlying space and charts of `X^an` and adds the analytic ring sheaf.
 - *DerivedDeRhamCohomology, Layer 2, §§2.1–2.19.* The ordinary algebraic de Rham
   differential, its square-zero and graded Leibniz laws (`DeRham.d_squared`,
   `DeRham.d_leibniz`), `DeRham.complex A B`, and its pullback and complex-map API
@@ -449,8 +451,8 @@ as explained in C5.1); the two names denote the same target.
   represents `c₁(O(1))` and integrates to `1` over a projective line. The integral first
   Chern class of a holomorphic line `L` is CharacteristicClasses C1.5's class of the
   underlying complex line, normalised so that `c₁(O(−1))` on `P¹` pairs to `−1` with the
-  complex orientation; C5.4 identifies it with the connecting image of `[L]` under the
-  exponential sequence `0 → ℤ → O → O^× → 0` with `u ↦ exp(2πiu)`.
+  complex orientation; C5.4 identifies it with the connecting image of `[L]` under
+  ComplexKahlerGeometry K4.P's exponential sequence `0 → ℤ → O → O^× → 0` with `u ↦ exp(2πiu)`.
 - **Hermitian pairing.** Smooth bundle metrics use Mathlib's convention, conjugate-linear in
   the first slot: `h(s,t) = s* H t` in column coordinates. The pairing displayed in the Hodge
   star identity is `⟨α,β⟩ = h(β,α)`, linear in the first slot. Transport this swap when
@@ -768,6 +770,11 @@ as explained in C5.1); the two names denote the same target.
   open restrictions and germs, the section/reconstruction equivalence on fixed finite-rank
   `VectorBundle ℂ` with holomorphic transitions, and the Chern connection.
   C-1 and C0 use those carriers and prove the analytic-space and coherent-category adapters.
+  §4.5 (K4.P) supplies, on every complex manifold, `Pic_hol(M) ≃ H¹(M, O_M^×)` by frame torsors
+  with its tensor, dual, trivial-line and pullback laws, the holomorphic exponential sequence
+  with `u ↦ exp(2πiu)` and the identification of its connecting map with the integral first
+  Chern class of the underlying smooth line, in the frame convention `e_j = e_i g_ij`; C5.4
+  consumes them.
 - **ComplexKahlerGeometry K5a, K5b.0, K6.0.** On arbitrary open manifold domains, K5a
   supplies bundle distributions, Sobolev scales and local Laplace-type regularity, K5b.0
   the geometric L² formal adjoint and Dolbeault symbol `½|ξ|² id`, and K6.0 the local
@@ -782,10 +789,12 @@ as explained in C5.1); the two names denote the same target.
   on analytic-space quotient charts; C1 transports its weighted and coherent conclusions.
 - **ComplexManifolds.** Milestones 7.1–7.3 supply native holomorphic gluing to
   ComplexKahlerGeometry K4; Milestone 1 supplies C5.2's functorial realification.
-- **ReductiveGroups.** Layer 3A.5: for a smooth affine group scheme `G` of finite type over `ℂ`,
-  the classical topology on `G(ℂ)`, its smooth charts and its complex Lie group structure, which
-  C-1.1 identifies with the underlying space and smooth charts of `G^an` by the identity on
-  `G(ℂ)`. The analytification of schemes locally of finite type over `ℂ` is C-1.1's.
+- **ReductiveGroups §3A.5c–3A.5e.** The classical topology on `X(ℂ)` for every complex scheme
+  `X` locally of finite type, with its Hausdorff, fibre-product, reduction and properness
+  comparisons (3A.5c); the complex charts of every smooth complex scheme (3A.5d); the complex Lie
+  group `G(ℂ)` for every group scheme `G` of finite type over `ℂ` (3A.5e). C-1.1 identifies them
+  with the underlying space and product charts of `X^an` by the identity on `X(ℂ)` and adds the
+  analytic ring sheaf; the analytification of schemes locally of finite type over `ℂ` is C-1.1's.
 - **CharacteristicClasses.** C1.2b supplies, inside `cechSingularCWTypeComparison`, the
   locally acyclic constant singular-cochain sheaf resolution on Hausdorff CW representatives.
   C5.1 identifies its nesting-small extension with this resolution, preserving
@@ -832,12 +841,10 @@ as explained in C5.1); the two names denote the same target.
   Ehresmann connection and its horizontal–vertical splitting; different components may have
   non-diffeomorphic fibres, and the regular fibres carry B1.0's submanifold structure. C5.2's
   `ehresmannFibration` applies this to holomorphic submersions and to analytified proper smooth
-  morphisms and adds nothing to the smooth statement. B6.1–B6.2: exactness on stalks of
-  `t ↦ exp(2πit)` from smooth real to smooth circle-valued functions, acyclicity of the sheaf of
-  smooth real functions on a finite-dimensional Hausdorff second-countable manifold, and the
-  first Chern class of a principal circle bundle as the exponential connecting class of its
-  dual-character line, normalised by `⟨c₁(Hopf),[ℂP¹]⟩ = 1`; C5.4 consumes them for the
-  smooth part of the exponential-sequence description.
+  morphisms and adds nothing to the smooth statement. B6.2: the first Chern class of a principal
+  circle bundle as the exponential connecting class of its dual-character line, normalised by
+  `⟨c₁(Hopf),[ℂP¹]⟩ = 1`; C5.4 reaches it through ComplexKahlerGeometry K4.P's identification of
+  the holomorphic connecting map and CharacteristicClasses C1.5's comparison with B6.
 - **AlgebraicTopology.** Stage 6: singular cochains with coefficients in an arbitrary module
   (abelian groups over `ℤ`), universal coefficients, cup and cap products, orientation and
   fundamental class, Poincaré duality; Stage 6.1: direct local-system cochains, relative
@@ -1047,26 +1054,28 @@ Define `complexSchemeAnalytification`, for each universe `u`, as a functor from 
 
 Its universal property is the bijection `Hom_an(A,X^an) ≃ Hom_{lrs,ℂ}(A,X)`, given by composition with `φ_X`, for every complex analytic space A, natural in A and `X`. The right-hand side is the Hom set in the same locally ringed-space over category after forgetting A's local-model condition and `X`'s scheme structure. It proves uniqueness of the ringed construction, independence of affine presentations and covers, and determines the functor on morphisms. The functor laws hold, and the naturality equation `φ_Y∘f^an=f∘φ_X`. These are equalities of local ringed-space morphisms, including the sheaf maps. (SGA 1 XII, 1.1–1.2, retyped pp. 239–241.)
 
-The analytification identifies the underlying topological space with `X(ℂ)` equipped with the classical topology: on each affine chart this is the zero-locus subspace topology in `ℂⁿ`, and these topologies glue along the algebraic opens. It supplies natural isomorphisms of analytic spaces for open restrictions, closed quotients by the extended coherent ideal, and `X×_Z Y`, for locally finite-type complex schemes `X,Y,Z`. These isomorphisms commute with `φ` and the defining inclusions and projections. It identifies `(X_red)^an` with `(X^an)_red`; the underlying topological spaces agree, while `X^an` itself keeps the full analytic ring sheaf. (SGA 1 XII, 1.1(a), 1.2 and Proposition 2.1, retyped pp. 240–242.)
+The identity on `X(ℂ)` identifies the underlying topological space of the analytification with ReductiveGroups §3A.5c's classical topology on `X(ℂ)`: on each affine chart both are the zero-locus subspace topology in `ℂⁿ`, glued along the algebraic opens. It supplies natural isomorphisms of analytic spaces for open restrictions, closed quotients by the extended coherent ideal, and `X×_Z Y`, for locally finite-type complex schemes `X,Y,Z`. These isomorphisms commute with `φ` and the defining inclusions and projections. It identifies `(X_red)^an` with `(X^an)_red`; the underlying topological spaces agree, while `X^an` itself keeps the full analytic ring sheaf. (SGA 1 XII, 1.1(a), 1.2 and Proposition 2.1, retyped pp. 240–242.)
 
 On points, `φ_X` sends a complex point, a section `p : Spec ℂ → X` of the structure morphism, to the image under `p` of the point of `Spec ℂ`; on an affine chart this is `a ↦ (x₁ − a₁, …, xₙ − aₙ)`, the polynomial evaluation above. Prove that the image of `φ_X` is `closedPoints X`, the set of closed points of `X`, and that `φ_X` is injective on points. Both follow from Mathlib's `AlgebraicGeometry.pointEquivClosedPoint`, the bijection, for `X` locally of finite type over an algebraically closed field `K`, between the sections of the structure morphism and the closed points, applied with `K = ULift.{u} ℂ`. That `ULift.{u} ℂ` is algebraically closed is proved here: Mathlib has `Complex.isAlgClosed` and no instance for `ULift.{u} ℂ`, and `IsAlgClosed.of_ringEquiv` transports algebraic closedness only between two fields of the same universe, so map a monic irreducible polynomial over `ULift.{u} ℂ` to `ℂ` along `ULift.ringEquiv`, take a root there and map it back (`IsAlgClosed.of_exists_root`). The finite-type hypothesis is needed: the `Spec ℂ(t)` Check below has a closed point and no complex point.
 
-It turns an étale morphism into a local biholomorphism of analytic ringed spaces, by the analytic inverse theorem on a standard étale presentation and gluing. The analytic inverse is supplied by `AnalyticAt.exists_openPartialHomeomorph` in Tau Ceti’s `TauCeti.Analysis.Analytic.Inverse`. It identifies analytification of a smooth morphism locally with a projection from a product of an analytic open in the base with an open polydisc. This is an isomorphism of analytic ringed spaces even when the base is singular or nonreduced; for a smooth complex scheme it gives complex manifold charts. It proves that separated `X` has Hausdorff `X^an`, by the closed diagonal and the product comparison. It carries finite and proper morphisms, respectively, to finite and proper analytic morphisms. Here relative separatedness means that the analytic diagonal is a closed immersion. A proper analytic morphism is relatively separated and, over every Hausdorff analytic open chart of the base, has compact inverse images of compact subsets; a finite analytic morphism is proper with finite fibres. These chart conditions do not require the whole base to be Hausdorff. The schemes need only be locally of finite type over `ℂ`; finite and proper algebraic morphisms are themselves of finite type, as required for this comparison. All these comparisons use the same functor and ring sheaf. (SGA 1 XII, Propositions 3.1–3.2, retyped pp. 244–247, original pp. 321–325.)
+It turns an étale morphism into a local biholomorphism of analytic ringed spaces, by the analytic inverse theorem on a standard étale presentation and gluing. The analytic inverse is supplied by `AnalyticAt.exists_openPartialHomeomorph` in Tau Ceti’s `TauCeti.Analysis.Analytic.Inverse`. It identifies analytification of a smooth morphism locally with a projection from a product of an analytic open in the base with an open polydisc. This is an isomorphism of analytic ringed spaces even when the base is singular or nonreduced; for a smooth complex scheme the identity on `X(ℂ)` identifies these product charts with ReductiveGroups §3A.5d's complex charts. Separated `X` has Hausdorff `X^an`, because its underlying space is §3A.5c's Hausdorff `X(ℂ)`. It carries finite and proper morphisms, respectively, to finite and proper analytic morphisms. Here relative separatedness means that the analytic diagonal is a closed immersion. A proper analytic morphism is relatively separated and, over every Hausdorff analytic open chart of the base, has compact inverse images of compact subsets; a finite analytic morphism is proper with finite fibres. These chart conditions do not require the whole base to be Hausdorff. The analytic diagonal of a separated morphism is a closed immersion by the fibre-product and closed-quotient comparisons above, and the compactness of inverse images is §3A.5c's properness comparison read through the identification. The schemes need only be locally of finite type over `ℂ`; finite and proper algebraic morphisms are themselves of finite type, as required for this comparison. All these comparisons use the same functor and ring sheaf. (SGA 1 XII, Propositions 3.1–3.2, retyped pp. 244–247, original pp. 321–325.)
 
 This roadmap owns the analytic local models, their category, arbitrary open gluing and
-`complexSchemeAnalytification` with its analytic ring sheaf and all the comparisons above.
+`complexSchemeAnalytification` with its analytic ring sheaf, its identifications with
+ReductiveGroups §3A.5's carriers and the ringed-space comparisons above.
 The construction uses ComplexKahlerGeometry K3–K4's holomorphic sheaf and convergent-germ
 theory through this section's carrier comparisons,
 Mathlib's locally ringed spaces and the cited Tau Ceti analytic inverse theorem.
-Restricting its domain to finite-type
-complex schemes and forgetting the analytic ring sheaf gives the classical topological carrier.
+For every complex scheme `X` locally of finite type, the classical topology on `X(ℂ)`, with its
+Hausdorff, fibre-product, reduction and properness comparisons, is ReductiveGroups §3A.5c's; for
+smooth `X` its complex charts are §3A.5d's, and for a group scheme `G` of finite type over `ℂ`
+the complex Lie group `G(ℂ)` is §3A.5e's. The identity on `X(ℂ)` identifies the underlying space
+of `X^an` with §3A.5c's space and the product charts above with §3A.5d's charts; this section
+adds the analytic ring sheaf.
 Coherent and topological consumers take the ring sheaf and topological carrier from this same
 analytic space, respectively; its locally finite-type domain
 includes infinite affine covers, and its analytic ring sheaf retains nilpotents on singular and
-nonseparated schemes. For a smooth affine group scheme `G` of finite type over `ℂ`, the classical
-topology on `G(ℂ)`, its smooth charts and its complex Lie group structure are ReductiveGroups
-§3A.5's; the identity on `G(ℂ)` identifies them with the underlying space and smooth charts of
-`G^an`, to which this section adds the analytic ring sheaf.
+nonseparated schemes.
 
 FormalConnectionsOpers F2.4 takes this functor's complex-points, open-subspace, fibre-product, smooth-chart and
 étale-local-isomorphism comparisons on separated smooth finite-type
@@ -1078,7 +1087,7 @@ countability, tangent/derivation, toric, group and gauge comparisons belong to F
 The coherent-module and connection adapters use C0.4 and C5.1–C5.2's prefix;
 none of these constructions uses proper GAGA.
 
-*Needs:* ComplexKahlerGeometry K3–K4; Mathlib `AlgebraicGeometry.LocallyRingedSpace`, sheaves of modules, `AnalyticAt ℂ`, analytic power-series and local-ring APIs; Mathlib `AlgebraicGeometry.pointEquivClosedPoint`, `Complex.isAlgClosed`, `IsAlgClosed.of_exists_root` and `ULift.ringEquiv` (complex points are the closed points); Tau Ceti `AnalyticAt.exists_openPartialHomeomorph` in `TauCeti.Analysis.Analytic.Inverse`.
+*Needs:* ComplexKahlerGeometry K3–K4; ReductiveGroups §3A.5c–3A.5e (classical topology, smooth charts, `G(ℂ)`); Mathlib `AlgebraicGeometry.LocallyRingedSpace`, sheaves of modules, `AnalyticAt ℂ`, analytic power-series and local-ring APIs; Mathlib `AlgebraicGeometry.pointEquivClosedPoint`, `Complex.isAlgClosed`, `IsAlgClosed.of_exists_root` and `ULift.ringEquiv` (complex points are the closed points); Tau Ceti `AnalyticAt.exists_openPartialHomeomorph` in `TauCeti.Analysis.Analytic.Inverse`.
 
 **Checks.**
 
@@ -1219,7 +1228,8 @@ Prove `snc_exists_polydiscChart`: ResolutionOfSingularitiesCharacteristicZero §
 
 ### Dependencies
 
-ComplexKahlerGeometry K3–K4; RealAnalyticGeometry R3.2 item 0; AlgebraicModuliForArithmeticGeometry
+ComplexKahlerGeometry K3–K4; RealAnalyticGeometry R3.2 item 0; ReductiveGroups §3A.5c–3A.5e
+(classical topology, smooth charts, `G(ℂ)`); AlgebraicModuliForArithmeticGeometry
 Layer 3, §6.1 and §§7.6.1/7.7; SchemeAndStackFoundations Layer 1 (§§1.4–1.5/1.14);
 ResolutionOfSingularitiesCharacteristicZero §§1.3, 6.2 and 6.4; Mathlib locally ringed spaces,
 sheaves of modules, `smoothSheafCommRing`, analytic power series, local rings, Noetherian
@@ -2128,7 +2138,8 @@ homomorphism by `CoherentAnalytification` and the tensor, dual and unit clauses 
    holomorphic line bundle on `T_C` has a nonzero meromorphic section.
 
 The description of analyticPicardGroup through `H¹(X^an, O^×)` is a theorem about this group
-and not its definition; C5.4 proves it on complex manifolds for its exponential sequence. Neither curve comparison is stated
+and not its definition; on complex manifolds it is ComplexKahlerGeometry K4.P's, which C5.4
+transports to this group through `holomorphicBundleDictionary`. Neither curve comparison is stated
 as the existence of an isomorphism: consumers use the named maps and their inverses. (SGA 1,
 Exposé XII, Theorem 4.4 and its proof, retyped pp. 249–250, for GAGA; the function-field, order
 and divisor statements follow by the arguments given.) *Needs:* riemannSurfaceAtlas C and
@@ -3995,35 +4006,25 @@ scalars on the base charts; its maps remain fibrewise complex-linear. Prove comp
 with pullback, tensor (additivity), dual (negation) and the trivial line (zero) from the
 supplier's universal laws.
 
-Prove the holomorphic exponential-sequence description here; its smooth part is consumed.
-Write `[L] ∈ H¹(M, O_M^×)` for the class of the `O_M^×`-torsor of local holomorphic frames of
-`L`, the Čech class of its transition functions, compared with `Sheaf.H` by
-SchemeAndStackFoundations §2.2 `cech_to_cohomology`. Prove that `L ↦ [L]` is a bijection from
-isomorphism classes of holomorphic line bundles on `M` (analyticPicardGroup of C1.9, for `M`
-regarded as an analytic space) onto `H¹(M, O_M^×)`, with `[L ⊗ L′] = [L][L′]`,
-`[L∨] = [L]⁻¹` and `[f^*L] = f^*[L]` (Demailly, V.11.1–11.2, printed p. 267). The short exact
-sequence of sheaves `0 → ℤ → O_M → O_M^× → 0`, with `ℤ → O_M` the inclusion and
-`O_M → O_M^×` the map `u ↦ exp(2πiu)`, is exact on stalks by local holomorphic logarithms and
-has a connecting map `δ : H¹(M, O_M^×) → H²(M, ℤ)`; prove that `δ[L]` is the image of
-`integralLineBundleChernClass L` under `nonempty_sheafSingularComparison`.
-Identify the cocycles explicitly: if `g_αβ` changes β-coordinates to α-coordinates in local
-holomorphic frames of `L` and, after refining the cover so that logarithms exist,
-`g_αβ = exp(2πiu_αβ)`, the connecting image has the integer Čech representative `δu`, where
-`(δu)_αβγ = u_βγ − u_αγ + u_αβ`. For the equality with the classifying-map class, map the
-holomorphic sequence to the smooth sequence `0 → ℤ → C^∞_M → (C^∞_M)^× → 0` by the inclusion
-`O_M → C^∞_M`, which commutes with `exp(2πi·)` and is the identity on `ℤ`, so that `δ[L]` is
-the smooth exponential class of the underlying smooth line. The map `g ↦ g/|g|` from
-`(C^∞_M)^×` to circle-valued functions leaves this connecting image unchanged, because the
-sheaf of positive smooth functions is isomorphic by `log` to the acyclic sheaf of smooth real
-functions; the resulting circle-valued class is
-SmoothBundlesConnections B6.2's exponential first Chern class, with B6.1's exactness of
-`t ↦ exp(2πit)` and acyclicity of smooth real functions, and CharacteristicClasses C1.5's
-comparison with B6 on smooth bases identifies it with `integralLineBundleChernClass L`. The
-sign between B6's dual-character convention and the class of the underlying line is the one
-fixed in that comparison, and the frame direction of `g_αβ` is pinned by the `O(1)` Check
-below. The smooth exponential identification is the suppliers' and is not restated here
-(Demailly, V.9.2–9.5, printed pp. 264–265, for the smooth sequence). No metric or meromorphic
-section is part of the integral class.
+ComplexKahlerGeometry §4.5 (K4.P) supplies, on every complex manifold `M`, the class
+`[L] ∈ H¹(M, O_M^×)` of the `O_M^×`-torsor of local holomorphic frames of `L` and the group
+isomorphism `Pic_hol(M) ≃ H¹(M, O_M^×)`, `L ↦ [L]`, with its tensor, dual, trivial-line and
+pullback laws; the exact sequence `0 → ℤ → O_M → O_M^× → 0` with `u ↦ exp(2πiu)` and its
+connecting map `δ : H¹(M, O_M^×) → H²(M, ℤ)`; and the identification of `δ[L]` with the
+integral first Chern class of the underlying smooth line, SmoothBundlesConnections B6.2's
+exponential class, under which `O(1)` on `P¹` has Chern number `1`. None of these is restated
+here. Through `holomorphicBundleDictionary` in rank one, analyticPicardGroup of C1.9, for `M`
+regarded as an analytic space, is K4.P's `Pic_hol(M)`, compatibly with tensor, dual and pullback.
+Prove that `δ[L]` is the image of `integralLineBundleChernClass L` under
+`nonempty_sheafSingularComparison`: CharacteristicClasses C1.5's comparison with B6 on smooth
+bases identifies K4.P's class of the underlying smooth line with `integralLineBundleChernClass L`.
+The cocycle convention is K4.P's: `g_αβ` changes β-coordinates to α-coordinates in local
+holomorphic frames of `L`, and if `g_αβ = exp(2πiu_αβ)` on a cover fine enough for logarithms,
+the connecting image has the integer Čech representative `δu`, where
+`(δu)_αβγ = u_βγ − u_αγ + u_αβ`. The sign between B6's dual-character convention and the class
+of the underlying line is the one fixed in C1.5's comparison, and the frame direction of `g_αβ`
+is pinned by the `O(1)` Check below. No metric or meromorphic section is part of the integral
+class.
 
 Rank-one curvature comparison. For C1.3's Chern connection of a Hermitian metric `h` on `L`
 (conjugate-linear in the first slot, `h(s,t) = s* H t`), the form `(i/2π)Θ(L,h)` is closed
@@ -4037,8 +4038,8 @@ convention. Changing the metric `h` to `h' = e^{φ}h` changes the curvature repr
 by the exact form `−(i/2π)∂∂̄φ` (Demailly, V.8.2 and V.9.2–9.5, printed pp. 264–265; IV.6.11
 for the Čech–de Rham sign; V.12.1–12.2, pp. 268–269 for the Chern connection).
 *Needs:* `holomorphicBundleDictionary`; ComplexKahlerGeometry K4's Chern connection (C1.3
-conventions); `nonempty_sheafSingularComparison`; SchemeAndStackFoundations §2.2 `cech_to_cohomology`;
-CharacteristicClasses C1.5, C3 and C4.1–C4.2; SmoothBundlesConnections B6.1–B6.2;
+conventions) and §4.5 (K4.P); `nonempty_sheafSingularComparison`;
+CharacteristicClasses C1.5, C3 and C4.1–C4.2; SmoothBundlesConnections B6.2;
 DifferentialGeometry Layer 8 (`deRhamEquiv`); Tau Ceti `TauCeti.deRhamCohomology`.
 
 **Checks.**
@@ -4652,7 +4653,8 @@ claimed (Qian, arXiv:2103.00106, Theorem 1.8, pp. 3–4, and Proposition 3.6 and
 C0–C4; §§C-1.1–C-1.4/C1.9; AlgebraicModuliForArithmeticGeometry Layers 1–3;
 ResolutionOfSingularitiesCharacteristicZero Layers 1–6 (resolution and SNC compactification);
 SchemeAndStackFoundations (Layer 1, Layer 2 including §§2.19–2.20, §4.12, Layer 5); TauCetiRoadmap.DifferentialGeometry (Layers 0–2,
-5, 8, 9 and 12); TauCetiRoadmap.SmoothBundlesConnections (B1.5, B6.1–B6.2); TauCetiRoadmap.AlgebraicTopology (Stages 6 and 8); TauCetiRoadmap.PDE (Lanes A,
+5, 8, 9 and 12); ComplexKahlerGeometry K3–K4 (with §4.5, K4.P), K5a–K5b.1 and K6.1;
+TauCetiRoadmap.SmoothBundlesConnections (B1.5, B6.2); TauCetiRoadmap.AlgebraicTopology (Stages 6 and 8); TauCetiRoadmap.PDE (Lanes A,
 D and E); TauCetiRoadmap.AlgebraicVectorBundles (L0C);
 CharacteristicClasses C1.5, C3, C4.1–C4.2; TauCetiRoadmap.JacobianChallenge (Layer C);
 Tau Ceti `TauCeti.Hodge.HodgeStructureOn`, `TauCeti.Hodge.Conjugation`,
@@ -5294,11 +5296,11 @@ an instance of the named targets, not a separate theorem.
   **ShimuraCompactifications**, **AutomorphicBundles** and **AlgebraicModularFormsAndSerreWeights** use
   coherent analytification, the GAGA dictionaries and the proper-source morphism comparison; Borel's
   algebraicity of nonproper maps is ShimuraVarieties' own V3.
-- **K3Surfaces §1.1** and **GeometricQuantization §3.3** use C5.4's frame-torsor bijection
-  from isomorphism classes of holomorphic line bundles onto `H¹(M,O_M^×)`, with its tensor,
-  dual and pullback laws, and its holomorphic exponential sequence on complex manifolds with
-  the identification of the connecting map with `integralLineBundleChernClass`, for the segment
-  `H¹(M,O_M) → H¹(M,O_M^×) → H²(M,ℤ) → H²(M,O_M)` read on line-bundle classes.
+- **K3Surfaces §1.1** and **GeometricQuantization §3.3** use C5.4's identification of the
+  connecting image of a holomorphic line-bundle class under ComplexKahlerGeometry K4.P's
+  exponential sequence with `integralLineBundleChernClass` in singular cohomology; the
+  frame-torsor bijection onto `H¹(M,O_M^×)` and the exponential segment they read on line-bundle
+  classes are K4.P's.
 - **MordellLawrenceVenkatesh**, **InverseGaloisAndArithmeticFundamentalGroups**,
   **Polylogarithms**, **PeriodsAndSpecialValues** and
   **LefschetzPencilsAndVanishingCycles** use the analytic image theorems, Chow's theorem, the affine
