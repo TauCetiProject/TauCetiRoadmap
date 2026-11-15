@@ -1,6 +1,6 @@
 import Mathlib
 import TauCeti.AlgebraicTopology.EilenbergMacLane.HomotopyEquiv
-import TauCeti.AlgebraicTopology.SimplicialComplex.Realization
+import TauCeti.AlgebraicTopology.SimplicialComplex.Realization.Basic
 import TauCeti.AlgebraicTopology.UniversalCover.Classification.EilenbergMacLane
 
 /-!
