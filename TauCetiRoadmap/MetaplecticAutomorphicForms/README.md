@@ -36,7 +36,7 @@ The degree-two theta pairing uses ordinary Lebesgue measure on `C²`. With `W=Z�
 
 ## Exact supplier contracts
 
-The library pins are Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The contracts below use those declarations and the named roadmap sections directly.
+The library pins are Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`. The contracts below use those declarations and the named roadmap sections directly.
 
 ### From Mathlib and Tau Ceti
 
@@ -175,7 +175,7 @@ Prove `polarization_cocycle`: For scalar `B` and invertible 2, put `q(x)=½B(x,x
 
 `R` is a commutative ring and W,W′,W″ are R-modules with additive commutative groups. Forms are native scalar-valued bilinear forms, with no nondegeneracy assumption unless explicitly stated. `E_B` denotes the same native extension, with coordinates (t,w). Maps between extensions fix the coefficient coordinate. 2 is invertible in `R`.
 
-(Weil64, I.§3 equation (3), printed148, PDF6). *Needs:* 0.1.
+(Weil64, I.§3 equation (3), printed148). *Needs:* 0.1.
 
 ### 0.9a Lagrangian complements and adapted bases
 
@@ -197,7 +197,7 @@ Define `polarizationEquiv` as follows. For scalar `B` and invertible 2, construc
 
 `R` is a commutative ring and W,W′,W″ are R-modules with additive commutative groups. Forms are native scalar-valued bilinear forms, with no nondegeneracy assumption unless explicitly stated. `E_B` denotes the same native extension, with coordinates (t,w). Maps between extensions fix the coefficient coordinate. 2 is invertible in `R`.
 
-(Weil64, I.§3 equation (3), printed148, PDF6; comparison with Kudla I.2 Lemma2.2 PDF7). *Needs:* 0.1, 0.9.
+(Weil64, I.§3 equation (3), printed148; comparison with Kudla I.2 Lemma2.2 PDF7). *Needs:* 0.1, 0.9.
 
 - `polarizationEquiv_apply`: The forward coefficient is `t+½B(x,x)`, and the quotient coordinate remains x.
 - `polarizationEquiv_symm_apply`: The inverse coefficient is `t−½B(x,x)`, and the quotient coordinate remains x.
@@ -262,7 +262,7 @@ Prove `heisenberg_haar`: For `C=F`, `W=F^{2n}`, `B` continuous bilinear, the pro
 
 `F` is a nondiscrete local field; for symplectic invariance `ω` is nondegenerate.
 
-(Weil64, I.§2, printed147, PDF5 and I.§4, printed149, PDF7 (self-dual Haar measures, the module of an automorphism, the group `A(G)`); Kudla96, I.2 pp.6–10 (measure conventions on `X` and `Y`)). *Needs:* 0.13; AutomorphicLFunctionsAndLocalFactors AL.0 (self-dual Haar measure, local Fourier inversion).
+(Weil64, I.§§2–4, printed147–149 (dual Haar measures, the module of an automorphism, module one for symplectic automorphisms, the group `A(G)`); Kudla96, I.2 pp.6–10 (measure conventions on `X` and `Y`)). *Needs:* 0.13; AutomorphicLFunctionsAndLocalFactors AL.0 (self-dual Haar measure, local Fourier inversion).
 
 ### 0.15 Schrödinger representation
 
@@ -308,7 +308,7 @@ Define `hilbertSchroedinger` as follows. Extend translation and modulation to un
 
 `F` is a local field of characteristic different from two; `X` is finite dimensional; `ψ` is continuous unitary.
 
-(Weil64, I.§4, printed149, PDF7; I.§10 Théorème1, printed157, PDF15). *Needs:* 0.15, 0.14; AutomorphicLFunctionsAndLocalFactors AL.0 (local Schwartz–Bruhat space).
+(Weil64, I.§4, printed149; I.§10 Théorème1, printed157). *Needs:* 0.15, 0.14; AutomorphicLFunctionsAndLocalFactors AL.0 (local Schwartz–Bruhat space).
 
 - `hilbertSchroedinger_norm`: Every `ρψ(h)` preserves the `L²` norm.
 - `hilbertSchroedinger_schwartz`: The `Schwartz-to-L²` dense inclusion intertwines the two actions.
@@ -359,7 +359,7 @@ Prove `StoneVonNeumann.unitary_stoneVonNeumann` and `StoneVonNeumann.unitary_sto
 
 Finite-dimensional real symplectic space and nontrivial central character; strong continuity is required. In `Suggested.lean`, `StoneVonNeumann.halfPairing` gives the half-alternating form in an arbitrary complete polarization, and the conclusions identify the representation with the explicit almost-everywhere Schrödinger action on `MeasureTheory.Lp` or its Hilbert `lp` sum. Irreducibility means absence of a proper nonzero closed invariant subspace.
 
-(Weil64, I.§10 Théorème1, printed157, PDF15 (scalar commutant); classification proof is Garrett20; Garrett20, Author notes23March2020, Claims0.1–0.7, PDF1–4). *Needs:* 0.17.
+(Weil64, I.§10 Théorème1, printed157 (scalar commutant); classification proof is Garrett20; Garrett20, Author notes23March2020, Claims0.1–0.7, PDF1–4). *Needs:* 0.17.
 
 ### 1.3 Unitary normalizer extension
 
@@ -367,7 +367,7 @@ Define `scalarNormalizer` as follows. Inside `Sp(W)×U(L²(X))`, take pairs (g,A
 
 The Hilbert Schrödinger model is strongly continuous; g acts by the inherited center-fixing Heisenberg automorphism.
 
-(Weil64, I.§10 Théorème1, printed157, PDF15; III.§§31–36, PDF39–45). *Needs:* 0.17, 0.8, 1.2, 1.1.
+(Weil64, I.§10 Théorème1, printed157; III.§§31–36). *Needs:* 0.17, 0.8, 1.2, 1.1.
 
 *Construction.* The extension is built on the irreducible Schrödinger model of 1.2, with the strong operator topology on its unitary group. Schur's lemma for that irreducible model identifies the kernel of `S_ψ→Sp(W)` with the scalar circle; covariance under an arbitrary representation of the Heisenberg group does not give this.
 
@@ -405,7 +405,7 @@ Define `weilIndex` as follows. For a nondegenerate quadratic form q on `F^d`, de
 
 `F` is a nondiscrete local field of characteristic different from two, `ψ` continuous nontrivial unitary, q nondegenerate, Bq its full polar form.
 
-(Weil64, I.§14 Théorème2, printed161–162, PDF19–20; II.§§24–28). *Needs:* AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion).
+(Weil64, I.§14 Théorème2, printed161–162; II.§§24–28). *Needs:* AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion).
 
 - `weilIndex_distribution`: The Fourier transform identity above characterizes `γψ(q)`.
 - `weilIndex_norm`: `|γψ(q)|=1`.
@@ -479,7 +479,7 @@ Define `metaplecticCover` as follows. For nonarchimedean `F` take the native ext
 
 Local field characteristic different from two, finite-dimensional symplectic `W`. The zero-dimensional cover is `μ₂`. The discontinuous global Bruhat section does not define a product topology on `Sp×μ₂`.
 
-(Weil64, IV.§§42–44, printed194–199, PDF52–57). *Needs:* 1.3, 2.4a, 2.4.
+(Weil64, IV.§§42–44, printed194–199). *Needs:* 1.3, 2.4a, 2.4.
 
 *Construction of λ₂.* For nonarchimedean F, 2.4a first gives an algebraic identification `(g,z)↦(T_g,zβ(g)r_Y(g))` of the Rao circle extension with `S_ψ`. The formula `λ₂(g,z)=z²` is an algebraic homomorphism. Establish its continuity in the strong-operator/subspace topology by constructing an open identity neighborhood U and a strongly continuous normalized operator section `A:U→S_ψ`, whose Rao scalar is in `μ₂`. Use local Gauss decomposition and the normalized unipotent and Levi operators of I.2 and I.4; prove their strong continuity and the scalar comparison with `β(g)r_Y(g)`, including across changes of Bruhat rank. Prove `(g,z)↦zA(g)` is a homeomorphism `U×U(1)→p⁻¹(U)`. In this chart λ₂ is z². Translating these charts proves continuity on all of `S_ψ`, and the kernel with its subspace topology is a twofold topological cover. This supplies the topological comparison, without assigning product topology to the global Rao coordinates. Over `ℝ`, compare Weil's topological double cover and its circle pushout with the normalizer; over `ℂ` use `S_ψ≃Sp(W)×U(1)`. In every case λ₂ is the only continuous character restricting to z² on the circle, since `Sp(W)` is perfect.
 
@@ -531,7 +531,7 @@ Prove `weil_generatorRelations`: The unipotent, Levi and Fourier operators satis
 
 Use the same Weyl element, Haar measure, q and character as the generator theorem; the cover lift is part of the data.
 
-(Weil64, I.§13, printed160, PDF18; I.§14 `relation(9)`, PDF19). *Needs:* 2.5, 2.4b, 2.2, 1.4.
+(Weil64, I.§13, printed160; I.§14 `relation(9)`). *Needs:* 2.5, 2.4b, 2.2, 1.4.
 
 ### 2.6a Local unramified compact splitting
 
@@ -539,7 +539,7 @@ Prove `metaplectic_compactSplitting`: For a nonarchimedean odd-residue local fie
 
 The lattice is integral self-dual for the specified `ψ-pairing`; no assertion of this splitting over every dyadic maximal compact.
 
-(Weil64, III.§36, printed186–187, PDF44–45). *Needs:* 2.4b, 2.5; AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion).
+(Weil64, III.§36, printed186–187). *Needs:* 2.4b, 2.5; AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion).
 
 **Checks.**
 
@@ -1151,7 +1151,7 @@ Within this roadmap: Layers 0–2. From other roadmaps: RepresentationTheory/Cla
 
 Prove `metaplectic_goodLattices`: For a symplectic datum over a global field of characteristic different from two and a nontrivial adelic additive character, choose integral lattices whose localizations are self-dual with conductor-zero character and odd residue characteristic at all but finitely many places. At these places use the distinguished local splitting of 2.6a in the restricted product.
 
-(Weil64, III.§36, printed186–187, PDF44–45). *Needs:* 2.6a; AdelicAlgebraicGroups §§1.2, 1.5; AutomorphicLFunctionsAndLocalFactors AL.0 and AL.3, *Curve additive analysis*.
+(Weil64, III.§36, printed186–187). *Needs:* 2.6a; AdelicAlgebraicGroups §§1.2, 1.5; AutomorphicLFunctionsAndLocalFactors AL.0 and AL.3, *Curve additive analysis*.
 
 **Checks.**
 
@@ -1177,7 +1177,7 @@ Define `adelicMetaplectic` as follows. Take the restricted product `∏′_v Mp(
 
 Global field `char≠2` with the characteristic-zero source used for number-field assertions; finitely many bad places retained; topological restricted-product input from AdelicAlgebraicGroups §1.2.
 
-(Weil64, III.§§37–38, printed187–189, PDF45–47; IV.§42 for the twofold reduction). *Needs:* 4.1, 4.1a for function fields, 2.4b; AdelicAlgebraicGroups §1.2.
+(Weil64, III.§§37–38, printed187–189; IV.§42 for the twofold reduction). *Needs:* 4.1, 4.1a for function fields, 2.4b; AdelicAlgebraicGroups §1.2.
 
 - `QuotientGroup.lift`: A supplied group projection descends through the native quotient when the quotient subgroup lies in its kernel. The restricted-product topology and `μ₂` kernel require source data.
 - `QuotientGroup.mk'`: A specified homomorphism into the group followed by the native quotient map gives the local-to-global adapter.
@@ -1203,7 +1203,7 @@ Define `rationalMetaplecticSplitting` as follows. The product formula gives a ca
 
 Global `ψ` trivial on `F`; rational symplectic space and a compatible adelic Schrödinger realization.
 
-(Weil64, III.§40, printed190–193, PDF48–51; §41 rational invariance). *Needs:* 4.2, 4.3, 2.4, 4.1a for function fields; AutomorphicLFunctionsAndLocalFactors AL.0 (number-field vector-space Poisson summation) and AL.3, *Curve additive analysis* (function-field scalar Poisson).
+(Weil64, III.§40, printed190–193; §41 rational invariance). *Needs:* 4.2, 4.3, 2.4, 4.1a for function fields; AutomorphicLFunctionsAndLocalFactors AL.0 (number-field vector-space Poisson summation) and AL.3, *Curve additive analysis* (function-field scalar Poisson).
 
 - `rationalSplitting_projection`: Projection of the rational lift is the diagonal adelic symplectic element.
 - `rationalSplitting_mul`: The rational lift is a group homomorphism.
@@ -1221,7 +1221,7 @@ Define `adelicWeil` as follows. Construct the global oscillator action on `S(X(A
 
 Number field, global `ψ`, finite-dimensional rational `X` and compatible polarizations/measures. The archimedean space is the joint Schwartz space, not merely the span of products over individual real/complex places.
 
-(Weil64, III.§§38–39, printed188–190, PDF46–48). *Needs:* 4.2, 4.4, 2.4c; ArithmeticGaloisRepresentations §2.7, *Global inputs* (adelic Schwartz–Bruhat space), with AutomorphicLFunctionsAndLocalFactors AL.0 (vector-space and partial Fourier transforms); AutomorphicLFunctionsAndLocalFactors AL.0 (local Schwartz–Bruhat space).
+(Weil64, III.§§38–39, printed188–190). *Needs:* 4.2, 4.4, 2.4c; ArithmeticGaloisRepresentations §2.7, *Global inputs* (adelic Schwartz–Bruhat space), with AutomorphicLFunctionsAndLocalFactors AL.0 (vector-space and partial Fourier transforms); AutomorphicLFunctionsAndLocalFactors AL.0 (local Schwartz–Bruhat space).
 
 - `adelicWeil_pureTensor`: On a factorizable vector, each local operator acts on its own factor.
 - `adelicWeil_central`: The single adelic central `−1` acts as scalar `−1`.
@@ -1239,7 +1239,7 @@ Prove `adelicWeil_choiceCompatibility`: Changing local sections by coboundaries,
 
 The changed local choices agree at almost all places or have explicitly transported reference compacts; no unrestricted infinite rescaling.
 
-(Weil64, III.§§38–40, printed188–193, PDF46–51). *Needs:* 4.2, 4.5, 4.4, 2.7.
+(Weil64, III.§§38–40, printed188–193). *Needs:* 4.2, 4.5, 4.4, 2.7.
 
 ### 4.7 Finite Weil representation
 
@@ -1295,7 +1295,7 @@ Define `thetaKernel` as follows. For a rational polarized symplectic space `W` w
 
 Number field, characteristic-zero source, compatible `ψ` and self-dual measures; actual joint archimedean Schwartz functions. For a dual pair its splitting characters are fixed.
 
-(Weil64, III.§41 Théorème6, printed193–194, PDF51–52). *Needs:* 4.5, 4.4; AutomorphicLFunctionsAndLocalFactors AL.0 (vector-space Poisson summation).
+(Weil64, III.§41 Théorème6, printed193–194). *Needs:* 4.5, 4.4; AutomorphicLFunctionsAndLocalFactors AL.0 (vector-space Poisson summation).
 
 - `thetaKernel_apply`: The kernel is the rational sum of the transformed Schwartz function.
 - `thetaKernel_rational`: The sum is invariant under an element whose action on the same function representation reindexes by an explicit bijection; the canonical rational lift must be identified with this action.
@@ -1313,7 +1313,7 @@ Prove `theta_uniformModerateGrowth`: The theta kernel is smooth at infinity, loc
 
 Number field; finite-dimensional quadratic/symplectic datum; fixed finite-level vector and K-type where an automorphic-form space requires them. The height, central-character restriction and Schwartz seminorms must be matched to the supplier.
 
-(Weil64, III.§41 Lemmas4–5 and compact normal convergence, printed193–194, PDF51–52). *Needs:* 5.1; AdelicAlgebraicGroups §3.4 (adelic Siegel sets); AdelicAlgebraicGroups §3.4 (Siegel covering); AdelicAlgebraicGroups §3.5 (heights on Siegel sets); AutomorphicFormsOnReductiveGroups §0.4.
+(Weil64, III.§41 Lemmas4–5 and compact normal convergence, printed193–194). *Needs:* 5.1; AdelicAlgebraicGroups §3.4 (adelic Siegel sets); AdelicAlgebraicGroups §3.4 (Siegel covering); AdelicAlgebraicGroups §3.5 (heights on Siegel sets); AutomorphicFormsOnReductiveGroups §0.4.
 
 *Proof input.* Weil's lemmas give continuity and normal convergence on compacta. The uniform derivative and polynomial height bounds are part of this target: differentiate under the sum using the smooth vectors of 0.18, and bound on Siegel sets with AdelicAlgebraicGroups §§3.4–3.5 and the moderate-growth seminorms of AutomorphicFormsOnReductiveGroups §0.4. Convergence on compacta alone does not give them.
 
@@ -1323,7 +1323,7 @@ Define `genuineAutomorphic` as follows. Inside smooth finite-level functions on 
 
 Use the actual adelic cover, rational splitting and the analytic conventions of AutomorphicFormsOnReductiveGroups Layers 0–4; require the same split-center/central-character normalization as the base automorphic space.
 
-(Weil64, III.§41 Théorème6, printed193, PDF51; AutomorphicFormsOnReductiveGroups §§0.4, 3.1 supply finiteness and growth conditions; GQT, §2.10, arXiv-v3 PDF13). *Needs:* 4.2, 4.4, 5.2; AutomorphicFormsOnReductiveGroups §0.1; AutomorphicFormsOnReductiveGroups §§3.1–3.2; AutomorphicFormsOnReductiveGroups §§4.1–4.2.
+(Weil64, III.§41 Théorème6, printed193; AutomorphicFormsOnReductiveGroups §§0.4, 3.1 supply finiteness and growth conditions; GQT, §2.10, arXiv-v3 PDF13). *Needs:* 4.2, 4.4, 5.2; AutomorphicFormsOnReductiveGroups §0.1; AutomorphicFormsOnReductiveGroups §§3.1–3.2; AutomorphicFormsOnReductiveGroups §§4.1–4.2.
 
 - `genuineAutomorphic_eval`: Elements evaluate as functions on the actual cover quotient.
 - `genuineAutomorphic_right`: Right translation preserves the smooth genuine automorphic and cusp subspaces. The K-finite part is stable under its (g,K) and finite-adelic actions.
@@ -1351,7 +1351,7 @@ Define `metaplecticWhittaker` as follows. For a continuous genuine automorphic f
 
 `U(F)\U(A)` compact; `η` trivial on rational points; f smooth for derivative assertions. Fourier expansion requires the appropriate abelian `U` and the supplier’s convergence topology.
 
-(Weil64, III.§41 Théorème6, printed193, PDF51 (theta realization); AdelicAlgebraicGroups §§2.2–2.3 and AutomorphicFormsOnReductiveGroups §4.1 supply the quotient integrals). *Needs:* 5.3, 5.4; AutomorphicFormsOnReductiveGroups §4.1; AdelicAlgebraicGroups §§2.2–2.3; AutomorphicLFunctionsAndLocalFactors AL.0 (standard additive character).
+(Weil64, III.§41 Théorème6, printed193 (theta realization); AdelicAlgebraicGroups §§2.2–2.3 and AutomorphicFormsOnReductiveGroups §4.1 supply the quotient integrals). *Needs:* 5.3, 5.4; AutomorphicFormsOnReductiveGroups §4.1; AdelicAlgebraicGroups §§2.2–2.3; AutomorphicLFunctionsAndLocalFactors AL.0 (standard additive character).
 
 - `metaplecticWhittaker_trivial`: The trivial-character coefficient equals the constant term.
 - `metaplecticWhittaker_right`: Coefficient extraction commutes with right translation.
@@ -1464,7 +1464,7 @@ Define `idealClassTheta` as follows. For `K=Q(√D)`, negative fundamental discr
 
 `D<0` fundamental; z in the upper half plane. Ideal classes, norms and the dictionary between binary quadratic forms and ideal classes come from IntegralLattices Layer `B` (B2, forms and ideal classes) and GlobalNumberFields.
 
-(GZ86, I.§5(5.2), printed229, PDF5; IV.§1(1.1), printed270, PDF46). *Needs:* 5.1; IntegralLattices Layer 1.
+(GZ86, I.§5(5.2), printed229; IV.§1(1.1), printed270). *Needs:* 5.1; IntegralLattices Layer 1.
 
 - `idealClassTheta_coeff`: The positive n coefficient is `r_A(n)`.
 - `idealClassTheta_constant`: The constant coefficient is1/w.
@@ -1482,7 +1482,7 @@ Prove `idealClassTheta_modular`: `θ_A` is holomorphic of weight1 on `Γ₀(|D|)
 
 Negative fundamental `D`; `γ∈Γ₀(|D|)`; source lattice and character conventions.
 
-(GZ86, IV.§1 `after(1.1)`, printed270, PDF46). *Needs:* 5.12, 2.5, 4.4; ModularForms Layer 0.
+(GZ86, IV.§1 `after(1.1)`, printed270). *Needs:* 5.12, 2.5, 4.4; ModularForms Layer 0.
 
 ### 5.14 Ideal-class theta conjugation
 
@@ -1490,7 +1490,7 @@ Prove `idealClassTheta_conjugation`: For every ideal class A and `n≥1`, conjug
 
 Imaginary quadratic `K`; the ramified ideal is the one in GZ Lemma2.3.
 
-(GZ86, IV.§2 proof of `Lemma(2.3)`, printed275, PDF51). *Needs:* 5.12.
+(GZ86, IV.§2 proof of `Lemma(2.3)`, printed275). *Needs:* 5.12.
 
 ### 5.14a Ideal-lattice Poisson comparison
 
@@ -1498,7 +1498,7 @@ Prove `idealLattice_poisson`: For an imaginary quadratic `K`, fractional ideal b
 
 `D<0` fundamental; d the different, `N(d)=|D|`; the complex norm and trace conventions fixed.
 
-(GZ86, IV.§2 proof of `Lemma(2.3)`, printed274–275, PDF50–51). *Needs:* 5.12; AutomorphicLFunctionsAndLocalFactors AL.0 (vector-space Poisson summation); AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion).
+(GZ86, IV.§2 proof of `Lemma(2.3)`, printed274–275). *Needs:* 5.12; AutomorphicLFunctionsAndLocalFactors AL.0 (vector-space Poisson summation); AutomorphicLFunctionsAndLocalFactors AL.0 (local Fourier inversion).
 
 ### 5.15 Ideal-class theta transformation
 
@@ -1506,7 +1506,7 @@ Prove `idealClassTheta_transform`: For odd negative fundamental `D=D₁D₂`, `�
 
 `D` odd squarefree, `D≡1` mod4; `D_i` fundamental with1 allowed; c* convention and exact genus character; no even-discriminant extension asserted.
 
-(GZ86, IV.§2 `Lemma(2.3)`, printed274, PDF50; proof275, PDF51). *Needs:* 5.12, 5.14, 5.14a; QuadraticFormInvariants §6C.
+(GZ86, IV.§2 `Lemma(2.3)`, printed274; proof275). *Needs:* 5.12, 5.14, 5.14a; QuadraticFormInvariants §6C.
 
 ### 5.16 Genuine Eisenstein families
 
@@ -1815,7 +1815,7 @@ Prove `toricTheta_pairingComparison`: For an anisotropic norm torus `T`, unfold 
 
 Actual anisotropic torus and unitary character trivial on `T(F)`; cusp or compactness/decay bound; ramified test functions and source parity fixed. For a quadratic field K/F its binary norm remains anisotropic even if the containing quaternion algebra is split. A split-quaternion Shimizu/Petersson comparison requires the separate source-qualified factorization with the exact toric normalization; a GQT residual-image identity alone is insufficient.
 
-(GZ86, I.§5(5.2), printed229, PDF5; IV.§2 printed273–275, PDF49–51; YZZ11, 6 November 2011 draft, §2.2.1 Proposition2.2.1 and proof pp.48–50; §§2.3–2.4 pp.51–55). *Needs:* 6.16, 6.15, 6.1, 6.12; AdelicAlgebraicGroups §§2.3, 3.4.
+(GZ86, I.§5(5.2), printed229; IV.§2 printed273–275; YZZ11, 6 November 2011 draft, §2.2.1 Proposition2.2.1 and proof pp.48–50; §§2.3–2.4 pp.51–55). *Needs:* 6.16, 6.15, 6.1, 6.12; AdelicAlgebraicGroups §§2.3, 3.4.
 
 *Proof input.* The nonsplit toric Shimizu contraction, the toric unfolding and their normalization are Yuan–Zhang–Zhang's (2011 author draft, §2.2.1 Proposition 2.2.1 and §§2.3–2.4, pp.48–55), where the split quaternion case is reduced to Waldspurger's argument instead of the Siegel–Weil formula. GZ86's theta and Rankin identities give only the ideal-theta part, so the quaternionic toric pairing itself is constructed in this target.
 
@@ -1835,7 +1835,7 @@ Standing hypotheses for this layer: functions live on the upper half-plane and t
 
 Define `thetaMultiplier` as follows. GeometryOfNumbersAndQuadraticArithmetic §4.3 supplies the holomorphic theta multiplier `j(γ,z)=θ₀(γz)/θ₀(z)` on `Γ₀(4)`, `θ₀(z)=Σ_ne(n²z)`, the nonvanishing of `θ₀` and its identification with the square-root and Kronecker-symbol multiplier. Here use the unitary normalization `θ=y^(1/4)θ₀` and put `J(γ,z)=θ(γz)/θ(z)=j(γ,z)|cz+d|^(−1/2)` for `γ=[[a,b],[c,d]]`. Prove `|J|=1` and the cocycle law.
 
-(DIT16, §5, (5.14) and the next display, p964). *Needs:* 5.5; GeometryOfNumbersAndQuadraticArithmetic §4.3 (theta multiplier, nonvanishing of `θ`).
+(DIT16, §5, (5.14) and the next display, p964). *Needs:* GeometryOfNumbersAndQuadraticArithmetic §4.3 (theta multiplier, nonvanishing of `θ`).
 
 - `thetaMultiplier_thetaRatio`: Form J from the nonvanishing theta seed.
 - `thetaMultiplier_cocycle`: `J(γδ, z)=J(γ,δz)J(δ, z)`.
@@ -1851,7 +1851,7 @@ Define `thetaMultiplier` as follows. GeometryOfNumbersAndQuadraticArithmetic §4
 
 Define `halfWeightMaass` as follows. For `Δ₁/₂=−y²(∂ₓ²+∂ᵧ²)+(i/2)y∂ₓ`, prove covariance under J. Define `V_r` as the smooth weight-one-half eigenfunctions with eigenvalue `1/4+(r/2)²`, square-integrable on `Γ₀(4)\H` and with zero constant term at all three cusps. Their Fourier expansion is the Whittaker expansion in 7.3.
 
-(DIT16, §8, printed975, PDF27). *Needs:* 7.1, 5.5; AutomorphicSpectralTheory §1.16 (weight-k Laplacian).
+(DIT16, §8, printed975, PDF27). *Needs:* 7.1; AutomorphicSpectralTheory §1.16 (weight-k Laplacian).
 
 - `halfWeightMaass_automorphy`: `F(γz)=J(γ, z)F(z)`.
 - `halfWeightMaass_allCusps`: Cuspidality means zero constant term at each of ∞,0,1/2, in normalized cusp coordinates.
@@ -1869,13 +1869,13 @@ Multiplier covariance and an eigenvalue equation (`halfWeightEigenfunctions`) do
 
 Prove `halfWeight_fourierExpansion`: A cuspidal weight-one-half eigenform has `F(z)=Σ_{n≠0}b(n)W_{sgn(n)/4,ir/2}(4π|n|y)e(nx)`, with convergence and coefficient recovery. The spectral parameter is r/2 here, versus r in weight zero.
 
-(DIT16, Theorem 4, p965 (display before (5.16)); (8.8), p976; (10.1), p981). *Needs:* 7.2, 5.5; AutomorphicSpectralTheory §§0.26, 0.28 (Whittaker functions).
+(DIT16, Theorem 4, p965 (display before (5.16)); (8.8), p976; (10.1), p981). *Needs:* 7.2; AutomorphicSpectralTheory §§0.26, 0.28 (Whittaker functions).
 
 ### 7.4 Completed half-weight Eisenstein family
 
 Define `halfWeightEisenstein` as follows. Construct `E*_{1/2}(z,s)` with constant term `Λ(2s)2^s y^(s/2+1/4)+Λ(2−2s)2^(1−s)y^(3/4−s/2)` and Whittaker parameter `s/2−1/4`. Prove automorphy and meromorphic continuation; its parameter differs from that in `F_{1/2,n}(z,w)`.
 
-(DIT16, §5, unnumbered display after (5.14) and the Shimura relation, p964, quoting [16, Prop. 2 p. 959] (coefficient evaluation from [16, Lemma 4, (2.23)–(2.25), pp. 961–962]); PDF p.16). *Needs:* 7.1, 7.3, 5.5; AutomorphicSpectralTheory §§1.1–1.3.
+(DIT16, §5, unnumbered display after (5.14) and the Shimura relation, p964, quoting [16, Prop. 2 p. 959] (coefficient evaluation from [16, Lemma 4, (2.23)–(2.25), pp. 961–962]); PDF p.16). *Needs:* 7.1, 7.3; AutomorphicSpectralTheory §§1.1–1.3.
 
 - `halfWeightEisenstein_initialSeries`: Construct the Eisenstein family on `Γ₀(4)` with the theta multiplier and its prescribed cusp data.
 - `halfWeightEisenstein_constantTerms`: Expose both powers `y^(s/2+1/4)` and `y^(3/4−s/2)`, with `2^s` and `2^(1−s)`.
@@ -1907,7 +1907,7 @@ Define `fundamentalEisensteinCoefficient` as follows. For fundamental d, `b(d,s)
 
 Prove `halfWeightEisenstein_coefficients`: The nonconstant coefficients of `E*_{1/2}` are `b(n,s)`, supported on `n≡0,1` mod4. For fundamental d and `m>0`, `mΣ_{n|m}n^(−3/2)(d/n)b(m²d/n²,s)=m^(s−1/2)σ_{1−2s}(m)b(d,s)`.
 
-(DIT16, §5, the two unnumbered displays after (5.14) (Shimura relation for `b(dm²,s)` and `E*_{1/2}`), p964). *Needs:* 7.4, 7.5, 5.5.
+(DIT16, §5, the two unnumbered displays after (5.14) (Shimura relation for `b(dm²,s)` and `E*_{1/2}`), p964). *Needs:* 7.4, 7.5.
 
 ### 7.7 Eisenstein product normalization
 
@@ -1919,13 +1919,13 @@ Prove `halfWeightEisenstein_product`: For coprime fundamental d,d′ and `D=d′
 
 Prove `halfWeightEisenstein_thetaResidue`: `Resₛ₌₁ E*₁/₂=θ/2`. For the unnormalized hyperbolic Petersson product, `||θ||²=2π=area(Γ₀(4)\H)`, so `||θ/2||²=π/2`. The number 6 instead equals `(3/π)||θ||²`, the norm after normalization by `area(PSL₂(Z)\H)=π/3`. Rescaling a vector from norm squared 1 to 6 changes the coefficient 12 in the bilinear formula to 2; this normalization remark supplies no proof of that formula.
 
-(DIT16, Remarks after Theorem4, p965). *Needs:* 7.4, 5.5; AdelicAlgebraicGroups §4.5; GeometryOfNumbersAndQuadraticArithmetic §4.3 (theta multiplier, nonvanishing of `θ`).
+(DIT16, Remarks after Theorem4, p965). *Needs:* 7.4; AdelicAlgebraicGroups §4.5; GeometryOfNumbersAndQuadraticArithmetic §4.3 (theta multiplier, nonvanishing of `θ`).
 
 ### 7.9 Kohnen plus subspace
 
 Define `kohnenPlus` as follows. `V_r^+` is the subspace of the weight-one-half cuspidal eigenspace `V_r` whose Fourier coefficients vanish outside `n≡0,1` mod4. It is a linear subspace defined by coefficient kernels, not by a chosen basis.
 
-(DIT16, §8, p976). *Needs:* 7.2, 7.3, 5.5.
+(DIT16, §8, p976). *Needs:* 7.2, 7.3.
 
 - `kohnenPlus_coefficientKernels`: Intersect kernels of `b(n)` for `n≡2,3 mod 4`.
 - `kohnenPlus_membership`: Membership means exactly the forbidden coefficients vanish, together with the ambient cusp/eigen conditions.
@@ -1941,7 +1941,7 @@ Define `kohnenPlus` as follows. `V_r^+` is the subspace of the weight-one-half c
 
 Define `plusOperators` as follows. On the unitary-weight space set `UF(z)=(√2/4)Σ_{ν=0}^3F((z+ν)/4)`, `WF(z)=exp(iπ/4)(z/|z|)^(−1/2)F(−1/(4z))`, and `pr⁺=(2/3)WU+1/3`. Record operator composition order and the factor `√2` caused by `y^(1/4)`.
 
-(DIT16, §8, printed976, PDF28, U,W and footnote6). *Needs:* 7.1, 7.2, 7.9, 5.5.
+(DIT16, §8, printed976, PDF28, U,W and footnote6). *Needs:* 7.1, 7.2, 7.9.
 
 - `plusU`: `UF(z) = (√2/4) Σ_{ν mod 4} F (shiftFour ν z)`, with `shiftFour ν z = (z+ν)/4`, in the unitary normalization.
 - `plusW`: `WF(z) = exp(iπ/4)(z/|z|)^(−1/2) F (invertFour z)`, with `invertFour z = −1/(4z)` and the principal power.
@@ -1957,7 +1957,7 @@ Define `plusOperators` as follows. On the unitary-weight space set `UF(z)=(√2/
 
 Prove `kohnenPlus_projection`: Prove `pr⁺` is the orthogonal projection onto `V_r⁺` and extends to the relevant Poincaré families. The DIT11 family satisfies `P_d⁺=(3/2)pr⁺P_d`, as corrected by DIT16 footnote 7. Thus `pr⁺F₁/₂,d` has principal-term factor 2/3.
 
-(DIT16, §8 `equation(8.10)` and footnote7, printed977, PDF29; projection definition printed976 PDF28). *Needs:* 7.10, 5.5.
+(DIT16, §8 `equation(8.10)` and footnote7, printed977, PDF29; projection definition printed976 PDF28). *Needs:* 7.10.
 
 *Proof input.* DIT16 footnote 7 fixes only the factor between the DIT11 projector and `pr⁺`. That `pr⁺` is the orthogonal projection onto `V_r⁺` on the full three-cusp domain is part of this target, proved from the formulas for `U` and `W` in 7.10 on the multiplier space of 7.2.
 
@@ -2004,7 +2004,7 @@ Prove `plusKloosterman_symmetry`: For `c>0` with `4|c` and all `m,n∈ℤ`, `K�
 
 Define `halfWeightResolvent` as follows. Construct the resolvent `G_{1/2}(z,z′;s)` on the `Γ₀(4)` unitary-multiplier `L²` space, with its three-cusp domain, hermitian kernel symmetry and discrete polar projectors. This is a cover-specific adaptation of AutomorphicSpectralTheory §§1.16a, 2.19, not an ordinary scalar kernel on `Γ\H`.
 
-(DIT16, §8 (8.5), p975). *Needs:* 7.2, 5.5; AutomorphicSpectralTheory §§1.16a, 2.19.
+(DIT16, §8 (8.5), p975). *Needs:* 7.2; AutomorphicSpectralTheory §§1.16a, 2.19.
 
 *Proof input.* The resolvent of the weight-one-half Laplacian with the theta multiplier, and its self-adjoint domain with conditions at the three cusps, are Fay's construction (Fay, Theorem 3.1 and Corollary 3.6, p.178), which DIT16 §8 quotes for the formula used here. This target constructs them, following the weight-zero resolvent of AutomorphicSpectralTheory §§1.16a and 2.19 with the multiplier J in place of the trivial one.
 
@@ -2038,7 +2038,7 @@ Define `halfWeightPoincare` as follows. For `n≠0`, `Re(s)>1`, `F_{1/2,n}(z,s)=
 
 Prove `halfWeightPoincare_residue`: At `s₀=1/2+ir/2`, `r>0`, `Res[(2s−1)F_{1/2,n}(z,s)]=Σ_ψ conj(b_ψ(n))ψ(z)` over an orthonormal cuspidal eigenbasis, in the kernel convention verified from Fay. Preserve conjugation; raw PDF text drops bars.
 
-(DIT16, §8 `equation(8.7)`, printed976, PDF28). *Needs:* 7.3, 7.15, 7.16, 5.5.
+(DIT16, §8 `equation(8.7)`, printed976, PDF28). *Needs:* 7.3, 7.15, 7.16.
 
 *Proof input.* The residue formula is DIT16 (8.7); the comparison between the Poincaré family and the resolvent uses the resolvent of 7.15 with its cusp-domain hypotheses.
 
@@ -2046,7 +2046,7 @@ Prove `halfWeightPoincare_residue`: At `s₀=1/2+ir/2`, `r>0`, `Res[(2s−1)F_{1
 
 Define `plusBesselCoefficient` as follows. For nonzero discriminant indices n,d and `Re(s)>1`, `Φ⁺(n,d;s)` equals `[Γ(s−sgn n/4)Γ(s−sgn d/4)/(3√π·2^(2−2s)Γ(2s−1/2)√|nd|)] Σ_{c>0,4|c}K⁺(n,d;c)c⁻¹ B_{2s−1}(4π√|nd|/c)`, with I for `nd<0`, J for `nd>0`.
 
-(DIT16, §8 `equation(8.11)`, printed977, PDF29). *Needs:* 7.13, 5.5; AutomorphicSpectralTheory §0.25 (Bessel I); AutomorphicSpectralTheory §0.25 (Bessel J).
+(DIT16, §8 `equation(8.11)`, printed977, PDF29). *Needs:* 7.13; AutomorphicSpectralTheory §0.25 (Bessel I); AutomorphicSpectralTheory §0.25 (Bessel J).
 
 - `plusBesselCoefficient_besselSeries`: Use the explicit prefactor and `K⁺` series displayed in 7.18 in `Re(s)>1`.
 - `plusBesselCoefficient_signs`: Each gamma factor uses its own index sign; the Bessel function depends on the product sign.
@@ -2062,13 +2062,13 @@ Define `plusBesselCoefficient` as follows. For nonzero discriminant indices n,d 
 
 Prove `plusPoincare_expansion`: For `Re s>1` and nonzero `d≡0,1` mod4, `pr⁺F₁/₂,d` equals `(2/3)Γ(s−sgn d/4)M_{sgn d/4,s−1/2}(4π|d|y)e(dx)/(4π|d|Γ(2s))`, plus `Σ_{n≠0,n≡0,1(4)} Φ⁺(n,d;s)W_{sgn n/4,s−1/2}(4π|n|y)e(nx)`, plus a separate constant term. Use `Φ⁺` from 7.18; the Whittaker expression cannot be evaluated at `n=0`.
 
-(DIT16, §8 `equations(8.10)–(8.11)`, printed977, PDF29). *Needs:* 7.11, 7.16, 7.18, 5.5.
+(DIT16, §8 `equations(8.10)–(8.11)`, printed977, PDF29). *Needs:* 7.11, 7.16, 7.18.
 
 ### 7.20 Plus coefficient residue theorem
 
 Prove `plusBesselCoefficient_residue`: `Φ⁺(d′,d;s)` continues meromorphically to `Re(s)>0` and `Res_{s=1/2+ir/2}[(2s−1)Φ⁺(d′,d;s)]=Σ_ψ b_ψ(d′)conj(b_ψ(d))`, for an orthonormal basis of `V_r^+`.
 
-(DIT16, Proposition4, p977). *Needs:* 7.9, 7.17, 7.19, 5.5.
+(DIT16, Proposition4, p977). *Needs:* 7.9, 7.17, 7.19.
 
 *Proof input.* The meromorphic continuation of the coefficient family uses the resolvent of 7.15 and the spectral projector onto `V_r⁺` of 7.11; DIT16 Proposition 4 fixes the normalization.
 
@@ -2112,37 +2112,37 @@ Prove `kohnenSalie_identity`: For `c>0` divisible by4, d fundamental, `d′≡0,
 
 Prove `halfWeight_cycleUnfolding`: Let d be fundamental, `d,d′<0` and `D=dd′` nonsquare. For the supplied weight-two Poincaré seed `φ`, put `Φ_m(t)=−it∫₀^π e(mt cosθ)φ(t sinθ)e^{iθ}dθ`. In a proved convergence range, `Σ_Qχ(Q)∫_{C_Q}P_m(τ,φ)dτ=εΣ_{c>0,4|c}S_m(d′,d;c)Φ_m(2√D/c)`, for every integer m. Here `ε=1` for `z→γ_Qz`, clockwise when `a>0`, and `ε=−1` for `z→γ_Q⁻¹z`. This uses the negative kernel sign; the printed positive sign requires the opposite overall sign. Supply the actual decay estimate, possibly `O(y^ε)`, rather than inferring a stronger bound from `Re s>1`.
 
-(DIT16, §9 Lemma6, (9.3), pp979–980; DIT11 §4 Lemmas6–8, pp966–969). *Needs:* 7.20a, 7.21, 5.5; AutomorphicSpectralTheory §§1.20–1.21.
+(DIT16, §9 Lemma6, (9.3), pp979–980; DIT11 §4 Lemmas6–8, pp966–969). *Needs:* 7.20a, 7.21; AutomorphicSpectralTheory §§1.20–1.21.
 
 ### 7.24 CM Poincaré sum
 
 Prove `poincare_cmSum`: For `m≠0`, `Re(s)>1` and `d′d=D<0`, `Σ_Qχ(Q)ω_Q⁻¹F_m(z_Q,s)=2^(−1/2)|D|^(1/4)Σ_{c>0,4|c}S_m(d′,d;c)c^(−1/2)I_{s−1/2}(4π|m|√|D|/c)`. The square root is of `|D|`.
 
-(DIT16, Lemma3, p978; DIT11 Proposition4). *Needs:* 7.20a, 7.21, 5.5; AutomorphicSpectralTheory §§1.20–1.21.
+(DIT16, Lemma3, p978; DIT11 Proposition4). *Needs:* 7.20a, 7.21; AutomorphicSpectralTheory §§1.20–1.21.
 
 ### 7.25 Positive cycle Poincaré sum
 
 Prove `poincare_positiveCycle`: For `m≠0`, `Re(s)>1` and `d,d′>0`, `D` nonsquare, `Σ_Qχ(Q)∫_{C_Q}F_m ds=2^(s−1/2)Γ(s/2)²D^(1/4)/Γ(s)` times `Σ_{c>0,4|c}S_m(d′,d;c)c^(−1/2)J_{s−1/2}(4π|m|√D/c)`.
 
-(DIT16, Lemma4, p979). *Needs:* 7.20a, 7.21, 5.5; AutomorphicSpectralTheory §§1.20–1.21.
+(DIT16, Lemma4, p979). *Needs:* 7.20a, 7.21; AutomorphicSpectralTheory §§1.20–1.21.
 
 ### 7.26 Negative-factor cycle Poincaré sum
 
 Prove `poincare_negativeCycle`: Let `m≠0`, `Re(s)>1`, d fundamental, `d′,d<0` and `D=d′d` nonsquare. Orient `C_Q` from z to `γ_Qz`, with `γ_Q` from (2.11); this is clockwise on `S_Q` when `a>0` and is the orientation of `C_A` in §2. Then `Σ_{Q∈Γ\Q_D}χ(Q)∫_{C_Q}i∂_zF_m(z,s)dz=2^{s−1/2}Γ((s+1)/2)²Γ(s)⁻¹D^{1/4}Σ_{0<c≡0(4)}S_m(d′,d;c)c^{−1/2}J_{s−1/2}(4π|m|√D/c)`. With DIT11's orientation (z to `γ_Q⁻¹z`) the right side changes sign.
 
-(DIT16, Lemma5, p979). *Needs:* 7.20a, 7.23, 5.5; AutomorphicSpectralTheory §0.25 (Bessel J).
+(DIT16, Lemma5, p979). *Needs:* 7.20a, 7.23; AutomorphicSpectralTheory §0.25 (Bessel J).
 
 ### 7.27 Exact three-case Poincaré identity
 
 Prove `halfWeight_threeCasePoincare`: Let `m≠0` and `Re(s)>1`, let d be a fundamental discriminant and d′ a discriminant with `D=d′d` nonsquare. Then `6π^{1/2}|D|^{3/4}|m|Σ_{n|m,n>0}n^{−3/2}(d/n)Φ⁺(d′,m²d/n²;s/2+1/4)=Σ_{Q∈Γ\Q_D}χ(Q)·X_Q`, where `X_Q=2√πω_Q⁻¹F_m(z_Q,s)` if `d′d<0`, `X_Q=∫_{C_Q}F_m(z,s)y⁻¹|dz|` if `d′,d>0`, and `X_Q=∫_{C_Q}i∂_zF_m(z,s)dz` if `d′,d<0`. In the third case `C_Q` runs from z to `γ_Qz`, with the orientation fixed above.
 
-(DIT16, Proposition5, p978). *Needs:* 7.20a, 7.18, 7.22, 7.24, 7.25, 7.26, 5.5.
+(DIT16, Proposition5, p978). *Needs:* 7.20a, 7.18, 7.22, 7.24, 7.25, 7.26.
 
 ### 7.28 Plus Hecke eigenbasis
 
 Prove `kohnenPlus_heckeBasis`: Construct an orthonormal simultaneous Hecke eigenbasis `B_r` of `V_r⁺`. Include the specified plus-space `T₄` operator together with `T_{p²}` for odd p; diagonalization away from 2 alone supplies no all-prime Euler product.
 
-(DIT16, §10, pp980–981; Katok–Sarnak[34]). *Needs:* 7.20a, 7.9, 7.10, 5.5.
+(DIT16, §10, pp980–981; Katok–Sarnak[34]). *Needs:* 7.20a, 7.9, 7.10.
 
 *Proof input.* The eigenbasis needs the Hecke operators `T(p²)` for all p, including the plus-space operator at `p=2`, on the self-adjoint domain of 7.15; simultaneous diagonalization away from 2 does not give an eigenbasis for the Euler product. The operator at 2 and its self-adjointness are part of this target (DIT16 §10, Katok–Sarnak).
 
@@ -2156,7 +2156,7 @@ Prove `shimura_coefficientRelation`: For `m>0` and fundamental d, `mΣ_{n|m}n^(�
 
 Define `shimuraEigenlineLift` as follows. For `ψ∈B_r`, choose a fundamental d with `b_ψ(d)≠0`, define `a_ψ(n)` from the Hecke Euler factors, and form `Shim(ψ)(z)=2√yΣ_{n≠0}a_ψ(|n|)K_ir(2π|n|y)e(nx)`. Prove independence from the selected d and from scaling `ψ`; define it first on the eigenline.
 
-(DIT16, §10 (10.1)–(10.3), p981). *Needs:* 7.20a, 7.3, 7.28, 5.5, 7.28a; AutomorphicFormsOnReductiveGroups §4.5.
+(DIT16, §10 (10.1)–(10.3), p981). *Needs:* 7.20a, 7.3, 7.28, 7.28a; AutomorphicFormsOnReductiveGroups §4.5.
 
 - `shimuraEigenlineLift_heckeSeries`: Form the even K-Bessel series from the Hecke eigenvalues.
 - `shimuraEigenlineLift_scaleIndependence`: Multiplying `ψ` by a nonzero scalar leaves all `a_ψ(n)` and `Shim(ψ)` unchanged.
@@ -2210,7 +2210,7 @@ Nonzero actual cusp eigenform so `||φ||²>0`; the genus character on possibly i
 
 Prove `halfWeight_spectralTrace`: Taking residues of the three-case identity and using the Fourier residues, Shimura coefficient relation and factor-four change of variable gives `12√π|D|³/⁴Σ_ψ b_ψ(d′)conj(b_ψ(d))a_ψ(m)=Σ_φ a_φ(m)T(φ,χ)`. Here `T` is the norm-divided three-case geometric trace of 7.31a. Retain both finite eigenspace sums until the Shimura bijection is proved.
 
-(DIT16, §10 (10.4)–(10.6), pp981–982). *Needs:* 7.20a, 7.20, 7.27, 7.28a, 7.31, 5.5, 7.31a; AutomorphicSpectralTheory §4.17a.
+(DIT16, §10 (10.4)–(10.6), pp981–982). *Needs:* 7.20a, 7.20, 7.27, 7.28a, 7.31, 7.31a; AutomorphicSpectralTheory §4.17a.
 
 ### 7.32-raw General-level Biró spaces and raw series
 
@@ -2276,7 +2276,7 @@ Prove `shimura_finiteFourierAutomorphy`: For every `N>0` and positive fundamenta
 
 Prove `shimura_automorphy`: For every eigenline of 7.28 with `r>0`, normalize the actual even level-one companion of 7.29a to `a(1)=1`. Its Hecke coefficients equal those defining 7.29 at every prime, hence at every positive integer, so its convergent K-Bessel expansion is `Shim(ψ)`. This proves automorphy and cuspidality even if every positive fundamental coefficient of ψ vanishes. Biró's 7.32c independently proves automorphy of possibly zero raw lifts; it is not used to divide by a positive coefficient. The nonsquare all-sign trace identity of 7.32 is used after this identification, without an unstated separation assertion.
 
-(DIT16, §10 p982; BaruchMao10 §§2,5 and Theorems1.1–1.2, with the companion and type comparisons of 7.29a.) *Needs:* 7.29, 7.29a, 5.5.
+(DIT16, §10 p982; BaruchMao10 §§2,5 and Theorems1.1–1.2, with the companion and type comparisons of 7.29a.) *Needs:* 7.29, 7.29a.
 
 **Checks.**
 
@@ -2288,7 +2288,7 @@ Prove `shimura_automorphy`: For every eigenline of 7.28 with `r>0`, normalize th
 
 Prove `shimura_eigenlineBijection`: The weight-one-half Kohnen-plus Hecke eigenlines at parameter r/2 correspond bijectively to normalized even level-one Hecke–Maass forms at parameter r. On a previously chosen orthonormal basis `B_r` this gives one selected vector for each line; it does not produce a phase-independent unit vector.
 
-(DIT16, §10 Proposition6 proof, pp981–982, [1]Theorem1.2). *Needs:* 7.20a, 7.28, 7.33, 5.5.
+(DIT16, §10 Proposition6 proof, pp981–982, [1]Theorem1.2). *Needs:* 7.20a, 7.28, 7.29a, 7.33.
 
 *Proof input.* Use the global companion and minimal-level one-dimensionality of 7.29a, established before 7.33, for both existence and uniqueness. BaruchMao10 Theorems1.1–1.2 at N=1 supply the inverse eigenline, with the dyadic plus type and even real type retained. This does not require the positive-coefficient kernel of the general-level Biró space to vanish.
 
@@ -2296,13 +2296,13 @@ Prove `shimura_eigenlineBijection`: The weight-one-half Kohnen-plus Hecke eigenl
 
 Prove `shimura_extendedTrace`: For a normalized even `φ` and a unit `ψ` on its corresponding plus eigenline, `T(φ,χ)=12√π|D|^(3/4)b_ψ(d′)conj(b_ψ(d))` for fundamental d, discriminant d′, `D=d′d` nonsquare. General negative `D` requires `|D|^(3/4)`.
 
-(DIT16, Proposition6, pp981–982). *Needs:* 7.20a, 7.32, 7.34, 5.5, 7.31a.
+(DIT16, Proposition6, pp981–982). *Needs:* 7.20a, 7.32, 7.34, 7.31a.
 
 ### 7.36 Theorem4 negative factors
 
 Prove `shimura_negativeTrace`: Let `φ` be the even level-one form of 7.29 with `a(1)=1`, `λ=1/4+r²`, and let `F` be the corresponding half-weight eigenline vector with unnormalized Petersson norm 1 and the coefficient relation of 7.28a. For coprime negative fundamental d,d′, `D=dd′>0`, prove `12√πD³/⁴ b(d′)conj(b(d))=||φ||⁻²(λ/2)Σ_{A∈Cl⁺(K)}χ(A)∫_{F_A}φdμ`. `F` remains determined only up to unit phase.
 
-(DIT16, §5 Theorem4, (5.16) first branch, p965). *Needs:* 7.20a, 7.35, 5.5, 7.31a; FuchsianOrbifolds Layer 6.
+(DIT16, §5 Theorem4, (5.16) first branch, p965). *Needs:* 7.20a, 7.35, 7.31a; FuchsianOrbifolds Layer 6.
 
 ### 7.37 Theorem4 positive factors
 
@@ -2314,19 +2314,19 @@ Prove `shimura_positiveTrace`: For coprime positive fundamental d,d′ with `D=d
 - `d=1,d′=5` is admitted and uses the closed cycles for `ℚ(√5)`.
 - `d=5,d′=8` is admitted with `D=40`; both positive factors and the length measure are retained.
 
-(DIT16, §5 Theorem4, (5.16) second branch, p965). *Needs:* 7.20a, 7.35, 5.5, 7.31a.
+(DIT16, §5 Theorem4, (5.16) second branch, p965). *Needs:* 7.20a, 7.35, 7.31a.
 
 ### 7.38 Theorem4 CM factors
 
 Prove `shimura_cmTrace`: For coprime fundamental d,d′ of opposite sign, `12√π|D|^(3/4)b(d′)conj(b(d))=||φ||⁻²(2√π/ω_D)Σ_Aχ(A)φ(z_A)`. Keep both `2√π` and `ω_D`; the paper explicitly corrects the earlier CM constant.
 
-(DIT16, §5 Theorem4, (5.16) third branch and footnote4, p965). *Needs:* 7.20a, 7.35, 5.5, 7.31a.
+(DIT16, §5 Theorem4, (5.16) third branch and footnote4, p965). *Needs:* 7.20a, 7.35, 7.31a.
 
 ### 7.39 Duke coefficient estimate with spectral factor
 
 Prove `halfWeight_dukeBound`: For an `L²-unit` weight-one-half cusp form on `Γ₀(4)` with eigenvalue `1/4+t²` for real t, and nonzero fundamental n, prove `|b(n)|≪_ε(1+|t|)^C cosh(πt/2)|n|^(−2/7+ε)`. For the paired lift `t=r/2`. Conversion to the `a(1)=1` weight-zero form retains its Petersson norm and the spectral factor; it requires no unproved symmetric-square `r^ε` estimate.
 
-(DIT16, §6, (6.6), printed968–969/PDF20–21; Duke88, §2 spectral normalization, printed77–78/PDF5–6; Theorem5 printed85–86/PDF16–17). *Needs:* 7.3, 7.12, 7.28, 5.5.
+(DIT16, §6, (6.6), printed968–969/PDF20–21; Duke88, §2 spectral normalization, printed77–78/PDF5–6; Theorem5 printed85–86/PDF16–17). *Needs:* 7.3, 7.12, 7.28.
 
 The statement and spectral normalization are Duke88 Theorem 5, printed pp.85–86; the bound is stated for the Fourier coefficients of the weight-one-half Maass forms of 7.2.
 
@@ -2340,13 +2340,13 @@ Prove `plusOperators_conjugation`: On functions on `H` let `C f(z)=Im(z)^(1/4)f(
 
 Prove `halfWeightEisenstein_dit11`: For positive m and fundamental `D`, prove `Σ_{n|m}(D/n)b₀(Dm²/n²,s)=2^(2−4s)π^(s+1/4)m^(3/2−2s)|D|^(s−1/4)σ_{4s−2}(m)L_D(2s−1/2)/ζ(4s−1)`, and `b₀(0,s)=√π2^(5/2−6s)Γ(2s)ζ(4s−2)/ζ(4s−1)`, for the DIT11 `P₀⁺` coefficients. Consequently `E*₁/₂(z,s)=2^sΛ(2s)y¹/⁴P₀⁺(z,s/2+1/4)`, recovering the constant term, fundamental coefficients and Shimura relation above.
 
-(DIT16, DIT11 Lemma 4, (2.23)–(2.25), pp961–962; used for the `E*_{1/2}` display, DIT16 p964, which cites only [16, Prop. 2 p. 959]). *Needs:* 5.5, 7.4, 7.3, 7.40.
+(DIT16, DIT11 Lemma 4, (2.23)–(2.25), pp961–962; used for the `E*_{1/2}` display, DIT16 p964, which cites only [16, Prop. 2 p. 959]). *Needs:* 7.4, 7.3, 7.40.
 
 ### 7.45 Fourier expansion and residues of the weight-1/2 resolvent
 
 Prove `halfWeightResolvent_fourier`: For `Re s>1`, reduced z and `Im z′>Im` z, expand `G₁/₂(z′,z;s)` as `Σ_{n≠0}F₁/₂,n(z,s)W_{sgn n/4,s−1/2}(4π|n|y′)e(−nx′)` plus its separate Eisenstein term. Continue meromorphically and prove `Resₛ₌₁/₂₊ᵢᵣ/₂(2s−1)G₁/₂=Σ_ψ conj(ψ(z′))ψ(z)`, using an orthonormal basis of `V_r`. Fay’s resolvent input also gives meromorphic continuation of `Φ⁺` to all s.
 
-(DIT16, §8, pp.975–977, citing Fay [20, Thm 3.1] and footnote 5; Fay Cor. 3.6 p.178). *Needs:* 5.5, 7.15, 7.16, 7.17.
+(DIT16, §8, pp.975–977, citing Fay [20, Thm 3.1] and footnote 5; Fay Cor. 3.6 p.178). *Needs:* 7.15, 7.16, 7.17.
 
 *Proof input.* DIT16 §8 records the Fourier formula and refers to Fay, Theorem 3.1 and Corollary 3.6, p.178; the resolvent itself is the one constructed in 7.15.
 
@@ -2356,7 +2356,7 @@ Prove `shimura_dirichletSeries`: For `ψ∈B_r` and fundamental d, prove `L_d(s+
 
 Use the all-prime simultaneous eigenbasis, including the separately supplied plus-space operator at2; an odd-prime eigenbasis does not define the displayed Euler product.
 
-(DIT16, §10, p.981 (display after (10.1))). *Needs:* 5.5, 7.3, 7.28, 7.28a.
+(DIT16, §10, p.981 (display after (10.1))). *Needs:* 7.3, 7.28, 7.28a.
 
 ### 7.48 Biró lift
 
@@ -2389,7 +2389,7 @@ The half-weight spectral eigenvalue is `1/4+(r/2)²`, while the corresponding we
 
 ### Dependencies
 
-Within this roadmap: Layers 2 and 5. From other roadmaps: GeometryOfNumbersAndQuadraticArithmetic §4.3; AutomorphicSpectralTheory §§0.25–0.28, 1.1–1.3, 1.16, 1.16a, 1.20–1.21, 2.19, 4.17a; AutomorphicLFunctionsAndLocalFactors AL.0–AL.1; AutomorphicFormsOnReductiveGroups §§4.5, 7.2–7.3; AdelicAlgebraicGroups §4.5; FuchsianOrbifolds Layer 6; ModularForms Layer 0.
+Within this roadmap: Layers 3 and 5. From other roadmaps: GeometryOfNumbersAndQuadraticArithmetic §4.3; AutomorphicSpectralTheory §§0.25–0.28, 1.1–1.3, 1.16, 1.16a, 1.20–1.21, 2.19, 4.17a; AutomorphicLFunctionsAndLocalFactors AL.0–AL.1; AutomorphicFormsOnReductiveGroups §§4.5, 7.2–7.3; AdelicAlgebraicGroups §4.5; FuchsianOrbifolds Layer 6; ModularForms Layer 0.
 
 ## Layer 8: Genus-two Jacobi and Eisenstein analysis
 

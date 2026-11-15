@@ -3,10 +3,11 @@ import TauCeti.Algebra.GroupAction.Trivial
 import TauCeti.Topology.Algebra.GroupExtension.FactorSet
 
 /-!
-# Metaplectic groups, Weil representations and automorphic theta kernels
+# Metaplectic groups, Weil representations and automorphic theta kernels: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`.
+`README.md`. This file states the roadmap's headline theorems that are statable against the
+pinned Mathlib and Tau Ceti.
 
 Layer 1, §1.1 is stated as smooth Stone–von Neumann over every nonarchimedean local field of
 characteristic different from two, including the scalar endomorphism assertion. Its model is
@@ -51,6 +52,8 @@ The other headline signatures are not stated at the pins:
 
 namespace TauCetiRoadmap.MetaplecticAutomorphicForms
 
+/-! ## Layer 0: Symplectic and Heisenberg groups with topology -/
+
 namespace Heisenberg
 
 open Multiplicative
@@ -73,6 +76,8 @@ def bilinearFactorSet (B : LinearMap.BilinMap R W C) :
   map_one_one' := by simp
 
 end Heisenberg
+
+/-! ## Layer 1: Stone–von Neumann and the oscillator normalizer -/
 
 namespace StoneVonNeumann
 
@@ -183,6 +188,8 @@ theorem unitary_stoneVonNeumann_multiplicity
   sorry
 
 end StoneVonNeumann
+
+/-! ## Layer 8: Genus-two Jacobi and Eisenstein analysis -/
 
 namespace GenusTwo
 
