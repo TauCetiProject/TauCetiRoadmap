@@ -5312,6 +5312,61 @@ an instance of the named targets, not a separate theorem.
   affine-curve interfaces `affineCurveCompletionInterface`, `puncturedRiemannSurfaceConnected` and
   `affineCurveConnectedness`.
 
+## Existing formalizations outside Tau Ceti
+
+This section records provenance only; it changes no target, owner or hypothesis above.
+
+[AxiomMath/Stacks](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b)
+is an Apache-2.0 Lean formalization of the Stacks Project whose declarations carry `@[stacks TAG]`,
+so every Stacks tag cited in this roadmap can be looked up there. It is not a Lake dependency and
+has its own Lean and Mathlib pins, and the directories below lie in its AI-written
+`StacksFrontier` tier, not its human-reviewed `StacksCore`. A statement read there is compared
+with the target here before use; a proof adapted rather than rewritten keeps the Apache-2.0
+attribution, and porting a file is agreed with that repository's maintainers first. The Stacks
+Project has no complex analytic geometry, so C-1–C2, C4, C6 and every analytic or Betti statement
+of C5 have no counterpart there; the overlap is with the algebraic inputs.
+
+- **[`AlgebraicGeometry/DeRham`](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/DeRham).**
+  [`SchemeComplex.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/DeRham/SchemeComplex.lean)
+  (tag 0FKQ) is the relative de Rham complex of any morphism of schemes, of which C5.1's
+  `AlgebraicDeRham` is the case of a smooth scheme over a field of characteristic zero.
+  [`GaussManinConnection.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/DeRham/GaussManinConnection.lean)
+  (tag 0FMN) is the Katz–Oda construction of C5.2's `GaussManin`, over a general base and assuming
+  the de Rham cohomology sheaves flat;
+  [`ArtinianRigidity/LocallyFreeRat.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/DeRham/ArtinianRigidity/LocallyFreeRat.lean)
+  proves them finite locally free for proper smooth morphisms over `ℚ`-schemes by rigidity over
+  Artinian `ℚ`-algebras, an algebraic alternative to the Artinian step of C5.3's
+  `relativeHodgeBundles`, which takes its lengths from `artinDeRhamBetti`.
+  [`HodgeFiltration`](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/DeRham/HodgeFiltration)
+  builds the Hodge-to-de Rham spectral sequence, and
+  [`HodgeSpreadingOut/CharZero.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/DeRham/HodgeSpreadingOut/CharZero.lean)
+  deduces its numerical degeneration over a field of characteristic zero from the Deligne–Illusie
+  theorem, which it takes as a hypothesis; C5.3 proves degeneration over `ℚ`-bases from
+  `properPureHodge`.
+  [`LogPoles`](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/DeRham/LogPoles)
+  builds de Rham complexes with log poles along an effective Cartier divisor and their residue
+  sequences, overlapping CrystallineCohomology CR.5.1's log de Rham core and C5.7's
+  `CurveLogComplex`. Its cup-product files give the wedge product that
+  `multiplicativePeriodInterface` compares, and its trace and duality files bear on the
+  Hodge-cohomology trace of `properPureHodge`, which this roadmap builds from
+  SchemeAndStackFoundations §§2.19–2.20; its Künneth, Gysin and Weil-cohomology files meet no
+  target here.
+- **[`AlgebraicGeometry/FormalGeometry`](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/FormalGeometry).**
+  Coherent adic systems, Grothendieck's existence and algebraization theorems for schemes, formal
+  functions and derived completion on ringed sites. This roadmap consumes that material from
+  AlgebraicModuliForArithmeticGeometry §7.8 (`properSpaceCompletionEquivalence`), JacobianChallenge
+  Layer C and EnhancedDerivedSheaves §§0.1–0.4, so the overlap lies with those suppliers. Two
+  algebraic-space theorems this roadmap owns are in sibling directories:
+  [`Spaces/GrothendieckExistence/FlatExistenceTheorem.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/Spaces/GrothendieckExistence/FlatExistenceTheorem.lean)
+  (tag 0CXB) for C3.2b's `strongProperSupportExistence` and
+  [`Quot/CoherentStackIsAlgebraic.lean`](https://github.com/AxiomMath/Stacks/blob/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/Quot/CoherentStackIsAlgebraic.lean)
+  (tag 09DS) for C3.2c's `cohStack_algebraic`.
+- **[`AlgebraicGeometry/Algebraization`](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/Algebraization).**
+  Material from the Stacks chapter *Algebraic and Formal Geometry*: algebraization of coherent
+  formal modules on punctured spectra and Lefschetz-type completion equivalences. It shares no
+  target with this roadmap, whose algebraization theorems (C1.9, C4.2–C4.4) start from analytic
+  objects.
+
 ## References
 
 - J.-P. Demailly, *Complex Analytic and Differential Geometry*, author's public version
