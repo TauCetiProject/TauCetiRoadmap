@@ -12,7 +12,7 @@ BordismFormalGroups F1–F3 and F6.1–F6.4 already state formal-group algebra, 
 
 EllipticCohomology E1–E4 and E6 state the generalized elliptic moduli, the height-one and height-two Morava realizations and automorphism actions, the sheaf Otop, tmf/Tmf/TMF, discriminant inversion and level sheaves. Their all-height realization and spectral affineness extensions are exact supplier contracts below. The modular chromatic input comparison and its K-theory applications here use those same spectra. The James reduced product with its word filtration and smash-power quotients, the James map and the connected James equivalence (§4.30b), and the stable James splitting (§4.30c) are owned here; §§4.32–4.33 and §7.7 use them. The combinatorial James–Hopf maps J(Y)→J(Y^∧j) belong to BordismFormalGroups F6.2 item 3; nothing here uses them. EllipticCohomology E5 owns the stable J-homomorphism that gives the sign Thom spectra of §§4.31–4.32. EllipticCohomology E5 owns the units spectrum gl₁(R) and coherent Thom orientation data; the identification of BGL₁R with the classifier of R-lines and the relative module-colimit interface are stated as supplier contracts below. The characteristic-p Thom theorem and its filtered families here are specializations of that shared construction.
 
-QWittVectors §§1.1–1.6 owns big Witt vectors, including arbitrary truncation sets, their topology and operations; HabiroRings consumes that theory and is not its owner. RefinedTraceMethods §6.1 (Spherical lifts of perfect δ-rings) owns the spherical lifts of perfect p-complete δ-rings with their mapping-space universal property; §6.1a here forms the Lubin–Tate ring of a perfect algebra from them by base change, and StableHomotopyKTheoryPartII §4.8 is their finite-field case. KTheoryLowDegrees §§1.1–1.3 owns projective K₀, and GeneralAlgebraicKTheory §§13.8a–13.8c owns the ordinary finite-field Brauer–Quillen theorem. KTheoryFiniteLocalFields §§1.1–1.6 supplies its normalized coefficient and completion refinements, and its §0.4 owns the odd-primary height-one functor `heightOneFromZeroSpace` on the pointed homotopy category; §4.11 here is the coherent Bousfield–Kuhn functor for every prime and every height n≥1, which agrees with that functor at n=1 and p odd. SchemeKTheoryOperations Layers 1–5 owns enhanced scheme K-theory, descent geometry and Bass comparisons; its KH and Karoubi–Villamayor extension is stated as a supplier contract below. MotivicEtaleKTheory §7.2 concerns a Deligne regulator comparison, not finite-coefficient étale K-descent, so the latter interface is assigned to KTheoryFiniteLocalFields §6.5a.
+QWittVectors §§1.1–1.6 owns big Witt vectors, including arbitrary truncation sets, their topology and operations; HabiroRings consumes that theory and is not its owner. RefinedTraceMethods §6.1 (Spherical lifts of perfect δ-rings) owns the spherical lifts of perfect p-complete δ-rings with their mapping-space universal property; §6.1a here forms the Lubin–Tate ring of a perfect algebra from them by base change, and StableHomotopyKTheoryPartII §4.8 is their finite-field case. KTheoryLowDegrees §§1.1–1.3 owns projective K₀, and GeneralAlgebraicKTheory §§13.8a–13.8c owns the ordinary finite-field Brauer–Quillen theorem. KTheoryFiniteLocalFields §§1.1–1.6 supplies its normalized coefficient and completion refinements, and its §0.4 owns the odd-primary height-one functor `heightOneFromZeroSpace` on the pointed homotopy category; §4.11 here is the coherent Bousfield–Kuhn functor for every prime and every height n≥1, which agrees with that functor at n=1 and p odd (§4.20). SchemeKTheoryOperations Layers 1–5 owns enhanced scheme K-theory, descent geometry and Bass comparisons; its KH and Karoubi–Villamayor extension is stated as a supplier contract below. MotivicEtaleKTheory §7.2 concerns a Deligne regulator comparison, not finite-coefficient étale K-descent, so the latter interface is assigned to KTheoryFiniteLocalFields §6.5a.
 
 ## Conventions
 
@@ -231,7 +231,7 @@ Consume §§1.1–1.3's projective K₀ and its quotient-induced comparison, ext
 
 ### From TauCetiRoadmap.KTheoryFiniteLocalFields
 
-Consume §0.4 (Height-one localization and realization): for p odd, `heightOneLocalize X` is localization at KU∧M(ℤ/p), hence L_(K(1))X, and `heightOneFromZeroSpace` is a functor Φ_p from the pointed homotopy category of spaces to KU/p-local spectra with Φ_p(Ω∞₀X)≃`heightOneLocalize X` natural in spectra X. It is used only for the n=1, p odd comparison of §4.11.
+Consume §0.4 (Height-one localization and realization): for p odd, `heightOneLocalize X` is localization at KU∧M(ℤ/p), hence L_(K(1))X, and `heightOneFromZeroSpace` is a functor Φ_p from the pointed homotopy category of spaces to KU/p-local spectra with Φ_p(Ω∞₀X)≃`heightOneLocalize X` natural in spectra X. It is used only for the n=1, p odd comparison of §4.20 with the Bousfield–Kuhn functor of §4.11.
 
 For these spectral étale contracts use D₀=Hℚ and D_n=T(n) for n≥1; this detector leaves the global convention T(0)=S[1/p] intact.
 
@@ -797,7 +797,7 @@ Let E,F be spectra and assume L_E sends F-acyclics to F-acyclics. For every X th
 
 (lmmt line 362, Lemmas 2.7–2.8 and proof, p.1018.)
 
-A proof route is as follows. The pullback is local for E∨F because its three other vertices are local for the appropriate detector. Compare its fiber with that of X→L_FX, then use preservation of F-acyclics to see the map from X is also an E-equivalence. Check the two sufficient conditions explicitly; use smashing of the lower finite tower in the application.
+A proof route is as follows. The pullback is local for E∨F because its three other vertices are local for the appropriate detector. Its fiber over L_FX is L_E applied to the F-acyclic fiber of X→L_FX, which stays F-acyclic by the hypothesis, so the map from X is an F-equivalence. Its fiber over L_EX is that of the E-equivalence L_FX→L_E L_FX, so the map from X is an E-equivalence without any hypothesis. Check the two sufficient conditions explicitly; use smashing of the lower finite tower in the application.
 
 **Checks.**
 
@@ -848,7 +848,7 @@ The interface includes:
 
 ### 4.11 Bousfield–Kuhn functor
 
-For each n≥1 construct Φ_n:Spaces_*→Sp_(T(n)) with natural equivalences F(V,Φ_nY)≃Φ_vY for finite type-n V with self-map v, and Φ_nΩ∞X≃L_(T(n))X. The first comparison uses the finite mapping spectrum; the second is natural in every spectrum X. State uniqueness with the finite-source compatibilities, not merely the equality of homotopy groups. For n=1 and p odd, use KTheoryFiniteLocalFields §0.4's homotopy-category functor `heightOneFromZeroSpace`; what is built here in addition is the prime 2, every height n≥2, the coherent finite-source formula and the uniqueness statement. Prove the comparison: for p odd, Φ₁ induces on pointed homotopy categories a functor naturally equivalent to `heightOneFromZeroSpace`, compatibly with the two equivalences Φ₁Ω∞X≃L_(T(1))X=L_(K(1))X (by §4.20) and Φ_p(Ω∞₀X)≃`heightOneLocalize X`; since Φ₁ inverts maps that are equivalences on connected covers, Ω∞ and Ω∞₀ give the same value.
+For each n≥1 construct Φ_n:Spaces_*→Sp_(T(n)) with natural equivalences F(V,Φ_nY)≃Φ_vY for finite type-n V with self-map v, and Φ_nΩ∞X≃L_(T(n))X. The first comparison uses the finite mapping spectrum; the second is natural in every spectrum X. State uniqueness with the finite-source compatibilities, not merely the equality of homotopy groups. For n=1 and p odd, KTheoryFiniteLocalFields §0.4 has the homotopy-category functor `heightOneFromZeroSpace`; what is built here in addition is the prime 2, every height n≥2, the coherent finite-source formula and the uniqueness statement. The comparison of Φ₁ with that functor uses the height-one equality L_(T(1))=L_(K(1)) and is stated in §4.20.
 
 (kuhn-guide line 113, Theorem 1.1, pp.3–4; Theorem 5.2, Lemmas 5.4–5.5 and Definition 5.6, pp.15–18.)
 
@@ -868,7 +868,7 @@ The interface includes:
 - There is no height-zero functor with this unrestricted comparison on all spectra, since Ω∞ annihilates strictly negative Eilenberg–Mac Lane spectra.
 - X=Hℤ; X=T(n); X=Σ^(−1)Hℚ: ΦₙΩ∞Hℤ=0; ΦₙΩ∞T(n)=L_T(n)T(n)≠0; last Ω∞=*, ruling out height-zero analogue.
 
-*Needs:* §4.10 (Finite telescopic functors); BordismFormalGroups F6.1; §4.3 (Telescope acyclicity criteria); GeneralizedCohomology G2 and G5.1; for the n=1, p odd comparison only, KTheoryFiniteLocalFields §0.4 (Height-one localization and realization) and §4.20 (Separation above height one).
+*Needs:* §4.10 (Finite telescopic functors); BordismFormalGroups F6.1; §4.3 (Telescope acyclicity criteria); GeneralizedCohomology G2 and G5.1.
 
 ### 4.12 Detection by suspension and loops
 
@@ -1012,6 +1012,8 @@ At every prime p, the Bousfield classes of T(1) and K(1) agree. This comparison 
 
 (At p=2: mah81 line 46, Theorem 1.1, pp.365–366, and mah81 line 633, Theorem 6.3, p.382. At odd p: mil81 line 272, Theorem 4.11 and Corollary 4.12, pp.294–295. Background: lmmt line 71, Introduction, p.1012; bhls line 98, Theorem A, pp.2–4, for the failure at heights at least two.)
 
+For p odd, the Bousfield–Kuhn functor Φ₁ of §4.11 induces on pointed homotopy categories a functor naturally equivalent to the functor Φ_p=`heightOneFromZeroSpace` of KTheoryFiniteLocalFields §0.4, compatibly with the equivalences Φ₁Ω∞X≃L_(T(1))X=L_(K(1))X and Φ_p(Ω∞₀X)≃`heightOneLocalize X`; since Φ₁ inverts maps that are equivalences on connected covers, Ω∞ and Ω∞₀ give the same value (kuhn-guide line 21, Introduction, p.1, for the homotopy-category functors and Bousfield's height-one version; kuhn-guide line 1242, §8.4, p.29, for the equality L_T(1)=L_K(1) at n=1).
+
 A proof route is as follows. At odd p, compute the homotopy of the v₁-telescope of the mod-p Moore spectrum from the localized Adams spectral sequence: it is 𝔽_p[v₁^(±1)]⊗Λ(δv₁) (Miller), which is the homotopy of its K(1)-localization. At p=2, use the bo-resolution: the v₁-periodic classes of the sphere are exactly those detected in the bo-based Adams spectral sequence (Mahowald), which identifies the v₁-telescope of a type-one complex with its K(1)-localization. For a finite type-one complex V this gives v₁⁻¹V≃L_K(1)V; since ⟨T(1)⟩=⟨v₁⁻¹V⟩ and ⟨L_K(1)V⟩=⟨E(1)⊗V⟩=⟨K(1)⟩, the two Bousfield classes coincide. The p=2 argument keeps the real-theory contribution and is not an odd-prime argument; no higher-height counterexample theorem is an input.
 
 **Checks.**
@@ -1021,7 +1023,7 @@ A proof route is as follows. At odd p, compute the homotopy of the v₁-telescop
 - The n≥2 comparisons in this roadmap require a ring structure or Lₙ-locality; the height-one theorem has no such restriction.
 - p=2,3; Hℤ; KU_p^∧: T(1) and K(1) both kill Hℤ and both detect KU_p^∧; no n≥2 equivalence used.
 
-*Needs:* §4.19 (Telescopes on chromatically local spectra); §4.1 (Telescopes); BordismFormalGroups F1–F3; BordismFormalGroups F6.3 (type, periodic self-maps and Bousfield classes); GeneralizedCohomology G5.1–G5.4 (ko and KU).
+*Needs:* §4.19 (Telescopes on chromatically local spectra); §4.1 (Telescopes); BordismFormalGroups F1–F3; BordismFormalGroups F6.3 (type, periodic self-maps and Bousfield classes); GeneralizedCohomology G5.1–G5.4 (ko and KU); for the p odd comparison with `heightOneFromZeroSpace` only, §4.11 (Bousfield–Kuhn functor) and KTheoryFiniteLocalFields §0.4 (Height-one localization and realization).
 
 ### 4.21 Chromatic support of BP truncations
 
@@ -2260,7 +2262,7 @@ A proof route is as follows. First pass to a small full subcategory C₀⊂C tha
 
 - For A=ℚ×ℚ and e₁=(1,0), the degree-zero cofaces give 1⊗e₁ and e₁⊗1 in A⊗A. In the basis e_i⊗e_j these are e₁⊗e₁+e₂⊗e₁ and e₁⊗e₁+e₁⊗e₂, respectively, so they differ. The multiplication codegeneracy sends both to e₁, giving the two unit identities and distinguishing cofaces from multiplication.
 
-*Needs:* §8.1 (ε-enlargement and descent towers); RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7; §§4.27–4.28 and §6.2 (Hahn, height and chromatic field maps); §4.5 (Finite chromatic localizations); §4.34 (Ordinary-homology detection of the H∞ unit).
+*Needs:* §8.1 (ε-enlargement and descent towers); §4.5 (Finite chromatic localizations); §4.6 (Finite localization kernels); §4.34 (Ordinary-homology detection of the H∞ unit).
 
 ### 8.3 Telescopic K-theory Galois descent
 
@@ -2335,7 +2337,7 @@ For the degree-two trivial torsor A→A×A, the transfer on K₀ is (a,b)↦a+b 
 
 ### Dependencies
 
-EllipticCohomology E1–E4 and E6, with the spectral comparisons in the supplier contract; EllipticCohomology E2, with the all-height extension in the supplier contract; EllipticCohomology E2 items 2–3 (gap:all-height-morava-realization); EnhancedDerivedSheaves E0.4, E5:abstract.1–4 and E5:presentability.1–3; GeneralizedCohomology G2 and G5.1; Layer 0; Layer 4; §§4.27–4.28 and §6.2 (Hahn, height and chromatic field maps); §7.9 (Purity for tmf-algebras); RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7; RefinedTraceMethods §4.9, Localizing and truncating small-category invariants; RefinedTraceMethods §§2.1–2.2; BordismFormalGroups F6.5.
+EllipticCohomology E1–E4 and E6, with the spectral comparisons in the supplier contract; EllipticCohomology E2, with the all-height extension in the supplier contract; EllipticCohomology E2 items 2–3 (gap:all-height-morava-realization); EnhancedDerivedSheaves E0.4, E5:abstract.1–4 and E5:presentability.1–3; GeneralizedCohomology G2 and G5.1; Layer 0; Layer 4; §7.9 (Purity for tmf-algebras); RefinedTraceMethods §4.10 and GeneralAlgebraicKTheory §§7.1–7.7; RefinedTraceMethods §4.9, Localizing and truncating small-category invariants; RefinedTraceMethods §§2.1–2.2; BordismFormalGroups F6.5.
 
 ## Layer 9: Height-one structure and its limits
 

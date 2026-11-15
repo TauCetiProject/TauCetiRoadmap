@@ -87,6 +87,7 @@ def JamesReducedProduct : Type u := jamesSubmonoid X x₀
 
 namespace JamesReducedProduct
 
+/-- Concatenation of words makes `J(X)` a monoid whose unit is the empty word. -/
 instance : Monoid (JamesReducedProduct X x₀) := inferInstanceAs (Monoid (jamesSubmonoid X x₀))
 
 /-- The word underlying a point of `J(X)`. -/
