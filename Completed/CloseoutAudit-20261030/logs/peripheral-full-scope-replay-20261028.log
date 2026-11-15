@@ -1,0 +1,155 @@
+TauCeti.Peripheral.cusp_def.{u_1} {G : Type u_1} [Group G] {r : ℕ} (x : Fin r → G) : cusp x = (List.ofFn x).prod⁻¹
+TauCeti.Peripheral.prod_mul_cusp.{u_1} {G : Type u_1} [Group G] {r : ℕ} (x : Fin r → G) :
+  (List.ofFn x).prod * cusp x = 1
+TauCeti.Peripheral.IsPeripheralAut.exponent_unique.{u_1} {p r : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F]
+  [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] {hF : IsProP p F}
+  {e : F ≃ₜ* freeProP p (Fin r)} (hr : 0 < r) {u v : ℤ_[p]ˣ} {φ : ContinuousAut F}
+  (hu : IsPeripheralAut hF (basis e) u φ) (hv : IsPeripheralAut hF (basis e) v φ) : u = v
+TauCeti.Peripheral.exists_mem_level_succ.{u_1} {p r : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F]
+  [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (e : F ≃ₜ* freeProP p (Fin r)) (u : ℤ_[p]ˣ) (n : ℕ) (hn : 1 ≤ n) (c : Fin r → F) (d : F)
+  (h : (c, d) ∈ level hF (basis e) (↑u) n) :
+  ∃ c' d',
+    (∀ (i : Fin r), c' i ∈ closedLowerCentralSeries F (n - 1)) ∧
+      d' ∈ closedLowerCentralSeries F (n - 1) ∧
+        (∀ (h0 : 0 < r), c' ⟨0, h0⟩ = 1) ∧ (fun i => c i * c' i, d * d') ∈ level hF (basis e) (↑u) (n + 1)
+TauCeti.Peripheral.exists_defect_eq_one_of_forall_exists_mem_level.{u_1} {p r : ℕ} [Fact (Nat.Prime p)] {F : Type u_1}
+  [Group F] [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (x : Fin r → F) (u : ℤ_[p]) (h : ∀ (n : ℕ), ∃ c d, (∀ (h0 : 0 < r), c ⟨0, h0⟩ = 1) ∧ (c, d) ∈ level hF x u n) :
+  ∃ c d, (∀ (h0 : 0 < r), c ⟨0, h0⟩ = 1) ∧ defect hF x u c d = 1
+TauCeti.Peripheral.exists_defect_eq_one.{u_1} {p r : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F]
+  [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (e : F ≃ₜ* freeProP p (Fin r)) (u : ℤ_[p]ˣ) :
+  ∃ c d, (∀ (h0 : 0 < r), c ⟨0, h0⟩ = 1) ∧ defect hF (basis e) (↑u) c d = 1
+TauCeti.Peripheral.exists_peripheralAut.{u_1} {p r : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F]
+  [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (e : F ≃ₜ* freeProP p (Fin r)) (u : ℤ_[p]ˣ) :
+  ∃ φ c d,
+    (∀ (h0 : 0 < r), c ⟨0, h0⟩ = 1) ∧
+      (∀ (i : Fin r), φ (basis e i) = (c i)⁻¹ * hF.padicPow (basis e i) ↑u * c i) ∧
+        φ (cusp (basis e)) = d⁻¹ * hF.padicPow (cusp (basis e)) ↑u * d
+TauCeti.Peripheral.exponent_surjective.{u_1} {p r : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F]
+  [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (e : F ≃ₜ* freeProP p (Fin r)) (hr : 0 < r) : Function.Surjective ⇑(exponent hF e hr)
+TauCeti.Peripheral.isClosed_peripheralGraph.{u_1} {p r : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F]
+  [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (x : Fin r → F) (hfg : IsTopologicallyFinitelyGenerated F) : IsClosed {q | IsPeripheralAut hF x q.2 q.1}
+TauCeti.Peripheral.isClosed_peripheralAut.{u_1} {p r : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F]
+  [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (x : Fin r → F) (hfg : IsTopologicallyFinitelyGenerated F) : IsClosed ↑(peripheralAut hF x)
+TauCeti.Peripheral.continuous_exponent.{u_1} {p r : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F]
+  [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (e : F ≃ₜ* freeProP p (Fin r)) (hr : 0 < r) : Continuous ⇑(exponent hF e hr)
+TauCeti.Peripheral.reflect_basis.{u_1} {p r : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F] [TopologicalSpace F]
+  [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin r))
+  (i : Fin r) :
+  (reflect hF e) (basis e i) =
+    Fin.partialProd (basis e) i.castSucc * (basis e i)⁻¹ * (Fin.partialProd (basis e) i.castSucc)⁻¹
+TauCeti.Peripheral.reflect_cusp.{u_1} {p r : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F] [TopologicalSpace F]
+  [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (e : F ≃ₜ* freeProP p (Fin r)) : (reflect hF e) (cusp (basis e)) = (cusp (basis e))⁻¹
+TauCeti.Peripheral.reflect_mul_reflect.{u_1} {p r : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F]
+  [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (e : F ≃ₜ* freeProP p (Fin r)) : reflect hF e * reflect hF e = 1
+TauCeti.Peripheral.exists_inversion_two.{u_1} {p : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F] [TopologicalSpace F]
+  [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (e : F ≃ₜ* freeProP p (Fin 2)) :
+  ∃ φ,
+    (∀ (i : Fin 2), φ (basis e i) = (basis e i)⁻¹) ∧
+      φ (cusp (basis e)) = (basis e 0)⁻¹ * (cusp (basis e))⁻¹ * basis e 0 ∧ IsPeripheralAut hF (basis e) (-1) φ
+TauCeti.Peripheral.not_isPeripheralAut_of_apply_basis_eq_inv.{u_1} {p : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F]
+  [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] {n : ℕ} (hF : IsProP p F)
+  (e : F ≃ₜ* freeProP p (Fin (n + 3))) {φ : ContinuousAut F} (hφ : ∀ (i : Fin (n + 3)), φ (basis e i) = (basis e i)⁻¹)
+  (u : ℤ_[p]ˣ) : ¬IsPeripheralAut hF (basis e) u φ
+TauCeti.Peripheral.IsPeripheralPermAut.unique.{u_1} {p r : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F]
+  [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] {hF : IsProP p F}
+  {e : F ≃ₜ* freeProP p (Fin r)} (hr : 2 ≤ r) {σ σ' : Equiv.Perm (Fin (r + 1))} {u u' : ℤ_[p]ˣ} {φ : ContinuousAut F}
+  (h : IsPeripheralPermAut hF (basis e) σ u φ) (h' : IsPeripheralPermAut hF (basis e) σ' u' φ) : σ = σ' ∧ u = u'
+TauCeti.Peripheral.permData.{u_1} {p r : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F] [TopologicalSpace F]
+  [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin r))
+  (hr : 2 ≤ r) : ↥(peripheralPermAut hF (basis e)) →* Equiv.Perm (Fin (r + 1)) × ℤ_[p]ˣ
+TauCeti.Peripheral.exists_isPeripheralPermAut_swap_rank_one.{u_1} {p : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F]
+  [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (e : F ≃ₜ* freeProP p (Fin 1)) (u : ℤ_[p]ˣ) :
+  ∃ φ, IsPeripheralPermAut hF (basis e) 1 u φ ∧ IsPeripheralPermAut hF (basis e) (Equiv.swap 0 1) (-u) φ
+TauCeti.Peripheral.exists_rotation_two.{u_1} {p : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F] [TopologicalSpace F]
+  [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (e : F ≃ₜ* freeProP p (Fin 2)) :
+  ∃ φ,
+    φ (basis e 0) = basis e 1 ∧
+      φ (basis e 1) = cusp (basis e) ∧
+        φ (cusp (basis e)) = basis e 0 ∧ IsPeripheralPermAut hF (basis e) (finRotate 3) 1 φ
+TauCeti.Peripheral.exists_swap_two.{u_1} {p : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F] [TopologicalSpace F]
+  [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (e : F ≃ₜ* freeProP p (Fin 2)) :
+  ∃ φ,
+    φ (basis e 0) = basis e 1 ∧
+      φ (basis e 1) = basis e 0 ∧
+        φ (cusp (basis e)) = (basis e 0)⁻¹ * cusp (basis e) * basis e 0 ∧
+          IsPeripheralPermAut hF (basis e) (Equiv.swap 0 1) 1 φ
+TauCeti.Peripheral.exists_section_principalUnits.{u_1} {p r : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F]
+  [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (e : F ≃ₜ* freeProP p (Fin r)) (hr : 0 < r) {k : ℕ} (hk : 0 < k) (hk₂ : p = 2 → 2 ≤ k) :
+  ∃ s, ∀ (v : ↥(unitsPrincipal p k)), (exponent hF e hr) (s v) = ↑v
+TauCeti.Peripheral.continuousAutEquivUnits.{u_1} {p : ℕ} {F : Type u_1} [Group F] [TopologicalSpace F]
+  [Fact (Nat.Prime p)] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (e : F ≃ₜ* freeProP p (Fin 1)) : ContinuousAut F ≃ₜ* ℤ_[p]ˣ
+TauCeti.Peripheral.odd_correction_mem_level_two.{u_1} {p : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F]
+  [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP p F)
+  (x : Fin 2 → F) (k : ℕ) : (![1, x 0 ^ k], 1) ∈ level hF x (↑(2 * k + 1)) 2
+TauCeti.Peripheral.not_isPeripheralAut_of_apply_basis_eq_padicPow.{u_1} {p : ℕ} [Fact (Nat.Prime p)] {F : Type u_1}
+  [Group F] [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] {n : ℕ}
+  (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin (n + 3))) {u : ℤ_[p]ˣ} (hu : u ≠ 1) {φ : ContinuousAut F}
+  (hφ : ∀ (i : Fin (n + 3)), φ (basis e i) = hF.padicPow (basis e i) ↑u) (v : ℤ_[p]ˣ) :
+  ¬IsPeripheralAut hF (basis e) v φ
+TauCeti.Peripheral.not_exists_peripheral_identity_two.{u_1} {F : Type u_1} [Group F] [TopologicalSpace F]
+  [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP 2 F)
+  (e : F ≃ₜ* freeProP 2 (Fin 2)) :
+  ¬∃ c d,
+      hF.padicPow (basis e 0) 2 * (c⁻¹ * hF.padicPow (basis e 1) 2 * c) * (d⁻¹ * hF.padicPow (cusp (basis e)) 2 * d) ∈
+        closedLowerCentralSeries F 2
+TauCeti.Peripheral.exists_ne_of_apply_eq_conj.{u_1, u_2} {p : ℕ} [Fact (Nat.Prime p)] {F : Type u_1} [Group F]
+  [TopologicalSpace F] [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] {M : Type u_2}
+  [FunLike M F F] [MonoidHomClass M F F] {n : ℕ} (hF : IsProP p F) (e : F ≃ₜ* freeProP p (Fin (n + 2))) {u : ℤ_[p]}
+  (hu₀ : u ≠ 0) (hu₁ : u ≠ 1) (φ : M) {c : Fin (n + 2) → F} {d : F}
+  (hc : ∀ (i : Fin (n + 2)), φ (basis e i) = (c i)⁻¹ * hF.padicPow (basis e i) u * c i)
+  (hd : φ (cusp (basis e)) = d⁻¹ * hF.padicPow (cusp (basis e)) u * d) : ∃ i, c i ≠ d
+TauCeti.Peripheral.exists_peripheralPowerAutomorphism_two.{u_1} {F : Type u_1} [Group F] [TopologicalSpace F]
+  [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP 2 F) (e : F ≃ₜ* freeProP 2 (Fin 2))
+  (u : ℤ_[2]ˣ) :
+  ∃ φ cP cT cC,
+    cP = 1 ∧
+      φ (periphP e) = cP⁻¹ * hF.padicPow (periphP e) ↑u * cP ∧
+        φ (periphT e) = cT⁻¹ * hF.padicPow (periphT e) ↑u * cT ∧ φ (periphC e) = cC⁻¹ * hF.padicPow (periphC e) ↑u * cC
+TauCeti.Peripheral.exists_peripheralPowerAutomorphism_two_opposite.{u_1} {F : Type u_1} [Group F] [TopologicalSpace F]
+  [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP 2 F) (e : F ≃ₜ* freeProP 2 (Fin 2))
+  (u : ℤ_[2]ˣ) :
+  ∃ φ cP cT cC,
+    cP = 1 ∧
+      φ (periphP e) = cP⁻¹ * hF.padicPow (periphP e) ↑u * cP ∧
+        φ (periphT e) = cT⁻¹ * hF.padicPow (periphT e) ↑u * cT ∧
+          φ (periphC e) = cC⁻¹ * hF.padicPow (periphC e) ↑u * cC ∧
+            have cC' := (periphP e)⁻¹ * cC * (φ (periphP e)⁻¹)⁻¹;
+            φ (periphT e * periphP e)⁻¹ = cC'⁻¹ * hF.padicPow (periphT e * periphP e)⁻¹ ↑u * cC'
+TauCeti.Peripheral.exists_peripheral_identity_two.{u_1} {F : Type u_1} [Group F] [TopologicalSpace F]
+  [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP 2 F) (e : F ≃ₜ* freeProP 2 (Fin 2))
+  (u : ℤ_[2]ˣ) :
+  ∃ cP cT cC,
+    cP = 1 ∧
+      cP⁻¹ * hF.padicPow (periphP e) ↑u * cP * (cT⁻¹ * hF.padicPow (periphT e) ↑u * cT) *
+          (cC⁻¹ * hF.padicPow (periphC e) ↑u * cC) =
+        1
+TauCeti.Peripheral.exists_section_unitsPrincipal_two.{u_1} {F : Type u_1} [Group F] [TopologicalSpace F]
+  [IsTopologicalGroup F] [CompactSpace F] [TotallyDisconnectedSpace F] (hF : IsProP 2 F)
+  (e : F ≃ₜ* freeProP 2 (Fin 2)) : ∃ s, ∀ (v : ↥(unitsPrincipal 2 2)), (exponent hF e ⋯) (s v) = ↑v
+'TauCeti.Peripheral.exists_mem_level_succ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.Peripheral.exists_defect_eq_one_of_forall_exists_mem_level' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.Peripheral.exists_peripheralAut' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.Peripheral.continuous_exponent' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.Peripheral.exists_section_principalUnits' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.Peripheral.exists_peripheralPowerAutomorphism_two_opposite' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.Peripheral.odd_correction_mem_level_two' depends on axioms: [propext, Classical.choice, Quot.sound]
