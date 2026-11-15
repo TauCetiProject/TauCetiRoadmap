@@ -2307,9 +2307,12 @@ Layers 1 and 4; AS Tate; CurvesOverFiniteFields §1.4. The page map only indexes
 
 ## Downstream consumers
 
-SatoTateGroups consumes the finite-field endomorphism and angle invariants of Layers 3, 5 and 6;
-it supplies no input to this roadmap. CurvesOverFiniteFields is a supplier (its Layer 1, 2.3 and
-3.4), not a consumer: its 4.1 compares the geometric supersingularity of an elliptic curve with its
+SiegelModularForms consumes 1.3 (the `L`-polynomial, which it applies to the reduction of an
+abelian surface at a good prime), and AbelianSurfacesModularity consumes 1.2, 6.1–6.3 and 10.3
+(the point count, the `p`-rank and its comparison with the slopes, and the trichotomy of principally
+polarized surfaces). SatoTateGroups leaves abelian varieties over finite fields to this roadmap and
+cites none of its sections. None of the three supplies an input to this roadmap.
+CurvesOverFiniteFields is a supplier (its Layer 1, 2.3 and 3.4), not a consumer: its 4.1 compares the geometric supersingularity of an elliptic curve with its
 polynomial predicate for `q = p` and `q = p²` by polynomial identities, and the agreement for every
 `q = p^r` on the traces that occur is 6.3 here (through Waterhouse's list, 4.6); that roadmap
 consumes neither.
