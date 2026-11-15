@@ -3805,8 +3805,9 @@ record.
   `1/9.690292 = 0.103196 < 1/9.122545 = 0.109619`.
 - Lu–Zaman–Zhao at `q = 3`: `0.604600 ≥ 1/(8 log 3) = 0.113780`; the bound is not asserted for
   `q > 10¹⁰`, where Hoffstein's lemma lacks its hypothesis: it needs no real zero on
-  `(1 − 1/(11.657 log q), 1)`, and above `10¹⁰` the widest interval here is Banks's
-  `3.0·10⁻³/log q` (7.9), narrower than `1/(11.657 log q) = 0.0858/log q`.
+  `(1 − 1/(11.657 log q), 1)`, and above `10¹⁰` the widest interval here is Guo's
+  `1/(100 log q)` (7.9, wider than Banks's `3.0·10⁻³/log q`), narrower than
+  `1/(11.657 log q) = 0.0858/log q`.
 
 ### Examples
 
@@ -3836,9 +3837,10 @@ L-functions; the records of 0.4b.
   `LuZamanZhaoRecord`) and 8.1, 8.3 (the densities of Kadiri and of Kadiri–Lumley–Ng), each with the
   records its statement here carries. The bounded-height Riemann hypotheses over all characters
   modulo `q` and the capped real-zero gap that its hypotheses layer uses (its §§1.1, 1.2 and 1.7)
-  are the propositions of 0.2 and 7.9, which this roadmap owns. The other zero-free regions,
-  densities and forms of the zero count that it uses are listed under "Not owned here" with the
-  reason.
+  are the propositions of 0.2 and 7.9, which this roadmap owns. Four of the other zero-free
+  regions, densities and zero counts that it uses, Liu and Wang's four-zero bound, Ramaré's revised
+  density for `ζ`, Johnston and Yang's density constants and the first branch `0.28 log T` of Lee
+  and Nosal's zero count, are listed under "Not owned here" with the reason.
 - `ExplicitCharacterSumsAndSieves` takes the finite van der Corput inequality and its normalized
   form (4.2) for its real-part form and its iterated inequality (its §§0.3 and 1.1, variants built
   on 4.2 that no route here uses), and Montgomery–Vaughan's weighted large sieve of 6.5.
