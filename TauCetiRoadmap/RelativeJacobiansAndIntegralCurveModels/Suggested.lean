@@ -70,9 +70,8 @@ theorem globalFunctions_constants (R : Type u) [CommRing R] [IsDedekindDomain R]
     {X : Scheme.{u}} [IsIntegral X] (f : X ⟶ Spec (.of R)) [IsProper f] [Flat f]
     (hnormal : ∀ x : X, IsIntegrallyClosed (X.presheaf.stalk x)) :
     let g := X.presheaf.germ ⊤ (genericPoint X) (by trivial)
-    letI : Algebra R X.functionField :=
-      ((Scheme.ΓSpecIso (.of R)).inv ≫ f.appTop ≫ g).hom.toAlgebra
-    ∀ a : X.functionField, a ∈ g.hom.range ↔ IsIntegral R a := by
+    ∀ a : X.functionField, a ∈ g.hom.range ↔
+      ((Scheme.ΓSpecIso (.of R)).inv ≫ f.appTop ≫ g).hom.IsIntegralElem a := by
   sorry
 
 /-- The ordered restriction difference from the two degree-zero cohomology groups to the
