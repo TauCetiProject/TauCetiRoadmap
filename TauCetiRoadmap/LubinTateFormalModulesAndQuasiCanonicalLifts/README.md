@@ -9,8 +9,8 @@ interpolation, computes its torsion and Tate module, identifies the supplied div
 primitive-root coordinates, and compares its Galois character with the arithmetic local Artin map
 of Tau Ceti and ClassFieldTheory. It then proves the
 finite-height deformation theorem for formal `O_K`-modules with a specified coefficient ring,
-Honda's functional-equation theory over unramified bases and its supersingular elliptic
-specialization, integral lattice quotients, finite-residue quasi-canonical lifts with their
+Honda's functional-equation theory (its converse over unramified bases) and its supersingular
+elliptic specialization, integral lattice quotients, finite-residue quasi-canonical lifts with their
 comparison to the supplied quadratic ones, higher-degree lattice classification and marked fields of
 moduli (the ring class fields of Gross and Yu), and the explicit tame and anticyclotomic towers of
 Burungale–Kobayashi–Ota with the formal traces between them. The end theorems are the Lubin–Tate
@@ -135,10 +135,14 @@ correction of traces between differently indexed generators and the trace-compat
 
 - `K` is a nonarchimedean local field with integers `O = O_K`, uniformizer `π`, maximal ideal
   `𝔪_K` and residue field `k_K` of cardinality `q`. In Layer 1, `O` may be any discrete valuation
-  ring with finite residue field of cardinality `q` and `π` any irreducible element; Layers 2, 3,
-  5 and 6 and §§7.1–7.2 allow either characteristic and assume `K/ℚ_p` or `F₀/ℚ_p` finite only
-  in the clauses that say so (all of §5.5); in §§0.3–0.4, Layer 4, §§7.3–7.6 and Layers 8–9, `K`
-  has characteristic zero, so `K/ℚ_p` is finite with ramification index `e` and residue degree `f`.
+  ring with finite residue field of cardinality `q` and `π` any irreducible element; in §§4.1–4.2,
+  `O` is any discrete valuation ring of characteristic zero and residue characteristic `p`
+  satisfying Honda's condition (F) of §4.1, `q` is the power of `p` in (F) and need not be the
+  residue cardinality, the residue field may be infinite, and the fraction field `K` need be neither
+  complete nor finite over `ℚ_p`; Layers 2, 3, 5 and 6 and §§7.1–7.2 allow either characteristic
+  and assume `K/ℚ_p` or `F₀/ℚ_p` finite only in the clauses that say so (all of §5.5); in §§0.3–0.4,
+  4.3–4.4 and 7.3–7.6 and in Layers 8–9, `K` has characteristic zero, so `K/ℚ_p` is finite with
+  ramification index `e` and residue degree `f`.
 - A formal `A`-module over an `A`-algebra `R` (`FormalModule`, §0.1) is a commutative
   one-dimensional Mathlib `FormalGroup R` together with an action `a ↦ [a]` of `A` by
   endomorphisms `TauCeti.FormalGroupHom F F`, additive for the formal sum `[a + b] = F([a], [b])`,
@@ -441,7 +445,9 @@ evaluated points, analytic logarithms and number-field models of local fields. L
 the Lubin–Tate formal module of an admissible series by interpolation. Layer 2 computes its torsion
 and Tate module, identifies the supplied division tower and character in primitive coordinates, and
 compares the character with the arithmetic Artin map. Layer 3 is the deformation theory of formal
-`O_K`-modules of finite height. Layer 4 is Honda's theory over unramified bases and the
+`O_K`-modules of finite height. Layer 4 is Honda's functional-equation theory over
+characteristic-zero discrete valuation rings with a lift of a power of Frobenius, its converse over
+unramified bases, and the
 supersingular elliptic comparison. Layer 5 builds integral lattice quotients of formal modules and
 their homomorphisms. Layer 6 builds canonical and quasi-canonical lifts as finite-residue lattice
 quotients, compares the quadratic ones with their supplied strict-base models when `F₀/ℚ_p` is
