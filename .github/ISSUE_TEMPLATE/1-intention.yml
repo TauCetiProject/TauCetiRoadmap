@@ -18,57 +18,200 @@ body:
       label: Roadmap area
       description: Which roadmap does this intention sit in?
       options:
-        - AdicSpaces
+        - AbhyankarLemma
+        - AdelicAlgebraicGroups
+        - AdicEtaleGeometry
+        - AdicSpacesPartII
+        - AdicSpacesPartIII
+        - AdicSpacesPartIV
+        - AffineLieAlgebras
+        - AffineMorseLefschetz
         - AlgebraicCurves
+        - AlgebraicKTheory
         - AlgebraicTopology
         - AlgebraicVectorBundles
-        - AnalyticToricGeometry
-        - ArithmeticDirichletSeries
+        - AmenableGroups
+        - AnalyticNumberTheoryPartI
+        - AnalyticNumberTheoryPartII
+        - ArithmeticInterpolationDeterminants
+        - AsymptoticExpansions
+        - BanachAlgebras
+        - BanachSpaceTheory
         - BelyiMaps
+        - BordismFormalGroups
+        - BorelEquivalenceRelations
+        - CFSGBasicProperties
         - CFSGStatement
-        - Chebotarev
+        - CStarAlgebras
+        - CStarClassification
+        - CalibratedGeometry
+        - CategoricalOperatorAlgebras
+        - CharacteristicClasses
+        - ChevalleyGroups
         - ClassFieldTheory
+        - ClassicalArithmeticCompletion
+        - ClassifyingSpaces
+        - ClusterAlgebras
+        - CoboundaryExpansion
         - CombinatorialHeegaardFloer
-        - ConformalMapping
+        - CompactOperators
+        - ComplexCurveModuli
+        - ComplexKahlerGeometry
+        - ComplexManifolds
+        - ComplexTori
+        - ComputabilityTheory
+        - ConformalMappingPartII
+        - CountableModelCounting
         - DGAInfinity
         - DGFloer
-        - DenseGraphLimits
+        - DeRhamCohomologyAndDuality
+        - DerivedModuleAlgebra
+        - DiagrammaticCoherence
+        - DiamondsAndVStacks
         - DifferentialGeometry
+        - DiophantineApproximationAndTranscendence
+        - DysonBrownianMotion
+        - ECM
+        - EllipticCohomology
         - EllipticCurves
-        - Exchangeability
+        - EllipticIntegrals
+        - EnhancedDerivedSheaves
+        - EquivariantIntersectionTheory
+        - EtaleCohomologyFoundations
+        - EtaleMassFormula
+        - FactorRigidity
+        - FinancialMathematics
+        - FiniteGroupExtensionSplitting
+        - FiniteSamplingDiscrepancy
+        - FlagVarieties
+        - Foams
+        - FormalLaurentPuiseux
+        - FreeGroupsAndLimitGroups
+        - FreeProbability
         - FuchsianOrbifolds
+        - GeneralizedCohomology
+        - GeometricCurrents
         - GeometricMeasureTheory
+        - GeometricRepresentationCategories
         - GeometricTopology
-        - GlobalNumberFields
+        - GlobalHolomorphicFunctions
         - GlobalQuadraticForms
+        - GraphConnectivityAndFlows
+        - GroebnerGeometry
         - GrothendieckEulerForms
+        - HamiltonianFloerOperations
         - HeegaardFloer
-        - HopfRinow
+        - HilbertModules
+        - HomotopySpheres
+        - HopfologicalAlgebra
+        - Hyperfunctions
+        - ImaginaryQuadraticClassNumber
+        - IndexTheory
+        - InfinitaryModelExistence
         - IntegralLattices
         - Isoperimetry
         - JacobianChallenge
-        - LocalFieldsRamification
-        - LocalGaloisGroups
+        - KacMoody
+        - KhovanovHomology
+        - LFunctions
+        - LieGroupoidsPoisson
+        - LinearFormsInLogarithms
+        - LocalPurity
+        - LocalVariationalFieldTheory
+        - MarkovChainsAndRenewal
+        - MassFormula
+        - McKaySkewGroup
         - ModularCurves
         - ModularForms
-        - NumberFieldArithmetic
-        - OneParameterSemigroups
+        - MorseNovikov
+        - MorseTheory
+        - Neuromanifolds
+        - NewtonPolygons
+        - NilpotentOrbits
+        - NoncommutativeGeometry
+        - NoncommutativeIntegration
+        - NoncongruenceModularForms
+        - OperatorAlgebraDynamics
+        - OperatorKTheory
         - OperatorTheory
         - OptimalTransport
-        - OrthogonalSpinGroups
+        - Orbifolds
         - PDE
-        - PeripheralActions
-        - PolynomialGaloisGroups
-        - ProfiniteArithmetic
+        - PadicExtensionFamilies
+        - PadicFunctionalAnalysis
+        - PadicMeasuresIwasawaAlgebras
+        - PerfectoidSpaces
+        - PivotalSpherical
+        - Poincare3D
+        - PolylogarithmFunctions
+        - PositiveMass
+        - PositiveScalarCurvature
+        - PresentationsOfMonoidalCategories
+        - PrimitivePrimeDivisors
         - ProfiniteCohomology
-        - ProfiniteProPGroups
+        - PseudodifferentialOperators
+        - PseudoholomorphicCurveAnalysis
+        - PurityOfBranchLocus
+        - QuadraticCharactersAndReduction
         - QuadraticFormInvariants
-        - RealAlgebraicGeometry
+        - QuantumEnvelopingAlgebras
+        - QuantumGroups
+        - QuaternionicAnalysis
+        - RamificationOfCompleteDiscretelyValuedFields
+        - RandomMatrices
+        - Rank24LatticeConstructions
+        - RealAnalyticGeometry
         - ReductiveGroups
+        - ReductiveGroupsPartII
+        - ReflectionInvariantTheory
+        - Regularity
         - RepresentationTheory
+        - ResolutionOfSingularitiesCharacteristicZero
+        - RestrictedPowerSeries
+        - RicciFlow
+        - RiemannianGeometry
+        - RigidAnalyticGeometry
+        - RootSystemsPartII
+        - SNumbers
+        - ScatteringDiagrams
+        - SchemeAndStackFoundations
+        - SchubertGeometry
+        - SeibergWittenTheory
+        - SmoothBundlesConnections
+        - SmoothRepresentationsOfLocalGroups
+        - SobolevMapsBetweenManifolds
+        - SobolevPolynomialApproximation
+        - SpecialFunctionsAiry
+        - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsHypergeometric
+        - SpecialFunctionsParabolicCylinder
+        - SpinGeometry
+        - SporadicOrders
+        - StableHomotopyKTheory
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - StochasticCalculus
+        - StringOrientation
+        - Subfactors
+        - SubspaceTheorem
+        - SuccessiveMinima
+        - SymplecticFieldTheory
+        - SymplecticGeometry
+        - TangentialBordism
+        - TauberianBoundaryConvergence
+        - TaubesGromov
+        - TemperleyLieb
+        - TemperleyLiebOperatorAlgebras
+        - TensorProductCombinatorics
+        - ThetaSeries
+        - TopologicalKTheory
+        - TopologicalSheafCohomology
+        - TypeAHeckeAlgebras
+        - VariationalMethods
+        - VonNeumannAlgebras
+        - Yamabe
+        - ZerosOfLFunctions
         - ZigzagPreprojective
     validations:
       required: true
