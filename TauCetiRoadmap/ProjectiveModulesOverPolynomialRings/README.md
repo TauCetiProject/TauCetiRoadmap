@@ -429,7 +429,8 @@ projective `R_f`-module and `M₂` a finitely generated projective `R_g`-module,
 and let `α : R_fg ⊗[R_f] M₁ ≅ R_fg ⊗[R_g] M₂` be `R_fg`-linear. Then there is a finitely
 generated projective `R`-module `M`, in the universe of `M₁` and `M₂`, with `R_f ⊗[R] M ≅ M₁` over
 `R_f` and `R_g ⊗[R] M ≅ M₂` over `R_g` (Lombardi–Quitté, concrete local-global principle XV.4.4
-bis, p. 866, whose compatibility conditions are empty for two comaximal elements, with XV.2.2,
+bis, p. 866, applied with `θ₁₂ = α` and `θ₂₁ = α⁻¹`: its condition on triples of distinct
+indices is empty for two comaximal elements, with XV.2.2,
 item 4, p. 852). Route: `M` is the submodule of `M₁ × M₂` of the pairs `(x₁, x₂)` with
 `α(1 ⊗ x₁) = 1 ⊗ x₂`. Localisations are flat (`IsLocalization.flat`), so forming `M` commutes
 with `R_f ⊗[R] −`; since `R_f ⊗[R] R_f = R_f` and `R_f ⊗[R] R_g = R_fg`, the projection
@@ -455,9 +456,10 @@ projective, and `Module.projective_of_localization_maximal'` concludes.
 - Neither hypothesis can be dropped. If `M` exists, `R_fg ⊗[R_f] M₁` and `R_fg ⊗[R_g] M₂` are
   both isomorphic to `R_fg ⊗[R] M`, so some `α` is necessary: over `ℤ` with `f = 2`, `g = 3`,
   `M₁ = ℤ[1/2]` and `M₂ = ℤ[1/3]²` have ranks `1 ≠ 2` and glue to nothing. Without comaximality the
-  localisations do not determine projectivity: for `R = ℤ[Y]`, `f = Y` and `g = 2 + Y`, with
-  `(Y, 2 + Y) = (Y, 2)`, both `ℤ[Y]` and `ℤ[Y] ⊕ ℤ[Y] ⧸ (2, Y)` localise to `R_f` and `R_g` (both
-  `Y` and `2 + Y` act by `0` on `𝔽₂ = ℤ[Y] ⧸ (2, Y)`), and the second is not projective.
+  statement fails: for a field `k`, `R = k[x, y]_(x, y) ⧸ (xy)` and `f = g = x + y` (in the maximal
+  ideal), `R_f = R_g = R_fg = k(x) × k(y)`; take `M₁ = M₂ = k(x) × 0` and `α = 1`. Every finitely
+  generated projective `R`-module is free, `M ≅ Rⁿ`, and `R_f ⊗[R] Rⁿ = k(x)ⁿ × k(y)ⁿ` is never
+  `k(x) × 0`.
 
 ### Examples
 
@@ -580,7 +582,8 @@ lemma V.2.10, p. 253); clearing a monic common denominator `s` gives `H ∈ Mₙ
 `h(0) = 1`; so `H′` is invertible over `A[Y]_(Yh)` and identifies `A[Y]_(Yh) ⊗[A] P` with
 `A[Y]_(Yh) ⊗[A] Q`. Since `h(0) = 1`, `h = 1 + Yk` for some `k ∈ A[Y]`, so `Y` and `h` are
 comaximal, and 3.6 glues `A[Y]_Y ⊗[A] P` and `A[Y]_h ⊗[A] Q` along this identification to a
-finitely generated projective `A[Y]`-module `M` in the universe of `P` and `Q`. The monic `Y` is
+finitely generated projective `A[Y]`-module `M` in the universe of the two pieces (that of `A`
+and `P` together); 4.3 is applied to `M` in that universe. The monic `Y` is
 a unit of `A[Y]_Y`, so `A⟨Y⟩` is a localisation of `A[Y]_Y` and
 `A⟨Y⟩ ⊗[A[Y]] M ≅ A⟨Y⟩ ⊗[A] P` is extended from `A`; by 4.3 over `A[Y]`, `M ≅ A[Y] ⊗[A] N` for
 an `A`-module `N`, so `M(1) ≅ N ≅ M(0)`. Evaluation at `Y = 1` factors through `A[Y]_Y`, and
