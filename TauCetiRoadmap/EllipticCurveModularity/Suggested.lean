@@ -20,11 +20,15 @@ All elliptic statements include curves with geometric complex multiplication.
 The small-isogeny conclusions use native j-invariants and geometric point subgroups;
 they require no modular-curve carrier in their statements.
 
-At Mathlib `6b7abb3` and Tau Ceti `a91d3aa`, the arithmetic elliptic and Artin
-conductors, Serre weight and finite-flat residual attachment API are absent. Thus the
-exact-conductor refinements, R29.2's Serre witness family and R29.3's theorem with a
-family of residual attachments cannot be stated here. Modularity and completion use
-a positive newform level; R29.4 specifies its identification with the conductor.
+At Mathlib `1b1ccf4` and Tau Ceti `2fd255d`, the Artin conductor of a two-dimensional
+ℓ-adic or residual Galois representation, Serre weight and finite-flat residual
+attachment API are absent; Tau Ceti has Artin conductor exponents only for characters of
+finite Galois extensions of local fields. Its `WeierstrassCurve.algorithmicConductor`,
+computed by Tate's algorithm, is not identified there with the conductor `N_E` of the
+README. Thus the exact-conductor refinements, R29.2's Serre witness family and R29.3's
+theorem with a family of residual attachments cannot be stated here. Modularity and
+completion use a positive newform level; R29.4 specifies its identification with the
+conductor.
 
 The rational modular curves X₀(N), their Jacobians, modular quotient abelian varieties
 and quotient Tate realizations are also absent. Consequently the newform Tate
@@ -81,11 +85,13 @@ def IsNewformOf (E : WeierstrassCurve ℚ) {M : ℕ} [NeZero M] (F : Newform M 2
 
 /-! ## Layer R29.1: rational endomorphisms and exceptional primes -/
 
-/-- Every endomorphism over ℚ of a dimension-one abelian variety is integer multiplication.
+/-- Every endomorphism over ℚ of a dimension-one abelian variety is integer multiplication:
+the canonical ring map `n ↦ [n]` from ℤ is bijective.
 The ring statement includes elliptic curves with geometric complex multiplication. -/
 theorem rationalEndomorphisms_eq_int
     (A : TauCeti.AlgebraicGeometry.AbelianVariety ℚ) (hA : A.dim = 1) :
-    Nonempty (TauCeti.AlgebraicGeometry.AbelianVariety.End A ≃+* ℤ) := sorry
+    Function.Bijective (Int.castRingHom (TauCeti.AlgebraicGeometry.AbelianVariety.End A)) :=
+  sorry
 
 /-- The four exceptional-prime clauses exclude only finitely many primes, including for geometric CM. -/
 theorem exceptionalPrimes_finite (E : WeierstrassCurve ℚ) [E.IsElliptic] : (exceptionalPrimes E).Finite := sorry
@@ -139,7 +145,7 @@ theorem span_range_rationalTateRep (E : WeierstrassCurve ℚ) [E.IsElliptic]
 
 /-- Over every number field the native elliptic Dirichlet series is absolutely summable
 for `Re s > 3/2`. Hasse's bound gives an ideal-divisor majorant, grouped by ideal norm. -/
-theorem lCoeff_LSeriesSummable {K : Type*} [Field K] [NumberField K]
+theorem LFunction_LSeriesSummable {K : Type*} [Field K] [NumberField K]
     (W : WeierstrassCurve K) [W.IsElliptic] (s : ℂ) (hs : 3 / 2 < s.re) :
     LSeriesSummable (fun n => (W.LFunction n : ℂ)) s := sorry
 

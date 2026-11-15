@@ -165,7 +165,7 @@ not identify their elliptic models. At level 11, this distinction separates 11a1
 
 ## Exact supplier contracts
 
-The library reference points are Mathlib `6b7abb3` and Tau Ceti `a91d3aa`. The following existing declarations
+The library reference points are Mathlib `1b1ccf4` and Tau Ceti `2fd255d`. The following existing declarations
 are used with their stated generality.
 
 | Declaration | Input supplied here |
@@ -189,7 +189,7 @@ are used with their stated generality.
 For the number-field convergence target, Tau Ceti supplies
 `TauCeti.normCoeff_eq_sum_normFiber` in
 `TauCeti/NumberTheory/ArithmeticDirichletSeries/NormCoeff.lean`,
-`TauCeti.normCoeff_convolution` in the corresponding `Convolution.lean`, and
+`TauCeti.normCoeff_convolution` in the corresponding `Convolution/Basic.lean`, and
 `TauCeti.summable_absNorm_rpow_ideal_iff` in the corresponding `Convergence.lean`.
 These are the implementations of ArithmeticDirichletSeries Layers 1, 2 and 5:
 finite norm fibres of nonzero integral ideals, transport of ideal convolution,
@@ -402,63 +402,14 @@ exhaustive checklist. It defines `GQ`, `lCoeff`, `coeff`, `HasGoodReductionAt`,
 `HasMultiplicativeReductionAt`, `HasRationalCyclicSubgroup`, `exceptionalPrimes` and
 `IsNewformOf` to state those theorems. The remaining APIs are specified in mathematical prose.
 
-The arithmetic conductor, Serre weight and shared residual attachment API are absent
-at the pins, as are rational modular curves, their Jacobians and modular quotients.
-Their conductor-dependent and geometric targets are specified below. The newform
-modularity and completed L-series statements in `Suggested.lean` exhibit a positive
-level; the exact-conductor identification is the target of R29.4.
-
-## References
-
-For the global Serre theorem supplied by ClassicalSerreModularity §R27.6, see Khare–Wintenberger,
-[*Serre’s modularity conjecture (I)*](https://www.math.ucla.edu/~shekhar/papers/results.pdf),
-Theorems 1.2 and 9.1, author pp. 2–3 and 18–19, and the Kisin modularity-lifting
-input (H) identified in §9. The elliptic deduction uses only residual modularity
-at infinitely many primes outside Σ_E.
-
-The proof is organized around the comparisons it needs. The main references and their
-roles are:
-
-* [J.-P. Serre, *Sur les représentations modulaires de degré 2 de
-  Gal`ℚ̄/ℚ`*, Duke Math. J. 54 (1987), 179–230][serre]. Proposition 4 in
-  §2.8, pp. 189–190, gives the finite-flat weight-two criterion; Proposition
-  5 in §2.9, pp. 191–192, treats elliptic torsion in the good and
-  multiplicative cases. The lifting discussion is §3.1, especially (3.1.6),
-  pp. 194–195. The weight-two specialization is §3.3, p. 198. Theorem 4,
-  Lemma 5, and (4.6.1)–(4.6.4) in §4.6, pp. 207–208, provide the modularity
-  argument; Theorem 5 in §4.7, pp. 208–210 (the theorem on p. 209), specifies
-  the real multiplication companion. The modularity input in the 1987 paper is
-  conjectural; ClassicalSerreModularity §R27.6 supplies it as a theorem.
-* G. Faltings, *Endlichkeitssätze für abelsche Varietäten über Zahlkörpern*,
-  Invent. Math. 73 (1983), 349–366. In §5, Satz 3 and Satz 4,
-  p. 360, give semisimplicity and the endomorphism comparison. Korollar 1
-  and Korollar 2, p. 361, give the Hom comparison and equivalent criteria
-  for isogeny. They support both the construction of a quotient isogeny
-  and the irreducibility argument in the converse.
-* [H. Carayol, *Sur les représentations ℓ-adiques associées aux formes
-  modulaires de Hilbert*, Ann. Sci. École Norm. Sup. (4) 19 (1986),
-  409–468][carayol]. The normalization in §0.5, p. 410, and Theorem `A` in
-  §0.7, pp. 410–411, lead to the conductor and L-function corollary in
-  §0.8, p. 411. Its specialization to a rational weight-two classical
-  newform gives the full local comparison required here.
-* [P. Deligne and J.-P. Serre, *Formes modulaires de poids 1*, Ann. Sci.
-  École Norm. Sup. (4) 7 (1974), 507–530][deligne-serre]. Lemme 6.11,
-  p. 522, lifts an eigenvalue system for commuting endomorphisms of a
-  finite free module over a discrete valuation ring after a finite
-  extension. Its linear algebra statement is applicable to the integral
-  Hecke module used here, regardless of the title's weight-one setting.
-* J. E. Cremona, *Algorithms for modular elliptic curves*, second edition
-  (1997), Chapter II. Section 2.6, pp. 24–25, gives the
-  newform/elliptic-curve and coefficient conventions; §2.7 and Lemma
-  2.7.1, pp. 25–26, describe oldclasses and their divisor multiplicities;
-  §2.15.1, p. 47, gives the differential and period interpretation of a
-  modular parametrisation.
-
-All page numbers refer to printed pagination. In the Serre PDF printed page 179 is PDF
-page 1. In the Faltings PDF printed page 349 is PDF page 1. The Numdam PDFs include a
-cover page: Carayol p. 409 is PDF page 2 and Deligne–Serre p. 507 is PDF page 2. In
-Cremona's Chapter II PDF, subtract 6 from the printed page to obtain the one-based PDF
-page.
+The Artin conductor of a two-dimensional ℓ-adic or residual Galois representation, the
+Serre weight and the shared residual attachment API are absent at the pins, as are
+rational modular curves, their Jacobians and modular quotients. Tau Ceti's
+`WeierstrassCurve.algorithmicConductor`, computed by Tate's algorithm, is not identified
+there with the conductor `N_E` of R29.4. The conductor-dependent and geometric targets
+are specified below. The newform modularity and completed L-series statements in
+`Suggested.lean` exhibit a positive level; the exact-conductor identification is the
+target of R29.4.
 
 ## How to read the build
 
@@ -516,7 +467,8 @@ that detect loss of a local or global condition.
 ### Rational endomorphisms, including geometric complex multiplication
 
 Prove that for every elliptic curve E over ℚ, every ℚ-defined endomorphism is
-multiplication by a unique integer, so `End_ℚ(E) ≃+* ℤ`.
+multiplication by a unique integer, so the canonical ring map `ℤ → End_ℚ(E)`,
+`n ↦ [n]`, is bijective.
 The headline statement `rationalEndomorphisms_eq_int` in `Suggested.lean` uses the pinned
 `TauCeti.AlgebraicGeometry.AbelianVariety.End` ring for any abelian variety A over ℚ
 with `A.dim = 1`. Use the action on the
@@ -603,8 +555,8 @@ isogenies. For the four displayed values, `v_5(j_E)` is respectively `2,2,1,1`.
 For nonzero j, good reduction at 5 makes its valuation a nonnegative multiple of 3, while
 multiplicative reduction makes it negative. Thus the local hypothesis suffices; global
 semistability is a Check. The source is Darmon–Diamond–Taylor,
-[*Fermat's Last Theorem*](https://wstein.org/edu/2011/581g/misc/Darmon-Diamond-Taylor-Fermats_Last_Theorem.pdf),
-§3.6, proof of Theorem 3.48, pp. 101–102, for the four noncuspidal points and their
+[*Fermat's Last Theorem*](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf),
+§3.6, proof of Theorem 3.48, p. 102, for the four noncuspidal points and their
 failure of semistability; González–Jiménez–Lario,
 [*Faltings elliptic curves in twisted ℚ-isogeny classes*, supplementary tables](https://web.mat.upc.edu/joan.carles.lario/types.pdf),
 §19.1, p. 93, gives their j-values. This target includes establishing the rational-point
@@ -1327,7 +1279,7 @@ in EllipticCurves Layer 8.
 The semistable product is used only under that hypothesis. The general conductor and
 both comparison assertions use NeronModelsAndSemistableAbelianVarieties §§5.3a,
 5.3e and 5.5, with ArithmeticGaloisRepresentations Layer 3 and §§6.1–6.3.
-The sources are Serre 1970, n° 2.4, cases b), c), p. 10, and Brumer–Kramer 1994,
+The sources are Serre 1970, n° 2.4, cases b), c), p. 19-09, and Brumer–Kramer 1994,
 §6, (6.1), p. 243, as located in that supplier's §5.3a; the semistable case is also
 Darmon–Diamond–Taylor, §2.2, Proposition 2.12, p. 57.
 
@@ -1666,14 +1618,14 @@ Then `C×D→A` is an isogeny and `f|_D:D→B` is an isogeny by surjectivity and
 Isogenies induce rational Tate-module isomorphisms, so `V_r(f)` is surjective.
 The proof uses rational coefficients even when r divides the finite isogeny kernels.
 
-*Sources and prerequisites.* Milne, *Abelian varieties* (1986 Storrs article,
-corrected 2012), Proposition 12.1, p. 19; Ribet–Stein, Appendix by B. Conrad,
-proof of Theorem 5.14, p. 73; ModularCurvesPartII §16.3's rational-exactness argument.
+*Sources and prerequisites.* Milne, *Abelian varieties* (1986), Proposition 12.1,
+p. 122; Ribet–Stein, Appendix by B. Conrad, proof of Theorem 5.14, p. 73;
+ModularCurvesPartII §16.3's rational-exactness argument.
 AbelianSchemesAndArithmeticModuli A6.5 supplies the complement and A4.1 supplies
 additive functoriality of `T_r` in homomorphisms, compatible with composition.
 For an isogeny `u:A→B`, an isogeny `v:B→A` satisfies `vu=[n]` and `uv=[n]`
-for some `n>0` (Milne, *Abelian varieties* (1986 Storrs article, corrected 2012),
-§8, p. 12). Hence `n⁻¹V_r(v)` is an inverse to `V_r(u)`.
+for some `n>0` (Milne, *Abelian varieties* (1986), §8, p. 115). Hence `n⁻¹V_r(v)`
+is an inverse to `V_r(u)`.
 Additive functoriality also carries the inclusions and projections of `A×B` and
 their biproduct identities to the Tate modules, giving the product decomposition.
 These deductions apply to arbitrary abelian varieties; ArithmeticGaloisRepresentations
@@ -1862,7 +1814,7 @@ following additional Checks:
 
 ### Elliptic coefficient summability
 
-**Elliptic coefficient summability** (`lCoeff_LSeriesSummable` in `Suggested.lean`).
+**Elliptic coefficient summability** (`LFunction_LSeriesSummable` in `Suggested.lean`).
 For every number field K, every `W : WeierstrassCurve K` with `W.IsElliptic`,
 and every `s : ℂ` with `3/2 < s.re`, prove
 
@@ -1937,7 +1889,7 @@ identifies N with `N_E`. The attached-form version
 `IsNewformOf.exists_entire_completed_LSeries` in `Suggested.lean` instead takes
 attachment directly.
 By the local factor theorem of R29.4, their Euler products include identical factors at
-bad primes as well as good primes. By `lCoeff_LSeriesSummable` and the all-coefficient
+bad primes as well as good primes. By `LFunction_LSeriesSummable` and the all-coefficient
 identity, both complex Dirichlet series converge absolutely and agree for `Re s>3/2`.
 
 The completed function, initially on that half-plane, is
@@ -1973,7 +1925,7 @@ Mathlib `WeierstrassCurve.LFunction` and `WeierstrassCurve.LSeries`, and Tau Cet
 ModularForms **Layer 7: L-functions**
 ([ModularForms roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ModularForms/README.md#layer-7-l-functions)) for Hecke continuation and
 the functional equation. The extension of the Mellin comparison uses
-`lCoeff_LSeriesSummable`, Mathlib `NumberTheory/LSeries/Deriv.lean` and the analytic
+`LFunction_LSeriesSummable`, Mathlib `NumberTheory/LSeries/Deriv.lean` and the analytic
 identity theorem.
 
 ### Theorem 4 and the real multiplication boundary
@@ -2033,6 +1985,113 @@ quotient; the chosen parametrisation with its cusp, degree and differential prop
 and the entire completed L-function with its functional equation. Each uses the general
 objects owned by the neighbouring roadmaps, and each can be consumed without
 reconstructing the existence proof.
+
+## References
+
+For the global Serre theorem supplied by ClassicalSerreModularity §R27.6, see Khare–Wintenberger,
+[*Serre’s modularity conjecture (I)*](https://www.math.ucla.edu/~shekhar/papers/results.pdf),
+Theorems 1.2 and 9.1, author pp. 2–3 and 18–19, and the Kisin modularity-lifting
+input (H) identified in §9. The elliptic deduction uses only residual modularity
+at infinitely many primes outside Σ_E.
+
+The proof is organized around the comparisons it needs. The main references and their
+roles are:
+
+* [J.-P. Serre, *Sur les représentations modulaires de degré 2 de
+  Gal`ℚ̄/ℚ`*, Duke Math. J. 54 (1987), 179–230][serre]. Proposition 4 in
+  §2.8, pp. 189–190, gives the finite-flat weight-two criterion; Proposition
+  5 in §2.9, pp. 191–192, treats elliptic torsion in the good and
+  multiplicative cases. The lifting discussion is §3.1, especially (3.1.6),
+  pp. 194–195. The weight-two specialization is §3.3, p. 198. Theorem 4,
+  Lemma 5, and (4.6.1)–(4.6.4) in §4.6, pp. 207–208, provide the modularity
+  argument; Theorem 5 in §4.7, pp. 208–210 (the theorem on p. 209), specifies
+  the real multiplication companion. The modularity input in the 1987 paper is
+  conjectural; ClassicalSerreModularity §R27.6 supplies it as a theorem.
+* G. Faltings, *Endlichkeitssätze für abelsche Varietäten über Zahlkörpern*,
+  Invent. Math. 73 (1983), 349–366. In §5, Satz 3 and Satz 4,
+  p. 360, give semisimplicity and the endomorphism comparison. Korollar 1
+  and Korollar 2, p. 361, give the Hom comparison and equivalent criteria
+  for isogeny. They support both the construction of a quotient isogeny
+  and the irreducibility argument in the converse.
+* [H. Carayol, *Sur les représentations ℓ-adiques associées aux formes
+  modulaires de Hilbert*, Ann. Sci. École Norm. Sup. (4) 19 (1986),
+  409–468][carayol]. The normalization in §0.5, p. 410, and Theorem `A` in
+  §0.7, pp. 410–411, lead to the conductor and L-function corollary in
+  §0.8, p. 411. Its specialization to a rational weight-two classical
+  newform gives the full local comparison required here.
+* [P. Deligne and J.-P. Serre, *Formes modulaires de poids 1*, Ann. Sci.
+  École Norm. Sup. (4) 7 (1974), 507–530][deligne-serre]. Lemme 6.11,
+  p. 522, lifts an eigenvalue system for commuting endomorphisms of a
+  finite free module over a discrete valuation ring after a finite
+  extension. Its linear algebra statement is applicable to the integral
+  Hecke module used here, regardless of the title's weight-one setting.
+* J. E. Cremona, *Algorithms for modular elliptic curves*, second edition
+  (1997), Chapter II. Section 2.6, pp. 24–25, gives the
+  newform/elliptic-curve and coefficient conventions; §2.7 and Lemma
+  2.7.1, pp. 25–26, describe oldclasses and their divisor multiplicities;
+  §2.15.1, p. 47, gives the differential and period interpretation of a
+  modular parametrisation.
+
+The other works cited in the layers are:
+
+* J. H. Silverman, *The Arithmetic of Elliptic Curves*, second edition, Graduate Texts
+  in Mathematics 106, Springer (2009). The layers use III.1 for Weierstrass equations and
+  their invariants, III.4.2–III.4.3, III.5 and III.9 for isogenies, the invariant
+  differential and the endomorphism ring, V.1.1 for Hasse's bound, and VII.1 and VII.5
+  for minimal equations and reduction types.
+* T. Miyake, *Modular Forms*, Springer (1989). Theorem 4.6.19, strong multiplicity one
+  across levels, is the form in which ModularForms Layer 5 supplies the uniqueness of
+  attached newforms used in R29.3.
+* J. S. Milne, *Abelian varieties*, in G. Cornell and J. H. Silverman (eds.),
+  *Arithmetic Geometry* (Storrs, 1984), Springer (1986), 103–150
+  ([author's copy](https://www.jmilne.org/math/articles/1986b.pdf)). In §8, p. 115,
+  multiplication by the degree of an isogeny factors through it; Proposition 12.1,
+  p. 122, gives an abelian subvariety a complement up to isogeny. Both enter rational
+  Tate-module surjectivity in R29.6.
+* K. A. Ribet and W. A. Stein, *Lectures on Serre's conjectures*, with appendices by
+  B. Conrad and K. Buzzard, in *Arithmetic Algebraic Geometry* (Park City, 1999),
+  IAS/Park City Mathematics Series 9, American Mathematical Society (2001), 143–232
+  ([authors' revised version](https://wstein.org/papers/serre/ribet-stein.pdf)). §3.6,
+  p. 40, sets up the old and new subspaces when one prime is added to the level. In
+  Conrad's appendix, Theorem 5.14, p. 73, gives the dimension and the rational Tate
+  module of the quotient of `J₁(N)` attached to a newform (the `A_F^1` of the
+  Conventions), and its proof the exactness of rational Tate modules along surjections
+  of abelian varieties. Both are used in R29.6.
+* A. J. Barrios, [*Explicit classification of isogeny graphs of rational elliptic
+  curves*](https://arxiv.org/abs/2208.05603), arXiv:2208.05603v1 (2022). Theorem 2.3
+  and Table 1, p. 6, give the genus-zero j-parametrisations behind the 3- and
+  5-isogeny relations of R29.1.
+* H. Darmon, F. Diamond and R. Taylor,
+  [*Fermat's Last Theorem*](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf),
+  revised version (2007) of the article in *Current Developments in Mathematics 1995*,
+  International Press. §2.2, Proposition 2.12, p. 57, describes the representation at a
+  prime of multiplicative reduction and its conductor exponent one (R29.4); §3.6, the
+  proof of Theorem 3.48, p. 102, uses the noncuspidal rational points of `X₀(15)` and
+  their failure of semistability (R29.1).
+* E. González-Jiménez and J.-C. Lario, *Faltings elliptic curves in twisted ℚ-isogeny
+  classes*, [supplementary tables](https://web.mat.upc.edu/joan.carles.lario/types.pdf).
+  §19.1, p. 93, gives the j-invariants of the four noncuspidal rational points of
+  `X₀(15)` (R29.1).
+* J.-P. Serre, [*Facteurs locaux des fonctions zêta des variétés algébriques
+  (définitions et conjectures)*](https://www.numdam.org/item/SDPP_1969-1970__11_2_A4_0/),
+  Séminaire Delange–Pisot–Poitou, Théorie des nombres 11 (1969/70), exposé 19.
+  n° 2.4, cases b) and c), p. 19-09, give the local factor and the conductor exponent
+  at multiplicative and at additive reduction (R29.4).
+* A. Brumer and K. Kramer, [*The conductor of an abelian
+  variety*](https://www.numdam.org/item/CM_1994__92_2_227_0/), Compositio Math. 92
+  (1994), 227–248. In §6, (6.1), p. 243, the conductor exponent is the tame part plus
+  the Swan conductor of the ℓ-torsion, for ℓ different from the residue characteristic
+  (R29.4).
+
+All page numbers refer to printed pagination. In the Serre PDF printed page 179 is PDF
+page 1. In the Faltings PDF printed page 349 is PDF page 1. The Numdam PDFs include a
+cover page: Carayol p. 409 is PDF page 2 and Deligne–Serre p. 507 is PDF page 2. In
+Cremona's Chapter II PDF, subtract 6 from the printed page to obtain the one-based PDF
+page. Serre's 1970 exposé is numbered 19-01 to 19-15 after a Numdam cover page, so
+p. 19-09 is PDF page 10. Milne's pages are those of the Storrs volume, as in the linked
+scan. The Ribet–Stein pages are those of the authors' revised version of 23 November
+2010, linked above, not those of the printed chapter; the Darmon–Diamond–Taylor pages
+are those of the 2007 revision.
 
 [serre]: https://www.college-de-france.fr/media/jean-pierre-serre/UPL5835292064138487263_Serre_Repr.modulaires_Galois.pdf
 [carayol]: https://www.numdam.org/article/ASENS_1986_4_19_3_409_0.pdf
