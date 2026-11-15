@@ -2290,17 +2290,22 @@ This section is secondary: it maps targets to existing Lean formalizations and p
 Two Apache-2.0 repositories formalize the étale-cohomological side of the Weil conjectures, on Lean
 and Mathlib versions other than this roadmap's pins:
 [`AxiomMath/Weil`](https://github.com/AxiomMath/Weil) at commit `27cdb20` (Lean `v4.34.0-rc2`,
-Mathlib `16edf57`; it requires [`AxiomMath/Stacks`](https://github.com/AxiomMath/Stacks)) and
+Mathlib `16edf57`; it requires the Apache-2.0 [`AxiomMath/Stacks`](https://github.com/AxiomMath/Stacks)
+at commit `012108f`, cited as Stacks below) and
 [`formal-arithmetic-geometry/weil-conjectures`](https://github.com/formal-arithmetic-geometry/weil-conjectures)
-at commit `55abf46` (Lean `v4.33.1`). Neither is a supplier: no target or route of this roadmap
-passes through étale cohomology or purity. The overlap is small.
+at commit `55abf46` (Lean `v4.33.1`). None of the three is a supplier: no target or route of this
+roadmap passes through étale cohomology or purity, and the Bombieri–Stepanov bounds of Stacks
+count the points of proper curves, not of the affine equations of Layer 4. The overlap is small.
 
 - **4.9.** `Weil/AlgebraicGeometry/EtaleCohomology/Trace/WeilRiemannHypothesisForm.lean` (Weil)
   states the Riemann-hypothesis form of the Weil conjectures for a smooth proper geometrically
-  irreducible scheme over `𝔽_q`, and `WeilConjectures/ZetaFunction/HasseWeil.lean`
+  irreducible scheme over `𝔽_q`; `WeilConjectures/ZetaFunction/HasseWeil.lean`
   (weil-conjectures) proves `|N − (q + 1)| ≤ 2g√q` for a smooth proper geometrically integral
-  curve of genus `g`. Neither file states an affine count. For `y² = f(x)`, `p ≠ 2`, with `f`
-  squarefree of degree `m` and leading coefficient `a`, the curve bound gives the count of 4.9 once
+  curve of genus `g`, and `StacksFrontier/AlgebraicGeometry/Curves/WeilBound/WeilBound.lean`
+  (Stacks) proves the same bound for a smooth proper geometrically irreducible curve over every
+  finite extension of its base field, with the Bombieri–Stepanov eigenvalue bound as input. None
+  of these files states an affine count. For `y² = f(x)`, `p ≠ 2`, with `f` squarefree of degree
+  `m` and leading coefficient `a`, the curve bound gives the count of 4.9 once
   the smooth projective model is known to have genus `⌊(m − 1)/2⌋` and `1` (odd `m`) or `1 + η(a)`
   (even `m`) rational points at infinity, the affine error then being at most `(m − 1)√q` or
   `(m − 2)√q + 1 ≤ (m − 1)√q`; the counts for `y^d = f(x)` and `y^p − y = f(x)` need the genus and
@@ -2310,16 +2315,29 @@ passes through étale cohomology or purity. The overlap is small.
   the `L`-series of a Weil sheaf as an Euler product over closed points with the
   logarithmic-derivative identity that 3.1 proves for monic polynomials
   (`WeilConjectures/WeilSheaf/LSeries.lean`), and the trace formula for the `L`-series of a lisse
-  sheaf on a smooth affine curve through `H_c¹` and `H_c²` (`WeilConjectures/WeilSheaf/EulerProduct.lean`).
+  sheaf on a smooth geometrically connected affine curve through `H_c¹` and `H_c²`
+  (`WeilConjectures/WeilSheaf/EulerProduct.lean`).
   These files do not assemble them into the `L`-polynomial of `∑_x ψ(f(x))`, its degree
   `deg f − 1` (4.6) or a bound. Weil proves that the `L`-function of a `ℚ_ℓ`-sheaf on a separated
-  scheme of finite type over `𝔽_q` is rational
+  scheme of finite type over `𝔽_q`, given with a compactification, is rational
   (`Weil/AlgebraicGeometry/EtaleCohomology/Trace/LAdicTraceFormulaFinal.lean`).
-- **Layers 0–2, 4.1–4.5 and 5–7.** Multiplicative characters and their Kummer sheaves, Gauss,
-  Jacobi and Kloosterman sums and Stepanov's method have no counterpart in the modules above.
+- **4.1–4.4.** Stacks formalizes Bombieri's form of Stepanov's method (Bombieri's Bourbaki
+  report in the References). `StacksFrontier/RingTheory/Polynomial/HasseDerivPowChar.lean`
+  proves that Hasse derivatives of order `0 < i < p^e` kill `p^e`-th powers and that
+  `(X − a)^m ∣ f` when every Hasse derivative of order `< m` of `f` vanishes at `a` (4.1). For a
+  smooth proper geometrically integral curve over `𝔽_q` with `N_m` points over `𝔽_{q^m}`,
+  `StacksFrontier/AlgebraicGeometry/Curves/BombieriStepanov/` proves `N_m ≤ q^m + C√q^m`
+  (`SmoothUpperBound.lean`) and `q^m ≤ N_m + C√q^m` (`LowerBoundCurve.lean`) for every `m ≥ m₀`
+  divisible by some `d ≠ 0`, with `C`, `m₀` and `d` depending on the curve; 4.2–4.3 count the
+  affine points of one possibly singular equation with constants chosen before the equation.
+  `StacksFrontier/NumberTheory/TraceFormula/RiemannHypothesisBound.lean` proves that
+  `‖∑_i α_i^m‖ ≤ C B^m` for every `m ≥ m₀` divisible by `d ≠ 0`, with `B > 0`, forces
+  `‖α_i‖ ≤ B`; at `d = 1` this is 4.4, proved by a sector argument.
+- **Layers 0–2, 4.5 and 5–7.** Multiplicative characters and their Kummer sheaves, and Gauss,
+  Jacobi and Kloosterman sums, have no counterpart in the modules above.
 
-A proof adapted from either repository keeps its Apache-2.0 attribution. The statements of this
-roadmap are specified independently of both.
+A proof adapted from any of the three repositories keeps its Apache-2.0 attribution. The
+statements of this roadmap are specified independently of all three.
 
 ## References
 
