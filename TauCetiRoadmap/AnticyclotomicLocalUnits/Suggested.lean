@@ -60,10 +60,7 @@ number (BKO21, Lemma 3.1, pp.950–951, stated there for p at least five; at p =
 the field of discriminant −7 is a witness). At p = 2 the splitting and inertness
 clauses are incompatible. -/
 theorem exists_auxiliaryQuadraticField (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) :
-    ∃ (K : Type) (hK : Field K),
-      letI := hK
-      ∃ hNF : NumberField K,
-        letI := hNF
+    ∃ (K : Type) (_ : Field K) (_ : NumberField K),
         Module.finrank ℚ K = 2 ∧ NumberField.IsTotallyComplex K ∧
           ∃ P Q : Ideal (NumberField.RingOfIntegers K),
             P.IsPrime ∧ Q.IsPrime ∧ P ≠ Q ∧
