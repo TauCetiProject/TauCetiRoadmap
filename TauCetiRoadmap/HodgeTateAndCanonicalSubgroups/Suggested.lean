@@ -8,7 +8,8 @@ import TauCeti.Algebra.AlgebraicGroup.Tangent.Cotangent
 `README.md`.
 
 The finite flat conclusion of Fargues's uniform Hodge–Tate cokernel bound (§0.5) is
-stated below. For the coordinate Hopf algebra A of H, group-like elements are
+stated below for odd p. The bound at p = 2 is outside the roadmap: every written proof
+of it assumes p ≠ 2. For the coordinate Hopf algebra A of H, group-like elements are
 characters of H, hence points of its Cartier dual. Their classes in the augmentation
 cotangent space are the character differentials. Their span is the image of the
 linearized Hodge–Tate map of H's dual. Finite projective Hopf algebras over the
@@ -50,8 +51,8 @@ variable {C : Type*} [NormedField C] [IsUltrametricDist C]
 local notation "𝒪" => Valuation.valuationSubring (NormedField.valuation (K := C))
 
 /-- Fargues's uniform cokernel bound (§0.5) for finite locally free commutative
-p-power groups over O_C, for every prime p and arbitrary height n. -/
-theorem farguesHodgeTateCokernel_finite (p : ℕ) (hp : p.Prime)
+p-power groups over O_C, for every odd prime p and arbitrary height n. -/
+theorem farguesHodgeTateCokernel_finite (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2)
     (hnormp : ‖(p : C)‖ < 1)
     (A : Type*) [CommRing A] [HopfAlgebra 𝒪 A] [Coalgebra.IsCocomm 𝒪 A]
     [Module.Finite 𝒪 A] [Module.Projective 𝒪 A] (n : ℕ)
