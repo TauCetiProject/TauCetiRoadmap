@@ -90,8 +90,9 @@ its role swap.
   require.
 - The role swap of the 2 × 2 market above has men `w₁: m₂ > m₁`, `w₂: m₁ > m₂` and women
   `m₁: w₁ > w₂`, `m₂: w₂ > w₁`; its stable matchings are `(w₁, m₁), (w₂, m₂)` and
-  `(w₁, m₂), (w₂, m₁)`, the inverses of the two above. Reading `rankM` for the women of the swap
-  instead of `rankW` would keep the women's ranks on the new men's side and break this.
+  `(w₁, m₂), (w₂, m₁)`, the inverses of the two above. Deferred acceptance on the swap returns
+  `(w₁, m₂), (w₂, m₁)`, each woman's first choice; taking the inverse of the men-proposing outcome
+  instead would give `(w₁, m₁), (w₂, m₂)`, each woman's second choice.
 
 ### 0.2 Changing one agent's stated preferences
 
