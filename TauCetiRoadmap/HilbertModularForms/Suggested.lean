@@ -376,21 +376,21 @@ def cuspSubmodule (𝔫 : Ideal (𝓞 F)) (k : Weight F) (R : NarrowRepresentati
   zero_mem' _ := zero_mem _
   smul_mem' a _ hf c := Submodule.smul_mem _ a (hf c)
 
-open Classical in
 /-- The normalized coefficient `c(𝔪, f)` as a Tau Ceti `IdealArithmeticFunction F`
-(`README.md`, Layer 2, 2.4; *Pinned conventions*, Ideal coefficients): for the narrow class `c`
-with `[𝔪 · rep(c) · 𝔡⁻¹] = 1` and a totally positive generator `μ` of `𝔪 · rep(c) · 𝔡⁻¹`,
-`c(𝔪, f) = a_{rep c}(μ) · ∏_w σ_w(μ)^(m_w)`. Such `c` and `μ` always exist; independence of the
-choice of `μ` is the theorem of 2.4. -/
+(`README.md`, Layer 2, 2.4; *Pinned conventions*, Ideal coefficients). For a nonzero ideal `𝔪`,
+consider the values `a_{rep c}(μ) · ∏_w σ_w(μ)^(m_w)` over the narrow classes `c` and the totally
+positive generators `μ` of `𝔪 · rep(c) · 𝔡⁻¹`. Exactly one class `c` makes this ideal narrowly
+principal, its totally positive generators differ by totally positive units, and the value does
+not depend on the generator (the theorem of 2.4), so the set of values has the single element
+`c(𝔪, f)`; the definition is the sum over that set. -/
 def coeff {𝔫 : Ideal (𝓞 F)} {k : Weight F} {R : NarrowRepresentatives F}
     (f : HilbertModularForms F 𝔫 k R) : IdealArithmeticFunction F := fun 𝔪 =>
-  if h : ∃ (c : NarrowClassGroup F) (μ : F), IsTotallyPositive μ ∧
+  ∑ᶠ v ∈ {v : ℂ | ∃ (c : NarrowClassGroup F) (μ : F), IsTotallyPositive μ ∧
       FractionalIdeal.spanSingleton (𝓞 F)⁰ μ =
         ((𝔪 : Ideal (𝓞 F)) : FractionalIdeal (𝓞 F)⁰ F) * (R.rep c : FractionalIdeal (𝓞 F)⁰ F) *
-          ((differentIdeal ℤ (𝓞 F) : Ideal (𝓞 F)) : FractionalIdeal (𝓞 F)⁰ F)⁻¹ then
-    fourierCoeff F (f h.choose : UpperHalfSpace F → ℂ) h.choose_spec.choose *
-      ∏ w, ((realEmbedding F w h.choose_spec.choose : ℝ) : ℂ) ^ (k.m w)
-  else 0
+          ((differentIdeal ℤ (𝓞 F) : Ideal (𝓞 F)) : FractionalIdeal (𝓞 F)⁰ F)⁻¹ ∧
+      v = fourierCoeff F (f c : UpperHalfSpace F → ℂ) μ *
+        ∏ w, ((realEmbedding F w μ : ℝ) : ℂ) ^ (k.m w)}, v
 
 
 variable {F}

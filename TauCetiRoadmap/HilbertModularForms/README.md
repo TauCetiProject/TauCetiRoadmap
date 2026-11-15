@@ -45,7 +45,7 @@ the missing carriers for the other headlines, which remain targets in this READM
 ## Prerequisites
 
 The Mathlib and Tau Ceti declarations consumed are listed under *What Mathlib supplies* and
-*What Tau Ceti supplies*. Roadmaps: [Global Number Fields](../GlobalNumberFields/README.md)
+*What Tau Ceti supplies*. Roadmaps: [Global Number Fields](../../Completed/GlobalNumberFields/README.md)
 Layers 2, 4, 9, 10; [Modular Forms](../ModularForms/README.md) Layers 2–7 (the `F = ℚ` theory
 this one generalizes, and the source of base-change inputs);
 [Number Field Arithmetic](../../Completed/NumberFieldArithmetic/README.md) Layers 4, 8;
@@ -118,7 +118,7 @@ parallel-weight theory. Weight zero and negative weights are additional analytic
   `RayClassGroup (narrowModulus F)` by Tau Ceti's `narrowEquivNarrowClassGroup`; a finite-order
   Hecke character is `TauCeti.GlobalNumberFields.HeckeCharacter F` with `IsFiniteOrder`, and its
   values on ideals prime to its conductor are `HeckeCharacter.idealCharacter`.
-- From [Global Number Fields](../GlobalNumberFields/README.md): Layer 2 (moduli, ray class
+- From [Global Number Fields](../../Completed/GlobalNumberFields/README.md): Layer 2 (moduli, ray class
   groups, the narrow class group as the ray class group of `narrowModulus`), Layer 9 (Hecke and
   ray class characters, conductors, primitivity), Layer 10 (infinity types; `IsAlgebraic` is the
   hypothesis on the Hecke characters of CM extensions in Layer 9 here).
@@ -156,10 +156,15 @@ parallel-weight theory. Weight zero and negative weights are additional analytic
   the moduli-theoretic components and Hecke isogenies of its H3 (H3.6, H3.8), the component
   comparison H1.10 and the real-quadratic cusps H5.2. The components here are the classical
   groups `Γ₀(𝔫)_𝔟`; their identification with the polarization classes of H3 is cited, not rebuilt.
-- From [Quaternionic modular forms](../QuaternionicModularForms/README.md): the spaces of forms on
-  a totally definite quaternion algebra (its §2.1), their Hecke action (§3.1), the class sets and
-  stabilizers (§0.3). Layer 10 uses the matrices of its Hecke action on the class-set basis,
-  formed with Mathlib `LinearMap.toMatrix`, and states the dictionary against these objects.
+- For Layer 10, from [GL₂ automorphic representations and transfer](../GL2AutomorphicRepresentationsAndTransfer/README.md)
+  R17.3.8a–R17.3.8d: the algebraic coefficient modules `L_{n,s}` with their determinant
+  normalization (R17.3.8a), the quaternionic level forms with the finite class set
+  `Cl(U) = D^×\D_f^×/U` and the stabilizers of its evaluation (R17.3.8b), the classical
+  quaternionic forms `M_{n,s}(U; K)` (R17.3.8c) and their Hecke operators `T_v`, `S_v`, `U_{ϖ_v}`
+  (R17.3.8d); and from [Hilbert modular varieties and Shimura curves](../HilbertModularVarietiesAndShimuraCurves/README.md)
+  §§R18.5.16a and R18.5.16c: Eichler orders with their levels and right ideal classes, and the
+  neighbour Brandt matrices. Layer 10 states the dictionary against these objects and takes the
+  matrices of R17.3.8d's `T_v` on the class-set basis with Mathlib `LinearMap.toMatrix`.
 - From [Adelic algebraic groups](../AdelicAlgebraicGroups/README.md): the `S`-arithmetic
   decomposition and the strong approximation theorem for the norm-one group `D¹` of a central
   simple algebra (its §4.2), applied to `D = M₂(F)`, where `D¹ = SL₂`.
@@ -186,8 +191,10 @@ parallel-weight theory. Weight zero and negative weights are additional analytic
   resolutions, elliptic points, Euler numbers and the **Shimizu dimension formulas** belong to the
   sibling `HilbertModularSurfaces` roadmap; this roadmap proves finite dimensionality and no
   closed dimension formula.
-- **Quaternion algebras**, Eichler orders, class sets and Brandt matrices: Quaternionic modular
-  forms §§0.1–0.3 and 3.1; the basis-matrix presentation in §10.3 uses that action.
+- **Quaternion algebras**, Eichler orders, class sets, quaternionic forms and Brandt matrices:
+  Hilbert modular varieties and Shimura curves §§R18.5.16a and R18.5.16c, and GL₂ automorphic
+  representations and transfer R17.3.8a–R17.3.8d; the basis-matrix presentation in §10.3 uses the
+  Hecke action of R17.3.8d.
 - **Modularity of elliptic curves** over totally real fields, and the conductor and local data
   of a curve over a number field: potential modularity over an extension is supplied by
   [PotentialModularityAndCompatibleSystems](../PotentialModularityAndCompatibleSystems/README.md) §5.1
@@ -212,7 +219,8 @@ parallel-weight theory. Weight zero and negative weights are additional analytic
   completeness of the tables are not targets. The intrinsic prefix of a form's label — field
   label prefix, level norm — is stated in Layer 11.
 - **`p`-adic and overconvergent** Hilbert modular forms, ordinary projectors, Hida families:
-  Quaternionic modular forms Layers 4–5, Ordinary automorphic forms and modularity lifting.
+  OverconvergentAutomorphicForms (overconvergent Hilbert forms), PadicFamilies Layer 5 (nearly
+  ordinary Hilbert families), Ordinary automorphic forms and modularity lifting.
 
 ## Conventions
 
@@ -929,7 +937,7 @@ cusp coordinates: on `γ_κ⁻¹ 𝔖_κ(C, t)`, `min_w Im z_w ≥ c(t) > 0`.
 *Rests on:* 1.4; AdelicAlgebraicGroups §§3.2 and 3.4 (real Siegel coordinates,
 Siegel covering and Siegel property); Mathlib `NumberField.mixedEmbedding.fundamentalCone`, `NumberField.Units`;
 the Minkowski lattice-point finiteness of
-[Global Number Fields](../GlobalNumberFields/README.md) Layer 3A for the counting input.
+[Global Number Fields](../../Completed/GlobalNumberFields/README.md) Layer 3A for the counting input.
 
 **Checks.**
 
@@ -1182,7 +1190,10 @@ The character-series source for arbitrary totally real degree and level is
 Dasgupta–Kakde, arXiv:2010.00650v1, §4, equations (27)–(28), p. 15, and
 Theorem 4.5 with its proof, equations (34)–(39), pp. 18–20: the latter writes
 Hecke's trick as congruence-restricted lattice sums at an arbitrary cusp and
-continues them before specializing s=0. Project its character and level-raising
+continues them before specializing s=0. Dasgupta–Kakde take these from
+Shimura 1978, §3: the Eisenstein series from its Proposition 3.4, the
+congruence-restricted sums from its series (3.1), and their constant terms at
+s=0 from its equation (3.7). Project Dasgupta–Kakde's character and level-raising
 sections to the Γ₀ invariants and
 restrict to the chosen component. Compare the resulting finite sections with
 the cusp sections for every s in the convergence half-plane, retaining the
@@ -1501,7 +1512,7 @@ Let `K₀(𝔫) := ∏_𝔭 K₀(𝔫)_𝔭 ⊆ GL₂(𝒪̂_F)` be the Borel-at
 supplier's R16.1.3 carrier). Prove
 `GL₂⁺(F) \ GL₂(𝔸_{F,f}) / K₀(𝔫) ≃ NarrowClassGroup F`, induced by `det` (with `GL₂(F)` in place of
 `GL₂⁺(F)` the quotient is `ClassGroup (𝓞 F)`), the finite-idele description of
-`ClassGroup (𝓞 F)` ([Global Number Fields](../GlobalNumberFields/README.md) Layer 4) and that
+`ClassGroup (𝓞 F)` ([Global Number Fields](../../Completed/GlobalNumberFields/README.md) Layer 4) and that
 of the narrow class group — `rayClassQuotient : IdeleClassGroup F →* RayClassGroup 𝔪` of its
 Layer 7 at `𝔪 = narrowModulus F`, whose ray subgroup is positive at every real place, composed
 with Tau Ceti's `narrowEquivNarrowClassGroup` — using strong approximation for `SL₂` with
@@ -2276,11 +2287,13 @@ The partial-new-space API uses orthogonal complements at the chosen primes.
 
 Let `B` be a quaternion algebra over `F` ramified at every real place and at the primes of a
 squarefree `𝔇 ‖ 𝔫` (`v_𝔭(𝔫) = 1` for `𝔭 ∣ 𝔇`, so that `𝔫𝔇⁻¹` is prime to `𝔇`), with `n + ω(𝔇)` even, and `𝒪_B` an Eichler order of level `𝔫𝔇⁻¹`
-(Quaternionic modular forms §0.1). State and prove by citation the **Jacquet–Langlands
-dictionary**: the space of quaternionic modular forms of weight `k` and level `𝒪̂_B^×`
-(Quaternionic modular forms §2.1 with the algebraic weight and dual convention of its §1.3; in parallel weight `2`, functions
-on the class set of §0.3), modulo the forms factoring through the reduced norm in parallel
-weight `2`, is isomorphic as a module over the `T_𝔭`, `𝔭 ∤ 𝔫` (§3.1 there, 5.2 here) to
+(Hilbert modular varieties and Shimura curves §R18.5.16a). State and prove by citation the
+**Jacquet–Langlands dictionary**: the space `M_{n,s}(𝒪̂_B^×; ℂ)` of classical quaternionic forms
+of level `𝒪̂_B^×` (GL₂ automorphic representations and transfer R17.3.8c, with R17.3.8a's
+coefficient module at `n_w = k_w − 2` and its determinant normalization; in parallel weight `2`,
+where `n = s = 0`, the functions on the class set `Cl(𝒪̂_B^×)` of R17.3.8b), modulo the forms factoring through the
+reduced norm in parallel weight `2`, is isomorphic as a module over the `T_𝔭`, `𝔭 ∤ 𝔫`
+(R17.3.8d's `T_v` there, 5.2 here) to
 `S_k(𝔫; R)^{𝔇-new}`, compatibly with the central action and with `U_𝔭` at `𝔭 ∣ 𝔫𝔇⁻¹`, the
 eigenvalue at 𝔭 ∣ 𝔇 on the ψ summand of the quaternionic side being
 −λ_𝔭(f) N𝔭^(k₀/2−1), where λ_𝔭(f)²=ψ([𝔭]) (§7.7). For ψ=1 this is
@@ -2304,14 +2317,22 @@ a totally definite B must ramify at an odd number of finite places
 - For n=3 and 𝔇 a single prime, the count is 3+1=4; the parity obstruction disappears,
   while the exact-level condition still requires valuation one at that prime.
 
-*Rests on:* 5.2, 6.4, 7.7, 10.1; Quaternionic modular forms §§0.1, 0.3, 1.3, 2.1, 3.1; the cited
-R17.3 milestones.
+*Rests on:* 5.2, 6.4, 7.7, 10.1; Hilbert modular varieties and Shimura curves §R18.5.16a;
+GL₂ automorphic representations and transfer R17.3.8a–R17.3.8d; the cited R17.3 milestones.
 
 ### 10.3 Brandt matrices and traces
 
-Define nothing new: for the Eichler order of 10.2, the Brandt matrices `B(𝔭)` are the matrices
-of the Hecke operators of QuaternionicModularForms §3.1 on its §0.3 class-set basis,
-using Mathlib `LinearMap.toMatrix`. Prove the **trace identity**
+Define nothing new: for the Eichler order `𝒪_B` of 10.2, `U = 𝒪̂_B^×` and `𝔭 ∤ 𝔫`, the Brandt
+matrix `B(𝔭)` is the matrix, by Mathlib `LinearMap.toMatrix`, of the operator `T_v = [Uη_vU]` at
+`v = 𝔭` of GL2AutomorphicRepresentationsAndTransfer R17.3.8d, with trivial coefficients, on the
+basis of indicator functions of the class set `Cl(U)` of its R17.3.8b; `B_k(𝔭)` is the matrix of
+the same operator on `M_{n,s}(U; ℂ)` in the weight of 10.2. The neighbour matrix `B(v)` of
+HilbertModularVarietiesAndShimuraCurves §R18.5.16c is the matrix of `[Uη_v⁻¹U] = S_v⁻¹T_v` (its
+item 2): it is `B(𝔭)` followed by the permutation `s_v : [I] ↦ [𝔭I]` of `Cl(U)`, so the two
+agree when `𝔭` is principal. They have the same trace: a nonzero diagonal entry of either
+requires `γ ∈ B^×` with `nrd(γ) ≫ 0` and `nrd(γ)𝒪_F = 𝔭^{±1}`, which makes `𝔭` principal, and
+then the two matrices agree.
+Prove the **trace identity**
 `Tr(T_𝔭 ∣ S_2(𝔫; R)^{𝔇-new}) = Tr(B(𝔭)) - Tr(T_𝔭 ∣ E_norm)`
 where `E_norm` is the norm-factoring subspace. Its trace is
 `(N𝔭 + 1) Σ_χ χ([𝔭])`, with multiplicities and the actual norm characters occurring
@@ -2321,7 +2342,8 @@ corollaries of 10.2. This is the statement that certifies the LMFDB's tables: th
 eigenvalues it stores are the eigenvalues of Brandt matrices, and the identity is what a
 certificate for a stored `hecke_eigenvalues` list checks against.
 
-*Rests on:* 10.2.
+*Rests on:* 10.2; GL2AutomorphicRepresentationsAndTransfer R17.3.8b and R17.3.8d;
+HilbertModularVarietiesAndShimuraCurves §R18.5.16c.
 
 **Checks on the trace subtraction.**
 
@@ -2335,7 +2357,8 @@ The discriminating examples are the Checks in §10.3: norm-character trace subtr
 
 ### Dependencies
 
-Layers 5–7; QuaternionicModularForms and the general Jacquet–Langlands contracts.
+Layers 5–7; GL2AutomorphicRepresentationsAndTransfer R17.3.1, R17.3.3, R17.3.5, R17.3.8a–R17.3.8d
+and R17.3.9; HilbertModularVarietiesAndShimuraCurves §§R18.5.16a and R18.5.16c.
 
 ## Layer 11: the LMFDB invariants and the elliptic-curve interface
 
@@ -2370,7 +2393,7 @@ Ramanujan–Petersson bound**, stated as a named hypothesis (its proof is the Ga
 owner's), and unconditionally `|c(𝔭, f)| ≤ C_f N𝔭^{k₀/2}` (3.3); `ε_𝔭(f) = -c(𝔭, f)` for `𝔭 ‖ 𝔫`
 in parallel weight `2` (7.7); `dimension = 1` iff all `c(𝔭, f) ∈ ℚ` iff all `c(𝔭, f) ∈ ℤ`;
 `is_CM = yes` implies `c(𝔭, f) = 0` for half the primes in the sense of Dirichlet density `1/2`
-(9.2 and the Chebotarev density of inert primes, [Chebotarev](../Chebotarev/README.md));
+(9.2 and the Chebotarev density of inert primes, [Chebotarev](../../Completed/Chebotarev/README.md));
 `is_base_change = yes` from `ℚ` implies `c(σ𝔭, f) = c(𝔭, f)` for all `σ ∈ Aut(F)` (9.5).
 
 *Rests on:* 1.2, 3.3, 5.2, 7.3–7.5, 7.7, 8.3, 9.2, 9.4, 9.5; Number Field Arithmetic 4.3, 8.1.
@@ -2667,8 +2690,10 @@ Automorphic bundles. Layers 8, 9, 10 are independent of one another after Layer 
 - G. Shimura, "The special values of the zeta functions associated with Hilbert modular forms",
   *Duke Math. J.* 45 (1978), 637–679, §2: the component description over the narrow class
   group, the normalized coefficients `c(𝔪, f)` for non-parallel weight, the Hecke operators
-  `T(𝔪)` and `S(𝔪)`, the coefficient formula, and the rationality of the coefficient field; §4
-  the functional equation. [DOI](https://doi.org/10.1215/S0012-7094-78-04529-5).
+  `T(𝔪)` and `S(𝔪)`, the coefficient formula, and the rationality of the coefficient field; §3
+  (Proposition 3.4, the series (3.1) and equation (3.7), as Dasgupta–Kakde cite them) the
+  Eisenstein series by Hecke's trick and their constant terms at `s = 0`; §4 the functional
+  equation. [DOI](https://doi.org/10.1215/S0012-7094-78-04529-5).
 - G. Shimura, *Introduction to the Arithmetic Theory of Automorphic Functions*, Princeton,
   1971, Chapter 3 (Theorem 3.24 for the Hecke relations, §3.3 for `Γ₀`-type pairs).
 - L. Dembélé and J. Voight, "Explicit methods for Hilbert modular forms", [arXiv:1010.5727v2](https://arxiv.org/abs/1010.5727v2).
