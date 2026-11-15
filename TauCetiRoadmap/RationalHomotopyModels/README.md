@@ -1226,6 +1226,19 @@ and Matveev (2021). For a connected CW complex `X` pointed at a vertex, the Bott
 (1953) identifies `H_*(ΩΣX; ℚ)` with the tensor algebra `T(H̃_*(X; ℚ))` as graded algebras; it is
 the starting point of the Lie models of loop spaces. None of these questions is a target here.
 
+## Provenance: existing formalizations outside Tau Ceti
+
+This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
+repository LeanPool, *lean-pool* (References), keeps Lean 4 formalizations that do not fit Mathlib,
+each project permissively licensed (Apache-2.0 or MIT) and bumped to Lean and Mathlib v4.35.0,
+earlier than our pin. It is not a dependency: a statement read there is compared with the target
+here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
+license notices.
+
+`LeanPool/WhiteheadTheorem` proves Whitehead's theorem for CW complexes, with cofibrations and the
+homotopy extension property. Scope takes the Whitehead theorem from AlgebraicTopology §§8.3 and 8.5;
+nothing there treats Sullivan algebras, minimal models, polynomial forms or Quillen's functors.
+
 ## References
 
 - D. Quillen, « Rational homotopy theory », *Ann. of Math.* (2) 90 (1969), 205–295.
@@ -1312,3 +1325,6 @@ the starting point of the Lie models of loop spaces. None of these questions is 
   doi:10.1007/s00029-006-0019-z.
 - M. Amann, « Counter-examples to a generalised toral rank conjecture », preprint,
   arXiv:2011.13411.
+- LeanPool, *lean-pool*. Lean 4 formalizations at commit f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0,
+  Lean and Mathlib v4.35.0; projects `LeanPool/WhiteheadTheorem`.
+  https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool
