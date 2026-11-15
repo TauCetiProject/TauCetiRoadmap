@@ -32,7 +32,7 @@ The named suppliers below are the existing TauCetiRoadmap documents, with versio
 
 ### From Mathlib and Tau Ceti
 
-Use Mathlib at `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. `CategoryTheory.Triangulated.TStructure` supplies the predicates `le`, `ge`, `heart`, `bounded`, the `Heart` inclusion class, and the functors `truncLE` and `truncGE`. `TStructure.heart` is the intersection of the two degree-zero object properties. Mathlib's [t-exactness classes](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/CategoryTheory/Triangulated/TStructure/TExact.lean) `CategoryTheory.Functor.RightTExact`, `LeftTExact` and `TExact` supply preservation in every degree, with `RightTExact.mk` and `LeftTExact.mk` as degree-zero constructors; their functors carry `CommShift ℤ` and `IsTriangulated`. `Triangulated.AbelianSubcategory.abelian` supplies the admissible-subcategory criterion used to prove the heart theorem in Layer 2. `DerivedCategory.TStructure.t` and `DerivedCategory.homologyFunctor` supply the ordinary derived-category comparison. Ordinary category theory supplies adjunctions, images, kernels, full subcategories and finite biproducts.
+Use Mathlib at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti at `2fd255d997f47c0b5d834ee416c7015d55444ce5`. `CategoryTheory.Triangulated.TStructure` supplies the predicates `le`, `ge`, `heart`, `bounded`, the `Heart` inclusion class, and the functors `truncLE` and `truncGE`. `TStructure.heart` is the intersection of the two degree-zero object properties. Mathlib's [t-exactness classes](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/CategoryTheory/Triangulated/TStructure/TExact.lean) `CategoryTheory.Functor.RightTExact`, `LeftTExact` and `TExact` supply preservation in every degree, with `RightTExact.mk` and `LeftTExact.mk` as degree-zero constructors; their functors carry `CommShift ℤ` and `IsTriangulated`. `Triangulated.AbelianSubcategory.abelian` supplies the admissible-subcategory criterion used to prove the heart theorem in Layer 2. `DerivedCategory.TStructure.t` and `DerivedCategory.homologyFunctor` supply the ordinary derived-category comparison. Ordinary category theory supplies adjunctions, images, kernels, full subcategories and finite biproducts.
 
 Scheme morphisms, fibre products, ideal sheaves and locally finite algebraic cycles use the native Mathlib carriers. `AlgebraicGeometry.AlgebraicCycle` alone does not provide Chow groups or a cycle class. Likewise `Scheme.ellAdicSheaf` is an underived sheaf construction, rather than the normalized constructible category used here. Module duals, perfect bilinear pairings, kernels and ranges, determinants, characteristic polynomials and generalized eigenspaces are the linear-algebra inputs. The existing transpose/inverse characteristic-polynomial identities and dual-map determinant are used in Layer 8.
 
@@ -42,8 +42,8 @@ The following Tau Ceti declarations supply the exact algebraic interfaces. Modul
 | --- | --- |
 | `Algebra.Module.ZMod.Injective` | `Module.Baer.zmod_self n`, for `n ≠ 0`, supplies Baer's criterion for `ZMod n`; `Module.Baer.injective` converts it to self-injectivity. Section 0.1 extends this to arbitrary DVR quotients and finite-module evaluation over Noetherian self-injective rings. |
 | `LinearAlgebra.BilinearForm.SymplecticBasis` | `LinearMap.BilinForm.IsAlt.even_finrank` supplies even rank for a finite-dimensional space over any field carrying a nondegenerate alternating form. Section 8.1 adds the self-paired primary-space multiplicities and determinant sign. |
-| `LinearAlgebra.Trace.Pi` | `LinearMap.trace_pi_of_apply_eq` supplies `Tr(T) = Σ_(σ(i)=i) Tr(u_i)` for every commutative coefficient ring, finite index set `I`, finite free module `M`, arbitrary self-map `σ` of `I` and operator `T(x)_i = u_i(x_(σ(i)))`. Section 6.3 identifies the geometric cohomological operator and local terms with these linear data; no additional ring-coefficient trace theorem is required. |
-| `LinearAlgebra.Determinant` | `LinearMap.det_eq_of_compl₁₂_self_eq_smul` identifies the multiplier of a nonzero alternating form with the determinant for a rank-two module with a chosen basis, assuming `IsCancelMulZero R` and `Module.IsTorsionFree R N` for its value module `N`. In particular it applies to a nonzero scalar-valued form over a field. The general-rank determinant is §8.1. |
+| `LinearAlgebra.Trace.Pi` | `LinearMap.trace_pi` supplies `Tr(T) = Σ_i Tr(T_ii)` for an arbitrary endomorphism `T` of a finite product `∏_(i∈I) M_i` of finite free modules over a commutative semiring, with diagonal blocks `T_ii`. For an arbitrary self-map `σ` of `I` and the operator `T(x)_i = u_i(x_(σ(i)))` on `M^I`, the block `T_ii` is `u_i` when `σ(i)=i` and `0` otherwise, so `Tr(T) = Σ_(σ(i)=i) Tr(u_i)`. Section 6.3 identifies the geometric cohomological operator and local terms with these linear data; no additional ring-coefficient trace theorem is required. |
+| `LinearAlgebra.Determinant.Basic` | `LinearMap.det_eq_of_compl₁₂_self_eq_smul` identifies the multiplier of a nonzero alternating form with the determinant for a rank-two module with a chosen basis, assuming `IsCancelMulZero R` and `Module.IsTorsionFree R N` for its value module `N`. In particular it applies to a nonzero scalar-valued form over a field. The general-rank determinant is §8.1. |
 | `LinearAlgebra.BilinearForm.Isometry` | `TauCeti.BilinForm.IsIsometry.det_sq_mul_det_toMatrix_self` supplies the Gram-matrix determinant identity for an isometry over a commutative ring, with a finite basis. |
 | `CategoryTheory.InvolutiveDual` | `CategoryTheory.Functor.IsInvolutiveDual` and `CategoryTheory.Functor.dualityEquivalence` turn a double-dual isomorphism satisfying the triangle identity into an anti-equivalence whose inverse is the same duality. Section 0.2 constructs the geometric dual and its evaluation. |
 
@@ -65,7 +65,7 @@ The unbounded scheme support functor used in §0.5 is EtaleCohomologyFoundations
 
 SchemeAndStackFoundations §0.7 supplies the dimension function and its specialization properties; §0.9 supplies approximation of finite geometric diagrams. EtaleCohomologyFoundations §§G.1–G.3 supply Nagata compactifications and common refinements. Mathlib `exists_finite_inj_algHom_of_fg` (RingTheory/NoetherNormalization.lean) supplies affine Noether normalization, with SchemeAndStackFoundations §0.7 for dimension bounds; §0.20 of that roadmap supplies finiteness of normalization; its §§2.1–2.17 supply the étale site, Kummer and sheaf/Galois cohomology, topological invariance and pro-étale foundations; §§4.11, 5.4–5.6 supply blow-ups, projective and flag geometry, normal bundles, normal cones, deformation and Chow intersection operations (`Chow.gysin` in §5.5; `Chow.intersect`, `proper_intersection` and `Chow.graphPullback` in §5.6). Section 1.3 constructs the Euler–Tor comparison with this intersection product. AlgebraicVectorBundles L0A–L0C supplies finite locally free sheaves, rank, tensor, sums, duals and determinants. JacobianChallenge Layers `A, D` and `F` supply divisor degree, the Jacobian with principal polarization and Abel–Jacobi. AbelianSchemesAndArithmeticModuli §A3 supplies the perfect alternating Weil pairing on torsion of a principally polarized abelian variety. The curve cup/Weil-pairing identification is the curve input of EtaleCohomologyFoundations §0.11, not an application of the higher-dimensional duality proved from it.
 
-LefschetzPencilsAndVanishingCycles §§0.5–0.8 supply nearby cycles with a chosen geometric generic point, the vanishing triangle and their stated quasi-finite exchange maps; the all-finite-type and normalized-adic specialization extension is constructed in §6.4; §§3.3–3.5 supply pencil-axis geometry, Veronese re-embedding and smooth pencils; §7b.7 supplies generic restriction in its stated range. ReductiveGroups Layer 4 supplies diagonalizable groups, characters and semisimple elements. Section 7.4 constructs the diagonalizable reduced cyclic closure in `semisimpleCyclicClosure_diagonalizable`. Exact projection to character spaces is used only on finite-dimensional rational representations in the finite-jet argument of §7.4.
+LefschetzPencilsAndVanishingCycles §§0.5–0.8 supply nearby cycles with a chosen geometric generic point, the vanishing triangle and their stated quasi-finite exchange maps; the all-finite-type and normalized-adic specialization extension is constructed in §6.4; §§3.3–3.5 supply pencil-axis geometry, Veronese re-embedding and smooth pencils; §7b.7 supplies generic restriction in its stated range. ReductiveGroups Layer 4 supplies diagonalizable groups, characters and semisimple elements. Section 7.4 constructs the diagonalizable reduced cyclic closure in semisimpleCyclicClosure_diagonalizable. Exact projection to character spaces is used only on finite-dimensional rational representations in the finite-jet argument of §7.4.
 
 The following small geometric interfaces are required in addition to those headings. For a smooth centre, identify the exceptional divisor and its normal line with the conventions above. For a relatively ample line on a universally closed scheme, the complement of a section divisor is affine (Stacks Lemma 29.44.18, Tag 0EKE). Generic affine hyperplanes are smooth for a smooth source with unramified map, as in Katz, *Affine cohomological transforms*, Lemma 3.5, p.182. For fixed multidegree, the open locus of smooth complete intersections in the product of defining-form projective spaces has geometrically irreducible nonempty characteristic fibres and contains a member with a smooth ample chain. Section 4.3 proves the cohomology calculation first for that member and transports it to every smooth complete intersection by proper smooth base change; it does not require a smooth chain for each prescribed presentation. Their tangent–normal exact sequence gives `c(T_X)=(1+h)^{N+1}∏(1+d_i h)⁻¹` and `deg h^m=∏d_i`. The elementary geometric identifications and the two incidence/affineness lemmas are proved in the relevant Layer 4 subsections from the cited scheme geometry; their conclusions are not inferred from weak Lefschetz.
 
@@ -86,8 +86,8 @@ DeligneWeightsAndPurity §§0.1–0.19 supply scalar Weil numbers and fixed-`ι`
 
 | Supplier target | Contract used here |
 | --- | --- |
-| AutomorphicLFunctionsAndLocalFactors AL.3.10.10 (Normalized scheme intersection-complex purity) [TCR-AutomorphicLFunctionsAndLocalFactors] | For `ℓ∤q`, a separated finite-type pure `d`-dimensional scheme over `𝔽_q`, a dense smooth open `j:U→X` and a lisse `ℚ̄_ℓ`-sheaf `L` punctually pure of integer weight `w`, the normalized complex `IC⁰_X(L)=(j_!*(L[d]))[−d]` is pure of weight `w`, independently of shrinking `U`. For proper `X`, `H^r(X̄,IC⁰_X(L))` is pure of weight `w+r`. Section 5.3 transports this supplied theorem through `IC_X(L)≅IC⁰_X(L)[d]`; `intersectionComplexPurity` names that perverse-normalization adapter. |
-| AutomorphicLFunctionsAndLocalFactors AL.3.10.10 (Normalized scheme intersection-complex purity), exported scheme results [TCR-AutomorphicLFunctionsAndLocalFactors] | For `ℓ∤q`, `X₀` separated of finite type over `𝔽_q` and rational `ℚ̄_ℓ` coefficients: the affine weight criterion (a mixed perverse sheaf has weights `≥ w` iff `H⁰` of its pullback to every affine étale `U₀→X₀` has weights `≥ w`); the stability of each directional weight bound under perverse subquotients; the exact external product of perverse sheaves. Section 5.2 consumes the first two through the adapters `affineCohomologyWeightCriterion` and `subquotientWeightStability`. Kept here: `externalProductTExact` over any field `k` with finite or `E` coefficients (§2.8), which specializes to the third, and the perverse-normalization adapter `intersectionComplexPurity` (§5.3). |
+| AutomorphicLFunctionsAndLocalFactors AL.3.10.10 (Normalized scheme intersection-complex purity) [TCR-AutomorphicLFunctionsAndLocalFactors] | For `ℓ∤q`, a separated finite-type pure `d`-dimensional scheme over `𝔽_q`, a dense smooth open `j:U→X` and a lisse `ℚ̄_ℓ`-sheaf `L` punctually pure of integer weight `w`, the normalized complex `IC⁰_X(L)=(j_!*(L[d]))[−d]` is pure of weight `w`, independently of shrinking `U`. For proper `X`, `H^r(X̄,IC⁰_X(L))` is pure of weight `w+r`. Section 5.3 transports this supplied theorem through `IC_X(L)≅IC⁰_X(L)[d]`; intersectionComplexPurity names that perverse-normalization adapter. |
+| AutomorphicLFunctionsAndLocalFactors AL.3.10.10 (Normalized scheme intersection-complex purity), exported scheme results [TCR-AutomorphicLFunctionsAndLocalFactors] | For `ℓ∤q`, `X₀` separated of finite type over `𝔽_q` and rational `ℚ̄_ℓ` coefficients: the affine weight criterion (a mixed perverse sheaf has weights `≥ w` iff `H⁰` of its pullback to every affine étale `U₀→X₀` has weights `≥ w`); the stability of each directional weight bound under perverse subquotients; the exact external product of perverse sheaves. Section 5.2 consumes the first two through the adapters affineCohomologyWeightCriterion and subquotientWeightStability. Kept here: externalProductTExact over any field `k` with finite or `E` coefficients (§2.8), which specializes to the third, and the perverse-normalization adapter intersectionComplexPurity (§5.3). |
 
 ### From comparison roadmaps
 
@@ -117,7 +117,7 @@ coefficient rings.
 
 Work with the following additional hypotheses. `O` a discrete valuation ring; `n ≥ 1`.
 
-Name the resulting statement `selfInjectiveCoefficients`. In `Suggested.lean`, `uniformizerQuotient_selfInjective` states self-injectivity for arbitrary DVR quotients and `finiteModule_eval_bijective` states the general evaluation theorem.
+Name the resulting statement selfInjectiveCoefficients. In `Suggested.lean`, `uniformizerQuotient_selfInjective` states self-injectivity for arbitrary DVR quotients and `finiteModule_eval_bijective` states the general evaluation theorem.
 
 A proof proceeds as follows.
 
@@ -149,7 +149,7 @@ Use [SGA4-XVIII] 3.2.6, p. 586.
 
 Extend constructible finite-Tor duality to all bounded constructible complexes over self-injective finite coefficients.
 
-**Product duality and the Künneth evaluation map.** For separated finite-type `X,Y` over a separably closed field and the constructible finite-Tor coefficient range, prove `productDualityKunneth`: `K_X⊠K_Y≅K_(X×Y), D_XF⊠G≅RHom(pr₁*F,pr₂!G)`, and consequently `D_(X×Y)(F⊠G)≅D_XF⊠D_YG`. All tensor products are derived. The middle formula, rather than an assertion that every constructible sheaf is dualizable for tensor, is the input to trace classes in §6.3. The corresponding ramified integral/rational formulas are obtained after the realization and coefficient-extension results of Layer 3.
+**Product duality and the Künneth evaluation map.** For separated finite-type `X,Y` over a separably closed field and the constructible finite-Tor coefficient range, prove productDualityKunneth: `K_X⊠K_Y≅K_(X×Y), D_XF⊠G≅RHom(pr₁*F,pr₂!G)`, and consequently `D_(X×Y)(F⊠G)≅D_XF⊠D_YG`. All tensor products are derived. The middle formula, rather than an assertion that every constructible sheaf is dualizable for tensor, is the input to trace classes in §6.3. The corresponding ramified integral/rational formulas are obtained after the realization and coefficient-extension results of Layer 3.
 
 Give these isomorphisms their naturality, pullback/exceptional-pullback coherence, and evaluation compatibility: under the product formula, the diagonal restriction of `D_XF⊠F` maps to `K_X` by the usual evaluation. Use constructible finite-Tor dévissage, the imported compact-support Künneth formula and exceptional adjunction; on smooth strata the statement reduces to finite projective coefficient complexes and the trace-normalized smooth dualizing complex. Localization glues the strata, and adjunction identifies the glued morphism with the Künneth map. This proves the product factorization, which does not follow merely by writing down the right adjoint `f!`. (Varshavsky, *Lefschetz–Verdier trace formula*, §§0.3–0.4, pp.5–6, and §1.2.2(a), pp.8–9, arXiv v2; SGA 4 XVIII, §3.2.6, p.586.) *Needs:* EtaleCohomologyFoundations §§F.2, F.5–F.6 and the duality normalization of this subsection.
 
@@ -173,7 +173,7 @@ Work with the following additional hypotheses. For dimension one, use the consta
 no global twist/shift; it differs from the geometric dualizing complex of a smooth curve over a field. `n`
 invertible on `S`; no absolute-purity theorem in higher dimension is imported.
 
-Name the resulting statement `oneDimensionalDualizingBase`.
+Name the resulting statement oneDimensionalDualizingBase.
 
 A proof proceeds as follows.
 
@@ -227,7 +227,7 @@ finite rings not self-injective are restricted to constructible finite-Tor compl
 object is `Λ_S` from one-dimensional-dualizing-base; `K_X=a^!Λ_S`. Imported finiteness is the étale finiteness
 theorem, not coherent sheaf biduality.
 
-Name the resulting statement `constructibleBiduality`.
+Name the resulting statement constructibleBiduality.
 
 A proof proceeds as follows.
 
@@ -282,7 +282,7 @@ Work with the following additional hypotheses. `X` smooth of pure dimension `d` 
 invertible. Noetherian self-injectivity of `Λ` is used for `L^∨` to be the derived dual; over `ℤ_ℓ` the derived dual
 has `Ext` terms (§0.6).
 
-Name the resulting statement `dualizingComplexOfSmoothScheme`.
+Name the resulting statement dualizingComplexOfSmoothScheme.
 
 A proof proceeds as follows.
 
@@ -312,7 +312,7 @@ for `K, L ∈ D^b_c`, and `f^!` preserves `D^b_c`.
 Work with the following additional hypotheses. As in constructible-biduality; constructibility of `Rf_*` and `f^!`
 is part of the conclusion (`f^!` via `f^! = D f^* D`).
 
-Name the resulting statement `dualityExchangeIsomorphisms`.
+Name the resulting statement dualityExchangeIsomorphisms.
 
 A proof proceeds as follows.
 
@@ -339,7 +339,7 @@ self-injective, duality exchanges the two triangles. These are the recollement d
 Work with the following additional hypotheses. `X` separated of finite type over `k`; `n ≥ 1` invertible in `k`;
 `Λ` noetherian, commutative and killed by `n`. Self-injectivity is required only for the duality assertion.
 
-Name the resulting statement `recollementAdjunctions`.
+Name the resulting statement recollementAdjunctions.
 
 A proof proceeds as follows.
 
@@ -393,19 +393,19 @@ dimension zero).
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.finiteFlatTrace`: `Tr_f : f_!f^*F ⟶ F` for `f` separated flat of finite presentation and quasi-finite.
+- `Tr_f : f_!f^*F ⟶ F` for `f` separated flat of finite presentation and quasi-finite.
 
-- `TauCeti.EtaleDuality.finiteFlatTrace_natural`: `Tr_f` is natural in `F`.
+- `Tr_f` is natural in `F`.
 
-- `TauCeti.EtaleDuality.finiteFlatTrace_baseChange`: `g^*(Tr_f)` corresponds to `Tr_{f′}` under the base-change isomorphism `g^*f_! ≅ f′_!g′^*`.
+- `g^*(Tr_f)` corresponds to `Tr_{f′}` under the base-change isomorphism `g^*f_! ≅ f′_!g′^*`.
 
-- `TauCeti.EtaleDuality.finiteFlatTrace_comp`: `Tr_{gh} = Tr_g ∘ g_!(Tr_h)`.
+- `Tr_{gh} = Tr_g ∘ g_!(Tr_h)`.
 
-- `TauCeti.EtaleDuality.finiteFlatTrace_unit`: For `f` finite locally free of constant `rank r, Tr_f ∘` (unit of `f^* ⊣ f_*`) `= r · id`.
+- For `f` finite locally free of constant `rank r, Tr_f ∘` (unit of `f^* ⊣ f_*`) `= r · id`.
 
-- `TauCeti.EtaleDuality.finiteFlatTrace_etale`: For `f` étale, `Tr_f` is the counit of `f_! ⊣ f^*`.
+- For `f` étale, `Tr_f` is the counit of `f_! ⊣ f^*`.
 
-- `TauCeti.EtaleDuality.finiteFlatTrace_stalk`: On the stalk at `s̄, Tr_f` is `(a_x̄) ↦ Σ_x̄ m_x̄ a_x̄` with `m_x̄` the multiplicity of the fibre at `x̄`.
+- On the stalk at `s̄, Tr_f` is `(a_x̄) ↦ Σ_x̄ m_x̄ a_x̄` with `m_x̄` the multiplicity of the fibre at `x̄`.
 
 A proof proceeds as follows.
 
@@ -428,13 +428,13 @@ EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above;
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.finiteFlatTrace_separable`: For `Spec L → Spec K` with `L/K` finite separable of degree `r, Tr ∘` unit `= r` on every sheaf.
+- For `Spec L → Spec K` with `L/K` finite separable of degree `r, Tr ∘` unit `= r` on every sheaf.
 
-- `TauCeti.EtaleDuality.finiteFlatTrace_square_map`: For `f : A¹ → A¹, x ↦ x²`, over an algebraically closed field of characteristic `≠ 2`, the stalk of `Tr_f` at 0 is multiplication by 2 on `F_0`.
+- For `f : A¹ → A¹, x ↦ x²`, over an algebraically closed field of characteristic `≠ 2`, the stalk of `Tr_f` at 0 is multiplication by 2 on `F_0`.
 
-- `TauCeti.EtaleDuality.finiteFlatTrace_id`: For `f = id, Tr_f` is the identity.
+- For `f = id, Tr_f` is the identity.
 
-- `TauCeti.EtaleDuality.not_finiteFlatTrace_counit_ramified`: In the category of étale `𝔽₂`-module sheaves, take `f:𝔸¹_ℂ→𝔸¹_ℂ`, `t↦t²`, and `F=i_*𝔽₂` for the origin inclusion `i`. Then `f_!f^*F≅F` and `Tr_F=2·id_F=0`. Since `f^*F≠0`, no unit can satisfy `f^*(Tr_F)∘η_(f^*F)=id_(f^*F)`. Thus this trace cannot be a counit of `f_!⊣f^*`; the étale assertion above identifies the canonical counit in its stated range.
+- In the category of étale `𝔽₂`-module sheaves, take `f:𝔸¹_ℂ→𝔸¹_ℂ`, `t↦t²`, and `F=i_*𝔽₂` for the origin inclusion `i`. Then `f_!f^*F≅F` and `Tr_F=2·id_F=0`. Since `f^*F≠0`, no unit can satisfy `f^*(Tr_F)∘η_(f^*F)=id_(f^*F)`. Thus this trace cannot be a counit of `f_!⊣f^*`; the étale assertion above identifies the canonical counit in its stated range.
 
 - Over `k=𝔽̄₂` with `Λ=𝔽₃`, the square map is a universal homeomorphism. Topological invariance (Stacks Tag 03SI) makes `f_!=f_*` inverse to `f^*`. Its weighted trace is `2ε₀`, where `ε₀` is the equivalence counit (Stacks Tag 0GKI); together with `2⁻¹η₀` it satisfies both triangles. Ramification alone does not exclude a counit in a coefficient category.
 
@@ -461,17 +461,17 @@ JacobianChallenge Layer `A`.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.curveTrace`: `Tr_f : R²f_!(f^*F(1)) ⟶ F` for a flat compactifiable curve `f : X → S` and torsion `F` prime to the residue characteristics.
+- `Tr_f : R²f_!(f^*F(1)) ⟶ F` for a flat compactifiable curve `f : X → S` and torsion `F` prime to the residue characteristics.
 
-- `TauCeti.EtaleDuality.curveTrace_baseChange`: `Tr_f` is compatible with every base change `S′ → S`.
+- `Tr_f` is compatible with every base change `S′ → S`.
 
-- `TauCeti.EtaleDuality.curveTrace_components`: For nonempty opens `U_i` of the irreducible components, the sum of the `Tr_{U_i}` factors through `Tr_X` (SGA 4 XVIII 1.1.4).
+- For nonempty opens `U_i` of the irreducible components, the sum of the `Tr_{U_i}` factors through `Tr_X` (SGA 4 XVIII 1.1.4).
 
-- `TauCeti.EtaleDuality.curveTrace_quasiFiniteFlat`: For `u : X → Y` quasi-finite flat over a curve `Y, Tr_{fu} = Tr_f ∘ R²f_!(Tr_u)` (1.1.7), and the dual compatibility for a quasi-finite flat base (1.1.8).
+- For `u : X → Y` quasi-finite flat over a curve `Y, Tr_{fu} = Tr_f ∘ R²f_!(Tr_u)` (1.1.7), and the dual compatibility for a quasi-finite flat base (1.1.8).
 
-- `TauCeti.EtaleDuality.curveTrace_isIso`: If `f` is smooth with geometrically irreducible fibres, `Tr_f` is an isomorphism.
+- If `f` is smooth with geometrically irreducible fibres, `Tr_f` is an isomorphism.
 
-- `TauCeti.EtaleDuality.curveTrace_firstChernClass`: For `X` a proper smooth connected curve over an algebraically closed field, `Tr_X(c₁(L)) = deg L mod n`.
+- For `X` a proper smooth connected curve over an algebraically closed field, `Tr_X(c₁(L)) = deg L mod n`.
 
 A proof proceeds as follows.
 
@@ -498,13 +498,13 @@ degree.
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.curveTrace_projectiveLine`: On `P¹` over an algebraically closed field, `Tr(c₁(O(1))) = 1 ∈ ℤ/n`.
+- On `P¹` over an algebraically closed field, `Tr(c₁(O(1))) = 1 ∈ ℤ/n`.
 
-- `TauCeti.EtaleDuality.curveTrace_twoLines`: For `X = A¹ ⊔ A¹` over an algebraically closed field, `H²_c(X, Λ(1)) ≅ Λ²` and `Tr_X(a, b) = a + b`.
+- For `X = A¹ ⊔ A¹` over an algebraically closed field, `H²_c(X, Λ(1)) ≅ Λ²` and `Tr_X(a, b) = a + b`.
 
-- `TauCeti.EtaleDuality.curveTrace_empty`: For the empty curve, `H²_c = 0` and `Tr = 0`.
+- For the empty curve, `H²_c = 0` and `Tr = 0`.
 
-- `TauCeti.EtaleDuality.not_curveTrace_isIso_doubleLine`: For `X = Spec k[x, y]/(y²)` (a double line) and `n = 2, Tr_X` is multiplication by the multiplicity 2 on `H²_c(X, ℤ/2(1)) ≅ ℤ/2`, hence zero and not an isomorphism.
+- For `X = Spec k[x, y]/(y²)` (a double line) and `n = 2, Tr_X` is multiplication by the multiplicity 2 on `H²_c(X, ℤ/2(1)) ≅ ℤ/2`, hence zero and not an isomorphism.
 
 - `P¹` over `k` algebraically closed: `Tr(c₁(O(1))) = 1`.
 
@@ -522,7 +522,7 @@ Work with the following additional hypotheses. `k` algebraically closed, `n` inv
 (affine or proper). This is the curve input of SGA 4 XVIII §1 and must not be deduced from §0.2 or
 §§0.3–0.7:pairings (it is used to prove them).
 
-Name the resulting statement `curveH1Duality`.
+Name the resulting statement curveH1Duality.
 
 A proof proceeds as follows.
 
@@ -573,23 +573,23 @@ presentation of pure relative dimension `d`); `F` torsion prime to residue chara
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.trace`: `Tr_f : R^{2d}f_!f^*F(d) ⟶ F` for `f` compactifiable satisfying `(∗)_d`.
+- `Tr_f : R^{2d}f_!f^*F(d) ⟶ F` for `f` compactifiable satisfying `(∗)_d`.
 
-- `TauCeti.EtaleDuality.derivedTrace`: `Tr_f : Rf_!(f^*K(d)[2d]) ⟶ K` in `D(Y, Λ)`, natural in `K`.
+- `Tr_f : Rf_!(f^*K(d)[2d]) ⟶ K` in `D(Y, Λ)`, natural in `K`.
 
-- `TauCeti.EtaleDuality.trace_baseChange`: (Var 2): compatibility with base change.
+- (Var 2): compatibility with base change.
 
-- `TauCeti.EtaleDuality.trace_comp`: (Var `3`): `Tr_{fg} = Tr_f ∘ R^{2d}f_!`(`Tr_g`).
+- (Var `3`): `Tr_{fg} = Tr_f ∘ R^{2d}f_!`(`Tr_g`).
 
-- `TauCeti.EtaleDuality.trace_finite`: (Var `4`)(`I`): for `d = 0` and `f` finite locally free of `rank r, Tr_f ∘` unit `= r`.
+- (Var `4`)(`I`): for `d = 0` and `f` finite locally free of `rank r, Tr_f ∘` unit `= r`.
 
-- `TauCeti.EtaleDuality.trace_affineLine`: (Var 4)(II): for the affine line `Tr_f` is the isomorphism (2.8.1).
+- (Var 4)(II): for the affine line `Tr_f` is the isomorphism (2.8.1).
 
-- `TauCeti.EtaleDuality.trace_kunneth`: `Tr_{f×g} ∘` (Künneth) `= Tr_f ⊗ Tr_g` (SGA 4 XVIII 2.12).
+- `Tr_{f×g} ∘` (Künneth) `= Tr_f ⊗ Tr_g` (SGA 4 XVIII 2.12).
 
-- `TauCeti.EtaleDuality.trace_isIso_iff`: For `Λ = ℤ/n, n ≥ 2`, the sheaf trace `R^{2d}f_!Λ(d) → Λ` is an isomorphism iff each geometric fibre has one `d`-dimensional irreducible component of multiplicity prime to `n`. No such criterion for the derived trace or an arbitrary sheaf `F` is asserted.
+- For `Λ = ℤ/n, n ≥ 2`, the sheaf trace `R^{2d}f_!Λ(d) → Λ` is an isomorphism iff each geometric fibre has one `d`-dimensional irreducible component of multiplicity prime to `n`. No such criterion for the derived trace or an arbitrary sheaf `F` is asserted.
 
-- `TauCeti.EtaleDuality.higherLowerShriek`: `R^q f_!K := ℋ^q(Rf_!K)`, the sheaf on which the trace is defined.
+- `R^q f_!K := ℋ^q(Rf_!K)`, the sheaf on which the trace is defined.
 
 A proof proceeds as follows.
 
@@ -616,13 +616,13 @@ EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above.
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.trace_projectiveSpace`: For `P^d` over an algebraically closed field, `Tr(c₁(O(1))^d) = 1`.
+- For `P^d` over an algebraically closed field, `Tr(c₁(O(1))^d) = 1`.
 
-- `TauCeti.EtaleDuality.trace_dimZero_separable`: For `Spec k′ → Spec k` finite separable of degree `r` and `d = 0, Tr ∘` unit `= r`.
+- For `Spec k′ → Spec k` finite separable of degree `r` and `d = 0, Tr ∘` unit `= r`.
 
-- `TauCeti.EtaleDuality.trace_twoComponents`: Assume `Λ ≠ 0`. For `X = P¹ ⊔ P¹` over an algebraically closed field `(d = 1), H²(X, Λ(1)) ≅ Λ²` and `Tr` is the sum, so `Tr` is surjective but not injective.
+- Assume `Λ ≠ 0`. For `X = P¹ ⊔ P¹` over an algebraically closed field `(d = 1), H²(X, Λ(1)) ≅ Λ²` and `Tr` is the sum, so `Tr` is surjective but not injective.
 
-- `TauCeti.EtaleDuality.not_trace_ignores_multiplicity`: For the double plane `X = Spec k[x, y, z]/(z²)` over an algebraically closed `k` and `d = 2, Tr` is multiplication by 2 on `H⁴_c(X, Λ(2)) ≅ Λ`; a trace defined without multiplicities (the identity there) violates (Var `4`)(`I`) after a finite flat projection.
+- For the double plane `X = Spec k[x, y, z]/(z²)` over an algebraically closed `k` and `d = 2, Tr` is multiplication by 2 on `H⁴_c(X, Λ(2)) ≅ Λ`; a trace defined without multiplicities (the identity there) violates (Var `4`)(`I`) after a finite flat projection.
 
 - For `X = Spec k′ → Spec k` finite separable of degree `r` and `d = 0, Tr ∘` unit `= r`.
 
@@ -637,7 +637,7 @@ constant constructible, `H^{2d}_c(X, F) ≅ (F_x̄)_{π₁(X, x̄)}(−d)` (coin
 Work with the following additional hypotheses. `X` separated of finite type over an algebraically closed field
 (for the Galois statement, base change from `k₀`).
 
-Name the resulting statement `topDegreeCompactCohomology`.
+Name the resulting statement topDegreeCompactCohomology.
 
 A proof proceeds as follows.
 
@@ -681,7 +681,7 @@ the absolute analogue of (b) is false. Over `ℤ_ℓ` the derived dual and its `
 Work with the following additional hypotheses. `X` separated of finite type over a field `k`; `n` invertible in `k`.
 (a) holds for all `K ∈ D(X, Λ)`; the degreewise form in (b) uses self-injectivity of `Λ`.
 
-Name the resulting statement `relativeAndGeometricDuality`.
+Name the resulting statement relativeAndGeometricDuality.
 
 A proof proceeds as follows.
 
@@ -719,7 +719,7 @@ with `F^∨ := RHom(F, Λ)` and the degreewise statement needs self-injectivity.
 Work with the following additional hypotheses. `k` separably closed (for a general `k` apply to `X ⊗ k_s` with
 Galois action: §0.5). `X` smooth separated of pure dimension `d`; `F` locally constant constructible; `Λ = O/πⁿ`.
 
-Name the resulting statement `poincareDualityTorsion`.
+Name the resulting statement poincareDualityTorsion.
 
 A proof proceeds as follows.
 
@@ -754,7 +754,7 @@ them.
 Work with the following additional hypotheses. As in poincare-duality-torsion; for the relative form `f` smooth
 proper with geometrically connected fibres, `n` invertible on `S`.
 
-Name the resulting statement `cupProductTracePairing`.
+Name the resulting statement cupProductTracePairing.
 
 A proof proceeds as follows.
 
@@ -788,7 +788,7 @@ not for modules over `ℤ/ℓᵐ`. The torsion-ring conclusion is the equivarian
 Work with the following additional hypotheses. `k₀` arbitrary for Galois equivariance; `k₀ = 𝔽_q` for the
 Frobenius statement.
 
-Name the resulting statement `galoisFrobeniusEquivariance`.
+Name the resulting statement galoisFrobeniusEquivariance.
 
 A proof proceeds as follows.
 
@@ -816,7 +816,7 @@ Use [Deligne-WeilI-1974] (2.4), p. 281.
 
 - For `X₀=P¹⊔P¹`, `H²_c(X,Λ)=Λ(−1)²` and `Tr_X(a,b)=a+b`. The trace pairing is Frobenius-equivariant with multiplier `q`, although for nonzero `Λ` its top-degree trace is not an isomorphism.
 
-- The operator identity `pairing_dual_operator` identifies the second Frobenius with `q^d` times the dual inverse of the first under a perfect field-valued pairing, so reciprocal eigenvalues retain algebraic multiplicities.
+- The operator identity identifies the second Frobenius with `q^d` times the dual inverse of the first under a perfect field-valued pairing, so reciprocal eigenvalues retain algebraic multiplicities.
 
 ### 0.6 Integral duality and extreme degrees
 
@@ -836,7 +836,7 @@ commutes with reduction). For these finite free lisse systems, use EtaleCohomolo
 lattices, finitely generated integral cohomology, perfect cohomology complexes, strict derived reduction and
 coefficient change. The later constructible ramified-tower construction is not needed here.
 
-Name the resulting statement `adicAndRationalPoincareDuality`.
+Name the resulting statement adicAndRationalPoincareDuality.
 
 A proof proceeds as follows.
 
@@ -872,7 +872,7 @@ has coinvariants `ℤ/2`.
 Work with the following additional hypotheses. `X` smooth connected; for (b) affine (or more generally with no
 proper component).
 
-Name the resulting statement `extremeDegreeCohomology`.
+Name the resulting statement extremeDegreeCohomology.
 
 A proof proceeds as follows.
 
@@ -911,7 +911,7 @@ Work with the following additional hypotheses. `X` projective smooth connected c
 closed; `F` lisse on `U`; for `ℚ_ℓ` coefficients pass to the limit as in §0.6. The torsion statement needs the dual
 of `j_*F` to be `j_*(F^∨)(1)[2]`, which is the local calculation at the punctures.
 
-Name the resulting statement `curvePoincareDualityWithJStarStatement`.
+Name the resulting statement curvePoincareDualityWithJStarStatement.
 
 A proof proceeds as follows.
 
@@ -941,7 +941,7 @@ equations.
 Work with the following additional hypotheses. Lisse `ℚ̄_ℓ` coefficients (via finite `E` and passage to the
 limit).
 
-Name the resulting statement `lisseTensorHomDualityOnCurves`.
+Name the resulting statement lisseTensorHomDualityOnCurves.
 
 A proof proceeds as follows.
 
@@ -970,7 +970,7 @@ of Berkovich's Theorem 7.4.9 used in ClassicalAdicEtaleCohomology §9.2.
 Work with the following additional hypotheses. `f` smooth compactifiable of pure relative dimension `d`; `F` locally
 constant constructible with locally constant `R^q f_!(F^∨)`; `Λ` self-injective.
 
-Name the resulting statement `relativeDualityLocallyConstant`.
+Name the resulting statement relativeDualityLocallyConstant.
 
 A proof proceeds as follows.
 
@@ -1009,7 +1009,7 @@ constructible `F`. Consequently, for `Y ⊂ Z` closed of codimension `≥ c + 1`
 Work with the following additional hypotheses. `X` smooth over a perfect field `k` (so the regular locus of a
 reduced closed subscheme is smooth and dense); `codim Z ≥ c`.
 
-Name the resulting statement `semiPurity`.
+Name the resulting statement semiPurity.
 
 A proof proceeds as follows.
 
@@ -1045,21 +1045,21 @@ algebraically closed fields).
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.fundamentalClass`: `s_{Z/X} ∈ H^{2c}_Z(X, Λ(c))` for `Z ⊂ X` integral of codimension `c, X` smooth over a perfect field.
+- `s_{Z/X} ∈ H^{2c}_Z(X, Λ(c))` for `Z ⊂ X` integral of codimension `c, X` smooth over a perfect field.
 
-- `TauCeti.EtaleDuality.fundamentalClass_restrict`: Étale open restriction carries `s_{Z/X}` to the restricted fundamental class; for `Z` integral the class is uniquely determined by the purity generator on a dense smooth open. Removing the singular closed subset does not change `H^{2c}_Z`, by semi-purity in codimension `≥c+1`.
+- Étale open restriction carries `s_{Z/X}` to the restricted fundamental class; for `Z` integral the class is uniquely determined by the purity generator on a dense smooth open. Removing the singular closed subset does not change `H^{2c}_Z`, by semi-purity in codimension `≥c+1`.
 
-- `TauCeti.EtaleDuality.fundamentalClass_smooth`: For `Z` smooth, `s_{Z/X}` is the image of 1 under purity `H⁰(Z, Λ) ≅ H^{2c}_Z(X, Λ(c))`.
+- For `Z` smooth, `s_{Z/X}` is the image of 1 under purity `H⁰(Z, Λ) ≅ H^{2c}_Z(X, Λ(c))`.
 
-- `TauCeti.EtaleDuality.fundamentalClass_divisor`: For `c = 1` and `Z` a Cartier divisor, `s_{Z/X}` is the Kummer local class; its image in `H²(X, Λ(1))` is `c₁(O(Z))`.
+- For `c = 1` and `Z` a Cartier divisor, `s_{Z/X}` is the Kummer local class; its image in `H²(X, Λ(1))` is `c₁(O(Z))`.
 
-- `TauCeti.EtaleDuality.fundamentalClass_etale`: `u^*s_{Z/X} = s_{u^{-1}Z/X′}` for `u : X′ → X` étale.
+- `u^*s_{Z/X} = s_{u^{-1}Z/X′}` for `u : X′ → X` étale.
 
-- `TauCeti.EtaleDuality.fundamentalClassOfCycle`: `s_α ∈ H^{2c}_{|α|}(X, Λ(c))` for a codimension-`c` cycle `α`, additive in `α`.
+- `s_α ∈ H^{2c}_{|α|}(X, Λ(c))` for a codimension-`c` cycle `α`, additive in `α`.
 
-- `TauCeti.EtaleDuality.fundamentalClass_unique`: For `Z` integral, restriction of `H^{2c}_Z(X,Λ(c))` to any dense smooth open of `Z` is injective; hence a class with the purity-generator restriction equals `s_{Z/X}`.
+- For `Z` integral, restriction of `H^{2c}_Z(X,Λ(c))` to any dense smooth open of `Z` is injective; hence a class with the purity-generator restriction equals `s_{Z/X}`.
 
-- `TauCeti.EtaleDuality.fundamentalClassOfCycle_add`: For cycles `α,β` whose supports lie in the same closed `Z, s_{α+β}=s_α+s_β` in `H^{2c}_Z(X,Λ(c))`.
+- For cycles `α,β` whose supports lie in the same closed `Z, s_{α+β}=s_α+s_β` in `H^{2c}_Z(X,Λ(c))`.
 
 A proof proceeds as follows.
 
@@ -1076,13 +1076,13 @@ Use [Milne-LEC] §23, p. 139.
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.fundamentalClass_hyperplane`: For a hyperplane `H ⊂ P^n` over an algebraically closed field, the image of `s_{H/P^n}` in `H²(P^n, Λ(1))` is `c₁(O(1))`.
+- For a hyperplane `H ⊂ P^n` over an algebraically closed field, the image of `s_{H/P^n}` in `H²(P^n, Λ(1))` is `c₁(O(1))`.
 
-- `TauCeti.EtaleDuality.fundamentalClass_nodalCubic`: For the nodal cubic `C ⊂ P²` over an algebraically closed field of characteristic `≠ 2, 3`, the image of `s_{C/P²}` is `3c₁(O(1))`, computed through the smooth locus.
+- For the nodal cubic `C ⊂ P²` over an algebraically closed field of characteristic `≠ 2, 3`, the image of `s_{C/P²}` is `3c₁(O(1))`, computed through the smooth locus.
 
-- `TauCeti.EtaleDuality.fundamentalClass_whole`: For `Z = X (c = 0), s_{X/X} = 1 ∈ H⁰(X, Λ)`.
+- For `Z = X (c = 0), s_{X/X} = 1 ∈ H⁰(X, Λ)`.
 
-- `TauCeti.EtaleDuality.not_fundamentalClass_purity_singular`: Over an algebraically closed characteristic-zero field with `Λ = ℤ/3`, let `Z = {xy = 0} ⊂ A²`. The stalk at the crossing of `ℋ²_Z(Λ(1))` is `Λ²`, generated by the two branches (local Kummer residues), whereas `Λ_Z` has stalk `Λ`. Thus `i^!Λ` cannot be `Λ_Z(−1)[−2]`; the fundamental classes of the branches exist without asserting purity for the singular union.
+- Over an algebraically closed characteristic-zero field with `Λ = ℤ/3`, let `Z = {xy = 0} ⊂ A²`. The stalk at the crossing of `ℋ²_Z(Λ(1))` is `Λ²`, generated by the two branches (local Kummer residues), whereas `Λ_Z` has stalk `Λ`. Thus `i^!Λ` cannot be `Λ_Z(−1)[−2]`; the fundamental classes of the branches exist without asserting purity for the singular union.
 
 - For a hyperplane `H ⊂ P^n, s_{H/P^n}` maps to `c₁(O(1))` in `H²(P^n, Λ(1))`.
 
@@ -1105,19 +1105,19 @@ Chern classes and the Whitney identity do not need it.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.chernClass`: `c_r(E) ∈ H^{2r}(X, Λ(r))` for `E` locally free.
+- `c_r(E) ∈ H^{2r}(X, Λ(r))` for `E` locally free.
 
-- `TauCeti.EtaleDuality.totalChernClass`: `c(E)=Σ_{r=0}^{rank E} c_r(E)` in the even diagonal cohomology ring. For quasi-compact `X` this is a unit: a finite trivializing cover bounds the nilpotence of its positive-degree part.
+- `c(E)=Σ_{r=0}^{rank E} c_r(E)` in the even diagonal cohomology ring. For quasi-compact `X` this is a unit: a finite trivializing cover bounds the nilpotence of its positive-degree part.
 
-- `TauCeti.EtaleDuality.chernClass_pullback`: `c_r(f^*E) = f^*c_r(E)`.
+- `c_r(f^*E) = f^*c_r(E)`.
 
-- `TauCeti.EtaleDuality.chernClass_one_lineBundle`: For `L` invertible, `c₁(L)=`firstChernClass `L`; higher vanishing is `chernClass_eq_zero_of_rank_lt`.
+- For `L` invertible, `c₁(L)=`firstChernClass `L`; its higher classes vanish by the rank bound below.
 
-- `TauCeti.EtaleDuality.totalChernClass_whitney`: `c(E) = c(E′) ∪ c(E″)` for `0 → E′ → E → E″ → 0`.
+- `c(E) = c(E′) ∪ c(E″)` for `0 → E′ → E → E″ → 0`.
 
-- `TauCeti.EtaleDuality.chernClass_eq_zero_of_rank_lt`: `c_r(E) = 0` for `r > rank E`.
+- `c_r(E) = 0` for `r > rank E`.
 
-- `TauCeti.EtaleDuality.chernClass_projectiveBundle_relation`: `Σ_r π^*c_r(E) ∪ ξ^{rank E − r} = 0` in `H^{2 rank E}(P(E), Λ(rank E))`.
+- `Σ_r π^*c_r(E) ∪ ξ^{rank E − r} = 0` in `H^{2 rank E}(P(E), Λ(rank E))`.
 
 A proof proceeds as follows.
 
@@ -1143,13 +1143,13 @@ Use [Milne-LEC] §23, p. 140; [Milne-LEC] Theorem 23.3, p. 140.
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.chernClass_tangent_projectiveSpace`: For `X = P^m` over an algebraically closed field, `c(T_{P^m}) = (1 + h)^{m+1}` in `Λ[h]/(h^{m+1})`.
+- For `X = P^m` over an algebraically closed field, `c(T_{P^m}) = (1 + h)^{m+1}` in `Λ[h]/(h^{m+1})`.
 
-- `TauCeti.EtaleDuality.chernClass_trivial`: `c(O_X^r) = 1`.
+- `c(O_X^r) = 1`.
 
-- `TauCeti.EtaleDuality.chernClass_sum_lines`: Assume `Λ ≠ 0`. `c(O(1) ⊕ O(1)) = (1 + h)²` on `P^m`, so `c₂ = h² ≠ 0` for `m ≥ 2`.
+- Assume `Λ ≠ 0`. `c(O(1) ⊕ O(1)) = (1 + h)²` on `P^m`, so `c₂ = h² ≠ 0` for `m ≥ 2`.
 
-- `TauCeti.EtaleDuality.not_chernClass_two_of_line`: Assume `Λ≠0`. For a line bundle `L, c₂(L) = 0` although `c₁(L)²` may be nonzero (e.g. `L = O(1)` on `P²`): `c₂` is not `c₁²`.
+- Assume `Λ≠0`. For a line bundle `L, c₂(L) = 0` although `c₁(L)²` may be nonzero (e.g. `L = O(1)` on `P²`): `c₂` is not `c₁²`.
 
 - `c(T_{P^m}) = (1 + h)^{m+1}`.
 
@@ -1162,7 +1162,7 @@ Extend the supplied projective-space basis and Kummer class to Chow descent, pro
 **Chow intersection multiplicities and Euler–Tor lengths.** Let `k` be perfect, `X` a smooth
 separated finite-type `k`-scheme of pure dimension `d`, and `V,W⊂X` integral closed subvarieties
 meeting properly: every irreducible component of `V∩W` has dimension `dim V+dim W−d`.
-Construct `chowIntersection_eq_eulerTor`: at the generic point `η` of each such component,
+Construct chowIntersection_eq_eulerTor: at the generic point `η` of each such component,
 the multiplicity in the proper-intersection cycle representing `[V]·[W]` is
 `Σ_i(−1)^i length_A Tor_i^A(O_{V,η},O_{W,η})`, where `A=O_{X,η}`. Equivalently this is
 an equality of top-dimensional supported cycles on `V∩W`; its pushforward represents
@@ -1210,27 +1210,27 @@ descent is outside this scope).
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.cycleClass`: `cl_X : Z^r(X) →+ H^{2r}(X, Λ(r))`, on Mathlib AlgebraicCycle `X ℤ` restricted to codimension `r`.
+- `cl_X : Z^r(X) →+ H^{2r}(X, Λ(r))`, on Mathlib AlgebraicCycle `X ℤ` restricted to codimension `r`.
 
-- `TauCeti.EtaleDuality.cycleClass_rationalEquiv`: `cl_X` vanishes on cycles rationally equivalent to zero, so factors through `CH^r(X)`.
+- `cl_X` vanishes on cycles rationally equivalent to zero, so factors through `CH^r(X)`.
 
-- `TauCeti.EtaleDuality.cycleClass_divisor`: For a Cartier divisor `D, cl_X(D) = c₁(O(D))`.
+- For a Cartier divisor `D, cl_X(D) = c₁(O(D))`.
 
-- `TauCeti.EtaleDuality.cycleClass_pullback`: `cl(f^*α)=f^*cl(α)` for flat `f`; the arbitrary smooth-scheme refined formula is stated separately on Chow groups.
+- `cl(f^*α)=f^*cl(α)` for flat `f`; the arbitrary smooth-scheme refined formula is stated separately on Chow groups.
 
-- `TauCeti.EtaleDuality.cycleClass_pushforward`: `cl(f_*α) = f_*cl(α)` for `f` proper between smooth schemes.
+- `cl(f_*α) = f_*cl(α)` for `f` proper between smooth schemes.
 
-- `TauCeti.EtaleDuality.cycleClass_intersection`: `cl(α · β) = cl(α) ∪ cl(β)` for properly intersecting cycles.
+- `cl(α · β) = cl(α) ∪ cl(β)` for properly intersecting cycles.
 
-- `TauCeti.EtaleDuality.trace_cycleClass_point`: `Tr_X(cl(x)) = 1` for a closed point of `X` proper over `k` separably closed; `Tr ∘ cl = deg` on 0-cycles.
+- `Tr_X(cl(x)) = 1` for a closed point of `X` proper over `k` separably closed; `Tr ∘ cl = deg` on 0-cycles.
 
-- `TauCeti.EtaleDuality.cycleClass_galois`: `cl` is `Gal(k̄/k)`-equivariant into `H^{2r}(X_k̄, Λ(r))`; over `𝔽_q` geometric Frobenius fixes `cl(α)` in the twisted group.
+- `cl` is `Gal(k̄/k)`-equivariant into `H^{2r}(X_k̄, Λ(r))`; over `𝔽_q` geometric Frobenius fixes `cl(α)` in the twisted group.
 
-- `TauCeti.EtaleDuality.chowCycleClass`: The additive map `CH^r(X)→H^{2r}(X,Λ(r))` induced by `cycleClass_rationalEquiv`.
+- The additive map `CH^r(X)→H^{2r}(X,Λ(r))` induced by the vanishing of `cl_X` on cycles rationally equivalent to zero.
 
-- `TauCeti.EtaleDuality.chowCycleClass_refinedPullback`: For a morphism `f:Y→X` of smooth schemes, `cl(f^!α)=f^*cl(α)`, where `f^!` is `Chow.graphPullback f` from SchemeAndStackFoundations §5.6, using `Chow.gysin` from §5.5.
+- For a morphism `f:Y→X` of smooth schemes, `cl(f^!α)=f^*cl(α)`, where `f^!` is `Chow.graphPullback f` from SchemeAndStackFoundations §5.6, using `Chow.gysin` from §5.5.
 
-- `TauCeti.EtaleDuality.cycleClass_whole`: `cl_X([X])=1` in `H⁰(X,Λ)`, for smooth integral `X`.
+- `cl_X([X])=1` in `H⁰(X,Λ)`, for smooth integral `X`.
 
 A proof proceeds as follows.
 
@@ -1257,7 +1257,7 @@ For properly intersecting `Z,W` use [Cycle] 2.3.8(iii): the cup product of their
 weighted class of `O_Z⊗^L O_W`, with coefficient `Σ_i(−1)^i length Tor_i` at each generic intersection point. The
 proof factors the diagonal graph through a smooth projection and a regular closed immersion, uses
 compatibility of the weighted trace with both, and uses semi-purity only to compare generic supported classes.
-Apply `chowIntersection_eq_eulerTor` to identify this supported cycle with the Chow
+Apply chowIntersection_eq_eulerTor to identify this supported cycle with the Chow
 proper-intersection cycle. Over a perfect field [Cycle] 2.3.9 gives the same cup-product
 formula with Euler–Tor multiplicities; ordinary intersection lengths suffice only when
 higher Tor vanishes. The moving lemma extends the formula to the Chow ring for smooth
@@ -1274,21 +1274,21 @@ smooth pullback gives the refined Chow pullback formula.
 Use [SGA4half] [Cycle] 2.3.1–2.3.8, pp. 144–149; 2.3.9–2.3.10, p. 150; [Milne-LEC] §23, pp. 139–142.
 
 *Needs:* §1.1; EtaleCohomologyFoundations §§0.10, F.6; EtaleCohomologyFoundations §0.9;
-SchemeAndStackFoundations §§5.1–5.6; `chowIntersection_eq_eulerTor`; `AlgebraicGeometry.AlgebraicCycle`;
+SchemeAndStackFoundations §§5.1–5.6; chowIntersection_eq_eulerTor; `AlgebraicGeometry.AlgebraicCycle`;
 `AlgebraicGeometry.AlgebraicCycle.map`; EtaleCohomologyFoundations §§0.9, F.7.
 
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.cycleClass_hyperplane`: On `P^n` over an algebraically closed field, `cl(H) = h` and `cl` of a linear subspace of codimension `r` is `h^r`.
+- On `P^n` over an algebraically closed field, `cl(H) = h` and `cl` of a linear subspace of codimension `r` is `h^r`.
 
-- `TauCeti.EtaleDuality.cycleClass_transverse_curves`: For two transverse curves `C, D` on a smooth projective surface over an algebraically closed field, `Tr(cl(C) ∪ cl(D)) =` #`(C ∩ D)`.
+- For two transverse curves `C, D` on a smooth projective surface over an algebraically closed field, `Tr(cl(C) ∪ cl(D)) =` #`(C ∩ D)`.
 
-- `TauCeti.EtaleDuality.cycleClass_zero`: `cl_X(0) = 0`, and `cl_X([X]) = 1` for `r = 0`.
+- `cl_X(0) = 0`, and `cl_X([X]) = 1` for `r = 0`.
 
-- `TauCeti.EtaleDuality.cycleClass_principal`: For `f` a nonzero rational function on `X, cl_X`(div `f`) `= 0`.
+- For `f` a nonzero rational function on `X, cl_X`(div `f`) `= 0`.
 
-- `TauCeti.EtaleDuality.not_cycleClass_injective`: For an elliptic curve `E` over an algebraically closed field, the 0-cycle `[p] − [q] (p ≠ q)` is not rationally equivalent to 0 but `cl([p] − [q]) = 0` in `H²(E, Λ(1)): cl` is not injective (and nothing about numerical vs homological equivalence is asserted).
+- For an elliptic curve `E` over an algebraically closed field, the 0-cycle `[p] − [q] (p ≠ q)` is not rationally equivalent to 0 but `cl([p] − [q]) = 0` in `H²(E, Λ(1)): cl` is not injective (and nothing about numerical vs homological equivalence is asserted).
 
 - Hyperplanes in `P^n: cl(H) = h` and `cl(H₁ ∩ … ∩ H_r) = h^r` for transverse hyperplanes.
 
@@ -1308,7 +1308,7 @@ compatibility with degree and arbitrary line bundles. In particular the hyperpla
 Work with the following additional hypotheses. `k` separably closed; `X` smooth projective for the degree formula
 (intersection number `(L^d)` from SchemeAndStackFoundations §§5.1–5.6).
 
-Name the resulting statement `projectiveSpaceCohomology`.
+Name the resulting statement projectiveSpaceCohomology.
 
 A proof proceeds as follows.
 
@@ -1358,7 +1358,7 @@ Work with the following additional hypotheses. `C` pretriangulated with the octa
 (no boundedness or nondegeneracy is needed). The abelian structure is the one supplied by Mathlib's
 AbelianSubcategory criterion; the theorem is that its two hypotheses hold for the heart.
 
-Name the resulting statement `heartAbelianSubcategory`; `heart_abelian` in `Suggested.lean` states existence of the abelian structure.
+Name the resulting statement heartAbelianSubcategory; `heart_abelian` in `Suggested.lean` states existence of the abelian structure.
 
 A proof proceeds as follows.
 
@@ -1406,21 +1406,21 @@ Detection (c) needs `t`-boundedness of `X`; (d) needs nondegeneracy.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.TStructure.homologyZero`: `H⁰_t : C ⥤` heart(t), the lift of truncGE 0 ∘ truncLE 0 to the heart.
+- `H⁰_t : C ⥤` heart(t), the lift of truncGE 0 ∘ truncLE 0 to the heart.
 
-- `TauCeti.EtaleDuality.TStructure.homology`: `H^m_t := H⁰_t ∘ [m] : C ⥤` heart(t) for `m ∈ ℤ`.
+- `H^m_t := H⁰_t ∘ [m] : C ⥤` heart(t) for `m ∈ ℤ`.
 
-- `TauCeti.EtaleDuality.TStructure.homologyZero_isHomological`: `H⁰_t` is a homological functor (Mathlib Functor.IsHomological) into the abelian heart.
+- `H⁰_t` is a homological functor (Mathlib `CategoryTheory.Functor.IsHomological`) into the abelian heart.
 
-- `TauCeti.EtaleDuality.TStructure.homologyZeroIsoOfMemHeart`: For `X` in the heart, `H⁰_t X ≅ X` naturally.
+- For `X` in the heart, `H⁰_t X ≅ X` naturally.
 
-- `TauCeti.EtaleDuality.TStructure.homology_shift`: `H^m_t(X[a]) ≅ H^{m+a}_t(X)` naturally.
+- `H^m_t(X[a]) ≅ H^{m+a}_t(X)` naturally.
 
-- `TauCeti.EtaleDuality.TStructure.isZero_of_homology_isZero`: If `X` is `t`-bounded and every `H^m_t X` is zero, then `X` is zero.
+- If `X` is `t`-bounded and every `H^m_t X` is zero, then `X` is zero.
 
-- `TauCeti.EtaleDuality.TStructure.isLE_iff_homology`: For `t`-bounded `X: X ∈ t.le n` iff `H^m_t X = 0` for all `m > n`; dually `X ∈ t.ge n` iff `H^m_t X = 0` for `m < n`.
+- For `t`-bounded `X: X ∈ t.le n` iff `H^m_t X = 0` for all `m > n`; dually `X ∈ t.ge n` iff `H^m_t X = 0` for `m < n`.
 
-- `TauCeti.EtaleDuality.TStructure.homologyCanonicalIso`: For DerivedCategory.TStructure.t on `D(A)`, under heart `≌ A, H^m_t` corresponds to DerivedCategory.homologyFunctor `A m`.
+- For DerivedCategory.TStructure.t on `D(A)`, under heart `≌ A, H^m_t` corresponds to DerivedCategory.homologyFunctor `A m`.
 
 A proof proceeds as follows.
 
@@ -1445,19 +1445,19 @@ Use [BBD-1982] Proposition 1.3.5 and Théorème 1.3.6, pp.30–32; Proposition 1
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.homology_canonical_shift`: For the canonical `t`-structure on `D(Ab): H¹_t((ℤ/2)[−1]) ≅ ℤ/2` and `H⁰_t((ℤ/2)[−1]) ≅ 0`.
+- For the canonical `t`-structure on `D(Ab): H¹_t((ℤ/2)[−1]) ≅ ℤ/2` and `H⁰_t((ℤ/2)[−1]) ≅ 0`.
 
-- `TauCeti.EtaleDuality.homologyZero_zero`: `H⁰_t(0) ≅ 0`, and for `X` in the heart `H^m_t X ≅ 0` for `m ≠ 0`.
+- `H⁰_t(0) ≅ 0`, and for `X` in the heart `H^m_t X ≅ 0` for `m ≠ 0`.
 
-- `TauCeti.EtaleDuality.homology_canonical_compat`: For DerivedCategory.TStructure.t on `D(A), H^m_t ≅` DerivedCategory.homologyFunctor `A m` under heart `≌ A`.
+- For DerivedCategory.TStructure.t on `D(A), H^m_t ≅` DerivedCategory.homologyFunctor `A m` under heart `≌ A`.
 
 - In `D(ℚ)`, take `X = ℚ[0] ⊕ ℚ[−1]`, with upper bound `a=1` and lower bound `b=0`.
   Its upper truncation triangle is `ℚ[0] → X → ℚ[−1] → ℚ[1]`. Truncating instead at `b−1=−1`
   gives first term zero and third term `X`, which is not `H⁰(X)[0]` since `H¹(X)=ℚ`.
 
-- `TauCeti.EtaleDuality.homologyZero_not_triangulated`: `H⁰_t` does not commute with the shift: for `A ≠ 0` in `A, H⁰_t(A[1]) = 0` while `(H⁰_t A)[1]` is not zero; so `H⁰_t` is homological but not triangulated.
+- `H⁰_t` does not commute with the shift: for `A ≠ 0` in `A, H⁰_t(A[1]) = 0` while `(H⁰_t A)[1]` is not zero; so `H⁰_t` is homological but not triangulated.
 
-- `TauCeti.EtaleDuality.not_isZero_of_homology_unbounded`: For the degenerate `t`-structure with `t.le n = C` and `t.ge n = 0` for all `n` on a nonzero `C`, every `H^m_t` vanishes on a nonzero object, which is not `t`-bounded: the boundedness hypothesis in `isZero_of_homology_isZero` cannot be dropped.
+- For the degenerate `t`-structure with `t.le n = C` and `t.ge n = 0` for all `n` on a nonzero `C`, every `H^m_t` vanishes on a nonzero object, which is not `t`-bounded: the boundedness hypothesis in the vanishing criterion for `t`-bounded objects cannot be dropped.
 
 - For Mathlib's canonical `t`-structure on `D(Ab): H¹_t((ℤ/2)[−1]) ≅ ℤ/2` and `H⁰_t((ℤ/2)[−1]) = 0`.
 
@@ -1482,23 +1482,23 @@ Use Mathlib's `T.RightTExact t₁ t₂`, `T.LeftTExact t₁ t₂` and `T.TExact 
 the degree-zero constructors are `RightTExact.mk` and `LeftTExact.mk`.
 The additional interface consists of the following maps and identities.
 
-- `TauCeti.EtaleDuality.Functor.rightTExact_comp`: `T₁.RightTExact t₁ t₂` and `T₂.RightTExact t₂ t₃` give `(T₁ ⋙ T₂).RightTExact t₁ t₃`.
+- `T₁.RightTExact t₁ t₂` and `T₂.RightTExact t₂ t₃` give `(T₁ ⋙ T₂).RightTExact t₁ t₃`.
 
-- `TauCeti.EtaleDuality.Functor.leftTExact_comp`: The corresponding composition result over `LeftTExact`.
+- The corresponding composition result over `LeftTExact`.
 
-- `TauCeti.EtaleDuality.Functor.isRightTExact_iff_isLeftTExact_of_adjunction`: For an adjunction `L ⊣ R` with both functors carrying `CommShift ℤ` and `IsTriangulated`, `L.RightTExact t₁ t₂ ↔ R.LeftTExact t₂ t₁`.
+- For an adjunction `L ⊣ R` with both functors carrying `CommShift ℤ` and `IsTriangulated`, `L.RightTExact t₁ t₂ ↔ R.LeftTExact t₂ t₁`.
 
-- `TauCeti.EtaleDuality.Functor.heartFunctor`: `pT := H⁰_{t₂} ∘ T ∘ ι₁` : heart`(t₁) ⥤` heart`(t₂)`.
+- `pT := H⁰_{t₂} ∘ T ∘ ι₁` : heart`(t₁) ⥤` heart`(t₂)`.
 
-- `TauCeti.EtaleDuality.Functor.heartFunctor_preservesFiniteColimits`: Under `T.RightTExact t₁ t₂`, `pT` is right exact (preserves finite colimits).
+- Under `T.RightTExact t₁ t₂`, `pT` is right exact (preserves finite colimits).
 
-- `TauCeti.EtaleDuality.Functor.heartFunctor_preservesFiniteLimits`: Under `T.LeftTExact t₁ t₂`, `pT` is left exact (preserves finite limits).
+- Under `T.LeftTExact t₁ t₂`, `pT` is left exact (preserves finite limits).
 
-- `TauCeti.EtaleDuality.Functor.heartAdjunction`: If `L ⊣ R` with `L.RightTExact t₁ t₂` (equivalently `R.LeftTExact t₂ t₁`), then `pL ⊣ pR` on the hearts.
+- If `L ⊣ R` with `L.RightTExact t₁ t₂` (equivalently `R.LeftTExact t₂ t₁`), then `pL ⊣ pR` on the hearts.
 
-- `TauCeti.EtaleDuality.Functor.heartFunctorComp`: Under `T₁.LeftTExact t₁ t₂` and `T₂.LeftTExact t₂ t₃`, `p(T₂ ∘ T₁) ≅ pT₂ ∘ pT₁`; dually under the two `RightTExact` hypotheses.
+- Under `T₁.LeftTExact t₁ t₂` and `T₂.LeftTExact t₂ t₃`, `p(T₂ ∘ T₁) ≅ pT₂ ∘ pT₁`; dually under the two `RightTExact` hypotheses.
 
-- `TauCeti.EtaleDuality.Functor.heartRestriction_exists`: For triangulated `C₁,C₂` and `T.TExact t₁ t₂`, there is a functor on the full-subcategory hearts whose composite with the target inclusion is naturally isomorphic to `ι₁ ⋙ T`, preserving finite limits and finite colimits. It identifies with `pT`.
+- For triangulated `C₁,C₂` and `T.TExact t₁ t₂`, there is a functor on the full-subcategory hearts whose composite with the target inclusion is naturally isomorphic to `ι₁ ⋙ T`, preserving finite limits and finite colimits. It identifies with `pT`.
 
 A proof proceeds as follows.
 
@@ -1521,17 +1521,17 @@ Use [BBD-1982] 1.3.16 and Proposition 1.3.17, pp.36–37; Remarque 1.3.18, p.37;
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.isTExact_id`: The identity functor is `t`-exact for every `t`-structure.
+- The identity functor is `t`-exact for every `t`-structure.
 
-- `TauCeti.EtaleDuality.isRightTExact_shift_one`: The shift [1] is right `t`-exact for every `t`-structure.
+- The shift [1] is right `t`-exact for every `t`-structure.
 
-- `TauCeti.EtaleDuality.not_isLeftTExact_shift_one`: For the canonical `t`-structure on `D(A)` with `A ≠ 0`, the shift [1] is not left `t`-exact: `A ∈ t.ge 0` but `A[1] ∉ t.ge 0`.
+- For the canonical `t`-structure on `D(A)` with `A ≠ 0`, the shift [1] is not left `t`-exact: `A ∈ t.ge 0` but `A[1] ∉ t.ge 0`.
 
 - Shift `[−1]` is left `t`-exact, and fails right `t`-exactness when the heart is nonzero. Thus neither `[1]` nor `[−1]` is `t`-exact in that case.
 
-- `TauCeti.EtaleDuality.isTExact_mapDerivedCategory`: An exact functor `F : A ⥤ B` of abelian categories induces a `t`-exact functor `D(A) ⥤ D(B)` for the canonical `t`-structures.
+- An exact functor `F : A ⥤ B` of abelian categories induces a `t`-exact functor `D(A) ⥤ D(B)` for the canonical `t`-structures.
 
-- `TauCeti.EtaleDuality.not_isRightTExact_globalSections_projectiveLine`: Assume `Λ≠0`. Derived global sections `RΓ(P¹_Ω, −) : D(P¹_Ω, Λ) → D(Λ), Ω` separably closed, is left `t`-exact for the canonical `t`-structures but not right `t`-exact: `Λ(1)` in degree 0 has `H²(P¹, Λ(1)) ≅ Λ ≠ 0`.
+- Assume `Λ≠0`. Derived global sections `RΓ(P¹_Ω, −) : D(P¹_Ω, Λ) → D(Λ), Ω` separably closed, is left `t`-exact for the canonical `t`-structures but not right `t`-exact: `Λ(1)` in degree 0 has `H²(P¹, Λ(1)) ≅ Λ ≠ 0`.
 
 - The identity of `C` is `t`-exact; the shift [1] is right `t`-exact for every `t`.
 
@@ -1547,7 +1547,7 @@ are isomorphisms, so `i_*, j_!` and `j_*` are fully faithful (BBD 1.4.3). Conseq
 `X` with a closed subscheme `Z` and open complement `U`, with `i_* = i_!` and `j^! = j^*`. For any noetherian `Λ`
 killed by an invertible `n`, use EnhancedDerivedSheaves §0.4's `ClassicalDerived.functorCoherence` for `j^* ⊣ Rj_*`
 and exact extension by zero, and EtaleCohomologyFoundations §0.7's `ClassicalAlgebraic.supportLocalization` for
-`i^!` and the triangles. The bounded constructible preservation in ofClosedOpen below is independent of
+`i^!` and the triangles. The bounded constructible preservation in the closed–open recollement below is independent of
 self-injectivity; §0.2 additionally identifies the dual recollement when `Λ` is self-injective.
 
 Work with the following additional hypotheses. `D_F, D, D_U` pretriangulated; the six functors triangulated;
@@ -1556,21 +1556,21 @@ adjunctions part of the data.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.Recollement`: The structure: `i_*, j^*`, the adjoints `i^*, i^!, j_!, j_*`, the four adjunctions, `j^*i_* ≅ 0`, the two distinguished triangles and the full faithfulness isomorphisms.
+- A recollement consists of `i_*, j^*`, the adjoints `i^*, i^!, j_!, j_*`, the four adjunctions, `j^*i_* ≅ 0`, the two distinguished triangles and the full faithfulness isomorphisms.
 
-- `TauCeti.EtaleDuality.Recollement.triangleLowerShriek`: The functorial distinguished triangle `j_!j^*K → K → i_*i^*K → (j_!j^*K)[1]` built from the counit and unit.
+- The functorial distinguished triangle `j_!j^*K → K → i_*i^*K → (j_!j^*K)[1]` built from the counit and unit.
 
-- `TauCeti.EtaleDuality.Recollement.triangleUpperShriek`: The functorial distinguished triangle `i_*i^!K → K → j_*j^*K → (i_*i^!K)[1]`.
+- The functorial distinguished triangle `i_*i^!K → K → j_*j^*K → (i_*i^!K)[1]`.
 
-- `TauCeti.EtaleDuality.Recollement.upperStar_lowerShriek_isZero`: `i^* ∘ j_! ≅ 0` and `i^! ∘ j_* ≅ 0`.
+- `i^* ∘ j_! ≅ 0` and `i^! ∘ j_* ≅ 0`.
 
-- `TauCeti.EtaleDuality.Recollement.essImage_lowerStar`: `K` is in the essential image of `i_*` iff `j^*K ≅ 0`.
+- `K` is in the essential image of `i_*` iff `j^*K ≅ 0`.
 
-- `TauCeti.EtaleDuality.Recollement.op`: The opposite recollement of `D_F^op → D^op → D_U^op`, exchanging `j_!` with `j_*` and `i^*` with `i^!`.
+- The opposite recollement of `D_F^op → D^op → D_U^op`, exchanging `j_!` with `j_*` and `i^*` with `i^!`.
 
-- `TauCeti.EtaleDuality.Recollement.ofClosedOpen`: For `X` separated of finite type over a field `k`, `Z ⊂ X` closed with open complement `U`, and `Λ` noetherian killed by `n ≥ 1` invertible in `k`, construct the recollement `D^b_c(Z, Λ) → D^b_c(X, Λ) → D^b_c(U, Λ)`. Include bounded constructible preservation of `Rj_*` for these noetherian coefficients and deduce it for `i^!` from the supported triangle. The ambient functors and adjunctions are `ClassicalDerived.functorCoherence` (EnhancedDerivedSheaves §0.4) and `ClassicalAlgebraic.supportLocalization` (EtaleCohomologyFoundations §0.7); self-injectivity is unnecessary.
+- For `X` separated of finite type over a field `k`, `Z ⊂ X` closed with open complement `U`, and `Λ` noetherian killed by `n ≥ 1` invertible in `k`, construct the recollement `D^b_c(Z, Λ) → D^b_c(X, Λ) → D^b_c(U, Λ)`. Include bounded constructible preservation of `Rj_*` for these noetherian coefficients and deduce it for `i^!` from the supported triangle. The ambient functors and adjunctions are `ClassicalDerived.functorCoherence` (EnhancedDerivedSheaves §0.4) and `ClassicalAlgebraic.supportLocalization` (EtaleCohomologyFoundations §0.7); self-injectivity is unnecessary.
 
-- `TauCeti.EtaleDuality.Recollement.ofClosedOpen_upperStar`: In ofClosedOpen, `j^*` is restriction to `U` and `i_*` is pushforward along the closed immersion.
+- In the closed–open recollement, `j^*` is restriction to `U` and `i_*` is pushforward along the closed immersion.
 
 A proof proceeds as follows.
 
@@ -1580,7 +1580,7 @@ Record the functors and adjunctions as data, and (a)–(c) as properties (BBD 1.
 
 The kernel of `j^*` is the essential image of `i_*`: the second triangle of (b) for `K` with `j^*K = 0`.
 
-For ofClosedOpen, use recollementAdjunctions (§0.2), including its noetherian-coefficient finiteness argument
+For the closed–open recollement, use the recollement adjunctions of §0.2, including its noetherian-coefficient finiteness argument
 for `Rj_*` and the localization construction of `i^!`. These give the six functors on `D^b_c` without
 self-injectivity or an unbounded proper-support lift.
 
@@ -1595,13 +1595,13 @@ EtaleCohomologyFoundations §F.3 (`VanishingCycles.etaleFiniteness`); EnhancedDe
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.recollement_ofClosedOpen_empty`: For `Z = ∅, i_* = 0` and `j^* : D^b_c(X, Λ) → D^b_c(U, Λ)` is an equivalence.
+- For `Z = ∅, i_* = 0` and `j^* : D^b_c(X, Λ) → D^b_c(U, Λ)` is an equivalence.
 
-- `TauCeti.EtaleDuality.recollement_triangle_affineLine`: For `X = 𝔸¹, Z = {0}, K = Λ_X`: triangleLowerShriek is `j_!Λ_{𝔾_m} → Λ_{𝔸¹} → i_*Λ_0 →`.
+- For `X = 𝔸¹, Z = {0}, K = Λ_X`: the triangle `j_!j^*K → K → i_*i^*K →` is `j_!Λ_{𝔾_m} → Λ_{𝔸¹} → i_*Λ_0 →`.
 
-- `TauCeti.EtaleDuality.recollement_ofClosedOpen_upperStar_eq`: In Recollement.ofClosedOpen, `j^*` is the restriction functor of EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3 along `U ⊂ X`.
+- In the closed–open recollement, `j^*` is the restriction functor of EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3 along `U ⊂ X`.
 
-- `TauCeti.EtaleDuality.not_recollement_without_adjoints`: The inclusion of finite-dimensional `F`-vector spaces into all `F`-vector spaces (as derived categories in degree 0) is fully faithful but has no right adjoint: a right adjoint `R` would give `Hom(F, R(V)) ≅ Hom(F, V) = V` for infinite-dimensional `V`, impossible since `Hom(F, R(V)) = R(V)` is finite-dimensional. Full faithfulness alone does not give a recollement.
+- The inclusion of finite-dimensional `F`-vector spaces into all `F`-vector spaces (as derived categories in degree 0) is fully faithful but has no right adjoint: a right adjoint `R` would give `Hom(F, R(V)) ≅ Hom(F, V) = V` for infinite-dimensional `V`, impossible since `Hom(F, R(V)) = R(V)` is finite-dimensional. Full faithfulness alone does not give a recollement.
 
 - For the étale recollement of `Z = {0} ⊂ X = 𝔸¹` with `U = 𝔾_m`, the first triangle for `Λ_X` is the localization triangle `j_!Λ_U → Λ_X → i_*Λ_0 →`.
 
@@ -1624,7 +1624,7 @@ the relative truncation `τ^F_{≤p−1}j_*B` (BBD 1.4.14); (f) the glued `t`-st
 Work with the following additional hypotheses. A recollement whose three categories satisfy the octahedral
 axiom; `t`-structures `t_U, t_F`.
 
-Name the resulting statement `gluingTStructures`.
+Name the resulting statement gluingTStructures.
 
 A proof proceeds as follows.
 
@@ -1671,23 +1671,23 @@ with the glued `t`-structure.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.Recollement.intermediateExtension`: `j_!*` : heart`(t_U) ⥤` heart(glued), `B ↦` image`(pj_!B → pj_*B)`.
+- `j_!*` : heart`(t_U) ⥤` heart(glued), `B ↦` image`(pj_!B → pj_*B)`.
 
-- `TauCeti.EtaleDuality.Recollement.intermediateExtension_eq_image`: `j_!*B ≅` Abelian.image of the canonical map `pj_!B ⟶ pj_*B`.
+- `j_!*B ≅` Abelian.image of the canonical map `pj_!B ⟶ pj_*B`.
 
-- `TauCeti.EtaleDuality.Recollement.upperStar_intermediateExtension`: `j^* ∘ j_!* ≅ 𝟭` on heart`(t_U)`.
+- `j^* ∘ j_!* ≅ 𝟭` on heart`(t_U)`.
 
-- `TauCeti.EtaleDuality.Recollement.intermediateExtension_iso_truncation`: `j_!*B ≅ τ^F_{≤−1}(j_*B) ≅ τ^F_{≥1}(j_!B)` (relative truncations).
+- `j_!*B ≅ τ^F_{≤−1}(j_*B) ≅ τ^F_{≥1}(j_!B)` (relative truncations).
 
-- `TauCeti.EtaleDuality.Recollement.intermediateExtension_unique`: An extension `X` of `B` with `i^*X ∈ D_F^{≤−1}` and `i^!X ∈ D_F^{≥1}` is isomorphic to `j_!*B` by a unique isomorphism compatible with the identifications `j^*X ≅ B`.
+- An extension `X` of `B` with `i^*X ∈ D_F^{≤−1}` and `i^!X ∈ D_F^{≥1}` is isomorphic to `j_!*B` by a unique isomorphism compatible with the identifications `j^*X ≅ B`.
 
-- `TauCeti.EtaleDuality.Recollement.intermediateExtension_no_sub_quotient`: `j_!*B` has no nonzero subobject and no nonzero quotient in the essential image of `pi_*`.
+- `j_!*B` has no nonzero subobject and no nonzero quotient in the essential image of `pi_*`.
 
-- `TauCeti.EtaleDuality.Recollement.intermediateExtension_fullyFaithful`: `j_!*` is fully faithful.
+- `j_!*` is fully faithful.
 
-- `TauCeti.EtaleDuality.Recollement.intermediateExtension_simple`: `j_!*` sends simple objects to simple objects.
+- `j_!*` sends simple objects to simple objects.
 
-- `TauCeti.EtaleDuality.Recollement.simple_classification`: Every simple object of the glued heart is `pi_*S` (`S` simple in `C_F`) or `j_!*S` (`S` simple in `C_U`), and these are distinct.
+- Every simple object of the glued heart is `pi_*S` (`S` simple in `C_F`) or `j_!*S` (`S` simple in `C_U`), and these are distinct.
 
 A proof proceeds as follows.
 
@@ -1713,13 +1713,13 @@ p.55.
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.intermediateExtension_closed_zero`: If `D_F = 0` then `j_!*` is a quasi-inverse of the equivalence `pj^*` on hearts.
+- If `D_F = 0` then `j_!*` is a quasi-inverse of the equivalence `pj^*` on hearts.
 
-- `TauCeti.EtaleDuality.intermediateExtension_affineLine`: For the étale recollement `𝔾_m ⊂ 𝔸¹ ⊃ {0}` with field coefficients, `j_!*(Λ[1]) ≅ Λ_{𝔸¹}[1]`.
+- For the étale recollement `𝔾_m ⊂ 𝔸¹ ⊃ {0}` with field coefficients, `j_!*(Λ[1]) ≅ Λ_{𝔸¹}[1]`.
 
-- `TauCeti.EtaleDuality.not_lowerShriek_eq_intermediateExtension`: For `𝔾_m ⊂ 𝔸¹` with field coefficients, `pj_!(Λ[1])` has the nonzero subobject `i_*Λ_0`, so `pj_!(Λ[1]) ≇ j_!*(Λ[1])`.
+- For `𝔾_m ⊂ 𝔸¹` with field coefficients, `pj_!(Λ[1])` has the nonzero subobject `i_*Λ_0`, so `pj_!(Λ[1]) ≇ j_!*(Λ[1])`.
 
-- `TauCeti.EtaleDuality.intermediateExtension_simple_test`: `j_!*` of a simple object of `C_U` is simple in `C`.
+- `j_!*` of a simple object of `C_U` is simple in `C`.
 
 - For `j : 𝔾_m → 𝔸¹` with field coefficients, `j_!*(Λ[1]) ≅ Λ_{𝔸¹}[1]`, and the exact sequence `0 → i_*Λ_0 → pj_!(Λ[1]) → Λ_{𝔸¹}[1] → 0` shows `pj_! ≠ j_!*`.
 
@@ -1737,21 +1737,21 @@ theory on the heart.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.TStructure.tilt`: `t⁺ :=` the tilt of `t` along a torsion theory `(T, F)` of its heart.
+- `t⁺ :=` the tilt of `t` along a torsion theory `(T, F)` of its heart.
 
-- `TauCeti.EtaleDuality.TStructure.tilt_le_iff`: `X ∈ t⁺.le 0` iff `X ∈ t.le 1` and `H¹_t X ∈ T`.
+- `X ∈ t⁺.le 0` iff `X ∈ t.le 1` and `H¹_t X ∈ T`.
 
-- `TauCeti.EtaleDuality.TStructure.tilt_ge_iff`: `X ∈ t⁺.ge 0` iff `X ∈ t.ge 0` and `H⁰_t X ∈ F`.
+- `X ∈ t⁺.ge 0` iff `X ∈ t.ge 0` and `H⁰_t X ∈ F`.
 
-- `TauCeti.EtaleDuality.TStructure.le_le_tilt`: `t.le 0 ⊆ t⁺.le 0 ⊆ t.le 1`.
+- `t.le 0 ⊆ t⁺.le 0 ⊆ t.le 1`.
 
-- `TauCeti.EtaleDuality.TStructure.ge_tilt_ge`: `t.ge 1 ⊆ t⁺.ge 0 ⊆ t.ge 0`.
+- `t.ge 1 ⊆ t⁺.ge 0 ⊆ t.ge 0`.
 
-- `TauCeti.EtaleDuality.TStructure.TorsionTheory`: A torsion theory on an abelian category: full subcategories `(T, F)` with `Hom(T, F) = 0` and the torsion sequences.
+- A torsion theory on an abelian category: full subcategories `(T, F)` with `Hom(T, F) = 0` and the torsion sequences.
 
-- `TauCeti.EtaleDuality.TStructure.TorsionTheory.ofNoetherianLinear`: For an `O`-linear noetherian abelian category, (`λ`-power torsion, `λ`-torsion-free) is a torsion theory.
+- For an `O`-linear noetherian abelian category, (`λ`-power torsion, `λ`-torsion-free) is a torsion theory.
 
-- `TauCeti.EtaleDuality.TStructure.tilt_tilt`: Tilting `t⁺` along `(F, T[−1])` recovers `t` shifted by one.
+- Tilting `t⁺` along `(F, T[−1])` recovers `t` shifted by one.
 
 A proof proceeds as follows.
 
@@ -1771,15 +1771,15 @@ Use [Juteau-2009] Definition 1.3.1, Propositions 1.3.3–1.3.6, pp.42–44 (arXi
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.tilt_point_integral`: On `D^b_fg(ℤ_ℓ)` with (torsion, torsion-free): `(ℤ/ℓ)[−1] ∈` heart`(t⁺), (ℤ/ℓ)[0] ∉` heart`(t⁺), ℤ_ℓ[0] ∈` heart`(t⁺)`.
+- On `D^b_fg(ℤ_ℓ)` with (torsion, torsion-free): `(ℤ/ℓ)[−1] ∈` heart`(t⁺), (ℤ/ℓ)[0] ∉` heart`(t⁺), ℤ_ℓ[0] ∈` heart`(t⁺)`.
 
-- `TauCeti.EtaleDuality.tilt_torsion_zero`: If `T = 0` (so `F = C`) then `t⁺ = t`.
+- If `T = 0` (so `F = C`) then `t⁺ = t`.
 
-- `TauCeti.EtaleDuality.tilt_free_zero`: If `F = 0` (so `T = C`) then `t⁺.le 0 = t.le 1`: the tilt is the shift of `t` by one.
+- If `F = 0` (so `T = C`) then `t⁺.le 0 = t.le 1`: the tilt is the shift of `t` by one.
 
-- `TauCeti.EtaleDuality.tilt_dual_compat`: `RHom_{ℤ_ℓ}(−, ℤ_ℓ)` maps the natural `t.le 0` of `D^b_fg(ℤ_ℓ)` onto `t⁺.ge 0` (BBD 3.3.1).
+- `RHom_{ℤ_ℓ}(−, ℤ_ℓ)` maps the natural `t.le 0` of `D^b_fg(ℤ_ℓ)` onto `t⁺.ge 0` (BBD 3.3.1).
 
-- `TauCeti.EtaleDuality.not_torsionTheory_divisible_free`: On finitely generated `ℤ_ℓ`-modules, (divisible, torsion) is not a torsion theory: the only divisible submodule of `ℤ_ℓ` is 0 and `ℤ_ℓ/0 = ℤ_ℓ` is not torsion, so `ℤ_ℓ` has no torsion sequence (the category is noetherian, not artinian).
+- On finitely generated `ℤ_ℓ`-modules, (divisible, torsion) is not a torsion theory: the only divisible submodule of `ℤ_ℓ` is 0 and `ℤ_ℓ/0 = ℤ_ℓ` is not torsion, so `ℤ_ℓ` has no torsion sequence (the category is noetherian, not artinian).
 
 - For `D = D^b_fg(ℤ_ℓ)` with the natural `t`-structure and (torsion, torsion-free), the heart of `t⁺` contains `ℤ_ℓ[0]` and `(ℤ/ℓ)[−1]` but not `(ℤ/ℓ)[0]`; this is BBD's `t`-structure on `D_c(pt, ℤ)` in 3.3.1.
 
@@ -1811,29 +1811,29 @@ complexes involved.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.perverseLE`: The upper aisle: `K` with `ℋ^m(i_x^*K) = 0` for `m > −dim(x)` at every point `x`.
+- The upper aisle `pD^{≤0}`: `K` with `ℋ^m(i_x^*K) = 0` for `m > −dim(x)` at every point `x`.
 
-- `TauCeti.EtaleDuality.perverseGE`: The lower aisle: `K` with `ℋ^m(i_x^!K) = 0` for `m < −dim(x)` at every point `x`.
+- The lower aisle `pD^{≥0}`: `K` with `ℋ^m(i_x^!K) = 0` for `m < −dim(x)` at every point `x`.
 
-- `TauCeti.EtaleDuality.perverseTStructure`: The `t`-structure on `D^b_c(X, Λ)` with le `0 =` perverseLE and ge `0 =` perverseGE.
+- The `t`-structure on `D^b_c(X, Λ)` whose degree-zero aisles are `pD^{≤0}` and `pD^{≥0}`.
 
-- `TauCeti.EtaleDuality.perverseTStructure_le_iff_support`: `K ∈ pD^{≤0}` iff `dim Supp ℋ^m(K) ≤ −m` for every `m`.
+- `K ∈ pD^{≤0}` iff `dim Supp ℋ^m(K) ≤ −m` for every `m`.
 
-- `TauCeti.EtaleDuality.perverseTStructure_le_iff_strata`: For a stratification adapted to `K` (lisse `ℋ^m(i_S^*K), ℋ^m(i_S^!K)`): `K ∈ pD^{≤0}` iff `ℋ^m(i_S^*K) = 0` for `m > −dim S`, and `K ∈ pD^{≥0}` iff `ℋ^m(i_S^!K) = 0` for `m < −dim S`.
+- For a stratification adapted to `K` (lisse `ℋ^m(i_S^*K), ℋ^m(i_S^!K)`): `K ∈ pD^{≤0}` iff `ℋ^m(i_S^*K) = 0` for `m > −dim S`, and `K ∈ pD^{≥0}` iff `ℋ^m(i_S^!K) = 0` for `m < −dim S`.
 
-- `TauCeti.EtaleDuality.perverseTStructure_bounded`: `D^{≤−dim X} ⊆ pD^{≤0} ⊆ D^{≤0}` and `D^{≥0} ⊆ pD^{≥0} ⊆ D^{≥−dim X}`; every `K` lies in some `pD^{[a,b]}`.
+- `D^{≤−dim X} ⊆ pD^{≤0} ⊆ D^{≤0}` and `D^{≥0} ⊆ pD^{≥0} ⊆ D^{≥−dim X}`; every `K` lies in some `pD^{[a,b]}`.
 
-- `TauCeti.EtaleDuality.perverseTStructure_glue`: For `Z ⊂ X` closed with complement `U`, the perverse `t`-structure of `X` is the gluing of those of `U` and `Z` along Recollement.ofClosedOpen.
+- For `Z ⊂ X` closed with complement `U`, the perverse `t`-structure of `X` is the gluing of those of `U` and `Z` along the closed–open recollement (§2.2).
 
-- `TauCeti.EtaleDuality.perverseTStructure_etale_local`: For an étale surjective `u : V → X, K ∈ pD^{≤0}` (resp. `pD^{≥0}`) iff `u^*K` is.
+- For an étale surjective `u : V → X, K ∈ pD^{≤0}` (resp. `pD^{≥0}`) iff `u^*K` is.
 
-- `TauCeti.EtaleDuality.perverseTStructure_restrictScalars`: Restriction of scalars along a finite ring map `Λ → Λ′` (so that constructibility is kept) is `t`-exact for the perverse `t`-structures.
+- Restriction of scalars along a finite ring map `Λ → Λ′` (so that constructibility is kept) is `t`-exact for the perverse `t`-structures.
 
-- `TauCeti.EtaleDuality.perverseTStructure_baseField`: For a field extension `K/k`, pullback to `X_K` is `t`-exact (BBD 4.2.9).
+- For a field extension `K/k`, pullback to `X_K` is `t`-exact (BBD 4.2.9).
 
-- `TauCeti.EtaleDuality.perverseTStructure_point`: For `X = Spec Ω, Ω` separably closed, the perverse `t`-structure is the natural one under `D^b_c ≃ D^b_fg(Λ)`.
+- For `X = Spec Ω, Ω` separably closed, the perverse `t`-structure is the natural one under `D^b_c ≃ D^b_fg(Λ)`.
 
-- `TauCeti.EtaleDuality.perverseTStructure_perfectClosure`: Pullback along `X_{k^perf} → X` is a `t`-exact equivalence of the perverse `t`-structures.
+- Pullback along `X_{k^perf} → X` is a `t`-exact equivalence of the perverse `t`-structures.
 
 A proof proceeds as follows.
 
@@ -1854,7 +1854,7 @@ open–closed recollement by the octahedral argument of §2.2 (BBD 1.4.10 and 2.
 killed by `n` invertible in `k`, the ambient adjunction `j^* ⊣ Rj_*` and exact extension by zero are
 EnhancedDerivedSheaves §0.4's `ClassicalDerived.functorCoherence`; `i^!` and the localization triangles are
 EtaleCohomologyFoundations §0.7's `ClassicalAlgebraic.supportLocalization`.
-Recollement.ofClosedOpen (§2.2) uses §0.2's noetherian-coefficient finiteness argument for `Rj_*`, whose
+The closed–open recollement (§2.2) uses §0.2's noetherian-coefficient finiteness argument for `Rj_*`, whose
 supported triangle proves bounded constructibility of `i^!`; thus the construction stays in `D^b_c` without
 self-injectivity or a general unbounded proper-support lift.
 
@@ -1884,17 +1884,17 @@ contract above.
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.perverse_point_eq_canonical`: For `X = Spec Ω, Ω` separably closed: `pD^{≤0} = D^{≤0}` under `D^b_c(Spec Ω, Λ) ≃ D^b_fg(Λ)`.
+- For `X = Spec Ω, Ω` separably closed: `pD^{≤0} = D^{≤0}` under `D^b_c(Spec Ω, Λ) ≃ D^b_fg(Λ)`.
 
-- `TauCeti.EtaleDuality.perverse_curve_constant_shift`: For a smooth curve `C` over `k: Λ_C[1] ∈ pD^{≤0} ∩ pD^{≥0}`.
+- For a smooth curve `C` over `k: Λ_C[1] ∈ pD^{≤0} ∩ pD^{≥0}`.
 
-- `TauCeti.EtaleDuality.perverse_skyscraper`: For a closed point `x` and a finitely generated `Λ`-module `M, i_{x*}M[0] ∈ pD^{≤0} ∩ pD^{≥0}`.
+- For a closed point `x` and a finitely generated `Λ`-module `M, i_{x*}M[0] ∈ pD^{≤0} ∩ pD^{≥0}`.
 
-- `TauCeti.EtaleDuality.perverse_empty`: For `X = ∅` the category is zero and `pD^{≤0} = pD^{≥0} =` everything.
+- For `X = ∅` the category is zero and `pD^{≤0} = pD^{≥0} =` everything.
 
-- `TauCeti.EtaleDuality.not_perverse_curve_constant`: For a nonempty smooth curve `C` and `Λ ≠ 0, Λ_C` (degree 0) lies in `pD^{≥1}` and not in `pD^{≤0}`.
+- For a nonempty smooth curve `C` and `Λ ≠ 0, Λ_C` (degree 0) lies in `pD^{≥1}` and not in `pD^{≤0}`.
 
-- `TauCeti.EtaleDuality.not_perverse_codimension_convention`: Assume `Λ≠0`. On `X = 𝔸² ⊔ 𝔸¹, Λ_{𝔸²}[2] ⊕ Λ_{𝔸¹}[1]` is perverse, while `Λ_{𝔸²}[2] ⊕ Λ_{𝔸¹}[2]` (every component shifted by `dim X`, as a codimension-based convention would do) is not: at the generic point of `𝔸¹` the costalk of `Λ_{𝔸¹}[2]` sits in degree `−2 < −1`, violating the lower condition.
+- Assume `Λ≠0`. On `X = 𝔸² ⊔ 𝔸¹, Λ_{𝔸²}[2] ⊕ Λ_{𝔸¹}[1]` is perverse, while `Λ_{𝔸²}[2] ⊕ Λ_{𝔸¹}[2]` (every component shifted by `dim X`, as a codimension-based convention would do) is not: at the generic point of `𝔸¹` the costalk of `Λ_{𝔸¹}[2]` sits in degree `−2 < −1`, violating the lower condition.
 
 - Every dense open of `𝔸² ⊔ 𝔸¹` meets both components and has components of dimensions 2 and 1.
   The truncation construction uses shifts 2 and 1 on these pieces; no equidimensional dense open exists.
@@ -1921,25 +1921,25 @@ constructible category of EtaleCohomologyFoundations §§F.0–F.1, 0.7; Enhance
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.PerverseSheaf`: `Perv(X, Λ) :=` the heart of perverseTStructure, a full subcategory of `D^b_c(X, Λ)`.
+- `Perv(X, Λ) :=` the heart of the middle perverse `t`-structure, a full subcategory of `D^b_c(X, Λ)`.
 
-- `TauCeti.EtaleDuality.PerverseSheaf.abelian`: `Perv(X, Λ)` is abelian.
+- `Perv(X, Λ)` is abelian.
 
-- `TauCeti.EtaleDuality.perverseCohomology`: `pH^m : D^b_c(X, Λ) ⥤ Perv(X, Λ), m ∈ ℤ`.
+- `pH^m : D^b_c(X, Λ) ⥤ Perv(X, Λ), m ∈ ℤ`.
 
-- `TauCeti.EtaleDuality.perverseCohomology_isHomological`: `pH⁰` is homological: distinguished triangles give long exact sequences of perverse sheaves.
+- `pH⁰` is homological: distinguished triangles give long exact sequences of perverse sheaves.
 
-- `TauCeti.EtaleDuality.PerverseSheaf.ext_neg_eq_zero`: `Hom(K, L[m]) = 0` for perverse `K, L` and `m < 0`.
+- `Hom(K, L[m]) = 0` for perverse `K, L` and `m < 0`.
 
-- `TauCeti.EtaleDuality.PerverseSheaf.hom_isSheaf`: For perverse `K, L, U ↦ Hom(K|_U, L|_U)` is a sheaf on `X_ét`.
+- For perverse `K, L, U ↦ Hom(K|_U, L|_U)` is a sheaf on `X_ét`.
 
-- `TauCeti.EtaleDuality.PerverseSheaf.descent`: Perverse sheaves on an étale covering with cocycle isomorphisms glue uniquely to a perverse sheaf on `X`.
+- Perverse sheaves on an étale covering with cocycle isomorphisms glue uniquely to a perverse sheaf on `X`.
 
-- `TauCeti.EtaleDuality.PerverseSheaf.restrictEtale`: For `u : V → X` étale, `u^* : Perv(X, Λ) ⥤ Perv(V, Λ)` is exact.
+- For `u : V → X` étale, `u^* : Perv(X, Λ) ⥤ Perv(V, Λ)` is exact.
 
-- `TauCeti.EtaleDuality.PerverseSheaf.pointEquiv`: For `X = Spec Ω, Ω` separably closed, `Perv(X, Λ) ≌` finitely generated `Λ`-modules.
+- For `X = Spec Ω, Ω` separably closed, `Perv(X, Λ) ≌` finitely generated `Λ`-modules.
 
-- `TauCeti.EtaleDuality.PerverseSheaf.stalk_generic_concentration`: If `K` is perverse with `dim Supp K ≤ e` and `dim(x) = e`, then `ℋ^m(K)_x̄ = 0` for `m ≠ −e`.
+- If `K` is perverse with `dim Supp K ≤ e` and `dim(x) = e`, then `ℋ^m(K)_x̄ = 0` for `m ≠ −e`.
 
 A proof proceeds as follows.
 
@@ -1964,15 +1964,15 @@ Use [BBD-1982] Définition 2.1.5, p.58; Proposition 2.1.20 and Corollaires 2.1.2
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.perverseSheaf_point`: `Perv(Spec Ω, Λ) ≌` finitely generated `Λ`-modules, `Ω` separably closed.
+- `Perv(Spec Ω, Λ) ≌` finitely generated `Λ`-modules, `Ω` separably closed.
 
-- `TauCeti.EtaleDuality.perverseSheaf_skyscraper`: For a closed point `x` and finitely generated `M, i_{x*}M[0]` is perverse.
+- For a closed point `x` and finitely generated `M, i_{x*}M[0]` is perverse.
 
-- `TauCeti.EtaleDuality.perverseSheaf_empty`: `Perv(∅, Λ)` is the zero category.
+- `Perv(∅, Λ)` is the zero category.
 
-- `TauCeti.EtaleDuality.perverseSheaf_surface_shift`: On a smooth surface `S`, `Λ_S[2]` is perverse. If `S` is nonempty and `Λ≠0`, `Λ_S[1]` is not perverse.
+- On a smooth surface `S`, `Λ_S[2]` is perverse. If `S` is nonempty and `Λ≠0`, `Λ_S[1]` is not perverse.
 
-- `TauCeti.EtaleDuality.not_perverse_constant_surface`: On a nonempty smooth surface `S` with `Λ≠0`, `pH^m(Λ_S[1]) = 0` for `m ≠ 1` and `pH¹(Λ_S[1]) ≅ Λ_S[2]: Λ_S[1]` is not perverse.
+- On a nonempty smooth surface `S` with `Λ≠0`, `pH^m(Λ_S[1]) = 0` for `m ≠ 1` and `pH¹(Λ_S[1]) ≅ Λ_S[2]: Λ_S[1]` is not perverse.
 
 - `Perv(Spec Ω, Λ) ≃` finitely generated `Λ`-modules for `Ω` separably closed.
 
@@ -1993,7 +1993,7 @@ are separated schemes of finite type over `k`; every point `x` has `dim(x) :=` d
 constructible category of EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3. `X`
 smooth over `k` of pure dimension `d`; the cohomology sheaves of `K` are locally constant.
 
-Name the resulting statement `shiftedLocalSystemsPerverse`.
+Name the resulting statement shiftedLocalSystemsPerverse.
 
 A proof proceeds as follows.
 
@@ -2033,7 +2033,7 @@ are separated schemes of finite type over `k`; every point `x` has `dim(x) :=` d
 (SchemeAndStackFoundations §0.7). `Λ` is a noetherian commutative ring with `nΛ = 0`; `D^b_c(X, Λ)` is the bounded
 constructible category of EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3. `i : Z → X` closed with open complement `j : U → X`.
 
-Name the resulting statement `openClosedPerverseRecollement`.
+Name the resulting statement openClosedPerverseRecollement.
 
 A proof proceeds as follows.
 
@@ -2082,7 +2082,7 @@ finite, ring of integers `O`, uniformizer `λ, ℓ ≠ char k`) the base field s
 or separably closed). The categories `D^b_c(X, O)` and `D^b_c(X, E)` and their operations are the `ℓ`-adic formalism
 required from EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above.
 
-Name the resulting statement `perverseVerdierSelfDuality`.
+Name the resulting statement perverseVerdierSelfDuality.
 
 A proof proceeds as follows.
 
@@ -2126,7 +2126,7 @@ are separated schemes of finite type over `k`; every point `x` has `dim(x) :=` d
 constructible category of EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3. `f`
 quasi-finite (for `Rf_!`: separated, of finite type).
 
-Name the resulting statement `quasiFinitePerverseExactness`.
+Name the resulting statement quasiFinitePerverseExactness.
 
 A proof proceeds as follows.
 
@@ -2167,7 +2167,7 @@ are separated schemes of finite type over `k`; every point `x` has `dim(x) :=` d
 constructible category of EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3. Fibres
 of `f` of dimension `≤ d`.
 
-Name the resulting statement `fibreDimensionPerverseAmplitude`.
+Name the resulting statement fibreDimensionPerverseAmplitude.
 
 A proof proceeds as follows.
 
@@ -2212,7 +2212,7 @@ constructible category of EtaleCohomologyFoundations §§F.0–F.1, 0.7; Enhance
 smooth of pure relative dimension `d`; for full faithfulness, `f` surjective with geometrically connected fibres;
 for the thick-image statement `Λ` is a field (finite of characteristic `ℓ`, or `E`).
 
-Name the resulting statement `smoothPullbackPerverseExactness`.
+Name the resulting statement smoothPullbackPerverseExactness.
 
 A proof proceeds as follows.
 
@@ -2255,7 +2255,7 @@ by restriction of scalars). For the cohomology statements `k` is separably close
 algebraically closed; the purely inseparable extension `k̄/k` changes no étale cohomology, by topological
 invariance).
 
-Name the resulting statement `perverseArtinVanishing`.
+Name the resulting statement perverseArtinVanishing.
 
 A proof proceeds as follows.
 
@@ -2303,7 +2303,7 @@ duality after restriction of scalars to the self-injective `ℤ/ℓ^a`) gives th
 `E`-coefficient versions follow by EtaleCohomologyFoundations §§F.4, F.8; ramified coefficient refinement in
 §3.1 here.
 
-Name the resulting statement `affineOpenComplementExactness`.
+Name the resulting statement affineOpenComplementExactness.
 
 A proof proceeds as follows.
 
@@ -2343,7 +2343,7 @@ are separated schemes of finite type over `k`; every point `x` has `dim(x) :=` d
 (SchemeAndStackFoundations §0.7). `Λ` a field; the statement is false for `ℤ_ℓ` or `ℤ/ℓ²` coefficients without
 flatness, since `⊗` is not exact (BBD 4.0 (d)).
 
-Name the resulting statement `externalProductTExact`.
+Name the resulting statement externalProductTExact.
 
 A proof proceeds as follows.
 
@@ -2388,27 +2388,27 @@ locally closed immersion; A perverse on `U`.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.intermediateExtension`: `j_!* : Perv(U, Λ) ⥤ Perv(X, Λ)` for a locally closed immersion `j : U ⟶ X`.
+- `j_!* : Perv(U, Λ) ⥤ Perv(X, Λ)` for a locally closed immersion `j : U ⟶ X`.
 
-- `TauCeti.EtaleDuality.intermediateExtension_eq_image`: For `j` open, `j_!*A ≅` image`(pH⁰(j_!A) ⟶ pH⁰(Rj_*A))` in `Perv(X, Λ)`.
+- For `j` open, `j_!*A ≅` image`(pH⁰(j_!A) ⟶ pH⁰(Rj_*A))` in `Perv(X, Λ)`.
 
-- `TauCeti.EtaleDuality.restrict_intermediateExtension`: `j^*(j_!*A) ≅ A`.
+- `j^*(j_!*A) ≅ A`.
 
-- `TauCeti.EtaleDuality.intermediateExtension_stalk_bound`: For a boundary point `x` of `Ū ∖ U, ℋ^m(i_x^*j_!*A) = 0` for `m ≥ −dim(x)`.
+- For a boundary point `x` of `Ū ∖ U, ℋ^m(i_x^*j_!*A) = 0` for `m ≥ −dim(x)`.
 
-- `TauCeti.EtaleDuality.intermediateExtension_costalk_bound`: For a boundary point `x` of `Ū ∖ U, ℋ^m(i_x^!j_!*A) = 0` for `m ≤ −dim(x)`.
+- For a boundary point `x` of `Ū ∖ U, ℋ^m(i_x^!j_!*A) = 0` for `m ≤ −dim(x)`.
 
-- `TauCeti.EtaleDuality.intermediateExtension_unique`: A perverse extension of A satisfying both strict boundary bounds is uniquely isomorphic to `j_!*A`.
+- A perverse extension of A satisfying both strict boundary bounds is uniquely isomorphic to `j_!*A`.
 
-- `TauCeti.EtaleDuality.intermediateExtension_no_sub_quotient`: `j_!*A` has no nonzero perverse subobject or quotient supported on `Ū ∖ U`.
+- `j_!*A` has no nonzero perverse subobject or quotient supported on `Ū ∖ U`.
 
-- `TauCeti.EtaleDuality.intermediateExtension_fullyFaithful`: `j_!*` is fully faithful.
+- `j_!*` is fully faithful.
 
-- `TauCeti.EtaleDuality.intermediateExtension_comp`: `(j₂ ∘ j₁)_!* ≅ j₂_!* ∘ j₁_!*`.
+- `(j₂ ∘ j₁)_!* ≅ j₂_!* ∘ j₁_!*`.
 
-- `TauCeti.EtaleDuality.intermediateExtension_simple`: `j_!*` sends simple perverse sheaves to simple perverse sheaves.
+- `j_!*` sends simple perverse sheaves to simple perverse sheaves.
 
-- `TauCeti.EtaleDuality.intermediateExtension_etale`: For `u : V → X` étale and `j_V` the base change of `j, u^* ∘ j_!* ≅ j_{V!*} ∘ u^*`.
+- For `u : V → X` étale and `j_V` the base change of `j, u^* ∘ j_!* ≅ j_{V!*} ∘ u^*`.
 
 A proof proceeds as follows.
 
@@ -2432,17 +2432,17 @@ Use [BBD-1982] 1.4.22–1.4.25, pp.54–55; 2.1.7, (2.1.7.1), pp.58–59; [BBD-1
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.intermediateExtension_iso`: If `j` is an isomorphism, `j_!* ≅` the identity functor.
+- If `j` is an isomorphism, `j_!* ≅` the identity functor.
 
-- `TauCeti.EtaleDuality.intermediateExtension_affineLine_constant`: For `j : 𝔾_m → 𝔸¹` and `Λ` a field, `j_!*(Λ[1]) ≅ Λ_{𝔸¹}[1]`.
+- For `j : 𝔾_m → 𝔸¹` and `Λ` a field, `j_!*(Λ[1]) ≅ Λ_{𝔸¹}[1]`.
 
-- `TauCeti.EtaleDuality.intermediateExtension_kummer`: For `Λ` a field, `j : 𝔾_m → 𝔸¹` over `k̄` and `L` a nontrivial rank-one tame Kummer local system, `j_!*(L[1]) ≅ j_!L[1] ≅ Rj_*L[1]`.
+- For `Λ` a field, `j : 𝔾_m → 𝔸¹` over `k̄` and `L` a nontrivial rank-one tame Kummer local system, `j_!*(L[1]) ≅ j_!L[1] ≅ Rj_*L[1]`.
 
-- `TauCeti.EtaleDuality.intermediateExtension_closed_compat`: For a closed immersion `ī, ī_!* = ī_*` on perverse sheaves (the pushforward of §2.6).
+- For a closed immersion `ī, ī_!* = ī_*` on perverse sheaves (the pushforward of §2.6).
 
-- `TauCeti.EtaleDuality.not_intermediateExtension_eq_lowerShriek`: For `j : 𝔾_m → 𝔸¹` and `Λ` a field, `pH⁰(j_!Λ[1]) = j_!Λ[1]` is not isomorphic to `j_!*(Λ[1])`: it has the subobject `i_*Λ_0`.
+- For `j : 𝔾_m → 𝔸¹` and `Λ` a field, `pH⁰(j_!Λ[1]) = j_!Λ[1]` is not isomorphic to `j_!*(Λ[1])`: it has the subobject `i_*Λ_0`.
 
-- `TauCeti.EtaleDuality.not_unrestricted_standard_truncation`: For `U = 𝔾_m ⊂ 𝔸¹` and `A` the skyscraper `Λ` at the point 1 of `U` in degree `0, j_!*A` is the skyscraper at 1 on `𝔸¹` while the natural truncation `τ_{≤−1}Rj_*A` is 0: the absolute form of §2.9 needs its degree condition `A ∈ D^{≤−1}(U)`, and only the truncation relative to the boundary computes `j_!*A` here.
+- For `U = 𝔾_m ⊂ 𝔸¹` and `A` the skyscraper `Λ` at the point 1 of `U` in degree `0, j_!*A` is the skyscraper at 1 on `𝔸¹` while the natural truncation `τ_{≤−1}Rj_*A` is 0: the absolute form of §2.9 needs its degree condition `A ∈ D^{≤−1}(U)`, and only the truncation relative to the boundary computes `j_!*A` here.
 
 - For `Λ` a field, `j : 𝔾_m → 𝔸¹` over `k̄` and `L` a nontrivial rank-one tame Kummer local system, `j_!L[1] ≅ j_!*(L[1]) ≅ Rj_*L[1]`.
 
@@ -2471,7 +2471,7 @@ local constancy of `ℋ^m(i^*Rj_*A)` on `F` is part of the statement; it fails i
 without it neither formula need hold in the étale setting. The natural (absolute) truncation needs in addition
 `A ∈ D^{≤−d−1}(U)`; the iterated formula needs `A ∈ D^{≤k}(U_k)`.
 
-Name the resulting statement `deligneTruncationFormula`.
+Name the resulting statement deligneTruncationFormula.
 
 A proof proceeds as follows.
 
@@ -2517,7 +2517,7 @@ are separated schemes of finite type over `k`; every point `x` has `dim(x) :=` d
 (SchemeAndStackFoundations §0.7). `Λ` is a noetherian commutative ring with `nΛ = 0`; `D^b_c(X, Λ)` is the bounded
 constructible category of EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3. `codim (X ∖ U) ≥ c` in each component of `X, X` of pure dimension `d`.
 
-Name the resulting statement `intermediateExtensionLowDegreeCohomology`.
+Name the resulting statement intermediateExtensionLowDegreeCohomology.
 
 A proof proceeds as follows.
 
@@ -2564,21 +2564,21 @@ irreducible of dimension `d`; `U` dense smooth open in `Y=(X_{k^perf})_red`; `L`
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.intersectionComplex`: `IC_X(L)` is the transport of `j_!*(L[d]) ∈ Perv(Y, Λ)` for `j:U→Y=(X_{k^perf})_red` dense open smooth and `L` locally constant on `U`.
+- `IC_X(L)` is the transport of `j_!*(L[d]) ∈ Perv(Y, Λ)` for `j:U→Y=(X_{k^perf})_red` dense open smooth and `L` locally constant on `U`.
 
-- `TauCeti.EtaleDuality.intersectionComplex_restrict`: `IC_X(L)|_U ≅ L[d]`.
+- `IC_X(L)|_U ≅ L[d]`.
 
-- `TauCeti.EtaleDuality.intersectionComplex_independent`: For `U′ ⊆ U` dense open, `IC_X(L) ≅ IC_X(L|_{U′})`.
+- For `U′ ⊆ U` dense open, `IC_X(L) ≅ IC_X(L|_{U′})`.
 
-- `TauCeti.EtaleDuality.intersectionComplex_of_smooth`: If `X` is smooth `(U = X), IC_X(L) ≅ L[d]`.
+- If `X` is smooth `(U = X), IC_X(L) ≅ L[d]`.
 
-- `TauCeti.EtaleDuality.intersectionComplex_curve`: If `d = 1, IC_X(L) ≅ (j_*L)[1]` with `j_*` underived.
+- If `d = 1, IC_X(L) ≅ (j_*L)[1]` with `j_*` underived.
 
-- `TauCeti.EtaleDuality.intersectionComplex_finite_birational`: For `ν : X′ → X` finite, an isomorphism over `U, X′` smooth and `L′` locally constant on `X′` extending `L: IC_X(L) ≅ ν_*(L′[d])`.
+- For `ν : X′ → X` finite, an isomorphism over `U, X′` smooth and `L′` locally constant on `X′` extending `L: IC_X(L) ≅ ν_*(L′[d])`.
 
-- `TauCeti.EtaleDuality.intersectionComplex_simple`: If `Λ` is a field and `L` is irreducible, `IC_X(L)` is simple.
+- If `Λ` is a field and `L` is irreducible, `IC_X(L)` is simple.
 
-- `TauCeti.EtaleDuality.intersectionComplex_verdierDual`: For self-injective `Λ: D_X IC_X(L) ≅ IC_X(L^∨(d))` (§2.5).
+- For self-injective `Λ: D_X IC_X(L) ≅ IC_X(L^∨(d))` (§2.5).
 
 A proof proceeds as follows.
 
@@ -2605,19 +2605,19 @@ Use [BBD-1982] Lemme 4.3.2 and Lemme 4.3.3, pp.112–113; Théorème 4.3.1 (ii),
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.intersectionComplex_smoothCurve`: For a smooth curve `C, IC_C ≅ Λ_C[1]`.
+- For a smooth curve `C, IC_C ≅ Λ_C[1]`.
 
-- `TauCeti.EtaleDuality.intersectionComplex_nodalCurve`: For a nodal cubic `X` with normalisation `ν : P¹_k → X, IC_X ≅ ν_*Λ_{P¹_k}[1]`, with geometric stalk `Λ²` in degree `−1` at the node, carrying the branch permutation action.
+- For a nodal cubic `X` with normalisation `ν : P¹_k → X, IC_X ≅ ν_*Λ_{P¹_k}[1]`, with geometric stalk `Λ²` in degree `−1` at the node, carrying the branch permutation action.
 
-- `TauCeti.EtaleDuality.intersectionComplex_cuspidalCurve`: For a cuspidal cubic `X, IC_X ≅ Λ_X[1]` (the normalisation is a universal homeomorphism).
+- For a cuspidal cubic `X, IC_X ≅ Λ_X[1]` (the normalisation is a universal homeomorphism).
 
 - For `X=Spec ℂ[t,ε]/(ε²)`, no nonempty open of `X` is smooth. Reduction gives `Y=𝔸¹_ℂ`, and `IC_X` is the transport of `Λ_Y[1]`.
 
-- `TauCeti.EtaleDuality.intersectionComplex_point`: For `X = Spec k̄ (d = 0), IC_X(L) = L` in degree 0.
+- For `X = Spec k̄ (d = 0), IC_X(L) = L` in degree 0.
 
-- `TauCeti.EtaleDuality.intersectionComplex_restrict_compat`: `IC_X|_U ≅ Λ_U[d]`, not `Λ_U(d)[2d]` (the dualizing complex): the `IC` normalisation is the perverse shift.
+- `IC_X|_U ≅ Λ_U[d]`, not `Λ_U(d)[2d]` (the dualizing complex): the `IC` normalisation is the perverse shift.
 
-- `TauCeti.EtaleDuality.not_intersectionComplex_nodal_constant`: Assume `Λ≠0`. For a nodal cubic `X` with
+- Assume `Λ≠0`. For a nodal cubic `X` with
   normalization `ν:P¹_k→X` and node `i_s:s→X`, set `ε=coker(Λ_s→i_s^*ν_*Λ_{P¹_k})`.
   Then `Λ_X[1]` is perverse but not `IC_X`: the perverse exact sequence
   `0 → i_{s*}ε → Λ_X[1] → ν_*Λ_{P¹_k}[1] → 0` has a nonzero subobject supported at the node.
@@ -2651,7 +2651,7 @@ Work with the following additional hypotheses. `k` is a field, `n ≥ 1` an inte
 are separated schemes of finite type over `k`; every point `x` has `dim(x) :=` dim of its closure
 (SchemeAndStackFoundations §0.7). `Λ` a field for the classification; `X` separated of finite type over `k`.
 
-Name the resulting statement `simplePerverseSheavesClassification`.
+Name the resulting statement simplePerverseSheavesClassification.
 
 A proof proceeds as follows.
 
@@ -2719,25 +2719,25 @@ colimit the colimit of the costalks.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.perverseLEExt`: `K ∈ D(X, Λ)` with `ℋ^m(i_x^*K) = 0` for `m > a − dim(x)` at every point.
+- `pD^{≤a}_{ext}(X, Λ)` consists of the `K ∈ D(X, Λ)` with `ℋ^m(i_x^*K) = 0` for `m > a − dim(x)` at every point.
 
-- `TauCeti.EtaleDuality.perverseGEExt`: `K ∈ D⁺(X, Λ)` with `ℋ^m(i_x^!K) = 0` for `m < a − dim(x)` at every point.
+- `pD^{≥a}_{ext}(X, Λ)` consists of the `K ∈ D⁺(X, Λ)` with `ℋ^m(i_x^!K) = 0` for `m < a − dim(x)` at every point.
 
-- `TauCeti.EtaleDuality.perverseLEExt_iff_of_constructible`: On `D^b_c(X, Λ)`, perverseLEExt a and perverseGEExt a are `pD^{≤a}` and `pD^{≥a}`.
+- On `D^b_c(X, Λ)`, `pD^{≤a}_{ext}` and `pD^{≥a}_{ext}` restrict to `pD^{≤a}` and `pD^{≥a}`.
 
-- `TauCeti.EtaleDuality.perverseLEExt_colimit`: perverseLEExt a is closed under filtered colimits and direct sums.
+- `pD^{≤a}_{ext}` is closed under filtered colimits and direct sums.
 
-- `TauCeti.EtaleDuality.perverseGEExt_isGE`: If `K ∈` perverseGEExt a then `K ∈ D^{≥a−dim X}`; in particular every family in perverseGEExt a is uniformly bounded below.
+- If `K ∈ pD^{≥a}_{ext}` then `K ∈ D^{≥a−dim X}`; in particular every family in `pD^{≥a}_{ext}` is uniformly bounded below.
 
-- `TauCeti.EtaleDuality.perverseGEExt_colimit`: perverseGEExt a is closed under filtered colimits; the uniform lower bound the costalk comparison needs is supplied by `perverseGEExt_isGE`.
+- `pD^{≥a}_{ext}` is closed under filtered colimits; the uniform lower bound the costalk comparison needs is the inclusion `pD^{≥a}_{ext} ⊆ D^{≥a−dim X}`.
 
-- `TauCeti.EtaleDuality.costalk_colimit_iso`: For a filtered system `K_α` in `D^{≥b}(X, Λ), colim ℋ^m(i_x^!K_α) ≅ ℋ^m(i_x^! colim K_α)`.
+- For a filtered system `K_α` in `D^{≥b}(X, Λ), colim ℋ^m(i_x^!K_α) ≅ ℋ^m(i_x^! colim K_α)`.
 
-- `TauCeti.EtaleDuality.perverseGEExt_pushforward_open`: For `j : U → X` open, `Rj_*` preserves perverseGEExt a.
+- For `j : U → X` open, `Rj_*` preserves `pD^{≥a}_{ext}`.
 
-- `TauCeti.EtaleDuality.perverseExt_finite_pushforward`: For `f` finite, `f_*` preserves perverseLEExt a and perverseGEExt a.
+- For `f` finite, `f_*` preserves `pD^{≤a}_{ext}` and `pD^{≥a}_{ext}`.
 
-- `TauCeti.EtaleDuality.perverseExt_etale_local`: For `u` étale, `u^*` preserves both conditions, and detects them when `u` is surjective.
+- For `u` étale, `u^*` preserves both conditions, and detects them when `u` is surjective.
 
 A proof proceeds as follows.
 
@@ -2770,13 +2770,13 @@ EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above.
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.perverseExt_skyscraper_sum`: On a smooth curve `C, ⊕_{x closed} i_{x*}Λ[0]` satisfies both perverseLEExt 0 and perverseGEExt 0.
+- On a smooth curve `C, ⊕_{x closed} i_{x*}Λ[0]` lies in both `pD^{≤0}_{ext}` and `pD^{≥0}_{ext}`.
 
-- `TauCeti.EtaleDuality.perverseExt_empty`: On `X = ∅` every complex satisfies both conditions.
+- On `X = ∅` every complex satisfies both conditions.
 
-- `TauCeti.EtaleDuality.perverseExt_constructible_compat`: For `K ∈ D^b_c(X, Λ), K ∈` perverseLEExt `0 ∩` perverseGEExt 0 iff `K ∈ Perv(X, Λ)`.
+- For `K ∈ D^b_c(X, Λ), K ∈ pD^{≤0}_{ext} ∩ pD^{≥0}_{ext}` iff `K ∈ Perv(X, Λ)`.
 
-- `TauCeti.EtaleDuality.not_perverseGEExt_lowerShriek_open`: For `j : 𝔸² ∖ {0} → 𝔸²` over `k̄` and `Λ = ℤ/ℓ, Λ[2]` satisfies perverseGEExt 0 on the open but `j_!Λ[2]` does not satisfy it on `𝔸²`: its costalk at the origin is `(i^*Rj_*Λ[2])[−1] ≅ Λ[1] ⊕ Λ(−2)[−2]`, nonzero in degree `−1 < 0`. So the list in (d) contains `Rj_*` and not `j_!`.
+- For `j : 𝔸² ∖ {0} → 𝔸²` over `k̄` and `Λ = ℤ/ℓ, Λ[2]` lies in `pD^{≥0}_{ext}` on the open but `j_!Λ[2]` does not lie in `pD^{≥0}_{ext}` on `𝔸²`: its costalk at the origin is `(i^*Rj_*Λ[2])[−1] ≅ Λ[1] ⊕ Λ(−2)[−2]`, nonzero in degree `−1 < 0`. So the list in (d) contains `Rj_*` and not `j_!`.
 
 - A filtered colimit of perverse sheaves `Λ_C[1] → …` along the identity is `Λ_C[1]`.
 
@@ -2801,7 +2801,7 @@ as stated; no local triviality of `f` over the `Y_β` is needed. Self-injective 
 cosupport half, which is deduced from the support half by duality; for `O = ℤ_ℓ` duality exchanges `p` and `p⁺` and
 the statement is not asserted here.
 
-Name the resulting statement `semismallPushforwardPerversity`.
+Name the resulting statement semismallPushforwardPerversity.
 
 A proof proceeds as follows.
 
@@ -2853,7 +2853,7 @@ characteristic `ℓ ≠ char k`, or `O_E/λ^m`, or `ℤ/ℓ^m`; §0.1), the sett
 pure dimension `n, f` small (semismall for the partition, with strict inequalities off the dense stratum `Y_0`), `f`
 finite étale over a dense smooth open `V ⊂ Y_0`.
 
-Name the resulting statement `smallPushforwardIntersectionComplex`.
+Name the resulting statement smallPushforwardIntersectionComplex.
 
 A proof proceeds as follows.
 
@@ -2916,13 +2916,13 @@ six-operation extensions retain their additional finite-type/base hypotheses fro
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.normalized_system_reduction`: Under the equivalence, the `n`-th level is canonically isomorphic to derived reduction of the original integral complex.
+- Under the equivalence, the `n`-th level is canonically isomorphic to derived reduction of the original integral complex.
 
-- `TauCeti.EtaleDuality.normalized_system_uniform_bounds`: Every normalized system has one lower and one upper ordinary cohomological bound valid at every level.
+- Every normalized system has one lower and one upper ordinary cohomological bound valid at every level.
 
-- `TauCeti.EtaleDuality.normalized_system_common_strata`: Every normalized system has one finite algebraic stratification on which every cohomology sheaf at every level is lisse.
+- Every normalized system has one finite algebraic stratification on which every cohomology sheaf at every level is lisse.
 
-- `TauCeti.EtaleDuality.normalized_system_finiteTor`: Each bounded level of a normalized system has finite `Tor` amplitude, measured in its ambient unbounded coefficient category against all degree-zero sheaves; the system predicate supplies the same interval for all levels.
+- Each bounded level of a normalized system has finite `Tor` amplitude, measured in its ambient unbounded coefficient category against all degree-zero sheaves; the system predicate supplies the same interval for all levels.
 
 A proof proceeds as follows.
 
@@ -2963,15 +2963,15 @@ Proposition 6.8.14 and Remark 6.8.15, pp. 49–62 (arXiv v2); [BBD-1982] 2.2.14,
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.adic_constant_normalized`: The constant integral complex produces a normalized system with uniform ordinary and `Tor` bounds.
+- The constant integral complex produces a normalized system with uniform ordinary and `Tor` bounds.
 
-- `TauCeti.EtaleDuality.adic_reduction_coherence`: Successive reductions through `n,m,l` agree with direct reduction by the specified coefficient associator.
+- Successive reductions through `n,m,l` agree with direct reduction by the specified coefficient associator.
 
-- `TauCeti.EtaleDuality.adic_underived_residue_tower_excluded`: On a geometric point the ordinary compatible tower `M_n=O/λ` concentrated in degree zero is not a derived-normalized system. Already `(O/λ)⊗^L_{O/λ²}(O/λ)` has a nonzero `O/λ` in every nonpositive degree, so reduction from `n=1` to `n=0` is not `M_0[0]`.
+- On a geometric point the ordinary compatible tower `M_n=O/λ` concentrated in degree zero is not a derived-normalized system. Already `(O/λ)⊗^L_{O/λ²}(O/λ)` has a nonzero `O/λ` in every nonpositive degree, so reduction from `n=1` to `n=0` is not `M_0[0]`.
 
-- `TauCeti.EtaleDuality.nonperfect_point_unbounded_operations`: Over a separably closed point and `R=Z/ell²`, the degree-zero finite module `M=R/`ell belongs to Dbc, is not finite-Tor, and its ambient self-tensor has `M` in every nonpositive degree while its ambient self-`RHom` has `M` in every nonnegative degree. The test fixes the actual quotient module and asserts those cohomology identifications in the ambient categories.
+- Over a separably closed point and `R=Z/ell²`, the degree-zero finite module `M=R/`ell belongs to Dbc, is not finite-Tor, and its ambient self-tensor has `M` in every nonpositive degree while its ambient self-`RHom` has `M` in every nonnegative degree. The test fixes the actual quotient module and asserts those cohomology identifications in the ambient categories.
 
-- `TauCeti.EtaleDuality.adic_integral_torsion_derived_levels`: The integral torsion object `O/λ` is retained: its derived `n`-th level is the perfect two-term complex [`R_n` --`λ→ R_n`] in degrees `−1,0`. These levels form a normalized enhanced system with uniform `Tor` interval `[−1,0]`, unlike the underived degree-zero residue tower.
+- The integral torsion object `O/λ` is retained: its derived `n`-th level is the perfect two-term complex [`R_n` --`λ→ R_n`] in degrees `−1,0`. These levels form a normalized enhanced system with uniform `Tor` interval `[−1,0]`, unlike the underived degree-zero residue tower.
 
 - The reduction functors and their composition transformations are those of the imported enhanced limit; passing to its homotopy category preserves them without replacing the system by a list of pairwise isomorphisms.
 
@@ -2981,7 +2981,7 @@ Proposition 6.8.14 and Remark 6.8.15, pp. 49–62 (arXiv v2); [BBD-1982] 2.2.14,
 Uniformly bounded constructible normalized adic systems: Under the equivalence, the `n`-th level is canonically
 isomorphic to derived reduction of the original integral complex.
 
-Name the resulting statement `apiNormalizedSystemReduction`.
+Name the resulting statement apiNormalizedSystemReduction.
 
 A proof proceeds as follows.
 
@@ -3003,7 +3003,7 @@ v2); enhanced refinement: EnhancedDerivedSheaves §E4.5.
 constructible normalized adic systems: Every normalized system has one lower and one upper ordinary
 cohomological bound valid at every level.
 
-Name the resulting statement `apiNormalizedSystemUniformBounds`.
+Name the resulting statement apiNormalizedSystemUniformBounds.
 
 A proof proceeds as follows.
 
@@ -3025,7 +3025,7 @@ Use [Bhatt-Scholze-proetale-2015] §6.5, Definition 6.5.1 and Lemmas 6.5.3–6.5
 constructible normalized adic systems: Every normalized system has one finite algebraic stratification on
 which every cohomology sheaf at every level is lisse.
 
-Name the resulting statement `apiNormalizedSystemCommonStrata`.
+Name the resulting statement apiNormalizedSystemCommonStrata.
 
 A proof proceeds as follows.
 
@@ -3062,7 +3062,7 @@ tested there against all degree-zero sheaves. Bounded outputs require actual bou
 witnesses. General-ring trace evaluation uses `ctf` inputs; bounded duality on every Dbc object uses its stated
 coefficient regime.
 
-Name the resulting statement `classicalAndProetaleAdicCategories`.
+Name the resulting statement classicalAndProetaleAdicCategories.
 
 A proof proceeds as follows.
 
@@ -3117,7 +3117,7 @@ pushforward, supplied by the finite-level finiteness theorem, not an assertion a
 cohomology. Internal `Hom` is sheaf internal `Hom`. A constructible object supported on a stratum need not be
 globally tensor-dualizable. Restrict bounded coefficient operations through actual finite-Tor witnesses.
 
-Name the resulting statement `operationReductionComparisons`.
+Name the resulting statement operationReductionComparisons.
 
 A proof proceeds as follows.
 
@@ -3176,7 +3176,7 @@ natural transformations are first supplied with enhanced compatibility/homotopie
 consequence applies to each specified pair of objects; it is not a replacement for coherent functor-level
 data.
 
-Name the resulting statement `mappingLimitAndIntegralClassTransport`.
+Name the resulting statement mappingLimitAndIntegralClassTransport.
 
 A proof proceeds as follows.
 
@@ -3228,7 +3228,7 @@ VanishingCycles.fieldPerverseTStructure, EtaleCohomologyFoundations §F.8, for f
 The `Hom` scalar-extension identity is for a finite coefficient-field extension (general algebraic extensions
 through the stated filtered colimit), not an arbitrary field homomorphism.
 
-Name the resulting statement `rationalPerverseCoefficientExtension`.
+Name the resulting statement rationalPerverseCoefficientExtension.
 
 A proof proceeds as follows.
 
@@ -3253,11 +3253,11 @@ VanishingCycles.intermediateExtension.
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.coefficient_extension_reflects_zero_morphism`: Finite faithful field extension detects a zero morphism between perverse objects.
+- Finite faithful field extension detects a zero morphism between perverse objects.
 
-- `TauCeti.EtaleDuality.coefficient_extension_point_rank`: Extension of a finite-dimensional point coefficient space preserves rank, also for a quadratic field extension.
+- Extension of a finite-dimensional point coefficient space preserves rank, also for a quadratic field extension.
 
-- `TauCeti.EtaleDuality.coefficient_extension_zero_object`: Extension sends the zero perverse object to zero.
+- Extension sends the zero perverse object to zero.
 
 - `IC_X(Ē)` of a smooth curve is `Ē[1]`.
 
@@ -3285,7 +3285,7 @@ No assertion that a simple object remains simple after coefficient extension is 
 identities are canonical enhanced comparisons over arbitrary `k` in this range; their proof does not use the
 separably-closed-field `Hom`-limit uniqueness theorem.
 
-Name the resulting statement `coefficientExtensionDualityAndClasses`.
+Name the resulting statement coefficientExtensionDualityAndClasses.
 
 A proof proceeds as follows.
 
@@ -3343,7 +3343,7 @@ first ambient objects. A bounded output is corestricted only with its actual bou
 the displayed comparisons use finite-Tor first input. Analytic complex-field tensor`/RHom` used by
 geometric-origin constructors has separate field-coefficient boundedness receipts.
 
-Name the resulting statement `complexAnalyticComparison`.
+Name the resulting statement complexAnalyticComparison.
 
 A proof proceeds as follows.
 
@@ -3378,7 +3378,7 @@ Use [BBD-1982] 6.1.2`(A), (A′), (A″), (B′), (B″), (C), (C′)` and the p
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.analytic_monodromy_nonunit`: On `C×` a rank-one analytic `E` local system with monodromy the uniformizer has no monodromy-stable finite free `O` lattice.
+- On `C×` a rank-one analytic `E` local system with monodromy the uniformizer has no monodromy-stable finite free `O` lattice.
 
 - `X = 𝔸¹_ℂ: H^q(𝔸¹_ét, Λ) = H^q(ℂ, Λ) = Λ` for `q = 0, 0` otherwise.
 
@@ -3386,17 +3386,17 @@ Use [BBD-1982] 6.1.2`(A), (A′), (A″), (B′), (B″), (C), (C′)` and the p
 
 ### 3.6 Tate lines, orientation and supported classes
 
-**Supported topological orientation and complete coefficients.** Work on the locally compact Hausdorff analytic spaces of finite-type complex varieties, with finite cohomological dimension and algebraically constructible complexes. Define `BettiSupportedPurity` using relative cochains of the normal bundle and its complement of the zero section. For a smooth closed subvariety `i:Z→X` of a smooth complex variety `X`, of pure codimension `c`, complex orientation of the normal bundle gives `i^!Λ_X≅Λ_Z(−c)[−2c]`, after the Tate-line identification below. This constant-coefficient purity assertion is restricted to smooth pairs. Define its supported sheaf Thom class and Gysin map by the closed-support adjunction. Under the relative sheaf–cochain realization, identify their induced ordinary maps with CharacteristicClasses C2.1–C2.4's `U_E` and embedding Gysin for the same positive complex orientation, products and supports. Prove compatibility with the supplied integration on compactly supported top cochains. Import oriented fibre integration and trace normalization from ComplexComparisonPartII §C6.5 / `artinSmoothTrace`, and normalized topological realization with integral and rational traces from §C6.6 / `adicArtinComparison`. Extend those coefficient systems to ramified `O=O_E` using §3.4. Define this extension `BettiNormalizedSystem(O)` as coherent derived-complete `O/λ^m` systems in the supplied analytic constructible enhancement, with one finite algebraic stratification and uniform ordinary and `Tor` bounds; its reductions are derived reductions. The additional constructions are supported sheaf purity, its realization comparison with the ordinary Thom/Gysin maps, higher-cycle comparison and constructible duality, using the relative cochains and compact-manifold duality of AlgebraicTopology Stage 6.
+**Supported topological orientation and complete coefficients.** Work on the locally compact Hausdorff analytic spaces of finite-type complex varieties, with finite cohomological dimension and algebraically constructible complexes. Define supported Betti purity using relative cochains of the normal bundle and its complement of the zero section. For a smooth closed subvariety `i:Z→X` of a smooth complex variety `X`, of pure codimension `c`, complex orientation of the normal bundle gives `i^!Λ_X≅Λ_Z(−c)[−2c]`, after the Tate-line identification below. This constant-coefficient purity assertion is restricted to smooth pairs. Define its supported sheaf Thom class and Gysin map by the closed-support adjunction. Under the relative sheaf–cochain realization, identify their induced ordinary maps with CharacteristicClasses C2.1–C2.4's `U_E` and embedding Gysin for the same positive complex orientation, products and supports. Prove compatibility with the supplied integration on compactly supported top cochains. Import oriented fibre integration and trace normalization from ComplexComparisonPartII §C6.5 / `artinSmoothTrace`, and normalized topological realization with integral and rational traces from §C6.6 / `adicArtinComparison`. Extend those coefficient systems to ramified `O=O_E` using §3.4. Define this extension `BettiNormalizedSystem(O)` as coherent derived-complete `O/λ^m` systems in the supplied analytic constructible enhancement, with one finite algebraic stratification and uniform ordinary and `Tor` bounds; its reductions are derived reductions. The additional constructions are supported sheaf purity, its realization comparison with the ordinary Thom/Gysin maps, higher-cycle comparison and constructible duality, using the relative cochains and compact-manifold duality of AlgebraicTopology Stage 6.
 
-The API consists of `thom_normalCoordinate` (positive complex-coordinate generator), `thom_product` (direct sums of normal bundles), `gysin_localization`, `gysin_projection`, `thom_realization` (the realized supported class equals the supplied `U_N` of the normal bundle), `gysin_realization` (the realized support-adjunction map equals the supplied embedding Gysin), `trace_compactSupport` (compatibility with the imported trace after ramified coefficient extension), `bettiDuality_evaluation`, `normalized_reduce`, and `normalized_mappingLimit`. For an algebraically constructible finite-Tor `K` on a smooth complex `d`-fold, the duality statement is `RΓ(X,RHom(K,Λ(d)[2d]))≅RHom(RΓ_c(X,K),Λ)`; retain the derived `Hom` and its integral `Ext` term. At `O`-level use the complete limit of the finite-level maps; after inverting `λ` retain the stable-lattice analytic essential image from §3.5.
+The API consists of the positive complex-coordinate generator of the supported class, its compatibility with direct sums of normal bundles, the localization and projection formulas for the Gysin map, the equality of the realized supported class with the supplied `U_N` of the normal bundle, the equality of the realized support-adjunction map with the supplied embedding Gysin, compatibility with the imported trace after ramified coefficient extension, the duality evaluation map, and the reduction and mapping-limit maps of the normalized systems. For an algebraically constructible finite-Tor `K` on a smooth complex `d`-fold, the duality statement is `RΓ(X,RHom(K,Λ(d)[2d]))≅RHom(RΓ_c(X,K),Λ)`; retain the derived `Hom` and its integral `Ext` term. At `O`-level use the complete limit of the finite-level maps; after inverting `λ` retain the stable-lattice analytic essential image from §3.5.
 
 Construct the supported sheaf class on `(ℂ^c,ℂ^c−{0})` from the positive relative-cochain generator. Localization glues it along the normal bundle. Under relative sheaf–cochain realization, uniqueness of the supplied Thom class with these fibre generators identifies it with CharacteristicClasses C2.1's `U_N`. Compare support adjunction with tubular extension to obtain C2.4's embedding Gysin. Transport C2.2–C2.4's products, projection and composition identities through this comparison, retaining the same support groups. For noncompact duality start with a trivial local system on an oriented ball, where compactly supported relative cochains calculate the shifted coefficient dual. Use finite algebraic stratification, open/closed localization and duality triangles to pass to constructible complexes; use finite projective coefficient resolutions for finite-Tor objects. This supplies the compact-support pairing rather than a fundamental class without compactness. The already supplied finite Artin comparison respects localization; the local Kummer/exponential generator then identifies the étale and topological maps. Form coherent `O/λ^m` diagrams and apply EnhancedDerivedSheaves coefficient reconstruction and §3.2 mapping limits with the displayed bounds. (Dimca, *Sheaves in Topology*, Proposition 3.2.11, p.65, Theorem 3.3.3, p.68, and Theorem 3.3.10, p.69, for supported purity and derived compact-support duality; finite-Tor coefficient base change supplies the finite quotient rings. BBD §§6.1.2(`A′`–`C′`), pp.149–151, and 6.1.4, pp.151–152; [TCR-CharacteristicClasses] C2.1–C2.4 for ordinary Thom/Gysin and their identities; AlgebraicTopology Stage 6 for relative cochains and orientation products; EnhancedDerivedSheaves Layer 4 for derived completeness.) *Needs:* §§3.1–3.5, ComplexComparisonPartII §§C5.4, C6.0–C6.6, CharacteristicClasses C2.1–C2.4, and the supplied relative-cochain/orientation API.
 
 **Checks.**
 
-- The zero section of the trivial complex line has relative Thom group `Λ` in degree two; `thom_realization` sends its class to CharacteristicClasses C2.1's positive coordinate generator.
+- The zero section of the trivial complex line has relative Thom group `Λ` in degree two; the realization comparison sends its class to CharacteristicClasses C2.1's positive coordinate generator.
 - Codimension zero gives the identity support map. The product of two line generators gives the codimension-two class with shift four and agrees with CharacteristicClasses C2.2's ordered Thom product.
-- For a smooth closed complex embedding, `gysin_realization` identifies the supported sheaf map with CharacteristicClasses C2.4's Thom/tubular Gysin before forgetting support; their projection and composition squares commute.
+- For a smooth closed complex embedding, the realization comparison identifies the supported sheaf map with CharacteristicClasses C2.4's Thom/tubular Gysin before forgetting support; their projection and composition squares commute.
 - For the singular curve `X={xy=0}⊂ℂ²`, `Z={0}` and `Λ=𝔽₂`, the costalk has `H¹_Z(X,Λ)=Λ` and `H²_Z(X,Λ)=Λ²`: a small neighbourhood is contractible and its puncture has two components, each homotopy equivalent to a circle. Smoothness of `Z` alone does not give purity in a singular ambient space.
 - For `X=ℂ`, ordinary degree-two cohomology vanishes but `H²_c(X,Λ(1))=Λ` and its integration is the identity. Ordinary support would give a wrong trace.
 - At a point with `K=O/λ`, the derived `O`-dual has its nonzero `Ext¹` term. Ordinary `Hom` alone is zero and fails duality; reduction of the normalized object likewise keeps both derived terms.
@@ -3421,21 +3421,21 @@ comparison or field isomorphism `C≃`Ebar is needed for finite, integral or rat
 The interface consists of the following maps and identities.
 
 
-- `tateOrientation_finite`: Expose `θ_{X,n}` as an isomorphism of coefficient sheaves, with `ζ_n^{⊗d}` mapped to the positive local generator.
+- Expose `θ_{X,n}` as an isomorphism of coefficient sheaves, with `ζ_n^{⊗d}` mapped to the positive local generator.
 
-- `tateOrientation_ext`: Two `Z/ℓ^n`-linear coefficient-sheaf maps from the analytic Tate line agree if their maps on every stalk agree on `ζ_n^{⊗d}`. In particular the map sending this generator to the positive local orientation generator is unique.
+- Two `Z/ℓ^n`-linear coefficient-sheaf maps from the analytic Tate line agree if their maps on every stalk agree on `ζ_n^{⊗d}`. In particular the map sending this generator to the positive local orientation generator is unique.
 
-- `tateOrientation_reduction`: For `m≥n` the reduction of `θ_{X,m}` is `θ_{X,n}`; identity and triple reduction squares commute.
+- For `m≥n` the reduction of `θ_{X,m}` is `θ_{X,n}`; identity and triple reduction squares commute.
 
-- `tateOrientation_etalePullback`: For an étale map between smooth pure-`d`-dimensional complex schemes, the orientation pullback identifies the pullback of `θ` with `θ` on the source; identities and compositions agree.
+- For an étale map between smooth pure-`d`-dimensional complex schemes, the orientation pullback identifies the pullback of `θ` with `θ` on the source; identities and compositions agree.
 
-- `tateOrientation_product`: For smooth `X` of dimension `d` and `Y` of dimension `e`, the product orientation and Tate tensor isomorphisms identify `θ_{X×Y}` with `θ_X⊠θ_Y`, with the fixed ordered product convention.
+- For smooth `X` of dimension `d` and `Y` of dimension `e`, the product orientation and Tate tensor isomorphisms identify `θ_{X×Y}` with `θ_X⊠θ_Y`, with the fixed ordered product convention.
 
-- `tateOrientation_coefficientExtension`: Extension `Z_ℓ→O→O′` or `E→E′` carries `θ` to the corresponding coefficient comparison; its constant integral realization uses EtaleCohomologyFoundations §F.4’s underived comparison with the existing Mathlib Scheme.ellAdicSheaf.
+- Extension `Z_ℓ→O→O′` or `E→E′` carries `θ` to the corresponding coefficient comparison; its constant integral realization uses EtaleCohomologyFoundations §F.4’s underived comparison with the existing Mathlib Scheme.ellAdicSheaf.
 
-- `tateOrientation_changeGenerator`: If the chosen compatible root generator is replaced by its `u`-th power, `u∈Z_ℓ^×`, the untwisting map that sends the new generator to the same positive orientation is `u^(−d)` times the original map.
+- If the chosen compatible root generator is replaced by its `u`-th power, `u∈Z_ℓ^×`, the untwisting map that sends the new generator to the same positive orientation is `u^(−d)` times the original map.
 
-- `tateOrientation_conjugation`: Under the canonical antiholomorphic map `X^an→`(conjugate `X`)`^an`, conjugation sends the positive orientation generator and the `d`-th Tate generator to `(−1)^d` times their corresponding generators. The intrinsic twisted comparison commutes with this map; no real descent or conjugation automorphism of `X` is assumed.
+- Under the canonical antiholomorphic map `X^an→`(conjugate `X`)`^an`, conjugation sends the positive orientation generator and the `d`-th Tate generator to `(−1)^d` times their corresponding generators. The intrinsic twisted comparison commutes with this map; no real descent or conjugation automorphism of `X` is assumed.
 
 A proof proceeds as follows.
 
@@ -3462,13 +3462,13 @@ cohomology products and manifold duality; `AlgebraicGeometry.Scheme.smallEtaleTo
 **Checks.**
 
 
-- `tateOrientation_point`: For a point `(d=0), θ` is the identity coefficient identification, for every root choice. Its integral constant realization agrees with the imported comparison to Mathlib Scheme.ellAdicSheaf and its cohomology with Scheme.EllAdicCohomology.
+- For a point `(d=0), θ` is the identity coefficient identification, for every root choice. Its integral constant realization agrees with the imported comparison to Mathlib Scheme.ellAdicSheaf and its cohomology with Scheme.EllAdicCohomology.
 
-- `tateOrientation_line_sign`: On `A¹(C), ζ_n` maps to the orientation determined by the ordered real basis `(1,i)`; using `−i` reverses this generator.
+- On `A¹(C), ζ_n` maps to the orientation determined by the ordered real basis `(1,i)`; using `−i` reverses this generator.
 
-- `tateOrientation_product_two_lines`: On `A²(C)` the product of the two positive line generators is the positive real four-dimensional orientation; simultaneous conjugation preserves it.
+- On `A²(C)` the product of the two positive line generators is the positive real four-dimensional orientation; simultaneous conjugation preserves it.
 
-- `tateOrientation_changed_root`: For `d=1` and `ℓ=5`, replacing `ζ_n` by `ζ_n²` multiplies the fixed-orientation untwisting map by `2^−1` modulo `5^n`. Keeping the original map fails to send the new generator to 1.
+- For `d=1` and `ℓ=5`, replacing `ζ_n` by `ζ_n²` multiplies the fixed-orientation untwisting map by `2^−1` modulo `5^n`. Keeping the original map fails to send the new generator to 1.
 
 - At `d=0`, reduction of the orientation comparison is the identity at every level; two successive reductions give the same identity as their composite.
 
@@ -3494,7 +3494,7 @@ relative cohomology and cup/cap are imported from AlgebraicTopology Stage 6 and 
 additional supported Thom/Gysin and noncompact integral-duality interface is constructed at the start of this
 subsection from relative cochains and local orientations.
 
-Name the resulting statement `complexSupportedClassTransport`.
+Name the resulting statement complexSupportedClassTransport.
 
 A proof proceeds as follows.
 
@@ -3562,7 +3562,7 @@ cohomology over a separably closed field. Arbitrary-field arithmetic cohomology 
 Cycle-class transport uses the perfect-field and cycle hypotheses of §1.3, whose descent to Chow groups
 EtaleCohomologyFoundations does not state.
 
-Name the resulting statement `adicTransportOfDualityAndClasses`.
+Name the resulting statement adicTransportOfDualityAndClasses.
 
 A proof proceeds as follows.
 
@@ -3600,7 +3600,7 @@ Use [Bhatt-Scholze-proetale-2015] Remark 6.8.15, p. 62 (arXiv v2); [TCR-EtaleCoh
 ComplexComparisonPartII §C6.5 / `artinSmoothTrace` and §C6.6 / `adicArtinComparison`, including oriented
 integration, normalized topological realization and the finite, integral and rational trace normalizations.
 Extend their coefficient systems to ramified `O_E` and `E` using §3.4 and the supported interface of §3.6.
-For smooth separated `X/ℂ` of pure dimension `d`, prove `traceOrientationComparison`: the étale supported
+For smooth separated `X/ℂ` of pure dimension `d`, prove traceOrientationComparison: the étale supported
 class of each codimension-`r` cycle corresponds to its topological fundamental class, and cup products and
 compact-support constructible duality pairings agree under comparison. Use the positive Tate coordinate
 `exp(2πi/n)↦1` at finite levels, coherently over `O_E/λ^m`, then rationalize. Integral pairings retain derived
@@ -3637,7 +3637,7 @@ assigns models to arbitrary analytic spaces nor enlarges analytic duality to res
 
 Work with the following additional hypotheses. `Λ=Z/n, n≥1` prime to residue characteristic, and `L` bounded
 below; for bounded constructible duality restrict to actual finite-Tor inputs and bounds.
-ClassicalAdicEtaleCohomology §9.5 (`GeneralSmoothTrace`) already supplies the shifted-constant trace, in a broader coefficient range.
+ClassicalAdicEtaleCohomology §9.5 already supplies the shifted-constant trace, in a broader coefficient range.
 Its §9.6 smooth-duality theorem supplies the full `D⁺` trace-normalized adjunction used here, in
 Huber’s narrower range. Use scheme-fibre-product analytification from AdicSpacesPartII and finite-dimensional,
 separated/taut analytic support hypotheses. General finite-type field direct-image comparison Huber 3.8.1
@@ -3646,7 +3646,7 @@ extend the smooth-duality range. Integral analytic realization is not inferred f
 comparison without a normalized analytic coefficient category and uniform bounds; its exact extension is
 recorded separately.
 
-Name the resulting statement `analyticSmoothTraceComparison`.
+Name the resulting statement analyticSmoothTraceComparison.
 
 A proof proceeds as follows.
 
@@ -3665,7 +3665,7 @@ adjoint gives the stated smooth-purity comparison.
 For a smooth closed pair apply transitivity of exceptional pullback to the two smooth structure maps, then
 their trace-normalized purity formulas, to obtain codimension-`c` purity. The proper closed/open localization
 comparisons transport the supported Layer 1 class and its Gysin map. This is smooth-pair purity on an
-algebraic model; arbitrary regular analytic pairs are outside the claim. Import ClassicalAdicEtaleCohomology §9.3 (`AnalyticFirstChernClass`)
+algebraic model; arbitrary regular analytic pairs are outside the claim. Import ClassicalAdicEtaleCohomology §9.3
 for the Kummer normalization already compared with schemes.
 
 Use [Huber-1996] Theorems 3.7.2 and 3.8.1, pp.226–228; Theorems 5.7.2 and 5.7.5, pp.316–318; [Huber-1996]
@@ -3708,7 +3708,7 @@ conventions. Internal `Hom` and tensor are ambient derived operations; bounded c
 require their own witnesses. Neither full faithfulness of `c^*` nor right-adjoint recovery implies that every
 diamond object is in its essential image.
 
-Name the resulting statement `diamondTraceMatesAndImageCondition`.
+Name the resulting statement diamondTraceMatesAndImageCondition.
 
 A proof proceeds as follows.
 
@@ -3786,7 +3786,7 @@ lattices. `O_E`-coefficients are regarded as `ℤ_ℓ`-coefficients with an `O_E
 maps, and a finitely generated `O_E`-module is `O_E`-torsion-free exactly when it is `ℤ_ℓ`-torsion-free. For (e): `U′ → U` a universal homeomorphism with `U` affine of finite type over `k`; in the perfect case `k` is perfect of
 characteristic `p` and `U′` is affine, perfect and perfectly of finite presentation.
 
-Name the resulting statement `affineVanishingHypercohomology`.
+Name the resulting statement affineVanishingHypercohomology.
 
 A proof proceeds as follows.
 
@@ -3852,7 +3852,7 @@ groups, nor the supports, nor the perversity conditions, nor the maps, and a fin
 fields, DVR quotients `O/λ^m, O` and `E`. A finite ring `Λ` is reduced to self-injective `ℤ/ℓ^m`-coefficients by
 restriction of scalars, as in §2.7.
 
-Name the resulting statement `compactSupportVanishingSmoothAffine`.
+Name the resulting statement compactSupportVanishingSmoothAffine.
 
 A proof proceeds as follows.
 
@@ -3927,7 +3927,7 @@ from hard Lefschetz (DeligneWeightsAndPurity §§9.6–9.12) and makes no claim 
 intersection form on the vanishing part (§4.6). For (d), `K₀` is a bounded constructible complex on `X₀` whose
 pullback is `K`; the Frobenius conventions are those of EtaleCohomologyFoundations §F.10.2b.
 
-Name the resulting statement `weakLefschetz`.
+Name the resulting statement weakLefschetz.
 
 A proof proceeds as follows.
 
@@ -3994,7 +3994,7 @@ VanishingCycles.fieldPerverseTStructure of EtaleCohomologyFoundations §F.8. `O_
 groups, nor the supports, nor the perversity conditions, nor the maps, and a finitely generated `O_E`-module is
 `O_E`-torsion-free exactly when it is `ℤ_ℓ`-torsion-free.
 
-Name the resulting statement `weakLefschetzGysin`.
+Name the resulting statement weakLefschetzGysin.
 
 A proof proceeds as follows.
 
@@ -4042,7 +4042,7 @@ the finite free `ℤ_ℓ → O_E`; this changes neither the cohomology groups, n
 conditions, nor the maps, and a finitely generated `O_E`-module is `O_E`-torsion-free exactly when it is
 `ℤ_ℓ`-torsion-free.
 
-Name the resulting statement `weakLefschetzIntegral`.
+Name the resulting statement weakLefschetzIntegral.
 
 A proof proceeds as follows.
 
@@ -4091,7 +4091,7 @@ dimension `n + 1` and the section is nonzero on every irreducible component, so 
 divisor. Only the affineness of `X − Y = X_s` is used beyond §4.1, together with topological invariance of the
 étale site (`Y` and `Y_red` have the same cohomology; EtaleCohomologyFoundations §F.0.4).
 
-Name the resulting statement `ampleDivisorWeakLefschetz`.
+Name the resulting statement ampleDivisorWeakLefschetz.
 
 A proof proceeds as follows.
 
@@ -4103,8 +4103,7 @@ With `U = X_s` affine, apply each part of §4.1 with its own amplitude, coeffici
 §4.1 also retain the smooth-pair and lisse-coefficient hypotheses needed to identify supported cohomology by
 purity; affineness alone does not supply that identification.
 
-Hypersurface sections: the degree-`r` Veronese embedding (LefschetzPencilsAndVanishingCycles §3.4,
-LefschetzPencil.veronese with `veronese_isClosedImmersion` and `veronese_hyperplane`) turns `V(F) ∩ X` into a
+Hypersurface sections: the degree-`r` Veronese embedding (LefschetzPencilsAndVanishingCycles §3.4) turns `V(F) ∩ X` into a
 hyperplane section of the re-embedded `X` (Weil `I`, 5.7), whose complement is affine by the argument of §4.1.
 
 Chains: apply the statement to each `X_{j+1} ⊂ X_j` (each smooth projective) and compose.
@@ -4153,7 +4152,7 @@ conditions, nor the maps, and a finitely generated `O_E`-module is `O_E`-torsion
 and, in (3), for local complete intersections `V` of pure dimension `d`, where `F[d]` is perverse; this proves the
 smooth case, in which the perversity of `F[d]` is §2.4.
 
-Name the resulting statement `genericAffineWeakLefschetz`.
+Name the resulting statement genericAffineWeakLefschetz.
 
 A proof proceeds as follows.
 
@@ -4242,7 +4241,7 @@ direct sum over `ℚ_ℓ`, and over `ℤ/ℓ^a` or `ℤ_ℓ` only when `deg X` i
 dimension `m ≥ 1` and fixed multidegree; the relative trace is that of EtaleCohomologyFoundations §0.11 for
 smooth separated finitely presented `f`.
 
-Name the resulting statement `completeIntersectionCohomology`.
+Name the resulting statement completeIntersectionCohomology.
 
 A proof proceeds as follows.
 
@@ -4301,7 +4300,7 @@ outside the middle degree).
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.completeIntersection_conic_generator`: On a smooth conic in characteristic different from 2, the hyperplane class has trace 2 and vanishes with `F_2` coefficients. A high-degree generator therefore uses duality rather than blindly using `h^r`.
+- On a smooth conic in characteristic different from 2, the hyperplane class has trace 2 and vanishes with `F_2` coefficients. A high-degree generator therefore uses duality rather than blindly using `h^r`.
 
 - `X = P^m` itself `(N = m): H^m(X)_0 = 0` and every statement reduces to the `P^m` calculation of EtaleCohomologyFoundations §0.9.
 
@@ -4355,7 +4354,7 @@ regarded as `ℤ_ℓ`-coefficients with an `O_E`-action along the finite free `�
 cohomology groups, nor the supports, nor the maps, and a finitely generated `O_E`-module is `O_E`-torsion-free
 exactly when it is `ℤ_ℓ`-torsion-free.
 
-Name the resulting statement `projectiveBundleDecomposition`.
+Name the resulting statement projectiveBundleDecomposition.
 
 A proof proceeds as follows.
 
@@ -4438,7 +4437,7 @@ smooth of pure codimension `c ≥ 2`; `ℓ` invertible in `k`. The geometry of t
 (SchemeAndStackFoundations §4.11 with StableReduction Layer 4) and normal bundles of regular immersions
 (§5.5), but not this identification of the exceptional divisor.
 
-Name the resulting statement `blowupDirectImages`.
+Name the resulting statement blowupDirectImages.
 
 A proof proceeds as follows.
 
@@ -4491,7 +4490,7 @@ Work with the following additional hypotheses. As in §4.5; for Galois and Frobe
 defined over `k₀` and the cohomology is that of `X_k, Z_k`. For cohomology over a non-separably-closed `k₀` the
 decomposition is of Galois modules after base change to `k`.
 
-Name the resulting statement `blowupFormula`.
+Name the resulting statement blowupFormula.
 
 A proof proceeds as follows.
 
@@ -4538,7 +4537,7 @@ over a field, so `RΓ_c` is the supplied structural lower-shriek functor. The bl
 geometric range from blowup-direct-images; the finite-coefficient ordinary/support projective-bundle statement
 keeps the qcqs range.
 
-Name the resulting statement `pullbackInjectiveBlowupBundle`.
+Name the resulting statement pullbackInjectiveBlowupBundle.
 
 A proof proceeds as follows.
 
@@ -4592,21 +4591,21 @@ closed; `Y` a smooth effective Cartier divisor (for instance a smooth hyperplane
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.vanishingSubspace`: `Van(Y) := ker(i_* : H^n(Y, E) → H^{n+2}(X, E(1)))` as an `E`-subspace of `H^n(Y, E)`.
+- `Van(Y) := ker(i_* : H^n(Y, E) → H^{n+2}(X, E(1)))` as an `E`-subspace of `H^n(Y, E)`.
 
-- `TauCeti.EtaleDuality.restrictedSubspace`: `Res(Y) := im(i^* : H^n(X, E) → H^n(Y, E))` as an `E`-subspace of `H^n(Y, E)`.
+- `Res(Y) := im(i^* : H^n(X, E) → H^n(Y, E))` as an `E`-subspace of `H^n(Y, E)`.
 
-- `TauCeti.EtaleDuality.restrictedSubspace_eq_orthogonal`: `Res(Y) = Van(Y)^⊥` for the Poincaré pairing of `Y`.
+- `Res(Y) = Van(Y)^⊥` for the Poincaré pairing of `Y`.
 
-- `TauCeti.EtaleDuality.vanishingSubspace_eq_orthogonal`: `Van(Y) = Res(Y)^⊥` for the Poincaré pairing of `Y`.
+- `Van(Y) = Res(Y)^⊥` for the Poincaré pairing of `Y`.
 
-- `TauCeti.EtaleDuality.finrank_restricted_add_vanishing`: `dim Res(Y) + dim Van(Y) = dim H^n(Y, E)`.
+- `dim Res(Y) + dim Van(Y) = dim H^n(Y, E)`.
 
-- `TauCeti.EtaleDuality.gysin_comp_restriction`: `i_* ∘ i^* = L ∪ − : H^q(X, E) → H^{q+2}(X, E(1))`.
+- `i_* ∘ i^* = L ∪ − : H^q(X, E) → H^{q+2}(X, E(1))`.
 
-- `TauCeti.EtaleDuality.primitiveSubspace`: `P^q(X) := ker(L^{n+2−q} : H^q(X, E) → H^{2n+4−q}(X, E(n+2−q)))` for `q ≤ n + 1`.
+- `P^q(X) := ker(L^{n+2−q} : H^q(X, E) → H^{2n+4−q}(X, E(n+2−q)))` for `q ≤ n + 1`.
 
-- `TauCeti.EtaleDuality.vanishingSubspace_galois`: If `X, Y` are defined over `k₀, Van(Y)` and `Res(Y)` are `Gal(k/k₀)`-stable subspaces.
+- If `X, Y` are defined over `k₀, Van(Y)` and `Res(Y)` are `Gal(k/k₀)`-stable subspaces.
 
 A proof proceeds as follows.
 
@@ -4626,26 +4625,26 @@ with the Kummer first Chern class of `O_X(Y)`, §0.9). Ampleness plays no role i
 
 Use [Deligne-WeilII-1980] §4.3, before Lemme (4.3.2), p. 222; [TCR-EtaleCohomologyFoundations] §§0.9, F.3,
 F.5–F.6; [TCR-DeligneWeightsAndPurity] §9.3(a);
-[TCR-LefschetzPencilsAndVanishingCycles] §3.4, LefschetzPencil.veronese and `veronese_hyperplane`.
+[TCR-LefschetzPencilsAndVanishingCycles] §3.4, Veronese embeddings.
 
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.vanishingSubspace_projectiveSpace`: For `X = P^{n+1}` and `Y = P^n` a hyperplane, `Van(Y) = 0` and `Res(Y) = H^n(Y)`.
+- For `X = P^{n+1}` and `Y = P^n` a hyperplane, `Van(Y) = 0` and `Res(Y) = H^n(Y)`.
 
-- `TauCeti.EtaleDuality.restrictedSubspace_planeCubic`: For `X=P²` embedded by `O(3)`, a smooth plane cubic `Y` is a hyperplane section; `Res(Y)=0` and `Van(Y)=H¹(Y,E)` has dimension 2.
+- For `X=P²` embedded by `O(3)`, a smooth plane cubic `Y` is a hyperplane section; `Res(Y)=0` and `Van(Y)=H¹(Y,E)` has dimension 2.
 
-- `TauCeti.EtaleDuality.vanishingSubspace_zero_of_curve_point`: For `n=0, X` a smooth connected projective curve and `Y` a nonempty reduced hyperplane section of `d` points, `Van(Y)` is the kernel of the sum map `E^d → E` and has dimension `d−1`.
+- For `n=0, X` a smooth connected projective curve and `Y` a nonempty reduced hyperplane section of `d` points, `Van(Y)` is the kernel of the sum map `E^d → E` and has dimension `d−1`.
 
-- `TauCeti.EtaleDuality.not_vanishing_inf_restricted_eq_bot`: Use `𝔽₂` coefficients over a separably closed base field of characteristic different from 2. Take `X` a smooth quadric threefold and `Y` its smooth quadric surface hyperplane section. `H²(Y) ≅ 𝔽₂², Res(Y)` is spanned by `h = (1,1)`, and `h∪h` has trace `2 = 0`, so `Res(Y) = Van(Y)` is nonzero. This detects an unjustified direct-sum axiom.
+- Use `𝔽₂` coefficients over a separably closed base field of characteristic different from 2. Take `X` a smooth quadric threefold and `Y` its smooth quadric surface hyperplane section. `H²(Y) ≅ 𝔽₂², Res(Y)` is spanned by `h = (1,1)`, and `h∪h` has trace `2 = 0`, so `Res(Y) = Van(Y)` is nonzero. This detects an unjustified direct-sum axiom.
 
-- `TauCeti.EtaleDuality.primitiveSubspace_degree_zero`: For a connected smooth projective `X` of dimension `D, P⁰(X)=H⁰(X,E)=E`, since `L^{D+1}` lands above degree `2D`.
+- For a connected smooth projective `X` of dimension `D, P⁰(X)=H⁰(X,E)=E`, since `L^{D+1}` lands above degree `2D`.
 
-- `TauCeti.EtaleDuality.primitiveSubspace_projectiveSpace`: For `X=P^D` with `L=c₁(O(1))` and `0<q≤D, P^q(X)=0`: in positive even degree the specified power sends the hyperplane generator to a nonzero hyperplane power, and in odd degree the domain is zero.
+- For `X=P^D` with `L=c₁(O(1))` and `0<q≤D, P^q(X)=0`: in positive even degree the specified power sends the hyperplane generator to a nonzero hyperplane power, and in odd degree the domain is zero.
 
 - For `X=P²_ℂ`, `Y` a smooth plane cubic and `E=𝔽₃`, `L=3h=0` and `P²(X)=H²(X,E)≅E`. Over any coefficient field `E` of characteristic three, scalar multiplication by 3 has the whole vector space as its kernel.
 
-- `TauCeti.EtaleDuality.primitiveSubspace_quadricSurface`: For `X=P¹×P¹` with `L=(1,1), P²(X)` is the one-dimensional kernel of `(a,b)↦`a`+b`, spanned by `(1,−1)`. This distinguishes the primitive kernel from either zero or all `H²`.
+- For `X=P¹×P¹` with `L=(1,1), P²(X)` is the one-dimensional kernel of `(a,b)↦`a`+b`, spanned by `(1,−1)`. This distinguishes the primitive kernel from either zero or all `H²`.
 
 - `X = P^{n+1}, Y = P^n: Van(Y) = 0` for `n` odd `(H^n(Y) = 0)` and for `n` even `Van(Y) = 0` since `i_*` is an isomorphism `H^n(P^n) → H^{n+2}(P^{n+1})`; `Res(Y) = H^n(Y)`.
 
@@ -4668,7 +4667,7 @@ Work with the following additional hypotheses. Smooth complete intersections of 
 invertible in `k`. `m≥1` for the primitive-rank and displayed hypersurface formula, as in §4.3; `d≥1`.
 Zero-dimensional reduced cohomology is a different convention.
 
-Name the resulting statement `completeIntersectionBettiComparison`. Define the displayed integer quotient on all natural arguments using integer division. In the geometric range `d ≥ 1, m ≥ 1`, prove divisibility by `d`, agreement with the primitive middle Betti number, and nonnegativity; at `d = 1` it is zero. The values outside that range carry no geometric rank assertion.
+Name the resulting statement completeIntersectionBettiComparison. Define the displayed integer quotient on all natural arguments using integer division. In the geometric range `d ≥ 1, m ≥ 1`, prove divisibility by `d`, agreement with the primitive middle Betti number, and nonnegativity; at `d = 1` it is zero. The values outside that range carry no geometric rank assertion.
 
 A proof proceeds as follows.
 
@@ -4718,7 +4717,7 @@ Layers 0–3; EtaleCohomologyFoundations §§F.3, F.7–F.8; projective/flag/blo
 **Adic finite-field Hochschild–Serre comparison.** Let `X₀/𝔽_q` be separated of finite type,
 `ℓ∤q`, `E/ℚ_ℓ` finite, and `K₀,L₀∈D^b_c(X₀,E)`. Write `X=X₀×𝔽̄_q`, with pullbacks `K,L` and geometric
 Frobenius `F` on the geometric derived Hom induced by both descent data. Construct
-`adicFiniteFieldHochschildSerre`:
+adicFiniteFieldHochschildSerre:
 
 `RHom_X₀(K₀,L₀) ≃ fib(1−F : RHom_X(K,L) → RHom_X(K,L))`.
 
@@ -4760,11 +4759,11 @@ integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAnd
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality). The Frobenius acting on `Hom^i(K, L)` is the one induced by the descent data of `K₀` and `L₀`; continuous Galois cohomology of `Gal(𝔽̄_q/𝔽_q) ≅ ℤ̂` is
 used.
 
-Name the resulting statement `frobeniusDescentOfPerverseSheaves`.
+Name the resulting statement frobeniusDescentOfPerverseSheaves.
 
 A proof proceeds as follows.
 
-Apply `adicFiniteFieldHochschildSerre` to `K₀,L₀`. Its geometric complex is `RHom_X(K,L)` with the action induced by the two descent data; no properness or smoothness of the structural morphism is needed.
+Apply adicFiniteFieldHochschildSerre to `K₀,L₀`. Its geometric complex is `RHom_X(K,L)` with the action induced by the two descent data; no properness or smoothness of the structural morphism is needed.
 
 The Hochschild–Serre spectral sequence for `Gal(𝔽̄_q/𝔽_q) ≅ ℤ̂` has only the columns `p = 0, 1`, since continuous
 cohomology of `ℤ̂` with finite-dimensional `ℓ`-adic coefficients is invariants in degree 0, coinvariants in degree
@@ -4812,25 +4811,25 @@ cohomology sheaves; perverse truncations are computed in `D^b_c(X₀, ℚ̄_ℓ)
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.MixedPerverseSheaf`: The full subcategory `Perv_m(X₀)` of `Perv(X₀, ℚ̄_ℓ)` of perverse sheaves whose ordinary cohomology sheaves are mixed.
+- The full subcategory `Perv_m(X₀)` of `Perv(X₀, ℚ̄_ℓ)` of perverse sheaves whose ordinary cohomology sheaves are mixed.
 
-- `TauCeti.EtaleDuality.mixedTStructure`: The perverse `t`-structure restricted to `D^b_m(X₀)`; its heart is equivalent to MixedPerverseSheaf `X₀`.
+- The perverse `t`-structure restricted to `D^b_m(X₀)`; its heart is equivalent to `Perv_m(X₀)`.
 
-- `TauCeti.EtaleDuality.MixedPerverseSheaf.abelian`: `Perv_m(X₀)` is abelian and its inclusion into `Perv(X₀)` is exact.
+- `Perv_m(X₀)` is abelian and its inclusion into `Perv(X₀)` is exact.
 
-- `TauCeti.EtaleDuality.MixedPerverseSheaf.of_subquotient`: A subobject or quotient in `Perv(X₀)` of a mixed perverse sheaf is mixed (BBD 5.1.7(ii)).
+- A subobject or quotient in `Perv(X₀)` of a mixed perverse sheaf is mixed (BBD 5.1.7(ii)).
 
-- `TauCeti.EtaleDuality.MixedPerverseSheaf.of_extension`: An extension in `Perv(X₀)` of mixed perverse sheaves is mixed.
+- An extension in `Perv(X₀)` of mixed perverse sheaves is mixed.
 
-- `TauCeti.EtaleDuality.perverseCohomology_mixed`: For `K₀` mixed, every `pH^i(K₀)` is mixed perverse.
+- For `K₀` mixed, every `pH^i(K₀)` is mixed perverse.
 
-- `TauCeti.EtaleDuality.MixedPerverseSheaf.HasWeightsLE`: `F₀` has weights `≤ w` iff its underlying complex is in `D^b_{≤w}(X₀)` (DeligneWeightsAndPurity §8.1).
+- `F₀` has weights `≤ w` iff its underlying complex is in `D^b_{≤w}(X₀)` (DeligneWeightsAndPurity §8.1).
 
-- `TauCeti.EtaleDuality.MixedPerverseSheaf.IsPure`: `F₀` is pure of weight `w` iff it has weights `≤ w` and `≥ w`.
+- `F₀` is pure of weight `w` iff it has weights `≤ w` and `≥ w`.
 
-- `TauCeti.EtaleDuality.MixedPerverseSheaf.isPure_dual`: `D_{X₀}F₀` is mixed perverse, and `F₀` pure of weight `w` implies `D_{X₀}F₀` pure of weight `−w` (§2.5, DeligneWeightsAndPurity §8.11).
+- `D_{X₀}F₀` is mixed perverse, and `F₀` pure of weight `w` implies `D_{X₀}F₀` pure of weight `−w` (§2.5, DeligneWeightsAndPurity §8.11).
 
-- `TauCeti.EtaleDuality.MixedPerverseSheaf.isPure_twist`: `F₀` pure of weight `w` implies `F₀(r)` pure of weight `w − 2r`.
+- `F₀` pure of weight `w` implies `F₀(r)` pure of weight `w − 2r`.
 
 A proof proceeds as follows.
 
@@ -4856,13 +4855,13 @@ DeligneWeightsAndPurity §8.11; DeligneWeightsAndPurity §5.3.
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.constantShift_isPure`: For `X₀` smooth of pure dimension `d, ℚ̄_ℓ[d]` is a mixed perverse sheaf, pure of weight `d`.
+- For `X₀` smooth of pure dimension `d, ℚ̄_ℓ[d]` is a mixed perverse sheaf, pure of weight `d`.
 
-- `TauCeti.EtaleDuality.zero_isPure_all`: The zero perverse sheaf is mixed and pure of every weight `w`.
+- The zero perverse sheaf is mixed and pure of every weight `w`.
 
-- `TauCeti.EtaleDuality.mixedPerverse_point_iff`: On `X₀ = Spec 𝔽_q` a perverse sheaf is a finite-dimensional Galois representation, and it is mixed iff every eigenvalue of the geometric Frobenius is a `q`-Weil number of some integer weight (DeligneWeightsAndPurity §5.3).
+- On `X₀ = Spec 𝔽_q` a perverse sheaf is a finite-dimensional Galois representation, and it is mixed iff every eigenvalue of the geometric Frobenius is a `q`-Weil number of some integer weight (DeligneWeightsAndPurity §5.3).
 
-- `TauCeti.EtaleDuality.not_mixed_of_nonWeil_eigenvalue`: On `Spec 𝔽_q` the rank-one representation with Frobenius eigenvalue `1 + √2` is perverse but not mixed, since the conjugate `1 − √2` has a different absolute value.
+- On `Spec 𝔽_q` the rank-one representation with Frobenius eigenvalue `1 + √2` is perverse but not mixed, since the conjugate `1 − √2` has a different absolute value.
 
 - `ℚ̄_ℓ[d]` on a smooth pure `d`-dimensional `X₀` is mixed perverse and pure of weight `d`.
 
@@ -4884,7 +4883,7 @@ integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAnd
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality). In (c), `X₀ × Y₀` is the fibre
 product over `𝔽_q` and `K₀ ⊠ L₀ := pr₁^*K₀ ⊗ pr₂^*L₀`.
 
-Name the resulting statement `pointwiseWeightCriteria`.
+Name the resulting statement pointwiseWeightCriteria.
 
 A proof proceeds as follows.
 
@@ -4920,7 +4919,7 @@ DeligneWeightsAndPurity §5.3.
 
 **Curve Euler–Poincaré with Swan conductors.** For a smooth connected curve `U` with smooth proper
 completion `C` over an algebraically closed field `k`, `ℓ` invertible in `k`, and lisse finite-dimensional
-`ℚ̄_ℓ`-sheaf `L`, prove `curveEulerPoincareSwan`:
+`ℚ̄_ℓ`-sheaf `L`, prove curveEulerPoincareSwan:
 
 `χ_c(U,L)=rank(L)χ_c(U,ℚ̄_ℓ)−Σ_(x∈C∖U) Swan_x(L)`.
 
@@ -4932,7 +4931,7 @@ For a finite étale cover `C′→C` of degree `e`, put `U′=C′×_C U`: rank 
 and `χ_c(U′,L|_U′)` are multiplied by `e`. For covers only étale over `U`, keep their actual boundary
 ramification and compute Swan conductors by the upper-numbering restriction formula instead.
 
-For the Leray sheaves in `bettiGrowthInEtaleTowers`, prove the conductor bounds used there as part of this
+For the Leray sheaves in bettiGrowthInEtaleTowers, prove the conductor bounds used there as part of this
 target: the inertia-equivariant nearby-cycle description identifies their geometric generic cohomology;
 the wild action factors through one finite quotient independent of the projective-curve covers. If `b` bounds its upper breaks, each Swan conductor is at most `b` times the dimension of the corresponding nearby-cycle cohomology. The perverse nearby-cycle bounds and induction on the remaining factors give the smaller products in BBD 4.5.1, uniformly over these covers.
 
@@ -4961,14 +4960,14 @@ Work with the following additional hypotheses. The pullback of `K` to each cover
 bound is for `n≥1`; the zero-dimensional case is immediate. The constant depends on `K` and `f`, never on the
 covers.
 
-Name the resulting statement `bettiGrowthInEtaleTowers`.
+Name the resulting statement bettiGrowthInEtaleTowers.
 
 A proof proceeds as follows.
 
 Reduce the projective-product upper-perverse bound to sheaves shifted by support dimension and to finite
 coefficients via universal coefficients. Induct on the number of factors.
 
-On a dense open of the first curve the relevant direct images are lisse. Leray, `curveEulerPoincareSwan` (including its finite-coefficient conductor estimates), and induction control ranks. Nearby-cycle perverse bounds control the Swan contributions by the
+On a dense open of the first curve the relevant direct images are lisse. Leray, curveEulerPoincareSwan (including its finite-coefficient conductor estimates), and induction control ranks. Nearby-cycle perverse bounds control the Swan contributions by the
 same smaller products. Duality gives the lower-perverse bound; quasi-finite `f_*` preserves `pD≥0`, giving 4.5.4.
 
 Choose a quasi-finite affine-space map near `x`, and an étale neighbourhood pulled back from a product of
@@ -4977,7 +4976,7 @@ negative-degree bound is `O(d^(n−|i|))`. This yields the sublinear conclusion 
 
 Use [BBD-1982] Proposition 4.5.1 and Corollaries 4.5.3–4.5.5, pp.117–121; use in 5.2.3–5.2.8, pp.131–134.
 
-*Needs:* `curveEulerPoincareSwan`; §2.6; §2.5; LefschetzPencilsAndVanishingCycles Layer 6; EtaleCohomologyFoundations §§F.0–F.6 and the
+*Needs:* curveEulerPoincareSwan; §2.6; §2.5; LefschetzPencilsAndVanishingCycles Layer 6; EtaleCohomologyFoundations §§F.0–F.6 and the
 scheme-site contract above.
 
 **Checks.**
@@ -5000,7 +4999,7 @@ EtaleCohomologyFoundations §§F.4, F.8; ramified coefficient refinement in §3.
 integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAndPurity §8.2 (a sheaf of weights
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality).
 
-Name the resulting statement `weightExtVanishing`.
+Name the resulting statement weightExtVanishing.
 
 A proof proceeds as follows.
 
@@ -5041,7 +5040,7 @@ integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAnd
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality). `U₀ → X₀` étale with `U₀` affine; `H⁰`
 is hypercohomology of the complex `u^*F` over `𝔽̄_q`.
 
-Name this interface `affineCohomologyWeightCriterion`. On this domain the criterion is the affine weight
+Name this interface affineCohomologyWeightCriterion. On this domain the criterion is the affine weight
 criterion exported by AutomorphicLFunctionsAndLocalFactors AL.3.10.10 (Normalized scheme intersection-complex purity), which proves
 it (BBD 5.2.1, including the cohomology-growth and trace-comparison steps of 5.2.3–5.2.8). This interface
 restates that statement under the conventions of this roadmap and does not reprove it.
@@ -5078,7 +5077,7 @@ EtaleCohomologyFoundations §§F.4, F.8; ramified coefficient refinement in §3.
 integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAndPurity §8.2 (a sheaf of weights
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality).
 
-Name this interface `subquotientWeightStability`. On this domain the statement is the subquotient weight
+Name this interface subquotientWeightStability. On this domain the statement is the subquotient weight
 bound exported by AutomorphicLFunctionsAndLocalFactors AL.3.10.10 (Normalized scheme intersection-complex purity), whose proof
 contains the Artin-vanishing step for quotients, the external-square and integrality step for subobjects and
 the Verdier-duality step for upper bounds (BBD 5.3.1). This interface restates it under the conventions of this
@@ -5087,7 +5086,7 @@ roadmap and does not reprove it.
 A proof proceeds as follows.
 
 Transport the supplied statement along the coefficient and weight identifications used for
-`affineCohomologyWeightCriterion`. Subobjects and quotients in `Perv(X₀)` correspond under these
+affineCohomologyWeightCriterion. Subobjects and quotients in `Perv(X₀)` correspond under these
 identifications, because the identification of coefficients is `t`-exact.
 
 Use [TCR-AutomorphicLFunctionsAndLocalFactors] AL.3.10.10 (Normalized scheme intersection-complex purity), subquotient weight
@@ -5123,7 +5122,7 @@ integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAnd
 then `t`-exact for the perverse `t`-structure). (b): the shift is the perverse normalisation `L₀[d]`; no Tate
 half-twist is built in.
 
-Name this interface `intersectionComplexPurity`. Parts (b)–(c) are the perverse-normalization adapter for the
+Name this interface intersectionComplexPurity. Parts (b)–(c) are the perverse-normalization adapter for the
 generic scheme purity theorem supplied by AutomorphicLFunctionsAndLocalFactors AL.3.10.10
 (Normalized scheme intersection-complex purity).
 
@@ -5131,10 +5130,10 @@ A proof proceeds as follows.
 
 (a) Since `j` is affine and quasi-finite, `j_!F₀` and `Rj_*F₀` are perverse (§2.7, BBD 4.1.3).
 
-If `F₀` has weights `≤ w, j_!F₀` has weights `≤ w` (DeligneWeightsAndPurity §8.11 (i)); `j_!*F₀` is the image of `j_!F₀ → Rj_*F₀`, a quotient of `j_!F₀` in `Perv(X₀)`, so it has weights `≤ w` by `subquotientWeightStability` (§5.2).
+If `F₀` has weights `≤ w, j_!F₀` has weights `≤ w` (DeligneWeightsAndPurity §8.11 (i)); `j_!*F₀` is the image of `j_!F₀ → Rj_*F₀`, a quotient of `j_!F₀` in `Perv(X₀)`, so it has weights `≤ w` by subquotientWeightStability (§5.2).
 
 Dually, if `F₀` has weights `≥ w, Rj_*F₀` has weights `≥ w` and its subobject `j_!*F₀` has weights `≥ w`; combining both
-gives purity by `subquotientWeightStability` (BBD 5.3.2, first proof).
+gives purity by subquotientWeightStability (BBD 5.3.2, first proof).
 
 (b) Both normalizations use the same intermediate extension: §2.10 gives `IC_{X₀}(L₀)=j_!*(L₀[d])`, while
 the supplier defines `IC⁰_{X₀}(L₀)=(j_!*(L₀[d]))[−d]`. The shift isomorphisms give the comparison, compatible
@@ -5173,7 +5172,7 @@ EtaleCohomologyFoundations §§F.4, F.8; ramified coefficient refinement in §3.
 integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAndPurity §8.2 (a sheaf of weights
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality).
 
-Name the resulting statement `simpleMixedPerverseIsPure`.
+Name the resulting statement simpleMixedPerverseIsPure.
 
 A proof proceeds as follows.
 
@@ -5210,7 +5209,7 @@ Work with the following additional hypotheses. A abelian, every object of finite
 noetherian); the partition is of isomorphism classes of simple objects; `Ext¹` vanishing is only required from
 `S⁻` to `S⁺`.
 
-Name the resulting statement `torsionTheorySplittingLemma`; `exists_unique_torsion_subobject` in `Suggested.lean` states existence and uniqueness of the constituent-defined subobject. For an isomorphism-invariant predicate `P`, `SimpleSubquotientsIn P X` means that `P` holds for every simple quotient `B/A` of subobjects `A ≤ B` of `X`. Give this predicate invariance under isomorphism and closure under subobjects, quotients and extensions. The simple-object test is `SimpleSubquotientsIn P X ↔ P X` for simple `X`. These are the constituent conditions defining `A⁺` and `A⁻` above.
+Name the resulting statement torsionTheorySplittingLemma; `exists_unique_torsion_subobject` in `Suggested.lean` states existence and uniqueness of the constituent-defined subobject. For an isomorphism-invariant predicate `P`, `SimpleSubquotientsIn P X` means that `P` holds for every simple quotient `B/A` of subobjects `A ≤ B` of `X`. Give this predicate invariance under isomorphism and closure under subobjects, quotients and extensions. The simple-object test is `SimpleSubquotientsIn P X ↔ P X` for simple `X`. These are the constituent conditions defining `A⁺` and `A⁻` above.
 
 A proof proceeds as follows.
 
@@ -5235,7 +5234,7 @@ Use [BBD-1982] Lemme 5.3.6 and its proof, p. 137.
 
 - The zero object satisfies `SimpleSubquotientsIn P` for every `P` because it has no simple subquotient.
 - On a simple nonzero `S` the predicate holds precisely when `P(S)` holds; taking `P` constantly false gives a non-example.
-- The module `ℚ[t]/(t−1)²` satisfies `SimpleSubquotientsIn` for the predicate of being isomorphic to `ℚ[t]/(t−1)`, yet is not semisimple. Its length-two extension does not split; a constituent condition cannot require a direct-sum presentation.
+- Every simple subquotient of the module `ℚ[t]/(t−1)²` is isomorphic to `ℚ[t]/(t−1)`, yet the module is not semisimple. Its length-two extension does not split; a constituent condition cannot require a direct-sum presentation.
 
 - `A =` finite-dimensional representations of `ℤ` over `ℚ̄_ℓ` on which the generator acts with eigenvalues in `{1, q}`, `S⁻ = {eigenvalue 1}`, `S⁺ = {eigenvalue q}`: `W F` is the generalized 1-eigenspace and the splitting is the generalized eigenspace decomposition.
 
@@ -5260,21 +5259,21 @@ applies to the weight-class decomposition modulo `ℤ` first.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.weightFiltration`: For a mixed perverse sheaf `F₀` and `i ∈ ℤ`, the perverse subsheaf `W_i F₀ ⊆ F₀`.
+- For a mixed perverse sheaf `F₀` and `i ∈ ℤ`, the perverse subsheaf `W_i F₀ ⊆ F₀`.
 
-- `TauCeti.EtaleDuality.weightFiltration_mono`: `W_i F₀ ≤ W_{i+1} F₀` as subobjects.
+- `W_i F₀ ≤ W_{i+1} F₀` as subobjects.
 
-- `TauCeti.EtaleDuality.weightFiltration_eq_bot`: There is `N` with `W_i F₀ = 0` for `i < −N` and `W_i F₀ = F₀` for `i > N`.
+- There is `N` with `W_i F₀ = 0` for `i < −N` and `W_i F₀ = F₀` for `i > N`.
 
-- `TauCeti.EtaleDuality.weightGraded_isPure`: `W_i F₀ / W_{i−1} F₀` is pure of weight `i`.
+- `W_i F₀ / W_{i−1} F₀` is pure of weight `i`.
 
-- `TauCeti.EtaleDuality.weightFiltration_unique`: Any finite increasing filtration by perverse subsheaves with pure graded pieces of weights `i` equals `W`.
+- Any finite increasing filtration by perverse subsheaves with pure graded pieces of weights `i` equals `W`.
 
-- `TauCeti.EtaleDuality.weightFiltration_strict`: For `f : F₀ → G₀, f(W_i F₀) = f(F₀) ∩ W_i G₀`; in particular `f` maps `W_i` into `W_i`.
+- For `f : F₀ → G₀, f(W_i F₀) = f(F₀) ∩ W_i G₀`; in particular `f` maps `W_i` into `W_i`.
 
-- `TauCeti.EtaleDuality.weightFiltration_eq_largest`: `W_i F₀` is the largest perverse subsheaf of `F₀` having weights `≤ i`.
+- `W_i F₀` is the largest perverse subsheaf of `F₀` having weights `≤ i`.
 
-- `TauCeti.EtaleDuality.weightFiltration_dual`: `D(W_i F₀)` is identified with the quotient `D F₀ / W_{−i−1} D F₀` (duality exchanges weights `i` and `−i`).
+- `D(W_i F₀)` is identified with the quotient `D F₀ / W_{−i−1} D F₀` (duality exchanges weights `i` and `−i`).
 
 A proof proceeds as follows.
 
@@ -5296,13 +5295,13 @@ Use [BBD-1982] Théorème 5.3.5 and its proof with Lemme 5.3.6, pp. 136–137.
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.weightFiltration_pure`: If `F₀` is pure of weight `w` then `W_i F₀ = 0` for `i < w` and `W_i F₀ = F₀` for `i ≥ w`.
+- If `F₀` is pure of weight `w` then `W_i F₀ = 0` for `i < w` and `W_i F₀ = F₀` for `i ≥ w`.
 
-- `TauCeti.EtaleDuality.weightFiltration_jstar_Gm`: For `j : 𝔾_m ↪ 𝔸¹` over `𝔽_q, W_1(Rj_*ℚ̄_ℓ[1]) = ℚ̄_ℓ,𝔸¹[1]` and `Gr^W_2(Rj_*ℚ̄_ℓ[1]) ≅ δ₀(−1)`.
+- For `j : 𝔾_m ↪ 𝔸¹` over `𝔽_q, W_1(Rj_*ℚ̄_ℓ[1]) = ℚ̄_ℓ,𝔸¹[1]` and `Gr^W_2(Rj_*ℚ̄_ℓ[1]) ≅ δ₀(−1)`.
 
-- `TauCeti.EtaleDuality.weightFiltration_point`: On `Spec 𝔽_q, W_i` of a mixed representation `V` is the sum of the generalized Frobenius eigenspaces with eigenvalues of weight `≤ i`. The ordinary and perverse hearts on a point coincide; DeligneWeightsAndPurity §0.7 supplies the spectral calculation.
+- On `Spec 𝔽_q, W_i` of a mixed representation `V` is the sum of the generalized Frobenius eigenspaces with eigenvalues of weight `≤ i`. The ordinary and perverse hearts on a point coincide; DeligneWeightsAndPurity §0.7 supplies the spectral calculation.
 
-- `TauCeti.EtaleDuality.weightFiltration_not_split_geometrically_trivial`: The weight filtration is not a direct-sum decomposition in `Perv(X₀)` in general: the extension in `weightFiltration_jstar_Gm` is non-split, since `Hom(δ₀(−1), Rj_*ℚ̄_ℓ[1]) = 0`.
+- The weight filtration is not a direct-sum decomposition in `Perv(X₀)` in general: for `j : 𝔾_m ↪ 𝔸¹` the filtration `W_1(Rj_*ℚ̄_ℓ[1]) ⊂ Rj_*ℚ̄_ℓ[1]` is non-split, since `Hom(δ₀(−1), Rj_*ℚ̄_ℓ[1]) = 0`.
 
 - For `F₀` pure of weight `w: W_{w−1}F₀ = 0` and `W_w F₀ = F₀`.
 
@@ -5318,7 +5317,7 @@ EtaleCohomologyFoundations §§F.4, F.8; ramified coefficient refinement in §3.
 integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAndPurity §8.2 (a sheaf of weights
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality).
 
-Name the resulting statement `genericWeightCriterion`.
+Name the resulting statement genericWeightCriterion.
 
 A proof proceeds as follows.
 
@@ -5361,21 +5360,21 @@ one.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.IsSemisimpleObject`: In an abelian category with finite biproducts: `X` is isomorphic to a finite biproduct of simple objects.
+- In an abelian category with finite biproducts, `X` is semisimple when it is isomorphic to a finite biproduct of simple objects.
 
-- `TauCeti.EtaleDuality.IsSemisimpleObject.biprod`: Finite biproducts of semisimple objects are semisimple.
+- Finite biproducts of semisimple objects are semisimple.
 
-- `TauCeti.EtaleDuality.IsSemisimpleObject.of_mono`: In a finite-length abelian category, a subobject (and a quotient) of a semisimple object is semisimple and is a direct summand.
+- In a finite-length abelian category, a subobject (and a quotient) of a semisimple object is semisimple and is a direct summand.
 
-- `TauCeti.EtaleDuality.isSemisimpleObject_iff_socle`: A finite-length object is semisimple iff it equals the sum of its simple subobjects (its socle).
+- A finite-length object is semisimple iff it equals the sum of its simple subobjects (its socle).
 
-- `TauCeti.EtaleDuality.IsGeometricallySemisimple`: `F₀ ∈ Perv(X₀)` is geometrically semisimple iff its pullback to `X` is IsSemisimpleObject in `Perv(X, ℚ̄_ℓ)`.
+- `F₀ ∈ Perv(X₀)` is geometrically semisimple iff its pullback to `X` is a semisimple object of `Perv(X, ℚ̄_ℓ)`.
 
-- `TauCeti.EtaleDuality.IsGeometricallySplitSemisimple`: `K₀` is geometrically split-semisimple iff over `𝔽̄_q` there is an isomorphism `K ≅ ⊕_i pH^i(K)[−i]` (finite sum) and each `pH^i(K)` is semisimple.
+- `K₀` is geometrically split-semisimple iff over `𝔽̄_q` there is an isomorphism `K ≅ ⊕_i pH^i(K)[−i]` (finite sum) and each `pH^i(K)` is semisimple.
 
-- `TauCeti.EtaleDuality.isGeometricallySemisimple_lisse_iff`: For `X₀` smooth connected of dimension `d` and `L₀` lisse, `L₀[d]` is geometrically semisimple iff `L₀` is geometrically semisimple in the sense of DeligneWeightsAndPurity §8.14, 8.19.
+- For `X₀` smooth connected of dimension `d` and `L₀` lisse, `L₀[d]` is geometrically semisimple iff `L₀` is geometrically semisimple in the sense of DeligneWeightsAndPurity §8.14, 8.19.
 
-- `TauCeti.EtaleDuality.IsGeometricallySemisimple.baseChange`: Geometric semisimplicity is invariant under extension of `𝔽_q` to `𝔽_{qⁿ}` and of `E` to `E′`.
+- Geometric semisimplicity is invariant under extension of `𝔽_q` to `𝔽_{qⁿ}` and of `E` to `E′`.
 
 A proof proceeds as follows.
 
@@ -5396,13 +5395,13 @@ Use [BBD-1982] Théorème 5.3.8 (statement), p. 138; 6.2.4 (the notion 'semi-sim
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.isSemisimpleObject_zero`: The zero object is semisimple (the empty biproduct).
+- The zero object is semisimple (the empty biproduct).
 
-- `TauCeti.EtaleDuality.isSemisimpleObject_moduleCat_field`: For a field `K`, every finite-dimensional object of ModuleCat `K` is IsSemisimpleObject, agreeing with Mathlib's IsSemisimpleModule.
+- For a field `K`, every finite-dimensional `K`-module is a semisimple object of the category of `K`-modules, agreeing with Mathlib's `IsSemisimpleModule`.
 
-- `TauCeti.EtaleDuality.not_isSemisimpleObject_unipotent`: The `ℚ̄_ℓ[ℤ]`-module `ℚ̄_ℓ²` on which 1 acts by the unipotent Jordan block is not semisimple in finite-dimensional `ℤ`-representations: its unique simple subobject has no complement.
+- The `ℚ̄_ℓ[ℤ]`-module `ℚ̄_ℓ²` on which 1 acts by the unipotent Jordan block is not semisimple in finite-dimensional `ℤ`-representations: its unique simple subobject has no complement.
 
-- `TauCeti.EtaleDuality.E2_isGeometricallySemisimple`: The rank-two unipotent sheaf `E₂` on `Spec 𝔽_q` is geometrically semisimple, and its arithmetic object is not semisimple in `Perv(Spec 𝔽_q)`.
+- The rank-two unipotent sheaf `E₂` on `Spec 𝔽_q` is geometrically semisimple, and its arithmetic object is not semisimple in `Perv(Spec 𝔽_q)`.
 
 - The constant sheaf `ℚ̄_ℓ[d]` on a smooth connected `X₀` of pure dimension `d` is geometrically semisimple. It is geometrically simple when `X₀` is geometrically connected; for `X₀ = Spec 𝔽_(q²)`, its geometric pullback is the direct sum of the constant sheaves on two points.
 
@@ -5420,7 +5419,7 @@ integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAnd
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality). Purity of the arithmetic object
 `F₀` is the hypothesis; a perverse sheaf over `𝔽̄_q` with no pure model is not covered.
 
-Name the resulting statement `purePerverseGeometricSemisimplicity`.
+Name the resulting statement purePerverseGeometricSemisimplicity.
 
 A proof proceeds as follows.
 
@@ -5457,7 +5456,7 @@ EtaleCohomologyFoundations §§F.4, F.8; ramified coefficient refinement in §3.
 integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAndPurity §8.2 (a sheaf of weights
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality).
 
-Name the resulting statement `pureIndecomposables`.
+Name the resulting statement pureIndecomposables.
 
 A proof proceeds as follows.
 
@@ -5497,7 +5496,7 @@ integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAnd
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality). `F₀` pure; for mixed `F₀` the
 decomposition fails (e.g. `Rj_*ℚ̄_ℓ[1]` on `𝔸¹`).
 
-Name the resulting statement `pureOpenClosedDecomposition`.
+Name the resulting statement pureOpenClosedDecomposition.
 
 A proof proceeds as follows.
 
@@ -5537,7 +5536,7 @@ integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAnd
 cohomology are those of §5.1; the shift convention puts `pH^i(K₀)[−i]` in weights `≤ w + i − i = w` when `pH^i` has
 weights `≤ w + i`.
 
-Name the resulting statement `perverseCohomologyWeights`.
+Name the resulting statement perverseCohomologyWeights.
 
 A proof proceeds as follows.
 
@@ -5580,7 +5579,7 @@ integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAnd
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality). `f` quasi-finite and separated of
 finite type.
 
-Name the resulting statement `quasiFiniteIntermediateExtensionPurity`.
+Name the resulting statement quasiFiniteIntermediateExtensionPurity.
 
 A proof proceeds as follows.
 
@@ -5616,7 +5615,7 @@ integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAnd
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality). Purity of the arithmetic complex
 `K₀` is required; the conclusion is over `𝔽̄_q` only.
 
-Name the resulting statement `pureComplexGeometricSplitting`.
+Name the resulting statement pureComplexGeometricSplitting.
 
 A proof proceeds as follows.
 
@@ -5637,7 +5636,7 @@ Use [BBD-1982] Théorème 5.4.5 and Corollaire 5.4.6, p. 142.
 
 - For `X₀` smooth projective, `K₀ = Rf_*ℚ̄_ℓ` for `f : X₀ → Spec 𝔽_q` is pure of weight 0 and the splitting is `H*(X, ℚ̄_ℓ) ≅ ⊕_i H^i(X)[−i]`, the elementary decomposition of a complex of vector spaces.
 
-- Arithmetic perverse-cohomology splitting can fail: on `X₀=𝔸¹` set `G₀=ℚ̄_ℓ[1]` and `F₀=δ₀(−1)`. Geometrically `Hom¹(F,G)=ℚ̄_ℓ` with trivial Frobenius and `Hom²(F,G)=0`; `adicFiniteFieldHochschildSerre` gives `Ext²_X₀(F₀,G₀)=ℚ̄_ℓ`. A nonzero class defines `G₀ → K₀ → F₀[−1] → G₀[1]`. Its perverse cohomology has weights 1 in degree 0 and 2 in degree 1, so `K₀` is pure of weight 1. The triangle splits geometrically but not arithmetically. Separately, `E₂` on a point obstructs splitting into arithmetic simple constituents, not splitting into perverse cohomology degrees.
+- Arithmetic perverse-cohomology splitting can fail: on `X₀=𝔸¹` set `G₀=ℚ̄_ℓ[1]` and `F₀=δ₀(−1)`. Geometrically `Hom¹(F,G)=ℚ̄_ℓ` with trivial Frobenius and `Hom²(F,G)=0`; adicFiniteFieldHochschildSerre gives `Ext²_X₀(F₀,G₀)=ℚ̄_ℓ`. A nonzero class defines `G₀ → K₀ → F₀[−1] → G₀[1]`. Its perverse cohomology has weights 1 in degree 0 and 2 in degree 1, so `K₀` is pure of weight 1. The triangle splits geometrically but not arithmetically. Separately, `E₂` on a point obstructs splitting into arithmetic simple constituents, not splitting into perverse cohomology degrees.
 
 **The decomposition theorem for proper morphisms over finite fields.** Let `f₀ : X₀ → Y₀` be a proper morphism
 of separated schemes of finite type over `𝔽_q` and `K₀ ∈ D^b_m(X₀, ℚ̄_ℓ)` pure of weight `w` (for example `K₀ = IC_{X₀}(L₀)` with `L₀` lisse punctually pure of weight `w − dim X₀` on a smooth dense open, or `K₀ = ℚ̄_ℓ[dim X₀]`
@@ -5654,7 +5653,7 @@ integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAnd
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality). `f₀` proper; `K₀` pure (a pure
 arithmetic model is part of the input).
 
-Name the resulting statement `decompositionTheorem`.
+Name the resulting statement decompositionTheorem.
 
 A proof proceeds as follows.
 
@@ -5702,7 +5701,7 @@ frontier condition; test semismallness on that stratification. The complex-topol
 comparison source; the étale statement uses the support estimate, Verdier duality and the scheme decomposition
 theorem.
 
-Name the resulting statement `semismallDecomposition`.
+Name the resulting statement semismallDecomposition.
 
 A proof proceeds as follows.
 
@@ -5756,21 +5755,21 @@ Tate twist.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.GradedLefschetz`: Structure: objects `L i (i : ℤ)`, finite support, morphisms `η i : L i ⟶` twist `(L (i+2)) 1`.
+- A graded Lefschetz object consists of objects `L i (i : ℤ)` with finite support and morphisms `η i : L i ⟶` twist `(L (i+2)) 1`.
 
-- `TauCeti.EtaleDuality.GradedLefschetz.etaPow`: The iterate `η^r : L i ⟶` twist `(L (i + 2r)) r`, defined by recursion on `r` using the twist coherence.
+- The iterate `η^r : L i ⟶` twist `(L (i + 2r)) r`, defined by recursion on `r` using the twist coherence.
 
-- `TauCeti.EtaleDuality.GradedLefschetz.etaPow_zero`: `η^0` is the identity (up to the coherence isomorphism `(0) ≅ id`).
+- `η^0` is the identity (up to the coherence isomorphism `(0) ≅ id`).
 
-- `TauCeti.EtaleDuality.GradedLefschetz.etaPow_succ`: `η^{r+1} = (η_{i+2r})(r) ∘ η^r`, after coherence.
+- `η^{r+1} = (η_{i+2r})(r) ∘ η^r`, after coherence.
 
-- `TauCeti.EtaleDuality.GradedLefschetz.HardLefschetz`: For all `r : ℕ, η^r : L (−r) ⟶` twist `(L r) r` is an isomorphism.
+- The hard Lefschetz condition: for all `r : ℕ, η^r : L (−r) ⟶` twist `(L r) r` is an isomorphism.
 
-- `TauCeti.EtaleDuality.GradedLefschetz.primitive`: `P^{−r} :=` kernel of `η^{r+1} : L (−r) ⟶` twist `(L (r+2)) (r+1)`, with its inclusion `ι_r`.
+- `P^{−r} :=` kernel of `η^{r+1} : L (−r) ⟶` twist `(L (r+2)) (r+1)`, with its inclusion `ι_r`.
 
-- `TauCeti.EtaleDuality.GradedLefschetz.primitive_eq_top`: If `L^{r+2} = 0` then `P^{−r} = L^{−r}`; in particular `P^{−r} = L^{−r}` for `r` at the end of the support.
+- If `L^{r+2} = 0` then `P^{−r} = L^{−r}`; in particular `P^{−r} = L^{−r}` for `r` at the end of the support.
 
-- `TauCeti.EtaleDuality.GradedLefschetz.map`: Morphisms of graded Lefschetz objects induce maps on primitive parts, compatibly with composition and identities.
+- Morphisms of graded Lefschetz objects induce maps on primitive parts, compatibly with composition and identities.
 
 A proof proceeds as follows.
 
@@ -5788,13 +5787,13 @@ Use [BBD-1982] 5.4.10 (set-up before the theorem), p. 144; [deCataldo-Migliorini
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.gradedLefschetz_zero_hardLefschetz`: The zero graded object satisfies hard Lefschetz and has zero primitive parts.
+- The zero graded object satisfies hard Lefschetz and has zero primitive parts.
 
-- `TauCeti.EtaleDuality.gradedLefschetz_projectiveSpace`: For `L^i = ℚ̄_ℓ(−(n+i)/2)` for `i ≡ n mod 2, |i| ≤ n`, and 0 otherwise (the cohomology of `ℙⁿ` shifted by `n`) with `η` the identity maps, hard Lefschetz holds and `P^{−r} = L^{−n}` if `r = n` and 0 otherwise.
+- For `L^i = ℚ̄_ℓ(−(n+i)/2)` for `i ≡ n mod 2, |i| ≤ n`, and 0 otherwise (the cohomology of `ℙⁿ` shifted by `n`) with `η` the identity maps, hard Lefschetz holds and `P^{−r} = L^{−n}` if `r = n` and 0 otherwise.
 
-- `TauCeti.EtaleDuality.gradedLefschetz_zero_eta_not_HL`: `L^{−1} = L^{1} = ℚ̄_ℓ` with `η = 0` does not satisfy hard Lefschetz (`η¹ : L^{−1} → L^{1}(1)` is zero).
+- `L^{−1} = L^{1} = ℚ̄_ℓ` with `η = 0` does not satisfy hard Lefschetz (`η¹ : L^{−1} → L^{1}(1)` is zero).
 
-- `TauCeti.EtaleDuality.gradedLefschetz_vectorSpace_compat`: For `A =` finite-dimensional vector spaces with trivial twist, HardLefschetz agrees with the bijectivity hypothesis of DeligneWeightsAndPurity §9.7 after reindexing `V^j = L^{j−n}`.
+- For `A =` finite-dimensional vector spaces with trivial twist, the hard Lefschetz condition agrees with the bijectivity hypothesis of DeligneWeightsAndPurity §9.7 after reindexing `V^j = L^{j−n}`.
 
 - For `A =` finite-dimensional `ℚ̄_ℓ`-vector spaces with trivial twist, `L^i = H^{n+i}(X)` of a smooth projective `n`-dimensional `X` and `η =` cup product with an ample class, this is the data of DeligneWeightsAndPurity §9.1, and `P^{−r}` is the primitive cohomology `P^{n−r}`.
 
@@ -5807,7 +5806,7 @@ inclusion and the twist coherence, is an isomorphism (a finite biproduct), and f
 Work with the following additional hypotheses. Hard Lefschetz for all `r ≥ 0`; `L` of finite support. No splitting
 is assumed: the summands are the actual kernels and the maps are actual `η`-powers.
 
-Name the resulting statement `abstractPrimitiveDecomposition`.
+Name the resulting statement abstractPrimitiveDecomposition.
 
 A proof proceeds as follows.
 
@@ -5843,7 +5842,7 @@ Work with the following additional hypotheses. `X, Y` separated of finite type o
 coefficients `ℚ̄_ℓ`; the factorisation through `ℙ^d × Y` is available locally on `Y` after replacing `η` by a
 multiple.
 
-Name the resulting statement `universalHyperplaneLemma`.
+Name the resulting statement universalHyperplaneLemma.
 
 A proof proceeds as follows.
 
@@ -5881,7 +5880,7 @@ integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAnd
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality). `f₀` projective; the line bundle
 is `f₀`-ample; `η` is its Chern class in the adic theory (§1.2, §3.7); `F₀` pure perverse.
 
-Name the resulting statement `relativeHardLefschetzTheorem`.
+Name the resulting statement relativeHardLefschetzTheorem.
 
 A proof proceeds as follows.
 
@@ -5921,7 +5920,7 @@ Use [BBD-1982] 5.4.10 (statement), p. 144; proof 5.4.14–5.4.15, pp. 146–147;
 
 Work with the following additional hypotheses. As in §5.8.
 
-Name the resulting statement `relativeLefschetzPrimitiveDecomposition`.
+Name the resulting statement relativeLefschetzPrimitiveDecomposition.
 
 A proof proceeds as follows.
 
@@ -5953,7 +5952,7 @@ integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAnd
 `≤ w` has `ℋ^i` of punctual weights `≤ w + i`; weights `≥ w` are defined by duality). `X₀` projective; `L₀` punctually
 pure (a pure model is required).
 
-Name the resulting statement `intersectionCohomologyHardLefschetz`.
+Name the resulting statement intersectionCohomologyHardLefschetz.
 
 A proof proceeds as follows.
 
@@ -5998,21 +5997,21 @@ are transported at a time; refinements change the germ only by restriction.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.RestrictedCategory`: For a stratification `T` and finite sets `L(T)` of irreducible `ℤ/ℓ`-local systems, the full subcategory of `D^b_c(X, ℤ_ℓ)` whose residual cohomology on each stratum has constituents in `L(T)`.
+- For a stratification `T` and finite sets `L(T)` of irreducible `ℤ/ℓ`-local systems, the full subcategory of `D^b_c(X, ℤ_ℓ)` whose residual cohomology on each stratum has constituents in `L(T)`.
 
-- `TauCeti.EtaleDuality.RestrictedCategory.mem_iff`: `K` lies in the restricted category iff for every `q` and `T, ℋ^q(K ⊗^L ℤ/ℓ)|_T` is locally constant with all Jordan–Hölder constituents in `L(T)`.
+- `K` lies in the restricted category iff for every `q` and `T, ℋ^q(K ⊗^L ℤ/ℓ)|_T` is locally constant with all Jordan–Hölder constituents in `L(T)`.
 
-- `TauCeti.EtaleDuality.RestrictedCategory.triangulated`: The restricted category is a triangulated subcategory, closed under isomorphism, shifts and cones.
+- The restricted category is a triangulated subcategory, closed under isomorphism, shifts and cones.
 
-- `TauCeti.EtaleDuality.GoodModel`: A finitely generated `A ⊂ ℂ` and a model `(X_S, T_S, L_S)` satisfying the smoothness, geometric connectedness and `Ext`-base-change conditions of BBD 6.1.8.
+- A good model consists of a finitely generated `A ⊂ ℂ` and a model `(X_S, T_S, L_S)` satisfying the smoothness, geometric connectedness and `Ext`-base-change conditions of BBD 6.1.8.
 
-- `TauCeti.EtaleDuality.specializationEquiv`: For a good model and a strictly henselian `V` as in BBD 6.1.8, the equivalence `D_{T,L}(X, ℤ_ℓ) ≃ D_{T,L}(X_s̄, ℤ_ℓ)` through `D_{T,L}(X_V, ℤ_ℓ)`.
+- For a good model and a strictly henselian `V` as in BBD 6.1.8, the equivalence `D_{T,L}(X, ℤ_ℓ) ≃ D_{T,L}(X_s̄, ℤ_ℓ)` through `D_{T,L}(X_V, ℤ_ℓ)`.
 
-- `TauCeti.EtaleDuality.specializationEquiv_perverse`: If the `R^q j_*L|_{T′}` are lisse with constituents in `L(T′)`, the equivalence is `t`-exact for the perverse `t`-structures.
+- If the `R^q j_*L|_{T′}` are lisse with constituents in `L(T′)`, the equivalence is `t`-exact for the perverse `t`-structures.
 
-- `TauCeti.EtaleDuality.specializationEquiv_comm`: For one of `Rf_*, Rf_!, f^*, Rf^!, ⊗, RHom` and suitable refinements of `(T, L)` on source and target, the equivalences commute with it after shrinking `S`.
+- For one of `Rf_*, Rf_!, f^*, Rf^!, ⊗, RHom` and suitable refinements of `(T, L)` on source and target, the equivalences commute with it after shrinking `S`.
 
-- `TauCeti.EtaleDuality.specializationEquiv_rational`: The equivalences extend to `ℚ_ℓ, E` and `ℚ̄_ℓ` coefficients by inverting `ℓ` and taking 2-colimits.
+- The equivalences extend to `ℚ_ℓ, E` and `ℚ̄_ℓ` coefficients by inverting `ℓ` and taking 2-colimits.
 
 A proof proceeds as follows.
 
@@ -6038,13 +6037,13 @@ SchemeAndStackFoundations §§0.7, 0.9, 4.11 and the geometric contracts above.
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.restrictedCategory_point`: On a geometric point with `L={𝔽_ℓ}`, every bounded constructible `ℤ_ℓ`-complex belongs to the category, including `ℓ`-torsion complexes; the same description holds after specialization.
+- On a geometric point with `L={𝔽_ℓ}`, every bounded constructible `ℤ_ℓ`-complex belongs to the category, including `ℓ`-torsion complexes; the same description holds after specialization.
 
-- `TauCeti.EtaleDuality.restrictedCategory_empty_L`: If every `L(T)` is empty, derived reduction has zero cohomology on every stratum. Derived completeness and Nakayama force the object itself to be zero.
+- If every `L(T)` is empty, derived reduction has zero cohomology on every stratum. Derived completeness and Nakayama force the object itself to be zero.
 
-- `TauCeti.EtaleDuality.restrictedCategory_excluded_character`: On `𝔾_m` with `ℓ` odd and `L` consisting only of the trivial residual rank-one sheaf, the rank-one character of order 2 is excluded; adjoining its residual character includes it. A definition using only lissity or rank would fail this test.
+- On `𝔾_m` with `ℓ` odd and `L` consisting only of the trivial residual rank-one sheaf, the rank-one character of order 2 is excluded; adjoining its residual character includes it. A definition using only lissity or rank would fail this test.
 
-- `TauCeti.EtaleDuality.restrictedCategory_mono`: Enlarging the families `L(T)` enlarges the restricted category; refinements of `(T, L)` therefore induce the restriction maps of germs used in BBD 6.1.10.
+- Enlarging the families `L(T)` enlarges the restricted category; refinements of `(T, L)` therefore induce the restriction maps of germs used in BBD 6.1.10.
 
 - For `X = a` point, `T = {X}` and `L = {𝔽_ℓ}, D^b_{T,L}(X, ℤ_ℓ)` is the category of perfect `ℤ_ℓ`-complexes, identical over `ℂ` and over `s̄`. For `X = ℙ¹_ℂ` with one stratum and `L = {𝔽_ℓ}`, specialisation sends the constant `ℤ_ℓ`-object on `ℙ¹` to the constant object on `ℙ¹_{s̄}`. Commutation with pushforward along the structural maps identifies their global cohomology: `H⁰ = ℤ_ℓ, H² = ℤ_ℓ(−1)`, and all other degrees vanish. These pushforwards are objects on the respective base points.
 
@@ -6066,19 +6065,19 @@ schemes of finite type over `ℂ`; constituents are simple subquotients in the a
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.GeometricOrigin`: The inductive predicate on simple analytic perverse sheaves defined by (a)–(c).
+- Being of geometric origin is the inductive predicate on simple analytic perverse sheaves defined by (a)–(c).
 
-- `TauCeti.EtaleDuality.GeometricOrigin.const_point`: The constant sheaf `ℂ` on `Spec ℂ` is of geometric origin.
+- The constant sheaf `ℂ` on `Spec ℂ` is of geometric origin.
 
-- `TauCeti.EtaleDuality.GeometricOrigin.of_constituent`: A simple constituent of `pH^i T(F)` with `F` of geometric origin and `T ∈ {Rf_*, Rf_!, f^*, Rf^!}` is of geometric origin; likewise for `⊗` and `RHom`.
+- A simple constituent of `pH^i T(F)` with `F` of geometric origin and `T ∈ {Rf_*, Rf_!, f^*, Rf^!}` is of geometric origin; likewise for `⊗` and `RHom`.
 
-- `TauCeti.EtaleDuality.GeometricOrigin.simple`: Every perverse sheaf of geometric origin is simple.
+- Every perverse sheaf of geometric origin is simple.
 
-- `TauCeti.EtaleDuality.IsSemisimpleGeometricOrigin`: `K ≅ ⊕_i pH^i(K)[−i]` with each `pH^i(K)` a finite sum of simple perverse sheaves of geometric origin.
+- `K` is semisimple of geometric origin when `K ≅ ⊕_i pH^i(K)[−i]` with each `pH^i(K)` a finite sum of simple perverse sheaves of geometric origin.
 
-- `TauCeti.EtaleDuality.IsSemisimpleGeometricOrigin.ic_finite_monodromy`: `j_!*(L[d])` is semisimple of geometric origin when `L` has finite monodromy.
+- `j_!*(L[d])` is semisimple of geometric origin when `L` has finite monodromy.
 
-- `TauCeti.EtaleDuality.IsSemisimpleGeometricOrigin.shift`: Stable under shifts and finite direct sums.
+- Semisimplicity of geometric origin is stable under shifts and finite direct sums.
 
 A proof proceeds as follows.
 
@@ -6094,11 +6093,11 @@ Use [BBD-1982] 6.2.4, pp. 162–163.
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.geometricOrigin_constant_smooth`: For `X` smooth connected of dimension `d` over `ℂ, ℂ_X[d]` is of geometric origin (it is `pH^d(f^*ℂ)` for `f : X →` point).
+- For `X` smooth connected of dimension `d` over `ℂ, ℂ_X[d]` is of geometric origin (it is `pH^d(f^*ℂ)` for `f : X →` point).
 
-- `TauCeti.EtaleDuality.isSemisimpleGeometricOrigin_zero`: The zero complex is semisimple of geometric origin (the empty sum).
+- The zero complex is semisimple of geometric origin (the empty sum).
 
-- `TauCeti.EtaleDuality.not_isSemisimpleGeometricOrigin_jstar`: For `j : ℂ^× ↪ ℂ`, the perverse sheaf `Rj_*ℂ[1]` has constituents `ℂ_ℂ[1]` and `ℂ_0`, both of geometric origin, but it is a non-split extension of `ℂ_0` by `ℂ_ℂ[1]`, so it is not semisimple of geometric origin.
+- For `j : ℂ^× ↪ ℂ`, the perverse sheaf `Rj_*ℂ[1]` has constituents `ℂ_ℂ[1]` and `ℂ_0`, both of geometric origin, but it is a non-split extension of `ℂ_0` by `ℂ_ℂ[1]`, so it is not semisimple of geometric origin.
 
 - For `j : U ↪ X` an open immersion with `U` smooth connected of dimension `d` and `L` a local system with finite monodromy on `U, j_!*(L[d])` is semisimple of geometric origin, since `L` is a direct summand of `π_*ℂ` for a finite étale cover `π`.
 
@@ -6113,7 +6112,7 @@ analytic statements and `ℚ̄_ℓ` coefficients for the étale ones, related by
 and by the étale/analytic comparison of §3.5; strata are algebraic. The model, the finite field and the pure
 `F₀` are part of the output (a witness), not assumptions; purity is a conclusion.
 
-Name the resulting statement `pureSpecializationOfGeometricOrigin`.
+Name the resulting statement pureSpecializationOfGeometricOrigin.
 
 A proof proceeds as follows.
 
@@ -6150,7 +6149,7 @@ analytic statements and `ℚ̄_ℓ` coefficients for the étale ones, related by
 and by the étale/analytic comparison of §3.5; strata are algebraic. `K` semisimple of geometric origin; complex
 (or `ℚ̄_ℓ`) coefficients.
 
-Name the resulting statement `decompositionTheoremComplex`.
+Name the resulting statement decompositionTheoremComplex.
 
 A proof proceeds as follows.
 
@@ -6185,7 +6184,7 @@ analytic statements and `ℚ̄_ℓ` coefficients for the étale ones, related by
 and by the étale/analytic comparison of §3.5; strata are algebraic. `f` projective with a chosen relatively
 ample line bundle; `F` semisimple of geometric origin.
 
-Name the resulting statement `relativeHardLefschetzComplex`.
+Name the resulting statement relativeHardLefschetzComplex.
 
 A proof proceeds as follows.
 
@@ -6234,21 +6233,21 @@ are the native scheme fibre products.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.Correspondence`: Structure: a scheme `C` with morphisms `c₁ : C ⟶ X₁, c₂ : C ⟶ X₂` over `Spec k`.
+- A correspondence from `X₁` to `X₂` is a scheme `C` with morphisms `c₁ : C ⟶ X₁, c₂ : C ⟶ X₂` over `Spec k`.
 
-- `TauCeti.EtaleDuality.Correspondence.Hom`: Morphisms `(f₁, f♮, f₂)` with the two commuting squares.
+- A morphism of correspondences is a triple `(f₁, f♮, f₂)` with the two commuting squares.
 
-- `TauCeti.EtaleDuality.Correspondence.Hom.IsProper`: A morphism is proper when `f₁, f♮` and `f₂` are proper.
+- A morphism is proper when `f₁, f♮` and `f₂` are proper.
 
-- `TauCeti.EtaleDuality.Correspondence.fix`: `Fix(c) :=` pullback of `(c₁, c₂) : C ⟶ X ×_k X` along the diagonal, with `Δ′` and `c′`.
+- `Fix(c) :=` pullback of `(c₁, c₂) : C ⟶ X ×_k X` along the diagonal, with `Δ′` and `c′`.
 
-- `TauCeti.EtaleDuality.Correspondence.graph`: The graph-type correspondence `(g, id) : X ⟶ X ×_k X` of a morphism `g : X ⟶ X (c₁ = g, c₂ = id)`, the convention used for cohomological correspondences.
+- The graph-type correspondence `(g, id) : X ⟶ X ×_k X` of a morphism `g : X ⟶ X (c₁ = g, c₂ = id)`, the convention used for cohomological correspondences.
 
-- `TauCeti.EtaleDuality.Correspondence.fix_graph`: `Fix`(graph `g`) is the equaliser of `id` and `g`.
+- `Fix`(graph `g`) is the equaliser of `id` and `g`.
 
-- `TauCeti.EtaleDuality.Correspondence.Hom.comp`: Componentwise composition, associative and unital.
+- Composition of morphisms of correspondences is componentwise, associative and unital.
 
-- `TauCeti.EtaleDuality.Correspondence.compactify_preserving_invariance`: For a self-correspondence `c` and open `U⊂X`, assume `c₁⁻¹U` is dense in `C, c₁:c₁⁻¹U→U` is proper, and `X∖U` is locally `c`-invariant. There is a proper compactification `c̄` with `X̄∖U` locally `c̄`-invariant (Varshavsky Lemma 1.5.4). This is the compactification used by the Fujiwara–Varshavsky formula.
+- For a self-correspondence `c` and open `U⊂X`, assume `c₁⁻¹U` is dense in `C, c₁:c₁⁻¹U→U` is proper, and `X∖U` is locally `c`-invariant. There is a proper compactification `c̄` with `X̄∖U` locally `c̄`-invariant (Varshavsky Lemma 1.5.4). This is the compactification used by the Fujiwara–Varshavsky formula.
 
 A proof proceeds as follows.
 
@@ -6273,13 +6272,13 @@ v2).
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.fix_graph_id_point`: For `X = Spec k` and `g = id, Fix`(graph `g`) `= Spec k`.
+- For `X = Spec k` and `g = id, Fix`(graph `g`) `= Spec k`.
 
-- `TauCeti.EtaleDuality.fix_graph_frobenius_count`: For `X₀` over `𝔽_q` and `g` the `q`-power Frobenius of `X = X₀ ⊗ 𝔽̄_q, Fix`(graph `g`) is the reduced finite scheme of points of `X₀(𝔽_q)`.
+- For `X₀` over `𝔽_q` and `g` the `q`-power Frobenius of `X = X₀ ⊗ 𝔽̄_q, Fix`(graph `g`) is the reduced finite scheme of points of `X₀(𝔽_q)`.
 
-- `TauCeti.EtaleDuality.fix_transpose`: `Fix(c^t)` is canonically isomorphic to `Fix(c)`.
+- `Fix(c^t)` is canonically isomorphic to `Fix(c)`.
 
-- `TauCeti.EtaleDuality.fix_graph_affine_line_translation`: Translation `x ↦ x + 1` on `𝔸¹` has empty fixed-point scheme over every field, although in characteristic `p` it is an automorphism of finite order `p`: a finite-order automorphism need not have fixed points.
+- Translation `x ↦ x + 1` on `𝔸¹` has empty fixed-point scheme over every field, although in characteristic `p` it is an automorphism of finite order `p`: a finite-order automorphism need not have fixed points.
 
 - The graph-type correspondence `(g, id) : X → X × X` of an endomorphism `g` has Fix equal to the fixed-point scheme `X^g`.
 
@@ -6302,17 +6301,17 @@ operations.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.CohCorr`: For `c` : Correspondence `X₁ X₂` and `F₁, F₂`, the type of morphisms `c₁^*F₁ ⟶ c₂^!F₂`.
+- For a correspondence `c` from `X₁` to `X₂` and `F₁, F₂`, the set `Hom_c(F₁, F₂)` of morphisms `c₁^*F₁ ⟶ c₂^!F₂`.
 
-- `TauCeti.EtaleDuality.CohCorr.adjointEquiv`: CohCorr `c F₁ F₂ ≃ (c₂_!c₁^*F₁ ⟶ F₂)`, natural in `F₁` and `F₂`.
+- `Hom_c(F₁, F₂) ≃ Hom(c₂_!c₁^*F₁, F₂)`, natural in `F₁` and `F₂`.
 
-- `TauCeti.EtaleDuality.CohCorr.ofId`: For the identity correspondence of `X`, CohCorr `≃ Hom(F₁, F₂)`.
+- For the identity correspondence of `X`, `Hom_c(F₁, F₂) ≃ Hom(F₁, F₂)`.
 
-- `TauCeti.EtaleDuality.CohCorr.ofGraph`: For the graph-type correspondence `(g, id)`, CohCorr `≃ Hom(g^*F, F)`.
+- For the graph-type correspondence `c = (g, id)`, `Hom_c(F, F) ≃ Hom(g^*F, F)`.
 
-- `TauCeti.EtaleDuality.CohCorr.module`: CohCorr `c F₁ F₂` is `a Λ`-module, and precomposition/postcomposition with morphisms of `F₁, F₂` are `Λ`-linear.
+- `Hom_c(F₁, F₂)` is a `Λ`-module, and precomposition/postcomposition with morphisms of `F₁, F₂` are `Λ`-linear.
 
-- `TauCeti.EtaleDuality.CohCorr.transport`: An isomorphism of correspondences (support isomorphism compatible with both legs) transports `c`-morphisms through the canonical identifications of pullbacks and exceptional pullbacks; two `c`-morphisms are equal iff their transports are.
+- An isomorphism of correspondences (support isomorphism compatible with both legs) transports `c`-morphisms through the canonical identifications of pullbacks and exceptional pullbacks; two `c`-morphisms are equal iff their transports are.
 
 A proof proceeds as follows.
 
@@ -6330,13 +6329,13 @@ Construction 2.6, p. 13 (arXiv v4).
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.cohCorr_point`: For `X₁ = X₂ = C = Spec k`, CohCorr `≃ Hom(F₁, F₂)` in `D(Λ)`.
+- For `X₁ = X₂ = C = Spec k`, `Hom_c(F₁, F₂) ≃ Hom(F₁, F₂)` in `D(Λ)`.
 
-- `TauCeti.EtaleDuality.cohCorr_graph_weil`: For `X₀` over `𝔽_q` and `F₀` a Weil sheaf, the Weil isomorphism `Fr^*F ≅ F` is a `c`-morphism for the graph-type correspondence of Frobenius on `X`.
+- For `X₀` over `𝔽_q` and `F₀` a Weil sheaf, the Weil isomorphism `Fr^*F ≅ F` is a `c`-morphism for the graph-type correspondence of Frobenius on `X`.
 
-- `TauCeti.EtaleDuality.cohCorr_adjoint_compat`: adjointEquiv agrees with §0.2's adjunction `c₂_! ⊣ c₂^!` (its unit and counit).
+- The identification `Hom_c(F₁, F₂) ≃ Hom(c₂_!c₁^*F₁, F₂)` agrees with §0.2's adjunction `c₂_! ⊣ c₂^!` (its unit and counit).
 
-- `TauCeti.EtaleDuality.cohCorr_not_pushforward_of_endomorphism`: For reversed legs `c=(id,g)`, a `c`-morphism is `F→g^!F`. Even when `g` is étale this is `F→g^*F`, whereas the graph convention gives `g^*F→F`. The domains and codomains differ; étaleness does not reverse a morphism.
+- For reversed legs `c=(id,g)`, a `c`-morphism is `F→g^!F`. Even when `g` is étale this is `F→g^*F`, whereas the graph convention gives `g^*F→F`. The domains and codomains differ; étaleness does not reverse a morphism.
 
 - For `c = (g, id)` the graph-type correspondence of an endomorphism `g`, a `c`-morphism is a map `u : g^*F → F`; for `g` the Frobenius of `X₀ ⊗ 𝔽̄_q`, the Weil structure `Fr^*F ≅ F` of a sheaf on `X₀` is one.
 
@@ -6360,17 +6359,17 @@ operations. One of the three admissibility conditions (i)–(iii) for `[f]`; for
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.CohCorr.pushforward`: For an admissible `[f] : c ⟶ b`, the map CohCorr `c F₁ F₂ →` CohCorr `b (f₁_!F₁) (f₂_!F₂)`.
+- For an admissible `[f] : c ⟶ b`, the map `Hom_c(F₁, F₂) → Hom_b(f₁_!F₁, f₂_!F₂)`.
 
-- `TauCeti.EtaleDuality.CohCorr.pushforward_comp`: `([g] ∘ [f])_! = [g]_! ∘ [f]_!` for morphisms admissible for the same condition.
+- `([g] ∘ [f])_! = [g]_! ∘ [f]_!` for morphisms admissible for the same condition.
 
-- `TauCeti.EtaleDuality.CohCorr.pushforward_id`: The identity morphism of correspondences induces the identity.
+- The identity morphism of correspondences induces the identity.
 
-- `TauCeti.EtaleDuality.CohCorr.rgammac`: For `c₁` proper, `RΓ_c(u) : RΓ_c(X₁, F₁) ⟶ RΓ_c(X₂, F₂)`.
+- For `c₁` proper, `RΓ_c(u) : RΓ_c(X₁, F₁) ⟶ RΓ_c(X₂, F₂)`.
 
-- `TauCeti.EtaleDuality.CohCorr.rgammac_compactification`: `RΓ_c(u)` agrees with `RΓ_c` of the extension of `u` to a compactification under `RΓ_c(X_i, F_i) ≅ RΓ_c(X̄_i, j_i!F_i)`.
+- `RΓ_c(u)` agrees with `RΓ_c` of the extension of `u` to a compactification under `RΓ_c(X_i, F_i) ≅ RΓ_c(X̄_i, j_i!F_i)`.
 
-- `TauCeti.EtaleDuality.CohCorr.rgammac_graph`: For the graph-type correspondence of proper `g, RΓ_c(u) = H(u) ∘ g^*` on `RΓ_c(X, F)`.
+- For the graph-type correspondence of proper `g, RΓ_c(u) = H(u) ∘ g^*` on `RΓ_c(X, F)`.
 
 A proof proceeds as follows.
 
@@ -6394,11 +6393,11 @@ EnhancedDerivedSheaves §0.4; EtaleCohomologyFoundations §§F.0–F.6 and the s
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.pushforward_trivial`: Pushing forward along the identity morphism of the trivial correspondence over `Spec k` is the identity on `Hom(F₁, F₂)`.
+- Pushing forward along the identity morphism of the trivial correspondence over `Spec k` is the identity on `Hom(F₁, F₂)`.
 
-- `TauCeti.EtaleDuality.rgammac_graph_finite_set`: For `X = ⊔_{i∈I} Spec k` finite, `g` a self-map `σ` of `I` and `F =` constant `M, RΓ_c(u)` is the endomorphism `(x_i) ↦ (u_i(x_{σ(i)}))` of `M^I`.
+- For `X = ⊔_{i∈I} Spec k` finite, `g` a self-map `σ` of `I` and `F =` constant `M, RΓ_c(u)` is the endomorphism `(x_i) ↦ (u_i(x_{σ(i)}))` of `M^I`.
 
-- `TauCeti.EtaleDuality.rgammac_frobenius_compat`: For `X₀` over `𝔽_q, F₀` a Weil complex and `u` its Frobenius structure on the graph of Frobenius, `RΓ_c(u)` is the geometric Frobenius endomorphism of `RΓ_c(X, F)` of EtaleCohomologyFoundations §§F.10.2–F.10.2b.
+- For `X₀` over `𝔽_q, F₀` a Weil complex and `u` its Frobenius structure on the graph of Frobenius, `RΓ_c(u)` is the geometric Frobenius endomorphism of `RΓ_c(X, F)` of EtaleCohomologyFoundations §§F.10.2–F.10.2b.
 
 - For `c` the graph-type correspondence of `g : X → X` proper and `u : g^*F → F, RΓ_c(u)` is the endomorphism of `RΓ_c(X, F)` induced by `g` and `u` (pull back along `g`, then `u`).
 
@@ -6429,19 +6428,19 @@ operations.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.CohCorr.pullbackAlong`: For `[f]` with right square cartesian up to nilpotents or `f♮, f₂` étale, the map CohCorr `b F₁ F₂ →` CohCorr `c (f₁^*F₁) (f₂^*F₂)`.
+- For `[f]` with right square cartesian up to nilpotents or `f♮, f₂` étale, the map `Hom_b(F₁, F₂) → Hom_c(f₁^*F₁, f₂^*F₂)`.
 
-- `TauCeti.EtaleDuality.CohCorr.restrictOpen`: `u ↦ u|_U` for `U ⊂ X` open, on `c|_U := c₁^{−1}(U) ∩ c₂^{−1}(U)`.
+- Restriction `u ↦ u|_U` for `U ⊂ X` open, on `c|_U := c₁^{−1}(U) ∩ c₂^{−1}(U)`.
 
-- `TauCeti.EtaleDuality.Correspondence.IsInvariant`: `Z` closed is `c`-invariant iff `c₁(c₂^{−1}(Z)) ⊆ Z` as sets.
+- `Z` closed is `c`-invariant iff `c₁(c₂^{−1}(Z)) ⊆ Z` as sets.
 
-- `TauCeti.EtaleDuality.Correspondence.IsLocallyInvariant`: `Z` is locally `c`-invariant iff every point of `Z` has an open `U` with `Z ∩ U` invariant for `c|_U`.
+- `Z` is locally `c`-invariant iff every point of `Z` has an open `U` with `Z ∩ U` invariant for `c|_U`.
 
-- `TauCeti.EtaleDuality.CohCorr.restrictClosed`: For `Z c`-invariant, `u ↦ u|_Z` on `c|_Z : c₂^{−1}(Z)_red → Z × Z`.
+- For `Z c`-invariant, `u ↦ u|_Z` on `c|_Z : c₂^{−1}(Z)_red → Z × Z`.
 
-- `TauCeti.EtaleDuality.Correspondence.isLocallyInvariant_of_isInvariant`: Invariant implies locally invariant, and locally invariant implies invariant in a neighbourhood of `Fix(c)` (Varshavsky 1.5.3`(a),(e)`).
+- Invariant implies locally invariant, and locally invariant implies invariant in a neighbourhood of `Fix(c)` (Varshavsky 1.5.3`(a),(e)`).
 
-- `TauCeti.EtaleDuality.CohCorr.naiveLocalTerm`: For `c₂` quasi-finite and `y ∈ Fix(c|_x), u_y : F_x ⟶ F_x` and its trace.
+- The naive local term: for `c₂` quasi-finite and `y ∈ Fix(c|_x), u_y : F_x ⟶ F_x` and its trace.
 
 A proof proceeds as follows.
 
@@ -6465,15 +6464,15 @@ Use [Varshavsky-LV-2007] 1.1.8–1.1.9, p. 8; Definition 1.5.1, Example 1.5.2, L
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.restrictOpen_univ`: Restriction to `U = X` returns `u` (after the canonical identification `c|_X = c`).
+- Restriction to `U = X` returns `u` (after the canonical identification `c|_X = c`).
 
-- `TauCeti.EtaleDuality.isInvariant_point_of_finite_fibre`: If `c₂^{−1}(x)` is finite, `{x}` is locally `c`-invariant (Varshavsky Example 1.5.2).
+- If `c₂^{−1}(x)` is finite, `{x}` is locally `c`-invariant (Varshavsky Example 1.5.2).
 
-- `TauCeti.EtaleDuality.restrictClosed_graph_compat`: For the graph-type correspondence of `g` preserving
-  `Z` set-theoretically, restrictClosed gives `g|_(Z_red)^*(F|_(Z_red)) → F|_(Z_red)`.
+- For the graph-type correspondence of `g` preserving
+  `Z` set-theoretically, restriction to `Z` gives `g|_(Z_red)^*(F|_(Z_red)) → F|_(Z_red)`.
   If `g` also preserves `Z` schematically, this is the pullback of `u|Z:g|_Z^*(F|_Z) → F|_Z`.
 
-- `TauCeti.EtaleDuality.not_isInvariant_translation`: For the graph of translation by 1 on `𝔸¹` in characteristic 0, the closed point {0} is not invariant.
+- For the graph of translation by 1 on `𝔸¹` in characteristic 0, the closed point {0} is not invariant.
 
 - For `c` the graph-type correspondence of an automorphism `g` with `g(Z) = Z` as sets, `u|_Z`
   is the restricted equivariant structure on `F|_(Z_red)`. Under schematic invariance it is the
@@ -6493,8 +6492,8 @@ isomorphisms of fibre products, and is compatible with pushforward to `Spec k`: 
 composite is `RΓ_c(v) ∘ RΓ_c(u)`. Together with external products `(X, L) ⊗ (X′, L′) = (X × X′, L ⊠ L′)` these
 form a symmetric monoidal 2-category (a bicategory). For fixed endpoints `(X,L),(Y,M)`, a 2-morphism
 `(c,u)→(d,v)` is a proper support map `p:C→D` with `d₁p=c₁`, `d₂p=c₂` and
-`v=CohCorr.pushforward (id_X,p,id_Y) u`. The equation compares the specified cohomological maps;
-`Correspondence.Hom` alone supplies only the underlying commuting squares.
+`v` the pushforward of `u` along `(id_X,p,id_Y)`. The equation compares the specified cohomological maps;
+a morphism of correspondences alone supplies only the underlying commuting squares.
 
 Work with the following additional hypotheses. All schemes are separated of finite type over a field `k`
 (separably closed whenever trace maps, local terms or traces on cohomology occur); `ℓ` is invertible in `k`; `Λ` is
@@ -6507,23 +6506,23 @@ external products use finite `Tor` dimension on both factors.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.CohCorr.comp`: (`c, u`), `(d, v) ↦` (`c ×_Y d`, composite).
+- Composition: (`c, u`), `(d, v) ↦` (`c ×_Y d`, composite).
 
-- `TauCeti.EtaleDuality.CohCorr.comp_assoc`: Associativity up to the canonical isomorphism of iterated fibre products, transporting the actual `c`-morphisms.
+- Associativity up to the canonical isomorphism of iterated fibre products, transporting the actual `c`-morphisms.
 
-- `TauCeti.EtaleDuality.CohCorr.id_comp`: The identity correspondence with `u = id` is a left and right unit.
+- The identity correspondence with `u = id` is a left and right unit.
 
-- `TauCeti.EtaleDuality.CohCorr.rgammac_comp`: For proper first legs, `RΓ_c(v ∘ u) = RΓ_c(v) ∘ RΓ_c(u)`.
+- For proper first legs, `RΓ_c(v ∘ u) = RΓ_c(v) ∘ RΓ_c(u)`.
 
-- `TauCeti.EtaleDuality.CohCorr.boxProduct`: External product of cohomological correspondences, symmetric monoidal and compatible with composition.
+- External product of cohomological correspondences, symmetric monoidal and compatible with composition.
 
-- `TauCeti.EtaleDuality.CohCorr.TwoHom`: The proper support maps with fixed endpoints and the displayed pushforward equation.
+- The 2-morphisms are the proper support maps with fixed endpoints satisfying the displayed pushforward equation.
 
-- `TauCeti.EtaleDuality.CohCorr.TwoHom.id`, `TauCeti.EtaleDuality.CohCorr.TwoHom.vcomp`: Identity support maps and vertical composition, with associative and unital laws.
+- Identity support maps and vertical composition, with associative and unital laws.
 
-- `TauCeti.EtaleDuality.CohCorr.TwoHom.hcomp`: Horizontal composition is the proper map `p×_Y q` between composite supports; prove its pushforward equation and interchange with vertical composition.
+- Horizontal composition is the proper map `p×_Y q` between composite supports; prove its pushforward equation and interchange with vertical composition.
 
-- `TauCeti.EtaleDuality.CohCorr.twoCoherence`: The fibre-product associator and unitors are invertible 2-morphisms, natural for `TwoHom`, satisfying pentagon and triangle identities. External products of proper support maps give the symmetric monoidal coherence.
+- The fibre-product associator and unitors are invertible 2-morphisms, natural for 2-morphisms, satisfying pentagon and triangle identities. External products of proper support maps give the symmetric monoidal coherence.
 
 A proof proceeds as follows.
 
@@ -6548,13 +6547,13 @@ Use [Lu-Zheng-2022] §2.2, Construction 2.6, p. 13 (arXiv v4).
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.comp_graph`: The composite of the graph-type correspondences of `g` and `h` is the graph-type correspondence of `g ∘ h`.
+- The composite of the graph-type correspondences of `g` and `h` is the graph-type correspondence of `g ∘ h`.
 
-- `TauCeti.EtaleDuality.comp_id`: Composition with the identity correspondence returns the original `c`-morphism after the canonical identification `C ×_X X ≅ C`.
+- Composition with the identity correspondence returns the original `c`-morphism after the canonical identification `C ×_X X ≅ C`.
 
-- `TauCeti.EtaleDuality.comp_point_compat`: For `X = Y = Z = Spec k` composition is composition of morphisms in `D(Λ)`.
+- For `X = Y = Z = Spec k` composition is composition of morphisms in `D(Λ)`.
 
-- `TauCeti.EtaleDuality.comp_assoc_up_to_iso`: Composition is associative up to the canonical isomorphism `(C ×_Y D) ×_Z E ≅ C ×_Y (D ×_Z E)` of supports, which transports the composite `c`-morphisms into each other; it is an isomorphism of 1-morphisms of the 2-category, not an equality of supports.
+- Composition is associative up to the canonical isomorphism `(C ×_Y D) ×_Z E ≅ C ×_Y (D ×_Z E)` of supports, which transports the composite `c`-morphisms into each other; it is an isomorphism of 1-morphisms of the 2-category, not an equality of supports.
 
 - Composing the graph-type correspondences of `g` and `h` (with structures `u, v`) gives the graph-type correspondence of `g ∘ h` with the composite structure.
 
@@ -6592,19 +6591,19 @@ operations. `k` separably closed; `F` of finite `Tor` dimension, so that biduali
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.CohCorr.traceMap`: `Tr_c : Hom(c₂_!c₁^*F, F) → H⁰(Fix(c), K_{Fix(c)}), Λ`-linear.
+- `Tr_c : Hom(c₂_!c₁^*F, F) → H⁰(Fix(c), K_{Fix(c)}), Λ`-linear.
 
-- `TauCeti.EtaleDuality.CohCorr.traceMap_linear`: `Tr_c` is `Λ`-linear in `u`.
+- `Tr_c` is `Λ`-linear in `u`.
 
-- `TauCeti.EtaleDuality.CohCorr.traceOn`: `Tr_β :=` restriction of `Tr_c` to an open `β ⊆ Fix(c)`.
+- `Tr_β :=` restriction of `Tr_c` to an open `β ⊆ Fix(c)`.
 
-- `TauCeti.EtaleDuality.CohCorr.localTerm`: For `β ⊆ Fix(c)` open and proper over `k, LT_β(u) := π_β!(Tr_β(u)) ∈ Λ`.
+- For `β ⊆ Fix(c)` open and proper over `k, LT_β(u) := π_β!(Tr_β(u)) ∈ Λ`.
 
-- `TauCeti.EtaleDuality.CohCorr.localTerm_sum`: For a finite partition of a proper `Fix(c)` into open-closed `β, π_!Tr_c(u) = Σ_β LT_β(u)`.
+- For a finite partition of a proper `Fix(c)` into open-closed `β, π_!Tr_c(u) = Σ_β LT_β(u)`.
 
-- `TauCeti.EtaleDuality.CohCorr.traceMap_trivial`: For the trivial correspondence over `Spec k, Tr` is the perfect-complex trace of EtaleCohomologyFoundations §F.10.3.
+- For the trivial correspondence over `Spec k, Tr` is the perfect-complex trace of EtaleCohomologyFoundations §F.10.3.
 
-- `TauCeti.EtaleDuality.CohCorr.traceMap_restrictOpen`: `Tr` commutes with restriction to open `W ⊆ C` containing the relevant part of `Fix(c)`.
+- `Tr` commutes with restriction to open `W ⊆ C` containing the relevant part of `Fix(c)`.
 
 A proof proceeds as follows.
 
@@ -6629,13 +6628,13 @@ EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.traceMap_point`: On the trivial correspondence, `Tr(id_F) = χ(F) := Σ (−1)^i rank H^i(F)` for `F` with free cohomology over a field `Λ`.
+- On the trivial correspondence, `Tr(id_F) = χ(F) := Σ (−1)^i rank H^i(F)` for `F` with free cohomology over a field `Λ`.
 
-- `TauCeti.EtaleDuality.localTerm_isolated_identity`: For `g` an automorphism with isolated fixed point `x` and `F = Λ, u = id`, if the induced map on the normal cone at `x` has no nonzero fixed vector then `LT_x(u) = 1` (Varshavsky 2020, Corollary 4.11(b)).
+- For `g` an automorphism with isolated fixed point `x` and `F = Λ, u = id`, if the induced map on the normal cone at `x` has no nonzero fixed vector then `LT_x(u) = 1` (Varshavsky 2020, Corollary 4.11(b)).
 
-- `TauCeti.EtaleDuality.localTerm_naive_compat`: For `c₂` quasi-finite and `{x} c`-invariant, `LT_y(u|_x)` equals the naive trace `Tr(u_y | F_x)`.
+- For `c₂` quasi-finite and `{x} c`-invariant, `LT_y(u|_x)` equals the naive trace `Tr(u_y | F_x)`.
 
-- `TauCeti.EtaleDuality.localTerm_not_naive_identity_curve`: The adapter to GL2AutomorphicRepresentationsAndTransfer R17.6.3a gives `LT_X(id) = LT^curve_X(id) = 2 − 2g` for a smooth proper curve of genus `g` with constant `Λ` coefficients. The fixed component is the whole curve, so there is no finite sum of pointwise naive terms.
+- The adapter to GL2AutomorphicRepresentationsAndTransfer R17.6.3a gives `LT_X(id) = LT^curve_X(id) = 2 − 2g` for a smooth proper curve of genus `g` with constant `Λ` coefficients. The fixed component is the whole curve, so there is no finite sum of pointwise naive terms.
 
 - For the trivial correspondence `pt → pt × pt, Tr(u) = Tr(u | F)` for `F` a perfect `Λ`-complex (Varshavsky 1.2.3).
 
@@ -6653,7 +6652,7 @@ category of §3.1); `D^b_ctf(X, Λ)` is the category of constructible complexes 
 (EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3), stable under the six
 operations. `[f]` proper with equal outer components; `k` separably closed.
 
-Name the resulting statement `tracePushforwardCompatibility`.
+Name the resulting statement tracePushforwardCompatibility.
 
 For proper morphisms within the supplied smooth proper-curve domain, this name is the adapter to
 GL2AutomorphicRepresentationsAndTransfer R17.6.3a / `proper-curve-correspondence-trace`, with equation
@@ -6702,7 +6701,7 @@ category of §3.1); `D^b_ctf(X, Λ)` is the category of constructible complexes 
 operations. `c` proper over `k` (the structure morphism `[π]_c` is proper); for the trace on cohomology, `Λ` such that
 `RΓ_c(X, F)` is perfect.
 
-Name the resulting statement `lefschetzVerdierTraceFormula`.
+Name the resulting statement lefschetzVerdierTraceFormula.
 
 On the supplied smooth proper-curve domain this name adapts GL2AutomorphicRepresentationsAndTransfer R17.6.3a /
 `proper-curve-correspondence-trace`: `Tr(RΓ(u)) = Σ_β LT^curve_β(u) = Σ_β LT_β(u)`.
@@ -6723,7 +6722,7 @@ Use [Varshavsky-LV-2007] Corollary 1.2.6, p. 10 (arXiv v2).
 **Checks.**
 
 
-- For `X = ⊔_{i∈I} Spec k` finite, `c` the graph-type correspondence of `σ : I → I` and `F = M` constant: `Tr(RΓ(u)) = Σ_{σ(i)=i} Tr(u_i | M)`, which is Tau Ceti's `LinearMap.trace_pi_of_apply_eq` (§6.3).
+- For `X = ⊔_{i∈I} Spec k` finite, `c` the graph-type correspondence of `σ : I → I` and `F = M` constant: `Tr(RΓ(u)) = Σ_{σ(i)=i} Tr(u_i | M)`, which follows from Tau Ceti's `LinearMap.trace_pi` (§6.3).
 
 - For the identity of a smooth proper curve of genus `g`, the supplied interface gives
   `χ(X) = 2 − 2g = LT^curve_X(id) = LT_X(id)` with `ℚ_ℓ` coefficients.
@@ -6734,11 +6733,11 @@ Use [Varshavsky-LV-2007] Corollary 1.2.6, p. 10 (arXiv v2).
 **The Lefschetz–Verdier formula for finite étale schemes and permutation correspondences.** Let `k` be separably
 closed, `X = ⊔_{i ∈ I} Spec k` for a finite set `I, σ : I → I` and `g : X → X` the induced morphism, `c = (g, id)` its
 graph-type correspondence, `M` a finite free `Λ`-module (`Λ` a field or `ℤ/ℓⁿ`) and `F` the constant sheaf with fibre `M`,
-with `u : g^*F → F` given by endomorphisms `u_i : M → M`. Then `RΓ(X, F) = M^I, RΓ(u)` acts by `(x_i) ↦ (u_i(x_{σ(i)})), Fix(c) = {i : σ(i) = i}, LT_i(u) = Tr(u_i)` and the Lefschetz–Verdier formula reads `Tr(RΓ(u)) = Σ_{σ(i)=i} Tr(u_i | M)`. The linear trace identity is supplied by Tau Ceti’s `LinearMap.trace_pi_of_apply_eq` for both coefficient regimes. The target here identifies `RΓ(u)`, the fixed scheme and its geometric local terms with those supplied linear data. With `M=Λ` and `u_i=1`, the trace equals the number of fixed points; Mathlib’s `Matrix.trace_permutation` supplies the permutation case.
+with `u : g^*F → F` given by endomorphisms `u_i : M → M`. Then `RΓ(X, F) = M^I, RΓ(u)` acts by `(x_i) ↦ (u_i(x_{σ(i)})), Fix(c) = {i : σ(i) = i}, LT_i(u) = Tr(u_i)` and the Lefschetz–Verdier formula reads `Tr(RΓ(u)) = Σ_{σ(i)=i} Tr(u_i | M)`. The linear trace identity follows from Tau Ceti’s block-trace formula `LinearMap.trace_pi` for both coefficient regimes. The target here identifies `RΓ(u)`, the fixed scheme and its geometric local terms with those supplied linear data. With `M=Λ` and `u_i=1`, the trace equals the number of fixed points; Mathlib’s `Matrix.trace_permutation` supplies the permutation case.
 
 Work with the following additional hypotheses. `X` finite étale (a finite disjoint union of copies of `Spec k`); `Λ` a field or `ℤ/ℓⁿ`, with `ℓ` invertible in `k` and `n ≥ 1` in the latter case. The supplied linear identity itself applies over every commutative ring with `M` finite free.
 
-Name the resulting statement `zeroDimensionalLefschetzVerdier`.
+Name the resulting statement zeroDimensionalLefschetzVerdier.
 
 A proof proceeds as follows.
 
@@ -6747,11 +6746,11 @@ A proof proceeds as follows.
 `Fix(c)` is the reduced finite scheme of fixed indices; at each the local term is naive (§6.2 (d), with `c₂ = id`
 quasi-finite).
 
-Apply the supplied `LinearMap.trace_pi_of_apply_eq` to this identified operator. Its index map `σ` is an arbitrary self-map; invertibility is unnecessary. `Matrix.trace_permutation` is a comparison for a permutation `σ` and rank-one trivial `u_i`.
+Apply the supplied `LinearMap.trace_pi` to this identified operator: its diagonal block at `i` is `u_i` when `σ(i)=i` and `0` otherwise. Its index map `σ` is an arbitrary self-map; invertibility is unnecessary. `Matrix.trace_permutation` is a comparison for a permutation `σ` and rank-one trivial `u_i`.
 
 Use [Varshavsky-LV-2007] Example 1.2.3 and 1.5.7, pp. 9 and 16 (arXiv v2).
 
-*Needs:* §6.2; `LinearMap.trace_pi_of_apply_eq`; `Matrix.trace_permutation`.
+*Needs:* §6.2; `LinearMap.trace_pi`; `Matrix.trace_permutation`.
 
 **Checks.**
 
@@ -6775,7 +6774,7 @@ category of §3.1); `D^b_ctf(X, Λ)` is the category of constructible complexes 
 (EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3), stable under the six
 operations. `Z` closed and `c`-invariant; `k` separably closed.
 
-Name the resulting statement `traceAdditivity`.
+Name the resulting statement traceAdditivity.
 
 On the supplied proper-curve domain, this general filtered additivity statement uses
 GL2AutomorphicRepresentationsAndTransfer R17.6.3a / `proper-curve-correspondence-trace` through §6.3:
@@ -6839,17 +6838,17 @@ extended to adic coefficients.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.Lift`: A separated finite-type `X̃` over `D` with `ϕ : X̃ ⟶ X × D` whose generic fibre is an isomorphism.
+- A lift of `X` is a separated finite-type `X̃` over `D` with `ϕ : X̃ ⟶ X × D` whose generic fibre is an isomorphism.
 
-- `TauCeti.EtaleDuality.Lift.sp`: `sp_{X̃} : D^b_ctf(X, Λ) ⥤ D^b_ctf(X̃_s, Λ), F ↦ Ψ(ϕ_η^*F_η)`.
+- `sp_{X̃} : D^b_ctf(X, Λ) ⥤ D^b_ctf(X̃_s, Λ), F ↦ Ψ(ϕ_η^*F_η)`.
 
-- `TauCeti.EtaleDuality.Lift.sp_const`: For the constant lift `X × D, sp` is naturally isomorphic to the identity.
+- For the constant lift `X × D, sp` is naturally isomorphic to the identity.
 
-- `TauCeti.EtaleDuality.Lift.bcLowerShriek`: For a lift `f̃` of `f, f̃_s!sp → sp f_!`, an isomorphism for `f̃` proper.
+- For a lift `f̃` of `f, f̃_s!sp → sp f_!`, an isomorphism for `f̃` proper.
 
-- `TauCeti.EtaleDuality.CohCorr.sp`: For a lift `c̃` of `c, u ↦ sp_c̃(u)`, a `c̃_s`-morphism from `sp F₁` to `sp F₂`.
+- For a lift `c̃` of `c, u ↦ sp_c̃(u)`, a `c̃_s`-morphism from `sp F₁` to `sp F₂`.
 
-- `TauCeti.EtaleDuality.CohCorr.traceMap_sp`: `sp_{Fix(c̃)} ∘ Tr_c = Tr_{c̃_s} ∘ sp_c̃` (Varshavsky Proposition 1.3.5).
+- `sp_{Fix(c̃)} ∘ Tr_c = Tr_{c̃_s} ∘ sp_c̃` (Varshavsky Proposition 1.3.5).
 
 When the original and special-fibre correspondences both lie in the supplied smooth proper-curve
 domain, the §6.3 adapters identify this equation with
@@ -6880,13 +6879,13 @@ EtaleCohomologyFoundations §§F.0–F.6 and the scheme-site contract above; §3
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.sp_const_trivial`: For `X = Spec k` with the constant lift, `sp` is the identity on perfect `Λ`-complexes.
+- For `X = Spec k` with the constant lift, `sp` is the identity on perfect `Λ`-complexes.
 
-- `TauCeti.EtaleDuality.sp_nearby_compat`: `sp_{X̃}(F) = Ψ_{X̃}(ϕ_η^*F_η)` is LefschetzPencilsAndVanishingCycles §§0.5–0.8 and the specialization contract of §6.4's nearby-cycles complex for the trait `D`.
+- `sp_{X̃}(F) = Ψ_{X̃}(ϕ_η^*F_η)` is LefschetzPencilsAndVanishingCycles §§0.5–0.8 and the specialization contract of §6.4's nearby-cycles complex for the trait `D`.
 
-- `TauCeti.EtaleDuality.sp_normalCone_punctured_line`: Assume `Λ≠0`. For `X=𝔸¹,Z={0},F=j_!Λ` on `𝔾_m`, identify the deformation by `x=t·v`. On `v≠0` the specialization is nonzero; its restriction at `v=0` is zero by Verdier’s zero-section theorem. Thus specialization is not extension of `F|_Z` by zero, nor the constant sheaf on the whole cone.
+- Assume `Λ≠0`. For `X=𝔸¹,Z={0},F=j_!Λ` on `𝔾_m`, identify the deformation by `x=t·v`. On `v≠0` the specialization is nonzero; its restriction at `v=0` is zero by Verdier’s zero-section theorem. Thus specialization is not extension of `F|_Z` by zero, nor the constant sheaf on the whole cone.
 
-- `TauCeti.EtaleDuality.sp_normalCone_zeroSection`: For the deformation to the normal cone of `Z ⊂ X`, restricting `sp(F)` to the zero section recovers `F|_Z` (Verdier; Varshavsky Proposition 1.4.2); away from the zero section `sp(F)` is not determined by `F|_Z`.
+- For the deformation to the normal cone of `Z ⊂ X`, restricting `sp(F)` to the zero section recovers `F|_Z` (Verdier; Varshavsky Proposition 1.4.2); away from the zero section `sp(F)` is not determined by `F|_Z`.
 
 - For the constant lift `X × D` and `c × D, sp_c̃(u) = u` and the compatibility is trivial.
 
@@ -6905,7 +6904,7 @@ category of §3.1); `D^b_ctf(X, Λ)` is the category of constructible complexes 
 (EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3), stable under the six
 operations. `Z ⊂ X` closed; (a) for all `F` of finite `Tor` dimension (in fact for all constructible `F`).
 
-Name the resulting statement `normalConeSpecialization`.
+Name the resulting statement normalConeSpecialization.
 
 A proof proceeds as follows.
 
@@ -6961,19 +6960,19 @@ over `𝔽_q`.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.Correspondence.Stabilizes`: `c₁·(I_Z) ⊆ c₂·(I_Z)·O_C` as ideal sheaves of `C`.
+- `c` stabilises `Z` when `c₁·(I_Z) ⊆ c₂·(I_Z)·O_C` as ideal sheaves of `C`.
 
-- `TauCeti.EtaleDuality.Correspondence.IsContractingNear`: Stabilizes `c Z` and `∃ n ≥ 1, c₁·(I_Z)ⁿ ⊆ c₂·(I_Z)^{n+1}·O_C`.
+- `c` is contracting near `Z` when it stabilises `Z` and `∃ n ≥ 1, c₁·(I_Z)ⁿ ⊆ c₂·(I_Z)^{n+1}·O_C`.
 
-- `TauCeti.EtaleDuality.Correspondence.IsContractingNearFix`: `∃ W ⊆ C` open containing `Fix(c)` with `c|_W` contracting near `Z`.
+- `c` is contracting near `Z` on a neighbourhood of `Fix(c)` when some open `W ⊆ C` containing `Fix(c)` has `c|_W` contracting near `Z`.
 
-- `TauCeti.EtaleDuality.Correspondence.frobeniusTwist`: `c^{(n)} := (Fr_X^n ∘ c₁, c₂)` for `c` defined over `𝔽_q`.
+- `c^{(n)} := (Fr_X^n ∘ c₁, c₂)` for `c` defined over `𝔽_q`.
 
-- `TauCeti.EtaleDuality.ramification`: For reduced closed `Z, ram(f, Z) :=` least positive integer `m≥1` with `(I_{(f^{−1}Z)_red})^m ⊆ I_{f^{−1}Z}`; `ram(f) := max({1} ∪ {ram(f,x) : x a closed point of X})` for `f` quasi-finite.
+- For reduced closed `Z, ram(f, Z) :=` least positive integer `m≥1` with `(I_{(f^{−1}Z)_red})^m ⊆ I_{f^{−1}Z}`; `ram(f) := max({1} ∪ {ram(f,x) : x a closed point of X})` for `f` quasi-finite.
 
-- `TauCeti.EtaleDuality.Correspondence.Stabilizes.isInvariant`: If `c` stabilises `Z` then `Z_red` is `c`-invariant.
+- If `c` stabilises `Z` then `Z_red` is `c`-invariant.
 
-- `TauCeti.EtaleDuality.Correspondence.isContractingNear_iff_normalCone`: `c` is contracting near `Z` iff it stabilises `Z` and the first leg of the special fibre of the deformed correspondence maps the normal cone into the zero section.
+- `c` is contracting near `Z` iff it stabilises `Z` and the first leg of the special fibre of the deformed correspondence maps the normal cone into the zero section.
 
 A proof proceeds as follows.
 
@@ -6991,17 +6990,17 @@ Use [Varshavsky-LV-2007] Definition 2.1.1, Remark 2.1.2, p. 17; 2.2.1–2.2.2, p
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.frobenius_isContractingNear_point`: The graph-type correspondence `(Fr, id)` of the `q`-Frobenius is contracting near every `𝔽_q`-rational point, with `n = 1`.
+- The graph-type correspondence `(Fr, id)` of the `q`-Frobenius is contracting near every `𝔽_q`-rational point, with `n = 1`.
 
-- `TauCeti.EtaleDuality.identity_not_contracting`: The identity correspondence of `𝔸¹` is not contracting near `{0}: I²` does not contain `I`.
+- The identity correspondence of `𝔸¹` is not contracting near `{0}`: `I²` does not contain `I`.
 
-- `TauCeti.EtaleDuality.isContractingNear_empty`: Every correspondence is contracting near `Z = X (I_Z = 0)` and near `Z = ∅ (I_Z = O_X)`, with `n = 1`.
+- Every correspondence is contracting near `Z = X (I_Z = 0)` and near `Z = ∅ (I_Z = O_X)`, with `n = 1`.
 
-- `TauCeti.EtaleDuality.ramification_etale`: For an étale `f` and reduced closed `Z, ram(f,Z)=1` since its inverse image is reduced. Reducedness of `Z` is required; an arbitrary thickened closed subscheme need not have ramification 1.
+- For an étale `f` and reduced closed `Z, ram(f,Z)=1` since its inverse image is reduced. Reducedness of `Z` is required; an arbitrary thickened closed subscheme need not have ramification 1.
 
 - For `Z=∅`, the inverse-image ideals are both `O_Y`, and the least positive exponent is 1 even for `f=id`. For a quasi-finite map with empty target the bound `ram(f)` is also 1.
 
-- `TauCeti.EtaleDuality.identity_contracting_nilpotent_support`: For `X=Spec k[ε]/(ε²)` and `Z=V(ε)`, the identity is contracting with `n=2` because `I_Z²=0`. The support `|Z|=|X|` is open, although `Z` is a proper closed subscheme.
+- For `X=Spec k[ε]/(ε²)` and `Z=V(ε)`, the identity is contracting with `n=2` because `I_Z²=0`. The support `|Z|=|X|` is open, although `Z` is a proper closed subscheme.
 
 - The graph-type correspondence `(Fr, id)` of the `q`-Frobenius of `X = X₀ ⊗ 𝔽̄_q` is contracting near every point `x ∈ X₀(𝔽_q): Fr·(I_x) ⊆ I_x^q ⊆ I_x²`.
 
@@ -7021,7 +7020,7 @@ category of §3.1); `D^b_ctf(X, Λ)` is the category of constructible complexes 
 (EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3), stable under the six
 operations. `k` separably closed; contraction near `Z` on an open neighbourhood of `Fix(c)`.
 
-Name the resulting statement `contractingLocalTerms`.
+Name the resulting statement contractingLocalTerms.
 
 On the smooth proper-curve domain with `Z` a reduced closed point, this name adapts
 GL2AutomorphicRepresentationsAndTransfer R17.6.3b / `contracting-curve-local-term`:
@@ -7072,7 +7071,7 @@ neighbourhood of fixed points, and `Fix(c^{(n)})` is finite.
 
 Work with the following additional hypotheses. `k = 𝔽̄_q`; `c` defined over `𝔽_q`; `ram` as in §6.5.
 
-Name the resulting statement `frobeniusTwistContracting`.
+Name the resulting statement frobeniusTwistContracting.
 
 A proof proceeds as follows.
 
@@ -7111,7 +7110,7 @@ Work with the following additional hypotheses. `k = 𝔽̄_q`; `c` and `U` defin
 properness/quasi-finiteness over `U` and local invariance of `X ∖ U`; `Λ` and `D^b_ctf` as in §6.1's setting; `RΓ_c(u)`
 as in Varshavsky 2.3.1 (defined using `c₁` proper over `U` and `F|_{X∖U} = 0`).
 
-Name the resulting statement `fujiwaraVarshavskyTraceFormula`.
+Name the resulting statement fujiwaraVarshavskyTraceFormula.
 
 A proof proceeds as follows.
 
@@ -7140,7 +7139,7 @@ Use [Varshavsky-LV-2007] 2.3.1, Theorem 2.3.2 and Remark 2.3.3, pp. 19–21 (arX
 **The compact-support Frobenius trace formula for Weil and ramified coefficients.** Import
 InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T4 / `VanishingCycles.etaleTraceFormulaFinite`,
 `VanishingCycles.etaleTraceFormula` and `VanishingCycles.pointCountTrace` for arithmetically descended
-finite/rational complexes and integral constants. Here prove `frobeniusCompactSupportTraceFormula` for
+finite/rational complexes and integral constants. Here prove frobeniusCompactSupportTraceFormula for
 Weil descent data without a continuous Galois model and extend to ramified integral coefficients using §3.1,
 compatibly with the general cohomological-correspondence trace class of §6.3.
 
@@ -7151,7 +7150,7 @@ stalks and `RΓ_c(X,F)` to be perfect over the coefficient ring. For every `n≥
 `Tr(Frⁿ | RΓ_c(X,F)) = Σ_(x∈X₀(𝔽_(qⁿ))) Tr(Frⁿ_x | F_x)`.
 
 On the imported coefficient/descent ranges it agrees with the named supplier formulas. Apply
-`fujiwaraVarshavskyTraceFormula` to the identity correspondence on a compactification over `𝔽_q` and extension
+fujiwaraVarshavskyTraceFormula to the identity correspondence on a compactification over `𝔽_q` and extension
 by zero of `F`. Both legs have ramification bound one, the boundary is invariant, and `qⁿ>1` for `n≥1`.
 Contraction identifies interior local terms with stalk traces and kills the boundary terms. No continuous
 Galois extension of `ψ` is used. Apply §3.1 to coherent ramified finite-level systems and §3.2 to their trace
@@ -7206,19 +7205,19 @@ underlying sets. Scalar `t=0` is included.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.EtaleDuality.NoTubularFixed`: Predicate defined by emptiness of the punctured fixed locus of the induced normal-cone correspondence.
+- NoTubularFixed`(c,Z)` is the predicate defined by emptiness of the punctured fixed locus of the induced normal-cone correspondence.
 
-- `TauCeti.EtaleDuality.NoAlmostTubularFixed`: Predicate imposing NoTubularFixed and a finite bad-scalar set, including `t=0`.
+- NoAlmostTubularFixed`(c,Z)` is the predicate imposing NoTubularFixed`(c,Z)` and a finite bad-scalar set, including `t=0`.
 
-- `TauCeti.EtaleDuality.noAlmostTubularFixed_iff`: Equivalent to NoTubularFixed and an open subset `S⊂𝔸¹` containing 1 on which the punctured fixed loci are all empty.
+- NoAlmostTubularFixed`(c,Z)` is equivalent to NoTubularFixed`(c,Z)` together with an open subset `S⊂𝔸¹` containing 1 on which the punctured fixed loci are all empty.
 
-- `TauCeti.EtaleDuality.noTubularFixed_graph`: For `c=(f,id),Z={x}`, the predicate is equivalent to `Fix(N_xf)` having only its vertex as underlying set.
+- For `c=(f,id),Z={x}`, the predicate is equivalent to `Fix(N_xf)` having only its vertex as underlying set.
 
-- `TauCeti.EtaleDuality.noTubularFixed_openClosed`: The reduced `Fix(c|Z)` is open and closed in the reduced `Fix(c)`.
+- The reduced `Fix(c|Z)` is open and closed in the reduced `Fix(c)`.
 
-- `TauCeti.EtaleDuality.contracting_noAlmostTubularFixed`: A correspondence contracting near `Z` in a neighbourhood of its fixed points has no almost tubular fixed points after this restriction; the bad-scalar set is empty.
+- A correspondence contracting near `Z` in a neighbourhood of its fixed points has no almost tubular fixed points after this restriction; the bad-scalar set is empty.
 
-- `TauCeti.EtaleDuality.noTubularFixed_congr`: An isomorphism of correspondences carrying `Z` to `Z′` preserves both predicates.
+- An isomorphism of correspondences carrying `Z` to `Z′` preserves both predicates.
 
 A proof proceeds as follows.
 
@@ -7238,16 +7237,16 @@ Use [Varshavsky-LocalTerms-2020] §1.2 and Remark 1.3, p.3; Definitions 4.3–4.
 **Checks.**
 
 
-- `TauCeti.EtaleDuality.tubular_scalar`: For graph `x↦λx` on `𝔸¹, Z={0}, λ∈k×∖{1}`, NoTubularFixed holds and the bad-scalar set is `{λ⁻¹}`.
+- For graph `x↦λx` on `𝔸¹, Z={0}, λ∈k×∖{1}`, NoTubularFixed holds and the bad-scalar set is `{λ⁻¹}`.
 
-- `TauCeti.EtaleDuality.tubular_identity`: For the identity of `𝔸¹` at `Z={0}`, NoTubularFixed fails.
+- For the identity of `𝔸¹` at `Z={0}`, NoTubularFixed fails.
 
-- `TauCeti.EtaleDuality.tubular_whole_space`: For `Z=X` the normal cone has only its vertex, so both predicates hold with empty bad-scalar set.
+- For `Z=X` the normal cone has only its vertex, so both predicates hold with empty bad-scalar set.
 
 - For the identity on `X=Z=Spec k[ε]/(ε²)`, the normal cone and its fixed vertex are the full `Z`.
   Both punctured-cone predicates hold. The reduced restriction of §6.2 instead has fixed scheme `Spec k`.
 
-- `TauCeti.EtaleDuality.tubular_singular_tame`: On `Spec k[x,y,z]/(x³+yz)` with `g=(x,−y,−z), char k≠2`, the origin is isolated in `X^g` but `N_0X=Spec k[x,y,z]/(yz)` has a fixed line. NoTubularFixed fails; tame order and isolated support alone are insufficient.
+- On `Spec k[x,y,z]/(x³+yz)` with `g=(x,−y,−z), char k≠2`, the origin is isolated in `X^g` but `N_0X=Spec k[x,y,z]/(yz)` has a fixed line. NoTubularFixed fails; tame order and isolated support alone are insufficient.
 
 ### 7.2 ULA trace constancy and normal-cone comparison
 
@@ -7265,7 +7264,7 @@ category of §3.1); `D^b_ctf(X, Λ)` is the category of constructible complexes 
 operations. `S` is connected; the topological trivialization is over `S`; use relative extraordinary pullback and
 the fibre restriction of `u`. `F` is ULA, not merely lisse on a single fibre.
 
-Name the resulting statement `relativeTraceConstancy`.
+Name the resulting statement relativeTraceConstancy.
 
 A proof proceeds as follows.
 
@@ -7312,7 +7311,7 @@ category of §3.1); `D^b_ctf(X, Λ)` is the category of constructible complexes 
 operations. Schematic invariance and the punctured-cone conditions are those of §7.1; in (b) `β` is proper,
 although `X` and `C` need not be proper.
 
-Name the resulting statement `normalConeTraceComparison`.
+Name the resulting statement normalConeTraceComparison.
 
 A proof proceeds as follows.
 
@@ -7370,7 +7369,7 @@ Work with the following additional hypotheses. Use the full scheme fixed locus a
 finite-order assumption allows spectral projectors for the `m` distinct roots of unity. `X` is separated, so fixed
 points have finite-group invariant affine neighbourhoods.
 
-Name the resulting statement `tameFixedSubschemeNormalCone`.
+Name the resulting statement tameFixedSubschemeNormalCone.
 
 A proof proceeds as follows.
 
@@ -7406,7 +7405,7 @@ Lemma 5.1 pp.995–996.
 ### 7.4 Semisimple isolated fixed subschemes
 
 **Diagonalizability of a semisimple cyclic closure.** Let `k` be algebraically closed, `G` a linear
-algebraic group over `k`, and `g∈G(k)` semisimple. Prove `semisimpleCyclicClosure_diagonalizable`: the reduced
+algebraic group over `k`, and `g∈G(k)` semisimple. Prove semisimpleCyclicClosure_diagonalizable: the reduced
 Zariski closure `D` of `⟨g⟩` is diagonalizable, and evaluation at `g` is injective on its character group:
 `χ(g)=1` iff `χ` is the trivial character. Its identity component is a torus and its finite component group
 has order prime to `char k` in positive characteristic. For a finite-dimensional rational `D`-module,
@@ -7444,9 +7443,9 @@ Work with the following additional hypotheses. `Z` is the full scheme fixed comp
 replacing it by the reduced point is invalid. Étale sheaf coefficients have `ℓ` invertible in `k` and the rational
 adic/finite-Tor conventions of EtaleCohomologyFoundations §§F.0–F.2/6. The reduced Zariski closure `D` of the
 cyclic subgroup generated by `g` is diagonalizable, with a torus and a finite prime-to-characteristic component.
-Cyclic density means `χ(g)≠1` for every nontrivial character `χ` of `D`. These facts are supplied by `semisimpleCyclicClosure_diagonalizable`.
+Cyclic density means `χ(g)≠1` for every nontrivial character `χ` of `D`. These facts are supplied by semisimpleCyclicClosure_diagonalizable.
 
-Name the resulting statement `semisimpleIsolatedFixedSubschemeNormalCone`.
+Name the resulting statement semisimpleIsolatedFixedSubschemeNormalCone.
 
 A proof proceeds as follows.
 
@@ -7484,7 +7483,7 @@ equalities in Lefschetz–Verdier.
 Use [Jantzen-2003] Part `I`, §2.11(1)–(4), pp.30–31; [Varshavsky-LocalTerms-2023] Theorem 4.10(b) and Lemma 5.1,
 p.995; Corollaries 5.4 and 5.6, p.996 (version of record).
 
-*Needs:* `semisimpleCyclicClosure_diagonalizable`; §7.2; §7.1; §6.3; ReductiveGroups layer 4 jordan decomposition diagonalizable groups tori;
+*Needs:* semisimpleCyclicClosure_diagonalizable; §7.2; §7.1; §6.3; ReductiveGroups layer 4 jordan decomposition diagonalizable groups tori;
 SchemeAndStackFoundations §§0.7, 0.9, 4.11 and the geometric contracts above; EtaleCohomologyFoundations
 §§F.0–F.6 and the scheme-site contract above.
 
@@ -7504,7 +7503,7 @@ SchemeAndStackFoundations §§0.7, 0.9, 4.11 and the geometric contracts above; 
 **Local terms at tame and semisimple isolated fixed points.** Let `k` be algebraically closed and `X` separated of
 finite type over `k`. (a) If `f:X→X` fixes `x` and `N_x(f)` has no nonzero fixed points, then `x` is isolated and
 `LT_x(u)=Tr(u_x|F_x)` for any `u:f^*F→F` with `F` constructible of finite `Tor` dimension. (b) If `X` is smooth at an
-isolated fixed point `x` of a semisimple element `g` of a linear algebraic group acting on `X`, the same equality follows from `semisimpleIsolatedFixedSubschemeNormalCone` applied to its full Artin fixed component. (c) For an automorphism `g` of finite order invertible in `k`, the
+isolated fixed point `x` of a semisimple element `g` of a linear algebraic group acting on `X`, the same equality follows from semisimpleIsolatedFixedSubschemeNormalCone applied to its full Artin fixed component. (c) For an automorphism `g` of finite order invertible in `k`, the
 equality holds at every isolated fixed point, including singular ones, by applying the trace comparison to the
 full fixed subscheme `Z=Fix(g)`. If `X` is proper and `X^g` has finite support, its global trace is the sum of their
 stalk traces. The cone of the reduced point can have nonzero fixed points even in (c); it is not an asserted
@@ -7520,16 +7519,16 @@ category of §3.1); `D^b_ctf(X, Λ)` is the category of constructible complexes 
 (EtaleCohomologyFoundations §§F.0–F.1, 0.7; EnhancedDerivedSheaves §§0.1–0.3), stable under the six
 operations. `k` algebraically closed; for (c), `g^m = id` as `k`-scheme automorphisms with `m` invertible in `k`, so
 that `⟨g⟩` is a finite diagonalizable group of order prime to p. Only (b) requires smoothness at `x`. In (c) use
-the full fixed subscheme, not the reduced point. Apply `semisimpleIsolatedFixedSubschemeNormalCone` to the full Artin fixed component in (b) as well as (d).
+the full fixed subscheme, not the reduced point. Apply semisimpleIsolatedFixedSubschemeNormalCone to the full Artin fixed component in (b) as well as (d).
 
-Name the resulting statement `finiteOrderLocalTerms`.
+Name the resulting statement finiteOrderLocalTerms.
 
 A proof proceeds as follows.
 
 (a) Apply the proper-component part of normal-cone-trace-comparison with `Z={x}`; its restricted trace is the
 stalk trace.
 
-(b) Apply `semisimpleIsolatedFixedSubschemeNormalCone` from §7.4 to the full Artin fixed component.
+(b) Apply semisimpleIsolatedFixedSubschemeNormalCone from §7.4 to the full Artin fixed component.
 Its normal-cone trace comparison gives the equality directly.
 
 (c) Use the tame-fixed-subscheme-normal-cone theorem with the full scheme `Z=Fix(g)`, which gives
@@ -7580,7 +7579,7 @@ only then this simplifies to `det(φ)=(−1)^{m_−}c^{b/2}`. In odd rank retain
 Work with the following additional hypotheses. `char F ≠ 2`; form perfect and `ε`-symmetric; `φ` a similitude with
 factor `c`; no semisimplicity of `φ`.
 
-Name the resulting statement `formSimilitudeDeterminant`. In `Suggested.lean`, `form_similitude_det_alt` states the alternating determinant and even self-paired multiplicities, and `form_similitude_det_symm` states the symmetric multiplicity parity and both determinant signs. Both use scalar extension to an algebraically closed field and a chosen square root `s` of the multiplier.
+Name the resulting statement formSimilitudeDeterminant. In `Suggested.lean`, `form_similitude_det_alt` states the alternating determinant and even self-paired multiplicities, and `form_similitude_det_symm` states the symmetric multiplicity parity and both determinant signs. Both use scalar extension to an algebraically closed field and a chosen square root `s` of the multiplier.
 
 A proof proceeds as follows.
 
@@ -7629,21 +7628,21 @@ semisimplicity of `F`.
 The interface consists of the following maps and identities.
 
 
-- `TauCeti.GradedFrobeniusDuality`: Data: `d≥0,q∈E×`,finite-dimensional `H^i` for `i∈ℤ` with `H^i=0` outside `0≤i≤2d`,automorphisms `F_i`,perfect pairings `H^i×H^(2d−i)→E` and the similitude/Koszul laws. An `ℕ`-indexed implementation includes explicit vanishing above `2d` and uses pairs `i,j` with `i+j=2d`, avoiding unrestricted subtraction on `ℕ`.
+- A graded Frobenius duality datum consists of `d≥0,q∈E×`, finite-dimensional `H^i` for `i∈ℤ` with `H^i=0` outside `0≤i≤2d`,automorphisms `F_i`,perfect pairings `H^i×H^(2d−i)→E` and the similitude/Koszul laws. An `ℕ`-indexed implementation includes explicit vanishing above `2d` and uses pairs `i,j` with `i+j=2d`, avoiding unrestricted subtraction on `ℕ`.
 
-- `TauCeti.GradedFrobeniusDuality.betti`: `b_i :=` finrank `E (H i)`.
+- `b_i := dim_E H^i`.
 
-- `TauCeti.GradedFrobeniusDuality.betti_symm`: `b_i = b_{2d−i}` for `0 ≤ i ≤ 2d`.
+- `b_i = b_{2d−i}` for `0 ≤ i ≤ 2d`.
 
-- `TauCeti.GradedFrobeniusDuality.eulerChar`: `χ := Σ_{i ≤ 2d} (−1)^i b_i ∈ ℤ`.
+- `χ := Σ_{i ≤ 2d} (−1)^i b_i ∈ ℤ` (`gradedEulerChar`).
 
-- `TauCeti.GradedFrobeniusDuality.frobPoly`: `P_i(t) := det(1 − t F_i) =` charpolyRev of `F_i`.
+- `P_i(t) := det(1 − t F_i)`, the reverse of the characteristic polynomial of `F_i` (`frobPoly`).
 
-- `TauCeti.GradedFrobeniusDuality.delta`: `Δ := ∏_{i ≤ 2d} det(F_i)^{(−1)^i} ∈ E^×` (with zpow).
+- `Δ := ∏_{i ≤ 2d} det(F_i)^{(−1)^i} ∈ E^×` (`gradedDelta`).
 
-- `TauCeti.GradedFrobeniusDuality.middle_symm`: `⟨x, y⟩_d = (−1)^d ⟨y, x⟩_d` on `H^d`.
+- `⟨x, y⟩_d = (−1)^d ⟨y, x⟩_d` on `H^d`.
 
-- `TauCeti.GradedFrobeniusDuality.ofSmoothProper`: The datum of a smooth proper `X₀` of pure dimension `d` over `𝔽_q` (§§0.3–0.7:pairings), with `E = ℚ_ℓ`.
+- The datum of a smooth proper `X₀` of pure dimension `d` over `𝔽_q` (§§0.3–0.7:pairings), with `E = ℚ_ℓ`.
 
 A proof proceeds as follows.
 
@@ -7665,13 +7664,13 @@ Use [Deligne-WeilI-1974] (2.3)–(2.6), pp. 281–282.
 **Checks.**
 
 
-- `TauCeti.GradedFrobeniusDuality.zero_dim_point`: `d = 0, H⁰ = E, F = 1, ⟨1,1⟩ = 1: χ = 1, Δ = 1, P₀ = 1 − t`.
+- `d = 0, H⁰ = E, F = 1, ⟨1,1⟩ = 1: χ = 1, Δ = 1, P₀ = 1 − t`.
 
-- `TauCeti.GradedFrobeniusDuality.projectiveLine`: The `ℙ¹` datum `(d = 1, F₀ = 1, F₂ = q)` has `χ = 2` and `Δ = q`, and `Δ² = q^{dχ} = q²`.
+- The `ℙ¹` datum `(d = 1, F₀ = 1, F₂ = q)` has `χ = 2` and `Δ = q`, and `Δ² = q^{dχ} = q²`.
 
-- `TauCeti.GradedFrobeniusDuality.not_datum_wrong_factor`: `H⁰ = H² = E` with `F₀ = 1, F₂ = 1` and `⟨1,1⟩ = 1, d = 1, q ≠ 1`, is not a datum: the similitude condition `⟨F₀x, F₂y⟩ = q⟨x, y⟩` fails.
+- `H⁰ = H² = E` with `F₀ = 1, F₂ = 1` and `⟨1,1⟩ = 1, d = 1, q ≠ 1`, is not a datum: the similitude condition `⟨F₀x, F₂y⟩ = q⟨x, y⟩` fails.
 
-- `TauCeti.GradedFrobeniusDuality.curve_betti_even`: For `d = 1` the form on `H¹` is alternating and perfect, so `b₁` is even (agreeing with Tau Ceti `LinearMap.BilinForm.IsAlt.even_finrank`).
+- For `d = 1` the form on `H¹` is alternating and perfect, so `b₁` is even (agreeing with Tau Ceti `LinearMap.BilinForm.IsAlt.even_finrank`).
 
 - `ℙ¹` over `𝔽_q: H⁰ = E` with `F = 1, H² = E` with `F = q, ⟨1, 1⟩ = 1`; `d = 1, χ = 2, Δ = q`.
 
@@ -7733,7 +7732,7 @@ Layer 0 for geometric examples; Mathlib finite-dimensional linear algebra, gener
 
 ## Downstream consumers
 
-GeometricSatakeAndFusion and the proposed stack and perfect-space extensions use intersection complexes and decomposition. LefschetzPencilsAndVanishingCycles uses the finite/integral Lefschetz and blow-up refinements. WeilConjectures uses the graded reciprocal-polynomial and determinant identities. This roadmap owns scheme pure decomposition (`pureComplexGeometricSplitting`, `decompositionTheorem`), relative perverse Lefschetz (`relativeHardLefschetzTheorem`) and general cohomological-correspondence local terms (`fujiwaraVarshavskyTraceFormula` and §6.3). EndoscopicTransferAndUnitaryTraceComparison §§3.14a,7.10a uses these interfaces for its applications; scheme-level shtuka constructions also use the correspondence and local-term API; stack applications first require the separate stack formalism.
+GeometricSatakeAndFusion and the proposed stack and perfect-space extensions use intersection complexes and decomposition. LefschetzPencilsAndVanishingCycles uses the finite/integral Lefschetz and blow-up refinements. WeilConjectures uses the graded reciprocal-polynomial and determinant identities. This roadmap owns scheme pure decomposition (pureComplexGeometricSplitting, decompositionTheorem), relative perverse Lefschetz (relativeHardLefschetzTheorem) and general cohomological-correspondence local terms (fujiwaraVarshavskyTraceFormula and §6.3). EndoscopicTransferAndUnitaryTraceComparison §§3.14a,7.10a uses these interfaces for its applications; scheme-level shtuka constructions also use the correspondence and local-term API; stack applications first require the separate stack formalism.
 
 ## References
 
