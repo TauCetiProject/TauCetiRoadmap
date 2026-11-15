@@ -74,8 +74,8 @@ its universal property (StableHomotopyKTheory 3.12, 3.25–3.27), the universal 
 (GeneralAlgebraicKTheory 3.14).
 
 **Relation to K3BlochGroups.** Over an infinite field `F`, Suslin's spectral sequence of 1.3 and the
-range of 2.3 are the spectral sequence and the stability range of K3BlochGroups 4.8
-(`generalLinear_homology_stable`), and the Nesterenko–Suslin property of 1.3 for `F` is a case of
+range of 2.3 are the spectral sequence and the stability range that K3BlochGroups 4.8 consumes
+from here, and the Nesterenko–Suslin property of 1.3 for `F` is a case of
 K3BlochGroups 4.3. K3BlochGroups also owns the Milnor K-theory quotient
 `H_n(GL_n(F))/H_n(GL_(n−1)(F))` (4.5–4.8) and the stability of the symmetric groups,
 `symmetricGroup_homology_stable` (4.0 and 4.15). This roadmap uses none of them; Layer 2 records the
@@ -517,7 +517,7 @@ follows from AlgebraicKTheory 4.1; then `K_m(R) ≅ π_m(BGL(R)⁺)` (GeneralAlg
 ### Examples
 
 - Infinite fields: Suslin's range `H_i(GL_n(F)) ≅ H_i(GL_(n+1)(F))` for `i ≤ n` (Suslin 1984;
-  K3BlochGroups 4.8, `generalLinear_homology_stable`) is the field case of 2.3; van der Kallen's
+  K3BlochGroups 4.8, which consumes it from here) is the field case of 2.3; van der Kallen's
   range (SchemeKTheoryOperations §6.7) gives bijectivity only for `n ≥ 2i + 1`.
 - Symmetric groups: Nakaoka's range, `H_i(Σ_n) ≅ H_i(Σ_(n+1))` for `n ≥ 2i` (Nakaoka 1960;
   Kerz 2005, Theorem 2; K3BlochGroups 4.15, `symmetricGroup_homology_stable`), is the range of
@@ -688,12 +688,11 @@ Layers 1–2; SchemeKTheoryOperations §6.7 (hyperhomology); AlgebraicKTheory 4.
 
 ## Downstream consumers
 
-No roadmap consumes a target of this one. SchemeKTheoryOperations
+K3BlochGroups (open pull request) consumes 1.3 and 2.3: its §4.8 uses their specialization to
+infinite fields (the frame spectral sequence and the range `m ≤ n`, along `TauCeti.stabilizeGL`),
+and its §4.22 uses 2.3 for local rings with infinite residue field. SchemeKTheoryOperations
 names this roadmap as a later consumer of its §6.7, which supplies the hyperhomology, the frame
-complexes and the constant-coefficient theorem for `GL_n(R)` here. K3BlochGroups names it in its
-scope; over an infinite field the spectral sequence and the stability range of its §4.8 are the
-field cases of 1.3 and 2.3, and its `generalLinearStabilization`, `g ↦ diag(g, 1)`, is the map
-of `TauCeti.stabilizeGL` over a field.
+complexes and the constant-coefficient theorem for `GL_n(R)` here.
 ArithmeticKTheory §3.2 states rank-filtration bounds for `GL_m` of rings of integers and
 says that they are not homological stability bounds; it cites no target here.
 
