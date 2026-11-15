@@ -72,24 +72,6 @@ theorem oddRealRing_geometry {𝒪 : Type*} [CommRing 𝒪] [IsDomain 𝒪]
       ringKrullDim (Localization.Away (algebraMap 𝒪 (OddRealRing a b c) ϖ)) = 2 := by
   sorry
 
-/-! ### Layer 8: the completed node (8.4) -/
-
-/-- The completed node `A⟦X,Y⟧/(XY − πu)` over a coefficient ring. -/
-noncomputable def completedNodeIdeal {A : Type*} [CommRing A] (π u : A) :
-    Ideal (MvPowerSeries (Fin 2) A) :=
-  Ideal.span {MvPowerSeries.X 0 * MvPowerSeries.X 1 - MvPowerSeries.C (π * u)}
-
-/-- The completed nodal coefficient ring of the weight-two principal-series type. -/
-abbrev CompletedNode {A : Type*} [CommRing A] (π u : A) :=
-  MvPowerSeries (Fin 2) A ⧸ completedNodeIdeal π u
-
-/-- The completed node over a discrete valuation ring is a flat domain when `π` is a nonzero
-nonunit and `u` is a unit (README 8.4); completeness of `A` is not assumed. -/
-theorem completedNode_isDomain_flat {A : Type*} [CommRing A] [IsDomain A]
-    [IsDiscreteValuationRing A] (π u : A) (hπ : π ≠ 0) (hπ' : ¬IsUnit π) (hu : IsUnit u) :
-    IsDomain (CompletedNode π u) ∧ Module.Flat A (CompletedNode π u) := by
-  sorry
-
 /-! ### Layer 7: determinant-ordinary equations and ordered flags (7.4) -/
 
 section DeterminantOrdinary
@@ -125,5 +107,23 @@ theorem det_ordinary_iff_ordered_triangularization {F : Type*} [Field F]
   sorry
 
 end DeterminantOrdinary
+
+/-! ### Layer 8: the completed node (8.4) -/
+
+/-- The completed node `A⟦X,Y⟧/(XY − πu)` over a coefficient ring. -/
+noncomputable def completedNodeIdeal {A : Type*} [CommRing A] (π u : A) :
+    Ideal (MvPowerSeries (Fin 2) A) :=
+  Ideal.span {MvPowerSeries.X 0 * MvPowerSeries.X 1 - MvPowerSeries.C (π * u)}
+
+/-- The completed nodal coefficient ring of the weight-two principal-series type. -/
+abbrev CompletedNode {A : Type*} [CommRing A] (π u : A) :=
+  MvPowerSeries (Fin 2) A ⧸ completedNodeIdeal π u
+
+/-- The completed node over a discrete valuation ring is a flat domain when `π` is a nonzero
+nonunit and `u` is a unit (README 8.4); completeness of `A` is not assumed. -/
+theorem completedNode_isDomain_flat {A : Type*} [CommRing A] [IsDomain A]
+    [IsDiscreteValuationRing A] (π u : A) (hπ : π ≠ 0) (hπ' : ¬IsUnit π) (hu : IsUnit u) :
+    IsDomain (CompletedNode π u) ∧ Module.Flat A (CompletedNode π u) := by
+  sorry
 
 end TauCetiRoadmap.LocalGaloisDeformationRings
