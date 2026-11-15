@@ -28,14 +28,15 @@ Not owned here:
   Layer 6.1), on the Tau Ceti carriers `TauCeti.SmoothCircleEmbedding`, `TauCeti.IsSmoothlySlice`
   and `TauCeti.SmoothEmbedding.Concordance`.
 - The Seifert surface and the Seifert genus are GeometricTopology 4.3's; the Alexander polynomial
-  and the determinant are GeometricTopology 4.4's; the Levine–Tristram signatures of slice knots
-  are GeometricTopology 6.2's; two-bridge knots are GeometricTopology 4.10's; knot exteriors with
-  their meridians and preferred longitudes are GeometricTopology 5.1's; Waldhausen's relative
-  realization theorem is GeometricTopology 8.3.1's; the extension of a homeomorphism of exteriors
-  over the meridional fillings is GeometricTopology 8.1's; smooth realization in dimension three
-  and Cerf's theorem are GeometricTopology 11.2's and 3.4's. The residual finiteness of knot
-  groups and the rigidity of peripheral injections of knot groups are asked of GeometricTopology
-  below (gap:knot-group-residually-finite, gap:knot-group-peripheral-injection).
+  and the determinant are GeometricTopology 4.4's; the Levine–Tristram signatures of slice knots are
+  GeometricTopology 6.2's; two-bridge knots are GeometricTopology 4.10's; knot exteriors with their
+  meridians and preferred longitudes are GeometricTopology 5.1's; Waldhausen's relative realization
+  theorem is GeometricTopology 8.3.1's; the knot-group theorem and the extension of a homeomorphism
+  of exteriors over the meridional fillings are GeometricTopology 8.1's; the Haken hypotheses of the
+  exterior of a nontrivial knot are GeometricTopology 8.5.2's; smooth realization in dimension three
+  and Cerf's theorem are GeometricTopology 11.2's and 3.4's. The residual finiteness of knot groups
+  and the rigidity of peripheral injections of knot groups are asked of GeometricTopology below
+  (gap:knot-group-residually-finite, gap:knot-group-peripheral-injection).
 - Knot Floer homology is HeegaardFloer's (Layer 7.6); Zemke's injectivity theorem (Zemke 2019,
   Theorem 1.1) is a target of 1.5. The link Floer cobordism maps, their grading shifts, the map
   of a 2-knot in `S⁴` and the detection of the Seifert genus are asked of HeegaardFloer below
@@ -103,10 +104,12 @@ Not owned here:
   determinant `|Δ(−1)|`; section 4.10, the two-bridge knots `K(p, q)`. These are consumed by 1.5
   and 2.1, whose statements need them and are not statable at the pins.
 - Section 5.1, knot exteriors with their meridians and preferred longitudes; section 8.3.1, the
-  relative Waldhausen realization from peripheral group systems to maps of pairs; section 8.1,
-  the extension of a homeomorphism of exteriors over the meridional fillings; sections 11.2 and
-  3.4, the smooth realization of homeomorphisms in dimension three and Cerf's theorem. These are
-  consumed by the proof of 1.4.
+  relative Waldhausen realization from peripheral group systems to maps of pairs; section 8.1, the
+  knot-group theorem (a knot in `S³` with knot group `ℤ` is smoothly ambient isotopic to `unknot`)
+  and the extension of a homeomorphism of exteriors over the meridional fillings; section 8.5.2, the
+  irreducibility, boundary incompressibility and Haken hypotheses of the exterior of a nontrivial
+  knot; sections 11.2 and 3.4, the smooth realization of homeomorphisms in dimension three and
+  Cerf's theorem. These are consumed by the proof of 1.4.
 
 What GeometricTopology must provide (gap:knot-group-residually-finite): for every smooth knot `K`
 in `S³` and base point `x` of its complement, `Group.ResiduallyFinite (K.KnotGroup x)` (Hempel
@@ -334,10 +337,11 @@ injection is an isomorphism. If `K₀` or `K₁` is the unknot, both groups are 
 are smoothly ambient isotopic to the unknot (GeometricTopology 8.1: a knot in `S³` with knot group
 `ℤ` is the unknot), hence to each other; the parametrizations agree up to isotopy because every
 orientation-preserving diffeomorphism of the circle is isotopic to the identity and a rotation of
-`S³` carries the great circle to its reverse. Otherwise both exteriors have incompressible boundary,
-and Waldhausen's realization gives a homeomorphism of the exteriors, which extends over the
-meridional fillings and is smoothed to an ambient isotopy (Agol 2022, Theorem 1.1, through Gordon
-1981, Lemma 3.2).
+`S³` carries the great circle to its reverse. Otherwise both knots are nontrivial, so both exteriors
+are irreducible with incompressible boundary and satisfy the Haken hypotheses of 8.3.1
+(GeometricTopology 8.5.2), and Waldhausen's realization gives a homeomorphism of the exteriors,
+which extends over the meridional fillings and is smoothed to an ambient isotopy (Agol 2022, Theorem
+1.1, through Gordon 1981, Lemma 3.2).
 
 The proof uses two further results, each a target here:
 
@@ -353,9 +357,10 @@ The proof uses two further results, each a target here:
 `TauCeti.SmoothCircleEmbedding.KnotGroup`, `Matrix.specialOrthogonalGroup`, `MvPolynomial.eval`,
 `TauCeti.semialgebraicDim`, `TauCeti.IsSemialgebraic.semialgebraicDim_image_comp_le`;
 GeometricTopology 5.1 (knot exteriors, peripheral markings), 8.3.1 (relative Waldhausen
-realization), 8.1 (a knot with group `ℤ` is the unknot; extension over the meridional filling), 11.2
-and 3.4 (smooth realization, Cerf's theorem); gap:knot-group-residually-finite,
-gap:knot-group-peripheral-injection.
+realization), 8.1 (a knot with group `ℤ` is the unknot; extension over the meridional filling),
+8.5.2 (irreducibility, boundary incompressibility and the Haken hypotheses for the exterior of a
+nontrivial knot), 11.2 and 3.4 (smooth realization, Cerf's theorem);
+gap:knot-group-residually-finite, gap:knot-group-peripheral-injection.
 
 **Checks.**
 
