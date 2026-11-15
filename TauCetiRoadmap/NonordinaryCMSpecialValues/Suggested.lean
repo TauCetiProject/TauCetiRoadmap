@@ -36,9 +36,10 @@ Not statable at the pins:
   Shintani operators, integral theta functions, Finis's local invariant `b_ℓ` and the ordinary
   CM measure with its period-normalised critical moments are missing.
 * Kato's reciprocity law for CM characters (§2.6, Kato 2004, Proposition 15.9), the height-one
-  explicit reciprocity law (§2.5) and the integral BKO class (§2.7): canonical CM pairs over ray
-  class fields, Iwasawa cohomology of `O_{K'}[1/p]` with the CM coefficients `T_φ^∨(1)`,
-  Bloch–Kato dual exponentials and Kato's de Rham period map `per_ψ` are missing.
+  explicit reciprocity law (§2.5) and the BKO class with its integrality where a smoothing factor
+  is a unit (§2.7): canonical CM pairs over ray class fields, Iwasawa cohomology of
+  `O_{K'}[1/p]` with the CM coefficients `T_φ^∨(1)`, Bloch–Kato dual exponentials and Kato's
+  de Rham period map `per_ψ` are missing.
 * Torsion-field disjointness, semilocal splitting, the inert Frobenius and the CM Lubin–Tate
   comparison (§§3.2–3.6): ring class fields are native (`TauCeti.ClassFieldTheory.ringClassField`),
   but the CM curve attached to `φ`, its torsion fields `H(E[p^{n+1}])` and Lubin–Tate formal modules
