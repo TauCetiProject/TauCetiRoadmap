@@ -2079,6 +2079,8 @@ Layer 10; StableReductionPartII §§4.2,4.4,4.8,6.3,6.6–6.7,7.13,7.15; Jacobia
 
 ## Layer 12: A bielliptic family: uniform Manin–Mumford by dynamics
 
+Sections 12.2 and 12.3 bound, uniformly in the curve and in the Weierstrass base point, the torsion points (over ℂ) and the points of small height (over ℚ̄) on the Abel–Jacobi image of a bielliptic genus-two curve. They are the bielliptic cases of §3.6 and §3.5 respectively; the routes given for them are dynamical and pass through the diagonal-lift model of §12.1.
+
 ### 12.1 Bielliptic genus-two curves as lifts of the diagonal
 
 Every smooth genus-2 curve X over ℂ admitting a degree-2 map to an elliptic curve has a model y² = x⁶ − s₁x⁴ + s₂x² − 1 and is the normalization of the lift of the diagonal D ⊆ ℙ¹ × ℙ¹ under π₁ × π₂, for elliptic curves E₁, E₂ with standard projections π_i satisfying |π₁(E₁[2]) ∩ π₂(E₂[2])| = 3, the group laws taken with origins O_i over a common branch value r. There are a Weierstrass point Q of X and an isogeny Φ : J(X) → E₁ × E₂ of degree 4 with Φ(j_Q(X)) = `(π₁ × π₂)^{-1}(D)`; the non-zero elements of ker Φ are the differences of the two Weierstrass points over each common branch value. (dky-2020, Proposition 9.1, §§9.1–9.2, pp. 994–996).
@@ -2094,9 +2096,7 @@ One proof route is the following. Construct the Jacobi model directly: the biell
 
 *Needs:* AlgebraicCurves Layers 10–11; JacobianChallenge Layer F; ArithmeticDynamics §§6.57–6.64, 6.93, 6.110–6.112.
 
-### 12.2 Uniform torsion and small-height counts for bielliptic genus-two curves
-
-This section bounds, uniformly in the curve and the Weierstrass base point, the torsion points (§12.2) and the points of small height (§12.3) on the Abel–Jacobi image of a bielliptic genus-two curve, both through the diagonal-lift model of §12.1. These two counts are the worked bielliptic case and are compared with the general uniform theorems of §§3.5–3.6.
+### 12.2 Uniform Manin–Mumford for bielliptic genus-two curves
 
 There is a uniform B such that |j_P(X) ∩ J(X)_tors| ≤ B for every smooth bielliptic genus-2 curve X over ℂ and every Weierstrass point P of X, where j_P is the Abel–Jacobi embedding based at P. (dky-2020, Theorem 1.1, p. 950; §9.3, p. 996).
 
@@ -2111,7 +2111,9 @@ One proof route is the following. A common x-coordinate has at most four lifts t
 
 *Needs:* §12.1; ArithmeticDynamics §§6.57–6.64, 6.93, 6.110–6.112; §3.6.
 
-**12.3 Uniform Bogomolov for bielliptic genus-two curves.** There are B and b > 0 such that |{x ∈ j_P(X)(ℚ̄) : `ĥ_{L_X}(x)` ≤ b}| ≤ B for every smooth genus-2 curve X over ℚ̄ with a degree-2 map to an elliptic curve and every Weierstrass point P, where L_X = Φ^*L_D for the isogeny Φ : J(X) → E₁ × E₂ of the diagonal-lift proposition and D = {O₁} × E₂ + E₁ × {O₂}. (dky-2020, Theorem 1.10, p. 953; §9.4, p. 997).
+### 12.3 Uniform Bogomolov for bielliptic genus-two curves
+
+There are B and b > 0 such that |{x ∈ j_P(X)(ℚ̄) : `ĥ_{L_X}(x)` ≤ b}| ≤ B for every smooth genus-2 curve X over ℚ̄ with a degree-2 map to an elliptic curve and every Weierstrass point P, where L_X = Φ^*L_D for the isogeny Φ : J(X) → E₁ × E₂ of the diagonal-lift proposition and D = {O₁} × E₂ + E₁ × {O₂}. (dky-2020, Theorem 1.10, p. 953; §9.4, p. 997).
 
 Throughout this subsection, X bielliptic of genus 2 over ℚ̄; P Weierstrass.
 
