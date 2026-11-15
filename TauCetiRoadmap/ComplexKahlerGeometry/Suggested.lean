@@ -5,6 +5,7 @@ public import TauCeti.Algebra.Module.ZLattice.Quotient
 public import TauCeti.AlgebraicTopology.Cohomology.IntegralCup
 public import TauCeti.Geometry.Manifold.Algebra.Quotient
 public import TauCeti.Geometry.Manifold.Complex.AlmostComplexStructure
+public import TauCeti.Geometry.Manifold.Complex.StructureSheaf.Domain
 public import TauCeti.Geometry.Manifold.DeRham.Wedge
 public import TauCeti.Geometry.Manifold.DifferentialForm.AlmostComplexType
 public import TauCeti.Geometry.Manifold.DifferentialForm.Dolbeault.Basic
@@ -294,11 +295,11 @@ theorem isRegularLocalRing_holomorphicStalk (x : M) :
         Module.finrank ℂ E := by
   sorry
 
-/-- **The ring of holomorphic germs is factorial** (Demailly, Chapter II, (2.10)): it is a domain
-in which every nonzero germ factors into irreducible germs, uniquely up to units and order. -/
+/-- **The ring of holomorphic germs is factorial** (Demailly, Chapter II, (2.10)): in this
+domain (Tau Ceti's `smoothStalkIsDomain`) every nonzero germ factors into irreducible germs,
+uniquely up to units and order. -/
 theorem uniqueFactorizationMonoid_holomorphicStalk (x : M) :
-    ∃ _ : IsDomain ((smoothSheafCommRing 𝓘(ℂ, E) 𝓘(ℂ) M ℂ).presheaf.stalk x),
-      UniqueFactorizationMonoid ((smoothSheafCommRing 𝓘(ℂ, E) 𝓘(ℂ) M ℂ).presheaf.stalk x) := by
+    UniqueFactorizationMonoid ((smoothSheafCommRing 𝓘(ℂ, E) 𝓘(ℂ) M ℂ).presheaf.stalk x) := by
   sorry
 
 /-- K3's Hartogs extension across a point (Demailly, Chapter I, (3.28)): on a complex manifold of
