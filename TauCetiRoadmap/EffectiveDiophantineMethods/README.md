@@ -85,7 +85,7 @@ closed and outward-rounded. Overlap alone does not in general prove equality of 
 real intervals and complex boxes with both widths zero determine their enclosed value. An exact
 algebraic value lives in an existing algebraic closure with a selected embedding; a datum adds
 a nonzero squarefree polynomial and an isolating interval, box or disc for that value. The principal
-complex argument lies in (`-π,π`]; numerical branch boxes avoid the closed negative real axis, and the
+complex argument lies in `(−π, π]`; numerical branch boxes avoid the closed negative real axis, and the
 fixed logarithm of -1 is `iπ` when it appears separately in a linear form.
 
 Write `ord_π(0)=+∞, ord_π(π)=1` and `e=ord_π(p)` in a finite extension of `Q_p`. Normalised `ord_p` is
@@ -142,26 +142,26 @@ identify topics; this order specifies which results are available to each target
 Use Mathlib at 1b1ccf4b088b32fa3f23f2de1127433254a81e1e and Tau Ceti at
 2fd255d997f47c0b5d834ee416c7015d55444ce5 for the Lean statements in `Suggested.lean`. The mathematical
 interfaces below also reuse the pinned library results described under scope. Additive quotients
-use QuotientAddGroup, the additive versions of `QuotientGroup.mk'`, map, `map_mk', eq_iff_div_mem`, surjectivity and composition; no private quotient implementation is needed. Finite
+use `QuotientAddGroup`, the additive versions of `QuotientGroup.mk'`, `QuotientGroup.map`, `QuotientGroup.map_mk'` and `QuotientGroup.eq_iff_div_mem`, surjectivity and composition; no private quotient implementation is needed. Finite
 enumerations use `Finset.filter`, image, `biUnion`, and the corresponding membership and
 cardinality theorems. Subgroup index, map, comap and index-power membership have their native
 meanings; the natural index is zero for infinite index, so finiteness hypotheses are essential
 whenever index is used quantitatively.
 
-For algebraic input use `PowerBasis.lift, PowerBasis.liftEquiv', NumberField.Embeddings.range_eval_eq_rootSet_minpoly`, minpoly, `Matrix.charpoly, Algebra.leftMulMatrix, Polynomial.primPart` and Mahler measure. The arbitrary-element
+For algebraic input use `PowerBasis.lift`, `PowerBasis.liftEquiv'`, `NumberField.Embeddings.range_eval_eq_rootSet_minpoly`, `minpoly`, `Matrix.charpoly`, `Algebra.leftMulMatrix`, `Polynomial.primPart` and Mahler measure. The arbitrary-element
 characteristic-polynomial tower identity in §0.10 is an additional target; the identity for a
 power-basis generator alone does not supply it. Number-field height and denominator interfaces are
-`NumberField.mulHeight₁_eq, natDenominator_le_mulHeight₁, Algebra.discr_mul_isIntegral_mem_adjoin` and `Algebra.isIntegral_natDenominator_smul`.
+`NumberField.mulHeight₁_eq`, `NumberField.natDenominator_le_mulHeight₁`, `Algebra.discr_mul_isIntegral_mem_adjoin` and `Algebra.isIntegral_natDenominator_smul`.
 `NumberField.finite_setOfPred_mulHeight₁_le` gives finiteness; §0.11 supplies an explicit finite
-coordinate cover. `hensels_lemma, PadicInt.appr, appr_spec, appr_lt, Padic.norm_eq_zpow_neg_valuation` and Dedekind height-one-prime valuations supply the existing
+coordinate cover. `hensels_lemma`, `PadicInt.appr`, `PadicInt.appr_spec`, `PadicInt.appr_lt`, `Padic.norm_eq_zpow_neg_valuation` and Dedekind height-one-prime valuations supply the existing
 analytic and valuation carriers. `Real.exists_rat_eq_convergent` supplies Legendre's implication for
 the exhaustive continued-fraction search.
 
 For a nonsingular characteristic-not-two normal-form Weierstrass curve, use the actual
-`WeierstrassCurve.Affine.μ, M, normM, localRes, localCondition, selmerGroupA` and
-`selmerGroup₂`; in particular `ker_μ_eq, range_μ_le_selmerGroupA, range_μ_le_ker_normM, range_μ_le_selmerGroup₂, mem_selmerGroup₂_iff, card_range_μ, pow_rank_le_card_of_range_μ_le, card_ker_nsmul_two`, `fg_point_of_numberField` and its instance form `moduleFinite_point_of_numberField`. Their hypotheses and exceptional points are
+`WeierstrassCurve.Affine.μ`, `M`, `normM`, `localRes`, `localCondition`, `selmerGroupA` and
+`selmerGroup₂`; in particular `ker_μ_eq`, `range_μ_le_selmerGroupA`, `range_μ_le_ker_normM`, `range_μ_le_selmerGroup₂`, `mem_selmerGroup₂_iff`, `card_range_μ`, `pow_rank_le_card_of_range_μ_le`, `card_ker_nsmul_two`, `fg_point_of_numberField` and its instance form `moduleFinite_point_of_numberField`. Their hypotheses and exceptional points are
 retained by every adapter. The finite good-place reverse inclusion is the extra theorem in §3.5. For
-heights use `WeierstrassCurve.Affine.Point.canonicalHeight, naiveHeight, canonicalHeight_nsmul, naiveHeight_eq_logHeight₁, abs_canonicalHeight_sub_naiveHeight_le, neronTatePairing, neronTateGramMatrix`, PointModTorsion and `regulator_eq_abs_det_neronTateGramMatrix`. The
+heights use `WeierstrassCurve.Affine.Point.canonicalHeight`, `naiveHeight`, `canonicalHeight_nsmul`, `naiveHeight_eq_logHeight₁`, `abs_canonicalHeight_sub_naiveHeight_le`, `neronTatePairing`, `neronTateGramMatrix`, `PointModTorsion` and `regulator_eq_abs_det_neronTateGramMatrix`. The
 existential bounded-height difference is input infrastructure; §3.12 supplies explicit constants and
 §3.13 finite error intervals.
 
@@ -176,8 +176,8 @@ complete ultrametric field and positive-radius hypotheses. Series evaluation is
 the closed disc of a restricted series. No second logarithm, Gauss-norm maximum, evaluation or
 preparation construction is requested.
 
-From GeometryOfNumbersAndQuadraticArithmetic §5.1 use `lllCoefficient`, IsLLLReduced,
-its size and Lovász inequalities, §5.1.3's Gram–Schmidt growth and `lll_short_vector_factor (§5.1.4)`. Supply integer matrices U,V with `UV = VU = I` whenever a basis is changed;
+From GeometryOfNumbersAndQuadraticArithmetic §5.1 use `lllCoefficient`, `IsLLLReduced`,
+its size and Lovász inequalities, §5.1.3's Gram–Schmidt growth and `lll_short_vector_factor` (§5.1.4). Supply integer matrices U,V with `UV = VU = I` whenever a basis is changed;
 reducedness of AU is a hypothesis. No reduction routine or termination theorem is consumed.
 
 From HeightsRationalPointsAndObstructions §§1.17–1.19 use the local doubling index,
@@ -218,7 +218,7 @@ genus-one torsor argument needed for quartic models is given in §3.9.
 From EllipticCurves Layer 4 (local reduction and formal groups): Over `ℚ_p`: the point-level reduction map `E(ℚ_p) → Ẽ_ns(𝔽_p)` on a minimal model as a group homomorphism on `E₀(ℚ_p)`, the finite index of `E₀(ℚ_p)`, and
 `E₁(ℚ_p) ≅ Ê(pℤ_p)` with the formal logarithm giving `Ê(p^rℤ_p) ≅ ℤ_p` for `r ≥ 2`.
 
-From EllipticCurves Layer 6 (Mordell–Weil): Mordell–Weil over `ℚ (fg_point_of_numberField)`, the Lutz–Nagell integrality of torsion points on integral models, and
+From EllipticCurves Layer 6 (Mordell–Weil): Mordell–Weil over `ℚ` (`fg_point_of_numberField`), the Lutz–Nagell integrality of torsion points on integral models, and
 injectivity of `E(ℚ)_tors → Ẽ_ns(𝔽_p)` at good odd primes p.
 
 From EllipticCurves Layer 7 (Selmer groups and Sha): The cohomological
@@ -288,7 +288,10 @@ valuation ring `R` with geometrically connected fibres (in particular `R = ℤ_(
 abelian scheme over `R` whose generic fibre is the Jacobian of `𝒞_K` and whose special fibre is the
 Jacobian of `𝒞_k`; and for a horizontal relative divisor `𝒟` of degree zero on `𝒞` the class of `𝒪(𝒟)` in
 `Pic⁰(R)` restricts to `[𝒟_K]` and `[𝒟_k]`. This is the smooth case of §3.8's degree-zero Picard of a
-semistable curve, over a general DVR rather than a strictly henselian one.
+semistable curve, over a general DVR rather than a strictly henselian one. From §1.7 use the
+finite-type Néron model of an abelian variety over the fraction field of a discrete valuation
+ring (§4.2), and from §1.8 that an abelian scheme over a discrete valuation ring is the Néron
+model of its generic fibre (§5.11).
 
 From HeightsRationalPointsAndObstructions Layer 0: The Néron–Tate canonical height `ĥ` on `A(K)` for an
 abelian variety `A` over a number field `K` with a symmetric ample class (for Jacobians, the theta
@@ -313,6 +316,9 @@ paragraph *Coleman and abelian logarithm comparison*: the Coleman integral of a 
 from the base point equals the pairing of the corresponding invariant differential with the
 logarithm of the Abel–Jacobi image, with its base-point change law and its finite-extension and
 `ℂ_p` evaluation laws. Section 4.6 specializes that equality to the numerical data here.
+From §5.6 use Strassmann's bound on a compact residue chart, from §5.10 the Mordell–Weil
+logarithmic span of `J(F)` at a place of good reduction with its dimension bound and annihilator,
+and from §5.11 classical Chabauty finiteness when `rank J(ℚ) < g`.
 
 From AnabelianGeometryAndNonabelianChabauty §§6.1–6.8: consume the following geometric interfaces: (a) quadratic Chabauty pairs and
 the determinant criterion (BDMTV §1.4 (5), Lemma 1.5), with the K-equivariant variant replacing `E` by
@@ -350,7 +356,12 @@ plane-curve Frobenius lift `φ` on the weak completion of a model satisfying Tui
 compatibility and the identification needed by the local-height formulas. Concrete
 Frobenius, coefficient and integral tables are explicit hypotheses of the Layer 6 applications.
 
-From ModularCurvesPartII §9.5 use `X_s(ℓ) ≅ X_0(ℓ²)/w_{ℓ²}` over `Q`. Section 9.6 supplies
+From ModularCurvesPartII §5.11 use the bijection between the cusps of `X_H` over an algebraically
+closed field of characteristic prime to the level and the double cosets `⟨±u⟩\GL₂(ℤ/n)/H̄`; from §6.1
+the isomorphism of a compact modular curve over `ℂ` with its analytic quotient `Γ\(ℍ ∪ ℙ¹(ℚ))`;
+from §6.2 the ramification index `w′/w` of a level map at a cusp; and from §9.4 the Atkin–Lehner
+involution `w_d` of `X₀(N)` for an exact divisor `d` of `N`, the Fricke involution being `w_N`.
+Section 9.5 supplies `X_s(ℓ) ≅ X_0(ℓ²)/w_{ℓ²}` over `Q`. Section 9.6 supplies
 the coarse curve `X_H` for the Cartan levels and for the subgroup of `GL₂(𝔽₁₃)` whose projective
 image is `S₄`, and a rational cusp of `X_s(ℓ)`; §9.7 supplies the rational-point/Galois-image
 criterion for `j∉{0,1728}`, and that the fibres of `X_s(13)` over `j = 0` and `j = 1728` contain
@@ -385,7 +396,40 @@ Sections 6.17 and 6.22 use it at primes not dividing the level.
 From ColemanIntegration §§L0.10, L0.13 and L0.17 use the identity of the principal-unit p-adic
 logarithm with `Σ(k≥1)(−1)^(k+1)(z−1)^k/k` on each finite extension of `Q_p` (L0.10), its additivity
 on principal units (L0.13) and its compatibility with finite extensions (L0.17). The pinned `TauCeti.NumberTheory.LocalField.Logarithm` supplies principal-unit convergence. Section 2.6 owns only the explicit finite-tail and
-precision-loss bounds, not logarithm foundations.
+precision-loss bounds, not logarithm foundations. From §§L0.2–L0.8 use the normalised formal
+primitive of a power series, its uniqueness given the constant term, the radius-loss estimate for
+termwise integration and the primitive with chosen base value on an open disc. From §§L1.1–L1.20
+use the good-reduction pair of a curve and an étale divisor (§L1.1), residue discs as open discs
+(§L1.3), Frobenius lifts and Teichmüller points (§§L1.5–L1.6), the lemma that products of Weil
+numbers of positive weight are not roots of unity (§L1.8), the Frobenius datum of a good-reduction
+pair (§L1.9), local horizontal sections and Frobenius on the word algebra (§§L1.14–L1.15), the
+Coleman integral (§L1.19) and its characterisation by Frobenius equivariance (§L1.20).
+
+From DiophantineApproximationAndTranscendence §§0.1–0.3 use the primitive minimal polynomial,
+the absolute and relative heights of algebraic numbers and the height size estimates. From §3.6
+use `matveev`, Matveev's explicit lower bound for a nonzero linear form in logarithms; from §3.7
+Yu's explicit upper bound `yu` for the `𝔭`-adic valuation of `α_1^{b_1}⋯α_n^{b_n} − 1`, with
+`yuValuationAdapter`, its rational form `yu_rat`, the one-factor bound `yuOneFactorBound` and the
+multiplicative power-law adapter. From §4.1 use the rational S-units (`sUnits_rat_mulEquiv`) and
+the bounded divisor representatives `boundedDivisors` with `exists_mem_boundedDivisors_of_dvd`;
+from §4.3 the unit-equation exponent bound, the reduction of a Thue equation to unit equations
+through three distinct zeros (the Siegel identity), the monic reduction and the effective Thue
+bound; from §4.4 `baker_superelliptic`, Baker's bound for the integral solutions of
+`b·y^n = f(x)`; from §4.5 effective finiteness for S-unit and Thue–Mahler equations, the coprime
+S-unit reduction and the S-unit exponent bound. Layers 0, 2, 5 and 6 use them as stated there.
+
+From NewtonPolygons §3.4 use that a perturbation with `‖f − g‖_r < ‖f‖_r` of a series restricted
+at `r` keeps its Gauss norm and its active indices, and from §4.3 the analytic multiplicity of a
+zero and the exact counts, with multiplicity, of the zeros in the closed disc, the open disc and
+the boundary circle over a complete extension in which the disc polynomial splits (`ℂ_p` in
+particular), with their invariance under such a perturbation. From RestrictedPowerSeries §2.2 use
+the translation `X ↦ X + a` with `‖a‖ ≤ r`, an isometric automorphism of the series restricted at
+`r`, and the affine changes of disc coordinate. Section 6.16 uses them.
+
+From EllipticCurves Layers 1–2 use isogenies with their degrees and duals, the Frobenius isogeny,
+and the `n`-torsion `E[n]`, of order `n²` in characteristic prime to `n` (§§3.9, 6.30). From AlgebraicCurves Layer 7
+use the Hurwitz genus formula (§6.30), from Layer 9 residues of differentials (§6.19), and from
+Layer 10 the canonical divisor of a smooth plane curve (§6.19).
 
 ### Explicit application inputs
 
@@ -544,7 +588,7 @@ casting the endpoints to `ℝ`. Represent complex boxes by pairs of such interva
 membership of the real and imaginary parts. Represent p-adic balls by `(c, N)`; the ultrametric
 inequality shows that the ball of `(c, N)` equals the ball of the canonical normalized record
 described above (the residue `s ≡ c·p^(−v)` modulo `p^(N−v)` changes the centre by an element of `norm ≤ p^(−N)`). Width, precision and membership are decidable rational comparisons, which is what de
-Weger's two-sided rounding `(§2.5)` achieves by hand.
+Weger's two-sided rounding (§2.5) achieves by hand.
 
 **Checks.**
 
@@ -662,8 +706,6 @@ carriers. Certify `Re` and `Im` using §0.2 and use coordinate refinements to bo
 - [−2, 2] is not an isolating interval for `X² − 2`: it contains `±√2`.
 - The refinement of `I` at level `n` is a RealEnclosure of `r` of width at most `2^(−n)·width(I)`.
 - The zero polynomial has no isolation, not even on a singleton interval `[a, a]`, which contains exactly one root of 0: an isolation requires `g ≠ 0`.
-- For `X²−2` on [1,2], `[11/8,3/2]` is an admissible precision 3 refinement; no claim of a canonical algorithm result is made.
-- For X−1/2 on [0,1], the singleton [1/2,1/2] is an admissible refinement at every precision.
 
 ([de Weger (1989)](https://ir.cwi.nl/pub/13190), §2.5, printed p. 34; [de Weger
 (1989)](https://ir.cwi.nl/pub/13190), §2.5, printed pp. 32–33.)
@@ -883,7 +925,6 @@ uniformiser is `WithZero.exp(−1)`. Product rule: `σ(αβ) − cc′ = σ(α)(
 - In `Q(√3)`, the prime above 3 has residue degree 1 and ramification index 2. It admits no embedding into `Q_3`, since an element squaring to 3 would have valuation 1/2. A residue-degree-one test alone cannot supply this datum.
 
 - For `K = ℚ` (minimal polynomial `X − 1`, `a = 1`), `p = 3` and `α = 18`, the enclosure `(18, 3)` certifies valuation `2 = padicValRat 3 18`.
-- For `X² − 2` at `p = 7` with `a = 3`, the enclosure `(7, 2)` of `σ_a(θ − 3)` certifies `v_7(σ_a(θ − 3)) = 1`.
 - The enclosure `(1, 1)` of `σ_a(1)` certifies valuation 0.
 - At `p = 7` the enclosure `(0, 2)` of 49 is not a valuation datum although `49 ≠ 0`: its centre is 0.
 - For `X² − 2` at `p = 7`, `a = 3`: `v_7(σ_a(θ − 3)) = 1` and `v_7(σ_a(θ − 10)) = 2`, from the enclosures `(7, 2)` and `(98, 3)` of `σ_a(θ − 3)` and `σ_a(θ − 10)`.
@@ -1046,13 +1087,11 @@ representative, `Height.mulHeight_smul_eq_mulHeight`), and `Height.logHeight ![x
 
 **Checks.**
 
-- For `L = ℚ, D = 2` and `τ = 1/2: S_< = {0, 1, −1}` and `S_≈ = {2, −2, 1/2, −1/2}; T` has 8 points of `ℙ¹(ℚ)`.
-- For `L = ℚ(i), D = 1: S_< = ∅` and `S_≈ = {0, 1, −1, i, −i}`, the elements of height exactly 1.
+- For `L = ℚ, D = 2` and `τ = 1/2`: `S_< = {0, 1, −1}` and `S_≈ = {2, −2, 1/2, −1/2}`; `T` has 8 points of `ℙ¹(ℚ)`.
+- For `L = ℚ(i)`, `D = 1`: `S_< = ∅` and `S_≈ = {0, 1, −1, i, −i}`, the elements of height exactly 1.
 - Restricting step (4) to `c = 1` misses `x = 1/2` for `L = ℚ` and `D = 2`, so the denominators `c ≤ D` are needed.
 - `[1 : 0] ∈ T` for every `D ≥ 1`, since `Height.logHeight ![1, 0] = 0`.
 - For `L = ℚ` and `D = 3` the union `S_< ∪ S_≈` contains `{x : ℚ | mulHeight₁ x ≤ 3}`, which has 15 elements (7 integers, 4 with denominator 2, 4 with denominator 3).
-- For `L = ℚ` and `D = 2` the output covers exactly the seven elements `0, ±1, ±2, ±1/2` and `T` has eight points of `ℙ¹(ℚ)`.
-- For `L = ℚ(i)` and `D = 1` the result is `{0, ±1, ±i}` (Kronecker: height 1 means 0 or a root of unity).
 
 ([J. R. Doyle, D. Krumm](https://arxiv.org/abs/1111.4963), Abstract (arXiv v4 p. 1); [J. R. Doyle,
 D. Krumm](https://arxiv.org/abs/1111.4963), §5, Theorem 5.1 (Pethő–Schmitt) (arXiv v4 p. 15); [J. R.
@@ -1173,7 +1212,7 @@ exactly when `|b_1| > √((q² + q − 1)·2^(q−1))·K_3`) it is Tzanakis–de
 
 Work under the following conditions. Setting of §1.1 with `β = 0`. `L` is any exact lower bound for
 the nonzero vectors of `Γ, e.g`. `2^(−(n−1)/2)‖c_0‖` for an LLL-reduced basis
-(GeometryOfNumbersAndQuadraticArithmetic §5.1) or one read from a Fincke–Pohst enumeration `(§1.8)`.
+(GeometryOfNumbersAndQuadraticArithmetic §5.1) or one read from a Fincke–Pohst enumeration (§1.8).
 
 *Proof sketch.* `x ≠ 0` and `det A ≠ 0` give `A x ≠ 0`, so `‖Ax‖² ≥ L²`. `‖Ax‖² = Σ_{i<n} W_i²x_i² + Λ̃(x)² ≤ Σ_{i<n} W_i²X_i² + Λ̃(x)²`, hence `|Λ̃(x)| ≥ Σ_i X_i + μ`. `C|Λ(x)| ≥ |Λ̃(x)| − |Λ̃(x) − CΛ(x)| ≥ Σ_i X_i + μ − Σ_i |x_i| ≥ μ`. If `|Λ(x)| < c·exp(−δX)` with `X = max|x_i|`, then `μ ≤ C|Λ(x)| < cC·exp(−δX), i.e`. `X < (1/δ)log(cC/μ)`.
 
@@ -1247,10 +1286,9 @@ and c p-integral, `β_j^(m)` is the residue of c modulo `p^m` in `[0, p^m − 1]
 
 - `p = 3, m = 1, n = 2, W = (1, 1), β_1 = 0, β_0 = 1: Γ_1 = ℤ × 3ℤ, y_1 = (0, −1)`, and `b = (0, 1)` has `Λ′(b) = 0` and `(b_1, b_2) + y_1 = (0, 0) ∈ Γ_1`.
 - In the same data, the translate with `y = (0, +1)` (the printed sign of de Weger's Lemma 3.15) characterises `b_2 ≡ 2 (mod 3)`, not `3 ∣ Λ′(b) ⇔ b_2 ≡ 1 (mod 3)`.
-- `m = 0: A_0 = diag(W_1, …, W_n)` up to the last row `W_n(0, …, 0, 1), Γ_0 = ⊕_j W_jℤ`, and every b satisfies `p^0 ∣ Λ′(b)`.
+- `m = 0`: `A_0 = diag(W_1, …, W_n)` up to the last row `W_n(0, …, 0, 1)`, `Γ_0 = ⊕_j W_jℤ`, and every b satisfies `p^0 ∣ Λ′(b)`.
 - `n = 1`: `Γ_m = W_1p^mℤ` and the characterisation says `b_1 ≡ β_0 (mod p^m)`, i.e. `b_1 ≡ PadicInt.appr β_0 m`.
 - Tzanakis–de Weger 1992, §15E: for `p_1 = 2, m = 1152` and `W_j = 1` the six-dimensional lattice `Γ_m` has `det = 2^1152`.
-- `p = 3, m = 1, β_1 = 0, β_0 = 1: Γ_1 = ℤ × 3ℤ` and `y_1 = (0, −1)`.
 
 ([N. Tzanakis, B. M. M. de Weger](http://www.numdam.org/item/CM_1992__84_3_223_0/), §15, printed p.
 260; [de Weger (1989)](https://ir.cwi.nl/pub/13190), §3.11, Lemma 3.13, printed p. 64; [de Weger
@@ -1334,7 +1372,7 @@ Distance consequences: if this set is empty then `‖v − y‖² > R` for every
 the set is {0} then `‖v‖² > R` for every nonzero `v ∈ Γ`; in general every `v ∈ Γ` satisfies
 `‖v − y‖² ≥ min({R} ∪ {(x − t)ᵀG(x − t) : x in the set})`.
 
-Work under the following conditions. `G` positive definite symmetric `(§1.7); t ∈ ℚ^n; R ∈ ℚ`. In the
+Work under the following conditions. `G` positive definite symmetric (§1.7); `t ∈ ℚ^n`; `R ∈ ℚ`. In the
 lattice form A is a nonsingular integer matrix.
 
 *Proof sketch.* `‖Ax − y‖² = (x − t)ᵀAᵀA(x − t)`, and `x ↦ A x` is a bijection `ℤ^n → Γ`, so the two
@@ -1372,7 +1410,7 @@ the stated bound for `X = max|x_i|`; this is de Weger's (3.25).
 
 **Checks.**
 
-- For `θ = (1, √2), C = 100, φ = (100, 141), W_1 = 1, X_1 = X_2 = 3` and `K_0 = 6: R = 9 + 36 = 45`, and every x with `|x_i| ≤ 3` is either an enumerated short vector or satisfies `100|x_1 + x_2√2| > 6 − Σ|x_i| ≥ 0`; the shortest nonzero vector of `Γ` is `A(−7, 5) = (−7, 5)` with squared length `74 > 45`, so `E = {0}`.
+- For `θ = (1, √2), C = 100, φ = (100, 141), W_1 = 1, X_1 = X_2 = 3` and `K_0 = 6`: `R = 9 + 36 = 45`, and every x with `|x_i| ≤ 3` is either an enumerated short vector or satisfies `100|x_1 + x_2√2| > 6 − Σ|x_i| ≥ 0`; the shortest nonzero vector of `Γ` is `A(−7, 5) = (−7, 5)` with squared length `74 > 45`, so `E = {0}`.
 
 ([de Weger (1989)](https://ir.cwi.nl/pub/13190), §3.7, Lemma 3.8 and following paragraph, printed p.
 55.)
@@ -1717,7 +1755,6 @@ follow from `h_j ≥ h_j⁺`, `h_j ≥ |log α_j|⁺/10` and `h_j ≥ ℓ_p⁺`.
 - The datum is not admissible with `h_j = 7/10 (≥ Real.log 2)` at `p = 5` for `α_j = 2`: the condition `h_j ≥ log p` fails, and a definition omitting it would undercut Yu's hypothesis.
 - For rationals the exact `Φ⁺` yields a constant `C = 2Φ⁺ log p` with `|α^b − 1|_p ≥ (eB)^{−C}`, the form of DiophantineApproximationAndTranscendence §3.7 `(yu_rat)`.
 - For `p = 5, n = 2, d = 1, α = (2, 3)`: the least admissible `Φ⁺` at precision `2^{−20}` exceeds `10^{14}`, and the datum records it as an exact rational.
-- The p-adic source (Yu 1994) is registered separately from the archimedean one (Matveev 2000).
 
 ([Kunrui Yu](http://archive.numdam.org/article/CM_1994__91_3_241_0.pdf), §0.1, p. 242.)
 
@@ -1729,7 +1766,7 @@ The headline statement is `ED2.yu_valuation_upper_bound` in `Suggested.lean`,
 using `ED2.yuConstantUpper`. It expresses normalized valuation as
 `−log ‖α^b − 1‖ / log p` in an arbitrary finite normed extension of `Q_p`.
 
-Let `Φ⁺` be the value of a YuConstantData for `(n, d, p) (§2.4)` admissible for nonzero algebraic
+Let `Φ⁺` be the value of a YuConstantData for `(n, d, p)` (§2.4) admissible for nonzero algebraic
 numbers `α_1, …, α_n` of a number field `K, [K : ℚ] ≤ d`, and let `ι : K → L` be a field embedding into a
 finite extension `L` of `ℚ_p`, with `v_p` the valuation of `L` normalised by `v_p(p) = 1`. Then for every `b ∈ ℤ^n ∖ {0}` with `α_1^{b_1}⋯α_n^{b_n} ≠ 1: v_p(ι(α_1^{b_1}⋯α_n^{b_n}) − 1) < Φ⁺·Real.log(d·max(|b_1|, …, |b_n|, 3))`. For `α_j ∈ ℚ` the valuation is `padicValRat p`.
 
@@ -1965,7 +2002,7 @@ The interface includes these statements.
 **Checks.**
 
 - For `g = X³ − 2: F(x, y) = x³ − 2y³`, so `(1, 0)` and `(−1, −1)` lie in `Sol(g, 1)`.
-- For `g = X³ − 2` and `m = 8: (2, 0) ∈ Sol(g, 8)` since `F(2, 0) = 8`, illustrating that solutions need not be primitive.
+- For `g = X³ − 2` and `m = 8`: `(2, 0) ∈ Sol(g, 8)` since `F(2, 0) = 8`, illustrating that solutions need not be primitive.
 - `g = X² − 2` (degree 2) is not a Thue equation: `x² − 2y² = 1` has infinitely many integer solutions `(3, 2), (17, 12)`, ….
 - `g = (X − 1)³` is excluded (reducible): `(x − y)³ = 1` has the infinitely many solutions (t + 1, t).
 - `F(x, y)` agrees with `Σ_{k ≤ n} g.coeff k · x^k · y^{n−k}`, Mathlib's `Polynomial.homogenize` evaluated at `(x, y)`.
@@ -1994,8 +2031,7 @@ any maximal-rank family `u`: `γ := f_0(X − Yξ)` is an algebraic integer (`f_
 DiophantineApproximationAndTranscendence §4.3 (monic Thue reduction)) of `norm f_0^{n−1}m`, it divides its norm in `𝓞_K`, and
 DiophantineApproximationAndTranscendence §4.1 (`exists_mem_boundedDivisors_of_dvd`) writes it as a unit times an element `δ` of `D_u(f_0^{n−1}m)`, with `|N(δ)| = |N(γ)|` because units have `norm ±1`. A list `M` obtained from prime-ideal factorisations (the supplied
 exact prime-ideal-factorization identities and principal generators) satisfies `(M)` by the same
-argument. In the Lean Finset `K` representation, every `μ∈M` must be nonzero, equivalent to
-representatives in `Kˣ`. The construction from divisor representatives requires irreducibility over `Q`, degree `≥3`, `m≠0`, `g(ξ)=0` and `[K:Q]=deg g`, a complete generating unit family, and nonzero representatives `D⊂O_K` for all
+argument. Every `μ ∈ M` is nonzero. The construction from divisor representatives requires irreducibility over `Q`, degree `≥3`, `m≠0`, `g(ξ)=0` and `[K:Q]=deg g`, a complete generating unit family, and nonzero representatives `D⊂O_K` for all
 nonzero divisors of `f₀^(n−1)m` up to association. Prove integrality of `f₀(x−yξ)`, its `norm f₀^(n−1)m`
 and hence divisibility of that constant; set `M={δ/f₀ | δ∈D}`. No covering-of-solutions hypothesis is
 passed to this comparison. The datum pins `r = NumberField.Units.rank K`. Full generation by
@@ -2016,18 +2052,18 @@ The interface includes these statements.
 - ThueFactorCovering: Data: units `ε : Fin r → (𝓞 K)ˣ`, a Finset `M` of `K`; conditions: unit generation (every unit is `±∏ ε_i^{a_i}`) and covering (every solution's `f_0(X − Yξ)` is `f_0μ` times a unit, `μ ∈ M`). The condition `r = NumberField.Units.rank K` fixes the number of generators.
 - For `(X, Y) ∈ Sol(g, m)`: `∃ μ ∈ M`, `∃` a : `Fin r → ℤ`, `∃ s ∈ {±1}`, `X − Yξ = s·μ·∏ ε_i^{a_i}`.
 - Construct the covering from the explicit irreducible degree/root/field-degree/nonzero-m hypotheses, complete divisor representatives and unit generation specified in the statement; derive the norm and divisibility bridge. The input unit family has exactly `rank(K)` generators.
-- Condition `(U)` from explicit supplied class/unit/factorization data's regulator datum for `ε`.
+- Condition `(U)` from the regulator inequality `regOfFamily < 2·regulator` of the supplied unit data for `ε`.
 - Enlarge `M` only to a finite M′ all of whose representatives remain nonzero.
 - After reindexing `ε` using `r = NumberField.Units.rank K`, its logarithmic images are linearly independent over `ℝ`; derive from full generation and the pinned finite-index criterion.
 - For a complete covering `(ε, M)` with `M = ∅`, `Sol(g, m) = ∅`. No representative minimum or maximum is formed.
 
 *Proof sketch.* With `n=deg g` and `K=Q(ξ), z=f₀(x−yξ)` is integral, `Norm(z)=f₀^(n−1)m≠0`, and z divides
-its integer norm. Apply D-completeness, divide by nonzero `f₀` and use the unit family. This is the
-comparison, independent of the desired covers field. `N_{K/ℚ}(X − Yξ) = ∏_i (X − Yξ^{(i)}) = F(X, Y)/f_0 = m/f_0`, hence `N(f_0(X − Yξ)) = f_0^{n−1}m`. An algebraic integer `γ ≠ 0` of `K` divides `N(γ)` in `𝓞_K` (the
+its integer norm. Apply D-completeness, divide by nonzero `f₀` and use the unit family.
+`N_{K/ℚ}(X − Yξ) = ∏_i (X − Yξ^{(i)}) = F(X, Y)/f_0 = m/f_0`, hence `N(f_0(X − Yξ)) = f_0^{n−1}m`. An algebraic integer `γ ≠ 0` of `K` divides `N(γ)` in `𝓞_K` (the
 cofactor is the product of the other conjugates, an algebraic integer lying in `K`). Apply
 DiophantineApproximationAndTranscendence §4.1 `(exists_mem_boundedDivisors_of_dvd)` to `γ | f_0^{n−1}m` and keep the representatives `δ` with `|N(δ)| = |f_0^{n−1}m|` (a unit has `norm ±1`, so the sign of `N(δ)` is not determined); combine with `(U)` to write
 the unit as `±∏ε_i^{a_i}`. The subgroup generated by `ε` has index at most two by `(U)`. With `r = rank K, NumberField.Units.isMaxRank_iff_closure_finiteIndex` gives independent logarithmic images and hence
-invertible logarithmic coordinate minors. If `M` is empty, its covers field contradicts the existence
+invertible logarithmic coordinate minors. If `M` is empty, condition `(M)` contradicts the existence
 of any solution. Return the empty solution set before constructing covering-dependent constants.
 
 **Checks.**
@@ -2039,8 +2075,7 @@ of any solution. Return the empty solution set before constructing covering-depe
 - For `ε := NumberField.Units.fundSystem K`, condition `(U)` is Mathlib's `NumberField.Units.exist_unique_eq_mul_prod` with torsion `K = {±1}`.
 - No ThueFactorCovering admits `0∈M`.
 - If `Units.rank K = 1`, no covering can have `r = 2`, including a family `(ε,ε)`. Such a redundant family admits arbitrary cancelling exponent pairs and cannot support the claimed exponent bound.
-- A complete covering with `M = ∅` forces `Sol(g, m) = ∅` by its covers field; the solution set is empty before taking any extrema over `M`.
-- For `g = X³ − 2` and `m = 1` the covering (`{∛2 − 1}, {1}`) satisfies `(U)` and `(M)`.
+- A complete covering with `M = ∅` forces `Sol(g, m) = ∅` by condition `(M)`; the solution set is empty before taking any extrema over `M`.
 
 ([Tzanakis–de Weger (1989)](https://ris.utwente.nl/ws/files/6560439/Tzanakis89on.pdf), §II.1, p.
 106.)
@@ -2067,9 +2102,7 @@ interval products, §0.4), n-th roots by comparing integer powers `(Ŷ^n ≥ q)`
 in the interval matrix enclosing `U_I`, `U_I` is invertible and `N[U_I^{−1}] ≤ ‖V‖_∞/(1 − ρ)`. Every
 constant is thereby an exact rational bound in the direction in which the lemmas use it; no
 unrounded real number is stored. The constants have separate no-real-root, empty-covering and
-nonempty-real-root alternatives. ThueBoundParameters is only the supporting partial mathematical record
-used by the scalar lemmas; it does not certify `c4,c5` or `μ±` without the explicit covering
-inequalities. The hypotheses include all unit, representative, root and logarithm enclosures, not
+nonempty-real-root alternatives. The hypotheses include all unit, representative, root and logarithm enclosures, not
 merely `g,m` and a precision.
 
 Work under the following conditions. The boxes isolate the `n` distinct roots of `g` (irreducible, hence
@@ -2095,16 +2128,15 @@ The interface includes these statements.
 - The root-separation bound divided by the minimum embedded representative modulus for the specified covering.
 - The inverse unit-log-matrix bound for the specified covering, with `rows=embeddings` and `columns=units`.
 - `μ_+`: the maximum modulus over every embedding of every covering representative.
-- ThueBoundParameters: Supporting root/threshold inequalities and scalar parameters, with c4,c5 and `μp` supplied to downstream covering bounds as explicit hypotheses. This is not the full ThueConstants carrier.
-- Weaken c1 alone in ThueBoundParameters, supplying the affected Y1,Y1* and c6 inequalities. It makes no claim to the full coupled monotonicity interface.
-- The supporting real expression `||V||∞/(1−ρ)`.
+- ThueBoundParameters: the scalar constants of a ThueConstants datum with their root and threshold inequalities, the covering constants `ĉ_4`, `ĉ_5` and `μ̂_±` being hypotheses of the lemmas that use them.
+- Replacing `ĉ_1` alone by a larger rational gives ThueBoundParameters whenever the inequalities for `Ŷ_1`, `Ŷ_1*` and `ĉ_6` that involve `ĉ_1` hold for the new value.
 
 *Proof sketch.* Dispatch the no-real-root and empty-covering branches before forming `C1,C5` or `μ±`. In
 the remaining branch `M` is finite nonempty and every embedded representative is nonzero, so `μ−` exists
 and is positive. Interval evaluation: `g′(ξ^{(i)})` and the differences of roots lie in the rational
 boxes obtained by evaluating `g′` and `z − w` on the boxes; lower bounds of moduli come from the box
 nearest to 0, upper bounds from the farthest corner. Approximate inverse: in the normed ring of `r×r`
-real matrices with the `∞`-operator `norm` (`Matrix.linftyOpNormedRing, Matrix.linfty_opNorm_def`: the
+real matrices with the `∞`-operator norm (`Matrix.linftyOpNormedRing`, `Matrix.linfty_opNorm_def`: the
 norm is the maximal absolute row sum), `‖1 − VU‖ ≤ ρ < 1` makes `VU = 1 − (1 − VU)` a unit with inverse
 `Σ(1 − VU)^k` (`Units.oneSub`) of `norm ≤ (1 − ρ)^{−1} (tsum_geometric_le_of_norm_lt_one)`, so `U^{−1} = (VU)^{−1}V` has `norm ≤ ‖V‖/(1 − ρ)`; `‖1 − VU‖` is bounded over the interval matrix by interval
 arithmetic. Separability, nonzero representatives and invertible selected minors give strict
@@ -2120,7 +2152,6 @@ existence at sufficiently small enclosure widths.
 - For `s = 0` (no real root, e.g. `g = X⁴ + X + 1`) `C_1` and `C_5` are not formed; the datum consists of `Ŷ_0` only and every solution has `|Y| ≤ Ŷ_0`.
 - With `U_I = ((2, 1), (0, 1))` (rows = embeddings), the row-sum norm of `U_I^{−1} = ((1/2, −1/2), (0, 1))` is 1, while that of `(U_I^T)^{−1}` is `3/2`: the transposed convention gives a different `C_5`, and the datum fixes rows = embeddings as forced by (2.1).
 - For the `1×1` matrix `U = (2)` and its exact inverse `V = (1/2)`: `ρ = 0` and the bound `‖V‖/(1 − ρ) = 1/2` equals `‖U^{−1}‖`, agreeing with Mathlib's `Matrix.linfty_opNorm_def`.
-- Supporting mathematical bound: a ThueBoundParameters record for `X⁴+X+1` gives `|y|≤Y0` for every solution. This does not construct the `s=0` datum.
 - For `g = X³ − 2`, `m = 1` the datum has `Ŷ_0 = 1` and `Ŷ_1 = 4 (C_1 ≈ 0.840, ⌈4C_1⌉ = 4)`.
 
 ([Tzanakis–de Weger (1989)](https://ris.utwente.nl/ws/files/6560439/Tzanakis89on.pdf), §II.1, Lemma
@@ -2132,7 +2163,7 @@ existence at sufficiently small enclosure widths.
 
 ### 2.12 Solutions with large `|Y|` approximate a real root
 
-Let (g, m) be a Thue equation with exact constants `ĉ_1 ≥ C_1, 0 < ĉ_2 ≤ C_2, Ŷ_0 ≥ Y_0, Ŷ_1 ≥ max(Ŷ_0, (4ĉ_1)^{1/(n−2)}) (§2.11)`, and let `(X, Y) ∈ Sol(g, m), β^{(i)} := X − Yξ^{(i)}`. (i)
+Let (g, m) be a Thue equation with exact constants `ĉ_1 ≥ C_1, 0 < ĉ_2 ≤ C_2, Ŷ_0 ≥ Y_0, Ŷ_1 ≥ max(Ŷ_0, (4ĉ_1)^{1/(n−2)})` (§2.11), and let `(X, Y) ∈ Sol(g, m), β^{(i)} := X − Yξ^{(i)}`. (i)
 If `|Y| > Ŷ_0` then `s ≥ 1` and there is `i_0 ∈ {1, …, s}` (a real root) with `|β^{(i_0)}| ≤ ĉ_1·|Y|^{−(n−1)}` and `|β^{(i)}| ≥ ĉ_2·|Y|` for all `i ≠ i_0`. In particular, if `s = 0` then every
 solution has `|Y| ≤ Ŷ_0`. (ii) If `|Y| > Ŷ_1` then `|X/Y − ξ^{(i_0)}| ≤ ĉ_1|Y|^{−n} ≤ ¼·|Y|^{−2} < 1/(2·den(X/Y)²)`, hence `X/Y = Real.convergent ξ^{(i_0)} k` for some k (Legendre's theorem, Mathlib's
 `Real.exists_rat_eq_convergent`).
@@ -2333,7 +2364,7 @@ index on (`GenContFract.convs_stable_of_terminated`), and they are the `Real.con
 For a Thue equation `(g, m)` and a natural number `Y_1`, `Sol(g, m; Y_1)` is the finite set of
 `(x, y) ∈ ℤ²` with `|y| ≤ Y_1` and `F(x, y) = m`, defined by this membership condition. For each `y` with `|y| ≤ Y_1`, the
 polynomial `P_y(X) := F(X, y) − m ∈ ℤ[X]` has degree `n` and leading coefficient `f_0 ≠ 0`, so it is
-nonzero and every integer root `x` satisfies `|x| < cauchyBound(P_y) = max_{i<n}|coeff_i(P_y)|/|f_0| + 1` (`Polynomial.cauchyBound, Polynomial.IsRoot.norm_lt_cauchyBound` over `ℚ`); all possible integer roots lie in that finite range. Equivalently, `Sol(g, m; Y_1) = Sol(g, m) ∩ {|y| ≤ Y_1}`, and the construction is the explicit finite enumeration that proves this equality.
+nonzero and every integer root `x` satisfies `|x| < cauchyBound(P_y) = max_{i<n}|coeff_i(P_y)|/|f_0| + 1` (`Polynomial.cauchyBound`, `Polynomial.IsRoot.norm_lt_cauchyBound` over `ℚ`); all possible integer roots lie in that finite range. Equivalently, `Sol(g, m; Y_1) = Sol(g, m) ∩ {|y| ≤ Y_1}`, and the construction is the explicit finite enumeration that proves this equality.
 
 Work under the following conditions. `n ≥ 1` and `f_0 ≠ 0` make every `P_y` a nonzero polynomial of degree
 n, so the Cauchy bound applies for every y, including `y = 0` (where `P_0 = f_0X^n − m`)
@@ -2352,7 +2383,7 @@ tested pair is accepted iff `F(x, y) = m`, an exact integer identity.
 
 **Checks.**
 
-- For `g = X³ − 2`, `m = 1`, `Y_1 = 1`: `Sol(g, 1; 1) = {(1, 0), (−1, −1)}` (`y = 0: x³ = 1; y = 1: x³ = 3` has no integer root; `y = −1`: `x³ = −1`).
+- For `g = X³ − 2`, `m = 1`, `Y_1 = 1`: `Sol(g, 1; 1) = {(1, 0), (−1, −1)}` (`y = 0`: `x³ = 1`; `y = 1`: `x³ = 3` has no integer root; `y = −1`: `x³ = −1`).
 - For `Y_1 = 0` the set is `{(x, 0) : f_0x^n = m}`; for `g = X³ − 2, m = 8` it is `{(2, 0)}`.
 - Bounding `|x|` by `|m|` instead of the Cauchy bound is wrong: for `g = X³ − 2` and `m = −3` the pair `(5, 4)` is a solution with `|x| = 5 > |m|`, while `|5| < cauchyBound(X³ − 125) = 126`.
 - For every y with `|y| ≤ Y₁`, the fibre `{x | (x, y) ∈ Sol(g, m; Y₁)}` equals `(P_y).roots.toFinset` for Mathlib's `Polynomial.roots` of `P_y ∈ ℤ[X] (Polynomial.mem_roots, P_y ≠ 0)`; for `g = X³ − 2, m = 1, y = −1` both are `{−1} (P_{−1} = X³ + 1)`.
@@ -2385,8 +2416,8 @@ continued fractions; (III) `C < |Y|` with `A ≤ K_3`, excluded by the reduction
 excluded by the imported Matveev bound.
 
 Work under the following conditions. All data are finite; a datum that fails a check proves
-nothing. The covering conditions `(U), (M)` are input hypotheses discharged by the explicit
-class/unit/factorization input hypotheses or by
+nothing. The covering conditions `(U), (M)` are input hypotheses discharged by the supplied
+class-group, unit and factorisation data or by
 DiophantineApproximationAndTranscendence §4.1 `(exists_mem_boundedDivisors_of_dvd)` (§2.10).
 
 The interface includes these statements.
@@ -2407,11 +2438,7 @@ only integral coordinates satisfying the original equation belong to the resulti
 - For `s = 0 (g = X⁴ + X + 1, m = 1)` the datum is `(Ŷ_0, Sol(g, 1; Ŷ_0))`: no units, no linear forms.
 - A datum whose `ξ̃_i` misses the bound `|ξ̃_i − ξ^{(i)}| < 1/(6C²)` is not valid, even if `L` happens to be correct; validity is about the checks, not the answer.
 - A datum listing `(2, 1)` for `g = X³ − 2, m = 1` is not valid: `F(2, 1) = 6 ≠ 1` fails the exact test.
-- The inclusion `L ⊆ Sol(g, m)` of a valid datum together with §2.20 gives the equality of `L`, as a set, with the solution set `Sol(g, m) (§2.9)`.
-- A valid mathematical record for `x³−2y³=1` contains `(1,0),(−1,−1)`.
-- A real root outside all required approximation intervals contradicts mathematical validity.
-- Listing `(2,1)` for `x³−2y³=1` contradicts mathematical validity.
-- A valid mathematical record with the correct field/root has membership equivalent to `F(x,y)=m`.
+- The inclusion `L ⊆ Sol(g, m)` of a valid datum together with §2.20 gives the equality of `L`, as a set, with the solution set `Sol(g, m)` (§2.9).
 - The finite set is defined by exact equation membership; §2.20 proves that the initial bound and all reduction implications make it exhaustive.
 
 ([Tzanakis–de Weger (1989)](https://ris.utwente.nl/ws/files/6560439/Tzanakis89on.pdf), §II.3, pp.
@@ -2435,7 +2462,7 @@ when `s ≥ 1`. Nothing is assumed about the size of the solutions; nonvanishing
 
 The interface includes these statements.
 
-- The existing mathematical validity predicate, with the actual equation and stated field/root hypotheses, implies equality with the solution set. It is a supporting conditional theorem, not conditions soundness.
+- A valid ThueData for `(g, m)` whose factor covering satisfies `(U)` and `(M)` when `s ≥ 1` has claimed list equal to `Sol(g, m)`.
 
 *Proof sketch.* Derive the covering and initial exponent bounds from the identified arithmetic input,
 then apply each proved reduction implication and the finite-set membership equivalence. `⊇`: every element of `L` passed
@@ -2448,9 +2475,8 @@ candidates). If `|Y| ≤ C`, §2.17 puts `(X, Y)` among the tested convergent ca
 
 **Checks.**
 
-- A theorem row proves that every solution lies in the enumerated box or among the tested exceptional candidates: `Sol(g, m) ⊆ {(x, y) : |y| ≤ C} ∪ E_cand`, with `E_cand` the candidates obtained from the exceptional exponent vectors, and `Sol(g, m)` equals the listed set.
+- Every solution lies in the enumerated box or among the tested exceptional candidates: `Sol(g, m) ⊆ {(x, y) : |y| ≤ C} ∪ E_cand`, with `E_cand` the candidates obtained from the exceptional exponent vectors, and `Sol(g, m)` equals the listed set.
 - Small instance: for `g = X³ − 2` and `m = 1` a valid datum must have `L = {(1, 0), (−1, −1)}` (the classical result for `x³ − 2y³ = 1`); a complete worked datum is a Layer 6 target.
-- The Baker/Matveev source (Matveev, Izv. Math. 64 (2000), Corollary 2.3) is registered separately from Tzanakis–de Weger, and its constant enters only through §2.2.
 
 ([Tzanakis–de Weger (1989)](https://ris.utwente.nl/ws/files/6560439/Tzanakis89on.pdf), Abstract, p.
 99; [Tzanakis–de Weger (1989)](https://ris.utwente.nl/ws/files/6560439/Tzanakis89on.pdf), §II.2,
@@ -2486,11 +2512,10 @@ The interface includes these statements.
 **Checks.**
 
 - For `g = X³ − 2, c = 1, p = (5): (X, Y, z) = (1, 0, 0)` and `(−1, −1, 0)` are solutions, and `(3, 1, 2)` is one since `27 − 2 = 25 = 5²`.
-- `(5, 0, ·)` is not a solution for `g = X³ − 2, c = 1, p = (5)` although `5³ = 5³: gcd(5, 0) = 5 ≠ 1`; dropping coprimality makes the set infinite `((5^k, 0, 3k))`.
-- The triples with `z = 0` are exactly the coprime solutions (with `gcd(Y, f_0) = 1`) of the Thue equation `F(X, Y) = c (§2.9)`.
+- `(5, 0, ·)` is not a solution for `g = X³ − 2, c = 1, p = (5)` although `5³ = 5³`: `gcd(5, 0) = 5 ≠ 1`; dropping coprimality makes the set infinite (`(5^k, 0, 3k)`).
+- The triples with `z = 0` are exactly the coprime solutions (with `gcd(Y, f_0) = 1`) of the Thue equation `F(X, Y) = c` (§2.9).
 - For `c = −1` the instance (g, −1, p) is a different equation; for `g = X³ − 2` it contains `(1, 1, 0)` since `1 − 2 = −1`.
 - `(2,0)` solves `X³−2Y³=8` but is excluded by coprimality in the zero-primes normalized equation.
-- `(3, 1, 2) ∈ Sol_TM(X³ − 2, 1, (5))`, since `3³ − 2 = 5²`.
 
 ([N. Tzanakis, B. M. M. de Weger](http://www.numdam.org/item/CM_1992__84_3_223_0/), §1, (1)–(2), p.
 223; [N. Tzanakis, B. M. M. de Weger](http://www.numdam.org/item/CM_1992__84_3_223_0/), §2, pp.
@@ -2520,7 +2545,7 @@ prime-ideal factorization procedure is a target.
 
 The interface includes these statements.
 
-- Supporting third-corollary uniqueness only: for a primitive integral `θ` whose minimal polynomial is squarefree mod p and coprime x,y, the nonzero prime ideals above p containing `x−yθ` form a subsingleton.
+- For an algebraic integer `θ` generating `K` whose minimal polynomial is squarefree modulo `p`, and coprime `x`, `y`, at most one prime ideal of `𝓞_K` above `p` contains `x − yθ`.
 
 *Proof sketch.* (i): if `(x − yθ) = 𝔭_i^{v_i}𝔭_j^{v_j}𝔞` then `ord_p(x − yθ_i^{(k)}) = v_i/e_i` through
 the embedding `K → K_{𝔭_i} → ℂ_p`, similarly for j; hence `ord_p(y(θ_i^{(k)} − θ_j^{(l)})) ≥ min(v_i, v_j)/max(e_i, e_j)`, and `ord_p(y) = 0` (if `p ∣ y` then `p ∤ x` and both orders vanish) (TdW pp. 231–232).
@@ -2585,7 +2610,7 @@ finitely many ideals.
 - Dropping Case III `(α = π_{53}, π_5 = π_{52})` from TdW's five cases loses the solution `(x, y) = (399, 302), F(399, 302) = −3^{13}·5³`, listed in Case III with `n_3 = 2` (TdW 17Ex): `𝔭_{52}² 𝔭_{53}` exactly divides its 5-part, and no other case has this shape (Cases `I, II, IV` omit `𝔭_{53}` or `𝔭_{52}`, Case `V` has `𝔭_{52}` to the first power); the remaining list is not a covering.
 - For `𝒪 = 𝓞_K` and `ε = NumberField.Units.fundSystem K` condition `(U)` is Mathlib's `NumberField.Units.exist_unique_eq_mul_prod`.
 - For `Units.rank K=1`, no covering has `r=2`; redundant unit generators cannot yield bounded exponent coordinates.
-- A mathematical covering with an actual normalized solution has a nonempty case list. This does not prove the named missing-Case-III arithmetic Check.
+- A covering of an equation that has a normalised solution has a nonempty case list.
 - TdW's five cases of `6^Ex` (p. 234) form a covering of their example once `(U)` and (C) are exact.
 
 ([N. Tzanakis, B. M. M. de Weger](http://www.numdam.org/item/CM_1992__84_3_223_0/), §6, (10)–(11),
@@ -2760,11 +2785,6 @@ only integral coordinates satisfying the original equation belong to the resulti
 - A datum whose residual box contains a tuple neither eliminated by a listed congruence nor tested is invalid, even if that tuple is not a solution.
 - For `v = 0` the datum has no p-adic steps and reduces to a Thue datum for coprime solutions of `F(X, Y) = c`.
 - The inclusion `L ⊆ Sol_TM(g, c, p)` of a valid datum together with §2.28 gives the equality of `L`, as a set, with `Sol_TM(g, c, p)`.
-- A valid mathematical record for `x³−2y³=5^z` contains `(3,1,2)`.
-- Listing `(3,1,1)` for `x³−2y³=5^z` contradicts mathematical validity.
-- A true solution absent from the claimed list contradicts mathematical validity; this does not test an omitted nonsolution row.
-- Every listed triple has `F=c` when `v=0`; this does not construct a no-p-adic-step identities.
-- The mathematical list equals the actual normalized solution set under field/root hypotheses.
 - All residual exponent choices occur in the finite-set definition, including those that fail the equation.
 
 ([N. Tzanakis, B. M. M. de Weger](http://www.numdam.org/item/CM_1992__84_3_223_0/), §17, p. 271.)
@@ -2785,7 +2805,7 @@ Work under the following conditions. Thue–Mahler hypotheses (`n ≥ 3`, irredu
 
 The interface includes these statements.
 
-- The existing mathematical validity predicate, with the actual equation and stated field/root hypotheses, implies equality with the solution set. It is a supporting conditional theorem, not conditions soundness.
+- A valid ThueMahlerData whose S-unit covering satisfies `(U)` and (C) has claimed list equal to `Sol_TM(g, c, p)`.
 
 *Proof sketch.* Derive the covering and initial exponent bounds from the identified arithmetic input,
 then apply each proved reduction implication and the finite-set membership equivalence. `⊇`: every listed triple passed the
@@ -2795,9 +2815,8 @@ congruence, so it was tested exactly and accepted, hence it is in `L`.
 
 **Checks.**
 
-- A theorem row proves that every solution lies in the enumerated box: `Sol_TM(g, c, p)` equals the listed set and its exponent tuples lie in the residual boxes.
+- Every solution lies in the enumerated box: `Sol_TM(g, c, p)` equals the listed set and its exponent tuples lie in the residual boxes.
 - Small instance: for `g = X³ − 2, c = 1, p = (5)` a valid datum's list contains `(1, 0, 0), (−1, −1, 0)` and `(3, 1, 2)`; complete worked data are Layer 6 targets.
-- The p-adic source (Yu, Compositio Math. 91 (1994)) and the archimedean source (Matveev 2000) are registered separately from Tzanakis–de Weger 1992.
 
 ([N. Tzanakis, B. M. M. de Weger](http://www.numdam.org/item/CM_1992__84_3_223_0/), §17, p. 269;
 [Kunrui Yu](http://archive.numdam.org/article/CM_1994__91_3_241_0.pdf), §0.1, p. 242.)
@@ -2834,7 +2853,7 @@ DiophantineApproximationAndTranscendence §4.5 (coprime S-unit reduction); `padi
 **Checks.**
 
 - For `S = {2, 3}`: `(3, −2), (−2, 3), (1/2, 1/2), (2, −1), (4/3, −1/3)` and `(−1/3, 4/3)` are in `Sol_U(S) (3 − 2 = 1, 1/2 + 1/2 = 1, 2 − 1 = 1, 4/3 − 1/3 = 1)`.
-- `Sol_U(∅) = ∅: x, y ∈ {±1}` and `x + y ∈ {0, ±2}`.
+- `Sol_U(∅) = ∅`: `x, y ∈ {±1}` and `x + y ∈ {0, ±2}`.
 - `(5, −4)` is not in `Sol_U({2, 3})` since `padicValRat 5 5 = 1 ≠ 0`, although `5 − 4 = 1`.
 - For `S = {2, 3}` the solution `(9/8, −1/8)` corresponds under DiophantineApproximationAndTranscendence §4.5 (coprime S-unit reduction) to `(u, v, w) = (9, −1, 8)`.
 - `(1/2, 1/2), (2, −1), (−1, 2) ∈ Sol_U({2})`, and these are all of its elements.
@@ -2955,11 +2974,6 @@ only integral coordinates satisfying the original equation belong to the resulti
 - For `S = ∅` the box is `{±1}` and the valid list is empty.
 - For `S = {2, 3}`, final bounds `f(2) = 3, f(3) = 1` are not the end of any valid chain whose exceptional list `E` omits `(9/8, −1/8): (9/8, −1/8) ∈ Sol_U(S)` has `padicValRat 3 (9/8) = 2 > 1`, so a step lowering `f(3)` to 1 without listing it contradicts soundness (at `p = 3, M = 1` the lattice is `3ℤ` and the vector `b = ±3` of this solution is enumerated); a notion of validity that did not check the chain steps would accept a list missing `(9/8, −1/8)`.
 - The inclusion `L ⊆ Sol_U(S)` of a valid datum together with §2.33 gives the equality of `L`, as a set, with `Sol_U(S)`, a finite set in agreement with DiophantineApproximationAndTranscendence §4.5 (effective S-unit finiteness).
-- Existence of a mathematical datum for `S={2}` with `f(2)=1` and the three listed pairs; no evaluation is asserted.
-- A valid mathematical datum for `S=∅` lists no pairs.
-- A mathematical final `f(3)=1` for `S={2,3}` requires `(9/8,−1/8)` among exceptions.
--  equality yields finiteness of `Sol_U(S)`.
-- For `S = {2}` the datum with `f(2) = 1` and list `{(2, −1), (−1, 2), (1/2, 1/2)}` is valid.
 
 ([de Weger (1989)](https://ir.cwi.nl/pub/13190), Chapter 6, §6.5, p. 125; [de Weger
 (1989)](https://ir.cwi.nl/pub/13190), Chapter 6, §6.5, pp. 124–125.)
@@ -2976,7 +2990,7 @@ through §2.5 with constants computed in the datum.
 Work under the following conditions. `S` consists of primes; `C` valid. As in §2.20, validity is the hypothesis of the general theorem; in the application §6.38 it is proved by exact computation and the count theorem is unconditional.
 The interface includes these statements.
 
-- The existing mathematical validity predicate, with the actual equation and stated field/root hypotheses, implies equality with the solution set. It is a supporting conditional theorem, not conditions soundness.
+- A valid SUnitData for `S` has claimed list equal to `Sol_U(S)`.
 
 *Proof sketch.* Derive the covering and initial exponent bounds from the identified arithmetic input,
 then apply each proved reduction implication and the finite-set membership equivalence. `⊇`: every listed pair passed the exact
@@ -2986,7 +3000,7 @@ image of `Sol_U(S)` under `(x, y) ↦ (cx/a, cy/b)`, a bijection onto the soluti
 
 **Checks.**
 
-- A theorem row proves that every solution lies in the enumerated box: `Sol_U(S)` equals the listed set, and every solution has `|padicValRat p x| ≤ f(p)` for all `p ∈ S` or lies in the exceptional list `E`.
+- Every solution lies in the enumerated box: `Sol_U(S)` equals the listed set, and every solution has `|padicValRat p x| ≤ f(p)` for all `p ∈ S` or lies in the exceptional list `E`.
 - Small instance: for `S = {2, 3}` a valid datum's list consists of the solutions generated by `1 + 1 = 2, 1 + 2 = 3, 1 + 3 = 4, 1 + 8 = 9` under the six symmetries (these four coprime triples `a + b = c`, `a ≤ b`, are all of them).
 
 ([de Weger (1989)](https://ir.cwi.nl/pub/13190), Chapter 6, Theorem 6.3, p. 123; [de Weger
@@ -3002,7 +3016,7 @@ partial sum is -51/4. The complete quartic, S-unit and Thue–Mahler application
 
 ### Dependencies
 
-Layers 0–1; DiophantineApproximationAndTranscendence §§3.6–3.7 and 4.1–4.5; ColemanIntegration §§L0.10–L0.18 for the chosen
+Layers 0–1; DiophantineApproximationAndTranscendence §§3.6–3.7 and 4.1–4.5; ColemanIntegration §§L0.10, L0.13, L0.17 for the chosen
 logarithm compatibility; native Dirichlet unit and S-unit groups. Complete class/unit/ideal data are
 explicit inputs.
 
@@ -3026,8 +3040,8 @@ range of `nsmulAddMonoidHom 2` on `W.toAffine.Point`; `#E(K)[2]` means `Nat.card
 
 The interface includes these statements.
 
-- For `p` prime and the actual `W:WeierstrassCurve.Affine Q_p` in elliptic `characteristic-≠2` normal form, `#range(W.μ) = (if p = 2 then 2 else 1)·#ker([2] : W.Point → W.Point)`, using the pinned `W.A`, `W.M` and `W.μ`.
-- For the actual elliptic `W` over `R` in `characteristic-≠2` normal form, `2·#range(W.μ)=#ker([2]:W.Point→W.Point)`.
+- For `p` prime and the actual `W : WeierstrassCurve.Affine ℚ_p` elliptic in the normal form `y² = x³ + a₂x² + a₄x + a₆`, `#range(W.μ) = (if p = 2 then 2 else 1)·#ker([2] : W.Point → W.Point)`, using the pinned `W.A`, `W.M` and `W.μ`.
+- For the actual elliptic `W` over `ℝ` in the normal form `y² = x³ + a₂x² + a₄x + a₆`, `2·#range(W.μ)=#ker([2]:W.Point→W.Point)`.
 
 *Proof sketch.* Apply HeightsRationalPointsAndObstructions §1.17 in dimension one, with
 `K=ℚ_p` and its normalized absolute value, or with `K=ℝ`. The first isomorphism theorem and
@@ -3051,11 +3065,11 @@ p. 69.)
 
 Conditional on the explicit arithmetic-input hypotheses listed below, fix `W` as in the hypotheses and
 a place `v` of `ℚ`, with `K_v = ℚ_p (v = p)` or `ℝ (v = ∞)`, and write `M_v` for the square classes `(W⁄K_v).M`
-of the local étale algebra `A_v = K_v[X]/(f)`. A exact local image at `v` (LocalImageData `W v`)
+of the local étale algebra `A_v = K_v[X]/(f)`. An exact local image at `v` (LocalImageData `W v`)
 consists of: (i) a factorisation `f = ∏_j f_j` into monic irreducibles over `K_v` — linear factors
-pinned by Hensel data (p-adic embedding data, §0.6), the others exact irreducible by the
-Newton-polygon criterion (explicit supplied class/unit/factorization data Ore residual
-irreducibility, with the prime-ideal factorisation of `p` in the global factor fields), real roots
+pinned by Hensel data (p-adic embedding data, §0.6), the others proved irreducible by the
+Newton-polygon criterion and Ore's residual-polynomial criterion, from the supplied prime-ideal
+factorisation of `p` in the global factor fields, real roots
 isolated at `∞` (archimedean data, §0.4) — so that `A_v ≅ ∏_j L_j` with `L_j = K_v[X]/(f_j)`; (ii)
 square-class coordinates: an explicit group isomorphism `κ_v : M_v ≅ (ℤ/2)^{n_v}` built from the
 valuation parity and finitely many residual quadratic characters on each `L_j^×/L_j^{×2}` (for odd `p`:
@@ -3068,7 +3082,7 @@ that each `x_i` is the x-coordinate of some `P_i ∈ E(K_v)`; (iv) the coordinat
 `c_i = κ_v(class of x_i − T) ∈ (ℤ/2)^{n_v}`, computed exactly from `x_i`. The result is the subgroup `H_v = κ_v^{-1}(span_{𝔽₂}{c_1,…,c_k})` of `M_v`. The datum is complete when `#H_v` equals the number of
 §3.1, that is `|2|_v^{-1}·#E(K_v)[2]` at a finite place and `#E(ℝ)[2]/2` at `∞`.
 
-Work under the following conditions. `W : WeierstrassCurve ℚ` with `W.IsElliptic, W.IsCharNeTwoNF` and
+Work under the following conditions. `W : WeierstrassCurve ℚ` with `W.IsElliptic`, `W.IsCharNeTwoNF` and
 `a₂, a₄, a₆ ∈ ℤ`; v a prime of `ℤ` or the real place. `μ_v(P_i)` is the class of `x_i − T` because `f(x_i) ≠ 0` (Tau Ceti `μX_of_eval_f_ne_zero`); the y-coordinate of `P_i` is never needed. The finite local algebra
 decomposition, irreducible factors, e/f data and coefficient embedding/valuation comparisons are
 supplied with exact factorization/isomorphism proofs. No Ore-factorization routine or table is a
@@ -3097,7 +3111,6 @@ every `v`.
 
 **Checks.**
 
-- For `y² = x³ − x` at `∞` with `x₁ = −1/2, x₂ = 2, #H_∞ = 2` and `H_∞ = μ_ℝ(E(ℝ))`.
 - With `k = 0` points, `H_v = ⊥` (the trivial subgroup); it is complete only when `|2|_v^{-1}#E(K_v)[2] = 1`, e.g. at `∞` for `y² = x³ + 1`.
 - For `y² = x³ − x` at `p = 5` (good, odd), a complete `H_5` equals the unramified classes of norm a square, of order `#E(ℚ_5)[2] = 4`.
 - In the unramified quadratic extension of `Q_2`, a nontrivial cube root `ζ` of 1 is the square of `ζ²`, but `ζ` is not 1 modulo 8. A criterion requiring `u≡1 mod 8` in every factor would reject this genuine square.
@@ -3189,7 +3202,7 @@ whose kernel `K_S` is computed by `𝔽₂`-linear algebra; (iv) a complete exac
 `κ_v ∘ localRes_v` on the basis of `K_S`. Its Selmer group is `Sel(C) = {m ∈ K_S : κ_v(localRes_v(m)) ∈ span(C_v) for every v ∈ S ∪ {∞}}`, an explicit `𝔽₂`-subspace with a computed basis; its order is
 `2^{s(C)}`.
 
-Work under the following conditions. `W : WeierstrassCurve ℚ` with `W.IsElliptic, W.IsCharNeTwoNF` and
+Work under the following conditions. `W : WeierstrassCurve ℚ` with `W.IsElliptic`, `W.IsCharNeTwoNF` and
 `a₂, a₄, a₆ ∈ ℤ`. Only the places of `S ∪ {∞}` carry computed local data; §3.4 shows
 no other place changes the group. A supplied ideal/class/unit presentation has explicit defining
 relations, integral-basis identities and a proof of full class/unit generation. All local
@@ -3209,9 +3222,9 @@ The interface includes these statements.
 its polynomial identity, irreducibility and pairwise-coprimality proofs; Layer 0 does not produce this
 factorization; `A ≅ ∏ L_j` by Tau Ceti `AdjoinRoot.equivPiFactors` and `M ≅ ∏ L_j^×/L_j^{×2}` by
 `AdjoinRoot.modPowEquivPiFactors`, as in Tau Ceti `selmerGroupA`. Generators of `L_j(S,2)`: Tau Ceti
-`IsDedekindDomain.selmerGroup.ker_toClassGroup` and `range_toClassGroup` give `0 → O_{L_j,S}^×/squares → L_j(S,2) → Cl_S(L_j)[2] → 0`; explicit supplied class/unit/factorization
-data/exact-class-unit-completeness certifies the class group and a unit basis, and explicit
-supplied class/unit/factorization data/prime-ideal-factor-datum the primes above `S`. The norm
+`IsDedekindDomain.selmerGroup.ker_toClassGroup` and `range_toClassGroup` give `0 → O_{L_j,S}^×/squares → L_j(S,2) → Cl_S(L_j)[2] → 0`; the supplied class-group and unit
+data give the class group and a unit basis, and the supplied prime-ideal factorisations give
+the primes above `S`. The norm
 map and all local maps are computed on the explicit basis; `Sel(C)` is the kernel of an explicit
 `𝔽₂`-matrix.
 
@@ -3220,12 +3233,7 @@ map and all local maps are computed on the explicit basis; `Sel(C)` is the kerne
 - For `y² = x³ − x` with `S = {2}`: `#Sel(C) = 4` and `Sel(C)` is the image of `E(ℚ)[2] = {O, (0,0), (1,0), (−1,0)}`.
 - Without the local conditions the group would be `A(S,2) ∩ ker N`; for `y² = x³ − x` (`A ≅ ℚ³`, each factor contributing `ℚ({2},2) = ⟨−1, 2⟩`) this group has order `4³/4 = 2⁴`, larger than `Sel(C)`.
 - `Sel(C) = W.selmerGroup₂` (with `R = 𝓞 ℚ` and the auxiliary family consisting of `ℝ` alone) for every datum with `S ⊇ badPrimes`.
-- For the actual Cremona `571a1` model `[0,−1,1,−929,−10595]`, transported to `characteristic-≠2` normal form by `(x,y)↦(4x,8y+4)`, certify `#range μ=1` and `#Sel₂=4` and conclude non-equality. Construct its concrete descent and local-image data; assumed dimensions alone do not verify this check.
-- For the abstract datum and a supplied basis of length two, the Selmer summary has cardinality four. This does not construct the `x³−x` arithmetic comparison.
-- For every abstract datum, its Selmer summary is contained in the supplied unconditioned norm kernel. This proves no numerical order of an actual cubic square-class group.
-- Given the explicit outside-place, unramified and membership hypotheses for an arbitrary subgroup sel, the abstract datum summary equals sel. This does not identify sel with the actual pinned rational-curve Selmer group.
-- Given abstract image order one and datum Selmer order four, the image differs from the datum summary. The 571a1 check additionally requires its actual arithmetic data.
-- For `y² = x³ − x (f = X(X−1)(X+1), S = {2})` the computation gives `#Sel(C) = 4 = #E(ℚ)[2]`, the order of the image of the 2-torsion.
+- For Cremona's `571a1` model `[0,−1,1,−929,−10595]`, transported to the form `y² = f(x)` by `(x, y) ↦ (4x, 8y + 4)`: `#range μ = 1` and `#Sel₂ = 4`, so the image of `μ` is not the 2-Selmer group.
 - Flynn–Poonen–Schaefer Lemmas 1–5 carry out the same steps for a genus-two Jacobian (`G, H, H′` there).
 
 ([Cremona (1997)](https://johncremona.github.io/book/fulltext/index.html), Ch. III, §3.6, Method 2,
@@ -3251,11 +3259,11 @@ identifies each local condition with the computed `H_v`. (a) `⊆`: an element o
 `A(S,2) ∩ ker N` and satisfies the conditions at `S ∪ {∞}`; at every other prime §3.4 gives the
 local condition (Tau Ceti's `localRes_mem_selmerGroupA` is stated only for `m ∈ W.selmerGroupA (𝓞 ℚ)`,
 the group for `S = badPrimes`; when `S ⊋ badPrimes` the same global-to-local comparison for `A(S,2)` at
-primes outside `S` is proved here by the same argument); so it is in `selmerGroup₂ (mem_selmerGroup₂_iff)`. (a) `⊇`: an element of `selmerGroup₂` satisfies the local condition at every
+primes outside `S` is proved here by the same argument); so it is in `selmerGroup₂` (`mem_selmerGroup₂_iff`). (a) `⊇`: an element of `selmerGroup₂` satisfies the local condition at every
 good `p`, hence (local image `⊆` unramified there) localizes to unramified classes at all good `p` and
 lies in `A(S,2)` by Tau Ceti `mem_selmerGroupA_of_forall_localRes`; the remaining conditions are those
-of `Sel(C)`. (c) The datum's basis is a basis by explicit supplied class/unit/factorization data
-completeness, so `#Sel(C) = 2^{s(C)}`; in particular `selmerGroup₂` is finite.
+of `Sel(C)`. (c) The datum's basis is a basis by the completeness of the supplied class-group
+and unit data, so `#Sel(C) = 2^{s(C)}`; in particular `selmerGroup₂` is finite.
 
 **Checks.**
 
@@ -3610,7 +3618,7 @@ Work under the following conditions. `P_i` independent modulo torsion (e.g. by �
 `λ` as stated; any of the listed `γ_r`.
 
 *Proof sketch.* `L̄` is a lattice of `rank r` with Gram determinant `R(L̄) = R/n²` (index–covolume relation
-for the Gram determinant). This is the same Gram-lattice argument as Siksek `equation(27)`, applied to
+for the Gram determinant). This is the same Gram-lattice argument as Siksek, equation (27), applied to
 the saturated rational span; that reduction, and the harmless weakening of `>λ` to `≥λ`, are adaptations
 rather than extra generality printed in Theorem 3.1. Minkowski's convex-body theorem (Mathlib
 `exists_ne_zero_mem_lattice_of_measure_mul_two_pow_le_measure`) for the ellipsoid `{x : ĥ(Σ x_i Q_i) ≤ t}` in a basis `Q_i` of `L̄`, with `InnerProductSpace.volume_ball`, gives a nonzero `Q ∈ L̄` with `ĥ(Q) ≤ γ_r R(L̄)^{1/r}`. `Q` is non-torsion, so `λ ≤ ĥ(Q) ≤ γ_r (R/n²)^{1/r}`; solve for `n`.
@@ -3618,10 +3626,10 @@ rather than extra generality printed in Theorem 3.1. Minkowski's convex-body the
 **Checks.**
 
 - Rank 2 exact numerical Check: `R≤9`, `λ≥1` and `γ₂²=4/3` give `n²≤12`, hence `n≤3`. The exact inputs therefore bound the index by 3.
-- `r = 1: n ≤ (ĥ(P₁)/λ)^{1/2}`.
+- `r = 1`: `n ≤ (ĥ(P₁)/λ)^{1/2}`.
 
 ([Siksek (1995 author preprint)](https://samirsiksek.github.io/siksek.github.io/papers/infart2.pdf),
-Author preprint, §3 `equation(27)`, pp.14–15; Lemmas 3.1–3.2, pp.15–16; Theorem 3.1, p.16.)
+Author preprint, §3, equation (27), pp. 14–15; Lemmas 3.1–3.2, pp.15–16; Theorem 3.1, p.16.)
 
 *Needs:* §3.15; Mathlib `MeasureTheory.exists_ne_zero_mem_lattice_of_measure_mul_two_pow_le_measure`; Mathlib `InnerProductSpace.volume_ball`; Tau Ceti `WeierstrassCurve.Affine.neronTatePairingModTorsion_self_eq_zero_iff`; Tau Ceti `WeierstrassCurve.Affine.PointModTorsion`.
 
@@ -3655,7 +3663,6 @@ order dividing `p` and `[A:G]`, hence is trivial.
 - `⊤ ≤ A` is p-saturated for every `p`.
 - For `G = 6ℤ ≤ ℤ`, of index 6: `G` is p-saturated iff `p ∤ 6`.
 - In `A = ℤ × ℤ/2`, `G = ℤ × 0` has `G ∩ 2A = 2G` but is not 2-saturated, since `A[2] ⊄ G`: the injectivity of `G/pG → A/pA` alone is not p-saturation.
-- In `A = ℤ`, `G = 6ℤ` is 5-saturated but neither `2-` nor 3-saturated.
 - `G = 0` in `ℤ/pℤ` is not p-saturated.
 
 ([Siksek (1995 author preprint)](https://samirsiksek.github.io/siksek.github.io/papers/infart2.pdf),
@@ -3710,7 +3717,7 @@ generated abelian groups). `G/ℓG` surjects onto the image of `G` in `∏ C_i`,
 
 **Checks.**
 
-- Stoll 2008 Lemma 4: the `degree-0` subgroup of `⊕ℤP_i` maps onto `(ℤ/3)³` in `∏_{q∈{3,5,7,11,13}} Pic(C/𝔽_q)`, `J(ℚ)` is torsion-free, so `rank G ≥ 3`; six explicit relations give `rank G ≤ 3`.
+- Stoll 2008 Lemma 4, with `A = G` the subgroup of `J(ℚ)` generated by the classes of degree-0 divisors supported on `P₀, …, P₉`, `ℓ = 3` and `ψ : G → I/3I`, where `I` is the image of `G` under reduction in `∏_{q∈{3,5,7,11,13}} J(𝔽_q)`: the degree-0 subgroup of `⊕ℤP_i` surjects onto `(ℤ/3)³`, so `I/3I` has `𝔽₃`-dimension at least 3, and `G[3] = 0` because `J(ℚ)` is torsion-free; hence `rank G ≥ 3`, and six explicit relations give `rank G ≤ 3`. The reductions `J(ℚ) → J(𝔽_q)` are not themselves admissible `ψ_i`: `#J(𝔽₇) = 2·7·11·47` is prime to 3, so `J(𝔽₇)` is not killed by 3.
 
 ([Stoll (arXiv v2)](https://arxiv.org/abs/0803.2836), §3, proof of Lemma 4, p. 8 (arXiv v2).)
 
@@ -3983,7 +3990,7 @@ Under the explicit arithmetic-data hypotheses below, for `C₀(5) : y² = x⁶ +
 §3.21 with `Π = {3}`: generators `{D}`; `r = 1`; `J(ℚ)_tors = 0`; `⟨D⟩`
 3-saturated. Exact ingredients: (i) torsion: `#J(𝔽₃) = 9`, `#J(𝔽₅) = 41`; (ii) `rank ≤ 1`:
 §3.23 with `S = {2, 3701, ∞}`, `L` of class number 1 with units `u₁`, `u₂`, `u₃`
-(explicit supplied class/unit/factorization data datum), `H` spanned by `u₁` and `u₃β₁β₂`, local
+(supplied class-group and unit data), `H` spanned by `u₁` and `u₃β₁β₂`, local
 images at 2 and 3701 generated by `[(2, √881) − ∞⁻]` and `[(−4, √185) − ∞⁻]`, `H′ = 0`, and
 `[ker(x − T) : 2J(ℚ)] = 2` because the Galois group of `f` is `S₆`; (iii) `rank ≥ 1`: `D ≠ 0` and `J(ℚ)_tors = 0`; (iv)
 3-saturation: `J(𝔽₃) ≅ ℤ/9` is generated by `D̃`, so `D̃ ∉ 3J(𝔽₃)`.
@@ -4015,7 +4022,7 @@ p. 19 (arXiv v1); [Flynn–Poonen–Schaefer (arXiv v1)](https://arxiv.org/abs/m
 
 ### 3.28 Mordell–Weil data for the Jacobian of `C₁(3₂)` (Poonen)
 
-Under the explicit arithmetic-data hypotheses below, for `C : y² = g(x) = x⁶ − 2x⁴ + 2x³ + 5x² + 2x + 1` with Jacobian `J: J(ℚ)_tors = 0 (#J(𝔽₃) = 27, #J(𝔽₅) = 43), D = [∞⁺ − ∞⁻]` has infinite order `(rank J(ℚ) ≥ 1)`, and `D ∉ 3J(ℚ)` because `J(𝔽₃) ≅ ℤ/27` is generated by D̃. The rank upper bound `rank J(ℚ) ≤ 1`, which would make `⟨D⟩` a finite-index subgroup of index prime to 3, is not exact: the printed
+Under the explicit arithmetic-data hypotheses below, for `C : y² = g(x) = x⁶ − 2x⁴ + 2x³ + 5x² + 2x + 1` with Jacobian `J`: `J(ℚ)_tors = 0` (`#J(𝔽₃) = 27`, `#J(𝔽₅) = 43`), `D = [∞⁺ − ∞⁻]` has infinite order (`rank J(ℚ) ≥ 1`), and `D ∉ 3J(ℚ)` because `J(𝔽₃) ≅ ℤ/27` is generated by D̃. The rank upper bound `rank J(ℚ) ≤ 1`, which would make `⟨D⟩` a finite-index subgroup of index prime to 3, is not exact: the printed
 proof uses a 743-adic point `(2, √33)`, but `g(2) = 73` and the point on `C` is `(−2, √33)`; the author's
 erratum states that the 2-adic information is needed and that the result is unchanged, without
 printing the corrected computation.
@@ -4023,7 +4030,7 @@ printing the corrected computation.
 Work under the following conditions. `J(ℚ)` finitely generated and reduction at 3, 5 (HeightsRationalPointsAndObstructions Layer 1 contract).
 Supply exact finite `J(F3),J(F5)` groups, their complete divisor/reduction tables and D-reduction
 coordinates with geometric compatibility. The corrected `2/743`-adic descent tables are additional
-explicit inputs for any §3.7 conclusion, not supplied by the invalid printed point;
+explicit inputs for any §3.23 conclusion, not supplied by the invalid printed point;
 without them retain only the torsion/lower-bound/saturation conclusions.
 
 *Proof sketch.* Torsion and `rank ≥ 1`: §3.20 (a). 3-saturation of `⟨D⟩`:
@@ -4046,8 +4053,8 @@ Poonen](https://math.mit.edu/~poonen/papers/errata.pdf), §2, first item on the 
 ### 3.29 The subgroup of known points on `X₀^dyn(6)`, with the conditional rank input labelled
 
 Under the explicit arithmetic-data hypotheses below, let `C = X₀^dyn(6)` (genus 4, model `G(u,w) = 0` in
-`ℙ¹ × ℙ¹`) with Jacobian `J` and ten known rational points `P₀,…,P₉`. Exact (algebraic): `J(ℚ)_tors = 0 (#J(𝔽₇) = 2·7·11·47, #J(𝔽₁₃) = 3·17·23·43)`, and the subgroup `G` generated by the classes of `degree-0`
-divisors supported on `P₀,…,P₉` is `≅ ℤ³` (lower bound: §3.19 with `ℓ = 3` and `S = {3,5,7,11,13}`; upper bound: six explicit linear equivalences). Conditional (analytic, labelled
+`ℙ¹ × ℙ¹`) with Jacobian `J` and ten known rational points `P₀,…,P₉`. Exact (algebraic): `J(ℚ)_tors = 0` (`#J(𝔽₇) = 2·7·11·47`, `#J(𝔽₁₃) = 3·17·23·43`), and the subgroup `G` generated by the classes of degree-0
+divisors supported on `P₀,…,P₉` is `≅ ℤ³` (lower bound: §3.19 with `A = G`, `ℓ = 3` and `S = {3,5,7,11,13}`; upper bound: six explicit linear equivalences). Conditional (analytic, labelled
 separately): if `L(J, s)` extends to an entire function with the standard functional equation, the
 weak Birch–Swinnerton-Dyer conjecture holds for `J`, and `L‴(J,1) ≠ 0` is exact, then `rank J(ℚ) ≤ 3`.
 Stoll reports `L‴(C,1) ≈ 0.83601` numerically and `L,L′,L″` vanishing to working precision; these
@@ -4064,10 +4071,10 @@ rational functions proving the six divisor equivalences. An analytic rank bound 
 an identified third-derivative enclosure excluding 0, analytic continuation/functional equation and
 weak BSD. Local-group and L-value tables are explicit hypotheses.
 
-*Proof sketch.* Torsion: §3.20 (a) with `q = 7`, 13. `rank G ≥ 3`: the `degree-0` part of
-`⊕ℤP_i` surjects onto `(ℤ/3)³` in `∏_{q ∈ S} Pic(C/𝔽_q)`; `rank G ≤ 3`: the six relations `(e.g. P₀ + P₆ + P₈ ∼ P₁ + P₇ + P₉)`, each exact by an explicit rational function. Conditional rank: Stoll §4 and
+*Proof sketch.* Torsion: §3.20 (a) with `q = 7`, 13. `rank G ≥ 3`: the image `I` of the degree-0 part of
+`⊕ℤP_i` in `∏_{q ∈ S} J(𝔽_q)` has `I/3I` of `𝔽₃`-dimension at least 3, and §3.19 applies with `A = G` and `ψ : G → I/3I`; `rank G ≤ 3`: the six relations (e.g. `P₀ + P₆ + P₈ ∼ P₁ + P₇ + P₉`), each exact by an explicit rational function. Conditional rank: Stoll §4 and
 Theorem 7; the numerical L-value is not an exact enclosure and the hypotheses are open, so this
-input never enters a FiniteIndexSubgroupData.
+input never enters a finite-index subgroup datum (§3.21).
 
 **Checks.**
 
@@ -4089,7 +4096,7 @@ Lind–Reichardt quartic distinguishes everywhere local solubility from a ration
 ### Dependencies
 
 Layers 0–2; HeightsRationalPointsAndObstructions Layers 0–1; `TauCetiRoadmap.EllipticCurves` Layers
-3,4,6,7 and JacobianChallenge Layers D–F. The pinned elliptic height and descent APIs are used with
+2,3,4,6,7 and JacobianChallenge Layers D–F. The pinned elliptic height and descent APIs are used with
 their exact conventions.
 
 ## Layer 4: Chabauty–Coleman and residue discs
@@ -4149,10 +4156,9 @@ satisfies the hypotheses of ColemanIntegration §L1.1.
 
 - For `y² = x⁶ + 8x⁵ + 22x⁴ + 22x³ + 5x² + 6x + 1` and `p = 3` the two-chart Weierstrass model is smooth over `ℤ_3` and `X̃(𝔽_3) = {∞⁺, ∞⁻, (0, 1), (0, −1)}`: four residue discs.
 - For `y² = x(x − 1)(x − 2)(x − 5)(x − 6)` and `p = 7, X̃(𝔽_7) = {(0,0), (1,0), (2,0), (5,0), (6,0), (3,6), (3,−6), ∞}`, eight residue discs.
-- For `y²=x³−x` over `F₃` the genus-one special fibre has four points including infinity. Full disc charts require the geometric construction; infinity is a full formal disc, never an isolated `Option.none`.
+- For `y² = x³ − x` over `𝔽₃` the special fibre has the four points `(0, 0)`, `(1, 0)`, `(2, 0)` and `∞`, and the residue disc over `∞` is an open disc like the other three.
 - The model `y² = x(x − 1)(x − 2)(x − 5)(x − 6)` over `ℤ_5` is not a datum: its reduction `y² = x²(x − 1)²(x − 2)` is singular at `(0, 0)` and `(1, 0)`.
 - `D(x̃)` equals the set of `ℚ_p`-points of the residue disc `]x̃[` of ColemanIntegration §L1.3 for the pair `(𝒳, Ō)`.
-- For supporting ReductionDiscData, the chosen param at a residue label is a bijection on its set-theoretic fibre. This does not identify a Coleman analytic tube.
 - For `C₀(5)` at `p = 3` the residue discs are the four of §4.23, over `∞⁺`, `∞⁻`, `(0, 1)` and `(0, −1)`, and each of the six rational points lies in exactly one of them.
 - Genus-zero analogue, outside the stated `g≥1` datum: `ℙ¹_{ℤ_p}` has p+1 discs, each parametrised by x−a or 1/x.
 
@@ -4213,13 +4219,12 @@ The interface includes these statements.
 - The coordinate evaluation `ω(log_A x)` equals the supplied pairing for `x ∈ A(K), ω ∈ Ω_A = Module.Dual K Lie(A)`.
 - `⟨x, ω⟩ = 0` for all `ω` iff x is torsion; `⟨x, ω⟩ = 0` for all x iff `ω = 0`.
 - A continuous homomorphism `λ : A(K) → Lie(A)` that agrees with `log_F̂` on some open subgroup equals `log_A`.
-- Supporting extension `A→+T` of a supplied homomorphism on a finite-index subgroup from FormalLogDatum; no abelian variety or analytic construction is encoded.
+- The extension `x ↦ N⁻¹·λ(N x)` to an abelian group `A` of a homomorphism `λ` given on a subgroup of finite index `N`, with values in a vector space `T` over a field of characteristic zero (a FormalLogDatum).
 - The abstract extension restricts to the supplied subgroup homomorphism.
 - The abstract extension commutes with integer scalar multiplication.
 - The abstract extension has torsion kernel, using the supplied torsion-kernel hypothesis on the subgroup.
 - Two abstract extensions commute with supplied group/linear maps when their restrictions satisfy the explicit compatibility hypothesis.
-- Abstract inclusion compatibility under the supplied restricted-map identity; this does not construct geometric scalar extension.
-- Evaluate a supplied linear functional on the extended formal logarithm; the dual is not identified with invariant differentials.
+- The pairing of the extension with a linear functional on `T`.
 - Vanishing against every abstract linear functional is equivalent to finite additive order.
 - A supplied homomorphism on a finite-index subgroup has a unique extension to the ambient additive group with values in a vector space over a characteristic-zero field. In the Néron-chart specialization this extension is the extended formal logarithm.
 
@@ -4235,14 +4240,11 @@ The abstract extension and pairing statements above retain their arbitrary addit
 - For an elliptic curve `E` over `ℚ_p` with good reduction and minimal Weierstrass model, `log_E` on `E¹(ℚ_p)` is the formal-group logarithm of the Weierstrass formal group in the parameter `z = −x/y` (dimension one, the case of Mathlib's FormalGroup).
 - `log_A(x) = 0` for every torsion point `x`; for `dim A = 0` the logarithm is the zero map to the zero space.
 - For `E : y² + y = x³ − x²` over `ℚ_5` the point `(0, 0)` has order 5, so `log_E(0, 0) = 0: log_A` is not injective, and a definition requiring an inverse exponential on all of `A(K)` is wrong.
-- For the Jacobian of `y² = x⁶ + 8x⁵ + 22x⁴ + 22x³ + 5x² + 6x + 1` over `ℚ_3`, `D' = [(0, −1) + (−3, 1) − ∞⁺ − ∞⁻]` lies in `J¹(ℚ_3)` with Flynn's local parameters `(s₁, s₂) = (−9/14, 426/49)`, and its formal logarithm is `≡ (36, 3) (mod 3⁴)` (Flynn–Poonen–Schaefer p.22).
+- For the Jacobian of `y² = x⁶ + 8x⁵ + 22x⁴ + 22x³ + 5x² + 6x + 1` over `ℚ_3`, `D' = [(0, −1) + (−3, 1) − ∞⁺ − ∞⁻] = 9·[∞⁺ − ∞⁻]` lies in `J¹(ℚ_3)` with Flynn's local parameters `(s₁, s₂) = (−9/14, 426/49)`, and its formal logarithm is `≡ (36, 3) (mod 3⁴)` (Flynn–Poonen–Schaefer p.22).
 - If `ω ∈ Ω_A` satisfies `⟨x, ω⟩ = 0` for all `x ∈ A(K)`, then `ω = 0`.
-- For arbitrary FormalLogDatum with rank-one target, the extension agrees with its supplied subgroup homomorphism; this does not identify an elliptic formal group.
 - A torsion element of the arbitrary additive group maps to zero.
-- A supplied nonzero element killed by 5 makes the extension noninjective; the elliptic curve and its torsion point are not constructed.
-- A supplied subgroup element whose supplied formal logarithm is congruent `to(36,3)` modulo `3^4` has the same congruence under the extension; no `C₀(5)` point or formal-group computation is supplied.
+- A nonzero element killed by 5 makes the extension noninjective.
 - If a linear functional vanishes on the entire abstract extension image, it is zero by the supplied spanning hypothesis (the right kernel in point-first order).
-- For the Jacobian of `C₀(5)` over `ℚ_3`, `D' = 9·[∞⁺ − ∞⁻]` lies in `J¹(ℚ_3)` and its logarithm in Flynn's parameters is `≡ (36, 3) (mod 3⁴)` (Flynn–Poonen–Schaefer p.22).
 - For an elliptic curve with good reduction the construction is the formal logarithm on `E¹(ℚ_p)` extended by division by `#Ẽ(𝔽_p)`.
 
 ([McCallum–Poonen (2012)](https://math.mit.edu/~poonen/papers/chabauty.pdf), §4.1, author copy p.4;
@@ -4269,7 +4271,7 @@ degree-zero divisor on `Y`, `∫_{ρ*E} ω = ∫_E Tr_ρ ω`, where `Tr_ρ : H�
 
 Work under the following conditions. `K` finite over `ℚ_p; X` smooth projective geometrically integral
 of genus `g ≥ 1` over `K`. The definition uses only the abelian logarithm of `J`; no reduction hypothesis
-is made. When `X` has good reduction this integral equals the Coleman integral `(§4.6)`.
+is made. When `X` has good reduction this integral equals the Coleman integral (§4.6).
 
 The interface includes these statements.
 
@@ -4281,12 +4283,10 @@ The interface includes these statements.
 - `∫_{ρ*E} ω = ∫_E Tr_ρ ω` for `ρ` finite and `E` of degree zero on `Y`.
 - Compatible with finite extensions K'/K.
 - For two actual base points O,O′ of `X`, the pullback maps `H⁰(J,Ω¹)→H⁰(X,Ω¹)` along their geometric Abel–Jacobi morphisms agree.
-- Evaluate the extended formal logarithm using a supplied linear equivalence `Ω≃Dual(T)`; this does not construct a curve, divisor class or regular differential.
 - Additivity and scalar linearity of the supplied formal-log evaluation.
 - Formal-log evaluation vanishes against every element of the supplied `Ω` iff the abstract class is torsion.
-- The change-of-variables equality follows from an explicitly supplied pairing identity; no geometric map or pullback is constructed.
-- The trace equality follows from an explicitly supplied pairing identity; no geometric divisor pullback or differential trace is constructed.
-- The inclusion equality follows from an explicitly supplied pairing identity; no field-base-change construction is encoded.
+- The change-of-variables equality follows from an explicitly supplied pairing identity.
+- The trace equality follows from an explicitly supplied pairing identity.
 - Extensionality for two supplied linear equivalences that agree pointwise.
 
 *Proof sketch.* The isomorphism `ι_O*` and its independence of `O`: two Abel–Jacobi maps differ by a
@@ -4307,11 +4307,8 @@ for `K'/K`.
 - For `E : y² + y = x³ − x²` over `ℚ_5, ∫_O^{(0,0)} ω = 0` for every `ω` although `(0, 0) ≠ O`: the integral sees divisor classes modulo torsion, not points.
 - For supplied residue data, the displayed power-series square-root equation and an assumed primitive identity imply the two 3-adic congruences; identification with actual `C₀(5)` points and forms is an additional hypothesis.
 - Evaluation of the zero abstract class is zero.
-- A supplied relation `2w=s` in the abstract additive group gives twice the evaluation `atw` equal to that `ats`; no Weierstrass divisor relation is proved.
-- The supplied `Ω`-to-dual equivalence identifies the formal-log integral with the formal-log pairing; no elliptic curve or genus hypothesis is encoded.
-- A supplied class killed by 5 has zero evaluation; the concrete elliptic point is not constructed.
-- McCallum–Poonen Example 3: `∫_{(0,1)}^{(−3,1)} dx/y ≡ 2·3 + 3⁴` and `∫_{(0,1)}^{(−3,1)} x dx/y ≡ 2·3² + 2·3³ (mod 3⁵)` on `C₀(5)`.
-- Degenerate case: `∫_Q^Q ω = 0`.
+- A relation `2w = s` in the additive group gives twice the evaluation at `w` equal to the evaluation at `s`.
+- A class killed by 5 has zero evaluation.
 
 ([McCallum–Poonen (2012)](https://math.mit.edu/~poonen/papers/chabauty.pdf), §5.1, author copy p.5;
 [Samir Siksek](https://arxiv.org/abs/1010.2603), §3.3, p.5; [Samir
@@ -4342,7 +4339,7 @@ term; composing with `log_F̂` gives a power series convergent on the open disc
 (ColemanIntegration §L0.5) whose differential is the pullback of `ω_J` along `P ↦ [P − Q]`, namely `ω`, because `ω_J` is translation invariant. A power series convergent on the open disc
 is determined by its derivative and its value at one point
 (ColemanIntegration §L0.8, ColemanIntegration §L0.4); comparing with
-`primitive(w)` gives (b) and (c). (a) is the definition of integral differentials and their reduction
+the primitive of `w` gives (b) and (c). (a) is the definition of integral differentials and their reduction
 in local coordinates (McCallum–Poonen §5.2(2)). (d) The coefficient of `z^{j+1}` is `w_j/(j + 1)` and
 `ord(z) ≥ 1`; `ord_p(j + 2) ≤ j` for all `j ≥ 0` when `p` is odd, so `β = Σ_j w_{j+1} z^j/(j + 2)` is integral
 (Siksek Lemma 3.2).
@@ -4422,7 +4419,7 @@ polynomial `P_Y ∈ K[t]` whose roots are Weil q-numbers of weights 1 and 2.
 
 The interface includes these statements.
 
-- Algebraic uniqueness for a candidate function on ReductionDiscData: its difference from the formal-log integral is constant on fibres, satisfies the supplied Frobenius-polynomial relation with `P` coprime to `X^m−1` for every `m≥1`, and vanishes at the base point. No Coleman primitive or cohomological Frobenius relation is constructed.
+- Uniqueness for a candidate function on the residue discs: its difference from the formal-log integral is constant on fibres, satisfies the supplied Frobenius-polynomial relation with `P` coprime to `X^m−1` for every `m≥1`, and vanishes at the base point.
 
 For the comparison, identify the invariant form by §4.3's Abel–Jacobi pullback and apply
 the regular equality of AnabelianGeometryAndNonabelianChabauty §5.8 to the supplied
@@ -4601,7 +4598,7 @@ giving valuation `≥ k − 2δ`. The `ω^{(i)}` are linearly independent (each 
 **Checks.**
 
 - McCallum–Poonen Example 3: `g = 2`, `r = 1`, `M = (∫ dx/y, ∫ x dx/y)ᵀ` over `[(−3,1) − (0,1)]` known modulo `3⁵` with minor valuation `δ = 1` on the row of `dx/y`; the theorem determines `ε = −(∫ x dx/y)/(∫ dx/y)` modulo `3^{5−2} = 3³`, consistent with McCallum–Poonen's `ε ≡ 2·3 + 3² + 2·3³ (mod 3⁴)`, which they obtain from the same data modulo `3⁵` because `v(∫ x dx/y) = 2`.
-- Degenerate case `r = 0: M` is empty, `R = ∅` and every `ω_i` is annihilating, with no precision loss.
+- Degenerate case `r = 0`: `M` is empty, `R = ∅` and every `ω_i` is annihilating, with no precision loss.
 
 ([Samir Siksek](https://arxiv.org/abs/1010.2603), §4 Remark (iii), p.9; [Stoll (arXiv
 v2)](https://arxiv.org/abs/0803.2836), §3 proof of Lemma 5, p.10; [McCallum–Poonen
@@ -4646,7 +4643,7 @@ coefficient is zero; that coefficient has weight `+∞`, not `Padic.valuation 0 
 
 - McCallum–Poonen Example 2: on the disc of `(0, 1)` of `C₀(5)` at `p = 3, m = 1 = p − 2`, the coefficient of `t²` in w vanishes mod 3, so (c) gives at most 2 zeros; the rescaled series has `v(a_i) + i = ∞, 2, 2, 5, 4, …` for `i = 0, 1, 2, 3, 4`, so `N_3 = 2`.
 - `C₁(3₂)` at `p = 3` on the disc of the Weierstrass point `(1, 0)` with parameter y + 3: `m = 2 > p − 2`, and `v(a_i) + i = ∞, 2, 3, 2, 6, 6, 7, …` so `N_3 = 3` by (d).
-- Stoll's disc of `(∞, −1)` on `X₀^dyn(6)` at `p = 5: m = 1 < p − 2 = 3`, so at most 2 zeros by (b).
+- Stoll's disc of `(∞, −1)` on `X₀^dyn(6)` at `p = 5`: `m = 1 < p − 2 = 3`, so at most 2 zeros by (b).
 - Degenerate case `f' = 0`: `f` is constant and has no zeros unless `f = 0`.
 
 ([McCallum–Poonen (2012)](https://math.mit.edu/~poonen/papers/chabauty.pdf), §5.3 Lemma 5.1, author
@@ -4667,7 +4664,7 @@ where `I_x̃` is the expansion of `η = ∫_O ω` on `D(x̃)`.
 
 Work under the following conditions. `g ≥ 2; O ∈ X(ℚ); J(ℚ)` finitely generated (Mordell–Weil,
 supplied by HeightsRationalPointsAndObstructions Layer 1). For p of bad reduction the residue classes are those of the minimal regular model
-`(§4.14)`.
+(§4.14).
 
 *Proof sketch.* `Ann_p(J(ℚ))` has dimension `g − r₀ ≥ 1` (§4.9 (a)); choose `ω ≠ 0` in it, scaled to be
 integral with nonzero reduction. `η(P) = ⟨ι_O(P), ω_J⟩` is continuous and vanishes on `J(ℚ)`, hence on
@@ -4706,7 +4703,7 @@ over `X̃(𝔽_p)` gives the bound (McCallum–Poonen Theorem 5.3 proof).
 **Checks.**
 
 - McCallum–Poonen Example 1: `y² = x(x − 1)(x − 2)(x − 5)(x − 6)` at `p = 7, rank 1, #X̃(𝔽_7) = 8`, so `#X(ℚ) ≤ 10`, and the ten points `(0,0), (1,0), (2,0), (5,0), (6,0), (3, ±6), (10, ±120), ∞` attain it.
-- Flynn–Poonen–Schaefer: for `C₀(5)` the best bound from (b) is `9 (p = 5)`, insufficient; the per-disc analysis at `p = 3 (§4.23)` gives 6.
+- Flynn–Poonen–Schaefer: for `C₀(5)` the best bound from (b) is 9 (at `p = 5`), insufficient; the per-disc analysis at `p = 3` (§4.23) gives 6.
 
 ([McCallum–Poonen (2012)](https://math.mit.edu/~poonen/papers/chabauty.pdf), §5.5 Theorem 5.3(a),
 author copy p.7; [McCallum–Poonen (2012)](https://math.mit.edu/~poonen/papers/chabauty.pdf), §5.5
@@ -4776,7 +4773,7 @@ Work under the following conditions. p odd; f has unit leading coefficient and u
 
 The interface includes these statements.
 
-- Supporting local polynomial/power-series identity; the integral differential basis and its orders require the geometric chart comparisons.
+- On each residue disc, in the local parameter `t` of (b), each `x^i dx/y` with `0 ≤ i ≤ g − 1` equals `w_i(t) dt` with `w_i ∈ ℤ_p[[t]]`.
 
 *Proof sketch.* Smoothness: the Jacobian criterion on both charts reduces to `f̃` squarefree of degree
 `2g + 1` or `2g + 2` over `𝔽_p`, `p` odd. (a) Over the generic and the special fibre the forms `x^i dx/y`, `i < g`, are a basis of the regular differentials of a hyperelliptic curve (AlgebraicCurves layer 10,
@@ -4789,8 +4786,8 @@ Weierstrass point in the parameter `y`.
 
 **Checks.**
 
-- `C₀(5)` at `p = 3: ω̃ = x` dx/y has zeros of order 1 at `(0, ±1)` and order 0 at `∞^±`; dx/y vanishes to order 1 at `∞^±`.
-- `C₁(3₂)` at `p = 3: (x − 1)` dx/y has a double zero at the Weierstrass point `(1, 0)` and no other zeros, total `2 = 2g − 2`.
+- `C₀(5)` at `p = 3`: `ω̃ = x dx/y` has zeros of order 1 at `(0, ±1)` and order 0 at `∞^±`; `dx/y` vanishes to order 1 at `∞^±`.
+- `C₁(3₂)` at `p = 3`: `(x − 1) dx/y` has a double zero at the Weierstrass point `(1, 0)` and no other zeros, total `2 = 2g − 2`.
 
 ([McCallum–Poonen (2012)](https://math.mit.edu/~poonen/papers/chabauty.pdf), §8.2 proof of
 Proposition 8.2, author copy p.10; [Poonen (arXiv v1)](https://arxiv.org/abs/math/9512217v1), §4
@@ -4875,7 +4872,7 @@ from it carries the same label.
 Work under the following conditions. `X/ℚ` smooth projective geometrically integral of genus `g ≥ 2`
 with explicit equations; `r < g`. The prime p may be any prime of good reduction for the chosen model,
 including `p ≤ 2g`; exceptional discs are covered by verdicts with exact Strassmann bounds.
-Number-field and bad-reduction variants are separate statements with their own hypotheses (`§4.19`,
+Number-field and bad-reduction variants are separate statements with their own hypotheses (§4.19,
 §4.14); this datum is the good-reduction version over `ℚ`.
 
 The interface includes these statements.
@@ -4904,9 +4901,7 @@ rank hypothesis as a hypothesis rather than a datum, following Stoll's Theorem 6
 - For `C₁(3₂)` at `p = 3`, verdicts on the six discs other than `(1, 0)` do not form a valid datum, even though each is valid: the list of discs must be all of `X̃(𝔽_3)`.
 - No datum exists when `rank J(ℚ) ≥ g` and `r₀ = g`: then `Ann_p(J(ℚ)) = 0` (McCallum–Poonen Example 4, `y² = x⁶ + x² + 1` with `r = r₀ = 2`).
 - A datum built from a rank hypothesis is conditional and its completeness theorem is stated under the labelled hypothesis.
-- Supporting mathematical inequality: a valid datum with total disc bound 6 lists at most 6 points. It does not construct `C05` or prove six distinct actual points.
 - The datum of §4.23 for `C₀(5)` at `p = 3` is valid and unconditional; those of §4.24 and §4.25 are conditional with their labels.
-- Degenerate case `r = 0: G = 0` and every differential is annihilating.
 
 ([McCallum–Poonen (2012)](https://math.mit.edu/~poonen/papers/chabauty.pdf), §8.2 Proposition 8.2,
 author copy p.10; [McCallum–Poonen (2012)](https://math.mit.edu/~poonen/papers/chabauty.pdf), §6
@@ -4917,7 +4912,7 @@ p.10.)
 
 ### 4.18 A valid Chabauty–Coleman datum determines `X(ℚ)`
 
-Let 𝒞 be a valid Chabauty–Coleman datum `(§4.17)` for `X` with list `L`. Then `X(ℚ) = L`. If 𝒞 is
+Let 𝒞 be a valid Chabauty–Coleman datum (§4.17) for `X` with list `L`. Then `X(ℚ) = L`. If 𝒞 is
 conditional on the labelled hypothesis `rank J(ℚ) ≤ r`, then `X(ℚ) = L` holds under that hypothesis, and
 unconditionally every `P ∈ X(ℚ)` with `ι_O(P)` in the saturation of `G` in `J(ℚ_p)` lies in `L`.
 
@@ -4931,7 +4926,7 @@ at `x̃` is valid, so `P ∈ Z_rat ⊆ L` (§4.16). Unconditional part: `ω_i` a
 
 **Checks.**
 
-- `C₀(5): X(ℚ) = {∞⁺, ∞⁻, (0, ±1), (−3, ±1)} (§4.23)`.
+- `C₀(5)`: `X(ℚ) = {∞⁺, ∞⁻, (0, ±1), (−3, ±1)}` (§4.23).
 - Degenerate case: a datum in which every disc has `N` equal to the number of known rational points and `Z_irr = ∅` gives `#X(ℚ) = Σ N`.
 
 ([McCallum–Poonen (2012)](https://math.mit.edu/~poonen/papers/chabauty.pdf), §8.2 Proposition 8.2,
@@ -5115,7 +5110,7 @@ Newton](https://arxiv.org/abs/2301.10509), §7.4, p.99.)
 
 ### 4.23 Chabauty–Coleman datum for the 5-cycle curve `C₀(5)` at `p = 3`
 
-Under the explicit arithmetic-data hypotheses below, let `X = C₀(5)` be the smooth projective `genus-2`
+Under the explicit arithmetic-data hypotheses below, let `X = C₀(5)` be the smooth projective genus-2
 curve `y² = f(x)`, `f = x⁶ + 8x⁵ + 22x⁴ + 22x³ + 5x² + 6x + 1`, birational to the curve of quadratic
 polynomials with a marked 5-cycle. Then `X(ℚ) = {∞⁺, ∞⁻, (0, 1), (0, −1), (−3, 1), (−3, −1)}`.
 Data (§4.17): `O = ∞⁺`; rank input `J(ℚ) ≅ ℤ` (Flynn–Poonen–Schaefer Theorem 3, a 2-descent with
@@ -5135,10 +5130,6 @@ coefficient enclosures with exact annihilation relation, and strict coefficient/
 zero-matching witnesses on all four discs. The general geometric primitive and the precision
 laws of §§0.9 and 2.6 prove soundness of these supplied data. The full point list follows from the zero bounds; it is
 not assumed.
-
-The interface includes these statements.
-
-- Supporting set/cardinality consequence: for an arbitrary mathematical ChabautyColemanData with Valid and exactly 6 listed points, its recorded rational set equals that list and has cardinality 6. This does not construct the actual named-curve application or discharge its rank/model/disc hypotheses.
 
 *Proof sketch.* Model and discs: §4.15 at `p = 3` (`f mod 3` is squarefree of degree 6 with leading
 coefficient 1). Annihilator: `Ann_3(G)` is one-dimensional `(g − r = 1)` and is computed from the tiny
@@ -5163,7 +5154,7 @@ proof of Proposition 8.2, author copy p.10; [McCallum–Poonen
 
 ### 4.24 Chabauty–Coleman datum for Poonen's curve `C₁(3₂)` at `p = 3`
 
-Under the explicit arithmetic-data hypotheses below, let `X = C₁(3₂)` be the smooth projective `genus-2`
+Under the explicit arithmetic-data hypotheses below, let `X = C₁(3₂)` be the smooth projective genus-2
 curve `y² = g(x)`, `g = x⁶ − 2x⁴ + 2x³ + 5x² + 2x + 1`, classifying `z² + c` with a rational point of
 preperiodic type `3₂`. Then `X(ℚ) = {(−1, ±1), (0, ±1), (1, ±3), ∞⁺, ∞⁻}`. The datum is
 conditional on the rank input `rank J(ℚ) ≤ 1` (Poonen Proposition 1), whose corrected 2-descent §3.28
@@ -5189,10 +5180,6 @@ isolation/nonrationality witnesses for `W`. These numerical coefficients are inp
 outputs of a table-generation algorithm. The geometric zero bound and point comparison prove
 completeness under the separately labelled rank bound.
 
-The interface includes these statements.
-
-- Supporting set/cardinality consequence: for an arbitrary mathematical ChabautyColemanData with Valid and exactly 8 listed points, its recorded rational set equals that list and has cardinality 8. This does not construct the actual named-curve application or discharge its rank/model/disc hypotheses.
-
 *Proof sketch.* Model and discs: §4.15; the Weierstrass disc of `(1, 0)` uses `t = y + 3`, with `x = ξ(t) ∈ ℤ_3[[t]]`, `ξ(0) = 1`, and `dx/y = 2 dt/g'(ξ(t))`. Annihilator: `∫_{S⁻}^{S⁺} dx/y` and `∫_{S⁻}^{S⁺} x dx/y`
 are tiny integrals evaluated at `t = 6`, both of valuation 1; `α = −(∫ x dx/y)/(∫ dx/y) ≡ 68 (mod 3⁴)` (§4.10). Orders of `ω̃ = (x − 1) dx/y`: a double zero at the Weierstrass point `(1, 0)` and no other
 zero (degree `2g − 2 = 2`), so §4.11 (b) gives `N = 1` on six discs. Exceptional disc: the rescaled
@@ -5214,7 +5201,7 @@ v1)](https://arxiv.org/abs/math/9512217v1), §4 proof of Proposition 2, p.17.)
 
 ### 4.25 Conditional Chabauty–Coleman datum for Stoll's curve `X₀^dyn(6)` at `p = 5`
 
-Under the explicit arithmetic-data hypotheses below, let `X = X₀^dyn(6)` be the `genus-4` curve given by
+Under the explicit arithmetic-data hypotheses below, let `X = X₀^dyn(6)` be the genus-4 curve given by
 the smooth model `G(u, w) = w²(w + 1)u³ − (5w² + w + 1)u² − w(w² − 2w − 7)u + (w + 1)(w − 3) = 0` of
 bidegree `(3, 3)` in `ℙ¹ × ℙ¹`, with the ten rational points `P₀, …, P₉` of Stoll's table.
 Unconditionally: `J(ℚ)` has trivial torsion, the subgroup `G` generated by differences of the `P_i` is `≅ ℤ³`, and the `P_i` are the only rational points `P` with `[P − P₁]` in the saturation of `G`. Conditionally
@@ -5239,14 +5226,10 @@ annihilator/integral series and the strict tails and local witnesses for the dis
 expansions. Verify the local bounds and deduce the saturation conclusion; the rational-point
 conclusion additionally keeps the stated analytic/BSD or rank hypothesis.
 
-The interface includes these statements.
-
-- Supporting set/cardinality consequence: for an arbitrary mathematical ChabautyColemanData with Valid and exactly 10 listed points, its recorded rational set equals that list and has cardinality 10. This does not construct the actual named-curve application or discharge its rank/model/disc hypotheses.
-
 *Proof sketch.* Rank: `G ≅ ℤ³` by reduction maps at `S = {3, 5, 7, 11, 13}` and six explicit relations
 (Stoll Lemma 4); under the labelled hypothesis `G` has finite index in `J(ℚ)`. Annihilator: `Ann_5(G)` is
 one-dimensional `(g − 3 = 1)`; the integrals `⟨D_j, ω_i⟩` are computed by §4.5 from degree-four divisors
-supported in the disc of `P₁`, and the kernel of the transpose of the `4 × 3` matrix gives the coefficient column of `ω (§4.10)`. Verdicts: §4.11 (b)
+supported in the disc of `P₁`, and the kernel of the transpose of the `4 × 3` matrix gives the coefficient column of `ω` (§4.10). Verdicts: §4.11 (b)
 at `(∞, −1)` and on the discs where `ω̄ ≠ 0`; (d) with Stoll's explicit expansion at `(∞, 0)` based at `P₃`.
 Conclusion: §4.18 in its conditional form; its unconditional part gives Stoll Lemma 5, since `ω` kills
 the saturation of `G`.
@@ -5300,9 +5283,10 @@ can test smooth lifting and parameters, but is not a genus `≥1` Chabauty datum
 
 ### Dependencies
 
-Layers 0,2,3; ColemanIntegration L0–L1; SchemeAndStackFoundations §§3.3, 3.8;
-NeronModelsAndSemistableAbelianVarieties §§1.7–1.8, 3.8; JacobianChallenge Layers D–F and StableReduction
-Layer 5.
+Layers 0,2,3; ColemanIntegration L0–L1; AnabelianGeometryAndNonabelianChabauty §§5.6, 5.8, 5.10–5.11;
+HeightsRationalPointsAndObstructions Layer 1 and §§1.15a–1.16; SchemeAndStackFoundations §§2.20, 3.3, 3.8;
+NeronModelsAndSemistableAbelianVarieties §§1.7–1.8, 3.8; JacobianChallenge Layers C–F; StableReduction
+Layer 5; AlgebraicCurves Layer 10.
 
 ## Layer 5: The Mordell–Weil sieve
 
@@ -5337,7 +5321,7 @@ The interface includes these statements.
 
 *Proof sketch.* Use native subgroup image to form `φᵢ(L); Subgroup.le_comap_map` gives the containment
 needed for the native induced quotient map, through its additive companion. Form each allowed image
-with `Finset.image`. Filter `Finset.univ` by the finite conjunction of local membership tests. The finite filter is a mathematical finite set on the native quotient carrier.
+with `Finset.image`. Filter `Finset.univ` by the finite conjunction of local membership tests.
 
 **Checks.**
 
@@ -5346,7 +5330,6 @@ with `Finset.image`. Filter `Finset.univ` by the finite conjunction of local mem
 - For `Γ=G=ℤ/4, φ=id, L=0` and `X={1,3}, A(L)={q₀(1),q₀(3)}`.
 - For `Γ=ℤ/2, G=ℤ/4, φ=0, L=Γ` and `X={1}, A(L)=∅` although `X` is nonempty.
 - For `Γ=G=ℤ/4, φ=id, L=Γ` and `X={1}, A(L)={0}`.
-- Empty `S` retains every quotient class.
 - An empty Xᵢ at a selected index rejects all classes.
 - The torsion group `ℤ/4` and the allowed set `{1,3}` retain both odd classes.
 - With one selected index, membership is exactly that single local test.
@@ -5448,7 +5431,6 @@ finite fine quotient for `π(z)=0`. For each `a∈B`, translate the kernel enume
 - With no local tests and a section correct on `B`, the result is the whole inverse image `π⁻¹(B)`, enumerated in `Γ/K`.
 - Take `Γ=ℤ/4, K=L=0, B={q₀(0)}`, no tests, and constant `σ=q₀(1)`. The result is `{q₀(1)}`, not `B`. This `σ` fails the section condition.
 - With `B` empty the result is empty.
-- When `K=L` and `σ=id`, the result is `B∩A_S(L)`.
 - A wrong section can move a candidate to the wrong fibre, so its verification is essential.
 - `K=L` gives identical tests.
 - For `Γ=G=ℤ/4, φ=id, K=0, L=2Γ` and `X={0}`, the images differ: the fine class 2 fails while its coarse projection passes.
@@ -5885,7 +5867,7 @@ contains every element of the class a of height at most `dH + δ`.
 *Proof sketch.* §5.12 puts `q_L(ι(P))` in `A_S(L)`. `ĥ(ι(P)) ≤ d·h(P) + δ ≤ dH + δ = H′`
 because `d ≥ 0`, so `ι(P) ∈ T_{q_L(ι(P))}`. §5.18 bounds the number of elements of
 height at most H′ in each class by one when `L ⊆ NΓ`. The constants d and `δ` come from a
-height-difference bound `(§3.12)` and the explicit embedding; their certification for genus-two
+height-difference bound (§3.12) and the explicit embedding; their certification for genus-two
 Jacobians is the explicit height-comparison input, and the canonical height of `J(ℚ)` is supplied by
 HeightsRationalPointsAndObstructions Layer 0.
 
@@ -6288,8 +6270,9 @@ at `L=Γ` is nonempty, while the kernel-level sieve is empty.
 ### Dependencies
 
 Layers 1,3,4; the Picard/reduction contracts of SchemeAndStackFoundations §§3.3, 3.8 and
-NeronModelsAndSemistableAbelianVarieties §3.8; HeightsRationalPointsAndObstructions Layers 0–1;
-DiophantineApproximationAndTranscendence §§4.1–4.5 for integral-point bounds. Finite group and Kummer
+NeronModelsAndSemistableAbelianVarieties §§1.8, 3.8; HeightsRationalPointsAndObstructions Layers 0–1;
+DiophantineApproximationAndTranscendence §§4.1–4.5 for integral-point bounds; AlgebraicCurves Layer 10;
+EllipticCurves Layer 4; JacobianChallenge Layers D–F; StableReduction Layer 5. Finite group and Kummer
 data are explicit inputs.
 
 ## Layer 6: Quadratic Chabauty and complete solution lists
@@ -6369,7 +6352,7 @@ finite and `L ⊆ R` (each element verified exactly). Every `B_i` is matched `(L
 subsingleton by (ii); hence `x = P ∈ L`. Together with `L ⊆ R` this gives `R = L`; package `L` with these
 proofs as an unconditional exact solution set (§6.1). Uniqueness (ii) is indispensable: agreement of a
 p-adic candidate with a known point to precision n does not prove equality, because numerical
-agreement never proves an algebraic identity `(§0.7)`.
+agreement never proves an algebraic identity (§0.7).
 
 **Checks.**
 
@@ -6436,7 +6419,7 @@ Let `X/Q` be a smooth projective geometrically connected curve of genus `g ≥ 2
 reduction. Let `Z_1, …, Z_k` be nice classes and `(θ_j, Υ_j)` the quadratic Chabauty pairs of AnabelianGeometryAndNonabelianChabauty §§6.1–6.8 with
 endomorphism `E_j`, constant `c_j` and pairing `B_j` (BDMTV Lemma 3.7, with `Υ_j = {0}` under potentially
 good reduction everywhere, Corollary 3.8). Suppose given: (a) a finite set `L ⊆ X(Q)` of verified
-rational points containing `b` and points `P_1, …, P_m` such that `AJ_b(P_i) ⊗ (E_j(AJ_b(P_i)) + c_j) span E` (or `E_K = H⁰(Ω¹)^* ⊗_{K_p} H⁰(Ω¹)^*` when the heights are K-equivariant); (b) for every `x̄ ∈ X(F_p)` and every choice `(α_1, …, α_k) ∈ Υ_1 × ⋯ × Υ_k`, a residue-disc datum (§6.3) on `]x̄[` for the family
+rational points containing `b` and points `P_1, …, P_m` such that the elements `AJ_b(P_i) ⊗ (E_j(AJ_b(P_i)) + c_j)` span `E` (or `E_K = H⁰(Ω¹)^* ⊗_{K_p} H⁰(Ω¹)^*` when the heights are K-equivariant); (b) for every `x̄ ∈ X(F_p)` and every choice `(α_1, …, α_k) ∈ Υ_1 × ⋯ × Υ_k`, a residue-disc datum (§6.3) on `]x̄[` for the family
 `(det T_{j,α_j})_{j ≤ k}` of the determinant criterion, whose power-series coefficients are computed
 by §6.13 and Coleman integration to the precision exact by
 §6.15; (c) for every centre of every disc datum, a matching with an
@@ -6501,7 +6484,7 @@ The interface includes these statements.
 - `Z_ij = 0` for i, j in the non-holomorphic block.
 - `Σ_{i<g} Z_{i,g+i} = 0`, equivalently `trace(Z · Cᵀ) = 0` for the cup product matrix `C`.
 - Matrices satisfying (b)–(d) form a Q-subspace of `M_{2g}(Q)`; admissible classes are its nonzero elements meeting (a).
-- The actual function field `Q(X)=Frac Γ(Y,O_Y)`, with its induced boundary expansions into `L((t_x))`; its expansions and maps are those of ExplicitSetup.
+- The function field `Q(X) = Frac Γ(Y, O_Y)` with its boundary expansions into `L((t_x))`, induced by `K ⊗ L`.
 - The actual tensor class is identified through crystalline/de Rham comparison and satisfies `FᵀZF=pZ` at the chosen good prime; linear matrix conditions alone do not imply this.
 
 *Proof sketch.* Over `Q`, take a smooth projective geometrically connected curve `X` of genus `g≥2`, a
@@ -6510,7 +6493,7 @@ nonempty reduced boundary divisor `D` of degree `d=#D(Qbar)` and affine open `Y=
 splitting field `L` for `D` and uniformizers `t_x` identifying completed local rings at `x∈D(L)` with
 `L[[t_x]]` and their fraction fields with `L((t_x))`; expansions must be the maps induced by `K⊗L`, not
 arbitrary Laurent-family maps. Choose `ω_0,…,ω_{2g+d−2}` in `Ω¹(Y/Q)` whose classes form a basis of
-`H¹_dR(Y)`, the first `2g` of the second kind, the firstg a basis of `H⁰(X,Ω¹)`, with cup matrix
+`H¹_dR(Y)`, the first `2g` of the second kind, the first `g` a basis of `H⁰(X,Ω¹)`, with cup matrix
 `C=[[0,I],[-I,0]]`, and third-kind complement with residue map, after tensoring with `L`, an L-linear isomorphism onto
 `{(r_x)∈L^{D(L)}:Σ_x r_x=0}`. Over `Q` its image is the Galois-invariant part
 of that hyperplane. Put
@@ -6523,21 +6506,21 @@ expansions. The residue map on `span_Q(ω_{2g}, …, ω_{2g+d−2})⊗_Q L` is
 injective with image the L-linear sum-zero hyperplane, because the kernel of
 `H¹_dR(Y)⊗_Q L → L^{D(L)}` is `H¹_dR(X)⊗_Q L` (BDMTV proof of Lemma 4.10);
 this is the property §6.6 uses. Condition (b) reads `Z_ij = 0` for `i`, `j ≥ g` only
-because `ω_0, …, ω_{g−1} span Fil¹`; condition (c) reads `Σ_{i<g} Z_{i,g+i} = 0` only for the symplectic
+because `ω_0, …, ω_{g−1}` span `Fil¹`; condition (c) reads `Σ_{i<g} Z_{i,g+i} = 0` only for the symplectic
 convention.
 
 **Checks.**
 
-- The `6×6` integer matrix Z1 of BDMTV `p.931` satisfies (b), (c), (d): it is antisymmetric, its lower-right `3×3` block is zero and `Z1(0,3) + Z1(1,4) + Z1(2,5) = 10 + 1 − 11 = 0`.
-- The zero matrix satisfies the linear conditions (b)–(d) but is excluded by nonzeroness. This test concerns the matrix carrier, not a construction of the geometric mixed extension.
+- The `6×6` integer matrix Z1 of BDMTV p. 931 satisfies (b), (c), (d): it is antisymmetric, its lower-right `3×3` block is zero and `Z1(0,3) + Z1(1,4) + Z1(2,5) = 10 + 1 − 11 = 0`.
+- The zero matrix satisfies the linear conditions (b)–(d) but is excluded by nonzeroness.
 - The matrix `fromBlocks 0 1 1 0` (symmetric, nonzero) fails (d).
 - For `g = 1` the cup product matrix is the `2×2` matrix with rows `(0, 1)` and `(−1, 0)`, the standard symplectic form, `Matrix.fromBlocks 0 1 (−1) 0`.
-- A nonzero matrix satisfying `only(b)–(d)`, together with `F=I` and `p=17`, fails `FᵀZF=17Z` and cannot supply an ExplicitSetup Tate class. The Frobenius compatibility must be checked on the actual cohomology.
+- A nonzero matrix `Z` satisfying (b)–(d), with `F = I` and `p = 17`, fails `FᵀZF = 17Z`: condition (a) does not follow from (b)–(d).
 - For `X:y²=2x⁶+1`, the two infinity points split over `L=Q(√2)`. The
   third-kind complement has Q-dimension one; the full sum-zero hyperplane in `L²`
   has Q-dimension two. Its invariant tuples are `(a√2,−a√2)`, `a∈Q`, and the
   residue map becomes an isomorphism onto the whole hyperplane only after tensoring with L.
-- `X_s(13), Y = {Z ≠ 0}, b = P2 = (0,0), g = 3: ω = (1, x, y, …)dx/Q_y` and Z1, Z2 of §6.22 form a set-up.
+- `X_s(13)`, `Y = {Z ≠ 0}`, `b = P2 = (0,0)`, `g = 3`: `ω = (1, x, y, …)dx/Q_y` and Z1, Z2 of §6.22 form a set-up.
 - A symmetric nonzero matrix is never admissible, by (d).
 
 ([BDMTV (2019)](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf),
@@ -6599,7 +6582,7 @@ The interface includes these statements.
 - `C(Ω + c, g + cᵀZΩ + e, Z) = unipotent(c, cᵀZ, e) · C(Ω, g, Z)` for constants c, e (the dependence on primitives).
 - The connection matrix is `Λ(ω, η, Z) = −[[0,0,0],[ω,0,0],[η,ωᵀZ,0]]`.
 
-*Proof sketch.* Expand `C^(−1)dC` for `C = [[1,0,0],[Ω,1,0],[g,ΩᵀZ,1]]: C^(−1) = [[1,0,0],[−Ω,1,0],[ΩᵀZΩ − g, −ΩᵀZ, 1]]` (using `ΩᵀZΩ = 0` because `Z` is alternating) and `C^(−1)dC = [[0,0,0],[dΩ,0,0],[dg − ΩᵀZdΩ, dΩᵀZ, 0]]`. Comparing with `Λ = −[[0,0,0],[ω,0,0],[η,ωᵀZ,0]]` gives `dΩ = −ω, dΩᵀZ = −ωᵀZ` and `dg = ΩᵀZdΩ − η`,
+*Proof sketch.* Expand `C^(−1)dC` for `C = [[1,0,0],[Ω,1,0],[g,ΩᵀZ,1]]`: `C^(−1) = [[1,0,0],[−Ω,1,0],[ΩᵀZΩ − g, −ΩᵀZ, 1]]` (using `ΩᵀZΩ = 0` because `Z` is alternating) and `C^(−1)dC = [[0,0,0],[dΩ,0,0],[dg − ΩᵀZdΩ, dΩᵀZ, 0]]`. Comparing with `Λ = −[[0,0,0],[ω,0,0],[η,ωᵀZ,0]]` gives `dΩ = −ω, dΩᵀZ = −ωᵀZ` and `dg = ΩᵀZdΩ − η`,
 which is (29). `Ω_x` is a vector of formal primitives of `−ω`, which exist in `L((t_x))` because `ω_0, …, ω_{2g−1}` are of the second kind; `g_x` exists exactly when (30) holds (§6.6). Changing
 `Ω_x` by a constant vector c changes `g_x` by `cᵀZΩ_x` plus a constant; the principal parts used in
 §6.8 change by terms involving only Z's columns of holomorphic index and the
@@ -6650,7 +6633,7 @@ inclusion), and the identity lies in `Fil⁰` since `γ_Fil(b) = 0`; by uniquene
 **Checks.**
 
 - `X_s(13)`, `Y = {Z ≠ 0}`, `b = P2`: `β_Fil,Z1 = (0,0,0,0,1/2,1/2)ᵀ`, `γ_Fil,Z1 = 5y/6 + 3x/2`; `β_Fil,Z2 = (0,0,0,0,−1/2,−5/2)ᵀ`, `γ_Fil,Z2 = −5y/6 − 15x/2`.
-- For `Z = 0: η = 0, b_Fil = 0, γ_Fil = 0`, and `Fil⁰A_Z` is the split filtration.
+- For `Z = 0`: `η = 0`, `b_Fil = 0`, `γ_Fil = 0`, and `Fil⁰A_Z` is the split filtration.
 
 ([BDMTV (2019)](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf),
 Theorem 4.11, p.917; [BDMTV
@@ -6699,9 +6682,8 @@ pole bound before solving this finite system. The resulting data satisfy (30) an
 
 **Checks.**
 
-- For `X_s(13)`, `Z1`: `β_Fil = (0,0,0,0,1/2,1/2)` and `γ_Fil = 5y/6 + 3x/2`.
 - For `Z = 0` the unique data are `η = 0, b_Fil = 0, γ_Fil = 0`.
-- Since `Z` is antisymmetric, the printed residue condition `Res_x(dΩ_xᵀZΩ_x − η') = 0` gives `η' = −η`, which differs from `η` and violates ResidueCondition whenever some `Res_x(Ω_xᵀZdΩ_x) ≠ 0`.
+- Since `Z` is antisymmetric, the printed residue condition `Res_x(dΩ_xᵀZΩ_x − η') = 0` gives `η' = −η`, which differs from `η` and violates the residue equations (30) whenever some `Res_x(Ω_xᵀZdΩ_x) ≠ 0`.
 - The map `Z ↦ (η, b_Fil, γ_Fil)` is Q-linear: the data for Z1 + Z2 are the sums (agreement with the module structure of admissible matrices).
 - `X_s(13)`, `Y = {Z ≠ 0}`, `b = P2`, `Z = Z1`: output `η_{Z1} = −(44x² + (148/3)xy + 8y²)dx/Q_y`, `β_Fil = (0,0,0,0,1/2,1/2)`, `γ_Fil = 5y/6 + 3x/2`.
 
@@ -6992,7 +6974,7 @@ The interface includes these statements.
   RestrictedPowerSeries §2.2 translation; NewtonPolygons §§3.4 and 4.3 supply strict-perturbation multiplicity
   counts on every recentered cluster disc.
 - `ED6.roots_determined_of_truncation`: Under the displayed restriction, tail, coefficient-error, `n>k` and geometric multiplicity hypotheses, provide the matching of geometric root multisets and a complete finite ball cover. Isolation additionally requires a local count of one; repeated roots remain clusters.
-- Supporting necessary congruence for an existing `Q_p` root, using the supplied tail valuation. No cluster existence, multiplicity or isolation conclusion.
+- Under the tail hypothesis, a root `x` of `F` with `ord_p(x) ≥ 1` satisfies `ord_p(Σ_{i<m} F_i x^i) ≥ n`; this congruence alone gives neither existence, multiplicity nor isolation of a root.
 
 *Proof sketch.* Normalize to `G(T)=p^(−k)F(pT)`, of Gauss norm one. The tail and coefficient-error hypotheses give `||G−H||≤ε=p^(−(n−k))<1`. Thus `G` and `H` have the same last coefficient of norm one, of index `D≤d`. If `D=0` both are units and have no closed-disc roots. Otherwise use the pinned `TauCeti.PowerSeries.IsDistinguished.exists_isUnit_isMonicOfDegree_mul_eq` and its uniqueness theorem to factor each as a unit of norm one times a monic degree-D polynomial whose roots lie in the closed unit disc. The supplier unit criterion and evaluation show that these unit factors have absolute value one throughout that disc. Partition the union of the two finite root multisets into closed balls of radius `ε^(1/d)`. Enlarge a cluster ball slightly to a radius `ε^(1/d)<r<1` that crosses no other root distance. On its boundary every factor in the polynomial for `G` has absolute value at least r, so `|G|≥r^D≥r^d>ε`. The nonarchimedean Rouché/Newton-polygon comparison gives equal numbers of G- and H-roots inside, with multiplicity. Taking the radii down to `ε^(1/d)` gives the matching. Apply NewtonPolygons §§3.4 and 4.3 after translating and rescaling each cluster
 disc, using RestrictedPowerSeries §2.2 and Tau Ceti `PowerSeries.evalAt_rescale`. The quantitative matching radius and its
@@ -7079,9 +7061,7 @@ the `20/17` counts are deduced by exact verification, without a target to genera
 The interface includes these statements.
 
 - The displayed B and Q polynomial evaluations
-  over any commutative ring, compatible with ring homomorphisms. Their coordinate
-  identity and listed memberships are provided by the next theorem.
-- Supporting algebra only: The polynomial identity/point memberships do not identify the modular curve or prove good reduction. The geometric application requires the hypotheses of this section.
+  over any commutative ring, compatible with ring homomorphisms.
 - Finite set of all projective special-fibre points at 17 using unique normalized representatives `Z=1`, `Z=0/Y=1`, and `(1:0:0)`.
 - Exact enumeration gives 20 distinct projective points.
 - At each enumerated F17 point one partial derivative is nonzero. This rational-point check alone does not prove geometric smoothness over F17-bar; the good-reduction model is a separate hypothesis.
@@ -7137,10 +7117,6 @@ Hecke action matrices, characteristic polynomials and de Rham comparison identit
 actual Jacobian. General modular/isogeny theory is imported; generating the matrix table is not a
 target.
 
-The interface includes these statements.
-
-- Supporting algebra only: A generated cubic field is not `End(J)⊗Q` or an NS-rank computation. The geometric application requires the hypotheses of this section.
-
 *Proof sketch.* The newform orbit and q-expansion are an exact modular-symbols computation
 (supplied geometric/Hecke data with exact identification hypotheses). `J ≅ Jac(X_0^+(169))` is
 isogenous to the `w_169`-invariant part of `J_0(169)`, which is `A_f` because `S_2(Γ_0(169))^{+}` is spanned
@@ -7170,7 +7146,7 @@ p.887.)
 Prove: for a normalized weight-two newform with
 trivial character, no CM and no nontrivial inner twist, and its actual modular quotient `A_f`, `End_ℚ(A_f) ⊗ ℚ ≃ K_f` and `End_ℚ̄(A_f) ⊗ ℚ ≃ K_f`.
 Retain the algebraic and geometric endomorphism fields and the Hecke quotient identification;
-apply this theorem to the explicit `level-169` form above. Its Rosati-fixed part gives the stated
+apply this theorem to the explicit level-169 form above. Its Rosati-fixed part gives the stated
 Néron–Severi rank. Source: BDMTV (2019) §6.1, pp.926–927, using Shimura Theorem 7.14 and
 Ribet Corollary 4.2 as cited there. *Needs:* ModularCurvesPartII §§16.1–16.7;
 AbelianSchemesAndArithmeticModuli A3.9 (`Polarization.rosati`), A6.14
@@ -7222,16 +7198,12 @@ an isomorphism as soon as `log(AJ_b(P))` of one rational point `P` is nonzero; `
 and 3 has order 3 in `(Z/7Z)^×/{±1}`), and §6.25 verifies the
 nonvanishing with `P5`. A second route, labelled conditional: three independent points (§3.19) and a
 descent upper bound on the genus-three Jacobian (Bruin–Poonen–Stoll; Layer 3 does not construct descent
-beyond genus two) whose supplied class-group input for a `degree-28` field of discriminant `2⁴²·13¹²` is
+beyond genus two) whose supplied class-group input for a degree-28 field of discriminant `2⁴²·13¹²` is
 exact only under the Generalised Riemann Hypothesis (Bruin–Poonen–Stoll).
 
 Work under the following conditions. `J ∼ A_f` (§6.19); `ord_{s=1} L(f^σ, s) = 1`
 for all `σ` (§6.20); the modular rank-one input over `Q` described under Explicit application inputs,
 whose Heegner-trace and descent conditions are not inferred from the analytic datum.
-
-The interface includes these statements.
-
-- Supporting algebra only: Restriction-of-scalars dimension does not establish Q-rank 1 over the `RM` field. The geometric application requires the hypotheses of this section.
 
 *Proof sketch.* Apply the explicit modular rank-one hypothesis to each conjugate newform and the
 supplied isogeny `J ∼ A_f` to obtain `rank J(Q)=3` and finite Sha. The genuine `K` action then makes
@@ -7348,12 +7320,11 @@ Tate classes `Z1,Z2` of §6.22. The Hodge filtration data of `A_{Z1}`, `A_{Z2}` 
 Work under the following conditions. The basis and model of §6.23a; Z1, Z2 of
 §6.22. Supply finite principal-part/Laurent coefficients at the four boundary points with
 sufficient exact truncation, and their geometric identifications. The stated eta/beta/gamma
-formulas are checked `against(30),(32)` from these inputs; producing a cohomology or
+formulas are checked against (30) and (32) from these inputs; producing a cohomology or
 Laurent-coefficient table is not a target.
 
 The interface includes these statements.
 
-- Supporting algebra only: Base normalization and zero holomorphic part omit Laurent residue/regularity and basis checks. The geometric application requires the hypotheses of this section.
 - The two printed gamma expressions mapped to the coordinate-ring quotient.
 
 *Proof sketch.* Apply the principal-part characterization of §6.9: residues at the four points of `D` give `η` by (30); the principal parts of
@@ -7407,7 +7378,7 @@ The interface includes these statements.
 exact identities. Use the precision rules of §0.9 to transport the given errors; existence of a
 general Tuitman implementation is not a premise. `P2 = (0, 0)`: `Φ(x)(P2) = 0` and `Φ(y)(P2)` is the root
 of `Q(0, Y) = Y(Y³ − 10Y² + 24Y − 16)` congruent to 0 modulo 17, which is 0 because `∂Q/∂Y(0, 0) = −16`
-is a unit; so `Φ(P2) = P2`. Apply the three block identities `in(45)` to the supplied primitive and
+is a unit; so `Φ(P2) = P2`. Apply the three block identities in (45) to the supplied primitive and
 Teichmüller evaluation data; deduce the `G_Z` identity and the splitting from
 §6.11 and §6.12. `θ_Z` on each disc: §6.13,
 with tiny integrals in the disc parameter; precision from §6.15.
@@ -7418,7 +7389,6 @@ with tiny integrals in the disc parameter; precision from §6.15.
 - `∂Q/∂Y` at `(1 : 1 : 1)` equals 0, so the disc of P0 is not in `]U_1[` and needs the base-point change of §6.14.
 - `tr F = 17 + 1 − #X(F_17) = −2`, agreeing with the point count of §6.18 (Lefschetz trace formula).
 - `Φ(y) = y^17` does not define a lift: at the point `P1 = (1/2, 1/2)` of `Y` one has `Q(t, t) = 16t(2t − 1)(t − 1)`, so `Q(x^17, y^17)` evaluated at `P1` is `Q(2^(−17), 2^(−17)) ≠ 0`, whereas a lift must satisfy `Q(Φ(x), Φ(y)) = 0`.
-- `tr F = 17 + 1 − #X(F_17) = −2`.
 - `θ_Z(P2) = 0` for both `Z`.
 
 ([BDMTV (2019)](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf),
@@ -7632,7 +7602,7 @@ count its elliptic points, and `ν_∞` counts geometric cusps. Establish these 
 enumerating primitive pairs modulo units in `P¹(Z/NZ)`, its order-two and order-three stabilizers and cusp orbits;
 use `ν_∞=Σ_{d|N}φ(gcd(d,N/d))`. The orbit calculations and Riemann–Hurwitz
 substitution are part of this target.
-Source: Diamond–Shurman, `*A` First Course in Modular `Forms*`, §3.1, Theorem 3.1.1;
+Source: Diamond–Shurman, *A First Course in Modular Forms*, §3.1, Theorem 3.1.1;
 AlgebraicCurves Layer 7 supplies Riemann–Hurwitz.
 *Needs:* ModularCurvesPartII §§5.11, 6.1–6.2; AlgebraicCurves Layer 7.
 
@@ -7655,7 +7625,7 @@ curve automorphism is a group automorphism; its endomorphism `u` satisfies
 is nonzero, so `u=−1`. Its fixed locus is geometric 2-torsion, of cardinality
 four in characteristic zero; relative to any other origin these fixed points
 form a translate of geometric 2-torsion.
-Source: Silverman, *The Arithmetic of Elliptic `Curves*`, III.4, Theorem 4.8 and
+Source: Silverman, *The Arithmetic of Elliptic Curves*, III.4, Theorem 4.8 and
 III.6, Corollary 6.4 (pointed morphisms and multiplication degrees).
 *Needs:* the small-level genera above; ModularCurvesPartII §§6.1, 9.4;
 EllipticCurves Layers 1–2; JacobianChallenge Layer E (multiplication degree and étaleness).
@@ -7755,7 +7725,7 @@ of class number one are `Q(√−d)` for `d ∈ {1, 2, 3, 7, 11, 19, 43, 67, 163
 discriminants are −3, −4, −7, −8, −11, −19, −43, −67, −163.
 
 Work under the following conditions. §6.32; class numbers of imaginary quadratic fields
-with `|D| ≤ 52` are exact (explicit supplied class/unit/factorization data). The class-number
+with `|D| ≤ 52` are exact (supplied class-group data). The class-number
 values, complete imaginary-quadratic discriminant list and CM identification data used here are
 explicit hypotheses, with exact statements for each discriminant. No class-number table computation
 is a target.
@@ -7766,7 +7736,7 @@ inert. `j(O_K) ∈ Q` (class number one) and a CM curve `E/Q` with `End(E_Q̄) �
 non-split Cartan normaliser at 13 (the shared CM residual-Cartan application hypothesis), with `j ≠ 0, 1728`; it
 gives a rational point of `X_ns(13)` (ModularCurvesPartII §9.7), so by §6.32, `D ∈ {−7, −8, −11, −19, −28, −67, −163}`; with `|D| > 52` and `D` fundamental this leaves `−67` and `−163`. For `|D| ≤ 52` a finite
 exact class-number computation gives `−3, −4, −7, −8, −11, −19, −43`, and the same computation
-certifies `h(−67) = h(−163) = 1` (explicit supplied class/unit/factorization data).
+certifies `h(−67) = h(−163) = 1` (supplied class-group data).
 
 **Checks.**
 
@@ -8122,7 +8092,9 @@ prove completeness.
 
 Layers 0–5; AnabelianGeometryAndNonabelianChabauty §§2.0–2.7, 6.1–6.8; ColemanIntegration L0–L1;
 PadicDifferentialEquationsAndRigidCohomology Layer RD.7; ModularCurvesPartII §§5.11, 6.1–6.2, 9.4–9.8,
-11.8, 13.1–13.4, 16.1–16.7, 17.2. The rank-over-Q, CM and external uniformity hypotheses are stated
+11.8, 13.1–13.4, 16.1–16.7, 17.2; NewtonPolygons §§3.4, 4.3; RestrictedPowerSeries §2.2;
+AbelianSchemesAndArithmeticModuli A3.9, A6.14, A6.15; AlgebraicCurves Layers 7, 9–10; EllipticCurves
+Layers 1–2; JacobianChallenge Layer E; DiophantineApproximationAndTranscendence §4.5. The rank-over-Q, CM and external uniformity hypotheses are stated
 explicitly; concrete tables are inputs.
 
 ## Downstream consumers
