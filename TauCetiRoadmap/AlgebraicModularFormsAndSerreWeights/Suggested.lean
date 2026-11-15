@@ -77,13 +77,12 @@ theorem deligneSerreEigenvalueLifting
     (a : ι → ResidueField O) (f : ResidueField O ⊗[O] M) (hf : f ≠ 0)
     (heig : ∀ i, (T i).baseChange (ResidueField O) f = a i • f) :
     ∃ (L : IntermediateField K (AlgebraicClosure K)) (V : ValuationSubring L)
-      (i : O →+* V) (j : ResidueField O →+* ResidueField V),
-      letI : Algebra O V := i.toAlgebra
+      (_ : Algebra O V) (j : ResidueField O →+* ResidueField V),
       Module.Finite K L ∧ IsDiscreteValuationRing V ∧
-      Function.Injective i ∧ Function.Injective j ∧
-      (∀ x : O, (i x : L) = algebraMap K L (algebraMap O K x)) ∧
-      (residue V).comp i = j.comp (residue O) ∧
-      Ideal.comap i (maximalIdeal V) = maximalIdeal O ∧
+      Function.Injective (algebraMap O V) ∧ Function.Injective j ∧
+      (∀ x : O, (algebraMap O V x : L) = algebraMap K L (algebraMap O K x)) ∧
+      (residue V).comp (algebraMap O V) = j.comp (residue O) ∧
+      Ideal.comap (algebraMap O V) (maximalIdeal V) = maximalIdeal O ∧
       ∃ (b : ι → V) (f' : V ⊗[O] M), f' ≠ 0 ∧
         ∀ t, (T t).baseChange V f' = b t • f' ∧ residue V (b t) = j (a t) := by
   sorry
