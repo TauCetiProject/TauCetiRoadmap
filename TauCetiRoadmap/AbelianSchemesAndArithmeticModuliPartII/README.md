@@ -49,8 +49,7 @@ real-analytic extension, its comparison with that smooth structure, and the Bett
 application. **SmoothBundlesConnections**, B6.0, owns metric convexity and generic
 good-cover refinements; B2.11 adds holomorphic-chart subordination and the disc
 consequence using **ConformalMapping**, L3. B2.9 constructs the arbitrary-dimensional
-invariance-of-domain extension in the shared topology API; its planar specialization
-agrees with **PlanarTopology**, Layer 2, under the usual real identification ℂ≃ℝ².
+invariance-of-domain extension in the shared topology API.
 
 **SchemeAndStackFoundations**, §2.6, §4.1 and §§4.8–4.9, supplies coherent direct images,
 thickenings, formal completion and the theorem on formal functions. **ComplexComparisonPartII**,
