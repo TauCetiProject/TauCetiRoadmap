@@ -87,10 +87,14 @@ Newton polygon and function-field zeta theory belong to the named suppliers belo
   coefficient criterion `IsSupersingular q P_E` of 1.6 for `r ≥ 3` (4.1 proves the cases `r ≤ 2`,
   which are polynomial identities), is a statement about abelian varieties and belongs there.
   Nothing from that roadmap is an input here.
-- **Étale cohomology and the cohomological route** to zeta functions and weights:
-  `WeilConjectures` and `DeligneWeightsAndPurity`. The
-  comparison of the zeta function with them is FunctionFieldArithmetic §5.4; nothing cohomological
-  is built or stated here.
+- **Étale cohomology and the cohomological route** to zeta functions and weights. Étale
+  cohomology, including that of curves over an algebraically closed field, is
+  SchemeAndStackFoundations Layer 2 (§§2.11 and 2.16: Tsen's theorem, `𝔾_m` and, through the
+  Kummer sequence, `μ_n` on curves) and
+  [EtaleCohomologyFoundations](../EtaleCohomologyFoundations/README.md) (§§F.3.0 and F.3: the
+  vanishing theorems for torsion sheaves). The route from it to zeta functions and weights is
+  `WeilConjectures` and `DeligneWeightsAndPurity`, and the comparison of the zeta function with
+  those two is FunctionFieldArithmetic §5.4; nothing cohomological is built or stated here.
 - **Character sums** — Gauss and Jacobi sums, Hasse–Davenport, Kloosterman sums and the Weil bound for
   character sums, including the point counts of Kummer and Artin–Schreier covers of `ℙ¹` expressed
   through them — are the sibling `CharacterSumsOverFiniteFields`, a neighbour with its own
@@ -1443,7 +1447,12 @@ definitions and the computed Checks specify the conventions independently.
   `Weil/AlgebraicGeometry/EtaleCohomology/Trace/DeligneWeilConjecture.lean`) and the passage to the
   field of constants `k'`, where the reversed Frobenius polynomial over `k` is the one over `k'`
   evaluated at `T^{[k' : k]}` (`exists_fieldOfConstants_rationalFrobeniusCharpolyReverse_eq_comp`,
-  `Trace/FieldOfConstantsFrobenius.lean`), the scheme form of convention 1's witness.
+  `Trace/FieldOfConstantsFrobenius.lean`), the scheme form of convention 1's witness. Its folders
+  `EtaleCohomology/Curves/` and `EtaleCohomology/TorsionSheavesCurves/` are étale cohomology of
+  curves (the divisor sequence of a smooth curve, constructible and torsion sheaves, and, over an
+  algebraically or separably closed field, the Kummer sequence, the cohomology of `𝔾_m` and `μ_n`
+  and the vanishing of torsion cohomology above degree two and, on affine curves, above degree
+  one), which this roadmap neither owns nor states.
   [AxiomMath/Stacks](https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier/AlgebraicGeometry/Curves),
   folder `StacksFrontier/AlgebraicGeometry/Curves/`, also works with a smooth proper geometrically
   irreducible curve `X → Spec k`. Its subfolders `WeilBound/`, `ZetaFunction/` and
