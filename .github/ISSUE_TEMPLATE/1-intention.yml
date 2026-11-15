@@ -19,6 +19,7 @@ body:
       description: Which roadmap does this intention sit in?
       options:
         - AbhyankarLemma
+        - AdelicAlgebraicGroups
         - AdicEtaleGeometry
         - AdicSpacesPartII
         - AdicSpacesPartIII
@@ -26,10 +27,14 @@ body:
         - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCurves
+        - AlgebraicKTheory
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AmenableGroups
         - AnalyticNumberTheoryPartI
+        - AnalyticNumberTheoryPartII
+        - ArithmeticDirichletSeriesPartII
+        - ArithmeticInterpolationDeterminants
         - AsymptoticExpansions
         - BanachAlgebras
         - BanachSpaceTheory
@@ -39,11 +44,15 @@ body:
         - CFSGBasicProperties
         - CFSGStatement
         - CStarAlgebras
+        - CStarClassification
+        - CalibratedGeometry
+        - CategoricalOperatorAlgebras
         - CharacteristicClasses
         - ChevalleyGroups
         - ClassFieldTheory
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
+        - ClusterAlgebras
         - CoboundaryExpansion
         - CombinatorialHeegaardFloer
         - CompactOperators
@@ -59,8 +68,10 @@ body:
         - DeRhamCohomologyAndDuality
         - DerivedModuleAlgebra
         - DiagrammaticCoherence
+        - DiamondsAndVStacks
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
+        - DysonBrownianMotion
         - ECM
         - EllipticCohomology
         - EllipticCurves
@@ -74,6 +85,7 @@ body:
         - FiniteGroupExtensionSplitting
         - FiniteSamplingDiscrepancy
         - FlagVarieties
+        - Foams
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
         - FreeProbability
@@ -83,6 +95,7 @@ body:
         - GeometricMeasureTheory
         - GeometricRepresentationCategories
         - GeometricTopology
+        - GlobalHolomorphicFunctions
         - GlobalQuadraticForms
         - GraphConnectivityAndFlows
         - GroebnerGeometry
@@ -90,9 +103,11 @@ body:
         - HamiltonianFloerOperations
         - HeegaardFloer
         - HilbertModules
+        - HomotopySpheres
         - HopfologicalAlgebra
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
+        - IndexTheory
         - InfinitaryModelExistence
         - IntegralLattices
         - Isoperimetry
@@ -117,26 +132,36 @@ body:
         - NoncommutativeGeometry
         - NoncommutativeIntegration
         - NoncongruenceModularForms
+        - OcneanuRigidity
         - OperatorAlgebraDynamics
+        - OperatorKTheory
         - OperatorTheory
         - OptimalTransport
         - Orbifolds
         - PDE
+        - PadicExtensionFamilies
         - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
         - PerfectoidSpaces
+        - PerfectoidTowers
         - PivotalSpherical
         - Poincare3D
+        - PolylogarithmFunctions
+        - PositiveMass
         - PositiveScalarCurvature
+        - PresentationsOfMonoidalCategories
         - PrimitivePrimeDivisors
+        - ProbabilisticAndMetricNumberTheory
         - ProfiniteCohomology
         - PseudodifferentialOperators
         - PseudoholomorphicCurveAnalysis
         - PurityOfBranchLocus
+        - QuadraticCharactersAndReduction
         - QuadraticFormInvariants
         - QuantumEnvelopingAlgebras
         - QuantumGroups
         - QuaternionicAnalysis
+        - RamificationOfCompleteDiscretelyValuedFields
         - RandomMatrices
         - Rank24LatticeConstructions
         - RealAnalyticGeometry
@@ -147,35 +172,47 @@ body:
         - RepresentationTheory
         - ResolutionOfSingularitiesCharacteristicZero
         - RestrictedPowerSeries
+        - RicciFlow
         - RiemannianGeometry
         - RigidAnalyticGeometry
+        - RootSystemsPartII
         - SNumbers
         - ScatteringDiagrams
         - SchemeAndStackFoundations
         - SchubertGeometry
         - SeibergWittenTheory
         - SmoothBundlesConnections
+        - SmoothRepresentationsOfLocalGroups
+        - SobolevMapsBetweenManifolds
         - SobolevPolynomialApproximation
+        - SpecialFunctionsAiry
         - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsHypergeometric
         - SpecialFunctionsParabolicCylinder
         - SpinGeometry
         - SporadicOrders
+        - StableHomotopyKTheory
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - StochasticCalculus
+        - StringOrientation
         - Subfactors
         - SubspaceTheorem
         - SuccessiveMinima
         - SymplecticFieldTheory
         - SymplecticGeometry
+        - TangentialBordism
         - TauberianBoundaryConvergence
         - TaubesGromov
         - TemperleyLieb
+        - TemperleyLiebOperatorAlgebras
         - TensorProductCombinatorics
         - ThetaSeries
         - TopologicalKTheory
         - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
+        - VariationalMethods
         - VonNeumannAlgebras
         - Yamabe
         - ZerosOfLFunctions
