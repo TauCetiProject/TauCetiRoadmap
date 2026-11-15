@@ -602,9 +602,6 @@ and the relation reads `z⁻¹ y⁻¹ x⁻¹ = (x y z)⁻¹ = 1`. *Needs:* 3.1, 
 - `(1, 1)` satisfies (II) with `λ ≡ 1 (mod 4)`, consistent with the previous Check.
 - `β_c` commutes with `θ` exactly, and with `δ` only up to conjugation by `y` (3.2, Checks).
 
-Grothendieck's working notes treat the case `f = 1` of relation (II) as an exercise (Montpellier
-fonds, folder 145, p. 35, https://grothendieck.umontpellier.fr/145.pdf).
-
 ### 4.4 Finite quotients
 
 For a finite group `G`, `GT̂₀` acts on the set of continuous surjections `F̂₂ → G` modulo `Aut(G)`,
