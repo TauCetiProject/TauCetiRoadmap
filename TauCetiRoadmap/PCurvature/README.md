@@ -715,15 +715,18 @@ In rank one the converse splits into a torsion question for the class of `M` in 
 and the question whether a closed `1`-form whose reductions are logarithmic has an integral
 multiple that is logarithmic; Layer 4 answers the second over open subsets of `𝔸¹_K`.
 
-Over `ℚ`, a finite and explicit set of primes suffices in 4.3. Fürnsinn–Pannier make effective
-the Chudnovskys' Hermite–Padé proof of Kronecker's theorem (their Theorem 1.2: an explicit `σ`
-such that `R ∈ ℤ[w]` with leading coefficient `r_n > 0` splits in `ℚ[w]` if and only if it splits
-in `𝔽_p[w]` at every prime `p ∤ r_n` below `σ`), and deduce from it, through the
-Rothstein–Trager resultant, whose roots are the residues of `u` when `u` has simple poles and
-vanishes at `∞`, a finite list of primes at which the vanishing of the `p`-curvature of
-`y′ = u y`, `u ∈ ℚ(x)`, decides whether a nonzero algebraic solution exists (their Theorem 1.3);
-by Katz 1982, §9, such a finite set exists by a noetherianity argument, non-constructively, as
-they observe. No target uses these bounds.
+Over `ℚ`, for `u = a/b` with `a, b ∈ ℤ[x]` primitive, `b` square-free and `deg a < deg b`, a finite
+and explicit set of primes suffices in 4.3. Fürnsinn–Pannier make effective the Chudnovskys'
+Hermite–Padé proof of Kronecker's theorem (their Theorem 1.2: an explicit `σ` such that `R ∈ ℤ[w]`
+with leading coefficient `r_n > 0` splits in `ℚ[w]` if and only if it splits in `𝔽_p[w]` at every
+prime `p ∤ r_n` below `σ`), and deduce from it, through the Rothstein–Trager resultant, whose roots
+are the residues of `u` when `u` has simple poles and vanishes at `∞`, a finite list of primes at
+which the vanishing of the `p`-curvature of `y′ = (a/b) y` decides whether a nonzero algebraic
+solution exists (their Theorem 1.3 with `c = 1`; for `u = c·a/b` its list, computed from `a/b`, does
+not decide: `c/(x² + 1)` with `c` the product of the primes `p ≡ 3 (mod 4)` below `σ` has zero
+`p`-curvature at each listed prime and irrational residues); by Katz 1982, §9, such a finite set
+exists by a noetherianity argument, non-constructively, as they observe. No target uses these
+bounds.
 
 Research that uses the material of Layers 0–2: Katz's nilpotence of Gauss–Manin `p`-curvature and
 the monodromy theorem (Katz 1970, Theorem 5.10 and §§6–7); the Cartier transform and nonabelian
