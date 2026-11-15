@@ -1583,6 +1583,19 @@ theorem that `W∞` is the class of Thomason equivalences settles the minimality
 homotopy theories, are the setting in which the homotopy theory of small categories and of model
 categories are compared.
 
+## Provenance: existing formalizations outside Tau Ceti
+
+This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
+repository LeanPool, *lean-pool* (References), keeps Lean 4 formalizations that do not fit Mathlib,
+each project permissively licensed (Apache-2.0 or MIT) and bumped to Lean and Mathlib v4.35.0,
+earlier than our pin. It is not a dependency: a statement read there is compared with the target
+here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
+license notices.
+
+`LeanPool/WhiteheadTheorem` proves Whitehead's theorem for CW complexes, which Scope lists as not
+used; `LeanPool/FactorizationSystems` treats orthogonal factorization systems. Nothing there treats
+basic localizers, test categories, Thomason equivalences or derivators.
+
 ## References
 
 - F. Borceux, *Handbook of Categorical Algebra 1*, Encyclopedia of Mathematics and its
@@ -1655,3 +1668,6 @@ categories are compared.
   520–537 (arXiv:1201.2686): Definitions 2.3–2.4, Proposition 2.5, Corollary 2.8.
 - P. Deligne, « La formule de dualité globale », SGA 4, Exposé XVIII, LNM 305 (1973), §1.4,
   Proposition 1.4.15.
+- LeanPool, *lean-pool*. Lean 4 formalizations at commit f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0,
+  Lean and Mathlib v4.35.0; projects `LeanPool/WhiteheadTheorem`, `LeanPool/FactorizationSystems`.
+  https://github.com/LeanPool/lean-pool/tree/f8b9b721d616a2cc0b22fc226e4a9e3dd6cea2d0/LeanPool
