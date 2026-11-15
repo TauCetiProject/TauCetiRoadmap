@@ -2004,6 +2004,63 @@ The elliptic specialization reads its zeta function from Tau Ceti through §5.19
   all-extension counts. Polynomial-count applications use WC.5's Tate and
   equivariant conclusions with their arithmetic-family hypotheses.
 
+## Provenance
+
+This section is secondary: it maps targets to an existing formalisation and prescribes nothing.
+The Apache-2.0 Lean repository
+[AxiomMath/Weil](https://github.com/AxiomMath/Weil/tree/27cdb2049be62ee2911429b47f54774078450e32),
+read at commit `27cdb2049be62ee2911429b47f54774078450e32`, proves the Weil conjectures for
+smooth proper schemes over a finite field with constant coefficients, following Freitag and
+Kiehl. It is not a dependency and is built against other Lean and Mathlib versions, so a
+statement read there is compared with the target here before it is used, and a proof adapted
+from it keeps the Apache-2.0 attribution. Its trace formula and its purity theorem (Stacks, Tags
+03V0 and 03VH) are imported from the companion repository AxiomMath/Stacks.
+
+Outside `Trace/`, its directory
+[`AlgebraicGeometry/EtaleCohomology/`](https://github.com/AxiomMath/Weil/tree/27cdb2049be62ee2911429b47f54774078450e32/Weil/AlgebraicGeometry/EtaleCohomology)
+holds torsion étale foundations: stalks and strict henselisations, proper and smooth base
+change, extension by zero and compact supports, constructible sheaves, duality, Kummer theory
+and the cohomology of `μ_n` and `𝔾_m` on curves. This roadmap owns none of that material and
+uses it only through EtaleCohomologyFoundations §§`F`.0.2–`F`.0.3, `F`.2–`F`.7 and
+`F`.10.1–`F`.10.2b. Its `GoodReduction/` fibre transfer, with `Trace/BettiNumber.lean` and
+`Trace/BettiNumberGoodReduction.lean`, compares dimensions across a smooth projective family
+over a domain, with fibre cohomology compared as abelian groups. It is prior art for the
+dimension statement of §4.1; the transport path and the compatibility with cup products, twists
+and group actions have no counterpart there.
+
+The thirty files of
+[`Trace/`](https://github.com/AxiomMath/Weil/tree/27cdb2049be62ee2911429b47f54774078450e32/Weil/AlgebraicGeometry/EtaleCohomology/Trace)
+divide as follows; names omit the `.lean` suffix.
+
+- Prior art for targets owned here: `RationalPointsFinite`, `FieldValuedPointCount`,
+  `ClosedPointDegree` and `PointCountClosedPointDegrees` for §§0.1–0.2 and the first identity
+  of §1.3, with `FieldValuedPointCount` also for the closed–open additivity of counts in §7.3;
+  `ZetaSeries`, `ZetaEulerProduct` and `ZetaSeriesProductOfPointCountSum` for §1.2;
+  `CanonicalFrobeniusIso` and `CharpolyDegree` for the degree clause of §1.4 on proper schemes;
+  `ZetaRationality` for the rationality over `ℚ` and the integral Euler series used in
+  §§1.5–1.6, but not for the reduced normalized pair; `CharpolyIntegrality` and
+  `ConnectedComponentsCharpoly` for §§3.1–3.2 and 6.1; `DeligneFunctionalEquation`, with the
+  sign defined in `Defs/AlgebraicGeometry/EtaleCohomology/Trace/FunctionalEquationSign.lean`
+  and the algebraic assembly in `LinearAlgebra/Charpoly/FunctionalEquation.lean`, for §§2.1–2.3
+  and 6.6, where the geometric equation is stated in `ℚ_ℓ(T)`; the cyclic-block determinant of
+  `FrobeniusCharpolyFieldOfConstants` for the orbit polynomial of §7.2;
+  `ConstantDegreeZeroCohomology` and `WeilRiemannHypothesisForm` for §7.16, whose point-count
+  formulation is that of `weilConjectures_smooth_proper` without the equality of complementary
+  degrees.
+- Supplier material, cited here by section: `LAdicTraceFormulaFinal`,
+  `TrivialRepresentationPointCount`, `ConstantSystemLocalFactor`,
+  `RepresentationSheafRestrictionIsogeny` and `RepresentationSheafTrivialConstant` for the trace
+  formula and determinant rationality of InverseGaloisAndArithmeticFundamentalGroups
+  §§IG.0.T3–IG.0.T4 and DeligneWeightsAndPurity §1.10; `RationalCohomologyLevels` for the
+  rational realization of EtaleCohomologyFoundations §§`F`.4.5 and `F`.10.2b;
+  `DeligneWeilConjecture`, `FieldOfConstantsFrobenius`,
+  `FieldOfConstantsCohomologyDecomposition`, `WeilEstimateFromPurityAllEmbeddings`,
+  `FrobeniusPoincarePairing` and `DeligneConjectureConclusions` for purity in every complex
+  embedding and the separation of degrees by weight, DeligneWeightsAndPurity §§0.1, 4.4 and
+  7.15.
+- No counterpart there: §1.1, §§1.7–1.16, the sign under base extension in §2.4, WC.5,
+  §§6.2–6.5 and 6.7–6.9, §7.1, the Künneth formula of §7.3, and §§7.4–7.15.
+
 ## References
 
 The locators above refer to printed pagination unless a particular arXiv version is specified. Statements and constructions in this roadmap use the following primary sources and supplier specifications.
