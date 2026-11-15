@@ -736,6 +736,26 @@ DerivedDeRhamCohomology §3.6.1; algorithms deciding algebraicity by `p`-curvatu
 (Bostan–Caruso–Roques 2024; Fürnsinn–Pannier); Frobenius descent for arithmetic `𝒟`-modules
 (Berthelot 2000).
 
+## Provenance: existing formalizations outside Tau Ceti
+
+This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
+Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
+Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
+the repository records it as unreviewed by humans, and it is built on Lean and Mathlib v4.35.0,
+earlier than our pin. It is not a dependency: a statement read there is compared with the target
+here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
+Apache-2.0 notices.
+
+`StacksFrontier/RingTheory/DeRham/Cartier` constructs the Frobenius-twisted de Rham complex and the
+inverse Cartier map and proves it bijective when `B` has Frobenius coordinates over `A`, for
+instance a polynomial algebra over a perfect ring (`Coordinates.lean`, `Polynomial.lean`; the files
+carry no Stacks tag): the Cartier isomorphism behind 2.0 and 2.1.
+`StacksFrontier/AlgebraicGeometry/DeRham` builds the Gauss–Manin connection (Tag 0FMN,
+`GaussManinConnection.lean`) through the Katz–Oda construction (`KatzOdaConnection.lean`), and
+`StacksFrontier/AlgebraicGeometry/Crystalline` builds divided power differentials and crystalline
+cohomology. No file name or tag there treats restricted Lie algebras, Jacobson's formula or the
+`p`-curvature (Layers 0–1), Cartier descent itself (2.1), or Layers 3–4.
+
 ## References
 
 - N. M. Katz, « Nilpotent connections and the monodromy theorem: applications of a result of
@@ -786,3 +806,8 @@ DerivedDeRhamCohomology §3.6.1; algorithms deciding algebraicity by `p`-curvatu
   in *Research context* only.
 - L. Kronecker, « Über die Irreducibilität von Gleichungen », *Monatsber. Königl. Preuss. Akad.
   Wiss. Berlin* (1880), 155–163.
+- AxiomMath, *The Stacks Project in Lean*. Lean 4 formalization at commit
+  c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
+  directories `StacksFrontier/RingTheory/DeRham/Cartier`, `StacksFrontier/AlgebraicGeometry/DeRham`,
+  `StacksFrontier/AlgebraicGeometry/Crystalline`.
+  https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier
