@@ -52,8 +52,8 @@ new construction in HQ.1.
 CohomologyComparisons §1.7 owns compatibility of the local AΩ/prismatic specializations. Sections 8.18–8.19 here instead compare those supplied maps with the composite β_S from the global arithmetic qΩ construction. HabiroRings §§0.1–0.6 own general ordinary marked étale deformations; §0.3 here constructs the enhanced cohomological coefficient lifts and their full cyclotomic descent.
 
 The native algebraic starting point is Mathlib at
-`6b7abb3c7686292736be2955bd3eb9ebf63b456a`, with Tau Ceti at
-`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. Reuse `Polynomial`, `PowerSeries`,
+`1b1ccf4b088b32fa3f23f2de1127433254a81e1e`, with Tau Ceti at
+`2fd255d997f47c0b5d834ee416c7015d55444ce5`. Reuse `Polynomial`, `PowerSeries`,
 `MvPolynomial`, modules, linear maps, monoid algebras, finite projectivity,
 ordinary categorical diagrams, Kähler differentials, étale and smooth
 algebras, cyclotomic polynomials and degree-zero Witt vectors. In particular:
