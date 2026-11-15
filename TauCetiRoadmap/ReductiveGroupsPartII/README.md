@@ -202,7 +202,7 @@ formed on the identical `Root S` and `weightSpace S χ`, with no independently c
 | Maximal unramified extension, its adjoin presentation and its Frobenius | `TauCeti.maximalUnramifiedExtension`, `TauCeti.maximalUnramifiedExtension_eq_adjoin`, `TauCeti.maximalUnramifiedFrobenius`, `TauCeti.eq_maximalUnramifiedFrobenius_iff`, `TauCeti.fixedField_zpowers_maximalUnramifiedFrobenius` | `TauCeti/NumberTheory/LocalField/Unramified/Maximal.lean` |
 | Points of a closed subgroup given by a Hopf ideal | `TauCeti.CommHopfAlgCat.quotientPointsSubgroup`, `TauCeti.CommHopfAlgCat.mem_quotientPointsSubgroup_iff` | `TauCeti/Algebra/AlgebraicGroup/HopfIdeal/Points/Basic.lean` |
 | Adjoint action on counit derivations | `Derivation.adDerivation` | `TauCeti/Algebra/AlgebraicGroup/Tangent/Adjoint.lean` |
-| Maps of points along Hopf maps and coefficient maps | `TauCeti.AlgHom.mapDomain`, `TauCeti.AlgHom.mapValue` | `TauCeti/Algebra/AlgebraicGroup/Hopf/Map.lean`, `TauCeti/Algebra/AlgebraicGroup/FunctorOfPoints.lean` |
+| Maps of points along Hopf maps and coefficient maps | `BialgHom.mapDomain`, `AlgHom.mapValue` | `TauCeti/Algebra/AlgebraicGroup/Hopf/Map.lean`, `TauCeti/Algebra/AlgebraicGroup/FunctorOfPoints.lean` |
 | Points after base change | `TauCeti.AlgHom.baseChangePointsMulEquiv` | `TauCeti/Algebra/AlgebraicGroup/BaseChange/Basic.lean` |
 | Root groups of `GL_n` and their conjugation by the diagonal torus | `TauCeti.transvectionHom`, `TauCeti.diagGL_mul_transvectionUnit_mul_inv` | `TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Transvection.lean` |
 | Diagonal torus and root subgroups of `GL_n` | `TauCeti.GeneralLinear.diagonalTorusDefiningIdeal`, `TauCeti.GeneralLinear.isMaximalTorus_diagonalTorusDefiningIdeal`, `TauCeti.GeneralLinear.DiagonalRootIndex`, `TauCeti.GeneralLinear.rootSubgroup` | `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/DiagonalTorus/Maximal.lean`, `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Root/Datum.lean`, `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Root/Subgroup.lean` |
@@ -621,7 +621,7 @@ inherited from `E^H` and second countability from `E^n`). *Needs:*
 (*PointTopology.isTopologicalGroup*; over `E` this is the instance `instIsTopologicalGroupLocal`). A
 Hopf map `H' → H` and a continuous `k`-algebra map `R → R'` induce continuous homomorphisms
 `G(R) → G'(R)` and `G(R) → G(R')`: precomposition with a map of Hopf algebras preserves the
-convolution product, postcomposition is the homomorphism `TauCeti.AlgHom.mapValue`, and both are
+convolution product, postcomposition is the homomorphism `AlgHom.mapValue`, and both are
 continuous by `continuous_comap`, `continuous_map_codomain` and `isHomeomorph_ofConv` ([Conrad],
 Prop. 2.1 and the discussion after it, p. 2). *Needs:*
 *affine-point-topology-functoriality*; *points-locally-compact-hausdorff*; Tau Ceti
@@ -736,7 +736,7 @@ ReductiveGroups layer 2; Tau Ceti
 `O`-algebra `A`, finitely generated or not, its image is the set of `x` with `x(a) ∈ O` for all
 `a ∈ A`, equivalently for all `a` in a generating family (`range_integralPoints`). For an affine
 finite-type `O`-group `𝒢 = Spec H`, the map is the group homomorphism
-`TauCeti.AlgHom.mapValue (Algebra.ofId O E)`, so `𝒢(O)` is a compact open subgroup of `G(E)`
+`AlgHom.mapValue (Algebra.ofId O E)`, so `𝒢(O)` is a compact open subgroup of `G(E)`
 ([Conrad], Ex. 2.3, p. 3, for openness and closedness; compactness because `𝒳(O)` is closed in `O^n`,
 [Conrad], Prop. 2.1, p. 2). *Needs:* *affine-point-topology-functoriality*;
 *affine-point-topology-embedding*; Mathlib `IsNonarchimedeanLocalField`,
@@ -776,7 +776,7 @@ p. 3; the determinant criterion is Mathlib's `Matrix.isUnit_iff_isUnit_det`). *N
 **Congruence subgroups of an integral group model.** (*congruence-subgroup*) Let `E` be a
 nonarchimedean local field, `O = 𝒪[E]` with maximal ideal `m`, and `𝒢 = Spec H` an affine `O`-group.
 For `n ≥ 0` put `𝒢(O)_n := ker(𝒢(O) → 𝒢(O/m^n))`. In `CongruenceSubgroup`, define `subgroup` as
-`𝒢(O)_n ⊂ 𝒢(O)`, the kernel of the homomorphism `TauCeti.AlgHom.mapValue` of the quotient map
+`𝒢(O)_n ⊂ 𝒢(O)`, the kernel of the homomorphism `AlgHom.mapValue` of the quotient map
 `O → O/m^n`; prove `mem_iff` (`x ∈ 𝒢(O)_n` iff `x` and the identity point agree modulo `m^n`),
 `normal` (`𝒢(O)_n` is normal in `𝒢(O)`), `antitone` (`n ≤ n'` implies `𝒢(O)_{n'} ≤ 𝒢(O)_n`),
 `zero_eq_top` (`𝒢(O)_0 = 𝒢(O)`), `isOpen` (for `H` of finite type, `𝒢(O)_n` is open in `𝒢(O)`, hence
@@ -786,7 +786,7 @@ with the counits, for instance the Hopf map of a homomorphism `𝒢 → 𝒢'`, 
 the kernel of a group homomorphism, `m^{n'} ⊆ m^n` for `n ≤ n'`, `m^0 = O`, and for `H` of finite
 type membership is a congruence on finitely many generators ([Platonov–Rapinchuk–Rapinchuk], §3.1,
 p. 126, and §3.3, (3.15), p. 160, for `𝒢 ⊂ GL_n` in characteristic zero). *Needs:*
-*integral-points-compact-open*; Tau Ceti `TauCeti.AlgHom.mapValue`,
+*integral-points-compact-open*; Tau Ceti `AlgHom.mapValue`,
 `TauCeti.HopfAlgebra.pointsFunctor`, `TauCeti.unitFiltration`.
 *Lean:* none (README-only).
 
@@ -917,7 +917,7 @@ LocalFieldsRamification layer 0; LocalFieldsRamification layer 2; Tau Ceti
 (`continuous_map_codomain` with `continuous_frobenius`), and `X(E) = X(Ĕ)^σ` (`points_eq_fixedPoints`),
 where `X(E) → X(Ĕ)` is a closed embedding (`isClosedEmbedding_map_codomain` with
 `isClosedEmbedding_algebraMap`). For an affine group `G = Spec H`, `x ↦ σ ∘ x` is the group
-automorphism `TauCeti.AlgHom.mapValue σ` of `G(Ĕ)`, so `G(E) = G(Ĕ)^σ` as topological groups. For an
+automorphism `AlgHom.mapValue σ` of `G(Ĕ)`, so `G(E) = G(Ĕ)^σ` as topological groups. For an
 `O_E`-algebra `A_O`, an `O_E`-algebra map `A_O → Ĕ` with values in `O_Ĕ` that is fixed by `σ` has
 values in `O_E`, because `O_Ĕ^σ = O_E` ([He 2018], §4.3, p. 12, for connected reductive `G`; for
 general `A` the statement follows from `fixedPoints_frobenius` applied to the values `x(a)`).
@@ -3142,8 +3142,8 @@ unramified, a point of `B(G,K)` that is special in `B(G,K')` is special in `B(G,
 hyperspecial if `G` splits over `K'` ([Tits], 2.6.1, p. 47). For `G` split semisimple, `G^ad(K)`
 permutes the special points of `B(G,K)` transitively ([Tits], §2.5, p. 47). The proposed Lean
 statements are `Building.pointsExtension` (the map `G(K) → G(K')`, composed of the library
-maps `TauCeti.AlgHom.mapValue`, `TauCeti.AlgHom.baseChangePointsMulEquiv` and
-`TauCeti.AlgHom.mapDomain`), `Building.extensionEmbedding` with `Building.extensionEmbedding_injective`,
+maps `AlgHom.mapValue`, `TauCeti.AlgHom.baseChangePointsMulEquiv` and
+`BialgHom.mapDomain`), `Building.extensionEmbedding` with `Building.extensionEmbedding_injective`,
 `Building.extensionEmbedding_smul`, `Building.extensionEmbedding_tower`
 (transitivity after the canonical tensor-associativity base-change identification), and `Building.extensionEmbedding_apartment` (an affine map of
 apartments when the ideal of `S'` maps into the extended ideal of `S`) ([Bruhat–Tits II], 5.1.41,
@@ -3291,7 +3291,7 @@ requires injectivity of the coordinate Hopf map and centrality of its kernel on 
 algebra. `centralData` constructs the maximal split torus `α(S)`; `centralRoots` and
 `centralRootPoints` are induced by `α`, and `centralValuation` transports `φ` through these root-group
 isomorphisms. `mapCentral` is equivariant for the point map `Building.pointsMap` (the library's
-`TauCeti.AlgHom.mapDomain`) and restricts to `centralApartment`. The linear apartment map is dual to
+`BialgHom.mapDomain`) and restricts to `centralApartment`. The linear apartment map is dual to
 `centralCharacter`, pullback of characters along `α|S`; `centralCharacter_value` and
 `centralApartment_linear_character` fix these identifications. The reduced map
 `ReducedBuilding.centralEquiv` is an equivariant bijection, induced by `mapCentral`. For enlarged
@@ -6809,7 +6809,7 @@ subgroups) do not depend on that sign. Use `TauCeti.DiagonalizableGroup.pointsMu
 over `ℤ`), `dualGroup_reductive_fibres` (`Ĝ_k` is connected reductive for every field `k`) and
 `dualGroup_torus_points` (for a torus, `Ĝ(R) ≃* Hom(X_*(T), R^×)`). *Needs:*
 *dual-based-root-datum*; ReductiveGroups layer 9; Mathlib `CommHopfAlgCat`; Tau Ceti
-`TauCeti.DiagonalizableGroup.pointsMulEquiv`, `TauCeti.AlgHom.mapValue`.
+`TauCeti.DiagonalizableGroup.pointsMulEquiv`, `AlgHom.mapValue`.
 ChevalleyGroups §C2 / Root subgroups for every root states the semisimple Chevalley special case
 of the closed root-immersion interface, to be reconciled after identifying its constructed datum
 with the flipped datum.
@@ -6906,7 +6906,7 @@ as `Γ_K →* MulAut(Ĝ(R))` for each ring `R`, and `weilActionOnPoints` as the 
 `galoisActionOnPoints_natural` (it commutes with `Ĝ(R) → Ĝ(R')` for `R → R'`) ([Buzzard–Gee], §2.1,
 p. 5; [Kaletha], §2, p. 9 (notation), and §5.6, p. 46). *Needs:* *pinned-automorphisms*;
 *dual-based-root-datum*; Mathlib `Field.absoluteGaloisGroup`, `OpenSubgroup`,
-`MonoidHom.codRestrict`; Tau Ceti `TauCeti.AlgHom.mapValue`; ClassFieldTheory layer 9.
+`MonoidHom.codRestrict`; Tau Ceti `AlgHom.mapValue`; ClassFieldTheory layer 9.
 *Lean:* none (README-only).
 
 **Checks.**
@@ -6956,7 +6956,7 @@ Weil abstract functors retain their point-group API. No `√q` enters. In `Langl
 inclusion and section, and `SemidirectProduct.rightHom_surjective`,
 `SemidirectProduct.range_inl_eq_ker_rightHom` and `SemidirectProduct.mul_left` for surjectivity,
 the kernel and the multiplication law. Define `mapCoeff`, the map `^LG(R) →* ^LG(R')` induced by
-`R → R'`, as `SemidirectProduct.map` of `TauCeti.AlgHom.mapValue` and the identity, whose
+`R → R'`, as `SemidirectProduct.map` of `AlgHom.mapValue` and the identity, whose
 compatibility condition is `galoisActionOnPoints_natural`; `SemidirectProduct.rightHom_comp_map`
 says that it lies over `Γ_K`. Define `WeilLGroup` as `Ĝ(R) ⋊ W` for a homomorphism `W → Γ_K`. For
 an open normal subgroup `U` of `Γ_K` contained in the kernel of the action, the finite action of
@@ -7158,7 +7158,7 @@ transposition without inverse).
 RG2.0a for Weil restrictions and norm tori; RG2.1 for `π₁(G)` and z-extensions; ReductiveGroups
 layers 7 and 9; ClassFieldTheory layer 9 for the Weil group; Mathlib `RootPairing`,
 `MulAction.stabilizer` and `SemidirectProduct`; Tau Ceti `TauCeti.Pinning`,
-`TauCeti.DiagonalizableGroup.pointsMulEquiv`, `TauCeti.AlgHom.mapValue`,
+`TauCeti.DiagonalizableGroup.pointsMulEquiv`, `AlgHom.mapValue`,
 `TauCeti.CommHopfAlgCat.centerGroupScheme`, `TauCeti.RootPairingIsogeny`,
 `TauCeti.CommHopfAlgCat.IsCentralIsogeny`.
 
