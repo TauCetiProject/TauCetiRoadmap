@@ -691,7 +691,7 @@ The following belong to separate roadmaps.
 
 ## Coordination
 
-- **Infinitary logic.** The [InfinitaryLogic](../InfinitaryLogic/README.md) roadmap lists the
+- **Infinitary logic.** The [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md) roadmap lists the
   Silver and G₀ dichotomies among the invariant descriptive set theory it leaves to separate
   roadmaps; this is the general part of that material. It is consumed by
   [CountableModelCounting](../CountableModelCounting/README.md) ([#1318](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1318)) through the interface of 4.3, and
