@@ -780,7 +780,9 @@ this to `Cᵒᵖ`). API:
   `TauCeti.ModCat.homOpBifunctor`, with partial applications `homFunctor` and `homOpFunctor`
   ([Mitchell, §6, p. 26, (2)]; [St, Thm. 1, pp. 355–356], which extends a theorem of Watts; the
   tensor product of functors goes back to N. Yoneda, *On Ext and exact sequences*, J. Fac. Sci.
-  Univ. Tokyo Sect. I 8 (1960), 507–576, not checked here). Over `R`
+  Univ. Tokyo Sect. I 8 (1960), 507–576: §4.1, p. 548, the tensor product of a contravariant and a
+  covariant functor, contravariant first, as the "integration" (coend) of §4.0, pp. 545–546, with
+  the adjunctions (4.1.3)–(4.1.4) and the explicit quotient on pp. 548–549). Over `R`
   (`TauCeti.ModCat.tensorLinearHomEquiv`, `TauCeti.ModCat.tensorLinearHomEquiv'`):
   `Hom_R(G ⊗_C F, X) ≃ₗ[R] Hom(F, Hom_R(G(-), X))` and its mirror, for an `R`-module `X`, with the
   `R`-dependent bifunctors `TauCeti.ModCat.linearHomBifunctor` and
@@ -813,8 +815,8 @@ this to `Cᵒᵖ`). API:
   (`TauCeti.MorphismIdeal.toLeftMorphismIdeal` and `TauCeti.MorphismIdeal.toRightMorphismIdeal`,
   coercions); the field names `comp_mem_left` and `comp_mem_right` are Tau Ceti's. Neither notion
   is in Mathlib or Tau Ceti; Mathlib's `Sieve` has the closure of a left ideal but is not additive.
-  M. and G. Weidenfeld's note on ideals of a preadditive category (C. R. Acad. Sci. Paris A 270
-  (1970), 1569–1571) was not obtained. **Rings**
+  M. and G. Weidenfeld's work on ideals of a preadditive category (see "Sources and locators") was
+  not obtained. **Rings**
   (`TauCeti.idealOrderIsoLeftMorphismIdeal A : Ideal A ≃o LeftMorphismIdeal (SingleObj Aᵐᵒᵖ)`,
   `TauCeti.submoduleOrderIsoRightMorphismIdeal A :
   Submodule Aᵐᵒᵖ A ≃o RightMorphismIdeal (SingleObj Aᵐᵒᵖ)`), both by `J ↦ {f | unop f ∈ J}`. By
@@ -1397,9 +1399,14 @@ many `z_i ∈ F(Z_i)` and maps `α_ij : Y_j → Z_i` with `y_j = ∑_i F(α_ij)(
 the **equational criterion** ([OR, Thm. 3.2 (4), pp. 96–97, with the proof to p. 99], for
 contravariant functors on a preadditive category; Lazard; for rings [Lam-LMR, (4.24), p. 130], which
 credits Chase, stated for right modules in Lam; applied to `Aᵐᵒᵖ`; [CE, VI, Exer. 6, p. 123];
-Mathlib's commutative `Module.Flat.iff_forall_isTrivialRelation`). For rings P. M. Cohn, *On the
-free product of associative rings*, Math. Z. 71 (1959), 380–398, and N. Bourbaki, *Algèbre
-commutative*, Ch. I, §2, have earlier forms of these criteria (not checked here).
+Mathlib's commutative `Module.Flat.iff_forall_isTrivialRelation`). For rings, earlier forms: P. M.
+Cohn, *On the free product of associative rings*, Math. Z. 71 (1959), 380–398, §2, Lemma 2.3, p. 383
+(a vanishing sum `∑ u_i ⊗ v_i` over a finitely presented `V` comes from its relations) and Thm. 2.4,
+p. 384 (the relational criterion for pure submodules), right modules; and N. Bourbaki, *Algèbre
+commutative*, Ch. I, §2 (pages of the Masson 1985 edition, Springer reprint 2006): n° 3, Prop. 1,
+p. 26, and Remarque 1, p. 27 (the ideal test, all or finitely generated left ideals), and n° 11,
+Lemme 10, p. 41, Prop. 13 and Cor. 1, pp. 42–43 (the equational criterion), for right modules over
+any ring.
 
 **Why this definition.** The familiar definitions of flatness are tensorial: `- ⊗_C F` preserves
 monomorphisms, the ideal test, or `Tor_1(-, F) = 0`. Over a category each of them needs the
@@ -1564,8 +1571,8 @@ Consequences:
 
 - **remark on finitely presented flat modules**: the factorization of the identity of a finitely
   presented flat `F` through a finite sum of representables also shows that `F` is projective
-  ([Lazard, Cor. 1.4, p. 85]; for rings [Chase 1960, Prop. 2.2 and Corollary, pp. 458–459], not
-  checked here; [OR, Cor. 3.3, p. 99]). The target is 2.2's, by the shorter route of 1.4;
+  ([Lazard, Cor. 1.4, p. 85]; for rings [Chase 1960, Prop. 2.2 and Corollary, pp. 458–459], right
+  modules; [OR, Cor. 3.3, p. 99]). The target is 2.2's, by the shorter route of 1.4;
 - **flat and pure-projective modules are projective** (`TauCeti.ModCat.IsPureProjective`,
   `TauCeti.ModCat.Flat.projective_of_isPureProjective`): an epimorphism from a projective onto
   `F` is pure, so it splits;
@@ -1647,10 +1654,15 @@ go through it. The modules take values in any universe.
   cokernels (Mathlib's `Pretriangulated.isWeakLimitKernelForkOfDistTriangle`, applied on `Cᵒᵖ`),
   and the first item applies. Krause's proof instead extends `F` to the abelian category of
   finitely presented functors and computes `Ext` from triangles. Both sources show that this is
-  also equivalent to fp-injectivity; that part stays in prose. Background for the additive case:
-  P. Gabriel, F. Ulmer, *Lokal präsentierbare Kategorien*, Lecture Notes in Math. 221, Springer
-  (1971), and the papers of P. Freyd and M. Auslander in *Proc. Conf. Categorical Algebra* (La
-  Jolla, 1965), Springer (1966), on weak kernels and coherent functors (not checked here).
+  also equivalent to fp-injectivity; that part stays in prose. Background: P. Gabriel, F. Ulmer,
+  *Lokal präsentierbare Kategorien*, Lecture Notes in Math. 221, Springer (1971), §5, pp. 55–62,
+  and §7, pp. 71–84, for set-valued functors (not additive; the remark in 5.5, p. 58, names the flat
+  modules over a ring, citing Lazard); and, for the additive case, in *Proc. Conf. Categorical
+  Algebra* (La Jolla, 1965), Springer (1966), P. Freyd, *Representations in abelian categories*,
+  95–120 (weak kernels, p. 99; Thm. 1.4, p. 99, with proof to p. 102, and Cor. 1.5, p. 102: an
+  additive category with weak kernels and weak products is a resolving set of projectives in an
+  abelian category) and M. Auslander, *Coherent functors*, 189–231 (finitely presented covariant
+  functors on an abelian category, p. 189).
 - **Crawley-Boevey's representation theorem** (`TauCeti.FinitelyPresented`,
   `TauCeti.restrictedYonedaEquivFlat`). A finitely accessible additive category `𝒜` is equivalent,
   by the restricted Yoneda functor `X ↦ Hom(-, X)` on `fp(𝒜)`, to the flat modules of
@@ -2041,7 +2053,8 @@ Ceti `TauCeti.globalDimension_mulOpposite` and the other declarations of
   by the telescope `0 → ⊕ D_i → ⊕ D_i → colim D → 0` of 2.5.
 - **Countably presented flat modules** (`TauCeti.ModCat.Flat.hasProjectiveDimensionLE_one`): a
   flat module that is countably presented (Mathlib's `IsCardinalPresentable` at `ℵ₁`, 0.8) has
-  projective dimension `≤ 1` ([Jensen, Thm. 1], not checked here; as cited in [Mitchell, p. 49]).
+  projective dimension `≤ 1` ([Jensen, Lemma 2, pp. 98–100]; [Osofsky-Nagoya, Lemma 1.2, p. 316];
+  [Mitchell, p. 49]).
   The regularity of `ℵ₁` that `IsCardinalPresentable` needs is Mathlib's
   `Cardinal.isRegular_aleph_one`, provided in `Suggested.lean` as a local instance, so the
   statement has no `Fact` binder. Route, by retracts: write `F` as a filtered colimit of finite
@@ -2057,8 +2070,10 @@ Ceti `TauCeti.globalDimension_mulOpposite` and the other declarations of
   error lies in the extraction of a countable subsystem whose colimit is the whole module is this
   roadmap's reading, which the retract route avoids. Bass's module (2.5) is the example.
 - **Pointer, not a target**: an `ℵ_n`-presented flat module has projective dimension `≤ n + 1`
-  ([Simson, Thm. 2.12 (c), p. 98], for functor categories; Osofsky for rings, as cited in
-  [Mitchell, pp. 49–50], with examples showing the bound is sharp).
+  ([Simson, Thm. 2.12 (c), p. 98], for functor categories; for rings [Osofsky-Nagoya, Thm. 1.3,
+  pp. 316–317], an `ℵ_k`-generated submodule `B` of a free `F` with `F ⧸ B` flat has projective
+  dimension `≤ k`; [Mitchell, pp. 49–50], where the bound is called best possible in view of the
+  directed functors of [Mitchell, §36, Thm. 36.8, p. 149]).
 
 Ring forms of 3.5 come through 0.2 and are not stated separately. Equality of flat and projective
 dimension over a perfect `C` is a condition of Theorem P and stays in Layer 4 (4.5).
@@ -2089,7 +2104,9 @@ In prose, with locators:
   hereditary: `globalDimension Rᵐᵒᵖ = weakGlobalDimension R = 1 < globalDimension R`
   ([Lam-LMR, (5.62b), p. 185]; the facts on `R` are [Lam-LMR, (2.33), pp. 46–47], "constructed by
   L. Small"; L. W. Small, *An example in Noetherian rings*, Proc. Nat. Acad. Sci. U.S.A. 54 (1965),
-  1035–1036, not checked here). Auslander's theorem applies to `Rᵐᵒᵖ`; for `R` it fails, so `R` is
+  1035–1036: Theorem, p. 1035, for `[[R, Q], [0, Q]]` with `R` a commutative Noetherian domain and
+  `Q` its quotient field, right but not left Noetherian; the case `R = ℤ`, right hereditary and not
+  left hereditary, p. 1036). Auslander's theorem applies to `Rᵐᵒᵖ`; for `R` it fails, so `R` is
   not left Noetherian.
 - The free Boolean ring of Pierce, as cited by Osofsky: for a set `J` of cardinality `ℵ₂`, the free
   Boolean ring `B = 𝔽₂[x_j : j ∈ J] ⧸ (x_j² - x_j)` has weak global dimension `0` (it is von
@@ -2098,7 +2115,8 @@ In prose, with locators:
   (with the definition of a nice family on p. 641) gives `pd I = 2`, so `pd(B ⧸ I) = 3`; the upper
   bound is [Osofsky-Nagoya, Cor. 1.4, p. 318]: `gldim R ≤ wgldim R + n + 1` when every right ideal
   is generated by at most `ℵ_n` elements, so `gldim B ≤ 3` ([Osofsky-Nagoya, p. 319], which credits
-  Pierce for the free Boolean rings; Pierce's paper was not obtained). So Auslander's theorem needs
+  Pierce for the free Boolean rings; [Pierce, Cor. 2.2, p. 92, and Cor. 5.2, p. 97]: the free
+  Boolean ring on `ℵ_n` generators has global dimension `n + 1`). So Auslander's theorem needs
   the Noetherian hypothesis.
 - Jategaonkar's rings: for each `1 ≤ n ≤ ∞` there is a principal left ideal domain `D` with right
   global dimension `n` ([Jategaonkar, Thm. 4.10, pp. 438–439]). `D` is left Noetherian with left
@@ -2519,9 +2537,10 @@ flat module with a projective cover is projective, for any `C` and with no hypot
 radical ([Wisbauer, 36.4 (1), p. 306]). Route: an epimorphism onto a flat module is pure (2.3), so
 the kernel of the cover is pure and superfluous, hence zero. Credits: Wisbauer for rings, statement
 and proof; [Simson, Thm. 5.4, (9′) ⇒ (1′), pp. 109–110], on `Cᵒᵖ`, for categories; [Mares, Thm. 2.4,
-proof step (i), p. 349], for the endomorphism argument; [Chase 1960, Prop. 2.2, p. 458], not checked
-here, as the first published form of Villamayor's lemma. The earlier ring proof of "perfect ⇒ flat
-modules are projective" through `K ≤ J · P` ([Lam-FC, (24.25)]) is an alternative.
+proof step (i), p. 349], for the endomorphism argument; [Chase 1960, Prop. 2.2, p. 458], where
+Chase publishes Villamayor's lemma with proof, noting that it had not yet appeared. The earlier
+ring proof of "perfect ⇒ flat modules are projective" through `K ≤ J · P` ([Lam-FC, (24.25)]) is
+an alternative.
 
 **Theorem P** (`TauCeti.isPerfectCategory_tfae`), for `EssentiallySmall.{w} C` (the universe `v`
 in `Suggested.lean`). The following are equivalent:
@@ -2593,19 +2612,20 @@ Route: the cycle 1 ⇒ 2 ⇒ 3 ⇒ 3′ ⇒ 4′ ⇒ 1, with 4 ⇔ 4′, 3 ⇔ 5
   superfluous and `F → B` onto), and `J(C)` is T-nilpotent (4.1). The categorical adaptation of
   Sandomierski's ring argument, which uses [Sandomierski, Prop. 1 (d), p. 205], is this roadmap's.
 
-Alternatives, in prose only: Rentschler's direct ring proof of 1 ⇒ 4 ([Rowen, Thm. 2.7.33,
-pp. 222–223]; R. Rentschler, *Eine Bemerkung zu Ringen mit Minimalbedingung für Hauptideale*,
-Arch. Math. 17 (1966), 298–301, not checked here, the title as listed in C. Faith's *Algebra II*
-bibliography); [Lam-FC, (24.25), pp. 369–370] for 1 ⇒ 3 through `R ⧸ J` (`K ≤ J · P`, and flatness
-gives `K = J · K`); Simson's route through Mittag-Leffler objects ([Simson, Thms. 3.16 and 5.4]);
-the exchange route 3 ⇒ 2 ([AHS, Thm. 1.1], with an agent assembly that was not audited); the
-pp-formula proof of the Bass obstruction ([PR, §3]); and the earlier ring proof of 2 ⇒ 1 (simple
-modules have covers, so `A` is semiperfect; a nonzero module with a cover has `J • M ≠ M`, since
-`J • P ≠ P` for a nonzero projective `P`, [Bass, Prop. 2.7, p. 474]; then 4.1). Pointers only, not
-targets: Bass's conditions (4), direct limits of modules of projective dimension `≤ n`, and (7),
-orthogonal idempotents and socles; Simson's conditions (2), (3), (4) and (6) (Mittag-Leffler
-objects, the product map, coperfectness, endomorphism rings of finitely generated projectives);
-Harada's minimal-subobject condition ([Harada, Thm. 5, 5)]).
+Alternatives, in prose only: Rentschler's direct ring proof of 1 ⇒ 4 ([Rowen, Thm. 2.7.33, pp.
+222–223]; R. Rentschler, *Eine Bemerkung zu Ringen mit Minimalbedingung für Hauptideale*, Arch.
+Math. 17 (1966), 298–301, Satz 1, p. 298, with proof to p. 300: a ring whose radical is left
+T-nilpotent, with semisimple quotient, has the minimum condition on principal right ideals, by a
+non-homological proof answering Bass's question); [Lam-FC, (24.25), pp. 369–370] for 1 ⇒ 3 through
+`R ⧸ J` (`K ≤ J · P`, and flatness gives `K = J · K`); Simson's route through Mittag-Leffler objects
+([Simson, Thms. 3.16 and 5.4]); the exchange route 3 ⇒ 2 ([AHS, Thm. 1.1], with an agent assembly
+that was not audited); the pp-formula proof of the Bass obstruction ([PR, §3]); and the earlier ring
+proof of 2 ⇒ 1 (simple modules have covers, so `A` is semiperfect; a nonzero module with a cover has
+`J • M ≠ M`, since `J • P ≠ P` for a nonzero projective `P`, [Bass, Prop. 2.7, p. 474]; then 4.1).
+Pointers only, not targets: Bass's conditions (4), direct limits of modules of projective dimension
+`≤ n`, and (7), orthogonal idempotents and socles; Simson's conditions (2), (3), (4) and (6)
+(Mittag-Leffler objects, the product map, coperfectness, endomorphism rings of finitely generated
+projectives); Harada's minimal-subobject condition ([Harada, Thm. 5, 5)]).
 
 **Rings** (`TauCeti.isLeftPerfectRing_tfae (A : Type u)`): the same items, with 2 and 2′ in Tau
 Ceti's `TauCeti.IsProjectiveCover` form (Convention 12), 3 and 3′ with `Module.BalancedFlat`, 4 the
@@ -2640,7 +2660,7 @@ p. 365, and (24.25), p. 369], right-handed.
   covers every semilocal `C` with `J(C)ⁿ = 0`.
 - **The Bass–Eilenberg criterion** (`TauCeti.ModCat.hasProjectiveDimensionLE_iff_isZero_tor`;
   [Bass, p. 475], where Bass reproduces Eilenberg's argument; [Eilenberg 1956, Prop. 10 and Thm. 11,
-  p. 333], not checked here). Over a perfect `C`, `pd M = sup {n : Tor_n(C ⧸ J, M) ≠ 0}`: `pd M ≤ n`
+  p. 333]). Over a perfect `C`, `pd M = sup {n : Tor_n(C ⧸ J, M) ≠ 0}`: `pd M ≤ n`
   exactly when `Tor_{n+1}((C ⧸ J)(X, -), M) = 0` for every `X`, with the covariant `(C ⧸ J)(X, -)`
   of 0.3. Route: a minimal projective resolution by covers (4.4) has differentials into `J · P_n`,
   since the kernel of a cover lies in `J · P` (4.2); so `(C ⧸ J) ⊗_C P` has zero differentials and
@@ -2766,7 +2786,7 @@ Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 needs Layers 2 and 3 and 
   presentations (`TauCeti.FiniteProjectivePresentation.exists_isMinimal`); 4.2 provides them for
   finitely presented modules over any semiperfect ring. ArtinAlgebras' Krull–Schmidt material can
   use the semiprimary endomorphism rings of modules of finite length (4.3).
-- Hoshino's flat-dominant dimension ([Ho], [Xi, §1], as cited in ArtinAlgebras §7.3) asks the
+- Hoshino's flat-dominant dimension ([Ho, Theorem, p. 275]; [Xi, §1, p. 34]) asks the
   terms of a minimal injective coresolution to be flat; ArtinAlgebras leaves it out because
   flatness over noncommutative rings is missing. Layer 2 supplies that flatness. Xi uses
   Hoshino's symmetry for Noetherian rings; it is a consumer, not an independent proof.
@@ -2808,7 +2828,8 @@ Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 needs Layers 2 and 3 and 
   (b), p. 54 (the exact sequence ending in `Ext^k(M, -) → Tor_1(D Ω^k M, -) → 0`); (2.9) (b),
   pp. 55–56. The proof of (2.8), pp. 54–55, credits M. Auslander, *Coherent functors*, Proc. Conf.
   Categorical Algebra (La Jolla, 1965), Springer (1966), 189–231, Prop. 5.8c, Lemma 7.4 and
-  Thm. 7.5 (not checked here).
+  Thm. 7.5: Prop. 5.8 (c), p. 220 (statement from p. 219); Lemma 7.4, p. 229, and Thm. 7.5,
+  p. 230, for a Noetherian ring (assumed from p. 229 on).
 - [AF] F. W. Anderson, K. R. Fuller, *Rings and Categories of Modules*, 2nd ed., Graduate Texts in
   Mathematics 13, Springer (1992). §28: left and right T-nilpotence, p. 314; Lemma 28.3,
   pp. 314–315; Theorem 28.4 (Bass), pp. 315–317 ((b) ⇒ (a) on pp. 315–316); Corollary 28.7, p. 318.
@@ -2856,8 +2877,9 @@ Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 needs Layers 2 and 3 and 
   monic, and `Tor_1(A, Λ ⧸ I) = 0`); Exer. 6, p. 123 (flatness, `Tor_1(A, Λ ⧸ I) = 0` for all left
   ideals, and the equational criterion).
 - [Chase 1960] S. U. Chase, *Direct products of modules*, Trans. Amer. Math. Soc. 97 (1960),
-  457–473. Prop. 2.2 and its Corollary, pp. 458–459 (Villamayor's lemma; finitely related flat
-  modules are projective); not checked here.
+  457–473. Prop. 2.2, p. 458, with proof to p. 459 (Villamayor's characterization of flat modules,
+  credited to him as not yet in the literature), and its Corollary, p. 459 (a finitely related flat
+  module is projective); Prop. 2.3, p. 459 (the equational criterion). Right modules.
 - [CI] M. Cortés-Izurdiaga, *Flatness in finitely accessible additive categories*,
   arXiv:2505.07742v1: the definitions before Proposition `p:CharacterizationFlats` (flat modules
   versus flat objects inside the category of flat modules). No published numbering.
@@ -2867,9 +2889,13 @@ Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 needs Layers 2 and 3 and 
 - [Eilenberg 1956] S. Eilenberg, *Homological dimension and syzygies*, Ann. of Math. (2) 64 (1956),
   328–336. Perfect categories (introduction, p. 328, and the axioms on p. 330); minimal
   epimorphisms and resolutions, Props. 3 and 7, Thm. 8, pp. 330–333; Prop. 10 and Thm. 11, p. 333
-  (`Tor_n(K, A) ≅ X_n ⧸ N X_n` and the dimension criterion), as reproduced in [Bass, p. 475]; not
-  checked here in a catalogued copy. For semiprimary rings: S. Eilenberg, T. Nakayama, *On the
-  dimension of modules and algebras II*, Nagoya Math. J. 9 (1955), 1–16 (not checked here).
+  (`Tor_n(K, A) ≅ X_n ⧸ N X_n` and the dimension criterion), as reproduced in [Bass, p. 475]. Left
+  modules; a perfect category is a subcategory of graded modules over a graded ring with
+  semisimple `Λ ⧸ N`; the errata page (Ann. of Math., 1957, p. 593) corrects misprints only.
+  Eilenberg credits minimal epimorphisms over semiprimary rings to S. Eilenberg, T. Nakayama, *On
+  the dimension of modules and algebras V. Dimension of residue rings*, Nagoya Math. J. 11 (1957),
+  9–12 (p. 9: the minimal epimorphism `P → A`, `P` projective with kernel in `NP`, for left modules
+  over a semiprimary ring).
 - [Fisher] J. L. Fisher, *The tensor product of functors, satellites, and derived functors*,
   J. Algebra 8 (1968), 277–294. Prop. 1.3, p. 279, with proof to p. 280, and Thm. 1.4, p. 280 (a
   left exact functor on a small abelian category is a filtered colimit of representables); Thm. 2.4,
@@ -2892,13 +2918,15 @@ Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 needs Layers 2 and 3 and 
   J. Algebra 12 (1969), 418–440. Thm. 4.10, pp. 438–439 (principal left ideal domains of any right
   global dimension).
 - [Jensen] C. U. Jensen, *On homological dimensions of rings with countably generated ideals*,
-  Math. Scand. 18 (1966), 97–105 (pages as cited in [Osofsky-Nagoya]). Theorem 1; not checked
-  here.
+  Math. Scand. 18 (1966), 97–105. Lemma 2, pp. 98–100 (a countably generated flat left module over
+  a ring whose left ideals are countably generated has projective dimension `≤ 1`; [Osofsky-Nagoya,
+  Lemma 1.2, p. 316] restates it for any countably related flat module); Theorem 1, p. 100
+  (`l.gl.dim R ≤ w.gl.dim R + 1` when all left ideals are countably generated).
 - [JL] C. U. Jensen, H. Lenzing, *Model Theoretic Algebra*, Gordon and Breach (1989). Appendix B,
   Theorems B.12, p. 387 (where the small category is called perfect), and B.14, p. 388.
 - [Krause] H. Krause, *Krull-Schmidt categories and projective covers*, Expo. Math. 33 (2015),
-  535–549; arXiv:1410.2822. Lemma 3.6 and Proposition 4.1, read in the arXiv TeX source; the
-  journal page range and numbering were not checked.
+  535–549; arXiv:1410.2822. Lemma 3.6, p. 542, and Proposition 4.1, p. 544, with proof to p. 545
+  (right modules, p. 538); the arXiv TeX source has the same numbering.
 - [Krause-Defect] H. Krause, *A short proof for Auslander's defect formula*, Linear Algebra Appl.
   365 (2003), 267–270. Theorem and proof, pp. 268–269: the snake-lemma step (the diagram on p. 268;
   `D δ_*(X) = D Coker Hom_R(X, ψ) ≅ D Ker(φ ⊗_R Tr X)` on p. 269), for an algebra over a
@@ -2963,9 +2991,16 @@ Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 needs Layers 2 and 3 and 
   pp. 49–50 (Jensen's countable case, Osofsky's `ℵ_n` case, and "a slightly erroneous, but simpler
   proof" by Lazard, corrected in a communication to Mitchell); §11, pp. 50–52: `K`-categories,
   `K`-linear functors to `K`-modules as additive functors to abelian groups (p. 51), the tensor
-  product over `K` and its independence of `K` (p. 52). Pages 57–161 were not read. Mitchell writes
-  morphisms on the right; his modules in general are covariant functors and are applied to `Cᵒᵖ`,
-  while the projective and flat functors of §10 are contravariant (`G ∈ Ab^{𝒞*}`), as here.
+  product over `K` and its independence of `K` (p. 52). Pages 57–161 were searched for flatness,
+  weak dimension and Auslander's theorems: the weak dimension of a functor is defined on p. 59 and
+  then set aside (p. 60); Thm. 16.1 (Osofsky), p. 69, bounds the projective dimension of a directed
+  colimit over a directed set of cardinality `ℵ_n` by `n + 1` plus the supremum; §36, Thm. 36.8,
+  p. 149, gives directed functors of projective dimension exactly `n + 1` (the examples of p. 50);
+  p. 152 recalls Auslander's theorem that the right global dimension is the supremum over cyclic
+  functors. No categorical form of Auslander's Noetherian comparison of weak and global dimension
+  was found there. Mitchell writes morphisms on the right; his modules in general are covariant
+  functors and are applied to `Cᵒᵖ`, while the projective and flat functors of §10 are contravariant
+  (`G ∈ Ab^{𝒞*}`), as here.
 - [Müller] B. J. Müller, *On semi-perfect rings*, Illinois J. Math. 14 (1970), 464–467. §3 (a short
   proof of the simple-cover criterion); a pointer.
 - [Nicholson] W. K. Nicholson, *On semiperfect modules*, Canad. Math. Bull. 18 (1975), 77–80. Cor.
@@ -2989,12 +3024,18 @@ Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 needs Layers 2 and 3 and 
 - [Osofsky-Nagoya] B. L. Osofsky, *Upper bounds on homological dimensions*, Nagoya Math. J. 32
   (1968), 315–322. Cor. 1.4, p. 318 (`gl.d(R) ≤ w.gl.dim(R) + n + 1` when every right ideal is
   generated by at most `ℵ_n` elements); p. 319 (Pierce's free Boolean rings: R. S. Pierce, *The
-  global dimension of Boolean rings*, J. Algebra 7 (1967), 91–99, not obtained).
+  global dimension of Boolean rings*, J. Algebra 7 (1967), 91–99, cited here as [Pierce]).
 - [PR] A. Pillay, P. Rothmaler, *Bass modules and embeddings into free modules*, J. Algebra 670
   (2025), 1–12 (publisher record, not checked here); read in arXiv:2501.04174v1, §3, Definition 4
   and Lemma 5 (numbering of the HTML version of v1, not compared with the published version); the
-  pp-formula view of the Bass obstruction, credited there to Puninski–Rothmaler (not read). An
-  alternative only.
+  pp-formula view of the Bass obstruction, credited there to G. Puninski, P. Rothmaler,
+  *Pure-projective modules*, J. London Math. Soc. (2) 71 (2005), 304–320: §4, Thm. 4.2
+  (Bass–Björk), with Lemma 3.6, read in an author preprint (numbering of the preprint, not
+  compared with the published version). An alternative only.
+- [Pierce] R. S. Pierce, *The global dimension of Boolean rings*, J. Algebra 7 (1967), 91–99.
+  Cor. 2.2, p. 92 (a regular ring of cardinality at most `ℵ_n` has global dimension `≤ n + 1`);
+  Thm. 5.1, p. 96, and Cor. 5.2, p. 97 (the free Boolean ring on `ℵ_n` generators has global
+  dimension `n + 1`). Left modules.
 - [Rowen] L. H. Rowen, *Ring Theory*, vol. I, Academic Press (1988). Thm. 2.7.7 (ii), pp. 213–214,
   and Thm. 2.7.33, pp. 222–223 (Rentschler's direct proof that a perfect ring has the descending
   chain condition on principal ideals, in Rowen's conventions); read for the route comparison, not
@@ -3040,10 +3081,15 @@ Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 needs Layers 2 and 3 and 
   projective module in `σ[M]` generated by finitely presented modules is zero) and 36.4 (1),
   p. 306 (a flat module with a projective cover is projective), in `σ[M]`.
 - M. and G. Weidenfeld, *Idéaux d'une catégorie préadditive, application aux catégories
-  semi-parfaites*, C. R. Acad. Sci. Paris A 270 (1970), 1569–1571 (listed in [Simson]); not
-  obtained.
-- [Ho] M. Hoshino, *On dominant dimension of Noetherian rings*, Osaka J. Math. 26 (1989), 275–280;
-  [Xi] C. Xi, *Frobenius bimodules and flat-dominant dimensions*, Sci. China Math. 64 (2021), 33–44
-  (publisher record, not checked here), read in arXiv:1903.07921v1. Cited for the consumer only,
-  as in ArtinAlgebras.
+  semi-parfaites*, C. R. Acad. Sci. Paris Sér. A 270 (1970), 1569–1571, as listed in [Simson],
+  ref. [39]. A search found only the thesis M. Weidenfeld, *Idéaux d'une catégorie préadditive*,
+  Esquisses Math. 3, Paris (1970). Neither was obtained or read.
+- [Ho] M. Hoshino, *On dominant dimension of Noetherian rings*, Osaka J. Math. 26 (1989), 275–280.
+  Theorem, p. 275: for a left and right Noetherian ring, the first `n` terms of the minimal
+  injective resolutions of `R_R` and `_R R` are flat together (Hoshino calls this dominant
+  dimension).
+  [Xi] C. Xi, *Frobenius bimodules and flat-dominant dimensions*, Sci. China Math. 64 (2021), 33–44,
+  read in the published version (author's PDF) and in arXiv:1903.07921v1: §1, p. 34, the left
+  flat-dominant dimension, following [Ho], and its left-right symmetry for Noetherian rings,
+  credited to [Ho]. Cited for the consumer only, as in ArtinAlgebras.
 

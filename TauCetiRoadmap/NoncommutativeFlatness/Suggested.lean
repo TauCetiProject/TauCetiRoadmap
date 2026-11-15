@@ -3077,11 +3077,11 @@ theorem ModCat.hasProjectiveDimensionLE_one_colimit (D : ℕ ⥤ ModCat.{v} C)
   sorry
 
 /-- **3.5, Jensen**: a countably presented (`ℵ₁`-presentable) flat module has projective dimension
-at most one ([Jensen, Thm. 1], not checked here; as cited in [Mitchell, p. 49]). Route: write `F`
-as a filtered colimit of finite sums of representables (2.3) and, with a countable presentation
-(0.8), build a sequence `D_0 → D_1 → ⋯` through which the generators lift and the relations die;
-then `F` is a retract of its colimit, which has projective dimension `≤ 1` by the previous item. No
-isomorphism between `F` and the colimit is needed. -/
+at most one ([Jensen, Lemma 2, pp. 98–100]; [Osofsky-Nagoya, Lemma 1.2, p. 316]; [Mitchell, p. 49]).
+Route: write `F` as a filtered colimit of finite sums of representables (2.3) and, with a countable
+presentation (0.8), build a sequence `D_0 → D_1 → ⋯` through which the generators lift and the
+relations die; then `F` is a retract of its colimit, which has projective dimension `≤ 1` by the
+previous item. No isomorphism between `F` and the colimit is needed. -/
 theorem ModCat.Flat.hasProjectiveDimensionLE_one (F : ModCat.{v} C) [F.Flat]
     [IsCardinalPresentable F (Cardinal.aleph.{v} 1)] :
     HasProjectiveDimensionLE F 1 :=
