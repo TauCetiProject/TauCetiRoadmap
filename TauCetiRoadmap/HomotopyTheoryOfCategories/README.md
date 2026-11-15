@@ -1567,14 +1567,12 @@ uses 13.2.
 
 ## Downstream consumers
 
-StableHomotopyKTheory records this roadmap as the owner of
-Theorem A for an arbitrary basic localizer (2.3–2.4) and compares it with its §§1.10–1.12 and 2.31,
-taking none of it as an input. GrothendieckNotesLemmas names this roadmap as the owner of
-idempotent adjunctions, additive functors on a Karoubi envelope and Beck's theorem as a
-characterization (0.1–0.3) and of the semi-simplex category (8.4). GrothendieckInfinityGroupoids
-lists this roadmap as the consumer of its globe category in 8.6, and GrothendieckTopoi records that
-this roadmap uses none of its material. PosetHomotopyAndSubgroupComplexes consumes basic
-localizers, asphericity and `W∞` (2.1) and Theorem A for an arbitrary basic localizer (2.4).
+StableHomotopyKTheory records this roadmap as the owner of Theorem A for an arbitrary basic
+localizer (2.3–2.4) and compares it with its §§1.10–1.12 and 2.31, taking none of it as an input.
+GrothendieckInfinityGroupoids lists this roadmap as the consumer of its globe category in 8.6, and
+GrothendieckTopoi records that this roadmap uses none of its material.
+PosetHomotopyAndSubgroupComplexes consumes basic localizers, asphericity and `W∞` (2.1) and Theorem
+A for an arbitrary basic localizer (2.4).
 
 ## Research context
 
