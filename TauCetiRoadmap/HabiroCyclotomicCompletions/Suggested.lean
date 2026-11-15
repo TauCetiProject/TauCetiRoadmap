@@ -144,8 +144,8 @@ theorem close_root_taylor_reexpansion {R B : Type*} [CommRing R] [CommRing B]
     (ζ ζ' : B) (hζ : Polynomial.aeval ζ (Polynomial.cyclotomic n R) = 0)
     (hζ' : Polynomial.aeval ζ' (Polynomial.cyclotomic n' R) = 0)
     (p : ℕ) (hp : p.Prime) [IsAdicComplete (Ideal.span {(p : B)}) B]
+    [WithIdeal B] (hI : (WithIdeal.i : Ideal B) = Ideal.span {(p : B)})
     (hclose : ∃ M : ℕ, 0 < M ∧ (ζ' - ζ) ^ M ∈ Ideal.span {(p : B)}) :
-    letI : WithIdeal B := ⟨Ideal.span {(p : B)}⟩
     ∀ (x : CycloCompletion R S) (j : ℕ),
       HasSum (fun r : ℕ => ((j + r).choose j : B) *
         PowerSeries.coeff (j + r) (taylorAt n hn ζ x) * (ζ' - ζ) ^ r)

@@ -165,14 +165,16 @@ The exact contracts used by the constructions are:
 - `Polynomial.taylor_coeff` supplies translation coefficients; `Polynomial.hasseDeriv` keeps these coefficients integral, and `Polynomial.factorial_smul_hasseDeriv` compares with iterated differentiation without inverting a factorial. `PowerSeries.HasEval`, `PowerSeries.eval₂Hom`, `PowerSeries.hasSum_eval₂` and `PowerSeries.eval₂_unique` provide the continuous evaluation contract. `PowerSeries.subst` with `PowerSeries.HasSubst.of_constantCoeff_zero` supplies the zero-constant algebraic substitution used in the exponential coordinate.
 - `AdicCompletion`, `AdicCompletion.isAdicComplete` (for a finitely generated ideal), `AdicCompletion.of_injective` (under `IsHausdorff`), `IsAdicComplete` and `IsHausdorff` provide ideal-power completion and separation. `Ideal.iInf_pow_eq_bot_of_isDomain` is used only under its Noetherian-domain hypotheses; the finite-domain transfer proved in Layer 4 does not assume that every coefficient domain is Noetherian.
 - `Polynomial.resultant_eq_prod_eval` supplies the root-product formula over a domain when the first polynomial splits, with an explicit bound on the second degree; `Polynomial.isUnit_resultant_iff_isCoprime` supplies the comaximality criterion for a monic first polynomial. `LaurentPolynomial.isLocalization`, `Polynomial.toLaurent` and `IsLocalization.Away.lift` supply Laurent extension after the image of `q` is a unit. `IsPrimitiveRoot.isRoot_cyclotomic` supplies the root equation for a positive order in a commutative domain; torsion coefficient algebras instead carry the equation explicitly.
-- Tau Ceti's `TauCeti.TopCommRingCat.IsCompleteSeparated.pi` and `TauCeti.TopCommRingCat.IsCompleteSeparated.of_isClosedEmbedding` supply complete separated products and closed subobjects. `UniformSpace.Completion.ringHom_ext_of_continuous` supplies uniqueness of continuous completed maps. `TauCeti.Polynomial.divModByMonicList`, `TauCeti.Polynomial.ofCoeffList_divByMonicList` and `TauCeti.Polynomial.ofCoeffList_modByMonicList` identify the two list outputs with monic polynomial quotient and remainder.
+- Tau Ceti's `TauCeti.TopCommRingCat.IsCompleteSeparated.pi` and `TauCeti.TopCommRingCat.IsCompleteSeparated.of_isClosedEmbedding` supply complete separated products and closed subobjects. `UniformSpace.Completion.ringHom_ext_of_continuous` supplies uniqueness of continuous completed maps. `TauCeti.Polynomial.divModByMonicList`, `TauCeti.Polynomial.ofCoeffList_reverse_divByMonicList` and `TauCeti.Polynomial.ofCoeffList_reverse_modByMonicList` identify the two list outputs with monic polynomial quotient and remainder.
 
 The coefficient-list contracts are supplied by
-`TauCeti.Algebra.Polynomial.Coeff.List`. The existing
-`TauCeti.Polynomial.ofCoeffList` reads highest coefficients first and satisfies
-`ofCoeffList (l ++ [a]) = ofCoeffList l * q + a`. The divisor of
+`TauCeti.Algebra.Polynomial.Coeff.List`.
+Mathlib's `Polynomial.ofCoeffList` reads constant coefficients first; a descending
+list `l` represents `Polynomial.ofCoeffList l.reverse`.
+`TauCeti.Polynomial.ofCoeffList_reverse_concat` gives
+`ofCoeffList (l ++ [a]).reverse = ofCoeffList l.reverse * X + C a`. The divisor of
 `TauCeti.Polynomial.divModByMonicList t l` is
-`q^(length t) + ofCoeffList t`. Its two polynomial identities supply the
+`X ^ t.length + ofCoeffList t.reverse`. Its two polynomial identities supply the
 monic quotient and remainder used in the mathematical digit comparisons of
 §2.2, including leading-zero lists and the negative quotient sign for divisor
 `q^(n+1) − 1`.
@@ -844,8 +846,8 @@ completion and multiplication followed by finite normalization. Carries can
 only affect higher digit positions.
 
 For integer polynomials presented by descending coefficient lists, require the
-same normalized polynomial digits after applying the existing
-`TauCeti.Polynomial.ofCoeffList` supplier. The quotient/remainder identities
+same normalized polynomial digits after applying
+`Polynomial.ofCoeffList` to the reversed list. The quotient/remainder identities
 of that supplier identify the finite monic decomposition with divisor
 `q^(n+1) − 1`, including lists with leading zeros. If `r` is the polynomial
 residual and `r = a + (q^(n+1) − 1)b` with `deg a ≤ n`, the next
