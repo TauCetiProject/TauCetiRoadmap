@@ -8094,6 +8094,49 @@ their displayed rank hypotheses. The relative symmetric sieve supplies the ratio
 used for modular curves in Caraiani–Newton §7.4. Explicit modularity applications consume the model
 and finite-datum implications, with their arithmetic input hypotheses intact.
 
+## Provenance
+
+This section is secondary: it records an existing formalization that overlaps this roadmap and
+prescribes nothing.
+
+[AxiomMath/Mordell](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493),
+read at commit `82a30cb7857f6e3cfdb1be91f5533c0ccb57d493`, is an Apache-2.0 Lean formalization of
+Faltings' theorem for curves over number fields by Bombieri's ineffective proof, built on Mathlib and
+on AxiomMath's Lean formalization of the Stacks project at other Lean and Mathlib versions. It is not a
+dependency of this roadmap or of Tau Ceti, and no code from it is transferred here; a statement read
+there is compared with the target here before it is used, and adapting any of it requires agreement
+with its authors and keeps its Apache-2.0 notices. Its heights are absolute logarithmic Weil heights
+of points of projective space over fields algebraic over ℚ; on an element `x` of a number field of
+degree `d` this is `log(Height.mulHeight₁ x)/d`, whereas §§0.10–0.11 enclose and bound the relative
+`Height.mulHeight₁` itself.
+
+- Its [`Height`](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493/Mordell/Height)
+  directory (63 files) is prior art for §§0.10–0.11. `Weil/IntegerCoordinates` computes the height of
+  a point with coprime integer coordinates as the logarithm of the largest coordinate, the rational
+  case that §0.10 checks against Mathlib's `Rat.mulHeight₁_eq_max`. `Weil/MinimalPolynomial` bounds
+  the height of the coefficient point of a minimal polynomial by `d·h(α) + d·log 2`; §0.10 needs the
+  equality of the relative height with the Mahler measure of the primitive characteristic polynomial
+  instead. `Polynomial/Local/GaussLemma` proves that the local size of polynomials at a finite place is
+  multiplicative, whose case over ℚ is the Gauss lemma behind §0.10's `P_x = F_x^k`. `Weil/Northcott`
+  and `Weil/NorthcottRat` prove that the points of bounded height and degree form a finite set; §0.11
+  replaces that finiteness, read here from Mathlib's `NumberField.finite_setOfPred_mulHeight₁_le`, by
+  an explicit candidate set with completeness and soundness, which has no counterpart there. Its Weil
+  machine (`Machine`, `Class`), affine coefficient heights (`Affine`), Siegel lemma (`Siegel`) and
+  large-coordinate estimate (`LargeAffineCoordinate`) have no counterpart here.
+- Its [`Roth`](https://github.com/AxiomMath/Mordell/tree/82a30cb7857f6e3cfdb1be91f5533c0ccb57d493/Mordell/Roth)
+  directory (16 files) proves Roth's lemma in Bombieri's form
+  (`Faltings.exists_eval_dividedDeriv_ne_zero_of_roth`): an upper bound for the index of a nonzero
+  polynomial over a number field at a point whose coordinates have large height, by induction on the
+  number of variables through generalized Wronskians. It serves the ineffective Bombieri–Vojta route;
+  no section here bounds the index of an auxiliary polynomial, so this directory has no counterpart in
+  this roadmap.
+
+Sections 0.1–0.9 and Layers 1–6 have no counterpart in these two directories: they contain no real,
+complex or p-adic enclosures, lattice reduction, linear forms in logarithms, descent, elliptic heights,
+Chabauty or sieve data, or p-adic heights. The repository's `NeronTate` directory is prior art for the
+Néron–Tate height that HeightsRationalPointsAndObstructions Layer 0 supplies to §§5.18–5.19, not for a
+target here.
+
 ## References
 
 Each locator above distinguishes an author preprint, an arXiv version and a publication. Page
