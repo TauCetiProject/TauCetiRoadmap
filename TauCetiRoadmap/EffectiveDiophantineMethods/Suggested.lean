@@ -2,6 +2,7 @@ import Mathlib
 import TauCeti.AlgebraicGeometry.EllipticCurve.CanonicalHeight.Basic
 import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.FinitelyGenerated
 import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.Regulator.Basic
+import TauCeti.RingTheory.PowerSeries.EvalAt
 
 /-!
 # Effective Diophantine methods: target signatures
@@ -20,9 +21,10 @@ corollary, de Weger's count of the solutions of `x + y = z` in
 `{2, 3, 5, 7, 11, 13}`-units, and Tzanakis–de Weger's Thue–Mahler equation
 `x³ − 23x²y + 5xy² + 24y³ = ±2^a 3^b 5^c 7^d`. The root-matching theorem is stated
 after the normalization G(T) = p⁻ᵏ F(pT), over any complete algebraically closed
-normed extension of Q_p, with analytic orders as multiplicities. The scalar
-constants, generated subgroup, series evaluation, S-unit solution set and
-Thue–Mahler solution list have explicit definitions on native carriers.
+normed extension of Q_p, with analytic orders as multiplicities and Tau Ceti's
+`PowerSeries.evalAt` as series evaluation. The scalar constants, generated subgroup,
+S-unit solution set and Thue–Mahler solution list have explicit definitions on native
+carriers.
 
 The general exact-list implications of §§2.20, 2.28 and 2.33 are not stated:
 their ThueData, ThueMahlerData and SUnitData require the complete arithmetic
@@ -185,10 +187,6 @@ end ED3
 
 namespace ED6
 
-/-- Series evaluation; the matching theorem uses it only on a disc of convergence. -/
-def seriesValue {K : Type*} [NormedField K] (f : PowerSeries K) (x : K) : K :=
-  ∑' i : ℕ, f.coeff i * x ^ i
-
 /-- Quantitative matching after normalization, including every geometric multiplicity (§6.16). -/
 theorem roots_determined_of_truncation {p : ℕ} [Fact p.Prime]
     {C : Type*} [NontriviallyNormedField C] [CompleteSpace C] [IsAlgClosed C]
@@ -198,12 +196,12 @@ theorem roots_determined_of_truncation {p : ℕ} [Fact p.Prime]
     (H : Polynomial ℚ_[p]) (N d : ℕ) (hN : 0 < N) (hd : 0 < d)
     (herror : ∀ i, ‖G.coeff i - H.coeff i‖ ≤ (p : ℝ) ^ (-(N : ℤ)))
     (hmult : ∀ s : Finset C, (∀ z ∈ s, ‖z‖ ≤ 1) →
-      ∑ z ∈ s, analyticOrderAt (seriesValue (G.map (algebraMap ℚ_[p] C))) z ≤
+      ∑ z ∈ s, analyticOrderAt (fun w : C => G.evalAt w) z ≤
         (d : ℕ∞)) :
     ∃ roots : Multiset C,
       (∀ z : C, (roots.count z : ℕ∞) =
         if ‖z‖ ≤ 1 then
-          analyticOrderAt (seriesValue (G.map (algebraMap ℚ_[p] C))) z else 0) ∧
+          analyticOrderAt (fun w : C => G.evalAt w) z else 0) ∧
       roots.card ≤ d ∧
       Multiset.Rel (fun x y : C => ‖x - y‖ ≤
         Real.rpow (p : ℝ) (-((N : ℝ) / d)))
