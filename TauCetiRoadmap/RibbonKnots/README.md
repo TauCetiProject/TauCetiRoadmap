@@ -353,8 +353,9 @@ The proof uses two further results, each a target here:
 `TauCeti.SmoothCircleEmbedding.KnotGroup`, `Matrix.specialOrthogonalGroup`, `MvPolynomial.eval`,
 `TauCeti.semialgebraicDim`, `TauCeti.IsSemialgebraic.semialgebraicDim_image_comp_le`;
 GeometricTopology 5.1 (knot exteriors, peripheral markings), 8.3.1 (relative Waldhausen
-realization), 8.1 (a knot with group `ℤ` is the unknot; extension over the meridional filling), 11.2 and 3.4 (smooth realization,
-Cerf's theorem); gap:knot-group-residually-finite, gap:knot-group-peripheral-injection.
+realization), 8.1 (a knot with group `ℤ` is the unknot; extension over the meridional filling), 11.2
+and 3.4 (smooth realization, Cerf's theorem); gap:knot-group-residually-finite,
+gap:knot-group-peripheral-injection.
 
 **Checks.**
 
