@@ -876,13 +876,6 @@ Layers 1, 4; Mathlib `logDeriv`, `TendstoLocallyUniformlyOn`.
 `TauCeti.tendsto_jacobiTheta_comap_im_atTop`; Mathlib `NNReal.agm`,
 `NNReal.agm_mul_distrib`.
 
-### Examples
-
-- The closed forms at `τ = i`, from 6.3 and `TauCeti.Real.legendreK_one_div_sqrt_two`:
-  - `θ₃(0|i) = Γ(¼)/(2^{1/2} π^{3/4}) = π^{1/4}/Γ(¾)`;
-  - `θ₂(0|i) = θ₄(0|i) = 2^{−1/4} θ₃(0|i)`, by `λ(i) = ½`;
-  - `η(i) = Γ(¼)/(2π^{3/4})`, by 4.3.
-
 ### 6.4 `K` for complex `τ`: the hypergeometric and Carlson forms
 
 - On `F + 2n`, `n : ℤ`: `λ(τ) ∉ [1, ∞)` and `F(½, ½; 1; λ(τ)) = θ₃²(0|τ)` with the principal
@@ -953,6 +946,10 @@ Layers 1, 4; Mathlib `logDeriv`, `TendstoLocallyUniformlyOn`.
 
 ### Examples
 
+- The closed forms at `τ = i`, from 6.3 and `TauCeti.Real.legendreK_one_div_sqrt_two`:
+  - `θ₃(0|i) = Γ(¼)/(2^{1/2} π^{3/4}) = π^{1/4}/Γ(¾)`;
+  - `θ₂(0|i) = θ₄(0|i) = 2^{−1/4} θ₃(0|i)`, by `λ(i) = ½`;
+  - `η(i) = Γ(¼)/(2π^{3/4})`, by 4.3.
 - `thetaModulus (it) → 0` as `t → ∞` and `K(k) → π/2`, `θ₃(0|it) → 1`, consistently with
   `TauCeti.Real.legendreK_zero`.
 
