@@ -783,7 +783,7 @@ Let `p` be prime, `R` a commutative semiring with an algebra map to `ℤ_p`, `F 
 satisfies the Hensel hypothesis with the same root, and for integers `b` and `N` with `v_p(F(b)) ≥ N + v_p(F′(a))` one has `z ≡ b (mod p^N)`.
 
 Work under the following conditions. p prime; `F ∈ R[X]` with `[Algebra R ℤ_[p]]`, evaluated by aeval;
-a, `b ∈ ℤ_p`. `‖F(a)‖ < ‖F′(a)‖²` and `‖b − a‖ < ‖F′(a)‖`.
+`a, b ∈ ℤ_p`. `‖F(a)‖ < ‖F′(a)‖²` and `‖b − a‖ < ‖F′(a)‖`.
 
 *Proof sketch.* Taylor expansion (`Polynomial.binomExpansion`) at `z` gives `F(b) = F(z) + F′(z)(b − z) + (b − z)²G` with `‖G‖ ≤ 1`, and `F′(b) = F′(z) + (b − z)H` with `‖H‖ ≤ 1`. `‖b − z‖ ≤ max(‖b − a‖, ‖a − z‖) < ‖F′(a)‖ = ‖F′(z)‖` by the ultrametric inequality (`PadicInt.nonarchimedean`) and `hensels_lemma`. Hence
 `‖(b − z)²G‖ < ‖F′(z)‖·‖b − z‖` when `b ≠ z`, so `‖F(b)‖ = ‖F′(z)‖·‖b − z‖` by the strict ultrametric
@@ -1211,7 +1211,7 @@ Let `Γ` be the approximation lattice of §1.1 for the homogeneous form `Λ(x) =
 exactly when `|b_1| > √((q² + q − 1)·2^(q−1))·K_3`) it is Tzanakis–de Weger's Proposition 3.1.
 
 Work under the following conditions. Setting of §1.1 with `β = 0`. `L` is any exact lower bound for
-the nonzero vectors of `Γ, e.g`. `2^(−(n−1)/2)‖c_0‖` for an LLL-reduced basis
+the nonzero vectors of `Γ`, e.g. `2^(−(n−1)/2)‖c_0‖` for an LLL-reduced basis
 (GeometryOfNumbersAndQuadraticArithmetic §5.1) or one read from a Fincke–Pohst enumeration (§1.8).
 
 *Proof sketch.* `x ≠ 0` and `det A ≠ 0` give `A x ≠ 0`, so `‖Ax‖² ≥ L²`. `‖Ax‖² = Σ_{i<n} W_i²x_i² + Λ̃(x)² ≤ Σ_{i<n} W_i²X_i² + Λ̃(x)²`, hence `|Λ̃(x)| ≥ Σ_i X_i + μ`. `C|Λ(x)| ≥ |Λ̃(x)| − |Λ̃(x) − CΛ(x)| ≥ Σ_i X_i + μ − Σ_i |x_i| ≥ μ`. If `|Λ(x)| < c·exp(−δX)` with `X = max|x_i|`, then `μ ≤ C|Λ(x)| < cC·exp(−δX), i.e`. `X < (1/δ)log(cC/μ)`.
@@ -1236,7 +1236,7 @@ from de Weger's `ℓ(Γ, y) ≥ √((n+2)² + (n−1)γ²)·X_1` (Lemma 3.10). W
 `√(4q² + 3q − 3/4)·K_3` dominates the required one exactly when `K_3 ≥ 2`.
 
 Work under the following conditions. Setting of §1.1 with target y. `L` is an exact lower bound for
-the distance from y to `Γ, e.g`. from §1.2 (b) or (c), or from a Fincke–Pohst enumeration.
+the distance from y to `Γ`, e.g. from §1.2 (b) or (c), or from a Fincke–Pohst enumeration.
 
 *Proof sketch.* For `x` in the box, `A x ∈ Γ`, so `L² ≤ ‖Ax − y‖² = Σ_{i<n} W_i²x_i² + (Λ̃(x) + ψ)²`, hence
 `|Λ̃(x) + ψ| ≥ 1 + Σ_i X_i + μ`. `C|β + Λ(x)| ≥ |Λ̃(x) + ψ| − |Λ̃(x) + ψ − C(β + Λ(x))| ≥ 1 + Σ_i X_i + μ − (1 + Σ_i |x_i|) ≥ μ`. The exponential consequence is as in §1.3. Comparison with Proposition 3.2: `(q − 1)K_3² + (1 + 2qK_3)² ≤ (4q² + 3q − 3/4)K_3² = (q − 1)K_3² + (2q + 1/2)²K_3²` iff `K_3 ≥ 2`.
@@ -1261,7 +1261,7 @@ weights `W_1, …, W_n`. The normalised p-adic linear form is `Λ′(b) = b_n �
 integer matrix `A_m` whose first `n − 1` rows are `diag(W_1, …, W_{n−1})` padded by a zero last column and
 whose last row is `W_n·(β_1^(m), …, β_{n−1}^(m), p^m)`; the target is `y_m = (0, …, 0, −W_nβ_0^(m))`.
 Characterisation (Tzanakis–de Weger 1992, Lemma 14; de Weger, Lemmas 3.13 and 3.15 with the sign of
-`y` corrected): for `b ∈ ℤ^n`, `p^m` divides `Λ′(b)` in `ℤ_p (i.e. ord_p Λ′(b) ≥ m)` if and only if `(W_1b_1, …, W_nb_n) + y_m ∈ Γ_m`. In that case `‖(W_jb_j)_j‖ = ‖v − y_m‖` for the lattice vector `v = (W_jb_j)_j + y_m`. `det A_m = p^m·W_1⋯W_n`. The integers `β_j^(m)` are read from PadicEnclosures of `β_j` of absolute
+`y` corrected): for `b ∈ ℤ^n`, `p^m` divides `Λ′(b)` in `ℤ_p` (i.e. `ord_p Λ′(b) ≥ m`) if and only if `(W_1b_1, …, W_nb_n) + y_m ∈ Γ_m`. In that case `‖(W_jb_j)_j‖ = ‖v − y_m‖` for the lattice vector `v = (W_jb_j)_j + y_m`. `det A_m = p^m·W_1⋯W_n`. The integers `β_j^(m)` are read from PadicEnclosures of `β_j` of absolute
 precision at least `m` whose centres are p-integral.
 
 Work under the following conditions. `p` prime, `m ∈ ℕ`, `n ≥ 1`, `β_j ∈ ℤ_p`, `W_j ∈ ℤ` with `W_j ≥ 1`. The `β_j`
@@ -1300,7 +1300,7 @@ and c p-integral, `β_j^(m)` is the residue of c modulo `p^m` in `[0, p^m − 1]
 
 In the setting of §1.5, let `X_1, …, X_n ≥ 0` and `L ≥ 0` be reals with `L² > Σ_j W_j²X_j²`. (a)
 Inhomogeneous: if `‖v − y_m‖ ≥ L` for every `v ∈ Γ_m`, then every `b ∈ ℤ^n` with `|b_j| ≤ X_j` for all j
-satisfies `ord_p Λ′(b) ≤ m − 1, i.e`. `p^m ∤ Λ′(b)`. (b) Zero target (`y_m = 0`, which holds when `β_0 = 0`
+satisfies `ord_p Λ′(b) ≤ m − 1`, i.e. `p^m ∤ Λ′(b)`. (b) Zero target (`y_m = 0`, which holds when `β_0 = 0`
 and more generally when `β_0^(m) = 0`): if `‖v‖ ≥ L` for every nonzero `v ∈ Γ_m`, the same holds for every
 nonzero b in the box. Consequently, if `Λ = ξ·Λ′` with `ord_p ξ = κ` known and a solution satisfies
 `ord_p Λ(b) ≥ c_1 + c_2·b_k` with `c_2 > 0`, then `b_k ≤ (m − 1 + κ − c_1)/c_2`. This is Tzanakis–de Weger
@@ -1467,18 +1467,11 @@ the bounded rational comparison also applies in dimension one.
 - `X_i = 0` for all i: the homogeneous region is empty and any witness with `L² ≥ μ²` certifies it.
 - If `s = (AU)^(−1)y ∈ ℤ^n` then `y ∈ Γ`, the LLL witness is rejected, and no positive lower bound for the distance exists.
 - `p = 3`, `m = 2`, `n = 1`, `W_1 = 1`, `β_0^(2) = 5`, enumeration witness `R = 15` with `E = ∅` (`Γ_2 = 9ℤ, y = −5`, distances `≥ 4² = 16 > 15`), `X_1 = 3`: `L² = 15 > 9 = X_1²`, a p-adic datum.
-- `A=1,y=0,Ainv=1,B=L²=D=1` in dimension one passes: every nonzero integer has square at least one.
-- Replacing Ainv by zero in that data fails the inverse check.
-- `A=1,y=1,Ainv=1,B=L²=1,D=2` fails: `x=1` gives distance zero.
-- `C=W=1`, `φ=θ=10`, `β=ψ=0`, `X=margin=1`, `A=10`, `inverse=1/10`, `B=2`, `lower=4,D=1` passes the complete homogeneous finite check.
-- Changing the upper `θ` endpoint from 10 to 12 rejects the rounding condition.
-- Replacing the distance inverse `1/10` by 0 rejects the full check.
-- `p=3,m=2,W=1,r₀=5,X=3,A=9,y=−5,Ainv=1/9,B=4,L²=15,D=1` passes. The complete checked cube is `{−1,0,1}`, with squared distances 16,25,196.
-- Changing only the target `to+5` rejects the matrix/target matching, despite the same positive distance to `9Z`.
-- Changing the inverse `1/9` to 0 rejects the full check.
-- `p=9,m=1` with otherwise identical modulus 9 data are rejected by primality.
-- `X=4,L²=16` is rejected: separation is strict, and `b=−4` actually satisfies `b≡5` modulo 9.
-- `p=3,m=1,r₀=0,W=1,X=0,A=3,y=0,Ainv=1/3,B=L²=D=1` passes for the empty eligible homogeneous region; it never excludes `b=0` without the nonzero hypothesis.
+- `A = (1)`, `Ainv = (1)`, `y = 0`, `B = L² = D = 1` (`1·(0 + 1) ≤ D`): the eligible `x ∈ [−1, 1]` are `±1`, with `‖Ax‖² = 1 ≥ L²`, so the bounded comparison gives `x² ≥ 1` for every nonzero integer `x`.
+- `A = (1)`, `y = 1`: `x = 1` has `‖Ax − y‖² = 0`, so no `L² > 0` is a distance witness for this target.
+- The p-adic data above through the bounded comparison: `A = (9)`, `Ainv = (1/9)`, `y = −5`, `B = 4`, `D = 1` (`(5 + 4)/9 = 1`); `‖9x + 5‖² = 16, 25, 196` at `x = −1, 0, 1`, so `L² = 15` is a distance witness. With `X_1 = 4` separation fails (`16 > 15`), and indeed `b = −4` has `9 ∣ b − 5`.
+- With the target `+5` in place of `−5` the squared distances are the same (`16, 25, 196` at `x = 1, 0, −1`), but the congruence characterised is `b ≡ 4 (mod 9)`, not `b ≡ 5`: the sign of the target is the one fixed in §1.5.
+- `p = 3`, `m = 1`, `β_0 = 0`, `X_1 = 0`, `A = (3)`, `y = 0`, `L² = 1`: separation holds (`1 > 0`), the box is `{0}` and `Λ′(0) = 0`, so the datum excludes nothing; a conclusion that also covered `b = 0` in the homogeneous case would be false here.
 - Tzanakis–de Weger 1989, §III.2 supplies two real inhomogeneous data (`c_0 = 10^140` and `10^12`).
 - Tzanakis–de Weger 1992, §15E supplies twelve p-adic data (cases `I`, III and `V` for each of `p = 2, 3, 5, 7`, with `m = 1152, 672, 480, 384`).
 
@@ -1494,7 +1487,7 @@ Assume the lattice exclusion hypotheses of §1.10. Real kind: every `x ∈ ℤ^n
 i (and `x ≠ 0` whenever the target `y = (0, …, 0, −ψ)` is 0, in particular in the homogeneous case)
 satisfies `C·|β + Λ(x)| ≥ μ`; hence for `c, δ > 0` no such x satisfies `|β + Λ(x)| < c·exp(−δ·max_i|x_i|)`
 with `max_i|x_i| ≥ (1/δ)·log(cC/μ)`. p-adic kind: every `b ∈ ℤ^n` with `|b_j| ≤ X_j` (and `b ≠ 0` whenever
-`y_m = 0, i.e`. `β_0^(m) = 0`, in particular when `β_0 = 0`) satisfies `ord_p Λ′(b) ≤ m − 1`. A lattice basis, exact reduction and proved lower bound therefore exclude every
+`y_m = 0`, i.e. `β_0^(m) = 0`, in particular when `β_0 = 0`) satisfies `ord_p Λ′(b) ≤ m − 1`. A lattice basis, exact reduction and proved lower bound therefore exclude every
 integer vector of the specified region.
 
 Work under the following conditions. All inequalities and coefficient identities of §1.10 hold. `θ_i, β, β_j` are the
@@ -1503,7 +1496,7 @@ numbers enclosed by the datum's enclosures.
 *Proof sketch.* The distance witness is sound: an LLL witness by §1.2 (a)/(b), using
 GeometryOfNumbersAndQuadraticArithmetic §5.1 for the hypothesis on `‖c*_i‖` and the supplied integral inverse basis change for
 `AUℤ^n = Aℤ^n`; an enumeration witness by §1.8. Real kind: apply §1.3 or §1.4 with `L` from the witness
-and the checked inequality (iv). p-adic kind: apply §1.6. The p-adic form uses
+and the inequality `L² ≥ Σ_{i<n} W_i²X_i² + (ε + Σ_i X_i + μ)²` of §1.10. p-adic kind: apply §1.6. The p-adic form uses
 the non-congruence conclusion and soundness of a p-adic exclusion datum; the only external semantics are the
 exact coefficient residues. The integer nondivisibility conclusion is stronger and safer than
 applying an integer-valued valuation to the exact-zero branch.
@@ -1677,7 +1670,6 @@ because `log(eD′) = 1 + Real.log D′ ≤ 1 + ℓ⁺`. Admissibility uses `Num
 - For `n = 1, D = 1, ℓ⁺ = 0, s⁺ = 1: Ĉ(1) = e⁺/2·30⁴ ≈ 1.1009·10⁶` (the `κ = 1` value dominates).
 - A family with `A_1 = 1/10` (below Matveev's floor 0.16) is not a datum. For the root of unity `α_1 = exp(2πi/100)` with `λ_1 = 2πi/100` one has `D·h(α_1) = 0` and `|λ_1| < 1/10`, so a definition omitting the floor `16/100 ≤ A_j` would accept `A_1 = 1/10`, where Corollary 2.3 does not apply.
 - For `n ≥ 2`, `(1/2)(en/2)² ≥ en/2`, so `Ĉ(n)` equals the `κ = 2` value: the datum never undercuts Matveev's constant for non-real fields.
-- The datum with `n = 2, D = 1, A = (7/10, 11/10), c = 8·10⁸` is accepted; with `c = 7·10⁸` it is rejected.
 - Citing Matveev's name supplies no number: every admissible datum carries its rational c and the checks that bound `C_1(n, κ)·D²·log(eD)·∏A_j` by it.
 
 ([E. M.
@@ -1778,7 +1770,7 @@ DiophantineApproximationAndTranscendence §3.7 (yu and `yuValuationAdapter`) giv
 
 **Checks.**
 
-- For `p = 7` and `α = (2, 3) ∈ ℚ²`, with a datum admissible for `(n, d) = (2, 1)`: for every `(b_1, b_2) ≠ 0, padicValRat 7 (2^{b_1}3^{b_2} − 1) < Φ⁺·log max(|b_1|, |b_2|, 3); e.g`. `(b_1, b_2) = (1, 2)` gives `padicValRat 7 (17) = 0` and `(3, −1)` gives `padicValRat 7 (8/3 − 1) = 0`, while `2³ − 1 = 7` gives valuation 1, all below the bound.
+- For `p = 7` and `α = (2, 3) ∈ ℚ²`, with a datum admissible for `(n, d) = (2, 1)`: for every `(b_1, b_2) ≠ 0`, `padicValRat 7 (2^{b_1}3^{b_2} − 1) < Φ⁺·log max(|b_1|, |b_2|, 3)`; e.g. `(b_1, b_2) = (1, 2)` gives `padicValRat 7 (17) = 0` and `(3, −1)` gives `padicValRat 7 (8/3 − 1) = 0`, while `2³ − 1 = 7` gives valuation 1, all below the bound.
 
 ([Kunrui Yu](http://archive.numdam.org/article/CM_1994__91_3_241_0.pdf), §0.1, pp. 241–242 (the
 displayed bound is on p. 242).)
@@ -3323,7 +3315,7 @@ coefficients, so a monomial free of d and e would be `c⁶`, whose coefficient i
 `x²(x² + c)` has discriminant zero; hence every monomial of disc g has `i_d + 2i_e ≥ 1` and
 valuation at least k, and `disc g ≠ 0`.
 
-Prove: local solubility is equivalent to a `ℚ_v`-point on the smooth projective model; it equals
+Prove: local solubility equals
 local solubility of the reversed quartic when `e ≠ 0`; it is invariant under multiplying g by a
 nonzero rational square; it holds at every odd `p ∤` disc g; and the depth lemma.
 *Proof sketch.* Apply Hensel's lemma on each class and on the two charts. The degree and
@@ -3347,13 +3339,15 @@ local solubility, pp. 80–82; [Cremona
 
 ### 3.9 Correctness of the quartic local solubility test
 
-For `g ∈ ℤ[x]` squarefree of degree 4 and a place `v` of `ℚ`, `g` is locally soluble at `v` (§3.8) if and only
-if the smooth projective curve `y² = g(x)` has a `ℚ_v`-point. For odd `p ∤` disc `g` the answer is true; for
+For `g ∈ ℤ[x]` squarefree of degree 4 and a prime `p`, the curve `y² = g(x)` has a `ℚ_p`-point if and
+only if, on one of the two charts of §3.8, some class `x_k + p^kℤ_p` with `k ≤ ord_p(disc g) + 1`
+(`k ≤ ord_2(disc g) + 2` when `p = 2`) satisfies one of the point-giving alternatives of §3.8; it has a
+real point if and only if `a > 0` or `g` has a real root. For odd `p ∤` disc `g` a `ℚ_p`-point exists; for
 the even quartics `g = d₁u⁴ + cu² + d₂` of descent via 2-isogeny, disc `g = 16·d₁d₂(c² − 4d₁d₂)²`, so
 this covers every odd `p ∤ d₁d₂(c² − 4d₁d₂)`. Hence everywhere local solubility is decided by the
 finitely many places `p | 2·disc g` and `∞`.
 
-Work under the following conditions. g of degree 4 with disc `g ≠ 0`; v a prime or `∞`.
+Work under the following conditions. g of degree 4 with disc `g ≠ 0`; p a prime.
 
 *Proof sketch.* The two charts and the Hensel alternatives of §3.8 are necessary and sufficient for a point,
 by Birch–Swinnerton-Dyer Lemmas 6–7 as stated by Cremona. Good odd `p`: a smooth genus-one curve over `𝔽_p` has an `𝔽_p`-point
@@ -3826,7 +3820,7 @@ directly; the positive-dimensional index formula and `γ_r` are required only fo
 Work under the following conditions. As listed; `T` given as an explicit finite set of points.
 
 *Proof sketch.* (i) and (ii) give `rank E(ℚ) = r` and finite index of `G`
-(§3.21). `[E(ℚ) : G] = [E(ℚ)/T : L] ≤ N` by §3.16, since `G ⊇ T`. A
+(§3.21). `[E(ℚ) : G] = [E(ℚ)/T : G/T] ≤ N` by §3.16, since `G ⊇ T`. A
 prime `p` dividing `[E(ℚ):G]` satisfies `p ≤ N` and contradicts p-saturation (§3.17: finite index
 and p-saturated imply `p ∤` index); so the index is 1. The regulator is `|det|` on a basis (Tau Ceti
 `regulator_eq_abs_det_neronTateGramMatrix`).
@@ -4834,17 +4828,13 @@ to points whose Abel–Jacobi class lies in the saturation of the subgroup.
 - A valid verdict with `N = 0` proves that `D(x̃)` contains no rational point.
 - For `C₁(3₂)` at `x̃ = (1, 0)`, the tuple with `N = 3`, `Z_rat = {S⁻, S⁺}`, `Z_irr = ∅` is not a verdict `(#Z ≠ N)`: listing the known rational zeros without accounting for every zero proves nothing.
 - If the verdict is valid and `P ∈ X(ℚ)` reduces to x̃, then `P ∈ Z_rat`.
-- A coefficient table whose entries are all zero modulo the recorded precision does not certify a nonzero series or last dominant coefficient and is rejected.
-- A tail bound permitting a coefficient beyond `N` at the same norm as the claimed dominant coefficient is rejected; a strict tail bound is required.
-- For `p=3`, subdividing a ball into only the residue children 0 and 1 omits child 2 and is rejected even if both supplied leaves have valid zero counts.
-- Counting the same exact zero twice, even with two different approximate coordinate strings, cannot saturate a bound 2 and is rejected unless exact distinctness is exact.
-- For `p=3`, `M=1`, `m=N=0` and `residues[1,0]`, the coefficient bounds hold; combined with its separate analytic interpretation and strict tail bound, Strassmann gives no zero.
-- For `p=3`, `M=1`, `m=0`, `N=1` and `residues[0,1]`, the coefficient bounds hold.
-- For `p=3`, `M=1`, `m=N=0` and `residues[1,1]`, the coefficient bounds fail because a later coefficient ties the claimed last dominant index.
-- For `p=3`, `M=1`, `m=N=0` and `residues[1]`, the coefficient bounds fail: the sufficient automatic-tail cutoff requires at least 2 coefficients.
-- For `p=3`, `M=1`, `m=N=0` and `residues[0,0]`, the coefficient bounds fail because no dominant nonzero coefficient is determined.
+- `p = 3`, `M = 1`, coefficients `≡ (1, 0) (mod 3)` with every later coefficient of valuation `≥ 1`: `m = N = 0`, and `|F(u)| = 1` on the ball, so `F` has no zero there.
+- Same shape with coefficients `≡ (0, 1) (mod 3)`: `m = 0`, `N = 1`, at most one zero.
+- Same shape with coefficients `≡ (1, 1) (mod 3)`: the last index of minimal valuation is 1, so `N = 0` is not the Strassmann index; a tail bound that allows valuation `m` after `N` is not strict and does not fix `N`.
+- If every given coefficient is `≡ 0 (mod 3^M)`, no coefficient of valuation `m < M` is known: the congruences are those of the zero series and fix neither `m` nor `N`.
+- For `p = 3` the balls `3ℤ_3` and `1 + 3ℤ_3` do not partition `ℤ_3`: zero counts on them bound nothing on `2 + 3ℤ_3`.
+- One zero described by two different approximations counts once: it does not saturate a bound `N = 2`.
 - The verdicts of §4.23 `(N = 1, 1, 2, 2)` and of §4.24 (six discs with `N = 1`, the Weierstrass disc with `N = 3` and `Z_irr = {W}`).
-- Degenerate case: the empty verdict `N = 0`.
 
 ([McCallum–Poonen (2012)](https://math.mit.edu/~poonen/papers/chabauty.pdf), §8.2 proof of
 Proposition 8.2, author copy p.10; [Poonen (arXiv v1)](https://arxiv.org/abs/math/9512217v1), §4
@@ -4858,7 +4848,7 @@ proof of Proposition 2, p.17; [McCallum–Poonen
 A Chabauty–Coleman datum for a smooth projective geometrically integral curve `X` over `ℚ` of
 genus `g ≥ 2`, given by explicit equations, consists of: (1) a rational base point `O ∈ X(ℚ)` and a
 finite list `L ⊆ X(ℚ)` of verified rational points; (2) a finite-index subgroup datum (§3.21)
-for a subgroup `G = ⟨D₁, …, D_r⟩ ⊆ J(ℚ)`, whose rank datum (§3.7) gives `rank J(ℚ) = r < g`, or,
+for a subgroup `G = ⟨D₁, …, D_r⟩ ⊆ J(ℚ)`, whose rank bounds (§3.21) give `rank J(ℚ) = r < g`, or,
 in the conditional variant, a labelled hypothesis 'rank `J(ℚ) ≤ r'` together with an unconditional
 datum that the `D_j` are independent; (3) a prime `p` and a good-reduction datum `(X, O, p, 𝒳)` with
 a datum that `𝒳` is smooth over `ℤ_p`; (4) the complete list of `X̃(𝔽_p)`, with its completeness
@@ -4881,7 +4871,7 @@ The interface includes these statements.
 - Validity: (1)–(6) hold.
 - The verdict attached to each `x̃ ∈ X̃(𝔽_p)`.
 - The verdicts are indexed by the complete list `X̃(𝔽_p)`.
-- Either the rank datum of §3.7 or the labelled hypothesis `rank J(ℚ) ≤ r`.
+- Either the rank upper bound of the §3.21 datum or the labelled hypothesis `rank J(ℚ) ≤ r`.
 - `#L ≤ Σ_{x̃} N_x̃`.
 - The conditional datum built from a labelled rank hypothesis.
 - For finitely generated A, r independent generators modulo torsion and `rank(A)≤r`, their generated subgroup has finite index. This derives the abstract index rather than assuming it; actual `J(Q)` and the geometric annihilator remain supplier obligations.
@@ -4908,7 +4898,7 @@ author copy p.10; [McCallum–Poonen (2012)](https://math.mit.edu/~poonen/papers
 Remark 6.1, author copy p.8; [Stoll (arXiv v2)](https://arxiv.org/abs/0803.2836), §3 Theorem 6,
 p.10.)
 
-*Needs:* §4.16; §4.1; §4.10; §3.21; §3.7; §3.22.
+*Needs:* §4.16; §4.1; §4.10; §3.21; §3.22.
 
 ### 4.18 A valid Chabauty–Coleman datum determines `X(ℚ)`
 
@@ -4952,7 +4942,7 @@ sufficient dimension heuristic, not a necessary condition.
 
 Work under the following conditions. Separately stated hypotheses of the number-field variant: (p1)
 p odd; (p2) p unramified in `K`; (p3) good reduction at every `υ | p; D₁, …, D_r` a basis of a free
-finite-index subgroup of `J(K)` (its finite index requires an unconditional rank datum, §3.7).
+finite-index subgroup of `J(K)` (its finite index requires an unconditional rank upper bound, §3.21).
 Finite approximations alone generally certify all h kernel rows only in the full-rank case
 `h=max(gd−r,0)`, using annihilator-precision. Exact dependencies or another exact kernel
 construction may also certify a larger h; `r≤d(g−1)` is not a universal necessity.
@@ -6196,7 +6186,7 @@ and maps used to evaluate the checks are supplied as exact finite presentations.
 ([Bruin–Stoll (2010)](https://doi.org/10.1112/S1461157009000187), §7, published p.299; [Bruin–Stoll
 (2010)](https://doi.org/10.1112/S1461157009000187), §3.3, published p.280.)
 
-*Needs:* §5.11; §5.15; §5.16; §5.13; §5.14; §3.21; §3.18; §3.22; §3.7.
+*Needs:* §5.11; §5.15; §5.16; §5.13; §5.14; §3.21; §3.18; §3.22.
 
 ### 5.28 Soundness of a Mordell–Weil sieve datum
 
@@ -6216,7 +6206,7 @@ Work under the following conditions. c checked; the Layer 3 data for the global 
 *Proof sketch.* §5.16 identifies the candidates with `A_S(L_t)`. (a)
 §5.12, through §5.14 when the global group is `H`. (b)
 §5.23 (iv). (c) §5.19. Conditionality: the rank enters only
-through the datum of `H`; §3.7 distinguishes algebraic from analytic upper bounds, and the
+through the datum of `H`; §3.21 keeps a rank bound that rests on an unproved hypothesis out of the datum, and the
 conclusion carries the label.
 
 **Checks.**
@@ -6227,7 +6217,7 @@ conclusion carries the label.
 
 ([Bruin–Stoll (2010)](https://doi.org/10.1112/S1461157009000187), §1, published p.273.)
 
-*Needs:* §5.27; §5.16; §5.12; §5.14; §5.23; §5.19; §3.7.
+*Needs:* §5.27; §5.16; §5.12; §5.14; §5.23; §5.19; §3.21.
 
 ### 5.29 Non-existence of points on the undecided small genus-two curves
 
@@ -6259,7 +6249,7 @@ used), local data at good, bad and deep places, a chain and an empty candidate s
 
 ([Bruin–Stoll (2010)](https://doi.org/10.1112/S1461157009000187), §4.1, published p.280.)
 
-*Needs:* §5.28; §5.25; §5.26; §3.7.
+*Needs:* §5.28; §5.25; §5.26; §3.21.
 
 ### Examples
 
@@ -6290,7 +6280,7 @@ solution set for `H` and `P` consists of a finite set `S : Finset α` together w
 every element of `S` satisfies `P`, proved unconditionally by exact evaluation, and (complete) `H` implies
 that every `x` with `P x` lies in `S`. The datum is labelled unconditional when `H` is True and
 conditional on `H` otherwise; a conditional datum keeps `H` as an explicit parameter, so that
-discharging or weakening `H` is a theorem about the datum and never an edit of it. The exact inputs are `S` and the method-specific data from which soundness and completeness are proved. This mathematical structure records those conclusions; each method has a separate finite arithmetic conditions and a theorem deriving them from its checked identities. A list
+discharging or weakening `H` is a theorem about the datum and never an edit of it. The exact inputs are `S` and the method-specific data from which soundness and completeness are proved. This mathematical structure records those conclusions; each method has its own finite arithmetic conditions and a theorem deriving soundness and completeness from them. A list
 of verified solutions without completeness, a CAS output, or a p-adic candidate list that has not
 been compared with global points is not a datum.
 
@@ -6321,7 +6311,6 @@ BDMTV 2019 Remark 6.3). Method-specific identities specify their input data, ari
 - For `P x := x ^ 2 = 4` over `ℤ` there is no unconditional datum with solution set `{2}`: soundness holds but completeness fails at `−2`.
 - If `H` holds then `Set.Finite.toFinset h = S` for the finiteness proof `h` of `{x | P x}` given by the equality `S = {x | P x}` above (agreement with Mathlib's `Set.Finite.toFinset`).
 - For `H = False` every finite set of verified solutions is a datum, so a conditional datum asserts nothing until `H` is discharged.
-- For `x² = 4` over `ℤ` the unconditional datum has solutions `{−2, 2}`.
 - The Thue equation `X⁴ − 12X²Y² − 8XY³ + 4Y⁴ = 1` has the unconditional datum with the eight solutions of §6.36.
 
 ([BDMTV (arXiv v4, 2023)](https://arxiv.org/abs/2101.01862v4), Algorithm 3.12, p.14 (arXiv v4); [de
@@ -6592,7 +6581,7 @@ holomorphic primitives, which are regular.
 
 - `C(0, 0, Z) = 1` for every `Z`.
 - For `g = 1` (index type `Unit ⊕ Fin 2 ⊕ Unit`), `Z = [[0,1],[−1,0]]`, `Ω = (a, b)`, `g = c`: `C(Ω, c, Z) * [[1,0,0],[−Ω,1,0],[−c,−ΩᵀZ,1]] = 1`.
-- With `D Ω = +ω` (the 2021 convention) and `ω ≠ 0, C(Ω, g, Z)⁻¹ · D(C(Ω, g, Z)) ≠ Λ(ω, η, Z)`.
+- With `D Ω = +ω` (the 2021 convention) and `2ω ≠ 0`, `C(Ω, g, Z)⁻¹ · D(C(Ω, g, Z)) ≠ Λ(ω, η, Z)`: the blocks in the second row and first column are `ω` and `−ω`.
 - `(C(Ω, g, Z) − 1)^3 = 0`; the nilpotence index may be smaller.
 - Over `F₂`, the `2×2` matrix `Z=diag(1,0)` satisfies `Zᵀ=−Z` but is not alternating: `Ω=(1,0), g=0` makes the proposed inverse with lower-left entry −g fail. The zero-diagonal condition is essential over a general ring.
 - With `Z=[[0,1],[−1,0]], c=(1,0), Ω=(0,1)`, shifting `Ω` by c shifts g by 1+e, rather than by e alone.
@@ -6665,7 +6654,7 @@ sufficient.
 The interface includes these statements.
 
 - The data are coefficients `c_k ∈ L (k < d − 1)` of `η`, a vector `b_Fil ∈ L^g` (rational in the application) and a function `γ_Fil` in the coordinate ring A of `Y`.
-- The predicate: for every `x ∈ D, Σ_k c_k · Res_x(ω_{2g+k}) = Res_x(Ω_xᵀZdΩ_x)`, i.e. the residue matrix times `(c_k)` equals the target residues.
+- The predicate: for every `x ∈ D`, `Σ_k c_k · Res_x(ω_{2g+k}) = Res_x(Ω_xᵀZdΩ_x)`, i.e. the residue matrix times `(c_k)` equals the target residues.
 - The predicate: `γ_Fil(b) = 0` and, for every `x ∈ D, g_x + γ_Fil − b_FilᵀNᵀΩ_x − Ω_xᵀZNNᵀΩ_x` has no terms of negative degree.
 - Two data satisfying both conditions are equal (§6.8 (i) and §6.6).
 - `β_Fil := (0, …, 0, b_g, …, b_{2g−1}) ∈ Q^{2g}`.
@@ -7197,9 +7186,9 @@ below, `rk J(Q) = 3` for `J = Jac(X_s(13))`; moreover `Sha(J/Q)` is finite, and 
 an isomorphism as soon as `log(AJ_b(P))` of one rational point `P` is nonzero; `p = 17` is inert (`17 ≡ 3 mod 7`
 and 3 has order 3 in `(Z/7Z)^×/{±1}`), and §6.25 verifies the
 nonvanishing with `P5`. A second route, labelled conditional: three independent points (§3.19) and a
-descent upper bound on the genus-three Jacobian (Bruin–Poonen–Stoll; Layer 3 does not construct descent
-beyond genus two) whose supplied class-group input for a degree-28 field of discriminant `2⁴²·13¹²` is
-exact only under the Generalised Riemann Hypothesis (Bruin–Poonen–Stoll).
+descent upper bound on the genus-three Jacobian (Bruin–Poonen–Stoll, §12.9.3, Proposition 12.18; Layer 3 does not construct descent
+beyond genus two) whose supplied class-group input for a degree-28 field of discriminant `2⁴²·13²⁴`
+(Bruin–Poonen–Stoll, p. 44; BDMTV (2019) Remark 6.3, p. 927, prints `2⁴²·13¹²`) is exact only under the Generalised Riemann Hypothesis.
 
 Work under the following conditions. `J ∼ A_f` (§6.19); `ord_{s=1} L(f^σ, s) = 1`
 for all `σ` (§6.20); the modular rank-one input over `Q` described under Explicit application inputs,
@@ -7671,12 +7660,12 @@ with `ρ_{E,ℓ}(G_Q)` contained in the normaliser of a split Cartan subgroup of
 CM points), an imported input with no owning roadmap (explicit hypothesis); `ℓ = 13` is
 §6.29; `ℓ ≤ 7` is §6.30.
 
-Work under the following conditions. Bilu–Parent–Rebolledo `[BPR13]` for `ℓ > 7`, `ℓ ≠ 13`.
+Work under the following conditions. Bilu–Parent–Rebolledo, Corollary 1.2, for `ℓ > 7`, `ℓ ≠ 13`.
 
 *Proof sketch.* `ℓ ∈ {2, 3, 5, 7}`: §6.30. `ℓ = 13`: a `non-CM E/Q` with image in
 `C_s^+(13)` has `j(E) ∉ {0, 1728}` and gives a non-cuspidal point of `X_s(13)(Q)` with `non-CM j` (ModularCurvesPartII §9.7
 criterion); by §6.29 every point of `X_s(13)(Q)` is a cusp or a CM point, a
-contradiction. `ℓ = 11` and `ℓ ≥ 17`: Bilu–Parent–Rebolledo, `BPR13` (Mazur's method applies since `J_0(ℓ) ≠ 0`, with Runge's method); an explicit input hypothesis.
+contradiction. `ℓ = 11` and `ℓ ≥ 17`: Bilu–Parent–Rebolledo, Corollary 1.2, from their Theorem 1.1 for `X_0^+(ℓ²) ≅ X_s(ℓ)` (Mazur's method applies since `J_0(ℓ) ≠ 0`, with Runge's method); an explicit input hypothesis.
 
 **Checks.**
 
@@ -7685,7 +7674,8 @@ contradiction. `ℓ = 11` and `ℓ ≥ 17`: Bilu–Parent–Rebolledo, `BPR13` (
 ([BDMTV (2019)](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf),
 Theorem 1.2, p.888; [BDMTV
 (2019)](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), §1.1,
-p.887.)
+p.887; [Bilu–Parent–Rebolledo (arXiv v1)](https://arxiv.org/abs/1104.4641), §1, Theorem 1.1 and Corollary 1.2,
+pp. 2–3 (arXiv v1).)
 
 *Needs:* §6.30; §6.29; ModularCurvesPartII §9.7.
 
@@ -8115,17 +8105,22 @@ source citation is not an endorsement of an uncorrected numerical or sign conven
 - Jennifer S. Balakrishnan, Netan Dogra, J. Steffen Müller, Jan Tuitman and Jan Vonk. [Explicit Chabauty–Kim for the split Cartan modular curve of level 13](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf). Annals of Mathematics 189 (2019), 885–944, `doi:10.4007/annals.2019.189.3.6` (published version).
 - Jennifer S. Balakrishnan, Netan Dogra, J. Steffen Müller, Jan Tuitman and Jan Vonk. [Quadratic Chabauty for modular curves: algorithms and examples](https://arxiv.org/abs/2101.01862v4). `arXiv:2101.01862v4` (7 March 2023); published in Compositio Mathematica 159 (2023).
 - Jennifer S. Balakrishnan, Netan Dogra, J. Steffen Müller, Jan Tuitman and Jan Vonk. [Quadratic Chabauty for modular curves: algorithms and examples](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/C317E63BB0128EB3F2163621CA63E66E/S0010437X23007170a.pdf/quadratic_chabauty_for_modular_curves_algorithms_and_examples.pdf). Compositio Mathematica 159 (2023), 1111–1152, version of record.
+- Burcu Baran. [An exceptional isomorphism between modular curves of level 13](https://doi.org/10.1016/j.jnt.2014.05.017). Journal of Number Theory 145 (2014), 273–300.
+- Yuri Bilu, Pierre Parent and Marusia Rebolledo. [Rational points on `X_0^+(p^r)`](https://doi.org/10.5802/aif.2781). Annales de l'Institut Fourier 63 (2013), 957–984; locators refer to `arXiv:1104.4641v1`.
 - Josha Box. [Quadratic points on modular curves with infinite Mordell–Weil group](https://arxiv.org/abs/1906.05206). `arXiv:1906.05206`; published Math. Comp. 90 (2021), 321–343.
+- Nils Bruin, Bjorn Poonen and Michael Stoll. [Generalized explicit descent and its application to curves of genus 3](https://arxiv.org/abs/1205.4456v2). `arXiv:1205.4456v2`; published Forum of Mathematics, Sigma 4 (2016), e6. Locators refer to the arXiv v2 text.
 - Nils Bruin and Michael Stoll. [The Mordell–Weil sieve: proving non-existence of rational points on curves](https://doi.org/10.1112/S1461157009000187). LMS Journal of Computation and Mathematics 13 (2010), 272–306; version of record, `doi:10.1112/S1461157009000187`.
 - Y. Bugeaud, M. Mignotte, S. Siksek, M. Stoll and Sz. Tengely. [Integral points on hyperelliptic curves](https://arxiv.org/abs/0801.4459v4). `arXiv:0801.4459v4` (16 March 2010); published Algebra & Number Theory 2 (2008), 859–885. Locators refer to the arXiv v4 text.
 - Ana Caraiani and James Newton. [On the modularity of elliptic curves over imaginary quadratic fields](https://arxiv.org/abs/2301.10509). `arXiv:2301.10509`; arXiv v3 (27 March 2025); §7.4 uses its version-specific numbering.
 - J. E. Cremona. [Algorithms for modular elliptic curves, Chapter III: Elliptic curve algorithms](https://johncremona.github.io/book/fulltext/index.html). 2nd edition, Cambridge University Press 1997; author's online full text of Chapter III.
 - John Cremona. [Cremona elliptic-curve data: 571a1](https://raw.githubusercontent.com/JohnCremona/ecdata/master/allcurves/allcurves.00000-09999). Author-maintained ecdata allcurves table; `allcurves.00000-09999`, row 571 a 1.
 - B. M. M. de Weger. [Algorithms for Diophantine equations](https://ir.cwi.nl/pub/13190). CWI Tract 65, Centrum voor Wiskunde en Informatica, Amsterdam, 1989.
+- Fred Diamond and Jerry Shurman. [A First Course in Modular Forms](https://doi.org/10.1007/978-0-387-27226-9). Graduate Texts in Mathematics 228, Springer, 2005.
 - J. R. Doyle, D. Krumm. [Computing algebraic numbers of bounded height](https://arxiv.org/abs/1111.4963). Math. Comp. 84 (2015) 2867–2891; locators refer to `arXiv:1111.4963v4`.
 - U. Fincke, M. Pohst. [Improved methods for calculating vectors of short length in a lattice, including a complexity analysis](https://www.ams.org/journals/mcom/1985-44-170/S0025-5718-1985-0777278-8/). Math. Comp. 44 (1985) 463–471.
 - E. V. Flynn, Bjorn Poonen, Edward F. Schaefer. [Cycles of quadratic polynomials and rational points on a genus-2 curve](https://arxiv.org/abs/math/9508211). arXiv:math/9508211v1 (4 August 1995); published Duke Math. J. 90 (1997) 435–463.
 - Eric Katz, Joseph Rabinoff and David Zureick-Brown. [Uniform bounds for the number of rational points on curves of small Mordell–Weil rank](https://arxiv.org/abs/1504.00694v2). `arXiv:1504.00694v2`; published Duke Math. J. 165 (2016), 3189–3240.
+- Qing Liu. *Algebraic Geometry and Arithmetic Curves*. Oxford Graduate Texts in Mathematics 6, Oxford University Press, 2002.
 - E. M. Matveev. [An explicit lower bound for a homogeneous rational linear form in the logarithms of algebraic numbers. II](https://www.mathnet.ru/php/getFT.phtml?jrnid=im&paperid=314&what=fullteng&option_lang=eng). Izvestiya: Mathematics 64:6 (2000) 1217–1269 (English translation, version of record from `mathnet.ru`; the cited corollary is in §2).
 - William McCallum and Bjorn Poonen. [The method of Chabauty and Coleman](https://math.mit.edu/~poonen/papers/chabauty.pdf). Author copy dated June 14, 2010 (pp. 1–17); published in Explicit methods in number theory, Panoramas et Synthèses 36 (2012), 99–117. Page numbers cited are those of the author copy.
 - Patrick Morton. [Arithmetic properties of periodic points of quadratic maps](https://matwbn.icm.edu.pl/ksiazki/aa/aa62/aa6243.pdf). Acta Arith. 62 (1992), 343–372; published article in the ICM digital library.
@@ -8135,6 +8130,8 @@ source citation is not an endorsement of an uncorrected numerical or sign conven
 - Samir Siksek. [Explicit Chabauty over number fields](https://arxiv.org/abs/1010.2603). `arXiv:1010.2603v2`; published Algebra & Number Theory 7 (2013), 765–793.
 - Samir Siksek. [Chabauty for symmetric powers of curves](https://msp.org/ant/2009/3-2/ant-v3-n2-p03-s.pdf). Version of record, Algebra & Number Theory 3 (2009), 209–236; Theorem 3.2 is the published numbering (Box cites preprint Theorem 1).
 - Joseph H. Silverman. [The difference between the Weil height and the canonical height on elliptic curves](https://www.ams.org/journals/mcom/1990-55-192/S0025-5718-1990-1035944-5/). Math. Comp. 55 (1990), no. 192, 723–743; version of record (AMS PDF).
+- Joseph H. Silverman. [The Arithmetic of Elliptic Curves](https://doi.org/10.1007/978-0-387-09494-6). 2nd edition, Graduate Texts in Mathematics 106, Springer, 2009.
+- Henning Stichtenoth. [Algebraic Function Fields and Codes](https://doi.org/10.1007/978-3-540-76878-4). 2nd edition, Graduate Texts in Mathematics 254, Springer, 2009.
 - Michael Stoll. [Rational 6-cycles under iteration of quadratic polynomials](https://arxiv.org/abs/0803.2836). `arXiv:0803.2836v2` (21 April 2009); published LMS J. Comput. Math. 11 (2008) 367–380.
 - Michael Stoll. [Uniform bounds for the number of rational points on hyperelliptic curves of small Mordell–Weil rank](https://arxiv.org/abs/1307.1773v4). `arXiv:1307.1773v4`; published J. Eur. Math. Soc. 21 (2019), 923–956.
 - N. Tzanakis, B. M. M. de Weger. [On the practical solution of the Thue equation](https://ris.utwente.nl/ws/files/6560439/Tzanakis89on.pdf). J. Number Theory 31 (1989) 99–132.
