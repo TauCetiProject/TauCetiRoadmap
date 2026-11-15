@@ -240,11 +240,11 @@ def orientedStep {R : Type*} [CommRing R] (x y : Fin 3 → R) : Prop :=
 
 /-- Semisimple oriented orbit congruences over all finite fields, using splitting
 of the characteristic polynomial in characteristic two as well. -/
-theorem semisimple_orbit_congruence (K : Type*) [Field K] [Fintype K]
-    (hq : 3 ≤ Fintype.card K) (t : K) (ht : t ≠ 2) (ht' : t ≠ -2) (x : Fin 3 → K)
+theorem semisimple_orbit_congruence (K : Type*) [Field K] [Finite K]
+    (hq : 3 ≤ Nat.card K) (t : K) (ht : t ≠ 2) (ht' : t ≠ -2) (x : Fin 3 → K)
     (hx : x 0 ^ 2 + x 1 ^ 2 + x 2 ^ 2 - x 0 * x 1 * x 2 = t + 2)
     (hcoords : ∃ i j, i ≠ j ∧ x i ≠ 0 ∧ x j ≠ 0) :
-    let q := Fintype.card K
+    let q := Nat.card K
     let m := if ∃ u : K, u ^ 2 - t * u + 1 = 0 then q - 1 else q + 1
     let n := traceOrder t
     n / Nat.gcd n ((if ringChar K = 2 then m else 4 * m) / n) ∣
@@ -252,12 +252,12 @@ theorem semisimple_orbit_congruence (K : Type*) [Field K] [Fintype K]
   sorry
 
 /-- The valuation congruence uses q^3-q and an odd coefficient prime. -/
-theorem valuation_orbit_congruence (K : Type*) [Field K] [Fintype K]
-    (hq : 3 ≤ Fintype.card K) (t : K) (ht : t ≠ 2) (ht' : t ≠ -2) (x : Fin 3 → K)
+theorem valuation_orbit_congruence (K : Type*) [Field K] [Finite K]
+    (hq : 3 ≤ Nat.card K) (t : K) (ht : t ≠ 2) (ht' : t ≠ -2) (x : Fin 3 → K)
     (hx : x 0 ^ 2 + x 1 ^ 2 + x 2 ^ 2 - x 0 * x 1 * x 2 = t + 2)
     (hcoords : ∃ i j, i ≠ j ∧ x i ≠ 0 ∧ x j ≠ 0)
     (ℓ : ℕ) (hℓ : ℓ.Prime) (hodd : ℓ ≠ 2) :
-    let q := Fintype.card K
+    let q := Nat.card K
     let r := (traceOrder t).factorization ℓ
     let s := (q ^ 3 - q).factorization ℓ - r
     ℓ ^ (r - s) ∣ Nat.card {y : Fin 3 → K // Relation.ReflTransGen orientedStep x y} := by
