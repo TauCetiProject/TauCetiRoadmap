@@ -681,6 +681,25 @@ For `G = ℤ_p` this is `F̂₂ → ℤ_p`, `x ↦ 1`, `y ↦ 0`. The kernel of 
 `∏_{ℓ ≠ p} ℤ_ℓ`, which is procyclic and not `ẑ`, hence not free: the redundant generator is
 needed. None of this is a target.
 
+## Provenance: existing formalizations outside Tau Ceti
+
+This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
+Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
+Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
+the repository records it as unreviewed by humans, and it is built on Lean and Mathlib v4.35.0,
+earlier than our pin. It is not a dependency: a statement read there is compared with the target
+here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
+Apache-2.0 notices.
+
+`StacksFrontier/AlgebraicGeometry/FundamentalGroup` builds the étale fundamental group of a scheme
+through Galois categories: finite étale covers form a Galois category with the fibre functor at a
+geometric point (Tag 0BNB, `FiniteEtaleGaloisCategory.lean`), and over a field the fundamental group
+is the absolute Galois group (`GaloisCategory/FieldFundamentalGroup.lean`). That is the setting of
+the outer action of `Gal(ℚ̄/ℚ)` on the profinite fundamental group of `ℙ¹ ∖ {0, 1, ∞}`, which Scope
+leaves to BelyiMaps §12.8. No file name or tag there treats free profinite groups of finite rank
+(Layer 0; only the profinite integers appear), the profinite braid groups of Layer 2, Drinfeld's
+relations or `GT̂` (Layers 1, 3 and 4).
+
 ## References
 
 - V. G. Drinfel'd, « On quasitriangular quasi-Hopf algebras and on a group that is closely
@@ -724,3 +743,7 @@ needed. None of this is a target.
   1–20: Proposition 2.1, Lemma 2.7 and Theorem 3.1.
 - M. Jarden, A. Lubotzky, « Hilbertian fields and free profinite groups », *J. London Math. Soc.*
   (2) 46 (1992), 205–227: Propositions 1.1 and 5.6, which state Mel'nikov's results.
+- AxiomMath, *The Stacks Project in Lean*. Lean 4 formalization at commit
+  c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
+  directories `StacksFrontier/AlgebraicGeometry/FundamentalGroup`.
+  https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier
