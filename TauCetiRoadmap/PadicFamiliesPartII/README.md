@@ -10,9 +10,9 @@ Pilloni's integral spherical operator on singular genus-two weights (P20 §7), i
 
 This roadmap owns: the BPS degree dynamics and Kassaei continuation on unramified type A/C PEL varieties and the resulting classicality theorem in every dimension (Layers 1–2); the cohomological action of Pilloni's spherical operator `T` on the integral and special-fibre complexes, its rank-zero vanishing and the special-fibre amplitude theorem, the away-from-p Hecke action on the Klingen family and the localized Euler characteristic theorem (Layer 3); the Hilbert–Siegel partial-ordinary Hida complexes, the integrality of Klingen Satake parameters (the Katz–Mazur inequality of §4.6, in which `F = ℚ` is a case), the weight-two doubling theory, and the Hilbert–Siegel higher Coleman families with their comparison to the partial-ordinary complexes at at most one Klingen place (Layers 4–6); the BGG coefficient category `O(𝔤,𝔟)_{λ-alg}` with its analytic realization, the higher Coleman sheaves and higher Coleman functors with coefficients in the Levi BGG categories `O(𝔪_w,𝔟_{M_w})_{λ-alg}`, analytic localization, the coherent completed-cohomology functor and its Eichler–Shimura spectral sequence, genus-two boundary vanishing and the four-piece filtration (Layer 7); the singular Sen–Cousin comparison and de Rham ordinary classicality (Layer 8); and the four finite projective genus-two Hida modules over the full torus Iwasawa algebra (Layer 9).
 
-The generic inputs of §7.1 are imported: the Arens–Michael envelope `𝒰(𝔤) = lim_r U(𝔤)_r` (written `Û(𝔤)` by Boxer–Calegari–Gee–Pilloni), its Fréchet–Stein structure with noetherian Banach stages, its coadmissible and admissible modules and the exact completion `M ↦ 𝒰(𝔤) ⊗_{U(𝔤)} M` of finitely generated modules are LocallyAnalyticDistributionsPartII §2.5; the parabolic BGG categories `O(𝔤, 𝔮)` and their algebraic subcategories are LocallyAnalyticRepresentationsOfLocalGroups §4.2 (written there `O^p` and `O^p_alg` for a standard parabolic 𝔭); integrable LB representations of 𝔤 are LocallyAnalyticRepresentationsOfLocalGroups §3.10; Fréchet–Stein algebras over a complete discretely valued field and their coadmissible modules in general are LocallyAnalyticDistributionsPartII §1.4. What §§7.1–7.2 own is what none of these states: the λ-algebraic subcategories `O(𝔤, 𝔮)_{λ-alg}` for a character λ of the Levi of 𝔮 and the integration of their twists, the equivalence of `O(𝔤, 𝔮)` with its completed counterpart, the exact contravariant realization `M ↦ M̂^∨` in integrable LB representations, and the localization on the flag variety. The higher Coleman sheaves and functors with BGG coefficients (§§7.1a–7.1b) are owned here for the same reason: HigherHidaAndColemanTheory §§5.2–5.5 and 6.2 define finite-slope higher Coleman cohomology with algebraic coefficients and with analytic characters, which are the finite-slope values of these functors on finite-dimensional and on Verma coefficients (§7.1b (2)–(3)), but not a contravariant functor on all of `O(𝔪_w,𝔟_{M_w})_{λ-alg}`, on its bounded derived category or before slope extraction, all of which §§7.2 and 7.5 use. Boundary vanishing for the genus-two completed tower (§7.7) is owned here: CompletedCohomologyPartII §7.8 states the generic implication from boundary vanishing and assigns the `GSp₄` vanishing to its arithmetic consumer.
+The generic inputs of §7.1 are imported: the Arens–Michael envelope `𝒰(𝔤) = lim_r U(𝔤)_r` (written `Û(𝔤)` by Boxer–Calegari–Gee–Pilloni), its Fréchet–Stein structure with noetherian Banach stages, its coadmissible and admissible modules and the exact completion `M ↦ 𝒰(𝔤) ⊗_{U(𝔤)} M` of finitely generated modules are LocallyAnalyticDistributionsPartII §2.5; the parabolic BGG categories `O(𝔤, 𝔮)` and their algebraic subcategories are LocallyAnalyticRepresentationsOfLocalGroups §4.2 (written there `O^p` and `O^p_alg` for a standard parabolic 𝔭); integrable LB representations of 𝔤 are LocallyAnalyticRepresentationsOfLocalGroups §3.10; Fréchet–Stein algebras over a complete discretely valued field and their coadmissible modules in general are LocallyAnalyticDistributionsPartII §1.4. What §§7.1–7.2 own is what none of these states: the flag-variety sheaves `D̃^la` and `C^la` with the two 𝔤-actions on `C^la` (§7.1c), the λ-algebraic subcategories `O(𝔤, 𝔮)_{λ-alg}` for a character λ of the Levi of 𝔮 and the integration of their twists, the equivalence of `O(𝔤, 𝔮)` with its completed counterpart, the exact contravariant realization `M ↦ M̂^∨` in integrable LB representations, and the localization on the flag variety. The higher Coleman sheaves and functors with BGG coefficients (§§7.1a–7.1b) are owned here for the same reason: HigherHidaAndColemanTheory §§5.2–5.5 and 6.2 define finite-slope higher Coleman cohomology with algebraic coefficients and with analytic characters, which are the finite-slope values of these functors on finite-dimensional and on Verma coefficients (§7.1b (2)–(3)), but not a contravariant functor on all of `O(𝔪_w,𝔟_{M_w})_{λ-alg}`, on its bounded derived category or before slope extraction, all of which §§7.2 and 7.5 use. Boundary vanishing for the genus-two completed tower (§7.7) is owned here: CompletedCohomologyPartII §7.8 states the generic implication from boundary vanishing and assigns the `GSp₄` vanishing to its arithmetic consumer.
 
-Left to other roadmaps, by section: PEL data, moduli and normalized higher-level models (PELModuli §§M0–M5); finite flat degrees, Hasse invariants, canonical subgroups and Igusa torsors (HodgeTateAndCanonicalSubgroups §§0.6–0.8, 0.14–0.16, 0.28, 3.6, 5.1, 5.5, 5.8); toroidal and minimal compactifications, normalized models and Koecher principles (ShimuraCompactifications §§4.1, 4.3, 4.10, 6.12, 6.16–6.17, 7.16–7.26); coherent automorphic coefficients, traces and Hecke operators (AutomorphicBundles §§3.3, 5.3, 5.4, 11.16, 12.1, 12.11, 12.15); Pilloni's integral spherical operator on genus-two coherent cohomology (AlgebraicModularFormsAndSerreWeightsPartII §7.5); the formal chart criterion on normalized p-level models and toroidal-to-minimal relative vanishing of formally subcanonical coefficients and the localized comparison of Hilbert–Siegel coherent cohomology in degrees 0 and 1 with cuspidal representations (AutomorphicBundlesPartII §§5.1–5.2, 8.8); solid positive-monoid algebras and infinitesimally λ-smooth solid representations (the contracts gap:solid-positive-monoid and gap:infinitesimal-lambda-smooth below), integrable LB representations of a Lie algebra, the Harish-Chandra isomorphism for split reductive Lie algebras, the BGG category O and its parabolic subcategories and Kostant homology of nilradicals on finite-dimensional representations (LocallyAnalyticRepresentationsOfLocalGroups §§3.4, 3.5, 3.10, 4.1, 4.2, 4.6); the Arens–Michael envelope of a Lie algebra and its coadmissible modules (LocallyAnalyticDistributionsPartII §2.5); proper GAGA and quasi-Stein cohomology (AdicSpacesPartIII §§R3.4, R3.6, R3.7); coherent Hartogs extension, depth, local cohomology, Grothendieck duality and the upper shriek functor (SchemeAndStackFoundations §§0.6, 0.17, 2.7, 2.18–2.20); the fundamental class of an embeddable morphism with its boundary and open base-change compatibilities (AlgebraicModuliForArithmeticGeometry §7.5); GSp₄ Satake and spin polynomials (SmoothRepresentationsOfLocalGroups §SR.4.5; IntegralHeckeAndGaloisDeterminants §3a.2); coherent multiplicities of GSp₄ limits of discrete series and the large-weight classifications (AutomorphicFormsOnReductiveGroups §§6.4–6.6); the GSp₄/GL₄ transfer (EndoscopicTransferAndUnitaryTraceComparison §11.1); the derived completed tower, its support triangle and derived locally analytic recovery (CompletedCohomologyPartII §§2.2, 6.7, 7.1, F.4); Sen operators (PadicHodgeTheory §4.4); the Nekovář multiplicity argument (ArithmeticGaloisRepresentations §§5.11, 7.6); complete group algebras (PadicMeasuresIwasawaAlgebras §§1.1, 1.7); Fréchet–Stein algebras and their coadmissible modules (LocallyAnalyticDistributionsPartII §1.4); residual detection of perfect amplitude and Sylow projectivity (DeformationAndDerivedPatchingAlgebra §§5.9, 7.1, 7.3). Potential modularity, Taylor–Wiles patching, the stronger Hilbert vanishing of BCGP21 §5.9 and torsion conjectures for the Klingen family are not targets of this roadmap.
+Left to other roadmaps, by section: PEL data, moduli and normalized higher-level models (PELModuli §§M0–M5); finite flat degrees, Hasse invariants, canonical subgroups and Igusa torsors (HodgeTateAndCanonicalSubgroups §§0.6–0.8, 0.14–0.16, 0.28, 3.6, 5.1, 5.5, 5.8); toroidal and minimal compactifications, normalized models and Koecher principles (ShimuraCompactifications §§4.1, 4.3, 4.10, 6.12, 6.16–6.17, 7.16–7.26); coherent automorphic coefficients, traces and Hecke operators (AutomorphicBundles §§3.3, 5.3, 5.4, 11.16, 12.1, 12.11, 12.15); Pilloni's integral spherical operator on genus-two coherent cohomology (AlgebraicModularFormsAndSerreWeightsPartII §7.5); the formal chart criterion on normalized p-level models and toroidal-to-minimal relative vanishing of formally subcanonical coefficients and the localized comparison of Hilbert–Siegel coherent cohomology in degrees 0 and 1 with cuspidal representations (AutomorphicBundlesPartII §§5.1–5.2, 8.8); solid positive-monoid algebras and infinitesimally λ-smooth solid representations (the contracts gap:solid-positive-monoid and gap:infinitesimal-lambda-smooth below), integrable LB representations of a Lie algebra, the Harish-Chandra isomorphism for split reductive Lie algebras, the BGG category O and its parabolic subcategories and Kostant homology of nilradicals on finite-dimensional representations (LocallyAnalyticRepresentationsOfLocalGroups §§3.4, 3.5, 3.10, 4.1, 4.2, 4.6); the Arens–Michael envelope of a Lie algebra and its coadmissible modules (LocallyAnalyticDistributionsPartII §2.5); proper GAGA and quasi-Stein cohomology (AdicSpacesPartIII §§R3.4, R3.7); coherent Hartogs extension, depth, local cohomology, Grothendieck duality and the upper shriek functor (SchemeAndStackFoundations §§0.6, 0.17, 2.7, 2.18–2.20); the fundamental class of an embeddable morphism with its boundary and open base-change compatibilities (AlgebraicModuliForArithmeticGeometry §7.5); GSp₄ Satake and spin polynomials (SmoothRepresentationsOfLocalGroups §SR.4.5; IntegralHeckeAndGaloisDeterminants §3a.2); coherent multiplicities of GSp₄ limits of discrete series and the large-weight classifications (AutomorphicFormsOnReductiveGroups §§6.4–6.6); the GSp₄/GL₄ transfer (EndoscopicTransferAndUnitaryTraceComparison §11.1); the derived completed tower, its support triangle and derived locally analytic recovery (CompletedCohomologyPartII §§2.2, 6.7, 7.1, F.4); Sen operators (PadicHodgeTheory §4.4); the Nekovář multiplicity argument (ArithmeticGaloisRepresentations §§5.11, 7.6); complete group algebras (PadicMeasuresIwasawaAlgebras §§1.1, 1.7); Fréchet–Stein algebras and their coadmissible modules (LocallyAnalyticDistributionsPartII §1.4); residual detection of perfect amplitude and Sylow projectivity (DeformationAndDerivedPatchingAlgebra §§5.9, 7.1, 7.3). Potential modularity, Taylor–Wiles patching, the stronger Hilbert vanishing of BCGP21 §5.9 and torsion conjectures for the Klingen family are not targets of this roadmap.
 
 Citations in the former design numbering of this roadmap resolve as follows; the Klingen items of K2 that are imported resolve to their supplier sections.
 
@@ -101,7 +101,7 @@ Each layer states its own standing hypotheses. The PEL layers use unramified typ
 
 ### From Mathlib
 
-At the pinned Mathlib use `Module.End` (Mathlib/Algebra/Module/LinearMap/End.lean:33) for endomorphisms; `LinearMap.prod` (Mathlib/LinearAlgebra/Prod.lean:95) and `LinearMap.coprod` (Mathlib/LinearAlgebra/Prod.lean:199) for the companion operator of §6.1; `Module.End.genEigenspace` (Mathlib/LinearAlgebra/Eigenspace/Basic.lean:72) for generalized eigenspaces and finite-slope blocks; `Polynomial.aeval` (Mathlib/Algebra/Polynomial/AlgebraMap.lean:259) for polynomial inverses on blocks; `Module.Projective` (Mathlib/Algebra/Module/Projective.lean:71), the splitting property, for projectivity; and `DerivedCategory` (Mathlib/Algebra/Homology/DerivedCategory/Basic.lean:87). `LinearMap.eventually_isCompl_ker_pow_range_pow` (Mathlib/RingTheory/Artinian/Module.lean:307) is the Fitting decomposition of an endomorphism of a module that is both Artinian and Noetherian; it does not supply a derived ordinary projector, which is HigherHidaAndColemanTheory §2.3.
+At the pinned Mathlib use `Module.End` (Mathlib/Algebra/Module/LinearMap/End.lean:33) for endomorphisms; `LinearMap.prod` (Mathlib/LinearAlgebra/Prod.lean:95) and `LinearMap.coprod` (Mathlib/LinearAlgebra/Prod.lean:199) for the companion operator of §6.1; `Module.End.genEigenspace` (Mathlib/LinearAlgebra/Eigenspace/Basic.lean:72) for generalized eigenspaces and finite-slope blocks; `Polynomial.aeval` (Mathlib/Algebra/Polynomial/AlgebraMap.lean:259) for polynomial inverses on blocks; `UniversalEnvelopingAlgebra` (Mathlib/Algebra/Lie/UniversalEnveloping.lean:65) for the enveloping algebra `U(𝔤)` of Layer 7; `Module.Projective` (Mathlib/Algebra/Module/Projective.lean:71), the splitting property, for projectivity; and `DerivedCategory` (Mathlib/Algebra/Homology/DerivedCategory/Basic.lean:87). `LinearMap.eventually_isCompl_ker_pow_range_pow` (Mathlib/RingTheory/Artinian/Module.lean:307) is the Fitting decomposition of an endomorphism of a module that is both Artinian and Noetherian; it does not supply a derived ordinary projector, which is HigherHidaAndColemanTheory §2.3.
 
 ### From Tau Ceti
 
@@ -110,7 +110,6 @@ At the pinned Tau Ceti, `TauCeti.VermaModule` (TauCeti/Algebra/Lie/HighestWeight
 ### From TauCetiRoadmap.HigherHidaAndColemanTheory
 
 - §1.1: the cohomological weight dictionary `κ_w`, `ν_w` and Serre-dual weights.
-- §1.2: relative slopes and geometric classicality regions.
 - §2.3: supported ordinary localization (the derived ordinary direct factor).
 - §3.7: regular global ordinary control for integral Siegel strata.
 - §4.5, §4.6: the perfect universal Iwasawa coefficient complexes `M_w` and derived arithmetic control.
@@ -128,7 +127,6 @@ At the pinned Tau Ceti, `TauCeti.VermaModule` (TauCeti/Algebra/Lie/HighestWeight
 ### From TauCetiRoadmap.PELModuli
 
 - §M0.21: constancy of the Morita-reduced signature over the embeddings above a prime, under BPS Hypothesis 1.1.1.
-- §M0.27: τ-parts at an unramified prime.
 - §M1.13: level change and the Hecke action.
 - §M2.8, §M2.9, §M2.10: representability and smoothness at good primes, the universal family and the Kodaira–Spencer isomorphism.
 - §M4.5, §M4.6: normal integral models at higher p-level.
@@ -155,7 +153,6 @@ What HodgeTateAndCanonicalSubgroups must provide (gap:hilbert-siegel-frame-torso
 
 - §R2.10: fractional bounds, section domains and Hasse domains.
 - §R3.4: quasi-Stein spaces.
-- §R3.6: Kiehl's proper mapping theorem and completely continuous restrictions.
 - §R3.7: proper GAGA.
 
 What AdicSpacesPartIII must provide (gap:bounded-section-gluing): §R2.10 — On a normal rigid space, completeness of bounded sections of a coherent integral lattice and gluing of sections modulo `p^A` for growing A over admissible strict-neighbourhood covers, as used in BPS Proposition 4.1.2.
@@ -165,7 +162,8 @@ What AdicSpacesPartIII must provide (gap:bounded-section-gluing): §R2.10 — On
 - §4.1, §4.3, §4.10: refinement maps, toroidal Hecke correspondences and independence of coherent cohomology from the cone system.
 - §6.16, §6.17: the compactified Klingen correspondence and acyclicity of its first projection.
 - §7.16, §7.19, §7.20, §7.21, §7.22: the minimal compactification, normalized models at higher p-level (including the Bijakowski–Pilloni–Stroh model), their charts, formally canonical coefficients and the Koecher principle with its dimension-one exception.
-- §7.25, §7.26: codimension of the Hilbert–Siegel minimal boundary and the formal Hilbert–Siegel Koecher principle.
+- §6.12: the Tate curve, describing the selected subgroup and the complements at the cusps in §2.8.
+- §7.25: codimension of the Hilbert–Siegel minimal boundary.
 
 What ShimuraCompactifications must provide (gap:partial-hasse-regularity): §7.20 — On the Hilbert–Siegel and Siegel normalized models, regularity of the partial Hasse invariants after arbitrary powers of the others on the supported special-fibre strata; on the mixed Klingen/Iwahori Hilbert–Siegel normalized models, the formal chart criterion of §7.21 for the cuspidal coefficients `ω^κ(−D)`, also after base change to `ℤ/p^n`, which is the hypothesis under which AutomorphicBundlesPartII §5.2 gives their toroidal-to-minimal relative vanishing; and the two-affine cover of the p-rank-at-least-one minimal special fibre (P20 Lemma 8.2.1, BCGP21 Theorem 4.2.12). Relative vanishing itself is AutomorphicBundlesPartII §5.2 and is not part of this contract; nothing here concerns canonical coefficients without the boundary twist.
 
@@ -175,10 +173,9 @@ What ShimuraCompactifications must provide (gap:tame-boundary-stabilizers): §4.
 
 ### From TauCetiRoadmap.AutomorphicBundles
 
-- §3.3: highest weights and coefficient conventions.
 - §5.3, §5.4: canonical and subcanonical extensions.
 - §11.16: Siegel coefficients `Sym^kω ⊗ det(ω)^r`.
-- §12.1, §12.11, §12.15: finite locally free traces, geometric Hecke operators and Fourier–Jacobi expansions.
+- §12.1, §12.11: finite locally free traces and geometric Hecke operators.
 
 ### From TauCetiRoadmap.AlgebraicModularFormsAndSerreWeightsPartII
 
@@ -209,12 +206,11 @@ What ShimuraCompactifications must provide (gap:tame-boundary-stabilizers): §4.
 
 ### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants
 
-- §2.3: operator localization and ordinary parts.
 - §3a.2: spin, dual spin and full multiplier.
 
 ### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
 
-- §6.4, §6.5, §6.6: components of GSp₄ and coherent multiplicities, coherent cohomology of discrete series and their limits, and the large-weight classifications (including the `Res_{F/ℚ}GSp₄` large-weight theorem and the sign-corrected Pilloni Theorem 15.2.2.1(2)).
+- §6.5, §6.6: coherent cohomology of discrete series and their limits, and the large-weight classifications (including the `Res_{F/ℚ}GSp₄` large-weight theorem and the sign-corrected Pilloni Theorem 15.2.2.1(2)).
 
 What AutomorphicFormsOnReductiveGroups must provide (gap:gsp4-singular-balance): §6.6 — For a non-Eisenstein prime-to-p Hecke eigensystem of GSp₄ and a sufficiently large singular weight, equality of the localized coherent multiplicities of the holomorphic and generic limits of discrete series at the same finite representation (P20 Proposition 15.2.4.1).
 
@@ -236,7 +232,7 @@ What AutomorphicFormsOnReductiveGroups must provide (gap:gsp4-weight-two-stabili
 - §3.6: the perfectoid incarnation of the Levi torsor and automorphic-bundle pullback.
 - §6.3: the Hodge–Tate period map on the toroidal tower.
 
-What PerfectoidShimuraVarieties must provide (gap:solid-vb-sen): §3.6 — The derived functor `VB_red`, from the derived category of solid 𝔤-equivariant sheaves on opens of the flag variety to the derived category of `O^sm`-modules on the toroidal Shimura tower, defined as the derived pullback-and-invariants functor `VB` tensored down along the augmentation of the de Rham algebra `VB(O_FL)`; its degree-zero functor `VB⁰` on 𝔤-equivariant LB-sheaves, exact on the subcategory of those killed by `𝔲⁰_P`, on which `VB_red = VB⁰[0]`, with `VB⁰(C^la) = O^la`; the (𝔤,B)-equivariant version `VB⁰` on LB-sheaves over the Bruhat tubes `C_w^†` killed by `𝔲⁰_P`, also exact; the Chevalley–Eilenberg compatibility `VB⁰(H^i(𝔲⁰_P, F)) = H^i(VB(F))` whenever every `H^i(𝔲⁰_P, F)` is an LB-sheaf; and the identification of the horizontal action of the centre of `𝔪` with the arithmetic Sen operator (BCGP25 Theorem 4.5.4, pp. 73–74; Definition 4.5.17 and Remark 4.5.18, p. 78; Theorem 4.5.20, pp. 79–80; Theorem 4.5.23, p. 81).
+What PerfectoidShimuraVarieties must provide (gap:solid-vb-sen): §3.6 — The derived functor `VB_red`, from the derived category of solid 𝔤-equivariant sheaves on opens of the flag variety to the derived category of `O^sm`-modules on the toroidal Shimura tower, defined as the derived pullback-and-invariants functor `VB` tensored down along the augmentation of the de Rham algebra `VB(O_FL)`; its degree-zero functor `VB⁰` on 𝔤-equivariant LB-sheaves, exact on the subcategory of those killed by `𝔲⁰_P`, on which `VB_red = VB⁰[0]`; the value `VB(O_{G,e} ⊗ O_FL) = O^{Rla}`, the derived locally analytic vectors of the completed structure sheaf, for the 𝔤-equivariant sheaf of germs at the identity of analytic functions on G tensored with `O_FL`, G acting by inverse left translation on the germs and by right translation on FL (BCGP25 Remark 4.5.2, p. 73, and the proof of Theorem 4.5.20(4), p. 80); the (𝔤,B)-equivariant version `VB⁰` on LB-sheaves over the Bruhat tubes `C_w^†` killed by `𝔲⁰_P`, also exact; the Chevalley–Eilenberg compatibility `VB⁰(H^i(𝔲⁰_P, F)) = H^i(VB(F))` whenever every `H^i(𝔲⁰_P, F)` is an LB-sheaf; and the identification of the horizontal action of the centre of `𝔪` with the arithmetic Sen operator (BCGP25 Theorem 4.5.4, pp. 73–74; Definition 4.5.17 and Remark 4.5.18, p. 78; Theorem 4.5.20, pp. 79–80; Theorem 4.5.23, p. 81).
 
 ### From TauCetiRoadmap.PadicHodgeTheory
 
@@ -261,10 +257,6 @@ What AutomorphicGaloisRepresentations must provide (gap:gsp4-eichler-shimura): �
 
 - §5.9: Sylow projectivity: for a Noetherian local ring of residue characteristic p and a finite group, projectivity over the group ring is detected by the derived residue over a Sylow p-subgroup.
 - §7.1, §7.3: Tor comparison, minimal finite free representatives and residual detection of perfect amplitude.
-
-### From TauCetiRoadmap.LieHighestWeight
-
-- Layer 3: the enveloping algebra, Verma modules and `L(λ)` for a finite-dimensional Lie algebra.
 
 ### From TauCetiRoadmap.LocallyAnalyticRepresentationsOfLocalGroups
 
@@ -307,7 +299,7 @@ Standing hypotheses of Layers 1–2. Let `(B, *, O_B, U, ⟨·,·⟩, h)` be a P
 
 At a point x of `X_Iw^rig` with values in `O_C`, let `H_{i}` be the Morita component at `π_i` of the distinguished maximal totally isotropic subgroup of the Iwahori flag (in type A, one member of the polarization-paired pair of factors), a finite flat group of height `d_i a_i`. Define the degree coordinate `δ_i(x) = deg H_i`, the Fargues degree of HodgeTateAndCanonicalSubgroups §0.6, and `δ = (δ_1,…,δ_h) : X_Iw^rig → ∏_i [0, d_i a_i]` (BPS §1.5, HAL p. 11; recalled in §3.2, HAL p. 16). The coordinate measures the distance to the multiplicative-ordinary locus `X_Iw(0) = δ^{−1}(∏_i {d_i a_i})`.
 
-*Needs:* gap:pel-iwahori-complements; PELModuli §M4.5; HodgeTateAndCanonicalSubgroups §0.6, §0.7.
+*Needs:* gap:pel-iwahori-complements; PELModuli §M2.8, §M2.9, §M4.5; HodgeTateAndCanonicalSubgroups §0.6, §0.7.
 
 The basic properties are:
 
@@ -347,7 +339,7 @@ The behaviour of the degree coordinate of §1.1 under the operators `U_i` of §1
 
 Prove: if y lies in `U_i({x})` then `δ_i(y) ≥ δ_i(x)` and `δ_j(y) = δ_j(x)` for `j ≠ i`; if `δ_i(y) = δ_i(x)` then `H_i` is a truncated Barsotti–Tate group of level one, `A[π_i]` splits as the direct sum of `H_i` and a totally isotropic truncated Barsotti–Tate group, and `δ_i(x)` is an integer (BPS Propositions 3.1.1–3.1.3, HAL pp. 15–16).
 
-A proof route: the isogeny induces a generic isomorphism `H_{i,x} → H_{i,y}`, so the degree increases with equality only for an isomorphism (HodgeTateAndCanonicalSubgroups §0.8); in the equality case compare `deg H_i` with `f l − deg L` and conclude by the splitting criterion.
+A proof route: the quotient by a complement L maps `H_i` generically isomorphically onto the selected subgroup at y, so `δ_i` does not decrease, and it is unchanged only if that map is an isomorphism (HodgeTateAndCanonicalSubgroups §0.8). Then the image of `H_i` is the whole Morita component of `A[π_i]/L`, and since that component of `A[π_i]` has degree `d_i a_i` (its dimension), additivity (HodgeTateAndCanonicalSubgroups §0.7) gives `deg H_i = d_i a_i − deg L`. So `H_i × L → A[π_i]` is a generic isomorphism between groups of equal degree, hence an isomorphism (HodgeTateAndCanonicalSubgroups §0.8): this is the splitting, both factors are truncated Barsotti–Tate of level one, and the degree of such a group is its dimension, an integer.
 
 *Needs:* §1.2; HodgeTateAndCanonicalSubgroups §0.7, §0.8, §0.28.
 
@@ -359,7 +351,7 @@ A proof route: the isogeny induces a generic isomorphism `H_{i,x} → H_{i,y}`, 
 
 **1.4 Uniform progress on degree bands.** Prove: for integers `0 ≤ n ≤ d_i a_i − 1` and rationals `0 < η ≤ ν < 1` there is an integer N with `U_i^N(δ_i^{−1}([d_i a_i − n − ν, d_i a_i])) ⊂ δ_i^{−1}([d_i a_i − n − η, d_i a_i])`, the other coordinates being preserved; and the analogous statement for `∏_i U_i` on products of bands (BPS Proposition 3.2.1 and Corollary 3.2.2, HAL pp. 16–17).
 
-A proof route: on the quasi-compact band `V = δ_i^{−1}([d_i a_i − n − ν, d_i a_i − n − η])` the increment `δ_i(p₂(u)) − δ_i(p₁(u))` is the valuation of an analytic function on `p₁^{−1}(V)`, hence attains a minimum ε, which is positive by §1.3 because V contains no integral degree; take N larger than `(ν − η)/ε`.
+A proof route: since `0 < η ≤ ν < 1`, the closed band `V = δ_i^{−1}([d_i a_i − n − ν, d_i a_i − n − η])` contains no point with integral `δ_i`, so by §1.3 every complement raises `δ_i` strictly at every point of V. The gain, as a function of a point of V and a complement, is locally the valuation of an analytic function (§1.1) on a quasi-compact space, so the maximum modulus principle gives it a positive lower bound ε. A point of the larger band that is not yet in the smaller one lies in V and gains at least ε at each application of `U_i`, and §1.3 keeps the smaller band stable, so every `N > (ν − η)/ε` works.
 
 *Needs:* §1.3; AdicSpacesPartIII §R2.10.
 
@@ -375,15 +367,15 @@ For the modular curve, `n = 1`, the degree is the valuation coordinate of Buzzar
 
 ### Dependencies
 
-AdicSpacesPartIII §R2.10; AutomorphicBundles §12.1, §12.11; HodgeTateAndCanonicalSubgroups §0.6, §0.7, §0.8, §0.28; PELModuli §M0.21, §M1.13, §M4.5; ShimuraCompactifications §4.1, §4.3; gap:pel-iwahori-complements.
+AdicSpacesPartIII §R2.10; AutomorphicBundles §12.1, §12.11; HodgeTateAndCanonicalSubgroups §0.6, §0.7, §0.8, §0.28; PELModuli §M0.21, §M1.13, §M2.8, §M2.9, §M4.5; ShimuraCompactifications §4.1, §4.3; gap:pel-iwahori-complements.
 
 ## Layer 2: PEL analytic continuation and classicality
 
-The standing hypotheses of Layer 1 hold. Write `κ` for a dominant weight of the Levi `M = ∏_i Res_{ℤ_{p^{d_i}}/ℤ_p} GL_{a_i}` (times `GL_{b_i}` in type A), with terminal entries `k_{i,j,a_i}` and `l_{i,j,b_i}` (`1 ≤ j ≤ d_i`) as in the introductory paragraph of BPS §4, before §4.1 (HAL p. 17). Put `c_i = min_j (k_{i,j,a_i} + l_{i,j,b_i})` in type A and `c_i = min_j k_{i,j,a_i}` in type C.
+The standing hypotheses of Layer 1 hold. Write `κ` for a dominant weight of the Levi `M = ∏_i Res_{ℤ_{p^{d_i}}/ℤ_p} GL_{a_i}` (times `GL_{b_i}` in type A), with terminal entries `k_{i,j,a_i}` and `l_{i,j,b_i}` (`1 ≤ j ≤ d_i`) as in the introductory paragraph of BPS §4, before §4.1 (HAL p. 17). Let J be the set of places i with `a_i b_i > 0` in type A, and the set of all places in type C, where `a_i = dim_ℚ U_Q/(2n[F₀ : ℚ])`, with `B ⊗_{F₀,τ} ℝ ≅ M_n(ℝ)`, is independent of i and positive for `U_Q ≠ 0` (BPS §1.1, HAL p. 5). For `i ∈ J` put `c_i = min_j (k_{i,j,a_i} + l_{i,j,b_i})` in type A and `c_i = min_j k_{i,j,a_i}` in type C. At `i ∉ J` the factor at `π_i` is definite and one terminal entry does not exist: the Morita component at `π_i` has dimension `d_i a_i` equal to its height when `b_i = 0`, so it is multiplicative and `H_i` is all of its p-torsion, while `H_i = 0` when `a_i = 0`; in both cases `δ_i ≡ d_i a_i`, the complements are zero, `n_i = 0`, and there is nothing to continue at i. §§2.1–2.7 concern the places of J. If J is empty the symmetric space is a point, `X_Iw` is finite over the base, `X_Iw^rig = X_Iw(0)`, and every overconvergent form, being a section over all of `X_Iw^rig`, is the analytification of a section on the finite K-scheme `X_Iw × Spec K`.
 
 ### 2.1 The strict slope region
 
-For a simultaneous eigenform f with `U_i f = α_i f`, `α_i ≠ 0`, put `s_i = v_p(α_i)`. The small-slope region is `s_i ≥ 0` and `s_i + n_i < c_i` for every i (BPS Hypothesis 4.5.1, HAL p. 25). Equivalently there is a rational `ε ∈ (0,1)` with `n_i + s_i − (1−ε)c_i < 0` for every i. The normalization of §1.2 makes every slope of an overconvergent eigenform nonnegative (BPS §4, introductory paragraph before §4.1, HAL p. 17), and the region forces `c_i > n_i ≥ 0`.
+For a simultaneous eigenform f with `U_i f = α_i f`, `α_i ≠ 0`, put `s_i = v_p(α_i)`. The small-slope region is `s_i ≥ 0` and `s_i + n_i < c_i` for every `i ∈ J` (BPS Hypothesis 4.5.1, HAL p. 25); no condition is imposed at `i ∉ J`. Equivalently there is a rational `ε ∈ (0,1)` with `n_i + s_i − (1−ε)c_i < 0` for every `i ∈ J`. The normalization of §1.2 makes every slope of an overconvergent eigenform nonnegative (BPS §4, introductory paragraph before §4.1, HAL p. 17), and the region forces `c_i > n_i ≥ 0`.
 
 *Needs:* §1.2.
 
@@ -399,6 +391,7 @@ The basic properties are:
 - `n = 3`, `c = 3`, `s = 0` does not: `3 < 3` fails, and no ε gives `3 − 3(1−ε) < 0`.
 - `n = 3`, `c = 4`, `s = 1/2` lies in the region with `ε < 1/8`.
 - For the modular curve (`n = 1`, `c = k`) the region is `v_p(α) < k − 1`, Coleman's bound for the standard `U_p`.
+- A definite datum: `F₀ = ℚ`, F imaginary quadratic with p split, `B = F` and signature `(0, 1)` (CM elliptic curves) give `h = 1`, `d = 1`, `(a, b) = (0, 1)`, so `J = ∅`, `n = 0` and `δ ∈ [0, 0]`; the entry `k_{1,1,0}` does not exist, no slope condition is imposed, and classicality is the `J = ∅` case of the standing paragraph. A definition of `c_i` at every place would be undefined here.
 
 ### 2.2 Finite-slope first extension
 
@@ -430,8 +423,8 @@ The basic properties are:
 
 **Checks.**
 
-- If no complement is bad then `V_1 = ∅` and `U_i` is entirely good.
-- A point with exactly one bad complement lies in `V_1 ∖ V_2`.
+- The count on the modular curve at `p = 3`: at a point with supersingular reduction over `W(F̄₃)` all four subgroups of order 3 have degree `1/4`, and for the selected H the other three are the complements. At `β = 3/4` all three are bad (`1/4 ≥ 1/4`), so `N = 3`, whereas counting H too would give 4; at `β = 1/2` none is (`1/4 < 1/2`), so `N = 0`, whereas the reversed inequality would give 3.
+- At an ordinary point with `E[3] = μ₃ ⊕ ℤ/3` and `H = ℤ/3`, the complements are `μ₃`, of degree 1, and two étale subgroups, of degree 0; at `β = 1/2`, `N = 1`, so the point lies in `V_1 ∖ V_2`.
 - The differences `V_k ∖ V_{k+1}` are not open in general, so they do not form the admissible cover used for gluing; the strict neighbourhoods of §2.6 do.
 - For `k = 2` on the modular curve, `B_2` is finite étale over X and has dimension one while `X²` has dimension two, so `B_2 → X²` is not finite étale; only the coordinates `q_j` are used.
 
@@ -475,7 +468,7 @@ The basic properties are:
 
 ### 2.7 Bounded continuation across all walls
 
-Prove: the compatible path sums give a unique bounded section on each closed rational degree box; exhausting the half-open auxiliary conditions by closed rational boxes and gluing by uniqueness, the eigenform extends at place i from `δ_i ∈ ]d_i a_i − 1, d_i a_i]` to `δ_i ∈ [0, d_i a_i]`, the other coordinates being fixed, and, iterating over the places, to all of `X_Iw^rig` with its eigenrelations (BPS Proposition 4.1.2, HAL p. 18; §5.1, HAL p. 26; Propositions 4.5.7–4.5.8, HAL p. 29).
+Prove: the compatible path sums give a unique bounded section on each closed rational degree box; exhausting the half-open auxiliary conditions by closed rational boxes and gluing by uniqueness, the eigenform extends at place i from `δ_i ∈ ]d_i a_i − 1, d_i a_i]` to `δ_i ∈ [0, d_i a_i]`, the other coordinates being fixed, and, iterating over the places of J, to all of `X_Iw^rig` with its eigenrelations (BPS Proposition 4.1.2, HAL p. 18; §5.1, HAL p. 26; Propositions 4.5.7–4.5.8, HAL p. 29).
 
 *Needs:* §2.6; §2.2; gap:bounded-section-gluing; AdicSpacesPartIII §R3.4.
 
@@ -487,7 +480,7 @@ Prove: the compatible path sums give a unique bounded section on each closed rat
 
 ### 2.8 The dimension-one case
 
-Prove: under the standing hypotheses, when the symmetric space of G is the Poincaré half-plane, so that BPS Hypothesis 1.4.2 fails and the Koecher principle of ShimuraCompactifications §7.22 has its dimension-one exception, every overconvergent form f of dominant weight κ at Iwahori level which is a simultaneous `U_i`-eigenform with eigenvalues in the region of §2.1 is the analytification of a section of `ω^κ` on `X_Iw × Spec K`, and a cuspidal f gives a cuspidal form (BPS Theorem 5.3.1 and Remark 5.3.2, HAL p. 31). If `X_Iw` is proper, §2.7 and proper GAGA conclude without a boundary. Otherwise each geometric connected component is a congruence quotient of the upper half-plane, a modular curve; carry out the continuation of §§2.2–2.7 on its smooth compactification, the cusps lying in the multiplicative tube where the Tate curve describes the complements, so that the continued section is a section of `ω^κ` over the compactified rigid curve, and conclude by proper GAGA.
+Prove: under the standing hypotheses, when the symmetric space of G is the Poincaré half-plane, so that BPS Hypothesis 1.4.2 fails and the Koecher principle of ShimuraCompactifications §7.22 has its dimension-one exception, every overconvergent form f of dominant weight κ at Iwahori level which is a simultaneous `U_i`-eigenform with eigenvalues in the region of §2.1 is the analytification of a section of `ω^κ` on `X_Iw × Spec K`, and a cuspidal f gives a cuspidal form (BPS Theorem 5.3.1 and Remark 5.3.2, HAL p. 31). If `X_Iw` is proper, §2.7 and proper GAGA conclude without a boundary. Otherwise each geometric connected component is a congruence quotient of the upper half-plane, a modular curve; carry out the continuation of §§2.2–2.7 on its smooth compactification, boundary included. At a cusp the Tate curve (ShimuraCompactifications §6.12) describes the selected subgroup and the complements, and the cusps lie in different tubes: where the selected subgroup is `μ_p ⊂ Tate(q)[p]` the degree is 1, and where it is generated by the p-th root t of the parameter, in `Tate(t^p)` with quotient `Tate(t)`, the degree is 0. The degree estimates of §§1.3–1.4, the contraction of §2.5 and the bounded gluing of §2.6 are proved on both kinds of boundary chart as on the open curve, the transport of differentials being computed from the Tate isogenies; the continued section is then a section of `ω^κ` over the compactified rigid curve, and proper GAGA concludes. This boundary continuation is the one BPS Remark 5.3.2 (HAL p. 31) describes without carrying it out, and it is part of this target.
 
 *Needs:* §2.7; ShimuraCompactifications §6.12, §7.22; AdicSpacesPartIII §R3.7.
 
@@ -495,15 +488,16 @@ Prove: under the standing hypotheses, when the symmetric space of G is the Poinc
 
 - The Koecher principle fails in dimension one: the modular curve has meromorphic sections of `ω^k` with poles at cusps that are holomorphic on the open curve (ShimuraCompactifications §7.22), so the boundary must be treated inside the continuation.
 - A compact Shimura curve has no cusps, so `X_Iw` is proper and the boundary-free case applies without the Koecher principle.
+- The two cusps of the compactified modular curve of level `Γ₀(3)` lie in different tubes: the cusp with selected subgroup `μ₃ ⊂ Tate(q)[3]` has degree 1, the one with selected subgroup generated by t in `Tate(t³)` has degree 0. The quotient maps `Tate(q) → Tate(q³)` and `Tate(t³) → Tate(t)` pull `dz/z` back to `3 dz/z` and to `dz/z`. A route placing every cusp in the multiplicative tube would leave the second cusp outside the continuation.
 - On the modular curve the region of §2.1 is `s < k − 1`, agreeing with §2.9's first Check.
 
 ### 2.9 Small-slope classicality
 
-Prove: under the standing hypotheses, let κ be dominant and f an overconvergent form of weight κ at Iwahori level which is a simultaneous `U_i`-eigenform with eigenvalues in the region of §2.1. Then f is classical: it is the analytification of a section of `ω^κ` on `X_Iw × Spec K`; a cuspidal f gives a cuspidal form (BPS Theorem 5.3.1, HAL p. 31). This holds for every datum: when the symmetric space has complex dimension greater than one (BPS Hypothesis 1.4.2, HAL p. 10) by the route below, and in dimension one it is §2.8.
+Prove: under the standing hypotheses, let κ be dominant and f an overconvergent form of weight κ at Iwahori level which is a simultaneous `U_i`-eigenform with eigenvalues in the region of §2.1. Then f is classical: it is the analytification of a section of `ω^κ` on `X_Iw × Spec K`; a cuspidal f gives a cuspidal form (BPS Theorem 5.3.1, HAL p. 31). This holds for every datum: in complex dimension zero (J empty) by the standing paragraph of this layer, when the symmetric space has complex dimension greater than one (BPS Hypothesis 1.4.2, HAL p. 10) by the route below, and in dimension one it is §2.8.
 
 A proof route in dimension greater than one: §2.7 gives a section on `X_Iw^rig`; the Koecher principle on the normalized model (ShimuraCompactifications §7.22, in which the Bijakowski–Pilloni–Stroh model is included) extends the bounded integral section across the boundary of the normal toroidal model; pass through the formal model and apply proper GAGA (BPS Propositions 5.2.1 and 5.2.4, Corollaries 5.2.2–5.2.3, HAL pp. 30–31). Normality is that of the actual normalized model, not of a modification with different sections.
 
-*Needs:* §2.7; §2.8; ShimuraCompactifications §7.19, §7.20, §7.21, §7.22; AdicSpacesPartIII §R3.7.
+*Needs:* §2.7; §2.8; PELModuli §M4.6; ShimuraCompactifications §7.19, §7.20, §7.21, §7.22; AdicSpacesPartIII §R3.7.
 
 **Checks.**
 
@@ -517,7 +511,7 @@ On the Siegel threefold at Iwahori level with `κ = (6, 6)` (`c = 6`, `n = 3`), 
 
 ### Dependencies
 
-AdicSpacesPartIII §R2.10, §R3.4, §R3.7; ShimuraCompactifications §6.12, §7.19, §7.20, §7.21, §7.22; gap:bounded-section-gluing; Layer 1.
+AdicSpacesPartIII §R2.10, §R3.4, §R3.7; PELModuli §M4.6; ShimuraCompactifications §6.12, §7.19, §7.20, §7.21, §7.22; gap:bounded-section-gluing; Layer 1.
 
 ## Layer 3: Singular Siegel weight: the spherical operator, amplitude and Euler characteristic
 
@@ -529,7 +523,7 @@ Over `X_Kli(p)` the universal isogenies `G → G′ → G` have degrees `p³` an
 
 A proof route: for two choices of cone decompositions both correspondences are, after adjunction, maps between the same locally free sheaves, and they agree outside the boundary, hence everywhere; the subcanonical versions use that the fundamental class carries the boundary ideal; reduce the integral maps by derived tensor with `ℤ_p/p`. The models and coefficient bundles are `ℤ_p`-flat, so the reduction coefficient is the perfect complex `[O →ᵖ O]` in degrees −1 and 0. The perfect-coefficient tensor identity for upper shriek and Tor-independent base change identify the reduced correspondences (P20 Proposition 4.1.2.1, p. 16, and §7.4, p. 42; SchemeAndStackFoundations §§2.18–2.19). For this two-term coefficient the tensor identity follows by applying the exact upper shriek functor to the cone of multiplication by p.
 
-*Needs:* AlgebraicModularFormsAndSerreWeightsPartII §7.5; AlgebraicModuliForArithmeticGeometry §7.5; SchemeAndStackFoundations §2.18, §2.19, §2.20; ShimuraCompactifications §4.1, §4.10, §6.16, §6.17; AutomorphicBundles §11.16, §12.11.
+*Needs:* AlgebraicModularFormsAndSerreWeightsPartII §7.5; AlgebraicModuliForArithmeticGeometry §7.5; PELModuli §M5.1; SchemeAndStackFoundations §2.18, §2.19, §2.20; ShimuraCompactifications §4.1, §4.10, §6.16, §6.17; AutomorphicBundles §11.16, §12.11.
 
 The basic properties are:
 
@@ -565,7 +559,7 @@ Prove: for `k > p + 1` and `r ≥ 2` the action of T on `RΓ(X₁^{≥1}, Ω(k,r
 
 A proof route: the Hasse resolution `Ω(k,r)(−D) → colim_{×Ha} Ω(k, r+(p−1)n)(−D) → colim Ω(k, r+(p−1)n)(−D)/Ha^n` is acyclic relative to the minimal compactification, whose rank-two and rank-one strata are affine; remove the rank-zero contribution with §3.2 and the support sequence.
 
-*Needs:* §3.2; HigherHidaAndColemanTheory §2.3; PadicFamilies §0a.22; HodgeTateAndCanonicalSubgroups §0.14, §0.16; AutomorphicBundlesPartII §5.1, §5.2; gap:partial-hasse-regularity; ShimuraCompactifications §7.16.
+*Needs:* §3.2; HigherHidaAndColemanTheory §2.3; PadicFamilies §0a.22; HodgeTateAndCanonicalSubgroups §0.14, §0.15, §0.16; AutomorphicBundlesPartII §5.1, §5.2; gap:partial-hasse-regularity; ShimuraCompactifications §7.16.
 
 **Checks.**
 
@@ -589,7 +583,7 @@ The basic properties are:
 **Checks.**
 
 - The raw scalars are `ℓ^{−3}` for `T_{ℓ,2}` and `ℓ^{−6}` for `T_{ℓ,0}` and `T_{ℓ,1}`; at `ℓ = 2` these are `1/8` and `1/64`.
-- At `(q, T₀, T₁, T₂) = (1, 1, 4, 4)` the spin polynomial is `(1 − X)⁴` (SmoothRepresentationsOfLocalGroups §SR.4.5), the trivial-parameter witness.
+- At `(q, T_{ℓ,0}, T_{ℓ,1}, T_{ℓ,2}) = (1, 1, 4, 4)` the spin polynomial is `(1 − X)⁴` (SmoothRepresentationsOfLocalGroups §SR.4.5), the trivial-parameter witness.
 - `T_{ℓ,0}` is the central element `ℓ`, invertible on the family because ℓ is a unit in `Λ₁`.
 
 ### 3.5 The localized Euler characteristic of the Klingen family
@@ -612,7 +606,7 @@ At `p = 5`, `k = 0`, `r = 2`: the Klingen family `M_Kli` is perfect of amplitude
 
 ### Dependencies
 
-AlgebraicModularFormsAndSerreWeightsPartII §7.5; AlgebraicModuliForArithmeticGeometry §7.5; AutomorphicBundles §11.16, §12.11; AutomorphicBundlesPartII §5.1, §5.2; AutomorphicFormsOnReductiveGroups §6.5, §6.6; DeformationAndDerivedPatchingAlgebra §7.3; EndoscopicTransferAndUnitaryTraceComparison §11.1; HigherHidaAndColemanTheory §2.3, §9.4, §9.5, §9.8; HodgeTateAndCanonicalSubgroups §0.14, §0.16; IntegralHeckeAndGaloisDeterminants §3a.2; PadicFamilies §0a.22; SchemeAndStackFoundations §2.18, §2.19, §2.20; ShimuraCompactifications §4.1, §4.3, §4.10, §6.16, §6.17, §7.16; SmoothRepresentationsOfLocalGroups §SR.4.5; gap:gsp4-singular-balance; gap:partial-hasse-regularity.
+AlgebraicModularFormsAndSerreWeightsPartII §7.5; AlgebraicModuliForArithmeticGeometry §7.5; AutomorphicBundles §11.16, §12.11; AutomorphicBundlesPartII §5.1, §5.2; AutomorphicFormsOnReductiveGroups §6.5, §6.6; DeformationAndDerivedPatchingAlgebra §7.3; EndoscopicTransferAndUnitaryTraceComparison §11.1; HigherHidaAndColemanTheory §2.3, §9.4, §9.5, §9.8; HodgeTateAndCanonicalSubgroups §0.14, §0.15, §0.16; IntegralHeckeAndGaloisDeterminants §3a.2; PadicFamilies §0a.22; PELModuli §M5.1; SchemeAndStackFoundations §2.18, §2.19, §2.20; ShimuraCompactifications §4.1, §4.3, §4.10, §6.16, §6.17, §7.16; SmoothRepresentationsOfLocalGroups §SR.4.5; gap:gsp4-singular-balance; gap:partial-hasse-regularity.
 
 ## Layer 4: Hilbert coefficient geometry and special-fibre correspondences
 
@@ -639,7 +633,7 @@ The basic properties are:
 
 ### 4.2 Universal coefficients
 
-Write `T_I = T_fin × T₀` with `T₀` pro-p of rank `|I| + 2|Iᶜ|` and `Λ_I = ℤ_p[[T₀]]`. Define the universal sheaf as the `T_I`-diagonal invariants of `π_*O_Igusa ⊗̂ Λ_I` twisted by `⊗_v det(ω_v)²`. Its specialization at a classical κ evaluates `x_v^{k_v−2}` and, for `v ∈ Iᶜ`, `y_v^{l_v−2}`; classical weights in the component have `l_v = 2` for `v ∈ I` and `k_v ≡ l_v ≡ 2 mod p−1`. The highest-weight map `ω^κ → Ω^{κ_I}` is a projection. For descent from `G₁` to G modify the action of the positive units by `d(x) = [√x₀]`; square roots exist on the pro-p part because `p > 2`; when `p ∤ |Δ|` take the deck invariants as a direct factor (BCGP21 §§4.3–4.4, pp. 95–99; Proposition 4.4.3, p. 99).
+Write `𝒯_I = 𝒯_fin × 𝒯₀` for the Igusa group of §4.1, with `𝒯_fin` finite and `𝒯₀` pro-p of rank `|I| + 2|Iᶜ|`, and `Λ_I = ℤ_p[[𝒯₀]]`. Define the universal sheaf as the `𝒯_I`-diagonal invariants of `π_*O_Igusa ⊗̂ Λ_I` twisted by `⊗_v det(ω_v)²`. Its specialization at a classical κ evaluates `x_v^{k_v−2}` and, for `v ∈ Iᶜ`, `y_v^{l_v−2}`; classical weights in the component have `l_v = 2` for `v ∈ I` and `k_v ≡ l_v ≡ 2 mod p−1`. The highest-weight map `ω^κ → Ω^{κ_I}` is a projection. For descent from `G₁` to G modify the action of the positive units by `d(x) = [√x₀]`; square roots exist on the pro-p part because `p > 2`; when `p ∤ |Δ|` take the deck invariants as a direct factor (BCGP21 §§4.3–4.4, pp. 95–99; Proposition 4.4.3, p. 99).
 
 *Needs:* §4.1; gap:hilbert-siegel-partial-igusa; PadicMeasuresIwasawaAlgebras §1.7.
 
@@ -721,7 +715,7 @@ A proof route (P20 §14.9, pp. 102–104): at Klingen level twist the coefficien
 
 ### 4.7 Partial Frobenius on the rank-one divisor
 
-For the divisor geometry of §§4.7–4.10 and its application in Layer 6, write `X₁` for special fibres, `Y₁^I` for the interior of the mixed multiplicative-flag special fibre and, for `w ∈ I`, `D_w = Y₁^{I,=w1}` for its non-ordinary rank-one divisor. In these sections `ω_v` denotes the determinant Hodge line at v, `ω = ⊗_{v|p} ω_v`, and `ω² = ⊗_v det(ω_v)²` is the scalar-weight-two coefficient of §4.2. The partial Hasse invariant `Ha_w` is a section of `ω_w^{p−1}` cutting out `D_w`. The correspondences are normalized integrally before restriction to characteristic p.
+For the divisor geometry of §§4.7–4.10 and its application in Layer 6, write `X₁` for special fibres, `X₁^I` for the mixed-level special fibre of §4.1 (Klingen level on I and Iwahori level on `Iᶜ`, with `H_v` multiplicative for `v ∈ I` and the flag ordinary for `v ∈ Iᶜ`; the space written `X_{G₁,1,mix}^I` in §5.2), `X₁^{I,=w2} ⊂ X₁^I` for its w-ordinary open, `Y₁^I` and `Y₁^{I,=w2}` for their interiors and, for `w ∈ I`, `D_w = Y₁^{I,=w1}` for the non-ordinary rank-one divisor of `Y₁^I` (BCGP21 §5.2, p. 119). The spherical special fibre `X_{G₁,1}^I` of §4.5 is not a carrier of these operators: over its w-ordinary locus the map from `X₁^I` has `p + 1` geometric points in each fibre, one for each multiplicative line `H_w`. In these sections `ω_v` denotes the determinant Hodge line at v, `ω = ⊗_{v|p} ω_v`, and `ω² = ⊗_v det(ω_v)²` is the scalar-weight-two coefficient of §4.2. The partial Hasse invariant `Ha_w` is a section of `ω_w^{p−1}` cutting out `D_w`. The correspondences are normalized integrally before restriction to characteristic p.
 
 Define `F_w : Y₁^I → Y₁^I` as the quotient by `ker(Frob)` of `G_w` at w and by `A[v]` at `v ≠ w`, with polarization descended from `(p²/x_w)λ` and tame marking `p^{−1}πη` for the quotient isogeny π. Prove that `F_w` is finite flat of degree `p³` on `Y₁^I` and of degree `p²` on `D_w`, and `F_w^*ω_w ≅ ω_w^p` (BCGP21 Definition 5.6.2 and Proposition 5.6.3, p. 126). Nothing is asserted on the toroidal boundary.
 
@@ -737,8 +731,8 @@ The basic properties are:
 **Checks.**
 
 - The descended polarization is again principal at p: the kernel `ker(Frob) × ∏_{v≠w} A[v]` of the quotient isogeny has order `p² · p^{4(d−1)} = p^{4d−2}`, and, λ being principal at p, the p-part of the kernel of `(p²/x_w)λ` is `A[w] × ∏_{v≠w} A[v²]`, of order `p⁴ · p^{8(d−1)} = p^{8d−4}`, the square of `p^{4d−2}`. For `F = ℚ` (`x_w = p`) the factor is p, and `pλ` has degree `p⁴ = (p²)²`; the factor `p² x_w = p³` would give degree `p¹²` and a descended polarization of degree `p¹²/p⁴ = p⁸`.
-- The degree on the divisor is `p²`, not the ambient `p³`.
-- The tame marking includes the transport `p^{−1}π`; it is not the identity on markings.
+- Degrees: for `F = ℚ` the quotient by the Frobenius kernel is `A ↦ A^{(p)}`, so `F_w` is the absolute Frobenius of the smooth threefold `Y₁^I`, and of the smooth surface `D_w`, followed by the automorphism through which `p^{−1}` acts on tame markings; its degrees are 27 and 9 at `p = 3`. With 9, `F_w²` on `D_w` has degree `81 = p⁴`, the degree of `p₁` that it identifies with in §4.9; carrying the ambient degree 27 to `D_w` would give 729.
+- The tame marking: for full tame level 5 at `p = 3`, `p^{−1}` acts on 5-torsion as `3^{−1} ≡ 2 mod 5`, so the transported marking is `2πη`; the marking `πη`, which omits `p^{−1}`, differs from it by the scalar 2, which the level does not contain.
 
 ### 4.8 Kodaira–Spencer scaling and the first boundary trace
 
@@ -789,14 +783,17 @@ The basic properties are:
 
 ### 4.10 The quadratic relation
 
-Prove: on the scalar-weight-two ordinary locus `U_Iw Z = U_{w,2}` (BCGP21 Lemma 5.8.1, p. 133); with `U_Kli = U_Iw + Z` (§4.4 at `l_w = 2`) and commutation this gives `U_Iw² − U_Kli U_Iw + U_{w,2} = 0` and the analogous relation for Z. The operators on the three domains involved are linked by restriction maps, not identified as endomorphisms of one space.
+Prove: in scalar weight two, on sections over the w-ordinary open `X₁^{I,=w2}` (§4.7), `U_Iw Z = Z U_Iw = U_{w,2}` (BCGP21 Lemma 5.8.1, p. 133, from Lemma 4.5.17, p. 105, which gives the first order), so that `U_Iw`, Z and `U_{w,2}` commute pairwise there; and `U_Kli` commutes with `U_{w,2}` on `H⁰(X₁^I, ω²(−D))` and on sections over `X₁^{I,=w2}` (BCGP21 Lemma 4.5.15, p. 104, as used in the proof of Lemma 5.8.2, p. 133). With `U_Kli = U_Iw + Z` (§4.4 at `l_w = 2`) this gives `U_Iw² − U_Kli U_Iw + U_{w,2} = 0` and `Z² − U_Kli Z + U_{w,2} = 0`. The operators on the three domains involved are linked by restriction maps, not identified as endomorphisms of one space.
 
-*Needs:* §4.4; §4.9; SmoothRepresentationsOfLocalGroups §SR.1.4.
+A proof route for the commutations: as in the proof of BCGP21 Lemma 4.5.15, embed the Hasse–Cousin terms into sections over the interior, where the correspondences are finite flat. There a kernel N of the `U_{w,2}` correspondence at an ordinary point is a Lagrangian of `G_w[p²]` with `N ∩ H_w = 0` and `N[p]` of order `p³`; its multiplicative part is a line other than `H_w` and its étale part has order `p³`. Such an N has exactly one subgroup that is a kernel of Z with quotient a kernel of `U_Iw`, namely the sum of its multiplicative part and `pN`, and exactly one subgroup that is a kernel of `U_Iw` with quotient a kernel of Z, namely the étale part of `N[p]`; so both composites are the `U_{w,2}` correspondence, with the normalizations of Lemma 4.5.17.
+
+*Needs:* §4.3; §4.4; §4.9; SmoothRepresentationsOfLocalGroups §SR.1.4.
 
 **Checks.**
 
 - Substituting `Z = U_Kli − U_Iw` into `U_Iw Z = U_{w,2}` gives `U_Iw U_Kli − U_Iw² = U_{w,2}`, the quadratic with positive constant term.
-- On an eigenvector with `U_Iw = α` and `U_{w,2} = αβ` the relation gives `U_Kli = α + β`.
+- On an eigenvector with `U_Iw = α ≠ 0` and `U_{w,2} = αβ` the relation gives `U_Kli = α + β`.
+- The order matters without the commutation: for `U_Iw = diag(1, 2)` and `U_{w,2} = [[1, 1], [0, 1]]`, which do not commute, the two candidates `U_Iw^{−1}U_{w,2} = [[1, 1], [0, 1/2]]` and `U_{w,2}U_Iw^{−1} = [[1, 1/2], [0, 1/2]]` for Z differ in the entry `(1, 2)`, 1 against 1/2.
 - With `α = 2`, `β = 3`: `4 − 5·2 + 6 = 0`.
 
 ### Examples
@@ -895,7 +892,7 @@ A proof route: compare at one witness weight large at all places; show the produ
 
 The parameters. An admissible tuple `(n, ε, w) = (n_v, ε_v, w_v)_{v|p}` consists of integers `n_v ≥ 1` and rationals `0 < w_v ≤ ε_v ≤ n_v − 1/(p−1)` at every place v above p; the radii are strictly positive, the closed intervals starting at 0 printed in BCGP21 §§6.1.4–6.1.7 being read as open at 0 (Source issues). The level at v is `p^{n_v}`. The parameter ε cuts out a Hodge–Tate neighbourhood of the multiplicative locus: `X_{K(I,p^n)}(ε)` is the quotient by `∏_{v∈Iᶜ}B(ℤ/p^{n_v}) ∏_{v∈I}Kli(ℤ/p^{n_v})` of the open of the normalized formal model of full level `p^n` on which the Hodge–Tate image of `e_{v,1}` lies in `p^{ε_v}ω^mod_{G_v}` modulo `p^{n_v−1/(p−1)}` at every v, and that of `e_{v,2}` as well at `v ∈ Iᶜ`; here `p^{1/(p−1)}ω ⊂ ω^mod ⊂ ω` is the modified lattice of gap:hilbert-siegel-frame-torsor. The parameter w is the radius of analyticity: `FL_{n,ε,w} → X_{K(p^n)}(ε)` parametrizes rank-one direct summands of `ω^mod_{G_v}` congruent to the canonical one modulo `p^{w_v}` (BCGP21 §§6.1.4–6.1.7, pp. 141–142). Larger parameters give smaller neighbourhoods and smaller discs.
 
-The coefficients. Let A be a normal admissible `O_{ℂ_p}`-algebra and `κ_A : ∏_{v∈I} ℤ_p^× × ∏_{v∈Iᶜ} (ℤ_p^×)² → A^×` a character (`O_{F_v} = ℤ_p` because p splits completely). For rationals `0 < u_v ≤ w_v`, κ_A is u-analytic if it extends to a pairing `T_u × Spf A → 𝔾_m`, where `T_u(R) = ∏_{v∈I} ℤ_p^×(1 + p^{u_v}R) × ∏_{v∈Iᶜ} (ℤ_p^×(1 + p^{u_v}R))²` (BCGP21 §§6.1.7 and 6.1.9, pp. 142–143). For a u-analytic κ_A, take the invariants `L^{κ_A} = ((π₁)_*O ⊗̂ A)^{T⁰_u}`, for the diagonal action, on the frame torsor `FL⁺_{n,ε,w,u} → FL_{n,ε,w}` of bases congruent modulo `p^{u_v}` to the Hodge–Tate images of `e_{v,4}` (and of `e_{v,3}` at `v ∈ Iᶜ`); push forward to `X_{K(p^n)}(ε)`, take invariants under the group `T_{n,u}` and pass to the generic fibre over `Spa(A[1/p], A)`. The result is the Banach sheaf `F^{κ_A,w}` on `X_{K(I,p^n)}(ε)` (BCGP21 §6.1.9, p. 143; §6.3.3, pp. 147–148). It does not depend on u: for `u ≤ u′ ≤ w` the torsor for u is induced from the one for `u′` along `T⁰_{u′} ⊂ T⁰_u`, and κ_A is defined on `T_u`, so restriction of equivariant functions is an isomorphism. The admissible tuples for κ_A are therefore those for which κ_A is w-analytic. On a quasi-compact open of the weight space of `ℤ_p[[T_I]]` (`T_I` as in §4.2), after base change to `ℂ_p` and the choice of a normal admissible model A, the universal character is u-analytic as soon as every `u_v` is large enough (AIP15 Proposition 2.2.2, p. 7, stated for a product of copies of `ℤ_p^×`), hence on the admissible tuples of large level.
+The coefficients. Let A be a normal admissible `O_{ℂ_p}`-algebra and `κ_A : ∏_{v∈I} ℤ_p^× × ∏_{v∈Iᶜ} (ℤ_p^×)² → A^×` a character (`O_{F_v} = ℤ_p` because p splits completely). For rationals `0 < u_v ≤ w_v`, κ_A is u-analytic if it extends to a pairing `T_u × Spf A → 𝔾_m`, where `T_u(R) = ∏_{v∈I} ℤ_p^×(1 + p^{u_v}R) × ∏_{v∈Iᶜ} (ℤ_p^×(1 + p^{u_v}R))²` (BCGP21 §§6.1.7 and 6.1.9, pp. 142–143). For a u-analytic κ_A, take the invariants `L^{κ_A} = ((π₁)_*O ⊗̂ A)^{T⁰_u}`, for the diagonal action, on the frame torsor `FL⁺_{n,ε,w,u} → FL_{n,ε,w}` of bases congruent modulo `p^{u_v}` to the Hodge–Tate images of `e_{v,4}` (and of `e_{v,3}` at `v ∈ Iᶜ`); push forward to `X_{K(p^n)}(ε)`, take invariants under the group `T_{n,u}` and pass to the generic fibre over `Spa(A[1/p], A)`. The result is the Banach sheaf `F^{κ_A,w}` on `X_{K(I,p^n)}(ε)` (BCGP21 §6.1.9, p. 143; §6.3.3, pp. 147–148). It does not depend on u: for `u ≤ u′ ≤ w` the torsor for u is induced from the one for `u′` along `T⁰_{u′} ⊂ T⁰_u`, and κ_A is defined on `T_u`, so restriction of equivariant functions is an isomorphism. The admissible tuples for κ_A are therefore those for which κ_A is w-analytic. On a quasi-compact open of the weight space of `ℤ_p[[𝒯_I]]` (`𝒯_I` as in §4.2), after base change to `ℂ_p` and the choice of a normal admissible model A, the universal character is u-analytic as soon as every `u_v` is large enough (AIP15 Proposition 2.2.2, p. 7, stated for a product of copies of `ℤ_p^×`), hence on the admissible tuples of large level.
 
 The analytic complex. Put `C_cusp(n, ε, w, κ_A) = RΓ(X_{K(I,p^n)}(ε), F^{κ_A,w} ⊗ det(ω_G)²(−D))`, with the determinant square and the transported ideal of D (written `C_cusp(n, ε, w, κ_A ⊗ (2,2))` in BCGP21 §6.3.4, p. 148); for a classical weight κ the input character is `κ_A = κ − (2, 2)`. If `(n, ε, w)` and `(n′, ε′, w′)` are admissible with `n′_v ≥ n_v`, `ε′_v ≥ ε_v` and `w′_v ≥ w_v` at every v, the forgetful map `X_{K(I,p^{n′})}(ε′) → X_{K(I,p^n)}(ε)` and restriction of w-analytic to w′-analytic sections give a map `C_cusp(n, ε, w, κ_A) → C_cusp(n′, ε′, w′, κ_A)`. These maps compose, the admissible tuples form a directed set under this order, and `H^†_{κ_A}` is the filtered colimit of the complexes `C_cusp(n, ε, w, κ_A)` over it, so that `H^i(H^†_{κ_A}) = colim H^i(C_cusp(n, ε, w, κ_A))` (BCGP21 §6.3.4, p. 148). For a classical κ write `H^†_κ` for the case `A = O_{ℂ_p}`, `κ_A = κ − (2, 2)`.
 
@@ -919,7 +916,7 @@ The basic properties are:
 - At scalar weight `(2, 2)` the analytic character `κ_A` is trivial.
 - The modified lattice need not equal ω integrally; it contains `p^{1/(p−1)}ω`.
 - The parameter bound: at `p = 3` and `n_v = 1` the bound `n_v − 1/(p−1)` is `1/2`; `(ε_v, w_v, u_v) = (1/4, 1/8, 1/16)` is admissible for the trivial character, which is u-analytic for every u, while `ε_v = 3/4` is excluded because `3/4 > 1/2`. A definition letting ε run up to `n_v` would admit it.
-- Analyticity: at `p = 3` a character χ of `ℤ₃^×` of order 3, at one coordinate and trivial at the others, is u-analytic exactly when `u_v > 1`. For `u_v > 1` the subgroup `ℤ₃^× ∩ (1 + 3^{u_v}O_{ℂ_p}) = 1 + 9ℤ₃` lies in its kernel and χ extends by constancy on cosets; for `u_v ≤ 1` an analytic extension equals 1 on the infinite set `1 + 9ℤ₃`, hence on the connected disc `1 + 3^{u_v}O_{ℂ_p}`, which contains 4, while `χ(4) ≠ 1` since 4 generates `1 + 3ℤ₃`. No admissible tuple with `n_v = 1` (where `u_v ≤ w_v ≤ 1/2`) carries χ; `(n_v, ε_v, w_v, u_v) = (2, 3/2, 3/2, 3/2)` does, since `3/2 ≤ 2 − 1/2`.
+- Analyticity: at `p = 3` a character χ of `ℤ₃^×` of order 3, at one coordinate and trivial at the others, is u-analytic exactly when `u_v > 1`. For `u_v > 1` the subgroup `ℤ₃^× ∩ (1 + 3^{u_v}O_{ℂ_p})` is contained in `1 + 9ℤ₃` (it is `1 + 27ℤ₃` at `u_v = 3`), which lies in its kernel and χ extends by constancy on cosets; for `u_v ≤ 1` an analytic extension equals 1 on the infinite set `1 + 9ℤ₃`, hence on the connected disc `1 + 3^{u_v}O_{ℂ_p}`, which contains 4, while `χ(4) ≠ 1` since 4 generates `1 + 3ℤ₃`. No admissible tuple with `n_v = 1` (where `u_v ≤ w_v ≤ 1/2`) carries χ; `(n_v, ε_v, w_v, u_v) = (2, 3/2, 3/2, 3/2)` does, since `3/2 ≤ 2 − 1/2`.
 - The direction of the transitions: at `p = 3` the tuples `(n, ε, w) = (1, 1/4, 1/8)` and `(2, 1/2, 1/4)` are admissible (`1/2 ≤ 3/2`), the first precedes the second, and there is a map `C_cusp(1, 1/4, 1/8, κ_A) → C_cusp(2, 1/2, 1/4, κ_A)`. No map goes the other way: in a flag coordinate z, the function `(1 − 3^{−1/8}z)^{−1}` is analytic on the disc `|z| ≤ |3|^{1/4}` but has a pole at `z = 3^{1/8}`, which lies in the disc `|z| ≤ |3|^{1/8}`.
 - The radii are positive: at `u_v = 0` the set `1 + p⁰R = 1 + R` contains 0, so `T_u` is not a group and there is no torsor and no u-analytic character; for `u_v > 0` the set `1 + p^{u_v}R` is a group, the inverse of `1 + p^{u_v}x` being the geometric series. At `p = 3` the tuple `(n_v, ε_v, w_v, u_v) = (1, 1/4, 1/8, 1/16)` is admissible and `(1, 0, 0, 0)` is not.
 - Classical against analytic coefficients: at `F = ℚ`, `I = {p}` and weight `(2, 2)`, `G^†_κ` has the line-bundle coefficient `det(ω)²(−D)` (at weight `(4, 2)` its coefficient `Sym²ω ⊗ det(ω)²(−D)` has rank 3, so a line bundle occurs only in scalar weight), while `H^†_κ` has the analytic sheaf of the trivial character twisted by `det(ω_G)²(−D)`, whose fibres are infinite-dimensional. A statement about `G^†_κ` is not one about `H^†_κ`; §5.8 records the slopes at which `β_κ` identifies them.
@@ -940,7 +937,7 @@ For a rational `ε > 0` let `n(ε)` be the level of gap:mixed-cube-cover above w
 
 ### 5.6 Compact mixed U action
 
-Prove: `U_{v,2}` improves analytic radii for `v ∈ I`; for `v ∈ Iᶜ` the composite `U_{v,1}U_{v,2}`, not `U_{v,2}` alone, improves radii, its kernels having type `(p, p², p³)` against `(p, p, p²)` for the second operator at I; the raw trace factors are `p^{−6}` and `p^{−3}`; hence `U^I` is compact on a projective Banach complex and its finite nonzero slope blocks are perfect over A (BCGP21 §6.3, pp. 147–152, especially Lemma 6.3.14, p. 152).
+Prove: `U_{v,2}` improves analytic radii for `v ∈ I`; for `v ∈ Iᶜ` the composite `U_{v,1}U_{v,2}`, not `U_{v,2}` alone, improves radii, its kernels having type `(p, p², p³)` against `(p, p, p²)` for the second operator at I; the raw trace factors are `p^{−6}` and `p^{−3}`; hence `U^I` is compact on the complex of projective Banach `A[1/p]`-modules of §5.4, and its finite nonzero slope blocks, which exist locally on `Spa(A[1/p], A)`, are perfect over the affinoid algebras there (BCGP21 §6.1.1, p. 139, and §6.3, pp. 147–152, especially Lemma 6.3.14, p. 152; HigherHidaAndColemanTheory §6.3). No integral lattice of a slope block over A is asserted.
 
 *Needs:* §5.5; §4.3; HigherHidaAndColemanTheory §6.3; LocallyAnalyticDistributions §4.16; gap:hilbert-siegel-frame-torsor.
 
@@ -949,6 +946,7 @@ Prove: `U_{v,2}` improves analytic radii for `v ∈ I`; for `v ∈ Iᶜ` the com
 - At an Iwahori place, `U_{v,2}` alone does not improve the radius in the direction moved by `U_{v,1}`; replacing the composite by it fails the kernel-type check.
 - The trace factor of `U_{v,1}U_{v,2}` is `p^{−3}·p^{−3} = p^{−6}`.
 - A finite slope block of a compact operator on a Banach complex over a field is finite-dimensional.
+- The blocks are rational: for `A = O_{ℂ_p}` the block `ℂ_p[0]` with `U^I = 1` is perfect over `A[1/p] = ℂ_p`, but `ℂ_p` is not a finitely generated `O_{ℂ_p}`-module (the elements `p^{−n}` have unbounded denominators), so it is not perfect over A.
 
 ### 5.7 The relative BGG comparison
 
@@ -993,7 +991,7 @@ Let `W_cl` be the set of classical weights κ with `l_v = 2` on I and `k_v ≡ l
 
 A proof route. For (1), finite perfect block base change for the analytic complexes and derived control for `M_I`. For (2), both sides of r are computed from the two-affinoid cover of the image of `X^mult` in the minimal compactification (§5.5, with the relative vanishing of AutomorphicBundlesPartII §5.2); injectivity on `H⁰` is restriction of sections, and on `H¹` the dagger classes are dense, `U^I` is continuous and the ordinary part of the target is finite-dimensional, so the ordinary image is everything. The inequalities are dimension counts: `β_κ` is an isomorphism on `H⁰` and injective on `H¹` (§5.7), r is injective on `H⁰` and surjective on `H¹`, and both complexes have amplitude `[0, 1]` (§5.5, §5.4). For (3), by (1) and (2) it suffices to prove `χ^geo(κ) ≥ χ^M(κ)` and `χ^an(κ) = χ^geo(κ)` at witness weights with `k_v − l_v ≥ C` at every v and `l_v ≥ C` on `Iᶜ`, since every κ in `W_cl` is a p-adic limit of such weights (add to `k_v` and `l_v` multiples of `(p − 1)p^N` with N large, keeping `l_v = 2` on I and making every gap and, on `Iᶜ`, every `l_v` large); here C is at least 4, at least the constant of §5.3 and larger than the constant `R_gap` of AutomorphicBundlesPartII §8.8. At a witness weight `χ^an = χ^geo` by (2). Slope 0 lies in the range of §5.8 (`0 < k_v − 1` at `v ∈ I`, `0 < l_v − 3` on `Iᶜ`), so `res^†_κ` identifies `e(U^I)G^†_κ` with `e(U^I)RΓ(X_{K_p(I)K^p}, ω^κ(−D))`. Pullback followed by `e(U^I)` is a quasi-isomorphism from `e(T_I′)RΓ(X_{G₁,K^pG₁(ℤ_p)}, ω^κ(−D))_m` (`T_I′` of §5.2) to `e(U^I)RΓ(X_{K_p(I)K^p}, ω^κ(−D))_m`: in degrees 0 and 1 both sides are the multiplicity-counted cuspidal sums of AutomorphicBundlesPartII §8.8 at these weights; every local component `π_v` at `v | p` contributing to either ordinary part is ordinary, at `v ∈ Iᶜ` because both local operators enter the projectors, at `v ∈ I` by the Katz–Mazur integrality of §4.6, the unit eigenvalue `α_vβ_v` alone not sufficing; and for ordinary `π_v` the two ordinary parts of invariants are one-dimensional (BCGP21 Propositions 2.4.24 and 2.4.26, pp. 26–27; at `v ∈ I` this is the isolated spherical Klingen refinement of HigherHidaAndColemanTheory §9.5, the chosen pair product of parameters having valuation `2 − k_v` against `1, 1, k_v` for the other three once `α_v` and `β_v` are units). Finally §5.3 gives an isomorphism on `H⁰` and an injection on `H¹` from the spherical ordinary complex to `M_I ⊗^L ℂ_p`, so `χ^geo ≥ χ^M`. With (2) this is an equality at the witness weights, hence `χ^an = χ^M` on `W_cl` by (1), and the inequalities of (2) give `χ^geo`.
 
-*Needs:* §5.4; §5.5; §5.6; §5.7; §5.8; §4.6; §5.2; §5.3; AutomorphicBundlesPartII §5.2, §8.8; HigherHidaAndColemanTheory §6.3, §9.5.
+*Needs:* §5.4; §5.5; §5.6; §5.7; §5.8; §4.6; §5.2; §5.3; AutomorphicBundlesPartII §5.2, §8.8; HigherHidaAndColemanTheory §6.3, §9.5; PadicFamilies §2a.15, §2a.16.
 
 **Checks.**
 
@@ -1024,7 +1022,7 @@ For F real quadratic with p split, `S_p = {v₁, v₂}` and `I = {v₁}`, `Λ_I`
 
 ### Dependencies
 
-AdicSpacesPartIII §R2.10, §R3.7; AutomorphicBundles §12.1; AutomorphicBundlesPartII §5.1, §5.2, §8.8; DeformationAndDerivedPatchingAlgebra §7.1, §7.3; HigherHidaAndColemanTheory §2.3, §6.1, §6.2, §6.3, §6.6, §9.4, §9.5, §9.7, §9.8; HodgeTateAndCanonicalSubgroups §0.6, §0.8, §0.14, §0.16, §5.5, §5.8; LocallyAnalyticDistributions §4.16; Mathlib `Polynomial.aeval`; PadicFamilies §0a.25; ShimuraCompactifications §4.3, §7.16; gap:hilbert-siegel-models; gap:hilbert-siegel-partial-igusa; gap:partial-hasse-regularity; gap:hilbert-siegel-frame-torsor; gap:mixed-cube-cover; Layers 1, 4.
+AdicSpacesPartIII §R2.10, §R3.7; AutomorphicBundles §12.1; AutomorphicBundlesPartII §5.1, §5.2, §8.8; DeformationAndDerivedPatchingAlgebra §7.1, §7.3; HigherHidaAndColemanTheory §2.3, §6.1, §6.2, §6.3, §6.6, §9.4, §9.5, §9.7, §9.8; HodgeTateAndCanonicalSubgroups §0.6, §0.8, §0.14, §0.16, §5.5, §5.8; LocallyAnalyticDistributions §4.16; Mathlib `Polynomial.aeval`; PadicFamilies §0a.25, §2a.15, §2a.16; ShimuraCompactifications §4.3, §7.16; gap:hilbert-siegel-models; gap:hilbert-siegel-partial-igusa; gap:partial-hasse-regularity; gap:hilbert-siegel-frame-torsor; gap:mixed-cube-cover; Layers 1, 4.
 
 ## Layer 6: Hilbert weight-two doubling
 
@@ -1052,7 +1050,7 @@ The basic properties are:
 
 ### 6.1a Hasse commutation and low-weight vanishing
 
-Fix `w ∈ I`. On `X = X_{G₁,1}^I`, let `D̄_w` be the non-ordinary rank-one Cartier divisor cut out by `Ha_w`; its interior is `D_w` of §4.7. For every integral weight κ as in Layer 4, including negative `l_w`, construct the integral correspondences of §4.4 with their stated normalizations (BCGP21 Lemmas 5.3.2 and 5.4.1, pp. 120–121). Write `κ + (p−1)e_w` for the weight obtained by adding `p−1` to both `k_w` and `l_w`, that is, tensoring by `ω_w^{p−1}`. On the w-ordinary special fibre prove `Z_{κ+(p−1)e_w}Ha_w = Ha_w Z_κ` and `U_{Iw,κ+(p−1)e_w}Ha_w = Ha_w U_{Iw,κ}` as cohomological correspondences (BCGP21 Proposition 5.4.2, p. 121).
+Fix `w ∈ I`. On `X = X₁^I` (§4.7), let `D̄_w` be the non-ordinary rank-one Cartier divisor cut out by `Ha_w`; its interior is `D_w` of §4.7. For every integral weight κ as in Layer 4, including negative `l_w`, construct the integral correspondences of §4.4 with their stated normalizations (BCGP21 Lemmas 5.3.2 and 5.4.1, pp. 120–121). Write `κ + (p−1)e_w` for the weight obtained by adding `p−1` to both `k_w` and `l_w`, that is, tensoring by `ω_w^{p−1}`. On the w-ordinary special fibre prove `Z_{κ+(p−1)e_w}Ha_w = Ha_w Z_κ` and `U_{Iw,κ+(p−1)e_w}Ha_w = Ha_w U_{Iw,κ}` as cohomological correspondences (BCGP21 Proposition 5.4.2, p. 121).
 
 For `l_w ≤ 0`, prove that the reduced Klingen correspondence factors as `(v₁)_*v₂^*ω^κ → ω^κ(−D̄_w) → ω^κ`, where `v₁, v₂` are its first and second projections. Consequently, over a field of characteristic p, a global section `g ∈ H⁰(X, ω^κ)` satisfying `Z_κg = βg` on the w-ordinary open with `β ≠ 0` is zero; the same holds for `H⁰(X, ω^κ(−D))` (BCGP21 Proposition 5.4.3 and Corollary 5.4.5, pp. 121–122).
 
@@ -1068,7 +1066,7 @@ A proof route: for the divisor factorization, the square of the differential of 
 
 ### 6.2 No everywhere-regular simultaneous eigenvector
 
-Prove: in scalar weight two, a form `f ∈ H⁰(X_{G₁,1}^I, ω²(−D))` with `U_Kli f = (α + β)f`, `U_Iw f = αf`, `U_{w,2} f = αβ f` and `αβ ≠ 0` is zero (BCGP21 Theorem 5.8.4, p. 134; Proposition 5.4.3 and Corollary 5.4.5, pp. 121–122).
+Prove: in scalar weight two, a form `f ∈ H⁰(X₁^I, ω²(−D))` with `U_Kli f = (α + β)f`, `U_Iw f = αf`, `U_{w,2} f = αβ f` and `αβ ≠ 0` is zero (BCGP21 Theorem 5.8.4, p. 134; Proposition 5.4.3 and Corollary 5.4.5, pp. 121–122).
 
 A proof route: if f restricts to zero on `D_w`, write `f = Ha_w g` with g a section of `ω²(−D) ⊗ ω_w^{1−p}`; then §6.1a gives `Zg = βg` and forces `g = 0`, since its w-weight is `3−p ≤ 0`. Otherwise §§4.8–4.9 give `(U_{w,2}f)|_{D_w} = γ₂(γ₁(f|_{D_w})) = γ₂((Ha_w U_Iw f)|_{D_w}) = α γ₂((Ha_w f)|_{D_w}) = 0`, since `Ha_w` vanishes on `D_w`, whereas `(U_{w,2}f)|_{D_w} = αβ f|_{D_w} ≠ 0`, a contradiction.
 
@@ -1082,30 +1080,31 @@ A proof route: if f restricts to zero on `D_w`, write `f = Ha_w g` with g a sect
 
 ### 6.3 The weight-two doubling injection
 
-Prove: the map `Δ(f, g) = f + Zg` from `e(U_{w,2})H⁰(X_{G₁,1}^I, ω²(−D))^{⊕2}` to `e(U_Iw U_{w,2})H⁰(X^{I,=w2}_1, ω²(−D))` is injective and intertwines `C_{U_Kli, U_{w,2}}` with `U_Iw` (BCGP21 Theorem 5.8.6, p. 135).
+Prove: the map `Δ(f, g) = f + Zg` from `e(U_{w,2})H⁰(X₁^I, ω²(−D))^{⊕2}` to `e(U_Iw U_{w,2})H⁰(X₁^{I,=w2}, ω²(−D))` (§4.7) is injective and intertwines `C_{U_Kli, U_{w,2}}` with `U_Iw` (BCGP21 Theorem 5.8.6, p. 135).
 
-A proof route: `U_{w,2}` is invertible on its ordinary part, so by §6.1 the companion operator C is invertible on the source, and Δ carries it to `U_Iw`; hence `ker Δ` is stable under C and under `U_{w,2}` (acting diagonally), which commute and act on it locally finitely and invertibly. Were `ker Δ` nonzero, after extending scalars it would contain a line on which `U_{w,2}` is a scalar u and C a scalar ξ, both nonzero. For a generator `(f, g)` the second coordinate of `C(f, g) = ξ(f, g)` reads `f = −ξg`, the first then reads `U_Kli f = (ξ + u/ξ)f`, and `Δ(f, g) = 0` reads `Zf = ξf`, so `U_Iw f = (u/ξ)f` on the w-ordinary open by §4.4. With `β = ξ` and `α = u/ξ` these are the eigen-equations that §6.2 excludes, so `f = 0` and then `g = 0`.
+A proof route: `U_{w,2}` is invertible on its ordinary part, so by §6.1 the companion operator C is invertible on the source, and Δ carries it to `U_Iw`; hence `ker Δ` is stable under C and under `U_{w,2}` (acting diagonally), which commute and act on it locally finitely and invertibly, by the commutations of §4.10 (`U_Kli` with `U_{w,2}` for C, Z with `U_{w,2}` for Δ). Were `ker Δ` nonzero, after extending scalars it would contain a line on which `U_{w,2}` is a scalar u and C a scalar ξ, both nonzero. For a generator `(f, g)` the second coordinate of `C(f, g) = ξ(f, g)` reads `f = −ξg`, the first then reads `U_Kli f = (ξ + u/ξ)f`, and `Δ(f, g) = 0` reads `Zf = ξf`, so `U_Iw f = (u/ξ)f` on the w-ordinary open by §4.4. With `β = ξ` and `α = u/ξ` these are the eigen-equations that §6.2 excludes, so `f = 0` and then `g = 0`.
 
-*Needs:* §4.4; §6.1; §6.2.
+*Needs:* §4.4; §4.10; §6.1; §6.2.
 
 **Checks.**
 
 - Equivariance: `U_Iw(f + Zg) = U_Iw f + U_{w,2} g = (U_Kli − Z)f + U_{w,2}g`, which is `Δ(C(f, g)) = (U_Kli f + U_{w,2}g) + Z(−f)`.
+- The carrier is the mixed-level `X₁^I`: at `F = ℚ`, `I = {p}`, `p = 3`, an ordinary point of the spherical `X_{G₁,1}^I` has four multiplicative lines `H_p ⊂ G[3]^m ≅ μ₃²`, each giving a point of `X₁^I`, and `U_Iw`, Z and Δ depend on that choice; on spherical sections they are not defined.
 - The source is global sections and the target sections over the w-ordinary open; on one common module the map has a kernel.
 - A generalized-eigenspace kernel is reduced to a genuine eigenvector after extending the coefficients.
 
 ### 6.4 Two unit-root refinements
 
-Let M be a nonzero finite-dimensional subspace of `e(U_{w,2})H⁰(X_{G₁,1}^I, ω²(−D)) ⊗ 𝔽̄_p` stable under `U_Kli` and `U_{w,2}`, on which `U_Kli − (α + β)` and `U_{w,2} − αβ` are nilpotent for distinct `α, β ∈ 𝔽̄_p^×`. Prove: the algebra E generated by the two operators is local Artinian and contains lifts `α̃, β̃` with `(C − α̃)(C − β̃) = 0` on `M ⊕ M`; the maps `ι_ξ(f) = (f, −ξ̃^{−1}f)` for `ξ ∈ {α, β}` give `M ⊕ M ≅ M ⊕ M`, and the composite with Δ is `(f₁, f₂) ↦ (1 − β̃U_Iw^{−1})f₁ + (1 − α̃U_Iw^{−1})f₂`, so each component is injective into the `(U_Iw − ξ̃)`-part (BCGP21 Remark 5.8.7, p. 135).
+Let `α ≠ β` in `𝔽̄_p^×` and let M be a nonzero finite-dimensional subspace of `e(U_{w,2})H⁰(X₁^I, ω²(−D)) ⊗ 𝔽̄_p`, stable under `U_Kli` and `U_{w,2}`, on which `U_Kli − (α + β)` and `U_{w,2} − αβ` are nilpotent; let `E ⊂ End(M)` be the algebra generated by the two operators, commutative by §4.10, acting diagonally on `M ⊕ M`. Prove: (a) E is local Artinian, and by Hensel's lemma, the reduction `(X − α)(X − β)` having distinct roots, the quadratic `X² − U_Kli X + U_{w,2}` factors in `E[X]` as `(X − α̃)(X − β̃)` with `α̃ ≡ α` and `β̃ ≡ β` modulo the maximal ideal, so that `(C − α̃)(C − β̃) = 0` on `M ⊕ M` by §6.1; (b) for `ξ ∈ {α, β}` the kernel of `C − ξ̃` is the graph `{(f, −ξ̃^{−1}f) : f ∈ M}`, and `M ⊕ M` is the direct sum of the two graphs; (c) on the graph of ξ, with ξ′ the other root, the doubling map of §6.3 is `f ↦ f − U_Iw^{−1}(ξ̃′f)`, injective by §6.3, with image killed by `U_Iw − ξ̃` (BCGP21 Remark 5.8.7, p. 135).
 
-*Needs:* §6.3; §6.1; Mathlib `Polynomial.aeval`, `Module.End.genEigenspace`.
+*Needs:* §6.3; §6.1; §4.10; Mathlib `Polynomial.aeval`, `Module.End.genEigenspace`.
 
 **Checks.**
 
-- `T = 5`, `U = 6`: the roots are 2 and 3, and `ι_2` has doubling image `(1 − 3U_Iw^{−1})f`: the formula uses the opposite root, since `α^{−1}Z = α^{−1}αβ U_Iw^{−1} = βU_Iw^{−1}`.
+- `T = 5`, `U = 6`: the roots are 2 and 3, and on the graph of 2 the doubling map is `f ↦ f − U_Iw^{−1}(3f)`: it uses the opposite root, since `2^{−1}Z = 2^{−1}·6·U_Iw^{−1} = 3U_Iw^{−1}`.
 - Integral projectors need `α − β` to be a unit, not only nonzero; this is why the residual roots are assumed distinct.
 - On a length-two Jordan block for `U_Kli` the nilpotent part is kept; no semisimplicity is assumed.
-- `M = 0` is excluded: there E is the zero ring, which is not local, a local ring being nonzero by definition; the maps out of `0` would be injective trivially. The smallest admitted case: M one-dimensional over `𝔽̄₃` with `α = 1`, `β = 2`, so `U_Kli = α + β = 0` and `U_{w,2} = 2`; then `E = 𝔽̄₃` is local with maximal ideal 0, and `C(x, y) = (2y, −x)` satisfies `C² = 1`, that is `(C − 1)(C − 2) = C² + 2 = 0`.
+- `M = 0` is excluded: there E is the zero ring, which is not local, a local ring being nonzero by definition; (b) and (c) would hold trivially. The smallest admitted case: M one-dimensional over `𝔽̄₃` with `α = 1`, `β = 2`, so `U_Kli = α + β = 0` and `U_{w,2} = 2`; then `E = 𝔽̄₃` is local with maximal ideal 0, and `C(x, y) = (2y, −x)` satisfies `C² = 1`, that is `(C − 1)(C − 2) = C² + 2 = 0`.
 
 ### Examples
 
@@ -1123,7 +1122,7 @@ Standing hypotheses of Layers 7–8. `(G, X)` is a Shimura datum of Hodge type w
 
 Let Q ⊇ B be a standard parabolic of `G_E` with Levi `M_Q ⊇ T` and Lie algebras `𝔮 ⊇ 𝔪_Q`, and `O(𝔤, 𝔮)` the parabolic BGG category of LocallyAnalyticRepresentationsOfLocalGroups §4.2 for the parabolic 𝔮. For `λ ∈ X^*(M_Q)_E`, a character of `M_Q` with coefficients in E, viewed in `X^*(T)_E` by restriction and as a character of `𝔮` through `Q → M_Q → M_Q^ab`, let `O(𝔤, 𝔮)_{λ-alg}` be the full subcategory of `O(𝔤, 𝔮)` of modules all of whose `𝔥`-weights ν satisfy `ν − λ ∈ X^*(T)` (BCGP25 §3.4.1 and Definition 3.4.5, p. 53); write `O(𝔤,𝔟)_{λ-alg}` for `Q = B`, where `M_B = T` and λ ranges over all of `X^*(T)_E`. The condition `λ ∈ X^*(M_Q)_E` is what makes `E(λ)` a one-dimensional `𝔮`-module: a character of `𝔮` vanishes on `[𝔮, 𝔮] ⊇ [𝔪_Q, 𝔪_Q]`. Let `𝒰(𝔤) = lim_r U(𝔤)_r` be the Arens–Michael envelope of LocallyAnalyticDistributionsPartII §2.5 (written `Û(𝔤)` in BCGP25 §2.2.29), a Fréchet–Stein algebra with stages `U(𝔤)_r` and equal to the inverse limit of the distribution algebras of the congruence subgroups `G_r`; for a finitely generated `U(𝔤)`-module M write `M̂ = 𝒰(𝔤) ⊗_{U(𝔤)} M`, its coadmissible completion (same section). Prove: `O(𝔤,𝔮)_{λ-alg}` is abelian and for V in it the `𝔮`-action on the twist `V(−λ) = V ⊗ E(−λ)` integrates to Q (BCGP25 Lemma 3.4.6, pp. 53–54); `M ↦ M̂` is an equivalence of `O(𝔤, 𝔟)` with its completed counterpart `Ô`, the coadmissible `𝒰(𝔤)`-modules on which `𝒰(𝔥)` acts diagonalizably with finite-dimensional weight spaces and weights in finitely many sets `ν + ℕ[Φ⁻]`, a quasi-inverse being the direct sum of the weight spaces (BCGP25 Definition 2.2.38 and Theorem 2.2.39, p. 25, after Schmidt); and `M ↦ M̂^∨`, the continuous dual of `M̂`, is an exact contravariant functor from `O(𝔤, 𝔟)` to the integrable LB representations of 𝔤 of LocallyAnalyticRepresentationsOfLocalGroups §3.10, whose Banach stages `(D(G_r) ⊗_{U(𝔤)} M)^∨` carry compatible actions of the `G_r` (BCGP25 Definition 3.4.2 and Proposition 3.4.3, p. 53).
 
-*Needs:* LocallyAnalyticDistributionsPartII §1.4, §2.5; LocallyAnalyticRepresentationsOfLocalGroups §3.10, §4.2; LieHighestWeight Layer 3; Tau Ceti `TauCeti.VermaModule`; LocallyAnalyticDistributions §0.0, §0.3; CompletedCohomologyPartII §F.4.
+*Needs:* LocallyAnalyticDistributionsPartII §1.4, §2.5; LocallyAnalyticRepresentationsOfLocalGroups §3.10, §4.2; Mathlib `UniversalEnvelopingAlgebra`; Tau Ceti `TauCeti.VermaModule`; LocallyAnalyticDistributions §0.0, §0.3; CompletedCohomologyPartII §F.4.
 
 The basic properties are:
 
@@ -1143,7 +1142,7 @@ The basic properties are:
 
 Fix `w ∈ ^M W`, a standard parabolic `Q ⊇ B` with Levi `M_Q ⊇ T` (not to be confused with the Shimura Levi M; `M_Q = M` only for `Q = P`), and `λ ∈ X^*(M_Q)_E`, a character of `M_Q` with coefficients in E, inflated to Q through `Q → M_Q → M_Q^ab` and restricted to T (BCGP25 §3.4.7, p. 54); for `Q = B` this is any `λ ∈ X^*(T)_E`. Let `Q_{M_w}` be the image of `P_w ∩ Q` in `M_w`, a parabolic subgroup of `M_w` containing `B_{M_w}` with Lie algebra `𝔮_{M_w}` (BCGP25 Lemma 3.4.8, p. 54), and `C_{w,Q} = P\PwQ` with its germ `C_{w,Q}^†`. Define the higher Coleman sheaf functor `HCS_{Q,w,λ} : O(𝔪_w, 𝔮_{M_w})_{λ-alg} → LB_{(𝔤,Q)}(C_{w,Q}^†)^{𝔲⁰_P}`, contravariant, with values in (𝔤,Q)-equivariant LB-sheaves on `C_{w,Q}^†` killed by the horizontal nilradical `𝔲⁰_P`, as the composite of three functors: `V ↦ V̂^∨(λ)`, the continuous dual of the completion of §7.1 for `𝔪_w`, with the action of `𝔮_{M_w}` twisted by λ so that it integrates to `Q_{M_w}` (BCGP25 Proposition 3.4.13, p. 55); the fully faithful embedding of these admissible `𝒰(𝔪_w)`-modules into LB-representations of the stabilizer `Stab_Q(w)` on which `(U_{P_w})_e` acts trivially and `(M_Q^ab)_e` acts through λ (BCGP25 Proposition 3.4.12, p. 55); and the equivalence between such representations and `LB_{(𝔤,Q)}(C_{w,Q}^†)^{𝔲⁰_P}` whose inverse is the fibre at w (BCGP25 Propositions 3.3.11 and 3.3.14, p. 52). (BCGP25 Definition 3.4.17, p. 56.) Write `HCS_{w,λ} = HCS_{B,w,λ}`, defined on `O(𝔪_w, 𝔟_{M_w})_{λ-alg}` for every `λ ∈ X^*(T)_E`. Prove that `HCS_{Q,w,λ}` is exact; that `HCS_{Q,w,λ}(V) ⊗ E(µ) = HCS_{Q,w,λ+µ}(V)` for `µ ∈ X^*(M_Q)`, the Q-action being twisted by µ through `M_Q^ab` (BCGP25 Remarks 3.3.15 and 3.4.15, pp. 52 and 56); that `HCS_{w,λ}(M) ⊗ E(µ) = HCS_{w,λ+µ}(M)` for `µ ∈ X^*(T)`, the categories `O(𝔪_w,𝔟_{M_w})_{λ-alg}` and `O(𝔪_w,𝔟_{M_w})_{(λ+µ)-alg}` being equal (BCGP25 Remark 3.4.15 and Proposition 3.4.18, p. 56); and that `HCS_{w,λ}(z) = Θ_hor(ι(wz))` for `z ∈ Z(𝔪_w)`, where `wz ∈ Z(𝔪)` is the conjugate, ι is induced by inversion on M and `Θ_hor` is the horizontal action of `Z(𝔪)` (BCGP25 Proposition 3.4.19, p. 56).
 
-*Needs:* §7.1; LocallyAnalyticDistributionsPartII §2.5; LocallyAnalyticRepresentationsOfLocalGroups §3.10, §4.2; LocallyAnalyticDistributions §0.0, §0.3; LieHighestWeight Layer 3.
+*Needs:* §7.1; LocallyAnalyticDistributionsPartII §2.5; LocallyAnalyticRepresentationsOfLocalGroups §3.10, §4.2; LocallyAnalyticDistributions §0.0, §0.3; Mathlib `UniversalEnvelopingAlgebra`.
 
 The basic properties are:
 
@@ -1192,16 +1191,38 @@ The basic properties are:
 - Shifted coefficients reverse their degree: for a nonzero object V and the complex `V[1]`, which by the Conventions has `H^{−1} = V`, the sheaf complex `VB_red(HCS_{w,λ}(V[1])) = VB⁰(HCS_{w,λ}(V))[−1]` has its only nonzero cohomology sheaf in degree 1, equal to `VB⁰(HCS_{w,λ}(H^{−1}(V[1])))`; the unreversed formula `VB⁰(HCS_{w,λ}(H¹(V[1]))) = 0` would make it vanish. Only `HCS_{w,λ}` reverses arrows: `VB⁰` keeps the direction of the dual map `(E²)^∨ → E^∨`, `(a, b) ↦ a`, of the first-factor inclusion `E → E²`, `x ↦ (x, 0)` (the dual of the diagonal would be `(a, b) ↦ a + b`), and a second reversal by `VB⁰` would move the class back to degree −1. For `V[−1]` the nonzero degree is −1, and the zero complex gives zero on both readings. For the modular curve at `w = 1`, `HC_{cusp,1,λ}(V[1])` has cohomology only in degree 1, the bound `[−b, ℓ(w) − a] = [1, 1]` at `a = b = −1`, not `[0, 0]`.
 - The reversal is the grading the spectral sequences of §§7.5–7.6 need: for the modular curve (`P = B`), `𝔤 = 𝔤𝔩₂` with e spanning `𝔲_{P_1} = 𝔲_B` and f spanning `𝔲_{P_s}`, and the Verma module `M = M(𝔤)_λ = U(𝔤) ⊗_{U(𝔟)} λ` with basis `v_k = f^k v₀`, the operator e acts by `e v_k = k(⟨λ, α^∨⟩ − k + 1) v_{k−1}`, so when `⟨λ, α^∨⟩ ∉ ℤ_{≥0}` it is surjective with kernel `Ev₀`. At `w = 1` the complex `E ⊗^L_{U(𝔲_{P_1})} M` is `N[1]` with `N = 𝔲_{P_1} ⊗ Ev₀` one-dimensional, so the term `E₁^{0,q}` of §7.5 is `H^q(HC_{1,λ}(N)[−1]) = H^{q−1}(HC_{1,λ}(N))`, the index `2p + q − d` of §7.6 at `p = 0`, `d = 1`; the unreversed formula would give `H^{q+1}(HC_{1,λ}(N))`. At `w = s` the module is free over `U(𝔲_{P_s}) = E[f]` and the coefficient `M/fM = Ev₀` sits in degree 0, where the two readings agree.
 
+### 7.1c The sheaves `D̃^la` and `C^la` on the flag variety
+
+Let `O_{G,e}` be the LB-space of germs at the identity of analytic functions on G. On `O_{G,e} ⊗ O_FL` let G act by `(h ∗₁ f)(g, x) = f(h^{−1}g, x)`, `(h ∗₂ f)(g, x) = f(gh, x)` and `(h ∗₃ f)(g, x) = f(g, xh)`, three commuting actions, write `∗_{1,3}` and `∗_{1,2,3}` for their composites and use the same symbols for the derived actions of 𝔤. Let `𝔲⁰_P ⊂ O_FL ⊗ 𝔤` be the horizontal nilradical, whose fibre at x is the nilradical of the stabilizer of x. Define the sheaf of universal locally analytic twisted differential operators `D̃^la = (O_FL ⊗ 𝒰(𝔤))/𝔲⁰_P(O_FL ⊗ 𝒰(𝔤))`, with `𝒰(𝔤)` as in §7.1, and `C^la = (O_{G,e} ⊗ O_FL)^{𝔲⁰_P}`, the invariants for `∗_{1,3}`: the germs `f(g, x)` with `f(ug, x) = f(g, x)` for u near the identity in the unipotent radical of the stabilizer of x (BCGP25 Definitions 3.2.38 and 3.2.41, p. 48). Prove: with the 𝔤-action `∗_{1,3}` and the G-action `∗_{1,2,3}`, `C^la` is a (𝔤,G)-equivariant LB-sheaf on FL killed by `𝔲⁰_P`; the 𝔤-action `∗₂` commutes with these structures; `∗_{1,3}` together with multiplication by `O_FL` makes `C^la` a `D̃^la`-module; its fibre at the base point is the space `O_{U_P\G,e}` of germs at the identity of analytic functions on `U_P\G`, with P acting by conjugation and 𝔤 by right translation; for `z ∈ Z(𝔤)`, `∗₂(ιz) = Θ_hor(HC(z))`, where ι is induced by inversion on G, `HC : Z(𝔤) → Z(𝔪)` is the Harish-Chandra map characterized by `z ⊗ 1 = 1 ⊗ HC(z)` in `U(𝔤) ⊗_{U(𝔭)} U(𝔪)` and `Θ_hor` is the horizontal action of `Z(𝔪)` (BCGP25 (2.3.11), p. 27; the paragraph after Definition 3.2.41 and Lemma 3.2.43, p. 49); and `VB⁰(C^la) = O^la`, the derived locally analytic vectors `O^{Rla}` being concentrated in degree 0 (BCGP25 Theorem 4.5.20(4) and its proof, pp. 79–80; Remark 4.5.21, p. 80).
+
+A proof route: check the structures on the fibre at the base point, through the equivalence between (𝔤,G)-equivariant LB-sheaves on FL and (𝔤,P)-representations (BCGP25 Propositions 3.2.31 and 3.2.34, pp. 47–48). There `∗₁` and `∗₂` induce actions of `Z(𝔤)` related by ι, and `z − HC(z) ∈ U(𝔤)𝔲_P` acts by zero on the `𝔲_P`-invariants. For `VB⁰`: the `𝔲_P`-cohomology of `O_{G,e}` is `O_{U_P\G,e}` in degree 0 (BCGP25 Lemma 2.3.4, p. 26), so the `𝔲⁰_P`-cohomology of `O_{G,e} ⊗ O_FL` is `C^la` in degree 0, and the Chevalley–Eilenberg compatibility and the value `VB(O_{G,e} ⊗ O_FL) = O^{Rla}` of gap:solid-vb-sen give `VB⁰(C^la) = H⁰(O^{Rla})` with the higher cohomology zero.
+
+*Needs:* §7.1; gap:solid-vb-sen; LocallyAnalyticDistributionsPartII §2.5; LocallyAnalyticDistributions §0.0, §0.3; LocallyAnalyticRepresentationsOfLocalGroups §3.10, §4.1; CompletedCohomologyPartII §F.4.
+
+The basic properties are:
+
+- `D̃^la` is the quotient of `O_FL ⊗ 𝒰(𝔤)` by the ideal generated by `𝔲⁰_P`.
+- `C^la` is a (𝔤,G)-equivariant LB-sheaf on FL killed by `𝔲⁰_P`, with a commuting second action `∗₂` of 𝔤 and a `D̃^la`-module structure.
+- The fibre of `C^la` at the base point is `O_{U_P\G,e}`.
+- `∗₂(ιz) = Θ_hor(HC(z))` for `z ∈ Z(𝔤)`.
+- `VB⁰(C^la) = O^la`.
+
+**Checks.**
+
+- For G trivial, FL is a point and `C^la = D̃^la = E`, with every Lie action zero.
+- For `G = P = 𝔾_m`, FL is a point and `𝔲⁰_P = 0`, so `C^la` is the infinite-dimensional space `O_{𝔾_m,1}` of germs at 1 and `D̃^la = 𝒰(Lie 𝔾_m)`; a definition giving the constant sheaf E would keep only the constants.
+- Signs, for `G = P = 𝔾_m` with coordinate t and X the generator of `Lie 𝔾_m` with `exp(sX) = e^s`: on the germ t, `X ∗₁ t = −t` (from `f(e^{−s}t)`) and `X ∗₂ t = t` (from `f(te^s)`); `ιX = −X`, so `∗₂(ιX)t = −t`. The horizontal action is `dρ_P − ρ_𝔤` (BCGP25 before Proposition 3.2.34, pp. 47–48), with P acting by conjugation, trivially here, and 𝔤 by right translation, and `HC(X) = X`, so `Θ_hor(HC(X))t = −t`: the two sides agree. Dropping ι, or putting `∗₁` in place of `∗₂`, gives `+t` on the left.
+
 ### 7.2 Analytic localization on the flag variety
 
-Define the localization functor `Loc : D⁻(U(𝔤)) → D(D̃^la)`, `Loc(M) = RHom_{𝔤,∗₂}(M, C^la)`, with values in the derived category of solid modules over the sheaf `D̃^la` of locally analytic differential operators on FL, where `C^la` is the (𝔤,G)-equivariant sheaf of BCGP25 §3.2.37 with its second 𝔤-action `∗₂` (BCGP25 §3.5.1, p. 56). Loc is contravariant and triangulated, and `Loc(M)` is a complex, not a sheaf. For finitely generated M it is computed by the continuous dual of the completion: `Loc(M) = RHom_{𝔤,∗₂}(E, M̂^∨ ⊗ C^la)`, represented by the Chevalley–Eilenberg complex of LB-sheaves `C^la ⊗ M̂^∨ ⊗ Λ^i𝔤^∨` in degrees `[0, dim 𝔤]` (BCGP25 Lemma 3.5.2, p. 57; complex (3.5.6), p. 58). For `M ∈ O(𝔤,𝔟)_{λ-alg}` the twist `M(−λ)` carries the B-action of §7.1, and the complex computing `Loc(M(−λ))` is a complex of (𝔤,B)-equivariant LB-sheaves (BCGP25 §3.5.8, p. 58); no G-action on M is assumed. Prove:
+Define the localization functor `Loc : D⁻(U(𝔤)) → D(D̃^la)`, `Loc(M) = RHom_{𝔤,∗₂}(M, C^la)`, with values in the derived category of solid modules over the sheaf `D̃^la` of universal locally analytic twisted differential operators on FL, where `D̃^la` and `C^la`, with its second 𝔤-action `∗₂`, are those of §7.1c (BCGP25 §3.5.1, p. 56). Loc is contravariant and triangulated, and `Loc(M)` is a complex, not a sheaf. For finitely generated M it is computed by the continuous dual of the completion: `Loc(M) = RHom_{𝔤,∗₂}(E, M̂^∨ ⊗ C^la)`, represented by the Chevalley–Eilenberg complex of LB-sheaves `C^la ⊗ M̂^∨ ⊗ Λ^i𝔤^∨` in degrees `[0, dim 𝔤]` (BCGP25 Lemma 3.5.2, p. 57; complex (3.5.6), p. 58). For `M ∈ O(𝔤,𝔟)_{λ-alg}` the twist `M(−λ)` carries the B-action of §7.1, and the complex computing `Loc(M(−λ))` is a complex of (𝔤,B)-equivariant LB-sheaves (BCGP25 §3.5.8, p. 58); no G-action on M is assumed. Prove:
 
 1. If M has infinitesimal character λ, that is `Z(𝔤)` acts on M through the Harish-Chandra character of λ (λ taken up to the dotted Weyl action), then the horizontal action of `Z(𝔪)` on `Loc(M)` factors through the finite E-algebra `Z(𝔪) ⊗_{Z(𝔤)} (−w₀λ)`, whose characters form the set `{−w_{0,M}(w·λ + 2ρ_M) : w ∈ ^M W}`, and `Loc(M)` is the direct sum of the direct factors `Loc(M)_χ` cut out by the idempotents of this algebra, one for each distinct character χ of that set (BCGP25 Corollary 3.5.4 and Remark 3.5.5, p. 57). At singular λ distinct w can give the same χ and the algebra is not reduced, so `Loc(M)_χ` is a generalized eigen-factor on which `Z(𝔪)` need not act semisimply.
 2. If λ is non-Liouville and `M ∈ O(𝔤,𝔟)_{λ-alg}`, the cohomology sheaves of `Loc(M(−λ))` restricted to each Bruhat germ are higher Coleman sheaves (§7.1a) of Lie algebra homology: `H^i(Loc(M(−λ)))|_{C_w^†} = HCS_{w,λ}(H_i(𝔲_{P_w}, M))`, where `H_i(𝔲_{P_w}, M) = H^{−i}(E ⊗^L_{U(𝔲_{P_w})} M)` with its `𝔪_w`-action is an object of `O(𝔪_w, 𝔟_{M_w})_{λ-alg}` (BCGP25 §2.3.1, p. 25; Theorem 2.3.13, p. 27; Theorem 3.5.11, p. 58). The identification passes through the duality `Ĥ_i(𝔲_{P_w}, M)^∨ = H^i(𝔲_{P_w}, M̂^∨)` between the homology of M and the cohomology of its completed dual (BCGP25 Corollary 2.3.33, p. 30); the Lie algebra cohomology of M itself, computed in the Checks of §7.1, is not the coefficient.
 
 Statement (1) uses the infinitesimal character, not membership in `O(𝔤,𝔟)_{λ-alg}`; the functor and statement (2) are for every object of that category.
 
-*Needs:* §7.1; §7.1a; LocallyAnalyticRepresentationsOfLocalGroups §4.1, §4.6; HigherHidaAndColemanTheory §5.1; PerfectoidShimuraVarieties §6.3; LieHighestWeight Layer 3.
+*Needs:* §7.1; §7.1a; §7.1c; LocallyAnalyticRepresentationsOfLocalGroups §4.1, §4.6; HigherHidaAndColemanTheory §5.1; PerfectoidShimuraVarieties §6.3; Mathlib `UniversalEnvelopingAlgebra`.
 
 The basic properties are:
 
@@ -1243,9 +1264,9 @@ The basic properties are:
 
 Prove: for `M ∈ O(𝔤,𝔟)_{λ-alg}`, `CC_λ(M) ⊗ ℂ_p ≅ RΓ(Sh^tor_{K^p}, VB_red(Loc(M)))` and the cuspidal analogue with the ideal of the boundary; the horizontal action of the centre of `𝔪` on `Loc(M)` induces the arithmetic Sen operator (BCGP25 Theorem 4.7.1, p. 99; Theorem 4.5.20, p. 79; Theorem 4.5.23, p. 81).
 
-Here `VB_red` is applied to the complex `Loc(M)` of §7.2, not to a sheaf. A proof route: the Chevalley–Eilenberg resolution computes `RHom_𝔤(M, O^la)` as the complex `M^∨ ⊗ O^la ⊗ Λ^i 𝔤^∨`; apply `VB⁰` termwise to the Chevalley–Eilenberg complex `C^la ⊗ M̂^∨ ⊗ Λ^i𝔤^∨` representing `Loc(M)`, using `VB⁰(C^la) = O^la` and that `VB_red` is computed termwise on LB-sheaves killed by `𝔲⁰_P` (gap:solid-vb-sen), and compare the two complexes; the Sen statement is the comparison of horizontal and arithmetic actions.
+Here `VB_red` is applied to the complex `Loc(M)` of §7.2, not to a sheaf. A proof route: the Chevalley–Eilenberg resolution computes `RHom_𝔤(M, O^la)` as the complex `M^∨ ⊗ O^la ⊗ Λ^i 𝔤^∨`; apply `VB⁰` termwise to the Chevalley–Eilenberg complex `C^la ⊗ M̂^∨ ⊗ Λ^i𝔤^∨` representing `Loc(M)`, using `VB⁰(C^la) = O^la` (§7.1c) and that `VB_red` is computed termwise on LB-sheaves killed by `𝔲⁰_P` (gap:solid-vb-sen), and compare the two complexes; the Sen statement is the comparison of horizontal and arithmetic actions.
 
-*Needs:* §7.2; §7.3; gap:solid-vb-sen; PerfectoidShimuraVarieties §3.6, §6.3; HigherHidaAndColemanTheory §5.1.
+*Needs:* §7.1c; §7.2; §7.3; gap:solid-vb-sen; PerfectoidShimuraVarieties §3.6, §6.3; HigherHidaAndColemanTheory §5.1.
 
 **Checks.**
 
@@ -1311,7 +1332,7 @@ At the singular weight `λ = (1, 1; w)`, `w` even, the four pieces have coherent
 
 ### Dependencies
 
-AutomorphicBundles §5.3, §5.4; CompletedCohomologyPartII §2.2, §6.7, §7.1, §7.8, §F.4; HigherHidaAndColemanTheory §1.1, §4.9, §5.1, §5.2, §5.3, §5.4, §5.5, §5.6, §6.2, §8.5, §9.1; IntegralHeckeAndGaloisDeterminants §3a.2; LocallyAnalyticDistributions §0.0, §0.3, §4.16; LocallyAnalyticDistributionsPartII §1.4, §2.5; LocallyAnalyticRepresentationsOfLocalGroups §3.4, §3.5, §3.10, §4.1, §4.2, §4.6; PerfectoidShimuraVarieties §3.6, §6.3; LieHighestWeight Layer 3; Tau Ceti `TauCeti.VermaModule`; gap:solid-vb-sen; gap:infinitesimal-lambda-smooth; gap:solid-positive-monoid.
+AutomorphicBundles §5.3, §5.4; CompletedCohomologyPartII §2.2, §6.7, §7.1, §7.8, §F.4; HigherHidaAndColemanTheory §1.1, §4.9, §5.1, §5.2, §5.3, §5.4, §5.5, §5.6, §6.2, §8.5, §9.1; IntegralHeckeAndGaloisDeterminants §3a.2; LocallyAnalyticDistributions §0.0, §0.3, §4.16; LocallyAnalyticDistributionsPartII §1.4, §2.5; LocallyAnalyticRepresentationsOfLocalGroups §3.4, §3.5, §3.10, §4.1, §4.2, §4.6; PerfectoidShimuraVarieties §3.6, §6.3; Mathlib `UniversalEnvelopingAlgebra`; Tau Ceti `TauCeti.VermaModule`; gap:solid-vb-sen; gap:infinitesimal-lambda-smooth; gap:solid-positive-monoid.
 
 ## Layer 8: The singular Sen operator and classicality
 
@@ -1401,7 +1422,7 @@ A proof route: on `V[m_f] = ρ_f ⊗ W` the arithmetic Sen operator is that of `
 
 **Checks.**
 
-- A non-de Rham ordinary `ρ_f|_{G_{ℚ_p}}` (an extension of the two potentially unramified planes with nonzero nilpotent Sen operator) has `N_a ≠ 0`, and the argument gives nothing.
+- A local negative control, not a global automorphic example: for `U(g) = [[1, log χ_cyc(g)], [0, 1]]`, of Sen operator `[[0, 1], [0, 0]]`, the symplectic representation `U(−1) ⊕ U^∨(−2)` at `w = 0` preserves a Borel and has Sen values −1 and −2, each twice, as in §7.8, with nonzero nilpotent parts `[[0, 1], [0, 0]]` and `−[[0, 0], [1, 0]]`; it is not de Rham, its twisted planes U and `U^∨` not being potentially unramified, and the analogue of `N_a` is nonzero. An extension of two planes that are potentially unramified after the twists is de Rham, with semisimple Sen operator (BCGP25 before Theorem 4.12.4, p. 113), so it cannot serve as such a control.
 - The de Rham hypothesis implies that the Sen operator of `D_Sen(ρ_f|_{G_{ℚ_p}})` is semisimple with eigenvalues `−1 − w/2` and `−2 − w/2` (BCGP25 before Theorem 4.12.4, p. 113).
 - Semisimplicity is applied to the finite-dimensional eigenspace `V[m_f]`, not to the infinite-dimensional completed space.
 
@@ -1477,11 +1498,13 @@ Prove: for algebraic λ with `κ = −w_{0,M}w(λ+ρ) − ρ` only M-dominant, `
 
 ### 9.5 Integral duality
 
-Prove: for `w^* = w_{0,M} w w₀` there is a perfect Λ-bilinear pairing `𝓜_w ⊗_Λ 𝓜_{w^*} → Λ` interpolating Serre duality, with the torus action transposed and the Hecke action adjoint (BCGP25 Theorem 7.3.1(4), p. 164).
+Let τ be the continuous ring involution of Λ with `τ([t]) = [w₀(t^{−1})]` for `t ∈ T(ℤ_p)`, and `τ^*𝓜` the module 𝓜 with λ acting as `τ(λ)`. Prove: for `w^* = w_{0,M} w w₀` there is a perfect Λ-bilinear pairing `𝓜_w ⊗_Λ τ^*𝓜_{w^*} → Λ`, equivalently a pairing P of the inherited modules with `P(λx, y) = λP(x, y)` and `P(x, λy) = τ(λ)P(x, y)`, interpolating Serre duality, with `t ∈ T(ℚ_p)` adjoint to `w₀(t^{−1})` and the Hecke action adjoint (BCGP25 Theorem 7.3.1(4), p. 164; the transport of the second action is that of HigherHidaAndColemanTheory §4.8). At an arithmetic character χ it pairs the fibre of `𝓜_w` at χ with the fibre of `𝓜_{w^*}` at `χ ∘ τ`, whose central character is inverted.
 
 *Needs:* §9.2; HigherHidaAndColemanTheory §4.8.
 
 **Checks.**
+
+- The twist is forced: at `p = 3` the central element `z = 4·1` of `T(ℤ₃)` has `w₀(z^{−1}) = z^{−1}`, so `τ([z]) = [z^{−1}] ≠ [z]`. A pairing bilinear for the inherited structures with z adjoint to `z^{−1}` would satisfy `([z] − [z^{−1}])P = 0`, and `[z] − [z^{−1}] = [z^{−1}]([z²] − 1)` is a non-zero-divisor of Λ, `z² = 16·1` generating an infinite pro-3 subgroup; so `P = 0`, which no perfect pairing of nonzero modules is. At a trivial central character the twist is invisible on the centre.
 
 - Lengths 0 and 3, and lengths 1 and 2, pair: `ℓ(w) + ℓ(w^*) = 3`.
 - The shift `[−3]` of the complex pairing becomes the complementary degrees; no further shift is attached to the modules.
@@ -1501,7 +1524,7 @@ Prove: for normal neat tame levels `K₁^p ⊂ K₂^p` with `Δ = K₂^p/K₁^p`
 
 ### 9.7 Fixed central character
 
-Let `Λ_{GSp₄,ℚ} = O[[(ℤ_p^×(p))²]]` and `ψ(z) = diag(χ₁(z), χ₂(z), z^{−1}χ₂(z)^{−1}, z^{−1}χ₁(z)^{−1})`. Prove: there is a unique algebra map `f : ℤ_p[[T(ℤ_p)]] → Λ_{GSp₄,ℚ}` with `f ∘ χ^un ρν^{−3/2} = ψ`, the half-integral notation being read through the identification `Hom(T(R), S^×) = Hom(R^×, T̂(S))` for split tori (BCGP25 Lemmas 7.3.5–7.3.6, p. 166). Choose a prime `r > 5`, `r ≠ p`, with `r ≢ 1 mod p` when p is odd and `r ≢ 1 mod 4` when `p = 2`, and level `Iw₁(r)` at r. Prove: for compatible tame levels with r-component `Iw₁(r)`, the modules `(𝓜_{w,K₁^p} ⊗ Λ_{GSp₄,ℚ})^{|·|²}` on which the centre acts by `|·|²` are finite projective over `Λ_{GSp₄,ℚ}[Z K₂^p/Z K₁^p]` (BCGP25 Lemma 7.3.8, p. 167, and the choice of r before it; Remark 7.3.7, p. 167).
+Let `Λ_{GSp₄,ℚ} = O[[(ℤ_p^×(p))²]]` and `ψ(z) = diag(χ₁(z), χ₂(z), z^{−1}χ₂(z)^{−1}, z^{−1}χ₁(z)^{−1})`. Prove: there is a unique algebra map `f : ℤ_p[[T(ℤ_p)]] → Λ_{GSp₄,ℚ}` with `f ∘ χ^un ρν^{−3/2} = ψ`, the half-integral notation being read through the identification `Hom(T(R), S^×) = Hom(R^×, T̂(S))` for split tori (BCGP25 Lemmas 7.3.5–7.3.6, p. 166). Choose a prime `r > 5`, `r ≠ p`, with `r ≢ 1 mod p` when p is odd and `r ≢ 1 mod 4` when `p = 2`, and level `Iw₁(r)` at r. The centre acts on `𝓜_{w,K^p}` through `Z(ℚ)\Z(GSp₄(𝔸_f)) = {±1}\∏_ℓ ℤ_ℓ^×`. For a module M with this action write `M^{|·|²}` for the submodule on which `(z_ℓ)_ℓ` acts by `z_p^{−2}`: this algebraic normalization corresponds under classicality to the automorphic central character `|·|²` and is not the norm character, which is trivial on `∏_ℓ ℤ_ℓ^×`. On `𝓜_{w,K^p} ⊗ Λ_{GSp₄,ℚ}` the factor `ℤ_p^×` already acts by `z ↦ z^{−2}`, so `M^{|·|²}` is the submodule of invariants of `∏_{ℓ≠p} ℤ_ℓ^×` there. Write `ZK^p = ∏_{ℓ≠p} Z(ℤ_ℓ)K_ℓ`. Prove: for compatible tame levels with r-component `Iw₁(r)`, the modules `(𝓜_{w,K₁^p} ⊗ Λ_{GSp₄,ℚ})^{|·|²}` are finite projective over `Λ_{GSp₄,ℚ}[ZK₂^p/ZK₁^p]` (BCGP25 §7.3, pp. 166–167, the definition before Remark 7.3.7 and that remark; Lemma 7.3.8, p. 167, and the choice of r before it).
 
 *Needs:* §9.6; §9.5; PadicMeasuresIwasawaAlgebras §1.7.
 
@@ -1510,6 +1533,7 @@ Let `Λ_{GSp₄,ℚ} = O[[(ℤ_p^×(p))²]]` and `ψ(z) = diag(χ₁(z), χ₂(z
 - At `p = 2` take `r = 7`: `r > 5`, `r ≡ 3 mod 4`, and `(𝔽₇^×)/{±1}` has odd order 3, so its invariants are a direct factor.
 - At `p = 3`, `r = 7` fails (`7 ≡ 1 mod 3`), while `r = 11` works and `(𝔽₁₁^×)/{±1}` has order 5, prime to 3.
 - Read literally, the odd-prime condition `r ≢ 1 mod p` at `p = 2` has no solution, since every odd prime is `1 mod 2`; the conditions are by cases.
+- The normalization is not the norm character: at `p = 3` the idele with `z₃ = 4` and every other component 1 acts on `M^{|·|²}` by `4^{−2} = 1/16`, at `p = 2` the one with `z₂ = 3` by `1/9`, both units, while `|·|²` is 1 on them; on a torsion-free module with the source's action at p, the submodule where the norm character acts would be zero, since `(1/16 − 1)m = 0` forces `m = 0`. The sign `−1` acts by `(−1)^{−2} = 1`, so the prescription is defined on the quotient by `{±1}`.
 
 ### Examples
 
