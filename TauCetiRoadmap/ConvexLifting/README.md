@@ -1,0 +1,307 @@
+# Roadmap: exact lifting and matched finite outer approximations
+
+**Summary.** Build a reusable library for exact monotone-composition lifts, their finite mixed-integer formulations, and finite outer approximations that use the same anchors. Auxiliary heights preserve feasible points and feasible attained minima under explicit domain hypotheses, while a shared height vector can strengthen finite linear approximations. Applications include separable convex constraints and disciplined convex modeling.
+
+## Scope and ownership
+
+This roadmap owns the order, finite-formulation and finite-support interfaces below. It consumes Mathlib and has no supplier roadmap. The finite nonlinear-row model is built here; no general solver or optimization-problem framework is assumed.
+
+Algorithm iteration policies, convergence rates, conic duality and solver oracles, universal strict improvement, cut-count asymptotics and runtime gains are outside this roadmap. General multiplier and optimality-condition theories and the separate strictness qualifications for separable functions are also outside it.
+
+## Conventions
+
+For an arbitrary type `X`, a preordered type `Y`, domains `D : Set X`, `E : Set Y`, inner map `g : X → Y`, outer function `h : Y → ℝ` and budget `b : ℝ`, write
+
+    S = {x ∈ D | h(g(x)) ≤ b}
+    L = {(x,y) | x ∈ D, y ∈ E, g(x) ≤ y, h(y) ≤ b}.
+
+Projections are exact set images or existential witnesses. Epigraph pairs are `(x,t)` with `x ∈ D` and `f(x) ≤ t`. Inequalities include the boundary. `MapsTo g D E` preserves the canonical graph point; `MonotoneOn h E` compares two points of `E`.
+
+A feasible minimum is membership together with Mathlib's `IsMinOn`: the latter alone does not assert membership. Objectives on lifts are pulled back from original variables and have no height dependence. Transferring attainment does not assert that every nonempty feasible set attains its infimum.
+
+Finite models have an original continuous block and an original integer block. Added argument variables and heights are continuous, appended to the continuous block, carry zero objective coefficients and have no extra bounds. Nonlinear residuals are bounded above by zero. Mixed feasibility and the continuous relaxation retain the same integer-coordinate bounds. Arbitrary nonnegative weights and zero residual budgets in separable lifting are algebraic generalizations of the unweighted sums of HBO13; affine normalization permits arbitrary weights.
+
+The analytic layer uses real normed spaces and `Fin p → ℝ` with coordinatewise order. Derivatives are continuous linear maps witnessed by `HasFDerivAt`. A comparison uses the same finite anchors and the corresponding inner and outer derivatives throughout, with one common vector of heights. Finite nonempty maxima use `Finset.sup'`; empty supports have a separate statement.
+
+Layer 3 includes inequality heights with monotone outer linear derivatives, and exact height rows on a selected set `J` of coordinates. In the latter comparison, outer derivatives may have either sign on `J`; they must be nonnegative on nonnegative directions vanishing on `J`. TS05 §2, pp. 226–228, retains affine inner coordinates by equalities and needs coordinate monotonicity only in the other coordinates. §3.2 gives the precise finite, scalar-budget adaptation. Layer 2 retains its normalization equalities by exact substitution.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Use `Set.MapsTo`, `MonotoneOn`, images and preimages for graph and projection maps.
+- Use `IsMinOn`, `isMinOn_iff` and `IsMinOn.comp_of_mapsTo` from `Mathlib/Order/Filter/Extr.lean`. Retain feasibility separately, without a replacement minimizer predicate or generic transport wrapper.
+- Use `ConvexOn`, `ConvexOn.convex_epigraph`, `convexOn_iff_convex_epigraph` and affine pullbacks from `Mathlib/Analysis/Convex/Function.lean`.
+- Use `HasFDerivAt`, continuous-linear-map composition and `HasFDerivAt.comp` from `Mathlib/Analysis/Calculus/FDeriv/Comp.lean`. `ConvexOn.le_slope_of_hasDerivAt` from `Mathlib/Analysis/Convex/Deriv.lean` is a scalar-variable secant lemma. Build the general normed-space tangent-support bridge specified in §3.1 by restriction to an affine line; the scalar lemma alone is not that bridge.
+- Use `Finset.sup'`, `Finset.sup'_le_iff`, `Finset.le_sup'` and `Finset.exists_mem_eq_sup'` from `Mathlib/Data/Finset/Lattice/Fold.lean`, together with finite sums. Finite maximum attainment is existing infrastructure.
+
+## How to read the build
+
+Layer 1 establishes exact order lifting. Layer 2 builds its finite data and coordinate API before the concrete adapters. Layer 3 uses Layer 1's set conventions and convex calculus. Layer 4 uses finite maxima and sums, then identifies its rows with the sum-outer-function instance of Layer 3. No earlier layer assumes a later construction.
+
+## Layer 1: exact composition lifts
+
+### 1.1 Sets and exact projection
+
+Build `originalSet` and `liftedSet` with the conventions above. Prove `projection_eq` under `MapsTo g D E` and `MonotoneOn h E`:
+
+    Prod.fst '' L = S.
+
+This is the order form of the monotone-outer epigraph argument in LYBV16, arXiv:1511.06710v3 §4, p. 9; TS05 §2, Proposition 1, pp. 226–227, gives the convex composition setting. Convexity, differentiability and compactness are unnecessary for this order identity.
+
+**API.**
+
+- Simplify membership in `originalSet` and `liftedSet`; retain both domains.
+- Given `x ∈ S`, insert `(x,g(x)) ∈ L`; given a point of `L`, project into `S` using monotonicity.
+- Derive the pointwise existential criterion and empty/nonempty equivalence from these two maps.
+- For each real `t`, specialize the projection identity to the epigraph criterion: `x ∈ D ∧ h(g(x)) ≤ t` iff `∃ y ∈ E, g(x) ≤ y ∧ h(y) ≤ t ∧ x ∈ D`. Use existing convex-epigraph APIs for convexity applications.
+
+*Needs:* native sets, preorder, `MapsTo` and `MonotoneOn`.
+
+### 1.2 Feasible minima and attainment
+
+Prove `feasible_minimum_iff` at every specified pair: a feasible minimum of `f ∘ Prod.fst` on `L` is equivalent to membership in `L` and a feasible minimum of `f` at the projected point in `S`. Prove `attainment_iff` for existence of such a feasible minimum in both directions. These are objective-preserving consequences of §1.1, rather than additional optimization assumptions on the source epigraph identity.
+
+**API.**
+
+- Transport comparison inequalities through graph insertion and projection using `IsMinOn.comp_of_mapsTo`.
+- Retain membership at the specified point in every feasible-minimum statement.
+- Transfer lower bounds and feasible objective-value witnesses through the same maps.
+
+*Needs:* §1.1 and native `IsMinOn` transport.
+
+### Examples
+
+**Checks for `originalSet`, `liftedSet` and feasible minima.**
+
+- For `g(x)=|x|`, `h(y)=y`, `D=E=ℝ`, budget zero, the original set is `{0}` and `(0,0)` belongs to the lift; differentiability is unnecessary.
+- For `g(x)=x²`, decreasing `h(y)=1−y`, budget zero, `(0,1)` lies in the lift although `0` is not originally feasible. This checks the monotonicity requirement.
+- On `D=[−1,1]`, `g(x)=x²`, `h(y)=y`, budget one, minimizing `−x` attains `−1` in both models. Adding `y≤1/4` changes the attained minimum to `−1/2`, so graph membership matters.
+- With `D=∅`, both sets are empty and neither has a feasible minimum. With `D=(0,1)`, `g=0`, `h=0`, budget zero and objective `x`, both feasible problems have infimum zero and no attained minimum.
+
+### Dependencies
+
+Mathlib supplies this layer's order and minimization vocabulary. No supplier roadmap or convex-calculus result is required.
+
+## Layer 2: finite model formulations
+
+### 2.1 Data and coordinate API
+
+Build `Point n m`, `FiniteModel n m l r`, `FiniteModel.objective`, `FiniteModel.feasibleOn` and `FiniteModel.relaxationOn` as in the suggested interfaces. The data consists of nonlinear residuals `g`, affine row coefficients `A,B`, right sides `rhs`, objective coefficients `c1,c2`, and finite real bounds `lo,hi` for the integer block. This finite packaging implements the formulation in HBO13 pp. 1–2, retaining its original linear constraints, bounds and integer coordinates.
+
+Build `project`, `height` and graph insertion for a continuous block enlarged from `n` to `n+q`. Define `affineArgument` by the actual expression
+
+    u_j(x,z) = Σ_i a_ji x_i + Σ_i b_ji z_i + o_j.
+
+**API.**
+
+- For `Point` and `FiniteModel`, give coordinate/field evaluation and the nonlinear, affine and bounded-integer membership descriptions. Both coordinate blocks are ambient real vectors; integrality is a feasible-set condition.
+- For `objective`, prove its two finite-sum evaluation and zero-extension pullback identities.
+- For `feasibleOn` and `relaxationOn`, retain the chosen domain and rows and prove mixed feasibility is contained in the relaxation.
+- For `project` and `height`, prove evaluation, graph-insertion and reconstruction identities. Establish the corresponding affine-row identities.
+- For `affineArgument`, prove its sum/offset evaluation and actual derivative transport when each univariate component derivative is supplied at that argument. An aggregate derivative does not supply every component derivative.
+
+**Checks.**
+
+- For `project`, `height` and `Point`, take `n=q=1`, `m=0` and continuous coordinates `(3,7)`. Projection returns `(3)`, height returns `(7)`, and insertion reconstructs `(3,7)`. The empty integer block stays empty.
+- For `affineArgument`, coefficients `a=b=(1)` and offset `2` at `(x,z)=(−1,0)` give `1`. Omitting the offset gives `−1`. For `objective`, coefficients `c1=(2)`, `c2=(−3)` at the same point give `−2`.
+- In the mixed model of this layer’s examples, `(0,1/2)` lies in `relaxationOn` because `(0+1/2)²=1/4≤1` and the bounds hold; it fails `feasibleOn` because `1/2` is not integral. Its relaxed objective is `1/2`. With `m=0`, the two feasibility sets coincide.
+
+*Needs:* finite sums, finite index embeddings, integer coercions and Layer 1's objective transport method.
+
+### 2.2 Affine-argument normalization
+
+Under `d.g i x = Σ_j weight i j * phi j (u_j(x))`, build `FiniteModel.normalizedLift`. Append one continuous coordinate per argument; retain the original affine rows and add two opposite affine inequalities imposing each argument equality. Evaluate the nonlinear sums at the new argument coordinates. Keep the original integer bounds and objective, with zero coefficients on the added block. This follows HBO13 §3 opening, p. 4, which normalizes affine arguments by additional equality variables.
+
+**API.**
+
+- Characterize the added affine rows by `height z j = u_j(project z)` and retain every original row.
+- Establish the objective pullback and canonical insertion of the actual affine argument values.
+- Prove `FiniteModel.normalization_projection`, `FiniteModel.normalization_relaxation_projection` and `FiniteModel.normalization_minimum_iff` for mixed feasibility, continuous relaxation and feasible minima respectively. No positivity, convexity or smoothness is required for exact substitution.
+
+**Checks.**
+
+- For `normalizedLift` with `u=x+z`, at `(x,z,u)=(−1,0,−1)` both added affine expressions `−x−z+u` and `x+z−u` equal zero; the residual `u²−1` is zero and the objective `x+z` is `−1`.
+- For offset `2`, the equality is `u=x+z+2`. At `(−1,0,1)`, the two affine expressions are `2` and `−2`, matching right sides `2` and `−2`. This distinguishes the two offset signs.
+
+*Needs:* §2.1, exact decomposition and equality substitution; §1.2 for minima.
+
+### 2.3 Separable-height lifting
+
+Under `d.g i x = Σ_j weight i j * component j x` and `0 ≤ weight i j`, build `FiniteModel.separableLift`. Its nonlinear rows are `component j (project z) − height z j ≤ 0`; its added affine budget rows are `Σ_j weight i j * height z j ≤ 0`. Retain the original domain by preimage, all original affine rows, integer coordinates and bounds, and the original objective with zero height coefficients. HBO13 §3.1, p. 4, gives the unweighted separable formulation; the nonnegative weights here are an algebraic generalization.
+
+**API.**
+
+- Characterize component-height, budget, original-row and integer conditions and prove objective pullback.
+- Insert actual component values to obtain graph feasibility; use nonnegative weights for forward projection.
+- Prove `FiniteModel.separable_projection`, `FiniteModel.separable_relaxation_projection` and `FiniteModel.separable_minimum_iff`. This bookkeeping is an obligation of the concrete model, beyond the abstract projection identity.
+
+**Checks.**
+
+- For `separableLift`, a negative weight would invalidate forward projection: with component `x`, weight `−1` and original residual `−x`, the inequalities `x≤y`, `−y≤0` admit `(x,y)=(−1,0)`, but the original residual there is `1>0`.
+- With `q=0` and one original nonlinear residual, the decomposition identity makes that residual zero. There are no component-height nonlinear rows and the added budget row is `0≤0`.
+- In the normalized mixed example, `u=1/2` has component residual `u²−1=−3/4`; choose stored height `v=−3/4`. The budget `v≤0` holds, the unshifted epigraph height `v+1` is `1/4`, and both added coordinates have zero objective coefficient.
+
+For the analytic comparison after normalization, use the convex component `g(u)=u²−1`, outer function `h(t)=t` and budget zero. At `u=−1`, the inner derivative is `−2` and the outer derivative is `1`. This is within Layer 3's monotone-outer hypotheses. For affine `g=id` under the outer square, §3.2 instead uses exact height rows in `affine_coordinate_comparison`.
+
+*Needs:* §2.1, nonnegative finite sums, explicit decomposition and §1.2.
+
+### Examples
+
+**Checks for `FiniteModel` and its exact adapters.**
+
+- With `m=0`, `feasibleOn` equals `relaxationOn`; with no coordinates the objective is zero. All coordinate identities must cover empty blocks and empty row families.
+- Use `−1≤x≤1`, `z∈{0,1}`, `(x+z)²≤1`, objective `x+z`. Normalize with `u=x+z`, then use `u²−1≤v`, `v≤0`; the unshifted epigraph height is `v+1`. All three models attain `−1` at the lifts of `(−1,0)`.
+- The same model admits `(x,z)=(1/2,0)` with new argument `u=1/2`; normalization must keep that auxiliary coordinate continuous. The original point `(0,1/2)` belongs to the continuous relaxation and fails mixed feasibility.
+- Graph insertion adds no coordinates when `q=0`. Finite bounds on the original integer block do not assert feasibility or compactness of the free-height set.
+
+### Dependencies
+
+§2.1 precedes both adapters. Normalization does not require positive weights; separable-height projection does. Each adapter keeps a separate continuous-relaxation projection statement.
+
+## Layer 3: matched actual-derivative approximations
+
+### 3.1 Rows and finite sets
+
+For a common family `a : Fin k → X`, build `componentRow`, `outerRow`, `directRow`, `directOA`, `sharedOA` and `sharedOAOn` using
+
+    G_i(x) = g(a_i) + Dg_i(x−a_i)
+    H_i(y) = h(g(a_i)) + Dh_i(y−g(a_i))
+    C_i(x) = h(g(a_i)) + (Dh_i ∘ Dg_i)(x−a_i).
+
+`directOA` retains `x∈D` and every `C_i(x)≤b`. `sharedOA` retains `x∈D`, `y∈E` and every `G_i(x)≤y`, `H_i(y)≤b`, for one common `y`. `sharedOAOn J` keeps those conditions and also requires `y_j=G_i(x)_j` for every anchor `i` and `j∈J`. The common height vector must satisfy all anchors at once. These are the matched linearization constructions of TS05 §2, Theorem 1, pp. 227–228, with exact rows on the selected coordinates.
+
+**API.**
+
+- Prove the general normed-space tangent-support lemma: for a real normed space `X`, `f : X → ℝ`, `A : Set X`, `L : X →L[ℝ] ℝ`, `ConvexOn ℝ A f`, `a∈A`, `x∈A` and `HasFDerivAt f L a`, prove `f a + L (x−a) ≤ f x`. Establish convexity of `q(t)=f(a+t•(x−a))` on `[0,1]` by the affine pullback and convexity of `A`. Transport the actual derivative to `q'(0)=L(x−a)`, then apply the scalar `ConvexOn.le_slope_of_hasDerivAt` at `0<1`. This is a supporting target of this layer, including the affine-line derivative and endpoint evaluations; no interior-anchor or open-domain hypothesis is needed.
+- For the three rows, give anchor evaluation and `H_i(G_i(x))=C_i(x)`.
+- For `componentRow`, transport `HasFDerivAt g (Dg i) (a i)` through coordinate evaluation and use the tangent-support bridge to derive support for each convex component on `D`. Establish the exact-row condition on `D` for affine component maps with their actual derivatives.
+- For `outerRow`, use the same bridge to derive support on `E` from outer convexity, anchor-image and query membership, and the actual outer derivative. For `directRow`, consume the actual chain-rule derivative via `HasFDerivAt.comp`.
+- For `directOA`, `sharedOA` and `sharedOAOn`, give membership descriptions and graph witnesses under their respective support and exact-row hypotheses. Keep the common anchor family and retained `E` visible.
+- For `sharedOAOn`, prove that forgetting its equalities gives a subset of `sharedOA`, that `sharedOAOn ∅` equals `sharedOA`, and that `J'⊆J` gives `sharedOAOn J ⊆ sharedOAOn J'` with all other parameters fixed. Retain both domain filters in each statement.
+- For a linear functional `L`, prove that `0≤L v` for every `v≥0` vanishing on `J` is equivalent to nonnegative coordinate coefficients `L(e_j)` for `j∉J`, where `e_j` is the coordinate unit vector. At `J=∅`, prove equivalence with `Monotone L`. At `J=univ`, the condition holds for every `L` because the only permitted direction is zero.
+
+**Checks.**
+
+- For `g(x)=(x₁²,x₂²)`, outer sum and anchor `a=(1,1)`, the rows are `G(x)=(2x₁−1,2x₂−1)`, `H(y)=y₁+y₂` and `C(x)=2x₁+2x₂−2=H(G(x))`.
+- At `x=a`, `G(a)=(1,1)` and `H(G(a))=C(a)=2`. At `x=(0,0)`, `G(x)=(−1,−1)` and `H(G(x))=C(x)=−2`. Using `x` instead of `x−a` in the direct row would give `2x₁+2x₂+2`, which fails these evaluations.
+
+*Needs:* Layer 1's set conventions, continuous linear maps, convex support and chain rule.
+
+### 3.2 Restricted and full-space comparisons
+
+Prove `analytic_comparison`: assume `MapsTo g D E`, each component of `g` convex on `D`, `h` convex on `E`, every anchor in `D`, actual `HasFDerivAt g (Dg i) (a i)` and `HasFDerivAt h (Dh i) (g(a_i))`, and `Monotone (Dh i)` for every `i`. Anchor-image membership follows from `MapsTo` and anchor membership. Retain `y∈E` and prove
+
+    S ⊆ Prod.fst '' sharedOA D E g h a Dg Dh b
+      ⊆ directOA D g h a Dg Dh b.
+
+This combines the graph witness and component/outer supports with the finite row comparison. The first inclusion does not require monotonicity of `h` itself. When using exact-lift projection from Layer 1, retain its `MonotoneOn h E` premise.
+
+Prove `affine_coordinate_comparison` for `J : Set (Fin p)` with the same domains, anchors, rows and budget, under precisely these premises:
+
+- `MapsTo g D E`;
+- exact rows on `J`: `G_i(x)_j=g(x)_j` for every `i`, `x∈D` and `j∈J`;
+- `ConvexOn ℝ D (fun x => g x j)` for each `j∉J`;
+- `ConvexOn ℝ E h`;
+- `a_i∈D` for every `i`;
+- actual `HasFDerivAt g (Dg i) (a i)` for every `i`;
+- actual `HasFDerivAt h (Dh i) (g(a_i))` for every `i`;
+- `0≤Dh_i(v)` for every `i` and every coordinatewise `v≥0` with `v_j=0` for `j∈J`.
+
+Prove both weak inclusions:
+
+    S ⊆ Prod.fst '' sharedOAOn J D E g h a Dg Dh b
+      ⊆ directOA D g h a Dg Dh b.
+
+For the first inclusion, insert the graph height `y=g(x)`. Use exact rows on `J`, component support elsewhere, `MapsTo` for the height domain, and outer support `H_i(g(x))≤h(g(x))≤b`. For the second, set `v=y−G_i(x)`. Its coordinates are nonnegative and vanish on `J`, so the restricted positivity and linearity give `C_i(x)=H_i(G_i(x))≤H_i(y)≤b`. This second step is a comparison of affine rows; it does not require `G_i(x)∈E` or evaluation of `h` there. The equality-coordinate condition is exactness on `D`, not global affinity on `X`; global affine components supply it. No monotonicity of `h` or sign restriction on the outer coefficients in `J` is assumed.
+
+The case `J=∅` recovers `analytic_comparison`, using the linear-functional equivalence from §3.1. This equality-coordinate theorem adapts TS05 §2, Theorem 1, pp. 227–228. The source uses affine inner coordinates and range monotonicity in the others; this target instead states the sufficient directional-derivative condition explicitly at the selected anchors. It does not assert equivalence with the source's range-monotonicity assumptions or convexity of the whole composition under those anchorwise conditions. The source compares epigraph pairs `(γ,x)`; the target uses scalar `h` and the fixed-budget slice `γ=b`, retaining `D` and `E`. It neither proves the full source epigraph statement as written nor extends Layer 1's exact composition lift to equality coordinates.
+
+Prove `fullspace_analytic_comparison` under component convexity on `D`, convexity and monotonicity of `h` on the full outer space, anchors in `D` and the same actual derivatives. Derive monotonicity of every `Dh i` from positive directional difference quotients, then specialize the preceding comparison to `E=univ`. Monotonicity only on an arbitrary restricted `E` does not imply that linear-derivative condition.
+
+**API.**
+
+- Follow the tangent-support bridge, graph insertion, exact rows on `J` and the cone-difference comparison above; use derivative monotonicity when `J=∅`. No desired-inclusion premise or cut-validity oracle is allowed.
+- Use the existing chain rule for the derivative of `h ∘ g`; it is part of the analytic interpretation of the direct rows.
+- Derive weak objective-value order at actual feasible minimizers of these nested sets, keeping memberships and `IsMinOn`. Do not infer attainment or strict improvement from containment.
+
+*Needs:* §3.1 and native order/calculus; full-space specialization also needs the directional difference-quotient argument.
+
+### Examples
+
+**Checks for `directOA` and `sharedOA`.**
+
+The squared-component and affine examples below use the full height domain `E=ℝ²`; the remaining examples specify their own height domains.
+
+- For the squared-component/sum model on `[−1,1]²`, one anchor `(1,1)` and budget one give both `directOA` and the projection of `sharedOA` as the box intersected with `x₁+x₂≤3/2`. Repeating that anchor changes neither set. For affine `g(x)=x` and outer sum, both sets at budget one are the box intersected with `x₁+x₂≤1`, independently of the two anchors `(1,1)` and `(−1,−1)`.
+- With no anchors and `E=univ`, both finite projections are `D`. With no anchors, `E=∅` and nonempty `D`, the shared projection is empty while the direct set is `D`. With the anchor `(1,1)` and budget one from the preceding squared-component Check, the direct set is `D ∩ {x₁+x₂≤3/2}` and the shared projection is still empty; the height domain cannot be discarded.
+- For `g(x)=(x₁²,x₂²)`, outer sum, box `[−1,1]²`, anchors `(1,1)` and `(−1,−1)`, and budget `1/2`, direct rows give `|x₁+x₂|≤5/4`; shared heights give `|x₁|+|x₂|≤5/4`. Objective `−x₁+x₂` attains `−2`, `−5/4` and `−1` in direct, shared and original models; exact lifting retains `−1`.
+- For `D=E=ℝ`, `g(x)=x²`, `h=id` and budget `1/4`, shared heights at anchor zero project to `ℝ`, while the direct row at anchor one is `2x−1≤1/4`, or `x≤5/8`. Both contain the original interval `[−1/2,1/2]`, but `1` lies only in the first. This checks the common-anchor premise independently of validity of each relaxation.
+- For `g=id`, `h=exp`, anchor zero and budget two, the outer derivative is `1`; `G(x)=x` and `H(y)=1+y`. With `D=E=ℝ`, the shared and direct projections are `(−∞,1]`, containing the original `(−∞,log 2]`. With `D=E=[0,∞)`, the finite projections are `[0,1]`, containing the original `[0,log 2]`; `(0,0)` belongs to the shared set and the constraint `y≥0` is retained.
+
+- For `X=ℝ`, one height coordinate, `D=E=ℝ`, `g(x)=x`, `h(y)=y²`, anchor `−1` and budget one, `G(x)=x`, `H(y)=−2y−1` and `C(x)=−2x−1`. Inequality heights allow `y≥max(x,−1)` and project to all of `ℝ`, while the direct set is `[−1,∞)`. With `J={0}`, `sharedOAOn` imposes `y=x` and its projection is `[−1,∞)`, containing the original `[−1,1]`. The actual outer derivative `v↦−2v` is negative on positive directions; it satisfies the restricted condition because a direction vanishing on `J` is zero. Thus `affine_coordinate_comparison` applies and `analytic_comparison` does not.
+- For `X=ℝ`, `g(x)=(x,x²)`, `h(u,v)=u²+v`, full height domain `E=ℝ²`, `D=ℝ`, anchor `−1`, budget two and `J` the first coordinate, the rows are `G(x)=(x,−2x−1)`, `H(y)=−2y₁+y₂−1` and `C(x)=−4x−2`. The outer derivative has coefficients `(−2,1)` and is nonnegative on every direction `(0,t)` with `t≥0`. Exactness of `y₁=x` gives both the shared projection and direct set `[−1,∞)`, containing the original `[−1,1]`. The permitted cone includes nonzero directions.
+- At `J=∅`, the row set is `sharedOA`; at `J=univ`, all rows are exact and no component-convexity premise remains. With no anchors, `sharedOAOn` is `D×E` and `directOA` is `D`; `MapsTo` supplies a graph height for each `x∈D`. The empty-height-domain examples above fail `MapsTo` when `D` is nonempty and therefore are not instances of either comparison theorem. With zero height coordinates there is a unique height vector; retain its membership in `E`, and, when there is at least one anchor, every row budget reduces to the same scalar condition `h(0)≤b`.
+
+### Dependencies
+
+The restricted inequality-height theorem uses explicit derivative monotonicity; the equality-coordinate theorem uses restricted directional positivity and exact rows on `J`. The full-space theorem derives derivative monotonicity from monotonicity of `h`. All use the general tangent-support bridge built in §3.1. Finite model adapters are unnecessary for these abstract analytic comparisons; §2 supplies concrete formulations when required.
+
+## Layer 4: finite support elimination
+
+### 4.1 Shared component supports
+
+Build `sharedRows` with `x∈D`, one free height `y_j` per component, every `r_ji(x)≤y_j` for `i∈H_j`, and `Σ_j y_j≤b`. Prove `shared_rows_projection` when every finite `H_j` is nonempty:
+
+    (∃ y, (x,y) ∈ sharedRows) ↔ x ∈ D ∧ Σ_j max (r_ji(x) : i∈H_j) ≤ b
+    (∃ y, (x,y) ∈ sharedRows) ↔ x ∈ D ∧ ∀ (i_j∈H_j)_j, Σ_j r_j(i_j)(x) ≤ b.
+
+TS05 §2, Proposition 5 and its elimination proof, p. 231, supplies the separable support-recombination interpretation. KLW18 §3, Eqs. (4)–(7) and Proposition 1, p. 574, gives the max-of-sums versus sum-of-maxima comparison, with component convexity for its analytic application. These finite-row identities themselves are algebraic and require no convexity or derivatives; no strictness or cut-count claim is made here.
+
+**API.**
+
+- Give membership and per-component row bounds for `sharedRows`.
+- Use native maximum attainment and take each height equal to its component maximum for the reverse projection.
+- Identify the component rows and matched supports in the sum-outer-function case of §3. This connection must not assume arbitrary rows came from a convex function.
+
+*Needs:* native nonempty finite maxima, finite sums and choices; §3 only for the tangent-row application.
+
+### 4.2 Independent anchor heights
+
+Build `independentRows` with a free height vector for each anchor and its own budget. Prove `independent_rows_projection`: its projection is precisely `x∈D` and each same-anchor sum inequality. This is direct elimination in the row systems of §4.1; the witness sets each anchor's heights equal to its own row values.
+
+**API.**
+
+- Give membership, per-anchor row and budget descriptions.
+- Construct the own-row witness and prove both projection directions.
+- Relate independent heights to the diagonal sums of §3 and distinguish them from all mixed choices in §4.1. These are free-height statements; retained outer domains cannot be discarded.
+
+*Needs:* finite sums and §4.1's row conventions.
+
+### Examples
+
+**Checks for `sharedRows` and `independentRows`.**
+
+- For `sharedRows`, singleton support sets recover one sum row, while identical support rows give the same projection after repetitions. Components with rows `{1,3}` and `{2}` have maximum-sum five and mixed sums three and five, so projection is `x∈D ∧ 5≤b`.
+- With zero components, `sharedRows` projects to `x∈D ∧ 0≤b`. If one component has empty support and its height is otherwise free, prove projection is `D` separately, without defining a maximum of an empty real family. For `D=[0,1]`, one empty support, budget `−3` and objective `x`, every `x∈D` lifts with `y=−3`; the attained minimum is zero at `(x,y)=(0,−3)`.
+- For `independentRows`, zero anchors give projection `D`; zero components give `x∈D ∧ ∀ a, 0≤b(a)`.
+- The two-anchor example of §3 gives `|x₁+x₂|≤5/4` with independent heights, and `|x₁|+|x₂|≤5/4` with shared heights. It distinguishes diagonal rows from mixed choices.
+- With one constant support row `1` and budget one, free heights give projection `D` using `y=1`. Restricting the height to `{0}` makes the row `1≤y` impossible and the projection empty. The free-height witness lies outside that restriction, so the domain constraint cannot be eliminated by the same formula.
+
+### Dependencies
+
+Finite maximum attainment is supplied by Mathlib. The sum-outer-function correspondence consumes the explicit row definitions of §3, without imposing analytic hypotheses on general algebraic rows.
+
+## Downstream consumers
+
+Separable convex formulations and disciplined convex models consume the exact projection, feasible-minimum and matched-support interfaces above. The measure/coupling and transport-cost structures of [OptimalTransport](../OptimalTransport/README.md), the weak-compactness and spectral-energy program of [VariationalMethods](../VariationalMethods/README.md), and the PL chart and finite-cell structures of [GeometricTopology](../GeometricTopology/README.md) have different contracts. This roadmap neither requires those programs nor supplies their targets through a shared word such as projection or minimization.
+
+## References
+
+- **TS05.** M. Tawarmalani and N. V. Sahinidis, [*A polyhedral branch-and-cut approach to global optimization*](https://doi.org/10.1007/s10107-005-0581-8), Mathematical Programming 103 (2005), 225–249, version of record. §2, Proposition 1, pp. 226–227; Theorem 1, pp. 227–228; Proposition 5 and its proof, p. 231. Affine coordinates are equalities in the source composition construction.
+- **HBO13.** H. Hijazi, P. Bonami and A. Ouorou, [*An Outer-Inner Approximation for Separable Mixed-Integer Nonlinear Programs*](https://doi.org/10.1287/ijoc.1120.0545), INFORMS Journal on Computing, Articles in Advance, published online 4 October 2013, pp. 1–14. The Articles in Advance version’s pp. 1–2 define the problem/domain and separability; §3 opening and §3.1, p. 4, give normalization and the univariate extended formulation. These page locators refer to the Articles in Advance version, not issue pp. 31–44 or the earlier preprint.
+- **LYBV16.** M. Lubin, E. Yamangil, R. Bent and J. P. Vielma, *Extended Formulations in Mixed-integer Convex Programming*, IPCO 2016, proceedings pp. 102–113. The scalar monotone-outer epigraph locator used here is [arXiv:1511.06710v3](https://arxiv.org/abs/1511.06710v3), 15 March 2016, §4, p. 9, rather than proceedings pagination.
+- **LYBV.** The same authors, [*Polyhedral approximation in mixed-integer convex optimization*](https://doi.org/10.1007/s10107-017-1191-y), [arXiv:1607.03566v2](https://arxiv.org/abs/1607.03566v2), 20 April 2017, §4, p. 12, Eqs. (8)–(10). Its square/exponential/max example illustrates the epigraph identity of §1; its conic algorithms are outside this roadmap.
+- **KLW18.** J. Kronqvist, A. Lundell and T. Westerlund, [*Reformulations for utilizing separability when solving convex MINLP problems*](https://doi.org/10.1007/s10898-018-0616-3), Journal of Global Optimization 71 (2018), 571–592, version of record. §2, p. 573, permits overlapping variable subsets and explicitly requires convex components; §3, p. 574, Eqs. (4)–(7) and Proposition 1 give the weak finite-support comparison. Its strictness discussion is outside this roadmap.
+
+- **Reference software.** [Thesis proof sources, revision 59c355e](https://github.com/bernalde/complete-retained-library/tree/59c355eb14ed1eff9664736428ca02b4543200b8). Copyright 2026 David E. Bernal Neira. Licensed under the Apache License, Version 2.0 ([source LICENSE](https://github.com/bernalde/complete-retained-library/blob/59c355eb14ed1eff9664736428ca02b4543200b8/LICENSE), [source NOTICE](https://github.com/bernalde/complete-retained-library/blob/59c355eb14ed1eff9664736428ca02b4543200b8/NOTICE.md), destination [LICENSE](../../LICENSE)).

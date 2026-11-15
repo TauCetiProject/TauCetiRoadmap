@@ -29,6 +29,7 @@ body:
         - AmenableGroups
         - AnalyticNumberTheoryPartI
         - AnalyticNumberTheoryPartII
+        - ArithmeticDirichletSeriesPartII
         - ArithmeticInterpolationDeterminants
         - AsymptoticExpansions
         - BanachAlgebras
@@ -138,6 +139,7 @@ body:
         - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
         - PerfectoidSpaces
+        - PerfectoidTowers
         - PivotalSpherical
         - Poincare3D
         - PolylogarithmFunctions
@@ -145,6 +147,7 @@ body:
         - PositiveScalarCurvature
         - PresentationsOfMonoidalCategories
         - PrimitivePrimeDivisors
+        - ProbabilisticAndMetricNumberTheory
         - ProfiniteCohomology
         - PseudodifferentialOperators
         - PseudoholomorphicCurveAnalysis
