@@ -3045,7 +3045,10 @@ Ceti); 4.3 needs 4.1 and 4.2; 4.4 needs 4.1–4.3; 4.5 needs Layers 2 and 3 and 
   1589–1615. Theorem 2 and Corollary 2, pp. 1603–1604, read in a transcription. Pointer only.
 - [Sandomierski] F. L. Sandomierski, *On semiperfect and perfect rings*, Proc. Amer. Math. Soc. 21
   (1969), 205–207. Credit to Koh's commutative case (K. Koh, *On a semi-primary ring*, Proc. Amer.
-  Math. Soc. 19 (1968), 205–208, not checked here), p. 205; Proposition 1 (d) and Lemma 2, p. 205;
+  Math. Soc. 19 (1968), 205–208, Thm. 2, p. 205: a commutative ring has projective covers of all
+  simple modules iff it is "semiprimary" and idempotents lift modulo the radical; Koh's "semiprimary"
+  means only that `R ⧸ J` is Artinian, after Jacobson, so this is semiperfectness; his Thm. 1 is the
+  noncommutative statement with a weaker lifting condition), p. 205; Proposition 1 (d) and Lemma 2, p. 205;
   Theorems 4 and 5, p. 206, with the proof of Theorem 5 to p. 207 (stated for right modules;
   Theorem 5: "A ring R is right perfect if and only if every semisimple right R-module has a
   projective cover").
