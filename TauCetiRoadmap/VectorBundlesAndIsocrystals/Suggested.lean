@@ -23,7 +23,9 @@ the pins: Layer 0's relative ringed curve, twists and homogeneous section ring; 
 bundle carrier, curve degree and HN filtration; and Layer 3's curve-specific Proj map and GAGA
 functor. Thus positive generation, Picard and bundle classification, coherent classification
 and finite étale curve-algebra classification have no signatures here. Tau Ceti's fixed-field
-`spaX` is a topological orbit quotient, without the required curve structure sheaf.
+curve for E = ℚ_p has its structure presheaf (`TauCeti.FarguesFontaine.spaXPresheaf`) and is an
+adic space once the presheaf on Y is a sheaf, which is proved over the ring of integers of a
+valuation on a field; the pins have no sheaves of modules or vector bundles on adic spaces.
 
 Layer 5's projectivized properness, two-term cohomological smoothness, Le Bras equivalence,
 dimension-height and curvature theorems require the perfectoid sites, Banach–Colmez sheaves,
