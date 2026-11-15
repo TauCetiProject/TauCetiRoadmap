@@ -15,8 +15,10 @@ concordance (1.5) and Lisca's theorem that a smoothly slice two-bridge knot is r
 ## Scope and ownership
 
 Owned here: the ribbon disc and the ribbon knot (0.1), the ribbon concordance relation and its
-order properties (1.1–1.4) with the three inputs of Agol's proof stated in 1.4, Zemke's
-injectivity theorem (1.5), and Lisca's theorem with the branched-cover step of its proof (2.1).
+order properties (1.1–1.4) with the inputs of Agol's proof stated in 1.3 and 1.4 (among them the
+handle structure of the exterior of a ribbon concordance and the Gerstenhaber–Rothaus theorems),
+Zemke's injectivity theorem (1.5), and Lisca's theorem with the plumbing and branched-cover steps
+of its proof (2.1).
 
 Not owned here:
 
@@ -27,13 +29,20 @@ Not owned here:
   and the determinant are GeometricTopology 4.4's; the Levine–Tristram signatures of slice knots
   are GeometricTopology 6.2's; two-bridge knots are GeometricTopology 4.10's; knot exteriors with
   their meridians and preferred longitudes are GeometricTopology 5.1's; Waldhausen's relative
-  realization theorem is GeometricTopology 8.3.1's.
+  realization theorem is GeometricTopology 8.3.1's; the extension of a homeomorphism of exteriors
+  over the meridional fillings is GeometricTopology 8.1's; smooth realization in dimension three
+  and Cerf's theorem are GeometricTopology 11.2's and 3.4's. The residual finiteness of knot
+  groups and the rigidity of peripheral injections of knot groups are asked of GeometricTopology
+  below (gap:knot-group-residually-finite, gap:knot-group-peripheral-injection).
 - Knot Floer homology is HeegaardFloer's (Layer 7.6); Zemke's injectivity theorem (Zemke 2019,
-  Theorem 1.1) is a target of 1.5. Its concordance maps and the detection of the Seifert genus
-  are asked of HeegaardFloer below (gap:hfk-concordance-maps, gap:hfk-genus-detection).
+  Theorem 1.1) is a target of 1.5. The link Floer cobordism maps, their grading shifts, the map
+  of a 2-knot in `S⁴` and the detection of the Seifert genus are asked of HeegaardFloer below
+  (gap:link-floer-cobordism-maps, gap:link-floer-grading-shift, gap:link-floer-two-knot,
+  gap:hfk-genus-detection).
 - Donaldson's diagonalization theorem is FourManifolds' (§5.3); the form without a hypothesis on
   the fundamental group, which 2.1 uses, is asked of FourManifolds below
-  (gap:donaldson-definite-any-pi1). Lens spaces are Tau Ceti's (`TauCeti.LensSpace`).
+  (gap:donaldson-definite-any-pi1). Lens spaces and plumbing graphs are Tau Ceti's
+  (`TauCeti.LensSpace`, `TauCeti.PlumbingGraph`).
 
 ## Conventions
 
@@ -60,8 +69,8 @@ Not owned here:
 
 - `Metric.closedBall`, `Metric.ball`, `Metric.sphere`, `EuclideanSpace ℝ (Fin 4)`, `fderiv`,
   `Circle.exp`, `ContinuousMap`, `FundamentalGroup` and `FundamentalGroup.map`.
-- `Subgroup.Normal`, `Subgroup.FiniteIndex`, `Matrix.specialOrthogonalGroup`, `MonoidHom.comp`
-  and `MvPolynomial.eval`.
+- `Group.ResiduallyFinite`, `Matrix.specialOrthogonalGroup`, `MonoidHom.comp` and
+  `MvPolynomial.eval`.
 
 ### From Tau Ceti
 
@@ -79,23 +88,48 @@ Not owned here:
   `TauCeti.SmoothEmbedding.SmoothAmbientIsotopic`.
 - `TauCeti.Geometry.Manifold.Instances.Sphere`: `TauCeti.finrank_euclideanSpace_fin_succ_fact`;
   `TauCeti.Geometry.Manifold.Instances.LensSpace`: `TauCeti.LensSpace`.
+- `TauCeti.LowDimTopology.Plumbing.IntersectionForm`: `TauCeti.PlumbingGraph` and
+  `TauCeti.PlumbingGraph.intersectionForm`.
+- `TauCeti.Geometry.RealAlgebraic.Semialgebraic.Dimension.Basic`: `TauCeti.semialgebraicDim`;
+  `TauCeti.Geometry.RealAlgebraic.Semialgebraic.Dimension.Projection`:
+  `TauCeti.IsSemialgebraic.semialgebraicDim_image_comp_le`.
 
 ### From TauCetiRoadmap.GeometricTopology
 
 - Section 4.3, the Seifert genus of a knot; section 4.4, its Alexander polynomial and its
   determinant `|Δ(−1)|`; section 4.10, the two-bridge knots `K(p, q)`. These are consumed by 1.5
   and 2.1, whose statements need them and are not statable at the pins.
-- Section 5.1, knot exteriors with their meridians and preferred longitudes, and section 8.3.1,
-  the relative Waldhausen realization from peripheral group systems to maps of pairs, consumed by
-  the proof of 1.4.
+- Section 5.1, knot exteriors with their meridians and preferred longitudes; section 8.3.1, the
+  relative Waldhausen realization from peripheral group systems to maps of pairs; section 8.1,
+  the extension of a homeomorphism of exteriors over the meridional fillings; sections 11.2 and
+  3.4, the smooth realization of homeomorphisms in dimension three and Cerf's theorem. These are
+  consumed by the proof of 1.4.
+
+What GeometricTopology must provide (gap:knot-group-residually-finite): for every smooth knot `K`
+in `S³` and base point `x` of its complement, `Group.ResiduallyFinite (K.KnotGroup x)` (Hempel
+1987; used in Agol 2022, proof of Theorem 1.2).
+
+What GeometricTopology must provide (gap:knot-group-peripheral-injection): for knots `K`, `J` in
+`S³`, an injective homomorphism from the group of `K` to the group of `J` that carries the
+peripheral subgroup of `K` onto a conjugate of that of `J`, meridian to meridian and longitude to
+longitude, is an isomorphism (Waldhausen's covering theorem, as used in Agol 2022, proof of
+Theorem 1.2).
 
 ### From TauCetiRoadmap.HeegaardFloer
 
 - Section 7.6, the knot Floer complexes, consumed by 1.5.
 
-What HeegaardFloer must provide (gap:hfk-concordance-maps): for a decorated smooth concordance `C`
-from `K₀` to `K₁` in `[0, 1] × S³`, a graded map `F_C : HFK̂(K₀) → HFK̂(K₁)`, functorial under
-stacking and the identity on the product concordance.
+What HeegaardFloer must provide (gap:link-floer-cobordism-maps): for a decorated link cobordism
+`(W, F)` between multi-based links in closed oriented 3-manifolds and `s ∈ Spinᶜ(W)`, a map
+`F_{W,F,s} : HFL̂(Y₀, L₀, s|Y₀) → HFL̂(Y₁, L₁, s|Y₁)`, unchanged by isotopy of `F` rel boundary
+and satisfying the composition law (Zemke 2019, §2, Definition 2.2).
+
+What HeegaardFloer must provide (gap:link-floer-grading-shift): when `s` restricts to torsion
+structures and the links are null-homologous, `F_{W,F,s}` shifts `gr_w` and `gr_z` by Zemke 2019,
+§2, equations (7) and (8).
+
+What HeegaardFloer must provide (gap:link-floer-two-knot): for a smooth 2-knot `S ⊂ S⁴` with one
+dividing curve, `F_{S⁴,S} : 𝔽₂ → 𝔽₂` is an isomorphism (Zemke 2019, Lemma 2.3).
 
 What HeegaardFloer must provide (gap:hfk-genus-detection): `g₃(K) = max{j : HFK̂(K, j) ≠ 0}`
 (Ozsváth–Szabó, Theorem 1.2, as recalled in Zemke 2019, §1).
@@ -112,12 +146,14 @@ group, is diagonal (the theorem Lisca 2007, §1, cites as [4]).
 
 Layer 0 defines ribbon discs and ribbon knots from Tau Ceti's slice discs and Morse indices.
 Layer 1 defines ribbon concordance on Tau Ceti's concordances, compares it with Layer 0's ribbon
-discs, proves that it is reflexive and transitive, proves Gordon's lemma on fundamental groups and,
-from it, residual finiteness, the extension of representations and a lemma of real algebraic
-geometry, Agol's antisymmetry, which also uses GeometricTopology's knot exteriors and Waldhausen's
-theorem; its last target, the monotonicity of genus and Alexander degree, needs GeometricTopology
-and HeegaardFloer. Layer 2 states Lisca's theorem on GeometricTopology's two-bridge knots; its
-proof uses Tau Ceti's lens spaces and FourManifolds' Donaldson theorem.
+discs, proves that it is reflexive and transitive, proves the handle structure of the exterior of
+a ribbon concordance, the Gerstenhaber–Rothaus theorems and, from them, Gordon's lemma on
+fundamental groups, then the extension of representations, a lemma of real algebraic geometry and
+Agol's antisymmetry, which also uses GeometricTopology's knot exteriors, Waldhausen's theorem and
+the residual finiteness of knot groups; its last target, the monotonicity of genus and Alexander
+degree, needs GeometricTopology and HeegaardFloer. Layer 2 states Lisca's theorem on
+GeometricTopology's two-bridge knots; its proof uses Tau Ceti's lens spaces and plumbing graphs and
+FourManifolds' Donaldson theorem.
 
 ## Layer 0: ribbon discs
 
@@ -215,15 +251,28 @@ stacking two ribbon concordances with `Concordance.trans` (Agol 2022, §1).
 
 ### 1.3 Gordon's lemma
 
+Prove that the exterior of a ribbon concordance from `K₀` to `K₁` is obtained from the exterior of
+`K₀` by attaching one 1-handle for each minimum and one 2-handle for each saddle of the time
+function, equally many, the 2-handles cancelling the 1-handles in rational homology (Agol 2022,
+proof of Theorem 1.2; Daemi–Lidman–Vela-Vick–Wong 2022, proof of Proposition 2.1). Prove the
+Gerstenhaber–Rothaus theorems. First, a system of `m` equations in `m` unknowns with constants in
+a compact connected Lie group `G`, whose matrix of exponent sums in the unknowns has nonzero
+determinant, has a solution in `G`. Second, with constants in a finite group `H`, such a system
+has a solution in some finite group containing `H` (Gerstenhaber–Rothaus 1962, Theorems 1 and 2,
+as used in Daemi–Lidman–Vela-Vick–Wong 2022, proof of Proposition 2.1).
+
 Define `trackComplement F`, the complement of the track of `F` in `S³ × [0, 1]`. For a ribbon
 concordance `F` from `K₀` to `K₁`, prove that the inclusion `x ↦ (x, 0)` of the complement of
 `K₀` induces an injection on knot groups (`knotGroup_injective_of_isRibbonConcordance`) and the
 inclusion `x ↦ (x, 1)` of the complement of `K₁` a surjection
 (`knotGroup_surjective_of_isRibbonConcordance`) (Gordon 1981, Lemma 3.1, in
-the direction of Zemke 2019, §1).
+the direction of Zemke 2019, §1). The surjection follows from the handle structure read from the
+time-1 end; the injection from residual finiteness and the second Gerstenhaber–Rothaus theorem
+(Daemi–Lidman–Vela-Vick–Wong 2022, proof of Proposition 2.1).
 
 *Needs:* 1.1, `FundamentalGroup.map`, `TauCeti.SmoothEmbedding.Concordance`,
-`TauCeti.SmoothCircleEmbedding.KnotGroup`.
+`TauCeti.SmoothCircleEmbedding.KnotGroup`, `Matrix.specialOrthogonalGroup`;
+gap:knot-group-residually-finite.
 
 **Checks.**
 
@@ -240,26 +289,33 @@ the direction of Zemke 2019, §1).
 ### 1.4 Agol's theorem
 
 Prove `RibbonLE.antisymm`: if `RibbonLE K₀ K₁` and `RibbonLE K₁ K₀`, then `K₀` and `K₁` are
-smoothly ambient isotopic. Stacking gives a ribbon self-concordance of `K₀`, whose exterior is a
-relative s-cobordism by representation varieties of the knot groups into `SO(N)` (Agol 2022,
-Theorem 1.2); with Gordon's lemma the inclusions induce isomorphisms preserving the peripheral
-subgroups, and the knots are isotopic (Agol 2022, Theorem 1.1, through Gordon 1981, Lemma 3.2).
+smoothly ambient isotopic. Stacking gives a ribbon self-concordance of `K₀`. Its time-1 end
+induces an isomorphism on fundamental groups. It is onto by Gordon's lemma, and one-to-one
+because restriction is a polynomial surjection of `SO(N)`-representation varieties onto the larger
+one, while by residual finiteness (gap:knot-group-residually-finite) every nontrivial element of
+the knot group survives in some `SO(N)`-representation (Agol 2022, Theorem 1.2 and its proof).
+The time-0 end of the concordance from `K₁` to `K₀` then injects the group of `K₁` into that of
+`K₀`, meridian to meridian and longitude to longitude. By gap:knot-group-peripheral-injection this
+injection is an isomorphism. Waldhausen's realization gives a homeomorphism of the exteriors,
+which extends over the meridional fillings and is smoothed to an ambient isotopy (Agol 2022,
+Theorem 1.1, through Gordon 1981, Lemma 3.2).
 
-The proof uses three further results, each a target here:
+The proof uses two further results, each a target here:
 
-- knot groups are residually finite (`knotGroup_residuallyFinite`: a nontrivial element survives
-  in a finite quotient; Hempel 1987, as used in Agol 2022, proof of Theorem 1.2);
 - every `SO(N)`-representation of the knot group of the time-`0` end of a ribbon concordance
   extends over the complement of the concordance (`exists_extension_of_isRibbonConcordance`;
   Agol 2022, proof of Theorem 1.2, citing Daemi, Lidman, Vela-Vick and Wong 2022,
-  Proposition 2.1, after Gerstenhaber and Rothaus);
+  Proposition 2.1, from the handle structure and the first Gerstenhaber–Rothaus theorem of 1.3);
 - if `Y ⊆ X` are real algebraic sets and a polynomial map sends `Y` onto `X`, then `Y = X`
-  (`algebraicSet_eq_of_surjOn`; Agol 2022, Lemma A.2).
+  (Agol 2022, Lemma A.2), through the fact that an algebraic subset of an irreducible real
+  algebraic set with the same dimension is the whole set (Agol 2022, Lemma A.1).
 
 *Needs:* 1.2, 1.3, `TauCeti.SmoothEmbedding.SmoothAmbientIsotopic`,
-`TauCeti.SmoothCircleEmbedding.KnotGroup`, `Matrix.specialOrthogonalGroup`, `MvPolynomial.eval`;
-GeometricTopology 5.1 (knot exteriors, peripheral markings) and 8.3.1 (relative Waldhausen
-realization).
+`TauCeti.SmoothCircleEmbedding.KnotGroup`, `Matrix.specialOrthogonalGroup`, `MvPolynomial.eval`,
+`TauCeti.semialgebraicDim`, `TauCeti.IsSemialgebraic.semialgebraicDim_image_comp_le`;
+GeometricTopology 5.1 (knot exteriors, peripheral markings), 8.3.1 (relative Waldhausen
+realization), 8.1 (extension over the meridional filling), 11.2 and 3.4 (smooth realization,
+Cerf's theorem); gap:knot-group-residually-finite, gap:knot-group-peripheral-injection.
 
 **Checks.**
 
@@ -271,10 +327,9 @@ realization).
 - With `K₀ = unknot`: a knot `K` with `RibbonLE unknot K` and `RibbonLE K unknot` is isotopic
   to the unknot. A ribbon knot that is not the unknot, such as `K(9, 2)` of 2.1,
   therefore never satisfies `RibbonLE K unknot`.
-- For the unknot the knot group is `ℤ`, and `g ≠ 0` survives in `ℤ/m` for every `m > |g|`. For
-  `refl K`, `trackComplement (refl K) = (S³ ∖ K) × [0, 1]`, and `ρ` extends as `ρ` composed with
-  the map induced by the projection to `S³ ∖ K`.
-- The inclusion `Y ⊆ X` cannot be dropped in `algebraicSet_eq_of_surjOn`: in `ℝ²`, the map
+- For `refl K`, `trackComplement (refl K) = (S³ ∖ K) × [0, 1]`, and `ρ` extends as `ρ` composed
+  with the map induced by the projection to `S³ ∖ K`.
+- The inclusion `Y ⊆ X` cannot be dropped: in `ℝ²`, the map
   `φ(x, y) = (x − y, 0)` sends `Y = {xy = 1}` onto the line `X = {y = 0}`, since `x − 1/x` takes
   every real value, yet `Y ≠ X` (after the remark in Agol 2022, proof of Lemma A.2).
 
@@ -282,14 +337,19 @@ realization).
 
 If `RibbonLE K₀ K₁`, then the Seifert genus of `K₀` is at most that of `K₁` (Zemke 2019,
 Theorem 1.3) and the degree of the Alexander polynomial of `K₀` is at most that of `K₁` (Gordon
-1981, Lemma 3.4). Prove first Zemke's injectivity theorem: for a ribbon concordance `C` from
-`K₀` to `K₁`, the map `F_C : HFK̂(K₀) → HFK̂(K₁)` is injective (Zemke 2019, Theorem 1.1); with the
+1981, Lemma 3.4); it follows from the divisibility of the Alexander polynomial of `K₁` by that
+of `K₀`, proved from the surjection of 1.3 on Alexander modules (Friedl–Powell 2020,
+Theorem 1.1). Prove first Zemke's injectivity theorem: for a ribbon concordance `C` from `K₀` to
+`K₁`, the map `F_C : HFK̂(K₀) → HFK̂(K₁)` is injective (Zemke 2019, Theorem 1.1); with the
 detection of the genus by knot Floer homology it gives the genus inequality (Zemke 2019,
-Theorem 1.3). Not statable at the pins: Tau Ceti has no Seifert genus, no Alexander polynomial of
-a smooth circle embedding and no knot Floer homology.
+Theorem 1.3). Prove on the way that two properly embedded discs in `D² × S²` meeting `S¹ × S²` in
+the same unknot, each with one dividing arc, induce the same map in the `Spinᶜ` structure trivial
+on `{0} × S²` (Zemke 2019, Lemma 3.1). Not statable at the pins: Tau Ceti has no Seifert genus,
+no Alexander polynomial of a smooth circle embedding and no knot Floer homology.
 
-*Needs:* 1.1, GeometricTopology 4.3, GeometricTopology 4.4, HeegaardFloer 7.6,
-gap:hfk-concordance-maps, gap:hfk-genus-detection.
+*Needs:* 1.1, 1.3, GeometricTopology 4.3, GeometricTopology 4.4, HeegaardFloer 7.6,
+gap:link-floer-cobordism-maps, gap:link-floer-grading-shift, gap:link-floer-two-knot,
+gap:hfk-genus-detection.
 
 **Checks.**
 
@@ -306,8 +366,10 @@ gap:hfk-concordance-maps, gap:hfk-genus-detection.
 
 ### Dependencies
 
-Layer 0, Tau Ceti; 1.4 also GeometricTopology 5.1 and 8.3.1; 1.5 also GeometricTopology 4.3,
-4.4 and HeegaardFloer 7.6 (gap:hfk-concordance-maps, gap:hfk-genus-detection).
+Layer 0, Tau Ceti; 1.3 also gap:knot-group-residually-finite; 1.4 also GeometricTopology 3.4,
+5.1, 8.1, 8.3.1 and 11.2 (gap:knot-group-residually-finite, gap:knot-group-peripheral-injection);
+1.5 also GeometricTopology 4.3, 4.4 and HeegaardFloer 7.6 (gap:link-floer-cobordism-maps,
+gap:link-floer-grading-shift, gap:link-floer-two-knot, gap:hfk-genus-detection).
 
 ## Layer 2: two-bridge knots
 
@@ -317,12 +379,17 @@ For coprime `p > q > 0` with `p` odd, the two-bridge knot `K(p, q)` is ribbon if
 is smoothly slice, if and only if the lens space `L(p, q)` smoothly bounds a rational homology
 ball (Lisca 2007, Corollary 1.3, from Theorem 1.2 through Donaldson's diagonalization theorem).
 Prove on the way that the double cover of `B⁴` branched along a slice disc of `K(p, q)`, `p` odd,
-is a smooth rational homology ball bounded by `L(p, q)` (Lisca 2007, §1). Not statable at the
-pins: Tau Ceti has no two-bridge knot as a smooth circle embedding and no branched cover.
+is a smooth rational homology ball bounded by `L(p, q)` (Lisca 2007, §1). State as targets: for
+`p/q = [a₁, …, a_n]⁻` with every `a_i ≥ 2`, the linear plumbing `P(p, q)` of disc bundles over
+`S²` with Euler numbers `−a₁, …, −a_n` is a smooth compact negative-definite four-manifold bounded
+by `L(p, q)`, whose intersection lattice is that of `TauCeti.PlumbingGraph` on the weighted chain
+(Lisca 2007, §9); and, for `p/q ∈ R` with `p` odd, `K(p, q)` bounds a ribbon-immersed disc
+(Lisca 2007, §8). Not statable at the pins: Tau Ceti has no two-bridge knot as a smooth circle
+embedding, no branched cover and no plumbing of disc bundles as a four-manifold.
 
 *Needs:* 0.1; GeometricTopology 4.10 and 4.4 (the determinant); the lens spaces of
-`TauCeti/Geometry/Manifold/Instances/LensSpace.lean`; FourManifolds §5.3,
-gap:donaldson-definite-any-pi1.
+`TauCeti/Geometry/Manifold/Instances/LensSpace.lean`; `TauCeti.PlumbingGraph`,
+`TauCeti.PlumbingGraph.intersectionForm`; FourManifolds §5.3, gap:donaldson-definite-any-pi1.
 
 **Checks.**
 
@@ -333,15 +400,21 @@ gap:donaldson-definite-any-pi1.
 - `K(5, 2)` is the figure-eight knot: its determinant `|Δ(−1)| = 5` is not a perfect square, so
   it is neither slice nor ribbon (Lisca 2007, §1) and `L(5, 2)` bounds no rational homology ball;
   its signature `0` does not detect this.
+- `9/2 = [5, 2]⁻ = 5 − 1/2`, so `P(9, 2)` is the chain with Euler numbers `−5, −2`: intersection
+  matrix `[[−5, 1], [1, −2]]`, negative definite (`−5 < 0`, determinant `9 > 0`), of determinant
+  `9 = |H₁(L(9, 2))|`. The continued fraction with plus signs, `5 + 1/2 = 11/2`, would name the
+  wrong lens space.
 
 ### Examples
 
-- Lisca 2007, Corollary 1.3, for the full list of the fractions `p/q` concerned.
+- `K(25, 4)` and `K(25, 11)` are ribbon, and `L(25, 4)` and `L(25, 11)` bound rational homology
+  balls: `25 = 5²`, `4 = 5·1 − 1`, `11 = 5·2 + 1` (type (1) of Lisca 2007, Definition 1.1, with
+  Corollary 1.3).
 
 ### Dependencies
 
 Layer 0, GeometricTopology 4.4 and 4.10, FourManifolds §5.3 (gap:donaldson-definite-any-pi1),
-Tau Ceti's lens spaces.
+Tau Ceti's lens spaces and plumbing graphs.
 
 ## Downstream consumers
 
@@ -371,6 +444,8 @@ and Powell (2020) extend Gordon's degree bound (1.5) to homotopy ribbon concorda
   Prentice-Hall (1962), 168–176.
 - S. Friedl, M. Powell, *Homotopy ribbon concordance and Alexander polynomials*, Arch. Math. 115
   (2020), 717–725; doi:10.1007/s00013-020-01517-5; arXiv:1907.09031.
+- M. Gerstenhaber, O. S. Rothaus, *The solution of sets of equations in groups*, Proc. Nat. Acad.
+  Sci. U.S.A. 48 (1962), 1531–1533; doi:10.1073/pnas.48.9.1531.
 - R. E. Gompf, M. Scharlemann, A. Thompson, *Fibered knots and potential counterexamples to the
   property 2R and slice-ribbon conjectures*, Geom. Topol. 14 (2010), 2305–2347;
   arXiv:1103.1601.
