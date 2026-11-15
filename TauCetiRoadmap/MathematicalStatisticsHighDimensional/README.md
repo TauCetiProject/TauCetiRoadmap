@@ -174,6 +174,12 @@ These are fixed for every target. A statement that departs from them is a differ
   [References](#references). A locator marked *by the same argument* names the theorem whose
   proof the target follows when the target's hypotheses or constants differ from those printed.
 
+**Checks.**
+
+- `designCol`: for `X = [[1, 2], [3, 4]]`, `X_1 = (2, 4)`, not the row `(3, 4)`.
+- `designCol`: for the same `X`, `‖X_0‖²/n = (1 + 9)/2 = 5`.
+- `designCol`: for `X = [[2, 1]]` (`n = 1`), `⟪X_0, y⟫/n = 2y`.
+
 ## Exact supplier contracts
 
 ### From Mathlib
@@ -1056,11 +1062,15 @@ The Gaussian log-likelihood with known `σ²` is
   so the larger model is selected exactly when `Y² > 2`, with probability `P(χ²₁ > 2) ≈ 0.1573`
   for `f = 0`, the bound of the overfitting bullet with `d = 1`.
 - Akaike selector: at a tie `Y² = 2` the smaller index is returned.
+- Akaike selector, the factor `1/σ²`: with `σ = 2` in the same setting, `AIC₁ = Y²/4` and
+  `AIC₂ = 2`, so the larger model is selected exactly when `Y² > 8`, not `Y² > 2`.
 - Schwarz selector, negative control: in the same setting `BIC₂ = log 1 = 0`, so the larger
   model is selected whenever `Y ≠ 0`; the Schwarz penalty `log n` is below Akaike's `2` for
   `n ≤ 7` (`e² ≈ 7.389`), and its consistency is a statement about large `n`.
 - Schwarz selector: for `n = 100`, `σ = 1`, `S₁ = ⊥` and `S₂` a line, `S₂` is selected exactly
   when `‖P_{S₂} Y‖² > log 100 ≈ 4.605`, against `‖P_{S₂} Y‖² > 2` for Akaike's.
+- Schwarz selector, ties: in the same setting with `‖P_{S₂} Y‖² = log 100`, the two criteria
+  agree and the smaller index is returned.
 
 ### 4.3 The upper bound for sparse regression
 
@@ -1235,7 +1245,8 @@ Gaussian divergence, Le Cam's two-point method, Fano's method); Tau Ceti
   risk at least `σ²s/16`.
 
 *Needs:* 5.1, 5.2; MathematicalStatisticsNonparametric 1.3, 2.5 and 2.6 (the Gaussian divergence,
-Assouad's lemma); Mathlib `minimaxRisk`, `Kernel.deterministic`.
+Assouad's lemma); Tau Ceti `etvDist_sq_le_two_mul_klDiv`; Mathlib `minimaxRisk`,
+`Kernel.deterministic`.
 
 **Checks.**
 
@@ -1535,6 +1546,8 @@ bounds the number of nonzero entries in each row of `Σ`.
 - `supportPattern`: the diagonal is counted: `Σ = I₂` has pattern `I₂` and `‖A‖ = 1`.
 - `supportPattern`: the star `Σ = [[1, a, a], [a, 1, 0], [a, 0, 1]]`, `a ≠ 0`, has
   `‖A‖ = 1 + √2 ≈ 2.414 ≤ s = 3`, the hub-and-spoke value `1 + √(s - 1)`.
+- `supportPattern`, negative control: `[[2, -3], [0, 5]]` has pattern `[[1, 1], [0, 1]]`; a sign
+  pattern would have `-1`, and the pattern of a non-symmetric matrix need not be symmetric.
 - Deterministic theorem, negative control: symmetry is needed for `‖A‖ ≤ s`. The pattern
   `[[1, 0], [1, 0]]` has one nonzero entry per row and norm `√2 > 1`.
 
@@ -1638,6 +1651,7 @@ ordered pairs, as in Wainwright's (11.10), p. 354.
   minimum is `1 + log 2 ≈ 1.693` at `θ = 1/2`.
 - `glassoObjective`: the diagonal is not penalized: for `Σ̂ = I₂` and `λ = 1`, `F(I₂) = 2`, and
   `F(Θ)` for `Θ = [[1, 1/2], [1/2, 1]]` is `2 - log(3/4) + 1 ≈ 3.288`.
+- `glassoObjective`: for `Σ̂ = I₂` and `λ = 1`, `F(2I₂) = 4 - log 4 ≈ 2.614 > F(I₂) = 2`.
 - Existence, negative control: positive semidefiniteness is needed. For
   `Σ̂ = [[1, 2], [2, 1]]` (eigenvalues `3` and `-1`, positive diagonal) and `λ = 1/2`, the
   positive definite `Θₐ = [[a, 1/2 - a], [1/2 - a, a]]` give
@@ -1713,13 +1727,32 @@ eigenvector `θ*`, and `Σ̂ = n⁻¹ ∑ xᵢxᵢᵀ`.
 
 - **Spiked ensemble** (`spiked_leading_eigenvector`): there are universal `c₀, c₁, c₂ > 0` such
   that, if `n > p`, `((ν + 1)/ν²)(p/n) ≤ 1/128` and `δ > 0`, then with probability at least
-  `1 - c₁ exp(-c₂n min(√ν δ, νδ²))`, every leading unit eigenvector `θ̂` of `Σ̂` with
-  `⟪θ̂, θ*⟫ ≥ 0` satisfies `‖θ̂ - θ*‖ ≤ c₀√(((ν + 1)/ν²)(p/n)) + δ` (Wainwright, Cor 8.7, p. 245).
+  `1 - c₁ exp(-c₂n min(1, νδ², ν²δ²))`, every leading unit eigenvector `θ̂` of `Σ̂` with
+  `⟪θ̂, θ*⟫ ≥ 0` satisfies `‖θ̂ - θ*‖ ≤ c₀√(((ν + 1)/ν²)(p/n)) + δ`. This corrects Wainwright,
+  Cor 8.7, p. 245, whose printed exponent `n min(√ν δ, νδ²)` is unbounded in `ν` at fixed `n` and
+  `δ` (see the Checks); the two exponents agree when `ν ≥ 1` and `√ν δ ≤ 1`.
   The proof applies 8.1 with `P = Σ̂ - Σ`, split as
   `ν(n⁻¹∑ ξᵢ² - 1)θ*θ*ᵀ + √ν(θ*vᵀ + vθ*ᵀ) + (n⁻¹∑ wᵢwᵢᵀ - I)` with `v = n⁻¹∑ ξᵢwᵢ` (Wainwright,
-  (8.21), p. 246): the first term by Bernstein's inequality for the sub-exponential `ξᵢ² - 1`
-  (1.3), the second by a `1/2`-net of the sphere (Tau Ceti `TauCeti.exists_finset_isCover_sphere`)
-  and the sub-exponential products `ξᵢ⟪u, wᵢ⟫`, and the third by the operator-norm bound of 1.3.
+  (8.21), p. 246). It suffices to take `δ ≤ √2` and `c₀√(((ν + 1)/ν²)(p/n)) < √2`, since
+  otherwise the bound holds trivially. The first term satisfies `|n⁻¹∑ ξᵢ² - 1| ≤ 1/32` except
+  with probability `2e^{-cn}`, by Bernstein's inequality for the sub-exponential `ξᵢ² - 1` (1.3).
+  The second satisfies `‖v‖ ≤ C√(p/n) + √ν δ/64` except with probability
+  `2 exp(-cn min(√ν δ, νδ²))`, by a `1/2`-net of the sphere (Tau Ceti
+  `TauCeti.exists_finset_isCover_sphere`) and the sub-exponential products `ξᵢ⟪u, wᵢ⟫`. The third
+  satisfies `‖n⁻¹∑ wᵢwᵢᵀ - I‖ ≤ C√(p/n) + νδ/128` except with probability
+  `2 exp(-cn min(1, ν²δ²))`, by the operator-norm bound of 1.3 at `ε ≤ 1`. Then `‖P‖ ≤ ν/4`, and
+  8.1 gives `(2√2/ν)(√ν ‖v‖ + ‖n⁻¹∑ wᵢwᵢᵀ - I‖) ≤ c₀√(((ν + 1)/ν²)(p/n)) + δ`. Each of the
+  three exponents dominates `c n min(1, νδ², ν²δ²)`.
+
+**Checks.**
+- Large `ν`, negative control for the printed exponent: `p = 2`, `n = 3`, `δ = 1`, Gaussian `ξᵢ`
+  and `wᵢ`, `ν → ∞`. On `{|ξᵢ| ≤ 1/ν for all i < 3}`, which has probability `≥ 0.1 ν⁻³`, one has
+  `xᵢ = wᵢ + O(ν^{-1/2})`, so `∠(θ̂, θ*) > 70°` with probability bounded below. The failure
+  probability is `≳ ν⁻³`, which is `≫ c₁ e^{-3c₂√ν}`, but it is within the constant bound
+  `c₁e^{-3c₂}`.
+- Small `ν`, a second negative control: `p = 2`, `δ = 1`, `ν → 0` and `n → ∞` with `nν² → ∞`. The
+  failure probability is `≍ exp(-cnν²)`, which is `≫ exp(-c₂nν)`, the printed bound there.
+- At `ν = 1` and `δ = 1/2`, both exponents equal `n/4`.
 
 *Needs:* 8.1; 1.1, 1.3; RandomMatrices §2.1 (Bernstein's inequality for sub-exponential sums);
 Tau Ceti `exists_finset_isCover_sphere`.
@@ -1843,7 +1876,7 @@ under this roadmap.
 
 ## Prior formalization
 
-The layers are formalized in `CKSD/Nonparametric/` of
+Parts of Layers 1–8 are formalized in `CKSD/Nonparametric/` of
 [lean-CKSD](https://github.com/bjbraams/lean-CKSD), the Core Knowledge of Statistics and Data
 Science project. There:
 - the lasso basic inequality and compatibility bounds, the Benjamini–Hochberg bound under
@@ -1904,8 +1937,6 @@ The locators refer to these editions; page numbers are printed page numbers.
 
 Also cited:
 
-- H. Akaike, Information theory and an extension of the maximum likelihood principle, *2nd
-  International Symposium on Information Theory*, Akadémiai Kiadó, 1973, 267–281.
 - P. J. Bickel and E. Levina, Covariance regularization by thresholding, *Ann. Statist.* 36
   (2008), 2577–2604.
 - E. J. Candès and Y. Plan, Tight oracle inequalities for low-rank matrix recovery from a

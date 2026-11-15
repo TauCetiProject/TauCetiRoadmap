@@ -1151,8 +1151,9 @@ theorem leading_eigenvector_perturbation {E : Type*} [NormedAddCommGroup E]
       (∀ u, IsLeadingUnitEigenvector ((Sig + P : E →L[ℝ] E) : E →ₗ[ℝ] E) u → u = θh ∨ u = -θh) ∧
       ‖θh - θ‖ ≤ √2 * ‖P θ - ⟪θ, P θ⟫ • θ‖ / (ν - 2 * ‖P‖) := sorry
 
-/-- **8.2** The leading sample eigenvector in the spiked sub-Gaussian ensemble (Wainwright,
-Cor 8.7). The observations are `xᵢ = √ν ξᵢ θ + wᵢ`. -/
+/-- **8.2** The leading sample eigenvector in the spiked sub-Gaussian ensemble (corrects
+Wainwright, Cor 8.7, whose exponent `n min(√ν δ, νδ²)` fails for large `ν`). The observations
+are `xᵢ = √ν ξᵢ θ + wᵢ`. -/
 theorem spiked_leading_eigenvector :
     ∃ c₀ c₁ c₂ : ℝ, 0 < c₀ ∧ 0 < c₁ ∧ 0 < c₂ ∧
       ∀ {Ω : Type*} [MeasurableSpace Ω] (μ : Measure Ω) [IsProbabilityMeasure μ] (n p : ℕ)
@@ -1167,7 +1168,8 @@ theorem spiked_leading_eigenvector :
         μ {ω | ¬ ∀ θh, IsLeadingUnitEigenvector (Matrix.toEuclideanLin (Matrix.of fun j k ↦
               (n : ℝ)⁻¹ * ∑ i, (√ν * ξ i ω * θ j + w i ω j) * (√ν * ξ i ω * θ k + w i ω k))) θh →
             0 ≤ ⟪θh, θ⟫ → ‖θh - θ‖ ≤ c₀ * √((ν + 1) / ν ^ 2 * (p / n)) + δ} ≤
-          ENNReal.ofReal (c₁ * Real.exp (-c₂ * n * min (√ν * δ) (ν * δ ^ 2))) := sorry
+          ENNReal.ofReal (c₁ * Real.exp (-c₂ * n * min 1 (min (ν * δ ^ 2) (ν ^ 2 * δ ^ 2)))) :=
+          sorry
 
 /-- **8.3** The Marchenko–Pastur law for the sample covariance of the `n × p(n)` corners of an
 infinite i.i.d. array, as weak convergence of the empirical spectral measures, simultaneously for
