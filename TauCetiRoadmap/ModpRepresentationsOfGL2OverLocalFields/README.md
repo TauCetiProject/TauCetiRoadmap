@@ -160,7 +160,7 @@ of Layer 7 is an upper bound under explicit multiplicity hypotheses.
   generated over the abstract group algebra (`Module.Finite` over `MonoidAlgebra`); *finite length*
   means finite length over the group algebra (`IsFiniteLength`), never over `𝒪`. A *finite
   `𝒪`-module* is a finitely generated one.
-- For Layers 3–9, `F` is unramified of degree `f ≥ 1`, `q = p^f`, `J = ℤ/fZ` indexes the
+- For Layers 3–9, `F` is unramified of degree `f ≥ 1`, `q = p^f`, `J = ℤ/fℤ` indexes the
   embeddings `σ_i = σ_0 ∘ Frob^i` of `k_F` into `k`, all indices are cyclic, and `K₁ = 1 + pM₂(𝒪_F)`,
   `I` the upper Iwahori, `I₁` its pro-`p` radical, `Z₁ = Z ∩ K₁`, `H = I/I₁` the residual torus.
   For a pro-`p` group `U`, `𝔪_U` is the augmentation ideal of `k[[U]]` and `V[𝔪_U^n]` the subspace
@@ -363,8 +363,8 @@ of Layer 7 is an upper bound under explicit multiplicity hypotheses.
 - §0.1: Schikhof duality and admissible unitary Banach representations; used in §2.6 here.
 - §0.3: the coefficient-linear torsion dual `Hom_𝒪(M, L/𝒪)` of a discrete torsion `𝒪`-module,
   with exactness, biduality and contragredient action; the finite-residue fundamental characters
-  of every level with Frobenius powers and norm compatibility; used in §§0.1, 1.6, 3.4 and 4.1
-  here.
+  of every level with Frobenius powers and norm compatibility; used in §§0.1, 1.6, 3.4, 4.1 and
+  4.6 here.
 - §§2.1–2.3: the `GL₂(ℚ_p)` torsion categories with central character, local finiteness, the dual
   category `C_{G,ζ}(𝒪)` and its projective envelopes.
 - §2.6: mod `p` principal series `Ind_B^G(δ₁ ⊗ δ₂)` of `GL₂(ℚ_p)`, irreducible exactly when
@@ -544,7 +544,8 @@ subrepresentation `𝒪[H]v` is torsion-admissible. The notion differs from Smoo
 action is torsion-admissible and not admissible in that sense. For `H = GL₂(ℚ_p)` with fixed
 central character it is the admissibility of PadicLocalLanglandsForGL2Qp §2.1. *Needs:* Mathlib
 `IsFiniteLength`, `OpenSubgroup`; SmoothRepresentationsOfLocalGroups *is-smooth*,
-*compact-open-invariants*, SR.0d.1 (for the injectives of the locally admissible category).
+*compact-open-invariants*, SR.0d.1 (for the injectives of the locally admissible category);
+PadicLocalLanglandsForGL2Qp §0.3 (Pontryagin duality).
 
 API:
 
@@ -834,7 +835,8 @@ API:
 Mathlib representations, induction and finite length; Tau Ceti completed group algebras;
 SmoothRepresentationsOfLocalGroups SR.0.1–SR.0.4, SR.0d.1 and SR.2.1;
 NoncommutativeAndEquivariantIwasawa §§0.3 and F.1; FiniteFlatGroupsAndIntegralPadicHodgeTheory
-R07.5.15 (Serre weights, §0.8); PadicLocalLanglandsForGL2Qp §§2.3 and 2.9 for Checks.
+R07.5.15 (Serre weights, §0.8); PadicLocalLanglandsForGL2Qp §0.3 (Pontryagin duality, §0.1), and
+§§2.1, 2.3, 2.7 and 2.9 for comparisons and Checks.
 
 ## Layer 1: Finite-length criteria over ℚ_p
 
@@ -1040,7 +1042,8 @@ Layer 0; PadicLocalLanglandsForGL2Qp §§0.3, 2.7, 2.9, 5.1, 5.2 (with
 gap:ext1-finite-length-into-compact-induction and gap:fixed-central-character-ext1-finite);
 FiniteFlatGroupsAndIntegralPadicHodgeTheory
 R07.5.15 (with gap:barthel-livne-finite-codimension); SmoothRepresentationsOfLocalGroups
-*smooth-dual*, *induction-exactness*; NoncommutativeAndEquivariantIwasawa §F.1.
+*smooth-dual*, *compact-induction*, *frobenius-reciprocity*, *induction-exactness*;
+NoncommutativeAndEquivariantIwasawa §F.1.
 
 ## Layer 2: Admissible finite presentation and ordinary parts
 
@@ -1405,8 +1408,9 @@ CompletedCohomologyPartII F.1; PadicLocalLanglandsForGL2Qp §0.1; SmoothRepresen
 
 ### Dependencies
 
-Layer 0; PotentialAutomorphyInfrastructure §3.7; CompletedCohomologyAndLocalGlobalCompatibility
-§0.1 (the `F = ℚ_p` functor of §2.1); SmoothRepresentationsOfLocalGroups SR.0d.1 and SR.2.1; Tau Ceti
+Layers 0 and 1 (§1.2, used in §2.4); PotentialAutomorphyInfrastructure §3.7;
+CompletedCohomologyAndLocalGlobalCompatibility §0.1 (the `F = ℚ_p` functor of §2.1);
+SmoothRepresentationsOfLocalGroups SR.0d.1 and SR.2.1; Tau Ceti
 `TauCeti.ContCohomology.coindAcyclic`; Mathlib `ContRepresentation.coind`; PadicLocalLanglandsForGL2Qp
 §§0.1, 2.6, 2.7, 2.9; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5.15 (with
 gap:barthel-livne-ordinary-classification and gap:ordinary-irreducible-hecke-presentation);
@@ -1880,8 +1884,10 @@ everything; then §4.2 and §4.5 give the bound. *Needs:* §§4.2, 4.5, 4.6.
 
 Layer 0 (§0.1); NoncommutativeAndEquivariantIwasawa §§0.5, 0.7, 0.8, 0.10–0.11, F.1 (with
 gap:filtered-grade-equality and gap:enveloping-auslander-regular); CompletedCohomologyPartII §5.8;
+PadicLocalLanglandsForGL2Qp §0.3 (Pontryagin duality, §§4.1 and 4.6);
 SmoothRepresentationsOfLocalGroups *smooth-rep-category*; Tau Ceti completed group algebras,
-`TauCeti.exists_isInjectiveEnvelope` and `TauCeti.UniversalEnvelopingAlgebra.pbwAssociatedGradedEquiv`;
+`TauCeti.exists_isInjectiveEnvelope`, `TauCeti.IsEssentialMono.exists_iso` and
+`TauCeti.UniversalEnvelopingAlgebra.pbwAssociatedGradedEquiv`;
 DeformationAndDerivedPatchingAlgebra §3.4; SchemeAndStackFoundations §0.17;
 Mathlib commutative algebra; Layer 3 (§3.1).
 
@@ -2121,10 +2127,11 @@ API:
 
 ### Dependencies
 
-Layers 3–4 (the envelopes of §4.6); RepresentationTheory/QuiverRepresentations §3.1;
-RepresentationTheory/ArtinAlgebras §2.3; Tau Ceti projective covers, their multiplicity formula,
-injective envelopes, socles and completed group algebras; Tau Ceti projective lifting and its
-uniqueness; SmoothRepresentationsOfLocalGroups SR.2.1; NoncommutativeAndEquivariantIwasawa §0.13.
+Layers 3–4 (the graded algebra of §4.4 and the envelopes of §4.6);
+RepresentationTheory/QuiverRepresentations §3.1; RepresentationTheory/ArtinAlgebras §2.3; Tau Ceti
+projective covers, their multiplicity formula, injective envelopes, socles and completed group
+algebras; Tau Ceti projective lifting and its uniqueness; SmoothRepresentationsOfLocalGroups SR.0.3
+and SR.2.1; NoncommutativeAndEquivariantIwasawa §0.13.
 
 ## Layer 6: Diamond boxes and multiplicity-preserving enlargements
 
@@ -2430,7 +2437,7 @@ p. 76, and Theorem 1.4, pp. 5–6). Route: the central character is trivial on t
 
 ### Dependencies
 
-Layers 3–6.
+Layers 3–6; PadicLocalLanglandsForGL2Qp §2.7 for Examples.
 
 ## Layer 8: Bockstein maps and projective-cover lattices
 
@@ -2568,7 +2575,7 @@ are `K₁`-trivial, so `𝔪_{K₁}²` kills `R/pR`; compare dimensions using `d
 ### Dependencies
 
 Layers 3–5; NoncommutativeAndEquivariantIwasawa §0.13; SmoothRepresentationsOfLocalGroups
-*coefficient-change*; Tau Ceti projective covers.
+*coefficient-change*; Tau Ceti projective covers; Mathlib `Representation`.
 
 ## Layer 9: Endomorphisms and relative projectivity
 
