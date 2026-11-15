@@ -515,8 +515,9 @@ representations to a central extension, but states no degree divisibility. The d
 reduces, through the Clifford correspondence of Layer 5 and that factorisation, to Schur's theorem
 that the degree of an irreducible projective representation of a finite group divides the order of
 the group, which follows from the lifting to a finite central extension and the divisibility of
-the degree of an irreducible representation by the index of a central subgroup (isaacs Theorem
-3.12). §8.3 uses it for Reynolds' height formula.
+the index of a central subgroup by the degree of an irreducible character, `χ(1) ∣ |H : Z|` for
+a finite group `H`, `χ ∈ Irr(H)` and `Z ≤ Z(H)` (isaacs Theorem 3.12). §8.3 uses it for
+Reynolds' height formula.
 
 ## How to read the build
 
