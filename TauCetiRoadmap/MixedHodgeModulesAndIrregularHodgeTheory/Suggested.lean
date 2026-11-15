@@ -52,6 +52,15 @@ Each of the following needs a carrier that neither Mathlib nor Tau Ceti has at t
   of the logarithmic irregular Hodge filtration and the filtered Künneth and duality theorems
   (Chen–Yu, Theorem 1; Yu, Theorem 2.2) (Layer 10, targets 10.3, 10.7 and 10.9). Missing: the
   irregular Hodge filtration `F_irr` of a pair, defined through the Deligne filtration.
+* Kouchnirenko's graded acyclicity (Layer 10, target 10.5): the associated graded ring of the
+  Newton filtration of the cone algebra is Cohen–Macaulay of dimension `n`, and the leading forms
+  of `θ_1 φ, …, θ_n φ` form a regular sequence on it. Missing: the associated graded ring of the
+  Newton filtration. The pinned Mathlib has only the class `IsRingFiltration`, and Tau Ceti builds
+  associated graded algebras only for word filtrations, which the Newton filtration is not in
+  general.
+* The constant boundary correction for a convenient Newton-nondegenerate Laurent polynomial `h`
+  (Denef–Loeser; Layer 10, target 10.8): the cone of `h_! pℚ_T → h_* pℚ_T` has constant
+  cohomology mixed Hodge modules. Missing: mixed Hodge modules and their direct images.
 -/
 
 namespace TauCetiRoadmap.MixedHodgeModulesAndIrregularHodgeTheory
