@@ -31,7 +31,7 @@ link-cobordism carriers. This roadmap constructs the Khovanov complexes and maps
 tangle calculus, relative movie theorem and their specialized geometric adapters. Consume
 [DifferentialGeometry](../DifferentialGeometry/README.md) Layer 2 for manifold, pullback and product
 orientations and Layer 5 for boundary conventions; construct the link/surface/chart sign comparisons
-here. Consume [ConformalMapping](../ConformalMapping/README.md) L5 for Jordan separation and
+here. Consume [ConformalMapping](../../Completed/ConformalMapping/README.md) L5 for Jordan separation and
 filled-hull topology and construct the finite polygonal/native-face adapters in G. Khovanov–Seidel
 braid actions belong to ZigzagPreprojective.
 
