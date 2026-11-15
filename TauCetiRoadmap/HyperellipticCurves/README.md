@@ -2299,11 +2299,10 @@ PeriodsAndSpecialValues PS.1.1, PS.1.8, PS.3.3.
 
 ## Downstream consumers
 
-CanonicalModelsAndGonality uses the equation/isomorphism dictionary;
-GroupActionsOnRiemannSurfaces uses the involution criterion; CurvesOverFiniteFields
-and AbelianVarietiesOverFiniteFields use the equation-level point counts and Jacobian
-Euler-factor bridge. SatoTateGroups and AdelicImagesAndModularCurves consume the
-genus-two equations and intrinsic invariants without supplying this roadmap.
+GroupActionsOnRiemannSurfaces uses the involution criterion of 1.4;
+AbelianVarietiesOverFiniteFields uses the models and the hyperelliptic predicate of 0.4;
+AdelicImagesAndModularCurves consumes the genus-two equations, their Weierstrass points and
+their invariants. None of them supplies this roadmap.
 
 ## Worked examples (acceptance criteria)
 
