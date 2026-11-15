@@ -411,8 +411,8 @@ gap:hfk-genus-detection.
 
 ### Dependencies
 
-Layer 0, Tau Ceti; 1.3 also gap:knot-group-residually-finite; 1.4 also GeometricTopology 3.4,
-5.1, 8.1, 8.3.1 and 11.2 (gap:knot-group-residually-finite, gap:knot-group-peripheral-injection);
+Layer 0, Tau Ceti; 1.3 also gap:knot-group-residually-finite; 1.4 also GeometricTopology 3.4, 5.1,
+8.1, 8.3.1, 8.5.2 and 11.2 (gap:knot-group-residually-finite, gap:knot-group-peripheral-injection);
 1.5 also GeometricTopology 4.3, 4.4 and HeegaardFloer 7.6 (gap:link-floer-cobordism-maps,
 gap:link-floer-grading-shift, gap:link-floer-two-knot, gap:hfk-genus-detection).
 
