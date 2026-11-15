@@ -332,6 +332,24 @@ survives a change of universe), the Stacks Project, chapter « Set Theory » (Ta
 and Scholze 2017 (cut-off cardinals in place of universes). McLarty 2010 and 2020 show how little
 of the universe machinery the cohomological applications need.
 
+## Provenance: existing formalizations outside Tau Ceti
+
+This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
+Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
+Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
+the repository records it as unreviewed by humans, and it is built on Lean and Mathlib v4.35.0,
+earlier than our pin. It is not a dependency: a statement read there is compared with the target
+here before it is used, adaptation is agreed with its maintainers first, and adapted code keeps its
+Apache-2.0 notices.
+
+`StacksFrontier/SetTheory` follows the Stacks chapter *Set Theory*: the reflection principle for
+formulas of set theory (Tag 000G, `ZFC/Reflection.lean`), ordinals of large cofinality above a given
+cardinal (Tags 05N2 and 05N3, `Cardinal/Cofinality.lean`), strong limit cardinals of large
+cofinality (`Cardinal/StrongPrelimitCofinality.lean`) and size bounds. The Stacks Project uses these
+partial universes `V_α` in place of Grothendieck universes. They border on 1.3 and 2.3, but no file
+name or tag there defines Grothendieck universes, inaccessible stages or the universe axiom, and
+Layers 0–2 have no counterpart there.
+
 ## References
 
 - P. Gabriel, « Des catégories abéliennes », *Bull. Soc. Math. France* 90 (1962), 323–448,
@@ -384,3 +402,7 @@ of the universe machinery the cohomological applications need.
   *Fund. Math.* 194 (2007), no. 2, 179–189, doi:10.4064/fm194-2-3: §2, Propositions 4 and 6,
   Corollary 16, Theorem 17.
 - A. Tarski, « On well-ordered subsets of any set », *Fund. Math.* 32 (1939), 176–183: §2.
+- AxiomMath, *The Stacks Project in Lean*. Lean 4 formalization at commit
+  c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
+  directories `StacksFrontier/SetTheory`.
+  https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier
