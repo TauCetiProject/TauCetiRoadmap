@@ -146,13 +146,12 @@ theorem isLightSolid_reflective_and_generator :
 /-- The light solid full subcategory admits a closed symmetric monoidal structure for
 which its left-adjoint reflection is symmetric monoidal (RC Theorem 3.2.4(3), p.17). -/
 theorem isLightSolid_closed_monoidal_reflection :
-    ∃ m : MonoidalCategory IsLightSolid.{u}.FullSubcategory,
-      letI := m
-      ∃ s : SymmetricCategory IsLightSolid.{u}.FullSubcategory,
-        letI := s
-        Nonempty (MonoidalClosed IsLightSolid.{u}.FullSubcategory) ∧
-          ∃ L : LightCondMod (ULift.{u} ℤ) ⥤ IsLightSolid.{u}.FullSubcategory,
-            Nonempty (L ⊣ IsLightSolid.{u}.ι) ∧ Nonempty L.Braided := by
+    ∃ (m : MonoidalCategory IsLightSolid.{u}.FullSubcategory)
+      (s : @SymmetricCategory IsLightSolid.{u}.FullSubcategory _ m),
+      Nonempty (@MonoidalClosed IsLightSolid.{u}.FullSubcategory _ m) ∧
+        ∃ L : LightCondMod (ULift.{u} ℤ) ⥤ IsLightSolid.{u}.FullSubcategory,
+          Nonempty (L ⊣ IsLightSolid.{u}.ι) ∧
+            Nonempty (@Functor.Braided _ _ _ _ _ _ m s.toBraidedCategory L) := by
   sorry
 
 /-- For any chosen ordinary derived category of light modules over lifted integers, the
