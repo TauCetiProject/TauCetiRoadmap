@@ -111,19 +111,19 @@ theorem tendsto_translation_cokernelLaw {p : ℕ} [Fact p.Prime]
         (Nat.card (A ≃+ A) : ℝ)))) := by sorry
 
 /-- The rational probability of a specified right-kernel dimension for a uniform matrix. -/
-def matrixKernelLaw (F : Type*) [Field F] [Fintype F] (m n j : ℕ) : ℚ :=
+def matrixKernelLaw (F : Type*) [Field F] [Finite F] (m n j : ℕ) : ℚ :=
   (Nat.card {M : Matrix (Fin m) (Fin n) F //
     Module.finrank F (LinearMap.ker M.mulVecLin) = j} : ℚ) /
-    (Fintype.card F : ℚ) ^ (m * n)
+    (Nat.card F : ℚ) ^ (m * n)
 
 /-- The exact rank distribution of arbitrary rectangular finite-field matrices (§3.7). -/
-theorem matrix_rank_count (F : Type*) [Field F] [Fintype F] (m n r : ℕ)
+theorem matrix_rank_count (F : Type*) [Field F] [Finite F] (m n r : ℕ)
     (hr : r ≤ min m n) :
     (Nat.card {M : Matrix (Fin m) (Fin n) F // M.rank = r} : ℚ) =
       ∏ i ∈ Finset.range r,
-        (((Fintype.card F : ℚ) ^ m - (Fintype.card F : ℚ) ^ i) *
-          ((Fintype.card F : ℚ) ^ n - (Fintype.card F : ℚ) ^ i) /
-          ((Fintype.card F : ℚ) ^ r - (Fintype.card F : ℚ) ^ i)) := by sorry
+        (((Nat.card F : ℚ) ^ m - (Nat.card F : ℚ) ^ i) *
+          ((Nat.card F : ℚ) ^ n - (Nat.card F : ℚ) ^ i) /
+          ((Nat.card F : ℚ) ^ r - (Nat.card F : ℚ) ^ i)) := by sorry
 
 /-- The finite binary kernel law satisfies the normalized Koymans–Pagano identity. -/
 theorem koymansPaganoRankIdentity (m : ℕ) :
@@ -131,19 +131,19 @@ theorem koymansPaganoRankIdentity (m : ℕ) :
       ((2 : ℚ) ^ m * (2 ^ (j + 1) - 1))) = 1 / ((2 : ℚ) ^ (m + 1) - 1) := by sorry
 
 /-- The rational kernel law for uniform symmetric matrices, including their diagonal entries. -/
-def symmetricKernelLaw (F : Type*) [Field F] [Fintype F] (r n : ℕ) : ℚ :=
+def symmetricKernelLaw (F : Type*) [Field F] [Finite F] (r n : ℕ) : ℚ :=
   (Nat.card {M : Matrix (Fin r) (Fin r) F // M.IsSymm ∧
     Module.finrank F (LinearMap.ker M.mulVecLin) = n} : ℚ) /
-    (Fintype.card F : ℚ) ^ (r * (r + 1) / 2)
+    (Nat.card F : ℚ) ^ (r * (r + 1) / 2)
 
 /-- MacWilliams's product counts symmetric matrices of each rank in every characteristic. -/
-theorem macwilliams_symmetric_rank_count (F : Type*) [Field F] [Fintype F]
+theorem macwilliams_symmetric_rank_count (F : Type*) [Field F] [Finite F]
     (s k : ℕ) (hk : k ≤ s) :
     (Nat.card {M : Matrix (Fin s) (Fin s) F // M.IsSymm ∧ M.rank = k} : ℚ) =
       (∏ i ∈ Finset.range (k / 2),
-        (Fintype.card F : ℚ) ^ (2 * (i + 1)) /
-          ((Fintype.card F : ℚ) ^ (2 * (i + 1)) - 1)) *
-      ∏ i ∈ Finset.range k, ((Fintype.card F : ℚ) ^ (s - i) - 1) := by sorry
+        (Nat.card F : ℚ) ^ (2 * (i + 1)) /
+          ((Nat.card F : ℚ) ^ (2 * (i + 1)) - 1)) *
+      ∏ i ∈ Finset.range k, ((Nat.card F : ℚ) ^ (s - i) - 1) := by sorry
 
 /-- Binary symmetric kernel masses converge to the odd Euler-product law. -/
 theorem tendsto_symmetricKernelLaw (n : ℕ) :
@@ -173,9 +173,34 @@ def fkGoodPlanes (k : ℕ) : Set (Submodule (ZMod 2) (FKSpace k)) :=
   {U | Module.finrank (ZMod 2) U = k ∧
     ∀ u ∈ U, ∀ v ∈ U, (∑ j, (u j).1 * ((v j).1 + (v j).2)) = 0}
 
-/-- The FK good k-planes are counted by all subspaces of F₂^k. -/
+/-- The plane `F ⊕ F^⊥` attached to a subspace `F` of `F₂^k`: in the basis
+`b_{j,1} = e_{j,1} + e_{j,2}`, `b_{j,2} = e_{j,2}` its first coordinates `u_{j,1}` lie in `F`
+and its second coordinates `u_{j,1} + u_{j,2}` are dot-orthogonal to `F`. -/
+def fkGoodPlaneOf (k : ℕ) (F : Submodule (ZMod 2) (Fin k → ZMod 2)) :
+    Submodule (ZMod 2) (FKSpace k) where
+  carrier := {u | (fun j => (u j).1) ∈ F ∧ ∀ f ∈ F, ∑ j, f j * ((u j).1 + (u j).2) = 0}
+  add_mem' := by
+    rintro u v ⟨hu, hu'⟩ ⟨hv, hv'⟩
+    refine ⟨F.add_mem hu hv, fun f hf => ?_⟩
+    have := congrArg₂ (· + ·) (hu' f hf) (hv' f hf)
+    simp only [add_zero] at this
+    rw [← this, ← Finset.sum_add_distrib]
+    refine Finset.sum_congr rfl fun j _ => ?_
+    simp only [Pi.add_apply, Prod.fst_add, Prod.snd_add]; ring
+  zero_mem' := ⟨F.zero_mem, fun f _ => by simp⟩
+  smul_mem' := by
+    rintro c u ⟨hu, hu'⟩
+    refine ⟨F.smul_mem c hu, fun f hf => ?_⟩
+    have := congrArg (c * ·) (hu' f hf)
+    simp only [mul_zero] at this
+    rw [← this, Finset.mul_sum]
+    refine Finset.sum_congr rfl fun j _ => ?_
+    simp only [Pi.smul_apply, Prod.smul_fst, Prod.smul_snd, smul_eq_mul]; ring
+
+/-- The FK good k-planes are exactly the planes `F ⊕ F^⊥`, one for each subspace `F` of
+F₂^k (Fouvry–Klüners, Lemma 26). -/
 theorem fk_good_subspace_bijection (k : ℕ) :
-    Nonempty ({U // U ∈ fkGoodPlanes k} ≃ Submodule (ZMod 2) (Fin k → ZMod 2)) := by sorry
+    Set.BijOn (fkGoodPlaneOf k) Set.univ (fkGoodPlanes k) := by sorry
 
 /-- Each nonempty FK coordinate constraint gives the subspaces of one lower dimension (§3.10). -/
 theorem fkGoodPlanes_linear_constraint {k : ℕ} (hk : 1 ≤ k)

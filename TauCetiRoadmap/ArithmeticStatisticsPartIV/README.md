@@ -54,7 +54,7 @@ AnalyticNumberTheoryPartI Layers 0–3 and AnalyticNumberTheoryPartII Layers 4�
 
 ## How to read the build
 
-The mathematical specification is this README; `Suggested.lean` states headline theorems on the pinned carriers. Its short definitions give partition representatives, Cohen–Lenstra weights, surjection moments, matrix laws and exponent-bounded group classes; the remaining definitions and basic properties below specify the library to build. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
+The mathematical specification is this README; `Suggested.lean` states headline theorems on the pinned carriers. Its short definitions give partition representatives, Cohen–Lenstra weights, surjection moments, matrix laws, FK good planes and exponent-bounded group classes; the remaining definitions and basic properties below specify the library to build. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
 
 The p-adic signatures use the native quotient module `padicCokernel` and normalized `padicMatrixHaar` directly: `surjectionMoment_cokernelLaw` states the exact Haar moment, `tendsto_cokernelLaw` the rectangular Friedman–Washington limit, and `tendsto_translation_cokernelLaw` its square `1 − F` form. Their target is any finite additive abelian group `A` with `IsPGroup p (Multiplicative A)`, and their measurable structure on `ℤ_p` is Borel. The partition carrier `FinAbPGroupClass` and its native cyclic-product representatives support the Cohen–Lenstra mass, moment and all-prime convergence statements. Wood's bounded moment theorem uses `Distributions.BoundedAbGroupClass`, a subtype of Mathlib's categorical skeleton of integer modules, with the native exterior square in its growth hypothesis.
 
@@ -783,7 +783,7 @@ All denominators `q^(2i)−1` are nonzero since `i≥1` and `q≥2`. Empty produ
 
 Use the native subtype count `N_F(n,k)`, with `N_F(0,0)=1` and `N_F(0,k)=0` for `k>0`: the empty matrix is unique and its image has dimension zero. For `k>n` the count is zero by the native rank-width bound. The characteristic-free symmetric-rank-count-recurrence gives every next row from the preceding row; its finite sum also covers `k=0,1` and `k>n+1`. The rational product has the same initial row and satisfies symmetric-rank-product-recurrence. Induction on `n`, simultaneously for every `k`, equates the natural count cast to `ℚ` with the product. Specialize to `k≤s` and write `k=2h` or `2h+1` to obtain the stated product. Characteristic two uses precisely the same border kernels; alternating matrices are included with their unrestricted symmetric-matrix companions.
 
-*Needs:* symmetric rank count recurrence (§3.8), symmetric rank product recurrence (§3.8), `Matrix.rank_le_width` (Mathlib), `Matrix.rank_zero` (Mathlib), `Fintype.one_lt_card` (Mathlib).
+*Needs:* symmetric rank count recurrence (§3.8), symmetric rank product recurrence (§3.8), `Matrix.rank_le_width` (Mathlib), `Matrix.rank_zero` (Mathlib), `Finite.one_lt_card` (Mathlib).
 
 ([43], arXiv 2509.10332, §1, p. 3; [41], arXiv 2201.13424v1, proof of Theorem 7.13, p. 74; [52], §4, First Proof (J. MacWilliams), p. 355, equations (4.2)–(4.3).)
 
@@ -883,7 +883,8 @@ Required definitions and properties:
 
 - `U` is good iff `dim U=k` and `L(u,v)=0` for every `u,v∈U`.
 - The set is finite, as a subset of subspaces of the finite vector space `E_k`.
-- `FieldStatistics.fk_good_subspace_bijection`: the displayed equivalence with subspaces of `𝔽₂^k`, including `k=0`.
+- `FieldStatistics.fkGoodPlaneOf`: for a subspace `F` of `𝔽₂^k`, the subspace of `E_k` of the `u` with `(u_{j,1})_j ∈ F` and `Σ_j f_j(u_{j,1}+u_{j,2})=0` for every `f∈F`; it is `F⊕F^⊥` in the basis `b`, whose coordinates are `x_j=u_{j,1}` and `y_j=u_{j,1}+u_{j,2}`.
+- `FieldStatistics.fk_good_subspace_bijection`: `F ↦ fkGoodPlaneOf k F` is a bijection from the subspaces of `𝔽₂^k` onto the good planes, including `k=0`.
 - Its cardinality is `N(k,2)=∑_{d=0}^k [k d]_2`.
 - `FieldStatistics.fkGoodPlanes_linear_constraint`: each of the two constraints for nonempty `Γ` has `N(k−1,2)` solutions for `k≥1`.
 
@@ -896,7 +897,7 @@ Use the displayed change of basis to express `L` as the perfect `X×Y` pairing. 
 **Checks.**
 
 - At `k=0` the zero subspace is the unique good plane, giving `N(0,2)=1`.
-- At `k=1` precisely the lines spanned by (1,1) and (0,1) are good; the line spanned by (1,0) fails because `L((1,0),(1,0))=1`.
+- At `k=1` precisely the lines spanned by (1,1) and (0,1) are good, the images of `F=𝔽₂` and `F=0`; the line spanned by (1,0) fails because `L((1,0),(1,0))=1`. Taking the `y`-coordinates in `F` instead of `F^⊥` sends `F=0` to the zero subspace, which is not a line.
 - At `k=2` there are five good planes, the number of subspaces of `𝔽₂²`. Vanishing only of `L(u,v)+L(v,u)` instead gives fifteen planes and fails this test.
 - At `k=1,Γ={1}`, each extra linear constraint selects one of the two good lines, giving `N(0,2)=1`.
 
