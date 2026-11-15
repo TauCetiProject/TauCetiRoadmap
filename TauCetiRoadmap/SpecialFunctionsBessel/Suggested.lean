@@ -8,15 +8,16 @@ public import TauCeti.Analysis.SpecialFunctions.RegularizedHypergeometric
 # Bessel functions: target signatures
 
 This file states the headline theorems of the roadmap against the pinned Mathlib and Tau Ceti,
-one or more per layer. The definitive document is `README.md`, which states every target; this
-file states a selection of them, and discharging it finishes neither a layer nor the roadmap.
+one or more per layer, under the layer titles of `README.md`. The definitive document is
+`README.md`, which states every target; this file states a selection of them, and discharging it
+finishes neither a layer nor the roadmap.
 
 Two headlines cannot be stated at the pins, because their carriers belong to roadmaps that are
-not yet in Tau Ceti: the order derivatives 10.15.6–10.15.9 of 4.2 need `sinIntegral` and
-`cosIntegral` of SpecialFunctionsEiLiErfIncompleteGamma, and the relations of Layer 11 to the
+not yet in Tau Ceti: the order derivatives 10.15.6–10.15.9 of 2.4 need `sinIntegral` and
+`cosIntegral` of SpecialFunctionsEiLiErfIncompleteGamma, and the relations of 8.1 and 8.3 to the
 parabolic cylinder functions need `parabolicCylinderU` and `Real.parabolicCylinderW` of
-SpecialFunctionsParabolicCylinder. The continued fraction 10.10.1 of 4.1 is stated with Mathlib's
-`GenContFract`. The Airy relation of Layer 11 is stated with a roadmap-local copy of
+SpecialFunctionsParabolicCylinder. The continued fraction 10.10.1 of 4.5 is stated with Mathlib's
+`GenContFract`. The Airy relation of 8.2 is stated with a roadmap-local copy of
 SpecialFunctionsAiry's pinned `Ai`, and the agreement of `K_ν` with AnalyticNumberTheoryPartI's
 positive-axis `besselK` with a roadmap-local copy of that definition.
 
@@ -235,7 +236,7 @@ def kelvinKPhase (ν x : ℝ) : ℝ :=
 
 end Real
 
-/-! ### Layer 1: definitions, the equations, connection formulas and Wronskians -/
+/-! ### Layer 1: the equations and their standard solutions -/
 
 namespace Complex
 
@@ -260,19 +261,14 @@ theorem differentiable_besselY_left {z : ℂ} (hz : z ∈ slitPlane) :
     Differentiable ℂ fun ν => besselY ν z := by
   sorry
 
+/-- `I_ν` restricts to Tau Ceti's `Real.besselI` on `(0, ∞)`. -/
+theorem besselI_ofReal (ν : ℝ) {x : ℝ} (hx : 0 < x) :
+    besselI ν x = (_root_.Real.besselI ν x : ℂ) := by
+  sorry
+
 /-- DLMF 10.5.2, the Wronskian `𝒲{J_ν, Y_ν} = 2/(πz)`. -/
 theorem besselJ_mul_deriv_besselY_sub (ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
     besselJ ν z * deriv (besselY ν) z - deriv (besselJ ν) z * besselY ν z = 2 / (π * z) := by
-  sorry
-
-/-- DLMF 10.6.1 for `Y_ν`. -/
-theorem besselY_sub_one_add_besselY_add_one (ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
-    besselY (ν - 1) z + besselY (ν + 1) z = 2 * ν / z * besselY ν z := by
-  sorry
-
-/-- DLMF 10.11.5, `H⁽²⁾_ν(z e^{−πi}) = −e^{νπi} H⁽¹⁾_ν(z)`, for `0 < ph z < π`. -/
-theorem hankelH2_neg (ν : ℂ) {z : ℂ} (h₀ : 0 < arg z) (h₁ : arg z < π) :
-    hankelH2 ν (-z) = -cexp (ν * π * I) * hankelH1 ν z := by
   sorry
 
 /-- DLMF 10.27.8, `K_ν(z) = ½πi e^{νπi/2} H⁽¹⁾_ν(z e^{πi/2})`, for `−π < ph z ≤ π/2`. -/
@@ -285,18 +281,50 @@ theorem besselI_mul_besselK_add (ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
     besselI ν z * besselK (ν + 1) z + besselI (ν + 1) z * besselK ν z = 1 / z := by
   sorry
 
-/-- `I_ν` restricts to Tau Ceti's `Real.besselI` on `(0, ∞)`. -/
-theorem besselI_ofReal (ν : ℝ) {x : ℝ} (hx : 0 < x) :
-    besselI ν x = (_root_.Real.besselI ν x : ℂ) := by
+/-- DLMF 10.6.1 for `Y_ν`. -/
+theorem besselY_sub_one_add_besselY_add_one (ν : ℂ) {z : ℂ} (hz : z ∈ slitPlane) :
+    besselY (ν - 1) z + besselY (ν + 1) z = 2 * ν / z * besselY ν z := by
   sorry
 
-/-! ### Layer 2: limiting forms, generating function and sums -/
+/-- DLMF 10.11.5, `H⁽²⁾_ν(z e^{−πi}) = −e^{νπi} H⁽¹⁾_ν(z)`, for `0 < ph z < π`. -/
+theorem hankelH2_neg (ν : ℂ) {z : ℂ} (h₀ : 0 < arg z) (h₁ : arg z < π) :
+    hankelH2 ν (-z) = -cexp (ν * π * I) * hankelH1 ν z := by
+  sorry
+
+end Complex
+
+/-! ### Layer 2: behaviour at the origin and the elementary orders -/
+
+namespace Complex
 
 /-- DLMF 10.7.4, `Y_ν(z) ∼ −π⁻¹ Γ(ν) (z/2)^{−ν}` as `z → 0`, for `Re ν > 0`. -/
 theorem tendsto_besselY_div_cpow (ν : ℂ) (hν : 0 < ν.re) :
     Tendsto (fun z => besselY ν z / (z / 2) ^ (-ν)) (𝓝[slitPlane] 0)
       (𝓝 (-Gamma ν / π)) := by
   sorry
+
+end Complex
+
+/-! ### Layer 3: Bessel functions of half-odd order in three dimensions -/
+
+namespace Complex
+
+/-- DLMF 10.47.3, `𝗃_n(z) = (π/(2z))^{1/2} J_{n+1/2}(z)`. -/
+theorem sphericalBesselJ_eq_besselJ (n : ℕ) {z : ℂ} (hz : z ∈ slitPlane) :
+    sphericalBesselJ n z = (π / (2 * z)) ^ (1 / 2 : ℂ) * besselJ ((n : ℂ) + 1 / 2) z := by
+  sorry
+
+/-- DLMF 10.47.1 for `𝗃_n`. -/
+theorem sphericalBesselJ_ode (n : ℕ) (z : ℂ) :
+    z ^ 2 * deriv^[2] (sphericalBesselJ n) z + 2 * z * deriv (sphericalBesselJ n) z +
+      (z ^ 2 - n * (n + 1)) * sphericalBesselJ n z = 0 := by
+  sorry
+
+end Complex
+
+/-! ### Layer 4: series over the order -/
+
+namespace Complex
 
 /-- DLMF 10.12.1, the generating function `e^{z(t − t⁻¹)/2} = ∑ₘ tᵐ J_m(z)`. -/
 theorem hasSum_besselJ_generating (z : ℂ) {t : ℂ} (ht : t ≠ 0) :
@@ -337,7 +365,19 @@ theorem hasSum_cexp_gegenbauer {ν : ℂ} (hν : ∀ k : ℕ, ν ≠ -k) (v α :
       (cexp (I * v * Complex.cos α)) := by
   sorry
 
-/-! ### Layer 3: integral representations -/
+/-- DLMF 10.10.1, `J_ν(z)/J_{ν−1}(z) = 1/(2ν z⁻¹ − 1/(2(ν + 1) z⁻¹ − ⋯))`, as the limit of the
+convergents, for `z ≠ 0` and `J_{ν−1}(z) ≠ 0`. -/
+theorem tendsto_convs_besselJ {ν z : ℂ} (hz : z ≠ 0) (h : besselJ (ν - 1) z ≠ 0) :
+    Tendsto (GenContFract.mk (0 : ℂ) (Stream'.Seq.ofStream fun n : ℕ =>
+        (⟨if n = 0 then 1 else -1, 2 * (ν + n) / z⟩ : GenContFract.Pair ℂ))).convs atTop
+      (𝓝 (besselJ ν z / besselJ (ν - 1) z)) := by
+  sorry
+
+end Complex
+
+/-! ### Layer 5: Bessel functions as integrals -/
+
+namespace Complex
 
 /-- DLMF 10.9.2, Bessel's integral. -/
 theorem besselJ_int_eq_integral (n : ℤ) (z : ℂ) :
@@ -372,23 +412,11 @@ theorem besselJ_sq_add_besselY_sq (ν : ℂ) {z : ℂ} (hz : 0 < z.re) :
         Complex.cosh (2 * ν * t) * besselK 0 (2 * z * Real.sinh t) := by
   sorry
 
-/-! ### Layer 4: continued fractions and relations to other functions -/
+end Complex
 
-/-- DLMF 10.10.1, `J_ν(z)/J_{ν−1}(z) = 1/(2ν z⁻¹ − 1/(2(ν + 1) z⁻¹ − ⋯))`, as the limit of the
-convergents, for `z ≠ 0` and `J_{ν−1}(z) ≠ 0`. -/
-theorem tendsto_convs_besselJ {ν z : ℂ} (hz : z ≠ 0) (h : besselJ (ν - 1) z ≠ 0) :
-    Tendsto (GenContFract.mk (0 : ℂ) (Stream'.Seq.ofStream fun n : ℕ =>
-        (⟨if n = 0 then 1 else -1, 2 * (ν + n) / z⟩ : GenContFract.Pair ℂ))).convs atTop
-      (𝓝 (besselJ ν z / besselJ (ν - 1) z)) := by
-  sorry
+/-! ### Layer 6: Hankel's expansions and the behaviour for large argument -/
 
-/-- DLMF 10.16.5 with the upper signs (`e^{−iz}`, `+2iz`), through Olver's `𝐌`. -/
-theorem besselJ_eq_kummer {ν : ℂ} (hν : ∀ n : ℕ, 2 * ν + 1 ≠ -n) {z : ℂ} (hz : z ∈ slitPlane) :
-    besselJ ν z = (z / 2) ^ ν * cexp (-(I * z)) * (Gamma (2 * ν + 1) / Gamma (ν + 1)) *
-      𝐌(ν + 1 / 2, 2 * ν + 1) (2 * I * z) := by
-  sorry
-
-/-! ### Layer 5: large argument -/
+namespace Complex
 
 /-- DLMF 10.17.5 on the principal sheet: the expansion of `H⁽¹⁾_ν` in `|ph z| ≤ π − δ`, one
 truncation order at a time, with `ω = z − νπ/2 − π/4`. -/
@@ -409,11 +437,6 @@ end Complex
 
 namespace Real
 
-/-- DLMF 10.14.1, `|J_ν(x)| ≤ 1` for `ν ≥ 0` and real `x`, with the complex modulus of the
-principal value. -/
-theorem norm_besselJ_le_one {ν : ℝ} (hν : 0 ≤ ν) (x : ℝ) : ‖Complex.besselJ ν x‖ ≤ 1 := by
-  sorry
-
 /-- DLMF 10.18.4 and 10.18.8: `J_ν = M_ν cos θ_ν`, `Y_ν = M_ν sin θ_ν` and
 `M_ν² θ′_ν = 2/(πx)` on `(0, ∞)`, for `ν ≥ 0`. -/
 theorem besselModulus_besselPhase {ν : ℝ} (hν : 0 ≤ ν) {x : ℝ} (hx : 0 < x) :
@@ -430,7 +453,64 @@ theorem besselDerivModulus_besselDerivPhase {ν : ℝ} (hν : 0 ≤ ν) {x : ℝ
         (2 * (x ^ 2 - ν ^ 2) / (π * x ^ 3 * besselDerivModulus ν x ^ 2)) x := by
   sorry
 
-/-! ### Layer 6: large order -/
+/-- DLMF 10.14.1, `|J_ν(x)| ≤ 1` for `ν ≥ 0` and real `x`, with the complex modulus of the
+principal value. -/
+theorem norm_besselJ_le_one {ν : ℝ} (hν : 0 ≤ ν) (x : ℝ) : ‖Complex.besselJ ν x‖ ≤ 1 := by
+  sorry
+
+end Real
+
+/-! ### Layer 7: Bessel functions on the diagonal rays: ber, bei, ker, kei -/
+
+namespace Real
+
+/-- DLMF 10.61.3 for `ber_ν x + i bei_ν x` on `(0, ∞)`. -/
+theorem kelvin_ode (ν : ℝ) {x : ℝ} (hx : 0 < x) :
+    let w : ℝ → ℂ := fun t => (kelvinBer ν t : ℂ) + I * kelvinBei ν t
+    (x : ℂ) ^ 2 * deriv (deriv w) x + x * deriv w x - (I * x ^ 2 + ν ^ 2) * w x = 0 := by
+  sorry
+
+/-- DLMF 10.65.1 for `ber_ν` on `(0, ∞)`. -/
+theorem hasSum_kelvinBer (ν : ℝ) {x : ℝ} (hx : 0 < x) :
+    HasSum (fun k : ℕ => (x / 2) ^ ν * Real.cos ((3 * ν / 4 + k / 2) * π) /
+        (k ! * Real.Gamma (ν + k + 1)) * (x ^ 2 / 4) ^ k) (kelvinBer ν x) := by
+  sorry
+
+/-- DLMF 10.68.3: `ber_ν = M_ν cos θ_ν` and `bei_ν = M_ν sin θ_ν` on `(0, ∞)`, for `ν ≥ 0`. -/
+theorem kelvinModulus_kelvinPhase {ν : ℝ} (hν : 0 ≤ ν) {x : ℝ} (hx : 0 < x) :
+    kelvinBer ν x = kelvinModulus ν x * Real.cos (kelvinPhase ν x) ∧
+      kelvinBei ν x = kelvinModulus ν x * Real.sin (kelvinPhase ν x) := by
+  sorry
+
+/-- DLMF 10.68.4: `ker_ν = N_ν cos φ_ν` and `kei_ν = N_ν sin φ_ν` on `(0, ∞)`, for `ν ≥ 0`. -/
+theorem kelvinKModulus_kelvinKPhase {ν : ℝ} (hν : 0 ≤ ν) {x : ℝ} (hx : 0 < x) :
+    kelvinKer ν x = kelvinKModulus ν x * Real.cos (kelvinKPhase ν x) ∧
+      kelvinKei ν x = kelvinKModulus ν x * Real.sin (kelvinKPhase ν x) := by
+  sorry
+
+end Real
+
+/-! ### Layer 8: Bessel functions among the confluent, Airy, parabolic cylinder and error functions -/
+
+namespace Complex
+
+/-- DLMF 10.16.5 with the upper signs (`e^{−iz}`, `+2iz`), through Olver's `𝐌`. -/
+theorem besselJ_eq_kummer {ν : ℂ} (hν : ∀ n : ℕ, 2 * ν + 1 ≠ -n) {z : ℂ} (hz : z ∈ slitPlane) :
+    besselJ ν z = (z / 2) ^ ν * cexp (-(I * z)) * (Gamma (2 * ν + 1) / Gamma (ν + 1)) *
+      𝐌(ν + 1 / 2, 2 * ν + 1) (2 * I * z) := by
+  sorry
+
+/-- DLMF 9.6.2, the `K` form: `Ai(z) = π⁻¹ (z/3)^{1/2} K_{1/3}(ζ)`, `ζ = (2/3) z^{3/2}`, for
+`|ph z| < 2π/3`. -/
+theorem airyAi_eq_besselK {z : ℂ} (hz : z ≠ 0) (h : |arg z| < 2 * π / 3) :
+    airyAi z = (π : ℂ)⁻¹ * (z / 3) ^ (1 / 2 : ℂ) * besselK (1 / 3) (2 / 3 * z ^ (3 / 2 : ℂ)) := by
+  sorry
+
+end Complex
+
+/-! ### Layer 9: Debye's expansions for large order -/
+
+namespace Real
 
 /-- DLMF 10.41.3 on `(0, ∞)`, uniformly in `z`, with `η` and `p` of 10.41.7–10.41.8. -/
 theorem isBigO_besselI_debye (N : ℕ) :
@@ -470,7 +550,11 @@ theorem isBigO_besselK_debye_atTop {ν : ℝ} (hν : 0 < ν) {ℓ : ℕ} (hℓ :
         (1 + z ^ 2) ^ (1 / 4 : ℝ) * z ^ (-(ℓ : ℝ)) := by
   sorry
 
-/-! ### Layer 7: zeros -/
+end Real
+
+/-! ### Layer 10: real zeros and the Fourier–Bessel and Dini series -/
+
+namespace Real
 
 /-- The positive zeros of `J_ν`, for every real `ν`, are simple, increasing in `m`, and all
 enumerated. -/
@@ -483,6 +567,14 @@ theorem besselJZero_spec (ν : ℝ) :
 /-- DLMF 10.21.2, the interlacing `j_{ν,m} < j_{ν+1,m} < j_{ν,m+1}` for `ν ≥ 0`. -/
 theorem besselJZero_interlace {ν : ℝ} (hν : 0 ≤ ν) {m : ℕ} (hm : 1 ≤ m) :
     besselJZero ν m < besselJZero (ν + 1) m ∧ besselJZero (ν + 1) m < besselJZero ν (m + 1) := by
+  sorry
+
+/-- The spacing of consecutive positive zeros of `J_ν` (Temme, Theorem 9.3): more than `π` for
+`|ν| > 1/2`, less than `π` for `|ν| < 1/2`, and exactly `π` for `|ν| = 1/2`. -/
+theorem besselJZero_succ_sub_besselJZero (ν : ℝ) {m : ℕ} (hm : 1 ≤ m) :
+    (1 / 2 < |ν| → π < besselJZero ν (m + 1) - besselJZero ν m) ∧
+      (|ν| < 1 / 2 → besselJZero ν (m + 1) - besselJZero ν m < π) ∧
+      (|ν| = 1 / 2 → besselJZero ν (m + 1) - besselJZero ν m = π) := by
   sorry
 
 /-- DLMF 10.21.15, the infinite product of `J_ν` over its zeros, for `ν ≥ 0`. -/
@@ -520,19 +612,13 @@ theorem tendsto_sum_fourierBessel {ν : ℝ} (hν : -(1 / 2) ≤ ν) {f : ℝ �
 
 end Real
 
-/-! ### Layer 8: integrals -/
+/-! ### Layer 11: integrals of Bessel functions -/
 
 namespace Complex
 
 /-- DLMF 10.22.41, `∫₀^∞ J_ν = 1` as an improper integral, for `Re ν > −1`. -/
 theorem tendsto_integral_besselJ {ν : ℂ} (hν : -1 < ν.re) :
     Tendsto (fun R => ∫ t in (0 : ℝ)..R, besselJ ν t) atTop (𝓝 1) := by
-  sorry
-
-/-- DLMF 10.43.19, the Mellin transform of `K_ν`, for `|Re ν| < Re μ`. -/
-theorem integral_cpow_mul_besselK {ν μ : ℂ} (h : |ν.re| < μ.re) :
-    ∫ t in Ioi (0 : ℝ), (t : ℂ) ^ (μ - 1) * besselK ν t =
-      2 ^ (μ - 2) * Gamma ((μ - ν) / 2) * Gamma ((μ + ν) / 2) := by
   sorry
 
 /-- DLMF 10.22.49 on its full domain `Re(a ± ib) > 0`, where `−b²/a² ∈ ℂ \ [1, ∞)`. The README
@@ -561,21 +647,10 @@ theorem tendsto_integral_besselJ_mul_besselJ {μ : ℂ} {n : ℕ} (hμ : -(n : �
         else if b = a then (-1) ^ n / (2 * a) else 0)) := by
   sorry
 
-end Complex
-
-/-! ### Layer 9: spherical Bessel functions -/
-
-namespace Complex
-
-/-- DLMF 10.47.3, `𝗃_n(z) = (π/(2z))^{1/2} J_{n+1/2}(z)`. -/
-theorem sphericalBesselJ_eq_besselJ (n : ℕ) {z : ℂ} (hz : z ∈ slitPlane) :
-    sphericalBesselJ n z = (π / (2 * z)) ^ (1 / 2 : ℂ) * besselJ ((n : ℂ) + 1 / 2) z := by
-  sorry
-
-/-- DLMF 10.47.1 for `𝗃_n`. -/
-theorem sphericalBesselJ_ode (n : ℕ) (z : ℂ) :
-    z ^ 2 * deriv^[2] (sphericalBesselJ n) z + 2 * z * deriv (sphericalBesselJ n) z +
-      (z ^ 2 - n * (n + 1)) * sphericalBesselJ n z = 0 := by
+/-- DLMF 10.43.19, the Mellin transform of `K_ν`, for `|Re ν| < Re μ`. -/
+theorem integral_cpow_mul_besselK {ν μ : ℂ} (h : |ν.re| < μ.re) :
+    ∫ t in Ioi (0 : ℝ), (t : ℂ) ^ (μ - 1) * besselK ν t =
+      2 ^ (μ - 2) * Gamma ((μ - ν) / 2) * Gamma ((μ + ν) / 2) := by
   sorry
 
 /-- DLMF 10.60.7, the plane-wave expansion, with `P_n(x) = P̃_n((1 − x)/2)` through Mathlib's
@@ -584,48 +659,6 @@ theorem hasSum_planeWave (z α : ℂ) :
     HasSum (fun n : ℕ => (2 * n + 1) * I ^ n * sphericalBesselJ n z *
         ((Polynomial.shiftedLegendre n).map (Int.castRingHom ℂ)).eval ((1 - Complex.cos α) / 2))
       (cexp (I * z * Complex.cos α)) := by
-  sorry
-
-end Complex
-
-/-! ### Layer 10: Kelvin functions -/
-
-namespace Real
-
-/-- DLMF 10.61.3 for `ber_ν x + i bei_ν x` on `(0, ∞)`. -/
-theorem kelvin_ode (ν : ℝ) {x : ℝ} (hx : 0 < x) :
-    let w : ℝ → ℂ := fun t => (kelvinBer ν t : ℂ) + I * kelvinBei ν t
-    (x : ℂ) ^ 2 * deriv (deriv w) x + x * deriv w x - (I * x ^ 2 + ν ^ 2) * w x = 0 := by
-  sorry
-
-/-- DLMF 10.65.1 for `ber_ν` on `(0, ∞)`. -/
-theorem hasSum_kelvinBer (ν : ℝ) {x : ℝ} (hx : 0 < x) :
-    HasSum (fun k : ℕ => (x / 2) ^ ν * Real.cos ((3 * ν / 4 + k / 2) * π) /
-        (k ! * Real.Gamma (ν + k + 1)) * (x ^ 2 / 4) ^ k) (kelvinBer ν x) := by
-  sorry
-
-/-- DLMF 10.68.3: `ber_ν = M_ν cos θ_ν` and `bei_ν = M_ν sin θ_ν` on `(0, ∞)`, for `ν ≥ 0`. -/
-theorem kelvinModulus_kelvinPhase {ν : ℝ} (hν : 0 ≤ ν) {x : ℝ} (hx : 0 < x) :
-    kelvinBer ν x = kelvinModulus ν x * Real.cos (kelvinPhase ν x) ∧
-      kelvinBei ν x = kelvinModulus ν x * Real.sin (kelvinPhase ν x) := by
-  sorry
-
-/-- DLMF 10.68.4: `ker_ν = N_ν cos φ_ν` and `kei_ν = N_ν sin φ_ν` on `(0, ∞)`, for `ν ≥ 0`. -/
-theorem kelvinKModulus_kelvinKPhase {ν : ℝ} (hν : 0 ≤ ν) {x : ℝ} (hx : 0 < x) :
-    kelvinKer ν x = kelvinKModulus ν x * Real.cos (kelvinKPhase ν x) ∧
-      kelvinKei ν x = kelvinKModulus ν x * Real.sin (kelvinKPhase ν x) := by
-  sorry
-
-end Real
-
-/-! ### Layer 11: relations owed to other roadmaps -/
-
-namespace Complex
-
-/-- DLMF 9.6.2, the `K` form: `Ai(z) = π⁻¹ (z/3)^{1/2} K_{1/3}(ζ)`, `ζ = (2/3) z^{3/2}`, for
-`|ph z| < 2π/3`. -/
-theorem airyAi_eq_besselK {z : ℂ} (hz : z ≠ 0) (h : |arg z| < 2 * π / 3) :
-    airyAi z = (π : ℂ)⁻¹ * (z / 3) ^ (1 / 2 : ℂ) * besselK (1 / 3) (2 / 3 * z ^ (3 / 2 : ℂ)) := by
   sorry
 
 end Complex
@@ -681,5 +714,43 @@ end Complex
 #check @_root_.Real.hasDerivAt_rpow_neg_mul_besselI
 #check @_root_.Real.hasSum_besselI
 #check @_root_.Real.integral_exp_mul_cos_mul_cos
+
+#check @_root_.AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq
+#check @_root_.Asymptotics.IsBigO
+#check @_root_.Asymptotics.IsEquivalent
+#check @Complex.besselI
+#check @Complex.gegenbauerC
+#check @Complex.hankelH1
+#check @Complex.hankelH2
+#check @Complex.modifiedSphericalBesselI1
+#check @Complex.modifiedSphericalBesselI2
+#check @Complex.sphericalBesselJ
+#check @Complex.sphericalBesselY
+#check @Complex.sphericalHankelH1
+#check @Complex.sphericalHankelH2
+#check @_root_.intervalIntegral
+#check @limUnder
+#check @_root_.MeasureTheory.integral
+#check @_root_.mellinInv
+#check @_root_.Polynomial.Chebyshev.T
+#check @Real.besselDerivModulus
+#check @Real.besselDerivPhase
+#check @Real.besselJ
+#check @Real.besselJDerivZero
+#check @Real.besselJZero
+#check @Real.besselModulus
+#check @Real.besselPhase
+#check @Real.besselY
+#check @Real.besselYDerivZero
+#check @Real.besselYZero
+#check @Real.debyeU
+#check @Real.kelvinBei
+#check @Real.kelvinBer
+#check @Real.kelvinKei
+#check @Real.kelvinKer
+#check @Real.kelvinKModulus
+#check @Real.kelvinKPhase
+#check @Real.kelvinModulus
+#check @Real.kelvinPhase
 
 end TauCetiRoadmap.SpecialFunctionsBessel
