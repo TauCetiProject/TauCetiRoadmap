@@ -304,6 +304,9 @@ and by the heading of Stage 2, the cellular model. Each cited number resolves as
   homotopic relative to their end points, where `K_a` is the trace of `a`;
   `ContinuousMap.Homotopy.eq_diag_path` in the same file is the same square in the fundamental
   groupoid. Used in the route of item 1.2.
+- `HomologicalComplex.HomologySequence.δ_naturality`
+  (`Mathlib/Algebra/Homology/HomologySequenceLemmas.lean`): a morphism of short exact sequences
+  of complexes commutes with their connecting maps in homology. Used in the route of item 2.3.
 
 ### From Tau Ceti
 
@@ -431,14 +434,20 @@ file:
   (`TauCeti.singularCohomologyBockstein_comp_classifyingSpaceSingularCohomologyIsoGroupCohomology_hom`);
   with local coefficients, the local system `TauCeti.classifyingSpaceLocalSystem k A` of a
   representation `A : Rep k G` through the orbit map, with
-  `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology : Hₙ(BG; A) ≅ Hₙ(G, A)` and
+  `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology : Hₙ(BG; A) ≅ Hₙ(G, A)`, natural in
+  `A` (`TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology_hom_naturality`) and carrying the
+  connecting map of a short exact sequence of representations to `groupHomology.δ`
+  (`TauCeti.twistedHomologyδ_comp_classifyingSpaceTwistedHomologyIsoGroupHomology_hom`), and
   `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology : Hⁿ(BG; A, N) ≅ Hⁿ(G, Homₖ(A, N))`,
-  natural in `A` and compatible with the connecting maps of short exact sequences
-  (`TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology_hom_naturality`,
-  `TauCeti.twistedHomologyδ_comp_classifyingSpaceTwistedHomologyIsoGroupHomology_hom`); and in
-  degree one `TauCeti.classifyingSpaceFirstHomologyAddEquiv : H₁(BG; ℤ) ≃+ Gᵃᵇ` through Hurewicz,
-  with `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology` to Mathlib's `H₁(G, ℤ)`,
-  which sends the Hurewicz class of a loop `γ` to the `1`-cycle
+  natural in `A` and in `N`
+  (`TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom_naturality_left`,
+  `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom_naturality_right`) and, when
+  the module of `A` is projective over `k`, carrying the Bockstein of a short exact sequence
+  `0 → N₁ → N₂ → N₃ → 0` of `k`-modules to `groupCohomology.δ`
+  (`TauCeti.twistedCohomologyBockstein_comp_classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom`);
+  and in degree one `TauCeti.classifyingSpaceFirstHomologyAddEquiv : H₁(BG; ℤ) ≃+ Gᵃᵇ` through
+  Hurewicz, with `TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology` to Mathlib's
+  `H₁(G, ℤ)`, which sends the Hurewicz class of a loop `γ` to the `1`-cycle
   `classifyingSpaceFundamentalGroupMulEquiv G γ`
   (`TauCeti.classifyingSpaceFirstHomologyAddEquivGroupHomology_hurewiczHomologyAddEquiv`). It is
   not the degree-one case of `TauCeti.classifyingSpaceSingularHomologyIsoGroupHomology ℤ G 1`,
@@ -545,6 +554,9 @@ starting at `e`) (`TauCeti/AlgebraicTopology/LocalCoefficient/QuotientCovering/B
 (`TauCeti/AlgebraicTopology/Singular/Twisted/HomotopyInvariance/Basic.lean`),
 `TopCat.Homotopy.twistedCohomologyMap_eq_comp`
 (`TauCeti/AlgebraicTopology/Cohomology/Twisted/HomotopyInvariance.lean`),
+`TauCeti.LocalCoefficientSystem.twistedCohomologyBockstein` (the Bockstein of a short exact
+sequence of modules of values, for a local system with projective fibres)
+(`TauCeti/AlgebraicTopology/Cohomology/Twisted/Bockstein.lean`),
 `TauCeti.LocalCoefficientSystem.twistedHomologyConstantIso` and
 `TauCeti.LocalCoefficientSystem.twistedCohomologyConstantIso`
 (`TauCeti/AlgebraicTopology/Singular/Twisted/Basic.lean`,
@@ -1106,10 +1118,23 @@ form of that resolution. Prove:
      `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology` finishes; for cohomology, the same
      with `TopCat.Homotopy.twistedCohomologyMap_eq_comp` and
      `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`.
-- The isomorphisms are natural in `A` and carry the connecting maps of a short exact sequence of
-  representations to `groupHomology.δ` and `groupCohomology.δ`, through the pinned
+- The homology isomorphisms are natural in `A` and carry the connecting map of a short exact
+  sequence of representations to `groupHomology.δ`, through the pinned
   `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology_hom_naturality` and
-  `TauCeti.twistedHomologyδ_comp_classifyingSpaceTwistedHomologyIsoGroupHomology_hom`.
+  `TauCeti.twistedHomologyδ_comp_classifyingSpaceTwistedHomologyIsoGroupHomology_hom`. The
+  cohomology isomorphisms are natural in `A` and in `N`, through the pinned
+  `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom_naturality_left` and
+  `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom_naturality_right`. When the
+  module of `A` is projective over `k`, the fibres of `L_A` are projective, and the cohomology
+  isomorphisms carry the Bockstein `TauCeti.LocalCoefficientSystem.twistedCohomologyBockstein` of
+  a short exact sequence `0 → N₁ → N₂ → N₃ → 0` of `k`-modules to `groupCohomology.δ` of
+  `0 → Homₖ(A, N₁) → Homₖ(A, N₂) → Homₖ(A, N₃) → 0`, through the pinned
+  `TauCeti.twistedCohomologyBockstein_comp_classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom`.
+  Route for moving the connecting maps from Milnor's model to `X`: the identifications of steps 3
+  and 4 are induced by maps of twisted chain and cochain complexes that commute with the maps of
+  these short exact sequences, so `HomologicalComplex.HomologySequence.δ_naturality` applies. No
+  connecting map in cohomology is claimed for a short exact sequence in `A`: `Homₖ(−, N)` is not
+  exact.
 - For the trivial representation `A = Rep.trivial k G k`, `L_A` is the constant system (the
   constant system has trivial monodromy,
   `TauCeti.LocalCoefficientSystem.constant_monodromyRepresentation`, so
@@ -1129,10 +1154,17 @@ form of that resolution. Prove:
 `TauCeti.universalGSpaceBasepoint`, `TauCeti.classifyingSpaceFundamentalGroupMulEquiv_apply_eq_iff`,
 `TauCeti.classifyingSpaceLocalSystem`, `TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology`,
 `TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology`,
+`TauCeti.classifyingSpaceTwistedHomologyIsoGroupHomology_hom_naturality`,
+`TauCeti.twistedHomologyδ_comp_classifyingSpaceTwistedHomologyIsoGroupHomology_hom`,
+`TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom_naturality_left`,
+`TauCeti.classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom_naturality_right`,
+`TauCeti.LocalCoefficientSystem.twistedCohomologyBockstein`,
+`TauCeti.twistedCohomologyBockstein_comp_classifyingSpaceTwistedCohomologyIsoGroupCohomology_hom`,
 `ContinuousMap.HomotopyEquiv.isIso_twistedHomologyMap`,
 `TopCat.Homotopy.twistedCohomologyMap_eq_comp`,
 `TauCeti.LocalCoefficientSystem.twistedHomologyConstantIso`,
-`TauCeti.LocalCoefficientSystem.twistedCohomologyConstantIso`; Mathlib `Rep.ihom`, `Rep.trivial`.
+`TauCeti.LocalCoefficientSystem.twistedCohomologyConstantIso`; Mathlib `Rep.ihom`, `Rep.trivial`,
+`groupHomology.δ`, `groupCohomology.δ`, `HomologicalComplex.HomologySequence.δ_naturality`.
 
 **Checks.**
 - Transport: `ρ = ρ'` and `u` the identity give the identity of `ofRepresentation x ρ`; for
@@ -1167,6 +1199,15 @@ form of that resolution. Prove:
   trivial, `H₂(X; ℤ) = ℤ` while `H₂(ℤ, ℤ) = 0`, so the homology isomorphism fails without
   asphericity. Over the zero ring every module vanishes and both sides agree, so the control
   needs `1 ≠ 0` in `k`.
+- Negative control on the connecting maps in cohomology: `k = ℤ`, `G = 1`, `X` a point and
+  `N = ℤ`, where both sides are `Hom(A, ℤ)` in degree zero and zero above. For the short exact
+  sequence of representations `0 → ℤ → ℤ → ℤ/2 → 0`, the first map multiplication by `2`, degree
+  zero gives `Hom(ℤ/2, ℤ) = 0 → ℤ → ℤ`, where `ℤ → ℤ` is multiplication by `2`; its cokernel
+  `ℤ/2` would have to embed in `H¹(X; L_{ℤ/2}, ℤ) = 0`, so no long exact sequence in `A` exists.
+  For `A = ℤ/2`, not projective over `ℤ`, and the same sequence taken as values
+  `N₁ → N₂ → N₃`, degree zero gives `Hom(ℤ/2, ℤ) = 0 → Hom(ℤ/2, ℤ) = 0 → Hom(ℤ/2, ℤ/2) = ℤ/2`
+  followed by `H¹(X; L_A, ℤ) = 0`, not exact at `ℤ/2`; so the Bockstein clause needs its
+  projectivity hypothesis.
 - `G = S₃`, `A = k` with the sign character: the monodromy of `L_A` along a loop representing a
   transposition is `−1`; a definition through `Ψ⁻¹` gives the same monodromy, since
   characters factor through the abelianization, so the direction is tested by the `S₃` Check of
