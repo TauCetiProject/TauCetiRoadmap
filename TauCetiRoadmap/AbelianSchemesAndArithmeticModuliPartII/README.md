@@ -48,8 +48,11 @@ constant-rank theorem and its level-fibre API; B2.10 owns the finite C^k and
 real-analytic extension, its comparison with that smooth structure, and the Betti
 application. **SmoothBundlesConnections**, B6.0, owns metric convexity and generic
 good-cover refinements; B2.11 adds holomorphic-chart subordination and the disc
-consequence using **ConformalMapping**, L3. B2.9 constructs the arbitrary-dimensional
-invariance-of-domain extension in the shared topology API.
+consequence using **ConformalMapping**, L3. Invariance of domain is already in Tau Ceti,
+for spaces charted on finite-dimensional real normed spaces of equal dimension, open
+subsets of ℝ^m included; citations of B2.9 resolve to its
+`IsOpen.image_of_continuousOn_of_injOn` and `Continuous.isOpenEmbedding_of_injective`,
+which B2 consumes.
 
 **SchemeAndStackFoundations**, §2.6, §4.1 and §§4.8–4.9, supplies coherent direct images,
 thickenings, formal completion and the theorem on formal functions. **ComplexComparisonPartII**,
@@ -291,21 +294,19 @@ its finite-value subtype and native quotients require no realization functor. Th
 supply the relative universal extensions, completed coefficient sheaves or
 Dieudonné functors required by P1–P4 and F1.
 
-### From Tau Ceti: complements of embedded spheres and balls
+### From Tau Ceti: invariance of domain
 
-Consume `TauCeti.natCard_zerothHomotopy_sphere_compl_range_eq_two` and
-`TauCeti.reducedSingularHomologySphereComplRangeSphereIso` in
-`TauCeti/AlgebraicTopology/Singular/JordanBrouwer.lean`: a continuous injection
-S^(m−1)→S^m has a complement with two path components, with reduced degree-zero
-homology one copy of the coefficients. Consume
-`TauCeti.isZero_reducedSingularHomologyFunctor_compl_range_closedBall` in
-`TauCeti/AlgebraicTopology/Singular/CubeComplement.lean`, specialized to a sphere,
-whose point complements are acyclic. Retain the Hausdorff and finite-dimensional
-hypotheses. For connectivity use rational coefficients and
-`TauCeti.reducedSingularHomology₀Iso` in
-`TauCeti/AlgebraicTopology/Singular/Reduced.lean`, which identifies reduced
-homology with the direct sum indexed by path components other than a chosen
-basepoint. B2.9 constructs the open-map conclusion from these complement theorems.
+Consume `IsOpen.image_of_continuousOn_of_injOn` and
+`Continuous.isOpenEmbedding_of_injective` in
+`TauCeti/AlgebraicTopology/Singular/InvarianceOfDomain.lean`. Let M and N be
+topological spaces charted on finite-dimensional real normed spaces E and F with
+`finrank ℝ E = finrank ℝ F`. The first theorem says that a map M→N which is
+continuous and injective on an open U⊆M sends U to an open set; the second says
+that a continuous injection M→N is an open embedding. Neither assumes a separation
+or countability axiom on M or N. With Mathlib's
+`TopologicalSpace.Opens.instChartedSpace` in
+`Mathlib/Geometry/Manifold/HasGroupoid.lean`, an open U⊆ℝ^m is charted on ℝ^m, so
+a continuous injection U→ℝ^m is an open embedding for every m≥0.
 
 ### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
 
@@ -1561,53 +1562,6 @@ and Theorem 3, printed p.251, for dense semisimple groups;
 
 *Needs:* `Matrix.GeneralLinearGroup`; `Subgroup.FiniteIndex`; `Group.IsSolvable`; `FreeGroup`.
 
-### B2.9 Invariance of domain in equal real dimension
-
-For every finite m≥0, a continuous injective map f:U→ℝ^m from an open
-subset U⊆ℝ^m is an open embedding. Consequently continuous injections between
-boundaryless real m-manifolds are open embeddings, by restriction to charts.
-The local assertion requires no global separation or countability assumption.
-State the general theorem on Mathlib's native Euclidean spaces and
-`Topology.IsOpenEmbedding` in the shared topology API.
-
-For m≥1, restrict f around each point to a closed ball contained in U and
-include the target ℝ^m into S^m by stereographic compactification. Compactness
-makes the restrictions to the ball and its boundary embeddings. The embedded
-boundary has a complement with two path components. The complement of the
-embedded ball is nonempty, since it contains infinity, and is path connected:
-its reduced degree-zero homology with ℚ coefficients vanishes.
-The image of the ball's interior is path connected, so these two sets are
-exactly the two path components of the boundary complement. They are open
-because that complement is locally path connected. Thus every f(x) has a
-neighbourhood contained in f(U). Apply the same argument to each open subset
-of U and obtain the open embedding with
-`Topology.IsOpenEmbedding.of_continuous_injective_isOpenMap`. For m=0 the
-source is empty or a point (Hatcher, Theorem 2B.3, printed p.172;
-[GH][GH], Theorem 5.1 proof, PDF p.29, for the application).
-
-**Checks.**
-
-- For m=0 the possible images are ∅ and the one-point space ℝ⁰, both open;
-  the empty open domain also has open image in every dimension.
-- For m=1, x↦x³ maps (−1,1) homeomorphically onto (−1,1), although its
-  derivative at 0 is 0. A nonzero-derivative hypothesis would lose this case.
-- On (−1,1), x↦x² has image [0,1), which is not open in ℝ; its equal values
-  at 1/2 and −1/2 show why injectivity is required.
-- The inclusion [0,1)→ℝ has nonopen image, and x↦(x,0) maps ℝ into a line
-  with empty interior in ℝ². These exclude domains with boundary and unequal
-  real dimensions from the assertion.
-
-*Needs:* the sphere- and closed-ball-complement theorems in the Tau Ceti
-supplier contract, including its reduced degree-zero homology comparison;
-Mathlib `stereographic'`, `stereographic'_source` and `stereographic'_target` in
-`Mathlib/Geometry/Manifold/Instances/Sphere.lean`,
-`Continuous.isClosedEmbedding` in `Mathlib/Topology/Separation/Hausdorff.lean`,
-and `IsOpen.pathComponentIn` in
-`Mathlib/Topology/Connected/LocallyPathConnected.lean` for open path components;
-`Topology.IsOpenEmbedding.of_continuous_injective_isOpenMap` in
-`Mathlib/Topology/Maps/Basic.lean`. The chartwise manifold consequence uses
-only the Euclidean theorem and chart homeomorphisms.
-
 ### B2.10 Real constant-rank theorem for Betti fibres
 
 Consume the smooth local normal form and level-fibre API from LieGroupoidsPoisson
@@ -1902,7 +1856,7 @@ that rank_R d(b|X)_P=2 dim_C X.
 [B2](#layer-b2-curve-monodromy-and-constant-traces), Degeneracy over a curve;
 [B2](#layer-b2-curve-monodromy-and-constant-traces), Generically special subvarieties;
 [B2](#layer-b2-curve-monodromy-and-constant-traces), Curve degeneracy implies GH generic specialness;
-[B2](#layer-b2-curve-monodromy-and-constant-traces), Invariance of domain in equal real dimension;
+Tau Ceti `IsOpen.image_of_continuousOn_of_injOn` (invariance of domain);
 [B2](#layer-b2-curve-monodromy-and-constant-traces), Real constant-rank theorem for Betti fibres.
 
 ### B2.24 Construction requirements
@@ -1928,8 +1882,9 @@ Baire with the countable subgroup family. For monodromy transport apply B2.11’
 SmoothBundlesConnections B6.0’s good-cover refinement, glue Betti transitions along loops and prove analytic continuation of a
 nonisolated leaf inside the closed Y. Tits's dense-group theorem and B2.4's connected algebraic-monodromy
 semisimplicity (Deligne Corollary 4.2.9(a)) give free subgroups at every finite index; the fixed-part and equivariant Hom
-theorem B2’s polarized fixed-part theorem gives the constant trace. The equal-dimensional invariance-of-domain and
-constant-rank assertions above are prerequisites of the dimension argument, with constant
+theorem B2’s polarized fixed-part theorem gives the constant trace. Tau Ceti's invariance of
+domain in equal real dimension (used in [GH][GH], Theorem 5.1 proof, PDF p.29) and B2.10's
+constant-rank theorem are prerequisites of the dimension argument, with constant
 maximal rank chosen on a neighbourhood before computing a fibre dimension.
 
 ### Examples
@@ -3526,9 +3481,6 @@ with the separate polynomial, repeated-root, small-characteristic and mass hypot
 stated in F4–F6. LT v1 (51) and (56) have a leading-coefficient
 misprint; F5 derives 1/2 from (39) rather than using the printed 1.
 
-- **Hatcher**: Allen Hatcher, *Algebraic Topology* (2002), §2.B, Theorem 2B.3,
-  printed p.172 (chapter PDF p.76). [Author-hosted chapter][Hatcher].
-
 - **MilneJV**: James S. Milne, *Jacobian Varieties*, author version dated June 12, 2021,
   Theorem 12.1, p.38, and §13, pp.40–44. [MilneJV][MilneJV].
 
@@ -3573,7 +3525,6 @@ misprint; F5 derives 1/2 from (39) rather than using the printed 1.
 - **Milne**: James S. Milne, *Extensions of abelian varieties defined over a finite field*. Inventiones Mathematicae 5(1968), 63–84; author-hosted published scan. [Milne][Milne].
 
 - **Gao–Survey**: Ziyang Gao, *Recent developments of the Uniform Mordell–Lang Conjecture*. arXiv:2104.03431v5. [Gao–Survey][Gao–Survey].
-[Hatcher]: https://pi.math.cornell.edu/~hatcher/AT/ATch2.pdf
 [ConradTrace]: https://math.stanford.edu/~conrad/papers/Kktrace.pdf
 [Tits]: https://doi.org/10.1016/0021-8693(72)90058-0
 [Roby]: https://www.numdam.org/item/10.24033/asens.1124.pdf
