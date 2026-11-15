@@ -128,7 +128,7 @@ explicit nonempty examples.
   and its local-everywhere export `isGlobalNorm_iff_isLocalNormEverywhere`.
 - *Further Tau Ceti inputs.* `TauCeti.FieldTheory.GaloisCohomology.Hilbert90`:
   `TauCeti.hilbert90` and `TauCeti.subsingleton_H1_unitsCoeff` for continuous Hilbert 90;
-  `TauCeti.Analysis.Matrix.HermitianSignature`: `Matrix.IsHermitian.signature`,
+  `TauCeti.Analysis.Matrix.HermitianSignature.Basic`: `Matrix.IsHermitian.signature`,
   `Matrix.IsHermitian.signature_congr`, `Matrix.IsHermitian.signature_diagonal` and
   `Matrix.IsHermitian.signature_neg` for matrix signatures;
   `TauCeti.Geometry.Symplectic.Hermitian`: `TauCeti.SymplecticForm.complexAssociatedForm`
@@ -316,7 +316,7 @@ the export of M6.10.
 
 ## Exact supplier contracts
 
-### From Mathlib at `6b7abb3`
+### From Mathlib at `1b1ccf4`
 
 `StarRing`, `IsSemisimpleRing` with `IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing`
 (Wedderburn–Artin), `Algebra.trace`, `Algebra.discr`, `NumberField.discr`, `Algebra.IsSeparable`,
@@ -336,7 +336,7 @@ endomorphisms), `Matrix.J` with `Matrix.J_squared`, `Matrix.unitaryGroup`, `Numb
 `WeierstrassCurve.ofJ` with `WeierstrassCurve.ofJ_j`. Each is used with the hypotheses its Mathlib
 statement has; where the roadmap needs a different generality the target says so.
 
-### From Tau Ceti at `a91d3aa`
+### From Tau Ceti at `2fd255d`
 
 The declarations listed under *Built in Tau Ceti and cited*. Two conventions are imported with them:
 `TauCeti.Symplectic.groupScheme ℤ g` is the isometry group of the form with Gram matrix `Matrix.J`
@@ -1647,10 +1647,11 @@ For a generalized CM type `Ψ = Σ r_τ τ` of rank `N` and `S` over `O_{F_Ψ} �
 `HasSignatureType Ψ`: for every finite family in `O_F` the determinant polynomial of its action on
 `Lie_{A/S}` equals `∏_τ (linear form of τ)^{r_τ}`; in particular
 `charpoly(i(a) | Lie) = ∏_τ (T − τ(a))^{r_τ}`, which is the form of Definition 3.4.3, p. 149. Over a
-field the two conditions agree: both depend only on the semisimplification of `Lie` over `O_F`, and an
-element of `O_F` congruent to a primitive element of one residue field `O_F/𝔭` of `O_F` above `p`
-and to `0` at the others
-separates the residue-field embeddings by unique factorization. The API is `HasSignatureType.iff_detCondition`
+field `κ` the two conditions agree: both depend only on the semisimplification of `Lie` over `O_F`, and an
+element of `O_F` congruent to a nonzero primitive element of one residue field `O_F/𝔭` of `O_F` above
+`p = char κ` and to `0` at the others
+separates the residue-field embeddings by unique factorization (in characteristic `0`, an element of
+`O_F` generating `F` separates the embeddings of `F`). The API is `HasSignatureType.iff_detCondition`
 and `LocalizedOFAbelianScheme.iff_detCondition` (for `p` unramified in `F`, signature type `Ψ` is the
 Kottwitz condition of the unitary datum of signature `Ψ`, M0.18); `HasSignatureType.dim` and
 `LocalizedOFAbelianScheme.dim` (`dim A = N[F⁺ : ℚ]`); `HasSignatureType.hodge_tau` and
