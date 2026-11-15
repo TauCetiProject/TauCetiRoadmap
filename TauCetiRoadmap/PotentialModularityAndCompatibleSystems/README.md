@@ -543,7 +543,7 @@ This layer uses Mathlib and the Tau Ceti library; the Tau Ceti roadmaps ClassFie
 
 ## Layer 2: Integral points and controlled fields
 
-Build from local point topology and scheme foundations to integral approximation. The curve proof needs its relative Picard and cohomology interfaces; the number-field and function-field field-selection refinements then retain their different completion and constant-field conclusions. The integral-point theorem over a number-field base, in its field form with its refinements, is consumed from ClassicalSerreModularity `I.0/moret-bailly-split-points`, and §§2.8–2.10 and 2.13 are the comparisons; the theorem over a geometric base is proved here from the reductions of §§2.2–2.7, which are stated for both kinds of base because their proofs do not depend on the kind.
+Build from local point topology and scheme foundations to integral approximation. The curve proof needs its relative Picard and cohomology interfaces; the number-field and function-field field-selection refinements then retain their different completion and constant-field conclusions. The integral-point theorem over a number-field base, in its field form with its refinements, is consumed from ClassicalSerreModularity `I.0/moret-bailly-split-points`, and §§2.8–2.10 and 2.13 are the comparisons; the theorem over a geometric base is proved here from the local statements of §2.2, the approximation of §2.5a and the reductions of §§2.3–2.5, 2.6 and 2.7. Those reductions are stated for both kinds of base; over a number-field base they are steps of the supplier's target and are not proved again here.
 
 ### 2.1 Skolem data and integral points
 
@@ -594,7 +594,7 @@ Establish the reductions needed to apply approximation on a curve. Chow's lemma 
 
 The sources are [Moret–Bailly II][moret-bailly-1989-II], Remarque 1.4, p. 182, Remarque 1.9, p. 184, Remarque 1.10, p. 184, Exemple 1.10.1, p. 184.
 
-*Needs:* §2.2 (local density and integral points); SchemeAndStackFoundations §4.12 (Chow’s lemma); `ReductiveGroupsPartII` RG2.0.1; GlobalNumberFields Layers 1 and 5–10 (finiteness of the class group).
+*Needs:* §2.2 (local density and integral points); SchemeAndStackFoundations §4.12 (Chow’s lemma); `ReductiveGroupsPartII` RG2.0.1; AlgebraicCurves Layers 3 and 5 (finiteness of the class group of an affine model over finite exact constants).
 
 ### 2.4 Reduction to curves
 
@@ -673,13 +673,13 @@ Let an invertible sheaf M of degree `d ≥ 2g + z − 1` and a boundary triviali
 
 The sources are [Moret–Bailly II][moret-bailly-1989-II], Lemme 3.7.2(ii), p. 190, Proof of Lemme 3.8, p. 191.
 
-*Needs:* §2.5 (rigidified Picard functors and divisor fibrations); §2.5a (`additiveStrongApproximationAwayFromPlace`, the imported function-field strong approximation, and their projective-module/torsor forms); SchemeAndStackFoundations Layer 3 (cohomology and base change for the relative curve).
+*Needs:* §2.5 (rigidified Picard functors and divisor fibrations); §2.5a (the imported function-field strong approximation and its projective-module/torsor form); SchemeAndStackFoundations Layer 3 (cohomology and base change for the relative curve).
 
 ### 2.7 The compact generalized-Jacobian quotient
 
 For an incomplete datum and any ample line bundle M₀ on X̄, find a positive tensor power `M₀^⊗n` and a trivialization along Z satisfying the preceding local Picard conditions. Normalize a starting power so its degree d is at least `2g + z`, divisible by all `[L_v:K_v]`, and its restriction to Z is trivial.
 
-The controlling quotient `PG₀(K_Σ)/im Γ(Z,O_Z^×)`, with `K_Σ = ∏_(v∈Σ) K_v` and the product topology, is quasi-compact. Consequently the powers of each element have the identity as an accumulation point. Prove the constituent compactness statements: J(F) is compact for a proper regular geometrically integral curve over a locally compact F; `(R_Z ⊗_R K_Σ)^×/(R_Z^× K_Σ^×)` is quasi-compact; and `K_Σ^×/R^×` is quasi-compact under incompleteness. For the first, pass to a finite separable extension giving the curve a rational point and use the proper compactified Picard space Y of degree-zero rank-one torsion-free sheaves. Regularity of the curve makes every such sheaf over F invertible, so `Y(F)=J(F)`; compactness follows from properness of Y and descends along the finite extension. This does not assert that J itself is proper over an imperfect local field. For number fields the last assertion uses the S-unit logarithm lattice of HeightsAndUnits §§4.2–4.3. For function fields use the compact unit quotient below. Moret–Bailly prints the Jacobian lemma as 3.30.2, although its position and references identify it as 3.10.2.
+The controlling quotient `PG₀(K_Σ)/im Γ(Z,O_Z^×)`, with `K_Σ = ∏_(v∈Σ) K_v` and the product topology, is quasi-compact. Consequently the powers of each element have the identity as an accumulation point. Prove the constituent compactness statements: J(F) is compact for a proper regular geometrically integral curve over a locally compact F; `(R_Z ⊗_R K_Σ)^×/(R_Z^× K_Σ^×)` is quasi-compact; and `K_Σ^×/R^×` is quasi-compact under incompleteness. For the first, pass to a finite separable extension giving the curve a rational point and use the proper compactified Picard space Y of degree-zero rank-one torsion-free sheaves. Regularity of the curve makes every such sheaf over F invertible, so `Y(F)=J(F)`; compactness follows from properness of Y and descends along the finite extension. This does not assert that J itself is proper over an imperfect local field. Over a geometric base the last assertion is the compact unit quotient below; over a number-field base it is part of the idèle-class compactness inside ClassicalSerreModularity `I.0/moret-bailly-split-points`. Moret–Bailly prints the Jacobian lemma as 3.30.2, although its position and references identify it as 3.10.2.
 
 Prove the compactness of the unit quotient: for K with exact finite constant field, R the coordinate ring of a smooth connected affine curve with function field K, and Σ a proper subset of S∞=Places(K)\Max(R), the quotient `(∏_(v∈Σ) K_v^×)/im R^×` is compact. The valuations of R-units are exactly the principal divisors supported on S∞. Finiteness of the degree-zero divisor class group makes their image finite index in the degree-zero lattice on S∞. Projection to the coordinates in the proper subset Σ has finite-index image in ℤ^Σ: a missing place absorbs the degree equation after multiplication by its degree. Local unit groups are compact, hence so is the quotient. Apply this also to the finite normalizations appearing in the boundary algebra.
 
@@ -709,7 +709,7 @@ For the quotient construction import the coherent Quot functor, the dualizing sh
 
 The sources are [Moret–Bailly II][moret-bailly-1989-II], Lemme 3.9, proof, p. 191, Lemme 3.9.2, p. 192, Lemme 3.10.2 (printed 3.30.2), pp. 192–193, and proof of Lemme 3.10.4, p. 193; [Altman–Kleiman, compactified Jacobian][altman-kleiman-1976], Theorems (2)–(4) and the Quot/duality construction, p. 948, with the proper-algebraic-space variant on p. 949.
 
-*Needs:* §2.6 (local Picard opens and approximation); SchemeAndStackFoundations §§3.7, 4.14 and 2.20; ComplexComparisonPartII §§C3.2f.1–C3.2f.2 (`picardZeroSheaf`, `picardZeroCriterion`); `ReductiveGroupsPartII` RG2.0.2 (`points-locally-compact-hausdorff` and proper-point compactness, over nonarchimedean fields); §2.2 (archimedean topology), with projective archimedean points closed in compact projective space; HeightsAndUnits §§4.2–4.3 (number-field S-units and their full logarithmic lattice); AlgebraicCurves Layers 3–5 (divisors, Riemann–Roch and finite degree-zero class group over finite exact constants).
+*Needs:* §2.6 (local Picard opens and approximation); SchemeAndStackFoundations §§3.7, 4.14 and 2.20; ComplexComparisonPartII §§C3.2f.1–C3.2f.2 (`picardZeroSheaf`, `picardZeroCriterion`); `ReductiveGroupsPartII` RG2.0.2 (`points-locally-compact-hausdorff` and proper-point compactness, over nonarchimedean fields); §2.2 (archimedean topology), with projective archimedean points closed in compact projective space; AlgebraicCurves Layers 3–5 (divisors, Riemann–Roch and finite degree-zero class group over finite exact constants).
 
 ### 2.8 The integral-point theorem
 
@@ -909,7 +909,7 @@ The split tensor algebra is compared with prescribed completions, and the rigidi
 
 ### Dependencies
 
-This layer uses Mathlib and the Tau Ceti library; the Tau Ceti roadmaps Chebotarev, ClassFieldTheory, GlobalNumberFields and ReductiveGroupsPartII; and the roadmaps AbelianSchemesAndArithmeticModuli, AlgebraicModuliForArithmeticGeometry, ArithmeticGaloisRepresentations, ComplexComparisonPartII, EtaleCohomologyFoundations, GL2AutomorphicRepresentationsAndTransfer, InverseGaloisAndArithmeticFundamentalGroups, NeronModelsAndSemistableAbelianVarieties, SchemeAndStackFoundations, HeightsAndUnits and AlgebraicCurves. The *Needs* line of each subsection gives the exact declarations and constructions it consumes.
+This layer uses Mathlib and the Tau Ceti library; the Tau Ceti roadmaps Chebotarev, ClassFieldTheory, GlobalNumberFields and ReductiveGroupsPartII; and the roadmaps AbelianSchemesAndArithmeticModuli, AlgebraicModuliForArithmeticGeometry, ArithmeticGaloisRepresentations, ComplexComparisonPartII, EtaleCohomologyFoundations, GL2AutomorphicRepresentationsAndTransfer, InverseGaloisAndArithmeticFundamentalGroups, NeronModelsAndSemistableAbelianVarieties, SchemeAndStackFoundations and AlgebraicCurves. The *Needs* line of each subsection gives the exact declarations and constructions it consumes.
 
 ## Layer 3: Auxiliary characters and moduli
 

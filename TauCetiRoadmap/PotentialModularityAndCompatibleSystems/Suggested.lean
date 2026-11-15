@@ -8,8 +8,8 @@ import TauCeti.NumberTheory.NumberField.Global.Places.Basic
 `README.md`. The statements here suggest Lean forms for particular milestones;
 discharging them finishes neither a layer nor the roadmap.
 
-The statement is additive strong approximation away from any one place (§2.5a), the
-input to the geometric integral-point theorem that the pins can express.
+The statement is additive strong approximation away from any one place of a number
+field (§2.5a).
 
 The headline theorems consumed from earlier roadmaps are not stated here: Moret–Bailly's
 theorem over number fields and split-field Zariski density (§§2.8–2.10) are
