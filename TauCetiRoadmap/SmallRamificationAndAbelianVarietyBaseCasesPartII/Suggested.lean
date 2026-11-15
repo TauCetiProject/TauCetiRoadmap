@@ -52,19 +52,17 @@ def hasWittGoodReductionAt {X : Scheme.{0}} (f : X ⟶ Spec (.of ℚ))
 /-- Witt good reduction at every rational prime, including two, with independent
 scheme-model witnesses and generic-fibre identifications at the different primes. -/
 def hasEverywhereWittGoodReduction {X : Scheme.{0}} (f : X ⟶ Spec (.of ℚ)) : Prop :=
-  ∀ (p : ℕ) (hp : p.Prime),
-    letI : Fact p.Prime := ⟨hp⟩
-    hasWittGoodReductionAt f p
+  ∀ (p : ℕ) [Fact p.Prime], hasWittGoodReductionAt f p
 
 /-! ## Layer 3: Low-degree cohomology and Hodge vanishing -/
 
 /-- For a smooth proper rational scheme with everywhere Witt good reduction,
 H^j(X, Ω^i) vanishes when i ≠ j and i + j ≤ 3. Projectivity and geometric
 connectedness are not hypotheses. Fontaine, Theorem 1 and Remark (a), p. 3. -/
-theorem lowDegreeHodgeVanishing {X : Scheme.{0}} (f : X ⟶ Spec (.of ℚ))
-    [Smooth f] [IsProper f] (hX : hasEverywhereWittGoodReduction f)
+theorem lowDegreeHodgeVanishing (X : Scheme.{0}) [X.Over (Spec (.of ℚ))]
+    [Smooth (X ↘ Spec (.of ℚ))] [IsProper (X ↘ Spec (.of ℚ))]
+    (hX : hasEverywhereWittGoodReduction (X ↘ Spec (.of ℚ)))
     (i j : ℕ) (hij : i ≠ j) (hdegree : i + j ≤ 3) :
-    letI : X.Over (Spec (.of ℚ)) := ⟨f⟩
     Subsingleton (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology
       ((SheafOfModules.exteriorPower X.sheaf i).obj (X.relativeDifferentials ℚ)) j) := by
   sorry
@@ -75,12 +73,11 @@ theorem lowDegreeHodgeVanishing {X : Scheme.{0}} (f : X ⟶ Spec (.of ℚ))
 five K3 conditions has a prime with no smooth proper Witt-ring model.
 The conditions are those of K3SurfacesAndSymplecticBoundedness §1.1.
 Fontaine, Theorem 1 and Remark (a), p. 3; Schröer, Proposition 5.5 proof, p. 16. -/
-theorem geometricK3_hasBadWittPrime {X : Scheme.{0}}
-    (f : X ⟶ Spec (.of ℚ)) [Smooth f] [IsProper f] :
+theorem geometricK3_hasBadWittPrime (X : Scheme.{0}) [X.Over (Spec (.of ℚ))]
+    [Smooth (X ↘ Spec (.of ℚ))] [IsProper (X ↘ Spec (.of ℚ))] :
     let a := Spec.map (CommRingCat.ofHom (algebraMap ℚ (AlgebraicClosure ℚ)))
-    let Xbar := pullback f a
-    let fbar := pullback.snd f a
-    letI : Xbar.Over (Spec (.of (AlgebraicClosure ℚ))) := ⟨fbar⟩
+    let Xbar := pullback (X ↘ Spec (.of ℚ)) a
+    let fbar := pullback.snd (X ↘ Spec (.of ℚ)) a
     (SmoothOfRelativeDimension 2 fbar ∧ IsProper fbar ∧
       GeometricallyIntegral fbar ∧
       Nonempty (((SheafOfModules.exteriorPower Xbar.sheaf 2).obj
@@ -88,9 +85,7 @@ theorem geometricK3_hasBadWittPrime {X : Scheme.{0}}
           SheafOfModules.unit Xbar.ringCatSheaf) ∧
       Subsingleton (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology
         (SheafOfModules.unit Xbar.ringCatSheaf) 1)) →
-    ∃ (p : ℕ) (hp : p.Prime),
-      letI : Fact p.Prime := ⟨hp⟩
-      ¬ hasWittGoodReductionAt f p := by
+    ∃ (p : ℕ) (_ : Fact p.Prime), ¬ hasWittGoodReductionAt (X ↘ Spec (.of ℚ)) p := by
   sorry
 
 end TauCetiRoadmap.SmallRamificationAndAbelianVarietyBaseCasesPartII
