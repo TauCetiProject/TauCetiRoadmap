@@ -40,8 +40,7 @@ Fontaine–Laffaille functor is contravariant with its safe interval `[0, p − 
 
 | Layer | Title | Headline targets |
 | --- | --- | --- |
-| R07.P | Finite-`K` periods and labelled Sen theory | `aCris`, `bCris`, `dCris`, `dDeRham`, `IsCrystalline`, `IsDeRham`, `GaloisRep.deRhamSupplierEquiv` |
-| R07.1 | Finite flat group schemes and `p`-divisible groups | `frobeniusHom`, `etaleGroupEquivContAction`, `multiplicativeTypeRigidity`, `BarsottiTate.tateModule`, `BarsottiTate.connectedEtale_exact`, `TruncatedBT.of_exact`, `FormalLieGroup`, `BarsottiTate.hodgeTate`, `BarsottiTate.extend_genericFibre`, `Prolongation`, `prolongation_unique_of_lt`, `tameInertiaIso`, `FVectorScheme`, `tameInertia_exponents_le`, `oortTate_classification`, `raynaudAbelianEmbedding` |
+| R07.1 | Finite flat group schemes and `p`-divisible groups, with the finite-`K` period and labelled Sen interfaces of §§R07.P2–R07.P7.5 | `frobeniusHom`, `etaleGroupEquivContAction`, `multiplicativeTypeRigidity`, `BarsottiTate.tateModule`, `BarsottiTate.connectedEtale_exact`, `TruncatedBT.of_exact`, `FormalLieGroup`, `BarsottiTate.hodgeTate`, `BarsottiTate.extend_genericFibre`, `Prolongation`, `prolongation_unique_of_lt`, `tameInertiaIso`, `FVectorScheme`, `tameInertia_exponents_le`, `oortTate_classification`, `raynaudAbelianEmbedding` |
 | R07.G | Global admissible groups | `admissible-global-models`, `admissible-geometric-lengths`, `admissible-cohomology-bound`, `admissible-rank-one-global`, `admissible-global-purity`, `dyadic-D-model`, `dyadic-finite-flat-amalgam` |
 | R07.2 | Dieudonné theory | `canonicalDecomposition`, `DieudonneRing`, `dieudonneEquivalenceFinite`, `dieudonnePDivisible`, `dieudonneManinClassification`, `isogenyClassification`, `hasseInvariant`, `btStackSmooth`, `BarsottiTate.universalCover`, `deJongDieudonneEquivalence` |
 | R07.3 | Filtered modules and Fontaine–Laffaille theory | `isWeaklyAdmissible_iff_polygon`, `crisEigenvector_filtration_bound`, `dStar`, `FLModule`, `flExactFaithful`, `flTameInertia`, `flFullFaithfulness`, `flAdmissibility`, `flFiniteFlatDictionary` |
@@ -121,13 +120,13 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   Herbrand functions with their tower and quotient compatibilities, the different and
   Hasse–Arf. Its filtration carriers assume `IsNonarchimedeanLocalField`, which includes local
   compactness. The extension to complete discretely valued fields with arbitrary perfect residue
-  field, in equal and mixed characteristic, including the absolute upper filtration of `G_K` and
-  the completed maximal unramified comparison, is PadicPeriodRings §0.3, which agrees with the
-  supplied objects on their common domain; Hasse–Arf over such fields of characteristic `0` is
-  PadicPeriodRings §2, and its equal-characteristic case, the structure of the lower quotients,
-  the wild inertia `G_K^{0+} = P_K` and the finite-separable transition functions are
-  ArithmeticGaloisRepresentations §3.0. This roadmap plans none of these; Layer R07.6 consumes
-  PadicPeriodRings §0.3. Layer 4 also supplies
+  field, in equal and mixed characteristic, is RamificationOfCompleteDiscretelyValuedFields
+  §§3a.1–3a.3 (integer rings, the lower filtration and its quotients, the different, Herbrand
+  functions, upper numbering and Hasse–Arf) and §§4a.1–4a.3 (the absolute upper filtration of
+  `G_K` with inertia and the wild inertia `G_K^{0+} = P_K`, the finite-separable transition
+  functions and the completed maximal unramified comparison), which agrees with the supplied
+  objects on their common domain. This roadmap plans none of these; §§R07.6.2 and R07.6.5
+  consume §§3a.1–3a.2, 4a.1 and 4a.3. Layer 4 also supplies
   the finite-residue tame quotient `I_K/P_K ≅ lim_{p ∤ m} μ_m` and the tame character,
   which Tau Ceti implements as `TauCeti.inertiaTameCharacter` and
   `TauCeti.quotientWildInertiaSubgroupEquiv`. §R07.1.26 keeps only what lies beyond Layer 4:
@@ -179,9 +178,6 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   and the general-base topological period carriers, actions, invariant functors, rational
   predicates, fixed fields, regularity and underlying fundamental sequence (§§4.1–4.3).
   Its §§1.3 and 2 own the trace-ideal formula, upper-break spacing and Sen tower estimates.
-  Its §0.3 owns ramification theory over complete discretely valued fields with arbitrary
-  perfect residue field, the absolute upper filtration and the completed maximal unramified
-  comparison, which §§R07.6.2 and R07.6.5 consume.
   Sections R07.P2–R07.P5 import their finite-`K` specializations and supply the
   crystalline-to-de Rham implication. Section R07.P3 specializes the continuous sections,
   both period-sequence long exact sequences and `blochKatoExp` supplied by
@@ -395,8 +391,8 @@ laws) with `FormalGroup.IsComm`.
 - **LocalFieldsRamification.** Layers 3–4 supply lower and upper numbering, Herbrand functions,
   normal-quotient compatibility, the different and Hasse–Arf for nonarchimedean local fields
   (finite residue field). Their extension to complete discretely valued fields with arbitrary
-  perfect residue field, in equal and mixed characteristic, is PadicPeriodRings §0.3, listed in
-  that roadmap's row. Layer 4 also
+  perfect residue field, in equal and mixed characteristic, is RamificationOfCompleteDiscretelyValuedFields
+  §§3a.1–3a.3 and 4a.1–4a.3, listed in that roadmap's row. Layer 4 also
   supplies the finite-residue tame character `I_K/P_K ≅ lim μ_m` and its Frobenius twist.
 - **EllipticCurves.** Layer 4 (the Tate curve `E_q` and its `p`-torsion).
 - **ProfiniteCohomology.** Layer 9 (Hilbert `90` and Kummer theory for local fields).
@@ -423,11 +419,12 @@ laws) with `FormalGroup.IsComm`.
   characteristic, the `fundamentalCharacter` at every niveau on the tame inertia quotient, with
   residue embedding, independence of the uniformiser, Teichmüller lift, least niveau,
   surjectivity, restriction, norm, `p`-power and Frobenius laws and `ω₁^(e_K) = ω|_(I_K)` for finite
-  `K/ℚ_p` (§R07.1.26). Over `ℚ_p`, the subspace `peuRamifieH1` of extensions of 1 by `ω` (the total
-  unit-Kummer condition, containing the split class), the predicates `IsPeuRamifiee` (nontrivial
-  wild inertia and membership) and `IsTresRamifiee`, and `RamificationSupport.peuRamifie_restricted`
-  (membership is equivalent to trivial wild inertia or `IsPeuRamifiee`), with isomorphism,
-  scalar-extension, twist and Cartier-duality invariance (§§R07.5.5 and R07.5.13).
+  `K/ℚ_p` (§R07.1.26). Over `ℚ_p`, the unit-Kummer subspace of extensions of 1 by `ω` (the total
+  unit-Kummer condition, containing the split class), the peu-ramifiée predicate (nontrivial
+  wild inertia and membership), the très-ramifiée predicate, and the restricted peu-ramifiée
+  comparison (membership is equivalent to trivial wild inertia or the peu-ramifiée predicate),
+  with isomorphism, scalar-extension, twist and Cartier-duality invariance (§§R07.5.5 and
+  R07.5.13).
 - **§§2.7–2.8.** Over `ℚ_p`, `SerreWeight`, `compactInduction` on SmoothRepresentationsOfLocalGroups
   SR.2's compact induction, `heckeOperatorT` with its double-coset formula,
   `endEquivPolynomial` (`End_G(I(σ_r)) ≅ k[T]`) and `compactInduction_free` (§R07.5.15).
@@ -461,6 +458,20 @@ laws) with `FormalGroup.IsComm`.
   ring `A`, its finite normalization in a finite separable generic-fibre algebra,
   if unramified above every height-one point, is étale. The source normality hypothesis
   is essential (Stacks Tag 0BMB).
+- **RamificationOfCompleteDiscretelyValuedFields.** For every field `K` complete for a discrete
+  valuation with perfect residue field `k`, in either characteristic: Serre's lower numbering of
+  a finite Galois group on `TauCeti.IsLocalRing.ramificationGroupReal` with the lower index
+  `i_G(g)`, the inertia identification `G_0 = I(L/K)`, the subgroup compatibility
+  `H_u = G_u ∩ H` and the different formula `ord_L(𝒟_{L/K}) = Σ_{g≠1} i_G(g)` (§3a.1); the
+  Herbrand function `φ_{L/K}(u) = ∫_0^u dt/[G_0 : G_t]` with its inverse `ψ_{L/K}`, the upper
+  numbering `G^v = G_{ψ(v)}`, Herbrand's quotient theorem, transitivity in towers and agreement
+  with the pinned local-field Herbrand and upper-numbering declarations when `k` is finite
+  (§3a.2); the absolute upper filtration `G_K^v` of `G_K` (closed normal, decreasing,
+  `G_K^0 = I_K`, trivial intersection, mapping onto the upper group of every finite Galois
+  subextension) (§4a.1); and the equivalence of finite separable extensions of `K^un` and
+  `K̂^un` identifying `I_K` with `G_{K̂^un}` and preserving the lower and nonnegative upper
+  filtrations of inertia, `ord_K(p)` and the normalized different (§4a.3). Sections R07.6.2 and
+  R07.6.5 consume exactly these.
 - **PadicPeriodRings.** §§1–4 supply `C_p`, `A_inf`, `θ`,
   `B_dR^+`, `B_dR`, the period `t` with `g(t) = χ(g)t`, the continuous Galois action,
   `padicComplex_fixed_eq`, `tate_normalizedTrace`, `tate_almostEtale`,
@@ -468,18 +479,6 @@ laws) with `FormalGroup.IsComm`.
   Sections 1.3 and 2 supply `periodTraceIdeal`, `senUpperBreaks` and `senTowerEstimates`.
   Section 2 owns the separate geometric reciprocity input over algebraically closed residue
   fields used in these estimates.
-  Section 0.3 supplies, for every field `K` complete for a discrete valuation with perfect
-  residue field `k`, in either characteristic: Serre's lower numbering of a finite Galois group
-  on `TauCeti.IsLocalRing.ramificationGroupReal` with the lower index `i_G(g)`, the inertia
-  identification `G_0 = I(L/K)`, the different formula `ord_L(𝒟_{L/K}) = Σ_{g≠1} i_G(g)`, the
-  Herbrand function `φ_{L/K}(u) = ∫_0^u dt/[G_0 : G_t]` with its inverse `ψ_{L/K}` and the upper
-  numbering `G^v = G_{ψ(v)}`, the subgroup compatibility `H_u = G_u ∩ H`, Herbrand's quotient
-  theorem, transitivity in towers, the absolute upper filtration `G_K^v` of `G_K` (closed normal,
-  decreasing, `G_K^0 = I_K`, trivial intersection, compatible with closed normal quotients), the
-  equivalence of finite extensions of `K^un` and `K̂^un` identifying `I_K` with `G_{K̂^un}` and
-  carrying the lower and nonnegative upper filtrations of inertia, `ord_K(p)` and the normalized
-  different, and agreement with the pinned local-field Herbrand and upper-numbering declarations
-  when `k` is finite. Sections R07.6.2 and R07.6.5 consume exactly these.
   Section `3` supplies the principal `O_C` envelope, its presentation and completion, `θ_cris`
   and logarithm. Sections 4.1–4.3 supply the crystalline and semistable carriers, actions,
   period maps, invariant functors, rational predicates, fixed fields, regularity and underlying
@@ -1384,17 +1383,21 @@ The arithmetic realization comparisons are specified in §R07.3.0.
 §§2.3.1–2.3.4, pp. 78–79; §4.1, pp. 83–84; Theorem 4.2.4, p. 86,
 proof §4.3, pp. 87–89.)
 
-The consumer names denote the following supplied objects and identities:
+This roadmap and its consumers call these supplied objects `aCris` (the carrier `A_cris`),
+`aCris_model_equiv` (its explicit-model isomorphism), `bCris` (the localization `B_cris`),
+`bCris_toBDR` (its period map to `B_dR`), `bCris_frobenius` (its Frobenius) and
+`bCris_generatorIndependent` (the generator-change identifications). They are:
 
-- `aCris` — The `O_{ℂ_p}` carrier of PadicPeriodRings §3.
-- `aCris_model_equiv` — Its supplied canonical PD `A_inf`-algebra isomorphism from the
-  completed explicit model, preserving `θ_cris` and the logarithmic period; §4.1 supplies
-  compatibility with `G_K`, Frobenius and the `B_dR^+` map.
-- `bCris` — The supplied localization obtained by inverting `p` and `t` (§4.1).
-- `bCris_toBDR` — The supplied injective Galois-compatible period map (§4.1).
-- `bCris_frobenius` — The supplied `σ`-semilinear Frobenius commuting with `G_K` and sending `t` to `pt` (§4.1).
-- `bCris_generatorIndependent` — The supplied canonical identifications under changes of
-  primitive kernel generator or Tate generator (§§3, 4.1).
+- The `O_{ℂ_p}` carrier `A_cris` of PadicPeriodRings §3.
+- Its supplied canonical PD `A_inf`-algebra isomorphism from the completed explicit model,
+  preserving `θ_cris` and the logarithmic period; §4.1 supplies compatibility with `G_K`,
+  Frobenius and the `B_dR^+` map.
+- The supplied localization `B_cris`, obtained by inverting `p` and `t` (§4.1).
+- The supplied injective Galois-compatible period map `B_cris → B_dR` (§4.1).
+- The supplied `σ`-semilinear Frobenius of `B_cris`, commuting with `G_K` and sending `t` to
+  `pt` (§4.1).
+- The supplied canonical identifications under changes of primitive kernel generator or Tate
+  generator (§§3, 4.1).
 
 **Checks on the imported interface.**
 
@@ -1499,14 +1502,18 @@ uses §R07.3.0, and §R07.P5a supplies the integral coefficient predicates.
 
 (Nizioł, §2, pp. 748–751; Bloch–Kato, §1, pp. 337–340.)
 
-The consumer names denote supplied functors, predicates and identities:
+This roadmap and its consumers call these `dCris` and `dDeRham` (the two invariant functors),
+`IsCrystalline` and `IsDeRham` (the two predicates), `crystalline_iff_dim` (the dimension
+criterion) and `crystalline_isDeRham` (the implication above). They are:
 
-- `dCris` — The supplied period tensor invariants over `K₀` (§4.2), in the tensor order above.
-- `dDeRham` — The supplied period tensor invariants over `K` with filtration (§4.2), in the tensor order above.
-- `IsCrystalline` — The supplied crystalline predicate (§4.3).
-- `IsDeRham` — The supplied de Rham predicate (§4.3).
-- `crystalline_iff_dim` — The supplied equivalence between dimension equality and the crystalline comparison isomorphism (§4.3).
-- `crystalline_isDeRham` — Crystalline implies de Rham via the canonical embedding.
+- The supplied period tensor invariants `D_cris(V)` over `K₀` (§4.2), in the tensor order above.
+- The supplied period tensor invariants `D_dR(V)` over `K` with filtration (§4.2), in the tensor
+  order above.
+- The supplied crystalline predicate (§4.3).
+- The supplied de Rham predicate (§4.3).
+- The supplied equivalence between dimension equality and the crystalline comparison
+  isomorphism (§4.3).
+- Crystalline implies de Rham, through the canonical embedding `K ⊗_{K₀} B_cris → B_dR`.
 
 **Checks.**
 
@@ -1936,6 +1943,11 @@ The API:
 
 - `Prolongation`: structure Prolongation `(R)` (`G` : finite commutative `K`-group) : `𝒢` finite flat over
   `R, e : 𝒢_K ≅ G`.
+- `genericFibre`: the base change of `𝒢 : FLF R` along `R → K` by Tau Ceti's
+  `baseChangeFunctor`, which is the generic fibre `𝒢_K` when `K` is the fraction field; the
+  isomorphism `e` of a `Prolongation` has this source.
+- `rank`: the `Module.finrank` of `coord G` for `G : FLF R`; it is the order of `G` when
+  `coord G` is free, as over a local base or over `ℤ`.
 - `𝒢 ≥ 𝒢′` iff the identity of `G` extends to an `R`-morphism `𝒢 → 𝒢′`; the morphism is then unique.
 - Two prolongations have a supremum, the closure of the antidiagonal kernel.
 - Two prolongations have an infimum, by Cartier duality.
@@ -2466,7 +2478,7 @@ form, with duality in part `(4)`; Schröer 2023, §5, the paragraph after Propos
 - Over `O_K, G_{a,b}^D = G_{b,a}` (Oort–Tate §2, Theorem 2, p. 12, and Remark 2 (Cartier duality), p. 15; Pilloni's proof of Lemma
   14.1.2 is a computation with it).
 
-### R07.1.35 Group schemes of order `p` over rings of integers: Oort–Tate Theorem 3
+### R07.1.35 Group schemes of order `p` over rings of integers: idele class characters and local exponents
 
 Prove `oortTate_numberRing`, with `globalPrimeOrderClassification` for part (iii). Let
 `K` be a number field, `R ⊆ K` an integrally closed subring with fraction field `K` (for instance `ℤ` or `ℤ[1/N]`), `M` the set of maximal ideals of `R` and `M_p ⊆ M` those
@@ -4246,7 +4258,7 @@ give `H₁|_𝔃 → H₂|_𝔃`. Include the dyadic lifting argument of §5.7.8
 On `S`, the difference between its crystal and `α` is `p`-power torsion:
 the PD-to-tube map detects crystalline morphisms modulo torsion (§5.5).
 General morphisms reduce to isomorphisms by the upper-triangular map on a
-product, as in §5.2. Source: de Jong 1995, Proposition 7.5.2, pp.91–94;
+product, as in §5.2. Source: de Jong 1995, §7.5.1 and Proposition 7.5.2, pp.91–95;
 §5.4.3 and §§5.5–5.8, pp.58–67; de Jong 1998, p.175.
 
 *Needs:* The two preceding local targets; §§R07.1.6, R07.2.10 and the
@@ -4870,6 +4882,10 @@ The API:
   with `φ^i|Fil^{i+1} = p φ^{i+1}`.
 - `FLModule.Hom`: `W(k)`-linear maps preserving the filtrations and commuting with every `φ^i`.
 - `FLModule.IsTorsion`: Finite length and `Σ φ^i(Fil^i M) = M`; equivalent to bijectivity of `φ_M : M̃ → M` (FL 1.6).
+- `FLModule.IsTorsionIn`: `M ∈ MF_tor^{[a,b]}`, that is `FLModule.IsTorsion` together with
+  `Fil^a M = M` and `Fil^{b+1} M = 0`.
+- `FLTorsion`: the full subcategory `MF_tor^{[0,1]}` of `FLModule`, the target of the
+  finite-flat classification of §R07.3.18.
 - The weights of `M` are the filtration-jump interval `[a, b]` with `Fil^a = M` and `Fil^{b+1} = 0`,
   giving translated `U_[a,b]` interval `[a,b]` and covariant realization interval `[−b,−a]`
   in the small-width comparison of §R07.3.3a.
@@ -5016,7 +5032,7 @@ iff period `h`, and `End = 𝔽_{p^h}` (FL Proposition 4.4). (Fontaine–Laffail
   exchange twists the fixed `F_{p²}`-action by Frobenius, so it does not contradict
   uniqueness with that action fixed.
 
-### R07.3.9 Theorem 5.3: tame inertia on the simple objects, and the weight dictionary
+### R07.3.9 Tame inertia on the simple objects, and the weight dictionary
 
 Prove `flTameInertia`. Let `k` be algebraically closed, `ϖ ∈ K̄` with `ϖ^{p^h − 1} = p`, and `χ_h : G_K → 𝔽_{p^h}^×` the character `g ↦` image of `gϖ/ϖ`. For `i : ℤ/h → ℤ` of period `h` with `0 ≤ i_n ≤ p − 1` and `M = M(h; i): (i) Ext¹(M, S̄) = 0`; `(ii) U_S(M) = Hom(M, S̄)` is one-dimensional over `𝔽_{p^h}`; (iii) `g·u = χ_h(g)^{i_0 + p i_1 + ⋯ + p^{h−1} i_{h−1}}·u`. In particular `(h = 1) U_S(M(1; i))` is the character
 `ω^i, ω` the mod-`p` cyclotomic character on inertia: a filtration jump in degree `i` corresponds to
@@ -5043,7 +5059,7 @@ character.)
 - `U_S(M(1; 1)) = ω`, the Galois module of `μ_p` on inertia; with the opposite
   weight convention it would be `ω^{−1}`.
 
-### R07.3.10 Theorem 3.3: `U_S` is exact, faithful and length-preserving
+### R07.3.10 `U_S` is exact, faithful and length-preserving
 
 Prove `flExactFaithful`. For `M ∈ MF_tor^{[0,p−1]}, U_S(M)` has finite `ℤ_p`-length equal to the
 `W(k)`-length of `M`; the contravariant functor `U_S : MF_tor^{[0,p−1]} → Rep_tor(G_K)` is exact and
@@ -5054,7 +5070,7 @@ The setting is the Fontaine–Laffaille setting of §R07.3.4.
 
 *Proof sketch.* Reduction to `k` algebraically closed by the base change `M ↦ W(k′) ⊗ M`, which is exact
 and faithful (FL §3). Dévissage to simple objects of `MF_tor` killed by `p`: it suffices that `dim_𝔽 Hom(M, S̄) = dim_k M` and `Ext¹(M, S̄) = 0` for every simple `M` (FL 0.6, end of §3). The simple objects
-are the `M(h; i)` (§R07.3.8) and Theorem 5.3 (§R07.3.9) gives both statements when `0 ≤ i_n ≤ p − 1`.
+are the `M(h; i)` (§R07.3.8) and §R07.3.9 gives both statements when `0 ≤ i_n ≤ p − 1`.
 Exactness and length additivity then follow from the long exact `Ext` sequence; faithfulness from
 exactness and length preservation. (Fontaine–Laffaille 1982, §3.3, Theorem 3.3, p. 562: the theorem;
 Fontaine–Laffaille 1982, §3.4, Remark, p. 562: invariant factors.)
@@ -5066,7 +5082,7 @@ Fontaine–Laffaille 1982, §3.4, Remark, p. 562: invariant factors.)
 - `U_S(M(1; i))` has length `1` for `0 ≤ i ≤ p − 1`.
 - `W(k)/p²` with weight `0` goes to `ℤ/p²` (same invariant factors).
 
-### R07.3.11 Theorem 6.1: full faithfulness away from the endpoint collision
+### R07.3.11 Full faithfulness away from the endpoint collision
 
 Prove `flFullFaithfulness`. Let `MF′ ⊆ MF_tor^{[0,p−1]}` consist of the objects with no nonzero
 quotient `N` with `Fil^{p−1} N = N`, and `MF″` of those with no nonzero subobject `N` with `Fil^1 N = 0`. `(i)`
@@ -5176,7 +5192,7 @@ The API:
   has no strongly divisible lattice: `p^{−1}Φ(M) = p^{−1}M ≠ M` for every lattice `M`.
 - `D = 0` has the unique strongly divisible lattice `0`.
 
-### R07.3.14 The lattice functor: Propositions 7.14–7.15
+### R07.3.14 The lattice functor on strongly divisible lattices
 
 Prove `flLatticeFunctor`. For a strongly divisible lattice `M` with `Fil^0 = M` and `Fil^p = 0`, the
 reductions `M_n = M/p^n M` lie in `MF_tor^{[0,p−1]}`, each `U_S(M_n) = Hom(M_n, S_n)` is free over `ℤ/p^n`
@@ -5237,7 +5253,7 @@ Theorem 8.4, pp. 595–596: the identification.)
 - Over `K = Frac W(F_p(t)^perf)`, the weight-zero unit gives the trivial `ℚ_p`
   representation through the general-base period rings; no finite-`K` carrier is required.
 
-### R07.3.16 Theorem 8.4: weakly admissible modules of filtration length `< p` are admissible
+### R07.3.16 Weakly admissible modules of filtration length `< p` are admissible
 
 Prove `flAdmissibility`. Let `D` be a weakly admissible filtered `φ`-module over `K₀` with `Fil^j D = D` and
 `Fil^{j+p} D = 0` for some `j` (filtration length `< p`). Then `D` is admissible (crystalline). For an effective `D` with `Fil⁰D = D` and `Fil^pD = 0`,
@@ -5593,6 +5609,8 @@ The API:
 - `TorsionKisinModule`: A finitely generated `p`-power-torsion `𝔖`-module with a finite free
   resolution of length at most `1`, including zero, and Frobenius linearisation cokernel killed
   by `E(u)`.
+- `TorsionKisinModule.Hom`: `𝔖`-linear maps commuting with `φ`, the morphisms of the category of
+  torsion Kisin modules.
 - A torsion Kisin module is multiplicative when `1 ⊗ φ` is an isomorphism.
 - It is étale when the image of `1 ⊗ φ` is `E(u)𝔐`.
 
@@ -7675,8 +7693,8 @@ Proposition 4, pp.189–190, and §2.6, p.188; §§R07.5.6 and R07.5.8.
 
 ### R07.5.5 Peu ramifiée and très ramifiée representations
 
-Use PadicLocalLanglandsForGL2Qp §0.3's `IsPeuRamifiee` and `IsTresRamifiee`, and extend them to
-Serre's full domain. Let `ρ : G_p = Gal(ℚ̄_p/ℚ_p) → GL(V) = GL₂(F̄_p)` with
+Use the peu-ramifiée and très-ramifiée predicates of PadicLocalLanglandsForGL2Qp §0.3, and extend
+them to Serre's full domain. Let `ρ : G_p = Gal(ℚ̄_p/ℚ_p) → GL(V) = GL₂(F̄_p)` with
 `P_K` acting nontrivially. Then `D = V^{P_K}` is a `G_p`-stable line, `G_p` acts on `D` by `θ₂ = χ̄^β ε₂` and on
 `V/D` by `θ₁ = χ̄^α ε₁` with `ε₁, ε₂` unramified, `0 ≤ α ≤ p − 2` and `1 ≤ β ≤ p − 1`. In the case `β = α + 1`,
 let `K` be the field cut out by `ρ(I)` over `K₀ = ℚ_p^nr` and `K_t = K₀(ζ_p)` its maximal tame subextension;
@@ -7686,16 +7704,17 @@ très ramifiée otherwise. For `p = 2 (χ̄ = 1, α = 0, β = 1)` this applies t
 
 Serre works over `ℚ_p`; only `ρ|_{G_p}` matters, and the definition depends only on `ρ|_I` and on
 `K₀ = ℚ_p^nr`. When `β = α + 1` and `ε₁ = ε₂`, `ρ ≅ ρ̄_c ⊗ θ₁` for an extension class `c` of `1` by
-`χ̄` over `ℚ_p` with nontrivial wild inertia; on this common domain `IsPeuRamifiee ρ` and
-`IsTresRamifiee ρ` are §0.3's predicates on `ρ̄_c`, independent of the presentation by §0.3's
-isomorphism and twist invariance. When `ε₁ ≠ ε₂`, `IsPeuRamifiee ρ` is defined by Serre's Kummer
-condition above and `IsTresRamifiee ρ` by its failure; by `tresRamifiee_characters` such `ρ` is
-always peu ramifiée. Prove `isPeuRamifiee_iff_valuation` on the whole domain; on the common domain
-it identifies Serre's Kummer condition with §0.3's membership `c ∈ peuRamifieH1`. In
-extension-type formulas, “`∗` peu ramifiée” denotes §0.3's total unit-Kummer condition
-`c ∈ peuRamifieH1`, including wild-trivial extension classes; by
-`RamificationSupport.peuRamifie_restricted` it agrees with `IsPeuRamifiee` on the nontrivial-wild
-domain, and §R07.5.13 gives the `ℚ_l` and integral `H¹` comparisons.
+`χ̄` over `ℚ_p` with nontrivial wild inertia; on this common domain `ρ` is peu (très) ramifiée
+exactly when `ρ̄_c` satisfies §0.3's peu-ramifiée (très-ramifiée) predicate, independently of the
+presentation by §0.3's isomorphism and twist invariance. When `ε₁ ≠ ε₂`, peu ramifiée is defined
+by Serre's Kummer condition above and très ramifiée by its failure; by `tresRamifiee_characters`
+such `ρ` is always peu ramifiée. Prove `isPeuRamifiee_iff_valuation` on the whole domain; on the
+common domain it identifies Serre's Kummer condition with §0.3's membership of `c` in the
+unit-Kummer subspace. In extension-type formulas, “`∗` peu ramifiée” denotes §0.3's total
+unit-Kummer condition, membership of `c` in the unit-Kummer subspace, including wild-trivial
+extension classes; by §0.3's restricted peu-ramifiée comparison it agrees with the peu-ramifiée
+predicate on the nontrivial-wild domain, and §R07.5.13 gives the `ℚ_l` and integral `H¹`
+comparisons.
 
 *Construction.* `V^{P_K} ≠ 0` since `P_K` is pro-`p`; it is a line because `P_K` acts nontrivially; it is
 `G_p`-stable because `P_K` is normal (Serre 1987, §2.4). `β = α + 1` gives `Gal(K_t/K₀) = (ℤ/p)^*, K_t = K₀(ζ_p)`, and `Gal(K/K_t) = ρ(P_K)` elementary abelian with the cyclotomic action of `Gal(K_t/K₀)`;
@@ -7712,19 +7731,20 @@ The API:
   for `ε₁ ≠ ε₂`, in the case `β = α + 1`.
 - The Kummer subgroup of `K₀^*/K₀^{*p}` is generated by the `x_i`.
 - A representation is peu ramifiée iff `v_p` vanishes `mod p` on the Kummer subgroup;
-  on the common domain this is §0.3's membership in `peuRamifieH1`.
+  on the common domain this is §0.3's membership in the unit-Kummer subspace.
 - Under nontrivial wild inertia, a Kummer class of a unit
   gives a peu ramifiée representation.
 
-*Needs:* PadicLocalLanglandsForGL2Qp §0.3 (`peuRamifieH1`, `IsPeuRamifiee`, `IsTresRamifiee`,
-`RamificationSupport.peuRamifie_restricted`); §R07.1.26.
+*Needs:* PadicLocalLanglandsForGL2Qp §0.3 (the unit-Kummer subspace, the peu-ramifiée and
+très-ramifiée predicates and the restricted peu-ramifiée comparison); §R07.1.26.
 
 **Checks.**
 
-- The split class `c = 0` lies in §0.3's `peuRamifieH1` but has trivial wild inertia, so it is
-  outside the domain of `IsPeuRamifiee`: the total unit-Kummer subspace and Serre's restricted
-  predicate differ exactly on wild-trivial classes. Over `ℚ₂` the unit class of `5` gives the
-  unramified quadratic extension, nonsplit and in `peuRamifieH1`, yet not `IsPeuRamifiee`.
+- The split class `c = 0` lies in §0.3's unit-Kummer subspace but has trivial wild inertia, so it
+  is outside the domain of the peu-ramifiée predicate: the total unit-Kummer subspace and Serre's
+  restricted predicate differ exactly on wild-trivial classes. Over `ℚ₂` the unit class of `5`
+  gives the unramified quadratic extension, nonsplit and in the unit-Kummer subspace, yet not
+  peu ramifiée in the restricted sense.
 - `p = 2, K = ℚ₂(√−1)`: the class of `−1` is a unit class, so `(1 u; 0 1)`
   is peu ramifiée.
 - `p = 2, K = ℚ₂(√2): v₂(2) = 1` is odd, so `(1 u; 0 1)` is très ramifiée.
@@ -8013,7 +8033,7 @@ Prove `flResidualWeights`. Let `K/ℚ_p` be unramified with residue field `k = F
 weights lie in a fixed interval `[a, a + p − 2]` (after a common shift). Then `ρ̄|_{I_K}^{ss}` is the
 direct sum, over
 the Jordan–Hölder factors of the Fontaine–Laffaille module of `ρ̄`, of the products of fundamental
-characters given by Theorem 5.3 (§R07.3.9), and determines the multiset of unlabelled Hodge–Tate
+characters given by §R07.3.9, and determines the multiset of unlabelled Hodge–Tate
 weights in this fixed interval of length `< p − 1`. For `K = ℚ_p`, a finite coefficient field `E/ℚ_p`, and a two-dimensional
 crystalline `E`-representation with an `O_E`-lattice `T` and unlabelled weights `(0, k − 1), 1 < k < p` (Breuil–Mézard), after extending residual scalars to `F̄_p`: if `V` is reducible, `V ≅ V(µ₁, µ₂)`, then `T̄ ≅ (ω^{k−1}λ(µ₂^{−1}) ∗ ; 0 λ(µ₁^{−1}))`, with `∗` peu ramifiée when `k = 2`; if `V` is irreducible (`V ≅ V(µ, ν)` with `ν ∈ m`), then `T̄ ≅ Ind_{G_{ℚ_{p²}}}^{G_{ℚ_p}} θ_{k−1} ⊗ λ(µ^{−1/2})`, so `T̄|_{I} ≅ ω₂^{k−1} ⊕ ω₂^{p(k−1)}` and `det T̄ = ω^{k−1}λ(µ^{−1})`. Choose an arithmetic Frobenius lift `Φ` with `ω(Φ) = 1`.
 Here `θ_r` is the character of `G_{ℚ_{p²}}` defined by `θ_r|_I = ω₂^r` and
@@ -8104,16 +8124,16 @@ the remark that the coefficients must be `ℤ_l`.)
 
 ### R07.5.13 The peu ramifié subspaces `H¹_f(G_L, F_l(ε̄χ̄))` and `H¹_f(G_L, ℤ_l(εχ))`
 
-Extend PadicLocalLanglandsForGL2Qp §0.3's `peuRamifieH1` from `ℚ_l` and the trivial twist to
+Extend the unit-Kummer subspace of PadicLocalLanglandsForGL2Qp §0.3 from `ℚ_l` and the trivial twist to
 finite `L/ℚ_l` and unramified twists, and add its integral version. Let `L/ℚ_l` be finite and
 `χ̄ : G_L → F_l^×` (resp. `χ : G_L → ℤ_l^×`) unramified.
 `H¹_f(G_L, F_l(ε̄_lχ̄))` is the kernel of the composite `H¹(G_L, F_l(ε̄_lχ̄)) → H¹(G_{L^nr}, F_l(ε̄_l)) ≅ L^{nr,×}/(L^{nr,×})^l → ℤ/l`, the last map induced by the valuation; `H¹_f(G_L, ℤ_l(ε_lχ))` is the
 kernel of `H¹(G_L, ℤ_l(ε_lχ)) → H¹(G_{L^nr}, ℤ_l(ε_l)) ≅ lim_r L^{nr,×}/(L^{nr,×})^{l^r} → ℤ_l`. If `χ̄`
 (resp. `χ`) is nontrivial, `H¹_f = H¹`; and `H¹(G_L, F_l(ε̄_l))/H¹_f(G_L, F_l(ε̄_l)) ≅ F_l`. For `L = ℚ_l`
-and `χ̄ = 1`, `H¹_f` is §0.3's `peuRamifieH1`, the Kummer image of the units: a class lies in it
-exactly when its Kummer generator can be taken to be a unit. By §0.3's
-`RamificationSupport.peuRamifie_restricted`, `c` lies in it exactly when its extension `ρ_c` of
-the trivial character by `ε̄_l` has trivial wild inertia or satisfies `IsPeuRamifiee` (§R07.5.5);
+and `χ̄ = 1`, `H¹_f` is §0.3's unit-Kummer subspace, the Kummer image of the units: a class lies in
+it exactly when its Kummer generator can be taken to be a unit. By §0.3's restricted peu-ramifiée
+comparison, `c` lies in it exactly when its extension `ρ_c` of the trivial character by `ε̄_l` has
+trivial wild inertia or satisfies the peu-ramifiée predicate (§R07.5.5);
 on the nontrivial-wild domain this is precisely Serre's predicate, and the subspace also contains
 the zero and wild-trivial classes.
 
@@ -8137,17 +8157,17 @@ the two facts `H¹_f = H¹` for nontrivial `χ̄` and `H¹/H¹_f ≅ F_l`.)
 The API:
 
 - The finite part `H¹_f(G_L, F_l(ε̄χ̄))` is a subspace of `H¹(G_L, F_l(ε̄χ̄))`; for `L = ℚ_l` and
-  `χ̄ = 1` it is §0.3's `peuRamifieH1`, the valuation kernel and the unit Kummer
+  `χ̄ = 1` it is §0.3's unit-Kummer subspace, the valuation kernel and the unit Kummer
   image coinciding because `ℚ_l^×/(ℚ_l^×)^l → ℤ/l` is the valuation.
 - The integral finite part `H¹_f(G_L, ℤ_l(εχ))` is a `ℤ_l`-submodule of `H¹(G_L, ℤ_l(εχ))`.
 - If `χ̄ ≠ 1`, then `H¹_f = H¹`.
 - `H¹(G_L, F_l(ε̄))/H¹_f ≅ F_l`.
 - For `L = ℚ_l, χ̄ = 1` and every class `c`, `c ∈ H¹_f` iff wild inertia acts trivially on `ρ_c` or
-  `IsPeuRamifiee(ρ_c)`: this is §0.3's `RamificationSupport.peuRamifie_restricted`, used here
-  without a second proof. The second disjunct includes the nontrivial-wild hypothesis.
+  `ρ_c` satisfies the peu-ramifiée predicate: this is §0.3's restricted peu-ramifiée comparison,
+  used here without a second proof. The second disjunct includes the nontrivial-wild hypothesis.
 
-*Needs:* PadicLocalLanglandsForGL2Qp §0.3 (`peuRamifieH1`,
-`RamificationSupport.peuRamifie_restricted`); §R07.5.5; TauCetiRoadmap.ProfiniteCohomology Layer 9.
+*Needs:* PadicLocalLanglandsForGL2Qp §0.3 (the unit-Kummer subspace and the restricted
+peu-ramifiée comparison); §R07.5.5; TauCetiRoadmap.ProfiniteCohomology Layer 9.
 
 **Checks.**
 
@@ -8354,9 +8374,9 @@ normalised by `v_K(K^*) = ℤ` and extended to `K̄`; for `L/K` finite Galois wi
 ramification index and `a^m_{L/K} = {x ∈ O_L : v_K(x) ≥ m}` (Fontaine 1985, §1). Serre's lower and
 upper numbering, Herbrand's functions, compatibility with quotients (Local Fields IV, Prop. `14`) and
 `v(𝒟) = Σ i_G(g)` (Local Fields IV, Prop. `4`) are supplied in this generality, in both
-characteristics, by PadicPeriodRings §0.3, which extends LocalFieldsRamification Layers 3–4
-from finite to arbitrary perfect residue fields; its absolute upper filtration of `G_K` is the
-one shifted here. This target adds Fontaine's shifted normalisation and the invariants
+characteristics, by RamificationOfCompleteDiscretelyValuedFields §§3a.1–3a.2, which extend
+LocalFieldsRamification Layers 3–4 from finite to arbitrary perfect residue fields; the absolute
+upper filtration of `G_K` of its §4a.1 is the one shifted here. This target adds Fontaine's shifted normalisation and the invariants
 `u_{L/K}, i_{L/K}`.
 
 *Construction.* Fontaine's `i_{L/K}(g)` is Serre's `i_G(g)` divided by `e_{L/K}` (`v_K` rather than `v_L`),
@@ -8374,8 +8394,8 @@ The API:
 - `G^(u) = G^{u−1}` in Serre's upper numbering.
 - `v_K(𝒟_{L/K}) = u_{L/K} − i_{L/K}`.
 
-*Needs:* Mathlib `differentIdeal`; PadicPeriodRings §0.3
-(Serre's lower and upper numbering, Herbrand functions, Herbrand's quotient theorem, the
+*Needs:* Mathlib `differentIdeal`; RamificationOfCompleteDiscretelyValuedFields §§3a.1–3a.2
+and 4a.1 (Serre's lower and upper numbering, Herbrand functions, Herbrand's quotient theorem, the
 different formula and the absolute upper filtration over arbitrary perfect residue fields).
 
 **Checks.**
@@ -8497,8 +8517,8 @@ locaux*, Astérisque `47`–`48, n`° 4.3), which is part of this target. For `e
 SmallRamificationAndAbelianVarietyBaseCases uses, the embedding is not needed (Fontaine 1985,
 2.2(a)).
 
-*Proof sketch.* Reduce to `k` algebraically closed using PadicPeriodRings §0.3's
-completed maximal unramified comparison, which identifies inertia with the absolute Galois group
+*Proof sketch.* Reduce to `k` algebraically closed using the completed maximal unramified
+comparison of RamificationOfCompleteDiscretelyValuedFields §4a.3, which identifies inertia with the absolute Galois group
 of `K̂^un` and preserves its lower and nonnegative upper filtrations and the normalized
 different (Fontaine 1985, 2.1). `(a) ω_J` free over `O_K/pⁿ: J_k`
 is the product of an étale group and a connected group with affine algebra `k[X₁, …, X_h]/(X₁^{p^{r₁}}, …, X_h^{p^{r_h}})` (Dieudonné), so `B` is a local complete intersection, and
@@ -8510,8 +8530,9 @@ gets `0 → ω_Γ → ω_Γ → ω_{Γ_{pⁿ}} → 0` with `ω_Γ` free over `O_
 Introduction, Théorème A, p. 515: Théorème A; Fontaine 1985, §2.1, Théorème 1, p. 525: Théorème 1;
 Fontaine 1985, §2.2, Remarque a), p. 526: the case `e = n = 1`.)
 
-*Needs:* §R07.6.4; PadicPeriodRings §0.3 (perfect-residue Herbrand theory, the
-different and the completed maximal unramified comparison);
+*Needs:* §R07.6.4; RamificationOfCompleteDiscretelyValuedFields §§3a.1–3a.2, 4a.1 and 4a.3
+(perfect-residue Herbrand theory, the different, the absolute upper filtration and the completed
+maximal unramified comparison);
 §R07.6.2; §R07.6.1; §R07.1.6; §R07.1.40; §R07.1.17.
 
 **Checks.**
@@ -8892,9 +8913,9 @@ for good reduction at `p > 2`, by Fontaine's bound against the root discriminant
 
 Layers R07.1–R07.4; AbelianSchemesAndArithmeticModuli Layer A3; DerivedModuleAlgebra §§0.4, 0.8;
 TauCetiRoadmap.LocalFieldsRamification Layers 3–4 (finite-residue ramification);
-PadicPeriodRings §0.3 (ramification over complete discretely valued fields with arbitrary
-perfect residue field, the absolute upper filtration and the completed maximal unramified
-comparison);
+RamificationOfCompleteDiscretelyValuedFields §§3a.1–3a.2, 4a.1 and 4a.3 (ramification over
+complete discretely valued fields with arbitrary perfect residue field, the absolute upper
+filtration and the completed maximal unramified comparison);
 PurityOfBranchLocus §§2.1–2.2 (purity for finite normal covers of regular bases);
 Mathlib `differentIdeal`, `IsKrasner.krasner`,
 `DividedPowers`, `KaehlerDifferential`, `WeierstrassCurve.HasGoodReduction`.
