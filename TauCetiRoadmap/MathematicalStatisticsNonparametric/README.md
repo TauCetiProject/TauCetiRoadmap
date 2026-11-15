@@ -361,6 +361,18 @@ existence of a process satisfying Mathlib's `IsBrownianReal` and the a.s. growth
 §1.4, in 7.4. The
 Brownian bridge enters only through MathematicalStatisticsAsymptotic's Donsker theorem (3.4).
 
+### From OperatorTheory/SpectralSubspacePerturbation
+
+The spectral subspace perturbation roadmap owns the dimension-free projector bound SSP-C16, which
+rests on its directed bound SSP-C15. Let `A`, `B` be bounded symmetric operators on a Hilbert
+space, `U` a closed subspace reducing `A`, `V` a closed subspace reducing `B`, and `g > 0`. A
+*form separation of size `g`* from `U` to `V` is a constant `c` with
+`(c + g) ‖u‖² ≤ Re ⟪A u, u⟫` for `u ∈ U` and `Re ⟪B w, w⟫ ≤ c ‖w‖²` for `w ∈ Vᗮ`; the reversed
+separation is a `c'` with `(c' + g) ‖v‖² ≤ Re ⟪B v, v⟫` for `v ∈ V` and
+`Re ⟪A w, w⟫ ≤ c' ‖w‖²` for `w ∈ Uᗮ`. Under both separations, `‖P_U − P_V‖ ≤ ‖B − A‖/g`. This
+roadmap consumes it in 8.6, with `A = C`, `B = Ĉ_n` and `U`, `V` the spans of the leading
+eigenvectors.
+
 ## How to read the build
 
 Layers 1 and 2 are information theory of finitely many experiments. Every lower bound in the
@@ -2782,8 +2794,9 @@ the difference is `O(1/n)` in operator norm and does not affect the limits below
   is the dimension-free projector bound of OperatorTheory/SpectralSubspacePerturbation (SSP-C16),
   applied to the spans of the first `j + 1` and of the first `j` eigenvectors of `C` and `Ĉ_n`:
   with `g = min_{k ≠ j} |λ_j - λ_k|` and `‖Ĉ_n - C‖ ≤ g/4`, which holds with probability tending
-  to `1`, the eigenvalues of `Ĉ_n` move by at most `g/4`, each form separation is at least
-  `3g/4`, and each projector moves by at most `2 ‖Ĉ_n - C‖/g`. So the rank-one projector moves by
+  to `1`, the eigenvalues of `Ĉ_n` move by at most `g/4`, both form separations (defined in
+  the contract with SpectralSubspacePerturbation) have size `3g/4`, and each projector moves
+  by at most `2 ‖Ĉ_n - C‖/g`. So the rank-one projector moves by
   at most `4 ‖Ĉ_n - C‖/g`, and `‖φ̂_j - φ_j‖ ≤ 4√2 ‖Ĉ_n - C‖/g` because
   `‖φ̂ - φ‖² = 2 - 2 cos θ ≤ 2 sin² θ` for `cos θ = ⟪φ̂, φ⟫ ≥ 0`. The first-order term is proved
   here.
