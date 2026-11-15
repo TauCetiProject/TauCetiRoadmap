@@ -49,12 +49,12 @@ Not owned here:
 
 ## Exact supplier contracts
 
-**From Mathlib**
+### From Mathlib
 
 - `Metric.closedBall`, `Metric.ball`, `Metric.sphere`, `EuclideanSpace ℝ (Fin 4)`, `fderiv`,
   `Circle.exp`, `ContinuousMap`, `FundamentalGroup` and `FundamentalGroup.map`.
 
-**From Tau Ceti** (commit `2fd255d9`)
+### From Tau Ceti (commit 2fd255d9)
 
 - `TauCeti.Analysis.Calculus.Morse.Basic`: `TauCeti.HasNondegenerateCriticalPointsOn`;
   `TauCeti.Analysis.Calculus.Morse.Index`: `TauCeti.morseIndex`.
@@ -65,13 +65,13 @@ Not owned here:
   `TauCeti.Geometry.Manifold.SmoothEmbedding.SmoothAmbientIsotopy.Basic`:
   `TauCeti.SmoothEmbedding.SmoothAmbientIsotopic`.
 
-**From GeometricTopology**
+### From TauCetiRoadmap.GeometricTopology
 
 - Section 4.3, the Seifert genus of a knot; section 4.4, its Alexander polynomial; section 4.10,
   the two-bridge knots `K(p, q)`. These are consumed by 1.5 and 2.1 only, which are not statable
   until those carriers exist.
 
-**From HeegaardFloer**
+### From TauCetiRoadmap.HeegaardFloer
 
 - Section 7.6, knot Floer homology and its concordance maps, consumed by the proof of 1.5.
 
