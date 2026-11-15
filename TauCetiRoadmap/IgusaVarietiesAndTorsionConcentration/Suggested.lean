@@ -7,7 +7,7 @@ import Mathlib
 `README.md`. This file states the roadmap's headline theorems against the pinned Mathlib and
 Tau Ceti; none is statable at the pins, so it declares nothing.
 
-No headline theorem is statable against Mathlib `6b7abb3` and Tau Ceti `a91d3aa`:
+No headline theorem is statable against Mathlib `1b1ccf4` and Tau Ceti `2fd255d`:
 
 * The integral PEL representative, universal-cover automorphism and central-leaf dimension
   theorems (Layer 0), and the Igusa tower and cohomology comparisons (Layer 1), require
