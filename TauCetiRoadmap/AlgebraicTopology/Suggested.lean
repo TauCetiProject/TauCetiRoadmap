@@ -1,521 +1,417 @@
-import Mathlib
+module
+
+public import Mathlib
+public import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.FiniteCWType
+public import TauCeti.AlgebraicTopology.Cohomology.Cap.Basic
+public import TauCeti.AlgebraicTopology.Cohomology.Cup
+public import TauCeti.AlgebraicTopology.Cohomology.Kronecker
+public import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
+public import TauCeti.AlgebraicTopology.Homotopy.Hurewicz.Basic
+public import TauCeti.AlgebraicTopology.Homotopy.Relative.Hurewicz
+public import TauCeti.AlgebraicTopology.Singular.Relative
+public import TauCeti.Topology.CWComplex.Classical.CWType
+public import TauCeti.Topology.CWComplex.Classical.FiniteCWType
+public import TauCeti.Topology.Homotopy.LusternikSchnirelmann
 
 /-!
 # Algebraic topology of spaces and manifolds: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The declarations below suggest Lean forms for load-bearing interfaces in Mathlib's
-vocabulary; proving them does not by itself finish a stage or the roadmap.
+The roadmap is README.md; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti APIs. The headlines are the cup-length bound
+for the Lusternik–Schnirelmann count; Poincaré duality by cap with a fundamental class and its
+twisted, boundary and compact-triad Poincaré–Lefschetz forms; the product-ball intersection
+theorem (§6.6); the bundle formula for the Euler characteristic; absolute Hurewicz in every
+universe and relative Hurewicz for a simply connected subspace; homological Whitehead for
+spaces of CW type; proper Whitehead; finite CW type of compact smooth manifolds and the
+homology-sphere recognition corollary; CW type of mapping spaces from compact sources; the
+nerve model of K(G,1); rectification of a proper homotopy inverse to a proper strong
+deformation retraction; the Künneth and Cartan–Leray spectral sequences; the topological
+restriction-tower comparisons; ordinary representability by every Eilenberg–MacLane space of
+positive degree, with its normalized class (§8.10); the EM loop comparison (§8.11b); relative
+obstruction theory; the transverse circle classifying map of an integral degree-one
+class (§8.13); and the non-freeness of `C_p × C_p` actions on spheres (§8.15).
+
+Results that Tau Ceti proves are consumed through the README's supplier contracts and not
+restated here: Brouwer's fixed-point theorem, the chain transfer of a finite covering,
+Lusternik–Schnirelmann categorical covers and their count, the Wang sequence of a mapping torus
+of a homeomorphism, the homology of tori as exterior powers, the ordered Čech double complex of
+an open cover with its quasi-isomorphism to singular chains and its spectral sequence, the
+coefficient Bockstein, the laws of the constant-coefficient cup and cap products, ordinary
+Whitehead and spaces of CW type, the Euler characteristic of spaces of finite CW type with its
+homotopy invariance, product, covering and Mayer–Vietoris formulas, the field and
+hereditary-ring Künneth theorems, the universal coefficient sequence, based pairs with their
+relative homotopy groups and Hurewicz maps, absolute Hurewicz for spaces in `Type`, relative
+Hurewicz when the subspace and the space are both highly connected, the local homology system
+of a manifold, which is a local coefficient system, and proper homotopy equivalences.
+
+Not stated, with the missing carriers. The twisted, boundary and compact-triad duality forms
+need direct local-system cochains (the pinned twisted cochains are Hom of twisted chains, which
+computes cochains of the dual system), the local-coefficient cap product and relative
+fundamental classes of manifolds with boundary; the pinned fundamental classes are those of
+boundaryless manifolds. The Künneth spectral sequence over a general ring needs the filtration
+of the tensor product of chain complexes whose second page is `Tor`, and the Cartan–Leray
+spectral sequence needs the double complex of the deck action with its group-homology second
+page; neither pinned library has them. The topological Milnor comparison needs the skeletal
+restriction tower of cohomology modules of a CW complex and its limit comparison; the generic
+tower algebra is Tau Ceti's. The EM loop comparison is a family of pointed maps
+K(A, n) → ΩK(A, n + 1), natural in homomorphisms A → A′ and inducing the identity on A; it needs
+the functorial family A ↦ K(A, n) with its normalized identification of `πₙ` (DGFloer Layer 1
+item 4), and the pins have only the K(G, 1) predicate and Milnor's classifying space. For one
+pair of spaces the comparison is Tau Ceti's loop shift `HomotopyGroup.pathLoopSpaceMulEquiv`
+followed by the uniqueness of Eilenberg–MacLane spaces (Hatcher, Proposition 4.30, p.366), so a
+statement for one pair would drop the naturality that is its content. The obstruction extension
+criteria need the cellular obstruction and difference cochains with their transport. Proper
+Whitehead needs compactly supported singular cohomology with pullback along proper maps, the
+carrier of its hypothesis, which neither pinned library has. Of the smooth-manifold CW-type
+headlines, the boundary-pair and marked-point forms need a homotopy equivalence of pairs, and the
+countable locally finite CW type of a noncompact manifold needs a local-finiteness predicate on
+CW models. These constructions remain README targets, not admitted data here.
 -/
+
+public section
 
 namespace TauCetiRoadmap.AlgebraicTopology
 
-open CategoryTheory ContinuousMap Topology
-open CategoryTheory.Limits
-open scoped ContDiff Manifold Topology
+open CategoryTheory CategoryTheory.Limits ContinuousMap Topology
+
+universe u v
 
 noncomputable section
 
-universe u
+/-! ## Layer 6: the LS bound and manifold duality -/
 
-private abbrev SingularChains (R : Type u) [CommRing R] (M : ModuleCat.{u} R)
-    (X : TopCat.{u}) : ChainComplex (ModuleCat.{u} R) ℕ :=
-  ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).obj X
-
-private abbrev SingularHomology (R : Type u) [CommRing R] (M : ModuleCat.{u} R)
+/-- Singular cohomology with coefficients in the ring itself. -/
+noncomputable abbrev singularCohomology (R : Type u) [CommRing R]
     (X : TopCat.{u}) (n : ℕ) : ModuleCat.{u} R :=
-  ((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} R) n).obj M).obj X
+  X.singularCohomology (ModuleCat.of R R) R (ModuleCat.of R R) n
 
-/-! ## Existing anchors -/
+/-- Native cup product with the same Alexander–Whitney pairing and degree pin. -/
+noncomputable def cupProduct (R : Type u) [CommRing R] (X : TopCat.{u}) (p q : ℕ) :
+    singularCohomology R X p →ₗ[R] singularCohomology R X q →ₗ[R]
+      singularCohomology R X (p + q) :=
+  X.singularCup R (MonoidalCategory.leftUnitor (ModuleCat.of R R)).inv
+    (MonoidalCategory.leftUnitor (ModuleCat.of R R)).hom p q (p + q) rfl
 
-/-- Relative topology uses Mathlib's category of embedded topological pairs. -/
-example {X : TopCat} (A : Set X) : TopPair :=
-  TopPair.ofSubset A
+/-- A finite positive-degree cup product, using that actual native operation. -/
+inductive LSPositiveCupProduct (X : TopCat.{u}) (R : Type u) [CommRing R] :
+    ℕ → (Σ d : ℕ, singularCohomology R X d) → Prop where
+  | single (d : ℕ) (hd : 0 < d) (a : singularCohomology R X d) :
+      LSPositiveCupProduct X R 1 ⟨d, a⟩
+  | mul {r p q : ℕ} (a : singularCohomology R X p) (b : singularCohomology R X q)
+      (ha : LSPositiveCupProduct X R r ⟨p, a⟩) (hq : 0 < q) :
+      LSPositiveCupProduct X R (r + 1) ⟨p + q, cupProduct R X p q a b⟩
 
-/-- Ordinary singular chains remain the absolute chain functor used by the relative theory. -/
-noncomputable example (R : Type u) [CommRing R] :
-    ModuleCat.{u} R ⥤ TopCat.{u} ⥤ ChainComplex (ModuleCat.{u} R) ℕ :=
-  AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)
+/-- Supremum of lengths of nonzero products of positive-degree classes. -/
+noncomputable def lsCupLength (X : TopCat.{u}) (R : Type u) [CommRing R] : ℕ∞ :=
+  sSup {m : ℕ∞ | ∃ r : ℕ, m = (r : ℕ∞) ∧
+    ∃ d : ℕ, ∃ a : singularCohomology R X d,
+      a ≠ 0 ∧ LSPositiveCupProduct X R r ⟨d, a⟩}
 
-/-- Cellular chains are built from Mathlib's actual cells, not from a record of cell counts. -/
-example {X : Type*} [TopologicalSpace X] (C : Set X) [CWComplex C] (n : ℕ) : Type _ :=
-  Topology.CWComplex.cell C n
-
-/-! ## Relative chains and homology -/
-
-/-- The relative singular-chain functor. The implementation factors through `SSetPair`. -/
-noncomputable def relativeSingularChainComplex (R : Type*) [CommRing R] :
-    ModuleCat R ⥤ TopPair ⥤ ChainComplex (ModuleCat R) ℕ := by
+/-- The cup length bounds the unnormalized Lusternik–Schnirelmann count: on a nonempty space
+`X`, over every commutative coefficient ring `R` (the zero ring included),
+`lsCupLength X R + 1 ≤ TauCeti.lsCategoryCount X Set.univ`. Equivalently, every cover of `X` by
+`n` open sets, each with nullhomotopic inclusion into `X`, has `n > lsCupLength X R`. -/
+theorem lsCupLength_add_one_le_categoryCount (X : TopCat.{u}) [Nonempty X]
+    (R : Type u) [CommRing R] :
+    lsCupLength X R + 1 ≤ TauCeti.lsCategoryCount X Set.univ := by
   sorry
 
-/-- Relative singular homology, functorial in its coefficient module and in maps of pairs. -/
-noncomputable def relativeSingularHomology (R : Type*) [CommRing R] (n : ℕ) :
-    ModuleCat R ⥤ TopPair ⥤ ModuleCat R := by
+/-- A fundamental class of a space `M` of dimension `n` with coefficients in a commutative ring
+`R` (Hatcher, p.236): a class `μ ∈ Hₙ(M;R)` whose image in the local homology `Hₙ(M, M ∖ {x}; R)`
+generates that `R`-module at every point `x`. -/
+def IsFundamentalClass (n : ℕ) (M : Type u) [TopologicalSpace M] (R : Type u) [CommRing R]
+    (μ : ((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} R) n).obj
+      (ModuleCat.of R R)).obj (TopCat.of M)) : Prop :=
+  ∀ x : M, Submodule.span R
+    {(TopPair.singularHomologyπ (TopPair.ofSubset ({x}ᶜ : Set (TopCat.of M)))
+      (ModuleCat.of R R) n).hom μ} = ⊤
+
+/-- Poincaré duality for a compact Hausdorff topological `n`-manifold `M` with a fundamental
+class `μ` over a commutative ring `R`: capping with `μ` is bijective `H^p(M;R) → H_q(M;R)`
+whenever `p + q = n` (Hatcher, Theorem 3.30, p.241). The cap is the native `TopCat.singularCap`
+with the ring multiplication as pairing, the same data as `cupProduct`. -/
+theorem poincareDuality_of_isFundamentalClass (n : ℕ) (M : Type u) [TopologicalSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin n)) M] [T2Space M] [CompactSpace M]
+    (R : Type u) [CommRing R]
+    (μ : ((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} R) n).obj
+      (ModuleCat.of R R)).obj (TopCat.of M))
+    (hμ : IsFundamentalClass n M R μ) (p q : ℕ) (h : p + q = n) :
+    Function.Bijective
+      (fun a : singularCohomology R (TopCat.of M) p =>
+        ((TopCat.of M).singularCap R (MonoidalCategory.leftUnitor (ModuleCat.of R R)).inv
+          (MonoidalCategory.leftUnitor (ModuleCat.of R R)).hom p q n h a).hom μ) := by
   sorry
 
-/-- The quotient of absolute chains on `X` by absolute chains on `A`. -/
-noncomputable def relativeChainQuotient (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) (X : TopPair.{u}) : ChainComplex (ModuleCat.{u} R) ℕ :=
-  cokernel (((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map X.map)
-
-/-- The `SSetPair` construction is naturally the quotient `C_*(X) / C_*(A)`. -/
-noncomputable def relativeSingularChainComplexIsoQuotient (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) (X : TopPair.{u}) :
-    (((relativeSingularChainComplex R).obj M).obj X) ≅ relativeChainQuotient R M X := by
+/-- Poincaré duality for a compact connected Hausdorff topological `n`-manifold with
+coefficients in a commutative ring `R` in which `2 = 0`: every manifold is `R`-orientable
+for such `R` (Hatcher, p.235), so there is a fundamental class `μ` in `H_n(M;R)` such that
+capping with `μ` is bijective `H^p(M;R) → H_q(M;R)` whenever `p + q = n` (Hatcher,
+Theorem 3.30, p.241). The cap is the native `TopCat.singularCap` with the ring
+multiplication as pairing, the same data as `cupProduct`. -/
+theorem poincareDuality_twoTorsionCoefficients (n : ℕ) (M : Type u) [TopologicalSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin n)) M] [T2Space M] [CompactSpace M]
+    [ConnectedSpace M] (R : Type u) [CommRing R] (h2 : (2 : R) = 0) :
+    ∃ μ : ((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} R) n).obj
+        (ModuleCat.of R R)).obj (TopCat.of M),
+      ∀ (p q : ℕ) (h : p + q = n),
+        Function.Bijective
+          (fun a : singularCohomology R (TopCat.of M) p =>
+            ((TopCat.of M).singularCap R (MonoidalCategory.leftUnitor (ModuleCat.of R R)).inv
+              (MonoidalCategory.leftUnitor (ModuleCat.of R R)).hom p q n h a).hom μ) := by
   sorry
 
-/-- The chain-level sequence `C_*(A) ⟶ C_*(X) ⟶ C_*(X,A)`, using the quotient carrier. -/
-noncomputable def relativeChainShortComplex (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) (X : TopPair.{u}) :
-    ShortComplex (ChainComplex (ModuleCat.{u} R) ℕ) :=
-  ShortComplex.mk
-    (((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map X.map)
-    (cokernel.π _)
-    (cokernel.condition _)
-
-/-- Exactness of relative chains is the source of the long exact sequence. -/
-theorem relativeChainShortComplex_shortExact (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) (X : TopPair.{u}) :
-    (relativeChainShortComplex R M X).ShortExact := by
+/-- **Product-ball intersection** (§6.6). Continuous fillings `f : D_p → D_p × D_q` and
+`g : D_q → D_p × D_q` of the two coordinate factors, with `f x = (x, 0)` on the unit sphere of
+`D_p` and `g y = (0, y)` on the unit sphere of `D_q`, have a common image point. The balls are the
+native closed unit balls of `EuclideanSpace ℝ (Fin p)` and `EuclideanSpace ℝ (Fin q)`; for `p = 0`
+or `q = 0` the ball is a point with empty sphere, and these cases are included. No smoothness,
+injectivity or transversality is assumed: the proof is the relative-homology coefficient
+`(−1)^q · d_f · d_g` of the README, here with `d_f = d_g = 1`. -/
+theorem productBallImages_intersect {p q : ℕ}
+    (f : C(Metric.closedBall (0 : EuclideanSpace ℝ (Fin p)) 1,
+      Metric.closedBall (0 : EuclideanSpace ℝ (Fin p)) 1 ×
+        Metric.closedBall (0 : EuclideanSpace ℝ (Fin q)) 1))
+    (g : C(Metric.closedBall (0 : EuclideanSpace ℝ (Fin q)) 1,
+      Metric.closedBall (0 : EuclideanSpace ℝ (Fin p)) 1 ×
+        Metric.closedBall (0 : EuclideanSpace ℝ (Fin q)) 1))
+    (hf : ∀ x : Metric.closedBall (0 : EuclideanSpace ℝ (Fin p)) 1,
+      ‖(x : EuclideanSpace ℝ (Fin p))‖ = 1 → f x = (x, ⟨0, by simp⟩))
+    (hg : ∀ y : Metric.closedBall (0 : EuclideanSpace ℝ (Fin q)) 1,
+      ‖(y : EuclideanSpace ℝ (Fin q))‖ = 1 → g y = (⟨0, by simp⟩, y)) :
+    ∃ (x : Metric.closedBall (0 : EuclideanSpace ℝ (Fin p)) 1)
+      (y : Metric.closedBall (0 : EuclideanSpace ℝ (Fin q)) 1), f x = g y := by
   sorry
 
-/-! ## Groupoid van Kampen -/
+/-! ## Layer 7: Euler characteristic -/
 
-/-- An open cover, with no connectedness assumption on its members or intersections. -/
-structure OpenCover (X : TopCat.{u}) where
-  ι : Type u
-  U : ι → TopologicalSpace.Opens X
-  iSup_eq_top : iSup U = ⊤
-
-/-- Nonempty finite intersections index the Čech diagram. The order is used contravariantly so
-that inclusions of intersections induce the diagram maps. -/
-def OpenCover.CechIndex {X : TopCat.{u}} (U : OpenCover X) :=
-  {s : Finset U.ι // s.Nonempty}
-
-instance OpenCover.cechIndexPartialOrder {X : TopCat.{u}} (U : OpenCover X) :
-    PartialOrder U.CechIndex :=
-  PartialOrder.lift (fun s : U.CechIndex => s.val) Subtype.val_injective
-
-noncomputable def cechFundamentalGroupoidDiagram {X : TopCat.{u}} (U : OpenCover X) :
-    U.CechIndexᵒᵖ ⥤ Cat.{u, u} := by
+/-- The Euler characteristic is multiplicative in fibre bundles: for a fibre bundle with base `B`
+and fibre `F` of finite CW type, the alternating sum of the dimensions of the singular homology
+of the total space over any field `k` is `χ(B)·χ(F)`, with no hypothesis on the monodromy
+(Klein–Malkiewich–Ramzi, *On the multiplicativity of the Euler characteristic*, pp.1–2, and
+Theorem A, p.2, for finitely dominated fibre and base); the route is the Serre spectral
+sequence of the bundle projection. -/
+theorem finsum_finrank_singularHomology_fiberBundle (k : Type u) [Field k]
+    {B F : Type u} [TopologicalSpace B] [TopologicalSpace F] (E : B → Type u)
+    [TopologicalSpace (Bundle.TotalSpace F E)] [∀ b, TopologicalSpace (E b)] [FiberBundle F E]
+    [TauCeti.FiniteCWType B] [TauCeti.FiniteCWType F] :
+    ∑ᶠ i : ℕ, (-1 : ℤ) ^ i * (Module.finrank k
+      (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} k) i).obj
+        (ModuleCat.of k k)).obj (TopCat.of (Bundle.TotalSpace F E))) : ℤ) =
+      TauCeti.eulerChar B * TauCeti.eulerChar F := by
   sorry
 
-/-- The cocone maps each intersection groupoid to the groupoid of the covered space. -/
-noncomputable def cechFundamentalGroupoidCocone {X : TopCat.{u}} (U : OpenCover X) :
-    Cocone (cechFundamentalGroupoidDiagram U) := by
+/-! ## Layer 8: Hurewicz, Whitehead, CW type, classifying spaces and proper deformation -/
+
+/-- **Absolute Hurewicz in every universe.** If `πₖ(X, x)` is trivial for every `k < n + 2`,
+then the Hurewicz map `πₙ₊₂(X, x) → Hₙ₊₂(X; ℤ)`, sending a class to the image of the cube
+generator, is bijective (Hatcher, Theorem 4.37, p.371, for the pair `(X, {x})`; Theorem 4.32,
+p.366, states only an abstract isomorphism). The space lives in an arbitrary universe
+`u`, and `ℤ` is lifted to it; Tau Ceti's `HomotopyGroup.bijective_hurewicz` is the case of
+spaces in `Type`. -/
+theorem hurewicz_bijective {X : Type u} [TopologicalSpace X] (x : X) (n : ℕ)
+    (hX : ∀ k < n + 2, Subsingleton (HomotopyGroup (Fin k) X x)) :
+    Function.Bijective fun a : HomotopyGroup (Fin (n + 2)) X x ↦
+      (HomotopyGroup.hurewicz (ModuleCat.of ℤ (ULift.{u} ℤ)) (n + 1) a).hom 1 := by
   sorry
 
-/-- The cocone point is the actual fundamental groupoid, not an abstract replacement. -/
-noncomputable def cechFundamentalGroupoidCoconePointIso {X : TopCat.{u}} (U : OpenCover X) :
-    (cechFundamentalGroupoidCocone U).pt ≅ Cat.of (FundamentalGroupoid X) := by
+/-- **Relative Hurewicz for a simply connected subspace.** Let `(X, A, a₀)` be a based pair,
+in any universe, with `A` simply connected, every point of `X` joined by a path to a point of
+`A` (every path component of `X` meets `A`), and `π_{k+1}(X, A, a₀)` trivial for `k < n + 1`.
+Then the relative Hurewicz map `πₙ₊₂(X, A, a₀) → Hₙ₊₂(X, A; ℤ)` is bijective (Hatcher,
+Theorem 4.37, p.371, whose quotient `π′ₙ₊₂(X, A, a₀)` is `πₙ₊₂(X, A, a₀)` itself because `π₁(A)`
+is trivial). `TauCeti.RelHomotopyGroup (Fin k) X` is `π_{k+1}(X, A, a₀)`. Nothing is
+assumed of `πₖ(A)` for `k ≥ 2` or of `πₖ(X)`: for `(D³, S²)` with `n = 1` the map is
+`π₃(D³, S²) ≅ π₂(S²) = ℤ → H₃(D³, S²) = ℤ`, outside Tau Ceti's
+`TauCeti.RelHomotopyGroup.bijective_hurewicz_of_subsingleton_homotopyGroup`. -/
+theorem relativeHurewicz_bijective (X : TauCeti.BasedTopPair.{u}) (n : ℕ)
+    [SimplyConnectedSpace X.pair.snd]
+    (h₀ : ∀ y : X.pair.fst, ∃ a : X.pair.snd, Joined y (X.pair.map a))
+    (h : ∀ k < n + 1, Subsingleton (TauCeti.RelHomotopyGroup (Fin k) X)) :
+    Function.Bijective fun a : TauCeti.RelHomotopyGroup (Fin (n + 1)) X ↦
+      (TauCeti.RelHomotopyGroup.hurewicz (ModuleCat.of ℤ (ULift.{u} ℤ)) (n + 1) a).hom 1 := by
   sorry
 
-noncomputable def fundamentalGroupoid_openCover_isColimit {X : TopCat.{u}} (U : OpenCover X) :
-    IsColimit (cechFundamentalGroupoidCocone U) := by
-  sorry
-
-/-! ## Excision and Mayer--Vietoris -/
-
-/-- Geometric data for excising `U` from the pair `(X,A)`. -/
-structure ExcisionDatum (X : TopCat.{u}) where
-  A : Set X
-  U : Set X
-  closure_subset_interior : closure U ⊆ interior A
-
-noncomputable def ExcisionDatum.source {X : TopCat.{u}} (D : ExcisionDatum X) : TopPair.{u} := by
-  sorry
-
-noncomputable def ExcisionDatum.target {X : TopCat.{u}} (D : ExcisionDatum X) : TopPair.{u} :=
-  TopPair.ofSubset D.A
-
-/-- Inclusion `(X \ U, A \ U) ⟶ (X,A)`. -/
-noncomputable def ExcisionDatum.map {X : TopCat.{u}} (D : ExcisionDatum X) :
-    D.source ⟶ D.target := by
-  sorry
-
-theorem relativeSingularHomology_map_isIso_of_excision (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) (n : ℕ) {X : TopCat.{u}} (D : ExcisionDatum X) :
-    IsIso (((relativeSingularHomology R n).obj M).map D.map) := by
-  sorry
-
-/-- The Mayer--Vietoris map `(i_U,-i_V)` from the intersection. -/
-noncomputable def mayerVietorisLeftMap (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) (n : ℕ) {X : TopCat.{u}}
-    (U V : TopologicalSpace.Opens X) :
-    SingularHomology R M (TopCat.of ↥(U ⊓ V)) n ⟶
-      SingularHomology R M (TopCat.of U) n ⊞ SingularHomology R M (TopCat.of V) n := by
-  sorry
-
-/-- The Mayer--Vietoris map from the two opens to the covered space. -/
-noncomputable def mayerVietorisRightMap (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) (n : ℕ) {X : TopCat.{u}}
-    (U V : TopologicalSpace.Opens X) :
-    SingularHomology R M (TopCat.of U) n ⊞ SingularHomology R M (TopCat.of V) n ⟶
-      SingularHomology R M X n := by
-  sorry
-
-/-- The Mayer--Vietoris short complex in degree `n`, before adjoining its connecting map. -/
-noncomputable def mayerVietorisShortComplex (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) (n : ℕ) {X : TopCat.{u}}
-    (U V : TopologicalSpace.Opens X)
-    (_hcover : U ⊔ V = ⊤) : ShortComplex (ModuleCat.{u} R) :=
-  ShortComplex.mk (mayerVietorisLeftMap R M n U V)
-    (mayerVietorisRightMap R M n U V) (by sorry)
-
-theorem mayerVietorisShortComplex_exact (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) (n : ℕ) {X : TopCat.{u}}
-    (U V : TopologicalSpace.Opens X)
-    (hcover : U ⊔ V = ⊤) :
-    (mayerVietorisShortComplex R M n U V hcover).Exact := by
-  sorry
-
-/-! ## Cellular comparison -/
-
-noncomputable def cellularChainComplex (R : Type u) [CommRing R]
-    (X : Type u) [TopologicalSpace X] [CWComplex (Set.univ : Set X)] :
-    ChainComplex (ModuleCat.{u} R) ℕ := by
-  sorry
-
-noncomputable def cellularToSingular (R : Type u) [CommRing R]
-    (X : Type u) [TopologicalSpace X] [CWComplex (Set.univ : Set X)] :
-    cellularChainComplex R X ⟶ SingularChains R (ModuleCat.of R R) (TopCat.of X) := by
-  sorry
-
-theorem cellularToSingular_quasiIso (R : Type u) [CommRing R]
-    (X : Type u) [TopologicalSpace X] [CWComplex (Set.univ : Set X)] :
-    QuasiIso (cellularToSingular R X) := by
-  sorry
-
-/-! ## Comparing the categorical and classical CW structures -/
-
-/-- A categorical relative CW complex `f : X ⟶ Y` is a closed embedding.  No separation
-hypothesis is needed. -/
-theorem isClosedEmbedding_of_relativeCWComplex {X Y : TopCat.{u}} {f : X ⟶ Y}
-    (_c : TopCat.RelativeCWComplex f) : IsClosedEmbedding f := by
-  sorry
-
-/-- Attaching cells to a Hausdorff space gives a Hausdorff space. -/
-theorem t2Space_of_relativeCWComplex {X Y : TopCat.{u}} {f : X ⟶ Y}
-    (_c : TopCat.RelativeCWComplex f) [T2Space X] : T2Space Y := by
-  sorry
-
-/-- Categorical to classical: a categorical relative CW complex `f : X ⟶ Y` gives a classical
-CW structure on `Y` relative to the image of `f`.  No separation hypothesis is needed. -/
-@[instance_reducible]
-noncomputable def RelativeCWComplex.toRelCWComplex {X Y : TopCat.{u}} {f : X ⟶ Y}
-    (_c : TopCat.RelativeCWComplex f) : RelCWComplex (Set.univ : Set Y) (Set.range f) := by
-  sorry
-
-/-- The classical `n`-cells are the categorical cells attached at step `n`. -/
-noncomputable def RelativeCWComplex.cellEquiv {X Y : TopCat.{u}} {f : X ⟶ Y}
-    (c : TopCat.RelativeCWComplex f) (n : ℕ) :
-    letI := RelativeCWComplex.toRelCWComplex c
-    RelCWComplex.cell (Set.univ : Set Y) n ≃ {γ : c.Cells // γ.j = n} := by
-  sorry
-
-/-- The categorical skeleta are the classical ones. -/
-theorem RelativeCWComplex.range_incl_app {X Y : TopCat.{u}} {f : X ⟶ Y}
-    (c : TopCat.RelativeCWComplex f) (n : ℕ) :
-    letI := RelativeCWComplex.toRelCWComplex c
-    Set.range (c.incl.app n) = Set.range f ∪
-      ⋃ (m : ℕ) (_ : m < n) (j : RelCWComplex.cell (Set.univ : Set Y) m),
-        RelCWComplex.closedCell m j := by
-  sorry
-
-/-- Classical to categorical, in a Hausdorff ambient space: a classical CW structure on `C`
-relative to `D` makes the inclusion `D → C` a categorical relative CW complex.  Without
-`T2Space X` this is false: the two-point indiscrete space with two 0-cells is a classical
-`CWComplex`. -/
-noncomputable def RelCWComplex.toRelativeCWComplex {X : Type u} [TopologicalSpace X] [T2Space X]
-    (C D : Set X) [RelCWComplex C D] :
-    TopCat.RelativeCWComplex (TopCat.ofHom
-      ⟨Set.inclusion (RelCWComplex.base_subset_complex (C := C) (D := D)),
-        continuous_inclusion _⟩ : TopCat.of D ⟶ TopCat.of C) := by
-  sorry
-
-/-! ## Finite covers, transfer, and Cartan--Leray -/
-
-/-- A finite cover of constant degree. General finite covers are handled componentwise. -/
-structure FiniteCover (E B : TopCat.{u}) where
-  p : E ⟶ B
-  isCoveringMap : IsCoveringMap p
-  degree : ℕ
-  finite_fiber : ∀ b : B, Finite {e : E // p e = b}
-  fiber_card : ∀ b : B, Nat.card {e : E // p e = b} = degree
-
-noncomputable def finiteCoverTransfer (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (D : FiniteCover E B) :
-    SingularChains R M B ⟶ SingularChains R M E := by
-  sorry
-
-theorem finiteCover_transfer_push (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (D : FiniteCover E B) :
-    finiteCoverTransfer R M D ≫
-      ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map D.p =
-        D.degree • 𝟙 _ := by
-  sorry
-
-/-- A regular deck action; simple transitivity is stated on each fibre. -/
-structure RegularDeckAction {E B : TopCat.{u}} (D : FiniteCover E B)
-    (G : Type u) [Group G] where
-  deck : G →* Homeomorph E E
-  commutes : ∀ g x, D.p (deck g x) = D.p x
-  simplyTransitive : ∀ {x y : E}, D.p x = D.p y → ∃! g, deck g x = y
-
-theorem finiteCover_push_transfer_regular (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (D : FiniteCover E B)
-    (G : Type u) [Group G] [Fintype G] (A : RegularDeckAction D G) :
-    ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map D.p ≫
-      finiteCoverTransfer R M D =
-        ∑ g : G,
-            ((AlgebraicTopology.singularChainComplexFunctor (ModuleCat.{u} R)).obj M).map
-            (TopCat.ofHom ⟨A.deck g, (A.deck g).continuous_toFun⟩) := by
-  sorry
-
-/-- An `R[G]`-module expressed without introducing a second module category. -/
-structure GroupModule (R : Type u) [CommRing R] (G : Type u) [Group G] where
-  M : ModuleCat.{u} R
-  action : Representation R G M
-
-/-- Group homology, implemented from the bar resolution. -/
-noncomputable def groupHomology (R : Type u) [CommRing R] (G : Type u) [Group G]
-    (M : GroupModule R G) (n : ℕ) : ModuleCat.{u} R := by
-  sorry
-
-noncomputable def coverHomologyGroupModule (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (D : FiniteCover E B)
-    (G : Type u) [Group G] (A : RegularDeckAction D G) (q : ℕ) : GroupModule R G := by
-  sorry
-
-noncomputable def cartanLeraySpectralSequence (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (D : FiniteCover E B)
-    (G : Type u) [Group G] [Fintype G] (A : RegularDeckAction D G) :
-    SpectralSequence (ModuleCat.{u} R)
-      (fun r ↦ ComplexShape.spectralSequenceNat ⟨-r, r - 1⟩) 2 := by
-  sorry
-
-noncomputable def cartanLerayE2Iso (R : Type u) [CommRing R]
-    (M : ModuleCat.{u} R) {E B : TopCat.{u}} (D : FiniteCover E B)
-    (G : Type u) [Group G] [Fintype G] (A : RegularDeckAction D G) (p q : ℕ) :
-    ((cartanLeraySpectralSequence R M D G A).page 2).X ⟨p, q⟩ ≅
-      groupHomology R G (coverHomologyGroupModule R M D G A q) p := by
-  sorry
-
-/-! ## Local coefficients, cap products, and duality -/
-
-abbrev LocalCoefficientSystem (R : Type u) [CommRing R] (X : TopCat.{u}) :=
-  FundamentalGroupoid X ⥤ ModuleCat.{u} R
-
-noncomputable def twistedSingularChainComplex (R : Type u) [CommRing R]
-    (X : TopCat.{u}) (L : LocalCoefficientSystem R X) :
-    ChainComplex (ModuleCat.{u} R) ℕ := by
-  sorry
-
-noncomputable def singularCohomology (R : Type u) [CommRing R]
-    (X : TopCat.{u}) (n : ℕ) : ModuleCat.{u} R := by
-  sorry
-
-/-- Cap product with the Alexander--Whitney sign convention.  With natural-number grading the
-complementary-degree hypothesis prevents truncated subtraction from pretending that a negative
-target degree is degree zero. -/
-noncomputable def capProduct (R : Type u) [CommRing R] (X : TopCat.{u}) (p q : ℕ)
-    (_hpq : p ≤ q) :
-    singularCohomology R X p ⟶
-      ModuleCat.of R (SingularHomology R (ModuleCat.of R R) X q →ₗ[R]
-        SingularHomology R (ModuleCat.of R R) X (q - p)) := by
-  sorry
-
-/-- The pair `(X, X \ {x})` used to define local homology. -/
-noncomputable def puncturedPair (X : TopCat.{u}) (x : X) : TopPair.{u} :=
-  TopPair.ofSubset ({x}ᶜ : Set X)
-
-/-- Local orientation data: a global class whose image generates every local top homology
-module. The maps are induced by `(X, ∅) ⟶ (X, X \ {x})`. -/
-structure FundamentalClassDatum (R : Type u) [CommRing R] (X : TopCat.{u}) (n : ℕ) where
-  fundamentalClass : ((relativeSingularHomology R n).obj (ModuleCat.of R R)).obj
-    (TopPair.incl.obj X)
-  spans : ∀ x : X,
-    Submodule.span R
-      {((relativeSingularHomology R n).obj (ModuleCat.of R R)).map
-        (TopPair.j (puncturedPair X x)) fundamentalClass} = ⊤
-
-noncomputable def poincareDualityMap (R : Type u) [CommRing R]
-    (X : TopCat.{u}) (n p : ℕ) (_hp : p ≤ n) (c : FundamentalClassDatum R X n) :
-    singularCohomology R X p ⟶ SingularHomology R (ModuleCat.of R R) X (n - p) := by
-  sorry
-
-/-- Compact Hausdorff second-countable manifolds with a fundamental class satisfy duality. The
-orientation-local-system version precedes this constant-coefficient corollary in the roadmap. -/
-theorem poincareDualityMap_isIso (R : Type u) [CommRing R] (n : ℕ)
-    (M : Type u) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [CompactSpace M] [ConnectedSpace M]
-    [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin n))) ∞ M]
-    (p : ℕ) (hp : p ≤ n) (c : FundamentalClassDatum R (TopCat.of M) n) :
-    IsIso (poincareDualityMap R (TopCat.of M) n p hp c) := by
-  sorry
-
-/-! ## Relative Hurewicz -/
-
-/-- A topological pair with the point in the subspace required by relative homotopy. Relative
-homology continues to use the unbased `TopPair` above. -/
-structure BasedTopPair where
-  pair : TopPair.{u}
-  basepoint : pair.snd
-
-namespace BasedTopPair
-
-/-- A map of based pairs is a map of the underlying pairs whose subspace component preserves the
-chosen point. This is the map carrier for relative homotopy functoriality. -/
-structure Hom (X Y : BasedTopPair.{u}) where
-  toTopPairHom : X.pair ⟶ Y.pair
-  map_basepoint : TopPair.Hom.snd toTopPairHom X.basepoint = Y.basepoint
-
-end BasedTopPair
-
-/-- Explicit NDR data for an embedded pair. -/
-structure NDRPairData (X : TopPair.{u}) where
-  u : C(X.fst, unitInterval)
-  H : C(unitInterval × X.fst, X.fst)
-  zero_set : ∀ x, u x = 0 ↔ x ∈ Set.range X.map
-  at_zero : ∀ x, H (0, x) = x
-  fixed : ∀ (t : unitInterval) (a : X.snd), H (t, X.map a) = X.map a
-  at_one : ∀ x, u x < 1 → H (1, x) ∈ Set.range X.map
-
-/-- Relative homotopy in degrees at least two is group-valued. In particular, the degree-two
-group is not assumed commutative. The implementation uses the same based-cube model as Mathlib's
-`HomotopyGroup`. -/
-noncomputable def relativeHomotopyGroup (n : ℕ) (_hn : 2 ≤ n)
-    (X : BasedTopPair.{u}) : GrpCat.{u} := by
-  sorry
-
-/-- A basepoint-preserving map of pairs induces the relative homotopy homomorphism. -/
-noncomputable def BasedTopPair.Hom.relativeHomotopyMap {X Y : BasedTopPair.{u}}
-    (f : X.Hom Y) (n : ℕ) (hn : 2 ≤ n) :
-    relativeHomotopyGroup n hn X ⟶ relativeHomotopyGroup n hn Y := by
-  sorry
-
-/-- The based homotopy group of the subspace, used as the target of the relative boundary map. -/
-noncomputable def basedSubspaceHomotopyGroup (n : ℕ) (_hn : 1 ≤ n)
-    (X : BasedTopPair.{u}) : GrpCat.{u} := by
-  sorry
-
-/-- The boundary of a relative cube lands in the subspace at its stored basepoint. -/
-noncomputable def relativeHomotopyBoundary (n : ℕ) (hn : 2 ≤ n)
-    (X : BasedTopPair.{u}) :
-    relativeHomotopyGroup n hn X ⟶ basedSubspaceHomotopyGroup (n - 1) (by omega) X := by
-  sorry
-
-/-- Changing the chosen subspace point along a path gives the standard relative-homotopy
-basepoint-change isomorphism. -/
-noncomputable def relativeHomotopyChangeBasepoint (n : ℕ) (hn : 2 ≤ n)
-    (X : BasedTopPair.{u}) (a : X.pair.snd) (_path : Path X.basepoint a) :
-    relativeHomotopyGroup n hn X ≅
-      relativeHomotopyGroup n hn { pair := X.pair, basepoint := a } := by
-  sorry
-
-/-- The integral module attached to the abelianization of the relative homotopy group. This is
-the natural source of Hurewicz before any commutativity theorem. -/
-noncomputable def relativeHomotopyAbelianization (n : ℕ) (hn : 2 ≤ n)
-    (X : BasedTopPair.{u}) : ModuleCat.{u} ℤ := by
-  sorry
-
-/-- The quotient map from relative homotopy to its abelianization, displayed on underlying
-carriers so that the general group-valued source is not silently strengthened. -/
-noncomputable def relativeHomotopyToAbelianization (n : ℕ) (hn : 2 ≤ n)
-    (X : BasedTopPair.{u}) :
-    relativeHomotopyGroup n hn X → relativeHomotopyAbelianization n hn X := by
-  sorry
-
-/-- From degree three onward, relative homotopy itself has its canonical integral-module
-structure. -/
-noncomputable def relativeHomotopyModule (n : ℕ) (_hn : 3 ≤ n)
-    (X : BasedTopPair.{u}) : ModuleCat.{u} ℤ := by
-  sorry
-
-/-- In the stable relative range, the module carrier agrees with the abelianization carrier. -/
-noncomputable def relativeHomotopyModuleIsoAbelianization (n : ℕ) (hn : 3 ≤ n)
-    (X : BasedTopPair.{u}) :
-    relativeHomotopyModule n hn X ≅ relativeHomotopyAbelianization n (by omega) X := by
-  sorry
-
-/-- Relative Hurewicz is defined on the abelianization of a based pair in every degree at least
-two. Its homology target forgets only the basepoint, not the underlying pair. -/
-noncomputable def relativeHurewicz (n : ℕ) (hn : 2 ≤ n) (X : BasedTopPair.{u}) :
-    relativeHomotopyAbelianization n hn X ⟶
-      (relativeSingularHomology ℤ n).obj (ModuleCat.of ℤ ℤ) |>.obj X.pair := by
-  sorry
-
-/-- At degree two, simple connectivity and relative one-connectivity force the generally
-nonabelian relative group to be abelian. -/
-theorem relativeHomotopyGroup_two_commutative (X : BasedTopPair.{u})
-    (_hNDR : NDRPairData X.pair)
-    [SimplyConnectedSpace X.pair.fst] [SimplyConnectedSpace X.pair.snd] :
-    ∀ a b : relativeHomotopyGroup 2 (Nat.le_refl 2) X, a * b = b * a := by
-  sorry
-
-/-- Consequently the quotient to the degree-two abelianization is bijective; commutativity is a
-theorem under the Hurewicz hypotheses, not part of the general carrier. -/
-theorem relativeHomotopyToAbelianization_two_bijective (X : BasedTopPair.{u})
-    (_hNDR : NDRPairData X.pair)
-    [SimplyConnectedSpace X.pair.fst] [SimplyConnectedSpace X.pair.snd] :
-    Function.Bijective (relativeHomotopyToAbelianization 2 (by omega) X) := by
-  sorry
-
-theorem relativeHurewicz_isIso (n : ℕ) (hn : 2 ≤ n) (X : BasedTopPair.{u})
-    (_hNDR : NDRPairData X.pair)
-    [SimplyConnectedSpace X.pair.fst] [SimplyConnectedSpace X.pair.snd]
-    (_hvanish : ∀ i (hi : 2 ≤ i), i < n →
-      Subsingleton (relativeHomotopyGroup i hi X)) :
-    IsIso (relativeHurewicz n hn X) := by
-  sorry
-
-/-! ## Finite CW Euler characteristic -/
-
-/-- A concrete finite CW model for a space. The topology and CW witnesses belong to the model
-carrier, and the original space is connected to it by an actual homotopy equivalence. -/
-structure FiniteCWTypeModel (M : Type u) [TopologicalSpace M] where
-  X : Type u
-  topology : TopologicalSpace X
-  cw : letI := topology; CWComplex (Set.univ : Set X)
-  finite : letI := topology; letI := cw; CWComplex.Finite (Set.univ : Set X)
-  homotopyEquiv : letI := topology; M ≃ₕ X
-
-/-- A compact Hausdorff second-countable smooth manifold has a concrete finite CW model. -/
-noncomputable def compactManifoldFiniteCWType (n : ℕ)
-    (M : Type u) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
-    [CompactSpace M] [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
-    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin n))) ∞ M] :
-    FiniteCWTypeModel M := by
-  sorry
-
-/-- Euler characteristic of a chosen finite CW structure. The roadmap proves that this agrees
-with alternating homology rank and is invariant under homotopy equivalence. -/
-noncomputable def finiteCWEulerCharacteristic (X : Type*) [TopologicalSpace X]
-    [CWComplex (Set.univ : Set X)] [CWComplex.Finite (Set.univ : Set X)] : ℤ := by
-  sorry
-
-theorem finiteCWEulerCharacteristic_eq_of_homotopyEquiv
-    {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
-    [CWComplex (Set.univ : Set X)] [CWComplex.Finite (Set.univ : Set X)]
-    [CWComplex (Set.univ : Set Y)] [CWComplex.Finite (Set.univ : Set Y)]
-    (_e : X ≃ₕ Y) :
-    finiteCWEulerCharacteristic X = finiteCWEulerCharacteristic Y := by
-  sorry
-
-/-! ## Homological Whitehead -/
-
-/-- A map between simply connected CW complexes which induces isomorphisms on integral singular
-homology is itself the forward map of a homotopy equivalence. -/
-theorem homologicalWhitehead
-    {X Y : Type} [TopologicalSpace X] [TopologicalSpace Y]
-    [SimplyConnectedSpace X] [SimplyConnectedSpace Y]
-    [CWComplex (Set.univ : Set X)] [CWComplex (Set.univ : Set Y)]
+/-- **Homological Whitehead.** A map between simply connected spaces of CW type (Tau Ceti's
+`TauCeti.CWType`) which induces isomorphisms on integral singular homology in every degree is
+the forward map of a homotopy equivalence (Hatcher, Corollary 4.33, p.367). No CW structure is
+assumed on `X` or `Y`; a Hausdorff CW complex has CW type. -/
+theorem homologicalWhitehead {X Y : Type u}
+    [TopologicalSpace X] [TopologicalSpace Y]
+    [SimplyConnectedSpace X] [SimplyConnectedSpace Y] [TauCeti.CWType X] [TauCeti.CWType Y]
     (f : C(X, Y))
-    (_hf : ∀ n : ℕ,
-      IsIso (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) n).obj
-        (ModuleCat.of ℤ ℤ)).map (TopCat.ofHom f))) :
+    (hf : ∀ n : ℕ, IsIso (((AlgebraicTopology.singularHomologyFunctor
+      (ModuleCat.{u} ℤ) n).obj (ModuleCat.of ℤ (ULift.{u} ℤ))).map (TopCat.ofHom f))) :
     ∃ e : X ≃ₕ Y, e.toFun = f := by
+  sorry
+
+open scoped ContDiff Manifold in
+/-- A compact Hausdorff second-countable smooth manifold without boundary (Euclidean model)
+has finite CW type: GeometricTopology's smooth triangulation (Whitehead) is finite by
+compactness and its realization homeomorphism is the model equivalence. -/
+theorem compactManifoldFiniteCWType (n : ℕ) (M : Type u) [TopologicalSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin n)) M] [IsManifold (𝓡 n) ∞ M]
+    [T2Space M] [SecondCountableTopology M] [CompactSpace M] :
+    TauCeti.FiniteCWType M := by
+  sorry
+
+open scoped ContDiff Manifold in
+/-- A compact Hausdorff second-countable smooth manifold with boundary (half-space model)
+has finite CW type, by the same finite smooth triangulation. -/
+theorem compactManifoldWithBoundaryFiniteCWType (n : ℕ) [NeZero n] (M : Type u)
+    [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace n) M] [IsManifold (𝓡∂ n) ∞ M]
+    [T2Space M] [SecondCountableTopology M] [CompactSpace M] :
+    TauCeti.FiniteCWType M := by
+  sorry
+
+/-- A simply connected space of CW type (Tau Ceti's `TauCeti.CWType`) whose integral singular
+homology vanishes in every degree other than `0` and `n` and is `ℤ` in degree `n ≥ 2` is
+homotopy equivalent to the standard sphere `Sⁿ`: Hurewicz, applied inductively, makes `X`
+`(n − 1)`-connected (Hatcher, Theorem 4.32, p.366), the Hurewicz map `πₙ(X) → Hₙ(X; ℤ) ≅ ℤ` is
+then an isomorphism (Hatcher, Theorem 4.37, p.371, for the pair of `X` and a point), so a
+generator is a map `Sⁿ → X` inducing an isomorphism on homology, and homological Whitehead makes
+it a homotopy equivalence (Hatcher, Corollary 4.33, p.367). -/
+theorem nonempty_homotopyEquiv_sphere_of_homologySphere (n : ℕ) (hn : 2 ≤ n)
+    (X : Type u) [TopologicalSpace X] [SimplyConnectedSpace X] [TauCeti.CWType X]
+    (hvanish : ∀ k : ℕ, k ≠ 0 → k ≠ n →
+      IsZero (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} ℤ) k).obj
+        (ModuleCat.of ℤ (ULift.{u} ℤ))).obj (TopCat.of X)))
+    (htop : Nonempty ((((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{u} ℤ) n).obj
+        (ModuleCat.of ℤ (ULift.{u} ℤ))).obj (TopCat.of X)) ≅ ModuleCat.of ℤ (ULift.{u} ℤ))) :
+    Nonempty (X ≃ₕ Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1) := by
+  sorry
+
+/-- A compact Hausdorff source and a target of CW type have a mapping space of CW
+type, Tau Ceti's `TauCeti.CWType` for the compact-open topology on `C(X, Y)` (Milnor,
+Theorem 3, p.276); no metrizability of the source is assumed. Milnor's statement carries no
+separation axiom on the compact source, but the function-space steps of its proof (continuity
+of evaluation, the exponential law for homotopies into the mapping space) are available for
+compact Hausdorff sources; the Hausdorff hypothesis on `X` is kept for that reason. No
+separation axiom is needed on `Y`: postcomposition with the equivalence to a CW model `Z` in a
+Hausdorff space and with its homotopies, transported through the exponential law for the
+compact Hausdorff source, makes `C(X, Y)` homotopy equivalent to `C(X, Z)`. The route makes the
+maps from `X` into the metric realization of a simplicial model a metric absolute
+neighbourhood retract, which is dominated by a CW complex. -/
+theorem finiteSourceMappingCWType {X Y : Type u}
+    [TopologicalSpace X] [TopologicalSpace Y] [CompactSpace X] [T2Space X] [TauCeti.CWType Y] :
+    TauCeti.CWType C(X, Y) := by
+  sorry
+
+open scoped Simplicial in
+/-- The single generic bar/nerve realization for discrete groups. -/
+abbrev groupClassifyingSpace (G : Type u) [Group G] : TopCat.{u} :=
+  SSet.toTop.obj (CategoryTheory.nerve (SingleObj G))
+
+open scoped Simplicial in
+/-- The unique bar vertex, with its realization inclusion. -/
+noncomputable def groupClassifyingSpaceBasepoint (G : Type u) [Group G] :
+    groupClassifyingSpace G :=
+  (SSet.toTop.map (SSet.const (X := SSet.stdSimplex.obj ⦋0⦌)
+    (CategoryTheory.nerveEquiv.symm (SingleObj.star G))))
+      ((SSet.toTopSimplex.app ⦋0⦌).inv
+        (default : SimplexCategory.toTop.obj ⦋0⦌))
+
+/-- The nerve realization of a discrete group is a K(G,1), including nonabelian G. -/
+theorem groupClassifyingSpace_isEMOne (G : Type u) [Group G] :
+    TauCeti.IsEilenbergMacLaneSpaceOne G (groupClassifyingSpace G)
+      (groupClassifyingSpaceBasepoint G) := by
+  sorry
+
+/-- **Ordinary representability** (§8.10; Hatcher, Theorem 4.57, p.393, with the fundamental
+class and the free homotopy classes of p.394). Let `A` be an abelian group and `K` a space whose
+homotopy groups at `k` are trivial in every degree other than `n + 1` (in degree `0`: `K` is path
+connected), with `e : π_(n+1)(K, k) ≅ A`. Then the class `ι ∈ H^(n+1)(K; A)` whose Kronecker
+evaluation on the Hurewicz image of every `a ∈ π_(n+1)(K, k)` is `e a` represents
+`H^(n+1)(-; A)` on spaces of CW type: for every space `X` of CW type every class of
+`H^(n+1)(X; A)` is `f*ι` for some map `f : X → K`, and two maps with the same pullback of `ι` are
+homotopic. No CW structure, separation axiom or finiteness is assumed of `K`, and `X` may be
+empty or disconnected. -/
+theorem ordinaryEMRepresentability (A : Type u) [AddCommGroup A] (n : ℕ)
+    (K : Type u) [TopologicalSpace K] (k : K)
+    (hK : ∀ i, i ≠ n + 1 → Subsingleton (HomotopyGroup (Fin i) K k))
+    (e : HomotopyGroup (Fin (n + 1)) K k ≃* Multiplicative A) :
+    ∃ ι : (TopCat.of K).singularCohomology (ModuleCat.of ℤ (ULift.{u} ℤ)) ℤ
+        (ModuleCat.of ℤ A) (n + 1),
+      (∀ a : HomotopyGroup (Fin (n + 1)) K k,
+        ((TopCat.of K).singularKronecker ℤ (n + 1) ι).hom
+            ((HomotopyGroup.hurewicz (ModuleCat.of ℤ (ULift.{u} ℤ)) n a).hom 1) =
+          Multiplicative.toAdd (e a)) ∧
+      ∀ (X : Type u) [TopologicalSpace X] [TauCeti.CWType X],
+        (∀ c : (TopCat.of X).singularCohomology (ModuleCat.of ℤ (ULift.{u} ℤ)) ℤ
+            (ModuleCat.of ℤ A) (n + 1),
+          ∃ f : C(X, K), TopCat.singularCohomologyMap (TopCat.ofHom f) (n + 1) ι = c) ∧
+        ∀ f g : C(X, K), TopCat.singularCohomologyMap (TopCat.ofHom f) (n + 1) ι =
+            TopCat.singularCohomologyMap (TopCat.ofHom g) (n + 1) ι → f.Homotopic g := by
+  sorry
+
+/-- Proper extension retains a jointly proper map on the entire cylinder.
+Layer 8.5 proves this for strongly locally finite CW pairs and their product pairs. -/
+def HasProperHomotopyExtensionProperty {X : Type u} [TopologicalSpace X]
+    (A : Set X) : Prop :=
+  ∀ (Y : Type u) [TopologicalSpace Y],
+    ∀ (f : C(X, Y)), IsProperMap f →
+    ∀ (H : C(unitInterval × A, Y)), IsProperMap H →
+      (∀ a : A, H (0, a) = f (a : X)) →
+      ∃ K : C(unitInterval × X, Y), IsProperMap K ∧
+        (∀ x : X, K (0, x) = f x) ∧
+        (∀ (t : unitInterval) (a : A), K (t, (a : X)) = H (t, a))
+
+/-- A proper homotopy inverse of a subspace inclusion is rectified to a proper strong
+deformation retraction, using proper extension and its cylinder corollary. The hypotheses
+spell out that the inclusion `A ↪ X` is proper with proper homotopy inverse `g` and jointly
+proper homotopies `H : g ∘ incl ≃ id` on `I × A` and `K : incl ∘ g ≃ id` on `I × X`, the data
+of Tau Ceti's `ContinuousMap.HasProperHomotopyInverse`. Closedness of `A` follows from
+properness of the inclusion. -/
+theorem properStrongDeformationRetract_of_inverse
+    {X : Type u} [TopologicalSpace X] [T2Space X] [LocallyCompactSpace X]
+    (A : Set X) (hA : HasProperHomotopyExtensionProperty A)
+    (hincl : IsProperMap (Subtype.val : A → X)) (g : C(X, A)) (hg : IsProperMap g)
+    (H : ContinuousMap.Homotopy (g.comp ⟨Subtype.val, continuous_subtype_val⟩)
+      (ContinuousMap.id A))
+    (K : ContinuousMap.Homotopy
+      ((⟨Subtype.val, continuous_subtype_val⟩ : C(A, X)).comp g) (ContinuousMap.id X))
+    (hH : IsProperMap H) (hK : IsProperMap K) :
+    ∃ r : C(X, A), IsProperMap r ∧ (∀ a : A, r (a : X) = a) ∧
+      ∃ H : (ContinuousMap.id X).HomotopyRel
+        ((⟨Subtype.val, continuous_subtype_val⟩ : C(A, X)).comp r) A,
+        IsProperMap H := by
+  sorry
+
+/-! ## Layer 8: smooth representatives and acceptance applications -/
+
+open scoped ContDiff Manifold in
+/-- **Transverse circle classifying map** (§8.13). On a compact boundaryless smooth
+manifold `M` (Hausdorff, second countable, any finite-dimensional real model `I`), every
+integral degree-one class `a` is the pullback of a generator of `H¹(Circle; ℤ)` along a smooth
+map `f : M → Circle` whose derivative is surjective at every point of `f⁻¹(1)`: `1` is a regular
+value and `f⁻¹(1)` is the embedded codimension-one representative of the Poincaré dual of `a`.
+The generator is quantified; the README fixes the one given by the positive loop
+`t ↦ exp(2πit)`, and either generator is carried to the other by complex conjugation. -/
+theorem exists_transverse_circle_classifying_map
+    {E H M : Type} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    [TopologicalSpace H] [TopologicalSpace M] (I : ModelWithCorners ℝ E H) [ChartedSpace H M]
+    [IsManifold I ∞ M] [I.Boundaryless] [T2Space M] [SecondCountableTopology M]
+    [CompactSpace M]
+    (b : Module.Basis (Fin 1) ℤ (singularCohomology ℤ (TopCat.of Circle) 1))
+    (a : singularCohomology ℤ (TopCat.of M) 1) :
+    ∃ f : C^∞⟮I, M; 𝓡 1, Circle⟯,
+      (TopCat.singularCohomologyMap (R := ModuleCat.of ℤ ℤ) (k := ℤ) (M := ModuleCat.of ℤ ℤ)
+        (TopCat.ofHom ⟨f, f.contMDiff.continuous⟩) 1) (b 0) = a ∧
+      ∀ x : M, f x = 1 → Function.Surjective (mfderiv I (𝓡 1) f x) := by
+  sorry
+
+/-- **Non-freeness of `C_p × C_p` on spheres** (§8.15; Hatcher, Section 4.2, Exercise 28,
+p. 391). For every prime `p` and every `n ≥ 0`, no continuous action of `C_p × C_p`, the
+multiplicative wrapper of `ZMod p × ZMod p`, on the unit sphere of
+`EuclideanSpace ℝ (Fin (n + 1))` is free: some nonidentity element fixes a point. For a finite
+group, continuity of each translation is continuity of the action for the discrete topology. No
+linearity, smoothness or cellularity of the action is assumed, and `S⁰` is included. -/
+theorem elementaryAbelianPair_sphere_action_has_stabilizer (p n : ℕ) (hp : p.Prime)
+    [MulAction (Multiplicative (ZMod p × ZMod p))
+      ↥(Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1)]
+    (hcont : ∀ g : Multiplicative (ZMod p × ZMod p),
+      Continuous fun x : ↥(Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1) => g • x) :
+    ∃ g : Multiplicative (ZMod p × ZMod p), g ≠ 1 ∧
+      ∃ x : ↥(Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1), g • x = x := by
   sorry
 
 end
