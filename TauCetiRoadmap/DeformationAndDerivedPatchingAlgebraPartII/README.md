@@ -80,7 +80,7 @@ It leaves to other roadmaps, and imports:
   annihilators, support and support dimension of modules, depth `IsLocalRing.depth`, regular and
   weakly regular sequences, the polynomial module and the Rees algebra, localizations of rings and
   modules, `Proj` of a graded ring, sheaves of modules on schemes and the affine `tilde`
-  construction, Krull dimension and the flat height formula
+  construction, ideal sheaves and their pullbacks, Krull dimension and the flat height formula
   `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown`, with going-down supplied by
   `Algebra.HasGoingDown.of_flat`.
 - **Tau Ceti**: Cohen–Macaulay modules `Module.IsCohenMacaulay`, parameter regularity
@@ -89,8 +89,10 @@ It leaves to other roadmaps, and imports:
   `reesAlgebra.grade I` of the Rees algebra, the affine blow-up algebra `Ideal.affineBlowup I a S`
   with its membership criterion and universal property, and the chart open immersions
   `TauCeti.AlgebraicGeometry.affineBlowupι` into `Proj (reesAlgebra.grade I)` with their covering
-  and base compatibility; the blow-up of an arbitrary quasi-coherent ideal and its exceptional
-  Cartier divisor. Over an affine base the blow-up is `Proj (reesAlgebra.grade I)`.
+  and base compatibility; the blow-up of an arbitrary quasi-coherent ideal on an arbitrary scheme,
+  its charts over affine opens of the base and its exceptional Cartier divisor, and the sections of
+  a pulled-back ideal on affine opens. Over an affine base the blow-up is
+  `Proj (reesAlgebra.grade I)`.
 - **TauCetiRoadmap StableReduction, Layer 4**: the blowing-up of a quasi-coherent ideal as a
   relative `Proj`, its universal property, properness, behaviour away from the centre, the
   exceptional divisor, strict transforms of closed subschemes and the affine chart description.
@@ -191,7 +193,11 @@ is introduced.
 - Geometry: `AlgebraicGeometry.Proj`, `AlgebraicGeometry.projIsoSpec`,
   `AlgebraicGeometry.Scheme.Modules` with `Scheme.Modules.pullback` and `Scheme.Modules.presheaf`,
   `AlgebraicGeometry.tilde` and `tilde.map`, `PrimeSpectrum.zeroLocus`;
-  `AlgebraicGeometry.Scheme.OpenCover.glueMorphisms` in `Mathlib.AlgebraicGeometry.Gluing`.
+  `AlgebraicGeometry.Scheme.OpenCover.glueMorphisms` in `Mathlib.AlgebraicGeometry.Gluing`;
+  `AlgebraicGeometry.Scheme.IdealSheafData.ofIdealTop` in `Mathlib.AlgebraicGeometry.IdealSheaf.Basic`
+  (the ideal sheaf of an ideal of global sections) and
+  `AlgebraicGeometry.Scheme.IdealSheafData.comap` in `Mathlib.AlgebraicGeometry.IdealSheaf.Functorial`
+  (the pullback of an ideal sheaf along a morphism).
 - Dimension: `ringKrullDim`, `topologicalKrullDim`, `Polynomial.ringKrullDim_of_isNoetherianRing`.
   `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown` in
   `Mathlib.RingTheory.Ideal.KrullsHeightTheorem` gives, for Noetherian rings `A, B`, an
@@ -239,10 +245,19 @@ existing carrier.
   generating `I` cover the blow-up) and `affineBlowupι_toSpecZero` (compatibility with the map to
   `Spec R`);
 - `TauCeti.AlgebraicGeometry.Blowup.IdealSheaf`: `AlgebraicGeometry.Scheme.IdealSheafData.blowup`
-  and `AlgebraicGeometry.Scheme.IdealSheafData.blowupToBase`, with affine charts, for arbitrary
-  quasi-coherent ideals. `TauCeti.AlgebraicGeometry.Blowup.ExceptionalDivisor` supplies
+  and `AlgebraicGeometry.Scheme.IdealSheafData.blowupToBase` for an arbitrary quasi-coherent ideal
+  on an arbitrary scheme, and, for each affine open `U` of the base,
+  `AlgebraicGeometry.Scheme.IdealSheafData.blowupChart`, the open immersion of
+  `Proj (reesAlgebra.grade I(U))` whose square `AlgebraicGeometry.Scheme.IdealSheafData.isPullback_blowupChart`
+  identifies it with the part of the blow-up over `U`.
+  `TauCeti.AlgebraicGeometry.IdealSheaf.Affine` supplies
+  `AlgebraicGeometry.Scheme.IdealSheafData.ideal_comap_ofIdealTop_map_ΓSpecIso_inv`: for a
+  morphism `X → Spec R` and an ideal `J` of `R`, the pulled-back ideal sheaf `J𝒪_X` has sections
+  `J·Γ(X, U)` on every affine open `U` of `X`.
+  `TauCeti.AlgebraicGeometry.Blowup.ExceptionalDivisor` supplies
   `AlgebraicGeometry.Scheme.IdealSheafData.isEffectiveCartier_comap_blowupToBase` without a
-  finite-type hypothesis. K3.4 uses this exceptional divisor.
+  finite-type hypothesis. K3.4 uses this exceptional divisor; K3.5 uses the blow-up of the
+  non-affine scheme `Bl_I(Spec R)` along `J𝒪` and its charts.
 
 `Suggested.lean` imports `TauCeti.RingTheory.CohenMacaulay.Basic` and
 `TauCeti.RingTheory.Ideal.AffineBlowup`, and uses `ChartRing I a` as a type synonym for the
@@ -258,7 +273,7 @@ README constructions; their carriers are not copied into `Suggested.lean`.
   Rees algebra; its universal property (the pullback of `𝓘` is invertible, and `b` is final with
   this property); properness; `b` is an isomorphism over `X ∖ V(𝓘)`; the exceptional divisor;
   strict transforms of closed subschemes; and the affine chart description over `Spec A`. Used in
-  K3.3–K3.6 and K4.
+  K3.3, K3.6 and K4.
 
 ### From other roadmaps
 
@@ -307,7 +322,8 @@ are not imported as Lean carriers.
 - **AdicSpacesPartII, localization-cech-complex-exact**: the algebraic complex with terms
   `cechLocalizationTerm`, augmentation `cechLocalizationAugmentation` and differential
   `cechLocalizationDifferential`. Their construction allows arbitrary generating lists;
-  the unit-ideal hypothesis belongs to exactness only. Used in K0.1.
+  the unit-ideal hypothesis belongs to exactness only. Used in K0.1; K3.3 uses its exactness
+  for lists generating the unit ideal.
 - **ArithmeticGaloisDuality, D7.1**: its target *Grothendieck local duality for a complete
   Noetherian local ring* owns Grothendieck local duality over complete Noetherian local rings for
   bounded complexes with finite cohomology. K0.7 owns the noncomplete finite-module extension and
@@ -1684,7 +1700,10 @@ The API:
 is compatible with restriction to smaller charts, and take the quotient. (Stacks, Definition 31.34.1,
 tag 080D, and Lemma 31.34.2, tag 080E.) *Needs:* Tau Ceti arbitrary-ideal blow-ups and
 `AlgebraicGeometry.Scheme.IdealSheafData.isEffectiveCartier_comap_blowupToBase`
-(Exact supplier contracts); Mathlib `Scheme.Modules.pullback`; Tau Ceti `affineBlowupι`.
+(Exact supplier contracts); Mathlib `Scheme.Modules.pullback` and
+`AlgebraicGeometry.Scheme.IdealSheafData.comap` (for `𝓘𝒪_{X'}`); Tau Ceti `affineBlowupι`;
+SchemeAndStackFoundations §4.11 (`strictTransformModule`, `strictTransform_eq_blowup`) for the
+agreement in the modification case.
 
 **Checks.**
 
@@ -1727,7 +1746,16 @@ blowing-up and `b' : Bl_{J𝒪}(Bl_I(Spec R)) → Bl_I(Spec R)` the blowing-up o
 These identifications agree on overlaps and glue; all `ac`, with `a ∈ I` and `c ∈ J`,
 generate `IJ` and hence give a chart cover. (Stacks, Lemma 31.33.12, tag 080A;
 Lemma 31.33.2, tag 0804.) *Needs:* Tau Ceti `Ideal.affineBlowup`, `affineBlowupι`
-and their chart covering; Mathlib `AlgebraicGeometry.Scheme.OpenCover.glueMorphisms`.
+and their chart covering; Tau Ceti `AlgebraicGeometry.Scheme.IdealSheafData.blowup`,
+`AlgebraicGeometry.Scheme.IdealSheafData.blowupToBase` and
+`AlgebraicGeometry.Scheme.IdealSheafData.blowupChart` with `isPullback_blowupChart` (Exact
+supplier contracts), for the blow-up `b'` of the non-affine scheme `Bl_I(Spec R)` along `J𝒪` and
+its restriction over each chart `Spec R[I/a]`, and
+`AlgebraicGeometry.Scheme.IdealSheafData.ideal_comap_ofIdealTop_map_ΓSpecIso_inv`, which gives
+`J𝒪` the sections `J·R[I/a]` on that chart; Mathlib
+`AlgebraicGeometry.Scheme.IdealSheafData.ofIdealTop` and
+`AlgebraicGeometry.Scheme.IdealSheafData.comap` for `J𝒪`, and
+`AlgebraicGeometry.Scheme.OpenCover.glueMorphisms`.
 
 **Checks.**
 
@@ -1888,8 +1916,9 @@ TauCetiRoadmap StableReduction Layer 4.
 ### Dependencies
 
 Layer K2 (for the prefix products); Mathlib; Tau Ceti (Rees grading, affine blow-up
-algebras and charts); TauCetiRoadmap StableReduction (Layer 4); SchemeAndStackFoundations
-§0.3, §§0.17–0.18 and §4.11; AdicSpacesPartII (localization exactness).
+algebras and charts, ideal-sheaf blow-ups with their affine charts and exceptional divisor);
+TauCetiRoadmap StableReduction (Layer 4); SchemeAndStackFoundations §§0.17–0.18 and §4.11;
+AdicSpacesPartIII §F0.9 (the graded-module sheaf); AdicSpacesPartII (localization exactness).
 
 ## Layer K4: Cohen–Macaulay blowing-ups
 
@@ -2227,7 +2256,7 @@ and the monomial argument above supplies its proof.
 
 ### Dependencies
 
-Layers K0–K3; SchemeAndStackFoundations §§0.17–0.18 and §2.7;
+Layers K0–K3; SchemeAndStackFoundations §0.3, §§0.17–0.18 and §2.7;
 Tau Ceti `Module.IsCohenMacaulay.isSMulRegular_of_supportDim_quotSMulTop_lt`;
 TauCetiRoadmap StableReduction (Layer 4); Tau Ceti (affine blow-up charts).
 
