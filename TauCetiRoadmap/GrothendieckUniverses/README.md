@@ -321,11 +321,9 @@ outside this roadmap.
 
 Universes entered Bourbaki's discussions of the foundations of categories in the 1950s through
 Grothendieck (Krömer 2006) and are the working foundation of SGA 4 and of Kashiwara–Schapira 2006,
-ch. 1. The unpublished drafts are in the Bourbaki archive (Archives Henri Poincaré): Grothendieck's
-rédaction n° 307 (November 1958), which defines universes, against Lacombe's classes in n° 301
-(September 1958); the undated n° 307 bis on universes, artinian sets and inaccessible cardinals,
-which the appendix of SGA 4, Exposé I, follows; and n° 453 (September 1965), which derives the
-total order of 2.1 from Grothendieck's axiom on Hilbert's τ instead of from foundation.
+ch. 1. Grothendieck introduced them in a Bourbaki draft of 1958 answering Lacombe's proposal of
+a theory of classes, which could not express that composition of functors is a bifunctor (Krömer
+2006, §6, pp. 148–149).
 Hamkins–Solberg 2020 ask which Zermelo–Grothendieck universes admit a categorical
 characterisation, a refinement of 2.1. The alternatives avoid the universe axiom of 2.3: Feferman
 1969 (a reflection schema conservative over ZFC), Bénabou 1985 (fibred categories), Shulman 2008
@@ -364,7 +362,7 @@ of the universe machinery the cohomological applications need.
   Zbl 1022.03033.
 - R. Krömer, « La « machine de Grothendieck » se fonde-t-elle seulement sur des vocables
   métamathématiques ? Bourbaki et les catégories au cours des années cinquante », *Rev. Histoire
-  Math.* 12 (2006), no. 1, 119ff. doi:10.24033/rhm.38.
+  Math.* 12 (2006), no. 1, 119–162. doi:10.24033/rhm.38.
 - M. Kashiwara, P. Schapira, *Categories and Sheaves*, Grundlehren der mathematischen
   Wissenschaften 332, Springer, 2006. doi:10.1007/3-540-27950-4.
 - S. Feferman, « Set-theoretical foundations of category theory », in *Reports of the Midwest
@@ -382,12 +380,6 @@ of the universe machinery the cohomological applications need.
   Symb. Log.* 13 (2020), 296–325. doi:10.1017/S1755020319000340; arXiv:1102.1773.
 - The Stacks Project Authors, *The Stacks Project*, chapter « Set Theory », Tags 000F and 000H.
 - P. Scholze, « Étale cohomology of diamonds », 2017. arXiv:1709.07343.
-- Archives Bourbaki (Archives Henri Poincaré, Nancy), rédactions n° 301 (D. Lacombe,
-  « Formalisation des classes et catégories », 1958, item 869), n° 307 (A. Grothendieck, « Sur la
-  formalisation des Catégories et foncteurs », 1958, item 876), n° 307 bis (« Univers, ensembles
-  artiniens, cardinaux inaccessibles », undated, item 875) and n° 453 (« Univers et symbole τ »,
-  1965, item 1031). Unpublished typescripts, cited by number:
-  https://archives-bourbaki.ahp-numerique.fr/.
 - A. Blass, I. M. Dimitriou, B. Löwe, « Inaccessible cardinals without the axiom of choice »,
   *Fund. Math.* 194 (2007), no. 2, 179–189, doi:10.4064/fm194-2-3: §2, Propositions 4 and 6,
   Corollary 16, Theorem 17.
