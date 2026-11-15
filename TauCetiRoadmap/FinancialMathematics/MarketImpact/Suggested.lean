@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Probability.Finance.BlackScholes.Basic
 
 /-!
 # Market impact: target signatures
@@ -48,12 +49,12 @@ def blackScholesResidual (r σ : ℝ) (C : Price) (x t : ℝ) : ℝ :=
 /-- The positive-spot clearing map for a specified program demand. -/
 def clearingMap (H : ℝ → ℝ) (x : ℝ) : ℝ := x * (1 - H x)
 
-/-- Positive clearing derivative and endpoint crossing give exactly one positive equilibrium. -/
+/-- A uniform positive clearing derivative margin and the zero limit at zero spot give exactly
+one positive equilibrium. -/
 theorem global_clearing (H : ℝ → ℝ) (δ : ℝ) (hδ : 0 < δ)
     (hH : DifferentiableOn ℝ H (Set.Ioi 0))
     (hmargin : ∀ x, 0 < x → δ ≤ 1 - H x - x * deriv H x)
     (hzero : Filter.Tendsto (clearingMap H) (nhdsWithin 0 (Set.Ioi 0)) (nhds 0))
-    (hinfty : Filter.Tendsto (clearingMap H) Filter.atTop Filter.atTop)
     (y : ℝ) (hy : 0 < y) :
     ∃! x, 0 < x ∧ clearingMap H x = y := by
   sorry
@@ -130,10 +131,9 @@ theorem profile_implies_ratio_condition
 def strikeSmoothedCallPayoff (ζ : ℝ → ℝ) (x : ℝ) : ℝ :=
   ∫ K in Set.Ioi 0, max (x - K) 0 * ζ K
 
-/-- A continuous compactly supported strike density is the gamma of its call mixture. -/
+/-- At every positive spot, a continuous strike density is the gamma of its call mixture. -/
 theorem strikeSmoothedCall_gamma (ζ : ℝ → ℝ) (x : ℝ)
-    (hζ : Continuous ζ) (hsupport : HasCompactSupport ζ)
-    (hζzero : ∀ K, K ≤ 0 → ζ K = 0) (hx : 0 < x) :
+    (hζ : Continuous ζ) (hx : 0 < x) :
     deriv (fun y => deriv (fun z => strikeSmoothedCallPayoff ζ z) y) x = ζ x := by
   sorry
 
@@ -264,23 +264,14 @@ theorem finite_feedback_first_variation {ι : Type*} [Fintype ι]
           ∑ j, w j t * gamma (F 0 j) x t := by
   sorry
 
-/-- The call's standard Gaussian coordinate at positive remaining maturity. -/
-def callD1 (K r σ τ x : ℝ) : ℝ :=
-  (Real.log (x / K) + (r + σ ^ 2 / 2) * τ) / (σ * Real.sqrt τ)
-
-/-- The Black–Scholes call formula used as the baseline of the feedback fit. -/
-def callPrice (K r σ τ x : ℝ) : ℝ :=
-  x * ProbabilityTheory.cdf (ProbabilityTheory.gaussianReal 0 1) (callD1 K r σ τ x) -
-    K * Real.exp (-r * τ) * ProbabilityTheory.cdf (ProbabilityTheory.gaussianReal 0 1)
-      (callD1 K r σ τ x - σ * Real.sqrt τ)
-
-/-- Call vega on the positive parameter domain. -/
+/-- Call vega on the positive parameter domain, in Tau Ceti's Gaussian coordinate `d₊`. -/
 def callVega (K r σ τ x : ℝ) : ℝ :=
-  x * Real.sqrt τ * ProbabilityTheory.gaussianPDFReal 0 1 (callD1 K r σ τ x)
+  x * Real.sqrt τ * ProbabilityTheory.gaussianPDFReal 0 1 (TauCeti.BlackScholes.dPlus x r σ K τ)
 
-/-- Call gamma on the positive parameter domain. -/
+/-- Call gamma on the positive parameter domain, in Tau Ceti's Gaussian coordinate `d₊`. -/
 def callGamma (K r σ τ x : ℝ) : ℝ :=
-  ProbabilityTheory.gaussianPDFReal 0 1 (callD1 K r σ τ x) / (x * σ * Real.sqrt τ)
+  ProbabilityTheory.gaussianPDFReal 0 1 (TauCeti.BlackScholes.dPlus x r σ K τ) /
+    (x * σ * Real.sqrt τ)
 
 /-- The evaluated heat convolution for the first call correction, with cutoff epsilon.
 The formula is used only for K, sigma, x positive and remaining maturity at least epsilon. -/
@@ -317,7 +308,7 @@ def leastSquaresFirstVariation (C1 vega : ℝ → ℝ) : ℝ :=
 
 /-- The spot-integrated squared distance to a Black–Scholes call of trial volatility s. -/
 def callFitObjective (K r τ : ℝ) (C : ℝ → ℝ) (s : ℝ) : ℝ :=
-  ∫ x in Set.Ioi 0, (C x - callPrice K r s τ x) ^ 2
+  ∫ x in Set.Ioi 0, (C x - TauCeti.BlackScholes.callPrice x r s K τ) ^ 2
 
 /-- A smooth decaying feedback price family has a unique nearby least-squares minimizer.
 The uniform bounds on its first two parameter derivatives supply differentiation under
@@ -329,9 +320,9 @@ theorem local_call_fit (K r σ ρ₀ T ε t : ℝ) (F : ℝ → Price)
       (fun p : ℝ × ℝ × ℝ => F p.1 p.2.1 p.2.2) (parameterCylinder ρ₀ T ε))
     (hPDE : ∀ ρ x u, |ρ| < ρ₀ → 0 < x → 0 < u → u < T - ε →
       linearFeedbackResidual r σ ρ (F ρ) x u = 0)
-    (hbase : ∀ x, 0 < x → F 0 x t = callPrice K r σ (T - t) x)
+    (hbase : ∀ x, 0 < x → F 0 x t = TauCeti.BlackScholes.callPrice x r σ K (T - t))
     (hdecay : ∃ A > 0, ∀ n : ℕ, n ≤ 2 → ∀ ρ x, |ρ| < ρ₀ → 0 < x →
-      |iteratedDeriv n (fun q => F q x t - callPrice K r σ (T - t) x) ρ| ≤
+      |iteratedDeriv n (fun q => F q x t - TauCeti.BlackScholes.callPrice x r σ K (T - t)) ρ| ≤
         A * min (x ^ 4) (x ^ (-2 : ℤ))) :
     ∃ a > 0, ∃ b > 0, ∃ fit : ℝ → ℝ,
       a < ρ₀ ∧ b < σ ∧ fit 0 = σ ∧ ContDiffOn ℝ 2 fit (Set.Ioo (-a) a) ∧
