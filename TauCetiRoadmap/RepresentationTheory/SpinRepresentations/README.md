@@ -245,8 +245,8 @@ Consume existing Tau Ceti implementations on their actual carriers, by name; `Su
 | Native triality and its carrier | `TauCeti.serreDiagramAut` with H/E/F, inverse, iterate and `serreLift_comp_serreDiagramAut` equations; `TauCeti.D4Tripled.trialityAutomorphism`/`trialityPoints`, root equations, inverse torus relabelling and three-block Levi; on the tripled carrier also `TauCeti.D4Tripled.isCompletelyReducible_standardComodule`, the simple-root pinning against `DynkinType.simplyConnectedRootDatum`, and over an algebraically closed field the connected, smooth generated subgroup (`geometricallyConnectedCommHopfAlgProperty_generatedCoordinateHopfAlgebra`, `smoothCommHopfAlgProperty_generatedCoordinateHopfAlgebra`) and the unipotent-radical obstruction under reducedness | Layer8 consumes these implementations and owns the concrete numbered Serre equivalence and pinned **complex** tripled-points↔CliffordSpin comparison, all three intertwiners and the integrated-lift comparison. The native carriers alone assert neither reductivity, nor equality of a generated subgroup with the base-changed integral carrier, nor this identification. |
 | Native rational triality on the three modules | For `P : TauCeti.SpinPolarizationData Q` with `Module ℚ V`, a basis b of `P.W` indexed by `Fin 4` and, for the Lie equations, `P.line = ⊥`: the block equivalences `TauCeti.D4Tripled.vectorBlockEquiv` (the split vector module `Fin 4 ⊕ Fin 4 → ℚ`, with signs `TauCeti.D4Tripled.vectorBasisSign`), `TauCeti.SpinPolarizationData.d4SpinPlusBlockEquiv` and `d4SpinMinusBlockEquiv` with their `_serreE`, `_serreF`, `_serreH` equations; the intertwiners `d4VectorToSpinMinusEquiv`, `d4SpinMinusToSpinPlusEquiv` and `d4SpinPlusToVectorEquiv`, built from the block reindexings by `d4TripledTrialityPerm`, intertwining every Chevalley generator after `trialityPermD4` and with cyclic composites the identity (`d4TrialityCycle_apply_apply_apply` and its two siblings); and the nonzero Lie-invariant form `d4TrialityTrilinearForm` on vector, odd and even half-spin modules, with `d4TrialityTrilinearForm_ne_zero`, `_cyclic`, `_serreE_invariant`, `_serreF_invariant` and `_serreH_invariant` | Layer 8 base-changes these from the split rational form to Q₈ along the isometry of §8.2 item 2, proves the group-level equations on `x_±i(u)` and `T_Cl(s)`, and compares the transported form with Clifford multiplication. |
 | Exceptional ranks three through six | `TauCeti.nonempty_spinGroup_mulEquiv_specialLinearGroup_of_finrank_eq_three` and `TauCeti.nonempty_spinGroup_mulEquiv_specialLinearGroup_prod_of_finrank_eq_four` over a separably closed field of characteristic not two (the latter through the split even centre and a quaternion-product model), and the rank-three spin/standard intertwining endpoint; `TauCeti.spinGroupEquivSpecialLinearGroupOfFinrankEqSix P hV : spinGroup Q ≃* SL(4, K)` for a polarization `P` of a six-dimensional space over a field with 2 invertible, sending a Spin element to its matrix on `S⁺` | The polarized standard and dual representation equivalences in ranks four through six are suppliers below. Retain the specified rank-five form comparison and the rank-six vector comparison `V ≅ ⋀²ℂ⁴`. In rank six, `range_spinGroup_toUnits_ne_evenUnitaryGroup_of_six_le_finrank` records that the norm-one condition alone does not cut out Spin. |
-| Real forms and periodicity | Four `realClifford...Equiv...` base entries, `TauCeti.realCliffordBottEquiv`, `nonempty_realCliffordEightPeriodicityEquiv`, the full signed table `TauCeti.realClifford_classification`, the full-cover carrier `CliffordAlgebra.cliffordFullCover`, and native compact connectedness/covering/stabilizer/sphere/simple-connectivity/universal-cover APIs | Finish the real full-cover surjectivity, kernel and topological comparisons without importing indefinite-domain connectedness. |
-| Kostant machine and CAR | `TauCeti.LieAlgebra.adjointSO`/`killingQuadraticForm`, `CliffordAlgebra.adjointCliffordHom` and scoped left-regular module; native `TauCeti.glCliffordHom` and CAR `isIsotypicOfType_glIrreducible_car`, `nonempty_lieModuleEquiv_directSum_glIrreducible_car` over algebraically closed characteristic-zero fields, all N | General Killing-semisimple Kostant isotypy/multiplicity, full spinor comparison and the stronger primitive-subspace theorem remain targets. The CAR example does not prove the general theorem. |
+| Real forms and periodicity | Four `realClifford...Equiv...` base entries, `TauCeti.realCliffordBottEquiv`, `nonempty_realCliffordEightPeriodicityEquiv`, the full signed table `TauCeti.realClifford_classification`, the full-cover carrier `CliffordAlgebra.cliffordFullCover`, and native compact connectedness/covering/stabilizer/sphere/simple-connectivity/universal-cover APIs | Finish the real full-cover surjectivity, kernel and covering-map statement from the native Lipschitz surjectivity, kernel, closedness, continuity and openness named in §7.2, without importing indefinite-domain connectedness. |
+| Kostant machine and CAR | `TauCeti.LieAlgebra.adjointSO`/`killingQuadraticForm`, `CliffordAlgebra.adjointCliffordHom` and scoped left-regular module, with the Killing-dual coordinate formula `CliffordAlgebra.adjointCliffordHom_eq_sum_bivector` (coefficient ¼), its Cartan regrouping over the positive roots `adjointCliffordHom_cartan_eq_sum_posRoots` (coefficient ½, for a split Cartan subalgebra over a characteristic-zero field), the weight shift `mem_genWeightSpace_ι_mul_of_mem_rootSpace` of left multiplication by a root vector, and left ideals as submodules `kostantLieSubmoduleOfLeftIdeal`; native `TauCeti.glCliffordHom` and CAR `isIsotypicOfType_glIrreducible_car`, `nonempty_lieModuleEquiv_directSum_glIrreducible_car` over algebraically closed characteristic-zero fields, all N | General Killing-semisimple Kostant isotypy/multiplicity, full spinor comparison and the stronger primitive-subspace theorem remain targets. The CAR example does not prove the general theorem. |
 
 The public development below additionally retains its compact-real identification and arbitrary-form polar transport, concrete smooth group models, algebraic-versus-differentiated action separation and real-signature maximal-compact/Lie adapters. “Build” in a layer means consume its existing producer where listed and construct the remaining stated interfaces; it never licenses a duplicate generic owner.
 
@@ -1030,12 +1030,16 @@ arXiv:0805.0311v3, Theorem 1.24, p. 43, for the polar homeomorphism of an
 adjunction-stable pseudo-algebraic matrix group with its unitary part times a real vector
 space; the Spin deformation used here is the native one).
 Identify this intersection homeomorphically with the real compact
-generated Spin(n): unitarity is equivalent to `conj g=g`, and the fixed-real
+generated Spin(n): unitarity is equivalent to `conj g=g`, because on the Spin group of a
+complexified real form native `CliffordAlgebra.complexConj_reverse_eq_coe_inv` gives
+`g†=(conj g)⁻¹`, with `conj g` the Spin element `spinGroupBaseChangeCongr Complex.conjAe Q g`;
+the fixed-real
 subgroup equality follows by real Spin→SO surjectivity and the complex kernel
 {±1}, not by identifying Spin with all even unitary Clifford elements. Consume the
 native base change `CliffordAlgebra.spinGroupBaseChange` (injective by
 `spinGroupBaseChange_injective`, continuous by `continuous_spinGroupBaseChange`) and the
-coefficient conjugation `CliffordAlgebra.complexConj` with `complexConj_ofBaseChangeAux`;
+coefficient conjugation `CliffordAlgebra.complexConj` with `complexConj_ofBaseChangeAux` and
+`continuous_complexConj`;
 prove the fixed-locus identification, topology agreement and transport through the chosen
 form isometry explicitly.
 Connectedness for n≥2 and the exception n=2 are native (Compact Spin topology contract):
@@ -1068,7 +1072,7 @@ The construction has the following API.
 - The polar path on this torus is z/|z|^t: H(2,0)=2 and H(2,1)=1, so the time direction is fixed.
 - For z=exp(iθ), H(z,t)=z for all t; a contraction to the identity would wrongly move this compact subgroup.
 
-*Needs:* Tau Ceti polar powers, continuity, retraction and homotopy contracts; native `spinGroupBaseChange` and `complexConj`; native compact Spin covering and simple connectivity; §1.1 isometry transport. Only the integration use additionally needs §3.2 topology/smooth comparison.
+*Needs:* Tau Ceti polar powers, continuity, retraction and homotopy contracts; native `spinGroupBaseChange`, `complexConj`, `continuous_complexConj` and `complexConj_reverse_eq_coe_inv`; native compact Spin covering and simple connectivity; §1.1 isometry transport. Only the integration use additionally needs §3.2 topology/smooth comparison.
 
 ### Examples
 
@@ -1126,10 +1130,16 @@ to choose data modeled on the actual `lieSubalgebraOfSubgroup`, followed by
 comparison to model the actual SO target as a closed subgroup of matrix units.
 Transport the embedded structures with their subspace topologies and actual
 inclusions, on Spin along the native injective `spinGroup.toUnits`.
-Own the topology/smooth-inclusion transport, smoothness of the native SO projection
-and of the finite-dimensional Fock representation, and the transport to an abstract V of
-the native identification of the subgroup Lie algebra in units coordinates with the
-quadratic Lie subalgebra of the Clifford algebra.
+Own the topology/smooth-inclusion transport, smoothness of the native SO projection, and the
+transport to an abstract V of the native identification of the subgroup Lie algebra in units
+coordinates with the quadratic Lie subalgebra of the Clifford algebra. Smoothness of the
+finite-dimensional Fock representation and `d(spinRep)(x)=spinAction(x)` are the restriction to
+the closed Spin subgroup of native `AlgHom.unitsSmoothHom` (the smooth map of unit groups induced
+by an algebra homomorphism between finite-dimensional normed real algebras, here `spinAction`
+over ℝ with `End S` normed through a basis) and
+`AlgHom.unitsLieAlgebraLieEquiv_lieMap_unitsSmoothHom` (in algebra coordinates its differential
+is the homomorphism itself); the compact-real case is native `AlgHom.realCliffordSpinSmoothHom`
+with `AlgHom.lieMap_realCliffordSpinSmoothHom_eq`. Own that restriction for complex Q.
 For Q on `Fin n → ℂ` consume the native finite-dimensional normed ℝ-algebra structure of
 `Topology/Algebra/CliffordAlgebra/Normed.lean`
 (`CliffordAlgebra.instNormedAlgebraRealComplexCliffordAlgebra`,
@@ -1166,7 +1176,7 @@ The construction has the following API.
 - In rank 1 the Lie algebra is zero but scalar −1 acts on the spinor line by −1; differentiation cannot identify it with the trivial group representation.
 - In rank 0 both the generated group and tangent Lie algebra are trivial, of dimensions 0 and 0.
 
-*Needs:* LieGroups Layers 0–3 closed-subgroup and Lie-functor contracts; Tau Ceti closed Spin units range, the complex normed structure of `Normed.lean` and the complex Lie-algebra identification of `Spin/LieAlgebra.lean`; §1.1 isometry transport and §2.1 coordinate transport; native Fock action. The Lie-action comparison does not require §5.2.
+*Needs:* LieGroups Layers 0–3 closed-subgroup and Lie-functor contracts; Tau Ceti closed Spin units range, the complex normed structure of `Normed.lean` and the complex Lie-algebra identification of `Spin/LieAlgebra.lean`; §1.1 isometry transport and §2.1 coordinate transport; native Fock action, `AlgHom.unitsSmoothHom` and `unitsLieAlgebraLieEquiv_lieMap_unitsSmoothHom`, and for the compact-real case `AlgHom.lieMap_realCliffordSpinSmoothHom_eq`. The Lie-action comparison does not require §5.2.
 
 ### Examples
 
@@ -1427,13 +1437,25 @@ nondegenerate real quadratic space, consume the native normalized full Clifford 
 are those whose unit-valued reverse norm `cliffordNorm Q x = reverse(x)·x` is `±1`. Since
 `star=reverse∘involute`, the norm `N(x)=x star(x)` agrees with it on even elements and is its
 negative on odd ones, so the full cover is also the set where `N(x)=±1`.
-Prove closure, the inherited topology,
-continuity of twisted conjugation, and its surjection onto O(Q) with kernel
-`{±1}` of order two (the headline `cliffordFullCoverToOrthogonal_surjective_and_card_ker`, for
-finite-dimensional nondegenerate Q of positive dimension), using normalized nonisotropic reflection lifts and Cartan–Dieudonné (Gallier,
+The topology and the kernel of the ambient action are native, for finite-dimensional
+nondegenerate Q: `CliffordAlgebra.isClosed_lipschitzGroup` (the Lipschitz group is closed in the
+Clifford units) and `CliffordAlgebra.continuous_cliffordNorm` make the full cover, the preimage
+of the closed set `{±1}` of `ℝˣ`, a closed subgroup of the Clifford units;
+`CliffordAlgebra.continuous_lipschitzToOrthogonal` makes twisted conjugation continuous; and by
+`CliffordAlgebra.mem_ker_lipschitzToOrthogonal_iff` a Lipschitz element acts trivially exactly
+when it is a scalar unit. Consume these. Prove that the restriction to reverse norm `±1` is still
+onto O(Q), with kernel `{±1}` of order two (the headline
+`cliffordFullCoverToOrthogonal_surjective_and_card_ker`, for finite-dimensional nondegenerate Q
+of positive dimension): rescale a lift given by native `CliffordAlgebra.lipschitzToOrthogonal_surjective`
+by the positive real scalar `|cliffordNorm Q x|^(-1/2)`, which acts trivially and multiplies the
+reverse norm by `|cliffordNorm Q x|⁻¹`; a real scalar r has reverse norm `r²`, so the scalars in
+the cover are `±1`, and they lie in it because some vector is anisotropic (Gallier,
 arXiv:0805.0311v3, Definition 1.6, p. 31, and Proposition 1.21, p. 39, where Pin(p,q) is
 this norm-±1 cover).
-Prove the covering-map and local-section statements. Native `pinGroup Q`
+Prove that it is a covering map with local sections: the native open map
+`CliffordAlgebra.isOpenMap_lipschitzToOrthogonal` (ℝ is locally compact and σ-compact) stays
+open on the cover, because the continuous retraction `x ↦ |cliffordNorm Q x|^(-1/2)·x` of the
+Lipschitz group onto the cover changes no image, and the kernel `{±1}` is finite. Native `pinGroup Q`
 is the norm-one subgroup, not this whole cover: `star=reverse∘involute` gives
 `N(ιv)=−Q(v)`. Its orthogonal image is the kernel of the descended norm-sign
 character. For positive-definite Q in positive dimension, native pin equals
@@ -1463,11 +1485,11 @@ owns its phase-cochain twists, P/C/T actions and Lorentz isoclinism calculation.
 
 The construction has the following API.
 
-- The full cover is a closed subgroup of the Clifford units, and `cliffordFullCoverToOrthogonal` acts by `v ↦ involute(x)·v·x⁻¹`.
-- That action is a continuous surjection onto O(Q) with kernel {±1} and local sections, hence a covering map.
+- The full cover is a closed subgroup of the Clifford units, and `cliffordFullCoverToOrthogonal` acts by `v ↦ involute(x)·v·x⁻¹`, continuously, as the restriction of the native Lipschitz action.
+- That action is a surjection onto O(Q) with kernel {±1}; it is open, so it has local sections and is a covering map.
 - Native `pinGroup Q` and `spinGroup Q` lie in the full cover (`spinToCliffordFullCover` for Spin), and their orthogonal images are the kernels of the descended norm-sign character in O(Q) and in SO(Q).
 
-*Needs:* Native `CliffordAlgebra.cliffordFullCover`, `cliffordFullCoverToOrthogonal`, real-signature forms and general-field Cartan–Dieudonné; LieGroups Layers 0–3 for local smooth/topological models.
+*Needs:* Native `CliffordAlgebra.cliffordFullCover`, `cliffordFullCoverToOrthogonal`, real-signature forms, `lipschitzToOrthogonal_surjective` (general-field Cartan–Dieudonné), `mem_ker_lipschitzToOrthogonal_iff`, `isClosed_lipschitzGroup`, `continuous_cliffordNorm`, `continuous_lipschitzToOrthogonal` and `isOpenMap_lipschitzToOrthogonal`; LieGroups Layers 0–3 for local smooth/topological models.
 
 
 ### 7.3 General real-signature topology and Lie adapters (local to Layer7)
@@ -2053,7 +2075,7 @@ The construction has the following API.
 - For the sl₂ volume ω above, Q_P(2ω)=4·512=2048; a linear rather than quadratic scaling law would give 1024.
 - For sl₂, A is diagonal M₂ inside M₂⊕M₂ and B is its two-dimensional centre; Comm(B) has dimension 8, whereas A has dimension 4, excluding ordinary mutual commutants.
 
-*Needs:* §9.1 rank equality; native Clifford PBW, dimension, adjoint quadratic lift and left-regular module; LieHighestWeight native complete reducibility, Weyl dimension and irreducible quotient; native Fock action for the spin-module variant.
+*Needs:* §9.1 rank equality; native Clifford PBW, dimension, adjoint quadratic lift and left-regular module, with `CliffordAlgebra.adjointCliffordHom_eq_sum_bivector`, `adjointCliffordHom_cartan_eq_sum_posRoots`, `mem_genWeightSpace_ι_mul_of_mem_rootSpace` and `kostantLieSubmoduleOfLeftIdeal`; LieHighestWeight native complete reducibility, Weyl dimension and irreducible quotient; native Fock action for the spin-module variant.
 
 
 ### 9.3 The worked instance: `gl_N` on `M_N(ℂ)` (the CAR algebra)
