@@ -182,6 +182,7 @@ are used with their stated generality.
 | `Int.eq_zero_of_abs_lt_dvd` | `m∣ x` and `abs(x) < m` force `x=0` |
 | `HeckeRing.GL2.Newform` | normalized newforms at a fixed positive level and weight |
 | `Newform.eq_of_forall_notMem_eigenvalue_eq` | equality at a fixed level and character from agreement at all good indices outside a finite set |
+| `Newform.level_eq_and_coe_eq_of_forall_notMem_prime_eigenvalue_eq` | Tau Ceti `Newforms/StrongMultiplicityOne.lean`: newforms of levels N, M and equal weight whose characters induce the same character modulo `lcm N M`, with equal eigenvalues at every prime `p ∤ NM` outside a finite set, have N = M and are the same function |
 | `WeierstrassCurve.localPolynomial` | the integer polynomial in the four reduction cases above |
 | `WeierstrassCurve.IsSemistable` | Tau Ceti `MinimalModel/Semistable.lean`: good or multiplicative reduction at every prime of the base ring `O` |
 | `WeierstrassCurve.LFunction`, `WeierstrassCurve.LSeries` | the formal coefficients and their complex Dirichlet series |
@@ -199,10 +200,11 @@ integers and their completions; it neither restricts to rational primes nor
 asserts summability by its definition.
 
 The fixed-level multiplicity-one theorem in this table takes agreement at all indices
-coprime to the level outside a finite set. Cross-level comparison from agreement at
-almost all **prime** indices is the stronger imported statement from ModularForms Layer
-5. Neither its different domain nor its hypotheses are absorbed into the fixed-level
-reference.
+coprime to the level outside a finite set. The cross-level theorem below it is Tau
+Ceti's implementation of ModularForms Layer 5 (Miyake, Theorem 4.6.19); cross-level
+uniqueness of an attached form uses it with both characters trivial. The fixed-level
+row follows from its equal-level case, since agreement at all good indices includes
+agreement at the good primes.
 
 The native elliptic substrate is supplied by
 `TauCeti.AlgebraicGeometry.EllipticCurve.Affine.Point.Galois`:
@@ -490,7 +492,13 @@ III.5 and III.9, endomorphisms and invariant differentials).
   defined over ℚ(i), not ℚ. Its existence does not enlarge `End_ℚ(E)`.
 
 *Needs:* EllipticCurves Layer 1, isogeny degree, dual and invariant-differential API;
-Mathlib rational integrality. Faltings is not needed for this assertion.
+Mathlib rational integrality. Faltings is not needed for this assertion. The headline on
+`AbelianVariety ℚ` also needs the carrier comparisons AbelianSchemesAndArithmeticModuli
+A0.2 and A1.6 (a one-dimensional abelian variety over ℚ is an elliptic curve with its
+group law, which has a Weierstrass model by ModularCurves Layer 1.3) and
+FaltingsFinitenessAndIsogenyTheorems §R28.6.1(i) (`Hom_ℚ(E, E′)` and
+`Hom_ℚ(E_ab, E′_ab)` correspond compatibly with composition and degree); neither is a
+Faltings theorem.
 
 ### Cyclic subgroups and their Galois stability
 
@@ -516,7 +524,7 @@ but rationality of a chosen generator does not.
   This Check asserts the stable order-7 subgroup and the absence of rational
   seven-torsion together.
 
-### Rational 3- and 5-isogeny Checks
+### Rational 3-, 5- and 15-isogenies
 
 **Hauptmodul relations** (`three_isogeny_j` and `five_isogeny_j` in `Suggested.lean`). For every elliptic
 curve E over ℚ with a rational cyclic 3-isogeny, there is `u∈ℚ`, `u≠0`, such that
@@ -529,7 +537,7 @@ subgroups above. The source for both relations is Barrios,
 [*Explicit classification of isogeny graphs of rational elliptic curves*](https://arxiv.org/abs/2208.05603),
 arXiv:2208.05603v1, Theorem 2.3 and Table 1, p. 6. Apply the parameterization to the dual isogeny
 so that E is the target in Table 1's second column of j-functions. The choice of
-these isogeny Checks follows the Imperial College London FLT project.
+these three isogeny targets follows the Imperial College London FLT project.
 
 **Checks.**
 
@@ -554,7 +562,8 @@ that E has good or multiplicative reduction at 5 and exclude the simultaneous
 isogenies. For the four displayed values, `v_5(j_E)` is respectively `2,2,1,1`.
 For nonzero j, good reduction at 5 makes its valuation a nonnegative multiple of 3, while
 multiplicative reduction makes it negative. Thus the local hypothesis suffices; global
-semistability is a Check. The source is Darmon–Diamond–Taylor,
+semistability is a special case, recorded in the Checks below. The source is
+Darmon–Diamond–Taylor,
 [*Fermat's Last Theorem*](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf),
 §3.6, proof of Theorem 3.48, p. 102, for the four noncuspidal points and their
 failure of semistability; González–Jiménez–Lario,
@@ -752,7 +761,8 @@ distinguish the four clauses; the CM example fixes the ground-field scope.
 ### Dependencies
 
 *Needs:* EllipticCurves Layers 1, 2 and 4; FaltingsFinitenessAndIsogenyTheorems
-§§R28.6.5–R28.6.6; ArithmeticGaloisRepresentations §§3.3, 3.6, 4.1 and 6.1–6.3;
+§§R28.6.1 and R28.6.5–R28.6.6; AbelianSchemesAndArithmeticModuli A0.2 and A1.6;
+ModularCurves Layer 1.3; ArithmeticGaloisRepresentations §§3.3, 3.6, 4.1 and 6.1–6.3;
 NeronModelsAndSemistableAbelianVarieties §§5.3a, 5.3g–5.3i.
 
 ## Layer R29.2: Finite-flat weight two and Serre witnesses
@@ -800,10 +810,9 @@ extension k/𝔽ₚ and a 𝔽ₚ-basis of E[p] such that the scalar extension o
 representation to k, expressed on `Fin 2 → k`, satisfies the residual attachment
 predicate of AlgebraicModularFormsAndSerreWeights
 [§7.5, S-type and modularity predicates](../AlgebraicModularFormsAndSerreWeights/README.md#75-s-type-and-modularity-predicates)
-for the full eigenform underlying F. This is a planned supplier interface. It uses
-one unital map from the ring generated by F's Hecke eigenvalues and unit character
-values to k, with unramifiedness and the full Frobenius trace and determinant identities
-at every prime away from Np. The map is shared by all those identities.
+for the full eigenform underlying F. It uses one unital map from the ring generated
+by F's Hecke eigenvalues and unit character values to k, with unramifiedness and the
+full Frobenius trace and determinant identities at every prime away from Np. The map is shared by all those identities.
 The full eigenform is supplied by ModularForms Layer 4, with `Newform.toEigenform`
 in Tau Ceti's `NumberTheory/ModularForms/Newforms/FullEigenform.lean`; it has the same
 Fourier coefficients and character as F. ArithmeticGaloisRepresentations
@@ -1047,9 +1056,9 @@ relation being named. The definition uses Tau Ceti `HeckeRing.GL2.Newform` and M
 `WeierstrassCurve.LFunction`. Uniqueness is imported from Tau Ceti ModularForms **Layer
 5: Strong multiplicity one and the eigenform characterization**
 ([ModularForms roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ModularForms/README.md#layer-5-strong-multiplicity-one-and-the-eigenform-characterization)),
-in the cross-level weight-two trivial-character form associated there with Miyake's
-Theorem 4.6.19. The fixed-level library theorem listed in the supplier contracts cannot
-replace this input.
+whose cross-level theorem (Miyake, Theorem 4.6.19) is the pinned
+`Newform.level_eq_and_coe_eq_of_forall_notMem_prime_eigenvalue_eq` of the supplier
+contracts, applied with both characters trivial.
 
 The defining predicate has three Checks:
 
@@ -1265,20 +1274,24 @@ different from each local place, which this quantification supplies.
 
 ### The conductor and its semistable comparison
 
-**Conductor specialization and comparison.** For every elliptic E over ℚ, define
-N_E to be the positive generator of the conductor ideal of
-NeronModelsAndSemistableAbelianVarieties §5.3a. Prove that v_ℓ(N_E) equals the Artin conductor exponent a_ℓ(V_r(E))
-for every pair of distinct rational primes ℓ,r. It includes additive reduction and
-wild ramification at 2 and 3.
+**Conductor specialization.** For every elliptic E over ℚ, define N_E to be the
+positive generator of the conductor ideal of NeronModelsAndSemistableAbelianVarieties
+§5.3a. That section supplies, at each prime ℓ, the exponent `f(E_(ℚ_ℓ))` with
+`a(V_r(E_(ℚ_ℓ))) = f(E_(ℚ_ℓ))` for every prime r ≠ ℓ, additive reduction and wild
+ramification at 2 and 3 included; its §5.3g supplies that ℓ divides N_E exactly at
+the bad primes and that `v_ℓ(N_E) = 1` exactly at the multiplicative ones. Prove the
+passage to the global representation: for distinct primes ℓ and r, the local
+restriction of `V_r(E)` along an embedding `ℚ̄ → ℚ̄_ℓ` is isomorphic to
+`V_r(E_(ℚ_ℓ))`, so the exponent `a_ℓ(V_r(E))` at ℓ of the global conductor of `V_r(E)`
+equals `v_ℓ(N_E)` (local restriction and global conductors as in
+ArithmeticGaloisRepresentations §§2.1 and 3.3).
 
-For `WeierstrassCurve.IsSemistable ℤ E`, prove that this integer agrees
-with the squarefree product of bad primes. This is the conductor assembled from the
-0/1 exponents of EllipticCurves Layers 4 and 4.5a on local minimal models; its equality
-with the Artin conductor is the semistable algorithmic–Artin comparison milestone
-in EllipticCurves Layer 8.
-The semistable product is used only under that hypothesis. The general conductor and
-both comparison assertions use NeronModelsAndSemistableAbelianVarieties §§5.3a,
-5.3e and 5.5, with ArithmeticGaloisRepresentations Layer 3 and §§6.1–6.3.
+For `WeierstrassCurve.IsSemistable ℤ E` every bad prime is multiplicative, so §5.3g
+gives exponent one at the bad primes and zero elsewhere: N_E is the squarefree product
+of the bad primes. That product is the conductor assembled from the 0/1 exponents of
+EllipticCurves Layers 4 and 4.5a on local minimal models; its equality with the Artin
+conductor is the semistable algorithmic–Artin comparison milestone of EllipticCurves
+Layer 8.
 The sources are Serre 1970, n° 2.4, cases b), c), p. 19-09, and Brumer–Kramer 1994,
 §6, (6.1), p. 243, as located in that supplier's §5.3a; the semistable case is also
 Darmon–Diamond–Taylor, §2.2, Proposition 2.12, p. 57.
@@ -1419,9 +1432,10 @@ additive case, including small residue characteristics.
 ### Dependencies
 
 *Needs:* Layer R29.3 attachment and rationality; ArithmeticGaloisRepresentations
-§§3.1–3.6, 5.3 and 6.1–6.3; AutomorphicGaloisRepresentations §§1.5, 6.1 and 6.4;
+§§2.1, 3.1–3.6, 5.3 and 6.1–6.3; AutomorphicGaloisRepresentations §§1.5, 6.1 and 6.4;
 ModularCurvesPartII §§16.3–16.6; FaltingsFinitenessAndIsogenyTheorems
-§§R28.4.5–R28.4.7 and R28.6.2; NeronModelsAndSemistableAbelianVarieties §5.3i.
+§§R28.4.5–R28.4.7 and R28.6.2; NeronModelsAndSemistableAbelianVarieties §§5.3a, 5.3g
+and 5.3i.
 
 ## Layer R29.5: Quotient isogenies and modular parametrisations
 
@@ -2040,8 +2054,9 @@ The other works cited in the layers are:
   differential and the endomorphism ring, V.1.1 for Hasse's bound, and VII.1 and VII.5
   for minimal equations and reduction types.
 * T. Miyake, *Modular Forms*, Springer (1989). Theorem 4.6.19, strong multiplicity one
-  across levels, is the form in which ModularForms Layer 5 supplies the uniqueness of
-  attached newforms used in R29.3.
+  across levels, is the form of ModularForms Layer 5 that Tau Ceti proves as
+  `Newform.level_eq_and_coe_eq_of_forall_notMem_prime_eigenvalue_eq`; it gives the
+  uniqueness of attached newforms used in R29.3.
 * J. S. Milne, *Abelian varieties*, in G. Cornell and J. H. Silverman (eds.),
   *Arithmetic Geometry* (Storrs, 1984), Springer (1986), 103–150
   ([author's copy](https://www.jmilne.org/math/articles/1986b.pdf)). In §8, p. 115,
