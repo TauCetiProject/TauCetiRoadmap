@@ -31,21 +31,20 @@ Headlines stated, with their README targets:
 * 4.1 `isClassifyingSite_genericRing` and `finitePresentation_of_isFinitelyPresentable`;
   4.2 `isSheaf_forget_zariskiTopology`; 4.3 `isClassifyingSite_localRingTheory`.
 
-Not stated: README 2.2 (a), the correspondence between models of a Horn theory in
-`Sheaf K (Type u)` and the filtering functors on its classifying category, lacking
-GrothendieckTopoi's `IsFiltering`; the classifying category itself is therefore not defined here,
-no stated headline using it. Not stated: in README 3.6 (a), the `J`-homogeneity of a model in an
-arbitrary sheaf topos, lacking the object of homomorphisms between two models of a theory
-(Caramello 2012b, Definition 4.4), which is not defined at the pins; the case of sets, and the
-classification of the quotient by a small site equivalent to `(FPModel T)ᵒᵖ`, are stated. The
-targets that use the definability statement of 2.4, the converse of 2.5
-(`IsClassifyingSite.exists_quotient_theory`), (a), (c) and (d) of 3.5 and (a) of 3.6, are stated
-in the universe `max u₁ u₂ u` of 2.3, as 2.3 and 3.1 are. The irreducibility of formulae is written
-with Mathlib's `Sheaf.canonicalTopology` of the topos, since GrothendieckTopoi's
-`IsIrreducibleObject` is not importable here. Geometric morphisms and Diaconescu's theorem are
-GrothendieckTopoi's (Layer 2); the universal property here is written with their inverse images,
-left exact left adjoints between categories of sheaves, so that it is statable on Mathlib's
-carriers.
+Not stated: README 2.2 (a), the correspondence between models of a Horn theory in `Sheaf K (Type u)`
+and the filtering functors on its classifying category, lacking GrothendieckTopoi's `IsFiltering`;
+the classifying category itself is therefore not defined here, no stated headline using it. Not
+stated: in README 3.6 (a), the `J`-homogeneity of a model in an arbitrary sheaf topos, lacking the
+object of homomorphisms between two models of a theory (Caramello 2012b, Definition 4.4), which is
+not defined at the pins; the case of sets, and the classification of the quotient by a small site
+equivalent to `(FPModel T)ᵒᵖ`, are stated. Only the existence theorems 2.3 and 3.1 are stated in the
+universe `max u₁ u₂ u` of the language; the definability statement of 2.4, and the targets that use
+it (the converse of 2.5, `IsClassifyingSite.exists_quotient_theory`, (a), (c) and (d) of 3.5 and (a)
+of 3.6), are stated for every site in `Type u`. The irreducibility of formulae is written with
+Mathlib's `Sheaf.canonicalTopology` of the topos, since GrothendieckTopoi's `IsIrreducibleObject` is
+not importable here. Geometric morphisms and Diaconescu's theorem are GrothendieckTopoi's (Layer 2);
+the universal property here is written with their inverse images, left exact left adjoints between
+categories of sheaves, so that it is statable on Mathlib's carriers.
 -/
 
 @[expose] public section
@@ -247,8 +246,8 @@ theorem CatStructure.IsModel.map {C D : Type u} [SmallCategory C] [SmallCategory
     (M.map F).IsModel T :=
   sorry
 
-/-- **1.5.** Morleyization: every first-order theory `T` has a geometric theory `T'`, all of
-whose sequents are coherent (finite disjunctions only), over a language `L'` receiving `L`, such that the
+/-- **1.5.** Morleyization: every first-order theory `T` has a geometric theory `T'`, all of whose
+sequents are coherent (finite disjunctions only), over a language `L'` receiving `L`, such that the
 set-models of `T'` expanding an `L`-structure satisfy `T`, and every model of `T` in sets has
 exactly one expansion that is a set-model of `T'`. -/
 theorem exists_morleyization (T : L.Theory) :
@@ -328,10 +327,10 @@ theorem IsClassifyingSite.exists_equivalence {T : GeometricTheory.{u} L} {C C' :
 
 /-- **2.4.** In a classifying topos, every subobject of a power of the generic model is the
 interpretation of a geometric formula. -/
-theorem IsClassifyingSite.exists_interp_eq_of_subobject {T : GeometricTheory.{max u₁ u₂ u} L}
-    {C : Type (max u₁ u₂ u)} [SmallCategory C] {J : GrothendieckTopology C}
-    {U : CatStructure L (Sheaf J (Type (max u₁ u₂ u)))} (hU : IsClassifyingSite T J U) {n : ℕ}
-    (S : Subobject (U.pow n)) : ∃ ψ : GeometricFormula.{max u₁ u₂ u} L n, U.interp ψ = S :=
+theorem IsClassifyingSite.exists_interp_eq_of_subobject {T : GeometricTheory.{u} L}
+    {C : Type u} [SmallCategory C] {J : GrothendieckTopology C}
+    {U : CatStructure L (Sheaf J (Type u))} (hU : IsClassifyingSite T J U) {n : ℕ}
+    (S : Subobject (U.pow n)) : ∃ ψ : GeometricFormula.{u} L n, U.interp ψ = S :=
   sorry
 
 /-- **2.5.** A quotient of a theory classified by `(C, J)` is classified by a finer topology on
@@ -346,14 +345,12 @@ theorem IsClassifyingSite.exists_quotient_topology {T T' : GeometricTheory.{u} L
 
 /-- **2.5.** Every finer topology on a classifying site classifies a quotient of the theory,
 with the sheafified generic model. -/
-theorem IsClassifyingSite.exists_quotient_theory {T : GeometricTheory.{max u₁ u₂ u} L}
-    {C : Type (max u₁ u₂ u)} [SmallCategory C] {J J' : GrothendieckTopology C}
-    {U : CatStructure L (Sheaf J (Type (max u₁ u₂ u)))}
+theorem IsClassifyingSite.exists_quotient_theory {T : GeometricTheory.{u} L} {C : Type u}
+    [SmallCategory C] {J J' : GrothendieckTopology C} {U : CatStructure L (Sheaf J (Type u))}
     (hU : IsClassifyingSite T J U) (hJ : J ≤ J') :
-    ∃ T' : GeometricTheory.{max u₁ u₂ u} L, T ⊆ T' ∧
+    ∃ T' : GeometricTheory.{u} L, T ⊆ T' ∧
       IsClassifyingSite T' J'
-        (U.map (sheafToPresheaf J (Type (max u₁ u₂ u)) ⋙
-          presheafToSheaf J' (Type (max u₁ u₂ u)))) :=
+        (U.map (sheafToPresheaf J (Type u) ⋙ presheafToSheaf J' (Type u))) :=
   sorry
 
 /-- **2.6.** Two geometric theories, possibly over different languages, are Morita-equivalent
@@ -554,11 +551,11 @@ def SetModel.IsPresentedBy {T : GeometricTheory.{u} L} (M : SetModel T) {n : ℕ
 
 /-- **3.5.** A theory is of presheaf type exactly when every geometric formula is covered by
 irreducible formulae: an epimorphic family from their interpretations. -/
-theorem isOfPresheafType_iff_forall_covered {T : GeometricTheory.{max u₁ u₂ u} L}
-    {C : Type (max u₁ u₂ u)} [SmallCategory C] {J : GrothendieckTopology C}
-    {U : CatStructure L (Sheaf J (Type (max u₁ u₂ u)))} (hU : IsClassifyingSite T J U) :
-    IsOfPresheafType T ↔ ∀ (n : ℕ) (φ : GeometricFormula.{max u₁ u₂ u} L n),
-      ∃ (ι : Type (max u₁ u₂ u)) (m : ι → ℕ) (ψ : ∀ i, GeometricFormula.{max u₁ u₂ u} L (m i))
+theorem isOfPresheafType_iff_forall_covered {T : GeometricTheory.{u} L}
+    {C : Type u} [SmallCategory C] {J : GrothendieckTopology C}
+    {U : CatStructure L (Sheaf J (Type u))} (hU : IsClassifyingSite T J U) :
+    IsOfPresheafType T ↔ ∀ (n : ℕ) (φ : GeometricFormula.{u} L n),
+      ∃ (ι : Type u) (m : ι → ℕ) (ψ : ∀ i, GeometricFormula.{u} L (m i))
         (f : ∀ i, Subobject.underlying.obj (U.interp (ψ i)) ⟶
           Subobject.underlying.obj (U.interp φ)),
         (∀ i, (ψ i).IsIrreducible U) ∧ Epi (Sigma.desc f) :=
@@ -592,11 +589,11 @@ theorem GeometricFormula.isIrreducible_iff_exists_presentedBy {T : GeometricTheo
 /-- **3.5.** For a theory of presheaf type, every finitely presentable set-model is presented by
 an irreducible formula. -/
 theorem exists_isPresentedBy_irreducible_of_isFinitelyPresentable
-    {T : GeometricTheory.{max u₁ u₂ u} L} {C : Type (max u₁ u₂ u)} [SmallCategory C]
-    {J : GrothendieckTopology C} {U : CatStructure L (Sheaf J (Type (max u₁ u₂ u)))}
-    (hU : IsClassifyingSite T J U) (hT : IsOfPresheafType T) (M : SetModel T)
-    (hM : IsFinitelyPresentable.{max u₁ u₂ u} M) :
-    ∃ (n : ℕ) (φ : GeometricFormula.{max u₁ u₂ u} L n), φ.IsIrreducible U ∧ M.IsPresentedBy φ :=
+    {T : GeometricTheory.{u} L} {C : Type u} [SmallCategory C] {J : GrothendieckTopology C}
+    {U : CatStructure L (Sheaf J (Type u))} (hU : IsClassifyingSite T J U)
+    (hT : IsOfPresheafType T) (M : SetModel T)
+    (hM : IsFinitelyPresentable.{u} M) :
+    ∃ (n : ℕ) (φ : GeometricFormula.{u} L n), φ.IsIrreducible U ∧ M.IsPresentedBy φ :=
   sorry
 
 /-- **3.5.** The objects of the topos isomorphic to the interpretation of an irreducible
@@ -608,18 +605,18 @@ def irreducibleFormulaObjects {C : Type u} [SmallCategory C] {J : GrothendieckTo
 
 /-- **3.5.** For a theory of presheaf type, the irreducible formulae form a category equivalent to
 the opposite of the finitely presentable set-models. -/
-theorem nonempty_equivalence_irreducible_fpModel {T : GeometricTheory.{max u₁ u₂ u} L}
-    {C : Type (max u₁ u₂ u)} [SmallCategory C] {J : GrothendieckTopology C}
-    {U : CatStructure L (Sheaf J (Type (max u₁ u₂ u)))} (hU : IsClassifyingSite T J U)
+theorem nonempty_equivalence_irreducible_fpModel {T : GeometricTheory.{u} L}
+    {C : Type u} [SmallCategory C] {J : GrothendieckTopology C}
+    {U : CatStructure L (Sheaf J (Type u))} (hU : IsClassifyingSite T J U)
     (hT : IsOfPresheafType T) :
     Nonempty ((irreducibleFormulaObjects U).FullSubcategory ≌ (FPModel T)ᵒᵖ) :=
   sorry
 
 /-- **3.5.** For a theory of presheaf type, the category of irreducible formulae is idempotent
 complete. -/
-theorem isIdempotentComplete_irreducible {T : GeometricTheory.{max u₁ u₂ u} L}
-    {C : Type (max u₁ u₂ u)} [SmallCategory C] {J : GrothendieckTopology C}
-    {U : CatStructure L (Sheaf J (Type (max u₁ u₂ u)))} (hU : IsClassifyingSite T J U)
+theorem isIdempotentComplete_irreducible {T : GeometricTheory.{u} L}
+    {C : Type u} [SmallCategory C] {J : GrothendieckTopology C}
+    {U : CatStructure L (Sheaf J (Type u))} (hU : IsClassifyingSite T J U)
     (hT : IsOfPresheafType T) :
     IsIdempotentComplete (irreducibleFormulaObjects U).FullSubcategory :=
   sorry
@@ -638,13 +635,12 @@ def SetModel.IsHomogeneous {T : GeometricTheory.{u} L}
 /-- **3.6.** For a theory of presheaf type, every topology on the opposite of its finitely
 presentable models gives a quotient whose set-models are the homogeneous ones, classified by the
 induced topology on a small site equivalent to that opposite. -/
-theorem exists_quotient_isSetModel_iff_isHomogeneous
-    {T : GeometricTheory.{max u₁ u₂ u} L}
+theorem exists_quotient_isSetModel_iff_isHomogeneous {T : GeometricTheory.{u} L}
     (hT : IsOfPresheafType T) (J : GrothendieckTopology (FPModel T)ᵒᵖ) :
-    ∃ T' : GeometricTheory.{max u₁ u₂ u} L, T ⊆ T' ∧
+    ∃ T' : GeometricTheory.{u} L, T ⊆ T' ∧
       (∀ M : SetModel T, T'.IsSetModel M.carrier ↔ M.IsHomogeneous J) ∧
-      ∃ (C : Type (max u₁ u₂ u)) (_ : SmallCategory C) (e : C ≌ (FPModel T)ᵒᵖ)
-        (U : CatStructure L (Sheaf (e.functor.inducedTopology J) (Type (max u₁ u₂ u)))),
+      ∃ (C : Type u) (_ : SmallCategory C) (e : C ≌ (FPModel T)ᵒᵖ)
+        (U : CatStructure L (Sheaf (e.functor.inducedTopology J) (Type u))),
         IsClassifyingSite T' (e.functor.inducedTopology J) U :=
   sorry
 

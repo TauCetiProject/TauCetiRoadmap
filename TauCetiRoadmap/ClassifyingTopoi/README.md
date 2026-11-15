@@ -269,7 +269,8 @@ under pullback, for 1.4 and 2.2 (b)), 2.1 (`GeometricMorphism`: left exact left 
 Grothendieck topoi are the inverse images of geometric morphisms), 2.2
 (`GeometricMorphism.homEquivInverse`: 2-cells and transformations of inverse images), 2.4
 (`GeometricMorphism.ofContinuous`: inverse images of continuous maps, for the Examples of Layer 1),
-2.5 (`IsFiltering`, `nonempty_geometricMorphism_equiv_isFiltering`, Diaconescu's theorem), 4.1
+2.5 (`IsFiltering`, `nonempty_geometricMorphism_equiv_isFiltering`, Diaconescu's theorem, also
+for the site of definable objects of 2.4), 4.1
 (`Subtopos`) and 4.2 (the subtopoi of `Sheaf J (Type u)` are the `Sheaf J' (Type u)` for `J' ≥ J`),
 for 2.5; 6.1 (points of a topos, `nonempty_point_equivalence`), for the Examples of Layer 2; 6.5
 (connected nonempty projective objects, Roos's theorem
@@ -758,21 +759,42 @@ Route: (i) for `U'` gives `F` with `U' ≅ U.map F`, and symmetrically `G`; (ii)
 (Caramello 2017, the chapter « Lattices of theories », §2.1 in the numbering of arXiv:0905.0299v1).
 
 Prove also `IsClassifyingSite.exists_interp_eq_of_subobject`: for
-`L : FirstOrder.Language.{u₁, u₂}`, `T : GeometricTheory.{max u₁ u₂ u} L` and a classifying site
-`(C, J, U)` of `T` in `Type (max u₁ u₂ u)`, as in 2.3, every subobject of `U.pow n` is
-`U.interp ψ` for some `ψ : GeometricFormula.{max u₁ u₂ u} L n`. Prove also, as API, that the objects
-underlying the `U.interp φ` form a separating family of `Sheaf J (Type (max u₁ u₂ u))`, a small one
-up to isomorphism, since each `U.pow n` has a small set of subobjects (Caramello 2012a, proof of
-Lemma 3.2, p. 182, for the geometric syntactic site). Route: both facts are invariant under the
-equivalence of the first statement, which carries `U` to `U'` and so `U.interp φ` to
-`U'.interp φ` (1.4, API), so it is enough to prove them on the site of 2.3. There the sheafified
-representables are the `U.interp χ` with `χ` Horn, and they separate. A map from one of them into
-`U.pow n` is given on a cover by tuples of terms, so its image is the interpretation of a
-disjunction of `exs` of Horn formulas (the form of 2.2 (b)), and a subobject of `U.pow n` is the
-union of the images of the maps into it from sheafified representables.
-*Needs:* 1.1, 1.3, 1.4 (API: `CatStructure.Isomorphic` is an equivalence relation,
-`CatStructure.map` along the identity and along a composite); 2.1, 2.2 (b), 2.3; Mathlib
-`GrothendieckTopology`, `Sheaf`, `Equivalence`, `Subobject`.
+`L : FirstOrder.Language.{u₁, u₂}`, `T : GeometricTheory.{u} L` and a classifying site `(C, J, U)`
+of `T` with `C : Type u`, for every universe `u`, every subobject of `U.pow n` is `U.interp ψ` for
+some `ψ : GeometricFormula.{u} L n`. Prove also, as API, that the objects underlying the
+`U.interp φ` form a separating family of `Sheaf J (Type u)`, a small one up to isomorphism, since
+each `U.pow n` has a `u`-small set of subobjects, a subobject of a sheaf being determined by its
+sets of sections (Caramello 2012a, proof of Lemma 3.2, p. 182, for the geometric syntactic site).
+Disjunctions indexed by types in `Type u` suffice because these lattices are `u`-small: a subobject
+is the join of the definable subobjects below it, a `u`-small family. The site of 2.3 lies in
+`Type (max u₁ u₂ u)`, and `exists_equivalence` compares two sites in one universe only, so the route
+goes through the given site. Route: let `D` be the category of definable objects and maps of
+`(C, J, U)`: the objects are the pairs of `n` and a subobject `U.interp φ` of `U.pow n`, and the
+morphisms are the morphisms of `Sheaf J (Type u)` between their underlying objects whose graph, a
+subobject of the product, is some `U.interp θ` in the concatenated context (1.1, API: relabelling).
+It is equivalent to a small category in `Type u` (`Shrink`, `AsSmall`), since the subobject lattices
+are `u`-small; it has finite limits, computed in `Sheaf J (Type u)` by conjunctions, equations and
+`ex`, and the images of its maps and the `u`-small joins of its subobjects are definable, by `ex`
+and `iSup`. Let `K` be the topology on `D` of the families that are epimorphic in
+`Sheaf J (Type u)`. The inclusion of `D` is left exact and sends `K`-covers to epimorphic families,
+so it is a `K`-continuous filtering functor, the inverse image `g` of a geometric morphism
+(GrothendieckTopoi 2.5), and by induction on `φ` the structure `V` on `Sheaf K (Type u)` whose
+carrier is the sheafified representable of `(1, top)`, with the definable graphs of the symbols,
+interprets `φ` by the sheafified representable of `(n, U.interp φ)`; so `V` is a model of `T` and
+`V.map g` is isomorphic to `U`. By 2.1 (i) for the site `(D, K)`, `V` is isomorphic to `U.map f` for
+a left exact left adjoint `f`, so `U.map (f ⋙ g)` is isomorphic to `U`, and 2.1 (ii) for the site
+`(C, J)` itself makes `f ⋙ g` isomorphic to the identity, as in the route of the first statement.
+Every object `X` is therefore isomorphic to `g (f X)`, a `u`-small colimit of definable objects,
+which separate. For a subobject `S` of `U.pow n`, `f S` is a subobject of `f (U.pow n)`, the
+sheafified representable of `(n, top)`, hence the join of the images of maps given on `K`-covers by
+maps of `D`; applying `g`, `S` is, up to the isomorphism of structures from `U.map (f ⋙ g)` to `U`,
+which carries the interpretation of each formula to that of the same formula (1.4, API), the join of
+the images of definable maps, each the interpretation of an `ex` of a conjunction.
+*Needs:* 1.1 (API: the relabelling of formulas), 1.3, 1.4 (API: `CatStructure.Isomorphic` is an
+equivalence relation, `CatStructure.map` along the identity and along a composite, the
+interpretation in `M.map F` as the image under `F` of that in `M`); 2.1; GrothendieckTopoi 2.5;
+Mathlib `GrothendieckTopology`, `Sheaf`, `Equivalence`, `Subobject`, `Shrink`, `AsSmall`, `yoneda`,
+`presheafToSheaf`.
 
 **Checks.**
 
@@ -794,6 +816,17 @@ union of the images of the maps into it from sheafified representables.
   topos `Type u × Type u` has four subobjects of the terminal object, while every formula
   interprets in `U` as `⊥` or `⊤`: the atoms are equations between variables, interpreted as `⊤`
   on the powers of a terminal object, and `and`, `iSup` and `ex` of `⊥` and `⊤` give `⊥` or `⊤`.
+- A site below the universe of 2.3. Let `L : FirstOrder.Language.{1, 0}` have a constant for each
+  type in `Type`, and `T : GeometricTheory.{0} L` be `{⊢ ∃ x, ⊤, ⊤ ⊢ x = y}`. In every topos a model
+  has a carrier isomorphic to the terminal object, every constant being its unique point, so the
+  one-point site `(Discrete PUnit, ⊥)`, in `Type 0`, classifies `T` with `U` terminal, while 2.3
+  gives a site in `Type 1`. The statement holds there at `u = 0`: `U.pow n` is terminal in a topos
+  equivalent to `Type 0`, with subobjects `⊥` and `⊤`, the interpretations of `bot` and `top` in
+  `GeometricFormula.{0} L n`.
+- Where no site lies in `Type u`, the statement is vacuous: for the theory of 2.3, Checks, with
+  the elements of `Type u` as `0`-ary relation symbols, no classifying site has `C : Type u`; on
+  the site of 2.3 in `Type (u + 1)`, the subterminal object of the symbol `p` is the
+  interpretation of the atomic formula of `p` in context `0`.
 
 ### 2.5 Quotients and finer topologies
 
@@ -801,10 +834,10 @@ Prove `IsClassifyingSite.exists_quotient_topology`: if `(C, J, U)` classifies `T
 then some `J' ≥ J` makes `(C, J')` with the model
 `U.map (sheafToPresheaf J (Type u) ⋙ presheafToSheaf J' (Type u))` classify `T'`; and
 `IsClassifyingSite.exists_quotient_theory`: conversely, for every `J' ≥ J` some `T' ⊇ T` is
-classified by `(C, J')` with the same model. The converse is stated in the universe
-`max u₁ u₂ u` of 2.3: for a `J'`-covering sieve on `c`, cover the sheafified representable by
-objects `[[φ]]` (2.4, API) and take the sequents `φ ⊢ ψ`, `[[ψ]]` the pullback of the sieve's image
-(2.4). The functor `sheafToPresheaf J ⋙ presheafToSheaf J'`
+classified by `(C, J')` with the same model, in every universe, as 2.4 is. For the converse,
+for a `J'`-covering sieve on `c`, cover the sheafified representable by a `u`-small family of
+objects `[[φ]]` (2.4, API) and take the sequents `φ ⊢ ψ`, `[[ψ]]` the pullback of the sieve's image,
+a formula in `GeometricFormula.{u} L` (2.4). The functor `sheafToPresheaf J ⋙ presheafToSheaf J'`
 is the inverse image of the inclusion of the subtopos `Sheaf J' (Type u)` (GrothendieckTopoi 4.1
 and 4.2).
 This is the duality theorem between quotients of a geometric theory and subtopoi of its
@@ -827,6 +860,10 @@ Theorem 3.6), which is continuity for the topology `J'` generated by `J` and tho
   `PUnit`.
 - Layer 4: `commRingTheory ⊆ localRingTheory` and `⊥ ≤ zariskiTopology` on `FPRing.{u}ᵒᵖ` is an
   instance with both topologies given explicitly (4.3).
+- The converse below the universe of 2.3: for the site `(Discrete PUnit, ⊥)` in `Type 0` of the
+  theory over `L : FirstOrder.Language.{1, 0}` of 2.4, Checks, the topologies `J' ≥ ⊥` are `⊥` and
+  `⊤`, the second making the empty sieve on the point cover; they classify `T` and
+  `T ∪ {⊤ ⊢ bot}`, both in `GeometricTheory.{0} L`.
 
 ### 2.6 Morita equivalence
 
@@ -861,8 +898,8 @@ arXiv:0905.0299v1; Elephant, D3.1).
 ### Dependencies
 
 Layer 1; Mathlib; GrothendieckTopoi 1.1, 1.2, 1.4, 2.1, 2.2, 2.5, 4.1 and 4.2, and 6.1 for the
-Examples. Within the layer, 2.3–2.6 use 2.1, 2.3 uses 2.2, 2.4 uses 2.2 (b) and 2.3 for the
-definability statement, 2.5 uses 2.3 and 2.4, and 2.6 uses 2.4.
+Examples. Within the layer, 2.3–2.6 use 2.1, 2.3 uses 2.2, the definability statement of 2.4 uses
+GrothendieckTopoi 2.5 and no other target of the layer, 2.5 uses 2.3 and 2.4, and 2.6 uses 2.4.
 
 ## Layer 3: theories of presheaf type
 
@@ -999,11 +1036,10 @@ structures (Mathlib's `M →[L] N`), and `FPModel T`, its full subcategory of th
 `IsFinitelyPresentable.{u}`. A set-model `M` is *presented by* `φ` when there are `ξ : Fin n → M`
 with `φ.Realize ξ` such that for every model `N` and every `b` with `φ.Realize b` there is a unique
 homomorphism `f : M → N` with `f ∘ ξ = b` (`SetModel.IsPresentedBy`; Caramello 2017, « Lattices of
-theories », Definition 14.5 in the numbering of arXiv:0905.0299v1, with the requirement `φ.Realize
-ξ` that makes `ξ` the element corresponding to the identity). In (a), (c) and (d), which use the
-definability statement of 2.4, as do the converse of 2.5 and 3.6 (a), `L : FirstOrder.Language.{u₁,
-u₂}` and `T : GeometricTheory.{max u₁ u₂ u} L`, with sites in `Type (max u₁ u₂ u)`, as in 2.3
-(Convention 1). Prove, with `U` the generic model of a classifying site of `T`:
+theories », Definition 14.5 in the numbering of arXiv:0905.0299v1, with the requirement
+`φ.Realize ξ` that makes `ξ` the element corresponding to the identity). (a), (c) and (d) use the
+definability statement of 2.4, and are stated in every universe, as it is. Prove, with `U` the
+generic model of a classifying site of `T`:
 
 - (a) `isOfPresheafType_iff_forall_covered`: `T` is of presheaf type if and only if for every
   geometric formula `φ` in context `n` there are a family of `T`-irreducible formulae `ψᵢ`, indexed
@@ -1140,22 +1176,20 @@ homomorphism `y : c → M` there are `f : c → d` in `S` and `u : d → M` with
 its Definition 4.4 is the form in an arbitrary sheaf topos, with epimorphic families of objects of
 homomorphisms). Prove:
 
-- (a) `exists_quotient_isSetModel_iff_isHomogeneous`, stated for
-  `T : GeometricTheory.{max u₁ u₂ u} L` with `T'` and `C` in that universe, since its route uses
-  the converse of 2.5: for every topology `J` on `(FPModel T)ᵒᵖ` there is a quotient `T ⊆ T'` whose
-  set-models are exactly the
-  `J`-homogeneous set-models of `T`, and which is classified by `Sh((FPModel T)ᵒᵖ, J)`, that is, by
-  a small category `C` with an equivalence `e : C ≌ (FPModel T)ᵒᵖ` and the topology
-  `e.functor.inducedTopology J` (Caramello 2017, « Lattices of theories », Theorem 14.4; Caramello
-  2012b, Theorem 4.6). In every Grothendieck topos the models of `T'` are the `J`-homogeneous models
-  of `T`. Route: with `C` the site of 3.5 (a′), 2.5 (`IsClassifyingSite.exists_quotient_theory`)
-  gives `T'` with `(C, e.functor.inducedTopology J)` classifying it, with the sheafified generic
-  model. A model `M` of `T` corresponds by Diaconescu's theorem (GrothendieckTopoi 2.5) to a flat
-  functor `F_M` on `(FPModel T)ᵒᵖ`, with `F_M ≅ Hom(i(−), M)` (the "Yoneda representation",
-  Caramello 2012b, §4), and `M` is a model of `T'` exactly when `F_M` is `J`-continuous, that is,
-  sends every `J`-covering sieve to an epimorphic family. In `Set` this is the lifting condition: an
-  element `y` of `F_M(c) = Hom(c, M)` lies in the image of a sieve `S` exactly when it factors
-  through some `f ∈ S`.
+- (a) `exists_quotient_isSetModel_iff_isHomogeneous`: for every topology `J` on `(FPModel T)ᵒᵖ`
+  there is a quotient `T ⊆ T'` whose set-models are exactly the `J`-homogeneous set-models of `T`,
+  and which is classified by `Sh((FPModel T)ᵒᵖ, J)`, that is, by a small category `C` with an
+  equivalence `e : C ≌ (FPModel T)ᵒᵖ` and the topology `e.functor.inducedTopology J` (Caramello
+  2017, « Lattices of theories », Theorem 14.4; Caramello 2012b, Theorem 4.6). In every
+  Grothendieck topos the models of `T'` are the `J`-homogeneous models of `T`. Route: with `C` the
+  site of 3.5 (a′), 2.5 (`IsClassifyingSite.exists_quotient_theory`) gives `T'` with
+  `(C, e.functor.inducedTopology J)` classifying it, with the sheafified generic model. A model
+  `M` of `T` corresponds by Diaconescu's theorem (GrothendieckTopoi 2.5) to a flat functor `F_M`
+  on `(FPModel T)ᵒᵖ`, with `F_M ≅ Hom(i(−), M)` (the "Yoneda representation", Caramello 2012b,
+  §4), and `M` is a model of `T'` exactly when `F_M` is `J`-continuous, that is, sends every
+  `J`-covering sieve to an epimorphic family. In `Set` this is the lifting condition: an element
+  `y` of `F_M(c) = Hom(c, M)` lies in the image of a sieve `S` exactly when it factors through
+  some `f ∈ S`.
 - (b) `isSetModel_iff_isIrreducibleObject`: if `T'` is the quotient of (a), a finitely
   presentable set-model `M` of `T` is a model of `T'` if and only if `op M` is `J`-irreducible
   (GrothendieckTopoi 6.6), that is, the only `J`-covering sieve on `op M` is the maximal one.
@@ -1340,8 +1374,8 @@ Layers 1–3; Mathlib; Tau Ceti for 4.2. Within the layer, 4.2 uses 4.1 and 4.3 
 ToposTheoreticBridges (open pull request) consumes in its Layer 4: 1.1, 1.3 and 1.4
 (`GeometricTheory`, `CatStructure`, `CatStructure.IsModel`, `CatStructure.map`,
 `CatStructure.IsModel.map`); 2.1; 2.4 (`IsClassifyingSite.exists_equivalence`); 2.5
-(`IsClassifyingSite.exists_quotient_topology`, and `IsClassifyingSite.exists_quotient_theory`, which
-is stated in the universe `max u₁ u₂ u` of 2.3); and 2.6 (`MoritaEquivalent`). It cites the Checks
+(`IsClassifyingSite.exists_quotient_topology` and `IsClassifyingSite.exists_quotient_theory`, both
+stated in every universe); and 2.6 (`MoritaEquivalent`). It cites the Checks
 of 2.5, 3.2 and 4.1–4.3 in its Conventions, Checks and Examples. No roadmap on main consumes
 ClassifyingTopoi. GrothendieckTopoi and
 LocallyPresentableCategories name it, under their Downstream consumers, as a consumer of theirs, and
