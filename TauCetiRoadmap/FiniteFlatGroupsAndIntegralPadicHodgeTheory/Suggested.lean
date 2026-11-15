@@ -252,9 +252,13 @@ variable (p k)
 abbrev FLTorsion := ObjectProperty.FullSubcategory (fun M : FLModule p k => M.IsTorsionIn 0 1)
 
 /-- Fontaine–Laffaille, §9 (§R07.3.18): finite flat `p`-groups over `W(k)` are
-contravariantly classified by filtered modules of weights `[0,1]` when `p > 2`. -/
+contravariantly classified by filtered modules of weights `[0,1]` when `p > 2`; a group of
+order `p ^ n` goes to a module of `W(k)`-length `n`. -/
 theorem flFiniteFlatDictionary (hp : 2 < p) :
-    Nonempty ((PGroup p (WittVector p k))ᵒᵖ ≌ FLTorsion p k) := by
+    ∃ Mfun : (PGroup p (WittVector p k))ᵒᵖ ⥤ FLTorsion p k,
+      Mfun.IsEquivalence ∧
+      ∀ (G : PGroup p (WittVector p k)) (n : ℕ), rank G.obj = p ^ n →
+        Module.length (WittVector p k) (Mfun.obj (op G)).obj.M = n := by
   sorry
 
 end FontaineLaffaille
@@ -309,13 +313,20 @@ variable (p k)
 
 /-- Kisin, Theorem 2.3.5, and Kim, Corollary 4.3 (§§R07.4.22–R07.4.23): the
 finite-flat classification at every prime. The algebra presentation identifies `R`
-with the integers in the totally ramified extension defined by `E`. -/
+with the integers in the totally ramified extension defined by `E`. A group of order
+`p ^ n` goes to a module `𝔐` with `𝔐 / u𝔐` of length `n`. -/
 theorem finiteFlatClassification (E : Polynomial (WittVector p k)) (hmonic : E.Monic)
     (hdegree : 0 < E.natDegree)
     (hE : E.IsEisensteinAt (Ideal.span {(p : WittVector p k)}))
     (R : Type u) [CommRing R] [Algebra (WittVector p k) R]
     (eR : AdjoinRoot E ≃ₐ[WittVector p k] R) :
-    Nonempty ((PGroup p R)ᵒᵖ ≌ TorsionKisinModule p k E) := by
+    ∃ Mfun : (PGroup p R)ᵒᵖ ⥤ TorsionKisinModule p k E,
+      Mfun.IsEquivalence ∧
+      ∀ (G : PGroup p R) (n : ℕ), rank G.obj = p ^ n →
+        Module.length (Sfrak p k)
+          ((Mfun.obj (op G)).M ⧸
+            (Ideal.span {(PowerSeries.X : Sfrak p k)} •
+              (⊤ : Submodule (Sfrak p k) (Mfun.obj (op G)).M))) = n := by
   sorry
 
 end BreuilKisin
