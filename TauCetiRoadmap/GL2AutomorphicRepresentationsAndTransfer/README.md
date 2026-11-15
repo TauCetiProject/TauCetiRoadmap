@@ -45,9 +45,10 @@ Rankin–Selberg analysis and the general converse theorems. ArithmeticGaloisRep
 §2.7 **Global inputs** owns the common scalar adelic Schwartz–Bruhat, Fourier and Poisson theory.
 Its three subsections, Local-constant Gauss sum, Standard-test-function evaluations and
 Root-number product formula, supply arithmetic character constants, standard-function
-evaluations and the finite-sum root-number identity. It owns neither the Deligne–Langlands
-local constants of Weil and Weil–Deligne representations nor the Artin functional equation
-of finite-image representations; these are declared supplier gaps on it below.
+evaluations and the finite-sum root-number identity. ClassicalArithmeticCompletion §7.12b owns
+the Deligne–Langlands local constants of complex Weil representations with their λ-constants,
+and its §7.12c the completed finite-image Artin functions with their functional equation;
+R16.0/local-langlands extends those constants to Weil–Deligne representations.
 AutomorphicLFunctionsAndLocalFactors AL.1.6.2 supplies the canonical
 scalar Hecke completion and functional equation for every unitary idele-class character
 as the rank-one case of Godement–Jacquet.
@@ -288,30 +289,24 @@ non-abelian Weil representations nor an Artin functional equation. The compariso
 scalar standard integral with LFunctions' completed Hecke function is
 AutomorphicLFunctionsAndLocalFactors AL.1.5.3.
 
-What ArithmeticGaloisRepresentations must provide (gap:weil-local-constants): for a
-nonarchimedean local field `F` of characteristic zero, a nontrivial additive character ψ and a
-Haar measure dx, the Deligne–Langlands local constant `ε(V,ψ,dx) ∈ ℂˣ` of every
-finite-dimensional continuous complex representation `V` of `W_F`, extended to Weil–Deligne
-representations `(r,N)` by the factor `det(−Φ | V^{I_F}/(ker N)^{I_F})`, with its
-characterizing properties: existence and uniqueness, additivity in `V`, inductivity in degree
-zero along finite extensions `E/F` (with `ψ∘Tr_{E/F}` and the compatible measures),
-agreement with `tateLocalConstant` in rank one, the unramified-twist formula
-`ε(V⊗ω_s,ψ,dx) = ε(V,ψ,dx)·q^{−s(a(V)+n(ψ)·dim V)}` with `a(V)` the Artin conductor, and, for a
-continuous finite-image representation ρ of a number field, the global product
-`W(ρ) = ∏_v ε(ρ|W_{F_v},ψ_v,dx_v)` independent of the global ψ and self-dual measures
-(Deligne 1973, Theorem 4.1, §§5.6, 5.11 and 8.12). The λ-constants
-`λ(E/F,ψ) = ε(Ind_{W_E}^{W_F} 1,ψ)/ε(1_{W_E},ψ∘Tr)` of R17.4.17 are the degree-zero
-inductivity constants of this theorem.
-
-What ArithmeticGaloisRepresentations must provide (gap:artin-functional-equation): for a
-number field `F`, a continuous finite-image `ρ : G_F → GL_n(ℂ)` and every unitary Hecke
-character χ of `F`, the completed function `Λ(s,ρ⊗χ)`, formed from the Weil–Deligne local
-factors of §2.5 at finite places, Deligne's gamma factors at infinity and the conductor power
-`(|D_F|·N𝔣(ρ⊗χ))^{s/2}`, continues meromorphically to ℂ and satisfies
-`Λ(s,ρ⊗χ) = W(ρ⊗χ)·Λ(1−s,ρ^∨⊗χ⁻¹)` with `W(ρ⊗χ)` the product of the local constants of
-gap:weil-local-constants, obtained by Brauer induction (RepresentationTheory/InductionRestriction
-Layer 6) from the Hecke equation of AutomorphicLFunctionsAndLocalFactors AL.1.6.2 and the
-root-number product formula of §2.7.
+ClassicalArithmeticCompletion §7.12b supplies, for every finite extension `F/ℚ_p`, nontrivial
+additive character ψ and Haar measure dx, the unique constants `ε_F(V,ψ,dx)` of
+finite-dimensional smooth complex representations V of `W_F` (those with open inertia kernel),
+built on the reciprocity that sends a uniformizer to geometric Frobenius, as in the Conventions.
+It proves multiplicativity in exact sequences, inductivity for virtual representations of degree
+zero, agreement in dimension one with the Tate constant of its §7.12a (the same finite sum that
+defines ArithmeticGaloisRepresentations §2.7's `tateLocalConstant`), the unramified-twist law
+`ε_F(V⊗ν_W^t,ψ,dx) = q^{−t(a_F(V)+n(ψ)·dim V)}·ε_F(V,ψ,dx)` with `a_F` the Artin conductor, and
+the constants `λ(E/F,ψ) = ε_F(Ind_{W_E}^{W_F} 1,ψ)/ε_E(1,ψ∘Tr_{E/F})`, for which
+`ε_F(Ind V,ψ) = λ(E/F,ψ)^{dim V}·ε_E(V,ψ∘Tr_{E/F})`; it treats the archimedean places as well.
+Its §7.12c supplies, for a finite Galois extension L/F of number fields and a complex
+representation ρ of `Gal(L/F)`, the completed Artin function with its meromorphic continuation
+and the functional equation `Λ(s,ρ) = W(ρ)·Λ(1−s,ρ^∨)`, where `W(ρ)` is the product of the
+central constants of §7.12b at the dual of ρ and of the archimedean constants, unchanged when
+the global additive character is translated by an element of `F×`. A twist by a Hecke character
+`χ₀·|·|^{s₀}` with χ₀ of finite order follows from the case `ρ⊗χ₀` by the shift `s ↦ s+s₀` and
+the unramified-twist law. Neither section treats monodromy: R16.0/local-langlands defines the
+constant of a Weil–Deligne representation from that of §7.12b.
 
 AutomorphicLFunctionsAndLocalFactors AL.1.3.2–AL.1.3.3
 supplies local zeta integrals, analytic extension and the functional equation, identifying its epsilon
@@ -487,12 +482,22 @@ interfaces:
 - For generic π, the automorphic conductor `c(π)` is the least last-row fixed level,
   supplied by AutomorphicLFunctionsAndLocalFactors AL.2.2 (GL₂ newvectors).
 
+Define the local constant of a Weil–Deligne representation `(r,N)` of `W_F` on V, for a
+nontrivial additive character ψ and a Haar measure dx, as
+`ε((r,N),ψ,dx) = ε_F(r,ψ,dx)·det(−r(Φ) | V^{I_F}/(ker N)^{I_F})`, where `ε_F` is
+ClassicalArithmeticCompletion §7.12b's constant of the Weil representation r and Φ is a geometric
+Frobenius ([deligne73], §8.12, p.572). Since I_F is normal in W_F and `r(Φ)Nr(Φ)⁻¹ = q⁻¹N`,
+the operator r(Φ) preserves both spaces; two choices of Φ differ by an element of I_F, which
+acts trivially on `V^{I_F}`, so the determinant does not depend on the choice. The factor is 1
+when N=0. Write `ε(s,(r,N),ψ)` for the constant of `(r⊗ν_W^s,N)` with the self-dual measure
+of ψ.
+
 Prove `c(π) = a(rec π)` on generic classes and, separately, the compatibility of all
 character-twisted standard L- and ε-factors: for every quasi-character χ of `Fˣ`,
 `L(s,π⊗χ∘det) = L(s,rec π ⊗ χ)` and `ε(s,π⊗χ∘det,ψ) = ε(s,rec π ⊗ χ,ψ)`, where the left sides are
 AutomorphicLFunctionsAndLocalFactors AL.2.1.4's standard factors and AL.2's epsilon factor with
 the self-dual measure, and the right sides are the Weil–Deligne L-factor of
-ArithmeticGaloisRepresentations §2.5 and the local constant of gap:weil-local-constants.
+ArithmeticGaloisRepresentations §2.5 and the Weil–Deligne local constant defined above.
 R16.3.5 records the ε-exponent formula as a comparison theorem with the independently defined
 conductors. The correspondence includes one-dimensional nongeneric quotients and primitive dyadic
 supercuspidals; its inverse is SR.5.2's inverse transported by the same inversion. Prove
@@ -517,8 +522,8 @@ induced rank-three Weil parameters, and Ad of rank-two parameters, with their La
 quotients. Prove standard and GL₂×GL₃ pair-factor compatibility for these parameters: the
 Rankin–Selberg factors of AutomorphicLFunctionsAndLocalFactors AL.3.2.3 and AL.3.3.2 equal the
 tensor-product Weil–Deligne L-factors of ArithmeticGaloisRepresentations §2.5 and the local
-constants of gap:weil-local-constants, including monodromy and the degree-zero inductivity
-constants λ(E/F,ψ) of that gap, which govern induced parameters. AL.4.2.1 consumes this actual
+constants defined above, including monodromy, with the λ-constants λ(E/F,ψ) of
+ClassicalArithmeticCompletion §7.12b, which govern induced parameters. AL.4.2.1 consumes this actual
 compatibility; it is not its supplier. At infinity use AL.R.2 (archimedean GLₙ parameters).
 This target uses no inner-form input. Assigning parameters to quaternion division classes is a
 downstream application: R17.1/local-quaternionic-comparison composes
@@ -540,10 +545,13 @@ and pair factors equal the Weil–Deligne factors.
 **Checks.** The unramified generic principal series has its two nonzero Satake roots;
 Steinberg has trivial inertial type but rank-one N, conductor one and a degree-one L-factor;
 its semisimple Weil part with N set to zero instead has conductor zero, so the semisimple
-comparison alone does not determine the conductor. A primitive dyadic supercuspidal has
-N=0, Artin conductor three and Swan conductor one in the R16.3.3 example, and an irreducible
-Weil parameter that is not induced from a quadratic character. A rank-one Weil character with
-value 2 at arithmetic Frobenius has value 1/2 at geometric Frobenius, so SR.5.2's convention
+comparison alone does not determine the conductor. For unramified Steinberg and ψ of conductor
+O, r(Φ) acts on `V/ker N` by `q^{1/2}` (R16.3.2), so its parameter has
+`ε(s,(r,N),ψ) = −q^{1/2−s}`: the Weil part alone gives 1, and dropping the sign in
+`det(−r(Φ))` gives `+q^{1/2−s}`. A primitive dyadic supercuspidal has N=0, Artin conductor
+three and Swan conductor one in the R16.3.3 example, and an irreducible Weil parameter that is
+not induced from a quadratic character. A rank-one Weil character with value 2 at arithmetic
+Frobenius has value 1/2 at geometric Frobenius, so SR.5.2's convention
 attaches the character with χ(ϖ)=2 and this one the character with χ(ϖ)=1/2; transporting the
 Steinberg parameter between the conventions keeps rank-one N and conductor one. For a tamely
 ramified χ of order three, the two conventions attach to χ Weil characters whose restrictions to
@@ -554,7 +562,7 @@ fixed every inertial type would be wrong there.
 the correspondence rec and its inverse at n=2 and n=3); ClassFieldTheory Layer 9 (local Weil
 carrier); ArithmeticGaloisRepresentations §§2.4–2.5 (WD objects, duals and L-factors), §2.7
 (rank-one constants) and Layer 3 (ramification conductors and §3.3's WD correction);
-gap:weil-local-constants (local constants of Weil–Deligne parameters and their λ-constants);
+ClassicalArithmeticCompletion §7.12b (local constants of Weil representations and their λ-constants);
 AutomorphicLFunctionsAndLocalFactors AL.1.3.2–AL.1.3.3,
 AL.2.1.4 and AL.3's local
 integral/factor prefix (AL.3.2.1–AL.3.2.3 and
@@ -564,7 +572,7 @@ is proved here from the cited local converse arguments.
 *Source:* [bh06], §25.2, pp.157–159, §27, pp.170–176, §33.1, pp.212–213, §§44.3–44.6, pp.269–273,
 for the twisted-factor characterization and conductor comparisons; [henniart83], Theorem 2.10, pp.20–21, Proposition 3.2, p.30;
 [henniart02], Theorem 1.5, p.590 and §2, pp.592–596, for pair-factor characterization;
-[deligne73], §8.12, p.572, for the WD conductor; [fargues-scholze], Definition IX.0.4
+[deligne73], §8.12, p.572, for the WD conductor and local constant; [fargues-scholze], Definition IX.0.4
 and Theorem IX.0.5, pp.319–320, for the semisimple construction and its compatibilities.
 
 ### Examples
@@ -577,7 +585,7 @@ supercuspidal of R16.3.3 has `N = 0`, Artin conductor three and Swan conductor o
 ### Dependencies
 
 SmoothRepresentationsOfLocalGroups SR.0–SR.4 and SR.5.2; ClassFieldTheory Layer 9;
-ArithmeticGaloisRepresentations §§2.4–2.5, §2.7 and Layer 3, with gap:weil-local-constants;
+ArithmeticGaloisRepresentations §§2.4–2.5, §2.7 and Layer 3; ClassicalArithmeticCompletion §7.12b;
 AutomorphicLFunctionsAndLocalFactors AL.1–AL.3.
 
 ## Layer R16.1: Local and adelic groups
@@ -701,11 +709,11 @@ For a number field M, finitely generated subgroup E⊂M×, integer n>0 and finit
 
 Proof: The saturation E₀={y∈M×: yᵃ∈E for some a>0} lies in a finitely generated S-unit group. Hence E₀/E is a finite torsion group. If u kills this quotient, an nu-th root in M of x∈E has its u-th power in E. It therefore suffices to detect powers in M, with exponent nu.
 
-Reduce r to prime powers pᵉ and combine their moduli. For p=2 with i∉M, work first in M(i) with exponent `2^(e+k)`, where 2ᵏ is its largest 2-power root-of-unity order. If `y^(2^(e+k))∈M`, the least f with `y^(2^f)∈M` satisfies f≤k: quadratic conjugation gives a primitive `2^f`-th root as σ(y)/y. Thus `y^(2^k)∈M` gives the required root. This enlargement handles the dyadic exception.
+Factor the exponent nu into prime powers pᵉ and combine their moduli. For p=2 with i∉M, work first in M(i) with exponent `2^(e+k)`, where 2ᵏ is its largest 2-power root-of-unity order. If `y^(2^(e+k))∈M`, the least f with `y^(2^f)∈M` satisfies f≤k: quadratic conjugation gives a primitive `2^f`-th root as σ(y)/y. Thus `y^(2^k)∈M` gives the required root. This enlargement handles the dyadic exception.
 
 For odd p, or i∈M, descend pᵉ-th roots from `M(μ_{pᵉ})` one cyclotomic step at a time. The initial degree divides p−1, so the norm and Bézout give descent. In a degree-p step `M(μ_{pʰ})⊂M(μ_{pʰ⁺¹})`, write `σ(y)/y=ζ_{pᵉ}ᶠ` and σ(ζ)=ζᵍ. Since g≡1 mod pʰ and σᵖ(y)=y, pᵉ divides `f(1+g+⋯+g^(p−1))`. That sum is p modulo p²; for p=2 the hypothesis i∈M ensures h≥2. Hence `σ(y)/y∈μ_p`. Multiply y by a power of `ζ_{pʰ⁺¹}` to make it invariant without changing `y^(pᵉ)`.
 
-Over the cyclotomic field containing `μ_{pᵉ}`, the generator-root extension L is abelian of p-power degree. Choose a prime inert in each degree-p subextension, avoiding r, generator supports, ramification and rational primes below T. Their rational primes give a modulus. Congruence to 1 gives a local pᵉ-th root by Hensel. Here all roots have the same global root field, because `μ_{pᵉ}` is in the base. A nontrivial root field contains a degree-p subextension, contradicting the chosen inert prime. Cyclotomic descent and the dyadic enlargement return the root to M.
+Over the cyclotomic field containing `μ_{pᵉ}`, the generator-root extension L is abelian of p-power degree. Choose a prime inert in each degree-p subextension, avoiding the primes dividing nu, the supports of the generators, ramification and the rational primes below T. Their rational primes give a modulus. Congruence to 1 gives a local pᵉ-th root by Hensel. Here all roots have the same global root field, because `μ_{pᵉ}` is in the base. A nontrivial root field contains a degree-p subextension, contradicting the chosen inert prime. Cyclotomic descent and the dyadic enlargement return the root to M.
 
 *Needs:* GlobalNumberFields Layer 7 (`Modulus`, `IsCongrOne`); Mathlib `NumberField.Units` and finitely generated abelian-group subgroups; NumberFieldArithmetic Layer 5 (valuations); Chebotarev Layer 10; LocalFieldsRamification Layer 1 (Hensel). Tau Ceti `Set.unit_fg` and `Set.unit_fg_of_units` (`TauCeti.RingTheory.DedekindDomain.SInteger.Unit`) supply S-unit finite generation; the arbitrary-subgroup adapter and cyclotomic deductions are owned here.
 
@@ -2118,9 +2126,15 @@ Prove the following API.
   the double coset is a single coset because `K₀(𝔭_v^t)` normalizes `K₁(𝔭_v^t)`; `⟨d⟩⟨d′⟩=⟨dd′⟩`;
   and with δ chosen as `diag(1,d)` at v, `⟨d⟩` commutes with `U_{ϖ_v}` and with the operators at
   other places.
-- Good-place relation: for every submonoid of GL₂(F_v) containing `GL₂(𝒪_v)` it forms a Hecke pair
-  with `GL₂(𝒪_v)` (`gl2Integral`, `gl2Integral_isHeckeTriple`), and when it
-  contains the three double cosets, `T_v²=T_{v²}+(q_v+1)S_v` in its Hecke ring (`gl2_hecke_T_sq`).
+- Good-place relation: the local statements of this item and the next concern GL₂ of an arbitrary
+  nonarchimedean local field L, of characteristic zero or p, with valuation ring 𝒪, uniformizer ϖ
+  and residue field of cardinality q. They use only that `K=GL₂(𝒪)` is compact open and coset
+  counts over the residue field, and `gl2Integral_isHeckeTriple`, `gl2_hecke_T_sq` and
+  `gl2_hecke_inv` are stated at that generality; L=F_v is the case used here. Every submonoid
+  of GL₂(L) containing K forms a Hecke pair with K (`gl2Integral`, `gl2Integral_isHeckeTriple`),
+  and when it contains the three double cosets,
+  `[K diag(ϖ,1) K]² = [K diag(ϖ²,1) K] + (q+1)[K ϖ K]` in its Hecke ring (`gl2_hecke_T_sq`); at
+  L=F_v this is `T_v²=T_{v²}+(q_v+1)S_v`.
   The products of the `q_v+1` cosets of `diag(ϖ_v,1)` have determinant valuation two, so they lie
   in the double cosets of `diag(ϖ_v²,1)` and of `ϖ_v`; the first occurs with coefficient one, and
   Tau Ceti's degree homomorphism `LeftCosetModule.deg` turns the relation into
@@ -2130,7 +2144,7 @@ Prove the following API.
   `T_v²`, `T_{v²}` and `S_v` in the algebraic convention is `ν_alg(ϖ_v)²` times its normalized
   counterpart (R17.3.8a), and the relation holds in both conventions.
 - Inversion: for `Δ=D_f^×`, `[Uη_v⁻¹U]=S_v⁻¹T_v` and `[Uϖ_v⁻¹U]=S_v⁻¹` (`gl2_hecke_inv`, in any
-  submonoid of GL₂(F_v) containing these double cosets), because
+  submonoid of GL₂(L) containing these double cosets), because
   `η_v⁻¹=ϖ_v⁻¹·j_v⁻¹(diag(1,ϖ_v))` and `diag(1,ϖ_v)` lies in `GL₂(𝒪_v)diag(ϖ_v,1)GL₂(𝒪_v)`.
   With AutomorphicFormsOnReductiveGroups §7.4's `inverseActionHeckeEquiv`, this converts the
   opposite-ring action into the left weighted coset sums used in R17.3.9.
@@ -2156,7 +2170,9 @@ Prove the following API.
 
 **Checks.**
 - At `F_v=ℚ_3`, `T_v`, `T_{v²}`, `S_v` and `U_{ϖ_v}` have 4, 12, 1 and 3 right cosets; on constant
-  forms with trivial coefficients they act by these numbers, and 4²=12+4·1.
+  forms with trivial coefficients they act by these numbers, and 4²=12+4·1. The same double cosets
+  of GL₂ over `L=𝔽₃((t))`, whose residue field is also `𝔽₃`, have the same counts, so the local
+  relation is the same there.
 - The operator of all integral matrices of determinant valuation two is `T_{v²}+S_v`, for which the
   relation reads `T_v²=(T_{v²}+S_v)+q_vS_v`; mixing the two forms puts `q_v` in place of `q_v+1`.
 - At t=2, letting α run over all of `𝒪_v/𝔭_v²` instead of a residue system lists every coset of
@@ -2734,10 +2750,10 @@ Prove the following API.
 - Uniqueness: Isobaric uniqueness from good Satake powers.
 - Exception: Non-cuspidality iff π=σ₀⊗ν.
 
-For a cubic étale local algebra, the degree-zero inductivity constant of
-gap:weil-local-constants satisfies `λ(K_v/F_v,ψ_v)²=(d_K,−1)_v`, where d_K is the
-local discriminant square class. Over ℝ the value is −1 for `ℝ×ℂ` and +1 for `ℝ³`;
-these signs cannot be discarded locally even though their global product is one.
+For the cubic étale local algebra `K_v=K⊗F_v`, let `λ(K_v/F_v,ψ_v)` be the product over its
+field factors `K_w` of the constants `λ(K_w/F_v,ψ_v)` of ClassicalArithmeticCompletion §7.12b.
+It satisfies `λ(K_v/F_v,ψ_v)²=(d_K,−1)_v`, where d_K is the local discriminant square class.
+Over ℝ the value is −1 for `ℝ×ℂ` and +1 for `ℝ³`; these signs cannot be discarded locally even though their global product is one.
 
 **Cubic monomial input.** For a unitary Hecke character θ of K, construct `AI^3_{K/F}(θ)` with local parameter `⊕_{w|v}Ind_{W_{K_w}}^{W_{F_v}}θ_w`. If `Ind_{W_K}^{W_F}θ` is irreducible, JPSS Theorem14.2 gives a cusp with all local GL₁-twisted factors. The scalar Hecke completion verifies its hypothesis: θ·(χ∘N) cannot be a norm power. JPSS's p.255 classification says a reducible induction has a character summand μ and a monomial rank-two summand. Frobenius reciprocity forces θ=μ∘N, and the permutation decomposition Ind1=1⊕Std(S₃) identifies the output as μ⊞(μ⊗σ₀). Thus irreducibility is equivalent to not being a norm pullback. Henniart's rank-three uniqueness identifies JPSS's finite components with R16.0/local-langlands's LLC; infinity is JPSS's Langlands component.
 
@@ -2745,7 +2761,7 @@ Its API gives the local parameters, the completed L-function identity `Λ_F(s,AI
 
 **All-place comparison.** Form `Π=⊗′_w LLC_{K_w}(Res rec π_v)`, using R16.0/local-langlands at finite places and AutomorphicSpectralTheory §§0.48–0.49 at infinity. For unitary π they are generic: restriction preserves temperedness, Steinberg N and complementary exponents in (−1/2,1/2). They are spherical almost everywhere with centre `ω_π∘N` and right-half-plane Euler convergence from rank-two bounds and residue-degree powers.
 
-For unitary θ, WD tensor-induction and R16.0/local-langlands/AutomorphicLFunctionsAndLocalFactors AL.4 pair compatibility identify `Λ_K(s,Π⊗θ)` with `Λ_F(s,π×AI^3 θ)`, also for the duals. At v, `ε(s,π_v×AI^3 θ_v,ψ_v)=λ(K⊗F_v/F_v,ψ_v)^2∏_{w|v}ε(s,Π_w⊗θ_w,ψ_v∘Tr)`. Keep this factor locally; its global product is1. Apply the degree-zero inductivity and the global product formula of gap:weil-local-constants to Ind1, comparing `ζ_K` with `ζ_F`. The Weil–Deligne invariant-kernel factor `det(−Φ | V^{I}/(ker N)^{I})` of that gap extends the local comparison to N≠0.
+For unitary θ, WD tensor-induction and R16.0/local-langlands/AutomorphicLFunctionsAndLocalFactors AL.4 pair compatibility identify `Λ_K(s,Π⊗θ)` with `Λ_F(s,π×AI^3 θ)`, also for the duals. At v, `ε(s,π_v×AI^3 θ_v,ψ_v)=λ(K⊗F_v/F_v,ψ_v)^2∏_{w|v}ε(s,Π_w⊗θ_w,ψ_v∘Tr)`. Keep this factor locally; its global product is1. Apply the degree-zero inductivity of ClassicalArithmeticCompletion §7.12b and the root-number product of its §7.12c to Ind1, comparing `ζ_K` with `ζ_F`. The invariant-kernel factor `det(−Φ | V^{I}/(ker N)^{I})` of R16.0/local-langlands's Weil–Deligne constant extends the local comparison to N≠0.
 
 If `AI^3` θ is cuspidal, AutomorphicLFunctionsAndLocalFactors AL.3's unequal-rank Rankin–Selberg theory (AL.3.2–AL.3.6) gives entireness and the functional equation; AutomorphicSpectralTheory §3.6a supplies the strip bounds. In the norm case use Λ(s,π⊗μ)Λ(s,π×μσ₀); the first is entire and the second has no poles unless π is a norm twist of σ₀. AutomorphicSpectralTheory §3.6a controls both factors. Norm shifts treat every quasicharacter θ. Outside the exception all twists and duals are nice. Apply AutomorphicLFunctionsAndLocalFactors AL.3.9.5 at n=2 with no omitted places: it gives a cusp with every prescribed component. For π=σ₀⊗ν, restrict Std(S₃) to Gal(L/K)≅C₂ and construct the displayed two-character isobaric output directly. Isobaric strong multiplicity one gives uniqueness; restriction gives twist and centre. This all-place construction fixes every bad component before applying the full converse. Its good eigensystem agrees with that of the weak cubic base change, so isobaric strong multiplicity one identifies the two outputs and proves the local-parameter statement for that same weak output.
 
@@ -2763,7 +2779,7 @@ Subsidiary norm-phase calculation: For K=ℚ[t]/(t³−2), multiplication by a+b
 - For K=ℚ[t]/(t³−2): `M(0,1,0)³=2I` and `M(1,0,0)=I`; the (3,2) entry of M(a,b,c) is b, not 2b;
   N(0,1,0)=2, N(0,0,1)=4, N(1,1,1)=1; Q(1,1,1)=−3, Q(0,1,0)=0, Q(1,0,0)=3.
 
-*Needs:* R17.4/outside-s-gl2-converse for the weak cubic base change; R17.5/global-weil-group for global induction and Frobenius reciprocity in the cubic monomial input; R16.2/local-classification; R16.3–4; R16.5/full-gl2-converse; R17.4/quadratic-induction; R16.0/local-langlands; AutomorphicLFunctionsAndLocalFactors AL.R.2; ArithmeticLocallySymmetricSpaces ALS.F.6; ArithmeticGaloisRepresentations §2.7 (Local-constant Gauss sum, Standard-test-function evaluations and Root-number product formula: arithmetic character constants, standard-function evaluations and the finite-sum root-number identity); AutomorphicLFunctionsAndLocalFactors AL.1.6.2 (the scalar Hecke functional equation for every unitary character, extended by norm twists); AutomorphicLFunctionsAndLocalFactors AL.3.6.1, AL.3.6.2, AL.3.9.5 and AL.3.7.2; AutomorphicLFunctionsAndLocalFactors AL.4.2.1; AutomorphicSpectralTheory §3.6a; ArithmeticGaloisRepresentations §§2.4–2.5; gap:weil-local-constants (local constants of Weil–Deligne parameters, degree-zero inductivity, λ-constants and the global product formula); ClassFieldTheory Layers9,11. Use these parameter/factor carriers for tensor-induction and the lambda comparison.
+*Needs:* R17.4/outside-s-gl2-converse for the weak cubic base change; R17.5/global-weil-group for global induction and Frobenius reciprocity in the cubic monomial input; R16.2/local-classification; R16.3–4; R16.5/full-gl2-converse; R17.4/quadratic-induction; R16.0/local-langlands; AutomorphicLFunctionsAndLocalFactors AL.R.2; ArithmeticLocallySymmetricSpaces ALS.F.6; ArithmeticGaloisRepresentations §2.7 (Local-constant Gauss sum, Standard-test-function evaluations and Root-number product formula: arithmetic character constants, standard-function evaluations and the finite-sum root-number identity); AutomorphicLFunctionsAndLocalFactors AL.1.6.2 (the scalar Hecke functional equation for every unitary character, extended by norm twists); AutomorphicLFunctionsAndLocalFactors AL.3.6.1, AL.3.6.2, AL.3.9.5 and AL.3.7.2; AutomorphicLFunctionsAndLocalFactors AL.4.2.1; AutomorphicSpectralTheory §3.6a; ArithmeticGaloisRepresentations §§2.4–2.5; ClassicalArithmeticCompletion §§7.12b–7.12c (local constants of Weil representations, degree-zero inductivity, λ-constants and the root-number product of finite-image Artin functions); ClassFieldTheory Layers9,11. Use these parameter/factor carriers for tensor-induction and the lambda comparison.
 
 *Source:* [jpss79], Theorem14.2 pp.253–254 and monomial remark p.255; [henniart83], Theorem2.10 pp.20–21, Proposition3.2 p.30, §3.5 pp.33–34; [henniart02], Theorem1.5 p.590 and §2 pp.592–596; [deligne73], Proposition3.8 pp.530–531, Theorem4.1 p.535, (5.6.2) p.549, §5.11 p.551, §8.12 p.572; [converse], Theorem3.1 p.6 and Theorem3.3 p.9, application(iv) p.10; [cogdell-fields], Lecture9 §§3–6 pp.71–74. The construction is a deduction from these inputs. [mr00], Theorems1,6 pp.172,195 gives a different weak trace route; §4 pp.185–186 supplies the norm-phase calculation. [carayol86], §12.2.1–3 pp.457–458 states the conductor-comparison interface.
 
@@ -2773,7 +2789,7 @@ For A=diag(2,3), residue degree two gives diag(4,9) with trace 13 and determinan
 
 ### Dependencies
 
-R16.1–R16.5; R17.2; GlobalNumberFields Layers 8–9; ArithmeticGaloisRepresentations §2.7 (Global inputs); ClassFieldTheory Layers 9 and 11; AutomorphicLFunctionsAndLocalFactors AL.1–AL.4; AutomorphicSpectralTheory §§0.48–0.50; ArithmeticLocallySymmetricSpaces ALS.F.6; R16.0/local-langlands.
+R16.1–R16.5; R17.2; GlobalNumberFields Layers 8–9; ArithmeticGaloisRepresentations §2.7 (Global inputs); ClassicalArithmeticCompletion §§7.12b–7.12c; ClassFieldTheory Layers 9 and 11; AutomorphicLFunctionsAndLocalFactors AL.1–AL.4; AutomorphicSpectralTheory §§0.48–0.50; ArithmeticLocallySymmetricSpaces ALS.F.6; R16.0/local-langlands.
 
 ## Layer R17.5: Automorphic induction and solvable Artin representations
 
@@ -2842,7 +2858,7 @@ For a number field F and continuous finite-image `r:G_F→PGL₂(ℂ)`, construc
 
 Let `ρ:G_F→GL₂(ℂ)` be continuous, irreducible and finite-image, and π a unitary cuspidal GL₂ representation. Assume `Eig(π)` and `Eig(ρ^∨)` agree off a finite set in both coordinates, and its archimedean parameters agree with `ρ^∨`. Then `rec(π_v)≅(ρ|W_Fv)^∨` at every finite place, with all twisted L- and ε-factors and conductor exponents equal. The archimedean hypothesis is essential to the following isolation argument.
 
-Proof: Let `π_v^ρ` be the generic tempered local representation of `ρ^∨|W_Fv` (N=0), using R16.0/local-langlands. Under geometric reciprocity the central character of π corresponds to (detρ)⁻¹; its uniformizer value is detρ at arithmetic Frobenius: their quotient agrees with 1 almost everywhere, hence is 1 by the GL₁ Hecke pole criterion. Brauer induction (RepresentationTheory/InductionRestriction Layer 6) writes ρ as an integral combination of induced finite-order characters. ArithmeticGaloisRepresentations §2.7 (Local-constant Gauss sum, Standard-test-function evaluations and Root-number product formula) supplies the arithmetic character constants, standard-function evaluations and finite-sum root-number identity. AutomorphicLFunctionsAndLocalFactors AL.1.6.2 supplies the scalar Hecke equation for every unitary character, extended by norm twists. The completed meromorphic functional equation of every global character twist of ρ, with root number the product of the local constants, is the declared gap:artin-functional-equation, whose local constants are those of gap:weil-local-constants. Artin entireness is not used. Transport all character twists through the dual bridge: the geometric datum compared with `π_v⊗χ_v` is `ρ^∨|W_Fv⊗χ_v`. Its factors are the classical arithmetic Artin factors of ρ with the reciprocal scalar twist. Compare the resulting functional equation with the cuspidal equation of π.
+Proof: Let `π_v^ρ` be the generic tempered local representation of `ρ^∨|W_Fv` (N=0), using R16.0/local-langlands. Under geometric reciprocity the central character of π corresponds to (detρ)⁻¹; its uniformizer value is detρ at arithmetic Frobenius: their quotient agrees with 1 almost everywhere, hence is 1 by the GL₁ Hecke pole criterion. ArithmeticGaloisRepresentations §2.7 (Local-constant Gauss sum, Standard-test-function evaluations and Root-number product formula) supplies the arithmetic character constants, standard-function evaluations and finite-sum root-number identity. Every global twist used below is a finite-image Hecke character χ₀ times a power `|·|^{s₀}` of the norm (R16.1/full-local-character-prescription and its one-place quasi-character variant), so ρ⊗χ₀ has finite image, and ClassicalArithmeticCompletion §7.12c, applied to ρ⊗χ₀ and shifted by s₀, gives the completed meromorphic functional equation of the twist with root number the product of the local constants of its §7.12b. Artin entireness is not used. Transport all character twists through the dual bridge: the geometric datum compared with `π_v⊗χ_v` is `ρ^∨|W_Fv⊗χ_v`. Its factors are the classical arithmetic Artin factors of ρ with the reciprocal scalar twist. Compare the resulting functional equation with the cuspidal equation of π.
 
 Fix a bad finite place v and any unitary local `χ_v`. Prescribe `χ_v` there and sufficiently ramified characters at the other bad finite places. The full-local prescription and its one-place quasi-character variant produce a global χ; extra ramification at good places causes no difficulty because matching parameters give matching factors for every twist. At the other bad places, GL₂ stability gives identical γ-factors for `π_w` and `π_w^ρ`, since their central characters agree, and their twisted L-factors are 1. For supercuspidals stability follows by the finite type Gauss sum; for principal series and special representations it follows from the rank-one stability and product formulas supplied by AutomorphicLFunctionsAndLocalFactors AL.1 and ArithmeticGaloisRepresentations §2.7. Cancellation of the good, archimedean and other bad factors isolates `γ(s,π_v⊗χ_v,ψ_v)=γ(s,π_v^ρ⊗χ_v,ψ_v)`.
 
@@ -2850,7 +2866,7 @@ Recover each L-factor from this identity. For a unitary generic GL₂ representa
 
 **Checks.** Twist Std(S₃) for x³−2 by the cubic character modulo 7 with χ(3)=ζ₃. At p=31 the roots 4,7,20 show split Frobenius, so arithmetic eigenvalues are ζ₃,ζ₃ and geometric eigenvalues of ρ are ζ₃⁻¹,ζ₃⁻¹; rec π uses `ρ^∨`. Matching almost everywhere without matching infinity does not allow archimedean cancellation. A ramified auxiliary global character is harmless at a good place only after comparing the whole local parameter. L=1 does not distinguish two supercuspidals; twisted ε-factors and type recognition do.
 
-*Needs:* R17.5/global-weil-group; R16.1/full-local-character-prescription; R16.3; R16.0/local-langlands; R16.2/archimedean-classification (unitary GL₂ classification); AutomorphicLFunctionsAndLocalFactors AL.1 (Hecke pole criterion and normalization refinements), AutomorphicLFunctionsAndLocalFactors AL.2 (local/global functional equations); ArithmeticGaloisRepresentations §§2.4–2.5 (local parameters), §2.7 (Local-constant Gauss sum, Standard-test-function evaluations and Root-number product formula: arithmetic character constants, standard-function evaluations and the finite-sum root-number identity); gap:weil-local-constants (inductive local constants of Weil–Deligne parameters); gap:artin-functional-equation (the completed meromorphic functional equation of every character twist of a finite-image ρ); AutomorphicLFunctionsAndLocalFactors AL.1.6.2 (the scalar Hecke equation for every unitary character, extended by norm twists); Tau Ceti roadmap RepresentationTheory/InductionRestriction Layer 6.
+*Needs:* R17.5/global-weil-group; R16.1/full-local-character-prescription; R16.3; R16.0/local-langlands; R16.2/archimedean-classification (unitary GL₂ classification); AutomorphicLFunctionsAndLocalFactors AL.1 (Hecke pole criterion and normalization refinements), AutomorphicLFunctionsAndLocalFactors AL.2 (local/global functional equations); ArithmeticGaloisRepresentations §§2.4–2.5 (local parameters), §2.7 (Local-constant Gauss sum, Standard-test-function evaluations and Root-number product formula: arithmetic character constants, standard-function evaluations and the finite-sum root-number identity); ClassicalArithmeticCompletion §7.12b (inductive local constants of Weil representations) and §7.12c (the completed meromorphic functional equation of finite-image Artin functions, with root number the product of those constants).
 
 *Source:* [jl70], Theorem 12.2 and Lemma 12.5, pp. 208–213; [bh06], §23.8 pp. 146–147, §25.7 p. 162, §26.1 p. 162, §27.1–8 pp. 170–176. The cancellation and unitary pole separation are the derivation used here; the cited theorem does not remove the archimedean hypothesis.
 
@@ -3044,7 +3060,7 @@ The unramified quadratic character of Q₂× is trivial on units and torsion but
 
 ### Dependencies
 
-R16.1–R16.6; R17.4; ArithmeticGaloisRepresentations Layers 1–5; GlobalNumberFields Layers 7–10; ClassFieldTheory Layers 5–11; ArithmeticGaloisRepresentations §7.6; RepresentationTheory/InductionRestriction Layers 3–7; AlgebraicModularFormsAndSerreWeights R15.5–R15.6.
+R16.1–R16.6; R17.4; ArithmeticGaloisRepresentations Layers 1–5; ClassicalArithmeticCompletion §§7.12b–7.12c; GlobalNumberFields Layers 7–10; ClassFieldTheory Layers 5–11; ArithmeticGaloisRepresentations §7.6; RepresentationTheory/InductionRestriction Layers 3–7; AlgebraicModularFormsAndSerreWeights R15.5–R15.6.
 
 ## Layer R17.6: Characteristic two and residual modularity
 
@@ -3457,7 +3473,7 @@ R16.3 and R16.6; R17.4–R17.5; ArithmeticGaloisRepresentations Layers 1–5; Al
 ## References
 [jl70] H. Jacquet and R. P. Langlands, Automorphic forms on GL(2). LNM 114 (1970); locators cite the IAS retypeset edition (2026).
 [jl70-ubc] The same work as [jl70]; locators cite the pagination of the UBC Digital Mathematics Archive retypesetting.
-[casselman73]: https://lesesvre.perso.math.cnrs.fr/newforms-references/casselman.pdf "W. Casselman, On some results of Atkin and Lehner. Math. Ann. 201 (1973), 301–314."
+[casselman73]: https://doi.org/10.1007/BF01428197 "W. Casselman, On some results of Atkin and Lehner. Math. Ann. 201 (1973), 301–314."
 [nt26]: https://arxiv.org/pdf/2212.03595v2 "Newton–Thorne, Symmetric power functoriality for Hilbert modular forms. Annals203 (2026); v2 pagination."
 [dlb17]: https://arxiv.org/pdf/1509.00606v2 "Dospinescu–Le Bras, Revêtements du demi-plan de Drinfeld et correspondance de Langlands p-adique. Annals186 (2017); v2 pagination."
 [bz76]: https://www.math.tau.ac.il/~bernstei/Publication_list/publication_texts/B-Zel-RepsGL-Usp.pdf "Bernstein–Zelevinsky, Representations of GL(n,F), F nonarchimedean. Russian Math. Surveys31:3 (1976),1–68."
