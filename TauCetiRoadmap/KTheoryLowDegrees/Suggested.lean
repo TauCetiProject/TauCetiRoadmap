@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.Algebra.Category.ModuleCat.FiniteProjective.Monoidal
 import TauCeti.CategoryTheory.GrothendieckGroup.Monoidal.Basic
+import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Stable
 
 /-!
 # KTheoryLowDegrees: target signatures
@@ -16,20 +17,21 @@ Euclidean elementary generation and stable nonvanishing of the real circle rotat
 least three, its relative form at every ideal level, the congruence subgroup property
 with its failure for totally imaginary rings of integers, the rank-two counterparts
 under positive S-unit rank, and finite generation of the
-arithmetic SL₂ groups and their finite-index subgroups (Layer 11). The circle statement
-uses finite identity-padded matrices, so it does not require a stable K₁ carrier, and the
-congruence statements use only principal congruence subgroups, so they need no completion.
+arithmetic SL₂ groups and their finite-index subgroups (Layer 11). The elementary
+subgroups are Tau Ceti's `TauCeti.elementarySubgroup`, the circle statement uses Tau Ceti's
+`TauCeti.AlgebraicK1`, and the congruence statements use only principal congruence
+subgroups, so they need no completion.
 
 The other headline signatures need objects absent from these pins: projective λ/Adams
-operations, the γ-filtration and the determinant on K₀ (Layers 3–4); Milnor patching,
-stable and relative K₁ and Mennicke symbols (Layers 1, 7 and 9–10); the congruence
-completions, the Mennicke defect groups and the relative metaplectic classification of
-Layer 11; vector-bundle K₀ and coherent G₀ of schemes for the regular-curve
-classification (Layer 12); plus-construction K-spaces, Steinberg groups and their based
-boundary maps (Layer 13); and graded-line spectra, enhanced perfect-complex K-theory and
-Witt-supported K-theory for the determinant and finite-length filtration theorems
-(Layer 14). Their constructions are specified in the README and its supplier contracts;
-no signatures for those results are given here.
+operations, the γ-filtration and the determinant on K₀ (Layers 3–4); Milnor patching, K₁
+classes of projective automorphisms, relative K₁ and Mennicke symbols (Layers 1, 7 and
+9–10); the congruence completions, the Mennicke defect groups and the relative metaplectic
+classification of Layer 11; vector-bundle K₀ and coherent G₀ of schemes for the
+regular-curve classification (Layer 12); plus-construction K-spaces, Steinberg groups and
+their based boundary maps (Layer 13); and graded-line spectra, enhanced perfect-complex
+K-theory and Witt-supported K-theory for the determinant and finite-length filtration
+theorems (Layer 14). Their constructions are specified in the README and its supplier
+contracts; no signatures for those results are given here.
 -/
 
 namespace TauCetiRoadmap.KTheoryLowDegrees
@@ -120,18 +122,12 @@ theorem rank_pic_equiv_exists (R : Type u) [CommRing R]
 
 /-! ## Layer 8: elementary generation and circle nonvanishing -/
 
-/-- AlgebraicKTheory A1's elementary subgroup on the native finite GL carrier. -/
-abbrev finiteElementaryGroup (R : Type u) [Ring R] (n : ℕ) :
-    Subgroup (Matrix.GeneralLinearGroup (Fin n) R) :=
-  Subgroup.closure {g | ∃ (i j : Fin n) (a : R), i ≠ j ∧
-    (g : Matrix (Fin n) (Fin n) R) = 1 + Matrix.single i j a}
-
 /-- Over a Euclidean domain, every determinant-one matrix of every size is elementary;
 in size zero the group is trivial (Weibel Exercise III.1.5, p. 190). -/
 theorem euclidean_elementary_generation (R : Type u) [EuclideanDomain R]
     (n : ℕ) (g : Matrix.GeneralLinearGroup (Fin n) R)
     (hg : Matrix.GeneralLinearGroup.det g = 1) :
-    g ∈ finiteElementaryGroup R n := by
+    g ∈ TauCeti.elementarySubgroup (Fin n) R := by
   sorry
 
 /-- The coordinate ring of the real algebraic circle. -/
@@ -154,14 +150,12 @@ noncomputable def circleRotation : Matrix.SpecialLinearGroup (Fin 2) CircleRing 
   dsimp
   linear_combination hxy
 
-/-- The circle rotation remains non-elementary after every identity stabilization,
-so it gives a nonzero stable SK₁ class (Weibel III.1.5.4, p. 185). -/
-theorem circle_rotation_not_stably_elementary (n : ℕ) :
-    ¬ ∃ g ∈ finiteElementaryGroup CircleRing (2 + n),
-      g.val =
-        Matrix.reindex finSumFinEquiv finSumFinEquiv
-          (Matrix.fromBlocks (circleRotation : Matrix (Fin 2) (Fin 2) CircleRing)
-            0 0 (1 : Matrix (Fin n) (Fin n) CircleRing)) := by
+/-- The circle rotation has nontrivial class in algebraic K₁: no identity stabilization of
+it is elementary, and since its determinant is one it gives a nonzero SK₁ class
+(Weibel III.1.5.4, p. 185). -/
+theorem circle_rotation_not_stably_elementary :
+    TauCeti.AlgebraicK1.mk CircleRing 2
+      (Matrix.SpecialLinearGroup.toGL circleRotation) ≠ 1 := by
   sorry
 
 /-! ## Layer 11: arithmetic elementary generation, congruence subgroups and finite generation -/
@@ -179,7 +173,7 @@ that is, the normal closure in `E_n(A)` of the level-`I` elementary matrices. -/
 def relativeElementaryGroup (A : Type u) [CommRing A] (n : ℕ) (I : Ideal A) :
     Subgroup (Matrix.GeneralLinearGroup (Fin n) A) :=
   Subgroup.closure {g | ∃ (e t : Matrix.GeneralLinearGroup (Fin n) A) (i j : Fin n) (a : A),
-    e ∈ finiteElementaryGroup A n ∧ i ≠ j ∧ a ∈ I ∧
+    e ∈ TauCeti.elementarySubgroup (Fin n) A ∧ i ≠ j ∧ a ∈ I ∧
     (t : Matrix (Fin n) (Fin n) A) = 1 + Matrix.single i j a ∧ g = e * t * e⁻¹}
 
 /-- All determinant-one matrices over S-integers are elementary in ranks at least
@@ -190,7 +184,7 @@ theorem sinteger_elementary_generation (F : Type u) [Field F] [NumberField F]
     (n : ℕ) (hn : 3 ≤ n)
     (g : Matrix.GeneralLinearGroup (Fin n) (S.integer F))
     (hg : Matrix.GeneralLinearGroup.det g = 1) :
-    g ∈ finiteElementaryGroup (S.integer F) n := by
+    g ∈ TauCeti.elementarySubgroup (Fin n) (S.integer F) := by
   sorry
 
 /-- Over S-integers with `S` nonempty or `F` having a real place, every determinant-one
