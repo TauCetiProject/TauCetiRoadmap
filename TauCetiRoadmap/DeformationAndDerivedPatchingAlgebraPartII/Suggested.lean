@@ -183,9 +183,11 @@ variable {R : Type u} [CommRing R]
 /-- The carrier of Tau Ceti's affine blow-up algebra, with its ring structure fixed. -/
 def ChartRing (I : Ideal R) (a : R) : Type u := I.affineBlowup a (Localization.Away a)
 
+/-- The chart inherits the commutative ring structure of the affine blow-up subalgebra. -/
 instance (I : Ideal R) (a : R) : CommRing (ChartRing I a) :=
   (I.affineBlowup a (Localization.Away a)).toCommRing
 
+/-- The chart is an algebra over the base ring through the affine blow-up subalgebra. -/
 instance (I : Ideal R) (a : R) : Algebra R (ChartRing I a) :=
   (I.affineBlowup a (Localization.Away a)).algebra
 
@@ -267,6 +269,7 @@ def huckabaAlgebra (k : Type u) [Field k] : Subalgebra k (MvPolynomial (Fin 2) k
 def huckabaOrigin (k : Type u) [Field k] : Ideal (huckabaAlgebra k) :=
   RingHom.ker (MvPolynomial.constantCoeff.comp (huckabaAlgebra k).val.toRingHom)
 
+/-- The constant-coefficient map has quotient the field `k`, so its kernel is maximal. -/
 instance huckabaOrigin.isMaximal (k : Type u) [Field k] : (huckabaOrigin k).IsMaximal :=
   RingHom.ker_isMaximal_of_surjective _ fun c =>
     ⟨⟨MvPolynomial.C c, (huckabaAlgebra k).algebraMap_mem c⟩, by simp⟩
@@ -275,9 +278,11 @@ instance huckabaOrigin.isMaximal (k : Type u) [Field k] : (huckabaOrigin k).IsMa
 def huckabaLocalRing (k : Type u) [Field k] : Type u :=
   Localization.AtPrime (huckabaOrigin k)
 
+/-- Localization at the monomial maximal ideal inherits a commutative ring structure. -/
 instance (k : Type u) [Field k] : CommRing (huckabaLocalRing k) :=
   inferInstanceAs (CommRing (Localization.AtPrime (huckabaOrigin k)))
 
+/-- Localization at the monomial maximal ideal is a local ring. -/
 instance (k : Type u) [Field k] : IsLocalRing (huckabaLocalRing k) :=
   inferInstanceAs (IsLocalRing (Localization.AtPrime (huckabaOrigin k)))
 

@@ -32,8 +32,9 @@ Kawasaki's induction: the regular-element reduction, the principal and two-gener
 two local-cohomology claims, the depth bound at closed points, and the Cohen–Macaulay theorem in
 its CM-secant form and in a weaker form; it ends with a Cohen–Macaulay local ring whose blowing-up
 at the maximal ideal is not Cohen–Macaulay, which shows why the centre must be chosen this way.
-Everything is stated for finite modules (not only rings), with the zero module, empty sequences
-and unit ideals treated explicitly.
+The Cohen–Macaulay theorems cover finite modules, not only rings; the strict-transform and
+product-of-ideals comparisons allow arbitrary modules and ideals over any commutative ring.
+Zero modules, empty sequences and unit ideals are treated explicitly.
 
 The main source is Česnavičius, *Macaulayfication of Noetherian schemes*, §3, cited in the
 numbering of arXiv:1810.04493v2 (pages are the printed pages of that version). The `p`-standard
@@ -79,12 +80,17 @@ It leaves to other roadmaps, and imports:
   annihilators, support and support dimension of modules, depth `IsLocalRing.depth`, regular and
   weakly regular sequences, the polynomial module and the Rees algebra, localizations of rings and
   modules, `Proj` of a graded ring, sheaves of modules on schemes and the affine `tilde`
-  construction, Krull dimension.
-- **Tau Ceti**: Cohen–Macaulay modules `Module.IsCohenMacaulay`, the grading
+  construction, Krull dimension and the flat height formula
+  `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown`, with going-down supplied by
+  `Algebra.HasGoingDown.of_flat`.
+- **Tau Ceti**: Cohen–Macaulay modules `Module.IsCohenMacaulay`, parameter regularity
+  `Module.IsCohenMacaulay.isSMulRegular_of_supportDim_quotSMulTop_lt`, injectivity of ideal-power
+  torsion `Ideal.injective_primaryComponent`, the grading
   `reesAlgebra.grade I` of the Rees algebra, the affine blow-up algebra `Ideal.affineBlowup I a S`
   with its membership criterion and universal property, and the chart open immersions
   `TauCeti.AlgebraicGeometry.affineBlowupι` into `Proj (reesAlgebra.grade I)` with their covering
-  and base compatibility. The blow-up scheme of this roadmap is `Proj (reesAlgebra.grade I)`.
+  and base compatibility; the blow-up of an arbitrary quasi-coherent ideal and its exceptional
+  Cartier divisor. Over an affine base the blow-up is `Proj (reesAlgebra.grade I)`.
 - **TauCetiRoadmap StableReduction, Layer 4**: the blowing-up of a quasi-coherent ideal as a
   relative `Proj`, its universal property, properness, behaviour away from the centre, the
   exceptional divisor, strict transforms of closed subschemes and the affine chart description.
@@ -184,8 +190,15 @@ is introduced.
   `Algebra.adjoin`.
 - Geometry: `AlgebraicGeometry.Proj`, `AlgebraicGeometry.projIsoSpec`,
   `AlgebraicGeometry.Scheme.Modules` with `Scheme.Modules.pullback` and `Scheme.Modules.presheaf`,
-  `AlgebraicGeometry.tilde` and `tilde.map`, `PrimeSpectrum.zeroLocus`.
+  `AlgebraicGeometry.tilde` and `tilde.map`, `PrimeSpectrum.zeroLocus`;
+  `AlgebraicGeometry.Scheme.OpenCover.glueMorphisms` in `Mathlib.AlgebraicGeometry.Gluing`.
 - Dimension: `ringKrullDim`, `topologicalKrullDim`, `Polynomial.ringKrullDim_of_isNoetherianRing`.
+  `Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown` in
+  `Mathlib.RingTheory.Ideal.KrullsHeightTheorem` gives, for Noetherian rings `A, B`, an
+  `A`-algebra `B` satisfying going-down and primes `q` over `p`,
+  `ht(q) = ht(p) + ht(q/pB)` (Stacks 00ON). `Algebra.HasGoingDown.of_flat` in
+  `Mathlib.RingTheory.Ideal.GoingDown` supplies going-down when `B` is flat over `A`.
+  K3.6 applies these to localized polynomial extensions.
 - Depth: `IsLocalRing.depth` in `Mathlib.RingTheory.Depth.Basic`, the least `n` with
   `Ext^n(κ, M) ≠ 0`, equal to `⊤` on the zero module (`IsLocalRing.depth_eq_top_of_subsingleton`).
 - Injectivity: `CategoryTheory.Injective` in `ModuleCat R`.
@@ -198,6 +211,14 @@ existing carrier.
 
 - `TauCeti.RingTheory.CohenMacaulay.Basic`: `Module.IsCohenMacaulay R M` for a module `M` over a
   local ring `R`: `M` is zero or its depth equals its support dimension;
+- `TauCeti.RingTheory.CohenMacaulay.RegularSequence`:
+  `Module.IsCohenMacaulay.isSMulRegular_of_supportDim_quotSMulTop_lt` makes `x` regular on
+  a finite Cohen–Macaulay module `M` over a Noetherian local ring whenever
+  `dim Supp(M/xM) < dim Supp M`. K0.5–K0.6 and K4 use this on successive secant quotients;
+- `TauCeti.Algebra.Module.Injective.Noetherian`: `Ideal.injective_primaryComponent` gives
+  injectivity of `I.primaryComponent E = Γ_I(E)` for every ideal `I` in a Noetherian ring
+  and every injective module `E`. Consequently `H^p_J(Γ_I(E)) = 0` for every ideal `J`
+  and `p > 0`; K0.1 uses this acyclicity in the composite-support spectral sequence;
 - `TauCeti.RingTheory.ReesAlgebra.Grading`: `reesAlgebra.grade I` (the degree-`n` piece `Iⁿ tⁿ`),
   `reesAlgebra.gradedMonoid`,
   `reesAlgebra.isInternal_grade`, `reesAlgebra.gradeZeroEquiv`, `reesAlgebra.monomialDegreeOne`
@@ -216,7 +237,12 @@ existing carrier.
   `a ∈ I`, the open immersion `Spec R[I/a] → Proj (grade I)` onto
   `D₊(a t)`), `opensRange_affineBlowupι`, `iSup_opensRange_affineBlowupι` (the charts of a family
   generating `I` cover the blow-up) and `affineBlowupι_toSpecZero` (compatibility with the map to
-  `Spec R`).
+  `Spec R`);
+- `TauCeti.AlgebraicGeometry.Blowup.IdealSheaf`: `AlgebraicGeometry.Scheme.IdealSheafData.blowup`
+  and `AlgebraicGeometry.Scheme.IdealSheafData.blowupToBase`, with affine charts, for arbitrary
+  quasi-coherent ideals. `TauCeti.AlgebraicGeometry.Blowup.ExceptionalDivisor` supplies
+  `AlgebraicGeometry.Scheme.IdealSheafData.isEffectiveCartier_comap_blowupToBase` without a
+  finite-type hypothesis. K3.4 uses this exceptional divisor.
 
 `Suggested.lean` imports `TauCeti.RingTheory.CohenMacaulay.Basic` and
 `TauCeti.RingTheory.Ideal.AffineBlowup`, and uses `ChartRing I a` as a type synonym for the
@@ -268,7 +294,7 @@ are not imported as Lean carriers.
   construction in the modification case.
 - **SchemeAndStackFoundations, §0.3**: `relativeProj_affine_iso` and
   `relativeProj_eq_stableReduction` identify StableReduction's blow-up of `Spec R` along a
-  finitely generated ideal with `Proj (reesAlgebra.grade I)` over `Spec R`. Used in K3.5 and K4.2.
+  finitely generated ideal with `Proj (reesAlgebra.grade I)` over `Spec R`. Used in K4.2.
 - **AdicSpacesPartIII, §F0.9** (*projective-bundles-ample-serre*, the twisted graded module
   sheaf): for an ℕ-graded commutative ring `G` and a ℤ-graded module `ℳ` with graded scalar
   multiplication, `AlgebraicGeometry.gradedTwistSections G ℳ n U` (functions on `U` valued in the
@@ -339,20 +365,6 @@ elements and with respect to a maximal ideal at the same time. Flat base change 
 derived-torsion comparison for Mathlib's `localCohomology` come from SchemeAndStackFoundations §2.7. The Čech comparison, composite supports,
 restriction of scalars and filtered colimits are targets of this layer.
 
-**Supplier lemma: injective ideal-power torsion.** For a Noetherian ring `A`, an ideal `I ⊆ A`
-and an injective `A`-module `E`, the submodule `Γ_I(E) = {e ∈ E | Iⁿe = 0 for some n ≥ 0}`
-is injective as an `A`-module (Stacks 08XW). Thus for every ideal `J ⊆ A` and `p > 0`,
-`H^p_J(Γ_I(E)) = 0`: `Γ_I` sends injectives to `Γ_J`-acyclics. The carrier is Mathlib's
-`I.primaryComponent E`; the pinned Tau Ceti supplies `Ideal.injective_primaryComponent` in
-`TauCeti.Algebra.Module.Injective.Noetherian`.
-
-**Checks.**
-
-- For `I = (0)`, `Γ_I(E) = E`, so injectivity is retained for every injective `E`.
-- For `I = A`, `Γ_I(E) = 0`, which is injective and has zero higher local cohomology for every `J`.
-- For `A = k⟦x⟧`, `I = (x)` and the injective module `E = k((x))/A`, `Γ_I(E) = E` is injective
-  although no fixed power of `x` kills it; `H^p_J(E) = 0` for every ideal `J` and `p > 0`.
-
 **Čech computation.** For a Noetherian ring `A`, a finite list `f₁, …, fₙ` generating an ideal `J`
 and any `A`-module `N`, prove that `H^j_J(N)` is naturally the `j`-th cohomology
 of the extended alternating complex `N → ∏ N_{fᵢ} → ∏ N_{fᵢfⱼ} → ⋯`, with `N` in degree zero.
@@ -362,7 +374,7 @@ its construction requires no unit-ideal hypothesis. Identify its tensor form wit
 (Stacks, Lemma 47.9.1, tag 0A6R, and Lemma 47.10.1, tag 0955.) *Needs:*
 SchemeAndStackFoundations §2.7 `localCohomology_colimit_ext_comparison`;
 AdicSpacesPartII, localization-cech-complex-exact (the complex);
-K0.1's injective ideal-power torsion supplier lemma (Stacks 08XW).
+Tau Ceti `Ideal.injective_primaryComponent` (Exact supplier contracts).
 
 **Checks.**
 
@@ -388,7 +400,7 @@ In the depth induction `(I,J)` is `((r_i,r_s),𝔪')`, `((r_b),𝔪'')` or `(�
 with `RΓ_{V(I)}`); `N` arbitrary. (Stacks, Lemma 47.9.6, tag 0BJC, with Lemma 47.10.1, tag 0955, and
 Derived Categories, Lemma 13.22.2, tag 015N.) *Needs:* Mathlib `localCohomology`;
 SchemeAndStackFoundations §2.7 (derived torsion); the Čech computation above;
-K0.1's injective ideal-power torsion supplier lemma (Stacks 08XW), giving the
+Tau Ceti `Ideal.injective_primaryComponent` (Exact supplier contracts), giving the
 `Γ_J`-acyclicity of `Γ_I(E)` for injective `E`.
 
 **Checks.**
@@ -707,19 +719,17 @@ Mathlib's double complexes and `SpectralObject`; DGFloer Layer 1, item 3, **The 
 of a filtered complex** (convergence and total-cohomology filtration);
 `Ideal.iInf_pow_smul_eq_bot_of_isLocalRing`. This proof requires no dualizing complex.
 
-The CM API is built after this bound:
-
-- Regularity of parameters on Cohen–Macaulay modules: for nonzero finite Cohen–Macaulay `N`, if `x ∈ 𝔪` and
-  `dim Supp(N/xN) + 1 = dim Supp N`, then `x` is `N`-regular. Apply the bound to `[x]` with
-  `a(N) = R`.
-- CM-secancy on Cohen–Macaulay modules: every secant list on a finite Cohen–Macaulay module is
-  CM-secant. Apply the preceding regularity statement at each secant step and the regular-quotient
-  CM criterion of SchemeAndStackFoundations §0.17; all intermediate annihilator products are `R`.
+**CM-secancy on Cohen–Macaulay modules.** Every secant list on a finite Cohen–Macaulay module
+over a Noetherian local ring is CM-secant. Apply
+`Module.IsCohenMacaulay.isSMulRegular_of_supportDim_quotSMulTop_lt` at each secant step and
+SchemeAndStackFoundations §0.17's regular-quotient CM criterion; all intermediate annihilator
+products are `R`. (Česnavičius, Remark 3.3, p. 10.) *Needs:* K0.2–K0.4;
+Tau Ceti parameter regularity (Exact supplier contracts); SchemeAndStackFoundations §0.17.
 
 **Checks.**
 
 - For Cohen–Macaulay `M` the bound says the last element is regular on the penultimate quotient; for
-  `M = ℚ⟦X⟧` and `[X]`, `X` is regular on `ℚ⟦X⟧`.
+  `M = ℚ⟦X⟧` and `[X]`, the imported parameter-regularity theorem gives `ker(X) = 0`.
 - For `R = M = k⟦x, y⟧/(x², xy)` and the secant list `[y]`: the `y`-torsion of `R` is `k·x̄`, and
   `a(R) = 𝔪` kills it; the bound is sharp in that `a(R) ≠ R`.
 - For `M = R = ℚ⟦X⟧` and `[X²]`, the `X²`-torsion is zero and the terminal quotient is the
@@ -733,10 +743,13 @@ zero-dimensional terminal quotient. `Suggested.lean` declares `isCMSecant_exists
 
 *Proof sketch.* The terminal quotient `N = M/(r₁, …, rₛ)M` is nonzero (Nakayama) and Cohen–Macaulay;
 choose a system of parameters `q₁, …, q_e` of `N` by the secant parameter-completion theorem (K0.3).
-It is regular on `N` by K0.5, each `N/(q₁, …, q_{k})N` is again Cohen–Macaulay, so every
+It is regular on `N` by the imported parameter-regularity theorem, each `N/(q₁, …, q_{k})N` is
+again Cohen–Macaulay, so every
 annihilator product along the extension is `R` (the unit-product criterion), and concatenation
 preserves secancy (K0.3). (Česnavičius, Remark 3.4, p. 10.) *Needs:* K0.2–K0.5, including
-K0.3's secant parameter-completion theorem; SchemeAndStackFoundations §0.17.
+K0.3's secant parameter-completion theorem;
+Tau Ceti `Module.IsCohenMacaulay.isSMulRegular_of_supportDim_quotSMulTop_lt`;
+SchemeAndStackFoundations §0.17.
 
 **Checks.**
 
@@ -1669,8 +1682,9 @@ The API:
 
 *Proof sketch.* Define the subsheaf of sections supported on `E` chartwise as the `a`-power torsion, which
 is compatible with restriction to smaller charts, and take the quotient. (Stacks, Definition 31.34.1,
-tag 080D, and Lemma 31.34.2, tag 080E.) *Needs:* TauCetiRoadmap StableReduction Layer 4 (blowing-up,
-exceptional divisor); Mathlib `Scheme.Modules.pullback`; Tau Ceti `affineBlowupι`.
+tag 080D, and Lemma 31.34.2, tag 080E.) *Needs:* Tau Ceti arbitrary-ideal blow-ups and
+`AlgebraicGeometry.Scheme.IdealSheafData.isEffectiveCartier_comap_blowupToBase`
+(Exact supplier contracts); Mathlib `Scheme.Modules.pullback`; Tau Ceti `affineBlowupι`.
 
 **Checks.**
 
@@ -1680,7 +1694,8 @@ exceptional divisor); Mathlib `Scheme.Modules.pullback`; Tau Ceti `affineBlowup�
 - For `I = (a)` with `a` regular on `R` and on `N`, the strict transform of `tilde N` is `tilde N` (no
   `a`-power torsion).
 
-**Comparison with the strict transform.** For `R` Noetherian, `I` an ideal and `M` finite, the
+**Comparison with the strict transform.** For a commutative ring `R`, an ideal `I` and any
+`R`-module `M`, the
 surjection from the pullback `b*(tilde M)` along the blow-down `b : Bl_I(Spec R) → Spec R` onto
 `Bl_I(M)`, which on the chart of `a` is `R[I/a] ⊗ M → M_(a)`, has kernel the sections supported on the
 exceptional divisor; hence `Bl_I(M)` is the strict transform of `tilde M` along `b`.
@@ -1688,28 +1703,31 @@ exceptional divisor; hence `Bl_I(M)` is the strict transform of `tilde M` along 
 *Proof sketch.* Chartwise, by the tensor-to-chart comparison: the kernel is the `a`-power torsion and
 the exceptional divisor is `V(a)` on the chart; the chart identifications glue because both sides are
 quotients of the same pullback. (Česnavičius, §3.13, p. 14; Stacks, Definition 31.34.1, tag 080D, and
-Lemma 31.34.2, tag 080E.) *Needs:* K3.2, K3.3, the previous target; TauCetiRoadmap StableReduction
-Layer 4.
+Lemma 31.34.2, tag 080E.) *Needs:* K3.2, K3.3, the previous target; Tau Ceti `affineBlowupι`.
 
 **Checks.**
 
 - For `R = ℤ`, `I = (2)`, `M = ℤ/2` both sides are zero, while the pullback is not.
 - Off the centre (`I = R`) the exceptional divisor is empty and the strict transform is the pullback.
 - For `R=M=k⟦x,y⟧/(xy)` and `I=(x)`, both constructions remove `(y)` and give `k⟦x⟧`.
+- For `R=k[x₁,x₂,…]`, `I=(x₁)` and `M=⊕_{n≥0} R/(x₁)`, every positive Rees-module
+  degree is zero, so `Bl_I(M)=0`; the pullback is entirely `x₁`-torsion, so its strict
+  transform is also zero. Neither Noetherianity nor finiteness of `M` is needed.
 
 ### K3.5 Blowing up a product of ideals
 
-**Product of ideals, schemes.** Let `I, J` be finitely generated ideals of `R`, `b : Bl_I(Spec R) → Spec R` the
+**Product of ideals, schemes.** Let `I,J` be ideals of a commutative ring `R`, and let
+`b : Bl_I(Spec R) → Spec R` be the
 blowing-up and `b' : Bl_{J𝒪}(Bl_I(Spec R)) → Bl_I(Spec R)` the blowing-up of the pulled-back ideal
 `J𝒪`. Then `b ∘ b'` is canonically isomorphic, over `Spec R`, to the blowing-up of `IJ`. On charts: for
 `a ∈ I` and `c ∈ J`, the chart ring of `IJ` at `ac` is the chart ring of `J R[I/a]` at `c`.
 
-*Proof sketch.* Both are final among morphisms to `Spec R` pulling `I` and `J` (equivalently `IJ`) back to
-invertible ideals; on charts, a fraction `i j/(a c)` is `(i/a)(j/c)`, and conversely `i/a = (i c)/(a c)`
-and `j/c = (a j)/(a c)`. (Stacks, Lemma 31.33.12, tag 080A; Lemma 31.33.2, tag 0804, for the chart
-covering.) *Needs:* TauCetiRoadmap StableReduction Layer 4 (universal property);
-SchemeAndStackFoundations §0.3 (`relativeProj_affine_iso`, `relativeProj_eq_stableReduction`); Tau Ceti
-`Ideal.affineBlowup`, `affineBlowupι`.
+*Proof sketch.* Compare the affine charts inside `R[1/(ac)]`: a fraction `i j/(a c)` is
+`(i/a)(j/c)`, and conversely `i/a = (i c)/(a c)` and `j/c = (a j)/(a c)`.
+These identifications agree on overlaps and glue; all `ac`, with `a ∈ I` and `c ∈ J`,
+generate `IJ` and hence give a chart cover. (Stacks, Lemma 31.33.12, tag 080A;
+Lemma 31.33.2, tag 0804.) *Needs:* Tau Ceti `Ideal.affineBlowup`, `affineBlowupι`
+and their chart covering; Mathlib `AlgebraicGeometry.Scheme.OpenCover.glueMorphisms`.
 
 **Checks.**
 
@@ -1718,10 +1736,13 @@ SchemeAndStackFoundations §0.3 (`relativeProj_affine_iso`, `relativeProj_eq_sta
   its `x²`-chart has ring `R[y/x]`.
 - For `R=k⟦x,y⟧/(xy)`, `I=(x)` and `J=(y)`, the product is zero and the blow-up is empty;
   on the first blow-up `Spec k⟦x⟧`, the pulled-back `J` is also zero.
+- For `R=k[y,x₁,x₂,…]`, `I=(x₁,x₂,…)` and `J=(y)`, the product's `yx₁`-chart
+  and the iterated `x₁,y`-chart both have ring `R[x₂/x₁,x₃/x₁,…]`, although `I`
+  is not finitely generated.
 
 For `I=R` the product identity specializes to `Bl_J(M)=Bl_J(M)`.
 
-**Product of ideals, modules.** Let `I,J` be finitely generated ideals of `R`, `a ∈ I`, `c ∈ J`
+**Product of ideals, modules.** Let `I,J` be ideals of a commutative ring `R`, `a ∈ I`, `c ∈ J`
 and `M` any `R`-module. Under the preceding chart-ring identification,
 `chartModule (I*J) (a*c) M` is the chart module at the image of `c` of the `R[I/a]`-module
 `chartModule I a M`, for the ideal `J·R[I/a]`. Both are the `R[IJ/(ac)]`-span of the image
@@ -1736,6 +1757,9 @@ gives exactly the same span as the product chart. (Česnavičius, §3.13, (3.13.
 - For `R=k⟦x,y⟧`, `I=(x,y)`, `J=(x)`, `a=y`, `c=x` and `M=R/(x)`,
   the first `y`-chart is nonzero; its chart at `x` and the product chart at `xy` are zero,
   since inverting `x` kills `M`.
+- For `R=k[y,x₁,x₂,…]`, `I=(x₁,x₂,…)`, `J=(y)` and `M=R/(y)`, the first
+  `x₁`-chart is nonzero, while both its subsequent `y`-chart and the product's `yx₁`-chart
+  are zero. The comparison still holds for an infinitely generated ideal.
 - For `I = (a)` with `a` regular on `R` and on `M`, `Bl_{(a)J}(M) = Bl_J(M)`: blowing up an invertible
   ideal does nothing. If `r₁` is only `M`-regular, `Bl_{I₁}(M)` is the sheaf of `M` on
   `Spec R/R⟨r₁^∞⟩`; its pushforward to `Spec R` is `tilde M`. Identifying the blow-up scheme itself
@@ -1778,17 +1802,19 @@ No catenarity hypothesis is required. Mathlib's `Algebra.trdeg A B` gives the
 fraction-field transcendence degree; `Ideal.ResidueField.map` induces the algebra structure
 on residue fields.
 (Stacks, Lemma 10.113.1, tag 02IJ.) *Needs:* Mathlib prime height, transcendence bases,
-fraction and residue fields, finite-type algebras.
+fraction and residue fields, finite-type algebras;
+`Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown`, `Algebra.HasGoingDown.of_flat`.
 
 *Proof sketch.* Build the height estimate by induction on a finite list of algebra generators,
 using additivity of transcendence degree in towers. For a one-generator polynomial extension,
-localize at `p` and `q`; prove the flat local dimension formula by lifting prime chains and
-counting the fibre dimension (Stacks 00ON). The fibre is a localization of `κ(p)[t]`, with
+localize at `p` and `q` and apply
+`Ideal.height_eq_height_add_of_liesOver_of_hasGoingDown`, using
+`Algebra.HasGoingDown.of_flat`, to the localized polynomial extension (Stacks 00ON).
+The fibre is a localization of `κ(p)[t]`, with
 dimension zero or one according as the residue transcendence degree is one or zero.
 For a one-generator domain quotient with a nonzero kernel, the localized polynomial domain
 has a nonzero prime kernel; every prime chain in the quotient extends by its zero prime
-below that kernel, reducing the height by at least one. These estimates, including the
-flat local dimension formula used here, are built within this target.
+below that kernel, reducing the height by at least one.
 
 **Checks.**
 
@@ -1888,7 +1914,7 @@ quotient `M/(r₁, …, rₜ)M`. Then:
   `Bl_{I_t}(M)`.
 
 The scheme is not replaced by `Bl_{I_t}(Spec R/(r'))`. If the terminal quotient is Cohen–Macaulay of
-positive dimension, a parameter `r' ∈ 𝔪` of it is regular on it (K0.5), and
+positive dimension, a parameter `r' ∈ 𝔪` of it is regular on it by the imported parameter-regularity theorem, and
 `M/(r₁, …, rₜ, r')M` is Cohen–Macaulay of dimension one less. Regularity on `M/I_sⁿM` is
 asserted only for the full product `I_t`, which is all the reduction uses: Kawasaki's condition (iii)
 for a shorter prefix would need `r'` to be regular on `M/(r₁, …, r_s)M`.
@@ -1901,7 +1927,7 @@ gives regularity of `r'` on `M` and on `M/I_tⁿM`; the snake lemma for multipli
 `0 → I_tⁿM → M → M/I_tⁿM → 0` identifies `I_tⁿM/r'I_tⁿM` with `I_tⁿ(M/r'M)`, including degree zero.
 Apply K3.3's exactness of the graded-module sheaf. Since `r' ∈ 𝔪` vanishes at every closed point of the blow-up, the depth
 at a closed point drops by exactly one. (Česnavičius, proof of Theorem 3.14, pp. 14–15.) *Needs:* K0.3, K2.2–K2.4, K3.1,
-K3.3; K0.5 (regularity of parameters on Cohen–Macaulay modules); SchemeAndStackFoundations §0.17.
+K3.3; Tau Ceti `Module.IsCohenMacaulay.isSMulRegular_of_supportDim_quotSMulTop_lt`; SchemeAndStackFoundations §0.17.
 
 **Checks.**
 
@@ -2181,7 +2207,7 @@ monomial and a unit has a nonzero constant term. But `d·c² = a·b³·c`, so `d
 Česnavičius, §3, opening paragraph, p. 9, which cites Herrmann–Ikeda–Orbanz 14.11 for the phenomenon.)
 The example is Huckaba's, as HJLS state; HJLS assert the chart's non-Cohen–Macaulayness,
 and the monomial argument above supplies its proof.
-*Needs:* K3.2, K3.3; SchemeAndStackFoundations §0.17; K0.5 (regularity of parameters on Cohen–Macaulay modules).
+*Needs:* K3.2, K3.3; SchemeAndStackFoundations §0.17; Tau Ceti `Module.IsCohenMacaulay.isSMulRegular_of_supportDim_quotSMulTop_lt`.
 
 **Checks.**
 
@@ -2202,8 +2228,13 @@ and the monomial argument above supplies its proof.
 ### Dependencies
 
 Layers K0–K3; SchemeAndStackFoundations §§0.17–0.18 and §2.7;
-K0.5 (regularity of parameters on Cohen–Macaulay modules);
+Tau Ceti `Module.IsCohenMacaulay.isSMulRegular_of_supportDim_quotSMulTop_lt`;
 TauCetiRoadmap StableReduction (Layer 4); Tau Ceti (affine blow-up charts).
+
+## Downstream consumers
+
+DeformationAndDerivedPatchingAlgebra consumes K0.1 and K0.4–K0.7 for local cohomology and K3.1
+for Rees modules. Macaulayfication is outside this roadmap's scope.
 
 ## Worked examples
 
