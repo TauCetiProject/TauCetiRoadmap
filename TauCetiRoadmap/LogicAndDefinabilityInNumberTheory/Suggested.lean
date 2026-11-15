@@ -9,7 +9,7 @@ public import TauCeti.Geometry.RealAlgebraic.Semialgebraic.Basic
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs: eventual Ax–Kochen transfer,
 Igusa–Poincaré rationality at every prime, MRDP, universal definability of the
-integers in ℚ, Diophantine rational nonintegers, the integer
+integers in ℚ, the integer
 definition with one universal variable, Diophantine nonpowers over number fields, Koenigsmann's explicit
 two-universal-variable integer formula,
 Hilbert’s tenth problem over ℤ, universal-existential rational undecidability,
@@ -79,12 +79,6 @@ theorem hilbert_tenth_integers :
       ¬ ComputablePred (fun a : ℤ =>
         ∃ x : Fin n → ℤ, eval (Fin.cons a x) p = 0) := by sorry
 
-/-- Unary rational Diophantine sets in one-equation normal form. This reduction
-of finite systems uses formal reality of ℚ and is not a convention over ℂ. -/
-def rationalDiophantine (S : Set ℚ) : Prop :=
-  ∃ (m : ℕ) (p : MvPolynomial (Fin (m + 1)) ℚ),
-    ∀ x, x ∈ S ↔ ∃ y : Fin m → ℚ, eval (Fin.cons x y) p = 0
-
 /-- Koenigsmann's universal integer definition: the integers, as the image of
 `ℤ → ℚ`, are cut out by one universal formula with rational quantified
 assignments and integer coefficients (§4.24; Koenigsmann, Theorem 1, p.74, and
@@ -93,10 +87,6 @@ theorem universal_integers :
     ∃ (n : ℕ) (p : MvPolynomial (Fin (n + 1)) ℤ),
       ∀ t : ℚ, t ∈ Set.range ((↑) : ℤ → ℚ) ↔
         ∀ y : Fin n → ℚ, eval₂ (Int.castRingHom ℚ) (Fin.cons t y) p ≠ 0 := by sorry
-
-/-- Negation of the universal definition gives a Diophantine noninteger set. -/
-theorem rational_nonintegers_diophantine :
-    rationalDiophantine (Set.range ((↑) : ℤ → ℚ))ᶜ := by sorry
 
 /-- One fixed universal-existential polynomial family over ℚ has a
 noncomputable truth predicate on natural parameters (§4.25; Koenigsmann,
