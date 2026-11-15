@@ -4,7 +4,6 @@ public import Mathlib
 public import TauCeti.Probability.Distributions.ChiSquared.Basic
 public import TauCeti.Probability.Distributions.Gaussian.Projection
 public import TauCeti.Probability.Distributions.Gaussian.Conditional.Basic
-public import TauCeti.Probability.Distributions.Gaussian.Maximum
 public import TauCeti.Probability.Distributions.MarchenkoPastur.Basic
 public import TauCeti.InformationTheory.KullbackLeibler.Pinsker
 public import TauCeti.Analysis.Matrix.SampleSecondMoment
@@ -12,7 +11,8 @@ public import TauCeti.Analysis.Matrix.EntrywiseOpNorm
 public import TauCeti.Analysis.InnerProductSpace.CourantFischer
 public import TauCeti.Analysis.InnerProductSpace.UnitarilyInvariantSeminorm.KyFan
 public import TauCeti.Analysis.InnerProductSpace.UnitarilyInvariantSeminorm.Frobenius
-public import TauCeti.Analysis.InnerProductSpace.Projection.SinTheta
+public import TauCeti.Analysis.InnerProductSpace.UnitarilyInvariantSeminorm.SinTheta.Basic
+public import TauCeti.Analysis.InnerProductSpace.UnitarilyInvariantSeminorm.OpNorm
 public import TauCeti.Analysis.Convex.Subdifferential
 public import TauCeti.Analysis.Normed.Module.CoveringNumber
 
@@ -28,7 +28,10 @@ consumed from other roadmaps (the Gaussian divergence and the one-coordinate sof
 bounds of `MathematicalStatisticsNonparametric`, 1.3 and 6.4), definitions given in prose, or
 facts about a single definition that follow in one step from it (the translation of the sample
 covariance into `sampleSecondMoment`, the closed form of `spikeOverlap`, the ridge solution on an
-orthogonal design, the `∞ → ∞` row-sum bound); these are API lemmas, not headlines.
+orthogonal design, the `∞ → ∞` row-sum bound, the binomial bound `C(p, k) ≤ (ep/k)^k`, the
+identification of the step-up count for `β(k) = k` with the Benjamini–Hochberg count, the limits
+of the Tracy–Widom centring and scaling, and the range and limits of `spikeOverlap`); these are
+API lemmas, not headlines.
 
 The conventions of the README are used throughout: parameters live in `EuclideanSpace ℝ ι`, a
 design `X : Matrix (Fin n) ι ℝ` acts by `Matrix.toEuclideanLin`, the lasso objective is
@@ -37,8 +40,8 @@ proxy `σ²`, minimax risks are Mathlib's `minimaxRisk`, and the false discovery
 `V / max(R, 1)`. Probabilistic lasso theorems are deterministic statements on an event together
 with a bound for the probability of the event.
 
-The restricted `ℓ¹` norm, the best `s`-sparse `ℓ¹` error, the restricted isometry property and
-the Benjamini–Hochberg count are owned by `MathematicalStatisticsFoundations` (9.3), the
+The restricted `ℓ¹` norm, the best `s`-sparse `ℓ¹` error and the restricted isometry property
+are owned by `MathematicalStatisticsFoundations` (9.3), the
 soft-threshold map and its one-coordinate risk by `MathematicalStatisticsNonparametric` (6.4), and
 the sub-exponential definition by `RandomMatrices` (§2.1); they appear here as local copies. The
 implementation namespace of the README is `TauCeti`; the prototypes live in this roadmap's
@@ -108,15 +111,6 @@ theorem measure_max_abs_gt_le [IsProbabilityMeasure μ] {N : ℕ} [NeZero N] {Z 
     {c : ℝ≥0} (hZ : ∀ j, HasSubgaussianMGF (Z j) c μ) {t : ℝ} (ht : 0 ≤ t) :
     μ.real {ω | √(2 * c * (Real.log N + t)) <
       Finset.univ.sup' Finset.univ_nonempty (fun j ↦ |Z j ω|)} ≤ 2 * Real.exp (-t) := sorry
-
-/-- **1.1** Expected maximum of finitely many sub-Gaussian variables, and of their absolute
-values (Boucheron–Lugosi–Massart, Thm 2.5). -/
-theorem integral_max_le [IsProbabilityMeasure μ] {N : ℕ} [NeZero N] {Z : Fin N → Ω → ℝ}
-    {c : ℝ≥0} (hZ : ∀ j, HasSubgaussianMGF (Z j) c μ) :
-    ∫ ω, Finset.univ.sup' Finset.univ_nonempty (fun j ↦ Z j ω) ∂μ ≤
-        √(2 * c * Real.log N) ∧
-      ∫ ω, Finset.univ.sup' Finset.univ_nonempty (fun j ↦ |Z j ω|) ∂μ ≤
-        √(2 * c * Real.log (2 * N)) := sorry
 
 /-- **1.1** A sub-Gaussian random vector with proxy `c`: every linear form `⟪u, x⟫` is
 sub-Gaussian with proxy `c‖u‖²`. -/
@@ -236,11 +230,6 @@ theorem exists_lowRank_decomposition {d₁ d₂ r : ℕ} {Θs : Matrix (Fin d₁
       Θs * Δ₂ᵀ = 0 ∧ frobInner Δ₁ Δ₂ = 0 ∧
       nuclearNorm Θs + nuclearNorm Δ₂ - nuclearNorm Δ₁ ≤ nuclearNorm (Θs + Δ) ∧
       nuclearNorm Δ₁ ≤ √(2 * r : ℝ) * √(frobNormSq Δ) := sorry
-
-/-- **1.5** The binomial bound `C(p, k) ≤ (ep/k)^k`. -/
-theorem choose_le_exp_mul_div_pow {p k : ℕ} (hk : 1 ≤ k) (hkp : k ≤ p) :
-    (p.choose k : ℝ) ≤ (Real.exp 1 * p / k) ^ k ∧
-      Real.log (p.choose k) ≤ k * Real.log (Real.exp 1 * p / k) := sorry
 
 /-- **1.5** The sparse Varshamov–Gilbert packing (Giraud, Lemma 3.7). -/
 theorem exists_sparse_packing {p D : ℕ} (hD : 1 ≤ D) (hDp : 5 * D < p) :
@@ -889,20 +878,6 @@ def stepUpRejections (β : ℕ → ℝ) (α : ℝ) (x : Fin m → ℝ) : Finset 
   if stepUpCount β α x = 0 then ∅
   else Finset.univ.filter (fun i ↦ x i ≤ α * β (stepUpCount β α x) / m)
 
-/-- The Benjamini–Hochberg count: the largest `k ≤ m` with at least `k` p-values at most
-`kα/m`. Local copy: owned by `MathematicalStatisticsFoundations`, 9.3. -/
-def benjaminiHochbergCount (α : ℝ) (x : Fin m → ℝ) : ℕ :=
-  ((Finset.range (m + 1)).filter
-    (fun k : ℕ ↦ k ≤ (Finset.univ.filter (fun i ↦ x i ≤ (k : ℝ) * α / m)).card)).sup id
-
-/-- **6.1** The step-up count with `β(k) = k` is the Benjamini–Hochberg count, and for `α ≥ 0`
-the step-up rejection set is the Benjamini–Hochberg rejection set of
-`MathematicalStatisticsFoundations`, 9.3. -/
-theorem stepUpCount_id_eq_bhCount (α : ℝ) (x : Fin m → ℝ) :
-    stepUpCount (fun k ↦ (k : ℝ)) α x = benjaminiHochbergCount α x ∧
-      (0 ≤ α → stepUpRejections (fun k ↦ (k : ℝ)) α x =
-        Finset.univ.filter (fun i ↦ x i ≤ (benjaminiHochbergCount α x : ℝ) * α / m)) := sorry
-
 /-- **6.1** An increasing set of p-value vectors. -/
 def IsIncreasingSet (D : Set (Fin m → ℝ)) : Prop :=
   ∀ x y, x ∈ D → x ≤ y → y ∈ D
@@ -1174,7 +1149,7 @@ theorem leading_eigenvector_perturbation {E : Type*} [NormedAddCommGroup E]
     (hgap : ∀ u, ⟪u, θ⟫ = 0 → ⟪u, Sig u⟫ ≤ (γ - ν) * ‖u‖ ^ 2) (hPν : ‖P‖ < ν / 2) :
     ∃ θh, IsLeadingUnitEigenvector ((Sig + P : E →L[ℝ] E) : E →ₗ[ℝ] E) θh ∧ 0 ≤ ⟪θh, θ⟫ ∧
       (∀ u, IsLeadingUnitEigenvector ((Sig + P : E →L[ℝ] E) : E →ₗ[ℝ] E) u → u = θh ∨ u = -θh) ∧
-      ‖θh - θ‖ ≤ 2 * ‖P θ - ⟪θ, P θ⟫ • θ‖ / (ν - 2 * ‖P‖) := sorry
+      ‖θh - θ‖ ≤ √2 * ‖P θ - ⟪θ, P θ⟫ • θ‖ / (ν - 2 * ‖P‖) := sorry
 
 /-- **8.2** The leading sample eigenvector in the spiked sub-Gaussian ensemble (Wainwright,
 Cor 8.7). The observations are `xᵢ = √ν ξᵢ θ + wᵢ`. -/
@@ -1222,15 +1197,6 @@ theorem largest_eigenvalue_sampleCov_ae {Ω : Type*} [MeasurableSpace Ω] {μ : 
           ⟨0, by rw [Fintype.card_fin]; exact hp n⟩)
       atTop (𝓝 ((1 + √y) ^ 2)) := sorry
 
-/-- **8.3** The Tracy–Widom centring and scaling of the largest sample-covariance eigenvalue. -/
-theorem tendsto_tracyWidom_centering {p : ℕ → ℕ} {y : ℝ} (hy : 0 < y)
-    (hp : Tendsto (fun n ↦ (p n : ℝ) / n) atTop (𝓝 y)) :
-    Tendsto (fun n : ℕ ↦ (√((n : ℝ) - 1) + √(p n : ℝ)) ^ 2 / n) atTop (𝓝 ((1 + √y) ^ 2)) ∧
-      Tendsto (fun n : ℕ ↦ (n : ℝ) ^ ((2 : ℝ) / 3) *
-          ((√((n : ℝ) - 1) + √(p n : ℝ)) *
-            (((n : ℝ) - 1) ^ (-(1 : ℝ) / 2) + (p n : ℝ) ^ (-(1 : ℝ) / 2)) ^ ((1 : ℝ) / 3) / n))
-        atTop (𝓝 ((1 + √y) * (1 + 1 / √y) ^ ((1 : ℝ) / 3))) := sorry
-
 /-- The limiting squared overlap `((ℓ - 1)² - y)/((ℓ - 1)(ℓ - 1 + y))` of the leading sample
 eigenvector with the spike direction. -/
 def spikeOverlap (y ℓ : ℝ) : ℝ :=
@@ -1256,16 +1222,6 @@ theorem spiked_sampleCov_ae {Ω : Type*} [MeasurableSpace Ω] {μ : Measure Ω}
         Tendsto (fun n ↦ u n ⟨0, hp n⟩ ^ 2) atTop
           (𝓝 (if 1 + √y < ℓ then spikeOverlap y ℓ else 0)) := sorry
 
-/-- **8.3** Above the threshold the limiting squared overlap lies strictly between `0` and `1`. -/
-theorem spikeOverlap_mem_Ioo {y ℓ : ℝ} (hy : 0 < y) (hℓ : 1 + √y < ℓ) :
-    spikeOverlap y ℓ ∈ Ioo (0 : ℝ) 1 := sorry
-
-/-- **8.3** The limiting squared overlap tends to `0` at the threshold and to `1` for large
-spikes. -/
-theorem tendsto_spikeOverlap {y : ℝ} (hy : 0 < y) :
-    Tendsto (spikeOverlap y) (𝓝[>] (1 + √y)) (𝓝 0) ∧
-      Tendsto (spikeOverlap y) atTop (𝓝 1) := sorry
-
 /-- **8.3** Inconsistency of the leading sample eigenvector in the spiked Gaussian model: for
 every `ℓ > 1`, almost surely no choice of leading unit eigenvectors has `|⟪ûₙ, e₀⟫| → 1`. -/
 theorem spiked_sampleEigenvector_not_tendsto_one {Ω : Type*} [MeasurableSpace Ω] {μ : Measure Ω}
@@ -1281,7 +1237,7 @@ theorem spiked_sampleEigenvector_not_tendsto_one {Ω : Type*} [MeasurableSpace �
 
 end Layer8
 
-/-! ## Library declarations cited in the README -/
+-- Library declarations cited in the README
 
 #check @ProbabilityTheory.HasSubgaussianMGF
 #check @ProbabilityTheory.HasSubgaussianMGF.measure_ge_le
@@ -1325,7 +1281,6 @@ end Layer8
 #check @EuclideanSpace.gaussianCondMean
 #check @TauCeti.Probability.condDistrib_multivariateGaussian
 #check @ProbabilityTheory.HasLaw.indepFun_gaussianResidual
-#check @TauCeti.Probability.sqrt_log_card_div_le_integral_sup'_abs
 #check @TauCeti.Probability.marchenkoPastur
 #check @TauCeti.etvDist_sq_le_two_mul_klDiv
 #check @TauCeti.sampleSecondMoment
@@ -1335,7 +1290,8 @@ end Layer8
 #check @TauCeti.UnitarilyInvariantSeminorm.nuclear
 #check @TauCeti.UnitarilyInvariantSeminorm.nuclear_apply
 #check @TauCeti.UnitarilyInvariantSeminorm.nuclear_apply_le_sqrt_finrank_range_mul_frobenius_apply
-#check @Submodule.mul_norm_starProjection_comp_starProjection_le_norm_sub
+#check @TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_le_map_sylvester_apply
+#check @TauCeti.UnitarilyInvariantSeminorm.opNorm
 #check @TauCeti.subdifferential
 #check @TauCeti.mem_subdifferential_coe_iff_isMinOn_sub
 #check @TauCeti.exists_finset_isCover_sphere

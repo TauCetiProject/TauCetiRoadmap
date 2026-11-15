@@ -97,7 +97,10 @@ The numbers are those of the layers below, and `k.n` names subsection `n` of Lay
   definition and Bernstein's inequality for sub-exponential sums (§2.1), norms and singular
   values of matrices with independent sub-Gaussian entries or rows (§2.4), the sample covariance
   (§4.1), the Marchenko–Pastur law (§4.4), the Bai–Yin limit of the largest eigenvalue (§4.5),
-  and the spiked sample covariance limits (§7.3).
+  and the spiked sample covariance limits (§7.3);
+- the residual Davis–Kahan `sin Θ` theorem, owned by
+  [OperatorTheory/SpectralSubspacePerturbation](../OperatorTheory/SpectralSubspacePerturbation/README.md)
+  (SSP-C17) and proved in Tau Ceti; 8.1 applies it to the leading eigenvector.
 
 Every result that is not listed in a layer belongs to the
 [boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
@@ -207,7 +210,10 @@ These are fixed for every target. A statement that departs from them is a differ
 - **Matrices and operators:** `TauCeti.sampleSecondMoment` with
   `TauCeti.isHermitian_sampleSecondMoment` (`TauCeti/Analysis/Matrix/SampleSecondMoment.lean`),
   for 1.3 and 8.3; Weyl's inequality `LinearMap.IsSymmetric.abs_eigenvalue_sub_eigenvalue_le_norm`
-  (`TauCeti/Analysis/InnerProductSpace/CourantFischer.lean`), for 8.1; the nuclear seminorm
+  (`TauCeti/Analysis/InnerProductSpace/CourantFischer.lean`), for 8.1; the residual `sin Θ`
+  theorem `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_le_map_sylvester_apply`
+  (`TauCeti/Analysis/InnerProductSpace/UnitarilyInvariantSeminorm/SinTheta/Basic.lean`) in the
+  operator norm `TauCeti.UnitarilyInvariantSeminorm.opNorm`, for 8.1; the nuclear seminorm
   `TauCeti.UnitarilyInvariantSeminorm.nuclear` with
   `TauCeti.UnitarilyInvariantSeminorm.nuclear_apply` and
   `TauCeti.UnitarilyInvariantSeminorm.nuclear_apply_le_sqrt_finrank_range_mul_frobenius_apply`
@@ -234,8 +240,8 @@ These are fixed for every target. A statement that departs from them is a differ
 - 8.4: Slutsky's lemma without separability, for 3.8.
 
 `Suggested.lean` carries local copies of the restricted `ℓ¹` norm (`restrictedL1Norm`), the best
-`s`-sparse `ℓ¹` error (`bestSparseL1Error`), the restricted isometry property (`HasRIP`) and the
-Benjamini–Hochberg count (`benjaminiHochbergCount`), each with a docstring naming 9.3.
+`s`-sparse `ℓ¹` error (`bestSparseL1Error`), and the restricted isometry property (`HasRIP`), each
+with a docstring naming 9.3.
 
 ### From MathematicalStatisticsNonparametric
 
@@ -329,12 +335,6 @@ Layer 8 needs Layer 1.
   `μ {√(2c(log N + t)) < maxⱼ |Zⱼ|} ≤ 2e^{-t}` for `t ≥ 0`, by the union bound. The exceedance
   is strict: with `c = 0` every `Zⱼ` is `0` a.e., and the non-strict event would have
   probability `1`.
-- **Expected maximum** (`integral_max_le`): under the same hypotheses
-  `E maxⱼ Zⱼ ≤ √(2c log N)` and `E maxⱼ |Zⱼ| ≤ √(2c log(2N))` (Boucheron–Lugosi–Massart,
-  Thm 2.5, pp. 32–33, in its sub-Gaussian case `ψ(λ) = cλ²/2`; the second bound is the first
-  for the `2N` variables `±Zⱼ`). Tau Ceti's
-  `TauCeti.Probability.sqrt_log_card_div_le_integral_sup'_abs` is the lower bound
-  `√(log N)/32` for independent standard Gaussians, matching up to the constant.
 - `IsSubgaussianVector μ x c`, for `x : Ω → E` in a finite-dimensional real inner product
   space: for every `u : E`, `HasSubgaussianMGF (fun ω ↦ ⟪u, x ω⟫) (c * ‖u‖₊²) μ`. A vector with
   independent coordinates of proxy `c` is a sub-Gaussian vector with proxy `c`; a centred
@@ -353,10 +353,6 @@ Layer 8 needs Layer 1.
   empty, while `{0 ≤ |Z₁|}` has probability `1 > 2e^{-t}` for `t > log 2`.
 - Maximal inequality: for `N = 2`, `c = 1`, `t = 1` the threshold is
   `√(2(log 2 + 1)) ≈ 1.840`.
-- Expected maximum: for `N = 1` the bound is `0 ≥ E Z₁`, which is the centring
-  `E Z = 0` forced by `HasSubgaussianMGF`.
-- Expected maximum of absolute values: for `N = 1` and `Z₁ ~ N(0, 1)`,
-  `E |Z₁| = √(2/π) ≈ 0.798 ≤ √(2 log 2) ≈ 1.177`.
 - `IsSubgaussianVector`: a Rademacher vector in `ℝ²` with independent signs has proxy `1`.
 - `IsSubgaussianVector`: the vector `(g, g)` with `g ~ N(0, 1)` has proxy `2 = ‖Σ‖` with
   `Σ = [[1, 1], [1, 1]]`.
@@ -518,7 +514,7 @@ Layer 8 needs Layer 1.
 
 ### 1.5 Counting, packing and divergences
 
-- **Binomial bound** (`choose_le_exp_mul_div_pow`): `C(p, k) ≤ (ep/k)^k` and
+- **Binomial bound**: `C(p, k) ≤ (ep/k)^k` and
   `log C(p, k) ≤ k log(ep/k)` for `1 ≤ k ≤ p`. The proof is Mathlib's `Nat.choose_le_pow_div`,
   `C(p, k) ≤ p^k/k!`, with `k! ≥ (k/e)^k`.
 - **Sparse Varshamov–Gilbert packing** (`exists_sparse_packing`): for `1 ≤ D < p/5` there is a
@@ -526,16 +522,15 @@ Layer 8 needs Layer 1.
   `D`, and `log |C| ≥ (D/2) log(p/(5D))` (Giraud, Lemma 3.7, p. 65). The proof is the greedy
   construction: a ball of Hamming radius `D` in the exactly-`D`-sparse vectors has at most
   `∑_{j ≤ D/2} C(D, j) C(p - D, j)` points.
-- **Nets of low-rank matrices** (`exists_net_lowRank`): for `0 < ε ≤ 1` the set of
-  `d₁ × d₂` matrices of rank at most `r` and Frobenius norm `1` has an `ε`-net in the Frobenius
-  norm, contained in the set, with at most `(9/ε)^{(d₁ + d₂ + 1) r}` points (Candès–Plan 2011).
+- **Nets of low-rank matrices** (`exists_net_lowRank`): for `0 < ε ≤ 1` the set of `d₁ × d₂`
+  matrices of rank at most `r` and Frobenius norm `1` has an `ε`-net in the Frobenius norm,
+  contained in the set, with at most `(9/ε)^{(d₁ + d₂ + 1) r}` points (Candès–Plan 2011, Lemma 3.1).
   The proof writes each such matrix as `UΣVᵀ` with `U` and `V` having `r` orthonormal columns and
-  `Σ` diagonal of Frobenius norm `1`, and takes `ε/3`-nets, inside their sets, of the frames `U`
-  and `V` in the norm `maxⱼ ‖uⱼ‖` (the sup norm of `Fin r → EuclideanSpace ℝ (Fin d)`) and of the
+  `Σ` diagonal of Frobenius norm `1`, and takes `ε/3`-nets, inside their sets, of the frames `U` and
+  `V` in the norm `maxⱼ ‖uⱼ‖` (the sup norm of `Fin r → EuclideanSpace ℝ (Fin d)`) and of the
   diagonals in the `ℓ²` norm, by Tau Ceti's `TauCeti.exists_finset_isCover_of_subset_closedBall`:
-  each has at most `(1 + 6/ε)^{dim} ≤ (9/ε)^{dim}` points, the dimensions are `d₁r`, `d₂r` and
-  `r`, and the triangle inequality gives distance at most `ε` for the products, which lie in the
-  set.
+  each has at most `(1 + 6/ε)^{dim} ≤ (9/ε)^{dim}` points, the dimensions are `d₁r`, `d₂r` and `r`,
+  and the triangle inequality gives distance at most `ε` for the products, which lie in the set.
 - **Gaussian divergence** (consumed, not a target here): the divergence of `N(a, σ²I)` from
   `N(b, σ²I)` is `ENNReal.ofReal (‖a - b‖²/(2σ²))`. This is the isotropic Gaussian divergence of
   MathematicalStatisticsNonparametric 1.3, stated there for `multivariateGaussian a (v • 1)`
@@ -877,7 +872,8 @@ projection onto the orthogonal complement of the column span of `X_S`.
   mutual incoherence `max_{j ∉ S} ∑_{k ∈ S} |((X_SᵀX_S)⁻¹X_SᵀX_j)ₖ| ≤ α` with `0 ≤ α < 1`, and
   `λ ≥ (2/(1 - α)) max_{j ∉ S} |⟪X_j, Πε⟫|/n`. Then the lasso has exactly one solution, it is
   supported in `S`, and `maxⱼ∈S |β̂ⱼ - βⱼ| ≤ B` with
-  `B = maxⱼ∈S |(Σ̂_SS⁻¹ X_Sᵀε/n)ⱼ| + λ maxⱼ∈S ∑ₖ∈S |(Σ̂_SS⁻¹)ⱼₖ|`. Every `j ∈ S` with `|βⱼ| > B` has
+  `B = maxⱼ∈S (|(Σ̂_SS⁻¹ X_Sᵀε/n)ⱼ| + λ ∑ₖ∈S |(Σ̂_SS⁻¹)ⱼₖ|)`, at most Wainwright's `B`, the
+  sum of the two maxima. Every `j ∈ S` with `|βⱼ| > B` has
   `β̂ⱼ ≠ 0` and `sign β̂ⱼ = sign βⱼ` (Wainwright, Thm 7.21, p. 220). The proof constructs the
   restricted solution on `S`, its dual vector `ẑ_{Sᶜ}`, checks strict dual feasibility
   `|ẑⱼ| ≤ (1 + α)/2 < 1` for `j ∉ S` from incoherence, and deduces uniqueness from the uniqueness
@@ -1017,8 +1013,8 @@ The Gaussian log-likelihood with known `σ²` is
 `P_S Y`.
 
 - **Optimism** (`aic_optimism`): for a subspace `S` of dimension `k` and any `f`, with `Y'` an
-  independent copy of `Y`, `E[ℓ(P_S Y; Y) - ℓ(P_S Y; Y')] = k`, whether or not `f ∈ S`
-  (Akaike 1973). It is the identity
+  independent copy of `Y`, `E[ℓ(P_S Y; Y) - ℓ(P_S Y; Y')] = k`, whether or not `f ∈ S`.
+  It is the identity
   `E‖Y' - P_S Y‖² - E‖Y - P_S Y‖² = 2kσ²`, from
   `E‖Y - P_S Y‖² = ‖f - P_S f‖² + (n - k)σ²` and
   `E‖Y' - P_S Y‖² = ‖f - P_S f‖² + (n + k)σ²`, by `E‖P_S ξ‖² = k`.
@@ -1284,7 +1280,7 @@ and the false discovery proportion are as in the Conventions, and `μ` is a prob
   208–209). For `k̂ ≥ 1` the rejection set has exactly `k̂` elements: if `c` p-values are at most
   `t_{k̂}`, then `c ≤ m` and at least `c` p-values are at most `t_c ≥ t_{k̂}`, so `c ≤ k̂` by
   maximality.
-- **Benjamini–Hochberg** is `β(k) = k` (`stepUpCount_id_eq_bhCount`): its step-up count is the
+- **Benjamini–Hochberg** is `β(k) = k`: its step-up count is the
   Benjamini–Hochberg count of Foundations 9.3, and for `α ≥ 0` its rejection set is the
   rejection set `{i | pᵢ ≤ k̂α/m}` there. When the count is `0` and `α ≥ 0` no p-value is at
   most `0`, since such a p-value would make `k = 1` admissible. Equivalently, with ordered
@@ -1455,7 +1451,7 @@ column space `U` and row space `V`, the decomposition of 1.4 is `Δ'' = P_{U⊥}
   `n ≥ CR(d₁ + d₂)`, then with probability at least `1 - 2e^{-cn}`,
   `‖Δ‖_F²/2 ≤ ‖𝔛Δ‖²/n ≤ 3‖Δ‖_F²/2` for every `Δ` of rank at most `R`. For fixed `Δ`,
   `‖𝔛Δ‖²/‖Δ‖_F²` has the law `χ²ₙ` (1.2); the net of 1.5 and the standard extension from a net to
-  all low-rank matrices conclude (Candès–Plan 2011).
+  all low-rank matrices conclude (Candès–Plan 2011, Theorem 2.3, by the same argument).
 - **Restricted strong convexity from restricted isometry** (`rsc_of_rankRIP`): if `rank Θ* ≤ r`
   and the restricted isometry of order `74r` holds with `δ = 1/2`, then
   `‖𝔛Δ‖²/n ≥ κ₀‖Δ‖_F²` on `C(Θ*)` with the `κ₀` of 3.4. The proof is the block argument of 3.4
@@ -1510,7 +1506,7 @@ bounds the number of nonzero entries in each row of `Σ`.
 - **Deterministic theorem** (`norm_hardThreshold_sub_le`): if `Σ` is symmetric with at most `s`
   nonzero entries per row and `|Σ̂ⱼₖ - Σⱼₖ| ≤ λ` for all `j, k`, then
   `‖T_λ(Σ̂) - Σ‖ ≤ 2λ‖A‖` and `‖A‖ ≤ s` (Wainwright, Thm 6.23 with (6.54), p. 181, and Cor 6.24,
-  p. 182; Bickel–Levina 2008). Each entry satisfies `|T_λ(Σ̂)ⱼₖ - Σⱼₖ| ≤ 2λAⱼₖ`: where
+  p. 182; Bickel–Levina 2008, Theorem 1). Each entry satisfies `|T_λ(Σ̂)ⱼₖ - Σⱼₖ| ≤ 2λAⱼₖ`: where
   `Σⱼₖ = 0` the entry `Σ̂ⱼₖ` is thresholded to `0`, and elsewhere either it is kept, with error at
   most `λ`, or it is removed, with `|Σⱼₖ| ≤ |Σ̂ⱼₖ| + λ ≤ 2λ`. Entrywise domination and the
   symmetric Schur test (1.4) conclude.
@@ -1575,9 +1571,12 @@ Let the observations be `n` independent `N(0, Σ)` vectors in `ℝ^p` with `Σ` 
   `n ≥ c₁ m max(m, log p)`, with `c₁` depending on `α` and `b`, covers both. The proof applies
   3.7 to each node regression, with the sample incoherence, minimum eigenvalue and `∞ → ∞`
   bounds of the `N(j)`-blocks of `Σ̂` derived from the population ones through 1.3 and
-  RandomMatrices §2.4, and the noise term bounded conditionally on the design (1.1).
+  RandomMatrices §2.4, and the noise term bounded conditionally on the design (1.1). For
+  `N(j) = ∅` the regression has `β = 0`; on `λ ≥ maxₖ |⟪X_k, y⟫|/n` the zero vector is a
+  solution (3.1), and every solution has `ℓ¹` norm `0` by `IsLassoSolution.fit_eq`, so it is the
+  only one.
 
-*Needs:* 3.7, 1.1, 1.3; RandomMatrices §2.4; Tau Ceti `gaussianCondMean`,
+*Needs:* 3.1, 3.7, 1.1, 1.3; RandomMatrices §2.4; Tau Ceti `gaussianCondMean`,
 `indepFun_gaussianResidual`.
 
 **Checks.**
@@ -1674,25 +1673,24 @@ unit `u` with `⟪v, Mv⟫ ≤ ⟪u, Mu⟫‖v‖²` for every `v`, that is, `Mu
 - **Davis–Kahan for the leading eigenvector** (`leading_eigenvector_perturbation`): if `‖P‖ < ν/2`,
   then the largest eigenvalue of `Σ + P` is simple, that is, `Σ + P` has a leading unit
   eigenvector `θ̂`, unique up to sign, and with the sign chosen so that `⟪θ̂, θ*⟫ ≥ 0`,
-  `‖θ̂ - θ*‖ ≤ 2‖(I - θ*θ*ᵀ)Pθ*‖/(ν - 2‖P‖)` (Wainwright, Thm 8.5, p. 243). Simplicity is Weyl's
-  inequality (Tau Ceti `LinearMap.IsSymmetric.abs_eigenvalue_sub_eigenvalue_le_norm`): the gap of
-  `Σ + P` is at least `ν - 2‖P‖ > 0`. For the bound, write `θ̂ = ρθ* + tz` with `z ⟂ θ*` a unit
-  vector, `ρ = ⟪θ̂, θ*⟫ ∈ [0, 1]` and `t = √(1 - ρ²)`. Comparing
-  `⟪θ̂, (Σ + P)θ̂⟫ ≥ ⟪θ*, (Σ + P)θ*⟫` with the gap gives
-  `νt² ≤ 2t²‖P‖ + 2ρt‖(I - θ*θ*ᵀ)Pθ*‖`, so `t ≤ 2ρ‖(I - θ*θ*ᵀ)Pθ*‖/(ν - 2‖P‖)`; then
-  `‖θ̂ - θ*‖ = √(2(1 - ρ)) = √2 t/√(1 + ρ)` and `2ρ² ≤ 1 + ρ` conclude. Dropping the factor `ρ`
-  and using only `‖θ̂ - θ*‖ ≤ √2 t` loses a factor `√2` (Wainwright, Lemma 8.6, p. 243, and the
-  proof of Thm 8.5, p. 244).
-- Positive semidefiniteness of `Σ` is not needed. The subspace bounds of Tau Ceti's
-  `TauCeti/Analysis/InnerProductSpace/Projection/SinTheta.lean`, such as
-  `Submodule.mul_norm_starProjection_comp_starProjection_le_norm_sub`, bound the angle by
-  `‖P‖/(ν - ‖P‖)`, and the Yu–Wang–Samworth bound of
-  `TauCeti/Analysis/InnerProductSpace/YuWangSamworth/Basic.lean` gives
-  `ν² sin²∠(θ̂, θ*) ≤ 4‖P‖²` with no gap condition on `Σ + P`; both are bounds in `‖P‖`. The
-  residual `‖(I - θ*θ*ᵀ)Pθ*‖` of this target is at most `‖P‖`, and it is what the spiked ensemble
-  needs.
+  `‖θ̂ - θ*‖ ≤ √2 ‖(I - θ*θ*ᵀ)Pθ*‖/(ν - 2‖P‖)`. This implies Wainwright's bound, which has `2` in
+  place of `√2` (Wainwright, Thm 8.5, p. 243). Simplicity is Weyl's inequality (Tau Ceti
+  `LinearMap.IsSymmetric.abs_eigenvalue_sub_eigenvalue_le_norm`): the gap of `Σ + P` is at least
+  `ν - 2‖P‖ > 0`. The bound is the residual `sin Θ` theorem of
+  OperatorTheory/SpectralSubspacePerturbation (SSP-C17), Tau Ceti
+  `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_le_map_sylvester_apply` in the
+  operator norm `TauCeti.UnitarilyInvariantSeminorm.opNorm`, with `A = Σ + P`, `U = span θ̂`,
+  `X : ℝ → E`, `1 ↦ θ*`, and `M = ⟪θ*, (Σ + P)θ*⟫`. The residual `AX - XM` is
+  `(I - θ*θ*ᵀ)Pθ*`, `M ≥ γ - ‖P‖`, and by Weyl the eigenvalues of `Σ + P` on `θ̂^⟂` are at most
+  `γ - ν + ‖P‖`, so `δ = ν - 2‖P‖` and `sin ∠(θ̂, θ*) ≤ ‖(I - θ*θ*ᵀ)Pθ*‖/(ν - 2‖P‖)`. With
+  `ρ = ⟪θ̂, θ*⟫ ∈ [0, 1]`, `‖θ̂ - θ*‖² = 2(1 - ρ) ≤ 2(1 - ρ²) = 2 sin² ∠(θ̂, θ*)` concludes.
+- Positive semidefiniteness of `Σ` is not needed. The residual `‖(I - θ*θ*ᵀ)Pθ*‖` is at most
+  `‖P‖`, and it is what the spiked ensemble needs: the residual form of the `sin Θ` theorem gives
+  it, while the perturbation form bounds the angle in `‖P‖` only.
 
-*Needs:* Tau Ceti `abs_eigenvalue_sub_eigenvalue_le_norm`.
+*Needs:* Tau Ceti `LinearMap.IsSymmetric.abs_eigenvalue_sub_eigenvalue_le_norm`,
+`TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_le_map_sylvester_apply`,
+`TauCeti.UnitarilyInvariantSeminorm.opNorm`; OperatorTheory/SpectralSubspacePerturbation SSP-C17.
 
 **Checks.**
 
@@ -1723,7 +1721,8 @@ eigenvector `θ*`, and `Σ̂ = n⁻¹ ∑ xᵢxᵢᵀ`.
   (1.3), the second by a `1/2`-net of the sphere (Tau Ceti `TauCeti.exists_finset_isCover_sphere`)
   and the sub-exponential products `ξᵢ⟪u, wᵢ⟫`, and the third by the operator-norm bound of 1.3.
 
-*Needs:* 8.1; 1.1, 1.3; Tau Ceti `exists_finset_isCover_sphere`.
+*Needs:* 8.1; 1.1, 1.3; RandomMatrices §2.1 (Bernstein's inequality for sub-exponential sums);
+Tau Ceti `exists_finset_isCover_sphere`.
 
 ### 8.3 High-dimensional limits of sample covariances
 
@@ -1746,7 +1745,7 @@ Here `X : Matrix (Fin n) (Fin p) ℝ` has rows the observations, and the sample 
 - **Largest eigenvalue** (`largest_eigenvalue_sampleCov_ae`): under the same hypotheses and a
   finite fourth moment, `λ_max(XᵀX/n) → (1 + √y)²` almost surely. This is the edge limit of
   RandomMatrices §4.5 through the translation (Yao–Zheng–Bai, Thm 11.1, p. 216).
-- **Edge centring and scaling** (`tendsto_tracyWidom_centering`): with
+- **Edge centring and scaling**: with
   `μ_{n,p} = (√(n - 1) + √p)²/n` and
   `σ_{n,p} = (√(n - 1) + √p)((n - 1)^{-1/2} + p^{-1/2})^{1/3}/n`, if `p/n → y ∈ (0, ∞)` then
   `μ_{n,p} → (1 + √y)²` and `n^{2/3} σ_{n,p} → (1 + √y)(1 + 1/√y)^{1/3}`. These are the centring
@@ -1766,7 +1765,7 @@ Here `X : Matrix (Fin n) (Fin p) ℝ` has rows the observations, and the sample 
   `(1 - y/(ℓ - 1)²)/(1 + y/(ℓ - 1)) = ((ℓ - 1)² - y)/((ℓ - 1)(ℓ - 1 + y))` for `ℓ > 1`, `y ≥ 0`.
   The limits above the threshold are Yao–Zheng–Bai, Thm 11.3, p. 220, and Thm 11.5, p. 223,
   where `ψ(ℓ) = ℓ + yℓ/(ℓ - 1)` and `ℓψ'(ℓ)/ψ(ℓ)` is the squared overlap.
-- **Limiting overlap** (`spikeOverlap_mem_Ioo`, `tendsto_spikeOverlap`): for `y > 0` and
+- **Limiting overlap**: for `y > 0` and
   `ℓ > 1 + √y` the limit `spikeOverlap y ℓ` lies in `(0, 1)`; it tends to `0` as `ℓ ↓ 1 + √y`
   and to `1` as `ℓ → ∞`.
 - **Inconsistency of the leading sample eigenvector**
@@ -1793,17 +1792,19 @@ Here `X : Matrix (Fin n) (Fin p) ℝ` has rows the observations, and the sample 
 ### Examples
 
 - Davis–Kahan: `Σ = diag(2, 1)` (`ν = 1`, `θ* = e₁`) and `P = [[0, 1/4], [1/4, 0]]`: the bound is
-  `2 · (1/4)/(1 - 1/2) = 1`, and the leading eigenvector `(0.9732, 0.2298)` of `Σ + P` is at
-  distance `0.2313` from `e₁`. With `P = diag(-1/2, 1/2)`, `‖P‖ = ν/2` and `Σ + P = (3/2)I` has no
-  unique leading eigenvector: the strict inequality is needed.
+  `√2 · (1/4)/(1 - 1/2) ≈ 0.7071` (Wainwright's constant `2` gives `1`), and the leading eigenvector
+  `(0.9732, 0.2298)` of `Σ + P` is at distance `0.2313` from `e₁`. With `P = diag(-1/2, 1/2)`,
+  `‖P‖ = ν/2` and `Σ + P = (3/2)I` has no unique leading eigenvector: the strict inequality is
+  needed.
 - Spiked covariance with `y = 1/4`: the threshold is `ℓ = 3/2` with bulk edge `9/4`; for `ℓ = 2`
   the outlier is `5/2` with squared overlap `3/5`, and for `ℓ = 3` it is `27/8` with `5/6`.
 - Edge centring, `y = 1`: `μ_{n,n} → 4` and `n^{2/3}σ_{n,n} → 2 · 2^{1/3} ≈ 2.520`.
 
 ### Dependencies
 
-Layer 1 (1.1, 1.3 for 8.2); Tau Ceti's Weyl inequality and nets; RandomMatrices §§4.1, 4.4,
-4.5, 7.3.
+Layer 1 (1.1, 1.3 for 8.2); Tau Ceti's Weyl inequality, residual `sin Θ` theorem and nets;
+OperatorTheory/SpectralSubspacePerturbation (SSP-C17); RandomMatrices §§2.1, 2.4 (through 1.3),
+4.1, 4.4, 4.5, 7.3.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
