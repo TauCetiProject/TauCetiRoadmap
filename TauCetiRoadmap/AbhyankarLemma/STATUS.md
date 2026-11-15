@@ -1,0 +1,38 @@
+<!--tauceti-status:v1 {"roadmap":"AbhyankarLemma","to_sha":"d2083f0f1dd2136d02467ba36efbbe1af612e89c","ts":"2026-11-08T09:37:56Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","remaining":"adic formal smoothness, abhyankar_dvr, the Kummer characterization iff, and tame base change","state":"partial"},{"id":"Layer 1","remaining":"IsTamelyRamifiedAlong and its spec equivalence, tame base change in codimension one, the two checks","state":"partial"},{"id":"Layer 2","remaining":"finiteEtale_extend_of_regular_complement and finiteEtale_extend_of_regular_divisor, pending LocalPurity 2.2","state":"partial"},{"id":"Layer 3","remaining":"standard cover tameness, strict henselisation regularity, abhyankar_regularDivisor, abhyankar_normalization","state":"partial"}],"readme_sha":"d836fe3e12f1b3dedf5b47c7801a130ba0eb1da0cacfeaf11ad96b37fce40554","roadmap":"AbhyankarLemma","to_sha":"d2083f0f1dd2136d02467ba36efbbe1af612e89c"}-->
+# Status: AbhyankarLemma
+
+This file documents the status of the AbhyankarLemma roadmap up until `d2083f0` (2026-11-08T09:37:56Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** Most of the discrete-valuation-ring theory of Layer 0 is in place, and every layer has some of its pieces. None of the three end theorems has started: extension of covers across a regular divisor, Abhyankar's lemma for a regular divisor, and the structure of the normalization. The main missing local input is Abhyankar's lemma for discrete valuation rings.
+
+### Named results
+
+- **Unramified means étale normalization** — a finite separable extension of the fraction field of a discrete valuation ring is unramified with respect to it exactly when the integral closure is étale over it ([`isUnramifiedWRT_iff_etale`](https://taucetiproject.org/docs/TauCeti/RingTheory/DiscreteValuationRing/TamelyRamified.html#TauCeti.Algebra.isUnramifiedWRT_iff_etale)).
+- **Kummer extensions of a discrete valuation ring** — adjoining an `n`-th root of a uniformizer gives integral closure `A[π^{1/n}]`, which is a discrete valuation ring, totally ramified with index `n` ([`integralClosure_eq_adjoin_of_pow_eq_of_irreducible`](https://taucetiproject.org/docs/TauCeti/RingTheory/DiscreteValuationRing/Kummer.html#TauCeti.IsDiscreteValuationRing.integralClosure_eq_adjoin_of_pow_eq_of_irreducible)). In the tame case every intermediate field is `K(π^{1/d})` ([`eq_adjoin_pow_finrank_of_pow_eq_of_irreducible`](https://taucetiproject.org/docs/TauCeti/RingTheory/DiscreteValuationRing/Kummer.html#TauCeti.IsDiscreteValuationRing.eq_adjoin_pow_finrank_of_pow_eq_of_irreducible)).
+- **Regularity lifts along a nonzerodivisor** — a Noetherian local ring whose quotient by a nonzerodivisor in the maximal ideal is regular is itself regular, and the same holds for regular sequences. This is Stacks 00NU ([`of_quotient_nonZeroDivisor`](https://taucetiproject.org/docs/TauCeti/RingTheory/RegularLocalRing/OfQuotient.html#TauCeti.IsRegularLocalRing.of_quotient_nonZeroDivisor)).
+- **Finite étale covers split over strictly henselian rings** — over a henselian local ring with separably closed residue field, every finite étale algebra is a finite product of copies of the base ([`IsFiniteSplit.of_henselianLocalRing`](https://taucetiproject.org/docs/TauCeti/RingTheory/Henselian/Etale.html#Algebra.IsFiniteSplit.of_henselianLocalRing)). Its global form says a finite étale morphism [splits étale locally](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/FiniteEtale/EtaleLocallySplit.html#AlgebraicGeometry.Scheme.Hom.exists_split_etaleLocally).
+- **Base change of unramified extensions** — for an extension of discrete valuation rings, every field factor of `K' ⊗_K L` stays unramified ([`IsUnramifiedWRT.baseChange`](https://taucetiproject.org/docs/TauCeti/RingTheory/DiscreteValuationRing/BaseChange/Unramified.html#TauCeti.Algebra.IsUnramifiedWRT.baseChange)).
+
+### Notable definitions and infrastructure
+
+- **Tame ramification with respect to a discrete valuation ring** ([`IsTamelyRamifiedWRT`](https://taucetiproject.org/docs/TauCeti/RingTheory/DiscreteValuationRing/TamelyRamified.html#TauCeti.Algebra.IsTamelyRamifiedWRT)). Together with its unramified and totally ramified siblings, it has tower lemmas and a [comparison with local-field tameness](https://taucetiproject.org/docs/TauCeti/NumberTheory/LocalField/TamelyRamified/Comparison.html#TauCeti.isTamelyRamifiedWRT_iff_isTamelyRamified). Everything in Layers 1 and 3 is phrased through it.
+- **Covers tamely ramified in codimension one** ([`IsTamelyRamifiedInCodimOne`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/Morphisms/CodimensionOne/Ramification.html#AlgebraicGeometry.Scheme.Hom.IsTamelyRamifiedInCodimOne)). This is the hypothesis of the end theorems, and it is defined pointwise on residue fields at codimension-one points.
+- **The Abhyankar model** ([`abhyankarModel`](https://taucetiproject.org/docs/TauCeti/RingTheory/DiscreteValuationRing/AbhyankarModel/Basic.html#TauCeti.abhyankarModel)). This is the ring `(B[y]/(y^e − u))[x]/(x^d − ϖy)`. It is regular, it is the [integral closure of the root extraction](https://taucetiproject.org/docs/TauCeti/RingTheory/DiscreteValuationRing/AbhyankarModel/Basic.html#TauCeti.isIntegralClosure_abhyankarModel), and it is unramified over the Kummer base, which is the local computation behind Abhyankar's lemma for discrete valuation rings.
+
+### Roadmap coverage
+
+Layer 0 is partial. In §0.1, the definitions, the étale criterion, the characteristic-zero case and the three checks are all proved. In §0.2, all six Kummer clauses and both checks are proved, but they are not bundled as `kummer_dvr`. §0.3 has only the local-field comparison; adic formal smoothness and `abhyankar_dvr` are missing. In §0.4, unramified base change and one direction of the Kummer characterization are proved. Layer 1 is partial: both definitions and unramified base change exist, but tame base change, the affine form `IsTamelyRamifiedAlong`, its equivalence and the checks are missing. Layer 2 is partial: 00NU and the cusp check are done, but both extension theorems are missing. Layer 3 is partial. The standard tame cover (§3.1) has freeness, étaleness away from `f` and the integral-closure statement, but not tameness along `f`. §3.2 has the quotient comparison, the henselization half of 06LN and both splitting results. §§3.3–3.4 have only supporting lemmas, such as the descent of the root exponent to a unit.
+
+## The frontier
+
+- **Abhyankar's lemma for discrete valuation rings** — the Abhyankar model computations are done. What remains is the adic formal-smoothness predicate, its comparison with unramifiedness (09E7), and the statement `abhyankar_dvr` itself.
+- **Kummer characterization and tame base change** — `isTamelyRamifiedWRT_iff_exists_kummer` needs its forward direction, and `IsTamelyRamifiedWRT.baseChange` is still missing. Both depend on Abhyankar's lemma for discrete valuation rings.
+- **Affine form of codimension-one ramification** — define `IsTamelyRamifiedAlong`, prove `isTamelyRamifiedInCodimOne_spec_iff`, and prove tame base change in codimension one (0EYD). This would also unlock tameness of the standard cover.
+- **Extension across a regular divisor** — `finiteEtale_extend_of_regular_complement` and `finiteEtale_extend_of_regular_divisor` are blocked on the LocalPurity §2.2 extension results, which are not in the source.
+- **Regularity of the strict henselisation** — the henselization half of 06LN is proved; whether the strict henselisation half exists is not established here.
