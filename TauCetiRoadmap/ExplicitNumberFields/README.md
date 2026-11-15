@@ -1637,10 +1637,10 @@ for the convolution `1 ⋆ χ`, in which the Mellin transform of the weight is r
 `J`-Bessel function, with Krasikov's explicit bounds for `J_ν`, a nonnegative smoothing, the a
 priori bounds of Lemmas 3.3–3.4 for the partial sums, and the functional equation of
 `ζ_K = ζ · L(s, χ)` (LFunctions Layer 4 `dedekindZetaC_quadratic`); the pole of `ζ_K(s)/s` at
-`s = 0` produces the term `ζ_K(0)`, which is nonzero only for imaginary quadratic fields. The
-Bessel bounds are part of this target. Corollary 1.6 specialises Theorem 1.1 with the upper bounds
-for `r_K` of Lemmas 3.3–3.4; Corollaries 1.4–1.5 do the same above the threshold and use the
-predicate below it.
+`s = 0` produces the term `ζ_K(0)`, which is nonzero only for `ℚ` (`ζ(0) = −1/2`) and imaginary
+quadratic fields, `ζ_K` vanishing at `0` to order `r₁ + r₂ − 1`. The Bessel bounds are part of
+this target. Corollary 1.6 specialises Theorem 1.1 with the upper bounds for `r_K` of
+Lemmas 3.3–3.4; Corollaries 1.4–1.5 do the same above the threshold and use the predicate below it.
 
 **Checks.**
 
