@@ -120,6 +120,8 @@ The numbers are those of the layers below, and `k.n` names subsection `n` of Lay
   introduces no second trace-class carrier, and proves the identity it needs between
   `nuclearENorm` of a positive compact operator and the sum of its diagonal entries in a Hilbert
   basis (8.2);
+- the dimension-free perturbation bound for spectral projectors, owned by
+  OperatorTheory/SpectralSubspacePerturbation (SSP-C16); 8.6 applies it to the eigenvectors;
 - Gaussian integration by parts `E[Z f(Z)] = E f'(Z)` for smooth `f`, owned by RandomMatrices
   §2.5; 4.4 states the form for nondecreasing maps as its own target;
 - the high-dimensional theory (sparse minimax rates, the Lasso, multiple testing), which consumes
@@ -277,8 +279,8 @@ These are fixed for every target. A statement that departs from them is a differ
   (`TauCeti/Probability/Distributions/Gaussian/Projection.lean`); the chi-squared laws
   `TauCeti.Probability.chiSquaredMeasure`.
 - **Empirical measures:** `TauCeti.Probability.empiricalFiniteMeasure`.
-- **Approximate identities:** `TauCeti.tendsto_eLpNorm_normed_convolution_sub`
-  (`TauCeti/MeasureTheory/Function/Lp/ApproximateIdentity.lean`).
+- **Continuity of translation in `L¹`:** `MeasureTheory.Measure.continuous_translateLp`
+  (`TauCeti/MeasureTheory/Function/Lp/Translation.lean`).
 - **Log-concavity:** `TauCeti.LogConcave` for `f : E → ℝ≥0∞`
   (`TauCeti/Analysis/Convex/LogConcave.lean`) and the Prékopa–Leindler consequence
   `TauCeti.LogConcave.lintegral_prod_right` (`TauCeti/MeasureTheory/Integral/PrekopaLeindler.lean`).
@@ -375,8 +377,8 @@ MathematicalStatisticsAsymptotic apply. The goodness-of-fit statistics reduce, b
 transform, to the uniform case, and their limits are real-valued functionals of the Brownian
 bridge.
 
-Layer 5 is bias–variance calculus with kernels; its single nonelementary input is the
-approximate identity of Tau Ceti for `L¹` consistency. Layer 6 is Gaussian computations in the
+Layer 5 is bias–variance calculus with kernels; its single nonelementary input is the continuity of
+translation in `L¹` of Tau Ceti, for `L¹` consistency. Layer 6 is Gaussian computations in the
 sequence model, with the Bayes risk of Gaussian priors as the lower bound. Layer 7 is convex
 analysis of least squares under order and concavity constraints, plus the cube-root asymptotics
 built on the argmax theorem. Layer 8 is spectral theory of compact positive operators.
@@ -780,8 +782,7 @@ stated.
 - `rank x i = #{j | x j ≤ x i}` and `absRank x i = #{j | |x j| ≤ |x i|}` (Conventions). For
   injective `x`, `fun i ↦ rank x i - 1` is a permutation of `Fin N`, the inverse of
   `Tuple.sort x` (`rank_eq_sort_symm_add_one`); ranks are invariant under strictly increasing maps
-  applied coordinatewise (`rank_comp_strictMono`) and equivariant under permutations of the
-  coordinates (`rank_comp_perm`).
+  applied coordinatewise and equivariant under permutations of the coordinates.
 - **The law of the ranks** (`measure_rank_eq_perm`, van der Vaart, Lemma 13.1(i) and (iv),
   p. 174): for every permutation `σ` and every measurable set `A`, the event that
   `rank x = σ + 1` and the sorted vector `x ∘ Tuple.sort x` lies in `A` has probability `(N!)⁻¹`
@@ -1276,14 +1277,14 @@ Two-sample shift: `X₁, …, X_m` with density `f (x - μ)` and `Y₁, …, Y_n
 `N = m + n`, `m / N → λ ∈ (0, 1)`. The location model is then differentiable in quadratic mean
 (MathematicalStatisticsAsymptotic 7.3), and the two-sample model is locally asymptotically
 normal at `(μ₀, μ₀)` with information `diag (λ I_f, (1 - λ) I_f)`.
-- **Power envelope** (`limsup_power_le_envelope`, van der Vaart, Cor 15.14, p. 224): for tests
-  `φ_N` of level `α` for `H₀ : ν = μ` (`E_{μ,μ} φ_N ≤ α` for every `μ` and `N`), at
+- **Power envelope** (`limsup_power_twoSample_le_envelope`, van der Vaart, Cor 15.14, p. 224): for
+  tests `φ_N` of level `α` for `H₀ : ν = μ` (`E_{μ,μ} φ_N ≤ α` for every `μ` and `N`), at
   `μ = μ₀ + g/√N`, `ν = μ₀ + (g + h)/√N` with `h > 0`,
   `limsup_N E φ_N ≤ 1 - Φ (z_α - h √(λ (1 - λ) I_f))`. Proof: the argument of
-  MathematicalStatisticsAsymptotic 8.2 (van der Vaart, Thm 15.4, p. 219) with
-  `ψ(μ, ν) = ν - μ`; the null is the line `ν = μ` rather than a half-space, and the linearity of
-  `ψ` lets the proof go through (van der Vaart's proof of Cor 15.14). The efficient information
-  for `ν - μ` is `(1/(λ I_f) + 1/((1 - λ) I_f))⁻¹ = λ (1 - λ) I_f`.
+  MathematicalStatisticsAsymptotic 8.2 (van der Vaart, Thm 15.4, p. 219) with `ψ(μ, ν) = ν - μ`; the
+  null is the line `ν = μ` rather than a half-space, and the linearity of `ψ` lets the proof go
+  through (van der Vaart's proof of Cor 15.14). The efficient information for `ν - μ` is
+  `(1/(λ I_f) + 1/((1 - λ) I_f))⁻¹ = λ (1 - λ) I_f`.
 - **Power of rank tests** (`tendsto_power_rankTest`; the case of `φ_f` for the logistic law is
   van der Vaart, Example 15.15, p. 225): for a score-generating `φ` and the two-sample statistic
   `T_N = linearRankStatistic c (exactScore φ N)` with `c i = 1` on the second sample and `0` on
@@ -1684,8 +1685,11 @@ Mathlib
   (`integral_kdeEuclidean`), so it is a density for a probability density `K`, as in
   Foundations 9.3.
 - **Bias** (`tendsto_integral_abs_conv_sub`, Devroye–Lugosi, Thm 9.1, p. 79): for integrable `K`
-  with `∫ K = 1` and every density `f`, `∫ |K_h * f - f| → 0` as `h → 0`, Tau Ceti's
-  `tendsto_eLpNorm_normed_convolution_sub` for `p = 1`.
+  with `∫ K = 1` and every density `f`, `∫ |K_h * f - f| → 0` as `h → 0`. Proof: since
+  `∫ K = 1`, `K_h * f - f = ∫ K(u) (f(· - h u) - f) du`, so
+  `∫ |K_h * f - f| ≤ ∫ |K(u)| ‖f(· - h u) - f‖₁ du`, which tends to `0` by the continuity of
+  translation in `L¹` (Tau Ceti `MeasureTheory.Measure.continuous_translateLp`) and dominated
+  convergence with the bound `2 |K(u)|`.
 - **Universal consistency in mean** (`tendsto_integral_integral_abs_kde_sub`, Devroye–Lugosi,
   Thm 9.2, p. 81): for such `K`, if `h → 0`
   and `n h^d → ∞`, then `E ∫ |f̂_n - f| → 0` for every density `f`.
@@ -1695,7 +1699,7 @@ Mathlib
   gives `P(∫ |f̂_n - f| - E ∫ |f̂_n - f| ≥ t) ≤ exp (-n t² / (2 (∫ |K|)²))`, summable in `n`;
   Borel–Cantelli.
 
-*Needs:* Tau Ceti `tendsto_eLpNorm_normed_convolution_sub`,
+*Needs:* Tau Ceti `MeasureTheory.Measure.continuous_translateLp`,
 `hasSubgaussianMGF_of_bounded_differences_fin`; Mathlib `measure_limsup_atTop_eq_zero`
 (Borel–Cantelli).
 
@@ -2022,7 +2026,8 @@ conditional variance is `ν!² ∑ i, L_i² σ²(X i)`, with `L_i` the coefficie
 ### Dependencies
 
 Layer 2 (lower bounds in 5.9); Foundations 8.4, 8.5, 9.3; MathematicalStatisticsAsymptotic:
-Lindeberg–Feller (1.2); Tau Ceti approximate identities and McDiarmid; Mathlib's `RKHS`.
+Lindeberg–Feller (1.2); the continuity of translation in `L¹` of Tau Ceti and McDiarmid; Mathlib's
+`RKHS`.
 
 ## Layer 6: the Gaussian sequence model
 
@@ -2773,11 +2778,20 @@ the difference is `O(1/n)` in operator norm and does not affect the limits below
   `φ̂_j - φ_j = ∑_{k ≠ j} ⟪(Ĉ_n - C) φ_j, φ_k⟫ / (λ_j - λ_k) · φ_k + o_P(n^{-1/2})`, the sum over a
   Hilbert basis of eigenvectors of `C` including the null space, which converges because the gaps
   are bounded below; both in outer probability, since the choice of `φ̂_j` need not be
-  measurable. In Lean `φ_j` is the basis vector `b i₀` with eigenvalue `ev i₀ = λ_j`.
+  measurable. In Lean `φ_j` is the basis vector `b i₀` with eigenvalue `ev i₀ = λ_j`. The rate
+  is the dimension-free projector bound of OperatorTheory/SpectralSubspacePerturbation (SSP-C16),
+  applied to the spans of the first `j + 1` and of the first `j` eigenvectors of `C` and `Ĉ_n`:
+  with `g = min_{k ≠ j} |λ_j - λ_k|` and `‖Ĉ_n - C‖ ≤ g/4`, which holds with probability tending
+  to `1`, the eigenvalues of `Ĉ_n` move by at most `g/4`, each form separation is at least
+  `3g/4`, and each projector moves by at most `2 ‖Ĉ_n - C‖/g`. So the rank-one projector moves by
+  at most `4 ‖Ĉ_n - C‖/g`, and `‖φ̂_j - φ_j‖ ≤ 4√2 ‖Ĉ_n - C‖/g` because
+  `‖φ̂ - φ‖² = 2 - 2 cos θ ≤ 2 sin² θ` for `cos θ = ⟪φ̂, φ⟫ ≥ 0`. The first-order term is proved
+  here.
 
 *Needs:* 8.1–8.5; Foundations 8.2–8.4; Tau Ceti
 `ContinuousLinearMap.abs_singularValue_sub_singularValue_le` for the eigenvalue bound,
-`hilbertSchmidtEnergy` for the consistency statement.
+`hilbertSchmidtEnergy` for the consistency statement; OperatorTheory/SpectralSubspacePerturbation
+SSP-C16 for the eigenvector rate.
 
 **Checks.**
 
@@ -2822,7 +2836,8 @@ unique for `η > 0` (a positive definite quadratic problem on the Hilbert space 
 ### Dependencies
 
 Layers 2 and Foundations 8.2–8.5; Mathlib's covariance operators, Gaussian measures and
-Hilbert bases; Tau Ceti's spectral theorem for compact operators and approximation numbers.
+Hilbert bases; Tau Ceti's spectral theorem for compact operators and approximation numbers;
+OperatorTheory/SpectralSubspacePerturbation (SSP-C16, the dimension-free projector bound).
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
