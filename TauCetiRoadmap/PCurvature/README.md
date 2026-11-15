@@ -600,8 +600,8 @@ Prove `exists_intCast_eq_of_forall_pow_sub_mem`: for a number field `L` and `c �
 `NumberField.Chebotarev.infinite_frobeniusPrimeSet` infinitely many primes of `ℤ` have Frobenius
 class that of `σ`; at a prime `𝔔` of `M` above such a prime with Frobenius `σ` and not dividing
 `σ(c) − c`, `c^p ≡ σ(c) ≢ c`, and `𝔓 = 𝔔 ∩ 𝓞_L` contradicts the hypothesis. This is the form of
-Kronecker's theorem (Kronecker 1880; Bostan–Caruso–Roques 2024, Theorem 3.7; Fürnsinn–Pannier,
-Theorem 1.1) used below.
+Kronecker's theorem (Kronecker 1880; Bostan–Caruso–Roques 2024, Theorem 3.7, applied to the
+minimal polynomial of `c`, which has the root `c mod 𝔓` in `𝔽_p`) used below.
 *Needs:* Tau Ceti `NumberField.Chebotarev.infinite_frobeniusPrimeSet`,
 `NumberField.Chebotarev.frobeniusPrimeSet`; Mathlib `IsDedekindDomain.HeightOneSpectrum`.
 
@@ -657,36 +657,6 @@ by 1.4.
 - `a = 1/(x^2 + 1)` over `ℚ`: residues `∓i/2 ∉ ℚ`, `ψ ≠ 0` at the primes `p ≡ 3 (mod 4)`
   (Bostan–Caruso–Roques 2024, Example 3.4); the condition "at infinitely many primes" in place of
   "almost every" would accept it, since `ψ = 0` at `p ≡ 1 (mod 4)`.
-
-Not a target: over `ℚ`, an explicit finite set of primes suffices in 4.3. For `u = A/B` with
-`A, B ∈ ℤ[x]` coprime, `deg A < deg B` and `B` without repeated roots (equivalently
-`res(B, B′) ≠ 0`), the equation `y′ = u y` has a nonzero algebraic solution iff its
-`p`-curvature vanishes at every prime `p ∤ res(B, B′)` below the bound `σ` of Fürnsinn–Pannier,
-Theorem 1.2, for `±R`, where `R(w) = res_x(B, A − wB′)` and the sign makes the leading
-coefficient `|res(B, B′)|` positive (Fürnsinn–Pannier, Theorem 1.3 with `c = 1`, under the
-hypotheses of their Proposition 2.2(3)); Katz 1982, §9, as they recall, gives a finite set
-non-constructively. Proof: the residues of `u`
-are the roots of `R` (their Theorem 2.1), so a solution is algebraic iff `R` splits in `ℚ[w]`
-(their Proposition 2.2); for `p ∤ res(B, B′)`, `p` does not divide the leading coefficient of `B`,
-so `B` keeps its degree modulo `p` and stays squarefree, the reduction of `u` is defined, and
-`ψ_p = 0` iff `R` splits in `𝔽_p[w]` (their Proposition 2.3, (1) ⇔ (4)); Theorem 1.2 concludes.
-A factor of `u` in `ℚ` is put into `A` and `B`, not left outside: `u = c/x` with `c = r/s` in
-lowest terms is `A = r`, `B = sx`, `res(B, B′) = s`, `R = r − sw`, so the primes dividing `s`
-are not tested, and `ψ_p = (c^p − c)/x^p = 0` at every other `p`, with solution `x^c`; for
-`u = 1/(2x)`, `res(B, B′) = 2`, `R = 1 − 2w`, and `ψ_p = 0` at every odd `p`. The equation
-`y′ = y` (`deg A = deg B = 0`) lies outside the statement: `ψ_p ≠ 0` at every `p`, and `e^x` is
-transcendental. The last two hypotheses are needed: `B = (x + 1)²`, `A = 1` has
-`res(B, B′) = 0`, so the condition is empty, while the solutions are the multiples of
-`exp(−1/(x + 1))`; and `A = Nx² + Nx + 1`, `B = −(x + 1)`, `N` the product of the primes
-`≤ 137`, gives `R(w) = w + 1` and `σ = 139`, and `ψ_p = 0` for every `p < 139`
-(`u ≡ −1/(x + 1)` there), while `u = −Nx − 1/(x + 1)` has no nonzero algebraic solution. The
-printed Theorem 1.3 omits the last two hypotheses and allows `u = c·A/B` with `c ∈ ℚ` free and `σ`
-computed from `A/B`; its reduction to `c = 1` keeps algebraicity but changes the primes where
-`ψ_p` vanishes: for `A = 1`, `B = x² + 1` (`R = 4w² + 1`, `res(B, B′) = 4`) and `c` the product
-of the primes `p ≡ 3 (mod 4)` below the `σ` of `R`, every tested `ψ_p` vanishes (`u ≡ 0` at
-`p ∣ c`, and `i ∈ 𝔽_p` at `p ≡ 1 (mod 4)`), while the residues `∓ci/2` of `c/(x² + 1)` are not
-rational; written as `A = c`, `B = x² + 1`, the same `u` has `R = 4w² + c²`, and the statement
-above forces its `σ` past a prime `p ≡ 3 (mod 4)` not dividing `c`, where `ψ_p ≠ 0`.
 
 ### 4.4 The Kummer trivialisation
 
@@ -747,6 +717,16 @@ a torsion question for the class of `M` in the Picard group and the question whe
 answers the second over open subsets of `𝔸¹_K` (Montpellier fonds, folder 93, pp. 193–197,
 https://grothendieck.umontpellier.fr/93.pdf).
 
+Over `ℚ`, a finite and explicit set of primes suffices in 4.3. Fürnsinn–Pannier make effective
+the Chudnovskys' Hermite–Padé proof of Kronecker's theorem (their Theorem 1.2: an explicit `σ`
+such that `R ∈ ℤ[w]` with leading coefficient `r_n > 0` splits in `ℚ[w]` if and only if it splits
+in `𝔽_p[w]` at every prime `p ∤ r_n` below `σ`), and deduce from it, through the
+Rothstein–Trager resultant, whose roots are the residues of `u` when `u` has simple poles and
+vanishes at `∞`, a finite list of primes at which the vanishing of the `p`-curvature of
+`y′ = u y`, `u ∈ ℚ(x)`, decides whether a nonzero algebraic solution exists (their Theorem 1.3);
+by Katz 1982, §9, such a finite set exists by a noetherianity argument, non-constructively, as
+they observe. No target uses these bounds.
+
 Research that uses the material of Layers 0–2: Katz's nilpotence of Gauss–Manin `p`-curvature and
 the monodromy theorem (Katz 1970, Theorem 5.10 and §§6–7); the Cartier transform and nonabelian
 Hodge theory in characteristic `p` (Ogus–Vologodsky 2007), listed by CrystallineCohomology as the
@@ -799,7 +779,9 @@ DerivedDeRhamCohomology §3.6.1; algorithms deciding algebraicity by `p`-curvatu
   arithmetic approach », *Bull. Amer. Math. Soc.* 61 (2024), 609–658; arXiv:2304.05061:
   Propositions 1.8, 3.1, 3.3, Example 3.4, Theorems 3.5–3.7, Theorem 3.12, Remark 3.13,
   Theorem 3.16, Theorem 3.19 (Cartier's lemma), §3.3.2.
-- F. Fürnsinn, L. Pannier, « An effective version of the p-curvature conjecture for order one
-  differential equations », arXiv:2510.00892, Theorems 1.1–1.3 and 2.1, Propositions 2.2–2.4.
+- F. Fürnsinn, L. Pannier, « An effective version of Kronecker's theorem on the splitting of
+  polynomials and the p-curvature conjecture for first-order differential equations », *Math.
+  Comp.* (2026), doi:10.1090/mcom/4258; preprint arXiv:2510.00892v3, Theorems 1.2–1.3, cited
+  in *Research context* only.
 - L. Kronecker, « Über die Irreducibilität von Gleichungen », *Monatsber. Königl. Preuss. Akad.
   Wiss. Berlin* (1880), 155–163.
